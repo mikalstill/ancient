@@ -19,14 +19,58 @@ Michael's student number is 964076. He can be contacted at mikal@stillhq.com. Co
 
 <sect1><title>The meeting</title>
 <para>
-
+<command>genstruct</command> is a C based data dumping package which Andrew Tridgell discussed at the June 2002 Canberra Linux User's Group meeting on 27 June 2002. It finds it's roots in the perl and java <command>Data::Dumper</command> methodologies, and is an extremely powerful tool for development. Dr Tridgell orginally developed <command>genstruct</command> for the <command>Samba</command> project.
 </para>
 </sect1>
 
 <sect1><title>What is genstruct?</title>
 <para>
+As I mentioned earlier, <command>genstruct</command> is very similar in some respects to the perl <command>Data::Dumper</command>. It is therefore useful to provide a brief introduction to that functionality before moving onto <command>genstruct</command>.
+</para>
+
+<sect2><title>Perl's Data::Dumper in a nutshell</title>
+<para>
+Perl's <command>Data::Dumper</command> is quite simple to use:
+</para>
+
+<execute><cmd>code2db.pl</cmd><input>datadumper.pl</input></execute>
+
+<para>
+Which produces...
+</para>
+
+<programlisting>
+<execute><cmd>./datadumper.pl</cmd></execute>
+</programlisting>
+
+<para>
+I believe it is possible to have the variable names persist, but haven't worked out this bit yet...
+</para>
+</sect2>
+
+<sect2><title>Genstruct</title>
+<para>
+<command>genstruct</command> is a perl program which is run at compile time. It parses the c header files for the program you want to use <command>genstruct</command> with, using tags that you have to embed into the header file. For example, the sample which comes with <command>genstruct</command> is as follows:
+</para>
+
+<execute><cmd>code2db.pl</cmd><input>~mikal/cvs.samba.org/junkcode/genstruct/test.h</input></execute>
+
+<para>
+In this example you can see that structures which should have <command>genstruct</command> enabled have the <command>GENSTRUCT</command> attribute associated with them. <command>GENSTRUCT</command> is merely an empty #define, which the <command>genstruct</command> header file parser can search for.
+
+</sect2>
+</sect1>
+
+<sect1><title>The other side of the equation</title>
+<para>
+The only reason you would use a package such as <command>Data::Dumper</command> or <command>genstruct</command> is so that you can read the information back in later. This is done with the <command>eval</command> function in perl. <command>genstruct</command>'s equivalent is ...
 </para>
 </sect1>
+
+<sect1><title>Added complexity</title>
+<para>
+Both <command>Data::Dumper</command> and <command>genstruct</command> can do much more interesting data structures that those I have used in the examples in this document, but the examples here were deliberately kept simple to aid in the reader's ease of comprehension. For instance, both are capable for following linked lists, and producing human readable text descriptions of them.
+</para>
 
 <sect1><title>Response to the talk</title>
 <para>

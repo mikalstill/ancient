@@ -19,14 +19,120 @@ Michael's student number is 964076. He can be contacted at mikal@stillhq.com. Co
 
 <sect1><title>The meeting</title>
 <para>
-
+<command>genstruct</command> is a C based data dumping package which Andrew Tridgell discussed at the June 2002 Canberra Linux User's Group meeting on 27 June 2002. It finds it's roots in the perl and java <command>Data::Dumper</command> methodologies, and is an extremely powerful tool for development. Dr Tridgell orginally developed <command>genstruct</command> for the <command>Samba</command> project.
 </para>
 </sect1>
 
 <sect1><title>What is genstruct?</title>
 <para>
+As I mentioned earlier, <command>genstruct</command> is very similar in some respects to the perl <command>Data::Dumper</command>. It is therefore useful to provide a brief introduction to that functionality before moving onto <command>genstruct</command>.
+</para>
+
+<sect2><title>Perl's Data::Dumper in a nutshell</title>
+<para>
+Perl's <command>Data::Dumper</command> is quite simple to use:
+</para>
+
+<programlisting>
+#!/usr/local/bin/perl
+
+use Data::Dumper;
+use strict;
+
+my(@array, %hash, $scalar);
+
+$array[0] = "foo";
+$array[1] = "bar";
+
+$hash{"bob"} = "banana";
+$hash{"carl"} = "chicken";
+$hash{"walter"} = "wibble";
+
+$scalar = 42;
+
+# We could eval this output to get it back...
+print Dumper([@array], {%hash}, $scalar);
+</programlisting>
+<para><emphasis>Code: datadumper.pl</emphasis></para>
+
+<para>
+Which produces...
+</para>
+
+<programlisting>
+$VAR1 = [
+          'foo',
+          'bar'
+        ];
+$VAR2 = {
+          'walter' => 'wibble',
+          'carl' => 'chicken',
+          'bob' => 'banana'
+        };
+$VAR3 = 42;
+</programlisting>
+
+<para>
+I believe it is possible to have the variable names persist, but haven't worked out this bit yet...
+</para>
+</sect2>
+
+<sect2><title>Genstruct</title>
+<para>
+<command>genstruct</command> is a perl program which is run at compile time. It parses the c header files for the program you want to use <command>genstruct</command> with, using tags that you have to embed into the header file. For example, the sample which comes with <command>genstruct</command> is as follows:
+</para>
+
+<programlisting>
+#define _LEN(x)
+#define GENSTRUCT
+
+GENSTRUCT enum fruit {APPLE, ORANGE=2, PEAR,
+		      RASBERRY, PEACH};
+
+GENSTRUCT struct test2 {
+	int x1;
+	char *foo;
+	char fstring[20]; _NULLTERM
+	int dlen;
+	char *dfoo; _LEN(dlen)
+	enum fruit fvalue;
+	struct test2 *next;
+};
+
+GENSTRUCT struct test1 {
+	char foo[100];
+	char *foo2[20];
+	int xlen;
+	int *iarray; _LEN(xlen);
+	unsigned slen;
+	char **strings; _LEN(slen);
+	char *s2[5];
+	double d1, d2, d3;
+	struct test2 *test2;
+	int alen;
+	struct test2 *test2_array; _LEN(alen);
+	struct test2 *test2_fixed[2];
+	int plen;
+	struct test2 **test2_parray; _LEN(plen)
+};
+</programlisting>
+<para><emphasis>Code: /home/mikal/cvs.samba.org/junkcode/genstruct/test.h</emphasis></para>
+
+
+
+</sect2>
+</sect1>
+
+<sect1><title>The other side of the equation</title>
+<para>
+The only reason you would use a package such as <command>Data::Dumper</command> or <command>genstruct</command> is so that you can read the information back in later. This is done with the <command>eval</command> function in perl. <command>genstruct</command>'s equivalent is ...
 </para>
 </sect1>
+
+<sect1><title>Added complexity</title>
+<para>
+Both <command>Data::Dumper</command> and <command>genstruct</command> can do much more interesting data structures that those I have used in the examples in this document, but the examples here were deliberately kept simple to aid in the reader's ease of comprehension. For instance, both are capable for following linked lists, and producing human readable text descriptions of them.
+</para>
 
 <sect1><title>Response to the talk</title>
 <para>
