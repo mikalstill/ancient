@@ -175,8 +175,9 @@ object::setGeneration(int no)
   m_generation = no;
 }
 
+// Allocates memory which the caller then owns
 char *
-object::getStream (bool & needsStreamClean, unsigned long &length)
+object::getStream (unsigned long &length)
 {
   // Sometimes the stream is compressed, if it is, then we
   // decompress it here
@@ -186,8 +187,6 @@ object::getStream (bool & needsStreamClean, unsigned long &length)
   // were applied
   if ((getDict ().getValue ("Filter", filter)) && (filter != ""))
     {
-      needsStreamClean = true;
-	
       // Is this an array of filters?
       if(filter.substr(0, 1) == "["){
 	stringArray filters(filter.substr(1, filter.length() - 2), " ");
@@ -211,6 +210,7 @@ object::getStream (bool & needsStreamClean, unsigned long &length)
 	  delete[] in;
 	}
 
+	debug(dlTrace, "Returning global stream");
 	length = outlength;
 	return out;
       }
@@ -220,15 +220,16 @@ object::getStream (bool & needsStreamClean, unsigned long &length)
     }
   else
     {
-      needsStreamClean = false;
+      char *out;
+      out = new char[m_streamLength];
+      memcpy(out, m_stream, m_streamLength);
       length = m_streamLength;
-      return m_stream;
+      return out;
     }
 }
 
 char *
-object::getStream (raster & rast, bool & needsStreamClean,
-		   unsigned long &length)
+object::getStream (raster & rast, unsigned long &length)
 {
   // Sometimes the stream is compressed, if it is, then we
   // decompress it here
@@ -238,14 +239,15 @@ object::getStream (raster & rast, bool & needsStreamClean,
   // were applied
   if (getDict ().getValue ("Filter", filter))
     {
-      needsStreamClean = true;
       return applyFilter(rast, filter, m_stream, m_streamLength, length);
     }
   else
     {
-      needsStreamClean = false;
+      char *out;
+      out = new char[m_streamLength];
+      memcpy(out, m_stream, m_streamLength);
       length = m_streamLength;
-      return m_stream;
+      return out;
     }
 }
 

@@ -177,14 +177,12 @@ pdfRender::render_Do ()
     }
 
   debug(dlTrace, "We should do something with this now...");
-  bool needStreamClean (false);
   unsigned long length;
   raster rast (image);
 
   // This stream is packed eight pixels to the byte if it is a black and white
   // TIFF stream
   unsigned char *stream = (unsigned char *) image.getStream (rast, 
-							     needStreamClean, 
 							     length);
   debug(dlTrace, string("Stream returned from object is ") + 
 	toString((long) length) + string(" bytes"));
@@ -226,7 +224,7 @@ pdfRender::render_Do ()
 					       rast.getHeight(), 
 					       8, 8, 1, 3);
   if((int) newstream2 == -1){
-    free(stream);
+    delete[] stream;
     debug(dlError, "Raster inflation failed");
     return;
   }
@@ -239,8 +237,7 @@ pdfRender::render_Do ()
   debug(dlError, "Libmplot not found at configure time. Graphics functionality"
 	" is therefore not available");
 #endif
-  if(needStreamClean)
-    free(stream);
+  delete[] stream;
   free(newstream2);
 }
 

@@ -19,7 +19,8 @@ public:
 
 private:
   bool processContentsObject(const object &obj);
-  void processCommandString(string commandString, bool parsing);
+  void processCommandString(char *commandString, unsigned int length,
+			    bool parsing);
 
   void processLine (string line, bool parsing);
   void pushArguement (string arg);

@@ -148,4 +148,5 @@ bool dictionary::setValue(string dname, objectlist& value)
   }
   
   target.setValue(value);
+  return true;
 }

@@ -55,15 +55,15 @@ pdfRender::command_c ()
   unsigned int x1, y1, x2, y2, x3, y3;
 
   // Pop our arguements (reverse order)
-  y3 = m_height - atoi (m_arguements.top ().c_str ());
+  y3 = atoi (m_arguements.top ().c_str ());
   m_arguements.pop ();
   x3 = atoi (m_arguements.top ().c_str ());
   m_arguements.pop ();
-  y2 = m_height - atoi (m_arguements.top ().c_str ());
+  y2 = atoi (m_arguements.top ().c_str ());
   m_arguements.pop ();
   x2 = atoi (m_arguements.top ().c_str ());
   m_arguements.pop ();
-  y1 = m_height - atoi (m_arguements.top ().c_str ());
+  y1 = atoi (m_arguements.top ().c_str ());
   m_arguements.pop ();
   x1 = atoi (m_arguements.top ().c_str ());
   m_arguements.pop ();
@@ -169,7 +169,7 @@ pdfRender::command_l ()
   unsigned int x, y;
 
   // Pop our arguements (reverse order)
-  y = m_height - atoi (m_arguements.top ().c_str ());
+  y = atoi (m_arguements.top ().c_str ());
   m_arguements.pop ();
   x = atoi (m_arguements.top ().c_str ());
   m_arguements.pop ();
@@ -184,7 +184,7 @@ pdfRender::command_m ()
   unsigned int x, y;
 
   // Pop our arguements (reverse order)
-  y = m_height - atoi (m_arguements.top ().c_str ());
+  y = atoi (m_arguements.top ().c_str ());
   m_arguements.pop ();
   x = atoi (m_arguements.top ().c_str ());
   m_arguements.pop ();
@@ -216,11 +216,11 @@ pdfRender::command_re ()
   unsigned int left, top, right, bottom;
 
   // Pop our arguements (reverse order)
-  bottom = m_height - atoi (m_arguements.top ().c_str ());
+  bottom = atoi (m_arguements.top ().c_str ());
   m_arguements.pop ();
   right = atoi (m_arguements.top ().c_str ());
   m_arguements.pop ();
-  top = m_height - atoi (m_arguements.top ().c_str ());
+  top = atoi (m_arguements.top ().c_str ());
   m_arguements.pop ();
   left = atoi (m_arguements.top ().c_str ());
   m_arguements.pop ();
@@ -358,11 +358,11 @@ pdfRender::command_v ()
   unsigned int x1, y1, x2, y2;
 
   // Pop our arguements (reverse order)
-  y2 = m_height - atoi (m_arguements.top ().c_str ());
+  y2 = atoi (m_arguements.top ().c_str ());
   m_arguements.pop ();
   x2 = atoi (m_arguements.top ().c_str ());
   m_arguements.pop ();
-  y1 = m_height - atoi (m_arguements.top ().c_str ());
+  y1 = atoi (m_arguements.top ().c_str ());
   m_arguements.pop ();
   x1 = atoi (m_arguements.top ().c_str ());
   m_arguements.pop ();
@@ -391,11 +391,11 @@ pdfRender::command_y ()
   unsigned int x1, y1, x2, y2;
 
   // Pop our arguements (reverse order)
-  y2 = m_height - atoi (m_arguements.top ().c_str ());
+  y2 = atoi (m_arguements.top ().c_str ());
   m_arguements.pop ();
   x2 = atoi (m_arguements.top ().c_str ());
   m_arguements.pop ();
-  y1 = m_height - atoi (m_arguements.top ().c_str ());
+  y1 = atoi (m_arguements.top ().c_str ());
   m_arguements.pop ();
   x1 = atoi (m_arguements.top ().c_str ());
   m_arguements.pop ();

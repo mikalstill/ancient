@@ -90,6 +90,7 @@ genCanvas::OnMouseEvent (wxMouseEvent & event)
       // TODO mikal: the 841 is a hard coded assumption that the page is a4
       string commandString;
       if(m_controlPoints.size() > 0)
+	commandString += "q\n";
 	commandString += toString(m_controlPoints[0].x) + string(" ") +
 	  toString(841 - m_controlPoints[0].y) + string(" m\n");
       for(unsigned int i = 1; i < m_controlPoints.size(); i++)
@@ -98,7 +99,7 @@ genCanvas::OnMouseEvent (wxMouseEvent & event)
 	    toString(841 - m_controlPoints[i].y) + string(" l\n");
 	}
       if(m_controlPoints.size() > 0)
-	commandString += string("S\n");
+	commandString += string("S\nQ\n\n");
 
       if(m_view)
 	{

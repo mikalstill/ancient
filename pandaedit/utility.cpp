@@ -96,15 +96,17 @@ binaryToString(void *buf, unsigned int length)
     return "[binary debugging disabled by user preference]";
 
   string retval;
-  char *cbuf = (char *) buf;
-
+  char *cbuf = new char[length];
+  memcpy(cbuf, buf, length);
   for(unsigned int i = 0; i < length; i++){
     if((cbuf[i] > 31) && (cbuf[i] < 127))
       retval += cbuf[i];
     else
-      retval += " \\" + toString((unsigned int) cbuf[i]) + " ";
+      retval += string(" \\") + toString((unsigned int) cbuf[i]) + string(" ");
   }
 
+  delete cbuf;
+  retval += string(" [") + toString(length) + string(" bytes long]");
   return retval;
 }
 

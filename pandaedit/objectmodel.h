@@ -130,9 +130,8 @@ public:
   int getGeneration ();
   void setGeneration (int no);
 
-  char *getStream (bool & needsStreamClean, unsigned long &length);
-  char *getStream (raster & image, bool & needsStreamClean,
-		   unsigned long &length);
+  char *getStream (unsigned long &length);
+  char *getStream (raster & image, unsigned long &length);
   unsigned long getStreamLength ();
 
   void appendCommand(string commandString);

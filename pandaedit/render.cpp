@@ -27,7 +27,10 @@ pdfRender::render ()
       // Find the size of the page and setup a plot
       debug(dlTrace, "Commence render");
       if(!m_doc->getPageSize(m_pageno, m_width, m_height))
-	return false;
+	{
+	  debug(dlError, "Could not determine target page size");
+	  return false;
+	}
 
 #if defined HAVE_LIBMPLOT
       if ((m_plot = plot_newplot (m_width, m_height)) == NULL)
@@ -41,57 +44,75 @@ pdfRender::render ()
 #endif
     }
 
-  if((m_doc->getPage(m_pageno).getCommandCount() == 0) && !parseStream())
+  // If we don't have any preparsed commands, then we need to hit the document
+  // and find the drawing commands. This puts them into the page command array
+  if(m_doc->getPage(m_pageno).getCommandCount() == 0)
     {
-      return false;
+      if(!parseStream())
+	{
+	  debug(dlError, "Could not extract drawing commands");
+	  return false;
+	}
     }
 
-  processCommandString(m_doc->getPage(m_pageno).getCommandStream(), false);
+  // Now we need to process each of the elements in the command array
+  debug(dlTrace, "Commence rendering the preprocessed commands");
+  string cmd = m_doc->getPage(m_pageno).getCommandStream();
+  processCommandString((char *) cmd.c_str(), cmd.length(), false);
   return true;
 }
 
 bool
 pdfRender::parseStream ()
 {
+  // Find all the contents objects
+  m_doc->getPage(m_pageno).getDict().getValue("Contents", *(m_doc->getPDF()),
+					      m_contents);
+
+  debug(dlTrace, string("Commence stream parsing for a ") + 
+	toString(m_contents.size()) + string(" object stream"));
   for(unsigned int i = 0; i < m_contents.size(); i++){
     if(!processContentsObject(m_contents[i]))
-      return false;
+      {
+	debug(dlError, "Processing of a command stream failed");
+	return false;
+      }
   }
+
+  return true;
 }
 
 bool
 pdfRender::processContentsObject(const object& contents){
+  debug(dlTrace, "Process a contents object");
+
   // Read the stream and action any commands
   char *stream;
   unsigned long inset, length;
-  bool needStreamClean (false);
 
   // This used to exit if there was an empty page stream. It now just renders
   // nothing... This might mean that a stream which couldn't be decompressed
   // is ignored entirely...
-  stream = ((object) contents).getStream (needStreamClean, length);
-  debug(dlTrace, string("Process page stream of length ") + 
-	toString((long) length));
-  if((stream == NULL) || (length == 0)){
-    debug(dlTrace, "Empty page description stream");
-    return true;
+  stream = ((object) contents).getStream (length);
+  debug(dlTrace, string("Page stream is: ") +
+   	binaryToString((void *) stream, length));
+  if(length != 0){
+    processCommandString(stream, length, true);
   }
 
-  processCommandString(stream, true);
-
-  if (needStreamClean)
-    delete[]stream;
+  delete[]stream;
   return true;
 }
 
 void
-pdfRender::processCommandString(string commandString, bool parsing)
+pdfRender::processCommandString(char *commandString, unsigned int length,
+				bool parsing)
 {
   // todo_mikal: this might be too slow because of the accessor
   string line;
   unsigned int inset = 0;
   m_commandString = "";
-  while (inset < commandString.length())
+  while (inset < length)
     {
       if ((commandString[inset] != '\n') && (commandString[inset] != '\r'))
 	{
@@ -108,6 +129,24 @@ pdfRender::processCommandString(string commandString, bool parsing)
 	}
 
       inset++;
+    }
+
+  // Process the leftover line (if there is one)
+  if(line != "")
+    {
+      debug(dlTrace, string("Process leftover line \"") + line + 
+	    string("\" when ") + (parsing ? string("") : string("not ")) +
+	    string("parsing"));
+      processLine (line, parsing);
+      line = "";
+    }
+
+  // We might have a left over fragment of a command block as well
+  if(m_commandString != "")
+    {
+      debug(dlTrace, "Appending command fragment");
+      appendCommand(m_commandString);
+      m_commandString = "";
     }
 }
 
@@ -126,6 +165,10 @@ pdfRender::processLine (string line, bool parsing)
       return;
     }
 
+  debug(dlTrace, string("Processing a page description line ") + 
+	(parsing ? string("while parsing") : string("while not parsing")));
+
+  // TODO mikal: Do we need this any more?
 #if defined HAVE_LIBMPLOT
   char *state = plot_persiststate(m_plot);
   debug(dlTrace, string("Plot state: ") + string(state));
@@ -136,12 +179,15 @@ pdfRender::processLine (string line, bool parsing)
 #endif
 
   stringArray tokens (line, " ");
+  debug(dlTrace, string("Line token count: ") + toString(tokens.size()));
   string sarg;
   bool sargMode (false);
   for (unsigned int i = 0; i < tokens.size (); i++)
     {
+      debug(dlTrace, string("Process token: ") + tokens[i]);
       if (tokens[i] == "")
 	{
+	  debug(dlTrace, "Empty command token");
 	}
       else if (tokens[i][0] == '(')
 	{
