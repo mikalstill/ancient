@@ -1,0 +1,2 @@
+addfs: addfs.c
+	gcc addfs.c -o addfs -lfuse -lm
