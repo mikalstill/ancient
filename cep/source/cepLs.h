@@ -85,9 +85,15 @@ Returns the value B1 in the least squares solution y=B1*x +B2.
 <para>
 <command>double getB2()</command>
 Returns the value B2 in the solution y=B1*x +B2
+</para>
+
+<para>
+<command>cepError getError()</command>
+Returns any error that may have occoured
 
 SEEALSO cepDataset
 SEEALSO cepMatrix
+SEEALSO cepError
 
 DESCRIPTION END
 
@@ -108,7 +114,6 @@ class cepLs
 public:
   
   cepLs();
-  ~cepLs();
 
   //do one iteration of the least squares algoritum
   const cepLs & cepDoVCV(cepMatrix<double> &data, cepMatrix<double> &matP);
@@ -131,13 +136,15 @@ public:
   //get the value B2 in the solution y=B1*x +B2  
   double getB2();
 
-  
+  //returns any error that may have occoured
+  cepError getError();
 private:
 
   cepMatrix<double> m_residual,       //holds the value of the residuals 
                     m_matX,           //holds the value of B1, B2
                     m_detrended;      //holds the value of the detrended data
-                    
+
+  cepError m_error;
   //ensure that all values of the matrix A P and L are consistant with the
   //least squares alogrithum.
   void sanityCheck(cepMatrix<double> &matA, cepMatrix<double> &matP);
