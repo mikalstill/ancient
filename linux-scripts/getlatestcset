@@ -27,21 +27,28 @@ then
 fi
 
 # Get the kernel base if we need it
-echo "Checking for linux-$base"
+echo "Checking for linux-$base (stillhq cache)"
+if [ ! -d linux-$base ]
+then
+  wget -c http://diskbox.stillhq.com/kernel.org/linux-$base.tar.bz2
+  tar --bzip2 -xf linux-$base.tar.bz2
+fi
+
+echo "Checking for linux-$base (kernel.org)"
 if [ ! -d linux-$base ]
 then
   wget -c http://www.kernel.org/pub/linux/kernel/v2.6/linux-$base.tar.bz2
   tar --bzip2 -xf linux-$base.tar.bz2
 fi
 
-echo "Checking for linux-$base"
+echo "Checking for linux-$base (kernel.org release candidates)"
 if [ ! -d linux-$base ]
 then
   wget -c http://www.kernel.org/pub/linux/kernel/v2.6/testing/linux-$base.tar.bz2
   tar --bzip2 -xf linux-$base.tar.bz2
 fi
 
-echo "Checking for linux-$base"
+echo "Checking for linux-$base (final check)"
 if [ ! -d linux-$base ]
 then
   echo "Failed to get the base"
