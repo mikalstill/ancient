@@ -15,7 +15,7 @@ my($parastate, $liststate, $listitemstate, $footnotestate, $sectionstate, $table
 my($length);
 my($chapters, $chapter, $chaptercount, $temp, $inputused);
 my($linecount, $condlinecount, $firstsect);
-my(@inline, @outline);
+my(@inline, @outline, $linemax, $count);
 
 #####################################################################
 # We setup the conversion rules for many of the translations here...
@@ -24,6 +24,8 @@ my(@inline, @outline);
 # Table start
 $inline[0] = "\.TH[ \t]*(.*)";
 $outline[0] = "$tablestate = 1; $temp = \"\";";
+
+$linemax = 1;
 
 #####################################################################
 # We need to check the command line arguements...
@@ -67,14 +69,19 @@ foreach $chapter (split(/ /, $chapters)){
     $tablestate = 0;
 
     while(<INPUT>){
-	# Table start
-	if(/^\.TH[ \t]*(.*)/i){
-	    $tablestate = 1;
-	    $temp = "";
-	}
+#	# Table start
+#	if(/^\.TH[ \t]*(.*)/i){
+#	    $tablestate = 1;
+#	    $temp = "";
+#	}
 	
+#	for($count = 0; $count < $linemax; $count++){
+#	    if(/^$inline[$count]/){
+#		eval $outline[$count];
+#	    }
+
 	# Table end
-	elsif(/^\.TE/i){
+	if(/^\.TE/i){
 	    $tablestate = 0;
 	    print PREPROC "$temp\n";
 	}
@@ -270,7 +277,6 @@ foreach $chapter (split(/ /, $chapters)){
 	# Footnote end
 	elsif(/^\.FE[ \t]*(.*)/i){
 	    if($footnotestate == 0){
-		dblog("{DBLOG: Footnote end for a non-open footnote!}");
 	    }
 	    
 	    endpara();
@@ -379,7 +385,6 @@ foreach $chapter (split(/ /, $chapters)){
 	# List item
 	elsif(/^\.LI[ \t]*(.*)/i){
 	    if($liststate == 0){
-		dblog("{DBLOG: List item for a non-open list!}");
                 liststart();
 	    }
 
@@ -401,7 +406,6 @@ foreach $chapter (split(/ /, $chapters)){
 	# List end
 	elsif(/^\.LE(.*)/i){
 	    if($liststate == 0){
-		dblog("{DBLOG: List end for a non-open list!}");
 	    }
 	    
 	    endpara();
@@ -419,11 +423,9 @@ foreach $chapter (split(/ /, $chapters)){
 		$pausedlist = 1;
 	    }
 	    $liststate--;
-	    dblog("{DEBUG DBLOG: listlevel = $liststate}");
 	    $listitemstate = 0;
 
 	    if($liststate < 0){
-		dblog("{DBLOG: Negative list state entered}");
 	    }
 	}
 	
@@ -579,16 +581,7 @@ foreach $chapter (split(/ /, $chapters)){
     
     endpara();
     
-    if($liststate == 1){
-	dblog("{DBLOG: Not closed list at end of document!}");
-    }
-    
-    if($footnotestate == 1){
-	dblog("{DBLOG: Not closed footnote at end of document!}");
-    }
-    
     while($sectionstate > 0){
-	print OUTPUT "</sect$sectionstate>\n";
 	$sectionstate--;
     }
     
@@ -690,8 +683,6 @@ sub processstyles(){
 	    
 	    $_ = $word;
 	    if(/(.*)\\f([RP])(.*)/){
-		dblog("{$stylestate}");
-		
 		if($2 eq "R"){
 		    $word = "$1" . closeallstates() . "$3";
 		}
@@ -752,9 +743,4 @@ sub closestate(){
     else{
 	return "";
     }
-}
-
-sub dblog(){
-    my($string) = @_;
-#    print OUTPUT $string;
 }
