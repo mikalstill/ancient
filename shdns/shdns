@@ -78,7 +78,7 @@ spinfor(){
   len=`cat $1 | wc -c | tr -d " "`
   while [ $len -lt $2 ]
   do
-    logger "shdns $$ Span on byte $2"
+    logger "shdns $$ Spin on byte $2"
     usleep $3
     len=`cat $1 | wc -c | tr -d " "`
   done
