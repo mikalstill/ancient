@@ -19,7 +19,8 @@
   <sect2><title>Unit Testing</title>
 
     <sect3><title>Introduction</title>
-      <para></para>
+      <!-- TODO - reference this properly and fill in the blanks -->
+      <para>The primary mechanism employed for testing the system was Unit testing [ref xprogramming.org]</para>
     </sect3> <!--Introduction-->
 
     <sect3><title>Future Enahncements</title>
