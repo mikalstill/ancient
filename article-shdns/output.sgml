@@ -565,13 +565,60 @@ The two standard inetd implementations that most people use are called <command>
 It therefore seems logical to me to include some patches to make <command>inetd</command> and <command>xinetd</command> behave in the manner that I would like them to. Afterall, surely if your goal is as noble as implementing a DNS server in shell script, then surely the operating system should be modified to accomodate that?
 </para>
 
+<sect3><title>inetd patch</title>
 <para>
-INETD PATCH TODO
+The package which contains <command>inetd</command> as run on Debian is called <emphasis>netkit</emphasis>. The following is a patch to use connected sockets for UDP and TCP servers.
+</para>
+
+<programlisting>
+Only in netkit-base-0.16-hacked: MCONFIG
+diff -ur netkit-base-0.16/inetd/inetd.c netkit-base-0.16-hacked/inetd/inetd.c
+--- netkit-base-0.16/inetd/inetd.c    Wed Nov 24 06:31:53 1999
++++ netkit-base-0.16-hacked/inetd/inetd.c    Thu Jan 23 13:42:59 2003
+@@ -470,7 +470,30 @@
+             return;
+         }
+         if (pid==0) {
++                char buf[2];
++            size_t len = 1;
++            struct sockaddr clientaddr;
++            socklen_t clen;
++            
+             /* child */
++            len = sizeof(clientaddr);
++            if ((len = recvfrom(ctrl, buf, len, MSG_PEEK, 
++                       (struct sockaddr *) &amp;clientaddr, 
++                       &amp;clen)) &lt; 0) {
++                    syslog(LOG_WARNING, "failed to peek for (for %s): %m",
++                       sep-&gt;se_service);
++            }
++            if (len==0) {
++                    syslog(LOG_WARNING, "no data (for %s): %m",
++                       sep-&gt;se_service);
++            }
++
++            // Connect
++            if (connect(ctrl, &amp;clientaddr, clen) &lt; 0) {
++                    syslog(LOG_WARNING, "connect failed (for %s): %m",
++                       sep-&gt;se_service);
++            }
++
+             dup2(ctrl, 0);
+             close(ctrl);
+             dup2(0, 1);
+</programlisting>
+<para><emphasis>Code: netkit.patch</emphasis></para>
+</sect3>
+
+<sect3><title>xinetd patch</title>
+<para>
+<command>xinetd</command> is the <command>inetd</command> implementation shipped by Red Hat. It is much more complex than that implemented by <emphasis>netkit</emphasis>.
 </para>
 
 <para>
-XINETD PATCH TODO
+TODO PATCH
 </para>
+</sect3>
 </sect2>
 </sect1>
 

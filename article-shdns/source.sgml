@@ -258,13 +258,23 @@ The two standard inetd implementations that most people use are called <command>
 It therefore seems logical to me to include some patches to make <command>inetd</command> and <command>xinetd</command> behave in the manner that I would like them to. Afterall, surely if your goal is as noble as implementing a DNS server in shell script, then surely the operating system should be modified to accomodate that?
 </para>
 
+<sect3><title>inetd patch</title>
 <para>
-INETD PATCH TODO
+The package which contains <command>inetd</command> as run on Debian is called <emphasis>netkit</emphasis>. The following is a patch to use connected sockets for UDP and TCP servers.
+</para>
+
+<execute><cmd>code2db</cmd><input>~mikal/opensource-unstable/shdns/netkit.patch</input></execute>
+</sect3>
+
+<sect3><title>xinetd patch</title>
+<para>
+<command>xinetd</command> is the <command>inetd</command> implementation shipped by Red Hat. It is much more complex than that implemented by <emphasis>netkit</emphasis>.
 </para>
 
 <para>
-XINETD PATCH TODO
+TODO PATCH
 </para>
+</sect3>
 </sect2>
 </sect1>
 
