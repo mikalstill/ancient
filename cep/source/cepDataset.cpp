@@ -26,6 +26,7 @@
 cepDataset::cepDataset ():
   m_filename(""),
   m_offset(""),
+  m_procHistory(""),
   m_offsetFloat(0.0),
   m_ready(false),
   m_wellformed(false)
@@ -37,6 +38,7 @@ cepDataset::cepDataset ():
 
 cepDataset::cepDataset (cepDatasetProgressCB callback):
   m_filename (""),
+  m_procHistory(""),
   m_ready(false),
   m_wellformed(false)
 { 
@@ -46,8 +48,9 @@ cepDataset::cepDataset (cepDatasetProgressCB callback):
 }
 
 cepDataset::cepDataset (cepMatrix<double> *data0, cepMatrix<double> *data1, cepMatrix<double> *data2, 
-			string offset):
+			string offset, string procHistory):
   m_filename(""),
+  m_procHistory(procHistory),
   m_ready(true),
   m_wellformed(true)
 {
@@ -197,14 +200,23 @@ cepError cepDataset::read (const string& filename)
 	    else
 	      {
 		// This is a header / textual line -- perhaps it's even an offset line
-		m_header[1] += thisLine;
+		if(numLines == 1){
+		  cepStringArray sa(thisLine, " ");
 
-		cepStringArray sa(thisLine, " ");
-		if(cepIsNumeric(sa[6].c_str()[0]))
-		  {
-		    m_offset = sa[6];
-		    m_offsetFloat = atof(m_offset.c_str());
-		  }
+		  // Is this an offset line?
+		  if(cepIsNumeric(sa[6].c_str()[0]))
+		    {
+		      m_header[i] += thisLine;
+		      m_offset = sa[6];
+		      m_offsetFloat = atof(m_offset.c_str());
+		    }
+
+		  // Well, then it must be a processing statement line
+		  else if(i == 0)
+		    {
+		      m_procHistory = thisLine;
+		    }
+		}
 	      }
 	    
 	    thisLine = "";
@@ -280,8 +292,9 @@ cepError cepDataset::write (const string& filename)
 
   for(int i = 0; i < 3; i++)
     {
-      files[i] << "GDMS Manipulated Dataset" << endl;
-      files[i] << "x x x x  x x  " << m_offset << " m" << endl << endl;
+      files[i] << m_procHistory << endl;
+      // todo_mikal: the rest of this line...
+      files[i] << "x x x x x x " << m_offset << " m" << endl << endl;
 
       for(int vcount = 0; vcount < m_data[i]->getNumRows(); vcount++)
 	{
@@ -411,7 +424,7 @@ cepDataset cepDataset::filter(float low, float high)
     }
   }
 
-  return cepDataset(data[0], data[1], data[2], m_offset);
+  return cepDataset(data[0], data[1], data[2], m_offset, m_procHistory + ": Zoomed");
 }
 
 // The display name of the dataset
@@ -420,4 +433,10 @@ string cepDataset::getName()
   // todo_mikal: squelch repeated uses of the word Zoomed...
   cepStringArray name(m_filename, "/~");
   return name[name.size() - 1];
+}
+
+// The processing history for this dataset
+string cepDataset::getProcHistory()
+{
+  return m_procHistory;
 }

@@ -172,7 +172,7 @@ cepView::OnDraw (wxDC * dc)
       
       // Set the title of the tab if we haven't already
       if(frame->GetTitle() == "")
-	frame->SetTitle(theDataset->getName().c_str());
+	frame->SetTitle(string(theDataset->getName() + " - " + theDataset->getProcHistory()).c_str());
       
       // Graph the matrices
       cepError err;

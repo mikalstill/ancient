@@ -74,7 +74,8 @@ public:
   // I append the .dat1, .dat2 and .dat3 myself...
   cepDataset ();
   cepDataset (const cepDatasetProgressCB callback);
-  cepDataset (cepMatrix<double> *data0, cepMatrix<double> *data1, cepMatrix<double> *data2, string offset);
+  cepDataset (cepMatrix<double> *data0, cepMatrix<double> *data1, cepMatrix<double> *data2, 
+	      string offset, string procHistory);
 
   // Actually process the file
   cepError read(const string& filename);
@@ -92,6 +93,7 @@ public:
   direction getDirectionFromName(string name);
   string getRootFilename();
   string getName();
+  string getProcHistory();
 
 private:
   string applyOffset(string value);
@@ -100,6 +102,7 @@ private:
   string m_filename;
   string m_header[3];
   string m_offset;
+  string m_procHistory;
   float m_offsetFloat;
 
   cepDatasetProgressCB m_progress;

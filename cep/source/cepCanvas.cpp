@@ -212,14 +212,15 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
 	err.display();
       }
       else{
-	char *cfname = strdup(string(string("/tmp/cep.XXXXXX") + "~" + theDataset->getName() + 
-				     " Zoomed").c_str());
+	char *cfname = strdup("/tmp/cep.XXXXXX");
 	int fd;
 	fd = mkstemp(cfname);
 	close(fd);
-	newds.write(cfname);
 	
-	wxGetApp().m_docManager->CreateDocument(string(string(cfname) + ".dat1").c_str(), wxDOC_SILENT);
+	string newcfname(string(cfname) + "~" + theDataset->getName());
+	newds.write(newcfname.c_str());
+	
+	wxGetApp().m_docManager->CreateDocument(string(newcfname + ".dat1").c_str(), wxDOC_SILENT);
 	free(cfname);
       }
     }
