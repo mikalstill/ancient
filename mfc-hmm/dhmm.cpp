@@ -102,7 +102,7 @@ int CDhmm::Train(const obsArray &allObservations)
       total[i] = 0;
    }
 
-   // <comment>
+   // Mikal: Determine frequency information for the observations
    double indexRatio;
    int state, maxT;
    for (v=0; v<allObservations.size(); v++)
@@ -355,7 +355,53 @@ void CDhmm::reestimate ()
 
 double CDhmm::LogLikelihood(const obs &oneObservation) const
 {
-   return 0.0;
+  double logp = 0.0;
+  int   i, j, t;
+  
+  // Mikal: Allocate memory for the alpha matrix, the beta vector,
+  // the next beta vector, and the scale vector
+  double **alpha = new double* [oneObservation.size()];
+  for (t=0; t<oneObservation.size(); t++)
+    alpha[t] = new double [NSTATES];
+  double *beta = new double [NSTATES];
+  double *nxtbeta = new double [NSTATES];
+  double *scale = new double [oneObservation.size()];
+  
+  // Mikal: The forward algorithm for each of the values in the observation
+  for (t=0; t<oneObservation.size(); t++)
+    {
+      scale[t] = 0.0;
+      for (i=0; i<NSTATES; i++)
+	{
+	  // Mikal: Forward algorithm initialization
+	  if (t==0)
+	    alpha[t][i] = pi[i] * B[i][oneObservation[t]];
+	  
+	  // Mikal: Induction
+	  else
+	    {
+	      alpha[t][i] = 0.0;
+	      for (j=0; j<NSTATES; j++)
+		alpha[t][i] += alpha[t-1][j] * A[j][i];
+	      alpha[t][i] *= B[i][oneObservation[t]];
+	    }
+	  
+	  // Mikal: Termination
+	  scale[t] += alpha[t][i];
+	}
+      debug("TODO: alpha_unscld=",alpha[t],NSTATES,2);
+      
+      if (scale[t] < SMALL_NO)
+	scale[t] = SMALL_NO;
+      logp += log10(scale[t]);
+      
+      for (i=0; i<NSTATES; i++)
+	alpha[t][i] /= scale[t];
+      debug("TrainOne: alpha_scaled=",alpha[t],NSTATES,2);
+      debug("TrainOne: logp=",&logp,1,2);
+    }
+
+  return logp;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -395,20 +441,22 @@ int CDhmm::Read(const char *fileName)
 {
    // Mikal: Open the file. If this has failed, return a value indicating
    // that
-   ofstream file(fileName, ios::in);
+   ifstream file(fileName, ios::in);
    if(!file)
       return 0;
 
    // Mikal: Read the A and B matrices, and the pi vector from the file
-//    int i, j;
-//    for (i=0; i<NSTATES; i++)
-//      for (j=0; j<NSTATES; j++)
-//        file >> A[i][j];
-//    for (i=0; i<NSTATES; i++)
-//      for (j=0; j<NOBS; j++)
-//        file >> B[i][j];
-//    for (i=0; i<NSTATES; i++)
-//      file >> pi[i];
+   int i, j;
+   for (i=0; i<NSTATES; i++)
+     for (j=0; j<NSTATES; j++)
+       file >> A[i][j];
+
+   for (i=0; i<NSTATES; i++)
+     for (j=0; j<NOBS; j++)
+       file >> B[i][j];
+
+   for (i=0; i<NSTATES; i++)
+     file >> pi[i];
    
    // Mikal: Close the file and return a value indicating success
    file.close();

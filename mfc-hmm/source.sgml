@@ -26,14 +26,26 @@ The following source files are my commented versions. All of the comments I have
 
 </sect2>
 
-<beginpage>
 <sect2><title>User manual for DhmmTrain</title>
+<sect3><title>Purpose</title>
 <para>
-describing the purpose, usage, and input and output file structures for the program
+...
 </para>
+</sect3>
+
+<sect3><title>Usage</title>
+<para>
+...
+</para>
+</sect3>
+
+<sect3><title>Input and output file structures</title>
+<para>
+...
+</para>
+</sect3>
 </sect2>
 
-<beginpage>
 <sect2><title>Program output</title>
 <para>
 The following output is generated for the three different digits...
@@ -52,7 +64,6 @@ The running program produces the following output:
 The trained HMM is as follows:
 </para>
 
-<execute><cmd>todo</cmd><input>Line breaking script</input></execute>
 <programlisting>
 <execute><cmd>linebreak</cmd><args>60</args><input>d001.hmm</input></execute>
 </programlisting>
@@ -96,6 +107,80 @@ The trained HMM is as follows:
 </programlisting>
 </sect3>
 
+</sect2>
+</sect1>
+
+<sect1><title>Question Two</title>
+<para>
+...
+</para>
+
+<sect2><title>Implement LogLikelihood and Read</title>
+<para>
+...
+</para>
+</sect2>
+
+<sect2><title>Develop a testing application</title>
+<para>
+Apart from the <emphasis>LogLikelihood</emphasis> and <emphasis>Read</emphasis> methods, another source file, <emphasis>test.cpp</emphasis> was developed. <emphasis>test.cpp</emphasis> is as follows:
+</para>
+
+<execute><cmd>code2db</cmd><args>3</args><input>test.cpp</input></execute>
+
+<sect3><title>Example execution</title>
+<para>
+Refer to the user manual below for an example operation. The application selects the digit <emphasis>two</emphasis> as the most likely.
+</para>
+</sect3>
+</sect2>
+
+<sect2><title>User manual</title>
+<sect3><title>Purpose</title>
+<para>
+The test application is used to determine which of the Hidden Markov Models most closely matches the observation which is being tested. This is done by determining the probability that the observation matches each of the Hidden Markov Models. The model with the highest probability is then declared to be the winner.
+</para>
+
+<para>
+Refer to the output section below of the output from the matching sequence for the unknown utterance.
+</para>
+</sect3>
+
+<sect3><title>Usage</title>
+<para>
+The test application takes a script file and an observation file, and uses the Hidden Markov Models listed in the script file to determine probabilities that the observation matches that any of those models.
+</para>
+
+<para>
+A sample command line is:
+</para>
+
+<programlisting>
+./test script-test s031d00x.cod
+</programlisting>
+</sect3>
+
+<sect3><title>Input and output file structures</title>
+<para>
+The script file has the following format:
+</para>
+
+<execute><cmd>code2db</cmd><input>script-test</input></execute>
+
+<para>
+The observation file is a list of the Vector Quantized vectors which matched that observation. It has the following format:
+</para>
+
+<execute><cmd>code2db</cmd><input>s031d00x.cod</input></execute>
+
+<para>
+The application will produce the following output:
+</para>
+
+<programlisting>
+<execute><cmd>./test</cmd><args>script-test s031d00x.cod</args></execute>
+</programlisting>
+</sect3>
 </sect2>
 </sect1>
 </article>
