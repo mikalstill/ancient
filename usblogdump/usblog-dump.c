@@ -14,31 +14,52 @@
 
 char *functname(unsigned int function);
 
+// URB things
 void usb_urb_header(char *file, long long *filep);
 #define USB_URB_HEADER_LENGTH 16
-
 void usb_urb_controltransfer(char *file, long long *filep);
-
 void usb_urb_hcd(char *file, long long *filep);
 #define USB_URB_HCD_LENGTH 32
-
 void usb_urb_listentry(char *file, long long *filep);
 void usb_interface_info(char *file, long long *filep);
 void usb_pipe_info(char *file, long long *filep);
 void usb_ucd(char *file, long long *filep);
 
+// URB output
 char *urb_buffer = NULL;
 long urb_buffer_size = 0;
 long urb_buffer_inset = 0;
 int urb_reallocs = 0;
 void urb_printf(char *format, ...);
 char *urb_xsnprintf (char *format, va_list ap);
+char *md5hash(char *);
+
+// A structure to store all our URBs
+typedef struct usb_internal_allurbs{
+  int number;
+  long long filep;
+  int sequence;
+  int time;
+  int reallocs;
+  int deleted;
+
+  int rptlen;
+  int rpttimes;
+
+  char *desc;
+  char *md5;
+} usb_allurbs;
+
+// Used for correlation
+int hashcmp(usb_allurbs* head, int inset, int testinset, int length);
 
 int main(int argc, char *argv[]){
-  int fd, npackets, otag, urbCount, function, psize, tsrelative, temp, temp2, numifaces, seq;
+  int fd, npackets, otag, urbCount, function, psize, tsrelative, temp, temp2, numifaces, seq,
+    length, inset, testinset, corrstep, matchcount;
   char *file;
   long long filep;
   struct stat sb;
+  usb_allurbs *urbhead;
 
   if(argc < 2){
     fprintf(stderr, "Usage: %s <input>\n", argv[0]);
@@ -77,6 +98,13 @@ int main(int argc, char *argv[]){
     printf("Timestamp is relative\n");
   }
   printf("\n");
+  printf("Grabbing the URBs\n");
+
+  // Setup the URB head
+  if((urbhead = (usb_allurbs *) malloc(sizeof(usb_allurbs) * npackets)) == NULL){
+    fprintf(stderr, "Memory allocation problem whilst setting up URB list head\n");
+    exit(1);
+  }
 
   // Details of the URB
   seq = -1;
@@ -89,19 +117,19 @@ int main(int argc, char *argv[]){
     }
 
     temp = fileutil_getuinteger(file, &filep);
-    if(seq != temp){
-      printf("===============================================\n");
-      seq = temp;
-    }
-    else{
-      printf("---------\n");
-    }
-    printf("URB %d starts at %d within file\n", urbCount, filep);
-    printf("Sequence: %u\n", temp);
+    //printf("URB %d starts at %d within file\n", urbCount, filep);
+    //printf("Sequence: %u\n", temp);
+    urbhead[urbCount].number = urbCount;
+    urbhead[urbCount].filep = filep;
+    urbhead[urbCount].sequence = temp;
 
     function = fileutil_getushort(file, &filep);
     urb_printf("Function: %s (0x%04x)\n", functname(function), function);
-    printf("Time relative to start of dump: %d\n", fileutil_getuinteger(file, &filep) - tsrelative);
+
+    // printf("Time relative to start of dump: %d\n", 
+    // fileutil_getuinteger(file, &filep) - tsrelative);
+    urbhead[urbCount].time = fileutil_getuinteger(file, &filep) - tsrelative;
+
     urb_printf("Endpoint: %d\n", fileutil_getnumber(file, &filep));
     urb_printf("Pipe handle: 0x%08x\n", fileutil_getuinteger(file, &filep));
     urb_printf("Flags: %d\n", fileutil_getuinteger(file, &filep));
@@ -233,21 +261,76 @@ int main(int argc, char *argv[]){
     }
 
     // Now output the URB, and the recycle the block of memory we built last time...
+    urbhead[urbCount].desc = urb_buffer;
     if(urb_buffer != NULL){
-      char *md;
-
-      printf("URB display took %d reallocs\n", urb_reallocs);
-      printf("URB MD5 hash: ");
-      md = md5hash(urb_buffer);
-
-      for(temp = 0; temp < 16; temp++){
-	printf("%02x ", (unsigned char) md[temp]);
-      }
-      printf("\n\n%s", urb_buffer);
-      urb_buffer[0] = 0;
+      urbhead[urbCount].md5 = md5hash(urb_buffer);
+      urbhead[urbCount].reallocs = urb_reallocs;
     }
+    urbhead[urbCount].deleted = 0;
+    urbhead[urbCount].rptlen = 0;
+    urbhead[urbCount].rpttimes = 0;
+
+    // Reset the URB buffer
+    urb_buffer = NULL;
     urb_buffer_inset = 0;
+    urb_buffer_size = 0;
     urb_reallocs = 0;
+  }
+
+  // Correlate
+  printf("\nCorrelating the URBs:\n");
+  corrstep = 0;
+  for(length = (int) (npackets / 2); length != 0; length--){
+    for(inset = 0; inset < npackets - length + 1; inset++){
+      matchcount = 1;
+      for(testinset = inset + length; testinset < npackets - length; 
+	  testinset += length){
+	if(hashcmp(urbhead, inset, testinset, length) == 0){
+	  matchcount++;
+	}
+	else{
+	  testinset = npackets + 100;
+	}
+      }
+
+      if(matchcount > 1){
+	printf("Found a match at URB %d of length %d which repeats %d times\n", 
+	       inset, length, matchcount);
+	printf("Deleting: ");
+	urbhead[inset + length - 1].rptlen = length;
+	urbhead[inset + length - 1].rpttimes = matchcount;
+	for(temp = inset + length; temp < matchcount * length + inset; temp++){
+	  printf("%d ", temp);
+	  urbhead[temp].deleted = 1;
+	}
+	printf("\n");
+	inset += matchcount * length;
+      }
+    }
+  }
+
+  // And now we should display the urbs
+  printf("\n\n\n\n");
+  for(urbCount = 0; urbCount < npackets; urbCount++){
+    printf("\n-----------------\nURB %d\n", urbCount);
+    printf("Number: %d\n", urbhead[urbCount].number);
+    printf("Offset within dumpfile: %d\n", urbhead[urbCount].filep);
+    printf("Sequence: %d\n", urbhead[urbCount].sequence);
+    printf("Relative time: %d\n", urbhead[urbCount].time);
+    printf("Reallocs: %d\n", urbhead[urbCount].reallocs);
+    printf("MD5 hash: ");
+    for(temp = 0; temp < 16; temp++){
+      printf("%02x ", (unsigned char) urbhead[urbCount].md5[temp]);
+    }
+    printf("\n\n");
+
+    printf("%s", urbhead[urbCount].desc);
+
+    if(urbhead[urbCount].rptlen != 0){
+      printf("\n(Sequence of %d URBs repeats %d times)\n\n", 
+	     urbhead[urbCount].rptlen, urbhead[urbCount].rpttimes);
+      urbCount += urbhead[urbCount].rptlen * (urbhead[urbCount].rpttimes - 1);
+    }
   }
 
   // It's polite to cleanup
@@ -444,7 +527,7 @@ void urb_printf(char *format, ...){
 
   // Append it to the buffer which is this URB
   if(urb_buffer_inset + templen + 1 > urb_buffer_size){ 
-    urb_buffer = realloc(urb_buffer, urb_buffer_size + templen + 500);
+    urb_buffer = (char *) realloc(urb_buffer, urb_buffer_size + templen + 500);
     if(urb_buffer == NULL){
       fprintf(stderr, "Memory allocation error\n");
       exit(1);
@@ -501,8 +584,7 @@ md5hash (char *input)
   MD5_CTX context;
   unsigned char *digest;
 
-  digest = malloc (16);
-  if(digest == NULL){
+  if((digest = (char *) malloc (16)) == NULL){
     fprintf(stderr, "Memory error 3\n");
     exit(1);
   }
@@ -512,4 +594,26 @@ md5hash (char *input)
   MD5Final (digest, &context);
 
   return digest;
+}
+
+int hashcmp(usb_allurbs* head, int inset, int testinset, int length){
+  int count, count2;
+
+  for(count = 0; count < length; count++){
+    if(head[inset + count].deleted == 1){
+      return -4;
+    }
+    if(head[testinset + count].deleted == 1){
+      return -4;
+    }
+
+    for(count2 = 0; count2 < 16; count2++){
+      if((unsigned char) head[inset + count].md5[count2] != 
+	 (unsigned char) head[testinset + count].md5[count2]){
+	return -2;
+      }
+    }
+  }
+
+  return 0;
 }
