@@ -1,0 +1,8 @@
+#!/bin/bash
+
+cp 2004-ols /home/httpd/html/notes/presentations/
+for item in `cat 2004-ols`
+do
+  echo $item
+  cp $item /home/httpd/html/notes/presentations/$item
+done
