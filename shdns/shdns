@@ -1,14 +1,12 @@
 #!/bin/bash
 
-set -x
-
 # shdns: take a query and build a response
 
 ##############################################################################
 # Utility functions
 ##############################################################################
 
-# The state of a given bit in the byte
+# The state of a given bit in the byte: (byte, poweroftwo)
 dumpbit(){
   local temp
   temp=$1
@@ -24,34 +22,25 @@ dumpbit(){
   return $temp
 }
 
-# The state of the whole byte
+# The state of the whole byte: (byte)
 dumpbyte(){
-  local temp
-  temp=$1
-
-  dumpbit $temp 128
-  temp=$?
-  dumpbit $temp 64
-  temp=$?
-  dumpbit $temp 32
-  temp=$?
-  dumpbit $temp 16
-  temp=$?
-  dumpbit $temp 8
-  temp=$?
-  dumpbit $temp 4
-  temp=$?
-  dumpbit $temp 2
-  temp=$?
-  dumpbit $temp 1
+  dumpbit $1 128
+  dumpbit $? 64
+  dumpbit $? 32
+  dumpbit $? 16
+  dumpbit $? 8
+  dumpbit $? 4
+  dumpbit $? 2
+  dumpbit $? 1
 }
 
-# Is a given bit on?
+# Is a given bit on? (byte, poweroftwo)
 testbit(){
   return `dumpbit $1 $2`
 }
 
-# Turn on a given bit in the byte
+# Turn on a given bit in the byte: (initial byte state, poweroftwo, desiredstate)
+# Returns a decimal version of the byte
 twiddlebit(){
   local temp
   temp=$1
@@ -73,7 +62,7 @@ twiddlebit(){
   return $temp
 }
 
-# Spin until a byte exists
+# Spin until a byte exists: (filename, bytenumber)
 spinfor(){
   local len
 
@@ -86,20 +75,20 @@ spinfor(){
   done
 }
 
-# Read a single byte from a file
+# Read a single byte from a file: (filename, bytenumber)
 readbyte(){
   spinfor $1 $2 10 
   cat $1 | cut -b $2
 }
 
-# Read a range of bytes from a file
+# Read a range of bytes from a file: (filename, startbyte, length)
 readstring(){
   spinfor $1 $(( $2 + $3 - 1 )) 10
   logger "shdns $$ Getting byte range $1:$2-"$(( $2 + $3 - 1 ))":$3"
   cat $1 | cut -b $2-$(( $2 + $3 - 1 ))
 }
 
-# Read a single binary byte from a file
+# Read a single binary byte as decimal from a file: (filename, bytenumber)
 readbytebinary(){
   local temp
 
@@ -123,6 +112,30 @@ readbytebinary(){
   return $temp
 }
 
+# Output the bit for this value: (inputvalue, byteoffset)
+writebinarybit(){
+  if [ $1 -gt $(( $2 - 1 )) ]
+  then
+    echo -n "1"
+    return $(( $1 - $2 ))
+  else
+    echo -n "0"
+    return $1
+  fi
+}
+
+# Turn a number into a binary byte: (inputvalue)
+writebinarybyte(){
+  writebinarybit $1 128
+  writebinarybit $? 64
+  writebinarybit $? 32
+  writebinarybit $? 16
+  writebinarybit $? 8
+  writebinarybit $? 4
+  writebinarybit $? 2
+  writebinarybit $? 1
+}
+
 ###############################################################################
 
 process(){
@@ -130,7 +143,7 @@ process(){
   inset=$2
 
   # Identification: 2 bytes
-  id=`cat $1 | cut -b $inset,$(( $inset + 1 ))`; inset=$(( $inset + 2 ))
+  id=`readstring $1 $inset 2`; inset=$(( $inset + 2 ))
   logger "shdns $$ Packet id: $id"
 
   # Flags: 2 bytes
@@ -185,24 +198,28 @@ process(){
   
   while [ $questioncount -lt $qcount ]
   do
+    questionstart=$inset
     logger "shdns $$ Question"
     name=""
   
+    namelength=0
     readbytebinary "$1" $inset; len=$?
     while [ $len -gt 0 ]
     do
       inset=$(( $inset + 1 ))
       name="$name"`readstring "$1" $inset $len`"."
       inset=$(( $inset + $len ))
-      readbytebinary "$1" $inset; len=$? 
-    done  
-    inset=$(( $inset + 1 ))
+      
+      namelength=$(( $namelength + $len + 1 ))
+      readbytebinary "$1" $inset; len=$?
+    done
+    inset=$(( $inset + 2 ))
     logger "shdns $$ Lookup: $name"
   
     # Type of question
     readbytebinary "$1" $inset; type=$?
-    temp="  Query type:"
-  
+    error="none"
+    temp="shdns $$ Determine the query type"
     case $type in
     1 ) temp="$temp A";;
     2 ) temp="$temp NS";;
@@ -210,36 +227,108 @@ process(){
     12 ) temp="$temp PTR";;
     13 ) temp="$temp HINFO";;
     15 ) temp="$temp MX";;
-    * ) temp="Error: Unknown query type"; exit;;
+    * ) temp="Error: Unknown query type"; error="yes";;
     esac
   
-    logger $temp
+    logger "$temp ($error)"
     inset=$(( $inset + 1 ))  
 
     # The class should always be 1
     readbytebinary "$1" $inset; class=$?; inset=$(( $inset + 1 ))
     logger "shdns $$ Query class: $class"
   
-    # Dodgy bug fix
-    name=`echo $name | sed 's/\.$//'`
+    if [ "%$error%" = "%none%" ]
+    then
+      # Dodgy bug fix
+      name=`echo $name | sed 's/\.$//'`
     
-    # Lookup the name in the db file
-    logger "shdns $$ Result:" `grep "$name" /home/mikal/opensource/shdns/lookup | tr -s "\t" | cut -f 2`
-  
+      # Lookup the name in the db file
+      result=`grep "$name" /home/mikal/opensource/shdns/lookup | tr -s "\t" | cut -f 2`
+      logger "shdns $$ Result: $result"
+
+      #########################################################
+      # Now we need to build a response to the query
+
+      # The id number we were handed gets handed straight back
+      echo -n "$id"
+
+      # Flag this packet as being a reply (we currently never claim to be authoritive)
+      twiddlebit 0 128 1
+      ./tobyte $?
+      ./tobyte 0
+
+      # Number of questions (we have to return the question we are answering)
+      ./tobyte 0
+      ./tobyte 1
+ 
+      # Number of answers
+      ./tobyte 0
+      ./tobyte 1
+
+      # Number of authorities
+      ./tobyte 0
+      ./tobyte 0
+
+      # Number of additionals
+      ./tobyte 0
+      ./tobyte 0
+
+      # It's easy to return the question, we just copy it...
+      echo -n `readstring $1 $questionstart $(( $inset - $questionstart ))`
+
+      # And now we can append our answer
+      echo -n `readstring $1 $questionstart $namelength`
+
+      # The type is the same as in the question
+      ./tobyte 0
+      ./tobyte $type
+
+      # The class is one
+      ./tobyte 0
+      ./tobyte 1
+
+      # The time to live is always low, because we are dodgy
+      ./tobyte 0
+      ./tobyte 10
+
+      # The length of the returned data is always an IP (32 bits)
+      ./tobyte 0
+      ./tobyte 4
+
+      # And now the answer as a number
+      # For the result in the answer, we are going to need this in a binary form of decimal
+      while [ "%$result%" != "%%" ]
+      do
+        temp=`echo $result | cut -f 1 -d "."`
+        result=`echo $result | sed 's/^[0-9]*//'`
+        result=`echo $result | sed 's/\.//'`
+        ./tobyte $temp
+        logger "shdns $$ Processing result segment: $temp ($result)"
+      done
+      logger "shdns $$ Finished extracting result"
+    else
+      # Work out the erroneous type
+      logger "shdns $$ Erroneous type was $type ("`dumpbyte $type`")"
+    fi
+
+    logger "shdns $$ Finished processing question"
     questioncount=$(( $questioncount + 1 ))
   done
 
-  echo $inset
+  return $inset`twiddlebit 0 128 1`
 }
 
 ###############################################################################
 
 offset=1
-while [ 1 -ne 0 ]
-do
+#while [ 1 -ne 0 ]
+#do
   spinfor $1 $offset
-  offset=`process $1 $offset`
-done
+  process $1 $offset
+  offset=$?
+  logger "shdns $$ Ended at $offset"
+  killall -9 cat
+#done
 
 exit
 
