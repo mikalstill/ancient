@@ -185,6 +185,19 @@ cepPresentation::createBitmap ()
   long yrange = ymaxval - yminval;
   float yscale = yrange / (m_height - 20);
 
+  // This little tweak deals with inaccuracies in the float rounding of the
+  // above
+  // todo_mikal: Are these too conservative? I'll wait and see if people
+  // complain...
+  cepDebugPrint("Yscale = " + cepToString(yscale));
+  if(yscale > 0){
+    yscale *= 1.30;
+  }
+  else{
+    yscale /= 0.66;
+  }
+  cepDebugPrint("Yscale = " + cepToString(yscale));
+
   // If we are using errors, then we draw these underneath
   if(m_useErrors){
     cepDebugPrint("Displaying errors");
@@ -253,13 +266,20 @@ cepPresentation::createBitmap ()
   for(unsigned int i = 0; i < m_data.size(); i++){
     if(m_data[i] != INVALID){
       if(!linestarted){
+	cepDebugPrint("Graph point: " + cepToString(i + 10) + ", " +
+		      cepToString((yrange - m_data[i] + yminval) 
+				  / yscale + 10));
 	plot_setlinestart(graph, i + 10, (unsigned int)
 			  ((yrange - m_data[i] + yminval) / yscale + 10));
 	linestarted = true;
       }
-      else
+      else{
+	cepDebugPrint("Graph point: " + cepToString(i + 10) + ", " +
+		      cepToString((yrange - m_data[i] + yminval) 
+				  / yscale + 10));
 	plot_addlinesegment(graph, i + 10, (unsigned int)
 			    ((yrange - m_data[i] + yminval) / yscale + 10));
+      }
     }
   }
 

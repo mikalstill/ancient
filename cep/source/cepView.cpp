@@ -131,7 +131,7 @@ cepView::OnDraw (wxDC * dc)
     if(err.isReal()) err.display();
     err = m_config->getValue("ui-viewmenu-showy", true, showY);
     if(err.isReal()) err.display();
-    err = m_config->getValue("ui-viewmenu-showZ", true, showZ);
+    err = m_config->getValue("ui-viewmenu-showz", true, showZ);
     if(err.isReal()) err.display();
 
     if(showX) gCount++;
@@ -144,18 +144,21 @@ cepView::OnDraw (wxDC * dc)
       
       cepDebugPrint ("Dataset valid, so displaying");
       if(showX){
+	cepDebugPrint("Displaying x direction graph");
 	drawPresentation(theDataset, cepDataset::dirX, presDrop, dc, 
 			 presHeight);
 	presDrop += presHeight + 10;
       }
 
       if(showY){
+	cepDebugPrint("Displaying y direction graph");
 	drawPresentation(theDataset, cepDataset::dirY, presDrop, dc, 
 			 presHeight);
 	presDrop += presHeight + 10;
       }
       
       if(showZ){
+	cepDebugPrint("Displaying z direction graph");
 	drawPresentation(theDataset, cepDataset::dirZ, presDrop, dc, 
 			 presHeight);
 	presDrop += presHeight + 10;
