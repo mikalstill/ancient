@@ -33,10 +33,10 @@ then
     usage
 fi
 
-if [ "%$5%" = "%%" ]
-then
-    usage
-fi
+#if [ "%$5%" = "%%" ]
+#then
+#    usage
+#fi
 
 cd $1 > /dev/null
 rm TAGS > /dev/null
@@ -56,9 +56,11 @@ find $2 -type f -name "*~" -exec rm {} \; > /dev/null
 find $2 -type f -name "#*#" -exec rm {} \; > /dev/null
 find $2 -type f -name "*.rej" -exec rm {} \; > /dev/null
 
-mkdir -p /home/httpd/html/linux/$5/$3
-diff -Nur $1 $2 > /home/httpd/html/linux/$5/$3/$4
-less /home/httpd/html/linux/$5/$3/$4
+#mkdir -p /home/httpd/html/linux/$5/$3
+#diff -Nur $1 $2 > /home/httpd/html/linux/$5/$3/$4
+diff -Nur $1 $2 > $4
+#less /home/httpd/html/linux/$5/$3/$4
+less $4
 
 echo -n "Is this patch ready? (y/n): "
 read ready
