@@ -1,13 +1,13 @@
 #!/usr/bin/perl
 
 # groff2db 0.5. Copyright (c) Michael Still 2001 and 2002 (mikal@stillhq.com)
-# Released under the terms of the GNU GPL. Please submit all patches to mikal@stillhq.com
-# Initially developed for Greg Lehey's "The Complete FreeBSD"... Many thanks for his
-# sponsorship and support of this project.
+# Released under the terms of the GNU GPL. Please submit all patches to 
+# mikal@stillhq.com. Initially developed for Greg Lehey's "The Complete 
+# FreeBSD"... Many thanks for his sponsorship and support of this project.
 
 # The basic concept of this script to to convert troff marked up input into
-# docbook compliant XML. It also makes an attempt at being able to convert man pages to
-# docbook...
+# docbook compliant XML. It also makes an attempt at being able to convert 
+# man pages to docbook...
 
 # Command line arguements:
 # -t (list of if arguements to consider true)     NOT IMPLEMENTED YET
@@ -22,6 +22,7 @@ my($length);
 my($temp);
 my($linecount, $condlinecount, $firstsect, $firstsectnum);
 my(@inline, @outline, $linemax, $count);
+my($temp, $prevtemp, $state, $subst);
 
 # todo: fix this hack
 $firstsectnum = $ARGV[1] - 1;
@@ -58,8 +59,15 @@ while(<STDIN>){
 	    $count = $linemax + 1;
 	}
     }
+
+    # This is the inclusion of a shared object, we do this here so it can be
+    # processed normally later...
+    if(/^\.so (.*)\.[0-9].*/i){
+	$_ = ".P\nSee $1";
+    }
     
-    # If we are in table state, then we need to rewrite lines for the table cells
+    # If we are in table state, then we need to rewrite lines for the 
+    # table cells
     if($tablestate == 1){
 	s/T\{\n//;
 	s/T\}//g;
@@ -95,6 +103,7 @@ $quotestate = 0;
 $tablestate = 0;
 $pausedlist = 0;
 $firstsect = 1;
+$state = "";
 
 # For each line in the file...
 while(<INPUT>){
@@ -122,6 +131,11 @@ while(<INPUT>){
 	    }
 	}
     }
+
+    # The libpng man page is on mighty drugs
+    s/^\\fI\\fB$/.P/;
+    s/\\fP\\fB/\\fB/g;
+    s/\\fP\\fI/\\fI/g;
 
     # Man pages also do wierd things with ...'s
     s/\\&\.\.\./.../g;
@@ -153,10 +167,38 @@ while(<INPUT>){
     # Italic for a single word
     s/[ \t]*\\\(em[ \t]*/&mdash;/ig;
     
-    # We run some little conversion rules to deal with things like italics et al
-    $temp = processstyles($displaystate, $_);
-    $_ = $temp;	
-    
+    # We run some little conversion rules to deal with things like italics 
+    # et al
+    $prevtemp = "NOSUCHLINEFOOFOOFOO";
+    $temp = $_;
+
+    while($prevtemp ne $temp){
+	$prevtemp = $temp;
+
+	$_ = $temp;
+	if(/(.*?)\\f([IBP])(.*)/){
+	    if($2 eq "I"){
+		$subst = "emphasis";
+	    }
+	    elsif($2 eq "B"){
+		$subst = "command";
+	    }
+	    elsif($2 eq "P"){
+		$subst = "";
+	    }
+
+	    if($subst ne ""){
+		$temp = "$1$state<$subst>$3";
+		$state = "</$subst>";
+	    }
+	    else{
+		$temp = "$1$state$3";
+		$state = "";
+	    }		
+	}
+    }
+    $_ = $temp;
+   
     ##############################################################
     # Comments
     if(/^\.\\\"(.*)/i){
@@ -201,16 +243,14 @@ while(<INPUT>){
     # Display start -- is case sensitive
     elsif((/^\.DS(.*)/) || (/^\.Dx(.*)/i)){
 	endpara();
-	print closeallstates();
-	print "<programlisting>\n";
+	print "$state<programlisting>\n";
 	$displaystate = 1;
     }
     
     # Display end
     elsif(/^\.DE(.*)/i){
 	if($displaystate == 1){
-	    print closeallstates();
-	    print "</programlisting>\n";
+	    print "$state</programlisting>\n";
 	    $displaystate = 0;
 	    startpara();
 	}
@@ -296,7 +336,7 @@ while(<INPUT>){
     
     # Headings
     elsif(/^\.H([0-5])[ \t]*(.*)/i){
-	print closeallstates();
+	print "$state";
 	endpara();
 	listend();
 	
@@ -337,7 +377,7 @@ while(<INPUT>){
     
     # Headings (Unsupported)
     elsif(/^\.H([6-9])[ \t]*(.*)/i){
-	print closeallstates();
+	print "$state";
 	endpara();
 	print "<sect1><title>UNSUPPRTED SECTION LEVEL</title>\n";
 	$sectionstate = 1;
@@ -345,7 +385,7 @@ while(<INPUT>){
 
     # Headings (man pages)
     elsif(/^\.SH[ \t]*(.*)/i){
-	print closeallstates();
+	print "$state";
 	endpara();
 	listend();
 	endpara();
@@ -509,10 +549,6 @@ while(<INPUT>){
     elsif(/^\.sp(.*)/i){
     }
     
-    # I believe that so is the inclusion of a shared object
-    elsif(/^\.so/i){
-    }
-    
     # Table title
     elsif(/^\.TB[ \t]*[\"]*([^\"]*)[\"]*/i){
 	print "<table frame='all'>";
@@ -655,113 +691,5 @@ sub startpara(){
     if($displaystate == 0){
 	print "\n<para>";
 	$parastate++;
-    }
-}
-
-sub processstyles(){
-    my($displaystate, $line) = @_;
-    my($newline, $word, $retStr, $length);
-    
-    $newline = "";
-    
-    # It turns out that a whole bunch of these are actually font change
-    # commands...
-    foreach $word (split(/ /, $line)){
-	$length = 0;
-	
-	while($length != length($word)){
-	    $length = length($word);
-	    
-	    $_ = $word;
-	    if(/(.*)\\fB(.*)/){
-		$word = closeallstates() . "$1<keycap>$2";
-		$stylestate = "$stylestate" . "B";
-	    }
-	    
-	    $_ = $word;
-	    if(/(.*)\\fI(.*)/){
-		$word = "$1<emphasis>$2";
-		$stylestate = "$stylestate" . "I";
-	    }
-	    
-	    $_ = $word;
-	    if(/(.*)\\fC(.*)/){
-		$word = closeallstates() . "$1<command>$2";
-		$stylestate = "$stylestate" . "c";
-	    }
-	    
-	    $_ = $word;
-	    if(/(.*)\\f\(CW(.*)/){
-		$word = "$1<emphasis>$2";
-		$stylestate = "$stylestate" . "W";
-	    }
-	    
-	    $_ = $word;
-	    if(/(.*)\\f\(CB(.*)/){
-		$word = closeallstates() . "$1<command>$2";
-		$stylestate = "$stylestate" . "b";
-	    }
-	    
-	    $_ = $word;
-	    if(/(.*)\\f([RP])(.*)/){
-		if($2 eq "R"){
-		    $word = "$1" . closeallstates() . "$3";
-		}
-		else{
-		    $retStr = closestate(substr($stylestate, length($stylestate) - 1, 1));
-		    if($1 eq ""){
-			$word = "$retStr$3";
-		    }
-		    else{
-			$word = "$1$retStr$3";
-		    }
-		    $stylestate =~ s/[A-Za-z]$//;
-		}
-	    }
-	    
-	    # Horizontal spacing (no mapping to docbook)
-	    $_ = $word;
-	    s/\\\|//g;
-	    $word = $_;
-	}
-	
-	$newline = "$newline$word ";
-    }
-    return $newline;
-}
-
-sub closeallstates(){
-    my($retStr, $count);
-
-    $retStr = "";
-    for($count = length($stylestate) - 1; $count > -1; $count--){
-	$retStr = $retStr . 
-	    closestate(substr($stylestate, $count, 1));
-    }
-    
-    $stylestate = "";
-    return $retStr;
-}
-
-sub closestate(){
-    my($state) = @_;
-
-    if($state eq "I"){
-	return "<\/emphasis>";
-    }
-    elsif($state eq "B"){
-	return "<\/keycap>";
-    }
-    elsif($state eq "b"){
-	return "<\/command>";
-    }
-    elsif($state eq "W"){
-	return "<\/emphasis>";
-    }
-    elsif($state eq "c"){
-	return "<\/command>";
-    }
-    else{
-	return "";
     }
 }
