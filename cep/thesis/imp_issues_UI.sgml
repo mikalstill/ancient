@@ -4,8 +4,7 @@
 
 <sect3><title>Introduction</title>
 <para>
-The <command>GDMS</command> user interface is the most prominent part of the application as it is the principal way in which the 
-user experiences the application. The <command>GDMS</command> currently supports two user interface variants:
+The <command>GDMS</command> user interface is the most prominent part of the application. It is the main way in which the user experiences the application. <command>GDMS</command> currently supports two user interface variants:
 </para>
 
 <itemizedlist>
@@ -14,23 +13,18 @@ user experiences the application. The <command>GDMS</command> currently supports
 </itemizedlist>
 
 <para>
-This section will deal primarily with the research undertaken for implementing the X windows user interface. This is not 
-only due to the fact that the scale of implementation required was much greater for this variant, however, also because 
-there were many alternatives available.
+This section will deal primarily with the research undertaken for implementing the X windows user interface. This is not only due to the fact that the scale of implementation required was much greater for this variant, however, also because there were many more alternatives available.
 </para>
 </sect3> <!--Introduction-->
 
 <sect3><title>Graphical user interface</title>
 <para>
-There are a large number of graphical user interface toolkits available today, each with their strengths and weaknesses. This
-section looks at the options considered, followed by a discussion of why <emphasis>wxWindows</emphasis> was selected.
+There are a plethora graphical user interface toolkits available today. As each has it's advantages, a small survey of the options considered, and then a discussion of why <emphasis>wxWindows</emphasis> was selected is appropriate.
 </para>
 
 <sect4><title>CDE</title>
 <para>
-The Common Desktop Environment (CDE) was jointly developed by Hewlett-Packard, IBM, Novell and Sun Microsystems. These 
-companies have subsequently adopted CDE as the standard window manager as the standard graphical user interface on their
-various operating systems (Chapman 2002). CDE uses the Motif windowing toolkit.
+The Common Desktop Environment (CDE) was jointly developed by Hewlett-Packard, IBM, Novell and Sun Microsystems. These companies have subsequently adopted CDE as the standard window manager as shipped on a variety of their various operating systems (Chapman 2002). CDE uses the Motif windowing toolkit.
 </para>
 
 <figure><title>Sun Microsystem's default CDE configuration (Chapman 2002)</title>
@@ -39,10 +33,9 @@ various operating systems (Chapman 2002). CDE uses the Motif windowing toolkit.
 
 </sect4>
 
-<sect4><title>KDE</title>
+<sect4><title>CDE</title>
 <para>
-KDE development started in October 1996 (KDE 2002), as a replacement for Sun's CDE. KDE is based on Trolltech's qt 
-widget set (Trolltech 2002). KDE is available as an installation option on the majority of the Linux distributions available.
+KDE development started in October 1996 (KDE 2002), as a replacement for Sun's CDE. KDE is based on Trolltech's qt widget set (Trolltech 2002). KDE is available as an installation option on the majority of the Linux distributions available.
 </para>
 
 <figure><title>The default KDE theme, Konquerer (KDE 2002)</title>
@@ -52,14 +45,11 @@ widget set (Trolltech 2002). KDE is available as an installation option on the m
 
 <sect4><title>Gnome</title>
 <para>
-Gnome is the default window manager and windowing toolkit set for Red Hat Linux, which the Survey Lab at the University 
-of Canberra makes extensive use of. Gnome is implemented using the GTK windowing 
-toolkit (GTK 2002).
+Gnome is the default window manager and windowing toolkit set for the majority of Linux distributions, including Linux, which the Survey Lab at the University of Canberra makes extensive use of. Gnome is implemented using the GTK windowing toolkit (GTK 2002).
 </para>
 
 <para>
-Sun Microsystems have recently announced that from the release of Solaris 8, Gnome will be available as a window manager. They 
-have also announce that CDE will be replaced with Gnome in future releases (Sun Microsystems 2002).
+Sun Microsystems have recently announced that from Solaris 8 on wards, Gnome will be available as a window manager. They have also announce that CDE will be replaced with Gnome in future releases (Sun Microsystems 2002).
 </para>
 
 <figure><title>The Solaris version of the GNOME desktop (Gnome 2002)</title>
@@ -133,11 +123,11 @@ There are two common implementation methodologies for scripting languages. Both 
 
 <para>
 In this example, two tokens are defined, VERSION, and FP. The syntax for these specifications is relatively simple. The first field, which is wrapped in angled brackets, is the name of the state that the specification should be used in. All of the examples shown here are for the default state, known as INITIAL (Levin, Mason &amp; Brown 1990). What follows this is a posix compliant regular expression to be matched. Finally, within the braces lies C code to execute when a match occurs.
-In each of these examples, the C code writes a log entry for the match, sets up the data structure symbolizing the match, and then returns the name of the lexical token which was matched.
+In each of these examples, the C code writes a log entry for the match, sets up the data structure symbolizing the match, and then returns the name of the lexicial token which was matched.
 </para>
 
 <para>
-<command>Yacc</command> and <command>bison</command> define the grammar which uses the tokens defined by <command>lex</command> or <command>flex</command>. In effect, this defines valid orders for the tokens to appear in, and what operations should be performed when a set of tokens is matched. Error handling for undefined token combinations is also supplied by the grammar. This is done through the use of hooks for reporting to the user in a manner which is appropriate to that particular application.
+<command>Yacc</command> and <command>bison</command> define the grammer which uses the tokens defined by <command>lex</command> or <command>flex</command>. In effect, this defines valid orders for the tokens to appear in, and what operations should be performed when a set of tokens is matched. Error handling for undefined token combinations is also supplied by the grammar. This is done through the use of hooks for reporting to the user in a manner which is appropriate to that particular application.
 </para>
 
 <para>
@@ -164,43 +154,30 @@ A grammar consists of three building blocks. Each of the tokens which can be ret
 </para>
 
 <para>
-This grammar defines a language in which a SQL statement can consist of either a <emphasis>create</emphasis>, an 
-<emphasis>insert</emphasis>, or a <emphasis>select</emphasis> statement, as shown by the SQL production. The empty 
-non-terminal on the SQL production ensures that an end of file or empty line is also matched.
-It should also be noted that the SQL production is recursive, except for the case which matches the empty line or end of 
-file.
-</para>
-
-<para>
-TODO C++ integration issues
+This grammar defines a language in which a SQL statement can consist of either a <emphasis>create</emphasis>, an <emphasis>insert</emphasis>, or a <emphasis>select</emphasis> statement, as shown by the SQL production. The empty non-terminal on the SQL production ensures that an end of file or empty line is also matched.
+It should also be noted that the SQL production is recursive, except for this case which matches the empty line or end of file.
 </para>
 </sect4>
 
 <sect4><title>Hand coded parsers</title>
 <para>
-The alternative to using the compiler construction tools is to develop a language parser by hand. Depending on the complexity 
-of the grammar to be implemented, this can be quite a realistic alternative. On the other hand, if the grammar is complex, 
-then it can rapidly escalate into task of much larger scale, comparable to that of the rest of the application.
-The grammar for the scripting language implemented by the batch version of <command>GDMS</command> is relatively simple,
-in that all commands are parsed based on only one line, and no recursion within productions is required. Therefore, the
-creation of a purpose built parser was seen as a viable option.
+The alternative to using the compiler construction tools is to develop a language parser by hand. Depending on the complexity of the grammar to be implemented, this can be quite a realistic alternative. On the other hand, if the grammar is complex, then it can rapdily escalate into task of much larger scale, comparible to that of the rest of the application.
+This option was found to be the most suitable for the <command>GDMS</command>. The grammar for the scripting language implemented by the batch version of <command>GDMS</command> is relatively simple,
+in that all commands are parsed based on only one line, and no recursion within productions is required.
 </para>
 </sect4>
 </sect3>
 
   <sect3><title>Implementation</title>
   <para>
-       - How was it done?
-       - Speed/ Optimisations
+As mentioned earlier in this section, the graphical user interface to <command>GDMS</command> was implemented using the wxWindows windowing toolkit. The batch user interface was developed using a hand coded parser written in c++. This has maximised the amount of design flexibility enjoyed by the development team, whilst minimizing the amount of unnessary code development.
   </para>      
   </sect3> <!--Implementation-->
   
 <sect3><title>Integration</title>
 <para>
-A significant portion of the <command>GDMS</command> user interface development was integrating the various classes and 
-features with the graphical user interface.
-  This integration has been facilitated by a standard process for integrating mathematical functionality. The process is 
-  as follows:
+A significant portion of the <command>GDMS</command> user interface development was integrating the various classes and features with the graphical user interface.
+  This integration has been facilitaded by a standard process for integrating mathematical functionality. The process is as follows:
 </para>
 
 <itemizedlist>
@@ -214,34 +191,29 @@ features with the graphical user interface.
       and hence a new tab in the main application window. This has several advantages, including:-
         <itemizedlist>
           <listitem><para>Facilitating the implementation of the batch interface to the application.</para></listitem>
-          <listitem><para>Allowing ease of comparison of the dataset before and after the application of the mathematical 
-	  operation</para></listitem>
+          <listitem><para>Allowing ease of comparison of the dataset before and after the application of the mathematical operation</para></listitem>
         </itemizedlist>
     </para>
   </listitem>
 </itemizedlist>
 
 <para>
-Further documentation of the actual functionality available in the <command>GDMS</command> application is available in the 
-user manual.
+Further documentation of the actual functionality available in the <command>GDMS</command> application is available in the user manual.
 </para>
 </sect3> <!--Integration-->
 
 
 <sect3><title>Future Enhancements</title>
 <para>
-Whilst the user interface for <command>GDMS</command> is fully functional, there are a variety of improvements which could 
-be made in the future. These include:
+Whilst the user interface for <command>GDMS</command> is fully functional, there are a variety of improvements which could be made in the future. These include:
 </para>
 
 <itemizedlist>
-<listitem><para><emphasis>Online help</emphasis>: the application does not currently provide any help in the user interface. 
-wxWindows supports the display of HTML files within windows, which would an efficient and standard method for the 
-implementation of online help within the application.</para></listitem>
-<listitem><para>TODO</para></listitem>
-<listitem><para>TODO</para></listitem>
-<listitem><para>TODO</para></listitem>
-<listitem><para>TODO</para></listitem>
+<listitem><para><emphasis>Online help</emphasis>: the application does not currently provide any help in the user interface. wxWindows supports the display of HTML files within windows, which would an efficient and standard method for the implementation of online help within the application.</para></listitem>
+<listitem><para><emphasis>Greater resiliance to errors</emphasis>: if an error is discovered, the application currently abandons all further processing on that dataset. This should be improved in the future, so that a failure will not stop all calculations.</para></listitem>
+<listitem><para><emphasis>Greater flexibility in the batch user interface</emphasis>: further research into what other commands should be implemented needs to be undertaken</para></listitem>
+<listitem><para><emphasis>The ability to determine the value of the nearest datapoint by hovering over it</emphasis>: this is required because it is hard to accurately hover over a datapoint with a mouse.</para></listitem>
+<listitem><para><emphasis>The ability to edit out points from the dataset</emphasis>: this should be integrated withe accurate hover functionality.</para></listitem>
 </itemizedlist>
 </sect3> <!--Future Enahncements-->
 
