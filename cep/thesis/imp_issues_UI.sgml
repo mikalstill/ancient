@@ -31,28 +31,31 @@ There are two common implementation methodologies for scripting languages. Both 
 </para>
 
 <para>
-<command>lex</command> and <command>flex</command> are parser generation tools. They take a lexical specification file, and generate a left associative (TODO CHECK) finite state machine for matching input strings. A sample of a lexical specification is shown below:
+<command>lex</command> and <command>flex</command> are parser generation tools. They take a lexical specification file, and generate a LALR finite state machine for matching input strings [Aho, Sethi &amp; Ullman 1986]. A sample of a lexical specification is shown below:
 </para>
 
 <programlisting>
-&lt;INITIAL&gt;\%PDF-[0-9]+\.[0-9]+    { debuglex(yytext, -1, "version");
-                                   yylval.sval.data = (char *) returnStr(yytext, -1);
-                                   yylval.sval.len = yyleng;
-                                   return VERSION;
-                                 }
+&lt;INITIAL&gt;\%PDF-[0-9]+\.[0-9]+    { 
+  debuglex(yytext, -1, "version");
+  yylval.sval.data = (char *) returnStr(yytext, -1);
+  yylval.sval.len = yyleng;
+  return VERSION;
+  }
 
-&lt;INITIAL&gt;[+-]?[0-9]+\.[0-9]+     { debuglex(yytext, -1, "floating point");
-                                   yylval.sval.data = (char *) returnStr(yytext, yyleng);
-                                   yylval.sval.len = yyleng; 
-                                   return FP; 
-                                 }
+&lt;INITIAL&gt;[+-]?[0-9]+\.[0-9]+     { 
+  debuglex(yytext, -1, "floating point");
+  yylval.sval.data = (char *) returnStr(yytext, yyleng);
+  yylval.sval.len = yyleng; 
+  return FP; 
+  }
 
-&lt;INITIAL&gt;[+-]?[0-9]+\.[0-9]+\&gt;\&gt; { debuglex(yytext, -1, "floating point");
-                                   yyless(yyleng - 2);
-                                   yylval.sval.data = (char *) returnStr(yytext, yyleng);
-                                   yylval.sval.len = yyleng;
-                                   return FP;
-                                 } 
+&lt;INITIAL&gt;[+-]?[0-9]+\.[0-9]+\&gt;\&gt; { 
+  debuglex(yytext, -1, "floating point");
+  yyless(yyleng - 2);
+  yylval.sval.data = (char *) returnStr(yytext, yyleng);
+  yylval.sval.len = yyleng;
+  return FP;
+  } 
 </programlisting>
 
 <para>
@@ -72,7 +75,17 @@ A sample grammar specification is as follows:
 </para>
 
 <programlisting>
+sql      : create sql | insert sql | sel sql | alt sql | upd sql
+         |
+         ;
 
+create   : CREATE TABLE STRING '(' colvalspec ')' ';' {} 
+         ;
+
+insert   : INSERT INTO STRING '(' colvalspec ')' VALUES '(' colvalspec ')' ';' {}
+         ;
+
+sel      : SELECT cvsaster FROM STRING {} wsel ';' {}
 </programlisting>
 </sect4>
 
