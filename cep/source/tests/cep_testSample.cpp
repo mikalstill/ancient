@@ -37,11 +37,14 @@
  *     void tearDown( void ) { ... }
  *
  * @author <your name here>
- * @version $Revision: 1.2 $ $Date: 2002-08-04 04:55:44 $
+ * @version $Revision: 1.3 $ $Date: 2002-08-09 14:27:14 $
  *
  * Revision History
  *
  * $Log: not supported by cvs2svn $
+ * Revision 1.2  2002/08/04 04:55:44  u982087
+ * Added numerous tests to demonstrate the use of each type of assertion
+ *
  * Revision 1.1  2002/08/04 04:05:26  u982087
  * tools to build the tests and a sample test
  *
@@ -144,7 +147,7 @@ protected:
 
   void sampleTestFail () {
     // Fails with the specified message.
-    CPPUNIT_FAIL( "this test is doing as it is told and failing!" );
+    // CPPUNIT_FAIL( "this test is doing as it is told and failing!" );
   }
 
 }; // end Test
