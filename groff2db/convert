@@ -11,14 +11,16 @@
 # Email address are note properly identified
 # Bold is also an emphasis at the moment
 # And R'ing of text
+# Table formatting
 
 use strict;
 my($INPUT, $OUTPUT);
-my($parastate, $liststate, $listitemstate, $footnotestate, $sectionstate, $italicstate, $displaystate, $emailstate, $boldstate, $rstate);
+my($parastate, $liststate, $listitemstate, $footnotestate, $sectionstate, $tablestate, $stylestate, $displaystate);
 my($length);
-my($chapters, $chapter, $chaptercount);
+my($chapters, $chapter, $chaptercount, $temp);
 
-$chapters = "introduction.mm concepts.mm evolution.mm quickinstall.mm shareinstall.mm install.mm xsetup.mm postinstall.mm ports.mm problems.mm xtheory.mm unixref.mm starting.mm filesys.mm disks.mm tapes.mm printers.mm desktop.mm building.mm current.mm emulate.mm netintro.mm netsetup.mm isp.mm modems.mm ppp.mm slip.mm dns.mm firewall.mm netdebug.mm nfs.mm netbasics.mm email.mm www.mm fax.mm micronet.mm mobile.mm";
+#$chapters = "introduction.mm concepts.mm evolution.mm quickinstall.mm shareinstall.mm install.mm xsetup.mm postinstall.mm ports.mm problems.mm xtheory.mm unixref.mm starting.mm filesys.mm disks.mm tapes.mm printers.mm desktop.mm building.mm current.mm emulate.mm netintro.mm netsetup.mm isp.mm modems.mm ppp.mm slip.mm dns.mm firewall.mm netdebug.mm nfs.mm netbasics.mm email.mm www.mm fax.mm micronet.mm mobile.mm";
+$chapters = "filesys.mm";
 
 $chaptercount;
 
@@ -42,18 +44,14 @@ foreach $chapter (split(/ /, $chapters)){
     $parastate = 0;
     $footnotestate = 0;
     $sectionstate = 0;
-    $italicstate = 0;
+    $tablestate = 0;
     $displaystate = 0;
-    $emailstate = 0;
-    $boldstate = 0;
-    $rstate = 0;
+    $stylestate = "";
     
     # For each line in the file...
     while(<INPUT>){
 #	print OUTPUT "LlPFSIDE $liststate$listitemstate$parastate$footnotestate$sectionstate$italicstate$displaystate$emailstate\n";
 
-	# We run some little conversion rules to deal with things like italics et al
-	
 	# Ampersands
 	s/&/&amp;/g;
 
@@ -65,113 +63,11 @@ foreach $chapter (split(/ /, $chapters)){
 
 	# Footnote thingie we don't use
 	s/\\\*F//g;
-	
-	# Italics
-	$length = length $_;
-	s/\\fI/<emphasis>/g;
-	if($length != length($_)){
-	    $italicstate++;
-	    dblog($OUTPUT, "DBLOG: Turned italic state on ($italicstate)\n");
-	}
 
-   	$length = length $_;
-	s/\\f\(CB/<emphasis>/g;
-	if($length != length($_)){
-	    $italicstate++;
-	    dblog($OUTPUT, "DBLOG: Turned italic state on ($italicstate)\n");
-	}
-
-	if($italicstate > 0){
-	    $length = length($_);
-	    s/\\fP[^ \t,.]*/<\/emphasis>/g;
-	    if($length != length($_)){
-		$italicstate--;
-	    }
-	    else{
-		s/\\fR[^ \t,.]*/<\/emphasis>/g;
-		if($length != length($_)){
-		    $italicstate--;
-		}
-	    }
-	}
-
-	# Email addresses
-	$length = length $_;
-	s/\\f\(CW/<emphasis>/g;
-	if($length != length($_)){
-	    $emailstate++;
-	}
-	
-	if($emailstate > 0){
-	    $length = length($_);
-	    s/\\fP[^ \t,.]*/<\/emphasis>/g;
-	    if($length != length($_)){
-		$emailstate--;
-	    }
-	    else{
-		s/\\fR[^ \t,.]*/<\/emphasis>/g;
-		if($length != length($_)){
-		    $emailstate--;
-		}
-	    }
-	}
-
-	# Bolded text
-	$length = length $_;
-	s/\\fB/<emphasis>/g;
-	if($length != length($_)){
-	    $boldstate++;
-	    dblog($OUTPUT, "DBLOG: Turned italic state on ($italicstate)\n");
-	}
-
-   	$length = length $_;
-	s/\\f\(CB/<emphasis>/g;
-	if($length != length($_)){
-	    $boldstate++;
-	    dblog($OUTPUT, "DBLOG: Turned italic state on ($italicstate)\n");
-	}
-
-	if($boldstate > 0){
-	    $length = length($_);
-	    s/\\fP[^ \t,.]*/<\/emphasis>/g;
-	    if($length != length($_)){
-		$boldstate--;
-	    }
-	    else{
-		s/\\fR[^ \t,.]*/<\/emphasis>/g;
-		if($length != length($_)){
-		    $boldstate--;
-		}
-	    }
-	}
-
-	# R'ed text
-	$length = length $_;
-	s/\\fR/<emphasis>/g;
-	if($length != length($_)){
-	    $rstate++;
-	    dblog($OUTPUT, "DBLOG: Turned italic state on ($italicstate)\n");
-	}
-
-   	$length = length $_;
-	s/\\f\(CR/<emphasis>/g;
-	if($length != length($_)){
-	    $rstate++;
-	    dblog($OUTPUT, "DBLOG: Turned italic state on ($italicstate)\n");
-	}
-
-	if($rstate > 0){
-	    $length = length($_);
-	    s/\\fP[^ \t,.]*/<\/emphasis>/g;
-	    if($length != length($_)){
-		$rstate--;
-	    }
-	    else{
-		s/\\fR[^ \t,.]*/<\/emphasis>/g;
-		if($length != length($_)){
-		    $rstate--;
-		}
-	    }
+	# We run some little conversion rules to deal with things like italics et al
+	if($displaystate == 0){
+	    $temp = processstyles($_);
+	    $_ = $temp;	
 	}
 
 	# Prompts
@@ -193,8 +89,8 @@ foreach $chapter (split(/ /, $chapters)){
 	    $parastate++;
 	}
 	
-	# Display start
-	elsif(/^\.DS(.*)/i){
+	# Display start -- is case sensitive
+	elsif(/^\.DS(.*)/){
 	    $parastate = endpara($parastate, $OUTPUT);
 	    print OUTPUT "<screen>\n";
 	    $displaystate = 1;
@@ -226,7 +122,7 @@ foreach $chapter (split(/ /, $chapters)){
 	# Footnote end
 	elsif(/^\.FE[ \t]*(.*)/i){
 	    if($footnotestate == 0){
-		dblog($OUTPUT, "DBLOG: Footnote end for a non-open footnote!\n");
+		dblog("{DBLOG: Footnote end for a non-open footnote!}");
 	    }
 	    
 	    $parastate = endpara($parastate, $OUTPUT);
@@ -280,7 +176,7 @@ foreach $chapter (split(/ /, $chapters)){
 	# List item
 	elsif(/^\.LI(.*)/i){
 	    if($liststate == 0){
-		dblog($OUTPUT, "DBLOG: List item for a non-open list!\n");
+		dblog("{DBLOG: List item for a non-open list!}");
 	    }
 	    
 	    $parastate = endpara($parastate, $OUTPUT);
@@ -296,7 +192,7 @@ foreach $chapter (split(/ /, $chapters)){
 	# List end
 	elsif(/^\.LE(.*)/i){
 	    if($liststate == 0){
-		dblog($OUTPUT, "DBLOG: List end for a non-open list!\n");
+		dblog("{DBLOG: List end for a non-open list!}");
 	    }
 	    
 	    $parastate = endpara($parastate, $OUTPUT);
@@ -314,11 +210,11 @@ foreach $chapter (split(/ /, $chapters)){
 		print OUTPUT "<itemizedlist>\n";
 	    }
 	    $liststate--;
-	    dblog($OUTPUT, "DEBUG DBLOG: listlevel = $liststate\n");
+	    dblog("{DEBUG DBLOG: listlevel = $liststate}");
 	    $listitemstate = 0;
 
 	    if($liststate < 0){
-		dblog($OUTPUT, "DBLOG: Negative list state entered\n");
+		dblog("{DBLOG: Negative list state entered}");
 	    }
 	}
 	
@@ -364,7 +260,7 @@ foreach $chapter (split(/ /, $chapters)){
 	
 	# We don't know anything about this command at all
 	elsif(/^\.(.*)/i){
-	    dblog($OUTPUT, "DBLOG: DEFAULT COMMAND FOUND: $1\n");
+	    dblog("{DBLOG: DEFAULT COMMAND FOUND: $1}");
 	}
 	
 	# A document line?
@@ -376,15 +272,15 @@ foreach $chapter (split(/ /, $chapters)){
     $parastate = endpara($parastate, $OUTPUT);
     
     if($liststate == 1){
-	dblog($OUTPUT, "DBLOG: Not closed list at end of document!\n");
+	dblog("{DBLOG: Not closed list at end of document!}");
     }
     
     if($footnotestate == 1){
-	dblog($OUTPUT, "DBLOG: Not closed footnote at end of document!\n");
+	dblog("{DBLOG: Not closed footnote at end of document!}");
     }
     
     if($sectionstate == 1){
-	dblog($OUTPUT, "DBLOG: Not closed section at end of document (closed)!\n");
+	dblog("{DBLOG: Not closed section at end of document (closed)!}");
 	print OUTPUT "</section>";
     }
     
@@ -404,14 +300,119 @@ sub endpara(){
 	$ps--;
     }
     else{
-	dblog($OUTPUT, "DBLOG: Chose not to close para here (parastate is $ps)\n");
+	dblog("{DBLOG: Chose not to close para here (parastate is $ps)}");
     }
 
     return $ps;
 }
 
-sub dblog(){
-    my($OUTPUT, $string) = @_;
+sub processstyles(){
+    my($line) = @_;
+    my($newline, $word, $retStr, $count);
+    
+    $newline = "";
 
+    foreach $word (split(/ /, $line)){
+	$_ = $word;
+	if(/^(.*)\\fB(.*)/){
+	    if($1 eq ""){
+		$word = "<command>$2";
+	    }
+	    else{
+		$word = "$1<command>$2";
+	    }
+	    $stylestate = "$stylestate" . "B";
+	}
+	
+	$_ = $word;
+	if(/^(.*)\\fI(.*)/){
+	    if($1 eq ""){
+		$word = "<emphasis>$2";
+	    }
+	    else{
+		$word = "$1<emphasis>$2";
+	    }
+	    $stylestate = "$stylestate" . "I";
+	}
+
+	$_ = $word;
+	if(/^(.*)\\f\(CW(.*)/){
+	    if($1 eq ""){
+		$word = "<emphasis>$2";
+	    }
+	    else{
+		$word = "$1<emphasis>$2";
+	    }
+	    $stylestate = "$stylestate" . "W";
+	}
+
+	$_ = $word;
+	if(/^(.*)\\f\(CB(.*)/){
+	    if($1 eq ""){
+		$word = "<command>$2";
+	    }
+	    else{
+		$word = "$1<command>$2";
+	    }
+	    $stylestate = "$stylestate" . "b";
+	}
+
+	$_ = $word;
+	if(/^(.*)\\f([RP])(.*)/){
+	    dblog("{$stylestate}");
+
+	    if($2 eq "R"){
+		for($count = length($stylestate) - 1; $count > -1; $count--){
+		    closestate(substr($stylestate, $count, 1));
+	       
+		    if($1 eq ""){
+			$word = "$retStr$3";
+		    }
+		    else{
+			$word = "$1$retStr$3";
+		    }
+		}
+		$stylestate = "";
+	    }
+	    else{
+		$retStr = closestate(substr($stylestate, length($stylestate) - 1, 1));
+		if($1 eq ""){
+		    $word = "$retStr$3";
+		}
+		else{
+		    $word = "$1$retStr$3";
+		}
+		$stylestate =~ s/[A-Za-z]$//;
+	    }
+	}
+
+	$newline = "$newline$word ";
+    }
+    return $newline;
+}
+
+sub closestate(){
+    my($state) = @_;
+
+    if($state eq "I"){
+	return "<\/emphasis>";
+    }
+    elsif($state eq "B"){
+	return "<\/command>";
+    }
+    elsif($state eq "b"){
+	return "<\/command>";
+    }
+    elsif($state eq "W"){
+	return "<\/emphasis>";
+    }
+    else{
+	print "No state closed\n";
+	return "";
+    }
+}
+
+sub dblog(){
+    my($string) = @_;
 #    print OUTPUT $string;
 }
