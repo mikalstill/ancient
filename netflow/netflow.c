@@ -17,8 +17,8 @@
 
 #define TABLESIZE 100
 
-void netmon();
-void cleanup(void);
+void netmon ();
+void cleanup (void);
 
 pid_t pid;
 
@@ -28,35 +28,41 @@ typedef struct netflow_internal_conn
   char destination[6];
   unsigned long kbps;
   unsigned long packets;
-} netflow_conn;  
+}
+netflow_conn;
 
 int
 main (int argc, char **argv)
 {
-  switch(pid = fork()){
-  case -1:
-    fprintf(stderr, "Fork error\n");
-    exit(-1);
-      
-  case 0:
-    netmon();
-    break;
+  switch (pid = fork ())
+    {
+    case -1:
+      fprintf (stderr, "Fork error\n");
+      exit (-1);
 
-  default:
-    atexit(cleanup);
-    sleep(1000);
-    // ...
-    break;
-  }
+    case 0:
+      netmon ();
+      break;
+
+    default:
+      atexit (cleanup);
+      sleep (1000);
+      // ...
+      break;
+    }
 }
 
-void cleanup(){
-  printf("Killing network monitor thread\n");
-  kill(pid, SIGKILL);
-  printf("Done\n");
+void
+cleanup ()
+{
+  printf ("Killing network monitor thread\n");
+  kill (pid, SIGKILL);
+  printf ("Done\n");
 }
 
-void netmon(){
+void
+netmon ()
+{
   int i;
   char *dev = "eth1";
   char errbuf[PCAP_ERRBUF_SIZE];
@@ -90,94 +96,108 @@ void netmon(){
 
   // Initialise the connections
   seconds = 0;
-  for(i = 0; i < TABLESIZE; i++){
-    connections[i].kbps = 0;
-    connections[i].packets = 0;
+  for (i = 0; i < TABLESIZE; i++)
+    {
+      connections[i].kbps = 0;
+      connections[i].packets = 0;
     }
-  
+
   printf ("Listening on %s\n", dev);
-  while(1){
-    packet = pcap_next (descr, &hdr);
-    
-    if (packet == NULL)
-      {				/* dinna work *sob* */
-	printf ("Didn't grab packet\n");
-	exit (1);
-      }
-    
-    if(seconds + 10 < hdr.ts.tv_sec){
-      printf("------------------------------------------------------------\n");
-      for(i = 0; i < TABLESIZE; i++)
-	if(connections[i].kbps != 0){
-	  printf("%02x:%02x:%02x:%02x:%02x:%02x --> %02x:%02x:%02x:%02x:%02x:%02x (%d bytes, %d packets)\n",
-		 (unsigned char) connections[i].source[0], (unsigned char) connections[i].source[1],
-		 (unsigned char) connections[i].source[2], (unsigned char) connections[i].source[3],
-		 (unsigned char) connections[i].source[4], (unsigned char) connections[i].source[5],
-		 (unsigned char) connections[i].destination[0], (unsigned char) connections[i].destination[1],
-		 (unsigned char) connections[i].destination[2], (unsigned char) connections[i].destination[3],
-		 (unsigned char) connections[i].destination[4], (unsigned char) connections[i].destination[5],
-		 connections[i].kbps, connections[i].packets);
-	  connections[i].kbps = 0;
-	  connections[i].packets = 0;
+  while (1)
+    {
+      packet = pcap_next (descr, &hdr);
+
+      if (packet == NULL)
+	{			/* dinna work *sob* */
+	  printf ("Didn't grab packet\n");
+	  exit (1);
 	}
-      
-      seconds =  hdr.ts.tv_sec;
-    }
 
-    /* lets start with the ether header... */
-    eptr = (struct ether_header *) packet;
-    ptr = eptr->ether_shost;
-    i = ETHER_ADDR_LEN;
-    do
-      {
-	//	printf ("%s%02x", (i == ETHER_ADDR_LEN) ? "" : ":", *ptr++);
-      }
-    while (--i > 0);
-    //    printf(" to ");
-    
-    ptr = eptr->ether_dhost;
-    i = ETHER_ADDR_LEN;
-    do
-      {
-	//	printf ("%s%02x", (i == ETHER_ADDR_LEN) ? "" : ":", *ptr++);
-      }
-    while (--i > 0);
-    
-    //    printf(" %d bytes\n", hdr.len);
-    transSize = hdr.len + 26; // ignores ethernet frame padding up to min len of 64
+      if (seconds + 10 < hdr.ts.tv_sec)
+	{
+	  printf
+	    ("------------------------------------------------------------\n");
+	  for (i = 0; i < TABLESIZE; i++)
+	    if (connections[i].kbps != 0)
+	      {
+		printf
+		  ("%02x:%02x:%02x:%02x:%02x:%02x --> %02x:%02x:%02x:%02x:%02x:%02x (%d bytes, %d packets)\n",
+		   (unsigned char) connections[i].source[0],
+		   (unsigned char) connections[i].source[1],
+		   (unsigned char) connections[i].source[2],
+		   (unsigned char) connections[i].source[3],
+		   (unsigned char) connections[i].source[4],
+		   (unsigned char) connections[i].source[5],
+		   (unsigned char) connections[i].destination[0],
+		   (unsigned char) connections[i].destination[1],
+		   (unsigned char) connections[i].destination[2],
+		   (unsigned char) connections[i].destination[3],
+		   (unsigned char) connections[i].destination[4],
+		   (unsigned char) connections[i].destination[5],
+		   connections[i].kbps, connections[i].packets);
+		connections[i].kbps = 0;
+		connections[i].packets = 0;
+	      }
 
-    for(i = 0; i < TABLESIZE; i++){
-      if(memcmp(connections[i].source, eptr->ether_shost, 6) != 0)
-	goto next;
-      if(memcmp(connections[i].destination, eptr->ether_dhost, 6) != 0)
-	goto next;
-      
-      // We can store the value here
-      connections[i].kbps += transSize;
-      ++connections[i].packets;
-      goto done;
-      
+	  seconds = hdr.ts.tv_sec;
+	}
+
+      /* lets start with the ether header... */
+      eptr = (struct ether_header *) packet;
+      ptr = eptr->ether_shost;
+      i = ETHER_ADDR_LEN;
+      do
+	{
+	  //      printf ("%s%02x", (i == ETHER_ADDR_LEN) ? "" : ":", *ptr++);
+	}
+      while (--i > 0);
+      //    printf(" to ");
+
+      ptr = eptr->ether_dhost;
+      i = ETHER_ADDR_LEN;
+      do
+	{
+	  //      printf ("%s%02x", (i == ETHER_ADDR_LEN) ? "" : ":", *ptr++);
+	}
+      while (--i > 0);
+
+      //    printf(" %d bytes\n", hdr.len);
+      transSize = hdr.len + 26;	// ignores ethernet frame padding up to min len of 64
+
+      for (i = 0; i < TABLESIZE; i++)
+	{
+	  if (memcmp (connections[i].source, eptr->ether_shost, 6) != 0)
+	    goto next;
+	  if (memcmp (connections[i].destination, eptr->ether_dhost, 6) != 0)
+	    goto next;
+
+	  // We can store the value here
+	  connections[i].kbps += transSize;
+	  ++connections[i].packets;
+	  goto done;
+
+	  // Ugly but efficient
+	next:
+	}
+
+      // We didn't find a existing connection
+      for (i = 0; i < TABLESIZE; i++)
+	{
+	  if (connections[i].kbps != 0)
+	    goto newnext;
+
+	  // We can store the value here
+	  memcpy (connections[i].source, eptr->ether_shost, 6);
+	  memcpy (connections[i].destination, eptr->ether_dhost, 6);
+	  connections[i].kbps += transSize;
+	  ++connections[i].packets;
+	  goto done;
+
+	  // Ugly but efficient
+	newnext:
+	}
+
       // Ugly but efficient
-    next:
+    done:
     }
-    
-    // We didn't find a existing connection
-    for(i = 0; i < TABLESIZE; i++){
-      if(connections[i].kbps != 0)
-	goto newnext;
-      
-      // We can store the value here
-      memcpy(connections[i].source, eptr->ether_shost, 6);
-      memcpy(connections[i].destination, eptr->ether_dhost, 6);
-      connections[i].kbps += transSize;
-      ++connections[i].packets;
-      goto done;
-      
-      // Ugly but efficient
-    newnext:
-    }
-    
-    // Ugly but efficient
-  done:
-  }
 }
