@@ -303,6 +303,84 @@ convert -charcoal 10 input.jpg output.jpg
 <p>Charcoal intense.</p>
 
 
+
+
+
+<heading refname="" type="minor" toc="no" name="" alttoc="">Colorize</heading>
+
+<todo>
+<p>What is colorizing?</p>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing xxx. Applying a colorizing effect</heading>
+<code type="section">
+convert -colourize 255 input.jpg output.jpg
+</code>
+
+<figure>	
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure xxx. Uluru at sunset after a colorizing effect is applied</heading>
+<img src="colorize.jpg" width="640" height="480" alt="Uluru after a charcoal effect"/>
+</figure>
+
+
+
+
+
+
+<heading refname="" type="minor" toc="no" name="" alttoc="">Implode</heading>
+
+<todo>
+<p>Implode</p>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing xxx. Applying an imploding effect</heading>
+<code type="section">
+convert -implode 4 input.jpg output.jpg
+</code>
+
+<figure>	
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure xxx. Uluru at sunset after imploding</heading>
+<img src="implode.jpg" width="640" height="480" alt="Uluru after an implosion effect"/>
+</figure>
+
+
+
+<heading refname="" type="minor" toc="no" name="" alttoc="">Solarize</heading>
+
+<todo>
+<p>Solarize</p>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing xxx. Applying a solarizing effect</heading>
+<code type="section">
+convert -solarize 42 input.jpg output.jpg
+</code>
+
+<figure>	
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure xxx. Uluru at sunset after solarizing</heading>
+<img src="solarize.jpg" width="640" height="480" alt="Uluru after a solarization effect"/>
+</figure>
+
+
+
+
+
+<heading refname="" type="minor" toc="no" name="" alttoc="">Spread</heading>
+
+<todo>
+<p>Spread</p>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing xxx. Applying a spreading effect</heading>
+<code type="section">
+convert -spread 5 input.jpg output.jpg
+</code>
+
+<figure>	
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure xxx. Uluru at sunset after spreading</heading>
+<img src="spread.jpg" width="640" height="480" alt="Uluru after a spreading effect"/>
+</figure>
+
+
+
+
+
 <heading refname="" type="major" toc="yes" name="" alttoc="">Multiple commands in one imagemagick invocation</heading>
 
 <todo>
