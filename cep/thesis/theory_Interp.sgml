@@ -142,6 +142,7 @@
     methods used to assign the derivative of the end points. It is because of this reason
     that two cubic spline methods have been provided for this application.
   </para>
+  </sect3>
 
 
   <sect3><title>Natural Spline Interpolation</title>
@@ -203,8 +204,7 @@
     in peaks or troughs in the dataset.
   </para>
   </sect3>
-
-  </sect3>
+  
   <sect3><title>Newton Divided Difference Interpolation</title>
   <para>
     Mathematicians have long know that a nth order difference table can be used to accurately
