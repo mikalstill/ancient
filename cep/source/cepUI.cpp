@@ -82,7 +82,7 @@ MyApp::OnInit (void)
   // Create the main frame window
   frame =
     new MyFrame ((wxDocManager *) m_docManager, (wxFrame *) NULL,
-		 (const wxString) "CEPtor", wxPoint (0, 0), wxSize (1000, 700),
+		 (const wxString) "Techtonic Information Transform System", wxPoint (0, 0), wxSize (1000, 700),
 		 wxDEFAULT_FRAME_STYLE);
 
   // Give it an icon (this is ignored in MDI mode: uses resources)
@@ -123,6 +123,18 @@ MyApp::OnInit (void)
   frame->Show (TRUE);
 
   SetTopWindow (frame);
+
+  // Display tips on startup
+  // todo_mikal: make tips work
+  // todo_mikal: turn off startup tips sometimes
+  // todo_mikal: should the tips be stored in a tdb?
+  if ( 1 ) 
+    { 
+      //      wxTipProvider *tipProvider = wxCreateFileTipProvider("tips.txt", 0); 
+      //      wxShowTip(windowParent, tipProvider); 
+      //      delete tipProvider; 
+    }
+
   return TRUE;
 }
 
@@ -218,8 +230,8 @@ MyFrame::OnAbout (wxCommandEvent & WXUNUSED (event))
 {
   (void)
     wxMessageBox
-    ("CEPtor\n\nA GPS, VLBI and SLR dataset manipulation tool by\n\tMichael Still\n\tDaniel Fernandez\n\tBlake Swadling\n\tNick Wheatstone\n\tand Kristy Van Der Vlist\n\nPortions copyright: Julian Smart julian.smart@ukonline.co.uk\n\nReleased under the terms of the GNU GPL",
-     "About CEPtor");
+    ("Techtonic Information Transform System\n\nA GPS, VLBI and SLR dataset manipulation tool by\n\tMichael Still\n\tDaniel Fernandez\n\tBlake Swadling\n\tNick Wheatstone\n\tand Kristy Van Der Vlist\n\nPortions copyright: Julian Smart julian.smart@ukonline.co.uk\n\nReleased under the terms of the GNU GPL",
+     "About Techtonic Information Transform System");
 }
 
 // Creates a canvas. Called from view.cpp when a new drawing

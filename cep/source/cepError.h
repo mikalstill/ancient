@@ -43,6 +43,7 @@ public:
   bool isReal ();
   void display ();
   string getTitle();
+  int getIcon();
   
 private:
     string m_msg;

@@ -79,7 +79,8 @@ cepError::display ()
   if (m_msg != "")
     {
 #ifdef __WXGTK__
-      wxMessageBox(m_msg.c_str(), getTitle().c_str());
+      wxMessageBox(m_msg.c_str(), getTitle().c_str(), 
+		   wxOK | wxCENTRE | getIcon());
 #else
       cout << getTitle() << ": " << m_msg << endl;
 #endif
@@ -119,3 +120,34 @@ string cepError::getTitle()
       return "UNKNOWN ERROR LEVEL";
     }
 }
+
+int cepError::getIcon()
+{
+#ifdef __WXGTK__
+  switch (m_level)
+    {
+    case sevOk:
+      return 0;
+
+    case sevDebug:
+      return wxICON_QUESTION;
+      
+    case sevInformational:
+      return wxICON_INFORMATION;
+      
+    case sevWarning:
+      return wxICON_EXCLAMATION;
+      
+    case sevErrorRecoverable:
+      return wxICON_ERROR;
+      
+    case sevErrorFatal:
+      return wxICON_ERROR;
+      
+    default:
+      return wxICON_QUESTION;
+    }
+#endif
+
+  return 0;
+  }
