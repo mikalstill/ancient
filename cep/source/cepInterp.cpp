@@ -268,45 +268,55 @@ cepMatrix<double> cepInterp::dividedInterp(cepMatrix<double> & input,
 
 	// calculate first colum of divided differences table
 
+  cout << "Divided difference table\n";
 	diffs.push_back(new cepMatrix<double>(oldSize-1,1));
 	for (j = 0; j <= oldSize - 1; j++)
 	{
 		diffs[0]->setValue(j,0, (input.getValue(j+1,1)-input.getValue(j,1))/
 							(input.getValue(j+1,0) - input.getValue(j,0)));
+    cout << diffs[0]->getValue(j,0) << " ";
 	}
+  cout << '\n';
 	// calculate error approximation for first value
 	errorPos = (input.getValue(0,0)+input.getValue(1,0))*0.5;
-	errorMod = errorPos-input.getValue(0,0);
-	errors.push_back(errorMod * diffs[0]->getValue(0,0));
-
+	errorMod = (errorPos-input.getValue(0,0));
+	errors.push_back( errorMod * diffs[0]->getValue(0,0));
 
 
 	// calculate rest of divided differences table
 	for (i = 2; i < oldSize; i++)
 	{
+    double sum;
+    sum = 0.0;
 		order = i;
 		diffs.push_back(new cepMatrix<double> (oldSize-i,1));
 		for (j = 0; j <= oldSize - i; j++)
 		{
 			diffs[i-1]->setValue(j,0, (diffs[i-2]->getValue(j+1,0)-diffs[i-2]->getValue(j,0))/
-								(input.getValue(j+1,0) - input.getValue(j,0)));
+								(input.getValue(j+i,0) - input.getValue(j,0)));
+      sum += diffs[i-1]->getValue(j,0);
+      cout << diffs[i-1]->getValue(j,0) << " ";
 		}
+    cout << '\n';
+
 		// calculate error for order i-2 divided difference table
 		errorMod = errorMod * (errorPos - input.getValue(i-1,0));
 		errors.push_back(errorMod * diffs[i-1]->getValue(0,0));
 
 		// check error limits for early exit
-		if (errors[i-1] > errors[i-2])
+		if ((errors[i-1] > errors[i-2]) || (sum == 0))
 		{
 			// trigger exit from for loop
 			i = oldSize + 2;
 		}
 	}
+  cout << '\n';
 
-	//if (i > oldSize) // if divided difference table loop exited early
-	//{
-	//	order = order - 1; // decrease order of approx by 1
-	//}
+	if (i > oldSize) // if divided difference table loop exited early
+	{
+		order = order - 1; // decrease order of approx by 2
+    cout << "order: " << order << '\n';
+	}
 
 	int position = 0; // position on old timeline (input)
 	// loop to create table of answer values (timeScale(i,1)
@@ -315,18 +325,22 @@ cepMatrix<double> cepInterp::dividedInterp(cepMatrix<double> & input,
 	{
 		double tempValue;
 		tempValue = 1.0;
-		timeScale.setValue(i,1, input.getValue(position,0));
-		for (j = 1; j < order; j++)
+		if (inBounds(input, timeScale, position, i, newSize, oldSize))
+		{
+  		timeScale.setValue(i,1, input.getValue(position,1));
+    }
+		for (j = 0; j < order; j++)
 		{
 			if (inBounds(input, timeScale, position, i, newSize, oldSize))
 			{
-				tempValue = tempValue * (timeScale.getValue(i,0) - input.getValue(position,0));
-				timeScale.setValue(i,1, timeScale.getValue(i,1) + tempValue * diffs[j]->getValue(i,0));
+				tempValue *= (timeScale.getValue(i,0) - input.getValue(position + j,0));
+				timeScale.setValue(i,1, timeScale.getValue(i,1) + tempValue * diffs[j]->getValue(position,0));
 			}
 			else
 			{
 				for (int k = 0; k < order; k++)
 					delete diffs[k];
+          cout << "Out of range error!!!\n";
 			  // give error once I know how
 				return timeScale;
 			}
