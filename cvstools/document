@@ -2,7 +2,7 @@
 
 files="ABOUT README ChangeLog INSTALL AUTHORS NEWS"
 
-for item in `ls | grep -v COPYING | egrep -v ".sh$" | egrep -v "~$" | grep -v TODO`
+for item in `ls | grep -v COPYING | grep -v Copyright | egrep -v ".sh$" | egrep -v "~$" | grep -v TODO`
 do
   for file in $files
   do
