@@ -235,6 +235,12 @@ Both <command>Data::Dumper</command> and <command>genstruct</command> can do muc
 </para>
 </sect1>
 
+<sect1><title>Obtaining genstruct</title>
+<para>
+<command>genstruct</command> can be downloaded from Dr Tridgell's website at http://junkcode.samba.org
+</para>
+</sect1>
+
 <sect1><title>Response to the talk</title>
 <para>
 
