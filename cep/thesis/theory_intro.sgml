@@ -1,16 +1,47 @@
 <sect1><title>Background</title>
 
 <para>
-  This package is intended for use in the analysis of GPS <footnote><para>Global Positioning System</para></footnote>, VLBI
-  <footnote><para>Very Long Baseline Interferometry</para></footnote> and SLR <footnote><para>Satellite Laser Ranging</para></footnote> data on
-  tectonic movement. The data is extensive, covering around ten years of measurements from stations around the globe. The
-  GPS, VLBI, and SLR data have various anomalies due to their different vulnerabilies to conditions, such as delay due to the
-  ionosphere, temperature, and other considerations including projected stellite orbits.
+Time series analysis is by no means a new concept. Tests on the topic were printed as early as 1924.It was
+when the digital computer appeared that the momentum of this field increased dramatically. The FORTRAN programming
+language enabled complex mathematics to be written on a computer.Many routines and texts appeared around
+this time, with the focus applications being oil and space exploration. Further signifcant texts emerged from
+Australia in the sixties and seventies on Fourier analysis of time seires and its applications.
 </para>
 
 <para>
+Published works such as Numerical Recipes emerged, firstly in FORTRAN, then C and C++. This is accepted as
+the standarrd refernce today for Numerical Analysis algorithms and covers least squares analysis, interpolation,
+statistics and frequency analysis techniques. TSVIEW is a more recent example of a computerised
+package dealing time series analysis. It is a front end to MATLAB providing time series analysis in the time
+domain. It provides an intuitive, interactive graphical user interface to allow the analysis of the loaded data.
+</para>
+
+<para>
+The Massachissetts Institute of Technology (MIT) is an institution with significant influence in the area of time
+series analysis. It is also home to the GAMIT/GLOBK, a suite of programs developed at MIT for the analysis
+of GPS, VLBI and SLR data. A critical part of this software suite is the CVIEW module. Its features include the
+following:
+
+<orderedlist>
+<listitem><para>Selecting or spanning a region of points for closer ionspection, i.e. zooming.</para></listitem>
+<listitem><para>Display with various symbols data that is used in the solution, commonly involving data that does not correctly fit a particular model and is therefore unweighted.?????</para></listitem>
+<listitem><para>The ability to weight and unweight points.</para></listitem>
+<listitem><para>The ability to changes the value of any number of points.</para></listitem>
+<listitem><para>Allows the displacement of elementary statistics and regression coefficients.</para></listitem>
+<listitem><para>The testing of different processing strategies.</para></listitem>
+<listitem><para>A variable number of display windows open from1 to 10.</para></listitem>
+<listitem><para>Quick and flexible use of file pointers.</para></listitem>
+</orderedlist>
+
+</para>
+
+<para>
+  This package intends to provide as many of the above features as possible and more. The data set from the various
+  sources are extensive, covering around ten years of measurements from stations around the globe. The
+  GPS, VLBI, and SLR data have various anomalies due to their different vulnerabilies to conditions, such as delay due to the
+  ionosphere, temperature, and other considerations including projected stellite orbits.
   Various organisations around the world collect data from the aformentioned sources. This data provides information
-  regarding among other things, tectonic plate movement. This allows organisations to draw conclusions to the level
+  regarding among other things, tectonic plate movement. This allows conclusions to be drawn as to the level
   of continental drift, ocean levels, etc.
 </para>
 
@@ -22,20 +53,25 @@
   noise in the data. Before drawing any conlusions from the data, people need to be certain that they are dealing with only the necessary
   information.
   In order to extract the relavent information from the data, we need to perform various transformations on the data.
-  Some of the techniques employed during this data processing include, Least Squares regression, Fast Fourier
-  Transforms (FFT), Gabor transforms (specgrams) and Power Spectral Density plots (PSD).
+  Some useful techniques commonly used in this processing are, Least Squares regression, Fast Fourier
+  Transforms (FFT), Gabor transforms (specgrams), Guassian filters, and Power Spectral Density plots (PSD).
 </para>
 
 <para>
   It is at this point, that software becomes an important tool. It can be used to model certain situtations or remove unwanted data. For
-  example if a know malfunction was noted at a given time, the modelling process can deal with this event by perhaps removing the data,
+  example if a known euqipment malfunction was noted at a given time, the modelling process can deal with this event by perhaps removing the data,
   or applying we-weighting algorithms to the data etc.
 </para>
 
 <para>
-  In many cases with data analysis, there is a need to view different representions of the data, for example, in the Frequency Domain.
-  Once again, this may allow the identification of trend or patterns. What happens when the frequency of the monitoring decreases or
-  increases? Such questions can assist in more accurate and informed conlcusions as to what exactly the data is telling us.
+  This remainder of this document aims to provide a comprehensive insight in the theory behind these processing techniques
+  that have been employed in this project.Where appropriate alternative theories and algorithms are presented and compared.
+  The document moves on to the implementation of the aforementioned techiniques. Here we discuss the design methodology
+  used in the implementation, the implementation of the prototype, the implemetation of the specific algorithms and why they
+  were chosen, and of course issues that emerged in the overall process. A background on the testing approach is provided. As
+  projects increase in size, standardised testing procedures becomes paramount. Here we will discuss the apprpach used for
+  the various modules of the project. We could not close without providing an indication of where we believe this project stands
+  in the overall picture. We therefore discuss in each area, what improvements and enhancements we believe could be made in the various modules.
 </para>
 
 </sect1> <!--backgorund-->
