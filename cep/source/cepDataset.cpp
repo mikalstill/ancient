@@ -86,6 +86,8 @@ m_procHistory(procHistory), m_ready(true), m_wellformed(true)
     m_b2[1] = b2_1;
     m_b2[2] = b2_2;
 
+    cepDebugPrint("New dataset line of best fit: " + cepToString(haveLs0) + " " + cepToString(haveLs1) +
+		  " " + cepToString(haveLs2));
     m_haveLs[0] = haveLs0;
     m_haveLs[1] = haveLs1;
     m_haveLs[2] = haveLs2;
@@ -271,6 +273,7 @@ cepError cepDataset::read(const string & filename)
                     // This is a header / textual line -- perhaps it's
                     // even an offset line
                     // BS - todo. check if the tag for fourier domain is here !!!
+		    // See Mikal's comment below...
                     if (numLines == 1) {
                         cepStringArray sa(thisLine, " ");
 
@@ -283,7 +286,8 @@ cepError cepDataset::read(const string & filename)
                         // Well, then it must be a processing statement
                         // line
                         else if (i == 0) {
-                            m_procHistory = thisLine;
+			  // Blake, the FD tag will be here...
+			  m_procHistory = thisLine;
                         }
                     }
                 }
@@ -409,7 +413,14 @@ cepError cepDataset::write(const string & filename)
 
     for (int i = 0; i < 3; i++) {
         files[i] << m_procHistory << endl;
-        files[i] << m_header[i] << endl << endl;
+        files[i] << m_header[i];
+
+	if(m_haveLs[i]){
+	  cepDebugPrint("Saving the LS line of best fit");
+	  files[i] << " LSEqn " << m_b1[i] << " " << m_b2[i];
+	}
+	files[i] << endl << endl;
+
         cepDebugPrint("Writing dataset with offset of " + m_offset[i] +
                       " in direction " + cepToString(i));
         cout << "writing dataset to " << filename << endl;

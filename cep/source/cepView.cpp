@@ -569,6 +569,7 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
 	}
   
       // Now we can process the results of the LS regression (this includes popping up a new tab)
+      cepDebugPrint("Creating a dataset labelled as containing a line of best fit");
       cepDataset newds(&residuals[0], &residuals[1], &residuals[2], 
 		       theDataset->getOffset((cepDataset::direction) 0), 
 		       theDataset->getOffset((cepDataset::direction) 1), 
