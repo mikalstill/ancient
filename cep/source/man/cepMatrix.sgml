@@ -65,7 +65,6 @@
  &lt;para&gt;&lt;itemizedlist&gt;
  &lt;listitem&gt;&lt;para&gt;B:- the matrix to be added to the current matrix object&lt;/para&gt;&lt;/listitem&gt;
  &lt;/itemizedlist&gt;&lt;/para&gt;
- 
  &lt;/para&gt;
  
  &lt;para&gt; 
@@ -118,7 +117,6 @@
  &lt;para&gt;&lt;itemizedlist&gt;
  &lt;listitem&gt;&lt;para&gt;B:- the matrix to be compared to the current matrix object&lt;/para&gt;&lt;/listitem&gt;
  &lt;/itemizedlist&gt;&lt;/para&gt;
- 
  &lt;/para&gt;
  
  &lt;para&gt; 
@@ -128,8 +126,34 @@
  This function can not be used with 3D matricies.
  &lt;/para&gt;
  
+ &lt;para&gt;
+ &lt;command&gt;const T getMaxValue(int col)&lt;/command&gt;
+ Returns the largest value in a given  coloum.
+ &lt;para&gt;&lt;itemizedlist&gt;
+ &lt;listitem&gt;&lt;para&gt;col:- the coloum to be queried&lt;/para&gt;&lt;/listitem&gt;
+ &lt;/itemizedlist&gt;&lt;/para&gt;
+ &lt;/para&gt;
+ 
+ &lt;para&gt;
+ &lt;command&gt;const T getMinValue(int col)&lt;/command&gt;
+ Returns the smallest value in a given coloum
+ &lt;para&gt;&lt;itemizedlist&gt;
+ &lt;listitem&gt;&lt;para&gt;col:- the coloum to be queried&lt;/para&gt;&lt;/listitem&gt;
+ &lt;/itemizedlist&gt;&lt;/para&gt;
+ &lt;/para&gt;
+ 
+ &lt;para&gt;
+ &lt;command&gt;const cepMatrix&lt;T&gt; &amp; resize(int newRows)&lt;/command&gt;
+ Returns the current matrix which is resized by newRows number of rows. This
+ function can only make the number of rows in the matrix larger and can not be
+ used on 3D matricies
+ &lt;para&gt;&lt;itemizedlist&gt;
+ &lt;listitem&gt;&lt;para&gt;newRows:- the new number of rows the resized matrix is to have&lt;/para&gt;&lt;/listitem&gt;
+ &lt;/itemizedlist&gt;&lt;/para&gt;
+ &lt;/para&gt;
+ 
  &lt;para&gt; 
- &lt;command&gt;const T&amp; getValue (int row, int col) const&lt;/command&gt;
+ &lt;command&gt;const T&amp; getValue (int row, int col)&lt;/command&gt;
  Returns the value of the matrix the specified point.
  This function can not be used with 3D matricies.
  &lt;para&gt;&lt;itemizedlist&gt;
@@ -160,17 +184,17 @@
  &lt;/para&gt;
  
  &lt;para&gt; 
- &lt;command&gt;const int getNumRows () const&lt;/command&gt;
+ &lt;command&gt;const int getNumRows ()&lt;/command&gt;
  Gets the number of rows in the matrix.
  &lt;/para&gt;
  
  &lt;para&gt; 
- &lt;command&gt;const int getNumCols () const&lt;/command&gt;
+ &lt;command&gt;const int getNumCols ()&lt;/command&gt;
  Gets the number of colums in the matrix.
  &lt;/para&gt;
  
  &lt;para&gt; 
- &lt;command&gt;const T&amp; getValue (int row, int col, int tab) const&lt;/command&gt;
+ &lt;command&gt;const T&amp; getValue (int row, int col, int tab)/command&gt;
  Gets the value of a 3D matrix at a specfied point
  This function can not be used with 2D matricies.
  &lt;para&gt;&lt;itemizedlist&gt;
@@ -193,9 +217,17 @@
  &lt;/para&gt;
  
  &lt;para&gt; 
- &lt;command&gt;const int getNumTables() const&lt;/command&gt;
+ &lt;command&gt;const int getNumTables()&lt;/command&gt;
  Gets the number of tables in the matrix.
  This function can not be used with 2D matricies.
+ &lt;/para&gt;
+ 
+ &lt;para&gt;
+ &lt;command&gt;cepError getError()&lt;/command&gt;
+ Returns any error that may have occored whilst carrying out an of the operations
+ in this class. The error is returned as a cepError object.
+ 
+ SEEALSOcepError
  
 </para>
 </refsect1>

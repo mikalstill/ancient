@@ -61,12 +61,23 @@
  &lt;/para&gt;
  
  &lt;para&gt;
+ &lt;para&gt;
  &lt;command&gt;int getIsReweight()&lt;/command&gt;
  Get the value returned from the dialog box. Returns 1 for yes, 0 for no or -1
  for cancel.
  &lt;/para&gt;
  
  &lt;para&gt;
+ &lt;command&gt;void showWeight(double startDate, double endDate, double val)&lt;/command&gt;
+ Shows the "Weight Data" dialog box.
+ 
+ &lt;para&gt;&lt;itemizedlist&gt;
+ &lt;listitem&gt;&lt;para&gt;fromDate:- is a cepDate that contains the the defaut start date&lt;/para&gt;&lt;/listitem&gt;
+ &lt;listitem&gt;&lt;para&gt;toDate:- is a cepDate that contains the the defaut finish date&lt;/para&gt;&lt;/listitem&gt;
+ &lt;listitem&gt;&lt;para&gt;val:- is a double that contains the the defaut weight for the given points&lt;/para&gt;&lt;/listitem&gt;
+ &lt;/itemizedlist&gt;&lt;/para&gt;
+ &lt;/para&gt;
+ 
  &lt;command&gt;bool getWhichDir(char dir)&lt;/command&gt;
  Returns true if the given direction is selected, otherwise false is returned.
  &lt;para&gt;&lt;itemizedlist&gt;
@@ -84,6 +95,29 @@
  &lt;command&gt;string getfNameP()&lt;/command&gt;
  Returns the full path of the file selected for opening. If getFilename() returns
  "" the user has canceled this operation.
+ &lt;/para&gt;
+ 
+ &lt;para&gt;
+ &lt;command&gt;double getFromDate()&lt;/command&gt;
+ Returns the defined start date as a decimal date. If a value of -1 is returned
+ the specified date was invalid. If -2 is returned this action was canceled
+ &lt;/para&gt;
+ 
+ &lt;para&gt;
+ &lt;command&gt;double getToDate()&lt;/command&gt;
+ Returns the defined finished date as a decimal date. If a value of -1 is returned
+ the specified date was invalid. If -2 is returned this action was canceled
+ &lt;/para&gt;
+ 
+ &lt;para&gt;
+ &lt;command&gt;double getWeight()&lt;/command&gt;
+ Returns the defined weighting value. If a value of NAN is returned the entered
+ weighting value was invalid. If -2 is returned this action was canceled
+ &lt;/para&gt;
+ 
+ &lt;para&gt;
+ &lt;command&gt;bool getDoVCV()&lt;/command&gt;
+ Returns true if the VCV least squares transformation is to be prefomed now.
  
 </para>
 </refsect1>

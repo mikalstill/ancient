@@ -12,22 +12,20 @@
 
 <!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
 
-<refentry id="cepInterpShowRate">
+<refentry id="cepCanvas">
 <refmeta>
-<refentrytitle>cepInterpShowRate</refentrytitle>
+<refentrytitle>cepCanvas</refentrytitle>
 <manvolnum>3</manvolnum>
 </refmeta>
 
 <refnamediv>
-<refname>cepInterpShowRate</refname>
-<refpurpose>Displays the "Specify Sample Rate" dialog box for the Interpolation user interface</refpurpose>
+<refname>cepCanvas</refname>
+<refpurpose>owns all drawing to user visible areas</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv>
 <synopsis>
- The follwing is an example of how to create this object.
- 
- cepInterpShowRate sr;
+ #include&amp;lt;cepCanvas.h&amp;gt;
  
 
 </synopsis>
@@ -35,27 +33,20 @@
 
 <refsect1>
 <title>DESCRIPTION</title>
-<para> 
- An implementation of the &lt;command&gt;cepInterpShowRate&lt;/command&gt; class
- which displays a custom wxWindows dialog box.
- &lt;/para&gt;
+<para>Set the starting point for the sequence of curves and lines that it to be drawn on the current page. This call is compulsory for almost all of the line drawing functions. It is not required for the &lt;command&gt;panda_rectangle&lt;/command&gt; call.</para>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLE</title>
+<programlisting>
+ #include&amp;lt;libplot.h&amp;gt;
+ plot_state *graph;
  
- &lt;para&gt;
- &lt;command&gt;double getSample()&lt;/command&gt;
- Returns the specified sample rate. If a value of -1 is returned this operation
- has been canceled. If -2 is returned the value entered was invalid.
- &lt;/para&gt;
+ if((graph = plot_newplot(400, 300)) == NULL){
+ ... error ...
+ }
  
- &lt;para&gt;units getUnits()&lt;/command&gt;
- Returns the units selected as an enumated type. Units can be one of:-
- &lt;para&gt;&lt;itemizedlist&gt;
- &lt;listitem&gt;&lt;para&gt;Years&lt;/para&gt;&lt;/listitem&gt;
- &lt;listitem&gt;&lt;para&gt;Days&lt;/para&gt;&lt;/listitem&gt;
- &lt;listitem&gt;&lt;para&gt;Hours&lt;/para&gt;&lt;/listitem&gt;
- &lt;listitem&gt;&lt;para&gt;Unknowen&lt;/para&gt;&lt;/listitem&gt;
- &lt;/itemizedlist&gt;&lt;/para&gt;
- 
-</para>
+</programlisting>
 </refsect1>
 
 

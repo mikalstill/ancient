@@ -47,7 +47,8 @@
  
  &lt;para&gt;
  &lt;command&gt; double getSampleRate()&lt;/command&gt;
- Gets the sample rate selected by the user.
+ Gets the sample rate selected by the user. If a value of -1 is returned this operation
+ has been canceled. If -2 is returned the value entered was invalid.
  &lt;/para&gt;
  
  &lt;para&gt;

@@ -20,16 +20,34 @@
 
 <refnamediv>
 <refname>cepDate</refname>
-<refpurpose>Converts a decimal date in the format of YYYY.DDDD, in which 1 day is</refpurpose>
+<refpurpose>Converts a decimal date in the format of YYYY.DDDD, where YYYY is a four</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv>
 <synopsis>
- The follwing is an example of how to create a cepDate object.
+ To create a cepDate object to convert a decimal date to a Gregorian date use:-
  
  cepDate date(value);
  
- where value is the decimal date to be converted.
+ &lt;para&gt;&lt;itemizedlist&gt;
+ &lt;listitem&gt;&lt;para&gt;value:- The decimal value to be converted. It must be of the form
+ YYYY.DDDD where YYYY is the four digit year and DDDD is the decimal represenation
+ of the number of days into the year&lt;/para&gt;&lt;/listitem&gt;
+ &lt;/itemizedlist&gt;&lt;/para&gt;
+ 
+ To create a cepDate object to convert a Gregorian date to a decimal date use:-
+ 
+ cepDate date(day, month, year);
+ 
+ &lt;para&gt;&lt;itemizedlist&gt;
+ &lt;listitem&gt;&lt;para&gt;day:- interger value of the day of the month from 1..31&lt;/para&gt;&lt;/listitem&gt;
+ &lt;listitem&gt;&lt;para&gt;month:- the name of the month. This can be either Jan...Dec or
+ January...December&lt;/para&gt;&lt;/listitem&gt;
+ &lt;listitem&gt;&lt;para&gt;year:- interger value of the year&lt;/para&gt;&lt;/listitem&gt;
+ &lt;/itemizedlist&gt;&lt;/para&gt;
+ 
+ &lt;/para&gt;
+ 
  
 
 </synopsis>
@@ -38,17 +56,19 @@
 <refsect1>
 <title>DESCRIPTION</title>
 <para> An implementation of the &lt;command&gt;cepDate&lt;/command&gt; class
- converts a decimal date to a Gegorian date.
+ converts a decimal date to a Gegorian date or a Gregorian date to a decimal.
  &lt;/para&gt;
  
  &lt;para&gt;
  &lt;command&gt;const string getDay()&lt;/command&gt;
- returns day of month in the format of 01...31
+ returns day of month in the format of 01...31. A return value of -1 indicates
+ an error because the date entered was invalid.
  &lt;/para&gt;
  
  &lt;para&gt;
  &lt;command&gt;const string getMonth()&lt;/command&gt;
- returns month in the format of 01...12
+ returns month in the format of 01...12. A return value of -1 indicates
+ an error because the date entered was invalid.
  &lt;/para&gt;
  
  &lt;para&gt;
@@ -57,8 +77,14 @@
  &lt;/para&gt;
  
  &lt;para&gt;
+ &lt;command&gt;const string getShortMonthName()&lt;/command&gt;
+ returns month as a string in the format of Jan...Dec
+ &lt;/para&gt;
+ 
+ &lt;para&gt;
  &lt;command&gt;const string getYear()&lt;/command&gt;
- returns year in the format of YYYY
+ returns year in the format of YYYY. A return value of -1 indicates
+ an error because the date entered was invalid.
  &lt;/para&gt;
  
  &lt;para&gt;
@@ -69,6 +95,13 @@
  &lt;para&gt;
  &lt;command&gt;const string getLongDate()&lt;/command&gt;
  returns date in long date date in the format of DD MMMMMM YY
+ &lt;/para&gt;
+ 
+ &lt;para&gt;
+ &lt;command&gt;const string getDecimalDate()&lt;/command&gt;
+ returns the date as a decimal date in the form YYYY.DDDD. A return value of -1 indicates
+ an error because the date entered was invalid.
+ &lt;/para&gt;
  
 </para>
 </refsect1>

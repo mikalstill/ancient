@@ -80,9 +80,15 @@
  &lt;para&gt;
  &lt;command&gt;double getB2()&lt;/command&gt;
  Returns the value B2 in the solution y=B1*x +B2
+ &lt;/para&gt;
+ 
+ &lt;para&gt;
+ &lt;command&gt;cepError getError()&lt;/command&gt;
+ Returns any error that may have occoured
  
  SEEALSOcepDataset
  SEEALSOcepMatrix
+ SEEALSOcepError
  
 </para>
 </refsect1>

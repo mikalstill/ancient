@@ -43,13 +43,13 @@
  
  
  &lt;para&gt;
- &lt;command&gt;void showAttenuation()&lt;/command&gt;
- Show the "Specify attenuation" dialog box
+ command&gt;void showBandwidth()&lt;/command&gt;
+ Show the "Specify Bandwidth" dialog box
  &lt;/para&gt;
  
  &lt;para&gt;
- &lt;command&gt;void getAtteunation()&lt;/command&gt;
- Returns the specified attenuation
+ &lt;command&gt;void getBandwidth()&lt;/command&gt;
+ Returns the specified Bandwidth
  
 </para>
 </refsect1>
