@@ -46,15 +46,7 @@ int main(int argc, char *argv[])
   while (cinfo.output_scanline < cinfo.output_height)
     {
       jpeg_read_scanlines(&cinfo, buffer, 1);
-      memcpy(upto, buffer, cinfo.output_width * cinfo.output_components);
-      
-      {
-	int i, j;
-	for(i = 0; i < cinfo.output_width * cinfo.output_components; i++)
-	  printf("%02x ", upto[i]);
-	printf("\n\n");
-      }
-
+      memcpy(upto, *buffer, cinfo.output_width * cinfo.output_components);
       upto += cinfo.output_width * cinfo.output_components;
     }
 
