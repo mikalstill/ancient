@@ -30,7 +30,7 @@ The following acronyms are used throughout this document.
 <chapter id="ch01"><title>Introduction</title>
 <sect1><title>Motivation</title>
 <para>
-At the time that the <command>Geodetic Data Modeling System</command> (GDMS) implementation project was initiated, several of the potential users expressed a desire for the application to be available over the Internet. There are a variety of reasons that this type of functionality is enticing -- the main ones for GDMS are that it allows casual users to ability to analyse data, whilst not having to maintain their own copies of the datasets, and it allows users who would normally use the X windows interface to the application to access data whilst <quote>in the field</quote>, or otherwise physically separated from their normal research location.
+At the time that the <command>Geodetic Data Modeling System</command> (GDMS) implementation project was initiated, several of the potential users expressed a desire for the application to be available over the Internet. There are a variety of reasons that this type of functionality is enticing. The primary reason for GDMS is that it allows casual users to ability to analyse data, whilst not having to maintain their own copies of the datasets. A secondary reason is that it allows users who would normally use the X windows interface to the application to access data whilst <quote>in the field</quote>, or otherwise physically separated from their normal research location.
 </para>
 
 <para>
@@ -40,7 +40,7 @@ Initially, it was though that a Internet interface to GDMS was outside the achie
 
 <sect1><title>Outcome</title>
 <para>
-This document describes the design process and implementation of the GDMS Internet interface, and perl application intended to operate under the Common Gateway Interface (CGI) offered by most modern web servers. This application allows the online use of almost all of the functionality available under the X windows GDMS system.
+This document describes the design process and implementation of the GDMS Internet interface, and perl application intended to operate under the Common Gateway Interface (CGI) offered by most modern web servers, including Apache, which is the web server in use within the University of Canberra Survey Laboratory. This application allows the online use of almost all of the functionality available under the X windows GDMS system.
 </para>
 </sect1>
 </chapter>
