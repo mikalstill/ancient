@@ -1541,7 +1541,7 @@ usage (char *cmd, int exitamt)
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.21 2002-07-04 07:06:19 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.22 2002-07-05 11:36:50 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -1668,7 +1668,7 @@ Specify the percentage of the blue channel to use (default 11).
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.21 2002-07-04 07:06:19 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.22 2002-07-05 11:36:50 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -1911,7 +1911,7 @@ Matters are even worse for 4-, 2-, and 1-bit palette images.
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.21 2002-07-04 07:06:19 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.22 2002-07-05 11:36:50 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2031,7 +2031,7 @@ ImageWidth: 256 520
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.21 2002-07-04 07:06:19 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.22 2002-07-05 11:36:50 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2315,7 +2315,7 @@ the source file.)
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.21 2002-07-04 07:06:19 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.22 2002-07-05 11:36:50 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1990-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2497,7 +2497,7 @@ This image, after being pushed through <command>tiffdither</command> looks somet
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.21 2002-07-04 07:06:19 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.22 2002-07-05 11:36:50 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2628,7 +2628,7 @@ PlanarConfig (284) SHORT (3) 1&lt;1&gt;
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.21 2002-07-04 07:06:19 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.22 2002-07-05 11:36:50 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2973,7 +2973,7 @@ crashing old versions of the window manager.
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.21 2002-07-04 07:06:19 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.22 2002-07-05 11:36:50 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3155,7 +3155,7 @@ Strip 0:
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.21 2002-07-04 07:06:19 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.22 2002-07-05 11:36:50 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1990-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3312,7 +3312,7 @@ Heckbert, SIGGRAPH proceedings, 1982, pp. 297-307.
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.21 2002-07-04 07:06:19 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.22 2002-07-05 11:36:50 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1992-1997 Sam Leffler -->
 <!--  Copyright (c) 1992-1997 Silicon Graphics, Inc. -->
@@ -3408,7 +3408,7 @@ is used.
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.21 2002-07-04 07:06:19 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.22 2002-07-05 11:36:50 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -7867,7 +7867,7 @@ Portable Document Format (PDF) isn't strictly an image format. However, people a
 </para>
 
 <para>
-This chapter will focus on PDF 1.3, because that is the specification version which I am most familiar with at the moment.
+This chapter will focus on PDF 1.3 (second edition), because that is the specification version which I am most familiar with at the moment.
 </para>
 
 <sect1><title>Introduction</title>
@@ -7926,7 +7926,7 @@ There have been five versions of the PDF specification released at the time of w
 <listitem><para><emphasis>1.0</emphasis>: maps functionality available in Adobe Acrobat 1.0</para></listitem>
 <listitem><para><emphasis>1.1</emphasis>: maps functionality available in Adobe Acrobat 2.0</para></listitem>
 <listitem><para><emphasis>1.2</emphasis>: maps functionality available in Adobe Acrobat 3.0</para></listitem>
-<listitem><para><emphasis>1.3</emphasis>: maps functionality available in Adobe Acrobat 4.0</para></listitem>
+<listitem><para><emphasis>1.3 (both first and second editions)</emphasis>: maps functionality available in Adobe Acrobat 4.0</para></listitem>
 <listitem><para><emphasis>1.4</emphasis>: maps functionality available in Adobe Acrobat 5.0</para></listitem>
 </itemizedlist>
 
@@ -7973,9 +7973,13 @@ In the example object above, we had the following dictionary items...
 This dictionary specifies that the key <quote>Type</quote> has the value <quote>Catalog</quote>, and that the value <quote>Pages</quote> has the value <quote>2 0 R</quote>. This last value is an object reference, which we discuss in the Redirection section a little bit later in this chapter.
 </para>
 
+<sect3><title>Dictionary data types</title>
 <para>
 What data types are valid in dictionaries? Well, version 1.3 of the PDF specification names the following data types:
 </para>
+
+
+</sect3>
 
 <sect3><title>Minimal dictionaries</title>
 <para>
