@@ -98,6 +98,8 @@ public:
   static const string CONFIG_NAME_TYPE;
   static const string CONFIG_NAME_SIZE;
   static const string CONFIG_NAME_OVERLAP;
+ 
+  static int countWindows( int samples, int winSize, int overlap );
 
 protected:
   cepDataWindower();
@@ -107,7 +109,6 @@ protected:
   static int size;
   static int overlap;
   static cepWindow algType;
-  static int countWindows( int samples, int winSize, int overlap );
   
 };
 

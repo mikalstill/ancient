@@ -21,6 +21,7 @@
 #include "cepDataWindower.h"
 #include "cepWindowRect.h"
 #include "cepwindowhamming.h"
+#include "cepwindowhanning.h"
 #include "cepwindowblackman.h"
 #include "cepwindowchebyshev.h"
 #include "cepConfiguration.h"
@@ -96,28 +97,29 @@ const cepError cepDataWindower::setWindowType( const cepWindow &type, const int 
 //  cout << "<setWindowType>: " << type.toString() << ", size="<<size<<" overlap="<<overlap <<endl;
   
   if( type == WINDOW_RECTANGULAR ) {
-      delete windowAlg;
+      if( windowAlg != NULL ) delete windowAlg;
       windowAlg = new cepWindowRect( size );
       
   } else if( type == WINDOW_HAMMING ) {
-      delete windowAlg;
+      if( windowAlg != NULL ) delete windowAlg;
       windowAlg = new cepWindowHamming( size );
 
   } else if( type == WINDOW_HANNING ) {
-      delete windowAlg;
-      windowAlg = new cepWindowHamming( size );
+      if( windowAlg != NULL ) delete windowAlg;
+      windowAlg = new cepWindowHanning( size );
 
   } else if( type == WINDOW_BLACKMAN ) {
-      delete windowAlg;
+      if( windowAlg != NULL ) delete windowAlg;
       windowAlg = new cepWindowBlackman( size );
 
   } else if( type == WINDOW_CHEBYSHEV ) {
-      delete windowAlg;
+      if( windowAlg != NULL ) delete windowAlg;
       windowAlg = new cepWindowChebyshev( size );
       
   } else {
-      // leave the current settings alone and return an error
+      if( windowAlg != NULL ) delete windowAlg;
       algType = WINDOW_UNDEFINED;
+      // return here and leave the cnfig settings alone
       return cepError("unknown windowing algorithm. Set type failed", cepError::sevWarning);
   }
 
@@ -126,7 +128,7 @@ const cepError cepDataWindower::setWindowType( const cepWindow &type, const int 
   cepConfiguration::getInstance().setValue(CONFIG_NAME_OVERLAP.c_str(), overlap);
 
   return cepError();
-  
+
 }
 
 
