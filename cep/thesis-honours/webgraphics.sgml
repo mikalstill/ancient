@@ -54,11 +54,11 @@ The JPEG compression algorithm is lossy -- in other words, the act of compressin
 For example, JPEG compressing the following image results in the following output image:
 </para>
 
-<figure><title>A picture before we compressed it</title>
+<figure><title>A picture before JPEG compression</title>
 <execute><cmd>eqimg</cmd><args>tiff-figure4.jpg</args></execute>
 </figure>
 
-<figure><title>A picture after it has been recompressed 200 times</title>
+<figure><title>A picture after it has been JPEG compressed</title>
 <execute><cmd>eqimg</cmd><args>tiff-figure6.jpg</args></execute>
 </figure>
 
@@ -66,11 +66,11 @@ For example, JPEG compressing the following image results in the following outpu
 The effects are much worse with an image which contains text at small point sizes:
 </para>
 
-<figure><title>The sample text before we compressed it</title>
+<figure><title>The sample text before JPEG compression</title>
 <execute><cmd>eqimg</cmd><args>tiff-figure5.jpg</args></execute>
 </figure>
 
-<figure><title>The text after it has been recompressed 200 times</title>
+<figure><title>The text after it has been JPEG compressed</title>
 <execute><cmd>eqimg</cmd><args>tiff-figure7.jpg</args></execute>
 </figure>
 
@@ -79,7 +79,17 @@ The effects are much worse with an image which contains text at small point size
 
 <sect2><title>PNG</title>
 <para>
-...
+Portable Network Graphics (PNG) was initially developed because of the patent problems with the GIF format described earlier in this section. The PNG format has since grown well past the feature set provided by GIF, and now rivals TIFF for completeness (Randers-Pehrson 1999).
+</para>
+
+<para>
+The PNG support in most browsers is not perfect. However, browsers above version three for both Netscape and Microsoft Internet Explorer support PNG. There is an actively maintained and well supported Open Source programmers interface to the PNG format, in fact it is the reference implementation of the specification (Roelofs 2002).
+</para>
+</sect2>
+
+<sect2><title>Conclusion</title>
+<para>
+Based on the factors outlined above, the PNG image format was selected for the GDMS Internet interface. This is because of it's excellent browser support, as well as it's mature and stable Open Source application programmers interface.
 </para>
 </sect2>
 </sect1>

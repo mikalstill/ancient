@@ -29,14 +29,16 @@ Initially, it was though that a Internet interface to GDMS was outside the achie
 </para>
 </sect1>
 
-<sect1><title>...</title>
+<sect1><title>Outcome</title>
 <para>
-TODO
+This document describes the design process and implementation of the GDMS Internet interface, and perl application intended to operate under the Common Gateway Interface (CGI) offered by most modern web servers. This application allows the online use of almost all of the functionality available under the X windows GDMS system.
 </para>
 </sect1>
 </chapter>
 
 <chapter><title>Implementation rationale</title>
+<execute><cmd>builddb</cmd><input>weblanguage.sgml</input></execute>
+
 <sect1><title>Presentation of the user interface</title>
 <para>
 In accordance with Internet user interface design best practise, the GDMS Internet interface presents a fully configurable user interface. This is implemented by providing extension tags the those which are available in the standard HTML specification (Raggett, Le Hors, &amp; Jacobs 1999).

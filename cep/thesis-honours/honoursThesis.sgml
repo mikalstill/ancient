@@ -29,14 +29,89 @@ Initially, it was though that a Internet interface to GDMS was outside the achie
 </para>
 </sect1>
 
-<sect1><title>...</title>
+<sect1><title>Outcome</title>
 <para>
-TODO
+This document describes the design process and implementation of the GDMS Internet interface, and perl application intended to operate under the Common Gateway Interface (CGI) offered by most modern web servers. This application allows the online use of almost all of the functionality available under the X windows GDMS system.
 </para>
 </sect1>
 </chapter>
 
 <chapter><title>Implementation rationale</title>
+<sect1><title>Selection of the implementation technique</title>
+<para>
+A variety of implementation techniques were considered for the GDMS Internet interface before a final selection was made. This section documents the various alternatives that were considered, and then justifies the decision that was made.
+</para>
+
+<sect2><title>PHP</title>
+<para>
+PHP stands for <emphasis>PHP: Hypertext Preprocessor</emphasis>, although there is some evidence that the name originally stood for <emphasis>Personal Home Page tools</emphasis> (Lerdorf 1995). PHP is an in page scripting language which was originally developed by Rasmus Lerdorf (Lerdorf 1995). It is now developed by a online team of developers (AIMS Group, 2002).
+</para>
+
+<para>
+Because PHP is an in-page scripting language, the actual code to generate the HTML page viewed by the user of the web browser is actually stored within the HTML page on the servers secondary storage. A trivial example is:
+</para>
+
+<programlisting>
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;PHP Test&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;?php echo "Hello World&lt;p&gt;"; ?&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</programlisting>
+
+<para>
+In this example, the tag starting with ?php is the script element. This example was sourced from PHP Documentation Group, 2002. The output of this script will be a simple HTML page saying <quote>Hello World</quote>.
+</para>
+
+<para>
+The main advantage of in-page scripting is that the source code of the application is very tightly tied to the HTML presentation of the application's user interface. This means that when a user is editting a page, it is apparent what the given code does at the time that the page is created.
+</para>
+
+<para>
+The disadvantage of such as system is that it then requires that the users would are editting the HTML appearance of an application must also understand the scripting language which the application is implemented in. This means that graphics designers and layout consultants require further training -- the application is no longer a <quote>black box</quote> which the HTML designer can simply be a user of. The other main disadvantage is that the inclusion of the scripting within the HTML pages is that it clutters the HTML representation of the user interface, making it much harder to read. This problem is compounded by poor in-page scripting support in many HTML editors, including Mozilla. These editors discard tags they don't comprehend at the time of editting the page, and this unfortunately includes tags such as PHP.
+</para>
+
+<para>
+Finally, developing the GDMS Internet interface in PHP would nessesitate the users of the application running web servers with PHP modules installed (PHP Documentation Group, 2002). This is a extra level of configuration for systems administrators for little additional benefit.
+</para>
+</sect2>
+
+<sect2><title>ASP</title>
+<para>
+Active Server Pages (ASP) is Microsoft's equivalent of PHP. Discussion of this alternative is delibverately brief, because ASP effectively has all the advantages and disadvantages of PHP, with the additional constraint that it only operates of Microsoft web server products running on Microsoft Operating Systems. This is not an acceptible constraint for the main target user of the application -- the University of Canberra Survey Laboratory.
+</para>
+</sect2>
+
+<sect2><title>C or C++ CGI</title>
+<para>
+Another implementation alternative considered was to implement the system in either C or C++ using the Common Gateway Interface (CGI) subsystem offered by most web servers. This implementation technique has the advantage of the code for the GDMS Internet interface being in the same language as the GDMS application itself. It however has the disadvantage that parsing the incoming request URLs is less trivial, as there is limited language support without the inclusion of non-standard application libraries (Kahan 2002).
+</para>
+
+<para>
+C and C++ are also not idiomatic methods of implementing CGI applications, and this would therefore increase the difficulty of maintaining the system for future students and administrators.
+</para>
+</sect2>
+
+<sect2><title>Perl CGI</title>
+<para>
+Perl was originally developed by Larry Wall in 1987 (Perl Mongers, 1999) and is now developed by a team of Open Source developers. Perl has well integrated CGI support built into the language itself, and is optimized for the parsing of complex strings (such as the requests which are returned by a web browser to the GDMS Internet interface via the CGI apparatus).
+</para>
+
+<para>
+Perl is also extremely stable, well documented, and is already installed at most sites.
+</para>
+</sect2>
+
+<sect2><title>Conclusion</title>
+<para>
+After consideration of all of the factors outlined above, Perl CGI was identified as the most suitable implementation language for the GDMS Internet interface.
+</para>
+</sect2>
+</sect1>
+
 <sect1><title>Presentation of the user interface</title>
 <para>
 In accordance with Internet user interface design best practise, the GDMS Internet interface presents a fully configurable user interface. This is implemented by providing extension tags the those which are available in the standard HTML specification (Raggett, Le Hors, &amp; Jacobs 1999).
@@ -103,11 +178,11 @@ The JPEG compression algorithm is lossy -- in other words, the act of compressin
 For example, JPEG compressing the following image results in the following output image:
 </para>
 
-<figure><title>A picture before we compressed it</title>
+<figure><title>A picture before JPEG compression</title>
 <graphic format="eps" fileref="gen-tiff-figure4.eps">
 </figure>
 
-<figure><title>A picture after it has been recompressed 200 times</title>
+<figure><title>A picture after it has been JPEG compressed</title>
 <graphic format="eps" fileref="gen-tiff-figure6.eps">
 </figure>
 
@@ -115,18 +190,32 @@ For example, JPEG compressing the following image results in the following outpu
 The effects are much worse with an image which contains text at small point sizes:
 </para>
 
-<figure><title>The sample text before we compressed it</title>
+<figure><title>The sample text before JPEG compression</title>
 <graphic format="eps" fileref="gen-tiff-figure5.eps">
 </figure>
 
-<figure><title>The text after it has been recompressed 200 times</title>
+<figure><title>The text after it has been JPEG compressed</title>
 <graphic format="eps" fileref="gen-tiff-figure7.eps">
 </figure>
 
 </sect3>
 </sect2>
 
+<sect2><title>PNG</title>
+<para>
+Portable Network Graphics (PNG) was initially developed because of the patent problems with the GIF format described earlier in this section. The PNG format has since grown well past the feature set provided by GIF, and now rivals TIFF for completeness (Randers-Pehrson 1999).
+</para>
 
+<para>
+The PNG support in most browsers is not perfect. However, browsers above version three for both Netscape and Microsoft Internet Explorer support PNG. There is an actively maintained and well supported Open Source programmers interface to the PNG format, in fact it is the reference implementation of the specification (Roelofs 2002).
+</para>
+</sect2>
+
+<sect2><title>Conclusion</title>
+<para>
+Based on the factors outlined above, the PNG image format was selected for the GDMS Internet interface. This is because of it's excellent browser support, as well as it's mature and stable Open Source application programmers interface.
+</para>
+</sect2>
 </sect1>
 
 </chapter>
@@ -566,6 +655,11 @@ Adobe, 3 June 1992,
 [Online] http://partners.adobe.com/asn/developer/pdfs/tn/TIFF6.pdf
 </para>
 <para>
+AIMS Group, 2002,
+<emphasis>PHP CVS mailling list archive</emphasis>,
+[Online] http://marc.theaimsgroup.com/?l=php-cvs
+</para>
+<para>
 Anonymous, 2 February 2002,
 <emphasis>The GIF Controversy: A Software Developer's Perspective</emphasis>, 
 [Online] http://www.cloanto.com/users/mcb/19950127giflzw.html
@@ -581,19 +675,47 @@ CompuServe, 1990,
 [Online] http://www.w3.org/Graphics/GIF/spec-gif89a.txt
 </para>
 <para>
+Kahan. J., 12 June 2002,
+<emphasis>Libwww - the W3C Protocol Library</emphasis>,
+[Online] http://www.w3.org/Library/
+</para>
+<para>
+Lerdorf, R., 8 June 1995,
+<emphasis>Personal Home Page Tools (PHP Tools)</emphasis>,
+[Online] http://groups.google.com/groups?selm=3r7pgp$aa1@ionews.io.org
+</para>
+<para>
 Lilly, C., 13 February 1996 [Last updated: 18 July 2001],
 <emphasis>JPEG JFIF</emphasis>,
 [Online] http://www.w3.org/Graphics/JPEG/
 </para>
 <para>
+Perl Mongers, 1999,
+<emphasis>Perl History</emphasis>,
+[Online] http://www.perl.org/press/history.html
+</para><para>
+PHP Documentation Group, 2002,
+<emphasis>PHP Manual</emphasis>,
+[Online] http://www.php.net/manual/en/print/
+</para><para>
 Raggett, D., Le Hors, A., Jacobs, I., 24 December 1999 [last update], 
 <emphasis>HTML 4.01 Specification</emphasis>, 
 [Online] Available: http://www.w3.org/TR/html4/
 </para>
 <para>
+Randers-Pehrson, G., July 1999,
+<emphasis>PNG (Portable Network Graphics) Specification, Version 1.2</emphasis>,
+[Online] http://www.libpng.org/pub/png/spec/png-1.2.pdf
+</para>
+<para>
 Raymond, E. S., 8 July 1998,
 <emphasis>The GIFLIB home page</emphasis>,
 [Online] http://tuxedo.org/~esr/giflib/
+</para>
+<para>
+Roelofs, G., 2002,
+<emphasis>libpng</emphasis>,
+[Online] http://www.libpng.org/pub/png/libpng.html
 </para>
 <para>
 Warmerdam, F. and Welles, M., 24 January 2002 [last update],

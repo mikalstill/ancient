@@ -1,0 +1,74 @@
+<sect1><title>Selection of the implementation technique</title>
+<para>
+A variety of implementation techniques were considered for the GDMS Internet interface before a final selection was made. This section documents the various alternatives that were considered, and then justifies the decision that was made.
+</para>
+
+<sect2><title>PHP</title>
+<para>
+PHP stands for <emphasis>PHP: Hypertext Preprocessor</emphasis>, although there is some evidence that the name originally stood for <emphasis>Personal Home Page tools</emphasis> (Lerdorf 1995). PHP is an in page scripting language which was originally developed by Rasmus Lerdorf (Lerdorf 1995). It is now developed by a online team of developers (AIMS Group, 2002).
+</para>
+
+<para>
+Because PHP is an in-page scripting language, the actual code to generate the HTML page viewed by the user of the web browser is actually stored within the HTML page on the servers secondary storage. A trivial example is:
+</para>
+
+<programlisting>
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;PHP Test&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;?php echo "Hello World&lt;p&gt;"; ?&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</programlisting>
+
+<para>
+In this example, the tag starting with ?php is the script element. This example was sourced from PHP Documentation Group, 2002. The output of this script will be a simple HTML page saying <quote>Hello World</quote>.
+</para>
+
+<para>
+The main advantage of in-page scripting is that the source code of the application is very tightly tied to the HTML presentation of the application's user interface. This means that when a user is editting a page, it is apparent what the given code does at the time that the page is created.
+</para>
+
+<para>
+The disadvantage of such as system is that it then requires that the users would are editting the HTML appearance of an application must also understand the scripting language which the application is implemented in. This means that graphics designers and layout consultants require further training -- the application is no longer a <quote>black box</quote> which the HTML designer can simply be a user of. The other main disadvantage is that the inclusion of the scripting within the HTML pages is that it clutters the HTML representation of the user interface, making it much harder to read. This problem is compounded by poor in-page scripting support in many HTML editors, including Mozilla. These editors discard tags they don't comprehend at the time of editting the page, and this unfortunately includes tags such as PHP.
+</para>
+
+<para>
+Finally, developing the GDMS Internet interface in PHP would nessesitate the users of the application running web servers with PHP modules installed (PHP Documentation Group, 2002). This is a extra level of configuration for systems administrators for little additional benefit.
+</para>
+</sect2>
+
+<sect2><title>ASP</title>
+<para>
+Active Server Pages (ASP) is Microsoft's equivalent of PHP. Discussion of this alternative is delibverately brief, because ASP effectively has all the advantages and disadvantages of PHP, with the additional constraint that it only operates of Microsoft web server products running on Microsoft Operating Systems. This is not an acceptible constraint for the main target user of the application -- the University of Canberra Survey Laboratory.
+</para>
+</sect2>
+
+<sect2><title>C or C++ CGI</title>
+<para>
+Another implementation alternative considered was to implement the system in either C or C++ using the Common Gateway Interface (CGI) subsystem offered by most web servers. This implementation technique has the advantage of the code for the GDMS Internet interface being in the same language as the GDMS application itself. It however has the disadvantage that parsing the incoming request URLs is less trivial, as there is limited language support without the inclusion of non-standard application libraries (Kahan 2002).
+</para>
+
+<para>
+C and C++ are also not idiomatic methods of implementing CGI applications, and this would therefore increase the difficulty of maintaining the system for future students and administrators.
+</para>
+</sect2>
+
+<sect2><title>Perl CGI</title>
+<para>
+Perl was originally developed by Larry Wall in 1987 (Perl Mongers, 1999) and is now developed by a team of Open Source developers. Perl has well integrated CGI support built into the language itself, and is optimized for the parsing of complex strings (such as the requests which are returned by a web browser to the GDMS Internet interface via the CGI apparatus).
+</para>
+
+<para>
+Perl is also extremely stable, well documented, and is already installed at most sites.
+</para>
+</sect2>
+
+<sect2><title>Conclusion</title>
+<para>
+After consideration of all of the factors outlined above, Perl CGI was identified as the most suitable implementation language for the GDMS Internet interface.
+</para>
+</sect2>
+</sect1>
