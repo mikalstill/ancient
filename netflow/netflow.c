@@ -3,11 +3,24 @@
 #include <pcap.h>
 #include <errno.h>
 #include <sys/socket.h>
+#include <sys/types.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <netinet/if_ether.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <signal.h>
+
+#include <GL/glut.h>
+#include "utility.h"
+#include "glUtils.h"
 
 #define TABLESIZE 100
+
+void netmon();
+void cleanup(void);
+
+pid_t pid;
 
 typedef struct netflow_internal_conn
 {
@@ -20,6 +33,30 @@ typedef struct netflow_internal_conn
 int
 main (int argc, char **argv)
 {
+  switch(pid = fork()){
+  case -1:
+    fprintf(stderr, "Fork error\n");
+    exit(-1);
+      
+  case 0:
+    netmon();
+    break;
+
+  default:
+    atexit(cleanup);
+    sleep(1000);
+    // ...
+    break;
+  }
+}
+
+void cleanup(){
+  printf("Killing network monitor thread\n");
+  kill(pid, SIGKILL);
+  printf("Done\n");
+}
+
+void netmon(){
   int i;
   char *dev = "eth1";
   char errbuf[PCAP_ERRBUF_SIZE];
