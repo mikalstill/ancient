@@ -61,9 +61,9 @@ int CDhmm::Train(const obsArray &allObservations)
                                              // HMM has converged
    int i,j,v,t,cyc;                          // Mikal: Various counters
 
-   //-------------------------------------------------------------------
+   //---------------------------------------------------------------
    // Mikal: PART 1 - INITIALIZE THE MODEL
-   //-------------------------------------------------------------------
+   //---------------------------------------------------------------
 
    debug("Train: MODEL INITIALISATION",1);
 
@@ -79,7 +79,8 @@ int CDhmm::Train(const obsArray &allObservations)
    // A (state transition) matrix with the probabily of moving from a 
    // given state into the next horizontal state. The probability of remaining
    // in a given state is then the remaining probability after the horizontal
-   // transition. The probability is remaining in the final state is always 1.0
+   // transition. The probability is remaining in the final state is 
+   // always 1.0
    meanDur = 0;
    for (v=0; v<allObservations.size(); v++)
       meanDur += allObservations[v].size();
@@ -127,20 +128,20 @@ int CDhmm::Train(const obsArray &allObservations)
       for (j=0; j<NOBS; j++)
       {
          // Mikal: Every value in the B matrix defaults to a small
-	 // likelihood of an ejection
+         // likelihood of an ejection
          B[i][j] = RARE_OBS / NOBS;
 
          // Mikal: If there are observations for this column, then
-	 // change the value to something a little more likely
+         // change the value to something a little more likely
          if (total[i] > 0)
             B[i][j] += (1 - RARE_OBS) * count[i][j] / total[i];
       }
    debug("B=",(double *)B,NSTATES*NOBS,1);
 
-   //-------------------------------------------------------------------
+   //---------------------------------------------------------------
    // Mikal: PART 2 - REESTIMATE A GIVEN NUMBER OF TIMES OR UNTIL A
    // THRESHHOLD IS MET (EPSILON)
-   //-------------------------------------------------------------------
+   //---------------------------------------------------------------
    for(cyc=0; cyc<NO_CYCLES; cyc++)
    {
       debug("Train: REESTIMATION CYCLE",&cyc,1,1);
@@ -172,11 +173,11 @@ int CDhmm::Train(const obsArray &allObservations)
       debug("Reestimated B",(double *)B,NSTATES*NOBS,1);
       debug("Reestimated PI",pi,NSTATES,1);
 
-      //----------------------------------------------------------------
+      //------------------------------------------------------------
       // Mikal: If the Viterbi score has converged within the tolerance
       // specified by EPSILON, then stop reestimating. We cannot exit
       // until we have done at least two reestimations (cyc = 0 and 1)
-      //----------------------------------------------------------------
+      //------------------------------------------------------------
       if ( cyc > 0 && (sumlogp-lastsumlogp)/abs(lastsumlogp) < EPSILON)
          break;
       lastsumlogp = sumlogp;
@@ -268,7 +269,7 @@ double CDhmm::TrainOne (const obs &o)
          debug("TrainOne: gamma  =",&gamma,1,2);
 
          // Mikal: Update the values of the other accumulators, which are
-	 // used for the B matrix
+         // used for the B matrix
          acc4[i][o[t]] += gamma;
          acc5[i]       += gamma;
          if (t==0)
@@ -350,7 +351,8 @@ void CDhmm::reestimate ()
 }
 
 //////////////////////////////////////////////////////////////////////
-// <comment>
+// Mikal: Determine the probability that the passed observation
+// matches this HMM. Return the log of the probability
 //////////////////////////////////////////////////////////////////////
 
 double CDhmm::LogLikelihood(const obs &oneObservation) const
