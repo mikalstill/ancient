@@ -52,25 +52,29 @@ foreach $chapter (split(/ /, $chapters)){
     $chaptercount++;
 
     print "Preprocessing chapter $chapter\n";
+    print "  - Table conversion\n";
+
     open INPUT, "< $chapter.mm";
     open PREPROC, "> $chapter.pp";
     $tablestate = 0;
-
-    #########################################################################
-    # Table start
+    
+    #####################################################################
+# We setup the conversion rules for many of the translations here...
+#####################################################################
+    
+# Table start
     $inline[0] = "\.TH[ \t]*(.*)";
     $outline[0] = "\$tablestate = 1; \$temp = \"\";";
     
-    # Table end
+# Table end
     $inline[1] = "\.TE";
     $outline[1] = "\$tablestate = 0; print PREPROC \"\$temp\n\";";
     
     $linemax = 2;
-    #########################################################################
     
     while(<INPUT>){
 	for($count = 0; $count < $linemax; $count++){
-	    if(/^$inline[$count]/i){
+	    if(/^$inline[$count]/){
 		eval $outline[$count];
 		$count = $linemax + 1;
 	    }
@@ -116,42 +120,101 @@ foreach $chapter (split(/ /, $chapters)){
     $pausedlist = 0;
     $firstsect = 1;
     
-    #########################################################################
-    # Table start
-    $inline[0] = "\.TH[ \t]*(.*)";
-    $outline[0] = "\$tablestate = 1; \$temp = \"\";";
-    
-    # Comments
-    $inline[0] = "\.\\\"(.*)";
-    $outline[0] = "\$_ = \$1; s/nroff-fill/sgml-fill/g; print OUTPUT \"<!-- \$_ -->\n\";";
+    # For each line in the file...
+    while(<INPUT>){
+	$linecount++;
+        $inputused = 1;
 
-    # No mapping
-    $inline[1] = "\.\.";
-    $outline[1] = "";
+	# There are some conditional elements used, for instance in xtheory.mm (which is also an
+	# article)
+	if((/^\.\.if article/i) || (/^\.\.if XXX/i) || (/^\.\.if appropriate/i) || (/^\.\.if complete/i) ||
+	   (/^\.\.if finished/i) || (/^\.\.if fixme/i) || (/^\.\.if isdn/i) || (/^\.\.if itworks/i) || (/^\.\.if long/i) ||
+	   (/^\.\.if needed/i) || (/^\.\.if netnews/i) || (/^\.\.if network/i) || (/^\.\.if partofthebook/i) ||
+	   (/^\.\.if raid5/i) || (/^\.\.if review/i) || (/^\.\.if short/i) || (/^\.\.if sorted/i) || (/^\.\.if verylong/i) ||
+	   (/^\.\.if X/i)){
+	    $waitstate = 1;
+	    $condlinecount = 0;
+	    while(($waitstate == 1) && ($_ = <INPUT>)){
+		$linecount++;
+		$condlinecount++;
 
-    # Aside start
-    $inline[2] = "\.Aside(.*)";
-    $outline[2] = "endpara(); print OUTPUT \"<note>\n\"; startpara();";
+		if(/^..else/){
+		    $waitstate = 0;
+		}
+		elsif(/^..endif/){
+		    $waitstate = 0;
+		}
+	    }
+	}
 
-    # Aside end
-    $inline[3] = "\.End-aside(.*)";
-    $outline[3] = "endpara(); print OUTPUT \"</note>\n\"; startpara();";
+	# Ampersands
+	s/&/&amp;/g;
 
-    # No mapping?
-    $inline[4] = "\.ad";
-    $outline[4] = "";
+	# LT
+	s/</&lt;/g;
+
+	# GT
+	s/>/&gt;/g;
+
+	# Mu (micro) doesn't work with db2ps (jade)
+	s/µ/&mu;/g;
+
+	# Sometimes there are some other special characters that we deal with
+	s/\\\(ae/&aelig;g/;
+
+	# Footnote thingie we don't use
+	s/\\\*F//g;
+
+	# Bold italic for a single word (there is no equivalent, so merely italics)
+	s/\\f\(BI([^ \t\"\\]*)/<emphasis>$1<\/emphasis>/ig;
+
+	# Italic for a single word
+	s/[ \t]*\\\(em[ \t]*/&mdash;/ig;
+
+	# We run some little conversion rules to deal with things like italics et al
+	$temp = processstyles($displaystate, $_);
+	$_ = $temp;	
+
+	##############################################################
+	# Comments
+	if(/^\.\\\"(.*)/i){
+	    $_ = $1;
+	    s/nroff-fill/sgml-fill/g;
+	    print OUTPUT "<!-- $_ -->\n";
+	}
+
+	# No mapping
+	elsif(/^\.\./){
+	}
+
+	# Aside start
+	elsif(/^\.Aside(.*)/i){
+	    endpara();
+	    print OUTPUT "<note>\n";
+            startpara();
+	}
+
+	elsif(/^\.End-aside(.*)/i){
+            endpara();
+	    print OUTPUT "</note>\n";
+            startpara();
+	}
+
+	# No mapping?
+	elsif(/^\.ad/i){
+	}
 	
-    # No mapping?
-    $inline[5] = "\.br";
-    $outline[5] = "";
+	# No mapping?
+	elsif(/^\.br/i){
+	}
 
-    # No mapping
-    $inline[6] = "\.ce";
-    $outline[6] = "";
+	# No mapping
+	elsif(/^\.ce/i){
+	}
 
-    # Defining display strings
-    $inline[7] = "\.ds";
-    $outline[7] = "";
+	# Defining display strings
+	elsif(/^.ds/){
+	}
 	
 	# Display start -- is case sensitive
 	elsif((/^\.DS(.*)/) || (/^\.Dx(.*)/i)){
@@ -508,66 +571,6 @@ foreach $chapter (split(/ /, $chapters)){
 		print OUTPUT "</entry></row>\n";
 	    }
 	}
-    
-    $linemax = 2;
-    #########################################################################
-    
-    while(<INPUT>){
-	$linecount++;
-        $inputused = 1;
-
-	# There are some conditional elements used, for instance in xtheory.mm (which is also an
-	# article)
-	if((/^\.\.if article/i) || (/^\.\.if XXX/i) || (/^\.\.if appropriate/i) || (/^\.\.if complete/i) ||
-	   (/^\.\.if finished/i) || (/^\.\.if fixme/i) || (/^\.\.if isdn/i) || (/^\.\.if itworks/i) || (/^\.\.if long/i) ||
-	   (/^\.\.if needed/i) || (/^\.\.if netnews/i) || (/^\.\.if network/i) || (/^\.\.if partofthebook/i) ||
-	   (/^\.\.if raid5/i) || (/^\.\.if review/i) || (/^\.\.if short/i) || (/^\.\.if sorted/i) || (/^\.\.if verylong/i) ||
-	   (/^\.\.if X/i)){
-	    $waitstate = 1;
-	    $condlinecount = 0;
-	    while(($waitstate == 1) && ($_ = <INPUT>)){
-		$linecount++;
-		$condlinecount++;
-
-		if(/^..else/){
-		    $waitstate = 0;
-		}
-		elsif(/^..endif/){
-		    $waitstate = 0;
-		}
-	    }
-	}
-
-	# Ampersands
-	s/&/&amp;/g;
-
-	# LT
-	s/</&lt;/g;
-
-	# GT
-	s/>/&gt;/g;
-
-	# Mu (micro) doesn't work with db2ps (jade)
-	s/µ/&mu;/g;
-
-	# Sometimes there are some other special characters that we deal with
-	s/\\\(ae/&aelig;g/;
-
-	# Footnote thingie we don't use
-	s/\\\*F//g;
-
-	# Bold italic for a single word (there is no equivalent, so merely italics)
-	s/\\f\(BI([^ \t\"\\]*)/<emphasis>$1<\/emphasis>/ig;
-
-	# Italic for a single word
-	s/[ \t]*\\\(em[ \t]*/&mdash;/ig;
-
-	# We run some little conversion rules to deal with things like italics et al
-	$temp = processstyles($displaystate, $_);
-	$_ = $temp;	
-
-	##############################################################
-
     }
     
     endpara();
