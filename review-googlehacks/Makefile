@@ -1,4 +1,4 @@
-short: output.sgml output.ps output.html
+short: output.sgml output.ps output.html output.pdf output.txt
 	striptext -c < output.sgml | wc -w
 
 output.sgml: source.sgml
