@@ -21,7 +21,7 @@ use strict;
 my($INPUT, $OUTPUT);
 my($parastate, $liststate, $listitemstate, $footnotestate, $sectionstate, $tablestate, $stylestate, $displaystate, $waitstate);
 my($length);
-my($chapters, $chapter, $chaptercount, $temp);
+my($chapters, $chapter, $chaptercount, $temp, $inputused);
 my(@spinner, $linecount, $condlinecount);
 
 $chapters = "introduction.mm concepts.mm evolution.mm quickinstall.mm shareinstall.mm install.mm xsetup.mm postinstall.mm ports.mm problems.mm xtheory.mm unixref.mm starting.mm filesys.mm disks.mm tapes.mm printers.mm desktop.mm building.mm current.mm emulate.mm netintro.mm netsetup.mm isp.mm modems.mm ppp.mm slip.mm dns.mm firewall.mm netdebug.mm nfs.mm netbasics.mm email.mm www.mm fax.mm micronet.mm mobile.mm";
@@ -59,15 +59,17 @@ foreach $chapter (split(/ /, $chapters)){
     $tablestate = 0;
     $displaystate = 0;
     $stylestate = "";
+    $inputused = 0;
     
     # For each line in the file...
     while(<INPUT>){
 	$linecount++;
+        $inputused = 1;
 	print "\b$spinner[$linecount % 4]";
 
 	# There are some conditional elements used, for instance in xtheory.mm (which is also an
 	# article)
-	if(/^..if article/){
+	if((/^..if article/) || (/^..if XXX/)){
 	    $waitstate = 1;
 	    $condlinecount = 0;
 	    while(($waitstate == 1) && ($_ = <INPUT>)){
@@ -92,6 +94,9 @@ foreach $chapter (split(/ /, $chapters)){
 
 	# GT
 	s/>/&gt;/g;
+
+	# Mu (micro) doesn't work with db2ps
+	s/µ/&mu;/g;
 
 	# Footnote thingie we don't use
 	s/\\\*F//g;
@@ -209,6 +214,9 @@ foreach $chapter (split(/ /, $chapters)){
 	elsif(/^\.LI(.*)/i){
 	    if($liststate == 0){
 		dblog("{DBLOG: List item for a non-open list!}");
+                $parastate = endpara($parastate, $OUTPUT);
+                print OUTPUT "<itemizedlist>\n";
+                $liststate++;
 	    }
 	    
 	    $parastate = endpara($parastate, $OUTPUT);
@@ -313,10 +321,17 @@ foreach $chapter (split(/ /, $chapters)){
     
     if($sectionstate == 1){
 	dblog("{DBLOG: Not closed section at end of document (closed)!}");
-	print OUTPUT "</section>";
+	print OUTPUT "</section>\n";
     }
     
-    print OUTPUT "</chapter>\n";
+    # Some input files are not used because they don't exist!
+    if($inputused > 0){
+        print OUTPUT "</chapter>\n";
+    }
+    else{
+        print "  File was empty\n";
+    }
+
     close INPUT;
 }
 
