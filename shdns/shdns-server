@@ -1,4 +1,5 @@
 #!/bin/bash
 
-time ./shdns foo &
-cat - > foo
+logger "shdns $$ Started listening"
+/home/mikal/opensource/shdns/shdns /tmp/shdns-$$ &
+cat - > /tmp/shdns-$$
