@@ -23,6 +23,8 @@ dnl The syntax is library name, function, action if found, action if not found
 dnl We just use the default if found action which adds -l<lib> to the LIBS var
 dnl and #defined HAVE_LIB<lib>
 
+dnl -lfftw:
+AC_CHECK_LIB(fftw, fftw_create_plan)
 
 dnl -lm:
 AC_CHECK_LIB(m, atan)
