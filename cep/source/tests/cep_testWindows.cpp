@@ -27,7 +27,7 @@
  * Tests the framework which has been set up to window the incoming data
  *
  * @author Blake Swadling
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 
 namespace {
@@ -85,10 +85,10 @@ protected:
     
     for( int i=0; i<result.getNumRows(); ++i ) {
 
-      cout << "scale=" << result.getValue(i, 0, 0)
-           << "   value=" << result.getValue(i, 1, 0)
-           << "   color=" << result.getValue(i, 2, 0)
-           << endl;
+//      cout << "scale=" << result.getValue(i, 0, 0)
+//           << "   value=" << result.getValue(i, 1, 0)
+//           << "   color=" << result.getValue(i, 2, 0)
+//           << endl;
            
       CPPUNIT_ASSERT_EQUAL_MESSAGE( "invalid scale value", (double)i, result.getValue(i, 0, 0) );
       CPPUNIT_ASSERT_EQUAL_MESSAGE( "invalid data value", (double)1, result.getValue(i, 1, 0) );
