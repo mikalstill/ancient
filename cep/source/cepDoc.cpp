@@ -85,7 +85,7 @@ wxOutputStream & cepDoc::SaveObject (wxOutputStream & stream)
 #endif
 
 // This method is called when the user has selected open from the file menu
-// We do the actually opening here, and then lie to wxWindows about the stream
+// We do the actual opening here, and then lie to wxWindows about the stream
 // to the file for it to try to open it
 #if wxUSE_STD_IOSTREAM
 istream & cepDoc::LoadObject (istream & stream)
@@ -100,21 +100,12 @@ wxInputStream & cepDoc::LoadObject (wxInputStream & stream)
   m_progress = new wxProgressDialog ("Loading dataset",
                                      "Please wait while the dataset is loaded");
 
-  wxString
-    filename =
-    GetFilename ();
-  string
-    parentFilename =
-    filename.
-    substr (0, filename.length () - 5).
-    c_str ();
+  wxString filename = GetFilename ();
+  string parentFilename = filename.substr (0, filename.length () - 5).c_str ();
 
   m_dataset = new cepDataset (parentFilename, ds_progressCallback);
   cepDebugPrint ("Starting to load the dataset now");
-  cepError
-    loadErr =
-    m_dataset->
-    munch ();
+  cepError loadErr = m_dataset->munch ();
 
   // todo_mikal: we should handle this error better
   if (loadErr.isReal ())
@@ -127,11 +118,8 @@ wxInputStream & cepDoc::LoadObject (wxInputStream & stream)
   // TODO_Mikal: Handle error condition better
 
   // Cleanup
-  delete
-    m_progress;
-
+  delete m_progress;
   m_progress = NULL;
-
   return stream;
 }
 

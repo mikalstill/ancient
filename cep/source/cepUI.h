@@ -55,7 +55,7 @@ public:
                                      bool isCanvas);
 
 protected:
-  cepConfiguration *config;
+  cepConfiguration *m_config;
   wxDocManager * m_docManager;
   cepErrorHandler *errHandler;
   cepError m_error;
@@ -83,7 +83,7 @@ public:
   DECLARE_EVENT_TABLE ()
 
 protected:
-  cepConfiguration *config;
+  cepConfiguration *m_config;
   cepWxErrorHandler *errHandler;
 };
 

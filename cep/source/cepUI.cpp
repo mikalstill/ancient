@@ -34,6 +34,7 @@
 
 #define GLOBALS_HERE
 #include "cepCore.h"
+#include <unistd.h>
 
 // For compilers that support precompilation, includes "wx/wx.h".
 #include "wx/wxprec.h"
@@ -65,7 +66,7 @@ cepFrame *frame = (cepFrame *) NULL;
 IMPLEMENT_APP (cepApp) cepApp::cepApp (void)
 {
   m_docManager = (wxDocManager *) NULL;
-  config = (cepConfiguration *) NULL;
+  m_config = (cepConfiguration *) NULL;
   errHandler = (cepWxErrorHandler *) NULL;
   gLog.open ("cep.log", ios::out);
 }
@@ -77,7 +78,7 @@ cepApp::OnInit (void)
   m_docManager = new wxDocManager;
 
   // Get a reference to the configuration
-  config = (cepConfiguration *)&cepConfiguration::getInstance();
+  m_config = (cepConfiguration *)&cepConfiguration::getInstance();
 
   // subscribe a wx windows based error handler
   errHandler = new cepWxErrorHandler();
@@ -116,8 +117,8 @@ cepApp::OnInit (void)
 
   // Create the main frame window
   int windowx, windowy;
-  config->getValue ("ui-mainwindow-size-x", 1000, windowx);
-  config->getValue ("ui-mainwindow-size-y", 700, windowy);
+  m_config->getValue ("ui-mainwindow-size-x", 1000, windowx);
+  m_config->getValue ("ui-mainwindow-size-y", 700, windowy);
   cepDebugPrint ("Main frame size is " + cepToString (windowx) + " by " +
                  cepToString (windowy));
 
@@ -185,13 +186,82 @@ cepApp::OnInit (void)
     // delete tipProvider; 
   }
 
+  // We can process command line options here if we want
+  // todo_mikal: make this sexier
+  int optchar;
+  string filename;
+  cepError err;
+
+  while ((optchar = getopt (argc, argv, "d:a:e:xyzcmk")) != -1)
+    {
+      switch (optchar)
+        {
+	case 'd':
+	  filename = optarg;
+	  break;
+
+	case 'a':
+	  m_config->setValue("ui-viewmenu-showaverages",
+			     string(optarg) == "yes");
+	  break;
+
+	case 'e':
+	  m_config->setValue("ui-viewmenu-showerrors",
+			     string(optarg) == "yes");
+	  break;
+
+	case 'x':
+	  m_config->setValue("ui-viewmenu-showx",
+			     string(optarg) == "yes");
+	  break;
+
+	case 'y':
+	  m_config->setValue("ui-viewmenu-showy",
+			     string(optarg) == "yes");
+	  break;
+
+	case 'z':
+	  m_config->setValue("ui-viewmenu-showz",
+			     string(optarg) == "yes");
+	  break;
+
+	case 'c':
+	  m_config->setValue("ui-viewmenu-currentview",
+			     cepPresentation::viewCentered);
+	  break;
+
+	case 'm':
+	  m_config->setValue("ui-viewmenu-currentview",
+			     cepPresentation::viewZoomed);
+	  break;
+
+	case 'k':
+	  // todo_mikal: doesn't currently work
+	  break;
+
+	default:
+        case '?':
+	  err = cepError("Unknown command line arguement", 
+			 cepError::sevErrorRecoverable);
+	  err.display();
+	  // todo_mikal: A usage message
+          break;
+        }
+      }
+
+  // Do magical things with the command line options
+  if(filename != ""){
+    m_docManager->CreateDocument(string(filename + ".dat1").c_str(), 
+				 wxDOC_SILENT);
+  }
+  
   return TRUE;
 }
 
 int
 cepApp::OnExit (void)
 {
-  // BS 06/08/2002 - removed as this segfaults if data has been loaded.
+  // TODO BS 06/08/2002 - removed as this segfaults if data has been loaded.
   // why? i dunno :)
   // delete m_docManager;
 
@@ -248,24 +318,39 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
     edit_menu->Append (wxID_UNDO, "&Undo");
     edit_menu->Append (wxID_REDO, "&Redo");
     edit_menu->AppendSeparator ();
+    // todo_mikal: remove
     edit_menu->Append (CEPMENU_CUTSEGMENT, "&Cut last segment");
     doc->GetCommandProcessor ()->SetEditMenu (edit_menu);
 
     ///////////////////////////////////////////////////////////////////////////
-    // The view menu
-    // todo: these should get their initial state from the cepPresentation
-    // class
+    // The view menu -- the get their initial state from the config db
+    bool confval;
+    cepError err;
+
+    m_config = (cepConfiguration *)&cepConfiguration::getInstance();
     view_menu = new wxMenu(wxMENU_TEAROFF);
+
     view_menu->Append (CEPMENU_AVERAGE, "Show averages",
 		       "Toggle whether the average value is shown on graphs",
 		       TRUE);
-    view_menu->Check(CEPMENU_AVERAGE, false);
+        err = m_config->getValue("ui-viewmenu-showaverages", false, confval);
+    if(err.isReal()){
+      view_menu->Check(CEPMENU_AVERAGE, false);
+      err.display();
+    }
+    else
+      view_menu->Check(CEPMENU_AVERAGE, confval);
 
     view_menu->Append (CEPMENU_ERRORS, "Show error bars",
 		       "Toggle whether the error bars are shown on graphs",
 		       TRUE);
-    view_menu->Check(CEPMENU_ERRORS, true);
-
+    err = m_config->getValue("ui-viewmenu-showerrors", true, confval);
+    if(err.isReal()){
+      view_menu->Check(CEPMENU_ERRORS, true);
+      err.display();
+    }
+    else
+      view_menu->Check(CEPMENU_ERRORS, confval);
 
     view_menu->Append (CEPMENU_ELIMINATEOUTLIERS, "Eliminate outlying samples",
 		       "Removes samples which are outside a given tolerance",
@@ -277,26 +362,56 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
     view_menu->Append (CEPMENU_VIEWCENTERED, "View centered graphs",
 		       "Center the graphs around the horizontal axes",
 		       TRUE);
-    view_menu->Check(CEPMENU_VIEWCENTERED, true);
-    
+    err = m_config->getValue("ui-viewmenu-viewcentered", true, confval);
+    if(err.isReal()){
+      view_menu->Check(CEPMENU_VIEWCENTERED, true);
+      err.display();
+    }
+    else
+      view_menu->Check(CEPMENU_VIEWCENTERED, confval);
+
     view_menu->Append (CEPMENU_VIEWZOOMED, "View zoomed graphs",
 		       "Zoom in on the interesting elements in the graph",
 		       TRUE);
-    view_menu->Check(CEPMENU_VIEWZOOMED, false);    
+    err = m_config->getValue("ui-viewmenu-viewzoomed", false, confval);
+    if(err.isReal()){
+      view_menu->Check(CEPMENU_VIEWZOOMED, false);
+      err.display();
+    }
+    else
+      view_menu->Check(CEPMENU_VIEWZOOMED, confval);
 
     view_menu->AppendSeparator();
 
     view_menu->Append(CEPMENU_SHOWX, "Show X",
 		     "Show the X direction graph", TRUE);
-    view_menu->Check(CEPMENU_SHOWX, true);
+    err = m_config->getValue("ui-viewmenu-showx", true, confval);
+    if(err.isReal()){
+      view_menu->Check(CEPMENU_SHOWX, true);
+      err.display();
+    }
+    else
+      view_menu->Check(CEPMENU_SHOWX, confval);
 
     view_menu->Append(CEPMENU_SHOWY, "Show Y",
 		     "Show the Y direction graph", TRUE);
-    view_menu->Check(CEPMENU_SHOWY, true);
+    err = m_config->getValue("ui-viewmenu-showy", true, confval);
+    if(err.isReal()){
+      view_menu->Check(CEPMENU_SHOWY, true);
+      err.display();
+    }
+    else
+      view_menu->Check(CEPMENU_SHOWY, confval);
 
     view_menu->Append(CEPMENU_SHOWZ, "Show Z",
 		     "Show the Z direction graph", TRUE);
-    view_menu->Check(CEPMENU_SHOWZ, true);
+    err = m_config->getValue("ui-viewmenu-showz", true, confval);
+    if(err.isReal()){
+      view_menu->Check(CEPMENU_SHOWZ, true);
+      err.display();
+    }
+    else
+      view_menu->Check(CEPMENU_SHOWZ, confval);
 
     view_menu->AppendSeparator();
 
@@ -427,8 +542,8 @@ cepFrame::OnClose (wxCloseEvent & evt)
 
   cepError err;
 
-  config = (cepConfiguration *)&cepConfiguration::getInstance();
-  err = config->setValue ("ui-mainwindow-size-x", width);
+  m_config = (cepConfiguration *)&cepConfiguration::getInstance();
+  err = m_config->setValue ("ui-mainwindow-size-x", width);
   if (err.isReal ())
   {
     err.display ();
@@ -436,7 +551,7 @@ cepFrame::OnClose (wxCloseEvent & evt)
   }
   else
   {
-    err = config->setValue ("ui-mainwindow-size-y", height);
+    err = m_config->setValue ("ui-mainwindow-size-y", height);
     if (err.isReal ())
     {
       err.display ();

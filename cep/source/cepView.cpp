@@ -77,8 +77,7 @@ BEGIN_EVENT_TABLE (cepView, wxView)
 END_EVENT_TABLE ()
   
 cepView::cepView ():
-  m_plotfailed(false),
-  m_currentView(cepPresentation::viewCentered)
+  m_plotfailed(false)
 {
   canvas = (cepCanvas *) NULL;
   frame = (wxFrame *) NULL;
@@ -100,24 +99,13 @@ cepView::~cepView ()
 
 #ifdef __X__
   // X seems to require a forced resize
-  int
-    x,
-    y;
-
+  int x, y;
   frame->GetSize (&x, &y);
   frame->SetSize (-1, -1, x, y);
 #endif
 
   frame->Show (TRUE);
   Activate (TRUE);
-
-  m_showAverages = false;
-  m_showErrors = true;
-  m_showX = true;
-  m_showY = true;
-  m_showZ = true;
-  m_dirty = true;
-
   return TRUE;
 }
 
@@ -136,29 +124,38 @@ cepView::OnDraw (wxDC * dc)
   {
     int width, height, gCount = 0;
     frame->GetSize (&width, &height);
+    bool showX, showY, showZ;
     
-    if(m_showX) gCount++;
-    if(m_showY) gCount++;
-    if(m_showZ) gCount++;
+    cepError err;
+    err = m_config->getValue("ui-viewmenu-showx", true, showX);
+    if(err.isReal()) err.display();
+    err = m_config->getValue("ui-viewmenu-showy", true, showY);
+    if(err.isReal()) err.display();
+    err = m_config->getValue("ui-viewmenu-showZ", true, showZ);
+    if(err.isReal()) err.display();
+
+    if(showX) gCount++;
+    if(showY) gCount++;
+    if(showZ) gCount++;
 
     if(gCount > 0){
       int presHeight = height / gCount - 10;
       int presDrop = 0;
       
       cepDebugPrint ("Dataset valid, so displaying");
-      if(m_showX){
+      if(showX){
 	drawPresentation(theDataset, cepDataset::dirX, presDrop, dc, 
 			 presHeight);
 	presDrop += presHeight + 10;
       }
 
-      if(m_showY){
+      if(showY){
 	drawPresentation(theDataset, cepDataset::dirY, presDrop, dc, 
 			 presHeight);
 	presDrop += presHeight + 10;
       }
       
-      if(m_showZ){
+      if(showZ){
 	drawPresentation(theDataset, cepDataset::dirZ, presDrop, dc, 
 			 presHeight);
 	presDrop += presHeight + 10;
@@ -268,11 +265,17 @@ void cepView::drawPresentation(cepDataset *theDataset, cepDataset::direction dir
                                sample * 10000)));
     }
 
-    pres.useAverage(m_showAverages);
-    pres.useErrors(m_showErrors);
-
     cepError err;
     int red = 0, green = 0, blue = 0;
+    bool toggle;
+    
+    err = m_config->getValue("ui-viewmenu-showaverages", false, toggle);
+    if(err.isReal()) err.display();
+    pres.useAverage(toggle);
+
+    err = m_config->getValue("ui-viewmenu-showerrors", true, toggle);
+    if(err.isReal()) err.display();    
+    pres.useErrors(toggle);
 
     err = m_config->getValue("ui-graph-color-axis-r", 255, red);
     if(err.isReal()) err.display();
@@ -306,7 +309,12 @@ void cepView::drawPresentation(cepDataset *theDataset, cepDataset::direction dir
     if(err.isReal()) err.display();
     pres.setErrorColor(red, green, blue);
 
-    pres.setView(m_currentView);
+    int currentView;
+    err = m_config->getValue("ui-viewmenu-currentview", 
+			     (int) cepPresentation::viewCentered, currentView);
+    if(err.isReal()) err.display();
+    pres.setView((cepPresentation::view) currentView);
+
     err = pres.createPNG (cfname);
     if (err.isReal ()){
       err.display ();
@@ -331,7 +339,7 @@ void cepView::drawPresentation(cepDataset *theDataset, cepDataset::direction dir
 
 void cepView::OnToggleAverage (wxCommandEvent &pevt)
 {
-  m_showAverages = pevt.IsChecked();
+  m_config->setValue("ui-viewmenu-showaverages", pevt.IsChecked());
   m_dirty = true;
 
   // todo_mikal: this doesn't work at the moment...
@@ -342,7 +350,7 @@ void cepView::OnToggleAverage (wxCommandEvent &pevt)
 
 void cepView::OnToggleErrors (wxCommandEvent &pevt)
 {
-  m_showErrors = pevt.IsChecked();
+  m_config->setValue("ui-viewmenu-showerrors", pevt.IsChecked());
   m_dirty = true;
 
   // todo_mikal: this doesn't work at the moment...
@@ -431,7 +439,8 @@ void cepView::OnViewCentered(wxCommandEvent& event)
       view_menu->Check(CEPMENU_VIEWCENTERED, true);
       view_menu->Check(CEPMENU_VIEWZOOMED, false);
 
-      m_currentView = cepPresentation::viewCentered;
+      m_config->setValue("ui-viewmenu-currentview",
+			 cepPresentation::viewCentered);
       m_dirty = true;
     }
   }
@@ -446,7 +455,8 @@ void cepView::OnViewZoomed(wxCommandEvent& event)
       view_menu->Check(CEPMENU_VIEWCENTERED, false);
       view_menu->Check(CEPMENU_VIEWZOOMED, true);
 
-      m_currentView = cepPresentation::viewZoomed;
+      m_config->setValue("ui-viewmenu-currentview",
+			 cepPresentation::viewZoomed);
       m_dirty = true;
     }
   }
@@ -454,7 +464,7 @@ void cepView::OnViewZoomed(wxCommandEvent& event)
 
 void cepView::OnToggleX (wxCommandEvent &pevt)
 {
-  m_showX = pevt.IsChecked();
+  m_config->setValue("ui-viewmenu-showx", pevt.IsChecked());
   m_dirty = true;
 
   // todo_mikal: this doesn't work at the moment...
@@ -465,7 +475,7 @@ void cepView::OnToggleX (wxCommandEvent &pevt)
 
 void cepView::OnToggleY (wxCommandEvent &pevt)
 {
-  m_showY = pevt.IsChecked();
+  m_config->setValue("ui-viewmenu-showy", pevt.IsChecked());
   m_dirty = true;
 
   // todo_mikal: this doesn't work at the moment...
@@ -476,7 +486,7 @@ void cepView::OnToggleY (wxCommandEvent &pevt)
 
 void cepView::OnToggleZ (wxCommandEvent &pevt)
 {
-  m_showZ = pevt.IsChecked();
+  m_config->setValue("ui-viewmenu-showz", pevt.IsChecked());
   m_dirty = true;
 
   // todo_mikal: this doesn't work at the moment...

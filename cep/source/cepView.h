@@ -94,12 +94,10 @@ private:
 			wxDC *dc, int presHeight);
 
   string m_pngCache[3]; 
-  bool m_showAverages, m_showErrors, m_showX, m_showY, m_showZ;
   bool m_dirty;
   bool m_plotfailed;
   cepConfiguration *m_config;
   cepWxErrorHandler *errHandler;
-  cepPresentation::view m_currentView;
 };
 
 
