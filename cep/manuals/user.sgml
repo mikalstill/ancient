@@ -1,6 +1,6 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
 <book><bookinfo>
-<title>GDMS: Technical manual</title>
+<title>GDMS: User manual</title>
 <execute><cmd>builddb</cmd><input>authorgroup.sgml</input></execute>
 </bookinfo>
 
@@ -8,7 +8,6 @@
 <execute><cmd>builddb</cmd><input>install.sgml</input></execute>
 <execute><cmd>builddb</cmd><input>running.sgml</input></execute>
 <execute><cmd>builddb</cmd><input>uiconfig.sgml</input></execute>
-<execute><cmd>builddb</cmd><input>maths.sgml</input></execute>
 <execute><cmd>builddb</cmd><input>quickref.sgml</input></execute>
 
 <execute><cmd>builddb</cmd><input>temporaryfiles.sgml</input></execute>
