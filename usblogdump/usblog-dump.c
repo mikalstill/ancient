@@ -17,7 +17,16 @@
 #include "md5-global.h"
 #include "md5.h"
 
-#define VERSION " (Version 0.2)"
+#define VERSION "(Version 0.2)"
+void usage(char *name)
+{
+  printf (VERSION "\n\n");
+  printf ("Try: %s [-i input] [-r] [-v]\n\n", name);
+  printf ("\t-i <name>: The name of the input usblog file\n");
+  printf ("\t-r:        Suppressed repeated URB sequences\n");
+  printf ("\t-v:        Verbose debugging output\n");
+  printf ("\n");
+}
 
 char *functname (unsigned int function);
 
@@ -93,8 +102,7 @@ main (int argc, char *argv[])
 	default:
 	case '?':
 	  printf ("Unknown command line option...\n");
-	  printf (VERSION "\n");
-	  printf ("Try: %s [-i input] [-r] [-v]\n", argv[0]);
+	  usage(argv[0]);
 	  exit (0);
 	  break;
 	}
@@ -103,8 +111,7 @@ main (int argc, char *argv[])
   if (input_filename == NULL)
     {
       printf ("No input file specified...\n");
-      printf (VERSION "\n");
-      printf ("Try: %s [-i input] [-r] [-v]\n", argv[0]);
+      usage(argv[0]);
       exit (0);
     }
 
@@ -243,7 +250,9 @@ main (int argc, char *argv[])
 	  urb_printf ("\n");
 	  break;
 
+	case 0x2:
 	case 0x7:
+	case 0xB:
 	  // Do nothing
 	  break;
 
@@ -300,11 +309,9 @@ main (int argc, char *argv[])
 	  urb_printf ("\n");
 	  break;
 
-	case 0xB:
-	  break;
-
 	case 0x17:
 	case 0x1B:
+	case 0x1C:
 	case 0x20:
 	case 0x22:
 	  if ((temp = fileutil_getinteger (file, &filep)) != 0)
@@ -442,6 +449,9 @@ functname (unsigned int function)
 
     case 0x1:
       return "SELECT_INTERFACE";
+
+    case 0x2:
+      return "ABORT_PIPE";
 
     case 0x7:
       return "GET_CURRENT_FRAME_NUMBER";
