@@ -42,16 +42,24 @@ int ReadObs(char *, obs &);
 // algorithm (the parameters to the algorithm)
 
 const int NSTATES = 5;           // Mikal: The number of states in the HMM
-const int NOBS    = 32;          // mikal: The number of observations
+
+const int NOBS    = 32;          // Mikal: The number of observations
+
 const double NO_CYCLES = 10;     // Mikal: Maximum number of cycles to
                                  // perform seeking stabilization
+
 const double EPSILON = 0.01;     // Mikal: This value is checked to
                                  // to determine if the log likelihood has
                                  // converged (an acceptable level of change)
+
 const double SMALL_NO = 1.0e-10; // Mikal: The threshhold for the minimum
                                  // size of an entry in the scale vector
-const double RARE_TRANS = 0.0;   // Mikal: The probability of a rare transition
-const double RARE_OBS = 0.1;     // Mikal: The probability of a rare observation
+
+const double RARE_TRANS = 0.0;   // Mikal: The probability of a 
+                                 // rare transition
+
+const double RARE_OBS = 0.1;     // Mikal: The probability of a 
+                                 // rare observation
 
 //////////////////////////////////////////////////////////////////////
 // Mikal: CDhmm, a class which implements the training of a HMM

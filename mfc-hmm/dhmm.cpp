@@ -217,7 +217,7 @@ double CDhmm::TrainOne (const obs &o)
 	 if (t==0)
 	   alpha[t][i] = pi[i] * B[i][o[t]];
 
-	 // Mikal: Induction
+         // Mikal: Induction
          else
          {
             alpha[t][i] = 0.0;
@@ -226,7 +226,7 @@ double CDhmm::TrainOne (const obs &o)
             alpha[t][i] *= B[i][o[t]];
          }
 
-	 // Mikal: Termination
+         // Mikal: Termination
          scale[t] += alpha[t][i];
       }
       debug("TrainOne: alpha_unscld=",alpha[t],NSTATES,2);
@@ -327,7 +327,7 @@ void CDhmm::reestimate ()
             A[i][j] = RARE_TRANS / NSTATES;
 
             // Mikal: If the accumulator has recorded something for this
-	    // column, then reset the value
+            // column, then reset the value
             if (acc3[i] > 0.0)
                A[i][j] += (1 - RARE_TRANS) * acc2[i][j] / acc3[i];
          }
@@ -384,25 +384,30 @@ double CDhmm::LogLikelihood(const obs &oneObservation) const
 	    {
 	      alpha[t][i] = 0.0;
 	      for (j=0; j<NSTATES; j++)
-		alpha[t][i] += alpha[t-1][j] * A[j][i];
+                alpha[t][i] += alpha[t-1][j] * A[j][i];
 	      alpha[t][i] *= B[i][oneObservation[t]];
 	    }
 	  
 	  // Mikal: Termination
-	  scale[t] += alpha[t][i];
+          scale[t] += alpha[t][i];
 	}
-      debug("TODO: alpha_unscld=",alpha[t],NSTATES,2);
       
       if (scale[t] < SMALL_NO)
-	scale[t] = SMALL_NO;
+        scale[t] = SMALL_NO;
       logp += log10(scale[t]);
       
       for (i=0; i<NSTATES; i++)
-	alpha[t][i] /= scale[t];
-      debug("TrainOne: alpha_scaled=",alpha[t],NSTATES,2);
-      debug("TrainOne: logp=",&logp,1,2);
+        alpha[t][i] /= scale[t];
     }
 
+  // Mikal: Cleanup
+  for (t=0; t<oneObservation.size(); t++)
+      delete [] alpha[t];
+  delete [] alpha;
+  delete [] beta;
+  delete [] nxtbeta;
+  delete [] scale;
+ 
   return logp;
 }
 
