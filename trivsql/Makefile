@@ -75,33 +75,43 @@ RANLIB = ranlib
 VERSION = 0.5
 YACC = bison -y
 
+lib_LTLIBRARIES = libtrivsql.la
 noinst_PROGRAMS = sample
-sample_SOURCES = parser.y lexer.l tdb.c spinlock.c selectors.c interface.c example.c internal.c
+
+libtrivsql_la_SOURCES = parser.y lexer.l tdb.c spinlock.c selectors.c interface.c internal.c
+
+sample_SOURCES = example.c
+sample_LDADD = -ltrivsql -L.
+
 YFLAGS = -d
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
 CONFIG_CLEAN_FILES = 
-PROGRAMS =  $(noinst_PROGRAMS)
+LTLIBRARIES =  $(lib_LTLIBRARIES)
 
 
 DEFS =  -DPACKAGE=\"pandalex\" -DVERSION=\"0.5\" -DYYTEXT_POINTER=1 -DHAVE_LIBM=1 -DHAVE_LIBZ=1 -DHAVE_LIBFL=1 -DSTDC_HEADERS=1  -I. -I$(srcdir) 
 CPPFLAGS = 
 LDFLAGS = 
 LIBS = -lfl -lz -lm 
-sample_OBJECTS =  parser.o lexer.o tdb.o spinlock.o selectors.o \
-interface.o example.o internal.o
-sample_LDADD = $(LDADD)
+libtrivsql_la_LDFLAGS = 
+libtrivsql_la_LIBADD = 
+libtrivsql_la_OBJECTS =  parser.lo lexer.lo tdb.lo spinlock.lo \
+selectors.lo interface.lo internal.lo
+PROGRAMS =  $(noinst_PROGRAMS)
+
+sample_OBJECTS =  example.o
 sample_DEPENDENCIES = 
 sample_LDFLAGS = 
 LEX_OUTPUT_ROOT = lex.yy
 LEXLIB = -lfl
 CFLAGS = -g -O2
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
-LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
+LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
 DIST_COMMON =  README AUTHORS COPYING ChangeLog INSTALL Makefile.am \
-Makefile.in NEWS TODO aclocal.m4 configure configure.in lexer.c \
-parser.c
+Makefile.in NEWS aclocal.m4 configure configure.in lexer.c parser.c
 
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
@@ -111,12 +121,12 @@ GZIP_ENV = --best
 DEP_FILES =  .deps/example.P .deps/interface.P .deps/internal.P \
 .deps/lexer.P .deps/parser.P .deps/selectors.P .deps/spinlock.P \
 .deps/tdb.P
-SOURCES = $(sample_SOURCES)
-OBJECTS = $(sample_OBJECTS)
+SOURCES = $(libtrivsql_la_SOURCES) $(sample_SOURCES)
+OBJECTS = $(libtrivsql_la_OBJECTS) $(sample_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
-.SUFFIXES: .S .c .l .o .s .y
+.SUFFIXES: .S .c .l .lo .o .s .y
 $(srcdir)/Makefile.in: # Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
 	cd $(top_srcdir) && $(AUTOMAKE) --gnu Makefile
 
@@ -132,14 +142,30 @@ config.status: $(srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 $(srcdir)/configure: #$(srcdir)/configure.in $(ACLOCAL_M4) $(CONFIGURE_DEPENDENCIES)
 	cd $(srcdir) && $(AUTOCONF)
 
-mostlyclean-noinstPROGRAMS:
+mostlyclean-libLTLIBRARIES:
 
-clean-noinstPROGRAMS:
-	-test -z "$(noinst_PROGRAMS)" || rm -f $(noinst_PROGRAMS)
+clean-libLTLIBRARIES:
+	-test -z "$(lib_LTLIBRARIES)" || rm -f $(lib_LTLIBRARIES)
 
-distclean-noinstPROGRAMS:
+distclean-libLTLIBRARIES:
 
-maintainer-clean-noinstPROGRAMS:
+maintainer-clean-libLTLIBRARIES:
+
+install-libLTLIBRARIES: $(lib_LTLIBRARIES)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(libdir)
+	@list='$(lib_LTLIBRARIES)'; for p in $$list; do \
+	  if test -f $$p; then \
+	    echo "$(LIBTOOL)  --mode=install $(INSTALL) $$p $(DESTDIR)$(libdir)/$$p"; \
+	    $(LIBTOOL)  --mode=install $(INSTALL) $$p $(DESTDIR)$(libdir)/$$p; \
+	  else :; fi; \
+	done
+
+uninstall-libLTLIBRARIES:
+	@$(NORMAL_UNINSTALL)
+	list='$(lib_LTLIBRARIES)'; for p in $$list; do \
+	  $(LIBTOOL)  --mode=uninstall rm -f $(DESTDIR)$(libdir)/$$p; \
+	done
 
 .s.o:
 	$(COMPILE) -c $<
@@ -156,6 +182,34 @@ distclean-compile:
 	-rm -f *.tab.c
 
 maintainer-clean-compile:
+
+.s.lo:
+	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
+
+.S.lo:
+	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
+
+mostlyclean-libtool:
+	-rm -f *.lo
+
+clean-libtool:
+	-rm -rf .libs _libs
+
+distclean-libtool:
+
+maintainer-clean-libtool:
+
+libtrivsql.la: $(libtrivsql_la_OBJECTS) $(libtrivsql_la_DEPENDENCIES)
+	$(LINK) -rpath $(libdir) $(libtrivsql_la_LDFLAGS) $(libtrivsql_la_OBJECTS) $(libtrivsql_la_LIBADD) $(LIBS)
+
+mostlyclean-noinstPROGRAMS:
+
+clean-noinstPROGRAMS:
+	-test -z "$(noinst_PROGRAMS)" || rm -f $(noinst_PROGRAMS)
+
+distclean-noinstPROGRAMS:
+
+maintainer-clean-noinstPROGRAMS:
 
 sample: $(sample_OBJECTS) $(sample_DEPENDENCIES)
 	@rm -f sample
@@ -292,7 +346,7 @@ check-am: all-am
 check: check-am
 installcheck-am:
 installcheck: installcheck-am
-install-exec-am:
+install-exec-am: install-libLTLIBRARIES
 install-exec: install-exec-am
 
 install-data-am:
@@ -301,13 +355,14 @@ install-data: install-data-am
 install-am: all-am
 	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
 install: install-am
-uninstall-am:
+uninstall-am: uninstall-libLTLIBRARIES
 uninstall: uninstall-am
-all-am: Makefile $(PROGRAMS)
+all-am: Makefile $(LTLIBRARIES) $(PROGRAMS)
 all-redirect: all-am
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) AM_INSTALL_PROGRAM_FLAGS=-s install
 installdirs:
+	$(mkinstalldirs)  $(DESTDIR)$(libdir)
 
 
 mostlyclean-generic:
@@ -320,24 +375,30 @@ distclean-generic:
 
 maintainer-clean-generic:
 	-test -z "lexerlparserhparserc" || rm -f lexerl parserh parserc
-mostlyclean-am:  mostlyclean-noinstPROGRAMS mostlyclean-compile \
+mostlyclean-am:  mostlyclean-libLTLIBRARIES mostlyclean-compile \
+		mostlyclean-libtool mostlyclean-noinstPROGRAMS \
 		mostlyclean-tags mostlyclean-depend mostlyclean-generic
 
 mostlyclean: mostlyclean-am
 
-clean-am:  clean-noinstPROGRAMS clean-compile clean-tags clean-depend \
+clean-am:  clean-libLTLIBRARIES clean-compile clean-libtool \
+		clean-noinstPROGRAMS clean-tags clean-depend \
 		clean-generic mostlyclean-am
 
 clean: clean-am
 
-distclean-am:  distclean-noinstPROGRAMS distclean-compile distclean-tags \
-		distclean-depend distclean-generic clean-am
+distclean-am:  distclean-libLTLIBRARIES distclean-compile \
+		distclean-libtool distclean-noinstPROGRAMS \
+		distclean-tags distclean-depend distclean-generic \
+		clean-am
+	-rm -f libtool
 
 distclean: distclean-am
 	-rm -f config.status
 
-maintainer-clean-am:  maintainer-clean-noinstPROGRAMS \
-		maintainer-clean-compile maintainer-clean-tags \
+maintainer-clean-am:  maintainer-clean-libLTLIBRARIES \
+		maintainer-clean-compile maintainer-clean-libtool \
+		maintainer-clean-noinstPROGRAMS maintainer-clean-tags \
 		maintainer-clean-depend maintainer-clean-generic \
 		distclean-am
 	@echo "This command is intended for maintainers to use;"
@@ -346,10 +407,14 @@ maintainer-clean-am:  maintainer-clean-noinstPROGRAMS \
 maintainer-clean: maintainer-clean-am
 	-rm -f config.status
 
-.PHONY: mostlyclean-noinstPROGRAMS distclean-noinstPROGRAMS \
-clean-noinstPROGRAMS maintainer-clean-noinstPROGRAMS \
-mostlyclean-compile distclean-compile clean-compile \
-maintainer-clean-compile tags mostlyclean-tags distclean-tags \
+.PHONY: mostlyclean-libLTLIBRARIES distclean-libLTLIBRARIES \
+clean-libLTLIBRARIES maintainer-clean-libLTLIBRARIES \
+uninstall-libLTLIBRARIES install-libLTLIBRARIES mostlyclean-compile \
+distclean-compile clean-compile maintainer-clean-compile \
+mostlyclean-libtool distclean-libtool clean-libtool \
+maintainer-clean-libtool mostlyclean-noinstPROGRAMS \
+distclean-noinstPROGRAMS clean-noinstPROGRAMS \
+maintainer-clean-noinstPROGRAMS tags mostlyclean-tags distclean-tags \
 clean-tags maintainer-clean-tags distdir mostlyclean-depend \
 distclean-depend clean-depend maintainer-clean-depend info-am info \
 dvi-am dvi check check-am installcheck-am installcheck install-exec-am \
