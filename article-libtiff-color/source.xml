@@ -205,8 +205,8 @@ int main(int argc, char *argv[]){
 
 <p>The other interesting thing to discuss here is the planar configuration of the image. Here we have specifed PLANARCONFIG_CONTIG, which means that the red green and blue information for a given pixel is grouped together in the strips of image data. The other option is PLANARCONFIG_SEPARATE, where the red samples for the image are stored together, then the blue samples, and finally the green samples.</p>
 
-
-
+<p><heading refname="h1" type="major" toc="yes">Writing a paletted color image</heading>
+So how do we write a paletted version of this image? Well, libtiff makes this really easy -- all we need to do is change the value of TIFFTAG_PHOTOMETRIC to PHOTOMETRIC_PALETTE. It's not really worth including an example in this article, given it's a one word change.</p>
 
 
 
@@ -214,56 +214,194 @@ int main(int argc, char *argv[]){
 
 
 TIFFReadRGBAStrip pain
-Alpha channels
 
 
 
 
 
-<!-- CODE SECTION WITH HEADING:  PLACE HEADING INSIDE CODE TAG WITH TYPE="CODE".  DO NOT SURROUND CODE SECTION WITH PARAGRAPH TAGS.  THE TOC ATTRIBUTE DETERMINES IF THIS HEADING IS INCLUDED IN THE TOC.   DEFAULT IS TOC="NO".-->
-<code type="section">
-<heading refname="code1" type="code" toc="no">[Caption for sample code section or code listing]</heading>
-[Code goes here.  &lt;pre&gt; tags will be added automatically.
 
-Use the b tag to surround <b>bolded code</b>.
 
-To specify colors, use the class attribute on the b tag:
-        code &lt;b class="red"&gt; for <b class="red">red</b>.
-        code &lt;b class="green"&gt; for <b class="green">green</b>.
-        code &lt;b class="blue"&gt; for <b class="blue">blue</b>.
 
-Use the space key to indent lines.]
+
+
+
+
+
+
+
+
+<p><heading refname="h1" type="major" toc="yes">Advanced topics</heading>	
+Well, now that we understand how to read and write basically any image format we can think of, there are is one other thing we should quickly discuss. All of these examples that I have included to this point have read and written with files. There are many scenarios when you wouldn't want to store your image data in a file, but would still want to use libtiff and tiff. For example, you might have customer pictures for id cards, and these would be stored in a database.</p>
+
+<p>The example which I am most familiar with is PDF documents. In PDF files, you can embed images into the document. These images can be in a subset of TIFF if desired, and TIFF is quite clearly the choice for black and white images.</p>
+
+<sidebar>
+<heading refname="" type="sidebar" toc="no">An expanded example</heading>
+<p>If you need more information about hooking the file input and output functions within libtiff than this article allows, then have a look at the images.c file in Panda, my PDF library. The web pages for Panda can be found at <a href="http://www.stillhq.com/cgi-bin/getpage?area=panda&page=index.htm">http://www.stillhq.com/cgi-bin/getpage?area=panda&page=index.htm</a>.</p>
+</sidebar>
+
+<p>libtiff allows you to replace the file input and output functions in the library with your own. This is done with the TIFFClientOpen() method. Here's an example:</p>
+
+<heading refname="write-example-simple" type="code" toc="no">Using TIFFClientOpen</heading>
+#include <tiffio.h>
+
+pthread_mutex_t convMutex = PTHREAD_MUTEX_INITIALIZER;
+static tsize_t libtiffDummyReadProc (thandle_t fd, tdata_t buf, tsize_t size);
+static tsize_t libtiffDummyWriteProc (thandle_t fd, tdata_t buf,
+				      tsize_t size);
+static toff_t libtiffDummySeekProc (thandle_t fd, toff_t off, int i);
+static int libtiffDummyCloseProc (thandle_t fd);
+
+char *globalImageBuffer;
+unsigned long globalImageBufferOffset;
+
+
+
+
+
+
+
+
+
+  TIFF *conv;
+      pthread_mutex_lock (&convMutex);
+
+      globalImageBuffer = NULL;
+      globalImageBufferOffset = 0;
+
+      // Open the dummy document (which actually only exists in memory)
+      conv =
+	TIFFClientOpen ("dummy", "w", (thandle_t) - 1, libtiffDummyReadProc,
+			libtiffDummyWriteProc, libtiffDummySeekProc,
+			libtiffDummyCloseProc, NULL, NULL, NULL);
+
+      // Copy the image information ready for conversion
+      stripSize = TIFFStripSize (image);
+      stripMax = TIFFNumberOfStrips (image);
+      imageOffset = 0;
+
+      stripBuffer = panda_xmalloc (TIFFNumberOfStrips (image) * stripSize);
+
+      for (stripCount = 0; stripCount < stripMax; stripCount++)
+	{
+	  imageOffset += TIFFReadEncodedStrip (image, stripCount,
+					       stripBuffer + imageOffset,
+					       stripSize);
+	}
+
+      // We also need to copy some of the attributes of the tiff image
+      // Bits per sample has to be 1 because this is going to be a G4/G3 image
+      // (and all other image formats were stripped out above).
+      twidth = width;
+      theight = height;
+      TIFFSetField (conv, TIFFTAG_IMAGEWIDTH, twidth);
+      TIFFSetField (conv, TIFFTAG_IMAGELENGTH, theight);
+      TIFFSetField (conv, TIFFTAG_BITSPERSAMPLE, 1);
+      TIFFSetField (conv, TIFFTAG_COMPRESSION, compression);
+      TIFFSetField (conv, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+      TIFFSetField (conv, TIFFTAG_ROWSPERSTRIP, height + 1);
+      TIFFSetField (conv, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_MINISWHITE);
+      TIFFSetField (conv, TIFFTAG_FILLORDER, FILLORDER_MSB2LSB);
+      TIFFSetField (conv, TIFFTAG_SAMPLESPERPIXEL, 1);
+      TIFFSetField (conv, TIFFTAG_ORIENTATION, ORIENTATION_TOPLEFT);
+      TIFFSetField (conv, TIFFTAG_RESOLUTIONUNIT, RESUNIT_INCH);
+      TIFFSetField (conv, TIFFTAG_XRESOLUTION, 300);
+      TIFFSetField (conv, TIFFTAG_YRESOLUTION, 300);
+
+      if (compression == COMPRESSION_CCITTFAX4)
+	TIFFSetField (conv, TIFFTAG_GROUP4OPTIONS, 0);
+
+      // Actually do the conversion
+      TIFFWriteEncodedStrip (conv, 0, stripBuffer, imageOffset);
+
+      // Finish up
+      free (stripBuffer);
+
+      pthread_mutex_unlock (&convMutex);
+
+
+
+
+
+
+
+
+static tsize_t
+libtiffDummyReadProc (thandle_t fd, tdata_t buf, tsize_t size)
+{
+  // Return the amount of data read, which we will always set as 0 because
+  // we only need to be able to write to these in-memory tiffs
+  return 0;
+}
+
+
+
+
+
+static tsize_t
+libtiffDummyWriteProc (thandle_t fd, tdata_t buf, tsize_t size)
+{
+  // libtiff will try to write an 8 byte header into the tiff file. We need
+  // to ignore this because PDF does not use it...
+  if ((size == 8) && (((char *) buf)[0] == 'I') && (((char *) buf)[1] == 'I')
+      && (((char *) buf)[2] == 42))
+    {
+      // Skip the header -- little endian
+    }
+  else if ((size == 8) && (((char *) buf)[0] == 'M') &&
+	   (((char *) buf)[1] == 'M') && (((char *) buf)[2] == 42))
+    {
+      // Skip the header -- big endian
+    }
+  else
+    {
+      // Have we done anything yet?
+      if (globalImageBuffer == NULL)
+	globalImageBuffer = (char *) panda_xmalloc (size * sizeof (char));
+
+      // Otherwise, we need to grow the memory buffer
+      else
+	{
+	  if ((globalImageBuffer = (char *) realloc (globalImageBuffer,
+						     (size * sizeof (char)) +
+						     globalImageBufferOffset))
+	      == NULL)
+	    panda_error (panda_true,
+			 "Could not grow the tiff conversion memory buffer.");
+	}
+
+      // Now move the image data into the buffer
+      memcpy (globalImageBuffer + globalImageBufferOffset, buf, size);
+      globalImageBufferOffset += size;
+    }
+
+  return (size);
+}
+
+static toff_t
+libtiffDummySeekProc (thandle_t fd, toff_t off, int i)
+{
+  // This appears to return the location that it went to
+  return off;
+}
+
+static int
+libtiffDummyCloseProc (thandle_t fd)
+{
+  // Return a zero meaning all is well
+  return 0;
+}
+
+
 </code>
 
-<p>[Next paragraph goes here]</p>
-
-<!-- CODE SECTION WITHOUT HEADING:  DO NOT SURROUND CODE SECTION WITH PARAGRAPH TAGS.  THE TOC ATTRIBUTE DETERMINES IF THIS HEADING IS INCLUDED IN THE TOC.   DEFAULT IS TOC="NO".-->
-<code type="section">
-[This code example does not have a code heading]
-</code>
-
-<p><heading refname="h3" type="major" toc="yes">[Major heading 2]</heading>
-[Insert paragraph text here and end with an end paragraph tag.]</p>
 
 
 
-<p>[Refer to figure using the reference name (refname) assigned to the figure, as follows: <a href="#figure1">Figure 1</a>. ]</p>
 
-[Insert paragraph text here and end the paragraph with an end paragraph tag.  To include inline code in a paragraph, surround the code snippet with a
-code tag that has the attribute: type="inline".  This is an <code type="inline">inline code snippet</code> .
 
-<!-- THIRD-LEVEL HEADING:  PRECEDE ALL THIRD-LEVEL HEADINGS WITH A PARAGRAPH TAG.  FOLLOW THE HEADING WITH A BREAK TAG.-->
-<p><b>[Third-level heading]</b><br />
-[The third-level heading above is created using bold tags and is followed by a break tag to separate it from the paragraph text.]</p>
 
-<p>[Next paragraph goes here with unordered list.  If you end the paragraph tag before the list, you get a space separating the text from the list.]</p>
-<ul>
-<li>[List item one]</li>
-<li>[List item two]</li>
-<li>[List item three]</li>
-</ul>
 
-<resourcelist>
 <p><heading refname="" type="resourcelist" toc="no">Source code used in this article</heading></p>
 <ul>
 <li>Repeated compression source</li>
