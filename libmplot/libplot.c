@@ -536,7 +536,6 @@ DOCBOOK END
 void
 plot_strokeline (plot_state * state)
 {
-  // todo: support for non straight lines
   plot_lineseg *current;
   unsigned int x1, y1, c, d;
   int rise, run, startx, starty;
@@ -552,6 +551,10 @@ plot_strokeline (plot_state * state)
   current = current->next;
   while (current != NULL)
     {
+      if ((y1 == current->y) && (x1 == current->x))
+	{
+	  plot_drawpoint (state, state->linecolor, LIBMPLOT_TRUE, x1, y1);
+	}
       if (y1 == current->y)
 	{
 	  for (c = plot_min (x1, current->x);
@@ -588,11 +591,13 @@ plot_strokeline (plot_state * state)
 		  for (d = plot_min (prevy, (int) newy);
 		       d < plot_max (prevy, (int) newy); d++)
 		    {
-		      plot_drawpoint (state, state->linecolor, LIBMPLOT_TRUE, c - 1, d);
+		      plot_drawpoint (state, state->linecolor, LIBMPLOT_TRUE, 
+				      c - 1, d);
 		    }
 		}
 
-	      plot_drawpoint (state, state->linecolor, LIBMPLOT_TRUE, c, (int) newy);
+	      plot_drawpoint (state, state->linecolor, LIBMPLOT_TRUE, c, 
+			      (int) newy);
 	    }
 	}
 
@@ -604,7 +609,8 @@ plot_strokeline (plot_state * state)
 
 // Draw a single point on the raster, with the current pen properties
 void
-plot_drawpoint (plot_state * state, plot_pixel color, int isLine, unsigned int x, unsigned int y)
+plot_drawpoint (plot_state * state, plot_pixel color, int isLine, 
+		unsigned int x, unsigned int y)
 {
   unsigned int xc, yc, tempx, tempy;
 
@@ -1473,16 +1479,16 @@ plot_stringheight (plot_state * state, char *string)
 
 ///////////////////
 // Internal methods
-unsigned int
-plot_min (unsigned int one, unsigned int two)
+int
+plot_min (int one, int two)
 {
   if (one > two)
     return two;
   return one;
 }
 
-unsigned int
-plot_max (unsigned int one, unsigned int two)
+int
+plot_max (int one, int two)
 {
   if (one > two)
     return one;
@@ -1621,8 +1627,6 @@ void plot_overlayraster(plot_state * state, char *raster,
 
   xscale = ((float) (x2) - x1) / rx;
   yscale = ((float) (y2) - y1) / ry;
-  printf("Xscale = %f\n", xscale);
-  printf("Yscale = %f\n", yscale);
   yacc = 0.0;
 
   for(iy = 0, y = 0; y < ry; y++){
@@ -1640,13 +1644,6 @@ void plot_overlayraster(plot_state * state, char *raster,
 	      if((pixels[y * rx + x].r != last.r) ||
 		 (pixels[y * rx + x].g != last.g) ||
 		 (pixels[y * rx + x].b != last.b)){
-		if(lastcount > 1)
-		  printf(" * %d ", lastcount);
-		
-		printf(" [%d,%d,%d] ", 
-		       pixels[y * rx + x].r, 
-		       pixels[y * rx + x].g,
-		       pixels[y * rx + x].b);
 		last = pixels[y * rx + x];
 		lastcount = 0;
 	      }
