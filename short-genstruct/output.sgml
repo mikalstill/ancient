@@ -3,11 +3,21 @@
 <title>An introduction to genstruct</title>
    <subtitle>A final year project discussion paper (number two)</subtitle>
 
+<articleinfo>
+<authorgroup>
+<author>
+  <firstname>Michael</firstname>
+  <surname>Still</surname>
+  <affiliation><jobtitle>964076</jobtitle></affiliation>
+</author>
+</authorgroup>
+</articleinfo>
+
 <sect1>
 <title>About the author</title>
 <para>
 Michael's student number is 964076. He can be contacted at mikal@stillhq.com. Copyright (c) Michael Still 2002. This submission is
-   1129
+   1132
 words, not including the code snippets.
 </para>
 </sect1>
