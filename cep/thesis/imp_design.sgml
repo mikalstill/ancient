@@ -18,7 +18,9 @@ operating systems. It should also be noted that most modern windowing toolkits r
 </para>
 
 <para>
-The choice of user interface toolkit also maximized the cross platform capabilities of the application. This is because <command>wxWindows</command> has been specifically built to be easily ported, and currently runs on the following platforms:
+The choice of user interface toolkit also maximized the cross platform capabilities of the application. 
+This is because <command>wxWindows</command> has been specifically built to be easily ported, and currently 
+runs on the following platforms:
 </para>
 
 <itemizedlist>
@@ -39,6 +41,33 @@ the use of OO methodology.
 </para>
 
 
+<para>
+  The following figure is a deployment diagram for the <command>GDMS</command>. Note that the Error handling has
+  not been connected in the diagram in order to preserve clarity. With few exceptions, all of the 
+  <command>GDMS</command> modules use the error handling sub-system. There are a number of reasons for this. The
+  first is our desire to ensure that maximum possible stability of this system. This can only be achieved through
+  efficient and appropriate error handling. For example, error that are not fatal to the application will not cause
+  termination, instead provide feedback on the error, before returning to a stable state. Another reason, related 
+  to the first, is that in using a class such as the Matrix class used in this system, there are a large number of 
+  operations dependant on it. Most operations using the matrix class invoke dynamic memory allocation, the area 
+  where most problems are likely to occur. Therefore, there needs to be constant tracking to ensure an error
+  has not occured.
+</para>
+
+ <figure><title>Deployment diagram for the <command>GDMS</command>.</title>
+      <execute><cmd>img</cmd><args>deployment.png</args></execute>
+  </figure>
+
+<para>
+  The next deployment digram is that of the error handling sub-system described above. Errors are logged to file
+  in order to facilitate debugging if and when it is required.
+</para>
+
+ <figure><title>Deployment diagram for the Error Handling sub-system of the <command>GDMS</command>.</title>
+      <execute><cmd>img</cmd><args>error_handling.png</args></execute>
+  </figure>
+
+
 </sect2> <!--Introduction-->
 
 <sect2><title>Theory</title>
@@ -55,7 +84,14 @@ the use of OO methodology.
 
 <sect2><title>Future Enhancements</title>
   <!--may want to integrate this with conclusion?-->
-  <para></para>
+  <para>
+    The modular design of the <command>GDMS</command> increases the potential for future improvements to the
+    application, such as facilitating the addition of new mathematical functionality to the system. The OO design
+    can be built on by employing techniques such as inheritance. This technique has already been encorporated
+    into the windowing sub-system of the <command>GDMS</command> and could used again in similar situations, where
+    broad definitions can be defined for functionality, then specific classes can be derived from these higher
+    level modules.
+  </para>
 </sect2> <!--Future Enahncements-->
 
 <sect2><title>Conclusion</title>
