@@ -35,7 +35,7 @@
 #include <vector>
 #include <math.h>
 
-// !removed - not everyone need access tpo the wondowing toolkit!
+// !removed - not everyone need access to the wondowing toolkit!
 // #include <wx/image.h>
 
 #include "cepTSB.h"
@@ -46,7 +46,6 @@
 #include "cepDate.h"
 #include "cepConfiguration.h"
 
-GLOBAL_THINGIE cepConfiguration *gConfiguration;
 GLOBAL_THINGIE fstream gLog;
 GLOBAL_THINGIE cepTSB gDisplayParams[cepError::sevMax];
 
