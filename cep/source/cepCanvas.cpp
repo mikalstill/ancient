@@ -125,6 +125,8 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
   // Is the mouse down?
   if(event.LeftIsDown()){
     int top, bottom, width;
+    int cwidth, cheight;
+    GetSize (&cwidth, &cheight);
     graphPlacement(selDir, top, bottom, width);
 
     if(m_selectXStart == -1){
@@ -139,7 +141,7 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
       string sel = string(m_selDirString + " " +  startDate);
       ((cepFrame *) wxGetApp().GetTopWindow())->SetStatusText(sel.c_str(), 2);
 
-      dc.DrawLine(m_selectXStart, top, m_selectXStart, bottom);
+      dc.DrawLine(m_selectXStart, 0, m_selectXStart, cheight);
     }
     else{
       m_selectXEnd = pt.x;
@@ -157,21 +159,15 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
 
       // Draw the highlight
       if((m_selectXPrevious + 1) == m_selectXEnd){
-	dc.DrawLine(m_selectXPrevious + 1, top, m_selectXPrevious + 1, bottom);
+	dc.DrawLine(m_selectXPrevious + 1, 0, m_selectXPrevious + 1, cheight);
       }
       if((m_selectXPrevious + 1) < m_selectXEnd){
 	for(int i = m_selectXPrevious; i < m_selectXEnd; i++)
-	  dc.DrawLine(i + 1, top, i + 1, bottom);
-	
-	// todo_mikal: This rectangle call was refusing to work for me...
-	// dc.DrawRectangle(m_selectXPrevious + 1, top, 1, bottom - top);
+	  dc.DrawLine(i + 1, 0, i + 1, cheight);
       }
       else if(m_selectXPrevious > m_selectXEnd){
-	// todo_mikal: check this is perfect
 	for(int i = m_selectXEnd; i < m_selectXPrevious; i++)
-	  dc.DrawLine(i, top, i + 1, bottom);
-
-	// todo_mikal: I should use a rectangle here as well
+	  dc.DrawLine(i + 1, 0, i + 1, cheight);
       }
       m_selectXPrevious = m_selectXEnd;
     }
