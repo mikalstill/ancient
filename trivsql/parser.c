@@ -694,7 +694,7 @@ case 4:
     break;}
 case 5:
 #line 25 "parser.y"
-{ doinsert(yyvsp[-4], yyvsp[-7], yyvsp[-1]); ;
+{ trivsql_doinsert(yyvsp[-4], yyvsp[-7], yyvsp[-1]); ;
     break;}
 case 6:
 #line 29 "parser.y"

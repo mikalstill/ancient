@@ -12,7 +12,7 @@
 [Tt][Aa][Bb][Ll][Ee]                       { return TABLE; }
 [Ff][Rr][Oo][Mm]                           { return FROM; }
 
-[a-zA-Z0-9]+                               { yylval = tsql_xsnprintf("%s", yytext); return STRING; }
+[a-zA-Z0-9]+                               { yylval = trivsql_xsnprintf("%s", yytext); return STRING; }
 [ \t\r\n]                                  { }
 .                                          { return yytext[0]; }
 

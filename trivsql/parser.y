@@ -22,7 +22,7 @@ create   : CREATE TABLE STRING '(' colvalspec ')' ';'
          ;
 
 insert   : INSERT '(' colvalspec ')' INTO STRING VALUES '(' colvalspec ')'
-{ doinsert($6, $3, $9); }
+{ trivsql_doinsert($6, $3, $9); }
          ;
 
 sel      : SELECT '*' FROM STRING ';' 
