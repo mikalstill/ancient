@@ -158,15 +158,28 @@ enum cmd_and_opt_values { aNull = 0,
     oEmuMDEncodeBug,
 aTest };
 
+#include "api.h"
+
 void init_api(void);
 
+gpg_mtoken    apimagic;
+
 int main(int argc, char *argv[]){
-  enum cmd_and_opt_values cmd = 0;  
+  enum cmd_and_opt_values cmd = 0;
+
+  // Initialise the API
   init_api();
 
+  // Make the magic token have the passphrase
+  
+
+  // Do the decryption
   set_cmd(&cmd, aDecrypt);
   init_keyring(cmd, 1, NULL, 1, NULL);
-  decrypt_message("message01.gpg");
+  decrypt_message("test.gpg");
 
   return 0;
 }
+
+
+

@@ -118,8 +118,7 @@ read_passphrase_from_fd( int fd )
  */
 DEK *
 passphrase_to_dek( u32 *keyid, int pubkey_algo,
-		   int cipher_algo, STRING2KEY *s2k, int mode,
-		   char *inputPW)
+		   int cipher_algo, STRING2KEY *s2k, int mode)
 {
     char *pw = NULL;
     DEK *dek;
@@ -157,7 +156,7 @@ passphrase_to_dek( u32 *keyid, int pubkey_algo,
 	size_t n;
 	char *p;
 
-	if(inputPW == NULL){
+	//	if(inputPW == NULL){
 	  tty_printf(_("\nYou need a passphrase to unlock the secret key for\n"
 		       "user: \"") );
 	  p = get_user_id( keyid, &n );
@@ -175,11 +174,11 @@ passphrase_to_dek( u32 *keyid, int pubkey_algo,
 		&& keyid[1] != keyid[3] )
 	      tty_printf( _(" (main key ID %08lX)"), (ulong)keyid[3] );
 	    tty_printf("\n");
-	  }
+	     }
 
 	  tty_printf("\n");
 	  free_public_key( pk );
-	}
+	  // }
     }
 
     if( next_pw ) {
@@ -195,9 +194,9 @@ passphrase_to_dek( u32 *keyid, int pubkey_algo,
 	pw = m_strdup( "" ); /* return an empty passphrase */
     }
     else {
-      if(inputPW == NULL)
+      //if(inputPW == NULL)
 	pw = cpr_get_hidden("passphrase.enter", _("Enter passphrase: ") );
-      else pw = inputPW;
+	//else pw = inputPW;
 
 	tty_kill_prompt();
 	if( mode == 2 && !cpr_enabled() ) {
