@@ -54,6 +54,8 @@ public:
   cepError cepCanvas::graphPlacement(cepDataset::direction dir, int& top, int& bottom, int& width);
 
   wxView * m_view;
+  bool m_showx, m_showy, m_showz;
+
  private:
   DECLARE_EVENT_TABLE ()
     

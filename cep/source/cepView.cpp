@@ -172,6 +172,10 @@ cepView::OnDraw (wxDC * dc)
       cepError err;
       int top, bottom, width;
       
+      m_config->getValue("ui-viewmenu-showx", true, canvas->m_showx).display();
+      m_config->getValue("ui-viewmenu-showy", true, canvas->m_showy).display();
+      m_config->getValue("ui-viewmenu-showz", true, canvas->m_showz).display();
+      
       for(int dir = (int) cepDataset::dirX; dir < (int) cepDataset::dirUnknown; dir++){
 	err = canvas->graphPlacement((cepDataset::direction) dir, top, bottom, width);
 	if(err.isReal()){

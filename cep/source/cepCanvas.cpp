@@ -240,15 +240,9 @@ cepCanvas::determineGraph(int y, string& name){
 cepError
 cepCanvas::graphStatus(bool& x, bool& y, bool& z, int& count)
 {
-  cepError err;
-  err = m_config->getValue("ui-viewmenu-showx", true, x);
-  if(err.isReal()) return err;
-
-  err = m_config->getValue("ui-viewmenu-showy", true, y);
-  if(err.isReal()) return err;
-  
-  err = m_config->getValue("ui-viewmenu-showz", true, z);
-  if(err.isReal()) return err;
+  x = m_showx;
+  y = m_showy;
+  z = m_showz;
 
   count = 0;
   if(x) count++;
