@@ -25,6 +25,8 @@
 #include "cepStringArray.h"
 #include "cepTextErrorHandler.h"
 #include "cepApplicator.h"
+#include "cepMatrixIO.h"
+
 #include <unistd.h>
 
 int
@@ -198,7 +200,77 @@ main (int argc, char *argv[])
 	      // Perform a LS regression on the dataset
 	      else if(sa[0] == "ls")
 		{
+		  cepMatrix<double> data[cepDataset::dirUnknown];
+		  cepMatrix<double> residuals[cepDataset::dirUnknown];
+		  double b1s[cepDataset::dirUnknown];
+		  double b2s[cepDataset::dirUnknown];
+ 
+		  if(sa[1] == "auto")
+		    {
+		      for(int i = 0; i < cepDataset::dirUnknown; i++)
+			{
+			  cepError err = processLsVCV(&ds, (cepDataset::direction) i,
+						      data[i], residuals[i], b1s[i], b2s[i]);
+			  if(err.isReal())
+			    {
+			      cout << "LS failed: " << err.getMessage() << 
+				" (failed in direction " << i << ")" << endl;
+			      break;
+			    }
+			}
+		    }
+		  else
+		    {
+		      cepStringArray mats(sa[1], ",");
+		      for(int i = 0; i < cepDataset::dirUnknown; i++)
+			{
+			  cepMatrix<double> mat;
+			  mat = cepReadMatrix (mats[i]);
+
+			  cepError err = processLsVCV(&ds, (cepDataset::direction) i, mat,
+						      data[i], residuals[i], b1s[i], b2s[i]);
+			  if(err.isReal())
+			    {
+			      cout << "LS failed: " << err.getMessage() << 
+				" (failed in direction " << i << ")" << endl;
+			      break;
+			    }
+			}
+		    }
+
+		  // And now we need to save all this data to the _two_ specified filenames
+
+		  // Actual data
+		  {
+		    cepDebugPrint("Creating LS data dataset");
+		    cepDataset newds(&data[0], &data[1], &data[2],
+				     ds.getOffset((cepDataset::direction) 0), 
+				     ds.getOffset((cepDataset::direction) 1), 
+				     ds.getOffset((cepDataset::direction) 2),
+				     ds.getProcHistory() + " : LS VCV", 
+				     ds.getHeader((cepDataset::direction) 0), 
+				     ds.getHeader((cepDataset::direction) 1), 
+				     ds.getHeader((cepDataset::direction) 2),
+				     b1s[0], b1s[1], b1s[2], b2s[0], b2s[1], b2s[2],
+				     true, true, true);
+		    
+		    newds.write(sa[2]);
+		  }
 		  
+		  // Residuals
+		  {
+		    cepDebugPrint("Creating residuals dataset");
+		    cepDataset newds(&residuals[0], &residuals[1], &residuals[2], 
+				     ds.getOffset((cepDataset::direction) 0), 
+				     ds.getOffset((cepDataset::direction) 1), 
+				     ds.getOffset((cepDataset::direction) 2),
+				     ds.getProcHistory() + " : LS VCV Residuals", 
+				     ds.getHeader((cepDataset::direction) 0), 
+				     ds.getHeader((cepDataset::direction) 1), 
+				     ds.getHeader((cepDataset::direction) 2));
+		    
+		    newds.write(sa[3]);
+		  }
 		}
 
 	      // Unknown command
