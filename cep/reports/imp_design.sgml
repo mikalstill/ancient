@@ -1,0 +1,22 @@
+<sect1><title>Design Philosophy</title> 
+
+<sect2><title>Introduction</title>
+<para>
+  -00, GPL, C++
+</para>
+
+
+</sect2> <!--Introduction-->
+
+<sect2><title>Theory</title>
+</sect2> <!--Theory-->
+
+<sect2><title>Future Enahncements</title>
+<!--may want to integrate this with conclusion?-->
+</sect2> <!--Future Enahncements-->
+
+<sect2><title>Conclusion</title>
+</sect2> <!--Conclusion-->
+
+</sect1> <!--design-->
+
