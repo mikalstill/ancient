@@ -3,6 +3,8 @@
 #include <vector>
 #include <string>
 
+#include "raster.h"
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -65,6 +67,7 @@ class dictionary{
   bool getValue(string dname, pdf& thePDF, object& obj);
   bool getValue(string dname, string& value);
   bool getValue(string dname, dictionary& subdict);
+  bool getValue(string dname, int& value);
 
   vector<dictitem> getItems();
 
@@ -89,15 +92,16 @@ class object{
   dictionary& getDict();
   int getNumber();
   int getGeneration();
-  char *getStream();
-  unsigned int getStreamLength();
+  char *getStream(bool& needsStreamClean, unsigned long& length);
+  char *getStream(raster& image, bool& needsStreamClean, unsigned long& length);
+  unsigned long getStreamLength();
 
  private:
   int m_number;
   int m_generation;
 
   char *m_stream;
-  unsigned int m_streamLength;
+  unsigned long m_streamLength;
 
   dictionary m_dictionary;
 };

@@ -64,7 +64,7 @@ PACKAGE = @PACKAGE@
 VERSION = @VERSION@
 
 bin_PROGRAMS = pandaedit
-pandaedit_SOURCES = pandaedit.cpp stringArray.cpp object.cpp dictionary.cpp dictitem.cpp pdf.cpp objectlist.cpp utility.cpp parseinterface.cpp render.cpp matrix.cpp configuration.cpp lzw.cpp
+pandaedit_SOURCES = pandaedit.cpp stringArray.cpp object.cpp dictionary.cpp dictitem.cpp pdf.cpp objectlist.cpp utility.cpp parseinterface.cpp render.cpp matrix.cpp configuration.cpp lzw.cpp fax.cpp raster.cpp
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
 CONFIG_HEADER = config.h
@@ -78,7 +78,7 @@ LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 pandaedit_OBJECTS =  pandaedit.o stringArray.o object.o dictionary.o \
 dictitem.o pdf.o objectlist.o utility.o parseinterface.o render.o \
-matrix.o configuration.o lzw.o
+matrix.o configuration.o lzw.o fax.o raster.o
 pandaedit_LDADD = $(LDADD)
 pandaedit_DEPENDENCIES = 
 pandaedit_LDFLAGS = 
@@ -96,9 +96,9 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 TAR = gtar
 GZIP_ENV = --best
 DEP_FILES =  .deps/configuration.P .deps/dictionary.P .deps/dictitem.P \
-.deps/lzw.P .deps/matrix.P .deps/object.P .deps/objectlist.P \
-.deps/pandaedit.P .deps/parseinterface.P .deps/pdf.P .deps/render.P \
-.deps/stringArray.P .deps/utility.P
+.deps/fax.P .deps/lzw.P .deps/matrix.P .deps/object.P \
+.deps/objectlist.P .deps/pandaedit.P .deps/parseinterface.P .deps/pdf.P \
+.deps/raster.P .deps/render.P .deps/stringArray.P .deps/utility.P
 SOURCES = $(pandaedit_SOURCES)
 OBJECTS = $(pandaedit_OBJECTS)
 

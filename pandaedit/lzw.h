@@ -23,7 +23,7 @@ class lzwTable{
 class lzw: public decompressor{
  public:
   void reinit();
-  char *decompress(char *output, unsigned long length, unsigned long& newlength);
+  char *decompress(char *input, unsigned long length, unsigned long& newlength);
 
  private:
   lzwTable m_table;

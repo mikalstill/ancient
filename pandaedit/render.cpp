@@ -3,11 +3,11 @@
 #include <unistd.h>
 
 #include "render.h"
-#include "decompressor.h"
-#include "lzw.h"
 #include "utility.h"
 #include "stringArray.h"
 #include "configuration.h"
+
+#include "raster.h"
 
 pdfRender::pdfRender(pdf& thePDF, object page, int pageno):
   m_page(page),
@@ -62,32 +62,7 @@ bool pdfRender::render()
   unsigned long inset, length;
   bool needStreamClean(false);
 
-  // Sometimes the stream is compressed, if it is, then we
-  // decompress it here
-  string filter;
-  if(m_contents.getDict().getValue("Filter", filter)){
-    printf("DEBUG: The stream is filtered with filter %s\n", filter.c_str());
-    decompressor *mydec = NULL;
-
-    if(filter == "LZWDecode"){
-      mydec = new lzw();
-    }
-
-    if(mydec != NULL){
-      stream = mydec->decompress(m_contents.getStream(), m_contents.getStreamLength(), length);
-      delete mydec;
-      needStreamClean = true;
-    }
-    else{
-      printf("DEBUG: Unknown compression scheme %s\n", filter.c_str());
-      length = 0;
-    }
-  }
-  else{
-    stream = m_contents.getStream();
-    length = m_contents.getStreamLength();
-  }
-
+  stream = m_contents.getStream(needStreamClean, length);
   printf("DEBUG: Process page stream\n");
   // todo_mikal: this might be too slow because of the accessor
   string line;
@@ -309,6 +284,12 @@ void pdfRender::command_Do()
   }
 
   printf("DEBUG: We should do something with this now...\n");
+  char *stream;
+  bool needStreamClean(false);
+  unsigned long length;
+  raster rast(image);
+  stream = image.getStream(rast, needStreamClean, length);
+  rast.setData(stream);
 }
 
 // Exit text mode

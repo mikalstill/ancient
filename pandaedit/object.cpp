@@ -3,6 +3,10 @@
 #include "objectmodel.h"
 #include <stdio.h>
 
+#include "decompressor.h"
+#include "lzw.h"
+#include "fax.h"
+
 object::object(int number, int generation):
   m_number(number),
   m_generation(generation),
@@ -154,12 +158,84 @@ int object::getGeneration()
   return m_generation;
 }
 
-char *object::getStream()
+char *object::getStream(bool& needsStreamClean, unsigned long& length)
 {
-  return m_stream;
+  // Sometimes the stream is compressed, if it is, then we
+  // decompress it here
+  string filter;
+  char *stream;
+
+  if(getDict().getValue("Filter", filter)){
+    printf("DEBUG: The stream is filtered with filter %s\n", filter.c_str());
+    decompressor *mydec = NULL;
+
+    if(filter == "LZWDecode"){
+      mydec = new lzw();
+    }
+    else if(filter == "FlateDecode"){
+      mydec = new fax();
+    }
+    else{
+      printf("DEBUG: Unknown stream filter\n");
+    }
+
+    if(mydec != NULL){
+      stream = mydec->decompress(m_stream, m_streamLength, length);
+      delete mydec;
+      needsStreamClean = true;
+    }
+    else{
+      printf("DEBUG: Unknown compression scheme %s\n", filter.c_str());
+      stream = NULL;
+    }
+
+    return stream;
+  }
+  else{
+    needsStreamClean = false;
+    length = m_streamLength;
+    return m_stream;
+  }
 }
 
-unsigned int object::getStreamLength()
+char *object::getStream(raster& rast, bool& needsStreamClean, unsigned long& length)
+{
+  // Sometimes the stream is compressed, if it is, then we
+  // decompress it here
+  string filter;
+  char *stream;
+
+  if(getDict().getValue("Filter", filter)){
+    printf("DEBUG: The stream is filtered with filter %s\n", filter.c_str());
+    decompressor *mydec = NULL;
+
+    if(filter == "LZWDecode"){
+      mydec = new lzw();
+    }
+    else if(filter == "CCITTFaxDecode"){
+      mydec = new fax();
+    }
+
+    if(mydec != NULL){
+      stream = mydec->decompress(m_stream, m_streamLength, length);
+      delete mydec;
+      needsStreamClean = true;
+    }
+    else{
+      printf("DEBUG: Unknown compression scheme %s\n", filter.c_str());
+      stream = NULL;
+    }
+
+    return stream;
+  }
+  else{
+    needsStreamClean = false;
+    length = m_streamLength;
+    return m_stream;
+  }
+}
+
+unsigned long object::getStreamLength()
 {
   return m_streamLength;
 }

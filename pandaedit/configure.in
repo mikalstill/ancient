@@ -28,10 +28,14 @@ AC_CHECK_LIB(fl, yywrap)
 dnl -lmplot
 AC_CHECK_LIB(mplot, plot_newplot)
 
+dnl -ltiff:
+AC_CHECK_LIB(tiff, TIFFOpen, CFLAGS="$CFLAGS -DHAVE_LIBTIFF"  LDFLAGS="$LDFLAGS -ltiff")
+
 dnl Checks for header files.
 dnl STDC checks for stdlib.h stdarg.h string.h and float.h
 AC_HEADER_STDC
 AC_CHECK_HEADERS(stdio.h)
+AC_CHECK_HEADERS(tiffio.h)
 
 dnl Headers for libraries
 

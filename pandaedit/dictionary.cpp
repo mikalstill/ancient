@@ -69,6 +69,18 @@ bool dictionary::getValue(string dname, string& value)
   return false;
 }
 
+bool dictionary::getValue(string dname, int& value)
+{
+  printf("DEBUG: Get int named %s from dictionary\n", dname.c_str());
+  for(unsigned int i = 0; i < m_items.size(); i++)
+    if(m_items[i].getName() == dname){
+      value = m_items[i].getIntValue();
+      return true;
+    }
+
+  return false;
+}
+
 bool dictionary::getValue(string dname, dictionary& value)
 {
   printf("DEBUG: Get subdictionary named %s from dictionary\n", dname.c_str());
