@@ -47,27 +47,20 @@ Most file format specifications define some basic rules for the representation o
 <p><heading refname="hard" type="major" toc="yes">Writing TIFF files</heading>
 The first thing I want to do is show you how to write a TIFF file out. We'll then get onto how to read a TIFF file back into your program.</p>
 	
-<p><heading refname="infrastructure" type="minor" toc="yes">Infrastructure</heading>
+<p><heading refname="infrastructure-read" type="minor" toc="yes">Infrastructure for reading</heading>
 It is traditional for bitmaps to be represented inside your code with an array of chars. This is because on most operating systems, a char maps well to one byte. In the block of code below, we will setup libtiff, and create a simple buffer which contains an image which we can then write out to disc.</p>
 
 <code type="section">
-<heading refname="infrastructure-code" type="code" toc="no">Setting up the infrastructure</heading>
+<heading refname="infrastructure-read-code" type="code" toc="no">Setting up the infrastructure</heading>
+#include <stdio.h>
+#include <tiffio.h>
 
-
-
-
-
-[Code goes here.  &lt;pre&gt; tags will be added automatically.
-
-Use the b tag to surround <b>bolded code</b>.
-
-To specify colors, use the class attribute on the b tag:
-        code &lt;b class="red"&gt; for <b class="red">red</b>.
-        code &lt;b class="green"&gt; for <b class="green">green</b>.
-        code &lt;b class="blue"&gt; for <b class="blue">blue</b>.
-
-Use the space key to indent lines.]
+int main(int argc, char *argv[]){
+  char *buffer;
+}
 </code>
+
+<p>The code above is pretty simple. All you need to use libtiff is to include the tiffio.h header file. To compile this, use the command <code type="inline">gcc foo.c -o foo -ltiff -lm</code>. The <code type="inline">-ltiff</code> is a command which will include the library named libtiff, which needs to be in your library path. Once you have started specifing libraries explicitly, you also need to add <code type="inline">-lm</code>, which is the mathematics library. The char buffer that we have defined here is going to be our black and white image, so we should define one of those next...</p>
 
 <!-- FIGURE WITH HEADING:  PLACE HEADING INSIDE FIGURE TAG WITH TYPE="FIGURE".  DO NOT SURROUND FIGURE WITH PARAGRAPH TAGS.  THE TOC ATTRIBUTE DETERMINES IF THIS HEADING IS INCLUDED IN THE TOC.   DEFAULT IS TOC="NO".   ALWAYS CODE THE ALT= ATTRIBUTE FOR A FIGURE.  ALWAYS CODE CORRECT HEIGHT AND WIDTH FOR FIGURE-->
 <figure>
