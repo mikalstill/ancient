@@ -1,0 +1,8 @@
+TITLE: Documentation for FUSE
+
+<ul>
+<li>The documentation for FUSE is somewhat scarse
+<li>There is no manual, and no man pages
+<li>You're probably best of reading the code
+<li>Hopefully this tutorial will go some way to filling that gap
+</ul>

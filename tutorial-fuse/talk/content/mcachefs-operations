@@ -1,0 +1,16 @@
+TITLE: The fuse_operations structure from mcachefs
+
+<ul>
+<li>That previous fuse_operations structure was taken from mcachefs
+<li>Which implements every possible operation
+<li>You don't have to implement them all
+<li>Either leave the unwanted ones undefined, or set the to null
+<li>As we did for addfs:
+
+<pre>
+static struct fuse_operations addfs_oper = {
+    .getattr	= addfs_getattr,
+    .open	= addfs_open,
+    .read	= addfs_read
+};
+</pre></ul>

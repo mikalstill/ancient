@@ -3,6 +3,7 @@ content/mikal-anu
 content/2004-ols-about
 content/questions-asknow-2
 content/fuse-whatisit
+content/fuse-documentation
 content/fuse-customfilesystem
 content/fuse-customfilesystem-again
 content/fuse-customfilesystem-again-2
@@ -23,8 +24,9 @@ content/demo-mcachefs-intro
 content/demo-mcachefs-doit
 content/linux-fpstructs
 content/fuse-fuse_operations
-content/fuse-eventcallbacks
-content/demo-mcachefs-readonly
+content/mcachefs-operations
+content/fuse-whataretheseoperations
+content/linux-vfs
 content/fuse-vfseventmapping-dirinode
 content/fuse-vfseventmapping-dirfile
 content/fuse-vfseventmapping-fileinode

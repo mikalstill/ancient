@@ -1,10 +1,6 @@
 TITLE: Let's work through that code example
 
-<ul>
-<li>We wont work through all of the code examples lines by line
-<li>This one is a useful introduction however...
-
-<pre>
+<ul><pre>
 static struct fuse_operations addfs_oper = {
     .getattr	= addfs_getattr,
     .open	= addfs_open,
@@ -17,5 +13,4 @@ int main(int argc, char *argv[])
   fuse_main(argc, argv, &amp;addfs_oper);
   return 0;
 }
-</pre>
-</ul>
+</pre></ul>
