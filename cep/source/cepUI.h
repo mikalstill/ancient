@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     04/01/98
-// RCS-ID:      $Id: cepUI.h,v 1.9 2002-08-05 13:06:23 u982087 Exp $
+// RCS-ID:      $Id: cepUI.h,v 1.10 2002-08-09 14:21:51 u982087 Exp $
 // Copyright:   (c) Julian Smart and Markus Holzem
 // Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////
@@ -18,6 +18,7 @@
 
 #include "wx/docmdi.h"
 #include "cepCore.h"
+#include "cepWxErrorHandler.h"
 
 class wxDocManager;
 
@@ -33,7 +34,9 @@ public:
                                      bool isCanvas);
 
 protected:
-    wxDocManager * m_docManager;
+  cepConfiguration *config;
+  wxDocManager * m_docManager;
+  cepErrorHandler *errHandler;
   cepError m_error;
 };
 
@@ -53,7 +56,13 @@ DECLARE_CLASS (cepFrame) public:
   cepCanvas *CreateCanvas (wxView * view, wxFrame * parent);
   void OnClose (wxCloseEvent & evt);
 
-  DECLARE_EVENT_TABLE ()};
+  DECLARE_EVENT_TABLE ()
+
+protected:
+  cepConfiguration *config;
+  cepWxErrorHandler *errHandler;
+  
+};
 
 extern cepFrame *GetMainFrame (void);
 

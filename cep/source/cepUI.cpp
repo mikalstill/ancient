@@ -65,44 +65,26 @@ cepFrame *frame = (cepFrame *) NULL;
 IMPLEMENT_APP (cepApp) cepApp::cepApp (void)
 {
   m_docManager = (wxDocManager *) NULL;
-
+  config = (cepConfiguration *) NULL;
+  errHandler = (cepWxErrorHandler *) NULL;
   // Open the logfile
   // todo_mikal: only if logging is turned on
   gLog.open ("cep.log", ios::out);
-
-  // Open our configuration
-  char *homedir = getenv ("HOME");
-
-  string config ("");
-
-  if (homedir == NULL)
-  {
-    cepError
-      error
-      ("Unable to determine your home directory. Defaulting to the current working directory",
-       cepError::sevInformational);
-    m_error = error;
-    error.clear ();
-  }
-  else
-  {
-    config = string (homedir);
-    config += "/";
-  }
-
-  config += ".cep";
-  gConfiguration = new cepConfiguration (config);
-
-  if (!m_error.isReal ())
-  {
-    cepDebugPrint ("Configuration database is located at: " + config);
-  }
 }
 
 bool cepApp::OnInit (void)
 {
   // Create a document manager
   m_docManager = new wxDocManager;
+
+  // Get a reference to the configuration
+  config = (cepConfiguration *)&cepConfiguration::getInstance();
+
+  // subscribe a wx windows based error handler
+  errHandler = new cepWxErrorHandler();
+  cepError::addErrorHandler( *errHandler );
+
+  
 
   // Create a template relating drawing documents to their views
   (void)new
@@ -138,8 +120,8 @@ bool cepApp::OnInit (void)
   // Create the main frame window
   int windowx, windowy;
 
-  gConfiguration->getValue ("mainwindowsizex", 1000, windowx);
-  gConfiguration->getValue ("mainwindowsizey", 700, windowy);
+  config->getValue ("mainwindowsizex", 1000, windowx);
+  config->getValue ("mainwindowsizey", 700, windowy);
   cepDebugPrint ("Main frame size is " + cepItoa (windowx) + " by " +
                  cepItoa (windowy));
 
@@ -297,6 +279,8 @@ wxMDIChildFrame *cepApp::CreateChildFrame (wxDocument * doc, wxView * view,
 IMPLEMENT_CLASS (cepFrame, wxDocMDIParentFrame) BEGIN_EVENT_TABLE (cepFrame, wxDocMDIParentFrame) EVT_MENU (DOCVIEW_ABOUT, cepFrame::OnAbout) EVT_CLOSE (cepFrame::OnClose) END_EVENT_TABLE ()cepFrame::cepFrame (wxDocManager * manager, wxFrame * frame, const wxString & title, const wxPoint & pos, const wxSize & size, long type):
 wxDocMDIParentFrame (manager, frame, -1, title, pos, size, type, "myFrame")
 {
+
+  config = (cepConfiguration *)&cepConfiguration::getInstance();
   editMenu = (wxMenu *) NULL;
 }
 
@@ -304,20 +288,19 @@ wxDocMDIParentFrame (manager, frame, -1, title, pos, size, type, "myFrame")
 // is displayed over the rest of the user interface
 void cepFrame::OnAbout (wxCommandEvent & WXUNUSED (event))
 {
-  ostringstream msg;
-
-  msg << "Geodetic Data Modelling System\n\n";
-  msg << "A GPS, VLBI and SLR dataset manipulation tool by\n";
-  msg << "    Daniel Fernandez\n";
-  msg << "    Michael Still\n";
-  msg << "    Blake Swadling\n";
-  msg << "    Nick Wheatstone\n";
-  msg << "    Kristy Van Der Vlist\n\n";
-  msg << "Portions copyright: Julian Smart julian.smart@ukonline.co.uk\n\n";
-  msg << "Released under the terms of the GNU GPL";
+  string msg =
+    "Geodetic Data Modelling System\n\n"
+    "A GPS, VLBI and SLR dataset manipulation tool by\n"
+    "    Daniel Fernandez\n"
+    "    Michael Still\n"
+    "    Blake Swadling\n"
+    "    Nick Wheatstone\n"
+    "    Kristy Van Der Vlist\n\n"
+    "Portions copyright: Julian Smart julian.smart@ukonline.co.uk\n\n"
+    "Released under the terms of the GNU GPL";
 
   wxMessageBox
-    ((const wxString &)msg.str ().c_str (),
+    ((const wxString &)msg.c_str (),
      "About Geodetic Data Modelling System");
 }
 
@@ -357,7 +340,7 @@ void cepFrame::OnClose (wxCloseEvent & evt)
   cepError err;
 
   // todo_mikal: better key name?
-  err = gConfiguration->setValue ("mainwindowsizex", width);
+  err = config->setValue ("mainwindowsizex", width);
   if (err.isReal ())
   {
     err.display ();
@@ -366,7 +349,7 @@ void cepFrame::OnClose (wxCloseEvent & evt)
   else
   {
     // todo_mikal: better key name?
-    err = gConfiguration->setValue ("mainwindowsizey", height);
+    err = config->setValue ("mainwindowsizey", height);
     if (err.isReal ())
     {
       err.display ();
