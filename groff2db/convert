@@ -98,7 +98,7 @@ foreach $chapter (split(/ /, $chapters)){
 	    $emailstate++;
 	}
 	
-	if($emailstate == 1){
+	if($emailstate > 0){
 	    $length = length($_);
 	    s/\\fP[^ \t,.]*/<\/emphasis>/g;
 	    if($length != length($_)){
