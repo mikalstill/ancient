@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     04/01/98
-// RCS-ID:      $Id: cepView.h,v 1.8 2002-08-05 13:06:23 u982087 Exp $
+// RCS-ID:      $Id: cepView.h,v 1.9 2002-08-10 13:06:45 u964076 Exp $
 // Copyright:   (c) Julian Smart and Markus Holzem
 // Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////
@@ -29,7 +29,9 @@ public:
   void OnMouseEvent (wxMouseEvent & event);
 
 private:
-    DECLARE_EVENT_TABLE () wxButton m_button;
+    DECLARE_EVENT_TABLE ()
+
+    wxButton m_button;
 };
 
 class cepView:public wxView
@@ -38,15 +40,8 @@ public:
   wxFrame * frame;
   cepCanvas *canvas;
 
-    cepView ()
-  {
-    canvas = (cepCanvas *) NULL;
-    frame = (wxFrame *) NULL;
-  }
-
-   ~cepView ()
-  {
-  }
+  cepView();
+  ~cepView();
 
   bool OnCreate (wxDocument * doc, long flags);
   void OnDraw (wxDC * dc);
@@ -55,6 +50,22 @@ public:
 
   void OnCut (wxCommandEvent & event);
 
+  void OnToggleAverage (wxCommandEvent& event);
+  void OnColorAxes  (wxCommandEvent& event);
+  void OnColorLine  (wxCommandEvent& event);
+  void OnColorAverage  (wxCommandEvent& event);
+  void OnEliminateOutliers (wxCommandEvent& event);
+
 private:
-DECLARE_DYNAMIC_CLASS (cepView) DECLARE_EVENT_TABLE ()};
+DECLARE_DYNAMIC_CLASS (cepView) DECLARE_EVENT_TABLE ()
+  void drawPresentation(cepDataset *ds, cepDataset::direction dir, int top,
+			wxDC *dc);
+ string m_pngCache[3]; 
+ bool m_showAverages;
+ bool m_dirty;
+ cepConfiguration *m_config;
+ cepWxErrorHandler *errHandler;
+};
+
+
 #endif

@@ -67,12 +67,11 @@ IMPLEMENT_APP (cepApp) cepApp::cepApp (void)
   m_docManager = (wxDocManager *) NULL;
   config = (cepConfiguration *) NULL;
   errHandler = (cepWxErrorHandler *) NULL;
-  // Open the logfile
-  // todo_mikal: only if logging is turned on
   gLog.open ("cep.log", ios::out);
 }
 
-bool cepApp::OnInit (void)
+bool
+cepApp::OnInit (void)
 {
   // Create a document manager
   m_docManager = new wxDocManager;
@@ -83,8 +82,6 @@ bool cepApp::OnInit (void)
   // subscribe a wx windows based error handler
   errHandler = new cepWxErrorHandler();
   cepError::addErrorHandler( *errHandler );
-
-  
 
   // Create a template relating drawing documents to their views
   (void)new
@@ -119,9 +116,8 @@ bool cepApp::OnInit (void)
 
   // Create the main frame window
   int windowx, windowy;
-
-  config->getValue ("mainwindowsizex", 1000, windowx);
-  config->getValue ("mainwindowsizey", 700, windowy);
+  config->getValue ("ui-mainwindow-size-x", 1000, windowx);
+  config->getValue ("ui-mainwindow-size-y", 700, windowy);
   cepDebugPrint ("Main frame size is " + cepItoa (windowx) + " by " +
                  cepItoa (windowy));
 
@@ -154,7 +150,7 @@ bool cepApp::OnInit (void)
 
   wxMenu *help_menu = new wxMenu;
 
-  help_menu->Append (DOCVIEW_ABOUT, "&About\tF1");
+  help_menu->Append (CEPMENU_ABOUT, "&About\tF1");
 
   wxMenuBar *menu_bar = new wxMenuBar;
 
@@ -192,7 +188,8 @@ bool cepApp::OnInit (void)
   return TRUE;
 }
 
-int cepApp::OnExit (void)
+int
+cepApp::OnExit (void)
 {
   // BS 06/08/2002 - removed as this segfaults if data has been loaded.
   // why? i dunno :)
@@ -206,8 +203,8 @@ int cepApp::OnExit (void)
  * Called from view.cpp, when a view is created.
  */
 
-wxMDIChildFrame *cepApp::CreateChildFrame (wxDocument * doc, wxView * view,
-                                           bool isCanvas)
+wxMDIChildFrame *
+cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
 {
   // Make a child frame
   wxDocMDIChildFrame *subframe =
@@ -243,6 +240,7 @@ wxMDIChildFrame *cepApp::CreateChildFrame (wxDocument * doc, wxView * view,
   file_menu->Append (wxID_EXIT, "E&xit");
 
   wxMenu *edit_menu = (wxMenu *) NULL;
+  wxMenu *view_menu = (wxMenu *) NULL;
 
   if (isCanvas)
   {
@@ -250,20 +248,44 @@ wxMDIChildFrame *cepApp::CreateChildFrame (wxDocument * doc, wxView * view,
     edit_menu->Append (wxID_UNDO, "&Undo");
     edit_menu->Append (wxID_REDO, "&Redo");
     edit_menu->AppendSeparator ();
-    edit_menu->Append (DOCVIEW_CUT, "&Cut last segment");
-
+    edit_menu->Append (CEPMENU_CUTSEGMENT, "&Cut last segment");
     doc->GetCommandProcessor ()->SetEditMenu (edit_menu);
+
+    ///////////////////////////////////////////////////////////////////////////
+    // The view menu
+    view_menu = new wxMenu;
+    view_menu->Append (CEPMENU_AVERAGE, "Show averages",
+		       "Toggle whether the average value is shown on graphs",
+		       TRUE);
+    view_menu->Check(CEPMENU_AVERAGE, false);
+
+    view_menu->Append (CEPMENU_ELIMINATEOUTLIERS, "Eliminate outlying samples",
+		       "Removes samples which are outside a given tolerance",
+		       FALSE);
+
+    view_menu->AppendSeparator();
+
+    view_menu->Append (CEPMENU_COLORAXES, "Axes color",
+		       "The color of the axes on the graph", FALSE);
+    
+    view_menu->Append (CEPMENU_COLORLINE, "Graph color",
+		       "The color of the data line on the graph", FALSE);
+    
+    view_menu->Append (CEPMENU_COLORAVERAGE, "Average color",
+		       "The color of the average line on the graph", FALSE);
   }
 
   wxMenu *help_menu = new wxMenu;
 
-  help_menu->Append (DOCVIEW_ABOUT, "&About");
+  help_menu->Append (CEPMENU_ABOUT, "&About");
 
   wxMenuBar *menu_bar = new wxMenuBar;
 
   menu_bar->Append (file_menu, "&File");
-  if (isCanvas)
+  if (isCanvas){
     menu_bar->Append (edit_menu, "&Edit");
+    menu_bar->Append (view_menu, "View");
+  }
   menu_bar->Append (help_menu, "&Help");
 
   // Associate the menu bar with the frame
@@ -276,37 +298,46 @@ wxMDIChildFrame *cepApp::CreateChildFrame (wxDocument * doc, wxView * view,
  * This is the top-level window of the application.
  */
 
-IMPLEMENT_CLASS (cepFrame, wxDocMDIParentFrame) BEGIN_EVENT_TABLE (cepFrame, wxDocMDIParentFrame) EVT_MENU (DOCVIEW_ABOUT, cepFrame::OnAbout) EVT_CLOSE (cepFrame::OnClose) END_EVENT_TABLE ()cepFrame::cepFrame (wxDocManager * manager, wxFrame * frame, const wxString & title, const wxPoint & pos, const wxSize & size, long type):
+IMPLEMENT_CLASS (cepFrame, wxDocMDIParentFrame)
+BEGIN_EVENT_TABLE (cepFrame, wxDocMDIParentFrame)
+  EVT_MENU (CEPMENU_ABOUT, cepFrame::OnAbout)
+EVT_CLOSE (cepFrame::OnClose)
+END_EVENT_TABLE ()
+
+cepFrame::cepFrame (wxDocManager * manager, wxFrame * frame, 
+		    const wxString & title, const wxPoint & pos, 
+		    const wxSize & size, long type):
 wxDocMDIParentFrame (manager, frame, -1, title, pos, size, type, "myFrame")
 {
-
-  config = (cepConfiguration *)&cepConfiguration::getInstance();
   editMenu = (wxMenu *) NULL;
 }
 
 // Display the about box the for application. This is a modal dialog, which
 // is displayed over the rest of the user interface
-void cepFrame::OnAbout (wxCommandEvent & WXUNUSED (event))
+void
+cepFrame::OnAbout (wxCommandEvent & WXUNUSED (event))
 {
-  string msg =
-    "Geodetic Data Modelling System\n\n"
-    "A GPS, VLBI and SLR dataset manipulation tool by\n"
-    "    Daniel Fernandez\n"
-    "    Michael Still\n"
-    "    Blake Swadling\n"
-    "    Nick Wheatstone\n"
-    "    Kristy Van Der Vlist\n\n"
-    "Portions copyright: Julian Smart julian.smart@ukonline.co.uk\n\n"
-    "Released under the terms of the GNU GPL";
+  ostringstream msg;
+
+  msg << "Geodetic Data Modelling System\n\n";
+  msg << "A GPS, VLBI and SLR dataset manipulation tool by\n";
+  msg << "    Daniel Fernandez\n";
+  msg << "    Michael Still\n";
+  msg << "    Blake Swadling\n";
+  msg << "    Nick Wheatstone\n";
+  msg << "    Kristy Van Der Vlist\n\n";
+  msg << "Portions copyright: Julian Smart julian.smart@ukonline.co.uk\n\n";
+  msg << "Released under the terms of the GNU GPL";
 
   wxMessageBox
-    ((const wxString &)msg.c_str (),
+    ((const wxString &)msg.str ().c_str (),
      "About Geodetic Data Modelling System");
 }
 
 // Creates a canvas. Called from view.cpp when a new drawing
 // view is created.
-cepCanvas *cepFrame::CreateCanvas (wxView * view, wxFrame * parent)
+cepCanvas *
+cepFrame::CreateCanvas (wxView * view, wxFrame * parent)
 {
   int width, height;
 
@@ -323,14 +354,16 @@ cepCanvas *cepFrame::CreateCanvas (wxView * view, wxFrame * parent)
   return canvas;
 }
 
-cepFrame *GetMainFrame (void)
+cepFrame *
+GetMainFrame (void)
 {
   return frame;
 }
 
 // Capture the window close event, so we can save config info about the window
 // todo_mikal: not called on close of application...
-void cepFrame::OnClose (wxCloseEvent & evt)
+void
+cepFrame::OnClose (wxCloseEvent & evt)
 {
   // Save the window size to the configuration database
   int width, height;
@@ -339,8 +372,7 @@ void cepFrame::OnClose (wxCloseEvent & evt)
 
   cepError err;
 
-  // todo_mikal: better key name?
-  err = config->setValue ("mainwindowsizex", width);
+  err = config->setValue ("ui-mainwindow-size-x", width);
   if (err.isReal ())
   {
     err.display ();
@@ -348,8 +380,7 @@ void cepFrame::OnClose (wxCloseEvent & evt)
   }
   else
   {
-    // todo_mikal: better key name?
-    err = config->setValue ("mainwindowsizey", height);
+    err = config->setValue ("ui-mainwindow-size-y", height);
     if (err.isReal ())
     {
       err.display ();

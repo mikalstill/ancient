@@ -1,3 +1,4 @@
+
 /* 
    UI for the CEP program
    Copyright (C) Michael Still                    2002
@@ -37,7 +38,6 @@
 
 // For compilers that support precompilation, includes "wx/wx.h".
 #include "wx/wxprec.h"
-#include "wx/image.h"
 
 #ifdef __BORLANDC__
 #pragma hdrstop
@@ -54,30 +54,58 @@
 #include "cepUI.h"
 #include "cepDoc.h"
 #include "cepView.h"
+#include <stdlib.h>
+#include <unistd.h>
+
+#include <wx/colour.h>
+#include <wx/colordlg.h>
+
+#define PRESHEIGHT 200
 
 IMPLEMENT_DYNAMIC_CLASS (cepView, wxView)
-BEGIN_EVENT_TABLE (cepView, wxView)
+BEGIN_EVENT_TABLE (cepView, wxView) 
+  EVT_MENU (CEPMENU_AVERAGE, cepView::OnToggleAverage)
+  EVT_MENU (CEPMENU_COLORAXES, cepView::OnColorAxes)
+  EVT_MENU (CEPMENU_COLORLINE, cepView::OnColorLine)
+  EVT_MENU (CEPMENU_COLORAVERAGE, cepView::OnColorAverage)
+  EVT_MENU (CEPMENU_ELIMINATEOUTLIERS, cepView::OnEliminateOutliers)
 END_EVENT_TABLE ()
+
+cepView::cepView ()
+{
+  canvas = (cepCanvas *) NULL;
+  frame = (wxFrame *) NULL;
+  m_config = (cepConfiguration *)&cepConfiguration::getInstance();
+}
+
+cepView::~cepView ()
+{
+}
 
 // What to do when a view is created. Creates actual
 // windows for displaying the view.
-bool
-cepView::OnCreate (wxDocument * doc, long WXUNUSED (flags))
+  bool cepView::OnCreate (wxDocument * doc, long WXUNUSED (flags))
 {
   frame = wxGetApp ().CreateChildFrame (doc, this, TRUE);
   frame->SetTitle ("cepView");
-  
+
   canvas = GetMainFrame ()->CreateCanvas (this, frame);
 
 #ifdef __X__
   // X seems to require a forced resize
-  int x, y;
+  int
+    x,
+    y;
+
   frame->GetSize (&x, &y);
   frame->SetSize (-1, -1, x, y);
 #endif
 
   frame->Show (TRUE);
   Activate (TRUE);
+
+  m_showAverages = false;
+  m_dirty = true;
 
   return TRUE;
 }
@@ -90,51 +118,21 @@ cepView::OnDraw (wxDC * dc)
   dc->SetFont (*wxNORMAL_FONT);
   dc->SetPen (*wxBLACK_PEN);
 
-  cepDebugPrint("Drawing the image, png is type " + 
-		cepItoa(wxBITMAP_TYPE_PNG));
+  cepDoc *theDoc = (cepDoc *) GetDocument ();
+  cepDataset *theDataset = theDoc->getDataset ();
 
-  // todo: this needs to be worked on -- I want to remove the temporary file...
-  cepPresentation myPres(400, 200);
-  string filename("/tmp/foo.png"); //mktemp("/tmp/cep.XXXXXX"));
-
-  cepDebugPrint("Adding x direction data points");
-  cepDoc *theDoc = (cepDoc *) GetDocument();
-  cepDataset *theDataset = theDoc->getDataset();
-  vector < cep_datarow > & xdata = theDataset->getData (cepDataset::dirX);
-
-  // todo_mikal: what is the type of the vector index?
-  cepDebugPrint("There are " + 
-		cepItoa(theDataset->getData(cepDataset::dirX).size()) + 
-		" data points to add");
-  //  for(int i = 0; i < xdata.size(); i++){
-  //    cepDebugPrint("Adding: " + cepItoa(i) + ", " + cepFtoa(xdata[i].sample));
-  //    myPres.addDataPoint(i, (int) xdata[i].sample);
-  //  }
-  
-  // Draw the sin graph
-  //  int x;
-  //  double angle;
-  //
-  //  x = 10;
-  //  for(angle = 0.0; angle < 12 * 3.1415; angle += 0.1){
-  //    x++;
-  //    myPres.addDataPoint(x, (long) (100 - sin(angle) * 90)); 
-  //  }
-
-  cepDebugPrint("Temporary file for image is " + filename);
-  cepError err = myPres.createPNG(filename);
-  if(err.isReal()){
-    err.display(); 
+  if (theDataset && theDataset->isReady())
+  {
+    cepDebugPrint ("Dataset valid, so displaying");
+    drawPresentation(theDataset, cepDataset::dirX, 0, dc);
+    drawPresentation(theDataset, cepDataset::dirY, PRESHEIGHT, dc);
+    drawPresentation(theDataset, cepDataset::dirZ, PRESHEIGHT * 2, dc);
+    m_dirty = false;
   }
-  
-  try{
-    wxImage theImage(filename.c_str(), wxBITMAP_TYPE_PNG);
-    wxBitmap theBitmap(theImage.ConvertToBitmap());
-    dc->DrawBitmap(theBitmap, 30, 150);
+  else
+  {
+    cepDebugPrint ("Dataset currently invalid, so not displaying");
   }
-  catch( ... ){
-    cepDebugPrint("Exception caught in the graph draw routine");
-  }    
 }
 
 void
@@ -159,23 +157,24 @@ cepView::OnUpdate (wxView * WXUNUSED (sender), wxObject * WXUNUSED (hint))
 }
 
 // Clean up windows used for displaying the view.
-bool
-cepView::OnClose (bool deleteWindow)
+bool cepView::OnClose (bool deleteWindow)
 {
-  cepDebugPrint("Close called for a cepView");
+  cepDebugPrint ("Close called for a cepView");
   if (!GetDocument ()->Close ())
     return FALSE;
 
-  // Clear the canvas in  case we're in single-window mode,
+  // Clear the canvas in case we're in single-window mode,
   // and the canvas stays.
-  cepDebugPrint("Clean up the canvas");
-  
+  cepDebugPrint ("Clean up the canvas");
+
   // The following line was causing a segv
-  //  canvas->Clear ();
+  // canvas->Clear ();
   canvas->view = (wxView *) NULL;
   canvas = (cepCanvas *) NULL;
 
-  wxString s (wxTheApp->GetAppName ());
+  wxString
+  s (wxTheApp->GetAppName ());
+
   if (frame)
     frame->SetTitle (s);
 
@@ -183,13 +182,159 @@ cepView::OnClose (bool deleteWindow)
 
   Activate (FALSE);
 
-  cepDebugPrint("Close the window");
+  cepDebugPrint ("Close the window");
   if (deleteWindow)
-    {
-      delete frame;
-      return TRUE;
-    }
+  {
+    delete
+      frame;
+
+    return TRUE;
+  }
   return TRUE;
+}
+
+void cepView::drawPresentation(cepDataset *theDataset, cepDataset::direction dir, int top, wxDC *dc)
+{
+  // Being marked dirty makes us regenerate the images
+  if(m_dirty && (m_pngCache[(int) dir] != "")){
+    unlink(m_pngCache[(int) dir].c_str());
+    m_pngCache[(int) dir] = "";
+  }
+
+  // We cache images so we go faster
+  if(m_pngCache[(int) dir] == ""){
+    cepPresentation pres (theDataset->getData (dir).size () + 20,
+			  PRESHEIGHT);
+    char *cfname = strdup("/tmp/cep.XXXXXX");;
+    int fd;
+    fd = mkstemp(cfname);
+    close(fd);
+    cepDebugPrint ("Temporary file for image is " + string(cfname));
+    cepDebugPrint ("There are " +
+                   cepItoa (theDataset->getData (dir).size ()) +
+                   " data points to add");
+
+    for (int i = 0; i < theDataset->getData (dir).size (); i++)
+    {
+      pres.addDataPoint (i,
+                           (long)(theDataset->getData (dir)[i].
+                                  sample * 10000));
+      cepDebugPrint ("Data point: " +
+                     cepLtoa ((long)
+                              (theDataset->getData (dir)[i].
+                               sample * 10000)));
+    }
+
+    pres.useAverage(m_showAverages);
+    
+    cepError err;
+    int red = 0, green = 0, blue = 0;
+
+    err = m_config->getValue("ui-graph-color-axis-r", 255, red);
+    if(err.isReal()) err.display();
+    err = m_config->getValue("ui-graph-color-axis-g", 0, green);
+    if(err.isReal()) err.display();
+    err = m_config->getValue("ui-graph-color-axis-b", 0, blue);
+    if(err.isReal()) err.display();
+    pres.setAxesColor(red, green, blue);
+
+    err = m_config->getValue("ui-graph-color-line-r", 0, red);
+    if(err.isReal()) err.display();
+    err = m_config->getValue("ui-graph-color-line-g", 255, green);
+    if(err.isReal()) err.display();
+    err = m_config->getValue("ui-graph-color-line-b", 0, blue);
+    if(err.isReal()) err.display();
+    pres.setLineColor(red, green, blue);
+
+    err = m_config->getValue("ui-graph-color-average-r", 0, red);
+    if(err.isReal()) err.display();
+    err = m_config->getValue("ui-graph-color-average-g", 0, green);
+    if(err.isReal()) err.display();
+    err = m_config->getValue("ui-graph-color-average-b", 255, blue);
+    if(err.isReal()) err.display();
+    pres.setAverageColor(red, green, blue);
+
+    err = pres.createPNG (cfname);
+    if (err.isReal ()) err.display ();
+
+    m_pngCache[(int) dir] = string(cfname);
+  }
+  
+  try
+    {
+      wxImage theImage (m_pngCache[(int) dir].c_str(), wxBITMAP_TYPE_PNG);
+      wxBitmap theBitmap (theImage.ConvertToBitmap ());
+      dc->DrawBitmap (theBitmap, 0, top);
+    }
+  catch (...)
+    {
+      cepDebugPrint ("Exception caught in the graph draw routine");
+    }
+}
+
+void cepView::OnToggleAverage (wxCommandEvent &pevt)
+{
+  m_showAverages = pevt.IsChecked();
+  m_dirty = true;
+
+  // todo_mikal: this doesn't work at the moment...
+  // Force a repaint of the window
+  wxPaintEvent evt(0);
+  wxPostEvent(frame, evt);
+}
+
+void
+cepView::OnColorAxes (wxCommandEvent & WXUNUSED (event))
+{
+  wxColourDialog picker(NULL);
+  if(picker.ShowModal() == wxID_OK){
+    wxColourData data = picker.GetColourData();
+    wxColour color = data.GetColour();
+    m_config->setValue("ui-graph-color-axis-r", color.Red());
+    m_config->setValue("ui-graph-color-axis-g", color.Green());
+    m_config->setValue("ui-graph-color-axis-b", color.Blue());
+
+    m_dirty = true;
+    // todo_mikal: post paint event
+  }
+}
+
+void
+cepView::OnColorLine (wxCommandEvent & WXUNUSED (event))
+{
+  wxColourDialog picker(NULL);
+  if(picker.ShowModal() == wxID_OK){
+    wxColourData data = picker.GetColourData();
+    wxColour color = data.GetColour();
+    m_config->setValue("ui-graph-color-line-r", color.Red());
+    m_config->setValue("ui-graph-color-line-g", color.Green());
+    m_config->setValue("ui-graph-color-line-b", color.Blue());
+
+    m_dirty = true;
+    // todo_mikal: post paint event
+  }
+}
+
+void
+cepView::OnColorAverage (wxCommandEvent & WXUNUSED (event))
+{
+  wxColourDialog picker(NULL);
+  if(picker.ShowModal() == wxID_OK){
+    wxColourData data = picker.GetColourData();
+    wxColour color = data.GetColour();
+    m_config->setValue("ui-graph-color-average-r", color.Red());
+    m_config->setValue("ui-graph-color-average-g", color.Green());
+    m_config->setValue("ui-graph-color-average-b", color.Blue());
+
+    m_dirty = true;
+    // todo_mikal: post paint event
+  }
+}
+
+void cepView::OnEliminateOutliers(wxCommandEvent& event)
+{
+  //  cepEliminateDialog elim;
+  //  elim.display();
 }
 
 /*
@@ -203,18 +348,19 @@ END_EVENT_TABLE ()
 // Define a constructor for my canvas
 cepCanvas::cepCanvas (wxView * v, wxFrame * frame, const wxPoint & pos, 
 		      const wxSize & size, long style):
-  wxScrolledWindow (frame, -1, pos, size, style)
+wxScrolledWindow (frame, -1, pos, size, style)
 {
   view = v;
 
   // Is this where we create new controls?
   wxPoint pos, size;
+
   pos.x = 100;
   pos.y = 42;
   size.x = -1;
   size.y = -1;
 
-  //  m_button = new wxButton(v, -1, "This is a button", pos, size, 
+  // m_button = new wxButton(v, -1, "This is a button", pos, size, 
 }
 
 // Define the repainting behaviour
@@ -234,6 +380,7 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
     return;
 
   wxClientDC dc (this);
+
   PrepareDC (dc);
   dc.SetPen (*wxBLACK_PEN);
   wxPoint pt (event.GetLogicalPosition (dc));

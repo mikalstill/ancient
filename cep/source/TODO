@@ -5,3 +5,4 @@
 * tooltips
 * documentation as HTML (perhaps in docbook so we can have a printed manual as well)
 * autoconf tests for X libraries always fail (are they needed at all?)
+* reinstate the config for error display
