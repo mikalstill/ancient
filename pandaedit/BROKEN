@@ -1,1 +1,7 @@
 lrwxrwxrwx    1 mikal    mikal          41 Feb  2 19:52 testvictim.pdf -> /data/mikal/testdata/pdf-testing/1886/pdf
+lrwxrwxrwx    1 root     root           41 Feb  2 20:58 testvictim.pdf -> /data/mikal/testdata/pdf-testing/1096/pdf [NEEDS DCT]
+lrwxrwxrwx    1 root     root           41 Feb  2 21:32 testvictim.pdf -> /data/mikal/testdata/pdf-testing/1659/pdf [NEEDS DCT]
+lrwxrwxrwx    1 root     root           41 Feb  2 21:34 testvictim.pdf -> /data/mikal/testdata/pdf-testing/2343/pdf
+lrwxrwxrwx    1 root     root           41 Feb  2 21:35 testvictim.pdf -> /data/mikal/testdata/pdf-testing/1480/pdf
+lrwxrwxrwx    1 root     root           41 Feb  2 21:36 testvictim.pdf -> /data/mikal/testdata/pdf-testing/2098/pdf
+lrwxrwxrwx    1 root     root           41 Feb  2 21:41 testvictim.pdf -> /data/mikal/testdata/pdf-testing/1810/pdf
