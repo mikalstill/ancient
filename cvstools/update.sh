@@ -1,13 +1,15 @@
 #!/bin/bash
 
-cvs -d :pserver:cvs@pserver.samba.org:/cvsroot login
-for item in `ls`
+export CVSROOT=/home/httpd/html/cvs
+for item in `ls $CVSROOT | grep -v CVS`
 do
-  echo -------------------------------------------------------------------
   echo $item
-  cd $item
-  cvs -z5 up
-  cd ..
+  if [ -e $item ]
+  then
+    cd $item
+    cvs up
+    cd ..
+  else
+    cvs co $item
+  fi
 done
-
-echo -------------------------------------------------------------------

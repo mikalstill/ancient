@@ -1,0 +1,8 @@
+TITLE: %project%
+POSTDATE: %pubdate%
+POSTER: mikal@stillhq.com
+POSTERNAME: Mikal
+BEGIN CONTENT
+<pre>
+%description%
+</pre>
