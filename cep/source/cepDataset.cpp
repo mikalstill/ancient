@@ -52,7 +52,6 @@ cepError cepDataset::read (const string& filename)
   char c, prevc;
   string thisLine;
   cep_datarow row, lastRow;
-  char * line;
   
   files[0].open (string (m_filename + ".dat1").c_str (), ios::in);
   files[1].open (string (m_filename + ".dat2").c_str (), ios::in);
@@ -98,105 +97,97 @@ cepError cepDataset::read (const string& filename)
     cepDebugPrint("File read initialization complete");
 
     while (!files[i].eof ())
-    {   
-      files[i].read (&c, 1);
-
-      // If the line contains non-numbers then ignore the whole line
-      if(!cepIsNumeric(c) && !cepIsBlank(c))
-      {
-	string igLine("");
-	igLine += c;
-	cepDebugPrint("Ignore mode because: (" + cepToString(c) + ") numeric = " + 
-		      cepToString(cepIsNumeric(c)));
-
-        while((c != '\n') && (!files[i].eof()))
-        {
-          files[i].read(&c,1);
-	  igLine += c;
-        }
-
-	cepDebugPrint("Ignoring line: " + igLine);
-	m_header[i] += igLine + "\n";
-        thisLine = "";
-        numLines++;
-      }
-      else
-      {
+      {   
+	files[i].read (&c, 1);
+	
 	// Squelch repeated whitespace
-        if(cepIsBlank(c) == true)
-        {
-          if(cepIsBlank(prevc) != true)
-          {
-            thisLine += " ";
-          }
-        }
+	if(cepIsBlank(c) == true)
+	  {
+	    if(cepIsBlank(prevc) != true)
+	      {
+		thisLine += " ";
+	      }
+	  }
         else
-        {
-          thisLine += c;
-        }
+	  {
+	    thisLine += c;
+	  }
+
+	// End of line?
+	if ((c == '\n') && (thisLine != ""))
+	  {
+	    cepDebugPrint("Processing line: " + thisLine);
+
+	    // If this is a data bearing line
+	    if(cepIsNumeric(thisLine.c_str()[0]))
+	      {
+		numLines ++;
+		
+		// Break the line into it's columns, I prefer this to the strtok method we used to use...
+		cepStringArray sa(thisLine, " ");
+		row.date = atof(sa[0].c_str());
+		row.sample = atof(sa[1].c_str());
+		row.error = atof(sa[2].c_str());
+		
+		if(lastRow.date == -1)
+		  {
+		    getData((cepDataset::direction) i).push_back(row);
+		    lastRow = row;
+		  }
+		else
+		  {
+		    if(row.date < lastRow.date)
+		      {
+			m_ready = true;
+			return cepError("dataset: " + m_filename + ".dat" + 
+					cepToString(i + 1) + " is not in date order! At line " + 
+					cepToString(numLines), cepError::sevErrorRecoverable);
+		      }
+		    else
+		      {
+			if(row.date == lastRow.date)
+			  {
+			    m_ready = true;
+			    return cepError("dataset: " + m_filename + ".dat" + 
+					    cepToString(i + 1) + " contains repeated values at line " + 
+					    cepToString(numLines),cepError::sevErrorRecoverable);
+			  }
+			else
+			  {
+			    getData((cepDataset::direction) i).push_back(row);
+			    lastRow = row;
+			  }
+		      }
+		  }
+	      }
+	    else
+	      {
+		// This is a header / textual line -- perhaps it's even an offset line
+		cepStringArray sa(thisLine, " ");
+		if(cepIsNumeric(sa[7].c_str()[0]))
+		  {
+		    cepDebugPrint("Found offset " + sa[7]);
+		  }
+	      }
+	    
+	    thisLine = "";
+	  }
+	prevc = c;
       }
-
-      // End of line?
-      if ((c == '\n') && (thisLine != ""))
-      {
-	cepDebugPrint("Processing line: " + thisLine);
-        numLines ++;
-        line = strdup(thisLine.c_str());
-
-	// Break the line into it's columns, I prefer this to the strtok method we used to use...
-	cepStringArray sa(line, " ");
-        row.date = atof(sa[0].c_str());
-        row.sample = atof(sa[1].c_str());
-        row.error = atof(sa[2].c_str());
-
-        if(lastRow.date == -1)
-        {
-          getData((cepDataset::direction) i).push_back(row);
-          lastRow = row;
-        }
-        else
-        {
-          if(row.date < lastRow.date)
-          {
-	    m_ready = true;
-            return cepError("dataset: " + m_filename + ".dat" + 
-			    cepToString(i + 1) + " is not in date order! At line " + 
-			    cepToString(numLines), cepError::sevErrorRecoverable);
-          }
-          else
-          {
-            if(row.date == lastRow.date)
-            {
-	      m_ready = true;
-              return cepError("dataset: " + m_filename + ".dat" + 
-			      cepToString(i + 1) + " contains repeated values at line " + 
-			      cepToString(numLines),cepError::sevErrorRecoverable);
-            }
-            else
-            {
-              getData((cepDataset::direction) i).push_back(row);
-              lastRow = row;
-            }
-          }
-        }
-        thisLine = "";
-      }
-      prevc = c;
-    }
     files[i].close();
   }
   cepDebugPrint("Finished reading all of the dataset files");
-
+  
   // Are the files over the same period??
   if (((m_datax.front().date != m_datay.front().date) || (m_datay.front().date != m_dataz.front().date)) 
       || ((m_datax.back().date != m_datay.back().date) || (m_datay.back().date != m_dataz.back().date)))
-  {
-    m_ready = true;
-    return cepError("The data set " + m_filename + 
-		    " values do not represent the same time period",
-		    cepError::sevErrorRecoverable);
-  }
-    
+    {
+      m_ready = true;
+      return cepError("The data set " + m_filename + 
+		      " values do not represent the same time period",
+		      cepError::sevErrorRecoverable);
+    }
+  
   m_ready = true;
   m_wellformed = true;
   return cepError ();

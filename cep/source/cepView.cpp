@@ -562,7 +562,6 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
         if(lsUi.getIsReadP() == 1)
         {
           lsUi.showGetfNameP();
-
           if(lsUi.getfNameP() != "")
           {
             cout << "x selected: no rewight" << endl;

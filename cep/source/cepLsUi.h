@@ -80,6 +80,7 @@ private:
   wxStaticText *statText1, *statText2, *statText3;
   wxRadioButton *rYes, *rNo;
   wxButton *bSubmit, *bCancel;
+  int isCancel;
 
   DECLARE_EVENT_TABLE ()
 };
@@ -107,7 +108,7 @@ public:
   int getIsReweight();
   bool getWhichDir(char dir);
   int getIsReadP();
-  bool getfNameP();
+  string getfNameP();
 
 private:
   int isReweight;
