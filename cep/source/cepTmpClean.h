@@ -76,6 +76,7 @@ public:
 
 private:
   string m_path, m_pattern;
+  cepConfiguration *m_config;
 };
 
 #endif

@@ -36,6 +36,7 @@
 cepTmpClean::cepTmpClean(string path, string pattern):
   m_path(path), m_pattern(pattern)
 {
+  m_config = (cepConfiguration *)&cepConfiguration::getInstance();
 }
 
 cepError cepTmpClean::execute(int& deleted, bool doDelete)
@@ -87,12 +88,17 @@ cepError cepTmpClean::execute(int& deleted, bool doDelete)
 		    string(dirp->d_name));
 
       deleted++;
-      if(doDelete && (wxMessageBox(string("The temporary file cleaner has detected an unneeded file named " + 
-					  string(m_path + "/" + string(dirp->d_name)) + 
-					  " and would like to delete it. Is this ok?").c_str(), 
-				   "Are you sure?", wxYES_NO) == wxYES)){
-	unlink(string(m_path + "/" + string(dirp->d_name)).c_str());
-	cepDebugPrint("Removed the file\n");
+      if(doDelete){
+	bool doPrompt;
+	m_config->getValue ("ui-tmpclean-prompt", true, doPrompt);
+	if(!doPrompt || 
+	   (wxMessageBox(string("The temporary file cleaner has detected an unneeded file named " + 
+				string(m_path + "/" + string(dirp->d_name)) + 
+				" and would like to delete it. Is this ok?").c_str(), 
+			 "Are you sure?", wxYES_NO) == wxYES)){
+	  unlink(string(m_path + "/" + string(dirp->d_name)).c_str());
+	  cepDebugPrint("Removed the file\n");
+	}
       }
     }
   }

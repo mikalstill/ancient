@@ -81,6 +81,7 @@ public:
 
   // Actually process the file
   cepError read(const string& filename);
+  cepError write(const string& filename);
   bool isReady();
   bool isWellFormed();
 
@@ -88,7 +89,7 @@ public:
   vector < cep_datarow > &getData (direction dir);
   cepMatrix <double> *getMatrix(direction dir);
 
-  //reads a LS P weighting matrix from a file
+  // Reads a LS P weighting matrix from a file
   cepMatrix <double> getP(const string& filename);
   
   // Utility methods
@@ -96,6 +97,7 @@ public:
 
 private:
     string m_filename;
+    string m_header[3];
     cepDatasetProgressCB m_progress;
     vector < cep_datarow > m_datax, m_datay, m_dataz;
     bool m_ready;

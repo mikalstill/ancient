@@ -21,6 +21,7 @@
 */
 
 #include "cepDataset.h"
+#include "cepStringArray.h"
 
 cepDataset::cepDataset ():
   m_filename(""),
@@ -105,7 +106,8 @@ cepError cepDataset::read (const string& filename)
       {
 	string igLine("");
 	igLine += c;
-	cepDebugPrint("Ignore mode because: (" + cepToString(c) + ") numeric = " + cepToString(cepIsNumeric(c)));
+	cepDebugPrint("Ignore mode because: (" + cepToString(c) + ") numeric = " + 
+		      cepToString(cepIsNumeric(c)));
 
         while((c != '\n') && (!files[i].eof()))
         {
@@ -114,6 +116,7 @@ cepError cepDataset::read (const string& filename)
         }
 
 	cepDebugPrint("Ignoring line: " + igLine);
+	m_header[i] += igLine + "\n";
         thisLine = "";
         numLines++;
       }
@@ -140,9 +143,11 @@ cepError cepDataset::read (const string& filename)
         numLines ++;
         line = strdup(thisLine.c_str());
 
-        row.date = atof(strtok(line, " "));
-        row.sample = atof(strtok(NULL, " "));
-        row.error = atof(strtok(NULL, " "));
+	// Break the line into it's columns, I prefer this to the strtok method we used to use...
+	cepStringArray sa(line, " ");
+        row.date = atof(sa[0].c_str());
+        row.sample = atof(sa[1].c_str());
+        row.error = atof(sa[2].c_str());
 
         if(lastRow.date == -1)
         {
@@ -194,6 +199,55 @@ cepError cepDataset::read (const string& filename)
     
   m_ready = true;
   m_wellformed = true;
+  return cepError ();
+}
+
+cepError cepDataset::write (const string& filename)
+{
+  m_filename = filename;
+
+  fstream files[3];
+  string thisLine;
+  cep_datarow row;
+  
+  files[0].open (string (m_filename + ".dat1").c_str (), ios::out);
+  files[1].open (string (m_filename + ".dat2").c_str (), ios::out);
+  files[2].open (string (m_filename + ".dat3").c_str (), ios::out);
+  cepDebugPrint("Opened the dataset files");
+
+  // Check they opened ok
+  string errString;
+
+  for (int i = 0; i < 3; i++)
+  {
+    // File is NULL if it couldn't be opened
+    if (!files[i].is_open())
+    {
+      if (errString != "")
+        errString += ";";
+      errString += " " + m_filename + ".dat" + cepToString (i + 1);
+    }
+  }
+
+  if (errString != "")
+  {
+    m_ready = true;
+    return cepError("File IO error for this dataset. Could not open the file(s):" + 
+		    errString + ".");
+  }
+  cepDebugPrint("All dataset files exist");
+
+  // Write the files
+  for (int i = 0; i < 3; i++)
+  {
+    if (m_progress)
+      m_progress (i + 1, 0);
+
+    files[i] << m_header[i];
+    files[i].close();
+  }
+
+  cepDebugPrint("Finished writing all of the dataset files");
   return cepError ();
 }
 

@@ -75,14 +75,26 @@ cepDoc::~cepDoc (void)
 #if wxUSE_STD_IOSTREAM
 ostream & cepDoc::SaveObject (ostream & stream)
 {
-  return stream;
-}
 #else
 wxOutputStream & cepDoc::SaveObject (wxOutputStream & stream)
 {
+#endif
+
+  wxString filename = GetFilename ();
+  string newfilename;
+
+  // todo_mikal: this doesn't work as well as it should yet... The stream we are handed
+  // shouldn't be open yet...
+  cepDebugPrint("Filename extension: " + filename.substr(filename.length() - 5, filename.length()));
+  if(filename.substr(filename.length() - 5, filename.length()) == ".dat1"){
+    newfilename = filename.substr(0, filename.length() - 5);
+  }
+  else{
+    newfilename = filename;
+  }
+  m_dataset->write(newfilename);
   return stream;
 }
-#endif
 
 // This method is called when the user has selected open from the file menu
 // We do the actual opening here, and then lie to wxWindows about the stream

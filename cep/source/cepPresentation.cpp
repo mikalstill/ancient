@@ -184,13 +184,12 @@ cepPresentation::createBitmap ()
 
   // Determine the vertical scaling factor
   long yrange = ymaxval - yminval;
-  double yscale = yrange / (m_height - 20);
-  float oldyscale = yrange / (m_height - 20);
+  float oldyscale = yrange * 10 / (m_height - 20);
+  float yscale = (float) yrange / (m_height - 20);
 
   cepDebugPrint("Dimensions of graph bitmap: " + cepToString(m_width) + " x " +
 		cepToString(m_height));
-  cepDebugPrint("Yscale is: " + cepToString(oldyscale) + " (float) or " +
-		cepToString(yscale) + " (double)");
+  cepDebugPrint("Yscale is: " + cepToString(yscale) + " new scale " + cepToString(oldyscale));
 
   // If we are using errors, then we draw these underneath
   if(m_useErrors){
@@ -283,6 +282,14 @@ cepPresentation::createBitmap ()
   }
   else
     return cepError("No points to graph", cepError::sevErrorRecoverable);
+
+  // Now put the text annotations onto the bitmap
+  plot_setfontcolor(graph, 26, 22, 249);
+  // todo_mikal: check for existance
+  // plot_setfont(graph, "n019004l.pfb", 12);
+  plot_setfont(graph, "/usr/share/fonts/default/Type1/n021004l.pfb", 12);
+  plot_settextlocation(graph, 20, 100);
+  plot_writestring(graph, "Frog");
 
   // Get the raster (in case we use it later)
   m_raster = plot_getraster (graph);
