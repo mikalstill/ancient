@@ -278,3 +278,67 @@ bool cepDate::isLeap()
 
   return false;
 }
+
+double cepDate::yearsToJulian(double year)
+{
+  const int FEBRUARY = 1;
+  int i, j;
+  int leap_year, iyear, ijd, syr;
+  double fract, days1, days2, fract1;
+
+  int month[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
+  days1 = 365.0;
+
+  leap_year = (int)year%4; // leap_year = year mod 4
+  if (leap_year == 0)
+  {
+    month[FEBRUARY]++; // increase the number of days in february
+    days1 = days1 + 1.0;
+  }
+
+  // get decimal portion of year. ie 0.0027
+  fract = year - (double)((int)year);
+  // get whole number of years. ie 2002
+  iyear = (int)year;
+
+  // count how many day equal the required fraction
+  days2 = 0.0;
+  fract1 = days2/days1;
+  // ask peter about the different end loop conditions
+  for (i = 0; (i < 12)&&(fract1 < fract); i++)
+  {
+    for (j = 0; (j < month[i])&&(fract1 < fract);j++)
+    {
+      days2 = days2 + 1.0;
+      fract1 = days2/days1;
+    }
+  }
+
+  // calculate years since 1900
+  syr = iyear - 1900;
+  // calculate integer julian day
+  ijd = syr*365 + (syr-1)/4 + (int)days2;
+
+
+  return (double)ijd;
+}
+
+double cepDate::julianToYears(double julian)
+{
+  int iyear,leap_year;
+  double fract;
+
+  // calculate number of whole years since 1900
+  iyear = (int)(julian/365.25);
+  julian = julian - (double)(iyear*365 + iyear/4);
+
+  // calculate year fraction
+  leap_year = iyear%4;
+  if (leap_year == 0)
+    fract = (julian-0.5)/366.0;
+  else
+    fract = (julian-0.5)/365.0;
+
+  return 1900.0 + (double)iyear + fract;
+}
+

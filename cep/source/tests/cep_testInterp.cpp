@@ -20,6 +20,7 @@
 #include <stdio.h>
 
 #include "../cepInterp.h"
+#include <iomanip>
 
 
 /**
@@ -37,11 +38,14 @@
  *     void tearDown( void ) { ... }
  *
  * @author <your name here>
- * @version $Revision: 1.8 $ $Date: 2002-11-14 04:19:21 $
+ * @version $Revision: 1.9 $ $Date: 2002-11-21 06:28:51 $
  *
  * Revision History
  *
  * $Log: not supported by cvs2svn $
+ * Revision 1.8  2002/11/14 04:19:21  u983131
+ * Few bits and bobs tweaked
+ *
  * Revision 1.5  2002/11/12 22:30:08  u983131
  * Added a new test for divided differences
  *
@@ -162,22 +166,26 @@ protected:
 	/** Tests that the interp engine can build its own timescale */
   void testSampleRate()
   {
-    int rows = 3, cols = 3;
+    int rows = 3, cols = 4;
     cepMatrix<double> start( rows, cols );
     cepMatrix<double> finish1( 2 * rows -1, cols );
     cepMatrix<double> finish2( 2 * rows -1 , cols );
 		cepInterp interpolate;
 
     for( int i=0; i<rows; i++ )
-      for( int j=0; j<cols; j++ )
-        start.setValue( i, j, (double)i * 2 );
+    {
+        start.setValue( i, 0, 2002.1 + (double)i * 2*0.00273 );
+        start.setValue( i, 1, (double)i * 2);
+        start.setValue( i, 2, 0.0);
+        start.setValue( i, 3, 0.0);
+    }
 
 
 		// populate matrix with expected values
 		for (int i=0; i<2*rows-1; i++)
 		{
 			for (int j=0; j<cols-1; j++)
-				finish2.setValue(i,j, (double)i);
+				finish2.setValue(2002.1 + i*0.00274,j, (double)i);
 		}
 
 		// generate linear interp
