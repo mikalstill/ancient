@@ -1,5 +1,5 @@
 /***************************************************************************
- * Testing Framework for cepCfft
+ * Testing Framework for cepcepCfft
  *
  * (c) Daniel Fernandez, Blake Swadling 2002 ..
  *   ( or whoever simply removes this comment and steals it for themselves )
@@ -113,7 +113,7 @@ namespace
 	  //cout << endl << endl;
 	}
 
-      cfft < ComplexDble > FFT (256);
+      cepCfft < ComplexDble > FFT (256);
 
       myMatrix = FFT.matrixFft (myMatrix, 1);
       //cout << "test: MAtrix returned ok ..outputing fowrad FFT results..." << endl;
@@ -246,7 +246,7 @@ namespace
 	  //cout << endl << endl;
 	}
 
-      cfft < ComplexDble > FFT (256);
+      cepCfft < ComplexDble > FFT (256);
 
       myMatrix = FFT.matrixFft (myMatrix, 1);
 
