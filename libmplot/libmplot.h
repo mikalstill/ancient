@@ -12,6 +12,10 @@
 #define LIBMPLOT_TRUE 0
 #define LIBMPLOT_FALSE -1
 
+#define LIBMPLOT_VERTICAL 0
+#define LIBMPLOT_HORIZONTAL 1
+#define LIBMPLOT_NOTAPPLICABLE 2
+
 #ifdef __cplusplus
 extern "C"
 {
@@ -110,7 +114,7 @@ void plot_circle (plot_state *, unsigned int, unsigned int, unsigned int);
 unsigned int plot_min (unsigned int one, unsigned int two);
 unsigned int plot_max (unsigned int one, unsigned int two);
 int plot_loadglyph(plot_state *, char);
-int plot_paintglyph(plot_state *, char, int);
+int plot_paintglyph(plot_state *, char, int, int);
 void plot_drawpoint(plot_state *, plot_pixel, int isLine, unsigned int, unsigned int);
 void plot_drawpointactual(plot_state *, plot_pixel, int isLine, unsigned int, unsigned int);
 

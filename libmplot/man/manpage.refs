@@ -2,6 +2,7 @@
   'refentry:PLOT_SETFONTCOLOR' => 'plot_setfontcolor(3)',
   '' => '',
   'refentry:PLOT_NEWPLOT' => 'plot_newplot(3)',
+  'refentry:PLOT_STRINGHEIGHT' => 'plot_stringheight(3)',
   'refentry:PLOT_GETRASTER' => 'plot_getraster(3)',
   'refentry:PLOT_ADDQUADRATICCURVESEGMENTTWO' => 'plot_addquadraticcurvesegmenttwo(3)',
   'refentry:PLOT_SETFILLCOLOR' => 'plot_setfillcolor(3)',

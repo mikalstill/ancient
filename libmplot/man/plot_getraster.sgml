@@ -25,7 +25,7 @@
 
 <refsynopsisdiv>
 <synopsis>
- #include&lt;libmplot.h&gt;
+ #include&amp;lt;libmplot.h&amp;gt;
  char *plot_getraster(plot_state *state);
 
 </synopsis>
@@ -44,7 +44,7 @@
 <refsect1>
 <title>EXAMPLE</title>
 <programlisting>
- #include&lt;libmplot.h&gt;
+ #include&amp;lt;libmplot.h&amp;gt;
  plot_state *graph;
  char *raster;
  

@@ -3,25 +3,25 @@
 .\" <http://shell.ipoline.com/~elmert/comp/docbook2X/> 
 .\" Please send any bug reports, improvements, comments, patches, 
 .\" etc. to Steve Cheng <steve@ggi-project.org>.
-.TH "PLOT_SETFONT" "3" "17 October 2002" "" ""
+.TH "PLOT_SETFONT" "3" "11 November 2002" "" ""
 .SH NAME
 plot_setfont \- sets the starting point of a curve
 .SH SYNOPSIS
 
 .nf
- #include<libmplot.h>
+ #include&lt;libmplot.h&gt;
  void panda_setfont (plot_state *state, char *fontpath, int size);
 .fi
 .SH "DESCRIPTION"
 .PP
-Set the font and size to use to text drawing operations. The \fBfontpath\fR arguement is the path to a font which \fBFreeType\fR is capable of opening (for example PostScript fonts, and TrueType fonts -- refer to http://www.freetype.org for more details). The size is the point size of the text to be drawn.
+Set the font and size to use to text drawing operations. The <command>fontpath</command> arguement is the path to a font which <command>FreeType</command> is capable of opening (for example PostScript fonts, and TrueType fonts -- refer to http://www.freetype.org for more details). The size is the point size of the text to be drawn.
 .SH "RETURNS"
 .PP
 Nothing
 .SH "EXAMPLE"
 
 .nf
- #include<libmplot.h>
+ #include&lt;libmplot.h&gt;
  plot_state *graph;
  
  if((graph = plot_newplot(400, 300)) == NULL){

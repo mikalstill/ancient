@@ -12,52 +12,39 @@
 
 <!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
 
-<refentry id="plot_addquadraticcurvesegmenttwo">
+<refentry id="plot_stringheight">
 <refmeta>
-<refentrytitle>plot_addquadraticcurvesegmenttwo</refentrytitle>
+<refentrytitle>plot_stringheight</refentrytitle>
 <manvolnum>3</manvolnum>
 </refmeta>
 
 <refnamediv>
-<refname>plot_addquadraticcurvesegmenttwo</refname>
-<refpurpose>add a Bezier with one control point to the polygon we are drawing</refpurpose>
+<refname>plot_stringheight</refname>
+<refpurpose>determine how many pixels a string will take vertically</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv>
 <synopsis>
  #include&amp;lt;libmplot.h&amp;gt;
- void plot_addquadraticcurvesegmenttwo (plot_state * state,
- unsigned int inx1, unsigned int iny1,
- unsigned int inx2, unsigned int iny2);
+ unsigned int plot_stringheight(plot_state *state, char *string);
 
 </synopsis>
 </refsynopsisdiv>
 
 <refsect1>
 <title>DESCRIPTION</title>
-<para>This function adds a Bezier curve between the current pen location and (inx1, iny1) to the current polygon. This curve will have two control points: (inx2, iny2) and (inx1, iny1).</para>
+<para>This function determines how many pixels a string will consume in the current font and size.</para>
 </refsect1>
 
 <refsect1>
 <title>RETURNS</title>
-<para>Nothing</para>
+<para>0 on success, -1 otherwise</para>
 </refsect1>
 
 <refsect1>
 <title>EXAMPLE</title>
 <programlisting>
- #include&amp;lt;libmplot.h&amp;gt;
- plot_state *graph;
- 
- if((graph = plot_newplot(400, 300)) == NULL){
- ... error ...
- }
- 
- plot_setlinestart(graph, 20, 20);
- plot_addquadraticcurvesegmenttwo(graph, 20, 120, 40, 40);
- plot_strokeline(graph);
- plot_closeline(graph);
-</programlisting>
+Refer to plot_stringwidth for an example</programlisting>
 </refsect1>
 
 

@@ -3,13 +3,13 @@
 .\" <http://shell.ipoline.com/~elmert/comp/docbook2X/> 
 .\" Please send any bug reports, improvements, comments, patches, 
 .\" etc. to Steve Cheng <steve@ggi-project.org>.
-.TH "PLOT_WRITESTRING" "3" "17 October 2002" "" ""
+.TH "PLOT_WRITESTRING" "3" "11 November 2002" "" ""
 .SH NAME
 plot_writestring \- write a string onto the bitmap
 .SH SYNOPSIS
 
 .nf
- #include<libmplot.h>
+ #include&lt;libmplot.h&gt;
  int plot_writestring(plot_state *state, char *string);
 .fi
 .SH "DESCRIPTION"
@@ -21,7 +21,7 @@ This function writes a string onto the specified bitmap. Note that the function 
 .SH "EXAMPLE"
 
 .nf
- #include<libmplot.h>
+ #include&lt;libmplot.h&gt;
  plot_state *graph;
  char *words[] = {"This", "is", "a", "string", "which", "is", "quite", "long.",
  "It", "demonstrates", "how", "to", "do", "word", "wrap", NULL};
@@ -35,7 +35,7 @@ This function writes a string onto the specified bitmap. Note that the function 
  plot_settextlocation(graph, 20, 70);
  count = 0;
  while(words[count] != NULL){
- plot_gettextlocation(graph, &textx, &texty);
+ plot_gettextlocation(graph, &amp;textx, &amp;texty);
  if((textx + plot_stringwidth(graph, words[count])) > 380){
  if(texty + 70 > 150)
  break;

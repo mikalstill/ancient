@@ -3,19 +3,20 @@
 .\" <http://shell.ipoline.com/~elmert/comp/docbook2X/> 
 .\" Please send any bug reports, improvements, comments, patches, 
 .\" etc. to Steve Cheng <steve@ggi-project.org>.
-.TH "PLOT_SETLINEDASH" "3" "17 October 2002" "" ""
+.TH "PLOT_SETLINEDASH" "3" "11 November 2002" "" ""
 .SH NAME
 plot_setlinedash \- sets the dashing pattern used to stroke lines
 .SH SYNOPSIS
 
 .nf
- #include<libmplot.h>
+ #include&lt;libmplot.h&gt;
  void panda_setlinedash(plot_state *state, int length, char *dash);
 .fi
 .SH "DESCRIPTION"
 .PP
 This function takes the length of the dashing pattern (in bytes), and the dashing pattern itself. The dashing pattern is expressed in the form of a char * where a given byte is \\0 if the point is not to be drawn, or \\1 if it is to be drawn. See the example for an example...
-.PP
+</para>
+<para>
 This dashing pattern is applied by cycling through the pattern, one step per pixel drawn. This might not have the expected effect for think lines.
 .SH "RETURNS"
 .PP
@@ -23,7 +24,7 @@ Nothing
 .SH "EXAMPLE"
 
 .nf
- #include<libmplot.h>
+ #include&lt;libmplot.h&gt;
  plot_state *graph;
  
  if((graph = plot_newplot(400, 300)) == NULL){

@@ -1320,7 +1320,7 @@ plot_writestringrot (plot_state * state, char *string, float angle)
   len = strlen (string);
   for (count = 0; count < len; count++)
     {
-      if (plot_paintglyph (state, string[count], LIBMPLOT_TRUE) == -1)
+      if (plot_paintglyph (state, string[count], LIBMPLOT_TRUE, LIBMPLOT_NOTAPPLICABLE) == -1)
 	return -1;
     }
 
@@ -1331,7 +1331,7 @@ plot_writestringrot (plot_state * state, char *string, float angle)
 DOCBOOK START
 
 FUNCTION plot_stringwidth
-PURPOSE determine how many pixels a string will take
+PURPOSE determine how many pixels a string will take horizontally
 
 SYNOPSIS START
 #include&lt;libmplot.h&gt;
@@ -1384,13 +1384,56 @@ plot_stringwidth (plot_state * state, char *string)
   for (count = 0; count < len; count++)
     {
       if ((retval =
-	   plot_paintglyph (state, string[count], LIBMPLOT_FALSE)) == -1)
+	   plot_paintglyph (state, string[count], LIBMPLOT_FALSE, LIBMPLOT_HORIZONTAL)) == -1)
 	return -1;
       width += retval;
     }
 
   return width;
 }
+
+/******************************************************************************
+DOCBOOK START
+
+FUNCTION plot_stringheight
+PURPOSE determine how many pixels a string will take vertically
+
+SYNOPSIS START
+#include&lt;libmplot.h&gt;
+unsigned int plot_stringheight(plot_state *state, char *string);
+SYNOPSIS END
+
+DESCRIPTION This function determines how many pixels a string will consume in the current font and size.
+
+RETURNS 0 on success, -1 otherwise
+EXAMPLE Refer to plot_stringwidth for an example
+
+DOCBOOK END
+******************************************************************************/
+
+unsigned int
+plot_stringheight (plot_state * state, char *string)
+{
+  int count, len, retval;
+  unsigned int height = 0;
+
+  len = strlen (string);
+  for (count = 0; count < len; count++)
+    {
+      if ((retval =
+	   plot_paintglyph (state, string[count], LIBMPLOT_FALSE, LIBMPLOT_VERTICAL)) == -1)
+	return -1;
+      height += retval;
+    }
+
+  return height;
+}
+
+
+
+
+
+
 
 
 
@@ -1467,7 +1510,7 @@ plot_loadglyph (plot_state * state, char character)
 #define sfgb state->face->glyph->bitmap
 
 int
-plot_paintglyph (plot_state * state, char character, int dopaint)
+plot_paintglyph (plot_state * state, char character, int dopaint, int countdirection)
 {
 #if defined HAVE_LIBFREETYPE
   int bmx, bmy;
@@ -1527,7 +1570,10 @@ plot_paintglyph (plot_state * state, char character, int dopaint)
 	}
       else
 	{
-	  return state->face->glyph->advance.x >> 6;
+	  if(countdirection == LIBMPLOT_HORIZONTAL)
+	    return state->face->glyph->advance.x >> 6;
+	  else
+	    return state->face->glyph->advance.y >> 6;
 	}
 
       return 0;
