@@ -1,19 +1,46 @@
 <sect1><title>References</title>
-
 <para>
-<emphasis>A reference</emphasis>
+Lynch, P., 1996, <emphasis>The Dolph-Chebyshev Window: A Simple Optimal Filter</emphasis>,
+[Online] Availale: http://www.maths.tcd.ie/~plynch/Publications/Dolph.pdf
 </para>
 
 <para>
-<emphasis>A reference</emphasis>
+Institute for Information and Signal Processing, 2002, <emphasis>ISIP Software Documenation<emphasis>,
+[Online] Available: http://www.isip.msstate.edu/projects/speech/software/documentation/class/algo/Window/
 </para>
 
 <para>
-<emphasis>A reference</emphasis>
+Carezia, A., 2002, <emphasis>Dolph-Chebyshev Window</emphasis>,
+[online] Available: http://www.octave.org/octave-lists/archive/octave-sources.2002/msg00019.html</online>
 </para>
 
 <para>
-<emphasis>A reference</emphasis>
+Bellanger, M., 1984, <emphasis>Digital Processing of Signals</emphasis>, John Wiley and Sons 
 </para>
+
+<para>
+Flannery, B., Press, W., Teulosky, S., Vettering, W., 1988, <emphasis>Numerical Recipes in C</emphasis>, Cambridge University Press,
+Cambridge.
+</para>
+
+<para>
+Stroustrup, B., 2000, <emphasis>The C++ Programming Language, Special Ed</emphasis>, Addison-Wesley, New York.
+</para>
+
+<para>
+Gamma, E., Helm, R., Johnson, R., Vlissides, J., 1994, <emphasis>Design Patterns: Elements of Reusable Object-Oriented Software
+</emphasis>, Addison-Wesley, New York.
+</para>
+
+<para>
+Fowler, M., 1999, <emphasis>UML Distilled: A Brief Guide to the Standard Object Modeling Language</emphasis>
+, Addison-Wesley, New York.
+</para>
+
+<para>
+2001, <emphasis>Dakarta: FFT Windowing</emphasis>, [Online] Available: http://www.daqarta.com/ww00wndo.htm, Interstellar Research
+</para>
+
 
 </sect1>
+                        
