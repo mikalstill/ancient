@@ -18,16 +18,6 @@ my($linecount, $condlinecount, $firstsect);
 my(@inline, @outline, $linemax, $count);
 
 #####################################################################
-# We setup the conversion rules for many of the translations here...
-#####################################################################
-
-# Table start
-$inline[0] = "\.TH[ \t]*(.*)";
-$outline[0] = "$tablestate = 1; $temp = \"\";";
-
-$linemax = 1;
-
-#####################################################################
 # We need to check the command line arguements...
 if($ARGV[0] eq "jade" ){
     print "Jade output style selected (one big file).\n";
@@ -67,25 +57,29 @@ foreach $chapter (split(/ /, $chapters)){
     open INPUT, "< $chapter.mm";
     open PREPROC, "> $chapter.pp";
     $tablestate = 0;
-
+    
+    #####################################################################
+# We setup the conversion rules for many of the translations here...
+#####################################################################
+    
+# Table start
+    $inline[0] = "\.TH[ \t]*(.*)";
+    $outline[0] = "\$tablestate = 1; \$temp = \"\";";
+    
+# Table end
+    $inline[1] = "\.TE";
+    $outline[1] = "\$tablestate = 0; print PREPROC \"\$temp\n\";";
+    
+    $linemax = 2;
+    
     while(<INPUT>){
-#	# Table start
-#	if(/^\.TH[ \t]*(.*)/i){
-#	    $tablestate = 1;
-#	    $temp = "";
-#	}
-	
-#	for($count = 0; $count < $linemax; $count++){
-#	    if(/^$inline[$count]/){
-#		eval $outline[$count];
-#	    }
-
-	# Table end
-	if(/^\.TE/i){
-	    $tablestate = 0;
-	    print PREPROC "$temp\n";
+	for($count = 0; $count < $linemax; $count++){
+	    if(/^$inline[$count]/){
+		eval $outline[$count];
+		$count = $linemax + 1;
+	    }
 	}
-
+	
 	# If we are in table state, then we need to rewrite lines for the table cells
 	if($tablestate == 1){
 	    s/T\{\n//;
