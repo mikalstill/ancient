@@ -76,13 +76,14 @@ cepCanvas::cepCanvas (wxView * v, wxFrame * frame, const wxPoint & pos,
   m_selectXStart(-1)
 {
   // Is this where we create new controls?
+  /*
   wxPoint pos, size;
 
   pos.x = 100;
   pos.y = 42;
   size.x = -1;
   size.y = -1;
-
+  */
   m_config = (cepConfiguration *)&cepConfiguration::getInstance();
 }
 

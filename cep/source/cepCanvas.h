@@ -51,7 +51,7 @@ public:
 
   cepError graphStatus(bool& x, bool& y, bool& z, int& count);
   cepDataset::direction determineGraph(int y, string& name);
-  cepError cepCanvas::graphPlacement(cepDataset::direction dir, int& top, int& bottom, int& width);
+  cepError graphPlacement(cepDataset::direction dir, int& top, int& bottom, int& width);
 
   wxView * m_view;
   bool m_showx, m_showy, m_showz;
