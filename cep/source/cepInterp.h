@@ -123,6 +123,8 @@ DOCBOOK END
 
 private:
 
+double delta;
+
 // Member variable for catching errors
 cepError m_error;
 
@@ -191,21 +193,30 @@ Exports:
 //          i (current position in timeScale)
   void setColour(cepMatrix<double> & input, cepMatrix<double> & timeScale, int position, int i);
 
-
-  double yearsToJulian(double year);
+  // --- yearsToJulian ---
+  // This Method based on doy2 - fortran code written by Peter Morgan
   // Converts the decimal years format standard to this project to a linear truncated
-  // Julian day number.
-  // These two date conversion methods were added at a very long date to fix the problem 
+  // Julian day number (day 0 = Jan 1st 1900).
+  // These two date conversion methods were added at a very long date to fix the problem
   // of the decimal date format not being linear.
   //
   // Limits: yearsToJulian always assumes that each sample has been taken at exactly
   // 12 o'clock on a given day.  This makes interpolation for input frequencies that
   // are multiples of daily.  However it won't be able to cope with input datasets with
-  // sampling rates of less than daily without modification of these functions.
+  // sampling rates of less than daily without modification of this function.
   //
+  // Import: year: decimal year date as is used by the GDMS project
+  // Export: Trunctated Julian day
+  double yearsToJulian(double year);
+
+  // -- julianToYears ---
+  // Converts truncated Julian days back to decimal years
+  //
+  // note: places whole number of days at 12 noon on a given day
+  //
+  // Import: trunctated julain day
+  // Export: decimal year
   double julianToYears(double julian);
-
-
 };
 
 #endif // ! __CEP_INTERP_H

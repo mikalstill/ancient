@@ -39,7 +39,7 @@ interpolation.
 
 cepInterp::cepInterp()
 {
-
+  delta = 0.00001;
 }
 
 cepMatrix<double> cepInterp::doInterp(cepMatrix<double> & input, double sampleRate,
@@ -72,7 +72,6 @@ cepMatrix<double> cepInterp::doInterp(cepMatrix<double> & input, double sampleRa
 		timeScale.setValue(i,0,timeScale.getValue(i-1,0)+sampleRate);
     CHECK_ERROR(timeScale);
 	}
-
 	for (int i = 0; i < numSamples; i++)
 	{
 		timeScale.setValue(i,2, 0.0);
@@ -148,12 +147,20 @@ cepMatrix<double> cepInterp::doInterp(cepMatrix<double> & input,
       CHECK_ERROR(input);
 			if (distA < distB)
       {
+        if (fabs(distA) < delta)
+          timeScale.setValue(i,3, 0.0);
+        else
+          timeScale.setValue(i,3, 1.0);
 				timeScale.setValue(i,1,input.getValue(position,1));
         CHECK_ERROR(timeScale);
         CHECK_ERROR(input);
       }
 			else
       {
+        if (fabs(distB) < delta)
+          timeScale.setValue(i,3, 0.0);
+        else
+          timeScale.setValue(i,3, 1.0);
 				timeScale.setValue(i,1,input.getValue(position+1,1));
         CHECK_ERROR(timeScale);
         CHECK_ERROR(input);
@@ -183,14 +190,42 @@ cepMatrix<double> cepInterp::doInterp(cepMatrix<double> & input,
 	{
 		if (inBounds(input, timeScale, position, i, newSize, oldSize))
 		{
-			distDate = input.getValue(position+1,0)-input.getValue(position,0);
-      CHECK_ERROR(input);
-			distValue = input.getValue(position+1,1)-input.getValue(position,1);
-      CHECK_ERROR(input);
-			timeScale.setValue(i,1,input.getValue(position,1)+distValue/distDate*
-												(timeScale.getValue(i,0)-input.getValue(position,0)));
-      CHECK_ERROR(timeScale);
-      CHECK_ERROR(input);
+      if ((timeScale.getValue(i,0) > input.getValue(position,0) - delta)&&
+          (timeScale.getValue(i,0) < input.getValue(position,0) + delta))
+      {
+        CHECK_ERROR(timeScale);
+        CHECK_ERROR(input);
+        timeScale.setValue(i,1, input.getValue(position,1));
+        CHECK_ERROR(timeScale);
+        CHECK_ERROR(input);
+        timeScale.setValue(i,3, 0.0);
+        CHECK_ERROR(timeScale);
+      }
+      else if ((timeScale.getValue(i,0) > input.getValue(position+1,0) - delta)&&
+               (timeScale.getValue(i,0) < input.getValue(position+1,0) + delta))
+      {
+        CHECK_ERROR(timeScale);
+        CHECK_ERROR(input);
+        timeScale.setValue(i,1, input.getValue(position+1,1));
+        CHECK_ERROR(timeScale);
+        CHECK_ERROR(input);
+        timeScale.setValue(i,3, 0.0);
+        CHECK_ERROR(timeScale);
+      }
+      else
+      {
+        CHECK_ERROR(timeScale);
+        CHECK_ERROR(input);
+			  distDate = input.getValue(position+1,0)-input.getValue(position,0);
+        CHECK_ERROR(input);
+			  distValue = input.getValue(position+1,1)-input.getValue(position,1);
+        CHECK_ERROR(input);
+			  timeScale.setValue(i,1,input.getValue(position,1)+distValue/distDate*
+												  (timeScale.getValue(i,0)-input.getValue(position,0)));
+        CHECK_ERROR(timeScale);
+        CHECK_ERROR(input);
+        timeScale.setValue(i,3, 1.0);
+      }
 		}
 		else
 		{
@@ -325,22 +360,50 @@ cepMatrix<double> cepInterp::doInterp(cepMatrix<double> & input,
 	{
 		if (inBounds(input, timeScale, position, i, newSize, oldSize))
 		{
-      CHECK_ERROR(timeScale);
-      CHECK_ERROR(input);
-			timeScale.setValue(i,1,
-			      a.getValue(position,0)*pow((timeScale.getValue(i,0)-input.getValue(position,0)),3.0)+
-						b.getValue(position,0)*pow((timeScale.getValue(i,0)-input.getValue(position,0)),2.0)+
-						c.getValue(position,0)*(timeScale.getValue(i,0)-input.getValue(position,0))+
-						d.getValue(position,0));
-      CHECK_ERROR(timeScale);
-      CHECK_ERROR(input);
-      CHECK_ERROR(a);
-      CHECK_ERROR(b);
-      CHECK_ERROR(c);
-      CHECK_ERROR(d);
+      if ((timeScale.getValue(i,0) > input.getValue(position,0) - delta)&&
+          (timeScale.getValue(i,0) < input.getValue(position,0) + delta))
+      {
+        CHECK_ERROR(timeScale);
+        CHECK_ERROR(input);
+        timeScale.setValue(i,1, input.getValue(position,1));
+        CHECK_ERROR(timeScale);
+        CHECK_ERROR(input);
+        timeScale.setValue(i,3, 0.0);
+        CHECK_ERROR(timeScale);
+      }
+      else if ((timeScale.getValue(i,0) > input.getValue(position+1,0) - delta)&&
+               (timeScale.getValue(i,0) < input.getValue(position+1,0) + delta))
+      {
+        CHECK_ERROR(timeScale);
+        CHECK_ERROR(input);
+        timeScale.setValue(i,1, input.getValue(position+1,1));
+        CHECK_ERROR(timeScale);
+        CHECK_ERROR(input);
+        timeScale.setValue(i,3, 0.0);
+        CHECK_ERROR(timeScale);
+      }
+      else
+      {
+        CHECK_ERROR(timeScale);
+        CHECK_ERROR(input);
+			  timeScale.setValue(i,1,
+			        a.getValue(position,0)*pow((timeScale.getValue(i,0)-input.getValue(position,0)),3.0)+
+						  b.getValue(position,0)*pow((timeScale.getValue(i,0)-input.getValue(position,0)),2.0)+
+						  c.getValue(position,0)*(timeScale.getValue(i,0)-input.getValue(position,0))+
+						  d.getValue(position,0));
+        CHECK_ERROR(timeScale);
+        CHECK_ERROR(input);
+        CHECK_ERROR(a);
+        CHECK_ERROR(b);
+        CHECK_ERROR(c);
+        CHECK_ERROR(d);
+        timeScale.setValue(i,3, 1.0);
+        CHECK_ERROR(timeScale);
+      }
 		}
 		else
 		{
+      cout << "Out of bounds error!!!!\n";
 		  // give error once I know how
 			return timeScale;
 		}
@@ -472,22 +535,50 @@ cepMatrix<double> cepInterp::cubicSplineInterp(cepMatrix<double> & input,
 	{
 		if (inBounds(input, timeScale, position, i, newSize, oldSize))
 		{
-      CHECK_ERROR(input);
-      CHECK_ERROR(timeScale);
-			timeScale.setValue(i,1,
-								a.getValue(position,0)*pow((timeScale.getValue(i,0)-input.getValue(position,0)),3.0)+
-								b.getValue(position,0)*pow((timeScale.getValue(i,0)-input.getValue(position,0)),2.0)+
-								c.getValue(position,0)*(timeScale.getValue(i,0)-input.getValue(position,0))+
-								d.getValue(position,0));
-      CHECK_ERROR(timeScale);
-      CHECK_ERROR(input);
-      CHECK_ERROR(a);
-      CHECK_ERROR(b);
-      CHECK_ERROR(c);
-      CHECK_ERROR(d);
+      if ((timeScale.getValue(i,0) > input.getValue(position,0) - delta)&&
+          (timeScale.getValue(i,0) < input.getValue(position,0) + delta))
+      {
+        CHECK_ERROR(timeScale);
+        CHECK_ERROR(input);
+        timeScale.setValue(i,1, input.getValue(position,1));
+        CHECK_ERROR(timeScale);
+        CHECK_ERROR(input);
+        timeScale.setValue(i,3, 0.0);
+        CHECK_ERROR(timeScale);
+      }
+      else if ((timeScale.getValue(i,0) > input.getValue(position+1,0) - delta)&&
+               (timeScale.getValue(i,0) < input.getValue(position+1,0) + delta))
+      {
+        CHECK_ERROR(timeScale);
+        CHECK_ERROR(input);
+        timeScale.setValue(i,1, input.getValue(position+1,1));
+        CHECK_ERROR(timeScale);
+        CHECK_ERROR(input);
+        timeScale.setValue(i,3, 0.0);
+        CHECK_ERROR(timeScale);
+      }
+      else
+      {
+        CHECK_ERROR(input);
+        CHECK_ERROR(timeScale);
+			  timeScale.setValue(i,1,
+								  a.getValue(position,0)*pow((timeScale.getValue(i,0)-input.getValue(position,0)),3.0)+
+								  b.getValue(position,0)*pow((timeScale.getValue(i,0)-input.getValue(position,0)),2.0)+
+								  c.getValue(position,0)*(timeScale.getValue(i,0)-input.getValue(position,0))+
+								  d.getValue(position,0));
+        CHECK_ERROR(timeScale);
+        CHECK_ERROR(input);
+        CHECK_ERROR(a);
+        CHECK_ERROR(b);
+        CHECK_ERROR(c);
+        CHECK_ERROR(d);
+        timeScale.setValue(i,3, 1.0);
+        CHECK_ERROR(timeScale);
+      }
 		}
 		else
 		{
+      cout << "Out of bounds error!!!!\n";
 		  // give error once I know how
 			return timeScale;
 		}
@@ -522,17 +613,14 @@ cepMatrix<double> cepInterp::dividedInterp(cepMatrix<double> & input,
 	diffs.push_back(new cepMatrix<double>(oldSize-1,1));
   CHECK_ERROR_P(diffs[0]);
 
-  cout << "Divided diff table\n";
 
 	for (j = 0; j < oldSize - 1; j++)
 	{
 		diffs[0]->setValue(j,0, (input.getValue(j+1,1)-input.getValue(j,1))/
 							(input.getValue(j+1,0) - input.getValue(j,0)));
-    cout << diffs[0]->getValue(j,0) << " ";
     CHECK_ERROR_P(diffs[0]);
     CHECK_ERROR(input);
 	}
-  cout << '\n';
 	// calculate error approximation for first value
 	errorPos = (input.getValue(0,0)+input.getValue(1,0))*0.5;
   CHECK_ERROR(input);
@@ -540,7 +628,9 @@ cepMatrix<double> cepInterp::dividedInterp(cepMatrix<double> & input,
 	errorMod = (errorPos-input.getValue(0,0));
   CHECK_ERROR(input);
 
+  cout << "Errors: \n";
 	errors.push_back( errorMod * diffs[0]->getValue(0,0));
+  cout << errors[0] << '\n';
   CHECK_ERROR_P(diffs[0]);
 
 
@@ -556,19 +646,18 @@ cepMatrix<double> cepInterp::dividedInterp(cepMatrix<double> & input,
 		{
 			diffs[i-1]->setValue(j,0, (diffs[i-2]->getValue(j+1,0)-diffs[i-2]->getValue(j,0))/
 								(input.getValue(j+i,0) - input.getValue(j,0)));
-      cout << diffs[i-1]->getValue(j,0) << " ";
       CHECK_ERROR_P(diffs[i-1]);
       CHECK_ERROR_P(diffs[i-2]);
       CHECK_ERROR(input);
 //      sum += fabs(diffs[i-1]->getValue(j,0));
       CHECK_ERROR_P(diffs[i-1]);
 		}
-    cout << '\n';
 
 		// calculate error for order i-2 divided difference table
 		errorMod = errorMod * (errorPos - input.getValue(i-1,0));
     CHECK_ERROR(input);
 		errors.push_back(errorMod * diffs[i-1]->getValue(0,0));
+    cout << errors[i-1] << '\n';
     CHECK_ERROR_P(diffs[i-1]);
 
 		// check error limits for early exit
@@ -583,7 +672,7 @@ cepMatrix<double> cepInterp::dividedInterp(cepMatrix<double> & input,
       if (diffs[i-1]->getValue(j,0)==0)
         sum++;
     }
-    if (sum != 0)
+    if (sum == oldSize-i)
       i = oldSize+2;
 	}
 
@@ -614,42 +703,70 @@ cepMatrix<double> cepInterp::dividedInterp(cepMatrix<double> & input,
 			for (int k = 0; k < order; k++)
 				delete diffs[k];
         cout << "Out of range error!!!\n";
+        cout << "i:" << i << " pos:" << position << '\n';
 		  // give error once I know how
 			return timeScale;
 		}
-		for (j = 0; j < order; j++)
-		{
-//      cout << "i:" << i << " pos:" << position << " j:" << j << '\n';
-      if (position + order < oldSize)
-      {
+    if ((timeScale.getValue(i,0) > input.getValue(position,0) - delta)&&
+        (timeScale.getValue(i,0) < input.getValue(position,0) + delta))
+    {
+      CHECK_ERROR(timeScale);
+      CHECK_ERROR(input);
+      timeScale.setValue(i,1, input.getValue(position,1));
+      CHECK_ERROR(timeScale);
+      CHECK_ERROR(input);
+      timeScale.setValue(i,3, 0.0);
+      CHECK_ERROR(timeScale);
+    }
+    else if ((timeScale.getValue(i,0) > input.getValue(position+1,0) - delta)&&
+             (timeScale.getValue(i,0) < input.getValue(position+1,0) + delta))
+    {
+      CHECK_ERROR(timeScale);
+      CHECK_ERROR(input);
+      timeScale.setValue(i,1, input.getValue(position+1,1));
+      CHECK_ERROR(timeScale);
+      CHECK_ERROR(input);
+      timeScale.setValue(i,3, 0.0);
+      CHECK_ERROR(timeScale);
+    }
+    else
+    {
+      timeScale.setValue(i,3, 1.0);
+      CHECK_ERROR(timeScale);
+  		for (j = 0; j < order; j++)
+  		{
+  //      cout << "i:" << i << " pos:" << position << " j:" << j << '\n';
+        if (position + order < oldSize)
+        {
 //        cout << "if 1\n";
-        tempValue *= (timeScale.getValue(i,0) - input.getValue(position + j,0));
-        CHECK_ERROR(timeScale);
-        CHECK_ERROR(input);
-        timeScale.setValue(i,1, timeScale.getValue(i,1) + tempValue * diffs[j]->getValue(position,0));
-        CHECK_ERROR_P(diffs[j]);
-        CHECK_ERROR(input);
-        CHECK_ERROR(timeScale);
-			}
-      else
-      {
+          tempValue *= (timeScale.getValue(i,0) - input.getValue(position + j,0));
+          CHECK_ERROR(timeScale);
+          CHECK_ERROR(input);
+          timeScale.setValue(i,1, timeScale.getValue(i,1) + tempValue * diffs[j]->getValue(position,0));
+          CHECK_ERROR_P(diffs[j]);
+          CHECK_ERROR(input);
+          CHECK_ERROR(timeScale);
+			  }
+        else
+        {
 //        cout << "if 2\n";
-				tempValue *= (timeScale.getValue(i,0) - input.getValue(oldSize-(order+2) + j,0));
+  				tempValue *= (timeScale.getValue(i,0) - input.getValue(oldSize-(order+2) + j,0));
 //        cout << "tempValue *= timeScale(" << i << ",0) - input("
 //             << oldSize-(order+2)+j << ",0)\n"
 //             << tempValue << " = " << timeScale.getValue(i,0) << "- "
 //             << input.getValue(oldSize-(order+2) + j,0)<< '\n';
 
-        CHECK_ERROR(timeScale);
-        CHECK_ERROR(input);
-				timeScale.setValue(i,1, timeScale.getValue(i,1) + tempValue * diffs[j]->getValue(oldSize-(order+2),0));
+          CHECK_ERROR(timeScale);
+          CHECK_ERROR(input);
+				  timeScale.setValue(i,1, timeScale.getValue(i,1) + tempValue * diffs[j]->getValue(oldSize-(order+2),0));
 //        cout << "TimeScale(" << i << "1) += tempValue * diffs[" << j
 //             << "](" << oldSize-(order+2) << ",0)\n"
 //             << timeScale.getValue(i,1) << "+="
 //             << tempValue << " * " << diffs[j]->getValue(oldSize-(order+2),0) <<'\n';
-        CHECK_ERROR_P(diffs[j]);
-        CHECK_ERROR(timeScale);
-			}
+          CHECK_ERROR_P(diffs[j]);
+          CHECK_ERROR(timeScale);
+	  		}
+      }
 		}
 	}
 	for (int k = 0; k < order; k++)
