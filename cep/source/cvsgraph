@@ -4,7 +4,7 @@ use strict;
 my($HISTORY, $filename, $date, %dateline, $day, $adate, @dates,
    $author, %cols, $newcolnum, @today, @html, $event, $file, $user, $i,
    $table, %authorcolor, @colors, $newauthnum, %heading, $color, $temp,
-   $revision, $lines);
+   $revision, $lines, $state);
 
 open HISTORY, "< logout";
 
@@ -26,9 +26,10 @@ while(<HISTORY>){
 	$filename = $1;
 	chomp $filename;
     }
-    elsif(/^date: ([0-9\/]+).*author: (.*);(.*);(.*)$/){
+    elsif(/^date: ([0-9\/]+).*author: (.*);.*state: (.*);(.*)$/){
 	$date = $1;
 	$author = $2;
+	$state = $3;
 	$_ = $4;
 
 	if(/.*lines: \+(.*) -(.*)/){
@@ -46,6 +47,10 @@ while(<HISTORY>){
 	    }
 	else{
 	    $lines = "&nbsp;";
+	}
+
+	if($state eq "dead"){
+	    $lines = "D";
 	}
 
 	$date =~ s/\///g;
@@ -140,6 +145,7 @@ while(($user, $color) = each %authorcolor){
 print "</tr></table>";
 print "<BR>Key: ";
 print "<table><tr><td>I: Initial import of a file</td>";
+print "<td>D: File deleted from repository</td>";
 print "<td>.: Minor code change (less than 100 lines)</td>";
 print "<td>*: Major code change (more than 100 lines)</td>";
 print "</tr></table>";
