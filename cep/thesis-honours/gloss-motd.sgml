@@ -1,0 +1,8 @@
+<glossentry id="motd"><glossterm>MOTD</glossterm>
+<acronym>MOTD</acronym>
+<glossdef>
+<para>
+A MOTD is the Message Of The Day, a greeting message presented to users as they logon to the GDMS Internet interface.
+</para>
+</glossdef>
+</glossentry>
