@@ -38,11 +38,14 @@
  *     void tearDown( void ) { ... }
  *
  * @author <your name here>
- * @version $Revision: 1.14 $ $Date: 2002-11-13 06:21:16 $
+ * @version $Revision: 1.15 $ $Date: 2002-11-17 03:20:45 $
  *
  * Revision History
  *
  * $Log: not supported by cvs2svn $
+ * Revision 1.14  2002/11/13 06:21:16  u983118
+ * added tests for bug fix
+ *
  * Revision 1.13  2002/11/12 04:00:45  u983118
  * User interface stuff again....
  *
@@ -334,11 +337,12 @@ protected:
     
     blah.read("../../datasets/mb_STR1_GPS");
     
-    data = blah.getMatrix(cepDataset::dirX);
+    data = blah.getMatrix(cepDataset::dirZ);
     
     ans.cepDoVCV(*data);
     residual = ans.getResidual();
-        
+    
+    cout << "y = " << ans.getB1() << "x + " << ans.getB2() << endl;   
   }
   
   //test RW LS
