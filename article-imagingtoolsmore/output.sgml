@@ -1,0 +1,331 @@
+
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
+
+
+
+
+<!-- SKILL LEVEL 
+If known, specify the (skill) level, 1 to 5 -->
+<article>
+
+
+
+<!-- Fill in or leave blank for production to fill in.  -->
+
+
+
+
+
+<title>More graphics from the command line</title>
+<subtitle></subtitle>
+<!--  End TITLE -->
+
+<!-- Ignore these lines. -->
+<!-- <forumurl url=""/> -->
+<!-- <zip url=""/> -->
+<!-- <pdf size="" url=""/> -->
+
+
+<articleinfo>
+<author>
+<authorblurb>
+<para>Michael has been working in the image processing field for several years, including a couple of years managing and developing large image databases for an Australian government department. He currently works for TOWER Software, who manufacture a world leading EDMS and Records Management package named TRIM. Michael is also the developer of Panda, an open source PDF generation API, as well as a bunch of other Open Source code.</para>
+</authorblurb>
+</author>
+</articleinfo
+<!--  End AUTHOR -->
+
+<!-- DATE INFO
+Fill in or leave blank for production to fill in.-->
+
+
+<abstract>
+<para><emphasis>This article discusses commonly used image manipulations using command line tools, mainly from the ImageMagick suite. It expands on the examples from the "Command line imaging tools" article.</emphasis></para>
+</abstract>
+
+
+
+
+<para>Earlier this year I wrote an article for IBM DeveloperWorks about image manipulations on the command line using ImageMagick. The article was quite well received, and since then I have fielded many email questions on ImageMagick. This article expands on the techniques discussed in that previous article, as well as answering as many of those questions as I can. If this is the first ImageMagick article from IBM DeveloperWorks that you've found, you would do well to have a look at this first article as well.</para>
+
+<para>This article takes the form of discussing specific problems as examples, but the concepts should be applicable to other problem spaces as well.</para>
+
+<para>It should be noted that there are many ways to do the things discussed in this article. I will only discuss the methods I use, and know work for me. That doesn't mean the other tools out there are broken, it just means that I'm happy with what I am using now.</para>
+
+
+
+
+
+
+<sect1><title>Curving corners</title>
+<para>If you have a look at MacOS X, and many websites, the pictures have quite nice curved corners. How do you achieve this effect with ImageMagick? Well, we're going to have to show some enginuity in producing this effect by using the <command>composite</command> command.</para>
+
+<para>Before we get there though, let's talk about the strategy we're going to emply. If you think about it, an image with curved corners can be made by taking some standard pre-made corners, and superimposing them over the original image. There's no real need for the corners to be curved even -- we could have angled corners, or something much more fancy.</para>
+
+<para>So, the first step is to make some corners. Below is a corner I whipped up in the GIMP. I wont show you all four, as the others are just this one rotated by differing multiples of 90 degrees.</para>
+
+<sidebar>
+<title>The GIMP</title>
+<para>The GIMP, the GNU Image Manipulation Package, is a very useful raster graphics editor, much like Adobe Photoshop. It's great for tweaking images, or for creating your own new pictures. Checkout www.gimp.org for more details.</para> 
+</sidebar>
+
+
+<graphic format="eps" fileref="gen-rounded-ne.eps">
+
+
+<para>You should note that the curve on this image is actually in white, and the rest of the image is transparent. This transparency will allow the image we are adding the corners to to show through. This can be a little confusing, as some image viewers such as <command>xview</command> will show the transparency in black or some other color.</para>
+
+
+<graphic format="eps" fileref="gen-rounded-ne-xview.eps">
+
+
+<para>The actual corner image will become more clear when we superimpose it upon an image, so let's get on with that.</para>
+
+<para>I have a thumbnail which I made earlier of the view from the shore of one of Canberra's lakes. Without the rounded corners, the thumbnail looks like this:</para>
+
+
+<graphic format="eps" fileref="gen-lake.eps">
+
+
+<para>To superimpose an image onto another, you use the <command>composite</command> command. Let's just do one corner, to see what happens...</para>
+
+
+<programlisting>
+composite -gravity NorthEast rounded-ne.png lake.png lake-1.png
+</programlisting>
+
+<para>Here, the gravity arguement defines where on the image to put the superimposed image -- in our case the rounded corner. This particular command gives us the following image:</para>
+
+
+<graphic format="eps" fileref="gen-lake-1.eps">
+
+
+<sidebar>
+<title>Gravity</title>
+<para>The gravity arguement specifies where on the background image the superimposed image is placed. The possible gravities, and their effects are:</para> 
+
+
+<graphic format="eps" fileref="gen-gravity2.eps">
+
+<para>For example, SouthWest will force the superimposed image to the bottom left hand corner of the background image.</para>
+
+</sidebar>
+
+<para>So let's do the rest of the corners...</para>
+
+
+<programlisting>
+composite -gravity NorthEast rounded-ne.png lake.png lake-1.png
+composite -gravity NorthWest rounded-nw.png lake-1.png lake-2.png
+composite -gravity SouthEast rounded-se.png lake-2.png lake-3.png
+composite -gravity SouthWest rounded-sw.png lake-3.png lake-4.png
+</programlisting>
+
+<para>Which gives us the finished image:</para>
+
+
+<graphic format="eps" fileref="gen-lake-4.eps">
+
+
+<para>Which looks kinda cool in my humble opinion. You should also take note that there is no reason for these corner images to be rounded. If you're interested in angled corners or such, then they're equally possible -- just change the corner images in a bitmap editor.</para>
+
+<para>If you want to use my rounded corners, a URL is listed in the resources section at the end of this article.</para>
+
+
+
+</sect1>
+<sect1><title>Putting frames around images</title>
+<para>Another thing which several readers asked about was how to add frames to images. Again, this is relatively easy to do with ImageMagick.</para>
+
+<sect2><title>A raised or lowered border</title>
+
+<para>The first type of frame I will show you is a raised or lowered border. This effect works by tweaking the colors at the edge of an image to give the impression that it is either raised above the surrounding surface, or pushed below it. For the effect, you need to specify a size, with the horizontal size first, and then the vertical size. These sizes must obey the rule that twice the size specified must be less than or equal to the dimention of the image in that direction. For example, you can't specify a frame size verically that is more than half the vertical size of the image.</para>
+
+<para>To create a raised border, use the <emphasis>-raise</emphasis> command line arguement. For example, to create a 5 pixel by 5 pixel border, we execute:</para>
+
+
+<programlisting>
+convert -raise 5x5 tree.png tree-raised.png
+</programlisting>
+
+<para>Which gives us the finished image:</para>
+
+
+<graphic format="eps" fileref="gen-tree-raised.eps">
+
+
+<para>To create a lowered border, just use the <emphasis>+raise</emphasis> command line arguement instead. For example:</para>
+
+
+<programlisting>
+convert +raise 5x5 tree.png tree-lowered.png
+</programlisting>
+
+<para>Which gives a slightly different finished image:</para>
+
+
+<graphic format="eps" fileref="gen-tree-lowered.eps">
+
+
+
+
+
+</sect2>
+<sect2><title>A simple colored border</title>
+
+<para>If you're after something a little more simple, you might be interested in a border of just a solid color. ImageMagick can do this for you as well.</para>
+
+
+<programlisting>
+convert -bordercolor red -border 5x5 flower.png flower-border.png
+</programlisting>
+
+<para>Which creates:</para>
+
+
+<graphic format="eps" fileref="gen-flower-border.eps">
+
+
+<para>What border colors can we specify on the command line? Well, the list is simply too long to put into this article. To get a copy of the list, execute this command:</para>
+
+
+<programlisting>
+convert -list color
+</programlisting>
+
+<para>I will give in a little, and list for you some of the more commonly used colors of the 683 available: aquamarine, azure, beige, bisque, black, blue, brown, burlywood, chartreuse, chocolate, coral, cornsilk, cyan, firebrick, gainsboro, gold, goldenrod, green, honeydew, ivory, khaki, lavender, linen, magenta, maroon, moccasin, navy, orange, orchid, peru, pink, plum, purple, red, salmon, seashell, sienna, snow, tan, thistle, tomato, turquoise, violet, wheat and yellow.</para>
+
+<para>You can also of course specify your own colors by using any of the following formats, where R represents the red value, G the green, B the blue, and A the alpha (transparency) value:</para>
+
+<itemizedlist>
+<listitem><para>#RGB - (R,G,B are hex numbers, 4 bits each)
+<listitem><para>#RRGGBB - (8 bits each)
+<listitem><para>#RRRGGGBBB - (12 bits each)
+<listitem><para>#RRRRGGGGBBBB - (16 bits each)
+<listitem><para>#RGBA - (4 bits each)
+<listitem><para>#RRGGBBAA - (8 bits each)
+<listitem><para>#RRRGGGBBBAAA - (12 bits each)
+<listitem><para>#RRRRGGGGBBBBAAAA - (16 bits each)
+<listitem><para>rgb(r,g,b) - (r,g,b are decimal numbers)
+<listitem><para>rgba(r,g,b,a) - (r,g,b,a are decimal numbers)
+</itemizedlist>
+
+</sect2>
+<sect2><title>Building a more complicated frame</title>
+
+<para>Next let's build a slightly more complicated frame, using the <emphasis>-frame</emphasis> command line arguement. First we'll add a simple frame which is identical (except for the color) to the border we built in the previous example.</para>
+
+
+<programlisting>
+convert -mattecolor black -frame 5x5 beach.png beach-frame.png
+</programlisting>
+
+<para>The arguments are <emphasis>-mattcolor</emphasis> and <emphasis>-frame</emphasis> instead of <emphasis>-bordercolor</emphasis> and <emphasis>-border</emphasis>, but the rest is the same as with the border command.</para>
+
+
+<graphic format="eps" fileref="gen-beach-frame.eps">
+
+
+<para>Now we can add some extra complexity by adding some gray shading similar to what the <emphasis>-raise</emphasis> command gave us.</para>
+
+
+<programlisting>
+convert -mattecolor black -frame 5x5+2 beach.png beach-frame2.png
+</programlisting>
+
+<para>Which is getting there:</para>
+
+
+<graphic format="eps" fileref="gen-beach-frame2.eps">
+
+
+<para>Finally, we can add some more decoration, to get the final effect I want...</para>
+
+
+<programlisting>
+convert -mattecolor black -frame 5x5+2+2 beach.png beach-frame3.png
+</programlisting>
+
+<para>Which finally gives us:</para>
+
+
+<graphic format="eps" fileref="gen-beach-frame3.eps">
+
+
+<para>If you're looking at ways to make nice frames for your images, then I recommend that you spend a few moments playing with the arguements to the <emphasis>-frame</emphasis> command. For example, here's some interesting frames for a picture of a rock at King's Canyon, in Australia.</para>
+
+
+<programlisting>
+convert -mattecolor gray -frame 25x25+0+25 rock.png rock-frame1.png
+</programlisting>
+
+
+<graphic format="eps" fileref="gen-rock-frame1.eps">
+
+
+
+<programlisting>
+convert -mattecolor gray -frame 25x25+25+0 rock.png rock-frame2.png
+</programlisting>
+
+
+<graphic format="eps" fileref="gen-rock-frame2.eps">
+
+
+
+
+
+
+
+
+
+</sect2>
+</sect1>
+<sect1><title>Processing many images at once</title>
+
+<para>In my previous article, I showed you sample code to apply conversions to many images at once. As has been pointed out by several people, the code I showed was not the best way of doing this.</para>
+
+<para>Here's the code I showed you:</para>
+
+
+<programlisting>
+for img in `ls *.jpg`
+do
+  convert -sample 25%x25% $img thumb-$img
+done
+</programlisting>
+
+<para>Now it turns out that this is poor bash style, as it doesn't handle spaces in filenames very gracefully (each word will be treated as a separate filename). Instead, a better way of doing this in bash is to do:</para>
+
+
+<programlisting>
+for img in *.jpg
+do
+  convert -sample 25%x25% $img thumb-$img
+done
+</programlisting>
+
+<para>Which which will handle spaces in filenames much more gracefully.</para>
+
+<para>It turns out however that both of these solutions aren't needed with ImageMagick -- we can just use the <command>mogrify</command> command. <command>mogrify</command> is used to convert a sequence of images (although it will work for single images as well).</para>
+
+<para>That code snippet above becomes:</para>
+
+
+<programlisting>
+mogrify -sample 25%x25% *.jpg
+</programlisting>
+
+<para><emphasis>Note that this will overwrite the original images with new ones. This is one of the limitations of <command>mogrify</command>, in that it is harder to specify output filenames.</emphasis> The only way to specify an output filename is to change the format of the output image compared with the input image. This will result in a different extension for the new image. For example:</para>
+
+
+<programlisting>
+mogrify -format png -sample 25%x25% *.jpg
+</programlisting>
+
+<para>This will create a series of output files with the jpg at the end of the filename has been replaced with a png, with the associated image format change.</para>
+
+<para>All of the conversions previously defined will also work with the <command>mogrify</command> command, so if you don't mind the original images being overwritten then it's a good choice.</para>
+
+
+

@@ -1,4 +1,3 @@
-
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?xml-stylesheet type="text/xsl" href="C:\Documents and Settings\Administrator\My Documents\Articles\1 - Templates\dw-document-html-2.1.xsl"?>
@@ -38,7 +37,7 @@ Fill in or leave blank for production to fill in.-->
 <column-info col-name="" col-icon=""/>
 <docbody>
 
-<p>Earlier this year I wrote an article for IBM DeveloperWorks about image manipulations on the command line using ImageMagick. The article was quite well received, and since then I have fielded many email questions on ImageMagick. This article expands on the techniques discussed in that previous article, as well as answering as many of those questions as I can. If this is the first ImageMagick article from IBM DeveloperWorks that you've found, you would do well to have a look at this first article as well.</p>
+<p>Last year I wrote an article for IBM DeveloperWorks about image manipulations on the command line using ImageMagick. The article was quite well received, and since then I have fielded many email questions on ImageMagick. This article expands on the techniques discussed in that previous article, as well as answering as many of those questions as I can. If this is the first ImageMagick article from IBM DeveloperWorks that you've found, you would do well to have a look at this first article as well.</p>
 
 <p>This article takes the form of discussing specific problems as examples, but the concepts should be applicable to other problem spaces as well.</p>
 
