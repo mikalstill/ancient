@@ -57,23 +57,3 @@ do
 done
 
 If possible, please update the article so others can avoid this mistake too.
-
-
-
-
-
-I have some photos which are sometimes landscape and sometimes portrait.
-
-I am just wondering if convert has an option to scale an image and to keep the 
-width/height ratio like
-
-convert -scale 850 inimage outimage
-
-would scale every image to a widht of 850 pixels, except that I would like to 
-specify also a maximum height, e.g. 600 pixels. So for a landscape image 
-convert would probably do an 850x550 image and for a portrait an 400x600. 
-
-
-
-
-
