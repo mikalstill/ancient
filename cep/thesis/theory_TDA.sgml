@@ -1,10 +1,11 @@
-<sect1><title>Time Domain Analysis</title> 
+<sect1><title>Time Domain Analysis</title>
 
 <sect2><title>Introduction</title>
-  <para> Analysis of discrete signals in the time domain is essential to the understanding of geodetic data produced
+  <para>
+   Analysis of discrete signals in the time domain is essential to the understanding of geodetic data produced
   by GPS, VLBI and SLR. By applying a linear least squares regression model to the system underlying data trends can be ascertained,
   such as, the average rate of continental drift. Linear regression analysis also allows such phenomenon as "Random 
-  Walk" and white noise, both of which which are known to affect each type of geodetic data to differing degrees, 
+  Walk" and white noise, both of which which are known to affect each type of geodetic data to differing degrees,
   to be ascertained. This, in turn, enables the geodetic community to gain a greater understanding of which elements may 
   affect accuracy of a given geodetic data set. In addition, an analysis of residuals resulting from a linear regression not only 
   give a measure of how accurately the line of best fit models the data set it can also aid in the detection and deletion of erroneous
@@ -15,20 +16,21 @@
 
 <sect2><title>Theory</title>
   <sect3><title>Linear Least Squares Regression Modelling</title>
-    <para>One of the major problems in discrete signal analysis is that these systems are almost always inconsistent, that is, 
+    <para>
+    One of the major problems in discrete signal analysis is that these systems are almost always inconsistent, that is, 
     there is no exact solution to the equation of the line 
     
     EQUATION 1
     
-    where <command>m</command> is the median and <command>c<command> is the y-intercept. This is usually due to the fact that there 
+    where <command>m</command> is the median and <command>c</command> is the y-intercept. This is usually due to the fact that there
     are more data points in the system than those required to solve this equation. Linear least squares regression modelling is a 
-    method use to calculate <command>m</command> and <command>c<command>, such that, it is the closest approximation
+    method use to calculate <command>m</command> and <command>c</command>, such that, it is the closest approximation
     <command>y</command> for the given set of observations in the system, also known as a line of best fit. In the analysis of
     geodetic data the line of best fit is given as the solution to the matrix equation
     
     EQUATION 2
     
-    where <command>X<command> is the corrections to the apriori estimates
+    where <command>X</command> is the corrections to the apriori estimates
     
     
     EQUATION 3
@@ -38,7 +40,7 @@
     
     EQUATION 4
     
-    <command>P<command> is the <command>n</command> x <command>n</command> weighting matrix and <command>L</command> is the apriori 
+    <command>P</command> is the <command>n</command> x <command>n</command> weighting matrix and <command>L</command> is the apriori
     matrix 
     
     EQUATION 5 
@@ -56,7 +58,7 @@
     EQUATION 7
     </para>
         
-    </para>Another common constraint use in this type of analysis is to set y-intercept <command>c</command> at the point of the
+    <para>Another common constraint use in this type of analysis is to set y-intercept <command>c</command> at the point of the
     first time observation in the given system. This is done because the time format used in geodetic
     data systems is a decimal number where the numerator corresponds to the year and number of days into the year is denominator.
     For example, the date value 2002.0014 corresponds to the Gregorian calender date of 12:00, 1 January 2002. If 
@@ -127,7 +129,7 @@
     </para> 
   </sect3><!--Weighting Matrices - Variance Co-variance and Random Walk-->
   
-  <sect3><title>Residuals and Determining VCV Weighting Models</title></sect3>
+  <sect3><title>Residuals and Determining VCV Weighting Models</title>
     <para>Residual space is another important aspect of Time Domain analysis. In essence, a residual is vector that represents the
     distance between the observed value and the least squares regression line of best fit. The residual vectors are therefore
     calculated by the matrix equation
@@ -166,13 +168,13 @@
     
     EQUATION 18
     
-    where <command>A</command> was a <command>observations</command> x <command>2</command> matrix and <command>P<command> was a 
+    where <command>A</command> was a <command>observations</command> x <command>2</command> matrix and <command>P</command> was a
     <command>observations</command> x <command>observations</command> weighting matrix. If our weighting matrix was strictly
     diagonal then then it would take
     
     EQUATION 19
     
-    operations to compute Equation 1.18. Conversely, if <command>P<command> was a non-diagonal matrix then it would take 
+    operations to compute Equation 1.18. Conversely, if <command>P</command> was a non-diagonal matrix then it would take 
     
     EQUATION 20
     
