@@ -63,18 +63,22 @@ const cepError cepDataWindower::setWindowType( const windowType type, const int 
   switch( type ) {
     
     case WINDOW_RECTANGULAR:
+      delete windowAlg;
       windowAlg = new cepWindowRect( size );
       break;
       
     case WINDOW_HAMMING:
+      delete windowAlg;
       windowAlg = new cepWindowHamming( size );
       break;
 
     case WINDOW_BLACKMAN:
+      delete windowAlg;
       windowAlg = new cepWindowBlackman( size );
       break;
 
     case WINDOW_CHEBYSHEV:
+      delete windowAlg;
       windowAlg = new cepWindowChebyshev( size );
       break;
       
@@ -142,10 +146,9 @@ const cepError cepDataWindower::window( const cepMatrix<double> & dataIn,
       }
       
       // copy the date directly & scale the value
-      result.setValue(win, element, 0,
-              const_cast< cepMatrix<double>& >(dataIn).getValue( ptr, 0 ));
-      result.setValue(win, element, 1,
-              const_cast< cepMatrix<double>& >(dataIn).getValue( ptr, 1 )*coeffs.getValue(element,0));
+      // 0 is date, 1 is value
+      result.setValue(win, element, 0, const_cast< cepMatrix<double>& >(dataIn).getValue( ptr, 0 ));
+      result.setValue(win, element, 1, const_cast< cepMatrix<double>& >(dataIn).getValue( ptr, 1 )*coeffs.getValue(element,0));
     }
   }
 
