@@ -364,7 +364,7 @@ pdfRender::getPNGfile ()
 }
 
 void
-render::appendCommand(string commandString)
+pdfRender::appendCommand(string commandString)
 {
   debug(dlTrace, "Implement append command");
 }
