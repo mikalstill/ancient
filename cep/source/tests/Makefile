@@ -74,7 +74,7 @@ PACKAGE = cep
 RANLIB = ranlib
 VERSION = 0.1
 
-noinst_PROGRAMS = testall testwindows testmatrix testconfig testls testdataset testnumeric
+noinst_PROGRAMS = testall testwindows testmatrix testconfig testls testdataset testnumeric testfft
 EXTRA_PROGRAMS = testallhuge
 
 testwindows_SOURCES = alltests.cpp cep_testWindows.cpp
@@ -92,6 +92,8 @@ testdataset_LDADD = ../cepDataset.o
 
 testnumeric_SOURCES = alltests.cpp cep_testNumeric.cpp
 
+testfft_SOURCES = alltests.cpp cep_testCfft.cpp
+
 # 2: Above this line, you need to add a line test<name>_SOURCES, which lists
 # your .cpp files, and (if you need it), a line test<name>_LDADD, which lists
 # object files from the source directory which you need for the test
@@ -99,15 +101,11 @@ testnumeric_SOURCES = alltests.cpp cep_testNumeric.cpp
 # 3: Add the .cpp files here, and add a variable if you used objects from the
 # source directory. Sometimes, if it is heaps of tests which you only want to
 # run very occassionally, it might belong in (4) instead...
-testall_SOURCES = alltests.cpp cep_testWindows.cpp cep_testMatrix.cpp cep_testConfig.cpp cep_testLs.cpp cep_testDataset.cpp cep_testNumeric.cpp
+testall_SOURCES = alltests.cpp cep_testWindows.cpp cep_testMatrix.cpp cep_testConfig.cpp cep_testLs.cpp cep_testDataset.cpp cep_testNumeric.cpp cep_testCfft.cpp
 testall_LDADD = $(testwindows_LDADD) $(testls_LDADD) $(testdataset_LDADD)
 
-# 4: A special target for really long winded tests (the other tests are not
-# included in this target). Add a new variable, and then add that variable to
-# to the testallhuge_SOURCES variable
-testpresentation_SOURCES = alltests.cpp cep_testPresentation000.cpp cep_testPresentation1000.cpp cep_testPresentation1200.cpp cep_testPresentation1400.cpp cep_testPresentation1600.cpp cep_testPresentation1800.cpp cep_testPresentation2000.cpp cep_testPresentation200.cpp cep_testPresentation2200.cpp cep_testPresentation2400.cpp cep_testPresentation2600.cpp cep_testPresentation2800.cpp cep_testPresentation3000.cpp cep_testPresentation3200.cpp cep_testPresentation3400.cpp cep_testPresentation3600.cpp cep_testPresentation3800.cpp cep_testPresentation4000.cpp cep_testPresentation400.cpp cep_testPresentation4200.cpp cep_testPresentation4400.cpp cep_testPresentation600.cpp cep_testPresentation800.cpp
-
-testallhuge_SOURCES = $(testpresentation_SOURCES)
+# 4: A special target for really long winded tests
+testallhuge_SOURCES = alltests.cpp cep_testPresentation000.cpp cep_testPresentation1000.cpp cep_testPresentation1200.cpp cep_testPresentation1400.cpp cep_testPresentation1600.cpp cep_testPresentation1800.cpp cep_testPresentation2000.cpp cep_testPresentation200.cpp cep_testPresentation2200.cpp cep_testPresentation2400.cpp cep_testPresentation2600.cpp cep_testPresentation2800.cpp cep_testPresentation3000.cpp cep_testPresentation3200.cpp cep_testPresentation3400.cpp cep_testPresentation3600.cpp cep_testPresentation3800.cpp cep_testPresentation4000.cpp cep_testPresentation400.cpp cep_testPresentation4200.cpp cep_testPresentation4400.cpp cep_testPresentation600.cpp cep_testPresentation800.cpp
 
 # These get built into everything
 LDFLAGS = ../cepError.o ../cepUtility.o -lcppunit -lm
@@ -135,7 +133,8 @@ testallhuge_LDADD = $(LDADD)
 testallhuge_DEPENDENCIES = 
 testallhuge_LDFLAGS = 
 testall_OBJECTS =  alltests.o cep_testWindows.o cep_testMatrix.o \
-cep_testConfig.o cep_testLs.o cep_testDataset.o cep_testNumeric.o
+cep_testConfig.o cep_testLs.o cep_testDataset.o cep_testNumeric.o \
+cep_testCfft.o
 testall_DEPENDENCIES =  ../cepDataWindower.o ../cepWindowAlg.o \
 ../cepWindowRect.o ../cepwindowhamming.o ../cepwindowchebyshev.o \
 ../cepwindowblackman.o ../cepLs.o ../cepDataset.o
@@ -163,6 +162,10 @@ testnumeric_OBJECTS =  alltests.o cep_testNumeric.o
 testnumeric_LDADD = $(LDADD)
 testnumeric_DEPENDENCIES = 
 testnumeric_LDFLAGS = 
+testfft_OBJECTS =  alltests.o cep_testCfft.o
+testfft_LDADD = $(LDADD)
+testfft_DEPENDENCIES = 
+testfft_LDFLAGS = 
 CXXFLAGS = -g -O2
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 CXXLD = $(CXX)
@@ -174,23 +177,23 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = gtar
 GZIP_ENV = --best
-DEP_FILES =  .deps/alltests.P .deps/cep_testConfig.P \
-.deps/cep_testDataset.P .deps/cep_testLs.P .deps/cep_testMatrix.P \
-.deps/cep_testNumeric.P .deps/cep_testPresentation000.P \
-.deps/cep_testPresentation1000.P .deps/cep_testPresentation1200.P \
-.deps/cep_testPresentation1400.P .deps/cep_testPresentation1600.P \
-.deps/cep_testPresentation1800.P .deps/cep_testPresentation200.P \
-.deps/cep_testPresentation2000.P .deps/cep_testPresentation2200.P \
-.deps/cep_testPresentation2400.P .deps/cep_testPresentation2600.P \
-.deps/cep_testPresentation2800.P .deps/cep_testPresentation3000.P \
-.deps/cep_testPresentation3200.P .deps/cep_testPresentation3400.P \
-.deps/cep_testPresentation3600.P .deps/cep_testPresentation3800.P \
-.deps/cep_testPresentation400.P .deps/cep_testPresentation4000.P \
-.deps/cep_testPresentation4200.P .deps/cep_testPresentation4400.P \
-.deps/cep_testPresentation600.P .deps/cep_testPresentation800.P \
-.deps/cep_testWindows.P
-SOURCES = $(testallhuge_SOURCES) $(testall_SOURCES) $(testwindows_SOURCES) $(testmatrix_SOURCES) $(testconfig_SOURCES) $(testls_SOURCES) $(testdataset_SOURCES) $(testnumeric_SOURCES)
-OBJECTS = $(testallhuge_OBJECTS) $(testall_OBJECTS) $(testwindows_OBJECTS) $(testmatrix_OBJECTS) $(testconfig_OBJECTS) $(testls_OBJECTS) $(testdataset_OBJECTS) $(testnumeric_OBJECTS)
+DEP_FILES =  .deps/alltests.P .deps/cep_testCfft.P \
+.deps/cep_testConfig.P .deps/cep_testDataset.P .deps/cep_testLs.P \
+.deps/cep_testMatrix.P .deps/cep_testNumeric.P \
+.deps/cep_testPresentation000.P .deps/cep_testPresentation1000.P \
+.deps/cep_testPresentation1200.P .deps/cep_testPresentation1400.P \
+.deps/cep_testPresentation1600.P .deps/cep_testPresentation1800.P \
+.deps/cep_testPresentation200.P .deps/cep_testPresentation2000.P \
+.deps/cep_testPresentation2200.P .deps/cep_testPresentation2400.P \
+.deps/cep_testPresentation2600.P .deps/cep_testPresentation2800.P \
+.deps/cep_testPresentation3000.P .deps/cep_testPresentation3200.P \
+.deps/cep_testPresentation3400.P .deps/cep_testPresentation3600.P \
+.deps/cep_testPresentation3800.P .deps/cep_testPresentation400.P \
+.deps/cep_testPresentation4000.P .deps/cep_testPresentation4200.P \
+.deps/cep_testPresentation4400.P .deps/cep_testPresentation600.P \
+.deps/cep_testPresentation800.P .deps/cep_testWindows.P
+SOURCES = $(testallhuge_SOURCES) $(testall_SOURCES) $(testwindows_SOURCES) $(testmatrix_SOURCES) $(testconfig_SOURCES) $(testls_SOURCES) $(testdataset_SOURCES) $(testnumeric_SOURCES) $(testfft_SOURCES)
+OBJECTS = $(testallhuge_OBJECTS) $(testall_OBJECTS) $(testwindows_OBJECTS) $(testmatrix_OBJECTS) $(testconfig_OBJECTS) $(testls_OBJECTS) $(testdataset_OBJECTS) $(testnumeric_OBJECTS) $(testfft_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
@@ -259,6 +262,10 @@ testdataset: $(testdataset_OBJECTS) $(testdataset_DEPENDENCIES)
 testnumeric: $(testnumeric_OBJECTS) $(testnumeric_DEPENDENCIES)
 	@rm -f testnumeric
 	$(CXXLINK) $(testnumeric_LDFLAGS) $(testnumeric_OBJECTS) $(testnumeric_LDADD) $(LIBS)
+
+testfft: $(testfft_OBJECTS) $(testfft_DEPENDENCIES)
+	@rm -f testfft
+	$(CXXLINK) $(testfft_LDFLAGS) $(testfft_OBJECTS) $(testfft_LDADD) $(LIBS)
 .cpp.o:
 	$(CXXCOMPILE) -c $<
 
