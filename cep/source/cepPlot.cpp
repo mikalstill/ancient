@@ -31,6 +31,7 @@ cepPlot::cepPlot(cepDataset *theDataset, cepDataset::direction dir, string cfnam
   cepPresentation pres (theDataset->getData (dir).size () + 20,
 			presHeight);
   
+  // Add the datapoints
   for (unsigned int i = 0; i < theDataset->getData (dir).size (); i++)
     {
       pres.addDataPoint (i,
@@ -48,14 +49,17 @@ cepPlot::cepPlot(cepDataset *theDataset, cepDataset::direction dir, string cfnam
   int red = 0, green = 0, blue = 0;
   bool toggle;
   
+  // Averages
   err = config->getValue("ui-viewmenu-showaverages", false, toggle);
   if(err.isReal()) err.display();
   pres.useAverage(toggle);
   
+  // Errors
   err = config->getValue("ui-viewmenu-showerrors", true, toggle);
   if(err.isReal()) err.display();    
   pres.useErrors(toggle);
   
+  // Axes
   err = config->getValue("ui-graph-color-axis-r", 255, red);
   if(err.isReal()) err.display();
   err = config->getValue("ui-graph-color-axis-g", 0, green);
@@ -64,6 +68,7 @@ cepPlot::cepPlot(cepDataset *theDataset, cepDataset::direction dir, string cfnam
   if(err.isReal()) err.display();
   pres.setAxesColor(red, green, blue);
   
+  // Plot color
   err = config->getValue("ui-graph-color-line-r", 0, red);
   if(err.isReal()) err.display();
   err = config->getValue("ui-graph-color-line-g", 255, green);
@@ -72,6 +77,7 @@ cepPlot::cepPlot(cepDataset *theDataset, cepDataset::direction dir, string cfnam
   if(err.isReal()) err.display();
   pres.setLineColor(red, green, blue);
 
+  // Average color
   err = config->getValue("ui-graph-color-average-r", 0, red);
   if(err.isReal()) err.display();
   err = config->getValue("ui-graph-color-average-g", 0, green);
@@ -80,6 +86,7 @@ cepPlot::cepPlot(cepDataset *theDataset, cepDataset::direction dir, string cfnam
   if(err.isReal()) err.display();
   pres.setAverageColor(red, green, blue);
   
+  // Error color
   err = config->getValue("ui-graph-color-error-r", 127, red);
   if(err.isReal()) err.display();
   err = config->getValue("ui-graph-color-error-g", 127, green);
@@ -88,12 +95,17 @@ cepPlot::cepPlot(cepDataset *theDataset, cepDataset::direction dir, string cfnam
   if(err.isReal()) err.display();
   pres.setErrorColor(red, green, blue);
   
+  // Which view?
   int currentView;
   err = config->getValue("ui-viewmenu-currentview", 
 			   (int) cepPresentation::viewCentered, currentView);
   if(err.isReal()) err.display();
   pres.setView((cepPresentation::view) currentView);
   
+  // Various textual labels
+  pres.yAxisTitle("This is a foo");
+
+  // Create the bitmap
   err = pres.createPNG (cfname);
   if (err.isReal ()){
     err.display ();

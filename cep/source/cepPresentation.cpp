@@ -289,7 +289,7 @@ cepPresentation::createBitmap ()
   plot_setfont(graph, "n019004l.pfb", 12);
   // plot_setfont(graph, "/usr/share/fonts/default/Type1/n021004l.pfb", 20);
   plot_settextlocation(graph, 20, 70);
-  plot_writestring(graph, "F");
+  //plot_writestring(graph, m_yTitle);
 
   // Get the raster (in case we use it later)
   m_raster = plot_getraster (graph);
