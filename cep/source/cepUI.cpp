@@ -372,6 +372,7 @@ cepFrame::OnClose (wxCloseEvent & evt)
 
   cepError err;
 
+  config = (cepConfiguration *)&cepConfiguration::getInstance();
   err = config->setValue ("ui-mainwindow-size-x", width);
   if (err.isReal ())
   {
