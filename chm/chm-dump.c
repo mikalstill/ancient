@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <string.h>
+#include <errno.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/mman.h>
@@ -224,29 +226,33 @@ int main(int argc, char *argv[]){
 	     flcurrent->offset, flcurrent->offset + flcurrent->length);
 
       if(flcurrent->length > 0){
-	filep = chunkp + flcurrent->offset;
-	printf("  File\n");
-	printf("  Start byte for this file: %d\n", filep);
-	if(fileutil_displayshort(file, "  Length of section in words: ", &filep) != 0){
-	  printf("\n");
-	  maxchunk = fileutil_displayshort(file, "  Number of entries in section: ", &filep); printf("\n\n");
-	  
-	  // Get those names
-	  for(count = 0; count < maxchunk; count++){
-	    printf("  Name %d\n", count);
-	    fileutil_displayshort(file, "    Length of name in words: ", &filep); printf("\n");
-	    fileutil_displayunicodestring(file, "    Name: ", &filep); printf("\n");
-	    printf("\n");
-	  }
-	}
-	else{
-	  printf("\n  Skipping zero length file\n");
-	}
+	char *tempname;
+	int tempfd;
 
-	printf("\n");
+	printf("  File\n");
+	tempname = (char *) strdup("output/");
+	strcat(tempname, flcurrent->name);
+	printf("  Opening %s\n", tempname);
+	
+	mkpath(tempname);
+	if((tempfd = open(tempname, O_WRONLY | O_CREAT)) < 0){
+	  fprintf(stderr, "Could not open the output file %s\n", tempname, tempfd);
+	  fprintf(stderr, "%d: %s\n", errno, strerror(errno));
+	  exit(43);
+	}
+	write(fd, file + filep + flcurrent->offset, flcurrent->length);
+	close(fd);
+
+	free(tempname);	
       }
       else{
+	char *tempname;
+
 	printf("  Directory\n\n");
+	tempname = (char *) strdup("output");
+	strcat(tempname, flcurrent->name);
+	mkdir(tempname, 0);
+	free(tempname);
       }
     }
 

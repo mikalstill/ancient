@@ -1,7 +1,7 @@
 all:	chm-dump
 
 chm-dump:	chm-dump.o fileutil.o winlang.h
-	gcc -o chm-dump chm-dump.o fileutil.o
+	gcc -ggdb -o chm-dump chm-dump.o fileutil.o
 
 chm-dump.o: chm-dump.c
 	gcc -c -ggdb chm-dump.c -o chm-dump.o

@@ -229,3 +229,34 @@ int fileutil_displayencinteger(char *input, char *format, int *read, long long *
   *filep = count;
   return accval;
 }
+
+// Math all the directories we need to get to this path (assumes the last entry is the filename)
+void mkpath(char *input){
+  char path[1024], path2[1024];
+  char *tok;
+  int count;
+
+  // Remove the last item as it is the name of a file
+  strncpy(path, input, 1024); 
+  count = strlen(path);
+  while((count > 0) && (path[count] != '/'))
+    count--;
+  if(count != 0)
+    path[count] = '\0';
+
+  tok = (char *) strtok(path, "/");
+  strcpy(path2, tok);
+
+  while(1){
+    mkdir(path2, 0);
+
+    tok = (char *) strtok(NULL, "/");    
+    if(tok == NULL) break;
+    while(strlen(tok) == 0){
+      if(tok == NULL) break;
+      tok = (char *) strtok(NULL, "/");
+    }
+    strncat(path2, "/", 1024);
+    strncat(path2, tok, 1024);
+  }
+}

@@ -18,6 +18,8 @@ int fileutil_displaybyte_actual(char *, char *, long long *);
 int fileutil_displaywindowslanguage(char *, char *, long long *);
 int fileutil_displayencinteger(char *, char *, int *, long long *);
 
+void mkpath(char *);
+
 typedef union memopad_internal_mint32{
   int i;
   char c[3];
