@@ -1,13 +1,14 @@
 #!/usr/local/bin/perl
 
 use strict;
-my($line, $prevline, $listmode, $paramode, $ctr_l);
+my($line, $prevline, $listmode, $listitemmode, $paramode, $ctr_l, $subst);
 
 # Make random textfiles safe for display in docbook (outside a programlisting
 # block)
 
 $paramode = 1;
 $listmode = 0;
+$listitemmode = 0;
 
 $ctr_l = chr(12);
 print "<para>";
@@ -30,12 +31,21 @@ while(<STDIN>){
 
 	# Forcing a new page
 	if(/$ctr_l/){
+	    $subst = "";
 	    if($paramode == 1){
-		$line =~ s/$ctr_l/<\/para><beginpage>/;
+		$subst = "<\/para>";
+		$paramode = 0;
 	    }
-	    else{
-		$line =~ s/$ctr_l/<beginpage>/;
+	    if($listitemmode == 1){
+		$subst = "$subst<\/listitem>";
+		$listitemmode = 0;
 	    }
+	    if($listmode == 1){
+		$subst = "$subst<\/itemizedlist>";
+		$listmode = 0;
+	    }
+
+	    $line =~ s/$ctr_l/$subst<beginpage>/;
 	}
 
 	# Blank lines end paragraphs
@@ -44,21 +54,29 @@ while(<STDIN>){
 		$line = "</para>";
 		$paramode = 0;
 	    }
-	    if($listmode == 1){
-		$line = "$line</listitem>";
-		$listmode = 0;
-	    }
+#	    if($listmode == 1){
+#		$line = "$line</listitem></itemizedlist>";
+#		$listmode = 0;
+#	    }
 	}
 
 	# We deal with lines starting with a number and then a fullstop as a 
         # list entry (only if we don't have a paragraph open)
-	elsif(($paramode == 0) && (/^[0-9]\./)){
+	elsif(($paramode == 0) && (/^[0-9]+[\.\)]/)){
+	    $line = "<listitem><para>$line";
+
 	    if($listmode == 0){
 		$line = "<itemizedlist>$line";
 	    }
+
+	    if($listitemmode == 1){
+		$line = "</listitem>$line";
+		$listitemmode = 0;
+	    }
 	    
-	    $line =~  s/[0-9]\./<listitem><para>/;
 	    $listmode = 1;
+	    $listitemmode = 1;
+	    $paramode = 1;
 	}
 
 	# If this is a line with text, then we need to start a para sometimes
@@ -71,4 +89,16 @@ while(<STDIN>){
     }
 
     print "$line\n";
+}
+
+if($paramode == 1){
+    print "</para>\n";
+}
+
+if($listitemmode == 1){
+    print "</listitem>";
+}
+
+if($listmode == 1){
+    print "</itemizedlist>";
 }
