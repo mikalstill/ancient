@@ -1,3 +1,4 @@
+
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
 <article>
 <title>trivsql: A trivial SQL engine for your application</title>
@@ -162,7 +163,15 @@ The following selectors are currently available:
 
 <sect2><title>Execution strategy for conditional statements</title>
 <para>
+The hardest bit about implementing conditional statements is that they can be non-trivial in form. For instance, it is important that the database be able to handle queries with conditions such as:
+</para>
 
+<programlisting>
+SELECT * FROM foobar WHERE ((cola = "tree" OR cola = "bush") AND colb = "dead");
+</programlisting>
+
+<para>
+<command>trivsql</command> handles this scenario by first parsing the list of conditions, and then building a tree of the conditions that must be evaluated. This tree is then traversed for each row in the table, and those which match the tree are appended to the recordset to be returned. The code which implements this is at the end of this article -- in the file named internal.c.
 </para>
 </sect2>
 </sect1>
@@ -179,7 +188,10 @@ As shown by the list of SQL commands supported, <command>trivsql</command> is by
 
 <sect1><title>Interface to trivsql</title>
 <para>
-...
+The interface to <command>trivsql</command> has been modelled on the behaviour of the ADO interfaces under win32. This is again on the basis that this is probably the behaviour that most developers out there are familiar with already.
+
+
+TODO
 </para>
 </sect1>
 
