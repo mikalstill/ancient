@@ -1,0 +1,129 @@
+
+CAUUG committee meeting
+
+13 February 2002
+           ______________________________________________
+
+   Table of Contents
+   In attendance
+   Previous meeting minutes
+   Co-opting other committee members
+   Finances
+   Open Source advocacy
+   Technical symposium
+   AUUGN
+   Next meeting
+   Contact details
+
+   13 February 2002
+
+   This agenda is available on line at
+   http://www.stillhq.com/cgi-bin/cvsweb/cauug and when complete
+   will be published at http://www.canb.auug.org.au... The items
+   on this agenda are in no particular order.
+     _________________________________________________________
+
+In attendance
+
+     * Martin Schwenke
+     * Bob Edwards
+     * Michael Still
+     * Steve Jenkin
+     * Ben Elliston
+
+   The meeting ran from 16:56 to 17:55.
+     _________________________________________________________
+
+Previous meeting minutes
+
+     * Are the January minutes now finished?
+
+   This item was discussed at this meeting, and is listed here so
+   it isn't forgotten during the next committee meeting...
+     _________________________________________________________
+
+Co-opting other committee members
+
+   An email has been sent requesting expressions of interest for
+   co-opt positions.
+     _________________________________________________________
+
+Action items
+
+     * Michael to collate responses (report March 2003)
+     _________________________________________________________
+
+Finances
+
+   CAUUG finances were discussed at the meeting. The money from
+   the old committee has been located and a cheque written. Bob
+   in still chasing signatures for the cheque however. Stephen
+   Rothwell has been reimbursed for meeting expenses.
+     _________________________________________________________
+
+Action items
+
+     * Bob to bank symposium earnings (due March 2003)
+     * Bob to continuing investigating previous bank accounts
+       (report March 2003)
+     _________________________________________________________
+
+Open Source advocacy
+
+   Martin is available for advocacy on a case by case approval
+   basis. He will receive IBM media training in the near future.
+
+   Steve Jenkin reported on his Open Source and Unix advocacy
+   progress. Steve can hopefully add some content here...
+
+   Michael reported that he has had some contact with Jason Ives,
+   Kate Lundy's IT advisor. The committee should consider
+   approaching Kate for an appearance at some future event which
+   is mutually convenient.
+     _________________________________________________________
+
+Action items
+
+     * Bob to determine next step with ACT education system (as
+       soon as possible)
+     _________________________________________________________
+
+Technical symposium
+
+   A great deal of discussion on the responses to the call for
+   papers occured. There was also some discussion of what form an
+   advert for the event should take in the IT section of The
+   Canberra Times.
+     _________________________________________________________
+
+AUUGN
+
+   Michael has informed the AUUGN editor of CAUUG's contact
+   details.
+
+   It was decided that articles describing the previous technical
+   symposia should be delayed because the up coming AUUGN
+   publication date is after the technical symposium.
+     _________________________________________________________
+
+Next meeting
+
+   When is the next meeting? The second Thursday in March 2003 is
+   the 13th
+     _________________________________________________________
+
+Contact details
+
+Martin Schwenke (President)
+
+     * Email: president@canb.auug.org.au
+     _________________________________________________________
+
+Bob Edwards (Treasurer)
+
+     * Email: treasurer@canb.auug.org.au
+     _________________________________________________________
+
+Michael Still (Secretary)
+
+     * Email: secretary@canb.auug.org.au
