@@ -37,11 +37,14 @@
  *     void tearDown( void ) { ... }
  *
  * @author <your name here>
- * @version $Revision: 1.10 $ $Date: 2002-09-09 13:22:52 $
+ * @version $Revision: 1.11 $ $Date: 2002-09-18 07:32:54 $
  *
  * Revision History
  *
  * $Log: not supported by cvs2svn $
+ * Revision 1.10  2002/09/09 13:22:52  u983118
+ * added updated tests for constructr/destructor and some of the changed fuction defintions for set/get value fuctions
+ *
  * Revision 1.9  2002/08/28 11:52:53  u982087
  * removed std output
  *
@@ -546,7 +549,6 @@ protected:
         }
       }
     }
-    
     delete A;
     delete B;
     delete C;
