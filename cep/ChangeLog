@@ -85,5 +85,8 @@
 2002-08-24 Daniel Fernandez daniel.fernandez@ise.canberra.edu.au
 	cepFft fixes.
 
+2002-08-26 Blake Swadling blake@swadling.org
+	added windowing subsystem.
+
 2002-08-26 Daniel Fernandez daniel.fernandez@ise.canberra.edu.au
-	added cepCfft.h 
+	added cepCfft.h
