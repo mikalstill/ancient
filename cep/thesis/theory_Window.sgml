@@ -2,7 +2,7 @@
 
 <sect2><title>Introduction</title>
   <para>Windowing is the technique used for breaking down an infinite signal into finite pieces. Since we are not able to record an 
-  infinite signal, this process is essential. Truncation of the signal in this way has side effects,
+  infinite signal, this process is essential. Truncation of the signal in this way, however, has side effects,
   primarily the introduction of ripples in the frequency domain. These ripples show up as high frequency noise and give</para>
 </sect2> <!--Introduction-->
 
