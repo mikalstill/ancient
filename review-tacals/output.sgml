@@ -1,0 +1,37 @@
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
+<article>
+<title>Tuning and Customizing a Linux System Apress 2002</title>
+<subtitle>Reviewed by Michael Still &lt;mikal@stillhq.com&gt;</subtitle>
+
+<para>
+I wasn't expecting much when I received my copy of <emphasis>Tuning and Customizing a Linux System</emphasis> to review. I had read the sole review on amazon.com, and it was very short of being complimentary. Having now actually looked at the book, I think that reviewer has completely misinterpreted the intention of the book. Part of the problem is the title of the book. Many people I suspect will read the title and think <quote>Ah ha! A book to help me configure product X to be able to handle more load / users / gronks per hour</quote>. This isn't what <emphasis>Tuning and Customizing a Linux System</emphasis> is about at all &mdash; the book is aimed at introductory to intermediate Linux users who are interested in exploring other distributions, and perhaps understanding a little more about how the operating system functions.
+</para>
+
+<para>
+It is also worth noting that this is the first book of it's type I have seen where the author has taken the time to devote the first 25 pages of the book to attempting to explain the history of Linux, and the GNU philosphy. It's a reasonable attempt as well.
+</para>
+
+<para>
+The book then goes on to talk about three distributions in detail: Red Hat Linux 7.3; Slackware Linux 8.0; and Debian GNU/Linux 3.0. The book discusses issues which apply to all Linux users, such as the kernel numbering conventions, the Filesystem Hierarchy Standard (see http://www.pathname.com/fhs/ for more details), and the Linux Standards Base (http://www.linuxbase.org/).
+</para>
+
+<para>
+As a long time Red Hat user, the chapter on Red Hat 7.3 contains very few surprises, and didn't contain any glaring inaccuracies which would cause me to wince. It also covered all the things which I would expect a new user to be told -- for instance how Red Hat goes about deciding what makes it into a given release, how to find packages, and how to install packages once you have found them. It also covers some basic configuration tasks, such as adding your own run level scripts. If you are a Red Hat power user, then there is nothing new to you here.
+</para>
+
+<para>
+TODO: was this just the man page?
+</para>
+
+<para>
+I have never had the pleaseure of using Slackware, so the chapter on Slackware 8.0 was all new to me. Again, this chapter follows the model laid out by the Redhat 7.3 chapter, covering all the basics of operation, once the operating system itself as been installed.
+</para>
+
+
+
+
+
+<para>
+In summary, this is the wrong book to go out and buy if you're expecting to be told how to install a Linux system from scratch. It is also the wrong book to buy if you're a power user looking for high end configuration and optimization tips. On the other hand, 
+</para>
+</article>
