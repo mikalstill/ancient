@@ -21,6 +21,7 @@ extern "C"
 #define TRIVSQL_NOSUCHCOLUMN 8
 #define TRIVSQL_NOROWSTOUPDATE 9
 #define TRIVSQL_BADSELCOLARG 10
+#define TRIVSQL_DBOPENFAIL 11
 
 #define SELTRUE 1
 #define SELFALSE 0
@@ -100,6 +101,7 @@ char *trivsql_xsnprintf(char *, ...);
 void trivsql_xfree(void *);
 void *trivsql_xrealloc(void *, size_t);
 int trivsql_min(int, int);
+int trivsql_initok(trivsql_state *);
 
 // Selectors
 int trivsql_selequal(char *, char *);

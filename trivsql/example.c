@@ -12,6 +12,10 @@ int main(int argc, char *argv[]){
   }
 
   ourState = trivsql_opendb(argv[1]);
+  if(trivsql_initok(ourState) != TRIVSQL_TRUE){
+    fprintf(stderr, "Database open failed\n");
+    exit(42);
+  }
 
   while(fgets(cmd, 1000, stdin) != NULL){
     rs = trivsql_execute(ourState, cmd);

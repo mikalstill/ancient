@@ -13,6 +13,11 @@ trivsql_state *trivsql_init(char *filename){
   state->seltree = NULL;
   state->table = NULL;
 
+  // We write the version of trivsql we used into a tag in the tdb for 
+  // debugging
+  if(state->db != NULL)
+    trivsql_dbwrite(gState, "trivsql_lastversion", trivsql_version);  
+
   return state;
 }
 
@@ -450,6 +455,10 @@ trivsql_recordset* trivsql_makers(char *tname){
   rrs->errstring = NULL;
   rrs->cols = NULL;
 
+  if(gState->db == NULL){
+    rrs->errno = TRIVSQL_DBOPENFAIL;
+  }
+
   return rrs;
 }
 
@@ -543,4 +552,10 @@ int trivsql_executeselector(trivsql_seltreenode* node, int row){
  
   return (node->selector)(trivsql_executeselector(node->left, row),
 			  trivsql_executeselector(node->right, row));
+}
+
+int trivsql_initok(trivsql_state *state){
+  if(state->db == NULL)
+    return TRIVSQL_FALSE;
+  return TRIVSQL_TRUE;
 }

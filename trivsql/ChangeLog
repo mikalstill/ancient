@@ -26,3 +26,5 @@ Trivsql 0.3.1 -> 0.3.2
 
 20020608 Michael Still (mikal@stillhq.com)
 	Updateable recordsets now work
+
+Trivsql 0.2 -> 0.3
