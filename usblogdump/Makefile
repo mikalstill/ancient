@@ -1,7 +1,7 @@
 all:	usblog-dump decoder-usbstepper decoder-ignore
 
-usblog-dump:	usblog-dump.o fileutil.o winlang.h md5.o linux.o decode.o
-	gcc -Wall -ggdb -o usblog-dump usblog-dump.o fileutil.o md5.o linux.o decode.o
+usblog-dump:	usblog-dump.o fileutil.o winlang.h md5.o linux.o decode.o utility.o
+	gcc -Wall -ggdb -o usblog-dump usblog-dump.o fileutil.o md5.o linux.o decode.o utility.o
 
 usblog-dump.o: usblog-dump.c
 	gcc -Wall -c -ggdb usblog-dump.c -o usblog-dump.o
@@ -14,6 +14,9 @@ md5.o: md5c.c md5.h md5-global.h
 
 linux.o: linux.c
 	gcc -Wall -c -ggdb -o linux.o linux.c
+
+utility.o: utility.c
+	gcc -Wall -c -ggdb -o utility.o utility.c
 
 decode.o: decode.c
 	gcc -Wall -c -ggdb -o decode.o decode.c

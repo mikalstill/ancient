@@ -36,7 +36,7 @@ int decodein, decodeout;
 
 // URB output
 void urb_printf (char *format, ...);
-char *urb_xsnprintf (char *format, va_list ap);
+char *xsnprintf (char *format, va_list ap);
 void urb_printf_flags (unsigned int number);
 void urb_xfree (void *);
 char *md5hash (char *);
