@@ -31,7 +31,7 @@ cepWindowBlackman::~cepWindowBlackman()
 
 double cepWindowBlackman::getValue( int offset )
 {
-  double val = offset/(size-1);
+  double val = (double)offset/(size-1);
   return 0.42 - 0.5*cos( 2*PI*val ) + 0.08*cos(4*PI*val);
 }
 

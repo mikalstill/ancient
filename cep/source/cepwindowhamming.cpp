@@ -32,7 +32,14 @@ cepWindowHamming::~cepWindowHamming()
 
 double cepWindowHamming::getValue( int offset )
 {
-  double val = offset/(size-1);
-  return 0.54 - 0.46*cos( 2*PI*val );
+  double val = (double)offset/(size-1);
+  double result = 0.54 - 0.46*cos( 2*PI*val );
+  /*
+  cout << "offset="<< offset
+       << " size="<< size
+       << " val=" << val
+       << " result=" << result << endl;
+  */
+  return result;
 }
 
