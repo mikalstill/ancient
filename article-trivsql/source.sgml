@@ -1,27 +1,31 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
 <article>
-<title>tsql: A trivial SQL engine for your application</title>
+<title>trivsql: A trivial SQL engine for your application</title>
 
-<sect1><title>About the author and this paper</title>
-  <para>
-      Michael has been working in the image processing field for several years, including a couple of years managing and developing large image databases for an Australian government department. He currently works for TOWER Software, who manufacture a world leading EDMS and Records Management package named TRIM. Michael is also the developer of Panda, an open source PDF generation API, as well as being the maintainer of the comp.text.pdf USENET frequently asked questions document.
-    </para>
+<sect1><title>Introduction</title>
+<para>
+<command>trivsql</command> is a simple SQL engine, implemented on the <command>tdb</command> database engine. The intention of <command>trivsql</command> is that it is embedded into your application, allowing the use of familiar SQL constructs for accessing data stored within your application.
+</para>
 
-    <para>
-    <emphasis>This document is a submission for a technical presentation (30 minutes, with 10 minutes of questions) for AUUG 2002.</emphasis>
-    </para>
+<para>
+<command>trivsql</command> is licensed under the terms of the GNU GPL, as is the <command>tdb</command> engine upon which it depends.
+</para>
 </sect1>
 
-<sect1><title>Executive summary</title>
+<sect1><title>About the author</title>
 <para>
-tsql is a simple SQL engine, implemented on the tdb database engine. The intention of this engine is that it can be embedded into your application, allowing the use of familiar SQL constructs for accessing data stored within your application.
+Michael has been working in the image processing field for several years, including a couple of years managing and developing large image databases for an Australian government department. He currently works for TOWER Software, who manufacture a world leading EDMS and Records Management package named TRIM. Michael is also the developer of Panda, an open source PDF generation API, as well as being the maintainer of the comp.text.pdf USENET frequently asked questions document.
+</para>
+
+<para>
+Michael has a website at http://www.stillhq.com.
 </para>
 </sect1>
 
 <sect1>
 <title>An introduction to tdb</title>
 <para>
-tdb is a (name, value) pair storing database similar to gdbm. It was originally implemented for the Samba project, as a way of avoiding having to implement a large number of in memory linked lists for storing usage and access information. The code for tdb is available from the Samba CVS server.
+<command>tdb</command> is a (name, value) pair database similar to <command>gdbm</command>. It was originally implemented for the Samba project, as a way of avoiding having to implement a large number of in memory linked lists for storing usage and access information. The code for <command>tdb</command> is available from the Samba CVS server.
 </para>
 
 <para>
@@ -37,7 +41,7 @@ able to have multiple writers to the databases at one time.</quote>
 </para>
 
 <para>
-To make use of a tdb database at the most trivial level, you open the database with a <command>tdb_open</command> function call, you can then add pairs to the database using the <command>tdb_store</command> function, and retrieve pairs from the database with the <command>tdb_fetch</command> function. The database is closed when you are finished with the via the <command>tdb_close</command> function.
+To make use of a <command>tdb</command> database at the most trivial level, you open the database with a <command>tdb_open</command> function call, you can then add pairs to the database using the <command>tdb_store</command> function, and retrieve pairs from the database with the <command>tdb_fetch</command> function. The database is closed when you are finished with the via the <command>tdb_close</command> function.
 
 <footnote>
 <para>
@@ -48,9 +52,9 @@ There are also functions which allow you to do slightly more interesting operati
 </para>
 </sect1>
 
-<sect1><title>Why tsql?</title>
+<sect1><title>Why trivsql?</title>
 <para>
-The functionality offered by tdb is satisfactory for simple databases where all you want to store is small nuggets of data. For instance, when you want to store that the user Daniel is logged on, then a piece of code such as:
+The functionality offered by <command>tdb</command> is satisfactory for simple databases where all you want to store is small nuggets of data. For instance, when you want to store that the user Daniel is logged on, then a piece of code such as:
 </para>
 
 <programlisting>
@@ -95,10 +99,10 @@ And to retrieve the value:
 </programlisting>
 
 <para>
-This doesn't work so well when the data you want to store is more complex. For example, let's imagine that we want to store some more information about Daniel -- for instance how many bytes he has transfered this session and a list of his favourite users. I can think of three ways that we can store this information in a tdb database:
+This doesn't work so well when the data you want to store is more complex. For example, let's imagine that we want to store some more information about Daniel -- for instance how many bytes he has transfered this session and a list of his favourite users. I can think of three ways that we can store this information in a <command>tdb</command> database:
 
 <orderedlist>
-<listitem><para>We can define a structure that contains these elements, and then store the pointer to this structure in the tdb. The problem with this is that it doesn't persist across restarts of the program, because the pointer will no longer be valid.</para></listitem>
+<listitem><para>We can define a structure that contains these elements, and then store the pointer to this structure in the <command>tdb</command>. The problem with this is that it doesn't persist across restarts of the program, because the pointer will no longer be valid.</para></listitem>
 
 <listitem><para>We can use a series of interestingly named keys, each storing a piece of information. For example:
      <orderedlist>
@@ -110,34 +114,98 @@ This doesn't work so well when the data you want to store is more complex. For e
 The problem with this is that it produces horribly verbose code, because the code to read a single key is repeated all over the place.
 </para></listitem>
 
-<listitem><para>We can push all the information into one string, and then store that in the tdb, but this means that we have to handle parsing the information again when you need it back.</para></listitem>
+<listitem><para>We can push all the information into one string, and then store that in the <command>tdb</command>, but this means that we have to handle parsing the information again when you need it back. Since writing <command>trivsql</command> the Samba team has dealt with exactly this problem in this manner. To ease the implementation, Dr Andrew Tridgell has written <command>genstruct</command>, which takes c structures (including pointers) and serializes them into strings. <command>genstruct</command> is available from http://www.samba.org.</para></listitem>
 
-<listitem><para>You can use tsql, which looks after all the ugliness for you, and allows you to perform select and insert statements in a manner familiar to many programmers. It also makes you more attractive to the opposite sex.</para></listitem>
+<listitem><para>You can use <command>trivsql</command>, which looks after all the ugliness for you, and allows you to perform select and insert statements in a manner familiar to many programmers. It also makes you more attractive to the opposite sex.</para></listitem>
 </orderedlist>
 </para>
 </sect1>
 
 <sect1><title>Why SQL?</title>
 <para>
-SQL was selected as a logical layer over tdb because there are many developers in the world which are already familiar with it. It is also relatively simple to parse and process the commands.
+SQL was selected as a logical layer over <command>tdb</command> because there are many developers in the world which are already familiar with it. It is also relatively simple to parse and process the commands.
+</para>
+
+<para>
+Later in this article I will discuss some of the techniques I have used to parse the SQL commands presented to <command>trivsql</command>.
 </para>
 </sect1>
 
 <sect1><title>The current state of play</title>
 <para>
-The intention is not to implement the full SQL specification at this time. Currently, tsql supports the CREATE TABLE command; the SELECT command; and the INSERT command. By the time this paper is presented at AUUG, the UPDATE command will also be implemented.
+The intention is not to implement the full SQL specification at this time. Currently, <command>trivsql</command> supports the CREATE TABLE command; the SELECT command; and the INSERT command. By the time this paper is presented at AUUG, the UPDATE command will also be implemented.
 </para>
 
 <sect2><title>Examples of use</title>
 <para>
-The final paper will discuss how to use tsql, and will include examples...
+The final paper will discuss how to use <command>trivsql</command>, and will include examples...
 </para>
+</sect2>
+</sect1>
+
+<sect1><title>Genstruct as an alternative</title>
+<para>
+Given that the Samba team chose to use <command>genstruct</command> to solve this same problem, it is worthwhile to briefly discuss their solution.
+</para>
+</sect1>
+
+<execute><cmd>builddb</cmd><input>../short-genstruct/article.sgml</input></execute>
+
+<sect1><title>Genstruct pros and cons</title>
+<para>
+Advantages of the Samba solution to this problem are:
+</para>
+
+<orderedlist>
+<listitem><para>Fewer database accesses</para></listitem>
+<listitem><para>MORE?</para></listitem>
+</orderedlist>
+
+<para>
+However, the disadvantages of this solution are:
+</para>
+
+<orderedlist>
+<listitem><para>Requiring pre processing of source code with a perl script</para></listitem>
+<listitem><para>The computational effort expended in data serialization</para></listitem>
+<listitem><para>MORE?</para></listitem>
+</orderedlist>
+</sect1>
+
+<sect1><title>Code listings</title>
+<sect2><title>SQL lexer</title>
+<para>
+The lexer for my SQL implementation is:
+</para>
+
+<execute><cmd>code2db</cmd><input>~mikal/opensource/trivsql/lexer.l</input></execute>
+
+<para>
+I am not completely happy with this implementation. My main objection is the way I have implemented case insensitivity, although I am not aware of a better method.
+</para>
+</sect2>
+
+<sect2><title>SQL grammar</title>
+<para>
+The grammar for my SQL implementation is:
+</para>
+
+<execute><cmd>code2db</cmd><input>~mikal/opensource/trivsql/parser.y</input></execute>
+</sect2>
+
+<sect2><title>C source code</title>
+<para>
+The following files implement <command>trivsql</command> and <command>tdb</command>...
+</para>
+
+<execute><cmd>insertall</cmd><args>code2db ~mikal/opensource/trivsql *.c</args></execute>
+<execute><cmd>insertall</cmd><args>code2db ~mikal/opensource/trivsql *.h</args></execute>
 </sect2>
 </sect1>
 
 <sect1><title>Conclusion</title>
 <para>
-This paper has described tsql, a SQL engine which can be embedded into your code. This code is still a work in progress, and updates on it's development can be found at http://www.stillhq.com
+This paper has described <command>trivsql</command>, a SQL engine which can be embedded into your code. This code is still a work in progress, and updates on it's development can be found at http://www.stillhq.com
 </para>
 </sect1>
 </article>

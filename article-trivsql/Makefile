@@ -9,3 +9,6 @@ output.ps: output.sgml
 
 output.pdf: output.ps
 	ps2pdf output.ps
+
+output.txt: output.sgml
+	docbook2txt output.sgml
