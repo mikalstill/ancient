@@ -1,0 +1,22 @@
+<title>Documentation Process</title>
+
+<para>
+The group decided early in the project to automate the documentation process as
+much as possible. A decision was made to use Docbook, providing a layout
+consistent with many publications currently available. To further ease the
+documentation process, various tools were used including docbooktools and
+autodocbook.
+</para>
+
+<para>
+These tools provide features including:
+<orderedlist>
+<listitem><para>the extraction of comments from header files,</listitem></para>
+<listitem><para>in line execution of commands such as inserting code examples,</listitem></para>
+<listitem><para>finally for the final product, conversion to Postscript of PDF formats.</listitem></para>
+
+<para>
+This process enabled more focus to be placed on completing source code,
+debugging, and integrating the final product to assist in ensuring the
+completion of the project on time.
+</para>

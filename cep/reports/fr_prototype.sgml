@@ -1,0 +1,4 @@
+Prototype
+
+The MATLAB prototype was the minimum requirement of the project. It was to carry out all of the essential mathematical functionality providing not only a working model, however also acting as a test bed for final product functionality. Most of the features implemented in C++ were tested in this way to ensure correct and consistent results. Limited time was spent on dressing the prototype as it was completed early enough in the project for group to be able turn to the full implementation in C++.
+
