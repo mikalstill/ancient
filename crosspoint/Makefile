@@ -1,5 +1,4 @@
-# Generated automatically from Makefile.in by configure.
-# Makefile.in generated automatically by automake 1.4-p5 from Makefile.am
+# Makefile.in generated automatically by automake 1.4-p6 from Makefile.am
 
 # Copyright (C) 1994, 1995-8, 1999, 2001 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -16,6 +15,7 @@ SHELL = /bin/sh
 
 srcdir = .
 top_srcdir = .
+
 prefix = /usr/local
 exec_prefix = ${prefix}
 
@@ -48,7 +48,7 @@ AUTOHEADER = autoheader
 INSTALL = /usr/bin/install -c
 INSTALL_PROGRAM = ${INSTALL} $(AM_INSTALL_PROGRAM_FLAGS)
 INSTALL_DATA = ${INSTALL} -m 644
-INSTALL_SCRIPT = ${INSTALL_PROGRAM}
+INSTALL_SCRIPT = ${INSTALL}
 transform = s,x,x,
 
 NORMAL_INSTALL = :
@@ -58,6 +58,7 @@ NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
 CC = gcc
+FREETYPE_CONFIG = /usr/bin/freetype-config
 MAINT = #
 MAKEINFO = makeinfo
 PACKAGE = crosspoint
@@ -65,16 +66,17 @@ VERSION = 0.1
 
 bin_PROGRAMS = crosspoint
 crosspoint_SOURCES = crosspoint.c
+crosspoint_CFLAGS = $(FREETYPE_CFLAGS)
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
 CONFIG_CLEAN_FILES = 
 PROGRAMS =  $(bin_PROGRAMS)
 
 
-DEFS =  -DPACKAGE=\"crosspoint\" -DVERSION=\"0.1\" -DHAVE_LIBM=1 -DHAVE_LIBMPLOT=1 -DSTDC_HEADERS=1 -D_GNU_SOURCE=1  -I. -I$(srcdir) 
-CPPFLAGS = 
+DEFS = -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE=\"crosspoint\" -DVERSION=\"0.1\" -DHAVE_LIBM=1 -DHAVE_LIBFREETYPE=1 -DHAVE_LIBPNG=1 -DHAVE_LIBMPLOT=1 -DSTDC_HEADERS=1 -D_GNU_SOURCE=1  -I. -I$(srcdir) 
+CPPFLAGS = -g -O2 -I/usr/include/freetype2
 LDFLAGS = 
-LIBS = -lmplot -lm 
+LIBS = -lmplot -lpng -lfreetype -lm 
 crosspoint_OBJECTS =  crosspoint.o
 crosspoint_LDADD = $(LDADD)
 crosspoint_DEPENDENCIES = 
@@ -89,7 +91,7 @@ Makefile.in NEWS aclocal.m4 configure configure.in
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = gtar
+TAR = tar
 GZIP_ENV = --best
 DEP_FILES =  .deps/crosspoint.P
 SOURCES = $(crosspoint_SOURCES)
@@ -176,7 +178,7 @@ TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) $(LISP)
 	  awk '    { files[$$0] = 1; } \
 	       END { for (i in files) print i; }'`; \
 	test -z "$(ETAGS_ARGS)$$unique$(LISP)$$tags" \
-	  || (cd $(srcdir) && etags $(ETAGS_ARGS) $$tags  $$unique $(LISP) -o $$here/TAGS)
+	  || (cd $(srcdir) && etags -o $$here/TAGS $(ETAGS_ARGS) $$tags  $$unique $(LISP))
 
 mostlyclean-tags:
 
