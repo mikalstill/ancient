@@ -1,0 +1,5 @@
+Simply build the code:
+
+  gcc expand.c -o expand
+
+And then use it as a filter
