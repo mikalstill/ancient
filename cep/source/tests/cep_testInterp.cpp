@@ -37,7 +37,7 @@
  *     void tearDown( void ) { ... }
  *
  * @author <your name here>
- * @version $Revision: 1.6 $ $Date: 2002-11-13 00:30:38 $
+ * @version $Revision: 1.7 $ $Date: 2002-11-13 01:57:40 $
  *
  * Revision History
  *
@@ -107,6 +107,14 @@ public:
       new CppUnit::TestCaller<Test>( "Divided difference test 1",	&Test::testDivDiff1 ) );
     suiteOfTests->addTest(
       new CppUnit::TestCaller<Test>( "Divided difference test 2",	&Test::testDivDiff2 ) );
+    suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "Cubic spline test 1", &Test::testCubicSpline1 ) );
+    suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "Cubic spline test 2", &Test::testCubicSpline2 ) );
+    suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "Cubic spline test 3", &Test::testCubicSpline3 ) );
+    suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "Cubic spline test 4", &Test::testCubicSpline4 ) );
 
 
     return suiteOfTests;
@@ -393,7 +401,7 @@ protected:
     start.setValue( 5, 0, 10.0);
     start.setValue( 5, 1, 5.0 );
 
-		
+
     finish1.setValue( 0, 0, 0.0 );
     finish1.setValue( 1, 0, 1.0 );
     finish1.setValue( 2, 0, 2.0 );
@@ -496,7 +504,7 @@ protected:
     start.setValue( 4, 1, 2.0 );
     start.setValue( 5, 0, 10.5 );
     start.setValue( 5, 1, 1.0 );
-		
+
 
 
 		// generate linear interp
@@ -527,17 +535,17 @@ protected:
     cepMatrix<double> finish2( 2 * rows -1 , cols );
 		cepInterp interpolate;
 
-    cout << "Input values\n";
+//    cout << "Input values\n";
     for( int i=0; i<rows; i++ )
     {
       for( int j=0; j<cols; j++ )
       {
         start.setValue( i, j, (double)i * 2 );
-        cout << start.getValue(i,j) << " ";
+//        cout << start.getValue(i,j) << " ";
       }
-      cout << '\n';
+//      cout << '\n';
     }
-    cout << '\n';
+//    cout << '\n';
 
 
 		// populate matrix with expected values
@@ -593,13 +601,13 @@ protected:
     start.setValue( 8, 0, 17.0 );
     start.setValue( 8, 1, 4.0 );
 
-    cout << "Start Value\n";
+/*    cout << "Start Value\n";
     for (int i=0; i<rows; i++)
     {
       cout << start.getValue(i,0) << " "
            << start.getValue(i,1) << '\n';
     }
-    cout << '\n';
+    cout << '\n';*/
 
 		// populate matrix with expected values
 		for (int i=0; i<2*rows-1; i++)
@@ -611,12 +619,12 @@ protected:
 		// generate linear interp
 		finish1 = interpolate.doInterp(start, 1, DIVIDED_INTERP);
 
-		for (int i=0; i<finish1.getNumRows(); i++)
+/*		for (int i=0; i<finish1.getNumRows(); i++)
 		{
 			for (int j=0; j<finish1.getNumCols(); j++)
 				cout << finish1.getValue(i,j) << " ";
 			cout << '\n';
-		}
+		}*/
 
 /*    for( int i=0; i<2*rows-1; i++ )
       for( int j=0; j<cols-1; j++ )
@@ -625,8 +633,230 @@ protected:
 */
   }
 
+	/** Tests that a natural spline interpolation back onto the sample */
+	/* points get the same value as was started with*/
+  void testCubicSpline1()
+  {
+    int rows = 6, cols = 3;
+    cepMatrix<double> start( rows, cols );
+    cepMatrix<double> finish1( rows , cols );
+		cepInterp interpolate;
+
+    for( int i=0; i<rows; i++ )
+      for( int j=0; j<cols; j++ )
+        start.setValue( i, j, (double)i );
+
+		// generate linear interp
+		finish1 = interpolate.doInterp(start, 1, CUBIC_SPLINE_INTERP);
+
+/*		for (int i=0; i<finish1.getNumRows(); i++)
+		{
+			for (int j=0; j<finish1.getNumCols(); j++)
+				cout << finish1.getValue(i,j);
+			cout << '\n';
+		}
+			cout << '\n';*/
+
+
+/*		for (int i=0; i<start.getNumRows(); i++)
+		{
+			for (int j=0; j<start.getNumCols(); j++)
+				cout << start.getValue(i,j);
+			cout << '\n';
+		}*/
+
+    for( int i=0; i<rows; i++ )
+      for( int j=0; j<cols-1; j++ )
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "values not equal",
+				               start.getValue(i,j), finish1.getValue(i,j));
+
+
+  }
+
+  void testCubicSpline2()
+  {
+    int rows = 6, cols = 3;
+    cepMatrix<double> start( rows, cols );
+    cepMatrix<double> finish1( 2* rows -1 , cols );
+    cepMatrix<double> finish2( 2* rows -1 , cols );
+		cepInterp interpolate;
+
+    for( int i=0; i<rows; i++ )
+      for( int j=0; j<cols; j++ )
+        start.setValue( i, j, (double)i*2.0 );
+
+    for( int i=0; i<2*rows-1; i++ )
+      for( int j=0; j<cols; j++ )
+        finish2.setValue( i, j, (double)i );
+
+
+		// generate linear interp
+		finish1 = interpolate.doInterp(start, 1, CUBIC_SPLINE_INTERP);
+
+/*		for (int i=0; i<finish1.getNumRows(); i++)
+		{
+			for (int j=0; j<finish1.getNumCols(); j++)
+				cout << finish1.getValue(i,j) << " ";
+			cout << '\n';
+		}
+			cout << '\n';*/
+
+    for( int i=0; i<11; i+=2 )
+      for( int j=0; j<cols-1; j++ )
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "values not equal",
+				               finish2.getValue(i,j), finish1.getValue(i,j));
+
+
+  }
+
+  void testCubicSpline3()
+  {
+    int rows = 6, cols = 3;
+    cepMatrix<double> start( rows, cols );
+    cepMatrix<double> finish1( 11 , cols );
+    cepMatrix<double> finish2( 2* rows -1 , cols );
+		cepInterp interpolate;
+
+    start.setValue( 0, 0, 0.0 );
+    start.setValue( 0, 1, 0.0 );
+    start.setValue( 1, 0, 2.0 );
+    start.setValue( 1, 1, 1.0 );
+    start.setValue( 2, 0, 4.0 );
+    start.setValue( 2, 1, 2.0 );
+    start.setValue( 3, 0, 6.0 );
+    start.setValue( 3, 1, 3.0 );
+    start.setValue( 4, 0, 8.0 );
+    start.setValue( 4, 1, 4.0 );
+    start.setValue( 5, 0, 10.0);
+    start.setValue( 5, 1, 5.0 );
+
+
+    finish1.setValue( 0, 0, 0.0 );
+    finish1.setValue( 1, 0, 1.0 );
+    finish1.setValue( 2, 0, 2.0 );
+    finish1.setValue( 3, 0, 3.0 );
+    finish1.setValue( 4, 0, 4.0 );
+    finish1.setValue( 5, 0, 5.0 );
+    finish1.setValue( 6, 0, 6.0 );
+    finish1.setValue( 7, 0, 7.0 );
+    finish1.setValue( 8, 0, 8.0 );
+    finish1.setValue( 9, 0, 9.0 );
+    finish1.setValue( 10, 0, 10.0 );
+
+    finish1.setValue( 0, 1, 0.0 );
+    finish1.setValue( 1, 1, 0.0 );
+    finish1.setValue( 2, 1, 0.0 );
+    finish1.setValue( 3, 1, 0.0 );
+    finish1.setValue( 4, 1, 0.0 );
+    finish1.setValue( 5, 1, 0.0 );
+    finish1.setValue( 6, 1, 0.0 );
+    finish1.setValue( 7, 1, 0.0 );
+    finish1.setValue( 8, 1, 0.0 );
+    finish1.setValue( 9, 1, 0.0 );
+    finish1.setValue( 10, 1, 0.0 );
+    finish1.setValue( 0, 2, 0.0 );
+    finish1.setValue( 1, 2, 0.0 );
+    finish1.setValue( 2, 2, 0.0 );
+    finish1.setValue( 3, 2, 0.0 );
+    finish1.setValue( 4, 2, 0.0 );
+    finish1.setValue( 5, 2, 0.0 );
+    finish1.setValue( 6, 2, 0.0 );
+    finish1.setValue( 7, 2, 0.0 );
+    finish1.setValue( 8, 2, 0.0 );
+    finish1.setValue( 9, 2, 0.0 );
+    finish1.setValue( 10, 2, 0.0 );
+
+    finish2.setValue( 0, 0, 0.0 );
+    finish2.setValue( 0, 1, 0.0 );
+    finish2.setValue( 1, 0, 1.0 );
+    finish2.setValue( 1, 1, 0.5 );
+    finish2.setValue( 2, 0, 2.0 );
+    finish2.setValue( 2, 1, 1.0 );
+    finish2.setValue( 3, 0, 3.0 );
+    finish2.setValue( 3, 1, 1.5 );
+    finish2.setValue( 4, 0, 4.0 );
+    finish2.setValue( 4, 1, 2.0 );
+    finish2.setValue( 5, 0, 5.0 );
+    finish2.setValue( 5, 1, 2.5 );
+    finish2.setValue( 6, 0, 6.0 );
+    finish2.setValue( 6, 1, 3.0 );
+    finish2.setValue( 7, 0, 7.0 );
+    finish2.setValue( 7, 1, 3.5 );
+    finish2.setValue( 8, 0, 8.0 );
+    finish2.setValue( 8, 1, 4.0 );
+    finish2.setValue( 9, 0, 9.0 );
+    finish2.setValue( 9, 1, 4.5 );
+    finish2.setValue( 10, 0, 10.0 );
+    finish2.setValue( 10, 1, 5.0 );
+
+    finish2.setValue( 0, 2, 0.0 );
+    finish2.setValue( 1, 2, 0.0 );
+    finish2.setValue( 2, 2, 0.0 );
+    finish2.setValue( 3, 2, 0.0 );
+    finish2.setValue( 4, 2, 0.0 );
+    finish2.setValue( 5, 2, 0.0 );
+    finish2.setValue( 6, 2, 0.0 );
+    finish2.setValue( 7, 2, 0.0 );
+    finish2.setValue( 8, 2, 0.0 );
+    finish2.setValue( 9, 2, 0.0 );
+    finish2.setValue( 10, 2, 0.0 );
+
+
+		// generate linear interp
+		interpolate.doInterp(start, finish1, CUBIC_SPLINE_INTERP);
+
+
+    for( int i=0; i<11; i+=2 )
+      for( int j=0; j<cols-1; j++ )
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "values not equal",
+				               finish2.getValue(i,j), finish1.getValue(i,j));
+
+
+  }
+
+  void testCubicSpline4()
+  {
+    int rows = 6, cols = 3;
+    cepMatrix<double> start( rows, cols );
+    cepMatrix<double> finish1( 1, 1);
+		cepInterp interpolate;
+
+    start.setValue( 0, 0, 0.0 );
+    start.setValue( 0, 1, 10.0 );
+    start.setValue( 1, 0, 4.0 );
+    start.setValue( 1, 1, 6.0 );
+    start.setValue( 2, 0, 6.0 );
+    start.setValue( 2, 1, 5.0 );
+    start.setValue( 3, 0, 7.0 );
+    start.setValue( 3, 1, 7.0 );
+    start.setValue( 4, 0, 9.0 );
+    start.setValue( 4, 1, 2.0 );
+    start.setValue( 5, 0, 10.5 );
+    start.setValue( 5, 1, 1.0 );
+
+
+
+		// generate linear interp
+		finish1 = interpolate.doInterp(start, 0.5, CUBIC_SPLINE_INTERP);
+
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "values not equal",
+				               10.0, finish1.getValue(0,1));
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(6.0, finish1.getValue(8,1),0.005);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "values not equal",
+				               5.0, finish1.getValue(12,1));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "values not equal",
+				               7.0, finish1.getValue(14,1));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "values not equal",
+				               2.0, finish1.getValue(18,1));
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, finish1.getValue(21,1),0.005);
+
+
+  }
+
 
 }; // end test
+
+
 
 
  /**
