@@ -37,7 +37,10 @@ DOCBOOK END
 
 cepConfiguration::cepConfiguration(const string& filename)
 {
-
+  // todo_mikal: trivsql should be changed to fix this
+  char *tmp = strdup(filename.c_str());
+  m_dbState = trivsql_opendb(tmp);
+  free(tmp);
 }
 
 cepError cepConfiguration::getValue(const string& valkey, 
@@ -61,7 +64,11 @@ cepError cepConfiguration::getValue(const string& valkey,
 cepError cepConfiguration::setValue(const string& valkey,
 				   const int& value)
 {
-  // todo_mikal: write database
-  return cepError("Configuration save not yet implemented", 
-		  cepError::sevInformational);
+  // Check that the table we need exists
+  
+
+  string sql = "INSERT INTO cepConfig ('" + valkey + "' VALUES ('" + value +
+    "');";
+  
+  
 }

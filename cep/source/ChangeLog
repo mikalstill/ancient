@@ -24,3 +24,6 @@
 
 20020603 Michael Still (mikal@stillhq.com)
 	Made everything which makes sense const
+
+20020604 Michael Still (mikal@stillhq.com)
+	When the main window closes, we now try to remember it's size

@@ -48,6 +48,12 @@ AC_CHECK_LIB(X11, XFreeFontInfo)
 dnl -lwx  --> THIS IS BAD AND MIGHT BREAK
 AC_CHECK_LIB(wx_gtk-2.2, OnIdle__12wxHtmlWindowR11wxIdleEvent)
 
+dnl -ltrivsql
+AC_CHECK_LIB(fl, yywrap)
+
+dnl -ltrivsql
+AC_CHECK_LIB(trivsql, trivsql_rsmovenext)
+
 dnl Checks for header files.
 dnl STDC checks for stdlib.h stdarg.h string.h and float.h
 AC_HEADER_STDC

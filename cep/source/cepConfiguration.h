@@ -17,21 +17,26 @@
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
+#include <trivsql.h>
+
 #ifndef CEP_CONFIG_HEADER
 #define CEP_CONFIG_HEADER
 
 class cepConfiguration
 {
-public:
+ public:
   // Filename is the file which the config database should be persisted to
   cepConfiguration (const string& filename);
-
+  
   // Get the value for a given configuration item, including default
   cepError getValue(const string& valkey, const string& defval, 
 		    string& outval);
   cepError getValue(const string& valkey, const bool& defval, bool& outval);
-
+  
   cepError setValue(const string& valkey, const int& value);
+  
+ private:
+  trivsql_state *m_dbState;
 };
 
 #endif

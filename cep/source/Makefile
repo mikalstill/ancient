@@ -84,10 +84,10 @@ CONFIG_CLEAN_FILES =
 PROGRAMS =  $(noinst_PROGRAMS)
 
 
-DEFS =  -DPACKAGE=\"cep\" -DVERSION=\"0.1\" -DHAVE_LIBM=1 -DHAVE_LIBZ=1 -DHAVE_LIBPTHREAD=1 -DHAVE_LIBWX_GTK_2_2=1 -DSTDC_HEADERS=1 -D__WXGTK__=1  -I. -I$(srcdir) 
+DEFS =  -DPACKAGE=\"cep\" -DVERSION=\"0.1\" -DHAVE_LIBM=1 -DHAVE_LIBZ=1 -DHAVE_LIBPTHREAD=1 -DHAVE_LIBWX_GTK_2_2=1 -DHAVE_LIBFL=1 -DHAVE_LIBTRIVSQL=1 -DSTDC_HEADERS=1 -D__WXGTK__=1  -I. -I$(srcdir) 
 CPPFLAGS = 
 LDFLAGS = 
-LIBS = -lwx_gtk-2.2 -lpthread -lz -lm 
+LIBS = -ltrivsql -lfl -lwx_gtk-2.2 -lpthread -lz -lm 
 ui_OBJECTS =  cepConfiguration.o cepError.o cepDataset.o cepUtility.o \
 cepPresentation.o cepDate.o cepUI.o cepDoc.o cepView.o
 ui_LDADD = $(LDADD)

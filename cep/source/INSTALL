@@ -1,0 +1,15 @@
+To install this software, follow these steps:
+
+Dependencies
+------------
+
+The following dependancies are required. You can find them in the contrib directory:
+ - wxWindows
+ - trivsql
+
+Compile
+-------
+
+./configure
+make
+make install
