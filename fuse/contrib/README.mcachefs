@@ -1,0 +1,68 @@
+mcachefs is a simple caching filesystem using FUSE. It works by copying the file that
+you asked for when the file is opened, and then using that copy for all subsequent
+requests for the file. This is really a fairly naive approach to caching, and will be
+improved in the future. It's good enough for now though.
+
+mcachefs needs two filesystems to operate. The target filesystem is the slow filesystem
+you want to cache accesses to, and the backing filesystem is where mcachefs can stash
+stuff which it has copied. The backing filesystem should therefore be on local disc, or
+the whole point of the exercise is gone.
+
+It is also assumed that the target filesystem is read only for now.
+
+INSTALLING:
+----------
+
+You'll need FUSE, so your best bet is to go up a directory level, and then type:
+  ./configure
+  make
+  make install
+
+(That last step needs to be done as root of course).
+
+USING:
+-----
+
+mcachefs looks for a config file to determine where the target and backing filesystems
+are located, as well as a debugging verbosity level. mcachefs looks in the following
+locations for it's config file (in this order):
+	- /etc/mcachefs
+	- ~/.mcachefs
+	- `pwd`/mcachefs.cfg
+
+The format of the config file is something along the lines of:
+
+/cache/backing  /backing
+/cache/target   /
+/cache/verbose  99
+
+Note that the two columns _must_be_separated_by_tabs_ for the config file to parse
+properly. This config section above says that we have a cached filesystem to mount at
+/cache. The backing store is /backing, the target store is /, and we want to be _very_
+verbose. Lower numbers are less verbose. Please note that being very verbose might help
+with debugging mcachefs, but _will_ slow down the filesystem.
+
+You can now mount the cached filesystem but doing a:
+
+	mcachefs /cache
+
+This program wont terminate... If you kill it, the filesystem will unmount. Don't do
+that. Use umount instead. I have making mcachefs daemonise on the todo list, so don't
+bother reporting it as a bug please.
+
+KNOWN BUGS:
+----------
+
+The only known bug at the moment is that if the program which is opening a large file
+terminateds before the cached copy has been generated, then a bus error occurs in
+mcachefs. I'm looking into that now.
+
+SO, I CAME UP WITH THIS GREAT PATCH:
+-----------------------------------
+
+Email me at mikal@stillhq.com
+
+NEW CODE?
+--------
+
+You can find the latest version of the code at http://www.stillhq.com/extracted/fuse, and http://www.stillhq.com/extracted/fuse.tgz
