@@ -192,6 +192,20 @@ Exports:
   void setColour(cepMatrix<double> & input, cepMatrix<double> & timeScale, int position, int i);
 
 
+  double yearsToJulian(double year);
+  // Converts the decimal years format standard to this project to a linear truncated
+  // Julian day number.
+  // These two date conversion methods were added at a very long date to fix the problem 
+  // of the decimal date format not being linear.
+  //
+  // Limits: yearsToJulian always assumes that each sample has been taken at exactly
+  // 12 o'clock on a given day.  This makes interpolation for input frequencies that
+  // are multiples of daily.  However it won't be able to cope with input datasets with
+  // sampling rates of less than daily without modification of these functions.
+  //
+  double julianToYears(double julian);
+
+
 };
 
 #endif // ! __CEP_INTERP_H

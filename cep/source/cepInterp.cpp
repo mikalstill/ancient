@@ -47,16 +47,24 @@ cepMatrix<double> cepInterp::doInterp(cepMatrix<double> & input, double sampleRa
 {
 	/* winLength is the length of a window minus overlap on start edge*/
 	int winLength = (int)(winSize * (1-winOverlap));
+  
+  // convert the starting matrix to the Julian timeScale
+  cepMatrix<double> julianInput(input);
+  for (int i = 0; i < julianInput.getNumRows(); i++)
+  {
+    julianInput.setValue(i,0, yearsToJulian(julianInput.getValue(i,0)));
+  }
 
 	/* calculate number of required samples after interpolation*/
 	int numSamples;
 
-	numSamples = (int)((input.getValue(input.getNumRows()-1,0)- input.getValue(0,0))/sampleRate)+1;
+	numSamples = (int)((julianInput.getValue(julianInput.getNumRows()-1,0) -
+                    julianInput.getValue(0,0))/sampleRate)+1;
 	numSamples = (int)(numSamples-(numSamples-winSize)%winLength);
 
 	/* build new timescale*/
 	cepMatrix<double> timeScale(numSamples,4);
-	timeScale.setValue(0,0,input.getValue(0,0));
+	timeScale.setValue(0,0,julianInput.getValue(0,0));
   CHECK_ERROR(input);
   CHECK_ERROR(timeScale);
 	for (int i = 1; i < numSamples; i++)
@@ -83,7 +91,13 @@ cepMatrix<double> cepInterp::doInterp(cepMatrix<double> & input, double sampleRa
 	}
 */
 	/* do interpolation and return results */
-	return doInterp(input,timeScale,interpType);
+  doInterp(julianInput,timeScale,interpType);
+  for(int i = 0; i < timeScale.getNumRows(); i++)
+  {
+    timeScale.setValue(i,0, julianToYears(timeScale.getValue(i,0)));
+  }
+
+	return timeScale;
 }
 
 cepMatrix<double> cepInterp::doInterp(cepMatrix<double> & input,
@@ -546,7 +560,7 @@ cepMatrix<double> cepInterp::dividedInterp(cepMatrix<double> & input,
       CHECK_ERROR_P(diffs[i-1]);
       CHECK_ERROR_P(diffs[i-2]);
       CHECK_ERROR(input);
-      sum += fabs(diffs[i-1]->getValue(j,0));
+//      sum += fabs(diffs[i-1]->getValue(j,0));
       CHECK_ERROR_P(diffs[i-1]);
 		}
     cout << '\n';
@@ -558,11 +572,19 @@ cepMatrix<double> cepInterp::dividedInterp(cepMatrix<double> & input,
     CHECK_ERROR_P(diffs[i-1]);
 
 		// check error limits for early exit
-		if ((pow(errors[i-1],2) > pow(errors[i-2],2)) || (sum == 0))
+		if ((pow(errors[i-1],2) > pow(errors[i-2],2)))
 		{
 			// trigger exit from for loop
 			i = oldSize + 2;
 		}
+    // check diff table hasn't zeroed out
+    for (j = 0; j < oldSize - i; j++)
+    {
+      if (diffs[i-1]->getValue(j,0)==0)
+        sum++;
+    }
+    if (sum != 0)
+      i = oldSize+2;
 	}
 
 	if (i > oldSize) // if divided difference table loop exited early
@@ -597,10 +619,10 @@ cepMatrix<double> cepInterp::dividedInterp(cepMatrix<double> & input,
 		}
 		for (j = 0; j < order; j++)
 		{
-      cout << "i:" << i << " pos:" << position << " j:" << j << '\n';
+//      cout << "i:" << i << " pos:" << position << " j:" << j << '\n';
       if (position + order < oldSize)
       {
-        cout << "if 1\n";
+//        cout << "if 1\n";
         tempValue *= (timeScale.getValue(i,0) - input.getValue(position + j,0));
         CHECK_ERROR(timeScale);
         CHECK_ERROR(input);
@@ -611,20 +633,20 @@ cepMatrix<double> cepInterp::dividedInterp(cepMatrix<double> & input,
 			}
       else
       {
-        cout << "if 2\n";
+//        cout << "if 2\n";
 				tempValue *= (timeScale.getValue(i,0) - input.getValue(oldSize-(order+2) + j,0));
-        cout << "tempValue *= timeScale(" << i << ",0) - input("
-             << oldSize-(order+2)+j << ",0)\n"
-             << tempValue << " = " << timeScale.getValue(i,0) << "- "
-             << input.getValue(oldSize-(order+2) + j,0)<< '\n';
+//        cout << "tempValue *= timeScale(" << i << ",0) - input("
+//             << oldSize-(order+2)+j << ",0)\n"
+//             << tempValue << " = " << timeScale.getValue(i,0) << "- "
+//             << input.getValue(oldSize-(order+2) + j,0)<< '\n';
 
         CHECK_ERROR(timeScale);
         CHECK_ERROR(input);
 				timeScale.setValue(i,1, timeScale.getValue(i,1) + tempValue * diffs[j]->getValue(oldSize-(order+2),0));
-        cout << "TimeScale(" << i << "1) += tempValue * diffs[" << j
-             << "](" << oldSize-(order+2) << ",0)\n"
-             << timeScale.getValue(i,1) << "+="
-             << tempValue << " * " << diffs[j]->getValue(oldSize-(order+2),0) <<'\n';
+//        cout << "TimeScale(" << i << "1) += tempValue * diffs[" << j
+//             << "](" << oldSize-(order+2) << ",0)\n"
+//             << timeScale.getValue(i,1) << "+="
+//             << tempValue << " * " << diffs[j]->getValue(oldSize-(order+2),0) <<'\n';
         CHECK_ERROR_P(diffs[j]);
         CHECK_ERROR(timeScale);
 			}
@@ -728,3 +750,67 @@ void cepInterp::setColour(cepMatrix<double> & input, cepMatrix<double> & timeSca
     timeScale.setValue(i,3, 2.0);
   }
 }
+
+double cepInterp::yearsToJulian(double year)
+{
+  const int FEBRUARY = 1;
+  int i, j;
+  int leap_year, iyear, ijd, syr;
+  double fract, days1, days2, fract1;
+
+  int month[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
+  days1 = 365.0;
+
+  leap_year = (int)year%4; // leap_year = year mod 4
+  if (leap_year == 0)
+  {
+    month[FEBRUARY]++; // increase the number of days in february
+    days1 = days1 + 1.0;
+  }
+
+  // get decimal portion of year. ie 0.0027
+  fract = year - (double)((int)year);
+  // get whole number of years. ie 2002
+  iyear = (int)year;
+
+  // count how many day equal the required fraction
+  days2 = 0.0;
+  fract1 = days2/days1;
+  // ask peter about the different end loop conditions
+  for (i = 0; (i < 12)&&(fract1 < fract); i++)
+  {
+    for (j = 0; (j < month[i])&&(fract1 < fract);j++)
+    {
+      days2 = days2 + 1.0;
+      fract1 = days2/days1;
+    }
+  }
+
+  // calculate years since 1900
+  syr = iyear - 1900;
+  // calculate integer julian day
+  ijd = syr*365 + (syr-1)/4 + (int)days2;
+
+
+  return (double)ijd;
+}
+
+double cepInterp::julianToYears(double julian)
+{
+  int iyear,leap_year;
+  double fract;
+
+  // calculate number of whole years since 1900
+  iyear = (int)(julian/365.25);
+  julian = julian - (double)(iyear*365 + iyear/4);
+
+  // calculate year fraction
+  leap_year = iyear%4;
+  if (leap_year == 0)
+    fract = (julian-0.5)/366.0;
+  else
+    fract = (julian-0.5)/365.0;
+
+  return 1900.0 + iyear + fract;
+}
+
