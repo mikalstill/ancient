@@ -142,10 +142,13 @@ cepView::OnClose (bool deleteWindow)
  */
 
 BEGIN_EVENT_TABLE (cepCanvas, wxScrolledWindow)
-EVT_MOUSE_EVENTS (cepCanvas::OnMouseEvent) END_EVENT_TABLE ()
+EVT_MOUSE_EVENTS (cepCanvas::OnMouseEvent) 
+END_EVENT_TABLE ()
+
 // Define a constructor for my canvas
-cepCanvas::cepCanvas (wxView * v, wxFrame * frame, const wxPoint & pos, const wxSize & size, long style):
-wxScrolledWindow (frame, -1, pos, size, style)
+cepCanvas::cepCanvas (wxView * v, wxFrame * frame, const wxPoint & pos, 
+		      const wxSize & size, long style):
+  wxScrolledWindow (frame, -1, pos, size, style)
 {
   view = v;
 }
@@ -170,12 +173,4 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
   PrepareDC (dc);
   dc.SetPen (*wxBLACK_PEN);
   wxPoint pt (event.GetLogicalPosition (dc));
-}
-
-// Define a constructor for my text subwindow
-MyTextWindow::MyTextWindow (wxView * v, wxFrame * frame, const wxPoint & pos,
-			    const wxSize & size, long style):
-wxTextCtrl (frame, -1, "", pos, size, style)
-{
-  view = v;
 }

@@ -82,9 +82,10 @@ cepApp::OnInit (void)
   // Create the main frame window
   frame =
     new cepFrame ((wxDocManager *) m_docManager, (wxFrame *) NULL,
-		 (const wxString) "Techtonic Information Transform System", wxPoint (0, 0), wxSize (1000, 700),
-		 wxDEFAULT_FRAME_STYLE);
-
+		  (const wxString) "Techtonic Information Transform System", 
+		  wxPoint (0, 0), wxSize (1000, 700),
+		  wxDEFAULT_FRAME_STYLE);
+  
   // Give it an icon (this is ignored in MDI mode: uses resources)
 #ifdef __WXMSW__
   frame->SetIcon (wxIcon ("doc"));
@@ -219,12 +220,21 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
  * This is the top-level window of the application.
  */
 
-IMPLEMENT_CLASS (cepFrame, wxDocMDIParentFrame) BEGIN_EVENT_TABLE (cepFrame, wxDocMDIParentFrame) EVT_MENU (DOCVIEW_ABOUT, cepFrame::OnAbout) END_EVENT_TABLE ()cepFrame::cepFrame (wxDocManager * manager, wxFrame * frame, const wxString & title, const wxPoint & pos, const wxSize & size, long type):
-wxDocMDIParentFrame (manager, frame, -1, title, pos, size, type, "myFrame")
+IMPLEMENT_CLASS (cepFrame, wxDocMDIParentFrame) 
+BEGIN_EVENT_TABLE (cepFrame, wxDocMDIParentFrame) 
+EVT_MENU (DOCVIEW_ABOUT, cepFrame::OnAbout) 
+END_EVENT_TABLE ()
+
+cepFrame::cepFrame (wxDocManager * manager, wxFrame * frame, 
+		    const wxString & title, const wxPoint & pos, 
+		    const wxSize & size, long type):
+  wxDocMDIParentFrame (manager, frame, -1, title, pos, size, type, "myFrame")
 {
   editMenu = (wxMenu *) NULL;
 }
 
+// Display the about box the for application. This is a modal dialog, which
+// is displayed over the rest of the user interface
 void
 cepFrame::OnAbout (wxCommandEvent & WXUNUSED (event))
 {

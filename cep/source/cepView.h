@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     04/01/98
-// RCS-ID:      $Id: cepView.h,v 1.3 2002-06-02 20:29:58 u964076 Exp $
+// RCS-ID:      $Id: cepView.h,v 1.4 2002-06-02 20:41:58 u964076 Exp $
 // Copyright:   (c) Julian Smart and Markus Holzem
 // Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////
@@ -29,15 +29,7 @@ public:
   void OnMouseEvent (wxMouseEvent & event);
 
 private:
-  DECLARE_EVENT_TABLE ()};
-
-class MyTextWindow:public wxTextCtrl
-{
-public:
-  wxView * view;
-
-  MyTextWindow (wxView * v, wxFrame * frame, const wxPoint & pos,
-		const wxSize & size, long style);
+  DECLARE_EVENT_TABLE ()
 };
 
 class cepView:public wxView
@@ -63,5 +55,7 @@ public:
   void OnCut (wxCommandEvent & event);
 
 private:
-DECLARE_DYNAMIC_CLASS (cepView) DECLARE_EVENT_TABLE ()};
+DECLARE_DYNAMIC_CLASS (cepView) 
+DECLARE_EVENT_TABLE ()
+};
 #endif
