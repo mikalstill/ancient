@@ -2,9 +2,16 @@ TITLE: Why would you want a custom filesystem?
 
 <ul>
 <li>I first encountered FUSE because I wanted a custom filesystem
-<li>In my case I wanted something which would make it easy to generate test data
-<li>A lot of my imaging code needs lots of input to regression test
-<li>These are essentially the same image over and over again, with compression options changed
-<li>I don't really want to store the same image several thousand times if I can avoid it
+<li>Generate regression test data for image coding
 <li>These images are relatively inexpensive to create
+<li>Therefore the performance hit from generating them on the fly is not too bad
 </ul>
+
+%% Here I am talking about my need to generate a bunch
+%% of test images for my image coding. TIFF supports
+%% many different variations on the same valid header,
+%% and to be able to regression test you need to be able
+%% to push all of these through your pogram to test for
+%% errors. Storing thousands of versions of the same
+%% image gets boring quite fast however, which is where
+%% the userspace filesystem comes in.

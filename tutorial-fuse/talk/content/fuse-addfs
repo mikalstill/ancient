@@ -1,0 +1,56 @@
+TITLE: The code for that filesystem
+
+<ul><pre>
+#include <fuse.h>
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <errno.h>
+
+static int mcachefs_getattr(const char *path, struct stat *stbuf)
+{
+    int res, fd;
+
+    fd = creat("/tmp/xxx", O_CREAT);
+    write(fd, "xxxx", 4);
+    close(fd);
+
+    res = lstat("/tmp/xxx", stbuf);
+    if(res == -1)
+      return -errno;
+    return 0;
+}
+
+static int mcachefs_open(const char *path, int flags)
+{
+  return 0;
+}
+
+static int mcachefs_read(const char *path, char *buf, size_t size, off_t offset)
+{
+  int a, b, idx;
+  char *tok, *p;
+
+  printf("read: %s\n", path);
+  for(idx = strlen(path) - 1; idx > 0; idx--);
+  p = (char *) strdup(path + idx + 1);
+  a = atoi(strtok(p, "+"));
+  b = atoi(strtok(NULL, "+"));
+  snprintf(buf, size, "%d\n", a + b);
+  return strlen(buf);
+}
+
+static struct fuse_operations mcachefs_oper = {
+    .getattr	= mcachefs_getattr,
+    .open	= mcachefs_open,
+    .read	= mcachefs_read
+};
+
+int main(int argc, char *argv[])
+{
+  printf("addfs 0.1 starting up...\n");
+  fuse_main(argc, argv, &mcachefs_oper);
+  return 0;
+}
+</pre></ul>

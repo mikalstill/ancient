@@ -1,1 +1,12 @@
 TITLE: A quick introductary demo
+
+%% Demonstrate what a fuse filesystem looks like
+%% Steps are something like this:
+%% modprobe fuse
+%% 
+
+
+%% One of challenges with implementing a filesystem like
+%% this is that you need to be able to stat the file before
+%% it is opened. This means that you need to create the file
+%% at getattr() time.

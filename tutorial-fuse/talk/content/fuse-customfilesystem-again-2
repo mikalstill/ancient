@@ -1,7 +1,5 @@
 TITLE: Another example of a custom filesystem
 
 <ul>
-<li>Another example of a useful custom filesystem is...
-
-TODO
+<li>Another example of a useful custom filesystem is a simple caching filesystem<li>This is the example which I am going to pick on today
 </ul>
