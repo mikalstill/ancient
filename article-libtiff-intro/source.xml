@@ -166,47 +166,123 @@ The most important thing to remember when reading in TIFF images is to be flexib
 
 <code type="section">
 <heading refname="read-code" type="code" toc="no">The reading code</heading>
+#include <stdio.h>
+#include <tiffio.h>
 
+int main(int argc, char *argv[]){
+  TIFF *image;
+  uint16 photo, bps, spp, fillorder;
+  uint32 width;
+  tsize_t stripSize;
+  unsigned long imageOffset, result;
+  int stripMax, stripCount;
+  char *buffer, tempbyte;
+  unsigned long bufferSize, count;
+
+  // Open the TIFF image
+  if((image = TIFFOpen(argv[1], "r")) == NULL){
+    fprintf(stderr, "Could not open incoming image\n");
+    exit(42);
+  }
+
+  // Check that it is of a type that we support
+  if((TIFFGetField(image, TIFFTAG_BITSPERSAMPLE, &bps) == 0) || (bps != 1)){
+    fprintf(stderr, "Either undefined or unsupported number of bits per sample\n");
+    exit(42);
+  }
+
+  if((TIFFGetField(image, TIFFTAG_SAMPLESPERPIXEL, &spp) == 0) || (spp != 1)){
+    fprintf(stderr, "Either undefined or unsupported number of samples per pixel\n");
+    exit(42);
+  }
+
+  // Read in the possibly multile strips
+  stripSize = TIFFStripSize (image);
+  stripMax = TIFFNumberOfStrips (image);
+  imageOffset = 0;
+  
+  bufferSize = TIFFNumberOfStrips (image) * stripSize;
+  if((buffer = (char *) malloc(bufferSize)) == NULL){
+    fprintf(stderr, "Could not allocate enough memory for the uncompressed image\n");
+    exit(42);
+  }
+  
+  for (stripCount = 0; stripCount < stripMax; stripCount++){
+    if((result = TIFFReadEncodedStrip (image, stripCount,
+				      buffer + imageOffset,
+				      stripSize)) == -1){
+      fprintf(stderr, "Read error on input strip number %d\n", stripCount);
+      exit(42);
+    }
+
+    imageOffset += result;
+  }
+
+  // Deal with photometric interpretations
+  if(TIFFGetField(image, TIFFTAG_PHOTOMETRIC, &photo) == 0){
+    fprintf(stderr, "Image has an undefined photometric interpretation\n");
+    exit(42);
+  }
+  
+  if(photo != PHOTOMETRIC_MINISWHITE){
+    // Flip bits
+    printf("Fixing the photometric interpretation\n");
+
+    for(count = 0; count < bufferSize; count++)
+      buffer[count] = ~buffer[count];
+  }
+
+  // Deal with fillorder
+  if(TIFFGetField(image, TIFFTAG_FILLORDER, &fillorder) == 0){
+    fprintf(stderr, "Image has an undefined fillorder\n");
+    exit(42);
+  }
+  
+  if(fillorder != FILLORDER_MSB2LSB){
+    // We need to swap bits -- ABCDEFGH becomes HGFEDCBA
+    printf("Fixing the fillorder\n");
+
+    for(count = 0; count < bufferSize; count++){
+      tempbyte = 0;
+      if(buffer[count] & 128) tempbyte += 1;
+      if(buffer[count] & 64) tempbyte += 2;
+      if(buffer[count] & 32) tempbyte += 4;
+      if(buffer[count] & 16) tempbyte += 8;
+      if(buffer[count] & 8) tempbyte += 16;
+      if(buffer[count] & 4) tempbyte += 32;
+      if(buffer[count] & 2) tempbyte += 64;
+      if(buffer[count] & 1) tempbyte += 128;
+      buffer[count] = tempbyte;
+    }
+  }
+     
+  // Do whatever it is we do with the buffer -- we dump it in hex
+  if(TIFFGetField(image, TIFFTAG_IMAGEWIDTH, &width) == 0){
+    fprintf(stderr, "Image does not define its width\n");
+    exit(42);
+  }
+  
+  for(count = 0; count < bufferSize; count++){
+    printf("%02x", (unsigned char) buffer[count]);
+    if((count + 1) % (width / 8) == 0) printf("\n");
+    else printf(" ");
+  }
+
+  TIFFClose(image);
+}
 </code>
 
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- THIRD-LEVEL HEADING:  PRECEDE ALL THIRD-LEVEL HEADINGS WITH A PARAGRAPH TAG.  FOLLOW THE HEADING WITH A BREAK TAG.-->
-<p><b>[Third-level heading]</b><br />
-[The third-level heading above is created using bold tags and is followed by a break tag to separate it from the paragraph text.]</p>
+<p>This code works by first opening the image and checking that it is one that we can handle. It then reads in all the strip for the image, and appends them together in one large memory block. If required, it also flips bits until the photometric interpretation the one we handle, and deals with having to swap bits if the fillorder is wrong. Finally, our sample outputs the image as a series of lines composed of hex values. Remember that each of the values represents 8 pixels in the actual image.</p>
 
 <p><heading refname="conclusion" type="major" toc="yes">Conclusion</heading>
-In this article I have shown you how to write and read some simple black and white images using libtiff. There are of course more issues that can be dealt with to have the perfect code, but being aware of the issues is the first step.</p>
-
-
-
+In this article I have shown you how to write and read some simple black and white images using libtiff. There are of course more issues that can be dealt with to have the perfect code, but being aware of the issues is the first step. Finally, before you leap off an start coding with libtiff, remember to put some thought into what compression algorithm you should be using for your images -- group 4 fax is great for black and white, but what you use for color really depends on your needs.</p>
 
 <resourcelist>
 <ul>
 <li>The <a href="http://www.libtiff.org">libtiff</a> website is a good place to download the libtiff source. It is also quite likely there is a binary package for your choosen operating system.</li>
 <li>If all else fails, then the <a href="http://partners.adobe.com/asn/developer/pdfs/tn/TIFF6.pdf">Adobe TIFF specification</a> can be useful.</li>
 <li>The <a href="http://gopher.std.com/homepages/jimf/xloadimage.html">xloadimage</a> web page might be of interest.
-</ul>
-
-
-
-
-
-
-<p><heading refname="" type="resourcelist" toc="no">[Sample resource list heading]</heading></p>
-<ul>
-<li>[First resource item and link with a heading]</li>
-<li>[Second resource item and link with a heading]</li>
+<li>The Cooper Union for the Advancement of Science and Art has some <a href="http://www.ee.cooper.edu/courses/course_pages/past_courses/EE458/TIFF/">notes</a> from a previous course dealing with libtiff online.
 </ul>
 </resourcelist>
 

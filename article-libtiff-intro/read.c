@@ -1,7 +1,8 @@
+#include <stdio.h>
 #include <tiffio.h>
 
 int main(int argc, char *argv[]){
-  TIFF *image, *output;
+  TIFF *image;
   uint16 photo, bps, spp, fillorder;
   uint32 width;
   tsize_t stripSize;
