@@ -17,6 +17,7 @@
 	//todo_daniel: return 2 params? or maybe calculate numWindows in calling method?
 
 */
+
 cepWindows::cepWindows (double data[obs][2],double winSize, double overlap):
 {
   m_data[][] = data[][]; // todo_daniel: proper copying

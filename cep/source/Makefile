@@ -1,7 +1,7 @@
 # Generated automatically from Makefile.in by configure.
-# Makefile.in generated automatically by automake 1.4-p5 from Makefile.am
+# Makefile.in generated automatically by automake 1.4 from Makefile.am
 
-# Copyright (C) 1994, 1995-8, 1999, 2001 Free Software Foundation, Inc.
+# Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
@@ -45,7 +45,7 @@ AUTOCONF = autoconf
 AUTOMAKE = automake
 AUTOHEADER = autoheader
 
-INSTALL = /usr/bin/install -c
+INSTALL = $/usr/bin/install -c
 INSTALL_PROGRAM = ${INSTALL} $(AM_INSTALL_PROGRAM_FLAGS)
 INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_SCRIPT = ${INSTALL_PROGRAM}
@@ -66,17 +66,17 @@ DLLTOOL =
 LD = /usr/bin/ld
 LEX = @LEX@
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
-LN_S = ln -s
+LN_S = $ln -s
 MAINT = #
 MAKEINFO = makeinfo
-NM = /usr/bin/nm -B
+NM = $/usr/bin/nm -B
 OBJDUMP = 
 PACKAGE = cep
 RANLIB = ranlib
 VERSION = 0.1
 
 noinst_PROGRAMS = sample
-sample_SOURCES = cepMain.cpp cepError.cpp cepDataset.cpp cepUtility.cpp cepPresentation.cpp cepDate.cpp
+sample_SOURCES = cepMain.cpp cepError.cpp cepDataset.cpp cepUtility.cpp cepPresentation.cpp cepDate.cpp cepWindows.cpp
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
 CONFIG_CLEAN_FILES = 
@@ -88,15 +88,14 @@ CPPFLAGS =
 LDFLAGS = 
 LIBS = -lz -lm 
 sample_OBJECTS =  cepMain.o cepError.o cepDataset.o cepUtility.o \
-cepPresentation.o cepDate.o
+cepPresentation.o cepDate.o cepWindows.o
 sample_LDADD = $(LDADD)
 sample_DEPENDENCIES = 
 sample_LDFLAGS = 
 CXXFLAGS = -g -O2
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
-LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 CXXLD = $(CXX)
-CXXLINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(LDFLAGS) -o $@
+CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(LDFLAGS) -o $@
 DIST_COMMON =  README AUTHORS COPYING ChangeLog INSTALL Makefile.am \
 Makefile.in NEWS TODO aclocal.m4 configure configure.in
 
@@ -106,13 +105,14 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 TAR = gtar
 GZIP_ENV = --best
 DEP_FILES =  .deps/cepDataset.P .deps/cepDate.P .deps/cepError.P \
-.deps/cepMain.P .deps/cepPresentation.P .deps/cepUtility.P
+.deps/cepMain.P .deps/cepPresentation.P .deps/cepUtility.P \
+.deps/cepWindows.P
 SOURCES = $(sample_SOURCES)
 OBJECTS = $(sample_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
-.SUFFIXES: .S .c .cpp .lo .o .s
+.SUFFIXES: .S .c .cpp .o .s
 $(srcdir)/Makefile.in: # Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
 	cd $(top_srcdir) && $(AUTOMAKE) --gnu Makefile
 
@@ -153,29 +153,11 @@ distclean-compile:
 
 maintainer-clean-compile:
 
-.s.lo:
-	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
-
-.S.lo:
-	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
-
-mostlyclean-libtool:
-	-rm -f *.lo
-
-clean-libtool:
-	-rm -rf .libs _libs
-
-distclean-libtool:
-
-maintainer-clean-libtool:
-
 sample: $(sample_OBJECTS) $(sample_DEPENDENCIES)
 	@rm -f sample
 	$(CXXLINK) $(sample_LDFLAGS) $(sample_OBJECTS) $(sample_LDADD) $(LIBS)
 .cpp.o:
 	$(CXXCOMPILE) -c $<
-.cpp.lo:
-	$(LTCXXCOMPILE) -c $<
 
 tags: TAGS
 
@@ -346,28 +328,25 @@ distclean-generic:
 
 maintainer-clean-generic:
 mostlyclean-am:  mostlyclean-noinstPROGRAMS mostlyclean-compile \
-		mostlyclean-libtool mostlyclean-tags mostlyclean-depend \
-		mostlyclean-generic
+		mostlyclean-tags mostlyclean-depend mostlyclean-generic
 
 mostlyclean: mostlyclean-am
 
-clean-am:  clean-noinstPROGRAMS clean-compile clean-libtool clean-tags \
-		clean-depend clean-generic mostlyclean-am
+clean-am:  clean-noinstPROGRAMS clean-compile clean-tags clean-depend \
+		clean-generic mostlyclean-am
 
 clean: clean-am
 
-distclean-am:  distclean-noinstPROGRAMS distclean-compile \
-		distclean-libtool distclean-tags distclean-depend \
-		distclean-generic clean-am
-	-rm -f libtool
+distclean-am:  distclean-noinstPROGRAMS distclean-compile distclean-tags \
+		distclean-depend distclean-generic clean-am
 
 distclean: distclean-am
 	-rm -f config.status
 
 maintainer-clean-am:  maintainer-clean-noinstPROGRAMS \
-		maintainer-clean-compile maintainer-clean-libtool \
-		maintainer-clean-tags maintainer-clean-depend \
-		maintainer-clean-generic distclean-am
+		maintainer-clean-compile maintainer-clean-tags \
+		maintainer-clean-depend maintainer-clean-generic \
+		distclean-am
 	@echo "This command is intended for maintainers to use;"
 	@echo "it deletes files that may require special tools to rebuild."
 
@@ -377,16 +356,14 @@ maintainer-clean: maintainer-clean-am
 .PHONY: mostlyclean-noinstPROGRAMS distclean-noinstPROGRAMS \
 clean-noinstPROGRAMS maintainer-clean-noinstPROGRAMS \
 mostlyclean-compile distclean-compile clean-compile \
-maintainer-clean-compile mostlyclean-libtool distclean-libtool \
-clean-libtool maintainer-clean-libtool tags mostlyclean-tags \
-distclean-tags clean-tags maintainer-clean-tags distdir \
-mostlyclean-depend distclean-depend clean-depend \
-maintainer-clean-depend info-am info dvi-am dvi check check-am \
-installcheck-am installcheck install-exec-am install-exec \
-install-data-am install-data install-am install uninstall-am uninstall \
-all-redirect all-am all installdirs mostlyclean-generic \
-distclean-generic clean-generic maintainer-clean-generic clean \
-mostlyclean distclean maintainer-clean
+maintainer-clean-compile tags mostlyclean-tags distclean-tags \
+clean-tags maintainer-clean-tags distdir mostlyclean-depend \
+distclean-depend clean-depend maintainer-clean-depend info-am info \
+dvi-am dvi check check-am installcheck-am installcheck install-exec-am \
+install-exec install-data-am install-data install-am install \
+uninstall-am uninstall all-redirect all-am all installdirs \
+mostlyclean-generic distclean-generic clean-generic \
+maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
