@@ -1,0 +1,385 @@
+<!--                                                                    -->
+<!-- Reports are built as articles because that means that they convert --> 
+<!-- into a book really easily later...   as per Mikals previous files  -->  
+
+<article>  
+        
+    <title>Time Series Analysis of Geodetic Data - Proposal</title>
+    
+    <artheader> 
+        <authorgroup> 
+            <author> 
+                <honorific>Mr</honorific> 
+                <firstname>Daniel</firstname> 
+                <surname>Fernandez</surname> 
+                <affiliation> 
+                    <shortaffil>991672</shortaffil> 
+                </affiliation>             
+            </author> 
+            <author> 
+                <honorific>Mr</honorific> 
+                <firstname>Michael</firstname> 
+                <surname>Still</surname> 
+                <affiliation> 
+                    <shortaffil>964076</shortaffil> 
+                </affiliation>             
+            </author> 
+            <author> 
+                <honorific>Mr</honorific> 
+                <firstname>Blake</firstname> 
+                <surname>Swadling</surname> 
+                <affiliation> 
+                    <shortaffil>982087</shortaffil> 
+                </affiliation>             
+            </author> 
+            <author> 
+                <honorific>Ms</honorific> 
+                <firstname>Kristy</firstname> 
+                <surname>Van Der Vlist</surname> 
+                <affiliation> 
+                    <shortaffil>983118</shortaffil> 
+                </affiliation>             
+            </author> 
+            <author> 
+                <honorific>Mr</honorific> 
+                <firstname>Nicholas</firstname> 
+                <surname>Wheatstone</surname> 
+                <affiliation> 
+                    <shortaffil>983131</shortaffil> 
+                </affiliation>             
+            </author> 
+        </authorgroup> 
+         
+        <!-- These can be added later 
+        <artpagenums>339-343</artpagenums> 
+        <volumenum>15</volumenum> 
+        <issuenum>3</issuenum> 
+        -->
+         
+         <!-- This is a revsion history. Please copy a revision entry and modify it for the latest revision -->fs
+        <revhistory> 
+        
+            <revision> 
+                <revnumber>1.2</revnumber> 
+                <date>07 April 2002</date> 
+                <revremark>Modified title to include "proposal"</revremark> 
+            </revision>
+            
+            <revision> 
+                <revnumber>1.1</revnumber> 
+                <date>05 April 2002</date> 
+                <revremark>Spelling and grammar corrections.</revremark> 
+            </revision>
+            
+            <revision>  
+                <revnumber>1.0</revnumber> 
+                <date>04 April 2002</date> 
+                <revremark>Created.</revremark> 
+            </revision>
+            
+        </revhistory> 
+    </artheader> 
+     
+    <sect1><title>Aim</title> 
+        <para> The aim of this project is to develop a computer software package to assist the University of Canberra survey Laboratory and other  
+        relevant institutions with the analysis of their GPS, VLBI and SLR data relating to tectonic movement. Such an analysis involves  
+        using mathematical techniques to model the data itself, as well as any anomalies that may occur, such as white noise and random walk,  
+		  in both the time and frequency domains. Once the data has been transformed it will be displayed in a graphical format, thereby allowing the user  
+		  to gain an accurate understanding of what the data represents.</para> 
+    </sect1>   <!-- end AIMS --> 
+ 
+    <sect1><title>Relevance</title> 
+        <para> 
+            The analysis of GPS, VLBI and SLR data is required by many areas of natural science such as 
+            geology and meteorology. Consequently, the efficient and precise analysis of such data sets  
+            is crucial. This, in turn, will allow far greater accuracy in modeling and understanding many natural 
+            phenomena including:- 
+            <itemizedlist> 
+                <listitem><para>The ability to correctly assess and understand continental drift.</para></listitem> 
+                 
+                <listitem><para>The ability to pin point stress lines within a given land mass, which often leads to the discovery of mineral 
+                    deposits.</para></listitem> 
+                 
+                <listitem><para>A clearer, more precise picture of rising sea levels, which are widely believed to be a consequence of global 
+                    warming.</para></listitem> 
+                 
+                <listitem><para>A greater understanding of events that occur prior to natural disasters such as earthquakes, volcanic eruptions,  
+                    floods and droughts, which may, in turn, give us the ability to accurately predict them. </para></listitem> 
+                 
+                <listitem><para>There are a number of errors and measurement accuracy issues to consider during the processing of these data sets.   
+                    In addition, some data sets are more susceptible to certain types of error, such as white noise, than others. By allowing 
+                    the accurate modeling of such data sets and their errors, the suitability of each individual data set  
+                    for some types of analysis can be more readily assessed.</para></listitem> 
+                 
+                <listitem><para>Although the effects of white noise can be seen from a time series of reasonable length (about 3-5 years), to  
+                    accurately see the effects of random walk, at least 6 years of continuous time series data is required. Consequently, the  
+                    ability to process large data sets (at least 10 years) will be critical in determining the effects of random walk.</para></listitem> 
+            </itemizedlist> 
+        </para> 
+    </sect1>   <!-- end RELEVANCE --> 
+ 
+ 
+ 
+    <sect1><title>Methodology</title> 
+ 
+        <para> 
+            In order to achieve the stated aims of the Tectonic Information Translation System ('the System') the following development methodology 
+            will be adopted and implemented. 
+        </para> 
+ 
+ 
+        <!-- ========================================================================================================================= --> 
+         
+        <sect2><title>Stage 1 - Requirements collection and analysis</title> 
+ 
+            <para> 
+                During this design phase extensive research will be carried out in order to gain a better understanding of the mathematics involved 
+                in the translation of tectonic data sets. This includes weighted least squares approximations, Fourier transforms, windowing functions, 
+                and the interpolation of data sets. Such research will also serve to enhance the knowledge of the team with respect to the purpose and 
+                relevance of such data analysis. In addition, at this stage, any potential customers will be identified and consulted to determine the 
+                desired functionality of the System. Once this is carried out, an analysis of all customer viewpoints will be undertaken in order to 
+                establish the functional and/or non-functional requirements of the system. 
+            </para> 
+ 
+            <sect3><title>Deliverables</title>         
+                <para> 
+                    <itemizedlist> 
+                        <listitem><para>A formal specification document, detailing all functional and/or non-functional requirements of the System.</para></listitem> 
+                        <listitem><para>A conceptual design for the System.</para></listitem> 
+                        <listitem><para>Documentation outlining the project aims, significance, methodology and the budget for the System.</para></listitem> 
+                    </itemizedlist> 
+                </para>             
+            </sect3> <!-- end Deliverables --> 
+    
+            <sect3><title>Scope</title>             
+                <para> 
+                    This stage is for the purpose of research and requirements collection only. Whilst a conceptual design for the System 
+                    will be produced, it will not be implemented at this time. 
+                </para>             
+            </sect3> <!-- end Scope --> 
+         
+        </sect2> <!-- end stage 1 --> 
+     
+     
+        <!-- ========================================================================================================================= --> 
+         
+        <sect2><title>Stage 2 - Prototyping</title> 
+     
+            <para> 
+                Once all requirements of the System have been specified a prototype will be developed. It is proposed that this prototype be produced using the 
+                MATLAB mathematics package. The prototype itself will incorporate all basic functionality determined in Stage 1. Once the prototype has been 
+                produced it will be used to validate and verify the customer requirements. In addition, this prototype may also be employed at a later stage to 
+                verify that the System's output is correct.  
+                 
+                The completion of this stage is considered to be the minimum requirement to achieve a pass level in the Computer Engineering Project course.   
+            </para> 
+ 
+            <sect3><title>Deliverables</title> 
+                <para> 
+                    <itemizedlist> 
+                        <listitem><para>A MATLAB throw-away prototype of the System.</para></listitem> 
+                    </itemizedlist> 
+                </para> 
+            </sect3> <!-- end Deliverables --> 
+     
+            <sect3><title>Scope</title>         
+                <para>No part of the prototype produced in this stage will be incorporated into the final System.</para>             
+            </sect3> <!-- end Scope --> 
+         
+        </sect2> <!-- end stage 2 --> 
+         
+         
+        <!-- ========================================================================================================================= --> 
+         
+        <sect2><title>Stage 3 - System Development</title> 
+         
+            <para> 
+                In the system development stage the conceptual design produced in Stage 1 will be implemented. It is anticipated that the 
+                system will be developed using the C++ programming language and be capable of execution on all Unix (i.e. both System V and 
+                BSD) style platforms. In addition, the system shall be as modular, scalable and multi-threaded as possible in order for 
+                it to take full advantage of Symmetric Multi Processor (SMP) machines. 
+            </para> 
+         
+            <para> 
+                It is intended, at this time, that the System contain the following modules 
+                <itemizedlist> 
+                    <listitem><para>A core math engine whose function is to perform all required mathematical operations on the data set(s) provided</para></listitem> 
+                    <listitem><para>A graphing module that is capable of graphing the transformed data sets produced by the math engine</para></listitem> 
+                    <listitem><para>A file input/output module that will read the required data from the specified file(s) and transform it into the correct format before passing it to the math engine</para></listitem> 
+                    <listitem><para>A Graphical User Interface module to allow the user to specify data set(s), perform selected mathematical operations and see the results displayed</para></listitem> 
+                </itemizedlist> 
+            </para> 
+     
+            <sect3><title>Deliverables</title> 
+                <para> 
+                    <itemizedlist> 
+                        <listitem><para>To produce a working Tectonic Information Translation System</para></listitem> 
+                        <listitem><para>Documentation for all modules produced at this stage</para></listitem> 
+                    </itemizedlist> 
+                </para> 
+            </sect3> <!-- end Deliverables --> 
+         
+            <sect3><title>Scope</title> 
+                <para>     
+                    Upon conclusion of this stage a working system shall be produced. Although this system will be developed in 
+                    accordance with the theoretical model produced in Stage 1, it may, however, be necessary to make minor revisions 
+                    of this model at this time. 
+                </para> 
+             
+            </sect3> <!-- end Scope --> 
+         
+        </sect2>  <!-- end stage 3 --> 
+ 
+ 
+        <!-- ========================================================================================================================= --> 
+         
+        <sect2><title>Stage 4 - System Verification and Validation</title> 
+     
+            <para> 
+                In this phase the System will be thoroughly tested in accordance with a rigorous testing framework to ensure that 
+                it performs in accordance with its specifications. It is intended that tools such as XUnit testing modules 
+                be utilised to aid this process. In addition, an independent audit of all source code and a performance evaluation 
+                of the System will be undertaken at this stage. 
+            </para> 
+         
+            <sect3><title>Deliverables</title>         
+                <para> 
+                    <itemizedlist> 
+                        <listitem><para>A document detailing the System verification and validation process(es) employed as well as 
+                        the results of all test(s), audit(s) and performance evaluation(s) carried out in this stage</para></listitem> 
+                    </itemizedlist> 
+                </para> 
+            </sect3> <!-- end Deliverables --> 
+     
+            <sect3><title>Scope</title>         
+                <para> 
+                    At this time a fully working, thoroughly tested system shall be produced and implemented. Any necessary 
+                    modifications required to the system designed in Stage 3 shall be carried out in order to ensure it meets 
+                    all specifications. 
+                </para> 
+            </sect3> <!-- end Scope --> 
+         
+        </sect2> <!-- end stage 4 --> 
+ 
+         
+        <!-- ========================================================================================================================= --> 
+         
+        <sect2><title>Stage 5 - Report(s) and Demonstration</title> 
+     
+            <para> 
+                In this final phase all required documentation for the system will be produced. The System will also be demonstrated 
+                to the appropriate University of Canberra body at a time to be determined. 
+            </para> 
+ 
+            <sect3><title>Deliverables</title> 
+                <para> 
+                    <itemizedlist>     
+                        <listitem><para>The final report of the System</para></listitem> 
+                        <listitem><para>The demonstration of a working, fully implemented Tectonic Information Translation System</para></listitem> 
+                    </itemizedlist> 
+                </para> 
+            </sect3> <!-- end Deliverables --> 
+     
+            <sect3><title>Scope</title>         
+                <para>N/A</para>             
+            </sect3> <!-- end Scope --> 
+         
+        </sect2>  <!-- end stage 5 --> 
+         
+    </sect1>  <!-- end METHODOLOGY --> 
+ 
+ 
+ 
+    <sect1><title>Minimum Resource Requirements</title> 
+ 
+        <para> 
+            The minimum requirement for the System during the prototyping stage is 24-hour 7-day access to 1 Linux machine with MATLAB installed on it. 
+            Although much of the prototyping code can be written in a Windows MATLAB environment, as the System itself will be produced for a Unix  
+            based platform it would be preferable to maintain consistency in Operating Systems ('OS') for the duration of the project.  
+        </para> 
+ 
+	    <para> 
+            In order to complete the project the minimum hardware requirements are considered to be a high end Machine. Essential attributes for an Intel 
+            based machine are; 
+            <itemizedlist> 
+                <listitem><para>a CPU running at approximately 1.5 GHz.</para></listitem> 
+                <listitem><para>at least 512 Mb of RAM.</para></listitem> 
+                <listitem><para>a Unix based operating system.</para></listitem> 
+            </itemizedlist> 
+            If a non-Intel based machine is to be used then performance should be comparable with this system. It should be noted, however, that if 
+            restricted to the minimum requirements, the desired response time of the system (approximately 60 seconds to process the data and produce a 
+            result) may not be achievable. 
+        </para> 
+         
+        <para> 
+            Desirable hardware requirements would be a high end, multi-processor machine with in excess of 1 Gb RAM 
+        </para> 
+        <para> 
+            Group members will also require 24-hour 7-day access to the target machine. All members of the group will also require any necessary privileges 
+            to said machine to enable the development of the System. 
+        </para> 
+     
+        <para> 
+            For maximum performance, the target machine needs to be known, preferable in the early stages of the project. Writing the code for the system 
+            with a single processor machine in mind and then running it on a multiprocessor machine and vice versa will not maximize the efficiency of the System, and may, in fact detrimentally impact on performance. 
+        </para> 
+     
+    </sect1> <!-- end resource requirements --> 
+     
+    <bibliography> 
+        <title>Bibliography</title> 
+ 
+        <bibliodiv><title>Journals</title> 
+		    <biblioentry> 
+                <abbrev>Mao, Harrison & Dickson, 1999</abbrev> 
+                <authorgroup> 
+                    <author><firstname>Ailin</firstname><surname>Mao</surname></author> 
+                    <author><firstname>Christopher G. A.</firstname><surname>Harrison</surname></author> 
+                    <author><firstname>Timothy H.</firstname><surname>Dickson</surname></author> 
+                </authorgroup>                
+                <copyright> 
+                    <year>1999</year>
+                    <publishername>Journal of Geophysical Research</publishername>
+                </copyright>                
+                <publisher> 
+                    <publishername>Journal of Geophysical Research</publishername> 
+                </publisher>                
+                <title>Noise in GPS coordinate time series</title> 
+                <volumenum>104</volumenum> 
+                <issuenum>B2</issuenum>
+                <pagenums>2797-2816</pagenums> 
+            </biblioentry> 
+             
+ 
+            <biblioentry> 
+                <abbrev>Zhang et al, 1997</abbrev> 
+                <authorgroup> 
+                    <author><firstname>Jie</firstname><surname>Zhang</surname></author> 
+                    <author><firstname>Yehuda</firstname><surname>Bock</surname></author> 
+                    <author><firstname>Hadley</firstname><surname>Johnson</surname></author> 
+                    <author><firstname>Perig</firstname><surname>Fang</surname></author> 
+                    <author><firstname>Simon</firstname><surname>Williams</surname></author> 
+                    <author><firstname>Joachim</firstname><surname>Genrich</surname></author> 
+                    <author><firstname>Shimon</firstname><surname>Wdowinski</surname></author> 
+                    <author><firstname>Jeff</firstname><surname>Behr</surname></author> 
+                </authorgroup>                
+                <copyright> 
+                    <year>1997</year>
+                    <publishername>Journal of Geophysical Research</publishername>
+                </copyright>                
+                <publisher> 
+                    <publishername>Journal of Geophysical Research</publishername> 
+                </publisher>                
+                <title>Southern California Permanent GPS Geodetic Array</title>
+                <subtitle>Error analysis of daily position estimates and site velocities</subtitle>
+                <volumenum>102</volumenum> 
+                <issuenum>B8</issuenum> 
+                <pagenums>18035-18055</pagenums>
+            </biblioentry> 
+             
+         </bibliodiv> 
+    </bibliography> 
+       
+</article> <!-- End of article --> 
+ 
+
