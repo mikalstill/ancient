@@ -101,6 +101,7 @@ class cepDataset {
 
     // Put methods
     void setFreqDomain(bool isFreq);
+    void setFreqEnergies(float e1, float e2, float e3);
 
     // Utility methods
     direction getDirectionFromName(string name);
@@ -111,6 +112,7 @@ class cepDataset {
     string getHeader(direction i);
     bool getHaveLs(direction i);
     bool isFreqDomain();
+    float getEnergy(direction i);
 
   private:
     string applyOffset(direction i, string value);
@@ -132,6 +134,8 @@ class cepDataset {
     double m_b1[dirUnknown];
     double m_b2[dirUnknown];
     bool m_haveLs[dirUnknown];
+
+    float m_e[dirUnknown];
 
     static const double delim;
 };

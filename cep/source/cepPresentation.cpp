@@ -42,8 +42,7 @@ const long CHUNKALLOC = 10;
 
 const long INVALID = -2000000000;
 
-cepPresentation::cepPresentation (long width, long height, cepMatrix<double> *ds, double b1, 
-				  double b2, bool haveLs, bool freqDomain, string offset):
+cepPresentation::cepPresentation (long width, long height, cepMatrix<double> *ds, string offset):
   m_width(width + 1),
   m_height(height),
   m_xTitle("Undefined Axis Title"),
@@ -58,11 +57,9 @@ cepPresentation::cepPresentation (long width, long height, cepMatrix<double> *ds
   m_raster(NULL),
   m_ds(ds),
   m_haveMaxima(false),
-  m_b1(b1),
-  m_b2(b2),
-  m_haveLs(haveLs),
+  m_haveLs(false),
   m_offset(offset),
-  m_freqDomain(freqDomain)
+  m_freqDomain(false)
 {
   m_axesColor.red = 0;
   m_axesColor.green = 0;
@@ -84,7 +81,6 @@ cepPresentation::cepPresentation (long width, long height, cepMatrix<double> *ds
   m_gridColor.green = 0;
   m_gridColor.blue = 0;
 
-  cepDebugPrint("Presentation has a LS line: " + cepToString(haveLs));
   m_config = (cepConfiguration *)&cepConfiguration::getInstance();
 }
 
@@ -508,6 +504,11 @@ cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminva
     plot_strokeline(graph);
     plot_endline(graph);
   }
+  else if(m_freqDomain){
+    string freqEnergy = "Energy = " + cepToString(m_e, true);
+    plot_settextlocation(graph, graphInset * 2, graphInset + graphInset);
+    plot_writestring(graph, (char *) freqEnergy.c_str()); 
+  }
 
   cepDebugPrint("Finishing plotting");
 
@@ -658,3 +659,16 @@ void cepPresentation::setGridColor(char red, char green, char blue)
   m_gridColor.blue = blue;
 }
 
+void cepPresentation::setLsParams(double b1, double b2){
+  m_haveLs = true;
+  m_freqDomain = false;
+
+  m_b1 = b1;
+  m_b2 = b2;
+}
+
+void cepPresentation::setFreqParams(float energy){
+  m_haveLs = false;
+  m_freqDomain = true;
+  m_e = energy;
+}

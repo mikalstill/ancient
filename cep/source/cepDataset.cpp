@@ -33,6 +33,7 @@ cepDataset::cepDataset():
         m_b1[i] = -1.0;
         m_b2[i] = -1.0;
         m_haveLs[i] = false;
+	m_e[i] = 0.0;
     }
 
     m_progress = NULL;
@@ -48,6 +49,7 @@ m_filename(""), m_procHistory(""), m_ready(false), m_wellformed(false), m_freque
         m_b1[i] = -1.0;
         m_b2[i] = -1.0;
         m_haveLs[i] = false;
+	m_e[i] = 0.0;
     }
 
     m_progress = callback;
@@ -287,6 +289,10 @@ cepError cepDataset::read(const string & filename)
 			      m_b2[i] = atof(sa[10].c_str());
 			      m_haveLs[i] = true;
 			    }
+
+			    if(sa[8] == "FFTDC"){
+			      m_e[i] = atof(sa[9].c_str());
+			    }
                         }
                         // Well, then it must be a processing statement
                         // line
@@ -478,9 +484,13 @@ cepError cepDataset::write(const string & filename)
         files[i] << m_procHistory << endl;
         files[i] << m_header[i];
       
+	// Extra attributes for the dataset
 	if(m_haveLs[i]){
 	  cepDebugPrint("Saving the LS line of best fit");
 	  files[i] << " LSEqn " << m_b1[i] << " " << m_b2[i];
+	}
+	else if(m_frequencyData){
+	  files[i] << "FFTDC " << m_e[i];
 	}
 	files[i] << endl << endl;
 
@@ -833,6 +843,18 @@ bool cepDataset::isFreqDomain()
 void cepDataset::setFreqDomain(bool isFreq){
   m_frequencyData = isFreq;
 }
+
+void cepDataset::setFreqEnergies(float e1, float e2, float e3){
+  m_e[0] = e1;
+  m_e[1] = e2;
+  m_e[2] = e3;
+}
+
+float cepDataset::getEnergy(direction i){
+  return m_e[i];
+}
+
+
 
 const double cepDataset::delim = -255.0;
 

@@ -32,8 +32,7 @@ class cepError;
 class cepPresentation
 {
 public:
-  cepPresentation (long width, long height, cepMatrix<double> *ds, double b1, double b2, 
-		   bool haveLs, bool freqDomain, string offset);
+  cepPresentation (long width, long height, cepMatrix<double> *ds, string offset);
 
   void xAxisTitle (const string & title);
   void yAxisTitle (const string & title);
@@ -46,6 +45,9 @@ public:
   void setErrorColor(char red, char green, char blue);
   void setGridColor(char red, char green, char blue);
   void setFontColor(char red, char green, char blue);
+
+  void setLsParams(double b1, double b2);
+  void setFreqParams(float energy);
 
   cepError createPDF (const string & filename);
   cepError createBitmap (float& xscale, float& yscale, long& xminval, long& yminval, long& yrange);
@@ -92,6 +94,7 @@ private:
   string m_offset;
 
   bool m_freqDomain;
+  float m_e;
 
   cepConfiguration *m_config;
 };

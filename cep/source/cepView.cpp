@@ -294,7 +294,7 @@ void cepView::drawPresentation(cepDataset *theDataset, cepDataset::direction dir
 		 canvas->m_vertScale[(int) dir], canvas->m_horizScale[(int) dir],
 		 canvas->m_xminval[(int) dir], canvas->m_yminval[(int) dir],
 		 canvas->m_yrange[(int) dir], theDataset->getHaveLs(dir),
-		 theDataset->isFreqDomain());
+		 theDataset->isFreqDomain(), theDataset->getEnergy(dir));
     m_plotfailed = plot.getFailed();
     
     m_pngCache[(int) dir] = string(cfname);
@@ -894,6 +894,7 @@ cepView::processInterp(const int iType, string desc)
 void cepView::OnFFT (wxCommandEvent& event)
 {
   cepMatrix<double> ffted[cepDataset::dirUnknown];
+  float energies[cepDataset::dirUnknown];
     
   cepDoc *theDoc = (cepDoc *) GetDocument ();
   cepDataset *theDataset = theDoc->getDataset ();
@@ -968,7 +969,7 @@ void cepView::OnFFT (wxCommandEvent& event)
 	}
 
 	// Make a new matrix to put this into
-	ffted[i] = cepMatrix<double> (output.getNumRows(), output.getNumCols());
+	ffted[i] = cepMatrix<double> (output.getNumRows() - 1, output.getNumCols());
 	if(output.getError().isReal()){
 	  cepDebugPrint("Error determining size of FFT output");
 	  output.getError().display();
@@ -984,20 +985,28 @@ void cepView::OnFFT (wxCommandEvent& event)
 	    cepDebugPrint("Getting output: row = " + cepToString(row) + " col = " +
 			  cepToString(col));
 
-	    // Again, I have assumed that there is only one table
-	    ffted[i].setValue(row, col, real(output.getValue(row, col, 0)));
-	    if(output.getError().isReal()){
-	      cepDebugPrint("FFT data conversion, get output");
-	      output.getError().display();
-	      canvas->Refresh();
-	      return;
+	    // The first row of the FFT output is treated separately...
+	    if(row == 0){
+	      if(col == 1){
+		energies[i] = real(output.getValue(row, col, 0));
+	      }
 	    }
-
-	    if(ffted[i].getError().isReal()){
-	      cepDebugPrint("FFT data conversion, push to new dataset");
-	      ffted[i].getError().display();
-	      canvas->Refresh();
-	      return;
+	    else{
+	      // Again, I have assumed that there is only one table
+	      ffted[i].setValue(row - 1, col, real(output.getValue(row, col, 0)));
+	      if(output.getError().isReal()){
+		cepDebugPrint("FFT data conversion, get output");
+		output.getError().display();
+		canvas->Refresh();
+		return;
+	      }
+	      
+	      if(ffted[i].getError().isReal()){
+		cepDebugPrint("FFT data conversion, push to new dataset");
+		ffted[i].getError().display();
+		canvas->Refresh();
+		return;
+	      }
 	    }
 	  }
 	}
@@ -1013,6 +1022,7 @@ void cepView::OnFFT (wxCommandEvent& event)
 		     theDataset->getHeader((cepDataset::direction) 1), 
 		     theDataset->getHeader((cepDataset::direction) 2));
     newds.setFreqDomain(true);
+    newds.setFreqEnergies(energies[0], energies[1], energies[2]);
     
     char *cfname = strdup("/tmp/cep.XXXXXX");
     int fd;
