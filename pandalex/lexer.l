@@ -12,8 +12,18 @@ char *returnStr(char *, int);
 %%
 
 \%PDF-[0-9]+\.[0-9]+    { debuglex(yytext, -1, "version", binaryMode);
-                          yylval.textVal = (char *) returnStr(yytext, -1);
-                          return((binaryMode == 0) ? VERSION : ANYTHING);    }
+
+                          if(binaryMode == 0){
+                            yylval.textVal = (char *) returnStr(yytext, -1);
+                            return VERSION;
+                            }
+                          else{
+                            yylval.sval.data = 
+                              (char *) returnStr(yytext, yyleng);
+                            yylval.sval.len = yyleng;
+                            return ANYTHING;                  
+                            }
+                                                                             }
 
 [ \t\r\n]+              { debuglex(yytext, -1, "whitespace", binaryMode);
                           if(binaryMode == 1){
@@ -22,27 +32,95 @@ char *returnStr(char *, int);
                           }                                                  }
 
 xref                    { debuglex(yytext, -1, "xref", binaryMode);
-                          yylval.textVal = (char *) returnStr(yytext + 1, -1);
-                          return((binaryMode == 0) ? XREF : ANYTHING);       }
+
+                          if(binaryMode == 0){
+                            yylval.textVal = (char *) 
+                              returnStr(yytext + 1, -1);
+                            return XREF;
+                            }
+                          else{
+                            yylval.sval.data = 
+                              (char *) returnStr(yytext + 1, yyleng);
+                            yylval.sval.len = yyleng;
+                            return ANYTHING;
+                            }
+                                                                             }
 
 trailer                 { debuglex(yytext, -1, "trailer", binaryMode);
-                          yylval.textVal = (char *) returnStr(yytext + 1, -1);
-                          return((binaryMode == 0) ? TRAILER : ANYTHING);    }
+
+                          if(binaryMode == 0){
+                            yylval.textVal = 
+                              (char *) returnStr(yytext + 1, -1);
+                            return TRAILER;
+                            }
+                          else{
+                            yylval.sval.data =
+                              (char *) returnStr(yytext + 1, yyleng);
+                            yylval.sval.len = yyleng;
+                            return ANYTHING;
+                            }
+                                                                             }
 
 \/[a-zA-Z\-_0-9\.]+     { debuglex(yytext, -1, "name", binaryMode);
-                          yylval.textVal = (char *) returnStr(yytext + 1, -1);
-                          return((binaryMode == 0) ? NAME : ANYTHING);       }
+
+                          if(binaryMode == 0){
+                            yylval.textVal = 
+                              (char *) returnStr(yytext + 1, -1);
+                            return NAME;
+                            }
+                          else{
+                            yylval.sval.data =
+                              (char *) returnStr(yytext + 1, yyleng);
+                            yylval.sval.len = yyleng;
+                            return ANYTHING;
+                            }
+                                                                             }
 
                         /* --- stuff required for objects ---               */
 R                       { debuglex(yytext, -1, "object reference", binaryMode);
-                          yylval.textVal = (char *) returnStr(yytext, -1);
-                          return((binaryMode == 0) ? OBJREF : ANYTHING);     }
+
+                          if(binaryMode == 0){
+                            yylval.textVal = 
+                              (char *) returnStr(yytext, -1);
+                            return OBJREF; 
+                            }
+                          else{
+                            yylval.sval.data = 
+                              (char *) returnStr(yytext, yyleng);
+                            yylval.sval.len = yyleng;
+                            return ANYTHING;
+                            }
+                                                                             }
 
 obj                     { debuglex(yytext, -1, "obj", binaryMode);
-                          return((binaryMode == 0) ? OBJ : ANYTHING);        }
+
+                          if(binaryMode == 0){
+                            yylval.textVal = 
+                              (char *) returnStr(yytext, -1);
+                            return OBJ; 
+                            }
+                          else{
+                            yylval.sval.data = 
+                              (char *) returnStr(yytext, yyleng);
+                            yylval.sval.len = yyleng;
+                            return ANYTHING;
+                            }
+                                                                             }
 
 endobj                  { debuglex(yytext, -1, "endobj", binaryMode);
-                          return((binaryMode == 0) ? ENDOBJ : ANYTHING);     }
+
+                          if(binaryMode == 0){
+                            yylval.textVal = 
+                              (char *) returnStr(yytext, -1);
+                            return ENDOBJ; 
+                            }
+                          else{
+                            yylval.sval.data = 
+                              (char *) returnStr(yytext, yyleng);
+                            yylval.sval.len = yyleng;
+                            return ANYTHING;
+                            }
+                                                                             }
 
 stream                  { debuglex(yytext, -1, "stream", binaryMode);
                           return STREAM;                                     }
@@ -52,47 +130,139 @@ endstream               { debuglex(yytext, -1, "endstream", 0);
                           return ENDSTREAM;                                  }
 
 [+-]?[0-9]+             { debuglex(yytext, -1, "integer", binaryMode);
+
                           if(binaryMode == 0){
                             yylval.intVal = atoi(yytext);
-                            return INT;
+                            return INT; 
                             }
                           else{
-                            yylval.textVal = yytext;
+                            yylval.sval.data = 
+                              (char *) returnStr(yytext, yyleng);
+                            yylval.sval.len = yyleng;
                             return ANYTHING;
-                            }                                                }
+                            }
+                                                                             }
+
 
 [+-]?[0-9]+\.[0-9]+     { debuglex(yytext, -1, "floating point", binaryMode);
-                          yylval.textVal = (char *) returnStr(yytext, -1);
-                          return((binaryMode == 0) ? FP : ANYTHING);         }
+
+                          if(binaryMode == 0){
+                            yylval.textVal = 
+                              (char *) returnStr(yytext, yyleng); 
+                            return FP; 
+                            }
+                          else{
+                            yylval.sval.data = 
+                              (char *) returnStr(yytext, yyleng);
+                            yylval.sval.len = yyleng;
+                            return ANYTHING;
+                            }
+                                                                             }
 
 \<\<                    { debuglex(yytext, -1, "<<", binaryMode);
-                          return DBLLT;                                      }
+
+                          if(binaryMode == 0){
+                            return DBLLT; 
+                            }
+                          else{
+                            yylval.sval.data = 
+                              (char *) returnStr(yytext, yyleng);
+                            yylval.sval.len = yyleng;
+                            return ANYTHING;
+                            }
+                                                                             }
 
 \>\>                    { debuglex(yytext, -1, ">>", binaryMode);
-                          return DBLGT;                                      }
+
+                          if(binaryMode == 0){
+                            return DBLGT; 
+                            }
+                          else{
+                            yylval.sval.data = 
+                              (char *) returnStr(yytext, yyleng);
+                            yylval.sval.len = yyleng;
+                            return ANYTHING;
+                            }
+                                                                             }
 
 ([a-zA-Z0-9\.:'+\-!_]+[a-zA-Z0-9\.:'+\-!_\\\/]*)+ { 
                           debuglex(yytext, -1, "string", binaryMode);
-                          yylval.textVal = (char *) returnStr(yytext, -1);
-                          return((binaryMode == 0) ? STRING : ANYTHING);     }
+
+                          if(binaryMode == 0){
+                            yylval.textVal = 
+                              (char *) returnStr(yytext, yyleng); 
+                            return STRING; 
+                            }
+                          else{
+                            yylval.sval.data = 
+                              (char *) returnStr(yytext, yyleng);
+                            yylval.sval.len = yyleng;
+                            return ANYTHING;
+                            }
+                                                                             }
 
 [\[\(][<>a-zA-Z0-9\.\ :'+\-_\\\(\)]+[\)\]] {
                           debuglex(yytext, -1, "bracketted string", binaryMode);
-                          yylval.textVal = (char *) returnStr(yytext, -1);
-                          return((binaryMode == 0) ? STRING : ANYTHING);     }
+
+                          if(binaryMode == 0){
+                            yylval.textVal = 
+                              (char *) returnStr(yytext, yyleng); 
+                            return STRING; 
+                            }
+                          else{
+                            yylval.sval.data = 
+                              (char *) returnStr(yytext, yyleng);
+                            yylval.sval.len = yyleng;
+                            return ANYTHING;
+                            }
+                                                                             }
 
                         /* --- Array handling ---                           */
 
 \[                      { debuglex(yytext, -1, "[", binaryMode);
-                          return((binaryMode == 0) ? ARRAY : ANYTHING);      }
+
+                          if(binaryMode == 0){
+                            yylval.textVal = 
+                              (char *) returnStr(yytext, yyleng); 
+                            return ARRAY; 
+                            }
+                          else{
+                            yylval.sval.data = 
+                              (char *) returnStr(yytext, yyleng);
+                            yylval.sval.len = yyleng;
+                            return ANYTHING;
+                            }
+                                                                             }
 
 \]                      { debuglex(yytext, -1, "]", binaryMode);
-                          return((binaryMode == 0) ? ENDARRAY : ANYTHING);   }
+
+                          if(binaryMode == 0){
+                            yylval.textVal = 
+                              (char *) returnStr(yytext, yyleng); 
+                            return ENDARRAY; 
+                            }
+                          else{
+                            yylval.sval.data = 
+                              (char *) returnStr(yytext, yyleng);
+                            yylval.sval.len = yyleng;
+                            return ANYTHING;
+                            }
+                                                                             }
 
                         /* --- Stuff needed for the xref and trailer ---    */
 
 \%\%EOF                 { debuglex(yytext, -1, "end of file", binaryMode);
-                          return((binaryMode == 0) ? PDFEOF : ANYTHING);     }
+
+                          if(binaryMode == 0){
+                            return PDFEOF; 
+                            }
+                          else{
+                            yylval.sval.data = 
+                              (char *) returnStr(yytext, yyleng);
+                            yylval.sval.len = yyleng;
+                            return ANYTHING;
+                            }
+                                                                             }
 
                         /* --- Stuff used to match binary streams --- 
 
@@ -111,8 +281,19 @@ endstream               { debuglex(yytext, -1, "endstream", 0);
                                                                              }
 
 .                       { debuglex(yytext, -1, "the catch all", binaryMode);
-                          yylval.textVal = (char *) returnStr(yytext, -1);
-                          return ANYTHING;                                   }
+
+                          if(binaryMode == 0){
+                            yylval.textVal =
+                              (char *) returnStr(yytext, yyleng);
+                            return ANYTHING; 
+                            }
+                          else{
+                            yylval.sval.data = 
+                              (char *) returnStr(yytext, yyleng);
+                            yylval.sval.len = yyleng;
+                            return ANYTHING;
+                            }
+                                                                             }
 
 %%
 

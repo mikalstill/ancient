@@ -147,7 +147,7 @@ stream    : STREAM { binaryMode = 1; } binary ENDSTREAM { printf("filter = %s, l
           |
           ;
 
-binary    : ANYTHING binary { $$.data = strmcat($1.data, $1.len, $2.data, $2.len); $$.len = $1.len + $2.len; free($2); }
+binary    : ANYTHING binary { debuglex($1.data, $1.len, "ANYTHING in lexer.y", 0); $$.data = strmcat($1.data, $1.len, $2.data, $2.len); $$.len = $1.len + $2.len; free($2); }
           | { $$.data = strmcpy("", -1); $$.len=0; }
           ;
 
