@@ -1,0 +1,36 @@
+This file contains any messages produced by compilers while
+running configure, to aid debugging if configure makes a mistake.
+
+configure:561: checking for a BSD compatible install
+configure:614: checking whether build environment is sane
+configure:671: checking whether make sets ${MAKE}
+configure:717: checking for working aclocal
+configure:730: checking for working autoconf
+configure:743: checking for working automake
+configure:756: checking for working autoheader
+configure:769: checking for working makeinfo
+configure:783: checking whether to enable maintainer-specific portions of Makefiles
+configure:809: checking for gcc
+configure:922: checking whether the C compiler (gcc  ) works
+configure:938: gcc -o conftest    conftest.c  1>&5
+configure:964: checking whether the C compiler (gcc  ) is a cross-compiler
+configure:969: checking whether we are using GNU C
+configure:978: gcc -E conftest.c
+configure:997: checking whether gcc accepts -g
+configure:1029: checking how to run the C preprocessor
+configure:1050: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:1114: checking for flex
+configure:1147: checking for flex
+configure:1181: checking for yywrap in -lfl
+configure:1200: gcc -o conftest -g -O2   conftest.c -lfl   1>&5
+configure:1223: checking lex output file root
+configure:1244: checking whether yytext is a pointer
+configure:1263: gcc -o conftest -g -O2   conftest.c  -lfl 1>&5
+configure:1289: checking for bison
+configure:1331: checking for a BSD compatible install
+configure:1386: checking for ranlib
+configure:1417: checking for atan in -lm
+configure:1436: gcc -o conftest -g -O2   conftest.c -lm   1>&5
+configure:1465: checking for ANSI C header files
+configure:1478: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:1545: gcc -o conftest -g -O2   conftest.c -lm  1>&5
