@@ -34,46 +34,46 @@ int main(int argc, char *argv[]){
 
   // Magic number, file path, and custom show header
   fprintf(output, "%c%c%c%c", 0x0, 0x1, 0x50, 0x4d);
-  memopad_insertstring(output, "C:\\Palm\\mikal\\memopad\\memopad.dat");
-  memopad_insertstring(output, "0 1 0 0 1 0X");
+  fileutil_insertstring(output, "C:\\Palm\\mikal\\memopad\\memopad.dat");
+  fileutil_insertstring(output, "0 1 0 0 1 0X");
   
   // Category information (this is just a std set)
-  memopad_insertinteger(output, 131);
-  memopad_insertinteger(output, 3);
+  fileutil_insertinteger(output, 131);
+  fileutil_insertinteger(output, 3);
 
-  memopad_insertinteger(output, 1);
-  memopad_insertinteger(output, 1);
-  memopad_insertinteger(output, 0);
-  memopad_insertstring(output, "Business");
-  memopad_insertstring(output, "Business");
+  fileutil_insertinteger(output, 1);
+  fileutil_insertinteger(output, 1);
+  fileutil_insertinteger(output, 0);
+  fileutil_insertstring(output, "Business");
+  fileutil_insertstring(output, "Business");
 
-  memopad_insertinteger(output, 2);
-  memopad_insertinteger(output, 2);
-  memopad_insertinteger(output, 0);
-  memopad_insertstring(output, "Personal");
-  memopad_insertstring(output, "Personal");
+  fileutil_insertinteger(output, 2);
+  fileutil_insertinteger(output, 2);
+  fileutil_insertinteger(output, 0);
+  fileutil_insertstring(output, "Personal");
+  fileutil_insertstring(output, "Personal");
 
-  memopad_insertinteger(output, 3);
-  memopad_insertinteger(output, 130);
-  memopad_insertinteger(output, 0);
-  memopad_insertstring(output, "Tutorial");
-  memopad_insertstring(output, "Tutorial");
+  fileutil_insertinteger(output, 3);
+  fileutil_insertinteger(output, 130);
+  fileutil_insertinteger(output, 0);
+  fileutil_insertstring(output, "Tutorial");
+  fileutil_insertstring(output, "Tutorial");
 
   // Schema information (never changes)
-  memopad_insertinteger(output, 64);
-  memopad_insertinteger(output, 6);
-  memopad_insertinteger(output, 0);
-  memopad_insertinteger(output, 1);
-  memopad_insertinteger(output, 2);
-  memopad_insertshort(output, 6);
+  fileutil_insertinteger(output, 64);
+  fileutil_insertinteger(output, 6);
+  fileutil_insertinteger(output, 0);
+  fileutil_insertinteger(output, 1);
+  fileutil_insertinteger(output, 2);
+  fileutil_insertshort(output, 6);
 
   // Schema field information (never changes)
-  memopad_insertshort(output, 1);
-  memopad_insertshort(output, 1);
-  memopad_insertshort(output, 1);
-  memopad_insertshort(output, 5);
-  memopad_insertshort(output, 6);
-  memopad_insertshort(output, 1);
+  fileutil_insertshort(output, 1);
+  fileutil_insertshort(output, 1);
+  fileutil_insertshort(output, 1);
+  fileutil_insertshort(output, 5);
+  fileutil_insertshort(output, 6);
+  fileutil_insertshort(output, 1);
 
   // Determine how many records we are going to create
   // For each record
@@ -100,7 +100,7 @@ int main(int argc, char *argv[]){
 
   // Record count * field count
   printf("Chunk count is %d\n", chunkcnt);
-  memopad_insertinteger(output, chunkcnt * 6);
+  fileutil_insertinteger(output, chunkcnt * 6);
 
   // For each record
   for(rcnt = 0 ; rcnt < argc - 1; rcnt++){
@@ -128,37 +128,37 @@ int main(int argc, char *argv[]){
       printf(".");
 
       // Record id
-      memopad_insertinteger(output, 1);
-      memopad_insertinteger(output, 15466507 - 
+      fileutil_insertinteger(output, 1);
+      fileutil_insertinteger(output, 15466507 - 
 			    (1 + (int) (15466507.0 * rand() / 
 					(RAND_MAX + 1.0))));
       
       // Status
-      memopad_insertinteger(output, 1);
-      memopad_insertinteger(output, 0);
+      fileutil_insertinteger(output, 1);
+      fileutil_insertinteger(output, 0);
       
       // Position
-      memopad_insertinteger(output, 1);
-      memopad_insertinteger(output, 1);
+      fileutil_insertinteger(output, 1);
+      fileutil_insertinteger(output, 1);
       
       // Memo contents -- we add the name of the file as the first line of
       // the memo entry so we know what file we are editting...
-      memopad_insertinteger(output, 5);
-      memopad_insertinteger(output, 0);
+      fileutil_insertinteger(output, 5);
+      fileutil_insertinteger(output, 0);
       
       contents = memopad_xsnprintf("File: %s [%03d]\r\n%s", argv[rcnt + 1], 
 				   offset / CHUNKSIZE,
 				   memopad_strlimit(data + offset, CHUNKSIZE));
-      memopad_insertstring(output, contents);
+      fileutil_insertstring(output, contents);
       memopad_xfree(contents);
       
       // Private
-      memopad_insertinteger(output, 6);
-      memopad_insertinteger(output, 0);
+      fileutil_insertinteger(output, 6);
+      fileutil_insertinteger(output, 0);
       
       // Category
-      memopad_insertinteger(output, 1);
-      memopad_insertinteger(output, 0);
+      fileutil_insertinteger(output, 1);
+      fileutil_insertinteger(output, 0);
 
       offset += CHUNKSIZE;
     }

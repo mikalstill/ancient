@@ -21,49 +21,49 @@ int main(int argc, char *argv[]){
 
   printf("Magic number: 0x%x 0x%x 0x%x 0x%x\n", 
 	 fgetc(input), fgetc(input), fgetc(input), fgetc(input));
-  memopad_displaystring(input, "File path [%d chars]: ");
-  memopad_displaystring(input, "Custom show header [%d chars]: ");
-  memopad_displayinteger(input, "Next free category id: ");
-  i = memopad_displayinteger(input, "Number of categories minus one: ");
+  fileutil_displaystring(input, "File path [%d chars]: ");
+  fileutil_displaystring(input, "Custom show header [%d chars]: ");
+  fileutil_displayinteger(input, "Next free category id: ");
+  i = fileutil_displayinteger(input, "Number of categories minus one: ");
   
   for(; i != 0; i--){
     printf("Category\n");
-    memopad_displayinteger(input, "  Index: ");
-    memopad_displayinteger(input, "  Id: ");
-    memopad_displayinteger(input, "  Dirty: ");
-    memopad_displaystring(input, "  Long name [%d chars]: ");
-    memopad_displaystring(input, "  Short name [%d chars]: ");
+    fileutil_displayinteger(input, "  Index: ");
+    fileutil_displayinteger(input, "  Id: ");
+    fileutil_displayinteger(input, "  Dirty: ");
+    fileutil_displaystring(input, "  Long name [%d chars]: ");
+    fileutil_displaystring(input, "  Short name [%d chars]: ");
   }
 
-  memopad_displayinteger(input, "Schema resource id: ");
-  memopad_displayinteger(input, "Schema fields per row: ");
-  memopad_displayinteger(input, "Schema record id position: ");
-  memopad_displayinteger(input, "Schema record status position: ");
-  memopad_displayinteger(input, "Schema record placement position: ");
-  fcnt = i = memopad_displayshort(input, "Schema field count: ");
+  fileutil_displayinteger(input, "Schema resource id: ");
+  fileutil_displayinteger(input, "Schema fields per row: ");
+  fileutil_displayinteger(input, "Schema record id position: ");
+  fileutil_displayinteger(input, "Schema record status position: ");
+  fileutil_displayinteger(input, "Schema record placement position: ");
+  fcnt = i = fileutil_displayshort(input, "Schema field count: ");
 
   printf("Schema fields\n");  
   for(; i != 0; i--){
-    memopad_displayshort(input, "  Item: ");
+    fileutil_displayshort(input, "  Item: ");
   }
 
-  i = memopad_displayinteger(input, "Record count * field count: ");
+  i = fileutil_displayinteger(input, "Record count * field count: ");
   i /= fcnt;
 
   for(; i != 0; i--){
     printf("Memopad entry\n");
-    memopad_displayinteger(input, "  Recordid field type: ");
-    memopad_displayinteger(input, "  Recordid: ");
-    memopad_displayinteger(input, "  Status field type: ");
-    memopad_displayinteger(input, "  Status: ");
-    memopad_displayinteger(input, "  Position field type: ");
-    memopad_displayinteger(input, "  Position: ");
-    memopad_displayinteger(input, "  Memo text field type: ");
-    memopad_displayinteger(input, "    [Pad]: ");
-    memopad_displaystring(input, "  Memo text [%d chars]:\n");
-    memopad_displayinteger(input, "  Private field type: ");
-    memopad_displayinteger(input, "  Private (1 = True): ");
-    memopad_displayinteger(input, "  Category field type: ");
-    memopad_displayinteger(input, "  Category: ");
+    fileutil_displayinteger(input, "  Recordid field type: ");
+    fileutil_displayinteger(input, "  Recordid: ");
+    fileutil_displayinteger(input, "  Status field type: ");
+    fileutil_displayinteger(input, "  Status: ");
+    fileutil_displayinteger(input, "  Position field type: ");
+    fileutil_displayinteger(input, "  Position: ");
+    fileutil_displayinteger(input, "  Memo text field type: ");
+    fileutil_displayinteger(input, "    [Pad]: ");
+    fileutil_displaystring(input, "  Memo text [%d chars]:\n");
+    fileutil_displayinteger(input, "  Private field type: ");
+    fileutil_displayinteger(input, "  Private (1 = True): ");
+    fileutil_displayinteger(input, "  Category field type: ");
+    fileutil_displayinteger(input, "  Category: ");
   }
 }
