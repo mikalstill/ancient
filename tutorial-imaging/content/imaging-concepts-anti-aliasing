@@ -1,0 +1,10 @@
+TITLE: Imaging concepts: Anti-aliasing
+<li>Imagine that you're drawing a triangle
+<li>There are some pixels which are only going to be half on...
+
+<br><br><div align="center"><b>Drawing a triangle</b>
+<br><img src="/notes/presentations/content/gen-antialias-figure1.jpg">
+</div><BR><BR>
+
+<li>This results in a black and white image which looks quite gross...
+

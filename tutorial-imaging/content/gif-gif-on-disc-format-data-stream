@@ -1,0 +1,6 @@
+TITLE: GIF: The GIF on disc format: The data stream
+<li>We're going to refer to the term data stream a bit in the coming slides...
+<li>The GIF specification doesn't refer to files
+<li>The equivalent concept is a data stream
+<li>A data stream doesn't have to be a file
+

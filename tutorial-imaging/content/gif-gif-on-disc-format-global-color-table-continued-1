@@ -1,0 +1,50 @@
+TITLE: GIF: The GIF on disc format: Global color table: Continued 1
+<table>
+
+
+<tr>
+  <td>Bytes</td>
+  <td>Description</td>
+</tr>
+
+
+
+<tr bgcolor=BBBBBB>
+  <td>0</td>
+  <td>Colour 1 red entry</td>
+</tr>
+
+<tr>
+  <td>1</td>
+  <td>Colour 1 green entry</td>
+</tr>
+
+<tr bgcolor=BBBBBB>
+  <td>2</td>
+  <td>Colour 1 blue entry</td>
+</tr>
+
+<tr>
+  <td>...</td>
+  <td></td>
+</tr>
+
+<tr bgcolor=BBBBBB>
+  <td></td>
+  <td>Colour x red entry</td>
+</tr>
+
+<tr>
+  <td></td>
+  <td>Colour x green entry</td>
+</tr>
+
+<tr bgcolor=BBBBBB>
+  <td></td>
+  <td>Colour x blue entry</td>
+</tr>
+
+
+
+</table>
+

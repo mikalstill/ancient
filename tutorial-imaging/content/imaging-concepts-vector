@@ -1,0 +1,11 @@
+TITLE: Imaging concepts: Vector
+<li>The alternative to raster images
+<li>Describe the drawing primitives, not the state of pixels
+
+  <ul>
+  <li><i>There is a rectangle between (10, 100) and (30, 200)</i>
+  </ul>
+
+<li>Much smaller, but slower to display
+<li>Resizes much better...
+

@@ -1,9 +1,0 @@
-TITLE: PNG: The PNG on disc format: The IHDR chunk: Filtering algorithm
-<BR><BR>
-The PNG specification states on page 16 of version 1.2:
-
-<i>
-Filter method is a single-byte integer that indicates the preprocessing method applied to the image data be-fore compression. At present, only filter method 0 (adaptive filtering with five basic filter types) is defined. As with the compression method field, decoders must check this byte and report an error if it holds an unrec-ognized code. See Filter Algorithms (Chapter 6) for details.
-</quote
-
-
