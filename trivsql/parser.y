@@ -77,8 +77,6 @@ void trivsql_docreate(char *tname, char *cols)
 
   u = strtok(cols, ";");
   while(u != NULL){
-    printf("[%s]\n", u);
-
     t = trivsql_xsnprintf("trivsql_%s_col%d", tname, colCount);
     trivsql_dbwrite(gState, t, u);
     trivsql_xfree(t);
@@ -156,14 +154,11 @@ trivsql_recordset *trivsql_doselect(char *tname, char *cols){
   }
 
   rrs = trivsql_xmalloc(sizeof(trivsql_recordset));
-  rrs->numCols = sizeof(colNumbers) / sizeof(int *);
-  printf("numCols set to %d\n", rrs->numCols);
+  rrs->numCols = numCols;
   rrs->rows = trivsql_xmalloc(sizeof(trivsql_row));
   rrs->rows->next = NULL;
   rrs->rows->cols = NULL;
   rrs->numRows = 0;
-
-  printf("%d cols\n", rrs->numCols);
 
   for(row = 0; row < rowCount; row++){
     trivsql_addrow(rrs, tname, row, colNumbers);
@@ -176,8 +171,6 @@ void *
 trivsql_xmalloc (size_t size)
 {
   void *buffer;
-
-  printf("Xmalloc: requested size is %d bytes\n", size);
 
   if ((buffer = malloc (size)) == NULL)
     {
@@ -298,13 +291,13 @@ int *trivsql_parsecols(char *tname, char *cols, int *numCols){
   char *t, *u, *coltmp;
 
   // How many columns do we have?
-  for(i = 0, *numCols = 0; i < strlen(cols); i++)
+  *numCols = 1;
+  for(i = 0; i < strlen(cols); i++)
     if(cols[i] == ';')
-      *numCols++;
+      (*numCols)++;
 
   coltmp = trivsql_xsnprintf("%s", cols);
-  *numCols++;
-  colNumbers = trivsql_xmalloc(sizeof(int) * *numCols);
+  colNumbers = trivsql_xmalloc(sizeof(int) * (*numCols));
   
   // Determine that the named columns exist
   col = 0;
@@ -336,7 +329,6 @@ int *trivsql_parsecols(char *tname, char *cols, int *numCols){
     col++;
   }
 
-  printf("numCols should be %d, %d\n", *numCols, col);
   return colNumbers;
 }
 
@@ -449,10 +441,7 @@ void trivsql_addrow(trivsql_recordset *rs, char *tname, int row, int *cols){
   theCol = theRow->cols;
 
   // Get the row
-  printf("Num col is %d\n", rs->numCols);
   for(colCount = 0; colCount < rs->numCols; colCount++){
-    printf("Grab col (of %d)\n", rs->numCols);
-
     t = trivsql_xsnprintf("trivsql_%s_col%drow%d", tname, cols[colCount], row);
 
     theCol->val = trivsql_dbread(gState, t);
