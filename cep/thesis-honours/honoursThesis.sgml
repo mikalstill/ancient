@@ -1,7 +1,6 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
 <book><bookinfo>
-<title>Geodetic Data Modelling System: Honours Thesis</title>
-<subtitle>An online interface</subtitle>
+<title>Geodetic Data Modelling System Internet Interface: Honours Thesis</title>
 <authorgroup>
 
 <author>
@@ -77,6 +76,13 @@ JPEG stands for Joint Picture Expert Group, which is a group of the Internationa
 <glossdef>
 <para>
 GIF is dependant upon LZW compression (CompuServe 1990), a compression aglorithm which is named after it's developers Lempel, Ziv, and Welch (Nelson 1998).
+</para>
+</glossdef>
+</glossentry><glossentry id="motd"><glossterm>MOTD</glossterm>
+<acronym>MOTD</acronym>
+<glossdef>
+<para>
+A MOTD is the Message Of The Day, a greeting message presented to users as they logon to the GDMS Internet interface.
 </para>
 </glossdef>
 </glossentry><glossentry id="php"><glossterm>PHP</glossterm>
@@ -319,29 +325,70 @@ Based on the factors outlined above, the PNG image format was selected for the G
 
 <chapter><title>Implementation</title>
 <para>
-This chapter discusses the actual application which was produced.
+This chapter discusses the actual application which was produced. The application is quite complex, with a series of pages being used to prompt the user and display information. The interaction of these different pages, each of which has a <quote>command</quote> associated with it, is shown in figure 3.2 below.
 </para>
 
-<sect1><title>Welcome screen</title>
 <para>
-The following page greets users when they start the GDMS Internet interface.
+When the application starts, the command is not defined, as the user is unlikely to have specified one as part of the URL. This results in the GDMS Internet interface using the <emphasis>main</emphasis> command. The user is then presented with a welcome screen, which displays the message of the day. The message of the day in intended to be used to warn the users of the GDMS Internet interface of schedualled unavailability of the system, or new datasets having been added. There are no limits on the text that can be included in the message of the day however, so it could inform users of an impending Christmas party, or other equally unrelated events.
 </para>
 
 <figure><title>GDMS Internet interface welcome screen</title>
 <graphic format="eps" fileref="gen-gdmsii-welcome.eps">
 </figure>
 
-</sect1>
+<figure><title>GDMS Internet interface command interaction</title>
+<graphic format="eps" fileref="gen-commands.eps">
+</figure>
+
+<para>
+The message of the day is stored as a template named motd.html within the templates directory. See the configuration appendix of this document for more information about customizing this file.
+</para>
+
+<para>
+The next operation that the user will perform is selecting a dataset to start processing. At this stage all other commands are disabled, because of a reliance on a dataset being available for processing. The user selects the <emphasis>open</emphasis> command, and a new page displaying a list of the available datasets is displayed. Once the user has selected one of the datasets from this list, a new page showing a plot of the selected dataset is displayed.
+</para>
+
+<figure><title>Selecting a dataset</title>
+<graphic format="eps" fileref="gen-gdmsii-open.eps">
+</figure>
+
+<figure><title>A dataset plot in the north direction (time domain)</title>
+<graphic format="eps" fileref="gen-gdmsii-plot.eps">
+</figure>
+
+<para>
+It should be noted that at this time there is no way to configure the various graphing options offered by GDMS within the GDMS Internet interface. The recommended method for selecting the graphing style prefered by the users of the system is to run the GDMS X Windows application as the userid the web server runs as, and then copy the file ~/.cep to the same directory as the GDMS Internet interface executable. It should also be noted that at this time it is not possible to have individual graphing preferences for different users.
+</para>
+
+<para>
+Now that the user has selected a dataset, the mathematical commands are now available. These may be selected from the same menu as the graphing commands, and include Least Squares regressions, windowing, interpolation, and Fast Fourier Transformations. All of the functionality available within the GDMS X Windows application is available for these mathematical operations.
+</para> 
+
+<para>
+The GDMS Internet interface graphing subsystem also handles graphs in the frequency domain, in the same manner as the GDMS X Windows interface.
+</para>
+
 </chapter>
 
 
 
 <chapter><title>Conclusion</title>
 <para>
-Based on the discussion in previous chapters, Perl CGI with PNG images were selected for the implementation of the GDMS Internet interface.
-
-TODO MORE
+Based on the discussion in previous chapters, Perl CGI with PNG images were selected for the implementation of the GDMS Internet interface. This has resulted in a easy to understand code base, which will aid in future expansion of the application. The GDMS Internet interface should also correctly function with all modern web servers, including the Apache web server which is used by the University of Canberra Survey Laboratory.
 </para>
+
+<para>
+There is some scope for future improvement of the GDMS Internet interface. This includes:
+</para>
+
+<itemizedlist>
+<listitem><para>A web aware method of configuring graphing preferences.</para></listitem>
+<listitem><para>Per user graphing preferences.</para></listitem>
+<listitem><para>Allowing zooming on the dataset graphs in the same manner that the GDMS X Windows application allows.</para></listitem>
+<listitem><para>Caching of processed datasets where it makes sense. Graphs are already cached.</para></listitem>
+<listitem><para>Implementation of features as they are added to the GDMS X Windows application.</para></listitem>
+</itemizedlist>
+
 </chapter>
 
 
@@ -489,7 +536,7 @@ $discommandentry = "&lt;tr&gt;&lt;td bgcolor=\"EEEEEE\"&gt;
 </sect2>
 <sect2><title>dataset</title>
 <para>
-This tag will display the name of the current dataset, if one is open. This might possibly be a descriptive string is processing has occured on the dataset.
+This tag will display the name of the currently open dataset, if one is open. This might possibly be a descriptive string is processing has occured on the dataset.
 </para>
 
 <para>
@@ -554,6 +601,19 @@ An example usage is:
 
 <programlisting>
 &amp;{eastplot};
+</programlisting>
+</sect2>
+<sect2><title>interpparams</title>
+<para>
+This tag will output the HTML form required for the entry of interpolation processing parameters. The user will then select "Ok" on this web form, and the interpolation operation will occur.
+</para>
+
+<para>
+An example usage is:
+</para>
+
+<programlisting>
+&amp;{winparams};
 </programlisting>
 </sect2>
 <sect2><title>lsparams</title>
@@ -653,7 +713,7 @@ An example usage is:
 </sect2>
 <sect2><title>winparams</title>
 <para>
-This tag will output the HTML form required for the entry of windowing processing parameters. The user will then select "Ok" on this web form, windowing operation will occur.
+This tag will output the HTML form required for the entry of windowing processing parameters. The user will then select "Ok" on this web form, and the windowing operation will occur.
 </para>
 
 <para>
