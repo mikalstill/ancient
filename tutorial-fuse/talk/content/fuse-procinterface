@@ -1,35 +1,8 @@
-TITLE: FUSE communicates with userspace with a file in /proc/
+TITLE: So how does FUSE work?
 
 <ul>
-<li>/proc/fs/fuse/dev
-
-<ul><pre>
-struct fuse_cmd {
-    struct fuse *f;
-    char *buf;
-    size_t buflen;
-};
-</pre></ul>
-
-<BR><BR>
-
-<ul><pre>
-struct fuse {
-    int flags;
-    int fd;
-    struct fuse_operations op;
-    struct node **name_table;
-    size_t name_table_size;
-    struct node **ino_table;
-    size_t ino_table_size;
-    fino_t ctr;
-    pthread_mutex_t lock;
-    int numworker;
-    int numavail;
-    struct fuse_context *(*getcontext)(struct fuse *);
-    struct fuse_context context;
-    pthread_key_t context_key;
-    volatile int exited;
-};
-</pre></ul>
+<li>FUSE loads a kernel module which hooks into the VFS layer
+<li>The kernel module writes data to a file in /proc/fs/fuse/dev
+<li>The userspace library reads the data from there
+<li>Your functions are then called by the userspace library
 </ul>

@@ -1,7 +1,7 @@
 TITLE: A quick mcachefs demo
 
 <ul>
-<li>Let's have a quick demo of mcachefs to see what I'm talking about
+<li>For this demo we're going to need a slow filesystem
 <li>To be able to demo it, we're going to need a slow filesystem to talk to
 <BR><BR>
 <li>Introducing yet another custom filesystem -- waitfs
@@ -9,3 +9,9 @@ TITLE: A quick mcachefs demo
 <li>It's not a good simulation of a latent network, because it doesn't account for the size of the transfer
 <li>It's good enough for our demo though
 </ul>
+
+%% ./waitfs /wait
+%% ./mcachefs /cache
+%% ls /cache
+%% xview /cache/wait/home/mikal/images/*
+%% xview /cache/wait/home/mikal/images/*

@@ -21,6 +21,9 @@ static int mcachefs_getattr(const char *path, struct stat *stbuf)
       return -errno;
     return 0;
 }
+%% I do the getattr thing as a simple way of faking what
+%% lstat would have returned for a real file in the
+%% filesystem
 
 static int mcachefs_open(const char *path, int flags)
 {

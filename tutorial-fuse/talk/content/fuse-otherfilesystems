@@ -1,0 +1,15 @@
+TITLE: Other examples of custom filesystems
+
+<ul>
+<li>http://www.inf.bme.hu/~mszeredi/fuse/Filesystems
+
+<BR><BR>
+
+<li><b>OW</b> (OWFS is a method under linux to allow 1-wire devices to appear like files in a directory)
+<li><b>FunFS</b> (FunFS is an advanced network file system with a simple goal: to be better than NFS, currently marked as alpha)
+<li><b>EncFS</b> (EncFS provides an encrypted filesystem in user-space. The EncFS module itself runs without any special permissions and uses the FUSE library and Linux kernel module to provide the filesystem interface)
+<li><b>SMB for FUSE</b> (With SMB for Fuse you can seamlessly browse your network neighbourhood as were it on your own filesystem)
+<li><b>Run-Time-Access</b> (RTA is a specialized memory resident interface to the internal data of your application. It is not a stand-alone server but a library which attaches to your program and offers up your program's internal structures and arrays as tables in a database and as files in a virtual file system)
+<li><b>PhoneBook</b> (PhoneBook is expressly designed for use in situations where someone can be under pressure (legal, military and/or criminal) to disclose decryption keys, and has a 'chaffing' scheme whereby the user can disclose only passphrases for non-sensitive material, and credibly deny the existence of anything else
+<li><b>KIO Fuse Gateway</b> (This gateway makes it possible to mount ioslaves or a general ioslave-gateway via fuse and make them this way available to all linux apps)
+</ul>
