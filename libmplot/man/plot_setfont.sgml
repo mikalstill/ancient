@@ -38,7 +38,7 @@
 
 <refsect1>
 <title>RETURNS</title>
-<para>Nothing</para>
+<para>A negative number on failure, 0 if all is well</para>
 </refsect1>
 
 <refsect1>
@@ -46,13 +46,10 @@
 <programlisting>
  #include&amp;lt;libmplot.h&amp;gt;
  plot_state *graph;
- 
  if((graph = plot_newplot(400, 300)) == NULL){
  ... error ...
  }
- 
  plot_setfont(graph, "windings.ttf", 30);
- 
 </programlisting>
 </refsect1>
 

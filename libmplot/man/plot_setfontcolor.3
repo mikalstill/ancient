@@ -3,7 +3,8 @@
 .\" <http://shell.ipoline.com/~elmert/comp/docbook2X/> 
 .\" Please send any bug reports, improvements, comments, patches, 
 .\" etc. to Steve Cheng <steve@ggi-project.org>.
-.TH "PLOT_SETFONTCOLOR" "3" "11 November 2002" "" ""
+.TH "PLOT_SETFONTCOLOR" "3" "26 May 2003" "" ""
+
 .SH NAME
 plot_setfontcolor \- sets the colour that text will be drawn with
 .SH SYNOPSIS
@@ -23,11 +24,9 @@ Nothing
 .nf
  #include&lt;libmplot.h&gt;
  plot_state *graph;
- 
  if((graph = plot_newplot(400, 300)) == NULL){
  ... error ...
  }
- 
  plot_setfontcolor(state, 255, 0, 0); // red
 .fi
 .SH "VERSION"

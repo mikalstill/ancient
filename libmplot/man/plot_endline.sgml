@@ -46,13 +46,10 @@
 <programlisting>
  #include&amp;lt;libmplot.h&amp;gt;
  plot_state *graph;
- 
  if((graph = plot_newplot(400, 300)) == NULL){
  ... error ...
  }
- 
  ... line drawing commands ...
- 
  plot_endline(graph);
 </programlisting>
 </refsect1>

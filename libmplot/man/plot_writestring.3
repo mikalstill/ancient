@@ -3,7 +3,8 @@
 .\" <http://shell.ipoline.com/~elmert/comp/docbook2X/> 
 .\" Please send any bug reports, improvements, comments, patches, 
 .\" etc. to Steve Cheng <steve@ggi-project.org>.
-.TH "PLOT_WRITESTRING" "3" "11 November 2002" "" ""
+.TH "PLOT_WRITESTRING" "3" "26 May 2003" "" ""
+
 .SH NAME
 plot_writestring \- write a string onto the bitmap
 .SH SYNOPSIS
@@ -25,11 +26,9 @@ This function writes a string onto the specified bitmap. Note that the function 
  plot_state *graph;
  char *words[] = {"This", "is", "a", "string", "which", "is", "quite", "long.",
  "It", "demonstrates", "how", "to", "do", "word", "wrap", NULL};
- 
  if((graph = plot_newplot(400, 300)) == NULL){
  ... error ...
  }
- 
  plot_setfontcolor(graph, 26, 22, 249);
  plot_setfont(graph, "/usr/share/fonts/default/Type1/n021004l.pfb", 12);
  plot_settextlocation(graph, 20, 70);
@@ -39,10 +38,8 @@ This function writes a string onto the specified bitmap. Note that the function 
  if((textx + plot_stringwidth(graph, words[count])) > 380){
  if(texty + 70 > 150)
  break;
- 
  plot_settextlocation(graph, 20, texty + 20);
  }
- 
  plot_writestring(graph, words[count]);
  plot_writestring(graph, " ");
  count++;

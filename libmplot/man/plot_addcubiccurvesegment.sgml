@@ -49,11 +49,9 @@
 <programlisting>
  #include&amp;lt;libmplot.h&amp;gt;
  plot_state *graph;
- 
  if((graph = plot_newplot(400, 300)) == NULL){
  ... error ...
  }
- 
  plot_setlinestart(graph, 20, 20);
  plot_addcubiccurvesegment(graph, 20, 120, 40, 40, 100, 0);
  plot_strokeline(graph);

@@ -3,7 +3,8 @@
 .\" <http://shell.ipoline.com/~elmert/comp/docbook2X/> 
 .\" Please send any bug reports, improvements, comments, patches, 
 .\" etc. to Steve Cheng <steve@ggi-project.org>.
-.TH "PLOT_WRITESTRINGROT" "3" "11 November 2002" "" ""
+.TH "PLOT_WRITESTRINGROT" "3" "26 May 2003" "" ""
+
 .SH NAME
 plot_writestringrot \- write a string onto the bitmap, with the text being rotated by the given angle
 .SH SYNOPSIS
@@ -28,11 +29,9 @@ Note that the angle is in degrees.
  plot_state *graph;
  char *words[] = {"This", "is", "a", "string", "which", "is", "quite", "long.",
  "It", "demonstrates", "how", "to", "do", "word", "wrap", NULL};
- 
  if((graph = plot_newplot(400, 300)) == NULL){
  ... error ...
  }
- 
  plot_setfontcolor(graph, 26, 22, 249);
  plot_setfont(graph, "/usr/share/fonts/default/Type1/n021004l.pfb", 12);
  plot_settextlocation(graph, 20, 70);
@@ -42,10 +41,8 @@ Note that the angle is in degrees.
  if((textx + plot_stringwidth(graph, words[count])) > 380){
  if(texty + 70 > 150)
  break;
- 
  plot_settextlocation(graph, 20, texty + 20);
  }
- 
  plot_writestringrot(graph, words[count], 45);
  plot_writestringrot(graph, " ", 45);
  count++;

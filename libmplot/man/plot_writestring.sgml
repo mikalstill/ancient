@@ -48,11 +48,9 @@
  plot_state *graph;
  char *words[] = {"This", "is", "a", "string", "which", "is", "quite", "long.",
  "It", "demonstrates", "how", "to", "do", "word", "wrap", NULL};
- 
  if((graph = plot_newplot(400, 300)) == NULL){
  ... error ...
  }
- 
  plot_setfontcolor(graph, 26, 22, 249);
  plot_setfont(graph, "/usr/share/fonts/default/Type1/n021004l.pfb", 12);
  plot_settextlocation(graph, 20, 70);
@@ -62,10 +60,8 @@
  if((textx + plot_stringwidth(graph, words[count])) &gt; 380){
  if(texty + 70 &gt; 150)
  break;
- 
  plot_settextlocation(graph, 20, texty + 20);
  }
- 
  plot_writestring(graph, words[count]);
  plot_writestring(graph, " ");
  count++;

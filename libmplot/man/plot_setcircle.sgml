@@ -46,11 +46,9 @@
 <programlisting>
  #include&amp;lt;libmplot.h&amp;gt;
  plot_state *graph;
- 
  if((graph = plot_newplot(400, 300)) == NULL){
  ... error ...
  }
- 
  plot_circle(graph, 10, 10, 3);
  plot_strokeline(graph);
 </programlisting>

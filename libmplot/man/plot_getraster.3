@@ -3,7 +3,8 @@
 .\" <http://shell.ipoline.com/~elmert/comp/docbook2X/> 
 .\" Please send any bug reports, improvements, comments, patches, 
 .\" etc. to Steve Cheng <steve@ggi-project.org>.
-.TH "PLOT_GETRASTER" "3" "11 November 2002" "" ""
+.TH "PLOT_GETRASTER" "3" "26 May 2003" "" ""
+
 .SH NAME
 plot_getraster \- return a pointer the the raster we have drawn
 .SH SYNOPSIS
@@ -24,13 +25,10 @@ Nothing
  #include&lt;libmplot.h&gt;
  plot_state *graph;
  char *raster;
- 
  if((graph = plot_newplot(400, 300)) == NULL){
  ... error ...
  }
- 
  ... drawing commands ...
- 
  raster = plot_getraster(graph);
 .fi
 .SH "VERSION"

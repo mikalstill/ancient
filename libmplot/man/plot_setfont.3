@@ -3,7 +3,8 @@
 .\" <http://shell.ipoline.com/~elmert/comp/docbook2X/> 
 .\" Please send any bug reports, improvements, comments, patches, 
 .\" etc. to Steve Cheng <steve@ggi-project.org>.
-.TH "PLOT_SETFONT" "3" "11 November 2002" "" ""
+.TH "PLOT_SETFONT" "3" "26 May 2003" "" ""
+
 .SH NAME
 plot_setfont \- sets the starting point of a curve
 .SH SYNOPSIS
@@ -17,19 +18,16 @@ plot_setfont \- sets the starting point of a curve
 Set the font and size to use to text drawing operations. The <command>fontpath</command> arguement is the path to a font which <command>FreeType</command> is capable of opening (for example PostScript fonts, and TrueType fonts -- refer to http://www.freetype.org for more details). The size is the point size of the text to be drawn.
 .SH "RETURNS"
 .PP
-Nothing
+A negative number on failure, 0 if all is well
 .SH "EXAMPLE"
 
 .nf
  #include&lt;libmplot.h&gt;
  plot_state *graph;
- 
  if((graph = plot_newplot(400, 300)) == NULL){
  ... error ...
  }
- 
  plot_setfont(graph, "windings.ttf", 30);
- 
 .fi
 .SH "VERSION"
 .PP

@@ -3,7 +3,8 @@
 .\" <http://shell.ipoline.com/~elmert/comp/docbook2X/> 
 .\" Please send any bug reports, improvements, comments, patches, 
 .\" etc. to Steve Cheng <steve@ggi-project.org>.
-.TH "PLOT_ADDCUBICCURVESEGMENT" "3" "11 November 2002" "" ""
+.TH "PLOT_ADDCUBICCURVESEGMENT" "3" "26 May 2003" "" ""
+
 .SH NAME
 plot_addcubiccurvesegment \- add a Bezier with two control points to the polygon we are drawing
 .SH SYNOPSIS
@@ -26,11 +27,9 @@ Nothing
 .nf
  #include&lt;libmplot.h&gt;
  plot_state *graph;
- 
  if((graph = plot_newplot(400, 300)) == NULL){
  ... error ...
  }
- 
  plot_setlinestart(graph, 20, 20);
  plot_addcubiccurvesegment(graph, 20, 120, 40, 40, 100, 0);
  plot_strokeline(graph);
