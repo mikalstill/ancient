@@ -73,6 +73,12 @@ main (int argc, char *argv[])
   plot_strokeline(graph);
   plot_endline(graph);
 
+  // Write out some text
+  plot_setfontcolor(graph, 89, 87, 204);
+  plot_setfont(graph, "/usr/share/fonts/default/Type1/n021004l.pfb");
+  plot_paintglyph(graph, 'M', 10, 30);
+  
+
   // Write out the PNG file
   raster = plot_getraster(graph);
 

@@ -84,10 +84,20 @@ plot_newplot (unsigned int x, unsigned int y)
   state->linecolor.g = 0;
   state->linecolor.b = 0;
 
+  state->fontcolor.r = 0;
+  state->fontcolor.g = 0;
+  state->fontcolor.b = 0;
+
   state->line = (plot_lineseg *) NULL;
 
-  if(FT_Init_FreeType(&state->ft))
+#if defined HAVE_LIBFREETYPE
+  state->face = NULL;
+
+  if(((state->ft = (FT_Library *) malloc(sizeof(FT_Library))) == NULL) ||
+     FT_Init_FreeType(state->ft))
+#endif
     state->ft = NULL;
+
   return state;
 }
 
@@ -390,8 +400,6 @@ plot_strokeline (plot_state * state)
   current = current->next;
   while (current != NULL)
     {
-      printf ("%d, %d -> %d, %d\n", x1, y1, current->x, current->y);
-
       if (y1 == current->y)
 	{
 	  for (c = plot_min (x1, current->x);
@@ -415,8 +423,6 @@ plot_strokeline (plot_state * state)
 	  rise = starty == y1 ? (current->y - y1) : (y1 - current->y);
 	  run = startx == x1 ? (current->x - x1) : (x1 - current->x);
 
-	  printf("... Between x = %d and %d, rise %d, run %d\n",
-		 startx, plot_max (x1, current->x), rise, run);
 	  for (c = startx; c < plot_max (x1, current->x) + 1; c++)
 	    {
 	      prevy = (int) newy;
@@ -432,7 +438,6 @@ plot_strokeline (plot_state * state)
 		}
 	      }
 
-	      printf("... %d, %d\n", c, (int) newy);
 	      state->raster[state->x * ((int) newy) + c] = state->linecolor;
 	    }
 	}
@@ -441,7 +446,6 @@ plot_strokeline (plot_state * state)
       y1 = current->y;
       current = current->next;
     }
-  printf("\n");
 }
 
 void
@@ -549,6 +553,14 @@ plot_setlinecolor (plot_state * state, int red, int green, int blue)
   state->linecolor.b = blue;
 }
 
+void
+plot_setfontcolor (plot_state * state, int red, int green, int blue)
+{
+  state->fontcolor.r = red;
+  state->fontcolor.g = green;
+  state->fontcolor.b = blue;
+}
+
 /******************************************************************************
 DOCBOOK START
 
@@ -618,6 +630,40 @@ plot_circle (plot_state * state, unsigned int x, unsigned int y,
   plot_endline(state);
 }
 
+void plot_setfont(plot_state * state, char *font)
+{
+  int error;
+  
+#if defined HAVE_LIBFREETYPE
+  if(state->ft == NULL){
+    fprintf(stderr, "Initialization of Freetype failed\n");
+    return;
+  }
+
+  // Allocate a face
+  if((state->face == NULL) && 
+     (state->face = ( FT_Face *) malloc(sizeof( FT_Face))) == NULL){
+    fprintf(stderr, "Could not allocate memory for face\n");
+    return;
+  }
+
+  // Load the face
+  error = FT_New_Face(*state->ft, font, 0, state->face );
+  if ( error == FT_Err_Unknown_File_Format )
+    {
+      fprintf(stderr, "The specified font file could be opened and read, but it appears that its font format is unsupported by Freetpye\n");
+      return;
+    }
+  else if ( error )
+    {
+      fprintf(stderr, "Could not load font\n");
+      return;
+    }
+#else
+    fprintf(stderr, "Freetype not found at compile time\n");
+#endif
+}
+
 ///////////////////
 // Internal methods
 unsigned int
@@ -635,3 +681,61 @@ plot_max (unsigned int one, unsigned int two)
     return one;
   return two;
 }
+
+int
+plot_loadglyph(plot_state *state, char character)
+{
+#if defined HAVE_LIBFREETYPE
+  FT_UInt index;
+
+  if(state->ft == NULL){
+    fprintf(stderr, "Initialization of Freetype failed\n");
+    return -1;
+  }
+
+  if(state->face == NULL){
+    fprintf(stderr, "No face laoded\n");
+    return -1;
+  }
+
+  // Find the index of the glyph
+  index = FT_Get_Char_Index(*state->face, character );
+
+  // Load that glyph into the face's slot
+  if(FT_Load_Glyph(*state->face, index, FT_LOAD_RENDER)){
+    fprintf(stderr, "Could not load glyph for %c into face slot\n", character);
+    return -1;
+  }
+
+#else
+    fprintf(stderr, "Freetype not found at compile time\n");
+    return -1;
+#endif
+}
+
+int
+plot_paintglyph(plot_state *state, char character, int x, int y)
+{
+#if defined HAVE_LIBFREETYPE
+  int bmx, bmy;
+
+  if(state->ft == NULL){
+    fprintf(stderr, "Initialization of Freetype failed\n");
+    return -1;
+  }
+
+  if(state->face == NULL){
+    fprintf(stderr, "No face laoded\n");
+    return -1;
+  }
+
+  // Setup the character
+  if(plot_loadglyph(state, character) != -1){
+    //    state->face->glyph;
+  }
+#else
+    fprintf(stderr, "Freetype not found at compile time\n");
+    return -1;
+#endif
+}
+

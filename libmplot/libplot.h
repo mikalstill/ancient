@@ -43,10 +43,11 @@ typedef struct plot_internal_state
   int linedash;
   plot_pixel fillcolor;
   plot_pixel linecolor;
+  plot_pixel fontcolor;
 
 #if defined HAVE_LIBFREETYPE
-  // Freetype
-  FT_Library ft;
+  FT_Library *ft;
+  FT_Face *face;
 #endif
 }
 plot_state;
@@ -74,6 +75,7 @@ void plot_setlinejoin (plot_state *, int);
 void plot_setlinedash (plot_state *, int, int, int);
 void plot_setfillcolor (plot_state *, int, int, int);
 void plot_setlinecolor (plot_state *, int, int, int);
+void plot_setfontcolor (plot_state *, int, int, int);
 
 // Operations based on primitive operations
 void plot_rectangle (plot_state *, unsigned int, unsigned int, 
@@ -83,6 +85,8 @@ void plot_circle (plot_state *, unsigned int, unsigned int, unsigned int);
 // Internal methods
 unsigned int plot_min (unsigned int one, unsigned int two);
 unsigned int plot_max (unsigned int one, unsigned int two);
+int plot_loadglyph(plot_state *, char);
+int plot_paintglyph(plot_state *, char, int, int);
 
 #ifdef __cplusplus
 }
