@@ -11,6 +11,10 @@ public:
   raster (object & obj);
   void setData (char *data);
 
+  int getWidth();
+  int getHeight();
+  int getK();
+
 private:
   char *m_data;
 

@@ -48,3 +48,21 @@ raster::setData (char *data)
 {
   m_data = data;
 }
+
+int
+raster::getWidth()
+{
+  return m_width;
+}
+
+int
+raster::getHeight()
+{
+  return m_height;
+}
+
+int
+raster::getK()
+{
+  return m_k;
+}

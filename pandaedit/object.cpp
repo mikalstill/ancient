@@ -209,9 +209,9 @@ object::getStream (bool & needsStreamClean, unsigned long &length)
 	{
 	  mydec = new lzw ();
 	}
-      else if (filter == "FlateDecode")
+      else if (filter == "CCITTFaxDecode")
 	{
-	  mydec = new fax ();
+	  debug(dlError, "Fax decode not supported for non raster streams");
 	}
       else
 	{
@@ -248,6 +248,7 @@ object::getStream (raster & rast, bool & needsStreamClean,
   // decompress it here
   string filter;
   char *stream;
+  debug(dlTrace, "Raster decompression started");
 
   if (getDict ().getValue ("Filter", filter))
     {
@@ -262,6 +263,9 @@ object::getStream (raster & rast, bool & needsStreamClean,
       else if (filter == "CCITTFaxDecode")
 	{
 	  mydec = new fax ();
+	  ((fax *) mydec)->setWidth(rast.getWidth());
+	  ((fax *) mydec)->setLength(rast.getHeight());
+	  ((fax *) mydec)->setK(rast.getK());
 	}
 
       if (mydec != NULL)
