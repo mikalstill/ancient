@@ -41,20 +41,56 @@ TODO
 
 <sect1><title>UDP</title>
 <para>
-It strikes me as logical to start this article with an extremely brief introduction to UDP. For more information on UDP, and IP in general, I recommend:
-
-TODO
+It strikes me as logical to start this article with an extremely brief introduction to UDP. At some points it makes sense to compare this with the alternative, TCP.
 </para>
 
-<sect2><title>Datagrams</title>
 <para>
+Both UDP and TCP sit onto of the Internet protocol, which handles all the plumbing of actually getting the data out of the back of the client machine to the server. This is where the similarity ends. UDP is the <emphasis>User Datagram Protocol</emphasis>, and is unreliable. On the other hand, TCP is the <emphasis>Transmission Control Protocol</emphasis>, and is reliable.
+</para>
+
+<para>
+What is reliability? Well, TCP will hold your hand and ensure for you that every packet you send is recieved by the other machine. It will also ensure that the packets arrive in the right order. There are also some games played with the choice of initial sequence number to make it harder for man in the middle attacks to be successful.
+</para>
+
+<para>
+UDP is unreliable, which means it does none of this for you. It is the programmer's responsibility to ensure that all the packets sent arrived, and were in the right order.
+</para>
+
+<para>
+So why would you ever use UDP? Well, all this reliability in TCP comes at a price. That price is performance. Before a TCP connection is estabilished, the following protocol sequence occurs.
+</para>
+
+<execute><cmd>eqimg</cmd><args>tcp-handshake.png</args></execute>
+
+<para>
+So before the two machines can even communicate, they've spent one and a half round trips just setting up the connection.
+</para>
+
+<para>
+UDP, on the other hand, does none of this. A single packet is sent, and it either arrives or it doesn't. Normally the client application will note that a reply was never received after a given timeout, and retransmit the packet.
+</para>
+
+<para>
+A good example of a common network protocol that uses UDP is the Domain Name System (DNS). UDP is well suited here because the packets are short (they fit in a single datagram) and we therefore don't have to worry about our packets arriving out of order. We also want DNS to be as fast as possible. 
+</para>
+
+<para>
+TODO: Does the DNS RFC specify why UDP is used?
+</para>
+
+<para>
+TODO: is there more processor load associated with all the extra processing required to make TCP reliable?
+</para>
+
+<para>
+For more information on UDP, and IP in general, I recommend:
+
 TODO
 </para>
-</sect2>
 
 <sect2><title>Disconnected sockets</title>
 <para>
-TODO
+By default when a UDP socket is created, it is disconnected.
 </para>
 
 <execute><cmd>code2db</cmd><input>~mikal/opensource-unstable/shdns/sockets/disconnected.c</input></execute>

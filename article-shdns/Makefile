@@ -2,7 +2,7 @@ short: output.sgml output.ps
 	striptext -c < output.sgml | wc -w
 
 output.sgml: source.sgml
-	builddb < source.sgml > output.sgml
+	builddb eps < source.sgml > output.sgml
 
 output.ps: output.sgml
 	db2ps output.sgml
