@@ -244,10 +244,53 @@ template < class CPLX > void cfft < CPLX >::hermitian (CPLX * buf)
   }
 }
 
-
-
-template < class CPLX > void cfft < CPLX >::matrixFft (CPLX * buf, int iflag)
+/*
+ * cfft::matrixFft
+ * imports: matrix: the matrix holding the data to be fft'd
+ *        : the column number of the specific column to be fft'd.
+          : direction of the transform - 1 = forward, 0 = inverse.
+   returns the fft'd data in the matrix whic was originally passed.
+ */
+template < class CPLX > void cfft < CPLX >::matrixFft (cepMatrix &matrix, int colNumber, int dir)
 {
+
+  int numRows = matrix.getNumRows();
+  int numCols = matrix.getNumCols();
+  int rowCount = 0, colCount = 0;
+  int arraySize = numRows;
+
+  typedef complex <double>Complex;
+
+  cfft<Complex> matrixFft (arraySize);   // build an operator object
+  // The constructor builds tables and places them in the object.
+
+  Complex matrixArray[arraySize];
+
+
+  //populate the array to send to fft module.
+  //for (col = 0; col < numCols; col++)
+  //{
+    for (row = 0; row < numRows; row++)
+    {
+      matrixArray(row) = matrix.getValue(row,colNumber);
+    }
+  }
+
+  //compute the fft.
+  if (dir = 1)
+    matrixFft.fft(matrixArray);
+  else
+    matrixFft.ifft(matrixArray);
+
+  //now throw it all back into the original matrix.
+  //this is changing....
+  for (col = 0; col < numCols; col++)
+  {
+    for (row = 0; row < numRows; row++)
+    {
+      matrix.setValue(row,colNumber,matrixArray(row));
+    }
+  }
 
 }
 
