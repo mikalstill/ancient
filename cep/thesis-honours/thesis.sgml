@@ -157,7 +157,7 @@ This appendix documents the various tags which are implemented by the <command>G
 </appendix>
 
 <appendix><title>Source code</title>
-<execute><cmd>code2db</cmd><input>~mikal/opensource-unstable/cep/source/web/gdms.pl</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource/cep/source/web/gdms.pl</input></execute>
 </appendix>
 
 <appendix><title>Installation</title>

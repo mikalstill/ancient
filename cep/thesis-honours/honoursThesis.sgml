@@ -1391,9 +1391,6 @@ $templates = "/home/httpd/gdms-templates/";
 # This line defines where the datsets are stored
 $datasets = "/home/httpd/gdms-datasets/";
 
-# This line defined where the matrices for LS reweighting are stored
-$matrices = "/home/httpd/gdms-matrices/";
-
 ###############################################################################
 # HTML configuration
 ###############################################################################
