@@ -1,3 +1,11 @@
 export CVS_RSH=ssh
 export CVSROOT=:ext:u964076@surv-cvs.ise.canberra.edu.au:/cvs
 export CVS_SERVER=/cvs/cvs
+
+if [ -e ~mikal/cep/cvs001/contrib/segv/segv_handler.so ]
+then
+  export LD_PRELOAD=~mikal/cep/cvs001/contrib/segv/segv_handler.so
+  echo "segv handler installed"
+else
+  echo "segv handler missing"
+fi
