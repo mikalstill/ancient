@@ -29,9 +29,9 @@
     the maximum amount of flexibility in determining to what degree a given point in the data set will influence the line of best
     fit. Another method of VCV analysis offered is that of automatic re-weighting. In this type of analysis the most optimal
     regression model is calculated the by the process of automated re-weighing using the residual space which is discussed in
-    depth in the (SEE THEORY TD). The implementation of this process can also be seen in the follwing diagram
+    depth in the (SEE THEORY TD). The implementation of this process can also be seen in the following diagram
     
-    <figure><title>Flow Diagram of the Automated Re-Weighting Process of VCV Least Squares Anaysis</title>
+    <figure><title>Flow Diagram of the Automated Re-Weighting Process of VCV Least Squares Analysis</title>
         <execute><cmd>img</cmd><args>TD-ReweightFlow.gif</args></execute>
     </figure>
 
@@ -39,8 +39,8 @@
 
     <para>One important implementation problem that was discovered when using this method was that in some cases the solution
     never converged, and thus the program was remained in an infinite loop because the exit condition was never met. Another
-    problem occured because it appeared that the re-weighting process continued until every point in the data set had been weighted 
-    out. Both of these problems stemed from the fact that in our implementation of this re-weighting algorithm, 
+    problem occurred because it appeared that the re-weighting process continued until every point in the data set had been weighted 
+    out. Both of these problems stemmed from the fact that in our implementation of this re-weighting algorithm, 
     for over all design reasons, no point from data was ever entirely removed from the system but set it to 0 inside the 
     weighting matrix which achieved the same effect in the data domain. In the residual domain, however, the weighted out points 
     were still being included due to the fact that when calculating residuals the weighting matrix is not used (TD EQU 14). 

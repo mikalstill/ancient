@@ -8,7 +8,7 @@ The <command>GDMS</command> user interface is the most prominent part of the app
 </para>
 
 <itemizedlist>
-<listitem><para>The X windows user interface (the program called <command>gdms</command>)</para></listitem>
+<listitem><para>The X windows user interface (the program called <command>GDMS</command>)</para></listitem>
 <listitem><para>The batch user interface (the program called <command>gdms-batch</command>)</para></listitem>
 </itemizedlist>
 
@@ -33,9 +33,9 @@ The Common Desktop Environment (CDE) was jointly developed by Hewlett-Packard, I
 
 </sect4>
 
-<sect4><title>KDE</title>
+<sect4><title>CDE</title>
 <para>
-KDE development started in October 1996 (KDE 2002), as a replacement for Sun's CDE. KDE is based on Trolltech's qt widget set (Trolltech 2002). KDE is available as an installation option on the majority of the Linux distribtions available.
+KDE development started in October 1996 (KDE 2002), as a replacement for Sun's CDE. KDE is based on Trolltech's qt widget set (Trolltech 2002). KDE is available as an installation option on the majority of the Linux distributions available.
 </para>
 
 <figure><title>The default KDE theme, Konquerer (KDE 2002)</title>
@@ -49,7 +49,7 @@ Gnome is the default window manager and windowing toolkit set for the majority o
 </para>
 
 <para>
-Sun Microsystems have recently announced that from Solaris 8 onwards, Gnome will be available as a window manager. They have also announce that CDE will be replaced with Gnome in future releases (Sun Microsystems 2002).
+Sun Microsystems have recently announced that from Solaris 8 on wards, Gnome will be available as a window manager. They have also announce that CDE will be replaced with Gnome in future releases (Sun Microsystems 2002).
 </para>
 
 <figure><title>The Solaris version of the GNOME desktop (Gnome 2002)</title>

@@ -3,17 +3,17 @@
 <sect2><title>Introduction</title>
 
 <para>
-The first design requirement for the GDMS project, was that it be licensed un the GNU General Public
+The first design requirement for the <command>GDMS</command> project, was that it be licensed under the GNU General Public
 License. The reason for this is to allow access to the software by people who are not necessarily in a
-position to use propriatry software. The GDMS package is complex and relies on a number of external
-libraries for mathematical and graphical functionality. Similar propriatry libraries can be very
+position to use proprietary software. The <command>GDMS</command> package is complex and relies on a number of external
+libraries for mathematical and graphical functionality. Similar proprietary libraries can be very
 expensive.
 </para>
 
 <para>
 The second issue here, which is in fact related to the first, is the need to have a package which is
-as platform independant as possible. This contributed significantly to the choice of programming
-language. In using  ANSI ISO compliant C++, the GDMS package is intended to run on most Unix based
+as platform independent as possible. This contributed significantly to the choice of programming
+language. In using  ANSI ISO compliant C++, the <command>GDMS</command> package is intended to run on most Unix based
 operating systems. It should also be noted that most modern windowing toolkits require C++.
 </para>
 
@@ -30,11 +30,11 @@ The choice of user interface toolkit also maximized the cross platform capabilit
 </itemizedlist>
 
 <para>
-The next important design desicion involves the methodologies used to design implement the GDMS
+The next important design decision involves the methodologies used to design implement the <command>GDMS</command>
 package. Given the complexity of the system, the Object Oriented approach was deemed the most
 suitable. Using OO, the package lends itself well to future enhancements, maintenance and
-extensibility. In fact, throught the implementation process, changes in design were required to
-suit the reuirements of the growing system. These changes, although not always trivial, were faciliated by
+extensibility. In fact, throughout the implementation process, changes in design were required to
+suit the requirements of the growing system. These changes, although not always trivial, were facilitate by
 the use of OO methodology.
 </para>
 
@@ -53,7 +53,7 @@ the use of OO methodology.
 
 </sect2> <!--Theory-->
 
-<sect2><title>Future Enahncements</title>
+<sect2><title>Future Enhancements</title>
   <!--may want to integrate this with conclusion?-->
   <para></para>
 </sect2> <!--Future Enahncements-->

@@ -12,13 +12,13 @@
       these are all well documented and are easily implemented. Dolph-Chebyshev window algorithm
       was a little more elusive. Initial attempts to implement this algorithm were unsuccessful.
       Two different tacks were taken: Initially an attempt was made to implement this purely in the
-      timen domain, based on an algorihtm sourced from the speech recognition research at
+      time domain, based on an algorithm sourced from the speech recognition research at
       the Institute for Signal and Information Processing, ISIP, located at Mississippi State University.
       After many hours spent trying to validate the algorithm, it was decided that this could not be used.
       A second attempt was made using a window generated int the frequency domain, using code based on the
-      orignal 1947 paper by Dolph. This algorithm only supported odd window sizes, and its use of the ifft
+      original 1947 paper by Dolph. This algorithm only supported odd window sizes, and its use of the IFFT
       required that its size be 2<superscript>n</superscript>. This was unsatisfactory. The final algorithm 
-      that was implemented is based on fortran code published in 1977 by IEEE Acoustics, Speech, and Signal Processing Society,
+      that was implemented is based on FORTRAN code published in 1977 by IEEE Acoustics, Speech, and Signal Processing Society,
       <!--TODO put this in the references section-->
     </para>
   </sect3> <!--research-->
@@ -26,13 +26,13 @@
   <sect3><title>Implementation</title>
   <para>
     The windowing subsystem is designed to be extensible. Using OO techniques, a general algorithm for generating the window is
-    combined with a specialiesed class which generates the individual coefficient. This means that to add another algorithm costs
+    combined with a specialised class which generates the individual coefficient. This means that to add another algorithm costs
     as little 10 lines of code, including user interface integration.    
   </para>
   <para>
     For all windows, coefficients can be generated for an arbitrary window size. The requirement that the windowed data can be
-    converted to the Fourier domain imposes futher limitation in that the Fourier libraries we are using will only operate on a
-    data set of size 2<superscript>n</superscript>, 0 &amp; n &amp; inf. This restriction has been implmented at the UI level,
+    converted to the Fourier domain imposes further limitation in that the Fourier libraries we are using will only operate on a
+    data set of size 2<superscript>n</superscript>, 0 &amp; n &amp; inf. This restriction has been implemented at the UI level,
     maintaining the flexibility of the windowing subsystem.
   </para>
   <para>
@@ -49,7 +49,7 @@
         </listitem>
         <listitem>
           <para>
-            <command>Dolph-Chebychev</command>: This is implemeted as the inverse DFT of the Chebyshev
+            <command>Dolph-Chebychev</command>: This is implemented as the inverse DFT of the Chebyshev
             polynomial evaluated at N equally spaced frequencies on the unit circle. The equation for the nth
             order Chebyshev equation calculated at x is
           </para>
@@ -63,15 +63,15 @@
    <sect4><title>Speed/ Optimisations</title>
    <para>
      <itemizedlist>
-	<listitem><para>Calulation of window coefficients are performed only when the algorithm is changed, or paramters
+	<listitem><para>Calculation of window coefficients are performed only when the algorithm is changed, or parameters
             are altered.</para></listitem>
-	<listitem><para>For the simpler algorithms, speed is not an issue. The most expensive of these algorithms [blackman]
-            2 cosines and 6 muliplications. this is inexpensive when considering the frequency at which recalulation
+	<listitem><para>For the simpler algorithms, speed is not an issue. The most expensive of these algorithms [Blackman]
+            2 cosines and 6 multiplications. this is inexpensive when considering the frequency at which recalculation
             will be required, and the relatively small size of the window required.</para></listitem>
-	<listitem><para>Dolph-Chebyshev will be more expensive. The code that is implmented is based on a FORTRAN algorithm. This
-            has been implmented as faithfully as possible so as to maintain the integrity of the window coefficients.
+	<listitem><para>Dolph-Chebyshev will be more expensive. The code that is implemented is based on a FORTRAN algorithm. This
+            has been implemented as faithfully as possible so as to maintain the integrity of the window coefficients.
             The support the ability of the user to request a window of arbitrary size, this particular window algorithm
-            implements is own inverse fourier transform.</para></listitem>
+            implements is own inverse Fourier transform.</para></listitem>
 
             <!-- TODO - insert an example of the ifft here -->
      </itemizedlist>
@@ -80,22 +80,22 @@
     <sect4><title>Assess alternative algorithms</title>
        <para> 
           This has been designed to be easily extensible. A new algorithm can be added by specialising
-          the cepWindowAlg class and overriding the getValue method. This can be acomplished at the expense
-          of less than 10 lines of code. A notable exception is an algorithm such as dolph-chebyshev which require
+          the cepWindowAlg class and overriding the getValue method. This can be accomplished at the expense
+          of less than 10 lines of code. A notable exception is an algorithm such as Dolph-Chebyshev which require
           a significant amount of attention.
        </para>
      </sect4>
      
   </sect3> <!--Implementation-->
 
-  <sect3><title>Future Enahncements</title>
+  <sect3><title>Future Enhancements</title>
   <para>
     <itemizedlist>
         <listitem>
         <para> 
-           This subsytem has been designed to be easily extensible. A new algorithm can be added by specialising
-           the cepWindowAlg class and overriding the getValue method. This can be acomplished at the expense
-           of less than 10 lines of code (with the exception of those such as dolph-chebyshev who require alot more attention)
+           This subsystem has been designed to be easily extensible. A new algorithm can be added by specialising
+           the cepWindowAlg class and overriding the getValue method. This can be accomplished at the expense
+           of less than 10 lines of code (with the exception of those such as Dolph-Chebyshev who require a lot more attention)
         </para>
         <para>
 		   There are a couple of windowing algorithms that have been omitted from the current release. A possible extension
@@ -104,8 +104,8 @@
         </para></listitem>
 	    <listitem>
 		<para>
-           The Dolph-Chebyshev algrithm was implemented with a view to maintaiing data integrity above all other things. For windows
-		   of significant size, the inverse fourier transform imlemented would be slow. A further enhancement would be to optimise
+           The Dolph-Chebyshev algorithm was implemented with a view to maintaining data integrity above all other things. For windows
+		   of significant size, the inverse Fourier transform implemented would be slow. A further enhancement would be to optimise
            this.
         </para></listitem>
     </itemizedlist>

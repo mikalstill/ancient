@@ -6,18 +6,18 @@
 
 <sect2><title>Theory</title>
 <para>
-  Windowing, or the breaking of a infinite signal into finaite pieces,  can improve the results of a DFT by removing some 
-  undesirable results. Truncation of the signal in the time domain leads to unwanted ripples beung produced in the frequency
-  domain. The basic idea  behind windowing the data prior to performing conversion to the fourier is that we can apply a
-  weighting function to the truncated signal in order to reduce the introduction of ripples in the fequency domain.
-  The reduction in aliasing is a tradeoff, and the cost is an increase in the width of the spectral peak. Each separate
+  Windowing, or the breaking of a infinite signal into finite pieces,  can improve the results of a DFT by removing some 
+  undesirable results. Truncation of the signal in the time domain leads to unwanted ripples being produced in the frequency
+  domain. The basic idea  behind windowing the data prior to performing conversion to the Fourier is that we can apply a
+  weighting function to the truncated signal in order to reduce the introduction of ripples in the frequency domain.
+  The reduction in aliasing is a trade off, and the cost is an increase in the width of the spectral peak. Each separate
   windowing algorithm has different characteristics. According to Dakarta.com the characteristics are as follows:
   <itemizedlist>
   <listitem><para><command>Hanning:</command></para>
      <para>
-       Good resolution of spectral peaks and good rejection of sidelobe leakage "skirts" at low levels for input signals that
+       Good resolution of spectral peaks and good rejection of side lobe leakage "skirts" at low levels for input signals that
        don't have an integer number of cycles in the N-points data set. A good choice for most uses. Hanning window is a
-       simple cosine signal, offset so that the negaitive peaks are set to zero
+       simple cosine signal, offset so that the negative peaks are set to zero
      </para>
      <para>
      <!-- TODO- insert an image of the equation here -->
@@ -27,7 +27,7 @@
 
   <listitem><para><command>Hamming</command></para>
     <para>
-      Finer resolution of spectral peaks than Hanning, but poorer rejection of sidelobe skirts at low levels.
+      Finer resolution of spectral peaks than Hanning, but poorer rejection of side lobe skirts at low levels.
     </para>
     <para>
      <!-- TODO- insert an image of the equation here -->
@@ -65,7 +65,7 @@
     Windowing can be an effective tool in removing the undesirable effects of the Discrete Fourier Transform. Prudent use of a
     suitable algorithm removes the high frequencies introduced via aliasing when the the signal is truncated prior to having the DFT
     applied. Knowledge of the attributes and limitations of the individual windowing algorithms, and the judicious selection of the
-    correct one, will assist the user in attaining optimal results from the application of the discrete fourier transform.
+    correct one, will assist the user in attaining optimal results from the application of the discrete Fourier transform.
   </para>
 </sect2> <!--Conclusion-->
 

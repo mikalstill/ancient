@@ -2,8 +2,8 @@
 
 <sect2><title>Introduction</title>
   <para>One of the problems with the GPS datasets we analyse is missing observations.
-  Missing data points skew data results and prevent transformation into the fourier
-  domain by means of fast fourier transform.  Another problem is that the time scale
+  Missing data points skew data results and prevent transformation into the Fourier
+  domain by means of fast Fourier transform.  Another problem is that the time scale
   that has been provided for these datasets is not linear.  To overcome these problems
   our application provides interpolation function that can be used to fill in missing
   data points.  However the accuracy of any interpolation method will vary depending
@@ -19,14 +19,14 @@
   equipment failure, extreme weather and local politics some samples are missing.
   </para>
   <para>
-  The fourier transform algorithms available to us require that the dataset be regular.
+  The Fourier transform algorithms available to us require that the dataset be regular.
   This means that if a dataset is missing a point or has an irregular sample rate then
   it can't be transferred to the frequency domain.  The dataset has to be made regular
   either by removing points or interpolating new points.
   </para>
   <para>
   This irregular sampling rate has been compounded by having the datasets stored on a
-  non-linear time scale.  The data that we have been provided has been sampled regurarly
+  non-linear time scale.  The data that we have been provided has been sampled regularly
   once a day at noon as timed by an atomic clock; so the sample rate is pretty regular.
   However the sample date/time has then been stored in decimal year format to 8 significant
   figures.  Ignoring machine rounding errors this creates a problem.  During a regular
@@ -35,11 +35,11 @@
   rounding occurs so that the first reading of the year occurs at XXXX.0014.  This
   rounding creates the illusion different time distance again to be between the last
   day of one year and the first day of the next.  In short before interpolation can
-  occur a new time scale independant of calendar years has to be built.
+  occur a new time scale independent of calendar years has to be built.
   </para>
   <para>
   The new time scale that we convert to is what is known as a truncated Julian day.
-  The julian day system uses an integer day count since the first of January 4714 BC.
+  The Julian day system uses an integer day count since the first of January 4714 BC.
   However because this produces extremely large numbers which could potentially cause
   loss of accuracy due to machine limitations.  To prevent this we have used the first
   of January 1901 as our start date.  The existing decimal dates then converted to
@@ -48,7 +48,7 @@
   </para>
   <para>
   Different interpolation methods have different strengths and weaknesses.  On an
-  arbitary dataset it is impossible to tell which interpolation method will be
+  arbitrary dataset it is impossible to tell which interpolation method will be
   the most accurate.  To this end six different interpolation methods have been
   provided, each will be outlined below on its operation, strengths and weaknesses.
   </para>
@@ -84,7 +84,7 @@
     linear trends between the two points.
   </para>
   <para>
-    The disadvantages of linear interp stem from the interpolation method only working
+    The disadvantages of linear interpolation stem from the interpolation method only working
     with the two adjacent points. If the line between these two points does not follow
     the overall trend of the data then loss of accuracy occurs.
   </para>
@@ -97,24 +97,24 @@
     flexible piece of wood between a number of points.  Cubic splines are a method
     of recreating this wooden curve with mathematics.  With all cubic splines the
     interpolation is done by inserting a cubic between each two adjacent points.
-    At the linking points these cubics must have the same first and sescond
+    At the linking points these cubics must have the same first and second
     derivatives.  Equalizing the derivatives has the effect of making the resulting
-    interpolation appear smooth and visually appleasing.  For this reason splines
+    interpolation appear smooth and visually pleasing.  For this reason splines
     are often used in graphics.
   </para>
   <para>
     In the mathematical process of building splines it is impossible to infer the
-    dervatives of the two end points of a dataset.  It is the values assigned to
+    derivatives of the two end points of a dataset.  It is the values assigned to
     these end points that determine the type of spine.  In a natural spline the
     end points are set to 0.  This gives a result similar to the ancient wooden
     splines used by builders.  Mathematically this produces a result where the
     end segments are a bit too straight.
   </para>
   <para>
-    To produce a spine for a dataset of n+1 points you have to produce n seperate
+    To produce a spine for a dataset of n+1 points you have to produce n separate
     cubics.  Each of these cubic should have each end match up exactly with the
     points to either side.  And on the same point the two adjacent cubic should
-    have shared first and second derivitives.
+    have shared first and second derivatives.
   </para>
   <para>
     Each of these cubics can be described by the equation: (TODO: Spline equation 1)
@@ -124,11 +124,11 @@
   </para>
   <para>
     Let h<subscript>i</subscript>=(x<subscript>i+1</subscript> - x<subscript>i</subscript>),
-    be the width of the ith interval.
+    be the width of the the interval.
   </para>
   <para>
-    Also if we make s the set of second derivitives; then through algebraic simplification
-    we can get: (TODO: Spline eqations 3,4,5)
+    Also if we make s the set of second derivatives; then through algebraic simplification
+    we can get: (TODO: Spline equations 3,4,5)
   </para>
   <para>
     With natural splines solving for S is done by solving:(TODO: Spline equation 6)
@@ -143,7 +143,7 @@
   <para>
     Because of the smooth nature of the interpolation curve produced; splines can provide
     extremely accurate results when the original sample rate is notable greater than
-    the frequency of flucuation in the data.  However if the sample rate is less than half the
+    the frequency of fluctuation in the data.  However if the sample rate is less than half the
     frequency of change (including signal noise) in the data then the results can be
     erratic.  Splines also have a problem when it comes to large gaps in the dataset.
     Because the gap between two points is represented by a cubic, large gaps result
@@ -156,16 +156,16 @@
     generic name as no name was available for this particular implementation.  The only
     difference between this interpolation type and a natural spline is the choice of
     second derivatives used at the end points.  With this implementation the values of the
-    second derivative for the end points are set the same as the second derivitives of the
+    second derivative for the end points are set the same as the second derivatives of the
     second to end points.  Documented commentary says that this type of spline curves a
     little bit too much at the ends.
   </para>
   <para>
     The maths used to generate these cubic spline is very similar to producing a natural
-    spline.    To produce a spine for a dataset of n+1 points you have to produce n seperate
+    spline.    To produce a spine for a dataset of n+1 points you have to produce n separate
     cubics.  Each of these cubic should have each end match up exactly with the
     points to either side.  And on the same point the two adjacent cubic should
-    have shared first and second derivitives.
+    have shared first and second derivatives.
   </para>
   <para>
     Each of these cubics can be described by the equation: (TODO: Spline equation 1)
@@ -175,11 +175,11 @@
   </para>
   <para>
     Let h<subscript>i</subscript>=(x<subscript>i+1</subscript> - x<subscript>i</subscript>),
-    be the width of the ith interval.
+    be the width of the the interval.
   </para>
   <para>
-    Also if we make s the set of second derivitives; then through algebraic simplification
-    we can get: (TODO: Spline eqations 3,4,5)
+    Also if we make s the set of second derivatives; then through algebraic simplification
+    we can get: (TODO: Spline equations 3,4,5)
   </para>
   <para>
     With natural splines solving for S is done by solving:(TODO: Spline equation 7)
@@ -194,12 +194,12 @@
   <para>
     The advantages and disadvantages of this cubic spline interpolation are basically the
     same as for natural splines. Splines can provide extremely accurate results when the
-    original sample rate is notable greater than the frequency of flucuation in the data.
+    original sample rate is notable greater than the frequency of fluctuation in the data.
     However if the sample rate is less than half the frequency of change (including signal
     noise) in the data then the results can be erratic.  Splines also have a problem
     when it comes to large gaps in the dataset. Because the gap between two points is
     represented by a cubic, large gaps result in peaks or troughs in the dataset.  The
-    final problem with spline is that the end sections are inaccurate due to arbitary
+    final problem with spline is that the end sections are inaccurate due to arbitrary
     methods used to assign the derivative of the end points. It is because of this reason
     that two cubic spline methods have been provided for this application.
   </para>
@@ -209,7 +209,7 @@
   <para>
     Mathematicians have long know that a nth order difference table can be used to accurately
     recreate a polynomial of degree n.  Newton divided differences uses a similar method to
-    approximate new points within an aribitary dataset.
+    approximate new points within an tributary dataset.
   </para>
   <para>
     Newton divided differences is based on building a table of divided differences.  The
