@@ -39,11 +39,14 @@
  *     void tearDown( void ) { ... }
  *
  * @author <your name here>
- * @version $Revision: 1.3 $ $Date: 2002-08-28 14:28:58 $
+ * @version $Revision: 1.4 $ $Date: 2002-09-15 10:21:57 $
  *
  * Revision History
  *
  * $Log: not supported by cvs2svn $
+ * Revision 1.3  2002/08/28 14:28:58  u982087
+ * updated. config test is slightly broken but has offending code removed
+ *
  * Revision 1.2  2002/08/28 11:52:36  u982087
  * updated to use the singlton config class
  *
@@ -120,6 +123,6 @@ protected:
   * Register the test immeditely after definition. This should probably
   * be done in the class header file for larger projects
   */
-// CPPUNIT_TEST_SUITE_REGISTRATION( Test );
+CPPUNIT_TEST_SUITE_REGISTRATION( Test );
 
 } // end namespace
