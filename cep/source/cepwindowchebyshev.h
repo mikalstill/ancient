@@ -63,8 +63,12 @@ class cepWindowChebyshev : public cepWindowAlg  {
 public:
   cepWindowChebyshev( int size );  
   ~cepWindowChebyshev();
+  
   static const cepError setTransitionBandwidth(double tbw);
   static const double getTransitionBandwidth();
+  
+  static const cepError setBandwidthValue(double tbw);
+  static void saveBandwidthValue();
 
   static const string CONFIG_NAME_CHEB;
   

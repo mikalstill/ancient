@@ -38,19 +38,32 @@ cepWindowChebyshev::~cepWindowChebyshev(){
 double cepWindowChebyshev::df = 0.0;
 
 const cepError cepWindowChebyshev::setTransitionBandwidth(double tbw) {
+  cepError err = setBandwidthValue( tbw);
+  saveBandwidthValue();
+  return err;
+}
+
+
+void cepWindowChebyshev::saveBandwidthValue() {
+  cepDebugPrint("chebyshev transition bandwidth is set to "+cepToString(df));
+  cepConfiguration::getInstance().setValue( CONFIG_NAME_CHEB, df);
+}
+
+const cepError cepWindowChebyshev::setBandwidthValue(double tbw) {
+  cepError err;
   if( tbw < 0.02 ) {
     cepDebugPrint("rounding chebyshev transition bandwidth to 0.02");
+    err = cepError("rounding chebyshev transition bandwidth to 0.02", cepError::sevWarning);
     tbw = 0.02;
   } else if (tbw >0.499) {
     cepDebugPrint("rounding chebyshev transition bandwidth to 0.499");
+    err = cepError("rounding chebyshev transition bandwidth to 0.02", cepError::sevWarning);
     tbw = 0.499;
   }
   df = tbw;
-
-  cepConfiguration::getInstance().setValue( CONFIG_NAME_CHEB, df);
-  cepDebugPrint("chebyshev transition bandwidth is set to "+cepToString(df));
-  return cepError();
+  return err;
 }
+
 
 const double cepWindowChebyshev::getTransitionBandwidth() {
   return df;
