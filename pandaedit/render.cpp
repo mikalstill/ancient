@@ -114,6 +114,9 @@ void pdfRender::processLine(string line)
       else if("BT" == tokens[i]) command_BT();
       else if("c" == tokens[i]) command_c();
       else if("ET" == tokens[i]) command_ET();
+      else if("f" == tokens[i]) command_f();
+      else if("f*" == tokens[i]) command_fstar();
+      else if("F" == tokens[i]) command_F();
       else if("h" == tokens[i]) command_h();
       else if("l" == tokens[i]) command_l();
       else if("m" == tokens[i]) command_m();
@@ -235,6 +238,33 @@ void pdfRender::command_ET()
     printf("DEBUG: Error -- exitting non existant text mode\n");
   }
   m_mode = rmGraphics;
+}
+
+// Fill using non zero winding
+void pdfRender::command_f()
+{
+  printf("DEBUG: f -- non zero winding fill not implemented, using even odd\n");
+  command_fstar();
+}
+
+// Fill using even odd rule
+void pdfRender::command_fstar()
+{
+  if(m_mode != rmGraphics){
+    printf("DEBUG: Not in graphics mode\n");
+    return;
+  }
+  
+  printf("DEBUG: Even odd fill\n");
+  plot_fillline(m_plot);
+  m_hasLine = true;
+}
+
+// Fill using non zero winding
+void pdfRender::command_F()
+{
+  printf("DEBUG: F -- non zero winding fill not implemented, using even odd\n");
+  command_fstar();
 }
 
 // Close line

@@ -27,6 +27,9 @@ class pdfRender{
   void command_BT();
   void command_c();
   void command_ET();
+  void command_f();
+  void command_fstar();
+  void command_F();
   void command_h();
   void command_l();
   void command_m();
