@@ -43,6 +43,7 @@ dlgPageSize::dlgPageSize ():
 		    wxPoint (5, 5), wxSize (290, 20), wxALIGN_LEFT);
 
   // TODO mikal: drop down with page sizes
+  
 
   // Width
   string width;

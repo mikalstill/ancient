@@ -260,6 +260,13 @@ genApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
     config->getValue ("pref-binarydebug", true, binaryDebugOn);
     prefs_menu->Check (GENMENU_BINARYDEBUG, binaryDebugOn);
 
+    prefs_menu->Append (GENMENU_SELECTDEBUG, "Select debugging",
+			"Would you like to see the select raster?",
+			TRUE);
+    bool selectDebugOn;
+    config->getValue ("pref-selectdebug", false, selectDebugOn);
+    prefs_menu->Check (GENMENU_SELECTDEBUG, selectDebugOn);
+
     menu_bar->Append(prefs_menu, "Preferences");
 
     ////////
@@ -270,6 +277,14 @@ genApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
     nav_menu->Append (GENMENU_NEXTPAGE, "Next page\tF12");
     nav_menu->AppendSeparator();
     nav_menu->Append (GENMENU_LINETOOL, "Line");
+    nav_menu->AppendSeparator();
+
+    bool snapToGridOn;
+    nav_menu->Append (GENMENU_GRIDSNAP, "Snap to grid",
+		      "Should drawing snap to a grid?", TRUE);
+    config->getValue ("pref-snaptogrid", false, snapToGridOn);
+    nav_menu->Check (GENMENU_GRIDSNAP, snapToGridOn);
+
     nav_menu->AppendSeparator();
     nav_menu->Append (GENMENU_LINECOLOR, "Line colour");
     nav_menu->Append (GENMENU_CONTROLCOLOR, "Control point colour");
@@ -295,6 +310,8 @@ IMPLEMENT_CLASS (genFrame, wxDocMDIParentFrame)
 BEGIN_EVENT_TABLE (genFrame, wxDocMDIParentFrame)
 EVT_MENU (GENMENU_ABOUT, genFrame::OnAbout)
 EVT_MENU (GENMENU_BINARYDEBUG, genFrame::OnToggleBinaryDebug)
+EVT_MENU (GENMENU_SELECTDEBUG, genFrame::OnToggleSelectDebug)
+EVT_MENU (GENMENU_GRIDSNAP, genFrame::OnToggleGridSnap)
 EVT_CLOSE (genFrame::OnClose)
 END_EVENT_TABLE ()
 
@@ -333,6 +350,22 @@ genFrame::OnToggleBinaryDebug (wxCommandEvent &pevt)
   configuration *config;
   config = (configuration *) & configuration::getInstance ();
   config->setValue ("pref-binarydebug", pevt.IsChecked());
+}
+
+void
+genFrame::OnToggleSelectDebug (wxCommandEvent &pevt)
+{
+  configuration *config;
+  config = (configuration *) & configuration::getInstance ();
+  config->setValue ("pref-selectdebug", pevt.IsChecked());
+}
+
+void
+genFrame::OnToggleGridSnap (wxCommandEvent &pevt)
+{
+  configuration *config;
+  config = (configuration *) & configuration::getInstance ();
+  config->setValue ("pref-snaptogrid", pevt.IsChecked());
 }
 
 // Creates a canvas. Called from view.cpp when a new drawing

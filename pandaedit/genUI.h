@@ -74,6 +74,8 @@ DECLARE_APP (genApp)
   
   void OnAbout (wxCommandEvent & event);
   void OnToggleBinaryDebug (wxCommandEvent & event);
+  void OnToggleSelectDebug (wxCommandEvent & event);
+  void OnToggleGridSnap (wxCommandEvent & event);
   
   void OnOpen (wxCommandEvent & event);
   
@@ -91,13 +93,15 @@ enum{
     GENMENU_NEXTPAGE,
     GENMENU_PREVPAGE,
     GENMENU_BINARYDEBUG,
+    GENMENU_SELECTDEBUG,
     GENMENU_DOCINFO,
     GENMENU_LINETOOL,
     GENMENU_NEWPAGE,
     GENMENU_LOGLEVEL,
     GENMENU_VERBOSELEVEL,
     GENMENU_LINECOLOR,
-    GENMENU_CONTROLCOLOR
+    GENMENU_CONTROLCOLOR,
+    GENMENU_GRIDSNAP
     };
 
 extern bool singleWindowMode;

@@ -9,6 +9,7 @@
 #include "configuration.h"
 #include "raster.h"
 #include "verbosity.h"
+#include "idmangle.h"
 
 #define SELECTWIDTH 10
 
@@ -70,6 +71,21 @@ pdfRender::render ()
     {
       // TODO mikal: always shows control points for now
       string cmd = m_doc->getPage(m_pageno).getCommandStream(cmdcnt, true);
+      int cmdid = m_doc->getPage(m_pageno).getCommandId(cmdcnt);
+      unsigned char c1, c2, c3;
+      mangle(cmdid, c1, c2, c3);
+
+      if(m_select)
+	{
+	  plot_setlinecolor(m_select, c1, c2, c3);
+	  plot_setfillcolor(m_select, c1, c2, c3);
+	}
+      else
+	{
+	  debug(dlError, "Object selection will fail due to lack of select "
+		"raster");
+	}
+
       processCommandString((char *) cmd.c_str(), cmd.length(), false);
     }
   return true;
@@ -328,6 +344,12 @@ pdfRender::pushArguement (string arg)
   m_arguements.push (arg);
 }
 
+char *
+pdfRender::getSelectRaster()
+{
+  return plot_getraster(m_select);
+}
+
 string
 pdfRender::getPNGfile ()
 {
@@ -339,8 +361,16 @@ pdfRender::getPNGfile ()
   png_bytepp row_pointers = NULL;
   char *raster;
 
+  bool selectDebugOn;
+  configuration *config;
+  config = (configuration *) & configuration::getInstance ();
+  config->getValue ("pref-selectdebug", true, selectDebugOn);
+
 #if defined HAVE_LIBMPLOT
-  raster = plot_getraster (m_plot);
+  if(!selectDebugOn)
+    raster = plot_getraster (m_plot);
+  else
+    raster = plot_getraster (m_select);
 #else
   debug(dlError, "Libmplot not found at configure time. Graphics functionality"
 	" is therefore not available");

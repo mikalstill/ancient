@@ -92,6 +92,7 @@ pdfView::pdfView ()
   m_parentFrame = (wxFrame *) NULL;
   m_page = 0;
   m_dirty = false;
+  m_selraster = NULL;
 }
 
 void
@@ -170,12 +171,12 @@ pdfView::OnDraw (wxDC * dc)
   unsigned int x, y;
   int cx, cy;
   ((wxFrame *) wxGetApp ().GetTopWindow ())->GetSize(&cx, &cy);
-  if((theDoc->getPageSize(m_page, x, y)) && ((max(x, 600) != cx) || 
-					     (max(y, 400) != cy)))
+  if((theDoc->getPageSize(m_page, x, y)) && ((max(x, max(600, cx)) != cx) || 
+					     (max(y, max(400, cy)) != cy)))
     {
       debug(dlTrace, "Resizing window");
-      ((wxFrame *) wxGetApp ().GetTopWindow ())->SetSize(max(x, 600), 
-							 max(y, 400));
+      ((wxFrame *) wxGetApp ().GetTopWindow ())->SetSize(max(x, max(600, cx)), 
+							 max(y, max(400, cy)));
     }
 
   string& filename = m_renders[m_page];
@@ -234,6 +235,12 @@ pdfView::populatePageFromPDF(pdfDoc* theDoc, string& filename)
       debug(dlError, "Page render failed");
       return false;
     }
+
+    // Put the selection raster into the relevant variable
+    // This has to use free, as libmplot uses malloc
+    if(m_selraster != NULL)
+      free(m_selraster);
+    m_selraster = renPage.getSelectRaster();
     
     // Now push that into the cache -- this should only be called once
     filename = renPage.getPNGfile();
@@ -435,4 +442,10 @@ void
 pdfView::setDirty()
 {
   m_dirty = true;
+}
+
+char *
+pdfView::getSelectRaster()
+{
+  return m_selraster;
 }

@@ -72,7 +72,7 @@ public:
 
   tool getCurrentTool();
   void appendCommand(string command, string control, string select);
-  
+  char *getSelectRaster();
 
 private:
   bool populatePageFromPDF(pdfDoc *theDoc, string& filename);
@@ -84,6 +84,7 @@ private:
   string m_currentToolDesc;
   tool m_currentTool;
   genErrorHandler *errHandler;
+  char *m_selraster;
 
   DECLARE_DYNAMIC_CLASS (pdfView)
   DECLARE_EVENT_TABLE ()

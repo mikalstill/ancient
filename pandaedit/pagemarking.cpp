@@ -50,6 +50,10 @@ pdfRender::render_bstar ()
   plot_closeline (m_plot);
   plot_strokeline (m_plot);
   plot_fillline (m_plot);
+
+  plot_closeline (m_select);
+  plot_strokeline (m_select);
+  plot_fillline (m_select);
 #else
   debug(dlError, "Libmplot not found at configure time. Graphics functionality"
 	" is therefore not available");
@@ -69,6 +73,9 @@ pdfRender::render_Bstar ()
 #if defined HAVE_LIBMPLOT
   plot_strokeline (m_plot);
   plot_fillline (m_plot);
+
+  plot_strokeline (m_select);
+  plot_fillline (m_select);
 #else
   debug(dlError, "Libmplot not found at configure time. Graphics functionality"
 	" is therefore not available");
@@ -119,6 +126,7 @@ pdfRender::render_c ()
 
 #if defined HAVE_LIBMPLOT
   plot_addcubiccurvesegment (m_plot, x1, y1, x2, y2, x3, y3);
+  plot_addcubiccurvesegment (m_select, x1, y1, x2, y2, x3, y3);
 #else
   debug(dlError, "Libmplot not found at configure time. Graphics functionality"
 	" is therefore not available");
@@ -233,6 +241,9 @@ pdfRender::render_Do ()
   plot_overlayraster(m_plot, (char *) newstream2, 0, 0, 
 		     m_width, m_height, 
 		     rast.getWidth(), rast.getHeight(), 0);
+
+  // TODO mikal raster select
+  //  plot_fillrectangle(m_select, ...);
 #else
   debug(dlError, "Libmplot not found at configure time. Graphics functionality"
 	" is therefore not available");
@@ -275,6 +286,7 @@ pdfRender::render_fstar ()
   debug(dlTrace, "Even odd fill");
 #if defined HAVE_LIBMPLOT
   plot_fillline (m_plot);
+  plot_fillline (m_select);
 #else
   debug(dlError, "Libmplot not found at configure time. Graphics functionality"
 	" is therefore not available");
@@ -352,6 +364,7 @@ pdfRender::render_h ()
   debug(dlTrace, "Close line");
 #if defined HAVE_LIBMPLOT
   plot_closeline (m_plot);
+  plot_closeline (m_select);
 #else
   debug(dlError, "Libmplot not found at configure time. Graphics functionality"
 	" is therefore not available");
@@ -381,6 +394,7 @@ pdfRender::render_l ()
   debug(dlTrace, string("Adding line segment: ") + toString(x) +
 	string(" ") + toString(y));
   plot_addlinesegment (m_plot, x, y);
+  plot_addlinesegment (m_select, x, y);
 #else
   debug(dlError, "Libmplot not found at configure time. Graphics functionality"
 	" is therefore not available");
@@ -407,11 +421,15 @@ pdfRender::render_m ()
     }
 
 #if defined HAVE_LIBMPLOT
-  if (m_hasLine)
+  if (m_hasLine){
     plot_endline (m_plot);
+    plot_endline (m_select);
+  }
+
   debug(dlTrace, string("Setting line start: ") + toString(x) +
 	string(" ") + toString(y));
   plot_setlinestart (m_plot, x, y);
+  plot_setlinestart (m_select, x, y);
 #else
   debug(dlError, "Libmplot not found at configure time. Graphics functionality"
 	" is therefore not available");
@@ -457,6 +475,7 @@ pdfRender::render_re ()
 
 #if defined HAVE_LIBMPLOT
   plot_rectangle (m_plot, left, top, right, bottom);
+  plot_rectangle (m_select, left, top, right, bottom);
 #else
   debug(dlError, "Libmplot not found at configure time. Graphics functionality"
 	" is therefore not available");
@@ -539,6 +558,7 @@ pdfRender::render_S ()
 #if defined HAVE_LIBMPLOT
   debug(dlTrace, "Stroking line");
   plot_strokeline (m_plot);
+  plot_strokeline (m_select);
 #else
   debug(dlError, "Libmplot not found at configure time. Graphics functionality"
 	" is therefore not available");
@@ -646,6 +666,9 @@ pdfRender::render_Tj ()
 			(unsigned int) (m_height -
 					m_textMatrix.getVertical ()));
   plot_writestring (m_plot, (char *) m_arguements.top ().c_str ());
+
+  // TODO mikal string select
+  // plot_fillrectangle(m_select, ...);
 #else
   debug(dlError, "Libmplot not found at configure time. Graphics functionality"
 	" is therefore not available");
@@ -707,6 +730,7 @@ pdfRender::render_v ()
 
 #if defined HAVE_LIBMPLOT
   plot_addquadraticcurvesegmentone (m_plot, x1, y1, x2, y2);
+  plot_addquadraticcurvesegmentone (m_select, x1, y1, x2, y2);
 #else
   debug(dlError, "Libmplot not found at configure time. Graphics functionality"
 	" is therefore not available");
@@ -760,6 +784,7 @@ pdfRender::render_y ()
 
 #if defined HAVE_LIBMPLOT
   plot_addquadraticcurvesegmenttwo (m_plot, x1, y1, x2, y2);
+  plot_addquadraticcurvesegmenttwo (m_select, x1, y1, x2, y2);
 #else
   debug(dlError, "Libmplot not found at configure time. Graphics functionality"
 	" is therefore not available");

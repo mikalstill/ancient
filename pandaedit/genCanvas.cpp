@@ -57,6 +57,11 @@
 
 #include "genCanvas.h"
 #include "verbosity.h"
+#include "configuration.h"
+#include "idmangle.h"
+
+#define CONTROLSIZE 2
+#define GRIDSPACING 10
 
 BEGIN_EVENT_TABLE (genCanvas, wxScrolledWindow)
 EVT_MOUSE_EVENTS (genCanvas::OnMouseEvent) END_EVENT_TABLE ()
@@ -86,6 +91,7 @@ genCanvas::OnMouseEvent (wxMouseEvent & event)
   PrepareDC (dc);
   wxPoint pt (event.GetLogicalPosition (dc));
 
+  // Check the point is valid
   if(pt.x < 0)
     return;
   if(pt.y < 0)
@@ -95,8 +101,43 @@ genCanvas::OnMouseEvent (wxMouseEvent & event)
   if(pt.y > m_height)
     return;
 
+  // Find out if we're over an object
+  string over("");
+  char *selRaster;
+  if(m_view && ((selRaster = ((pdfView *) m_view)->getSelectRaster()) != NULL))
+    {
+      // This assumes the bit depth of the raster returned, and will break
+      // if the rules change
+      unsigned long inset = (pt.y * m_width + pt.x) * 3;
+      int demangled = demangle(selRaster[inset], selRaster[inset + 1], 
+			       selRaster[inset + 2]);
+      if(demangled < 16777215)
+	{
+	  over += string(" over object id ") + toString(demangled);
+	}
+    }
+
+  // If we're snapping to a grid, find the closest grid point, and change to
+  // that
+  // TODO mikal: should snap be used for object selection as well?
+  configuration *config;
+  bool gridSnap;
+  config = (configuration *) & configuration::getInstance ();
+  config->getValue("pref-snaptogrid", false, gridSnap);
+  if(gridSnap){
+    int xmod, ymod;
+    xmod = pt.x % GRIDSPACING;
+    ymod = pt.y % GRIDSPACING;
+
+    if(xmod > 5) pt.x += (GRIDSPACING - xmod);
+    else pt.x -= xmod;
+    if(ymod > 5) pt.y += (GRIDSPACING - ymod);
+    else pt.y -= ymod;
+  }
+
   string msg = toString(pt.x) + string(", ") + toString(pt.y) + 
-    string(" of ") + toString(m_width) + string(", ") + toString(m_height);
+    string(" of ") + toString(m_width) + string(", ") + toString(m_height) +
+    over;
   ((wxFrame *) wxGetApp ().GetTopWindow ())->
 	SetStatusText (msg.c_str(), 0);
  
@@ -157,8 +198,6 @@ genCanvas::OnMouseEvent (wxMouseEvent & event)
       m_controlPoints.push_back(pt);
     }
 }
-
-#define CONTROLSIZE 2
 
 string
 genCanvas::controlBlob(unsigned int x, unsigned int y)

@@ -15,6 +15,8 @@ public:
   pdfRender (pdfDoc *theDoc, int pageno);
   bool render ();
   bool parseStream ();
+  
+  char *getSelectRaster();
   string getPNGfile ();
 
 private:

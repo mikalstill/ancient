@@ -11,7 +11,7 @@
 
 #include "stringArray.h"
 
-int gUniqueSelection = 0;
+int gUniqueSelection = 1;
 
 object::object (int number, int generation):
 m_number (number),
@@ -379,6 +379,18 @@ object::getCommandCount()
 string
 object::getCommandStream(int index, bool showControl)
 {
+  if(index >= m_commands.size())
+    return "";
+
   return (showControl ? (m_commands[index].control + string("\n")) :
     string("")) + m_commands[index].visible;
+}
+
+int
+object::getCommandId(int index)
+{
+  if(index >= m_commands.size())
+    return -1;
+
+  return m_commands[index].unique;
 }

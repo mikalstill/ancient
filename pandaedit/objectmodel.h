@@ -146,7 +146,8 @@ public:
   void appendCommand(string visible, string control);
   unsigned int getCommandCount();
   string getCommandStream(int index, bool showControl);
-  
+  int getCommandId(int index);
+
 private:
   char *applyFilter(string filter, char *instream, unsigned long inlength, 
 		    unsigned long& length);
