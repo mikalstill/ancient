@@ -437,7 +437,7 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
 			      cepMatrix<double> matP;
 			      
 			      matP = cepReadMatrix (lsUi.getfNameP ());
-			      thisLs.cepDoVCV (*theDataset->getMatrix (cepDataset::direction) i, matP);
+			      thisLs.cepDoVCV (*theDataset->getMatrix ((cepDataset::direction) i), matP);
 			      if(thisLs.getError().isReal() == true)
 				{
 				  thisLs.getError().display();
