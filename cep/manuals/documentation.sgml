@@ -1,0 +1,13 @@
+This file describes how the documentation for GDMS is built.
+
+Autodocbook:
+ - this is used to turn formatted comments in code headers into "man pages" for the various classes
+ - actually produces docbook SGML, which can be converted into man, info and HTML documentation pages
+ - a GPL script available from http://www.stillhq.com
+
+Docbooktools:
+ - a series of simple scripts which extend the docbook SGML DTD to allow for dynamic generation of content
+ - used to include the output of autodocbook into the manuals without needing manual cutting and pasting
+ - this makes it easy to ensure the documentation is up to date
+ - also allows for the pretty formatting of c code
+ - and the inclusion of random other SGML files from places like the contrib directory
