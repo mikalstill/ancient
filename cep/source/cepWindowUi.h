@@ -20,7 +20,7 @@
 #ifndef __CEPWINDOWUI_H
 #define __CEPWINDOWUI_H
 
-#include <iostream.h>
+#include <iostream>
 
 #include <wx/dialog.h>
 #include <wx/button.h>

@@ -26,10 +26,10 @@ interpolation.
   * Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#include <iostream.h>
+#include <iostream>
 #include <math.h>
 #include <stdlib.h>
-#include <vector.h>
+#include <vector>
 #include "cepMatrix.h"
 
 #ifndef __CEP_INTERP_H

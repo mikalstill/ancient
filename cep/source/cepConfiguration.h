@@ -101,7 +101,7 @@ DOCBOOK END
 #define CEP_CONFIGURATION_H
 
 #include <map>
-#include <iostream.h>
+#include <iostream>
 #include <fstream>
 #include <functional>
 #include <string>
@@ -113,7 +113,7 @@ using namespace std;
 /**A drop in replacement for the original cepConfiguration.
   *This implements a whiteboard pattern.
   *@author Blake Swadling
-  *@version $Revision: 1.14 $
+  *@version $Revision: 1.15 $
   */
 
 class cepConfiguration
