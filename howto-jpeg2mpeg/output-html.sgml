@@ -396,7 +396,7 @@ Note that the conversion is also quite slow, I walked away and came back later.
 
 <sect1><title>Conclusion</title>
 <para>
-In this document I have discussed how to install MJPEG tools and it's dependancies, and then discussed how to convert a bunch of JPEGs to PPM files, and then a single MPEG movie. I hope you have found this document of some use. Feel free to send me email if you have more questions, although I don't gaurantee to personally answer then many hundreds of emails I receive each day.
+In this document I have discussed how to install MJPEG tools and it's dependencies, and then discussed how to convert a bunch of JPEGs to PPM files, and then a single MPEG movie. I hope you have found this document of some use. Feel free to send me email if you have more questions, although I don't guarantee to personally answer then many hundreds of emails I receive each day.
 </para>
 </sect1>
 </article>

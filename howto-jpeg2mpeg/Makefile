@@ -15,3 +15,5 @@ output.pdf: output.ps
 
 output.html: output-html.sgml
 	db2html --nochunks output.sgml
+	mv output/output.html .
+	rm -rf output

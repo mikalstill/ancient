@@ -1,0 +1,593 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML
+><HEAD
+><TITLE
+>JPEG to MPEG conversion howto</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.7"></HEAD
+><BODY
+CLASS="ARTICLE"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="ARTICLE"
+><DIV
+CLASS="TITLEPAGE"
+><H1
+CLASS="TITLE"
+><A
+NAME="AEN1"
+>JPEG to MPEG conversion howto</A
+></H1
+><DIV
+CLASS="AUTHORGROUP"
+><A
+NAME="AEN4"
+></A
+><H3
+CLASS="AUTHOR"
+><A
+NAME="AEN5"
+>Michael Still</A
+></H3
+><DIV
+CLASS="AFFILIATION"
+><DIV
+CLASS="ADDRESS"
+><P
+CLASS="ADDRESS"
+><CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:mikal@stillhq.com"
+>mikal@stillhq.com</A
+>&#62;</CODE
+></P
+></DIV
+></DIV
+></DIV
+><HR></DIV
+><DIV
+CLASS="TOC"
+><DL
+><DT
+><B
+>Table of Contents</B
+></DT
+><DT
+>1. <A
+HREF="#AEN11"
+>Abstract</A
+></DT
+><DT
+>2. <A
+HREF="#AEN14"
+>About this document</A
+></DT
+><DT
+>3. <A
+HREF="#AEN21"
+>About the author</A
+></DT
+><DT
+>4. <A
+HREF="#AEN25"
+>MPEG tools</A
+></DT
+><DT
+>5. <A
+HREF="#AEN28"
+>Dependencies</A
+></DT
+><DD
+><DL
+><DT
+>5.1. <A
+HREF="#AEN31"
+>libavifile</A
+></DT
+><DT
+>5.2. <A
+HREF="#AEN37"
+>libsdl</A
+></DT
+><DT
+>5.3. <A
+HREF="#AEN45"
+>nasm</A
+></DT
+><DT
+>5.4. <A
+HREF="#AEN68"
+>jpeg-mmx</A
+></DT
+><DT
+>5.5. <A
+HREF="#AEN76"
+>movtar</A
+></DT
+><DT
+>5.6. <A
+HREF="#AEN80"
+>fontconfig</A
+></DT
+><DT
+>5.7. <A
+HREF="#AEN84"
+>Compiling MJPEG tools itself</A
+></DT
+></DL
+></DD
+><DT
+>6. <A
+HREF="#AEN96"
+>Encoding the JPEGS into the MPEG</A
+></DT
+><DT
+>7. <A
+HREF="#AEN110"
+>Conclusion</A
+></DT
+></DL
+></DIV
+><DIV
+CLASS="SECT1"
+><H2
+CLASS="SECT1"
+><A
+NAME="AEN11"
+>1. Abstract</A
+></H2
+><P
+>Some time ago, I went to a conference and was keen enough to setup a webcam to take a picture every couple of seconds. I then had 27,000 JPEG images, which I wanted to turn into a simple MPEG movie. This document details the process I went through to make this happen.</P
+></DIV
+><DIV
+CLASS="SECT1"
+><HR><H2
+CLASS="SECT1"
+><A
+NAME="AEN14"
+>2. About this document</A
+></H2
+><P
+>The version of this howto which you are currently reading is an update of the original version. I updated the document about a year after initially going through the process. This version reflects a few small changes in the open source projects which I used to perform the conversion, and some error corrections from the original version of this document.</P
+><P
+>Since the original version of this article, I have updated my machine from a pretty vanilla Redhat 7.1 box to a Debian unstable machine, for those who care about such things. Where things have changed from my experience about a year ago, I'll let you know.</P
+><P
+>I'm also a little surprised about the amount of email I have received about the original version of this document &mdash; obviously lots of people are trying to solve this kind of problem. I also get a lot of email from people using <SPAN
+CLASS="TRADEMARK"
+>Microsoft Windows</SPAN
+>&#8482; and wanting to perform a similar conversion. Unfortunately, as someone who doesn't use Windows very much, I cannot recommend a way of doing this sort of processing on that platform, although it is possible that MJPEG tools could be compiled for <SPAN
+CLASS="TRADEMARK"
+>Windows</SPAN
+>&#8482; &mdash; I just haven't tried. I would recommend Google as a way of finding something to help you out.</P
+></DIV
+><DIV
+CLASS="SECT1"
+><HR><H2
+CLASS="SECT1"
+><A
+NAME="AEN21"
+>3. About the author</A
+></H2
+><P
+>Michael has been working in the image processing field for several years, including a couple of years managing and developing large image databases for an Australian government department. He currently works for TOWER Software, who manufacture a world leading EDMS and Records Management package named TRIM. Michael is also the developer of Panda, an open source PDF generation API, as well as a bunch of other Open Source code.</P
+><P
+>Michael has a website at http://www.stillhq.com, and may be emailed at mikal@stillhq.com</P
+></DIV
+><DIV
+CLASS="SECT1"
+><HR><H2
+CLASS="SECT1"
+><A
+NAME="AEN25"
+>4. MPEG tools</A
+></H2
+><P
+>When I went searching for something to convert my many JPEG files to a MPEG moving, I quickly came across the MJPEG tools project. The URL for this project is http://mjpeg.sourceforge.net. MJPEG tools is very powerful, but there are lots of dependencies, which we should talk about first. There are also a few build and install problems with some of these dependencies which need to be resolved along the way, which I have also documented here. The updated version of this article was written with version 1.6.1 beta.</P
+></DIV
+><DIV
+CLASS="SECT1"
+><HR><H2
+CLASS="SECT1"
+><A
+NAME="AEN28"
+>5. Dependencies</A
+></H2
+><P
+>Let's work through the various MJPEG tools dependencies one by one, and discuss what needs to be done to get them installed on your machine.</P
+><DIV
+CLASS="SECT2"
+><HR><H3
+CLASS="SECT2"
+><A
+NAME="AEN31"
+>5.1. libavifile</A
+></H3
+><P
+>This library can be found at http://avifile.sourceforge.net. It is needed by MJPEG tools to be able to handle AVI files. The version I used was 0.7.37. It follows the standard autotools install process:</P
+><PRE
+CLASS="PROGRAMLISTING"
+>./configure
+make
+make install</PRE
+><P
+>For Debian, just use <B
+CLASS="COMMAND"
+>apt-get install libavifile0.7-dev</B
+>.</P
+></DIV
+><DIV
+CLASS="SECT2"
+><HR><H3
+CLASS="SECT2"
+><A
+NAME="AEN37"
+>5.2. libsdl</A
+></H3
+><P
+><SPAN
+CLASS="QUOTE"
+>"Simple DirectMedia Layer is a cross-platform multimedia library designed to provide fast access to the graphics framebuffer and audio device. It is used by MPEG playback software, emulators, and many popular games, including the award winning Linux port of "Civilization: Call To Power." Simple DirectMedia Layer supports Linux, Win32, BeOS, MacOS, Solaris, IRIX, and FreeBSD."</SPAN
+>
+-- http://www.libsdl.org/index.php</P
+><P
+>libsdl can be found at http://www.libsdl.org, and is needed for some of the MJPEG playback routines. I used version 1.2.5. Again, installing is done by simply:</P
+><PRE
+CLASS="PROGRAMLISTING"
+>./configure
+make
+make install</PRE
+><P
+>For Debian, just do a <B
+CLASS="COMMAND"
+>apt-get install libsdl-dev</B
+>.</P
+></DIV
+><DIV
+CLASS="SECT2"
+><HR><H3
+CLASS="SECT2"
+><A
+NAME="AEN45"
+>5.3. nasm</A
+></H3
+><P
+>The NASM web page can be found at http://nasm.sourceforge.net/. An explanation of where NASM came from can be found in the documentation:</P
+><A
+NAME="AEN48"
+></A
+><TABLE
+BORDER="0"
+WIDTH="100%"
+CELLSPACING="0"
+CELLPADDING="0"
+CLASS="BLOCKQUOTE"
+><TR
+><TD
+WIDTH="10%"
+VALIGN="TOP"
+>&nbsp;</TD
+><TD
+VALIGN="TOP"
+><P
+>The Netwide Assembler grew out of an idea on comp.lang.asm.x86 (or possibly alt.lang.asm - I forget which), which was essentially that there didn't seem to be a good free x86-series assembler around, and that maybe someone ought to write one.</P
+><P
+></P
+><UL
+><LI
+><P
+>a86 is good, but not free, and in particular you don't get any 32-bit capability until you pay. It's DOS only, too.</P
+></LI
+><LI
+><P
+>gas is free, and ports over DOS and Unix, but it's not very good, since it's designed to be a back end to gcc, which always feeds it correct code. So its error checking is minimal. Also, its syntax is horrible, from the point of view of anyone trying to actually write anything in it. Plus you can't write 16-bit code in it (properly).</P
+></LI
+><LI
+><P
+>as86 is Minix- and Linux-specific, and (my version at least) doesn't seem to have much (or any) documentation.</P
+></LI
+><LI
+><P
+>MASM isn't very good, and it's expensive, and it runs only under DOS.</P
+></LI
+><LI
+><P
+>TASM is better, but still strives for MASM compatibility, which means millions of directives and tons of red tape. And its syntax is essentially MASM's, with the contradictions and quirks that entails (although it sorts out some of those by means of Ideal mode). It's expensive too. And it's DOS-only.</P
+></LI
+></UL
+><P
+>So here, for your coding pleasure, is NASM. At present it's still in prototype stage - we don't promise that it can outperform any of these assemblers. But please, please send us bug reports, fixes, helpful information, and anything else you can get your hands on (and thanks to the many people who've done this already! You all know who you are), and we'll improve it out of all recognition. Again.</P
+></TD
+><TD
+WIDTH="10%"
+VALIGN="TOP"
+>&nbsp;</TD
+></TR
+><TR
+><TD
+COLSPAN="2"
+ALIGN="RIGHT"
+VALIGN="TOP"
+>--<SPAN
+CLASS="ATTRIBUTION"
+>http://home.attbi.com/~fbkotler/nasmdoc1.html#section-1.1</SPAN
+></TD
+><TD
+WIDTH="10%"
+>&nbsp;</TD
+></TR
+></TABLE
+><P
+>I downloaded 0.98.36 when I wrote the updated version of this article.</P
+><P
+>Install it by doing the autotools thing once more. Note that the make install step is still broken (it didn't work for the first version of the article a year ago either), and that I had to do this to get it to install:</P
+><PRE
+CLASS="PROGRAMLISTING"
+>mkdir bin
+mkdir man
+mkdir man/man1
+make install
+cp bin/nasm /usr/local/bin/
+cp man/man1/n* /usr/local/man/man1/</PRE
+><P
+>This seems to be because it is trying to install everything in the the current working directory, instead of the system wide install location. You should also note that <B
+CLASS="COMMAND"
+>apt-get install nasm</B
+> on a Debian machine does exactly what is expected of it, and packages exactly the version which was available from the NASM website.</P
+></DIV
+><DIV
+CLASS="SECT2"
+><HR><H3
+CLASS="SECT2"
+><A
+NAME="AEN68"
+>5.4. jpeg-mmx</A
+></H3
+><P
+>We'll also need the MJPEG people's MMX JPEG library, which was at version 0.1.4 at the time of writing this article. I believe the difference between the standard JPEG library and the MMX JPEG library is that the MMX version is optimized for MMX processors, and wont run on processors without MMX. The standard libjpeg also seems to be an option here, although my machine have MMX, so I didn't try it. I downloaded version 0.1.4, and did the autotools thing.</P
+><P
+>For some reason they have disabled the install make target, possibly because they're worried about clobbering the standard libjpeg install. This reason doesn't really work though, as the library files have different names from those used in libjpeg. I did:</P
+><PRE
+CLASS="PROGRAMLISTING"
+>[root@localhost jpeg-mmx-0.1.4]# make install
+Make install has been disabled
+If you really want to install libjpeg-mmx, please use make install_real
+[root@localhost jpeg-mmx-0.1.4]# make install_real 
+/usr/bin/install -c -m 644 jconfig.h /usr/local/include/jconfig.h
+/usr/bin/install -c -m 644 ./jpeglib.h /usr/local/include/jpeglib.h
+/usr/bin/install -c -m 644 ./jmorecfg.h /usr/local/include/jmorecfg.h
+/usr/bin/install -c -m 644 ./jerror.h /usr/local/include/jerror.h
+/usr/bin/install -c -m 644 ./jinclude.h /usr/local/include/jinclude.h
+/usr/bin/install -c -m 644 libjpeg-mmx.a /usr/local/lib/libjpeg-mmx.a
+[root@localhost jpeg-mmx-0.1.4]# </PRE
+><P
+>And annoyingly, I also had to manually copy a file:</P
+><PRE
+CLASS="PROGRAMLISTING"
+>cp jpegint.h /usr/local/include/</PRE
+><P
+>TODO: Debian package?</P
+></DIV
+><DIV
+CLASS="SECT2"
+><HR><H3
+CLASS="SECT2"
+><A
+NAME="AEN76"
+>5.5. movtar</A
+></H3
+><P
+>movtar is actually written by the MJPEG people. You can download it from http://download.sourceforge.net/mjpeg/. I used the 1.3.0 release, which hasn't changed since I wrote this article a year ago. The install was autotooled once more. I am sure by now I don't have to explain how to do that...</P
+><P
+>TODO: Debian package</P
+></DIV
+><DIV
+CLASS="SECT2"
+><HR><H3
+CLASS="SECT2"
+><A
+NAME="AEN80"
+>5.6. fontconfig</A
+></H3
+><P
+>Since I first wrote this article, MJPEG tools appears to have added a dependency on the fontconfig library from www.fontconfig.org. I installed version 2.2.1. Annoyingly, the autotools configuration for MJPEG tools didn't detect that fontconfig was missing, it just failed to compile.</P
+><P
+>TODO: Debian package</P
+></DIV
+><DIV
+CLASS="SECT2"
+><HR><H3
+CLASS="SECT2"
+><A
+NAME="AEN84"
+>5.7. Compiling MJPEG tools itself</A
+></H3
+><P
+>I downloaded version 1.6.1 from the SourceForge website. Yet again, the install process was based off the autotools.</P
+><P
+>Then we can go ahead and make the project:</P
+><PRE
+CLASS="PROGRAMLISTING"
+>./configure
+make
+make install</PRE
+><P
+>For those who are interested, my build configuration at the end of the configure script looked like:</P
+><PRE
+CLASS="PROGRAMLISTING"
+> MJPEG tools 1.6.1 build configuration :
+
+    - X86 Optimizations:
+      - MMX/3DNow!/SSE enabled      : true
+      - cmov support enabled        : true
+
+****************************************************************************
+* NOTE:                                                                    *
+*   The resultant binaries will ***NOT*** run on a K6 or Pentium CPU       *
+****************************************************************************
+    - video4linux recording/playback: true
+    - software MJPEG playback       : true
+    - movtar playback/recording     : true
+    - Quicktime playback/recording  : false
+    - AVI MJPEG playback/recording  : true (always)
+    - libDV (digital video) support : false  
+    - AVIFILE divx encoding support : true
+    - Gtk+ support for glav         : true
+    - glibc support for &#62;2GB files  : true</PRE
+><P
+>This time around, because I am using a newer version of GCC, I had to apply the following patch:</P
+><PRE
+CLASS="PROGRAMLISTING"
+>diff -urN mjpegtools-1.6.1/mplex/multplex.cc mjpegtools-1.6.1-hacked2/mplex/multplex.cc
+--- mjpegtools-1.6.1/mplex/multplex.cc    2002-04-30 00:36:00.000000000 +1000
++++ mjpegtools-1.6.1-hacked2/mplex/multplex.cc    2003-07-25 09:05:40.000000000 +1000
+@@ -3,6 +3,7 @@
+ #include &lt;math.h&gt;
+ #include &lt;stdlib.h&gt;
+ #include &lt;unistd.h&gt;
++#include &lt;assert.h&gt;
+ 
+ #include &lt;mjpeg_types.h&gt;
+ #include &lt;mjpeg_logging.h&gt;
+diff -urN mjpegtools-1.6.1/mplex/stillsstream.cc mjpegtools-1.6.1-hacked2/mplex/stillsstream.cc
+--- mjpegtools-1.6.1/mplex/stillsstream.cc    2002-04-18 14:32:02.000000000 +1000
++++ mjpegtools-1.6.1-hacked2/mplex/stillsstream.cc    2003-07-25 09:07:55.000000000 +1000
+@@ -22,6 +22,7 @@
+
+ 
+ #include &lt;format_codes.h&gt;
++#include &lt;assert.h&gt;
+ 
+ #include "stillsstream.hh"
+ #include "interact.hh"
+diff -urN mjpegtools-1.6.1/mplex/systems.cc mjpegtools-1.6.1-hacked2/mplex/systems.cc
+--- mjpegtools-1.6.1/mplex/systems.cc    2002-04-30 00:36:01.000000000 +1000
++++ mjpegtools-1.6.1-hacked2/mplex/systems.cc    2003-07-25 09:07:19.000000000 +1000
+@@ -4,6 +4,7 @@
+ #include &lt;string.h&gt;
+ #include &lt;sys/param.h&gt;
+ #include &lt;sys/stat.h&gt;
++#include &lt;assert.h&gt;
+ #include "systems.hh"
+ #include "mplexconsts.hh"
+ 
+diff -urN mjpegtools-1.6.1/yuvdenoise/Makefile.am mjpegtools-1.6.1-hacked2/yuvdenoise/Makefile.am
+--- mjpegtools-1.6.1/yuvdenoise/Makefile.am    2002-03-25 07:52:57.000000000 +1100
++++ mjpegtools-1.6.1-hacked2/yuvdenoise/Makefile.am    2003-07-25 09:20:06.000000000 +1000
+@@ -3,7 +3,9 @@
+ EXTRA_DIST = .cvsignore
+ MAINTAINERCLEANFILES = Makefile.in
+ INCLUDES = -I $(top_srcdir)/utils -I $(top_srcdir)
+-AM_CFLAGS = -funroll-all-loops -finline-functions -ffast-math -frerun-cse-after-loop -frerun-loop-opt -fexpensive-optimizations -fmove-all-movables -Werror
++
++# Mikal: Turned off -Werror because of ASM changes in GCC
++AM_CFLAGS = -funroll-all-loops -finline-functions -ffast-math -frerun-cse-after-loop -frerun-loop-opt -fexpensive-optimizations -fmove-all-movables
+ 
+ bin_PROGRAMS       = yuvdenoise
+ yuvdenoise_SOURCES = main.c deinterlace.c deinterlace.h denoise.c denoise.h motion.c motion.h global.h
+diff -urN mjpegtools-1.6.1/yuvdenoise/Makefile.in mjpegtools-1.6.1-hacked2/yuvdenoise/Makefile.in
+--- mjpegtools-1.6.1/yuvdenoise/Makefile.in    2002-12-09 23:58:03.000000000 +1100
++++ mjpegtools-1.6.1-hacked2/yuvdenoise/Makefile.in    2003-07-25 09:21:36.000000000 +1000
+@@ -134,7 +134,9 @@
+ EXTRA_DIST = .cvsignore
+ MAINTAINERCLEANFILES = Makefile.in
+ INCLUDES = -I $(top_srcdir)/utils -I $(top_srcdir)
+-AM_CFLAGS = -funroll-all-loops -finline-functions -ffast-math -frerun-cse-after-loop -frerun-loop-opt -fexpensive-optimizations -fmove-all-movables -Werror
++
++# Mikal: Removed -Werror because of GCC asm changes
++AM_CFLAGS = -funroll-all-loops -finline-functions -ffast-math -frerun-cse-after-loop -frerun-loop-opt -fexpensive-optimizations -fmove-all-movables
+ 
+ bin_PROGRAMS = yuvdenoise
+ yuvdenoise_SOURCES = main.c deinterlace.c deinterlace.h denoise.c denoise.h motion.c motion.h global.h</PRE
+><P
+><SPAN
+CLASS="emphasis"
+><I
+CLASS="EMPHASIS"
+>Code: mjpegtools.patch</I
+></SPAN
+></P
+><P
+>TODO: Debian package</P
+></DIV
+></DIV
+><DIV
+CLASS="SECT1"
+><HR><H2
+CLASS="SECT1"
+><A
+NAME="AEN96"
+>6. Encoding the JPEGS into the MPEG</A
+></H2
+><P
+>Finally, we can use MJPEG tools to convert the JPEGs into a MPEG stream.</P
+><P
+>When I originally wrote this article, I recommended that people use the following command line, which is what I had found recommended on the web, and what worked for me:</P
+><PRE
+CLASS="PROGRAMLISTING"
+>jpeg2yuv -f 25 -j frame-%05d.jpg -I p | mpeg2enc -o mpegfile.m1v</PRE
+><TABLE
+CLASS="SIDEBAR"
+BORDER="1"
+CELLPADDING="5"
+><TR
+><TD
+><DIV
+CLASS="SIDEBAR"
+><A
+NAME="AEN101"
+></A
+><P
+><B
+>Counting frames</B
+></P
+><P
+>The frames also have to count from 00000 in this example. I used the following little script to convert to the required naming format:</P
+><PRE
+CLASS="PROGRAMLISTING"
+>count=0
+for item in `find . -type f`
+do 
+  mv $item frame-`printf "%05d" $count`.jpg
+  count=$(( $count + 1 ))
+done</PRE
+></DIV
+></TD
+></TR
+></TABLE
+><P
+>It turns out that the recommended command line is much more like:</P
+><PRE
+CLASS="PROGRAMLISTING"
+>ls *.ppm | xargs -n1 cat | ppmtoy4m | mpeg2enc -o mpegfile.m1v</PRE
+><P
+>It should be noted that this command line requires that the input images be PPM files instead of JPEG files however. We can get around this by using convert to change the format of the images:</P
+><PRE
+CLASS="PROGRAMLISTING"
+>for item in `ls *.jpg`
+do
+  convert $item $item.ppm
+done</PRE
+><P
+>Note that the conversion is also quite slow, I walked away and came back later.</P
+></DIV
+><DIV
+CLASS="SECT1"
+><HR><H2
+CLASS="SECT1"
+><A
+NAME="AEN110"
+>7. Conclusion</A
+></H2
+><P
+>In this document I have discussed how to install MJPEG tools and it's dependancies, and then discussed how to convert a bunch of JPEGs to PPM files, and then a single MPEG movie. I hope you have found this document of some use. Feel free to send me email if you have more questions, although I don't gaurantee to personally answer then many hundreds of emails I receive each day.</P
+></DIV
+></DIV
+></BODY
+></HTML
+>
