@@ -3,11 +3,18 @@
 <sect2><title>Frequency Domain Analysis</title>
 
   <sect3><title>Introduction</title>
-    <para></para>
+    <para>
+    Being a common data analysis tool, there are a number of FFT libraries available in various languages. We therefore decided that it
+    may be more effiecient to use a third party library for a number of reasons; The first is given that there is a lot availbale, we
+    should be able to find atleast one which efficient and correct. Another consideration affect this desicion is the format of the FFT
+    routine. I.e. whether it is a stand alone library , a simple class , a template class etc. 
+    </para>
   </sect3> <!--Introduction-->
 
   <sect3><title>Research</title>
     <para>
+       The first library found in our research was the Fastest Fourier Transform in the West (FFTW) library from MIT. This library is
+       widely referenced and documented, and further more, is reputed to be the most efficient FFT library in existence. 
        - FFTW etc..
        - Which algorithms?
        - Assess alternative algorithms
