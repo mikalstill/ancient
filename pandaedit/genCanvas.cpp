@@ -264,8 +264,10 @@ genCanvas::endTool()
       if(!m_editting)
 	{
 	  ((pdfView *) m_view)->setHeight(m_height);
+	  // TODO mikal: implement line color
 	  ((pdfView *) m_view)->appendCommand(object::cLine,
-					      m_controlPoints);
+					      m_controlPoints,
+					      0, 0, 0, 0, 0, 0);
 	}
       else
 	{

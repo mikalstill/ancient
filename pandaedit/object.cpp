@@ -360,17 +360,25 @@ object::getStreamLength ()
 }
 
 void
-object::appendCommand(commandType cType, vector<wxPoint> controlPoints)
+object::appendCommand(commandType cType, vector<wxPoint> controlPoints,
+		      int lr, int lg, int lb, int fr, int fg, int fb)
 {
   command cmd;
   cmd.unique = gUniqueSelection++;
   cmd.controlPoints = controlPoints;
   cmd.type = cType;
+  cmd.liner = lr;
+  cmd.lineg = lg;
+  cmd.lineb = lb;
+  cmd.fillr = fr;
+  cmd.fillg = fg;
+  cmd.fillb = fb;
 
   m_commands.push_back(cmd);
   m_changed = true;
 }
 
+// TODO mikal: this should let us change the colour as well...
 void
 object::rewriteCommand(int index, commandType cType, 
 		       vector<wxPoint> controlPoints)
@@ -390,6 +398,28 @@ object::getCommandCount()
 }
 
 void
+object::getCommandLineColor(int index, int &r, int &g, int& b)
+{
+  if(index >= m_commands.size())
+    return;
+
+  r = m_commands[index].liner;
+  g = m_commands[index].lineg;
+  b = m_commands[index].lineb;
+}
+
+void
+object::getCommandFillColor(int index, int &r, int &g, int& b)
+{
+  if(index >= m_commands.size())
+    return;
+
+  r = m_commands[index].fillr;
+  g = m_commands[index].fillg;
+  b = m_commands[index].fillb;
+}
+
+void
 object::executeCommand(int index, panda_page *pg)
 {
   if(index >= m_commands.size())
@@ -400,13 +430,19 @@ object::executeCommand(int index, panda_page *pg)
     case cLine:
       if(m_commands[index].controlPoints.size() > 0)
 	{
-	  panda_setlinestart(pg, m_commands[0].controlPoints[0].x,
-			     m_commands[0].controlPoints[0].y);
+	  panda_setlinecolor(pg, m_commands[index].liner, 
+			     m_commands[index].lineg,
+			     m_commands[index].lineb);
+	  panda_setfillcolor(pg, m_commands[index].fillr, 
+			     m_commands[index].fillg,
+			     m_commands[index].fillb);
+	  panda_setlinestart(pg, m_commands[index].controlPoints[index].x,
+			     m_commands[index].controlPoints[0].y);
 	  for(unsigned int i = 1; i < m_commands[index].controlPoints.size();
 	      i++)
 	    {
-	      panda_addlinesegment(pg, m_commands[0].controlPoints[i].x,
-				   m_commands[0].controlPoints[i].y);
+	      panda_addlinesegment(pg, m_commands[index].controlPoints[i].x,
+				   m_commands[index].controlPoints[i].y);
 	    }
 	  panda_strokeline(pg);
 	  panda_endline(pg);
@@ -442,6 +478,14 @@ object::getCommandId(int index)
     return -1;
 
   return m_commands[index].unique;
+}
+
+bool
+object::getLastCommand(command& cmd)
+{
+  if(m_commands.size() == 0)
+    return false;
+  cmd = m_commands[m_commands.size() - 1];
 }
 
 void

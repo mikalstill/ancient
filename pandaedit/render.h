@@ -35,6 +35,8 @@ private:
   void command_BT ();
   void command_c ();
   void command_cm ();
+  void command_CS ();
+  void command_cs ();
   void command_Do ();
   void command_ET ();
   void command_f ();
@@ -48,9 +50,11 @@ private:
   void command_q ();
   void command_Q ();
   void command_re ();
-  void command_rg ();
   void command_RG ();
+  void command_rg ();
   void command_S ();
+  void command_SC ();
+  void command_sc ();
   void command_Td ();
   void command_TD ();
   void command_Tf ();
@@ -63,6 +67,7 @@ private:
   void command_y ();
 
   void appendCommand(object::commandType type);
+  wxPoint translateGraphicsPoint(wxPoint in);
 
   enum rmMode
   {
@@ -81,6 +86,24 @@ private:
 
   plot_state *m_plot, *m_select;
   unsigned int m_width, m_height;
+
+  enum colorSpace
+  {
+    csGray = 0,
+    csRGB
+  };
+
+  colorSpace m_lineCS;
+  colorSpace m_fillCS;
+   
+  typedef struct
+  {
+    int r, g, b;
+  }
+  color;
+
+  color m_lineColor;
+  color m_fillColor;
 
   vector<wxPoint> m_controlPoints;
 

@@ -247,30 +247,33 @@ genApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
 
   // Document specific menus
   if(isCanvas){
-    wxMenu *prefs_menu = new wxMenu;
+    wxMenu *debug_menu = new wxMenu;
     
-    prefs_menu->Append (GENMENU_BINARYDEBUG, "Binary debugging",
+    debug_menu->Append (GENMENU_BINARYDEBUG, "Binary debugging",
 			"Should debug output include binary data?",
 			TRUE);
     bool binaryDebugOn;
     config->getValue ("pref-binarydebug", true, binaryDebugOn);
-    prefs_menu->Check (GENMENU_BINARYDEBUG, binaryDebugOn);
+    debug_menu->Check (GENMENU_BINARYDEBUG, binaryDebugOn);
 
-    prefs_menu->Append (GENMENU_SELECTDEBUG, "Select debugging",
+    debug_menu->Append (GENMENU_SELECTDEBUG, "Select debugging",
 			"Would you like to see the select raster?",
 			TRUE);
     bool selectDebugOn;
     config->getValue ("pref-selectdebug", false, selectDebugOn);
-    prefs_menu->Check (GENMENU_SELECTDEBUG, selectDebugOn);
+    debug_menu->Check (GENMENU_SELECTDEBUG, selectDebugOn);
 
-    prefs_menu->Append (GENMENU_OUTPUTCOMPRESS, "Compress saved files",
+    debug_menu->Append (GENMENU_OUTPUTCOMPRESS, "Compress saved files",
 			"Should saved PDF files be compressed?",
 			TRUE);
     bool outputCompressOn;
     config->getValue ("pref-outputcompress", false, outputCompressOn);
-    prefs_menu->Check (GENMENU_OUTPUTCOMPRESS, outputCompressOn);
+    debug_menu->Check (GENMENU_OUTPUTCOMPRESS, outputCompressOn);
 
-    menu_bar->Append(prefs_menu, "Preferences");
+    debug_menu->Append (GENMENU_SAVEPAGESTREAM, "Save page stream...",
+			"Save a page's drawing stream to a file");
+
+    menu_bar->Append(debug_menu, "Debugging");
 
     ////////
     wxMenu *nav_menu = new wxMenu;

@@ -1,0 +1,4 @@
+Things which are currently broken:
+
+ - save to PDF doesn't save all of the lines
+ - editting of a line has not been implemented yet

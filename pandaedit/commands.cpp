@@ -76,24 +76,79 @@ pdfRender::command_c ()
     toString(y3) + string(" c\n");
 }
 
+// tweaked
 // Set the graphics matrix
 void
 pdfRender::command_cm ()
 {
   float vals[6];
 
+  debug(dlTrace, "cm");
   for (int i = 0; i < 6; i++)
     {
       vals[5 - i] = atof (m_arguements.top ().c_str ());
       m_arguements.pop ();
     }
-  
-  m_commandString += toString(vals[0]) + string(" ") +
-    toString(vals[1]) + string(" ") +
-    toString(vals[2]) + string(" ") +
-    toString(vals[3]) + string(" ") +
-    toString(vals[4]) + string(" ") +
-    toString(vals[5]) + string(" cm\n");
+
+  m_graphicsMatrix.setValues (vals);
+}
+
+// tweaked
+// Set the stroking colour space
+void
+pdfRender::command_CS ()
+{
+  string arg;
+  arg = m_arguements.top ();
+  m_arguements.pop ();
+  if(arg == "/DeviceGray")
+    {
+      m_lineCS = csGray;
+      m_lineColor.r = 0;
+      m_lineColor.g = 0;
+      m_lineColor.b = 0;
+    }
+  else if(arg == "/DeviceRGB")
+    {
+      m_lineCS = csRGB;
+      m_lineColor.r = 0;
+      m_lineColor.g = 0;
+      m_lineColor.b = 0;
+    }
+  else
+    {
+      debug(dlError, string("Unknown color space for CS: \"") + arg +
+	    string("\""));
+    }
+}
+
+// tweaked
+// Set fill color
+void
+pdfRender::command_cs ()
+{
+  string arg;
+  arg = m_arguements.top ();
+  m_arguements.pop ();
+  if(arg == "/DeviceGray")
+    {
+      m_fillCS = csGray;
+      m_fillColor.r = 0;
+      m_fillColor.g = 0;
+      m_fillColor.b = 0;
+    }
+  else if(arg == "/DeviceRGB")
+    {
+      m_fillCS = csRGB;
+      m_fillColor.r = 0;
+      m_fillColor.g = 0;
+      m_fillColor.b = 0;
+    }
+  else
+    {
+      debug(dlError, string("Unknown color space for cs: \"") + arg +
+	    string("\""));
+    }
 }
 
 void
@@ -177,7 +232,7 @@ pdfRender::command_l ()
   x = atoi (m_arguements.top ().c_str ());
   m_arguements.pop ();
 
-  m_controlPoints.push_back(wxPoint(x, m_height - y));
+  m_controlPoints.push_back(translateGraphicsPoint(wxPoint(x, m_height - y)));
 }
 
 // Move graphics cursor to a given location
@@ -202,7 +257,7 @@ pdfRender::command_m ()
   x = atoi (m_arguements.top ().c_str ());
   m_arguements.pop ();
 
-  m_controlPoints.push_back(wxPoint(x, m_height - y));
+  m_controlPoints.push_back(translateGraphicsPoint(wxPoint(x, m_height - y)));
 }
 
 // Save graphics state
@@ -246,6 +301,27 @@ pdfRender::command_re ()
     toString(bottom) + string(" re\n");
 }
 
+// tweaked
+// Set RGB line color
+void
+pdfRender::command_RG ()
+{
+  float r, g, b;
+
+  // Pop our arguements (reverse order)
+  b = atof (m_arguements.top ().c_str ());
+  m_arguements.pop ();
+  g = atof (m_arguements.top ().c_str ());
+  m_arguements.pop ();
+  r = atof (m_arguements.top ().c_str ());
+  m_arguements.pop ();
+
+  m_lineColor.r = (int) (r * 255.0);
+  m_lineColor.g = (int) (g * 255.0);
+  m_lineColor.b = (int) (b * 255.0);
+}
+
+// tweaked
 // Set RGB fill color
 void
 pdfRender::command_rg ()
@@ -260,31 +336,13 @@ pdfRender::command_rg ()
   r = atof (m_arguements.top ().c_str ());
   m_arguements.pop ();
 
-  m_commandString += toString(r) + string(" ") +
-    toString(g) + string(" ") +
-    toString(b) + string(" rg\n");
-}
-
-// Set RGB fill color
-void
-pdfRender::command_RG ()
-{
-  float r, g, b;
-
-  // Pop our arguements (reverse order)
-  b = atof (m_arguements.top ().c_str ());
-  m_arguements.pop ();
-  g = atof (m_arguements.top ().c_str ());
-  m_arguements.pop ();
-  r = atof (m_arguements.top ().c_str ());
-  m_arguements.pop ();
-
-  m_commandString += toString(r) + string(" ") +
-    toString(g) + string(" ") +
-    toString(b) + string(" RG\n");
+  m_lineColor.r = (int) (r * 255.0);
+  m_lineColor.g = (int) (g * 255.0);
+  m_lineColor.b = (int) (b * 255.0);
 }
 
 // tweaked
+// Stroke line
 void
 pdfRender::command_S ()
 {
@@ -292,6 +350,69 @@ pdfRender::command_S ()
   appendCommand(object::cLine);
 }
 
+// tweaked
+// Set colour for stroking operations
+void
+pdfRender::command_SC ()
+{
+  float r, g, b;
+
+  switch(m_lineCS)
+    {
+    case csGray:
+      r = atof (m_arguements.top ().c_str ());
+      m_arguements.pop ();
+      m_lineColor.r = (int) (r * 255.0);
+      m_lineColor.g = (int) (r * 255.0);
+      m_lineColor.b = (int) (r * 255.0);
+      break;
+
+    case csRGB:
+      b = atof (m_arguements.top ().c_str ());
+      m_arguements.pop ();
+      g = atof (m_arguements.top ().c_str ());
+      m_arguements.pop ();
+      r = atof (m_arguements.top ().c_str ());
+      m_arguements.pop ();
+
+      m_lineColor.r = (int) (r * 255.0);
+      m_lineColor.g = (int) (g * 255.0);
+      m_lineColor.b = (int) (b * 255.0);
+      break;
+    }
+}
+
+// tweaked
+// Set colour for non stroking operations
+void
+pdfRender::command_sc ()
+{
+  float r, g, b;
+
+  switch(m_fillCS)
+    {
+    case csGray:
+      r = atof (m_arguements.top ().c_str ());
+      m_arguements.pop ();
+      m_fillColor.r = (int) (r * 255.0);
+      m_fillColor.g = (int) (r * 255.0);
+      m_fillColor.b = (int) (r * 255.0);
+      break;
+
+    case csRGB:
+      r = atof (m_arguements.top ().c_str ());
+      m_arguements.pop ();
+      g = atof (m_arguements.top ().c_str ());
+      m_arguements.pop ();
+      b = atof (m_arguements.top ().c_str ());
+      m_arguements.pop ();
+
+      m_fillColor.r = (int) (r * 255.0);
+      m_fillColor.g = (int) (g * 255.0);
+      m_fillColor.b = (int) (b * 255.0);
+      break;
+    }
+}
 
 // Move text position
 void

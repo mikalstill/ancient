@@ -71,6 +71,7 @@ pdfRender::render ()
     {
       if(m_select)
 	{
+	  debug(dlTrace, "Set up selection hinting for object");
 	  int cmdid = m_doc->getPage(m_pageno).getCommandId(cmdcnt);
 	  unsigned char c1, c2, c3;
 	  mangle(cmdid, c1, c2, c3);
@@ -84,7 +85,16 @@ pdfRender::render ()
 		"raster");
 	}
 
+      // Set the colours for the object
+      debug(dlTrace, "Set object colours");
+      int r, g, b;
+      m_doc->getPage(m_pageno).getCommandLineColor(cmdcnt, r, g, b);
+      plot_setlinecolor(m_plot, r, g, b);
+      m_doc->getPage(m_pageno).getCommandFillColor(cmdcnt, r, g, b);
+      plot_setfillcolor(m_plot, r, g, b);
+
       // Paint the object
+      debug(dlTrace, "Paint object");
       object::commandType type;
       vector<wxPoint> controlPoints = m_doc->getPage(m_pageno).
 	getCommand(cmdcnt, type);
@@ -99,18 +109,27 @@ pdfRender::render ()
 				    controlPoints[0].y);
 		  plot_setlinestart(m_select, controlPoints[0].x,
 				    controlPoints[0].y);
-		  
+		  debug(dlTrace, string("Line start: ") + 
+			toString(controlPoints[0].x) + string(", ") +
+			toString(controlPoints[0].y));
+
 		  for(unsigned int i = 1; i < controlPoints.size(); i++)
 		    {
 		      plot_addlinesegment(m_plot, controlPoints[i].x,
 					  controlPoints[i].y);
 		      plot_addlinesegment(m_select, controlPoints[i].x,
 					  controlPoints[i].y);
+		      debug(dlTrace, string("Line segment: ") + 
+			toString(controlPoints[0].x) + string(", ") +
+			toString(controlPoints[0].y));
 		    }
+		  debug(dlTrace, "Start stroking");
 		  plot_strokeline(m_plot);
 		  plot_strokeline(m_select);
+		  debug(dlTrace, "Finish stroking");
 		  plot_endline(m_plot);
 		  plot_endline(m_select);
+		  debug(dlTrace, "Clean up");
 		}
 	      break;
 
@@ -286,6 +305,10 @@ pdfRender::processLine (string line)
 	command_c ();
       else if ("cm" == tokens[i])
 	command_cm ();
+      else if ("CS" == tokens[i])
+	command_CS ();
+      else if ("cs" == tokens[i])
+	command_cs ();
 
       else if ("Do" == tokens[i])
 	command_Do ();
@@ -321,13 +344,17 @@ pdfRender::processLine (string line)
 
       else if ("re" == tokens[i])
 	command_re ();
-      else if ("rg" == tokens[i])
-	command_rg ();
       else if ("RG" == tokens[i])
 	command_RG ();
+      else if ("rg" == tokens[i])
+	command_rg ();
 
       else if ("S" == tokens[i])
 	command_S ();
+      else if ("SC" == tokens[i])
+	command_SC ();
+      else if ("sc" == tokens[i])
+	command_sc ();
 
       else if ("Td" == tokens[i])
 	command_Td ();
@@ -481,6 +508,68 @@ pdfRender::getPNGfile ()
 void
 pdfRender::appendCommand(object::commandType type)
 {
-  m_doc->getPage(m_pageno).appendCommand(type, m_controlPoints);
+  if(m_controlPoints.size() == 0)
+    return;
+
+  // Determine if this command is an append target
+  command cmd;
+  if(m_doc->getPage(m_pageno).getLastCommand(cmd))
+    {
+      if(cmd.controlPoints.size() == 0)
+	goto newcommand;
+      if(cmd.type != type)
+	goto newcommand;
+      if(cmd.controlPoints[cmd.controlPoints.size() - 1] != 
+	 m_controlPoints[0])
+	goto newcommand;
+
+      if(cmd.liner != m_lineColor.r)
+	goto newcommand;
+      if(cmd.lineg != m_lineColor.g)
+	goto newcommand;
+      if(cmd.lineb != m_lineColor.b)
+	goto newcommand;
+
+      if(cmd.fillr != m_fillColor.r)
+	goto newcommand;
+      if(cmd.fillg != m_fillColor.g)
+	goto newcommand;
+      if(cmd.fillb != m_fillColor.b)
+	goto newcommand;
+
+      // After all that, we can now append the command to the previous top
+      // of the stack...
+      debug(dlTrace, "Joining command");
+      debug(dlTrace, string("Length before: ") + 
+	    toString(cmd.controlPoints.size()));
+
+      for(unsigned int i = 1; i < m_controlPoints.size(); i++)
+	cmd.controlPoints.push_back(m_controlPoints[i]);
+      m_doc->getPage(m_pageno).
+	rewriteCommand(m_doc->getPage(m_pageno).getCommandCount() - 1,
+		       (object::commandType) cmd.type, cmd.controlPoints);
+
+      debug(dlTrace, string("Length after: ") + 
+	    toString(cmd.controlPoints.size()));
+      m_controlPoints.clear();
+      return;
+    }
+
+ newcommand:
+  debug(dlTrace, "Command not eligible for join");
+  m_doc->getPage(m_pageno).appendCommand(type, m_controlPoints,
+					 m_lineColor.r, m_lineColor.g,
+					 m_lineColor.b, m_fillColor.r,
+					 m_fillColor.g, m_fillColor.b);
   m_controlPoints.clear();
+}
+
+wxPoint
+pdfRender::translateGraphicsPoint(wxPoint in)
+{
+  wxPoint out;
+  // TODO mikal: rotation not implemented...
+  out.x = in.x + (int) m_graphicsMatrix.getHorizontal();
+  out.y = in.y + (int) m_graphicsMatrix.getVertical();
+  return out;
 }

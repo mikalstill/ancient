@@ -129,7 +129,10 @@ pdfDoc::OnSaveDocument (const wxString & filename)
       // Push the drawing commands into the pages stream (skip the Panda
       // creator functions, but use Panda to keep track of bytes etc)
       for(int cmdcnt = 0; cmdcnt < m_pages[count].getCommandCount(); cmdcnt++)
-	m_pages[count].executeCommand(cmdcnt, pg);
+	{
+	  debug(dlTrace, "Executing page command");
+	  m_pages[count].executeCommand(cmdcnt, pg);
+	}
       debug(dlTrace, "Finished saving page");
     }
   debug(dlTrace, "All pages added");
@@ -256,12 +259,13 @@ pdfDoc::getPages()
 
 void
 pdfDoc::appendCommand(int pageNum, object::commandType type, 
-		      vector<wxPoint> points)
+		      vector<wxPoint> points,
+		      int lr, int lg, int lb, int fr, int fg, int fb)
 {
   while(pageNum >= m_pages.size())
     appendPage();
 
-  m_pages[pageNum].appendCommand(type, points);
+  m_pages[pageNum].appendCommand(type, points, lr, lg, lb, fr, fg, fb);
 }
 
 void

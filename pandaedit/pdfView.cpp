@@ -71,8 +71,12 @@
 #include <wx/colour.h>
 #include <wx/colordlg.h>
 
+extern object gNoSuchObject;
+
 IMPLEMENT_DYNAMIC_CLASS (pdfView, wxView)
   BEGIN_EVENT_TABLE (pdfView, wxView)
+  EVT_MENU (GENMENU_SAVEPAGESTREAM, pdfView::OnSavePageStream)
+
   EVT_MENU (GENMENU_NEWPAGE, pdfView::OnNewPage)
 
   EVT_MENU (GENMENU_NEXTPAGE, pdfView::OnNextPage)
@@ -425,7 +429,8 @@ pdfView::showColorDialog(string configTag)
 }
 
 void
-pdfView::appendCommand(object::commandType type, vector<wxPoint> points)
+pdfView::appendCommand(object::commandType type, vector<wxPoint> points,
+		     int lr, int lg, int lb, int fr, int fg, int fb)
 {
   pdfDoc *theDoc = (pdfDoc *) GetDocument ();
   if(!theDoc->isReady()){
@@ -434,7 +439,7 @@ pdfView::appendCommand(object::commandType type, vector<wxPoint> points)
     return;
   }
 
-  theDoc->appendCommand(m_page, type, points);
+  theDoc->appendCommand(m_page, type, points, lr, lg, lb, fr, fg, fb);
 }
 
 void
@@ -494,4 +499,109 @@ void
 pdfView::setHoverTarget(int target)
 {
   m_hoverTarget = target;
+}
+
+// Save a page's description stream to a file for debugging
+void
+pdfView::OnSavePageStream (wxCommandEvent & event)
+{
+  pdfDoc *theDoc = (pdfDoc *) GetDocument ();
+  if(!theDoc->isReady()){
+    debug(dlError, "Cannot save streams for invalid document");
+    return;
+  }
+
+  // TODO mikal: is there something more I want to do with this dialog?
+  wxFileDialog dlg(NULL, "Choose a filename", "", "", 
+                   "TextFiles (*.txt)|*.txt", 
+                   wxSAVE, wxPoint(-1, -1));
+  dlg.Centre();
+
+  if(dlg.ShowModal() == wxID_OK){
+    // Open the output stream
+    fstream pageFile;
+    debug(dlTrace, string("Saving page stream to ") +
+	  string(dlg.GetPath().c_str()));
+    pageFile.open(dlg.GetPath().c_str(), ios::out);
+
+    // Find all the contents objects
+    objectlist contents;
+    theDoc->getPage(m_page).getDict().getValue("Contents", *(theDoc->getPDF()),
+					      contents);
+    
+    debug(dlTrace, string("Commence stream parsing for a ") + 
+	  toString(contents.size()) + string(" object stream"));
+
+    enum lineEnding
+      {
+	leUnknown = 0,
+	leN,
+	leRN,
+	leR
+      };
+    lineEnding le(leUnknown);
+    bool firstFile(true);
+    string leString = "\n";
+
+    for(unsigned int i = 0; i < contents.size(); i++){
+      // Read the stream and action any commands
+      char *stream;
+      unsigned long length;
+      
+      stream = ((object) contents[i]).getStream (length);
+      if(le == leUnknown)
+	{
+	  for(unsigned int j = 0; j < length; j++)
+	    {
+	      if(stream[j] == '\n')
+		{
+		  le = leN;
+		  leString = "\n";
+		}
+	      if(stream[j] == '\r')
+		{
+		  if((j + 1 < length) && (stream[j + 1] == '\n'))
+		    {
+		      le = leRN;
+		      leString = "\r\n";
+		    }
+		  else
+		    {
+		      le = leR;
+		      leString = "\n";
+		    }
+		}
+	    }
+	}
+
+      if(length != 0){
+	// leN and leRN are acceptable, leR is not
+	debug(dlTrace, string("Line ending is: ") + toString(le));
+	if(firstFile)
+	  {
+	    pageFile << "Page description stream extracted by PandaEdit" 
+		     << leString;
+	    pageFile << "  http://www.stillhq.com" << leString;
+	    firstFile = false;
+	  }
+
+	if(le == leR)
+	  {
+	    for(unsigned int j = 0; j < length; j++)
+	      if(stream[j] == '\r') stream[j] = '\n';
+	    pageFile << "Line endings automatically converted" << leString;
+	  }
+
+	pageFile << leString << "(Object " << contents[i].getNumber()
+		 << " " << contents[i].getGeneration() << ")"
+		 << leString << leString;
+	for(unsigned int j = 0; j < length; j++)
+	  pageFile << stream[j];
+      }
+      
+      delete[]stream;
+    }
+    
+    pageFile.close();
+  }
 }

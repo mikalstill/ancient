@@ -37,6 +37,8 @@ typedef struct
 {
   int unique;
   vector<wxPoint> controlPoints;
+  int liner, lineg, lineb;
+  int fillr, fillg, fillb;
 
   // I don't seem to be able to use object::commandType here, as it gets all
   // circular in it's confusion
@@ -153,13 +155,18 @@ public:
   char *getStream (raster & image, unsigned long &length);
   unsigned long getStreamLength ();
 
-  void appendCommand(commandType type, vector<wxPoint> controlPoints);
+  void appendCommand(commandType type, vector<wxPoint> controlPoints,
+		     int lr, int lg, int lb, int fr, int fg, int fb);
   void rewriteCommand(int index, commandType type, 
 		      vector<wxPoint> controlPoints);
 
   unsigned int getCommandCount();
+  void getCommandLineColor(int index, int& r, int& g, int &b);
+  void getCommandFillColor(int index, int& r, int& g, int &b);
   vector<wxPoint> getCommand(int index, commandType & type);
   int getCommandId(int index);
+  bool getLastCommand(command& cmd);
+
   void executeCommand(int index, panda_page *pg);
 
   void setHeight(int height);
