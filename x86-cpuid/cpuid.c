@@ -28,13 +28,22 @@ int main(int argc, char *argv[])
 {
   int a, b, c, d;
 
-  printf("Calling cpuid with an input operand of zero\n\n");
+  printf("Calling cpuid with an input operand of 0\n");
   cpuid(0, &a, &b, &c, &d);
-
   printf("Got back: 0x%08x 0x%08x 0x%08x 0x%08x\n", a, b, c, d);
   printf("This decodes to: ");
   registerToAscii(b);
   registerToAscii(d);
   registerToAscii(c);
-  printf("\n");
+  printf("\n\n");
+
+  printf("Calling cpuid with an input operand of 1\n");
+  cpuid(1, &a, &b, &c, &d);
+  printf("Got back: 0x%08x 0x%08x 0x%08x 0x%08x\n", a, b, c, d);
+  printf("\n\n");
+
+  printf("Calling cpuid with an input operand of 2\n");
+  cpuid(2, &a, &b, &c, &d);
+  printf("Got back: 0x%08x 0x%08x 0x%08x 0x%08x\n", a, b, c, d);
+  printf("\n\n");
 }
