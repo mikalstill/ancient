@@ -249,10 +249,11 @@
 <sect2><title>Conclusion</title>
   <para>
     Interpolation methods provide a useful toolkit that can be used to remove defects
-    within the dataset.  Interpolation methods can be used to fill holes in the time
-    series allowing fourier transforms to be applied to a larger section of the data.
-    Due to an unforseen amount of high frequency noise however some more noise resistant
-    interpolation methods need to be added before the the results are optimal.
+    within the dataset.  They can be used to fill holes in the time
+    series, allowing the general trend of these missing points to be seen as well fourier transforms to be 
+    applied to the given data system. No one interpolation method, however, is garanteeded to correctly estimate the missing data 
+    points for every data set, due to the nature of the indivdual charaterisitcs of the gaps. It is for this reason that six diffrent
+    interpolation methods have been provided.  
   </para>
 </sect2> <!--Conclusion-->
 

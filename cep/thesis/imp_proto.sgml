@@ -6,23 +6,23 @@
       The MATLAB prototype was the minimum requirement of the project. It was developed not only to carry out all of the essential
       mathematical functionality thus providing a working model, but to also act as a test bed for the final
       product. Most of the features implemented in C++ were tested in this way to ensure correct and
-      consistent results. Limited time was spent on the prototype user interface so that it could be completed early enough in the
-      project for group to be able turn to the full implementation in C++.
+      consistent results. Limited time was spent on the prototype user interface (UI) so that it could be completed early enough 
+      in the devlopment cycle for group to be able concentrate on the full implementation of the <command>GMDS</command> in C++.
     </para>
 
   </sect2> <!--Introduction-->
 
   <sect2><title>Theory</title>
     <para>
-       Prototyping can be an effective technique for identifying requirements in projects. We were able to use prototyping to prove our
-       algorithms and also determine subtle functionalities that were required. One such example was recognising the needs for a generic
-       data structure to handle various types that would be used in the mathematical functionality. This lead to the design of the Matrix
-       class.
+       Prototyping can be an effective technique for identifying requirements in projects. We were able to use prototyping to 
+       prove our algorithms and also determine subtle functionalities that were required. One such example was recognising the 
+       needs for a generic data structure to handle various types that would be used in the mathematical functionality. 
+       This lead to the design of the Matrix class.
 
        The prototype was originally intended to be a product comparable to TSVIEW, with additional functionality,
-       such as interpolation, windowing and frequency domain analysis.
-       Once the the mathematical functionality of the prototype was complete, work began on a user interface (UI).
-       Not long into the UI development, it was decided that it would not be of any benefit and that our attention should
+       such as interpolation, windowing and frequency domain analysis to be added.
+       Once the the mathematical functionality of the prototype was complete, work began on a UI.
+       Not long into the its development, however, it was decided that it would not be of much benefit and that our attention should
        be focused on the main implementation of the application. The <command>m-files</command> from the Matlab prototype have been included
        on the CD accompanying this thesis.
     </para>
@@ -30,11 +30,10 @@
 
   <sect2><title>Conclusion</title>
     <para>
-      The prototype provided a useful method of testing design ideas and algorithms
+      The prototype provided a useful method of testing design ideas and mathematical algorithms
       before the implementation of the C++ code base. This allowed us to generate
-      an initial rough idea for the projects design. Matlab however was a lot more 
-      powerful than C++ when implementing the maths functions and some major design
-      issues were missed.
+      an initial draft of the projects design. MATLAB, however, was a lot more flexible than C++ in implementing
+      mathematical functions and thus some major design issues were overlooked.
     </para>
   </sect2> <!--Conclusion-->
 
