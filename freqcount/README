@@ -1,0 +1,2 @@
+Determine a frequency count for the various English letters based off the dictionary. This is not a valid cryptographic technique, because it doesn't take into account how common words are.
+
