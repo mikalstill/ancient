@@ -22,27 +22,30 @@ objectlist::objectlist (string input, pdf* thePDF):
 
   stringArray tokens (input.substr (startchar, 
 				    input.length () - startchar - 1), " ");
-  unsigned int inset = 0;
   objectreference ref;
 
   debug(dlTrace, string("Started constructing object list from ") +
 	  input.substr (startchar, input.length () - startchar - 1));
-  while (1)
+  for(unsigned int inset = 0; inset < tokens.size();)
     {
+      debug(dlTrace, string("Processing object candidate: ") +
+	    tokens[inset] + string(" ") + tokens[inset + 1] + string(" ") +
+	    tokens[inset + 2]);
+
       if (!isPositiveInteger (tokens[inset])){
-	debug(dlError, 
+	debug(dlTrace, 
 	      string("Object number for page is not a positive integer:") +
 	      string(tokens[inset]));
 	return;
       }
       if (!isPositiveInteger (tokens[inset + 1])){
-	debug(dlError, 
+	debug(dlTrace, 
 	      string("Generation number for page is not a positive integer:") +
 	      string(tokens[inset]));
 	return;
       }
       if (tokens[inset + 2] != "R"){
-	debug(dlError, 
+	debug(dlTrace, 
 	      string("Object reference for page lacks a reference identifier: ") +
 	      tokens[inset] + string(" ") + tokens[inset + 1] + string(" ") +
 	      tokens[inset + 2]);
@@ -73,8 +76,8 @@ objectlist::objectlist (string input, pdf* thePDF):
 	      string(" elements"));
       }
       else{
-	debug(dlTrace, string("List referenced object ") + toString(ref.number) +
-	      string(" ") + toString(ref.generation));
+	debug(dlTrace, string("List referenced object ") + 
+	      toString(ref.number) + string(" ") + toString(ref.generation));
 	m_objects.push_back (ref);
       }
 

@@ -223,7 +223,7 @@ pdfRender::processLine (string line)
       else if ("y" == tokens[i])
 	command_y ();
       else
-	debug(dlTrace, string("Dropped token ") + tokens[i]);
+	debug(dlInformational, string("Dropped token ") + tokens[i]);
     }
   if (sargMode)
     {
@@ -245,14 +245,16 @@ pdfRender::pushArguement (string arg)
 void
 pdfRender::command_b ()
 {
-  debug(dlTrace, "b -- non zero winding fill not implemented, using even odd");
+  debug(dlInformational, 
+	"b -- non zero winding fill not implemented, using even odd");
   command_bstar ();
 }
 
 void
 pdfRender::command_B ()
 {
-  debug(dlTrace, "B -- non zero winding fill not implemented, using even odd");
+  debug(dlInformational, 
+	"B -- non zero winding fill not implemented, using even odd");
   command_Bstar ();
 }
 
@@ -457,7 +459,8 @@ pdfRender::command_ET ()
 void
 pdfRender::command_f ()
 {
-  debug(dlTrace, "f -- non zero winding fill not implemented, using even odd");
+  debug(dlInformational, 
+	"f -- non zero winding fill not implemented, using even odd");
   command_fstar ();
 }
 
@@ -480,7 +483,8 @@ pdfRender::command_fstar ()
 void
 pdfRender::command_F ()
 {
-  debug(dlTrace, "F -- non zero winding fill not implemented, using even odd");
+  debug(dlInformational, 
+	"F -- non zero winding fill not implemented, using even odd");
   command_fstar ();
 }
 
@@ -586,13 +590,13 @@ pdfRender::command_m ()
 void
 pdfRender::command_q ()
 {
-  debug(dlTrace, "Save graphics state [not implemented]");
+  debug(dlInformational, "Save graphics state [not implemented]");
 }
 
 void
 pdfRender::command_Q ()
 {
-  debug(dlTrace, "Restore graphics state [not implemented]");
+  debug(dlInformational, "Restore graphics state [not implemented]");
 }
 
 // A rectangle
@@ -682,7 +686,7 @@ pdfRender::command_S ()
 void
 pdfRender::command_Td ()
 {
-  debug(dlTrace, "Td [not implemented]");
+  debug(dlInformational, "Td [not implemented]");
 }
 
 void
@@ -732,7 +736,10 @@ pdfRender::command_Tf ()
     }
 
   debug(dlTrace, string("Using font filename ") + fontFile);
-  plot_setfont (m_plot, (char *) fontFile.c_str (), atoi (fontSize.c_str ()));
+  if(plot_setfont (m_plot, (char *) fontFile.c_str (), 
+		   atoi (fontSize.c_str ())) < 0){
+    debug(dlError, "Could not change to the specified font");
+  }
 }
 
 // Show the text
@@ -766,7 +773,7 @@ pdfRender::command_Tm ()
 void
 pdfRender::command_Tr ()
 {
-  debug(dlTrace, "Tr [not implemented]");
+  debug(dlInformational, "Tr [not implemented]");
 }
 
 void

@@ -168,7 +168,8 @@ pdfView::OnDraw (wxDC * dc)
 
       object& pages = foo;
       if(!catalog.getDict().getValue("Pages", *thePDF, pages)){
-	debug(dlError, "Bad PDF: Could not get pages object, but the catalog references it!");
+	debug(dlError, 
+	      "Bad PDF: Could not get pages object, but the catalog references it!");
 	exit(1); 
       }
 
