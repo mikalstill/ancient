@@ -13,7 +13,7 @@
       this algorithm were unsuccessful. Two different tacks were taken: Initially an attempt was made to implement this purely in the
       time domain, based on an algorithm sourced from the speech recognition research at the Institute for Signal and Information Processing,
       ISIP, located at Mississippi State University. After many hours spent trying to validate the algorithm, it was decided that this could
-      not be used. A second attempt was made using a window generated int the frequency domain, using code based on the original 1947 paper
+      not be used. A second attempt was made using a window generated in the frequency domain, using code based on the original 1947 paper
       by Dolph. This algorithm only supported odd window sizes, and its use of the IFFT required that its size be 2<superscript>n</superscript>.
       This was unsatisfactory. The final algorithm that was implemented is based on FORTRAN code published in 1977 by
       IEEE Acoustics, Speech, and Signal Processing Society,
@@ -34,24 +34,24 @@
   <para>
     For all windows, coefficients can be generated for an arbitrary window size. The requirement that the windowed data be
     transformed to the Fourier domain imposes further limitation in that the Fourier libraries we are using will only operate on a
-    data set of size 2<superscript>n</superscript>, 0 &lt; n &lt; inf. This restriction has been implemented at the UI level,
+    data set of size 2<superscript>n</superscript>, 0 &lt; n &lt; inf. This restriction has been implemented at the Ususer interface level,
     maintaining the flexibility of the windowing subsystem.
   </para>
   <para>
        The actual algorithms implemented are as follows
     <itemizedlist>
         <listitem>
-           <para><command>Hanning</command>: w(i) = &agr; - (1-&agr;).cos( 2.&pgr;.i/(size-1) ), for &agr;=0.5</para>
+           <para><emphasis>Hanning</emphasis>: w(i) = &agr; - (1-&agr;).cos( 2.&pgr;.i/(size-1) ), for &agr;=0.5</para>
         </listitem>
         <listitem>
-          <para><command>Hamming</command>:  w(i) = &agr; - (1-&agr;).cos( 2.&pgr;.i/(size-1) ), for &agr;=0.54</para>
+          <para><emphasis>Hamming</emphasis>:  w(i) = &agr; - (1-&agr;).cos( 2.&pgr;.i/(size-1) ), for &agr;=0.54</para>
         </listitem>
         <listitem>
-          <para><command>Blackman</command>: w(i) = 0.42 - 0.5.cos( (2.&pgr;.val)/(size-1) ) + 0.08.cos( (4.&pgr;.i)/(size-1));</para>
+          <para><emphasis>Blackman</emphasis>: w(i) = 0.42 - 0.5.cos( (2.&pgr;.val)/(size-1) ) + 0.08.cos( (4.&pgr;.i)/(size-1));</para>
         </listitem>
         <listitem>
           <para>
-            <command>Dolph-Chebychev</command>: This is implemented as the inverse DFT of the Chebyshev
+            <emphasis>Dolph-Chebyshev</emphasis>: This is implemented as the inverse DFT of the Chebyshev
             polynomial evaluated at N equally spaced frequencies on the unit circle. The equation for the nth
             order Chebyshev equation calculated at x is
           </para>
@@ -65,14 +65,14 @@
    <sect4><title>Optimisation Issues</title>
    <para>
      Due to the simple nature of the majority of the algorithms in this module, speed is not generally an issue. With the exception
-     of chebyshev, the most expensive calculation involves 2 cosine claculations and 4 multiplies. Since the size of the windows used
+     of Chebyshev, the most expensive calculation involves 2 cosine calculations and 4 multiplies. Since the size of the windows used
      tend to be small this is a relatively insignificant overhead. Dolph-Chebyshev is a little different. since this window is
      calculated in the Fourier domain it is computationally more expensive. Additionally, do support the flexibility of the windowing
-     subsystem, this algorithm implementes its own IFFT. The Again, due to the small size of the window used, even
+     subsystem, this algorithm implements its own IFFT. The Again, due to the small size of the window used, even
      this cost is minimal. The return on this cost is flexibility and confidence in the integrity of the algorithm.
    </para>
    <para>
-     To support performance concerns and to speed the process as a whole, the number of calculations performed int his subsystem has
+     To support performance concerns and to speed the process as a whole, the number of calculations performed in this subsystem has
      been carefully considered and recalculation of the coefficients is only performed when it is the unavoidable.
     </para>
    </sect4>
@@ -82,17 +82,17 @@
   <sect3><title>Future Enhancements</title>
   <para>
     The set of algorithms supplied in this release is by no means exhaustive. There are some notable absences, such as the Kaiser
-    window, which would be a valuable addition to the repertoir of <command>GDMS</command>. Due to the flexible design of this
-    subsystem, addition of another algorithm can be achieved at minimal expense and is encourged.
+    window, which would be a valuable addition to the repertoire of <command>GDMS</command>. Due to the flexible design of this
+    subsystem, addition of another algorithm can be achieved at minimal expense and is encouraged.
   </para>
   <para>
     Another avenue which might be explored with regard to enhancements would be the simplification and optimisation of the
-    Dolph-Chebyshev algorithm. This wasa a port of a FORTRAN function and was implemented faithfully with maintenance of
-    data integrity a primary concern. This algorithm uses an inverse fourier transform internally and for windows of significant
-    size this could prove to be expensive. Optimisation of this might prove to be benficial if window sizes are becoming large.
+    Dolph-Chebyshev algorithm. This was a port of a FORTRAN function and was implemented faithfully with maintenance of
+    data integrity a primary concern. This algorithm uses an inverse Fourier transform internally and for windows of significant
+    size this could prove to be expensive. Optimisation of this might prove to be beneficial if window sizes are becoming large.
   </para>
 
-  </sect3> <!--Future Enahncements-->
+  </sect3> <!--Future Enhancements-->
 
 </sect2> <!--Windowing-->
 

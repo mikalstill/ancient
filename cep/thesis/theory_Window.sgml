@@ -1,7 +1,7 @@
 <sect1><title>Windowing</title>
 
 <sect2><title>Introduction</title>
-  <para>Windowing is the breaking of an infinte signal into finite pieces. Since we are not able to record and infinite signal, and
+  <para>Windowing is the breaking of an infinite signal into finite pieces. Since we are not able to record and infinite signal, and
   must analyse a finite sample, it is unavoidable that we perform this process. Truncation of the signal in this way has side effects,
   primarily the introduction of ripples in the frequency domain. These ripples show up as high frequency noise and give</para>
 </sect2> <!--Introduction-->
@@ -9,36 +9,36 @@
 <sect2><title>Theory</title>
  <para>
   As previously stated, truncation of the signal in the time domain leads to unwanted ripples being produced in the frequency domain.
-  The basic idea behind windowing the data prior to performing a fourier tranformation is that we can apply a weighting function
+  The basic idea behind windowing the data prior to performing a Fourier transformation is that we can apply a weighting function
   to the sample in order to reduce the introduction of unwanted frequencies. This reduction is a trade off, and the cost is an
   increase in the width of the spectral peak and leakage of energy away from the true frequency to the side lobe skirts.
-  This adversley effects the resolution with which we can observe the signal. We must strike a balance between spectral peak width
+  This adversely effects the resolution with which we can observe the signal. We must strike a balance between spectral peak width
   and the degree of high frequency attenuation. Ideally we would like to have no skirts, but in practice the best we can do is try to
-  control them. The available windowing algorithms vary in their ability to control this while trying to retain a fine specral peak.
+  control them. The available windowing algorithms vary in their ability to control this while trying to retain a fine spectral peak.
   The attributes of each algorithm can be summarised as follows:
   </para>
   <itemizedlist>
-  <listitem><para><command>Hanning:</command></para>
+  <listitem><para><emphasis>Hanning:</emphasis></para>
      <para>
        This algorithm provides good resolution of spectral peaks and good rejection of side lobe skirts.
        It is a good choice for most applications.
      </para>
   </listitem>
 
-  <listitem><para><command>Hamming</command></para>
+  <listitem><para><emphasis>Hamming</emphasis></para>
     <para>
-      Hamming proveds finer resolution of spectral peaks than Hanning, however side lobe skirts are not controlled as well as with Hanning.
+      Hamming provides finer resolution of spectral peaks than Hanning, however side lobe skirts are not controlled as well as with Hanning.
     </para>
   </listitem>
 
-  <listitem><para><command>Blackman</command></para>
+  <listitem><para><emphasis>Blackman</emphasis></para>
     <para>
       Peak resolution is not as fine as Hanning, but the response shape flares out less at lower levels and rejection of side lobe skirts
       is better.
     </para>
   </listitem>
 
-  <listitem><para><command>Dolph-Chebyshev</command></para>
+  <listitem><para><emphasis>Dolph-Chebyshev</emphasis></para>
     <para>
       Very similar to Hamming, but with with better high frequency attenuation. Where Hamming can give around 50dB attenuation
       for frequencies above the sampling frequency, Dolph-Chebyshev can provide approximately 63dB attenuation for the same frequencies.

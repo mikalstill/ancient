@@ -5,20 +5,20 @@
 
   <sect2><title>Introduction</title>
     <!-- TODO - reference this properly and fill in the blanks -->
-    <para>From the outset it was decided that a testing regime was require to support debugging of subsytems and validation of
+    <para>From the outset it was decided that a testing regime was require to support debugging of subsystems and validation of
     mathematical routines. The basic requirements for the testing infrastructure were:
     <itemizedlist>
     <listitem><para><emphasis>Standardised:</emphasis> for all developers</para></listitem>
     <listitem><para><emphasis>Automated:</emphasis> to allow test execution with no user input</para></listitem>
     <listitem><para><emphasis>Simple:</emphasis> so as to minimise load placed on developers</para></listitem>
-    <listitem><para><emphasis>GPL:</emphasis> The code must be released under the <command>GPL</command></para></listitem>
+    <listitem><para><emphasis>GPL:</emphasis> The code must be released under the GPL</para></listitem>
     </itemizedlist>
     </para>
   </sect2>
 
   <sect2><title>Implementation</title>
     <para>Unit testing, as adopted by the extreme programming community, was chosen as the ideal framework to support our system.
-    A number of different libraries were examined as possible canidates and <command>CPPUnit</command> was selected as the most
+    A number of different libraries were examined as possible candidates and CPPUnit was selected as the most
     appropriate.
     </para>
     <para>
@@ -40,7 +40,7 @@
     <para>
     The testing framework proved invaluable in the process of bug isolation and resolution and resolution. An additional benefit has been
     the early recognition of design problems, such as tight coupling between the subsystems and the user interface at an early stage in the
-    project. Insummary, without the support of a system such as CPPUnit, the <command>GDMS</command> would not have the level of robustness
+    project. In summary, without the support of a system such as CPPUnit, the <command>GDMS</command> would not have the level of robustness
     that it does at this time and mathematical validation would have been quite difficult.
     </para>
   </sect2>
