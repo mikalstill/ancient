@@ -68,18 +68,22 @@ main (int argc, char *argv[])
 {
   int fd, npackets, otag, urbCount, function, psize, tsrelative, temp, temp2,
     numifaces, seq, length, inset, testinset, corrstep, matchcount, optchar,
-    do_suppress = 0;
+    do_suppress = 0, do_verbose = 0;
   char *file, *input_filename = NULL;
   long long filep;
   struct stat sb;
   usb_allurbs *urbhead;
 
-  while ((optchar = getopt (argc, argv, "i:r")) != -1)
+  while ((optchar = getopt (argc, argv, "i:rv")) != -1)
     {
       switch (optchar)
 	{
 	case 'r':
 	  do_suppress = 1;
+	  break;
+
+	case 'v':
+	  do_verbose = 1;
 	  break;
 
 	case 'i':
@@ -90,7 +94,7 @@ main (int argc, char *argv[])
 	case '?':
 	  printf ("Unknown command line option...\n");
 	  printf (VERSION "\n");
-	  printf ("Try: %s [-i input] [-r]\n", argv[0]);
+	  printf ("Try: %s [-i input] [-r] [-v]\n", argv[0]);
 	  exit (0);
 	  break;
 	}
@@ -100,7 +104,7 @@ main (int argc, char *argv[])
     {
       printf ("No input file specified...\n");
       printf (VERSION "\n");
-      printf ("Try: %s [-i input] [-r]\n", argv[0]);
+      printf ("Try: %s [-i input] [-r] [-v]\n", argv[0]);
       exit (0);
     }
 
@@ -154,6 +158,7 @@ main (int argc, char *argv[])
   seq = -1;
   for (urbCount = 0; urbCount < npackets; urbCount++)
     {
+      if(do_verbose == 1) printf("Grabbing URB %d\n", urbCount);
       urbhead[urbCount].abend = 0;
 
       // Get the object tag (a MFCism) -- it tells us if there is an object 
@@ -173,7 +178,8 @@ main (int argc, char *argv[])
       urbhead[urbCount].sequence = temp;
 
       function = fileutil_getushort (file, &filep);
-      urb_printf ("Function: %s (0x%04x)\n", functname (function), function);
+      urb_printf ("Function: %s (0x%04x)\n", functname (function), 
+		  function);
 
       // printf("Time relative to start of dump: %d\n", 
       // fileutil_getuinteger(file, &filep) - tsrelative);
@@ -205,7 +211,7 @@ main (int argc, char *argv[])
       // Do something with the function
       switch (function)
 	{
-	case 0:
+	case 0x0:
 	  // usb_urb_header(file, &filep);
 	  filep += USB_URB_HEADER_LENGTH;
 	  // Skipped usb configuration description pointer
@@ -229,7 +235,7 @@ main (int argc, char *argv[])
 	    }
 	  break;
 
-	case 1:
+	case 0x1:
 	  // TODO mikal: should I decode this?
 	  temp = fileutil_getnumber (file, &filep);
 	  urb_printf ("Interface size: %d\n", temp);
@@ -237,11 +243,11 @@ main (int argc, char *argv[])
 	  urb_printf ("\n");
 	  break;
 
-	case 7:
+	case 0x7:
 	  // Do nothing
 	  break;
 
-	case 8:
+	case 0x8:
 	  psize = fileutil_getuinteger (file, &filep);
 	  urb_printf ("Transfer size: %d\n", psize);
 
@@ -264,7 +270,7 @@ main (int argc, char *argv[])
 	  usb_urb_controltransfer (file, &filep);
 	  break;
 
-	case 10:
+	case 0xA:
 	  temp = fileutil_getnumber (file, &filep);
 	  urb_printf ("ISOCH transfer length: %d\n", temp);
 	  urb_printf ("ISOCH transfer: ");
@@ -294,10 +300,13 @@ main (int argc, char *argv[])
 	  urb_printf ("\n");
 	  break;
 
-	case 11:
+	case 0xB:
 	  break;
 
-	case 23:
+	case 0x17:
+	case 0x1B:
+	case 0x20:
+	case 0x22:
 	  if ((temp = fileutil_getinteger (file, &filep)) != 0)
 	    {
 	      urb_printf ("Transfer length: %d\n", temp);
@@ -313,7 +322,7 @@ main (int argc, char *argv[])
 	  usb_urb_controltransfer (file, &filep);
 	  break;
 
-	case 30:
+	case 0x1E:
 	  // Do nothing?
 	  break;
 
@@ -428,29 +437,41 @@ functname (unsigned int function)
 {
   switch (function)
     {
-    case 0:
+    case 0x0:
       return "SELECT_CONFIGURATION";
 
-    case 1:
+    case 0x1:
       return "SELECT_INTERFACE";
 
-    case 7:
+    case 0x7:
       return "GET_CURRENT_FRAME_NUMBER";
 
-    case 8:
+    case 0x8:
       return "CONTROL_TRANSFER";
 
-    case 10:
+    case 0xA:
       return "ISOCH_TRANSFER";
 
-    case 11:
+    case 0xB:
       return "GET_DESCRIPTOR_FROM_DEVICE";
 
-    case 23:
+    case 0x17:
       return "VENDOR_DEVICE";
 
-    case 30:
+    case 0x1B:
+      return "CLASS_INTERFACE";
+
+    case 0x1C:
+      return "CLASS_ENDPOINT";
+
+    case 0x1E:
       return "RESET_PIPE";
+
+    case 0x20:
+      return "VENDOR_OTHER";
+
+    case 0x22:
+      return "CLEAR_FEATURE_TO_OTHER";
 
     default:
       return "UNKNOWN";
