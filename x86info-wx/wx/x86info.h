@@ -179,7 +179,28 @@ enum
     msg_l1instcache,
     msg_instcache,
     msg_eccparity,
-    msg_l2cache
+    msg_l1cache,
+    msg_l2cache,
+    msg_l2cacheerrata,
+    msg_cpuinfo,
+    msg_powernow,
+    msg_tlb,
+    msg_longhaul,
+    msg_busmult,
+    msg_reportingbanks,
+    msg_mcreg,
+    msg_tlbl1parity,
+    msg_tlbl2parity,
+    msg_msrbank,
+    msg_l2err,
+    msg_ecctlberror,
+    msg_l2tlberror,
+    msg_l2k7dealloc,
+    msg_l2eccprobe,
+    msg_sysdatareaderr,
+    msg_l2cache,
+    msg_l3cache,
+    msg_insttracecache
   };
 void output(int level, char *format, ...);
 

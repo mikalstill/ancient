@@ -1,5 +1,5 @@
 /*
- *  $Id: intel_identify.c,v 1.1.1.1 2003-04-06 07:40:30 root Exp $
+ *  $Id: intel_identify.c,v 1.2 2003-04-14 13:23:26 root Exp $
  *  This file is part of x86info.
  *  (C) 2001 Dave Jones.
  *
@@ -30,131 +30,131 @@ void decode_Intel_TLB (int x, int family)
 	case 0:
 		break;
 	case 0x1:
-		printf ("Instruction TLB: 4KB pages, 4-way associative, 32 entries\n");
+		output (msg_insttlb, "Instruction TLB: 4KB pages, 4-way associative, 32 entries");
 		break;
 	case 0x2:
-		printf ("Instruction TLB: 4MB pages, fully associative, 2 entries\n");
+		output (msg_insttlb, "Instruction TLB: 4MB pages, fully associative, 2 entries");
 		break;
 	case 0x3:
-		printf ("Data TLB: 4KB pages, 4-way associative, 64 entries\n");
+		output (msg_datatlb, "Data TLB: 4KB pages, 4-way associative, 64 entries");
 		break;
 	case 0x4:
-		printf ("Data TLB: 4MB pages, 4-way associative, 8 entries\n");
+		output (msg_datatlb, "Data TLB: 4MB pages, 4-way associative, 8 entries");
 		break;
 	case 0x6:
-		printf ("L1 Instruction cache:\n\tSize: 8KB\t4-way associative.\n\tline size=32 bytes.\n");
+		output (msg_l1instcache, "L1 Instruction cache:\n\tSize: 8KB\t4-way associative.\n\tline size=32 bytes.");
 		break;
 	case 0x8:
-		printf ("L1 Instruction cache:\n\tSize: 16KB\t4-way associative.\n\tline size=32 bytes.\n");
+		output (msg_l1instcache, "L1 Instruction cache:\n\tSize: 16KB\t4-way associative.\n\tline size=32 bytes.");
 		break;
 	case 0xa:
-		printf ("L1 Data cache:\n\tSize: 8KB\t2-way associative.\n\tline size=32 bytes.\n");
+		output (msg_l1datacache, "L1 Data cache:\n\tSize: 8KB\t2-way associative.\n\tline size=32 bytes.");
 		break;
 	case 0xc:
-		printf ("L1 Data cache:\n\tSize: 16KB\t4-way associative.\n\tline size=32 bytes.\n");
+		output (msg_l1datacache, "L1 Data cache:\n\tSize: 16KB\t4-way associative.\n\tline size=32 bytes.");
 		break;
 	case 0x22:
-		printf ("L3 unified cache:\n\tSize: 512KB\t4-way associative.\n\tline size=64 bytes.\n");
+		output (msg_l3cache, "L3 unified cache:\n\tSize: 512KB\t4-way associative.\n\tline size=64 bytes.");
 		break;
 	case 0x23:
-		printf ("L3 unified cache:\n\tSize: 1MB\t8-way associative.\n\tline size=64 bytes.\n");
+		output (msg_l3cache, "L3 unified cache:\n\tSize: 1MB\t8-way associative.\n\tline size=64 bytes.");
 		break;
 	case 0x25:
-		printf ("L3 unified cache:\n\tSize: 2MB\t8-way associative.\n\tline size=64 bytes.\n");
+		output (msg_l3cache, "L3 unified cache:\n\tSize: 2MB\t8-way associative.\n\tline size=64 bytes.");
 		break;
 	case 0x29:                                                                                                    
-		printf ("L3 unified cache:\n\tSize: 4MB\t8-way associative.\n\tline size=64 bytes.\n");               
+		output (msg_l3cache, "L3 unified cache:\n\tSize: 4MB\t8-way associative.\n\tline size=64 bytes.");               
 		break;                                                                                                
 	case 0x39:                                                                                                    
-		printf ("L2 unified cache:\n\tSize: 128KB\t4-way associative.\n\tline size=64 bytes.\n");             
+		output (msg_l2cache, "L2 unified cache:\n\tSize: 128KB\t4-way associative.\n\tline size=64 bytes.");             
 		break;                                                                                                
 	case 0x3c:                                                                                                    
-		printf ("L2 unified cache:\n\tSize: 256KB\t4-way associative.\n\tline size=64 bytes.\n");             
+		output (msg_l2cache, "L2 unified cache:\n\tSize: 256KB\t4-way associative.\n\tline size=64 bytes.");             
 		break;
 	case 0x40:
 		if (family==15)
-			printf ("No L3 cache\n");	/* Pentium 4 */
+			output (msg_l3cache, "No L3 cache");	/* Pentium 4 */
 		else
-			printf ("No L2 cache\n");
+			output (msg_l3cache, "No L2 cache");
 		break;
 	case 0x41:
-		printf ("L2 unified cache:\n\tSize: 128KB\t4-way associative.\n\tline size=32 bytes.\n");
+		output (msg_l2cache, "L2 unified cache:\n\tSize: 128KB\t4-way associative.\n\tline size=32 bytes.");
 		break;
 	case 0x42:
-		printf ("L2 unified cache:\n\tSize: 256KB\t4-way associative.\n\tline size=32 bytes.\n");
+		output (msg_l2cache, "L2 unified cache:\n\tSize: 256KB\t4-way associative.\n\tline size=32 bytes.");
 		break;
 	case 0x43:
-		printf ("L2 unified cache:\n\tSize: 512KB\t4-way associative.\n\tline size=32 bytes.\n");
+		output (msg_l2cache, "L2 unified cache:\n\tSize: 512KB\t4-way associative.\n\tline size=32 bytes.");
 		break;
 	case 0x44:
-		printf ("L2 unified cache:\n\tSize: 1MB\t4-way associative.\n\tline size=32 bytes.\n");
+		output (msg_l2cache, "L2 unified cache:\n\tSize: 1MB\t4-way associative.\n\tline size=32 bytes.");
 		break;
 	case 0x45:
-		printf ("L2 unified cache:\n\tSize: 2MB\t4-way associative.\n\tline size=32 bytes.\n");
+		output (msg_l2cache, "L2 unified cache:\n\tSize: 2MB\t4-way associative.\n\tline size=32 bytes.");
 		break;
 	case 0x50:
-		printf ("Instruction TLB: 4K, 2MB or 4MB pages, fully associative, 64 entries.\n");
+		output (msg_insttlb, "Instruction TLB: 4K, 2MB or 4MB pages, fully associative, 64 entries.");
 		break;
 	case 0x51:
-		printf ("Instruction TLB: 4K, 2MB or 4MB pages, fully associative, 128 entries.\n");
+		output (msg_insttlb, "Instruction TLB: 4K, 2MB or 4MB pages, fully associative, 128 entries.");
 		break;
 	case 0x52:
-		printf ("Instruction TLB: 4K, 2MB or 4MB pages, fully associative, 256 entries.\n");
+		output (msg_insttlb, "Instruction TLB: 4K, 2MB or 4MB pages, fully associative, 256 entries.");
 		break;
 	case 0x5b:
-		printf ("Data TLB: 4KB or 4MB pages, fully associative, 64 entries.\n");
+		output (msg_datatlb, "Data TLB: 4KB or 4MB pages, fully associative, 64 entries.");
 		break;
 	case 0x5c:
-		printf ("Data TLB: 4KB or 4MB pages, fully associative, 128 entries.\n");
+		output (msg_datatlb, "Data TLB: 4KB or 4MB pages, fully associative, 128 entries.");
 		break;
 	case 0x5d:
-		printf ("Data TLB: 4KB or 4MB pages, fully associative, 256 entries.\n");
+		output (msg_datatlb, "Data TLB: 4KB or 4MB pages, fully associative, 256 entries.");
 		break;
 	case 0x66:
-		printf ("L1 Data cache:\n\tSize: 8KB\tSectored, 4-way associative.\n\tline size=64 bytes.\n");
+		output (msg_l1datacache, "L1 Data cache:\n\tSize: 8KB\tSectored, 4-way associative.\n\tline size=64 bytes.");
 		break;
 	case 0x67:
-		printf ("L1 Data cache:\n\tSize: 16KB\tSectored, 4-way associative.\n\tline size=64 bytes.\n");
+		output (msg_l1datacache, "L1 Data cache:\n\tSize: 16KB\tSectored, 4-way associative.\n\tline size=64 bytes.");
 		break;
 	case 0x68:
-		printf ("L1 Data cache:\n\tSize: 32KB\tSectored, 4-way associative.\n\tline size=64 bytes.\n");
+		output (msg_l1datacache, "L1 Data cache:\n\tSize: 32KB\tSectored, 4-way associative.\n\tline size=64 bytes.");
 		break;
 	case 0x70:
-		printf ("Instruction trace cache:\n\tSize: 12K uOps\t8-way associative.\n");
+		output (msg_insttracecache, "Instruction trace cache:\n\tSize: 12K uOps\t8-way associative.");
 		break;
 	case 0x71:
-		printf ("Instruction trace cache:\n\tSize: 16K uOps\t8-way associative.\n");
+		output (msg_insttracecache, "Instruction trace cache:\n\tSize: 16K uOps\t8-way associative.");
 		break;
 	case 0x72:
-		printf ("Instruction trace cache:\n\tSize: 32K uOps\t8-way associative.\n");
+		output (msg_insttracecache, "Instruction trace cache:\n\tSize: 32K uOps\t8-way associative.");
 		break;
 	case 0x79:
-		printf ("L2 unified cache:\n\tSize: 128KB\tSectored, 8-way associative.\n\tline size=64 bytes.\n");
+		output (msg_l2cache, "L2 unified cache:\n\tSize: 128KB\tSectored, 8-way associative.\n\tline size=64 bytes.");
 		break;
 	case 0x7a:
-		printf ("L2 unified cache:\n\tSize: 256KB\tSectored, 8-way associative.\n\tline size=64 bytes.\n");
+		output (msg_l2cache, "L2 unified cache:\n\tSize: 256KB\tSectored, 8-way associative.\n\tline size=64 bytes.");
 		break;
 	case 0x7b:
-		printf ("L2 unified cache:\n\tSize: 512KB\tSectored, 8-way associative.\n\tline size=64 bytes.\n");
+		output (msg_l2cache, "L2 unified cache:\n\tSize: 512KB\tSectored, 8-way associative.\n\tline size=64 bytes.");
 		break;
 	case 0x7c:
-		printf ("L2 unified cache:\n\tSize: 1MB\tSectored, 8-way associative.\n\tline size=64 bytes.\n");
+		output (msg_l2cache, "L2 unified cache:\n\tSize: 1MB\tSectored, 8-way associative.\n\tline size=64 bytes.");
 		break;
 	case 0x82:
-		printf ("L2 unified cache:\n\tSize: 256KB\t8-way associative.\n\tline size=32 bytes.\n");
+		output (msg_l2cache, "L2 unified cache:\n\tSize: 256KB\t8-way associative.\n\tline size=32 bytes.");
 		break;
 	case 0x83:
-		printf ("L2 unified cache:\n\tSize: 512KB\t8-way associative.\n\tline size=32 bytes.\n");
+		output (msg_l2cache, "L2 unified cache:\n\tSize: 512KB\t8-way associative.\n\tline size=32 bytes.");
 		break;
 	case 0x84:
-		printf ("L2 unified cache:\n\tSize: 1MB\t8-way associative.\n\tline size=32 bytes.\n");
+		output (msg_l2cache, "L2 unified cache:\n\tSize: 1MB\t8-way associative.\n\tline size=32 bytes.");
 		break;
 	case 0x85:
-		printf ("L2 unified cache:\n\tSize: 2MB\t8-way associative.\n\tline size=32 bytes.\n");
+		output (msg_l2cache, "L2 unified cache:\n\tSize: 2MB\t8-way associative.\n\tline size=32 bytes.");
 		break;
 
 	default:
-		printf ("unknown TLB/cache descriptor:\n\t0x%x\n", (x & 0xff));
+		output (msg_warning, "unknown TLB/cache descriptor:\n\t0x%x", (x & 0xff));
 		break;
 	}
 }
@@ -502,9 +502,9 @@ void display_Intel_info (struct cpudata *cpu)
 	int ntlb, i;
 	unsigned long eax, ebx, ecx, edx;
 
-	printf ("Family: %d Model: %d Stepping: %d Type: %d\n",
+	output (msg_cpuinfo, "Family: %d Model: %d Stepping: %d Type: %d",
 		cpu->family, cpu->model, cpu->stepping, cpu->type);
-	printf ("CPU Model: %s\n", cpu->name);
+	output (msg_cpuinfo, "CPU Model: %s", cpu->name);
 
 	/* Pentium4 and above have cpu name. */
 	if (cpu->family == 0xF)
@@ -541,7 +541,7 @@ void display_Intel_info (struct cpudata *cpu)
 				decode_Intel_TLB (edx >> 24, cpu->family);
 			}
 		}
-		printf ("\n");
+		output (msg_format, "\n");
 	}
 
 	if (cpu->maxi >= 3) {
@@ -551,13 +551,14 @@ void display_Intel_info (struct cpudata *cpu)
 		signature = eax;
 
 		cpuid (cpu->number, 3, &eax, &ebx, &ecx, &edx);
-		printf ("Processor serial: ");
-		printf ("%04lX", signature >> 16);
-		printf ("-%04lX", signature & 0xffff);
-		printf ("-%04lX", edx >> 16);
-		printf ("-%04lX", edx & 0xffff);
-		printf ("-%04lX", ecx >> 16);
-		printf ("-%04lX\n", ecx & 0xffff);
+		output (msg_accumulate, "Processor serial: ");
+		output (msg_accumulate, "%04lX", signature >> 16);
+		output (msg_accumulate, "-%04lX", signature & 0xffff);
+		output (msg_accumulate, "-%04lX", edx >> 16);
+		output (msg_accumulate, "-%04lX", edx & 0xffff);
+		output (msg_accumulate, "-%04lX", ecx >> 16);
+		output (msg_accumulate, "-%04lX", ecx & 0xffff);
+		output (msg_cpuinfo, "");
 	}
 
 	if (show_eblcr) {
@@ -575,7 +576,8 @@ void display_Intel_info (struct cpudata *cpu)
 	/* Hyper-Threading Technology */
 	if (cpu->flags & (1 << 28)) {
 		int nr_ht = (cpu->eflags >> 16) & 0xFF;
-		printf ("Number of logical processors supported "
-			"within the physical package: %d\n\n", nr_ht);
+		output (msg_cpuinfo, "Number of logical processors supported "
+			"within the physical package: %d", nr_ht);
+		output (msg_format, "\n");
 	}
 }

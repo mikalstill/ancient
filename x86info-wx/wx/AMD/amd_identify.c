@@ -1,5 +1,5 @@
 /*
- *  $Id: amd_identify.c,v 1.2 2003-04-13 22:12:33 root Exp $
+ *  $Id: amd_identify.c,v 1.3 2003-04-14 13:23:23 root Exp $
  *  This file is part of x86info.
  *  (C) 2001 Dave Jones.
  *
@@ -37,12 +37,12 @@ static void decode_AMD_cacheinfo(struct cpudata *cpu)
 
 		output(msg_accumulate, "Instruction TLB: ");
 		do_assoc((ebx >> 8) & 0xff);
-		output(msg_accumulate, "%ld entries.\n", ebx & 0xff);
+		output(msg_accumulate, "%ld entries.", ebx & 0xff);
 		output(msg_insttlb, "");
 
 		output(msg_accumulate, "Data TLB: ");
 		do_assoc(ebx >> 24);
-		output(msg_accumulate, "%ld entries.\n", (ebx >> 16) & 0xff);
+		output(msg_accumulate, "%ld entries.", (ebx >> 16) & 0xff);
 		output(msg_datatlb, "");
 
 		output(msg_accumulate, "L1 Data cache:\n\t");
@@ -50,7 +50,7 @@ static void decode_AMD_cacheinfo(struct cpudata *cpu)
 		do_assoc((ecx >> 16) & 0xff);
 		output(msg_accumulate, "\n\t");
 		output(msg_accumulate, "lines per tag=%ld\t", (ecx >> 8) & 0xff);
-		output(msg_accumulate, "line size=%ld bytes.\n", ecx & 0xff);
+		output(msg_accumulate, "line size=%ld bytes.", ecx & 0xff);
 		output(msg_l1datacache, "");
 
 		output(msg_accumulate, "L1 Instruction cache:\n\t");
@@ -58,7 +58,7 @@ static void decode_AMD_cacheinfo(struct cpudata *cpu)
 		do_assoc((edx >> 16) & 0xff);
 		output(msg_accumulate, "\n\t");
 		output(msg_accumulate, "lines per tag=%ld\t", (edx >> 8) & 0xff);
-		output(msg_accumulate, "line size=%ld bytes.\n", edx & 0xff);
+		output(msg_accumulate, "line size=%ld bytes.", edx & 0xff);
 		output(msg_l1instcache, "");
 	}
 
@@ -70,7 +70,7 @@ static void decode_AMD_cacheinfo(struct cpudata *cpu)
 		do_assoc((ecx >> 12) & 0x0f);
 		output(msg_accumulate, "\n\t");
 		output(msg_accumulate, "lines per tag=%ld\t", (ecx >> 8) & 0x0f);
-		output(msg_accumulate, "line size=%ld bytes.\n", ecx & 0xff);
+		output(msg_accumulate, "line size=%ld bytes.", ecx & 0xff);
 		output(msg_l2cache, "");
 	}
 	output(msg_format, "\n");
@@ -358,24 +358,24 @@ void display_AMD_info(struct cpudata *cpu)
 	if (show_cacheinfo)
 		decode_AMD_cacheinfo(cpu);
 
-	printf("Family: %d Model: %d Stepping: %d\n",
+	output (msg_cpuinfo, "Family: %d Model: %d Stepping: %d",
 	       cpu->family, cpu->model, cpu->stepping);
-	printf ("CPU Model : %s\n", cpu->name);
+	output (msg_cpuinfo, "CPU Model : %s", cpu->name);
 	get_model_name(cpu);
 
 	if (cpu->maxei >= 0x80000007) {
 		cpuid(cpu->number, 0x80000007, &eax, &ebx, &ecx, &edx);
-		printf("PowerNOW! Technology information\n");
-		printf("Available features:");
+		output (msg_cpuinfo, "PowerNOW! Technology information");
+		output (msg_format, "Available features:\n");
 		if (edx & 1 << 0)
-			printf("\n\tTemperature sensing diode present.");
+			output (msg_powernow, "\tTemperature sensing diode present.");
 		if (edx & 1 << 1)
-			printf("\n\tBus divisor control");
+			output (msg_powernow, "\tBus divisor control");
 		if (edx & 1 << 2)
-			printf("\n\tVoltage ID control\n");
+			output (msg_powernow, "\tVoltage ID control");
 		if (!(edx & (1 << 0 | 1 << 1 | 1 << 2)))
-			printf(" None");
-		printf("\n\n");
+			output (msg_powernow, "None");
+		output (msg_format, "\n");
 	}
 }
 

@@ -1,5 +1,5 @@
 /*
- *  $Id: MSR-K6.c,v 1.3 2003-04-13 22:12:33 root Exp $
+ *  $Id: MSR-K6.c,v 1.4 2003-04-14 13:23:23 root Exp $
  *  This file is part of x86info.
  *  (C) 2001 Dave Jones.
  *
@@ -42,11 +42,14 @@ void dump_k6_MSR (struct cpudata *cpu)
 	if ((cpu->model > 8) || ((cpu->model==8) && (cpu->stepping>=8))) {
 		if (read_msr (cpu->number, 0xC0000082, &val) == 1) {
 			if (!(val & (0x3ff << 22)))
-				output (msg_waenable, "Write allocate disabled");
+				output (msg_waenable, 
+					"Write allocate disabled");
 			else {
-				output (msg_waenable, "Write allocate enable limit: %dMbytes", 
+				output (msg_waenable, 
+					"Write allocate enable limit: %dMbytes", 
 					(int) ((val >> 22) & 0x3ff) * 4);
-				output (msg_wambytes, "Write allocate 15-16M bytes: %s", 
+				output (msg_wambytes, 
+					"Write allocate 15-16M bytes: %s", 
 					val & (1<<16) ? "enabled" : "disabled");
 			}
 		} else {
@@ -58,20 +61,27 @@ void dump_k6_MSR (struct cpudata *cpu)
 	if ((cpu->family==5) && (cpu->model>=8)) {
 		if (read_msr (cpu->number, 0xC0000080, &val) == 1) {
 			if (val & (1<<0))
-				output (msg_syscallextn, "System call extension present.");
+				output (msg_syscallextn, 
+					"System call extension present.");
 			if (val & (1<<1))
-				output (msg_dataprefetch, "Data prefetch enabled.");
+				output (msg_dataprefetch, 
+					"Data prefetch enabled.");
 			else
-				output (msg_dataprefetch, "Data prefetch disabled.");
+				output (msg_dataprefetch, 
+					"Data prefetch disabled.");
 			output (msg_format, "EWBE mode: ");
 			switch ((val & (1<<2|1<<3|1<<4))>>2) {
-				case 0:	output(msg_ewbemode, "strong ordering (slowest performance)");
+				case 0:	output(msg_ewbemode, 
+					       "strong ordering (slowest performance)");
 					break;
-				case 1:	output(msg_ewbemode, "speculative disable (close to best performance)");
+				case 1:	output(msg_ewbemode, 
+					       "speculative disable (close to best performance)");
 					break;
-				case 2:	output(msg_ewbemode, "invalid");
+				case 2:	output(msg_ewbemode, 
+					       "invalid");
 					break;
-				case 3:	output(msg_ewbemode, "global disable (best performance)");
+				case 3:	output(msg_ewbemode, 
+					       "global disable (best performance)");
 					break;
 			}
 		} else {

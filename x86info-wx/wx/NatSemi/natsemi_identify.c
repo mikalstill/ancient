@@ -1,5 +1,5 @@
 /*
- *  $Id: natsemi_identify.c,v 1.1.1.1 2003-04-06 07:40:30 root Exp $
+ *  $Id: natsemi_identify.c,v 1.2 2003-04-14 13:23:27 root Exp $
  *  This file is part of x86info.
  *  (C) 2001 Dave Jones.
  *
@@ -35,9 +35,9 @@ void Identify_NatSemi (struct cpudata *cpu)
 
 void display_NatSemi_info(struct cpudata *cpu)
 {
-	printf ("Family: %d Model: %d Stepping: %d\n",
+	output (msg_cpuinfo, "Family: %d Model: %d Stepping: %d",
 		cpu->family, cpu->model, cpu->stepping);
-	printf ("CPU Model : %s\n", cpu->name);
+	output (msg_cpuinfo, "CPU Model : %s", cpu->name);
 	get_model_name (cpu);
 
 	decode_feature_flags (cpu);

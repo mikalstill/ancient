@@ -30,8 +30,6 @@ void interpret_eblcr(u32 lo)
 	 * bus:1 mul:0
 	 */
 	
-/*	printf ("bus:%x mul:%x\n", bus, mul);*/
-	
 	/* The mobile pIII added bit 27.
 	 * This is zero on other intel and on the cyrix III */
 
@@ -41,11 +39,12 @@ void interpret_eblcr(u32 lo)
 	busclock = buscode[1][bus]/100;
 
 	if (busclock==0 || mult[mul]==0)
-		printf("Unknown CPU/BUS multiplier (%d X %dMHz, %x).\n", mul, bus, lo);
+		output (msg_busmult, 
+			"Unknown CPU/BUS multiplier (%d X %dMHz, %x).", 
+			mul, bus, lo);
 
 	cpuclk = (buscode[1][bus] * mult[mul])/200;
-	printf ("Bus Speed (%dMHz) x Multiplier (%.1fx) = CPU speed %dMhz\n",
-		busclock,
-		(float) cpuclk/busclock,
-		cpuclk);
+	output (msg_busmult, 
+		"Bus Speed (%dMHz) x Multiplier (%.1fx) = CPU speed %dMhz",
+		busclock, (float) cpuclk/busclock, cpuclk);
 }
