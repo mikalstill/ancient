@@ -600,10 +600,9 @@ void cepView::OnLeastSquaresRW (wxCommandEvent &pevt)
   cepLsUi lsUi;
   cepLs thisLs;
   const char *dirStrings[] = {"x (North)", "y (East)", "z (Up)"};
-  const char dirNames[] = {'x', 'y', 'z'};
+
   cepDoc *theDoc = (cepDoc *) GetDocument ();
   cepDataset *theDataset = theDoc->getDataset ();
-
   if (theDataset && theDataset->isReady() && theDataset->isWellFormed())
   {
     lsUi.showWhichDir();
@@ -611,35 +610,29 @@ void cepView::OnLeastSquaresRW (wxCommandEvent &pevt)
     // For each direction
     for(int i = 0; i < cepDataset::dirUnknown; i++)
     {
-      cepDebugPrint("Reweighting in the " + cepToString(i) + " direction");
-
-      // If this direction is being processed
-      if (lsUi.getWhichDir (dirNames[i]) == true)
-      {
-        lsUi.showIsReadP (dirStrings[i]);
-
-        if (lsUi.getIsReadP () == 1)
+      lsUi.showIsReadP (dirStrings[i]);
+      
+      if (lsUi.getIsReadP () == 1)
         {
           lsUi.showGetfNameP ();
           if (lsUi.getfNameP () != "")
-          {
-            cepMatrix<double> matP;
-
-            matP = cepReadMatrix (lsUi.getfNameP ());
-            thisLs.cepDoRW (*theDataset->getMatrix ((cepDataset::direction) i), matP);
-            //getdata matrix and residual matrix here!!!!!
-            if(thisLs.getError().isReal() == true)
-            {
-              thisLs.getError().display();
-              return;
-            }
-          }
+	    {
+	      cepMatrix<double> matP;
+	      
+	      matP = cepReadMatrix (lsUi.getfNameP ());
+	      thisLs.cepDoRW (*theDataset->getMatrix ((cepDataset::direction) i), matP);
+	      //getdata matrix and residual matrix here!!!!!
+	      if(thisLs.getError().isReal() == true)
+		{
+		  thisLs.getError().display();
+		  return;
+		}
+	    }
         }
-        else
+      else
         {
           cout << "re-weigting thingie goes here" << endl;
         }
-      }
     }
   }
 }
