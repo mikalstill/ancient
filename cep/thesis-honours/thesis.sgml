@@ -56,11 +56,19 @@ The GDMS Internet interface follows the recommendations of the most recent HTML 
 This appendix documents the various tags which are implemented by the GDMS Internet interface in addition to the standard HTML tags normally available. All of these tags are within the scripting namespace provided by HTML 4.01 (Raggett, Le Hors, &amp; Jacobs 1999).
 </para>
 
-<execute><cmd>insertall</cmd><args>builddb . cmd-*.sgml</args></execute>
+<execute><cmd>insertall</cmd><args>builddb . "cmd-*"</args></execute>
 </sect1>
 </chapter>
 
-<chapter><title>Appendix Two: References</title>
+<chapter><title>Appendix Two: Source code</title>
+<execute><cmd>code2db</cmd><input>~mikal/opensource-unstable/cep/source/web/gdms.pl</input></execute>
+</chapter>
+
+<chapter><title>Appendix Three: A sample configuration file</title>
+<execute><cmd>code2db</cmd><input>/home/httpd/cgi-bin/gdms.config</input></execute>
+</chapter>
+
+<chapter><title>Appendix Four: References</title>
 <sect1><title>References</title>
 <para>
 Raggett, D., Le Hors, A., Jacobs, I., 24 December 1999 [last update], <emphasis>HTML 4.01 Specification</emphasis>, 

@@ -1,0 +1,17 @@
+<sect2><title>dataset</title>
+<para>
+This tag will display the name of the current dataset, if one is open.
+</para>
+
+<para>
+An example usage is:
+</para>
+
+<programlisting>
+&amp;{dataset};
+</programlisting>
+
+<para>
+The dataset name is the portion of the filename before the extensions .dat1, .dat2, and .dat3 are applied. For example <emphasis>mb_AUCK_GPS</emphasis> is a dataset name.
+</para>
+</sect2>

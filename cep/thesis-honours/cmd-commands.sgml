@@ -8,7 +8,7 @@ An example use is as follows:
 </para>
 
 <programlisting>
-&{commands};
+&amp;{commands};
 </programlisting>
 
 <para>

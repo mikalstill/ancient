@@ -66,7 +66,7 @@ An example use is as follows:
 </para>
 
 <programlisting>
-&{commands};
+&amp;{commands};
 </programlisting>
 
 <para>
@@ -92,10 +92,340 @@ $discommandentry = "&lt;tr&gt;&lt;td bgcolor=\"EEEEEE\"&gt;
   &lt;font color=\"777777\"&gt;%s&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;";
 </programlisting>
 </sect2>
+<sect2><title>dataset</title>
+<para>
+This tag will display the name of the current dataset, if one is open.
+</para>
+
+<para>
+An example usage is:
+</para>
+
+<programlisting>
+&amp;{dataset};
+</programlisting>
+
+<para>
+The dataset name is the portion of the filename before the extensions .dat1, .dat2, and .dat3 are applied. For example <emphasis>mb_AUCK_GPS</emphasis> is a dataset name.
+</para>
+</sect2>
+<sect2><title>datasets</title>
+<para>
+This tag will display a list of the datasets available in the dataset directory.
+</para>
+
+<para>
+An example usage is:
+</para>
+
+<programlisting>
+&amp;{datasets};
+</programlisting>
+
+<para>
+The dataset directory is configured with the following configuration file entry:
+</para>
+
+<programlisting>
+# This line defines where the datsets are stored
+$datasets = "/home/httpd/gdms-datasets/";
+</programlisting>
+
+<para>
+There are also several configuration options which alter the appearance of the list of datasets available. These are:
+</para>
+
+<itemizedlist>
+<listitem><para><emphasis>selectstart</emphasis>: this is used for any output which should appear at the begining of the list. This could include HTML tags for the creation of the required list markup (for example tables).</para></listitem>
+<listitem><para><emphasis>selectentry</emphasis>: this configuration item is used for each entry in the list. The special text <command>%s</command> is replaced by the HTML for the entry itself.</para></listitem>
+<listitem><para><emphasis>selectend</emphasis>: this is used for any HTML required to finalize the list.</para></listitem>
+</itemizedlist>
+
+<programlisting>
+# This is used for selection lists (for instance datasets)
+$selectstart = "List start";
+$selectentry = "&lt;LI&gt;%s";
+$selectend = "List end";
+</programlisting>
+</sect2>
+
 </sect1>
 </chapter>
 
-<chapter><title>Appendix Two: References</title>
+<chapter><title>Appendix Two: Source code</title>
+<programlisting>
+#!/usr/bin/perl
+
+# GDMS web broker
+# Copyright (C) Michael Still             2002
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#  
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#  
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+# This is the broker between the GDMS code and the CGI server. It's role is to
+# parse templates, execute requests, and cache results for speedy processing
+# next time that request is seen...
+use strict;
+use CGI;
+
+my($result, $command, $TEMP);
+
+# Variables set by the config file
+my($templates, $datasets, $commandentry, $discommandentry, $selectstart, $selectentry, $selectend, $plotcache, $tmpdir, $rooturl, $ploturl, $gdms, $temp);
+
+# Setup the CGI module
+$result = new CGI();
+print $result-&gt;header;
+
+# Read in the config file
+eval `cat gdms.config` or die "GDMS web could not read it's config file: $@";
+print STDERR "Working directory is: ".`pwd`;
+$temp = $gdms;
+$temp =~ s/\/.*$//;
+print STDERR "Changing to: $temp\n";
+
+# Determine what page we are accessing
+$command = $result-&gt;param('command');
+if($command eq ""){
+    $command = "main";
+}
+
+# Determine if the GDMS script for this page exists already (
+
+print processTemplate("$templates/$command.html");
+exit;
+
+
+
+###############################################################################
+# Find the template file, and then parse it
+sub processTemplate(){
+    my($file) = @_;
+    my($pre, $post, $cmd, $output, $len, $line);
+
+    # This local usage is used to make the TEMPLATE filehandle local to this
+    # subroutine...
+    local *TEMPLATE;
+    print STDERR "Processing template file: $file\n";
+
+    $output = "";
+    open TEMPLATE, "&lt; $file" or
+	die "GMDS web could not open the template file $file";
+    while(&lt;TEMPLATE&gt;){
+	# Repeatedly process a line until there are not more template commands
+	$line = $_;
+	$len = -1;
+
+	while($len != length($line)){
+	    $len = length($_);
+
+	    # todo: there must be a better way of doing this...
+	    $_ = $line;
+	    if(/(.*)&amp;{([^%]*)};(.*)/){
+		$pre = $1;
+		$cmd = $2;
+		$post = $3;
+		
+		if($cmd eq "commands"){
+		    # List the available commands
+		    $line = $pre.getCommands().$post;
+		}
+		elsif($cmd eq "dataset"){
+		    # The name of the current dataset
+		    $line = $pre.$result-&gt;param('dataset').$post;
+		}
+		elsif($cmd eq "datasets"){
+		    # List the datasets in the dataset directory
+		    my($temptotal, $tempfile);
+		    $temptotal = "";
+
+		    print STDERR "Getting datasets from $datasets\n";
+		    open TEMP, "find $datasets -type f -name \"*.dat1\" |";
+		    while(&lt;TEMP&gt;){
+			my($linecount);
+			$tempfile = $_;
+			$tempfile =~ s/$datasets\/*//;
+			$tempfile =~ s/.dat1\n$//;
+
+			$linecount = `cat $datasets/$tempfile.dat1 | wc -l`;
+			$temptotal = $temptotal.
+			    substHTML($selectentry, 
+				      "&lt;a href=\"$rooturl?command=main&amp;dataset=$tempfile\"&gt;$tempfile&lt;\/a&gt; ".
+				      "($linecount lines)");
+		    }
+		    close TEMP;
+
+		    $line = $pre.$temptotal.$post;
+		}
+		elsif($cmd eq "motd"){
+		    # Output a message of the day
+		    $line = $pre.processTemplate("$templates/motd.html").$post;
+		}
+		elsif($cmd eq "xplot"){
+		    # A plot in the X direction
+		    print STDERR "Plotting in x direction\n";
+		    $line = $pre.generateAndLink("x").$post;
+		}
+		elsif($cmd eq "yplot"){
+		    # A plot in the Y direction
+		    $line = $pre.generateAndLink("y").$post;
+		}
+		elsif($cmd eq "zplot"){
+		    # A plot in the Z direction
+		    $line = $pre.generateAndLink("z").$post;
+		}
+	    }
+	}
+	
+	# And now we can print out the resultant line
+	$output = $output.$line;
+    }
+
+    return $output;
+}
+
+# Determine what commands should be available at this time
+sub getCommands(){
+    my($output, $temp);
+
+    $output = "";
+    if($result-&gt;param('dataset') eq ""){
+	# Dataset open / close
+	$output = $output.substHTML($commandentry, "&lt;a href=\"$rooturl?command=open\"&gt;Open&lt;\/a&gt;");
+	$output = $output.substHTML($discommandentry, "Close");
+	
+	# Plotting
+	$output = $output.substHTML($discommandentry, "Plot");
+    }
+    else{
+	# Datset open / close
+	$output = $output.substHTML($discommandentry, "Open");
+	$output = $output.substHTML($commandentry, "&lt;a href=\"$rooturl?command=main\"&gt;Close&lt;\/a&gt;");
+
+	# Plotting
+	if($result-&gt;param('command') eq "plot"){
+	    $output = $output.substHTML($discommandentry, "Plot");
+	}
+	else{
+	    $output = $output.substHTML($commandentry, "&lt;a href=\"$rooturl?command=plot&amp;dataset=".
+					$result-&gt;param('dataset')."\"&gt;Plot&lt;/a&gt;");
+	}
+    }
+
+    return $output;
+}
+
+# Substitute into the HTML stub from the config file
+sub substHTML(){
+    my($html, $insert) = @_;
+    my($temp);
+
+    $temp = $html;
+    $temp =~ s/%s/$insert/;
+    return $temp;
+}
+
+# This subroutine deals with generating plots as required and then outputs
+# the HTML needed to link to that image
+sub generateAndLink(){
+    my($dir) = @_;
+    my($file, $unique);
+    local *COMMANDS;
+
+    print STDERR "Started generateAndLink()\n";
+
+    # Generate the filename
+    $unique = "$$-".time()."-".rand();
+    $file = "$plotcache/".$result-&gt;param('dataset')."-$dir.png";
+
+    print STDERR "Filename is: $file\n";
+
+    if(! -f $file){
+	# We need to generate the image
+	print STDERR "Plot cache miss for ".$result-&gt;param('dataset')." ($dir)\n";
+	open COMMANDS, "&gt; $tmpdir/gdms-$unique.cmd" or 
+	    die "Could not open temporary file $tmpdir/gdms-$unique.cmd\n";
+	print COMMANDS "open $datasets/".$result-&gt;param('dataset')."\n";
+	print COMMANDS "plot $dir $file\n";
+	close COMMANDS;
+
+	# Execute the gdms main program with this command script
+	`$gdms -b $tmpdir/gdms-$unique.cmd` or 
+	    die "GDMS execution error for: $gdms -b $tmpdir/gdms-$unique.cmd";
+	print STDERR "Return code as $?\n";
+    }
+    
+    # Now link to that image
+    return "&lt;img src=\"$ploturl/".$result-&gt;param('dataset')."-$dir.png\"&gt;";
+}
+</programlisting>
+<para><emphasis>Code: eps</emphasis></para>
+</chapter>
+
+<chapter><title>Appendix Three: A sample configuration file</title>
+<programlisting>
+###############################################################################
+# Directories
+###############################################################################
+
+# This line defines where the templates are stored
+$templates = "/home/httpd/gdms-templates/";
+
+# This line defines where the datsets are stored
+$datasets = "/home/httpd/gdms-datasets/";
+
+###############################################################################
+# HTML configuration
+###############################################################################
+
+# This line is simple HTML used for format the command entries, %s is the name
+# of the command (including link HTML)
+$commandentry = "&lt;tr&gt;&lt;td bgcolor=\"AAAAAA\"&gt;%s&lt;/td&gt;&lt;tr&gt;";
+
+# This line is used for commands which aren't available...
+$discommandentry = "&lt;tr&gt;&lt;td bgcolor=\"EEEEEE\"&gt;&lt;font color=\"777777\"&gt;%s&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;";
+
+# This is used for selection lists (for instance datasets)
+$selectstart = "List start";
+$selectentry = "&lt;LI&gt;%s";
+$selectend = "List end";
+
+###############################################################################
+# Caching configuration
+###############################################################################
+
+# This is the location of the plot cache -- it can get quite big
+$plotcache = "/home/httpd/html/gdms-plots/";
+$ploturl = "/gdms-plots/";
+
+# Location for temporary files
+$tmpdir = "/home/httpd/gdms-temp/";
+
+###############################################################################
+# Other
+###############################################################################
+
+# This is the root URL
+$rooturl = "/cgi-bin/gdms.pl";
+
+# This is the full path to the GDMS application
+$gdms = "/home/httpd/gdms";
+</programlisting>
+<para><emphasis>Code: eps</emphasis></para>
+</chapter>
+
+<chapter><title>Appendix Four: References</title>
 <sect1><title>References</title>
 <para>
 Raggett, D., Le Hors, A., Jacobs, I., 24 December 1999 [last update], <emphasis>HTML 4.01 Specification</emphasis>, 
