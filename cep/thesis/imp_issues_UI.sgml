@@ -222,15 +222,39 @@ Further documentation of the actual functionality available in the <command>GDMS
 
 <sect3><title>Future Enhancements</title>
 <para>
-Whilst the user interface for <command>GDMS</command> is fully functional, there are a variety of improvements which could be made in the future. These include:
+Whilst the user interface for <command>GDMS</command> is fully functional,
+there are a variety of improvements which could be made in the future. These include:
 </para>
 
 <itemizedlist>
-<listitem><para><emphasis>Online help</emphasis>: the application does not currently provide any help in the user interface. wxWindows supports the display of HTML files within windows, which would an efficient and standard method for the implementation of online help within the application.</para></listitem>
-<listitem><para><emphasis>Greater resiliance to errors</emphasis>: if an error is discovered, the application currently abandons all further processing on that dataset. This should be improved in the future, so that a failure will not stop all calculations.</para></listitem>
-<listitem><para><emphasis>Greater flexibility in the batch user interface</emphasis>: further research into what other commands should be implemented needs to be undertaken</para></listitem>
-<listitem><para><emphasis>The ability to determine the value of the nearest datapoint by hovering over it</emphasis>: this is required because it is hard to accurately hover over a datapoint with a mouse.</para></listitem>
-<listitem><para><emphasis>The ability to edit out points from the dataset</emphasis>: this should be integrated withe accurate hover functionality.</para></listitem>
+<listitem>
+  <para><emphasis>Online help</emphasis>: the application does not currently provide any help in
+  the user interface. wxWindows supports the display of HTML files within windows, which would an
+  efficient and standard method for the implementation of online help within the application.</para></listitem>
+<listitem>
+  <para><emphasis>Greater resiliance to errors</emphasis>: if an error is discovered, the application
+  currently abandons all further processing on that dataset. This should be improved in the future, so
+  that a failure will not stop all calculations.</para></listitem>
+<listitem>
+  <para><emphasis>Greater flexibility in the batch user interface</emphasis>: Further research into what other
+  commands should be implemented needs to be undertaken</para></listitem>
+<listitem>
+  <para><emphasis>The ability to determine the value of the nearest datapoint by hovering over
+  it</emphasis>: Currently the application checks the location of the mouse and looks up the relevant graph values.
+  This is misleading as the display resolution means that is almost impossible to determine with any accuracy,
+  the value of the data point at which you are pointing.</para></listitem>
+<listitem>
+  <para><emphasis>The ability to edit out points from the dataset</emphasis>: once accuarate mouse pointing is
+  integrated this will be trivial.</para></listitem>
+<listitem>
+  <para><emphasis>Meaningful graticules</emphasis>: currently the graphs are displayed with a fixed number
+  of graticules, and the scale is modified accordingly. This can be deceptive and must be revisited in a
+  future release. Revision of this code was attempted late in the process, but due to time constraints and an
+  uncooperative plotting library this was abandoned.</para></listitem>
+<listitem>
+  <para><emphasis>Analysis of plotting precision</emphasis>: currently the resision of the graphs is such that
+  using high sampling frequencies can cause the graphs to lose precision. Analysis of the plotting functions
+  needs to be considered to minimise this</para></listitem>
 </itemizedlist>
 </sect3> <!--Future Enahncements-->
 
