@@ -1,0 +1,85 @@
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
+<article>
+<title>An introduction to XML and SOAP</title>
+   <subtitle>A final year project discussion paper</subtitle>
+
+<sect1>
+<title>About the author</title>
+<para>
+Michael's student number is 964076. He can be contacted at mikal@stillhq.com. Copyright (c) Michael Still 2002.
+</para>
+</sect1>
+
+<sect1>
+<title>Abstract</title>
+<para>
+As far as Microsoft is concerned, the future of computing is .NET and distributed computing. A large part of their infrastructure for this is XML and a protocol known as SOAP. SOAP is the subject of this discussion paper
+  <footnote><para>XML is considered to be outside the scope of this paper, but it is assumed that the reader has some knowledge of the workings of XML</para></footnote>
+. SOAP is the Simple Object Access Protocol, and is essentially a XML RPC over HTTP protocol.
+</para>
+</sect1>
+
+<sect1><title>The meeting</title>
+<para>
+This report is based on a day long tutorial on XML and SOAP which I attended on 25 April 2002, as part of the <emphasis>VSLive!</emphasis> Conference in Sydney, Australia
+  <footnote><para>The conference website can be found at http://www.vslive.com. Repeats of this conference are heald in Sydney, New York, and Orlando</para></footnote>
+. The speakers at this session were Brian Randall
+  <footnote><para>http://www.vslive.com/2002/ny/speakers.asp#randall</para></footnote> and Ken Getz
+  <footnote><para>htto://www.mcwtech.com</para></footnote>
+.
+</para>
+</sect1>
+
+<sect1><title>What is SOAP</title>
+<sect2><title>History</title>
+<para>
+Microsoft has toyed with remote procedure call methods for many years. The most common of these are the moment would have to be DCOM
+  <footnote><para>The distributed COM implementation, which unfortunately has problems dealing with low latency or low bandwith network connections -- for instance most Internet connections.</para></footnote>
+. SOAP (Simple Object Access Protocol) is an attempt to develop a RPC mechanism which will work well over the Internet. Interestingly, SOAP is also one of the few examples of a standard championed by Microsoft which has been published as an open standard
+  <footnote><para>It is currently a draft specification with the <emphasis>w3c</emphasis> http://www.w3.org/TR/SOAP/</para></footnote>
+, which means developers outside of Microsoft are empowered to develop their own implementations if they want to.
+</para>
+
+<para>
+One of the preceived problems with DCOM is that it doesn't work well over the Internet, especially because it requires its own network protocol be allowed transit through the intervening firewalls. SOAP attempts to address with by tunneling its RPC calls through HTTP, which makes it easy for many organisations to set it up within their existing firewall infrastucture. Incidentally, there is some discussion at the moment of whether SOAP should be allowed it's own network protocol as well.
+</para>
+</sect2>
+
+<sect2><title>The example</title>
+<para>
+When discussing the use of SOAP, will will use the example of TRIM, which is a heavily RPC orientated client server package developed by TOWER Software in Canberra. It is a prime candidate for conversion to SOAP, as it currently uses DCOM, the previous Microsoft technology for RPC calls over the Internet.
+</para>
+</sect2>
+
+<sect2><title>The protocol</title>
+<para>
+SOAP is defined in terms of an XML DTD
+  <footnote><para>Document Type Definition -- a way of defining a grammar that your XML will obey for a certain type of transaction</para></footnote>
+, which is what has been submitted to the <emphasis>w3c</emphasis> as a proposed specification. A RPC call (when using the HTTP transport) takes the form of a request for a given page, which the RPC arguements packed into an XML document which is posted to the web service
+  <footnote><para>The name given to a piece of software which offers RPC facilities under SOAP</para></footnote>
+using the same mechanism that POSTs use under CGI. The result of the RPC call is returned in the form of another XML document, which would be displayed in the browser if the client was a webserver.
+</para>
+
+<para>
+It can be seen from this description that the protocol requires a fair bit of overhead. Not only do both the client and web service need to be able to talk HTTP, they also need to be able to generate and parse XML. Web proxies were also not originally intended for the style of traffic that SOAP will impose on them. At the moment if you browse a web site, then a series of connections to the web server are made
+  <footnote><para>Although HTTP 1.1 allows for all traffic to flow on one connection</para></footnote>
+and data is returned. The data is then rendered for the user. Even on a fast Internet connection this can be quite frustratingly slow. Imagine that those requests are now the challenge and response for a logon to TRIM, which currently takes less than a second.
+</para>
+
+<para>
+One possible solution to at least part of this problem is to make client server protocols require less calls to perform common opertations. It should be noted however that competent client server programmers already attempt to minimise the amount of network traffic incurred by their product.
+</para>
+</sect2>
+</sect1>
+
+<sect1><title>Response to the talk</title>
+<para>
+The talk, as well as the speakers, were well presented. The conference procedings includes over 260 slides for this day long session, even though additional slides were used to further explain topics that the audience had difficulty grasping. The speakers understood how to keep the audience engaged and interested for the entire length of the session as well, and there were plenty of well explained examples during the session.
+</para>
+
+<para>
+One criticism of the speakers were that they were very Microsoft focussed in their discussions, with most of the examples being in Visual Basic (the exceptions were in Microsoft's new language, C#). It is not entirely unexpected at a Microsoft development conference.
+</para>
+</sect1>
+
+</article>
