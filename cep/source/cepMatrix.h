@@ -1,15 +1,11 @@
 
-/**********************************************************
-cepMatrix.h
-
-Copyright:- Kristy Van Der Vlist
-Description:- The cepMatrix object contains the matrix data,
-  acessor methods an core mathematical fuctions that need
-  to be preformed on it.
-***********************************************************/
  /* 
-  * Imp for the matrix class
+  *  The cepMatrix object contains the matrix data,
+  *  accessor methods and core mathematical fuctions that need
+  *  to be performed on it.
+  *
   * Copyright (C) Kristy Van Der Vlist             2002
+  * Copyright (C) Michael Still                    2002
   * 
   * This program is free software; you can redistribute it and/or modify it
   * under the terms of the GNU General Public License as published by the Free
@@ -379,6 +375,7 @@ cepMatrix<T>::cepMatrix (const int & rows, const int & cols)
   if (m_matrix == NULL)
   {
     m_error = cepError("Could not allocate memory for Matrix", cepError::sevErrorRecoverable);
+    m_error.log();
   }
 }
 
@@ -395,6 +392,7 @@ cepMatrix<T>::cepMatrix (const int & rows, const int & cols, const int & tab)
   if (m_tables == NULL)
   {
     m_error = cepError("Could not allocate memory for Matrix", cepError::sevErrorRecoverable);
+    m_error.log();
     return;
   }
 
@@ -405,6 +403,7 @@ cepMatrix<T>::cepMatrix (const int & rows, const int & cols, const int & tab)
     if (m_tables[i] == NULL)
     {
       m_error = cepError("Could not allocate memory for Matrix", cepError::sevErrorRecoverable);
+      m_error.log();
       return;
     }
   }
@@ -448,6 +447,7 @@ const cepMatrix<T> & cepMatrix<T>::transpose ()
   if (m_matrix == NULL)
   {
     m_error = cepError("Can Not Transpose a 3D matrix", cepError::sevErrorRecoverable);
+    m_error.log();
     if(tempMatrix != NULL)
     {
       delete[]tempMatrix;
@@ -460,6 +460,7 @@ const cepMatrix<T> & cepMatrix<T>::transpose ()
   if (m_matrix == NULL)
   {
     m_error = cepError("Could not allocate memory for Matri", cepError::sevErrorRecoverable);
+    m_error.log();
     if(tempMatrix != NULL)
     {
       delete[]tempMatrix;
@@ -493,6 +494,7 @@ const cepMatrix<T> & cepMatrix<T>::operator+= (const cepMatrix & B)
   if (m_matrix == NULL)
   {
     m_error = cepError(" Could not allocate memory for Matrix", cepError::sevErrorRecoverable);
+    m_error.log();
     if(tempMatrix != NULL)
     {
       delete[]tempMatrix;
@@ -505,6 +507,7 @@ const cepMatrix<T> & cepMatrix<T>::operator+= (const cepMatrix & B)
   if (m_matrix == NULL)
   {
     m_error = cepError("Could not allocate memory for Matrix", cepError::sevErrorRecoverable);
+    m_error.log();
     if(tempMatrix != NULL)
     {
       delete[]tempMatrix;
@@ -515,6 +518,7 @@ const cepMatrix<T> & cepMatrix<T>::operator+= (const cepMatrix & B)
   if ((B.m_numRows != m_numRows) || (B.m_numCols != m_numCols))
   {
     m_error = cepError("Matrix sizes are wrong", cepError::sevErrorRecoverable);
+    m_error.log();
     if(tempMatrix != NULL)
     {
       delete[]tempMatrix;
@@ -549,6 +553,7 @@ const cepMatrix<T> & cepMatrix<T>::operator-= (const cepMatrix & B)
   if (m_matrix == NULL)
   {
     m_error = cepError(" Can not use the - operator on a 3D Matrix", cepError::sevErrorRecoverable);
+    m_error.log();
     if(tempMatrix != NULL)
     {
       delete[]tempMatrix;
@@ -561,6 +566,7 @@ const cepMatrix<T> & cepMatrix<T>::operator-= (const cepMatrix & B)
   if (m_matrix == NULL)
   {
     m_error = cepError("Could not allocate memory for Matrix", cepError::sevErrorRecoverable);
+    m_error.log();
     if(tempMatrix != NULL)
     {
       delete[]tempMatrix;
@@ -571,6 +577,7 @@ const cepMatrix<T> & cepMatrix<T>::operator-= (const cepMatrix & B)
   if ((B.m_numRows != m_numRows) || (B.m_numCols != m_numCols))
   {
     m_error = cepError(" Matrix sizes are wrong", cepError::sevErrorRecoverable);
+    m_error.log();
     if(tempMatrix != NULL)
     {
       delete[]tempMatrix;
@@ -606,6 +613,7 @@ const cepMatrix<T> & cepMatrix<T>::operator*= (const cepMatrix & B)
   if (m_matrix == NULL)
   {
     m_error = cepError(" Can not use the - operator on a 3D Matrix", cepError::sevErrorRecoverable);
+    m_error.log();
     if(tempMatrix != NULL)
     {
       delete[]tempMatrix;
@@ -616,6 +624,7 @@ const cepMatrix<T> & cepMatrix<T>::operator*= (const cepMatrix & B)
   if (m_numCols != B.m_numRows)
   {
     m_error = cepError(" Matrix sizes are wrong", cepError::sevErrorRecoverable);
+    m_error.log();
     if(tempMatrix != NULL)
     {
       delete[]tempMatrix;
@@ -629,6 +638,7 @@ const cepMatrix<T> & cepMatrix<T>::operator*= (const cepMatrix & B)
     if (m_matrix == NULL)
     {
       m_error = cepError(" Could not allocate memory for Matrix", cepError::sevErrorRecoverable);
+      m_error.log();
       if(tempMatrix != NULL)
     {
       delete[]tempMatrix;
@@ -673,6 +683,7 @@ const cepMatrix<T> & cepMatrix<T>::operator*= (const T &scalar)
   if (m_matrix == NULL)
   {
     m_error = cepError(" Can not use the * operator on a 3D Matrix", cepError::sevErrorRecoverable);
+    m_error.log();
     return *this;
   }
 
@@ -703,6 +714,7 @@ const cepMatrix<T> & cepMatrix<T>::operator= (const cepMatrix & B)
     if (m_tables == NULL)
     {
       m_error = cepError(" Could not allocate memory for Matrix", cepError::sevErrorRecoverable);
+      m_error.log();
       return *this;
     }
 
@@ -713,6 +725,7 @@ const cepMatrix<T> & cepMatrix<T>::operator= (const cepMatrix & B)
       if (m_tables[i] == NULL)
       {
         m_error = cepError(" Could not allocate memory for Matrix", cepError::sevErrorRecoverable);
+	m_error.log();
         return *this;
       }
     }
@@ -736,6 +749,7 @@ const cepMatrix<T> & cepMatrix<T>::operator= (const cepMatrix & B)
     if (m_matrix == NULL)
     {
       m_error = cepError(" Could not allocate memory for Matrix", cepError::sevErrorRecoverable);
+      m_error.log();
       return *this;
     }
 
@@ -760,6 +774,7 @@ const bool cepMatrix<T>::operator== (const cepMatrix & B)
   if (m_matrix == NULL)
   {
     m_error = cepError(" Can not use the == operator on a 3D Matrix", cepError::sevErrorRecoverable);
+    m_error.log();
     return false;
   }
 
@@ -797,6 +812,7 @@ const bool  cepMatrix<T>::isDiagonal ()
   if (m_matrix == NULL)
   {
     m_error = cepError(" Can not use the isDiagonal operator on a 3D Matrix", cepError::sevErrorRecoverable);
+    m_error.log();
     return false;
   }
 
@@ -821,63 +837,89 @@ const bool  cepMatrix<T>::isDiagonal ()
 }
 
 template <class T>
-const T cepMatrix<T>::getMaxValue(const int & col)
+const T cepMatrix<T>::getMaxValue(const int& col)
 {
-  T maxVal;
-
-  if (m_matrix == NULL)
-  {
-    m_error = cepError(" Can not use the getMax operator on a 3D Matrix", cepError::sevErrorRecoverable);
-    return (T)0;
-  }
-
   if (col >= m_numCols)
   {
     m_error = cepError("Invalid Col Number", cepError::sevErrorRecoverable);
+    m_error.log();
     return (T)0;
   }
 
-  maxVal = m_matrix[col];
+  // This is a 2D matrix
+  if (m_matrix != NULL){
+    T maxVal;
+    maxVal = m_matrix[col];
+    
+    for(int i = 0; i < m_numRows; i ++)
+      {
+	if(maxVal < m_matrix[(i * m_numCols) + col])
+	  {
+	    maxVal = m_matrix[(i * m_numCols) + col];
+	  }
+      }
 
-  for(int i = 0; i < m_numRows; i ++)
-  {
-    if(maxVal < m_matrix[(i * m_numCols) + col])
-    {
-      maxVal = m_matrix[(i * m_numCols) + col];
-    }
+    return maxVal;
   }
 
-  return maxVal;
+  // This is a 3D matrix
+  else{
+    T maxVal;
+    maxVal = m_tables[0][col];
+    
+    for(int tno = 0; tno < m_numTables; tno++){
+      for(int i = 0; i < m_numRows; i ++){
+	if(maxVal < m_tables[tno][(i * m_numCols) + col]){
+	  maxVal = m_tables[tno][(i * m_numCols) + col];
+	}
+      }
+    }
+    
+    return maxVal;
+  }
 }
 
 template <class T>
-const T cepMatrix<T>::getMinValue(const int & col)
+const T cepMatrix<T>::getMinValue(const int& col)
 {
-  T minVal;
-
-  if (m_matrix == NULL)
-  {
-    m_error = cepError(" Can not use the getMax operator on a 3D Matrix", cepError::sevErrorRecoverable);
-    return (T)0;
-  }
-
   if (col >= m_numCols)
   {
     m_error = cepError("Invalid Col Number", cepError::sevErrorRecoverable);
+    m_error.log();
     return (T)0;
   }
 
-  minVal = m_matrix[col];
+  // This is a 2D matrix
+  if (m_matrix != NULL){
+    T minVal;
+    minVal = m_matrix[col];
+    
+    for(int i = 0; i < m_numRows; i ++)
+      {
+	if(minVal > m_matrix[(i * m_numCols) + col])
+	  {
+	    minVal = m_matrix[(i * m_numCols) + col];
+	  }
+      }
 
-  for(int i = 0; i < m_numRows; i ++)
-  {
-    if(minVal > m_matrix[(i * m_numCols) + col])
-    {
-      minVal = m_matrix[(i * m_numCols) + col];
-    }
+    return minVal;
   }
 
-  return minVal;
+  // This is a 3D matrix
+  else{
+    T minVal;
+    minVal = m_tables[0][col];
+    
+    for(int tno = 0; tno < m_numTables; tno++){
+      for(int i = 0; i < m_numRows; i ++){
+	if(minVal > m_tables[tno][(i * m_numCols) + col]){
+	  minVal = m_tables[tno][(i * m_numCols) + col];
+	}
+      }
+    }
+    
+    return minVal;
+  }
 }
 
 //****************Resize fuction *************************
@@ -889,6 +931,7 @@ const cepMatrix<T>& cepMatrix<T>::resize(const int & newRows)
   if (m_matrix == NULL)
   {
     m_error = cepError(" Can not resize a 3D Matrix", cepError::sevErrorRecoverable);
+    m_error.log();
     if(tempMatrix != NULL)
     {
       delete[]tempMatrix;
@@ -903,6 +946,7 @@ const cepMatrix<T>& cepMatrix<T>::resize(const int & newRows)
     if (tempMatrix == NULL)
     {
       m_error = cepError(" Could not allocate memory for Matrix", cepError::sevErrorRecoverable);
+      m_error.log();
       if(tempMatrix != NULL)
       {
         delete[]tempMatrix;
@@ -919,6 +963,7 @@ const cepMatrix<T>& cepMatrix<T>::resize(const int & newRows)
     if (m_matrix == NULL)
     {
       m_error = cepError(" Could not allocate memory for Matrix", cepError::sevErrorRecoverable);
+      m_error.log();
       if(tempMatrix != NULL)
       {
         delete[]tempMatrix;
@@ -936,6 +981,7 @@ const cepMatrix<T>& cepMatrix<T>::resize(const int & newRows)
   else
   {
     m_error = cepError("Can not make a matrix smaller", cepError::sevErrorRecoverable);
+    m_error.log();
     if(tempMatrix != NULL)
     {
       delete[]tempMatrix;
@@ -959,18 +1005,21 @@ const T cepMatrix<T>::getValue (const int & row, const int & col)
   if (m_matrix == NULL)
   {
     m_error = cepError("The matrix contains no values", cepError::sevErrorRecoverable);
+    m_error.log();
     return (T)0;
   }
 
   if (row >= m_numRows)
   {
     m_error = cepError("Invalid Row Number", cepError::sevErrorRecoverable);
+    m_error.log();
     return (T)0;
   }
 
   if (col >= m_numCols)
   {
     m_error = cepError("Invalid Col Number", cepError::sevErrorRecoverable);
+    m_error.log();
     return (T)0;
   }
   return m_matrix[(row * m_numCols) + col];
@@ -982,12 +1031,14 @@ void cepMatrix<T>::setValue (const int & row, const int & col, const T & value)
   if (row >= m_numRows)
   {
     m_error = cepError("Invalid Row Number", cepError::sevErrorRecoverable);
+    m_error.log();
     return;
   }
 
   if (col >= m_numCols)
   {
     m_error = cepError("Invalid Col Number", cepError::sevErrorRecoverable);
+    m_error.log();
     return;
   }
 
@@ -1019,23 +1070,27 @@ const T cepMatrix<T>::getValue (const int & row, const int & col, const int & ta
   if (m_tables == NULL)
   {
     m_error = cepError("The matrix contains no values", cepError::sevErrorRecoverable);
+    m_error.log();
     return (T)0;
   }
 
   if (row >= m_numRows)
   {
     m_error = cepError("Invalid Row Number", cepError::sevErrorRecoverable);
+    m_error.log();
     return (T)0;
   }
 
   if (col >= m_numCols)
   {
     m_error = cepError("Invalid Col Number", cepError::sevErrorRecoverable);
+    m_error.log();
     return (T)0;
   }
   if (tab >= m_numTables)
   {
     m_error = cepError("Invalid Table Number", cepError::sevErrorRecoverable);
+    m_error.log();
     return (T)0;
   }
 
@@ -1054,17 +1109,20 @@ void cepMatrix<T>::setValue (const int & row, const int & col, const int & tab, 
     if (row >= m_numRows)
     {
       m_error = cepError("Invalid Row Number", cepError::sevErrorRecoverable);
+      m_error.log();
       return;
     }
 
     if (col >= m_numCols)
     {
       m_error = cepError("Invalid Col Number", cepError::sevErrorRecoverable);
+      m_error.log();
       return;
     }
     if (tab >= m_numTables)
     {
       m_error = cepError("Invalid Table Number", cepError::sevErrorRecoverable);
+      m_error.log();
       return;
     }
 
@@ -1088,7 +1146,6 @@ template <class T>
 cepError cepMatrix<T>::getError()
 {
   return m_error;
-  m_error = cepError();
 }
 
 

@@ -148,10 +148,29 @@ cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminva
 
   if(!m_haveMaxima){
     m_xmaxval = (unsigned int) (m_ds->getMaxValue(cepDataset::colDate) * 10000);
+    if(m_ds->getError().isReal()){
+      m_ds->getError().display();
+    }
+
     m_xminval = (unsigned int) (m_ds->getMinValue(cepDataset::colDate) * 10000);
+    if(m_ds->getError().isReal()){
+      m_ds->getError().display();
+    }
+
     m_ymaxval = (unsigned int) (m_ds->getMaxValue(cepDataset::colSample) * 10000);
+    if(m_ds->getError().isReal()){
+      m_ds->getError().display();
+    }
+
     m_yminval = (unsigned int) (m_ds->getMinValue(cepDataset::colSample) * 10000);
+    if(m_ds->getError().isReal()){
+      m_ds->getError().display();
+    }
+
     m_emaxval = (unsigned int) (m_ds->getMaxValue(cepDataset::colError) * 10000);
+    if(m_ds->getError().isReal()){
+      m_ds->getError().display();
+    }
 
     cepDebugPrint("Graph extents: x = [" + cepToString(m_xminval) + " - " + 
 		  cepToString(m_xmaxval) + "] y = [" + cepToString(m_yminval) + " - " +
@@ -225,54 +244,73 @@ cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminva
   // If we are using errors, then we draw these underneath
   if(m_useErrors){
     cepDebugPrint("Displaying errors");
+   
     plot_setlinecolor(graph, m_errorColor.red, m_errorColor.green,
 		      m_errorColor.blue);
-    for(int i = 0; i < m_ds->getNumRows(); i++){
-      long convdate = (long) (m_ds->getValue(i, cepDataset::colDate) * 10000);
-      if(m_ds->getError().isReal())
-	return m_ds->getError();
+    for(int tno = 0; tno < m_ds->getNumTables(); tno++){
+      if(m_ds->getError().isReal()){
+	m_ds->getError().display();
+	break;
+      }
 
-      long convsample = (long) (m_ds->getValue(i, cepDataset::colSample) * 10000);
-      if(m_ds->getError().isReal())
-	return m_ds->getError();
+      for(int i = 0; i < m_ds->getNumRows(); i++){
+	if(m_ds->getError().isReal()){
+	  m_ds->getError().display();
+	  break;
+	}
 
-      long converror = (long) (m_ds->getValue(i, cepDataset::colError) * 10000);
-      if(m_ds->getError().isReal())
-	return m_ds->getError();
-
-      unsigned int horiz = (unsigned int) ((convdate - m_xminval) / vertScale + graphInset);
-
-      // Vertical line
-      plot_setlinestart(graph, horiz,
-			(unsigned int) ((yrange - (convsample + converror) + 
-					 yminval) / horizScale + graphInset));
-      plot_addlinesegment(graph, horiz,
-			  (unsigned int) ((yrange - (convsample - converror) + yminval) 
+	long convdate = (long) (m_ds->getValue(i, cepDataset::colDate, tno) * 10000);
+	if(m_ds->getError().isReal()){
+	  m_ds->getError().display();
+	  break;
+	}
+	
+	long convsample = (long) (m_ds->getValue(i, cepDataset::colSample, tno) * 10000);
+	if(m_ds->getError().isReal()){
+	  m_ds->getError().display();
+	  break;
+	}
+	
+	long converror = (long) (m_ds->getValue(i, cepDataset::colError, tno) * 10000);
+	if(m_ds->getError().isReal()){
+	  m_ds->getError().display();
+	  break;
+	}
+	
+	unsigned int horiz = (unsigned int) ((convdate - m_xminval) / vertScale + graphInset);
+	
+	// Vertical line
+	plot_setlinestart(graph, horiz,
+			  (unsigned int) ((yrange - (convsample + converror) + 
+					   yminval) / horizScale + graphInset));
+	plot_addlinesegment(graph, horiz,
+			    (unsigned int) ((yrange - (convsample - converror) + yminval) 
+					    / horizScale + graphInset));
+	plot_strokeline(graph);
+	plot_endline(graph);
+	
+	// Top horizontal line
+	plot_setlinestart(graph, horiz - 2, 
+			  (unsigned int) ((yrange - (convsample + converror) + yminval)
 					  / horizScale + graphInset));
-      plot_strokeline(graph);
-      plot_endline(graph);
-      
-      // Top horizontal line
-      plot_setlinestart(graph, horiz - 2, 
-			(unsigned int) ((yrange - (convsample + converror) + yminval)
-					/ horizScale + graphInset));
-      plot_addlinesegment(graph, horiz + 2, 
-			  (unsigned int) ((yrange - (convsample + converror) + yminval) 
+	plot_addlinesegment(graph, horiz + 2, 
+			    (unsigned int) ((yrange - (convsample + converror) + yminval) 
+					    / horizScale + graphInset));
+	plot_strokeline(graph);
+	plot_endline(graph);
+	
+	// Bottom horizontal line
+	plot_setlinestart(graph, horiz - 2, 
+			  (unsigned int) ((yrange - (convsample - converror) + yminval)
 					  / horizScale + graphInset));
-      plot_strokeline(graph);
-      plot_endline(graph);
-      
-      // Bottom horizontal line
-      plot_setlinestart(graph, horiz - 2, 
-			(unsigned int) ((yrange - (convsample - converror) + yminval)
-					/ horizScale + graphInset));
-      plot_addlinesegment(graph, horiz + 2, 
-			  (unsigned int) ((yrange - (convsample - converror) + yminval) 
-					  / horizScale + graphInset));
-      plot_strokeline(graph);
-      plot_endline(graph);
+	plot_addlinesegment(graph, horiz + 2, 
+			    (unsigned int) ((yrange - (convsample - converror) + yminval) 
+					    / horizScale + graphInset));
+	plot_strokeline(graph);
+	plot_endline(graph);
+      }
     }
-   }
+  }
 
   // Draw the axes. We want the graph to be over this, but the error lines to
   // be underneath
@@ -357,27 +395,43 @@ cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminva
   ////////////////////////////////////////////////////////////////////////////////
   // Now draw the actual graph
   cepDebugPrint("Plotting graph");
-  plot_setlinecolor(graph, m_lineColor.red, m_lineColor.green,
-		    m_lineColor.blue);
-  for(int i = 0; i < m_ds->getNumRows(); i++){
-    long convdate = (long) (m_ds->getValue(i, cepDataset::colDate) * 10000);
-      if(m_ds->getError().isReal())
-	return m_ds->getError();
+  for(int tno = 0; tno < m_ds->getNumTables(); tno++){
+    if(m_ds->getError().isReal()){
+      m_ds->getError().display();
+      break;
+    }
 
-    long convsample = (long) (m_ds->getValue(i, cepDataset::colSample) * 10000);
-      if(m_ds->getError().isReal())
-	return m_ds->getError();
-
-    unsigned int xpoint = (unsigned int) ((convdate - m_xminval) / vertScale + graphInset);
-    unsigned int ypoint = (unsigned int) ((yrange - convsample + yminval) / horizScale + graphInset);
-    
-    plot_setlinestart(graph, xpoint - 1, ypoint);
-    plot_addlinesegment(graph, xpoint, ypoint - 1);
-    plot_addlinesegment(graph, xpoint + 1, ypoint);
-    plot_addlinesegment(graph, xpoint, ypoint + 1);
-    plot_closeline(graph);
-    plot_strokeline(graph);
-    plot_endline(graph);
+    plot_setlinecolor(graph, m_lineColor.red, m_lineColor.green,
+		      m_lineColor.blue);
+    for(int i = 0; i < m_ds->getNumRows(); i++){
+      if(m_ds->getError().isReal()){
+	m_ds->getError().display();
+	break;
+      }
+      
+      long convdate = (long) (m_ds->getValue(i, cepDataset::colDate, tno) * 10000);
+      if(m_ds->getError().isReal()){
+	m_ds->getError().display();
+	break;
+      }
+      
+      long convsample = (long) (m_ds->getValue(i, cepDataset::colSample, tno) * 10000);
+      if(m_ds->getError().isReal()){
+	m_ds->getError().display();
+	break;
+      }
+      
+      unsigned int xpoint = (unsigned int) ((convdate - m_xminval) / vertScale + graphInset);
+      unsigned int ypoint = (unsigned int) ((yrange - convsample + yminval) / horizScale + graphInset);
+      
+      plot_setlinestart(graph, xpoint - 1, ypoint);
+      plot_addlinesegment(graph, xpoint, ypoint - 1);
+      plot_addlinesegment(graph, xpoint + 1, ypoint);
+      plot_addlinesegment(graph, xpoint, ypoint + 1);
+      plot_closeline(graph);
+      plot_strokeline(graph);
+      plot_endline(graph);
+    }
   }
 
   ////////////////////////////////////////////////////////////////////////////////

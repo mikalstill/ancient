@@ -353,9 +353,11 @@ cepError cepDataset::read(const string & filename)
     }
 
     // Are the files over the same period?
+    // todo: check other tables
     cepDebugPrint("Check the value ranges in the dataset");
-    for(int tno = 0; tno < m_data[0]->getNumTables(); tno++){
-      cepDebugPrint("Integrity check on table " + cepToString(tno));
+    for(int tno = 0; tno < 1 /*m_data[0]->getNumTables()*/; tno++){
+      cepDebugPrint("Integrity check on table " + cepToString(tno) + " of " + 
+		    cepToString(m_data[0]->getNumTables()));
 
       // Do the start values for the table match?
       if(m_data[0]->getValue(0, 0, tno) != m_data[1]->getValue(0, 0, tno)){
@@ -414,7 +416,7 @@ cepError cepDataset::read(const string & filename)
 	return cepError("The final date for the North (" + 
 			cepToString(m_data[0]->getValue(m_data[0]->getNumRows() - 1, 0, tno)) + 
 			") and Up (" + 
-			cepToString(m_data[2]->getValue(m_data[0]->getNumRows() - 1, 0, tno)) + 
+			cepToString(m_data[2]->getValue(m_data[2]->getNumRows() - 1, 0, tno)) + 
 			") directions differ for table " + cepToString(tno), 
 			cepError::sevErrorRecoverable);
       }

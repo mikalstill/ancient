@@ -1,7 +1,7 @@
 /***************************************************************************
  * Testing Framework for cepMatrix
  *
- * (c) Kristy Van Der Vlist, Blake Swadling 2002 ..
+ * (c) Kristy Van Der Vlist, Blake Swadling, Michael Still 2002
  *   ( or whoever simply removes this comment and steals it for themselves )
  ***************************************************************************/
 
@@ -37,11 +37,15 @@
  *     void tearDown( void ) { ... }
  *
  * @author <your name here>
- * @version $Revision: 1.20 $ $Date: 2002-11-13 06:19:02 $
+ * @version $Revision: 1.21 $ $Date: 2002-11-18 23:47:16 $
  *
  * Revision History
  *
  * $Log: not supported by cvs2svn $
+ * Revision 1.20  2002/11/13 06:19:02  u983118
+ * added tests for new fuctions
+ * cepMatrix is3D and the new methods with get and set of 3d matricies
+ *
  * Revision 1.19  2002/11/03 02:52:05  u983118
  * added tests for error stuff
  *
@@ -257,11 +261,17 @@ public:
     suiteOfTests->addTest(
       new CppUnit::TestCaller<Test>( "testTranspose", &Test::testTranspose ) );
 
-   suiteOfTests->addTest(
+    suiteOfTests->addTest(
       new CppUnit::TestCaller<Test>( "testMax", &Test::testMax ) );
 
    suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "testMax3D", &Test::testMax3D ) );
+
+   suiteOfTests->addTest(
       new CppUnit::TestCaller<Test>( "testMin", &Test::testMin ) );
+     
+   suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "testMin3D", &Test::testMin3D ) );
      
     suiteOfTests->addTest(
       new CppUnit::TestCaller<Test>( "test3D", &Test::test3D ) );
@@ -652,6 +662,48 @@ protected:
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0015, data.getMaxValue(2));
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
   }
+
+  void testMax3D()
+  {
+    cepMatrix<double> data(5, 3, 3);
+    
+    //define the data matrix
+    data.setValue(0,0,0,2000.1589);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(1,0,0,2000.1626);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(2,0,0,2000.1653);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(3,0,0,2000.1680);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(4,0,0,2000.1708);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    
+    data.setValue(0,0,1,1999.1589);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(1,0,1,1999.1626);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(2,0,1,1999.1653);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(3,0,1,1999.1680);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(4,0,1,1999.1708);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+
+    data.setValue(0,0,2,1998.1589);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(1,0,2,1998.1626);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(2,0,2,1998.1653);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(3,0,2,1998.1680);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(4,0,2,1998.1708);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 2000.1708, data.getMaxValue(0));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+  }
   
   void testMin()
   {
@@ -698,7 +750,49 @@ protected:
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0012, data.getMinValue(2));
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
-  }                            
+  }     
+                       
+  void testMin3D()
+  {
+    cepMatrix<double> data(5, 3, 3);
+    
+    //define the data matrix
+    data.setValue(0,0,0,2000.1589);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(1,0,0,2000.1626);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(2,0,0,2000.1653);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(3,0,0,2000.1680);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(4,0,0,2000.1708);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    
+    data.setValue(0,0,1,1999.1589);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(1,0,1,1999.1626);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(2,0,1,1999.1653);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(3,0,1,1999.1680);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(4,0,1,1999.1708);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+
+    data.setValue(0,0,2,1998.1589);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(1,0,2,1998.1626);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(2,0,2,1998.1653);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(3,0,2,1998.1680);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(4,0,2,1998.1708);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1998.1589, data.getMinValue(0));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+  }
 
   void test3D()
   {
@@ -1008,7 +1102,8 @@ protected:
     actual.resize(newRows);
     
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", true, actual.getError().isReal());    
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", string("Can not make a matrix smaller"), actual.getError().getMessage());    
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", string("Can not make a matrix smaller"), 
+				  actual.getError().getMessage());    
   }
   
   void testIs3D()

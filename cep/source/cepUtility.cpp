@@ -64,6 +64,11 @@ cepToString (float number, bool suppressTrailingZeros)
     buffer[i + 1] = '\0';
   }
 
+  // If there is just a point sign, then put a zero back...
+  if(buffer[strlen(buffer) - 1] == '.'){
+    return string(string(buffer) + "0");
+  }
+
   return string (buffer);
 }
 

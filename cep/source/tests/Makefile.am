@@ -15,11 +15,12 @@ testmatrix_SOURCES = alltests.cpp cep_testMatrix.cpp
 
 testconfig_SOURCES = alltests.cpp cep_testConfig.cpp
 
-testls_SOURCES = alltests.cpp cep_testLs.cpp
-testls_LDADD = ../cepLs.o ../cepDataset.o ../cepStringArray.o
-
 testdataset_SOURCES = alltests.cpp cep_testDataset.cpp
 testdataset_LDADD = ../cepDataset.o ../cepStringArray.o ../cepMatrixIO.o
+
+testls_SOURCES = alltests.cpp cep_testLs.cpp
+testls_LDADDACTUAL = ../cepLs.o 
+testls_LDADD = $(testls_LDADDACTUAL) $(testdataset_LDADD)
 
 testnumeric_SOURCES = alltests.cpp cep_testNumeric.cpp
 
@@ -40,7 +41,7 @@ testinterp_LDADD = ../cepInterp.o
 # run very occassionally, it might belong in (4) instead...
 testall_SOURCES = alltests.cpp cep_testWindows.cpp cep_testMatrix.cpp cep_testConfig.cpp cep_testLs.cpp cep_testDataset.cpp cep_testNumeric.cpp cep_testCfft.cpp cep_testDate.cpp cep_testInterp.cpp
 
-testall_LDADD = $(testwindows_LDADD) $(testls_LDADD) $(testdataset_LDADD) $(testdate_LDADD) $(testinterp_LDADD)
+testall_LDADD = $(testwindows_LDADD) $(testls_LDADDACTUAL) $(testdataset_LDADD) $(testdate_LDADD) $(testinterp_LDADD)
 
 # 4: A special target for really long winded tests
 testallhuge_SOURCES = alltests.cpp cep_testPresentation000.cpp cep_testPresentation1000.cpp cep_testPresentation200.cpp cep_testPresentation400.cpp cep_testPresentation600.cpp cep_testPresentation800.cpp

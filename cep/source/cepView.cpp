@@ -625,7 +625,6 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
       }
       
       // Actually force the graphs to redraw
-      m_dirty = true;
       canvas->Refresh();
     }
   else
@@ -773,13 +772,9 @@ cepView::processWindow(const cepWindow wType, string desc)
     for(int i = 0; i < cepDataset::dirUnknown; i++)
     {
       cepDebugPrint("Window: " + cepToString(i));
-//      cout << "window size:" << endl
-//           << "rows: " << theDoc->getDataset()->getMatrix((cepDataset::direction) i)->getNumRows() << endl
-//           << "cols: " << theDoc->getDataset()->getMatrix((cepDataset::direction) i)->getNumCols() << endl
-//           << "tabs: " << theDoc->getDataset()->getMatrix((cepDataset::direction) i)->getNumTables() << endl;
-           
-      cepError werr = cepDataWindower::window(*theDoc->getDataset()->getMatrix((cepDataset::direction) i),
-                                                windowed[i]);
+      cepError werr = cepDataWindower::window(*theDoc->getDataset()->
+					      getMatrix((cepDataset::direction) i),
+					      windowed[i]);
       if(werr.isReal()){
         werr.display();
         return;
@@ -789,7 +784,7 @@ cepView::processWindow(const cepWindow wType, string desc)
     // Now we can process the results
     cepDebugPrint("Display results");
     cepDataset newds(&windowed[0], &windowed[1], &windowed[2], 
-		   theDataset->getOffset((cepDataset::direction) 0), 
+		     theDataset->getOffset((cepDataset::direction) 0), 
 		     theDataset->getOffset((cepDataset::direction) 1), 
 		     theDataset->getOffset((cepDataset::direction) 2),
 		     theDataset->getProcHistory() + " : " + desc, 
@@ -809,7 +804,6 @@ cepView::processWindow(const cepWindow wType, string desc)
     free(cfname);
     
     // Actually force the graphs to redraw
-    m_dirty = true;
     canvas->Refresh();
   }
 }
@@ -884,7 +878,6 @@ cepView::processInterp(const int iType, string desc)
     free(cfname);
     
     // Actually force the graphs to redraw
-    m_dirty = true;
     canvas->Refresh();
   }
 }
@@ -929,7 +922,6 @@ void cepView::OnFFT (wxCommandEvent& event)
     free(cfname);
     
     // Actually force the graphs to redraw
-    m_dirty = true;
     canvas->Refresh();
   }
 }
