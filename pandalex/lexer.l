@@ -81,7 +81,7 @@ exit(42);
 <INITIAL>\%PDF-[0-9]+\.[0-9]+    { debuglex(yytext, -1, "version");
                             yylval.sval.data = (char *) returnStr(yytext, -1);
                             yylval.sval.len = yyleng;
-                            return VERSION;
+                            return PDFVER;
                                                                              }
 
 <INITIAL>[ \t\r\n]+              { debuglex(yytext, -1, "whitespace");

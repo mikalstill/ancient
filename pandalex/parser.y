@@ -57,7 +57,7 @@
   } sval;
 }
 
-%token <sval> VERSION
+%token <sval> PDFVER
 %token <sval> NAME
 %token <sval> STRING
 %token <sval> OBJREF <sval> OBJ <sval> ENDOBJ 
@@ -89,7 +89,7 @@ pdf       : header { pandalex_callback(pandalex_event_entireheader, $1.data); }
           ;
 
 // completely implemented
-header    : VERSION { pandalex_callback(pandalex_event_specver, $1.data); }
+header    : PDFVER { pandalex_callback(pandalex_event_specver, $1.data); }
             binary { $$.data = pandalex_strmcat($1.data, $1.len, $3.data, $3.len); $$.len = $1.len + $3.len + 1; }
           ;
 
