@@ -9,7 +9,7 @@ noinst_PROGRAMS = testall testwindows testmatrix testconfig testls testdataset t
 EXTRA_PROGRAMS = testallhuge
 
 testwindows_SOURCES = alltests.cpp cep_testWindows.cpp
-testwindows_LDADD = ../cepDataWindower.o ../cepWindowAlg.o ../cepWindowRect.o ../cepwindowhamming.o ../cepwindowchebyshev.o ../cepwindowblackman.o
+testwindows_LDADD = ../cepDataWindower.o ../cepWindowAlg.o ../cepWindowRect.o ../cepwindowhanning.o ../cepwindowhamming.o ../cepwindowchebyshev.o ../cepwindowblackman.o ../cepErrorHandler.o ../cepConsoleErrorHandler.o ../cepConfiguration.o 
 
 testmatrix_SOURCES = alltests.cpp cep_testMatrix.cpp
 
