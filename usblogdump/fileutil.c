@@ -67,6 +67,13 @@ char *fileutil_getstring(char *input, long long *filep){
 
 // Display a C++ serialized number
 int fileutil_displaynumber(char *input, char *format, long long *filep){
+  int i = fileutil_getnumber(input, filep);
+  printf(format);
+  printf("%d", i);
+  return i;
+}
+
+int fileutil_getnumber(char *input, long long *filep){
   int i, read, readlocal;
   long long count = *filep;
 
@@ -74,12 +81,6 @@ int fileutil_displaynumber(char *input, char *format, long long *filep){
   i = fileutil_getshort(input, &count);
   if(i == 0xFFFF){
     i = fileutil_getinteger(input, &count);
-    printf(format);
-    printf("%d", i);
-  }
-  else{
-    printf(format);
-    printf("%d", i);
   }
 
   *filep = count;

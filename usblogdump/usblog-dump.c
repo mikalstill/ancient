@@ -24,7 +24,7 @@ void usb_pipe_info(char *file, long long *filep);
 void usb_ucd(char *file, long long *filep);
 
 int main(int argc, char *argv[]){
-  int fd, npackets, otag, urbCount, function, psize, tsrelative, temp, temp2, numifaces;
+  int fd, npackets, otag, urbCount, function, psize, tsrelative, temp, temp2, numifaces, seq;
   char *file;
   long long filep;
   struct stat sb;
@@ -67,10 +67,8 @@ int main(int argc, char *argv[]){
   }
 
   // Details of the URB
+  seq = -1;
   for(urbCount = 0; urbCount < npackets; urbCount++){
-    printf("-----------------------------------------------\n");
-    printf("URB %d starts at %d within file\n", urbCount, filep);
-
     // Get the object tag (a MFCism) -- it tells us if there is an object name coming up
     otag = fileutil_getushort(file, &filep); printf("\n");
     if(otag == 0xFFFF){
@@ -78,21 +76,29 @@ int main(int argc, char *argv[]){
       fileutil_getstring(file, &filep);
     }
 
-    printf("Sequence: %u\n", fileutil_getuinteger(file, &filep));
+    temp = fileutil_getuinteger(file, &filep);
+    if(seq != temp){
+      printf("===============================================\n");
+      seq = temp;
+    }
+    else{
+      printf("---------\n");
+    }
+    printf("URB %d starts at %d within file\n", urbCount, filep);
+    printf("Sequence: %u\n", temp);
 
     function = fileutil_getushort(file, &filep);
     printf("Function: %s (0x%04x)\n", functname(function), function);
     printf("Time relative to start of dump: %d\n", fileutil_getuinteger(file, &filep) - tsrelative);
     printf("Endpoint: %d\n", fileutil_getnumber(file, &filep));
     printf("Pipe handle: 0x%08x\n", fileutil_getuinteger(file, &filep));
-
-    fileutil_displayuinteger(file, "Flags: ", &filep); printf("\n");
-    fileutil_displayinteger(file, "Status: ", &filep); printf("\n");
-    fileutil_displayuinteger(file, "Link: ", &filep); printf("\n");
+    printf("Flags: %d\n", fileutil_getuinteger(file, &filep));
+    printf("Status: %d\n", fileutil_getinteger(file, &filep));
+    printf("Link: %d\n", fileutil_getuinteger(file, &filep));
     printf("\n");
     
-    fileutil_displayuinteger(file, "Length: ", &filep); printf("\n");
-    fileutil_displayinteger(file, "Direction (0 to, 1 from): ", &filep); printf("\n");
+    printf("Length: %d\n", fileutil_getuinteger(file, &filep));
+    printf("Direction: %s\n", 0 == fileutil_getinteger(file, &filep) ? "to": "from");
 
     // The sequence number and timestamp are repeated for some reason...
     fileutil_getuinteger(file, &filep);
@@ -117,20 +123,22 @@ int main(int argc, char *argv[]){
       usb_interface_info(file, &filep);
       printf("\n");
 
-      fileutil_displayinteger(file, "UCD present: ", &filep); printf("\n");
+      printf("UCD present: %d\n", fileutil_getinteger(file, &filep));
       usb_ucd(file, &filep);
 
-      numifaces = fileutil_displayuinteger(file, "Number of interfaces: ", &filep); printf("\n");
+      numifaces = fileutil_getuinteger(file, &filep);
+      printf("Number of interfaces ignored: %d\n", numifaces);
       while(numifaces > 0){
-	printf("\n");
-	filep += fileutil_displayushort(file, "Interface length: ", &filep); printf("\n");
+	filep += fileutil_getushort(file, &filep);
 	numifaces--;
       }
       break;
 
     case 1:
       // TODO mikal: should I decode this?
-      filep += fileutil_displaynumber(file, "Interface size: ", &filep);
+      temp = fileutil_getnumber(file, &filep);
+      printf("Interface size: %d\n", temp);
+      filep += temp;
       printf("\n");
       break;
 
@@ -139,12 +147,19 @@ int main(int argc, char *argv[]){
       break;
 
     case 8:
-      psize = fileutil_displayuinteger(file, "Transfer size: ", &filep); printf("\n");
-      if(fileutil_displaynumber(file, "Data length: ", &filep) != 0){
+      psize = fileutil_getuinteger(file, &filep);
+      printf("Transfer size: %d\n", psize);
+
+      // Test whether data is present
+      if(fileutil_getnumber(file, &filep) != 0){
+	int i;
+
+	printf("Data: ");
+	for(i = 0; i < psize; i++){
+	  printf("0x%02x ", (unsigned char) file[filep++]);
+	}
 	printf("\n");
-	fileutil_displaybyteblock(file, "Transfer: ", psize, &filep); printf("\n");
       }
-      printf("\n");
 
       // And now read the control transfer header
       // usb_urb_header(file, &filep);
@@ -153,15 +168,27 @@ int main(int argc, char *argv[]){
       break;
 
     case 10:
-      temp = fileutil_displaynumber(file, "ISOCH transfer length: ", &filep); printf("\n");
-      fileutil_displaybyteblock(file, "ISOCH transfer: ", temp, &filep); printf("\n");
-      temp = fileutil_displaynumber(file, "ISOCH buffer count: ", &filep); printf("\n");
+      temp = fileutil_getnumber(file, &filep);
+      printf("ISOCH transfer length: %d\n", temp);
+      printf("ISOCH transfer: ");
+      while(temp != 0){
+	printf("0x%02x ", (unsigned char) file[filep++]);
+	temp--;
+      }
+      printf("\n");
+
+      temp = fileutil_getnumber(file, &filep);
+      printf("ISOCH buffer count: %d\n", temp);
       while(temp != 0){
 	printf("\n");
-	temp2 = fileutil_displaynumber(file, "ISOCH transfer buffer length: ", &filep);
+	temp2 = fileutil_getnumber(file, &filep);
+	printf("ISOCH transfer buffer length: %d\n", temp2);
+	printf("ISOCH transfer buffer: ");
+	while(temp2 != 0){
+	  printf("0x%02x ", (unsigned char) file[filep++]);
+	  temp2--;
+	}
 	printf("\n");
-	fileutil_displaybyteblock(file, "ISOCH transfer buffer: ", temp2, &filep); printf("\n");
-				  
 	temp--;
       }
       printf("\n");
@@ -171,12 +198,14 @@ int main(int argc, char *argv[]){
       break;
 
     case 23:
-      if((temp = fileutil_displayinteger(file, "Transfer length: ", &filep)) != 0){
-	printf("\n");
-	if(fileutil_displaynumber(file, "Data present: ", &filep) != 0)
+      if((temp = fileutil_getinteger(file, &filep)) != 0){
+	printf("Transfer length: %d\n", temp);
+
+	// 0 indicates no data present
+	if(fileutil_getnumber(file, &filep) != 0)
 	  filep += temp;
       }
-      printf("\n\n");
+      printf("\n");
       
       // usb_urb_header(file, &filep);
       filep += USB_URB_HEADER_LENGTH;
@@ -236,16 +265,14 @@ void usb_urb_header(char *file, long long *filep)
   long long count = *filep;
 
   printf("URB header:\n");
-  fileutil_displayushort(file, "Length: ", &count); printf("\n");
+  printf("Length: %d\n", fileutil_getushort(file, &count));
 
-  // Function has already been displayed
+  // Function has already been got
   fileutil_getushort(file, &count);
-
-  fileutil_displayuinteger(file, "Status: ", &count); printf("\n");
+  printf("Status: %d\n", fileutil_getuinteger(file, &count));
   // Skipped device handle pointer
   count += 4;
-  fileutil_displayuinteger(file, "Flags: ", &count); printf("\n");
-  printf("\n");
+  printf("Flags: %d\n", fileutil_getuinteger(file, &count));
 
   *filep = count;
 }
@@ -253,12 +280,13 @@ void usb_urb_header(char *file, long long *filep)
 void usb_urb_controltransfer(char *file, long long *filep)
 {
   long long count = *filep;
+  int i;
 
   printf("URB control transfer:\n");
   // Skipped pipe handle pointer
   count += 4;
-  fileutil_displayinteger(file, "Transfer flags: ", &count); printf("\n");
-  fileutil_displayinteger(file, "Transfer buffer length: ", &count); printf("\n");
+  printf("Transfer flags: %d\n", fileutil_getinteger(file, &count));
+  printf("Transfer buffer length: %d\n", fileutil_getinteger(file, &count));
   // Skipped transfer buffer pointer\n");
   count += 4;
   // Skipped transfer buffer MDL pointer\n");
@@ -270,7 +298,10 @@ void usb_urb_controltransfer(char *file, long long *filep)
   // usb_urb_hcd(file, &count);
   count += USB_URB_HCD_LENGTH;
 
-  fileutil_displaybyteblock(file, "Setup packet: ", 8, &count);
+  printf("Setup packet: ");
+  for(i = 0; i < 8; i++){
+    printf("0x%02x ", (unsigned char) file[count++]);
+  }
   printf("\n");
 
   *filep = count;
@@ -318,19 +349,18 @@ void usb_interface_info(char *file, long long *filep)
 {
   long long count = *filep;
 
-  fileutil_displayushort(file, "Length: ", &count); printf("\n");
-  fileutil_displaybyteblock(file, "Interface number: ", 1, &count); printf("\n");
-  fileutil_displaybyteblock(file, "Alternate setting: ", 1, &count); printf("\n");
-
-  fileutil_displaybyteblock(file, "Class: ", 1, &count); printf("\n");
-  fileutil_displaybyteblock(file, "Subclass: ", 1, &count); printf("\n");
-  fileutil_displaybyteblock(file, "Protocol: ", 1, &count); printf("\n");
-  fileutil_displaybyteblock(file, "Reserved: ", 1, &count); printf("\n");
-
-  printf("Skipping usb interface handler pointer\n");
+  printf("Length: %d\n", fileutil_getushort(file, &count));
+  printf("Interface number: 0x%02x\n", (unsigned char) file[count++]);
+  printf("Alternate setting: 0x%02x\n", (unsigned char) file[count++]);
+  printf("Class: 0x%02x\n", (unsigned char) file[count++]);
+  printf("Subclass: 0x%02x\n", (unsigned char) file[count++]);
+  printf("Protocol: 0x%02x\n", (unsigned char) file[count++]);
+  printf("Reserved: 0x%02x\n", (unsigned char) file[count++]);
+  
+  // Skipping usb interface handler pointer
   count += 4;
 
-  fileutil_displayuinteger(file, "Number of pipes: ", &count); printf("\n");
+  printf("Number of pipes: %d\n", fileutil_getuinteger(file, &count));
   printf("\n");
 
   // POssibly a second, depending on if the box was OSR2 compatible
@@ -341,14 +371,14 @@ void usb_interface_info(char *file, long long *filep)
 void usb_pipe_info(char *file, long long *filep){
   long long count = *filep;
 
-  fileutil_displayushort(file, "Maximum packet size: ", &count); printf("\n");
-  fileutil_displaybyteblock(file, "End point address: ", 1, &count); printf("\n");
-  fileutil_displaybyteblock(file, "Interval: ", 1, &count); printf("\n");
-  fileutil_displayinteger(file, "USB pipe type: ", &count); printf("\n");
+  printf("Maximum packet size: %d\n", fileutil_getushort(file, &count));
+  printf("End point address: 0x%02x\n", (unsigned char) file[count++]);
+  printf("Interval: 0x%02x\n", (unsigned char) file[count++]);
+  printf("USB pipe type: %d\n", fileutil_getinteger(file, &count));
   // Skipped pipe handle\n");
   count += 4;
-  fileutil_displayuinteger(file, "Maximum transfer size: ", &count); printf("\n");
-  fileutil_displayuinteger(file, "Pipe flags: ", &count); printf("\n");
+  printf("Maximum transfer size: %d\n", fileutil_getuinteger(file, &count));
+  printf("Pipe flags: %d\n", fileutil_getuinteger(file, &count));
 
   *filep = count;
 }
@@ -356,14 +386,14 @@ void usb_pipe_info(char *file, long long *filep){
 void usb_ucd(char *file, long long *filep){
   long long count = *filep;
 
-  fileutil_displaybyteblock(file, "Length: ", 1, &count); printf("\n");
-  fileutil_displaybyteblock(file, "Decriptor type: ", 1, &count); printf("\n");
-  fileutil_displayushort(file, "Total length: ", &count); printf("\n");
-  fileutil_displaybyteblock(file, "Number of interfaces: ", 1, &count); printf("\n");
-  fileutil_displaybyteblock(file, "Configuration value: ", 1, &count); printf("\n");
-  fileutil_displaybyteblock(file, "Configuration: ", 1, &count); printf("\n");
-  fileutil_displaybyteblock(file, "Attributes: ", 1, &count); printf("\n");
-  fileutil_displaybyteblock(file, "Max power: ", 1, &count); printf("\n");
+  printf("Length: 0x%02x\n", (unsigned char) file[count++]);
+  printf("Descriptor type: 0x%02x\n", (unsigned char) file[count++]);
+  printf("Total length: %d\n", fileutil_getushort(file, &count));
+  printf("Number of interfaces: 0x%02x\n", (unsigned char) file[count++]);
+  printf("Configuration value: 0x%02x\n", (unsigned char) file[count++]);
+  printf("Configuration: 0x%02x\n", (unsigned char) file[count++]);
+  printf("Attributes: 0x%02x\n", (unsigned char) file[count++]);
+  printf("Max power: 0x%02x\n", (unsigned char) file[count++]);
 
   *filep = count;
 }
