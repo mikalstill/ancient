@@ -1,17 +1,16 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
 <article>
 <title>Grid computing and the open grid services architecture</title>
-   <subtitle>A final year project discussion paper (number two)</subtitle>
 
-<sect1>
-<title>About the author</title>
-<para>
-Michael's student number is 964076. He can be contacted at mikal@stillhq.com. Copyright (c) Michael Still 2002. This submission is
-<postexecute><cmd>striptext</cmd><output>temp.txt</output><args>-c</args></postexecute>
-<postexecute><cmd>wc -w</cmd><input>temp.txt</input></postexecute>
-words, not including the code snippets.
-</para>
-</sect1>
+<articleinfo>
+<author>
+  <firstname>Michael</firstname>
+  <surname>Still</surname>
+  <affiliation>
+    <jobtitle>964076</jobtitle>
+  </affiliation>
+</author>
+</articleinfo>
 
 <sect1>
 <title>Abstract</title>
@@ -22,134 +21,92 @@ By enabling the integration of services and resources within and across enterpri
 </para>
 
 <para>
-Grid computing is the name given by computer scientists to large, loosly affiliated cooperative computing networks. The term <quote>grid</quote> is used in the sense of the electricity grid -- it is implied that the user doesn't really care where the computing resources, so long as they are provided in a timely and accurate manner.
+Grid computing is the name given by computer scientists to large, loosely affiliated cooperative computing networks. The term <quote>grid</quote> is used in the sense of the electricity grid -- it is implied that the user doesn't really care where the computing resources are, so long as they are provided in a timely and accurate manner.
 </para>
 </sect1>
 
 <sect1><title>The meeting</title>
 <para>
-The talk was held at the National Institute of Engineering and Information Sciences, ANU on 8 July 2002, between 2pm and 3pm. The speaker was Ian Foster, from the Mathematics and Computer Science Division of Argonne National Laboratory, Illinois, USA. He is one of the developers of the Globus project, which is discried below.
+The talk was held at the National Institute of Engineering and Information Sciences, ANU on 8 July 2002, between 2pm and 3pm. The speaker was Ian Foster, from the Mathematics and Computer Science Division of Argonne National Laboratory, Illinois, USA. He is one of the developers of the Globus project, which is described below.
 </para>
 </sect1>
 
-<sect1><title>The globus project</title>
+<sect1><title>Grid computing</title>
+<para>
+The aim of grid computing is to develop a computation infrastructure which is the equivalent of the electrical distribution grid. Examples given by the speaker of ways in which the electrical distribution grid is a good model were:
+</para>
+
+<itemizedlist>
+<listitem><para>Consumers do not care where their power comes from. They are free to change provider at any time (probably based on a cost decision), and can also use prower provided by several generation stations.</para></listitem>
+<listitem><para>Consumers are billed for the amount of service used, not the setup cost of the infrastructure -- this means that access to large computing resources would be more affordable for many customers.</para></listitem>
+<listitem><para>Consumers can in theory also generate their own power and inject it into the grid in order to make a profit on spare local capacity. The equivalent might be universities selling spare time on large computing clusters, in order to offset the cost of maintaining that cluster.</para></listitem>
+<listitem><para>The electrical distribution grid does not differentiate based on the size of the customer -- although big customers might have larger or more cables coming into their premises.</para></listitem>
+</itemizedlist>
+
+<para>
+It is proposed that the Internet be used as the building block of this computing infrastructure.
+</para>
+</sect1>
+
+<sect1><title>The Globus project</title>
 <para>
 <quote>The Globus Project is developing fundamental technologies needed to build computational grids.  Grids are persistent environments that enable software applications to integrate instruments, displays, computational and information resources that are managed by diverse organizations in widespread locations.</quote> -- http://www.globus.org
 </para>
+
+<para>
+In effect this means that the Globus project is developing the communications protocols that the providers of services use to communicate with the consumers of those services. The ultimate goal is to have an infrastructure where researchers can have easy access to data as well as computation time. For example, a researcher might be interested in tectonic movement in Indonesia. They would be able to query the Globus grid for data matching these search criteria. Another example is a researcher who is needs to process a large number of datasets in a small amount of time. If the processing code supported it, then it would be possible to distribute the computation over a large number of otherwise idle nodes on the grid, therefore reducing the amount of time the research needs to wait for results.
+</para>
 </sect1>
 
-<sect1><title>Stuff</title>
+<sect1><title>Driving factors</title>
 <para>
-The grid and open grid services architecture
+The main driving factor behind the development of grid computing is the emergence of <quote>e-science</quote>. This is when researchers work on existing data from a variety of sites, instead of spending most of their time conducting their own experiments. It moves the large majority of scientists from being the producers of data, and the overseers of experiments, to being analysts of data.
+</para>
 
-www.globus.org
+<para>
+In order to support this <quote>e-science</quote> goal, the grid needs to be able to support very large database mining (for instance the large volumes of data soon to be produced by organizations such as CERN), access to remote simulations, and most importantly, remote device access.
+</para>
 
+<para>
+<quote>
+Resource sharing and coordinated problem solving in dynamic, multi-institutional virtual organizations
+</quote> -- in the words of the speaker.
+</para>
+</sect1>
 
-Grids as infrastructure (e.g. electrical power distribution)
-Computing and storage / data don't obey these rules yet
-What about the Internet?
-On demand, ubiqitious access to computing, data and services
+<sect1><title>Growth of the grid</title>
+<para>
+The speaker suggested that the following statements are true for the growth of the grid:</para>
 
-The emergence of the grid
-  E science -- the original grid driver (previously theory and experiment)
-  Very large db mining
-  Simulations
-  Remote device access
-  
-"Resource sharing and coordinated problem solving in dynamic, multi-institutional virtual organizations"
+<itemizedlist>
+<listitem><para>Early 1990's: gigabit test beds</para></listitem>
+<listitem><para>Mid 1990's: early experiments in networks and software</para></listitem>
+<listitem><para>2002: large communities have emerged</para></listitem>
+</itemizedlist>
+</sect1>
 
-Early 90's: gigabit test beds
-Mid 90's: early experiments in networks and software
-2002: large communities have emerged
+<sect1><title>An example: CERN's Large Hadron Collider</title>
+<para>
+An example of the type of resource provider soon to be available on the grid is CERN's Large Hadron Collider. This facility expects to possess by 2010 1800 physicists in 150 institutes, from 32 countries. Overall, the facility will be producing 100,000 terabytes of data a year, using 50,000 CPUs.
+</para>
+</sect1>
 
-Example: CERN's Large Hadron Collider
-  1800 physicists
-  150 insitutes
-  32 countries
+<sect1><title>The Globus toolkit</title>
+<para>
+The speaker is involved with the development of a toolkit to help software engineers implement grid consumers and service providers. This toolkit has been under development since 1996, and is based on a small set of standard protocols. The design is described as being <quote>information centric</quote>, although this term was not defined. The source is available under an open source license, and is developed by a large, loosely affiliated team of developers. The developers of Globus see themselves as an enabler of services and applications, as opposed to being a provide of those services or applications.
+</para>
+</sect1>
 
-  100PB data
-  50,000 CPUs
-  (by 2010)
-
-Example: NASA aviation safety
-
-Technical requirements
-  Dynamic dormation and management of virt orgs
-  Online neg of acces to services (inc schedualling)
-  Configur of apps and sys
-  Mnagement of dist infra
-
-Globus toolkit
-  since 1996
-  small stds based set of protocols
-  information centric design
-  open source implementation (large community)
-  Enabler of services and applications
-
-
-
-
-Grids and e business
-
-  Framentation of enterprise infrastructure
-  The rise of eUtility (outsourcing, ecomomies of scale: IBM, HP, SUN, MS et al)
-  b2b
-  Ubiq QOS
-
-  On demand access to computing
-  New applications and services
-  Solution to ent computing problems
-
-  Fight AIDs at home
-  butterfly.net
-
-
-Technology convergence
-
-  Refactor globus protocol suite to enable common base and expose key capabilities
-  Service orientation
-  Embrace key web service technologies: std idl (from wsdl), leverage commercial efforts
-  :. standard interfaces and behaviours which define required elements
-
-  web services address discovery and invocation of persistent services
-  must also handle transient service instances
-
-  web services
-    w3c: ms, ibm, sun, +
-    wsdl
-    soap
-    ws-inspection
-
-  life time of state
-    explicit destroy
-    request that the service keepalive for a little bit longer
-
-
-Virtual data
-  GriPhyN
-  Most data is in fact computationally corrected and perhaps even simulated
-  Need to track transformation and derivation information
-
-  www.griphyn.org/chimera
-
-  Sloan Digital Sky Survey
-
-
-
-www.globus.org
-              /ogsa
-www.gridforum.org
-
-
-"The Grid: blueprint for a new computing infrastructure", editted by Ian Foster and Carl Kesselman
-
+<sect1><title>Current Globus development</title>
+<para>
+Currently development work on the Globus toolkit is focusing on converting the API to use the Microsoft .NET framework. This should ease integration issues across the various operating systems which are supported, because .NET is based on SOAP, and open specification discussed in another of these short reports.
 </para>
 </sect1>
 
 
 <sect1><title>Response to the talk</title>
 <para>
-
+The speaker was well presented, and obviously gives this sort of status update frequently. There were however very few well considered questions from the audience, and I get the impression from the speaker that the grid is a technology looking for a problem, and has very few actual users.
 </para>
 </sect1>
 </article>
