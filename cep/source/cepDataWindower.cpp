@@ -23,6 +23,7 @@
 #include "cepwindowhamming.h"
 #include "cepwindowblackman.h"
 #include "cepwindowchebyshev.h"
+#include "cepConfiguration.h"
 
 
 
@@ -35,7 +36,7 @@ bool cepWindow::operator== (const cepWindow &w) const {
 }
 
 bool cepWindow::operator!=(const cepWindow &w) const {
-  return (w.id() != myID);
+  return (w.id() != myID) ;
 }
 const int cepWindow::id() const {
   return myID;
@@ -46,8 +47,35 @@ const char* cepWindow::toString() const {
 
 
 cepDataWindower::cepDataWindower() {
+}
+
+void cepDataWindower::init() {
   windowAlg = NULL;
   algType = WINDOW_UNDEFINED;
+
+  // dont display these things, just log them
+  cepError err;
+  int id;
+  err = cepConfiguration::getInstance().getValue( CONFIG_NAME_TYPE, WINDOW_UNDEFINED.id(), id );
+  algType = lookupWindow( id );
+  if( err.isReal() ) err.log();
+  
+  err = cepConfiguration::getInstance().getValue(CONFIG_NAME_SIZE, 1024, size);
+  if( err.isReal() ) err.log();
+  
+  err = cepConfiguration::getInstance().getValue(CONFIG_NAME_OVERLAP, 512, overlap);
+  if( err.isReal() ) err.log();
+  
+  double tbw = 0.0;
+  err = cepConfiguration::getInstance().getValue(cepWindowChebyshev::CONFIG_NAME_CHEB, 0.05, tbw);
+  cepWindowChebyshev::setTransitionBandwidth( tbw );
+  if( err.isReal() ) err.log();
+
+  cout << "window params loaded" <<endl;
+  cout << "type: " << algType.toString() << endl;
+  cout << "size: " << cepToString( size ) << endl;
+  cout << "overlap: " << cepToString( overlap ) << endl;
+  cout << "bandwidth: " << cepToString( tbw ) << endl;
 }
 
 
@@ -88,6 +116,10 @@ const cepError cepDataWindower::setWindowType( const cepWindow &type, const int 
       algType = WINDOW_UNDEFINED;
       return cepError("unknown windowing algorithm. Set type failed", cepError::sevWarning);
   }
+
+  cepConfiguration::getInstance().setValue(CONFIG_NAME_TYPE.c_str(), type.id());
+  cepConfiguration::getInstance().setValue(CONFIG_NAME_SIZE.c_str(), size);
+  cepConfiguration::getInstance().setValue(CONFIG_NAME_OVERLAP.c_str(), overlap);
 
   return cepError();
   
@@ -138,10 +170,11 @@ const cepError cepDataWindower::window( const cepMatrix<double> & dataIn,
   cepMatrix<double> coeffs = windowAlg->getCoeffs();                // scaling factors
   cepMatrix<double> result( windowAlg->getSize(), 3, numWindows );  // result. numwindows x windowSize x 2
 
-  int color = 1;
+  int color = 0;
   for( int win = 0; win < numWindows; ++win ) {
-    // a number between
-    color = 1+win%3;
+    // a number between 1 and 3
+    // not used
+//    color = 1+win%3;
     for( int element = 0; element < windowAlg->getSize(); ++element ) {
 
       // sanity check
@@ -171,14 +204,33 @@ const cepError cepDataWindower::window( const cepMatrix<double> & dataIn,
   return cepError();
 }
 
-const cepWindow cepDataWindower::WINDOW_RECTANGULAR(1, "Rectangular");
-const cepWindow cepDataWindower::WINDOW_HAMMING(2, "Hamming");
-const cepWindow cepDataWindower::WINDOW_BLACKMAN(3, "Blackman");
-const cepWindow cepDataWindower::WINDOW_CHEBYSHEV(4, "Chebyshev");
-const cepWindow cepDataWindower::WINDOW_UNDEFINED(5, "Undefined");
+const cepWindow cepDataWindower::lookupWindow( int id ) {
+  switch( id ) {
+    case 0:
+      return cepDataWindower::WINDOW_RECTANGULAR;
+    case 1:
+      return cepDataWindower::WINDOW_HAMMING;
+    case 2:
+      return cepDataWindower::WINDOW_BLACKMAN;
+    case 3:
+      return cepDataWindower::WINDOW_CHEBYSHEV;
+    default:
+      return cepDataWindower::WINDOW_UNDEFINED;
+  }
+}
+
+const cepWindow cepDataWindower::WINDOW_RECTANGULAR(0, "Rectangular");
+const cepWindow cepDataWindower::WINDOW_HAMMING(1, "Hamming");
+const cepWindow cepDataWindower::WINDOW_BLACKMAN(2, "Blackman");
+const cepWindow cepDataWindower::WINDOW_CHEBYSHEV(3, "Chebyshev");
+const cepWindow cepDataWindower::WINDOW_UNDEFINED(4, "Undefined");
 
 int cepDataWindower::size = 0;
 int cepDataWindower::overlap = 0;
 cepWindowAlg* cepDataWindower::windowAlg = 0;
 cepWindow cepDataWindower::algType = WINDOW_UNDEFINED;
+
+const string cepDataWindower::CONFIG_NAME_TYPE("window-type");
+const string cepDataWindower::CONFIG_NAME_SIZE("window-size");
+const string cepDataWindower::CONFIG_NAME_OVERLAP("window-overlap");
 

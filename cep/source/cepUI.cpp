@@ -39,6 +39,7 @@
 #include "cepPlot.h"
 #include "cepStringArray.h"
 #include "cepTmpClean.h"
+#include "cepDataWindower.h"
 #include <unistd.h>
 
 // For compilers that support precompilation, includes "wx/wx.h".
@@ -85,6 +86,7 @@ cepApp::OnInit (void)
   // Subscribe a wx windows based error handler
   errHandler = new cepWxErrorHandler();
   cepError::addErrorHandler( *errHandler );
+  cepDataWindower::init();
 
   // Create a document manager
   m_docManager = new wxDocManager;

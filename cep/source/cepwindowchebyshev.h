@@ -65,6 +65,8 @@ public:
   ~cepWindowChebyshev();
   static const cepError setTransitionBandwidth(double tbw);
   static const double getTransitionBandwidth();
+
+  static const string CONFIG_NAME_CHEB;
   
 protected:
   /**

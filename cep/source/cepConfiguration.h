@@ -113,7 +113,7 @@ using namespace std;
 /**A drop in replacement for the original cepConfiguration.
   *This implements a whiteboard pattern.
   *@author Blake Swadling
-  *@version $Revision: 1.15 $
+  *@version $Revision: 1.16 $
   */
 
 class cepConfiguration
@@ -127,10 +127,12 @@ public:
   cepError getValue (const string & valkey, const string & defval, string & outval);
   cepError getValue (const string & valkey, const bool & defval, bool & outval);
   cepError getValue (const string & valkey, const int &defval, int &outval);
+  cepError getValue (const string & valkey, const double &defval, double &outval);
 
   cepError setValue (const string & valkey, const string & value);
-  cepError setValue (const string & valkey, const int &value);
   cepError setValue (const string & valkey, const bool & value);
+  cepError setValue (const string & valkey, const int &value);
+  cepError setValue (const string & valkey, const double &value);
 
 protected:
   // make this a singleton. There can be only one!

@@ -242,6 +242,26 @@ cepError cepConfiguration::getValue (const string & valkey, const int &defval,
   return cepError ();
 }
 
+cepError cepConfiguration::getValue (const string & valkey, const double &defval,
+                                     double &outval)
+{
+  bool defaulted = false;
+  map_t::const_iterator i = map.find (valkey);
+
+  if (i == map.end ())
+  {
+    outval = defval;
+    defaulted = true;
+  }
+  else
+  {
+    outval = atof (map[valkey].c_str ());
+  }
+  cepDebugPrint("Configuration database get int requested " + valkey
+    + " and returned " + cepToString(outval) + (defaulted ? " (default)" : ""));
+  return cepError ();
+}
+
 cepError cepConfiguration::setValue (const string & valkey,
                                      const string & value)
 {
@@ -252,6 +272,17 @@ cepError cepConfiguration::setValue (const string & valkey,
 }
 
 cepError cepConfiguration::setValue (const string & valkey, const int &value)
+{
+  ostringstream oss;
+
+  oss << value;
+  map[valkey] = oss.str ();
+  cepDebugPrint("Configuration database set int setting " + valkey + " to " + map[valkey]);
+  return save (path);
+
+}
+
+cepError cepConfiguration::setValue (const string & valkey, const double &value)
 {
   ostringstream oss;
 

@@ -207,7 +207,11 @@ cepError cepWindowUi::checkValues()
   if( m_size!=cepWindowBandwidth::UNINITIALISED_INT && m_size == 0 ) return cepError("invalid window size requested");
   if( m_overlap!=cepWindowBandwidth::UNINITIALISED_INT && m_overlap < 0 ) return cepError("invalid overlap requested");
   if( m_overlap > m_size ) return cepError("overlap exceeds window size");
-  if( m_bandwidth < 0 || m_bandwidth > 0.5 ) return cepError("invalid transition bandwidth value");
   return cepError();
 }
 
+cepError cepWindowUi::checkChebValues()
+{
+  if( m_bandwidth < 0 || m_bandwidth > 0.5 ) return cepError("invalid transition bandwidth value");
+  return cepError();
+}

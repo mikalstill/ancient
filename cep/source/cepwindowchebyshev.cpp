@@ -19,6 +19,7 @@
 */
 
 #include "cepwindowchebyshev.h"
+#include "cepConfiguration.h"
 #include <math.h>
 #include <vector>
 
@@ -38,13 +39,17 @@ cepWindowChebyshev::~cepWindowChebyshev(){
 double cepWindowChebyshev::df = 0.0;
 
 const cepError cepWindowChebyshev::setTransitionBandwidth(double tbw) {
-  if( tbw <= 0 ) {
-    return cepError("normalised transition bandwidth must be greater than Zero", cepError::sevWarning);
+  if( tbw < 0.02 ) {
+    cepDebugPrint("rounding chebyshev transition bandwidth to 0.02");
+    tbw = 0.02;
   } else if (tbw >0.499) {
-    return cepError("normalised transition bandwidth must be less than 0.499", cepError::sevWarning);
+    cepDebugPrint("rounding chebyshev transition bandwidth to 0.499");
+    tbw = 0.499;
   }
   df = tbw;
-//  cout << "transistion bandwidth set to " << df << endl;
+
+  cepConfiguration::getInstance().setValue( CONFIG_NAME_CHEB, df);
+  cepDebugPrint("chebyshev transition bandwidth is set to "+cepToString(df));
   return cepError();
 }
 
@@ -164,3 +169,5 @@ cepMatrix<double> *cepWindowChebyshev::generateCoeffs( int size ) {
   */
   return foo;
 }
+
+const string cepWindowChebyshev::CONFIG_NAME_CHEB("chebyshev-bandwidth");

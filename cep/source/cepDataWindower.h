@@ -82,14 +82,21 @@ public:
   // and the tird dimension is 2 (date and value)
   static const cepError window( const cepMatrix<double> & dataIn, cepMatrix<double> & windowedData );
 
+  static void init();
+
   static const int getSize();
   static const int getOverlap();
+  static const cepWindow lookupWindow( int id );
 
   static const cepWindow WINDOW_RECTANGULAR;
   static const cepWindow WINDOW_HAMMING;
   static const cepWindow WINDOW_BLACKMAN;
   static const cepWindow WINDOW_CHEBYSHEV;
   static const cepWindow WINDOW_UNDEFINED;
+  
+  static const string CONFIG_NAME_TYPE;
+  static const string CONFIG_NAME_SIZE;
+  static const string CONFIG_NAME_OVERLAP;
 
 protected:
   cepDataWindower();

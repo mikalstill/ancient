@@ -165,6 +165,7 @@ public:
 
   bool cancelled();
   cepError checkValues();
+  cepError checkChebValues();
 
   
 private:
