@@ -18,4 +18,14 @@ rm -f config.log
 rm -f Makefile
 
 dir=`pwd | sed 's/^.*\///'`
-echo "Remember to tag the release \"$dir-release-<somenumber>\""
+echo -n "Release number: "
+read relno
+newrelno=`echo $relno | tr "." "_"`
+
+cd ..
+cp -R $dir $dir-$relno
+tar cvzf $dir"_"$newrelno.tgz $dir-$relno
+
+newrelno=`echo $newrelno | tr -d "_"`
+
+echo "Remember to tag the release \"$dir-release-$newrelno\""
