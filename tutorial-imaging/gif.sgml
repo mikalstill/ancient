@@ -518,10 +518,30 @@ As far as I am aware, giflib is not currently supported on win32. I have not per
 </sect3>
 </sect2>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <sect2><title>Man pages</title>
 <para>
 giflib doesn't ship with man pages. It does however come with a large amount of documentation in HTML format, which I have included here for your reference.
 </para>
+
 
 <sect2><title>gif2bgi</title>
 <programlisting>
@@ -640,13 +660,14 @@ gif2bgi [-q] [-d BGI dir] [-u driver] [-z zoom] [-b] [-h] gif-file
      _________________________________________________________________
 
 
-    Eric S. Raymond [2]<esr@snark.thyrsus.com>
+    Eric S. Raymond [2]&lt;esr@snark.thyrsus.com&gt;
 
 References
 
    1. file://localhost/home/mikal/opensource/tutorial-imaging/contrib/giflib-4.1.0/doc/index.html
    2. mailto:esr@thyrsus.com
 </programlisting>
+<para><emphasis>Code: gif2bgi.html</emphasis></para>
 </sect2>
 
 <sect2><title>gif2epsn</title>
@@ -682,12 +703,12 @@ gif2epsn [-q] [-d dither] [-t bw] [-m map] [-i] [-n] [-p printer] [-h] gif-file
           option (see -m) selected this mode.
 
    [-t bw]
-          Sets threshold level for B&W mapping in percent. This threshold
+          Sets threshold level for B&amp;W mapping in percent. This threshold
           level  is  used  in  the different mappings as selected via -m.
           Default is 19%.
 
    [-m map]
-          Select method to map colors to B&W. Mapping can be:
+          Select method to map colors to B&amp;W. Mapping can be:
 
         0
                 Every  none  background  color  is  considered foreground
@@ -695,7 +716,7 @@ gif2epsn [-q] [-d dither] [-t bw] [-m map] [-i] [-n] [-p printer] [-h] gif-file
                 is specified).
 
         1
-                If  0.3  *  RED  +  0.59 * GREEN + 0.11 * YELLOW > BW the
+                If  0.3  *  RED  +  0.59 * GREEN + 0.11 * YELLOW &gt; BW the
                 pixel is considered white color.
 
         2
@@ -706,7 +727,7 @@ gif2epsn [-q] [-d dither] [-t bw] [-m map] [-i] [-n] [-p printer] [-h] gif-file
           The default is option 0.
 
    [-i]
-          Invert the image, i.e. black -> white, white -> black.
+          Invert the image, i.e. black -&gt; white, white -&gt; black.
 
    [-n]
           Nicer image. Uses double-density feature of Epson printer. This
@@ -736,7 +757,7 @@ gif2epsn [-q] [-d dither] [-t bw] [-m map] [-i] [-n] [-p printer] [-h] gif-file
      _________________________________________________________________
 
 
-    Eric S. Raymond [3]<esr@snark.thyrsus.com>
+    Eric S. Raymond [3]&lt;esr@snark.thyrsus.com&gt;
 
 References
 
@@ -744,6 +765,7 @@ References
    2. file://localhost/home/mikal/opensource/tutorial-imaging/contrib/giflib-4.1.0/doc/gifflip.html
    3. mailto:esr@thyrsus.com
 </programlisting>
+<para><emphasis>Code: gif2epsn.html</emphasis></para>
 </sect2>
 
 <sect2><title>gif2herc</title>
@@ -795,17 +817,17 @@ gif2herc [-q] [-d dither] [-z zoom] [-t bw] [-m map] [-i] [-b] [-h] gif-file
    256. Default is 1 (no zoom).
 
    [-t bw]
-   Sets  threshold level for B&W mapping in percent. This threshold level
+   Sets  threshold level for B&amp;W mapping in percent. This threshold level
    is used in the different mappings as selected via -m. Default is 19%.
 
    [-m map]
-   Select method to map colors to B&W. Mapping can be:
+   Select method to map colors to B&amp;W. Mapping can be:
 
    0
           Every non-background color is considered foreground (white).
 
    1
-          0.3  *  RED  +  0.59  *  GREEN + 0.11 * YELLOW > BWThreshold is
+          0.3  *  RED  +  0.59  *  GREEN + 0.11 * YELLOW &gt; BWThreshold is
           considered white.
 
    2
@@ -815,7 +837,7 @@ gif2herc [-q] [-d dither] [-z zoom] [-t bw] [-m map] [-i] [-b] [-h] gif-file
    Default is option 0, which is much faster than the other two.
 
    [-i]
-   Invert the image, i.e. black -> white, white -> black.
+   Invert the image, i.e. black -&gt; white, white -&gt; black.
 
    [-b]
    Disable  beeps.  Every  time the image is complete, or a wrong key was
@@ -843,10 +865,10 @@ gif2herc [-q] [-d dither] [-z zoom] [-t bw] [-m map] [-i] [-b] [-h] gif-file
           set to minimum (2).
 
    I - Invert
-          Invert the image, i.e. white -> black, black -> white.
+          Invert the image, i.e. white -&gt; black, black -&gt; white.
 
    M - Method
-          Increment  color -> BW mapping method, unless current method is
+          Increment  color -&gt; BW mapping method, unless current method is
           maximum (2), in which case method is set to minimum (0).
 
    R - Redraw
@@ -876,13 +898,14 @@ gif2herc [-q] [-d dither] [-z zoom] [-t bw] [-m map] [-i] [-b] [-h] gif-file
      _________________________________________________________________
 
 
-    Eric S. Raymond [2]<esr@snark.thyrsus.com>
+    Eric S. Raymond [2]&lt;esr@snark.thyrsus.com&gt;
 
 References
 
    1. file://localhost/home/mikal/opensource/tutorial-imaging/contrib/giflib-4.1.0/doc/index.html
    2. mailto:esr@thyrsus.com
 </programlisting>
+<para><emphasis>Code: gif2herc.html</emphasis></para>
 </sect2>
 
 <sect2><title>gif2iris</title>
@@ -927,13 +950,14 @@ Gif2Iris [-q] [-f] [-p PosX PosY] [-f] [-h] gif-file
      _________________________________________________________________
 
 
-    Eric S. Raymond [2]<esr@snark.thyrsus.com>
+    Eric S. Raymond [2]&lt;esr@snark.thyrsus.com&gt;
 
 References
 
    1. file://localhost/home/mikal/opensource/tutorial-imaging/contrib/giflib-4.1.0/doc/index.html
    2. mailto:esr@thyrsus.com
 </programlisting>
+<para><emphasis>Code: gif2iris.html</emphasis></para>
 </sect2>
 
 <sect2><title>gif2ps</title>
@@ -980,7 +1004,7 @@ gif2ps [-q] [-x] [-y] [-s sx sy] [-p px py] [-i] [-n copies] [-h] gif-file
           overrun the page's dimensions, it will scream and die.
 
    [-i]
-          Image will be inverted (Black -> White and vice versa). Mapping
+          Image will be inverted (Black -&gt; White and vice versa). Mapping
           from  colors  is done by 0.3 * RED + 0.59 * GREEN + 0.11 * BLUE
           and sometimes inverting the image will look better.
 
@@ -996,13 +1020,14 @@ gif2ps [-q] [-x] [-y] [-s sx sy] [-p px py] [-i] [-n copies] [-h] gif-file
      _________________________________________________________________
 
 
-    Eric S. Raymond [2]<esr@snark.thyrsus.com>
+    Eric S. Raymond [2]&lt;esr@snark.thyrsus.com&gt;
 
 References
 
    1. file://localhost/home/mikal/opensource/tutorial-imaging/contrib/giflib-4.1.0/doc/index.html
    2. mailto:esr@thyrsus.com
 </programlisting>
+<para><emphasis>Code: gif2ps.html</emphasis></para>
 </sect2>
 
 <sect2><title>gif2rgb</title>
@@ -1051,13 +1076,14 @@ gif2rgb [-q] [-1] [-o OutFileName] [-h] gif-file
      _________________________________________________________________
 
 
-    Eric S. Raymond [2]<esr@snark.thyrsus.com>
+    Eric S. Raymond [2]&lt;esr@snark.thyrsus.com&gt;
 
 References
 
    1. file://localhost/home/mikal/opensource/tutorial-imaging/contrib/giflib-4.1.0/doc/index.html
    2. mailto:esr@thyrsus.com
 </programlisting>
+<para><emphasis>Code: gif2rgb.html</emphasis></para>
 </sect2>
 
 <sect2><title>gif2rle</title>
@@ -1106,13 +1132,14 @@ gif2rle [-q] [-a] [-h] gif-file
      _________________________________________________________________
 
 
-    Eric S. Raymond [2]<esr@snark.thyrsus.com>
+    Eric S. Raymond [2]&lt;esr@snark.thyrsus.com&gt;
 
 References
 
    1. file://localhost/home/mikal/opensource/tutorial-imaging/contrib/giflib-4.1.0/doc/index.html
    2. mailto:esr@thyrsus.com
 </programlisting>
+<para><emphasis>Code: gif2rle.html</emphasis></para>
 </sect2>
 
 <sect2><title>gif2x11</title>
@@ -1163,13 +1190,14 @@ gif2x11 [-q] [-p PosX PosY] [-d Display] [-f] [-h] gif-file
      _________________________________________________________________
 
 
-    Eric S. Raymond [2]<esr@snark.thyrsus.com>
+    Eric S. Raymond [2]&lt;esr@snark.thyrsus.com&gt;
 
 References
 
    1. file://localhost/home/mikal/opensource/tutorial-imaging/contrib/giflib-4.1.0/doc/index.html
    2. mailto:esr@thyrsus.com
 </programlisting>
+<para><emphasis>Code: gif2x11.html</emphasis></para>
 </sect2>
 
 <sect2><title>gifasm</title>
@@ -1222,13 +1250,14 @@ gifasm [-q] [-a] [-d OutFileName] [-h] gif-file...
      _________________________________________________________________
 
 
-    Eric S. Raymond [2]<esr@snark.thyrsus.com>
+    Eric S. Raymond [2]&lt;esr@snark.thyrsus.com&gt;
 
 References
 
    1. file://localhost/home/mikal/opensource/tutorial-imaging/contrib/giflib-4.1.0/doc/index.html
    2. mailto:esr@thyrsus.com
 </programlisting>
+<para><emphasis>Code: gifasm.html</emphasis></para>
 </sect2>
 
 <sect2><title>gifbg</title>
@@ -1280,7 +1309,7 @@ gifbg [-q] [-d Dir] [-l #Lvls] [-c R G B] [-m MinI] [-M MaxI] [-s W H] [-h]
           What  to  use  as  the  primary background color to scale. This
           color  is  scaled  between  the  minimum  intensity  (MinI) and
           maximum  intensity  (MaxI)  from  one  end of the screen to the
-          other  as  defined by Dir. See below (-m & -M) for MinI & MaxI.
+          other  as  defined by Dir. See below (-m &amp; -M) for MinI &amp; MaxI.
           Default is Blue (0, 0, 255).
 
    [-m MinI]
@@ -1307,7 +1336,7 @@ gifbg [-q] [-d Dir] [-l #Lvls] [-c R G B] [-m MinI] [-M MaxI] [-s W H] [-h]
      _________________________________________________________________
 
 
-    Eric S. Raymond [2]<esr@snark.thyrsus.com>
+    Eric S. Raymond [2]&lt;esr@snark.thyrsus.com&gt;
 
 References
 
@@ -1318,6 +1347,7 @@ References
    Hidden links:
    3. file://localhost/home/mikal/opensource/tutorial-imaging/contrib/giflib-4.1.0/doc/gifcomb.html
 </programlisting>
+<para><emphasis>Code: gifbg.html</emphasis></para>
 </sect2>
 
 <sect2><title>gifburst</title>
@@ -1356,17 +1386,18 @@ gifburst [-s n] [-p b] gif-file
 
                                     Author:
 
-   Eric S. Raymond <esr@snark.thyrsus.com>
+   Eric S. Raymond &lt;esr@snark.thyrsus.com&gt;
      _________________________________________________________________
 
 
-    Eric S. Raymond [2]<esr@snark.thyrsus.com>
+    Eric S. Raymond [2]&lt;esr@snark.thyrsus.com&gt;
 
 References
 
    1. file://localhost/home/mikal/opensource/tutorial-imaging/contrib/giflib-4.1.0/doc/index.html
    2. mailto:esr@thyrsus.com
 </programlisting>
+<para><emphasis>Code: gifburst.html</emphasis></para>
 </sect2>
 
 <sect2><title>gifclip</title>
@@ -1405,12 +1436,12 @@ file
           For  example:  '-i 11 22 33 44' will crop the box from top left
           [11,22] to bottom right [33,44] out of the first image.
 
-          If  the  first parameter is bigger than third one (Xmin > Xmax)
+          If  the  first parameter is bigger than third one (Xmin &gt; Xmax)
           they are swapped. Same for Y.
 
           The  dimensions  of  the  clipped  image  must  be  confined to
           original  image  width  and  height.  Note  the  clipped  image
-          includes  both  the min & max boundary; an image of width W can
+          includes  both  the min &amp; max boundary; an image of width W can
           have coordinates 0 to W-1 (zero based).
 
           Only one of -i or -n can be specified.
@@ -1437,7 +1468,7 @@ file
      _________________________________________________________________
 
 
-    Eric S. Raymond [3]<esr@snark.thyrsus.com>
+    Eric S. Raymond [3]&lt;esr@snark.thyrsus.com&gt;
 
 References
 
@@ -1445,6 +1476,7 @@ References
    2. file://localhost/home/mikal/opensource/tutorial-imaging/contrib/giflib-4.1.0/doc/gifpos.html
    3. mailto:esr@thyrsus.com
 </programlisting>
+<para><emphasis>Code: gifclip.html</emphasis></para>
 </sect2>
 
 <sect2><title>gifclrmp</title>
@@ -1510,13 +1542,14 @@ gifclrmap [-q] [-s] [-t trans] [-l map] [-g Gamma] [-i image] [-h] gif-file
      _________________________________________________________________
 
 
-    Eric S. Raymond [2]<esr@snark.thyrsus.com>
+    Eric S. Raymond [2]&lt;esr@snark.thyrsus.com&gt;
 
 References
 
    1. file://localhost/home/mikal/opensource/tutorial-imaging/contrib/giflib-4.1.0/doc/index.html
    2. mailto:esr@thyrsus.com
 </programlisting>
+<para><emphasis>Code: gifclrmp.html</emphasis></para>
 </sect2>
 
 <sect2><title>gifcolor</title>
@@ -1539,7 +1572,7 @@ References
 
                                     Usage:
 
-gifcolor [-q] [-b Background] [-h] &ltColorMapFile
+gifcolor [-q] [-b Background] [-h] &amp;ltColorMapFile
 
    As  gifcolor  can  generate huge amounts of data, ^C will kill it, but
    'q'  will  stop  only  the printing (of one of -e, -z, -p), while file
@@ -1567,13 +1600,14 @@ gifcolor [-q] [-b Background] [-h] &ltColorMapFile
      _________________________________________________________________
 
 
-    Eric S. Raymond [2]<esr@snark.thyrsus.com>
+    Eric S. Raymond [2]&lt;esr@snark.thyrsus.com&gt;
 
 References
 
    1. file://localhost/home/mikal/opensource/tutorial-imaging/contrib/giflib-4.1.0/doc/index.html
    2. mailto:esr@thyrsus.com
 </programlisting>
+<para><emphasis>Code: gifcolor.html</emphasis></para>
 </sect2>
 
 <sect2><title>gifcomb</title>
@@ -1623,13 +1657,14 @@ gifcomb [-q] [-m MaskGIFFile] [-h] gif-file...
      _________________________________________________________________
 
 
-    Eric S. Raymond [2]<esr@snark.thyrsus.com>
+    Eric S. Raymond [2]&lt;esr@snark.thyrsus.com&gt;
 
 References
 
    1. file://localhost/home/mikal/opensource/tutorial-imaging/contrib/giflib-4.1.0/doc/index.html
    2. mailto:esr@thyrsus.com
 </programlisting>
+<para><emphasis>Code: gifcomb.html</emphasis></para>
 </sect2>
 
 <sect2><title>gifcompose</title>
@@ -1644,7 +1679,7 @@ References
 
                                     Usage:
 
-gifcompose [-v] <specfile
+gifcompose [-v] &lt;specfile
 
                              Specification Syntax
 
@@ -1653,33 +1688,33 @@ gifcompose [-v] <specfile
 
                                  Generators
 
-   gif <name>
-          Paste in <name>.gif
+   gif &lt;name&gt;
+          Paste in &lt;name&gt;.gif
 
-   raw <name> <width> <height>
+   raw &lt;name&gt; &lt;width&gt; &lt;height&gt;
           Paste  in  the  given raw-format file (no suffix supplied). Raw
           format  is  a  stream  of 8-bit indices into the EGA color map.
           Accordingly,  the  width  and height must be specified, and the
           source must be exactly width times height bytes long.
 
-   rgb <name> <width> <height>
+   rgb &lt;name&gt; &lt;width&gt; &lt;height&gt;
           Paste  in  the  given RGB-format file (no suffix supplied). Raw
           format  is  a  stream  of 24-bit color values. Accordingly, the
           width  and  height  must  be  specified, and the source must be
           exactly 3 times width times height bytes long.
 
-   rle <name>
+   rle &lt;name&gt;
           Paste  in  the given RLE-format file (no suffix supplied). This
           converts the Utah Raster Kit format to GIF.
 
-   text <text> [foreground <index>] [color <r> <g> <b>]
+   text &lt;text&gt; [foreground &lt;index&gt;] [color &lt;r&gt; &lt;g&gt; &lt;b&gt;]
           Copy  8x8 monospace font, with transparent background and index
           1  as foreground. If the text string contains whitespaces, they
           must   be   escaped   or  the  string  must  be  quoted  (shell
           conventions).
 
-          The  optional suffix `foreground <n>' sets the foreground color
-          index.  The  optional  suffix  `color <r> <g> <b>' sets the RGB
+          The  optional suffix `foreground &lt;n&gt;' sets the foreground color
+          index.  The  optional  suffix  `color &lt;r&gt; &lt;g&gt; &lt;b&gt;' sets the RGB
           color to be used for the foreground index.
 
    Each  generator  operation  may  be followed by any combination of the
@@ -1687,11 +1722,11 @@ gifcompose [-v] <specfile
 
                                  Modifiers
 
-   at <x> <y>
+   at &lt;x&gt; &lt;y&gt;
    Place  the  image at the given (upper-left-hand-corner) coordinates in
    the pasted-up result.
 
-   clip <name> <top-x> <top-y> <bottom-x> <bottom-y>
+   clip &lt;name&gt; &lt;top-x&gt; &lt;top-y&gt; &lt;bottom-x&gt; &lt;bottom-y&gt;
    Clip image using the given rectange, paste it onto.
 
    xflip
@@ -1708,10 +1743,10 @@ gifcompose [-v] <specfile
 
                              Target Operations
 
-   screen size <x-size> <y-size>
+   screen size &lt;x-size&gt; &lt;y-size&gt;
    Set the global screen size of the final image.
 
-   screen position <x> <y>
+   screen position &lt;x&gt; &lt;y&gt;
    Set the global screen position of the final image.
 
                                   Comments
@@ -1743,11 +1778,11 @@ gifcompose [-v] <specfile
 
                                     Author:
 
-   Eric S. Raymond <esr@snark.thyrsus.com>
+   Eric S. Raymond &lt;esr@snark.thyrsus.com&gt;
      _________________________________________________________________
 
 
-    Eric S. Raymond [4]<esr@snark.thyrsus.com>
+    Eric S. Raymond [4]&lt;esr@snark.thyrsus.com&gt;
 
 References
 
@@ -1756,6 +1791,7 @@ References
    3. file://localhost/home/mikal/opensource/tutorial-imaging/contrib/giflib-4.1.0/doc/gifovly.html
    4. mailto:esr@thyrsus.com
 </programlisting>
+<para><emphasis>Code: gifcompose.html</emphasis></para>
 </sect2>
 
 <sect2><title>giffiltr</title>
@@ -1775,7 +1811,7 @@ References
 
                                     Usage:
 
-giffiltr <GifFile >GifCopy
+giffiltr &lt;GifFile &gt;GifCopy
 
                                Memory required:
 
@@ -1787,17 +1823,18 @@ giffiltr <GifFile >GifCopy
 
                                     Author
 
-   Eric S. Raymond <esr@snark.thyrsus.com>
+   Eric S. Raymond &lt;esr@snark.thyrsus.com&gt;
      _________________________________________________________________
 
 
-    Eric S. Raymond [2]<esr@snark.thyrsus.com>
+    Eric S. Raymond [2]&lt;esr@snark.thyrsus.com&gt;
 
 References
 
    1. file://localhost/home/mikal/opensource/tutorial-imaging/contrib/giflib-4.1.0/doc/index.html
    2. mailto:esr@thyrsus.com
 </programlisting>
+<para><emphasis>Code: giffiltr.html</emphasis></para>
 </sect2>
 
 <sect2><title>giffix</title>
@@ -1837,13 +1874,14 @@ giffix [-q] [-h] gif-file
      _________________________________________________________________
 
 
-    Eric S. Raymond [2]<esr@snark.thyrsus.com>
+    Eric S. Raymond [2]&lt;esr@snark.thyrsus.com&gt;
 
 References
 
    1. file://localhost/home/mikal/opensource/tutorial-imaging/contrib/giflib-4.1.0/doc/index.html
    2. mailto:esr@thyrsus.com
 </programlisting>
+<para><emphasis>Code: giffix.html</emphasis></para>
 </sect2>
 
 <sect2><title>gifflip</title>
@@ -1897,13 +1935,14 @@ gifflip [-q] [-r] [-l] [-x] [-y] [-h] gif-file
      _________________________________________________________________
 
 
-    Eric S. Raymond [2]<esr@snark.thyrsus.com>
+    Eric S. Raymond [2]&lt;esr@snark.thyrsus.com&gt;
 
 References
 
    1. file://localhost/home/mikal/opensource/tutorial-imaging/contrib/giflib-4.1.0/doc/index.html
    2. mailto:esr@thyrsus.com
 </programlisting>
+<para><emphasis>Code: gifflip.html</emphasis></para>
 </sect2>
 
 <sect2><title>gifhisto</title>
@@ -1969,13 +2008,14 @@ gifhisto [-q] [-t] [-s Width Height] [-n ImageNumber] [-b] [-h] gif-file
      _________________________________________________________________
 
 
-    Eric S. Raymond [2]<esr@snark.thyrsus.com>
+    Eric S. Raymond [2]&lt;esr@snark.thyrsus.com&gt;
 
 References
 
    1. file://localhost/home/mikal/opensource/tutorial-imaging/contrib/giflib-4.1.0/doc/index.html
    2. mailto:esr@thyrsus.com
 </programlisting>
+<para><emphasis>Code: gifhisto.html</emphasis></para>
 </sect2>
 
 <sect2><title>gifinter</title>
@@ -2019,13 +2059,14 @@ gifinter [-q] [-i] [-s] [-h] gif-file
      _________________________________________________________________
 
 
-    Eric S. Raymond [2]<esr@snark.thyrsus.com>
+    Eric S. Raymond [2]&lt;esr@snark.thyrsus.com&gt;
 
 References
 
    1. file://localhost/home/mikal/opensource/tutorial-imaging/contrib/giflib-4.1.0/doc/index.html
    2. mailto:esr@thyrsus.com
 </programlisting>
+<para><emphasis>Code: gifinter.html</emphasis></para>
 </sect2>
 
 <sect2><title>gifinto</title>
@@ -2075,13 +2116,14 @@ gifinto [-q] [-s MinFileSize] [-h] gif-file
      _________________________________________________________________
 
 
-    Eric S. Raymond [2]<esr@snark.thyrsus.com>
+    Eric S. Raymond [2]&lt;esr@snark.thyrsus.com&gt;
 
 References
 
    1. file://localhost/home/mikal/opensource/tutorial-imaging/contrib/giflib-4.1.0/doc/index.html
    2. mailto:esr@thyrsus.com
 </programlisting>
+<para><emphasis>Code: gifinto.html</emphasis></para>
 </sect2>
 
 <sect2><title>gif_lib</title>
@@ -2480,7 +2522,7 @@ ColorMapObject *MakeMapObject(int ColorCount, GifColorType *ColorMap)
    Allocate  storage  for a color map object with the given number of RGB
    triplet  slots.  If  the  second  argument is non-NULL, initialize the
    color  table portion of the new map from it. Returns NULL if memory is
-   exhausted or if the size is not a power of 2 <= 256.
+   exhausted or if the size is not a power of 2 &lt;= 256.
 
 void FreeMapObject(ColorMapObject *Object)
 
@@ -2601,7 +2643,7 @@ int DumpScreen2Gif(char *FileName, int ReqGraphDriver, int ReqGraphMode1,
 
 int GAGetArgs(int argc, char **argv, char *CtrlStr, ...)
 
-   Main routine of this module. Given argc & argv as received by the main
+   Main routine of this module. Given argc &amp; argv as received by the main
    procedure,  the  command  line  CtrlStr,  and  the  addresses  of  all
    parameters, parse the command line, and update the parameters.
 
@@ -2638,7 +2680,7 @@ void GAPrintHowTo(char *CtrlStr)
      _________________________________________________________________
 
 
-    Eric S. Raymond [6]<esr@snark.thyrsus.com>
+    Eric S. Raymond [6]&lt;esr@snark.thyrsus.com&gt;
 
 References
 
@@ -2653,6 +2695,7 @@ References
    Hidden links:
    7. file://localhost/home/mikal/opensource/tutorial-imaging/contrib/giflib-4.1.0/doc/gif_lib.html#EGifPutPixel
 </programlisting>
+<para><emphasis>Code: gif_lib.html</emphasis></para>
 </sect2>
 
 <sect2><title>gifovly</title>
@@ -2689,11 +2732,11 @@ gifovly [-s TransparentColor] [-h]
 
                                     Author:
 
-   Eric S. Raymond <esr@snark.thyrsus.com>
+   Eric S. Raymond &lt;esr@snark.thyrsus.com&gt;
      _________________________________________________________________
 
 
-    Eric S. Raymond [4]<esr@snark.thyrsus.com>
+    Eric S. Raymond [4]&lt;esr@snark.thyrsus.com&gt;
 
 References
 
@@ -2702,6 +2745,7 @@ References
    3. file://localhost/home/mikal/opensource/tutorial-imaging/contrib/giflib-4.1.0/doc/gifasm.html
    4. mailto:esr@thyrsus.com
 </programlisting>
+<para><emphasis>Code: gifovly.html</emphasis></para>
 </sect2>
 
 <sect2><title>gifpos</title>
@@ -2754,13 +2798,14 @@ gifpos [-q] [-s Width Height] [-i Left Top] [-n n Left Top] [-h] gif-file
      _________________________________________________________________
 
 
-    Eric S. Raymond [2]<esr@snark.thyrsus.com>
+    Eric S. Raymond [2]&lt;esr@snark.thyrsus.com&gt;
 
 References
 
    1. file://localhost/home/mikal/opensource/tutorial-imaging/contrib/giflib-4.1.0/doc/index.html
    2. mailto:esr@thyrsus.com
 </programlisting>
+<para><emphasis>Code: gifpos.html</emphasis></para>
 </sect2>
 
 <sect2><title>gifrotat</title>
@@ -2816,13 +2861,14 @@ gifrotat -a Angle [-q] [-s Width Height] [-h] gif-file
      _________________________________________________________________
 
 
-    Eric S. Raymond [2]<esr@snark.thyrsus.com>
+    Eric S. Raymond [2]&lt;esr@snark.thyrsus.com&gt;
 
 References
 
    1. file://localhost/home/mikal/opensource/tutorial-imaging/contrib/giflib-4.1.0/doc/index.html
    2. mailto:esr@thyrsus.com
 </programlisting>
+<para><emphasis>Code: gifrotat.html</emphasis></para>
 </sect2>
 
 <sect2><title>gifrsize</title>
@@ -2856,7 +2902,7 @@ gifrsize [-q] [-S X Y] [-s Scale] [-x XScale] [-y YScale] [-h] gif-file
           specifies the exact screen dimension of the output GIF.
 
    [-s Scale]
-          Set  scaling  factor for both x & y direction to Scale. Default
+          Set  scaling  factor for both x &amp; y direction to Scale. Default
           is 0.5. Note this is a floating point number.
 
    [-x XScale]
@@ -2876,13 +2922,14 @@ gifrsize [-q] [-S X Y] [-s Scale] [-x XScale] [-y YScale] [-h] gif-file
      _________________________________________________________________
 
 
-    Eric S. Raymond [2]<esr@snark.thyrsus.com>
+    Eric S. Raymond [2]&lt;esr@snark.thyrsus.com&gt;
 
 References
 
    1. file://localhost/home/mikal/opensource/tutorial-imaging/contrib/giflib-4.1.0/doc/index.html
    2. mailto:esr@thyrsus.com
 </programlisting>
+<para><emphasis>Code: gifrsize.html</emphasis></para>
 </sect2>
 
 <sect2><title>gifspnge</title>
@@ -2901,7 +2948,7 @@ References
 
                                     Usage:
 
-gifspnge <GifFile >GifCopy
+gifspnge &lt;GifFile &gt;GifCopy
 
                                Memory required:
 
@@ -2913,17 +2960,18 @@ gifspnge <GifFile >GifCopy
 
                                     Author:
 
-   Eric S. Raymond <esr@snark.thyrsus.com>
+   Eric S. Raymond &lt;esr@snark.thyrsus.com&gt;
      _________________________________________________________________
 
 
-    Eric S. Raymond [2]<esr@snark.thyrsus.com>
+    Eric S. Raymond [2]&lt;esr@snark.thyrsus.com&gt;
 
 References
 
    1. file://localhost/home/mikal/opensource/tutorial-imaging/contrib/giflib-4.1.0/doc/index.html
    2. mailto:esr@thyrsus.com
 </programlisting>
+<para><emphasis>Code: gifspnge.html</emphasis></para>
 </sect2>
 
 <sect2><title>giftext</title>
@@ -2970,7 +3018,7 @@ giftext [-q] [-c] [-e] [-z] [-p] [-r] [-h] gif-file
 
    [-p]
           Dumps the pixels of the image. Dumps in hex - 2 digit per pixel
-          (<=byte).
+          (&lt;=byte).
 
    [-r]
           Dumps  raw  pixels  as one byte per pixel. This option inhibits
@@ -2989,13 +3037,14 @@ giftext [-q] [-c] [-e] [-z] [-p] [-r] [-h] gif-file
      _________________________________________________________________
 
 
-    Eric S. Raymond [2]<esr@snark.thyrsus.com>
+    Eric S. Raymond [2]&lt;esr@snark.thyrsus.com&gt;
 
 References
 
    1. file://localhost/home/mikal/opensource/tutorial-imaging/contrib/giflib-4.1.0/doc/index.html
    2. mailto:esr@thyrsus.com
 </programlisting>
+<para><emphasis>Code: giftext.html</emphasis></para>
 </sect2>
 
 <sect2><title>gifwedge</title>
@@ -3041,13 +3090,14 @@ gifwedge [-q] [-l #Lvls] [-s SizeX SizeY] [-h]
      _________________________________________________________________
 
 
-    Eric S. Raymond [2]<esr@snark.thyrsus.com>
+    Eric S. Raymond [2]&lt;esr@snark.thyrsus.com&gt;
 
 References
 
    1. file://localhost/home/mikal/opensource/tutorial-imaging/contrib/giflib-4.1.0/doc/index.html
    2. mailto:esr@thyrsus.com
 </programlisting>
+<para><emphasis>Code: gifwedge.html</emphasis></para>
 </sect2>
 
 <sect2><title>icon2gif</title>
@@ -3073,36 +3123,36 @@ icon2gif [-q] [-a] [-d] [t TranslationTable] [-h] gif-file...
    Here  is a syntax summary in informal BNF. The token `NL' represents a
    required newline.
 
-<gif-spec> ::= <header-block> <image-block>...
+&lt;gif-spec&gt; ::= &lt;header-block&gt; &lt;image-block&gt;...
 
-<header-block> ::= <header-declaration>...
+&lt;header-block&gt; ::= &lt;header-declaration&gt;...
 
-<header-declaration ::=
-                | screen width <digits> NL
-                | screen height <digits> NL
-                | screen colors <digits> NL
-                | screen background <digits> NL
-                | screen map <color-table> NL
+&lt;header-declaration ::=
+                | screen width &lt;digits&gt; NL
+                | screen height &lt;digits&gt; NL
+                | screen colors &lt;digits&gt; NL
+                | screen background &lt;digits&gt; NL
+                | screen map &lt;color-table&gt; NL
 
-<color-table> ::= <color-declaration>... end NL
+&lt;color-table&gt; ::= &lt;color-declaration&gt;... end NL
 
-<color-declaration> ::= rgb <digits> <digits> <digits> is <key> NL
+&lt;color-declaration&gt; ::= rgb &lt;digits&gt; &lt;digits&gt; &lt;digits&gt; is &lt;key&gt; NL
 
-<image-block> ::= include <file-name> NL
+&lt;image-block&gt; ::= include &lt;file-name&gt; NL
                 | image NL
-                        <image-declaration>...
-                        <raster-picture>
-                        [ <extension> ]
+                        &lt;image-declaration&gt;...
+                        &lt;raster-picture&gt;
+                        [ &lt;extension&gt; ]
 
-<image-declarations> ::= image top <digits> NL
-                        | image left <digits> NL
+&lt;image-declarations&gt; ::= image top &lt;digits&gt; NL
+                        | image left &lt;digits&gt; NL
                         | image interlaced NL
-                        | image map <color-table> NL
-                        | image bits <digits> by <digits> NL <raster-block>
+                        | image map &lt;color-table&gt; NL
+                        | image bits &lt;digits&gt; by &lt;digits&gt; NL &lt;raster-block&gt;
 
-<extension> := <comment> NL <extension-block> NL end NL
-                | <plaintext> NL <extension-block> NL end NL
-                | extension <hex-digits> NL <extension-block> NL end NL
+&lt;extension&gt; := &lt;comment&gt; NL &lt;extension-block&gt; NL end NL
+                | &lt;plaintext&gt; NL &lt;extension-block&gt; NL end NL
+                | extension &lt;hex-digits&gt; NL &lt;extension-block&gt; NL end NL
 
    If  the  semantics  of  the  `screen  height', `screen width', `screen
    background',  `image top', `image left' declarations aren't obvious to
@@ -3179,17 +3229,18 @@ icon2gif [-q] [-a] [-d] [t TranslationTable] [-h] gif-file...
 
                                     Author:
 
-   Eric S. Raymond <esr@snark.thyrsus.com>
+   Eric S. Raymond &lt;esr@snark.thyrsus.com&gt;
      _________________________________________________________________
 
 
-    Eric S. Raymond [2]<esr@snark.thyrsus.com>
+    Eric S. Raymond [2]&lt;esr@snark.thyrsus.com&gt;
 
 References
 
    1. file://localhost/home/mikal/opensource/tutorial-imaging/contrib/giflib-4.1.0/doc/index.html
    2. mailto:esr@thyrsus.com
 </programlisting>
+<para><emphasis>Code: icon2gif.html</emphasis></para>
 </sect2>
 
 <sect2><title>index</title>
@@ -3419,7 +3470,7 @@ C Code Templates
      _________________________________________________________________
 
 
-    Eric S. Raymond [42]<esr@snark.thyrsus.com>
+    Eric S. Raymond [42]&lt;esr@snark.thyrsus.com&gt;
 
 References
 
@@ -3466,6 +3517,7 @@ References
   41. http://www.ccil.org/esr
   42. mailto:esr@thyrsus.com
 </programlisting>
+<para><emphasis>Code: index.html</emphasis></para>
 </sect2>
 
 <sect2><title>liberror</title>
@@ -3609,13 +3661,14 @@ References
      _________________________________________________________________
 
 
-    Eric S. Raymond [2]<esr@snark.thyrsus.com>
+    Eric S. Raymond [2]&lt;esr@snark.thyrsus.com&gt;
 
 References
 
    1. file://localhost/home/mikal/opensource/tutorial-imaging/contrib/giflib-4.1.0/doc/index.html
    2. mailto:esr@thyrsus.com
 </programlisting>
+<para><emphasis>Code: liberror.html</emphasis></para>
 </sect2>
 
 <sect2><title>raw2gif</title>
@@ -3668,13 +3721,14 @@ raw2gif [-q] -s Width Height [-p ColorMapFile] [-h] RawFile
      _________________________________________________________________
 
 
-    Eric S. Raymond [2]<esr@snark.thyrsus.com>
+    Eric S. Raymond [2]&lt;esr@snark.thyrsus.com&gt;
 
 References
 
    1. file://localhost/home/mikal/opensource/tutorial-imaging/contrib/giflib-4.1.0/doc/index.html
    2. mailto:esr@thyrsus.com
 </programlisting>
+<para><emphasis>Code: raw2gif.html</emphasis></para>
 </sect2>
 
 <sect2><title>rgb2gif</title>
@@ -3728,13 +3782,14 @@ rgb2gif [-q] [-c #Colors] [-1] -s Width Height [-h] RGBFile
      _________________________________________________________________
 
 
-    Eric S. Raymond [2]<esr@snark.thyrsus.com>
+    Eric S. Raymond [2]&lt;esr@snark.thyrsus.com&gt;
 
 References
 
    1. file://localhost/home/mikal/opensource/tutorial-imaging/contrib/giflib-4.1.0/doc/index.html
    2. mailto:esr@thyrsus.com
 </programlisting>
+<para><emphasis>Code: rgb2gif.html</emphasis></para>
 </sect2>
 
 <sect2><title>rle2gif</title>
@@ -3786,13 +3841,14 @@ rle2Gif [-q] [-c #Colors] [-h] RleFile
      _________________________________________________________________
 
 
-    Eric S. Raymond [2]<esr@snark.thyrsus.com>
+    Eric S. Raymond [2]&lt;esr@snark.thyrsus.com&gt;
 
 References
 
    1. file://localhost/home/mikal/opensource/tutorial-imaging/contrib/giflib-4.1.0/doc/index.html
    2. mailto:esr@thyrsus.com
 </programlisting>
+<para><emphasis>Code: rle2gif.html</emphasis></para>
 </sect2>
 
 <sect2><title>text2gif</title>
@@ -3833,8 +3889,8 @@ text2gif [-q] [-s ClrMapSize] [-f FGClr] [-c R G B] [-t "Text"] [-h]
    [-f FG]
    Select foreground index (background is always 0). By default it is one
    and  therefore  the  image result is bicolored. if FG is set to n then
-   color  map  will be created with 2^k entries where 2^k > n for minimum
-   k,  assuming  k  <=  8.  This  color map will be all zeros except this
+   color  map  will be created with 2^k entries where 2^k &gt; n for minimum
+   k,  assuming  k  &lt;=  8.  This  color map will be all zeros except this
    forground  index.  This  option is useful if this text image should be
    integrated into other image colormap using their colors.
 
@@ -3860,14 +3916,22 @@ text2gif [-q] [-s ClrMapSize] [-f FGClr] [-c R G B] [-t "Text"] [-h]
      _________________________________________________________________
 
 
-    Eric S. Raymond [2]<esr@snark.thyrsus.com>
+    Eric S. Raymond [2]&lt;esr@snark.thyrsus.com&gt;
 
 References
 
    1. file://localhost/home/mikal/opensource/tutorial-imaging/contrib/giflib-4.1.0/doc/index.html
    2. mailto:esr@thyrsus.com
 </programlisting>
+<para><emphasis>Code: text2gif.html</emphasis></para>
 </sect2>
+
+
+
+
+</sect2>
+
+
 
 
 </sect1>
