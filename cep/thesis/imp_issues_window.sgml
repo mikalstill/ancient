@@ -45,7 +45,7 @@
           <para><command>Hamming</command>:  w(i) = 0.54 - 0.46*cos( 2*&pgr;*i/(size-1) );</para>
         </listitem>
         <listitem>
-          <para><command>Blackman</command>: w(i) = 0.42 - 0.5*cos( 2*&pgr;*val ) + 0.08*cos(4*&pgr;* i/(size-1));</para>
+          <para><command>Blackman</command>: w(i) = 0.42 - 0.5*cos( (2*&pgr;*val)/(size-1) ) + 0.08*cos( (4*&pgr;*i)/(size-1));</para>
         </listitem>
         <listitem>
           <para>
