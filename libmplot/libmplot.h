@@ -44,7 +44,11 @@ typedef struct plot_internal_state
   int linewidthx, linewidthy;
   int linecap;
   int linejoin;
-  int linedash;
+
+  int linedashlen;
+  char *linedash;
+  int linedashcount;
+
   plot_pixel fillcolor;
   plot_pixel linecolor;
   plot_pixel fontcolor;
@@ -82,7 +86,7 @@ void plot_fillline (plot_state *);
 void plot_setlinewidth (plot_state *, int, int);
 void plot_setlinecap (plot_state *, int);
 void plot_setlinejoin (plot_state *, int);
-void plot_setlinedash (plot_state *, int, int, int);
+void plot_setlinedash (plot_state *, int, char *);
 void plot_setfillcolor (plot_state *, int, int, int);
 void plot_setlinecolor (plot_state *, int, int, int);
 
@@ -107,8 +111,8 @@ unsigned int plot_min (unsigned int one, unsigned int two);
 unsigned int plot_max (unsigned int one, unsigned int two);
 int plot_loadglyph(plot_state *, char);
 int plot_paintglyph(plot_state *, char, int);
-void plot_drawpoint(plot_state *, plot_pixel, unsigned int, unsigned int);
-void plot_drawpointactual(plot_state *, plot_pixel, unsigned int, unsigned int);
+void plot_drawpoint(plot_state *, plot_pixel, int isLine, unsigned int, unsigned int);
+void plot_drawpointactual(plot_state *, plot_pixel, int isLine, unsigned int, unsigned int);
 
 #ifdef __cplusplus
 }

@@ -77,7 +77,7 @@ plot_newplot (unsigned int x, unsigned int y)
   state->linewidthy = 1;
   state->linecap = 0;
   state->linejoin = 0;
-  state->linedash = 0;
+  state->linedashlen = 0;
 
   state->fillcolor.r = 0;
   state->fillcolor.g = 0;
@@ -390,6 +390,7 @@ plot_endline (plot_state * state)
     state->line = NULL;
 
   plot_endline (state);
+  state->linedashcount = 0;
 }
 
 /******************************************************************************
@@ -444,7 +445,7 @@ plot_strokeline (plot_state * state)
 	  for (c = plot_min (x1, current->x);
 	       c < plot_max (x1, current->x) + 1; c++)
 	    {
-	      plot_drawpoint (state, state->linecolor, c, y1);
+	      plot_drawpoint (state, state->linecolor, LIBMPLOT_TRUE, c, y1);
 	    }
 	}
       else if (x1 == current->x)
@@ -452,7 +453,7 @@ plot_strokeline (plot_state * state)
 	  for (c = plot_min (y1, current->y);
 	       c < plot_max (y1, current->y) + 1; c++)
 	    {
-	      plot_drawpoint (state, state->linecolor, x1, c);
+	      plot_drawpoint (state, state->linecolor, LIBMPLOT_TRUE, x1, c);
 	    }
 	}
       else
@@ -475,11 +476,11 @@ plot_strokeline (plot_state * state)
 		  for (d = plot_min (prevy, (int) newy);
 		       d < plot_max (prevy, (int) newy); d++)
 		    {
-		      plot_drawpoint (state, state->linecolor, c - 1, d);
+		      plot_drawpoint (state, state->linecolor, LIBMPLOT_TRUE, c - 1, d);
 		    }
 		}
 
-	      plot_drawpoint (state, state->linecolor, c, (int) newy);
+	      plot_drawpoint (state, state->linecolor, LIBMPLOT_TRUE, c, (int) newy);
 	    }
 	}
 
@@ -491,12 +492,12 @@ plot_strokeline (plot_state * state)
 
 // Draw a single point on the raster, with the current pen properties
 void
-plot_drawpoint (plot_state * state, plot_pixel color, unsigned int x, unsigned int y)
+plot_drawpoint (plot_state * state, plot_pixel color, int isLine, unsigned int x, unsigned int y)
 {
   unsigned int xc, yc, tempx, tempy;
 
   if((state->linewidthx == 1) && (state->linewidthy == 1)){
-    plot_drawpointactual(state, color, x, y);
+    plot_drawpointactual(state, color, isLine, x, y);
     return;
   }
 
@@ -506,7 +507,7 @@ plot_drawpoint (plot_state * state, plot_pixel color, unsigned int x, unsigned i
       tempy = y - (state->linewidthy / 2);
       for(yc = 0; yc < state->linewidthy; yc++)
 	{
-	  plot_drawpointactual(state, color, tempx, tempy);
+	  plot_drawpointactual(state, color, isLine, tempx, tempy);
 	  tempy++;
 	}
       tempx++;
@@ -515,12 +516,24 @@ plot_drawpoint (plot_state * state, plot_pixel color, unsigned int x, unsigned i
 
 // Turn on a single pixel
 void
-plot_drawpointactual (plot_state * state, plot_pixel color, unsigned int x, unsigned int y)
+plot_drawpointactual (plot_state * state, plot_pixel color, int isLine, unsigned int x, unsigned int y)
 {
   unsigned long ptr = state->x * y + x;
-  
+  int linedashcount;
+
   if (ptr > state->maxptr)
     return;
+  
+  state->linedashcount++;
+  if(state->linedashcount > (state->linedashlen - 1)){
+    state->linedashcount = 0;
+  }
+  linedashcount = state->linedashcount;
+
+  if((state->linedashlen > 0) && (isLine == LIBMPLOT_TRUE) && (state->linedash[linedashcount] == '\0')){
+    return;
+  }
+  
   state->raster[ptr] = color;
 }
 
@@ -580,7 +593,7 @@ plot_fillline (plot_state * state)
 		  
 		  if(intersects % 2 == 1)
 		    {
-		      plot_drawpointactual(state, state->fillcolor, col, row);
+		      plot_drawpointactual(state, state->fillcolor, LIBMPLOT_FALSE, col, row);
 		    }
 		}
 	    }
@@ -608,10 +621,18 @@ plot_setlinejoin (plot_state * state, int j)
   fprintf (stderr, "todo\n");
 }
 
+// Allow people to apply a dashing to the lines they draw...
+// todo_mikal: fix leak
 void
-plot_setlinedash (plot_state * state, int on, int off, int interval)
+plot_setlinedash (plot_state * state, int length, char *dashing)
 {
-  fprintf (stderr, "todo\n");
+  state->linedashlen = length;
+  if((state->linedash = malloc(sizeof(char) * length)) == NULL){
+    fprintf(stderr, "Could not allocate dash storage\n");
+    return;
+  }
+  memcpy(state->linedash, dashing, length);
+  state->linedashcount = 0;
 }
 
 /******************************************************************************
