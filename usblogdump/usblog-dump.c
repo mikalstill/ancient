@@ -53,6 +53,8 @@ void usb_pipe_info (char *file, long long *filep);
 void usb_ucd (char *file, long long *filep);
 void usb_setup_packet (char *file, long long *filep);
 
+void dump_data(char *file, long long *filep, int psize);
+
 // URB output
 char *urb_buffer = NULL;
 long urb_buffer_size = 0;
@@ -312,35 +314,10 @@ main (int argc, char *argv[])
           // Test whether data is present
           if(psize != 0)
             {
-              int i;
-
               if(fileutil_getnumber (file, &filep) != 0)
                 {
-                  urb_printf ("Data: \t");
-                  for (i = 0; i < psize; i++)
-                    {
-                      if (isgraph (file[filep]))
-                        {
-                          urb_printf (" %c ", (unsigned char) file[filep]);
-                        }
-                      else if (file[filep] == 0x20)
-                        {
-                          urb_printf ("<> ");
-                        }
-                      else
-                        {
-                          urb_printf ("%02x ", (unsigned char) file[filep]);
-                        }
-                      filep++;
-		      if (!((i + 1) % 16))
-			{
-			  urb_printf (" ");
-			}
-		      if (!((i + 1) % 32))
-			{
-			  urb_printf ("\n\t");
-			}
-                    }
+                  urb_printf ("Data: \n");
+		  dump_data(file, &filep, psize);
                 }
               urb_printf ("\n");
             }
@@ -360,66 +337,14 @@ main (int argc, char *argv[])
 	  // Test whether data is present
 	  if (fileutil_getnumber (file, &filep) != 0)
 	    {
-	      int i;
-
-	      urb_printf ("Bulk Data:%8d%8d%s:",
+	      urb_printf ("Bulk Data: number %d time %d %s\n",
 			  urbhead[urbCount].number + 1,
 			  urbhead[urbCount].time,
-			  ((0 == transfer_direction) ? ">" : "<"));
-	      /* this is a hook to send the reply from the devive
-	         through a custom hook which is supposed to interpret the
-	         result 
-	       */
-#ifdef INTERPRET_HOOK
-	      fprintf (stderr, "\nblock: %d %10.3f\n",
-		       urbhead[urbCount].number + 1,
-		       ((double) urbhead[urbCount].time) / 1000);
-	      if (0 != transfer_direction)
-		{
-		  epl_62interpret (NULL, file + filep, psize);
-		}
-	      filep += (((do_bulk) && (psize > max_bulk)) ? max_bulk : psize);
-#else
-	      for (i = 0;
-		   i < (((do_bulk) && (psize > max_bulk)) ? max_bulk : psize);
-		   i++)
-		{
-		  if (isgraph (file[filep]))
-		    {
-		      urb_printf (" %c ", (unsigned char) file[filep]);
-		    }
-		  else if (file[filep] == 0x20)
-		    {
-		      urb_printf ("<> ");
-		    }
-		  else
-		    {
-		      urb_printf ("%02x ", (unsigned char) file[filep]);
-		    }
-		  filep++;
-		  if (!((i + 1) % 16))
-		    {
-		      urb_printf (" ");
-		    }
-		  if (!((i + 1) % 32))
-		    {
-		      if (do_bulk)
-			{
-			  urb_printf ("\n");
-			  urb_printf ("Bulk Data:%8d%8d%s:",
-				      0,
-				      0,
-				      ((0 ==
-					transfer_direction) ? ">" : "<"));
-			}
-		      else
-			{
-			  urb_printf ("\n\t");
-			}
-		    }
-		}
+			  ((0 == transfer_direction) ? "host-to-device" : "device-to-host"));
+
+	      dump_data(file, &filep, (((do_bulk) && (psize > max_bulk)) ? max_bulk : psize));
 	      urb_printf ("\n");
-#endif /* INTERPRET_HOOK */
+
 	      filep +=
 		(((do_bulk) && (psize > max_bulk)) ? (psize - max_bulk) : 0);
 	    }
@@ -427,6 +352,7 @@ main (int argc, char *argv[])
 	  usb_urb_bulktransfer (file, &filep);
 
 	  break;
+
 	case 0xA:
 	  // ISOCH_TRANSFER
 
@@ -1134,4 +1060,39 @@ hashcmp (usb_allurbs * head, int inset, int testinset, int length)
     }
 
   return 0;
+}
+
+// Do a nicely formatted dump of some data
+void dump_data(char *file, long long *filep, int psize)
+{
+  long long count = *filep;
+  int i;
+
+  urb_printf("\t");
+  for (i = 0; i < psize; i++)
+    {
+      if (isgraph (file[count]))
+	{
+	  urb_printf (" %c ", (unsigned char) file[count]);
+	}
+      else if (file[count] == 0x20)
+	{
+	  urb_printf ("<> ");
+	}
+      else
+	{
+	  urb_printf ("%02x ", (unsigned char) file[count]);
+	}
+      count++;
+      if (!((i + 1) % 16))
+	{
+	  urb_printf (" ");
+	}
+      if (!((i + 1) % 32))
+	{
+	  urb_printf ("\n\t");
+	}
+    }
+
+  *filep = count;
 }
