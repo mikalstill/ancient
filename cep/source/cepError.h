@@ -68,6 +68,7 @@ private:
   string m_msg;
   severity m_level;
   bool m_actioned;
+  cepTSB m_dodisplay[sevMax];
 };
 
 #endif

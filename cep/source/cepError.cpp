@@ -93,13 +93,16 @@ cepError::display ()
   // todo_mikal improve
   log();
 
-  bool dodisp = true;
-  string keyname(string("cepErrordisplaylevel") + 
-		 cepItoa((int) m_level));
+  if(m_dodisplay[(int) m_level].get() == cepTSB::stUndefined)
+    {
+      // Deliberately dropping cepError return value here
+      bool dodisp;
+      gConfiguration->getValue(string("cepErrordisplaylevel") + 
+			       cepItoa((int) m_level), true, dodisp);
+      m_dodisplay[(int) m_level].set(dodisp);
+    }
 
-  // Deliberately dropping cepError return value here
-  gConfiguration->getValue(keyname, true, dodisp);
-  if (!dodisp)
+  if(m_dodisplay[(int) m_level].get() == cepTSB::stFalse)
     return;
 
   if (m_msg != "")
