@@ -1,9 +1,0 @@
-TITLE: GIF: The GIF on disc format: Data: Image descriptors
-<BR><BR>
-<i>Each image in the Data Stream is composed of an Image Descriptor, an optional Local Color Table, and the image data. Each image must fit within the boundaries of the Logical Screen, as defined in the Logical Screen Descriptor.</i> -- GIF 89a specification
-
-
-<BR><BR>
-<li>The image descriptor is stored at the start of each image
-<li>It stores information which is specific to that single image
-

@@ -1,0 +1,33 @@
+TITLE: PNG: The PNG on disc format: The IHDR chunk: Continued 2
+<li>For all of these, the sample depth is the same as the bit depth
+<li>...Except type three, where the sample depth is always 8 bits
+<BR><BR>
+
+<table>
+
+
+
+<tr bgcolor=BBBBBB>
+  <td>Required?</td>
+  <td>Critical</td>
+</tr>
+
+<tr>
+  <td>Scope?</td>
+  <td>Public</td>
+</tr>
+
+<tr bgcolor=BBBBBB>
+  <td>In reserved name space?</td>
+  <td>PNG 1.2 compliant</td>
+</tr>
+
+<tr>
+  <td>Safe to copy?</td>
+  <td>Unsafe to copy</td>
+</tr>
+
+
+
+</table>
+

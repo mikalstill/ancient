@@ -1,8 +1,0 @@
-TITLE: TIFF: Writing a color image: Continued 1
-<li>There are some things we should pay attention to in this code:
-  <ul>
-  <li>The image has three (red, green and blue) samples per pixel
-  <li>Each of these samples is 8 bits
-  <li>This is therefore a 24 bit color image
-  </ul>
-

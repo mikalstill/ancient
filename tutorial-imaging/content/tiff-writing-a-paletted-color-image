@@ -1,4 +1,0 @@
-TITLE: TIFF: Writing a paletted color image
-<li>Writing a paletted image with libtiff is really easy...
-<li>Just change TIFFTAG_PHOTOMETRIC to PHOTOMETRIC_PALETTE
-
