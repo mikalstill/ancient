@@ -31,7 +31,7 @@ There are two common implementation methodologies for scripting languages. Both 
 </para>
 
 <para>
-<command>lex</command> and <command>flex</command> are parser generation tools. They take a lexical specification file, and generate a LALR finite state machine for matching input strings [Aho, Sethi &amp; Ullman 1986]. A sample of a lexical specification is shown below:
+<command>lex</command> and <command>flex</command> are parser generation tools. They take a lexical specification file, and generate a LALR finite state machine for matching input strings (Aho, Sethi &amp; Ullman 1986). A sample of a lexical specification is shown below (in this case for the PDF file format):
 </para>
 
 <programlisting>
@@ -59,7 +59,7 @@ There are two common implementation methodologies for scripting languages. Both 
 </programlisting>
 
 <para>
-In this example, two tokens are defined, VERSION, and FP. The syntax for these specifications is fairly trivial. The first field, which is wrapped in angled brackets, is the name of the state that the specification should be used in. All of the examples shown here are for the default state, known as INITIAL. What follows this is a posix compliant regular expression to be matched. Finally, within the braces is some c code to execute which a match occurs.
+In this example, two tokens are defined, VERSION, and FP. The syntax for these specifications is fairly trivial. The first field, which is wrapped in angled brackets, is the name of the state that the specification should be used in. All of the examples shown here are for the default state, known as INITIAL (Levin, Mason, Brown 1990). What follows this is a posix compliant regular expression to be matched. Finally, within the braces is some c code to execute which a match occurs.
 </para>
 
 <para>
@@ -71,7 +71,7 @@ In each of these examples, the c code writes a log entry for the match, setups u
 </para>
 
 <para>
-A sample grammar specification is as follows:
+A sample grammar specification, in this case for SQL () is as follows:
 </para>
 
 <programlisting>
@@ -87,6 +87,11 @@ insert   : INSERT INTO STRING '(' colvalspec ')' VALUES '(' colvalspec ')' ';' {
 
 sel      : SELECT cvsaster FROM STRING {} wsel ';' {}
 </programlisting>
+
+<para>
+
+
+
 </sect4>
 
   </sect3> <!--research-->
