@@ -16,5 +16,5 @@ clean:
 	rm output* gen-* *~
 
 lj: output.sgml
-	./format.pl < source.sgml > lj.txt
+	./format.pl < source.sgml | sed -e 's/&lt;/</g' -e 's/&gt;/>/g' -e 's/&mdash;/--/g' > lj.txt
 	wc -w *.txt sidebar-*

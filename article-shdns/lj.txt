@@ -20,7 +20,7 @@ UDP
 
 It strikes me as logical to start with an extremely brief introduction to UDP. At some points it makes sense to compare this with the alternative, TCP. 
 
-Both UDP and TCP sit on top of the Internet protocol, which handles all the plumbing of actually getting the data out of the back of the client machine to the server. This is where the similarity ends. UDP is the &lt;i&gt;User Datagram Protocol&lt;/i&gt;, and is unreliable. On the other hand, TCP is the &lt;i&gt;Transmission Control Protocol&lt;/i&gt;, and is reliable. 
+Both UDP and TCP sit on top of the Internet protocol, which handles all the plumbing of actually getting the data out of the back of the client machine to the server. This is where the similarity ends. UDP is the <i>User Datagram Protocol</i>, and is unreliable. On the other hand, TCP is the <i>Transmission Control Protocol</i>, and is reliable. 
 
 What is reliability? Well, TCP will hold your hand and ensure for you that every packet you send is received by the other machine. It will also ensure that the packets arrive in the right order. There are also some games played with the choice of initial sequence number to make it harder for man in the middle attacks to be successful. 
 
@@ -43,25 +43,25 @@ See the further reading section at the end of the this article for recommendatio
 Disconnected sockets
 --------------------
 
-By default when a UDP socket is created, it is disconnected. What's a disconnected socket? The short answer is that it isn't associated with any given remote machine. This means that each time we fetch data from the socket we have to use the &lt;i&gt;recvfrom&lt;/i&gt;(2) function call: 
+By default when a UDP socket is created, it is disconnected. What's a disconnected socket? The short answer is that it isn't associated with any given remote machine. This means that each time we fetch data from the socket we have to use the <i>recvfrom</i>(2) function call: 
 
 [cw]
 int recvfrom(int s, void *buf, size_t len, int flags, struct sockaddr *from, socklen_t *fromlen); 
 [ecw]
 
-The &lt;i&gt;struct sockaddr&lt;/i&gt; argument in this function call is populated with enough information for the program to be able to determine where to send the reply packet. The response needs to be sent with the &lt;i&gt;sendto&lt;/i&gt;(2) call: 
+The <i>struct sockaddr</i> argument in this function call is populated with enough information for the program to be able to determine where to send the reply packet. The response needs to be sent with the <i>sendto</i>(2) call: 
 
 [cw]
 int sendto(int s, const void *msg, size_t len, int flags, const struct sockaddr *to, socklen_t tolen); 
 [ecw]
 
-The &lt;i&gt;sendto&lt;/i&gt; function call takes another &lt;i&gt;struct sockaddr&lt;/i&gt; argument which specifies where the packet should be sent. 
+The <i>sendto</i> function call takes another <i>struct sockaddr</i> argument which specifies where the packet should be sent. 
 
-The code listing below is an example of how to use the &lt;i&gt;recvfrom&lt;/i&gt; and &lt;i&gt;sendto&lt;/i&gt; functions. This example is a simple UDP echo server. The program waits on a given port, and whenever it receives data, sends it straight back. 
+The code listing below is an example of how to use the <i>recvfrom</i> and <i>sendto</i> functions. This example is a simple UDP echo server. The program waits on a given port, and whenever it receives data, sends it straight back. 
 
 [Please insert the code file named ~mikal/opensource/shdns/sockets/disconnected.c here]
 
-Let's have a look at this program running. As we can see from the source code, the program listens on UDP port 1234 (very imaginative). We can use &lt;b&gt;netcat&lt;/b&gt; to test the program. First, we need to start the server in a different terminal, this is as simple as running it. 
+Let's have a look at this program running. As we can see from the source code, the program listens on UDP port 1234 (very imaginative). We can use <b>netcat</b> to test the program. First, we need to start the server in a different terminal, this is as simple as running it. 
 
 [Please insert the sidebar file named sidebar-2 here]
 
@@ -71,68 +71,71 @@ A client interaction with the server looks like this:
 [Please insert the file named netcat-client.txt here]
 [ecw]
 
-Note that the "punt!" is me hitting control c on &lt;b&gt;netcat&lt;/b&gt;. The server output for this session is: 
+Note that the "punt!" is me hitting control c on <b>netcat</b>. The server output for this session is: 
 
 [cw]
 [Please insert the file named server.txt here]
 [ecw]
 
-There are a couple of things worth noting here. Firstly, the UDP server can handle multiple clients at once in the single process. This is because each packet comes in, and is then responded to &mdash; there is no assumption made that packets come from the same machine. This model works well for the single packet communication paradigm. Secondly, since the server simply waits for a packet, responds, and then starts waiting again, the server survives disconnects from the client, it simply waits until a new packet comes along. 
+There are a couple of things worth noting here. Firstly, the UDP server can handle multiple clients at once in the single process. This is because each packet comes in, and is then responded to -- there is no assumption made that packets come from the same machine. This model works well for the single packet communication paradigm. Secondly, since the server simply waits for a packet, responds, and then starts waiting again, the server survives disconnects from the client, it simply waits until a new packet comes along. 
 
 Disconnected sockets and scripting
 ----------------------------------
 
-This article is really about writing useful UDP servers using scripting languages &mdash; specifically &lt;i&gt;bash&lt;/i&gt;. In this instance, the disconnected nature of these default UDP sockets causes great pain. This is because there is no trivial way in bash to call &lt;i&gt;recvfrom&lt;/i&gt; and &lt;i&gt;sendto&lt;/i&gt;. Shell scripts want to be able to use the standard &lt;i&gt;read&lt;/i&gt; and &lt;i&gt;write&lt;/i&gt; calls, because these languages are intended for file and pipe input output, as opposed to socket traffic. 
+This article is really about writing useful UDP servers using scripting languages -- specifically <i>bash</i>. In this instance, the disconnected nature of these default UDP sockets causes great pain. This is because there is no trivial way in bash to call <i>recvfrom</i> and <i>sendto</i>. Shell scripts want to be able to use the standard <i>read</i> and <i>write</i> calls, because these languages are intended for file and pipe input output, as opposed to socket traffic. 
 
-We can demonstrate this by writing a very simple, and probably quite impractical &lt;b&gt;inetd&lt;/b&gt; server. 
+We can demonstrate this by writing a very simple, and probably quite impractical <b>inetd</b> server. 
 
 [Please insert the sidebar file named sidebar-3 here]
 
-This is a particularly useful example, because our shell scripts are eventually going to run from &lt;b&gt;inetd&lt;/b&gt;, so having an understanding of how it works is very useful... 
+This is a particularly useful example, because our shell scripts are eventually going to run from <b>inetd</b>, so having an understanding of how it works is very useful... 
 
 [Please insert the code file named ~mikal/opensource/shdns/sockets/disconnexec.c here]
 
-All this program does is wait on port 1234 until a connection comes in, forks, and the new child process starts executing the server program (in this case &lt;b&gt;cat&lt;/b&gt;). This technique relies on the fact that the child process will share the environment of the parent process, including it's file handles. These are duplicated to stdin and stdout before the server program starts executing, so that network input goes into stdin, and server output is sent back over the network. 
+All this program does is wait on port 1234 until a connection comes in, forks, and the new child process starts executing the server program (in this case <b>cat</b>). This technique relies on the fact that the child process will share the environment of the parent process, including it's file handles. These are duplicated to stdin and stdout before the server program starts executing, so that network input goes into stdin, and server output is sent back over the network. 
 
-This of course doesn't work because the socket is disconnected, so &lt;b&gt;cat&lt;/b&gt;'s &lt;i&gt;read&lt;/i&gt; call will work, but it's &lt;i&gt;write&lt;/i&gt; call fails because the socket layer doesn't know where to send the response to. 
+This of course doesn't work because the socket is disconnected, so <b>cat</b>'s <i>read</i> call will work, but it's <i>write</i> call fails because the socket layer doesn't know where to send the response to. 
 
 Connected sockets
 -----------------
 
-The answer to our need to use &lt;i&gt;read&lt;/i&gt; and &lt;i&gt;write&lt;/i&gt; for our shell scripts is a connected socket. A connected socket is simply a socket which has had the &lt;i&gt;connect&lt;/i&gt;(2) function called upon it. 
+The answer to our need to use <i>read</i> and <i>write</i> for our shell scripts is a connected socket. A connected socket is simply a socket which has had the <i>connect</i>(2) function called upon it. 
 
-When the &lt;i&gt;connect&lt;/i&gt; function is called, it simply records which machine the network packet came from, so that the socket layer knows where to send the reply packet when it is output with the &lt;i&gt;write&lt;/i&gt; function call. 
+When the <i>connect</i> function is called, it simply records which machine the network packet came from, so that the socket layer knows where to send the reply packet when it is output with the <i>write</i> function call. 
 
-Here's a simple example of a connected socket version of the disconnected echo server above. Note that we now use &lt;i&gt;read&lt;/i&gt; and &lt;i&gt;write&lt;/i&gt; function calls for all the network input output. 
+Here's a simple example of a connected socket version of the disconnected echo server above. Note that we now use <i>read</i> and <i>write</i> function calls for all the network input output. 
 
 [Please insert the code file named ~mikal/opensource/shdns/sockets/connected.c here]
 
-We do cheat a little in this example, there is one &lt;i&gt;recvfrom&lt;/i&gt; call. This is used to "peek" at the data which is waiting on the socket to determine the address to connect to. The &lt;i&gt;MSG_PEEK&lt;/i&gt; means that the data is not actually removed from the queue of data to be processed by this call. 
+We do cheat a little in this example, there is one <i>recvfrom</i> call. This is used to "peek" at the data which is waiting on the socket to determine the address to connect to. The <i>MSG_PEEK</i> means that the data is not actually removed from the queue of data to be processed by this call. 
 
 I wont include an example of what this program looks like when it runs, because it looks exactly the same as the disconnected echo server above. 
 
 Back to our simple inetd server
 -------------------------------
 
-You'll recall that a couple of examples ago I showed you the code for a simple &lt;b&gt;inetd&lt;/b&gt; server. This example below expands on that so it uses a connected socket. This example will behave just like the hard coded echo server in the first and third examples in this article (except that the server debugging output doesn't happen any more). 
+You'll recall that a couple of examples ago I showed you the code for a simple <b>inetd</b> server. This example below expands on that so it uses a connected socket. This example will behave just like the hard coded echo server in the first and third examples in this article (except that the server debugging output doesn't happen any more). 
 
 [Please insert the code file named ~mikal/opensource/shdns/sockets/connexec.c here]
 
 inetd and xinetd patches
 ------------------------
 
-The two standard inetd implementations that most people use are called &lt;b&gt;inetd&lt;/b&gt; and &lt;b&gt;xinetd&lt;/b&gt;. &lt;b&gt;inetd&lt;/b&gt; doesn't implement a connected socket for the server before starting it, which means that it is effectively impossible to write a standard shell script which processes UDP network traffic using a stock &lt;b&gt;inetd&lt;/b&gt;. &lt;b&gt;xinetd&lt;/b&gt; however does connect the socket before calling the script. 
+The two standard inetd implementations that most people use are called <b>inetd</b> and <b>xinetd</b>. <b>inetd</b> doesn't implement a connected socket for the server before starting it, which means that it is effectively impossible to write a standard shell script which processes UDP network traffic using a stock <b>inetd</b>. <b>xinetd</b> however does connect the socket before calling the script. 
 
-It seems logical to me to include a patch to make &lt;b&gt;inetd&lt;/b&gt; behave in the manner that I would like it to. After all, if our goal is as noble as implementing a DNS server in shell script, then surely the operating system should be modified to accommodate us? 
+It seems logical to me to include a patch to make <b>inetd</b> behave in the manner that I would like it to. After all, if our goal is as noble as implementing a DNS server in shell script, then surely the operating system should be modified to accommodate us? 
 
 inetd patch
 -----------
 
-The package which contains &lt;b&gt;inetd&lt;/b&gt; as run on Debian is called &lt;i&gt;netkit&lt;/i&gt;. The following is a patch to use connected sockets for UDP and TCP servers. 
+The package which contains <b>inetd</b> as run on Debian is called <i>netkit</i>. The following is a patch to use connected sockets for UDP and TCP servers. 
 
 [Please insert the code file named ~mikal/opensource/shdns/netkit.patch here]
 
-A simple example of how to configure &lt;b&gt;inetd&lt;/b&gt; to handle our UDP echo server is shown below &mdash; the configuration file this line is added to is /etc/inetd.conf. It should be noted that &lt;i&gt;myecho&lt;/i&gt; is the name of a service I had to add to /etc/services because &lt;b&gt;inetd&lt;/b&gt; insists on all services being listed there... 
+Configuring inetd
+-----------------
+
+A simple example of how to configure <b>inetd</b> to handle our UDP echo server is shown below -- the configuration file this line is added to is /etc/inetd.conf. It should be noted that <i>myecho</i> is the name of a service I had to add to /etc/services because <b>inetd</b> insists on all services being listed there... 
 
 [cw]
 [Please insert the file named inetd.txt here]
@@ -141,7 +144,7 @@ A simple example of how to configure &lt;b&gt;inetd&lt;/b&gt; to handle our UDP 
 This service has the following characteristics: 
 
 [list]
-[dot] The service name is &lt;i&gt;myecho&lt;/i&gt;. The listing in /etc/services is:
+[dot] The service name is <i>myecho</i>. The listing in /etc/services is:
 
 [cw]
 [Please insert the file named services.txt here]
@@ -149,44 +152,52 @@ This service has the following characteristics:
 
 [Please insert the sidebar file named sidebar-4 here]
 
-[dot] The socket type is &lt;i&gt;dgram&lt;/i&gt;, which is short for datagram, the type of packet that the UDP protocol uses.
+[dot] The socket type is <i>dgram</i>, which is short for datagram, the type of packet that the UDP protocol uses.
 
 [dot] The protocol is UDP.
 
-[dot] &lt;i&gt;nowait&lt;/i&gt; is used to indicate that one server should be started per packet, instead of waiting for the previous server to exit. This argument should always be nowait for TCP servers.
+[dot] <i>nowait</i> is used to indicate that one server should be started per packet, instead of waiting for the previous server to exit. This argument should always be nowait for TCP servers.
 
 [dot] The server runs as root.
 
 [dot] The server is located at /bin/cat
 
-[dot] The server should be started with these arguments. Note that the name of the executable is always the first argument. Checkout &lt;i&gt;execve&lt;/i&gt;(2) for more details.
+[dot] The server should be started with these arguments. Note that the name of the executable is always the first argument. Checkout <i>execve</i>(2) for more details.
 
 [endlist]
+
+Configuring xinetd
+------------------
+
+The same echo service configured with <b>xinetd</b> looks like this: 
+
+[cw]
+[Please insert the file named xinetd-config.txt here]
+[ecw]
+
+Again, the service is a dgram using the UDP protocol. <b>xinetd</b> will wait for previous requests to be processed before moving onto the next request. The echo service also runs as root, using cat. Note the difference in the way the server arguements are configured. 
+
+You should also note that on Red Hat systems, services are often configured within their own configuration files, located in /etc/xinetd.d -- this is done to make it easier to add new services during package installation. 
 
 shdns
 =====
 
-This article wouldn't be complete without an example of a UDP shell script to run from &lt;b&gt;inetd&lt;/b&gt; or &lt;b&gt;xinetd&lt;/b&gt;. Something non-trivial is required here, so I present for your enjoyment &lt;b&gt;shdns&lt;/b&gt;, a DNS server implemented in bash shell script. 
+This article wouldn't be complete without an example of a UDP shell script to run from <b>inetd</b> or <b>xinetd</b>. Something non-trivial is required here, so I present for your enjoyment <b>shdns</b>, a DNS server implemented in bash shell script. 
 
 The code
 --------
 
-The code for &lt;b&gt;shdns&lt;/b&gt; is broken into two components. The first is a simple script which redirects the input packet to a file, so that &lt;b&gt;shdns&lt;/b&gt; can move backwards and forwards within the input packet to grab the bits it needs as required. 
+The code for <b>shdns</b> is broken into two components. The first is a simple script which redirects the input packet to a file, so that <b>shdns</b> can move backwards and forwards within the input packet to grab the bits it needs as required. 
 
 [Please insert the code file named ~mikal/opensource/shdns/shdns-server here]
 
-The other part of the code is the script which actually parses the input DNS UDP packet and responds. Note that this is merely a proof of concept at the moment, it doesn't attempt to implement the entire DNS protocol &mdash; there is only enough here to perform a name lookup. 
+The other part of the code is the script which actually parses the input DNS UDP packet and responds. Note that this is merely a proof of concept at the moment, it doesn't attempt to implement the entire DNS protocol -- there is only enough here to perform a name lookup. 
 
 [Please insert the code file named ~mikal/opensource/shdns/shdns here]
 
-The &lt;b&gt;shdns&lt;/b&gt; implementation strategy is summarized by the following diagram. 
+The <b>shdns</b> implementation strategy is summarized by the following diagram. 
 
 [Please insert the image shdns-design.png here]
-
-Getting the code from this article
-==================================
-
-The code for this article is available from my web site. Checkout http://www.stillhq.com/extracted/shdns for more information. 
 
 Further reading
 ===============
@@ -198,17 +209,11 @@ The following is a list of reading I found useful whilst working on this article
 
 [dot] An excellent introduction to DNS, as well as many other protocols -- TCP/IP Illustrated, Volume One: The protocols, by W Richard Stevens, published by Addison-Wesley
 
-[dot] 
+[dot] The Freshmeat page for NetKit -- http://freshmeat.net/projects/netkit/?topic_id=150
 
-[dot] 
+[dot] The xinetd homepage -- http://www.xinetd.org/
 
-[dot] 
-
-[dot] 
-
-[dot] 
-
-[dot] 
+[dot] The source code for shdns -- http://www.stillhq.com/extracted/shdns/
 
 [endlist]
 

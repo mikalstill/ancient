@@ -1,0 +1,9 @@
+ervice myecho
+{
+        socket_type     = dgram
+        protocol        = udp
+        wait            = yes
+        user            = root
+        server          = /bin/cat
+        server_args     = -
+}
