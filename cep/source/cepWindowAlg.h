@@ -61,19 +61,10 @@ public:
   /** constructs a new <code>cepWindowAlg</code>
    * @param size the window size to use
    */
-	cepWindowAlg( int size );
+  cepWindowAlg( int size );
   
   /** default destructor */
-	virtual ~cepWindowAlg();
-
-  /** initialises resources. this should be called prior to use
-   */
-  void init();
-  
-  /** modifies the size of the window. this will regenerate all coefficients
-   * @param size the new window size
-   */
-  void setSize( int size );
+  virtual ~cepWindowAlg();
   
   /** queries the current window size
    * @return the current window size
@@ -95,6 +86,11 @@ protected:
   
   /** the current coefficient matrix */
   cepMatrix<double> *coeffs;
+
+
+  /** initialises resources. this should be called prior to use
+   */
+  void initCoeffs();
 
   /** generates the coefficient matrix. calls upn implementation specific getvalue
    * @param size the desired window size

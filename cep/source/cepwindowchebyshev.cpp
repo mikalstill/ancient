@@ -22,66 +22,83 @@
 #include <math.h>
 
 cepWindowChebyshev::cepWindowChebyshev( int size ) : cepWindowAlg( size ) {
-  init();
-  G = 1;
-  dw = 1;
+  // set a default attenuation of 0.6
+  setAttenuation( 0.60 );
 }
+
 
 cepWindowChebyshev::~cepWindowChebyshev(){
   if( coeffs != NULL ) delete coeffs;
 }
 
-void cepWindowChebyshev::setSize( int size ) {
-  cepWindowAlg::setSize( size );
-  preCalc();
-  
+
+void cepWindowChebyshev::setAttenuation(double att) {
+  A = att;
 }
-
-
-void cepWindowChebyshev::setParams( double gain, double trans_bw ) {
-  G = gain;
-  dw = trans_bw;
-}
-
-/*
- * reference site for the dolph-chebyshev windowing algorithm
- * http://www.isip.msstate.edu/cgi/bin/ifc_document.pl?file=$isip/class/algo/Window/win_06.cc&method=generateDolphChebyshev
- *
- */
-void cepWindowChebyshev::preCalc() {
-  // precalc what we can ...
-  N = size;
-  M = (N-1)/2;
-
-  PSLL_dB = (2*M * 2.285 * dw + 16.4) / 2.056;
-  S = pow (10, (PSLL_dB/20) );
-
-  beta = cosh( acosh(S)/(N-1) );
-}
-
 
 
 double cepWindowChebyshev::getValue( int offset )
 {
-  double sum = 0;
-  for( int n=0; n<M; ++n ) {
-    double nPI_N = n*PI/N;
-    double arg1 = beta * cos(nPI_N);
-    double arg2 = 2*nPI_N * (offset - (N+1)/2);
-    
-    double cheb = 0;
-    if( arg1 <= 1 ) {
-      cheb = cos((N-1)*acos(arg1));
-    } else {
-      cheb = cosh((N-1)*acosh(arg1));
-    }
+  return calcValue( offset );
+}
 
-    sum += cheb*cos(arg2);
+void cepWindowChebyshev::preCalc()
+{
+    // beta calulation
+    gamma = pow(10,(-A/20));
+    beta = cosh(1/(size-1) * acosh(1/gamma));
+}
+
+double cepWindowChebyshev::calcValue( int n ) {
+  if( size == 1 ) {
+    return 1;
+  } else {
+      double x = beta*cos(PI*n/size);
+      return computeCheb(x,size-1);
   }
+}
+
+double cepWindowChebyshev::computeCheb( double value, long order )
+{
+  if( value <= 1 ) {
+    return cos(order*acos(value));
+  } else {
+    return cosh(order*acosh(value));
+  }
+}
+
+const cepMatrix<double> & cepWindowChebyshev::getCoeffs() {
+  double *p = new double[size];
+  for( int k=0;k<size;k++) {
+    p[k] = calcValue(k);
+  }
+  int M = (size+1)/2;
+
+  // this does not compile as yet .. how do i use fft libs?
+//  double *w = real(ifft(p));  // will be of size M
+  // simply so it compiles
+  double *w = NULL;
   
-  double result = 2/N * (S + 2*sum);
-  cout << "result=" << result << endl;
-  return result;
+  if( coeffs == NULL ) {
+    // for debugging
+    cout << "cheb<getCoeffs> coeffs is null" << endl;
+  } else {
+    cout << "cheb<getCoeffs> coeffs rows:" << coeffs->getNumRows() << "cols:" << coeffs->getNumCols();
+  }
+
+  // take the ifft values and make the window. we need to amke sym data from asym values
+  // the resulting window is constructed as follows
+  //     p[M-1], .. p[1],1,p[1], .. p[M-1]
+
+  if( w != NULL ) {
+    for( int i=1; i<M; ++i ) {
+      w[i] = p[M-i]/p[0];
+      w[size-i]=p[M-i]/p[0];
+    }
+    w[M-1] = 1.0;
+  }
+  return *(new cepMatrix<double>());
+  
 }
 
 

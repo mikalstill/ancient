@@ -21,7 +21,7 @@
 #include "cepwindowblackman.h"
 
 cepWindowBlackman::cepWindowBlackman( int size ) : cepWindowAlg( size ) {
-  init();
+  initCoeffs();
 }
 
 cepWindowBlackman::~cepWindowBlackman()

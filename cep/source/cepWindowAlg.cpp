@@ -24,13 +24,12 @@
 /** calculate a single global value of PI */
 const double cepWindowAlg::PI = 2*asin(1);
 
-cepWindowAlg::cepWindowAlg( int size )
+cepWindowAlg::cepWindowAlg( int s )
 {
-  setSize( size );
+  size = s;
 }
 
 cepWindowAlg::~cepWindowAlg() {
-  setSize(0);
 }
 
 int cepWindowAlg::getSize() {
@@ -38,13 +37,7 @@ int cepWindowAlg::getSize() {
 }
 
 
-void cepWindowAlg::setSize( int s )
-{
-  size = s;
-}
-
-
-void cepWindowAlg::init()
+void cepWindowAlg::initCoeffs()
 {
   // TODO BS - fix this.. it will leak, but it avoids the segfault
   // if( coeffs != NULL ) delete coeffs;
@@ -68,7 +61,15 @@ const cepMatrix<double> & cepWindowAlg::getCoeffs()
 const cepMatrix<double> & cepWindowAlg::generateCoeffs( int size ) {
   cepMatrix<double> *foo = new cepMatrix<double>(size, 1);
   for( int i=0; i<size; i++ ) {
-    foo->setValue(i,0, getValue( i ));
+    
+    double val = getValue( i );
+    if( isnan( val ) ) {
+      delete foo;
+      foo = new cepMatrix<double>(0,0);
+      return *foo;
+    }
+    
+    foo->setValue(i,0,val );
   }
   return *foo;
 }

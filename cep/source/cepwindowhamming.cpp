@@ -21,7 +21,7 @@
 #include "cepwindowhamming.h"
 
 cepWindowHamming::cepWindowHamming( int size ) : cepWindowAlg( size ) {
-  init();
+  initCoeffs();
 }
 
 cepWindowHamming::~cepWindowHamming()

@@ -49,35 +49,41 @@ DOCBOOK END
 #ifndef CEPWINDOWCHEBYSHEV_H
 #define CEPWINDOWCHEBYSHEV_H
 
-#include <cepWindowAlg.h>
+#include "cepWindowAlg.h"
+#include "cepMatrix.h"
 
 /**
-  *@author Blake Swadling
+  * constructs an n point dolph-chebyshev filter with a specified attenuation in
+  * the stop band of the corresponding fourier transform.
+  * @author Blake Swadling
   */
 
 class cepWindowChebyshev : public cepWindowAlg  {
-public: 
-	cepWindowChebyshev( int size );
-	~cepWindowChebyshev();
-  
-  void setParams( double gain, double trans_bw );
-  void setSize( int size );
+public:
+  cepWindowChebyshev( int size );  
+  ~cepWindowChebyshev();
+  /** sets the fourier domain stop band attenuation
+   * att the stop band attenuation in the corresponding fourier transform (dB)
+   */
+  void setAttenuation( double att );
+  /**
+   * overload this as we need a specialised mechanism to make the coeffs
+   */
+  const cepMatrix<double> & getCoeffs();
   
 protected:
   double getValue( int offset );
+  double calcValue( int n );
+  double computeCheb( double value, long order );
   void preCalc();
 
-private:
-  double G;       // the gain
-  double dw;      // normalised transition bandwidth;
-
-  double S;
   double beta;
-  
-  long N;         // window size
-  long M;         // the half window size
+  double gamma;
 
-  double PSLL_dB; // the side lobe attenuation
+private:
+  double A;
+
+
 
 };
 

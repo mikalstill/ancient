@@ -49,7 +49,7 @@ DOCBOOK END
 #ifndef CEPWINDOWHAMMING_H
 #define CEPWINDOWHAMMING_H
 
-#include <cepWindowAlg.h>
+#include "cepWindowAlg.h"
 
 /**
   *@author Blake Swadling
@@ -57,8 +57,8 @@ DOCBOOK END
 
 class cepWindowHamming : public cepWindowAlg  {
 public: 
-	cepWindowHamming( int size );
-	~cepWindowHamming();
+  cepWindowHamming( int size );
+  ~cepWindowHamming();
 
 protected:
   double getValue( int offset );

@@ -49,7 +49,7 @@ DOCBOOK END
 #ifndef CEPWINDOWBLACKMAN_H
 #define CEPWINDOWBLACKMAN_H
 
-#include <cepWindowAlg.h>
+#include "cepWindowAlg.h"
 
 /**
   *@author Blake Swadling
@@ -57,8 +57,8 @@ DOCBOOK END
 
 class cepWindowBlackman : public cepWindowAlg  {
 public: 
-	cepWindowBlackman( int size );
-	~cepWindowBlackman();
+  cepWindowBlackman( int size );
+  ~cepWindowBlackman();
   
 protected:
   double getValue( int offset );

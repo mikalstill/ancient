@@ -21,7 +21,7 @@
 #include "cepWindowRect.h"
 
 cepWindowRect::cepWindowRect( int size ) : cepWindowAlg( size ) {
-  init();
+  initCoeffs();
 }
 
 cepWindowRect::~cepWindowRect()

@@ -49,7 +49,7 @@ DOCBOOK END
 #ifndef CEPWINDOWRECT_H
 #define CEPWINDOWRECT_H
 
-#include <cepWindowAlg.h>
+#include "cepWindowAlg.h"
 
 /**
   *@author Blake Swadling
@@ -57,8 +57,8 @@ DOCBOOK END
 
 class cepWindowRect : public cepWindowAlg  {  
 public:
-	cepWindowRect( int size );
-	~cepWindowRect();
+  cepWindowRect( int size );
+  ~cepWindowRect();
   
 protected:
   double getValue( int offset );
