@@ -99,7 +99,7 @@ exit(42);
                             return TRAILER;
                                                                              }
 
-<INITIAL>\/[@:=#a-zA-Z\-_0-9\.\+,]+ { debuglex(yytext, yyleng, "name");
+<INITIAL>\/[@:=\*#a-zA-Z\-_0-9\.\+,]+ { debuglex(yytext, yyleng, "name");
                             yylval.sval.data = (char *) returnStr(yytext + 1, yyleng);
                             yylval.sval.len = yyleng - 1;
                             return NAME;
