@@ -21,56 +21,55 @@
 #define __CEPLSUI_H
 
 #include <iostream.h>
+#include <string>
+
+#include <wx/dialog.h>
 #include <wx/button.h>
 #include <wx/radiobut.h>
 #include <wx/msgdlg.h>
 #include <wx/checkbox.h>
-#include <wx/frame.h>
+#include <wx/statbox.h>
+#include <wx/stattext.h>
 
-static const int WHICH_DIR_OK = 1000;
+#include "cepUI.h"
 
-class cepLsUi: public wxFrame
+
+class cepShowDir: public wxDialog
 {
 public:
+  cepShowDir();
+  cepShowDir(const wxString &title, int x, int y, int w, int h);
+  ~cepShowDir();   
+
+  bool getDoDir(char dir);
   
-  cepLsUi();
-  ~cepLsUi();
-
-  void onShowWhichDirOk(wxCommandEvent& event);
-  
-  int showIsReweight();
-  void showWhichDir();
-  bool getdoDir();
-  
-private:
-  enum cepLsUidir
-  {
-    dirX = 0,
-    dirY,
-    dirZ
-  };
-  DECLARE_EVENT_TABLE ()
-
-  bool doDirX, doDirY, doDirZ;
-  wxButton *btnOk, *btnCancel;
-  wxFrame *frame;
-};
-
-/*class cepLsUiFrame: public wxFrame
-{
-public:
-  cepLsUiFrame(wxFrame *frame, char *title, int x, int y, int w, int h);
-  ~cepLsUiFrame();
-
-    void cepLsUiFrameOnQuit(wxCommandEvent& event);
-    void cepLsUiFrameOnSize( wxSizeEvent& event );
-    void cepLsUiFrameOnMove( wxMoveEvent& event );
+  void dlgDirOnQuit(wxCommandEvent& event);
+  void dlgDirOnOK(wxCommandEvent& event);
 
 private:
-  
-  wxFrame *fGetDir;
+  wxPanel *panel;
+  wxStaticBox *statBox;
+  wxStaticText *statText1, *statText2, *statText3;
   wxCheckBox *cbDirX, *cbDirY, *cbDirZ;
   wxButton *bSubmit, *bCancel;
 
-}; */
+  bool gotValue;
+  DECLARE_EVENT_TABLE ()
+};
+
+class cepLsUi
+{
+public:
+
+  cepLsUi();
+  ~cepLsUi();
+  int showIsReweight();
+  void showWhichDir();
+  bool getWhichDir(char dir);
+
+private:
+  cepShowDir *dirDlg;
+
+};
+
 #endif //end __CEPLSUI_H

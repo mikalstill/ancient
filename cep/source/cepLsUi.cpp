@@ -18,17 +18,19 @@
 */
 
 #include "cepLsUi.h"
-
-BEGIN_EVENT_TABLE (cepLsUi, wxFrame)
-  EVT_BUTTON (WHICH_DIR_OK, cepLsUi::onShowWhichDirOk)
-END_EVENT_TABLE ()
   
 cepLsUi::cepLsUi()
 {
-    doDirX = doDirY = doDirZ = false;
+  dirDlg = NULL;
 }
 
-cepLsUi::~cepLsUi() {}
+cepLsUi::~cepLsUi()
+{
+  if(dirDlg != NULL)
+  {
+    delete dirDlg;
+  }
+}
 
 int cepLsUi::showIsReweight()
 {
@@ -60,19 +62,136 @@ int cepLsUi::showIsReweight()
 
 void cepLsUi::showWhichDir()
 {
-  wxPanel *panel;
-  frame = new wxFrame((wxFrame *) NULL, -1, "Chose Direction", wxPoint(300,300), wxSize(300,300));
-  panel = new wxPanel(frame, -1, wxPoint(0,0), wxSize(300,300), wxTAB_TRAVERSAL);
-  btnOk = new wxButton(panel, WHICH_DIR_OK, "&OK", wxPoint(200,250));
-  frame ->Centre();
+  dirDlg = new cepShowDir("Choose Direction", 120, 120,200,200);
 
-  
-  frame ->Show(true);
-  
-  
+  dirDlg->Center();
+  dirDlg->ShowModal();
 }
 
-void cepLsUi::onShowWhichDirOk(wxCommandEvent& WXUNUSED (event))
+bool cepLsUi::getWhichDir(char dir)
 {
-  cout << "ok clicked in show which dir OK" << endl;  
+  switch (dir)
+  {
+    case 'x':
+      return dirDlg->getDoDir('x');
+    case 'y':
+      return dirDlg->getDoDir('y');
+    case 'z':
+      return dirDlg->getDoDir('z');
+    default:
+      return false;
+  }
 }
+
+BEGIN_EVENT_TABLE (cepShowDir, wxDialog)
+  EVT_BUTTON(CEPBTN_DIR_SUBMIT, cepShowDir::dlgDirOnOK)
+  EVT_BUTTON(CEPBTN_DIR_CANCEL, cepShowDir::dlgDirOnQuit)
+  EVT_CLOSE( cepShowDir::dlgDirOnQuit)
+END_EVENT_TABLE ()
+
+cepShowDir::cepShowDir(const wxString &title, int x, int y, int w, int h):
+  wxDialog((wxDialog *) NULL, -1, title, wxPoint(x,y), wxSize(w, h))
+{
+  panel = new wxPanel(this, -1, wxPoint(x,y), wxSize(w,h));
+
+  statBox = new wxStaticBox(panel, -1, "", wxPoint(15, 50), wxSize(170, 100));
+
+  statText1 = new wxStaticText(panel, -1, "Please select the direction(s)", wxPoint(5,5), wxSize(190, 20), wxALIGN_CENTRE);
+  statText2 = new wxStaticText(panel, -1, "you wish to preform the", wxPoint(5,19), wxSize(190, 20), wxALIGN_CENTRE);
+  statText3 = new wxStaticText(panel, -1, " Least Squares transformation on:", wxPoint(5,33), wxSize(190, 20), wxALIGN_CENTRE);
+
+
+  cbDirX = new wxCheckBox(panel, -1, "Direction: x (North)", wxPoint(25, 70));
+  cbDirY = new wxCheckBox(panel, -1, "Direction: y (East)", wxPoint(25, 90));
+  cbDirZ = new wxCheckBox(panel, -1, "Direction: z (Up)", wxPoint(25, 110));
+  
+  bSubmit = new wxButton(panel, CEPBTN_DIR_SUBMIT, "SUBMIT", wxPoint(10,160));
+  bCancel = new wxButton(panel, CEPBTN_DIR_CANCEL, "CANCEL", wxPoint(110,160));
+}
+
+cepShowDir::~cepShowDir()
+{
+/*  if(panel != NULL)
+  {
+    delete panel;
+  }
+
+  if(statBox != NULL)
+  {
+    delete statBox;
+  }
+
+  if(statText1 != NULL)
+  {
+    delete statText1;
+  }
+
+  if(statText2 != NULL)
+  {
+    delete statText2;
+  }
+
+  if(statText3 != NULL)
+  {
+    delete statText3;
+  }
+       
+  if(cbDirX != NULL)
+  {
+    delete cbDirX;
+  }
+
+  if(cbDirY != NULL)
+  {
+    delete cbDirY;
+  }
+
+  if(cbDirZ != NULL)
+  {
+    delete cbDirZ;
+  }
+
+  if(bSubmit != NULL)
+  {           
+    delete bSubmit;
+  }
+
+  if(bCancel != NULL)
+  {
+    delete bCancel;
+  }
+*/
+}
+      
+void cepShowDir::dlgDirOnQuit(wxCommandEvent& WXUNUSED(event))
+{
+  cbDirX->SetValue(false);
+  cbDirY->SetValue(false);
+  cbDirZ->SetValue(false);
+  gotValue = true;
+  EndModal(1);
+  Destroy();
+}
+
+void cepShowDir::dlgDirOnOK(wxCommandEvent& WXUNUSED(event))
+{
+  gotValue = true;
+  EndModal(0);
+  Destroy();  
+}
+
+bool cepShowDir::getDoDir(char dir)
+{
+  switch (dir)
+  {
+    case 'x':
+      return cbDirX->GetValue();
+    case 'y':
+      return cbDirY->GetValue();
+    case 'z':
+      return cbDirZ->GetValue();
+    default:
+      return false;
+  }
+}
+  
