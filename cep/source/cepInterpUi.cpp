@@ -49,7 +49,7 @@ cepInterpShowRate::cepInterpShowRate(wxString val, double units):
   }
   else
   {
-    if(units == 365.25)
+    if(units == 12.0)
     {
       m_rbDays->SetValue(true);
     }
@@ -97,13 +97,13 @@ void cepInterpShowRate::dlgRateOnOK(wxCommandEvent& WXUNUSED(event))
   {
     if(m_rbDays->GetValue() == true)
     {
-      m_sampleUnits = 365.25;
+      m_sampleUnits = 12.0;
     }
     else
     {
       if(m_rbHours->GetValue() == true)
       {
-        m_sampleUnits = 8766.0;
+        m_sampleUnits = 365.25;
       }
     }
   }
@@ -120,7 +120,7 @@ void cepInterpUi::showSampleRate(double val)
 {
   bool isValid = false;
   cepInterpShowRate *rate;
-  rate = new cepInterpShowRate(cepToString(val).c_str(), 1.0);
+  rate = new cepInterpShowRate(cepToString(val).c_str(), 356.25);
 
   m_sampleRate = rate->getSample();
   m_sampleUnits = rate->getSampleUnits();
