@@ -1,6 +1,6 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
 <book><bookinfo>
-<title>Geodetic Date Modelling System: Thesis</title>
+<title>Geodetic Data Modelling System: Thesis</title>
 <execute><cmd>builddb</cmd><input>authorgroup.sgml</input></execute>
 <execute><cmd>builddb</cmd><input>abstract.sgml</input></execute>
 </bookinfo>

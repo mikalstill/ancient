@@ -11,7 +11,7 @@ expensive.
 </para>
 
 <para>
-The second issue here, which is in fact related to the first, is the need to have a package which is
+Another issue influencing our design methodology was the the need to have a package which is
 as platform independent as possible. This contributed significantly to the choice of programming
 language. In using  ANSI ISO compliant C++, the <command>GDMS</command> package is intended to run on most Unix based
 operating systems. It should also be noted that most modern windowing toolkits require C++.
@@ -19,14 +19,14 @@ operating systems. It should also be noted that most modern windowing toolkits r
 
 <para>
 The choice of user interface toolkit also maximized the cross platform capabilities of the application. 
-This is because <command>wxWindows</command> has been specifically built to be easily ported, and currently 
-runs on the following platforms:
+<command>WxWindows</command> was therefore chosen as it has been specifically built to be easily ported, and currently 
+runs on the following platforms:-
 </para>
 
 <itemizedlist>
 <listitem><para>Microsoft Windows</para></listitem>
-<listitem><para>Unix (including Linux)/GTK+</para></listitem>
-<listitem><para>Unix (including Linux)/Motif and X11</para></listitem>
+<listitem><para>Unix (including BSD and SystemV)/GTK+</para></listitem>
+<listitem><para>Unix (including BSD and SystemV)/Motif and X11</para></listitem>
 <listitem><para>MacOS</para></listitem>
 <listitem><para>OS/2</para></listitem>
 </itemizedlist>
@@ -69,18 +69,6 @@ the use of OO methodology.
 
 
 </sect2> <!--Introduction-->
-
-<sect2><title>Theory</title>
-
-  <para>
-    - ANSI ISO stuff
-  </para>
-
-  <para>
-    - Serious OO talk
-   </para>
-
-</sect2> <!--Theory-->
 
 <sect2><title>Future Enhancements</title>
   <!--may want to integrate this with conclusion?-->

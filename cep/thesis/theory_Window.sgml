@@ -1,8 +1,8 @@
 <sect1><title>Windowing</title>
 
 <sect2><title>Introduction</title>
-  <para>Windowing is the breaking of an infinite signal into finite pieces. Since we are not able to record and infinite signal, and
-  must analyse a finite sample, it is unavoidable that we perform this process. Truncation of the signal in this way has side effects,
+  <para>Windowing is the technique used for breaking down an infinite signal into finite pieces. Since we are not able to record an 
+  infinite signal, this process is essential. Truncation of the signal in this way has side effects,
   primarily the introduction of ripples in the frequency domain. These ripples show up as high frequency noise and give</para>
 </sect2> <!--Introduction-->
 
@@ -20,28 +20,30 @@
   <itemizedlist>
   <listitem><para><emphasis>Hanning:</emphasis></para>
      <para>
-       This algorithm provides good resolution of spectral peaks and good rejection of side lobe skirts.
-       It is a good choice for most applications.
+       This algorithm provides good resolution of spectral peaks and satisfactory rejection of side lobe skirts.
+       It is a suitable choice for most applications.
      </para>
   </listitem>
 
   <listitem><para><emphasis>Hamming</emphasis></para>
     <para>
-      Hamming provides finer resolution of spectral peaks than Hanning, however side lobe skirts are not controlled as well as with Hanning.
+      Hamming provides finer resolution of spectral peaks than Hanning windows, however, side lobe skirts are not controlled as 
+      well as with this method.
     </para>
   </listitem>
 
   <listitem><para><emphasis>Blackman</emphasis></para>
     <para>
-      Peak resolution is not as fine as Hanning, but the response shape flares out less at lower levels and rejection of side lobe skirts
-      is better.
+      Blakcman peak resolution is not as fine as that produced with the Hanning method. The advantage with Blackman window is, however, 
+      that the response shape flares out less  at lower levels and rejection of side lobe skirts is better.
     </para>
   </listitem>
 
   <listitem><para><emphasis>Dolph-Chebyshev</emphasis></para>
     <para>
-      Very similar to Hamming, but with with better high frequency attenuation. Where Hamming can give around 50dB attenuation
-      for frequencies above the sampling frequency, Dolph-Chebyshev can provide approximately 63dB attenuation for the same frequencies.
+      Dolph-Chebyshev windows are very similar to those produced by Hamming, with improved high frequency attenuation. Where Hamming can 
+      provide around 50dB attenuation for frequencies above the sampling frequency, Dolph-Chebyshev can provide approximately 63dB 
+      attenuation for the same frequencies.
     </para>
   </listitem>
   </itemizedlist>
@@ -49,11 +51,13 @@
 
 <sect2><title>Conclusion</title>
   <para>
-    Windowing can be an effective tool in removing the undesirable effects of the Discrete Fourier Transform. Prudent use of a
+    Windowing can be an effective tool in removing the undesirable effects of the Discrete Fourier Transform (DFT). Prudent use of a
     suitable algorithm removes the high frequencies introduced via aliasing when the the signal is truncated. Knowledge of the
     attributes and limitations of the individual windowing algorithms, and the judicious selection of the correct one, will assist
     the user in attaining optimal results from the application of the DFT.
   </para>
+  
+  
 </sect2> <!--Conclusion-->
 
 </sect1> <!--Windowing-->

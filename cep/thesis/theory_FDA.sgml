@@ -6,9 +6,8 @@
   Fourier transforms enable us to view the frequency representation of data that exists in the time domain. This provides 
   a means of detecting erroneous frequencies in the given data set and thus detect noise. Whilst in the frequency domain,
   we can also produce Power Spectral Density (PSD) plots. Once erroneous data has been removed in the frequency domain,
-  an inverse transform can be applied to return the data to the time domain. Here we ascertain the the effects of removing such data
-  had on the original system. 
-
+  an inverse transform can be applied to return the data to the time domain. Here we can ascertain the effects that removing such data
+  may have on the original system. 
 </para>
 
 </sect2> <!--Introduction-->
@@ -24,7 +23,7 @@
   
   <equation>
     <title>Square Wave</title>
-    <execute><cmd>eqimg</cmd><args>freq-squarewave.eps</args></execute>
+    <execute><cmd>img</cmd><args>freq-squarewave.eps</args></execute>
   </equation>
 	
   for all odd harmonics. Where <command>f</command> is the fundamental frequency.
@@ -37,8 +36,8 @@
     <execute><cmd>eqimg</cmd><args>freq-fft.eps</args></execute>
   </equation>
   
-  where <command>&egr;<superscript>j&ohgr;</superscript></command> is equal to <command>&ohgr;</command> or the angular frequency.
-  We can also computer the inverse Fourier transform, returning us a function of time
+  where <command>&egr;<superscript>j&ohgr;</superscript></command> is equal to <command>&ohgr;</command>, or the angular frequency.
+  We can also computer the inverse Fourier transform, returning a function of time
 
   <equation>
     <title>Inverse Fourier Transform (Rabiner and Schafer, 1978)</title>
@@ -76,9 +75,15 @@
   </equation>
 <para>
   The discrete frequency <command>k</command> above is given by 
-  <command>f</command>(<command>k</command>) =
-  <command>k</command>*<command>f<subscript>s</subscript></command>/<command>N</command> 
-  where <command>f<subscript>s</subscript></command> is the sampling frequency of the signal.
+ </para>
+  
+  <equation>
+    <title>Inverse Discrete Fourier Transform (Rabiner and Schafer, 1978)</title>
+    <execute><cmd>eqimg</cmd><args>equation-for-DFT-k.bmp</args></execute>
+  </equation>
+<para>  
+  where <command>f<subscript>s</subscript></command> is the sampling frequency of the signal, and <command>k</command> is the number of
+  points.
 </para>
 
 <para>
@@ -86,8 +91,8 @@
   In recognition of this limitation the Fast Fourier Transform (FFT) was developed.
   This function takes into account the fact that in calculating a DFT much time is wasted with unnecessary multiplications. 
   For example, it is unnecessary to multiply any number by zero, as the answer will always be zero. 
-  Given that multiplication is one of the slowest operations on most types of computers, reducing number that need to be calculated
-  will shorten the time taken to calculate a solution. 
+  Given that multiplication is one of the slowest operations on most types of computers, reducing the number that need to be calculated
+  will minimise the time taken to calculate a solution. 
   The FFT also decreases the computational load of a DFT by taking into account the fact that a sinusoid is
   periodic, and its values are mirrored around the x-axis at <command>T</command>/2. For example, every 90 degrees, the value 
   one reappears in a sine or cosine signal, changing only its sign. Many results, therefore, may determined by taking into account 
@@ -113,18 +118,15 @@
 </para>
 
 <para>
-  There are some constraints which are implied when carrying frequency analysis.
+  There are some constraints which are implied when carrying frequency analysis. These are:-
 
   <itemizedlist>
-  <listitem><para>Maximum frequency analysed.</para></listitem>
+  <listitem><para>Maximum frequency that can be analysed.</para></listitem>
   <listitem><para>Frequency resolution.</para></listitem>
   </itemizedlist>
 
-  The maximum frequency analysed relates to the sampling theorem, also know as the Nyquist theorem. The theorem effectively states:
-</para>
-
-<para>
-  Given a signal <command>x</command>(<command>n</command>) sampled at a sampling frequency of
+  The maximum frequency analysed relates to the sampling theorem, also know as the Nyquist theorem. The theorem states; that
+  given a signal <command>x</command>(<command>n</command>) sampled at a sampling frequency of
   <command>f<subscript>s</subscript></command>, the maximum frequency that can be analysed,
   <command>f<subscript>max</subscript></command> is equal to 1/2 of <command>f<subscript>s</subscript></command>. 
   In other words, to accurately represent and analyse the
@@ -139,13 +141,13 @@
 </para>
 
 <para>
-  As mentioned earlier, noise is inherent in the datasets with which we are dealing. Once common example is Random Walk.
-  This type of noise changes with time and therefore eludes accurate prediction. For further details on Random Walk, please refer
-  to the time domain analysis chapter of this thesis. A convenient and appropriate method for viewing Random Walk, in
+  As mentioned earlier, noise is an inherent property in geodetic datasets. One common example is Random Walk.
+  This type of noise changes with time and is therefore very difficult to model. For further details on Random Walk, please refer
+  to the time domain analysis chapter of this thesis. A convenient method for viewing Random Walk, in
   particular the frequencies at which it is most prominent, is in the frequency domain. The conversion to the frequency
   domain is commonly done from the residual space of a dataset, i.e. the dataset has already undergone least squares regression
   analysis, including calculation of the residuals. Many of the datasets contain what appear to be Random Walk. One such example
-  is the dataset from CEDUNA. In the residual space(see figure below), the periodicity of the signal is clear.
+  is the dataset from Ceduna. In the residual space(see figure below), the periodicity of the signal is clear.
 </para>
 
 <figure><title>CEDUNA_GPS(UP) - Residuals</title>
@@ -153,7 +155,7 @@
 </figure>
 
 <para>
-  In the frequency domain, we can now expect to see which frequency components make up the above signal. In particular,
+  In the frequency domain, we can now expect to see the frequency components that make up the above signal. In particular,
   we want to identify the noise component of the signal. The following figure is the result of an FFT on the Residuals
   of CEDUNA (UP).
 </para>
@@ -165,7 +167,7 @@
 <para>
   From the PSD above, we can see energy at the low end of the frequency spectrum. This first major portion of energy
   is Random Walk. In fact, closer inspection of the PSD plot reveals a periodicity along the spectrum. This is also 
-  believed to be Random Walk. In some cases, white noise can also be detected in the frequency domain, appearing 
+  believed to be Random Walk. In addition, white noise can also be detected in the frequency domain, appearing 
   as spikes.
 </para>
 
@@ -173,7 +175,7 @@
   The frequency resolution of a signal is also constrained by the fact that it is inversely proportional
   to the length of the waveform. Subsequently, if the length of the analysed waveform is doubled, the resolution is halved.
   This is clearer if we consider the relationship <command>f<subscript>res</subscript></command> =
-  <command>f<subscript>s</subscript>/N</command>, where <command>N</command> is number of points (IN WHAT!?!). If we double the
+  <command>f<subscript>s</subscript>/N</command>, where <command>N</command> is number of sample points. If we double the
   number of points while maintain the sample rate, our frequency resolution is halved.
 </para>
 

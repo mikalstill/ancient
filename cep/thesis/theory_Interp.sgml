@@ -1,75 +1,82 @@
 <sect1><title>Interpolation</title>
 
 <sect2><title>Introduction</title>
-  <para>One problem with the GPS datasets is that there are often gaps in the data.
-  Missing data points skew data results and prevent transformation into the frequency
-  domain. Another problem is that the time scales in GPS data sets
-  are often non-linear.  Interpolation solves these problems by filling the gaps in the data.
-  A large number of interpolation methods exists, all having their advantages and disadvantages for
-  different applications. Disucssed in the following section are six iterpolation methods that have been included in
-  this project.
+  <para>One problem with the GPS datasets is that there are often gaps in the data, which
+    may skew data results and prevent transformation into the frequency
+    domain. Another problem is that the time scales in GPS data sets
+    are often non-linear.  Interpolation solves these problems by filling the gaps in the data.
+    A large number of interpolation methods exists, all having their advantages and disadvantages for
+    different applications. As a result, the <command>GDMS</command> offers six different interpolation methods:-
   </para>
+  
+  <orderedlist>
+  <listitem><para>Nearest Neighbour</para></listitem>
+  <listitem><para>Linear</para></listitem>
+  <listitem><para>Cubic Spline</para></listitem>
+  <listitem><para>Natural Spline</para></listitem>
+  <listitem><para>Newton Divided Difference</para></listitem>
+  <listitem><para>Least Squeares</para></listitem>
+  </orderedlist>
 </sect2> <!--Introduction-->
 
 <sect2><title>Theory</title>
   <para>
   Theoretically, each of the datasets that we analyse are sampled once a day at
-  exactly twelve o'clock. This is however, not always possible for reasons such as 
-  such as equipment failure, extreme weather and in some case local politics also play a role.
-  </para>
-  <para>
+  exactly 12:00. This is, however, not always possible for reasons such as 
+  such as equipment failure, extreme weather and in some case local politics.
   The Fourier transform algorithms available to us require that the dataset be regular.
   This means that if a dataset is missing a point or has an irregular sample rate then
-  it can't be transferred to the frequency domain.  The dataset has to be made regular
+  it can not be transferred to the frequency domain.  The dataset therfore, must be made regular
   either by removing points or interpolating new points.
   </para>
   <para>
   This irregular sampling rate has been compounded by having the datasets stored on a
   non-linear time scale.  The data that we have been provided has been sampled regularly
-  once a day at noon as timed by an atomic clock; so the sample rate is pretty regular.
-  However the sample date/time has then been stored in decimal year format to 8 significant
-  figures.  Ignoring machine rounding errors this creates a problem.  During a regular
-  year one day is 0.00273972.  However one in every four years is a leap year and the
-  length of a day is 0.00273224, a smaller number.  Also at the start of each year a
+  once a day at noon as timed by an atomic clock, thereby allowing an accurate sample rate.
+  The sample date/time, however, has then been stored in decimal year format to eight significant
+  figures, and this creates a problem.  During a regular
+  year one day is 0.00273972, except one in every four years is a leap year and the
+  length of a day then becomes 0.00273224.  Also at the start of each year a
   rounding occurs so that the first reading of the year occurs at XXXX.0014.  This
-  rounding creates the illusion different time distance again to be between the last
-  day of one year and the first day of the next.  In short before interpolation can
-  occur a new time scale independent of calendar years has to be built.
+  rounding creates the illusion of a different time distance between the last
+  day of one year and the first day of the next. Due to the nature of this problem, it is necessary to
+  transform the data scale to be independant of calender years before carrying out interpolation.
   </para>
   <para>
   The new time scale that we convert to is what is known as a truncated Julian day.
   The Julian day system uses an integer day count since the first of January 4714 BC.
-  However because this produces extremely large numbers which could potentially cause
+  This, however, produces extremely large numbers which could potentially cause
   loss of accuracy due to machine limitations.  To prevent this we have used the first
   of January 1901 as our start date.  The existing decimal dates then converted to
   truncated Julian day and rounded to the nearest whole number.  Once the timescale
-  is linear the data can be interpolated without fear of loss.
+  is linear, interpolation can be carried out on the data without fear of loss of data or returning inaccurately
+  interpolated points.
   </para>
   <para>
   Different interpolation methods have different strengths and weaknesses.  On an
   arbitrary dataset it is impossible to tell which interpolation method will be
-  the most accurate.  To this end six different interpolation methods have been
-  provided, each will be outlined below on its operation, strengths and weaknesses.
+  the most accurate, and as such six different interpolation methods have been
+  provided. Each will be outlined below, including details on its operation, strengths and weaknesses.
   </para>
 
   <sect3><title>Nearest Neighbour Interpolation</title>
   <para>
-    The simplest interpolation method provided. Linear interpolation
-    simply set the value of any new point to the value of the nearest point on the
+    Nearest neighbour interpolation is the simplest interpolation method provided. This method
+    simply sets the value of any new point to the value of the nearest point on the
     original dataset.  The advantage of this is that any added points will be of
-    the same approximate value as nearby points.  There are a number of disadvantages
-    with nearest neighbour approximation.  Firstly any new points will not follow
-    any linear or frequency trends in the data, this could lead to inaccuracy of
-    models both in the time and frequency domains.  Also if new points lie close to
-    outliers then very inaccurate point may be generated
+    the same approximate value as nearby points. There are a number of disadvantages
+    with nearest neighbour approximation.  Firstly, any new points will not follow
+    any linear or frequency trends in the data, which could lead to inaccuracy of
+    models both in the time and frequency domains. In addition, if new points lie close to
+    outliers then the points generated risk being very inaccurate.
   </para>
   </sect3>
 
   <sect3><title>Linear Interpolation</title>
   <para>
-    Nearest neighbour interpolation is widely used because it is still simple yet
-    generally produces better results than nearest neighbour.  To do nearest neighbour
-    interpolation each new point is placed on a line between the two adjacent points.
+    Linear interpolation is widely used as it is simple yet
+    generally produces better results than nearest neighbour.  In this interpolation method, 
+    each new point is placed on a line between the two adjacent points.
     The Equation for adding a new point is: (TODO:ADD LINEAR INTERP EQUATION 1)
   </para>
 
@@ -78,12 +85,9 @@
   </para>
   <para>
     Linear interpolation has several advantages.  Firstly each added point has a
-    value that is approximately the same as nearby value; this means badly out of
-    range value are very rare.  Secondly the added point will follow any local
-    linear trends between the two points.
-  </para>
-  <para>
-    The disadvantages of linear interpolation stem from the interpolation method only working
+    value that is approximately the same as nearby value thus obtaining values significantly out of range
+    are very rare. Secondly the added point will follow any local
+    linear trends between the two points. The disadvantages of linear interpolation stem from the interpolation method only working
     with the two adjacent points. If the line between these two points does not follow
     the overall trend of the data then loss of accuracy occurs.
   </para>
@@ -91,37 +95,37 @@
 
    <sect3><title>Cubic Spline Interpolation</title>
   <para>
-    This is a one of the many implementations of cubic spline interpolation. It has been given the
-    generic name as no name was available for this particular implementation.  The only
-    difference between this interpolation type and a natural spline is the choice of
-    second derivatives used at the end points.  With this implementation the values of the
+    The <command>GDMS</command> includes one of the many implementations of cubic spline interpolation.
+    This spceific implementation, has no particular name and is given the generic title of cubic spline
+    interpolation. The only
+    difference between this method and a natural spline is the choice of
+    second derivatives used at the end points. With this implementation the values of the
     second derivative for the end points are set the same as the second derivatives of the
     second to end points.  Documented commentary says that this type of spline curves a
     little bit too much at the ends.
   </para>
   <para>
-    The maths used to generate these cubic spline is very similar to producing a natural
-    spline.    To produce a spine for a dataset of n+1 points you have to produce n separate
+    To produce a spine for a dataset of <command>n+1</command> points you have to produce n separate
     cubics.  Each of these cubic should have each end match up exactly with the
     points to either side.  And on the same point the two adjacent cubic should
-    have shared first and second derivatives.
-  </para>
-  <para>
-    Each of these cubics can be described by the equation: (TODO: Spline equation 1)
+    have shared first and second derivatives. Each of these cubics can be described by the equation: 
+    (TODO: Spline equation 1)
   </para>
   <para>
     Because each of these cubics begins at a any existing point we can say: (TODO: Spline equation 2)
   </para>
   <para>
-    Let h<subscript>i</subscript>=(x<subscript>i+1</subscript> - x<subscript>i</subscript>),
-    be the width of the the interval.
+    where <command>
+            h<subscript>i</subscript>=(x<subscript>i+1</subscript> - x<subscript>i</subscript>)
+	  </command>,
+    is the width of the the interval.
   </para>
   <para>
     Also if we make s the set of second derivatives; then through algebraic simplification
     we can get: (TODO: Spline equations 3,4,5)
   </para>
   <para>
-    With natural splines solving for S is done by solving:(TODO: Spline equation 7)
+    With cubic splines, solving for S is achieved by solving:(TODO: Spline equation 7)
   </para>
   <para>
     The two end values, S<subscript>0</subscript> and S<subscript>n</subscript>, are then
@@ -131,15 +135,15 @@
     A full mathematical derivation can be found in Gerald &amp; Wheatley (1999), page 238.
   </para>
   <para>
-    The advantages and disadvantages of this cubic spline interpolation are basically the
-    same as for natural splines. Splines can provide extremely accurate results when the
+   Splines can provide extremely accurate results when the
     original sample rate is notable greater than the frequency of fluctuation in the data.
     However if the sample rate is less than half the frequency of change (including signal
     noise) in the data then the results can be erratic.  Splines also have a problem
     when it comes to large gaps in the dataset. Because the gap between two points is
     represented by a cubic, large gaps result in peaks or troughs in the dataset.  The
     final problem with spline is that the end sections are inaccurate due to arbitrary
-    methods used to assign the derivative of the end points. It is because of this reason
+    methods used to assign the derivative of the end points. In the case of cubic splines, the end points
+    tend to be too curved and it is for this reason
     that two cubic spline methods have been provided for this application.
   </para>
   </sect3>
@@ -148,11 +152,9 @@
   <sect3><title>Natural Spline Interpolation</title>
   <para>
     Natural splines are a type of cubic spline, originating from the idea in ancient times when draftsmen and builders 
-    would create a smooth curve by pegging a flexible piece of wood between a number of points. Cubic splines are a method
-    of recreating this wooden curve with mathematics.  With all cubic splines the
-    interpolation is done by inserting a cubic between each two adjacent points.
-    At the linking points these cubics must have the same first and second
-    derivatives.  Equalizing the derivatives has the effect of making the resulting
+    would create a smooth curve by pegging a flexible piece of wood between a number of points. 
+    As with all cubic spline implemetations, the interpolation is achieved by inserting a cubic between 
+    each two adjacent points. Equalizing the derivatives has the effect of making the resulting
     interpolation appear smooth and visually pleasing.  For this reason splines
     are often used in graphics.
   </para>
@@ -162,10 +164,10 @@
     these end points that determine the type of spine.  In a natural spline the
     end points are set to 0.  This gives a result similar to the ancient wooden
     splines used by builders.  Mathematically this produces a result where the
-    end segments are a bit too straight.
+    end segments can be too straight.
   </para>
   <para>
-    To produce a spine for a dataset of n+1 points you have to produce n separate
+    To produce a spine for a dataset of <command>n+1</command> points you have to produce n separate
     cubics.  Each of these cubic should have each end match up exactly with the
     points to either side.  And on the same point the two adjacent cubic should
     have shared first and second derivatives.
@@ -177,8 +179,10 @@
     Because each of these cubics begins at a point we can say: (TODO: Spline equation 2)
   </para>
   <para>
-    Let h<subscript>i</subscript>=(x<subscript>i+1</subscript> - x<subscript>i</subscript>),
-    be the width of the the interval.
+    Where <command>
+            h<subscript>i</subscript>=(x<subscript>i+1</subscript> - x<subscript>i</subscript>)
+	  </command>,
+    is the width of the the interval.
   </para>
   <para>
     Also if we make s the set of second derivatives; then through algebraic simplification
@@ -212,7 +216,7 @@
     approximate new points within an tributary dataset.
   </para>
   <para>
-    Newton divided differences is based on building a table of divided differences.  The
+    The Newton divided differences mewthod is based on building a table of divided differences.  The
     divided difference between two points in a dataset is defined as: (TODO: divided difference eq 1)
   </para>
   <para>
@@ -233,8 +237,8 @@
     double precision floating point format also creates a limit.
   </para>
   <para>
-    To detect and limit the errors caused by these factors the program calculates error
-    estimates. As the divided difference table grows it calculates the rough error for
+    To detect and limit the errors caused by these factors the error estimates can be calculated.
+    As the divided difference table grows it calculates the rough error for
     a table of size one less.  If the error estimate has shrunk then the program continues
     building the table to a higher order.  If the error has grown then the program stops
     building the table.
