@@ -38,11 +38,16 @@
  *     void tearDown( void ) { ... }
  *
  * @author <your name here>
- * @version $Revision: 1.1 $ $Date: 2002-08-04 04:04:16 $
+ * @version $Revision: 1.2 $ $Date: 2002-08-07 08:57:45 $
  *
  * Revision History
  *
  * $Log: not supported by cvs2svn $
+ * Revision 1.1  2002/08/04 04:04:16  u982087
+ * Initial revison
+ *
+ * simply tests assignment operator
+ *
  */
 
 namespace {
@@ -70,7 +75,20 @@ public:
     
     /* REGISTER YOUR TEST HERE */
     suiteOfTests->addTest(
-      new CppUnit::TestCaller<Test>( "testEquals", &Test::testEquals ) );
+      new CppUnit::TestCaller<Test>( "testAssign", &Test::testAssign ) );
+    
+    suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "testAdd", &Test::testAdd ) );
+    
+    suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "testSub", &Test::testSub ) );
+    
+    suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "testMulMat", &Test::testMulMat ) );
+      
+    suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "testMulScalar", &Test::testMulScalar ) );
+
 
     return suiteOfTests;
   }
@@ -81,8 +99,8 @@ protected:
    * make your tests protected since you dont need to expose them
    */
 
-  /** simple test 1. uses a generic assert true macro */
-  void testEquals ()
+  /** Tests assignment operator */
+  void testAssign ()
   {
      int rows = 3, cols = 3;
     cepMatrix expected( rows, cols );
@@ -99,6 +117,121 @@ protected:
     for( int i=0; i<rows; i++ ) {
       for( int j=0; j<cols; j++ ) {
         CPPUNIT_ASSERT_EQUAL_MESSAGE( "value not equal", expected.getValue( i, j ), actual.getValue( i, j ));
+      }
+    }
+  }
+  
+  /** Tests += operator */
+  void testAdd()
+  {
+    int rows = 3, cols = 3;
+    double expected = 3.0;
+    
+    cepMatrix A( rows, cols ), B( rows, cols );
+    
+    for( int i=0; i<rows; i++ ) {
+      for( int j=0; j<cols; j++ ) {
+        A.setValue( i, j, 1 );
+      }
+    }
+    
+    for( int i=0; i<rows; i++ ) {
+      for( int j=0; j<cols; j++ ) {
+        B.setValue( i, j, 2 );
+      }
+    }
+    
+    A += B;
+    
+    for( int i=0; i<rows; i++ ) {
+      for( int j=0; j<cols; j++ ) {
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "value not equal", expected, A.getValue( i, j ));
+      }
+    }
+  }
+  
+  /** Tests -= operator */
+  void testSub()
+  {
+    int rows = 3, cols = 3;
+    double expected = 3.0;
+    
+    cepMatrix A( rows, cols ), B( rows, cols );
+    
+    for( int i=0; i<rows; i++ ) {
+      for( int j=0; j<cols; j++ ) {
+        A.setValue( i, j, 10 );
+      }
+    }
+    
+    for( int i=0; i<rows; i++ ) {
+      for( int j=0; j<cols; j++ ) {
+        B.setValue( i, j, 7 );
+      }
+    }
+    
+    A -= B;
+    
+    for( int i=0; i<rows; i++ ) {
+      for( int j=0; j<cols; j++ ) {
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "value not equal", expected, A.getValue( i, j ));
+      }
+    }
+  }
+
+/** Tests *=  matrix operator */
+  void testMulMat()
+  {
+    int aRows = 3, aCols = 3;
+    int bRows = 3, bCols = 2;
+    double expected = 97.2;
+    
+    cepMatrix A( aRows, aCols ), B( bRows, bCols );
+    
+    for( int i=0; i<aRows; i++ ) {
+      for( int j=0; j<aCols; j++ ) {
+        A.setValue( i, j, 3.24 );
+      }
+    }
+    
+    for( int i=0; i<bRows; i++ ) {
+      for( int j=0; j<bCols; j++ ) {
+        B.setValue( i, j, 10 );
+      }
+    }
+    
+    A *= B;
+    
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong row size", 3, A.getNumRows());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong col size", 2, A.getNumCols());
+    
+    for( int i=0; i<A.getNumRows(); i++ ) {
+      for( int j=0; j<A.getNumCols(); j++ ) {
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", expected, A.getValue( i, j ));
+      }
+    }    
+  }
+
+/** Tests *=  scalar operator */
+  void testMulScalar()
+  {
+    int rows = 3, cols = 3;
+    double s = 1.23, expected = 6.43782;    
+    
+    cepMatrix A( rows, cols ), B( rows, cols );
+    
+    for( int i=0; i<rows; i++ ) {
+      for( int j=0; j<cols; j++ ) {
+        A.setValue( i, j, 5.234 );
+      }
+    }
+    
+    
+    A *= s;
+    
+    for( int i=0; i<rows; i++ ) {
+      for( int j=0; j<cols; j++ ) {
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "value not equal", expected, A.getValue( i, j ));
       }
     }
   }
