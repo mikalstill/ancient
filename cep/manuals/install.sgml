@@ -25,7 +25,7 @@
 
 </sect1>
 
-    <execute><cmd>insertall</cmd><args>builddb  *.sgml$</args></execute>
+    <execute><cmd>insertall</cmd><args>builddb  ../contrib/*.sgml$</args></execute>
 
 <sect1><title>Installing</title>
   <para>
