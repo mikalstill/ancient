@@ -1,104 +1,91 @@
 #include <stdio.h>
-#include <tiffio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <png.h>
+#include <unistd.h>
 
 int main(int argc, char *argv[]){
-  TIFF *image;
-  uint16 photo, bps, spp, fillorder;
-  uint32 width;
-  tsize_t stripSize;
-  unsigned long imageOffset, result;
-  int stripMax, stripCount;
-  char *buffer, tempbyte;
-  unsigned long bufferSize, count;
+  FILE *image;
+  unsigned long width, height;
+  int bitdepth, colourtype;
+  png_uint_32 i, j, rowbytes;
+  png_structp png;
+  png_infop info;
+  png_bytepp row_pointers = NULL;
+  unsigned char sig[8];
+  char *raster;
 
-  // Open the TIFF image
-  if((image = TIFFOpen(argv[1], "r")) == NULL){
-    fprintf(stderr, "Could not open incoming image\n");
+  // Open the file
+  if ((image = fopen (argv[1], "rb")) == NULL){
+    fprintf(stderr, "Could not open the specified PNG file.");
+    exit(0);
+  }
+
+  // Check that it really is a PNG file
+  fread(sig, 1, 8, image);
+  if(!png_check_sig(sig, 8)){
+    printf("This file is not a valid PNG file\n");
+    fclose(image);
+    return;
+  }
+
+  // Start decompressing
+  if((png = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, 
+				   NULL, NULL)) == NULL){
+    fprintf(stderr, "Could not create a PNG read structure (out of memory?)");
+    exit(0);
+  }
+
+  if((info = png_create_info_struct(png)) == NULL){
+    fprintf(stderr, "Could not create PNG info structure (out of memory?)");
+    exit(0);
+  }
+
+  // If pnginfo_error did not exit, we would have to call 
+  // png_destroy_read_struct
+  if(setjmp(png_jmpbuf(png))){
+    fprintf(stderr, "Could not set PNG jump value");
+    exit(0);
+  }
+
+  // Get ready for IO and tell the API we have already read the image signature
+  png_init_io(png, image);
+  png_set_sig_bytes(png, 8);
+  png_read_info(png, info);
+  png_get_IHDR(png, info, &width, &height, &bitdepth, &colourtype, NULL, 
+	       NULL, NULL);
+
+ if (colourtype == PNG_COLOR_TYPE_PALETTE)
+    png_set_expand (png);
+  //  if(colourtype & PNG_COLOR_MASK_ALPHA)
+  png_set_strip_alpha (png);
+  png_read_update_info (png, info);
+
+  rowbytes = png_get_rowbytes (png, info);
+  if((row_pointers = malloc (height * sizeof (png_bytep))) == NULL){
+    fprintf(stderr, "Could not allocate memory\n");
     exit(42);
   }
 
-  // Check that it is of a type that we support
-  if((TIFFGetField(image, TIFFTAG_BITSPERSAMPLE, &bps) == 0) || (bps != 1)){
-    fprintf(stderr, "Either undefined or unsupported number of bits per sample\n");
+  // Space for the bitmap
+  if((raster = (unsigned char *) malloc ((rowbytes * height) + 1)) == NULL){
+    fprintf(stderr, "Could not allocate memory\n");
     exit(42);
   }
 
-  if((TIFFGetField(image, TIFFTAG_SAMPLESPERPIXEL, &spp) == 0) || (spp != 1)){
-    fprintf(stderr, "Either undefined or unsupported number of samples per pixel\n");
-    exit(42);
+  // Get the image bitmap
+  for (i = 0; i < height; ++i)
+    row_pointers[i] = raster + (i * rowbytes);
+  png_read_image (png, row_pointers);
+  free(row_pointers);
+  png_read_end (png, NULL);
+  fclose (image);
+
+  // We should dump the bitmap at this point
+  for(i = 0; i < width * height; i++){
+    printf("%08x ", raster[i]);
   }
 
-  // Read in the possibly multile strips
-  stripSize = TIFFStripSize (image);
-  stripMax = TIFFNumberOfStrips (image);
-  imageOffset = 0;
-  
-  bufferSize = TIFFNumberOfStrips (image) * stripSize;
-  if((buffer = (char *) malloc(bufferSize)) == NULL){
-    fprintf(stderr, "Could not allocate enough memory for the uncompressed image\n");
-    exit(42);
-  }
-  
-  for (stripCount = 0; stripCount < stripMax; stripCount++){
-    if((result = TIFFReadEncodedStrip (image, stripCount,
-				      buffer + imageOffset,
-				      stripSize)) == -1){
-      fprintf(stderr, "Read error on input strip number %d\n", stripCount);
-      exit(42);
-    }
-
-    imageOffset += result;
-  }
-
-  // Deal with photometric interpretations
-  if(TIFFGetField(image, TIFFTAG_PHOTOMETRIC, &photo) == 0){
-    fprintf(stderr, "Image has an undefined photometric interpretation\n");
-    exit(42);
-  }
-  
-  if(photo != PHOTOMETRIC_MINISWHITE){
-    // Flip bits
-    printf("Fixing the photometric interpretation\n");
-
-    for(count = 0; count < bufferSize; count++)
-      buffer[count] = ~buffer[count];
-  }
-
-  // Deal with fillorder
-  if(TIFFGetField(image, TIFFTAG_FILLORDER, &fillorder) == 0){
-    fprintf(stderr, "Image has an undefined fillorder\n");
-    exit(42);
-  }
-  
-  if(fillorder != FILLORDER_MSB2LSB){
-    // We need to swap bits -- ABCDEFGH becomes HGFEDCBA
-    printf("Fixing the fillorder\n");
-
-    for(count = 0; count < bufferSize; count++){
-      tempbyte = 0;
-      if(buffer[count] & 128) tempbyte += 1;
-      if(buffer[count] & 64) tempbyte += 2;
-      if(buffer[count] & 32) tempbyte += 4;
-      if(buffer[count] & 16) tempbyte += 8;
-      if(buffer[count] & 8) tempbyte += 16;
-      if(buffer[count] & 4) tempbyte += 32;
-      if(buffer[count] & 2) tempbyte += 64;
-      if(buffer[count] & 1) tempbyte += 128;
-      buffer[count] = tempbyte;
-    }
-  }
-     
-  // Do whatever it is we do with the buffer -- we dump it in hex
-  if(TIFFGetField(image, TIFFTAG_IMAGEWIDTH, &width) == 0){
-    fprintf(stderr, "Image does not define its width\n");
-    exit(42);
-  }
-  
-  for(count = 0; count < bufferSize; count++){
-    printf("%02x", (unsigned char) buffer[count]);
-    if((count + 1) % (width / 8) == 0) printf("\n");
-    else printf(" ");
-  }
-
-  TIFFClose(image);
+  // This cleans things up for us in the PNG library
+  png_destroy_read_struct (&png, &info, NULL);
 }
