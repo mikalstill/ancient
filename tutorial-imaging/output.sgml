@@ -693,7 +693,11 @@ This concept works for grayscale images as well. The only difference is that the
 
 <chapter id="chap-tiff"><title>TIFF</title>
 <para>
-...
+<qoute>With great power comes great responsibility</quote> -- Spiderman
+</para>
+
+<para>
+In this chapter we will discuss the Tagged Image File Format, which is one of the most common raster image formats for professional imaging -- especially scanned images and faxes. Unfortunately, it is not supported by web browsers, so isn't used as much as it might otherwise be.
 </para>
 
 <sect1>
@@ -735,7 +739,10 @@ Not too hard at all...
 <sect2>
 <title>win32</title>
 <para>
-%todo: windows install details%
+<figure>
+<title>windows_install_details</title>
+<graphic format="EPS" fileref="todo.eps"></graphic>
+</figure>
 </para>
 
 <para>
@@ -835,7 +842,11 @@ It is useful for use to know something about how TIFF images are laid out on dis
 
 <row>
 <entry>0 - 1</entry>
-<entry>Tag that identifies the entry. Have a look at </entry></row>
+<entry>Tag that identifies the entry. Have a look at <figure>
+<title>tags</title>
+<graphic format="EPS" fileref="todo.eps"></graphic>
+</figure>
+</entry></row>
 
 <row>
 <entry>2 - 3</entry>
@@ -892,7 +903,15 @@ Sign is implemented using two's complement notation. New field types may be adde
 <sect2><title>Possible field entries</title>
 <para>
 Discussing the many different possible field entries is out of the scope of this document. 
- </para>
+<figure>
+<title>tiff.h</title>
+<graphic format="EPS" fileref="todo.eps"></graphic>
+</figure>
+ <figure>
+<title>refer_to_spec</title>
+<graphic format="EPS" fileref="todo.eps"></graphic>
+</figure>
+</para>
 
 <sect2><title>So where's the image data?</title>
 <para>
@@ -1497,6 +1516,10 @@ The example which I am most familiar with is PDF documents. In PDF files, you ca
 <para>libtiff allows you to replace the file input and output functions in the library with your own. This is done with the TIFFClientOpen() method. Here's an example (please note this code wont compile, and is just to describe the main concepts:</para>
 
 <programlisting>
+<figure>
+<title>make_this_example_better</title>
+<graphic format="EPS" fileref="todo.eps"></graphic>
+</figure>
 // Please note that this code wont compile, and is intended to only show you 
 // the sturcture of TIFFClient* calls
 
@@ -2711,6 +2734,7 @@ There are a few resources which will make your life much easier. Here are some o
 Finish conversion of article 1
 Convert article 2
 DES code cleanup
+Comparison chart for image formats
 </para>
 </chapter>
 

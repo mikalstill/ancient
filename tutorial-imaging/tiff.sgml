@@ -1,5 +1,9 @@
 <chapter id="chap-tiff"><title>TIFF</title>
 <para>
+<qoute>With great power comes great responsibility</quote> -- Spiderman
+</para>
+
+<para>
 In this chapter we will discuss the Tagged Image File Format, which is one of the most common raster image formats for professional imaging -- especially scanned images and faxes. Unfortunately, it is not supported by web browsers, so isn't used as much as it might otherwise be.
 </para>
 

@@ -15,6 +15,12 @@ while(<STDIN>){
 	if($args[0] ne "todo"){
 	    print `$args[0] < $args[1]`;
 	}
+	else{
+	    print "<figure>\n";
+	    print "<title>$args[1]</title>\n";
+	    print "<graphic format=\"EPS\" fileref=\"todo.eps\"></graphic>\n";
+	    print "</figure>\n";
+	}
 	print "$3";
     }
     else{
