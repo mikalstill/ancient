@@ -147,3 +147,25 @@ pdf::getFilename()
 {
   return m_filename;
 }
+
+void
+pdf::appendPage(object& thePage)
+{
+  object foo(objNumNoSuch, objNumNoSuch);
+  object & pages = foo;
+  if (!findObject (dictitem::diTypeName, "Type", "Pages", pages))
+    {
+      debug(dlError, "Bad PDF for page append: No pages");
+      return;
+    }
+  
+  objectlist footoo;
+  objectlist & kids;
+  if(!pages.getDict().getValue("Kids", *this, kids))
+    {
+      debug(dlError, "Bad PDF for page append: No kids");
+      return;
+    }
+
+  kids.push_back(thePage, *this);
+}

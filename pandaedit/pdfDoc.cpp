@@ -236,13 +236,14 @@ pdfDoc::appendPage()
       {
 	dictitem di(dictitem::diTypeName, "Type", m_pdf);
 	di.setValue("Catalog");
-	newpages.getDict().add(di);
+	newcatalog.getDict().add(di);
       }
       m_pdf->addObject(newcatalog);      
     }
 
   object newpage(objNumAppended, objNumAppended);
   m_pdf->addObject(newpage);
+  m_pdf->appendPage(newpage);
   m_pages.push_back(newpage, m_pdf);
 }
 

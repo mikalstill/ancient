@@ -151,7 +151,13 @@ object::hasDictItem (dictitem::diType type, string dname, string dvalue)
       dictitem foo;
       dictitem & item = foo;
       if (m_dictionary.findItem (dname, item))
-	return item.getStringValue () == dvalue;
+	{
+	  bool result = item.getStringValue () == dvalue;
+	  debug(dlTrace, string("Comparing ") + 
+		item.getStringValue() + string(" with ") +
+		dvalue);
+	  return result;
+	}
     }
 
   return false;

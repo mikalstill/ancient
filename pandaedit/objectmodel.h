@@ -174,6 +174,7 @@ public:
   pdf (string filename);
   void setSpecVer (float version);
   void addObject (object& theObject);
+  void appendPage (object& thePage);
 
   bool findObject (dictitem::diType type, string dname, string dvalue,
 		   object & obj);
