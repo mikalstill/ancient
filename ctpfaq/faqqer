@@ -224,7 +224,8 @@ elsif($mode eq "dump"){
     if($select->rows > 0){
 	while(@data = $select->fetchrow_array()){
 	    print "<chapter><title>$data[1]</title>\n";
-	    
+	    print "<qandaset defaultlabel=\"qanda\">\n";
+
 	    $select2 = $database->prepare("SELECT qno, qname, question FROM questions WHERE sno = $data[0] ORDER BY qno");
 	    if(!defined($select2)){
 		print "Could not arrange select";
@@ -243,12 +244,12 @@ elsif($mode eq "dump"){
 			$first++;
 		    }
 		    else{
-			print "</sect1>\n";
+			print "</qandadiv>\n";
 		    }
 
-		    print "<sect1><title>$data2[1]</title>\n<para>";
+		    print "<qandadiv><title>$data2[1]</title>\n<qandaentry><question><para>";
 		    printtext("$data2[2] [Q$data2[0]]", 0);
-		    print "</para>\n";
+		    print "</para></question>\n";
 		    dumpanswers($path, $area, $data[0], $data2[0], 0);
 		}
 	    }
@@ -296,9 +297,9 @@ sub dumpanswers{
     $myselect->execute() or die "Could not execute select" . $myselect->errstr;
     if($myselect->rows > 0){
 	while(@mydata = $myselect->fetchrow_array()){
-	    print "\n<sidebar><para>"; # todo_mikal: This is very bad docbook...
+	    print "\n<answer><para>"; # todo_mikal: This is very bad docbook...
 	    printtext($mydata[0], 2);
-	    print "</para><para><emphasis>$mydata[1] ($mydata[2]) [A$mydata[3]]</emphasis></para></sidebar><para></para>\n";
+	    print "</para><para><emphasis>$mydata[1] ($mydata[2]) [A$mydata[3]]</emphasis></para></answer>\n";
 	    print "\n";
 	}
     }
