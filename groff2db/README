@@ -1,0 +1,3 @@
+groff2db converts troff mm macros and man pages to docbook SGML. It works as a filter, so use it like:
+
+groff2db < input > output
