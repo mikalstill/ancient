@@ -8,8 +8,6 @@
   #define YYMAXDEPTH 50000
   #define YYERROR_VERBOSE 1
 
-  int    binaryMode;
-
   // The callbacks
   pandalex_callback_type pandalex_callbacks[pandalex_event_max];
 %}
@@ -38,7 +36,7 @@
 %token <sval> ANYTHING
 
 %type <sval> binary
-%type <textVal> header
+%type <sval> header
 %type <textVal> objref
 
 %type <intVal> dictionary
@@ -55,14 +53,15 @@ pdf       : { pandalex_callback(pandalex_event_begindocument, ""); }
           ;
 
 header    : VERSION { pandalex_callback(pandalex_event_specver, $1); }
-            binary { $$ = $3.data; }
+            binary { $$ = $3; }
           ;
 
 linear    : xref trailer { }
           |
           ;
 
-// Clibpdf sometimes puts some binary crap at the end of the file
+// Clibpdf sometimes puts some binary crap at the end of the file (pointer
+// problems?)
 endcrap   : binary { }
           |
           ;
@@ -166,8 +165,6 @@ void pandalex_callback(int event, ...){
 
 int pandalex_parse(){
   // We are not looking into a stream at the moment
-  binaryMode = 0;
-
   yyparse();
 }
 
