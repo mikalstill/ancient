@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-# groff2db. Copyright (c) Michael Still 2001 (mikal@stillhq.com)
+# groff2db 0.2. Copyright (c) Michael Still 2001 (mikal@stillhq.com)
 # Released under the terms of the GNU GPL. Please submit all patches to mikal@stillhq.com
 # Initially developed for Greg Lehey's "The Complete FreeBSD"... Many thanks for his
 # sponsorship and support of this project.
@@ -11,6 +11,16 @@
 
 # Screen is not entirely appropriate for display mapping
 # There are some section references which need to be manually fixed (search for "Section reference" in the SGML
+
+# Underway
+# --------
+#  - Newlines in displays
+#  - Table conversion
+#  - Emphasis etc in displays
+
+# Todo
+# ----
+#  - <title></title> et al
 
 use strict;
 my($INPUT, $OUTPUT, $PREPROC, $outputstyle);
@@ -161,7 +171,7 @@ foreach $chapter (split(/ /, $chapters)){
 	s/\\f\(BI([^ \t\"\\]*)/<emphasis>$1<\/emphasis>/ig;
 
 	# Italic for a single word
-	s/\\\(em([^ \t\"\\]*)/<emphasis> $1<\/emphasis>/ig;
+	s/[ \t]*\\\(em[ \t]*/&mdash;/ig;
 
 	# We run some little conversion rules to deal with things like italics et al
 	$temp = processstyles($displaystate, $_);
@@ -170,6 +180,9 @@ foreach $chapter (split(/ /, $chapters)){
 	##############################################################
 	# Comments
 	if(/^\.\\\"(.*)/i){
+	    $_ = $1;
+	    s/nroff-fill/sgml-fill/g;
+	    print OUTPUT "<!-- $_ -->\n";
 	}
 
 	# No mapping
@@ -208,6 +221,7 @@ foreach $chapter (split(/ /, $chapters)){
 	# Display start -- is case sensitive
 	elsif((/^\.DS(.*)/) || (/^\.Dx(.*)/i)){
 	    endpara();
+	    print OUTPUT closeallstates();
 	    print OUTPUT "<example><title></title><programlisting>\n";
 	    $displaystate = 1;
 	}
@@ -215,6 +229,7 @@ foreach $chapter (split(/ /, $chapters)){
 	# Display end
 	elsif(/^\.DE(.*)/i){
 	    if($displaystate == 1){
+		print OUTPUT closeallstates();
 		print OUTPUT "</programlisting></example>\n";
 		$displaystate = 0;
 		startpara();
@@ -281,18 +296,23 @@ foreach $chapter (split(/ /, $chapters)){
 	    print OUTPUT closeallstates();
 	    endpara();
 	    
+	    # Docbook only goes up to sect5
+	    if($1 > 5){
+		print "Warning: docbook sect limit exceeded\n";
+	    }
+
 	    while($sectionstate > ($1 - 2)){
-		print OUTPUT "</section>\n";
+		print OUTPUT "</sect$sectionstate>\n";
 		$sectionstate--;
 	    }
 	    
 	    while($sectionstate < ($1 - 2)){
-		print OUTPUT "<section><title></title>\n";
 		$sectionstate++;
+		print OUTPUT "<sect$sectionstate><title></title>\n";
 	    }
-	    print OUTPUT "<section>\n";
 	    $sectionstate++;
-
+	    print OUTPUT "<sect$sectionstate>\n";
+	    
 	    $_ = $2;
 	    s/\"//g;
 	    print OUTPUT "<title>$_</title>\n";
@@ -303,7 +323,7 @@ foreach $chapter (split(/ /, $chapters)){
 	elsif(/^\.H([8-9])[ \t]*(.*)/i){
 	    print OUTPUT closeallstates();
 	    endpara();
-	    print OUTPUT "<section><title>Title???</title>\n";
+	    print OUTPUT "<sect1><title>Title???</title>\n";
 	    $sectionstate = 1;
 	}
 
@@ -497,9 +517,9 @@ foreach $chapter (split(/ /, $chapters)){
 	# Chapters
 	elsif(/^\.Chapter[ \t]([^ \t]*)[ \t]\"(.*)\"/){
 	    print OUTPUT "<chapter><title>$2</title>\n";
-	    print OUTPUT "<section><title></title>\n";
+	    print OUTPUT "<sect1><title></title>\n";
             startpara();
-	    $sectionstate++;
+	    $sectionstate = 1;
 	    }
 
 	elsif(/^\.X[ \t]\"*([^ \",]*)[ \t,]*([^ \"]*)\"*/i){
@@ -531,16 +551,10 @@ foreach $chapter (split(/ /, $chapters)){
 		$tablestate = 3;
 	    }
 
-	    if($displaystate > 0){
-		chomp;
-	    }
 	    if($tablestate > 1){
 		print OUTPUT "<row><entry>";
 	    }
 	    print OUTPUT "$_";
-	    if($displaystate > 0){
-		print OUTPUT "\n";
-	    }
 	    if($tablestate > 1){
 		print OUTPUT "</entry></row>\n";
 	    }
@@ -558,7 +572,7 @@ foreach $chapter (split(/ /, $chapters)){
     }
     
     while($sectionstate > 0){
-	print OUTPUT "</section>\n";
+	print OUTPUT "</sect$sectionstate>\n";
 	$sectionstate--;
     }
     
@@ -609,11 +623,8 @@ sub endpara(){
 
 sub startpara(){
     if($displaystate == 0){
-	print OUTPUT "<para>";
+	print OUTPUT "\n<para>";
 	$parastate++;
-    }
-    else{
-	print OUTPUT "\n\n";
     }
 }
 
@@ -622,78 +633,50 @@ sub processstyles(){
     my($newline, $word, $retStr, $length);
     
     $newline = "";
-
+    
     # It turns out that a whole bunch of these are actually font change
     # commands...
     foreach $word (split(/ /, $line)){
 	$length = 0;
-
+	
 	while($length != length($word)){
 	    $length = length($word);
-
+	    
 	    $_ = $word;
 	    if(/(.*)\\fB(.*)/){
-		if($displaystate == 0){
-		    $word = closeallstates() . "$1<command>$2";
-		    $stylestate = "$stylestate" . "B";
-		}
-		else{
-		    $word = "$1 $2";
-		}
+		$word = closeallstates() . "$1<command>$2";
+		$stylestate = "$stylestate" . "B";
 	    }
 	    
 	    $_ = $word;
 	    if(/(.*)\\fI(.*)/){
-		if($displaystate == 0){
-		    $word = "$1<emphasis>$2";
-		    $stylestate = "$stylestate" . "I";
-		}
-		else{
-		    $word = "$1 $2";
-		}
+		$word = "$1<emphasis>$2";
+		$stylestate = "$stylestate" . "I";
 	    }
 	    
 	    $_ = $word;
 	    if(/(.*)\\fC(.*)/){
-		if($displaystate == 0){
-		    $word = closeallstates() . "$1<command>$2";
-		    $stylestate = "$stylestate" . "c";
-		}
-		else{
-		    $word = "$1 $2";
-		}
+		$word = closeallstates() . "$1<command>$2";
+		$stylestate = "$stylestate" . "c";
 	    }
 	    
 	    $_ = $word;
 	    if(/(.*)\\f\(CW(.*)/){
-		if($displaystate == 0){
-		    $word = "$1<emphasis>$2";
-		    $stylestate = "$stylestate" . "W";
-		}
-		else{
-		    $word = "$1 $2";
-		}
+		$word = "$1<emphasis>$2";
+		$stylestate = "$stylestate" . "W";
 	    }
 	    
 	    $_ = $word;
 	    if(/(.*)\\f\(CB(.*)/){
-		if($displaystate == 0){
-		    $word = closeallstates() . "$1<command>$2";
-		    $stylestate = "$stylestate" . "b";
-		}
-		else{
-		    $word = "$1 $2";
-		}
+		$word = closeallstates() . "$1<command>$2";
+		$stylestate = "$stylestate" . "b";
 	    }
 	    
 	    $_ = $word;
 	    if(/(.*)\\f([RP])(.*)/){
 		dblog("{$stylestate}");
 		
-		if($displaystate > 0){
-		    $word = "$1 $3";
-		}
-		elsif($2 eq "R"){
+		if($2 eq "R"){
 		    $word = "$1" . closeallstates() . "$3";
 		}
 		else{
@@ -707,7 +690,7 @@ sub processstyles(){
 		    $stylestate =~ s/[A-Za-z]$//;
 		}
 	    }
-
+	    
 	    # Horizontal spacing (no mapping to docbook)
 	    $_ = $word;
 	    s/\\\|//g;
