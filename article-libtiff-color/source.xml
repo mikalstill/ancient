@@ -30,12 +30,48 @@
 
 <p>With this article, I will discuss some of the theory required to understand how the image data is stored for color and grayscale. This theory applies to all imaging formats. We'll then discuss some of the specifics of using libtiff.</p>
 
+<p><heading refname="h1" type="major" toc="yes">Terminology</heading>	
+We need to get some terminology out of the way before we can discuss much. Images are made up of pixels. In black and white imaging, the pixel has one of two values -- 0 or 1. This can be represented in a single bit. For grayscale and color images however, the pixel needs to be able to store a much greater range of values for a pixel -- if a pixel was to have 255 levels of gray, then we would need 8 bits to store that pizel. Each of these values are called a sample. TIFF expresses the size of the value in a tag called TIFFTAG_BITSPERSAMPLE. This will be 1 for black and white, and some larger number for grayscale.</p>
+
+<p>For color images, we need to store even more information. For each pixel we will need to store a red, green, and blue value. Each of these values are stored in a separate 'sample'. Therefore, we will need to define TIFFTAG_SAMPLESPERPIXEL -- this will be 1 for black and white or grayscale, but will normally be 3 for color images. We also need to define the size of each sample, so you'll still need to set a value for TIFFTAG_BITSPERSAMPLE.</p>
 
 <p><heading refname="h1" type="major" toc="yes">Theory of color and grayscale storage</heading>	
-The first thing that we need to understand to be able to support color and grayscale images is the format of the image data within memory.</p>
-	
-<p>[Next paragraph goes here]</p>
+The first thing that we need to understand to be able to support color and grayscale images is the format of the image data within memory. There are two main representations for color and grayscale images. I'll explain these by describing grayscale, and then extend it to color.</p>
 
+<p><heading refname="h2" type="minor" toc="yes">Direct storage of pixel data</heading>
+If you think back to the way pixel information was stored in the black and white images from the previous article, the information was just in the strips. This concept is described in the <TODO figure> figure below. You can also do this with grayscale <TODO figure> and color images, and shown in <TODO figure>. This representation of image data is quite inefficient, because for the scenario when the image has a solid background (for example), there are many pixels with the same value. If the pixel data is stored in the strips, then this value will waste a large amount of space.
+</p>
+
+<figure>
+<heading refname="strip-bandw" type="figure" toc="no">Figure x. In strip black and white data</heading>
+<img src="xxx.jpg" width="500" height="200" alt="[Sample figure; code correct height and width"/>
+</figure>
+
+<figure>
+<heading refname="strip-gray" type="figure" toc="no">Figure x. In strip grayscale data</heading>
+<img src="xxx.jpg" width="500" height="200" alt="[Sample figure; code correct height and width"/>
+</figure>
+
+<figure>
+<heading refname="strip-color" type="figure" toc="no">Figure x. In strip color data</heading>
+<img src="xxx.jpg" width="500" height="200" alt="[Sample figure; code correct height and width"/>
+</figure>
+
+<figure>
+<heading refname="strip-palette" type="figure" toc="no">Figure x. Paletted image data</heading>
+<img src="xxx.jpg" width="500" height="200" alt="[Sample figure; code correct height and width"/>
+</figure>
+
+<p>Let's imagine that we have a 1,000 by 1,000 pixel image, which has 24 bits per pixel (it's probably a color image). If we assume that 50% of the image has the same pixel value, then the maths looks like this:
+
+Total number of pixels = 1,000 * 1,000
+                       = 1,000,000
+
+Total number of bits per pixel = 24
+Total number of bits in uncompressed image = 24,000,000
+
+
+	
 <p><heading refname="h1" type="major" toc="yes">Compression algorithms in libtiff</heading>	
 There are several compression algorithms available within libtiff. How do you select which one is right for your imaging needs?</p>
 
@@ -45,20 +81,32 @@ There are several compression algorithms available within libtiff. How do you se
 <table width="100%" cellspacing="0" cellpadding="3" border="1">
 <tr valign="top">
 <td><b>Compression algorithm</b></td>
-<td><b>Well suited to</b></td>
+<td><b>Well suited for</b></td>
 </tr>
+
 <tr valign="top">
 <td>CCITT Group 4 Fax and Group 3 Fax</td>
 <td>This entry is here for completeness. If your coding for black and white images, then you're probably using the CCITT fax compression methods. These compression algorithms don't support color.</td>
 </tr>
+
 <tr valign="top">
 <td>JPEG</td>
-<td>JPEG compression is great for large images such as photos. However, the compression is normally lossy (in that image data is thrown away as part of the compression process). This makes JPEG very poor for compressing text which needs to remain readable. The other thing to bear in mind is that the loss is accumulative.</td>
+<td>JPEG compression is great for large images such as photos. However, the compression is normally lossy (in that image data is thrown away as part of the compression process). This makes JPEG very poor for compressing text which needs to remain readable. The other thing to bear in mind is that the loss is accumulative -- see the sidebar for more information about this.</td>
 </tr>
+
+<tr valign="top">
+<td>LZW</td>
+<td><i>This is the compression algorithm used in GIF images. Because of the licensing requirements from Unisys, support for this compression codec has been removed from libtiff. There are patches available if you would like to add it back, but the majority of programs your code will integrate with no linger support LZW.</i></td>
+</tr>
+
+<tr valign="top">
+<td>Deflate</td>
+<td>This is the gzip compression algorithm, which is also used for PNG. It is the compression algorithm I would recommend for color images.</td>
+</tr>
+
 <tr valign="top">
 <td>Content A3</td>
 <td>Content B3</td>
-<td>Content C3</td>
 </tr>
 </table>
 
@@ -68,25 +116,31 @@ There are several compression algorithms available within libtiff. How do you se
 <heading refname="" type="sidebar" toc="no">Accumulating loss?</heading>
 <p>Why does the loss in lossy compression algorithms such as JPEG accumulate? Imagine that you compress an image using JPEG. You then need to add say a barcode to the image, so you uncompress the image, add the barcode, and recompress it. When the recompression occurs, then a new set of loss is introduced. You can imagine that if you do this enough, then you'll end up with an image which is a big blob.</p>
 
-<p>Whether this is a problem depends on the type of your data. To test how much of a problem this is, I wrote a simple libtiff program which repeatedly uncompresses and recompresses an image. What I found was that with pictures, the data is much more resilient to repeated compression.
+<p>Whether this is a problem depends on the type of your data. To test how much of a problem this is, I wrote a simple libtiff program which repeatedly uncompresses and recompresses an image. What I found was that with pictures, the data is much more resilient to repeated compression.</p>
 
-<p>The code I used had a 'quality' rating of 25% on the JPEG compression, which is a way of tweaking the loss of the compression algorithm. The lower the quality, the higher the compression ratio. The default is 75%.
+<TODO: insert a reference to the images>
+
+<p>The code I used had a 'quality' rating of 25% on the JPEG compression, which is a way of tweaking the loss of the compression algorithm. The lower the quality, the higher the compression ratio. The default is 75%.</p>
 </sidebar>
+
+<figure>
+<heading refname="picture-start" type="figure" toc="no">Figure x. The picture before we compressed it</heading>
+<img src="xxx.jpg" width="500" height="200" alt="[Sample figure; code correct height and width"/>
+</figure>
+
+<figure>
+<heading refname="picture-200" type="figure" toc="no">Figure x. The picture after it has been recompressed 200 times</heading>
+<img src="xxx.jpg" width="500" height="200" alt="[Sample figure; code correct height and width"/>
+</figure>
 
 
 
 TIFFReadRGBAStrip pain
+Alpha channels
 
 
 
 
-
-
-<!--MINOR HEADING: CODE HEADING TAG WITH TYPE="MINOR".  ENTER A REFERENCE NAME TO BE USED AS AN INLINE LINK IN THE TOC.  USE ALT= ATTRIBUTE IF YOU WANT THE TOC TEXT TO BE DIFFERENT FROM THE HEADING.  TO REMOVE THIS HEADING FROM THE TOC, CODE TOC="NO".   PRECEDE ALL MINOR HEADINGS WITH A PARAGRAPH TAG-->
-<p><heading refname="h2" type="minor" toc="yes">[Minor heading 1]</heading>
-[Insert paragraph text here and end the paragraph with an end paragraph tag.  To include inline code in a paragraph, surround the code snippet with a
-code tag that has the attribute: type="inline".  This is an <code type="inline">inline code snippet</code> .
-</p>
 
 <!-- CODE SECTION WITH HEADING:  PLACE HEADING INSIDE CODE TAG WITH TYPE="CODE".  DO NOT SURROUND CODE SECTION WITH PARAGRAPH TAGS.  THE TOC ATTRIBUTE DETERMINES IF THIS HEADING IS INCLUDED IN THE TOC.   DEFAULT IS TOC="NO".-->
 <code type="section">
@@ -114,13 +168,11 @@ Use the space key to indent lines.]
 [Insert paragraph text here and end with an end paragraph tag.]</p>
 
 
-<!-- FIGURE WITH HEADING:  PLACE HEADING INSIDE FIGURE TAG WITH TYPE="FIGURE".  DO NOT SURROUND FIGURE WITH PARAGRAPH TAGS.  THE TOC ATTRIBUTE DETERMINES IF THIS HEADING IS INCLUDED IN THE TOC.   DEFAULT IS TOC="NO".   ALWAYS CODE THE ALT= ATTRIBUTE FOR A FIGURE.  ALWAYS CODE CORRECT HEIGHT AND WIDTH FOR FIGURE-->
-<figure>
-<heading refname="figure1" type="figure" toc="no">[Figure x.   Caption for sample figure]</heading>
-<img src="xxx.jpg" width="500" height="200" alt="[Sample figure; code correct height and width"/>
-</figure>
 
 <p>[Refer to figure using the reference name (refname) assigned to the figure, as follows: <a href="#figure1">Figure 1</a>. ]</p>
+
+[Insert paragraph text here and end the paragraph with an end paragraph tag.  To include inline code in a paragraph, surround the code snippet with a
+code tag that has the attribute: type="inline".  This is an <code type="inline">inline code snippet</code> .
 
 <!-- THIRD-LEVEL HEADING:  PRECEDE ALL THIRD-LEVEL HEADINGS WITH A PARAGRAPH TAG.  FOLLOW THE HEADING WITH A BREAK TAG.-->
 <p><b>[Third-level heading]</b><br />
@@ -133,25 +185,18 @@ Use the space key to indent lines.]
 <li>[List item three]</li>
 </ul>
 
-<!-- RESOURCE LIST WITH HEADINGS:  PLACE HEADINGS INSIDE RESOURCELIST TAG WITH TYPE="RESOURCELIST".  DO NOT SURROUND LIST WITH PARAGRAPH TAGS, BUT USE PARAGRAPH TAGS AROUND RESOURCELIST HEADINGS.-->
 <resourcelist>
+<p><heading refname="" type="resourcelist" toc="no">Source code used in this article</heading></p>
+<ul>
+<li>Repeated compression source</li>
+<li>Repeated compression script</li>
+<li>Tarball of recompressed sample images</li>
+</ul>
+
 <ul>
 <li>[First resource item and link without a heading]</li>
 <li>[Second resource item and link without a heading]</li>
 </ul>
-<p><heading refname="" type="resourcelist" toc="no">[Sample resource list heading]</heading></p>
-<ul>
-<li>[First resource item and link with a heading]</li>
-<li>[Second resource item and link with a heading]</li>
-</ul>
 </resourcelist>
 
-<!-- IF AN ATTRIBUTION IS REQUIRED, USE AN APPROPRIATE ONE BELOW OR ENTER NEW TEXT-->
-<!--   JavaWorld ATTRIBUTION :  REMOVE COMMENTS TO USE OR REMOVE TAGS BELOW -->
-<!--<attribution>Reprinted with permission from  <a href="http://www.javaworld.com/?IBMDev">JavaWorld</a> magazine. Copyright Web Publishing Inc., an IDG Communications company.  Register for <a href="http://www.javaworld.com/javaworld/common/jw-subscribe.html?IBMDev">editorial e-mail</a> alerts.</attribution>-->
-
-<!--   LinuxWorld ATTRIBUTION :  REMOVE COMMENTS TO USE OR REMOVE TAGS BELOW -->
-<!--<attribution>Reprinted with permission from <a href="http://www.linuxworld.com?IBMDev">LinuxWorld</a> magazine. Copyright Web Publishing Inc., an IDG Communications company. <a href="http://www.linuxworld.com/linuxworld/common/lw-subscribe.html?IBMDev">Register for editorial e-mail</a>.</attribution>-->
-	
-<!-- ENDS ARTICLE -->
 </article>
