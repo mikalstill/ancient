@@ -185,10 +185,6 @@ bool genApp::OnInit (void)
 int
 genApp::OnExit (void)
 {
-  // TODO BS 06/08/2002 - removed as this segfaults if data has been loaded.
-  // why? i dunno :)
-  // delete m_docManager;
-
   return 0;
 }
 
@@ -267,6 +263,13 @@ genApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
     config->getValue ("pref-selectdebug", false, selectDebugOn);
     prefs_menu->Check (GENMENU_SELECTDEBUG, selectDebugOn);
 
+    prefs_menu->Append (GENMENU_OUTPUTCOMPRESS, "Compress saved files",
+			"Should saved PDF files be compressed?",
+			TRUE);
+    bool outputCompressOn;
+    config->getValue ("pref-outputcompress", false, outputCompressOn);
+    prefs_menu->Check (GENMENU_OUTPUTCOMPRESS, outputCompressOn);
+
     menu_bar->Append(prefs_menu, "Preferences");
 
     ////////
@@ -311,6 +314,7 @@ BEGIN_EVENT_TABLE (genFrame, wxDocMDIParentFrame)
 EVT_MENU (GENMENU_ABOUT, genFrame::OnAbout)
 EVT_MENU (GENMENU_BINARYDEBUG, genFrame::OnToggleBinaryDebug)
 EVT_MENU (GENMENU_SELECTDEBUG, genFrame::OnToggleSelectDebug)
+EVT_MENU (GENMENU_OUTPUTCOMPRESS, genFrame::OnToggleOutputCompress)
 EVT_MENU (GENMENU_GRIDSNAP, genFrame::OnToggleGridSnap)
 EVT_CLOSE (genFrame::OnClose)
 END_EVENT_TABLE ()
@@ -358,6 +362,14 @@ genFrame::OnToggleSelectDebug (wxCommandEvent &pevt)
   configuration *config;
   config = (configuration *) & configuration::getInstance ();
   config->setValue ("pref-selectdebug", pevt.IsChecked());
+}
+
+void
+genFrame::OnToggleOutputCompress (wxCommandEvent &pevt)
+{
+  configuration *config;
+  config = (configuration *) & configuration::getInstance ();
+  config->setValue ("pref-outputcompress", pevt.IsChecked());
 }
 
 void

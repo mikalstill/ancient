@@ -53,8 +53,6 @@ public:
   wxView *m_view;
 
 private:
-  string controlBlob(unsigned int x, unsigned int y);
-  
   DECLARE_EVENT_TABLE () 
 
   wxFrame *m_frame;

@@ -17,7 +17,8 @@ object::object (int number, int generation):
 m_number (number),
 m_generation (generation),
 m_stream (NULL),
-m_changed(true)
+m_changed(true),
+m_height(-1)
 {
 }
 
@@ -26,6 +27,8 @@ object::object (const object & other)
   m_number = other.m_number;
   m_generation = other.m_generation;
   m_dictionary = other.m_dictionary;
+  m_commands = other.m_commands;
+  m_height = other.m_height;
 
   if (other.m_stream != NULL)
     {
@@ -357,12 +360,12 @@ object::getStreamLength ()
 }
 
 void
-object::appendCommand(string visible, string control)
+object::appendCommand(commandType cType, vector<wxPoint> controlPoints)
 {
   command cmd;
-  cmd.visible = visible;
-  cmd.control = control;
   cmd.unique = gUniqueSelection++;
+  cmd.controlPoints = controlPoints;
+  cmd.type = cType;
 
   m_commands.push_back(cmd);
   m_changed = true;
@@ -374,16 +377,47 @@ object::getCommandCount()
   return m_commands.size();
 }
 
-// TODO mikal: this might not be the most efficient way of doing this. What
-// about pushing each into Panda individually?
 string
-object::getCommandStream(int index, bool showControl)
+object::getCommandStream(int index)
 {
   if(index >= m_commands.size())
     return "";
 
-  return (showControl ? (m_commands[index].control + string("\n")) :
-    string("")) + m_commands[index].visible;
+  // This might cause problems with parsed PDFs
+  if(m_height == -1)
+    {
+      debug(dlError, "Unknown page height");
+      return "";
+    }
+  
+  string cmd("");
+  int count;
+  switch(m_commands[index].type)
+    {
+    case cLine:
+      if(m_commands[index].controlPoints.size() > 0)
+	{
+	  for(count = 0; count < m_commands[index].controlPoints.size(); count++)
+	    {
+	      cmd += toString(m_commands[index].controlPoints[count].x) +
+		string(" ") +
+		toString(m_height - m_commands[index].controlPoints[count].y) +
+		string(" ");
+	      if(count == 0)
+		cmd += "m\n";
+	      else
+		cmd += "l\n";
+	    }
+	  cmd += "S\n";
+	}
+      break;
+
+    default:
+      debug(dlError, "Unknown command type");
+      break;
+    }
+
+  return cmd;
 }
 
 int
@@ -393,4 +427,10 @@ object::getCommandId(int index)
     return -1;
 
   return m_commands[index].unique;
+}
+
+void
+object::setHeight(int height)
+{
+  m_height = height;
 }

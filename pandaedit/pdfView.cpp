@@ -425,8 +425,7 @@ pdfView::showColorDialog(string configTag)
 }
 
 void
-pdfView::appendCommand(string commandString, string controlString,
-		       string selectString)
+pdfView::appendCommand(object::commandType type, vector<wxPoint> points)
 {
   pdfDoc *theDoc = (pdfDoc *) GetDocument ();
   if(!theDoc->isReady()){
@@ -435,7 +434,20 @@ pdfView::appendCommand(string commandString, string controlString,
     return;
   }
 
-  theDoc->appendCommand(m_page, commandString, controlString, selectString);
+  theDoc->appendCommand(m_page, type, points);
+}
+
+void
+pdfView::setHeight(int height)
+{
+  pdfDoc *theDoc = (pdfDoc *) GetDocument ();
+  if(!theDoc->isReady()){
+    debug(dlTrace, 
+	  "Cannot set height with invalid document");
+    return;
+  }
+
+  theDoc->setHeight(m_page, height);
 }
 
 void
@@ -448,4 +460,10 @@ char *
 pdfView::getSelectRaster()
 {
   return m_selraster;
+}
+
+void
+pdfView::setHoverTarget(int target)
+{
+  m_hoverTarget = target;
 }

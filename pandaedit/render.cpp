@@ -69,14 +69,13 @@ pdfRender::render ()
   for(int cmdcnt = 0; cmdcnt < m_doc->getPage(m_pageno).getCommandCount();
       cmdcnt++)
     {
-      // TODO mikal: always shows control points for now
-      string cmd = m_doc->getPage(m_pageno).getCommandStream(cmdcnt, true);
-      int cmdid = m_doc->getPage(m_pageno).getCommandId(cmdcnt);
-      unsigned char c1, c2, c3;
-      mangle(cmdid, c1, c2, c3);
-
+      string cmd = m_doc->getPage(m_pageno).getCommandStream(cmdcnt);
       if(m_select)
 	{
+	  int cmdid = m_doc->getPage(m_pageno).getCommandId(cmdcnt);
+	  unsigned char c1, c2, c3;
+	  mangle(cmdid, c1, c2, c3);
+
 	  plot_setlinecolor(m_select, c1, c2, c3);
 	  plot_setfillcolor(m_select, c1, c2, c3);
 	}
@@ -177,7 +176,7 @@ pdfRender::processCommandString(char *commandString, unsigned int length,
   if(m_commandString != "")
     {
       debug(dlTrace, "Appending command fragment");
-      appendCommand(m_commandString, m_controlString);
+      appendCommand();
       m_commandString = "";
       m_controlString = "";
     }
@@ -451,10 +450,9 @@ pdfRender::getPNGfile ()
   return tempName;
 }
 
-// TODO mikal: Do we really need these arguments here? There are all passed
-// member variables
 void
-pdfRender::appendCommand(string commandString, string controlString)
+pdfRender::appendCommand()
 {
-  m_doc->getPage(m_pageno).appendCommand(commandString, controlString);
+  // TODO mikal: implement append
+  //m_doc->getPage(m_pageno).appendCommand(m_commandString, m_controlString);
 }

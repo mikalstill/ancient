@@ -64,6 +64,7 @@
 #include "verbosity.h"
 #include "stringArray.h"
 #include "dlgPageSize.h"
+#include "configuration.h"
 
 extern object gNoSuchObject;
 
@@ -105,7 +106,22 @@ pdfDoc::OnSaveDocument (const wxString & filename)
       return FALSE;
     }
 
-  // TODO mikal: compression left off for debugging...
+  // If the user has asked for output compression, then turn it on and set it
+  // to the highest level. This will take the most CPU to compress, but will
+  // result in the smallest documents.
+  bool outputCompressOn;
+  configuration *config;
+  config = (configuration *) & configuration::getInstance ();
+  config->getValue ("pref-outputcompress", false, outputCompressOn);
+  
+  if(outputCompressOn)
+    {
+      panda_setproperty (output->pages, panda_scope_cascade,
+                         panda_object_property_compress, panda_true);
+      panda_setproperty (output->pages, panda_scope_cascade,
+                         panda_object_property_compress_level, 9);
+    }
+
   debug(dlTrace, string("Saving ") + toString(m_pages.size()) +
 	string(" pages"));
   for(unsigned int count = 0; count < m_pages.size(); count++)
@@ -122,7 +138,7 @@ pdfDoc::OnSaveDocument (const wxString & filename)
 	  pg->contents->layoutstream = 
 	    panda_streamprintf(pg->contents->layoutstream,
 			       (char *) m_pages[count].
-			       getCommandStream(cmdcnt, false).c_str());
+			       getCommandStream(cmdcnt).c_str());
 	}
       debug(dlTrace, "Finished saving page");
     }
@@ -249,13 +265,22 @@ pdfDoc::getPages()
 }
 
 void
-pdfDoc::appendCommand(int pageNum, string commandString, string controlString,
-		      string selectString)
+pdfDoc::appendCommand(int pageNum, object::commandType type, 
+		      vector<wxPoint> points)
 {
   while(pageNum >= m_pages.size())
     appendPage();
 
-  m_pages[pageNum].appendCommand(commandString, controlString);
+  m_pages[pageNum].appendCommand(type, points);
+}
+
+void
+pdfDoc::setHeight(int pageNum, int height)
+{
+  while(pageNum >= m_pages.size())
+    appendPage();
+
+  m_pages[pageNum].setHeight(height);
 }
 
 void
@@ -334,6 +359,7 @@ pdfDoc::appendPage()
     di.setValue(string("[ 0 0 ") + toString(m_width) + string(" ") +
 		toString(m_height) + string(" ]"), false);
     newpage.getDict().add(di);
+    newpage.setHeight(m_height);
   }
 
   debug(dlTrace, "Adding the new page");

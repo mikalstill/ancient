@@ -71,8 +71,10 @@ public:
   void OnAboutDocument (wxCommandEvent & event);
 
   tool getCurrentTool();
-  void appendCommand(string command, string control, string select);
+  void setHeight(int height);
+  void appendCommand(object::commandType type, vector<wxPoint> points);
   char *getSelectRaster();
+  void setHoverTarget(int target);
 
 private:
   bool populatePageFromPDF(pdfDoc *theDoc, string& filename);
@@ -80,6 +82,7 @@ private:
 
   pageCache m_renders;
   int m_page;
+  int m_hoverTarget;
   bool m_dirty;
   string m_currentToolDesc;
   tool m_currentTool;

@@ -99,7 +99,7 @@ private:
   void render_w ();
   void render_y ();
 
-  void appendCommand(string commandString, string controlString);
+  void appendCommand();
 
   enum rmMode
   {

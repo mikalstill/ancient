@@ -114,7 +114,10 @@ genCanvas::OnMouseEvent (wxMouseEvent & event)
       if(demangled < 16777215)
 	{
 	  over += string(" over object id ") + toString(demangled);
+	  ((pdfView *) m_view)->setHoverTarget(demangled);
 	}
+      else
+	((pdfView *) m_view)->setHoverTarget(-1);
     }
 
   // If we're snapping to a grid, find the closest grid point, and change to
@@ -135,6 +138,7 @@ genCanvas::OnMouseEvent (wxMouseEvent & event)
     else pt.y -= ymod;
   }
 
+  // Tell the world what is happening
   string msg = toString(pt.x) + string(", ") + toString(pt.y) + 
     string(" of ") + toString(m_width) + string(", ") + toString(m_height) +
     over;
@@ -145,35 +149,11 @@ genCanvas::OnMouseEvent (wxMouseEvent & event)
   if(event.LeftIsDown() && event.ControlDown())
     {
       debug(dlTrace, "Tool instance ended, tool still selected");
-      string commandString(""), controlString(""), selectString("");
-
-      if(m_controlPoints.size() > 0){
-	// Start the line we are drawing
-	// TODO mikal: fixed line colour
-	commandString += "q\n0.0 1.0 0.0 RG\n";
-	commandString += toString(m_controlPoints[0].x) + string(" ") +
-	  toString(m_height - m_controlPoints[0].y) + string(" m\n");
-
-	// Create a control point blob
-	controlString += controlBlob(m_controlPoints[0].x,
-				     m_controlPoints[0].y);
-      }
-
-      for(unsigned int i = 1; i < m_controlPoints.size(); i++)
-	{
-	  commandString += toString(m_controlPoints[i].x) + string(" ") +
-	    toString(m_height - m_controlPoints[i].y) + string(" l\n");
-
-	  controlString += controlBlob(m_controlPoints[i].x,
-				       m_controlPoints[i].y);
-	}
-      if(m_controlPoints.size() > 0)
-	commandString += string("S\nQ\n\n");
-
       if(m_view)
 	{
-	  ((pdfView *) m_view)->appendCommand(commandString, controlString,
-					      selectString);
+	  ((pdfView *) m_view)->setHeight(m_height);
+	  ((pdfView *) m_view)->appendCommand(object::cLine,
+					      m_controlPoints);
 	  ((pdfView *) m_view)->setDirty();
 	  Refresh();
 	}
@@ -197,20 +177,6 @@ genCanvas::OnMouseEvent (wxMouseEvent & event)
 
       m_controlPoints.push_back(pt);
     }
-}
-
-string
-genCanvas::controlBlob(unsigned int x, unsigned int y)
-{
-  // TODO mikal: fixed blob colour
-  string rc("q\n1.0 0.0 0.0 RG\n");
-  for(unsigned int yc = y - CONTROLSIZE; yc < y + CONTROLSIZE + 1; yc++)
-    rc += toString(x - CONTROLSIZE) + string(" ") + toString(m_height - yc) + 
-      string(" m\n") +
-      toString(x + CONTROLSIZE) + string(" ") + toString(m_height - yc) + 
-      string(" l\nS\n");
-  rc += "Q\n";
-  return rc;
 }
 
 void

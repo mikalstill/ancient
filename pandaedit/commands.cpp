@@ -45,7 +45,7 @@ void
 pdfRender::command_BT ()
 {
   if (m_mode != rmText)
-    appendCommand(m_commandString, m_controlString);
+    appendCommand();
   m_commandString = "BT\n";
 }
 
@@ -103,7 +103,7 @@ pdfRender::command_Do ()
   arg = m_arguements.top ();
   m_arguements.pop ();
 
-  appendCommand(m_commandString, m_controlString);
+  appendCommand();
   m_commandString = arg + string(" Do\n");
 }
 
@@ -112,7 +112,7 @@ void
 pdfRender::command_ET ()
 {
   m_commandString += "ET\n";
-  appendCommand(m_commandString, m_controlString);
+  appendCommand();
   m_commandString = "";
   m_controlString = "";
 }
@@ -197,7 +197,7 @@ pdfRender::command_m ()
 void
 pdfRender::command_q ()
 {
-  appendCommand(m_commandString, m_controlString);
+  appendCommand();
   m_commandString = "q\n";
 }
 
@@ -206,7 +206,8 @@ void
 pdfRender::command_Q ()
 {
   m_commandString += "Q\n";
-  appendCommand(m_commandString, m_controlString);
+
+  appendCommand();
   m_commandString = "";
   m_controlString = "";
 }

@@ -16,12 +16,28 @@ using namespace std;
 #ifndef OBJECTMODEL_H
 #define OBJECTMODEL_H
 
+// Forward references
+class dictionary;
+class object;
+class objectlist;
+class pdf;
+
 enum
   {
     objNumNoSuch = -1,
     objNumAppended = -2
   };
 
+typedef struct
+{
+  int unique;
+  vector<wxPoint> controlPoints;
+
+  // I don't seem to be able to use object::commandType here, as it gets all
+  // circular in it's confusion
+  int type;
+}
+command;
 
 typedef struct
 {
@@ -29,21 +45,6 @@ typedef struct
   int generation;
 }
 objectreference;
-
-typedef struct
-{
-  string visible;
-  string control;
-  string select;
-  int unique;
-}
-command;
-
-// Forward references
-class dictionary;
-class object;
-class objectlist;
-class pdf;
 
 class dictitem
 {
@@ -124,6 +125,10 @@ public:
     object (const object & obj);
    ~object ();
 
+   enum commandType{
+     cLine = 0
+   };
+
   object operator= (const object & other);
 
   void addStream (char *stream, unsigned int streamLength);
@@ -143,10 +148,11 @@ public:
   char *getStream (raster & image, unsigned long &length);
   unsigned long getStreamLength ();
 
-  void appendCommand(string visible, string control);
+  void appendCommand(commandType type, vector<wxPoint> controlPoints);
   unsigned int getCommandCount();
-  string getCommandStream(int index, bool showControl);
+  string getCommandStream(int index);
   int getCommandId(int index);
+  void setHeight(int height);
 
 private:
   char *applyFilter(string filter, char *instream, unsigned long inlength, 
@@ -162,6 +168,7 @@ private:
   unsigned long m_streamLength;
   vector<command> m_commands;
   bool m_changed;
+  int m_height;
 
   dictionary m_dictionary;
 };
