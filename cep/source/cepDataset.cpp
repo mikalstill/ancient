@@ -152,33 +152,31 @@ cepError cepDataset::munch ()
 
 		  // Put the data into the dataset data thingies
 		  // todo_mikal: is there a more c++ way to tokenize a string?
-		  cep_datarow
-		    row;
-		  char *
-		    line;
-		  char *
-		    value;
+		  cep_datarow row;
+		  char * line;
+		  char * value;
 
 		  line = strdup (thisLine.c_str ());
-		  row.x.date =
+		  row.date =
 		    atof ((value =
 			   strtok (line, " ")) != NULL ? value : "-1");
-		  row.x.sample =
+		  row.sample =
 		    atof ((value =
 			   strtok (NULL, " ")) != NULL ? value : "-1");
-		  row.x.error =
+		  row.error =
 		    atof ((value =
 			   strtok (NULL, " ")) != NULL ? value : "-1");
 		  if (line != NULL)
 		    free (line);
 
-		  m_data.push_back (row);
+		  // todo_mikal: This should also be done for the other directions...
+		  m_datax.push_back (row);
 
 		  {
 		    cepError
 		    dbg ("Dataset line parsed to [" +
-			 ftoa (row.x.date) + ", " + ftoa (row.x.sample) +
-			 ", " + ftoa (row.x.error) + "]", cepError::sevDebug);
+			 ftoa (row.date) + ", " + ftoa (row.sample) +
+			 ", " + ftoa (row.error) + "]", cepError::sevDebug);
 		    dbg.display ();
 		  }
 
@@ -268,6 +266,7 @@ cepDataset cepDataset::doWindow (cepDataset dir, double winSize, double overlap)
      //preserving the original data vector
      //dataCopy = m_data;
 
+     // TODO mikal: How do we do this in a sensible manner? Perhaps a pointer?
      vector<cep_datarow>& datPointer;
      switch(direction) {
      case x: 
