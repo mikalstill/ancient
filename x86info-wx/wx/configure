@@ -1455,8 +1455,8 @@ echo "$as_me: error: source directory already configured; run \"make distclean\"
 fi
 
 # Define the identity of the package.
-PACKAGE=x86info-wx
-VERSION=0.1
+PACKAGE=x86info
+VERSION=1.11
 
 cat >>confdefs.h <<_ACEOF
 #define PACKAGE "$PACKAGE"

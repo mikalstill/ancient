@@ -1,5 +1,5 @@
 /*
- *  $Id: MSR-K6.c,v 1.1.1.1 2003-04-06 07:40:30 root Exp $
+ *  $Id: MSR-K6.c,v 1.2 2003-04-13 21:58:00 root Exp $
  *  This file is part of x86info.
  *  (C) 2001 Dave Jones.
  *
@@ -23,16 +23,18 @@ void dump_k6_MSR (struct cpudata *cpu)
 	if (!user_is_root)
 		return;
 
-	printf("\t\t\t\t31       23       15       7 \n");
+	output(msg_format, "\t\t\t\t31       23       15       7 \n");
 	dumpmsr(cpu->number, 0xC0000082, 32);
 
 	/* Original K6 or K6-2 (old core). */
 	if ((cpu->model < 8) || ((cpu->model==8) && (cpu->stepping <8))) {
 		if (read_msr (cpu->number, 0xC0000082, &val) == 1) {
-			printf ("Write allocate enable limit: %dMbytes\n", (int) ((val & 0x7e) >>1) * 4);
-			printf ("Write allocate 15-16M bytes: %s\n", val & 1 ? "enabled" : "disabled");
+			output (msg_waenable, "Write allocate enable limit: %dMbytes", 
+				(int) ((val & 0x7e) >>1) * 4);
+			output (msg_wambytes"Write allocate 15-16M bytes: %s", 
+				val & 1 ? "enabled" : "disabled");
 		} else {
-			printf ("Couldn't read WHCR register.\n");
+			output (msg_warning, "Couldn't read WHCR register.");
 		}
 	}
 
@@ -40,13 +42,15 @@ void dump_k6_MSR (struct cpudata *cpu)
 	if ((cpu->model > 8) || ((cpu->model==8) && (cpu->stepping>=8))) {
 		if (read_msr (cpu->number, 0xC0000082, &val) == 1) {
 			if (!(val & (0x3ff << 22)))
-				printf ("Write allocate disabled\n");
+				output (msg_waenable, "Write allocate disabled");
 			else {
-				printf ("Write allocate enable limit: %dMbytes\n", (int) ((val >> 22) & 0x3ff) * 4);
-				printf ("Write allocate 15-16M bytes: %s\n", val & (1<<16) ? "enabled" : "disabled");
+				output (msg_waenable, "Write allocate enable limit: %dMbytes", 
+					(int) ((val >> 22) & 0x3ff) * 4);
+				output (msg_wambytes, "Write allocate 15-16M bytes: %s", 
+					val & (1<<16) ? "enabled" : "disabled");
 			}
 		} else {
-			printf ("Couldn't read WHCR register.\n");
+			output (msg_warning, "Couldn't read WHCR register.");
 		}
 	}
 
@@ -54,26 +58,26 @@ void dump_k6_MSR (struct cpudata *cpu)
 	if ((cpu->family==5) && (cpu->model>=8)) {
 		if (read_msr (cpu->number, 0xC0000080, &val) == 1) {
 			if (val & (1<<0))
-				printf ("System call extension present.\n");
+				output (msg_syscallextn, "System call extension present.");
 			if (val & (1<<1))
-				printf ("Data prefetch enabled.\n");
+				output (msg_dataprefetch, "Data prefetch enabled.");
 			else
-				printf ("Data prefetch disabled.\n");
-			printf ("EWBE mode: ");
+				output (msg_dataprefetch, "Data prefetch disabled.");
+			output (msg_format, "EWBE mode: ");
 			switch ((val & (1<<2|1<<3|1<<4))>>2) {
-				case 0:	printf ("strong ordering (slowest performance)\n");
+				case 0:	output(msg_ewbemode, "strong ordering (slowest performance)");
 					break;
-				case 1:	printf ("speculative disable (close to best performance)\n");
+				case 1:	output(msg_ewbemode, "speculative disable (close to best performance)");
 					break;
-				case 2:	printf ("invalid\n");
+				case 2:	output(msg_ewbemode, "invalid");
 					break;
-				case 3:	printf ("global disable (best performance)\n");
+				case 3:	output(msg_ewbemode, "global disable (best performance)");
 					break;
 			}
 		} else {
-			printf ("Couldn't read EFER register.\n");
+			output (msg_warning, "Couldn't read EFER register.");
 		}
 	}
 
-	printf ("\n");
+	output (msg_format, "\n");
 }

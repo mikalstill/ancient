@@ -155,7 +155,14 @@ enum
     msg_cpuspeed,
     msg_standalone,
     msg_msr,
-    msg_mtrr
+    msg_mtrr,
+    msg_reportingbanks,
+    msg_waenable,
+    msg_wambytes,
+    msg_ewbemode,
+    msg_syscallextn,
+    msg_dataprefetch,
+    msg_datacache
   };
 void output(int level, char *format, ...);
 
