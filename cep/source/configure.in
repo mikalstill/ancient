@@ -85,7 +85,9 @@ case "$host" in
     LDFLAGS="$LDFLAGS -mimpure-text"
     echo "Setting Solaris compilation options";;
   *-*-linux*)
-    CPPFLAGS="$CPPFLAGS -fPIC -DPIC -D_REENTRANT -Wall -Werror"
+    CPPFLAGS="$CPPFLAGS -fPIC -DPIC -D_REENTRANT -Wall"
+    dnl be nice, don't file on warnings but inform the developers concerned
+    dnl CPPFLAGS="$CPPFLAGS -fPIC -DPIC -D_REENTRANT -Wall -Werror"
     echo "Setting Linux compilation options";;
   *-*-aix*)
     CPPFLAGS="$CPPFLAGS -D_THREAD_SAFE"
