@@ -4,6 +4,12 @@
 
     <glossentry><glossterm>GPS</glossterm>
       <glossdef><para>
+	   Geodetic Data Modeling System
+        </para></glossdef>
+    </glossentry>
+
+    <glossentry><glossterm>GPS</glossterm>
+      <glossdef><para>
 	   Global Positioning System
         </para></glossdef>
     </glossentry>
