@@ -59,6 +59,10 @@
 2002-05-20 Daniel Fernandez daniel.fernandez@ise.canberra.edu.au
 	added meeting minutes for weeks 13, 14, 15. Still more to come.
 
+2002-06-13 Daniel Fernandez daniel.fernandez@ise.canberra.edu.au
+	modified week13 minutes to include meeting with Peter Morgan
+	modified configure.in to to link fftw libraries
+	committed configure after re running autoconf
 	
 
 
