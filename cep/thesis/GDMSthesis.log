@@ -1,0 +1,119 @@
+Executing: builddb eps authorgroup.sgml < authorgroup.sgml
+Executing: builddb eps abstract.sgml < abstract.sgml
+Executing: builddb eps acknowledgments.sgml < acknowledgments.sgml
+Executing: builddb eps theory_intro.sgml < theory_intro.sgml
+Executing: builddb eps theory_TDA.sgml < theory_TDA.sgml
+Executing: img fTD-equ1.gif eps
+Img args: fTD-equ1.gif eps
+Converting fTD-equ1.gif -> gen-fTD-equ1.eps
+Executing convert -sample 320x280 fTD-equ1.gif gen-fTD-equ1.eps
+Executing: img fTD-equ2.gif eps
+Img args: fTD-equ2.gif eps
+Converting fTD-equ2.gif -> gen-fTD-equ2.eps
+Executing convert -sample 320x280 fTD-equ2.gif gen-fTD-equ2.eps
+Executing: img fTD-equ4.gif eps
+Img args: fTD-equ4.gif eps
+Converting fTD-equ4.gif -> gen-fTD-equ4.eps
+Executing convert -sample 320x280 fTD-equ4.gif gen-fTD-equ4.eps
+Executing: img fTD-equ5.gif eps
+Img args: fTD-equ5.gif eps
+Converting fTD-equ5.gif -> gen-fTD-equ5.eps
+Executing convert -sample 320x280 fTD-equ5.gif gen-fTD-equ5.eps
+Executing: img fTD-equ6.gif eps
+Img args: fTD-equ6.gif eps
+Converting fTD-equ6.gif -> gen-fTD-equ6.eps
+Executing convert -sample 320x280 fTD-equ6.gif gen-fTD-equ6.eps
+Executing: img fTD-equ7.gif eps
+Img args: fTD-equ7.gif eps
+Converting fTD-equ7.gif -> gen-fTD-equ7.eps
+Executing convert -sample 320x280 fTD-equ7.gif gen-fTD-equ7.eps
+Executing: img fTD-equ10.gif eps
+Img args: fTD-equ10.gif eps
+Converting fTD-equ10.gif -> gen-fTD-equ10.eps
+Executing convert -sample 320x280 fTD-equ10.gif gen-fTD-equ10.eps
+Executing: img fTD-equ12.gif eps
+Img args: fTD-equ12.gif eps
+Converting fTD-equ12.gif -> gen-fTD-equ12.eps
+Executing convert -sample 320x280 fTD-equ12.gif gen-fTD-equ12.eps
+Executing: img fTD-equ13.gif eps
+Img args: fTD-equ13.gif eps
+Converting fTD-equ13.gif -> gen-fTD-equ13.eps
+Executing convert -sample 320x280 fTD-equ13.gif gen-fTD-equ13.eps
+Executing: img fTD-equ14.gif eps
+Img args: fTD-equ14.gif eps
+Converting fTD-equ14.gif -> gen-fTD-equ14.eps
+Executing convert -sample 320x280 fTD-equ14.gif gen-fTD-equ14.eps
+Executing: img fTD-equ16.gif eps
+Img args: fTD-equ16.gif eps
+Converting fTD-equ16.gif -> gen-fTD-equ16.eps
+Executing convert -sample 320x280 fTD-equ16.gif gen-fTD-equ16.eps
+Executing: img fTD-equ17.gif eps
+Img args: fTD-equ17.gif eps
+Converting fTD-equ17.gif -> gen-fTD-equ17.eps
+Executing convert -sample 320x280 fTD-equ17.gif gen-fTD-equ17.eps
+Executing: img TD-boxplot.gif eps
+Img args: TD-boxplot.gif eps
+Converting TD-boxplot.gif -> gen-TD-boxplot.eps
+Executing convert -sample 320x280 TD-boxplot.gif gen-TD-boxplot.eps
+Executing: builddb eps theory_Interp.sgml < theory_Interp.sgml
+Executing: builddb eps theory_Window.sgml < theory_Window.sgml
+Executing: builddb eps theory_FDA.sgml < theory_FDA.sgml
+Executing: eqimg fSquareWave.gif eps
+Executing: eqimg fForward_fourier.gif eps
+Executing: eqimg fInverse_fourier.gif eps
+Executing: eqimg fForward_discrete_fourier.gif eps
+Executing: eqimg fInverse_discrete_fourier.gif eps
+Executing: img 50HzSin.bmp eps
+Img args: 50HzSin.bmp eps
+Converting 50HzSin.bmp -> gen-50HzSin.eps
+Executing convert -sample 320x280 50HzSin.bmp gen-50HzSin.eps
+Executing: img fft50HzSin.bmp eps
+Img args: fft50HzSin.bmp eps
+Converting fft50HzSin.bmp -> gen-fft50HzSin.eps
+Executing convert -sample 320x280 fft50HzSin.bmp gen-fft50HzSin.eps
+Executing: img gdms-cedu-res.png eps
+Img args: gdms-cedu-res.png eps
+Converting gdms-cedu-res.png -> gen-gdms-cedu-res.eps
+Executing convert -sample 320x280 gdms-cedu-res.png gen-gdms-cedu-res.eps
+Executing: img gdms-cedu-up-FFT.png eps
+Img args: gdms-cedu-up-FFT.png eps
+Converting gdms-cedu-up-FFT.png -> gen-gdms-cedu-up-FFT.eps
+Executing convert -sample 320x280 gdms-cedu-up-FFT.png gen-gdms-cedu-up-FFT.eps
+Executing: builddb eps theory_UI.sgml < theory_UI.sgml
+Executing: builddb eps imp_design.sgml < imp_design.sgml
+Executing: builddb eps imp_proto.sgml < imp_proto.sgml
+Executing: builddb eps imp_issues_TDA.sgml < imp_issues_TDA.sgml
+Executing: img TD-ReweightFlow.gif eps
+Img args: TD-ReweightFlow.gif eps
+Converting TD-ReweightFlow.gif -> gen-TD-ReweightFlow.eps
+Executing convert -sample 320x280 TD-ReweightFlow.gif gen-TD-ReweightFlow.eps
+Executing: builddb eps imp_issues_Interp.sgml < imp_issues_Interp.sgml
+Executing: builddb eps imp_issues_window.sgml < imp_issues_window.sgml
+Executing: img windowing.gif eps
+Img args: windowing.gif eps
+Converting windowing.gif -> gen-windowing.eps
+Executing convert -sample 320x280 windowing.gif gen-windowing.eps
+Executing: builddb eps imp_issues_FDA.sgml < imp_issues_FDA.sgml
+Executing: builddb eps imp_Templates.sgml < imp_Templates.sgml
+Executing: builddb eps imp_issues_UI.sgml < imp_issues_UI.sgml
+Executing: img sun-cde.gif eps
+Img args: sun-cde.gif eps
+Converting sun-cde.gif -> gen-sun-cde.eps
+Executing convert -sample 320x280 sun-cde.gif gen-sun-cde.eps
+Executing: img kde300-snapshot2-320x240.jpg eps
+Img args: kde300-snapshot2-320x240.jpg eps
+Converting kde300-snapshot2-320x240.jpg -> gen-kde300-snapshot2-320x240.eps
+Executing convert -sample 320x280 kde300-snapshot2-320x240.jpg gen-kde300-snapshot2-320x240.eps
+Executing: img gnome.png eps
+Img args: gnome.png eps
+Converting gnome.png -> gen-gnome.eps
+Executing convert -sample 320x280 gnome.png gen-gnome.eps
+Executing: img mfc-xp.jpg eps
+Img args: mfc-xp.jpg eps
+Converting mfc-xp.jpg -> gen-mfc-xp.eps
+Executing convert -sample 320x280 mfc-xp.jpg gen-mfc-xp.eps
+Executing: builddb eps imp_Testing.sgml < imp_Testing.sgml
+Executing: builddb eps docco.sgml < docco.sgml
+Executing: builddb eps conclusion.sgml < conclusion.sgml
+Executing: builddb eps glossary.sgml < glossary.sgml
+Executing: builddb eps references.sgml < references.sgml
