@@ -39,7 +39,10 @@
     
     where <command>X</command> is the corrections to the apriori estimates
     
-    TODO: NEED TO MAKE CORRECT X MATRIX!
+    <equation>
+      <title>Corrections to Apriori Matrix</title>
+      <execute><cmd>img</cmd><args>fTD-equ3.bmp</args></execute>
+    </equation>
     
     and <command>n</command> is the number of observations in the system. The <command>A</command> matrix is the know as the design
     matrix
@@ -128,11 +131,17 @@
     be weighted to zero. This model, however, has been known to unnaturally distort the data when applied to geodetic systems. 
     This is due to the fact that the data maybe skewed, that is where the third moment is 
     
-    EQUATION SKEWED
+    <equation>
+      <title>Skewness</title>
+      <execute><cmd>img</cmd><args>fTD-equskew.bmp</args></execute>
+    </equation>
     
     and/or affected by kurtosis where the forth moment is
     
-    EQUATION KURTOSIS
+    <equation>
+      <title>Kurtosis</title>
+      <execute><cmd>img</cmd><args>fTD-equkur.bmp</args></execute>
+    </equation>
     
     By applying this model, these anomalies will only be accentuated in the resulting linear regression model and either too many
     data points will be weighted less than zero (in the case of skewed data) or too few points will be weighted out (in the case of 
@@ -226,7 +235,7 @@
     
     <equation>
       <title>Weighting Matrix Equation 1a</title>
-      <execute><cmd>img</cmd><args>fTD-equ16.gif</args></execute>
+      <execute><cmd>img</cmd><args>fTD-equ16.bmp</args></execute>
     </equation>
     
     where <command>N</command> is given by
