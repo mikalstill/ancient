@@ -55,9 +55,18 @@ main (int argc, char *argv[])
     fprintf(stderr, "Cannot inflate the raster of the gnu image\n");
     exit(42);
   }
+  
+  // Shrink
   plot_overlayraster(graph, newgnu, 10, 10, 90, 90, gnux, gnuy);
   plot_setlinecolor(graph, 255, 0, 0);
   plot_rectangle(graph, 10, 10, 90, 90);
+  plot_strokeline(graph);
+  plot_endline(graph);
+
+  // Expand
+  plot_overlayraster(graph, newgnu, 100, 100, 900, 900, gnux, gnuy);
+  plot_setlinecolor(graph, 255, 0, 0);
+  plot_rectangle(graph, 100, 100, 900, 900);
   plot_strokeline(graph);
   plot_endline(graph);
 

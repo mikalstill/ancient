@@ -626,7 +626,7 @@ plot_drawpointactual (plot_state * state, plot_pixel color, int isLine, unsigned
   unsigned long ptr = state->x * y + x;
   int linedashcount;
 
-  if (ptr > state->maxptr)
+  if ((x > state->x) || (y > state->y))
     return;
   
   state->linedashcount++;
@@ -1599,16 +1599,11 @@ void plot_overlayraster(plot_state * state, char *raster,
   unsigned int x, y, ix, iy;
   plot_pixel *pixels = (plot_pixel *) raster;
   float xscale, xacc, yscale, yacc;
-  int xdir = 1, ydir = 1;
 
-  printf("Width = %d, new width = %d\n", rx, x2 - x1);
   xscale = ((float) (x2) - x1) / rx;
-  if(x2 - x1 < rx) xdir = -1;
-  printf("Height = %d, new height = %d\n", ry, y2 - y1);
   yscale = ((float) (y2) - y1) / ry;
-  if(y2 - y1 < ry) ydir = -1;
-
   yacc = 0.0;
+
   for(iy = 0, y = 0; y < ry; y++){
     yacc += yscale;
 
@@ -1618,18 +1613,14 @@ void plot_overlayraster(plot_state * state, char *raster,
       for(ix = 0, x = 0; x < rx; x++){
 	xacc += xscale;
 	while(xacc > 1.0){
-	  // The image is shrinking, so this is a pixel we add
-	  if(xdir == -1){
+	  if((y1 + iy < state->y) && (x1 +ix < state->x))
 	    state->raster[(y1 + iy) * state->x + x1 + ix] = pixels[y * rx + x];
-	    ix++;
-	  }
-	  else{
-	    printf("Do expansion\n");
-	  }
+	  ix++;
 	  
 	  xacc -= 1.0;
 	}
       }
+      
       yacc -= 1.0;
       iy++;
     }
