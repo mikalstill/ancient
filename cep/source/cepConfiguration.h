@@ -1,7 +1,11 @@
 /* 
  *   Imp for the CEP dataset
+ *
+ *   Copyright (C) Daniel Fernandez                 2002
  *   Copyright (C) Michael Still                    2002
  *   Copyright (C) Blake Swadling                   2002
+ *   Copyright (C) Kristy Van Der Vlist             2002
+ *   Copyright (C) Nick Wheatstone                  2002
  *   
  *   This program is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -16,7 +20,7 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-*/
+ */
 /******************************************************************************
 DOCBOOK START
 
@@ -113,7 +117,7 @@ using namespace std;
 /**A drop in replacement for the original cepConfiguration.
   *This implements a whiteboard pattern.
   *@author Blake Swadling
-  *@version $Revision: 1.17 $
+  *@version $Revision: 1.18 $
   */
 
 class cepConfiguration

@@ -2,9 +2,11 @@
  *   This file holds the logic for the various mathematical functions
  *   so that it can be used in multiple places
  *
- *   Copyright (C) Michael Still                    2002
  *   Copyright (C) Daniel Fernandez                 2002
+ *   Copyright (C) Michael Still                    2002
+ *   Copyright (C) Blake Swadling                   2002
  *   Copyright (C) Kristy Van Der Vlist             2002
+ *   Copyright (C) Nick Wheatstone                  2002
  *   
  *   This program is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by

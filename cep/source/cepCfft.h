@@ -1,6 +1,6 @@
-
-/*************************************************************************
- *cepCfft.h.
+/*
+ * cepCfft.h.
+ *
  * Template class to be used with GDMS for computing fast fourier transforms.
  * Originally code cepCfft.h or cplxfft.h taken from FXT (c) by Joerg Arndt,
  * see http://www.jjj.de/fxt/
@@ -20,11 +20,18 @@
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc., 675
  * Mass Ave, Cambridge, MA 02139, USA.
-
- * Original code: Copyright (c) by Joerg Arndt
- * Modifications: Copyright (C) Daniel Fernandez 2002
+ *
+ * Original code:
+ *   Copyright (c) by Joerg Arndt
+ * Modifications:
+ *   Copyright (C) Daniel Fernandez                 2002
+ *   Copyright (C) Michael Still                    2002
+ *   Copyright (C) Blake Swadling                   2002
+ *   Copyright (C) Kristy Van Der Vlist             2002
+ *   Copyright (C) Nick Wheatstone                  2002
+ *
  * Note: Modifications include the addition of Matrix capabilities; 
-         the reversal of sign, and results - (essentially conjugate) 
+ *       the reversal of sign, and results - (essentially conjugate)
  */
 
 /******************************************************************************
