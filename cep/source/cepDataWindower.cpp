@@ -65,7 +65,7 @@ const cepError cepDataWindower::setWindowType( const cepWindow &type, const int 
   size = sz;
   overlap=ol;
 
-  cout << "<setWindowType>: " << type.toString() << ", size="<<size<<" overlap="<<overlap <<endl;
+//  cout << "<setWindowType>: " << type.toString() << ", size="<<size<<" overlap="<<overlap <<endl;
   
   if( type == WINDOW_RECTANGULAR ) {
       delete windowAlg;
@@ -136,7 +136,7 @@ const cepError cepDataWindower::window( const cepMatrix<double> & dataIn,
 
 
   cepMatrix<double> coeffs = windowAlg->getCoeffs();                // scaling factors
-  cepMatrix<double> result( numWindows, windowAlg->getSize(), 3 );  // result. numwindows x windowSize x 2
+  cepMatrix<double> result( windowAlg->getSize(), 3, numWindows );  // result. numwindows x windowSize x 2
 
   int color = 1;
   for( int win = 0; win < numWindows; ++win ) {
@@ -151,10 +151,18 @@ const cepError cepDataWindower::window( const cepMatrix<double> & dataIn,
       }
       
       // copy the date directly & scale the value
-      // 0 is date, 1 is value
+      // 0 is date, 1 is value, 2 is the color hint
       result.setValue(element, 0, win, const_cast< cepMatrix<double>& >(dataIn).getValue( ptr, 0 ));
       result.setValue(element, 1, win, const_cast< cepMatrix<double>& >(dataIn).getValue( ptr, 1 )*coeffs.getValue(element,0));
-      result.setValue(element, 0, win, const_cast< cepMatrix<double>& >(dataIn).getValue( ptr, 2 ));
+      result.setValue(element, 2, win, color);
+      
+      cout << "scale=" << const_cast< cepMatrix<double>& >(dataIn).getValue( ptr, 0 )
+           << "(" << result.getValue(element, 0, win) << ")"
+           << "   value=" << const_cast< cepMatrix<double>& >(dataIn).getValue( ptr, 1 )*coeffs.getValue(element,0)
+           << "(" << result.getValue(element, 1, win) << ")"
+           << "   color=" << color
+           << "(" << result.getValue(element, 2, win) << ")"
+           << endl;
     }
   }
 
