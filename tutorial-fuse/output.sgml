@@ -55,19 +55,27 @@ The FUSE documentation lists the following filesystems as being currently releas
 <listitem><para><command>PhoneBook</command> -- PhoneBook is expressly designed for use in situations where someone can be under pressure (legal, military and/or criminal) to disclose decryption keys, and has a 'chaffing' scheme whereby the user can disclose only passphrases for non-sensitive material, and credibly deny the existence of anything else</para></listitem>
 <listitem><para><command>KIO Fuse Gateway</command> -- This gateway makes it possible to mount ioslaves or a general ioslave-gateway via fuse and make them this way available to all linux apps</para></listitem>
 </itemizedlist>
+</sect1>
+
+<sect1><title>Available language bindings</title>
+<para>
+The following languages are supported by the core FUSE distribution:
+</para>
+
+<itemizedlist>
+<listitem><para>C</para></listitem>
+<listitem><para>Perl</para></listitem>
+<listitem><para>Python</para></listitem>
+<listitem><para>Java</para></listitem>
+</itemizedlist>
 
 <para>
-========================================================
-content/fuse-languagebindings
---------------------------------------------------------
-TITLE: Language bindings for implementing your filesystem
+I can't vouch for the usability of any of the interfaces except for the C binding, as that is the only one which I have used. Someone looked into the Perl binding during OLS 2004 and seemed to think it was a little rusty, so you're going to need to research that futher before progressing.
+</para>
+</sect1>
 
-&lt;ul&gt;
-&lt;li&gt;C
-&lt;li&gt;Perl
-&lt;li&gt;Python
-&lt;li&gt;Java
-&lt;/ul&gt;
+<sect1><title>Why would you write a filesystem in userspace?</title>
+<para>
 
 
 ========================================================

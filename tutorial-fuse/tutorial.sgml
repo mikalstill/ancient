@@ -59,21 +59,23 @@ The FUSE documentation lists the following filesystems as being currently releas
 
 <sect1><title>Available language bindings</title>
 <para>
-...
+The following languages are supported by the core FUSE distribution:
 </para>
 
-<para>
-========================================================
-content/fuse-languagebindings
---------------------------------------------------------
-TITLE: Language bindings for implementing your filesystem
+<itemizedlist>
+<listitem><para>C</para></listitem>
+<listitem><para>Perl</para></listitem>
+<listitem><para>Python</para></listitem>
+<listitem><para>Java</para></listitem>
+</itemizedlist>
 
-&lt;ul&gt;
-&lt;li&gt;C
-&lt;li&gt;Perl
-&lt;li&gt;Python
-&lt;li&gt;Java
-&lt;/ul&gt;
+<para>
+I can't vouch for the usability of any of the interfaces except for the C binding, as that is the only one which I have used. Someone looked into the Perl binding during OLS 2004 and seemed to think it was a little rusty, so you're going to need to research that futher before progressing.
+</para>
+</sect1>
+
+<sect1><title>Why would you write a filesystem in userspace?</title>
+<para>
 
 
 ========================================================
