@@ -126,6 +126,11 @@ GetMainFrame (void);
 #define CEPBTN_DIR_CANCEL 31
 #define CEPBTN_READ_SUBMIT 32
 #define CEPBTN_READ_CANCEL 33
+#define CEPBTN_RATE_SUBMIT 34
+#define CEPBTN_RATE_CANCEL 35
+#define CEPBTN_ATT_SUBMIT 34
+#define CEPBTN_ATT_CANCEL 35
+
 
 extern bool singleWindowMode;
 

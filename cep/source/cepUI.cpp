@@ -435,7 +435,7 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
 
       ////
       interp_submenu = new wxMenu(wxMENU_TEAROFF);
-      interp_submenu->Append (CEPMENU_INTERP_NEAREST, "Nearest",
+      interp_submenu->Append (CEPMENU_INTERP_NEAREST, "Nearest Neighbour",
 			      "Nearest neighbour interpolation", FALSE);
 
       interp_submenu->Append (CEPMENU_INTERP_LINEAR, "Linear",
@@ -447,8 +447,8 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
       interp_submenu->Append (CEPMENU_INTERP_CUBICSPLINE, "Cubic Spline",
 			      "Cubic spline interpolation", FALSE);
       
-      interp_submenu->Append (CEPMENU_INTERP_DIVIDED, "Divided",
-			      "Divided interpolation", FALSE);
+      interp_submenu->Append (CEPMENU_INTERP_DIVIDED, "Newton Divided Difference",
+			      "Newton Divided Difference interpolation", FALSE);
       
       maths_menu->Append (CEPMENU_INTERP, "Interpolation", interp_submenu,
 			  "Dataset interpolation");
