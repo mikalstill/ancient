@@ -1,7 +1,14 @@
 #!/bin/bash
 
+if [ "%$1%" == "%%" ]
+then
+  path="/"
+else
+  path=$1
+fi
+
 logger "rsync-backup $$ Starting"
-for item in `find / -xdev -type f -name ".BACKUP" -print`
+for item in `find $path -xdev -type f -name ".BACKUP" -print`
 do
   echo "Seen $item"
   ldir=`echo $item | sed 's/.BACKUP//'`

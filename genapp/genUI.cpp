@@ -120,7 +120,7 @@ genApp::OnInit (void)
   frame =
     new genFrame ((wxDocManager *) m_docManager, (wxFrame *) NULL,
                   (const wxString)"genapp",
-                  wxPoint (0, 0), wxSize (100, 100),
+                  wxPoint (0, 0), wxSize (500, 500),
                   wxDEFAULT_FRAME_STYLE);
 
   // Give it an icon (this is ignored in MDI mode: uses resources)

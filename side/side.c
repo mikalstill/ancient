@@ -104,10 +104,6 @@ main (int argc, char *argv[])
   while ((inset[0] < sb[0].st_size) || (inset[1] < sb[1].st_size))
     {
       memset (line, ' ', LINEWIDTH);
-      line[LINEWIDTH] = '\0';
-      line[LINEWIDTH - 1] = '\n';
-      line[LINEWIDTH / 2] = '|';
-
       for (currfile = 0; currfile < 2; currfile++)
 	{
 	  if (inset[currfile] >= sb[currfile].st_size)
@@ -116,7 +112,7 @@ main (int argc, char *argv[])
 	    }
 	  else
 	    {
-	      while ((count[currfile]++ < (LINEWIDTH / 2) - 1) &&
+	      while ((count[currfile]++ < (LINEWIDTH / 2) - 10) &&
 		     (file[currfile][inset[currfile]] != '\n'))
 		{
 		  line[count[currfile] + (currfile * LINEWIDTH / 2) +
@@ -129,6 +125,10 @@ main (int argc, char *argv[])
 	  count[currfile] = 0;
 	  inset[currfile]++;
 	}
+      
+      line[LINEWIDTH] = '\0';
+      line[LINEWIDTH - 1] = '\n';
+      line[LINEWIDTH / 2] = '|';
 
       if (strncmp (line, line + (LINEWIDTH / 2) + 1, (LINEWIDTH / 2) - 2) ==
 	  0)

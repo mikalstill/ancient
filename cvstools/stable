@@ -8,19 +8,21 @@ my($LIST, $sb);
 open LIST, "ls |";
 while(<LIST>){
     chomp;
-    
-    $sb = stat($_);
-    printf "mtime %s: ", scalar localtime $sb->mtime;
-    
-    if(-e "$_/STABLE"){
-	print "$_ is stable\n";
-    }
-    else{
-	print "$_ is unstable";
 
+    if( -d $_ ){
+      $sb = stat($_);
+      printf "mtime %s: ", scalar localtime $sb->mtime;
+
+      if(-e "$_/STABLE"){
+	print "$_ is stable\n";
+      }
+      else{
+	print "$_ is unstable";
+	
 	if(-e "$_/ABOUT"){
-	    print " (but is released to the web)";
+	  print " (but is released to the web)";
 	}
 	print "\n";
+      }
     }
-}
+  }

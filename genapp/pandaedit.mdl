@@ -1,0 +1,2 @@
+# This is a sample genapp module for a PDF editor
+library="pandaeditor.so"

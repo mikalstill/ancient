@@ -77,12 +77,12 @@ bool genDoc::OnSaveDocument(const wxString& filename)
  
 bool genDoc::OnOpenDocument(const wxString& filename)
 {
-  // Actually create the dataset
   m_progressCount = 0;
   m_progress = new wxProgressDialog ("Loading module",
                                      "Please wait while the application behaviour module is loaded");
 
-  genBehaviourLoader myLoad(filename, m_progress);
+  // todo: implement progress dialog
+  //genBehaviourLoader myLoad(filename, NULL);
 
   // Cleanup
   delete m_progress;

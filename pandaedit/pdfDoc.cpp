@@ -225,6 +225,11 @@ pdfDoc::appendPage()
 	di.setValue("Pages");
 	newpages.getDict().add(di);
       }
+      {
+	dictitem di(dictitem::diTypeString, "Kids", m_pdf);
+	di.setValue("[ ]");
+	newpages.getDict().add(di);
+      }
       m_pdf->addObject(newpages);
 
       object newcatalog(objNumAppended, objNumAppended);

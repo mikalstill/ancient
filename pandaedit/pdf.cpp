@@ -160,12 +160,13 @@ pdf::appendPage(object& thePage)
     }
   
   objectlist footoo;
-  objectlist & kids;
-  if(!pages.getDict().getValue("Kids", *this, kids))
+  objectlist & kids = footoo;
+  if(!pages.getDict().getValue("Kids", ((pdf &) *this), kids))
     {
       debug(dlError, "Bad PDF for page append: No kids");
       return;
     }
+  debug(dlTrace, "Found kids list for page append operation");
 
-  kids.push_back(thePage, *this);
+  kids.push_back(thePage, this);
 }
