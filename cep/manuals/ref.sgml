@@ -13,7 +13,7 @@
     <para>
       When the application is first run, you are presented with a blank window with File 
       and Help menus. To open a data set, open the <command>File</command> menu and select
-      <command>Open</command>. This can also be done by using the keyboard shortcut 
+      <command>Open</command>. This can also be done by using the keyboard shortcut
       <command>CTRL-O</command>.
     </para>
 
@@ -116,9 +116,9 @@
         <sect5><title>Automatic Re-weighting</title>
           <para>
             When this option is presented, you are given the option of using the automatic
-            re-weighting feature. If you choose to use automatic reweighting then 
-            our agorithms will weight out any outliers in the dataset, then output a
-            least squares regression. The regression outputs two new data sets; the first shows 
+            re-weighting feature. If you choose to use automatic reweighting then
+            our algorithms will weight out any outliers in the dataset, then output a
+            least squares regression. The regression outputs two new data sets; the first shows
             the dataset with the least squares regression line with the weighted points
             rendered in a different colour. The second dataset loaded is the residuals, also with
             weighted out data points displayed in a different colour.
