@@ -1,6 +1,6 @@
 <sect1><title>Encrypting images</title>
 <para>
-DES in Electronic Code Book (ECB) mode is a particularly poor choice of cryptography for image files. This is because ECB mode implements a lookup table between the unencrypted value and the encrypted value. This results in a known input value turning into the same output value over and over. This can have some interesting bluring effects, but wont obscure the image contents. An example will help this make more sense -- the first figure is the logo for the company I am currently working for. I took this image, and ran it through some DES ECB code and produced the second figure.
+DES in Electronic Code Book (ECB) mode is a particularly poor choice of cryptography for image files. This is because ECB mode implements a look up table between the unencrypted value and the encrypted value. This results in a known input value turning into the same output value over and over. This can have some interesting blurring effects, but wont obscure the image contents. An example will help this make more sense -- the first figure is the logo for the company I am currently working for. I took this image, and ran it through some DES ECB code and produced the second figure.
 </para>
 
 <figure><title>The TOWER corporate logo</title>
@@ -13,22 +13,15 @@ DES in Electronic Code Book (ECB) mode is a particularly poor choice of cryptogr
 
 <para>
 You can see that whilst the image has certainly changed, the contents of the image has not really been obscured. 
-<execute><cmd>todo</cmd><input> more</input></execute>
+<execute><cmd>nextedition</cmd><input> more</input></execute>
 </para>
 
-<para>
-For those who have an excessive interest in code, I encrypted the TIFF image which is the TOWER logo with the code below...
-</para>
+<execute><cmd>nextedition</cmd><input>For those who have an excessive interest in code, I encrypted the TIFF image which is the TOWER logo with the code below...: crypto code</input></execute>
 
-<execute><cmd>todo</cmd><input>crypto code</input></execute>
-
-<para>
-What about encrypting an image of text? 
-<execute><cmd>todo</cmd><input> more</input></execute>
-</para>
+<execute><cmd>nextedition</cmd><input>What about encrypting an image of text?</input></execute>
 
 <para>
 We should note that ECB mode is not commonly used anyway. If you use something like PGP or blowfish, then you should be much happier... 
-<execute><cmd>todo</cmd><input> check this</input></execute>
+<execute><cmd>nextedition</cmd><input> check this</input></execute>
 </para>
 </sect1>
