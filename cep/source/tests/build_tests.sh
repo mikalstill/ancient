@@ -10,8 +10,8 @@ TEST_PREFIX=cep_test
 DEFINES="-D_GNU_SOURCE -D__WXGTK__ -D__CEP_UNIT_TEST__"
 CCFLAGS="-g -Wall"
 
-FILES="../cepLs.cpp ../cepDataWindower.cpp ../cepWindow*.cpp ../cepwindow*.cpp ../cepUtility.cpp"
-OBJS="../cepLs.o ../cepError.o ../cepDataWindower.o ../cepWindow*.o ../cepwindow*.o ../cepUtility.o"
+FILES="../cepLs.cpp ../cepDataWindower.cpp ../cepWindow*.cpp ../cepwindow*.cpp ../cepUtility.cpp ../cepDataset.cpp"
+OBJS="../cepLs.o ../cepError.o ../cepDataWindower.o ../cepWindow*.o ../cepwindow*.o ../cepUtility.o ../cepDataset.o"
 OBJS="$OBJS $TEST_PREFIX*.o"
 LIBS="-lcppunit -lm -lfl"
 
