@@ -8,10 +8,10 @@
     <para>From the outset it was decided that a testing regime was require to support debugging of subsytems and validation of
     mathematical routines. The basic requirements for the testing infrastructure were:
     <itemizedlist>
-    <listitem><para>Standardised testing for all developers</para></listitem>
-    <listitem><para>Automation to allow test execution with no user input</para></listitem>
-    <listitem><para>Simple test implementetion so as to minimise load placed on developers</para></listitem>
-    <listitem><para>The code must be released under the <command>GPL</command></para></listitem>
+    <listitem><para><emphasis>Standardised:</emphasis> for all developers</para></listitem>
+    <listitem><para><emphasis>Automated:</emphasis> to allow test execution with no user input</para></listitem>
+    <listitem><para><emphasis>Simple:</emphasis> so as to minimise load placed on developers</para></listitem>
+    <listitem><para><emphasis>GPL:</emphasis> The code must be released under the <command>GPL</command></para></listitem>
     </itemizedlist>
     </para>
   </sect2>

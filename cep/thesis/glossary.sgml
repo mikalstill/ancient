@@ -54,6 +54,12 @@
            Massachusetts Institute of Technology
         </para></glossdef>
     </glossentry>
+    
+    <glossentry><glossterm>NTB</glossterm>
+      <glossdef><para>
+           Normalised Transition Bandwidth. Used for tuning the Dolph-Chebyshev window
+        </para></glossdef>
+    </glossentry>
 
     <glossentry><glossterm>PSD</glossterm>
       <glossdef><para>

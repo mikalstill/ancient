@@ -11,14 +11,17 @@
   As previously stated, truncation of the signal in the time domain leads to unwanted ripples being produced in the frequency domain.
   The basic idea behind windowing the data prior to performing a fourier tranformation is that we can apply a weighting function
   to the sample in order to reduce the introduction of unwanted frequencies. This reduction is a trade off, and the cost is an
-  increase in the width of the spectral peak and leakage of energy away from the true frequency. Ideally we would like to have no
-  skirts, but the reality is that the best we can do is try to control them. The available windowing algorithms vary in their ability to control this
-  while trying to retain a fine specral peak. The attributes of each algoithm can be summarised as follows:
+  increase in the width of the spectral peak and leakage of energy away from the true frequency to the side lobe skirts.
+  This adversley effects the resolution with which we can observe the signal. We must strike a balance between spectral peak width
+  and the degree of high frequency attenuation. Ideally we would like to have no skirts, but in practice the best we can do is try to
+  control them. The available windowing algorithms vary in their ability to control this while trying to retain a fine specral peak.
+  The attributes of each algorithm can be summarised as follows:
   </para>
   <itemizedlist>
   <listitem><para><command>Hanning:</command></para>
      <para>
-       This algorithm provides good resolution of spectral peaks and good rejection of side lobe skirts. It is a good choice fr most applications.
+       This algorithm provides good resolution of spectral peaks and good rejection of side lobe skirts.
+       It is a good choice for most applications.
      </para>
   </listitem>
 
@@ -30,7 +33,8 @@
 
   <listitem><para><command>Blackman</command></para>
     <para>
-      Peak resolution is not as fine as Hanning, but the response shape flares out less at lower levels and rejection of side lobe skirts is better
+      Peak resolution is not as fine as Hanning, but the response shape flares out less at lower levels and rejection of side lobe skirts
+      is better.
     </para>
   </listitem>
 

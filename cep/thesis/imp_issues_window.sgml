@@ -62,7 +62,7 @@
      </itemizedlist>
    </para>
 
-   <sect4><title>Speed/Optimisations</title>
+   <sect4><title>Optimisation Issues</title>
    <para>
      Due to the simple nature of the majority of the algorithms in this module, speed is not generally an issue. With the exception
      of chebyshev, the most expensive calculation involves 2 cosine claculations and 4 multiplies. Since the size of the windows used
