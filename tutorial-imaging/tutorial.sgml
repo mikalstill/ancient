@@ -1,4 +1,4 @@
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V3.1//EN">
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
 <book><bookinfo>
 <title>AUUG 2002: Imaging Tutorial</title>
 <authorgroup>
@@ -34,18 +34,7 @@
 
 </chapter>
 
-<chapter id="chap-svg"><title>SVG</title>
-<para>
-...
-</para>
-
-<sect1><title>Further reading</title>
-<para>
-...
-</para>
-</sect1>
-
-</chapter>
+<execute><cmd>builddb.pl</cmd><input>svg.sgml</input></execute>
 
 <chapter id="chap-others"><title>Other raster image formats</title>
 <para>
@@ -122,12 +111,12 @@ DES in Electronic Code Book (ECB) mode is a particularly poor choice of cryptogr
 
 <figure>
 <title>The TOWER corporate logo</title>
-<graphic format="EPS" fileref="desecb-figure1.eps"></graphic>
+<graphic format="EPS" fileref="desecb-figure1.eps">
 </figure>
 
 <figure>
 <title>After ECB encryption</title>
-<graphic format="EPS" fileref="desecb-figure2.eps"></graphic>
+<graphic format="EPS" fileref="desecb-figure2.eps">
 </figure>
 
 <para>

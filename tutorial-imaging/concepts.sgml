@@ -1,96 +1,7 @@
 <chapter id="chap-concepts"><title>Imaging concepts</title>
 <para>
-There are some core terms which are used throughout this tutorial. This section defines these terms -- it's probably therefore worth bookmarking this section for reference throughout the rest of the day.
+There are some core terms which are used throughout this tutorial. This section defines these terms -- it's probably therefore worth bookmarking this section for reference throughout the rest of the day. This section presents these things in alphabetical order, for ease of reference.
 </para>
-
-<sect1><title>Rasters</title>
-<para>
-     <indexterm><primary>Raster</primary></indexterm>
-     <indexterm><primary>Image format</primary><secondary>raster</secondary></indexterm>
-The most common image format (and the focus of the majority of this tutorial) is raster image formats. Raster image formats are those which store the picture as a bitmap
-     <footnote><para>You can think of a bitmap as being simply an array of pixels. We'll talk more about this later</para></footnote>
-describing the state of pixels, as opposed to recording the length and locations of primatives such as lines and curves. Common examples include the output of photoshop, the gimp, scanners and digital cameras. Effectively, your monitor and printer are raster output devices.
-</para>
-
-<figure>
-<title>A sample raster image</title>
-<graphic format="EPS" fileref="raster-figure1.eps">
-</figure>
-
-<para>
-Raster image formats include TIFF, GIF, PNG, and most of the other formats in this tutorial. If in doubt, assume that it's a raster format unless I tell you otherwise.
-</para>
-
-<para>
-If we zoom in enough on a portion of this image, we can see that it is made up of descrete elements -- the pixels. 
-<execute><cmd>todo</cmd><input>falls off page</input></execute>
-</para>
-
-<figure>
-<title>Zooming in on a portion of the raster image</title>
-<graphic format="EPS" fileref="raster-figure2.eps">
-</figure>
-
-<execute><cmd>todo</cmd><input>fix_the_falling_off_the_page_problem</input></execute>
-
-<para>
-The code to produce this zoomed image is presented in the TIFF chapter of this tutorial.
-</para>
-
-</sect1>
-
-<sect1><title>Vector</title>
-<para>
-     <indexterm><primary>Vector</primary></indexterm>
-     <indexterm><primary>Image format</primary><secondary>vector</secondary></indexterm>
-Some images aren't raster images. These images are normally composed of primative drawing commands, such as draw a line, draw a circle, et cetera. The advantage of vector formats is that it is an exact representation of the image, they also scale much better. Examples of vector formats include Scalar Vector Graphics (SVG), Adobe Illustrator files, Windows Meta Files, and to a certain extent PDF documents. A plotter is a vector output device.
-</para>
-</sect1>
-
-<sect1><title>Pixel</title>
-<para>
-     <indexterm><primary>Pixel</primary></indexterm>
-A pixel is the lowest unit of raster image description -- in other words, a raster image is defined in terms of pixels. Example pixels can be seen in the discussion of rasters, elsewhere in this chapter.
-</para>
-</sect1>
-
-<sect1><title>Converting color to grayscale</title>
-<para>
-How do you convert color images to grayscale? Well, my instant answer when I first had to do this was to just average the red, green and blue values. That answer is wrong. The reality is that the human eye is much better at seeing some colors than others. To get an accurate grayscale representation, you need to apply different coefficients to the color samples. Appropraite coefficients are 0.299 for red, 0.587 for green and 0.114 for blue.</para>
-
-<para>
-Below I have included several pictures that illustrate this concept. The first figure is a color image
-  <footnote><para>Which may or may not give you joy, depending on if you are viewing this document in color or not</para></footnote>
-, the second is the color image converted to grayscale without the coefficients applied, and the third image is a correct grayscale rendition.
-</para>
-
-<figure>
-<title>The original image</title>
-<graphic format="EPS" fileref="grayscale-figure1.eps">
-</figure>
-
-<figure>
-<title>An average of the color values for each pixel</title>
-<graphic format="EPS" fileref="grayscale-figure2.eps">
-</figure>
-
-<figure>
-<title>A correct conversion to grayscale</title>
-<graphic format="EPS" fileref="grayscale-figure3.eps">
-</figure>
-
-<para>
-You can see that the sensible algorithm is better, have a look at the shadows on the hill and the trees in the background. The contrast and darkness of the second picture is might better than the averaging algorithm...
-</para>
-
-<para>
-The source code to generate these example images may be found in the TIFF chapter.
-</para>
-</sect1>
-
-<sect1><title>Anti-aliasing</title>
-<execute><cmd>todo</cmd><input>decribe</input></execute>
-</sect1>
 
 <sect1>
 <title>Terminology</title>
@@ -103,8 +14,7 @@ For color images, we need to store even more information. For each pixel we will
 </para>
 </sect1>
 
-
-
+<execute><cmd>insertall.sh</cmd><args>concept-*.sgml</args></execute>
 
 <sect1><title>Further reading</title>
 <para>

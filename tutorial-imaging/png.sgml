@@ -21,7 +21,7 @@ This chapter will focus on the libpng library. This isn't really a limitation, a
 
 <sect1><title>Introduction</title>
 <para>
-...
+<execute><cmd>todo</cmd><input>More content here</input></execute>
 
 A bunch of the examples in this chapter are based on the pngtools code I wrote a while ago, which I have updated as part of writing this chapter.
 </para>
@@ -35,25 +35,25 @@ Much of the discussion in this chapter will make a whole bunch more sense if you
 
 <sect1><title>Installation</title>
 <para>
-...
+<execute><cmd>todo</cmd><input>More content here</input></execute>
 </para>
 
 <sect2><title>Unix</title>
 <para>
-...
+<execute><cmd>todo</cmd><input>More content here</input></execute>
 </para>
 </sect2>
 
 <sect2><title>win32</title>
 <para>
-...
+<execute><cmd>todo</cmd><input>More content here</input></execute>
 </para>
 </sect2>
 </sect1>
 
 <sect1><title>The PNG on disc format</title>
 <para>
-...
+<execute><cmd>todo</cmd><input>More content here</input></execute>
 </para>
 </sect1>
 
@@ -81,7 +81,7 @@ In this example, we do everything we need to open a PNG image, without actually 
 
 <sect1><title>PNG tags</title>
 <para>
-...
+<execute><cmd>todo</cmd><input>More content here</input></execute>
 </para>
 
 <sect2><title>pnginfo</title>
@@ -99,15 +99,15 @@ To be honest, the libtiff man pages are much better than the documentation which
 
 <sect2><title>libpng</title>
 <para>
-...
+<execute><cmd>todo</cmd><input>More content here</input></execute>
 </para>
 
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/png/man/libpng.3</input><args>-s 3</args></execute>
+<execute><cmd>todo</cmd><input>source/png/man/libpng.3</input><args>-s 3</args></execute>
 </sect2>
 
 <sect2><title>libpng.txt</title>
 <para>
-...
+<execute><cmd>todo</cmd><input>More content here</input></execute>
 </para>
 
 <execute><cmd>text2db.pl</cmd><input>source/png/man/libpng.txt</input></execute>
@@ -116,13 +116,13 @@ To be honest, the libtiff man pages are much better than the documentation which
 
 <sect1><title>Conclusion</title>
 <para>
-...
+<execute><cmd>todo</cmd><input>More content here</input></execute>
 </para>
 </sect1>
 
 <sect1><title>Further reading</title>
 <para>
-...
+<execute><cmd>todo</cmd><input>More content here</input></execute>
 </para>
 </sect1>
 

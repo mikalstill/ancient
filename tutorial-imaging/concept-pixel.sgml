@@ -1,0 +1,7 @@
+<sect1><title>Pixel</title>
+<para>
+     <indexterm><primary>Pixel</primary></indexterm>
+A pixel is the lowest unit of raster image description -- in other words, a raster image is defined in terms of pixels. Example pixels can be seen in the discussion of rasters, elsewhere in this chapter.
+</para>
+</sect1>
+

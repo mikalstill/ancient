@@ -301,7 +301,7 @@ If you need more information about any of the libtiff function calls mentioned i
 
 <figure>
 <title>The Sydney Harbor Bridge, by Michael Still</title>
-<graphic format="EPS" fileref="tiff-figure1.eps"></graphic>
+<graphic format="EPS" fileref="tiff-figure1.eps">
 </figure>
 </sect2>
 </sect1>
@@ -321,12 +321,12 @@ Reading TIFF files reliably is much harder than writing them. The issue that com
 
 <figure>
 <title>The Sydney Harbor Bridge, in strips</title>
-<graphic format="EPS" fileref="tiff-figure2.eps"></graphic>
+<graphic format="EPS" fileref="tiff-figure2.eps">
 </figure>
 
 <figure>
 <title>The Sydney Harbor Bridge, in tiles</title>
-<graphic format="EPS" fileref="tiff-figure3.eps"></graphic>
+<graphic format="EPS" fileref="tiff-figure3.eps">
 </figure>
 
 <para>
@@ -407,12 +407,12 @@ There are several compression algorithms available within libtiff. How do you se
 
 <figure>
 <title>The picture before we compressed it</title>
-<graphic format="EPS" fileref="tiff-figure4.eps"></graphic>
+<graphic format="EPS" fileref="tiff-figure4.eps">
 </figure>
 
 <figure>
 <title>The sample text before we compressed it</title>
-<graphic format="EPS" fileref="tiff-figure5.eps"></graphic>
+<graphic format="EPS" fileref="tiff-figure5.eps">
 </figure>
 
 <para>
@@ -420,12 +420,12 @@ The code I used had a 'quality' rating of 25% on the JPEG compression, which is 
 
 <figure>
 <title>The picture after it has been recompressed 200 times</title>
-<graphic format="EPS" fileref="tiff-figure6.eps"></graphic>
+<graphic format="EPS" fileref="tiff-figure6.eps">
 </figure>
 
 <figure>
 <title>The text after it has been recompressed 200 times</title>
-<graphic format="EPS" fileref="tiff-figure7.eps"></graphic>
+<graphic format="EPS" fileref="tiff-figure7.eps">
 </figure>
 
 <para>
@@ -571,7 +571,7 @@ Anyway, now that I've nagged you, putting multiple images into one TIFF file is 
 
 <figure>
 <title>Four pictures of my son Andrew</title>
-<graphic format="EPS" fileref="tiff-figure8.eps"></graphic>
+<graphic format="EPS" fileref="tiff-figure8.eps">
 </figure>
 <execute><cmd>todo</cmd><input>quality_of_picture</input></execute>
 </sect1>
@@ -621,7 +621,7 @@ We should also probably know how to get to these images once we have more than o
 
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffcmp.1</input><args>-s 3</args></execute>
 
-<sidebar><title>Sample output</title>
+<sect3><title>Sample output</title>
 <para>
 <command>tiffcmp</command> shows the differences in tags between images, for example, when I compare the input and output images from the pixel example in this chapter:
 </para>
@@ -631,7 +631,7 @@ We should also probably know how to get to these images once we have more than o
 ImageWidth: 256 520
 [mikal@localhost tiff-pixels]$ 
 </programlisting>
-</sidebar>
+</sect3>
 </sect2>
 
 
@@ -651,25 +651,25 @@ ImageWidth: 256 520
 
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffdither.1</input><args>-s 3</args></execute>
 
-<sidebar><title>Sample output</title>
+<sect3><title>Sample output</title>
 <para>
 <command>tiffdither</command> takes gray scale images and dithers them into black and white images. For instance, the gray scale example from earlier in this tutorial produced the following image:
 </para>
 
 <figure>
 <title>The gray scale input image</title>
-<graphic format="EPS" fileref="tiff-figure9.eps"></graphic>
+<graphic format="EPS" fileref="tiff-figure9.eps">
 </figure>
 
 <para>
 This image, after being pushed through <command>tiffdither</command> looks something like:
-<para>
+</para>
 
 <figure>
 <title>The dithered output image</title>
-<graphic format="EPS" fileref="tiff-figure10.eps"></graphic>
+<graphic format="EPS" fileref="tiff-figure10.eps">
 </figure>
-</sidebar>
+</sect3>
 </sect2>
 
 
@@ -680,7 +680,7 @@ This image, after being pushed through <command>tiffdither</command> looks somet
 
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffdump.1</input><args>-s 3</args></execute>
 
-<sidebar><title>Sample output</title>
+<sect3><title>Sample output</title>
 <para>
 <command>tiffdump</command> shows you heaps of useful things about a TIFF image, basically anything stored in a tag. Some sample output is:
 </para>
@@ -703,7 +703,7 @@ StripByteCounts (279) LONG (4) 5&lt;8133 8174 8213 8134 5566&gt;
 PlanarConfig (284) SHORT (3) 1&lt;1&gt;
 [mikal@localhost tutorial-imaging]$ 
 </programlisting>
-</sidebar>
+</sect3>
 </sect2>
 
 
@@ -723,7 +723,7 @@ PlanarConfig (284) SHORT (3) 1&lt;1&gt;
 
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffinfo.1</input><args>-s 3</args></execute>
 
-<sidebar><title>Sample output</title>
+<sect3><title>Sample output</title>
 <para>
 <command>tiffinfo</command> is probably the most useful command which comes with libtiff... In normal operation, it shows you nicely formatted information about the TIFF image, like so:
 </para>
@@ -769,7 +769,7 @@ Strip 0:
  e4 e6 ea ee f1 f2 f1 ef f3 f3 f3 f2 f2 f2 f1 f1 f2 f1 f0 ef ee ed ec eb
  ... and so on
 </programlisting>
-</sidebar>
+</sect3>
 </sect2>
 
 
@@ -779,7 +779,10 @@ Strip 0:
 </para>
 
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffmedian.1</input><args>-s 3</args></execute>
+
+<sect3><title>Sample output</title>
 <execute><cmd>todo</cmd><input>Sample output</input></execute>
+</sect3>
 </sect2>
 
 
@@ -789,7 +792,9 @@ Strip 0:
 </para>
 
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffsplit.1</input><args>-s 3</args></execute>
+<sect3><title>Sample output</title>
 <execute><cmd>todo</cmd><input>Sample output</input></execute>
+</sect3>
 </sect2>
 
 
@@ -799,7 +804,9 @@ Strip 0:
 </para>
 
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffsv.1</input><args>-s 3</args></execute>
+<sect3><title>Sample output</title>
 <execute><cmd>todo</cmd><input>Sample output</input></execute>
+</sect3>
 </sect2>
 
 <sect2><title>tifftopnm</title>
@@ -808,7 +815,10 @@ Strip 0:
 </para>
 
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tifftopnm.1</input><args>-s 3</args></execute>
+
+<sect3><title>Sample output</title>
 <execute><cmd>todo</cmd><input>Sample output</input></execute>
+</sect3>
 </sect2>
 </sect1>
 
@@ -827,7 +837,6 @@ In one of the previous chapters I also promised to provide the source code for t
 
 <sect2><title>A broken algorithm</title>
 <execute><cmd>code2db.pl</cmd><input>~mikal/opensource/tiff-grayscale/gray-wrong.c</input></execute>
-</sect2>
 
 <para>
 Which produces:
@@ -835,12 +844,12 @@ Which produces:
 
 <figure>
 <title>An average of the color values for each pixel</title>
-<graphic format="EPS" fileref="grayscale-figure2.eps"></graphic>
+<graphic format="EPS" fileref="grayscale-figure2.eps">
 </figure>
+</sect2>
 
 <sect2><title>A sensible algorithm</title>
 <execute><cmd>code2db.pl</cmd><input>~mikal/opensource/tiff-grayscale/gray-good.c</input></execute>
-</sect2>
 
 <para>
 Which gives us:
@@ -848,11 +857,13 @@ Which gives us:
 
 <figure>
 <title>A correct conversion to gray scale</title>
-<graphic format="EPS" fileref="grayscale-figure3.eps"></graphic>
+<graphic format="EPS" fileref="grayscale-figure3.eps">
 </figure>
 
 <para>
 Now, just to justify that the second algorithm is better, have a look at the shadows on the hill and the trees in the background. The contrast and darkness of the second picture is might better than the averaging algorithm...
+</para>
+</sect2>
 </sect1>
 
 <sect1><title>Example: Repeated compression</title>
@@ -867,6 +878,7 @@ Earlier in this chapter I promised that I would include the code for the repeate
 <sect1><title>Conclusion</title>
 <para>
 In this chapter we've discussed how to program with libtiff for black and white, gray scale and color images. We haven't been through an exhaustive discussion of the possible settings, or all the calls available in libtiff, but you should be ready to start exploring further.
+</para>
 </sect1>
 
 

@@ -1,0 +1,33 @@
+<sect1><title>Grayscale conversion</title>
+<para>
+How do you convert color images to grayscale? Well, my instant answer when I first had to do this was to just average the red, green and blue values. That answer is wrong. The reality is that the human eye is much better at seeing some colors than others. To get an accurate grayscale representation, you need to apply different coefficients to the color samples. Appropraite coefficients are 0.299 for red, 0.587 for green and 0.114 for blue.</para>
+
+<para>
+Below I have included several pictures that illustrate this concept. The first figure is a color image
+  <footnote><para>Which may or may not give you joy, depending on if you are viewing this document in color or not</para></footnote>
+, the second is the color image converted to grayscale without the coefficients applied, and the third image is a correct grayscale rendition.
+</para>
+
+<figure>
+<title>The original image</title>
+<graphic format="EPS" fileref="grayscale-figure1.eps">
+</figure>
+
+<figure>
+<title>An average of the color values for each pixel</title>
+<graphic format="EPS" fileref="grayscale-figure2.eps">
+</figure>
+
+<figure>
+<title>A correct conversion to grayscale</title>
+<graphic format="EPS" fileref="grayscale-figure3.eps">
+</figure>
+
+<para>
+You can see that the sensible algorithm is better, have a look at the shadows on the hill and the trees in the background. The contrast and darkness of the second picture is might better than the averaging algorithm...
+</para>
+
+<para>
+The source code to generate these example images may be found in the TIFF chapter.
+</para>
+</sect1>

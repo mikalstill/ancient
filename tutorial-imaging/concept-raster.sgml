@@ -1,0 +1,34 @@
+<sect1><title>Rasters</title>
+<para>
+     <indexterm><primary>Raster</primary></indexterm>
+     <indexterm><primary>Image format</primary><secondary>raster</secondary></indexterm>
+The most common image format (and the focus of the majority of this tutorial) is raster image formats. Raster image formats are those which store the picture as a bitmap
+     <footnote><para>You can think of a bitmap as being simply an array of pixels. We'll talk more about this later</para></footnote>
+describing the state of pixels, as opposed to recording the length and locations of primatives such as lines and curves. Common examples include the output of photoshop, the gimp, scanners and digital cameras. Effectively, your monitor and printer are raster output devices.
+</para>
+
+<figure>
+<title>A sample raster image</title>
+<graphic format="EPS" fileref="raster-figure1.eps">
+</figure>
+
+<para>
+Raster image formats include TIFF, GIF, PNG, and most of the other formats in this tutorial. If in doubt, assume that it's a raster format unless I tell you otherwise.
+</para>
+
+<para>
+If we zoom in enough on a portion of this image, we can see that it is made up of descrete elements -- the pixels. 
+<execute><cmd>todo</cmd><input>falls off page</input></execute>
+</para>
+
+<figure>
+<title>Zooming in on a portion of the raster image</title>
+<graphic format="EPS" fileref="raster-figure2.eps">
+</figure>
+
+<execute><cmd>todo</cmd><input>fix_the_falling_off_the_page_problem</input></execute>
+
+<para>
+The code to produce this zoomed image is presented in the TIFF chapter of this tutorial.
+</para>
+</sect1>
