@@ -243,12 +243,142 @@ As you can see, there really isn't much to it.
 </para>
 
 <para>
-So how does the database look after an insert has occured? The following is a dump of a clean database which has had a table created, and then a single row inserted...
+Data for a given cell (the intersection of a specific row and column) is stored in the tdb key <emphasis>trivsql_</emphasis><command>tablename</command><emphasis>_col</emphasis><command>colnumber</command><emphasis>row</emphasis><command>rownumber</command>.
+</para>
+
+<para>
+So how does the database look after an insert has occured? The following is a dump of a clean database which has had a table created, and then a single row inserted using:
 </para>
 
 <programlisting>
+INSERT INTO foo (cola, colc) VALUES ('duck', 'chicken');
+</programlisting>
 
+<para>
+The tdbtool output will look like:
+</para>
 
+<programlisting>
+[mikal@localhost trivsql]$ tdbtool foodb.tdb
+tdb> dump
+
+key 17 bytes
+trivsql_foo_col1
+data 5 bytes
+[000] 63 6F 6C 62 00                                    colb 
+
+key 20 bytes
+trivsql_foo_numrows
+data 2 bytes
+[000] 31 00                                             1 
+
+key 17 bytes
+trivsql_foo_col2
+data 5 bytes
+[000] 63 6F 6C 63 00                                    colc 
+
+key 20 bytes
+trivsql_foo_numcols
+data 2 bytes
+[000] 33 00                                             3 
+
+key 21 bytes
+trivsql_foo_col0row0
+data 5 bytes
+[000] 64 75 63 6B 00                                    duck 
+
+key 21 bytes
+trivsql_foo_col2row0
+data 8 bytes
+[000] 63 68 69 63 6B 65 6E 00                           chicken 
+
+key 17 bytes
+trivsql_foo_col0
+data 5 bytes
+[000] 63 6F 6C 61 00                                    cola 
+tdb> quit
+[mikal@localhost trivsql]$
+</programlisting>
+
+<para>
+Just to prove that the database does handle multiple rows and important things like that, I took a clean database and executed the following:
+</para>
+
+<programlisting>
+CREATE TABLE foo (cola, colb, colc);
+INSERT INTO foo (cola, colc) VALUES ('duck', 'chicken');
+INSERT INTO foo (cola, colb) VALUES ('hamster', 'gerbil');
+INSERT INTO foo (cola, colb, colc) VALUES ('red', 'green', 'blue');
+</programlisting>
+
+<para>
+Which produced the following set of trivsql keys in the tdb...
+</para>
+
+<programlisting>
+[mikal@localhost trivsql]$ tdbtool foodb.tdb
+tdb> dump
+
+key 17 bytes
+trivsql_foo_col1
+data 5 bytes
+[000] 63 6F 6C 62 00                                    colb 
+
+key 20 bytes
+trivsql_foo_numrows
+data 2 bytes
+[000] 33 00                                             3 
+
+key 17 bytes
+trivsql_foo_col2
+data 5 bytes
+[000] 63 6F 6C 63 00                                    colc 
+
+key 21 bytes
+trivsql_foo_col0row2
+data 4 bytes
+[000] 72 65 64 00                                       red 
+
+key 21 bytes
+trivsql_foo_col1row2
+data 6 bytes
+[000] 67 72 65 65 6E 00                                 green 
+
+key 21 bytes
+trivsql_foo_col0row1
+data 8 bytes
+[000] 68 61 6D 73 74 65 72 00                           hamster 
+
+key 21 bytes
+trivsql_foo_col2row2
+data 5 bytes
+[000] 62 6C 75 65 00                                    blue 
+
+key 20 bytes
+trivsql_foo_numcols
+data 2 bytes
+[000] 33 00                                             3 
+
+key 21 bytes
+trivsql_foo_col1row1
+data 7 bytes
+[000] 67 65 72 62 69 6C 00                              gerbil 
+
+key 21 bytes
+trivsql_foo_col0row0
+data 5 bytes
+[000] 64 75 63 6B 00                                    duck 
+
+key 21 bytes
+trivsql_foo_col2row0
+data 8 bytes
+[000] 63 68 69 63 6B 65 6E 00                           chicken 
+
+key 17 bytes
+trivsql_foo_col0
+data 5 bytes
+[000] 63 6F 6C 61 00                                    cola 
+tdb> quit
 </programlisting>
 </sect3>
 

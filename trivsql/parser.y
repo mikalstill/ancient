@@ -164,7 +164,24 @@ void trivsql_doinsert(char *tname, char *cols, char *vals){
     return;
   }
 
-  
+  // Save each column value
+  c = strtok(vals, ";");
+  col = 0;
+  while(c != NULL){
+    t = trivsql_xsnprintf("trivsql_%s_col%drow%d", tname, colNumbers[col], rowNumber);
+    trivsql_dbwrite(gState, t, c);
+    trivsql_xfree(t);
+    
+    c = strtok(NULL, ";");
+    col++;
+  }
+
+  // And we should keep count of how many of the rows are in the table
+  t = trivsql_xsnprintf("trivsql_%s_numrows", tname);
+  u = trivsql_xsnprintf("%d", rowNumber + 1);
+  trivsql_dbwrite(gState, t, u);
+  trivsql_xfree(t);
+  trivsql_xfree(u);
 }
 
 int trivsql_doselect(trivsql_state *state,
