@@ -12,7 +12,8 @@
 # Command line arguements:
 # -t (list of if arguements to consider true)     NOT IMPLEMENTED YET
 # -f (list of if arguements to consider false)    NOT IMPLEMENTED YET
-# -s <no>                                         The starting section number in the document (for ease of embedding into others)
+# -s <no>                                         The starting section number in the document 
+#                                                   (for ease of embedding into others)
 
 use strict;
 my($INPUT, $PREPROC, $outputstyle);
@@ -25,7 +26,7 @@ my(@inline, @outline, $linemax, $count);
 # todo: fix this hack
 $firstsectnum = $ARGV[1] - 1;
 if($firstsectnum eq ""){
-    $firstsectnum = 0;
+    $firstsectnum = 1;
 }
 
 $linecount = 0;

@@ -68,9 +68,14 @@ sub process($){
 	    $cmd =~ s/.*<cmd>//;
 	    $cmd =~ s/<\/cmd>.*//;
 	    
-	    if($cmd ne "todo"){
-		$cmdstr = "$cmd $arg";
-		
+	    if(($cmd ne "todo") && ($cmd ne "nextedition")){
+		if($arg ne ""){
+		    $cmdstr = "$cmd $arg";
+		}
+		else{
+		    $cmdstr = "$cmd";
+		}
+
 		if($input ne ""){
 		    if($exblock ne "postexecute"){
 			$cmdstr = "$cmdstr $input < $input";
@@ -88,15 +93,19 @@ sub process($){
 		    $cmdstr = "$cmdstr > $output";
 		}
 		
-		print STDERR "Executing command: $cmd\n";
+		print STDERR "Executing command: $cmdstr\n";
 		print $OUTPTR `$cmdstr`;
 	    }
-	    else{
+	    elsif($cmd eq "todo"){
 		print $OUTPTR "<figure>\n";
 		print $OUTPTR "<title>$input</title>\n";
 		print $OUTPTR "<graphic format=\"EPS\" fileref=\"todo.eps\">\n";
 		print $OUTPTR "</figure>\n";
 	    }
+	    elsif($cmd eq "nextedition"){
+		print STDERR "Item for next edition found\n";
+	    }
+
 	    print $OUTPTR "$3";
 	}
 	else{
