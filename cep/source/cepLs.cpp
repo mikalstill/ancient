@@ -791,24 +791,15 @@ void cepLs::makeDatasets(cepMatrix<double> &data, cepMatrix<double> &matP)
 
     if(matP.getValue(i,i) == 0)
     {
-      newResiduals.setValue(i,1, 0);
-      
+      newResiduals.setValue(i,1, 0);     
       newDataset.setValue(i, 3, 2);
       newResiduals.setValue(i, 3, 2);
     }
     else
     {
       newResiduals.setValue(i,1, m_residual.getValue(i, 0));
-      if(matP.getValue(i,i) == 1)
-      {
-        newDataset.setValue(i, 3, 1);
-        newResiduals.setValue(i, 3, 1);
-      }
-      else
-      {
-        newDataset.setValue(i, 3, 3);
-        newResiduals.setValue(i, 3, 3);
-      }
+      newDataset.setValue(i, 3, 1);
+      newResiduals.setValue(i, 3, 1);
     }
   }
   m_residData = newResiduals;
