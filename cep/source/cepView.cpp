@@ -484,6 +484,7 @@ void cepView::OnViewCentered(wxCommandEvent& event)
       m_config->setValue("ui-viewmenu-currentview",
 			 cepPresentation::viewCentered);
       m_dirty = true;
+      canvas->Refresh();
     }
   }
 }
@@ -500,6 +501,7 @@ void cepView::OnViewZoomed(wxCommandEvent& event)
       m_config->setValue("ui-viewmenu-currentview",
 			 cepPresentation::viewZoomed);
       m_dirty = true;
+      canvas->Refresh();
     }
   }
 }
