@@ -76,7 +76,7 @@ RANLIB = @RANLIB@
 VERSION = @VERSION@
 
 noinst_PROGRAMS = sample
-sample_SOURCES = cepMain.cpp cepError.cpp cepDataset.cpp cepUtility.cpp cepPresentation.cpp cepDate.cpp cepWindows.cpp
+sample_SOURCES = cepMain.cpp cepError.cpp cepDataset.cpp cepUtility.cpp cepPresentation.cpp cepDate.cpp
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
 CONFIG_CLEAN_FILES = 
@@ -88,7 +88,7 @@ CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 sample_OBJECTS =  cepMain.o cepError.o cepDataset.o cepUtility.o \
-cepPresentation.o cepDate.o cepWindows.o
+cepPresentation.o cepDate.o
 sample_LDADD = $(LDADD)
 sample_DEPENDENCIES = 
 sample_LDFLAGS = 
@@ -105,8 +105,7 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 TAR = gtar
 GZIP_ENV = --best
 DEP_FILES =  .deps/cepDataset.P .deps/cepDate.P .deps/cepError.P \
-.deps/cepMain.P .deps/cepPresentation.P .deps/cepUtility.P \
-.deps/cepWindows.P
+.deps/cepMain.P .deps/cepPresentation.P .deps/cepUtility.P
 SOURCES = $(sample_SOURCES)
 OBJECTS = $(sample_OBJECTS)
 

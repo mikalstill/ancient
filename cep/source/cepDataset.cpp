@@ -79,7 +79,7 @@ cepDataset::munch ()
 
       // Skip the first three lines -- it seems that fstream has no equivalent
       // of fgets(), which will mind the newlines for me...
-      char c = 0, prevc;
+      char c = 0, prevc = '\n';
       lines[i] = 0;
       string thisLine ("");
 
@@ -90,7 +90,17 @@ cepDataset::munch ()
 	  // We skip the first three lines of the file
 	  if ((lines[i] > 3) && (c != 'r') && (c != '\n'))
 	    {
-	      if (!isblank (c) && !isblank (prevc))
+	      if (isblank (c))
+		{
+		  if(prevc == '\n')
+		    {
+		    }
+		  else
+		    {
+		      thisLine += "~" + itoa(prevc) + "~";
+		    }
+		}
+	      else
 		{
 		  thisLine += c;
 		}
@@ -108,6 +118,21 @@ cepDataset::munch ()
 				cepError::sevDebug);
 		  dbg.display ();
 		  thisLine = "";
+
+		  // Put the data into the dataset data thingies
+		  // todo_mikal: is there a more c++ way to tokenize a string?
+		  cep_datarow row;
+		  char *line;
+		  char *value;
+		  
+		  line = strdup(thisLine.c_str());
+		  row.x.date = atof((value = strtok(line, " ")) != NULL ? value : "0");
+		  row.x.sample = atof((value = strtok(line, " ")) != NULL ? value : "0");
+		  row.x.error = atof((value = strtok(line, " ")) != NULL ? value : "0");
+		  if(line != NULL)
+		    free(line);
+
+		  m_data.push_back(row);
 		}
 	      else
 		{

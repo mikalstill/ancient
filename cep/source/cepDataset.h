@@ -20,9 +20,23 @@
 #ifndef CEP_DATASET_HEADER
 #define CEP_DATASET_HEADER
 
+#include <vector>
+
 class cepError;
 
 typedef void (*cepDatasetProgressCB) (int plane, long lineno);
+
+typedef struct cep_internal_datadirection
+{
+  float date;
+  float sample;
+  float error;
+} cep_datadirection;
+
+typedef struct cep_internal_datarow
+{
+  cep_datadirection x, y, z;
+} cep_datarow;
 
 class cepDataset
 {
@@ -36,9 +50,9 @@ public:
   cepError munch ();
 
 private:
-    string m_filename;
+  string m_filename;
   cepDatasetProgressCB m_progress;
-  // todo_mikal: we need to store the data in a two dimension vector
+  vector<cep_datarow> m_data;
 };
 
 #endif
