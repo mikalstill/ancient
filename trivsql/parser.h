@@ -11,6 +11,9 @@
 #define	STRING	264
 #define	WHERE	265
 #define	LIKE	266
+#define	ALTER	267
+#define	ADD	268
+#define	COLUMN	269
 
 
 extern YYSTYPE yylval;

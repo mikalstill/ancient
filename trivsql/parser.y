@@ -10,10 +10,11 @@
 %token CREATE TABLE 
 %token INSERT VALUES INTO
 %token SELECT FROM STRING WHERE LIKE
+%token ALTER ADD COLUMN
 
 %%
 
-sql      : create sql | insert sql | sel sql
+sql      : create sql | insert sql | sel sql | alt sql
          |
          ;
 
@@ -27,6 +28,10 @@ insert   : INSERT INTO STRING '(' colvalspec ')' VALUES '(' colvalspec ')' ';'
 
 sel      : SELECT cvsaster FROM STRING selector ';'
 { gState->rs = trivsql_makers((char *) $4); gState->rs->errno = trivsql_checktable((char *) $4); if(gState->rs->errno == TRIVSQL_FALSE){trivsql_doselect((char *) $4, (char *) $2);}}
+         ;
+
+alt      : ALTER STRING ADD COLUMN STRING ';'
+{ gState->rs = trivsql_makers((char *) $2); gState->rs->errno = trivsql_checktable((char *) $2); if(gState->rs->errno == TRIVSQL_FALSE){trivsql_doalter((char *) $2, (char *) $5);}}
          ;
 
 cvsaster : colvalspec { $$ = trivsql_xsnprintf("%s", (char *) $1); }

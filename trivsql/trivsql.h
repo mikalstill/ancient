@@ -64,6 +64,7 @@ trivsql_state *trivsql_init(char *);
 void trivsql_docreate(char *, char *);
 void trivsql_doinsert(char *, char *, char *);
 void trivsql_doselect(char *, char *);
+void trivsql_doalter(char *, char *);
 
 int *trivsql_parsecols(char *, char *, int *);
 int trivsql_findcol(char *, char *, char *);

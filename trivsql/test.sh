@@ -29,12 +29,14 @@ verify "CREATE TABLE foo (cola, colb, colc);" create001
 verify "CREATE TABLE hyphen-hyphen (hyphen-col);" create002
 verify "CREATE TABLE mIxEdCaSe (cola);" create003
 verify "CREATE TABLE singlecol ('foo');" create004
+verify "CREATE TABLE cepConfig (version);" create005
 
 if [ "%$1%" = "%create%" ]
 then
   exit
 fi
 
+echo ""
 echo "Insert into table"
 verify "INSERT INTO foo (cola, colb, colc) VALUES ('duck', 'chicken', 'frog');" insert001
 verify "INSERT INTO foo (cola, colb) VALUES ('duck', 'hamster');" insert002
@@ -57,3 +59,10 @@ verify "SELECT * FROM foo;" sel002
 verify "SELECT cola, colc FROM foo;" sel003
 verify "SELECT cola, colb, colc FROM foo WHERE cola = 'duck';" sel004
 verify "SELECT * FROM nosuchtable;" sel005
+
+echo ""
+echo "Alter tests"
+verify "ALTER foo ADD COLUMN cold;" alter001
+verify "SELECT * FROM foo;" alter002
+verify "INSERT INTO foo (cola, cold) VALUES('duck', 'gerkin');" alter003
+verify "SELECT * FROM foo;" alter002

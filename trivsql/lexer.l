@@ -16,8 +16,11 @@
 [Ff][Rr][Oo][Mm]                           { return FROM; }
 [Ww][Hh][Ee][Rr][Ee]                       { return WHERE; }
 [Ll][Ii][Kk][Ee]                           { return LIKE; }
+[Aa][Ll][Tt][Ee][Rr]                       { return ALTER; }
+[Aa][Dd][Dd]                               { return ADD; }
+[Cc][Oo][Ll][Uu][Mm][Nn]                   { return COLUMN; }
 
-[a-zA-Z0-9%\-]+                              { yylval = trivsql_xsnprintf("%s", yytext); return STRING; }
+[a-zA-Z0-9%\-]+                            { yylval = trivsql_xsnprintf("%s", yytext); return STRING; }
 [ \t\r\n]                                  { }
 .                                          { return yytext[0]; }
 
