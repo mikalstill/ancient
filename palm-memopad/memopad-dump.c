@@ -75,7 +75,15 @@ int main(int argc, char *argv[]){
 void memopad_displaystring(FILE *input, char *format){
   int i;
 
+  // Determine the length of the file -- this matches C++ CString serialization
   i = fgetc(input);
+  if(i == 0xFF){
+    i = memopad_displayshort(input, "  Length might be a short: ");
+    if(i == 0xFFFF){
+      i = memopad_displayinteger(input, "  Length might be an integer: ");
+    }
+  }
+
   printf(format, i);
   for(; i != 0; i--){
     printf("%c", fgetc(input));

@@ -116,7 +116,7 @@ int main(int argc, char *argv[]){
 	exit (0);
       }
     
-    contents = memopad_xsnprintf("File: %s\n%s", argv[rcnt + 1], data);
+    contents = memopad_xsnprintf("File: %s\r\n%s", argv[rcnt + 1], data);
     memopad_insertstring(output, contents);
     memopad_xfree(contents);
     munmap(data, statbuf.st_size);
@@ -133,7 +133,23 @@ int main(int argc, char *argv[]){
 }
 
 void memopad_insertstring(FILE *output, char *string){
-  fprintf(output, "%c%s", strlen(string), string);
+  int len = strlen(string);
+
+  if(len < 0xFF){
+    fprintf(output, "%c", len);
+  }
+  else if(len < 0xFFFE){
+    fprintf(output, "%c", 0xFF);
+    memopad_insertshort(output, len);
+  }
+  else{
+    fprintf(output, "%c", 0xFF);
+    fprintf(output, "%c", 0xFF);
+    fprintf(output, "%c", 0xFF);
+    memopad_insertinteger(output, len);
+  }
+
+  fprintf(output, "%s", string);
 }
 
 void memopad_insertinteger(FILE *output, int value){
