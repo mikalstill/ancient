@@ -26,6 +26,15 @@ extern "C"
 
 typedef int (*trivsql_selectorfunc) (char *arg1, char *arg2);
 
+typedef struct trivsql_internal_seltreenode
+{
+  char *selArgOne;
+  char *selArgTwo;
+  trivsql_selectorfunc selector;
+
+  struct trivsql_internal_seltreenode *left, *right;
+} trivsql_seltreenode;
+
 typedef struct trivsql_internal_col
 {
   char *val;
@@ -55,10 +64,11 @@ typedef struct trivsql_internal_rs
 typedef struct trivsql_internal_state
 {
   TDB_CONTEXT *db;
+  trivsql_recordset *rs;
+  
   char *selArgOne;
   char *selArgTwo;
   trivsql_selectorfunc selector;
-  trivsql_recordset *rs;
 } trivsql_state;
 
 // Internal functions

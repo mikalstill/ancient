@@ -100,8 +100,8 @@ static const short yyrhs[] = {    26,
 
 #if YYDEBUG != 0
 static const short yyrline[] = { 0,
-    18,    18,    18,    18,    18,    19,    22,    26,    30,    34,
-    38,    42,    43,    46,    47,    50,    51,    52,    55,    56
+    18,    18,    18,    18,    18,    19,    24,    28,    32,    36,
+    40,    46,    47,    50,    51,    54,    55,    56,    59,    60
 };
 #endif
 
@@ -720,59 +720,59 @@ yyreduce:
   switch (yyn) {
 
 case 7:
-#line 23 "parser.y"
+#line 25 "parser.y"
 { gState->rs = trivsql_makers((char *) yyvsp[-4]); trivsql_docreate((char *) yyvsp[-4], (char *) yyvsp[-2]); ;
     break;}
 case 8:
-#line 27 "parser.y"
+#line 29 "parser.y"
 { gState->rs = trivsql_makers((char *) yyvsp[-8]); gState->rs->errno = trivsql_checktable((char *) yyvsp[-8]); if(gState->rs->errno == TRIVSQL_FALSE){trivsql_doinsert((char *) yyvsp[-8], (char *) yyvsp[-6], (char *) yyvsp[-2]);};
     break;}
 case 9:
-#line 31 "parser.y"
+#line 33 "parser.y"
 { gState->rs = trivsql_makers((char *) yyvsp[-2]); gState->rs->errno = trivsql_checktable((char *) yyvsp[-2]); if(gState->rs->errno == TRIVSQL_FALSE){trivsql_doselect((char *) yyvsp[-2], (char *) yyvsp[-4]);};
     break;}
 case 10:
-#line 35 "parser.y"
+#line 37 "parser.y"
 { gState->rs = trivsql_makers((char *) yyvsp[-4]); gState->rs->errno = trivsql_checktable((char *) yyvsp[-4]); if(gState->rs->errno == TRIVSQL_FALSE){trivsql_doalter((char *) yyvsp[-4], (char *) yyvsp[-1]);};
     break;}
 case 11:
-#line 39 "parser.y"
+#line 41 "parser.y"
 {gState->rs = trivsql_makers((char *) yyvsp[-6]); gState->rs->errno = trivsql_checktable((char *) yyvsp[-6]); if(gState->rs->errno == TRIVSQL_FALSE){trivsql_doselect((char *) yyvsp[-6], (char *) yyvsp[-4]); trivsql_updaters(gState, gState->rs, (char *) yyvsp[-4], (char *) yyvsp[-2]);};
     break;}
 case 12:
-#line 42 "parser.y"
+#line 46 "parser.y"
 { yyval = trivsql_xsnprintf("%s", (char *) yyvsp[0]); ;
     break;}
 case 13:
-#line 43 "parser.y"
+#line 47 "parser.y"
 { yyval = trivsql_xsnprintf("*"); ;
     break;}
 case 14:
-#line 46 "parser.y"
+#line 50 "parser.y"
 { yyval = trivsql_xsnprintf("%s;%s", (char *) yyvsp[-2], (char *) yyvsp[0]); ;
     break;}
 case 15:
-#line 47 "parser.y"
+#line 51 "parser.y"
 { yyval = trivsql_xsnprintf("%s", (char *) yyvsp[0]); ;
     break;}
 case 16:
-#line 50 "parser.y"
+#line 54 "parser.y"
 { gState->selector = trivsql_selequal; gState->selArgOne = yyvsp[-2]; gState->selArgTwo = yyvsp[0] ;
     break;}
 case 17:
-#line 51 "parser.y"
+#line 55 "parser.y"
 { gState->selector = trivsql_sellike; gState->selArgOne = yyvsp[-2]; gState->selArgTwo = yyvsp[0] ;
     break;}
 case 18:
-#line 52 "parser.y"
+#line 56 "parser.y"
 { gState->selector = NULL ;
     break;}
 case 19:
-#line 55 "parser.y"
+#line 59 "parser.y"
 { yyval = yyvsp[0] ;
     break;}
 case 20:
-#line 56 "parser.y"
+#line 60 "parser.y"
 { yyval = yyvsp[-1] ;
     break;}
 }
@@ -997,7 +997,7 @@ yyerrhandle:
     }
   return 1;
 }
-#line 59 "parser.y"
+#line 63 "parser.y"
 
 
 int yyerror(char *s){

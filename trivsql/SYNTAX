@@ -1,0 +1,49 @@
+This file describes the SQL dialect spoken by trivsql:
+
+When the dialect is complete, trivsql will be capable of the following:
+
+SELECT <DISTINCT> colnames FROM tablenames selector <ORDER BY colname>
+  <GROUP BY colname> <HAVING colnames condition value>
+INSERT INTO tablename <(colnames)> VALUES (vals)
+UPDATE tablename SET colname = newval WHERE colname = someval
+DELETE FROM tablename WHERE colname = someval
+
+CREATE TABLE tablename (colname datatype, colname datatype, ...)
+CREATE UNIQUE INDEX indexname ON tablename (colnames)
+
+ALTER TABLE tablename [ADD | DROP] COLUMN colname <coltype with add>
+
+DROP INDEX tablename.indexname
+DROP TABLE tablename
+DROP DATABASE dbname
+
+DELETE colnames FROM tablenames
+
+where selector can be:
+  NOTHING
+  WHERE col condition val
+  WHERE col condition val [AND | OR] selector
+  WHERE (selector) [AND | OR] selector
+  
+  WHERE col <NOT> BETWEEN val1 AND val2
+
+  WHERE table1.col1 = table2.col2
+  [INNER | OUTER | RIGHT | LEFT] JOIN tablename on table1.val1 = table2.val2
+
+and colnames can also be the following functions:
+  COUNT(colname) -- the colname is ignored though
+  AVG(colname)
+  MAX(colname)
+  MIN(colname)
+  SUM(colname)
+  
+and columns and tables can be renamed using:
+  name AS newname
+
+Valid conditions: = <> > < >= <= BETWEEN LIKE
+
+Syntax hints:
+ - Column names cannot be wrapped in quotes
+ - Table names cannot be wrapped in quotes
+ - String values can be wrapped in quotes
+ - Quote escapes don't currently work 
