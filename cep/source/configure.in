@@ -65,6 +65,9 @@ AC_CHECK_LIB(plot, plot_newplot)
 dnl -lpng
 AC_CHECK_LIB(png, png_create_write_struct)
 
+dnl -lpcre
+AC_CHECK_LIB(pcre, pcre_exec)
+
 dnl Checks for header files.
 dnl STDC checks for stdlib.h stdarg.h string.h and float.h
 AC_HEADER_STDC

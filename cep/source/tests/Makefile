@@ -114,9 +114,9 @@ CONFIG_CLEAN_FILES =
 PROGRAMS =  $(noinst_PROGRAMS)
 
 
-DEFS =  -DPACKAGE=\"cep\" -DVERSION=\"0.1\" -DHAVE_LIBM=1 -DHAVE_LIBPTHREAD=1 -DHAVE_LIBWX_GTK_2_2=1 -DHAVE_LIBPLOT=1 -DHAVE_LIBPNG=1 -DSTDC_HEADERS=1 -D__WXGTK__=1 -D_GNU_SOURCE=1  -I. -I$(srcdir) 
+DEFS =  -DPACKAGE=\"cep\" -DVERSION=\"0.1\" -DHAVE_LIBM=1 -DHAVE_LIBPTHREAD=1 -DHAVE_LIBWX_GTK_2_2=1 -DHAVE_LIBPLOT=1 -DHAVE_LIBPNG=1 -DHAVE_LIBPCRE=1 -DSTDC_HEADERS=1 -D__WXGTK__=1 -D_GNU_SOURCE=1  -I. -I$(srcdir) 
 CPPFLAGS =  -D_REENTRANT -Wall
-LIBS = -lpng -lplot -lwx_gtk-2.2 -lpthread -lm 
+LIBS = -lpcre -lpng -lplot -lwx_gtk-2.2 -lpthread -lm 
 testallhuge_OBJECTS =  alltests.o cep_testPresentation000.o \
 cep_testPresentation1000.o cep_testPresentation1200.o \
 cep_testPresentation1400.o cep_testPresentation1600.o \

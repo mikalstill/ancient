@@ -1,0 +1,9 @@
+<chapter><title>GDMS Classes</title>
+<sect1><title>Introduction</title>
+<para>
+This chapter contains documentation for the various classes developed during the implementation of <command>GDMS</command>.
+</para>
+
+<execute><cmd>insertall</cmd><args>builddb ../source/man *.sgml$</args></execute>
+</sect1>
+</chapter>
