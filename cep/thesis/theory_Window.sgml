@@ -6,39 +6,66 @@
 
 <sect2><title>Theory</title>
 <para>
-  Windowing can improve some incorrect results produced by pure DFT. Truncation of the signal in
-  the time domain leads to unwanted ripples beung produced in the frequency domain. The basic idea
-  behind windowing the data prior to performing conversion to the fourier is that we can apply a
-  weighting function to the truncated signal in order to reduce the introduction of ripples in the
-  fequency domain.
-  The reduction in aliasing is a tradeoff, and the cost is an increase in the width of the spectral
-  peak.Each separate windowing algorithm has different characteristics. According to Dakarta.com
-  <!-- TODO remove this and put it in the refernces -->
-  (http://www.daqarta.com/ww00wndo.htm) the characteristics are as follows
+  Windowing, or the breaking of a infinite signal into finaite pieces,  can improve the results of a DFT by removing some 
+  undesirable results. Truncation of the signal in the time domain leads to unwanted ripples beung produced in the frequency
+  domain. The basic idea  behind windowing the data prior to performing conversion to the fourier is that we can apply a
+  weighting function to the truncated signal in order to reduce the introduction of ripples in the fequency domain.
+  The reduction in aliasing is a tradeoff, and the cost is an increase in the width of the spectral peak. Each separate
+  windowing algorithm has different characteristics. According to Dakarta.com the characteristics are as follows:
+  <itemizedlist>
+  <listitem><command>Hanning:</command>
+     <para>
+       Good resolution of spectral peaks and good rejection of sidelobe leakage "skirts" at low levels for input signals that
+       don't have an integer number of cycles in the N-points data set. A good choice for most uses. Hanning window is a
+       simple cosine signal, offset so that the negaitive peaks are set to zero
+     </para>
+     <para>
+     <!-- TODO- insert an image of the equation here -->
+       w(i) = alpha - alpha*cos( 2*PI*i/(size-1) );   alpha=0.50
+    </para>
+  </listitem>
 
-  Hanning:
-    Good resolution of spectral peaks and good rejection of sidelobe leakage "skirts" at low levels
-    for input signals that don't have an integer number of cycles in the N-points data set. A good
-    choice for most uses. Hanning window is a simple cosine signal, offset so that the negaittive
-    peaks are set to zero
+  <listitem><command>Hamming</command>
+    <para>
+      Finer resolution of spectral peaks than Hanning, but poorer rejection of sidelobe skirts at low levels.
+    </para>
+    <para>
+     <!-- TODO- insert an image of the equation here -->
+      w(i) = alpha - alpha*cos( 2*PI*i/(size-1) );   alpha=0.54
+    </para>
+  </listitem>
 
-  Hamming:
-    Finer resolution of spectral peaks than Hanning, but poorer rejection of sidelobe skirts at low levels.
-    w(i) = alpha - alpha*cos( 2*PI*i/(size-1) );   alpha=0.54
+  <listitem><command>Blackman</command>
+    <para>
+      Peak resolution is not as fine as Hanning, but the response shape flares out less at lower levels
+      and rejection of sidelobes is better
+    </para>
+    <para>
+     <!-- TODO- insert an image of the equation here -->
+      w(i) = 0.42 - 0.5*cos( 2*PI*val ) + 0.08*cos(4*PI* i/(size-1));
+    </para>
+  </listitem>
 
-  Blackman:
-    Peak resolution is not as fine as Hanning, but the response shape flares out less at lower levels
-    and rejection of sidelobes is better
-    w(i) = 0.42 - 0.5*cos( 2*PI*val ) + 0.08*cos(4*PI* i/(size-1));
-
-  Dolph-Chebyshev:
-    Very similar to hamming, with better high frequency attenuation. Where hamming results in a 50dB attenuation
-    for frequencies above the sampling frequency, Dolph-Chebyshev provides 63dB attenuation for the same frequencies.
-</para>
+  <listitem><command>Dolph-Chebyshev</command>
+    <para>
+      Very similar to hamming, with better high frequency attenuation. Where hamming results in a 50dB attenuation
+      for frequencies above the sampling frequency, Dolph-Chebyshev provides 63dB attenuation for the same frequencies.
+    </para>
+    <para>
+     <!-- TODO - insert an image of the equation here -->
+     [equation to go here]
+    </para>
+  </listitem>
+  </itemizedlist>
 </sect2> <!--Theory-->
 
 <sect2><title>Conclusion</title>
-  <para></para>
+  <para>
+    Windowing can be an effective tool in removing the undesirable effects of the Discrete Fourier Transform. Prudent use of a
+    suitable algorithm removes the high frequencies introduced via aliasing when the the signal is truncated prior to having the DFT
+    applied. Knowledge of the attributes and limitations of the individual windowing algorithms, and the judicious selection of the
+    correct one, will assist the user in attaining optimal results from the application of the discrete fourier transform.
+  </para>
 </sect2> <!--Conclusion-->
 
 </sect1> <!--Windowing-->
