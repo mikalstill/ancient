@@ -83,7 +83,7 @@ OBJS_ALL = $(OBJS) $(OBJS_MATRIX) $(OBJS_CONFIG) $(OBJS_WINDOWER) $(OBJS_LS) $(O
 ###########################################################
 # makes all tests an links to a binary called "testall"
 all: runner $(MATRIX) $(CONFIG) $(WINDOWER) $(LS) $(DATASET)
-	$(LXX) $(LXXFLAGS) -o test$@ $(MATRIX) $(CONFIG) $(WINDOWER) $(PRESENTATION) $(LS) $(RUNNER) $(DATASET) $(OBJS_ALL) $(LXXLIBS)
+	$(LXX) $(LXXFLAGS) -o test$@ $(MATRIX) $(CONFIG) $(WINDOWER) $(LS) $(RUNNER) $(DATASET) $(OBJS_ALL) $(LXXLIBS)
 
 
 ###########################################################
