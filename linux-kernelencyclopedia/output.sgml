@@ -166,7 +166,15 @@ static inline void cpuid(int op, int *eax, int *ebx, int *ecx, int *edx)
 </programlisting>
 
 <para>
-Other architectures implement cpuid functions as well. This <emphasis>inline assembly</emphasis> specifies that output from this <emphasis>instruction</emphasis> will go to the <emphasis>EAX</emphasis>, <emphasis>EBX</emphasis>, <emphasis>ECX</emphasis>, and <emphasis>EDX</emphasis> <emphasis>registers</emphasis>. In input operand is constrained to being the same as the 0th output operand, in other words <emphasis>EAX</emphasis>.
+Other architectures implement cpuid functions as well.
+</para>
+
+<para>
+This <emphasis>inline assembly</emphasis> specifies that output from this <emphasis>instruction</emphasis> will go to the <emphasis>EAX</emphasis>, <emphasis>EBX</emphasis>, <emphasis>ECX</emphasis>, and <emphasis>EDX</emphasis> <emphasis>registers</emphasis>. In input operand is constrained to being the same as the 0th output operand, in other words <emphasis>EAX</emphasis>.
+</para>
+
+<para>
+The cpuid instruction has three input operand values, each which return a different set of information about the target processor. Refer to the <emphasis>Intel</emphasis> instruction set reference for more information.
 </para>
 
 <para>
@@ -319,16 +327,67 @@ Greg is a former member of <emphasis>OzLabs</emphasis>, who used to work for <em
 ...
 </para>
 
-<sect1><title>Hexadeciaml</title>
+<sect1><title>Hexadecimal</title>
 <sect2><title>Definition</title>
 <para>
-...
+Hexadecimal is a counting system based on sixteen digits (0,1, 2, 3, 4, 5, 6, 7). To expand an hexadecimal number to decimal, multiply each digit in the number with the corresponding power of sixteen. The following shell script demonstrates this:
 </para>
+
+<programlisting>
+#!/bin/bash
+
+# Take an hexadecimal number and output it's decimal version
+hexadecimal=$1
+length=`echo $hexadecimal | wc -c | tr -d " "`
+power=1
+
+while [ $length -gt 2 ]
+do
+  power=$(( $power * 16 ))
+  length=$(( $length - 1 ))
+done
+
+decimal=0
+while [ "%$hexadecimal%" != "%%" ]
+do
+  digit=`echo $hexadecimal | cut -b 1`
+  echo -n "Hexadecimal = $hexadecimal, Digit = $digit, Power = $power, Value = "
+
+  value=$(( $digit * $power ))
+  echo $value
+  
+  decimal=$(( $decimal + value ))
+  power=$(( $power / 16 ))
+  hexadecimal=`echo $hexadecimal | sed 's/^.//'`
+done
+
+echo ""
+echo "Result = $decimal"
+</programlisting>
+
+<para>
+The following shell script example shows how to convert a decimal number to hexadecimal from first principles:
+</para>
+
+<programlisting>
+#!/bin/bash
+
+# Take a decimal number and output it's hexadecimal
+quotient=$1
+while [ $quotient -ne 0 ]
+do
+  remainder=$(( $quotient % 16 ))
+  hexadecimal="$remainder$hexadecimal"
+  quotient=$(( $quotient / 16 ))
+done
+
+echo $hexadecimal
+</programlisting>
 </sect2>
 
 <sect2><title>References</title>
 <itemizedlist>
-<listitem><para>...</para></listitem>
+<listitem><para><emphasis>Computer Engineering Hardware Design</emphasis> by <emphasis>M Morris Mano</emphasis> published by Prentice Hall 1988</para></listitem>
 </itemizedlist>
 </sect2>
 
@@ -342,9 +401,9 @@ Greg is a former member of <emphasis>OzLabs</emphasis>, who used to work for <em
 
 <sect2><title>Entry history</title>
 <itemizedlist>
-<listitem><para>Entry created: </para></listitem>
+<listitem><para>Entry created: Thu Mar 20 15:20:12 EST 2003</para></listitem>
 <listitem><para>Entry owner: <emphasis>Michael Still</emphasis> (mikal@stillhq.com)</para></listitem>
-<listitem><para>Status: TODO</para></listitem>
+<listitem><para>Status: Finalized</para></listitem>
 </itemizedlist>
 </sect1>
 </chapter><chapter id="chapter-i"><title>i</title>
@@ -609,9 +668,9 @@ echo $octal
 
 <sect2><title>Entry history</title>
 <itemizedlist>
-<listitem><para>Entry created: </para></listitem>
+<listitem><para>Entry created: Thu Mar 20 15:20:12 EST 2003</para></listitem>
 <listitem><para>Entry owner: <emphasis>Michael Still</emphasis> (mikal@stillhq.com)</para></listitem>
-<listitem><para>Status: TODO</para></listitem>
+<listitem><para>Status: Finalized</para></listitem>
 </itemizedlist>
 </sect1><sect1><title>Ozlabs</title>
 <sect2><title>Definition</title>

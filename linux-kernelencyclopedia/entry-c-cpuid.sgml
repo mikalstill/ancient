@@ -25,7 +25,15 @@ static inline void cpuid(int op, int *eax, int *ebx, int *ecx, int *edx)
 </programlisting>
 
 <para>
-Other architectures implement cpuid functions as well. This <emphasis>inline assembly</emphasis> specifies that output from this <emphasis>instruction</emphasis> will go to the <emphasis>EAX</emphasis>, <emphasis>EBX</emphasis>, <emphasis>ECX</emphasis>, and <emphasis>EDX</emphasis> <emphasis>registers</emphasis>. In input operand is constrained to being the same as the 0th output operand, in other words <emphasis>EAX</emphasis>.
+Other architectures implement cpuid functions as well.
+</para>
+
+<para>
+This <emphasis>inline assembly</emphasis> specifies that output from this <emphasis>instruction</emphasis> will go to the <emphasis>EAX</emphasis>, <emphasis>EBX</emphasis>, <emphasis>ECX</emphasis>, and <emphasis>EDX</emphasis> <emphasis>registers</emphasis>. In input operand is constrained to being the same as the 0th output operand, in other words <emphasis>EAX</emphasis>.
+</para>
+
+<para>
+The cpuid instruction has three input operand values, each which return a different set of information about the target processor. Refer to the <emphasis>Intel</emphasis> instruction set reference for more information.
 </para>
 
 <para>
