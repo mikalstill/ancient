@@ -1,0 +1,64 @@
+<chapter id="meetings-week28"><title>Semester Two, Week 07</title>
+<para>
+
+</para>
+
+<sect1><title>Sunday 8th September</title>
+<para>
+This meeting ran from 2.00 to 17.00
+<orderedlist>
+<listitem><para>Project status<para></listitem>
+<listitem><para>Doccumentation</para></listitem>
+<listitem><para>Testing</para></listitem>
+
+</orderedlist>
+</para>
+
+<para>
+<emphasis>This was an informal meeting to discuss issues relating to mainly status of the project. THe objective was to identify items which
+had not yet been completed, and those that had not yet been commenced. This process included identifying specific menu items that might be
+required in the UI and how they might be linked to functionality both mathematical and non-mathematical.</emphasis>
+</para>
+
+<para>
+In attendance at the meeting
+<orderedlist>
+<listitem><para>Daniel</para></listitem>
+<listitem><para>Michael</para></listitem>
+<listitem><para>Blake</para></listitem>
+<listitem><para>Kristy</para></listitem>
+<listitem><para>Nick</para></listitem>
+</orderedlist>
+</para>
+
+<sect2><title>Action items</title>
+
+<para>
+The following action items were identified.
+<orderedlist>
+<listitem><para>Items to FIX:.</para></listitem>
+<listitem><para>Graphing.</para></listitem>
+<listitem><para>UI and module linking.</para></listitem>
+<listitem><para>load data set.</para></listitem>
+<listitem><para>graph time series/data set.</para></listitem>
+<listitem><para>LS regression.</para></listitem>
+<listitem><para>weighting matrix.</para></listitem>
+<listitem><para>frequency analysis.</para></listitem>
+<listitem><para>remove selected frequencies from the tiem domain data.</para></listitem>
+
+<listitem><para>Items to DO.</para></listitem>
+<listitem><para>testing level 1 and level 2.</para></listitem>
+<listitem><para>User manual  due 8/10.</para></listitem>
+<listitem><para>FFT.</para></listitem>
+<listitem><para>Interpolation.</para></listitem>
+<listitem><para>Windowing.</para></listitem>
+<listitem><para>API Docs / Tech manual.</para></listitem>
+<listitem><para>Text annotaion of graphs / labelling axes, title, scale.</para></listitem>
+<listitem><para>Display downsampling.</para></listitem>
+</orderedlist>
+</para>
+
+</sect2>
+</sect1>
+
+</chapter>
