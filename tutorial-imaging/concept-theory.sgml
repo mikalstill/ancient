@@ -5,6 +5,10 @@ The first thing that we need to understand to be able to support color and grays
 
 <sect2><title>Direct storage of pixel data</title>
 <para>
+The format for black and white images is to store the value of each pixel in the image itself.
+</para>
+
+<para>
 If you think back to the way pixel information was stored in the black and white images from the previous article, the information was just in the strips. You can also do this with grayscale and color images. This representation of image data is quite inefficient, because for the scenario when the image has a solid background (for example), there are many pixels with the same value. If the pixel data is stored in the strips, then this value will waste a large amount of space.
 </para>
 

@@ -17,14 +17,11 @@ Raster image formats include TIFF, GIF, PNG, and most of the other formats in th
 
 <para>
 If we zoom in enough on a portion of this image, we can see that it is made up of descrete elements -- the pixels. 
-<execute><cmd>todo</cmd><input>falls off page</input></execute>
 </para>
 
 <figure><title>Zooming in on a portion of the raster image</title>
 <graphic format="EPS" fileref="raster-figure2.eps">
 </figure>
-
-<execute><cmd>todo</cmd><input>fix_the_falling_off_the_page_problem</input></execute>
 
 <para>
 The code to produce this zoomed image is presented in the TIFF chapter of this tutorial.
