@@ -9,33 +9,34 @@
 # docbook compliant XML. This script is somewhat Greg specific at the moment, but I would
 # love to make it more generalised over time...
 
-# Heading state handling needs some love
 # Index entries also need work
-# Check for <para></para><para></para>
 # Screen is not entirely appropriate for display mapping
-# Email address are note properly identified
+# Email address are not properly identified
 # Bold is also an emphasis at the moment
-# Table formatting
 # Strip styles out when we are in display state
+# There are some section references which need to be manually fixed (search for "Section reference" in the SGML
+
+# Next release:
+#  - display text substitution...
 
 use strict;
 my($INPUT, $OUTPUT, $outputstyle);
-my($parastate, $liststate, $listitemstate, $footnotestate, $sectionstate, $tablestate, $stylestate, $displaystate, $waitstate, $quotestate, $pausedlist);
+my($parastate, $liststate, $listitemstate, $footnotestate, $sectionstate, $tablestate, $stylestate, $displaystate, $waitstate, $quotestate, $pausedlist, $tablestate, $tablecolcount, $tablecellline, $tablebracestate);
 my($length);
 my($chapters, $chapter, $chaptercount, $temp, $inputused);
 my($linecount, $condlinecount);
 
 # We need to check the command line arguements...
-if($1 eq "jade"){
+#if( eq "jade"){
     print "Jade output style selected (one big file).\n";
     print "The output will go to output.sgml\n";
     $outputstyle = "jade";
-}
-else{
-    print "Output style is gmat (many docbook files).\n";
-    print "The files will have .sgml extensions...\n";
-    $outputstyle = "gmat";
-}
+#}
+#else{
+#    print "Output style is gmat (many docbook files).\n";
+#    print "The files will have .sgml extensions...\n";
+#    $outputstyle = "gmat";
+#}
 
 $chapters = "introduction concepts evolution quickinstall shareinstall install xsetup postinstall ports problems xtheory unixref starting filesys disks tapes printers desktop building current emulate netintro netsetup isp modems ppp slip dns firewall netdebug nfs netbasics email www fax micronet mobile";
 
@@ -69,6 +70,7 @@ foreach $chapter (split(/ /, $chapters)){
     $displaystate = 0;
     $stylestate = "";
     $quotestate = 0;
+    $tablestate = 0;
     $inputused = 0;
     $pausedlist = 0;
     
@@ -79,7 +81,11 @@ foreach $chapter (split(/ /, $chapters)){
 
 	# There are some conditional elements used, for instance in xtheory.mm (which is also an
 	# article)
-	if((/^..if article/) || (/^..if XXX/)){
+	if((/^\.\.if article/i) || (/^\.\.if XXX/i) || (/^\.\.if appropriate/i) || (/^\.\.if complete/i) ||
+	   (/^\.\.if finished/i) || (/^\.\.if fixme/i) || (/^\.\.if isdn/i) || (/^\.\.if itworks/i) || (/^\.\.if long/i) ||
+	   (/^\.\.if needed/i) || (/^\.\.if netnews/i) || (/^\.\.if network/i) || (/^\.\.if partofthebook/i) ||
+	   (/^\.\.if raid5/i) || (/^\.\.if review/i) || (/^\.\.if short/i) || (/^\.\.if sorted/i) || (/^\.\.if verylong/i) ||
+	   (/^\.\.if X/i)){
 	    $waitstate = 1;
 	    $condlinecount = 0;
 	    while(($waitstate == 1) && ($_ = <INPUT>)){
@@ -95,9 +101,6 @@ foreach $chapter (split(/ /, $chapters)){
 	    }
 	    print "\b  [Conditional was $condlinecount lines]\n ";
 	}
-
-	# Horizontal spacing (no mapping to docbook)
-	s/|\\/g;
 
 	# Ampersands
 	s/&/&amp;/g;
@@ -120,6 +123,18 @@ foreach $chapter (split(/ /, $chapters)){
 	    $_ = $temp;	
 	}
 
+	# Table row stuff
+#	if(($tablestate == 1) && (/^[^.].*/)){
+#	    $_ = "";
+#	}
+#	elsif($tablestate > 1){
+#	    $length = -1;
+#	    while($length ne length){
+#		$length = length;
+#		s/([^T][^\}\#])\#/-$1-FOUND/g;
+#	    }
+#	}
+
 	##############################################################
 	# Comments
 	if(/^\.\\\"(.*)/i){
@@ -138,9 +153,13 @@ foreach $chapter (split(/ /, $chapters)){
             startpara();
 	}
 
-#	elsif(/^\.br/i){
+	elsif(/^\.br/i){
 # No mapping?
-#	}
+	}
+
+	# Defining display strings
+	elsif(/^.ds/){
+	}
 	
 	# Display start -- is case sensitive
 	elsif((/^\.DS(.*)/) || (/^\.Dx(.*)/i)){
@@ -158,6 +177,23 @@ foreach $chapter (split(/ /, $chapters)){
 	    }
 	}
 	
+	# Ifs
+	elsif(/^\.\.if/i){
+	}
+
+	# Else
+	elsif(/^\.\.else/i){
+	}
+
+	# Endifs
+	elsif(/^\.\.endif/i){
+	}
+
+	# Setting the font family
+	elsif(/^\.fam/i){
+	    # No mapping?
+	}
+
 	# Footnote start
 	elsif(/^\.FS[ \t]*(.*)/i){
 	    print OUTPUT "<footnote>\n";
@@ -175,22 +211,38 @@ foreach $chapter (split(/ /, $chapters)){
 	    print OUTPUT "</footnote>\n";
 	    $footnotestate = 0;
 	}
+
+	# Figure headings
+	elsif(/^\.Figure-heading [\"]*([^\"]*)[\"]*/i){
+	    print OUTPUT "<figure><title>$1</title><graphic format=\"JPEG\" fileref=\"images/missing.jpg\"></graphic></figure>\n";
+	}
+
+	# Filenames
+	elsif(/^\.File ([ \t]*)(.*)/i){
+	    print OUTPUT "<filename>$1</filename>$2\n";
+	}
 	
 	# Headings
 	elsif(/^\.H([0-7])[ \t]*(.*)/i){
 	    print OUTPUT closeallstates();
 	    endpara();
 	    
-	    if($sectionstate == 1){
+	    while($sectionstate > ($1 - 2)){
 		print OUTPUT "</section>\n";
+		$sectionstate--;
 	    }
 	    
+	    while($sectionstate < ($1 - 2)){
+		print OUTPUT "<section><title></title>\n";
+		$sectionstate++;
+	    }
+	    print OUTPUT "<section>\n";
+	    $sectionstate++;
+
 	    $_ = $2;
 	    s/\"//g;
-	    
-	    print OUTPUT "<section><title>$_</title>\n";
+	    print OUTPUT "<title>$_</title>\n";
             startpara();
-	    $sectionstate = 1;
 	}
 	
 	# Headings (Unsupported)
@@ -199,6 +251,19 @@ foreach $chapter (split(/ /, $chapters)){
 	    endpara();
 	    print OUTPUT "<section><title>Title???</title>\n";
 	    $sectionstate = 1;
+	}
+
+	# Highlights
+	elsif(/^\.Highlight(.*)/i){
+	    endpara();
+	    print OUTPUT "<sidebar>\n";
+            startpara();
+	}
+
+	elsif(/^\.End-highlight(.*)/i){
+            endpara();
+	    print OUTPUT "</sidebar>\n";
+            startpara();
 	}
 	
 	# List start
@@ -257,23 +322,47 @@ foreach $chapter (split(/ /, $chapters)){
 	    }
 	}
 	
+	elsif(/^\.ne/i){
+	    # No mapping to docbook?
+	}
+	
 	# Unknown tag!
 #    elsif(/^\.Pn[ \t]+(.*)/i){
 #	print "UNKNOWN COMMAND: Pn [Arg $1]\n";
 #    }
-	
+
 	# Paragraphs
 	elsif(/^\.P[ \t]*([0-9]*)(.*)/i){
 	    endpara();
             startpara();
 	}
 
+	# Pictures
+	elsif(/^\.PIC [\"]*([^\"]*)[\"]*/i){
+	    print OUTPUT "<figure><title></title><graphic format=\"PS\" fileref=\"$1\"></graphic></figure>\n";
+	}
+
+	# Quotes
 	elsif(/^\.Quote(.*)/i){
 	    print OUTPUT "<quote>\n";
 	    $quotestate = 1;
 	}
 
 	elsif((/^\.End-quote(.*)/i) && ($quotestate == 1)){
+	    print OUTPUT "</quote>\n";
+	}
+
+	elsif(/^.Sref[ \t]*\\\*\[(.*)\]/i){
+	    print OUTPUT "...Section reference $1 (edit manually)...\n";
+	}
+
+	# Insets are treated as quotes as well
+	elsif(/^\in[ \t]\+(.*)/i){
+	    print OUTPUT "<quote>\n";
+	    $quotestate = 1;
+	}
+
+	elsif((/^\.in/i) && ($quotestate == 1)){
 	    print OUTPUT "</quote>\n";
 	}
 	
@@ -286,25 +375,41 @@ foreach $chapter (split(/ /, $chapters)){
 	elsif(/^\.sp(.*)/i){
 	}
 
+	# Table title
+	elsif(/^\.TB[ \t]*[\"]*([^\"]*)[\"]*/i){
+#	    print OUTPUT "<table frame='all'><title>$1</title>\n";
+#	    $tablestate = 1;
+	}
+
 	# Table start
 	elsif(/^\.TS[ \t]*(.*)/i){
-	    print OUTPUT "Table start: [Arg $1]\n";
+	}
+
+	# Table heading
+	elsif(/^\.TH(.*)/i){
+#	    $tablestate = 2;
 	}
 	
 	# Table end
 	elsif(/^\.TE/i){
-	    print OUTPUT "Table end\n";
+#	    print OUTPUT "</tbody></tgroup></table>\n";
+#	    $tablestate = 0;
+#	    $tablecellline = "";
 	}
 
-	# 
+	# Table reference for later
+	elsif(/^\.Tn/i){
+	}
+
+	# Chapters
 	elsif(/^\.Chapter[ \t]([^ \t]*)[ \t]\"(.*)\"/){
 	    print OUTPUT "<chapter><title>$2</title>\n";
 	    print OUTPUT "<section><title></title>\n";
             startpara();
-	    $sectionstate = 1;
+	    $sectionstate++;
 	    }
 
-	elsif(/^\.X[ \t]\"([^ \"]*)[\"]*/i){
+	elsif(/^\.X[ \t]\"*([^ \"]*)\"*/i){
 	    print OUTPUT "<indexterm><primary>$1</primary></indexterm>\n";
 	}
 	
@@ -315,7 +420,17 @@ foreach $chapter (split(/ /, $chapters)){
 	
 	# A document line?
 	else{
-	    print OUTPUT "\t\t$_";
+	    if($tablestate == 2){
+		$tablecolcount = 0;
+		$temp = $_;
+		while($temp =~ /<entry>/g){ $tablecolcount++ }
+
+		print OUTPUT "<tgroup cols='$tablecolcount' align='left' colsep='1' rowsep='1'><tbody>\n";
+		$tablestate = 3;
+	    }
+
+	    print OUTPUT "$_";
+	    $tablecellline = "";
 	}
     }
     
@@ -329,9 +444,9 @@ foreach $chapter (split(/ /, $chapters)){
 	dblog("{DBLOG: Not closed footnote at end of document!}");
     }
     
-    if($sectionstate == 1){
-	dblog("{DBLOG: Not closed section at end of document (closed)!}");
+    while($sectionstate > 0){
 	print OUTPUT "</section>\n";
+	$sectionstate--;
     }
     
     # Some input files are not used because they don't exist!
@@ -451,6 +566,11 @@ sub processstyles(){
 		    $stylestate =~ s/[A-Za-z]$//;
 		}
 	    }
+
+	    # Horizontal spacing (no mapping to docbook)
+	    $_ = $word;
+	    s/\\\|//g;
+	    $word = $_;
 	}
 	
 	$newline = "$newline$word ";
