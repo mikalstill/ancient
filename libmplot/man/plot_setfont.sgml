@@ -12,28 +12,28 @@
 
 <!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
 
-<refentry id="plot_setlinestart">
+<refentry id="plot_setfont">
 <refmeta>
-<refentrytitle>plot_setlinestart</refentrytitle>
+<refentrytitle>plot_setfont</refentrytitle>
 <manvolnum>3</manvolnum>
 </refmeta>
 
 <refnamediv>
-<refname>plot_setlinestart</refname>
-<refpurpose>sets the starting point of series of lines and curves</refpurpose>
+<refname>plot_setfont</refname>
+<refpurpose>sets the starting point of a curve</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv>
 <synopsis>
  #include&lt;libplot.h&gt;
- void plot_setlinestart (plot_state *state, unsigned int x, unsigned int y);
+ void panda_setfont (plot_state *state, char *fontpath, int size);
 
 </synopsis>
 </refsynopsisdiv>
 
 <refsect1>
 <title>DESCRIPTION</title>
-<para>Set the starting point for the sequence of curves and lines that it to be drawn on the current plot. This call is compulsory for almost all of the line drawing functions. It is not required for the <command>plot_rectangle plot_rectanglerot</command> function.</para>
+<para>Set the font and size to use to text drawing operations. The <command>fontpath</command> arguement is the path to a font which <command>FreeType</command> is capable of opening (for example PostScript fonts, and TrueType fonts -- refer to http://www.freetype.org for more details). The size is the point size of the text to be drawn.</para>
 </refsect1>
 
 <refsect1>
@@ -50,7 +50,8 @@
  ... error ...
  }
  
- plot_setlinestart(graph, 200, 200);
+ plot_setfont(graph, "windings.ttf", 30);
+ 
 </para>
 </refsect1>
 

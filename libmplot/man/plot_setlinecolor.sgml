@@ -56,14 +56,14 @@
 
 <refsect1>
 <title>SEE ALSO</title>
-<para>plot_newplot plot_getraster plot_setlinestart plot_addlinesegment plot_addcubiccurvesegment plot_addquadraticcurvesegmentone plot_addquadraticcurvesegmenttwo plot_closeline plot_endline plot_strokeline plot_fillline plot_setlinewidth plot_setlinecap plot_setlinejoin plot_setlinedash plot_setfillcolor plot_rectangle plot_rectanglerot</para>
+<para>plot_addlinesegment.sgml plot_closeline.sgml plot_endline.sgml plot_getraster.sgml plot_newplot.sgml plot_rectangle.sgml plot_setfillcolor.sgml plot_setfontcolor.sgml plot_setfont.sgml plot_setlinecolor.sgml plot_setlinestart.sgml plot_settextlocation.sgml plot_stringwidth.sgml plot_strokeline.sgml plot_writestring.sgml</para>
 </refsect1>
 
 
 <refsect1>
     <title>VERSION</title>
     <para>
-This documentation was generated for <command>libplot</command> 0.1 by <command>autodocbook</command> (http://www.stillhq.com).
+This documentation was generated for <command>libplot</command> 0.3 by <command>autodocbook</command> (http://www.stillhq.com).
     </para>
 </refsect1>
 

@@ -45,7 +45,7 @@ if((graph = plot_newplot(400, 300)) == NULL){
   ... error ...
 }
 EXAMPLE END
-SEEALSO plot_getraster plot_setlinestart plot_addlinesegment plot_addcubiccurvesegment plot_addquadraticcurvesegmentone plot_addquadraticcurvesegmenttwo plot_closeline plot_endline plot_strokeline plot_fillline plot_setlinewidth plot_setlinecap plot_setlinejoin plot_setlinedash plot_setfillcolor plot_setlinecolor plot_rectangle plot_rectanglerot
+SEEALSO plot_addlinesegment.sgml plot_closeline.sgml plot_endline.sgml plot_getraster.sgml plot_newplot.sgml plot_rectangle.sgml plot_setfillcolor.sgml plot_setfontcolor.sgml plot_setfont.sgml plot_setlinecolor.sgml plot_setlinestart.sgml plot_settextlocation.sgml plot_stringwidth.sgml plot_strokeline.sgml plot_writestring.sgml
 DOCBOOK END
 ******************************************************************************/
 
@@ -129,7 +129,7 @@ if((graph = plot_newplot(400, 300)) == NULL){
 
 raster = plot_getraster(graph);
 EXAMPLE END
-SEEALSO plot_newplot plot_setlinestart plot_addlinesegment plot_addcubiccurvesegment plot_addquadraticcurvesegmentone plot_addquadraticcurvesegmenttwo plot_closeline plot_endline plot_strokeline plot_fillline plot_setlinewidth plot_setlinecap plot_setlinejoin plot_setlinedash plot_setfillcolor plot_setlinecolor plot_rectangle plot_rectanglerot
+SEEALSO plot_addlinesegment.sgml plot_closeline.sgml plot_endline.sgml plot_getraster.sgml plot_newplot.sgml plot_rectangle.sgml plot_setfillcolor.sgml plot_setfontcolor.sgml plot_setfont.sgml plot_setlinecolor.sgml plot_setlinestart.sgml plot_settextlocation.sgml plot_stringwidth.sgml plot_strokeline.sgml plot_writestring.sgml
 DOCBOOK END
 ******************************************************************************/
 
@@ -164,7 +164,7 @@ if((graph = plot_newplot(400, 300)) == NULL){
 
 plot_setlinestart(graph, 200, 200);
 EXAMPLE END
-SEEALSO plot_newplot plot_getraster plot_addlinesegment plot_addcubiccurvesegment plot_addquadraticcurvesegmentone plot_addquadraticcurvesegmenttwo plot_closeline plot_endline plot_strokeline plot_fillline plot_setlinewidth plot_setlinecap plot_setlinejoin plot_setlinedash plot_setfillcolor plot_setlinecolor plot_rectangle plot_rectanglerot
+SEEALSO plot_addlinesegment.sgml plot_closeline.sgml plot_endline.sgml plot_getraster.sgml plot_newplot.sgml plot_rectangle.sgml plot_setfillcolor.sgml plot_setfontcolor.sgml plot_setfont.sgml plot_setlinecolor.sgml plot_setlinestart.sgml plot_settextlocation.sgml plot_stringwidth.sgml plot_strokeline.sgml plot_writestring.sgml
 DOCBOOK END
 ******************************************************************************/
 
@@ -208,7 +208,7 @@ if((graph = plot_newplot(400, 300)) == NULL){
 plot_setlinestart(graph, 10, 10);
 plot_addlinesegment(graph, 20, 20);
 EXAMPLE END
-SEEALSO plot_newplot plot_getraster plot_setlinestart plot_addcubiccurvesegment plot_addquadraticcurvesegmentone plot_addquadraticcurvesegmenttwo plot_closeline plot_endline plot_strokeline plot_fillline plot_setlinewidth plot_setlinecap plot_setlinejoin plot_setlinedash plot_setfillcolor plot_setlinecolor plot_rectangle plot_rectanglerot
+SEEALSO plot_addlinesegment.sgml plot_closeline.sgml plot_endline.sgml plot_getraster.sgml plot_newplot.sgml plot_rectangle.sgml plot_setfillcolor.sgml plot_setfontcolor.sgml plot_setfont.sgml plot_setlinecolor.sgml plot_setlinestart.sgml plot_settextlocation.sgml plot_stringwidth.sgml plot_strokeline.sgml plot_writestring.sgml
 DOCBOOK END
 ******************************************************************************/
 
@@ -283,7 +283,7 @@ plot_setlinestart(graph, 10, 10);
 ... drawing commands ...
 plot_closeline(graph);
 EXAMPLE END
-SEEALSO plot_newplot plot_getraster plot_setlinestart plot_addlinesegment plot_addcubiccurvesegment plot_addquadraticcurvesegmentone plot_addquadraticcurvesegmenttwo plot_endline plot_strokeline plot_fillline plot_setlinewidth plot_setlinecap plot_setlinejoin plot_setlinedash plot_setfillcolor plot_setlinecolor plot_rectangle plot_rectanglerot
+SEEALSO plot_addlinesegment.sgml plot_closeline.sgml plot_endline.sgml plot_getraster.sgml plot_newplot.sgml plot_rectangle.sgml plot_setfillcolor.sgml plot_setfontcolor.sgml plot_setfont.sgml plot_setlinecolor.sgml plot_setlinestart.sgml plot_settextlocation.sgml plot_stringwidth.sgml plot_strokeline.sgml plot_writestring.sgml
 DOCBOOK END
 ******************************************************************************/
 
@@ -321,7 +321,7 @@ if((graph = plot_newplot(400, 300)) == NULL){
 
 plot_endline(graph);
 EXAMPLE END
-SEEALSO plot_newplot plot_getraster plot_setlinestart plot_addlinesegment plot_addcubiccurvesegment plot_addquadraticcurvesegmentone plot_addquadraticcurvesegmenttwo plot_closeline plot_strokeline plot_fillline plot_setlinewidth plot_setlinecap plot_setlinejoin plot_setlinedash plot_setfillcolor plot_setlinecolor plot_rectangle plot_rectanglerot
+SEEALSO plot_addlinesegment.sgml plot_closeline.sgml plot_endline.sgml plot_getraster.sgml plot_newplot.sgml plot_rectangle.sgml plot_setfillcolor.sgml plot_setfontcolor.sgml plot_setfont.sgml plot_setlinecolor.sgml plot_setlinestart.sgml plot_settextlocation.sgml plot_stringwidth.sgml plot_strokeline.sgml plot_writestring.sgml
 DOCBOOK END
 ******************************************************************************/
 
@@ -376,10 +376,9 @@ if((graph = plot_newplot(400, 300)) == NULL){
 }
 
 EXAMPLE END
-SEEALSO plot_newplot plot_getraster plot_setlinestart plot_addlinesegment plot_addcubiccurvesegment plot_addquadraticcurvesegmentone plot_addquadraticcurvesegmenttwo plot_closeline plot_endline plot_strokeline plot_fillline plot_setlinewidth plot_setlinecap plot_setlinejoin plot_setlinedash plot_setfillcolor plot_setlinecolor plot_rectangle plot_rectanglerot
+SEEALSO plot_addlinesegment.sgml plot_closeline.sgml plot_endline.sgml plot_getraster.sgml plot_newplot.sgml plot_rectangle.sgml plot_setfillcolor.sgml plot_setfontcolor.sgml plot_setfont.sgml plot_setlinecolor.sgml plot_setlinestart.sgml plot_settextlocation.sgml plot_stringwidth.sgml plot_strokeline.sgml plot_writestring.sgml
 DOCBOOK END
 ******************************************************************************/
-
 
 void
 plot_strokeline (plot_state * state)
@@ -504,7 +503,7 @@ if((graph = plot_newplot(400, 300)) == NULL){
 
 plot_setfillcolor(state, 255, 0, 0); // red
 EXAMPLE END
-SEEALSO plot_newplot plot_getraster plot_setlinestart plot_addlinesegment plot_addcubiccurvesegment plot_addquadraticcurvesegmentone plot_addquadraticcurvesegmenttwo plot_closeline plot_endline plot_strokeline plot_fillline plot_setlinewidth plot_setlinecap plot_setlinejoin plot_setlinedash plot_setlinecolor plot_rectangle plot_rectanglerot
+SEEALSO plot_addlinesegment.sgml plot_closeline.sgml plot_endline.sgml plot_getraster.sgml plot_newplot.sgml plot_rectangle.sgml plot_setfillcolor.sgml plot_setfontcolor.sgml plot_setfont.sgml plot_setlinecolor.sgml plot_setlinestart.sgml plot_settextlocation.sgml plot_stringwidth.sgml plot_strokeline.sgml plot_writestring.sgml
 DOCBOOK END
 ******************************************************************************/
 
@@ -541,7 +540,7 @@ if((graph = plot_newplot(400, 300)) == NULL){
 
 plot_setlinecolor(state, 255, 0, 0); // red
 EXAMPLE END
-SEEALSO plot_newplot plot_getraster plot_setlinestart plot_addlinesegment plot_addcubiccurvesegment plot_addquadraticcurvesegmentone plot_addquadraticcurvesegmenttwo plot_closeline plot_endline plot_strokeline plot_fillline plot_setlinewidth plot_setlinecap plot_setlinejoin plot_setlinedash plot_setfillcolor plot_rectangle plot_rectanglerot
+SEEALSO plot_addlinesegment.sgml plot_closeline.sgml plot_endline.sgml plot_getraster.sgml plot_newplot.sgml plot_rectangle.sgml plot_setfillcolor.sgml plot_setfontcolor.sgml plot_setfont.sgml plot_setlinecolor.sgml plot_setlinestart.sgml plot_settextlocation.sgml plot_stringwidth.sgml plot_strokeline.sgml plot_writestring.sgml
 DOCBOOK END
 ******************************************************************************/
 
@@ -552,6 +551,35 @@ plot_setlinecolor (plot_state * state, int red, int green, int blue)
   state->linecolor.g = green;
   state->linecolor.b = blue;
 }
+
+/******************************************************************************
+DOCBOOK START
+
+FUNCTION plot_setfontcolor
+PURPOSE sets the colour that text will be drawn with
+
+SYNOPSIS START
+#include&lt;libplot.h&gt;
+void plot_setfontcolor (plot_state *state, int red, int green, int blue);
+SYNOPSIS END
+
+DESCRIPTION Set the colour to draw the text with
+
+RETURNS Nothing
+
+EXAMPLE START
+#include&lt;libplot.h&gt;
+plot_state *graph;
+
+if((graph = plot_newplot(400, 300)) == NULL){
+  ... error ...
+}
+
+plot_setfontcolor(state, 255, 0, 0); // red
+EXAMPLE END
+SEEALSO plot_addlinesegment.sgml plot_closeline.sgml plot_endline.sgml plot_getraster.sgml plot_newplot.sgml plot_rectangle.sgml plot_setfillcolor.sgml plot_setfontcolor.sgml plot_setfont.sgml plot_setlinecolor.sgml plot_setlinestart.sgml plot_settextlocation.sgml plot_stringwidth.sgml plot_strokeline.sgml plot_writestring.sgml
+DOCBOOK END
+******************************************************************************/
 
 void
 plot_setfontcolor (plot_state * state, int red, int green, int blue)
@@ -585,7 +613,7 @@ if((graph = plot_newplot(400, 300)) == NULL){
 }
 plot_rectangle(graph, 10, 10, 20, 30);
 EXAMPLE END
-SEEALSO plot_newplot plot_getraster plot_setlinestart plot_addlinesegment plot_addcubiccurvesegment plot_addquadraticcurvesegmentone plot_addquadraticcurvesegmenttwo plot_closeline plot_endline plot_strokeline plot_fillline plot_setlinewidth plot_setlinecap plot_setlinejoin plot_setlinedash plot_setfillcolor plot_setlinecolor plot_rectanglerot
+SEEALSO plot_addlinesegment.sgml plot_closeline.sgml plot_endline.sgml plot_getraster.sgml plot_newplot.sgml plot_rectangle.sgml plot_setfillcolor.sgml plot_setfontcolor.sgml plot_setfont.sgml plot_setlinecolor.sgml plot_setlinestart.sgml plot_settextlocation.sgml plot_stringwidth.sgml plot_strokeline.sgml plot_writestring.sgml
 DOCBOOK END
 ******************************************************************************/
 
@@ -630,6 +658,36 @@ plot_circle (plot_state * state, unsigned int x, unsigned int y,
   plot_endline(state);
 }
 
+/******************************************************************************
+DOCBOOK START
+
+FUNCTION plot_setfont
+PURPOSE sets the starting point of a curve
+
+SYNOPSIS START
+#include&lt;libplot.h&gt;
+void panda_setfont (plot_state *state, char *fontpath, int size);
+SYNOPSIS END
+
+DESCRIPTION Set the font and size to use to text drawing operations. The <command>fontpath</command> arguement is the path to a font which <command>FreeType</command> is capable of opening (for example PostScript fonts, and TrueType fonts -- refer to http://www.freetype.org for more details). The size is the point size of the text to be drawn.
+
+RETURNS Nothing
+
+EXAMPLE START
+#include&lt;libplot.h&gt;
+plot_state *graph;
+
+if((graph = plot_newplot(400, 300)) == NULL){
+  ... error ...
+}
+
+plot_setfont(graph, "windings.ttf", 30);
+
+EXAMPLE END
+SEEALSO plot_addlinesegment.sgml plot_closeline.sgml plot_endline.sgml plot_getraster.sgml plot_newplot.sgml plot_rectangle.sgml plot_setfillcolor.sgml plot_setfontcolor.sgml plot_setfont.sgml plot_setlinecolor.sgml plot_setlinestart.sgml plot_settextlocation.sgml plot_stringwidth.sgml plot_strokeline.sgml plot_writestring.sgml
+DOCBOOK END
+******************************************************************************/
+
 void plot_setfont(plot_state * state, char *font, int charsize)
 {
   int error;
@@ -654,7 +712,6 @@ void plot_setfont(plot_state * state, char *font, int charsize)
     }
 
   // Set the text size
-  printf("Charsize = %d\n", charsize);
   if(FT_Set_Char_Size(state->face, 0, charsize * 64, 75, 75)){
     fprintf(stderr, "Could not set font size\n");
     return;
@@ -663,6 +720,218 @@ void plot_setfont(plot_state * state, char *font, int charsize)
     fprintf(stderr, "Freetype not found at compile time\n");
 #endif
 }
+
+/******************************************************************************
+DOCBOOK START
+
+FUNCTION plot_settextlocation
+PURPOSE sets the cursor location for text drawing
+
+SYNOPSIS START
+#include&lt;libplot.h&gt;
+void panda_setlinestart (plot_state *state, unsigned int x, unsigned int y);
+SYNOPSIS END
+
+DESCRIPTION Set the cursor location for text drawing.
+
+RETURNS Nothing
+
+EXAMPLE START
+#include&lt;libplot.h&gt;
+plot_state *graph;
+
+if((graph = plot_newplot(400, 300)) == NULL){
+  ... error ...
+}
+
+plot_settextlocation(graph, 30, 30);
+EXAMPLE END
+SEEALSO plot_addlinesegment.sgml plot_closeline.sgml plot_endline.sgml plot_getraster.sgml plot_newplot.sgml plot_rectangle.sgml plot_setfillcolor.sgml plot_setfontcolor.sgml plot_setfont.sgml plot_setlinecolor.sgml plot_setlinestart.sgml plot_settextlocation.sgml plot_stringwidth.sgml plot_strokeline.sgml plot_writestring.sgml
+DOCBOOK END
+******************************************************************************/
+
+void plot_settextlocation(plot_state *state, unsigned int x, unsigned int y)
+{
+  state->textx = x;
+  state->texty = y;
+}
+
+/******************************************************************************
+DOCBOOK START
+
+FUNCTION plot_settextlocation
+PURPOSE sets the cursor location for text drawing
+
+SYNOPSIS START
+#include&lt;libplot.h&gt;
+void panda_getlinestart (plot_state *state, unsigned int *x, unsigned int *y);
+SYNOPSIS END
+
+DESCRIPTION Get the cursor location for text drawing.
+
+RETURNS Nothing
+
+EXAMPLE START
+#include&lt;libplot.h&gt;
+plot_state *graph;
+int x, y;
+
+if((graph = plot_newplot(400, 300)) == NULL){
+  ... error ...
+}
+
+plot_settextlocation(graph, 30, 30);
+
+... draw some text...
+
+plot_gettextlocation(graph, &amp;x, &amp;y);
+EXAMPLE END
+SEEALSO plot_addlinesegment.sgml plot_closeline.sgml plot_endline.sgml plot_getraster.sgml plot_newplot.sgml plot_rectangle.sgml plot_setfillcolor.sgml plot_setfontcolor.sgml plot_setfont.sgml plot_setlinecolor.sgml plot_setlinestart.sgml plot_settextlocation.sgml plot_stringwidth.sgml plot_strokeline.sgml plot_writestring.sgml
+DOCBOOK END
+******************************************************************************/
+
+void plot_gettextlocation(plot_state *state, unsigned int *x, unsigned int *y)
+{
+  *x = state->textx;
+  *y = state->texty;
+}
+
+/******************************************************************************
+DOCBOOK START
+
+FUNCTION plot_writestring
+PURPOSE write a string onto the bitmap
+
+SYNOPSIS START
+#include&lt;libplot.h&gt;
+int plot_writestring(plot_state *state, char *string);
+SYNOPSIS END
+
+DESCRIPTION This function writes a string onto the specified bitmap. Note that the function does not implement any form of word wrap. This is the responsibility of the caller of the function. Have a look at the example below for a suggested technique for implementing word wrap.
+
+RETURNS 0 on success, -1 otherwise
+
+EXAMPLE START
+#include&lt;libplot.h&gt;
+plot_state *graph;
+char *words[] = {"This", "is", "a", "string", "which", "is", "quite", "long.",
+		 "It", "demonstrates", "how", "to", "do", "word", "wrap", NULL};
+
+if((graph = plot_newplot(400, 300)) == NULL){
+  ... error ...
+}
+
+plot_setfontcolor(graph, 26, 22, 249);
+plot_setfont(graph, "/usr/share/fonts/default/Type1/n021004l.pfb", 12);
+plot_settextlocation(graph, 20, 70);
+count = 0;
+while(words[count] != NULL){
+  plot_gettextlocation(graph, &amp;textx, &amp;texty);
+  if((textx + plot_stringwidth(graph, words[count])) > 380){
+    if(texty + 70 > 150)
+      break;
+
+    plot_settextlocation(graph, 20, texty + 20);
+  }
+
+  plot_writestring(graph, words[count]);
+  plot_writestring(graph, " ");
+  count++;
+}
+EXAMPLE END
+SEEALSO plot_addlinesegment.sgml plot_closeline.sgml plot_endline.sgml plot_getraster.sgml plot_newplot.sgml plot_rectangle.sgml plot_setfillcolor.sgml plot_setfontcolor.sgml plot_setfont.sgml plot_setlinecolor.sgml plot_setlinestart.sgml plot_settextlocation.sgml plot_stringwidth.sgml plot_strokeline.sgml plot_writestring.sgml
+DOCBOOK END
+******************************************************************************/
+
+int plot_writestring(plot_state *state, char *string){
+  int count, len;
+
+  len = strlen(string);
+  for(count = 0; count < len; count++){
+    if(plot_paintglyph(state, string[count], LIBPLOT_TRUE) == -1)
+      return -1;
+  }
+
+  return 0;
+}
+
+/******************************************************************************
+DOCBOOK START
+
+FUNCTION plot_stringwidth
+PURPOSE determine how many pixels a string will take
+
+SYNOPSIS START
+#include&lt;libplot.h&gt;
+unsigned int plot_stringwidth(plot_state *state, char *string);
+SYNOPSIS END
+
+DESCRIPTION This function determines how many pixels a string will consume in the current font and size.
+
+RETURNS 0 on success, -1 otherwise
+
+EXAMPLE START
+#include&lt;libplot.h&gt;
+plot_state *graph;
+char *words[] = {"This", "is", "a", "string", "which", "is", "quite", "long.",
+		 "It", "demonstrates", "how", "to", "do", "word", "wrap", NULL};
+
+if((graph = plot_newplot(400, 300)) == NULL){
+  ... error ...
+}
+
+plot_setfontcolor(graph, 26, 22, 249);
+plot_setfont(graph, "/usr/share/fonts/default/Type1/n021004l.pfb", 12);
+plot_settextlocation(graph, 20, 70);
+count = 0;
+while(words[count] != NULL){
+  plot_gettextlocation(graph, &amp;textx, &amp;texty);
+  if((textx + plot_stringwidth(graph, words[count])) > 380){
+    if(texty + 70 > 150)
+      break;
+
+    plot_settextlocation(graph, 20, texty + 20);
+  }
+
+  plot_writestring(graph, words[count]);
+  plot_writestring(graph, " ");
+  count++;
+}
+EXAMPLE END
+SEEALSO plot_addlinesegment.sgml plot_closeline.sgml plot_endline.sgml plot_getraster.sgml plot_newplot.sgml plot_rectangle.sgml plot_setfillcolor.sgml plot_setfontcolor.sgml plot_setfont.sgml plot_setlinecolor.sgml plot_setlinestart.sgml plot_settextlocation.sgml plot_stringwidth.sgml plot_strokeline.sgml plot_writestring.sgml
+DOCBOOK END
+******************************************************************************/
+
+unsigned int plot_stringwidth(plot_state *state, char *string){
+  int count, len, retval;
+  unsigned int width = 0;
+
+  len = strlen(string);
+  for(count = 0; count < len; count++){
+    if((retval = plot_paintglyph(state, string[count], LIBPLOT_FALSE)) == -1)
+      return -1;
+    width += retval;
+  }
+
+  return width;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ///////////////////
 // Internal methods
@@ -680,18 +949,6 @@ plot_max (unsigned int one, unsigned int two)
   if (one > two)
     return one;
   return two;
-}
-
-void plot_settextlocation(plot_state *state, unsigned int x, unsigned int y)
-{
-  state->textx = x;
-  state->texty = y;
-}
-
-void plot_gettextlocation(plot_state *state, unsigned int *x, unsigned int *y)
-{
-  *x = state->textx;
-  *y = state->texty;
 }
 
 int
@@ -728,7 +985,7 @@ plot_loadglyph(plot_state *state, char character)
 #define sfgb state->face->glyph->bitmap
 
 int
-plot_paintglyph(plot_state *state, char character)
+plot_paintglyph(plot_state *state, char character, int dopaint)
 {
 #if defined HAVE_LIBFREETYPE
   int bmx, bmy;
@@ -744,30 +1001,34 @@ plot_paintglyph(plot_state *state, char character)
     return -1;
   }
 
-  // Setup the character
+  // Setup and paint the character
   if(plot_loadglyph(state, character) != -1){
-    p = state->texty * state->y + state->textx;
-    printf("%d x %d\n", state->face->glyph->bitmap_left, state->face->glyph->bitmap_top);
-    p += state->face->glyph->bitmap_left;
-    p -= state->face->glyph->bitmap_top * state->x;
-
-    for(bmy = 0; bmy < sfgb.rows; bmy++){
-      for(bmx = 0; bmx < sfgb.width; bmx++){
-	if(sfgb.buffer[bmy * sfgb.width + bmx] != 0){
-	  state->raster[p + bmx].r = ~sfgb.buffer[bmy * sfgb.width + bmx] * state->fontcolor.r / 
-	    ~sfgb.buffer[bmy * sfgb.width + bmx];
-	  state->raster[p + bmx].g = ~sfgb.buffer[bmy * sfgb.width + bmx] * state->fontcolor.g / 
-	    ~sfgb.buffer[bmy * sfgb.width + bmx];
-	  state->raster[p + bmx].b = ~sfgb.buffer[bmy * sfgb.width + bmx] * state->fontcolor.b / 
-	    ~sfgb.buffer[bmy * sfgb.width + bmx];
+    if(dopaint == LIBPLOT_TRUE){
+      p = state->texty * state->y + state->textx;
+      p += state->face->glyph->bitmap_left;
+      p -= state->face->glyph->bitmap_top * state->x;
+      
+      for(bmy = 0; bmy < sfgb.rows; bmy++){
+	for(bmx = 0; bmx < sfgb.width; bmx++){
+	  if(sfgb.buffer[bmy * sfgb.width + bmx] != 0){
+	    state->raster[p + bmx].r = ~sfgb.buffer[bmy * sfgb.width + bmx] * state->fontcolor.r / 
+	      ~sfgb.buffer[bmy * sfgb.width + bmx];
+	    state->raster[p + bmx].g = ~sfgb.buffer[bmy * sfgb.width + bmx] * state->fontcolor.g / 
+	      ~sfgb.buffer[bmy * sfgb.width + bmx];
+	    state->raster[p + bmx].b = ~sfgb.buffer[bmy * sfgb.width + bmx] * state->fontcolor.b / 
+	      ~sfgb.buffer[bmy * sfgb.width + bmx];
+	  }
 	}
+	p += state->x;
       }
-      p += state->x;
+      
+      // Increment pen position
+      state->textx += state->face->glyph->advance.x >> 6;
+      state->texty += state->face->glyph->advance.y >> 6;
     }
-
-    // Increment pen position
-    state->textx += state->face->glyph->advance.x >> 6;
-    state->texty += state->face->glyph->advance.y >> 6;
+    else{
+      return state->face->glyph->advance.x >> 6;
+    }
 
     return 0;
   }

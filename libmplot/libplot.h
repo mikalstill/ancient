@@ -9,6 +9,9 @@
 #ifndef LIBPLOT_HEADER
 #define LIBPLOT_HEADER
 
+#define LIBPLOT_TRUE 0
+#define LIBPLOT_FALSE -1
+
 #ifdef __cplusplus
 extern "C"
 {
@@ -85,6 +88,10 @@ void plot_setfontcolor (plot_state *, int, int, int);
 void plot_settextlocation (plot_state *, unsigned int, unsigned int);
 void plot_gettextlocation (plot_state *, unsigned int *, unsigned int *);
 
+// Text opeations
+int plot_writestring(plot_state *state, char *string);
+unsigned int plot_stringwidth(plot_state *state, char *string);
+
 // Operations based on primitive operations
 void plot_rectangle (plot_state *, unsigned int, unsigned int, 
 		     unsigned int, unsigned int);
@@ -94,7 +101,7 @@ void plot_circle (plot_state *, unsigned int, unsigned int, unsigned int);
 unsigned int plot_min (unsigned int one, unsigned int two);
 unsigned int plot_max (unsigned int one, unsigned int two);
 int plot_loadglyph(plot_state *, char);
-int plot_paintglyph(plot_state *, char);
+int plot_paintglyph(plot_state *, char, int);
 
 #ifdef __cplusplus
 }

@@ -3,18 +3,18 @@
 .\" <http://shell.ipoline.com/~elmert/comp/docbook2X/> 
 .\" Please send any bug reports, improvements, comments, patches, 
 .\" etc. to Steve Cheng <steve@ggi-project.org>.
-.TH "PLOT_RECTANGLE" "3" "08 October 2002" "" ""
+.TH "PLOT_SETFONTCOLOR" "3" "08 October 2002" "" ""
 .SH NAME
-plot_rectangle \- draw a rectangle
+plot_setfontcolor \- sets the colour that text will be drawn with
 .SH SYNOPSIS
 
 .nf
  #include<libplot.h>
- void plot_rectangle plot_rectanglerot (plot_state *state, unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2);
+ void plot_setfontcolor (plot_state *state, int red, int green, int blue);
 .fi
 .SH "DESCRIPTION"
 .PP
-Draw a rectangle on the plot. x1, y1 is the top left corner, and x2, y2 is the bottom right corner of the rectangle. After this call you can use \fBplot_strokeline\fR and \fBplot_fillline\fR to actaully affect the raster.
+Set the colour to draw the text with
 .SH "RETURNS"
 .PP
 Nothing
@@ -25,7 +25,7 @@ plot_state *graph;
 if((graph = plot_newplot(400, 300)) == NULL){
 \&... error ...
 }
-plot_rectangle(graph, 10, 10, 20, 30);
+plot_setfontcolor(state, 255, 0, 0); // red
 .SH "SEE ALSO"
 .PP
 plot_addlinesegment.sgml plot_closeline.sgml plot_endline.sgml plot_getraster.sgml plot_newplot.sgml plot_rectangle.sgml plot_setfillcolor.sgml plot_setfontcolor.sgml plot_setfont.sgml plot_setlinecolor.sgml plot_setlinestart.sgml plot_settextlocation.sgml plot_stringwidth.sgml plot_strokeline.sgml plot_writestring.sgml

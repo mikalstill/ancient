@@ -1,0 +1,106 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of PLOT_STRINGWIDTH</TITLE>
+</HEAD><BODY>
+<H1>PLOT_STRINGWIDTH</H1>
+Section:  (3)<BR>Updated: 08 October 2002<BR><A HREF="#index">Index</A>
+<A HREF="http://localhost/cgi-bin/man/man2html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+plot_stringwidth - determine how many pixels a string will take
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<P>
+<PRE>
+ #include&lt;<A HREF="file:/usr/include/libplot.h">libplot.h</A>&gt;
+ unsigned int plot_stringwidth(plot_state *state, char *string);
+</PRE>
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+<P>
+
+This function determines how many pixels a string will consume in the current font and size.
+<A NAME="lbAE">&nbsp;</A>
+<H2>RETURNS</H2>
+
+<P>
+
+0 on success, -1 otherwise
+<A NAME="lbAF">&nbsp;</A>
+<H2>EXAMPLE</H2>
+
+<P>
+
+#include&lt;<A HREF="file:/usr/include/libplot.h">libplot.h</A>&gt;
+plot_state *graph;
+char *words[] = {&quot;This&quot;, &quot;is&quot;, &quot;a&quot;, &quot;string&quot;, &quot;which&quot;, &quot;is&quot;, &quot;quite&quot;, &quot;long.&quot;,
+&quot;It&quot;, &quot;demonstrates&quot;, &quot;how&quot;, &quot;to&quot;, &quot;do&quot;, &quot;word&quot;, &quot;wrap&quot;, NULL};
+if((graph = plot_newplot(400, 300)) == NULL){
+... error ...
+}
+plot_setfontcolor(graph, 26, 22, 249);
+plot_setfont(graph, &quot;/usr/share/fonts/default/Type1/n021004l.pfb&quot;, 12);
+plot_settextlocation(graph, 20, 70);
+count = 0;
+while(words[count] != NULL){
+plot_gettextlocation(graph, &amp;textx, &amp;texty);
+if((textx + plot_stringwidth(graph, words[count])) &gt; 380){
+if(texty + 70 &gt; 150)
+break;
+plot_settextlocation(graph, 20, texty + 20);
+}
+plot_writestring(graph, words[count]);
+plot_writestring(graph, &quot; &quot;);
+count++;
+}
+<A NAME="lbAG">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<P>
+
+plot_addlinesegment.sgml plot_closeline.sgml plot_endline.sgml plot_getraster.sgml plot_newplot.sgml plot_rectangle.sgml plot_setfillcolor.sgml plot_setfontcolor.sgml plot_setfont.sgml plot_setlinecolor.sgml plot_setlinestart.sgml plot_settextlocation.sgml plot_stringwidth.sgml plot_strokeline.sgml plot_writestring.sgml
+<A NAME="lbAH">&nbsp;</A>
+<H2>VERSION</H2>
+
+<P>
+
+This documentation was generated for <B>libplot</B> 0.3 by <B>autodocbook</B> (<A HREF="http://www.stillhq.com).">http://www.stillhq.com).</A>
+<A NAME="lbAI">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+<P>
+
+<B>libplot</B> is under development by Michael Still (<A HREF="mailto:mikal@stillhq.com">mikal@stillhq.com</A>). All code is Copyright Michael Still 2002,  and is released under the GNU GPL. Code submissions are welcomed. Contact Michael at the address above if you have something you would like to contribute.
+<A NAME="lbAJ">&nbsp;</A>
+<H2>BUGS</H2>
+
+<P>
+
+There  are no known bugs in <B>libplot</B>. If you find one, please contact <A HREF="mailto:mikal@stillhq.com">mikal@stillhq.com</A> and let me know.
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">RETURNS</A><DD>
+<DT><A HREF="#lbAF">EXAMPLE</A><DD>
+<DT><A HREF="#lbAG">SEE ALSO</A><DD>
+<DT><A HREF="#lbAH">VERSION</A><DD>
+<DT><A HREF="#lbAI">AUTHOR</A><DD>
+<DT><A HREF="#lbAJ">BUGS</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 00:51:44 GMT, October 08, 2002
+</BODY>
+</HTML>

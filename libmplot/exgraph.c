@@ -20,6 +20,9 @@
 #include <png.h>
 #include <libplot.h>
 
+char *words[] = {"This", "is", "a", "string", "which", "is", "quite", "long.",
+		 "It", "demonstrates", "how", "to", "do", "word", "wrap", NULL};
+
 int
 main (int argc, char *argv[])
 {
@@ -77,12 +80,19 @@ main (int argc, char *argv[])
   plot_setfontcolor(graph, 26, 22, 249);
   plot_setfont(graph, "/usr/share/fonts/default/Type1/n021004l.pfb", 12);
   plot_settextlocation(graph, 20, 70);
-  for(count = 0; count < 26; count++){
-    plot_paintglyph(graph, 'a' + count);
+  count = 0;
+  while(words[count] != NULL){
     plot_gettextlocation(graph, &textx, &texty);
-    if(textx > 380){
-      plot_settextlocation(graph, 20, texty + 70);
+    if((textx + plot_stringwidth(graph, words[count])) > 380){
+      if(texty + 70 > 150)
+	break;
+
+      plot_settextlocation(graph, 20, texty + 20);
     }
+
+    plot_writestring(graph, words[count]);
+    plot_writestring(graph, " ");
+    count++;
   }
 
   // Write out the PNG file

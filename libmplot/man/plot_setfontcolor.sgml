@@ -12,28 +12,28 @@
 
 <!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
 
-<refentry id="plot_setlinestart">
+<refentry id="plot_setfontcolor">
 <refmeta>
-<refentrytitle>plot_setlinestart</refentrytitle>
+<refentrytitle>plot_setfontcolor</refentrytitle>
 <manvolnum>3</manvolnum>
 </refmeta>
 
 <refnamediv>
-<refname>plot_setlinestart</refname>
-<refpurpose>sets the starting point of series of lines and curves</refpurpose>
+<refname>plot_setfontcolor</refname>
+<refpurpose>sets the colour that text will be drawn with</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv>
 <synopsis>
  #include&lt;libplot.h&gt;
- void plot_setlinestart (plot_state *state, unsigned int x, unsigned int y);
+ void plot_setfontcolor (plot_state *state, int red, int green, int blue);
 
 </synopsis>
 </refsynopsisdiv>
 
 <refsect1>
 <title>DESCRIPTION</title>
-<para>Set the starting point for the sequence of curves and lines that it to be drawn on the current plot. This call is compulsory for almost all of the line drawing functions. It is not required for the <command>plot_rectangle plot_rectanglerot</command> function.</para>
+<para>Set the colour to draw the text with</para>
 </refsect1>
 
 <refsect1>
@@ -50,7 +50,7 @@
  ... error ...
  }
  
- plot_setlinestart(graph, 200, 200);
+ plot_setfontcolor(state, 255, 0, 0); // red
 </para>
 </refsect1>
 

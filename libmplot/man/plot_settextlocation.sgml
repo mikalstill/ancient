@@ -12,28 +12,28 @@
 
 <!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
 
-<refentry id="plot_setlinestart">
+<refentry id="plot_settextlocation">
 <refmeta>
-<refentrytitle>plot_setlinestart</refentrytitle>
+<refentrytitle>plot_settextlocation</refentrytitle>
 <manvolnum>3</manvolnum>
 </refmeta>
 
 <refnamediv>
-<refname>plot_setlinestart</refname>
-<refpurpose>sets the starting point of series of lines and curves</refpurpose>
+<refname>plot_settextlocation</refname>
+<refpurpose>sets the cursor location for text drawing</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv>
 <synopsis>
  #include&lt;libplot.h&gt;
- void plot_setlinestart (plot_state *state, unsigned int x, unsigned int y);
+ void panda_getlinestart (plot_state *state, unsigned int *x, unsigned int *y);
 
 </synopsis>
 </refsynopsisdiv>
 
 <refsect1>
 <title>DESCRIPTION</title>
-<para>Set the starting point for the sequence of curves and lines that it to be drawn on the current plot. This call is compulsory for almost all of the line drawing functions. It is not required for the <command>plot_rectangle plot_rectanglerot</command> function.</para>
+<para>Get the cursor location for text drawing.</para>
 </refsect1>
 
 <refsect1>
@@ -45,12 +45,17 @@
 <title>EXAMPLE</title>
 <para> #include&lt;libplot.h&gt;
  plot_state *graph;
+ int x, y;
  
  if((graph = plot_newplot(400, 300)) == NULL){
  ... error ...
  }
  
- plot_setlinestart(graph, 200, 200);
+ plot_settextlocation(graph, 30, 30);
+ 
+ ... draw some text...
+ 
+ plot_gettextlocation(graph, &amp;x, &amp;y);
 </para>
 </refsect1>
 

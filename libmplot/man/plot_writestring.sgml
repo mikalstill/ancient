@@ -12,45 +12,63 @@
 
 <!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
 
-<refentry id="plot_setlinestart">
+<refentry id="plot_writestring">
 <refmeta>
-<refentrytitle>plot_setlinestart</refentrytitle>
+<refentrytitle>plot_writestring</refentrytitle>
 <manvolnum>3</manvolnum>
 </refmeta>
 
 <refnamediv>
-<refname>plot_setlinestart</refname>
-<refpurpose>sets the starting point of series of lines and curves</refpurpose>
+<refname>plot_writestring</refname>
+<refpurpose>write a string onto the bitmap</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv>
 <synopsis>
  #include&lt;libplot.h&gt;
- void plot_setlinestart (plot_state *state, unsigned int x, unsigned int y);
+ int plot_writestring(plot_state *state, char *string);
 
 </synopsis>
 </refsynopsisdiv>
 
 <refsect1>
 <title>DESCRIPTION</title>
-<para>Set the starting point for the sequence of curves and lines that it to be drawn on the current plot. This call is compulsory for almost all of the line drawing functions. It is not required for the <command>plot_rectangle plot_rectanglerot</command> function.</para>
+<para>This function writes a string onto the specified bitmap. Note that the function does not implement any form of word wrap. This is the responsibility of the caller of the function. Have a look at the example below for a suggested technique for implementing word wrap.</para>
 </refsect1>
 
 <refsect1>
 <title>RETURNS</title>
-<para>Nothing</para>
+<para>0 on success, -1 otherwise</para>
 </refsect1>
 
 <refsect1>
 <title>EXAMPLE</title>
 <para> #include&lt;libplot.h&gt;
  plot_state *graph;
+ char *words[] = {"This", "is", "a", "string", "which", "is", "quite", "long.",
+ "It", "demonstrates", "how", "to", "do", "word", "wrap", NULL};
  
  if((graph = plot_newplot(400, 300)) == NULL){
  ... error ...
  }
  
- plot_setlinestart(graph, 200, 200);
+ plot_setfontcolor(graph, 26, 22, 249);
+ plot_setfont(graph, "/usr/share/fonts/default/Type1/n021004l.pfb", 12);
+ plot_settextlocation(graph, 20, 70);
+ count = 0;
+ while(words[count] != NULL){
+ plot_gettextlocation(graph, &amp;textx, &amp;texty);
+ if((textx + plot_stringwidth(graph, words[count])) > 380){
+ if(texty + 70 > 150)
+ break;
+ 
+ plot_settextlocation(graph, 20, texty + 20);
+ }
+ 
+ plot_writestring(graph, words[count]);
+ plot_writestring(graph, " ");
+ count++;
+ }
 </para>
 </refsect1>
 
