@@ -1,0 +1,11 @@
+#!/bin/bash
+
+for item in `ls`
+do
+  if [ -h $item ]
+  then
+    target=`ls -l $item | sed 's/.*-> //'`
+    rm $item
+    cp $target $item
+  fi
+done
