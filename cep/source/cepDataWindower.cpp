@@ -162,14 +162,19 @@ const cepError cepDataWindower::window( const cepMatrix<double> & dataIn,
   int numSamples = const_cast<cepMatrix<double>&>(dataIn).getNumRows();
   int numWindows = countWindows( numSamples, windowAlg->getSize(), overlap );
   int increment = windowAlg->getSize() - overlap;
+//  cout << "windowing: " << algType.toString() << endl
+//       << "  numSamples=" << numSamples << endl
+//       << "  numWindows=" << numWindows << endl
+//       << "  increment=" << increment << endl;
 
   // sanity checks
   if( windowAlg->getSize() > numSamples ) {
-    return cepError("invalid window size specified. size must not be greater than the sample size");
+    return cepError("invalid window size specified. size ("+cepToString(size)+
+                    ") is greater than the sample size ("+cepToString(numSamples)+")");
   } else if( const_cast<cepMatrix<double>&>(dataIn).getNumCols() < 2 ) {
     return cepError("insufficient data to proceed. require at least 2 cols: date and sample");
   } else if( increment < 0 ) {
-    return cepError("invalid overlap specified. cannot be negative");
+    return cepError("invalid overlap - negative value supplied");
   }
 
 
