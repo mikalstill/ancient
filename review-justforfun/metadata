@@ -1,0 +1,8 @@
+# This file defines metadata about the book under review. It follows sh syntax
+export TITLE="Just for Fun: The story of an accidental revolutionary"
+export AUTHOR="Linus Torvalds, and David Diamond"
+export PUBLISHER="Texere"
+export ISBN="1-58799-080-6"
+export YEAR="2001"
+export LENGTH="262 pages"
+export UKRRP="17.99"
