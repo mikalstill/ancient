@@ -50,6 +50,7 @@ public:
 
   void setLsParams(double b1, double b2);
   void setFreqParams(float energy);
+  void setDisplayWindow(int number);
 
   cepError createPDF (const string & filename);
   cepError createBitmap (float& xscale, float& yscale, long& xminval, long& yminval, long& yrange);
@@ -99,6 +100,7 @@ private:
 
   bool m_freqDomain;
   float m_e;
+  int m_displayWindow;
 
   cepConfiguration *m_config;
 };

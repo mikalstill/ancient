@@ -108,6 +108,8 @@ BEGIN_EVENT_TABLE (cepView, wxView)
   EVT_MENU (CEPMENU_INTERP_CUBICSPLINE, cepView::OnInterpCubicSpline)
   EVT_MENU (CEPMENU_INTERP_DIVIDED, cepView::OnInterpDivided)
   EVT_MENU (CEPMENU_FFT, cepView::OnFFT)
+  EVT_MENU (CEPMENU_WINDOWNEXT, cepView::OnNextWindow)
+  EVT_MENU (CEPMENU_WINDOWPREV, cepView::OnPrevWindow)
   EVT_MENU (CEPMENU_SELECTFONT, cepView::OnSelectFont)
 END_EVENT_TABLE ()
 
@@ -131,6 +133,8 @@ cepView::cepView ():
   else{
     m_displayLs = (cepLsDisplay) currentLs;
   }
+
+  m_currentWindow = -1;
 }
 
 void cepView::setParentFrame(wxFrame *parentFrame)
@@ -806,18 +810,20 @@ cepView::processWindow(const cepWindow wType, string desc)
   if (theDataset && theDataset->isReady() && theDataset->isWellFormed()){
     cepWindowUi windowUi;
 
-    cepDebugPrint("Prompt for Window information");
     bool ok = false;
     do
     {
+        cepDebugPrint("Prompt for Window information");
         cepError err;
         if(wType == cepDataWindower::WINDOW_CHEBYSHEV) {        
             err = windowUi.showChebyshev();
         } else {
             err = windowUi.show();
         }
-          
+       
+	cepDebugPrint("Checking if operation cancelled");
         if( windowUi.cancelled() ){
+	  cepDebugPrint("Operation cancelled");
 	  canvas->Refresh();
 	  return;
 	}
@@ -980,37 +986,6 @@ void cepView::OnFFT (wxCommandEvent& event)
       {
 	cepDebugPrint("Performing FFT in " + cepToString(i) + " direction");
 
-	// We need to copy add the data across into complex land...
-	cepMatrix<ComplexDble> input(theDataset->getMatrix((cepDataset::direction) i)->getNumRows(),
-				     theDataset->getMatrix((cepDataset::direction) i)->getNumCols(),
-				     theDataset->getMatrix((cepDataset::direction) i)->getNumTables());
-	
-	for(int table = 0;
-	    table < theDataset->getMatrix((cepDataset::direction) i)->getNumTables(); table++){
-	  for(int row = 0; 
-	      row < theDataset->getMatrix((cepDataset::direction) i)->getNumRows(); row++){
-	    for(int col = 0; 
-		col < theDataset->getMatrix((cepDataset::direction) i)->getNumCols(); col++){
-	      input.setValue(row, col, table, theDataset->getMatrix((cepDataset::direction) i)->
-			     getValue(row, col, table));
-	      
-	      if(theDataset->getMatrix((cepDataset::direction) i)->getError().isReal()){
-		cepDebugPrint("FFT data conversion, extract from dataset");
-		theDataset->getMatrix((cepDataset::direction) i)->getError().display();
-		canvas->Refresh();
-		return;
-	      }
-	      
-	      if(input.getError().isReal()){
-		cepDebugPrint("FFT data conversion, push to input");
-		input.getError().display();
-		canvas->Refresh();
-		return;
-	      }
-	    }
-	  }
-	}
-	
 	// Determine how many items we are going to perform an FFT on
 	// It has to be a power of two
 	cepDebugPrint("Dataset contains " + 
@@ -1030,7 +1005,49 @@ void cepView::OnFFT (wxCommandEvent& event)
 	      break;
 	    }
 	  }
+
+	if((theDataset->getMatrix((cepDataset::direction) i)->getNumRows() - fftScale) > (fftScale / 2)){
+	  cepDebugPrint("Dataset padded");
+	  fftScale *= 2;
+	}
+
 	cepDebugPrint("FFT applied to " + cepToString(fftScale) + " elements");
+
+	// We need to copy add the data across into complex land...
+	cepMatrix<ComplexDble> input(fftScale,
+				     theDataset->getMatrix((cepDataset::direction) i)->getNumCols(),
+				     theDataset->getMatrix((cepDataset::direction) i)->getNumTables());
+	
+	for(int table = 0;
+	    table < theDataset->getMatrix((cepDataset::direction) i)->getNumTables(); table++){
+	  for(int row = 0; row < fftScale; row++){
+	    for(int col = 0; 
+		col < theDataset->getMatrix((cepDataset::direction) i)->getNumCols(); col++){
+	      // If this entry exists
+	      if(row < theDataset->getMatrix((cepDataset::direction) i)->getNumRows()){
+		input.setValue(row, col, table, theDataset->getMatrix((cepDataset::direction) i)->
+			       getValue(row, col, table));
+		
+		if(theDataset->getMatrix((cepDataset::direction) i)->getError().isReal()){
+		  cepDebugPrint("FFT data conversion, extract from dataset");
+		  theDataset->getMatrix((cepDataset::direction) i)->getError().display();
+		  canvas->Refresh();
+		  return;
+		}
+	      }
+	      else{
+		input.setValue(row, col, table, 0.0);
+	      }
+
+	      if(input.getError().isReal()){
+		cepDebugPrint("FFT data conversion, push to input");
+		input.getError().display();
+		canvas->Refresh();
+		return;
+	      }
+	    }
+	  }
+	}
 
 	// Make a new matrix to put this into
 	ffted[i] = cepMatrix<double> ((fftScale / 2) - 1, 
@@ -1073,13 +1090,11 @@ void cepView::OnFFT (wxCommandEvent& event)
 			    cepToString(col));
 	      
 	      // The first row of the FFT output is treated separately...
-	      if(row == 0){
-		if(col == 1){
-		  energies[i] = real(output.getValue(row, col, 0));
-		}
+	      if((row == 0) && (col == 1) && (table == 0)){
+		energies[i] = real(output.getValue(row, col, table));
 	      }
 	      else{
-		ffted[i].setValue(row - 1, col, table, real(output.getValue(row, col, 0)));
+		ffted[i].setValue(row - 1, col, table, real(output.getValue(row, col, table)));
 		if(output.getError().isReal()){
 		  cepDebugPrint("FFT data conversion, get output");
 		  output.getError().display();
@@ -1142,5 +1157,31 @@ void cepView::OnSelectFont (wxCommandEvent& event)
       m_dirty = true;
       canvas->Refresh();
       cepDebugPrint(string("Set graphing font to: ") + dlg.GetPath().c_str());
+  }
+}
+
+void cepView::OnNextWindow(wxCommandEvent& event)
+{
+  cepDoc *theDoc = (cepDoc *) GetDocument ();
+  cepDataset *theDataset = theDoc->getDataset ();
+  if (theDataset && theDataset->isReady() && theDataset->isWellFormed()){
+    if(m_currentWindow > 0){
+      m_currentWindow--;
+      m_dirty = true;
+      canvas->Refresh();
+    }
+  }
+}
+
+void cepView::OnPrevWindow(wxCommandEvent& event)
+{
+  cepDoc *theDoc = (cepDoc *) GetDocument ();
+  cepDataset *theDataset = theDoc->getDataset ();
+  if (theDataset && theDataset->isReady() && theDataset->isWellFormed()){
+    if(m_currentWindow < theDataset->getMatrix(cepDataset::dirX)->getNumTables()){
+      m_currentWindow++;
+      m_dirty = true;
+      canvas->Refresh();
+    }
   }
 }

@@ -317,6 +317,7 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
   wxMenu *window_submenu = (wxMenu *) NULL;
   wxMenu *interp_submenu = (wxMenu *) NULL;
   wxMenu *dev_menu = (wxMenu *) NULL;
+  wxMenu *goto_menu = (wxMenu *) NULL;
   
   if (isCanvas)
     {
@@ -494,7 +495,7 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
       maths_menu->Append (CEPMENU_FFT, "Fast Fourier Transform",
 			  "Calculate an FFT for this dataset", FALSE);
     }
-  
+ 
   /////////////////////////////////////////////////////////////////////////////
   // The developer's menu
   dev_menu = new wxMenu(wxMENU_TEAROFF);
@@ -502,6 +503,18 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
 		    "This will test that the UI is handling errors correctly",
 		    FALSE);
 
+  /////////////////////////////////////////////////////////////////////////////
+  // The window selection menu
+  goto_menu = new wxMenu(wxMENU_TEAROFF);
+  goto_menu->Append (CEPMENU_WINDOWPREV, "Previous Window",
+		    "Display the previous window",
+		    FALSE);
+
+  goto_menu->Append (CEPMENU_WINDOWNEXT, "Next Window",
+		    "Display the next window",
+		    FALSE);
+
+  /////////////////////////////////////////////////////////////////////////////
   wxMenu *help_menu = new wxMenu;
   help_menu->Append (CEPMENU_ABOUT, "&About");
 
@@ -511,8 +524,9 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
     menu_bar->Append (edit_menu, "&Edit");
     menu_bar->Append (view_menu, "View");
     menu_bar->Append (maths_menu, "Maths");
+    menu_bar->Append (goto_menu, "Goto");
   }
-  menu_bar->Append (dev_menu, "Developers");
+  //menu_bar->Append (dev_menu, "Developers");
   menu_bar->Append (help_menu, "&Help");
 
   // Associate the menu bar with the frame

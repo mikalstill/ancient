@@ -105,6 +105,10 @@ public:
   // FFT
   void OnFFT (wxCommandEvent& event);
 
+  // Window selection
+  void OnNextWindow (wxCommandEvent& event);
+  void OnPrevWindow (wxCommandEvent& event);
+
 private:
   DECLARE_DYNAMIC_CLASS (cepView) 
   DECLARE_EVENT_TABLE ()
@@ -125,6 +129,8 @@ private:
   cepConfiguration *m_config;
   cepErrorHandler *errHandler;
   int m_x, m_y;
+
+  int m_currentWindow;
 };
 
 

@@ -132,6 +132,7 @@ double cepWindowBandwidth::getBandwidth()
 void cepWindowBandwidth::dlgBandwidthOnQuit(wxCommandEvent& WXUNUSED(event))
 {
   //if cancel or quit button pressed
+  cepDebugPrint("Window cancel button pressed");
   aborted = true;  
   EndModal(1);
   Destroy();
@@ -176,16 +177,20 @@ cepError cepWindowUi::showChebyshev()
   
 }
 
-
 cepError cepWindowUi::show()
 {
   cepWindowBandwidth wa( false );
+  cepDebugPrint("Finished with dialog");
 
   m_size = wa.getSize();
   m_overlap = wa.getOverlap();
   aborted = wa.cancelled();
-  return checkValues();
+  cepDebugPrint("Extracted arguements");
 
+  if(aborted)
+    return cepError();
+  else
+    return checkValues();
 }
   
 int cepWindowUi::getSize()
@@ -207,10 +212,13 @@ bool cepWindowUi::cancelled()
 
 cepError cepWindowUi::checkValues()
 {
-  if( m_size!=cepWindowBandwidth::UNINITIALISED_INT && m_size == 0 ) return cepError("invalid window size requested");
-  if( m_overlap!=cepWindowBandwidth::UNINITIALISED_INT && m_overlap < 0 ) return cepError("invalid overlap requested");
+  if( m_size!=cepWindowBandwidth::UNINITIALISED_INT && m_size == 0 ) 
+    return cepError("invalid window size requested");
+  if( m_overlap!=cepWindowBandwidth::UNINITIALISED_INT && m_overlap < 0 ) 
+    return cepError("invalid overlap requested");
   if( m_overlap > m_size ) return cepError("overlap exceeds window size");
   if( !check2n( m_size ))  return cepError("size needs to be a power of 2");
+
   return cepError();
 }
 

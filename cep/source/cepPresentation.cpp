@@ -59,7 +59,8 @@ cepPresentation::cepPresentation (long width, long height, cepMatrix<double> *ds
   m_haveMaxima(false),
   m_haveLs(false),
   m_offset(offset),
-  m_freqDomain(false)
+  m_freqDomain(false),
+  m_displayWindow(-1)
 {
   m_axesColor.red = 0;
   m_axesColor.green = 0;
@@ -424,12 +425,17 @@ cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminva
   // Now draw the actual graph
   cepDebugPrint("Plotting graph");
   for(int tno = 0; tno < m_ds->getNumTables(); tno++){
+    // Skip this window if we're not displaying all and it hasn't been selected
+    if((m_displayWindow != -1) && (m_displayWindow != tno))
+      continue;
+
     if(m_ds->getError().isReal()){
       m_ds->getError().display();
       break;
     }
 
-    cepDebugPrint("Plotting table " + cepToString(tno) + " of " +  cepToString(m_ds->getNumTables()));
+    cepDebugPrint("Plotting table " + cepToString(tno) + " of " +  
+		  cepToString(m_ds->getNumTables()));
     cepDebugPrint("Containing " + cepToString(m_ds->getNumRows()) + " rows");
 
     bool lineStarted = false;
@@ -535,7 +541,7 @@ cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminva
     plot_endline(graph);
   }
   else if(m_freqDomain){
-    string freqEnergy = "Energy = " + cepToString(m_e, true);
+    string freqEnergy = "FFT Mean = " + cepToString(m_e, true);
     plot_settextlocation(graph, graphInset * 2, graphInset + graphInset);
     plot_writestring(graph, (char *) freqEnergy.c_str()); 
   }
@@ -717,4 +723,8 @@ void cepPresentation::setFreqParams(float energy){
   m_haveLs = false;
   m_freqDomain = true;
   m_e = energy;
+}
+
+void cepPresentation::setDisplayWindow(int number){
+  m_displayWindow = number;
 }
