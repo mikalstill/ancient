@@ -15,6 +15,7 @@ main (int argc, char *argv[])
   char *inputFilename = NULL, *outputFilename = NULL, *raster, *roff,
     *enlarged, *rout, optchar;
   int xrep, yrep;
+  float m;
 
   /////////////////////////////////////////////////////////////////////////////
   // Parse the command line options
@@ -225,7 +226,17 @@ main (int argc, char *argv[])
 
   /////////////////////////////////////////////////////////////////////////////
   // Draw the two diagonal lines between the original and the enlarged
+  //    this bit is based on the premis that y = mx + b
+  //    and m = (y2 - y1) / (x2 - x1) and that geometry hasn't significantly
+  //    changed since my high school days
+  // 
+  //    which I think is probably a fairly safe set of assumptions at this
+  //    stage...
+  m = (ye - ys) / (xe - xs);
   
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Copy the enlarged portion across
 
   offset = 0;
   // todo: I'm too tired to understand the placement of this in maths land
