@@ -1,0 +1,109 @@
+#!/usr/bin/perl
+
+# This script takes inline comments from C files and turns them into docbook
+# documentation files... It was orginally written for the Panda project
+# http://www.stillhq.com/cgi-bin/getpage?area=panda&page=index.htm
+
+# This code is (c) Michael Still 2001 and is released under the terms of the
+# GNU GPL
+
+use strict;
+my($CFILE, $filename, $docbook, $blockmode, $blockstring, $blockkey, %myhash);
+my($key, $value, $tempString, $OUTPUTFILE);
+
+$filename=shift();
+print "Opening $filename and finding all the documentation comments within it\n";
+
+# Run through every line the the file
+open CFILE, "< $filename";
+while(<CFILE>){
+  # The docbook start and stop tags are treated as special cases
+  if(/DOCBOOK START/){
+    print ".";
+    $docbook = 1;
+    }
+  elsif(/DOCBOOK END/){
+    print "\b+";
+    $docbook = 0;
+
+    open OUTPUTFILE, "> man/$myhash{FUNCTION}.sgml" or die "Could not open man/$myhash{FUNCTION}.sgml";
+
+    # Dump the hash for this piece of documentation...
+    # We should know that there is a key named FUNCTION which is the name of the docbook output
+    print OUTPUTFILE `cat man/docbook/head.sgml`;
+    print OUTPUTFILE "<refentry id=\"$myhash{FUNCTION}\">\n";
+    print OUTPUTFILE "<refmeta>\n";
+    print OUTPUTFILE "<refentrytitle>$myhash{FUNCTION}</refentrytitle>\n";
+    print OUTPUTFILE "<manvolnum>3</manvolnum>\n";
+    print OUTPUTFILE "</refmeta>\n\n";
+
+    print OUTPUTFILE "<refnamediv>\n";
+    print OUTPUTFILE "<refname>$myhash{FUNCTION}</refname>\n";
+    print OUTPUTFILE "<refpurpose>$myhash{PURPOSE}</refpurpose>\n";
+    print OUTPUTFILE "</refnamediv>\n\n";
+
+    print OUTPUTFILE "<refsynopsisdiv>\n";
+    print OUTPUTFILE "<synopsis>\n";
+#    $tempString = $myhash{SYNOPSIS};
+#    s/$myhash{FUNCTION}/<command>$myhash{FUNCTION}<\/command>/g;
+    print OUTPUTFILE "$myhash{SYNOPSIS}\n";
+    print OUTPUTFILE "</synopsis>\n";
+    print OUTPUTFILE "</refsynopsisdiv>\n\n";
+
+    print OUTPUTFILE "<refsect1>\n";
+    print OUTPUTFILE "<title>DESCRIPTION</title>\n";
+    print OUTPUTFILE "<para>$myhash{DESCRIPTION}</para>\n";
+    print OUTPUTFILE "</refsect1>\n\n";
+
+    print OUTPUTFILE "<refsect1>\n";
+    print OUTPUTFILE "<title>RETURNS</title>\n";
+    print OUTPUTFILE "<para>$myhash{RETURNS}</para>\n";
+    print OUTPUTFILE "</refsect1>\n\n";
+
+    print OUTPUTFILE "<refsect1>\n";
+    print OUTPUTFILE "<title>EXAMPLE</title>\n";
+    print OUTPUTFILE "<para>$myhash{EXAMPLE}</para>\n";
+    print OUTPUTFILE "</refsect1>\n\n";
+
+    if($myhash{SEEALSO} ne ""){
+      print OUTPUTFILE "<refsect1>\n";
+      print OUTPUTFILE "<title>SEE ALSO</title>\n";
+      print OUTPUTFILE "<para>$myhash{SEEALSO}</para>\n";
+      print OUTPUTFILE "</refsect1>\n\n";
+      }
+
+    print OUTPUTFILE `cat man/docbook/foot.sgml`;    
+
+    close OUTPUTFILE;
+    }
+  elsif((/([A-Z]*)[ \t]*(.*)[ \t]*/) && ($docbook == 1)){
+    if($blockmode == 0){
+      if($2 eq "START"){
+        # We are entering block mode
+        $blockmode = 1;
+        $blockstring = "";
+        $blockkey = $1;
+        }
+      elsif($1 ne ""){
+        # Outside of block mode we ignore blank lines
+	$myhash{ $1 } = $2;
+        }
+      }
+    else{
+      # We are in block mode
+      if($2 eq "END"){
+        $myhash{ $blockkey } = $blockstring;
+        $blockmode = 0;
+        }
+      else{
+        $blockstring = "$blockstring $2\n";
+        }
+      }
+    }
+  elsif($docbook == 1){
+    print $_;
+    }
+  }
+
+
+print "\n\n";
