@@ -73,6 +73,17 @@ I am the author of the comp.text.pdf USENET frequently asked questions document.
 </para>
 </sect1>
 
+<sect1><title>Professional bodies</title>
+<para>
+I have held the following positions within a variety of professional bodies:
+</para>
+
+<itemizedlist>
+<listitem><para>1997 - 1998: Chairman, Young Engineers Canberra, Institute of Engineers Australia</para></listitem>
+<listitem><para>2002 - 2003: Secretary, Canberra Chapter, the Australian Unix Users Group</para></listitem>
+</itemizedlist>
+</sect1>
+
 <sect1><title>Current employment</title>
 <para>
 I am currently employed as a senior software engineer with TOWER Software Pty Ltd. This work involves management of complex exploratory development efforts, as well as project management and system development for our commercial software products
@@ -210,6 +221,7 @@ I have given the following technical presentations:
 <listitem><para>August 2002: Australian National University Guest Lecture COMP3410, <emphasis>Electronic Document Management with TRIM</emphasis></para></listitem>
 <listitem><para>September 2002: Australian Unix User's Group Annual Conference, <emphasis>Graphics programming tutorial</emphasis> (cancelled due to lack of enrollments)</para></listitem>
 <listitem><para>October 2002: Canberra Linux User's Group, <emphasis>Using the autotools for your application</emphasis></para></listitem>
+<listitem><para>November 2002: Australian Unix User's Group, Canberra Chapter Technical Symposium, <emphasis>Fixing whats wrong with bind: shdns</emphasis></para></listitem>
 </itemizedlist>
 </sect1>
 
