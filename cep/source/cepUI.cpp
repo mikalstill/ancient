@@ -349,10 +349,11 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
       if(err.isReal()){
 	view_menu->Check(CEPMENU_AVERAGE, false);
 	err.display();
-    }
+      }
       else
 	view_menu->Check(CEPMENU_AVERAGE, confval);
-      
+      view_menu->Enable(CEPMENU_AVERAGE, false);
+
       view_menu->Append (CEPMENU_ERRORS, "Show error bars",
 		       "Toggle whether the error bars are shown on graphs",
 			 TRUE);

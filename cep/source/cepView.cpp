@@ -391,22 +391,14 @@ void cepView::OnToggleAverage (wxCommandEvent &pevt)
 {
   m_config->setValue("ui-viewmenu-showaverages", pevt.IsChecked());
   m_dirty = true;
-
-  // todo_mikal: this doesn't work at the moment...
-  // Force a repaint of the window
-  wxPaintEvent evt(0);
-  wxPostEvent(frame, evt);
+  canvas->Refresh();
 }
 
 void cepView::OnToggleErrors (wxCommandEvent &pevt)
 {
   m_config->setValue("ui-viewmenu-showerrors", pevt.IsChecked());
   m_dirty = true;
-
-  // todo_mikal: this doesn't work at the moment...
-  // Force a repaint of the window
-  wxPaintEvent evt(0);
-  wxPostEvent(frame, evt);
+  canvas->Refresh();  
 }
 
 void
@@ -421,7 +413,7 @@ cepView::OnColorAxes (wxCommandEvent & WXUNUSED (event))
     m_config->setValue("ui-graph-color-axis-b", color.Blue());
 
     m_dirty = true;
-    // todo_mikal: post paint event
+    canvas->Refresh();
   }
 }
 
@@ -437,7 +429,7 @@ cepView::OnColorLine (wxCommandEvent & WXUNUSED (event))
     m_config->setValue("ui-graph-color-line-b", color.Blue());
 
     m_dirty = true;
-    // todo_mikal: post paint event
+    canvas->Refresh();
   }
 }
 
@@ -453,7 +445,7 @@ cepView::OnColorAverage (wxCommandEvent & WXUNUSED (event))
     m_config->setValue("ui-graph-color-average-b", color.Blue());
 
     m_dirty = true;
-    // todo_mikal: post paint event
+    canvas->Refresh();
   }
 }
 
@@ -469,7 +461,7 @@ cepView::OnColorError (wxCommandEvent & WXUNUSED (event))
     m_config->setValue("ui-graph-color-error-b", color.Blue());
 
     m_dirty = true;
-    // todo_mikal: post paint event
+    canvas->Refresh();
   }
 }
 
@@ -516,37 +508,21 @@ void cepView::OnToggleX (wxCommandEvent &pevt)
 {
   m_config->setValue("ui-viewmenu-showx", pevt.IsChecked());
   m_dirty = true;
-
-  // todo_mikal: this doesn't work at the moment...
-  // Force a repaint of the window
-  cepDebugPrint("Posting a paint event for the window " +
-		cepToString(frame->GetId()));
-  wxPaintEvent event( frame->GetId() );
-  wxPostEvent(frame, event);
+  canvas->Refresh();
 }
 
 void cepView::OnToggleY (wxCommandEvent &pevt)
 {
   m_config->setValue("ui-viewmenu-showy", pevt.IsChecked());
   m_dirty = true;
-
-  // todo_mikal: this doesn't work at the moment...
-  // Force a repaint of the window
-  cepDebugPrint("Posting a paint event for the window " +
-		cepToString(frame->GetId()));
-  wxPaintEvent event( frame->GetId() );
-  wxPostEvent(frame, event);
+  canvas->Refresh();
 }
 
 void cepView::OnToggleZ (wxCommandEvent &pevt)
 {
   m_config->setValue("ui-viewmenu-showz", pevt.IsChecked());
   m_dirty = true;
-
-  // todo_mikal: this doesn't work at the moment...
-  // Force a repaint of the window
-  wxPaintEvent evt(0);
-  wxPostEvent(frame, evt);
+  canvas->Refresh();
 }
 
 /*
@@ -612,7 +588,7 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
     err.display();
   }
 
-  // todo_mikal post redraw
+  canvas->Refresh();
 }
 
 void cepView::LeastSquaresVCV(cepMatrix<double> *mat, string direction)
