@@ -344,6 +344,16 @@ There are various values which are valid for the color type field. Each of these
 For all of these types, the sample depth is the same as the bit depth, except for type three, where the sample depth is always eight bits.
 </para>
 
+<sect3><title>Filtering algorithm</title>
+<para>
+The PNG specification states on page 16 of version 1.2:
+
+<quote>
+Filter method is a single-byte integer that indicates the preprocessing method applied to the image data be-fore compression. At present, only filter method 0 (adaptive filtering with five basic filter types) is defined. As with the compression method field, decoders must check this byte and report an error if it holds an unrec-ognized code. See Filter Algorithms (Chapter 6) for details.
+</quote
+</para>
+</sect3>
+
 <table frame='all'><title>PNG on disc: IHDR chunk</title>
 <tgroup cols='2' align='left' colsep='1' rowsep='1'>
 <tbody>
