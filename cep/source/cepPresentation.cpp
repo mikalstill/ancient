@@ -65,13 +65,13 @@ cepPresentation::addDataPoint (long x, long y)
   if (x >= m_data.size ())
     {
       m_data.resize (x + CHUNKALLOC);
-      cepError dbg ("Resize presentation data to " + ltoa (x + CHUNKALLOC),
+      cepError dbg ("Resize presentation data to " + cepLtoa (x + CHUNKALLOC),
 		    cepError::sevDebug);
       dbg.display ();
     }
   m_data[x] = y;
   {
-    cepError dbg ("Added (" + ltoa (x) + ", " + ltoa (y) + ")",
+    cepError dbg ("Added (" + cepLtoa (x) + ", " + cepLtoa (y) + ")",
 		  cepError::sevDebug);
     dbg.display ();
   }
@@ -83,7 +83,7 @@ cepPresentation::addDataPoint (long x, long y)
     }
   m_dataValid[x] = true;
   {
-    cepError dbg ("Made valid " + ltoa (x), cepError::sevDebug);
+    cepError dbg ("Made valid " + cepLtoa (x), cepError::sevDebug);
     dbg.display ();
   }
 }
@@ -105,9 +105,9 @@ cepPresentation::interpolate ()
 	    {
 	      {
 		cepError dbg ("Iterpolate the line from (" +
-			      ltoa (prevX) + ", " + ltoa (prevY)
+			      cepLtoa (prevX) + ", " + cepLtoa (prevY)
 			      + ") to (" +
-			      ltoa (i) + ", " + ltoa (m_data[i]) + ")",
+			      cepLtoa (i) + ", " + cepLtoa (m_data[i]) + ")",
 			      cepError::sevDebug);
 		dbg.display ();
 	      }
@@ -127,8 +127,8 @@ cepPresentation::interpolate ()
 		  long y = prevY + (long) (m * x);
 
 		  cepError dbg ("Interpolation added the point (" +
-				ltoa (x + prevX) + ", " + ltoa (y) +
-				"). The gradient is " + dtoa (m),
+				cepLtoa (x + prevX) + ", " + cepLtoa (y) +
+				"). The gradient is " + cepDtoa (m),
 				cepError::sevDebug);
 		  dbg.display ();
 		}

@@ -20,10 +20,10 @@
 #ifndef CEP_UTILITY_HEADER
 #define CEP_UTILITY_HEADER
 
-string itoa (int number);
-string ltoa (long number);
-string dtoa (double number);
-string ftoa (float number);
-bool isblank (char c);
+string cepItoa (int number);
+string cepLtoa (long number);
+string cepDtoa (double number);
+string cepFtoa (float number);
+bool cepIsBlank (char chr);
 
 #endif

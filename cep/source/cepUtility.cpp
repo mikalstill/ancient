@@ -21,7 +21,7 @@
 #include <stdio.h>
 
 string
-itoa (int number)
+cepItoa (int number)
 {
   char buffer[10];
 
@@ -30,7 +30,7 @@ itoa (int number)
 }
 
 string
-ltoa (long number)
+cepLtoa (long number)
 {
   char buffer[10];
 
@@ -39,7 +39,7 @@ ltoa (long number)
 }
 
 string
-dtoa (double number)
+cepDtoa (double number)
 {
   char buffer[10];
 
@@ -48,7 +48,7 @@ dtoa (double number)
 }
 
 string
-ftoa (float number)
+cepFtoa (float number)
 {
   char buffer[10];
 
@@ -57,7 +57,7 @@ ftoa (float number)
 }
 
 bool
-isblank (char c)
+cepIsBlank (char c)
 {
   if (c == ' ')
     return true;

@@ -1,5 +1,5 @@
 /* 
-   UI for the CEP program
+   UI for the CEP program, replaces the cepMain.cpp file
    Copyright (C) Michael Still                    2002
 
    Based on a demo which originally had this notice:
@@ -49,6 +49,9 @@
 #include "cepUI.h"
 #include "doc.h"
 #include "view.h"
+
+#define GLOBALS_HERE
+#include "core.h"
 
 MyFrame *frame = (MyFrame *) NULL;
 

@@ -78,7 +78,7 @@ cepDataset::munch ()
 	{
 	  if (errString != "")
 	    errString += ";";
-	  errString += " " + m_filename + ".dat" + itoa (i + 1);
+	  errString += " " + m_filename + ".dat" + cepItoa (i + 1);
 	}
     }
 
@@ -116,9 +116,9 @@ cepDataset::munch ()
 	  // We skip the first three lines of the file
 	  if ((lines[i] > 3) && (c != 'r') && (c != '\n'))
 	    {
-	      if (isblank (c))
+	      if (cepIsBlank (c))
 		{
-		  if (!isblank (prevc))
+		  if (!cepIsBlank (prevc))
 		    {
 		      thisLine += " ";
 		    }
@@ -139,7 +139,7 @@ cepDataset::munch ()
 		  {
 		    cepError
 		      dbg ("Dataset line from " + m_filename + "[" +
-			   itoa (i) + "]: " + thisLine, cepError::sevDebug);
+			   cepItoa (i) + "]: " + thisLine, cepError::sevDebug);
 		    dbg.display ();
 		  }
 
@@ -167,8 +167,8 @@ cepDataset::munch ()
 		  {
 		    cepError
 		      dbg ("Dataset line parsed to [" +
-			   ftoa (row.date) + ", " + ftoa (row.sample) +
-			   ", " + ftoa (row.error) + "]", cepError::sevDebug);
+			   cepFtoa (row.date) + ", " + cepFtoa (row.sample) +
+			   ", " + cepFtoa (row.error) + "]", cepError::sevDebug);
 		    dbg.display ();
 		  }
 
@@ -178,7 +178,7 @@ cepDataset::munch ()
 		{
 		  cepError
 		    dbg ("Dataset line from " + m_filename + "[" +
-			 itoa (i) + "] skipped...", cepError::sevDebug);
+			 cepItoa (i) + "] skipped...", cepError::sevDebug);
 		  dbg.display ();
 		}
 
@@ -196,7 +196,7 @@ cepDataset::munch ()
       return
 	cepError
 	("The number of lines read from the data files were not equal (" +
-	 itoa (lines[0]) + ", " + itoa (lines[1]) + ", " + itoa (lines[2]) +
+	 cepItoa (lines[0]) + ", " + cepItoa (lines[1]) + ", " + cepItoa (lines[2]) +
 	 ").");
     }
 
