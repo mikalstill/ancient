@@ -53,11 +53,11 @@
 
 <refsect1>
 <title>DESCRIPTION</title>
-<para> his class is used to display and log messages from the user interface to the user.
+<para> This class is used to display and log messages from the user interface to the user.
  </para>
  
  <para>
- he enumeration <command>severity</command> defines the possible error levels available to <command>cepError</command>. These levels have differing default resposes within the <command>cepError</command> class, depending on their perceived importance:
+ The enumeration <command>severity</command> defines the possible error levels available to <command>cepError</command>. These levels have differing default resposes within the <command>cepError</command> class, depending on their perceived importance:
  
  //todo_mikal: implement error level actions as defined here
  <orderedlist>
@@ -72,53 +72,53 @@
  
  <para>
  <command>cepError ();</command>
- efault constructor. This will create a <command>cepError</command> with a default severity of <command>sevOk</command>.
+ Default constructor. This will create a <command>cepError</command> with a default severity of <command>sevOk</command>.
  </para>
  
  <para>
  <command>cepError (const string&amp; msg);</command>
- ontruct a <command>cepError</command> with a severity of <command>sevErrorFatal</command>.
+ Contruct a <command>cepError</command> with a severity of <command>sevErrorFatal</command>.
  </para>
  
  <para>
  <command>cepError (const string& msg, severity level);</command>
- onstruct a <command>cepError</command> with the specified severity.
+ Construct a <command>cepError</command> with the specified severity.
  </para>
  
  <para>
  <command>~cepError ();</command>
  //todo_mikal: make sure this is true
- f the <command>cepError</command> has not been actioned (checked if real, copied, displayed or logged) by the time the destructor is called, then it will be actioned at this point.
+ If the <command>cepError</command> has not been actioned (checked if real, copied, displayed or logged) by the time the destructor is called, then it will be actioned at this point.
  </para>
  
  <para>
  <command>bool isReal ();</command>
- f the <command>cepError</command> has a message string, then return true.
+ If the <command>cepError</command> has a message string, then return true.
  </para>
  
  <para>
  <command>void clear();</command>
- ero the <command>cepError</command>.
+ Zero the <command>cepError</command>.
  </para>
  
  <para>
  <command>void log();</command>
- rite the <command>cepError</command> to the log file.
+ Write the <command>cepError</command> to the log file.
  </para>
  
  <para>
  <command>void display ();</command>
- isplay the <command>cepError</command> if the display configuration allows it.
+ Display the <command>cepError</command> if the display configuration allows it.
  </para>
  
  <para>
  <command>string getTitle();</command>
- eturn the title which should be used in the display of this <command>cepError</command>.
+ Return the title which should be used in the display of this <command>cepError</command>.
  </para>
  
  <para>
  <command>int getIcon();</command>
- eturn the icon identifier which should be used with the <command>cepError</command>.
+ Return the icon identifier which should be used with the <command>cepError</command>.
 </para>
 </refsect1>
 
