@@ -14,7 +14,7 @@
 
 use strict;
 my($INPUT, $OUTPUT, $PREPROC, $outputstyle);
-my($parastate, $liststate, $listitemstate, $footnotestate, $sectionstate, $tablestate, $stylestate, $displaystate, $waitstate, $quotestate, $pausedlist, $tablestate, $tablecolcount, $tablecellline, $tablebracestate);
+my($parastate, $liststate, $listitemstate, $footnotestate, $sectionstate, $tablestate, $stylestate, $displaystate, $waitstate, $quotestate, $pausedlist, $tablestate, $tablecolcount, $tablebracestate);
 my($length);
 my($chapters, $chapter, $chaptercount, $temp, $inputused);
 my($linecount, $condlinecount);
@@ -61,27 +61,41 @@ foreach $chapter (split(/ /, $chapters)){
 
     while(<INPUT>){
 	# Table start
-	if(/^\.TS[ \t]*(.*)/i){
+	if(/^\.TH[ \t]*(.*)/i){
 	    $tablestate = 1;
+	    $temp = "";
 	}
 	
 	# Table end
 	elsif(/^\.TE/i){
 	    $tablestate = 0;
+	    print PREPROC "$temp\n";
 	}
 
 	# If we are in table state, then we need to rewrite lines for the table cells
-	if( $tablestate == 1 ){
-	    #s/T\}\#T\{/\#/g;
+	if($tablestate == 1){
+	    ##s/T\}\#T\{/\#/g;
 	    s/T\{\n//;
 	    s/T\}//g;
+
+	    if(/^\./){
+		$_="\n$_";
+	    }
+	    elsif(/\#/){
+	    }
+	    else{
+		chomp;
+	    }
+	    $temp="$temp $_";
 	}
-	print PREPROC "$_";
+	else{
+	    print PREPROC "$_";
+	}
     }
     close INPUT;
     close PREPROC;
 
-    print "Processing chapter $chapter ($chaptercount)\n ";
+    print "Processing chapter $chapter ($chaptercount)\n";
     open INPUT, "< $chapter.pp";
 
     $liststate = 0;
@@ -122,7 +136,7 @@ foreach $chapter (split(/ /, $chapters)){
 		    $waitstate = 0;
 		}
 	    }
-#	    print "  [Conditional was $condlinecount lines]\n ";
+#	    print "  [Conditional was $condlinecount lines]\n";
 	}
 
 	# Ampersands
@@ -152,18 +166,6 @@ foreach $chapter (split(/ /, $chapters)){
 	# We run some little conversion rules to deal with things like italics et al
 	$temp = processstyles($displaystate, $_);
 	$_ = $temp;	
-
-	# Table row stuff
-#	if(($tablestate == 1) && (/^[^.].*/)){
-#	    $_ = "";
-#	}
-#	elsif($tablestate > 1){
-#	    $length = -1;
-#	    while($length ne length){
-#		$length = length;
-#		s/([^T][^\}\#])\#/-$1-FOUND/g;
-#	    }
-#	}
 
 	##############################################################
 	# Comments
@@ -465,24 +467,27 @@ foreach $chapter (split(/ /, $chapters)){
 
 	# Table title
 	elsif(/^\.TB[ \t]*[\"]*([^\"]*)[\"]*/i){
-#	    print OUTPUT "<table frame='all'><title>$1</title>\n";
-#	    $tablestate = 1;
+	    print OUTPUT "<table frame='all'><title>$1</title>\n";
+	    print "Table title\n";
+	    $tablestate = 1;
 	}
 
 	# Table start
 	elsif(/^\.TS[ \t]*(.*)/i){
+	    print "Table start\n";
 	}
 
 	# Table heading
 	elsif(/^\.TH(.*)/i){
-#	    $tablestate = 2;
+	    print "Table heading\n";
+	    $tablestate = 2;
 	}
 	
 	# Table end
 	elsif(/^\.TE/i){
-#	    print OUTPUT "</tbody></tgroup></table>\n";
-#	    $tablestate = 0;
-#	    $tablecellline = "";
+	    print "Table end\n";
+	    print OUTPUT "</tbody></tgroup></table>\n";
+	    $tablestate = 0;
 	}
 
 	# Table reference for later
@@ -507,29 +512,38 @@ foreach $chapter (split(/ /, $chapters)){
 	
 	# We don't know anything about this command at all
 	elsif(/^\.(.*)/i){
-	    print "DEFAULT COMMAND FOUND: $1\n ";
+	    print "DEFAULT COMMAND FOUND: $1\n";
 	}
 	
 	# A document line?
 	else{
+	    if($tablestate > 1){
+		s/\#/<\/entry><entry>/g;
+	    }
+	    
 	    if($tablestate == 2){
-		$tablecolcount = 0;
+		$tablecolcount = 1;
 		$temp = $_;
 		while($temp =~ /<entry>/g){ $tablecolcount++ }
 
 		print OUTPUT "<tgroup cols='$tablecolcount' align='left' colsep='1' rowsep='1'><tbody>\n";
+		print "Moved to table state 3\n";
 		$tablestate = 3;
 	    }
 
 	    if($displaystate > 0){
 		chomp;
 	    }
+	    if($tablestate > 1){
+		print OUTPUT "<row><entry>";
+	    }
 	    print OUTPUT "$_";
 	    if($displaystate > 0){
 		print OUTPUT "\n";
 	    }
-
-	    $tablecellline = "";
+	    if($tablestate > 1){
+		print OUTPUT "</entry></row>\n";
+	    }
 	}
     }
     
