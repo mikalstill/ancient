@@ -117,7 +117,7 @@ GENSTRUCT struct test1 {
 	struct test2 **test2_parray; _LEN(plen)
 };
 </programlisting>
-<para><emphasis>Code: /home/mikal/cvs.samba.org/junkcode/genstruct/test.h</emphasis></para>
+<para><emphasis>Code: /home/mikal/external/cvs.samba.org/junkcode/genstruct/test.h</emphasis></para>
 
 <para>
 In this example you can see that structures which should have <command>genstruct</command> enabled have the <command>GENSTRUCT</command> attribute associated with them, you are therefore not required to have all of the data structures in your code exportable. <command>GENSTRUCT</command> is merely an empty #define, which the <command>genstruct</command> header file parser can search for.

@@ -7,7 +7,7 @@
 <title>About the author</title>
 <para>
 Michael's student number is 964076. He can be contacted at mikal@stillhq.com. Copyright (c) Michael Still 2002. This submission is
-<postexecute><cmd>striptext.pl</cmd><output>temp.txt</output><args>-c</args></postexecute>
+<postexecute><cmd>striptext</cmd><output>temp.txt</output><args>-c</args></postexecute>
 <postexecute><cmd>wc -w</cmd><input>temp.txt</input></postexecute>
 words, not including the code snippets.
 </para>
@@ -36,7 +36,7 @@ As previously mentioned, <command>genstruct</command> is very similar in some re
 Perl's <command>Data::Dumper</command> is quite simple to use:
 </para>
 
-<execute><cmd>code2db.pl</cmd><input>datadumper.pl</input></execute>
+<execute><cmd>code2db</cmd><input>datadumper.pl</input></execute>
 
 <para>
 Which produces...
@@ -56,7 +56,7 @@ I believe it is possible to have the variable names persist, but haven't worked 
 <command>genstruct</command> is a perl program which is run at compile time. It parses the c header files for the program you want to use <command>genstruct</command> with, using tags that you have to embed into the header file. For example, the sample which comes with <command>genstruct</command> is as follows:
 </para>
 
-<execute><cmd>code2db.pl</cmd><input>~mikal/cvs.samba.org/junkcode/genstruct/test.h</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/external/cvs.samba.org/junkcode/genstruct/test.h</input></execute>
 
 <para>
 In this example you can see that structures which should have <command>genstruct</command> enabled have the <command>GENSTRUCT</command> attribute associated with them, you are therefore not required to have all of the data structures in your code exportable. <command>GENSTRUCT</command> is merely an empty #define, which the <command>genstruct</command> header file parser can search for.
