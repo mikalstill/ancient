@@ -1,6 +1,6 @@
 <sect1><title>What is genstruct?</title>
 <para>
-As previously mentioned, <command>genstruct</command> is very similar in some respects to the perl <command>Data::Dumper</command>. It is therefore useful to provide a brief introduction to that functionality before moving onto <command>genstruct</command>.
+<command>genstruct</command> is very similar in some respects to the perl <command>Data::Dumper</command>. It is therefore useful to provide a brief introduction to that functionality before moving onto <command>genstruct</command>.
 </para>
 
 <sect2><title>Perl's Data::Dumper in a nutshell</title>
@@ -8,7 +8,7 @@ As previously mentioned, <command>genstruct</command> is very similar in some re
 Perl's <command>Data::Dumper</command> is quite simple to use:
 </para>
 
-<execute><cmd>code2db</cmd><input>datadumper.pl > tmp.pp</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource/short-genstruct/datadumper.pl > tmp.pp</input></execute>
 <execute><cmd>unix2dos</cmd><input>tmp.pp</input></execute>
 
 <para>
@@ -16,7 +16,7 @@ Which produces...
 </para>
 
 <programlisting>
-<execute><cmd>./datadumper.pl</cmd></execute>
+<execute><cmd>~mikal/opensource/short-genstruct/datadumper.pl</cmd></execute>
 </programlisting>
 </sect2>
 
@@ -171,32 +171,4 @@ if(gen_parse(pinfo_test1, (char *) &amp;t2, s) != 0){
   exit(1);
   }
 </programlisting>
-</sect1>
-
-<sect1><title>Additional features</title>
-<para>
-<command>genstruct</command> also has the following additional features:
-
-<itemizedlist>
-<listitem><para>It is smart enough to neatly handle the addition and removal of members of the structure.</para></listitem>
-<listitem><para>The output is presented in a human readable form, which might make editing of the contents of a structure easier.</para></listitem>
-</itemizedlist>
-</para>
-</sect1>
-
-<sect1><title>Limitations</title>
-<para>
-<command>genstruct</command> doesn't currently handle structures which contain file handles properly. The file handle itself (which is just an int) will be recovered, but the state of the file handle will not be restored.
-</para>
-</sect1>
-
-<sect1><title>Uses</title>
-<para>
-There are several reasons that developers will be interested in <command>genstruct</command>. The main one is that it is a very convenient way of storing information between instances of a program -- for example you could save information about the session that the user had just completed on program exit (for instance the size of the main window and the last five documents opened) into a structure, and then generate a string representation of this structure to save to a file. On start up, you can read the string back into the structure, and go from there. This was the original reason that the code was developed for the Samba project
-  <footnote><para>The Samba team needs to store a large amount of information about user connections. This ranges from the name of all logged on users, to the locks on files that those users currently hold. At the moment this information is stored in a series of (key, value) <command>TDB</command> databases (<command>TDB</command> is outside the scope of this paper. A brief summary is that it is a very powerful GDBM like (key, value) pair database which supports concurrent access and locking. It has also had a SQL implementation built on top of it, although the Samba team doesn't use this), with several keys for each user's information. It is now possible to simply save a string representation of a structure describing the user, and recover that structure each time it is needed.</para></footnote>
-</para>
-
-<para>
-Interestingly, <command>genstruct</command> has other uses. For instance, if you have a long run server process such as Samba, then it is possible that you might want to change some of the internal data structures whilst the program is running. An example is when its the middle of the night and you only want to be backing up files, then you could save the normal structures to a string, and then reload them into a different set of structures which is optimized for large file reads. This would rely on <command>genstruct</command>'s ability to provide default values for keys which didn't exist when the string was created. Dr Tridgell expressed this as a major advantage of <command>genstruct</command> for the Samba team.
-</para>
 </sect1>

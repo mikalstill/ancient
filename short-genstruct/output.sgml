@@ -17,7 +17,7 @@
 <title>About the author</title>
 <para>
 Michael's student number is 964076. He can be contacted at mikal@stillhq.com. Copyright (c) Michael Still 2002. This submission is
-   1132
+   1129
 words, not including the code snippets.
 </para>
 </sect1>
@@ -37,7 +37,7 @@ This paper discusses <command>genstruct</command> a structure serialization meth
 
 <sect1><title>What is genstruct?</title>
 <para>
-As previously mentioned, <command>genstruct</command> is very similar in some respects to the perl <command>Data::Dumper</command>. It is therefore useful to provide a brief introduction to that functionality before moving onto <command>genstruct</command>.
+<command>genstruct</command> is very similar in some respects to the perl <command>Data::Dumper</command>. It is therefore useful to provide a brief introduction to that functionality before moving onto <command>genstruct</command>.
 </para>
 
 <sect2><title>Perl's Data::Dumper in a nutshell</title>
@@ -51,6 +51,16 @@ Which produces...
 </para>
 
 <programlisting>
+$VAR1 = [
+          'foo',
+          'bar'
+        ];
+$VAR2 = {
+          'walter' => 'wibble',
+          'carl' => 'chicken',
+          'bob' => 'banana'
+        };
+$VAR3 = 42;
 </programlisting>
 </sect2>
 
@@ -239,7 +249,6 @@ if(gen_parse(pinfo_test1, (char *) &amp;t2, s) != 0){
   }
 </programlisting>
 </sect1>
-
 <sect1><title>Additional features</title>
 <para>
 <command>genstruct</command> also has the following additional features:

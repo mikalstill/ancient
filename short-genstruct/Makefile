@@ -1,7 +1,7 @@
 short: output.sgml output.ps
 	striptext -c < output.sgml | wc -w
 
-output.sgml: source.sgml
+output.sgml: source.sgml article.sgml
 	builddb < source.sgml > output.sgml
 
 output.ps: output.sgml
