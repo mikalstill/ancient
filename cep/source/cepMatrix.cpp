@@ -88,7 +88,8 @@ const cepMatrix &cepMatrix::operator-=(const cepMatrix &B)
 const cepMatrix &cepMatrix::operator*=(const cepMatrix &B)
 {
   double *tempMatrix = matrix;
-
+  int i;
+  
   if(numCols != B.numRows){
     cout << "matrix sizes wrong\n";
     exit(1);
@@ -96,7 +97,7 @@ const cepMatrix &cepMatrix::operator*=(const cepMatrix &B)
   else{
     matrix = new double [numRows * B.numCols];
     
-    for(int i = 0; i < numRows * B.numCols; i ++){
+    for(i = 0; i < numRows * B.numCols; i ++){
       matrix[i] = 0;
     }
     
