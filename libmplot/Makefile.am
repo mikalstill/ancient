@@ -1,5 +1,5 @@
 lib_LTLIBRARIES = libplot.la
-noinst_PROGRAMS = sample graph
+noinst_PROGRAMS = sample graph parabola
 
 libplot_la_SOURCES = libplot.c
 libplot_la_CFLAGS = $(FREETYPE_CFLAGS)
@@ -11,3 +11,5 @@ sample_SOURCES = example.c
 sample_LDADD = -lplot -L.libs
 graph_SOURCES = exgraph.c
 graph_LDADD = -lplot -L.libs
+parabola_SOURCES = exgraph.c
+parabola_LDADD = -lplot -L.libs

@@ -84,7 +84,7 @@ am__quote = @am__quote@
 install_sh = @install_sh@
 
 lib_LTLIBRARIES = libplot.la
-noinst_PROGRAMS = sample graph
+noinst_PROGRAMS = sample graph parabola
 
 libplot_la_SOURCES = libplot.c
 libplot_la_CFLAGS = $(FREETYPE_CFLAGS)
@@ -96,6 +96,8 @@ sample_SOURCES = example.c
 sample_LDADD = -lplot -L.libs
 graph_SOURCES = exgraph.c
 graph_LDADD = -lplot -L.libs
+parabola_SOURCES = exgraph.c
+parabola_LDADD = -lplot -L.libs
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
 CONFIG_CLEAN_FILES = 
@@ -117,6 +119,9 @@ sample_LDFLAGS =
 graph_OBJECTS =  exgraph.o
 graph_DEPENDENCIES = 
 graph_LDFLAGS = 
+parabola_OBJECTS =  exgraph.o
+parabola_DEPENDENCIES = 
+parabola_LDFLAGS = 
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -133,8 +138,8 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 TAR = gtar
 GZIP_ENV = --best
 DEP_FILES =  .deps/example.P .deps/exgraph.P .deps/libplot.P
-SOURCES = $(libplot_la_SOURCES) $(sample_SOURCES) $(graph_SOURCES)
-OBJECTS = $(libplot_la_OBJECTS) $(sample_OBJECTS) $(graph_OBJECTS)
+SOURCES = $(libplot_la_SOURCES) $(sample_SOURCES) $(graph_SOURCES) $(parabola_SOURCES)
+OBJECTS = $(libplot_la_OBJECTS) $(sample_OBJECTS) $(graph_OBJECTS) $(parabola_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
@@ -230,6 +235,10 @@ sample: $(sample_OBJECTS) $(sample_DEPENDENCIES)
 graph: $(graph_OBJECTS) $(graph_DEPENDENCIES)
 	@rm -f graph
 	$(LINK) $(graph_LDFLAGS) $(graph_OBJECTS) $(graph_LDADD) $(LIBS)
+
+parabola: $(parabola_OBJECTS) $(parabola_DEPENDENCIES)
+	@rm -f parabola
+	$(LINK) $(parabola_LDFLAGS) $(parabola_OBJECTS) $(parabola_LDADD) $(LIBS)
 
 install-includeHEADERS: $(include_HEADERS)
 	@$(NORMAL_INSTALL)

@@ -67,6 +67,7 @@ main (int argc, char *argv[])
 
   // Draw the cos graph
   plot_setlinecolor(graph, 0, 255, 0);
+  plot_setlinewidth(graph, 2, 10);
   plot_setlinestart(graph, 10, 100);
   x = 10;
   for(angle = 0.0; angle < 12 * 3.1415; angle += 0.1){

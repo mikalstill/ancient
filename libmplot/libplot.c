@@ -488,8 +488,32 @@ plot_strokeline (plot_state * state)
 void
 plot_drawpoint (plot_state * state, unsigned int x, unsigned int y)
 {
-  unsigned long ptr = state->x * y + x;
+  unsigned int xc, yc, tempx, tempy;
 
+  if((state->linewidthx == 1) && (state->linewidthy == 1)){
+    plot_drawpointactual(state, x, y);
+    return;
+  }
+
+  tempx = x - (state->linewidthx / 2);
+  for(xc = 0; xc < state->linewidthx; xc++)
+    {
+      tempy = y - (state->linewidthy / 2);
+      for(yc = 0; yc < state->linewidthy; yc++)
+	{
+	  plot_drawpointactual(state, tempx, tempy);
+	  tempy++;
+	}
+      tempx++;
+    }
+}
+
+// Turn on a single pixel
+void
+plot_drawpointactual (plot_state * state, unsigned int x, unsigned int y)
+{
+  unsigned long ptr = state->x * y + x;
+  
   if (ptr > state->maxptr)
     return;
   state->raster[ptr] = state->linecolor;
