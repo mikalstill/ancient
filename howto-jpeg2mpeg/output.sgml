@@ -202,7 +202,7 @@ cp jpegint.h /usr/local/include/
 </programlisting>
 
 <para>
-TODO: Debian package?
+For Debian users, a <command>apt-get install libjpeg-mmx-dev</command> is sufficient.
 </para>
 </sect2>
 
@@ -212,7 +212,7 @@ movtar is actually written by the MJPEG people. You can download it from http://
 </para>
 
 <para>
-TODO: Debian package
+It's interesting that I couldn't find a Debian package for this. Perhaps someone should let me know I'm terribly wrong, or offer to package it...
 </para>
 </sect2>
 
@@ -222,7 +222,7 @@ Since I first wrote this article, MJPEG tools appears to have added a dependency
 </para>
 
 <para>
-TODO: Debian package
+For Debianers, just do <command>apt-get install libfontconfig-dev</command>
 </para>
 </sect2>
 
@@ -337,7 +337,7 @@ diff -urN mjpegtools-1.6.1/yuvdenoise/Makefile.in mjpegtools-1.6.1-hacked2/yuvde
 <para><emphasis>Code: mjpegtools.patch</emphasis></para>
 
 <para>
-TODO: Debian package
+Again, I couldn't find a Debian package for the MJPEG tools.
 </para>
 </sect2>
 </sect1>
@@ -396,7 +396,7 @@ Note that the conversion is also quite slow, I walked away and came back later.
 
 <sect1><title>Conclusion</title>
 <para>
-In this document I have discussed how to install MJPEG tools and it's dependancies, and then discussed how to convert a bunch of JPEGs to PPM files, and then a single MPEG movie. I hope you have found this document of some use. Feel free to send me email if you have more questions, although I don't gaurantee to personally answer then many hundreds of emails I receive each day.
+In this document I have discussed how to install MJPEG tools and it's dependencies, and then discussed how to convert a bunch of JPEGs to PPM files, and then a single MPEG movie. I hope you have found this document of some use. Feel free to send me email if you have more questions, although I don't guarantee to personally answer then many hundreds of emails I receive each day.
 </para>
 </sect1>
 </article>
