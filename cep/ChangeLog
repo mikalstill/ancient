@@ -42,7 +42,11 @@
 	Added resize functionality to vector in cepWindows.cpp
 	Addressed more todos in order add cepWindows.cpp code to cepDataset.cpp
 	Added cepWindows.cpp code to cepDataset.cpp	
-	
+
+2002-05-13 Daniel Fernandez daniel.fernandez@ise.canberra.edu.au
+	Added the fftw package (tarballed) in cvs001/fftw/fftw-2.1.3
+	Added some general fftw papers in cvs001/fftw
+
 	
 
 
