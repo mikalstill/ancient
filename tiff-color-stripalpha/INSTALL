@@ -1,0 +1,7 @@
+Follow these simple steps to install:
+
+  gcc removealpha.c -o removealpha -ltiff -lm
+
+Have fun!
+
+
