@@ -1,0 +1,22 @@
+Enter the encrypted message as a series of numbers, one per line.
+A line with just a . will end this program
+
+Most frequent is 7 with 4 appearances
+Next most frequent is 8 with 3 appearances
+
+Solve: 4 = 7u + v (mod 26)
+       19 = 8u + v (mod 26)			= meaning congruent
+
+       u = (19 - 4) / (8 - 7)
+         = 15 / 1
+         = 15
+         = 15
+
+       v = 4 - 7 * 15
+         = -101
+         = 3
+
+01 07 07 23 08 25 20 07 08 20 07 05 08 18 25 03 
+   ## ##    ..       ## ..    ##    ..          
+18 04 04 10 19 14 17 04 19 17 04 00 19 13 14 22 
+S  E  E  K  T  O  R  E  T  R  E  A  T  N  O  W  
