@@ -101,6 +101,14 @@ DOCBOOK END
 #include <complex.h>
 #include "cepMatrix.h"
 
+
+#define checkMatrixError(matrix) \
+  { \
+    if (matrix.getError().isReal()) \
+      m_error =(char*) matrix.getError().getMessage().c_str(); return matrix; \
+  }
+
+
 typedef complex < double >ComplexDble;
 
 template < class T > class cepCfft
@@ -136,12 +144,18 @@ public:
   cepMatrix < ComplexDble > matrixFft (cepMatrix < ComplexDble > &matrix,
 				       int dir);
 
+  cepError cepCfft<T>::getError();
+  
   // used to fill in last half of complex spectrum of real signal
   // when the first half is already there.
   // 
   void hermitian (T * buf);
 
+private:
+   char * m_error;
+
 };				// class cepCfft
+
 
 //////////////////////////////  cepCfft methods //////////////////////////////
 
@@ -255,6 +269,17 @@ template < class T > void cepCfft < T >::hermitian (T * buf)
 //{
 //}
 
+template <class T>
+cepError cepCfft<T>::getError()
+{
+  if(m_error == NULL)
+  {
+    return cepError("", cepError::sevErrorRecoverable);
+  }
+  return cepError(m_error, cepError::sevErrorRecoverable);
+}
+    	
+
 /*
  * cepCfft::matrixFft
  * imports: matrix: the matrix holding the data to be fft'd
@@ -279,10 +304,9 @@ template < class T > cepMatrix < ComplexDble > cepCfft <
   double checks[NUMCHECKS];
 
   ComplexDble arrayToFft[arraySize];
+  m_error = NULL;
   cepMatrix < ComplexDble > ffteedMatrix (numRows, numCols, numTables);	//matrix contain to store processed values
-  if (ffteedMatrix.getError().isReal())
-  	ffteedMatrix.getError();
-
+  checkMatrixError(ffteedMatrix);
 
   if (dir == 1)			//Forward,  calculate scale
     {
@@ -290,21 +314,26 @@ template < class T > cepMatrix < ComplexDble > cepCfft <
 	{
 	  //size of dataset = numRows
 	  int halfSetSize = (int) (numRows * 0.5);
-	  double sampleRate = abs ((real (matrix.getValue (0, 0, 0))
-				    -
-				    real (matrix.getValue (1, 0, 0)))) *
-	    DAYSINYEAR;
+	  double sampleRate = abs ((real (matrix.getValue (0, 0, 0)) - 
+                                    real (matrix.getValue (1, 0, 0)))) *
+				    DAYSINYEAR;
+	  checkMatrixError(matrix);
 	  double freq = 1 / sampleRate;
 
 	  //the first half of the scale
 	  for (row = 0; row < halfSetSize; row++)
-	    ffteedMatrix.setValue (row, FIRSTCOLUMN, table,
-				   (freq * (row)) / numRows);
+	  {
+	    ffteedMatrix.setValue (row, FIRSTCOLUMN, table,(freq * (row)) / numRows);
+	    checkMatrixError(ffteedMatrix);
+	  }
+    
 
 	  //the second half of the scale
 	  for (row = halfSetSize; row < numRows; row++)
-	    ffteedMatrix.setValue (row, FIRSTCOLUMN, table,
-				   (freq * (numRows - row)) / numRows);
+	  {
+	    ffteedMatrix.setValue (row, FIRSTCOLUMN, table,(freq * (numRows - row)) / numRows);
+	    checkMatrixError(ffteedMatrix);	   
+	  }
 	}			//for table
     }				//end if
 
@@ -333,6 +362,7 @@ template < class T > cepMatrix < ComplexDble > cepCfft <
 
 	  //populate the arry to be fft'd            
 	  arrayToFft[row] = matrix.getValue (row, col, table);
+	    checkMatrixError(matrix);
 
 	}			//end for row
       //}//end for col 
@@ -355,14 +385,19 @@ template < class T > cepMatrix < ComplexDble > cepCfft <
 	    {
 	      //populate ffteedMatrix with magnitude
 	      if (col == 1)	//if we are looking at a data value
+	      {
 		//calculate the magnitude
 		tempValue = pow (real (arrayToFft[row]),2) + pow (imag (arrayToFft[row]), 2);
-		//tempValue = arrayToFft[row]; //raw complex FFT results
+              }
 	      else		//we are looking at the error or the last coloumn
-		//just copy the old value into the new matrix.
+	      {
+	        //just copy the old value into the new matrix.
 		tempValue = matrix.getValue (row, col, table);
+		checkMatrixError(matrix);
+	      }
 
 	      ffteedMatrix.setValue (row, col, table, tempValue);
+	      checkMatrixError(ffteedMatrix);
 	    }			//for row
 	}			//for col
 
