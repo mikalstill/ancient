@@ -65,18 +65,16 @@ The Fast Fourier transform takes into account that the DFT wastes a good deal of
 there is no need to multiply something by zero, when the zero can be used outright. Given that multiplication is one of the slower
 instructions on computers, this is a time saver. Another area where the FFT screams efficiency, is that it takes into account the fact
 that value repeat in sinusoids. For example, every 90 degrees, the value 1 reappears on a sine or cosine changing only its sine. Therefore
-many results may determined by taking into account these factors.
+many results may determined by taking into account these factors. Through this increased efficiency, the FFT reduces the computation
+time to O(NlogN).
 </para>
 
-
-
-
-
-
-
-
-
-
+<para>
+The power spectrum is very useful in signal processing. It is the most common frequency measuremnt, allowing you to find how much energy
+exists at a given frequency. Derived from the power spectrum is the power spectral density (PSD) measurment. A PSD plot provides
+information on how much energy exists in a band of frequencies. This technique is particularly useful for measuring the noise content 
+in a signal. A PSD plot is created by plotting the magnitude of the real and imaginary components of the FFT results.
+</para>
 
 
 
