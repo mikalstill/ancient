@@ -1,7 +1,7 @@
 <chapter><title>GDMS Classes</title>
 <sect1><title>Introduction</title>
 <para>
-This chapter contains documentation for the various classes developed during the implementation of <command>GDMS</command>. This documentation is in the form of unix man pages, which is why some of the content is repeated. The man pages are included here merely for reference purposes.
+This chapter contains documentation for the various classes developed during the implementation of <command>GDMS</command>. This documentation is in the form of Unix man pages, which is why some of the content is repeated. The man pages are included here merely for reference purposes.
 </para>
 
 <execute><cmd>insertall</cmd><args>db2db ../source/man *.sgml$</args></execute>

@@ -10,22 +10,22 @@
   </programlisting>
   <para>
   The application is loaded and the user is presented with a window. For further information on specific functionality,
-  see the quick reference quide.
+  see the quick reference guide.
   </para>
 
 </sect1>
 <sect1><title>Running the <command>GDMS</command> with arguments</title>
   <para>
-    The <command>GDMS</command> also possesses the abilty to accept command line arguments. For example, a file name
+    The <command>GDMS</command> also possesses the ability to accept command line arguments. For example, a file name
     can be specified as an argument, avoiding having to open the file through the user interface once it has been invoked. 
     Once again the GUI is invoked and can be used in the normal manner, the difference being that data sets provided as
     arguments are already loaded.
   </para>
   <para>
-    Command line arguemnts which are accepted are:
+    Command line arguments which are accepted are:
     <itemizedlist>
     <listitem><para><programlisting>-b &lt;filename&gt;</programlisting>:
-        the batch file name. This is only availble on the batch file interface</para></listitem>
+        the batch file name. This is only available on the batch file interface</para></listitem>
     <listitem><para><programlisting>-d &lt;filename&gt;</programlisting>:
         opens a specified dataset</para></listitem>
     <listitem><para><programlisting>-e &lt;yes|no&gt;</programlisting>:

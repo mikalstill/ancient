@@ -1,7 +1,7 @@
 <chapter><title>Installing GDMS</title>
 <sect1><title>Dependencies</title>
   <para>
-    There are several dependencies that the user needs to be aware of whilst installing GDMS from source. These are
+    There are several dependencies that the user needs to be aware of when installing GDMS from source. These are
     wxWindows, mplot, pcre, and freetype. All of the dependencies are provided in the contrib directory.
   </para>
 
@@ -9,7 +9,7 @@
     <emphasis>
       Please note that for some of the dependencies, having a later version installed might not be sufficient.
       This depends on how many interface changes have been imposed by that dependency author. Because the actual source
-      of these dependancies is outside the control of the GDMS team, this might make installation of later versions harder.
+      of these dependencies is outside the control of the GDMS team, this might make installation of later versions harder.
       The versions which have been tested with GDMS are included in the contrib/ directory of the GDMS
       distribution.
     </emphasis>
@@ -18,7 +18,7 @@
   <execute><cmd>builddb</cmd><input>autodocbook.sgml</input></execute>
   <execute><cmd>builddb</cmd><input>docbook-scripts.sgml</input></execute>
   <execute><cmd>builddb</cmd><input>freetype.sgml</input></execute>
-  <execute><cmd>builddb</cmd><input>libmlplot.sgml</input></execute>
+  <execute><cmd>builddb</cmd><input>libmplot.sgml</input></execute>
   <execute><cmd>builddb</cmd><input>pcre.sgml</input></execute>
   <execute><cmd>builddb</cmd><input>segv.sgml</input></execute>
   <execute><cmd>builddb</cmd><input>wxWIndows.sgml</input></execute>
@@ -40,7 +40,7 @@
         </programlisting>
         This will install the application to the default path, the prefix for which is currently
         <programlisting>/usr/local/</programlisting>. If your path is not set to search this location
-        the this need to be done. Check the documentation for your specific opertating system for
+        the this need to be done. Check the documentation for your specific operating system for
         more information on how to do this.
       </para></listitem>
     </itemizedlist>

@@ -10,8 +10,8 @@
 <para>
   The customising the user interface is done through the <command>view</command> menu. 
   The colours of the various view elements are changed by selecting the property from
-  within the view menu. A popup window the allows the user to select colours either from
-  the supplied pallette, or by mix their own colours. Colours can also be added to a 
+  within the view menu. A pop-up window the allows the user to select colours either from
+  the supplied palette, or by mix their own colours. Colours can also be added to a 
   personalised palette, useful for quick selection.
 </para>
 </sect2>
@@ -27,7 +27,7 @@
 <para>
   The default is to display all three direction of the dataset. The user can however toggle
   directions on and off to give more screen real estate to graphs of interest. This is
-  done through the <command>view</command> menu, by checking or unchecking the appripriate 
+  done through the <command>view</command> menu, by checking or unchecking the appropriate 
   directions.
 </para>
 </sect2>
@@ -41,7 +41,7 @@
 
 <sect2><title>Show/hide the grid</title>
 <para>
-  The default is to have the grid enabled. To disble the grid, simply check the Show grid item in
+  The default is to have the grid enabled. To disable the grid, simply check the Show grid item in
   the <command>view</command> menu.
 </para>
 </sect2>

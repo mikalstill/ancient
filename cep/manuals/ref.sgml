@@ -103,7 +103,7 @@
 
     <sect3><title>Least Squeares</title>
       <para>
-        The only time domain modelling currently available is Least Squares regression. This
+        The only time domain modeling currently available is Least Squares regression. This
         can be accessed by selecting <command>Maths</command> - <command>Least Squares</command>.
         The available options in the least squares menu are <command>Variance
         Co-variance</command> and <command>Random Walk</command>.
@@ -112,7 +112,7 @@
         <sect5><title>Automatic Re-weighting</title>
           <para>
             When this option is presented, you are given the option of using the automatic
-            re-weighting feature. If you choose to use automatic reweighting then
+            re-weighting feature. If you choose to use automatic re-weighting then
             our algorithms will weight out any outliers in the dataset, then output a
             least squares regression. The regression outputs two new data sets; the first shows
             the dataset with the least squares regression line with the weighted points
@@ -160,7 +160,7 @@
       data, go to the <command>Maths</command> menu followed by the <command>Windowing</command> menu and from here select
       the desired method. Each method prompts for a window size and an overlap. The window size must be number satisfying
       <programlisting>size=2<superscript>n</superscript></programlisting> and the standard overlap is 50% of the window size.
-      In addition, <command>Dolph-Chevyshev</command> prompts for the Normalised Transition Bandwidth, the values for which are
+      In addition, <command>Dolph-Chebyshev</command> prompts for the Normalised Transition Bandwidth, the values for which are
       restricted to the range 0.0 - 0.5. In application these numbers must be restricted to the range 0.02 -0.499 to avoid division
       by zero. Enter the information and click <command>OK</command> to proceed.
     </para>
@@ -178,10 +178,10 @@
 
   <sect2><title>Frequency Domain Analysis</title>
     <para>
-      Select the Maths menu, select Fast Fourier Transform which will gernerate a PSD plot. Note, before successfully carrying out
+      Select the Maths menu, select Fast Fourier Transform which will generate a PSD plot. Note, before successfully carrying out
       operations in the frequency domain, the data must be interpolated. The Failure to do so will
       result in an error message from the <command>GDMS</command>. The error message gives the first three dates
-      int the dataset that caused the failure.
+      in the dataset that caused the failure.
     </para>
   </sect2> <!-- FDA -->
 

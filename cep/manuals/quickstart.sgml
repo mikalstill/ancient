@@ -2,13 +2,13 @@
 
 <sect1><title>Getting Started</title>
   <para>
-    Follow the instructions in the installation section of this user manual and then at a shell prompt, type gdms
+    Follow the instructions in the installation section of this user manual and then at a shell prompt type the following:
 </para>
 <programlisting>
 [user@localhost /home/user]$ gdms
 </programlisting>
 <para>
-  To open a data set, select <command>File</command> - <command>Open</command>. Browse to the location of the desired 
+  To open a data set, select <command>File</command> - <command>Open</command>. Browse to the location of the desired
   data set and then click <command>Open</command>.
 </para>
 
@@ -37,7 +37,7 @@
 
 <para>
   For further details on these features and the other <command>GDMS</command> functionality, please refer
-  to the setion titled 'Using GDMS'.
+  to the section titled 'Using GDMS'.
 </para>
 </sect1>
 
