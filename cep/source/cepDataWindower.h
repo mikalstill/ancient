@@ -79,7 +79,7 @@ public:
   const cepError setWindowType( const windowType type, const int size, const int overlap );
   
   // att is the side lobe attenuation as required for dolph-chebyshev
-  const cepError setChebAttenuation( double att );
+  const cepError setChebBandwidth( double dw );
 
   // windowedData is in/out param. numRows is the number of windows, numCols is the windows size
   // and the tird dimension is 2 (date and value)

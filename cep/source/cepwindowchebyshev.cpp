@@ -20,10 +20,13 @@
 
 #include "cepwindowchebyshev.h"
 #include <math.h>
+#include <vector>
+
+using namespace std;
 
 cepWindowChebyshev::cepWindowChebyshev( int size ) : cepWindowAlg( size ) {
   // set a default attenuation of 60dB
-  setAttenuation( 0.5 );
+  setTransitionBandwidth( 0.05 );
   initCoeffs();
 }
 
@@ -33,149 +36,196 @@ cepWindowChebyshev::~cepWindowChebyshev(){
 }
 
 
-void cepWindowChebyshev::setAttenuation(double att) {
-  dw = att;
+const cepError cepWindowChebyshev::setTransitionBandwidth(double tbw) {
+  if( tbw <= 0 ) {
+    return cepError("normalised transition bandwidth must be greater than Zero");
+  } else if (tbw >0.499) {
+    return cepError("normalised transition bandwidth must be less than 0.499");
+  }
+  df = tbw;
+  return cepError();
 }
 
 double cepWindowChebyshev::getValue( int offset )
-{ 
-  return calcValue( offset );
-}
-
-double cepWindowChebyshev::calcValue( int n ) {
-  cout << "error: why is this being called?" << endl;
+{
+  cout << "error: cepWindowChebyshev::getValue() should never be called?" << endl;
   return 0.0;
 }
 
-double cepWindowChebyshev::computeCheb( double value, long order )
-{
-  if( value <= 1 ) {
-    return cos((double)order*acos(value));
-  } else {
-    return cosh((double)order*acosh(value));
-  }
+double cepWindowChebyshev::calcValue( int n ) {
+  cout << "error: cepWindowChebyshev::calcValue() should never be called?" << endl;
+  return 0.0;
 }
 
-// method: generateDolphChebyshev
-//
-// arguments:
-//  VectorFloat& output: (output) the window function
-//  const VectorFloat& params: (input) window function parameters
-//  long num_points: (input) number of points in the window
-//
-// return: a boolean value indicating status
-//
-// this method generates a Dolph-Chebyshev window function:
-//
-//  w(n) = { G/(2M+1) * [1/gamma +
-//         {             2 * sum Cheb(beta*k*PI/(2M+1)) *
-//         {             cos(2*n*k*PI/(2M+1))]                  n <= |M|
-//         { 0                                                  elsewhere
-//
-//  there are a couple of important auxiliary equations:
-//
-//   alpha_s = (2*M * 2.285 * (double)dw + 16.4) / 2.056
-//
-//  where dw is the transition bandwidth in normalized frequency.
-//  using alpha_s, we compute gamma and beta (needed above):
-//
-//   gamma = 10 ** (-alpha_s / 20.0)
-//   beta = cosh((1/2M) * acosh(1/gamma))
-//
-// a good reference for this window can be found at:
-//
-//  S.K. Mitra, Digital Signal Processing,
-//  McGraw-Hill, Boston, Massachusetts, USA, 2001, pp. 456.
-//
-// there are two parameters allowed for this window:
-//
-//  params(0): G, the gain of the window
-//  params(1): dw, the normalized transition bandwidth
-//
-// for an odd number of points, the window is defined as above.
-// for an even number of points, an interpolation technique is used.
-//
+typedef struct c {
+  double real;
+  double imag;
+} complex;
+
 cepMatrix<double> *cepWindowChebyshev::generateCoeffs( int size ) {
 
-  // compute some constants related to the length of the window
-  //
-  long N = size;
-  long Nm1 = N - 1;
-  long Nm2 = Nm1 - 1;
-  double scale = (double)Nm2/Nm1;
+#define PIE PI
+#define TWOPI 2.0*PI
+#define NF size
+#define DF df
+  bool even = (size%2==1);
 
-  // compute the half-window length
-  //
-  long M = (N - 1) / 2;
-
-  // create output space
-  //
-  cepMatrix<double> *output_a = new cepMatrix<double>(size,1);
-
-  // in this approach, the constant represents the transition bandwidth.
-  // the window length is supplied by the user. we compute the appropriate
-  // constants to satisfy this relationship.
-  //
-  double A = (2*M * 2.285 * dw + 16.4) / 2.056;
-  double gamma = pow(10.0, -A/20.0);
-  double gamma_inv = 1.0 / gamma;
-
-  // from gamma and M, we compute beta
-  //
-  double beta = cosh(acosh(gamma)/(double)(2*M));
-
-
-  // for debugger visibility
-  double arg1 = 0.0;
-  double arg2 = 0.0;
-  double val = 0.0;
-  double sum = 0.0;
+  int XN=NF-1;
+  double C0=cos(PIE*DF);
+  double C1=XN*acosh(1.0/C0);
+  double DP=1.0/(cosh(C1)-1);
+  double X0 = (3-cos(TWOPI*DF))/(1+cos(TWOPI*DF));
+  int N = 0;
   
-  // case 1: an odd number of points
-  //
-  if ( (N%2)!= 0) {
-    for (int n = -M; n <= M; n++) {
-      sum = 0.0;
-      // compute the inner summation
-      //
-      for (int k = 1; k < M; k++) {
-        arg1 = beta*(double)k * PI / (double)(N);
-        arg2 = (2*N*(double)k * PI) / (M+1);
-        val = computeCheb( arg1*cos(arg2), k);
-        sum += val;
-      }
-
-      // save the output value
-      //
-      output_a->setValue( n+M, 0, ( (1.0/N)*(gamma_inv + 2*sum)));
-    }
+  if( even ) {
+    N=(NF/2);
+  } else {
+    N=(NF+1)/2;
   }
 
-  // case 2: an even number of points
-  //  use a resampling strategy
-  //
-  else {
-    for (long n = 0; n < N; n++) {
-      double scaled_index = -M + scale * n;
+  double FNF = NF;
+  double ALPHA=(X0+1)/2.0;
+  double BETA=(X0-1)/2.0;
+  double C2=XN/2.0;
+  complex *vals = new complex[NF];
 
-      // compute the inner summation
-      //
-      double sum = 0;
-      for (long k = 1; k < M; k++) {
-        double arg1 = (double)k * PI / (double)(Nm1);
-        double arg2 = 2 * scaled_index * arg1;
-        double val = computeCheb(beta * cos(arg1), k);
-        sum += val * cos(arg2);
-      }
-
-      // save the output value
-      //
-      output_a->setValue(n,0, (1.0 / (double)(Nm1) * (gamma_inv + 2 * sum)));
+  for( int i=1; i<=NF; ++i ) {
+    double XI = i-1;
+    double F = (double)XI/FNF;
+    double X = ALPHA*cos(TWOPI*F)+BETA;
+    double P = 0.0;
+    if( fabs(X) <= 1.0 ) {
+      P = DP*cos(C2*acos(X));
+    } else {
+      P = DP*cosh(C2*acosh(X));
     }
+    complex c;
+    c.real = P;
+    c.imag = 0.0;
+    if( even ) {
+      c.real = P*cos(PIE*F);
+      c.imag = -P*sin(PIE*F);
+      if( i > (NF/2.0+1) ) {
+        c.real *= -1.0;
+        c.imag *= -1.0;
+      }
+    }
+    vals[i-1]=c;
   }
 
-  // exit gracefully
-  //
-  return output_a;
+  double TWN = TWOPI/FNF;
+  double *result = new double[(int)N];
+  for( int i=1; i<=N; ++i ) {
+    double XI = i-1.0;
+    double SUM = 0.0;
+    for( int j=1; j<=NF; ++j ) {
+      double XJ=j-1.0;
+      SUM = SUM + vals[j-1].real*cos(TWN*XJ*XI) + vals[j-1].imag*sin(TWN*XJ*XI);
+    }
+    if( SUM < 0 ) SUM = 0;
+    result[i-1]=SUM;
+  }
+
+  C1 = result[0];
+  for( int i=0; i<N; ++i ) {
+    result[i] = result[i]/C1;
+  }
+
+  cepMatrix<double> *foo = new cepMatrix<double>(size,1);
+
+  for( int i=0; i<N; ++i ) {
+    foo->setValue(i,0,result[N-i]);
+    foo->setValue(size-i,0,result[N-i]);
+  }
+
+  for( int i=0; i<foo->getNumRows(); i++ ) {
+    cout << i << " " << foo->getValue(i,0) << endl;
+  }
+  return foo;
 }
 
+
+
+
+
+
+
+
+
+
+
+/*
+cepMatrix<double> *cepWindowChebyshev::generateCoeffs( int size ) {
+
+  int M = (int)floor((double)size/2); // the half window size
+  bool odd = (size%2 == 1);
+
+  // calc the ripple
+  double C0=cos(PI*df);
+  double C1=(size-1.0)*acosh(1.0/C0);
+  double dp = 1.0/(cosh(C1)-1.0);                         // the ripple in decibels
+  double X0 = (3.0*cos(2.0*PI*df))/(1.0+cos(2.0*PI*df));  // the chebyshev window constant
+
+  double alpha = (X0-1.0)/2.0;
+  double beta  = (X0-1.0)/2.0;
+
+  complex<double> *cplx = new complex<double>[size];
+
+  for( int i=0; i<size; ++i ) {
+    double f = (double)i/size;
+    double x = alpha*cos(2.0*PI*(double)i)/(double)size + beta;
+    double p = 0.0;
+    if( abs(x) <= 1 ) {
+      p = dp*cos(M*acos(x));
+    } else {
+      p = dp*cosh(M*acosh(x));
+    }
+    if( odd ) {
+      cplx[i] = complex<double>( p, 0.0 );
+    } else {
+      cplx[i] = complex<double>( p*cos(PI*f), -p*sin(PI*f) );
+      if( i > ((double)size/2+1) ) {
+        cplx[i] = -1.0*cplx[i];
+      }
+    }
+  }
+
+  // the coefficient matrix
+  cepMatrix<double> *foo = new cepMatrix<double>(size,1);
+
+  // the ifft
+  double sum = 0.0;
+  double step = 2.0*PI/size;
+  double *value = new double[M];
+  for( int i=0; i<M; ++i ) {
+    for( int j=0; j<size; ++j ) {
+      sum += cplx[j].real()*cos(step*(double)j*(double)i) +
+             cplx[j].imag()*sin(step*(double)j*(double)i);
+    }
+    // sum = (sum<0)?0.0:sum;
+    value[i] = sum;
+  }
+
+  // clean up resources
+  delete[] cplx;
+  delete[] value;
+
+  // normalise the values
+  cout << "normalising" << endl;
+  for( int i=0; i<M; i++ ) {
+    value[i] = value[i]/value[0];
+    cout << i << " " << value[i] << endl;
+  }
+  cout << endl << endl;
+
+  for( int i=0; i<M; ++i ) {
+    foo->setValue(i,1,value[i]);
+    if( i >= size-i ) {
+      cout << "passing the centre, aborting" << endl;
+    }
+  }
+
+  return foo;
+  
+}
+*/

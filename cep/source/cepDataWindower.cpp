@@ -45,11 +45,11 @@ cepDataWindower::~cepDataWindower(){
   if( windowAlg != NULL ) delete windowAlg;
 }
 
-const cepError cepDataWindower::setChebAttenuation( double att ) {
+const cepError cepDataWindower::setChebBandwidth( double dw ) {
   if( windowAlg == NULL || algType != WINDOW_CHEBYSHEV ) {
     return cepError("Not using chebyshev algorithm. cannot set parameters", cepError::sevWarning);
   }
-  ((cepWindowChebyshev *)windowAlg)->setAttenuation( att );
+  ((cepWindowChebyshev *)windowAlg)->setTransitionBandwidth( dw );
   
   return cepError();
 }

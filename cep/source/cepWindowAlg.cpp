@@ -22,7 +22,7 @@
 #include <cmath>
 
 /** calculate a single global value of PI */
-const double cepWindowAlg::PI = 2.0*asin(1.0);
+const double cepWindowAlg::PI = 4.0*atan(1.0);
 
 cepWindowAlg::cepWindowAlg( int s )
 {
