@@ -27,6 +27,7 @@ usage (char *name)
 {
   printf (VERSION "\n\n");
   printf ("Try: %s [-i input] [-r] [-v]\n\n", name);
+  printf ("\t-b <num>:  Suppress bulk data beyond length <num>\n");
   printf ("\t-i <name>: The name of the input usblog file\n");
   printf ("\t-l:        Output Linux kernel equivalent descriptions\n");
   printf ("\t-m:        Show MD5 hashes of URB descriptions\n");
@@ -94,13 +95,15 @@ main (int argc, char *argv[])
 {
   int fd, npackets, otag, urbCount, function, psize, tsrelative, temp, temp2,
     numifaces, seq, length, inset, testinset, corrstep, matchcount, optchar,
-    do_suppress = 0, do_showmatch = 0, do_verbose = 0;
+    do_suppress = 0, do_showmatch = 0, do_verbose = 0, do_bulk = 0;
   char *file, *input_filename = NULL;
   long long filep;
   struct stat sb;
   usb_allurbs *urbhead;
+  int transfer_direction;
+  int max_bulk = 0;
 
-  while ((optchar = getopt (argc, argv, "i:lmrRv")) != -1)
+  while ((optchar = getopt (argc, argv, "i:lmrRvb:")) != -1)
     {
       switch (optchar)
 	{
@@ -120,6 +123,11 @@ main (int argc, char *argv[])
 
 	case 'v':
 	  do_verbose = 1;
+	  break;
+
+	case 'b':
+	  do_bulk = 1;
+	  sscanf (optarg, "%d", &max_bulk);
 	  break;
 
 	case 'i':
@@ -232,9 +240,10 @@ main (int argc, char *argv[])
       urb_printf ("\n");
 
       urb_printf ("Length: %d\n", fileutil_getuinteger (file, &filep));
+      transfer_direction = fileutil_getinteger (file, &filep);
       urb_printf ("Direction: %s\n",
-		  0 == fileutil_getinteger (file, &filep) ?
-		  "host-to-device" : "device-to-host");
+		  ((0 == transfer_direction) ?
+		   "host-to-device" : "device-to-host"));
 
       // The sequence number and timestamp are repeated for some reason...
       fileutil_getuinteger (file, &filep);
@@ -295,49 +304,51 @@ main (int argc, char *argv[])
 	  break;
 
 	case 0x8:
-	  // CONTROL_TRANSFER
+          // CONTROL_TRANSFER
 
-	  psize = fileutil_getuinteger (file, &filep);
-	  //psize = fileutil_getnumber (file, &filep);
-	  urb_printf ("Transfer size: %d\n", psize);
+          psize = fileutil_getuinteger (file, &filep);
+          urb_printf ("Transfer size: %d\n", psize);
 
-	  // Test whether data is present
-	  //if (fileutil_getnumber (file, &filep) != 0)
-	  if(psize != 0)
-	    {
-	      int i;
+          // Test whether data is present
+          if(psize != 0)
+            {
+              int i;
 
-	      if(fileutil_getnumber (file, &filep) != 0)
-		{
-		  urb_printf ("Data: \t");
-		  for (i = 0; i < psize; i++)
-		    {
-		      if (isgraph (file[filep]))
-			{
-			  urb_printf ("   %c ", (unsigned char) file[filep]);
-			}
-		      else if (file[filep] == 0x20)
-			{
-			  urb_printf ("<SP> ");
-			}
-		      else
-			{
-			  urb_printf ("0x%02x ", (unsigned char) file[filep]);
-			}
-		      filep++;
+              if(fileutil_getnumber (file, &filep) != 0)
+                {
+                  urb_printf ("Data: \t");
+                  for (i = 0; i < psize; i++)
+                    {
+                      if (isgraph (file[filep]))
+                        {
+                          urb_printf (" %c ", (unsigned char) file[filep]);
+                        }
+                      else if (file[filep] == 0x20)
+                        {
+                          urb_printf ("<> ");
+                        }
+                      else
+                        {
+                          urb_printf ("%02x ", (unsigned char) file[filep]);
+                        }
+                      filep++;
 		      if (!((i + 1) % 16))
+			{
+			  urb_printf (" ");
+			}
+		      if (!((i + 1) % 32))
 			{
 			  urb_printf ("\n\t");
 			}
-		    }
-		}
-	      urb_printf ("\n");
-	    }
+                    }
+                }
+              urb_printf ("\n");
+            }
 
-	  // And now read the control transfer header
-	  // usb_urb_header(file, &filep);
-	  filep += USB_URB_HEADER_LENGTH;
-	  usb_urb_controltransfer (file, &filep);
+          // And now read the control transfer header
+          // usb_urb_header(file, &filep);
+          filep += USB_URB_HEADER_LENGTH;
+          usb_urb_controltransfer (file, &filep);
 	  break;
 
 	case 0x9:
@@ -351,34 +362,71 @@ main (int argc, char *argv[])
 	    {
 	      int i;
 
-	      urb_printf ("Data: \t");
-	      for (i = 0; i < psize; i++)
+	      urb_printf ("Bulk Data:%8d%8d%s:",
+			  urbhead[urbCount].number + 1,
+			  urbhead[urbCount].time,
+			  ((0 == transfer_direction) ? ">" : "<"));
+	      /* this is a hook to send the reply from the devive
+	         through a custom hook which is supposed to interpret the
+	         result 
+	       */
+#ifdef INTERPRET_HOOK
+	      fprintf (stderr, "\nblock: %d %10.3f\n",
+		       urbhead[urbCount].number + 1,
+		       ((double) urbhead[urbCount].time) / 1000);
+	      if (0 != transfer_direction)
+		{
+		  epl_62interpret (NULL, file + filep, psize);
+		}
+	      filep += (((do_bulk) && (psize > max_bulk)) ? max_bulk : psize);
+#else
+	      for (i = 0;
+		   i < (((do_bulk) && (psize > max_bulk)) ? max_bulk : psize);
+		   i++)
 		{
 		  if (isgraph (file[filep]))
 		    {
-		      urb_printf ("   %c ", (unsigned char) file[filep]);
+		      urb_printf (" %c ", (unsigned char) file[filep]);
 		    }
 		  else if (file[filep] == 0x20)
 		    {
-		      urb_printf ("<SP> ");
+		      urb_printf ("<> ");
 		    }
 		  else
 		    {
-		      urb_printf ("0x%02x ", (unsigned char) file[filep]);
+		      urb_printf ("%02x ", (unsigned char) file[filep]);
 		    }
 		  filep++;
 		  if (!((i + 1) % 16))
 		    {
-		      urb_printf ("\n\t");
+		      urb_printf (" ");
+		    }
+		  if (!((i + 1) % 32))
+		    {
+		      if (do_bulk)
+			{
+			  urb_printf ("\n");
+			  urb_printf ("Bulk Data:%8d%8d%s:",
+				      0,
+				      0,
+				      ((0 ==
+					transfer_direction) ? ">" : "<"));
+			}
+		      else
+			{
+			  urb_printf ("\n\t");
+			}
 		    }
 		}
 	      urb_printf ("\n");
+#endif /* INTERPRET_HOOK */
+	      filep +=
+		(((do_bulk) && (psize > max_bulk)) ? (psize - max_bulk) : 0);
 	    }
 	  filep += USB_URB_HEADER_LENGTH;
 	  usb_urb_bulktransfer (file, &filep);
 
 	  break;
-
 	case 0xA:
 	  // ISOCH_TRANSFER
 
@@ -413,6 +461,8 @@ main (int argc, char *argv[])
 
 	case 0x17:
 	  // VENDOR_DEVICE
+	case 0x1B:
+	  // CLASS_INTERFACE
 	case 0x1C:
 	  // CLASS_ENDPOINT
 	case 0x20:
@@ -438,36 +488,16 @@ main (int argc, char *argv[])
 	  usb_urb_controltransfer (file, &filep);
 	  break;
 
-	case 0x1B:
-	  // CLASS_INTERFACE
-
-	  if ((temp = fileutil_getinteger (file, &filep)) != 0)
-	    {
-	      urb_printf ("Transfer length: %d\n", temp);
-
-	      // 0 indicates no data present
-	      if (fileutil_getnumber (file, &filep) != 0)
-		{
-		  filep += temp;
-		  urb_printf ("TODO: Implementing decoding\n");
-		}
-	    }
-	  urb_printf ("\n");
-
-	  usb_urb_header(file, &filep);
-	  usb_urb_controltransfer (file, &filep);
-	  break;
-
 	case 0x1E:
 	  // RESET_PIPE
 	  break;
 
 	case 0x28:
-	  // GET_DESCRIPTOR_FROM_INTERFACE
-	  break;
+          // GET_DESCRIPTOR_FROM_INTERFACE
+          break;
 
 	default:
-	  urb_printf ("\n*** Unknown function (0x%x) ***\n\n", function);
+	  urb_printf ("\n*** Unknown function ***\n\n");
 	  urb_printf ("Aborting further decoding. Please report this to\n");
 	  urb_printf ("Michael Still (mikal@stillhq.com)\n");
 	  urbhead[urbCount].abend = 1;
@@ -551,10 +581,10 @@ main (int argc, char *argv[])
     {
       printf ("\n"
 	      "---------------------------------------------------------\n");
+      printf ("sequence %d: ", urbhead[urbCount].sequence);
       printf ("URB %d, ", urbCount);
       printf ("number %d, ", urbhead[urbCount].number);
       printf ("offset %lld, ", urbhead[urbCount].filep);
-      printf ("sequence %d, ", urbhead[urbCount].sequence);
       printf ("time %d, ", urbhead[urbCount].time);
       printf ("allocs %d\n", urbhead[urbCount].reallocs);
 
@@ -638,9 +668,6 @@ functname (unsigned int function)
     case 0x22:
       return "CLEAR_FEATURE_TO_OTHER";
 
-    case 0x28:
-      return "GET_DESCRIPTOR_FROM_INTERFACE";
-
     default:
       return "UNKNOWN";
     }
@@ -696,7 +723,7 @@ usb_urb_bulktransfer (char *file, long long *filep)
 {
   long long count = *filep;
 
-  urb_printf ("URB bulk or interrupt transfer:\n");
+  //--- urb_printf ("URB bulk or interrupted transfer:\n");
   // Skipped pipe handle pointer
   count += 4;
   urb_printf ("Transfer flags: %d\n", fileutil_getinteger (file, &count));
