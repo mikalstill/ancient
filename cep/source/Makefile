@@ -75,23 +75,28 @@ PACKAGE = cep
 RANLIB = ranlib
 VERSION = 0.1
 
-noinst_PROGRAMS = sample
+noinst_PROGRAMS = sample ui
 sample_SOURCES = cepMain.cpp cepError.cpp cepDataset.cpp cepUtility.cpp cepPresentation.cpp cepDate.cpp
+ui_SOURCES = cepUI.cpp doc.cpp view.cpp
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
 CONFIG_CLEAN_FILES = 
 PROGRAMS =  $(noinst_PROGRAMS)
 
 
-DEFS =  -DPACKAGE=\"cep\" -DVERSION=\"0.1\" -DHAVE_LIBM=1 -DHAVE_LIBZ=1 -DSTDC_HEADERS=1  -I. -I$(srcdir) 
+DEFS =  -DPACKAGE=\"cep\" -DVERSION=\"0.1\" -DHAVE_LIBM=1 -DHAVE_LIBZ=1 -DHAVE_LIBPTHREAD=1 -DHAVE_LIBWX_GTK_2_2=1 -DSTDC_HEADERS=1 -D__WXGTK__=1  -I. -I$(srcdir) 
 CPPFLAGS = 
 LDFLAGS = 
-LIBS = -lz -lm 
+LIBS = -lwx_gtk-2.2 -lpthread -lz -lm 
 sample_OBJECTS =  cepMain.o cepError.o cepDataset.o cepUtility.o \
 cepPresentation.o cepDate.o
 sample_LDADD = $(LDADD)
 sample_DEPENDENCIES = 
 sample_LDFLAGS = 
+ui_OBJECTS =  cepUI.o doc.o view.o
+ui_LDADD = $(LDADD)
+ui_DEPENDENCIES = 
+ui_LDFLAGS = 
 CXXFLAGS = -g -O2
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 CXXLD = $(CXX)
@@ -105,9 +110,10 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 TAR = gtar
 GZIP_ENV = --best
 DEP_FILES =  .deps/cepDataset.P .deps/cepDate.P .deps/cepError.P \
-.deps/cepMain.P .deps/cepPresentation.P .deps/cepUtility.P
-SOURCES = $(sample_SOURCES)
-OBJECTS = $(sample_OBJECTS)
+.deps/cepMain.P .deps/cepPresentation.P .deps/cepUI.P \
+.deps/cepUtility.P .deps/doc.P .deps/view.P
+SOURCES = $(sample_SOURCES) $(ui_SOURCES)
+OBJECTS = $(sample_OBJECTS) $(ui_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
@@ -155,6 +161,10 @@ maintainer-clean-compile:
 sample: $(sample_OBJECTS) $(sample_DEPENDENCIES)
 	@rm -f sample
 	$(CXXLINK) $(sample_LDFLAGS) $(sample_OBJECTS) $(sample_LDADD) $(LIBS)
+
+ui: $(ui_OBJECTS) $(ui_DEPENDENCIES)
+	@rm -f ui
+	$(CXXLINK) $(ui_LDFLAGS) $(ui_OBJECTS) $(ui_LDADD) $(LIBS)
 .cpp.o:
 	$(CXXCOMPILE) -c $<
 

@@ -33,13 +33,29 @@ AC_CHECK_LIB(z, uncompress)
 #dnl -lfl:
 #AC_CHECK_LIB(fl, yywrap)
 
+dnl -lpthread
+AC_CHECK_LIB(pthread, pthread_mutex_unlock)
+
+dnl -lXi
+AC_CHECK_LIB(Xi, XAllowDeviceEvents)
+
+dnl -lXext
+AC_CHECK_LIB(Xext, XGetVisualInfo)
+
+dnl -lX11
+AC_CHECK_LIB(X11, XFreeFontInfo)
+
+dnl -lwx  --> THIS IS BAD AND MIGHT BREAK
+AC_CHECK_LIB(wx_gtk-2.2, OnIdle__12wxHtmlWindowR11wxIdleEvent)
+
 dnl Checks for header files.
 dnl STDC checks for stdlib.h stdarg.h string.h and float.h
 AC_HEADER_STDC
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 
-dnl Checks for library functions.
+dnl Stupid defines to keep wx happy
+AC_DEFINE(__WXGTK__)
 
 AC_OUTPUT(Makefile)
 

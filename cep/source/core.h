@@ -1,6 +1,7 @@
 /* 
    The header we include everywhere to get access to interesting classes
    Copyright (C) Michael Still                    2002
+   Copyright (C) Daniel Fernandez                 2002
    
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by

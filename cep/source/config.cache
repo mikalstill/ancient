@@ -15,9 +15,16 @@
 ac_cv_exeext=${ac_cv_exeext=no}
 ac_cv_header_dlfcn_h=${ac_cv_header_dlfcn_h=yes}
 ac_cv_header_stdc=${ac_cv_header_stdc=yes}
+ac_cv_lib_X11_XFreeFontInfo=${ac_cv_lib_X11_XFreeFontInfo=no}
+ac_cv_lib_Xext_XGetVisualInfo=${ac_cv_lib_Xext_XGetVisualInfo=no}
+ac_cv_lib_Xi_XAllowDeviceEvents=${ac_cv_lib_Xi_XAllowDeviceEvents=no}
 ac_cv_lib_dl_dlopen=${ac_cv_lib_dl_dlopen=yes}
 ac_cv_lib_fl_yywrap=${ac_cv_lib_fl_yywrap=yes}
+ac_cv_lib_libwx_gtk_OnIdle=${ac_cv_lib_libwx_gtk_OnIdle=no}
 ac_cv_lib_m_atan=${ac_cv_lib_m_atan=yes}
+ac_cv_lib_pthread_pthread_mutex_unlock=${ac_cv_lib_pthread_pthread_mutex_unlock=yes}
+ac_cv_lib_wx_gtk_2_2_OnIdle=${ac_cv_lib_wx_gtk_2_2_OnIdle=no}
+ac_cv_lib_wx_gtk_2_2_OnIdle__12wxHtmlWindowR11wxIdleEvent=${ac_cv_lib_wx_gtk_2_2_OnIdle__12wxHtmlWindowR11wxIdleEvent=yes}
 ac_cv_lib_z_uncompress=${ac_cv_lib_z_uncompress=yes}
 ac_cv_path_LD=${ac_cv_path_LD=/usr/bin/ld}
 ac_cv_path_NM=${ac_cv_path_NM='$/usr/bin/nm -B'}

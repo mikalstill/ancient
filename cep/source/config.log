@@ -56,5 +56,11 @@ ltconfig:2490: checking whether a program can dlopen itself
 ltconfig:2563: checking whether a statically linked program can dlopen itself
 configure:1928: checking for atan in -lm
 configure:1976: checking for uncompress in -lz
-configure:2027: checking how to run the C preprocessor
-configure:2107: checking for ANSI C header files
+configure:2027: checking for pthread_mutex_unlock in -lpthread
+configure:2075: checking for XAllowDeviceEvents in -lXi
+configure:2123: checking for XGetVisualInfo in -lXext
+configure:2171: checking for XFreeFontInfo in -lX11
+configure:2219: checking for OnIdle__12wxHtmlWindowR11wxIdleEvent in -lwx_gtk-2.2
+configure:2238: gcc -o conftest -g -O2   conftest.c -lwx_gtk-2.2  -lpthread -lz -lm  1>&5
+configure:2267: checking how to run the C preprocessor
+configure:2347: checking for ANSI C header files

@@ -40,9 +40,9 @@ s%@CFLAGS@%-g -O2%g
 s%@CPPFLAGS@%%g
 s%@CXXFLAGS@%-g -O2%g
 s%@FFLAGS@%%g
-s%@DEFS@% -DPACKAGE=\"cep\" -DVERSION=\"0.1\" -DHAVE_LIBM=1 -DHAVE_LIBZ=1 -DSTDC_HEADERS=1 %g
+s%@DEFS@% -DPACKAGE=\"cep\" -DVERSION=\"0.1\" -DHAVE_LIBM=1 -DHAVE_LIBZ=1 -DHAVE_LIBPTHREAD=1 -DHAVE_LIBWX_GTK_2_2=1 -DSTDC_HEADERS=1 -D__WXGTK__=1 %g
 s%@LDFLAGS@%%g
-s%@LIBS@%-lz -lm %g
+s%@LIBS@%-lwx_gtk-2.2 -lpthread -lz -lm %g
 s%@exec_prefix@%${prefix}%g
 s%@prefix@%/usr/local%g
 s%@program_transform_name@%s,x,x,%g
