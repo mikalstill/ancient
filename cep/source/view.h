@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     04/01/98
-// RCS-ID:      $Id: view.h,v 1.3 2002-05-29 03:13:09 u964076 Exp $
+// RCS-ID:      $Id: view.h,v 1.4 2002-05-29 04:48:26 u964076 Exp $
 // Copyright:   (c) Julian Smart and Markus Holzem
 // Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////
@@ -64,28 +64,4 @@ public:
 
 private:
 DECLARE_DYNAMIC_CLASS (cepDatasetView) DECLARE_EVENT_TABLE ()};
-
-class TextEditView:public wxView
-{
-public:
-  wxFrame * frame;
-  MyTextWindow *textsw;
-
-    TextEditView ():wxView ()
-  {
-    frame = (wxFrame *) NULL;
-    textsw = (MyTextWindow *) NULL;
-  }
-   ~TextEditView ()
-  {
-  }
-
-  bool OnCreate (wxDocument * doc, long flags);
-  void OnDraw (wxDC * dc);
-  void OnUpdate (wxView * sender, wxObject * hint = (wxObject *) NULL);
-  bool OnClose (bool deleteWindow = TRUE);
-
-private:
-DECLARE_DYNAMIC_CLASS (TextEditView)};
-
 #endif

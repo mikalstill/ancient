@@ -160,59 +160,6 @@ cepDatasetView::OnCut (wxCommandEvent & WXUNUSED (event))
 			    doc, (DoodleSegment *) NULL));
 }
 
-IMPLEMENT_DYNAMIC_CLASS (TextEditView, wxView)
-     bool TextEditView::OnCreate (wxDocument * doc, long WXUNUSED (flags))
-{
-  frame = wxGetApp ().CreateChildFrame (doc, this, FALSE);
-
-  int width, height;
-  frame->GetClientSize (&width, &height);
-  textsw =
-    new MyTextWindow (this, frame, wxPoint (0, 0), wxSize (width, height),
-		      wxTE_MULTILINE);
-  frame->SetTitle ("TextEditView");
-
-#ifdef __X__
-  // X seems to require a forced resize
-  int x, y;
-  frame->GetSize (&x, &y);
-  frame->SetSize (-1, -1, x, y);
-#endif
-
-  frame->Show (TRUE);
-  Activate (TRUE);
-
-  return TRUE;
-}
-
-// Handled by wxTextWindow
-void
-TextEditView::OnDraw (wxDC * WXUNUSED (dc))
-{
-}
-
-void
-TextEditView::OnUpdate (wxView * WXUNUSED (sender),
-			wxObject * WXUNUSED (hint))
-{
-}
-
-bool
-TextEditView::OnClose (bool deleteWindow)
-{
-  if (!GetDocument ()->Close ())
-    return FALSE;
-
-  Activate (FALSE);
-
-  if (deleteWindow)
-    {
-      delete frame;
-      return TRUE;
-    }
-  return TRUE;
-}
-
 /*
  * Window implementations
  */

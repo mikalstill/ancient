@@ -72,7 +72,7 @@ MyApp::OnInit (void)
   // Create the main frame window
   frame =
     new MyFrame ((wxDocManager *) m_docManager, (wxFrame *) NULL,
-		 (const wxString) "CEPtor", wxPoint (0, 0), wxSize (500, 400),
+		 (const wxString) "CEPtor", wxPoint (0, 0), wxSize (1000, 700),
 		 wxDEFAULT_FRAME_STYLE);
 
   // Give it an icon (this is ignored in MDI mode: uses resources)
