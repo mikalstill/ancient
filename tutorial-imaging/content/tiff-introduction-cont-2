@@ -1,0 +1,7 @@
+TITLE: TIFF -- Introduction (continued)
+
+<li>Libtiff is an open implementation of the TIFF specification
+<li>It is not GPL
+<li>More like a BSD license
+<li>There is documentation in the manual on how to install libtiff
+

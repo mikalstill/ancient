@@ -1,0 +1,13 @@
+TITLE: Imaging concepts -- Encrypting images (continued)
+
+<li>After encryption using DES ECB mode
+
+<br><br><div align="center"><b>After ECB encryption</b>
+<br><img src="/notes/presentations/slide/gen-desecb-figure2.jpg">
+</div><BR><BR>
+
+<li>(This image is upside down because I am lazy)
+<li>We can see that the content of the image has not been hidden
+
+<li>We should note that non codebook cryptography <i>might</i> be better
+

@@ -1,0 +1,8 @@
+TITLE: TIFF -- Infrastructure for reading (continued)
+
+<li>This code works by opening an image
+<li>Checking that it is one that we support
+<li>Reading in all the strips and appending them together
+<li>Twiddling bits if required
+<li>Output the hex representation of the image
+

@@ -12,3 +12,9 @@ output.ps: output.sgml
 
 output.pdf: output.ps
 	ps2pdf output.ps
+
+slides: slides.sgml
+	rm content
+	mkdir content
+	slides < slides.sgml 2> slides-gen.log
+	cp *.jpg content/

@@ -1,0 +1,29 @@
+TITLE: TIFF -- Image File Directory Entries (continued)
+
+<li>These entries have a type
+<li>Options are:
+  <br>
+  <ul>
+
+
+<li>1: BYTE 8 bit unsigned integer
+<li>2: ASCII 8 bit byte that contains a 7 bit ASCII code
+<li>3: SHORT 16 bit (2 byte) unsigned integer
+<li>4: LONG 32 bit (4 byte) unsigned integer
+<li>5: RATIONAL Two LONGs: the first represents the numerator of a fraction; the second, the denominator
+
+
+
+<li>6: SBYTE An 8 bit signed integer
+<li>7: UNDEFINED An 8 bit byte that may contain anything
+<li>8: SSHORT A 16 bit (2 byte) signed integer
+<li>9: SLONG A 32 bit (4 byte) signed integer
+<li>10: SRATIONAL Two SLONGs: the first represents the numerator of a fraction; the second, the denominator
+<li>11: FLOAT Singled precision (4 byte) IEEE format
+<li>12: DOUBLE Double precision (8 byte) IEEE format
+
+
+<br><br>
+<li>Sign is implemented using 2's complement
+<li>Adobe reserve the right to add new types later
+

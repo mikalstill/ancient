@@ -440,44 +440,128 @@ If you need more information about any of the libtiff function calls mentioned i
 Reading TIFF files reliably is much harder than writing them. The issue that complicates reading black and white TIFF images the most is the several different storage schemes which are possible within the TIFF file itself. libtiff doesn't hold your hand much with these schemes, so you have to be able to handle them yourself. The three schemes TIFF supports are single stripped images, stripped images, and tiled images.
 </para>
 
+<slidetext>
+<li>As I said before, reliable reading is much harder than writing
+<li>First let's talk about stripping, and tiling of images...
+</slidetext>
+
 <orderedlist>
 <listitem><para>A single strip image is as the name suggests -- a special case of a stripped image. In this case, all of the bitmap is stored in one large block. I have experienced reliability issues with images which are single strip on Windows machines. The general recommendation is that no one strip should take more than 8 kilobytes uncompressed which with black and white images limits us to 65,536 pixels in a single strip.</para></listitem>
 
+<slidetext>
+<li>Single strip is where all the image data is in one block (a strip)
+<li>This can be unreliable if the strip is bigger than 8kb
+</slidetext>
+
 <listitem><para>A multiple strip image is where horizontal blocks of the image are stored together. More than one strip is joined vertically to make the entire bitmap. Figure 2 shows this concept.</para></listitem>
+
+<slidetext>
+<BR><BR>
+<li>Multiple strip images have many horizontal strips
+</slidetext>
 
 <listitem><para>A tiled image is like your bathroom wall, it is composed of tiles. This representation is show in Figure 3, and is useful for extremely large images -- this is especially true when you might only want to manipulate a small portion of the image at any one time.</para></listitem>
 </orderedlist>
 
+<slideinclude>
 <figure><title>The Sydney Harbor Bridge, in strips</title>
 <execute><cmd>img</cmd><args>tiff-figure2.jpg</args></execute>
 </figure>
+</slideinclude>
 
+<slidebreak>
+
+<slidetext>
+<li>A tiled image is like your bathroom wall...
+<li>This is often used for extremely large images such as maps
+</slidetext>
+
+<slideinclude>
 <figure><title>The Sydney Harbor Bridge, in tiles</title>
 <execute><cmd>img</cmd><args>tiff-figure3.jpg</args></execute>
 </figure>
+</slideinclude>
 
 <para>
 Tiled images are comparatively uncommon, so I will focus on stripped images in this chapter. Remember as we go along, that the single stripped case is merely a subset of a multiple strip images.
 </para>
+
+<slidetext>
+<li>Tiled images are not very common
+<li>So we'll focus on stripped images
+</slidetext>
 
 <sect2><title>Infrastructure for reading</title>
 <para>
 The most important thing to remember when reading in TIFF images is to be flexible. The example below has the same basic concepts as the writing example above, with the major difference being that it needs to deal with many possible input images. Apart from stripping and tiling, the most important thing to remember to be flexible about is photo metric interpretation. Luckily, with black and white images there are only two photo metric interpretations to worry about (with color and to a certain extent gray scale images there are many more).
 </para>
 
+<slidetext>
+<li>We need to remember to be flexible in the input that we accept
+<BR><BR>
+<li>Be flexible about:
+  <ul>
+  <li>Stipping / tiling
+  <li>Strip sizes
+  <li>Photometric interpretation
+  </ul>
+</slidetext>
+
 <para>
-What is photo metric interpretation? Well, the representation of the image in the buffer is really a very arbitrary thing. I might code my bitmaps so that 0 means black (TIFFTAG_MINISBLACK), whilst you might find black being 1 (TIFFTAG_MINISWHITE) more convenient. TIFF allows both, so our code has to be able to handle both cases. In the example below, I have assumed that the internal buffers need to be in MINISWHITE, so we will convert images which are in MINISBLACK.
+What is photo metric interpretation? Well, the representation of the image in the buffer is really a very arbitrary thing. I might code my bitmaps so that 0 means black (PHOTOMETRIC_MINISBLACK), whilst you might find black being 1 (PHOTOMETRIC_MINISWHITE) more convenient. TIFF allows both (in the TIFFTAG_PHOTOMETRIC tag), so our code has to be able to handle both cases. In the example below, I have assumed that the internal buffers need to be in PHOTOMETRIC_MINISWHITE so we will convert images which are in PHOTOMETRIC_MINISBLACK.
 </para>
+
+<slidebreak>
+<slidetext>
+<li>What is photometric interpretation?
+<li>It's the representation of the image in the raster
+<BR><BR>
+<li>For example, I might code my bitmaps so black is represented by 1
+<li>... you might use 0 for black
+<li>TIFF allows both in the TIFFTAG_PHOTOMETRIC tag
+  <ul>
+  <li>PHOTOMETRIC_MINISWHITE
+  <li>PHOTOMETRIC_MINISBLACK
+  </ul>
+<BR><BR>
+<li>In the examples here I have assumed we need PHOTOMETRIC_MINISWHITE, so we will convert PHOTOMETRIC_MINISBLACK as required.
+
+<BR><BR>
+<i>Note that some versions of this tutorial had the tag names wrong...</i>
+</slidetext>
+
+<execute><cmd>nextedition</cmd><input>Remove note above</input></execute>
 
 <para>
 The other big thing to bear in mind is fill order (whether the first bit in the byte is the highest value, or the lowest). The example below also handles both of these correctly. I have assumed that we want the buffer to have the most significant bit first. TIFF images can be either big endian or little endian, but libtiff handles this for us. Thankfully, libtiff also supports the various compression algorithms without you having to worry about those. These are by far the scariest area of TIFF, so it is still worth your time to use libtiff.
 </para>
 
+<slidebreak>
+<slidetext>
+<li>The other thing to bear in mind is the fill order of the bytes
+<li>This is whether the first bit in the byte has the highest value or the lowest
+<li>This is subtly different from endianness
+<BR><BR>
+<li>Libtiff deals with endian issues for us automatically
+</slidetext>
+
+<slidebreak>
+<slideinclude>
 <execute><cmd>code2db</cmd><input>~mikal/opensource/tiff-bw-read/read.c</input></execute>
+</slideinclude>
 
 <para>
 This code works by first opening the image and checking that it is one that we can handle. It then reads in all the strip for the image, and appends them together in one large memory block. If required, it also flips bits until the photo metric interpretation the one we handle, and deals with having to swap bits if the fill order is wrong. Finally, our sample outputs the image as a series of lines composed of hex values. Remember that each of the values represents 8 pixels in the actual image.
 </para>
+
+<slidebreak>
+<slidetext>
+<li>This code works by opening an image
+<li>Checking that it is one that we support
+<li>Reading in all the strips and appending them together
+<li>Twiddling bits if required
+<li>Output the hex representation of the image
+</slidetext>
 </sect2>
 
 <sect2><title>Compression algorithms in libtiff</title>	
@@ -486,8 +570,13 @@ There are several compression algorithms available within libtiff. How do you se
 </para>
 
 <para>
-<emphasis>Please note that all the tags in this table should be preceded by COMPRESSION, for example COMPRESSION_CCITTFAXG4...</emphasis>
+<emphasis>Please note that all the tags in this table should be preceded by COMPRESSION, for example COMPRESSION_CCITTFAXG4...</emphasis>. The compression option is stored in the tag TIFFTAG_COMPRESSION.
 </para>
+
+<slidetext>
+<li>Stored in TIFFTAG_COMPRESSION
+<BR><BR>
+</slidetext>
 
 <slideinclude>
 <table frame='all'><title>Libtiff compression algorithms</title>
@@ -496,7 +585,7 @@ There are several compression algorithms available within libtiff. How do you se
 <row>
   <entry>Compression algorithm</entry>
   <entry>Well suited for</entry>
-  <entry>TIFFTAG</entry>
+  <entry>COMPRESSION</entry>
 </row>
 </thead>
 <tbody>
@@ -530,32 +619,62 @@ There are several compression algorithms available within libtiff. How do you se
 </sect2>
 
 <sect2><title>Accumulating loss?</title>
-<para>Why does the loss in lossy compression algorithms such as JPEG accumulate? Imagine that you compress an image using JPEG. You then need to add say a bar code to the image, so you uncompress the image, add the bar code, and recompress it. When the recompression occurs, then a new set of loss is introduced. You can imagine that if you do this enough, then you'll end up with an image which is a big blob.</para>
+<para>
+Why does the loss in lossy compression algorithms such as JPEG accumulate? Imagine that you compress an image using JPEG. You then need to add say a bar code to the image, so you uncompress the image, add the bar code, and recompress it. When the recompression occurs, then a new set of loss is introduced. You can imagine that if you do this enough, then you'll end up with an image which is a big blob.
+</para>
 
-<para>Whether this is a problem depends on the type of your data. To test how much of a problem this is, I wrote a simple libtiff program which repeatedly uncompresses and recompresses an image. What I found was that with pictures, the data is much more resilient to repeated compression.</para>
+<slidetext>
+<li>JPEG compression can be a bad choice for some forms of data
+<li>This is because it is lossy
+<li>This loss accumulates through repeated compression and decompression
+</slidetext>
 
+<para>
+Whether this is a problem depends on the type of your data. To test how much of a problem this is, I wrote a simple libtiff program which repeatedly uncompresses and recompresses an image. What I found was that with pictures, the data is much more resilient to repeated compression.
+</para>
+
+<slidebreak>
+<slideinclude>
 <figure><title>The picture before we compressed it</title>
 <execute><cmd>img</cmd><args>tiff-figure4.jpg</args></execute>
 </figure>
+</slideinclude>
 
+<slidebreak>
+<slideinclude>
 <figure><title>The sample text before we compressed it</title>
 <execute><cmd>img</cmd><args>tiff-figure5.jpg</args></execute>
 </figure>
+</slideinclude>
 
 <para>
 The code I used had a 'quality' rating of 25% on the JPEG compression, which is a way of tweaking the loss of the compression algorithm. The lower the quality, the higher the compression ratio. The default is 75%.</para>
 
+<slidebreak>
+<slideinclude>
 <figure><title>The picture after it has been recompressed 200 times</title>
 <execute><cmd>img</cmd><args>tiff-figure6.jpg</args></execute>
 </figure>
+</slideinclude>
 
+<slidebreak>
+<slideinclude>
 <figure><title>The text after it has been recompressed 200 times</title>
 <execute><cmd>img</cmd><args>tiff-figure7.jpg</args></execute>
 </figure>
+</slideinclude>
 
 <para>
 The code for the repeated compression example is at the end of this chapter.
 </para>
+
+<slidebreak>
+<slidetext>
+<li>I cheated here, and had a quality of 25% set on the JPEG compression
+<li>The default is 75%
+<BR><BR>
+<li>The code for repeated compression is the the printed manual
+</slidetext>
 </sect2>
 </sect1>
 

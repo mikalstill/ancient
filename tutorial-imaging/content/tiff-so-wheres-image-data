@@ -1,0 +1,6 @@
+TITLE: TIFF -- So where's the image data?
+
+<BR><BR>
+Interestingly, the image data itself is just stored as another tag value... The tag value StripOffsets stores where in the file the image data strips start. The tag value StripByteCounts stores the size of each strip.
+
+

@@ -1,0 +1,14 @@
+TITLE: Imaging concepts -- Gray scale conversion
+
+<li>How do you convert color images to grayscale?
+<li>Well, most people (including myself) just start off by averaging the red, green and blue color values for each pixel
+<li>This is not optimal...
+<li>Because your eye is much more sensitive to green than blue for instance
+<BR><BR>
+<li>The NSTC folk dealt with this, and propose the following coefficients...
+  <ul>
+  <li>Red: 0.299
+  <li>Green: 0.587
+  <li>Blue: 0.114
+  </ul>
+

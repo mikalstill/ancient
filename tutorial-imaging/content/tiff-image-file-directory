@@ -1,0 +1,31 @@
+TITLE: TIFF -- Image File Directory
+
+<table>
+
+
+<tr>
+  <td>Bytes</td>
+  <td>Description</td>
+</tr>
+
+
+
+<tr bgcolor=BBBBBB>
+<td>0 - 1</td>
+<td>Number of entries in the IFD</td>
+</tr>
+
+<tr>
+<td>???</td>
+<td>The entries in the IFD (all are 12 bytes long)</td>
+</tr>
+
+<tr bgcolor=BBBBBB>
+<td>4 bytes at end</td>
+<td>Offset in bytes to the next IFD (four zero bytes if this is the last IFD)</td>
+</tr>
+
+
+
+</table>
+
