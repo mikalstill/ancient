@@ -1,9 +1,6 @@
 <sect1><title>Prototype</title>
 
   <sect2><title>Introduction</title>
-    <para>
-      Matlab, Functionality etc..
-    </para>
 
     <para>
       The MATLAB prototype was the minimum requirement of the project. It was to carry out all of the essential
@@ -17,7 +14,19 @@
 
   <sect2><title>Theory</title>
     <para>
-      Research also - TSView etc..
+	IDEAS:::
+
+       Prototyping can be an effective technique for identifying requirements in projects and this was no different in
+       this case.
+
+       The prototype was originally intended to be a product comparable to TSVIEW, however with addtional functionality,
+       such as intrerpolation, windowing and frequency domain analysis.
+
+       Once the the essesntial mathematical functionality in the prototype was complete, work began on a user interface.
+       Not long into the UI development, it was decided that it would not be of any benifit and that our attention should
+       be focused on the main implementaton of the application.
+
+	Research also - TSView etc..
     </para>
   </sect2> <!--Theory-->
 
