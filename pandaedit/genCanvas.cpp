@@ -87,14 +87,15 @@ genCanvas::OnMouseEvent (wxMouseEvent & event)
     {
       debug(dlTrace, "Tool instance ended, tool still selected");
       
+      // TODO mikal: the 841 is a hard coded assumption that the page is a4
       string commandString;
       if(m_controlPoints.size() > 0)
 	commandString += toString(m_controlPoints[0].x) + string(" ") +
-	  toString(m_controlPoints[0].y) + string(" m\n");
+	  toString(841 - m_controlPoints[0].y) + string(" m\n");
       for(unsigned int i = 1; i < m_controlPoints.size(); i++)
 	{
 	  commandString += toString(m_controlPoints[i].x) + string(" ") +
-	    toString(m_controlPoints[i].y) + string(" l\n");
+	    toString(841 - m_controlPoints[i].y) + string(" l\n");
 	}
       if(m_controlPoints.size() > 0)
 	commandString += string("S\n");

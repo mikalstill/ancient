@@ -381,7 +381,8 @@ pdfRender::render_l ()
     }
 
 #if defined HAVE_LIBMPLOT
-  debug(dlTrace, "Adding line segment");
+  debug(dlTrace, string("Adding line segment: ") + toString(x) +
+	string(" ") + toString(y));
   plot_addlinesegment (m_plot, x, y);
 #else
   debug(dlError, "Libmplot not found at configure time. Graphics functionality"
@@ -411,7 +412,8 @@ pdfRender::render_m ()
 #if defined HAVE_LIBMPLOT
   if (m_hasLine)
     plot_endline (m_plot);
-  debug(dlTrace, "Setting line start");
+  debug(dlTrace, string("Setting line start: ") + toString(x) +
+	string(" ") + toString(y));
   plot_setlinestart (m_plot, x, y);
 #else
   debug(dlError, "Libmplot not found at configure time. Graphics functionality"

@@ -152,13 +152,30 @@ pdfView::OnDraw (wxDC * dc)
   ((wxFrame *) wxGetApp ().GetTopWindow ())->
     SetStatusText (m_currentToolDesc.c_str (), 2);
 
+  // Change the size of the window to match the size of the page
+  // TODO mikal: people on smaller monitors will find this annoying
+  // we should offer a scaling option here as well...
+  debug(dlTrace, string("Setting the window size to that of page ") +
+	toString(m_page));
+  unsigned int x, y;
+  int cx, cy;
+  ((wxFrame *) wxGetApp ().GetTopWindow ())->GetSize(&cx, &cy);
+  if((theDoc->getPageSize(m_page, x, y)) && ((x != cx) || (y != cy)))
+    {
+      debug(dlTrace, "Resizing window");
+      ((wxFrame *) wxGetApp ().GetTopWindow ())->SetSize(x, y);
+    }
+
   string& filename = m_renders[m_page];
   debug(dlTrace, string("Page render cache names \"") + filename + 
 	string("\""));
   if(theDoc->getPDF() != NULL)
     { 
-      if(((filename == "") || (m_dirty == true)) && 
-	 populatePageFromPDF(theDoc, filename))
+      if(m_dirty || (filename == ""))
+	populatePageFromPDF(theDoc, filename);
+      m_dirty = false;
+      
+      if(filename != "")
 	{
 	  // And now we can assume that there is a PNG somewhere out there we
 	  // can paint...
@@ -171,7 +188,6 @@ pdfView::OnDraw (wxDC * dc)
 		wxImage theImage (filename.c_str(), wxBITMAP_TYPE_PNG);
 		wxBitmap theBitmap (theImage.ConvertToBitmap ());
 		dc->DrawBitmap (theBitmap, 0, 0);
-		m_dirty = false;
 	      }
 	    catch (...)
 	      {
@@ -179,6 +195,9 @@ pdfView::OnDraw (wxDC * dc)
 	      }
 	  }
 	}
+      else{
+	debug(dlTrace, "Window redraw skipped because there is no PNG");
+      }
 
     // TODO mikal: also need to redraw the output of the current tool
     }
@@ -218,7 +237,7 @@ pdfView::populatePageFromPDF(pdfDoc* theDoc, string& filename)
     return false;
   }
 
-    return true;
+  return true;
 }
 
 void

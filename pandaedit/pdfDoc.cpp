@@ -62,6 +62,8 @@
 #include "verbosity.h"
 #include "stringArray.h"
 
+extern object gNoSuchObject;
+
 IMPLEMENT_DYNAMIC_CLASS (pdfDoc, wxDocument)
 
 // This is needed for the progess callback to get to us
@@ -357,7 +359,8 @@ bool
 pdfDoc::getPageSize(int pageno, unsigned int& x, unsigned int& y)
 {
   string mediaBox;
-  getPageSize(pageno, mediaBox);
+  if(!getPageSize(pageno, mediaBox))
+    return false;
 
   stringArray boxArgs (mediaBox.substr (1, mediaBox.length () - 2), " ");
   x = atoi (boxArgs[2].c_str ());
@@ -375,5 +378,7 @@ pdfDoc::getPageSize(int pageno, unsigned int& x, unsigned int& y)
 object&
 pdfDoc::getPagesObject()
 {
+  if(m_pdf == NULL)
+    return gNoSuchObject;
   return m_pdf->getPagesObject();
 }

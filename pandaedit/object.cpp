@@ -125,6 +125,10 @@ object::hasDictItem (dictitem::diType type, string dname, string dvalue)
 bool
 object::hasDictItem (dictitem::diType type, string dname)
 {
+  // Check we exist
+  if(m_number == objNumNoSuch)
+    return false;
+
   // todo_mikal: this is a hack
   dictitem foo;
   dictitem & item = foo;
