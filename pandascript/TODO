@@ -1,0 +1,8 @@
+  * An error message is displayed at the end when you finish running 
+	pandascript
+  * Error handling does not work properly
+  * Super / sub script support
+  * Don't require a single word to be in quotes
+  * Floats must have a leading number e.g 0.8 instead of just .8
+  * Multiline strings (handling of \n)
+  * Man pages

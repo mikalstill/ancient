@@ -1,0 +1,422 @@
+<!-- pandascript.sgml -- the documentation for pandascript.
+
+     This document is part of the pandascript distribution, and is covered
+     by the GNU GPL, a copy of which is in the file named COPYING inside the
+     distribution.
+
+     This program and it's documentation are distributed in the hope that 
+     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
+     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+-->
+
+<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN" [
+<!entity ParmDir "<parameter>directory</parameter>">
+<!entity ParmFile "<parameter>file</parameter>">
+<!entity OptParmFile "<optional>&ParmFile;</optional>">
+<!entity ParmFiles "<parameter>files</parameter>">
+<!entity OptParmFiles "<optional>&ParmFiles;</optional>">
+<!entity ParmNames "<parameter>names</parameter>">
+<!entity OptParmNames "<optional>&ParmNames;</optional>">
+<!entity ParmName  "<parameter>name</parameter>">
+<!entity OptParmName  "<optional>&ParmName;</optional>">
+<!entity ParmKeyIDs "<parameter>key IDs</parameter>">
+<!entity ParmN	    "<parameter>n</parameter>">
+<!entity ParmFlags  "<parameter>flags</parameter>">
+<!entity ParmString "<parameter>string</parameter>">
+<!entity ParmValue  "<parameter>value</parameter>">
+<!entity ParmNameValue	"<parameter>name=value</parameter>">
+]>
+
+<refentry id="pandascript">
+<refmeta>
+  <refentrytitle>pandascript</refentrytitle>
+  <manvolnum>1</manvolnum>
+</refmeta>
+
+<refnamediv>
+  <refname>pandascript</refname>
+  <refpurpose>a scriptable front end to the Panda PDF generation API</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+  <synopsis>
+<command>pandascript</command>
+  </synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+    <title>DESCRIPTION</title>
+    <para>
+<command>pandascript</command> is an optional scriptable front end to the Panda PDF generation API.
+    </para>
+</refsect1>
+
+<refsect1>
+<title>COMMANDS</title>
+<para>
+<command>pandascript</command> recognizes these commands when they appear on standard input:
+</para>
+
+<variablelist>
+
+<varlistentry>
+<term>output</term>
+<listitem><para>
+Defines the name of the PDF document that you would like to create as the output of <command>pandascript</command>. There is currently no way of specifying standard output as the output location.
+</para></listitem>
+
+<variablelist>
+<varlistentry>
+<term>filename</term>
+<listitem><para>
+Quoted string. The name of the PDF file to be created.
+</para></listitem></varlistentry>
+</variablelist>
+</varlistentry>
+
+<varlistentry>
+<term>close</term>
+<listitem><para>
+Close the document named in the output command. This includes writing out all of the PDF information that has been created during the session.
+</para></listitem></varlistentry>
+
+<varlistentry>
+<term>newpage</term>
+<listitem><para>
+Create a newpage in the PDF document. Only on page may be editted at a time, and there is no way to go backwards in the pages of the PDF, so be sure that you have finished creating the current page before issuing this command.
+</para></listitem></varlistentry>
+
+<varlistentry>
+<term>imagebox</term>
+<listitem><para>
+The equivalent of the imagebox(3) function call from the Panda API. The following arguements are required:
+
+<variablelist>
+<varlistentry>
+<term>top</term>
+<listitem><para>
+Integer. The location of the top of the image.
+</para></listitem></varlistentry>
+
+<varlistentry>
+<term>left</term>
+<listitem><para>
+Integer. The location of the left hand side of the image.
+</para></listitem></varlistentry>
+
+<varlistentry>
+<term>bottom</term>
+<listitem><para>
+Integer. The location of the bottom of the image.
+</para></listitem></varlistentry>
+
+<varlistentry>
+<term>right</term>
+<listitem><para>
+Integer. The location of the right hand side of the image.
+</para></listitem></varlistentry>
+
+<varlistentry>
+<term>filename</term>
+<listitem><para>
+Quoted string. The name of the image file that is being inserted into the PDF file.
+</para></listitem></varlistentry>
+
+<varlistentry>
+<term>type</term>
+<listitem><para>
+The type of the image that is being inserted. One of: TIFFIMG or JPEGIMG.
+</para></listitem></varlistentry>
+
+</variablelist>
+</para></listitem></varlistentry>
+
+<varlistentry>
+<term>imageboxrot</term>
+<listitem><para>
+The equivalent of the imageboxrot(3) function call from the Panda API. This is very similar to the imagebox command above, but allows for the image to be rotated on the page. The following arguements are required:
+
+<variablelist>
+<varlistentry>
+<term>top</term>
+<listitem><para>
+Integer. The location of the top of the image.
+</para></listitem></varlistentry>
+
+<varlistentry>
+<term>left</term>
+<listitem><para>
+Integer. The location of the left hand side of the image.
+</para></listitem></varlistentry>
+
+<varlistentry>
+<term>bottom</term>
+<listitem><para>
+Integer. The location of the bottom of the image.
+</para></listitem></varlistentry>
+
+<varlistentry>
+<term>right</term>
+<listitem><para>
+Integer. The location of the right hand side of the image.
+</para></listitem></varlistentry>
+
+<varlistentry>
+<term>angle</term>
+<listitem><para>
+Floating point. The angle the image should be rotated at.
+</para></listitem></varlistentry>
+
+<varlistentry>
+<term>filename</term>
+<listitem><para>
+Quoted string. The name of the image file that is being inserted into the PDF file.
+</para></listitem></varlistentry>
+
+<varlistentry>
+<term>type</term>
+<listitem><para>
+The type of the image that is being inserted. One of: TIFFIMG or JPEGIMG.
+</para></listitem></varlistentry>
+
+</variablelist>
+</para></listitem></varlistentry>
+
+<varlistentry>
+<term>textbox</term>
+<listitem><para>
+The equivalent of the textbox(3) function call from the Panda API. This inserts a text string onto the current page in the PDF document. The following arguements are required:
+
+<variablelist>
+<varlistentry>
+<term>top</term>
+<listitem><para>
+Integer. The location of the top of the textbox.
+</para></listitem></varlistentry>
+
+<varlistentry>
+<term>left</term>
+<listitem><para>
+Integer. The location of the left hand side of the textbox.
+</para></listitem></varlistentry>
+
+<varlistentry>
+<term>bottom</term>
+<listitem><para>
+Integer. The location of the bottom of the textbox.
+</para></listitem></varlistentry>
+
+<varlistentry>
+<term>right</term>
+<listitem><para>
+Integer. The location of the right hand side of the textbox.
+</para></listitem></varlistentry>
+
+<varlistentry>
+<term>text</term>
+<listitem><para>
+Quoted string. The text to insert.
+</para></listitem></varlistentry>
+</variablelist>
+
+<varlistentry>
+<term>setfontmode</term>
+<listitem><para>
+Integer.
+</para></listitem></varlistentry>
+
+<varlistentry>
+<term>setcharspacing</term>
+<listitem><para>
+Float.
+</para></listitem></varlistentry>
+
+<varlistentry>
+<term>setwordspacing</term>
+<listitem><para>
+Float.
+</para></listitem></varlistentry>
+
+<varlistentry>
+<term>sethorizscaling</term>
+<listitem><para>
+Float.
+</para></listitem></varlistentry>
+
+<varlistentry>
+<term>setleading</term>
+<listitem><para>
+Float.
+</para></listitem></varlistentry>
+
+<varlistentry>
+<term>setfont</term>
+<listitem><para>
+Quoted string.
+</para></listitem></varlistentry>
+
+</variablelist>
+</refsect1>
+
+<refsect1>
+    <title>DATA TYPES</title>
+    <variablelist>
+
+</variablelist>
+</refsect1>
+
+<refsect1>
+    <title>EXAMPLE</title>
+    <variablelist>
+
+<varlistentry>
+<term>gpg -se -r <parameter/Bob/ &ParmFile;</term>
+<listitem><para>sign and encrypt for user Bob</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>gpg --clearsign &ParmFile;</term>
+<listitem><para>make a clear text signature</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>gpg -sb  &ParmFile;</term>
+<listitem><para>make a detached signature</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>gpg --list-keys  <parameter/user_ID/</term>
+<listitem><para>show keys</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>gpg --fingerprint  <parameter/user_ID/</term>
+<listitem><para>show fingerprint</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>gpg --verify  <parameter/pgpfile/</term>
+<term>gpg --verify  <parameter/sigfile/ &OptParmFiles;</term>
+<listitem><para>
+Verify the signature of the file but do not output the data. The second form
+is used for detached signatures, where <parameter/sigfile/ is the detached
+signature (either ASCII armored of binary) and &OptParmFiles are the signed
+data; if this is not given the name of the file holding the signed data is
+constructed by cutting off the extension (".asc" or ".sig") of
+<parameter/sigfile/ or by asking the user for the filename.
+</para></listitem></varlistentry>
+
+    </variablelist>
+</refsect1>
+
+
+<refsect1>
+    <title>ENVIRONMENT</title>
+
+    <variablelist>
+<varlistentry>
+<term>HOME</term>
+<listitem><para>Used to locate the default home directory.</para></listitem>
+</varlistentry>
+<varlistentry>
+<term>GNUPGHOME</term>
+<listitem><para>If set directory used instead of "~/.gnupg".</para></listitem>
+</varlistentry>
+<varlistentry>
+<term>http_proxy</term>
+<listitem><para>Only honored when the option --honor-http-proxy is set.</para></listitem>
+</varlistentry>
+    </variablelist>
+
+</refsect1>
+
+<refsect1>
+    <title>FILES</title>
+    <variablelist>
+
+<varlistentry>
+<term>~/.gnupg/secring.gpg</term>
+<listitem><para>The secret keyring</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>~/.gnupg/secring.gpg.lock</term>
+<listitem><para>and the lock file</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>~/.gnupg/pubring.gpg</term>
+<listitem><para>The public keyring</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>~/.gnupg/pubring.gpg.lock</term>
+<listitem><para>and the lock file</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>~/.gnupg/trustdb.gpg</term>
+<listitem><para>The trust database</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>~/.gnupg/trustdb.gpg.lock</term>
+<listitem><para>and the lock file</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>~/.gnupg/random_seed</term>
+<listitem><para>used to preserve the internal random pool</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>~/.gnupg/options</term>
+<listitem><para>May contain options</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>/usr[/local]/share/gnupg/options.skel</term>
+<listitem><para>Skeleton options file</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>/usr[/local]/lib/gnupg/</term>
+<listitem><para>Default location for extensions</para></listitem>
+</varlistentry>
+
+    </variablelist>
+</refsect1>
+
+<!-- SEE ALSO  not yet needed-->
+
+<refsect1>
+    <title>WARNINGS</title>
+    <para>
+Use a *good* password for your user account and a *good* passphrase
+to protect your secret key.  This passphrase is the weakest part of the
+whole system.  Programs to do dictionary attacks on your secret keyring
+are very easy to write and so you should protect your "~/.gnupg/"
+directory very well.
+</para>
+<para>
+Keep in mind that, if this program is used over a network (telnet), it
+is *very* easy to spy out your passphrase!
+</para>
+</refsect1>
+
+
+<refsect1>
+    <title>BUGS</title>
+    <para>
+On many systems this program should be installed as setuid(root). This
+is necessary to lock memory pages. Locking memory pages prevents the
+operating system from writing memory pages to disk. If you get no
+warning message about insecure memory 3our operating system supports
+locking without being root. The program drops root privileges as soon
+as locked memory is allocated.
+</para>
+</refsect1>
+
+</refentry>
+
