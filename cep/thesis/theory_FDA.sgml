@@ -23,7 +23,7 @@
   
   <equation>
     <title>Square Wave</title>
-    <execute><cmd>img</cmd><args>freq-squarewave.eps</args></execute>
+    <execute><cmd>img</cmd><args>square.bmp</args></execute>
   </equation>
 	
   for all odd harmonics. Where <command>f</command> is the fundamental frequency.
