@@ -72,25 +72,24 @@
     interpolation each new point is placed on a line between the two adjacent points.
     The Equation for adding a new point is:
   </para>
+
   <para>
     where:
   </para>
-  <para>
-    
-  </para>
-  </sect3>
+
   <para>
   For example a cubic spline interpolation provides a smooth curve with no instantaneous slope
   changes.  The advantage of cubic splines is that provided with a high sample rate system
   it can create a highly accurate model.  However cubic splines tend to produce
   unrealistic bulges in the data
-
+  </para>
   <para>
     ideas:
     -req'd for data to be FFT'd - FFT data must be regular
     -provides models for periods where data is not available
     -need several techniques as no single technq. suits all applications.
    </para>
+     </sect3>
 
 </sect2> <!--Theory-->
 
