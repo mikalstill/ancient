@@ -44,7 +44,12 @@ cepError cepDataset::munch ()
   // it would be crap to read two of the three files, and _then_ report
   // an error...
   fstream files[3];
-
+  long numLines;
+  char c, prevc;
+  string thisLine;
+  cep_datarow row, lastRow;
+  char * line;
+    
   files[0].open (string (m_filename + ".dat1").c_str (), ios::in);
   files[1].open (string (m_filename + ".dat2").c_str (), ios::in);
   files[2].open (string (m_filename + ".dat3").c_str (), ios::in);
@@ -74,10 +79,11 @@ cepError cepDataset::munch ()
     if (m_progress)
       m_progress (i + 1, 0);
 
-    char c = 0, prevc = '\n';
-    string thisLine ("");
-
-    cep_datarow lastRow;
+    c = 0;
+    prevc = '\n';
+    thisLine = "";
+    numLines = 1;
+    
     lastRow.date = -1;
     lastRow.sample = -1;
     lastRow.error = -1;
@@ -85,14 +91,15 @@ cepError cepDataset::munch ()
     while (!files[i].eof ())
     {   
       files[i].read (&c, 1);
-
-      //if the first non blank char in the line is a char then skip the whole line
-      if((prevc == '\n') && ((c < 48) || (c > 57)) && (cepIsBlank(c) == false) && (!files[i].eof()))
+      //if the line contains non-numbers then ignore the whole line
+      if(((c < 48) || (c > 57)) && (cepIsBlank(c) == false) && (c != '.') && (c != '-'))
       {
-        while(c != '\n')
+        while((c != '\n') && (!files[i].eof()))
         {
           files[i].read(&c,1);
         }
+        thisLine = "";
+        numLines++;
       }
       else
       {
@@ -110,66 +117,48 @@ cepError cepDataset::munch ()
       }
       if ((c == '\n') && (thisLine != ""))
       {
-        cep_datarow row;
-        char * line = strdup(thisLine.c_str());
+        numLines ++;
+        line = strdup(thisLine.c_str());
 
         row.date = atof(strtok(line, " "));
         row.sample = atof(strtok(NULL, " "));
         row.error = atof(strtok(NULL, " "));
 
-        if((isnan(row.date) == 0) && (isnan(row.sample) == 0) && (isnan(row.error) == 0))
+        if(lastRow.date == -1)
         {
-          if(lastRow.date == -1)
-          {
-            getData((cepDataset::direction) i).push_back(row);
-            lastRow = row;
-          }
-          else
-          {
-            if(row.date < lastRow.date)
-            {
-              #ifdef debug
-                cout << "not in date order" << endl;
-              #endif
-              return cepError("dataset: " + m_filename + " is not in date order!", cepError::sevErrorRecoverable);
-            }
-            else
-            {
-              if(row.date == lastRow.date)
-              {
-                #ifdef debug
-                  cout << "is repeat values" << endl;
-                #endif
-                return cepError("dataset: " + m_filename + " contains repeated values!",cepError::sevErrorRecoverable);
-              }
-              else
-              {
-                getData((cepDataset::direction) i).push_back(row);
-                lastRow = row;
-              }
-            }
-          }
+          getData((cepDataset::direction) i).push_back(row);
+          lastRow = row;
         }
         else
         {
-          #ifdef debug
-            cout << "nan value found";
-          #endif
-        }  
-      thisLine = "";
+          if(row.date < lastRow.date)
+          {
+            return cepError("dataset: " + m_filename + ".dat" + cepToString(i + 1) + " is not in date order! At line " + cepToString(numLines), cepError::sevErrorRecoverable);
+          }
+          else
+          {
+            if(row.date == lastRow.date)
+            {
+              return cepError("dataset: " + m_filename + ".dat" + cepToString(i + 1) + " contains repeated values! At line " + cepToString(numLines),cepError::sevErrorRecoverable);
+            }
+            else
+            {
+              getData((cepDataset::direction) i).push_back(row);
+              lastRow = row;
+            }
+          }
+        }
+        thisLine = "";
       }
       prevc = c;
     }
     files[i].close();
+  
   }
-
   // Are the files over the same period??
   if (((m_datax.front().date != m_datay.front().date) || (m_datay.front().date != m_dataz.front().date)) || ((m_datax.back().date != m_datay.back().date) || (m_datay.back().date != m_dataz.back().date)))
   {
-    #ifdef debug
-      cout << "dataset not cover same time period";
-    #endif
-    return cepError("The data set values do not represent the same time period",cepError::sevErrorRecoverable);
+    return cepError("The data set " + m_filename + " values do not represent the same time period",cepError::sevErrorRecoverable);
   }
     
   m_ready = true;
