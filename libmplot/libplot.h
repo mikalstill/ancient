@@ -4,14 +4,16 @@
 typedef struct plot_internal_pixel
 {
   unsigned char r, g, b;
-} plot_pixel;
+}
+plot_pixel;
 
 typedef struct plot_internal_lineseg
 {
   unsigned int x;
   unsigned int y;
   struct plot_internal_lineseg *next;
-} plot_lineseg;
+}
+plot_lineseg;
 
 typedef struct plot_internal_state
 {
@@ -21,7 +23,7 @@ typedef struct plot_internal_state
 
   // Line attributes
   plot_lineseg *line;
-  
+
   int linewidth;
   int linecap;
   int linejoin;
@@ -32,7 +34,7 @@ typedef struct plot_internal_state
 plot_state;
 
 plot_state *plot_newplot (unsigned int, unsigned int);
-char *plot_getraster(plot_state *state);
+char *plot_getraster (plot_state * state);
 
 // Primitive operations
 void plot_setlinestart (plot_state *, int, int);
@@ -61,5 +63,5 @@ void plot_rectangle (plot_state *, int, int, int, int);
 
 
 // Simple stuff we need
-unsigned int plot_min(unsigned int one, unsigned int two);
-unsigned int plot_max(unsigned int one, unsigned int two);
+unsigned int plot_min (unsigned int one, unsigned int two);
+unsigned int plot_max (unsigned int one, unsigned int two);

@@ -35,16 +35,18 @@ plot_newplot (unsigned int x, unsigned int y)
 {
   plot_state *state;
 
-  state = malloc(sizeof(plot_state));
-  if(state == NULL) return state;
+  state = malloc (sizeof (plot_state));
+  if (state == NULL)
+    return state;
 
   // A blank raster
-  state->raster = malloc(sizeof(plot_pixel) * x * y);
-  if(state->raster == NULL){
-    free(state);
-    return NULL;
-  }
-  memset(state->raster, 255, sizeof(plot_pixel) * x * y);
+  state->raster = malloc (sizeof (plot_pixel) * x * y);
+  if (state->raster == NULL)
+    {
+      free (state);
+      return NULL;
+    }
+  memset (state->raster, 255, sizeof (plot_pixel) * x * y);
 
   state->x = x;
   state->y = y;
@@ -99,7 +101,8 @@ SEEALSO plot_newplot plot_setlinestart plot_addlinesegment plot_addcubiccurveseg
 DOCBOOK END
 ******************************************************************************/
 
-char *plot_getraster(plot_state *state)
+char *
+plot_getraster (plot_state * state)
 {
   return (char *) state->raster;
 }
@@ -134,11 +137,11 @@ DOCBOOK END
 ******************************************************************************/
 
 void
-plot_setlinestart (plot_state *state, int x, int y)
+plot_setlinestart (plot_state * state, int x, int y)
 {
-  plot_endline(state);
-  state->line = (plot_lineseg *) malloc(sizeof(plot_lineseg));
-  if(state->line != NULL)
+  plot_endline (state);
+  state->line = (plot_lineseg *) malloc (sizeof (plot_lineseg));
+  if (state->line != NULL)
     {
       state->line->next = NULL;
     }
@@ -178,22 +181,22 @@ DOCBOOK END
 ******************************************************************************/
 
 void
-plot_addlinesegment (plot_state *state, int x, int y)
+plot_addlinesegment (plot_state * state, int x, int y)
 {
   // Find the end of the line
   plot_lineseg *current;
   current = state->line;
 
-  while(current->next != NULL)
+  while (current->next != NULL)
     current = current->next;
 
-  current->next = (plot_lineseg *) malloc(sizeof(plot_lineseg));
-  if(current->next == NULL)
+  current->next = (plot_lineseg *) malloc (sizeof (plot_lineseg));
+  if (current->next == NULL)
     {
-      fprintf(stderr, "An error we should handle better\n");
-      exit(42);
+      fprintf (stderr, "An error we should handle better\n");
+      exit (42);
     }
-  
+
   current = current->next;
   current->next = NULL;
   current->x = x;
@@ -201,21 +204,21 @@ plot_addlinesegment (plot_state *state, int x, int y)
 }
 
 void
-plot_addcubiccurvesegment (plot_state *state, int x1, int y1, int x2, int y2, 
+plot_addcubiccurvesegment (plot_state * state, int x1, int y1, int x2, int y2,
 			   int x3, int y3)
 {
   fprintf (stderr, "todo\n");
 }
 
 void
-plot_addquadraticcurvesegmentone (plot_state *state, int x1, int y1, 
+plot_addquadraticcurvesegmentone (plot_state * state, int x1, int y1,
 				  int x2, int y2)
 {
   fprintf (stderr, "todo\n");
 }
 
 void
-plot_addquadraticcurvesegmenttwo (plot_state *state, int x1, int y1, 
+plot_addquadraticcurvesegmenttwo (plot_state * state, int x1, int y1,
 				  int x2, int y2)
 {
   fprintf (stderr, "todo\n");
@@ -253,10 +256,10 @@ DOCBOOK END
 ******************************************************************************/
 
 void
-plot_closeline (plot_state *state)
+plot_closeline (plot_state * state)
 {
-  if(state->line != NULL)
-    plot_addlinesegment(state, state->line->x, state->line->y);
+  if (state->line != NULL)
+    plot_addlinesegment (state, state->line->x, state->line->y);
 }
 
 /******************************************************************************
@@ -291,27 +294,30 @@ DOCBOOK END
 ******************************************************************************/
 
 void
-plot_endline (plot_state *state)
+plot_endline (plot_state * state)
 {
   // todo: this is inefficient
   plot_lineseg *current, *prev;
 
   // End case
-  if(state->line == NULL)
+  if (state->line == NULL)
     return;
 
   current = state->line;
   prev = NULL;
-  while(current->next != NULL){
-    prev = current;
-    current = current->next;
-  }
+  while (current->next != NULL)
+    {
+      prev = current;
+      current = current->next;
+    }
 
-  free(current);
-  if(prev != NULL) prev->next = NULL;
-  else state->line = NULL;
+  free (current);
+  if (prev != NULL)
+    prev->next = NULL;
+  else
+    state->line = NULL;
 
-  plot_endline(state);
+  plot_endline (state);
 }
 
 /******************************************************************************
@@ -344,7 +350,7 @@ DOCBOOK END
 
 
 void
-plot_strokeline (plot_state *state)
+plot_strokeline (plot_state * state)
 {
   // todo: support for non straight lines
   plot_lineseg *current;
@@ -352,68 +358,78 @@ plot_strokeline (plot_state *state)
   unsigned int rise, run;
   float newy;
 
-  if(state->line == NULL)
+  if (state->line == NULL)
     return;
 
   current = state->line;
   x1 = current->x;
   y1 = current->y;
   current = current->next;
-  while(current != NULL){
-    printf("%d, %d -> %d, %d\n", x1, y1, current->x, current->y);
+  while (current != NULL)
+    {
+      printf ("%d, %d -> %d, %d\n", x1, y1, current->x, current->y);
 
-    if(y1 == current->y){
-      for(c = plot_min(x1, current->x); c < plot_max(x1, current->x) + 1; c++){
-	state->raster[state->x * y1 + c] = state->linecolor;
-      }
-    }
-    else if(x1 == current->x){
-      for(c = plot_min(y1, current->y); c < plot_max(y1, current->y) + 1; c++){
-	state->raster[state->x * c + x1] = state->linecolor;
-      }
-    }
-    else{
-      for(c = plot_min(x1, current->x); c < plot_max(x1, current->x) + 1; c++){
-	rise = current->y - y1;
-	run = current->x - x1;
-	newy = ((float) rise / run) * c;
-	state->raster[state->x * ((int) newy) + c] = state->linecolor;
-      }      
-    }
+      if (y1 == current->y)
+	{
+	  for (c = plot_min (x1, current->x);
+	       c < plot_max (x1, current->x) + 1; c++)
+	    {
+	      state->raster[state->x * y1 + c] = state->linecolor;
+	    }
+	}
+      else if (x1 == current->x)
+	{
+	  for (c = plot_min (y1, current->y);
+	       c < plot_max (y1, current->y) + 1; c++)
+	    {
+	      state->raster[state->x * c + x1] = state->linecolor;
+	    }
+	}
+      else
+	{
+	  for (c = plot_min (x1, current->x);
+	       c < plot_max (x1, current->x) + 1; c++)
+	    {
+	      rise = current->y - y1;
+	      run = current->x - x1;
+	      newy = ((float) rise / run) * c;
+	      state->raster[state->x * ((int) newy) + c] = state->linecolor;
+	    }
+	}
 
-    x1 = current->x;
-    y1 = current->y;
-    current = current->next;
-  }
+      x1 = current->x;
+      y1 = current->y;
+      current = current->next;
+    }
 }
 
 void
-plot_fillline (plot_state *state)
+plot_fillline (plot_state * state)
 {
   fprintf (stderr, "todo\n");
 }
 
 // State modification functions
 void
-plot_setlinewidth (plot_state *state, int w)
+plot_setlinewidth (plot_state * state, int w)
 {
   fprintf (stderr, "todo\n");
 }
 
 void
-plot_setlinecap (plot_state *state, int c)
+plot_setlinecap (plot_state * state, int c)
 {
   fprintf (stderr, "todo\n");
 }
 
 void
-plot_setlinejoin (plot_state *state, int j)
+plot_setlinejoin (plot_state * state, int j)
 {
   fprintf (stderr, "todo\n");
 }
 
 void
-plot_setlinedash (plot_state *state, int on, int off, int interval)
+plot_setlinedash (plot_state * state, int on, int off, int interval)
 {
   fprintf (stderr, "todo\n");
 }
@@ -448,7 +464,7 @@ DOCBOOK END
 ******************************************************************************/
 
 void
-plot_setfillcolor (plot_state *state, int red, int green, int blue)
+plot_setfillcolor (plot_state * state, int red, int green, int blue)
 {
   state->fillcolor.r = red;
   state->fillcolor.g = green;
@@ -485,7 +501,7 @@ DOCBOOK END
 ******************************************************************************/
 
 void
-plot_setlinecolor (plot_state *state, int red, int green, int blue)
+plot_setlinecolor (plot_state * state, int red, int green, int blue)
 {
   state->linecolor.r = red;
   state->linecolor.g = green;
@@ -521,34 +537,37 @@ DOCBOOK END
 ******************************************************************************/
 
 void
-plot_rectangle (plot_state *state, int x1, int y1, 
-				  int x2, int y2)
+plot_rectangle (plot_state * state, int x1, int y1, int x2, int y2)
 {
-  plot_setlinestart(state, x1, y1);
-  plot_addlinesegment(state, x2, y1);
-  plot_addlinesegment(state, x2, y2);
-  plot_addlinesegment(state, x1, y2);
-  plot_closeline(state);
+  plot_setlinestart (state, x1, y1);
+  plot_addlinesegment (state, x2, y1);
+  plot_addlinesegment (state, x2, y2);
+  plot_addlinesegment (state, x1, y2);
+  plot_closeline (state);
 }
 
 // todo: this signature makes little sense
-void plot_rectanglerot(plot_state *state, int x1, int y1, 
-		       int x2, int y2, 
-		       float angle)
+void
+plot_rectanglerot (plot_state * state, int x1, int y1,
+		   int x2, int y2, float angle)
 {
-  fprintf(stderr, "todo\n");
+  fprintf (stderr, "todo\n");
 }
 
-
-
-
-
-unsigned int plot_min(unsigned int one, unsigned int two){
-  if(one > two) return two;
+///////////////////
+// Internal methods
+unsigned int
+plot_min (unsigned int one, unsigned int two)
+{
+  if (one > two)
+    return two;
   return one;
 }
 
-unsigned int plot_max(unsigned int one, unsigned int two){
-  if(one > two) return one;
+unsigned int
+plot_max (unsigned int one, unsigned int two)
+{
+  if (one > two)
+    return one;
   return two;
 }
