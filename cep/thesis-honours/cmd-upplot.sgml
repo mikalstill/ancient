@@ -1,0 +1,13 @@
+<sect2><title>upplot</title>
+<para>
+This tag will insert the HTML and required URL for the Up direction plot from the current dataset. The output of the tag will be empty if there is no currently selected dataset. The plots are 24 bit colour PNG images, as discussed in the implementation methodology section of this document.
+</para>
+
+<para>
+An example usage is:
+</para>
+
+<programlisting>
+&amp;{upplot};
+</programlisting>
+</sect2>

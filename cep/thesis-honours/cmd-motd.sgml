@@ -1,0 +1,13 @@
+<sect2><title>motd</title>
+<para>
+This tag will display a welcome message to the user -- the Message Of The Day (MOTD). This can be used to inform users of new datasets now being available, planned system outages, and other such informational messages.
+</para>
+
+<para>
+An example usage is:
+</para>
+
+<programlisting>
+&amp;{motd};
+</programlisting>
+</sect2>
