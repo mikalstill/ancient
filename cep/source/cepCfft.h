@@ -4,7 +4,7 @@
  * Originally called cfft.h or cplxfft.h taken from FXT (c) by Joerg Arndt,
  * see http://www.jjj.de/fxt/
  *
- * Modifications have been made to this file to better integrated with the GDMS package.
+ * Modifications have been made to this file to be better integrated with the GDMS package.
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
@@ -51,7 +51,10 @@ The first paragraph above could serve as a reasonable
 #if !defined( _CFFT_H_INC__ )
 #define _CFFT_H_INC__ 1
 #include <math.h>               // for sin and cos
-#include "../cepMatrix.h"
+#include <stdio.h>
+#include "cepMatrix.h"
+
+typedef complex <double> ComplexDble;
 
 /*
  * This is a general-purpose C++ complex FFT transform class.
@@ -133,6 +136,8 @@ public:
   {
     return N;
   }
+
+  cepMatrix<ComplexDble> matrixFft(cepMatrix<ComplexDble> & matrix, int dir);
 
   // used to fill in last half of complex spectrum of real signal
   // when the first half is already there.
@@ -245,54 +250,80 @@ template < class CPLX > void cfft < CPLX >::hermitian (CPLX * buf)
 }
 
 /*
+ *
+ */
+template < class CPLX > int cfft < CPLX >::canFft(cepMatrix<ComplexDble> & matrix)
+{
+
+}
+/*
  * cfft::matrixFft
  * imports: matrix: the matrix holding the data to be fft'd
  *        : the column number of the specific column to be fft'd.
           : direction of the transform - 1 = forward, 0 = inverse.
    returns the fft'd data in the matrix whic was originally passed.
  */
-template < class CPLX > void cfft < CPLX >::matrixFft (cepMatrix &matrix, int colNumber, int dir)
+template < class CPLX > cepMatrix<ComplexDble>
+                        cfft < CPLX >::matrixFft(cepMatrix<ComplexDble> & matrix, int dir)
 {
-
   int numRows = matrix.getNumRows();
   int numCols = matrix.getNumCols();
+  int numTables = matrix.getNumTables();
   int rowCount = 0, colCount = 0;
   int arraySize = numRows;
+  int rCol, rRow, wCol, wRow, rTable,count;
+  int checkValues1, checkValues2;
 
-  typedef complex <double>Complex;
-
-  cfft<Complex> matrixFft (arraySize);   // build an operator object
-  // The constructor builds tables and places them in the object.
-
-  Complex matrixArray[arraySize];
-
+  const int NUMCHECKS = 3;
+  int checks[NUMCHECKS];
 
   //populate the array to send to fft module.
-  //for (col = 0; col < numCols; col++)
-  //{
-    for (row = 0; row < numRows; row++)
-    {
-      matrixArray(row) = matrix.getValue(row,colNumber);
-    }
-  }
+  //start at 1st column as we do not want to fft the date.
+  for (rTable = 0; rTable < numTables; rTable++){
+    for (rCol = 1; rCol < numCols; rCol++){//while there are still columns
+      for (rRow = 0; rRow < numRows-1; rRow++){
+	for (count = 0; count < NUMCHECKS; count++)
+	       checks[count] = matrix.getValue(count,rCol);
+	if ( (checks[0] - checks[1]) != (checks[1] - checks[2]) )
+	  //todo: daniel: throw an error values not equidistant.
+	else
+	  arrayToFft[rRow]=checks[0];  //populate the arry to be fft'd
+      }//end for rRow
+    }//end for rCol 
+  }//end for rTable
+  
+  ComplexDble arrayToFft[arraySize];
+  cepMatrix<ComplexDble> ffteedMatrix( numRows, numCols, numTables) //matrix contain to store processed values
 
-  //compute the fft.
-  if (dir = 1)
-    matrixFft.fft(matrixArray);
-  else
-    matrixFft.ifft(matrixArray);
+//      cout << "dir = " << dir << "\n";
+//      cout << "numCols = " << numCols << "\n";
+//      cout << "numRows = " << numRows << "\n";
 
-  //now throw it all back into the original matrix.
-  //this is changing....
-  for (col = 0; col < numCols; col++)
-  {
-    for (row = 0; row < numRows; row++)
-    {
-      matrix.setValue(row,colNumber,matrixArray(row));
-    }
-  }
+    /*********************************compute the fft.************************************/
+      if (dir == 1)
+      {
+        cout << "Performing forward fft on Matrix: Table " << rTable
+	     << "Column  " << rCol << "\n";
+        fft(arrayToFft);
+      }
+      else
+      {
+        cout << "Performing Inverse fft on Matrix: Table " << rTable
+	     << "Column " << rCol << "\n";
+        ifft(arrayToFft);
+      }
+      //place the processed values into the marix.
+      for (wRow = 0; wRow < numRows; wRow++){
+        ffteedMatrix.setValue(wRow,rCol,rTable,arrayToFft[wRow]);
+        cout << ffteedMatrix.getValue(rTable,wRow,rCol);
+      }//end write loop
+    } //for rCol
+  }//end for rTable
 
-}
+  return ffteedMatrix;
+}//end method
+
+
 
 
 /*
