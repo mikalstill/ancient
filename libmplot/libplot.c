@@ -1370,7 +1370,8 @@ plot_writestringrot (plot_state * state, char *string, float angle)
   len = strlen (string);
   for (count = 0; count < len; count++)
     {
-      if (plot_paintglyph (state, string[count], LIBMPLOT_TRUE, LIBMPLOT_NOTAPPLICABLE) == -1)
+      if (plot_paintglyph (state, string[count], LIBMPLOT_TRUE, 
+			   LIBMPLOT_NOTAPPLICABLE) == -1)
 	return -1;
     }
 
