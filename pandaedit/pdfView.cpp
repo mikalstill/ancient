@@ -138,6 +138,10 @@ pdfView::OnDraw (wxDC * dc)
     return;
   }
 
+  // Set the size of the canvas
+  canvas->setWidth(theDoc->getWidth());
+  canvas->setHeight(theDoc->getHeight());
+
   // Set the title of the tab if we haven't already
   if(frame->GetTitle() == ""){
     frame->SetTitle(theDoc->getFilename().c_str());
@@ -160,10 +164,12 @@ pdfView::OnDraw (wxDC * dc)
   unsigned int x, y;
   int cx, cy;
   ((wxFrame *) wxGetApp ().GetTopWindow ())->GetSize(&cx, &cy);
-  if((theDoc->getPageSize(m_page, x, y)) && ((x != cx) || (y != cy)))
+  if((theDoc->getPageSize(m_page, x, y)) && ((max(x, 600) != cx) || 
+					     (max(y, 400) != cy)))
     {
       debug(dlTrace, "Resizing window");
-      ((wxFrame *) wxGetApp ().GetTopWindow ())->SetSize(x, y);
+      ((wxFrame *) wxGetApp ().GetTopWindow ())->SetSize(max(x, 600), 
+							 max(y, 400));
     }
 
   string& filename = m_renders[m_page];

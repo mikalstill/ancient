@@ -82,12 +82,28 @@ genCanvas::OnDraw (wxDC & dc)
 void
 genCanvas::OnMouseEvent (wxMouseEvent & event)
 {
+  wxClientDC dc (this);
+  PrepareDC (dc);
+  wxPoint pt (event.GetLogicalPosition (dc));
+
+  if(pt.x < 0)
+    return;
+  if(pt.y < 0)
+    return;
+  if(pt.x > m_width)
+    return;
+  if(pt.y > m_height)
+    return;
+
+  string msg = toString(pt.x) + string(", ") + toString(pt.y) + 
+    string(" of ") + toString(m_width) + string(", ") + toString(m_height);
+  ((wxFrame *) wxGetApp ().GetTopWindow ())->
+	SetStatusText (msg.c_str(), 0);
+ 
   // End the current instance of a tool, but not the tool
   if(event.LeftIsDown() && event.ControlDown())
     {
       debug(dlTrace, "Tool instance ended, tool still selected");
-      
-      // TODO mikal: the 841 is a hard coded assumption that the page is a4
       string commandString(""), controlString(""), selectString("");
 
       if(m_controlPoints.size() > 0){
@@ -95,7 +111,7 @@ genCanvas::OnMouseEvent (wxMouseEvent & event)
 	// TODO mikal: fixed line colour
 	commandString += "q\n0 255 0 RG\n";
 	commandString += toString(m_controlPoints[0].x) + string(" ") +
-	  toString(841 - m_controlPoints[0].y) + string(" m\n");
+	  toString(m_height - m_controlPoints[0].y) + string(" m\n");
 
 	// Create a control point blob
 	controlString += controlBlob(m_controlPoints[0].x,
@@ -105,7 +121,7 @@ genCanvas::OnMouseEvent (wxMouseEvent & event)
       for(unsigned int i = 1; i < m_controlPoints.size(); i++)
 	{
 	  commandString += toString(m_controlPoints[i].x) + string(" ") +
-	    toString(841 - m_controlPoints[i].y) + string(" l\n");
+	    toString(m_height - m_controlPoints[i].y) + string(" l\n");
 
 	  controlString += controlBlob(m_controlPoints[i].x,
 				       m_controlPoints[i].y);
@@ -126,15 +142,11 @@ genCanvas::OnMouseEvent (wxMouseEvent & event)
   // Continue with the current tool
   else if(event.LeftIsDown())
   {
-      wxClientDC dc (this);
-      PrepareDC (dc);
-      
       // This sets the device context so that our drawing causes an inversion, 
       // lines are drawn with black, and polygons are filled with black.
       dc.SetLogicalFunction (wxINVERT);
       dc.SetPen (*wxBLACK_PEN);
       dc.SetBrush (*wxBLACK_BRUSH);
-      wxPoint pt (event.GetLogicalPosition (dc));
       
       if(m_controlPoints.size() == 0)
 	dc.DrawPoint(pt);
@@ -154,10 +166,24 @@ genCanvas::controlBlob(unsigned int x, unsigned int y)
   // TODO mikal: fixed blob colour
   string rc("q\n255 0 0 RG\n");
   for(unsigned int yc = y - CONTROLSIZE; yc < y + CONTROLSIZE + 1; yc++)
-    rc += toString(x - CONTROLSIZE) + string(" ") + toString(841 - yc) + 
+    rc += toString(x - CONTROLSIZE) + string(" ") + toString(m_height - yc) + 
       string(" m\n") +
-      toString(x + CONTROLSIZE) + string(" ") + toString(841 - yc) + 
+      toString(x + CONTROLSIZE) + string(" ") + toString(m_height - yc) + 
       string(" l\nS\n");
   rc += "Q\n";
   return rc;
+}
+
+void
+genCanvas::setHeight(int height)
+{
+  debug(dlTrace, string("Canvas height set to: ") + toString(height));
+  m_height = height;
+}
+
+void
+genCanvas::setWidth(int width)
+{
+  debug(dlTrace, string("Canvas width set to: ") + toString(width));
+  m_width = width;
 }

@@ -70,6 +70,9 @@ DECLARE_DYNAMIC_CLASS (pdfDoc)
   bool getPageSize(int pageno, unsigned int& x, unsigned int& y);
   object& getPagesObject();
 
+  int getWidth();
+  int getHeight();
+
 private:
   wxProgressDialog * m_progress;
   long m_progressCount, m_progressMax;
@@ -77,6 +80,7 @@ private:
   objectlist m_pages;
   bool m_ready;
   string m_filename;
+  int m_width, m_height;
 };
 #endif
 

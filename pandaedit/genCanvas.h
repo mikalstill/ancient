@@ -44,6 +44,9 @@ public:
   genCanvas (wxView * v, wxFrame * frame, const wxPoint & pos,
 	     const wxSize & size, long style);
 
+  void setHeight(int height);
+  void setWidth(int height);
+
   virtual void OnDraw (wxDC & dc);
   void OnMouseEvent (wxMouseEvent & event);
 
@@ -56,6 +59,7 @@ private:
 
   wxFrame *m_frame;
   vector<wxPoint> m_controlPoints;
+  int m_height;
 };
 
 #endif

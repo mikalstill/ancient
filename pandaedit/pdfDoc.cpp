@@ -52,8 +52,10 @@
 #error You must set wxUSE_DOC_VIEW_ARCHITECTURE to 1 in setup.h!
 #endif
 
+#if defined HAVE_LIBPANDA
 #include  <panda/functions.h>
 #include  <panda/constants.h>
+#endif
 
 #include "pdfDoc.h"
 #include "pdfView.h"
@@ -61,6 +63,7 @@
 #include "utility.h"
 #include "verbosity.h"
 #include "stringArray.h"
+#include "dlgPageSize.h"
 
 extern object gNoSuchObject;
 
@@ -91,6 +94,7 @@ pdfDoc::OnSaveDocument (const wxString & filename)
   // by the in-memory objects -- this is too hard to integrate with Panda.
   // Instead, we just use Panda to creata a whole new PDF. The exception is
   // that streams are pushed straight into the new Panda objects...
+#if defined HAVE_LIBPANDA
   panda_pdf *output;
   panda_page *pg;
 
@@ -126,6 +130,10 @@ pdfDoc::OnSaveDocument (const wxString & filename)
   panda_close(output);
   debug(dlTrace, "Document completely written");
   return TRUE;
+#else
+  debug(dlError, "Cannot save because Panda not found at compile time");
+  return FALSE;
+#endif
 }
 
 static int gNewDocumentCount = 1;
@@ -134,6 +142,11 @@ bool
 pdfDoc::OnNewDocument ()
 {
   debug(dlTrace, "New document");
+
+  // TODO mikal: prompt for page size
+  dlgPageSize psize;
+  psize.getSize(m_width, m_height);
+
   m_filename = string("New PDF document ") + toString(gNewDocumentCount);
   gNewDocumentCount++;
   m_pdf = NULL;
@@ -318,8 +331,8 @@ pdfDoc::appendPage()
   }
   {
     dictitem di("MediaBox", m_pdf);
-    // TODO mikal: this is hardcoded to a4
-    di.setValue("[ 0 0 595 842 ]", false);
+    di.setValue(string("[ 0 0 ") + toString(m_width) + string(" ") +
+		toString(m_height) + string(" ]"), false);
     newpage.getDict().add(di);
   }
 
@@ -384,4 +397,16 @@ pdfDoc::getPagesObject()
   if(m_pdf == NULL)
     return gNoSuchObject;
   return m_pdf->getPagesObject();
+}
+
+int
+pdfDoc::getWidth()
+{
+  return m_width;
+}
+
+int
+pdfDoc::getHeight()
+{
+  return m_height;
 }
