@@ -23,7 +23,7 @@ This meeting ran from 2:30pm to 4:30pm.
 </para>
 
 <para>
-<emphasis>This was an informal meeting to discuss our progress. There we no new action items, and the objective of the meeting was mainly to keep various group members informed of what other members of the group are doing.</emphasis>
+<emphasis>This was an informal meeting to discuss our progress. There were no new action items, and the objective of the meeting was mainly to keep various group members informed of what other members of the group are doing.</emphasis>
 </para>
 
 <para>
@@ -40,6 +40,361 @@ In attendance at the meeting
 <sect2><title>Action items</title>
 <para>
 No new action items this meeting.
+</para>
+</sect2>
+</sect1>
+
+</chapter>
+<chapter id="meetings-week13"><title>Semester One, Week Thirteen Meetings</title>
+<para>
+...Summary of the week...
+</para>
+
+<sect1><title>Wednesday 22 May 2002</title>
+<para>
+This meeting ran from 11.00am to xx pm.
+<orderedlist>
+<listitem><para>Discussions involved the project's fourier fuinctionality requirements. </para></listitem>
+<listitem><para>Tutorial type format where Peter briefly outlined the principals behind PWelch PSD plots.</para></listitem>
+</orderedlist>
+</para>
+
+<para>
+<emphasis>Peter Morgan briefly clarified additional requirements, those being the inclusion of PWelch PSD plots.</emphasis>
+</para>
+
+<para>
+In attendance at the meeting
+<orderedlist>
+<listitem><para>Daniel</para></listitem>
+<listitem><para>Nick</para></listitem>
+<listitem><para>Assoc. Prof. Peter Morgan</para></listitem>
+</orderedlist>
+</para>
+
+<sect2><title>Action items</title>
+<para>
+The following action items were identified:
+<orderedlist>
+<listitem><para>Nick needed to modify some of the existing CEP matlab code to cater for the additional requriements</para></listitem>
+</orderedlist>
+</para>
+</sect2>
+</sect1>
+
+
+<sect1><title>Saturday 25 May 2002</title>
+<para>
+This meeting ran from 10.30am to xx pm.
+<orderedlist>
+<listitem><para>Informal discussion, individual work</para></listitem>
+<listitem><para>Discussion about the need for a Matrix class and it's specifications brought 
+about by informal discussions earlier in the week.</para></listitem>
+<listitem><para>It was agreed that we would be using the FFTW package to carry out Fast 
+Fourier Transforms in the C++ implementation of the project.</para></listitem>
+<listitem><para>Further discussion regarding content of the Poster. I.e Format etc...</para></listitem>
+<listitem><para>Prototype discussion: TODO: expand</para></listitem>
+
+</orderedlist>
+</para>
+
+<para>
+<emphasis></emphasis>
+</para>
+
+<para>
+In attendance at the meeting
+<orderedlist>
+<listitem><para>Michael</para></listitem>
+<listitem><para>Daniel</para></listitem>
+<listitem><para>Nick</para></listitem>
+<listitem><para>Blake</para></listitem>
+<listitem><para>Kristy</para></listitem>
+</orderedlist>
+</para>
+
+<sect2><title>Action items</title>
+<para>
+The following action items were identified:
+<orderedlist>
+<listitem><para>Daniel to further explore the FFTW library and it's integration with the 
+project.</para></listitem>
+<listitem><para></para></listitem>
+</orderedlist>
+</para>
+</sect2>
+</sect1>
+
+</chapter>
+<chapter id="meetings-week14"><title>Semester One, Week Fourteen Meetings</title>
+<para>
+
+</para>
+
+<sect1><title>Saturday 1 June 2002</title>
+<para>
+This meeting ran from 2:30pm to 6:00pm.
+<orderedlist>
+<listitem><para>Informal discussion of the state of play</para></listitem>
+<listitem><para>Continued discussion of Matrix class requirements.</para></listitem>
+<listitem><para>Discussion on the state of the wxWindows UI and further pootential 
+possibilities given the discovery of some wxWindows feaures.</para></listitem>
+<listitem><para>Discussion about whether or not the Windowing should in fact be a part od 
+cepDataset</para></listitem>
+
+</orderedlist>
+</para>
+
+<para>
+<emphasis>This was an informal meeting to discuss our progress. There we no new action items, and the objective of the meeting was mainly to keep various group members informed of what other members of the group are doing.</emphasis>
+</para>
+
+<para>
+In attendance at the meeting
+<orderedlist>
+<listitem><para>Michael</para></listitem>
+<listitem><para>Daniel</para></listitem>
+<listitem><para>Nick</para></listitem>
+<listitem><para>Blake</para></listitem>
+<listitem><para>Kristy</para></listitem>
+</orderedlist>
+</para>
+
+<sect2><title>Action items</title>
+<para>
+The following action items were identified:
+<orderedlist>
+<listitem><para>Kristy would start implementing the Matrix class</para></listitem>
+<listitem><para>Action Item 2</para></listitem>
+<listitem><para></para></listitem>
+
+</orderedlist>
+</para>
+</sect2>
+</sect1>
+
+</chapter>
+<chapter id="meetings-week15"><title>Semester One, Week Fifteen Meetings</title>
+<para>
+
+</para>
+
+<sect1><title>Sunday 9 June 2002</title>
+<para>
+This meeting ran from 1:30pm to 4:30pm.
+<orderedlist>
+<listitem><para>Informal discussion of the state of play</para></listitem>
+<listitem><para>Agreement on requirements of Matrix class, discussed possibility of now 
+finding a already existing Matrix template library or implementing a fresh one.</para></listitem>
+<listitem>Agreement on Poster form with a basic content structure defined<para></para></listitem>
+
+
+</orderedlist>
+</para>
+
+<para>
+<emphasis>This was an informal meeting to discuss our progress. The objective of the meeting was mainly to 
+keep various group members informed of what other members of the group are doing.</emphasis>
+</para>
+
+<para>
+In attendance at the meeting
+<orderedlist>
+<listitem><para>Michael</para></listitem>
+<listitem><para>Daniel</para></listitem>
+<listitem><para>Nick</para></listitem>
+<listitem><para>Blake</para></listitem>
+<listitem><para>Kristy</para></listitem>
+</orderedlist>
+</para>
+
+<sect2><title>Action items</title>
+<para>
+<para>
+The following action items were identified:
+<orderedlist>
+<listitem><para>Blake to find appropriate background images for the poster</para></listitem>
+</orderedlist>
+</para>
+</sect2>
+</sect1>
+
+</chapter>
+<chapter id="meetings-week16"><title>Semester One, Week Sixteen Meetings (week 1 examination period)</title>
+<para>
+
+</para>
+
+<sect1><title>Teusday 11 June 2002</title>
+<para>
+This meeting ran from 5:30pm to 7:00pm, with Associate Prof. Peter Morgan.
+<orderedlist>
+<listitem><para>Informal discussion on various topcis.</para></listitem>
+<listitem><para>Disucssion of UI requirements and expectaitons for both prototype and final product.</para></listitem>
+<listitem><para>Discussion of Honours extensions for final product - none for prototype.</para></listitem>
+<listitem><para>Discussion of how individual efforts will be identified at the projects completion.</para></listitem>
+</orderedlist>
+</para>
+
+<para>
+<emphasis>This was an informal meeting to discuss our progress with Peter. The objective of the meeting for us to approach Peter with any questions. These questions were specifically aimed at requirements and scope of the project and prototype. Specifically with regard to mathematical requirements.
+</emphasis>
+</para>
+
+<para>
+In attendance at the meeting
+<orderedlist>
+<listitem><para>Michael</para></listitem>
+<listitem><para>Daniel</para></listitem>
+<listitem><para>Nick</para></listitem>
+<listitem><para>Blake</para></listitem>
+<listitem><para>Kristy</para></listitem>
+<listitem><para>Ass. Prof. Peter Morgan</para></listitem>
+</orderedlist>
+</para>
+
+<sect2><title>Action items</title>
+<para>
+<para>
+No specific action items were identified, however, the following issues were clarified somewhat:
+<orderedlist>
+<listitem><para>Honours extensions in the prototype are not necessary.</para></listitem>
+<listitem><para>Honours extensions were more clear defined (outlined below).</para></listitem>
+<listitem><para></para></listitem>
+
+</orderedlist>
+</para>
+</sect2>
+</sect1>
+
+
+<sect1><title>Thursday 13 June 2002</title>
+<para>
+This meeting ran from 6:00pm to -.
+<orderedlist>
+<listitem><para>Informal discussion on where people are at.</para></listitem>
+<listitem><para>Further prototyping work carried out.</para></listitem>
+<listitem><para>Discussion of the MIT FFTW libray with regards to linking it with CEP and required data structures for FFTW.</para></listitem>
+<listitem><para>Discussion on ways in which to test modeuls with and without the UI.</para></listitem>
+</orderedlist>
+</para>
+
+<para>
+<emphasis>This was essentially tio adavance the state of the prototype along with discussion of the aforementioned topics</emphasis>
+</para>
+
+<para>
+In attendance at the meeting
+<orderedlist>
+<listitem><para>Michael</para></listitem>
+<listitem><para>Daniel</para></listitem>
+<listitem><para>Nick</para></listitem>
+<listitem><para>Blake</para></listitem>
+<listitem><para>Kristy</para></listitem>
+</orderedlist>
+</para>
+
+<sect2><title>Action items</title>
+<para>
+<para>
+The following action items were identified:
+<orderedlist>
+<listitem><para>Action item 1</para></listitem>
+<listitem><para>Action Item 2</para></listitem>
+<listitem><para></para></listitem>
+
+</orderedlist>
+</para>
+</sect2>
+</sect1>
+
+</chapter>
+<chapter id="meetings-week17"><title>Semester One, Week Seventeen (Week 2, exam period) Meetings</title>
+<para>
+
+</para>
+
+<sect1><title>Teusday 9 June 2002</title>
+<para>
+This meeting ran from 1:30pm to 4:30pm.
+<orderedlist>
+<listitem><para>Informal discussion of the state of play</para></listitem>
+<listitem><para>Agreement on requirements of Matrix class, discussed possibility of now 
+finding a already existing Matrix template library or implementing a fresh one.</para></listitem>
+<listitem>Agreement on Poster form with a basic content structure defined<para></para></listitem>
+
+
+</orderedlist>
+</para>
+
+<para>
+<emphasis>This was an informal meeting to discuss our progress. The objective of the meeting was mainly to 
+keep various group members informed of what other members of the group are doing.</emphasis>
+</para>
+
+<para>
+In attendance at the meeting
+<orderedlist>
+<listitem><para>Michael</para></listitem>
+<listitem><para>Daniel</para></listitem>
+<listitem><para>Nick</para></listitem>
+<listitem><para>Blake</para></listitem>
+<listitem><para>Kristy</para></listitem>
+</orderedlist>
+</para>
+
+<sect2><title>Action items</title>
+<para>
+The following action items were identified:
+<orderedlist>
+<listitem><para>Blake to find appropriate background images for the poster</para></listitem>
+</orderedlist>
+</para>
+</sect2>
+</sect1>
+
+</chapter>
+<chapter id="meetings-week15"><title>Semester One, Week Fifteen Meetings</title>
+<para>
+
+</para>
+
+<sect1><title>Sunday 9 June 2002</title>
+<para>
+This meeting ran from 1:30pm to 4:30pm.
+<orderedlist>
+<listitem><para>Informal discussion of the state of play</para></listitem>
+<listitem><para>Agreement on requirements of Matrix class, discussed possibility of now 
+finding a already existing Matrix template library or implementing a fresh one.</para></listitem>
+<listitem>Agreement on Poster form with a basic content structure defined<para></para></listitem>
+
+
+</orderedlist>
+</para>
+
+<para>
+<emphasis>This was an informal meeting to discuss our progress. The objective of the meeting was mainly to 
+keep various group members informed of what other members of the group are doing.</emphasis>
+</para>
+
+<para>
+In attendance at the meeting
+<orderedlist>
+<listitem><para>Michael</para></listitem>
+<listitem><para>Daniel</para></listitem>
+<listitem><para>Nick</para></listitem>
+<listitem><para>Blake</para></listitem>
+<listitem><para>Kristy</para></listitem>
+</orderedlist>
+</para>
+
+<sect2><title>Action items</title>
+<para>
+<para>
+The following action items were identified:
+<orderedlist>
+<listitem><para>Blake to find appropriate background images for the poster</para></listitem>
+</orderedlist>
 </para>
 </sect2>
 </sect1>
@@ -163,6 +518,193 @@ The following action items were identified:
 </sect2>
 </sect1>
 
+</chapter>
+<chapter id="meetings-week22"><title>Semester Two, Week One</title>
+<para>
+
+</para>
+
+<sect1><title>Wednesday 24th July</title>
+<para>
+This meeting ran from 17.30 to 21.30
+<orderedlist>
+<listitem><para>The group continued desgin work on the poster presentation.</para></listitem>
+
+</orderedlist>
+</para>
+
+<para>
+<emphasis>The objective of the meeting was to finalise a draft poster fo the presentation.</emphasis>
+</para>
+
+<para>
+In attendance at the meeting
+<orderedlist>
+<listitem><para>Daniel</para></listitem>
+<listitem><para>Blake</para></listitem>
+<listitem><para>Kristy</para></listitem>
+<listitem><para>Nick</para></listitem>
+</orderedlist>
+</para>
+
+<sect2><title>Action items</title>
+<para>
+The following action items were identified:
+<orderedlist>
+<listitem><para>Daniel was to organise printing of a draft poster.</para></listitem>
+<listitem><para>A meeting was organised for Thursday 25th to review the draft and make any final
+changes for printing on Friday.</para></listitem>
+</orderedlist>
+</para>
+</sect2>
+</sect1>
+
+<sect1><title>Thursday 25th July</title>
+<para>
+This meeting ran from 17.30 to 21.30
+<orderedlist>
+<listitem><para>The group continued desgin work on the poster presentation.</para></listitem>
+
+</orderedlist>
+</para>
+
+<para>
+<emphasis>The objective of the meeting was to make final changes to the draft poster fo the presentation.</emphasis>
+</para>
+
+<para>
+In attendance at the meeting
+<orderedlist>
+<listitem><para>Daniel</para></listitem>
+<listitem><para>Blake</para></listitem>
+<listitem><para>Kristy</para></listitem>
+<listitem><para>Nick</para></listitem>
+</orderedlist>
+</para>
+
+<sect2><title>Action items</title>
+<para>
+The following action items were identified:
+<orderedlist>
+<listitem><para>Daniel was to organise printing of a final poster.</para></listitem>
+<listitem><para>The group was to conduct reasearch into what would be most effective on the proposed
+brochure to accompany the poster..</para></listitem>
+<listitem><para>A meeting was organised for Sunday 28th to work on the brochure.</para></listitem>
+</orderedlist>
+</para>
+</sect2>
+</sect1>
+
+<sect1><title>Sunday 28th July</title>
+<para>
+This meeting ran from 11.00 to 2.30
+<orderedlist>
+<listitem><para>The group continued desgin work on the brochure for the poster presentation.</para></listitem>
+
+</orderedlist>
+</para>
+
+<para>
+<emphasis>The objective of the meeting was to finalise the accompanying brochure to the poster.</emphasis>
+</para>
+
+<para>
+In attendance at the meeting
+<orderedlist>
+<listitem><para>Daniel</para></listitem>
+<listitem><para>Blake</para></listitem>
+<listitem><para>Kristy</para></listitem>
+<listitem><para>Nick</para></listitem>
+</orderedlist>
+</para>
+
+<sect2><title>Action items</title>
+<para>
+The following action items were identified:
+<orderedlist>
+<listitem><para>Layout and gramatical changes were to be made and changes made by group members
+emailed to one another for review and confirmation.</para></listitem>
+</orderedlist>
+</para>
+</sect2>
+</sect1>
+
+</chapter>
+<chapter id="meetings-week24"><title>Semester Two, Week Three</title>
+<para>
+
+</para>
+
+<sect1><title>Teusday 6th August</title>
+<para>
+This meeting ran from 17.30 to 19.00
+<orderedlist>
+<listitem><para>Blake gave Kristy and Daniel a briefing on the unit proposed testing tools</para></listitem>
+
+</orderedlist>
+</para>
+
+<para>
+<emphasis>This was an informal, unscheduled meeting to further discuss testing issues. The objective of the meeting was mainly to 
+ensure that people were familiar with some unit testing tools being introduced into the project.</emphasis>
+</para>
+
+<para>
+In attendance at the meeting
+<orderedlist>
+<listitem><para>Daniel</para></listitem>
+<listitem><para>Blake</para></listitem>
+<listitem><para>Kristy</para></listitem>
+</orderedlist>
+</para>
+
+<sect2><title>Action items</title>
+
+<para>
+No action items were identified.
+</para>
+
+</sect2>
+</sect1>
+</chapter>
+<chapter id="meetings-week25"><title>Semester Two, Week Four</title>
+<para>
+
+</para>
+
+<sect1><title>Monday 12th August</title>
+<para>
+This meeting ran from 17.00 to 
+<orderedlist>
+<listitem><para>A review of group progress and priorities</para></listitem>
+
+</orderedlist>
+</para>
+
+<para>
+<emphasis>This was an informal meeting to discuss issues relating to testing, coding format, prioritisation. The objective of the meeting was mainly to 
+ensure that people were familiar with where the project is in terms of schedule etc.</emphasis>
+</para>
+
+<para>
+In attendance at the meeting
+<orderedlist>
+<listitem><para>Daniel</para></listitem>
+<listitem><para>Blake</para></listitem>
+<listitem><para>Kristy</para></listitem>
+<listitem><para>Michael</para></listitem>
+<listitem><para>Nick</para></listitem>
+</orderedlist>
+</para>
+
+<sect2><title>Action items</title>
+
+<para>
+No action items were identified.
+</para>
+
+</sect2>
+</sect1>
 </chapter>
 <chapter id="meetings-week2"><title>Semester One, Week Two Meetings</title>
 <para>

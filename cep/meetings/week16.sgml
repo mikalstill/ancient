@@ -46,7 +46,7 @@ No specific action items were identified, however, the following issues were cla
 </sect1>
 
 
-<sect3><title>Thursday 13 June 2002</title>
+<sect1><title>Thursday 13 June 2002</title>
 <para>
 This meeting ran from 6:00pm to -.
 <orderedlist>
@@ -72,7 +72,7 @@ In attendance at the meeting
 </orderedlist>
 </para>
 
-<sect4><title>Action items</title>
+<sect2><title>Action items</title>
 <para>
 <para>
 The following action items were identified:
@@ -83,7 +83,7 @@ The following action items were identified:
 
 </orderedlist>
 </para>
-</sect4>
-</sect3>
+</sect2>
+</sect1>
 
 </chapter>

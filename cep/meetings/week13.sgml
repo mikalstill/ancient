@@ -8,7 +8,7 @@
 This meeting ran from 11.00am to xx pm.
 <orderedlist>
 <listitem><para>Discussions involved the project's fourier fuinctionality requirements. </para></listitem>
-<listitem><para>Tutorial type format where Peter briefly outlined the principals behind PWelch PSD plots.</para></listitem>
+<listitem><para>Tutorial type format where Peter briefly outlined the principles behind PWelch PSD plots.</para></listitem>
 </orderedlist>
 </para>
 
@@ -36,7 +36,7 @@ The following action items were identified:
 </sect1>
 
 
-<sect3><title>Saturday 25 May 2002</title>
+<sect1><title>Saturday 25 May 2002</title>
 <para>
 This meeting ran from 10.30am to xx pm.
 <orderedlist>
@@ -66,7 +66,7 @@ In attendance at the meeting
 </orderedlist>
 </para>
 
-<sect4><title>Action items</title>
+<sect2><title>Action items</title>
 <para>
 The following action items were identified:
 <orderedlist>
@@ -75,7 +75,7 @@ project.</para></listitem>
 <listitem><para></para></listitem>
 </orderedlist>
 </para>
-</sect4>
-</sect3>
+</sect2>
+</sect1>
 
 </chapter>
