@@ -175,23 +175,23 @@ Below is a list of the expertise I currently have. I am confident in developing 
 </para>
 
 <para>
-Development environments: GCC, GDB, Microsoft Visual Studio 6, Borland C++Builder, CVS, dmalloc, ccache.
+<command>Development environments:</command> GCC, GDB, Microsoft Visual Studio 6, Borland C++Builder, CVS, dmalloc, ccache.
 </para>
 
 <para>
-Hardware: PC, Sun Microsystems and IBM RS/6000 series machines.
+<command>Hardware:</command> PC, Sun Microsystems and IBM RS/6000 series machines. I have also configured a variety of X Terminals, and Winterms, including devices from NCD, Labtam, and Wyse.
 </para>
 
 <para>
-GUI toolkits: Java, Java Swing, Windows MFC, wxWindows.
+<command>GUI toolkits:</command> Java, Java Swing, Windows MFC, wxWindows.
 </para>
 
 <para>
-Languages: C, C++, Java, UNIX shell (Bourne and Bourne Again mainly), Perl, Bison / Yacc, Lex / Flex, Expect, M68000 assembly, and Visual Basic.
+<command>Languages:</command> C, C++, Java, UNIX shell (Bourne and Bourne Again mainly), Perl, Bison / Yacc, Lex / Flex, Expect, M68000 assembly, and Visual Basic.
 </para>
 
 <para>
-Markup formats and web interfaces: HTML, SGML (including DocBook), XML, and CGI-BIN.
+<command>Markup formats and web interfaces:</command> HTML, SGML (including DocBook), XML, and CGI-BIN.
 </para>
 
 <para>

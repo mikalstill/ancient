@@ -175,23 +175,23 @@ Below is a list of the expertise I currently have. I am confident in developing 
 </para>
 
 <para>
-Development environments: GCC, GDB, Microsoft Visual Studio 6, Borland C++Builder, CVS, dmalloc, ccache.
+<command>Development environments:</command> GCC, GDB, Microsoft Visual Studio 6, Borland C++Builder, CVS, dmalloc, ccache.
 </para>
 
 <para>
-Hardware: PC, Sun Microsystems and IBM RS/6000 series machines.
+<command>Hardware:</command> PC, Sun Microsystems and IBM RS/6000 series machines. I have also configured a variety of X Terminals, and Winterms, including devices from NCD, Labtam, and Wyse.
 </para>
 
 <para>
-GUI toolkits: Java, Java Swing, Windows MFC, wxWindows.
+<command>GUI toolkits:</command> Java, Java Swing, Windows MFC, wxWindows.
 </para>
 
 <para>
-Languages: C, C++, Java, UNIX shell (Bourne and Bourne Again mainly), Perl, Bison / Yacc, Lex / Flex, Expect, M68000 assembly, and Visual Basic.
+<command>Languages:</command> C, C++, Java, UNIX shell (Bourne and Bourne Again mainly), Perl, Bison / Yacc, Lex / Flex, Expect, M68000 assembly, and Visual Basic.
 </para>
 
 <para>
-Markup formats and web interfaces: HTML, SGML (including DocBook), XML, and CGI-BIN.
+<command>Markup formats and web interfaces:</command> HTML, SGML (including DocBook), XML, and CGI-BIN.
 </para>
 
 <para>
@@ -241,11 +241,14 @@ I have had the following articles and papers published:
 
 <listitem><para>March 2002: IBM Developer Works, <emphasis>Graphics programming with libtiff: Black and White</emphasis></para></listitem>
 
-<listitem><para>June 2002: IBM Developer Works, <emphasis>Graphics programming with libtiff: gray scale and color images</emphasis></para></listitem>
-
 <listitem><para>May 2002: Australian Unix User's Group Newsletter (AUUGN), <emphasis>Graphics programming with libtiff: Black and White</emphasis> [reprint]</para></listitem>
 
+<listitem><para>June 2002: IBM Developer Works, <emphasis>Graphics programming with libtiff: gray scale and color images</emphasis></para></listitem>
+
 <listitem><para>March 2003: Australian Unix User's Group Newsletter (AUUGN), <emphasis>Tuning and customizing a linux system (book review)</emphasis></para></listitem>
+
+<listitem><para>July 2003: IBM Developer Works, <emphasis>Graphics from the command line: Flip, size, rotate, and more with ImageMagick</emphasis> (this item was subsequently linked to and discussed on Slashdot, Linux Weekly News, Linux Today, LinuxDevices.com, Linux.com / OSDN, linux.box.sk, and many other sites)</para></listitem>
+
 </itemizedlist>
 </sect1>
 
