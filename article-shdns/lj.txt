@@ -1,19 +1,31 @@
-UDP shell scripts with inetd
-----------------------------
+** !--: No command string for this tag (level )
+** !--: No command string for this tag (level article)
+More graphics from the command line
+-----------------------------------
 
-About the author
-================
+** subtitle: No command string for this tag (level article)
+** /subtitle: No command string for this tag (level article)
+** !--: No command string for this tag (level article)
+** !--: No command string for this tag (level article)
+** !--: No command string for this tag (level article)
+** !--: No command string for this tag (level article)
+** !--: No command string for this tag (level article)
+** articleinfo: No command string for this tag (level article)
+** author: No command string for this tag (level article)
+** authorblurb: No command string for this tag (level article)
+Michael has been working in the image processing field for several years, including a couple of years managing and developing large image databases for an Australian government department. He currently works for TOWER Software, who manufacture a world leading EDMS and Records Management package named TRIM. Michael is also the developer of Panda, an open source PDF generation API, as well as a bunch of other Open Source code.
 
-Michael has been working in the image processing field for several years, including a couple of years managing and developing large image databases for an Australian government department. He currently works for TOWER Software, who manufacture a world leading EDMS and Records Management package named TRIM. Michael is also the developer of Panda, an open source PDF generation API, as well as a bunch of other Open Source code. 
+** /authorblurb: No command string for this tag (level article)
+** /author: No command string for this tag (level article)
+** /articleinfo: No command string for this tag (level article)
+** !--: No command string for this tag (level article)
+** abstract: No command string for this tag (level article)
+<i>TODO</i>
 
-Michael has a web site at http://www.stillhq.com. 
+** /abstract: No command string for this tag (level article)
+This article is about two things. The main focus of the article is to discuss how to write useful UDP servers in a common scripting language such as bash. The other, more minor, focus of the article is to give a brief tutorial on the differences between disconnected and connected sockets. 
 
-Introduction
-============
-
-This conference paper is about two things. The main focus of the paper is to discuss how to write useful UDP servers in a common scripting language such as bash. The other, more minor, focus of the paper is to give a brief tutorial on the differences between disconnected and connected sockets. 
-
-In this paper I assume that you have a working knowledge of both bash scripting and C programming. If you don't then hopefully you'll still get something out of the paper, but you might want to trust me about what the code snippets actually do. 
+In this article I assume that you have a working knowledge of both bash scripting and C programming. If you don't then hopefully you'll still get something out of the article, but you might want to trust me about what the code snippets actually do. 
 
 UDP
 ===
@@ -38,7 +50,7 @@ A good example of a common network protocol that uses UDP is the Domain Name Sys
 
 [Please insert the sidebar file named sidebar-1 here]
 
-See the further reading section at the end of the this paper for recommendations of places to read more about UDP, IP, and DNS. 
+See the further reading section at the end of the this article for recommendations of places to read more about UDP, IP, and DNS. 
 
 Disconnected sockets
 --------------------
@@ -82,7 +94,7 @@ There are a couple of things worth noting here. Firstly, the UDP server can hand
 Disconnected sockets and scripting
 ----------------------------------
 
-This paper is really about writing useful UDP servers using scripting languages -- specifically <i>bash</i>. In this instance, the disconnected nature of these default UDP sockets causes great pain. This is because there is no trivial way in bash to call <i>recvfrom</i> and <i>sendto</i>. Shell scripts want to be able to use the standard <i>read</i> and <i>write</i> calls, because these languages are intended for file and pipe input output, as opposed to socket traffic. 
+This article is really about writing useful UDP servers using scripting languages -- specifically <i>bash</i>. In this instance, the disconnected nature of these default UDP sockets causes great pain. This is because there is no trivial way in bash to call <i>recvfrom</i> and <i>sendto</i>. Shell scripts want to be able to use the standard <i>read</i> and <i>write</i> calls, because these languages are intended for file and pipe input output, as opposed to socket traffic. 
 
 We can demonstrate this by writing a very simple, and probably quite impractical <b>inetd</b> server. 
 
@@ -114,7 +126,7 @@ I won't include an example of what this program looks like when it runs, because
 Back to our simple inetd server
 -------------------------------
 
-You'll recall that a couple of examples ago I showed you the code for a simple <b>inetd</b> server. This example below expands on that so it uses a connected socket. This example will behave just like the hard coded echo server in the first and third examples in this paper (except that the server debugging output doesn't happen any more). 
+You'll recall that a couple of examples ago I showed you the code for a simple <b>inetd</b> server. This example below expands on that so it uses a connected socket. This example will behave just like the hard coded echo server in the first and third examples in this article (except that the server debugging output doesn't happen any more). 
 
 [Please insert the code file named /home/opensource/shdns/sockets/connexec.c here]
 
@@ -182,7 +194,7 @@ You should also note that on Red Hat systems, services are often configured with
 shdns
 =====
 
-This paper wouldn't be complete without an example of a UDP shell script to run from <b>inetd</b> or <b>xinetd</b>. Something non-trivial is required here, so I present for your enjoyment <b>shdns</b>, a DNS server implemented in bash shell script. 
+This article wouldn't be complete without an example of a UDP shell script to run from <b>inetd</b> or <b>xinetd</b>. Something non-trivial is required here, so I present for your enjoyment <b>shdns</b>, a DNS server implemented in bash shell script. 
 
 The code
 --------
@@ -213,22 +225,4 @@ Here's a sample lookup file:
 [ecw]
 
 You also need a <b>usleep</b> on your path. I couldn't find a Debian package containing this, so I wrote my own. If you need to install a <b>usleep</b>, then just compile usleep.c with a <i>gcc -o usleep usleep.c</i>, and copy it somewhere on your path. 
-
-Further reading
-===============
-
-The following is a list of reading I found useful whilst working on this paper. If you're interested in this topic area and want to learn more, then starting with this list might be helpful. 
-
-[list]
-[dot] A list of DNS related Internet RFCs -- http://www.faqs.org/rfcs/dns-rfcs.html
-
-[dot] An excellent introduction to DNS, as well as many other protocols -- TCP/IP Illustrated, Volume One: The protocols, by W Richard Stevens, published by Addison-Wesley
-
-[dot] The Freshmeat page for NetKit -- http://freshmeat.net/projects/netkit/?topic_id=150
-
-[dot] The xinetd home page -- http://www.xinetd.org/
-
-[dot] The source code for shdns -- http://www.stillhq.com/extracted/shdns/
-
-[endlist]
 

@@ -1,4 +1,4 @@
-all:	short lj dw
+all:	short lj
 
 short: output.sgml output.ps output.pdf
 	striptext -c < output.sgml | wc -w

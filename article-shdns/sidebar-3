@@ -5,5 +5,5 @@ What is inetd?
 
 Many developers write network servers which are intended to be run by <b>inetd</b> because it simplifies development of the application. <b>inetd</b> handles most of the plumbing for the application. 
 
-Please bear in mind that <b>inetd</b> and <b>xinetd</b> are very configurable, and this is only a general description. There is a brief discussion on how to configure <b>inetd</b> and <b>xinetd</b> later in this paper. You should refer to the relevant documentation for more information. 
+Please bear in mind that <b>inetd</b> and <b>xinetd</b> are very configurable, and this is only a general description. There is a brief discussion on how to configure <b>inetd</b> and <b>xinetd</b> later in this article. You should refer to the relevant documentation for more information. 
 
