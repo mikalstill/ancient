@@ -1,9 +1,12 @@
 <sect1><title>Windowing</title>
 
 <sect2><title>Introduction</title>
-  <para>Windowing is the technique used for breaking down an infinite signal into finite pieces. Since we are not able to record an 
-  infinite signal, this process is essential. Truncation of the signal in this way, however, has side effects,
-  primarily the introduction of ripples in the frequency domain. These ripples show up as high frequency noise and give</para>
+  <para>Windowing is the technique whereby an infinite signal is truncated in the time domain. Truncation of
+  the signal in this way has side effects, primarily the introduction of ripples in the frequency domain.
+  These ripples show up as high frequency noise and adversely affect integrity of the datasets. The data with
+  which we are provided is a finite subset of an infinite signal, and consequently, this process has been
+  performed implicitly prior to any post processing. Application of a filtering function can attenuate
+  these frequencies, resulting in a more faithful representation of the original signal.</para>
 </sect2> <!--Introduction-->
 
 <sect2><title>Theory</title>
