@@ -33,7 +33,11 @@ I possess a Higher School Certificate (year 12) from Canberra Grammar School, in
 </para>
 
 <para>
-I am currently studying toward a Bachelor of Engineering in Computer Engineering, specializing in Software Engineering part time. I have been undertaking this since 1996, and am due to complete the degree by the end of next year. I am also studying toward a Law degree at the same time. This study has been mainly undertaken part time while working full time.
+I also hold a Bachelor of Computer Engineering (BEng) from University of Canberra, with first class honours. I started this degree in 1996, and completed it in 2003, having studied part time for the majority of the degree.
+</para>
+
+<para>
+I am also studying toward a Law degree part time at University of Canberra. This study has been mainly undertaken part time while working full time.
 </para>
 </sect1>
 
@@ -46,7 +50,11 @@ I have been trained in the following fields (this does not include on the job tr
 <listitem><para>TRIM Records Management, EDMS and Workflow products</para></listitem>
 <listitem><para>Solaris system administration</para></listitem>
 <listitem><para>Windows NT system administration</para></listitem>
+<listitem><para>Oracle database administration</para></listitem>
 <listitem><para>Prince II project management methodology</para></listitem>
+<listitem><para>C++ development</para></listitem>
+<listitem><para>Server 2003 certification for ISV software products</para></listitem>
+<listitem><para>Microsoft .NET development</para></listitem>
 </itemizedlist>
 </para>
 </sect1>
@@ -109,7 +117,7 @@ PandaLex, an open source PDF parsing engine, which is currently nearing it first
 </para>
 
 <para>
-PandaScript , an open source scripting interface to Panda, which was developed using bison and flex.
+PandaScript, an open source scripting interface to Panda, which was developed using bison and flex.
 </para>
 </sect3>
 
@@ -175,7 +183,7 @@ Below is a list of the expertise I currently have. I am confident in developing 
 </para>
 
 <para>
-<command>Development environments:</command> GCC, GDB, Microsoft Visual Studio 6, Borland C++Builder, CVS, dmalloc, ccache.
+<command>Development environments:</command> GCC, GDB, Microsoft Visual Studio 6, Microsoft Visual Studio .NET (2002 and 2003), Borland C++ Builder, Borland JBuilder, CVS, dmalloc, ccache.
 </para>
 
 <para>
@@ -187,7 +195,7 @@ Below is a list of the expertise I currently have. I am confident in developing 
 </para>
 
 <para>
-<command>Languages:</command> C, C++, Java, UNIX shell (Bourne and Bourne Again mainly), Perl, Bison / Yacc, Lex / Flex, Expect, M68000 assembly, and Visual Basic.
+<command>Languages:</command> C, C++, C# (C Sharp), Java, UNIX shell (Bourne and Bourne Again mainly), Perl, Bison / Yacc, Lex / Flex, Expect, M68000 assembly, limited x86 assembly, ASP, ASP.NET, Visual Basic, and Visual Basic.NET. I have tutored in software development methodologies, software development at a University level.
 </para>
 
 <para>
@@ -195,15 +203,15 @@ Below is a list of the expertise I currently have. I am confident in developing 
 </para>
 
 <para>
-Networking: Including Windows, Linux, FreeBSD, Cisco and Cabletron based solutions. Most of my knowledge revolves around TCP/IP and it's associated protocols such as RIP, BGP, OSPF, DHCP, DNS, et cetera.
+Networking: Including Windows, Linux, FreeBSD, Cisco and Cabletron based solutions. Most of my knowledge revolves around TCP/IP and it's associated protocols such as RIP, BGP, OSPF, DHCP, DNS, et cetera. I have tutored in networking at a University level.
 </para>
 
 <para>
-Operating systems: Linux, FreeBSD, Solaris, AIX, various Windows iterations. I also have some experience using cygwin.
+Operating systems: Linux, FreeBSD, Solaris, AIX, various Windows iterations. I also have some experience using cygwin. I have a variety of accepted patches in the Linux kernel. I have tutored in Operating Systems at a University level.
 </para>
 
 <para>
-Packaging / portability: autoconf, automake and InstallShield.
+Packaging / portability: autoconf, automake, libtool and InstallShield.
 </para>
 </sect1>
 
@@ -249,6 +257,8 @@ I have had the following articles and papers published:
 
 <listitem><para>July 2003: IBM Developer Works, <emphasis>Graphics from the command line: Flip, size, rotate, and more with ImageMagick</emphasis> (this item was subsequently linked to and discussed on Slashdot, Linux Weekly News, Linux Today, LinuxDevices.com, Linux.com / OSDN, linux.box.sk, and many other sites)</para></listitem>
 
+<listitem><para>August 2003: Linmagau, <emphasis>JPEG to MPEG conversion howto</emphasis></para></listitem>
+
 </itemizedlist>
 </sect1>
 
@@ -258,9 +268,14 @@ I have held the following academic positions, in addition to my full time career
 </para>
 
 <itemizedlist>
-<listitem><para>University of Canberra, Tutor, Distributed Systems Technology: 2 sessions (this is an introductory networking unit revolving around TCP/IP networks and their various protocols)</para></listitem>
+<listitem><para>2002: University of Canberra, Tutor, Distributed Systems Technology: 2 sessions (this is an introductory networking unit revolving around TCP/IP networks and their various protocols)</para></listitem>
 
-<listitem><para>Australian National University, COMP 3410: Guest lecturer on Electronic Document Management, August 2002</para></listitem>
+<listitem><para>2002: Australian National University, Guest lecturer, COMP 3410: Guest lecturer on Electronic Document Management, August 2002</para></listitem>
+
+<listitem><para>2003: University of Canberra, Tutor, Systems Software: 1 session (this is an Operating Systems unit)</para></listitem>
+
+<listitem><para>2003: Australian National University, Tutor, COMP 2210: 1 session (this is a software design methodology unit)</para></listitem>
+
 </itemizedlist>
 </sect1>
 
