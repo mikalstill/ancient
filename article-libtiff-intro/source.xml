@@ -47,20 +47,32 @@ Most file format specifications define some basic rules for the representation o
 <p><heading refname="hard" type="major" toc="yes">Writing TIFF files</heading>
 The first thing I want to do is show you how to write a TIFF file out. We'll then get onto how to read a TIFF file back into your program.</p>
 	
-<p><heading refname="infrastructure-read" type="minor" toc="yes">Infrastructure for reading</heading>
+<p><heading refname="infrastructure-write" type="minor" toc="yes">Infrastructure for reading</heading>
 It is traditional for bitmaps to be represented inside your code with an array of chars. This is because on most operating systems, a char maps well to one byte. In the block of code below, we will setup libtiff, and create a simple buffer which contains an image which we can then write out to disc.</p>
 
 <code type="section">
-<heading refname="infrastructure-read-code" type="code" toc="no">Setting up the infrastructure</heading>
+<heading refname="infrastructure-write-code" type="code" toc="no">Setting up the infrastructure</heading>
 #include <stdio.h>
 #include <tiffio.h>
 
-int main(int argc, char *argv[]){
-  char *buffer;
+int
+main (int argc, char *argv[])
+{
+  char buffer[32 * 9];
 }
 </code>
 
 <p>The code above is pretty simple. All you need to use libtiff is to include the tiffio.h header file. To compile this, use the command <code type="inline">gcc foo.c -o foo -ltiff -lm</code>. The <code type="inline">-ltiff</code> is a command which will include the library named libtiff, which needs to be in your library path. Once you have started specifing libraries explicitly, you also need to add <code type="inline">-lm</code>, which is the mathematics library. The char buffer that we have defined here is going to be our black and white image, so we should define one of those next...</p>
+
+<p><heading refname="write" type="minor" toc="yes">Writing the image</heading>
+To make up for how boring that example was, I am now pleased to present you with possibly the worst picture of the Sydney Harbour Bridge ever drawn. In the example below, the image is already in the image buffer, and all we have to do is save it to the file on disc. The example first opens a tiff image in write mode, and then places the image into that file.</p>
+
+
+
+
+
+
+
 
 <!-- FIGURE WITH HEADING:  PLACE HEADING INSIDE FIGURE TAG WITH TYPE="FIGURE".  DO NOT SURROUND FIGURE WITH PARAGRAPH TAGS.  THE TOC ATTRIBUTE DETERMINES IF THIS HEADING IS INCLUDED IN THE TOC.   DEFAULT IS TOC="NO".   ALWAYS CODE THE ALT= ATTRIBUTE FOR A FIGURE.  ALWAYS CODE CORRECT HEIGHT AND WIDTH FOR FIGURE-->
 <figure>
@@ -81,12 +93,11 @@ int main(int argc, char *argv[]){
 <p><b>[Third-level heading]</b><br />
 [The third-level heading above is created using bold tags and is followed by a break tag to separate it from the paragraph text.]</p>
 
-<p>[Next paragraph goes here with unordered list.  If you end the paragraph tag before the list, you get a space separating the text from the list.]</p>
-<ul>
-<li>[List item one]</li>
-<li>[List item two]</li>
-<li>[List item three]</li>
-</ul>
+<p><heading refname="conclusion" type="major" toc="yes">Conclusion</heading>
+In this article I have shown you how to write and read some simple black and white images using libtiff. There are of course more issues that can be dealt with to have the perfect code, but being aware of the issues is the first step.</p>
+
+
+
 
 <!-- RESOURCE LIST WITH HEADINGS:  PLACE HEADINGS INSIDE RESOURCELIST TAG WITH TYPE="RESOURCELIST".  DO NOT SURROUND LIST WITH PARAGRAPH TAGS, BUT USE PARAGRAPH TAGS AROUND RESOURCELIST HEADINGS.-->
 <resourcelist>
