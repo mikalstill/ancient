@@ -1,46 +1,83 @@
 <sect1><title>References</title>
+
 <para>
-Lynch, P., 1996, <emphasis>The Dolph-Chebyshev Window: A Simple Optimal Filter</emphasis>,
+Bellanger, M., 1984,
+<emphasis>Digital Processing of Signals</emphasis>,
+John Wiley and Sons 
+</para>
+
+<para>
+Carezia, A., 18-Jun-2002 [last update],
+<emphasis>Dolph-Chebyshev Window</emphasis>,
+[online], Octave Sources, Available: http://www.octave.org/octave-lists/archive/octave-sources.2002/msg00019.html
+</para>
+
+<para>
+Cppunit Project, 11-Apr-2002 [last update],
+<emphasis>CPP Unit, Unit Testing Library</emphasis>,
+[online], Sourceforge.net, Available: http://cppunit.sourceforge.net
+</para>
+
+<para>
+Flannery, B., Press, W., Teulosky, S., Vettering, W., 1988,
+<emphasis>Numerical Recipes in C</emphasis>,
+Cambridge University Press, Cambridge.
+</para>
+
+<para>
+Fowler, M., 1999,
+<emphasis>UML Distilled: A Brief Guide to the Standard Object Modeling Language</emphasis>,
+Addison-Wesley, New York.
+</para>
+
+<para>
+Gamma, E., Helm, R., Johnson, R., Vlissides, J., 1994,
+<emphasis>Design Patterns: Elements of Reusable Object-Oriented Software</emphasis>,
+Addison-Wesley, New York.
+</para>
+
+<para>
+Institute for Information and Signal Processing, 30-Mar-2002 [last update],
+<emphasis>ISIP Software Documenation<emphasis>,
+[Online], Mississippi State University,
+Available: http://www.isip.msstate.edu/projects/speech/software/documentation/class/algo/Window/
+</para>
+
+<para>
+Interstellar Research, 01-Aug-2001 [last update],
+<emphasis>Daqarta: FFT Windowing</emphasis>,
+[Online], Daqarta.com, Available: http://www.daqarta.com/ww00wndo.htm
+</para>
+
+<para>
+Jeffereis, R.E., 12-Nov-2002 [last update],
+<emphasis>XProgramming.com, an extreme programming resource</emphasis>,
+[Online] Jeffereis, R.E., Available: http://www.xprogramming.com
+</para>
+
+<para>
+Junit Project, 01-Aug-2001 [last update],
+<emphasis>JUnit, Testing Resources for Extreme Programming</emphasis>,
+[Online], objectmentor.com, Available: http://www.junit.org/
+</para>
+
+<para>
+Lynch, P., 1996,
+<emphasis>The Dolph-Chebyshev Window: A Simple Optimal Filter</emphasis>,
 [Online] Availale: http://www.maths.tcd.ie/~plynch/Publications/Dolph.pdf
 </para>
 
 <para>
-Institute for Information and Signal Processing, 2002, <emphasis>ISIP Software Documenation<emphasis>,
-[Online] Available: http://www.isip.msstate.edu/projects/speech/software/documentation/class/algo/Window/
+Stroustrup, B., 2000,
+<emphasis>The C++ Programming Language, Special Ed</emphasis>,
+Addison-Wesley, New York.
 </para>
 
 <para>
-Carezia, A., 2002, <emphasis>Dolph-Chebyshev Window</emphasis>,
-[online] Available: http://www.octave.org/octave-lists/archive/octave-sources.2002/msg00019.html</online>
+Unit++ Project, 04-May-2002 [last update],
+<emphasis>The Unit++ Testing Framework</emphasis>,
+[online], Sourceforge.net, Available: http://unitpp.sourceforge.net
 </para>
-
-<para>
-Bellanger, M., 1984, <emphasis>Digital Processing of Signals</emphasis>, John Wiley and Sons 
-</para>
-
-<para>
-Flannery, B., Press, W., Teulosky, S., Vettering, W., 1988, <emphasis>Numerical Recipes in C</emphasis>, Cambridge University Press,
-Cambridge.
-</para>
-
-<para>
-Stroustrup, B., 2000, <emphasis>The C++ Programming Language, Special Ed</emphasis>, Addison-Wesley, New York.
-</para>
-
-<para>
-Gamma, E., Helm, R., Johnson, R., Vlissides, J., 1994, <emphasis>Design Patterns: Elements of Reusable Object-Oriented Software
-</emphasis>, Addison-Wesley, New York.
-</para>
-
-<para>
-Fowler, M., 1999, <emphasis>UML Distilled: A Brief Guide to the Standard Object Modeling Language</emphasis>
-, Addison-Wesley, New York.
-</para>
-
-<para>
-2001, <emphasis>Dakarta: FFT Windowing</emphasis>, [Online] Available: http://www.daqarta.com/ww00wndo.htm, Interstellar Research
-</para>
-
 
 </sect1>
-                        
+
