@@ -1,0 +1,5 @@
+Simply:
+	cd wx
+	./configure
+	make
+	make install     (as root)
