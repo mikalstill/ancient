@@ -1,10 +1,77 @@
 <sect1><title>Interpolation</title>
 
 <sect2><title>Introduction</title>
-  <para></para>
+  <para>One of the problems with the GPS datasets we analyse is missing observations.
+  Missing data points skew data results and prevent transformation into the fourier
+  domain by means of fast fourier transform.  Another problem is that the time scale
+  that has been provided for these datasets is not linear.  To overcome these problems
+  our application provides interpolation function that can be used to fill in missing
+  data points.  However the accuracy of any interpolation method will vary depending
+  on the dataset that it is applied to so Six different methods of interpolation have
+  been provided.
+  </para>
 </sect2> <!--Introduction-->
 
 <sect2><title>Theory</title>
+  <para>
+  Theoretically each of the datasets that we analyse should be sampled once a day at
+  exactly twelve o'clock.  However we live in the real world and for reasons such as
+  equipment failure, extreme weather and local politics some samples are missing.
+  </para>
+  <para>
+  The fourier transform algorithms available to us require that the dataset be regular.
+  This means that if a dataset is missing a point or has an irregular sample rate then
+  it can't be transferred to the frequency domain.  The dataset has to be made regular
+  either by removing points or interpolating new points.
+  </para>
+  <para>
+  This irregular sampling rate has been compounded by having the datasets stored on a
+  non-linear time scale.  The data that we have been provided has been sampled regurarly
+  once a day at noon as timed by an atomic clock; so the sample rate is pretty regular.
+  However the sample date/time has then been stored in decimal year format to 8 significant
+  figures.  Ignoring machine rounding errors this creates a problem.  During a regular
+  year one day is 0.00273972.  However one in every four years is a leap year and the
+  length of a day is 0.00273224, a smaller number.  Also at the start of each year a
+  rounding occurs so that the first reading of the year occurs at XXXX.0014.  This
+  rounding creates the illusion different time distance again to be between the last
+  day of one year and the first day of the next.  In short before interpolation can
+  occur a new time scale independant of calendar years has to be built.
+  </para>
+  <para>
+  The new time scale that we convert to is what is known as a truncated Julian day.
+  The julian day system uses an integer day count since the first of January 4714 BC.
+  However because this produces extremely large numbers which could potentially cause
+  loss of accuracy due to machine limitations.  To prevent this we have used the first
+  of January 1901 as our start date.  The existing decimal dates then converted to
+  truncated Julian day and rounded to the nearest whole number.  Once the timescale
+  is linear the data can be interpolated without fear of loss.
+  </para>
+  <para>
+  Different interpolation methods have different strengths and weaknesses.  On an
+  arbitary dataset it is impossible to tell which interpolation method will be
+  the most accurate.  To this end six different interpolation methods have been
+  provided, each will be outlined below on its operation, strengths and weaknesses.
+  </para>
+
+  <sect3><title>Nearest Neighbour Interpolation</title>
+    The simplest interpolation method provided.  Nearest neighbour interpolation
+    simply set the value of any new point to the value of the nearest point on the
+    original dataset.  The advantage of this is that any added points will be of
+    the same order of magnitude as nearby points.  There are a number of disadvantages
+    with nearest neighbour approximation.  Firstly any new points will not follow
+    any linear or frequency trends in the data, this could lead to inaccuracy of
+    models both in the time and frequency domains.  Also if new points lie close to
+    outliers then very inaccurate point may be generated
+  </sect3>
+  <sect3><title>Linear Interpolation</title>
+    Another simple method of interpolation.  Nearest neighbour interpolation
+  </sect3>
+  <para>
+  For example a cubic spline interpolation provides a smooth curve with no instantaneous slope
+  changes.  The advantage of cubic splines is that provided with a high sample rate system
+  it can create a highly accurate model.  However cubic splines tend to produce
+  unrealistic bulges in the data
+
   <para>
     ideas:
     -req'd for data to be FFT'd - FFT data must be regular
