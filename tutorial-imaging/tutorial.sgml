@@ -935,14 +935,7 @@ It is traditional for bitmaps to be represented inside your code with an array o
 </para>
 
 <programlisting>
-#include &lt;stdio.h&gt;
-#include &lt;tiffio.h&gt;
-
-int
-main (int argc, char *argv[])
-{
-  char buffer[32 * 9];
-}
+%code2db.pl:source/tiff/bw-write/write-infrastructure.c%
 </programlisting>
 
 <para>
@@ -961,42 +954,7 @@ Please note, that for clarity I have omitted the actual hex for the image, this 
 </para>
 
 <programlisting>
-#include &lt;stdio.h&gt;
-#include &lt;tiffio.h&gt;
-
-int main(int argc, char *argv[]){
-  // Define an image
-  char buffer[25 * 144] = { /* boring hex omitted */ };
-  TIFF *image;
-
-  // Open the TIFF file
-  if((image = TIFFOpen("output.tif", "w")) == NULL){
-    printf("Could not open output.tif for writing\n");
-    exit(42);
-  }
-
-  // We need to set some values for basic tags before we can add any data
-  TIFFSetField(image, TIFFTAG_IMAGEWIDTH, 25 * 8);
-  TIFFSetField(image, TIFFTAG_IMAGELENGTH, 144);
-  TIFFSetField(image, TIFFTAG_BITSPERSAMPLE, 1);
-  TIFFSetField(image, TIFFTAG_SAMPLESPERPIXEL, 1);
-  TIFFSetField(image, TIFFTAG_ROWSPERSTRIP, 144);
-
-  TIFFSetField(image, TIFFTAG_COMPRESSION, COMPRESSION_CCITTFAX4);
-  TIFFSetField(image, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_MINISWHITE);
-  TIFFSetField(image, TIFFTAG_FILLORDER, FILLORDER_MSB2LSB);
-  TIFFSetField(image, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
-
-  TIFFSetField(image, TIFFTAG_XRESOLUTION, 150.0);
-  TIFFSetField(image, TIFFTAG_YRESOLUTION, 150.0);
-  TIFFSetField(image, TIFFTAG_RESOLUTIONUNIT, RESUNIT_INCH);
-  
-  // Write the information to the file
-  TIFFWriteEncodedStrip(image, 0, buffer, 25 * 144);
-
-  // Close the file
-  TIFFClose(image);
-}
+%code2db.pl:source/tiff/bw-write/write.c%
 </programlisting>
 
 <para>
@@ -1091,110 +1049,7 @@ The other big thing to bear in mind is fillorder (whether the first bit in the b
 </para>
 
 <programlisting>
-#include &lt;stdio.h&gt;
-#include &lt;tiffio.h&gt;
-
-int main(int argc, char *argv[]){
-  TIFF *image;
-  uint16 photo, bps, spp, fillorder;
-  uint32 width;
-  tsize_t stripSize;
-  unsigned long imageOffset, result;
-  int stripMax, stripCount;
-  char *buffer, tempbyte;
-  unsigned long bufferSize, count;
-
-  // Open the TIFF image
-  if((image = TIFFOpen(argv[1], "r")) == NULL){
-    fprintf(stderr, "Could not open incoming image\n");
-    exit(42);
-  }
-
-  // Check that it is of a type that we support
-  if((TIFFGetField(image, TIFFTAG_BITSPERSAMPLE, &amp;bps) == 0) || (bps != 1)){
-    fprintf(stderr, "Either undefined or unsupported number of bits per sample\n");
-    exit(42);
-  }
-
-  if((TIFFGetField(image, TIFFTAG_SAMPLESPERPIXEL, &amp;spp) == 0) || (spp != 1)){
-    fprintf(stderr, "Either undefined or unsupported number of samples per pixel\n");
-    exit(42);
-  }
-
-  // Read in the possibly multile strips
-  stripSize = TIFFStripSize (image);
-  stripMax = TIFFNumberOfStrips (image);
-  imageOffset = 0;
-  
-  bufferSize = TIFFNumberOfStrips (image) * stripSize;
-  if((buffer = (char *) malloc(bufferSize)) == NULL){
-    fprintf(stderr, "Could not allocate enough memory for the uncompressed image\n");
-    exit(42);
-  }
-  
-  for (stripCount = 0; stripCount < stripMax; stripCount++){
-    if((result = TIFFReadEncodedStrip (image, stripCount,
-				      buffer + imageOffset,
-				      stripSize)) == -1){
-      fprintf(stderr, "Read error on input strip number %d\n", stripCount);
-      exit(42);
-    }
-
-    imageOffset += result;
-  }
-
-  // Deal with photometric interpretations
-  if(TIFFGetField(image, TIFFTAG_PHOTOMETRIC, &amp;photo) == 0){
-    fprintf(stderr, "Image has an undefined photometric interpretation\n");
-    exit(42);
-  }
-  
-  if(photo != PHOTOMETRIC_MINISWHITE){
-    // Flip bits
-    printf("Fixing the photometric interpretation\n");
-
-    for(count = 0; count < bufferSize; count++)
-      buffer[count] = ~buffer[count];
-  }
-
-  // Deal with fillorder
-  if(TIFFGetField(image, TIFFTAG_FILLORDER, &amp;fillorder) == 0){
-    fprintf(stderr, "Image has an undefined fillorder\n");
-    exit(42);
-  }
-  
-  if(fillorder != FILLORDER_MSB2LSB){
-    // We need to swap bits -- ABCDEFGH becomes HGFEDCBA
-    printf("Fixing the fillorder\n");
-
-    for(count = 0; count &lt; bufferSize; count++){
-      tempbyte = 0;
-      if(buffer[count] & 128) tempbyte += 1;
-      if(buffer[count] & 64) tempbyte += 2;
-      if(buffer[count] & 32) tempbyte += 4;
-      if(buffer[count] & 16) tempbyte += 8;
-      if(buffer[count] & 8) tempbyte += 16;
-      if(buffer[count] & 4) tempbyte += 32;
-      if(buffer[count] & 2) tempbyte += 64;
-      if(buffer[count] & 1) tempbyte += 128;
-      buffer[count] = tempbyte;
-    }
-  }
-     
-  // Do whatever it is we do with the buffer -- we dump it in hex
-  if(TIFFGetField(image, TIFFTAG_IMAGEWIDTH, &amp;width) == 0){
-    fprintf(stderr, "Image does not define its width\n");
-    exit(42);
-  }
-  
-  for(count = 0; count < bufferSize; count++){
-    printf("%02x", (unsigned char) buffer[count]);
-    if((count + 1) % (width / 8) == 0) printf("\n");
-    else printf(" ");
-  }
-
-  TIFFClose(image);
-}
+%code2db.pl:source/tiff/bw-read/read.c%
 </programlisting>
 
 <para>
@@ -1370,49 +1225,7 @@ It time to show you how to write a color image to disc. Remember that this is a 
 </para>
 
 <programlisting>
-#include &lt;tiffio.h&gt;
-#include &lt;stdio.h&gt;
-
-int main(int argc, char *argv[]){
-  TIFF *output;
-  uint32 width, height;
-  char *raster;
-
-  // Open the output image
-  if((output = TIFFOpen("output.tif", "w")) == NULL){
-    fprintf(stderr, "Could not open outgoing image\n");
-    exit(42);
-  }
-
-  // We need to know the width and the height before we can malloc
-  width = 42;
-  height = 42;
-
-  if((raster = (char *) malloc(sizeof(char) * width * height * 3)) == NULL){
-    fprintf(stderr, "Could not allocate enough memory\n");
-    exit(42);
-  }
-
-  // Magical stuff for creating the image
-  // ...
-
-  // Write the tiff tags to the file
-  TIFFSetField(output, TIFFTAG_IMAGEWIDTH, width);
-  TIFFSetField(output, TIFFTAG_IMAGELENGTH, height);
-  TIFFSetField(output, TIFFTAG_COMPRESSION, COMPRESSION_DEFLATE);
-  TIFFSetField(output, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
-  <command>TIFFSetField(output, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_RGB);</command>
-  TIFFSetField(output, TIFFTAG_BITSPERSAMPLE, 8);
-  TIFFSetField(output, TIFFTAG_SAMPLESPERPIXEL, 3);
-
-  // Actually write the image
-  if(TIFFWriteEncodedStrip(output, 0, raster, width * height * 3) == 0){
-    fprintf(stderr, "Could not write image\n");
-    exit(42);
-  }
-
-  TIFFClose(output);
-}
+%code2db.pl:source/tiff/color-write/write.c%
 </programlisting>
 
 <para>You can see from this code some of the things that we have discussed in theory. The image has three samples per pixel, each of eight bits. This means that the image is a 24 bit RGB image. If this was a black and white or grayscale image, then this value would be one. The tag PHOTOMETRIC_RGB says that the image data is stored within the strips themselves (as opposed to being paletted) -- more about this in a second.</para>
@@ -1478,50 +1291,7 @@ Now all we have to do is work out how to read other people's color and grayscale
 <para>There are a couple of odd things about this function -- it defines (0, 0) to be in a different location from all the other code that we have been writing. In all the previous code we have written, the (0, 0) point has been in the top left of the image. This call defines (0, 0) to be in the bottom left. The other limitation to be aware of is that not all valid values for bits per sample are supported. If you find these quirks unacceptable, then remember that you can still use TIFFReadEncodedStrip() in the same manner that we did for the black and white images in the previous article...</para>
 
 <programlisting>
-#include &lt;stdio.h&gt;
-#include &lt;tiffio.h&gt;
-
-int main(int argc, char *argv[]){
-  TIFF *image;
-  uint32 width, height, *raster;
-  tsize_t stripSize;
-  unsigned long imagesize, c, d, e;
-
-  // Open the TIFF image
-  if((image = TIFFOpen(argv[1], "r")) == NULL){
-    fprintf(stderr, "Could not open incoming image\n");
-    exit(42);
-  }
-
-  // Find the width and height of the image
-  TIFFGetField(image, TIFFTAG_IMAGEWIDTH, &lt;width);
-  TIFFGetField(image, TIFFTAG_IMAGELENGTH, &lt;height);
-  imagesize = height * width + 1;
-  
-  if((raster = (uint32 *) malloc(sizeof(uint32) * imagesize)) == NULL){
-    fprintf(stderr, "Could not allocate enough memory\n");
-    exit(42);
-  }
-
-  // Read the image into the memory buffer
-  if(TIFFReadRGBAStrip(image, 0, raster) == 0){
-    fprintf(stderr, "Could not read image\n");
-    exit(42);
-  }
-
-  <command>// Here I fix the reversal of the image (vertically) and show you how to get the color values from each pixel</command>
-  d = 0;
-  for(e = height - 1; e != -1; e--){
-    for(c = 0; c < width; c++){
-      // Red = TIFFGetR(raster[e * width + c]);
-      // Green = TIFFGetG(raster[e * width + c]);
-      // Blue = TIFFGetB(raster[e * width + c]);
-    }
-  }
-
-  free(raster);
-  TIFFClose(image);
-}
+%code2db.pl:source/tiff/color-read/read.c%
 </programlisting>
 </sect1>
 
@@ -1548,117 +1318,7 @@ The example which I am most familiar with is PDF documents. In PDF files, you ca
 <para>libtiff allows you to replace the file input and output functions in the library with your own. This is done with the TIFFClientOpen() method. Here's an example (please note this code wont compile, and is just to describe the main concepts:</para>
 
 <programlisting>
-#include &lt;tiffio.h&gt;
-#include &lt;pthread.h&gt;
-
-// Function prototypes
-static tsize_t libtiffDummyReadProc (thandle_t fd, tdata_t buf, tsize_t size);
-static tsize_t libtiffDummyWriteProc (thandle_t fd, tdata_t buf, tsize_t size);
-static toff_t libtiffDummySeekProc (thandle_t fd, toff_t off, int i);
-static int libtiffDummyCloseProc (thandle_t fd);
-
-// We need globals because of the callbacks (they don't allow us to pass state)
-char *globalImageBuffer;
-unsigned long globalImageBufferOffset;
-
-// This mutex keeps the globals safe by ensuring only one user at a time
-pthread_mutex_t convMutex = PTHREAD_MUTEX_INITIALIZER;
-
-<command>...</command>
-
-TIFF *conv;
-
-// Lock the mutex
-pthread_mutex_lock (&lt;convMutex);
-
-globalImageBuffer = NULL;
-globalImageBufferOffset = 0;
-
-// Open the dummy document (which actually only exists in memory)
-conv = TIFFClientOpen ("dummy", "w", (thandle_t) - 1, libtiffDummyReadProc,
-			libtiffDummyWriteProc, libtiffDummySeekProc,
-			libtiffDummyCloseProc, NULL, NULL, NULL);
-
-// Setup the image as if it was any other tiff image here, including setting tags
-
-<command>...</command>
-
-// Actually do the client open
-TIFFWriteEncodedStrip (conv, 0, stripBuffer, imageOffset);
-
-// Unlock the mutex
-pthread_mutex_unlock (&lt;convMutex);
-
-...
-
-/////////////////// Callbacks to libtiff
-
-<command>...</command>
-
-static tsize_t
-libtiffDummyReadProc (thandle_t fd, tdata_t buf, tsize_t size)
-{
-  // Return the amount of data read, which we will always set as 0 because
-  // we only need to be able to write to these in-memory tiffs
-  return 0;
-}
-
-static tsize_t
-libtiffDummyWriteProc (thandle_t fd, tdata_t buf, tsize_t size)
-{
-  // libtiff will try to write an 8 byte header into the tiff file. We need
-  // to ignore this because PDF does not use it...
-  if ((size == 8) && (((char *) buf)[0] == 'I') && (((char *) buf)[1] == 'I')
-     && (((char *) buf)[2] == 42))
-    {
-    // Skip the header -- little endian
-    }
-  else if ((size == 8) && (((char *) buf)[0] == 'M') &&
-       (((char *) buf)[1] == 'M') && (((char *) buf)[2] == 42))
-    {
-    // Skip the header -- big endian
-    }
-  else
-    {
-    // Have we done anything yet?
-    if (globalImageBuffer == NULL)
-	if((globalImageBuffer = (char *) malloc (size * sizeof (char))) == NULL)
-        {
-          fprintf(stderr, "Memory allocation error\n");
-          exit(42);
-        }
-
-    // Otherwise, we need to grow the memory buffer
-    else
-	{
-	  if ((globalImageBuffer = (char *) realloc (globalImageBuffer,
-						     (size * sizeof (char)) +
-						     globalImageBufferOffset)) == NULL)
-	    fprintf(stderr, "Could not grow the tiff conversion memory buffer\n");
-            exit(42);
-	}
-
-    // Now move the image data into the buffer
-    memcpy (globalImageBuffer + globalImageBufferOffset, buf, size);
-    globalImageBufferOffset += size;
-    }
-
-  return (size);
-}
-
-static toff_t
-libtiffDummySeekProc (thandle_t fd, toff_t off, int i)
-{
-  // This appears to return the location that it went to
-  return off;
-}
-
-static int
-libtiffDummyCloseProc (thandle_t fd)
-{
-  // Return a zero meaning all is well
-  return 0;
-}
+%code2db.pl:source/tiff/client/client.c%
 </programlisting>
 </sect2>
 
@@ -1668,14 +1328,7 @@ How do you convert color images to grayscale? Well, my instant answer when I fir
 </sect2>
 </sect1>
 
-
-
-
-
-
-
-
-<sect1><title>An example: Pixel enlargement</title>
+<sect1><title>Example: Pixel enlargement</title>
 <para>
 In the introduction to this tutorial I promised that I would include the code to draw the demonstration that raster images are made up of pixels. Well, this example is that code.
 </para>
@@ -1684,13 +1337,6 @@ In the introduction to this tutorial I promised that I would include the code to
 %code2db.pl:source/tiff/pixels/pixel.c%
 </programlisting>
 </sect1>
-
-
-
-
-
-
-
 
 <sect1><title>Conclusion</title>
 <para>
