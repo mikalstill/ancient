@@ -161,7 +161,15 @@ objref    : INT INT OBJREF { if(($$.data = (char *) malloc((pandalex_intlen($1) 
           ;
 
 // completely implemented
-stream    : STREAM binary ENDSTREAM { pandalex_callback(pandalex_event_stream, $2.data, $2.len); free($2.data); }
+stream    : STREAM binary ENDSTREAM {   int inset = 0; 
+                                        while(($2.data[inset] == '\n') || 
+                                              ($2.data[inset] == '\r'))
+                                          inset ++;
+
+                                        pandalex_callback(pandalex_event_stream, 
+                                          $2.data + inset, $2.len - 1 - inset); 
+                                        free($2.data); 
+                                    }
           |
           ;
 
