@@ -630,7 +630,7 @@ plot_circle (plot_state * state, unsigned int x, unsigned int y,
   plot_endline(state);
 }
 
-void plot_setfont(plot_state * state, char *font)
+void plot_setfont(plot_state * state, char *font, int charsize)
 {
   int error;
   
@@ -640,15 +640,8 @@ void plot_setfont(plot_state * state, char *font)
     return;
   }
 
-  // Allocate a face
-  if((state->face == NULL) && 
-     (state->face = ( FT_Face *) malloc(sizeof( FT_Face))) == NULL){
-    fprintf(stderr, "Could not allocate memory for face\n");
-    return;
-  }
-
   // Load the face
-  error = FT_New_Face(*state->ft, font, 0, state->face );
+  error = FT_New_Face(*state->ft, font, 0, &state->face );
   if ( error == FT_Err_Unknown_File_Format )
     {
       fprintf(stderr, "The specified font file could be opened and read, but it appears that its font format is unsupported by Freetpye\n");
@@ -659,6 +652,12 @@ void plot_setfont(plot_state * state, char *font)
       fprintf(stderr, "Could not load font\n");
       return;
     }
+
+  // Set the text size
+  if(FT_Set_Char_Size(state->face, 0, charsize * 64, 600, 600)){
+    fprintf(stderr, "Could not set font size\n");
+    return;
+  }
 #else
     fprintf(stderr, "Freetype not found at compile time\n");
 #endif
@@ -682,6 +681,18 @@ plot_max (unsigned int one, unsigned int two)
   return two;
 }
 
+void plot_settextlocation(plot_state *state, unsigned int x, unsigned int y)
+{
+  state->textx = x;
+  state->texty = y;
+}
+
+void plot_gettextlocation(plot_state *state, unsigned int *x, unsigned int *y)
+{
+  *x = state->textx;
+  *y = state->texty;
+}
+
 int
 plot_loadglyph(plot_state *state, char character)
 {
@@ -699,10 +710,10 @@ plot_loadglyph(plot_state *state, char character)
   }
 
   // Find the index of the glyph
-  index = FT_Get_Char_Index(*state->face, character );
+  index = FT_Get_Char_Index(state->face, character );
 
   // Load that glyph into the face's slot
-  if(FT_Load_Glyph(*state->face, index, FT_LOAD_RENDER)){
+  if(FT_Load_Glyph(state->face, index, FT_LOAD_RENDER)){
     fprintf(stderr, "Could not load glyph for %c into face slot\n", character);
     return -1;
   }
@@ -714,7 +725,7 @@ plot_loadglyph(plot_state *state, char character)
 }
 
 int
-plot_paintglyph(plot_state *state, char character, int x, int y)
+plot_paintglyph(plot_state *state, char character)
 {
 #if defined HAVE_LIBFREETYPE
   int bmx, bmy;
@@ -725,17 +736,31 @@ plot_paintglyph(plot_state *state, char character, int x, int y)
   }
 
   if(state->face == NULL){
-    fprintf(stderr, "No face laoded\n");
+    fprintf(stderr, "No face loaded\n");
     return -1;
   }
 
   // Setup the character
   if(plot_loadglyph(state, character) != -1){
-    //    state->face->glyph;
+
+    //    my_draw_bitmap( &slot->bitmap,
+    //		    slot->bitmap_left,
+    //		    my_target_height - slot->bitmap_top );
+
+    printf("Bitmap dimensions: %d x %d\n", 
+	   (state->face->glyph->bitmap_right - state->face->glyph->bitmap_left),
+	   (state->face->glyph->bitmap_bottom - state->face->glyph->bitmap_top));
+    
+    // Increment pen position 
+    state->textx += state->face->glyph->advance.x >> 6;
+    state->texty += state->face->glyph->advance.y >> 6;
+
+    return 0;
   }
+
+  return -1;
 #else
     fprintf(stderr, "Freetype not found at compile time\n");
     return -1;
 #endif
 }
-

@@ -24,7 +24,7 @@ int
 main (int argc, char *argv[])
 {
   FILE *image;
-  unsigned int i;
+  unsigned int i, textx, texty;
   png_uint_32 rowbytes;
   png_structp png;
   png_infop info;
@@ -75,9 +75,11 @@ main (int argc, char *argv[])
 
   // Write out some text
   plot_setfontcolor(graph, 89, 87, 204);
-  plot_setfont(graph, "/usr/share/fonts/default/Type1/n021004l.pfb");
-  plot_paintglyph(graph, 'M', 10, 30);
-  
+  plot_setfont(graph, "/usr/share/fonts/default/Type1/n021004l.pfb", 30);
+  plot_settextlocation(graph, 20, 30);
+  plot_paintglyph(graph, 'M');
+  plot_gettextlocation(graph, &textx, &texty);
+  printf("M caused %d, %d text cursor movement\n", textx - 20, texty - 30);
 
   // Write out the PNG file
   raster = plot_getraster(graph);
