@@ -1,7 +1,22 @@
-Trivsql 0.1 -> Trivsql 0.2
+Trivsql 0.1 -> 0.2
 
 20020605 Michael Still (mikal@stillhq.com)
 	Added functions mapping the ADO recordset interface
 
 20020606 Michael Still (mikal@stillhq.com)
 	Improved error reporting
+
+Trivsql 0.2 -> 0.3
+
+20020606 Michael Still (mikal@stillhq.com)
+	SQL parsing fixes
+
+Trivsql 0.3 -> 0.3.1
+
+20020606 Michael Still (mikal@stillhq.com)
+	Bug fixes
+
+Trivsql 0.3.1 -> 0.3.2
+
+20020606 Michael Still (mikal@stillhq.com)
+	ALTER TABLE command

@@ -145,6 +145,31 @@ void trivsql_doselect(char *tname, char *cols){
   }
 }
 
+void trivsql_doalter(char *tname, char *cols)
+{
+  char *t;
+  char *u;
+  int colCount = 0;
+
+  t = trivsql_xsnprintf("trivsql_%s_numcols", tname);
+  u = trivsql_dbread(gState, t);
+  colCount = atoi(u);
+  trivsql_xfree(t);
+  trivsql_xfree(u);
+
+  // Add the column
+  t = trivsql_xsnprintf("trivsql_%s_col%d", tname, colCount);
+  trivsql_dbwrite(gState, t, cols);
+  trivsql_xfree(t);
+  colCount++;
+
+  t = trivsql_xsnprintf("trivsql_%s_numcols", tname);
+  u = trivsql_xsnprintf("%d", colCount);
+  trivsql_dbwrite(gState, t, u);
+  trivsql_xfree(t);
+  trivsql_xfree(u);
+} 
+
 void *
 trivsql_xmalloc (size_t size)
 {
