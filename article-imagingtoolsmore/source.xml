@@ -267,6 +267,38 @@ convert -mattecolor gray -frame 25x25+25+0 rock.png rock-frame2.png
 
 
 
+
+<heading refname="" type="major" toc="yes" name="" alttoc="">Processing many images at once</heading>
+
+<p>In my previous article, I showed you sample code to apply conversions to many images at once. As has been pointed out by several people, the code I showed was not the best way of doing this.</p>
+
+<p>Here's the code I showed you:</p>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 12. Thumb nailing all the JPEGs in the current directory</heading>
+<code type="section">
+for img in `ls *.jpg`
+do
+  convert -sample 25%x25% $img thumb-$img
+done
+</code>
+
+<p>Now it turns out that this is poor bash style, as it doesn't handle spaces in filenames very gracefully (each word will be treated as a separate filename). Instead, a better way of doing this in bash is to do:</p>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 13. Thumb nailing all the JPEGs in the current directory, with better bash</heading>
+<code type="section">
+for img in *.jpg
+do
+  convert -sample 25%x25% $img thumb-$img
+done
+</code>
+
+<p>Which which will handle spaces in filenames much more gracefully.</p>
+
+
+
+
+
+
 </docbody>
 
 <relatedlist>
@@ -283,6 +315,8 @@ convert -mattecolor gray -frame 25x25+25+0 rock.png rock-frame2.png
 <li>"<a href="http://www-106.ibm.com/developerworks/linux/library/l-libtiff/">Graphics programming with libtiff</a>" (<i>developerWorks</i>, March 2002) discuesses black and white imaging concepts, with a particular focus on TIFF images.</li>
 
 <li>"<a href="http://www-106.ibm.com/developerworks/linux/library/l-libtiff2/">Graphics programming with libtiff, Part 2</a>" (<i>developerWorks</i>, June 2002) discusses color TIFF images, but also discusses important topics such as which compression scheme is right for you.</li>
+
+<li>"<a href="http://www-106.ibm.com/developerworks/linux/library/l-graf/">Graphics from the command line</a>" (<i>developerWorks</i>, July 2003) is the first article in the series and discusses how to thumbnail, rotate, apply interesting graphical manipulations, and determine image information with ImageMagick.
 
 <li>The <a href="http://www.stillhq.com/cgi-bin/getpage?area=pngtools">pnginfo</a> is part of the pngtools suite.</li>
 
