@@ -422,10 +422,10 @@ cepMatrix<T>::~cepMatrix ()
   {
     for(int i =0; i < m_numTables; i ++ )
     {
-      //      if(m_tables[i] != NULL)
-      //	delete[] m_tables[i];
-      //      else
-      //	cepDebugPrint("Table " + cepToString(i) + " was NULL");
+      if(m_tables[i] != NULL)
+      	delete[] m_tables[i];
+      else
+      	cepDebugPrint("Table " + cepToString(i) + " was NULL");
     }
     if(m_tables != NULL)
       delete[] m_tables;

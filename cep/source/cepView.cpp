@@ -509,58 +509,217 @@ void cepView::OnToggleZ (wxCommandEvent &pevt)
 // Perform a least squares regression on the dataset (in all directions)
 void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
 {
+  cepMatrix <double> residuals[cepDataset::dirUnknown], data[cepDataset::dirUnknown];
+  double b1s[cepDataset::dirUnknown], b2s[cepDataset::dirUnknown];
+
   cepDoc *theDoc = (cepDoc *) GetDocument ();
   cepDataset *theDataset = theDoc->getDataset ();
-  if (theDataset && theDataset->isReady() && theDataset->isWellFormed()){
-    // Prompt for processing options
-    cepLsUi lsUi;
-    lsUi.showIsReweight();
-    
-    // User cancelled
-    if(lsUi.getIsReweight() == -1){
-      canvas->Refresh();
-      return;
-    }
-    
-    // Reweight if required
-    if(lsUi.getIsReweight () == -1){
-      canvas->Refresh();
-      return;
-    }
-    
-    cepDataset normal;
-    cepDataset residual;
-    //    processLsVCV(theDataset, lsUi.getIsReweight(), normal, residual);
-
-    return;
-
+  if (theDataset && theDataset->isReady() && theDataset->isWellFormed())
     {
-      char *cfname = strdup("/tmp/cep.XXXXXX");
-      int fd;
-      fd = mkstemp(cfname);
-      close(fd);
+      if(theDataset->getMatrix(cepDataset::dirX)->getNumTables() > 1){
+	cepError err("You cannot zoom on a windowed dataset", cepError::sevErrorRecoverable);
+	err.display();
+	canvas->Refresh();
+	return;
+      }
       
-      string newcfname(string(cfname) + "~" + theDataset->getName());
-      normal.write(newcfname.c_str());
+      // Prompt for processing options
+      cepLsUi lsUi;
+      lsUi.showIsReweight();
       
-      wxGetApp().m_docManager->CreateDocument(string(newcfname + ".dat1").c_str(), wxDOC_SILENT);
-      free(cfname);
-    }
+      // User cancelled
+      if(lsUi.getIsReweight() == -1)
+	return;
 
-    {
-      char *cfname = strdup("/tmp/cep.XXXXXX");
-      int fd;
-      fd = mkstemp(cfname);
-      close(fd);
+      // todo_mikal: remove? lsUi.showWhichDir();
       
-      string newcfname(string(cfname) + "~" + theDataset->getName());
-      residual.write(newcfname.c_str());
+      // For each direction
+      for(int i = 0; i < cepDataset::dirUnknown; i++)
+	{
+	  cepDebugPrint("Reweighting in the " + cepToString(i) + " direction");
+	  
+	  // All directions are currently processed. The lsUi.getWhichDir (dirNames[i]) call can be used
+	  // to make this optional later (where dirNames are: 'x', 'y', 'z')
+
+	  // Reweight if required
+	  if(lsUi.getIsReweight () == -1)
+	    return;
+
+	  if(lsUi.getIsReweight () == 1)
+	    {
+	      cepLs thisLs;
+	      thisLs.cepDoVCV (*theDataset->getMatrix ((cepDataset::direction) i));
+	      if(thisLs.getError().isReal() == true)
+		{
+		  thisLs.getError().display();
+		  return;
+		}  
+	      
+	      residuals[i] = thisLs.getResidual ();
+	      data[i] = thisLs.getDataset();
+	      b1s[i] = thisLs.getB1();
+	      b2s[i] = thisLs.getB2();
+	    }
+	  
+	  // Otherwise, don't reweight
+	  else
+	    {
+	      const char *dirStrings[] = {"x (North)", "y (East)", "z (Up"};
+	      lsUi.showIsReadP (dirStrings[i]);
+	      if(lsUi.getIsReadP () == -1)
+		return;
+
+	      if (lsUi.getIsReadP () == 1)
+		{
+		  lsUi.showGetfNameP ();
+		  if (lsUi.getfNameP () != "")
+		    {
+		      cepMatrix<double> matP;
+		      cepLs thisLs;
+		      matP = cepReadMatrix (lsUi.getfNameP ());
+		      thisLs.cepDoVCV (*theDataset->getMatrix ((cepDataset::direction) i), matP);
+		      if(thisLs.getError().isReal() == true)
+			{
+			  thisLs.getError().display();
+			  return;
+			}
+		      residuals[i] = thisLs.getResidual ();
+		      data[i] = thisLs.getDataset();
+		      b1s[i] = thisLs.getB1();
+		      b2s[i] = thisLs.getB2();
+		    }
+		}
+	      else if (lsUi.getIsReadP () == 0)
+		{
+		  cepMatrix<double> matP((theDataset->getMatrix((cepDataset::direction) i))->
+					 getNumRows(),
+					 (theDataset->getMatrix((cepDataset::direction) i))->
+					 getNumRows());
+		  cepLs thisLs;
+		  
+		  // Init P matrix to 1 on diagonal
+		  for(int j = 0; j < matP.getNumRows(); j ++)
+		    {
+		      for(int k = 0; k < matP.getNumCols(); k ++)
+			{
+			  if(j == k)
+			    {
+			      matP.setValue(j,k,1);
+			    }
+			  else
+			    {
+			      matP.setValue(j,k,0);
+			    }
+			}
+		    }
+		  
+		  lsUi.showWeight((theDataset->getMatrix((cepDataset::direction) i))->
+				  getValue(0,0),
+				  (theDataset->getMatrix((cepDataset::direction) i))->
+				  getValue((theDataset->getMatrix((cepDataset::direction) i))->
+					   getNumRows() -1,0),
+				  1.0);
+		  
+		  double toDate = lsUi.getToDate(),
+		         fromDate = lsUi.getFromDate(),
+		         val = lsUi.getWeight();
+		  bool isDoVCV = lsUi.getDoVCV();
+      while(isDoVCV == false)
+      {
+        if((toDate != -1.0) && (fromDate != -1.0) && (val != -1.0))
+        {
+          populateMatP(matP, toDate, fromDate, val, *theDataset->getMatrix((cepDataset::direction) i));
+        }
+        else
+        {
+          //if user hits cancel
+          return;
+        }
+
+        lsUi.showWeight((theDataset->getMatrix((cepDataset::direction) i))->getValue(0,0),
+                        (theDataset->getMatrix((cepDataset::direction) i))->getValue((theDataset->getMatrix((cepDataset::direction) i))->getNumRows() -1,0),
+                         1.0);
+
+        toDate = lsUi.getToDate();
+        fromDate = lsUi.getFromDate();
+        val = lsUi.getWeight();
+        isDoVCV = lsUi.getDoVCV();
+      }
+ 
+	    if(lsUi.getDoVCV())
+	    {
+	      cepLs thisLs;
+	      thisLs.cepDoVCV(*theDataset->getMatrix((cepDataset::direction) i), matP);
+	      residuals[i] = thisLs.getResidual ();
+	      data[i] = thisLs.getDataset();
+	      b1s[i] = thisLs.getB1();
+	      b2s[i] = thisLs.getB2();
+	    }
+		}
+	    }
+	}
+        
+      //////////////////////////////////////////////////////////////////////////////////////////
+      // Now we can process the results of the LS regression (this includes popping up a new tab)
       
-      wxGetApp().m_docManager->CreateDocument(string(newcfname + ".dat1").c_str(), wxDOC_SILENT);
-      free(cfname);
+      // Actual data
+      {
+	cepDebugPrint("Creating LS data dataset");
+	cepDataset newds(&data[0], &data[1], &data[2],
+			 theDataset->getOffset((cepDataset::direction) 0), 
+			 theDataset->getOffset((cepDataset::direction) 1), 
+			 theDataset->getOffset((cepDataset::direction) 2),
+			 theDataset->getProcHistory() + " : LS VCV", 
+			 theDataset->getHeader((cepDataset::direction) 0), 
+			 theDataset->getHeader((cepDataset::direction) 1), 
+			 theDataset->getHeader((cepDataset::direction) 2),
+			 b1s[0], b1s[1], b1s[2], b2s[0], b2s[1], b2s[2],
+			 true, true, true);
+	
+	char *cfname = strdup("/tmp/cep.XXXXXX");
+	int fd;
+	fd = mkstemp(cfname);
+	close(fd);
+	
+	string newcfname(string(cfname) + "~" + theDataset->getName());
+	newds.write(newcfname.c_str());
+	
+	wxGetApp().m_docManager->CreateDocument(string(newcfname + ".dat1").c_str(), wxDOC_SILENT);
+	free(cfname);
+      }
+      
+      // Residuals
+      {
+	cepDebugPrint("Creating residuals dataset");
+	cepDataset newds(&residuals[0], &residuals[1], &residuals[2], 
+			 theDataset->getOffset((cepDataset::direction) 0), 
+			 theDataset->getOffset((cepDataset::direction) 1), 
+			 theDataset->getOffset((cepDataset::direction) 2),
+			 theDataset->getProcHistory() + " : LS VCV Residuals", 
+			 theDataset->getHeader((cepDataset::direction) 0), 
+			 theDataset->getHeader((cepDataset::direction) 1), 
+			 theDataset->getHeader((cepDataset::direction) 2));
+	
+	char *cfname = strdup("/tmp/cep.XXXXXX");
+	int fd;
+	fd = mkstemp(cfname);
+	close(fd);
+	
+	string newcfname(string(cfname) + "~" + theDataset->getName());
+	newds.write(newcfname.c_str());
+	
+	wxGetApp().m_docManager->CreateDocument(string(newcfname + ".dat1").c_str(), wxDOC_SILENT);
+	free(cfname);
+      }
+      
+      // Actually force the graphs to redraw
+      canvas->Refresh();
     }
-  }
-  canvas->Refresh();
+  else
+    {
+      cepError("You cannot perform that operation on this dataset at this time", 
+	       cepError::sevInformational).display();
+    }
 }
 
 void cepView::populateMatP(cepMatrix<double> &matP, const double &toDate, const double &fromDate, 
@@ -585,12 +744,52 @@ void cepView::populateMatP(cepMatrix<double> &matP, const double &toDate, const 
 // Perform a least squares regression on the dataset (in all directions)
 void cepView::OnLeastSquaresRW (wxCommandEvent &pevt)
 {
+  cepLsUi lsUi;
+  cepLs thisLs;
+  const char *dirStrings[] = {"x (North)", "y (East)", "z (Up)"};
+
   cepDoc *theDoc = (cepDoc *) GetDocument ();
   cepDataset *theDataset = theDoc->getDataset ();
-  if (theDataset && theDataset->isReady() && theDataset->isWellFormed()){
-    processLsRW(theDataset);
+  if (theDataset && theDataset->isReady() && theDataset->isWellFormed())
+  {
+    if(theDataset->getMatrix(cepDataset::dirX)->getNumTables() > 1){
+      cepError err("You cannot zoom on a windowed dataset", cepError::sevErrorRecoverable);
+      err.display();
+      canvas->Refresh();
+      return;
+    }
+
+    lsUi.showWhichDir();
+
+    // For each direction
+    for(int i = 0; i < cepDataset::dirUnknown; i++)
+    {
+      lsUi.showIsReadP (dirStrings[i]);
+      
+      if (lsUi.getIsReadP () == 1)
+        {
+          lsUi.showGetfNameP ();
+          if (lsUi.getfNameP () != "")
+	    {
+	      cepMatrix<double> matP;
+	      
+	      matP = cepReadMatrix (lsUi.getfNameP ());
+	      thisLs.cepDoRW (*theDataset->getMatrix ((cepDataset::direction) i), matP);
+	      //getdata matrix and residual matrix here!!!!!
+	      if(thisLs.getError().isReal() == true)
+		{
+		  thisLs.getError().display();
+		  return;
+		}
+	    }
+        }
+      else
+        {
+          wxMessageBox("The random walk functionality has not been implemented at this time.",
+		       "Sorry", wxOK);
+        }
+    }
   }
-  canvas->Refresh();
 }
 
 void cepView::OnWindowBlackman (wxCommandEvent& event)

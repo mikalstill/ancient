@@ -241,7 +241,7 @@ cepError processFFT(cepDataset *ds, string newcfname){
 	    if((row == 0) && (col == 1) && (table == 0)){
 	      energies[i] = real(output.getValue(row, col, table));
 	    }
-	    else{
+	    else if(row != 0){
 	      cepDebugPrint("Setting output: row = " + cepToString(row) + " col = " +
 			    cepToString(col) + " table = " + cepToString(table));
 	      ffted[i].setValue(row - 1, col, table, real(output.getValue(row, col, table)));
@@ -278,9 +278,9 @@ cepError processFFT(cepDataset *ds, string newcfname){
 
 cepError processLsVCV(cepDataset *ds, int isReweight, cepDataset& normal, cepDataset& residual)
 {
+  return cepError();
 }
 
 cepError processLsRW(cepDataset *ds){
-
-   return cepError();
+  return cepError();
 }
