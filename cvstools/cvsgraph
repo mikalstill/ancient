@@ -61,7 +61,7 @@ while(<HISTORY>){
 	    $revision = "";
 	    }
 	else{
-	    $lines = "&nbsp;";
+	    $lines = "<ALT = \"foo\">&nbsp;";
 	}
 
 	if($state eq "dead"){
@@ -86,7 +86,7 @@ $prevmonth = "";
 @dates = sort keys %dateline;
 foreach $adate (@dates) {
     for($i = 0; $i < $newcolnum; $i++){
-	$html[$i] = "&nbsp;";
+	$html[$i] = "<ALT = \"bar\">&nbsp;";
     }
 
     # If this is a new month, then we need to reset ourselves and draw a 

@@ -1,6 +1,10 @@
-TITLE: %project%
+TITLE: %project% <a name="%project%">
 POSTDATE: %pubdate%
 POSTER: mikal@stillhq.com
 POSTERNAME: Mikal
 BEGIN CONTENT
 <a href="/cgi-bin/cvsweb/%project%/">%description%</a>
+
+<BR>
+<HR>
+<a href="#Summary">Back to the top of this page</a>.

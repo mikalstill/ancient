@@ -158,3 +158,9 @@ if($listitemmode == 1){
 if($listmode == 1){
     print "</itemizedlist>";
 }
+
+while($sectnum != $firstsectnum){
+    print "</sect$sectnum>\n";
+    $sectnum--;
+}
+
