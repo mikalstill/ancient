@@ -1,32 +1,32 @@
 #!/bin/bash
 
-#convert -sample 367x475 $1 /tmp/$$.eps
-convert -sample 428x554 $1 /tmp/$$.eps
+#convert -sample 367x475 $2 /tmp/$$.$1
+convert -sample 428x554 $2 /tmp/$$.$1
 
-if [ -e /tmp/$$.eps ]
+if [ -e /tmp/$$.$1 ]
 then
-  mv /tmp/$$.eps $1.eps
+  mv /tmp/$$.$1 $2.$1
 
   echo "<figure>"
-  echo "<title>$2</title>"
-  echo "<graphic format=\"EPS\" fileref=\"$1.eps\">"
+  echo "<title>$3</title>"
+  echo "<graphic format=\"$1\" fileref=\"$2.$1\">"
   echo "</figure>"
   echo ""
   
   exit
 fi
 
-for item in `ls /tmp/$$.eps.*`
+for item in `ls /tmp/$$.$1.*`
 do
-  mv $item $1.`echo $item | sed 's/.*eps.//'`.eps
+  mv $item $2.`echo $item | sed 's/.*$1.//'`.$1
   
-  pageno=`echo $item | sed 's/.*eps.//'`
+  pageno=`echo $item | sed 's/.*$1.//'`
   pageno=$(( $pageno + 1 ))
-  newfile=$1.`echo $item | sed 's/.*eps.//'`.eps
+  newfile=$2.`echo $item | sed 's/.*$1.//'`.$1
 
   echo "<figure>"
-  echo "<title>$2 page $pageno</title>"
-  echo "<graphic format=\"EPS\" fileref=\"$newfile\">"
+  echo "<title>$3 page $pageno</title>"
+  echo "<graphic format=\"$1\" fileref=\"$newfile\">"
   echo "</figure>"
   echo ""
 done
