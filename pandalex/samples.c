@@ -4,12 +4,56 @@
 #include <stdio.h>
 #include <zlib.h>
 #include "samples.h"
+#include "lexinterface.h"
 
 pdfinfo_dictint_list *dictint_list;
 
+// Some demo code for how to use PandaLex
+int main(int argc, char *argv[]){
+  pandalex_init();
+
+  // Setup the callbacks
+  pandalex_setupcallback(pandalex_event_begindocument, pdfinfo_begindocument);
+
+  pandalex_setupcallback(pandalex_event_specver, pdfinfo_specversion);
+  pandalex_setupcallback(pandalex_event_entireheader, pdfinfo_entireheader);
+  pandalex_setupcallback(pandalex_event_objstart, pdfinfo_objstart);
+
+  pandalex_setupcallback(pandalex_event_dictitem_string, 
+			 pdfinfo_dictitem_string);
+  pandalex_setupcallback(pandalex_event_dictitem_name,
+			 pdfinfo_dictitem_name);
+  pandalex_setupcallback(pandalex_event_dictitem_array,
+			 pdfinfo_dictitem_array);
+  pandalex_setupcallback(pandalex_event_dictitem_object,
+			 pdfinfo_dictitem_object);
+  pandalex_setupcallback(pandalex_event_dictitem_dict,
+			 pdfinfo_dictitem_dict);
+  pandalex_setupcallback(pandalex_event_dictitem_int,
+			 pdfinfo_dictitem_int);
+
+  pandalex_setupcallback(pandalex_event_stream, pdfinfo_stream);
+  pandalex_setupcallback(pandalex_event_dictint, pdfinfo_dictint);
+  
+  // Initialise the dictint_list structure;
+  if((dictint_list = (pdfinfo_dictint_list *)
+      malloc(sizeof(pdfinfo_dictint_list))) == NULL){
+    fprintf(stderr, "Could not initialise the dictint list\n");
+    exit(42);
+  }
+
+  dictint_list->next = NULL;
+
+  // Start parsing
+  pandalex_parse();
+
+  return 0;
+}
+
 char *pandalex_xsnprintf(char *, ...);
 
-void pdfinfo_documentstart(int event){
+// Arguement is the name of the file as a char *
+void pdfinfo_begindocument(int event, va_list argptr){
   printf("Information for document\n\n");
 }
 

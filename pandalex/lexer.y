@@ -10,7 +10,7 @@
   int    binaryMode;
 
   // The callbacks
-  pandalex_callback_type pandalex_callbacks[gpandalex_callback_max];
+  pandalex_callback_type pandalex_callbacks[pandalex_event_max];
 
   // This information is needed for the stream callback
   // streamLength is the length of the stream unless it is stored
@@ -22,7 +22,7 @@
   char   *streamFilter;
 
   // Sample code specific
-  extern pandalex_sample_dictint_list *dictint_list;
+  extern pdfinfo_dictint_list *dictint_list;
 %}
 
           /* Define the possible yylval values */
@@ -57,13 +57,13 @@
             It would appear that $$ already includes the vale of $1,
 	    so we only need to append the value of $2, $3, $4 et al
           *********************************************************/
-pdf       : header { 
-                    pandalex_callback(gpandalex_callback_entireheader, $1); } 
+pdf       : { pandalex_callback(pandalex_event_begindocument, ""); } header { 
+                    pandalex_callback(pandalex_event_entireheader, $2); } 
             object linear objects xref trailer
           ;
 
 header    : VERSION { 
-	            pandalex_callback(gpandalex_callback_specver, $1); }
+	            pandalex_callback(pandalex_event_specver, $1); }
             binary { 
                     $$ = $3.data; }
           ;
@@ -77,12 +77,12 @@ objects   : object objects
           ;
 
 object    : INT INT OBJ { 
-                    pandalex_callback(gpandalex_callback_objstart, $1, $2); 
+                    pandalex_callback(pandalex_event_objstart, $1, $2); 
 #if defined DEBUG
   fprintf(stdout, "object %d %d\n", $1, $2);
 #endif
                           } 
-            dictionary { if($5 != -1) pandalex_callback(gpandalex_callback_dictint, $1, $2, $5); } stream ENDOBJ {}
+            dictionary { if($5 != -1) pandalex_callback(pandalex_event_dictint, $1, $2, $5); } stream ENDOBJ {}
           ;
 
 dictionary: DBLLT dict DBLGT { $$ = -1; }
@@ -94,9 +94,9 @@ dictionary: DBLLT dict DBLGT { $$ = -1; }
           ;
 
 dict      : NAME STRING dict { 
-                    pandalex_callback(gpandalex_callback_dictitem_string, $1, $2); }
+                    pandalex_callback(pandalex_event_dictitem_string, $1, $2); }
           | NAME NAME dict { 
-                    pandalex_callback(gpandalex_callback_dictitem_name, $1, $2); 
+                    pandalex_callback(pandalex_event_dictitem_name, $1, $2); 
 
 		    // If this is for a stream, then we save the
 		    // filter name for convenience reasons
@@ -105,10 +105,10 @@ dict      : NAME STRING dict {
                                                }
           | NAME ARRAY arrayvals ENDARRAY dict { 
 	    // This one needs work...
-                    pandalex_callback(gpandalex_callback_dictitem_array, $1, $2); }
+                    pandalex_callback(pandalex_event_dictitem_array, $1, $2); }
           | NAME objref dict { 
-	    // pandalex_callback(gpandalex_callback_dictitem_object, 
-	    //		      gpandalex_callback_type_string, 
+	    // pandalex_callback(pandalex_event_dictitem_object, 
+	    //		      pandalex_event_type_string, 
 	    //	      $1, $2); 
 
                     // If this is for a stream, then we need to save
@@ -120,9 +120,9 @@ dict      : NAME STRING dict {
 	                                       }
 
           | NAME DBLLT dict DBLGT dict { 
-                    pandalex_callback(gpandalex_callback_dictitem_dict, $1, $2); }
+                    pandalex_callback(pandalex_event_dictitem_dict, $1, $2); }
           | NAME INT dict { 
-                    pandalex_callback(gpandalex_callback_dictitem_int, $1, $2); 
+                    pandalex_callback(pandalex_event_dictitem_int, $1, $2); 
 
                     // If this is for a stream, then we need to save
 		    // this info for convenience reasons
@@ -154,7 +154,7 @@ objref    : INT INT OBJREF { if(($$ = (char *) malloc((intlen($1) + intlen($2) +
 			                       }
           ;
 
-stream    : STREAM { binaryMode = 1; } binary ENDSTREAM { printf("filter = %s, length = %d, lengthObj = %s\n", streamFilter, streamLength, streamLengthObjRef); pandalex_callback(gpandalex_callback_stream, streamFilter, streamLength, streamLengthObjRef, $3.data, $3.len); free($3); }
+stream    : STREAM { binaryMode = 1; } binary ENDSTREAM { printf("filter = %s, length = %d, lengthObj = %s\n", streamFilter, streamLength, streamLengthObjRef); pandalex_callback(pandalex_event_stream, streamFilter, streamLength, streamLengthObjRef, $3.data, $3.len); free($3); }
           |
           ;
 
@@ -179,7 +179,7 @@ void pandalex_init(){
   int i;
 
   // Make sure that the callbacks default to nothing
-  for(i = 0; i < gpandalex_callback_max; ++i){
+  for(i = 0; i < pandalex_event_max; ++i){
     pandalex_callbacks[i] = NULL;
   }
 
@@ -277,50 +277,4 @@ int intlen(int number){
   }
 
   return number;
-}
-
-
-// Some demo code for how to use PandaLex
-int main(int argc, char *argv[]){
-  pandalex_init();
-
-  // Setup the callbacks
-  pandalex_setupcallback(gpandalex_callback_specver, 
-			 pandalex_sample_specversion);
-  pandalex_setupcallback(gpandalex_callback_entireheader, 
-			 pandalex_sample_entireheader);
-  pandalex_setupcallback(gpandalex_callback_objstart,
-			 pandalex_sample_objstart);
-
-  pandalex_setupcallback(gpandalex_callback_dictitem_string,
-			 pandalex_sample_dictitem_string);
-  pandalex_setupcallback(gpandalex_callback_dictitem_name,
-			 pandalex_sample_dictitem_name);
-  pandalex_setupcallback(gpandalex_callback_dictitem_array,
-			 pandalex_sample_dictitem_array);
-  pandalex_setupcallback(gpandalex_callback_dictitem_object,
-			 pandalex_sample_dictitem_object);
-  pandalex_setupcallback(gpandalex_callback_dictitem_dict,
-			 pandalex_sample_dictitem_dict);
-  pandalex_setupcallback(gpandalex_callback_dictitem_int,
-			 pandalex_sample_dictitem_int);
-
-  pandalex_setupcallback(gpandalex_callback_stream,
-			 pandalex_sample_stream);
-  pandalex_setupcallback(gpandalex_callback_dictint,
-			 pandalex_sample_dictint);
-  
-  // Initialise the dictint_list structure;
-  if((dictint_list = (pandalex_sample_dictint_list *)
-      malloc(sizeof(pandalex_sample_dictint_list))) == NULL){
-    fprintf(stderr, "Could not initialise the dictint list\n");
-    exit(42);
-  }
-
-  dictint_list->next = NULL;
-
-  // Start parsing
-  pandalex_parse();
-
-  return 0;
 }
