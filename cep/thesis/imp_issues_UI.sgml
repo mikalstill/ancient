@@ -35,19 +35,19 @@ There are two common implementation methodologies for scripting languages. Both 
 </para>
 
 <programlisting>
-<INITIAL>\%PDF-[0-9]+\.[0-9]+    { debuglex(yytext, -1, "version");
+&lt;INITIAL&gt;\%PDF-[0-9]+\.[0-9]+    { debuglex(yytext, -1, "version");
                                    yylval.sval.data = (char *) returnStr(yytext, -1);
                                    yylval.sval.len = yyleng;
                                    return VERSION;
                                  }
 
-<INITIAL>[+-]?[0-9]+\.[0-9]+     { debuglex(yytext, -1, "floating point");
+&lt;INITIAL&gt;[+-]?[0-9]+\.[0-9]+     { debuglex(yytext, -1, "floating point");
                                    yylval.sval.data = (char *) returnStr(yytext, yyleng);
                                    yylval.sval.len = yyleng; 
                                    return FP; 
                                  }
 
-<INITIAL>[+-]?[0-9]+\.[0-9]+\>\> { debuglex(yytext, -1, "floating point");
+&lt;INITIAL&gt;[+-]?[0-9]+\.[0-9]+\&gt;\&gt; { debuglex(yytext, -1, "floating point");
                                    yyless(yyleng - 2);
                                    yylval.sval.data = (char *) returnStr(yytext, yyleng);
                                    yylval.sval.len = yyleng;
@@ -86,6 +86,7 @@ A sample grammar specification is as follows:
   </sect3> <!--Implementation-->
   
   <sect3><title>Integration</title>
+  <para></para>
   </sect3> <!--Integration-->
 
 

@@ -55,7 +55,7 @@
     EQUATION 7
     </para>
         
-    </para>Another common constaint use in this type of analyisis is to set y-intercept <command>c</command> at the point of the
+    <para>Another common constaint use in this type of analyisis is to set y-intercept <command>c</command> at the point of the
     first time observation in the given system. This is done because the time format used in geodetic
     data systems is a decimal number where the numerator corresponds to the year and number of days into the year is denominator.
     For example the date value 2002.0014 corresponds to the Gregorian calander date of 12:00, 1 January 2002. If 
@@ -125,7 +125,7 @@
     </para> 
   </sect3><!--Weighting Matracies - Variance Co-variance and Random Walk-->
   
-  <sect3><title>Residuals and Detetermining VCV Weighting Models</title></sect3>
+  <sect3><title>Residuals and Detetermining VCV Weighting Models</title>
     <para>Resisdual space is another important aspect of Time Domain analysis. In essence, a residual is vector that represents the
     distance between the observered value and the least squares regression line of best fit. The residual vectors are therefore
     caulated by the matrix equation
@@ -164,7 +164,7 @@
     
     EQUATION 18
     
-    where <command>A</command> was a <command>observations</command> x <command>2</command> matrix and <command>P<command> was a 
+    where <command>A</command> was a <command>observations</command> x <command>2</command> matrix and <command>P</command> was a 
     <command>observations</command> x <command>observations</command> weighting matrix. If our weighting matrix was strictly
     diagonal then then it would take
     
