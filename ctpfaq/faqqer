@@ -208,8 +208,6 @@ elsif($mode eq "add-quest"){
 ###############################################################################
 elsif($mode eq "dump"){
     # We have been asked to dump a copy of the current FAQ
-#    print "<PRE>\n";
-    
     # We also need to dump the standard prelude
     print `cat $path/$area/db/prelude` or die "Cannot open prelude";
     
@@ -225,7 +223,7 @@ elsif($mode eq "dump"){
     $select->execute() or die "Could not execute select" . $select->errstr;
     if($select->rows > 0){
 	while(@data = $select->fetchrow_array()){
-	    print "<chapter><title>???</title>\n";
+	    print "<chapter><title>$data[1]</title>\n";
 	    
 	    $select2 = $database->prepare("SELECT qno, qname, question FROM questions WHERE sno = $data[0] ORDER BY qno");
 	    if(!defined($select2)){
@@ -238,9 +236,19 @@ elsif($mode eq "dump"){
 	    $select2->execute() or die "Could not execute select" . $select->errstr;
 	    if($select2->rows > 0){
 		$count = 1;
+		$first = 0;
 		while(@data2 = $select2->fetchrow_array()){
-		    print "<sect1><title>$data2[1]</title>\n";
+		    if($first == 0)
+		    {
+			$first++;
+		    }
+		    else{
+			print "</qandaentry></qandaset></sect1>\n";
+		    }
+
+		    print "<sect1><title>$data2[1]</title><qandaset><qandaentry><question>\n<para>";
 		    printtext("$data2[2] [Q$data2[0]]", 0);
+		    print "</para></question>\n";
 		    dumpanswers($path, $area, $data[0], $data2[0], 0);
 		}
 	    }
@@ -249,6 +257,7 @@ elsif($mode eq "dump"){
 		print $select2->rows;
 		print ")";
 	    }
+	    print "</qandaentry></qandaset></sect1></chapter>\n";
 	}
     }
     else{
@@ -256,29 +265,6 @@ elsif($mode eq "dump"){
 	print $select->rows;
 	print ")";
     }
-    
-    
-    # Top ten respondants
-    print "\n";
-    printline("*");
-    print "\nTOP TEN CONTRIBUTORS\n";
-    printline("*");
-    
-#    foreach ($key, $value) (%posters){
-#	winners[
-    
-#    @winners = sort {$posters{$b} <=> $posters{$b}} keys %posters;
-#    
-#    foreach $key (@winners){
-#	print "$key\n";
-#    }
-    
-#    # The end of file stuff
-#    print "\n";
-#    printline("*");
-#    print "\nEND OF FILE\n";
-#    printline("*");
-#    print "</PRE>\n";
 }
 else{
     print "Unknown CGI mode. How did you get here?\n";
@@ -310,28 +296,12 @@ sub dumpanswers{
     $myselect->execute() or die "Could not execute select" . $myselect->errstr;
     if($myselect->rows > 0){
 	while(@mydata = $myselect->fetchrow_array()){
-	    print "<sect2><para>\n";
+	    print "<answer>\n<para>";
 	    printtext($mydata[0], 2);
 	    print "</para><para><emphasis>$mydata[1] ($mydata[2]) [A$mydata[3]]</emphasis></para>\n";
-	    print "</para></sect2>\n";
+	    print "</answer>\n";
 	}
     }
-}
-
-###############################################################################
-sub printline(){
-    my($char) = @_;
-    
-    printrepeat($char, $maxlinelen);
-}
-
-###############################################################################
-sub printbanner(){
-    my($text, $char) = @_;
-
-    print "=========== $text ";
-    printrepeat("=", $maxlinelen - length($text) - 13);
-    print "\n\n";
 }
 
 ###############################################################################
@@ -344,24 +314,10 @@ sub printtext(){
 	print "</para>\n\n<para>";
     }
 
-    s/<BR>/<\/para><para>/g;
-    print "$line";
-}
-
-###############################################################################
-sub printcentered(){
-    my($text) = @_;
-
-    printrepeat(" ", ($maxlinelen - length($text) - 2) / 2);
-    print "$text";
-}
-
-###############################################################################
-sub printrepeat(){
-    my($char, $times) = @_;
-    my($counter);
-
-    for($counter = 0; $counter < $times; $counter++){
-	print $char;
-    } 
+    $_ = $line;
+    s/&/&amp;/g;
+    s/</&lt;/g;
+    s/>/&gt;/g;
+    s/&lt;BR&gt;/<\/para><para>/g;
+    print "$_";
 }
