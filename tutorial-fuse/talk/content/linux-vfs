@@ -1,0 +1,23 @@
+TITLE: The Linux VFS layer in one minute (or less)
+
+<ul>
+<li>I am by no means a VFS expert
+<li>Which is kinda the point of this talk...
+<li>So this description might gloss over important points
+<li>(I've had a lot of trouble finding a recent VFS tutorial)
+%% TODO
+
+<BR><BR>
+
+<li>VFS is an abstraction of filesystems
+<li>Original concept from Sun when the implemented NFS
+<li>Lots of Unices do it something like this
+<li>How Linux achieves pluggable filesystems
+
+<BR><BR>
+
+<li>Defines structures of operations which can be performed on common data structures
+
+<BR><BR>
+
+<li>Let's take a look at the way FUSE maps into VFS

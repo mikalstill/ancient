@@ -1,0 +1,11 @@
+TITLE: So what are all those operations?
+
+<ul>
+<li>So, there's lots of operations to hook to
+<li>What are they all, and which ones do I care about?
+<li>There's two ways to look at that question, and we'll do both...
+
+<BR><BR>
+
+<li>Firstly, how do they map to VFS operations?
+</ul>
