@@ -599,6 +599,14 @@ We should also probably know how to get to these images once we have more than o
 </sect1>
 
 
+<sect1><title>Man pages</title>
+<para>
+...
+</para>
+
+tiff2bw     tiff2rgba   tiffcp      tiffdump    tiffmedian  tifftopnm
+tiff2ps     tiffcmp     tiffdither  tiffinfo    tiffsplit
+
 
 <sect1><title>Example: Pixel enlargement</title>
 <para>
