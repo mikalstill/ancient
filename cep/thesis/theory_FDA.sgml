@@ -21,20 +21,19 @@
 
 <para>
   The concepts of frequency domain analysis should commence with the Fourier transform. Any waveform can be constructed purely from sine
-  and cosine waves. An example of this is a pure square wave. It is constructed from the following:
+  and cosine waves. An example of this is a pure square wave. It can be constructed using only the odd harmonics of a sin wave as
+  follows:
   <equation>
     <title>Square Wave</title>
     <alt>x(n) = sin(f) + 1/3*sin(3f) + 1/5*(sin5f)</alt>
     <execute><cmd>img</cmd><args>fSquareWave.gif</args></execute>
   </equation>
-</para>
-
-<para>
 	...for all odd harmonics. Where f is the fundamental frequency.
 </para>
 
 <para>
-  It therefore stand to reason that any waveform can be broken down into to these sine and cosine components. The
+  So given that waveforms can be constructed using sin and cosine waves, it stands to reason that any waveform can be broken down into
+  to these sine and cosine components. The
   Fourier transform is such a tool to carry out this analysis. The Fourier transform effectively analysis a given input signal, by
   decomposing it into those sinusoids of different frequencies, that sum the original signal.
 </para>
@@ -42,6 +41,8 @@
 <para>
   The resulting function from a Fourier transform is function of frequency. This can be expressed in terms of frequency f, or angular
   frequency. The Fourier transform of a signal x(n) is:
+  
+  X(&ohgr;) = &Sgr;x(n)e<superscript>j&ohgr;</superscript>
 
   <equation>
     <title>Fourier Transform</title>
@@ -92,7 +93,7 @@
 </para>
 
 <para>
-  The problem with the DFT is that it is slow, with O(N^2). This brought about the Fast Fourier transform.
+  The problem with the DFT is that it is slow, with O(N<superscript>2</superscript>). This brought about the Fast Fourier transform.
   The Fast Fourier transform takes into account that the DFT wastes a good deal of time with unnecessary multiplications. For example,
   there is no need to multiply something by zero, when the zero can be used outright. Given that multiplication is one of the slower
   instructions on computers, this is a time saver. Another area where the FFT screams efficiency, is that it takes into account the fact
@@ -105,15 +106,48 @@
   The power spectrum is very useful in signal processing. It is the most common frequency measuremnt, allowing you to find how much energy
   exists at a given frequency. Derived from the power spectrum is the power spectral density (PSD) measurment. A PSD plot provides
   information on how much energy exists in a band of frequencies. This technique is particularly useful for measuring the noise content
-  in a signal. A PSD plot is created by plotting the magnitude of the real and imaginary components of the FFT results.
+  in a signal. A PSD plot is created by plotting the magnitude of the real and imaginary components of the FFT results. A good
+  illustration of this concept is that of a sine wave with its corresponding PSD plot. From it we can see some stuff wohoo TODO>
 </para>
 
+<para>
+  There are some constraints which are implied when carrying frequency analysis.
+  
+  <itemizedlist>
+  <listitem><para>Maximum frequency analysed.</para></listitem>
+  <listitem><para>Frequency resolution.</para></listitem>
+  </itemizedlist>
+  
+  The maximum frequency analysed relates to the sampling theorem, also know as the Nyquist theorem. The theorem effectively states:
+</para>
+
+<para>
+  Given a signal x(n) sampled at a sampling frequency of f<subscript>s</subscript>, the maximum frequency that can be analysed,
+  f<subscript>max</subscript> is equal to 1/2 of f<subscript>s</subscript>. In other words, to accurately represent and analyse the
+  signal x(n), it must be sampled at a rate greater the 2f<subscript>s</subscript>, where 2f<subscript>s</subscript> =
+  f<subscript>N</subscript>, where f<subscript>N</subscript> is known as the Nyquist frequency. The simplest ecxample to illustrate this
+  is the sampling of a 20kHz audio signal. To accurately represent this signal, it must be sampled at greater than 40kHz. This value is
+  typically 44100Hz, for example CD audio. Generally signals are smapled at several times f<subscript>N</subscript> to ensure accurate
+  results. In the more relavent case of time series analysis, where datasets may consist of a sample per day, the maximum frequency that
+  can be analysed here is 0.5cycles/day.
+</para>
+
+<para>
+  The resolution is also an interesting point. The frequency resolution of a signal in the frequency domain, is inversely proportional
+  to the length of the waveform. So if the length of the analysed waveform is doubled, the resolutionn is halved. This is clearer if we
+  consider the relationship f<subscript>res</subscript>= f<subscript>s</subscript>/N, N being the number of points. If we double the
+  number of points while maintaing the sample rate, our frequency reosolution is halved.
+</para>
 
 </sect2> <!--Theory-->
 
 
 <sect2><title>Conclusion</title>
-  <para></para>
+  <para>
+    There is no question as to the value and importance of frequency domain analysis. We are able to see information invisble to us in
+    the time domain. Trends in the data relating to frequency can be identified, and it is even possible to reduce noise by removing
+    points while in the frequency domain before returning to the time domain. TODO: more more more...
+  </para>
 </sect2> <!--Conclusion-->
 
 </sect1> <!--FDA-->
