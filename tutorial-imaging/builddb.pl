@@ -3,6 +3,9 @@
 use strict;
 my(@args);
 
+# Make sure local scripts can run
+$ENV{PATH} = $ENV{PATH} . ":.";
+
 # This script runs through the specified docbook source, and applies the commands in % blocks
 
 while(<STDIN>){

@@ -46,6 +46,26 @@ This tutorial discusses code. Almost all of the code discussed is written in C. 
 It should also be noted that the code samples in this tutorial are not optimal. They have been written to be as readable as possible, and not nessesarily the most efficient possible. Please bear this in mind before blindly copying them.
 </para>
 </sect2>
+
+<sect2><title>How to compile and link on your chosen operating system</title>
+<para>
+It is outside the scope of this document to teach you how to compile and link source code into an executable form on your chosen architecture and operating system. You will need to understand this before you will be able to use any of the code in this document.
+</para>
+
+<para>
+For those of you using gcc on a unix (or unix-like) operating system, then the following points might be all you need to know. If you need more information, then a http://www.google.com search will serve you well.
+
+<orderedlist>
+<listitem><para>Libraries are added to the link command using the -l command line option. For instance, to compile and link the source file foo, with the tiff library, you would use a command line along the lines of <command>gcc foo.c -o foo -ltiff -lm</command>.</para></listitem>
+
+<listitem><para>You need to include -lm almost always. When you compile a c program using gcc without specifying any libraries, you get a -lm for free. As soon as you start specifying any libraries (for instance in this case -ltiff), then you also need to explicitly specify the math library as well.</para></listitem>
+
+<listitem><para>You will almost certainly also need to add the library and include paths for the installed version of the relevant library to the compile command line as well. Directories are added to the library search path using the -L command line option. Include directories are added with the -I option.</para></listitem>
+
+<listitem><para>The makefiles included with the samples in this tutorial a probably a bad place to look for introductory compile examples, as they use automake and autoconf to try to detect where the various required libraries are installed...</para></listitem>
+</orderedlist>
+</para>
+</sect2>
 </sect1>
 
 <sect1><title>Credits</title>
@@ -63,13 +83,13 @@ This document is covered by two licenses -- the license for the text of this doc
 
 <sect2><title>License for text (OPL)</title>
 <para>
-%todo: OPL%
+%text2db.pl:OPL%
 </para>
 </sect2>
 
 <sect2><title>License for source code (GPL)</title>
 <para>
-%todo: GPL%
+%text2db.pl:GPL%
 </para>
 </sect2>
 </sect1>
@@ -160,296 +180,21 @@ A pixel is the lowest unit of raster image description -- in other words, a rast
 </para>
 </sect1>
 
+<sect1><title>Converting color to grayscale</title>
+<para>
+How do you convert color images to grayscale? Well, my instant answer when I first had to do this was to just average the red, green and blue values. That answer is wrong. The reality is that the human eye is much better at seeing some colors than others. To get an accurate grayscale representation, you need to apply different coefficients to the color samples. Appropraite coefficients are 0.299 for red, 0.587 for green and 0.114 for blue.</para>
+</sect1>
+
 
 <sect1><title>Further reading</title>
 <para>
 ...
 </para>
 </sect1>
-
 </chapter>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<chapter id="chap-tiff"><title>TIFF</title>
-<para>
-...
-</para>
-
-<sect1>
-<title>Introduction</title>
-<para>
-TIFF (Tagged Image File Format) is a raster image format which was originally produced by Adobe. TIFF is an extremely common, but quite complex raster image format. Libtiff is a standard implementation of the TIFF specification, which is free and works on many operating systems. This chapter discusses some of the pitfalls of TIFF, and guides the reader through use of the libtiff library. This chapter provides examples on how to use libtiff for your black and white imaging needs.
-</para>
-</sect1>
-
-<sect1>
-<title>Installation</title>
-
-<sect2>
-<title>Unix</title>
-<para>
-...
-</para>
-</sect2>
-
-<sect2>
-<title>win32</title>
-<para>
-...
-</para>
-</sect2>
-</sect1>
-
-<sect1>
-<title>Coding for TIFF can be hard</title>
-<para>	
-Most file format specifications define some basic rules for the representation of the file. For instance, PNG (a compeditor to TIFF) documents are always big endian. TIFF doesn't mandate things like this though, here is a list of some of the seemingly basic things that it doesn't define:
-
-<orderedlist>
-  <listitem><para>The byte order -- big endian, or little endian</para></listitem>
-  <listitem><para>The fill order of the bit within the image bytes -- most significant bit first, or least significant</para></listitem>
-  <listitem><para>The meaning of a given pixel value for black and white -- is 0 black, or white?</para></listitem>
-  <listitem><para>...and so on</para></listitem>
-</orderedlist>
-</para>
-
-<para>
-This means that creating a TIFF can be very easy, because it is rare to have to do any conversion of the data that you already have. It does mean, on the other hand, that being able to read in random tiffs created by other applications can be very hard -- you have to code for all these possible combinations in order to be reasonably certain of having a reliable product.
-</para>
-	
-<para>
-So how do you write an application which can read in all these different possible permutations of the TIFF format? The most important thing to remember is to <emphasis>never make assumptions about the format of the image data you are reading in</emphasis>.
-</para>
-</sect1>
-
-<sect1>
-<title>Writing TIFF files</title>
-<para>
-The first thing I want to do is show you how to write a TIFF file out. We'll then get onto how to read a TIFF file back into your program.
-</para>
-	
-<sect2>
-<title>Infrastructure for writing</title>
-<para>
-It is traditional for bitmaps to be represented inside your code with an array of chars. This is because on most operating systems, a char maps well to one byte. In the block of code below, we will setup libtiff, and create a simple buffer which contains an image which we can then write out to disc.
-</para>
-
-<programlisting>
-%code2db.pl:source/tiff/bw-write/write-infrastructure.c%
-</programlisting>
-
-<para>
-The code above is pretty simple. All you need to use libtiff is to include the tiffio.h header file. To compile this, use the command <command>gcc foo.c -o foo -ltiff -lm</command>. The <command>-ltiff</command> is a command which will include the library named libtiff, which needs to be in your library path. Once you have started specifing libraries explicitly, you also need to add <command>-lm</command>, which is the mathematics library. The char buffer that we have defined here is going to be our black and white image, so we should define one of those next...
-</para>
-</sect2>
-
-<sect2>
-<title>Writing the image</title>
-<para>
-To make up for how boring that example was, I am now pleased to present you with possibly the worst picture of the Sydney Harbour Bridge ever drawn. In the example below, the image is already in the image buffer, and all we have to do is save it to the file on disc. The example first opens a tiff image in write mode, and then places the image into that file.
-</para>
-
-<para>
-Please note, that for clarity I have omitted the actual hex for the image, this is available in the download version of this code for those who are interested.
-</para>
-
-<programlisting>
-%code2db.pl:source/tiff/bw-write/write.c%
-</programlisting>
-
-<para>
-There are some interesting things to note in this example. The most interesting of these is that the output image will not display using the xview command on my linux machine. In fact, I couldn't find an example of a group 4 fax compressed black and white image which would display using that program. See the sidebar for more detail.
-</para>
-
-<sidebar>
-<title>Problems with xview</title>
-<para>
-Xview is part of the xloadimage package written by Jim Frost, which comes with X windows.
-</para>
-
-<para>
-It's a good example of how hard it can be to handle TIFF images well. I am currently working on a patch to submit to Jim which will resolve this problem. If you have trouble viewing the output of the sample code, then try using some other program, like the gimp.
-</para>
-</sidebar>
-
-<para>
-The sample code shows the basics of using the libtiff API. The following interesting points should be noted...
-</para>
-
-<orderedlist>
-<listitem><para>The buffers presented to and returned from libtiff each contain 8 pixels in a single byte. This means that you have to be able to extract the pixels you are interested in. The use of masks, and the right and left shift operators come in handy here.</para></listitem>
-
-<listitem><para>The TIFFOpen function is very similar to the fopen function we are all familiar with.</para></listitem>
-
-<listitem><para>We need to set the value for quite a few fields before we can start writing the image out. These fields give libtiff information about the size and shape of the image, as well as the way that data will be compresed within the image. These fields need to be set before you can start handing image data to libtiff. There are many more fields for which a value could be set, I have used close to the bar minimum in this example.</para></listitem>
-
-<listitem><para>TIFFWriteEncodedStrip is the function call which actually inserts the image into the file. This call inserts uncompressed image data into the file. This means that libtiff will compress the image data for you before writing it to the file. If you have already compressed data, then have a look at the TIFFWriteRawStrip instead.</para></listitem>
-
-<listitem><para>Finally, we close the file with TIFFClose.</para></listitem>
-</orderedlist>
-
-<sidebar>
-<title>More information about the libtiff function calls</title>
-<para>
-If you need more information about any of the libtiff function calls mentioned in this chapter, then checkout the extensive man pages which come with the library. Remember that case is important with man pages, so you need to get the case in the function names right -- it's TIFFOpen, not tiffopen.
-</para>
-</sidebar>
-
-<figure>
-<title>The Sydney Harbour Bridge, by Michael Still</title>
-<graphic format="EPS" fileref="tiff-figure1.eps"></graphic>
-</figure>
-</sect2>
-</sect1>
-
-<sect1>
-<title>Reading TIFF files</title>
-<para>
-Reading TIFF files reliably is much harder than writing them. Unfortunately, I don't have enough space in this chapter to discuss all of the important issues. Some of them will need to be left to later chapters. There are also plenty of pages on the web which discuss the issues involved. Some of my favourites are included in the references section at the end of this chapter.
-</para>
-
-<para>
-The issue that complicates reading black and white TIFF images the most is the several different storage schemes which are possible within the TIFF file itself. libtiff doesn't hold your hand much with these schemes, so you have to be able to handle them yourself. The three schemes TIFF supports are single stripped images, stripped images, and tiled images.
-</para>
-
-<orderedlist>
-<listitem><para>A single strip image is as the name suggests -- a special case of a stripped image. In this case, all of the bitmap is stored in one large block. I have experienced reliability issues with images which are single strip on Windows machines. The general recommendation is that no one strip should take more than 8 kilobytes uncompressed which with black and white images limits us to 65,536 pixels in a single strip.</para></listitem>
-
-<listitem><para>A multiple strip image is where horizontal blocks of the image are stored together. More than one stip is joined vertically to make the entire bitmap. Figure 2 shows this concept.</para></listitem>
-
-<listitem><para>A tiled image is like your bathroom wall, it is composed of tiles. This representation is show in Figure 3, and is useful for extremely large images -- this is especially true when you might only want to manipulate a small portion of the image at any one time.</para></listitem>
-</orderedlist>
-
-<figure>
-<title>The Sydney Harbour Bridge, in strips</title>
-<graphic format="EPS" fileref="tiff-figure2.eps"></graphic>
-</figure>
-
-<figure>
-<title>The Sydney Harbour Bridge, in tiles</title>
-<graphic format="EPS" fileref="tiff-figure3.eps"></graphic>
-</figure>
-
-<para>
-Tiled images are comparatively uncommon, so I will focus on stripped images in this chapter. Remember as we go along, that the single stripped case is merely a subset of a multiple strip images.
-</para>
-
-<sect2>
-<title>Infrastructure for reading</title>
-<para>
-The most important thing to remember when reading in TIFF images is to be flexible. The example below has the same basic concepts as the writing example above, with the major difference being that it needs to deal with many possible input images. Apart from stripping and tiling, the most important thing to remember to be flexible about is photometric interpretation. Luckily, with black and white images there are only two photometric interpretations to worry about (with colour and to a certain extent grayscale images there are many more).
-</para>
-
-<para>
-What is photometric interpretation? Well, the representation of the image in the buffer is really a very arbitary thing. I might code my bitmaps so that 0 means black (TIFFTAG_MINISBLACK), whilst you might find black being 1 (TIFFTAG_MINISWHITE) more convenient. TIFF allows both, so our code has to be able to handle both cases. In the example below, I have assumed that the internal buffers need to be in MINISWHITE, so we will convert images which are in MINISBLACK.
-</para>
-
-<para>
-The other big thing to bear in mind is fillorder (whether the first bit in the byte is the highest value, or the lowest). The example below also handles both of these correctly. I have assumed that we want the buffer to have the most significant bit first. TIFF images can be either big endian or little endian, but libtiff handles this for us. Thankfully, libtiff also supports the various compression algorithms without you having to worry about those. These are by far the scariest area of TIFF, so it is still worth your time to use libtiff.
-</para>
-
-<programlisting>
-%code2db.pl:source/tiff/bw-read/read.c%
-</programlisting>
-
-<para>
-This code works by first opening the image and checking that it is one that we can handle. It then reads in all the strip for the image, and appends them together in one large memory block. If required, it also flips bits until the photometric interpretation the one we handle, and deals with having to swap bits if the fillorder is wrong. Finally, our sample outputs the image as a series of lines composed of hex values. Remember that each of the values represents 8 pixels in the actual image.
-</para>
-</sect2>
-</sect1>
-
-<sect1>
-<title>Conclusion</title>
-<para>
-In this chapter I have shown you how to write and read some simple black and white images using libtiff. There are of course more issues that can be dealt with to have the perfect code, but being aware of the issues is the first step. Finally, before you leap off and start coding with libtiff, remember to put some thought into what compression algorithm you should be using for your images -- group 4 fax is great for black and white, but what you use for color really depends on your needs.
-</para>
-</sect1>
-
-<sect1><title>First published by IBM DeveloperWorks</title>
-<para>
-First published by IBM developerWorks at http://www.ibm.com/developerworks/.
-</para>
-</sect1>
-
-<sect1><title>Further reading</title>
-<para>
-<orderedlist>
-<listitem><para>The libtiff website (http://www.libtiff.org) is a good place to download the libtiff source. It is also quite likely there is a binary package for your choosen operating system.</para></listitem>
-
-<listitem><para>If all else fails, then the Adobe TIFF Specification (http://partners.adobe.com/asn/developer/pdfs/tn/TIFF6.pdf) can be useful.</para></listitem>
-
-<listitem><para>The xloadimage web page (http://gopher.std.com/homepages/jimf/xloadimage.html) might be of interest.</para></listitem>
-
-<listitem><para>The Cooper Union for the Advancement of Science and Art has some notes (http://www.ee.cooper.edu/courses/course_pages/past_courses/EE458/TIFF/) from a previous course dealing with libtiff online.</para></listitem>
-</orderedlist>
-</para>
-</sect1>
-
-
-
-
-
-
-
-<sect1>
-<title>Abstract</title>
-<para>		
-TIFF is an extremely common, but quite complex raster image format. Libtiff is a standard implementation of the TIFF specification, which is free and works on many operating systems. This article discusses some of the pitfalls of TIFF, and guides the reader through use of the libtiff library. This article provides examples on how to use libtiff for your grayscale and color imaging needs.
-</para>
-
-<sidebar>
-<title>Did you read the previous article?</title>
-<para>This article is a follow up to my previous article on black and white graphics programming with libtiff. This article covers grayscale and color imaging, but it assumes that you have read and understood the code from the black and white article. It might be helpful to refer to that article before going too far here.</para>
-</sidebar>
-
-<para>With this article, I will discuss some of the theory required to understand how the image data is stored for color and grayscale. This theory applies to all imaging formats. We'll then discuss some of the specifics of using libtiff.</para>
-</sect1>
-
-<sect1>
-<title>Terminology</title>
-<para>	
-We need to get some terminology out of the way before we can discuss much. Images are made up of pixels. In black and white imaging, the pixel has one of two values -- 0 or 1. This can be represented in a single bit. For grayscale and color images however, the pixel needs to be able to store a much greater range of values -- if a pixel was to have 255 levels of gray, then we would need 8 bits to store that pixel. Each of these values is called a sample. TIFF expresses the size of the value in a tag called TIFFTAG_BITSPERSAMPLE. This will be 1 for black and white, and some larger number for grayscale.
-</para>
-
-<para>
-For color images, we need to store even more information. For each pixel we will need to store a red, green, and blue value. Each of these values are stored in a separate 'sample'. Therefore, we will need to define TIFFTAG_SAMPLESPERPIXEL -- this will be 1 for black and white or grayscale, but will normally be 3 for color images. We also need to define the size of each sample, so you'll still need to set a value for TIFFTAG_BITSPERSAMPLE.
-</para>
-</sect1>
-
+<chapter id="chap-imagetheory"><title>Imaging theory</title>
 <sect1><title>Theory of color and grayscale storage</title>
 <para>
 The first thing that we need to understand to be able to support color and grayscale images is the format of the image data within memory. There are two main representations for color and grayscale images. I'll explain these by describing grayscale, and then extend it to color.
@@ -472,266 +217,9 @@ A 24 bit color image which is 1,000 by 1,000 pixels will take 24 million bits to
 This concept works for grayscale images as well. The only difference is that the colors in the palette are not just shades of gray.
 </para>
 </sect2>
-
-<sect2><title>Compression algorithms in libtiff</title>	
-<para>
-There are several compression algorithms available within libtiff. How do you select which one is right for your imaging needs?
-</para>
-
-<para>
-<emphasis>Please note that all the tags in this table should be prepended by COMPRESSION, for example COMPRESSION_CCITTFAXG4...</emphasis>
-</para>
-
-<table frame='all'><title>Libtiff compression algorithms</title>
-<tgroup cols='3' align='left' colsep='1' rowsep='1'>
-<thead>
-<row>
-  <entry>Compression algorithm</entry>
-  <entry>Well suited for</entry>
-  <entry>TIFFTAG</entry>
-</row>
-</thead>
-<tbody>
-<row>
-<entry>CCITT Group 4 Fax and Group 3 Fax</entry>
-<entry>This entry is here for completeness. If your coding for black and white images, then you're probably using the CCITT fax compression methods. These compression algorithms don't support color.</entry>
-<entry>_CCITTFAX3, _CCITTFAX4</entry>
-</row>
-
-<row>
-<entry>JPEG</entry>
-<entry>JPEG compression is great for large images such as photos. However, the compression is normally lossy (in that image data is thrown away as part of the compression process). This makes JPEG very poor for compressing text which needs to remain readable. The other thing to bear in mind is that the loss is accumulative -- see the sidebar for more information about this.</entry>
-<entry>_JPEG</entry>
-</row>
-
-<row>
-<entry>LZW</entry>
-<entry><emphasis>This is the compression algorithm used in GIF images. Because of the licensing requirements from Unisys, support for this compression codec has been removed from libtiff. There are patches available if you would like to add it back, but the majority of programs your code will integrate with no linger support LZW.</emphasis></entry>
-<entry>_LZW</entry>
-</row>
-
-<row>
-<entry>Deflate</entry>
-<entry>This is the gzip compression algorithm, which is also used for PNG. It is the compression algorithm I would recommend for color images.</entry>
-<entry>_DEFLATE</entry>
-</row>
-</tbody>
-</tgroup>
-</table>
-
-<sidebar><title>Accumulating loss?</title>
-<para>Why does the loss in lossy compression algorithms such as JPEG accumulate? Imagine that you compress an image using JPEG. You then need to add say a barcode to the image, so you uncompress the image, add the barcode, and recompress it. When the recompression occurs, then a new set of loss is introduced. You can imagine that if you do this enough, then you'll end up with an image which is a big blob.</para>
-
-<para>Whether this is a problem depends on the type of your data. To test how much of a problem this is, I wrote a simple libtiff program which repeatedly uncompresses and recompresses an image. What I found was that with pictures, the data is much more resilient to repeated compression.</para>
-
-<figure>
-<title>The picture before we compressed it</title>
-<graphic format="EPS" fileref="tiff-figure4.eps"></graphic>
-</figure>
-
-<figure>
-<title>The sample text before we compressed it</title>
-<graphic format="EPS" fileref="tiff-figure5.eps"></graphic>
-</figure>
-
-<para>
-The code I used had a 'quality' rating of 25% on the JPEG compression, which is a way of tweaking the loss of the compression algorithm. The lower the quality, the higher the compression ratio. The default is 75%.</para>
-
-<figure>
-<title>The picture after it has been recompressed 200 times</title>
-<graphic format="EPS" fileref="tiff-figure6.eps"></graphic>
-</figure>
-
-<figure>
-<title>The text after it has been recompressed 200 times</title>
-<graphic format="EPS" fileref="tiff-figure7.eps"></graphic>
-</figure>
-</sidebar>
-</sect2>
-</sect1>
-
-
-
-
-<sect1><title>Writing a color image</title>
-<para>
-It time to show you how to write a color image to disc. Remember that this is a simple example, which can be elaborated on greatly.
-</para>
-
-<programlisting>
-%code2db.pl:source/tiff/color-write/write.c%
-</programlisting>
-
-<para>You can see from this code some of the things that we have discussed in theory. The image has three samples per pixel, each of eight bits. This means that the image is a 24 bit RGB image. If this was a black and white or grayscale image, then this value would be one. The tag PHOTOMETRIC_RGB says that the image data is stored within the strips themselves (as opposed to being paletted) -- more about this in a second.</para>
-
-<sidebar><title>Other values for samples per pixel?</title>
-<para>
-In this example, we have three samples per pixel. If this was a black and white image, or a grayscale image, then we would have one sample per pixel. There are other valid values for here as well -- for instance, sometimes people will store a transparency value for a given pixel, which is called an alpha channel. This would result in having four samples per pixel. It is possible to have an arbitary number of samples per pixel, which is good if you need to pack in extra information about a pixel. <emphasis>Note that doing this can break image viewers which make silly assumptions -- I once had to write code for a former employer to strip out alpha channels and the like so that their PDF generator wouldn't crash.</emphasis>
-</para>
-</sidebar>
-
-<para>The other interesting thing to discuss here is the planar configuration of the image. Here we have specifed PLANARCONFIG_CONTIG, which means that the red green and blue information for a given pixel is grouped together in the strips of image data. The other option is PLANARCONFIG_SEPARATE, where the red samples for the image are stored together, then the blue samples, and finally the green samples.</para>
-</sect1>
-
-<sect1><title>Writing a paletted color image</title>
-<para>
-So how do we write a paletted version of this image? Well, libtiff makes this really easy -- all we need to do is change the value of TIFFTAG_PHOTOMETRIC to PHOTOMETRIC_PALETTE. It's not really worth including an example in this article, given it's a one word change.</para>
-</sect1>
-
-
-
-
-
-<sect1><title>Reading a color image</title>
-<para>
-Now all we have to do is work out how to read other people's color and grayscale images reliably, and we're home free. Initially I was very tempted to not tell you about the TIFFReadRGBAStrip() and TIFFReadRGBBSTile() calls, which hide some of the potential ugliness from the caller. These functions have some limitations I'm not astoundingly happy with. To quote the TIFFReadRGBAStrip() man page:</para>
-
-<!-- Is this the correct way to code a quote? -->
-<programlisting>
-   TIFFReadRGBAStrip reads a single strip of a strip-based image into memory,
-   storing  the  result  in  the  user supplied RGBA raster. The raster is assumed to be an array of
-   width   times   rowsperstrip   32-bit   entries,   where   width   is  the  width  of  the  image
-   (TIFFTAG_IMAGEWIDTH) and rowsperstrip is the maximum lines in a strip (TIFFTAG_ROWSPERSTRIP).
-
-   The  strip  value  should  be  the  strip  number  (strip  zero  is the first) as returned by the
-   TIFFComputeStrip function, but always for sample 0.
-
-   Note  that  the  raster  is  assume  to  be  organized  such  that the pixel at location (x,y) is
-   raster[y*width+x];  with  the  raster  origin in the lower-left hand corner of the strip. That is
-   bottom  to  top  organization. When reading a partial last strip in the file the last line of the
-   image will begin at the beginning of the buffer.
-
-   Raster  pixels  are  8-bit packed red, green, blue, alpha samples. The macros TIFFGetR, TIFFGetG,
-   TIFFGetB,  and  TIFFGetA  should  be used to access individual samples. Images without Associated
-   Alpha matting information have a constant Alpha of 1.0 (255).
-
-   See  the TIFFRGBAImage(3T) page for more details on how various image types are converted to RGBA
-   values.
-
-<command>NOTES</command>
-
-   Samples must be either 1, 2, 4, 8, or 16 bits. Colorimetric samples/pixel must be either 1, 3, or
-   4 (i.e. SamplesPerPixel minus ExtraSamples).
-
-   Palette  image  colormaps that appear to be incorrectly written as 8-bit values are automatically
-   scaled to 16-bits.
-
-   TIFFReadRGBAStrip  is  just  a wrapper around the more general TIFFRGBAImage(3T) facilities. It's
-   main  advantage  over  the similar TIFFReadRGBAImage() function is that for large images a single
-   buffer  capable  of  holding  the  whole  image doesn't need to be allocated, only enough for one
-   strip. The TIFFReadRGBATile() function does a similar operation for tiled images.
-</programlisting>
-
-<para>There are a couple of odd things about this function -- it defines (0, 0) to be in a different location from all the other code that we have been writing. In all the previous code we have written, the (0, 0) point has been in the top left of the image. This call defines (0, 0) to be in the bottom left. The other limitation to be aware of is that not all valid values for bits per sample are supported. If you find these quirks unacceptable, then remember that you can still use TIFFReadEncodedStrip() in the same manner that we did for the black and white images in the previous article...</para>
-
-<programlisting>
-%code2db.pl:source/tiff/color-read/read.c%
-</programlisting>
-</sect1>
-
-
-
-
-<sect1><title>Advanced topics</title>
-<para>
-Well, now that we understand how to read and write basically any image format we can think of, there are two other things we should quickly discuss.</para>
-
-<sect2><title>Storing TIFF data in places other than files</title>
-<para>
-All of these examples that I have included to this point have read and written with files. There are many scenarios when you wouldn't want to store your image data in a file, but would still want to use libtiff and tiff. For example, you might have customer pictures for id cards, and these would be stored in a database.
-</para>
-
-<para>
-The example which I am most familiar with is PDF documents. In PDF files, you can embed images into the document. These images can be in a subset of TIFF if desired, and TIFF is quite clearly the choice for black and white images.
-</para>
-
-<sidebar><title>An expanded example</title>
-<para>If you need more information about hooking the file input and output functions within libtiff than this article allows, then have a look at the images.c file in Panda, my PDF library. The web pages for Panda can be found at http://www.stillhq.com/cgi-bin/getpage?area=panda&lt;page=index.htm.</para>
-</sidebar>
-
-<para>libtiff allows you to replace the file input and output functions in the library with your own. This is done with the TIFFClientOpen() method. Here's an example (please note this code wont compile, and is just to describe the main concepts:</para>
-
-<programlisting>
-%code2db.pl:source/tiff/client/client.c%
-</programlisting>
-</sect2>
-
-<sect2><title>Converting color to grayscale</title>
-<para>
-How do you convert color images to grayscale? Well, my instant answer when I first had to do this was to just average the red, green and blue values. That answer is wrong. The reality is that the human eye is much better at seeing some colors than others. To get an accurate grayscale representation, you need to apply different coefficients to the color samples. Appropraite coefficients are 0.299 for red, 0.587 for green and 0.114 for blue.</para>
-</sect2>
-</sect1>
-
-<sect1><title>Example: Pixel enlargement</title>
-<para>
-In the introduction to this tutorial I promised that I would include the code to draw the demonstration that raster images are made up of pixels. Well, this example is that code.
-</para>
-
-<programlisting>
-%code2db.pl:source/tiff/pixels/pixel.c%
-</programlisting>
-</sect1>
-
-<sect1><title>Conclusion</title>
-<para>
-In this article we've discussed how to program with libtiff for grayscale and color images. I've shown you some sample code which should help to get you started. You should now know enough to have a great time coding with libtiff. Thanks for taking the time to read this article.</para>
-</sect1>
-
-
-
-<sect1><title>Resource list</title>
-<para>
-<orderedlist>
-<listitem><para>http://www.inforamp.net/~poynton/notes/colour_and_gamma/ColorFAQ.html: a FAQ document discussion of converting to grayscale</para></listitem>
-</orderedlist>
-</para>
-</sect1>
-
-<sect1><title>First published by IBM DeveloperWorks</title>
-<para>
-First published by IBM developerWorks at http://www.ibm.com/developerworks/.
-</para>
-</sect1>
-
-
-
-
-
-
-
-
 </chapter>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+%builddb.pl:tiff.sgml%
 
 <chapter id="chap-png"><title>PNG</title>
 <para>
@@ -937,164 +425,7 @@ Now it's time to provide an example of how the ImageMagick commands can be used 
 </para>
 
 <programlisting>
-? source/.deps
-? source/sample
-? source/.xvpics
-? source/ui
-
-RCS file: /cvs/cvs001/source/Makefile,v
-Working file: source/Makefile
-head: 1.4
-branch:
-locks: strict
-access list:
-symbolic names:
-keyword substitution: kv
-total revisions: 4;	selected revisions: 4
-description:
-----------------------------
-revision 1.4
-date: 2002/05/29 02:27:58;  author: u964076;  state: Exp;  lines: +16 -6
-Mikal: Imported shamelessly stolen sample code from wx windows... This will hopefully become the basis for our user interface. Also modified the autotools stuff so that it all compiles cleanly. Some users might need to install wx windows before ui will build for them...
-----------------------------
-revision 1.3
-date: 2002/05/04 03:20:26;  author: u964076;  state: Exp;  lines: +3 -4
-Mikal: Code changes for the dataset storage
-----------------------------
-revision 1.2
-date: 2002/04/30 23:58:09;  author: u964076;  state: Exp;  lines: +27 -50
-Mikal: Added cepWindows to build process
-----------------------------
-revision 1.1
-date: 2002/04/20 14:44:04;  author: u964076;  state: Exp;
-Mikal: Imported initial source tree
-=============================================================================
-
-RCS file: /cvs/cvs001/source/Makefile.am,v
-Working file: source/Makefile.am
-head: 1.4
-branch:
-locks: strict
-access list:
-symbolic names:
-keyword substitution: kv
-total revisions: 4;	selected revisions: 4
-description:
-----------------------------
-revision 1.4
-date: 2002/05/29 02:27:58;  author: u964076;  state: Exp;  lines: +2 -1
-Mikal: Imported shamelessly stolen sample code from wx windows... This will hopefully become the basis for our user interface. Also modified the autotools stuff so that it all compiles cleanly. Some users might need to install wx windows before ui will build for them...
-----------------------------
-revision 1.3
-date: 2002/05/04 03:20:26;  author: u964076;  state: Exp;  lines: +1 -1
-Mikal: Code changes for the dataset storage
-----------------------------
-revision 1.2
-date: 2002/04/30 23:58:09;  author: u964076;  state: Exp;  lines: +1 -1
-Mikal: Added cepWindows to build process
-----------------------------
-revision 1.1
-date: 2002/04/20 14:44:04;  author: u964076;  state: Exp;
-Mikal: Imported initial source tree
-=============================================================================
-
-RCS file: /cvs/cvs001/source/Makefile.in,v
-Working file: source/Makefile.in
-head: 1.4
-branch:
-locks: strict
-access list:
-symbolic names:
-keyword substitution: kv
-total revisions: 4;	selected revisions: 4
-description:
-----------------------------
-revision 1.4
-date: 2002/05/29 02:27:58;  author: u964076;  state: Exp;  lines: +14 -4
-Mikal: Imported shamelessly stolen sample code from wx windows... This will hopefully become the basis for our user interface. Also modified the autotools stuff so that it all compiles cleanly. Some users might need to install wx windows before ui will build for them...
-----------------------------
-revision 1.3
-date: 2002/05/04 03:20:26;  author: u964076;  state: Exp;  lines: +3 -4
-Mikal: Code changes for the dataset storage
-----------------------------
-revision 1.2
-date: 2002/04/30 23:58:09;  author: u964076;  state: Exp;  lines: +24 -47
-Mikal: Added cepWindows to build process
-----------------------------
-revision 1.1
-date: 2002/04/20 14:44:05;  author: u964076;  state: Exp;
-Mikal: Imported initial source tree
-=============================================================================
-
-RCS file: /cvs/cvs001/source/NEWS,v
-Working file: source/NEWS
-head: 1.1
-branch:
-locks: strict
-access list:
-symbolic names:
-keyword substitution: kv
-total revisions: 1;	selected revisions: 1
-description:
-----------------------------
-revision 1.1
-date: 2002/04/20 14:44:05;  author: u964076;  state: Exp;
-Mikal: Imported initial source tree
-=============================================================================
-
-RCS file: /cvs/cvs001/source/README,v
-Working file: source/README
-head: 1.1
-branch:
-locks: strict
-access list:
-symbolic names:
-keyword substitution: kv
-total revisions: 1;	selected revisions: 1
-description:
-----------------------------
-revision 1.1
-date: 2002/04/20 14:44:05;  author: u964076;  state: Exp;
-Mikal: Imported initial source tree
-=============================================================================
-
-RCS file: /cvs/cvs001/source/TODO,v
-Working file: source/TODO
-head: 1.2
-branch:
-locks: strict
-access list:
-symbolic names:
-keyword substitution: kv
-total revisions: 2;	selected revisions: 2
-description:
-----------------------------
-revision 1.2
-date: 2002/04/30 23:54:42;  author: u964076;  state: Exp;  lines: +1 -0
-Mikal: Updated changelog
-----------------------------
-revision 1.1
-date: 2002/04/20 14:44:05;  author: u964076;  state: Exp;
-Mikal: Imported initial source tree
-=============================================================================
-
-RCS file: /cvs/cvs001/source/aclocal.m4,v
-Working file: source/aclocal.m4
-head: 1.1
-branch:
-locks: strict
-access list:
-symbolic names:
-keyword substitution: kv
-total revisions: 1;	selected revisions: 1
-description:
-----------------------------
-revision 1.1
-date: 2002/04/20 14:44:05;  author: u964076;  state: Exp;
-Mikal: Imported initial source tree
-=============================================================================
-
-...and so on...
+%code2db.pl:source/imagemagick/cvsreport/sample.log%
 </programlisting>
 
 <para>
@@ -1272,6 +603,7 @@ There are a few resources which will make your life much easier. Here are some o
 Finish conversion of article 1
 Convert article 2
 DES code cleanup
+Comparison chart for image formats
 </para>
 </chapter>
 
