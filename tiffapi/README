@@ -1,1 +1,6 @@
 TIFFAPI is a simple library to abstract the more common and difficult features of libtiff. It is not a replacement for libtiff.
+
+****************
+* This code has been static for quite some time, and will probably not be taken
+* any further
+****************
