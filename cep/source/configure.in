@@ -67,7 +67,9 @@ dnl Checks for typedefs, structures, and compiler characteristics.
 
 dnl Stupid defines to keep wx happy
 AC_DEFINE(__WXGTK__)
-
+dnl additional includes requred for compilation
+INCLUDES="-I/usr/local/lib/wx/include/gtk-2.2"
+ 
 dnl Stu[id code to ensure that dvelopers do not ignore warnings
 AC_DEFINE(_GNU_SOURCE)
 case "${host}" in
@@ -86,10 +88,10 @@ case "${host}" in
     LDFLAGS="$LDFLAGS -mimpure-text"
     echo "Setting Solaris compilation options";;
   *-*-linux*)
-    dnl Assume that this sucker will be multi threaded. Are we going to be generating shared libs
+    dnl Assume that this sucker will be multi threaded.
+    dnl Are we going to be generating shared libs? set PIC anyway
     dnl be nice, don't fail on warnings but inform the developers concerned
-    INCLUDES="-I/usr/local/lib/wx/include/gtk-2.2"
-    CPPFLAGS="$INCLUDES $CPPFLAGS -D_REENTRANT -fPIC -DPIC -Wall -pedantic"
+    CPPFLAGS="$CPPFLAGS -D_REENTRANT -fPIC -DPIC -Wall -pedantic"
     echo "Setting Linux compilation options";;
   *-*-aix*)
     CPPFLAGS="$CPPFLAGS -D_THREAD_SAFE"
@@ -102,5 +104,7 @@ case "${host}" in
   echo "Unknown host type $host"
   echo "This project may not compile on this system. Good luck :-)";;
 esac
+
+CPPFLAGS="$CPPFLAGS $INCLUDES"
 
 AC_OUTPUT(Makefile)
