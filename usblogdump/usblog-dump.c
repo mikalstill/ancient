@@ -314,7 +314,13 @@ main (int argc, char *argv[])
 		  fileutil_getuinteger (file, &filep));
 
       urb_printf("Flags: ");
-      urb_printf_flags(fileutil_getuinteger (file, &filep));
+      temp = fileutil_getuinteger (file, &filep);
+      urb_printf_flags(temp);
+      if(temp & 0x00000001) urb_printf("\tEnd point known\n");
+      if(temp & 0x00000002) urb_printf("\tPipehandle present\n");
+      if(temp & 0x00000004) urb_printf("\tDirection in\n");
+      if(temp & 0x00000008) urb_printf("\tDirection out\n");
+      if(temp & 0x00000010) urb_printf("\tComing up\n");
 
       urb_printf ("Status: %d\n", fileutil_getinteger (file, &filep));
       urb_printf ("Link: %d\n", fileutil_getuinteger (file, &filep));
@@ -843,7 +849,6 @@ usb_setup_packet (char *file, long long *filep)
   char *lkdir = NULL, *lktype = NULL, *lkrecip = NULL, *lkreq = NULL;
 
   // Decode a setup packet
-  // TODO: I have just written this, and need to desk check that it is correct
   urb_printf ("Setup packet:\n");
   type = (unsigned char) file[count++];
   req = (unsigned char) file[count++];
