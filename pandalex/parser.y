@@ -169,7 +169,7 @@ stream    : STREAM binary ENDSTREAM { pandalex_callback(pandalex_event_stream, $
 
 // completely implemented: callbacks are handled in the callers to this
 binary    : ANYTHING binary { $$.data = pandalex_strmcat($1.data, $1.len, $2.data, $2.len); $$.len = $1.len + $2.len; free($2.data); }
-          | STRING binary { $$.data = pandalex_strmcpy($1.data, -1); $$.len = strlen($1.data); }
+          | STRING binary { $$.data = pandalex_strmcat($1.data, -1, $2.data, $2.len); $$.len = strlen($1.data) + $2.len; }
           | { $$.data = pandalex_strmcpy("", -1); $$.len = 0; }
           ;
 
@@ -318,4 +318,9 @@ int pandalex_intlen(int number){
   }
 
   return number;
+}
+
+void pandalex_xfree(void *ptr){
+  if(ptr != NULL)
+    free(ptr);
 }

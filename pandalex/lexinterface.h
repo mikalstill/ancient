@@ -56,3 +56,4 @@ void *pandalex_xrealloc(void *, size_t);
 char *pandalex_xsnprintf(char *, ...);
 void pandalex_error(char *);
 
+void pandalex_xfree(void *);

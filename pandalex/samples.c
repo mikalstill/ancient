@@ -14,6 +14,8 @@ int pdfdump_application;
 
 pdfdump_dictint_list *dictint_list;
 
+char *filter = NULL;
+
 // Some demo code for how to use PandaLex
 int main(int argc, char *argv[]){
   pandalex_init();
@@ -97,6 +99,10 @@ void pdfdump_objstart(int event, va_list argptr){
 
   printf("Object %d started (generation %d)\n",
 	 number, generation);
+
+  // The default filter is none
+  pandalex_xfree(filter);
+  filter = NULL;
 }
 
 void pdfdump_objend(int event, va_list argptr){
@@ -115,6 +121,10 @@ void pdfdump_dictitem_string(int event, va_list argptr){
   name = va_arg(argptr, char *);
   value = va_arg(argptr, char *);
   printf("  [String] %s = \"%s\"\n", name, value);
+
+  if(strcmp(name, "Filter") == 0){
+    filter = value;
+  }
 }
 
 void pdfdump_dictitem_name(int event, va_list argptr){
@@ -179,39 +189,18 @@ void pdfdump_dictitem_int(int event, va_list argptr){
 }
 
 void pdfdump_stream(int event, va_list argptr){
-  char *filter;
-  int length;
-  char *lengthObj;
   char *streamData;
   int streamDataLen;
   pdfdump_dictint_list  *now;
   int found;
 
-  printf("  [Stream]\n");
-
-  filter = va_arg(argptr, char *);
-  length = (int) va_arg(argptr, char *);
-  lengthObj = va_arg(argptr, char *);
+  printf("  [Stream, filter %s]\n", filter);
   streamData = va_arg(argptr, char *);
   streamDataLen = va_arg(argptr, int);
 
-  // Determine if we know the length
-  switch(length){
-  case -2:
-    // We don't - have we seen the obj already?
-    printf("    Length is stored in object\n");
-    break;
-
-  case -1:
-    // It was never defined
-    printf("    Length field not defined\n");
-    break;
-
-  default:
-    printf("    Length is stated to be %d\n", length);
-    pdfdump_procstream(filter, length, streamData, streamDataLen);
-    break;
-  }
+  printf("  Length = %d\n", streamDataLen);
+  printf("\n\n--------------------------------\n%s\n--------------------------------\n\n", 
+	 streamData);
 }
 
 void pdfdump_dictint(int event, va_list argptr){
