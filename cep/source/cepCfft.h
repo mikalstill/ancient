@@ -253,7 +253,6 @@ template < class T >
 
 	  ww = T (cos (t), sin (t));
 	  w[i] = conj (ww);	// force limiting of imag part if applic.
-	  // cout << w[i] << "\n";
 	}
     }
 }
@@ -376,8 +375,6 @@ template < class T > cepMatrix < ComplexDble > cepCfft <
 			      cepToString (checks[2]),
 			      cepError::sevErrorRecoverable);
 		  m_error.log ();
-		  //stdio for testing for irregular data
-		  //cout << "Oops..Samples not equidistant!" << endl;
 		}		//if
 	    }			//if dir ==1
 	}			//end for row

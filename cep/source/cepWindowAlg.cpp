@@ -64,9 +64,6 @@ cepWindowAlg::getCoeffs ()
   if (coeffs == NULL)
     {
       coeffs = generateCoeffs (1);
-      cout <<
-	"windowAlg<getCoeffs> making default coefficient array of size 1" <<
-	endl;
     }
   return *coeffs;
 }

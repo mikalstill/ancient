@@ -44,11 +44,5 @@ cepWindowHamming::getValue (int offset)
     return 1;
   double val = (double) offset / (size - 1);
   double result = 0.54 - 0.46 * cos (2 * PI * val);
-  /*
-     cout << "offset="<< offset
-     << " size="<< size
-     << " val=" << val
-     << " result=" << result << endl;
-   */
   return result;
 }

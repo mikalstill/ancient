@@ -25,34 +25,6 @@
  * Mass Ave, Cambridge, MA 02139, USA.
  */
 
-=======
-
-/**********************************************************
-cepInterp.cpp
-
-Written by:- Nick Wheatstone
-Description:- Interpolation toolkit.  Provides various methods of
-interpolation.
-***********************************************************/
- /*
-  * Imp for the interpolation class
-  * Copyright (C) Nick Wheatstone             2002
-  *
-  * This program is free software; you can redistribute it and/or modify it
-  * under the terms of the GNU General Public License as published by the Free
-  * Software Foundation; either version 2 of the License, or (at your option)
-  * any later version.
-  *
-  * This program is distributed in the hope that it will be useful, but WITHOUT
-  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-  * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-  * more details.
-  *
-  * You should have received a copy of the GNU General Public License along
-  * with this program; if not, write to the Free Software Foundation, Inc., 675
-  * Mass Ave, Cambridge, MA 02139, USA.
-  */
->>>>>>> 1.20
 #include "cepInterp.h"
 
 // The following #define macro are for trapping errors detected during matix accesses
@@ -61,8 +33,8 @@ interpolation.
 // Both macros cause an error to be logged then halt the interpolation
 // It is up to the parent function to check for this error
 // Yeah I know this error trapping method is EXPLETIVE DETLETED
-#define CHECK_ERROR(MATRIX) {if (MATRIX.getError().isReal()) {cout << "CRASH!!!\n";m_error.setError(MATRIX.getError().getMessage(),cepError::sevErrorRecoverable);return timeScale;}}
-#define CHECK_ERROR_P(MATRIX) {if (MATRIX->getError().isReal()){cout << "CRASH!!!\n";m_error.setError(MATRIX->getError().getMessage(),cepError::sevErrorRecoverable); return timeScale;}}
+#define CHECK_ERROR(MATRIX) {if (MATRIX.getError().isReal()) {m_error.setError(MATRIX.getError().getMessage(),cepError::sevErrorRecoverable);return timeScale;}}
+#define CHECK_ERROR_P(MATRIX) {if (MATRIX->getError().isReal()){m_error.setError(MATRIX->getError().getMessage(),cepError::sevErrorRecoverable); return timeScale;}}
 
 
 cepInterp::cepInterp ()
@@ -114,15 +86,6 @@ cepInterp::doInterp (cepMatrix < double >&input, double sampleRate,
       CHECK_ERROR (timeScale);
     }
 
-
-
-/*	for (int i=0; i < timeScale.getNumRows(); i++)
-	{
-		for (int j=0; j < timeScale.getNumCols(); j++)
-			cout << timeScale.getValue(i,j);
-		cout << '\n';
-	}
-*/
   /* do interpolation and return results */
   doInterp (julianInput, timeScale, interpType);
   for (int i = 0; i < timeScale.getNumRows (); i++)
@@ -493,20 +456,10 @@ cepInterp::naturalSplineInterp (cepMatrix < double >&input,
 	{
 	  if (timeScale.getValue (i - 2, 1) == timeScale.getValue (i - 3, 1))
 	    {
-	      cout << "Out of bounds error!!!!\n";
-	      cout << "i:" << i << " pos:" << position << '\n';
-	      cout << "i-2 date:" << timeScale.getValue (i - 2,
-							 0) << " value:" <<
-		timeScale.getValue (i - 2, 1) << '\n';
 	      CHECK_ERROR (timeScale);
 	      CHECK_ERROR (input);
-	      cout << "i-1 date:" << timeScale.getValue (i - 1,
-							 0) << " value:" <<
-		timeScale.getValue (i - 1, 1) << '\n';
 	      CHECK_ERROR (timeScale);
 	      CHECK_ERROR (input);
-	      cout << " pos+1 date:" << input.getValue (position + 1,
-							0) << '\n';
 	      CHECK_ERROR (timeScale);
 	      CHECK_ERROR (input);
 	      // give error once I know how
@@ -725,7 +678,6 @@ cepInterp::cubicSplineInterp (cepMatrix < double >&input,
 	}
       else
 	{
-	  cout << "Out of bounds error!!!!\n";
 	  // give error once I know how
 	  return timeScale;
 	}
@@ -744,7 +696,6 @@ cepInterp::dividedInterp (cepMatrix < double >&input,
   int oldSize = input.getNumRows ();
   CHECK_ERROR (input);
   int newSize = timeScale.getNumRows ();
-  cout << "NewSize:" << newSize << "\n";
   CHECK_ERROR (timeScale);
 
   // resizable datastructure to hold the divided differences table
@@ -779,11 +730,8 @@ cepInterp::dividedInterp (cepMatrix < double >&input,
   errorMod = (errorPos - input.getValue (0, 0));
   CHECK_ERROR (input);
 
-  cout << "Errors: \n";
   errors.push_back (errorMod * diffs[0]->getValue (0, 0));
-  cout << errors[0] << '\n';
   CHECK_ERROR_P (diffs[0]);
-
 
   // calculate rest of divided differences table
   for (i = 2; i < oldSize; i++)
@@ -812,7 +760,6 @@ cepInterp::dividedInterp (cepMatrix < double >&input,
       errorMod = errorMod * (errorPos - input.getValue (i - 1, 0));
       CHECK_ERROR (input);
       errors.push_back (errorMod * diffs[i - 1]->getValue (0, 0));
-      cout << errors[i - 1] << '\n';
       CHECK_ERROR_P (diffs[i - 1]);
 
       // check error limits for early exit
@@ -834,8 +781,6 @@ cepInterp::dividedInterp (cepMatrix < double >&input,
   if (i > oldSize)		// if divided difference table loop exited early
     {
       order = order - 1;	// decrease order of approx by 2
-      cout << "order:" << order << '\n';
-      cout << "OldSize:" << oldSize << '\n';
     }
 
   int position = 0;		// position on old timeline (input)
@@ -857,8 +802,7 @@ cepInterp::dividedInterp (cepMatrix < double >&input,
 	{
 	  for (int k = 0; k < order; k++)
 	    delete diffs[k];
-	  cout << "Out of range error!!!\n";
-	  cout << "i:" << i << " pos:" << position << '\n';
+
 	  // give error once I know how
 	  return timeScale;
 	}
@@ -894,10 +838,8 @@ cepInterp::dividedInterp (cepMatrix < double >&input,
 	  CHECK_ERROR (timeScale);
 	  for (j = 0; j < order; j++)
 	    {
-	      //      cout << "i:" << i << " pos:" << position << " j:" << j << '\n';
 	      if (position + order < oldSize)
 		{
-//        cout << "if 1\n";
 		  tempValue *=
 		    (timeScale.getValue (i, 0) -
 		     input.getValue (position + j, 0));
@@ -914,14 +856,9 @@ cepInterp::dividedInterp (cepMatrix < double >&input,
 		}
 	      else
 		{
-//        cout << "if 2\n";
 		  tempValue *=
 		    (timeScale.getValue (i, 0) -
 		     input.getValue (oldSize - (order + 2) + j, 0));
-//        cout << "tempValue *= timeScale(" << i << ",0) - input("
-//             << oldSize-(order+2)+j << ",0)\n"
-//             << tempValue << " = " << timeScale.getValue(i,0) << "- "
-//             << input.getValue(oldSize-(order+2) + j,0)<< '\n';
 
 		  CHECK_ERROR (timeScale);
 		  CHECK_ERROR (input);
@@ -931,10 +868,6 @@ cepInterp::dividedInterp (cepMatrix < double >&input,
 				      tempValue *
 				      diffs[j]->getValue (oldSize -
 							  (order + 2), 0));
-//        cout << "TimeScale(" << i << "1) += tempValue * diffs[" << j
-//             << "](" << oldSize-(order+2) << ",0)\n"
-//             << timeScale.getValue(i,1) << "+="
-//             << tempValue << " * " << diffs[j]->getValue(oldSize-(order+2),0) <<'\n';
 		  CHECK_ERROR_P (diffs[j]);
 		  CHECK_ERROR (timeScale);
 		}

@@ -727,17 +727,10 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
 void cepView::populateMatP(cepMatrix<double> &matP, const double &toDate, const double &fromDate, 
 			   const double &val, cepMatrix<double> &data)
 {
-  cout << "#######IN POPULATE MATRIX" << endl;
-  cout << "fromDate " << setprecision(10)<< fromDate << endl;
-  cout << "toDate " << setprecision(10) << toDate << endl;
-  cout << "vaule " << setprecision(10) << val << endl;
-
   for(int i = 0; i < matP.getNumRows(); i++)
   {
-    cout << endl << "Date is: " << setprecision(10) << data.getValue(i, 0) << endl;
     if((data.getValue(i, 0) >= fromDate) && (data.getValue(i,0) <= toDate))
     {
-      cout << "value at " << i << " is" << endl;
       matP.setValue(i,i, val);
     }
   }

@@ -91,7 +91,6 @@ main (int argc, char *argv[])
 		    {
 		      err.display ();
 		    }
-		  cout << "Dataset " << sa[1] << " read" << endl;
 		}
 	      else if (sa[0] == "plot")
 		{

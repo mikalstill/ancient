@@ -96,12 +96,6 @@ cepDataWindower::init ()
   cepWindowChebyshev::setTransitionBandwidth (tbw);
   if (err.isReal ())
     err.log ();
-
-//  cout << "window params loaded" <<endl
-//       << "type: " << algType.toString() << endl
-//       << "size: " << cepToString( size ) << endl
-//       << "overlap: " << cepToString( overlap ) << endl
-//       << "bandwidth: " << cepToString( tbw ) << endl;
 }
 
 
@@ -125,8 +119,6 @@ cepDataWindower::setWindowType (const cepWindow & type, const int sz,
   algType = type;
   size = sz;
   overlap = ol;
-
-//  cout << "<setWindowType>: " << type.toString() << ", size="<<size<<" overlap="<<overlap <<endl;
 
   if (type == WINDOW_RECTANGULAR)
     {
@@ -222,10 +214,6 @@ cepDataWindower::window (const cepMatrix < double >&dataIn,
   int numSamples = const_cast < cepMatrix < double >&>(dataIn).getNumRows ();
   int numWindows = countWindows (numSamples, windowAlg->getSize (), overlap);
   int increment = windowAlg->getSize () - overlap;
-//  cout << "windowing: " << algType.toString() << endl
-//       << "  numSamples=" << numSamples << endl
-//       << "  numWindows=" << numWindows << endl
-//       << "  increment=" << increment << endl;
 
   // sanity checks
   if (windowAlg->getSize () > numSamples)
