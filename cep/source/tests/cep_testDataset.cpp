@@ -25,7 +25,7 @@
 #include "../cepMatrix.h"
 #include "../cepDataset.h"
 #include "../cepError.h"
-
+#include "../cepMatrixIO.h"
 
 namespace {
 class Test : public CppUnit::TestFixture {
@@ -51,7 +51,7 @@ public:
     CppUnit::TestSuite *suiteOfTests = new CppUnit::TestSuite( "Test" );
     
     /* REGISTER YOUR TEST HERE */
-/*    suiteOfTests->addTest(
+    suiteOfTests->addTest(
       new CppUnit::TestCaller<Test>( "testGetMatrix", &Test::testGetMatrix ) );
     suiteOfTests->addTest(
       new CppUnit::TestCaller<Test>( "testRepeated", &Test::testRepeated ) );
@@ -63,7 +63,7 @@ public:
       new CppUnit::TestCaller<Test>( "testNotOpen", &Test::testNotOpen ) );
     suiteOfTests->addTest(
       new CppUnit::TestCaller<Test>( "testNaN", &Test::testNaN ) );
-*/  
+  
   suiteOfTests->addTest(
       new CppUnit::TestCaller<Test>( "testgetP", &Test::testgetP ) );
             
@@ -77,72 +77,72 @@ protected:
    * make your tests protected since you dont need to expose them
    */
 
-/*  void testGetMatrix ()
+  void testGetMatrix ()
   { 
-    cepMatrix <double> matX, matY, matZ;
+    cepMatrix <double> *matX, *matY, *matZ;
     string testSet = "../../datasets/mb_CAIR_GPS";
     cepDataset data;
     data.read(testSet);
     
     matX = data.getMatrix(cepDataset::dirX);
     
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 4, matX.getNumRows()); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 3, matX.getNumCols());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 4, matX->getNumRows()); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 3, matX->getNumCols());
     
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5274, matX.getValue(0,0)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5301, matX.getValue(1,0)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5329, matX.getValue(2,0)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5356, matX.getValue(3,0)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5274, matX->getValue(0,0)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5301, matX->getValue(1,0)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5329, matX->getValue(2,0)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5356, matX->getValue(3,0)); 
  
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", -2.9751, matX.getValue(0,1)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", -2.9769, matX.getValue(1,1)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", -2.9749, matX.getValue(2,1)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", -2.9768, matX.getValue(3,1)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", -2.9751, matX->getValue(0,1)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", -2.9769, matX->getValue(1,1)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", -2.9749, matX->getValue(2,1)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", -2.9768, matX->getValue(3,1)); 
   
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0016, matX.getValue(0,2)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0016, matX.getValue(1,2)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0016, matX.getValue(2,2)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0016, matX.getValue(3,2)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0016, matX->getValue(0,2)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0016, matX->getValue(1,2)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0016, matX->getValue(2,2)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0016, matX->getValue(3,2)); 
     
     matY = data.getMatrix(cepDataset::dirY);
     
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 4, matY.getNumRows()); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 3, matY.getNumCols());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 4, matY->getNumRows()); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 3, matY->getNumCols());
     
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5274, matY.getValue(0,0)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5301, matY.getValue(1,0)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5329, matY.getValue(2,0)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5356, matY.getValue(3,0)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5274, matY->getValue(0,0)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5301, matY->getValue(1,0)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5329, matY->getValue(2,0)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5356, matY->getValue(3,0)); 
  
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 5.2986, matY.getValue(0,1)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 5.2990, matY.getValue(1,1)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 5.2987, matY.getValue(2,1)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 5.3014, matY.getValue(3,1)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 5.2986, matY->getValue(0,1)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 5.2990, matY->getValue(1,1)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 5.2987, matY->getValue(2,1)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 5.3014, matY->getValue(3,1)); 
   
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0027, matY.getValue(0,2)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0024, matY.getValue(1,2)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0023, matY.getValue(2,2)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0024, matY.getValue(3,2)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0027, matY->getValue(0,2)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0024, matY->getValue(1,2)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0023, matY->getValue(2,2)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0024, matY->getValue(3,2)); 
     
     matZ = data.getMatrix(cepDataset::dirZ);
     
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 4, matZ.getNumRows()); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 3, matZ.getNumCols());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 4, matZ->getNumRows()); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 3, matZ->getNumCols());
     
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5274, matZ.getValue(0,0)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5301, matZ.getValue(1,0)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5329, matZ.getValue(2,0)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5356, matZ.getValue(3,0)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5274, matZ->getValue(0,0)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5301, matZ->getValue(1,0)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5329, matZ->getValue(2,0)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5356, matZ->getValue(3,0)); 
  
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 5.4898, matZ.getValue(0,1)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 5.4839, matZ.getValue(1,1)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 5.4870, matZ.getValue(2,1)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 5.4944, matZ.getValue(3,1)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 5.4898, matZ->getValue(0,1)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 5.4839, matZ->getValue(1,1)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 5.4870, matZ->getValue(2,1)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 5.4944, matZ->getValue(3,1)); 
   
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0090, matZ.getValue(0,2)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0085, matZ.getValue(1,2)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0082, matZ.getValue(2,2)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0082, matZ.getValue(3,2)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0090, matZ->getValue(0,2)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0085, matZ->getValue(1,2)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0082, matZ->getValue(2,2)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0082, matZ->getValue(3,2)); 
     
   }
   
@@ -192,7 +192,7 @@ protected:
   
   void testNaN ()
   { 
-    cepMatrix <double> matX, matY, matZ;
+    cepMatrix <double> *matX, *matY, *matZ;
     string testSet = "mb_NAN_GPS";
     cepDataset data;
     
@@ -200,67 +200,66 @@ protected:
     
     matX = data.getMatrix(cepDataset::dirX);
     
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 3, matX.getNumRows()); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 3, matX.getNumCols());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 3, matX->getNumRows()); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 3, matX->getNumCols());
     
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5274, matX.getValue(0,0)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5329, matX.getValue(1,0)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5356, matX.getValue(2,0)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5274, matX->getValue(0,0)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5329, matX->getValue(1,0)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5356, matX->getValue(2,0)); 
  
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", -2.9751, matX.getValue(0,1)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", -2.9749, matX.getValue(1,1)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", -2.9768, matX.getValue(2,1)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", -2.9751, matX->getValue(0,1)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", -2.9749, matX->getValue(1,1)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", -2.9768, matX->getValue(2,1)); 
   
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0016, matX.getValue(0,2)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0016, matX.getValue(1,2)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0016, matX.getValue(2,2)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0016, matX->getValue(0,2)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0016, matX->getValue(1,2)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0016, matX->getValue(2,2)); 
     
     matY = data.getMatrix(cepDataset::dirY);
     
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 4, matY.getNumRows()); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 3, matY.getNumCols());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 4, matY->getNumRows()); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 3, matY->getNumCols());
     
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5274, matY.getValue(0,0)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5301, matY.getValue(1,0)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5329, matY.getValue(2,0)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5356, matY.getValue(3,0)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5274, matY->getValue(0,0)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5301, matY->getValue(1,0)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5329, matY->getValue(2,0)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5356, matY->getValue(3,0)); 
  
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 5.2986, matY.getValue(0,1)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 5.2990, matY.getValue(1,1)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 5.2987, matY.getValue(2,1)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 5.3014, matY.getValue(3,1)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 5.2986, matY->getValue(0,1)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 5.2990, matY->getValue(1,1)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 5.2987, matY->getValue(2,1)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 5.3014, matY->getValue(3,1)); 
   
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0027, matY.getValue(0,2)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0024, matY.getValue(1,2)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0023, matY.getValue(2,2)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0024, matY.getValue(3,2)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0027, matY->getValue(0,2)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0024, matY->getValue(1,2)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0023, matY->getValue(2,2)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0024, matY->getValue(3,2)); 
     
     matZ = data.getMatrix(cepDataset::dirZ);
     
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 3, matZ.getNumRows()); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 3, matZ.getNumCols());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 3, matZ->getNumRows()); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 3, matZ->getNumCols());
     
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5274, matZ.getValue(0,0)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5301, matZ.getValue(1,0)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5356, matZ.getValue(2,0)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5274, matZ->getValue(0,0)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5301, matZ->getValue(1,0)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1999.5356, matZ->getValue(2,0)); 
  
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 5.4898, matZ.getValue(0,1)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 5.4839, matZ.getValue(1,1)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 5.4944, matZ.getValue(2,1)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 5.4898, matZ->getValue(0,1)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 5.4839, matZ->getValue(1,1)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 5.4944, matZ->getValue(2,1)); 
   
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0090, matZ.getValue(0,2)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0085, matZ.getValue(1,2)); 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0082, matZ.getValue(2,2)); 
-    
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0090, matZ->getValue(0,2)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0085, matZ->getValue(1,2)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0082, matZ->getValue(2,2)); 
   }
-*/
+
   void testgetP ()
   { 
     cepMatrix <double> matP;
     string testSet = "weight.dat";
     cepDataset data;
     
-    matP = data.getP(testSet);
+    matP = cepReadMatrix(testSet);
     
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "num rows wrong", 4, matP.getNumRows());
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "num cols wrong", 4, matP.getNumCols());
@@ -284,8 +283,6 @@ protected:
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0, matP.getValue(3,1));
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0, matP.getValue(3,2));
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1.0, matP.getValue(3,3)); 
-     
-    
   }
      
 }; // end Test

@@ -74,7 +74,8 @@ PACKAGE = cep
 RANLIB = ranlib
 VERSION = 0.1
 
-noinst_PROGRAMS = testall testwindows testmatrix testconfig testls testdataset testnumeric testfft testdate testinterp
+noinst_PROGRAMS = testall testwindows testmatrix testconfig testls testdataset testnumeric testfft testdate 
+#testinterp
 EXTRA_PROGRAMS = testallhuge
 
 testwindows_SOURCES = alltests.cpp cep_testWindows.cpp
@@ -88,7 +89,7 @@ testls_SOURCES = alltests.cpp cep_testLs.cpp
 testls_LDADD = ../cepLs.o
 
 testdataset_SOURCES = alltests.cpp cep_testDataset.cpp
-testdataset_LDADD = ../cepDataset.o ../cepStringArray.o
+testdataset_LDADD = ../cepDataset.o ../cepStringArray.o ../cepMatrixIO.o
 
 testnumeric_SOURCES = alltests.cpp cep_testNumeric.cpp
 
@@ -97,8 +98,8 @@ testfft_SOURCES = alltests.cpp cep_testCfft.cpp
 testdate_SOURCES = alltests.cpp cep_testDate.cpp
 testdate_LDADD = ../cepDate.o
 
-testinterp_SOURCES = alltests.cpp cep_testInterp.cpp
-testinterp_LDADD = ../cepInterp.o
+#testinterp_SOURCES = alltests.cpp cep_testInterp.cpp
+#testinterp_LDADD = ../cepInterp.o
 
 # 2: Above this line, you need to add a line test<name>_SOURCES, which lists
 # your .cpp files, and (if you need it), a line test<name>_LDADD, which lists
@@ -107,12 +108,14 @@ testinterp_LDADD = ../cepInterp.o
 # 3: Add the .cpp files here, and add a variable if you used objects from the
 # source directory. Sometimes, if it is heaps of tests which you only want to
 # run very occassionally, it might belong in (4) instead...
-testall_SOURCES = alltests.cpp cep_testWindows.cpp cep_testMatrix.cpp cep_testConfig.cpp cep_testLs.cpp cep_testDataset.cpp cep_testNumeric.cpp cep_testCfft.cpp cep_testDate.cpp cep_testInterp.cpp
+testall_SOURCES = alltests.cpp cep_testWindows.cpp cep_testMatrix.cpp cep_testConfig.cpp cep_testLs.cpp cep_testDataset.cpp cep_testNumeric.cpp cep_testCfft.cpp cep_testDate.cpp 
+#cep_testInterp.cpp
 
-testall_LDADD = $(testwindows_LDADD) $(testls_LDADD) $(testdataset_LDADD) $(testdate_LDADD) $(testinterp_LDADD)
+testall_LDADD = $(testwindows_LDADD) $(testls_LDADD) $(testdataset_LDADD) $(testdate_LDADD) 
+#$(testinterp_LDADD)
 
 # 4: A special target for really long winded tests
-testallhuge_SOURCES = alltests.cpp cep_testPresentation000.cpp cep_testPresentation1000.cpp cep_testPresentation1200.cpp cep_testPresentation1400.cpp cep_testPresentation1600.cpp cep_testPresentation1800.cpp cep_testPresentation2000.cpp cep_testPresentation200.cpp cep_testPresentation2200.cpp cep_testPresentation2400.cpp cep_testPresentation2600.cpp cep_testPresentation2800.cpp cep_testPresentation3000.cpp cep_testPresentation3200.cpp cep_testPresentation3400.cpp cep_testPresentation3600.cpp cep_testPresentation3800.cpp cep_testPresentation4000.cpp cep_testPresentation400.cpp cep_testPresentation4200.cpp cep_testPresentation4400.cpp cep_testPresentation600.cpp cep_testPresentation800.cpp
+testallhuge_SOURCES = alltests.cpp cep_testPresentation000.cpp cep_testPresentation1000.cpp cep_testPresentation200.cpp cep_testPresentation400.cpp cep_testPresentation600.cpp cep_testPresentation800.cpp 
 
 # These get built into everything
 LDFLAGS = ../cepError.o ../cepUtility.o -lcppunit -lm
@@ -121,31 +124,23 @@ CONFIG_CLEAN_FILES =
 PROGRAMS =  $(noinst_PROGRAMS)
 
 
-DEFS =  -DPACKAGE=\"cep\" -DVERSION=\"0.1\" -DHAVE_LIBM=1 -DHAVE_LIBPTHREAD=1 -DHAVE_LIBWX_GTK_2_2=1 -DHAVE_LIBMPLOT=1 -DHAVE_LIBPNG=1 -DHAVE_LIBPCRE=1 -D__WXGTK__=1 -D_GNU_SOURCE=1  -I. -I$(srcdir) 
+DEFS =  -DPACKAGE=\"cep\" -DVERSION=\"0.1\" -DHAVE_LIBM=1 -DHAVE_LIBPTHREAD=1 -DHAVE_LIBWX_GTK_2_2=1 -DHAVE_LIBMPLOT=1 -DHAVE_LIBPNG=1 -DHAVE_LIBPCRE=1 -DSTDC_HEADERS=1 -D__WXGTK__=1 -D_GNU_SOURCE=1  -I. -I$(srcdir) 
 CPPFLAGS =  -D_REENTRANT -Wall
 LIBS = -lpcre -lpng -lmplot -lwx_gtk-2.2 -lpthread -lm 
 testallhuge_OBJECTS =  alltests.o cep_testPresentation000.o \
-cep_testPresentation1000.o cep_testPresentation1200.o \
-cep_testPresentation1400.o cep_testPresentation1600.o \
-cep_testPresentation1800.o cep_testPresentation2000.o \
-cep_testPresentation200.o cep_testPresentation2200.o \
-cep_testPresentation2400.o cep_testPresentation2600.o \
-cep_testPresentation2800.o cep_testPresentation3000.o \
-cep_testPresentation3200.o cep_testPresentation3400.o \
-cep_testPresentation3600.o cep_testPresentation3800.o \
-cep_testPresentation4000.o cep_testPresentation400.o \
-cep_testPresentation4200.o cep_testPresentation4400.o \
-cep_testPresentation600.o cep_testPresentation800.o
+cep_testPresentation1000.o cep_testPresentation200.o \
+cep_testPresentation400.o cep_testPresentation600.o \
+cep_testPresentation800.o
 testallhuge_LDADD = $(LDADD)
 testallhuge_DEPENDENCIES = 
 testallhuge_LDFLAGS = 
 testall_OBJECTS =  alltests.o cep_testWindows.o cep_testMatrix.o \
 cep_testConfig.o cep_testLs.o cep_testDataset.o cep_testNumeric.o \
-cep_testCfft.o cep_testDate.o cep_testInterp.o
+cep_testCfft.o cep_testDate.o
 testall_DEPENDENCIES =  ../cepDataWindower.o ../cepWindowAlg.o \
 ../cepWindowRect.o ../cepwindowhamming.o ../cepwindowchebyshev.o \
 ../cepwindowblackman.o ../cepLs.o ../cepDataset.o ../cepStringArray.o \
-../cepDate.o ../cepInterp.o
+../cepMatrixIO.o ../cepDate.o
 testall_LDFLAGS = 
 testwindows_OBJECTS =  alltests.o cep_testWindows.o
 testwindows_DEPENDENCIES =  ../cepDataWindower.o ../cepWindowAlg.o \
@@ -164,7 +159,8 @@ testls_OBJECTS =  alltests.o cep_testLs.o
 testls_DEPENDENCIES =  ../cepLs.o
 testls_LDFLAGS = 
 testdataset_OBJECTS =  alltests.o cep_testDataset.o
-testdataset_DEPENDENCIES =  ../cepDataset.o ../cepStringArray.o
+testdataset_DEPENDENCIES =  ../cepDataset.o ../cepStringArray.o \
+../cepMatrixIO.o
 testdataset_LDFLAGS = 
 testnumeric_OBJECTS =  alltests.o cep_testNumeric.o
 testnumeric_LDADD = $(LDADD)
@@ -177,9 +173,6 @@ testfft_LDFLAGS =
 testdate_OBJECTS =  alltests.o cep_testDate.o
 testdate_DEPENDENCIES =  ../cepDate.o
 testdate_LDFLAGS = 
-testinterp_OBJECTS =  alltests.o cep_testInterp.o
-testinterp_DEPENDENCIES =  ../cepInterp.o
-testinterp_LDFLAGS = 
 CXXFLAGS = -g -O2
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 CXXLD = $(CXX)
@@ -193,22 +186,13 @@ TAR = gtar
 GZIP_ENV = --best
 DEP_FILES =  .deps/alltests.P .deps/cep_testCfft.P \
 .deps/cep_testConfig.P .deps/cep_testDataset.P .deps/cep_testDate.P \
-.deps/cep_testInterp.P .deps/cep_testLs.P .deps/cep_testMatrix.P \
-.deps/cep_testNumeric.P .deps/cep_testPresentation000.P \
-.deps/cep_testPresentation1000.P .deps/cep_testPresentation1200.P \
-.deps/cep_testPresentation1400.P .deps/cep_testPresentation1600.P \
-.deps/cep_testPresentation1800.P .deps/cep_testPresentation200.P \
-.deps/cep_testPresentation2000.P .deps/cep_testPresentation2200.P \
-.deps/cep_testPresentation2400.P .deps/cep_testPresentation2600.P \
-.deps/cep_testPresentation2800.P .deps/cep_testPresentation3000.P \
-.deps/cep_testPresentation3200.P .deps/cep_testPresentation3400.P \
-.deps/cep_testPresentation3600.P .deps/cep_testPresentation3800.P \
-.deps/cep_testPresentation400.P .deps/cep_testPresentation4000.P \
-.deps/cep_testPresentation4200.P .deps/cep_testPresentation4400.P \
+.deps/cep_testLs.P .deps/cep_testMatrix.P .deps/cep_testNumeric.P \
+.deps/cep_testPresentation000.P .deps/cep_testPresentation1000.P \
+.deps/cep_testPresentation200.P .deps/cep_testPresentation400.P \
 .deps/cep_testPresentation600.P .deps/cep_testPresentation800.P \
 .deps/cep_testWindows.P
-SOURCES = $(testallhuge_SOURCES) $(testall_SOURCES) $(testwindows_SOURCES) $(testmatrix_SOURCES) $(testconfig_SOURCES) $(testls_SOURCES) $(testdataset_SOURCES) $(testnumeric_SOURCES) $(testfft_SOURCES) $(testdate_SOURCES) $(testinterp_SOURCES)
-OBJECTS = $(testallhuge_OBJECTS) $(testall_OBJECTS) $(testwindows_OBJECTS) $(testmatrix_OBJECTS) $(testconfig_OBJECTS) $(testls_OBJECTS) $(testdataset_OBJECTS) $(testnumeric_OBJECTS) $(testfft_OBJECTS) $(testdate_OBJECTS) $(testinterp_OBJECTS)
+SOURCES = $(testallhuge_SOURCES) $(testall_SOURCES) $(testwindows_SOURCES) $(testmatrix_SOURCES) $(testconfig_SOURCES) $(testls_SOURCES) $(testdataset_SOURCES) $(testnumeric_SOURCES) $(testfft_SOURCES) $(testdate_SOURCES)
+OBJECTS = $(testallhuge_OBJECTS) $(testall_OBJECTS) $(testwindows_OBJECTS) $(testmatrix_OBJECTS) $(testconfig_OBJECTS) $(testls_OBJECTS) $(testdataset_OBJECTS) $(testnumeric_OBJECTS) $(testfft_OBJECTS) $(testdate_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
@@ -285,10 +269,6 @@ testfft: $(testfft_OBJECTS) $(testfft_DEPENDENCIES)
 testdate: $(testdate_OBJECTS) $(testdate_DEPENDENCIES)
 	@rm -f testdate
 	$(CXXLINK) $(testdate_LDFLAGS) $(testdate_OBJECTS) $(testdate_LDADD) $(LIBS)
-
-testinterp: $(testinterp_OBJECTS) $(testinterp_DEPENDENCIES)
-	@rm -f testinterp
-	$(CXXLINK) $(testinterp_LDFLAGS) $(testinterp_OBJECTS) $(testinterp_LDADD) $(LIBS)
 .cpp.o:
 	$(CXXCOMPILE) -c $<
 
