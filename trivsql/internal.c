@@ -9,6 +9,7 @@ trivsql_state *trivsql_init(char *filename){
   state = (trivsql_state *) trivsql_xmalloc(sizeof(trivsql_state));
   state->db = tdb_open(filename, 0, 0, O_RDWR | O_CREAT, 0600);
   state->rs = NULL;
+  state->seltree = NULL;
 
   return state;
 }
@@ -471,4 +472,37 @@ trivsql_recordset* trivsql_makers(char *tname){
   rrs->cols = NULL;
 
   return rrs;
+}
+
+trivsql_seltreenode* trivsql_makest(){
+  trivsql_seltreenode *rst;
+
+  // Build the recordset
+  rst = trivsql_xmalloc(sizeof(trivsql_seltreenode));
+  rst->selArgOne = NULL;
+  rst->selArgTwo = NULL;
+  rst->selector = NULL;
+  rst->left = NULL;
+  rst->right = NULL;
+
+  return rst;
+}
+
+trivsql_seltreenode* trivsql_makesel(trivsql_selectorfunc func, char *a1, 
+				     char * a2){
+  trivsql_seltreenode *tst = trivsql_makest(); 
+  tst->selector = func; 
+  tst->selArgOne = a1; 
+  tst->selArgTwo = a2;
+
+  return tst;
+}
+
+trivsql_seltreenode* trivsql_makeslr(trivsql_selectorfunc func,
+				     trivsql_seltreenode *left,
+				     trivsql_seltreenode *right){
+  trivsql_seltreenode* tst = trivsql_makest();
+  tst->selector = func;
+  tst->left = left;
+  tst->right = right;
 }

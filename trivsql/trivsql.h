@@ -31,7 +31,6 @@ typedef struct trivsql_internal_seltreenode
   char *selArgOne;
   char *selArgTwo;
   trivsql_selectorfunc selector;
-
   struct trivsql_internal_seltreenode *left, *right;
 } trivsql_seltreenode;
 
@@ -69,6 +68,7 @@ typedef struct trivsql_internal_state
   char *selArgOne;
   char *selArgTwo;
   trivsql_selectorfunc selector;
+  trivsql_seltreenode *seltree;
 } trivsql_state;
 
 // Internal functions
@@ -83,6 +83,11 @@ int trivsql_findcol(char *, char *, char *);
 void trivsql_addrow(trivsql_recordset *, char *, int, int *);
 char *trivsql_getallcolumns(char *);
 trivsql_recordset *trivsql_makers();
+trivsql_seltreenode *trivsql_makest();
+trivsql_seltreenode* trivsql_makesel(trivsql_selectorfunc, char *, char *);
+trivsql_seltreenode* trivsql_makeslr(trivsql_selectorfunc,
+				     trivsql_seltreenode *,
+				     trivsql_seltreenode *);
 int trivsql_checktable(char *);
 
 void *trivsql_xmalloc(size_t);
@@ -96,6 +101,8 @@ int trivsql_min(int, int);
 // Selectors
 int trivsql_selequal(char *, char *);
 int trivsql_sellike(char *, char *);
+int trivsql_selor(trivsql_seltreenode *, trivsql_seltreenode *);
+int trivsql_seland(trivsql_seltreenode *, trivsql_seltreenode *);
 
 // Interface methods
 trivsql_state *trivsql_opendb(char *);

@@ -21,6 +21,8 @@
 [Cc][Oo][Ll][Uu][Mm][Nn]                   { return COLUMN; }
 [Uu][Pp][Dd][Aa][Tt][Ee]                   { return UPDATE; }
 [Ss][Ee][Tt]                               { return SET; }
+[Aa][Nn][Dd]                               { return AND; }
+[Oo][Rr]                                   { return OR; }
 
 [a-zA-Z0-9%\-]+                            { yylval = trivsql_xsnprintf("%s", yytext); return STRING; }
 [ \t\r\n]                                  { }

@@ -36,3 +36,19 @@ int trivsql_sellike(char *arg1, char *arg2){
   //trivsql_xfree(sel);
   return ret;
 }
+
+int trivsql_selor(trivsql_seltreenode *left, trivsql_seltreenode *right){
+  if(left->selector(left->selArgOne, left->selArgTwo) == TRIVSQL_TRUE)
+    return TRIVSQL_TRUE;
+  if(right->selector(right->selArgOne, right->selArgTwo) == TRIVSQL_TRUE)
+    return TRIVSQL_TRUE;
+  return TRIVSQL_FALSE;
+}
+
+int trivsql_seland(trivsql_seltreenode *left, trivsql_seltreenode *right){
+  if(left->selector(left->selArgOne, left->selArgTwo) == TRIVSQL_FALSE)
+    return TRIVSQL_FALSE;
+  if(right->selector(right->selArgOne, right->selArgTwo) == TRIVSQL_FALSE)
+    return TRIVSQL_FALSE;
+  return TRIVSQL_TRUE;
+}

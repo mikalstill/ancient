@@ -90,8 +90,8 @@ void trivsql_displayrs(trivsql_recordset *rs){
     trivsql_rsmovenext(rs);
   }
 
-  printf("\n\n");
-  printf("Select returned %d rows of %d columns\n\n", 
+  printf("\n");
+  printf("Select returned %d rows of %d columns\n", 
 	 rs->numRows, rs->numCols);
 }
 

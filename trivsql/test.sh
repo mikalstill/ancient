@@ -25,6 +25,9 @@ function verify (){
         if [ `diff testout/$2.prev testout/$2.new | wc -l | tr -d " "` -gt 0 ]
         then
           echo " NEW]"
+	  echo ""
+	  cat testout/$2.new
+	  echo ""
         else
           echo " OLD]"
         fi
@@ -129,3 +132,8 @@ verify "SELECT * FROM upd;" update005 $learn
 verify "INSERT INTO upd (one, two) VALUES('e', 'f');" update006 $learn
 verify "UPDATE upd SET two = 'g' WHERE two = 'f';" update007 $learn
 verify "SELECT * FROM upd;" update008 $learn
+
+echo ""
+echo "Selection tree tests"
+verify "SELECT * FROM foo WHERE cola = 'duck' AND colb = 'chicken';" seltree001 $learn
+verify "SELECT * FROM foo WHERE cola = 'duck' OR colb = 'chicken';" seltree002 $learn

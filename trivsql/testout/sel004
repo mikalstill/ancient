@@ -6,7 +6,9 @@
 ----------------------------------------------
 | duck         | hamster      | (null)       |
 ----------------------------------------------
+| banana       | (null)       | frog         |
+----------------------------------------------
+| this-has-hyphens | (null)       | (null)       |
+----------------------------------------------
 
-
-Select returned 2 rows of 3 columns
-
+Select returned 4 rows of 3 columns

@@ -16,6 +16,8 @@
 #define	COLUMN	269
 #define	UPDATE	270
 #define	SET	271
+#define	AND	272
+#define	OR	273
 
 
 extern YYSTYPE yylval;
