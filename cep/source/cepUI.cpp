@@ -58,6 +58,13 @@ MyFrame *frame = (MyFrame *) NULL;
 IMPLEMENT_APP (MyApp) MyApp::MyApp (void)
 {
   m_docManager = (wxDocManager *) NULL;
+  
+  // Define some simple default options for the handling of cepErrors
+  gOptions.errorDisplay[cepError::sevDebug] = true;
+  gOptions.errorDisplay[cepError::sevInformational] = true;
+  gOptions.errorDisplay[cepError::sevWarning] = true;
+  gOptions.errorDisplay[cepError::sevErrorRecoverable] = true;
+  gOptions.errorDisplay[cepError::sevErrorFatal] = true;
 }
 
 bool

@@ -51,6 +51,7 @@
 #error You must set wxUSE_DOC_VIEW_ARCHITECTURE to 1 in setup.h!
 #endif
 
+#include "core.h"
 #include "doc.h"
 #include "view.h"
 
@@ -92,7 +93,8 @@ wxInputStream & cepDoc::LoadObject (wxInputStream & stream)
   SetTitle("Foo");
 
   // Actually create the dataset
-  
+  cepError bobble("This is a cep error", cepError::sevErrorFatal);
+  bobble.display();
 
   return stream;
 }

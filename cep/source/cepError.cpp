@@ -79,7 +79,7 @@ cepError::display ()
   if (m_msg != "")
     {
 #ifdef __WXGTK__
-      wxMessageBox(getTitle().c_str(), m_msg.c_str());
+      wxMessageBox(m_msg.c_str(), getTitle().c_str());
 #else
       cout << getTitle() << ": " << m_msg << endl;
 #endif
