@@ -18,19 +18,10 @@
 
 string filter;
 string objtype;
-bool streamIsContents;
-
-plot_state *bitmap = NULL;
 int objnum = 0;
 int objgen = 0;
 
-typedef struct{
-  int objnum;
-  int objgen;
-  string contents;
-} pandaedit_objitem;
 
-vector<pandaedit_objitem> pagelist;
 
 // Some demo code for how to use PandaLex
 int main(int argc, char *argv[]){
@@ -97,15 +88,6 @@ void pandaedit_objstart(int event, va_list argptr){
 
   printf("Object %d started (generation %d)\n",
 	 objnum, objgen);
-
-  // Is this object in the list of pages?
-  for(unsigned int i = 0; i < pagelist.size(); i++){
-    if((pagelist[i].objnum == objnum) &&
-       (pagelist[i].objgen == objgen)){
-      objtype = "Page";
-      return;
-    }
-  }
 }
 
 void pandaedit_objend(int event, va_list argptr){
@@ -119,7 +101,6 @@ void pandaedit_objend(int event, va_list argptr){
 
   // Reset to there being no filter, for the next object
   filter = "";
-  streamIsContents = false;
 }
 
 void pandaedit_dictitem_string(int event, va_list argptr){
@@ -127,38 +108,6 @@ void pandaedit_dictitem_string(int event, va_list argptr){
   
   name = va_arg(argptr, char *);
   value = va_arg(argptr, char *);
-
-  if(strcmp(name, "Filter") == 0){
-    filter = value;
-  }
-
-  // Kids is used to list the pages within the document -- this
-  // is overly simplistic at the moment (todo_mikal)
-  else if((objtype ==  "Pages") && 
-	  (strcmp(name, "Kids") == 0)){
-    stringArray tokens(value + 1, " ");
-    int inset = 0;
-    while(tokens[inset] != ""){
-      pandaedit_objitem temp;
-      temp.objnum = atoi(tokens[inset++].c_str());
-      temp.objgen = atoi(tokens[inset++].c_str());
-      pagelist.push_back(temp);
-      inset++;
-    }
-    return;
-  }
-
-  // MediaBox defines the page size e.g. [0 0 594 841]
-  else if(strcmp(name, "MediaBox") == 0){
-    stringArray tokens(value + 1, "[");
-    if((bitmap = plot_newplot(atoi(tokens[2].c_str()), atoi(tokens[3].c_str()))) == NULL){
-      fprintf(stderr, "Could not allocate a new page bitmap\n");
-      exit(1);
-    }
-    return;
-  }
-
-  // Display unhandled values
   printf("  [String] %s = \"%s\"\n", name, value);
 }
 
@@ -204,21 +153,6 @@ void pandaedit_dictitem_object(int event, va_list argptr){
   
   name = va_arg(argptr, char *);
   value = va_arg(argptr, char *);
-
-  // Each page has a contents object, which contains the stream which
-  // defines the layout of the page
-  if((objtype == "Page") &&
-     (strcmp("Contents", name) == 0)){
-    streamIsContents = true;
-    return;
-  }
-
-  // We never care about parent objects
-  if(strcmp("Parent", name) == 0) return;
-
-  // Pages objects are references by the type field
-  if(strcmp("Pages", name) == 0) return;
-
   printf("  [Object reference] %s = %s\n", name, value);
 }
 
@@ -260,7 +194,10 @@ void pandaedit_stream(int event, va_list argptr){
 
   streamData = va_arg(argptr, char *);
   streamDataLen = va_arg(argptr, int);
-  // todo_mikal: process stream data
+  
+  // If this is a content stream and we have a bitmap, then we can
+  // attempt to render the stream
+  
 }
 
 void pandaedit_dictint(int event, va_list argptr){
