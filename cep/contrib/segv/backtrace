@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# This file is from the junkcode directory on the samba CVS server.
+# It was hacked together by tridge...
+
+# we want everything on stderr, so the program is not disturbed
+exec 1>&2
+
+PID=$1
+TMPFILE=/tmp/gdb.$$
+cat << EOF  > $TMPFILE
+set height 0
+bt full
+quit
+EOF
+gdb -batch -x $TMPFILE /proc/$PID/exe $PID < /dev/null 
+/bin/rm -f $TMPFILE
