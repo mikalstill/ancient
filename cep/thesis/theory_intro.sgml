@@ -1,16 +1,16 @@
 <sect1><title>Background</title>
 
 <para>
-Time series analysis is by no means a new concept. Tests on the topic were printed as early as 1924.It was
-when the digital computer appeared that the momentum of this field increased dramatically. The FORTRAN programming
-language enabled complex mathematics to be written on a computer.Many routines and texts appeared around
+Time series analysis is by no means a new concept. Texts on this topic were printed as early as 1924.It was
+ when the digital computer appeared that the momentum of this field increased dramatically. The FORTRAN programming
+language enabled complex mathematics to be written on a computer. Many routines and texts appeared around
 this time, with the focus applications being oil and space exploration. Further signifcant texts emerged from
 Australia in the sixties and seventies on Fourier analysis of time seires and its applications.
 </para>
 
 <para>
 Published works such as Numerical Recipes emerged, firstly in FORTRAN, then C and C++. This is accepted as
-the standarrd refernce today for Numerical Analysis algorithms and covers least squares analysis, interpolation,
+the standard refernce today for Numerical Analysis algorithms, covering least squares analysis, interpolation,
 statistics and frequency analysis techniques. TSVIEW is a more recent example of a computerised
 package dealing time series analysis. It is a front end to MATLAB providing time series analysis in the time
 domain. It provides an intuitive, interactive graphical user interface to allow the analysis of the loaded data.
@@ -23,8 +23,8 @@ of GPS, VLBI and SLR data. A critical part of this software suite is the CVIEW m
 following:
 
 <orderedlist>
-<listitem><para>Selecting or spanning a region of points for closer ionspection, i.e. zooming.</para></listitem>
-<listitem><para>Display with various symbols data that is used in the solution, commonly involving data that does not correctly fit a particular model and is therefore unweighted.?????</para></listitem>
+<listitem><para>Selecting or spanning a region of points for closer inspection (I.e. zooming).</para></listitem>
+<listitem><para>The ability to display with various symbol data that is used in the solution. This commonly involves data that does not correctly fit a particular model and is therefore weighted out of the solution</para></listitem>
 <listitem><para>The ability to weight and unweight points.</para></listitem>
 <listitem><para>The ability to changes the value of any number of points.</para></listitem>
 <listitem><para>Allows the displacement of elementary statistics and regression coefficients.</para></listitem>
@@ -38,40 +38,36 @@ following:
 <para>
   This package intends to provide as many of the above features as possible and more. The data set from the various
   sources are extensive, covering around ten years of measurements from stations around the globe. The
-  GPS, VLBI, and SLR data have various anomalies due to their different vulnerabilies to conditions, such as delay due to the
-  ionosphere, temperature, and other considerations including projected stellite orbits.
-  Various organisations around the world collect data from the aformentioned sources. This data provides information
-  regarding among other things, tectonic plate movement. This allows conclusions to be drawn as to the level
-  of continental drift, ocean levels, etc.
+  GPS, VLBI, and SLR data are suceptable to various conditions, potentially affecting the validity of the data. 
+  Some of these conditions include:-
+   <itemizedlist>
+     <listitem><para>Ionospheric delay.</para></listitem>
+     <listitem><para>Temperature TODO: of what?</para></listitem>
+     <listitem><para>Other considerations including projected stellite orbits.</para></listitem>
+   </itemizedlist>
+  With the ability to model certain situations, takinginto consideration factors such as those above, conclusions can be drawn regarding,
+  among other things, tectonic plate movement, the level of continental drift and ocean levels.
 </para>
 
 <para>
-  Before the data can be interpreted, it must be processed. This, as with most raw data, involves shaping it into a format which can be
-  readily understood by people, and in almost all cases software. Information from data is general more readily extracted from graphical
-  forms, enabling for example, trends in the data to be seen if they exist. The next step is to be able to take into consideration various
+  Before the data can be interpreted, it must be processed. This involves shaping it into a format which can be
+  readily understood. Information from data is general more readily extracted from graphical
+  forms, enabling for example, trends in the data to be seen. The next step is to be able to take into consideration various
   circumstances that may arrise during monitoring. There may be changes in equipment, malfunctionions, bad or whether, or as many cases,
-  noise in the data. Before drawing any conlusions from the data, people need to be certain that they are dealing with only the necessary
-  information.
-  In order to extract the relavent information from the data, we need to perform various transformations on the data.
-  Some useful techniques commonly used in this processing are, Least Squares regression, Fast Fourier
+  noise in the data. This leads to the need for the removal of noise. In other owrds, the ability to remove erroneous data points from a given data set.
+   In order to extract the relavent information from the data, we need to perform various transformations on the data.
+  Some useful techniques commonly used in this process are; Least Squares regression, Fast Fourier
   Transforms (FFT), Gabor transforms (specgrams), Guassian filters, and Power Spectral Density plots (PSD).
 </para>
 
 <para>
-  It is at this point, that software becomes an important tool. It can be used to model certain situtations or remove unwanted data. For
-  example if a known euqipment malfunction was noted at a given time, the modelling process can deal with this event by perhaps removing the data,
-  or applying we-weighting algorithms to the data etc.
-</para>
-
-<para>
-  This remainder of this document aims to provide a comprehensive insight in the theory behind these processing techniques
-  that have been employed in this project.Where appropriate alternative theories and algorithms are presented and compared.
-  The document moves on to the implementation of the aforementioned techiniques. Here we discuss the design methodology
-  used in the implementation, the implementation of the prototype, the implemetation of the specific algorithms and why they
-  were chosen, and of course issues that emerged in the overall process. A background on the testing approach is provided. As
-  projects increase in size, standardised testing procedures becomes paramount. Here we will discuss the apprpach used for
-  the various modules of the project. We could not close without providing an indication of where we believe this project stands
-  in the overall picture. We therefore discuss in each area, what improvements and enhancements we believe could be made in the various modules.
+  This thesis aims to provide a comprehensive insight in the theory behind the processing techniques
+  that have been employed in this project. Where appropriate alternative theories and algorithms are presented and compared.
+  The design methodology used in the implementation is disucssed, along with the implementation of the prototype, aswell as the implemetation
+  of the specific algorithms and why they were chosen. Issues that arose throughout this process are also discussed where relavent. A background on the
+  testing approach is provided. As projects increase in size, standardised testing procedures becomes paramount. Here we detail the apprpach used for
+  the testing of the various modules of the project. We could not close without providing an indication of where we believe this project stands
+  in the overall picture. In each area, we examine the potential improvements and enhancements that could be made in the various modules.
 </para>
 
 </sect1> <!--backgorund-->

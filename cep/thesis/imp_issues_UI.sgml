@@ -13,13 +13,13 @@ The <command>GDMS</command> user interface is the most prominent part of the app
 </itemizedlist>
 
 <para>
-This section will mainly discuss the research undertaken for implementing the X windows user interface. This is partially because the scale of implementation required was much greater for this variant, but is also because there were many more alternatives available.
+This section will deal primarily with the research undertaken for implementing the X windows user interface. This is not only due to the fact that the scale of implementation required was much greater for this variant, however, also because there were many more alternatives available.
 </para>
 </sect3> <!--Introduction-->
 
 <sect3><title>Graphical user interface</title>
 <para>
-There are a plethora graphical user interface toolkits available today. As each has it's advantages, a small survey of the options considered, and then a discussion of why <emphasis>wxWindows</emphasis> was selected seems appropriate.
+There are a plethora graphical user interface toolkits available today. As each has it's advantages, a small survey of the options considered, and then a discussion of why <emphasis>wxWindows</emphasis> was selected is appropriate.
 </para>
 
 <sect4><title>CDE</title>
@@ -31,9 +31,6 @@ The Common Desktop Environment (CDE) was jointly developed by Hewlett-Packard, I
 <execute><cmd>img</cmd><args>sun-cde.gif</args></execute>
 </figure>
 
-<para>
-It should be noted that Sun Microsystems has announced that CDE will be replaced with Gnome in future releases of Solaris (Sun Microsystems 2002).
-</para>
 </sect4>
 
 <sect4><title>KDE</title>
@@ -48,7 +45,7 @@ KDE development started in October 1996 (KDE 2002), as a replacement for Sun's C
 
 <sect4><title>Gnome</title>
 <para>
-Gnome is the default window manager and windowing toolkit set for the majority of Linux distributions, including Linux, which the Survey Lab makes extensive use of. Gnome is implemented using the GTK windowing toolkit (GTK 2002).
+Gnome is the default window manager and windowing toolkit set for the majority of Linux distributions, including Linux, which the Survey Lab at the University of Canberra makes extensive use of. Gnome is implemented using the GTK windowing toolkit (GTK 2002).
 </para>
 
 <para>
@@ -62,7 +59,7 @@ Sun Microsystems have recently announced that from Solaris 8 onwards, Gnome will
 
 <sect4><title>Microsoft Windows</title>
 <para>
-Whilst not a X windows toolkit, Window's MFC toolkit was considered as a development alternative for <command>GDMS</command>. However, the survey lab does not currently contain an Microsoft Windows machines, so this option was not pursued any further.
+Whilst not a X windows toolkit, Window's MFC toolkit was considered as a development alternative for <command>GDMS</command>. However, the survey lab does not currently contain any Microsoft Windows machines, so this option was not pursued any further.
 </para>
 
 <figure><title>The Windows XP desktop (Microsoft 2002)</title>
@@ -86,10 +83,7 @@ Whilst wxWindows is not a window manager in the same sense as all the other wind
 <sect3><title>Windowing toolkit selection</title>
 <para>
 Based on the factors outlined above, the group selected wxWindows for the user interface implementation of <command>GDMS</command>.
-</para>
-
-<para>
-As previously mentioned, all of these toolkits require developers to write in c++, which was one of the determining factors in the development of the application.
+As previously mentioned, all of these toolkits require developers to write in C++, which was one of the determining factors in the language choice for the development of the application.
 </para>
 </sect3>
 
@@ -100,43 +94,40 @@ There are two common implementation methodologies for scripting languages. Both 
 
 <sect4><title>Compiler construction tools</title>
 <para>
-<command>lex</command> and <command>flex</command> are parser generation tools. They take a lexical specification file, and generate a LALR finite state machine for matching input strings (Aho, Sethi &amp; Ullman 1986). A sample of a lexical specification is shown below (in this case for the PDF file format):
+<command>Lex</command> and <command>flex</command> are parser generation tools. They take a lexical specification file, and generate a LALR finite state machine for matching input strings (Aho, Sethi &amp; Ullman 1986). A sample of a lexical specification is shown below (in this case for the PDF file format):
 </para>
 
 <programlisting>
-&lt;INITIAL&gt;\%PDF-[0-9]+\.[0-9]+    { 
+&lt;INITIAL&gt;\%PDF-[0-9]+\.[0-9]+    {
   debuglex(yytext, -1, "version");
   yylval.sval.data = (char *) returnStr(yytext, -1);
   yylval.sval.len = yyleng;
   return VERSION;
   }
 
-&lt;INITIAL&gt;[+-]?[0-9]+\.[0-9]+     { 
+&lt;INITIAL&gt;[+-]?[0-9]+\.[0-9]+     {
   debuglex(yytext, -1, "floating point");
   yylval.sval.data = (char *) returnStr(yytext, yyleng);
-  yylval.sval.len = yyleng; 
-  return FP; 
+  yylval.sval.len = yyleng;
+  return FP;
   }
 
-&lt;INITIAL&gt;[+-]?[0-9]+\.[0-9]+\&gt;\&gt; { 
+&lt;INITIAL&gt;[+-]?[0-9]+\.[0-9]+\&gt;\&gt; {
   debuglex(yytext, -1, "floating point");
   yyless(yyleng - 2);
   yylval.sval.data = (char *) returnStr(yytext, yyleng);
   yylval.sval.len = yyleng;
   return FP;
-  } 
+  }
 </programlisting>
 
 <para>
-In this example, two tokens are defined, VERSION, and FP. The syntax for these specifications is fairly trivial. The first field, which is wrapped in angled brackets, is the name of the state that the specification should be used in. All of the examples shown here are for the default state, known as INITIAL (Levin, Mason &amp; Brown 1990). What follows this is a posix compliant regular expression to be matched. Finally, within the braces is some c code to execute which a match occurs.
+In this example, two tokens are defined, VERSION, and FP. The syntax for these specifications is relatively simple. The first field, which is wrapped in angled brackets, is the name of the state that the specification should be used in. All of the examples shown here are for the default state, known as INITIAL (Levin, Mason &amp; Brown 1990). What follows this is a posix compliant regular expression to be matched. Finally, within the braces lies C code to execute when a match occurs.
+In each of these examples, the C code writes a log entry for the match, sets up the data structure symbolizing the match, and then returns the name of the lexicial token which was matched.
 </para>
 
 <para>
-In each of these examples, the c code writes a log entry for the match, setups up the data structure symbolizing the match, and then returns the name of the lexicial token which was matched.
-</para>
-
-<para>
-<command>yacc</command> and <command>bison</command> define the grammer which uses the tokens defined by <command>lex</command> or <command>flex</command>. In effect, this defines valid orders for the tokens to appear in, and what operations should be performed when a set of tokens is matched. Error handling for undefined token combinations is also supplied by the grammar (with hooks for reporting to the user in a manner which is appropriate to that particular application.
+<command>Yacc</command> and <command>bison</command> define the grammer which uses the tokens defined by <command>lex</command> or <command>flex</command>. In effect, this defines valid orders for the tokens to appear in, and what operations should be performed when a set of tokens is matched. Error handling for undefined token combinations is also supplied by the grammar. This is done through the use of hooks for reporting to the user in a manner which is appropriate to that particular application.
 </para>
 
 <para>
@@ -144,11 +135,11 @@ A sample grammar specification, in this case for SQL (Connolly &amp; Begg 1998) 
 </para>
 
 <programlisting>
-sql      : create sql | insert sql | select sql
+SQL      : create SQL | insert SQL | select SQL
          |
          ;
 
-create   : CREATE TABLE STRING '(' colvalspec ')' ';' {} 
+create   : CREATE TABLE STRING '(' colvalspec ')' ';' {}
          ;
 
 insert   : INSERT INTO STRING '(' colvalspec ')' VALUES 
@@ -159,15 +150,12 @@ select   : SELECT cvsaster FROM STRING {} wsel ';' {}
 </programlisting>
 
 <para>
-A grammar consists of three building blocks. Each of the tokens which can be returned by the lexer is termed a <emphasis>terminal</emphasis>. Examples from above include <emphasis>CREATE</emphasis>, <emphasis>TABLE</emphasis>, <emphasis>STRING</emphasis>, <emphasis>INSERT</emphasis>, <emphasis>INTO</emphasis>, <emphasis>VALUES</emphasis>, and <emphasis>SELECT</emphasis>. These terminals are used by <emphasis>non-terminals</emphasis>, such as <emphasis>sql</emphasis>, <emphasis>create</emphasis>, <emphasis>insert</emphasis>, and <emphasis>select</emphasis> from the example above. The rule which groups a non-terminal with a series of other non-terminals, and terminals, is called a <emphasis>production</emphasis> (Aho, Sethi &amp; Ullman 1986).
+A grammar consists of three building blocks. Each of the tokens which can be returned by the lexer is termed a <emphasis>terminal</emphasis>. Examples from above include <emphasis>CREATE</emphasis>, <emphasis>TABLE</emphasis>, <emphasis>STRING</emphasis>, <emphasis>INSERT</emphasis>, <emphasis>INTO</emphasis>, <emphasis>VALUES</emphasis>, and <emphasis>SELECT</emphasis>. These terminals are used by <emphasis>non-terminals</emphasis>, such as <emphasis>SQL</emphasis>, <emphasis>create</emphasis>, <emphasis>insert</emphasis>, and <emphasis>select</emphasis> from the example above. The rule which groups a non-terminal with a series of other non-terminals, and terminals, is called a <emphasis>production</emphasis> (Aho, Sethi &amp; Ullman 1986).
 </para>
 
 <para>
-This grammar defines a language in which a SQL statement can consist of either a <emphasis>create</emphasis>, a <emphasis>insert</emphasis>, or a <emphasis>select</emphasis> statement, as shown by the sql production. The empty non-terminal on the sql production is so that an end of file or empty line is also matched. Because the <emphasis>sql</emphasis> non-terminal
-</para>
-
-<para>
-It should also be noted that the sql production is recursive, except for this case which matches the empty line or end of file.
+This grammar defines a language in which a SQL statement can consist of either a <emphasis>create</emphasis>, an <emphasis>insert</emphasis>, or a <emphasis>select</emphasis> statement, as shown by the SQL production. The empty non-terminal on the SQL production ensures that an end of file or empty line is also matched.
+It should also be noted that the SQL production is recursive, except for this case which matches the empty line or end of file.
 </para>
 
 <para>
@@ -177,11 +165,9 @@ TODO C++ integration issues
 
 <sect4><title>Hand coded parsers</title>
 <para>
-The alternative to using the compiler construction tools is to develop a language parser by hand. Depending on the complexity of the grammar to be implemented, this can be quite a realistic alternative. On the other hand, if the grammar is complex, then this can rapdily become a problem with a larger scale than implementing the rest of the application.
-</para>
-
-<para>
-Because the grammar for the scripting language implemented by the batch version of <command>GDMS</command> is fairly trivial (all commands are parsed based on only one line, and no recursion within productions is required), the <command>GDMS</command> team has selected this option.
+The alternative to using the compiler construction tools is to develop a language parser by hand. Depending on the complexity of the grammar to be implemented, this can be quite a realistic alternative. On the other hand, if the grammar is complex, then it can rapdily escalate into task of much larger scale, comparible to that of the rest of the application.
+This option was found to be the most suitable for the <command>GDMS</command>. The grammar for the scripting language implemented by the batch version of <command>GDMS</command> is relatively simple,
+in that all commands are parsed based on only one line, and no recursion within productions is required.
 </para>
 </sect4>
 </sect3>
@@ -195,12 +181,26 @@ Because the grammar for the scripting language implemented by the batch version 
   
 <sect3><title>Integration</title>
 <para>
-A large amount of the user interface development has been integrating the graphical user interface to the various pieces of mathematical functionality in <command>GDMS</command>. This integration has been eased by following a standard process for integrating mathematical functionality. The process is as follows:
+A significant portion of the <command>GDMS</command> user interface development was integrating the various classes and features with the graphical user interface.
+  This integration has been facilitaded by a standard process for integrating mathematical functionality. The process is as follows:
 </para>
 
 <itemizedlist>
-<listitem><para><emphasis>All functionality is either accessed from the mouse, or a menu</emphasis>. This leads to a consistent user interface, and minimizes user confusion.</para></listitem>
-<listitem><para><emphasis>The output of all mathematical operations is a new dataset</emphasis>, and hence a new tab in the main application window. This has several advantages, including: easing the implementation of the batch interface to the application; allowing ease of comparison of the dataset before and after the application of the mathematical operation; and TODO SOMETHING ELSE HERE.</para></listitem>
+  <listitem>
+    <para><emphasis>All functionality is either accessed from the mouse, or a menu</emphasis>.
+       This leads to a consistent user interface, and minimises user confusion.
+  </para></listitem>
+  <listitem>
+    <para>
+      <emphasis>The output of all mathematical operations is a new dataset</emphasis>,
+      and hence a new tab in the main application window. This has several advantages, including:-
+        <itemizedlist>
+          <listitem><para>Facilitating the implementation of the batch interface to the application.</para></listitem>
+          <listitem><para>Allowing ease of comparison of the dataset before and after the application of the mathematical operation</para></listitem>
+          <listitem><para>And TODO SOMETHING ELSE HERE.</para></listitem>
+        </itemizedlist>
+    </para>
+  </listitem>
 </itemizedlist>
 
 <para>
@@ -215,7 +215,7 @@ Whilst the user interface for <command>GDMS</command> is fully functional, there
 </para>
 
 <itemizedlist>
-<listitem><para><emphasis>Online help</emphasis>: the application does not currently provide any help in the user interface. wxWindows supports the easy display of HTML files within windows, which would be a good technique for implementing online help within the application.</para></listitem>
+<listitem><para><emphasis>Online help</emphasis>: the application does not currently provide any help in the user interface. wxWindows supports the display of HTML files within windows, which would an efficient and standard method for the implementation of online help within the application.</para></listitem>
 <listitem><para>TODO</para></listitem>
 <listitem><para>TODO</para></listitem>
 <listitem><para>TODO</para></listitem>
