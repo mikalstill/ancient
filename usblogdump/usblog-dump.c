@@ -5,21 +5,20 @@
 // of the GNU GPL. If you find an URB marked "UNKNOWN", please email me 
 // the Snoopy Pro log, and the URB number of the problem URB.
 
-#include <stdio.h>
-#include <string.h>
-#include <errno.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <sys/mman.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <stdarg.h>
-#include <stdlib.h>
-#include <ctype.h>
-
+#include "usblogdump.h"
 #include "fileutil.h"
 #include "md5-global.h"
 #include "md5.h"
+#include "linux.h"
+#include "decode.h"
+
+char *urb_buffer = NULL;
+long urb_buffer_size = 0;
+long urb_buffer_inset = 0;
+int urb_reallocs = 0;
+
+int urbCount;
+usb_allurbs *urbhead;
 
 #define VERSION "(Version 0.4)"
 void
@@ -48,63 +47,6 @@ usage (char *name)
   printf ("\n");
 }
 
-char *functname (unsigned int function);
-
-// URB things
-void usb_urb_header (char *file, long long *filep);
-#define USB_URB_HEADER_LENGTH 16
-void usb_urb_controltransfer (char *file, long long *filep);
-void usb_urb_bulktransfer (char *file, long long *filep);
-void usb_urb_hcd (char *file, long long *filep);
-#define USB_URB_HCD_LENGTH 32
-void usb_urb_listentry (char *file, long long *filep);
-void usb_interface_info (char *file, long long *filep);
-void usb_pipe_info (char *file, long long *filep);
-void usb_ucd (char *file, long long *filep);
-void usb_setup_packet (char *file, long long *filep);
-
-// Output
-void dump_data(char *file, long long *filep, int psize, char *type);
-char *to_binary(unsigned char number);
-char *to_bcd(int twobcdbytes);
-int decodein, decodeout;
-
-// URB output
-char *urb_buffer = NULL;
-long urb_buffer_size = 0;
-long urb_buffer_inset = 0;
-int urb_reallocs = 0;
-void urb_printf (char *format, ...);
-char *urb_xsnprintf (char *format, va_list ap);
-void urb_printf_flags (unsigned int number);
-void urb_xfree (void *);
-char *md5hash (char *);
-
-// A structure to store all our URBs
-typedef struct usb_internal_allurbs
-{
-  int number;
-  long long filep;
-  int sequence;
-  unsigned int time;
-  int reallocs;
-  int deleted;
-
-  int rptlen;
-  int rpttimes;
-  int abend;
-
-  char *desc;
-  char *md5;
-
-  // Information about the URB
-  int endpoint;
-}
-usb_allurbs;
-
-// Used for correlation
-int hashcmp (usb_allurbs * head, int inset, int testinset, int length);
-
 int do_linux = 0, do_showhash = 0, 
   do_binarydumps = 0, do_excessivedumps = 0, do_informationaldumps = 0,
   do_decoder = 0, do_now = 0;
@@ -112,13 +54,12 @@ int do_linux = 0, do_showhash = 0,
 int
 main (int argc, char *argv[])
 {
-  int fd, npackets, otag, urbCount, function, psize, tsrelative, temp, temp2,
+  int fd, npackets, otag, function, psize, tsrelative, temp, temp2,
     numifaces, seq, length, inset, testinset, corrstep, matchcount, optchar,
     do_suppress = 0, do_showmatch = 0, do_verbose = 0, do_bulk = 0;
-  char *file, *input_filename = NULL, *decoder = NULL, *tempbinary;
+  char *file, *input_filename = NULL, *decoder = NULL;
   long long filep;
   struct stat sb;
-  usb_allurbs *urbhead;
   int transfer_direction;
   int max_bulk = 0;
 
@@ -288,7 +229,13 @@ main (int argc, char *argv[])
     {
       if (do_verbose == 1)
 	printf ("Grabbing URB %d\n", urbCount);
-      urbhead[urbCount].abend = 0;
+
+      // The logic for this is inverted for the linux mode. This is because if we can't
+      // output code for the URB, then we should notice...
+      if(do_linux == 1)
+	urbhead[urbCount].abend = 1;
+      else
+	urbhead[urbCount].abend = 0;
 
       // Get the object tag (a MFCism) -- it tells us if there is an object 
       // name coming up
@@ -334,8 +281,8 @@ main (int argc, char *argv[])
       urb_printf_flags(temp);
       if(temp & 0x00000001) urb_printf("\tEnd point known\n");
       if(temp & 0x00000002) urb_printf("\tPipehandle present\n");
-      if(temp & 0x00000004) urb_printf("\tDirection: in\n");
-      if(temp & 0x00000008) urb_printf("\tDirection: out\n");
+      if(temp & 0x00000004) urb_printf("\tDirection: in (device-to-host data transfer)\n");
+      if(temp & 0x00000008) urb_printf("\tDirection: out (host-to-device data transfer)\n");
       if(temp & 0x00000010) urb_printf("\tComing: up\n");
       else urb_printf("\tComing: down\n");
 
@@ -405,112 +352,15 @@ main (int argc, char *argv[])
 	  // GET_CURRENT_FRAME_NUMBER
 	case 0xB:
 	  // GET_DESCRIPTOR_FROM_DEVICE
+	  // These are implemented by the host controller chipset,
+	  // and therefore don't need anything from the linux mode
+	  // of dumping.
+	  if(do_linux == 1)
+	    urbhead[urbCount].abend = 0;
 	  break;
 
 	case 0x8:
-          // CONTROL_TRANSFER
-
-          psize = fileutil_getuinteger (file, &filep);
-          urb_printf ("Transfer size: %d\n", psize);
-
-          // Test whether data is present
-          if(psize != 0)
-            {
-              if(fileutil_getnumber (file, &filep) != 0)
-                {
-                  urb_printf ("Control Data: \n");
-		  if(do_informationaldumps == 1)
-		    {
-		      long long priorfilep = filep;
-		      char *tempbcd;
-
-		      // Skip the size byte (it's the same as the header)
-		      filep++;
-
-		      temp = file[filep++];
-		      switch(temp)
-			{
-			case 1:
-			  // DEVICE DESCRIPTOR
-			  urb_printf("\tDevice descriptor:\n");
-
-			  tempbcd = to_bcd(fileutil_getshort(file, &filep));
-			  urb_printf ("\t\tUSB specification version: %s\n", tempbcd);
-			  free(tempbcd);
-
-			  urb_printf("\t\tClass code: %d\n", file[filep++]);
-			  urb_printf("\t\tSubclass code: %d\n", file[filep++]);
-			  urb_printf("\t\tProtocol code: %d\n", file[filep++]);
-			  urb_printf("\t\tMaximum packet size for endpoint: %d\n", 
-				     file[filep++]);
-			  urb_printf("\t\tVendor id: %04x\n",
-				     fileutil_getshort(file, &filep));
-			  urb_printf("\t\tProduct id: %04x\n",
-				     fileutil_getshort(file, &filep));
-			  
-			  tempbcd = to_bcd(fileutil_getshort(file, &filep));
-			  urb_printf ("\t\tDevice release number: %s\n", tempbcd);
-			  free(tempbcd);
-
-			  urb_printf("\t\tManufacturer string index: %d\n", file[filep++]);
-			  urb_printf("\t\tProduct string index: %d\n", file[filep++]);
-			  urb_printf("\t\tSerial number string index: %d\n", file[filep++]);
-			  urb_printf("\t\tNumber of configurations: %d\n", file[filep++]);
-			  break;
-
-			case 2:
-			  // CONFIGURATION DESCRIPTOR
-			  urb_printf("\tConfiguration descriptor:\n");
-
-			  urb_printf("\t\tTotal length: %d\n",
-				     fileutil_getshort(file, &filep));
-			  urb_printf("\t\tNumber of interfaces: %d\n",
-				     file[filep++]);
-			  urb_printf("\t\tConfiguration value: %d\n",
-				     file[filep++]);
-			  urb_printf("\t\tConfiguration description string index: %d\n",
-				     file[filep++]);
-
-			  tempbinary = to_binary(file[filep]);
-			  urb_printf("\t\tPower and wakeup settings: %s\n",
-				     tempbinary);
-			  free(tempbinary);
-			  if(file[filep] & 0x20) urb_printf("\t\t\tDevice is self powered\n");
-			  if(file[filep] & 0x10) urb_printf("\t\t\tRemote wakeup supported\n");
-			  filep++;
-
-			  urb_printf("\t\tBus power required: %d (millamperes / 2)\n",
-				     file[filep++]);
-
-			  // We need to jump to the end, because there might be more here...
-			  if(psize != 9)
-			    {
-			      urb_printf("\n\t\tExtra data:\n");
-			      dump_data(file, &filep, psize - 9, "DUMP");
-			      urb_printf("\n");
-			    }
-			  break;
-
-			default:
-			  urb_printf("\tUnknown control transfer (0x%02x).\n\n", 
-				     (unsigned char) temp);
-			  filep = priorfilep;
-			  dump_data(file, &filep, psize, "CTRL");
-			  break;
-			}
-		    }
-		  else
-		    {
-		      dump_data(file, &filep, psize, "CTRL");
-		    }
-                }
-              urb_printf ("\n");
-            }
-
-          // And now read the control transfer header
-          // usb_urb_header(file, &filep);
-          filep += USB_URB_HEADER_LENGTH;
-          usb_urb_controltransfer (file, &filep);
+	  do_control_transfer(file, &filep);
 	  break;
 
 	case 0x9:
@@ -522,10 +372,11 @@ main (int argc, char *argv[])
 	  // Test whether data is present
 	  if (fileutil_getnumber (file, &filep) != 0)
 	    {
-	      urb_printf ("Bulk Data: number %d time %d %s\n",
-			  urbhead[urbCount].number + 1,
-			  urbhead[urbCount].time,
-			  ((0 == transfer_direction) ? "host-to-device" : "device-to-host"));
+	      // TODO: Should this be handed to the decoder?
+	      //	      urb_printf ("Bulk Data: number %d time %d %s\n",
+	      //			  urbhead[urbCount].number + 1,
+	      //			  urbhead[urbCount].time,
+	      //			  ((0 == transfer_direction) ? "host-to-device" : "device-to-host"));
 
 	      dump_data(file, &filep, 
 			(((do_bulk) && (psize > max_bulk)) ? max_bulk : psize),
@@ -612,10 +463,14 @@ main (int argc, char *argv[])
           break;
 
 	default:
+	  urbhead[urbCount].abend = 1;
+	}
+
+      if(urbhead[urbCount].abend == 1)
+	{
 	  urb_printf ("\n*** Unknown function ***\n\n");
 	  urb_printf ("Aborting further decoding. Please report this to\n");
 	  urb_printf ("Michael Still (mikal@stillhq.com)\n");
-	  urbhead[urbCount].abend = 1;
 	}
 
       urbhead[urbCount].desc = urb_buffer;
@@ -1438,3 +1293,48 @@ char *to_bcd(int twobcdbytes)
 	  (twobcdbytes << 16) >> 24);
   return retval;
 }
+
+// This function is like urb_printf but for code. I could probably
+// one day roll the two implementations together
+void
+code_printf (section sect, char *format, ...)
+{
+  va_list ap;
+  char *temp;
+  int templen;
+
+  printf("Code printf\n\n");
+
+  va_start (ap, format);
+  if(do_now == 1)
+    {
+      vprintf(format, ap);
+    }
+  else
+    {
+      // Get the string which is just this output
+      temp = urb_xsnprintf (format, ap);
+      templen = strlen (temp);
+      
+      // Append it to the buffer which is this URB
+      if (urb_buffer_inset + templen + 1 > urb_buffer_size)
+	{
+	  urb_buffer =
+	    (char *) realloc (urb_buffer, urb_buffer_size + templen + 500);
+	  if (urb_buffer == NULL)
+	    {
+	      perror("Memory allocation error");
+	      exit (42);
+	    }
+	  urb_buffer_size += templen + 500;
+	  urb_reallocs++;
+	}
+      strcpy (urb_buffer + urb_buffer_inset, temp);
+      urb_buffer_inset += templen;
+      
+      // Cleanup
+      free (temp);
+    }
+  va_end (ap);
+}
+
