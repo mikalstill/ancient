@@ -20,34 +20,31 @@
 */
 
 #include "cepDate.h"
-#include <iomanip>
-cepDate::cepDate (double date)
+
+cepDate::cepDate (const double &date)
 {
   int monthNums[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
   int i = 0;
-  int daysInYear = 365;
-  
+
+  m_decimalDate = date;
   m_year = m_day = m_month = 0;
   
   m_year = (int)date;
 
   // Check if leap year
-  if(((m_year % 100 == 0) && (m_year % 400 == 0)) ||
-    ((m_year % 100 != 0) && (m_year % 4 == 0)))
+  if(isLeap() == true)
   {
     monthNums[1] ++;
-    daysInYear ++;
+    m_day = (int)((date - m_year)/LEAP_DAY_VAL);
   }
-
-  m_dayVal = (float)1/daysInYear;
-
- 
-  // Get the day of Year number (0-365 or 366)
-  m_day = (int)((date - m_year)/m_dayVal);
-
+  else
+  {
+    m_day = (int)((date - m_year)/DAY_VAL);
+  }
+  
   //to accont for the fact that 1 Jan is day 0
   m_day ++;
-    
+
   // Get the day of month
   while ((i < 11) && (m_day - monthNums[i] > 0))
   {
@@ -55,7 +52,113 @@ cepDate::cepDate (double date)
     i++;
   }
 
+
   m_month = i;
+}
+
+cepDate::cepDate(const int &day, string month, const int &year)
+{
+  int monthNums[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+  double denom = 0.0;
+
+  m_year = year;
+  m_day = day - 1;
+  m_month = -1;
+
+  if(isLeap() == true)
+  {
+    monthNums[1]++;
+  }
+  
+  if(month.length() > 3){
+    for(int i = 0; i < 12; i ++)
+    {
+      if(month == MONTH_NAMES[i])
+      {
+        m_month = i;
+      }
+    }
+    if(m_month == -1)
+    {
+      cepError("Month Name: " + month + " is an invalid month name ", cepError::sevWarning);
+    }
+  }
+  else
+  {
+    for(int i = 0; i < 12; i ++)
+    {
+      if(month == SHORTMONTH_NAMES[i])
+      {
+        m_month = i;
+        cout << "in short month " << m_month << endl;
+      }
+    }
+    if(m_month == -1)
+    {
+      cepError("Month Name: " + month + " is an invalid month name ", cepError::sevWarning).display();
+      m_month = m_day = m_year = -1;
+      m_decimalDate = -1.0;
+    }
+  }
+
+  //caculate the number of days into the year as a decimal
+  if(m_month != -1)
+  {
+    if(m_day < monthNums[m_month])
+    {
+      if((m_day > 0) || (m_month > 0))
+      {
+        for(int i = 0; i < m_month; i ++)
+        {
+          denom += monthNums[i];
+        }
+
+        denom += m_day;
+        if(isLeap() == true)
+        {
+          denom *= LEAP_DAY_VAL;
+        }
+        else
+        {
+          denom *= DAY_VAL;
+        }
+
+        m_decimalDate = m_year + denom;
+
+        //add an offset to the decimal date to avoid possible rounding errors
+        m_decimalDate += OFFSET;
+        m_day ++;
+
+      }
+      else
+      {
+        //special case where day is 1 of January
+        if(m_day == 0)
+        {
+          m_decimalDate = (double)m_year;
+          m_decimalDate += OFFSET;
+          m_day ++;
+        }
+        else
+        {
+          cepError("Day Value: " + cepToString(day) + " is an invalid", cepError::sevWarning).display();
+          m_month = m_day = m_year = -1;
+          m_decimalDate = -1.0;
+        }
+      }
+    }
+    else
+    {
+      cepError("Day: " + cepToString(day) + " of " + month + " does not exist", cepError::sevWarning).display();
+      m_month = m_day = m_year = -1;
+      m_decimalDate = -1.0;
+    }  
+  }
+  else
+  {
+    m_year = -1;
+    m_day = -1;
+  }
 }
 
 const string cepDate::getDay()
@@ -152,4 +255,20 @@ const string cepDate::getLongDate()
   }
 
   return(day + " " + MONTH_NAMES[m_month] + " " + cepToString(m_year));
+}
+
+const double cepDate::getDecimalDate()
+{
+  return m_decimalDate;
+}
+
+bool cepDate::isLeap()
+{
+  if(((m_year % 100 == 0) && (m_year % 400 == 0)) ||
+    ((m_year % 100 != 0) && (m_year % 4 == 0)))
+  {
+    return true;
+  }
+
+  return false;
 }

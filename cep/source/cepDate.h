@@ -32,31 +32,55 @@ DOCBOOK START
 FUNCTION cepDate
 
 
-PURPOSE Converts a decimal date in the format of YYYY.DDDD, in which 1 day is
-equal to 0.0027 to a standard Gregorian date.
+PURPOSE Converts a decimal date in the format of YYYY.DDDD, where YYYY is a four
+digit year and DDDD is the number of days into that year as a decimal
+to a standard Gregorian date. <command>cepDate<command> will also convert a date
+in the form of DD MMMMMM YYYY to a decimal date, where DD is the day of the month -
+1..31 MMMMMM is the name of the month - either Jan...Dec or January...December and
+YYYY is a four Digit year. 
 
 SYNOPSIS START
-The follwing is an example of how to create a cepDate object.
+To create a cepDate object to convert a decimal date to a Gregorian date use:-
 
 cepDate date(value);
 
-where value is the decimal date to be converted.
+<para><itemizedlist>
+  <listitem><para>value:- The decimal value to be converted. It must be of the form
+    YYYY.DDDD where YYYY is the four digit year and DDDD is the decimal represenation
+    of the number of days into the year</para></listitem>
+</itemizedlist></para>
+
+To create a cepDate object to convert a Gregorian date to a decimal date use:-
+
+cepDate date(day, month, year);
+
+<para><itemizedlist>
+  <listitem><para>day:- interger value of the day of the month from 1..31</para></listitem>
+  <listitem><para>month:- the name of the month. This can be either Jan...Dec or
+    January...December</para></listitem>
+  <listitem><para>year:- interger value of the year</para></listitem>
+</itemizedlist></para>
+
+</para>
+
 
 SYNOPSIS END
 
 DESCRIPTION START
 An implementation of the <command>cepDate</command> class
-converts a decimal date to a Gegorian date.
+converts a decimal date to a Gegorian date or a Gregorian date to a decimal.
 </para>
 
 <para>
 <command>const string getDay()</command>
-returns day of month in the format of 01...31
+returns day of month in the format of 01...31. A return value of -1 indicates
+an error because the date entered was invalid.
 </para>
 
 <para>
 <command>const string getMonth()</command>
-returns month in the format of 01...12
+returns month in the format of 01...12. A return value of -1 indicates
+an error because the date entered was invalid.
 </para>
 
 <para>
@@ -65,8 +89,14 @@ returns month as a string in the format of January...December
 </para>
 
 <para>
+<command>const string getShortMonthName()</command>
+returns month as a string in the format of Jan...Dec
+</para>
+
+<para>
 <command>const string getYear()</command>
-returns year in the format of YYYY
+returns year in the format of YYYY. A return value of -1 indicates
+an error because the date entered was invalid.
 </para>
 
 <para>
@@ -77,6 +107,13 @@ returns date in short date in the format of DD/MM/YY
 <para>
 <command>const string getLongDate()</command>
 returns date in long date date in the format of DD MMMMMM YY
+</para>
+
+<para>
+<command>const string getDecimalDate()</command>
+returns the date as a decimal date in the form YYYY.DDDD. A return value of -1 indicates
+an error because the date entered was invalid.
+</para>
 
 DESCRIPTION END
 
@@ -92,13 +129,20 @@ const string SHORTMONTH_NAMES[12] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun",
 				      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 };
 
+const double LEAP_DAY_VAL = 0.002732240437;
+const double DAY_VAL = 0.002739726027;
+const double OFFSET = 0.0014;
+
 class cepError;
 
 class cepDate
 {
 public:
-  cepDate (double decimal);
 
+  cepDate (const double &decimal);
+
+  cepDate (const int &day, string month, const int &year);
+  
   // Returns day of month 01...31
   const string getDay();
 
@@ -120,11 +164,15 @@ public:
   // Returns date in long date format DD MMMMMM YY
   const string getLongDate();
 
+  // Returns a decimal date
+  const double getDecimalDate();
 private:
   int m_month,  
     m_day,
     m_year;
-  double m_dayVal;
+   double m_decimalDate;
+
+  bool isLeap();
 };
 
 #endif
