@@ -352,6 +352,10 @@ Here's a sample lookup file:
 <programlisting>
 <execute><cmd>cat</cmd><input>lookup.txt</input></execute>
 </programlisting>
+
+<para>
+You also need a <command>usleep</command> on your path. I couldn't find a Debian package containing this, so I wrote my own. If you need to install a <command>usleep</command>, then just compile usleep.c with a <emphasis>gcc -o usleep usleep.c</emphasis>, and copy it somewhere on your path.
+</para>
 </sect2>
 </sect1>
 
