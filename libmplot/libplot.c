@@ -1594,14 +1594,20 @@ plot_paintglyph (plot_state * state, char character, int dopaint, int countdirec
 // This uses a quick and dirty scaling algorithm based on accumulators -- the output
 // isn't very sexy, but it is fast. I should add more algorithms later...
 void plot_overlayraster(plot_state * state, char *raster,
-			unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2, 
-			unsigned int rx, unsigned int ry){
+			unsigned int x1, unsigned int y1, 
+			unsigned int x2, unsigned int y2, 
+			unsigned int rx, unsigned int ry,
+			int debug){
   unsigned int x, y, ix, iy;
   plot_pixel *pixels = (plot_pixel *) raster;
   float xscale, xacc, yscale, yacc;
+  plot_pixel last;
+  int lastcount = 0;
 
   xscale = ((float) (x2) - x1) / rx;
   yscale = ((float) (y2) - y1) / ry;
+  printf("Xscale = %f\n", xscale);
+  printf("Yscale = %f\n", yscale);
   yacc = 0.0;
 
   for(iy = 0, y = 0; y < ry; y++){
@@ -1613,10 +1619,24 @@ void plot_overlayraster(plot_state * state, char *raster,
       for(ix = 0, x = 0; x < rx; x++){
 	xacc += xscale;
 	while(xacc > 1.0){
-	  if((y1 + iy < state->y) && (x1 +ix < state->x))
+	  if((y1 + iy < state->y) && (x1 +ix < state->x)){
 	    state->raster[(y1 + iy) * state->x + x1 + ix] = pixels[y * rx + x];
+	    if(debug){
+	      if((pixels[y * rx + x].r != last.r) ||
+		 (pixels[y * rx + x].g != last.g) ||
+		 (pixels[y * rx + x].b != last.b)){
+		if(lastcount > 1)
+		  printf(" * %d ", lastcount);
+
+		printf(" [%d,%d,%d] ", pixels[y * rx + x].r, pixels[y * rx + x].g,
+		       pixels[y * rx + x].b);
+		last = pixels[y * rx + x];
+		lastcount = 0;
+	      }
+	      lastcount++;
+	    }
+	  }
 	  ix++;
-	  
 	  xacc -= 1.0;
 	}
       }

@@ -38,10 +38,10 @@ main (int argc, char *argv[])
   png_infop info;
   png_bytepp row_pointers = NULL;
   plot_state *graph;
-  char *raster, *gnu, *newgnu;
+  char *raster, *gnu, *newgnu, *input, *newinput;
   int gnubitdepth, gnuchannels;
 
-  if((graph = plot_newplot(300, 200)) == NULL){
+  if((graph = plot_newplot(900, 800)) == NULL){
     fprintf(stderr, "Could not allocate a new plot\n");
     exit(1);
   }
@@ -51,22 +51,51 @@ main (int argc, char *argv[])
     fprintf(stderr, "Cannot read the gnu.png test image\n");
     exit(42);
   }
+  printf("Gnu image is %d by %d @ %d channels and %d bits per channel\n",
+	 gnux, gnuy, gnuchannels, gnubitdepth);
   if((newgnu = inflateraster(gnu, gnux, gnuy, gnubitdepth, 8, gnuchannels, 3)) == -1){
     fprintf(stderr, "Cannot inflate the raster of the gnu image\n");
     exit(42);
   }
   
   // Shrink
-  plot_overlayraster(graph, newgnu, 10, 10, 90, 90, gnux, gnuy);
+  plot_overlayraster(graph, newgnu, 10, 10, 90, 90, gnux, gnuy, 0);
   plot_setlinecolor(graph, 255, 0, 0);
   plot_rectangle(graph, 10, 10, 90, 90);
   plot_strokeline(graph);
   plot_endline(graph);
 
   // Expand
-  plot_overlayraster(graph, newgnu, 100, 100, 900, 900, gnux, gnuy);
+  plot_overlayraster(graph, newgnu, 100, 100, 900, 900, gnux, gnuy, 0);
   plot_setlinecolor(graph, 255, 0, 0);
   plot_rectangle(graph, 100, 100, 900, 900);
+  plot_strokeline(graph);
+  plot_endline(graph);
+
+  // Get another raster to use for testing -- this time increasing samples as well
+  if((input = readimage("input.png", &gnux, &gnuy, &gnubitdepth, 
+			&gnuchannels)) == -1){
+    fprintf(stderr, "Cannot read the gnu.png test image\n");
+    exit(42);
+  }
+  printf("Input image is %d by %d @ %d channels and %d bits per channel\n",
+	 gnux, gnuy, gnuchannels, gnubitdepth);
+  
+  // This held me up for a little while -- the image is packed to 8 bits per
+  // pixel by the read, but is actually only using the values 0 and 1, which
+  // are too close to tell apart in 24 bit color land...
+  for(i = 0; i < gnux * gnuy; i++){
+    if(input[i] == 1) input[i] = 255;
+  }
+
+  if((newinput = inflateraster(input, gnux, gnuy, 8, 8, 
+			       gnuchannels, 3)) == -1){
+    fprintf(stderr, "Cannot inflate the raster image\n");
+    exit(42);
+  }
+  plot_overlayraster(graph, newinput, 100, 10, 800, 700, gnux, gnuy, 1);
+  plot_setlinecolor(graph, 255, 0, 0);
+  plot_rectangle(graph, 100, 10, 800, 700);
   plot_strokeline(graph);
   plot_endline(graph);
 
@@ -151,19 +180,19 @@ main (int argc, char *argv[])
   // Define important stuff about the image
   info->channels = 3;
   info->pixel_depth = 24;
-  png_set_IHDR (png, info, 300, 200, 8, PNG_COLOR_TYPE_RGB,
+  png_set_IHDR (png, info, 900, 800, 8, PNG_COLOR_TYPE_RGB,
                 PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT,
                 PNG_FILTER_TYPE_DEFAULT);
   png_write_info (png, info);
 
   // Write the image out
-  if((row_pointers = malloc (200 * sizeof (png_bytep))) == NULL){
+  if((row_pointers = malloc (800 * sizeof (png_bytep))) == NULL){
     fprintf(stderr, "Could not allocate memory\n");
     exit(42);
   }
 
-  for(i = 0; i < 200; i++){
-    row_pointers[i] = raster + (i * 300 * 3);
+  for(i = 0; i < 800; i++){
+    row_pointers[i] = raster + (i * 900 * 3);
   }
 
   png_write_image (png, row_pointers);

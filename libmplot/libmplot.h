@@ -117,8 +117,10 @@ void plot_circle (plot_state *, unsigned int, unsigned int, unsigned int);
 // Raster operations
 char *plot_getraster (plot_state * state);
 void plot_overlayraster(plot_state * state, char *raster,
-			unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2, 
-			unsigned int rx, unsigned int ry);
+			unsigned int x1, unsigned int y1, 
+			unsigned int x2, unsigned int y2, 
+			unsigned int rx, unsigned int ry,
+			int debug);
 
 // Internal methods
 unsigned int plot_min (unsigned int one, unsigned int two);
