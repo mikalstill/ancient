@@ -54,6 +54,7 @@
   </para>
 
   <sect3><title>Nearest Neighbour Interpolation</title>
+  <para>
     The simplest interpolation method provided.  Nearest neighbour interpolation
     simply set the value of any new point to the value of the nearest point on the
     original dataset.  The advantage of this is that any added points will be of
@@ -62,9 +63,16 @@
     any linear or frequency trends in the data, this could lead to inaccuracy of
     models both in the time and frequency domains.  Also if new points lie close to
     outliers then very inaccurate point may be generated
+  </para>
   </sect3>
   <sect3><title>Linear Interpolation</title>
-    Another simple method of interpolation.  Nearest neighbour interpolation
+  <para>
+    Nearest neighbour interpolation is widely used because it is still simple yet
+    generally produces better results than nearest neighbour.  To do nearest neighbour
+    interpolation each new point is placed on a line between the two adjacent points.
+    The Equation for adding a new point is:
+    where:
+  </para>
   </sect3>
   <para>
   For example a cubic spline interpolation provides a smooth curve with no instantaneous slope
