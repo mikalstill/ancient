@@ -17,9 +17,75 @@
   </sect2>
 
   <sect2><title>Implementation</title>
-    <para>Unit testing, as adopted by the extreme programming community, was chosen as the ideal framework to support our system.
-    A number of different libraries were examined as possible candidates and CPPUnit was selected as the most
-    appropriate.
+    <para>Unit testing, as adopted by the extreme programming community, was chosen as the ideal framework to
+    support our system. A number of different libraries were examined as possible candidates and CPPUnit was
+    selected as the most appropriate.
+    </para>
+    <para>CPPUNit is a C++ framework based closely on the very mature JUnit testing framework. It allows the developers
+    to write simple, focussed tests, and provides a number of assertions with which to validate results gained
+    throughout the test.
+    </para>
+    <para>
+    The tests have a couple of special methods which designed to support test independence. The first is setUp(),
+    which is executed immediately prior to running each test, and the second is tearDown() which is run immediately
+    after each test. These allow the developers to setup dependencies for each test and to deallocate resources that
+    the test required.
+    <programlisting>
+    namespace {
+    class Test : public CppUnit::TestFixture {
+
+    public:
+      /* default constructor */
+      Test() : CppUnit::TestFixture() {}
+
+      /** setup - run prior to each test */
+      void setUp ()
+      { /* initialise any resources*/ }
+
+      /** teardown - run after each test */
+      void tearDown ()
+      { /* free any allocated resources */ }
+
+     /**
+      * constructs a test suite.
+      * Add your tests to the suite by copying and editing the addTest call
+      */
+      static CppUnit::Test *suite()
+      {
+        CppUnit::TestSuite *suiteOfTests = new CppUnit::TestSuite( "Test" );
+
+        /* REGISTER YOUR TEST HERE */
+        suiteOfTests->addTest(
+          new CppUnit::TestCaller<Test>( "sampleTest", &Test::sampleTest ) );
+        return suiteOfTests;
+      }
+
+    protected:
+
+
+      /**
+      * DEFINE YOUR TESTS HERE:
+      * make your tests protected since you dont need to expose them
+      */
+
+      /** simple test 1. uses a generic assert true macro */
+      void sampleTest ()
+      {
+        char* foo = (char*)malloc(32);
+        CPPUNIT_ASSERT_MESSAGE ("foo failed", foo != 0);
+        free(foo);
+      }
+
+    }; // end Test
+
+    /**
+     * Register the test immeditely after definition. This should probably
+     * be done in the class header file for larger projects
+     */
+    CPPUNIT_TEST_SUITE_REGISTRATION( Test );
+
+    } // end namespace
+    </programlisting>
     </para>
     <para>
     Testing has been used extensively to support the validation of the mathematical subsystem. There are currently 84 tests spread across
