@@ -13,7 +13,7 @@ while(<STDIN>){
 	print $1;
 	@args = split(/:/, $2);
 	if($args[0] ne "todo"){
-	    print `$args[0] < $args[1]`;
+	    print `$args[0] $args[1] < $args[1]`;
 	}
 	else{
 	    print "<figure>\n";

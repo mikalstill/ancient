@@ -115,10 +115,7 @@ This concept works for grayscale images as well. The only difference is that the
 
 </chapter>
 
-<chapter id="chap-jpeg"><title>JPEG</title>
-<para>
-...
-</para>
+%builddb.pl:jpeg.sgml%
 
 <sect1><title>Further reading</title>
 <para>

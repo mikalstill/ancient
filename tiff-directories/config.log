@@ -15,14 +15,12 @@ configure:934: checking whether the C compiler (gcc  ) works
 configure:950: gcc -o conftest    conftest.c  1>&5
 configure:976: checking whether the C compiler (gcc  ) is a cross-compiler
 configure:981: checking whether we are using GNU C
-configure:990: gcc -E conftest.c
 configure:1009: checking whether gcc accepts -g
 configure:1045: checking for c++
 configure:1077: checking whether the C++ compiler (c++  ) works
 configure:1093: c++ -o conftest    conftest.C  1>&5
 configure:1119: checking whether the C++ compiler (c++  ) is a cross-compiler
 configure:1124: checking whether we are using GNU C++
-configure:1133: c++ -E conftest.C
 configure:1152: checking whether c++ accepts -g
 configure:1195: checking for a BSD compatible install
 configure:1250: checking for ranlib
@@ -30,13 +28,10 @@ configure:1353: checking host system type
 configure:1374: checking build system type
 configure:1403: checking for ld used by GCC
 configure:1466: checking if the linker (/usr/bin/ld) is GNU ld
-GNU ld version 2.10.91 (with BFD 2.10.91.0.2)
 configure:1482: checking for BSD-compatible nm
 configure:1519: checking whether ln -s works
 ltconfig:603: checking for object suffix
 ltconfig:604: gcc -c -g -O2  conftest.c 1>&5
-ltconfig:629: checking for executable suffix
-ltconfig:630: gcc -o conftest -g -O2   conftest.c  1>&5
 ltconfig:776: checking if gcc PIC flag -fPIC works
 ltconfig:777: gcc -c -g -O2 -fPIC -DPIC  conftest.c 1>&5
 ltconfig:829: checking if gcc supports -c -o file.o
@@ -52,68 +47,11 @@ ltconfig:1635: checking if global_symbol_pipe works
 ltconfig:1636: gcc -c -g -O2  conftest.c 1>&5
 ltconfig:1639: eval "/usr/bin/nm -B conftest.o | sed -n -e 's/^.*[ 	]\([ABCDGISTW]\)[ 	][ 	]*\(\)\([_A-Za-z][_A-Za-z0-9]*\)$/\1 \2\3 \3/p' > conftest.nm"
 ltconfig:1691: gcc -o conftest -g -O2 -fno-builtin -fno-rtti -fno-exceptions   conftest.c conftstm.o 1>&5
-ltconfig:2212: checking for dlopen in -ldl
-ltconfig:2233: gcc -o conftest -g -O2 -fno-builtin -fno-rtti -fno-exceptions   conftest.c -ldl   1>&5
 ltconfig:2452: checking for dlfcn.h
-ltconfig:2462: gcc -c -g -O2 -fno-builtin -fno-rtti -fno-exceptions  conftest.c 1>&5 >/dev/null 2>conftest.out
 ltconfig:2490: checking whether a program can dlopen itself
-ltconfig:2544: gcc -o conftest -g -O2 -fno-builtin -fno-rtti -fno-exceptions  -DHAVE_DLFCN_H  -Wl,--export-dynamic conftest.c -ldl  1>&5
 ltconfig:2563: checking whether a statically linked program can dlopen itself
-ltconfig:2617: gcc -o conftest -g -O2 -fno-builtin -fno-rtti -fno-exceptions  -DHAVE_DLFCN_H  -Wl,--export-dynamic -static conftest.c -ldl  1>&5
-ltconfig: failed program was:
-#line 2571 "ltconfig"
-
-#if HAVE_DLFCN_H
-#include <dlfcn.h>
-#endif
-
-#include <stdio.h>
-
-#ifdef RTLD_GLOBAL
-# define LTDL_GLOBAL	RTLD_GLOBAL
-#else
-# ifdef DL_GLOBAL
-#  define LTDL_GLOBAL	DL_GLOBAL
-# else
-#  define LTDL_GLOBAL	0
-# endif
-#endif
-
-/* We may have to define LTDL_LAZY_OR_NOW in the command line if we
-   find out it does not work in some platform. */
-#ifndef LTDL_LAZY_OR_NOW
-# ifdef RTLD_LAZY
-#  define LTDL_LAZY_OR_NOW	RTLD_LAZY
-# else
-#  ifdef DL_LAZY
-#   define LTDL_LAZY_OR_NOW	DL_LAZY
-#  else
-#   ifdef RTLD_NOW
-#    define LTDL_LAZY_OR_NOW	RTLD_NOW
-#   else
-#    ifdef DL_NOW
-#     define LTDL_LAZY_OR_NOW	DL_NOW
-#    else
-#     define LTDL_LAZY_OR_NOW	0
-#    endif
-#   endif
-#  endif
-# endif
-#endif
-
-fnord() { int i=42;}
-main() { void *self, *ptr1, *ptr2; self=dlopen(0,LTDL_GLOBAL|LTDL_LAZY_OR_NOW);
-    if(self) { ptr1=dlsym(self,"fnord"); ptr2=dlsym(self,"_fnord");
-    if(ptr1 || ptr2) { dlclose(self); exit(0); } } exit(1); } 
-
 configure:1925: checking for pow in -lm
-configure:1944: gcc -o conftest -g -O2   conftest.c -lm   1>&5
 configure:1973: checking for TIFFOpen in -ltiff
-configure:1992: gcc -o conftest -g -O2   conftest.c -ltiff  -lm  1>&5
 configure:2021: checking how to run the C preprocessor
-configure:2042: gcc -E  conftest.c >/dev/null 2>conftest.out
 configure:2101: checking for ANSI C header files
-configure:2114: gcc -E  conftest.c >/dev/null 2>conftest.out
-configure:2181: gcc -o conftest -g -O2   conftest.c -ltiff -lm  1>&5
 configure:2208: checking for tiffio.h
-configure:2218: gcc -E  conftest.c >/dev/null 2>conftest.out

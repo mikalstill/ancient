@@ -40,7 +40,7 @@ s%@CFLAGS@%-g -O2%g
 s%@CPPFLAGS@%%g
 s%@CXXFLAGS@%-g -O2%g
 s%@FFLAGS@%%g
-s%@DEFS@% -DPACKAGE=\"pixel\" -DVERSION=\"0.1\" -DHAVE_LIBM=1 -DHAVE_LIBTIFF=1 -DSTDC_HEADERS=1 -DHAVE_TIFFIO_H=1 %g
+s%@DEFS@% -DPACKAGE=\"create\" -DVERSION=\"0.1\" -DHAVE_LIBM=1 -DHAVE_LIBTIFF=1 -DSTDC_HEADERS=1 -DHAVE_TIFFIO_H=1 %g
 s%@LDFLAGS@%%g
 s%@LIBS@%-ltiff -lm %g
 s%@exec_prefix@%${prefix}%g
@@ -61,7 +61,7 @@ s%@mandir@%${prefix}/man%g
 s%@INSTALL_PROGRAM@%${INSTALL}%g
 s%@INSTALL_SCRIPT@%${INSTALL_PROGRAM}%g
 s%@INSTALL_DATA@%${INSTALL} -m 644%g
-s%@PACKAGE@%pixel%g
+s%@PACKAGE@%create%g
 s%@VERSION@%0.1%g
 s%@ACLOCAL@%aclocal%g
 s%@AUTOCONF@%autoconf%g

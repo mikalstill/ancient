@@ -34,9 +34,9 @@ oldincludedir = /usr/include
 
 DESTDIR =
 
-pkgdatadir = $(datadir)/pixel
-pkglibdir = $(libdir)/pixel
-pkgincludedir = $(includedir)/pixel
+pkgdatadir = $(datadir)/create
+pkglibdir = $(libdir)/create
+pkgincludedir = $(includedir)/create
 
 top_builddir = .
 
@@ -71,26 +71,31 @@ MAINT = #
 MAKEINFO = makeinfo
 NM = /usr/bin/nm -B
 OBJDUMP = 
-PACKAGE = pixel
+PACKAGE = create
 RANLIB = ranlib
 VERSION = 0.1
 
-noinst_PROGRAMS = pixel
-pixel_SOURCES = pixel.c
+noinst_PROGRAMS = create read
+create_SOURCES = create.c
+read_SOURCES = read.c
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
 CONFIG_CLEAN_FILES = 
 PROGRAMS =  $(noinst_PROGRAMS)
 
 
-DEFS =  -DPACKAGE=\"pixel\" -DVERSION=\"0.1\" -DHAVE_LIBM=1 -DHAVE_LIBTIFF=1 -DSTDC_HEADERS=1 -DHAVE_TIFFIO_H=1  -I. -I$(srcdir) 
+DEFS =  -DPACKAGE=\"create\" -DVERSION=\"0.1\" -DHAVE_LIBM=1 -DHAVE_LIBTIFF=1 -DSTDC_HEADERS=1 -DHAVE_TIFFIO_H=1  -I. -I$(srcdir) 
 CPPFLAGS = 
 LDFLAGS = 
 LIBS = -ltiff -lm 
-pixel_OBJECTS =  pixel.o
-pixel_LDADD = $(LDADD)
-pixel_DEPENDENCIES = 
-pixel_LDFLAGS = 
+create_OBJECTS =  create.o
+create_LDADD = $(LDADD)
+create_DEPENDENCIES = 
+create_LDFLAGS = 
+read_OBJECTS =  read.o
+read_LDADD = $(LDADD)
+read_DEPENDENCIES = 
+read_LDFLAGS = 
 CFLAGS = -g -O2
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -103,9 +108,9 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = gtar
 GZIP_ENV = --best
-DEP_FILES =  .deps/pixel.P
-SOURCES = $(pixel_SOURCES)
-OBJECTS = $(pixel_OBJECTS)
+DEP_FILES =  .deps/create.P .deps/read.P
+SOURCES = $(create_SOURCES) $(read_SOURCES)
+OBJECTS = $(create_OBJECTS) $(read_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
@@ -150,9 +155,13 @@ distclean-compile:
 
 maintainer-clean-compile:
 
-pixel: $(pixel_OBJECTS) $(pixel_DEPENDENCIES)
-	@rm -f pixel
-	$(LINK) $(pixel_LDFLAGS) $(pixel_OBJECTS) $(pixel_LDADD) $(LIBS)
+create: $(create_OBJECTS) $(create_DEPENDENCIES)
+	@rm -f create
+	$(LINK) $(create_LDFLAGS) $(create_OBJECTS) $(create_LDADD) $(LIBS)
+
+read: $(read_OBJECTS) $(read_DEPENDENCIES)
+	@rm -f read
+	$(LINK) $(read_LDFLAGS) $(read_OBJECTS) $(read_LDADD) $(LIBS)
 
 tags: TAGS
 

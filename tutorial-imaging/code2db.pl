@@ -3,6 +3,7 @@
 use strict;
 
 # Make C code safe for display in docbook
+print "<programlisting>\n";
 
 while(<STDIN>){
     chomp;
@@ -14,3 +15,6 @@ while(<STDIN>){
 
     print "$_\n";
 }
+
+print "</programlisting>\n";
+print "<para><emphasis>Code: $ARGV[0]</emphasis></para>\n";

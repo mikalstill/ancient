@@ -277,6 +277,6 @@ void
 usage (char *cmd, int exitamt)
 {
   fprintf (stderr, "Bad command line arguements...\n\n");
-  fprintf (stderr, "Usage: %s -i <inputfile> -o <outputfile>\n", cmd);
+  fprintf (stderr, "Usage: %s -i <inputfile> -o <outputfile> -x <start x> -y <start y> -w <width> -l <length>\n", cmd);
   exit (exitamt);
 }
