@@ -52,13 +52,13 @@ KDE development started in October 1996 (KDE 2002), as a replacement for Sun's C
 
 <sect4><title>Gnome</title>
 <para>
-Gnome is the default window manager and windowing toolkit set for the majority of Linux distributions, including Linux, 
+Gnome is the default window manager and windowing toolkit set for many Linux distributions, including Red Hat Linux, 
 which the Survey Lab at the University of Canberra makes extensive use of. Gnome is implemented using the GTK windowing 
 toolkit (GTK 2002).
 </para>
 
 <para>
-Sun Microsystems have recently announced that from Solaris 8 on wards, Gnome will be available as a window manager. 
+Sun Microsystems have recently announced that from Solaris 8, Gnome will be available as a window manager. 
 They have also announce that CDE will be replaced with Gnome in future releases (Sun Microsystems 2002).
 </para>
 
@@ -267,7 +267,7 @@ there are a variety of improvements which could be made in the future. These inc
   that a failure will not stop all calculations.</para></listitem>
 <listitem>
   <para><emphasis>Greater flexibility in the batch user interface</emphasis>: Further research into what other
-  commands should be implemented needs to be undertaken</para></listitem>
+  commands should be implemented needs to be undertaken.</para></listitem>
 <listitem>
   <para><emphasis>The ability to determine the value of the nearest data point by hovering over
   it</emphasis>: Currently the application checks the location of the mouse and looks up the relevant graph values.
@@ -283,8 +283,8 @@ there are a variety of improvements which could be made in the future. These inc
   uncooperative plotting library this was abandoned.</para></listitem>
 <listitem>
   <para><emphasis>Analysis of plotting precision</emphasis>: currently the precision of the graphs is such that
-  using high sampling frequencies can cause the graphs to lose precision. Analysis of the plotting functions
-  needs to be considered to minimise this</para></listitem>
+  using high sampling frequencies and cause them to lose precision. Analysis of the plotting functions
+  needs to be considered to minimise this.</para></listitem>
 </itemizedlist>
 </sect3> <!--Future Enahncements-->
 
