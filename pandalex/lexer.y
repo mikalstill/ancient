@@ -25,11 +25,14 @@
 }
 
 %token <textVal> VERSION
-%token <textVal> NAME <textVal> DBLLTNAME <textVal> STRING
-%token <textVal> OBJREF <textVal> OBJ <textVal> ENDOBJ <intVal> INT 
-%token <textVal> FP <textVal> DBLLT <textVal> DBLGT 
+%token <textVal> NAME
+%token <textVal> STRING
+%token <textVal> OBJREF <textVal> OBJ <textVal> ENDOBJ 
+%token <intVal> INT
+%token <textVal> FP
+%token <textVal> DBLLT <textVal> DBLGT
 %token <textVal> STREAM <textVal> ENDSTREAM
-%token <textVal> ARRAY <textVal> ENDARRAY
+%token <textVal> ARRAY <textVal> ENDARRAY <textVal> ENDARRAYDBLGT
 %token <textVal> PDFEOF XREF TRAILER
 %token <sval> ANYTHING
 
@@ -72,26 +75,7 @@ object    : INT INT OBJ { pandalex_callback(pandalex_event_objstart, $1, $2); }
             stream ENDOBJ {}
           ;
 
-// DBLLTNAME required for dodgy generators -- davince and typereader
-// todo_mikal: fully implement
 dictionary: DBLLT dict DBLGT { $$ = -1; }
-
-          | DBLLTNAME STRING dict DBLGT { $$ = -1; }
-          | DBLLTNAME NAME dict DBLGT { $$ = -1; }
-          | DBLLTNAME ARRAY dict DBLGT { $$ = -1; }
-          | DBLLTNAME objref dict DBLGT { $$ = -1; }
-          | DBLLTNAME DBLLT dict DBLGT dict DBLGT { $$ = -1; }
-          | DBLLTNAME INT dict DBLGT { $$ = -1; }
-          | DBLLTNAME FP dict DBLGT { $$ = -1; }
-
-          | DBLLTNAME STRING DBLGT { $$ = -1; }
-          | DBLLTNAME NAME DBLGT { $$ = -1; }
-          | DBLLTNAME ARRAY DBLGT { $$ = -1; }
-          | DBLLTNAME objref DBLGT { $$ = -1; }
-          | DBLLTNAME DBLLT dict DBLGT DBLGT { $$ = -1; }
-          | DBLLTNAME INT DBLGT { $$ = -1; }
-          | DBLLTNAME FP DBLGT { $$ = -1; }
-
           | INT { $$ = $1; }
           | ARRAY arrayvals ENDARRAY { $$ = -1; }
           | objref { $$ = -1; }
@@ -105,7 +89,7 @@ dict      : NAME STRING { pandalex_callback(pandalex_event_dictitem_string, $1, 
           | NAME objref { pandalex_callback(pandalex_event_dictitem_object, $1, $2); } dict
           | NAME dictionary { pandalex_callback(pandalex_event_dictitem_dict, $1, $2); } dict
           | NAME INT { pandalex_callback(pandalex_event_dictitem_int, $1, $2); } dict
-          | NAME FP dict {} dict
+          | NAME FP {} dict
           | 
           ;
 
