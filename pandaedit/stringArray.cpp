@@ -27,12 +27,8 @@ m_broken (0, string ("")), m_unbroken (input)
 {
   char *temp, *p;
 
-  debug(dlTrace, string("String array input length is ") + 
-	toString(input.length()));
   if(input.length() > 0)
     {
-      debug(dlTrace, "String array non empty input");
-
       // Break the string by the delimiter
       temp = strdup (input.c_str ());
       p = strtok (temp, delim.c_str ());
@@ -42,8 +38,6 @@ m_broken (0, string ("")), m_unbroken (input)
 	  // todo_mikal: why didn't I just use a push_back() here?
 	  m_broken.resize (m_broken.size () + 1);
 	  m_broken[m_broken.size () - 1] = p;
-	  debug(dlTrace, string("stringArray contains: ") + p);
-	  
 	  p = strtok (NULL, delim.c_str ());
 	}
       

@@ -1,5 +1,3 @@
-/* A sample application using pandalex -- this is pandaedit */
-
 #include "pandaedit.h"
 #include "stringArray.h"
 #include "objectmodel.h"
@@ -15,8 +13,11 @@ stack < dictionary > currentDictionary;
 stack < string > currentDictionaryName;
 progressCallback gProgress = NULL;
 
+// This parsing method is known to be quite slow
+// TODO mikal: try using the xref table first, before falling back on an 
+// exhaustive scan
 pdf *
-pandaedit (char *filename, const progressCallback progress)
+parse (char *filename, const progressCallback progress)
 {
   pandalex_init ();
 

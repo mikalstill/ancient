@@ -39,7 +39,7 @@
 #ifndef __DOCSAMPLEH__
 #define __DOCSAMPLEH__
 
-#include "wx/docview.h"
+#include <wx/docview.h>
 #include <wx/progdlg.h>
 
 #include "pandaedit.h"

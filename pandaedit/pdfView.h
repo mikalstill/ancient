@@ -53,12 +53,14 @@ public:
    ~pdfView ();
 
   void setParentFrame (wxFrame * parentFrame);
+  void setDirty();
 
   bool OnCreate (wxDocument * doc, long flags);
   void OnDraw (wxDC * dc);
   void OnUpdate (wxView * sender, wxObject * hint = (wxObject *) NULL);
   bool OnClose (bool deleteWindow = TRUE);
 
+  void OnNewPage (wxCommandEvent & event);
   void OnNextPage (wxCommandEvent & event);
   void OnPrevPage (wxCommandEvent & event);
   void OnLineTool (wxCommandEvent & event);
@@ -70,10 +72,11 @@ public:
   
 
 private:
-  void populatePageFromPDF(pdf *thePDF, string& filename);
+  bool populatePageFromPDF(pdf *thePDF, string& filename);
 
   pageCache m_renders;
   int m_page;
+  bool m_dirty;
   string m_currentToolDesc;
   tool m_currentTool;
 

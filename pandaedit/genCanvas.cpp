@@ -1,5 +1,5 @@
 /* 
- *   Canvas for the CEP program
+ *   Canvas for pandaedit
  *   Copyright (C) Michael Still                    2002
  *
  *   Based on a demo which originally had this notice:
@@ -100,17 +100,19 @@ genCanvas::OnMouseEvent (wxMouseEvent & event)
 	commandString += string("S");
 
       if(m_view)
-	((pdfView *) m_view)->appendCommand(commandString);
+	{
+	  ((pdfView *) m_view)->appendCommand(commandString);
+	  ((pdfView *) m_view)->setDirty();
+	  Refresh();
+	}
       m_controlPoints.clear();
     }
   
   // Continue with the current tool
   else if(event.LeftIsDown())
   {
-      debug(dlTrace, "Obtaining device context");
       wxClientDC dc (this);
       PrepareDC (dc);
-      debug(dlTrace, "Device context ready");
       
       // This sets the device context so that our drawing causes an inversion, 
       // lines are drawn with black, and polygons are filled with black.

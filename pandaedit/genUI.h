@@ -92,7 +92,8 @@ enum{
     GENMENU_PREVPAGE,
     GENMENU_BINARYDEBUG,
     GENMENU_DOCINFO,
-    GENMENU_LINETOOL
+    GENMENU_LINETOOL,
+    GENMENU_NEWPAGE
     };
 
 extern bool singleWindowMode;

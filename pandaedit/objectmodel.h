@@ -46,16 +46,18 @@ public:
     diTypeArray,
     diTypeObjectReference,
     diTypeDictionary,
-    diTypeInt
+    diTypeInt,
+    diTypeUnset
   };
 
   dictitem ();
-  dictitem (diType type, string name, pdf *thePDF);
+  dictitem (string name, pdf *thePDF);
 
   void setValue (string value);
   void setValue (int num, int gen);
   void setValue (int integer);
   void setValue (dictionary dict);
+  void setValue (objectlist& objs);
 
   diType getType ();
   string getName ();
@@ -95,6 +97,10 @@ public:
   bool getValue (string dname, dictionary & subdict);
   bool getValue (string dname, int &value);
   bool getValue (string dname, pdf &thePDF, objectlist & value);
+
+  // TODO mikal: for the object model to be complete, I need the rest
+  // of these here...
+  bool setValue (string dname, objectlist & value);
 
   vector < dictitem > getItems ();
 
@@ -161,6 +167,7 @@ public:
   void push_back(const objectreference &ref, pdf* thePDF);
   void push_back(const object &obj, pdf* thePDF);
   void push_back(const string objs, pdf* thePDF);
+  string getString();
 
 private:
   vector < objectreference > m_objects;

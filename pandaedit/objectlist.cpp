@@ -18,10 +18,18 @@ objectlist::objectlist (string input, pdf* thePDF)
 object
 objectlist::operator[] (unsigned int i)
 {
-  // todo_mikal: this is a hack
+  debug(dlTrace, string("Objectlist item ") + toString(i) + 
+	string(" lookup from a ") + 
+	toString(m_objects.size()) + 
+	string(" item list"));
   object foo (objNumNoSuch, objNumNoSuch);
   object & obj = foo;
   
+  if((i >= size()) || (i < 0)){
+    debug(dlTrace, "Request for non existant object");
+    return obj;
+  }
+
   if(m_pdf){
     m_pdf->findObject (m_objects[i].number, m_objects[i].generation, obj);
   }
@@ -41,6 +49,7 @@ objectlist::size ()
 void
 objectlist::push_back(const objectreference& ref, pdf *thePDF)
 {
+  debug(dlTrace, "Appending object reference to list");
   m_pdf = thePDF;
   m_objects.push_back(ref);
 }
@@ -48,6 +57,7 @@ objectlist::push_back(const objectreference& ref, pdf *thePDF)
 void
 objectlist::push_back(const object &obj, pdf* thePDF)
 {
+  debug(dlTrace, "Appending object to list");
   m_pdf = thePDF;
 
   objectreference temp;
@@ -62,18 +72,39 @@ objectlist::push_back(const string input, pdf *thePDF)
   // There might be non numeric stuff in the first few characters which
   // we don't want. For instance Oracle Reports puts \r's after the [ and
   // before the ]...
+  debug(dlTrace, "Appending string object \"" + input + "\" to list");
   m_pdf = thePDF;
 
-  unsigned int startchar = 0;
-  while(!isNumericCharacter(input[startchar], false))
-    startchar++;
+  // Check that there is any input
+  if(input.length() == 0){
+    debug(dlTrace, "Attempt to add empty string to object list");
+    return;
+  }
 
-  stringArray tokens (input.substr (startchar, 
-				    input.length () - startchar - 1), " ");
+  // Find the first numeric argument in the string, if any
+  unsigned int startchar = 0;
+  while(!isNumericCharacter(input[startchar], false)){
+    startchar++;
+    if(startchar > input.length()){
+      debug(dlTrace, "No numeric arguements in string");
+      return;
+    }
+  }
+
+  // Split the string up
+  string objString = input.substr (startchar,
+				   input.length () - startchar - 1);
+  debug(dlTrace, "The object string is \"" + objString + "\"");
+  stringArray tokens (objString, " ");
   objectreference ref;
 
-  debug(dlTrace, string("Started constructing object list from ") +
-	  input.substr (startchar, input.length () - startchar - 1));
+  if(tokens.size() == 0){
+    debug(dlTrace, "Attempt to add a nicely formatted empty string to "
+	  "object list");
+    return;
+  }
+
+  // Process all of the portions
   for(unsigned int inset = 0; inset < tokens.size();)
     {
       debug(dlTrace, string("Processing object candidate: ") +
@@ -134,4 +165,19 @@ objectlist::push_back(const string input, pdf *thePDF)
 
   debug(dlTrace, string("Built a ") + toString(m_objects.size()) + 
 	string(" item list"));
+}
+
+string
+objectlist::getString()
+{
+  string rc("[");
+
+  for(unsigned int c = 0; c < size(); c++)
+    {
+      if(c != 0) rc += " ";
+      rc += toString(m_objects[c].number) + " " + 
+	toString(m_objects[c].generation) + " R";
+    }
+
+  return rc;
 }

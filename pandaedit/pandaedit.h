@@ -15,7 +15,7 @@
 
 typedef void (*progressCallback) (void);
 
-pdf *pandaedit (char *filename, const progressCallback progress);
+pdf *parse (char *filename, const progressCallback progress);
 
 // Parsing interface
 void pandaedit_begindocument (int, va_list);

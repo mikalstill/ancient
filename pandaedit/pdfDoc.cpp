@@ -52,6 +52,9 @@
 #error You must set wxUSE_DOC_VIEW_ARCHITECTURE to 1 in setup.h!
 #endif
 
+#include  <panda/functions.h>
+#include  <panda/constants.h>
+
 #include "pdfDoc.h"
 #include "pdfView.h"
 #include "objectmodel.h"
@@ -80,6 +83,38 @@ pdfDoc::OnSaveDocument (const wxString & filename)
   // todo_mikal: truncate filename?
   m_filename = filename;
   debug(dlTrace, string("Saving file: ") + filename.c_str());
+
+  // The current tactic is to ignore completely the structure that is provided
+  // by the in-memory objects -- this is too hard to integrate with Panda.
+  // Instead, we just use Panda to creata a whole new PDF. The exception is
+  // that streams are pushed straight into the new Panda objects...
+  panda_pdf *output;
+  panda_page *pg;
+
+  panda_init();
+  if((output = panda_open((char *) filename.c_str(), "w")) == NULL)
+    {
+      debug(dlError, "Could not open PDF file for output");
+      return FALSE;
+    }
+
+  // TODO mikal: compression left off for debugging...
+  // TODO mikal: pages are assumed to be a4
+  debug(dlTrace, string("Saving ") + toString(m_pages.size()) +
+	string(" pages"));
+  for(unsigned int count = 0; count < m_pages.size(); count++)
+    {
+      debug(dlTrace, string("Saving page ") + toString(count));
+      pg = panda_newpage(output, panda_pagesize_a4);
+
+      // Push the drawing commands into the pages stream (skip the Panda
+      // creator functions, but use Panda to keep track of bytes etc)
+      pg->obj->layoutstream = panda_streamprintf(pg->obj->layoutstream,
+					   (char *) m_pages[count].
+						 getCommandStream().c_str());
+    }
+
+  panda_close(output);
   return TRUE;
 }
 
@@ -105,11 +140,13 @@ pdfDoc::OnOpenDocument (const wxString & filename)
 
   m_progressCount = 0;
   m_progressMax = 10;
+  debug(dlTrace, "Prompting user for a document to open");
   m_progress = new wxProgressDialog ("Loading PDF file",
 				     "Please wait while the PDF file is parsed");
 
+  debug(dlTrace, "Starting PDF parse");
   // todo_mikal: check return code
-  if ((m_pdf = pandaedit ((char *) filename.c_str (), ds_progressCallback)) != 
+  if ((m_pdf = parse ((char *) filename.c_str (), ds_progressCallback)) != 
       NULL)
     {
       ((wxFrame *) wxGetApp ().GetTopWindow ())->
@@ -216,17 +253,17 @@ pdfDoc::appendPage()
   // We might also not have a catalog
   object foo(objNumNoSuch, objNumNoSuch);
   object & catalog = foo;
-  if (!m_pdf->findObject (dictitem::diTypeName, "Type", "Catalog", catalog))
+  if (!m_pdf->findObject (dictitem::diTypeString, "Type", "Catalog", catalog))
     {
       debug(dlTrace, "Adding a new catalog and pages object to the PDF");
       object newpages(objNumAppended, objNumAppended);
       {
-	dictitem di(dictitem::diTypeName, "Type", m_pdf);
+	dictitem di("Type", m_pdf);
 	di.setValue("Pages");
 	newpages.getDict().add(di);
       }
       {
-	dictitem di(dictitem::diTypeString, "Kids", m_pdf);
+	dictitem di("Kids", m_pdf);
 	di.setValue("[ ]");
 	newpages.getDict().add(di);
       }
@@ -234,22 +271,42 @@ pdfDoc::appendPage()
 
       object newcatalog(objNumAppended, objNumAppended);
       {
-	dictitem di(dictitem::diTypeObjectReference, "Pages", m_pdf);
+	dictitem di("Pages", m_pdf);
 	di.setValue(newpages.getNumber(), newpages.getGeneration());
 	newcatalog.getDict().add(di);
       }
       {
-	dictitem di(dictitem::diTypeName, "Type", m_pdf);
+	dictitem di("Type", m_pdf);
 	di.setValue("Catalog");
 	newcatalog.getDict().add(di);
       }
       m_pdf->addObject(newcatalog);      
     }
 
+  debug(dlTrace, "Creating the new page");
   object newpage(objNumAppended, objNumAppended);
+  {
+    dictitem di("Type", m_pdf);
+    di.setValue("Page");
+    newpage.getDict().add(di);
+  }
+  {
+    object & pages = foo;
+    if (!m_pdf->findObject (dictitem::diTypeString, "Type", "Pages", pages))
+      {
+	debug(dlError, 
+	      "No pages object, even after we made sure there was one");
+      }
+    dictitem di("Parent", m_pdf);
+    di.setValue(pages);
+    newpage.getDict().add(di);
+  }
+
+  debug(dlTrace, "Adding the new page");
   m_pdf->addObject(newpage);
   m_pdf->appendPage(newpage);
   m_pages.push_back(newpage, m_pdf);
+  debug(dlTrace, "Finished appending the page");
 }
 
 // A scary global progress handler

@@ -236,6 +236,9 @@ genApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
   wxMenu *file_menu = new wxMenu;
 
   file_menu->Append (wxID_NEW, "&New");
+  if(isCanvas){
+    file_menu->Append (GENMENU_NEWPAGE, "New Page");
+  }
   file_menu->Append (wxID_OPEN, "&Open...");
   file_menu->Append (wxID_CLOSE, "&Close");
   file_menu->Append (wxID_SAVE, "&Save");

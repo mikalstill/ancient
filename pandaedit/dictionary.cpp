@@ -22,7 +22,6 @@ void
 dictionary::add (dictitem item)
 {
   m_items.push_back (item);
-  debug(dlTrace, "Added a dictionary item");
 }
 
 unsigned int
@@ -40,110 +39,80 @@ dictionary::operator[] (unsigned int index)
 bool
 dictionary::findItem (string dname, dictitem & item)
 {
-  debug(dlTrace, string("Finding ") + dname + string(" in a ") +
-	toString(m_items.size()) + string(" item dictionary"));
   for (unsigned int i = 0; i < m_items.size (); i++)
     {
-      debug(dlTrace, string("Compare with: ") + m_items[i].getName ());
       if (m_items[i].getName () == dname)
 	{
 	  item = m_items[i];
-	  debug(dlTrace, "Found in dictionary::findItem");
 	  return true;
 	}
     }
 
-  debug(dlTrace, "Not found in dictionary::findItem");
   return false;
 }
 
 bool
 dictionary::getValue (string dname, pdf & thePDF, object & obj)
 {
-  debug(dlTrace, string("Get object named ") + dname + 
-	string(" from dictionary "));
   for (unsigned int i = 0; i < m_items.size (); i++){
-    debug(dlTrace, string("Compare with: ") + m_items[i].getName());
     if (m_items[i].getName () == dname)
       {
-	debug(dlTrace, "Found in dictionary::getValue(object)");
 	return thePDF.findObject (m_items[i].getIntValue (),
 				  m_items[i].getGeneration (), obj);
       }
   }
 
-  debug(dlTrace, "Not found in dictionary::getValue(object)");
   return false;
 }
 
 bool
 dictionary::getValue (string dname, string & value)
 {
-  debug(dlTrace, string("Get string named ") + dname + 
-	string(" from dictionary"));
   for (unsigned int i = 0; i < m_items.size (); i++){
-    debug(dlTrace, string("Compare with: ") + m_items[i].getName());
     if (m_items[i].getName () == dname)
       {
-	debug(dlTrace, "Found in dictionary::getValue(string)");
 	value = m_items[i].getStringValue ();
 	return true;
       }
   }
 
-  debug(dlTrace, "Not found in dictionary::getValue(string)");
   return false;
 }
 
 bool
 dictionary::getValue (string dname, int &value)
 {
-  debug(dlTrace, string("Get int named ") + dname + 
-	string(" from dictionary"));
   for (unsigned int i = 0; i < m_items.size (); i++){
-    debug(dlTrace, string("Compare with: ") + m_items[i].getName());
     if (m_items[i].getName () == dname)
       {
-	debug(dlTrace, "Found in dictionary::getValue(int)");
 	value = m_items[i].getIntValue ();
 	return true;
       }
   }
 
-  debug(dlTrace, "Not found in dictionary::getValue(int)");
   return false;
 }
 
 bool
 dictionary::getValue (string dname, dictionary & value)
 {
-  debug(dlTrace, string("Get subdictionary named ") + dname + 
-	string(" from dictionary"));
   for (unsigned int i = 0; i < m_items.size (); i++){
-    debug(dlTrace, string("Compare with: ") + m_items[i].getName());
     if (m_items[i].getName () == dname)
       {
-	debug(dlTrace, "Found in dictionary::getValue(dictionary)");
 	value = m_items[i].getDictionaryValue ();
 	return true;
       }
   }
 
-  debug(dlTrace, "Not found in dictionary::getValue(dictionary)");
   return false;
 }
 
 bool
 dictionary::getValue (string dname, pdf &thePDF, objectlist & objs)
 {
-  debug(dlTrace, string("Get objects named ") + dname + 
-	string(" from dictionary "));
   for (unsigned int i = 0; i < m_items.size (); i++){
-    debug(dlTrace, string("Compare with: ") + m_items[i].getName());
     if (m_items[i].getName () == dname)
       {
-	debug(dlTrace, "Found in dictionary::getValue(objectlist)");
-
 	switch(m_items[i].getType()){
 	case dictitem::diTypeObjectReference:
 	  objs.push_back(m_items[i].getObjectReferenceValue(), &thePDF);
@@ -162,11 +131,21 @@ dictionary::getValue (string dname, pdf &thePDF, objectlist & objs)
       }
   }
 
-  debug(dlTrace, "Not found in dictionary::getValue(objectlist)");
   return false;
 }
 
 vector < dictitem > dictionary::getItems ()
 {
   return m_items;
+}
+
+bool dictionary::setValue(string dname, objectlist& value)
+{
+  dictitem target;
+  if(!findItem(dname, target)){
+    debug(dlError, "Set of non-existant value not currently supported");
+    return false;
+  }
+  
+  target.setValue(value);
 }

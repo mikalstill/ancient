@@ -1,6 +1,6 @@
 
 /* 
- *   UI for the CEP program
+ *   UI for pandaedit
  *   Copyright (C) Michael Still                    2002, 2003
  *   Copyright (C) Kristy Van Der Vlist             2002
  *   Copyright (C) Blake swadling                   2002
@@ -76,6 +76,7 @@ IMPLEMENT_DYNAMIC_CLASS (pdfView, wxView)
   EVT_MENU (GENMENU_PREVPAGE, pdfView::OnPrevPage)
   EVT_MENU (GENMENU_LINETOOL, pdfView::OnLineTool)
   EVT_MENU (GENMENU_DOCINFO, pdfView::OnAboutDocument)
+  EVT_MENU (GENMENU_NEWPAGE, pdfView::OnNewPage)
   END_EVENT_TABLE ()
   
 pdfView::pdfView ()
@@ -84,6 +85,7 @@ pdfView::pdfView ()
   frame = (wxFrame *) NULL;
   m_parentFrame = (wxFrame *) NULL;
   m_page = 0;
+  m_dirty = false;
 }
 
 void
@@ -153,29 +155,36 @@ pdfView::OnDraw (wxDC * dc)
   string& filename = m_renders[m_page];
   debug(dlTrace, string("Page render cache names \"") + filename + 
 	string("\""));
-  if((filename == "") && (theDoc->getPDF() != NULL))
-    populatePageFromPDF(theDoc->getPDF(), filename);
+  if(theDoc->getPDF() != NULL)
+    { 
+      if(((filename == "") || (m_dirty == true)) && 
+	 populatePageFromPDF(theDoc->getPDF(), filename))
+	{
+	  // And now we can assume that there is a PNG somewhere out there we
+	  // can paint...
+	  // todo_mikal: shrinking options
+	  // todo_mikal: center if smaller than window
+	  debug(dlTrace, string("Painting PNG \"") + filename + string("\""));
+	  if(filename != ""){
+	    try
+	      {
+		wxImage theImage (filename.c_str(), wxBITMAP_TYPE_PNG);
+		wxBitmap theBitmap (theImage.ConvertToBitmap ());
+		dc->DrawBitmap (theBitmap, 0, 0);
+		m_dirty = false;
+	      }
+	    catch (...)
+	      {
+		debug(dlError, "Exception caught in the graph draw routine");
+	      }
+	  }
+	}
 
-  // And now we can assume that there is a PNG somewhere out there we can 
-  // paint...
-  // todo_mikal: shrinking options
-  // todo_mikal: center if smaller than window
-  debug(dlTrace, string("Painting PNG \"") + filename + string("\""));
-  if(filename != ""){
-    try
-      {
-	wxImage theImage (filename.c_str(), wxBITMAP_TYPE_PNG);
-	wxBitmap theBitmap (theImage.ConvertToBitmap ());
-	dc->DrawBitmap (theBitmap, 0, 0);
-      }
-    catch (...)
-      {
-	debug(dlError, "Exception caught in the graph draw routine");
-      }
-  }
+    // TODO mikal: also need to redraw the output of the current tool
+    }
 }
 
-void
+bool
 pdfView::populatePageFromPDF(pdf *thePDF, string& filename)
 {
   try{
@@ -187,35 +196,40 @@ pdfView::populatePageFromPDF(pdf *thePDF, string& filename)
     object& catalog = foo;
     if(!thePDF->findObject(dictitem::diTypeName, "Type", "Catalog", catalog)){
       debug(dlError, "Bad PDF document: No catalog");
-      exit(1);
+      return false;
     }
     
     // Now find the pages object as refered to by the catalog
     if(!catalog.hasDictItem(dictitem::diTypeObjectReference, "Pages")){
       debug(dlError, "Bad PDF: No pages object refered to in catalog");
-      exit(1);
+      return false;
     }
     
     object& pages = foo;
     if(!catalog.getDict().getValue("Pages", *thePDF, pages)){
       debug(dlError, 
 	    "Bad PDF: Could not get pages object, but the catalog references it!");
-      exit(1); 
+      return false;
       }
     
     // Now find all the page objects referenced in the pages object
     string kids;
     if(!pages.getDict().getValue("Kids", kids)){
       debug(dlError, "Bad PDF: No pages found in PDF");
-      exit(1);
+      return false;
     }
     
-    // Find the pages, and then display the first page
+    // Find the pages, and then display the relevant page
     objectlist pagelist(kids, thePDF);
+    if(kids.size() < m_page){
+      debug(dlError, "Request for a page which doesn't exist");
+      return false;
+    }
+
     pdfRender renPage(*thePDF, pagelist[m_page], pages, m_page);
     if(!renPage.render()){
       debug(dlError, "Page render failed");
-      exit(1);
+      return false;
     }
     
     // Now push that into the cache -- this should only be called once
@@ -223,8 +237,10 @@ pdfView::populatePageFromPDF(pdf *thePDF, string& filename)
   }
   catch(...){
     debug(dlError, "Exception caught");
-    exit(40);
+    return false;
   }
+
+    return true;
 }
 
 void
@@ -298,6 +314,18 @@ pdfView::OnAboutDocument (wxCommandEvent & WXUNUSED (event))
 }
 
 void
+pdfView::OnNewPage(wxCommandEvent&)
+{
+  pdfDoc *theDoc = (pdfDoc *) GetDocument ();
+  if(!theDoc->isReady()){
+    debug(dlTrace, "Page change ignored because PDF document not ready");
+    return;
+  }
+
+  theDoc->appendPage();
+}
+
+void
 pdfView::OnNextPage(wxCommandEvent&)
 {
   pdfDoc *theDoc = (pdfDoc *) GetDocument ();
@@ -351,4 +379,11 @@ pdfView::appendCommand(string commandString)
   }
 
   theDoc->appendCommand(m_page, commandString);
+}
+
+
+void
+pdfView::setDirty()
+{
+  m_dirty = true;
 }

@@ -41,6 +41,7 @@ fax::reinit ()
 char *
 fax::decompress (char *input, unsigned long length, unsigned long &newlength)
 {
+#if defined HAVE_LIBTIFF
   TIFF *stream;
   int i;
   short entries = 0;
@@ -249,6 +250,10 @@ fax::decompress (char *input, unsigned long length, unsigned long &newlength)
   free(globalImage);
   globalImage = NULL;
   pthread_mutex_unlock (&convMutex);
+#else
+  #error "FAX stream decompression disabled because of lack of libtiff"
+  debug(dlTrace, "Cannot decompress, because libtiff missing at configure time");
+#endif
   newlength = 0;
   return NULL;
 }

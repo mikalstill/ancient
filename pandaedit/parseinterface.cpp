@@ -85,7 +85,7 @@ pandaedit_dictitem_string (int event, va_list argptr)
       return;
     }
 
-  dictitem temp (dictitem::diTypeString, name, thePDF);
+  dictitem temp (name, thePDF);
   temp.setValue (string (value));
   currentDictionary.top ().add (temp);
 }
@@ -104,7 +104,7 @@ pandaedit_dictitem_name (int event, va_list argptr)
       return;
     }
 
-  dictitem temp (dictitem::diTypeName, name, thePDF);
+  dictitem temp (name, thePDF);
   temp.setValue (string (value));
   currentDictionary.top ().add (temp);
 }
@@ -150,7 +150,7 @@ pandaedit_dictitem_object (int event, va_list argptr)
       return;
     }
 
-  dictitem temp (dictitem::diTypeObjectReference, name, thePDF);
+  dictitem temp (name, thePDF);
   stringArray token (value, " ");
   temp.setValue (atoi (token[0].c_str ()), atoi (token[1].c_str ()));
   currentDictionary.top ().add (temp);
@@ -198,7 +198,7 @@ pandaedit_dictitem_dictend (int event, va_list argptr)
     {
       debug(dlTrace, string("Adding a subdictionary named ") + name +
 	    string(" to the parent dictionary"));
-      dictitem temp (dictitem::diTypeDictionary, name, thePDF);
+      dictitem temp (name, thePDF);
       temp.setValue (currentDictionary.top ());
       currentDictionary.pop ();
       currentDictionary.top ().add (temp);
@@ -223,7 +223,7 @@ pandaedit_dictitem_int (int event, va_list argptr)
       return;
     }
 
-  dictitem temp (dictitem::diTypeInt, name, thePDF);
+  dictitem temp (name, thePDF);
   temp.setValue (value);
   currentDictionary.top ().add (temp);
 }

@@ -10,6 +10,11 @@
 #include "raster.h"
 #include "verbosity.h"
 
+#if defined HAVE_LIBMPLOT
+#else
+#warning "Lots of functionality is missing because of a lack of libmplot"
+#endif
+
 char *inflateraster(char *input, unsigned long width, unsigned long height, 
                     int bitdepth, int targetbitdepth, 
                     int channels, int targetchannels);
@@ -41,9 +46,14 @@ pdfRender::render_bstar ()
       return;
     }
 
+#if defined HAVE_LIBMPLOT
   plot_closeline (m_plot);
   plot_strokeline (m_plot);
   plot_fillline (m_plot);
+#else
+  debug(dlError, "Libmplot not found at configure time. Graphics functionality"
+	" is therefore not available");
+#endif
   m_hasLine = true;
 }
 
@@ -56,8 +66,13 @@ pdfRender::render_Bstar ()
       return;
     }
 
+#if defined HAVE_LIBMPLOT
   plot_strokeline (m_plot);
   plot_fillline (m_plot);
+#else
+  debug(dlError, "Libmplot not found at configure time. Graphics functionality"
+	" is therefore not available");
+#endif
   m_hasLine = true;
 }
 
@@ -102,7 +117,12 @@ pdfRender::render_c ()
       return;
     }
 
+#if defined HAVE_LIBMPLOT
   plot_addcubiccurvesegment (m_plot, x1, y1, x2, y2, x3, y3);
+#else
+  debug(dlError, "Libmplot not found at configure time. Graphics functionality"
+	" is therefore not available");
+#endif
   m_hasLine = true;
 }
 
@@ -209,10 +229,15 @@ pdfRender::render_Do ()
     debug(dlError, "Raster inflation failed");
     return;
   }
-  
+
+#if defined HAVE_LIBMPLOT  
   plot_overlayraster(m_plot, (char *) newstream2, 0, 0, 
 		     m_width, m_height, 
 		     rast.getWidth(), rast.getHeight(), 0);
+#else
+  debug(dlError, "Libmplot not found at configure time. Graphics functionality"
+	" is therefore not available");
+#endif
   if(needStreamClean)
     free(stream);
   free(newstream2);
@@ -250,7 +275,12 @@ pdfRender::render_fstar ()
     }
 
   debug(dlTrace, "Even odd fill");
+#if defined HAVE_LIBMPLOT
   plot_fillline (m_plot);
+#else
+  debug(dlError, "Libmplot not found at configure time. Graphics functionality"
+	" is therefore not available");
+#endif
   m_hasLine = true;
 }
 
@@ -277,8 +307,13 @@ pdfRender::render_g ()
     }
 
   debug(dlTrace, string("Set grayscale stroke ") + toString(g));
+#if defined HAVE_LIBMPLOT
   plot_setlinecolor (m_plot, (unsigned int) (255 * g),
 		     (unsigned int) (255 * g), (unsigned int) (255 * g));
+#else
+  debug(dlError, "Libmplot not found at configure time. Graphics functionality"
+	" is therefore not available");
+#endif
   m_hasLine = true;
 }
 
@@ -296,8 +331,13 @@ pdfRender::render_G ()
     }
 
   debug(dlTrace, string("Set grayscale fill ") + toString(g));
+#if defined HAVE_LIBMPLOT
   plot_setfillcolor (m_plot, (unsigned int) (255 * g),
 		     (unsigned int) (255 * g), (unsigned int) (255 * g));
+#else
+  debug(dlError, "Libmplot not found at configure time. Graphics functionality"
+	" is therefore not available");
+#endif
   m_hasLine = true;
 }
 
@@ -312,7 +352,12 @@ pdfRender::render_h ()
     }
 
   debug(dlTrace, "Close line");
+#if defined HAVE_LIBMPLOT
   plot_closeline (m_plot);
+#else
+  debug(dlError, "Libmplot not found at configure time. Graphics functionality"
+	" is therefore not available");
+#endif
   m_hasLine = true;
 }
 
@@ -334,7 +379,12 @@ pdfRender::render_l ()
       return;
     }
 
+#if defined HAVE_LIBMPLOT
   plot_addlinesegment (m_plot, x, y);
+#else
+  debug(dlError, "Libmplot not found at configure time. Graphics functionality"
+	" is therefore not available");
+#endif
   m_hasLine = true;
 }
 
@@ -356,9 +406,14 @@ pdfRender::render_m ()
       return;
     }
 
+#if defined HAVE_LIBMPLOT
   if (m_hasLine)
     plot_endline (m_plot);
   plot_setlinestart (m_plot, x, y);
+#else
+  debug(dlError, "Libmplot not found at configure time. Graphics functionality"
+	" is therefore not available");
+#endif
   m_hasLine = true;
 }
 
@@ -398,7 +453,12 @@ pdfRender::render_re ()
       return;
     }
 
+#if defined HAVE_LIBMPLOT
   plot_rectangle (m_plot, left, top, right, bottom);
+#else
+  debug(dlError, "Libmplot not found at configure time. Graphics functionality"
+	" is therefore not available");
+#endif
   m_hasLine = true;
 }
 
@@ -422,8 +482,13 @@ pdfRender::render_rg ()
       return;
     }
 
+#if defined HAVE_LIBMPLOT
   plot_setfillcolor (m_plot, (unsigned int) (255 * r),
 		     (unsigned int) (255 * g), (unsigned int) (255 * b));
+#else
+  debug(dlError, "Libmplot not found at configure time. Graphics functionality"
+	" is therefore not available");
+#endif
   m_hasLine = true;
 }
 
@@ -447,15 +512,25 @@ pdfRender::render_RG ()
       return;
     }
 
+#if defined HAVE_LIBMPLOT
   plot_setlinecolor (m_plot, (unsigned int) (255 * r),
 		     (unsigned int) (255 * g), (unsigned int) (255 * b));
+#else
+  debug(dlError, "Libmplot not found at configure time. Graphics functionality"
+	" is therefore not available");
+#endif
   m_hasLine = true;
 }
 
 void
 pdfRender::render_S ()
 {
+#if defined HAVE_LIBMPLOT
   plot_strokeline (m_plot);
+#else
+  debug(dlError, "Libmplot not found at configure time. Graphics functionality"
+	" is therefore not available");
+#endif
 }
 
 
@@ -537,10 +612,15 @@ pdfRender::render_Tf ()
     }
 
   debug(dlTrace, string("Using font filename ") + fontFile);
+#if defined HAVE_LIBMPLOT
   if(plot_setfont (m_plot, (char *) fontFile.c_str (), 
 		   atoi (fontSize.c_str ())) < 0){
     debug(dlError, "Could not change to the specified font");
   }
+#else
+  debug(dlError, "Libmplot not found at configure time. Graphics functionality"
+	" is therefore not available");
+#endif
 }
 
 // Show the text
@@ -548,10 +628,15 @@ void
 pdfRender::render_Tj ()
 {
   debug(dlTrace, string("Tj ") + m_arguements.top ());
+#if defined HAVE_LIBMPLOT
   plot_settextlocation (m_plot, (unsigned int) m_textMatrix.getHorizontal (),
 			(unsigned int) (m_height -
 					m_textMatrix.getVertical ()));
   plot_writestring (m_plot, (char *) m_arguements.top ().c_str ());
+#else
+  debug(dlError, "Libmplot not found at configure time. Graphics functionality"
+	" is therefore not available");
+#endif
   m_arguements.pop ();
 }
 
@@ -607,7 +692,12 @@ pdfRender::render_v ()
       return;
     }
 
+#if defined HAVE_LIBMPLOT
   plot_addquadraticcurvesegmentone (m_plot, x1, y1, x2, y2);
+#else
+  debug(dlError, "Libmplot not found at configure time. Graphics functionality"
+	" is therefore not available");
+#endif
   m_hasLine = true;
 }
 
@@ -626,7 +716,12 @@ pdfRender::render_w ()
       return;
     }
 
+#if defined HAVE_LIBMPLOT
   plot_setlinewidth (m_plot, w, w);
+#else
+  debug(dlError, "Libmplot not found at configure time. Graphics functionality"
+	" is therefore not available");
+#endif
 }
 
 void
@@ -650,6 +745,11 @@ pdfRender::render_y ()
       return;
     }
 
+#if defined HAVE_LIBMPLOT
   plot_addquadraticcurvesegmenttwo (m_plot, x1, y1, x2, y2);
+#else
+  debug(dlError, "Libmplot not found at configure time. Graphics functionality"
+	" is therefore not available");
+#endif
   m_hasLine = true;
 }

@@ -85,6 +85,7 @@ pdfRender::parseStream ()
     return false;
   }
 
+#if defined HAVE_LIBMPLOT
   if ((m_plot = plot_newplot (m_width, m_height)) == NULL)
     {
       debug(dlError, "Failed to initialize new page plot");
@@ -95,6 +96,10 @@ pdfRender::parseStream ()
     if(!processContentsObject(m_contents[i]))
       return false;
   }
+#else
+  debug(dlError, "Libmplot not found at configure time. Graphics functionality"
+	" is therefore not available");
+#endif
 }
 
 bool
@@ -104,12 +109,15 @@ pdfRender::processContentsObject(const object& contents){
   unsigned long inset, length;
   bool needStreamClean (false);
 
+  // This used to exit if there was an empty page stream. It now just renders
+  // nothing... This might mean that a stream which couldn't be decompressed
+  // is ignored entirely...
   stream = ((object) contents).getStream (needStreamClean, length);
   debug(dlTrace, string("Process page stream of length ") + 
 	toString((long) length));
   if((stream == NULL) || (length == 0)){
-    debug(dlError, "Invalid page description stream");
-    return false;
+    debug(dlTrace, "Empty page description stream");
+    return true;
   }
 
   processCommandString(stream, true);
@@ -153,9 +161,14 @@ pdfRender::processLine (string line, bool parsing)
       return;
     }
 
+#if defined HAVE_LIBMPLOT
   char *state = plot_persiststate(m_plot);
   debug(dlTrace, string("Plot state: ") + string(state));
   free(state);
+#else
+  debug(dlError, "Libmplot not found at configure time. Graphics functionality"
+	" is therefore not available");
+#endif
 
   stringArray tokens (line, " ");
   string sarg;
@@ -304,7 +317,13 @@ pdfRender::getPNGfile ()
   png_bytepp row_pointers = NULL;
   char *raster;
 
+#if defined HAVE_LIBMPLOT
   raster = plot_getraster (m_plot);
+#else
+  debug(dlError, "Libmplot not found at configure time. Graphics functionality"
+	" is therefore not available");
+  raster = NULL;
+#endif
 
   // Build a random filename
   debug(dlTrace, "Generating a temporary filename");

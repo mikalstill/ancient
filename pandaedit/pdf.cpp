@@ -151,6 +151,8 @@ pdf::getFilename()
 void
 pdf::appendPage(object& thePage)
 {
+  debug(dlTrace, "PDF appending page");
+
   object foo(objNumNoSuch, objNumNoSuch);
   object & pages = foo;
   if (!findObject (dictitem::diTypeName, "Type", "Pages", pages))
@@ -159,6 +161,7 @@ pdf::appendPage(object& thePage)
       return;
     }
   
+  debug(dlTrace, "Finding the kids list within the pages object");
   objectlist footoo;
   objectlist & kids = footoo;
   if(!pages.getDict().getValue("Kids", ((pdf &) *this), kids))
@@ -166,7 +169,17 @@ pdf::appendPage(object& thePage)
       debug(dlError, "Bad PDF for page append: No kids");
       return;
     }
-  debug(dlTrace, "Found kids list for page append operation");
 
+  // This is just a representation of the kids list from the objectmodel,
+  // not the actual storage. We thus need to push this back into the
+  // dictionary...
   kids.push_back(thePage, this);
+   if(!pages.getDict().setValue("Kids", kids))
+    {
+      debug(dlError, "Could not update kids list");
+      return;
+    }
+
+  debug(dlTrace, string("PDF append finished. There are now ") +
+	toString(kids.size()) + string(" pages"));
 }

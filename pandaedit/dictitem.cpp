@@ -4,11 +4,9 @@
 #include "verbosity.h"
 #include "utility.h"
 
-dictitem::dictitem (diType type, string name, pdf *thePDF):
-  m_type (type), m_name (name), m_pdf(thePDF)
+dictitem::dictitem (string name, pdf *thePDF):
+  m_type(diTypeUnset), m_name (name), m_pdf(thePDF)
 {
-  debug(dlTrace, string("Created an item with name ") + name + 
-	string(", type ") + toString(type));
 }
 
 dictitem::dictitem ():
@@ -20,6 +18,7 @@ void
 dictitem::setValue (string value)
 {
   m_string = value;
+  m_type = diTypeString;
 }
 
 void
@@ -27,18 +26,37 @@ dictitem::setValue (int num, int gen)
 {
   m_int = num;
   m_generation = gen;
+
+  if(m_type == diTypeString)
+    m_string = "";
+  m_type = diTypeObjectReference;
 }
 
 void
 dictitem::setValue (int integer)
 {
   m_int = integer;
+
+  if(m_type == diTypeString)
+    m_string = "";
+  m_type = diTypeInt;
 }
 
 void
 dictitem::setValue (dictionary dict)
 {
   m_dictionary = dict.getItems ();
+
+  if(m_type == diTypeString)
+    m_string = "";
+  m_type = diTypeDictionary;
+}
+
+void
+dictitem::setValue(objectlist& objs)
+{
+  m_string = objs.getString();
+  m_type = diTypeString;
 }
 
 dictitem::diType dictitem::getType ()

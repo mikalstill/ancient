@@ -27,6 +27,14 @@ dnl Checks for programs.
 AC_PROG_CXX
 AC_PROG_INSTALL
 
+dnl Check for wxWindows
+AM_OPTIONS_WXCONFIG
+AM_PATH_WXCONFIG(2.4.0, wxWin=1)
+CPPFLAGS="$CPPFLAGS $WX_CPPFLAGS"
+CXXFLAGS="$CXXFLAGS $WX_CXXFLAGS_ONLY"
+CFLAGS="$CFLAGS $WX_CFLAGS_ONLY"
+LDFLAGS="$LDFLAGS $WX_LIBS"
+
 dnl Checks for libraries.
 dnl The syntax is library name, function, action if found, action if not found
 dnl We just use the default if found action which adds -l<lib> to the LIBS var
@@ -35,12 +43,9 @@ dnl and #defined HAVE_LIB<lib>
 dnl -lm:
 AC_CHECK_LIB(m, atan)
 
-dnl -lpthread
-AC_CHECK_LIB(pthread, pthread_mutex_unlock)
-
 dnl -lmplot
 AC_CHECK_LIB(mplot, plot_newplot)
-
+			
 dnl -ltiff
 AC_CHECK_LIB(tiff, TIFFClientOpen)
 
@@ -50,19 +55,8 @@ AC_CHECK_LIB(z, uncompress)
 dnl -lpandalex
 AC_CHECK_LIB(pandalex, pandalex_init)
 
-dnl -lXi
-AC_CHECK_LIB(Xi, XAllowDeviceEvents)
-
-dnl -lXext
-AC_CHECK_LIB(Xext, XGetVisualInfo)
-
-dnl -lX11
-AC_CHECK_LIB(X11, XFreeFontInfo)
-
-dnl -lwx 
-dnl This must seek a global. mangled names will no do at all
-dnl AC_CHECK_LIB(wx_gtk-2.2, OnIdle__12wxHtmlWindowR11wxIdleEvent, [], [
-AC_CHECK_LIB(wx_gtk-2.2, wxTheApp)
+dnl -lpandalex
+AC_CHECK_LIB(panda, panda_init)
 
 dnl Checks for header files.
 dnl STDC checks for stdlib.h stdarg.h string.h and float.h
