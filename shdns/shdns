@@ -1,0 +1,76 @@
+#!/bin/bash
+
+# The state of a given bit in the byte
+dumpbit(){
+  local temp
+  temp=$1
+
+  if [ $1 -gt $(( $2 - 1 )) ]
+  then
+    echo -n "1"
+    temp=$(( $1 - $2 ))
+  else
+    echo -n "0"
+  fi
+
+  return $temp
+}
+
+# The state of the whole byte
+dumpbyte(){
+  local temp
+  temp=$1
+
+  dumpbit $temp 128
+  temp=$?
+  dumpbit $temp 64
+  temp=$?
+  dumpbit $temp 32
+  temp=$?
+  dumpbit $temp 16
+  temp=$?
+  dumpbit $temp 8
+  temp=$?
+  dumpbit $temp 4
+  temp=$?
+  dumpbit $temp 2
+  temp=$?
+  dumpbit $temp 1
+}
+
+# Is a given bit on?
+testbit(){
+  return `dumpbit $1 $2`
+}
+
+# Turn on a given bit in the byte
+twiddlebit(){
+  local temp
+  temp=$1
+
+  testbit $1 $2
+  if [ $? = 1 ]
+  then
+    echo "Bit on"
+    if [ $3 = 0 ]
+    then
+      echo "Turn bit off"
+      temp=$(( $temp - $2 ))
+    fi
+  else 
+    echo "Bit off"
+    if [ $3 = 1 ]
+    then
+      echo "Turn bit on"
+      temp=$(( $temp + $2 ))
+    fi
+  fi
+
+  return $temp
+}
+
+###############################################################################
+
+
+exit
+
