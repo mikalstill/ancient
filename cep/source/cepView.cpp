@@ -69,11 +69,9 @@
 
 IMPLEMENT_DYNAMIC_CLASS (cepView, wxView)
 BEGIN_EVENT_TABLE (cepView, wxView) 
-  EVT_MENU (CEPMENU_AVERAGE, cepView::OnToggleAverage)
   EVT_MENU (CEPMENU_ERRORS, cepView::OnToggleErrors)
   EVT_MENU (CEPMENU_COLORAXES, cepView::OnColorAxes)
   EVT_MENU (CEPMENU_COLORLINE, cepView::OnColorLine)
-  EVT_MENU (CEPMENU_COLORAVERAGE, cepView::OnColorAverage)
   EVT_MENU (CEPMENU_COLORERROR, cepView::OnColorError)
   EVT_MENU (CEPMENU_ELIMINATEOUTLIERS, cepView::OnEliminateOutliers)
   EVT_MENU (CEPMENU_SHOWX, cepView::OnToggleX)
@@ -326,13 +324,6 @@ void cepView::drawPresentation(cepDataset *theDataset, cepDataset::direction dir
     }
 }
 
-void cepView::OnToggleAverage (wxCommandEvent &pevt)
-{
-  m_config->setValue("ui-viewmenu-showaverages", pevt.IsChecked());
-  m_dirty = true;
-  canvas->Refresh();
-}
-
 void cepView::OnToggleErrors (wxCommandEvent &pevt)
 {
   m_config->setValue("ui-viewmenu-showerrors", pevt.IsChecked());
@@ -366,22 +357,6 @@ cepView::OnColorLine (wxCommandEvent & WXUNUSED (event))
     m_config->setValue("ui-graph-color-line-r", color.Red());
     m_config->setValue("ui-graph-color-line-g", color.Green());
     m_config->setValue("ui-graph-color-line-b", color.Blue());
-
-    m_dirty = true;
-    canvas->Refresh();
-  }
-}
-
-void
-cepView::OnColorAverage (wxCommandEvent & WXUNUSED (event))
-{
-  wxColourDialog picker(NULL);
-  if(picker.ShowModal() == wxID_OK){
-    wxColourData data = picker.GetColourData();
-    wxColour color = data.GetColour();
-    m_config->setValue("ui-graph-color-average-r", color.Red());
-    m_config->setValue("ui-graph-color-average-g", color.Green());
-    m_config->setValue("ui-graph-color-average-b", color.Blue());
 
     m_dirty = true;
     canvas->Refresh();

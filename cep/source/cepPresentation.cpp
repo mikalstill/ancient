@@ -40,7 +40,7 @@ const long CHUNKALLOC = 10;
 
 const long INVALID = -2000000000;
 
-cepPresentation::cepPresentation (long width, long height):
+cepPresentation::cepPresentation (long width, long height, vector < cep_datarow > & ds):
   m_width(width + 1),
   m_height(height),
   m_xTitle("Undefined Axis Title"),
@@ -50,16 +50,11 @@ cepPresentation::cepPresentation (long width, long height):
   m_yminval(2000000000),
   m_ymaxval(-2000000000),
   m_emaxval(-2000000000),
-  m_useAverage(false),
-  m_data (1, long (INVALID)),
   m_useErrors(true),
-  m_errors (1, long(0)),
-  m_raster(NULL)
+  m_raster(NULL),
+  m_ds(ds),
+  m_haveMaxima(false)
 {
-  m_averageColor.red = 0;
-  m_averageColor.green = 0;
-  m_averageColor.blue = 0;
-
   m_axesColor.red = 0;
   m_axesColor.green = 0;
   m_axesColor.blue = 0;
@@ -85,52 +80,19 @@ cepPresentation::yAxisTitle (const string & title)
   m_yTitle = title;
 }
 
-cepError cepPresentation::addDataPoint (long x, long y, long error)
+void cepPresentation::findMaxMinMa()
 {
-  cepDebugPrint ("Current data vector size is: " + 
-		 cepToString (m_data.size ()));
-  cepDebugPrint ("Added (" + cepToString (x) + ", " + 
-		 cepToString (y) + "," + cepToString(error) + ")");
+  for(size_t i = 0; i < m_ds.size(); i++){ 
+    if ((long) (m_ds[i].date * 10000) > m_xmaxval) m_xmaxval = (long) (m_ds[i].date * 10000);
+    if ((long) (m_ds[i].date * 10000) < m_xminval) m_xminval = (long) (m_ds[i].date * 10000);
 
-  // Values
-  if ((unsigned int) x >= m_data.size ())
-  {
-    try
-    {
-      unsigned int i = m_data.size();
-      m_data.resize (x + CHUNKALLOC);
-      for(; i < m_data.size(); i++)
-	m_data[i] = INVALID;
-      m_errors.resize (x + CHUNKALLOC);
+    if ((long) (m_ds[i].sample * 10000) > m_ymaxval) m_ymaxval = (long) (m_ds[i].sample * 10000);
+    if ((long) (m_ds[i].sample * 10000) < m_yminval) m_yminval = (long) (m_ds[i].sample * 10000);
 
-      cepDebugPrint ("Resize presentation data to " + 
-		     cepToString (x + CHUNKALLOC));
-    }
-    catch (...)
-    {
-      return
-        cepError ("Could not add data point because of memory allocation error",
-                  cepError::sevErrorFatal);
-    }
+    if ((long) (m_ds[i].error * 10000) > m_emaxval) m_emaxval = (long) (m_ds[i].error * 10000);
   }
 
-  m_data[x] = y;
-  m_errors[x] = error;
-
-  if (x > m_xmaxval)
-    m_xmaxval = x;
-  if (x < m_xminval)
-    m_xminval = x;
-
-  if (y > m_ymaxval)
-    m_ymaxval = y;
-  if (y < m_yminval)
-    m_yminval = y;
-
-  if (error > m_emaxval)
-    m_emaxval = error;
-
-  return cepError ();
+  m_haveMaxima = true;
 }
 
 cepError
@@ -162,6 +124,9 @@ cepPresentation::createBitmap ()
 #if defined HAVE_LIBMPLOT
   plot_state *graph;
 
+  if(!m_haveMaxima)
+    findMaxMinMa();
+
   if ((graph = plot_newplot (m_width, m_height)) == NULL)
     return cepError("Could not initialise a new plot", 
 		    cepError::sevErrorRecoverable);
@@ -170,64 +135,63 @@ cepPresentation::createBitmap ()
   long ymaxval = m_useErrors ? m_ymaxval + m_emaxval : m_ymaxval;
   long yminval = m_useErrors ? m_yminval - m_emaxval : m_yminval;
 
-  cepDebugPrint("yminval = " + cepToString(yminval) + 
-		" ymaxval = " + cepToString(ymaxval));
-
-  // Correct for a centered view
-  if(m_currentView == viewCentered){
-    if(ymaxval > yminval) yminval = -ymaxval;
-    else ymaxval = -yminval;
-  }
-
-  cepDebugPrint("yminval = " + cepToString(yminval) + 
-		" ymaxval = " + cepToString(ymaxval));
+  cepDebugPrint("yminval = " + cepToString(yminval) + " ymaxval = " + cepToString(ymaxval));
+  cepDebugPrint("xminval = " + cepToString(m_xminval) + " xmaxval = " + cepToString(m_xmaxval));
 
   // Determine the vertical scaling factor
   long yrange = ymaxval - yminval;
-  float oldyscale = yrange * 10 / (m_height - 20);
+  long xrange = m_xmaxval - m_xminval;
+
   float yscale = (float) yrange / (m_height - 20);
+  float xscale = (float) xrange / (m_width - 20);
 
   cepDebugPrint("Dimensions of graph bitmap: " + cepToString(m_width) + " x " +
 		cepToString(m_height));
-  cepDebugPrint("Yscale is: " + cepToString(yscale) + " new scale " + cepToString(oldyscale));
+  cepDebugPrint("Yscale is: " + cepToString(yscale));
+  cepDebugPrint("Xscale is: " + cepToString(xscale));
 
   // If we are using errors, then we draw these underneath
   if(m_useErrors){
     cepDebugPrint("Displaying errors");
     plot_setlinecolor(graph, m_errorColor.red, m_errorColor.green,
 		      m_errorColor.blue);
-    for(unsigned int i = 0; i < m_data.size(); i++){
-      if(m_data[i] != INVALID){
-	// Vertical line
-	plot_setlinestart(graph, i + 10, (unsigned int) 
-			  ((yrange - (m_data[i] + m_errors[i]) + 
-			   yminval) / yscale + 10));
-	plot_addlinesegment(graph, i + 10, (unsigned int)
-			    ((yrange - (m_data[i] - m_errors[i]) + yminval) 
-			    / yscale + 10));
-	plot_strokeline(graph);
-	plot_endline(graph);
+    for(unsigned int i = 0; i < m_ds.size(); i++){
+      long convdate = (long) (m_ds[i].date * 10000);
+      long convsample = (long) (m_ds[i].sample * 10000);
+      long converror = (long) (m_ds[i].error * 10000);
+      unsigned int horiz = (unsigned int) ((xrange - convdate + m_xminval) / xscale + 10);
 
-	// Top horizontal line
-	plot_setlinestart(graph, i + 8, (unsigned int)
-			  ((yrange - (m_data[i] + m_errors[i]) + yminval)
-			   / yscale + 10));
-	plot_addlinesegment(graph, i + 12, (unsigned int)
-			    ((yrange - (m_data[i] + m_errors[i]) + yminval) 
-			    / yscale + 10));
-	plot_strokeline(graph);
-	plot_endline(graph);
+      cepDebugPrint("Horizontal point = " + cepToString(horiz) + ", " + cepToString(m_ds[i].date));
 
-	// Bottom horizontal line
-	plot_setlinestart(graph, i + 8, (unsigned int)
-			  ((yrange - (m_data[i] - m_errors[i]) + yminval)
-			   / yscale + 10));
-	plot_addlinesegment(graph, i + 12, (unsigned int) 
-			    ((yrange - (m_data[i] - m_errors[i]) + yminval) 
-			     / yscale + 10));
-	plot_strokeline(graph);
-	plot_endline(graph);
-      }
+      // Vertical line
+      plot_setlinestart(graph, horiz,
+			(unsigned int) ((yrange - (convsample + converror) + 
+					 yminval) / yscale + 10));
+      plot_addlinesegment(graph, horiz,
+			  (unsigned int) ((yrange - (convsample - converror) + yminval) 
+					  / yscale + 10));
+      plot_strokeline(graph);
+      plot_endline(graph);
+      
+      // Top horizontal line
+      plot_setlinestart(graph, horiz - 2, 
+			(unsigned int) ((yrange - (convsample + converror) + yminval)
+					/ yscale + 10));
+      plot_addlinesegment(graph, horiz + 2, 
+			  (unsigned int) ((yrange - (convsample + converror) + yminval) 
+					  / yscale + 10));
+      plot_strokeline(graph);
+      plot_endline(graph);
+      
+      // Bottom horizontal line
+      plot_setlinestart(graph, horiz - 2, 
+			(unsigned int) ((yrange - (convsample - converror) + yminval)
+					/ yscale + 10));
+      plot_addlinesegment(graph, horiz + 2, 
+			  (unsigned int) ((yrange - (convsample - converror) + yminval) 
+					  / yscale + 10));
+      plot_strokeline(graph);
+      plot_endline(graph);
     }
   }
 
@@ -255,19 +219,19 @@ cepPresentation::createBitmap ()
   // Now draw the actual graph
   plot_setlinecolor(graph, m_lineColor.red, m_lineColor.green,
 		    m_lineColor.blue);
-  for(unsigned int i = 0; i < m_data.size(); i++){
-    if(m_data[i] != INVALID){
-      unsigned int xpoint = i + 10;
-      unsigned int ypoint = (unsigned int) ((yrange - m_data[i] + yminval) / yscale + 10);
-
-      plot_setlinestart(graph, xpoint - 1, ypoint);
-      plot_addlinesegment(graph, xpoint, ypoint - 1);
-      plot_addlinesegment(graph, xpoint + 1, ypoint);
-      plot_addlinesegment(graph, xpoint, ypoint + 1);
-      plot_closeline(graph);
-      plot_strokeline(graph);
-      plot_endline(graph);
-    }
+  for(unsigned int i = 0; i < m_ds.size(); i++){
+    long convdate = (long) (m_ds[i].date * 10000);
+    long convsample = (long) (m_ds[i].sample * 10000);
+    unsigned int xpoint = (unsigned int) ((xrange - convdate + m_xminval) / xscale + 10);
+    unsigned int ypoint = (unsigned int) ((yrange - convsample + yminval) / yscale + 10);
+    
+    plot_setlinestart(graph, xpoint - 1, ypoint);
+    plot_addlinesegment(graph, xpoint, ypoint - 1);
+    plot_addlinesegment(graph, xpoint + 1, ypoint);
+    plot_addlinesegment(graph, xpoint, ypoint + 1);
+    plot_closeline(graph);
+    plot_strokeline(graph);
+    plot_endline(graph);
   }
 
   // Now put the text annotations onto the bitmap
@@ -378,39 +342,9 @@ cepPresentation::createPNG (const string & filename)
 #endif
 }
 
-void cepPresentation::useAverage(bool yesno)
-{
-  m_useAverage = yesno;
-  recalculateAverage();
-}
-
 void cepPresentation::useErrors(bool yesno)
 {
   m_useErrors = yesno;
-}
-
-void cepPresentation::recalculateAverage()
-{
-  long temp = 0;
-
-  for(unsigned int i = 0; i < m_data.size(); i++){
-    temp += m_data[i];
-  }
-
-  m_average = temp / m_data.size();
-  cepDebugPrint("Average for presentation is " + cepToString(m_average));
-}
-
-long cepPresentation::getAverage()
-{
-  return m_average;
-}
-
-void cepPresentation::setAverageColor(char red, char green, char blue)
-{
-  m_averageColor.red = red;
-  m_averageColor.green = green;
-  m_averageColor.blue = blue;
 }
 
 void cepPresentation::setErrorColor(char red, char green, char blue)

@@ -25,31 +25,21 @@
 #ifndef CEP_PRESENTATION_HEADER
 #define CEP_PRESENTATION_HEADER
 
+#include "cepDataset.h"
+
 class cepError;
 
 class cepPresentation
 {
 public:
-  enum view{
-    viewCentered = 0,
-      viewZoomed
-      };
-
-  cepPresentation (long width, long height);
+  cepPresentation (long width, long height, vector < cep_datarow > &ds);
 
   void xAxisTitle (const string & title);
   void yAxisTitle (const string & title);
 
-  cepError addDataPoint (long x, long y, long error = 0);
-
-  void useAverage(bool yesno);
   void useErrors(bool yesno);
-  void recalculateAverage();
-  long getAverage();
-
   void setAxesColor(char red, char green, char blue);
   void setLineColor(char red, char green, char blue);
-  void setAverageColor(char red, char green, char blue);
   void setErrorColor(char red, char green, char blue);
 
   cepError createPDF (const string & filename);
@@ -62,6 +52,8 @@ private:
     char green;
     char blue;
   } color;
+
+  void findMaxMinMa();
 
   long m_width;
   long m_height;
@@ -79,19 +71,13 @@ private:
 
   color m_axesColor;
   color m_lineColor;
-  color m_averageColor;
   color m_errorColor;
 
-  bool m_useAverage;
-  long m_average;
-
-  view m_currentView;
-
-  vector < long > m_data;
-
   bool m_useErrors;
-  vector < long > m_errors;
   char *m_raster;
+
+  vector < cep_datarow > &m_ds;
+  bool m_haveMaxima;
 };
 
 #endif

@@ -80,8 +80,6 @@ public:
 
   void OnCut (wxCommandEvent & event);
 
-  void OnToggleAverage (wxCommandEvent& event);
-  void OnToggleErrors (wxCommandEvent& event);
   void OnColorAxes  (wxCommandEvent& event);
   void OnColorLine  (wxCommandEvent& event);
   void OnColorAverage  (wxCommandEvent& event);
@@ -92,6 +90,8 @@ public:
   void OnToggleX (wxCommandEvent& event);
   void OnToggleY (wxCommandEvent& event);
   void OnToggleZ (wxCommandEvent& event);
+
+  void OnToggleErrors (wxCommandEvent &pevt);
 
   // Least squares
   void OnLeastSquaresVCV (wxCommandEvent& event);

@@ -27,27 +27,11 @@ cepPlot::cepPlot(cepDataset *theDataset, cepDataset::direction dir, string cfnam
 {
   cepConfiguration *config;
   config = (cepConfiguration *) &cepConfiguration::getInstance();
-  cepPresentation pres (x, y);
-  
-  // Add the datapoints
-  for (unsigned int i = 0; i < theDataset->getData (dir).size (); i++)
-    {
-      pres.addDataPoint ((long)(theDataset->getData (dir)[1].
-				date * 10000),
-			 (long)(theDataset->getData (dir)[i].
-				sample * 10000),
-			 (long)(theDataset->getData (dir)[i].
-				error * 10000));
-    }
+  cepPresentation pres (x, y, theDataset->getData(dir));
   
   cepError err;
   int red = 0, green = 0, blue = 0;
   bool toggle;
-  
-  // Averages
-  err = config->getValue("ui-viewmenu-showaverages", false, toggle);
-  if(err.isReal()) err.display();
-  pres.useAverage(toggle);
   
   // Errors
   err = config->getValue("ui-viewmenu-showerrors", true, toggle);
@@ -72,15 +56,6 @@ cepPlot::cepPlot(cepDataset *theDataset, cepDataset::direction dir, string cfnam
   if(err.isReal()) err.display();
   pres.setLineColor(red, green, blue);
 
-  // Average color
-  err = config->getValue("ui-graph-color-average-r", 0, red);
-  if(err.isReal()) err.display();
-  err = config->getValue("ui-graph-color-average-g", 0, green);
-  if(err.isReal()) err.display();
-  err = config->getValue("ui-graph-color-average-b", 255, blue);
-  if(err.isReal()) err.display();
-  pres.setAverageColor(red, green, blue);
-  
   // Error color
   err = config->getValue("ui-graph-color-error-r", 127, red);
   if(err.isReal()) err.display();

@@ -190,13 +190,6 @@ cepApp::OnInit (void)
 	  filename = optarg;
 	  break;
 
-	case 'a':
-	  // Show averages?
-	  cepDebugPrint("CLI Show averages: " + string(optarg));
-	  m_config->setValue("ui-viewmenu-showaverages",
-			     string(optarg) == "yes");
-	  break;
-
 	case 'e':
 	  // Show errors?
 	  cepDebugPrint("CLI Show errors: " + string(optarg));
@@ -223,20 +216,6 @@ cepApp::OnInit (void)
 	  cepDebugPrint("CLI Show Z: " + string(optarg));
 	  m_config->setValue("ui-viewmenu-showz",
 			     string(optarg) == "yes");
-	  break;
-
-	case 'c':
-	  // Show centered view?
-	  cepDebugPrint("CLI Centered view");
-	  m_config->setValue("ui-viewmenu-currentview",
-			     cepPresentation::viewCentered);
-	  break;
-
-	case 'm':
-	  // Show zoomed view?
-	  cepDebugPrint("CLI Zoomed view");
-	  m_config->setValue("ui-viewmenu-currentview",
-			     cepPresentation::viewZoomed);
 	  break;
 
 	default:
@@ -364,18 +343,6 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
       m_config = (cepConfiguration *)&cepConfiguration::getInstance();
       view_menu = new wxMenu(wxMENU_TEAROFF);
 
-      view_menu->Append (CEPMENU_AVERAGE, "Show averages",
-			 "Toggle whether the average value is shown on graphs",
-			 TRUE);
-      err = m_config->getValue("ui-viewmenu-showaverages", false, confval);
-      if(err.isReal()){
-	view_menu->Check(CEPMENU_AVERAGE, false);
-	err.display();
-      }
-      else
-	view_menu->Check(CEPMENU_AVERAGE, confval);
-      view_menu->Enable(CEPMENU_AVERAGE, false);
-
       view_menu->Append (CEPMENU_ERRORS, "Show error bars",
 		       "Toggle whether the error bars are shown on graphs",
 			 TRUE);
@@ -432,9 +399,6 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
       
       view_menu->Append (CEPMENU_COLORLINE, "Graph color",
 			 "The color of the data line on the graph", FALSE);
-      
-      view_menu->Append (CEPMENU_COLORAVERAGE, "Average color",
-			 "The color of the average line on the graph", FALSE);
       
       view_menu->Append (CEPMENU_COLORERROR, "Error color",
 			 "The color of the error bars on the graph", FALSE);
