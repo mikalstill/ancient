@@ -3,7 +3,7 @@
 pwd=`pwd`
 
 # Make sure we have the latest cset
-getlatestcset
+getlatestcsetmm
 echo ""
 
 echo "---------------------" >> rejected
@@ -16,7 +16,7 @@ do
 
   if [ `echo $patch | egrep -- "-f[0-9][0-9][0-9]$" | wc -l | tr -d " "` -gt 0 ]
   then
-    oldforwardcount=`echo $patch | sed -e 's/.*-f//' -e 's/^0*//'`
+    oldforwardcount=`echo $patch | sed 's/.*-f//'`
     fpatchbasename=`echo $patch | sed 's/-f[0-9][0-9][0-9]$//'`
     echo "Old forward count: $oldforwardcount"
     forwardcount=$(( $oldforwardcount + 1 ))
@@ -31,10 +31,10 @@ do
   echo "Forward patch name: $fpatch"
 
   # Boring setup over, fork the codebase
-  forklatestcset $fpatch
+  forklatestcsetmm $fpatch
 
   # Go there
-  cd `cat latest`-$fpatch
+  cd `cat latestmm`-$fpatch
   patch -p 1 < $patchfilename > /tmp/patchout
   cd $pwd
 

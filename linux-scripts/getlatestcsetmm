@@ -46,4 +46,4 @@ cd linux-$base-`echo $cset | sed 's/.txt//'`
 patch -p 1 < $pwd/$cset
 cd $pwd
 
-echo linux-$base-`echo $cset | sed 's/.txt//'` > latest
+echo linux-$base-`echo $cset | sed 's/.txt//'` > latestmm

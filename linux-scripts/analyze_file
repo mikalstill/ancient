@@ -1,0 +1,60 @@
+#! /usr/bin/perl -w
+
+# Shamelessly stolen from Rusty's kernel graphing project and then hacked
+# This script takes a source file, finds the functions in it, and lists
+# those function's start point
+
+# FIXME: handle FASTCALL (eg mm/filemap.c's truncate_list_pages).
+$INFUNC=0;
+
+open(INPUT, "$ARGV[0]") || die "Can't open $ARGV[0]: $!\n";
+
+@LINES=<INPUT>;
+
+for ($i = 0; $i <= $#LINES; $i++) {
+    if ($LINES[$i] =~ /\/\*/) {
+        while (($i <= $#LINES) && !($LINES[$i] =~ /\*\//)){ $i++ }
+    }
+
+    if ($LINES[$i] =~ /^\{\s*$/) {
+	$funcname = "";
+
+	# Search back for first line with open bracket.
+	for ($funstart = $i-1; $funstart >= 0; $funstart--) {
+	    if ($LINES[$funstart] =~ /^[A-Za-z0-9_].*[A-Za-z0-9_] ??\(/) {
+		$funcname = $LINES[$funstart];
+		chomp($funcname);
+		$funcname =~ s/ ??\(.*$//;
+		$funcname =~ s/^.*[\s\*]//;
+	    }
+	    if ($funcname ne "" && $LINES[$funstart] !~ /^[A-Za-z_]/) {
+		$funstart++;
+		last;
+	    }
+	    elsif ($funcname eq "" 
+		   && ($LINES[$funstart] =~ /=/
+		       || $LINES[$funstart] =~ /\"/
+		       || $LINES[$funstart] =~ /\/\*/
+		       || $LINES[$funstart] =~ /\*\//)) {
+		# Dummy hit.
+		last;
+	    }
+	}
+	if ($funcname ne "") {
+	    for (; $funstart < $i; $funstart++) {
+	      if ($LINES[$funstart] =~ /#define/) {
+	      }
+	      elsif ($LINES[$funstart] =~ /extern/) {
+	      }
+	      elsif ($LINES[$funstart] =~ /\(/) {
+		print "$funstart,$ARGV[0] $funcname\n";
+		}
+	    }
+	    $INFUNC=1;
+	}
+    }
+
+    if ($LINES[$i] =~ /^\}\s*$/) {
+	$INFUNC=0;
+    }
+}

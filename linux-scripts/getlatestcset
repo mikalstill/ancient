@@ -29,7 +29,7 @@ fi
 # Get the kernel base if we need it
 if [ ! -d linux-$base ]
 then
-  wget http://www.kernel.org/pub/linux/kernel/v2.6/linux-$base.tar.bz2
+  wget -c http://www.kernel.org/pub/linux/kernel/v2.6/linux-$base.tar.bz2
   tar --bzip2 -xf linux-$base.tar.bz2
 fi
 

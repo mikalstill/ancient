@@ -1,0 +1,76 @@
+#!/usr/bin/perl
+
+open(ANALYSED, "analyze_file $ARGV[0] |") || die "Can't analyse $ARGV[0]: $!\n";
+@LINES = <ANALYSED>;
+open(INPUT, "$ARGV[0]") || die "Can't open $ARGV[0]: $!\n";
+
+$count = 1;
+$inset = 0;
+$infunc = 0;
+while(<INPUT>){
+  $temp = $LINES[$inset];
+  $temp =~ s/,.*//;
+  if($count == $temp){
+    $inset++;
+    $infunc = 1;
+  }
+
+  if($infunc == 1){
+    if(/\{/){
+      $infunc = 2;
+    }
+  }
+
+  if(/\}[^;]/){
+    $infunc = 0;
+  }
+
+  if($infunc == 2){
+
+    ####################
+    # Really not perfect...
+    ####################
+    if(/[\(\)]/){$match[0] = 1;}
+    else{$match[0] = 0;}
+
+    if(!(/^[ \t]*\w+ \w+[ \t]*=/)){$match[1] = 1;}
+    else{$match[1] = 0;}
+
+    if(!(/struct/)){$match[2] = 1;}
+    else{$match[2] = 0;}
+
+    if(!(/\\[ \t]*$/)){$match[3] = 1;}
+    else{$match[3] = 0;}
+
+    if(!(/ifdef/)){$match[4] = 1;}
+    else{$match[4] = 0;}
+
+    if(/^[ \t]*\/\*/){$match[5] = 1;}
+    else{$match[5] = 0;}
+
+    if(/return[^a-zA-Z_].*\(/){$match[6] = 1;}
+    else{$match[6] = 0;}
+
+    ####################
+
+    $summary = 0;
+    if($match[0] && $match[1] && $match[2] && $match[3] && $match[4]){$summary = 1}
+    elsif($match[5]){$summary = 2;}
+    elsif($match[6]){$summary = 3;}
+
+    if(($match[0] && $match[1] && $match[2] && $match[3] && $match[4])
+       || $match[5]
+       || $match[6]){
+      $infunc = 3;
+      print "\t/* Inserted by functrace [$summary: @match] */\n";
+      $location = $LINES[$inset - 1];
+      $location =~ s/.*,//;
+      chomp($location);
+      print "\tprintk(KERN_INFO \"Calling $location\\n\");\n";
+      print "\t/* End insert */\n\n";
+    }
+  }
+
+  print "$_";
+  $count++;
+}
