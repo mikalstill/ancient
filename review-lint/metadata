@@ -1,0 +1,8 @@
+# This file defines metadata about the book under review. It follows sh syntax
+export TITLE="Checking C Programs with Lint"
+export AUTHOR="Ian F. Darwin"
+export PUBLISHER="O'Reilly"
+export ISBN="0-937175-30-7"
+export YEAR="1988"
+export LENGTH="72 pages"
+export USRRP="$12.95"
