@@ -69,6 +69,7 @@ plot_newplot (unsigned int x, unsigned int y)
 
   state->x = x;
   state->y = y;
+  state->maxptr = x * y;
 
   // Line attributes
   state->linewidthx = 1;
@@ -181,6 +182,9 @@ plot_setlinestart (plot_state * state, unsigned int x, unsigned int y)
 
   state->line->x = x;
   state->line->y = y;
+
+  state->penx = x;
+  state->peny = y;
 }
 
 /******************************************************************************
@@ -234,24 +238,33 @@ plot_addlinesegment (plot_state * state, unsigned int x, unsigned int y)
   current->next = NULL;
   current->x = x;
   current->y = y;
+
+  state->penx = x;
+  state->peny = y;
 }
 
+#define FSTEP 0.5
+
 void
-plot_addcubiccurvesegment (plot_state * state, unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2,
+plot_addcubiccurvesegment (plot_state * state, 
+			   unsigned int x1, unsigned int y1, 
+			   unsigned int x2, unsigned int y2,
 			   unsigned int x3, unsigned int y3)
 {
-  fprintf (stderr, "todo\n");
+  fprintf(stderr, "todo\n");
 }
 
 void
-plot_addquadraticcurvesegmentone (plot_state * state, unsigned int x1, unsigned int y1,
+plot_addquadraticcurvesegmentone (plot_state * state, 
+				  unsigned int x1, unsigned int y1,
 				  unsigned int x2, unsigned int y2)
 {
   fprintf (stderr, "todo\n");
 }
 
 void
-plot_addquadraticcurvesegmenttwo (plot_state * state, unsigned int x1, unsigned int y1,
+plot_addquadraticcurvesegmenttwo (plot_state * state, 
+				  unsigned int x1, unsigned int y1,
 				  unsigned int x2, unsigned int y2)
 {
   fprintf (stderr, "todo\n");
@@ -405,7 +418,7 @@ plot_strokeline (plot_state * state)
 	  for (c = plot_min (x1, current->x);
 	       c < plot_max (x1, current->x) + 1; c++)
 	    {
-	      state->raster[state->x * y1 + c] = state->linecolor;
+	      plot_drawpoint(state, c, y1);
 	    }
 	}
       else if (x1 == current->x)
@@ -413,7 +426,7 @@ plot_strokeline (plot_state * state)
 	  for (c = plot_min (y1, current->y);
 	       c < plot_max (y1, current->y) + 1; c++)
 	    {
-	      state->raster[state->x * c + x1] = state->linecolor;
+	      plot_drawpoint(state, x1, c);
 	    }
 	}
       else
@@ -434,11 +447,11 @@ plot_strokeline (plot_state * state)
 	      if(abs(prevy - (int) newy) > 1){
 		for(d = plot_min(prevy, (int) newy); 
 		    d < plot_max(prevy, (int) newy); d++){
-		  state->raster[state->x * d + c - 1] = state->linecolor;
+		  plot_drawpoint(state, c - 1, d);
 		}
 	      }
-
-	      state->raster[state->x * ((int) newy) + c] = state->linecolor;
+	      
+	      plot_drawpoint(state, c, (int) newy);
 	    }
 	}
 
@@ -446,6 +459,16 @@ plot_strokeline (plot_state * state)
       y1 = current->y;
       current = current->next;
     }
+}
+
+// Draw a single point on the raster, with the current pen properties
+void plot_drawpoint(plot_state *state, unsigned int x, unsigned int y)
+{
+  unsigned long ptr = state->x * y + x;
+
+  if(ptr > state->maxptr)
+    return;
+  state->raster[ptr] = state->linecolor;
 }
 
 void
@@ -458,7 +481,8 @@ plot_fillline (plot_state * state)
 void
 plot_setlinewidth (plot_state * state, int w, int h)
 {
-  fprintf (stderr, "todo\n");
+  state->linewidthx = w;
+  state->linewidthy = h;
 }
 
 void
@@ -1091,12 +1115,15 @@ plot_paintglyph(plot_state *state, char character, int dopaint)
       for(bmy = 0; bmy < sfgb.rows; bmy++){
 	for(bmx = 0; bmx < sfgb.width; bmx++){
 	  if(sfgb.buffer[bmy * sfgb.width + bmx] != 0){
-	    state->raster[p + bmx].r = ~sfgb.buffer[bmy * sfgb.width + bmx] * state->fontcolor.r / 
-	      ~sfgb.buffer[bmy * sfgb.width + bmx];
-	    state->raster[p + bmx].g = ~sfgb.buffer[bmy * sfgb.width + bmx] * state->fontcolor.g / 
-	      ~sfgb.buffer[bmy * sfgb.width + bmx];
-	    state->raster[p + bmx].b = ~sfgb.buffer[bmy * sfgb.width + bmx] * state->fontcolor.b / 
-	      ~sfgb.buffer[bmy * sfgb.width + bmx];
+	    unsigned long ptr = p + bmx;
+	    if(ptr < state->maxptr){
+	      state->raster[ptr].r = ~sfgb.buffer[bmy * sfgb.width + bmx] * state->fontcolor.r / 
+		~sfgb.buffer[bmy * sfgb.width + bmx];
+	      state->raster[ptr].g = ~sfgb.buffer[bmy * sfgb.width + bmx] * state->fontcolor.g / 
+		~sfgb.buffer[bmy * sfgb.width + bmx];
+	      state->raster[ptr].b = ~sfgb.buffer[bmy * sfgb.width + bmx] * state->fontcolor.b / 
+		~sfgb.buffer[bmy * sfgb.width + bmx];
+	    }
 	  }
 	}
 	p += state->x;
