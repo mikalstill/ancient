@@ -1,5 +1,6 @@
 content/2004-ols
 content/mikal-anu
+content/2004-ols-about
 content/questions-asknow-2
 content/fuse-whatisit
 content/fuse-customfilesystem
@@ -10,7 +11,10 @@ content/fuse-languagebindings
 content/fuse-whyuserspace
 content/demo-intro
 content/fuse-addfs
+content/fuse-addfs-1
 content/fuse-commandline
+content/fuse-addfs-2
+content/fuse-addfs-3
 content/fuse-procinterface
 content/fuse-kernelmodule
 content/fuse-userspacelibrary

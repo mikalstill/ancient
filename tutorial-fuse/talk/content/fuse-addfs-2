@@ -1,0 +1,21 @@
+TITLE: More addfs code...
+
+<ul><pre>
+static int addfs_getattr(const char *path, struct stat *stbuf)
+{
+  memset(stbuf, 0, sizeof(struct stat));
+  if(strcmp(path, "/") == 0)
+  {
+    stbuf-&gt;st_mode = S_IFDIR | 0755;
+    stbuf-&gt;st_nlink = 2;
+  }
+  else
+  {
+    stbuf-&gt;st_mode = S_IFREG | 0444;
+    stbuf-&gt;st_nlink = 1;
+    stbuf-&gt;st_size = 8;
+  }
+    
+  return 0;
+}
+</pre></ul>

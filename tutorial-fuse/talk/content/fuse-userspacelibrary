@@ -1,3 +1,12 @@
 TITLE: More about the userspace library
 
-%% TODO
+<ul>
+<li>Even smaller than the kernel module at 1,500 lines
+<li>You need to link your code with this library and pthreads
+<li>For example:
+
+<ul><pre>
+addfs: addfs.c
+	gcc addfs.c -o addfs -lfuse -lm -lpthread
+</pre></ul>
+</ul>

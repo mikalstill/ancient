@@ -1,7 +1,8 @@
 TITLE: More about the kernel module
 
-<ul><pre>
-
-</pre></ul>
-
-%% TODO
+<ul>
+<li>The kernel component of FUSE is relatively small at 2,500 lines
+<li>Quite readable
+<li>Manages the registration and use of the file in /proc
+<li>Inferfaces with the VFS layer
+</ul>
