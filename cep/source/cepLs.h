@@ -17,6 +17,136 @@
   * Mass Ave, Cambridge, MA 02139, USA. 
 */
 
+/******************************************************************************
+DOCBOOK START
+
+FUNCTION <!-- class name -->
+cepLs
+
+
+PURPOSE <!-- use cases -->
+Cacluates a Linear Least Squares transformation on a given dataset. It offers three
+types of Least Squares transfomations:-
+
+Variance Co-Variance
+Variance Co-Variance (with automated data re-weighting)
+Random Walk
+
+SYNOPSIS START
+<!-- how to instantiate one? -->
+The follwing is an example of how to create a least squares object.
+
+cepLs ls;
+
+SYNOPSIS END
+
+DESCRIPTION START
+<!-- description goes here -->
+<para>An implementation of the <command>cepLs</command> class
+which calculates a Linear Least Squares transformation.
+</para>
+
+<para> <!-- per function descriptions -->
+<command>const cepLs & cepDoVCV(cepMatrix<double> &data, cepMatrix<double> &matP)</command>
+do one iteration of the VCV least squares algoritum
+</para>
+
+<para> <!-- per function descriptions -->
+<command>const cepLs & cepDoVCV(cepMatrix<double> &data)</command>
+iterate least squares algoritum until stable
+</para>
+
+<para> <!-- per function descriptions -->
+<command>const cepLs & cepDoRW(cepMatrix<double> &matA, cepMatrix<double> &matP)</command>
+do one iteration of the least squares algoritum
+</para>
+
+<para> <!-- per function descriptions -->
+<command>const cepMatrix<double> &getResidual()</command>
+get the value of the residual at pos (x,y)
+</para>
+
+<para> <!-- per function descriptions -->
+<command>double getB1()</command>
+get the value B1 in the least squares solution y=B1*x +B2
+</para>
+
+<para> <!-- per function descriptions -->
+<command>double getB2()</command>
+get the value B2 in the solution y=B1*x +B2
+</para>
+
+<para> <!-- per function descriptions -->
+<command>void sanityCheck(cepMatrix<double> &matA, cepMatrix<double> &matP)</command>
+ensure that all values of the matrix A P and L are consistant with the
+least squares alogrithum.
+</para>
+
+<para> <!-- per function descriptions -->
+<command>void calcResiduals(cepMatrix<double> &matA, cepMatrix<double> &matL )</command>
+calculate the residuals of the least squares tranformation
+</para>
+
+<para> <!-- per function descriptions -->
+<command>const cepMatrix<double> initResiduals(cepMatrix<double> &data)</command>
+make the intial P matrix
+</para>
+
+<para> <!-- per function descriptions -->
+<command>const cepMatrix<double> makeP(cepMatrix<double> &data)</command>
+make the intial P matrix
+</para>
+
+<para> <!-- per function descriptions -->
+<command>const cepMatrix<double> makeA(cepMatrix<double> &data)</command>
+make the A matrix
+</para>
+
+<para> <!-- per function descriptions -->
+<command>const cepMatrix<double> makeL(cepMatrix<double> &data)</command>
+make the L matrix
+</para>
+
+<para> <!-- per function descriptions -->
+<command>void calcVCV(cepMatrix<double> &matA, cepMatrix<double> &matP, cepMatrix<double> &matL)</command>
+calc least square for a VCV matrix
+</para>
+
+<para> <!-- per function descriptions -->
+<command>void calcRW(cepMatrix<double> &matA, cepMatrix<double> &matP, cepMatrix<double> &matL)</command>
+calc least squares for a RW matrix
+</para>
+
+<para> <!-- per function descriptions -->
+<command>const cepMatrix<double> reweightVCV()</command>
+re-caluclates the P weighting matrix
+</para>
+
+<para> <!-- per function descriptions -->
+<command>const cepMatrix<double> inverse(cepMatrix<double> &mat)</command>
+calculate a 2x2 matrix inverse
+</para>
+
+<para> <!-- per function descriptions -->
+<command>const cepMatrix<double> mulDiag(cepMatrix<double> &matA, cepMatrix<double> &matB)</command>
+calculate A*B where B is a diagonal
+</para>
+
+<para> <!-- per function descriptions -->
+<command>const cepMatrix<double> Amul(cepMatrix<double> &matA, cepMatrix<double> &matB)</command>
+calculates A*B where A is the design matrix in the least squares tranform
+</para>
+
+<para> <!-- per function descriptions -->
+<command>const cepMatrix<double> mulA(cepMatrix<double> &matA, cepMatrix<double> &matA)</command>
+calculates B*A where A is the design matrix in the least squares tranform
+</para>
+
+DESCRIPTION END
+
+DOCBOOK END
+******************************************************************************/
+
 #ifndef __CEPLS_H
 #define __CEPLS_H
 
@@ -81,6 +211,7 @@ private:
   //calc least squares for a RW matrix
   void calcRW(cepMatrix<double> &matA, cepMatrix<double> &matP, cepMatrix<double> &matL);
 
+  //re-caluclates the P weighting matrix
   const cepMatrix<double> reweightVCV();
   
   //calculate the matrix inverse

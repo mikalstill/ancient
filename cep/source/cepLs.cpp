@@ -17,7 +17,7 @@
   * Mass Ave, Cambridge, MA 02139, USA. 
 */
 
-#include <math.h>
+
 #include "cepLs.h"
 
 #define debug
