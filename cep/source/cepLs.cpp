@@ -20,6 +20,8 @@
 #include <math.h>
 #include "cepLs.h"
 
+#define debug
+
 cepLs::cepLs()
 {
 }
@@ -377,6 +379,11 @@ const cepMatrix<double> cepLs::inverse(cepMatrix<double> &mat)
   
   if ( ( mat.getNumCols() != 2 ) || ( mat.getNumRows() != 2 ) )
   {
+    #ifdef debug
+      cout << "Error, Invalid Matrix size" << endl;
+      exit(1);
+    #endif
+    
     cepError("Error, Invalid Matrix size", cepError::sevErrorRecoverable);
   }
 
@@ -384,8 +391,13 @@ const cepMatrix<double> cepLs::inverse(cepMatrix<double> &mat)
   mul = ( mat.getValue(0, 0) * mat.getValue(1, 1) - mat.getValue(0, 1) * mat.getValue(1, 0) );
 
   if(mul == 0)
-  {        
-      cepError("Error, Matrix could not be inverted", cepError::sevErrorRecoverable);
+  {
+    #ifdef debug
+      cout << "Error, Matrix could not be inverted" << endl;
+      exit(1);
+    #endif
+           
+    cepError("Error, Matrix could not be inverted", cepError::sevErrorRecoverable);
   }
 
   //calculate matrix inverse
@@ -400,8 +412,13 @@ const cepMatrix<double> cepLs::inverse(cepMatrix<double> &mat)
 void cepLs::sanityCheck( cepMatrix<double> &matA, cepMatrix<double> &matP)
 {
   //matP must be obs x obs 
-  if((matP.getNumCols() != matP.getNumRows()) && (matP.getNumCols() != matA.getNumRows()))
-  {
+  if((matP.getNumCols() != matP.getNumRows()) || (matP.getNumCols() != matA.getNumRows()))
+  {             
+    #ifdef debug
+      cout << "Error, Matrix P has the wrong dimesions" << endl;
+      exit(1);
+    #endif
+    
     cepError("Error, Matrix P has the wrong dimesions", cepError::sevErrorRecoverable);
   }
 }
