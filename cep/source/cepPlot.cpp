@@ -76,6 +76,15 @@ cepPlot::cepPlot(cepDataset *theDataset, cepDataset::direction dir, string cfnam
   err = config->getValue("ui-graph-color-error-b", 127, blue);
   if(err.isReal()) err.display();
   pres.setErrorColor(red, green, blue);
+
+  // Ls color
+  err = config->getValue("ui-graph-color-ls-r", 127, red);
+  if(err.isReal()) err.display();
+  err = config->getValue("ui-graph-color-ls-g", 127, green);
+  if(err.isReal()) err.display();
+  err = config->getValue("ui-graph-color-ls-b", 127, blue);
+  if(err.isReal()) err.display();
+  pres.setLsColor(red, green, blue);
   
   // Font color
   err = config->getValue("ui-graph-color-font-r", 0, red);

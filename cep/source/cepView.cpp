@@ -86,6 +86,7 @@ BEGIN_EVENT_TABLE (cepView, wxView)
   EVT_MENU (CEPMENU_COLORAXES, cepView::OnColorAxes)
   EVT_MENU (CEPMENU_COLORLINE, cepView::OnColorLine)
   EVT_MENU (CEPMENU_COLORERROR, cepView::OnColorError)
+  EVT_MENU (CEPMENU_COLORLS, cepView::OnColorLs)
   EVT_MENU (CEPMENU_COLORGRID, cepView::OnColorGrid)
   EVT_MENU (CEPMENU_COLORFONT, cepView::OnColorFont)
   EVT_MENU (CEPMENU_SHOWX, cepView::OnToggleX)
@@ -368,6 +369,22 @@ cepView::OnColorError (wxCommandEvent & WXUNUSED (event))
     m_config->setValue("ui-graph-color-error-r", color.Red());
     m_config->setValue("ui-graph-color-error-g", color.Green());
     m_config->setValue("ui-graph-color-error-b", color.Blue());
+
+    m_dirty = true;
+    canvas->Refresh();
+  }
+}
+
+void
+cepView::OnColorLs (wxCommandEvent & WXUNUSED (event))
+{
+  wxColourDialog picker(NULL);
+  if(picker.ShowModal() == wxID_OK){
+    wxColourData data = picker.GetColourData();
+    wxColour color = data.GetColour();
+    m_config->setValue("ui-graph-color-ls-r", color.Red());
+    m_config->setValue("ui-graph-color-ls-g", color.Green());
+    m_config->setValue("ui-graph-color-ls-b", color.Blue());
 
     m_dirty = true;
     canvas->Refresh();

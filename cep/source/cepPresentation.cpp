@@ -491,7 +491,8 @@ cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminva
     
     // And draw the actual line
     cepDebugPrint("Last point: " + cepToString(xrange * m_b1));
-
+    plot_setlinecolor(graph, m_lsColor.red, m_lsColor.green, m_lsColor.blue);
+    
     unsigned int xintercept = (unsigned int) ((yrange - (m_b2 * 10000) + yminval) / horizScale + graphInset);
     unsigned int lastpoint = (unsigned int) ((yrange - (xrange * m_b1) + yminval - (m_b2 * 10000)) / 
 					     horizScale + graphInset);
@@ -629,6 +630,13 @@ void cepPresentation::setErrorColor(char red, char green, char blue)
   m_errorColor.red = red;
   m_errorColor.green = green;
   m_errorColor.blue = blue;
+}
+
+void cepPresentation::setLsColor(char red, char green, char blue)
+{
+  m_lsColor.red = red;
+  m_lsColor.green = green;
+  m_lsColor.blue = blue;
 }
 
 void cepPresentation::setAxesColor(char red, char green, char blue)

@@ -68,6 +68,7 @@ public:
   void OnColorLine  (wxCommandEvent& event);
   void OnColorAverage  (wxCommandEvent& event);
   void OnColorError  (wxCommandEvent& event);
+  void OnColorLs  (wxCommandEvent& event);
   void OnColorFont  (wxCommandEvent& event);
   void OnColorGrid  (wxCommandEvent& event);
 

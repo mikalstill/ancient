@@ -43,6 +43,7 @@ public:
   void setAxesColor(char red, char green, char blue);
   void setLineColor(char red, char green, char blue);
   void setErrorColor(char red, char green, char blue);
+  void setLsColor(char red, char green, char blue);
   void setGridColor(char red, char green, char blue);
   void setFontColor(char red, char green, char blue);
 
@@ -78,6 +79,7 @@ private:
   color m_axesColor;
   color m_lineColor;
   color m_errorColor;
+  color m_lsColor;
   color m_gridColor;
   color m_fontColor;
 
