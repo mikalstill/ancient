@@ -1,0 +1,5 @@
+A simple example of a program which just does a malloc() and the associated ltrace and strace output
+
+To compile, try:
+
+  gcc malloc.c -o malloc

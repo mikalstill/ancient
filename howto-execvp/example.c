@@ -7,6 +7,7 @@
 
 int main(int argc, char *argv[]){
   char **args;
+  int idx;
 
   // Args is an array of char *'s which point to the arguements. The first
   // arg is traditionally the name of the command
@@ -21,7 +22,12 @@ int main(int argc, char *argv[]){
   args[3] = strdup("there");
   args[4] = NULL;
 
-  execvp("echo", args);
-  printf("Could not execvp()\n");
-  exit(1);
+  // Now determine how many entries we just created
+  idx = 0;
+  while(args[idx])
+    idx++;
+  idx++;
+  printf("Size: %d\n", idx);
+
+  
 }
