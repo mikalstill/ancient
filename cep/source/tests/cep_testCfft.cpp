@@ -94,7 +94,7 @@ namespace
       for (int row = 0; row < numRows; row++)
 	{
 	  myMatrix.setValue (row, 0, 0, year);
-	  year+=0.1;
+	  year+=0.002737850787; //increment 1 day
 	  //cout << myMatrix.getValue(row,0,0) << "  ";
 	}
 
@@ -226,8 +226,8 @@ namespace
       cout << endl << "test: Testing SIN ************************" << endl;
       for (int row = 0; row < numRows; row++)
 	{
-	  myMatrix.setValue (row, 0, 0, year);
-	  year+=0.1;
+	   myMatrix.setValue (row, 0, 0, year);
+	  year+=0.002737850787; //increment 1 day
 	  //cout << myMatrix.getValue(row,0,0) << "  ";
 	}
 
@@ -286,14 +286,14 @@ namespace
 		  //cout << "  realResult = " << realResult << endl;
 		  //cout << imag( fftarraysin[r] ) << " - " << imag( myMatrix.getValue(r,c,t));
 		  //cout << "  imagResult = " << imagResult << endl;
-		  if (r < numRows/2)
-		  {
+		  //if (r < numRows/2)
+		  //{
 		    cout << "SIN test: Row: " << r << " - Scale: " 
 		         << real(myMatrix.getValue(r,0,t)) 
 		         << " - Value (" << r << "," << c << "," << t << "): "
 		         << myMatrix.getValue(r,c,t) 
 		         << endl;
-		  }
+		    //}
 		  CPPUNIT_ASSERT (realResult < REALTOL); //test the real components
 		  CPPUNIT_ASSERT (imagResult < IMAGTOL); //test the imaginary components
 		}		//for r
