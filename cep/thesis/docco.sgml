@@ -105,7 +105,7 @@
   These can then be used to create  man pages, info pages and HTML documentation. This again serves to
   minimise the need to make changes in several places, for example, if comments need to be changed for a specific
   class or file, it is done in the class file and the Autodocbook script is run again. The second
-  situtation is in the creation of the other possible documents, such as man pages, info pages and HTML files. The appropriate
+  situation is in the creation of the other possible documents, such as man pages, info pages and HTML files. The appropriate
   conversion script is run on the target files and the task is complete.
 </para>
 
