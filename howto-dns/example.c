@@ -19,7 +19,7 @@ int main(int argc, char *argv[]){
   if(result == NULL)
     perror("Name lookup failed: ");
   else{
-    printf("Name resolved to: %s (%d names)\n", result->h_name,
+    printf("Name resolved to: %s (%d name elements)\n", result->h_name,
 	   result->h_length);
     j = 0;
     while(result->h_addr_list[j] != 0){
