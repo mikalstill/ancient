@@ -33,7 +33,7 @@ I possess a Higher School Certificate (year 12) from Canberra Grammar School, in
 </para>
 
 <para>
-I am currently studying towards a Bachelor of Engineering in Computer Engineering, specializing in Software Engineering part time. I have been undertaking this since 1996, and am due to complete the degree by the end of next year. I am also studying towards a Law degree at the same time. This study has been mainly undertaken part time while working fulltime.
+I am currently studying toward a Bachelor of Engineering in Computer Engineering, specializing in Software Engineering part time. I have been undertaking this since 1996, and am due to complete the degree by the end of next year. I am also studying toward a Law degree at the same time. This study has been mainly undertaken part time while working full time.
 </para>
 </sect1>
 
@@ -60,8 +60,8 @@ I am committed to the concept of open source development, and am currently worki
 <listitem><para>Panda, the only open source and truly free PDF generation API that I am aware of that is written in C</para></listitem>
 <listitem><para>PandaLex, an open source PDF parser</para></listitem>
 <listitem><para>PandaScript, an open source scripting interface to Panda</para></listitem>
-<listitem><para>Autodocbook, an automatic documentation generator which produces Docbook DTD SGML</para></listitem>
-<listitem><para>Groff2db, a gruff to docbook converter</para></listitem>
+<listitem><para>Autodocbook, an automatic documentation generator which produces DocBook DTD SGML</para></listitem>
+<listitem><para>Groff2db, a gruff to DocBook converter</para></listitem>
 <listitem><para>Getpage, a dynamic website generation tool</para></listitem>
 <listitem><para>...And many other smaller projects</para></listitem>
 </itemizedlist>
@@ -156,7 +156,7 @@ My open source coding is also thoroughly tested. Panda, for instance, is put thr
 </para>
 
 <para>
-I have also liased with the Quality Assurance team at TOWER Software on many occasions, and understand the issues involved with testing of complex commercial software packages.
+I have also liaised with the Quality Assurance team at TOWER Software on many occasions, and understand the issues involved with testing of complex commercial software packages.
 </para>
 </sect3>
 
@@ -222,6 +222,7 @@ I have given the following technical presentations:
 <listitem><para>September 2002: Australian Unix User's Group Annual Conference, <emphasis>Graphics programming tutorial</emphasis> (cancelled due to lack of enrollments)</para></listitem>
 <listitem><para>October 2002: Canberra Linux User's Group, <emphasis>Using the autotools for your application</emphasis></para></listitem>
 <listitem><para>November 2002: Australian Unix User's Group, Canberra Chapter Technical Symposium, <emphasis>Fixing whats wrong with bind: shdns</emphasis></para></listitem>
+<listitem><para>February 2003: E-ducation 2003<emphasis>Developing e-ducation tools with Open Source</emphasis></para></listitem>
 </itemizedlist>
 </sect1>
 
@@ -233,7 +234,7 @@ I have had the following articles and papers published:
 <itemizedlist>
 <listitem><para>September 2001: Australian Unix User's Group Annual Conference Proceedings, <emphasis>Open Source PDF handling with Panda and PandaLex</emphasis></para></listitem>
 <listitem><para>March 2002: IBM Developer Works, <emphasis>Graphics programming with libtiff: Black and White</emphasis></para></listitem>
-<listitem><para>June 2002: IBM Developer Works, <emphasis>Graphics programming with libtiff: grayscale and color images</emphasis></para></listitem>
+<listitem><para>June 2002: IBM Developer Works, <emphasis>Graphics programming with libtiff: gray scale and color images</emphasis></para></listitem>
 <listitem><para>May 2002: Australian Unix User's Group Newsletter (AUUGN), <emphasis>Graphics programming with libtiff: Black and White</emphasis> [reprint]</para></listitem>
 </itemizedlist>
 </sect1>
@@ -253,7 +254,7 @@ I have held the following academic positions, in addition to my full time career
 
 <sect2><title>Senior Software Engineer, TOWER Software Engineering Pty Ltd</title>
 <para>
-August 2001 onwards.
+August 2001 onward.
 </para>
 
 <itemizedlist>
