@@ -10,7 +10,7 @@
 %DVIPSWebPage: (www.radicaleye.com)
 %DVIPSCommandLine: dvips -q output.dvi -o output.ps
 %DVIPSParameters: dpi=600, compressed
-%DVIPSSource:  TeX output 2003.03.24:2031
+%DVIPSSource:  TeX output 2003.03.24:2040
 %%BeginProcSet: texc.pro
 %!
 /TeXDict 300 dict def TeXDict begin/N{def}def/B{bind def}N/S{exch}N/X{S
@@ -1015,7 +1015,7 @@ SDict begin [ /View [/XYZ H.V] /Dest (19) cvn H.B /DEST pdfmark end
 %!PS-Adobe-3.0 EPSF-3.0
 %%Creator: (ImageMagick)
 %%Title: (gen-tcp-handshake.eps)
-%%CreationDate: (Mon Mar 24 20:31:17 2003)
+%%CreationDate: (Mon Mar 24 20:40:25 2003)
 %%BoundingBox: 0 0 191 155
 %%HiResBoundingBox: 0 0 191 155
 %%DocumentData: Clean7Bit
@@ -4024,9 +4024,9 @@ y Fd(int)197 4686 y(main)h(\(int)g(argc,)g(char)g(*argv[]\))197
 5262 y(socklen_t)g(clen;)287 5426 y(//)h(We)h(will)f(listen)g(with)g
 (this)g(file)g(descriptor)287 5508 y(if)g(\(\(lfd)g(=)h(socket)f
 (\(AF_INET,)f(SOCK_DGRAM,)g(0\)\))h Fc(<)h Fd(0\))376
-5590 y({)466 5673 y(fprintf)f(\(stderr,)690 5755 y("Error)g(whilst)g
-(starting)f(to)i(listen\\n"\);)466 5837 y(exit)f(\(42\);)p
-Black 3504 5999 a Ff(3)p Black eop end
+5590 y({)466 5673 y(fprintf)f(\(stderr,)f("Error)h(whilst)g(starting)f
+(to)i(listen\\n"\);)466 5755 y(exit)f(\(42\);)376 5837
+y(})p Black 3504 5999 a Ff(3)p Black eop end
 %%Page: 4 4
 TeXDict begin 4 3 bop -600 -600 a
 SDict begin /product where{pop product(Distiller)search{pop pop pop
@@ -4044,124 +4044,148 @@ SDict begin [ /View [/XYZ H.V] /Dest (page.4) cvn H.B /DEST pdfmark
 end
  197 -102 a Black 2584
 -132 a Ff(UDP)20 b(shell)h(scripts)f(with)g(inetd)p Black
-376 89 a Fd(})287 253 y(//)44 b(Define)g(what)g(we)h(are)f(listening)f
-(for)287 336 y(bzero)h(\(&servaddr,)f(sizeof)g(\(servaddr\)\);)287
-418 y(servaddr.sin_family)e(=)k(AF_INET;)287 500 y
+287 171 a Fd(//)44 b(Define)g(what)g(we)h(are)f(listening)f(for)287
+253 y(bzero)h(\(&servaddr,)f(sizeof)g(\(servaddr\)\);)287
+336 y(servaddr.sin_family)e(=)k(AF_INET;)287 418 y
 (servaddr.sin_addr.s_addr)40 b(=)45 b(htonl)f(\(INADDR_ANY\);)287
-582 y(servaddr.sin_port)e(=)i(htons)g(\(1234\);)287 747
-y(//)g(Bind)g(to)h(the)f(address)287 829 y(if)g(\(bind)g(\(lfd,)g
-(\(struct)g(sockaddr)f(*\))i(&servaddr,)556 911 y(sizeof)e
-(\(servaddr\)\))g Fc(<)i Fd(0\))376 993 y({)466 1075
-y(perror)f(\("Couldn't)f(bind"\);)466 1158 y(exit)h(\(42\);)376
-1240 y(})287 1404 y(//)g(Do)h(stuff)287 1486 y(while)f(\(1\))376
-1569 y({)466 1651 y(len)g(=)h(1024;)466 1733 y(printf)f
-(\("Reading...\\n"\);)466 1815 y(clen)g(=)h(sizeof)f(\(clientaddr\);)
-466 1897 y(if)g(\(\(len)g(=)h(recvfrom)f(\(lfd,)g(buf,)g(len,)g(0,)869
-1979 y(\(struct)g(sockaddr)g(*\))869 2062 y(&clientaddr,)f(&clen\)\))h
-Fc(<)h Fd(0\))376 2144 y({)466 2226 y(perror)f(\("Socket)f(read)h
-(error"\);)466 2308 y(exit)g(\(42\);)376 2390 y(})466
-2473 y(if)g(\(len)h(==)f(0\))376 2555 y(break;)466 2719
-y(//)g(The)h(buffer)f(is)g(not)g(null)h(terminated)466
-2801 y(buf[len])e(=)i('\\0';)466 2884 y(printf)f(\("Read:)f(\045s\\n",)
-h(buf\);)466 3048 y(//)g(And)h(send)f(it)g(straight)g(back)466
-3130 y(if)g(\(sendto)g(\(lfd,)g(buf,)g(len,)g(0,)h(&clientaddr,)645
-3212 y(clen\))f Fc(<)h Fd(0\))376 3295 y({)466 3377 y(perror)f
-(\("Socket)f(write)h(error"\);)466 3459 y(exit)g(\(42\);)376
-3541 y(})376 3623 y(})197 3706 y(})197 3797 y
+500 y(servaddr.sin_port)e(=)i(htons)g(\(1234\);)287 664
+y(//)g(Bind)g(to)h(the)f(address)287 747 y(if)g(\(bind)g(\(lfd,)g
+(\(struct)g(sockaddr)f(*\))i(&servaddr,)e(sizeof)h(\(servaddr\)\))f
+Fc(<)h Fd(0\))376 829 y({)466 911 y(perror)g(\("Couldn't)f(bind"\);)466
+993 y(exit)h(\(42\);)376 1075 y(})287 1240 y(//)g(Do)h(stuff)287
+1322 y(while)f(\(1\))376 1404 y({)466 1486 y(len)g(=)h(1024;)466
+1569 y(printf)f(\("Reading...\\n"\);)466 1651 y(clen)g(=)h(sizeof)f
+(\(clientaddr\);)466 1733 y(if)g(\(\(len)g(=)h(recvfrom)f(\(lfd,)g
+(buf,)g(len,)g(0,)1407 1815 y(\(struct)g(sockaddr)g(*\))g(&clientaddr,)
+f(&clen\)\))h Fc(<)g Fd(0\))556 1897 y({)645 1979 y(perror)g(\("Socket)
+g(read)g(error"\);)645 2062 y(exit)g(\(42\);)556 2144
+y(})466 2226 y(if)g(\(len)h(==)f(0\))556 2308 y(break;)466
+2473 y(//)g(The)h(buffer)f(is)g(not)g(null)h(terminated)466
+2555 y(buf[len])e(=)i('\\0';)466 2637 y(printf)f(\("Read:)f(\045s\\n",)
+h(buf\);)466 2801 y(//)g(And)h(send)f(it)g(straight)g(back)466
+2884 y(if)g(\(sendto)g(\(lfd,)g(buf,)g(len,)g(0,)h(&clientaddr,)e
+(clen\))h Fc(<)g Fd(0\))556 2966 y({)645 3048 y(perror)g(\("Socket)g
+(write)g(error"\);)645 3130 y(exit)g(\(42\);)556 3212
+y(})376 3295 y(})197 3377 y(})197 3469 y
 SDict begin H.S end
- 197 3797
-a 197 3797 a
+ 197 3469 a 197
+3469 a
 SDict begin 11 H.A end
- 197 3797 a 197 3797 a
+ 197 3469 a 197 3469 a
 SDict begin [ /View [/XYZ H.V] /Dest (45) cvn H.B /DEST pdfmark end
- 197 3797 a 197 3797
-a
+ 197 3469 a 197 3469 a
 SDict begin H.S end
- 197 3797 a 197 3797 a
+ 197
+3469 a 197 3469 a
 SDict begin 11 H.A end
- 197 3797 a 197 3797 a
+ 197 3469 a 197 3469 a
 SDict begin [ /View [/XYZ H.V] /Dest (46) cvn H.B /DEST pdfmark end
- 197 3797
-a 83 x Ff(Code:)21 b(disconnected.c)197 3922 y
+ 197 3469 a 82
+x Ff(Code:)21 b(disconnected.c)197 3593 y
 SDict begin H.S end
- 197 3922
-a 197 3922 a
+ 197 3593 a
+197 3593 a
 SDict begin 11 H.A end
- 197 3922 a 197 3922 a
+ 197 3593 a 197 3593 a
 SDict begin [ /View [/XYZ H.V] /Dest (47) cvn H.B /DEST pdfmark end
- 197 3922 a 91 x Fg(Let's)f(have)f(a)
-h(look)h(at)f(this)h(pr)o(ogram)e(r)o(unning.)i(As)f(we)g(can)g(see)g
+ 197 3593 a 91 x Fg(Let's)f(have)f(a)h
+(look)h(at)f(this)h(pr)o(ogram)e(r)o(unning.)i(As)f(we)g(can)g(see)g
 (fr)o(om)f(the)h(sour)o(ce)g(code,)g(the)g(pr)o(ogram)197
-4104 y(listens)f(on)h(UDP)e(port)h(1234)d(\(very)i(imaginative\).)g(W)
--8 b(e)19 b(can)f(use)2255 4104 y
+3775 y(listens)f(on)h(UDP)e(port)h(1234)d(\(very)i(imaginative\).)g(W)
+-8 b(e)19 b(can)f(use)2255 3775 y
 SDict begin H.S end
- 2255 4104 a 2255 4104
+ 2255 3775 a 2255 3775
 a
 SDict begin 11 H.A end
- 2255 4104 a 2255 4104 a
+ 2255 3775 a 2255 3775 a
 SDict begin [ /View [/XYZ H.V] /Dest (48) cvn H.B /DEST pdfmark end
- 2255 4104 a Fh(netcat)f Fg(to)i(test)f(the)h
-(pr)o(ogram.)e(First,)i(we)197 4195 y(need)h(to)h(start)g(the)g(server)
+ 2255 3775 a Fh(netcat)f Fg(to)i(test)f(the)h
+(pr)o(ogram.)e(First,)i(we)197 3867 y(need)h(to)h(start)g(the)g(server)
 f(in)h(a)f(dif)o(fer)o(ent)f(terminal,)i(this)g(is)g(as)g(simple)g(as)f
-(r)o(unning)j(it.)p 197 4310 3415 9 v 197 5016 9 707
-v 230 4335 a
+(r)o(unning)j(it.)p 197 3981 3415 9 v 197 4687 9 707
+v 230 4006 a
 SDict begin H.S end
- 230 4335 a 230 4335 a
+ 230 4006 a 230 4006 a
 SDict begin 11 H.A end
- 230 4335 a 230 4335
+ 230 4006 a 230 4006
 a
 SDict begin [ /View [/XYZ H.V] /Dest (49) cvn H.B /DEST pdfmark end
- 230 4335 a 247 4520 a Fh(netcat)18 b(rocks)230 4562
+ 230 4006 a 247 4191 a Fh(netcat)18 b(rocks)230 4233
 y
 SDict begin H.S end
- 230 4562 a 230 4562 a
+ 230 4233 a 230 4233 a
 SDict begin 11 H.A end
- 230 4562 a 230 4562 a
+ 230 4233 a 230 4233 a
 SDict begin [ /View [/XYZ H.V] /Dest (51) cvn H.B /DEST pdfmark end
- 230 4562
-a 230 4562 a
+ 230 4233
+a 230 4233 a
 SDict begin H.S end
- 230 4562 a 230 4562 a
+ 230 4233 a 230 4233 a
 SDict begin 11 H.A end
- 230 4562 a 230 4562
+ 230 4233 a 230 4233
 a
 SDict begin [ /View [/XYZ H.V] /Dest (52) cvn H.B /DEST pdfmark end
- 230 4562 a 247 4652 a Fh(netcat)28 b Fg(r)o(ocks.)i(It's)g(a)g
+ 230 4233 a 247 4324 a Fh(netcat)28 b Fg(r)o(ocks.)i(It's)g(a)g
 (little)h(application)f(which)h(lets)f(you)h(push)g(data)e(to)h
-(arbitrary)f(port)h(numbers)247 4744 y(using)24 b(both)f(UDP)g(and)g
+(arbitrary)f(port)h(numbers)247 4415 y(using)24 b(both)f(UDP)g(and)g
 (TCP)-11 b(.)22 b(It)h(can)g(also)g(be)g(used)f(to)i(cr)o(eate)d(very)h
-(simple)i(servers,)e(because)3336 4744 y
+(simple)i(servers,)e(because)3336 4415 y
 SDict begin H.S end
- 3336 4744 a
-3336 4744 a
+ 3336 4415 a
+3336 4415 a
 SDict begin 11 H.A end
- 3336 4744 a 3336 4744 a
+ 3336 4415 a 3336 4415 a
 SDict begin [ /View [/XYZ H.V] /Dest (53) cvn H.B /DEST pdfmark end
- 3336 4744 a Fh(netcat)247
-4835 y Fg(can)32 b(do)g(all)g(the)h(listening)g(for)f(you.)h(For)f(mor)
+ 3336 4415 a Fh(netcat)247
+4506 y Fg(can)32 b(do)g(all)g(the)h(listening)g(for)f(you.)h(For)f(mor)
 o(e)g(information,)h(and)f(download)h(details,)e(checkout)247
-4926 y(http://www)-8 b(.atstake.com/r)o(esear)o
-(ch/tools/network_utilities/.)p 3603 5016 9 707 v 197
-5024 3415 9 v 197 5107 a
+4598 y(http://www)-8 b(.atstake.com/r)o(esear)o
+(ch/tools/network_utilities/.)p 3603 4687 9 707 v 197
+4695 3415 9 v 197 4779 a
 SDict begin H.S end
- 197 5107 a 197 5107 a
+ 197 4779 a 197 4779 a
 SDict begin 11 H.A end
- 197 5107
-a 197 5107 a
+ 197 4779
+a 197 4779 a
 SDict begin [ /View [/XYZ H.V] /Dest (54) cvn H.B /DEST pdfmark end
- 197 5107 a 61 x Fg(A)20 b(client)h(interaction)h(with)f
-(the)g(server)f(looks)i(like)f(this:)197 5252 y
+ 197 4779 a 60 x Fg(A)20 b(client)h(interaction)h(with)f
+(the)g(server)f(looks)i(like)f(this:)197 4924 y
 SDict begin H.S end
- 197 5252
-a 197 5252 a
+ 197 4924
+a 197 4924 a
 SDict begin 9.9 H.A end
- 197 5252 a 197 5252 a
+ 197 4924 a 197 4924 a
 SDict begin [ /View [/XYZ H.V] /Dest (55) cvn H.B /DEST pdfmark end
- 197 5252 a 81 x Fd([mikal@localhost)
-42 b(article]#)h(nc)i(-u)f(localhost)g(1234)197 5415
-y(hello)197 5497 y(hello)197 5579 y(out)197 5662 y(out)197
-5744 y(there)197 5826 y(there)p Black 3504 5999 a Ff(4)p
-Black eop end
+ 197 4924 a 80 x Fd([mikal@localhost)
+42 b(article]#)h(nc)i(-u)f(localhost)g(1234)197 5086
+y(hello)197 5168 y(hello)197 5251 y(out)197 5333 y(out)197
+5415 y(there)197 5497 y(there)242 5579 y(punt!)197 5662
+y([mikal@localhost)e(article]#)197 5753 y
+SDict begin H.S end
+ 197 5753 a
+197 5753 a
+SDict begin 11 H.A end
+ 197 5753 a 197 5753 a
+SDict begin [ /View [/XYZ H.V] /Dest (56) cvn H.B /DEST pdfmark end
+ 197 5753 a 83 x Fg(Note)21
+b(that)g(the)700 5836 y
+SDict begin H.S end
+ 700 5836 a 700 5836 a
+SDict begin 11 H.A end
+ 700 5836
+a 700 5836 a
+SDict begin [ /View [/XYZ H.V] /Dest (57) cvn H.B /DEST pdfmark end
+ 700 5836 a Fg(\223punt!\224)f(is)h(me)g(hitting)h(contr)o
+(ol)f(c)f(on)1933 5836 y
+SDict begin H.S end
+ 1933 5836 a 1933 5836 a
+SDict begin 11 H.A end
+ 1933
+5836 a 1933 5836 a
+SDict begin [ /View [/XYZ H.V] /Dest (58) cvn H.B /DEST pdfmark end
+ 1933 5836 a Fh(netcat)p Fg(.)e(The)j(server)f
+(output)h(for)g(this)g(session)h(is:)p Black 3504 5999
+a Ff(4)p Black eop end
 %%Page: 5 5
 TeXDict begin 5 4 bop -600 -600 a
 SDict begin /product where{pop product(Distiller)search{pop pop pop
@@ -4179,334 +4203,313 @@ SDict begin [ /View [/XYZ H.V] /Dest (page.5) cvn H.B /DEST pdfmark
 end
  197 -102 a Black 2584
 -132 a Ff(UDP)20 b(shell)h(scripts)f(with)g(inetd)p Black
-242 89 a Fd(punt!)197 171 y([mikal@localhost)42 b(article]#)197
-263 y
+197 6 a
 SDict begin H.S end
- 197 263 a 197 263 a
-SDict begin 11 H.A end
- 197 263 a 197 263 a
-SDict begin [ /View [/XYZ H.V] /Dest (56) cvn H.B /DEST pdfmark end
- 197 263
-a 83 x Fg(Note)21 b(that)g(the)700 346 y
-SDict begin H.S end
- 700 346 a 700
-346 a
-SDict begin 11 H.A end
- 700 346 a 700 346 a
-SDict begin [ /View [/XYZ H.V] /Dest (57) cvn H.B /DEST pdfmark end
- 700 346 a Fg(\223punt!\224)f(is)h(me)g
-(hitting)h(contr)o(ol)f(c)f(on)1933 346 y
-SDict begin H.S end
- 1933 346 a
-1933 346 a
-SDict begin 11 H.A end
- 1933 346 a 1933 346 a
-SDict begin [ /View [/XYZ H.V] /Dest (58) cvn H.B /DEST pdfmark end
- 1933 346 a Fh(netcat)p
-Fg(.)e(The)j(server)f(output)h(for)g(this)g(session)h(is:)197
-452 y
-SDict begin H.S end
- 197 452 a 197 452 a
+ 197 6 a 197 6 a
 SDict begin 9.9 H.A end
- 197 452 a 197 452 a
+ 197 6 a 197 6 a
 SDict begin [ /View [/XYZ H.V] /Dest (59) cvn H.B /DEST pdfmark end
- 197 452
-a 59 x Fd([root@localhost)42 b(sockets]#)i(./disconnected)197
-593 y(Reading...)197 675 y(Read:)g(hello)197 840 y(Reading...)197
-922 y(Read:)g(out)197 1086 y(Reading...)197 1168 y(Read:)g(there)197
-1333 y(Reading...)197 1428 y
+ 197 6 a 83 x
+Fd([root@localhost)42 b(sockets]#)i(./disconnected)197
+171 y(Reading...)197 253 y(Read:)g(hello)197 418 y(Reading...)197
+500 y(Read:)g(out)197 664 y(Reading...)197 747 y(Read:)g(there)197
+911 y(Reading...)197 1006 y
 SDict begin H.S end
- 197 1428 a 197 1428 a
+ 197 1006 a 197 1006 a
 SDict begin 11 H.A end
  197
-1428 a 197 1428 a
+1006 a 197 1006 a
 SDict begin [ /View [/XYZ H.V] /Dest (60) cvn H.B /DEST pdfmark end
- 197 1428 a 79 x Fg(Ther)o(e)27 b(ar)o(e)g(a)g(couple)
+ 197 1006 a 79 x Fg(Ther)o(e)27 b(ar)o(e)g(a)g(couple)
 h(of)g(things)h(worth)g(noting)g(her)o(e.)e(Firstly)-9
 b(,)28 b(the)g(UDP)g(server)f(can)h(handle)g(multi-)197
-1598 y(ple)f(clients)g(at)g(once)g(in)h(the)f(single)g(pr)o(ocess.)g
+1177 y(ple)f(clients)g(at)g(once)g(in)h(the)f(single)g(pr)o(ocess.)g
 (This)g(is)g(because)g(each)f(packet)g(comes)i(in,)f(and)f(is)i(then)
-197 1690 y(r)o(esponded)f(to)i(\227)f(ther)o(e)g(is)g(no)h(assumption)h
+197 1268 y(r)o(esponded)f(to)i(\227)f(ther)o(e)g(is)g(no)h(assumption)h
 (made)d(that)h(packets)g(come)h(fr)o(om)f(the)g(same)g(machine.)197
-1781 y(This)d(model)f(works)h(well)f(for)g(the)g(single)h(packet)e
+1359 y(This)d(model)f(works)h(well)f(for)g(the)g(single)h(packet)e
 (communication)j(paradigm.)d(Secondly)-9 b(,)24 b(since)g(the)197
-1872 y(server)17 b(simply)h(waits)g(for)f(a)g(packet,)g(r)o(esponds,)g
+1451 y(server)17 b(simply)h(waits)g(for)f(a)g(packet,)g(r)o(esponds,)g
 (and)g(then)h(starts)f(waiting)i(again,)e(the)g(server)g(survives)197
-1964 y(disconnects)22 b(fr)o(om)e(the)h(client,)g(it)g(simply)g(waits)g
-(until)h(a)e(new)h(packet)f(comes)h(along.)197 2029 y
+1542 y(disconnects)22 b(fr)o(om)e(the)h(client,)g(it)g(simply)g(waits)g
+(until)h(a)e(new)h(packet)f(comes)h(along.)197 1607 y
 SDict begin H.S end
 
-197 2029 a 197 2029 a
+197 1607 a 197 1607 a
 SDict begin 11 H.A end
- 197 2029 a 197 2029 a
+ 197 1607 a 197 1607 a
 SDict begin [ /View [/XYZ H.V] /Dest (61) cvn H.B /DEST pdfmark end
- 197 2029
+ 197 1607
 a 253 x Fe(3.2.)27 b(Disconnected)i(soc)n(kets)f(and)h(scripting)197
-2354 y
+1933 y
 SDict begin H.S end
- 197 2354 a 197 2354 a
+ 197 1933 a 197 1933 a
 SDict begin 11 H.A end
- 197 2354 a 197 2354 a
+ 197 1933 a 197 1933 a
 SDict begin [ /View [/XYZ H.V] /Dest (63) cvn H.B /DEST pdfmark end
  197
-2354 a 69 x Fg(This)24 b(article)e(is)h(r)o(eally)f(about)h(writing)h
+1933 a 69 x Fg(This)24 b(article)e(is)h(r)o(eally)f(about)h(writing)h
 (useful)f(UDP)g(servers)f(using)i(scripting)g(languages)e(\227)h
-(speci\002-)197 2515 y(cally)387 2515 y
+(speci\002-)197 2093 y(cally)387 2093 y
 SDict begin H.S end
- 387 2515 a 387
-2515 a
+ 387 2093 a 387
+2093 a
 SDict begin 11 H.A end
- 387 2515 a 387 2515 a
+ 387 2093 a 387 2093 a
 SDict begin [ /View [/XYZ H.V] /Dest (64) cvn H.B /DEST pdfmark end
- 387 2515 a Ff(bash)p Fg(.)17
+ 387 2093 a Ff(bash)p Fg(.)17
 b(In)h(this)g(instance,)g(the)f(disconnected)h(natur)o(e)e(of)h(these)h
-(default)e(UDP)h(sockets)h(causes)f(gr)o(eat)197 2606
+(default)e(UDP)h(sockets)h(causes)f(gr)o(eat)197 2184
 y(pain.)23 b(This)i(is)f(because)f(ther)o(e)g(is)h(no)g(trivial)g(way)f
-(in)i(bash)e(to)i(call)2357 2606 y
+(in)i(bash)e(to)i(call)2357 2184 y
 SDict begin H.S end
- 2357 2606 a 2357 2606
+ 2357 2184 a 2357 2184
 a
 SDict begin 11 H.A end
- 2357 2606 a 2357 2606 a
+ 2357 2184 a 2357 2184 a
 SDict begin [ /View [/XYZ H.V] /Dest (65) cvn H.B /DEST pdfmark end
- 2357 2606 a Ff(r)o(ecvfr)o(om)e
-Fg(and)2839 2606 y
+ 2357 2184 a Ff(r)o(ecvfr)o(om)e
+Fg(and)2839 2184 y
 SDict begin H.S end
- 2839 2606 a 2839 2606 a
+ 2839 2184 a 2839 2184 a
 SDict begin 11 H.A end
- 2839 2606
-a 2839 2606 a
+ 2839 2184
+a 2839 2184 a
 SDict begin [ /View [/XYZ H.V] /Dest (66) cvn H.B /DEST pdfmark end
- 2839 2606 a Ff(sendto)p Fg(.)g(Shell)h(scripts)197
-2697 y(want)18 b(to)g(be)f(able)g(to)h(use)f(the)h(standar)o(d)1472
-2697 y
+ 2839 2184 a Ff(sendto)p Fg(.)g(Shell)h(scripts)197
+2276 y(want)18 b(to)g(be)f(able)g(to)h(use)f(the)h(standar)o(d)1472
+2276 y
 SDict begin H.S end
- 1472 2697 a 1472 2697 a
+ 1472 2276 a 1472 2276 a
 SDict begin 11 H.A end
- 1472 2697 a 1472 2697
+ 1472 2276 a 1472 2276
 a
 SDict begin [ /View [/XYZ H.V] /Dest (67) cvn H.B /DEST pdfmark end
- 1472 2697 a Ff(r)o(ead)f Fg(and)1789 2697 y
+ 1472 2276 a Ff(r)o(ead)f Fg(and)1789 2276 y
 SDict begin H.S end
- 1789 2697
-a 1789 2697 a
+ 1789 2276
+a 1789 2276 a
 SDict begin 11 H.A end
- 1789 2697 a 1789 2697 a
+ 1789 2276 a 1789 2276 a
 SDict begin [ /View [/XYZ H.V] /Dest (68) cvn H.B /DEST pdfmark end
- 1789 2697 a Ff(write)g
+ 1789 2276 a Ff(write)g
 Fg(calls,)h(because)e(these)i(languages)f(ar)o(e)f(intended)197
-2789 y(for)21 b(\002le)f(and)h(pipe)f(input)h(output,)g(as)g(opposed)g
-(to)g(socket)g(traf)o(\002c.)197 2854 y
+2367 y(for)21 b(\002le)f(and)h(pipe)f(input)h(output,)g(as)g(opposed)g
+(to)g(socket)g(traf)o(\002c.)197 2432 y
 SDict begin H.S end
- 197 2854 a 197
-2854 a
+ 197 2432 a 197
+2432 a
 SDict begin 11 H.A end
- 197 2854 a 197 2854 a
+ 197 2432 a 197 2432 a
 SDict begin [ /View [/XYZ H.V] /Dest (69) cvn H.B /DEST pdfmark end
- 197 2854 a 67 x Fg(W)-8
+ 197 2432 a 68 x Fg(W)-8
 b(e)31 b(can)g(demonstrate)g(this)h(by)f(writing)h(a)e(very)h(simple,)g
-(and)g(pr)o(obably)f(quite)i(impractical)3347 2921 y
+(and)g(pr)o(obably)f(quite)i(impractical)3347 2500 y
 SDict begin H.S end
 
-3347 2921 a 3347 2921 a
+3347 2500 a 3347 2500 a
 SDict begin 11 H.A end
- 3347 2921 a 3347 2921 a
+ 3347 2500 a 3347 2500 a
 SDict begin [ /View [/XYZ H.V] /Dest (70) cvn H.B /DEST pdfmark end
  3347
-2921 a Fh(inetd)197 3013 y Fg(server)-6 b(.)p 197 3106
-3415 9 v 197 4604 9 1499 v 230 3131 a
+2500 a Fh(inetd)197 2591 y Fg(server)-6 b(.)p 197 2684
+3415 9 v 197 4182 9 1499 v 230 2709 a
 SDict begin H.S end
- 230 3131 a 230
-3131 a
+ 230 2709 a 230
+2709 a
 SDict begin 11 H.A end
- 230 3131 a 230 3131 a
+ 230 2709 a 230 2709 a
 SDict begin [ /View [/XYZ H.V] /Dest (71) cvn H.B /DEST pdfmark end
- 230 3131 a 247 3315 a Fh(What)19
-b(is)i(inetd?)230 3358 y
+ 230 2709 a 247 2894 a Fh(What)19
+b(is)i(inetd?)230 2936 y
 SDict begin H.S end
- 230 3358 a 230 3358 a
+ 230 2936 a 230 2936 a
 SDict begin 11 H.A end
- 230 3358
-a 230 3358 a
+ 230 2936
+a 230 2936 a
 SDict begin [ /View [/XYZ H.V] /Dest (73) cvn H.B /DEST pdfmark end
- 230 3358 a 230 3358 a
+ 230 2936 a 230 2936 a
 SDict begin H.S end
- 230 3358 a 230 3358
+ 230 2936 a 230 2936
 a
 SDict begin 11 H.A end
- 230 3358 a 230 3358 a
+ 230 2936 a 230 2936 a
 SDict begin [ /View [/XYZ H.V] /Dest (74) cvn H.B /DEST pdfmark end
- 230 3358 a 247 3448 a Fh(inetd)p
-Fg(,)i(and)i(it's)g(fairly)g(common)1360 3448 y
+ 230 2936 a 247 3026 a Fh(inetd)p
+Fg(,)i(and)i(it's)g(fairly)g(common)1360 3026 y
 SDict begin H.S end
  1360
-3448 a 1360 3448 a
+3026 a 1360 3026 a
 SDict begin 11 H.A end
- 1360 3448 a 1360 3448 a
+ 1360 3026 a 1360 3026 a
 SDict begin [ /View [/XYZ H.V] /Dest (75) cvn H.B /DEST pdfmark end
- 1360 3448
+ 1360 3026
 a Fh(xinetd)e Fg(alternative)i(ar)o(e)e(super)i(daemons.)g(Their)g(r)o
-(ole)g(in)h(the)f(net-)247 3539 y(working)e(food)e(chain)h(is)g(as)f(a)
+(ole)g(in)h(the)f(net-)247 3118 y(working)e(food)e(chain)h(is)g(as)f(a)
 g(way)h(of)f(r)o(unning)i(pr)o(ograms)e(to)h(pr)o(ocess)g(network)g
-(traf)o(\002c)e(as)h(demand)247 3631 y(r)o(equir)o(es.)g(For)h
-(example,)f(many)1320 3631 y
+(traf)o(\002c)e(as)h(demand)247 3209 y(r)o(equir)o(es.)g(For)h
+(example,)f(many)1320 3209 y
 SDict begin H.S end
- 1320 3631 a 1320 3631 a
+ 1320 3209 a 1320 3209 a
 SDict begin 11 H.A end
 
-1320 3631 a 1320 3631 a
+1320 3209 a 1320 3209 a
 SDict begin [ /View [/XYZ H.V] /Dest (76) cvn H.B /DEST pdfmark end
- 1320 3631 a Fh(rsync)h Fg(servers)g(operate)f
-(fr)o(om)2328 3631 y
+ 1320 3209 a Fh(rsync)h Fg(servers)g(operate)f
+(fr)o(om)2328 3209 y
 SDict begin H.S end
- 2328 3631 a 2328 3631 a
+ 2328 3209 a 2328 3209 a
 SDict begin 11 H.A end
- 2328 3631
-a 2328 3631 a
+ 2328 3209
+a 2328 3209 a
 SDict begin [ /View [/XYZ H.V] /Dest (77) cvn H.B /DEST pdfmark end
- 2328 3631 a Fh(inetd)p Fg(.)f(What)i(this)h(means)f(is)h
-(that)3456 3631 y
+ 2328 3209 a Fh(inetd)p Fg(.)f(What)i(this)h(means)f(is)h
+(that)3456 3209 y
 SDict begin H.S end
- 3456 3631 a 3456 3631 a
+ 3456 3209 a 3456 3209 a
 SDict begin 11 H.A end
- 3456 3631 a
-3456 3631 a
+ 3456 3209 a
+3456 3209 a
 SDict begin [ /View [/XYZ H.V] /Dest (78) cvn H.B /DEST pdfmark end
- 3456 3631 a Fh(in-)247 3722 y(etd)f Fg(r)o(uns)j(in)f(the)g
+ 3456 3209 a Fh(in-)247 3300 y(etd)f Fg(r)o(uns)j(in)f(the)g
 (backgr)o(ound)f(as)h(a)f(daemon)h(waiting)g(for)g(connections)h(fr)o
-(om)e(clients)i(to)f(the)3359 3722 y
+(om)e(clients)i(to)f(the)3359 3300 y
 SDict begin H.S end
- 3359 3722 a 3359
-3722 a
+ 3359 3300 a 3359
+3300 a
 SDict begin 11 H.A end
- 3359 3722 a 3359 3722 a
+ 3359 3300 a 3359 3300 a
 SDict begin [ /View [/XYZ H.V] /Dest (79) cvn H.B /DEST pdfmark end
- 3359 3722 a Fh(rsync)247
-3813 y Fg(port.)g(It)g(then)g(starts)g(a)g(new)g(copy)h(of)1483
-3813 y
+ 3359 3300 a Fh(rsync)247
+3392 y Fg(port.)g(It)g(then)g(starts)g(a)g(new)g(copy)h(of)1483
+3392 y
 SDict begin H.S end
- 1483 3813 a 1483 3813 a
+ 1483 3392 a 1483 3392 a
 SDict begin 11 H.A end
- 1483 3813 a 1483 3813
+ 1483 3392 a 1483 3392
 a
 SDict begin [ /View [/XYZ H.V] /Dest (80) cvn H.B /DEST pdfmark end
- 1483 3813 a Fh(rsync)f Fg(for)f(each)h(of)g(these)g(connections,)i
-(and)2986 3813 y
+ 1483 3392 a Fh(rsync)f Fg(for)f(each)h(of)g(these)g(connections,)i
+(and)2986 3392 y
 SDict begin H.S end
- 2986 3813 a 2986 3813 a
+ 2986 3392 a 2986 3392 a
 SDict begin 11 H.A end
- 2986 3813 a
-2986 3813 a
+ 2986 3392 a
+2986 3392 a
 SDict begin [ /View [/XYZ H.V] /Dest (81) cvn H.B /DEST pdfmark end
- 2986 3813 a Fh(rsync)e Fg(pr)o(ocesses)247
-3905 y(the)d(traf)o(\002c)e(\(and)h(per)o(haps)g(r)o(esponds\).)230
-3970 y
+ 2986 3392 a Fh(rsync)e Fg(pr)o(ocesses)247
+3483 y(the)d(traf)o(\002c)e(\(and)h(per)o(haps)g(r)o(esponds\).)230
+3548 y
 SDict begin H.S end
- 230 3970 a 230 3970 a
+ 230 3548 a 230 3548 a
 SDict begin 11 H.A end
- 230 3970 a 230 3970 a
+ 230 3548 a 230 3548 a
 SDict begin [ /View [/XYZ H.V] /Dest (82) cvn H.B /DEST pdfmark end
  230
-3970 a 247 4038 a Fg(Many)30 b(developers)g(write)g(network)h(servers)f
+3548 a 247 3616 a Fg(Many)30 b(developers)g(write)g(network)h(servers)f
 (which)h(ar)o(e)e(intended)i(to)f(be)g(r)o(un)h(by)3044
-4038 y
+3616 y
 SDict begin H.S end
- 3044 4038 a 3044 4038 a
+ 3044 3616 a 3044 3616 a
 SDict begin 11 H.A end
- 3044 4038 a 3044 4038
+ 3044 3616 a 3044 3616
 a
 SDict begin [ /View [/XYZ H.V] /Dest (83) cvn H.B /DEST pdfmark end
- 3044 4038 a Fh(inetd)e Fg(because)247 4129 y(it)f(simpli\002es)h
-(development)f(of)g(the)g(application.)1928 4129 y
+ 3044 3616 a Fh(inetd)e Fg(because)247 3707 y(it)f(simpli\002es)h
+(development)f(of)g(the)g(application.)1928 3707 y
 SDict begin H.S end
  1928
-4129 a 1928 4129 a
+3707 a 1928 3707 a
 SDict begin 11 H.A end
- 1928 4129 a 1928 4129 a
+ 1928 3707 a 1928 3707 a
 SDict begin [ /View [/XYZ H.V] /Dest (84) cvn H.B /DEST pdfmark end
- 1928 4129
+ 1928 3707
 a Fh(inetd)e Fg(handles)i(most)h(of)f(the)g(plumbing)h(for)f(the)247
-4220 y(application.)230 4285 y
+3799 y(application.)230 3863 y
 SDict begin H.S end
- 230 4285 a 230 4285 a
+ 230 3863 a 230 3863 a
 SDict begin 11 H.A end
 
-230 4285 a 230 4285 a
+230 3863 a 230 3863 a
 SDict begin [ /View [/XYZ H.V] /Dest (85) cvn H.B /DEST pdfmark end
- 230 4285 a 247 4353 a Fg(Please)22
-b(bear)f(in)i(mind)g(that)1163 4353 y
+ 230 3863 a 247 3931 a Fg(Please)22
+b(bear)f(in)i(mind)g(that)1163 3931 y
 SDict begin H.S end
- 1163 4353 a 1163
-4353 a
+ 1163 3931 a 1163
+3931 a
 SDict begin 11 H.A end
- 1163 4353 a 1163 4353 a
+ 1163 3931 a 1163 3931 a
 SDict begin [ /View [/XYZ H.V] /Dest (86) cvn H.B /DEST pdfmark end
- 1163 4353 a Fh(inetd)e
-Fg(and)1547 4353 y
+ 1163 3931 a Fh(inetd)e
+Fg(and)1547 3931 y
 SDict begin H.S end
- 1547 4353 a 1547 4353 a
+ 1547 3931 a 1547 3931 a
 SDict begin 11 H.A end
- 1547 4353
-a 1547 4353 a
+ 1547 3931
+a 1547 3931 a
 SDict begin [ /View [/XYZ H.V] /Dest (87) cvn H.B /DEST pdfmark end
- 1547 4353 a Fh(xinetd)f Fg(ar)o(e)h(very)h
+ 1547 3931 a Fh(xinetd)f Fg(ar)o(e)h(very)h
 (con\002gurable,)h(and)f(this)h(is)g(only)g(a)f(general)247
-4444 y(description.)k(Ther)o(e)e(is)i(a)g(brief)f(discussion)h(on)h
-(how)f(to)g(con\002gur)o(e)2482 4444 y
+4023 y(description.)k(Ther)o(e)e(is)i(a)g(brief)f(discussion)h(on)h
+(how)f(to)g(con\002gur)o(e)2482 4023 y
 SDict begin H.S end
- 2482 4444 a 2482
-4444 a
+ 2482 4023 a 2482
+4023 a
 SDict begin 11 H.A end
- 2482 4444 a 2482 4444 a
+ 2482 4023 a 2482 4023 a
 SDict begin [ /View [/XYZ H.V] /Dest (88) cvn H.B /DEST pdfmark end
- 2482 4444 a Fh(inetd)e
-Fg(and)2872 4444 y
+ 2482 4023 a Fh(inetd)e
+Fg(and)2872 4023 y
 SDict begin H.S end
- 2872 4444 a 2872 4444 a
+ 2872 4023 a 2872 4023 a
 SDict begin 11 H.A end
- 2872 4444
-a 2872 4444 a
+ 2872 4023
+a 2872 4023 a
 SDict begin [ /View [/XYZ H.V] /Dest (89) cvn H.B /DEST pdfmark end
- 2872 4444 a Fh(xinetd)g Fg(later)h(in)h(this)247
-4536 y(article.)20 b(Y)-8 b(ou)22 b(should)f(r)o(efer)e(to)i(the)g(r)o
+ 2872 4023 a Fh(xinetd)g Fg(later)h(in)h(this)247
+4114 y(article.)20 b(Y)-8 b(ou)22 b(should)f(r)o(efer)e(to)i(the)g(r)o
 (elevant)f(documentation)h(for)g(mor)o(e)f(information.)p
-3603 4604 9 1499 v 197 4612 3415 9 v 197 4695 a
+3603 4182 9 1499 v 197 4190 3415 9 v 197 4274 a
 SDict begin H.S end
- 197 4695
-a 197 4695 a
+ 197 4274
+a 197 4274 a
 SDict begin 11 H.A end
- 197 4695 a 197 4695 a
+ 197 4274 a 197 4274 a
 SDict begin [ /View [/XYZ H.V] /Dest (90) cvn H.B /DEST pdfmark end
- 197 4695 a 60 x Fg(This)26
+ 197 4274 a 60 x Fg(This)26
 b(is)g(a)f(particularly)f(useful)h(example,)g(because)f(our)i(shell)g
 (scripts)f(ar)o(e)f(eventually)h(going)i(to)f(r)o(un)197
-4847 y(fr)o(om)395 4847 y
+4425 y(fr)o(om)395 4425 y
 SDict begin H.S end
- 395 4847 a 395 4847 a
+ 395 4425 a 395 4425 a
 SDict begin 11 H.A end
- 395 4847
-a 395 4847 a
+ 395 4425
+a 395 4425 a
 SDict begin [ /View [/XYZ H.V] /Dest (91) cvn H.B /DEST pdfmark end
- 395 4847 a Fh(inetd)p Fg(,)19 b(so)i(having)h(an)e
+ 395 4425 a Fh(inetd)p Fg(,)19 b(so)i(having)h(an)e
 (understanding)h(of)g(how)g(it)g(works)h(is)f(very)f(useful...)197
-4953 y
+4531 y
 SDict begin H.S end
- 197 4953 a 197 4953 a
+ 197 4531 a 197 4531 a
 SDict begin 9.9 H.A end
- 197 4953 a 197 4953 a
+ 197 4531 a 197 4531 a
 SDict begin [ /View [/XYZ H.V] /Dest (92) cvn H.B /DEST pdfmark end
  197
-4953 a 59 x Fd(//)45 b(Disconnected)d(UDP)j(socket)e(example:)h(this)g
-(example)197 5094 y(//)h(simply)e(waits)h(for)h(traffic,)e(and)h(the)h
-(starts)f(a)197 5176 y(//)h(process)e(to)i(deal)f(with)g(the)g
-(results.)g(One)g(process)197 5258 y(//)h(per)f(packet,)f(one)i(packet)
-f(per)g(process.)f(This)i(version)197 5341 y(//)g(wont)f(work,)g
-(because)f(the)i(socket)e(is)i(not)f(connected.)197 5423
+4531 a 59 x Fd(//)45 b(Disconnected)d(UDP)j(socket)e(example:)h(this)g
+(example)197 4672 y(//)h(simply)e(waits)h(for)h(traffic,)e(and)h(the)h
+(starts)f(a)197 4755 y(//)h(process)e(to)i(deal)f(with)g(the)g
+(results.)g(One)g(process)197 4837 y(//)h(per)f(packet,)f(one)i(packet)
+f(per)g(process.)f(This)i(version)197 4919 y(//)g(wont)f(work,)g
+(because)f(the)i(socket)e(is)i(not)f(connected.)197 5001
 y(//)h(In)f(fact,)g(cat)g(is)h(smart)f(enough)g(to)g(warn)g(us)h(about)
-197 5505 y(//)g(this:)197 5587 y(//)197 5669 y(//)269
+197 5083 y(//)g(this:)197 5165 y(//)197 5248 y(//)269
 b(cat:)44 b(write)g(error:)g(Transport)f(endpoint)g(is)i(not)197
-5752 y(//)269 b(connected)p Black 3504 5999 a Ff(5)p
-Black eop end
+5330 y(//)269 b(connected)197 5494 y(#include)43 b Fc(<)p
+Fd(stdio.h)p Fc(>)197 5576 y Fd(#include)g Fc(<)p Fd(errno.h)p
+Fc(>)197 5659 y Fd(#include)g Fc(<)p Fd(unistd.h)p Fc(>)197
+5741 y Fd(#include)g Fc(<)p Fd(sys/types.h)p Fc(>)197
+5823 y Fd(#include)g Fc(<)p Fd(sys/socket.h)p Fc(>)p
+Black 3504 5999 a Ff(5)p Black eop end
 %%Page: 6 6
 TeXDict begin 6 5 bop -600 -600 a
 SDict begin /product where{pop product(Distiller)search{pop pop pop
@@ -4528,50 +4531,47 @@ SDict begin H.S end
  197 -201 a 197 -201 a
 SDict begin 11 H.A end
  197 -201 a 197 -201 a
-SDict begin [ /View [/XYZ H.V] /Dest (93) cvn H.B /DEST pdfmark end
+SDict begin [ /View [/XYZ H.V] /Dest (95) cvn H.B /DEST pdfmark end
  197
 -201 a 2584 -132 a Ff(UDP)20 b(shell)h(scripts)f(with)g(inetd)p
-Black 197 89 a Fd(#include)43 b Fc(<)p Fd(stdio.h)p Fc(>)197
-171 y Fd(#include)g Fc(<)p Fd(errno.h)p Fc(>)197 253
-y Fd(#include)g Fc(<)p Fd(unistd.h)p Fc(>)197 336 y Fd(#include)g
-Fc(<)p Fd(sys/types.h)p Fc(>)197 418 y Fd(#include)g
-Fc(<)p Fd(sys/socket.h)p Fc(>)197 500 y Fd(#include)g
-Fc(<)p Fd(sys/poll.h)p Fc(>)197 582 y Fd(#include)g Fc(<)p
-Fd(netinet/in.h)p Fc(>)197 747 y Fd(int)h(main\(int)g(argc,)g(char)g
-(*argv[]\){)287 829 y(int)g(lfd;)287 911 y(struct)f(sockaddr_in)g
-(servaddr;)287 993 y(struct)g(pollfd)h(pfd;)287 1158
-y(//)g(We)h(will)f(listen)g(with)g(this)g(file)g(descriptor)287
-1240 y(if\(\(lfd)f(=)i(socket\(AF_INET,)d(SOCK_DGRAM,)h(0\)\))i
-Fc(<)f Fd(0\){)376 1322 y(fprintf\(stderr,)556 1404 y("Error)f(whilst)h
-(starting)g(to)g(listen\\n"\);)376 1486 y(exit\(42\);)287
-1569 y(})287 1733 y(//)g(Define)g(what)g(we)h(are)f(listening)f(for)287
-1815 y(bzero\(&servaddr,)f(sizeof\(servaddr\)\);)287
-1897 y(servaddr.sin_family)f(=)k(AF_INET;)287 1979 y
-(servaddr.sin_addr.s_addr)40 b(=)45 b(htonl\(INADDR_ANY\);)287
-2062 y(servaddr.sin_port)d(=)i(htons\(1234\);)287 2226
-y(//)g(Bind)g(to)h(the)f(address)287 2308 y(if\(bind\(lfd,)e(\(struct)i
-(sockaddr)g(*\))g(&servaddr,)466 2390 y(sizeof\(servaddr\)\))421
-2473 y Fc(<)h Fd(0\){)376 2555 y(perror\("Couldn't)d(bind"\);)376
-2637 y(exit\(42\);)287 2719 y(})287 2884 y(//)i(Setup)g(the)g(list)h
-(of)f(file)g(descriptors)f(we)i(want)f(to)287 2966 y(//)g(wait)g(for)h
-(events)e(on)287 3048 y(pfd.fd)g(=)i(lfd;)287 3130 y(pfd.events)e(=)h
-(POLLIN)g(|)h(POLLPRI;)287 3295 y(//)f(Do)h(stuff)287
-3377 y(while\(1\){)376 3459 y(if\(poll\(&pfd,)e(1,)h(-1\))h
-Fc(<)f Fd(0\){)466 3541 y(perror\("Waiting)e(for)j(new)f(data)g
-(failed"\);)466 3623 y(exit\(42\);)376 3706 y(})376 3870
-y(printf\("Data)f(arrived\\n"\);)376 4034 y(//)i(Spawn)f(a)g(child)g
-(to)h(handle)f(this)g(packet)376 4116 y(switch\(fork\(\)\){)376
-4199 y(case)g(-1:)466 4281 y(perror\("Couldn't)e(spawn)i(child)g(to)h
-(handle)e(connection"\);)466 4363 y(exit\(42\);)376 4527
-y(case)h(0:)466 4610 y(//)g(Child)g(process)g(--)h(setup)f(the)g(file)
-466 4692 y(//)g(descriptors,)f(and)i(the)f(run)g(the)h(helper)466
-4774 y(//)f(application)466 4856 y(dup2\(lfd,)f(0\);)466
-4938 y(dup2\(lfd,)g(1\);)466 5103 y(execl\("/bin/cat",)f("cat",)i
-(NULL\);)466 5185 y(perror\("Exec)f(failed"\);)466 5267
-y(exit\(42\);)466 5349 y(break;)376 5514 y(default:)466
-5596 y(//)h(Parent)g(process)466 5678 y(break;)376 5760
-y(})287 5843 y(})p Black 3504 5999 a Ff(6)p Black eop
-end
+Black 197 89 a Fd(#include)43 b Fc(<)p Fd(sys/poll.h)p
+Fc(>)197 171 y Fd(#include)g Fc(<)p Fd(netinet/in.h)p
+Fc(>)197 336 y Fd(int)197 418 y(main)h(\(int)g(argc,)g(char)g
+(*argv[]\))197 500 y({)287 582 y(int)g(lfd;)287 664 y(struct)f
+(sockaddr_in)g(servaddr;)287 747 y(struct)g(pollfd)h(pfd;)287
+911 y(//)g(We)h(will)f(listen)g(with)g(this)g(file)g(descriptor)287
+993 y(if)g(\(\(lfd)g(=)h(socket)f(\(AF_INET,)f(SOCK_DGRAM,)g(0\)\))h
+Fc(<)h Fd(0\))376 1075 y({)466 1158 y(fprintf)f(\(stderr,)f("Error)h
+(whilst)g(starting)f(to)i(listen\\n"\);)466 1240 y(exit)f(\(42\);)376
+1322 y(})287 1486 y(//)g(Define)g(what)g(we)h(are)f(listening)f(for)287
+1569 y(bzero)h(\(&servaddr,)f(sizeof)g(\(servaddr\)\);)287
+1651 y(servaddr.sin_family)e(=)k(AF_INET;)287 1733 y
+(servaddr.sin_addr.s_addr)40 b(=)45 b(htonl)f(\(INADDR_ANY\);)287
+1815 y(servaddr.sin_port)e(=)i(htons)g(\(1234\);)287
+1979 y(//)g(Bind)g(to)h(the)f(address)287 2062 y(if)g(\(bind)g(\(lfd,)g
+(\(struct)g(sockaddr)f(*\))i(&servaddr,)e(sizeof)h(\(servaddr\)\))f
+Fc(<)h Fd(0\))376 2144 y({)466 2226 y(perror)g(\("Couldn't)f(bind"\);)
+466 2308 y(exit)h(\(42\);)376 2390 y(})287 2555 y(//)g(Setup)g(the)g
+(list)h(of)f(file)g(descriptors)f(we)i(want)f(to)287
+2637 y(//)g(wait)g(for)h(events)e(on)287 2719 y(pfd.fd)g(=)i(lfd;)287
+2801 y(pfd.events)e(=)h(POLLIN)g(|)h(POLLPRI;)287 2966
+y(//)f(Do)h(stuff)287 3048 y(while)f(\(1\))376 3130 y({)466
+3212 y(if)g(\(poll)g(\(&pfd,)g(1,)h(-1\))f Fc(<)h Fd(0\))556
+3295 y({)645 3377 y(perror)f(\("Waiting)f(for)i(new)f(data)g
+(failed"\);)645 3459 y(exit)g(\(42\);)556 3541 y(})466
+3706 y(printf)g(\("Data)g(arrived\\n"\);)466 3870 y(//)g(Spawn)g(a)h
+(child)f(to)h(handle)e(this)i(packet)466 3952 y(switch)f(\(fork)g
+(\(\)\))556 4034 y({)556 4116 y(case)g(-1:)645 4199 y(perror)g
+(\("Couldn't)f(spawn)h(child)g(to)h(handle)f(connection"\);)645
+4281 y(exit)g(\(42\);)556 4445 y(case)g(0:)645 4527 y(//)h(Child)f
+(process)f(--)i(setup)f(the)g(file)645 4610 y(//)h(descriptors,)e(and)h
+(the)g(run)h(the)f(helper)645 4692 y(//)h(application)645
+4774 y(dup2)f(\(lfd,)g(0\);)645 4856 y(dup2)g(\(lfd,)g(1\);)645
+5021 y(execl)g(\("/bin/cat",)f("cat",)h(NULL\);)645 5103
+y(perror)g(\("Exec)g(failed"\);)645 5185 y(exit)g(\(42\);)645
+5267 y(break;)556 5432 y(default:)645 5514 y(//)h(Parent)f(process)645
+5596 y(break;)556 5678 y(})376 5760 y(})197 5843 y(})p
+Black 3504 5999 a Ff(6)p Black eop end
 %%Page: 7 7
 TeXDict begin 7 6 bop -600 -600 a
 SDict begin /product where{pop product(Distiller)search{pop pop pop
@@ -4589,197 +4589,196 @@ SDict begin [ /View [/XYZ H.V] /Dest (page.7) cvn H.B /DEST pdfmark
 end
  197 -102 a Black 2584
 -132 a Ff(UDP)20 b(shell)h(scripts)f(with)g(inetd)p Black
-197 89 a Fd(})197 263 y Ff(Code:)h(disconnexec.c)197
-306 y
+197 6 a
 SDict begin H.S end
- 197 306 a 197 306 a
+ 197 6 a 197 6 a
 SDict begin 11 H.A end
- 197 306 a 197 306 a
-SDict begin [ /View [/XYZ H.V] /Dest (95) cvn H.B /DEST pdfmark end
- 197 306
-a 90 x Fg(All)j(this)h(pr)o(ogram)f(does)g(is)h(wait)f(on)h(port)f
-(1234)f(until)i(a)e(connection)j(comes)f(in,)f(forks,)g(and)g(the)h
-(new)197 488 y(child)e(pr)o(ocess)g(starts)g(executing)g(the)g(server)g
-(pr)o(ogram)f(\(in)h(this)h(case)2491 488 y
+ 197 6 a 197 6 a
+SDict begin [ /View [/XYZ H.V] /Dest (93) cvn H.B /DEST pdfmark end
+ 197 6 a 197 6
+a
 SDict begin H.S end
- 2491 488
-a 2491 488 a
+ 197 6 a 197 6 a
 SDict begin 11 H.A end
- 2491 488 a 2491 488 a
-SDict begin [ /View [/XYZ H.V] /Dest (96) cvn H.B /DEST pdfmark end
- 2491 488 a Fh(cat)p
-Fg(\).)d(This)j(technique)g(r)o(elies)e(on)197 579 y(the)28
+ 197 6 a 197 6 a
+SDict begin [ /View [/XYZ H.V] /Dest (94) cvn H.B /DEST pdfmark end
+ 197 6 a 83 x Ff(Code:)h
+(disconnexec.c)197 222 y Fg(All)j(this)h(pr)o(ogram)f(does)g(is)h(wait)
+f(on)h(port)f(1234)f(until)i(a)e(connection)j(comes)f(in,)f(forks,)g
+(and)g(the)h(new)197 313 y(child)e(pr)o(ocess)g(starts)g(executing)g
+(the)g(server)g(pr)o(ogram)f(\(in)h(this)h(case)f Fh(cat)p
+Fg(\).)e(This)j(technique)g(r)o(elies)e(on)197 405 y(the)28
 b(fact)e(that)i(the)f(child)h(pr)o(ocess)f(will)h(shar)o(e)e(the)i
 (envir)o(onment)g(of)g(the)f(par)o(ent)f(pr)o(ocess,)h(including)197
-670 y(it's)g(\002le)f(handles.)h(These)f(ar)o(e)f(duplicated)g(to)i
+496 y(it's)g(\002le)f(handles.)h(These)f(ar)o(e)f(duplicated)g(to)i
 (stdin)g(and)f(stdout)g(befor)o(e)f(the)i(server)f(pr)o(ogram)f(starts)
-197 762 y(executing,)k(so)i(that)e(network)i(input)f(goes)g(into)g
+197 587 y(executing,)k(so)i(that)e(network)i(input)f(goes)g(into)g
 (stdin,)g(and)f(server)g(output)h(is)g(sent)g(back)f(over)h(the)197
-853 y(network.)197 896 y
+679 y(network.)197 722 y
 SDict begin H.S end
- 197 896 a 197 896 a
+ 197 722 a 197 722 a
 SDict begin 11 H.A end
- 197 896
-a 197 896 a
+ 197 722
+a 197 722 a
 SDict begin [ /View [/XYZ H.V] /Dest (97) cvn H.B /DEST pdfmark end
- 197 896 a 90 x Fg(This)24 b(of)f(course)g(doesn't)h(work)f
+ 197 722 a 89 x Fg(This)24 b(of)f(course)g(doesn't)h(work)f
 (because)f(the)i(socket)f(is)h(disconnected,)f(so)2664
-986 y
+811 y
 SDict begin H.S end
- 2664 986 a 2664 986 a
+ 2664 811 a 2664 811 a
 SDict begin 11 H.A end
- 2664 986 a 2664 986 a
+ 2664 811 a 2664 811 a
 SDict begin [ /View [/XYZ H.V] /Dest (98) cvn H.B /DEST pdfmark end
  2664
-986 a Fh(cat)p Fg('s)2852 986 y
+811 a Fh(cat)p Fg('s)2852 811 y
 SDict begin H.S end
- 2852 986 a 2852 986 a
+ 2852 811 a 2852 811 a
 SDict begin 11 H.A end
 
-2852 986 a 2852 986 a
+2852 811 a 2852 811 a
 SDict begin [ /View [/XYZ H.V] /Dest (99) cvn H.B /DEST pdfmark end
- 2852 986 a Ff(r)o(ead)f Fg(call)h(will)h(work,)
-197 1077 y(but)d(it's)471 1077 y
+ 2852 811 a Ff(r)o(ead)f Fg(call)h(will)h(work,)
+197 903 y(but)d(it's)471 903 y
 SDict begin H.S end
- 471 1077 a 471 1077
-a
+ 471 903 a 471 903 a
 SDict begin 11 H.A end
- 471 1077 a 471 1077 a
+ 471
+903 a 471 903 a
 SDict begin [ /View [/XYZ H.V] /Dest (100) cvn H.B /DEST pdfmark end
- 471 1077 a Ff(write)g Fg(call)g(fails)f
-(because)g(the)h(socket)g(layer)f(doesn't)h(know)h(wher)o(e)e(to)h
-(send)g(the)g(r)o(esponse)g(to.)197 1142 y
+ 471 903 a Ff(write)g Fg(call)g(fails)f(because)g(the)h
+(socket)g(layer)f(doesn't)h(know)h(wher)o(e)e(to)h(send)g(the)g(r)o
+(esponse)g(to.)197 968 y
 SDict begin H.S end
- 197 1142 a
-197 1142 a
+ 197 968 a 197 968 a
 SDict begin 11 H.A end
- 197 1142 a 197 1142 a
+ 197 968
+a 197 968 a
 SDict begin [ /View [/XYZ H.V] /Dest (101) cvn H.B /DEST pdfmark end
- 197 1142 a 253 x Fe(3.3.)27
-b(Connected)i(soc)n(kets)197 1447 y
+ 197 968 a 253 x Fe(3.3.)27 b(Connected)i(soc)n(kets)197
+1272 y
 SDict begin H.S end
- 197 1447 a 197 1447
-a
+ 197 1272 a 197 1272 a
 SDict begin 11 H.A end
- 197 1447 a 197 1447 a
+ 197 1272 a 197 1272 a
 SDict begin [ /View [/XYZ H.V] /Dest (103) cvn H.B /DEST pdfmark end
- 197 1447 a 90 x Fg(The)d(answer)g(to)h(our)f
-(need)g(to)h(use)1363 1537 y
+ 197
+1272 a 90 x Fg(The)d(answer)g(to)h(our)f(need)g(to)h(use)1363
+1362 y
 SDict begin H.S end
- 1363 1537 a 1363 1537 a
+ 1363 1362 a 1363 1362 a
 SDict begin 11 H.A end
-
-1363 1537 a 1363 1537 a
-SDict begin [ /View [/XYZ H.V] /Dest (104) cvn H.B /DEST pdfmark end
- 1363 1537 a Ff(r)o(ead)f Fg(and)1697
-1537 y
-SDict begin H.S end
- 1697 1537 a 1697 1537 a
-SDict begin 11 H.A end
- 1697 1537 a 1697 1537
+ 1363 1362 a 1363 1362
 a
+SDict begin [ /View [/XYZ H.V] /Dest (104) cvn H.B /DEST pdfmark end
+ 1363 1362 a Ff(r)o(ead)f Fg(and)1697 1362 y
+SDict begin H.S end
+ 1697 1362
+a 1697 1362 a
+SDict begin 11 H.A end
+ 1697 1362 a 1697 1362 a
 SDict begin [ /View [/XYZ H.V] /Dest (105) cvn H.B /DEST pdfmark end
- 1697 1537 a Ff(write)h Fg(for)f(our)g(shell)h(scripts)g(is)f(a)g
-(connected)g(socket.)g(A)197 1628 y(connected)21 b(socket)g(is)g
-(simply)h(a)e(socket)h(which)h(has)f(had)f(the)2200 1628
+ 1697 1362 a Ff(write)h
+Fg(for)f(our)g(shell)h(scripts)g(is)f(a)g(connected)g(socket.)g(A)197
+1454 y(connected)21 b(socket)g(is)g(simply)h(a)e(socket)h(which)h(has)f
+(had)f(the)2200 1454 y
+SDict begin H.S end
+ 2200 1454 a 2200 1454 a
+SDict begin 11 H.A end
+ 2200 1454
+a 2200 1454 a
+SDict begin [ /View [/XYZ H.V] /Dest (106) cvn H.B /DEST pdfmark end
+ 2200 1454 a Ff(connect)p Fg(\(2\))f(function)j(called)d
+(upon)j(it.)197 1519 y
+SDict begin H.S end
+ 197 1519 a 197 1519 a
+SDict begin 11 H.A end
+ 197 1519
+a 197 1519 a
+SDict begin [ /View [/XYZ H.V] /Dest (107) cvn H.B /DEST pdfmark end
+ 197 1519 a 67 x Fg(When)29 b(the)589 1586
 y
 SDict begin H.S end
- 2200 1628 a 2200 1628 a
+ 589 1586 a 589 1586 a
 SDict begin 11 H.A end
- 2200 1628 a 2200 1628 a
-SDict begin [ /View [/XYZ H.V] /Dest (106) cvn H.B /DEST pdfmark end
- 2200
-1628 a Ff(connect)p Fg(\(2\))f(function)j(called)d(upon)j(it.)197
-1693 y
-SDict begin H.S end
- 197 1693 a 197 1693 a
-SDict begin 11 H.A end
- 197 1693 a 197 1693 a
-SDict begin [ /View [/XYZ H.V] /Dest (107) cvn H.B /DEST pdfmark end
- 197
-1693 a 68 x Fg(When)29 b(the)589 1761 y
-SDict begin H.S end
- 589 1761 a 589
-1761 a
-SDict begin 11 H.A end
- 589 1761 a 589 1761 a
+ 589 1586 a 589 1586 a
 SDict begin [ /View [/XYZ H.V] /Dest (108) cvn H.B /DEST pdfmark end
- 589 1761 a Ff(connect)f
-Fg(function)i(is)f(called,)e(it)i(simply)h(r)o(ecor)o(ds)d(which)j
-(machine)f(the)f(network)i(packet)197 1852 y(came)21
-b(fr)o(om,)g(so)i(that)f(the)g(socket)g(layer)f(knows)i(wher)o(e)e(to)i
-(send)f(the)g(r)o(eply)f(packet)g(when)h(it)g(is)h(output)197
-1943 y(with)f(the)522 1943 y
+ 589 1586
+a Ff(connect)f Fg(function)i(is)f(called,)e(it)i(simply)h(r)o(ecor)o
+(ds)d(which)j(machine)f(the)f(network)i(packet)197 1678
+y(came)21 b(fr)o(om,)g(so)i(that)f(the)g(socket)g(layer)f(knows)i(wher)
+o(e)e(to)i(send)f(the)g(r)o(eply)f(packet)g(when)h(it)g(is)h(output)197
+1769 y(with)f(the)522 1769 y
 SDict begin H.S end
- 522 1943 a 522 1943 a
+ 522 1769 a 522 1769 a
 SDict begin 11 H.A end
  522
-1943 a 522 1943 a
+1769 a 522 1769 a
 SDict begin [ /View [/XYZ H.V] /Dest (109) cvn H.B /DEST pdfmark end
- 522 1943 a Ff(write)f Fg(function)h(call.)197
-1987 y
+ 522 1769 a Ff(write)f Fg(function)h(call.)197
+1812 y
 SDict begin H.S end
- 197 1987 a 197 1987 a
+ 197 1812 a 197 1812 a
 SDict begin 11 H.A end
- 197 1987 a 197 1987 a
+ 197 1812 a 197 1812 a
 SDict begin [ /View [/XYZ H.V] /Dest (110) cvn H.B /DEST pdfmark end
  197
-1987 a 89 x Fg(Her)o(e's)34 b(a)g(simple)h(example)f(of)h(a)f
+1812 a 90 x Fg(Her)o(e's)34 b(a)g(simple)h(example)f(of)h(a)f
 (connected)h(socket)g(version)g(of)g(the)g(disconnected)g(echo)g
-(server)197 2168 y(above.)20 b(Note)h(that)g(we)f(now)i(use)1284
-2168 y
+(server)197 1993 y(above.)20 b(Note)h(that)g(we)f(now)i(use)1284
+1993 y
 SDict begin H.S end
- 1284 2168 a 1284 2168 a
+ 1284 1993 a 1284 1993 a
 SDict begin 11 H.A end
- 1284 2168 a 1284 2168
+ 1284 1993 a 1284 1993
 a
 SDict begin [ /View [/XYZ H.V] /Dest (111) cvn H.B /DEST pdfmark end
- 1284 2168 a Ff(r)o(ead)e Fg(and)1607 2168 y
+ 1284 1993 a Ff(r)o(ead)e Fg(and)1607 1993 y
 SDict begin H.S end
- 1607 2168
-a 1607 2168 a
+ 1607 1993
+a 1607 1993 a
 SDict begin 11 H.A end
- 1607 2168 a 1607 2168 a
+ 1607 1993 a 1607 1993 a
 SDict begin [ /View [/XYZ H.V] /Dest (112) cvn H.B /DEST pdfmark end
- 1607 2168 a Ff(write)h
+ 1607 1993 a Ff(write)h
 Fg(function)h(calls)e(for)h(all)g(the)f(network)i(input)f(output.)197
-2274 y
+2100 y
 SDict begin H.S end
- 197 2274 a 197 2274 a
+ 197 2100 a 197 2100 a
 SDict begin 9.9 H.A end
- 197 2274 a 197 2274 a
+ 197 2100 a 197 2100 a
 SDict begin [ /View [/XYZ H.V] /Dest (113) cvn H.B /DEST pdfmark end
  197
-2274 a 59 x Fd(//)45 b(Connected)e(UDP)h(socket)g(example:)f(this)i
-(example)197 2415 y(//)g(simply)e(reads)h(from)g(clients)g(\(there)g
-(can)g(be)h(more)197 2497 y(//)g(than)f(one\),)g(and)g(returns)g(what)g
-(they)g(said)g(straight)197 2579 y(//)h(back)f(to)g(them.)g(You'll)g
-(note)g(that)g(we)h(can)f(now)g(use)197 2662 y(//)h(read)f(and)g(write)
-g(to)g(get)h(to)f(the)h(traffic...)197 2826 y(#include)e
-Fc(<)p Fd(stdio.h)p Fc(>)197 2908 y Fd(#include)g Fc(<)p
-Fd(errno.h)p Fc(>)197 2990 y Fd(#include)g Fc(<)p Fd(unistd.h)p
-Fc(>)197 3073 y Fd(#include)g Fc(<)p Fd(sys/types.h)p
-Fc(>)197 3155 y Fd(#include)g Fc(<)p Fd(sys/socket.h)p
-Fc(>)197 3237 y Fd(#include)g Fc(<)p Fd(netinet/in.h)p
-Fc(>)197 3401 y Fd(int)197 3484 y(main)h(\(int)g(argc,)g(char)g
-(*argv[]\))197 3566 y({)287 3648 y(int)g(lfd;)287 3730
-y(struct)f(sockaddr_in)g(servaddr;)287 3812 y(struct)g(sockaddr)h
-(clientaddr;)287 3894 y(char)g(buf[1024];)287 3977 y(size_t)f(len;)287
-4059 y(socklen_t)g(clen;)287 4223 y(//)h(We)h(will)f(listen)g(with)g
-(this)g(file)g(descriptor)287 4305 y(if)g(\(\(lfd)g(=)h(socket)f
+2100 a 58 x Fd(//)45 b(Connected)e(UDP)h(socket)g(example:)f(this)i
+(example)197 2241 y(//)g(simply)e(reads)h(from)g(clients)g(\(there)g
+(can)g(be)h(more)197 2323 y(//)g(than)f(one\),)g(and)g(returns)g(what)g
+(they)g(said)g(straight)197 2405 y(//)h(back)f(to)g(them.)g(You'll)g
+(note)g(that)g(we)h(can)f(now)g(use)197 2487 y(//)h(read)f(and)g(write)
+g(to)g(get)h(to)f(the)h(traffic...)197 2652 y(#include)e
+Fc(<)p Fd(stdio.h)p Fc(>)197 2734 y Fd(#include)g Fc(<)p
+Fd(errno.h)p Fc(>)197 2816 y Fd(#include)g Fc(<)p Fd(unistd.h)p
+Fc(>)197 2898 y Fd(#include)g Fc(<)p Fd(sys/types.h)p
+Fc(>)197 2980 y Fd(#include)g Fc(<)p Fd(sys/socket.h)p
+Fc(>)197 3063 y Fd(#include)g Fc(<)p Fd(netinet/in.h)p
+Fc(>)197 3227 y Fd(int)197 3309 y(main)h(\(int)g(argc,)g(char)g
+(*argv[]\))197 3391 y({)287 3474 y(int)g(lfd;)287 3556
+y(struct)f(sockaddr_in)g(servaddr;)287 3638 y(struct)g(sockaddr)h
+(clientaddr;)287 3720 y(char)g(buf[1024];)287 3802 y(size_t)f(len;)287
+3885 y(socklen_t)g(clen;)287 4049 y(//)h(We)h(will)f(listen)g(with)g
+(this)g(file)g(descriptor)287 4131 y(if)g(\(\(lfd)g(=)h(socket)f
 (\(AF_INET,)f(SOCK_DGRAM,)g(0\)\))h Fc(<)h Fd(0\))376
-4388 y({)466 4470 y(fprintf)f(\(stderr,)690 4552 y("Error)g(whilst)g
-(starting)f(to)i(listen\\n"\);)466 4634 y(exit)f(\(42\);)376
-4716 y(})287 4881 y(//)g(Define)g(what)g(we)h(are)f(listening)f(for)287
-4963 y(bzero)h(\(&servaddr,)f(sizeof)g(\(servaddr\)\);)287
-5045 y(servaddr.sin_family)e(=)k(AF_INET;)287 5127 y
+4213 y({)466 4295 y(fprintf)f(\(stderr,)f("Error)h(whilst)g(starting)f
+(to)i(listen\\n"\);)466 4378 y(exit)f(\(42\);)376 4460
+y(})287 4624 y(//)g(Define)g(what)g(we)h(are)f(listening)f(for)287
+4706 y(bzero)h(\(&servaddr,)f(sizeof)g(\(servaddr\)\);)287
+4789 y(servaddr.sin_family)e(=)k(AF_INET;)287 4871 y
 (servaddr.sin_addr.s_addr)40 b(=)45 b(htonl)f(\(INADDR_ANY\);)287
-5210 y(servaddr.sin_port)e(=)i(htons)g(\(1234\);)287
-5374 y(//)g(Bind)g(to)h(the)f(address)287 5456 y(if)g(\(bind)g(\(lfd,)g
-(\(struct)g(sockaddr)f(*\))i(&servaddr,)556 5538 y(sizeof)e
-(\(servaddr\)\))g Fc(<)i Fd(0\))376 5621 y({)466 5703
-y(perror)f(\("Couldn't)f(bind"\);)466 5785 y(exit)h(\(42\);)376
-5867 y(})p Black 3503 5999 a Ff(7)p Black eop end
+4953 y(servaddr.sin_port)e(=)i(htons)g(\(1234\);)287
+5117 y(//)g(Bind)g(to)h(the)f(address)287 5200 y(if)g(\(bind)g(\(lfd,)g
+(\(struct)g(sockaddr)f(*\))i(&servaddr,)e(sizeof)h(\(servaddr\)\))f
+Fc(<)h Fd(0\))376 5282 y({)466 5364 y(perror)g(\("Couldn't)f(bind"\);)
+466 5446 y(exit)h(\(42\);)376 5528 y(})287 5693 y(//)g(Do)h(stuff)287
+5775 y(while)f(\(1\))376 5857 y({)p Black 3503 5999 a
+Ff(7)p Black eop end
 %%Page: 8 8
 TeXDict begin 8 7 bop -600 -600 a
 SDict begin /product where{pop product(Distiller)search{pop pop pop
@@ -4797,137 +4796,139 @@ SDict begin [ /View [/XYZ H.V] /Dest (page.8) cvn H.B /DEST pdfmark
 end
  197 -102 a Black 2584
 -132 a Ff(UDP)20 b(shell)h(scripts)f(with)g(inetd)p Black
-287 171 a Fd(//)44 b(Do)h(stuff)287 253 y(while)f(\(1\))376
-336 y({)466 418 y(//)g(We)h(need)f(to)h(peek)f(at)g(the)h(first)f(part)
-g(of)g(the)466 500 y(//)g(packet)g(to)h(determine)e(who)h(to)h(connect)
-f(to)466 582 y(len)g(=)h(1;)466 664 y(printf)f(\("Reading...\\n"\);)466
-747 y(clen)g(=)h(sizeof)f(\(clientaddr\);)466 829 y(if)g(\(\(len)g(=)h
-(recvfrom)f(\(lfd,)g(buf,)g(len,)g(MSG_PEEK,)869 911
-y(\(struct)g(sockaddr)g(*\))869 993 y(&clientaddr,)f(&clen\)\))h
-Fc(<)h Fd(0\))376 1075 y({)466 1158 y(perror)f(\("Socket)f(peek)h
-(error"\);)466 1240 y(exit)g(\(42\);)376 1322 y(})466
-1404 y(if)g(\(len)h(==)f(0\))376 1486 y(break;)466 1651
-y(//)g(Connect)466 1733 y(if)g(\(connect)g(\(lfd,)g(&clientaddr,)f
-(clen\))h Fc(<)g Fd(0\))376 1815 y({)466 1897 y(perror)g(\("Could)f
-(not)i(connect"\);)466 1979 y(exit)f(\(42\);)376 2062
-y(})466 2226 y(//)g(And)h(now)f(we)h(can)f(just)g(use)g(the)h(normal)f
-(read)466 2308 y(//)g(and)h(write)466 2390 y(len)f(=)h(1024;)466
-2473 y(if)f(\(\(len)g(=)h(read)f(\(lfd,)g(buf,)g(len\)\))g
-Fc(<)h Fd(0\))376 2555 y({)466 2637 y(perror)f(\("Socket)f(read)h
-(error"\);)466 2719 y(exit)g(\(42\);)376 2801 y(})466
-2884 y(if)g(\(write)g(\(lfd,)g(buf,)g(len\))h Fc(<)f
-Fd(0\))376 2966 y({)466 3048 y(perror)g(\("Socket)f(write)h(error"\);)
-466 3130 y(exit)g(\(42\);)376 3212 y(})376 3295 y(})197
-3377 y(})197 3469 y
+466 89 a Fd(//)44 b(We)h(need)f(to)h(peek)f(at)g(the)h(first)f(part)g
+(of)g(the)466 171 y(//)g(packet)g(to)h(determine)e(who)h(to)h(connect)f
+(to)466 253 y(len)g(=)h(1;)466 336 y(printf)f(\("Reading...\\n"\);)466
+418 y(clen)g(=)h(sizeof)f(\(clientaddr\);)466 500 y(if)g(\(\(len)g(=)h
+(recvfrom)f(\(lfd,)g(buf,)g(len,)g(MSG_PEEK,)1407 582
+y(\(struct)g(sockaddr)g(*\))g(&clientaddr,)f(&clen\)\))h
+Fc(<)g Fd(0\))556 664 y({)645 747 y(perror)g(\("Socket)g(peek)g
+(error"\);)645 829 y(exit)g(\(42\);)556 911 y(})466 993
+y(if)g(\(len)h(==)f(0\))556 1075 y(break;)466 1240 y(//)g(Connect)466
+1322 y(if)g(\(connect)g(\(lfd,)g(&clientaddr,)f(clen\))h
+Fc(<)g Fd(0\))556 1404 y({)645 1486 y(perror)g(\("Could)g(not)g
+(connect"\);)645 1569 y(exit)g(\(42\);)556 1651 y(})466
+1815 y(//)g(And)h(now)f(we)h(can)f(just)g(use)g(the)h(normal)f(read)466
+1897 y(//)g(and)h(write)466 1979 y(len)f(=)h(1024;)466
+2062 y(if)f(\(\(len)g(=)h(read)f(\(lfd,)g(buf,)g(len\)\))g
+Fc(<)h Fd(0\))556 2144 y({)645 2226 y(perror)f(\("Socket)g(read)g
+(error"\);)645 2308 y(exit)g(\(42\);)556 2390 y(})466
+2473 y(if)g(\(write)g(\(lfd,)g(buf,)g(len\))h Fc(<)f
+Fd(0\))556 2555 y({)645 2637 y(perror)g(\("Socket)g(write)g(error"\);)
+645 2719 y(exit)g(\(42\);)556 2801 y(})376 2884 y(})197
+2966 y(})197 3058 y
 SDict begin H.S end
- 197 3469 a 197 3469 a
+ 197 3058 a 197 3058 a
 SDict begin 11 H.A end
- 197 3469 a
-197 3469 a
+ 197 3058 a
+197 3058 a
 SDict begin [ /View [/XYZ H.V] /Dest (114) cvn H.B /DEST pdfmark end
- 197 3469 a 197 3469 a
+ 197 3058 a 197 3058 a
 SDict begin H.S end
- 197 3469 a 197 3469
+ 197 3058 a 197 3058
 a
 SDict begin 11 H.A end
- 197 3469 a 197 3469 a
+ 197 3058 a 197 3058 a
 SDict begin [ /View [/XYZ H.V] /Dest (115) cvn H.B /DEST pdfmark end
- 197 3469 a 82 x Ff(Code:)21 b(connected.c)197
-3593 y
+ 197 3058 a 82 x Ff(Code:)21 b(connected.c)197
+3183 y
 SDict begin H.S end
- 197 3593 a 197 3593 a
+ 197 3183 a 197 3183 a
 SDict begin 11 H.A end
- 197 3593 a 197 3593 a
+ 197 3183 a 197 3183 a
 SDict begin [ /View [/XYZ H.V] /Dest (116) cvn H.B /DEST pdfmark end
  197
-3593 a 91 x Fg(W)-8 b(e)25 b(do)f(cheat)h(a)f(little)h(in)g(this)g
-(example,)f(ther)o(e)g(is)h(one)1999 3684 y
+3183 a 90 x Fg(W)-8 b(e)25 b(do)f(cheat)h(a)f(little)h(in)g(this)g
+(example,)f(ther)o(e)g(is)h(one)1999 3273 y
 SDict begin H.S end
- 1999 3684
-a 1999 3684 a
+ 1999 3273
+a 1999 3273 a
 SDict begin 11 H.A end
- 1999 3684 a 1999 3684 a
+ 1999 3273 a 1999 3273 a
 SDict begin [ /View [/XYZ H.V] /Dest (117) cvn H.B /DEST pdfmark end
- 1999 3684 a Ff(r)o(ecvfr)o(om)e
-Fg(call.)h(This)h(is)g(used)g(to)3054 3684 y
+ 1999 3273 a Ff(r)o(ecvfr)o(om)e
+Fg(call.)h(This)h(is)g(used)g(to)3054 3273 y
 SDict begin H.S end
- 3054 3684
-a 3054 3684 a
+ 3054 3273
+a 3054 3273 a
 SDict begin 11 H.A end
- 3054 3684 a 3054 3684 a
+ 3054 3273 a 3054 3273 a
 SDict begin [ /View [/XYZ H.V] /Dest (118) cvn H.B /DEST pdfmark end
- 3054 3684 a Fg(\223peek\224)e(at)
-h(the)197 3775 y(data)c(which)h(is)h(waiting)f(on)h(the)f(socket)g(to)g
+ 3054 3273 a Fg(\223peek\224)e(at)
+h(the)197 3364 y(data)c(which)h(is)h(waiting)f(on)h(the)f(socket)g(to)g
 (determine)g(the)g(addr)o(ess)e(to)i(connect)h(to.)f(The)3112
-3775 y
+3364 y
 SDict begin H.S end
- 3112 3775 a 3112 3775 a
+ 3112 3364 a 3112 3364 a
 SDict begin 11 H.A end
- 3112 3775 a 3112 3775
+ 3112 3364 a 3112 3364
 a
 SDict begin [ /View [/XYZ H.V] /Dest (119) cvn H.B /DEST pdfmark end
- 3112 3775 a Ff(MSG_PEEK)197 3867 y Fg(means)i(that)g(the)g(data)f(is)
+ 3112 3364 a Ff(MSG_PEEK)197 3456 y Fg(means)i(that)g(the)g(data)f(is)
 h(not)h(actually)e(r)o(emoved)g(fr)o(om)h(the)g(queue)g(of)g(data)e(to)
-j(be)e(pr)o(ocessed)g(by)h(this)197 3958 y(call.)197
-4001 y
+j(be)e(pr)o(ocessed)g(by)h(this)197 3547 y(call.)197
+3590 y
 SDict begin H.S end
- 197 4001 a 197 4001 a
+ 197 3590 a 197 3590 a
 SDict begin 11 H.A end
- 197 4001 a 197 4001 a
+ 197 3590 a 197 3590 a
 SDict begin [ /View [/XYZ H.V] /Dest (120) cvn H.B /DEST pdfmark end
  197
-4001 a 90 x Fg(I)k(wont)h(include)f(an)f(example)h(of)g(what)g(this)g
+3590 a 90 x Fg(I)k(wont)h(include)f(an)f(example)h(of)g(what)g(this)g
 (pr)o(ogram)f(looks)j(like)e(when)g(it)g(r)o(uns,)h(because)e(it)h
-(looks)197 4182 y(exactly)20 b(the)h(same)g(as)f(the)h(disconnected)g
-(echo)g(server)f(above.)197 4247 y
+(looks)197 3771 y(exactly)20 b(the)h(same)g(as)f(the)h(disconnected)g
+(echo)g(server)f(above.)197 3836 y
 SDict begin H.S end
- 197 4247 a 197 4247
+ 197 3836 a 197 3836
 a
 SDict begin 11 H.A end
- 197 4247 a 197 4247 a
+ 197 3836 a 197 3836 a
 SDict begin [ /View [/XYZ H.V] /Dest (121) cvn H.B /DEST pdfmark end
- 197 4247 a 253 x Fe(3.4.)27 b(Bac)n(k)h(to)g
-(our)h(simple)f(inetd)h(ser)q(ver)197 4571 y
+ 197 3836 a 253 x Fe(3.4.)27 b(Bac)n(k)h(to)g
+(our)h(simple)f(inetd)h(ser)q(ver)197 4160 y
 SDict begin H.S end
- 197 4571
-a 197 4571 a
+ 197 4160
+a 197 4160 a
 SDict begin 11 H.A end
- 197 4571 a 197 4571 a
+ 197 4160 a 197 4160 a
 SDict begin [ /View [/XYZ H.V] /Dest (123) cvn H.B /DEST pdfmark end
- 197 4571 a 71 x Fg(Y)-8
+ 197 4160 a 71 x Fg(Y)-8
 b(ou'll)23 b(r)o(ecall)e(that)h(a)f(couple)h(of)g(examples)f(ago)h(I)g
-(showed)h(you)f(the)g(code)g(for)f(a)h(simple)3083 4642
+(showed)h(you)f(the)g(code)g(for)f(a)h(simple)3083 4231
 y
 SDict begin H.S end
- 3083 4642 a 3083 4642 a
+ 3083 4231 a 3083 4231 a
 SDict begin 11 H.A end
- 3083 4642 a 3083 4642 a
+ 3083 4231 a 3083 4231 a
 SDict begin [ /View [/XYZ H.V] /Dest (124) cvn H.B /DEST pdfmark end
  3083
-4642 a Fh(inetd)e Fg(server)-6 b(.)197 4733 y(This)19
+4231 a Fh(inetd)e Fg(server)-6 b(.)197 4322 y(This)19
 b(example)f(below)h(expands)e(on)i(that)g(so)g(it)f(uses)h(a)f
 (connected)g(socket.)h(This)g(example)f(will)h(behave)197
-4824 y(just)h(like)g(the)g(har)o(d)e(coded)h(echo)h(server)e(in)i(the)g
+4413 y(just)h(like)g(the)g(har)o(d)e(coded)h(echo)h(server)e(in)i(the)g
 (\002rst)g(and)f(thir)o(d)g(examples)g(in)h(this)g(article)f(\(except)f
-(that)197 4916 y(the)j(server)f(debugging)h(output)g(doesn't)h(happen)e
-(any)h(mor)o(e\).)197 5022 y
+(that)197 4505 y(the)j(server)f(debugging)h(output)g(doesn't)h(happen)e
+(any)h(mor)o(e\).)197 4611 y
 SDict begin H.S end
- 197 5022 a 197 5022 a
+ 197 4611 a 197 4611 a
 SDict begin 9.9 H.A end
  197
-5022 a 197 5022 a
+4611 a 197 4611 a
 SDict begin [ /View [/XYZ H.V] /Dest (125) cvn H.B /DEST pdfmark end
- 197 5022 a 59 x Fd(//)45 b(Connected)e(UDP)h(socket)g
-(example:)f(this)i(example)e(this)197 5163 y(//)i(example)e(simply)h
-(waits)g(for)g(traffic,)g(and)g(the)g(starts)197 5245
+ 197 4611 a 59 x Fd(//)45 b(Connected)e(UDP)h(socket)g
+(example:)f(this)i(example)e(this)197 4752 y(//)i(example)e(simply)h
+(waits)g(for)g(traffic,)g(and)g(the)g(starts)197 4834
 y(//)h(a)f(process)g(to)g(deal)g(with)h(the)f(results.)f(One)i(process)
-197 5327 y(//)g(per)f(packet,)f(one)i(packet)f(per)g(process.)f(You'll)
-h(note)197 5410 y(//)h(that)f(we)g(can)g(now)h(use)f(read)g(and)h
-(write)f(to)g(get)g(to)h(the)197 5492 y(//)g(traffic,)e(and)h(that)g
-(this)h(all)f(works...)197 5656 y(#include)f Fc(<)p Fd(stdio.h)p
-Fc(>)197 5738 y Fd(#include)g Fc(<)p Fd(errno.h)p Fc(>)197
-5821 y Fd(#include)g Fc(<)p Fd(unistd.h)p Fc(>)p Black
-3504 5999 a Ff(8)p Black eop end
+197 4916 y(//)g(per)f(packet,)f(one)i(packet)f(per)g(process.)f(You'll)
+h(note)197 4999 y(//)h(that)f(we)g(can)g(now)h(use)f(read)g(and)h
+(write)f(to)g(get)g(to)h(the)197 5081 y(//)g(traffic,)e(and)h(that)g
+(this)h(all)f(works...)197 5245 y(#include)f Fc(<)p Fd(stdio.h)p
+Fc(>)197 5327 y Fd(#include)g Fc(<)p Fd(errno.h)p Fc(>)197
+5410 y Fd(#include)g Fc(<)p Fd(unistd.h)p Fc(>)197 5492
+y Fd(#include)g Fc(<)p Fd(sys/types.h)p Fc(>)197 5574
+y Fd(#include)g Fc(<)p Fd(sys/socket.h)p Fc(>)197 5656
+y Fd(#include)g Fc(<)p Fd(netinet/in.h)p Fc(>)197 5821
+y Fd(int)p Black 3504 5999 a Ff(8)p Black eop end
 %%Page: 9 9
 TeXDict begin 9 8 bop -600 -600 a
 SDict begin /product where{pop product(Distiller)search{pop pop pop
@@ -4945,47 +4946,47 @@ SDict begin [ /View [/XYZ H.V] /Dest (page.9) cvn H.B /DEST pdfmark
 end
  197 -102 a Black 2584
 -132 a Ff(UDP)20 b(shell)h(scripts)f(with)g(inetd)p Black
-197 89 a Fd(#include)43 b Fc(<)p Fd(sys/types.h)p Fc(>)197
-171 y Fd(#include)g Fc(<)p Fd(sys/socket.h)p Fc(>)197
-253 y Fd(#include)g Fc(<)p Fd(netinet/in.h)p Fc(>)197
-418 y Fd(int)197 500 y(main)h(\(int)g(argc,)g(char)g(*argv[]\))197
-582 y({)287 664 y(int)g(lfd;)287 747 y(struct)f(sockaddr_in)g
-(servaddr;)287 829 y(struct)g(sockaddr)h(clientaddr;)287
-911 y(char)g(buf[1024];)287 993 y(size_t)f(len;)287 1075
-y(socklen_t)g(clen;)287 1240 y(//)h(We)h(will)f(listen)g(with)g(this)g
-(file)g(descriptor)287 1322 y(if)g(\(\(lfd)g(=)h(socket)f(\(AF_INET,)f
-(SOCK_DGRAM,)g(0\)\))h Fc(<)h Fd(0\))376 1404 y({)466
-1486 y(fprintf)f(\(stderr,)690 1569 y("Error)g(whilst)g(starting)f(to)i
-(listen\\n"\);)466 1651 y(exit)f(\(42\);)376 1733 y(})287
-1897 y(//)g(Define)g(what)g(we)h(are)f(listening)f(for)287
-1979 y(bzero)h(\(&servaddr,)f(sizeof)g(\(servaddr\)\);)287
-2062 y(servaddr.sin_family)e(=)k(AF_INET;)287 2144 y
+197 89 a Fd(main)44 b(\(int)g(argc,)g(char)g(*argv[]\))197
+171 y({)287 253 y(int)g(lfd;)287 336 y(struct)f(sockaddr_in)g
+(servaddr;)287 418 y(struct)g(sockaddr)h(clientaddr;)287
+500 y(char)g(buf[1024];)287 582 y(size_t)f(len;)287 664
+y(socklen_t)g(clen;)287 829 y(//)h(We)h(will)f(listen)g(with)g(this)g
+(file)g(descriptor)287 911 y(if)g(\(\(lfd)g(=)h(socket)f(\(AF_INET,)f
+(SOCK_DGRAM,)g(0\)\))h Fc(<)h Fd(0\))376 993 y({)466
+1075 y(fprintf)f(\(stderr,)f("Error)h(whilst)g(starting)f(to)i
+(listen\\n"\);)466 1158 y(exit)f(\(42\);)376 1240 y(})287
+1404 y(//)g(Define)g(what)g(we)h(are)f(listening)f(for)287
+1486 y(bzero)h(\(&servaddr,)f(sizeof)g(\(servaddr\)\);)287
+1569 y(servaddr.sin_family)e(=)k(AF_INET;)287 1651 y
 (servaddr.sin_addr.s_addr)40 b(=)45 b(htonl)f(\(INADDR_ANY\);)287
-2226 y(servaddr.sin_port)e(=)i(htons)g(\(1234\);)287
-2390 y(//)g(Bind)g(to)h(the)f(address)287 2473 y(if)g(\(bind)g(\(lfd,)g
-(\(struct)g(sockaddr)f(*\))i(&servaddr,)556 2555 y(sizeof)e
-(\(servaddr\)\))g Fc(<)i Fd(0\))376 2637 y({)466 2719
-y(perror)f(\("Couldn't)f(bind"\);)466 2801 y(exit)h(\(42\);)376
-2884 y(})287 3048 y(//)g(Do)h(stuff)287 3130 y(while)f(\(1\))376
-3212 y({)466 3295 y(//)g(We)h(need)f(to)h(peek)f(at)g(the)h(first)f
-(part)g(of)g(the)466 3377 y(//)g(packet)g(to)h(determine)e(who)h(to)h
-(connect)f(to)466 3459 y(len)g(=)h(1;)466 3541 y(printf)f
-(\("Reading...\\n"\);)466 3623 y(clen)g(=)h(sizeof)f(\(clientaddr\);)
-466 3706 y(if)g(\(\(len)g(=)h(recvfrom)f(\(lfd,)g(buf,)g(len,)g
-(MSG_PEEK,)869 3788 y(\(struct)g(sockaddr)g(*\))869 3870
-y(&clientaddr,)f(&clen\)\))h Fc(<)h Fd(0\))376 3952 y({)466
-4034 y(perror)f(\("Socket)f(peek)h(error"\);)466 4116
-y(exit)g(\(42\);)376 4199 y(})466 4281 y(if)g(\(len)h(==)f(0\))376
-4363 y(break;)466 4527 y(//)g(Connect)466 4610 y(if)g(\(connect)g
-(\(lfd,)g(&clientaddr,)f(clen\))h Fc(<)g Fd(0\))376 4692
-y({)466 4774 y(perror)g(\("Could)f(not)i(connect"\);)466
-4856 y(exit)f(\(42\);)376 4938 y(})466 5103 y(printf)g(\("Data)g
-(arrived\\n"\);)466 5267 y(//)g(Spawn)g(a)h(child)f(to)h(handle)e(this)
-i(packet)466 5349 y(switch)f(\(fork)g(\(\)\))376 5432
-y({)376 5514 y(case)g(-1:)466 5596 y(perror)g(\("Couldn't)f(spawn)h
-(child)g(to)g(handle)g(connection"\);)466 5678 y(exit)g(\(42\);)376
-5843 y(case)g(0:)p Black 3504 5999 a Ff(9)p Black eop
-end
+1733 y(servaddr.sin_port)e(=)i(htons)g(\(1234\);)287
+1897 y(//)g(Bind)g(to)h(the)f(address)287 1979 y(if)g(\(bind)g(\(lfd,)g
+(\(struct)g(sockaddr)f(*\))i(&servaddr,)e(sizeof)h(\(servaddr\)\))f
+Fc(<)h Fd(0\))376 2062 y({)466 2144 y(perror)g(\("Couldn't)f(bind"\);)
+466 2226 y(exit)h(\(42\);)376 2308 y(})287 2473 y(//)g(Do)h(stuff)287
+2555 y(while)f(\(1\))376 2637 y({)466 2719 y(//)g(We)h(need)f(to)h
+(peek)f(at)g(the)h(first)f(part)g(of)g(the)466 2801 y(//)g(packet)g(to)
+h(determine)e(who)h(to)h(connect)f(to)466 2884 y(len)g(=)h(1;)466
+2966 y(printf)f(\("Reading...\\n"\);)466 3048 y(clen)g(=)h(sizeof)f
+(\(clientaddr\);)466 3130 y(if)g(\(\(len)g(=)h(recvfrom)f(\(lfd,)g
+(buf,)g(len,)g(MSG_PEEK,)1407 3212 y(\(struct)g(sockaddr)g(*\))g
+(&clientaddr,)f(&clen\)\))h Fc(<)g Fd(0\))556 3295 y({)645
+3377 y(perror)g(\("Socket)g(peek)g(error"\);)645 3459
+y(exit)g(\(42\);)556 3541 y(})466 3623 y(if)g(\(len)h(==)f(0\))556
+3706 y(break;)466 3870 y(//)g(Connect)466 3952 y(if)g(\(connect)g
+(\(lfd,)g(&clientaddr,)f(clen\))h Fc(<)g Fd(0\))556 4034
+y({)645 4116 y(perror)g(\("Could)g(not)g(connect"\);)645
+4199 y(exit)g(\(42\);)556 4281 y(})466 4445 y(printf)g(\("Data)g
+(arrived\\n"\);)466 4610 y(//)g(Spawn)g(a)h(child)f(to)h(handle)e(this)
+i(packet)466 4692 y(switch)f(\(fork)g(\(\)\))556 4774
+y({)556 4856 y(case)g(-1:)645 4938 y(perror)g(\("Couldn't)f(spawn)h
+(child)g(to)h(handle)f(connection"\);)645 5021 y(exit)g(\(42\);)556
+5185 y(case)g(0:)645 5267 y(//)h(Child)f(process)f(--)i(setup)f(the)g
+(file)645 5349 y(//)h(descriptors,)e(and)h(the)g(run)h(the)f(helper)645
+5432 y(//)h(application)645 5514 y(dup2)f(\(lfd,)g(0\);)645
+5596 y(dup2)g(\(lfd,)g(1\);)645 5760 y(execl)g(\("/bin/cat",)f("cat",)h
+(NULL\);)645 5843 y(perror)g(\("Exec)g(failed"\);)p Black
+3504 5999 a Ff(9)p Black eop end
 %%Page: 10 10
 TeXDict begin 10 9 bop -600 -600 a
 SDict begin /product where{pop product(Distiller)search{pop pop pop
@@ -5003,177 +5004,195 @@ SDict begin [ /View [/XYZ H.V] /Dest (page.10) cvn H.B /DEST pdfmark
 end
  197 -102
 a Black 2584 -132 a Ff(UDP)20 b(shell)h(scripts)f(with)g(inetd)p
-Black 466 89 a Fd(//)44 b(Child)g(process)g(--)h(setup)f(the)g(file)466
-171 y(//)g(descriptors,)f(and)i(the)f(run)g(the)h(helper)466
-253 y(//)f(application)466 336 y(dup2)g(\(lfd,)g(0\);)466
-418 y(dup2)g(\(lfd,)g(1\);)466 582 y(execl)g(\("/bin/cat",)f("cat",)h
-(NULL\);)466 664 y(perror)g(\("Exec)g(failed"\);)466
-747 y(exit)g(\(42\);)466 829 y(break;)376 993 y(default:)466
-1075 y(//)g(Parent)g(process)466 1158 y(break;)376 1240
-y(})376 1322 y(})197 1404 y(})197 1496 y
-SDict begin H.S end
- 197 1496 a 197
-1496 a
-SDict begin 11 H.A end
- 197 1496 a 197 1496 a
-SDict begin [ /View [/XYZ H.V] /Dest (126) cvn H.B /DEST pdfmark end
- 197 1496 a 197 1496 a
-SDict begin H.S end
- 197
-1496 a 197 1496 a
-SDict begin 11 H.A end
- 197 1496 a 197 1496 a
-SDict begin [ /View [/XYZ H.V] /Dest (127) cvn H.B /DEST pdfmark end
- 197 1496 a 82
-x Ff(Code:)21 b(connexec.c)197 1621 y
-SDict begin H.S end
- 197 1621 a 197
-1621 a
-SDict begin 11 H.A end
- 197 1621 a 197 1621 a
-SDict begin [ /View [/XYZ H.V] /Dest (128) cvn H.B /DEST pdfmark end
- 197 1621 a 276 x Fe(3.5.)27
-b(inetd)i(and)g(xinetd)g(patc)o(hes)197 1968 y
-SDict begin H.S end
- 197 1968
-a 197 1968 a
-SDict begin 11 H.A end
- 197 1968 a 197 1968 a
-SDict begin [ /View [/XYZ H.V] /Dest (130) cvn H.B /DEST pdfmark end
- 197 1968 a 70 x Fg(The)23
-b(two)h(standar)o(d)e(inetd)h(implementations)h(that)g(most)g(people)f
-(use)g(ar)o(e)f(called)2899 2038 y
-SDict begin H.S end
- 2899 2038 a 2899 2038
-a
-SDict begin 11 H.A end
- 2899 2038 a 2899 2038 a
-SDict begin [ /View [/XYZ H.V] /Dest (131) cvn H.B /DEST pdfmark end
- 2899 2038 a Fh(inetd)g Fg(and)3285
-2038 y
-SDict begin H.S end
- 3285 2038 a 3285 2038 a
-SDict begin 11 H.A end
- 3285 2038 a 3285 2038
-a
-SDict begin [ /View [/XYZ H.V] /Dest (132) cvn H.B /DEST pdfmark end
- 3285 2038 a Fh(xinetd)p Fg(.)197 2129 y
-SDict begin H.S end
- 197 2129 a
-197 2129 a
-SDict begin 11 H.A end
- 197 2129 a 197 2129 a
-SDict begin [ /View [/XYZ H.V] /Dest (133) cvn H.B /DEST pdfmark end
- 197 2129 a Fh(inetd)i
-Fg(doesn't)j(implement)g(a)e(connected)h(socket)h(for)e(the)i(server)e
-(befor)o(e)g(starting)h(it,)g(which)h(means)197 2221
-y(that)17 b(it)h(is)g(ef)o(fectively)e(impossible)i(to)g(write)g(a)e
-(standar)o(d)g(shell)i(script)g(which)g(pr)o(ocesses)f(UDP)g(network)
-197 2312 y(traf)o(\002c)i(using)j(a)e(stock)931 2312
+Black 645 89 a Fd(exit)44 b(\(42\);)645 171 y(break;)556
+336 y(default:)645 418 y(//)h(Parent)f(process)645 500
+y(break;)556 582 y(})376 664 y(})197 747 y(})197 838
 y
 SDict begin H.S end
- 931 2312 a 931 2312 a
+ 197 838 a 197 838 a
 SDict begin 11 H.A end
- 931 2312 a 931 2312 a
-SDict begin [ /View [/XYZ H.V] /Dest (134) cvn H.B /DEST pdfmark end
- 931 2312
-a Fh(inetd)p Fg(.)1170 2312 y
+ 197 838 a 197 838 a
+SDict begin [ /View [/XYZ H.V] /Dest (126) cvn H.B /DEST pdfmark end
+ 197 838 a 197
+838 a
 SDict begin H.S end
- 1170 2312 a 1170 2312 a
+ 197 838 a 197 838 a
+SDict begin 11 H.A end
+ 197 838 a 197 838 a
+SDict begin [ /View [/XYZ H.V] /Dest (127) cvn H.B /DEST pdfmark end
+ 197 838
+a 83 x Ff(Code:)21 b(connexec.c)197 963 y
+SDict begin H.S end
+ 197 963 a 197
+963 a
+SDict begin 11 H.A end
+ 197 963 a 197 963 a
+SDict begin [ /View [/XYZ H.V] /Dest (128) cvn H.B /DEST pdfmark end
+ 197 963 a 276 x Fe(3.5.)27
+b(inetd)i(and)g(xinetd)g(patc)o(hes)197 1310 y
+SDict begin H.S end
+ 197 1310
+a 197 1310 a
+SDict begin 11 H.A end
+ 197 1310 a 197 1310 a
+SDict begin [ /View [/XYZ H.V] /Dest (130) cvn H.B /DEST pdfmark end
+ 197 1310 a 71 x Fg(The)23
+b(two)h(standar)o(d)e(inetd)h(implementations)h(that)g(most)g(people)f
+(use)g(ar)o(e)f(called)2899 1381 y
+SDict begin H.S end
+ 2899 1381 a 2899 1381
+a
+SDict begin 11 H.A end
+ 2899 1381 a 2899 1381 a
+SDict begin [ /View [/XYZ H.V] /Dest (131) cvn H.B /DEST pdfmark end
+ 2899 1381 a Fh(inetd)g Fg(and)3285
+1381 y
+SDict begin H.S end
+ 3285 1381 a 3285 1381 a
+SDict begin 11 H.A end
+ 3285 1381 a 3285 1381
+a
+SDict begin [ /View [/XYZ H.V] /Dest (132) cvn H.B /DEST pdfmark end
+ 3285 1381 a Fh(xinetd)p Fg(.)197 1472 y
+SDict begin H.S end
+ 197 1472 a
+197 1472 a
+SDict begin 11 H.A end
+ 197 1472 a 197 1472 a
+SDict begin [ /View [/XYZ H.V] /Dest (133) cvn H.B /DEST pdfmark end
+ 197 1472 a Fh(inetd)i
+Fg(doesn't)j(implement)g(a)e(connected)h(socket)h(for)e(the)i(server)e
+(befor)o(e)g(starting)h(it,)g(which)h(means)197 1563
+y(that)17 b(it)h(is)g(ef)o(fectively)e(impossible)i(to)g(write)g(a)e
+(standar)o(d)g(shell)i(script)g(which)g(pr)o(ocesses)f(UDP)g(network)
+197 1655 y(traf)o(\002c)i(using)j(a)e(stock)931 1655
+y
+SDict begin H.S end
+ 931 1655 a 931 1655 a
+SDict begin 11 H.A end
+ 931 1655 a 931 1655 a
+SDict begin [ /View [/XYZ H.V] /Dest (134) cvn H.B /DEST pdfmark end
+ 931 1655
+a Fh(inetd)p Fg(.)1170 1655 y
+SDict begin H.S end
+ 1170 1655 a 1170 1655 a
 SDict begin 11 H.A end
 
-1170 2312 a 1170 2312 a
+1170 1655 a 1170 1655 a
 SDict begin [ /View [/XYZ H.V] /Dest (135) cvn H.B /DEST pdfmark end
- 1170 2312 a Fh(xinetd)f Fg(however)i(does)g
+ 1170 1655 a Fh(xinetd)f Fg(however)i(does)g
 (connect)g(the)g(socket)g(befor)o(e)e(calling)i(the)g(script.)197
-2377 y
+1719 y
 SDict begin H.S end
- 197 2377 a 197 2377 a
+ 197 1719 a 197 1719 a
 SDict begin 11 H.A end
- 197 2377 a 197 2377 a
+ 197 1719 a 197 1719 a
 SDict begin [ /View [/XYZ H.V] /Dest (136) cvn H.B /DEST pdfmark end
  197
-2377 a 68 x Fg(It)j(seems)g(logical)h(to)f(me)h(to)f(include)g(a)g
-(patch)g(to)g(make)2033 2445 y
+1719 a 68 x Fg(It)j(seems)g(logical)h(to)f(me)h(to)f(include)g(a)g
+(patch)g(to)g(make)2033 1787 y
 SDict begin H.S end
- 2033 2445 a 2033 2445
+ 2033 1787 a 2033 1787
 a
 SDict begin 11 H.A end
- 2033 2445 a 2033 2445 a
+ 2033 1787 a 2033 1787 a
 SDict begin [ /View [/XYZ H.V] /Dest (137) cvn H.B /DEST pdfmark end
- 2033 2445 a Fh(inetd)e Fg(behave)i(in)g(the)g
-(manner)g(that)g(I)h(would)197 2536 y(like)d(it)g(to.)g(After)f(all,)g
+ 2033 1787 a Fh(inetd)e Fg(behave)i(in)g(the)g
+(manner)g(that)g(I)h(would)197 1879 y(like)d(it)g(to.)g(After)f(all,)g
 (if)h(our)g(goal)g(is)g(as)g(noble)g(as)g(implementing)h(a)e(DNS)h
-(server)f(in)i(shell)f(script,)g(then)197 2628 y(sur)o(ely)e(the)h
+(server)f(in)i(shell)f(script,)g(then)197 1970 y(sur)o(ely)e(the)h
 (operating)g(system)h(should)f(be)g(modi\002ed)g(to)g(accommodate)f
-(us?)197 2651 y
+(us?)197 1993 y
 SDict begin H.S end
- 197 2651 a 197 2651 a
+ 197 1993 a 197 1993 a
 SDict begin 11 H.A end
- 197 2651 a 197
-2651 a
+ 197 1993 a 197
+1993 a
 SDict begin [ /View [/XYZ H.V] /Dest (138) cvn H.B /DEST pdfmark end
- 197 2651 a 229 x Fb(3.5.1.)26 b(inetd)f(patc)o(h)197
-2944 y
+ 197 1993 a 229 x Fb(3.5.1.)26 b(inetd)f(patc)o(h)197
+2287 y
 SDict begin H.S end
- 197 2944 a 197 2944 a
+ 197 2287 a 197 2287 a
 SDict begin 11 H.A end
- 197 2944 a 197 2944 a
+ 197 2287 a 197 2287 a
 SDict begin [ /View [/XYZ H.V] /Dest (140) cvn H.B /DEST pdfmark end
  197
-2944 a 73 x Fg(The)20 b(package)f(which)i(contains)1252
-3017 y
+2287 a 72 x Fg(The)20 b(package)f(which)i(contains)1252
+2359 y
 SDict begin H.S end
- 1252 3017 a 1252 3017 a
+ 1252 2359 a 1252 2359 a
 SDict begin 11 H.A end
- 1252 3017 a 1252 3017
+ 1252 2359 a 1252 2359
 a
 SDict begin [ /View [/XYZ H.V] /Dest (141) cvn H.B /DEST pdfmark end
- 1252 3017 a Fh(inetd)d Fg(as)i(r)o(un)h(on)f(Debian)g(is)h(called)
-2432 3017 y
+ 1252 2359 a Fh(inetd)d Fg(as)i(r)o(un)h(on)f(Debian)g(is)h(called)
+2432 2359 y
 SDict begin H.S end
- 2432 3017 a 2432 3017 a
+ 2432 2359 a 2432 2359 a
 SDict begin 11 H.A end
- 2432 3017 a 2432
-3017 a
+ 2432 2359 a 2432
+2359 a
 SDict begin [ /View [/XYZ H.V] /Dest (142) cvn H.B /DEST pdfmark end
- 2432 3017 a Ff(netkit)p Fg(.)f(The)g(following)h(is)g(a)e(patch)
-197 3108 y(to)i(use)g(connected)g(sockets)g(for)g(UDP)f(and)h(TCP)f
-(servers.)197 3193 y
+ 2432 2359 a Ff(netkit)p Fg(.)f(The)g(following)h(is)g(a)e(patch)
+197 2450 y(to)i(use)g(connected)g(sockets)g(for)g(UDP)f(and)h(TCP)f
+(servers.)197 2535 y
 SDict begin H.S end
- 197 3193 a 197 3193 a
+ 197 2535 a 197 2535 a
 SDict begin 9.9 H.A end
- 197 3193 a
-197 3193 a
+ 197 2535 a
+197 2535 a
 SDict begin [ /View [/XYZ H.V] /Dest (143) cvn H.B /DEST pdfmark end
- 197 3193 a 80 x Fd(diff)44 b(-ur)g
+ 197 2535 a 81 x Fd(diff)44 b(-ur)g
 (netkit-base-0.16/inetd/inetd.c)c
-(netkit-base-0.16-hacked/inetd/inetd.c)197 3355 y(---)k
+(netkit-base-0.16-hacked/inetd/inetd.c)197 2698 y(---)k
 (netkit-base-0.16/inetd/inetd.c)175 b(Wed)44 b(Nov)g(24)h(06:31:53)e
-(1999)197 3437 y(+++)h(netkit-base-0.16-hacked/inetd/inetd.c)173
-b(Thu)45 b(Jan)f(23)h(13:42:59)e(2003)197 3520 y(@@)i(-470,7)e(+470,30)
-h(@@)780 3602 y(return;)600 3684 y(})600 3766 y(if)h(\(pid==0\))e({)197
-3848 y(+)717 b(char)44 b(buf[2];)197 3931 y(+)538 b(size_t)44
-b(len)g(=)h(1;)197 4013 y(+)538 b(struct)44 b(sockaddr)f(clientaddr;)
-197 4095 y(+)538 b(socklen_t)43 b(clen;)197 4177 y(+)780
-4259 y(/*)h(child)g(*/)197 4342 y(+)538 b(len)44 b(=)h
-(sizeof\(clientaddr\);)197 4424 y(+)538 b(if)44 b(\(\(len)g(=)h
-(recvfrom\(ctrl,)d(buf,)j(len,)f(MSG_PEEK,)197 4506 y(+)1031
-b(\(struct)44 b(sockaddr)f(*\))i(&clientaddr,)197 4588
-y(+)1031 b(&clen\)\))44 b Fc(<)g Fd(0\))h({)197 4670
+(1999)197 2780 y(+++)h(netkit-base-0.16-hacked/inetd/inetd.c)173
+b(Thu)45 b(Jan)f(23)h(13:42:59)e(2003)197 2862 y(@@)i(-470,7)e(+470,30)
+h(@@)780 2944 y(return;)600 3026 y(})600 3109 y(if)h(\(pid==0\))e({)197
+3191 y(+)717 b(char)44 b(buf[2];)197 3273 y(+)538 b(size_t)44
+b(len)g(=)h(1;)197 3355 y(+)538 b(struct)44 b(sockaddr)f(clientaddr;)
+197 3437 y(+)538 b(socklen_t)43 b(clen;)197 3520 y(+)780
+3602 y(/*)h(child)g(*/)197 3684 y(+)538 b(len)44 b(=)h
+(sizeof\(clientaddr\);)197 3766 y(+)538 b(if)44 b(\(\(len)g(=)h
+(recvfrom\(ctrl,)d(buf,)j(len,)f(MSG_PEEK,)197 3848 y(+)1031
+b(\(struct)44 b(sockaddr)f(*\))i(&clientaddr,)197 3931
+y(+)1031 b(&clen\)\))44 b Fc(<)g Fd(0\))h({)197 4013
 y(+)896 b(syslog\(LOG_WARNING,)42 b("failed)i(to)g(peek)g(for)h(\(for)f
-(\045s\):)g(\045m",)197 4753 y(+)1031 b(sep-)p Fc(>)p
-Fd(se_service\);)197 4835 y(+)538 b(})197 4917 y(+)g(if)44
-b(\(len==0\))g({)197 4999 y(+)896 b(syslog\(LOG_WARNING,)42
-b("no)i(data)h(\(for)f(\045s\):)g(\045m",)197 5081 y(+)1031
-b(sep-)p Fc(>)p Fd(se_service\);)197 5163 y(+)538 b(})197
-5246 y(+)197 5328 y(+)g(//)44 b(Connect)197 5410 y(+)538
+(\045s\):)g(\045m",)197 4095 y(+)1031 b(sep-)p Fc(>)p
+Fd(se_service\);)197 4177 y(+)538 b(})197 4259 y(+)g(if)44
+b(\(len==0\))g({)197 4342 y(+)896 b(syslog\(LOG_WARNING,)42
+b("no)i(data)h(\(for)f(\045s\):)g(\045m",)197 4424 y(+)1031
+b(sep-)p Fc(>)p Fd(se_service\);)197 4506 y(+)538 b(})197
+4588 y(+)197 4670 y(+)g(//)44 b(Connect)197 4753 y(+)538
 b(if)44 b(\(connect\(ctrl,)f(&clientaddr,)g(clen\))h
-Fc(<)g Fd(0\))h({)197 5492 y(+)896 b(syslog\(LOG_WARNING,)42
+Fc(<)g Fd(0\))h({)197 4835 y(+)896 b(syslog\(LOG_WARNING,)42
 b("connect)i(failed)f(\(for)i(\045s\):)f(\045m",)197
-5574 y(+)1031 b(sep-)p Fc(>)p Fd(se_service\);)197 5657
-y(+)538 b(})197 5739 y(+)780 5821 y(dup2\(ctrl,)43 b(0\);)p
-Black 3462 5999 a Ff(10)p Black eop end
+4917 y(+)1031 b(sep-)p Fc(>)p Fd(se_service\);)197 4999
+y(+)538 b(})197 5081 y(+)780 5163 y(dup2\(ctrl,)43 b(0\);)780
+5246 y(close\(ctrl\);)780 5328 y(dup2\(0,)g(1\);)197
+5423 y
+SDict begin H.S end
+ 197 5423 a 197 5423 a
+SDict begin 11 H.A end
+ 197 5423 a 197 5423 a
+SDict begin [ /View [/XYZ H.V] /Dest (144) cvn H.B /DEST pdfmark end
+ 197
+5423 a 197 5423 a
+SDict begin H.S end
+ 197 5423 a 197 5423 a
+SDict begin 11 H.A end
+ 197 5423 a 197
+5423 a
+SDict begin [ /View [/XYZ H.V] /Dest (145) cvn H.B /DEST pdfmark end
+ 197 5423 a 79 x Ff(Code:)21 b(netkit.patch)197
+5567 y
+SDict begin H.S end
+ 197 5567 a 197 5567 a
+SDict begin 11 H.A end
+ 197 5567 a 197 5567 a
+SDict begin [ /View [/XYZ H.V] /Dest (146) cvn H.B /DEST pdfmark end
+ 197
+5567 a Black 3462 5999 a Ff(10)p Black eop end
 %%Page: 11 11
 TeXDict begin 11 10 bop -600 -600 a
 SDict begin /product where{pop product(Distiller)search{pop pop pop
@@ -5191,362 +5210,407 @@ SDict begin [ /View [/XYZ H.V] /Dest (page.11) cvn H.B /DEST pdfmark
 end
  197 -102
 a Black 2584 -132 a Ff(UDP)20 b(shell)h(scripts)f(with)g(inetd)p
-Black 780 89 a Fd(close\(ctrl\);)780 171 y(dup2\(0,)43
-b(1\);)197 266 y
+Black 197 89 a Fb(3.5.2.)26 b(Con\002guring)e(inetd)197
+155 y
 SDict begin H.S end
- 197 266 a 197 266 a
+ 197 155 a 197 155 a
 SDict begin 11 H.A end
- 197 266 a 197 266
-a
-SDict begin [ /View [/XYZ H.V] /Dest (144) cvn H.B /DEST pdfmark end
- 197 266 a 197 266 a
-SDict begin H.S end
- 197 266 a 197 266 a
-SDict begin 11 H.A end
- 197 266 a 197
-266 a
-SDict begin [ /View [/XYZ H.V] /Dest (145) cvn H.B /DEST pdfmark end
- 197 266 a 80 x Ff(Code:)21 b(netkit.patch)197 410
-y
-SDict begin H.S end
- 197 410 a 197 410 a
-SDict begin 11 H.A end
- 197 410 a 197 410 a
-SDict begin [ /View [/XYZ H.V] /Dest (146) cvn H.B /DEST pdfmark end
- 197 410 a 244
-x Fb(3.5.2.)26 b(Con\002guring)e(inetd)197 720 y
-SDict begin H.S end
- 197
-720 a 197 720 a
-SDict begin 11 H.A end
- 197 720 a 197 720 a
+ 197 155 a 197 155 a
 SDict begin [ /View [/XYZ H.V] /Dest (148) cvn H.B /DEST pdfmark end
- 197 720 a 71 x Fg(A)19
-b(simple)h(example)f(of)g(how)h(to)g(con\002gur)o(e)1612
-791 y
+ 197 155
+a 71 x Fg(A)19 b(simple)h(example)f(of)g(how)h(to)g(con\002gur)o(e)1612
+226 y
 SDict begin H.S end
- 1612 791 a 1612 791 a
+ 1612 226 a 1612 226 a
 SDict begin 11 H.A end
- 1612 791 a 1612 791 a
+ 1612 226 a 1612 226 a
 SDict begin [ /View [/XYZ H.V] /Dest (149) cvn H.B /DEST pdfmark end
  1612
-791 a Fh(inetd)d Fg(to)j(handle)g(our)f(UDP)h(echo)f(server)g(is)h
-(shown)h(below)197 882 y(\227)g(the)g(con\002guration)h(\002le)f(this)h
+226 a Fh(inetd)d Fg(to)j(handle)g(our)f(UDP)h(echo)f(server)g(is)h
+(shown)h(below)197 317 y(\227)g(the)g(con\002guration)h(\002le)f(this)h
 (line)f(is)g(added)f(to)h(is)g(/etc/inetd.conf.)g(It)g(should)h(be)e
-(noted)h(that)3379 882 y
+(noted)h(that)3379 317 y
 SDict begin H.S end
- 3379 882 a 3379 882 a
+ 3379 317 a 3379 317 a
 SDict begin 11 H.A end
- 3379 882
-a 3379 882 a
+ 3379 317
+a 3379 317 a
 SDict begin [ /View [/XYZ H.V] /Dest (150) cvn H.B /DEST pdfmark end
- 3379 882 a Ff(mye-)197 973 y(cho)d Fg(is)i(the)f(name)h
+ 3379 317 a Ff(mye-)197 409 y(cho)d Fg(is)i(the)f(name)h
 (of)f(a)g(service)f(I)i(had)e(to)i(add)e(to)i(/etc/services)f(because)
-2566 973 y
+2566 409 y
 SDict begin H.S end
- 2566 973 a 2566 973 a
+ 2566 409 a 2566 409 a
 SDict begin 11 H.A end
- 2566 973 a 2566 973
+ 2566 409 a 2566 409
 a
 SDict begin [ /View [/XYZ H.V] /Dest (151) cvn H.B /DEST pdfmark end
- 2566 973 a Fh(inetd)f Fg(insists)i(on)g(all)f(services)197
-1065 y(being)i(listed)g(ther)o(e...)197 1171 y
+ 2566 409 a Fh(inetd)f Fg(insists)i(on)g(all)f(services)197
+500 y(being)i(listed)g(ther)o(e...)197 606 y
 SDict begin H.S end
- 197 1171
-a 197 1171 a
+ 197 606
+a 197 606 a
 SDict begin 9.9 H.A end
- 197 1171 a 197 1171 a
+ 197 606 a 197 606 a
 SDict begin [ /View [/XYZ H.V] /Dest (152) cvn H.B /DEST pdfmark end
- 197 1171 a 59 x Fd(#)45
-b(An)f(example)g(UDP)g(echo)g(server)197 1312 y(myecho)178
+ 197 606 a 59 x Fd(#)45
+b(An)f(example)g(UDP)g(echo)g(server)197 747 y(myecho)178
 b(dgram)134 b(udp)224 b(nowait)178 b(root)h(/bin/cat)43
-b(cat)h(-)197 1407 y
+b(cat)h(-)197 842 y
 SDict begin H.S end
- 197 1407 a 197 1407 a
+ 197 842 a 197 842 a
 SDict begin 11 H.A end
- 197 1407 a
-197 1407 a
+ 197 842 a 197
+842 a
 SDict begin [ /View [/XYZ H.V] /Dest (153) cvn H.B /DEST pdfmark end
- 197 1407 a 79 x Fg(This)21 b(service)g(has)f(the)h
-(following)h(characteristics:)197 1510 y
+ 197 842 a 80 x Fg(This)21 b(service)g(has)f(the)h(following)h
+(characteristics:)197 945 y
 SDict begin H.S end
- 197 1510 a 197
-1510 a
+ 197 945 a 197 945 a
 SDict begin 11 H.A end
- 197 1510 a 197 1510 a
+ 197 945
+a 197 945 a
 SDict begin [ /View [/XYZ H.V] /Dest (154) cvn H.B /DEST pdfmark end
- 197 1510 a 197 1551 a
+ 197 945 a 197 987 a
 SDict begin H.S end
- 197
-1551 a 197 1551 a
+ 197 987 a 197 987 a
 SDict begin 11 H.A end
- 197 1551 a 197 1551 a
+ 197
+987 a 197 987 a
 SDict begin [ /View [/XYZ H.V] /Dest (155) cvn H.B /DEST pdfmark end
- 197 1551 a Black
-151 x Fa(\225)p Black 280 1702 a
+ 197 987 a Black 151 x Fa(\225)p Black
+280 1138 a
 SDict begin H.S end
- 280 1702 a 280 1702
-a
+ 280 1138 a 280 1138 a
 SDict begin 11 H.A end
- 280 1702 a 280 1702 a
+ 280 1138 a 280 1138
+a
 SDict begin [ /View [/XYZ H.V] /Dest (156) cvn H.B /DEST pdfmark end
- 280 1702 a Fg(The)f(service)f(name)h(is)1020
-1702 y
+ 280 1138 a Fg(The)f(service)f(name)h(is)1020 1138 y
 SDict begin H.S end
- 1020 1702 a 1020 1702 a
+
+1020 1138 a 1020 1138 a
 SDict begin 11 H.A end
- 1020 1702 a 1020 1702
-a
+ 1020 1138 a 1020 1138 a
 SDict begin [ /View [/XYZ H.V] /Dest (157) cvn H.B /DEST pdfmark end
- 1020 1702 a Ff(myecho)p Fg(.)e(The)i(listing)h(in)f(/etc/services)f
-(is:)197 1767 y
+ 1020
+1138 a Ff(myecho)p Fg(.)e(The)i(listing)h(in)f(/etc/services)f(is:)197
+1203 y
 SDict begin H.S end
- 197 1767 a 197 1767 a
+ 197 1203 a 197 1203 a
 SDict begin 9.9 H.A end
- 197 1767 a 197
-1767 a
+ 197 1203 a 197 1203 a
 SDict begin [ /View [/XYZ H.V] /Dest (158) cvn H.B /DEST pdfmark end
- 197 1767 a 280 1826 a Fd(myecho)44 b(1234/udp)f(#)i(Simple)f
-(echo)g(example)g(for)g(LJ)g(article)p 280 1887 3249
-9 v 280 2594 9 707 v 313 1912 a
+ 197
+1203 a 280 1261 a Fd(myecho)44 b(1234/udp)f(#)i(Simple)f(echo)g
+(example)g(for)g(LJ)g(article)p 280 1323 3249 9 v 280
+2029 9 707 v 313 1348 a
 SDict begin H.S end
- 313 1912 a 313 1912 a
+ 313 1348 a 313 1348 a
 SDict begin 11 H.A end
-
-313 1912 a 313 1912 a
+ 313 1348
+a 313 1348 a
 SDict begin [ /View [/XYZ H.V] /Dest (159) cvn H.B /DEST pdfmark end
- 313 1912 a 330 2097 a Fh(Why)21
-b(not)f(echo?)313 2160 y
+ 313 1348 a 330 1532 a Fh(Why)21 b(not)f(echo?)313
+1595 y
 SDict begin H.S end
- 313 2160 a 313 2160 a
+ 313 1595 a 313 1595 a
 SDict begin 11 H.A end
- 313 2160
-a 313 2160 a
+ 313 1595 a 313 1595 a
 SDict begin [ /View [/XYZ H.V] /Dest (161) cvn H.B /DEST pdfmark end
- 313 2160 a 330 2230 a Fg(Note)j(that)g(we)g(can't)f(use)h
-(the)h(name)1544 2230 y
+ 313
+1595 a 330 1665 a Fg(Note)j(that)g(we)g(can't)f(use)h(the)h(name)1544
+1665 y
 SDict begin H.S end
- 1544 2230 a 1544 2230 a
+ 1544 1665 a 1544 1665 a
 SDict begin 11 H.A end
- 1544
-2230 a 1544 2230 a
+ 1544 1665 a 1544 1665
+a
 SDict begin [ /View [/XYZ H.V] /Dest (162) cvn H.B /DEST pdfmark end
- 1544 2230 a Ff(echo)f Fg(for)f(our)i(service)e
-(because)g(of)h(a)f(couple)h(of)g(r)o(easons:)f(it)330
-2321 y(is)h(alr)o(eady)e(de\002ned)i(in)g(/etc/services;)f(it)i(is)f
-(an)g(internal)g(service)f(which)2753 2321 y
+ 1544 1665 a Ff(echo)f Fg(for)f(our)i(service)e(because)g(of)h(a)f
+(couple)h(of)g(r)o(easons:)f(it)330 1756 y(is)h(alr)o(eady)e(de\002ned)
+i(in)g(/etc/services;)f(it)i(is)f(an)g(internal)g(service)f(which)2753
+1756 y
 SDict begin H.S end
- 2753 2321
-a 2753 2321 a
+ 2753 1756 a 2753 1756 a
 SDict begin 11 H.A end
- 2753 2321 a 2753 2321 a
+ 2753 1756 a 2753 1756
+a
 SDict begin [ /View [/XYZ H.V] /Dest (163) cvn H.B /DEST pdfmark end
- 2753 2321 a Fh(inetd)f
-Fg(alr)o(eady)g(of)o(fers)330 2412 y(using)27 b(the)f(normal)g(port)g
-(number;)g(and)g(we)g(wanted)f(to)i(de\002ne)e(a)h(dif)o(fer)o(ent)e
-(port)i(number)g(for)330 2504 y(the)21 b(service,)f(without)i(br)o
-(eaking)e(things)i(which)f(might)h(use)f(the)g(old)g(/etc/services)g
-(entry)-9 b(.)p 3520 2594 9 707 v 280 2602 3249 9 v 197
-2685 a
+ 2753 1756 a Fh(inetd)f Fg(alr)o(eady)g(of)o(fers)330
+1848 y(using)27 b(the)f(normal)g(port)g(number;)g(and)g(we)g(wanted)f
+(to)i(de\002ne)e(a)h(dif)o(fer)o(ent)e(port)i(number)g(for)330
+1939 y(the)21 b(service,)f(without)i(br)o(eaking)e(things)i(which)f
+(might)h(use)f(the)g(old)g(/etc/services)g(entry)-9 b(.)p
+3520 2029 9 707 v 280 2037 3249 9 v 197 2120 a
 SDict begin H.S end
- 197 2685 a 197 2685 a
+ 197 2120
+a 197 2120 a
 SDict begin 11 H.A end
- 197 2685 a 197 2685 a
+ 197 2120 a 197 2120 a
 SDict begin [ /View [/XYZ H.V] /Dest (164) cvn H.B /DEST pdfmark end
- 197
-2685 a Black 101 x Fa(\225)p Black 280 2786 a
+ 197 2120 a Black 102
+x Fa(\225)p Black 280 2222 a
 SDict begin H.S end
- 280 2786
-a 280 2786 a
+ 280 2222 a 280 2222 a
 SDict begin 11 H.A end
- 280 2786 a 280 2786 a
+ 280
+2222 a 280 2222 a
 SDict begin [ /View [/XYZ H.V] /Dest (165) cvn H.B /DEST pdfmark end
- 280 2786 a Fg(The)28
-b(socket)h(type)f(is)984 2786 y
+ 280 2222 a Fg(The)28 b(socket)h(type)f(is)984
+2222 y
 SDict begin H.S end
- 984 2786 a 984 2786 a
+ 984 2222 a 984 2222 a
 SDict begin 11 H.A end
-
-984 2786 a 984 2786 a
+ 984 2222 a 984 2222 a
 SDict begin [ /View [/XYZ H.V] /Dest (166) cvn H.B /DEST pdfmark end
- 984 2786 a Ff(dgram)p Fg(,)f(which)i(is)f(short)h
-(for)f(datagram,)e(the)i(type)g(of)g(packet)g(that)g(the)g(UDP)280
-2878 y(pr)o(otocol)21 b(uses.)197 2901 y
+ 984
+2222 a Ff(dgram)p Fg(,)f(which)i(is)f(short)h(for)f(datagram,)e(the)i
+(type)g(of)g(packet)g(that)g(the)g(UDP)280 2313 y(pr)o(otocol)21
+b(uses.)197 2337 y
 SDict begin H.S end
- 197 2901 a 197
-2901 a
+ 197 2337 a 197 2337 a
 SDict begin 11 H.A end
- 197 2901 a 197 2901 a
+ 197 2337 a 197
+2337 a
 SDict begin [ /View [/XYZ H.V] /Dest (167) cvn H.B /DEST pdfmark end
- 197 2901 a Black 110 x Fa(\225)p
-Black 280 3011 a
+ 197 2337 a Black 109 x Fa(\225)p Black 280 2446
+a
 SDict begin H.S end
- 280 3011 a 280 3011 a
+ 280 2446 a 280 2446 a
 SDict begin 11 H.A end
- 280 3011 a 280
-3011 a
+ 280 2446 a 280 2446 a
 SDict begin [ /View [/XYZ H.V] /Dest (168) cvn H.B /DEST pdfmark end
- 280 3011 a Fg(The)g(pr)o(otocol)g(is)g(UDP)-11
-b(.)197 3034 y
-SDict begin H.S end
- 197 3034 a 197 3034 a
-SDict begin 11 H.A end
- 197 3034 a 197 3034
-a
-SDict begin [ /View [/XYZ H.V] /Dest (169) cvn H.B /DEST pdfmark end
- 197 3034 a Black 109 x Fa(\225)p Black 280 3143 a
-SDict begin H.S end
- 280
-3143 a 280 3143 a
-SDict begin 11 H.A end
- 280 3143 a 280 3143 a
-SDict begin [ /View [/XYZ H.V] /Dest (170) cvn H.B /DEST pdfmark end
- 280 3143 a 280
-3143 a
-SDict begin H.S end
- 280 3143 a 280 3143 a
-SDict begin 11 H.A end
- 280 3143 a 280 3143 a
-SDict begin [ /View [/XYZ H.V] /Dest (171) cvn H.B /DEST pdfmark end
- 280
-3143 a Ff(nowait)22 b Fg(is)g(used)g(to)g(indicate)g(that)g(one)h
-(server)e(should)i(be)f(started)f(per)g(packet,)h(instead)f(of)h
-(waiting)280 3235 y(for)f(the)f(pr)o(evious)h(server)f(to)h(exit.)f
-(This)i(ar)o(gument)e(should)h(always)g(be)f(nowait)i(for)e(TCP)h
-(servers.)197 3258 y
-SDict begin H.S end
- 197 3258 a 197 3258 a
-SDict begin 11 H.A end
- 197 3258 a
-197 3258 a
-SDict begin [ /View [/XYZ H.V] /Dest (172) cvn H.B /DEST pdfmark end
- 197 3258 a Black 110 x Fa(\225)p Black 280
-3368 a
-SDict begin H.S end
- 280 3368 a 280 3368 a
-SDict begin 11 H.A end
- 280 3368 a 280 3368 a
-SDict begin [ /View [/XYZ H.V] /Dest (173) cvn H.B /DEST pdfmark end
- 280
-3368 a Fg(The)g(server)f(r)o(uns)h(as)g(r)o(oot.)197
-3370 y
-SDict begin H.S end
- 197 3370 a 197 3370 a
-SDict begin 11 H.A end
- 197 3370 a 197 3370 a
-SDict begin [ /View [/XYZ H.V] /Dest (174) cvn H.B /DEST pdfmark end
- 197
-3370 a Black 130 x Fa(\225)p Black 280 3500 a
-SDict begin H.S end
- 280 3500
-a 280 3500 a
-SDict begin 11 H.A end
- 280 3500 a 280 3500 a
-SDict begin [ /View [/XYZ H.V] /Dest (175) cvn H.B /DEST pdfmark end
- 280 3500 a Fg(The)g(server)f(is)h
-(located)f(at)g(/bin/cat)197 3510 y
-SDict begin H.S end
- 197 3510 a 197 3510
-a
-SDict begin 11 H.A end
- 197 3510 a 197 3510 a
-SDict begin [ /View [/XYZ H.V] /Dest (176) cvn H.B /DEST pdfmark end
- 197 3510 a Black 123 x Fa(\225)p
-Black 280 3633 a
-SDict begin H.S end
- 280 3633 a 280 3633 a
-SDict begin 11 H.A end
- 280 3633 a 280
-3633 a
-SDict begin [ /View [/XYZ H.V] /Dest (177) cvn H.B /DEST pdfmark end
- 280 3633 a Fg(The)i(server)g(should)h(be)f(started)g(with)h
-(these)g(ar)o(guments.)f(Note)g(that)h(the)f(name)g(of)h(the)f
-(executable)280 3725 y(is)f(always)g(the)g(\002rst)g(ar)o(gument.)f
-(Checkout)1713 3725 y
-SDict begin H.S end
- 1713 3725 a 1713 3725 a
-SDict begin 11 H.A end
- 1713 3725
-a 1713 3725 a
-SDict begin [ /View [/XYZ H.V] /Dest (178) cvn H.B /DEST pdfmark end
- 1713 3725 a Ff(execve)p Fg(\(2\))f(for)i(mor)o(e)f
-(details.)197 3789 y
-SDict begin H.S end
- 197 3789 a 197 3789 a
-SDict begin 11 H.A end
- 197 3789 a
-197 3789 a
-SDict begin [ /View [/XYZ H.V] /Dest (179) cvn H.B /DEST pdfmark end
- 197 3789 a 244 x Fb(3.5.3.)26 b(Con\002guring)e(xinetd)197
-4099 y
-SDict begin H.S end
- 197 4099 a 197 4099 a
-SDict begin 11 H.A end
- 197 4099 a 197 4099 a
-SDict begin [ /View [/XYZ H.V] /Dest (181) cvn H.B /DEST pdfmark end
- 197
-4099 a 71 x Fg(The)d(same)f(echo)h(service)g(con\002gur)o(ed)f(with)
-1644 4170 y
-SDict begin H.S end
- 1644 4170 a 1644 4170 a
-SDict begin 11 H.A end
- 1644 4170 a 1644
-4170 a
-SDict begin [ /View [/XYZ H.V] /Dest (182) cvn H.B /DEST pdfmark end
- 1644 4170 a Fh(xinetd)e Fg(looks)k(like)f(this:)197
-4276 y
-SDict begin H.S end
- 197 4276 a 197 4276 a
-SDict begin 9.9 H.A end
- 197 4276 a 197 4276 a
-SDict begin [ /View [/XYZ H.V] /Dest (183) cvn H.B /DEST pdfmark end
- 197
-4276 a 59 x Fd(ervice)44 b(myecho)197 4417 y({)556 4499
-y(socket_type)222 b(=)45 b(dgram)556 4581 y(protocol)357
-b(=)45 b(udp)556 4664 y(wait)537 b(=)45 b(yes)556 4746
-y(user)537 b(=)45 b(root)556 4828 y(server)447 b(=)45
-b(/bin/cat)556 4910 y(server_args)222 b(=)45 b(-)197
-4992 y(})197 5084 y
-SDict begin H.S end
- 197 5084 a 197 5084 a
-SDict begin 11 H.A end
- 197 5084 a
-197 5084 a
-SDict begin [ /View [/XYZ H.V] /Dest (184) cvn H.B /DEST pdfmark end
- 197 5084 a 83 x Fg(Again,)19 b(the)g(service)f(is)i(a)e
-(dgram)h(using)h(the)f(UDP)g(pr)o(otocol.)2173 5167 y
+ 280 2446
+a Fg(The)g(pr)o(otocol)g(is)g(UDP)-11 b(.)197 2469 y
 SDict begin H.S end
 
-2173 5167 a 2173 5167 a
+197 2469 a 197 2469 a
 SDict begin 11 H.A end
- 2173 5167 a 2173 5167 a
+ 197 2469 a 197 2469 a
+SDict begin [ /View [/XYZ H.V] /Dest (169) cvn H.B /DEST pdfmark end
+ 197 2469
+a Black 110 x Fa(\225)p Black 280 2579 a
+SDict begin H.S end
+ 280 2579 a 280
+2579 a
+SDict begin 11 H.A end
+ 280 2579 a 280 2579 a
+SDict begin [ /View [/XYZ H.V] /Dest (170) cvn H.B /DEST pdfmark end
+ 280 2579 a 280 2579 a
+SDict begin H.S end
+ 280
+2579 a 280 2579 a
+SDict begin 11 H.A end
+ 280 2579 a 280 2579 a
+SDict begin [ /View [/XYZ H.V] /Dest (171) cvn H.B /DEST pdfmark end
+ 280 2579 a Ff(nowait)22
+b Fg(is)g(used)g(to)g(indicate)g(that)g(one)h(server)e(should)i(be)f
+(started)f(per)g(packet,)h(instead)f(of)h(waiting)280
+2670 y(for)f(the)f(pr)o(evious)h(server)f(to)h(exit.)f(This)i(ar)o
+(gument)e(should)h(always)g(be)f(nowait)i(for)e(TCP)h(servers.)197
+2694 y
+SDict begin H.S end
+ 197 2694 a 197 2694 a
+SDict begin 11 H.A end
+ 197 2694 a 197 2694 a
+SDict begin [ /View [/XYZ H.V] /Dest (172) cvn H.B /DEST pdfmark end
+ 197
+2694 a Black 109 x Fa(\225)p Black 280 2803 a
+SDict begin H.S end
+ 280 2803
+a 280 2803 a
+SDict begin 11 H.A end
+ 280 2803 a 280 2803 a
+SDict begin [ /View [/XYZ H.V] /Dest (173) cvn H.B /DEST pdfmark end
+ 280 2803 a Fg(The)g(server)f(r)o
+(uns)h(as)g(r)o(oot.)197 2805 y
+SDict begin H.S end
+ 197 2805 a 197 2805 a
+SDict begin 11 H.A end
+
+197 2805 a 197 2805 a
+SDict begin [ /View [/XYZ H.V] /Dest (174) cvn H.B /DEST pdfmark end
+ 197 2805 a Black 131 x Fa(\225)p
+Black 280 2936 a
+SDict begin H.S end
+ 280 2936 a 280 2936 a
+SDict begin 11 H.A end
+ 280 2936 a 280
+2936 a
+SDict begin [ /View [/XYZ H.V] /Dest (175) cvn H.B /DEST pdfmark end
+ 280 2936 a Fg(The)g(server)f(is)h(located)f(at)g(/bin/cat)197
+2946 y
+SDict begin H.S end
+ 197 2946 a 197 2946 a
+SDict begin 11 H.A end
+ 197 2946 a 197 2946 a
+SDict begin [ /View [/XYZ H.V] /Dest (176) cvn H.B /DEST pdfmark end
+ 197
+2946 a Black 123 x Fa(\225)p Black 280 3069 a
+SDict begin H.S end
+ 280 3069
+a 280 3069 a
+SDict begin 11 H.A end
+ 280 3069 a 280 3069 a
+SDict begin [ /View [/XYZ H.V] /Dest (177) cvn H.B /DEST pdfmark end
+ 280 3069 a Fg(The)i(server)g(should)
+h(be)f(started)g(with)h(these)g(ar)o(guments.)f(Note)g(that)h(the)f
+(name)g(of)h(the)f(executable)280 3160 y(is)f(always)g(the)g(\002rst)g
+(ar)o(gument.)f(Checkout)1713 3160 y
+SDict begin H.S end
+ 1713 3160 a 1713
+3160 a
+SDict begin 11 H.A end
+ 1713 3160 a 1713 3160 a
+SDict begin [ /View [/XYZ H.V] /Dest (178) cvn H.B /DEST pdfmark end
+ 1713 3160 a Ff(execve)p
+Fg(\(2\))f(for)i(mor)o(e)f(details.)197 3225 y
+SDict begin H.S end
+ 197 3225
+a 197 3225 a
+SDict begin 11 H.A end
+ 197 3225 a 197 3225 a
+SDict begin [ /View [/XYZ H.V] /Dest (179) cvn H.B /DEST pdfmark end
+ 197 3225 a 243 x Fb(3.5.3.)26
+b(Con\002guring)e(xinetd)197 3534 y
+SDict begin H.S end
+ 197 3534 a 197 3534
+a
+SDict begin 11 H.A end
+ 197 3534 a 197 3534 a
+SDict begin [ /View [/XYZ H.V] /Dest (181) cvn H.B /DEST pdfmark end
+ 197 3534 a 71 x Fg(The)d(same)f(echo)h(service)
+g(con\002gur)o(ed)f(with)1644 3605 y
+SDict begin H.S end
+ 1644 3605 a 1644
+3605 a
+SDict begin 11 H.A end
+ 1644 3605 a 1644 3605 a
+SDict begin [ /View [/XYZ H.V] /Dest (182) cvn H.B /DEST pdfmark end
+ 1644 3605 a Fh(xinetd)e
+Fg(looks)k(like)f(this:)197 3711 y
+SDict begin H.S end
+ 197 3711 a 197 3711
+a
+SDict begin 9.9 H.A end
+ 197 3711 a 197 3711 a
+SDict begin [ /View [/XYZ H.V] /Dest (183) cvn H.B /DEST pdfmark end
+ 197 3711 a 59 x Fd(ervice)44
+b(myecho{)357 b(socket_type)223 b(=)44 b(dgram)358 b(protocol)f(=)45
+b(udp)358 b(wait)538 b(=)44 b(yes)358 b(user)538 b(=)44
+b(root)358 b(server)448 b(=)44 b(/bin/cat)358 b(server_args)222
+b(=)45 b(-})197 3865 y
+SDict begin H.S end
+ 197 3865 a 197 3865 a
+SDict begin 11 H.A end
+ 197 3865
+a 197 3865 a
+SDict begin [ /View [/XYZ H.V] /Dest (184) cvn H.B /DEST pdfmark end
+ 197 3865 a 80 x Fg(Again,)19 b(the)g(service)f(is)i(a)e
+(dgram)h(using)h(the)f(UDP)g(pr)o(otocol.)2173 3945 y
+SDict begin H.S end
+
+2173 3945 a 2173 3945 a
+SDict begin 11 H.A end
+ 2173 3945 a 2173 3945 a
 SDict begin [ /View [/XYZ H.V] /Dest (185) cvn H.B /DEST pdfmark end
  2173
-5167 a Fh(xinetd)e Fg(will)j(wait)f(for)g(pr)o(evious)f(r)o(equests)197
-5258 y(to)31 b(be)f(pr)o(ocessed)g(befor)o(e)f(moving)j(onto)g(the)f
+3945 a Fh(xinetd)e Fg(will)j(wait)f(for)g(pr)o(evious)f(r)o(equests)197
+4036 y(to)31 b(be)f(pr)o(ocessed)g(befor)o(e)f(moving)j(onto)g(the)f
 (next)f(r)o(equest.)g(The)h(echo)g(service)f(also)h(r)o(uns)g(as)f(r)o
-(oot,)197 5349 y(using)22 b(cat.)e(Note)h(the)f(dif)o(fer)o(ence)f(in)i
-(the)g(way)f(the)h(server)f(ar)o(guements)h(ar)o(e)e(con\002gur)o(ed.)
-197 5414 y
+(oot,)197 4127 y(using)22 b(cat.)e(Note)h(the)f(dif)o(fer)o(ence)f(in)i
+(the)g(way)f(the)h(server)f(ar)o(guments)h(ar)o(e)e(con\002gur)o(ed.)
+197 4192 y
 SDict begin H.S end
- 197 5414 a 197 5414 a
+ 197 4192 a 197 4192 a
 SDict begin 11 H.A end
- 197 5414 a 197 5414
+ 197 4192 a 197 4192
 a
 SDict begin [ /View [/XYZ H.V] /Dest (186) cvn H.B /DEST pdfmark end
- 197 5414 a 68 x Fg(Y)-8 b(ou)30 b(should)g(also)f(note)h(that)f(on)h
+ 197 4192 a 68 x Fg(Y)-8 b(ou)30 b(should)g(also)f(note)h(that)f(on)h
 (Red)f(Hat)f(systems,)i(services)f(ar)o(e)f(often)h(con\002gur)o(ed)g
-(within)h(their)197 5573 y(own)20 b(con\002guration)g(\002les,)f
+(within)h(their)197 4351 y(own)20 b(con\002guration)g(\002les,)f
 (located)f(in)h(/etc/xinetd.d)g(\227)f(this)i(is)f(done)g(to)g(make)g
-(it)g(easier)f(to)h(add)f(new)197 5665 y(services)i(during)h(package)f
-(installation.)197 5896 y
+(it)g(easier)f(to)h(add)f(new)197 4443 y(services)i(during)h(package)f
+(installation.)197 4674 y
 SDict begin H.S end
- 197 5896 a 197 5896 a
+ 197 4674 a 197 4674 a
 SDict begin 11 H.A end
- 197 5896
-a 197 5896 a
+ 197 4674
+a 197 4674 a
 SDict begin [ /View [/XYZ H.V] /Dest (187) cvn H.B /DEST pdfmark end
- 197 5896 a Black 3462 5999 a Ff(11)p Black
+ 197 4674 a 264 x Fi(4.)31 b(shdns)197 4994
+y
+SDict begin H.S end
+ 197 4994 a 197 4994 a
+SDict begin 11 H.A end
+ 197 4994 a 197 4994 a
+SDict begin [ /View [/XYZ H.V] /Dest (189) cvn H.B /DEST pdfmark end
+ 197 4994
+a 90 x Fg(This)17 b(article)f(wouldn't)h(be)f(complete)g(without)i(an)e
+(example)g(of)g(a)g(UDP)g(shell)h(script)f(to)h(r)o(un)g(fr)o(om)3347
+5084 y
+SDict begin H.S end
+ 3347 5084 a 3347 5084 a
+SDict begin 11 H.A end
+ 3347 5084 a 3347 5084
+a
+SDict begin [ /View [/XYZ H.V] /Dest (190) cvn H.B /DEST pdfmark end
+ 3347 5084 a Fh(inetd)197 5176 y Fg(or)299 5176 y
+SDict begin H.S end
+ 299
+5176 a 299 5176 a
+SDict begin 11 H.A end
+ 299 5176 a 299 5176 a
+SDict begin [ /View [/XYZ H.V] /Dest (191) cvn H.B /DEST pdfmark end
+ 299 5176 a Fh(xinetd)p
+Fg(.)k(Something)k(non-trivial)g(is)f(r)o(equir)o(ed)e(her)o(e,)h(so)i
+(I)f(pr)o(esent)f(for)g(your)i(enjoyment)3233 5176 y
+SDict begin H.S end
+
+3233 5176 a 3233 5176 a
+SDict begin 11 H.A end
+ 3233 5176 a 3233 5176 a
+SDict begin [ /View [/XYZ H.V] /Dest (192) cvn H.B /DEST pdfmark end
+ 3233
+5176 a Fh(shdns)p Fg(,)e(a)197 5267 y(DNS)e(server)f(implemented)h(in)g
+(bash)g(shell)g(script.)197 5290 y
+SDict begin H.S end
+ 197 5290 a 197 5290
+a
+SDict begin 11 H.A end
+ 197 5290 a 197 5290 a
+SDict begin [ /View [/XYZ H.V] /Dest (193) cvn H.B /DEST pdfmark end
+ 197 5290 a 246 x Fe(4.1.)27 b(The)i(code)197
+5587 y
+SDict begin H.S end
+ 197 5587 a 197 5587 a
+SDict begin 11 H.A end
+ 197 5587 a 197 5587 a
+SDict begin [ /View [/XYZ H.V] /Dest (195) cvn H.B /DEST pdfmark end
+ 197
+5587 a 90 x Fg(The)c(code)f(for)688 5677 y
+SDict begin H.S end
+ 688 5677 a
+688 5677 a
+SDict begin 11 H.A end
+ 688 5677 a 688 5677 a
+SDict begin [ /View [/XYZ H.V] /Dest (196) cvn H.B /DEST pdfmark end
+ 688 5677 a Fh(shdns)g
+Fg(is)h(br)o(oken)f(into)i(two)f(components.)h(The)e(\002rst)h(is)g(a)f
+(simple)h(script)g(which)g(r)o(edi-)197 5769 y(r)o(ects)d(the)h(input)g
+(packet)f(to)h(a)f(\002le,)g(so)h(that)1600 5769 y
+SDict begin H.S end
+ 1600
+5769 a 1600 5769 a
+SDict begin 11 H.A end
+ 1600 5769 a 1600 5769 a
+SDict begin [ /View [/XYZ H.V] /Dest (197) cvn H.B /DEST pdfmark end
+ 1600 5769
+a Fh(shdns)e Fg(can)i(move)g(backwar)o(ds)e(and)h(forwar)o(ds)f(within)
+j(the)197 5860 y(input)d(packet)f(to)h(grab)g(the)f(bits)i(it)f(needs)f
+(as)h(r)o(equir)o(ed.)p Black 3462 5999 a Ff(11)p Black
 eop end
 %%Page: 12 12
 TeXDict begin 12 11 bop -600 -600 a
@@ -5565,144 +5629,79 @@ SDict begin [ /View [/XYZ H.V] /Dest (page.12) cvn H.B /DEST pdfmark
 end
  197 -102
 a Black 2584 -132 a Ff(UDP)20 b(shell)h(scripts)f(with)g(inetd)p
-Black 197 89 a Fi(4.)31 b(shdns)197 146 y
+Black 197 6 a
 SDict begin H.S end
- 197 146 a 197
-146 a
-SDict begin 11 H.A end
- 197 146 a 197 146 a
-SDict begin [ /View [/XYZ H.V] /Dest (189) cvn H.B /DEST pdfmark end
- 197 146 a 90 x Fg(This)17 b(article)f
-(wouldn't)h(be)f(complete)g(without)i(an)e(example)g(of)g(a)g(UDP)g
-(shell)h(script)f(to)h(r)o(un)g(fr)o(om)3347 236 y
-SDict begin H.S end
- 3347
-236 a 3347 236 a
-SDict begin 11 H.A end
- 3347 236 a 3347 236 a
-SDict begin [ /View [/XYZ H.V] /Dest (190) cvn H.B /DEST pdfmark end
- 3347 236 a Fh(inetd)197
-327 y Fg(or)299 327 y
-SDict begin H.S end
- 299 327 a 299 327 a
-SDict begin 11 H.A end
- 299 327 a 299
-327 a
-SDict begin [ /View [/XYZ H.V] /Dest (191) cvn H.B /DEST pdfmark end
- 299 327 a Fh(xinetd)p Fg(.)k(Something)k(non-trivial)g(is)f(r)o
-(equir)o(ed)e(her)o(e,)h(so)i(I)f(pr)o(esent)f(for)g(your)i(enjoyment)
-3233 327 y
-SDict begin H.S end
- 3233 327 a 3233 327 a
-SDict begin 11 H.A end
- 3233 327 a 3233 327
-a
-SDict begin [ /View [/XYZ H.V] /Dest (192) cvn H.B /DEST pdfmark end
- 3233 327 a Fh(shdns)p Fg(,)e(a)197 418 y(DNS)e(server)f(implemented)h
-(in)g(bash)g(shell)g(script.)197 442 y
-SDict begin H.S end
- 197 442 a 197
-442 a
-SDict begin 11 H.A end
- 197 442 a 197 442 a
-SDict begin [ /View [/XYZ H.V] /Dest (193) cvn H.B /DEST pdfmark end
- 197 442 a 245 x Fe(4.1.)27
-b(The)i(code)197 739 y
-SDict begin H.S end
- 197 739 a 197 739 a
-SDict begin 11 H.A end
- 197 739 a
-197 739 a
-SDict begin [ /View [/XYZ H.V] /Dest (195) cvn H.B /DEST pdfmark end
- 197 739 a 90 x Fg(The)c(code)f(for)688 829
-y
-SDict begin H.S end
- 688 829 a 688 829 a
-SDict begin 11 H.A end
- 688 829 a 688 829 a
-SDict begin [ /View [/XYZ H.V] /Dest (196) cvn H.B /DEST pdfmark end
- 688 829 a Fh(shdns)g
-Fg(is)h(br)o(oken)f(into)i(two)f(components.)h(The)e(\002rst)h(is)g(a)f
-(simple)h(script)g(which)g(r)o(edi-)197 920 y(r)o(ects)d(the)h(input)g
-(packet)f(to)h(a)f(\002le,)g(so)h(that)1600 920 y
-SDict begin H.S end
- 1600
-920 a 1600 920 a
-SDict begin 11 H.A end
- 1600 920 a 1600 920 a
-SDict begin [ /View [/XYZ H.V] /Dest (197) cvn H.B /DEST pdfmark end
- 1600 920 a Fh(shdns)e
-Fg(can)i(move)g(backwar)o(ds)e(and)h(forwar)o(ds)f(within)j(the)197
-1011 y(input)d(packet)f(to)h(grab)g(the)f(bits)i(it)f(needs)f(as)h(r)o
-(equir)o(ed.)197 1118 y
-SDict begin H.S end
- 197 1118 a 197 1118 a
+ 197 6 a 197 6 a
 SDict begin 9.9 H.A end
- 197 1118
-a 197 1118 a
+ 197 6 a 197 6 a
 SDict begin [ /View [/XYZ H.V] /Dest (198) cvn H.B /DEST pdfmark end
- 197 1118 a 59 x Fd(#!/bin/bash)197 1341
-y(logger)44 b("shdns)g($$)g(Started)g(listening")197
-1423 y(/home/mikal/opensource/shdns/shdns)39 b(/tmp/shdns-$$)k(&)197
-1505 y(cat)h(-)h Fc(>)g Fd(/tmp/shdns-$$)197 1588 y(logger)f("shdns)g
-($$)g(Waiting)g(for)g(processor)f(to)i(end")197 1670
-y(wait)197 1752 y(logger)f("shdns)g($$)g(Stopped)g(listening")197
-1847 y
+ 197 6 a
+83 x Fd(#!/bin/bash)197 253 y(logger)44 b("shdns)g($$)g(Started)g
+(listening")197 336 y(/home/mikal/opensource/shdns/shdns)39
+b(/tmp/shdns-$$)k(&)197 418 y(cat)h(-)h Fc(>)g Fd(/tmp/shdns-$$)197
+500 y(logger)f("shdns)g($$)g(Waiting)g(for)g(processor)f(to)i(end")197
+582 y(wait)197 664 y(logger)f("shdns)g($$)g(Stopped)g(listening")197
+759 y
 SDict begin H.S end
- 197 1847 a 197 1847 a
+ 197 759 a 197 759 a
 SDict begin 11 H.A end
- 197 1847 a 197 1847 a
+ 197 759 a 197 759 a
 SDict begin [ /View [/XYZ H.V] /Dest (199) cvn H.B /DEST pdfmark end
- 197
-1847 a 197 1847 a
+ 197 759
+a 197 759 a
 SDict begin H.S end
- 197 1847 a 197 1847 a
+ 197 759 a 197 759 a
 SDict begin 11 H.A end
- 197 1847 a 197
-1847 a
+ 197 759 a 197 759 a
 SDict begin [ /View [/XYZ H.V] /Dest (200) cvn H.B /DEST pdfmark end
- 197 1847 a 79 x Ff(Code:)21 b(shdns-server)197
-1969 y
-SDict begin H.S end
- 197 1969 a 197 1969 a
-SDict begin 11 H.A end
- 197 1969 a 197 1969 a
-SDict begin [ /View [/XYZ H.V] /Dest (201) cvn H.B /DEST pdfmark end
  197
-1969 a 90 x Fg(The)e(other)g(part)f(of)g(the)h(code)g(is)g(the)g
-(script)f(which)i(actually)e(parses)g(the)h(input)g(DNS)g(UDP)g(packet)
-f(and)197 2150 y(r)o(esponds.)26 b(Note)h(that)g(this)h(is)f(mer)o(ely)
-f(a)h(pr)o(oof)f(of)h(concept)g(at)f(the)h(moment,)h(it)f(doesn't)g
-(attempt)g(to)197 2242 y(implement)21 b(the)g(entir)o(e)f(DNS)h(pr)o
-(otocol)g(\227)g(ther)o(e)f(is)h(only)h(enough)f(her)o(e)f(to)h
-(perform)g(a)f(name)g(lookup.)197 2348 y
+759 a 80 x Ff(Code:)21 b(shdns-server)197 881 y
 SDict begin H.S end
- 197 2348 a 197
-2348 a
+ 197 881
+a 197 881 a
+SDict begin 11 H.A end
+ 197 881 a 197 881 a
+SDict begin [ /View [/XYZ H.V] /Dest (201) cvn H.B /DEST pdfmark end
+ 197 881 a 91 x Fg(The)e(other)g(part)f
+(of)g(the)h(code)g(is)g(the)g(script)f(which)i(actually)e(parses)g(the)
+h(input)g(DNS)g(UDP)g(packet)f(and)197 1063 y(r)o(esponds.)26
+b(Note)h(that)g(this)h(is)f(mer)o(ely)f(a)h(pr)o(oof)f(of)h(concept)g
+(at)f(the)h(moment,)h(it)f(doesn't)g(attempt)g(to)197
+1154 y(implement)21 b(the)g(entir)o(e)f(DNS)h(pr)o(otocol)g(\227)g
+(ther)o(e)f(is)h(only)h(enough)f(her)o(e)f(to)h(perform)g(a)f(name)g
+(lookup.)197 1261 y
+SDict begin H.S end
+ 197 1261 a 197 1261 a
 SDict begin 9.9 H.A end
- 197 2348 a 197 2348 a
+ 197 1261 a
+197 1261 a
 SDict begin [ /View [/XYZ H.V] /Dest (202) cvn H.B /DEST pdfmark end
- 197 2348 a 59 x Fd(#!/bin/bash)197
-2571 y(#############)197 2654 y(#)45 b(shdns:)e(take)i(a)f(query)g(and)
-h(build)f(a)g(response)197 2818 y(#)h(Set)f(this)g(to)h(the)f(location)
-f(of)i(the)f(lookup)197 2900 y(#)h(file)197 2982 y
-(execpath="/home/mikal/opensource/shdns/)o(")197 3147
-y(#)g(The)f(state)g(of)g(a)h(given)f(bit)g(in)h(the)f(byte:)197
-3229 y(#)h(\(byte,)e(poweroftwo\))197 3311 y(dumpbit\(\){)287
-3393 y(local)h(temp)287 3475 y(temp=$1)287 3640 y(if)g([)h($1)f(-gt)h
-($\(\()f($2)g(-)h(1)g(\)\))f(])287 3722 y(then)376 3804
-y(echo)g(-n)h("1")376 3886 y(temp=$\(\()f($1)g(-)h($2)f(\)\))287
-3969 y(else)376 4051 y(echo)g(-n)h("0")287 4133 y(fi)287
-4297 y(return)e($temp)197 4380 y(})197 4544 y(#)i(Is)f(a)h(given)f(bit)
-g(on?)g(\(byte,)g(poweroftwo\))197 4626 y(testbit\(\){)287
-4708 y(return)f(`dumpbit)h($1)g($2`)197 4791 y(})197
-4955 y(#)h(Turn)f(on)g(a)h(given)f(bit)g(in)h(the)f(byte:)g(\(initial)g
-(byte)197 5037 y(#)h(state,)e(poweroftwo,)g(desiredstate\))197
-5119 y(#)i(Returns)e(a)i(decimal)f(version)f(of)i(the)f(byte)197
-5201 y(twiddlebit\(\){)287 5284 y(local)g(temp)287 5366
-y(temp=$1)287 5530 y(testbit)f($1)i($2)287 5612 y(if)f([)h($?)f(=)h(1)g
-(])287 5695 y(then)376 5777 y(if)g([)f($3)h(=)g(0)f(])376
-5859 y(then)p Black 3462 5999 a Ff(12)p Black eop end
+ 197 1261 a 58 x Fd(#!/bin/bash)197 1484 y(#############)197
+1566 y(#)45 b(shdns:)e(take)i(a)f(query)g(and)h(build)f(a)g(response)
+197 1730 y(#)h(Set)f(this)g(to)h(the)f(location)f(of)i(the)f(lookup)197
+1813 y(#)h(file)197 1895 y(execpath="/home/mikal/opensource/shdns/)o(")
+197 2059 y(#)g(The)f(state)g(of)g(a)h(given)f(bit)g(in)h(the)f(byte:)
+197 2141 y(#)h(\(byte,)e(poweroftwo\))197 2224 y(dumpbit\(\){)287
+2306 y(local)h(temp)287 2388 y(temp=$1)287 2552 y(if)g([)h($1)f(-gt)h
+($\(\()f($2)g(-)h(1)g(\)\))f(])287 2635 y(then)376 2717
+y(echo)g(-n)h("1")376 2799 y(temp=$\(\()f($1)g(-)h($2)f(\)\))287
+2881 y(else)376 2963 y(echo)g(-n)h("0")287 3045 y(fi)287
+3210 y(return)e($temp)197 3292 y(})197 3456 y(#)i(Is)f(a)h(given)f(bit)
+g(on?)g(\(byte,)g(poweroftwo\))197 3539 y(testbit\(\){)287
+3621 y(return)f(`dumpbit)h($1)g($2`)197 3703 y(})197
+3867 y(#)h(Turn)f(on)g(a)h(given)f(bit)g(in)h(the)f(byte:)g(\(initial)g
+(byte)197 3950 y(#)h(state,)e(poweroftwo,)g(desiredstate\))197
+4032 y(#)i(Returns)e(a)i(decimal)f(version)f(of)i(the)f(byte)197
+4114 y(twiddlebit\(\){)287 4196 y(local)g(temp)287 4278
+y(temp=$1)287 4443 y(testbit)f($1)i($2)287 4525 y(if)f([)h($?)f(=)h(1)g
+(])287 4607 y(then)376 4689 y(if)g([)f($3)h(=)g(0)f(])376
+4772 y(then)466 4854 y(temp=$\(\()f($temp)h(-)h($2)g(\)\))376
+4936 y(fi)287 5018 y(else)376 5100 y(if)g([)f($3)h(=)g(1)f(])376
+5182 y(then)466 5265 y(temp=$\(\()f($temp)h(+)h($2)g(\)\))376
+5347 y(fi)287 5429 y(fi)287 5593 y(return)e($temp)197
+5676 y(})197 5840 y(#)i(Spin)f(until)g(a)g(byte)h(exists:)e
+(\(filename,)g(bytenumber\))p Black 3462 5999 a Ff(12)p
+Black eop end
 %%Page: 13 13
 TeXDict begin 13 12 bop -600 -600 a
 SDict begin /product where{pop product(Distiller)search{pop pop pop
@@ -5720,44 +5719,46 @@ SDict begin [ /View [/XYZ H.V] /Dest (page.13) cvn H.B /DEST pdfmark
 end
  197 -102
 a Black 2584 -132 a Ff(UDP)20 b(shell)h(scripts)f(with)g(inetd)p
-Black 466 89 a Fd(temp=$\(\()43 b($temp)h(-)h($2)g(\)\))376
-171 y(fi)287 253 y(else)376 336 y(if)g([)f($3)h(=)g(1)f(])376
-418 y(then)466 500 y(temp=$\(\()f($temp)h(+)h($2)g(\)\))376
-582 y(fi)287 664 y(fi)287 829 y(return)e($temp)197 911
-y(})197 1075 y(#)i(Spin)f(until)g(a)g(byte)h(exists:)e(\(filename,)g
-(bytenumber\))197 1158 y(spinfor\(\){)287 1240 y(local)h(len)287
-1404 y(len=`cat)f($1)i(|)f(wc)h(-c)f(|)h(tr)f(-d)h(")g("`)287
-1486 y(while)f([)g($len)g(-lt)h($2)f(])287 1569 y(do)376
-1651 y(logger)g("shdns)g($$)g(Spin)h(on)f(byte)g($2")376
-1733 y(usleep)g($3)376 1815 y(len=`cat)g($1)g(|)h(wc)f(-c)h(|)g(tr)f
-(-d)h(")f("`)287 1897 y(done)197 1979 y(})197 2144 y(#)h(Read)f(a)g
-(single)g(byte)g(from)h(a)f(file:)197 2226 y(#)h(\(filename,)e
-(bytenumber\))197 2308 y(readbyte\(\){)287 2390 y(spinfor)g($1)i($2)f
-(10)287 2473 y(cat)g($1)g(|)h(cut)f(-b)h($2)197 2555
-y(})197 2719 y(#)g(Read)f(a)g(range)g(of)h(bytes)f(from)g(a)h(file:)197
-2801 y(#)g(\(filename,)e(startbyte,)g(length\))197 2884
-y(readstring\(\){)287 2966 y(spinfor)g($1)i($\(\()f($2)h(+)f($3)h(-)f
-(1)h(\)\))g(10)287 3048 y(logger)e("shdns)h($$)h(Getting)e(byte)i
+Black 197 89 a Fd(spinfor\(\){)287 171 y(local)44 b(len)287
+336 y(len=`cat)f($1)i(|)f(wc)h(-c)f(|)h(tr)f(-d)h(")g("`)287
+418 y(while)f([)g($len)g(-lt)h($2)f(])287 500 y(do)376
+582 y(logger)g("shdns)g($$)g(Spin)h(on)f(byte)g($2")376
+664 y(usleep)g($3)376 747 y(len=`cat)g($1)g(|)h(wc)f(-c)h(|)g(tr)f(-d)h
+(")f("`)287 829 y(done)197 911 y(})197 1075 y(#)h(Read)f(a)g(single)g
+(byte)g(from)h(a)f(file:)197 1158 y(#)h(\(filename,)e(bytenumber\))197
+1240 y(readbyte\(\){)287 1322 y(spinfor)g($1)i($2)f(10)287
+1404 y(cat)g($1)g(|)h(cut)f(-b)h($2)197 1486 y(})197
+1651 y(#)g(Read)f(a)g(range)g(of)h(bytes)f(from)g(a)h(file:)197
+1733 y(#)g(\(filename,)e(startbyte,)g(length\))197 1815
+y(readstring\(\){)287 1897 y(spinfor)g($1)i($\(\()f($2)h(+)f($3)h(-)f
+(1)h(\)\))g(10)287 1979 y(logger)e("shdns)h($$)h(Getting)e(byte)i
 (range)f($1:$2-"$\(\()f($2)h(+)h($3)f(-)h(1)g(\)\)":$3")287
-3130 y(cat)f($1)g(|)h(cut)f(-b)h($2-$\(\()f($2)g(+)h($3)f(-)h(1)g(\)\))
-197 3212 y(})197 3377 y(#)g(Read)f(a)g(single)g(binary)g(byte)g(as)h
-(decimal)e(from)i(a)f(file:)197 3459 y(#)h(\(filename,)e(bytenumber\))
-197 3541 y(readbytebinary\(\){)287 3623 y(local)h(temp)287
-3788 y(spinfor)f($1)i($2)f(1000)287 3870 y(return)f(`cat)i($1)f(|)h
+2062 y(cat)f($1)g(|)h(cut)f(-b)h($2-$\(\()f($2)g(+)h($3)f(-)h(1)g(\)\))
+197 2144 y(})197 2308 y(#)g(Read)f(a)g(single)g(binary)g(byte)g(as)h
+(decimal)e(from)i(a)f(file:)197 2390 y(#)h(\(filename,)e(bytenumber\))
+197 2473 y(readbytebinary\(\){)287 2555 y(local)h(temp)287
+2719 y(spinfor)f($1)i($2)f(1000)287 2801 y(return)f(`cat)i($1)f(|)h
 (cut)f(-b)h($2)f(|)h(od)f(-Ad)h(-t)f(u1)h(|)f(head)g(-1)h(|)g(tr)f(-s)h
-(")f(")h(|)g(cut)f(-f)g(2)h(-d)g(")f("`)197 3952 y(})197
-4116 y(#)h(Output)e(the)i(bit)f(for)g(this)h(value:)197
-4199 y(#)g(\(inputvalue,)d(byteoffset\))197 4281 y(writebinarybit\(\){)
-287 4363 y(if)i([)h($1)f(-gt)h($\(\()f($2)g(-)h(1)g(\)\))f(])287
-4445 y(then)376 4527 y(echo)g(-n)h("1")376 4610 y(return)f($\(\()g($1)h
-(-)g($2)f(\)\))287 4692 y(else)376 4774 y(echo)g(-n)h("0")376
-4856 y(return)f($1)287 4938 y(fi)197 5021 y(})197 5185
+(")f(")h(|)g(cut)f(-f)g(2)h(-d)g(")f("`)197 2884 y(})197
+3048 y(#)h(Output)e(the)i(bit)f(for)g(this)h(value:)197
+3130 y(#)g(\(inputvalue,)d(byteoffset\))197 3212 y(writebinarybit\(\){)
+287 3295 y(if)i([)h($1)f(-gt)h($\(\()f($2)g(-)h(1)g(\)\))f(])287
+3377 y(then)376 3459 y(echo)g(-n)h("1")376 3541 y(return)f($\(\()g($1)h
+(-)g($2)f(\)\))287 3623 y(else)376 3706 y(echo)g(-n)h("0")376
+3788 y(return)f($1)287 3870 y(fi)197 3952 y(})197 4116
 y(#)h(Turn)f(a)g(number)g(into)g(a)h(binary)f(byte:)g(\(inputvalue\))
-197 5267 y(writebinarybyte\(\){)287 5349 y(writebinarybit)e($1)j(128)
-287 5432 y(writebinarybit)d($?)j(64)287 5514 y(writebinarybit)d($?)j
-(32)287 5596 y(writebinarybit)d($?)j(16)287 5678 y(writebinarybit)d($?)
-j(8)287 5760 y(writebinarybit)d($?)j(4)287 5843 y(writebinarybit)d($?)j
-(2)p Black 3462 5999 a Ff(13)p Black eop end
+197 4199 y(writebinarybyte\(\){)287 4281 y(writebinarybit)e($1)j(128)
+287 4363 y(writebinarybit)d($?)j(64)287 4445 y(writebinarybit)d($?)j
+(32)287 4527 y(writebinarybit)d($?)j(16)287 4610 y(writebinarybit)d($?)
+j(8)287 4692 y(writebinarybit)d($?)j(4)287 4774 y(writebinarybit)d($?)j
+(2)287 4856 y(writebinarybit)d($?)j(1)197 4938 y(})197
+5103 y(#)g(Output)e(the)i(byte)f(which)g(is)g(represented)f(by)i(a)g
+(decimal)197 5185 y(#)g(number)197 5267 y(tobyte\(\){)287
+5349 y(local)f(octal)287 5432 y(local)g(quotient)287
+5514 y(local)g(remainder)287 5678 y(#)g(Echo)g(only)h(takes)f(octal)g
+(numbers,)f(so)i(we)f(convert)287 5760 y(quotient=$1)287
+5843 y(if)g([)h($quotient)e(-eq)h(0)h(])p Black 3462
+5999 a Ff(13)p Black eop end
 %%Page: 14 14
 TeXDict begin 14 13 bop -600 -600 a
 SDict begin /product where{pop product(Distiller)search{pop pop pop
@@ -5775,51 +5776,54 @@ SDict begin [ /View [/XYZ H.V] /Dest (page.14) cvn H.B /DEST pdfmark
 end
  197 -102
 a Black 2584 -132 a Ff(UDP)20 b(shell)h(scripts)f(with)g(inetd)p
-Black 287 89 a Fd(writebinarybit)42 b($?)j(1)197 171
-y(})197 336 y(#)g(Output)e(the)i(byte)f(which)g(is)g(represented)f(by)i
-(a)g(decimal)197 418 y(#)g(number)197 500 y(tobyte\(\){)287
-582 y(local)f(octal)287 664 y(local)g(quotient)287 747
-y(local)g(remainder)287 911 y(#)g(Echo)g(only)h(takes)f(octal)g
-(numbers,)f(so)i(we)f(convert)287 993 y(quotient=$1)287
-1075 y(if)g([)h($quotient)e(-eq)h(0)h(])287 1158 y(then)376
-1240 y(octal="0")287 1322 y(fi)287 1486 y(while)f([)g($quotient)g(-ne)g
-(0)h(])287 1569 y(do)376 1651 y(remainder=$\(\()e($quotient)g(\045)i(8)
-g(\)\))376 1733 y(octal="$remainder$octal")376 1815 y(quotient=$\(\()e
-($quotient)g(/)i(8)g(\)\))287 1897 y(done)287 2062 y(echo)f(-n)g(-e)h
-(\\\\$octal)197 2144 y(})197 2308 y
-(#######################################)o(######)o(######)o(#)197
-2473 y(process\(\){)287 2555 y(logger)e("shdns)h($$)h(Started)e
-(parsing)h($1)h(at)f($2")287 2637 y(inset=$2)287 2801
-y(#)g(Identification:)f(2)h(bytes)287 2884 y(readbytebinary)e("$1")i
-($inset;)g(idtopbyte=$?)376 2966 y(inset=$\(\()g($inset)f(+)i(1)g(\)\))
-287 3048 y(readbytebinary)d("$1")i($inset;)g(idbotbyte=$?)376
-3130 y(inset=$\(\()g($inset)f(+)i(1)g(\)\))287 3212 y(logger)e("shdns)h
+Black 287 89 a Fd(then)376 171 y(octal="0")287 253 y(fi)287
+418 y(while)44 b([)g($quotient)g(-ne)g(0)h(])287 500
+y(do)376 582 y(remainder=$\(\()e($quotient)g(\045)i(8)g(\)\))376
+664 y(octal="$remainder$octal")376 747 y(quotient=$\(\()e($quotient)g
+(/)i(8)g(\)\))287 829 y(done)287 993 y(echo)f(-n)g(-e)h(\\\\$octal)197
+1075 y(})197 1240 y(#######################################)o(######)o
+(######)o(#)197 1404 y(process\(\){)287 1486 y(logger)e("shdns)h($$)h
+(Started)e(parsing)h($1)h(at)f($2")287 1569 y(inset=$2)287
+1733 y(#)g(Identification:)f(2)h(bytes)287 1815 y(readbytebinary)e
+("$1")i($inset;)g(idtopbyte=$?)376 1897 y(inset=$\(\()g($inset)f(+)i(1)
+g(\)\))287 1979 y(readbytebinary)d("$1")i($inset;)g(idbotbyte=$?)376
+2062 y(inset=$\(\()g($inset)f(+)i(1)g(\)\))287 2144 y(logger)e("shdns)h
 ($$)h(Packet)f(id)g(portions:)f($idtopbyte)h($idbotbyte")287
-3295 y(id=$\(\()f(\($idtopbyte)g(*)i(128\))f(+)h($idbotbyte)e(\)\))287
-3377 y(logger)g("shdns)h($$)h(Packet)f(id:)g($id")287
-3541 y(#)g(Flags:)g(2)h(bytes)287 3623 y(temp=`cat)e($1)h(|)h(cut)f(-b)
+2226 y(id=$\(\()f(\($idtopbyte)g(*)i(128\))f(+)h($idbotbyte)e(\)\))287
+2308 y(logger)g("shdns)h($$)h(Packet)f(id:)g($id")287
+2473 y(#)g(Flags:)g(2)h(bytes)287 2555 y(temp=`cat)e($1)h(|)h(cut)f(-b)
 h($inset)f(|)89 b(od)45 b(-Ad)f(-c)h(|)f(head)g(-1)h(|)g(cut)f(-f)g(2)h
 (-d)g(")f("`;)h(inset=$\(\()e($inset)h(+)g(1)h(\)\))287
-3706 y(testbit)e($temp)h(128;)g(qr=$?)287 3788 y(testbit)f($temp)h(8;)h
-(op=$?)287 3870 y(testbit)e($temp)h(4;)h(aa=$?)287 3952
-y(testbit)e($temp)h(2;)h(trun=$?)287 4034 y(testbit)e($temp)h(1;)h
-(rd=$?)287 4199 y(logger)e("shdns)h($$)h(Query)f(/)g(response:)g($qr")
-287 4281 y(logger)f("shdns)h($$)h(Opcode:)e($op")287
-4363 y(logger)g("shdns)h($$)h(Authoritative)d(answer:)i($aa")287
-4445 y(logger)f("shdns)h($$)h(Packet)f(truncated:)f($trun")287
-4527 y(logger)g("shdns)h($$)h(Recursion)e(desired:)h($rd")287
-4692 y(readbytebinary)e("$1")i($inset;)g(temp=$?)376
-4774 y(inset=$\(\()g($inset)f(+)i(1)g(\)\))287 4856 y(testbit)e($temp)h
-(128;)g(ra=$?)287 5021 y(logger)f("shdns)h($$)h(Recursion)e(available:)
-g($ra")287 5185 y(#)h(The)h(number)e(of)i(questions)e(is)i(the)f(next)g
-(two)h(bytes)287 5267 y(readbytebinary)d("$1")i($inset;)g(topbyte=$?)
-376 5349 y(inset=$\(\()g($inset)f(+)i(1)g(\)\))287 5432
-y(readbytebinary)d("$1")i($inset;)g(botbyte=$?)376 5514
-y(inset=$\(\()g($inset)f(+)i(1)g(\)\))287 5596 y(qcount=$\(\()e
-(\($topbyte)g(*)i(128\))f(+)h($botbyte)e(\)\))287 5678
+2637 y(testbit)e($temp)h(128;)g(qr=$?)287 2719 y(testbit)f($temp)h(8;)h
+(op=$?)287 2801 y(testbit)e($temp)h(4;)h(aa=$?)287 2884
+y(testbit)e($temp)h(2;)h(trun=$?)287 2966 y(testbit)e($temp)h(1;)h
+(rd=$?)287 3130 y(logger)e("shdns)h($$)h(Query)f(/)g(response:)g($qr")
+287 3212 y(logger)f("shdns)h($$)h(Opcode:)e($op")287
+3295 y(logger)g("shdns)h($$)h(Authoritative)d(answer:)i($aa")287
+3377 y(logger)f("shdns)h($$)h(Packet)f(truncated:)f($trun")287
+3459 y(logger)g("shdns)h($$)h(Recursion)e(desired:)h($rd")287
+3623 y(readbytebinary)e("$1")i($inset;)g(temp=$?)376
+3706 y(inset=$\(\()g($inset)f(+)i(1)g(\)\))287 3788 y(testbit)e($temp)h
+(128;)g(ra=$?)287 3952 y(logger)f("shdns)h($$)h(Recursion)e(available:)
+g($ra")287 4116 y(#)h(The)h(number)e(of)i(questions)e(is)i(the)f(next)g
+(two)h(bytes)287 4199 y(readbytebinary)d("$1")i($inset;)g(topbyte=$?)
+376 4281 y(inset=$\(\()g($inset)f(+)i(1)g(\)\))287 4363
+y(readbytebinary)d("$1")i($inset;)g(botbyte=$?)376 4445
+y(inset=$\(\()g($inset)f(+)i(1)g(\)\))287 4527 y(qcount=$\(\()e
+(\($topbyte)g(*)i(128\))f(+)h($botbyte)e(\)\))287 4610
 y(logger)g("shdns)h($$)h(Number)f(of)g(questions:)f($qcount")287
-5843 y(#)h(The)h(number)e(of)i(answers)f(is)g(the)g(next)h(two)f(bytes)
-p Black 3462 5999 a Ff(14)p Black eop end
+4774 y(#)h(The)h(number)e(of)i(answers)f(is)g(the)g(next)h(two)f(bytes)
+287 4856 y(readbytebinary)e("$1")i($inset;)g(topbyte=$?)376
+4938 y(inset=$\(\()g($inset)f(+)i(1)g(\)\))287 5021 y(readbytebinary)d
+("$1")i($inset;)g(botbyte=$?)376 5103 y(inset=$\(\()g($inset)f(+)i(1)g
+(\)\))287 5185 y(acount=$\(\()e(\($topbyte)g(*)i(128\))f(+)h($botbyte)e
+(\)\))287 5267 y(logger)g("shdns)h($$)h(Number)f(of)g(answers:)g
+($acount")287 5432 y(#)g(The)h(number)e(of)i(authority)e(RRs)i(is)f
+(the)g(next)h(two)287 5514 y(#)f(bytes)287 5596 y(readbytebinary)e
+("$1")i($inset;)g(topbyte=$?)376 5678 y(inset=$\(\()g($inset)f(+)i(1)g
+(\)\))287 5760 y(readbytebinary)d("$1")i($inset;)g(botbyte=$?)376
+5843 y(inset=$\(\()g($inset)f(+)i(1)g(\)\))p Black 3462
+5999 a Ff(14)p Black eop end
 %%Page: 15 15
 TeXDict begin 15 14 bop -600 -600 a
 SDict begin /product where{pop product(Distiller)search{pop pop pop
@@ -5837,52 +5841,52 @@ SDict begin [ /View [/XYZ H.V] /Dest (page.15) cvn H.B /DEST pdfmark
 end
  197 -102
 a Black 2584 -132 a Ff(UDP)20 b(shell)h(scripts)f(with)g(inetd)p
-Black 287 89 a Fd(readbytebinary)42 b("$1")i($inset;)g(topbyte=$?)376
-171 y(inset=$\(\()g($inset)f(+)i(1)g(\)\))287 253 y(readbytebinary)d
-("$1")i($inset;)g(botbyte=$?)376 336 y(inset=$\(\()g($inset)f(+)i(1)g
-(\)\))287 418 y(acount=$\(\()e(\($topbyte)g(*)i(128\))f(+)h($botbyte)e
-(\)\))287 500 y(logger)g("shdns)h($$)h(Number)f(of)g(answers:)g
-($acount")287 664 y(#)g(The)h(number)e(of)i(authority)e(RRs)i(is)f(the)
-g(next)h(two)287 747 y(#)f(bytes)287 829 y(readbytebinary)e("$1")i
-($inset;)g(topbyte=$?)376 911 y(inset=$\(\()g($inset)f(+)i(1)g(\)\))287
-993 y(readbytebinary)d("$1")i($inset;)g(botbyte=$?)376
-1075 y(inset=$\(\()g($inset)f(+)i(1)g(\)\))287 1158 y(authcount=$\(\()d
-(\($topbyte)i(*)g(128\))g(+)h($botbyte)f(\)\))287 1240
-y(logger)f("shdns)h($$)h(Number)f(of)g(authorities:)f($authcount")287
-1404 y(#)h(The)h(number)e(of)i(additional)e(RRs)h(is)h(the)f(next)g
-(two)287 1486 y(#)g(bytes)287 1569 y(readbytebinary)e("$1")i($inset;)g
-(topbyte=$?)376 1651 y(inset=$\(\()g($inset)f(+)i(1)g(\)\))287
-1733 y(readbytebinary)d("$1")i($inset;)g(botbyte=$?)376
-1815 y(inset=$\(\()g($inset)f(+)i(1)g(\)\))287 1897 y(addcount=$\(\()d
-(\($topbyte)i(*)g(128\))h(+)f($botbyte)g(\)\))287 1979
-y(logger)f("shdns)h($$)h(Number)f(of)g(additionals:)f($addcount")287
-2144 y(######################)287 2226 y(#)h(For)h(each)f(question)287
-2308 y(######################)287 2473 y(len=42)287 2555
-y(questioncount=0)287 2719 y(while)g([)g($questioncount)f(-lt)h
-($qcount)g(])287 2801 y(do)376 2884 y(questionstart=$inset)376
-2966 y(logger)g("shdns)g($$)g(Question")376 3048 y(name="")376
-3212 y(namelength=0)376 3295 y(readbytebinary)f("$1")h($inset;)g
-(len=$?)376 3377 y(while)g([)h($len)f(-gt)g(0)h(])376
-3459 y(do)466 3541 y(inset=$\(\()e($inset)h(+)h(1)f(\)\))466
-3623 y(name="$name"`readstring)d("$1")j($inset)g($len`".")466
-3706 y(inset=$\(\()f($inset)h(+)h($len)f(\)\))466 3870
+Black 287 89 a Fd(authcount=$\(\()42 b(\($topbyte)i(*)g(128\))g(+)h
+($botbyte)f(\)\))287 171 y(logger)f("shdns)h($$)h(Number)f(of)g
+(authorities:)f($authcount")287 336 y(#)h(The)h(number)e(of)i
+(additional)e(RRs)h(is)h(the)f(next)g(two)287 418 y(#)g(bytes)287
+500 y(readbytebinary)e("$1")i($inset;)g(topbyte=$?)376
+582 y(inset=$\(\()g($inset)f(+)i(1)g(\)\))287 664 y(readbytebinary)d
+("$1")i($inset;)g(botbyte=$?)376 747 y(inset=$\(\()g($inset)f(+)i(1)g
+(\)\))287 829 y(addcount=$\(\()d(\($topbyte)i(*)g(128\))h(+)f($botbyte)
+g(\)\))287 911 y(logger)f("shdns)h($$)h(Number)f(of)g(additionals:)f
+($addcount")287 1075 y(######################)287 1158
+y(#)h(For)h(each)f(question)287 1240 y(######################)287
+1404 y(len=42)287 1486 y(questioncount=0)287 1651 y(while)g([)g
+($questioncount)f(-lt)h($qcount)g(])287 1733 y(do)376
+1815 y(questionstart=$inset)376 1897 y(logger)g("shdns)g($$)g
+(Question")376 1979 y(name="")376 2144 y(namelength=0)376
+2226 y(readbytebinary)f("$1")h($inset;)g(len=$?)376 2308
+y(while)g([)h($len)f(-gt)g(0)h(])376 2390 y(do)466 2473
+y(inset=$\(\()e($inset)h(+)h(1)f(\)\))466 2555 y
+(name="$name"`readstring)d("$1")j($inset)g($len`".")466
+2637 y(inset=$\(\()f($inset)h(+)h($len)f(\)\))466 2801
 y(namelength=$\(\()e($namelength)h(+)i($len)f(+)h(1)g(\)\))466
-3952 y(readbytebinary)d("$1")j($inset;)e(len=$?)376 4034
-y(done)376 4116 y(inset=$\(\()h($inset)f(+)i(1)g(\)\))376
-4199 y(logger)f("shdns)g($$)g(Lookup:)g($name")376 4363
+2884 y(readbytebinary)d("$1")j($inset;)e(len=$?)376 2966
+y(done)376 3048 y(inset=$\(\()h($inset)f(+)i(1)g(\)\))376
+3130 y(logger)f("shdns)g($$)g(Lookup:)g($name")376 3295
 y(#)h(Type)f(of)h(question)e(--)i(assume)e(we)i(only)f(want)g(the)376
-4445 y(#)h(last)f(byte)g(for)h(now...)376 4527 y(inset=$\(\()f($inset)f
-(+)i(1)g(\)\))376 4610 y(readbytebinary)e("$1")h($inset;)g(type=$?)376
-4692 y(error="none")376 4774 y(temp="shdns)f($$)i(Determine)e(the)h
-(query)g(type")376 4856 y(case)g($type)g(in)376 4938
-y(1)h(\))g(temp="$temp)e(A";;)376 5021 y(2)i(\))g(temp="$temp)e(NS";;)
-376 5103 y(5)i(\))g(temp="$temp)e(CNAME";;)376 5185 y(12)i(\))f
-(temp="$temp)f(PTR";;)376 5267 y(13)i(\))f(temp="$temp)f(HINFO";;)376
-5349 y(15)i(\))f(temp="$temp)f(MX";;)376 5432 y(*)i(\))g(temp="Error:)d
-(Unknown)i(query)g(type";)g(error="yes";;)376 5514 y(esac)376
-5678 y(logger)g("$temp)g(\(error)g(=)g($error\)")376
-5760 y(inset=$\(\()g($inset)f(+)i(1)g(\)\))p Black 3462
-5999 a Ff(15)p Black eop end
+3377 y(#)h(last)f(byte)g(for)h(now...)376 3459 y(inset=$\(\()f($inset)f
+(+)i(1)g(\)\))376 3541 y(readbytebinary)e("$1")h($inset;)g(type=$?)376
+3623 y(error="none")376 3706 y(temp="shdns)f($$)i(Determine)e(the)h
+(query)g(type")376 3788 y(case)g($type)g(in)376 3870
+y(1)h(\))g(temp="$temp)e(A";;)376 3952 y(2)i(\))g(temp="$temp)e(NS";;)
+376 4034 y(5)i(\))g(temp="$temp)e(CNAME";;)376 4116 y(12)i(\))f
+(temp="$temp)f(PTR";;)376 4199 y(13)i(\))f(temp="$temp)f(HINFO";;)376
+4281 y(15)i(\))f(temp="$temp)f(MX";;)376 4363 y(*)i(\))g(temp="Error:)d
+(Unknown)i(query)g(type";)g(error="yes";;)376 4445 y(esac)376
+4610 y(logger)g("$temp)g(\(error)g(=)g($error\)")376
+4692 y(inset=$\(\()g($inset)f(+)i(1)g(\)\))376 4856 y(#)g(The)f(class)g
+(should)g(always)g(be)g(1)h(--)g(assume)e(it's)376 4938
+y(#)i(all)f(in)h(the)f(last)g(byte)g(as)h(well)376 5021
+y(inset=$\(\()f($inset)f(+)i(1)g(\)\))376 5103 y(readbytebinary)e("$1")
+h($inset;)g(class=$?)466 5185 y(inset=$\(\()f($inset)h(+)h(1)f(\)\))376
+5267 y(logger)g("shdns)g($$)g(Query)g(class:)g($class")376
+5432 y(if)h([)f("\045$error\045")g(=)g("\045none\045")g(])376
+5514 y(then)466 5596 y(#)h(Dodgy)f(bug)g(fix)466 5678
+y(name=`echo)f($name)h(|)h(sed)f('s/\\.$//'`)466 5843
+y(#)h(Lookup)e(the)i(name)f(in)g(the)h(db)f(file)p Black
+3462 5999 a Ff(15)p Black eop end
 %%Page: 16 16
 TeXDict begin 16 15 bop -600 -600 a
 SDict begin /product where{pop product(Distiller)search{pop pop pop
@@ -5900,60 +5904,62 @@ SDict begin [ /View [/XYZ H.V] /Dest (page.16) cvn H.B /DEST pdfmark
 end
  197 -102
 a Black 2584 -132 a Ff(UDP)20 b(shell)h(scripts)f(with)g(inetd)p
-Black 376 89 a Fd(#)45 b(The)f(class)g(should)g(always)g(be)g(1)h(--)g
-(assume)e(it's)376 171 y(#)i(all)f(in)h(the)f(last)g(byte)g(as)h(well)
-376 253 y(inset=$\(\()f($inset)f(+)i(1)g(\)\))376 336
-y(readbytebinary)e("$1")h($inset;)g(class=$?)466 418
-y(inset=$\(\()f($inset)h(+)h(1)f(\)\))376 500 y(logger)g("shdns)g($$)g
-(Query)g(class:)g($class")376 664 y(if)h([)f("\045$error\045")g(=)g
-("\045none\045")g(])376 747 y(then)466 829 y(#)h(Dodgy)f(bug)g(fix)466
-911 y(name=`echo)f($name)h(|)h(sed)f('s/\\.$//'`)466
-1075 y(#)h(Lookup)e(the)i(name)f(in)g(the)h(db)f(file)466
-1158 y(result=`grep)f("$name")g("$execpath")g(lookup)h(|)h(tr)f(-s)h
-("\\t")f(|)h(cut)f(-f)h(2`)466 1240 y(logger)f("shdns)g($$)g(Result:)g
-($result")466 1404 y(#######################################)o(######)o
-(#)466 1486 y(#)h(Now)f(we)g(need)h(to)f(build)g(a)h(response)e(to)i
-(the)f(query)466 1651 y(#)h(The)f(id)g(number)g(we)h(were)f(handed)g
-(gets)g(handed)466 1733 y(#)h(straight)e(back)466 1815
+Black 466 89 a Fd(result=`grep)43 b("$name")g("$execpath")g(lookup)h(|)
+h(tr)f(-s)h("\\t")f(|)h(cut)f(-f)h(2`)466 171 y(logger)f("shdns)g($$)g
+(Result:)g($result")466 336 y(#######################################)o
+(######)o(#)466 418 y(#)h(Now)f(we)g(need)h(to)f(build)g(a)h(response)e
+(to)i(the)f(query)466 582 y(#)h(The)f(id)g(number)g(we)h(were)f(handed)
+g(gets)g(handed)466 664 y(#)h(straight)e(back)466 747
 y(tobyte)h($idtopbyte)f Fc(>)i Fd(/tmp/shdns-response-$$)466
-1897 y(tobyte)f($idbotbyte)f Fc(>>)h Fd(/tmp/shdns-response-$$)466
-2062 y(#)h(Flag)f(this)g(packet)g(as)g(being)g(a)h(reply)466
-2144 y(#)g(\(we)f(currently)f(never)h(claim)g(to)h(be)f(authoritive\))
-466 2226 y(tobyte)g(128)g Fc(>>)g Fd(/tmp/shdns-response-$$)466
-2308 y(tobyte)g(0)g Fc(>>)h Fd(/tmp/shdns-response-$$)466
-2473 y(#)g(Number)e(of)i(questions)e(\(we)i(have)f(to)g(return)g(the)
-466 2555 y(#)h(question)e(we)i(are)f(answering\))466
-2637 y(tobyte)g(0)g Fc(>>)h Fd(/tmp/shdns-response-$$)466
-2719 y(tobyte)f(1)g Fc(>>)h Fd(/tmp/shdns-response-$$)466
-2884 y(#)g(Number)e(of)i(answers)466 2966 y(tobyte)f(0)g
-Fc(>>)h Fd(/tmp/shdns-response-$$)466 3048 y(tobyte)f(1)g
-Fc(>>)h Fd(/tmp/shdns-response-$$)466 3212 y(#)g(Number)e(of)i
-(authorities)466 3295 y(tobyte)f(0)g Fc(>>)h Fd(/tmp/shdns-response-$$)
-466 3377 y(tobyte)f(0)g Fc(>>)h Fd(/tmp/shdns-response-$$)466
-3541 y(#)g(Number)e(of)i(additionals)466 3623 y(tobyte)f(0)g
-Fc(>>)h Fd(/tmp/shdns-response-$$)466 3706 y(tobyte)f(0)g
-Fc(>>)h Fd(/tmp/shdns-response-$$)466 3870 y(#)g(It's)f(easy)g(to)g
-(return)g(the)h(question,)e(we)h(just)466 3952 y(#)h(copy)f(it...)466
-4034 y(echo)g(-n)h(`readstring)e($1)h($questionstart)f($namelength`)f
-Fc(>>)j Fd(/tmp/shdns-response-$$)466 4116 y(tobyte)f(0)g
-Fc(>>)h Fd(/tmp/shdns-response-$$)466 4199 y(tobyte)f(0)g
-Fc(>>)h Fd(/tmp/shdns-response-$$)466 4281 y(tobyte)f($type)g
-Fc(>>)g Fd(/tmp/shdns-response-$$)466 4363 y(tobyte)g(0)g
-Fc(>>)h Fd(/tmp/shdns-response-$$)466 4445 y(tobyte)f($class)g
-Fc(>>)g Fd(/tmp/shdns-response-$$)466 4610 y(#)h(The)f(domain)g(name)g
-(we)g(are)h(answering)e(for)h(in)466 4692 y(#)h(this)f(answer)466
-4774 y(echo)g(-n)h(`readstring)e($1)h($questionstart)f($namelength`)f
-Fc(>>)j Fd(/tmp/shdns-response-$$)466 4856 y(tobyte)f(0)g
-Fc(>>)h Fd(/tmp/shdns-response-$$)466 5021 y(#)g(The)f(type)g(is)h(the)
-f(same)g(as)h(in)f(the)g(question)466 5103 y(tobyte)g(0)g
-Fc(>>)h Fd(/tmp/shdns-response-$$)466 5185 y(tobyte)f($type)g
-Fc(>>)g Fd(/tmp/shdns-response-$$)466 5349 y(#)h(The)f(class)g(is)g
-(the)h(same)f(as)g(well)466 5432 y(tobyte)g(0)g Fc(>>)h
-Fd(/tmp/shdns-response-$$)466 5514 y(tobyte)f($class)g
-Fc(>>)g Fd(/tmp/shdns-response-$$)466 5678 y(#)h(The)f(time)g(to)h
-(live)f(is)g(always)g(low,)g(because)g(we)466 5760 y(#)h(are)f(dodgy)
-466 5843 y(tobyte)g(0)g Fc(>>)h Fd(/tmp/shdns-response-$$)p
-Black 3462 5999 a Ff(16)p Black eop end
+829 y(tobyte)f($idbotbyte)f Fc(>>)h Fd(/tmp/shdns-response-$$)466
+993 y(#)h(Flag)f(this)g(packet)g(as)g(being)g(a)h(reply)466
+1075 y(#)g(\(we)f(currently)f(never)h(claim)g(to)h(be)f(authoritive\))
+466 1158 y(tobyte)g(128)g Fc(>>)g Fd(/tmp/shdns-response-$$)466
+1240 y(tobyte)g(0)g Fc(>>)h Fd(/tmp/shdns-response-$$)466
+1404 y(#)g(Number)e(of)i(questions)e(\(we)i(have)f(to)g(return)g(the)
+466 1486 y(#)h(question)e(we)i(are)f(answering\))466
+1569 y(tobyte)g(0)g Fc(>>)h Fd(/tmp/shdns-response-$$)466
+1651 y(tobyte)f(1)g Fc(>>)h Fd(/tmp/shdns-response-$$)466
+1815 y(#)g(Number)e(of)i(answers)466 1897 y(tobyte)f(0)g
+Fc(>>)h Fd(/tmp/shdns-response-$$)466 1979 y(tobyte)f(1)g
+Fc(>>)h Fd(/tmp/shdns-response-$$)466 2144 y(#)g(Number)e(of)i
+(authorities)466 2226 y(tobyte)f(0)g Fc(>>)h Fd(/tmp/shdns-response-$$)
+466 2308 y(tobyte)f(0)g Fc(>>)h Fd(/tmp/shdns-response-$$)466
+2473 y(#)g(Number)e(of)i(additionals)466 2555 y(tobyte)f(0)g
+Fc(>>)h Fd(/tmp/shdns-response-$$)466 2637 y(tobyte)f(0)g
+Fc(>>)h Fd(/tmp/shdns-response-$$)466 2801 y(#)g(It's)f(easy)g(to)g
+(return)g(the)h(question,)e(we)h(just)466 2884 y(#)h(copy)f(it...)466
+2966 y(echo)g(-n)h(`readstring)e($1)h($questionstart)f($namelength`)f
+Fc(>>)j Fd(/tmp/shdns-response-$$)466 3048 y(tobyte)f(0)g
+Fc(>>)h Fd(/tmp/shdns-response-$$)466 3130 y(tobyte)f(0)g
+Fc(>>)h Fd(/tmp/shdns-response-$$)466 3212 y(tobyte)f($type)g
+Fc(>>)g Fd(/tmp/shdns-response-$$)466 3295 y(tobyte)g(0)g
+Fc(>>)h Fd(/tmp/shdns-response-$$)466 3377 y(tobyte)f($class)g
+Fc(>>)g Fd(/tmp/shdns-response-$$)466 3541 y(#)h(The)f(domain)g(name)g
+(we)g(are)h(answering)e(for)h(in)466 3623 y(#)h(this)f(answer)466
+3706 y(echo)g(-n)h(`readstring)e($1)h($questionstart)f($namelength`)f
+Fc(>>)j Fd(/tmp/shdns-response-$$)466 3788 y(tobyte)f(0)g
+Fc(>>)h Fd(/tmp/shdns-response-$$)466 3952 y(#)g(The)f(type)g(is)h(the)
+f(same)g(as)h(in)f(the)g(question)466 4034 y(tobyte)g(0)g
+Fc(>>)h Fd(/tmp/shdns-response-$$)466 4116 y(tobyte)f($type)g
+Fc(>>)g Fd(/tmp/shdns-response-$$)466 4281 y(#)h(The)f(class)g(is)g
+(the)h(same)f(as)g(well)466 4363 y(tobyte)g(0)g Fc(>>)h
+Fd(/tmp/shdns-response-$$)466 4445 y(tobyte)f($class)g
+Fc(>>)g Fd(/tmp/shdns-response-$$)466 4610 y(#)h(The)f(time)g(to)h
+(live)f(is)g(always)g(low,)g(because)g(we)466 4692 y(#)h(are)f(dodgy)
+466 4774 y(tobyte)g(0)g Fc(>>)h Fd(/tmp/shdns-response-$$)466
+4856 y(tobyte)f(0)g Fc(>>)h Fd(/tmp/shdns-response-$$)466
+4938 y(tobyte)f(0)g Fc(>>)h Fd(/tmp/shdns-response-$$)466
+5021 y(tobyte)f(4)g Fc(>>)h Fd(/tmp/shdns-response-$$)466
+5185 y(#)g(The)f(length)g(of)g(the)h(returned)e(data)h(is)h(always)466
+5267 y(#)g(an)f(IP)h(\(32)f(bits\))466 5349 y(tobyte)g(0)g
+Fc(>>)h Fd(/tmp/shdns-response-$$)466 5432 y(tobyte)f(4)g
+Fc(>>)h Fd(/tmp/shdns-response-$$)466 5596 y(#)g(And)f(now)g(the)h
+(answer)e(as)i(a)g(number)466 5678 y(#)g(For)f(the)g(result)g(in)h(the)
+f(answer,)g(we)g(are)g(going)466 5760 y(#)h(to)f(need)g(this)g(in)h(a)g
+(binary)e(form)i(of)f(decimal)466 5843 y(while)g([)h("\045$result\045")
+e(!=)h("\045\045")g(])p Black 3462 5999 a Ff(16)p Black
+eop end
 %%Page: 17 17
 TeXDict begin 17 16 bop -600 -600 a
 SDict begin /product where{pop product(Distiller)search{pop pop pop
@@ -5971,75 +5977,65 @@ SDict begin [ /View [/XYZ H.V] /Dest (page.17) cvn H.B /DEST pdfmark
 end
  197 -102
 a Black 2584 -132 a Ff(UDP)20 b(shell)h(scripts)f(with)g(inetd)p
-Black 466 89 a Fd(tobyte)44 b(0)g Fc(>>)h Fd(/tmp/shdns-response-$$)466
-171 y(tobyte)f(0)g Fc(>>)h Fd(/tmp/shdns-response-$$)466
-253 y(tobyte)f(4)g Fc(>>)h Fd(/tmp/shdns-response-$$)466
-418 y(#)g(The)f(length)g(of)g(the)h(returned)e(data)h(is)h(always)466
-500 y(#)g(an)f(IP)h(\(32)f(bits\))466 582 y(tobyte)g(0)g
-Fc(>>)h Fd(/tmp/shdns-response-$$)466 664 y(tobyte)f(4)g
-Fc(>>)h Fd(/tmp/shdns-response-$$)466 829 y(#)g(And)f(now)g(the)h
-(answer)e(as)i(a)g(number)466 911 y(#)g(For)f(the)g(result)g(in)h(the)f
-(answer,)g(we)g(are)g(going)466 993 y(#)h(to)f(need)g(this)g(in)h(a)g
-(binary)e(form)i(of)f(decimal)466 1075 y(while)g([)h("\045$result\045")
-e(!=)h("\045\045")g(])466 1158 y(do)556 1240 y(temp=`echo)f($result)g
-(|)i(cut)f(-f)h(1)g(-d)f("."`)556 1322 y(result=`echo)e($result)i(|)h
-(sed)f('s/^[0-9]*\\.*//'`)556 1404 y(tobyte)f($temp)h
-Fc(>>)h Fd(/tmp/shdns-response-$$)556 1486 y(logger)e("shdns)h($$)h
-(Processing)e(result)h(segment:)f($temp)h(\($result\)")466
-1569 y(done)466 1733 y(#)h(And)f(now)g(we)h(can)f(send)g(the)h(result)e
-(\(done)h(this)466 1815 y(#)h(way)f(to)g(make)h(sure)f(it)g(is)h(all)f
-(in)h(one)f(packet\))466 1897 y(cat)g(/tmp/shdns-response-$$)466
-1979 y(logger)g("shdns)g($$)g(Finished)g(extracting)f(result")376
-2062 y(else)466 2144 y(#)i(Work)f(out)g(the)g(erroneous)g(type)466
-2226 y(logger)g("shdns)g($$)g(Erroneous)f(type)i(was)f($type)g
-(\("`dumpbyte)f($type`"\)")376 2308 y(fi)376 2473 y(logger)h("shdns)g
-($$)g(Finished)g(processing)f(question")376 2555 y(questioncount=$\(\()
-f($questioncount)h(+)h(1)h(\)\))287 2637 y(done)287 2801
-y(return)e($inset`twiddlebit)f(0)j(128)f(1`)197 2884
-y(})197 3048 y(#######################################)o(######)o
-(######)o(#)197 3130 y(#)h(The)f(entry)g(point)g(for)g(the)h(script)197
-3212 y(offset=1)197 3295 y(spinfor)f($1)g($offset)197
-3377 y(process)g($1)g($offset)197 3459 y(offset=$?)197
-3541 y(logger)g("shdns)g($$)g(Ended)g(at)h($offset")197
-3623 y(killall)f(-9)g(cat)197 3706 y(exit)197 3790 y
+Black 466 89 a Fd(do)556 171 y(temp=`echo)43 b($result)g(|)i(cut)f(-f)h
+(1)g(-d)f("."`)556 253 y(result=`echo)e($result)i(|)h(sed)f
+('s/^[0-9]*\\.*//'`)556 336 y(tobyte)f($temp)h Fc(>>)h
+Fd(/tmp/shdns-response-$$)556 418 y(logger)e("shdns)h($$)h(Processing)e
+(result)h(segment:)f($temp)h(\($result\)")466 500 y(done)466
+664 y(#)h(And)f(now)g(we)h(can)f(send)g(the)h(result)e(\(done)h(this)
+466 747 y(#)h(way)f(to)g(make)h(sure)f(it)g(is)h(all)f(in)h(one)f
+(packet\))466 829 y(cat)g(/tmp/shdns-response-$$)466
+911 y(logger)g("shdns)g($$)g(Finished)g(extracting)f(result")376
+993 y(else)466 1075 y(#)i(Work)f(out)g(the)g(erroneous)g(type)466
+1158 y(logger)g("shdns)g($$)g(Erroneous)f(type)i(was)f($type)g
+(\("`dumpbyte)f($type`"\)")376 1240 y(fi)376 1404 y(logger)h("shdns)g
+($$)g(Finished)g(processing)f(question")376 1486 y(questioncount=$\(\()
+f($questioncount)h(+)h(1)h(\)\))287 1569 y(done)287 1733
+y(return)e($inset`twiddlebit)f(0)j(128)f(1`)197 1815
+y(})197 1979 y(#######################################)o(######)o
+(######)o(#)197 2062 y(#)h(The)f(entry)g(point)g(for)g(the)h(script)197
+2144 y(offset=1)197 2226 y(spinfor)f($1)g($offset)197
+2308 y(process)g($1)g($offset)197 2390 y(offset=$?)197
+2473 y(logger)g("shdns)g($$)g(Ended)g(at)h($offset")197
+2555 y(killall)f(-9)g(cat)197 2637 y(exit)197 2722 y
 SDict begin H.S end
 
-197 3790 a 197 3790 a
+197 2722 a 197 2722 a
 SDict begin 11 H.A end
- 197 3790 a 197 3790 a
+ 197 2722 a 197 2722 a
 SDict begin [ /View [/XYZ H.V] /Dest (203) cvn H.B /DEST pdfmark end
- 197 3790
-a 197 3790 a
+ 197 2722
+a 197 2722 a
 SDict begin H.S end
- 197 3790 a 197 3790 a
+ 197 2722 a 197 2722 a
 SDict begin 11 H.A end
- 197 3790 a 197 3790
+ 197 2722 a 197 2722
 a
 SDict begin [ /View [/XYZ H.V] /Dest (204) cvn H.B /DEST pdfmark end
- 197 3790 a 90 x Ff(Code:)21 b(shdns)197 3922 y
+ 197 2722 a 89 x Ff(Code:)21 b(shdns)197 2854 y
 SDict begin H.S end
  197
-3922 a 197 3922 a
+2854 a 197 2854 a
 SDict begin 11 H.A end
- 197 3922 a 197 3922 a
+ 197 2854 a 197 2854 a
 SDict begin [ /View [/XYZ H.V] /Dest (205) cvn H.B /DEST pdfmark end
- 197 3922 a 91
-x Fg(The)357 4013 y
+ 197 2854 a 90
+x Fg(The)357 2944 y
 SDict begin H.S end
- 357 4013 a 357 4013 a
+ 357 2944 a 357 2944 a
 SDict begin 11 H.A end
- 357 4013 a
-357 4013 a
+ 357 2944 a
+357 2944 a
 SDict begin [ /View [/XYZ H.V] /Dest (206) cvn H.B /DEST pdfmark end
- 357 4013 a Fh(shdns)e Fg(implementation)j(strategy)f(is)g
-(summarized)f(by)h(the)g(following)h(diagram.)197 4119
+ 357 2944 a Fh(shdns)e Fg(implementation)j(strategy)f(is)g
+(summarized)f(by)h(the)g(following)h(diagram.)197 3051
 y
 SDict begin H.S end
- 197 4119 a 197 4119 a
+ 197 3051 a 197 3051 a
 SDict begin 11 H.A end
- 197 4119 a 197 4119 a
+ 197 3051 a 197 3051 a
 SDict begin [ /View [/XYZ H.V] /Dest (207) cvn H.B /DEST pdfmark end
- 197 4119
+ 197 3051
 a Black 3462 5999 a Ff(17)p Black eop end
 %%Page: 18 18
 TeXDict begin 18 17 bop -600 -600 a
@@ -6066,7 +6062,7 @@ Black 197 3206 a
 %!PS-Adobe-3.0 EPSF-3.0
 %%Creator: (ImageMagick)
 %%Title: (gen-shdns-design.eps)
-%%CreationDate: (Mon Mar 24 20:31:17 2003)
+%%CreationDate: (Mon Mar 24 20:40:25 2003)
 %%BoundingBox: 0 0 298 384
 %%HiResBoundingBox: 0 0 298 384
 %%DocumentData: Clean7Bit
@@ -16049,8 +16045,8 @@ SDict begin H.S end
 SDict begin 11 H.A end
  280 5759 a 280 5759 a
 SDict begin [ /View [/XYZ H.V] /Dest (229) cvn H.B /DEST pdfmark end
- 280 5759 a Fg(The)h(xinetd)f(homepage)h
-(--)f(http://www)-8 b(.xinetd.or)o(g/)197 5783 y
+ 280 5759 a Fg(The)h(xinetd)f(home)i(page)e
+(--)g(http://www)-8 b(.xinetd.or)o(g/)197 5783 y
 SDict begin H.S end
  197
 5783 a 197 5783 a

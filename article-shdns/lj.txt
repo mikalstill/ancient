@@ -175,7 +175,7 @@ The same echo service configured with <b>xinetd</b> looks like this:
 [Please insert the file named xinetd-config.txt here]
 [ecw]
 
-Again, the service is a dgram using the UDP protocol. <b>xinetd</b> will wait for previous requests to be processed before moving onto the next request. The echo service also runs as root, using cat. Note the difference in the way the server arguements are configured. 
+Again, the service is a dgram using the UDP protocol. <b>xinetd</b> will wait for previous requests to be processed before moving onto the next request. The echo service also runs as root, using cat. Note the difference in the way the server arguments are configured. 
 
 You should also note that on Red Hat systems, services are often configured within their own configuration files, located in /etc/xinetd.d -- this is done to make it easier to add new services during package installation. 
 
@@ -222,7 +222,7 @@ The following is a list of reading I found useful whilst working on this article
 
 [dot] The Freshmeat page for NetKit -- http://freshmeat.net/projects/netkit/?topic_id=150
 
-[dot] The xinetd homepage -- http://www.xinetd.org/
+[dot] The xinetd home page -- http://www.xinetd.org/
 
 [dot] The source code for shdns -- http://www.stillhq.com/extracted/shdns/
 
