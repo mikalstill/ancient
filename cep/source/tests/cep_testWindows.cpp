@@ -27,7 +27,7 @@
  * Tests the framework which has been set up to window the incoming data
  *
  * @author Blake Swadling
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 
 namespace {
@@ -137,7 +137,7 @@ protected:
    */
   void testChebyshev ()
   {
-//     cout << "testing chebyshev ... " << endl;
+    cout << "testing chebyshev ... " << endl;
     int size = 99;
     windower->setWindowType( cepDataWindower::WINDOW_CHEBYSHEV, size, 0 );
     cepMatrix<double> result;
@@ -145,10 +145,30 @@ protected:
     cepError err = windower->window( input , result );
     if( err.isReal() ) {
       err.display();
-    }
-      
+    } 
 
     ofstream f("chebyshev.txt", ios::trunc);
+    for( int i=0; i<result.getNumCols(); ++i ) {
+      f << result.getValue(0, i, 0) << ' ' << result.getValue(0, i, 1) << endl;
+    }
+    f.close();
+
+  }
+
+  void testChebyshev2 ()
+  {
+    cout << "testing chebyshev ... " << endl;
+    int size = 100;
+    windower->setWindowType( cepDataWindower::WINDOW_CHEBYSHEV, size, 0 );
+    cepMatrix<double> result;
+    cepMatrix<double> input = makeData( size );
+    cepError err = windower->window( input , result );
+    if( err.isReal() ) {
+      err.display();
+    }
+
+    ofstream f("chebyshev.txt", ios::app);
+    f << endl << endl;
     for( int i=0; i<result.getNumCols(); ++i ) {
       f << result.getValue(0, i, 0) << ' ' << result.getValue(0, i, 1) << endl;
     }
@@ -209,6 +229,8 @@ public:
     
     suiteOfTests->addTest(
       new CppUnit::TestCaller<Test>( "testChebyshev", &Test::testChebyshev ) );
+    suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "testChebyshev2", &Test::testChebyshev2 ) );
     
        
     return suiteOfTests;
