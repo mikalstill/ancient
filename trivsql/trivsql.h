@@ -1,9 +1,16 @@
 #include "tdb.h"
 #include "spinlock.h"
 
+#define SELTRUE 1
+#define SELFALSE 0
+typedef int (*trivsql_selectorfunc) (char *arg1, char *arg2);
+
 typedef struct trivsql_internal_state
 {
   TDB_CONTEXT *db;
+  char *selArgOne;
+  char *selArgTwo;
+  trivsql_selectorfunc selector;
 } trivsql_state;
 
 typedef struct trivsql_internal_col
@@ -31,6 +38,7 @@ void trivsql_doinsert(char *, char *, char *);
 trivsql_recordset *trivsql_doselect(char *, char *);
 
 int *trivsql_parsecols(char *, char *, int *);
+int trivsql_findcol(char *, char *, char *);
 void trivsql_displayrs(trivsql_recordset *, char *, char *);
 void trivsql_addrow(trivsql_recordset *, char *, int, int *);
 
@@ -40,3 +48,7 @@ char *trivsql_dbread(trivsql_state *, char *);
 char *trivsql_xsnprintf(char *, ...);
 void trivsql_xfree(void *);
 void *trivsql_xrealloc(void *, size_t);
+
+// Selectors
+int trivsql_selequal(char *, char *);
+int trivsql_sellike(char *, char *);

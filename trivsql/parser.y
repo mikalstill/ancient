@@ -10,7 +10,7 @@
 
 %token CREATE TABLE 
 %token INSERT VALUES INTO
-%token SELECT FROM STRING
+%token SELECT FROM STRING WHERE LIKE
 
 %%
 
@@ -26,20 +26,22 @@ insert   : INSERT INTO STRING '(' colvalspec ')' VALUES '(' colvalspec ')' ';'
 { trivsql_doinsert($3, $5, $9); }
          ;
 
-sel      : SELECT colvalspec FROM STRING ';' 
+sel      : SELECT colvalspec FROM STRING selector ';'
 { trivsql_recordset *rs; trivsql_displayrs(rs = trivsql_doselect($4, $2), $4, $2); /*trivsql_xfree(rs);*/ }
          ;
 
-colvalspec : STRING ',' colvalspec 
-{ $$ = trivsql_xsnprintf("%s;%s", $1, $3); } 
-         | '\'' STRING '\'' ',' colvalspec 
-{ $$ = trivsql_xsnprintf("%s;%s", $2, $5); } 
-         | STRING 
-{ $$ = trivsql_xsnprintf("%s", $1); }
-         | '\'' STRING '\''
-{ $$ = trivsql_xsnprintf("%s", $2); }
-         |
+colvalspec : str ',' colvalspec { $$ = trivsql_xsnprintf("%s;%s", $1, $3); } 
+         | str { $$ = trivsql_xsnprintf("%s", $1); }
          ;
+
+selector : WHERE str '=' str { gState->selector = trivsql_selequal; gState->selArgOne = $2; gState->selArgTwo = $4 }
+         | WHERE str LIKE str { gState->selector = trivsql_sellike; gState->selArgOne = $2; gState->selArgTwo = $4 }
+	 | { gState->selector = NULL }
+         ;
+
+str      : STRING { $$ = $1 } 
+         | '\'' STRING '\'' { $$ = $2 }
+         ; 
 
 %%
 
@@ -107,7 +109,8 @@ void trivsql_doinsert(char *tname, char *cols, char *vals){
   }
 
   // How we have the right number of values?
-  for(i = 0, col = 0; i < strlen(vals); i++)
+  col = 1;
+  for(i = 0; i < strlen(vals); i++)
     if(vals[i] == ';')
       col++;
   
@@ -139,8 +142,8 @@ void trivsql_doinsert(char *tname, char *cols, char *vals){
 
 trivsql_recordset *trivsql_doselect(char *tname, char *cols){
   int *colNumbers;
-  int row, rowCount, numCols;
-  char *t, *u;
+  int row, rowCount, numCols, addMe, sac1, sac2;
+  char *t, *u, *sa1, *sa2;
   trivsql_recordset *rrs;
 
   // Get ready for columns
@@ -153,6 +156,13 @@ trivsql_recordset *trivsql_doselect(char *tname, char *cols){
     return;
   }
 
+  // Prepare the selector arguements
+  sa1 = gState->selArgOne;
+  sa2 = gState->selArgTwo;
+  sac1 = trivsql_findcol(tname, cols, sa1);
+  sac2 = trivsql_findcol(tname, cols, sa2);
+
+  // Build the recordset
   rrs = trivsql_xmalloc(sizeof(trivsql_recordset));
   rrs->numCols = numCols;
   rrs->rows = trivsql_xmalloc(sizeof(trivsql_row));
@@ -161,7 +171,28 @@ trivsql_recordset *trivsql_doselect(char *tname, char *cols){
   rrs->numRows = 0;
 
   for(row = 0; row < rowCount; row++){
-    trivsql_addrow(rrs, tname, row, colNumbers);
+    addMe = SELTRUE;
+
+    if(gState->selector != NULL){
+      if(sac1 != -1){
+	trivsql_xfree(sa1);
+	t = trivsql_xsnprintf("trivsql_%s_col%drow%d", tname, colNumbers[sac1], row);
+	sa1 = trivsql_dbread(gState, t);
+	trivsql_xfree(t);
+      }
+
+      if(sac2 != -1){
+	trivsql_xfree(sa2);
+	t = trivsql_xsnprintf("trivsql_%s_col%drow%d", tname, colNumbers[sac2], row);
+	sa2 = trivsql_dbread(gState, t);
+	trivsql_xfree(t);
+      }
+
+      addMe = (gState->selector)(sa1, sa2);
+    }
+
+    if(addMe == SELTRUE)
+      trivsql_addrow(rrs, tname, row, colNumbers);
   }
 
   return rrs;
@@ -286,9 +317,9 @@ trivsql_xrealloc (void *memory, size_t size)
 }
 
 int *trivsql_parsecols(char *tname, char *cols, int *numCols){
-  int i, col, c;
+  int i, col;
   int *colNumbers = NULL;
-  char *t, *u, *coltmp;
+  char *t, *u, *coltmp, *c;
 
   // How many columns do we have?
   *numCols = 1;
@@ -332,14 +363,34 @@ int *trivsql_parsecols(char *tname, char *cols, int *numCols){
   return colNumbers;
 }
 
+int trivsql_findcol(char *tname, char *cols, char *col){
+  char *t, *u, *coltmp, *c;
+  int colNum;
+
+  coltmp = trivsql_xsnprintf("%s", cols);
+  colNum = 0;
+
+  // Determine that the named columns exist
+  c = strtok(coltmp, ";");
+  while(c != NULL){
+    if(strcmp(c, col) == 0)
+      return colNum;
+
+    c = strtok(NULL, ";");
+    colNum++;
+  }
+
+  return -1;
+}
+
 void trivsql_displayrs(trivsql_recordset *rs, char *tname, char *cols){
-  int i, col, c;
-  char *t, *u;
+  int i, col;
+  char *t, *u, *c;
   trivsql_row *theRow;
   trivsql_col *theCol;
 
   // Print the header line
-  printf("Select returned %d rows of %d columns\n\n", rs->numRows, rs->numCols);
+  printf("Select returned %d rows of %d columns\n\n=", rs->numRows, rs->numCols);
   for(i = 0; i < rs->numCols; i++){
     printf("===============");
   }
@@ -370,11 +421,11 @@ void trivsql_displayrs(trivsql_recordset *rs, char *tname, char *cols){
       i++;
     }
 
-    printf(" %-11s |", c);
+    printf(" %-12s |", c);
     c = strtok(NULL, ";");
   }
   
-  printf("\n");
+  printf("\n=");
   for(i = 0; i < rs->numCols; i++){
     printf("===============");
   }
@@ -386,11 +437,11 @@ void trivsql_displayrs(trivsql_recordset *rs, char *tname, char *cols){
     printf("|");
     theCol = theRow->cols;
     while(theCol->next != NULL){
-      printf(" %-11s |", theCol->val);
+      printf(" %-12s |", theCol->val);
       theCol = theCol->next;
     }
 
-    printf("\n");
+    printf("\n-");
     for(i = 0; i < rs->numCols; i++){
       printf("---------------");
     }

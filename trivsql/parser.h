@@ -9,6 +9,7 @@
 #define	SELECT	262
 #define	FROM	263
 #define	STRING	264
+#define	WHERE	265
 
 
 extern YYSTYPE yylval;

@@ -12,6 +12,7 @@
 #define	SELECT	262
 #define	FROM	263
 #define	STRING	264
+#define	WHERE	265
 
 #line 1 "parser.y"
 
@@ -35,20 +36,20 @@
 
 
 
-#define	YYFINAL		40
+#define	YYFINAL		44
 #define	YYFLAG		-32768
-#define	YYNTBASE	16
+#define	YYNTBASE	18
 
-#define YYTRANSLATE(x) ((unsigned)(x) <= 264 ? yytranslate[x] : 21)
+#define YYTRANSLATE(x) ((unsigned)(x) <= 265 ? yytranslate[x] : 25)
 
 static const char yytranslate[] = {     0,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-     2,     2,     2,     2,     2,     2,     2,     2,    15,    11,
-    12,     2,     2,    14,     2,     2,     2,     2,     2,     2,
-     2,     2,     2,     2,     2,     2,     2,     2,    13,     2,
-     2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+     2,     2,     2,     2,     2,     2,     2,     2,    17,    12,
+    13,     2,     2,    15,     2,     2,     2,     2,     2,     2,
+     2,     2,     2,     2,     2,     2,     2,     2,    14,     2,
+    16,     2,     2,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -68,30 +69,30 @@ static const char yytranslate[] = {     0,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     1,     3,     4,     5,     6,
-     7,     8,     9,    10
+     7,     8,     9,    10,    11
 };
 
 #if YYDEBUG != 0
 static const short yyprhs[] = {     0,
-     0,     3,     6,     9,    10,    18,    30,    36,    40,    46,
-    48,    52
+     0,     3,     6,     9,    10,    18,    30,    37,    41,    43,
+    48,    49,    51
 };
 
-static const short yyrhs[] = {    17,
-    16,     0,    18,    16,     0,    19,    16,     0,     0,     3,
-     4,    10,    11,    20,    12,    13,     0,     5,     7,    10,
-    11,    20,    12,     6,    11,    20,    12,    13,     0,     8,
-    20,     9,    10,    13,     0,    10,    14,    20,     0,    15,
-    10,    15,    14,    20,     0,    10,     0,    15,    10,    15,
-     0,     0
+static const short yyrhs[] = {    19,
+    18,     0,    20,    18,     0,    21,    18,     0,     0,     3,
+     4,    10,    12,    22,    13,    14,     0,     5,     7,    10,
+    12,    22,    13,     6,    12,    22,    13,    14,     0,     8,
+    22,     9,    10,    23,    14,     0,    24,    15,    22,     0,
+    24,     0,    11,    24,    16,    24,     0,     0,    10,     0,
+    17,    10,    17,     0
 };
 
 #endif
 
 #if YYDEBUG != 0
 static const short yyrline[] = { 0,
-    17,    17,    17,    18,    21,    25,    29,    33,    35,    37,
-    39,    41
+    17,    17,    17,    18,    21,    25,    29,    33,    34,    37,
+    38,    41,    42
 };
 #endif
 
@@ -99,59 +100,62 @@ static const short yyrline[] = { 0,
 #if YYDEBUG != 0 || defined (YYERROR_VERBOSE)
 
 static const char * const yytname[] = {   "$","error","$undefined.","CREATE",
-"TABLE","INSERT","VALUES","INTO","SELECT","FROM","STRING","'('","')'","';'",
-"','","'\\''","sql","create","insert","sel","colvalspec", NULL
+"TABLE","INSERT","VALUES","INTO","SELECT","FROM","STRING","WHERE","'('","')'",
+"';'","','","'='","'\\''","sql","create","insert","sel","colvalspec","selector",
+"str", NULL
 };
 #endif
 
 static const short yyr1[] = {     0,
-    16,    16,    16,    16,    17,    18,    19,    20,    20,    20,
-    20,    20
+    18,    18,    18,    18,    19,    20,    21,    22,    22,    23,
+    23,    24,    24
 };
 
 static const short yyr2[] = {     0,
-     2,     2,     2,     0,     7,    11,     5,     3,     5,     1,
-     3,     0
+     2,     2,     2,     0,     7,    11,     6,     3,     1,     4,
+     0,     1,     3
 };
 
 static const short yydefact[] = {     4,
-     0,     0,    12,     4,     4,     4,     0,     0,    10,     0,
-     0,     1,     2,     3,     0,     0,    12,     0,     0,    12,
-    12,     8,    11,     0,     0,     0,    12,     7,     0,     0,
-     9,     5,     0,    12,     0,     0,     6,     0,     0,     0
+     0,     0,     0,     4,     4,     4,     0,     0,    12,     0,
+     0,     9,     1,     2,     3,     0,     0,     0,     0,     0,
+     0,     0,    13,    11,     8,     0,     0,     0,     0,     0,
+     0,     0,     7,     5,     0,     0,     0,    10,     0,     0,
+     6,     0,     0,     0
 };
 
-static const short yydefgoto[] = {    12,
-     4,     5,     6,    11
+static const short yydefgoto[] = {    13,
+     4,     5,     6,    11,    29,    12
 };
 
-static const short yypact[] = {     6,
-     8,    -5,    -2,     6,     6,     6,     5,     9,    -9,    10,
-     7,-32768,-32768,-32768,    11,    12,    -2,     3,    14,    -2,
-    -2,-32768,    13,    15,    17,    18,    -2,-32768,    19,    20,
--32768,-32768,    22,    -2,    23,    21,-32768,    25,    31,-32768
+static const short yypact[] = {    10,
+     2,     0,    -5,    10,    10,    10,    -2,     6,-32768,     9,
+     5,     7,-32768,-32768,-32768,     8,    11,    12,    14,    -5,
+    -5,    -5,-32768,    15,-32768,    17,    18,    -5,    13,    19,
+    22,    16,-32768,-32768,    23,    -5,    -5,-32768,    21,    24,
+-32768,    25,    36,-32768
 };
 
-static const short yypgoto[] = {     1,
--32768,-32768,-32768,   -17
+static const short yypgoto[] = {     4,
+-32768,-32768,-32768,   -20,-32768,   -25
 };
 
 
-#define	YYLAST		35
+#define	YYLAST		38
 
 
-static const short yytable[] = {    22,
-    38,     8,    25,    26,    17,    13,    14,     9,     1,    31,
-     2,     7,    10,     3,    15,    19,    35,    23,    16,    18,
-     0,    20,    21,    24,    39,    33,    27,    28,    29,    30,
-    40,    32,    34,    37,    36
+static const short yytable[] = {    25,
+    26,    27,    32,    42,     9,     7,     8,    16,    14,    15,
+    38,    10,     1,    19,     2,    17,    39,     3,    18,    21,
+     0,    20,    22,    24,    43,    28,    33,    35,    23,    30,
+    31,    36,    34,    40,    37,    44,     0,    41
 };
 
-static const short yycheck[] = {    17,
-     0,     7,    20,    21,    14,     5,     6,    10,     3,    27,
-     5,     4,    15,     8,    10,     9,    34,    15,    10,    10,
-    -1,    11,    11,    10,     0,     6,    14,    13,    12,    12,
-     0,    13,    11,    13,    12
+static const short yycheck[] = {    20,
+    21,    22,    28,     0,    10,     4,     7,    10,     5,     6,
+    36,    17,     3,     9,     5,    10,    37,     8,    10,    12,
+    -1,    15,    12,    10,     0,    11,    14,     6,    17,    13,
+    13,    16,    14,    13,    12,     0,    -1,    14
 };
 /* -*-C-*-  Note some compilers choke on comments on `#line' lines.  */
 #line 3 "/usr/lib/bison.simple"
@@ -706,23 +710,31 @@ case 6:
     break;}
 case 7:
 #line 30 "parser.y"
-{ trivsql_recordset *rs; trivsql_displayrs(rs = trivsql_doselect(yyvsp[-1], yyvsp[-3]), yyvsp[-1], yyvsp[-3]); /*trivsql_xfree(rs);*/ ;
+{ trivsql_recordset *rs; trivsql_displayrs(rs = trivsql_doselect(yyvsp[-2], yyvsp[-4]), yyvsp[-2], yyvsp[-4]); /*trivsql_xfree(rs);*/ ;
     break;}
 case 8:
-#line 34 "parser.y"
+#line 33 "parser.y"
 { yyval = trivsql_xsnprintf("%s;%s", yyvsp[-2], yyvsp[0]); ;
     break;}
 case 9:
-#line 36 "parser.y"
-{ yyval = trivsql_xsnprintf("%s;%s", yyvsp[-3], yyvsp[0]); ;
-    break;}
-case 10:
-#line 38 "parser.y"
+#line 34 "parser.y"
 { yyval = trivsql_xsnprintf("%s", yyvsp[0]); ;
     break;}
+case 10:
+#line 37 "parser.y"
+{ gState->selector = trivsql_selequal; gState->selArgOne = yyvsp[-2]; gState->selArgTwo = yyvsp[0] ;
+    break;}
 case 11:
-#line 40 "parser.y"
-{ yyval = trivsql_xsnprintf("%s", yyvsp[-1]); ;
+#line 38 "parser.y"
+{ gState->selector = NULL ;
+    break;}
+case 12:
+#line 41 "parser.y"
+{ yyval = yyvsp[0] ;
+    break;}
+case 13:
+#line 42 "parser.y"
+{ yyval = yyvsp[-1] ;
     break;}
 }
    /* the action file gets copied in in place of this dollarsign */
@@ -946,7 +958,7 @@ yyerrhandle:
     }
   return 1;
 }
-#line 44 "parser.y"
+#line 45 "parser.y"
 
 
 int yyerror(char *s){
@@ -1013,7 +1025,8 @@ void trivsql_doinsert(char *tname, char *cols, char *vals){
   }
 
   // How we have the right number of values?
-  for(i = 0, col = 0; i < strlen(vals); i++)
+  col = 1;
+  for(i = 0; i < strlen(vals); i++)
     if(vals[i] == ';')
       col++;
   
@@ -1045,8 +1058,8 @@ void trivsql_doinsert(char *tname, char *cols, char *vals){
 
 trivsql_recordset *trivsql_doselect(char *tname, char *cols){
   int *colNumbers;
-  int row, rowCount, numCols;
-  char *t, *u;
+  int row, rowCount, numCols, addMe, sac1, sac2;
+  char *t, *u, *sa1, *sa2;
   trivsql_recordset *rrs;
 
   // Get ready for columns
@@ -1059,6 +1072,13 @@ trivsql_recordset *trivsql_doselect(char *tname, char *cols){
     return;
   }
 
+  // Prepare the selector arguements
+  sa1 = gState->selArgOne;
+  sa2 = gState->selArgTwo;
+  sac1 = trivsql_findcol(tname, cols, sa1);
+  sac2 = trivsql_findcol(tname, cols, sa2);
+
+  // Build the recordset
   rrs = trivsql_xmalloc(sizeof(trivsql_recordset));
   rrs->numCols = numCols;
   rrs->rows = trivsql_xmalloc(sizeof(trivsql_row));
@@ -1067,7 +1087,28 @@ trivsql_recordset *trivsql_doselect(char *tname, char *cols){
   rrs->numRows = 0;
 
   for(row = 0; row < rowCount; row++){
-    trivsql_addrow(rrs, tname, row, colNumbers);
+    addMe = SELTRUE;
+
+    if(gState->selector != NULL){
+      if(sac1 != -1){
+	trivsql_xfree(sa1);
+	t = trivsql_xsnprintf("trivsql_%s_col%drow%d", tname, colNumbers[sac1], row);
+	sa1 = trivsql_dbread(gState, t);
+	trivsql_xfree(t);
+      }
+
+      if(sac2 != -1){
+	trivsql_xfree(sa2);
+	t = trivsql_xsnprintf("trivsql_%s_col%drow%d", tname, colNumbers[sac2], row);
+	sa2 = trivsql_dbread(gState, t);
+	trivsql_xfree(t);
+      }
+
+      addMe = (gState->selector)(sa1, sa2);
+    }
+
+    if(addMe == SELTRUE)
+      trivsql_addrow(rrs, tname, row, colNumbers);
   }
 
   return rrs;
@@ -1192,9 +1233,9 @@ trivsql_xrealloc (void *memory, size_t size)
 }
 
 int *trivsql_parsecols(char *tname, char *cols, int *numCols){
-  int i, col, c;
+  int i, col;
   int *colNumbers = NULL;
-  char *t, *u, *coltmp;
+  char *t, *u, *coltmp, *c;
 
   // How many columns do we have?
   *numCols = 1;
@@ -1238,14 +1279,34 @@ int *trivsql_parsecols(char *tname, char *cols, int *numCols){
   return colNumbers;
 }
 
+int trivsql_findcol(char *tname, char *cols, char *col){
+  char *t, *u, *coltmp, *c;
+  int colNum;
+
+  coltmp = trivsql_xsnprintf("%s", cols);
+  colNum = 0;
+
+  // Determine that the named columns exist
+  c = strtok(coltmp, ";");
+  while(c != NULL){
+    if(strcmp(c, col) == 0)
+      return colNum;
+
+    c = strtok(NULL, ";");
+    colNum++;
+  }
+
+  return -1;
+}
+
 void trivsql_displayrs(trivsql_recordset *rs, char *tname, char *cols){
-  int i, col, c;
-  char *t, *u;
+  int i, col;
+  char *t, *u, *c;
   trivsql_row *theRow;
   trivsql_col *theCol;
 
   // Print the header line
-  printf("Select returned %d rows of %d columns\n\n", rs->numRows, rs->numCols);
+  printf("Select returned %d rows of %d columns\n\n=", rs->numRows, rs->numCols);
   for(i = 0; i < rs->numCols; i++){
     printf("===============");
   }
@@ -1276,11 +1337,11 @@ void trivsql_displayrs(trivsql_recordset *rs, char *tname, char *cols){
       i++;
     }
 
-    printf(" %-11s |", c);
+    printf(" %-12s |", c);
     c = strtok(NULL, ";");
   }
   
-  printf("\n");
+  printf("\n=");
   for(i = 0; i < rs->numCols; i++){
     printf("===============");
   }
@@ -1292,11 +1353,11 @@ void trivsql_displayrs(trivsql_recordset *rs, char *tname, char *cols){
     printf("|");
     theCol = theRow->cols;
     while(theCol->next != NULL){
-      printf(" %-11s |", theCol->val);
+      printf(" %-12s |", theCol->val);
       theCol = theCol->next;
     }
 
-    printf("\n");
+    printf("\n-");
     for(i = 0; i < rs->numCols; i++){
       printf("---------------");
     }
