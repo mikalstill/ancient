@@ -157,6 +157,19 @@ The intention is not to implement the full SQL specification at this time. Curre
 </para>
 
 <execute><cmd>code2db</cmd><input>~mikal/opensource/trivsql/example.c</input></execute>
+
+<sect2><title>Input</title>
+<para>
+The following input:
+</para>
+
+<execute><cmd>code2db</cmd><input>~mikal/opensource/trivsql/example.sql</input></execute>
+
+<para>
+Produces the following output:
+</para>
+
+<execute><cmd>~mikal/opensource/trivsql/example</cmd><input>~mikal/opensource/trivsql/example.sql</input></execute>
 </sect1>
 
 
