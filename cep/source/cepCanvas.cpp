@@ -72,17 +72,9 @@ cepCanvas::cepCanvas (wxView * v, wxFrame * frame, const wxPoint & pos,
 		      const wxSize & size, long style):
   wxScrolledWindow (frame, -1, pos, size, style),
   m_view(v),
-  m_selectXStart(-1)
+  m_selectXStart(-1),
+  m_frame(frame)
 {
-  // Is this where we create new controls?
-  /*
-  wxPoint pos, size;
-
-  pos.x = 100;
-  pos.y = 42;
-  size.x = -1;
-  size.y = -1;
-  */
   m_config = (cepConfiguration *)&cepConfiguration::getInstance();
 }
 
@@ -126,7 +118,7 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
   if(event.LeftIsDown()){
     int top, bottom, width;
     int cwidth, cheight;
-    GetSize (&cwidth, &cheight);
+    m_frame->GetSize (&cwidth, &cheight);
     graphPlacement(selDir, top, bottom, width);
 
     if(m_selectXStart == -1){

@@ -399,6 +399,11 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
       
       view_menu->Append (CEPMENU_COLORERROR, "Error color",
 			 "The color of the error bars on the graph", FALSE);
+
+      view_menu->AppendSeparator();
+
+      view_menu->Append (CEPMENU_SELECTFONT, "Select graph font",
+			 "The font which is used for the graph plots", FALSE);
       
       /////////////////////////////////////////////////////////////////////////
       // The maths menu

@@ -61,12 +61,12 @@ public:
   bool OnClose (bool deleteWindow = TRUE);
 
   void OnCut (wxCommandEvent & event);
-  //  void OnMouseEvent (wxMouseEvent & event);
 
   void OnColorAxes  (wxCommandEvent& event);
   void OnColorLine  (wxCommandEvent& event);
   void OnColorAverage  (wxCommandEvent& event);
   void OnColorError  (wxCommandEvent& event);
+  void OnSelectFont (wxCommandEvent& event);
   void OnViewCentered (wxCommandEvent& event);
   void OnViewZoomed (wxCommandEvent& event);
   void OnToggleX (wxCommandEvent& event);

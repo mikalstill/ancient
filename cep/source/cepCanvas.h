@@ -92,6 +92,7 @@ public:
   int m_selectXStart, m_selectXPrevious, m_selectXEnd;
   cepDataset::direction m_selDir;
   string m_selDirString;
+  wxFrame *m_frame;
 };
 
 #endif

@@ -100,6 +100,7 @@ BEGIN_EVENT_TABLE (cepView, wxView)
   EVT_MENU (CEPMENU_INTERP_NATURALSPLINE, cepView::OnInterpNaturalSpline)
   EVT_MENU (CEPMENU_INTERP_CUBICSPLINE, cepView::OnInterpCubicSpline)
   EVT_MENU (CEPMENU_INTERP_DIVIDED, cepView::OnInterpDivided)
+  EVT_MENU (CEPMENU_SELECTFONT, cepView::OnSelectFont)
 END_EVENT_TABLE ()
 
 cepView::cepView ():
@@ -394,7 +395,7 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
       lsUi.showIsReweight();
       if(lsUi.getIsReweight() != -1)
 	{
-	  lsUi.showWhichDir();
+	  // todo_mikal: remove? lsUi.showWhichDir();
 	  
 	  // For each direction
 	  for(int i = 0; i < cepDataset::dirUnknown; i++)
@@ -403,7 +404,7 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
 	      
 	      // If this direction is being processed
 	      const char dirNames[] = {'x', 'y', 'z'};
-	      if (lsUi.getWhichDir (dirNames[i]) == true)
+	      if(true) // todo_mikal: remove? if (lsUi.getWhichDir (dirNames[i]) == true)
 		{
 		  cepDebugPrint("User selected to reweight in this direction");
 		  cepLs thisLs;
@@ -557,7 +558,7 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
 		       theDataset->getHeader((cepDataset::direction) 1), 
 		       theDataset->getHeader((cepDataset::direction) 2),
 		       b1s[0], b1s[1], b1s[2], b2s[0], b2s[1], b2s[2],
-		       lsUi.getWhichDir ('x'), lsUi.getWhichDir ('y'), lsUi.getWhichDir ('z'));
+		       true, true, true);
 
 
       char *cfname = strdup("/tmp/cep.XXXXXX");
@@ -661,7 +662,7 @@ void cepView::OnWindowBlackman (wxCommandEvent& event)
     }
   } while( !ok  );
 
-  cepDataWindower::setWindowType( cepDataWindower::WINDOW_BLACKMAN, windowUi.getSize(), windowUi.getOverlap() );
+  cepDataWindower::setWindowType( cepDataWindower::WINDOW_BLACKMAN, windowUi.getSize(), windowUi.getOverlap());
 }
 
 void cepView::OnWindowChebyshev (wxCommandEvent& event)
@@ -800,8 +801,7 @@ void cepView::OnInterpCubicSpline (wxCommandEvent& event)
 
 void cepView::OnInterpDivided (wxCommandEvent& event)
 {
-    cepInterpUi interpUi;
-
+  cepInterpUi interpUi;
   interpUi.showSampleRate();
 
   while(interpUi.getSampleRate() == -2)
@@ -812,5 +812,23 @@ void cepView::OnInterpDivided (wxCommandEvent& event)
 
   if(interpUi.getSampleRate()!= -1){
     cout << "call Newton Divided differences" << endl;
+  }
+}
+
+void cepView::OnSelectFont (wxCommandEvent& event)
+{
+  wxFileDialog dlg(NULL, "Select a display font", "", "", 
+		   "TrueType fonts (*.ttf)|*.ttf|Postscript fonts (*.pfb)|*.pfb", 
+		   wxOPEN, wxPoint(-1, -1));
+  dlg.Centre();
+
+  if(dlg.ShowModal() == wxID_OK){
+      cepError err = m_config->setValue("ui-graph-font", string(dlg.GetPath().c_str()));
+      if(err.isReal())
+	err.display();
+
+      m_dirty = true;
+      canvas->Refresh();
+      cepDebugPrint(string("Set graphing font to: ") + dlg.GetPath().c_str());
   }
 }

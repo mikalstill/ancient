@@ -80,6 +80,8 @@ private:
   double m_b1;
   double m_b2;
   bool m_haveLs;
+
+  cepConfiguration *m_config;
 };
 
 #endif

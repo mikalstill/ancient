@@ -29,6 +29,7 @@ cepPlot::cepPlot(cepDataset *theDataset, cepDataset::direction dir, string cfnam
   cepConfiguration *config;
   config = (cepConfiguration *) &cepConfiguration::getInstance();
   cepDebugPrint("New presentation: " + cepToString(x) + " x " + cepToString(y));
+  cepDebugPrint("Has a LS line: " + cepToString(haveLs));
   cepPresentation pres (x, y, theDataset->getMatrix(dir), theDataset->getB1(dir), theDataset->getB2(dir),
 			haveLs);
   

@@ -21,6 +21,7 @@
 #include "cepCore.h"
 #include "cepPresentation.h"
 #include "cepDate.h"
+#include "cepConfiguration.h"
 
 #if defined HAVE_LIBMPLOT
 #include <libmplot.h>
@@ -71,6 +72,9 @@ cepPresentation::cepPresentation (long width, long height, cepMatrix<double> *ds
   m_errorColor.red = 0;
   m_errorColor.green = 0;
   m_errorColor.blue = 0;
+
+  cepDebugPrint("Presentation has a LS line: " + cepToString(haveLs));
+  m_config = (cepConfiguration *)&cepConfiguration::getInstance();
 }
 
 void
@@ -249,7 +253,14 @@ cepPresentation::createBitmap (float& scale, long& minval)
   ////////////////////////////////////////////////////////////////////////////////
   // The scale also belongs over the errors, but below the graph line
   plot_setfontcolor(graph, 26, 22, 249);
-  plot_setfont(graph, "n022003l.pfb", 12);
+  string fontfile;
+  cepError err;
+  err = m_config->getValue("ui-graph-font", "n022003l.pfb", fontfile);
+  if(err.isReal()){
+    err.display();
+    fontfile = "n022003l.pfb";
+  }
+  plot_setfont(graph, (char *) fontfile.c_str(), 12);
 
   // Minimum value horizontal
   const int textHeight = 5;

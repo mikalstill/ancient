@@ -442,11 +442,7 @@ string cepDataset::reverseOffset(cepDataset::direction i, string value)
 
   int count = 1;
   while(value.substr(0, count) == m_offset[i].substr(0, count)){
-    cepDebugPrint("Finding: " + value.substr(0, count) +
-		  ", " + m_offset[i].substr(0, count) + " count = " +
-		  cepToString(count));
     if(value.substr(count, 1) == "."){
-      cepDebugPrint("Breaking because of a decimal point");
       break;
     }
 
