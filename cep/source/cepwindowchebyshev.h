@@ -64,6 +64,7 @@ public:
   cepWindowChebyshev( int size );  
   ~cepWindowChebyshev();
   static const cepError setTransitionBandwidth(double tbw);
+  static const double getTransitionBandwidth();
   
 protected:
   /**

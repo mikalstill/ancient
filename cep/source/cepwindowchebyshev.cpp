@@ -48,6 +48,10 @@ const cepError cepWindowChebyshev::setTransitionBandwidth(double tbw) {
   return cepError();
 }
 
+double cepWindowChebyshev::getTransitionBandwidth() {
+  return df;
+}
+
 double cepWindowChebyshev::getValue( int offset )
 {
   cout << "error: cepWindowChebyshev::getValue() should never be called?" << endl;
