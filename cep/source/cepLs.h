@@ -40,7 +40,8 @@ public:
   const cepLs & cepDoRW(cepMatrix<double> &matA, cepMatrix<double> &matP);
 
   //get the value of the residual at pos (x,y)    
-  double getResidual(int, int);
+  const cepMatrix<double> &cepLs::getResidual();
+  // double getResidual(int, int);
   
   //get the value B1 in the least squares solution y=B1*x +B2  
   double getB1();
@@ -55,7 +56,7 @@ private:
 
   //ensure that all values of the matrix A P and L are consistant with the
   //least squares alogrithum.
-  void sanityCheck(cepMatrix<double> &matA, cepMatrix<double> &matP, cepMatrix<double> &matL);
+  void sanityCheck(cepMatrix<double> &matA, cepMatrix<double> &matP);
   
   //calculate the residuals of the least squares tranformation
   void calcResiduals(cepMatrix<double> &matA, cepMatrix<double> &matL );
