@@ -45,7 +45,7 @@ Fill in or leave blank for production to fill in.-->
 <todo>
 <!-- ABSTRACT 
 Enter a brief summary of the article. Do not include any line breaks in the content. Do not worry about providing a "miniabstract."  Production will take care of that if it's necessary. -->
-<abstract miniabstract="">Your article summary (3 to 7 sentences) goes here. Highlight the main points of the article or the task the developer will be able to do after reading the article. Put the primary points and key phrases close to the beginning of the abstract, because the abstract may be truncated in search results. Avoid line breaks in the abstract, please.</abstract>
+<abstract miniabstract=""></abstract>
 
 <!-- Ignore these lines. -->
 <column-info col-name="" col-icon=""/>
@@ -61,8 +61,12 @@ Every paragraph needs a <p> and </p>. -->
 
 <p>It should be noted that there are many ways to do the things discussed in this article. I will only discuss the methods I use, and know work for me. That doesn't mean the other tools out there are broken, it just means that I'm happy with what I am using now.</p>
 
-<todo>
 <p>Most of the command line tools discussed in this article are part of the excellent imagemagick suite, which is available from www.imagemagick.org for free.</p>
+
+<sidebar>
+<heading refname="" type="sidebar" toc="no" name="" alttoc="">How imagemagick works</heading>
+<p>Imagemagick is implemented as a wrapper around a bunch of different imaging libraries, including libtiff and libpng. In imagemagick terminology, these are called delegates. This is own of the reasons that imagemagick is not as fast as a custom application would be, it has to be written in a generic manner which can deal with the different ways that these libraries represent image data.</p>
+</sidebar>
 
 <heading refname="" type="major" toc="yes" name="" alttoc="">Generating thumbnails</heading>
 <p>The first thing I needed to do with my picture collection was to generate thumbnails. I also wanted to reduce the size of the images for the website version, as many people don't really want to see a 1920 by 1440 picture of my sons.</p>
@@ -331,12 +335,19 @@ floriade.jpg stillhq.jpg
 
 <heading refname="" type="major" toc="yes" name="" alttoc="">Other, more artistic, conversions</heading>
 
-<p><i>convert</i> also implements a series of quite artistic conversions. I will briefly demonstrate them here. The input image I will use for the demonstrations is:</p>
+<p><i>convert</i> also implements a series of quite artistic conversions. I'll only demonstrate some of the more visually interesting ones here, if you're interested in stuff like this, then you should checkout the imagemagick man page and web site for more information. The input image I will use for the demonstrations is:</p>
 
 <figure>	
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure xxx. Uluru at sunset</heading>
 <img src="uluru.jpg" width="640" height="480" alt="Uluru"/>
 </figure>
+
+<p>This photo of Uluru, formerly known as Ayer's Rock, was taken at sunset.</p>
+
+
+
+
+
 
 
 
@@ -344,8 +355,7 @@ floriade.jpg stillhq.jpg
 
 <heading refname="" type="minor" toc="no" name="" alttoc="">Charcoal</heading>
 
-<todo>
-<p>Charcoal</p>
+<p>The charcoal effect simulates a charcoal artist's impression of the scene represented by the picture.</p>
 
 <heading refname="" type="code" toc="no" name="" alttoc="">Listing xxx. Applying a charcoal effect</heading>
 <code type="section">
@@ -365,13 +375,28 @@ convert -charcoal 10 input.jpg output.jpg
 </code>
 
 <figure>	
-<heading refname="" type="figure" toc="no" name="" alttoc="">Figure xxx. Uluru at sunset more charcoal effect is applied</heading>
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure xxx. Uluru at sunset after more charcoal effect is applied</heading>
 <img src="charcoal-medium.jpg" width="640" height="480" alt="Uluru after more charcoal effect"/>
 </figure>
 
-<todo>
-<p>Charcoal intense.</p>
-<p>200</p>
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing xxx. Applying an intense charcoal effect</heading>
+<code type="section">
+convert -charcoal 200 input.jpg output.jpg
+</code>
+
+<figure>	
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure xxx. Uluru at sunset after excessive charcoal effect</heading>
+<img src="charcoal-intense.jpg" width="640" height="480" alt="Uluru after even more charcoal effect"/>
+</figure>
+
+<p>An intensity of 200 was used to produce the image above.</p>
+
+
+
+
+
+
+
 
 
 
@@ -413,10 +438,20 @@ convert -implode 4 input.jpg output.jpg
 
 
 
+
+
+
+
+
+
 <heading refname="" type="minor" toc="no" name="" alttoc="">Solarize</heading>
 
-<todo>
-<p>Solarize</p>
+<p>Solarizing is an effect that occurs when a negative is exposed to light part of the way through the photographic development process. Here, the input arguement is the intensity above which to apply the effect, either specified as an abolsute value, or as a percentage of the maximum possible value for the pixel. If a pixel is above the threshold, then it is negated.</p>
+
+<sidebar>
+<heading refname="" type="sidebar" toc="no" name="" alttoc="">The solarize arguement</heading>
+<p>The imagemagick documentation states that the arguement to solarize is always a percentage. This is not strictly true. If the arguement has a percentage sign at the end of it, then it will be treated as a percentage. Otherwise, it is treated as a literal value.</p>
+</sidebar>
 
 <heading refname="" type="code" toc="no" name="" alttoc="">Listing xxx. Applying a solarizing effect</heading>
 <code type="section">
@@ -432,10 +467,12 @@ convert -solarize 42 input.jpg output.jpg
 
 
 
+
+
+
 <heading refname="" type="minor" toc="no" name="" alttoc="">Spread</heading>
 
-<todo>
-<p>Spread</p>
+<p>Spread moves pixels by a random amount within the image. The argument is the size of the area around the pixel from which to select the new location. It therefore specifies how closely the output resembles the input.</p>
 
 <heading refname="" type="code" toc="no" name="" alttoc="">Listing xxx. Applying a spreading effect</heading>
 <code type="section">
@@ -459,18 +496,36 @@ convert -spread 5 input.jpg output.jpg
 
 <heading refname="" type="major" toc="yes" name="" alttoc="">Multiple commands in one imagemagick invocation</heading>
 
-<todo>
-<p>Say something</p>
+<p>I should also take the time to mention that it's possible to chain imagemagick commands. We have in fact already seen an example of this with the annotation examples. It is possible however to chain any of the imagemagick commands mentioned in this article. For example, perhaps we would like to make a thumbnail of an image, and then apply a spread to it. Once the spread has occured, then we'll apply the charcoal effect.</p>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing xxx. Applying multiple manipulations</heading>
+<code type="section">
+convert -sample 25%x25% -spread 4 \
+-charcoal 4 input.jpg output.jpg
+</code>
+
+<p>This produces:</p>
+
+<figure>	
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure xxx. Uluru after chained effects</heading>
+<img src="chained.jpg" width="160" height="120" alt="Uluru after a chain of effects"/>
+</figure>
 
 
 
 
 
 
-<heading refname="" type="major" toc="yes" name="" alttoc="">PDF generation</heading>
 
-<todo>
-<p>Whilst imagemagick supports PDF generation, it is not wonderful.</p>
+
+
+
+
+
+
+
+
+
 
 
 
@@ -480,7 +535,7 @@ convert -spread 5 input.jpg output.jpg
 <heading refname="" type="major" toc="yes" name="" alttoc="">Things to note about image manipulation</heading>
 
 <todo>
-<p>JPEG is lossy</p>
+<p>JPEG compression is great for large images such as photos. However, the compression is normally lossy (in that image data is thrown away as part of the compression process). This makes JPEG very poor for compressing text which needs to remain readable. The other thing to bear in mind is that the loss is accumulative -- see my previous DeveloperWorks article on color imaging with libtiff for more information on this.</p>
 
 <todo>
 <p>Refer to libtiff article convering compression options</p>
