@@ -65,6 +65,10 @@ public:
   
   /** default destructor */
 	virtual ~cepWindowAlg();
+
+  /** initialises resources. this should be called prior to use
+   */
+  void init();
   
   /** modifies the size of the window. this will regenerate all coefficients
    * @param size the new window size

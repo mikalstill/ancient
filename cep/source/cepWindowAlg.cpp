@@ -29,7 +29,9 @@ cepWindowAlg::cepWindowAlg( int size )
   setSize( size );
 }
 
-cepWindowAlg::~cepWindowAlg() {}
+cepWindowAlg::~cepWindowAlg() {
+  setSize(0);
+}
 
 int cepWindowAlg::getSize() {
   return size;
@@ -39,8 +41,14 @@ int cepWindowAlg::getSize() {
 void cepWindowAlg::setSize( int s )
 {
   size = s;
-  if( coeffs != NULL ) delete coeffs;
-  coeffs = & const_cast<cepMatrix<double>&>(generateCoeffs( s ));
+}
+
+
+void cepWindowAlg::init()
+{
+  // TODO BS - fix this.. it will leak, but it avoids the segfault
+  // if( coeffs != NULL ) delete coeffs;
+  coeffs = & const_cast<cepMatrix<double>&>(generateCoeffs( getSize() ));
 }
 
 
