@@ -85,7 +85,8 @@ pdfRender::render ()
 		"raster");
 	}
 
-      processCommandString((char *) cmd.c_str(), cmd.length(), false);
+      // TODO mikal: new way of drawing here
+      //      processCommandString((char *) cmd.c_str(), cmd.length());
     }
   return true;
 }
@@ -125,7 +126,7 @@ pdfRender::processContentsObject(const object& contents){
   debug(dlTrace, string("Page stream is: ") +
    	binaryToString((void *) stream, length));
   if(length != 0){
-    processCommandString(stream, length, true);
+    processCommandString(stream, length);
   }
 
   delete[]stream;
@@ -133,8 +134,7 @@ pdfRender::processContentsObject(const object& contents){
 }
 
 void
-pdfRender::processCommandString(char *commandString, unsigned int length,
-				bool parsing)
+pdfRender::processCommandString(char *commandString, unsigned int length)
 {
   // todo_mikal: this might be too slow because of the accessor
   string line;
@@ -153,9 +153,8 @@ pdfRender::processCommandString(char *commandString, unsigned int length,
 	{
 	  // Process the line
 	  debug(dlTrace, string("Process line \"") + line + 
-		string("\" when ") + (parsing ? string("") : string("not ")) +
-		string("parsing"));
-	  processLine (line, parsing);
+		string("\""));
+	  processLine (line);
 	  line = "";
 	}
 
@@ -166,9 +165,8 @@ pdfRender::processCommandString(char *commandString, unsigned int length,
   if(line != "")
     {
       debug(dlTrace, string("Process leftover line \"") + line + 
-	    string("\" when ") + (parsing ? string("") : string("not ")) +
-	    string("parsing"));
-      processLine (line, parsing);
+	    string("\""));
+      processLine (line);
       line = "";
     }
 
@@ -183,7 +181,7 @@ pdfRender::processCommandString(char *commandString, unsigned int length,
 }
 
 void
-pdfRender::processLine (string line, bool parsing)
+pdfRender::processLine (string line)
 {
   if (line.length () < 1)
     {
@@ -197,8 +195,7 @@ pdfRender::processLine (string line, bool parsing)
       return;
     }
 
-  debug(dlTrace, string("Processing a page description line ") + 
-	(parsing ? string("while parsing") : string("while not parsing")));
+  debug(dlTrace, "Processing a page description line");
 
   // TODO mikal: Do we need this any more?
 #if defined HAVE_LIBMPLOT
@@ -244,86 +241,86 @@ pdfRender::processLine (string line, bool parsing)
 	pushArguement (tokens[i]);
 
       else if ("b" == tokens[i])
-	parsing ? command_b () : render_b();
+	command_b ();
       else if ("b*" == tokens[i])
-	parsing ? command_bstar () : render_bstar();
+	command_bstar ();
       else if ("B" == tokens[i])
-	parsing ? command_B () : render_B();
+	command_B ();
       else if ("B*" == tokens[i])
-	parsing ? command_Bstar () : render_Bstar();
+	command_Bstar ();
       else if ("BT" == tokens[i])
-	parsing ? command_BT () : render_BT();
+	command_BT ();
 
       else if ("c" == tokens[i])
-	parsing ? command_c () : render_c();
+	command_c ();
       else if ("cm" == tokens[i])
-	parsing ? command_cm () : render_cm();
+	command_cm ();
 
       else if ("Do" == tokens[i])
-	parsing ? command_Do () : render_Do();
+	command_Do ();
 
       else if ("ET" == tokens[i])
-	parsing ? command_ET () : render_ET();
+	command_ET ();
 
       else if ("f" == tokens[i])
-	parsing ? command_f () : render_f();
+	command_f ();
       else if ("f*" == tokens[i])
-	parsing ? command_fstar () : render_fstar();
+	command_fstar ();
       else if ("F" == tokens[i])
-	parsing ? command_F () : render_F();
+	command_F ();
 
       else if ("g" == tokens[i])
-	parsing ? command_g () : render_g();
+	command_g ();
       else if ("G" == tokens[i])
-	parsing ? command_G () : render_G();
+	command_G ();
 
       else if ("h" == tokens[i])
-	parsing ? command_h () : render_h();
+	command_h ();
 
       else if ("l" == tokens[i])
-	parsing ? command_l () : render_l();
+	command_l ();
 
       else if ("m" == tokens[i])
-	parsing ? command_m () : render_m();
+	command_m ();
 
       else if ("q" == tokens[i])
-	parsing ? command_q () : render_q();
+	command_q ();
       else if ("Q" == tokens[i])
-	parsing ? command_Q () : render_Q();
+	command_Q ();
 
       else if ("re" == tokens[i])
-	parsing ? command_re () : render_re();
+	command_re ();
       else if ("rg" == tokens[i])
-	parsing ? command_rg () : render_rg();
+	command_rg ();
       else if ("RG" == tokens[i])
-	parsing ? command_RG () : render_RG();
+	command_RG ();
 
       else if ("S" == tokens[i])
-	parsing ? command_S () : render_S();
+	command_S ();
 
       else if ("Td" == tokens[i])
-	parsing ? command_Td () : render_Td();
+	command_Td ();
       else if ("TD" == tokens[i])
-	parsing ? command_TD () : render_TD();
+	command_TD ();
       else if ("Tf" == tokens[i])
-	parsing ? command_Tf () : render_Tf();
+	command_Tf ();
       else if ("Tj" == tokens[i])
-	parsing ? command_Tj () : render_Tj();
+	command_Tj ();
       else if ("TL" == tokens[i])
-	parsing ? command_TL () : render_TL();
+	command_TL ();
       else if ("Tm" == tokens[i])
-	parsing ? command_Tm () : render_Tm();
+	command_Tm ();
       else if ("Tr" == tokens[i])
-	parsing ? command_Tr () : render_Tr();
+	command_Tr ();
 
       else if ("v" == tokens[i])
-	parsing ? command_v () : render_v();
+	command_v ();
 
       else if ("w" == tokens[i])
-	parsing ? command_w () : render_w();
+	command_w ();
 
       else if ("y" == tokens[i])
-	parsing ? command_y () : render_y();
+	command_y ();
 
       else
 	debug(dlInformational, string("Dropped token ") + tokens[i]);
