@@ -126,6 +126,7 @@ trivsql_recordset *trivsql_doselect(char *tname, char *cols){
   rrs->numRows = 0;
   rrs->tname = trivsql_xsnprintf("%s", tname);
   rrs->cols = trivsql_xsnprintf("%s", cols);
+  rrs->currentRow = rrs->rows;
 
   for(row = 0; row < rowCount; row++){
     addMe = SELTRUE;

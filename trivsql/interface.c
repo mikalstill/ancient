@@ -64,24 +64,51 @@ void trivsql_displayrs(trivsql_recordset *rs){
   printf("\n");
 
   // Print out the values we have found
-  theRow = rs->rows;
-  while(theRow->next != NULL){
-    printf("|");
-    theCol = theRow->cols;
-    while(theCol->next != NULL){
-      printf(" %-12s |", theCol->val);
-      theCol = theCol->next;
-    }
-
-    printf("\n-");
+  trivsql_rsmovefirst(rs);
+  while(trivsql_rseof(rs) != TRIVSQL_TRUE){
+    for(i = 0; i < rs->numCols; i++)
+      printf("| %-12s ", trivsql_rsfield(rs, i));
+    printf("|\n-");
     for(i = 0; i < rs->numCols; i++){
       printf("---------------");
     }
     printf("\n");
-    theRow = theRow->next;
+
+    trivsql_rsmovenext(rs);
   }
 
   printf("\n\n");
   printf("Select returned %d rows of %d columns\n\n", 
 	 rs->numRows, rs->numCols);
+}
+
+void trivsql_rsmovefirst(trivsql_recordset *rs){
+  rs->currentRow = rs->rows;
+}
+
+void trivsql_rsmovenext(trivsql_recordset *rs){
+  if(rs->currentRow->next != NULL)
+    rs->currentRow = rs->currentRow->next;
+}
+
+int trivsql_rseof(trivsql_recordset *rs){
+  return rs->currentRow->next == NULL ? TRIVSQL_TRUE : TRIVSQL_FALSE;
+}
+
+int trivsql_rsbof(trivsql_recordset *rs){
+  return rs->currentRow == rs->rows ? TRIVSQL_TRUE : TRIVSQL_FALSE;
+}
+
+char *trivsql_rsfield(trivsql_recordset *rs, int colnum){
+  int count;
+  trivsql_col *theCol;
+
+  count = 0;
+  theCol = rs->currentRow->cols;
+  while((theCol->next != NULL) && (count < colnum)){
+    theCol = theCol->next;
+    count++;
+  }
+
+  return theCol->val;
 }

@@ -1,8 +1,8 @@
 #include "tdb.h"
 #include "spinlock.h"
 
-
-
+#define TRIVSQL_TRUE 1
+#define TRIVSQL_FALSE 0
 #define SELTRUE 1
 #define SELFALSE 0
 typedef int (*trivsql_selectorfunc) (char *arg1, char *arg2);
@@ -24,6 +24,8 @@ typedef struct trivsql_internal_rs
   int numCols;
   int numRows;
   trivsql_row *rows;
+  trivsql_row *currentRow;
+
   char *tname;
   char *cols;
 } trivsql_recordset;
@@ -65,3 +67,8 @@ trivsql_state *trivsql_opendb(char *);
 trivsql_recordset *trivsql_execute(trivsql_state *, char *);
 int trivsql_gettext(char *, int);
 void trivsql_displayrs(trivsql_recordset *);
+void trivsql_rsmovefirst(trivsql_recordset *);
+void trivsql_rsmovenext(trivsql_recordset *);
+int trivsql_rseof(trivsql_recordset *);
+int trivsql_rsbof(trivsql_recordset *);
+char *trivsql_rsfield(trivsql_recordset *, int);
