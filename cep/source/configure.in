@@ -27,6 +27,9 @@ dnl and #defined HAVE_LIB<lib>
 dnl -lm:
 AC_CHECK_LIB(m, atan)
 
+dnl -lm:
+AC_CHECK_LIB(dmalloc, malloc)
+
 dnl -lz:
 AC_CHECK_LIB(z, uncompress)
 

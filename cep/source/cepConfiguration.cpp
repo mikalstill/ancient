@@ -49,8 +49,38 @@ cepError cepConfiguration::getValue(const string& valkey,
 				    const string& defval,
 				    string& outval)
 {
-  // todo_mikal: read database
-  outval = defval;
+  // todo_mikal: trivsql should be changed to fix this
+  string sql("SELECT " + valkey + " FROM cepConfig;");
+  trivsql_recordset* rs;
+
+  char *tmp = strdup(sql.c_str());
+  rs = trivsql_execute(m_dbState, tmp);
+  free(tmp);
+
+  if(rs == NULL){
+    return cepError(string("NULL recordset returned by SELECT from cepConfig") +
+		    string(" with COLUMN ") + valkey, 
+		    cepError::sevErrorRecoverable);
+  }
+
+  switch(rs->errno){
+  case TRIVSQL_FALSE:
+  case TRIVSQL_TRUE:
+    // todo_mikal code!
+    return cepError();
+    
+  default:
+    {
+      cepError dbg("Database read had error: " + cepItoa(rs->errno) +
+		   " attempting to recover",
+		   cepError::sevErrorRecoverable);
+      dbg.display();
+    }
+
+    outval = defval;
+    return setValue(valkey, defval);
+  }
+  
   return cepError();
 }
 
@@ -58,16 +88,48 @@ cepError cepConfiguration::getValue(const string& valkey,
 				    const bool& defval,
 				    bool& outval)
 {
-  // todo_mikal: read database
-  outval = defval;
+  string myov;
+  cepError ce;
+
+  ce = getValue(valkey, defval ? "true" : "false", myov);
+  if(ce.isReal())
+    {
+      return ce;
+    }
+
+  outval = (myov == "true");
+  return cepError();
+}
+
+cepError cepConfiguration::getValue(const string& valkey, 
+				    const int& defval,
+				    int& outval)
+{
+  string myov;
+  cepError ce;
+
+  ce = getValue(valkey, cepItoa(defval), myov);
+  if(ce.isReal())
+    {
+      return ce;
+    }
+
+  outval = atoi(myov.c_str());
   return cepError();
 }
 
 cepError cepConfiguration::setValue(const string& valkey,
-				   const int& value)
+				   const string& value)
 {
+  // todo_mikal: fix this
   char *tmp;
-  string sql = "INSERT INTO cepConfig (" + valkey + ") VALUES ('" + cepItoa(value) + "');";
+
+  // todo_mikal: I'm not sure why gcc insists on having this here...
+  // I should look into it sometime...
+  string sql("INSERT INTO cepConfig (" + valkey + ") VALUES ('" + 
+	     value + "');");
+  string table("CREATE TABLE cepConfig (" + valkey + ");");
+  string alter("ALTER cepConfig ADD COLUMN " + valkey + ";");
   
   {
     cepError dbg("Executing " + sql + " against the configuration database at " + m_path,
@@ -82,22 +144,67 @@ cepError cepConfiguration::setValue(const string& valkey,
   free(tmp);
 
   // Check for errors from the recordset
-  string table;
   switch(rs->errno){
   case TRIVSQL_FALSE:
   case TRIVSQL_TRUE:
     return cepError();
     
   case TRIVSQL_NOSUCHTABLE:
-    table = "CREATE TABLE cepConfig ('version');";
-    tmp = strdup(table.c_str());
-    free(rs);
-    rs = trivsql_execute(m_dbState, tmp);
-    free(tmp);
+    {
+      cepError dbg("Recovering from a no such table error for cepConfig",
+		   cepError::sevDebug);
+      dbg.display();
+    }
+
+    rs = trivsql_execute(m_dbState, "CREATE TABLE cepConfig (version);");
+    if(rs == NULL){
+      return cepError("NULL recordset returned by CREATE TABLE cepConfig",
+		      cepError::sevErrorRecoverable);
+    }
 
     switch(rs->errno){
     case TRIVSQL_FALSE:
     case TRIVSQL_TRUE:
+      {
+	cepError dbg("Attempt to set the value again having created the table",
+		     cepError::sevDebug);
+	dbg.display();
+      }
+      
+      return setValue(valkey, value);
+
+    default:
+      return cepError("Database write recover had error: " + 
+		      cepItoa(rs->errno),
+		      cepError::sevErrorRecoverable);
+    }
+    break;
+
+  case TRIVSQL_NOSUCHCOLUMN:
+    {
+      cepError dbg(string("Recovering from a no such column error for ") +
+		   string("cepConfig for table ") + valkey,
+		   cepError::sevDebug);
+      dbg.display();
+    }
+
+    tmp = strdup(alter.c_str());
+    rs = trivsql_execute(m_dbState, tmp);
+    free(tmp);
+    if(rs == NULL){
+      return cepError("NULL recordset returned by ALTER TABLE cepConfig",
+		      cepError::sevErrorRecoverable);
+    }
+
+    switch(rs->errno){
+    case TRIVSQL_FALSE:
+    case TRIVSQL_TRUE:
+      {
+	cepError dbg("Attempt to set the value again having added the column",
+		     cepError::sevDebug);
+	dbg.display();
+      }
+      
       return setValue(valkey, value);
 
     default:
@@ -111,4 +218,12 @@ cepError cepConfiguration::setValue(const string& valkey,
     return cepError("Database write had error: " + cepItoa(rs->errno),
 		    cepError::sevErrorRecoverable);
   }
+}
+
+cepError cepConfiguration::setValue(const string& valkey, const int& value){
+    return setValue(valkey, cepItoa(value));
+}
+
+cepError cepConfiguration::setValue(const string& valkey, const bool& value){
+    return setValue(valkey, value ? "true" : "false");
 }

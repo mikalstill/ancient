@@ -37,6 +37,8 @@
 #endif
 #endif
 
+// todo_mikal: copy constructor, should have actioned status
+
 cepError::cepError ():
 m_msg (), m_level (cepError::sevOk), m_actioned (true)
 {
@@ -85,7 +87,7 @@ cepError::display ()
   gLog << "Display attempted: " << m_msg << "Severity " << m_level << endl;
 
   bool dodisp = true;
-  string keyname(string("cepError-display-level") + 
+  string keyname(string("cepErrordisplaylevel") + 
 		 cepItoa((int) m_level));
 
   // Deliberately dropping cepError return value here

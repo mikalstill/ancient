@@ -31,9 +31,12 @@ class cepConfiguration
   // Get the value for a given configuration item, including default
   cepError getValue(const string& valkey, const string& defval, 
 		    string& outval);
-  cepError getValue(const string& valkey, const bool& defval, bool& outval);
+  cepError getValue(const string& valkey, const bool& defval, bool& outval);  
+  cepError getValue(const string& valkey, const int& defval, int& outval);
   
+  cepError setValue(const string& valkey, const string& value);
   cepError setValue(const string& valkey, const int& value);
+  cepError setValue(const string& valkey, const bool& value);
   
  private:
   trivsql_state *m_dbState;
