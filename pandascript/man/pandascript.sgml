@@ -10,23 +10,7 @@
      GNU General Public License for more details.
 -->
 
-<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN" [
-<!entity ParmDir "<parameter>directory</parameter>">
-<!entity ParmFile "<parameter>file</parameter>">
-<!entity OptParmFile "<optional>&ParmFile;</optional>">
-<!entity ParmFiles "<parameter>files</parameter>">
-<!entity OptParmFiles "<optional>&ParmFiles;</optional>">
-<!entity ParmNames "<parameter>names</parameter>">
-<!entity OptParmNames "<optional>&ParmNames;</optional>">
-<!entity ParmName  "<parameter>name</parameter>">
-<!entity OptParmName  "<optional>&ParmName;</optional>">
-<!entity ParmKeyIDs "<parameter>key IDs</parameter>">
-<!entity ParmN	    "<parameter>n</parameter>">
-<!entity ParmFlags  "<parameter>flags</parameter>">
-<!entity ParmString "<parameter>string</parameter>">
-<!entity ParmValue  "<parameter>value</parameter>">
-<!entity ParmNameValue	"<parameter>name=value</parameter>">
-]>
+<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
 
 <refentry id="pandascript">
 <refmeta>
@@ -261,161 +245,60 @@ Quoted string.
 
 <refsect1>
     <title>DATA TYPES</title>
+<para>
+The following data types are defined for <command>pandascript</command>:
+</para>
     <variablelist>
+
+<varlistentry>
+<term>Quoted string</term>
+<listitem><para>
+This is any text, wrapped in quote characters. For example "frog" "the quick brown duck" and "wasabe is yummy".
+</para></listitem></varlistentry>
+
+<varlistentry>
+<term>Integer</term>
+<listitem><para>
+A number without a decimal point. For example 1, 42, or -461.
+</para></listitem></varlistentry>
+
+<varlistentry>
+<term>Float</term>
+<listitem><para>
+A number with a decimal point. Examples include: 1.4; 46.56; or -978.6.
+</para></listitem></varlistentry>
 
 </variablelist>
 </refsect1>
 
 <refsect1>
     <title>EXAMPLE</title>
-    <variablelist>
 
-<varlistentry>
-<term>gpg -se -r <parameter/Bob/ &ParmFile;</term>
-<listitem><para>sign and encrypt for user Bob</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term>gpg --clearsign &ParmFile;</term>
-<listitem><para>make a clear text signature</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term>gpg -sb  &ParmFile;</term>
-<listitem><para>make a detached signature</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term>gpg --list-keys  <parameter/user_ID/</term>
-<listitem><para>show keys</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term>gpg --fingerprint  <parameter/user_ID/</term>
-<listitem><para>show fingerprint</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term>gpg --verify  <parameter/pgpfile/</term>
-<term>gpg --verify  <parameter/sigfile/ &OptParmFiles;</term>
-<listitem><para>
-Verify the signature of the file but do not output the data. The second form
-is used for detached signatures, where <parameter/sigfile/ is the detached
-signature (either ASCII armored of binary) and &OptParmFiles are the signed
-data; if this is not given the name of the file holding the signed data is
-constructed by cutting off the extension (".asc" or ".sig") of
-<parameter/sigfile/ or by asking the user for the filename.
-</para></listitem></varlistentry>
-
-    </variablelist>
-</refsect1>
-
-
-<refsect1>
-    <title>ENVIRONMENT</title>
-
-    <variablelist>
-<varlistentry>
-<term>HOME</term>
-<listitem><para>Used to locate the default home directory.</para></listitem>
-</varlistentry>
-<varlistentry>
-<term>GNUPGHOME</term>
-<listitem><para>If set directory used instead of "~/.gnupg".</para></listitem>
-</varlistentry>
-<varlistentry>
-<term>http_proxy</term>
-<listitem><para>Only honored when the option --honor-http-proxy is set.</para></listitem>
-</varlistentry>
-    </variablelist>
-
-</refsect1>
-
-<refsect1>
-    <title>FILES</title>
-    <variablelist>
-
-<varlistentry>
-<term>~/.gnupg/secring.gpg</term>
-<listitem><para>The secret keyring</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term>~/.gnupg/secring.gpg.lock</term>
-<listitem><para>and the lock file</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term>~/.gnupg/pubring.gpg</term>
-<listitem><para>The public keyring</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term>~/.gnupg/pubring.gpg.lock</term>
-<listitem><para>and the lock file</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term>~/.gnupg/trustdb.gpg</term>
-<listitem><para>The trust database</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term>~/.gnupg/trustdb.gpg.lock</term>
-<listitem><para>and the lock file</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term>~/.gnupg/random_seed</term>
-<listitem><para>used to preserve the internal random pool</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term>~/.gnupg/options</term>
-<listitem><para>May contain options</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term>/usr[/local]/share/gnupg/options.skel</term>
-<listitem><para>Skeleton options file</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term>/usr[/local]/lib/gnupg/</term>
-<listitem><para>Default location for extensions</para></listitem>
-</varlistentry>
-
-    </variablelist>
-</refsect1>
-
-<!-- SEE ALSO  not yet needed-->
-
-<refsect1>
-    <title>WARNINGS</title>
-    <para>
-Use a *good* password for your user account and a *good* passphrase
-to protect your secret key.  This passphrase is the weakest part of the
-whole system.  Programs to do dictionary attacks on your secret keyring
-are very easy to write and so you should protect your "~/.gnupg/"
-directory very well.
-</para>
 <para>
-Keep in mind that, if this program is used over a network (telnet), it
-is *very* easy to spy out your passphrase!
+There is sample code generated by demo.sh as part of the <command>pandascript</command> distribution.
 </para>
+
 </refsect1>
 
+<refsect1>
+    <title>AUTHOR</title>
+    <para>
+Panda and <command>pandascript</command> are under development by Michael Still (mikal@stillhq.com). All code is Copyright Michael Still 2000,  and is released under the GPL. Code submissions are welcomed. Contact Michael at the address above if you have something you would like to contribute.
+</para>
+</refsect1>
 
 <refsect1>
     <title>BUGS</title>
     <para>
-On many systems this program should be installed as setuid(root). This
-is necessary to lock memory pages. Locking memory pages prevents the
-operating system from writing memory pages to disk. If you get no
-warning message about insecure memory 3our operating system supports
-locking without being root. The program drops root privileges as soon
-as locked memory is allocated.
+There  are no known bugs in Panda or <command>pandascript</command>. If you find one, please contact mikal@stillhq.com and let me know.
 </para>
+</refsect1>
+
+<refsect1>
+    <title>VERSION</title>
+    <para>
+This information was last updated for version 0.3 of <command>pandascript</command>.
+    </para>
 </refsect1>
 
 </refentry>
