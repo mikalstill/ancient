@@ -7,8 +7,7 @@ This document is the manual associated with my tutorial on imaging programming p
 Please note that all the information in this tutorial is copyright, as described elsewhere in this document.
 </para>
 
-<sect1>
-<title>About the author</title>
+<sect1><title>About the author</title>
 <para>
 Michael has been working in the image processing field for several years, including a couple of years managing and developing large image databases for an Australian government department. He currently works for TOWER Software, who manufacture a world leading EDMS and Records Management package named TRIM. Michael is also the developer of Panda, an open source PDF generation API, as well as being the maintainer of the comp.text.pdf USENET frequently asked questions document. You can contact Michael at mikal@stillhq.com.
 </para>
@@ -65,8 +64,7 @@ For those of you using gcc on a unix (or unix-like) operating system, then the f
 There are many people who need to be thanked when one attempts a project of this size. I would specifically like to thank my wife and son, who put up with me being geeky so very often.
 </para>
 
-<figure>
-<title>Catherine and Andrew</title>
+<figure><title>Catherine and Andrew</title>
 <graphic format="EPS" fileref="introduction-figure1.eps">
 </figure>
 

@@ -7,8 +7,7 @@ The most common image format (and the focus of the majority of this tutorial) is
 describing the state of pixels, as opposed to recording the length and locations of primatives such as lines and curves. Common examples include the output of photoshop, the gimp, scanners and digital cameras. Effectively, your monitor and printer are raster output devices.
 </para>
 
-<figure>
-<title>A sample raster image</title>
+<figure><title>A sample raster image</title>
 <graphic format="EPS" fileref="raster-figure1.eps">
 </figure>
 
@@ -21,8 +20,7 @@ If we zoom in enough on a portion of this image, we can see that it is made up o
 <execute><cmd>todo</cmd><input>falls off page</input></execute>
 </para>
 
-<figure>
-<title>Zooming in on a portion of the raster image</title>
+<figure><title>Zooming in on a portion of the raster image</title>
 <graphic format="EPS" fileref="raster-figure2.eps">
 </figure>
 

@@ -8,18 +8,15 @@ Below I have included several pictures that illustrate this concept. The first f
 , the second is the color image converted to grayscale without the coefficients applied, and the third image is a correct grayscale rendition.
 </para>
 
-<figure>
-<title>The original image</title>
+<figure><title>The original image</title>
 <graphic format="EPS" fileref="grayscale-figure1.eps">
 </figure>
 
-<figure>
-<title>An average of the color values for each pixel</title>
+<figure><title>An average of the color values for each pixel</title>
 <graphic format="EPS" fileref="grayscale-figure2.eps">
 </figure>
 
-<figure>
-<title>A correct conversion to grayscale</title>
+<figure><title>A correct conversion to grayscale</title>
 <graphic format="EPS" fileref="grayscale-figure3.eps">
 </figure>
 

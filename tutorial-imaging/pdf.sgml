@@ -126,7 +126,7 @@ What data types are valid in dictionaries? Well, version 1.3 of the PDF specific
 </para>
 
 <execute><cmd>todo</cmd><input>Do these</input></execute>
-<execute><cmd>insertall.sh</cmd><args>pdf-type-*.sgml</args></execute>
+<execute><cmd>insertall.sh</cmd><args>pdf-type-.*.sgml</args></execute>
 
 <sect4><title>A lexer for PDF</title>
 <para>
@@ -213,7 +213,7 @@ So what are the possible filters? Well, as of PDF 1.3
 , they are:
 </para>
 
-<execute><cmd>insertall.sh</cmd><args>pdf-filter-*.sgml</args></execute>
+<execute><cmd>insertall.sh</cmd><args>pdf-filter-.*.sgml</args></execute>
 <execute><cmd>todo</cmd><input>Do these</input></execute>
 
 </sect3>

@@ -3,8 +3,7 @@
 There are some core terms which are used throughout this tutorial. This section defines these terms -- it's probably therefore worth bookmarking this section for reference throughout the rest of the day. This section presents these things in alphabetical order, for ease of reference.
 </para>
 
-<sect1>
-<title>Terminology</title>
+<sect1><title>Terminology</title>
 <para>	
 We need to get some terminology out of the way before we can discuss much. Images are made up of pixels. In black and white imaging, the pixel has one of two values -- 0 or 1. This can be represented in a single bit. For grayscale and color images however, the pixel needs to be able to store a much greater range of values -- if a pixel was to have 255 levels of gray, then we would need 8 bits to store that pixel. Each of these values is called a sample. TIFF expresses the size of the value in a tag called TIFFTAG_BITSPERSAMPLE. This will be 1 for black and white, and some larger number for grayscale.
 </para>
@@ -14,7 +13,7 @@ For color images, we need to store even more information. For each pixel we will
 </para>
 </sect1>
 
-<execute><cmd>insertall.sh</cmd><args>concept-*.sgml</args></execute>
+<execute><cmd>insertall.sh</cmd><args>concept-.*.sgml</args></execute>
 
 <sect1><title>Further reading</title>
 <para>

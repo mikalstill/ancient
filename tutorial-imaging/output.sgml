@@ -15,8 +15,7 @@ This document is the manual associated with my tutorial on imaging programming p
 Please note that all the information in this tutorial is copyright, as described elsewhere in this document.
 </para>
 
-<sect1>
-<title>About the author</title>
+<sect1><title>About the author</title>
 <para>
 Michael has been working in the image processing field for several years, including a couple of years managing and developing large image databases for an Australian government department. He currently works for TOWER Software, who manufacture a world leading EDMS and Records Management package named TRIM. Michael is also the developer of Panda, an open source PDF generation API, as well as being the maintainer of the comp.text.pdf USENET frequently asked questions document. You can contact Michael at mikal@stillhq.com.
 </para>
@@ -73,8 +72,7 @@ For those of you using gcc on a unix (or unix-like) operating system, then the f
 There are many people who need to be thanked when one attempts a project of this size. I would specifically like to thank my wife and son, who put up with me being geeky so very often.
 </para>
 
-<figure>
-<title>Catherine and Andrew</title>
+<figure><title>Catherine and Andrew</title>
 <graphic format="EPS" fileref="introduction-figure1.eps">
 </figure>
 
@@ -634,8 +632,7 @@ Some ClibPDF examples are subject to the ClibPDF license, which is included in t
 There are some core terms which are used throughout this tutorial. This section defines these terms -- it's probably therefore worth bookmarking this section for reference throughout the rest of the day. This section presents these things in alphabetical order, for ease of reference.
 </para>
 
-<sect1>
-<title>Terminology</title>
+<sect1><title>Terminology</title>
 <para>	
 We need to get some terminology out of the way before we can discuss much. Images are made up of pixels. In black and white imaging, the pixel has one of two values -- 0 or 1. This can be represented in a single bit. For grayscale and color images however, the pixel needs to be able to store a much greater range of values -- if a pixel was to have 255 levels of gray, then we would need 8 bits to store that pixel. Each of these values is called a sample. TIFF expresses the size of the value in a tag called TIFFTAG_BITSPERSAMPLE. This will be 1 for black and white, and some larger number for grayscale.
 </para>
@@ -651,14 +648,254 @@ For color images, we need to store even more information. For each pixel we will
 <graphic format="EPS" fileref="todo.eps">
 </figure>
 </sect1>
-
-<sect1><title>Further reading</title>
+<sect1><title>CTM</title>
+<figure>
+<title>decribe</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
+</sect1>
+<sect1><title>Encrypting images</title>
 <para>
-...
+DES in Electronic Code Book (ECB) mode is a particularly poor choice of cryptography for image files. This is because ECB mode implements a lookup table between the unencrypted value and the encrypted value. This results in a known input value turning into the same output value over and over. This can have some interesting bluring effects, but wont obscure the image contents. An example will help this make more sense -- figure 1 is the logo for the company I am currently working for. I took this image, and ran it through some DES ECB code and produced figure 2.
+</para>
+
+<figure><title>The TOWER corporate logo</title>
+<graphic format="EPS" fileref="desecb-figure1.eps">
+</figure>
+
+<figure><title>After ECB encryption</title>
+<graphic format="EPS" fileref="desecb-figure2.eps">
+</figure>
+
+<para>
+You can see that whilst the image has certainly changed, the contents of the image has not really been obscured. 
+<figure>
+<title> more</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
+</para>
+
+<para>
+For those who have an excessive interest in code, I encrypted the TIFF image which is the TOWER logo with the code below...
+</para>
+
+<figure>
+<title>crypto code</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
+
+<para>
+What about encrypting an image of text? 
+<figure>
+<title> more</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
+</para>
+
+<para>
+We should note that ECB mode is not commonly used anyway. If you use something like PGP or blowfish, then you should be much happier... 
+<figure>
+<title> check this</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
 </para>
 </sect1>
-</chapter>
-<chapter id="chap-imagetheory"><title>Imaging theory</title>
+<sect1><title>Encrypting images</title>
+<para>
+DES in Electronic Code Book (ECB) mode is a particularly poor choice of cryptography for image files. This is because ECB mode implements a lookup table between the unencrypted value and the encrypted value. This results in a known input value turning into the same output value over and over. This can have some interesting bluring effects, but wont obscure the image contents. An example will help this make more sense -- figure 1 is the logo for the company I am currently working for. I took this image, and ran it through some DES ECB code and produced figure 2.
+</para>
+
+<figure>
+<title>The TOWER corporate logo</title>
+<graphic format="EPS" fileref="desecb-figure1.eps">
+</figure>
+
+<figure>
+<title>After ECB encryption</title>
+<graphic format="EPS" fileref="desecb-figure2.eps">
+</figure>
+
+<para>
+You can see that whilst the image has certainly changed, the contents of the image has not really been obscured. 
+<figure>
+<title> more</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
+</para>
+
+<para>
+For those who have an excessive interest in code, I encrypted the TIFF image which is the TOWER logo with the code below...
+</para>
+
+<figure>
+<title>crypto code</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
+
+<para>
+What about encrypting an image of text? 
+<figure>
+<title> more</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
+</para>
+
+<para>
+We should note that ECB mode is not commonly used anyway. If you use something like PGP or blowfish, then you should be much happier... 
+<figure>
+<title> check this</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
+</para>
+</sect1>
+<sect1><title>Grayscale conversion</title>
+<para>
+How do you convert color images to grayscale? Well, my instant answer when I first had to do this was to just average the red, green and blue values. That answer is wrong. The reality is that the human eye is much better at seeing some colors than others. To get an accurate grayscale representation, you need to apply different coefficients to the color samples. Appropraite coefficients are 0.299 for red, 0.587 for green and 0.114 for blue.</para>
+
+<para>
+Below I have included several pictures that illustrate this concept. The first figure is a color image
+  <footnote><para>Which may or may not give you joy, depending on if you are viewing this document in color or not</para></footnote>
+, the second is the color image converted to grayscale without the coefficients applied, and the third image is a correct grayscale rendition.
+</para>
+
+<figure><title>The original image</title>
+<graphic format="EPS" fileref="grayscale-figure1.eps">
+</figure>
+
+<figure><title>An average of the color values for each pixel</title>
+<graphic format="EPS" fileref="grayscale-figure2.eps">
+</figure>
+
+<figure><title>A correct conversion to grayscale</title>
+<graphic format="EPS" fileref="grayscale-figure3.eps">
+</figure>
+
+<para>
+You can see that the sensible algorithm is better, have a look at the shadows on the hill and the trees in the background. The contrast and darkness of the second picture is might better than the averaging algorithm...
+</para>
+
+<para>
+The source code to generate these example images may be found in the TIFF chapter.
+</para>
+</sect1>
+<sect1><title>Grayscale conversion</title>
+<para>
+How do you convert color images to grayscale? Well, my instant answer when I first had to do this was to just average the red, green and blue values. That answer is wrong. The reality is that the human eye is much better at seeing some colors than others. To get an accurate grayscale representation, you need to apply different coefficients to the color samples. Appropraite coefficients are 0.299 for red, 0.587 for green and 0.114 for blue.</para>
+
+<para>
+Below I have included several pictures that illustrate this concept. The first figure is a color image
+  <footnote><para>Which may or may not give you joy, depending on if you are viewing this document in color or not</para></footnote>
+, the second is the color image converted to grayscale without the coefficients applied, and the third image is a correct grayscale rendition.
+</para>
+
+<figure>
+<title>The original image</title>
+<graphic format="EPS" fileref="grayscale-figure1.eps">
+</figure>
+
+<figure>
+<title>An average of the color values for each pixel</title>
+<graphic format="EPS" fileref="grayscale-figure2.eps">
+</figure>
+
+<figure>
+<title>A correct conversion to grayscale</title>
+<graphic format="EPS" fileref="grayscale-figure3.eps">
+</figure>
+
+<para>
+You can see that the sensible algorithm is better, have a look at the shadows on the hill and the trees in the background. The contrast and darkness of the second picture is might better than the averaging algorithm...
+</para>
+
+<para>
+The source code to generate these example images may be found in the TIFF chapter.
+</para>
+</sect1>
+<sect1><title>Pixel</title>
+<para>
+     <indexterm><primary>Pixel</primary></indexterm>
+A pixel is the lowest unit of raster image description -- in other words, a raster image is defined in terms of pixels. Example pixels can be seen in the discussion of rasters, elsewhere in this chapter.
+</para>
+</sect1>
+
+<sect1><title>Rasters</title>
+<para>
+     <indexterm><primary>Raster</primary></indexterm>
+     <indexterm><primary>Image format</primary><secondary>raster</secondary></indexterm>
+The most common image format (and the focus of the majority of this tutorial) is raster image formats. Raster image formats are those which store the picture as a bitmap
+     <footnote><para>You can think of a bitmap as being simply an array of pixels. We'll talk more about this later</para></footnote>
+describing the state of pixels, as opposed to recording the length and locations of primatives such as lines and curves. Common examples include the output of photoshop, the gimp, scanners and digital cameras. Effectively, your monitor and printer are raster output devices.
+</para>
+
+<figure><title>A sample raster image</title>
+<graphic format="EPS" fileref="raster-figure1.eps">
+</figure>
+
+<para>
+Raster image formats include TIFF, GIF, PNG, and most of the other formats in this tutorial. If in doubt, assume that it's a raster format unless I tell you otherwise.
+</para>
+
+<para>
+If we zoom in enough on a portion of this image, we can see that it is made up of descrete elements -- the pixels. 
+<figure>
+<title>falls off page</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
+</para>
+
+<figure><title>Zooming in on a portion of the raster image</title>
+<graphic format="EPS" fileref="raster-figure2.eps">
+</figure>
+
+<figure>
+<title>fix_the_falling_off_the_page_problem</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
+
+<para>
+The code to produce this zoomed image is presented in the TIFF chapter of this tutorial.
+</para>
+</sect1>
+<sect1><title>Rasters</title>
+<para>
+     <indexterm><primary>Raster</primary></indexterm>
+     <indexterm><primary>Image format</primary><secondary>raster</secondary></indexterm>
+The most common image format (and the focus of the majority of this tutorial) is raster image formats. Raster image formats are those which store the picture as a bitmap
+     <footnote><para>You can think of a bitmap as being simply an array of pixels. We'll talk more about this later</para></footnote>
+describing the state of pixels, as opposed to recording the length and locations of primatives such as lines and curves. Common examples include the output of photoshop, the gimp, scanners and digital cameras. Effectively, your monitor and printer are raster output devices.
+</para>
+
+<figure>
+<title>A sample raster image</title>
+<graphic format="EPS" fileref="raster-figure1.eps">
+</figure>
+
+<para>
+Raster image formats include TIFF, GIF, PNG, and most of the other formats in this tutorial. If in doubt, assume that it's a raster format unless I tell you otherwise.
+</para>
+
+<para>
+If we zoom in enough on a portion of this image, we can see that it is made up of descrete elements -- the pixels. 
+<figure>
+<title>falls off page</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
+</para>
+
+<figure>
+<title>Zooming in on a portion of the raster image</title>
+<graphic format="EPS" fileref="raster-figure2.eps">
+</figure>
+
+<figure>
+<title>fix_the_falling_off_the_page_problem</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
+
+<para>
+The code to produce this zoomed image is presented in the TIFF chapter of this tutorial.
+</para>
+</sect1>
 <sect1><title>Theory of color and grayscale storage</title>
 <para>
 The first thing that we need to understand to be able to support color and grayscale images is the format of the image data within memory. There are two main representations for color and grayscale images. I'll explain these by describing grayscale, and then extend it to color.
@@ -681,6 +918,19 @@ A 24 bit color image which is 1,000 by 1,000 pixels will take 24 million bits to
 This concept works for grayscale images as well. The only difference is that the colors in the palette are not just shades of gray.
 </para>
 </sect2>
+</sect1>
+<sect1><title>Vector</title>
+<para>
+     <indexterm><primary>Vector</primary></indexterm>
+     <indexterm><primary>Image format</primary><secondary>vector</secondary></indexterm>
+Some images aren't raster images. These images are normally composed of primative drawing commands, such as draw a line, draw a circle, et cetera. The advantage of vector formats is that it is an exact representation of the image, they also scale much better. Examples of vector formats include Scalar Vector Graphics (SVG), Adobe Illustrator files, Windows Meta Files, and to a certain extent PDF documents. A plotter is a vector output device.
+</para>
+</sect1>
+
+<sect1><title>Further reading</title>
+<para>
+...
+</para>
 </sect1>
 </chapter>
 <chapter id="chap-tiff"><title>TIFF</title>
@@ -1935,7 +2185,7 @@ usage (char *cmd, int exitamt)
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.41 2002-07-12 22:50:00 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.42 2002-07-13 00:14:49 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2062,7 +2312,7 @@ Specify the percentage of the blue channel to use (default 11).
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.41 2002-07-12 22:50:00 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.42 2002-07-13 00:14:49 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2301,7 +2551,7 @@ Matters are even worse for 4-, 2-, and 1-bit palette images.
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.41 2002-07-12 22:50:00 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.42 2002-07-13 00:14:49 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2421,7 +2671,7 @@ ImageWidth: 256 520
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.41 2002-07-12 22:50:00 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.42 2002-07-13 00:14:49 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2698,7 +2948,7 @@ the source file.)
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.41 2002-07-12 22:50:00 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.42 2002-07-13 00:14:49 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1990-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2877,7 +3127,7 @@ This image, after being pushed through <command>tiffdither</command> looks somet
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.41 2002-07-12 22:50:00 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.42 2002-07-13 00:14:49 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3008,7 +3258,7 @@ PlanarConfig (284) SHORT (3) 1&lt;1&gt;
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.41 2002-07-12 22:50:00 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.42 2002-07-13 00:14:49 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3352,7 +3602,7 @@ crashing old versions of the window manager.
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.41 2002-07-12 22:50:00 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.42 2002-07-13 00:14:49 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3534,7 +3784,7 @@ Strip 0:
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.41 2002-07-12 22:50:00 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.42 2002-07-13 00:14:49 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1990-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3690,7 +3940,7 @@ Heckbert, SIGGRAPH proceedings, 1982, pp. 297-307.
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.41 2002-07-12 22:50:00 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.42 2002-07-13 00:14:49 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1992-1997 Sam Leffler -->
 <!--  Copyright (c) 1992-1997 Silicon Graphics, Inc. -->
@@ -3786,7 +4036,7 @@ is used.
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.41 2002-07-12 22:50:00 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.42 2002-07-13 00:14:49 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
