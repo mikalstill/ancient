@@ -65,21 +65,34 @@ For those of you using gcc on a unix (or unix-like) operating system, then the f
 There are many people who need to be thanked when one attempts a project of this size. I would specifically like to thank my wife and son, who put up with me being geeky so very often.
 </para>
 
-<execute><cmd>todo</cmd><input>picture of Andrew and Catherine</input></execute>
+<figure>
+<title>Catherine and Andrew</title>
+<graphic format="EPS" fileref="introduction-figure1.eps">
+</figure>
+
+
 <para>
 I should also thank the following people:
+</para>
 
 <itemizedlist>
 <listitem><para>Doug Jackson (doug_jackson@citadel.com.au), for proof reading and getting me interested in this whole topic to start with</para></listitem>
 <listitem><para>Tony Green (greeno@bandcamp.tv), for occassional docbook wrangling</para></listitem>
 <listitem><para>Michael Smith (smith@xml-doc.org), for docbook hints</para></listitem>
 </itemizedlist>
-</para>
 </sect1>
 
 <sect1><title>How this document was produced</title>
 <para>
-This tutorial was written in Docbook SGML using xemacs. This was then converted into PDF using the jade SGML tools. Diagrams were developed in a combination of the gimp, killustrator, and custom developed code.
+This tutorial was written in Docbook SGML using xemacs. This was then converted into PDF using the jade SGML tools. Diagrams were developed in a combination of the gimp, Adobe Illustrator, and custom developed code. Diagrams were converted to EPS as required by jade using ImageMagick.
+</para>
+
+<para>
+A series of docbook generation scripts we also used to automate some of the generation of this document. These scripts can be found in my online CVS repository at: http://www.stillhq.com/cgi-bin/cvsweb/docbooktools/
+</para>
+
+<para>
+The source for this tutorial is available at: http://www.stillhq.com/cgi-bin/cvsweb/tutorial-imaging/
 </para>
 </sect1>
 

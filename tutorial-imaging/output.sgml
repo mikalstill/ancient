@@ -74,23 +74,33 @@ There are many people who need to be thanked when one attempts a project of this
 </para>
 
 <figure>
-<title>picture of Andrew and Catherine</title>
-<graphic format="EPS" fileref="todo.eps">
+<title>Catherine and Andrew</title>
+<graphic format="EPS" fileref="introduction-figure1.eps">
 </figure>
+
+
 <para>
 I should also thank the following people:
+</para>
 
 <itemizedlist>
 <listitem><para>Doug Jackson (doug_jackson@citadel.com.au), for proof reading and getting me interested in this whole topic to start with</para></listitem>
 <listitem><para>Tony Green (greeno@bandcamp.tv), for occassional docbook wrangling</para></listitem>
 <listitem><para>Michael Smith (smith@xml-doc.org), for docbook hints</para></listitem>
 </itemizedlist>
-</para>
 </sect1>
 
 <sect1><title>How this document was produced</title>
 <para>
-This tutorial was written in Docbook SGML using xemacs. This was then converted into PDF using the jade SGML tools. Diagrams were developed in a combination of the gimp, killustrator, and custom developed code.
+This tutorial was written in Docbook SGML using xemacs. This was then converted into PDF using the jade SGML tools. Diagrams were developed in a combination of the gimp, Adobe Illustrator, and custom developed code. Diagrams were converted to EPS as required by jade using ImageMagick.
+</para>
+
+<para>
+A series of docbook generation scripts we also used to automate some of the generation of this document. These scripts can be found in my online CVS repository at: http://www.stillhq.com/cgi-bin/cvsweb/docbooktools/
+</para>
+
+<para>
+The source for this tutorial is available at: http://www.stillhq.com/cgi-bin/cvsweb/tutorial-imaging/
 </para>
 </sect1>
 
@@ -1454,7 +1464,7 @@ usage (char *cmd, int exitamt)
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.33 2002-07-10 21:44:41 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.34 2002-07-11 02:55:49 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -1581,7 +1591,7 @@ Specify the percentage of the blue channel to use (default 11).
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.33 2002-07-10 21:44:41 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.34 2002-07-11 02:55:49 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -1820,7 +1830,7 @@ Matters are even worse for 4-, 2-, and 1-bit palette images.
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.33 2002-07-10 21:44:41 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.34 2002-07-11 02:55:49 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -1940,7 +1950,7 @@ ImageWidth: 256 520
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.33 2002-07-10 21:44:41 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.34 2002-07-11 02:55:49 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2217,7 +2227,7 @@ the source file.)
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.33 2002-07-10 21:44:41 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.34 2002-07-11 02:55:49 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1990-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2396,7 +2406,7 @@ This image, after being pushed through <command>tiffdither</command> looks somet
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.33 2002-07-10 21:44:41 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.34 2002-07-11 02:55:49 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2527,7 +2537,7 @@ PlanarConfig (284) SHORT (3) 1&lt;1&gt;
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.33 2002-07-10 21:44:41 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.34 2002-07-11 02:55:49 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2871,7 +2881,7 @@ crashing old versions of the window manager.
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.33 2002-07-10 21:44:41 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.34 2002-07-11 02:55:49 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3053,7 +3063,7 @@ Strip 0:
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.33 2002-07-10 21:44:41 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.34 2002-07-11 02:55:49 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1990-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3209,7 +3219,7 @@ Heckbert, SIGGRAPH proceedings, 1982, pp. 297-307.
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.33 2002-07-10 21:44:41 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.34 2002-07-11 02:55:49 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1992-1997 Sam Leffler -->
 <!--  Copyright (c) 1992-1997 Silicon Graphics, Inc. -->
@@ -3305,7 +3315,7 @@ is used.
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.33 2002-07-10 21:44:41 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.34 2002-07-11 02:55:49 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -4570,6 +4580,21 @@ The format of the global color table is very simple, it is simply the red, green
   <entry></entry>
 </row>
 
+<row>
+  <entry></entry>
+  <entry>Colour x red entry</entry>
+</row>
+
+<row>
+  <entry></entry>
+  <entry>Colour x green entry</entry>
+</row>
+
+<row>
+  <entry></entry>
+  <entry>Colour x blue entry</entry>
+</row>
+
 </tbody>
 </tgroup>
 </table>
@@ -4578,17 +4603,200 @@ The format of the global color table is very simple, it is simply the red, green
 
 <sect2><title>Data</title>
 <para>
-The actual data stored in the GIF data stream is stored in the next two sections, a graphics block and a special purpose block.
+The actual data stored in the GIF data stream is stored in the next two sections, a graphics block and a special purpose block. There is one of these data sections for each of these images. GIF data streams are valid, even if there are no images stored within the data stream.
 </para>
-</sect2>
 
-<sect2><title>Image descriptors</title>
+<sect3><title>Image descriptors</title>
 <para>
-It is possible to store more than one image in the GIF data stream, which is how animated GIFs are implemented. These images must be sized so that they fit within the boundaries of the logical screens.
+<quote>Each image in the Data Stream is composed of an Image Descriptor, an optional Local Color Table, and the image data. Each image must fit within the boundaries of the Logical Screen, as defined in the Logical Screen Descriptor.</quote> -- GIF 89a specification
 </para>
+
+<para>
+The image descriptor is stored at the start of each image within the data stream. The image description stores information which is specific to that single image, unlike the logical screen section, which has a global scope over all images in the data stream. The image descriptor has the following layout:
+</para>
+
+<table frame='all'><title>GIF on disc: the image descriptor</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<thead>
+<row>
+  <entry>Bytes</entry>
+  <entry>Description</entry>
+</row>
+</thead>
+<tbody>
+
+<row>
+  <entry>0</entry>
+  <entry>0x2C -- marks the start of this image</entry>
+</row>
+
+<row>
+  <entry>1 - 2</entry>
+  <entry>Image left position (on the logical screen)</entry>
+</row>
+
+<row>
+  <entry>3 - 4</entry>
+  <entry>Image top postion (on the logical screen)</entry>
+</row>
+
+<row>
+  <entry>5 - 6</entry>
+  <entry>Image width</entry>
+</row>
+
+<row>
+  <entry>7 - 8</entry>
+  <entry>Image height</entry>
+</row>
+
+<row>
+  <entry>9</entry>
+  <entry>Packed fields. See below for a description.</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+
+<para>
+The packed field byte stores the following information:
+</para>
+
+<table frame='all'><title>GIF on disc: fields packed into byte 9 of the image descriptor</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<thead>
+<row>
+  <entry>Bits</entry>
+  <entry>Description</entry>
+</row>
+</thead>
+<tbody>
+
+<row>
+  <entry>0</entry>
+  <entry>Logical color table flag (0 for no, 1 for yes). If present, this local color table with override the global color table. If there is no global color table in this data stream, then a local color table <emphasis>must</emphasis> be present.</entry>
+</row>
+
+<row>
+  <entry>1</entry>
+  <entry>Interlace flag (0 for no, 1 for yes). See the interlaced images sections below for more information.</entry>
+</row>
+
+<row>
+  <entry>2</entry>
+  <entry>Sort flag (0 for no, 1 for yes). This indicates if the local color table is sorted. <quote>Indicates whether the Local Color Table is sorted. If the flag is set, the Local Color Table is sorted, in order of decreasing importance. Typically, the order would be decreasing frequency, with most frequent color first. This assists a decoder, with fewer available colors, in choosing the best subset of colors; the decoder may use an initial segment of the table to render the graphic.</quote> -- GIF 89a specification</entry>
+</row>
+
+<row>
+  <entry>3 - 4</entry>
+  <entry><emphasis>Reserved for future use</emphasis></entry>
+</row>
+
+<row>
+  <entry>5 - 8</entry>
+  <entry>Size of the local color table. This value obeys the same rules as the size field for the global color table.</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+</sect3>
+
+<sect3><title>Local color table</title>
+<para>
+The format rules for the local color table are identical to those for the global color table.
+</para>
+</sect3>
+
+<sect3><title>Image data</title>
+<para>
+The raster information for the image is stored in a series of image data blocks, each block having a maximum size of 255 bytes, which works well on machines with very little memory. Each byte is an index into whatever color table entry is active for this image (remembering that the local color table overrides the global color table). Each of these image data blocks is LZW compressed as part of one big buffer. The format of the image data blocks is:
+</para>
+
+<table frame='all'><title>GIF on disc: the image data block</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<thead>
+<row>
+  <entry>Bytes</entry>
+  <entry>Description</entry>
+</row>
+</thead>
+<tbody>
+
+<row>
+  <entry>0</entry>
+  <entry>LZW minimum code size (outside the scope of this tutorial)</entry>
+</row>
+
+<row>
+  <entry>...</entry>
+  <entry>Image data subblocks</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+
+<sect4><title>Image data sub blocks</title>
+<para>
+The format of these image data subblocks is:
+</para>
+
+<table frame='all'><title>GIF on disc: the image data subblocks</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<thead>
+<row>
+  <entry>Bytes</entry>
+  <entry>Description</entry>
+</row>
+</thead>
+<tbody>
+
+<row>
+  <entry>0</entry>
+  <entry>Block size, in bytes, not including this byte. The maxiumum size if 255 bytes.</entry>
+</row>
+
+<row>
+  <entry>1 - blocksize</entry>
+  <entry>Image data (indices into the relevant color table)</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+</sect4>
+
+<sect4><title>Terminating subblock</title>
+<para>
+The last block in the chain of image data subblocks will be a terminating subblock. It will have the format:
+</para>
+
+<table frame='all'><title>GIF on disc: the terminating image subblock</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<thead>
+<row>
+  <entry>Bytes</entry>
+  <entry>Description</entry>
+</row>
+</thead>
+<tbody>
+
+<row>
+  <entry>0</entry>
+  <entry>0x0 (i.e. a length of zero)</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+
+</sect4>
+</sect3>
 </sect2>
 
-<sect2><title>Image data</title>
+<sect2><title>Special purpose blocks</title>
 <para>
 
 </para>
@@ -4610,8 +4818,15 @@ This portion of the GIF image format specifies the end of the data stream. It is
 
 
 
-</sect1>
 
+<sect2><title>Interlaced images</title>
+<para>
+
+</para>
+</sect2>
+
+
+</sect1>
 
 
 

@@ -22,18 +22,18 @@ The disappearance of GIF from the scene is not a major loss, especially as the f
 
 <sect1><title>The GIF on disc format</title>
 <para>
-The GIF file format is mcuh simpler than that used for TIFF files. Pay attention to this description though, because it will help explain PNG images when we get to them in a later chapter.
+The GIF file format is much simpler than that used for TIFF files. Pay attention to this description though, because it will help explain PNG images when we get to them in a later chapter.
 <para>
 
 <sidebar><title>Data streams?</title>
 <para>
-It should be noted that the GIF specification doesn't speak of file as such. Instead it uses the term <quote>Data Stream</quote>, which is a concept which embraces files, as well as in memory buffers, and other interesting forms of data storage. It doesn't really make any difference to the discussion of the format here though.
+It should be noted that the GIF specification doesn't speak of files as such. Instead it uses the term <quote>Data Stream</quote>, which is a concept which embraces files, as well as in memory buffers, and other interesting forms of data storage. It doesn't really make any difference to the discussion of the format here though.
 </para>
 </sidebar>
 
 <sect2><title>The data stream</title>
 <para>
-The outer body of a GIF image is called a data stream, for reasons described in the last few paragraphs. This data stream can be though of as a file for the purposes of this discussion. The data stream is composed of header, a section called the logical screen, the image data, and a trailer. These elements are described individually below.
+The outer body of a GIF image is called a data stream, for reasons described in the last few paragraphs. This data stream can be thought of as a file for the purposes of this discussion. The data stream is composed of header, a section called the logical screen, the image data, and a trailer. These elements are described individually below.
 </para>
 </sect2>
 
@@ -73,11 +73,11 @@ There are two main version numbers which are in common use for GIF images. These
 
 <sect3><title>Version numbers</title>
 <para>
-The GIF specification makes it quite clear that the image generator should use the lowest version number which matches the functionality required to correctly decode the image. This makes the generation of images a little more complex, as the generator needs to know the specification version number of each feature, but it ensures the maximum possible level of backwards compatability, without sacraficing accuracy of decoding of the image. The quote the GIF specification:
+The GIF specification makes it quite clear that the image generator should use the lowest version number which matches the functionality required to correctly decode the image. This makes the generation of images a little more complex, as the generator needs to know the specification version number of each feature, but it ensures the maximum possible level of backwards compatability, without sacraficing accuracy of decoding of the image. To quote the GIF specification:
 </para>
 
 <para>
-<quote>The version number in the Header of a Data Stream is intended to identify the minimum set of capabilities required of a decoder in order to fully process the Data Stream. An encoder should use the earliest possible version number that includes all the blocks used in the Data Stream. Within each block section in this document, there is an entry labeled Required Version which specifies the earliest version number that includes the corresponding block. The encoder should make every attempt to use the earliest version number covering all the blocks in the Data Stream; the unnecessary use of later version numbers will hinder processing by some decoders.</quote>
+<quote>The version number in the Header of a Data Stream is intended to identify the minimum set of capabilities required of a decoder in order to fully process the Data Stream. An encoder should use the earliest possible version number that includes all the blocks used in the Data Stream. ... The encoder should make every attempt to use the earliest version number covering all the blocks in the Data Stream; the unnecessary use of later version numbers will hinder processing by some decoders.</quote>
 </para>
 </sect3>
 </sect2>
@@ -215,6 +215,21 @@ The format of the global color table is very simple, it is simply the red, green
   <entry></entry>
 </row>
 
+<row>
+  <entry></entry>
+  <entry>Colour x red entry</entry>
+</row>
+
+<row>
+  <entry></entry>
+  <entry>Colour x green entry</entry>
+</row>
+
+<row>
+  <entry></entry>
+  <entry>Colour x blue entry</entry>
+</row>
+
 </tbody>
 </tgroup>
 </table>
@@ -223,17 +238,201 @@ The format of the global color table is very simple, it is simply the red, green
 
 <sect2><title>Data</title>
 <para>
-The actual data stored in the GIF data stream is stored in the next two sections, a graphics block and a special purpose block.
+The actual data stored in the GIF data stream is stored in the next two sections, a graphics block and a special purpose block. There is one of these data sections for each of these images. GIF data streams are valid, even if there are no images stored within the data stream.
 </para>
-</sect2>
 
-<sect2><title>Image descriptors</title>
+<sect3><title>Image descriptors</title>
 <para>
-It is possible to store more than one image in the GIF data stream, which is how animated GIFs are implemented. These images must be sized so that they fit within the boundaries of the logical screens.
+<quote>Each image in the Data Stream is composed of an Image Descriptor, an optional Local Color Table, and the image data. Each image must fit within the boundaries of the Logical Screen, as defined in the Logical Screen Descriptor.</quote> -- GIF 89a specification
 </para>
+
+<para>
+The image descriptor is stored at the start of each image within the data stream. The image description stores information which is specific to that single image, unlike the logical screen section, which has a global scope over all images in the data stream. The image descriptor has the following layout:
+</para>
+
+<table frame='all'><title>GIF on disc: the image descriptor</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<thead>
+<row>
+  <entry>Bytes</entry>
+  <entry>Description</entry>
+</row>
+</thead>
+<tbody>
+
+<row>
+  <entry>0</entry>
+  <entry>0x2C -- marks the start of this image</entry>
+</row>
+
+<row>
+  <entry>1 - 2</entry>
+  <entry>Image left position (on the logical screen)</entry>
+</row>
+
+<row>
+  <entry>3 - 4</entry>
+  <entry>Image top postion (on the logical screen)</entry>
+</row>
+
+<row>
+  <entry>5 - 6</entry>
+  <entry>Image width</entry>
+</row>
+
+<row>
+  <entry>7 - 8</entry>
+  <entry>Image height</entry>
+</row>
+
+<row>
+  <entry>9</entry>
+  <entry>Packed fields. See below for a description.</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+
+<para>
+The packed field byte stores the following information:
+</para>
+
+<table frame='all'><title>GIF on disc: fields packed into byte 9 of the image descriptor</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<thead>
+<row>
+  <entry>Bits</entry>
+  <entry>Description</entry>
+</row>
+</thead>
+<tbody>
+
+<row>
+  <entry>0</entry>
+  <entry>Logical color table flag (0 for no, 1 for yes). If present, this local color table with override the global color table. If there is no global color table in this data stream, then a local color table <emphasis>must</emphasis> be present.</entry>
+</row>
+
+<row>
+  <entry>1</entry>
+  <entry>Interlace flag (0 for no, 1 for yes). See the interlaced images sections below for more information.</entry>
+</row>
+
+<row>
+  <entry>2</entry>
+  <entry>Sort flag (0 for no, 1 for yes). This indicates if the local color table is sorted. <quote>Indicates whether the Local Color Table is sorted. If the flag is set, the Local Color Table is sorted, in order of decreasing importance. Typically, the order would be decreasing frequency, with most frequent color first. This assists a decoder, with fewer available colors, in choosing the best subset of colors; the decoder may use an initial segment of the table to render the graphic.</quote> -- GIF 89a specification</entry>
+</row>
+
+<row>
+  <entry>3 - 4</entry>
+  <entry><emphasis>Reserved for future use</emphasis></entry>
+</row>
+
+<row>
+  <entry>5 - 8</entry>
+  <entry>Size of the local color table. This value obeys the same rules as the size field for the global color table.</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+</sect3>
+
+<sect3><title>Local color table</title>
+<para>
+The format rules for the local color table are identical to those for the global color table.
+</para>
+</sect3>
+
+<sect3><title>Image data</title>
+<para>
+The raster information for the image is stored in a series of image data blocks, each block having a maximum size of 255 bytes, which works well on machines with very little memory. Each byte is an index into whatever color table entry is active for this image (remembering that the local color table overrides the global color table). Each of these image data blocks is LZW compressed as part of one big buffer. The format of the image data blocks is:
+</para>
+
+<table frame='all'><title>GIF on disc: the image data block</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<thead>
+<row>
+  <entry>Bytes</entry>
+  <entry>Description</entry>
+</row>
+</thead>
+<tbody>
+
+<row>
+  <entry>0</entry>
+  <entry>LZW minimum code size (outside the scope of this tutorial)</entry>
+</row>
+
+<row>
+  <entry>...</entry>
+  <entry>Image data subblocks</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+<execute><cmd>nextedition</cmd><input>Perhaps we should talk about compression algorithms?</input></execute>
+
+<sect4><title>Image data sub blocks</title>
+<para>
+The format of these image data subblocks is:
+</para>
+
+<table frame='all'><title>GIF on disc: the image data subblocks</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<thead>
+<row>
+  <entry>Bytes</entry>
+  <entry>Description</entry>
+</row>
+</thead>
+<tbody>
+
+<row>
+  <entry>0</entry>
+  <entry>Block size, in bytes, not including this byte. The maxiumum size if 255 bytes.</entry>
+</row>
+
+<row>
+  <entry>1 - blocksize</entry>
+  <entry>Image data (indices into the relevant color table)</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+</sect4>
+
+<sect4><title>Terminating subblock</title>
+<para>
+The last block in the chain of image data subblocks will be a terminating subblock. It will have the format:
+</para>
+
+<table frame='all'><title>GIF on disc: the terminating image subblock</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<thead>
+<row>
+  <entry>Bytes</entry>
+  <entry>Description</entry>
+</row>
+</thead>
+<tbody>
+
+<row>
+  <entry>0</entry>
+  <entry>0x0 (i.e. a length of zero)</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+
+</sect4>
+</sect3>
 </sect2>
 
-<sect2><title>Image data</title>
+<sect2><title>Special purpose blocks</title>
 <para>
 
 </para>
@@ -256,8 +455,15 @@ This portion of the GIF image format specifies the end of the data stream. It is
 
 
 <execute><cmd>nextedition</cmd><input>It would be cool to present grammars for all the image formats to help people understand them</input></execute>
-</sect1>
 
+<sect2><title>Interlaced images</title>
+<para>
+
+</para>
+</sect2>
+
+
+</sect1>
 
 
 
