@@ -2106,7 +2106,7 @@ I have included the man pages to some of the more useful libtiff commands, so th
 </para>
 
 <sect2><title>tiff2bw</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2229,7 +2229,7 @@ Specify the percentage of the blue channel to use (default 11).
 </sect2>
 
 <sect2><title>tiff2ps</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2490,7 +2490,7 @@ Matters are even worse for 4-, 2-, and 1-bit palette images.
 
 
 <sect2><title>tiffcmp</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2616,7 +2616,7 @@ ImageWidth: 256 520
 
 
 <sect2><title>tiffcp</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2937,7 +2937,7 @@ tiffcp -c none -,=% -b CCD,X.tif CCD,X%1%.tif result.tif
 
 
 <sect2><title>tiffdither</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1990-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3110,7 +3110,7 @@ This image, after being pushed through <command>tiffdither</command> looks somet
 
 
 <sect2><title>tiffdump</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3238,7 +3238,7 @@ PlanarConfig (284) SHORT (3) 1&lt;1&gt;
 
 
 <sect2><title>tiffgt</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3581,7 +3581,7 @@ crashing old versions of the window manager.
 
 
 <sect2><title>tiffinfo</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3759,7 +3759,7 @@ Strip 0:
 
 
 <sect2><title>tiffmedian</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1990-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3905,7 +3905,7 @@ Heckbert, SIGGRAPH proceedings, 1982, pp. 297-307.
 
 
 <sect2><title>tiffsplit</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1992-1997 Sam Leffler -->
 <!--  Copyright (c) 1992-1997 Silicon Graphics, Inc. -->
@@ -3991,7 +3991,7 @@ is used.
 
 
 <sect2><title>tiffsv</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -4331,7 +4331,7 @@ It is also useful to have the man pages for the libtiff API man pages to refer t
 </para>
 
 <sect2><title>TIFFbuffer</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1995 Sam Leffler -->
 <!--  Copyright (c) 1995 Silicon Graphics, Inc. -->
@@ -4443,7 +4443,7 @@ was unable to dynamically allocate space for a data buffer.
 
 
 <sect2><title>TIFFClose</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -4510,7 +4510,7 @@ routine.
 
 
 <sect2><title>TIFFcodec</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1995 Sam Leffler -->
 <!--  Copyright (c) 1995 Silicon Graphics, Inc. -->
@@ -4663,7 +4663,7 @@ compression schemes.
 
 
 <sect2><title>TIFFError</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -4778,7 +4778,7 @@ returns a reference to the previous error handling function.
 
 
 <sect2><title>TIFFFlush</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -4878,7 +4878,7 @@ routine.
 
 
 <sect2><title>TIFFGetField</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -5180,7 +5180,7 @@ routine.
 
 
 <sect2><title>TIFFmemory</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1995 Sam Leffler -->
 <!--  Copyright (c) 1995 Silicon Graphics, Inc. -->
@@ -5307,7 +5307,7 @@ repsectively.
 
 
 <sect2><title>TIFFOpen</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -5645,7 +5645,7 @@ This is a limitation of the library.
 
 
 <sect2><title>TIFFPrintDirectory</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1991-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -5733,7 +5733,7 @@ parameter defaults to 0.
 
 
 <sect2><title>TIFFquery</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -5915,7 +5915,7 @@ library software.
 
 
 <sect2><title>TIFFReadDirectory</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6133,7 +6133,7 @@ the missing value based on the file size.
 
 
 <sect2><title>TIFFReadEncodedStrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6230,7 +6230,7 @@ routine.
 
 
 <sect2><title>TIFFReadEncodedTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6330,7 +6330,7 @@ routine.
 
 
 <sect2><title>TIFFReadRawStrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6412,7 +6412,7 @@ routine.
 
 
 <sect2><title>TIFFReadRawTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6496,7 +6496,7 @@ routine.
 
 
 <sect2><title>TIFFReadRGBAImage</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1991-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6734,7 +6734,7 @@ not handled correctly.
 
 
 <sect2><title>TIFFReadRGBAStrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1991-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6965,7 +6965,7 @@ not handled correctly.
 
 
 <sect2><title>TIFFReadRGBATile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1991-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -7200,7 +7200,7 @@ not handled correctly.
 
 
 <sect2><title>TIFFReadScanline</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -7327,7 +7327,7 @@ the strip- and tile-based interfaces to read these formats.
 
 
 <sect2><title>TIFFReadTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -7466,7 +7466,7 @@ routine.
 
 
 <sect2><title>TIFFRGBAImage</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1991-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -7839,7 +7839,7 @@ not handled correctly.
 
 
 <sect2><title>TIFFSetDirectory</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -7947,7 +7947,7 @@ points to the next directory in a file.
 
 
 <sect2><title>TIFFSetField</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -8200,7 +8200,7 @@ An invalid value was supplied for the named tag.
 
 
 <sect2><title>TIFFsize</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -8275,7 +8275,7 @@ if data is stored as separate planes.
 
 
 <sect2><title>TIFFstrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1992-1997 Sam Leffler -->
 <!--  Copyright (c) 1992-1997 Silicon Graphics, Inc. -->
@@ -8402,7 +8402,7 @@ returns the number of strips in the image.
 
 
 <sect2><title>TIFFswab</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -8522,7 +8522,7 @@ i.e.
 
 
 <sect2><title>TIFFtile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -8739,7 +8739,7 @@ returns the number of tiles in the image.
 
 
 <sect2><title>TIFFWarning</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -8831,7 +8831,7 @@ returns a reference to the previous error handling function.
 
 
 <sect2><title>TIFFWriteDirectory</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -8983,7 +8983,7 @@ written.
 
 
 <sect2><title>TIFFWriteEncodedStrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -9122,7 +9122,7 @@ offsets and byte counts.
 
 
 <sect2><title>TIFFWriteEncodedTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -9252,7 +9252,7 @@ offsets and byte counts.
 
 
 <sect2><title>TIFFWriteRawStrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -9380,7 +9380,7 @@ currently specified image dimensions.
 
 
 <sect2><title>TIFFWriteRawTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -9494,7 +9494,7 @@ specified image dimensions.
 
 
 <sect2><title>TIFFWriteScanline</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -9698,7 +9698,7 @@ the library does not pack the block-interleaved samples.
 
 
 <sect2><title>TIFFWriteTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.53 2002-07-17 11:50:47 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -19266,27 +19266,6 @@ Initialisation of Panda is easy. Simply call <command>panda_init</command>(). Yo
 </para>
 </refsect1>
 
-
-<refsect1>
-    <title>VERSION</title>
-    <para>
-This documentation was generated for <command>Panda</command> 0.4.2 by <command>autodocbook</command> (http://www.stillhq.com).
-    </para>
-</refsect1>
-
-<refsect1>
-    <title>AUTHOR</title>
-    <para>
-<command>Panda</command> is under development by Michael Still (mikal@stillhq.com). All code is Copyright Michael Still 2000 and 2001,  and is released under the GNU GPL. Code submissions are welcomed. Contact Michael at the address above if you have something you would like to contribute.
-</para>
-</refsect1>
-
-<refsect1>
-    <title>BUGS</title>
-    <para>
-There  are no known bugs in <command>Panda</command>. If you find one, please contact mikal@stillhq.com and let me know.
-</para>
-</refsect1>
 </refentry>
 <!-- 
 
@@ -19350,27 +19329,6 @@ There  are no known bugs in <command>Panda</command>. If you find one, please co
 <para>panda_init, panda_open_actual, panda_open_suppress, panda_close</para>
 </refsect1>
 
-
-<refsect1>
-    <title>VERSION</title>
-    <para>
-This documentation was generated for <command>Panda</command> 0.4.2 by <command>autodocbook</command> (http://www.stillhq.com).
-    </para>
-</refsect1>
-
-<refsect1>
-    <title>AUTHOR</title>
-    <para>
-<command>Panda</command> is under development by Michael Still (mikal@stillhq.com). All code is Copyright Michael Still 2000 and 2001,  and is released under the GNU GPL. Code submissions are welcomed. Contact Michael at the address above if you have something you would like to contribute.
-</para>
-</refsect1>
-
-<refsect1>
-    <title>BUGS</title>
-    <para>
-There  are no known bugs in <command>Panda</command>. If you find one, please contact mikal@stillhq.com and let me know.
-</para>
-</refsect1>
 </refentry>
 </sect2>
 
@@ -19443,27 +19401,6 @@ Pages are created in Panda using the <command>panda_newpage</command> function. 
 <para>panda_open, panda_close</para>
 </refsect1>
 
-
-<refsect1>
-    <title>VERSION</title>
-    <para>
-This documentation was generated for <command>Panda</command> 0.4.2 by <command>autodocbook</command> (http://www.stillhq.com).
-    </para>
-</refsect1>
-
-<refsect1>
-    <title>AUTHOR</title>
-    <para>
-<command>Panda</command> is under development by Michael Still (mikal@stillhq.com). All code is Copyright Michael Still 2000 and 2001,  and is released under the GNU GPL. Code submissions are welcomed. Contact Michael at the address above if you have something you would like to contribute.
-</para>
-</refsect1>
-
-<refsect1>
-    <title>BUGS</title>
-    <para>
-There  are no known bugs in <command>Panda</command>. If you find one, please contact mikal@stillhq.com and let me know.
-</para>
-</refsect1>
 </refentry>
 </sect2>
 
@@ -19537,27 +19474,6 @@ Pages don't need to be closed in Panda. This is done when the <command>panda_clo
 <para>panda_open</para>
 </refsect1>
 
-
-<refsect1>
-    <title>VERSION</title>
-    <para>
-This documentation was generated for <command>Panda</command> 0.4.2 by <command>autodocbook</command> (http://www.stillhq.com).
-    </para>
-</refsect1>
-
-<refsect1>
-    <title>AUTHOR</title>
-    <para>
-<command>Panda</command> is under development by Michael Still (mikal@stillhq.com). All code is Copyright Michael Still 2000 and 2001,  and is released under the GNU GPL. Code submissions are welcomed. Contact Michael at the address above if you have something you would like to contribute.
-</para>
-</refsect1>
-
-<refsect1>
-    <title>BUGS</title>
-    <para>
-There  are no known bugs in <command>Panda</command>. If you find one, please contact mikal@stillhq.com and let me know.
-</para>
-</refsect1>
 </refentry>
 </sect2>
 
@@ -19631,27 +19547,6 @@ One of the advantages which ClibPDF has over Panda is that it currently supporte
 <para>panda_createfont, panda_setfont, panda_panda_setfontsize, panda_getfontobj, panda_setfontmode, panda_setcharacterspacing, panda_setwordspacing, panda_sethorizontalscaling, panda_setleading, panda_textboxrot</para>
 </refsect1>
 
-
-<refsect1>
-    <title>VERSION</title>
-    <para>
-This documentation was generated for <command>Panda</command> 0.4.2 by <command>autodocbook</command> (http://www.stillhq.com).
-    </para>
-</refsect1>
-
-<refsect1>
-    <title>AUTHOR</title>
-    <para>
-<command>Panda</command> is under development by Michael Still (mikal@stillhq.com). All code is Copyright Michael Still 2000 and 2001,  and is released under the GNU GPL. Code submissions are welcomed. Contact Michael at the address above if you have something you would like to contribute.
-</para>
-</refsect1>
-
-<refsect1>
-    <title>BUGS</title>
-    <para>
-There  are no known bugs in <command>Panda</command>. If you find one, please contact mikal@stillhq.com and let me know.
-</para>
-</refsect1>
 </refentry>
 <!-- 
 
@@ -19718,27 +19613,6 @@ There  are no known bugs in <command>Panda</command>. If you find one, please co
 <para>panda_createfont, panda_setfont, panda_panda_setfontsize, panda_getfontobj, panda_setfontmode, panda_setcharacterspacing, panda_setwordspacing, panda_sethorizontalscaling, panda_setleading, panda_textbox</para>
 </refsect1>
 
-
-<refsect1>
-    <title>VERSION</title>
-    <para>
-This documentation was generated for <command>Panda</command> 0.4.2 by <command>autodocbook</command> (http://www.stillhq.com).
-    </para>
-</refsect1>
-
-<refsect1>
-    <title>AUTHOR</title>
-    <para>
-<command>Panda</command> is under development by Michael Still (mikal@stillhq.com). All code is Copyright Michael Still 2000 and 2001,  and is released under the GNU GPL. Code submissions are welcomed. Contact Michael at the address above if you have something you would like to contribute.
-</para>
-</refsect1>
-
-<refsect1>
-    <title>BUGS</title>
-    <para>
-There  are no known bugs in <command>Panda</command>. If you find one, please contact mikal@stillhq.com and let me know.
-</para>
-</refsect1>
 </refentry>
 <!-- 
 
@@ -19798,27 +19672,6 @@ There  are no known bugs in <command>Panda</command>. If you find one, please co
 </para>
 </refsect1>
 
-
-<refsect1>
-    <title>VERSION</title>
-    <para>
-This documentation was generated for <command>Panda</command> 0.4.2 by <command>autodocbook</command> (http://www.stillhq.com).
-    </para>
-</refsect1>
-
-<refsect1>
-    <title>AUTHOR</title>
-    <para>
-<command>Panda</command> is under development by Michael Still (mikal@stillhq.com). All code is Copyright Michael Still 2000 and 2001,  and is released under the GNU GPL. Code submissions are welcomed. Contact Michael at the address above if you have something you would like to contribute.
-</para>
-</refsect1>
-
-<refsect1>
-    <title>BUGS</title>
-    <para>
-There  are no known bugs in <command>Panda</command>. If you find one, please contact mikal@stillhq.com and let me know.
-</para>
-</refsect1>
 </refentry>
 </sect2>
 
@@ -19890,27 +19743,6 @@ Panda currently only supports the standard PDF fonts, and will not allow you to 
 <para>panda_setfont</para>
 </refsect1>
 
-
-<refsect1>
-    <title>VERSION</title>
-    <para>
-This documentation was generated for <command>Panda</command> 0.4.2 by <command>autodocbook</command> (http://www.stillhq.com).
-    </para>
-</refsect1>
-
-<refsect1>
-    <title>AUTHOR</title>
-    <para>
-<command>Panda</command> is under development by Michael Still (mikal@stillhq.com). All code is Copyright Michael Still 2000 and 2001,  and is released under the GNU GPL. Code submissions are welcomed. Contact Michael at the address above if you have something you would like to contribute.
-</para>
-</refsect1>
-
-<refsect1>
-    <title>BUGS</title>
-    <para>
-There  are no known bugs in <command>Panda</command>. If you find one, please contact mikal@stillhq.com and let me know.
-</para>
-</refsect1>
 </refentry>
 <!-- 
 
@@ -19976,27 +19808,6 @@ There  are no known bugs in <command>Panda</command>. If you find one, please co
 <para>panda_createfont</para>
 </refsect1>
 
-
-<refsect1>
-    <title>VERSION</title>
-    <para>
-This documentation was generated for <command>Panda</command> 0.4.2 by <command>autodocbook</command> (http://www.stillhq.com).
-    </para>
-</refsect1>
-
-<refsect1>
-    <title>AUTHOR</title>
-    <para>
-<command>Panda</command> is under development by Michael Still (mikal@stillhq.com). All code is Copyright Michael Still 2000 and 2001,  and is released under the GNU GPL. Code submissions are welcomed. Contact Michael at the address above if you have something you would like to contribute.
-</para>
-</refsect1>
-
-<refsect1>
-    <title>BUGS</title>
-    <para>
-There  are no known bugs in <command>Panda</command>. If you find one, please contact mikal@stillhq.com and let me know.
-</para>
-</refsect1>
 </refentry>
 </sect2>
 
@@ -20097,27 +19908,6 @@ In Panda you use the <command>panda_imagebox</command>, and the <command>panda_i
 <para>panda_imageboxrot</para>
 </refsect1>
 
-
-<refsect1>
-    <title>VERSION</title>
-    <para>
-This documentation was generated for <command>Panda</command> 0.4.2 by <command>autodocbook</command> (http://www.stillhq.com).
-    </para>
-</refsect1>
-
-<refsect1>
-    <title>AUTHOR</title>
-    <para>
-<command>Panda</command> is under development by Michael Still (mikal@stillhq.com). All code is Copyright Michael Still 2000 and 2001,  and is released under the GNU GPL. Code submissions are welcomed. Contact Michael at the address above if you have something you would like to contribute.
-</para>
-</refsect1>
-
-<refsect1>
-    <title>BUGS</title>
-    <para>
-There  are no known bugs in <command>Panda</command>. If you find one, please contact mikal@stillhq.com and let me know.
-</para>
-</refsect1>
 </refentry>
 <!-- 
 
@@ -20188,27 +19978,6 @@ There  are no known bugs in <command>Panda</command>. If you find one, please co
 <para>panda_imagebox</para>
 </refsect1>
 
-
-<refsect1>
-    <title>VERSION</title>
-    <para>
-This documentation was generated for <command>Panda</command> 0.4.2 by <command>autodocbook</command> (http://www.stillhq.com).
-    </para>
-</refsect1>
-
-<refsect1>
-    <title>AUTHOR</title>
-    <para>
-<command>Panda</command> is under development by Michael Still (mikal@stillhq.com). All code is Copyright Michael Still 2000 and 2001,  and is released under the GNU GPL. Code submissions are welcomed. Contact Michael at the address above if you have something you would like to contribute.
-</para>
-</refsect1>
-
-<refsect1>
-    <title>BUGS</title>
-    <para>
-There  are no known bugs in <command>Panda</command>. If you find one, please contact mikal@stillhq.com and let me know.
-</para>
-</refsect1>
 </refentry>
 </sect3>
 </sect2>
@@ -20289,27 +20058,6 @@ With Panda, the way you draw a line is to first create a line with <command>pand
 <para>panda_addlinesegment, panda_addcubiccurvesegment, panda_addquadraticsegmentone, panda_addquadraticcurvesegmenttwo, panda_closeline, panda_rectangle, panda_endline, panda_strokeline, panda_fillline, panda_setlinewidth, panda_setlinecap, panda_setlinejoin, panda_setlinedash, panda_setfillcolor, panda_setlinecolor</para>
 </refsect1>
 
-
-<refsect1>
-    <title>VERSION</title>
-    <para>
-This documentation was generated for <command>Panda</command> 0.4.2 by <command>autodocbook</command> (http://www.stillhq.com).
-    </para>
-</refsect1>
-
-<refsect1>
-    <title>AUTHOR</title>
-    <para>
-<command>Panda</command> is under development by Michael Still (mikal@stillhq.com). All code is Copyright Michael Still 2000 and 2001,  and is released under the GNU GPL. Code submissions are welcomed. Contact Michael at the address above if you have something you would like to contribute.
-</para>
-</refsect1>
-
-<refsect1>
-    <title>BUGS</title>
-    <para>
-There  are no known bugs in <command>Panda</command>. If you find one, please contact mikal@stillhq.com and let me know.
-</para>
-</refsect1>
 </refentry>
 <!-- 
 
@@ -20378,27 +20126,6 @@ There  are no known bugs in <command>Panda</command>. If you find one, please co
 <para>panda_setlinestart, panda_addcubiccurvesegment, panda_addquadraticsegmentone, panda_addquadraticcurvesegmenttwo, panda_closeline, panda_rectangle, panda_endline, panda_strokeline, panda_fillline, panda_setlinewidth, panda_setlinecap, panda_setlinejoin, panda_setlinedash, panda_setfillcolor, panda_setlinecolor</para>
 </refsect1>
 
-
-<refsect1>
-    <title>VERSION</title>
-    <para>
-This documentation was generated for <command>Panda</command> 0.4.2 by <command>autodocbook</command> (http://www.stillhq.com).
-    </para>
-</refsect1>
-
-<refsect1>
-    <title>AUTHOR</title>
-    <para>
-<command>Panda</command> is under development by Michael Still (mikal@stillhq.com). All code is Copyright Michael Still 2000 and 2001,  and is released under the GNU GPL. Code submissions are welcomed. Contact Michael at the address above if you have something you would like to contribute.
-</para>
-</refsect1>
-
-<refsect1>
-    <title>BUGS</title>
-    <para>
-There  are no known bugs in <command>Panda</command>. If you find one, please contact mikal@stillhq.com and let me know.
-</para>
-</refsect1>
 </refentry>
 <!-- 
 
@@ -20469,27 +20196,6 @@ There  are no known bugs in <command>Panda</command>. If you find one, please co
 <para>panda_setlinestart, panda_addlinesegment, panda_addcubiccurvesegment, panda_addquadraticsegmentone, panda_addquadraticcurvesegmenttwo, panda_rectangle, panda_endline, panda_strokeline, panda_fillline, panda_setlinewidth, panda_setlinecap, panda_setlinejoin, panda_setlinedash, panda_setfillcolor, panda_setlinecolor</para>
 </refsect1>
 
-
-<refsect1>
-    <title>VERSION</title>
-    <para>
-This documentation was generated for <command>Panda</command> 0.4.2 by <command>autodocbook</command> (http://www.stillhq.com).
-    </para>
-</refsect1>
-
-<refsect1>
-    <title>AUTHOR</title>
-    <para>
-<command>Panda</command> is under development by Michael Still (mikal@stillhq.com). All code is Copyright Michael Still 2000 and 2001,  and is released under the GNU GPL. Code submissions are welcomed. Contact Michael at the address above if you have something you would like to contribute.
-</para>
-</refsect1>
-
-<refsect1>
-    <title>BUGS</title>
-    <para>
-There  are no known bugs in <command>Panda</command>. If you find one, please contact mikal@stillhq.com and let me know.
-</para>
-</refsect1>
 </refentry>
 <!-- 
 
@@ -20559,27 +20265,6 @@ There  are no known bugs in <command>Panda</command>. If you find one, please co
 <para>panda_setlinestart,  panda_addlinesegment, panda_addcubiccurvesegment, panda_addquadraticsegmentone, panda_addquadraticcurvesegmenttwo, panda_closeline, panda_rectangle, panda_strokeline, panda_fillline, panda_setlinewidth, panda_setlinecap, panda_setlinejoin, panda_setlinedash, panda_setfillcolor, panda_setlinecolor</para>
 </refsect1>
 
-
-<refsect1>
-    <title>VERSION</title>
-    <para>
-This documentation was generated for <command>Panda</command> 0.4.2 by <command>autodocbook</command> (http://www.stillhq.com).
-    </para>
-</refsect1>
-
-<refsect1>
-    <title>AUTHOR</title>
-    <para>
-<command>Panda</command> is under development by Michael Still (mikal@stillhq.com). All code is Copyright Michael Still 2000 and 2001,  and is released under the GNU GPL. Code submissions are welcomed. Contact Michael at the address above if you have something you would like to contribute.
-</para>
-</refsect1>
-
-<refsect1>
-    <title>BUGS</title>
-    <para>
-There  are no known bugs in <command>Panda</command>. If you find one, please contact mikal@stillhq.com and let me know.
-</para>
-</refsect1>
 </refentry>
 <!-- 
 
@@ -20650,27 +20335,6 @@ There  are no known bugs in <command>Panda</command>. If you find one, please co
 <para>panda_setlinestart,  panda_addlinesegment, panda_addcubiccurvesegment, panda_addquadraticsegmentone, panda_addquadraticcurvesegmenttwo, panda_closeline, panda_rectangle, panda_endline, panda_fillline, panda_setlinewidth, panda_setlinecap, panda_setlinejoin, panda_setlinedash, panda_setfillcolor, panda_setlinecolor</para>
 </refsect1>
 
-
-<refsect1>
-    <title>VERSION</title>
-    <para>
-This documentation was generated for <command>Panda</command> 0.4.2 by <command>autodocbook</command> (http://www.stillhq.com).
-    </para>
-</refsect1>
-
-<refsect1>
-    <title>AUTHOR</title>
-    <para>
-<command>Panda</command> is under development by Michael Still (mikal@stillhq.com). All code is Copyright Michael Still 2000 and 2001,  and is released under the GNU GPL. Code submissions are welcomed. Contact Michael at the address above if you have something you would like to contribute.
-</para>
-</refsect1>
-
-<refsect1>
-    <title>BUGS</title>
-    <para>
-There  are no known bugs in <command>Panda</command>. If you find one, please contact mikal@stillhq.com and let me know.
-</para>
-</refsect1>
 </refentry>
 </sect3>
 
@@ -20749,27 +20413,6 @@ There  are no known bugs in <command>Panda</command>. If you find one, please co
 <para>panda_setlinestart, panda_addlinesegment, panda_addcubiccurvesegment, panda_addquadraticsegmentone, panda_addquadraticcurvesegmenttwo, panda_closeline, panda_rectangle, panda_endline, panda_strokeline, panda_setlinewidth, panda_setlinecap, panda_setlinejoin, panda_setlinedash, panda_setfillcolor, panda_setlinecolor</para>
 </refsect1>
 
-
-<refsect1>
-    <title>VERSION</title>
-    <para>
-This documentation was generated for <command>Panda</command> 0.4.2 by <command>autodocbook</command> (http://www.stillhq.com).
-    </para>
-</refsect1>
-
-<refsect1>
-    <title>AUTHOR</title>
-    <para>
-<command>Panda</command> is under development by Michael Still (mikal@stillhq.com). All code is Copyright Michael Still 2000 and 2001,  and is released under the GNU GPL. Code submissions are welcomed. Contact Michael at the address above if you have something you would like to contribute.
-</para>
-</refsect1>
-
-<refsect1>
-    <title>BUGS</title>
-    <para>
-There  are no known bugs in <command>Panda</command>. If you find one, please contact mikal@stillhq.com and let me know.
-</para>
-</refsect1>
 </refentry>
 <!-- 
 
@@ -20839,27 +20482,6 @@ There  are no known bugs in <command>Panda</command>. If you find one, please co
 <para>panda_setlinestart, panda_addlinesegment, panda_addcubiccurvesegment, panda_addquadraticsegmentone, panda_addquadraticcurvesegmenttwo, panda_closeline, panda_rectangle, panda_endline, panda_strokeline, panda_fillline, panda_setlinewidth, panda_setlinejoin, panda_setlinedash, panda_setfillcolor, panda_setlinecolor</para>
 </refsect1>
 
-
-<refsect1>
-    <title>VERSION</title>
-    <para>
-This documentation was generated for <command>Panda</command> 0.4.2 by <command>autodocbook</command> (http://www.stillhq.com).
-    </para>
-</refsect1>
-
-<refsect1>
-    <title>AUTHOR</title>
-    <para>
-<command>Panda</command> is under development by Michael Still (mikal@stillhq.com). All code is Copyright Michael Still 2000 and 2001,  and is released under the GNU GPL. Code submissions are welcomed. Contact Michael at the address above if you have something you would like to contribute.
-</para>
-</refsect1>
-
-<refsect1>
-    <title>BUGS</title>
-    <para>
-There  are no known bugs in <command>Panda</command>. If you find one, please contact mikal@stillhq.com and let me know.
-</para>
-</refsect1>
 </refentry>
 <!-- 
 
@@ -20929,27 +20551,6 @@ There  are no known bugs in <command>Panda</command>. If you find one, please co
 <para>panda_setlinestart, panda_addlinesegment, panda_addcubiccurvesegment, panda_addquadraticsegmentone, panda_addquadraticcurvesegmenttwo, panda_closeline, panda_rectangle, panda_endline, panda_strokeline, panda_fillline, panda_setlinewidth, panda_setlinecap, panda_setlinejoin, panda_setlinedash, panda_setfillcolor</para>
 </refsect1>
 
-
-<refsect1>
-    <title>VERSION</title>
-    <para>
-This documentation was generated for <command>Panda</command> 0.4.2 by <command>autodocbook</command> (http://www.stillhq.com).
-    </para>
-</refsect1>
-
-<refsect1>
-    <title>AUTHOR</title>
-    <para>
-<command>Panda</command> is under development by Michael Still (mikal@stillhq.com). All code is Copyright Michael Still 2000 and 2001,  and is released under the GNU GPL. Code submissions are welcomed. Contact Michael at the address above if you have something you would like to contribute.
-</para>
-</refsect1>
-
-<refsect1>
-    <title>BUGS</title>
-    <para>
-There  are no known bugs in <command>Panda</command>. If you find one, please contact mikal@stillhq.com and let me know.
-</para>
-</refsect1>
 </refentry>
 <!-- 
 
@@ -21019,27 +20620,6 @@ There  are no known bugs in <command>Panda</command>. If you find one, please co
 <para>panda_setlinestart, panda_addlinesegment, panda_addcubiccurvesegment, panda_addquadraticsegmentone, panda_addquadraticcurvesegmenttwo, panda_closeline, panda_rectangle, panda_endline, panda_strokeline, panda_fillline, panda_setlinewidth, panda_setlinecap, panda_setfillcolor, panda_setlinecolor</para>
 </refsect1>
 
-
-<refsect1>
-    <title>VERSION</title>
-    <para>
-This documentation was generated for <command>Panda</command> 0.4.2 by <command>autodocbook</command> (http://www.stillhq.com).
-    </para>
-</refsect1>
-
-<refsect1>
-    <title>AUTHOR</title>
-    <para>
-<command>Panda</command> is under development by Michael Still (mikal@stillhq.com). All code is Copyright Michael Still 2000 and 2001,  and is released under the GNU GPL. Code submissions are welcomed. Contact Michael at the address above if you have something you would like to contribute.
-</para>
-</refsect1>
-
-<refsect1>
-    <title>BUGS</title>
-    <para>
-There  are no known bugs in <command>Panda</command>. If you find one, please contact mikal@stillhq.com and let me know.
-</para>
-</refsect1>
 </refentry>
 <!-- 
 
@@ -21109,27 +20689,6 @@ There  are no known bugs in <command>Panda</command>. If you find one, please co
 <para>panda_setlinestart, panda_addlinesegment, panda_addcubiccurvesegment, panda_addquadraticsegmentone, panda_addquadraticcurvesegmenttwo, panda_closeline, panda_rectangle, panda_endline, panda_strokeline, panda_fillline, panda_setlinecap, panda_setlinejoin, panda_setlinedash, panda_setfillcolor, panda_setlinecolor</para>
 </refsect1>
 
-
-<refsect1>
-    <title>VERSION</title>
-    <para>
-This documentation was generated for <command>Panda</command> 0.4.2 by <command>autodocbook</command> (http://www.stillhq.com).
-    </para>
-</refsect1>
-
-<refsect1>
-    <title>AUTHOR</title>
-    <para>
-<command>Panda</command> is under development by Michael Still (mikal@stillhq.com). All code is Copyright Michael Still 2000 and 2001,  and is released under the GNU GPL. Code submissions are welcomed. Contact Michael at the address above if you have something you would like to contribute.
-</para>
-</refsect1>
-
-<refsect1>
-    <title>BUGS</title>
-    <para>
-There  are no known bugs in <command>Panda</command>. If you find one, please contact mikal@stillhq.com and let me know.
-</para>
-</refsect1>
 </refentry>
 <!-- 
 
@@ -21199,27 +20758,6 @@ There  are no known bugs in <command>Panda</command>. If you find one, please co
 <para>panda_setlinestart, panda_addlinesegment, panda_addcubiccurvesegment, panda_addquadraticsegmentone, panda_addquadraticcurvesegmenttwo, panda_closeline, panda_rectangle, panda_endline, panda_strokeline, panda_fillline, panda_setlinewidth, panda_setlinecap, panda_setlinejoin, panda_setfillcolor, panda_setlinecolor</para>
 </refsect1>
 
-
-<refsect1>
-    <title>VERSION</title>
-    <para>
-This documentation was generated for <command>Panda</command> 0.4.2 by <command>autodocbook</command> (http://www.stillhq.com).
-    </para>
-</refsect1>
-
-<refsect1>
-    <title>AUTHOR</title>
-    <para>
-<command>Panda</command> is under development by Michael Still (mikal@stillhq.com). All code is Copyright Michael Still 2000 and 2001,  and is released under the GNU GPL. Code submissions are welcomed. Contact Michael at the address above if you have something you would like to contribute.
-</para>
-</refsect1>
-
-<refsect1>
-    <title>BUGS</title>
-    <para>
-There  are no known bugs in <command>Panda</command>. If you find one, please contact mikal@stillhq.com and let me know.
-</para>
-</refsect1>
 </refentry>
 
 </sect3>
@@ -21227,14 +20765,902 @@ There  are no known bugs in <command>Panda</command>. If you find one, please co
 
 <sect2><title>Document metadata</title>
 <para>
-
+PDF supports embedding metadata about a document into the PDF itself, and Panda supports this through the following calls:
 </para>
+
+<!-- 
+
+     This document is part of the panda distribution, and is covered
+     by the GNU GPL, a copy of which is in the file named COPYING inside the
+     distribution.
+
+     This program and it's documentation are distributed in the hope that 
+     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
+     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+-->
+
+<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
+
+<refentry id="panda_setauthor">
+<refmeta>
+<refentrytitle>panda_setauthor</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_setauthor</refname>
+<refpurpose>set the author string for the PDF document</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_setauthor (panda_pdf *output, char *value);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>This function sets the value of the author within the PDF document.</para>
+</refsect1>
+
+<refsect1>
+<title>RETURNS</title>
+<para>Nothing</para>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLE</title>
+<para> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ panda_setauthor(document, "Mikal");
+</para>
+</refsect1>
+
+<refsect1>
+<title>SEE ALSO</title>
+<para>panda_checkinfo, panda_setcreator, panda_settitle, panda_setsubject, panda_setkeywords, panda_setid</para>
+</refsect1>
+
+</refentry>
+<!-- 
+
+     This document is part of the panda distribution, and is covered
+     by the GNU GPL, a copy of which is in the file named COPYING inside the
+     distribution.
+
+     This program and it's documentation are distributed in the hope that 
+     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
+     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+-->
+
+<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
+
+<refentry id="panda_setkeywords">
+<refmeta>
+<refentrytitle>panda_setkeywords</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_setkeywords</refname>
+<refpurpose>set the keywords string for the PDF document</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_setkeywords (panda_pdf *output, char *value);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>This function sets the value of the keywords string within the PDF document. The string is merely a list of keywords in the form "cats dogs hamsters chickens"</para>
+</refsect1>
+
+<refsect1>
+<title>RETURNS</title>
+<para>Nothing</para>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLE</title>
+<para> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ panda_setkeywords(document, "panda documentation pdf api generate");
+</para>
+</refsect1>
+
+<refsect1>
+<title>SEE ALSO</title>
+<para>panda_checkinfo, panda_setauthor, panda_setcreator, panda_settitle, panda_setsubject, panda_setid</para>
+</refsect1>
+
+</refentry>
+<!-- 
+
+     This document is part of the panda distribution, and is covered
+     by the GNU GPL, a copy of which is in the file named COPYING inside the
+     distribution.
+
+     This program and it's documentation are distributed in the hope that 
+     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
+     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+-->
+
+<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
+
+<refentry id="panda_setsubject">
+<refmeta>
+<refentrytitle>panda_setsubject</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_setsubject</refname>
+<refpurpose>set the subject string for the PDF document</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_setsubject (panda_pdf *output, char *value);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>This function sets the value of the subject within the PDF document.</para>
+</refsect1>
+
+<refsect1>
+<title>RETURNS</title>
+<para>Nothing</para>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLE</title>
+<para> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ panda_setsubject(document, "Mikal's homework");
+</para>
+</refsect1>
+
+<refsect1>
+<title>SEE ALSO</title>
+<para>panda_checkinfo, panda_setauthor, panda_setcreator, panda_settitle, panda_setkeywords, panda_setid</para>
+</refsect1>
+
+</refentry>
+<!-- 
+
+     This document is part of the panda distribution, and is covered
+     by the GNU GPL, a copy of which is in the file named COPYING inside the
+     distribution.
+
+     This program and it's documentation are distributed in the hope that 
+     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
+     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+-->
+
+<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
+
+<refentry id="panda_settitle">
+<refmeta>
+<refentrytitle>panda_settitle</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_settitle</refname>
+<refpurpose>set the title string for the PDF document</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_settitle (panda_pdf *output, char *value);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>This function sets the value of the title within the PDF document.</para>
+</refsect1>
+
+<refsect1>
+<title>RETURNS</title>
+<para>Nothing</para>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLE</title>
+<para> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ panda_settitle(document, "Mikal's excellent PDF document");
+</para>
+</refsect1>
+
+<refsect1>
+<title>SEE ALSO</title>
+<para>panda_checkinfo, panda_setcreator, panda_setauthor, panda_setsubject, panda_setkeywords, panda_setid</para>
+</refsect1>
+
+</refentry>
+
 </sect2>
 
 <sect2><title>Presentation support</title>
 <para>
-
+PDF can be used for presentations, and therefore allows you to specify a number of interesting things which are normally associated more with Microsoft PowerPoint presentations...
 </para>
+
+<!-- 
+
+     This document is part of the panda distribution, and is covered
+     by the GNU GPL, a copy of which is in the file named COPYING inside the
+     distribution.
+
+     This program and it's documentation are distributed in the hope that 
+     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
+     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+-->
+
+<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
+
+<refentry id="panda_centerwindow">
+<refmeta>
+<refentrytitle>panda_centerwindow</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_centerwindow</refname>
+<refpurpose>ask the viewer to center the document's window on the screen when the PDF is displayed</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_centerwindow (panda_pdf *document, int onoroff);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>This function records information in the output PDF document requesting that the viewing application center the displayed PDF document on the screen when it is opened. This option is not supported by all viewers, and therefore should not be relied upon. The on or off arguement is a panda_true value, which does the obvious thing. The default is to not center the window.</para>
+</refsect1>
+
+<refsect1>
+<title>RETURNS</title>
+<para>Nothing</para>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLE</title>
+<para> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ panda_centerwindow(document, panda_true);
+</para>
+</refsect1>
+
+</refentry>
+<!-- 
+
+     This document is part of the panda distribution, and is covered
+     by the GNU GPL, a copy of which is in the file named COPYING inside the
+     distribution.
+
+     This program and it's documentation are distributed in the hope that 
+     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
+     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+-->
+
+<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
+
+<refentry id="panda_fitwindow">
+<refmeta>
+<refentrytitle>panda_fitwindow</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_fitwindow</refname>
+<refpurpose>ask the viewer to fit the viewer window to the first page of the PDF document when it is opened</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_fitwindow (panda_pdf *document, int onoroff);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>This function records information in the output PDF document requesting that the viewing application fit the display window to the first page of the PDF document when it is opened. This option is not supported by all viewers, and therefore should not be relied upon. The on or off arguement is a panda_true value, which does the obvious thing. The default is to not fit the document to the window.</para>
+</refsect1>
+
+<refsect1>
+<title>RETURNS</title>
+<para>Nothing</para>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLE</title>
+<para> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ panda_fitwindow(document, panda_true);
+</para>
+</refsect1>
+
+</refentry>
+<!-- 
+
+     This document is part of the panda distribution, and is covered
+     by the GNU GPL, a copy of which is in the file named COPYING inside the
+     distribution.
+
+     This program and it's documentation are distributed in the hope that 
+     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
+     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+-->
+
+<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
+
+<refentry id="panda_fullscreen">
+<refmeta>
+<refentrytitle>panda_fullscreen</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_fullscreen</refname>
+<refpurpose>ask the viewer to display the PDF document in fullscreen mode</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_fullscreen (panda_pdf *document, int onoroff);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>This function records information in the output PDF document requesting that the viewing application display the document in full screen mode. This option is not supported by all viewers, and therefore should not be relied upon. The on or off arguement is a panda_true value, which does the obvious thing. The default is to not display the PDF in fullscreen mode.</para>
+</refsect1>
+
+<refsect1>
+<title>RETURNS</title>
+<para>Nothing</para>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLE</title>
+<para> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ panda_fullscreen(document, panda_true);
+</para>
+</refsect1>
+
+</refentry>
+<!-- 
+
+     This document is part of the panda distribution, and is covered
+     by the GNU GPL, a copy of which is in the file named COPYING inside the
+     distribution.
+
+     This program and it's documentation are distributed in the hope that 
+     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
+     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+-->
+
+<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
+
+<refentry id="panda_hidemenubar">
+<refmeta>
+<refentrytitle>panda_hidemenubar</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_hidemenubar</refname>
+<refpurpose>ask the viewer to hide it's menu bar when this PDF is displayed</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_hidemenubar (panda_pdf *document, int onoroff);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>This function records information in the output PDF document requesting that the viewing application's menu bar not be displayed when this PDF is opened. This option is not supported by all viewers, and therefore should not be relied upon. The on or off arguement is a panda_true value, which does the obvious thing. The default is to show the menu bar.</para>
+</refsect1>
+
+<refsect1>
+<title>RETURNS</title>
+<para>Nothing</para>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLE</title>
+<para> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ panda_hidemenubar(document, panda_true);
+</para>
+</refsect1>
+
+</refentry>
+<!-- 
+
+     This document is part of the panda distribution, and is covered
+     by the GNU GPL, a copy of which is in the file named COPYING inside the
+     distribution.
+
+     This program and it's documentation are distributed in the hope that 
+     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
+     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+-->
+
+<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
+
+<refentry id="panda_hidetoolbar">
+<refmeta>
+<refentrytitle>panda_hidetoolbar</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_hidetoolbar</refname>
+<refpurpose>ask the viewer to hide it's tool bar when this PDF is displayed</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_hidetoolbar (panda_pdf *document, int onoroff);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>This function records information in the output PDF document requesting that the viewing application's tool bar not be displayed when this PDF is opened. This option is not supported by all viewers, and therefore should not be relied upon. The on or off arguement is a panda_true value, which does the obvious thing. The default is to show the tool bar.</para>
+</refsect1>
+
+<refsect1>
+<title>RETURNS</title>
+<para>Nothing</para>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLE</title>
+<para> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ panda_hidetoolbar(document, panda_true);
+</para>
+</refsect1>
+
+</refentry>
+<!-- 
+
+     This document is part of the panda distribution, and is covered
+     by the GNU GPL, a copy of which is in the file named COPYING inside the
+     distribution.
+
+     This program and it's documentation are distributed in the hope that 
+     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
+     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+-->
+
+<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
+
+<refentry id="panda_hidewindowui">
+<refmeta>
+<refentrytitle>panda_hidewindowui</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_hidewindowui</refname>
+<refpurpose>ask the viewer to hide it's display window user interface when this PDF is displayed</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_hidewindowui (panda_pdf *document, int onoroff);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>This function records information in the output PDF document requesting that the viewing application's window user interface not be displayed when this PDF is opened. This option is not supported by all viewers, and therefore should not be relied upon. The on or off arguement is a panda_true value, which does the obvious thing. The default is to display the user interface.</para>
+</refsect1>
+
+<refsect1>
+<title>RETURNS</title>
+<para>Nothing</para>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLE</title>
+<para> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ panda_hidewindowui(document, panda_true);
+</para>
+</refsect1>
+
+</refentry>
+<!-- 
+
+     This document is part of the panda distribution, and is covered
+     by the GNU GPL, a copy of which is in the file named COPYING inside the
+     distribution.
+
+     This program and it's documentation are distributed in the hope that 
+     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
+     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+-->
+
+<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
+
+<refentry id="panda_nfspagemodde">
+<refmeta>
+<refentrytitle>panda_nfspagemodde</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_nfspagemodde</refname>
+<refpurpose>defines display characteristics for the PDF document if it is using non fullscreen mode after defaulting to fullscreen mode</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_nfspagemode (panda_pdf *document, int pagemode);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>If the document in question is using fullscreen mode and then exits from fullscreen mode, then this function configures the behaviour of several of the 'eye candy' options available in some viewers. The possible values for pagemode are: <command>panda_window_usenone</command>, which displays neither the outline or thumbnails (if present); <command>panda_window_useoutlines</command>, which displays only the outline for the document; <command>panda_window_usethumbs</command>, which only displays thumbnails. <command>Please note that this function will only have an effect on the viewer if the page mode has been set to fullscreen with the panda_fullscreen() function call</command></para>
+</refsect1>
+
+<refsect1>
+<title>RETURNS</title>
+<para>Nothing</para>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLE</title>
+<para> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ panda_nfspagemode(document, panda_window_usenone);
+</para>
+</refsect1>
+
+<refsect1>
+<title>SEE ALSO</title>
+<para>panda_fullscreen</para>
+</refsect1>
+
+</refentry>
+<!-- 
+
+     This document is part of the panda distribution, and is covered
+     by the GNU GPL, a copy of which is in the file named COPYING inside the
+     distribution.
+
+     This program and it's documentation are distributed in the hope that 
+     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
+     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+-->
+
+<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
+
+<refentry id="panda_pageduration">
+<refmeta>
+<refentrytitle>panda_pageduration</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_pageduration</refname>
+<refpurpose>specify the maximum number of seconds that a page should be displayed by the viewer before moving on</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_pageduration (panda_page *target, int seconds);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>This function records information within the PDF indicating the maximum number of seconds that the given page should be displayed within the viewer. This is useful for presentations and the like where you might like to automatically move onto the next page in the document at some point. The default value for this is to never move onto the next page automatically. If this value is changed from the default, there is currently no way to revert back to the default later. The feature may not be implemented by all viewers.</para>
+</refsect1>
+
+<refsect1>
+<title>RETURNS</title>
+<para>Nothing</para>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLE</title>
+<para> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ panda_page *page;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ page = panda_newpage (document, panda_pagesize_a4);
+ 
+ panda_pageduration (page, 30.5);
+</para>
+</refsect1>
+
+</refentry>
+<!-- 
+
+     This document is part of the panda distribution, and is covered
+     by the GNU GPL, a copy of which is in the file named COPYING inside the
+     distribution.
+
+     This program and it's documentation are distributed in the hope that 
+     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
+     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+-->
+
+<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
+
+<refentry id="panda_transduration">
+<refmeta>
+<refentrytitle>panda_transduration</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_transduration</refname>
+<refpurpose>specify the number of seconds that a page transition effect should take to occur</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_transduration (panda_page *target, double seconds);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>This function records information within the PDF indicating the maximum number of seconds that the given page transition effect should be displayed within the viewer. This is useful for presentations and the like when you realise that you are addicted to Microsoft Powerpoint...</para>
+</refsect1>
+
+<refsect1>
+<title>RETURNS</title>
+<para>Nothing</para>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLE</title>
+<para> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ panda_page *page;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ page = panda_newpage (document, panda_pagesize_a4);
+ 
+ panda_transduration (page, 30.5);
+</para>
+</refsect1>
+
+</refentry>
+<!-- 
+
+     This document is part of the panda distribution, and is covered
+     by the GNU GPL, a copy of which is in the file named COPYING inside the
+     distribution.
+
+     This program and it's documentation are distributed in the hope that 
+     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
+     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+-->
+
+<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
+
+<refentry id="panda_transstyle">
+<refmeta>
+<refentrytitle>panda_transstyle</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_transstyle</refname>
+<refpurpose>specify the type of page change transition that should occur</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_transstyle (panda_page *target, int style);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para> his function records information within the PDF indicating the preferred page transition style to use. The following are valid styles to use:
+ <orderedlist>
+ <listitem>panda_pagetrans_split_yi -- vertical split from the inside of the page</listitem>
+ <listitem>panda_pagetrans_split_yo -- vertical split from the outside of the page</listitem>
+ <listitem>panda_pagetrans_split_xi -- horizontal split from the inside of the page</listitem>
+ <listitem>panda_pagetrans_split_xo -- horizontal split from the outside of the page</listitem>
+ <listitem>panda_pagetrans_blinds_y -- vertical blinds effect</listitem>
+ <listitem>panda_pagetrans_blinds_x -- horizontal blinds effect</listitem>
+ <listitem>panda_pagetrans_box_i -- box expanding from the inside of the page</listitem>
+ <listitem>panda_pagetrans_box_o -- box contracting from the outside of the page</listitem>
+ <listitem>panda_pagetrans_wipe_0 -- a single line wipes the page away from the left to the right</listitem>
+ <listitem>panda_pagetrans_wipe_90 -- a single line wipes the page away from the bottom to the top</listitem>
+ <listitem>panda_pagetrans_wipe_180 -- a single line wipes the page away from the right to the left</listitem>
+ <listitem>panda_pagetrans_wipe_270 -- a single line wipes the page away from the top to the bottom</listitem>
+ <listitem>panda_pagetrans_dissolve -- the old page dissolves slowly into the new page</listitem>
+ <listitem>panda_pagetrans_glitter_0 -- a glitter effect that moves from the left to the right of the page</listitem>
+ <listitem>panda_pagetrans_glitter_270 -- a glitter effect that moves from the top to the bottom of the page</listitem>
+ <listitem>panda_pagetrans_glitter_315 -- a glitter effect that moves from the top left to the bottom right of the page</listitem>
+ <listitem>panda_pagetrans_none -- no transition effect</listitem>
+ </orderedlist>
+ 
+ </para>
+ <para>
+ he default transition is to have no transition at all. It should be noted that not all viewers support these transition effects.
+</para>
+</refsect1>
+
+<refsect1>
+<title>RETURNS</title>
+<para>Nothing</para>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLE</title>
+<para> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ panda_page *page;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ page = panda_newpage (document, panda_pagesize_a4);
+ 
+ panda_transduration (page, 30.5);
+</para>
+</refsect1>
+
+</refentry>
+
 </sect2>
 
 <sect2><title>A full Panda example</title>
