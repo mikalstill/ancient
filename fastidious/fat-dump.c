@@ -8,7 +8,7 @@
 #include <fcntl.h>
 #include "fileutil.h"
 
-void travdir(int, char *, long long, int, int);
+void travdir(int, char *, long long, int, int, int);
 
 int main(int argc, char *argv[]){
   int fd, count, bytespersec, secperclu, resseccnt, numfats, rootentcnt, totsec16, 
@@ -62,7 +62,7 @@ int main(int argc, char *argv[]){
   secperclu = fileutil_displaybyte(file, "Sectors per allocation unit: ", &filep); printf("\n");
   resseccnt = fileutil_displayshort(file, "Number of sectors in the reserved region: ", &filep); printf("\n");
   numfats = fileutil_displaybyte(file, "Number of FATs: ", &filep); printf("\n");
-  rootentcnt = fileutil_displayshort(file, "Number of root directory entries (FAT12 or FAT16 only): ", &filep); printf("\n");
+  rootentcnt = fileutil_displayshort(file, "Maximum number of root directory entries (FAT12 or FAT16 only): ", &filep); printf("\n");
   totsec16 = fileutil_displayshort(file, "16 bit total count of sectors on volume: ", &filep); printf("\n");
   fileutil_displaybyte(file, "Media type: ", &filep); printf("\n");
   fatsz16 = fileutil_displayshort(file, "16 bit count of the size of a single FAT: ", &filep); printf("\n");
@@ -145,9 +145,10 @@ int main(int argc, char *argv[]){
 
   // Skip the FATs for now...
   filep = (resseccnt + numfats * fatsz16) * bytespersec;
+  //filep = (resseccnt + 1) * bytespersec + (numfats & fatsz16);
   
   printf("Root directory starts at: %d\n", filep);
-  travdir(0, file, filep, bytespersec, resseccnt);
+  travdir(0, file, filep, filep + (rootentcnt * 32), secperclu, bytespersec);
   
   // It's polite to cleanup
   munmap(file, sb.st_size);
@@ -155,11 +156,13 @@ int main(int argc, char *argv[]){
   return 0;
 }
 
-void travdir(int indent, char *file, long long filep, int bytespersec, int resseccnt){
+void travdir(int indent, char *file, long long filep, int firstdata, int secperclu, int bytespersec){
   int count, icount, isdir, newfilepl, newfileph;
 
   for(icount = 0; icount < indent; icount++) printf("  ");
-  printf("[ Directory entries from %d ]\n\n", filep);
+  printf("[ Directory entries from %d ]\n", filep);
+  for(icount = 0; icount < indent; icount++) printf("  ");
+  printf("[ First data sector is %d ] \n\n", firstdata);
 
   while(1){
     if(file[filep] == 0)
@@ -217,9 +220,13 @@ void travdir(int indent, char *file, long long filep, int bytespersec, int resse
     printf("\n");
 
     if(isdir){
+      for(icount = 0; icount < indent + 1; icount++) printf("  ");
+      printf("[ Descending into data cluster %d ] \n\n", ((newfileph << 16) + newfilepl));
+      
       travdir(indent + 1, file, 
-	      ((newfileph << 16) + newfilepl + resseccnt) * bytespersec, 
-	      bytespersec, resseccnt);
+	      //((resseccnt + numfats * fatsz16) * bytespersec) // to the start of the root directory
+	      (((newfileph << 16) + newfilepl) * secperclu * bytespersec)+ firstdata, 
+	      firstdata, secperclu, bytespersec);
     }
   }
 }
