@@ -124,9 +124,12 @@ public:
   //do one iteration of the least squares algoritum
   const cepLs & cepDoRW(cepMatrix<double> &matA, cepMatrix<double> &matP);
   
-  //get the value of the residual at pos (x,y)    
+  //get the new residual data matrix   
   const cepMatrix<double> &getResidual();
 
+  //get the new dataset matrix
+  const cepMatrix<double> &getDataset();
+  
   //get the value B1 in the least squares solution y=B1*x +B2  
   double getB1();
 
@@ -138,8 +141,10 @@ public:
 private:
 
   cepMatrix<double> m_residual,       //holds the value of the residuals 
-                    m_matX;           //holds the value of B1, B2
-  
+                    m_matX,           //holds the value of B1, B2
+                    m_residData,
+                    m_dataset;
+                    
   cepError m_error;
   //ensure that all values of the matrix A P and L are consistant with the
   //least squares alogrithum.
@@ -180,6 +185,8 @@ private:
 
   //calculates B*A where A is the design matrix in the least squares tranform
   const cepMatrix<double> mulA(cepMatrix<double> &matA, cepMatrix<double> &matA);
+
+  void makeDatasets(cepMatrix<double> &data, cepMatrix<double> &matP);
 };
 
 #endif //end __CEPLS_H

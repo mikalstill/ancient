@@ -47,6 +47,7 @@ const cepLs & cepLs::cepDoVCV(cepMatrix<double> &data, cepMatrix<double> &matP)
   }
 
   calcVCV(matA, matP, matL);
+  makeDatasets(data, matP);
   return *this;
 }
 
@@ -84,38 +85,18 @@ const cepLs & cepLs::cepDoVCV(cepMatrix<double> &data)
   {
     return *this;
   }
-  
-  cout << "dimsions data " << data.getNumRows() << " " << data.getNumCols() << endl;
-  cout << "dimsions A " << matA.getNumRows() << " " << matA.getNumCols() << endl;
-  cout << "dimsions P " << matP.getNumRows() << " " << matP.getNumCols() << endl;
-  cout << "dimsions L " << matL.getNumRows() << " " << matL.getNumCols() << endl;
-  
+
   calcVCV(matA, matP, matL);
   if(m_error.isReal() == true)
   {
     return *this;
   }
-  
+
   int i = 0;
   while(m_residual != lastResid)
   {
     i++;
 
-    cout << endl << "iteration num " << i << endl;
-
-    cout << "mean: " << getB1() << "Y intercept: " << getB2() << endl;
-    cout << "residuals:" << endl;
-
-/*   for(int i = 0; i < m_residual.getNumRows(); i ++){
-      cout << m_residual.getValue(i,0) << " ";
-      if(m_residual.getError().isReal() == true)
-      {
-        m_error.setError(m_residual.getError().getMessage(), cepError::sevErrorRecoverable);
-        return *this;
-      }
-    }
-    cout << endl;
-*/  
     lastResid = m_residual;
     if(lastResid.getError().isReal() == true)
     {
@@ -125,22 +106,14 @@ const cepLs & cepLs::cepDoVCV(cepMatrix<double> &data)
     
     matP = reweightVCV(matP);
 
-/*    cout << "reweight: " << endl;
-    for(int i = 0; i < matP.getNumRows(); i ++){
-      for(int j = 0; j < matP.getNumCols(); j ++){
-        cout << matP.getValue(i,j) << " ";
-      }
-      cout << endl;
-    }
-*/               
     calcVCV(matA, matP, matL);
     if(m_error.isReal() == true)
     {
       return *this;
     }
-//    char blah;
-//    cin >> blah;
   }
+
+  makeDatasets(data, matP);
   return *this;
 }
 
@@ -166,13 +139,20 @@ const cepLs & cepLs::cepDoRW(cepMatrix<double> &data, cepMatrix<double> &matP)
   {
     return *this;
   }
+
   calcRW(matA, matP, matL);
+  makeDatasets(data, matP);
   return *this;
 }
 
 const cepMatrix<double> &cepLs::getResidual()
 {
-  return m_residual;
+  return m_residData;
+}
+
+const cepMatrix<double> &cepLs::getDataset()
+{
+  return m_dataset;
 }
 
 double cepLs::getB1()
@@ -296,14 +276,14 @@ void cepLs::calcVCV(cepMatrix<double> &matA, cepMatrix<double> &matP, cepMatrix<
   if(Atrans.getError().isReal() == true)
   {
     m_error.setError(Atrans.getError().getMessage(), cepError::sevErrorRecoverable);
-    goto END;
+    return;
   }
 
   Atrans.transpose();
   if(Atrans.getError().isReal() == true)
   {
     m_error.setError(Atrans.getError().getMessage(), cepError::sevErrorRecoverable);
-    goto END;
+    return;
   }
   
   //if matrix is diagonal
@@ -314,14 +294,14 @@ void cepLs::calcVCV(cepMatrix<double> &matA, cepMatrix<double> &matP, cepMatrix<
     if(AtransP.getError().isReal() == true)
     {
       m_error.setError(Atrans.getError().getMessage(), cepError::sevErrorRecoverable);
-      goto END;
+      return;
     }
   
   }
   else
   {
     m_error.setError("Weighting matrix is not strictly diagonal", cepError::sevErrorRecoverable);
-    goto END;
+    return;
   }
 
   //caluclate (A^TPA)^-1
@@ -329,14 +309,14 @@ void cepLs::calcVCV(cepMatrix<double> &matA, cepMatrix<double> &matP, cepMatrix<
   if(AtPInv.getError().isReal() == true)
   {
     m_error.setError(AtPInv.getError().getMessage(), cepError::sevErrorRecoverable);
-    goto END;
+    return;
   }
   
   AtPInv = inverse(AtPInv);
   if(AtPInv.getError().isReal() == true)
   {
     m_error.setError(AtPInv.getError().getMessage(), cepError::sevErrorRecoverable);
-    goto END;
+    return;
   }
 
   //calcualte A^TPL
@@ -344,14 +324,14 @@ void cepLs::calcVCV(cepMatrix<double> &matA, cepMatrix<double> &matP, cepMatrix<
   if(AtransP.getError().isReal() == true)
   {
     m_error.setError(AtransP.getError().getMessage(), cepError::sevErrorRecoverable);
-    goto END;
+    return;
   }
 
   AtPInv *= AtransP;
   if(AtPInv.getError().isReal() == true)
   {
     m_error.setError(AtPInv.getError().getMessage(), cepError::sevErrorRecoverable);
-    goto END;
+    return;
   }
 
   m_matX = AtPInv;
@@ -359,12 +339,11 @@ void cepLs::calcVCV(cepMatrix<double> &matA, cepMatrix<double> &matP, cepMatrix<
   if(AtPInv.getError().isReal() == true)
   {
     m_error.setError(AtPInv.getError().getMessage(), cepError::sevErrorRecoverable);
-    goto END;
+    return;
   }
 
   calcResiduals(matA, matL);
 
-END: cout <<"";
 }
 
 void cepLs::calcRW(cepMatrix<double> &matA, cepMatrix<double> &matP, cepMatrix<double> &matL)
@@ -377,21 +356,21 @@ void cepLs::calcRW(cepMatrix<double> &matA, cepMatrix<double> &matP, cepMatrix<d
   if(Atrans.getError().isReal() == true)
   {
     m_error.setError(Atrans.getError().getMessage(), cepError::sevErrorRecoverable);
-    goto END;
+    return;
   }
 
   Atrans.transpose();
   if(Atrans.getError().isReal() == true)
   {
     m_error.setError(Atrans.getError().getMessage(), cepError::sevErrorRecoverable);
-    goto END;
+    return;
   }
 
   AtransP = Amul(Atrans, matP);
   if(AtransP.getError().isReal() == true)
   {
     m_error.setError(Atrans.getError().getMessage(), cepError::sevErrorRecoverable);
-    goto END;
+    return;
   }
 
   //caluclate (A^TPA)^-1
@@ -399,14 +378,14 @@ void cepLs::calcRW(cepMatrix<double> &matA, cepMatrix<double> &matP, cepMatrix<d
   if(AtPInv.getError().isReal() == true)
   {
     m_error.setError(AtPInv.getError().getMessage(), cepError::sevErrorRecoverable);
-    goto END;
+    return;
   }
 
   AtPInv = inverse(AtPInv);
   if(AtPInv.getError().isReal() == true)
   {
     m_error.setError(AtPInv.getError().getMessage(), cepError::sevErrorRecoverable);
-    goto END;
+    return;
   }
 
   //calcualte A^TPL
@@ -414,26 +393,24 @@ void cepLs::calcRW(cepMatrix<double> &matA, cepMatrix<double> &matP, cepMatrix<d
   if(AtransP.getError().isReal() == true)
   {
     m_error.setError(Atrans.getError().getMessage(), cepError::sevErrorRecoverable);
-    goto END;
+    return;
   }
 
   AtPInv *= AtransP;
   if(AtPInv.getError().isReal() == true)
   {
     m_error.setError(AtPInv.getError().getMessage(), cepError::sevErrorRecoverable);
-    goto END;
+    return;
   }
 
   m_matX = AtPInv;
   if(AtPInv.getError().isReal() == true)
   {
     m_error.setError(AtPInv.getError().getMessage(), cepError::sevErrorRecoverable);
-    goto END;
+    return;
   }
 
   calcResiduals(matA, matL);
-
-END: cout <<"";
 }
 
 const cepMatrix<double> cepLs::reweightVCV(cepMatrix<double> &matP)
@@ -444,7 +421,7 @@ const cepMatrix<double> cepLs::reweightVCV(cepMatrix<double> &matP)
   tempResidual = m_residual;
 
   m_error.init();
-  
+
   //calculate tempResidual^T * matP
   //this removes any previously detected outliers from the calculations
   for(int i = 0; i < tempResidual.getNumRows(); i++)
@@ -454,8 +431,8 @@ const cepMatrix<double> cepLs::reweightVCV(cepMatrix<double> &matP)
       tempResidual.setValue(i,0,0);
     }
   }
-  
-  
+
+
   //sort residuals in ascending order
   for(int i = 0; i < tempResidual.getNumRows(); i ++){
     if(numSwap == 0)
@@ -585,7 +562,6 @@ const cepMatrix<double> cepLs::reweightVCV(cepMatrix<double> &matP)
       {
         if((m_residual.getValue(i,0) < per25) || (m_residual.getValue(i,0) > per75))
         {
-          cout << "found outlier at: " << i << endl;
           newP.setValue(i, j, 0);
           if(newP.getError().isReal() == true)
           {
@@ -784,22 +760,62 @@ void cepLs::calcResiduals(cepMatrix<double> &matA, cepMatrix<double> &matL)
   if(m_residual.getError().isReal() == true)
   {
     m_error.setError(m_residual.getError().getMessage(), cepError::sevErrorRecoverable);
-    goto END;
+   return;
   }
 
   m_residual *= m_matX;
   if(m_residual.getError().isReal() == true)
   {
     m_error.setError(m_residual.getError().getMessage(), cepError::sevErrorRecoverable);
-    goto END;
+    return;
   }
 
   m_residual -= matL;
   if(m_residual.getError().isReal() == true)
   {
     m_error.setError(m_residual.getError().getMessage(), cepError::sevErrorRecoverable);
-    goto END;
+    return;
   }
 
-END: cout <<"";  
+}
+
+void cepLs::makeDatasets(cepMatrix<double> &data, cepMatrix<double> &matP)
+{
+  cepMatrix<double> newDataset(matP.getNumRows(), 4),
+                    newResiduals(matP.getNumRows(), 4);
+
+  for(int i = 0; i < newDataset.getNumRows(); i++)
+  {
+    newDataset.setValue(i, 0, data.getValue(i, 0));
+    newResiduals.setValue(i, 0, data.getValue(i, 0));
+
+    newDataset.setValue(i, 1, data.getValue(i, 1));
+
+    newDataset.setValue(i, 2, data.getValue(i, 2));
+    newResiduals.setValue(i, 2, data.getValue(i, 2));
+
+    if(matP.getValue(i,i) == 0)
+    {
+      newResiduals.setValue(i,1, 0);
+      
+      newDataset.setValue(i, 3, 2);
+      newResiduals.setValue(i, 3, 2);
+    }
+    else
+    {
+      newResiduals.setValue(i,1, m_residual.getValue(i, 0));
+      if(matP.getValue(i,i) == 1)
+      {
+        newDataset.setValue(i, 3, 1);
+        newResiduals.setValue(i, 3, 1);
+      }
+      else
+      {
+        newDataset.setValue(i, 3, 3);
+        newResiduals.setValue(i, 3, 3);
+      }
+    }
+  }
+  m_residData = newResiduals;
+  m_dataset = newDataset;
 }
