@@ -7,8 +7,7 @@
 <title>About the author</title>
 <para>
 Michael's student number is 964076. He can be contacted at mikal@stillhq.com. Copyright (c) Michael Still 2002. This submission is
-<postexecute><cmd>striptext.pl</cmd><input>output.sgml</input><output>temp.txt</output><args>-c</args></postexecute>
-<postexecute><cmd>wc -w</cmd><input>temp.txt</input></postexecute>
+    953
 words, not including the code snippets.
 </para>
 </sect1>
@@ -56,7 +55,7 @@ $scalar = 42;
 # We could eval this output to get it back...
 print Dumper([@array], {%hash}, $scalar);
 </programlisting>
-<para><emphasis>Code: </emphasis></para>
+<para><emphasis>Code: datadumper.pl</emphasis></para>
 
 <para>
 Which produces...
@@ -86,13 +85,12 @@ I believe it is possible to have the variable names persist, but haven't worked 
 </para>
 
 <programlisting>
-#define _LEN(x)
-#define GENSTRUCT
-
 GENSTRUCT enum fruit {APPLE, ORANGE=2, PEAR,
 		      RASBERRY, PEACH};
 
-GENSTRUCT struct test2 {
+GENSTRUCT
+struct test2 
+{
 	int x1;
 	char *foo;
 	char fstring[20]; _NULLTERM
@@ -119,7 +117,7 @@ GENSTRUCT struct test1 {
 	struct test2 **test2_parray; _LEN(plen)
 };
 </programlisting>
-<para><emphasis>Code: </emphasis></para>
+<para><emphasis>Code: /home/mikal/cvs.samba.org/junkcode/genstruct/test.h</emphasis></para>
 
 <para>
 In this example you can see that structures which should have <command>genstruct</command> enabled have the <command>GENSTRUCT</command> attribute associated with them, you are therefore not required to have all of the data structures in your code exportable. <command>GENSTRUCT</command> is merely an empty #define, which the <command>genstruct</command> header file parser can search for.
