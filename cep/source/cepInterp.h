@@ -31,6 +31,7 @@ interpolation.
 #include <stdlib.h>
 #include <vector>
 #include "cepMatrix.h"
+#include "cepError.h"
 
 #ifndef __CEP_INTERP_H
 #define __CEP_INTERP_H
@@ -62,7 +63,6 @@ public:
 
 	cepInterp();
 /*******
-DOCBOOK START
 	 doInterp method 1: Interpolates data to a set sample rate
 
   cepMatrix<double> & doInterp(const cepMatrix<double> & input, double sampleRate,
@@ -123,6 +123,9 @@ DOCBOOK END
 
 private:
 
+// Member variable for catching errors
+cepError m_error;
+
  // internal interpolation implementation methods
 
 /*
@@ -179,6 +182,15 @@ Exports:
 // Exports: a, b, c
 	void calc_abc(cepMatrix<double> & a,cepMatrix<double> & b,cepMatrix<double> & c,
 								cepMatrix<double> & s,cepMatrix<double> & h,cepMatrix<double> & input, int n);
+
+// setColour: (used to set different colours to new points)
+// Used at generation time of an interpolated matrix
+// Imports: input (original matrix)
+//          timeScale (interped matrix to be coloured)
+//          position (current position in input)
+//          i (current position in timeScale)
+  void setColour(cepMatrix<double> & input, cepMatrix<double> & timeScale, int position, int i);
+
 
 };
 
