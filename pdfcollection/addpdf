@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# Add the named PDF to the online collection
+if [ "%$2%" != "%--force%" ]
+then
+  xpdf $1
+  echo -n "Publish? (y/n) "
+  read publish
+  if [ "%$publish%" != "%y%" ]
+  then
+    echo "Not publishing"
+    exit
+  fi
+fi
+
+echo "Adding $1"
+highest=`cat /home/httpd/html/pdfdb/highest`
+objid=$(( $highest + 1 ))
+pobjid=`printf "%06d" $objid`
+echo "New object id is $objid ($pobjid)"
+
+echo "Moving PDF"
+mkdir -p /home/httpd/html/pdfdb/$pobjid
+cp $1 /home/httpd/html/pdfdb/$pobjid/data.pdf
+
+echo "Extracting pages"
+gs --version > /home/httpd/html/pdfdb/$pobjid/gs.version
+rm -rf /tmp/magic*
+convert /home/httpd/html/pdfdb/$pobjid/data.pdf /home/httpd/html/pdfdb/$pobjid/gspage-%d.png &> /home/httpd/html/pdfdb/$pobjid/gs.errors
+rm -rf /tmp/magic*
+pagecount=`ls /home/httpd/html/pdfdb/$pobjid/gspage-*.png | wc -l | tr -d " "`
+echo "Number of pages: $pagecount"
+echo "GSPAGECOUNT: $pagecount" > /home/httpd/html/pdfdb/$pobjid/data.internal
+
+echo "Extract info"
+pdfinfo /home/httpd/html/pdfdb/$pobjid/data.pdf > /home/httpd/html/pdfdb/$pobjid/data.info
+if [ "%$3%" != "%%" ]
+then
+  echo "Producer: $3" >> /home/httpd/html/pdfdb/$pobjid/data.info
+fi
+
+echo $objid > /home/httpd/html/pdfdb/highest

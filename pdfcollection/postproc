@@ -1,0 +1,12 @@
+#!/bin/bash
+
+for item in `find . -type f -name "gspage-*.png" -print`
+do
+  dir=`echo $item | sed 's/\/gspage.*$//'`
+  file=`echo $item | sed 's/.*\///'`
+  if [ ! -e "$dir/c$file" ]
+  then
+    convert -sample "20%x20%" $dir/$file $dir/c$file
+    rm $dir/$file
+  fi
+done
