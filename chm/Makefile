@@ -1,6 +1,6 @@
 all:	chm-dump
 
-chm-dump:	chm-dump.o fileutil.o
+chm-dump:	chm-dump.o fileutil.o winlang.h
 	gcc -o chm-dump chm-dump.o fileutil.o
 
 chm-dump.o: chm-dump.c

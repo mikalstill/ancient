@@ -1,4 +1,5 @@
 #include "fileutil.h"
+#include "winlang.h"
 
 void fileutil_insertstring(FILE *output, char *string){
   int len = strlen(string);
@@ -34,6 +35,7 @@ void fileutil_insertshort(FILE *output, int value){
   fprintf(output, "%c%c", myInt.c[0], myInt.c[1]);
 }
 
+// Display a C++ serialized string
 void fileutil_displaystring(FILE *input, char *format){
   int i;
 
@@ -52,6 +54,25 @@ void fileutil_displaystring(FILE *input, char *format){
   }
 }
 
+// Display an 8 byte long
+long fileutil_displaylong(FILE *input, char *format){
+  mint64 mylong;
+
+  mylong.i = 0;
+  printf(format);
+  mylong.c[0] = fgetc(input);
+  mylong.c[1] = fgetc(input);
+  mylong.c[2] = fgetc(input);
+  mylong.c[3] = fgetc(input);
+  mylong.c[4] = fgetc(input);
+  mylong.c[5] = fgetc(input);
+  mylong.c[6] = fgetc(input);
+  mylong.c[7] = fgetc(input);
+
+  printf("(long long) %d [8 bytes]", mylong.i);
+  return mylong.i;
+}
+
 // Display a 4 byte int
 int fileutil_displayinteger(FILE *input, char *format){
   mint32 myint;
@@ -63,7 +84,7 @@ int fileutil_displayinteger(FILE *input, char *format){
   myint.c[2] = fgetc(input);
   myint.c[3] = fgetc(input);
 
-  printf("(int) %d", myint.i);
+  printf("(int) %d [4 bytes]", myint.i);
   return myint.i;
 }
 
@@ -76,7 +97,7 @@ int fileutil_displayshort(FILE *input, char *format){
   myint.c[0] = fgetc(input);
   myint.c[1] = fgetc(input);
 
-  printf("(short) %d", myint.i);
+  printf("(short) %d [2 bytes]", myint.i);
   return myint.i;
 }
 
@@ -116,6 +137,7 @@ int fileutil_displaybyte_actual(FILE *input, char *format){
 // Display a language ID having made a half hearted attempt to decode it
 int fileutil_displaywindowslanguage(FILE *input, char *format){
   mint32 myint;
+  int index;
 
   myint.i = 0;
   printf(format);
@@ -124,28 +146,51 @@ int fileutil_displaywindowslanguage(FILE *input, char *format){
   myint.c[2] = fgetc(input);
   myint.c[3] = fgetc(input);
   
-  switch(myint.i){
-  case 0x0409:
-    printf("(windows language) LANG_ENGLISH/SUBLANG_ENGLISH_US");
-    break;
+  index = 0;
+  while(languages[index].name != NULL){
+    if(languages[index].id == myint.i){
+      printf("0x%04x %s (%s, %s)", 
+	     languages[index].id,
+	     languages[index].name,
+	     languages[index].lang,
+	     languages[index].sublang);
+      return myint.i;
+    }
 
-  case 0x0407:
-    printf("(windows language) LANG_GERMAN/SUBLANG_GERMAN");
-    break;
-
-  default:
-    printf("(windows language) %#x", myint.i);
-    break;
+    index++;
   }
-
+     
+  printf("0x%04x (unknown language)", myint.i);
   return myint.i;
 }
 
 // Display a MS GUID
 char *fileutil_displayguid(FILE *input, char *format){
   printf(format);
-  fileutil_displayshort(input, "");
-  fileutil_displaybyte(input, " ");
-  fileutil_displaybyte(input, " ");
+  fileutil_displayinteger(input, "");
+  fileutil_displayshort(input, " ");
+  fileutil_displayshort(input, " ");
   fileutil_displaybyteblock(input, " ", 8);
+}
+
+// "Encoded integer", used by MS CHM
+int fileutil_displayencinteger(FILE *input, char *format, int *read){
+  int continued = 1, val, accval = 0;
+  unsigned char b;
+  printf(format);
+
+  printf("(encoded int) ");
+  while(continued == 1){
+    b = fgetc(input);
+    continued = b >> 7;
+    val = b << 1;
+    val = val >> 1;
+
+    printf("[%d %d] ", continued, val);
+    accval += val;
+
+    *read++;
+  }
+
+  printf("= %d", accval);
 }
