@@ -3,6 +3,7 @@
  *   Imp for the CEP error
  *   Copyright (C) Michael Still                    2002
  *   Copyright (C) Blake Swadling                   2002
+ *   Copyright (C) Kristy Van Der Vlist             2002 
  *
  *   This program is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -58,6 +59,25 @@ void cepError::addErrorHandler( cepErrorHandler& h )
     m_handler = &h;
     m_handlerInstalled = true;
   }
+}
+
+void cepError::init()
+{
+  if((m_message != "") && (m_actioned == false))
+  {
+    cepDebugPrint ("cepError was not actioned: " + m_message);
+  }
+    
+  m_actioned = false;
+  m_level = cepError::sevOk;
+  m_message = "";
+}
+
+void cepError::setError(const string & msg, cepError::severity level)
+{
+  m_message = msg;
+  m_level = level;
+  m_actioned = false;
 }
 
 void cepError::removeErrorHandler()

@@ -3,6 +3,7 @@
  *   Imp for the CEP error
  *   Copyright (C) Michael Still                    2002
  *   Copyright (C) Blake Swadling                   2002
+ *   Copyright (C) Kristy Van Der Vlist             2002
  *   
  *   This program is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -200,6 +201,8 @@ public:
   static void removeErrorHandler();
   ~cepError ();
 
+  void init();
+  void setError(const string & msg, severity level);
   bool isReal ();
   void clear ();
   void log ();
