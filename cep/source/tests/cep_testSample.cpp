@@ -19,6 +19,7 @@
 #include <cppunit/extensions/HelperMacros.h>
 
 #include <stdio.h>
+#include <exception>
 
 
 /**
@@ -36,11 +37,14 @@
  *     void tearDown( void ) { ... }
  *
  * @author <your name here>
- * @version $Revision: 1.1 $ $Date: 2002-08-04 04:05:26 $
+ * @version $Revision: 1.2 $ $Date: 2002-08-04 04:55:44 $
  *
  * Revision History
  *
  * $Log: not supported by cvs2svn $
+ * Revision 1.1  2002/08/04 04:05:26  u982087
+ * tools to build the tests and a sample test
+ *
  */
 
 namespace {
@@ -70,12 +74,28 @@ public:
     suiteOfTests->addTest(
       new CppUnit::TestCaller<Test>( "sampleTest", &Test::sampleTest ) );
     suiteOfTests->addTest(
-      new CppUnit::TestCaller<Test>( "sampleTest2", &Test::sampleTest2 ) );
+      new CppUnit::TestCaller<Test>( "sampleTestAssertTrue", &Test::sampleTestAssertTrue ) );
+    suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "sampleTestAssertTrueWithMessage", &Test::sampleTestAssertTrueWithMessage ) );
+    suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "sampleTestAssertEqual", &Test::sampleTestAssertEqual ) );
+    suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "sampleTestEqualWithMessage", &Test::sampleTestEqualWithMessage ) );
+    suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "sampleTestAssertDoublesEqual", &Test::sampleTestAssertDoublesEqual ) );
+    suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "sampleTestFail", &Test::sampleTestFail ) );
 
     return suiteOfTests;
   }
 
 protected:
+
+
+  void throwStdException() {
+    throw std::exception();
+  }
+  
   /**
    * DEFINE YOUR TESTS HERE:
    * make your tests protected since you dont need to expose them
@@ -83,21 +103,48 @@ protected:
 
   /** simple test 1. uses a generic assert true macro */
   void sampleTest ()
-  {
-   // this will always fail, well it will until your edit your test ;^)
-//    CPPUNIT_ASSERT_MESSAGE ("you didn't edit your test", 0 );
-    
+  { 
     char* foo = (char*)malloc(32);
     CPPUNIT_ASSERT_MESSAGE ("foo failed", foo != 0);
     free(foo);
   }
   
-  
-  /** simple test 1. uses a generic assert true macro */
-  void sampleTest2 ()
+  /* removed
+  void sampleTestThrowException ()
   {
-   // this will always fail, well it will until your edit your test ;^)
-    CPPUNIT_ASSERT_MESSAGE ("you didn't edit your test", 0 );
+    // Asserts that a specific exception was thrown.
+    CPPUNIT_TEST_EXCEPTION( throwStdException, std::exception );
+  }
+  */
+
+  void sampleTestAssertTrue () {
+    // Assertions that a condition is true.
+    CPPUNIT_ASSERT( 10 == 10);
+  }
+
+  void sampleTestAssertTrueWithMessage () {
+    // Assertion with a user specified message.
+    CPPUNIT_ASSERT_MESSAGE( "bugger, 10 is not equal to 10 :(", 10 == 10 );
+  }
+ 
+  void sampleTestAssertEqual () {
+    // Asserts that two values are equals.
+    CPPUNIT_ASSERT_EQUAL( 10, 10 );
+  }
+  
+  void sampleTestEqualWithMessage () {
+    // Asserts that two values are equals, provides additional message on failure.
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "bugger, 10 is not equal to 10 :(" , 10, 10 );
+  }
+
+  void sampleTestAssertDoublesEqual () {
+    // Macro for primitive value comparisons.
+    CPPUNIT_ASSERT_DOUBLES_EQUAL( 3.1415926535789, 3.1415926535790, 0.0000000000001 );
+  }
+
+  void sampleTestFail () {
+    // Fails with the specified message.
+    CPPUNIT_FAIL( "this test is doing as it is told and failing!" );
   }
 
 }; // end Test
