@@ -1,1 +1,5 @@
 convert -sample 320x240 grayscale-figure1.jpg grayscale-figure1.eps
+
+I had problems with: </para></sect3><sidebar>... The answer was:
+
+<xmldoc> mikal: wrap the sidebar in a sect3. the basic rule with docbook sections is that you can have paragraphs and other block-level stuff before them, but not after them. So basically, the only thing that can follow that sect3 in your doc is another sect3. 

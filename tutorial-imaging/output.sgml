@@ -1,4 +1,4 @@
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V3.1//EN">
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
 <book><bookinfo>
 <title>AUUG 2002: Imaging Tutorial</title>
 <authorgroup>
@@ -71,11 +71,20 @@ For those of you using gcc on a unix (or unix-like) operating system, then the f
 <sect1><title>Credits</title>
 <para>
 There are many people who need to be thanked when one attempts a project of this size. I would specifically like to thank my wife and son, who put up with me being geeky so very often.
+</para>
 
 <figure>
 <title>picture of Andrew and Catherine</title>
-<graphic format="EPS" fileref="todo.eps"></graphic>
+<graphic format="EPS" fileref="todo.eps">
 </figure>
+<para>
+I should also thank the following people:
+
+<itemizedlist>
+<listitem><para>Doug Jackson (doug_jackson@citadel.com.au), for proof reading and getting me interested in this whole topic to start with</para></listitem>
+<listitem><para>Tony Green (greeno@bandcamp.tv), for occassional docbook wrangling</para></listitem>
+<listitem><para>Michael Smith (smith@xml-doc.org), for docbook hints</para></listitem>
+</itemizedlist>
 </para>
 </sect1>
 
@@ -149,7 +158,7 @@ describing the state of pixels, as opposed to recording the length and locations
 
 <figure>
 <title>A sample raster image</title>
-<graphic format="EPS" fileref="raster-figure1.eps"></graphic>
+<graphic format="EPS" fileref="raster-figure1.eps">
 </figure>
 
 <para>
@@ -160,18 +169,18 @@ Raster image formats include TIFF, GIF, PNG, and most of the other formats in th
 If we zoom in enough on a portion of this image, we can see that it is made up of descrete elements -- the pixels. 
 <figure>
 <title>falls off page</title>
-<graphic format="EPS" fileref="todo.eps"></graphic>
+<graphic format="EPS" fileref="todo.eps">
 </figure>
 </para>
 
 <figure>
 <title>Zooming in on a portion of the raster image</title>
-<graphic format="EPS" fileref="raster-figure2.eps"></graphic>
+<graphic format="EPS" fileref="raster-figure2.eps">
 </figure>
 
 <figure>
 <title>fix_the_falling_off_the_page_problem</title>
-<graphic format="EPS" fileref="todo.eps"></graphic>
+<graphic format="EPS" fileref="todo.eps">
 </figure>
 
 <para>
@@ -207,17 +216,17 @@ Below I have included several pictures that illustrate this concept. The first f
 
 <figure>
 <title>The original image</title>
-<graphic format="EPS" fileref="grayscale-figure1.eps"></graphic>
+<graphic format="EPS" fileref="grayscale-figure1.eps">
 </figure>
 
 <figure>
 <title>An average of the color values for each pixel</title>
-<graphic format="EPS" fileref="grayscale-figure2.eps"></graphic>
+<graphic format="EPS" fileref="grayscale-figure2.eps">
 </figure>
 
 <figure>
 <title>A correct conversion to grayscale</title>
-<graphic format="EPS" fileref="grayscale-figure3.eps"></graphic>
+<graphic format="EPS" fileref="grayscale-figure3.eps">
 </figure>
 
 <para>
@@ -232,7 +241,7 @@ The source code to generate these example images may be found in the TIFF chapte
 <sect1><title>Anti-aliasing</title>
 <figure>
 <title>decribe</title>
-<graphic format="EPS" fileref="todo.eps"></graphic>
+<graphic format="EPS" fileref="todo.eps">
 </figure>
 </sect1>
 
@@ -327,7 +336,7 @@ Not too hard at all...
 <para>
 <figure>
 <title>windows_install_details</title>
-<graphic format="EPS" fileref="todo.eps"></graphic>
+<graphic format="EPS" fileref="todo.eps">
 </figure>
 </para>
 
@@ -335,7 +344,7 @@ Not too hard at all...
 For the Visual Studio challenged, there is a precompiled version of libtiff for win32 available from http://www.stillhq.com. 
 <figure>
 <title>make it so</title>
-<graphic format="EPS" fileref="todo.eps"></graphic>
+<graphic format="EPS" fileref="todo.eps">
 </figure>
 </para>
 </sect2>
@@ -639,7 +648,7 @@ If you need more information about any of the libtiff function calls mentioned i
 
 <figure>
 <title>The Sydney Harbor Bridge, by Michael Still</title>
-<graphic format="EPS" fileref="tiff-figure1.eps"></graphic>
+<graphic format="EPS" fileref="tiff-figure1.eps">
 </figure>
 </sect2>
 </sect1>
@@ -659,12 +668,12 @@ Reading TIFF files reliably is much harder than writing them. The issue that com
 
 <figure>
 <title>The Sydney Harbor Bridge, in strips</title>
-<graphic format="EPS" fileref="tiff-figure2.eps"></graphic>
+<graphic format="EPS" fileref="tiff-figure2.eps">
 </figure>
 
 <figure>
 <title>The Sydney Harbor Bridge, in tiles</title>
-<graphic format="EPS" fileref="tiff-figure3.eps"></graphic>
+<graphic format="EPS" fileref="tiff-figure3.eps">
 </figure>
 
 <para>
@@ -851,12 +860,12 @@ There are several compression algorithms available within libtiff. How do you se
 
 <figure>
 <title>The picture before we compressed it</title>
-<graphic format="EPS" fileref="tiff-figure4.eps"></graphic>
+<graphic format="EPS" fileref="tiff-figure4.eps">
 </figure>
 
 <figure>
 <title>The sample text before we compressed it</title>
-<graphic format="EPS" fileref="tiff-figure5.eps"></graphic>
+<graphic format="EPS" fileref="tiff-figure5.eps">
 </figure>
 
 <para>
@@ -864,12 +873,12 @@ The code I used had a 'quality' rating of 25% on the JPEG compression, which is 
 
 <figure>
 <title>The picture after it has been recompressed 200 times</title>
-<graphic format="EPS" fileref="tiff-figure6.eps"></graphic>
+<graphic format="EPS" fileref="tiff-figure6.eps">
 </figure>
 
 <figure>
 <title>The text after it has been recompressed 200 times</title>
-<graphic format="EPS" fileref="tiff-figure7.eps"></graphic>
+<graphic format="EPS" fileref="tiff-figure7.eps">
 </figure>
 
 <para>
@@ -1081,7 +1090,7 @@ The example which I am most familiar with is PDF documents. In PDF files, you ca
 
 <figure>
 <title>make_this_example_better</title>
-<graphic format="EPS" fileref="todo.eps"></graphic>
+<graphic format="EPS" fileref="todo.eps">
 </figure>
 <programlisting>
 // Please note that this code wont compile, and is intended to only show you 
@@ -1348,11 +1357,11 @@ usage (char *cmd, int exitamt)
 
 <figure>
 <title>Four pictures of my son Andrew</title>
-<graphic format="EPS" fileref="tiff-figure8.eps"></graphic>
+<graphic format="EPS" fileref="tiff-figure8.eps">
 </figure>
 <figure>
 <title>quality_of_picture</title>
-<graphic format="EPS" fileref="todo.eps"></graphic>
+<graphic format="EPS" fileref="todo.eps">
 </figure>
 </sect1>
 
@@ -1366,11 +1375,11 @@ We should also probably know how to get to these images once we have more than o
 
 <figure>
 <title>convert_will_create_multiple_files</title>
-<graphic format="EPS" fileref="todo.eps"></graphic>
+<graphic format="EPS" fileref="todo.eps">
 </figure>
 <figure>
 <title>more!</title>
-<graphic format="EPS" fileref="todo.eps"></graphic>
+<graphic format="EPS" fileref="todo.eps">
 </figure>
 
 <programlisting>
@@ -1518,7 +1527,7 @@ usage (char *cmd, int exitamt)
 <para><emphasis>Code: /home/mikal/opensource/tiff-directories/read.c</emphasis></para>
 <figure>
 <title>This doesn't work at the moment</title>
-<graphic format="EPS" fileref="todo.eps"></graphic>
+<graphic format="EPS" fileref="todo.eps">
 </figure>
 </sect1>
 
@@ -1533,7 +1542,7 @@ usage (char *cmd, int exitamt)
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.17 2002-07-02 22:59:17 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.18 2002-07-03 05:44:12 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -1557,16 +1566,14 @@ usage (char *cmd, int exitamt)
 <!--  LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE  -->
 <!--  OF THIS SOFTWARE. -->
 <!--  -->
-<sect3>
-<title>NAME</title>
+<sect3><title>NAME</title>
 
 <para>tiff2bw - convert a color
 <emphasis>TIFF</emphasis>
 image to greyscale
 </para>
 </sect3>
-<sect3>
-<title>SYNOPSIS</title>
+<sect3><title>SYNOPSIS</title>
 
 <para><command>tiff2bw</command>
 [
@@ -1576,8 +1583,7 @@ options
 <emphasis>output.tif</emphasis>
 </para>
 </sect3>
-<sect3>
-<title>DESCRIPTION</title>
+<sect3><title>DESCRIPTION</title>
 
 <para><emphasis>Tiff2bw</emphasis>
 converts an
@@ -1594,8 +1600,7 @@ and
 options may be used.
 </para>
 </sect3>
-<sect3>
-<title>OPTIONS</title>
+<sect3><title>OPTIONS</title>
 
 <para></para>
 <itemizedlist>
@@ -1648,8 +1653,7 @@ Specify the percentage of the blue channel to use (default 11).
 
 <para></para>
 </sect3>
-<sect3>
-<title>SEE ALSO</title>
+<sect3><title>SEE ALSO</title>
 
 <para><emphasis>pal2rgb (1),</emphasis>
 <emphasis>tiffinfo (1),</emphasis>
@@ -1665,7 +1669,7 @@ Specify the percentage of the blue channel to use (default 11).
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.17 2002-07-02 22:59:17 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.18 2002-07-03 05:44:12 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -1689,16 +1693,14 @@ Specify the percentage of the blue channel to use (default 11).
 <!--  LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE  -->
 <!--  OF THIS SOFTWARE. -->
 <!--  -->
-<sect3>
-<title>NAME</title>
+<sect3><title>NAME</title>
 
 <para>tiff2ps - convert a
 <emphasis>TIFF</emphasis>
 image to \*(Ps\(tm
 </para>
 </sect3>
-<sect3>
-<title>SYNOPSIS</title>
+<sect3><title>SYNOPSIS</title>
 
 <para><command>tiff2ps</command>
 [
@@ -1707,8 +1709,7 @@ image to \*(Ps\(tm
 <emphasis>"input.tif ..."</emphasis>
 </para>
 </sect3>
-<sect3>
-<title>DESCRIPTION</title>
+<sect3><title>DESCRIPTION</title>
 
 <para><emphasis>tiff2ps</emphasis>
 reads
@@ -1767,8 +1768,7 @@ Note that this emulation code can be very slow.
 a white background.
 </para>
 </sect3>
-<sect3>
-<title>OPTIONS</title>
+<sect3><title>OPTIONS</title>
 
 <para></para>
 <itemizedlist>
@@ -1859,8 +1859,7 @@ page and this option has no affect.
 
 <para></para>
 </sect3>
-<sect3>
-<title>EXAMPLES</title>
+<sect3><title>EXAMPLES</title>
 
 <para>The following generates \*(Ps Level II for all pages of a facsimile:
 DEFAULT COMMAND FOUND: RS
@@ -1878,8 +1877,7 @@ DEFAULT COMMAND FOUND: RE
 (notice that directories are numbered starting at zero.)
 </para>
 </sect3>
-<sect3>
-<title>BUGS</title>
+<sect3><title>BUGS</title>
 
 <para>Because \*(Ps does not support the notion of a colormap,
 8-bit palette images produce 24-bit \*(Ps images.
@@ -1889,14 +1887,12 @@ to send to a printer over a serial line.
 Matters are even worse for 4-, 2-, and 1-bit palette images.
 </para>
 </sect3>
-<sect3>
-<title>BUGS</title>
+<sect3><title>BUGS</title>
 
 <para>Does not handle tiled images when generating PS Level I output.
 </para>
 </sect3>
-<sect3>
-<title>SEE ALSO</title>
+<sect3><title>SEE ALSO</title>
 
 <para><emphasis>pal2rgb (1),</emphasis>
 <emphasis>tiffinfo (1),</emphasis>
@@ -1916,7 +1912,7 @@ Matters are even worse for 4-, 2-, and 1-bit palette images.
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.17 2002-07-02 22:59:17 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.18 2002-07-03 05:44:12 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -1940,16 +1936,14 @@ Matters are even worse for 4-, 2-, and 1-bit palette images.
 <!--  LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE  -->
 <!--  OF THIS SOFTWARE. -->
 <!--  -->
-<sect3>
-<title>NAME</title>
+<sect3><title>NAME</title>
 
 <para>tiffcmp - compare two
 <emphasis>TIFF</emphasis>
 files
 </para>
 </sect3>
-<sect3>
-<title>SYNOPSIS</title>
+<sect3><title>SYNOPSIS</title>
 
 <para><command>tiffcmp</command>
 [
@@ -1958,8 +1952,7 @@ files
 <emphasis>"file1.tif file2.tif"</emphasis>
 </para>
 </sect3>
-<sect3>
-<title>DESCRIPTION</title>
+<sect3><title>DESCRIPTION</title>
 
 <para><emphasis>Tiffcmp</emphasis>
 compares the tags and data in two files created according
@@ -1984,8 +1977,7 @@ By default,
 will terminate if it encounters any difference.
 </para>
 </sect3>
-<sect3>
-<title>OPTIONS</title>
+<sect3><title>OPTIONS</title>
 
 <para></para>
 <itemizedlist>
@@ -2005,15 +1997,13 @@ Ignore any differences in directory tags.
 
 <para></para>
 </sect3>
-<sect3>
-<title>BUGS</title>
+<sect3><title>BUGS</title>
 
 <para>Tags that are not recognized by the library are not
 compared; they may also generate spurious diagnostics.
 </para>
 </sect3>
-<sect3>
-<title>SEE ALSO</title>
+<sect3><title>SEE ALSO</title>
 
 <para><emphasis>pal2rgb (1),</emphasis>
 <emphasis>tiffinfo (1),</emphasis>
@@ -2023,7 +2013,7 @@ compared; they may also generate spurious diagnostics.
 </para>
 </sect3>
 
-<sidebar><title>Sample output</title>
+<sect3><title>Sample output</title>
 <para>
 <command>tiffcmp</command> shows the differences in tags between images, for example, when I compare the input and output images from the pixel example in this chapter:
 </para>
@@ -2033,7 +2023,7 @@ compared; they may also generate spurious diagnostics.
 ImageWidth: 256 520
 [mikal@localhost tiff-pixels]$ 
 </programlisting>
-</sidebar>
+</sect3>
 </sect2>
 
 
@@ -2042,7 +2032,7 @@ ImageWidth: 256 520
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.17 2002-07-02 22:59:17 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.18 2002-07-03 05:44:12 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2066,16 +2056,14 @@ ImageWidth: 256 520
 <!--  LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE  -->
 <!--  OF THIS SOFTWARE. -->
 <!--  -->
-<sect3>
-<title>NAME</title>
+<sect3><title>NAME</title>
 
 <para>tiffcp - copy (and possibly convert) a
 <emphasis>TIFF</emphasis>
 file
 </para>
 </sect3>
-<sect3>
-<title>SYNOPSIS</title>
+<sect3><title>SYNOPSIS</title>
 
 <para><command>tiffcp</command>
 [
@@ -2084,8 +2072,7 @@ file
 <emphasis>"src1.tif ... srcN.tif dst.tif"</emphasis>
 </para>
 </sect3>
-<sect3>
-<title>DESCRIPTION</title>
+<sect3><title>DESCRIPTION</title>
 
 <para><emphasis>tiffcp</emphasis>
 combines one or more files created according
@@ -2114,8 +2101,7 @@ in a file, but it is explicitly intended to not alter or convert
 the image data content in any way.
 </para>
 </sect3>
-<sect3>
-<title>OPTIONS</title>
+<sect3><title>OPTIONS</title>
 
 <para></para>
 <itemizedlist>
@@ -2292,8 +2278,7 @@ that no more than 8 kilobytes of data appear in a tile.
 
 <para></para>
 </sect3>
-<sect3>
-<title>EXAMPLES</title>
+<sect3><title>EXAMPLES</title>
 
 <para>The following concatenates two files and writes the result using
 <emphasis>LZW</emphasis>
@@ -2313,8 +2298,7 @@ DEFAULT COMMAND FOUND: RE
 the source file.)
 </para>
 </sect3>
-<sect3>
-<title>SEE ALSO</title>
+<sect3><title>SEE ALSO</title>
 
 <para><emphasis>pal2rgb (1),</emphasis>
 <emphasis>tiffinfo (1),</emphasis>
@@ -2332,7 +2316,7 @@ the source file.)
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.17 2002-07-02 22:59:17 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.18 2002-07-03 05:44:12 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1990-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2356,14 +2340,12 @@ the source file.)
 <!--  LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE  -->
 <!--  OF THIS SOFTWARE. -->
 <!--  -->
-<sect3>
-<title>NAME</title>
+<sect3><title>NAME</title>
 
 <para>tiffdither - convert a greyscale image to bilevel using dithering
 </para>
 </sect3>
-<sect3>
-<title>SYNOPSIS</title>
+<sect3><title>SYNOPSIS</title>
 
 <para><command>tiffdither</command>
 [
@@ -2373,16 +2355,14 @@ the source file.)
 <emphasis>output.tif</emphasis>
 </para>
 </sect3>
-<sect3>
-<title>DESCRIPTION</title>
+<sect3><title>DESCRIPTION</title>
 
 <para><emphasis>tiffdither</emphasis>
 converts a single channel 8-bit greyscale image to a bilevel image
 using Floyd-Steinberg error propagation with threholding.
 </para>
 </sect3>
-<sect3>
-<title>OPTIONS</title>
+<sect3><title>OPTIONS</title>
 
 <para></para>
 <itemizedlist>
@@ -2473,16 +2453,14 @@ By default the threshold value is 128.
 
 <para></para>
 </sect3>
-<sect3>
-<title>NOTES</title>
+<sect3><title>NOTES</title>
 
 <para>The dither algorithm is taken from the
 <emphasis>tiffmedian (1)</emphasis>
 program (written by Paul Heckbert).
 </para>
 </sect3>
-<sect3>
-<title>SEE ALSO</title>
+<sect3><title>SEE ALSO</title>
 
 <para><emphasis>pal2rgb (1),</emphasis>
 <emphasis>fax2tiff (1),</emphasis>
@@ -2493,25 +2471,25 @@ program (written by Paul Heckbert).
 </para>
 </sect3>
 
-<sidebar><title>Sample output</title>
+<sect3><title>Sample output</title>
 <para>
 <command>tiffdither</command> takes gray scale images and dithers them into black and white images. For instance, the gray scale example from earlier in this tutorial produced the following image:
 </para>
 
 <figure>
 <title>The gray scale input image</title>
-<graphic format="EPS" fileref="tiff-figure9.eps"></graphic>
+<graphic format="EPS" fileref="tiff-figure9.eps">
 </figure>
 
 <para>
 This image, after being pushed through <command>tiffdither</command> looks something like:
-<para>
+</para>
 
 <figure>
 <title>The dithered output image</title>
-<graphic format="EPS" fileref="tiff-figure10.eps"></graphic>
+<graphic format="EPS" fileref="tiff-figure10.eps">
 </figure>
-</sidebar>
+</sect3>
 </sect2>
 
 
@@ -2520,7 +2498,7 @@ This image, after being pushed through <command>tiffdither</command> looks somet
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.17 2002-07-02 22:59:17 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.18 2002-07-03 05:44:12 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2544,16 +2522,14 @@ This image, after being pushed through <command>tiffdither</command> looks somet
 <!--  LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE  -->
 <!--  OF THIS SOFTWARE. -->
 <!--  -->
-<sect3>
-<title>NAME</title>
+<sect3><title>NAME</title>
 
 <para>tiffdump - print verbatim information about
 <emphasis>TIFF</emphasis>
 files
 </para>
 </sect3>
-<sect3>
-<title>SYNOPSIS</title>
+<sect3><title>SYNOPSIS</title>
 
 <para><command>tiffdump</command>
 [
@@ -2562,8 +2538,7 @@ files
 <emphasis>"name ..."</emphasis>
 </para>
 </sect3>
-<sect3>
-<title>DESCRIPTION</title>
+<sect3><title>DESCRIPTION</title>
 
 <para><emphasis>tiffdump</emphasis>
 displays directory information from files created according
@@ -2590,8 +2565,7 @@ files that
 does not understand.
 </para>
 </sect3>
-<sect3>
-<title>OPTIONS</title>
+<sect3><title>OPTIONS</title>
 
 <para></para>
 <itemizedlist>
@@ -2616,15 +2590,14 @@ i.e. a leading ``0x'' for hexadecimal and a leading ``0'' for octal.
 
 <para></para>
 </sect3>
-<sect3>
-<title>SEE ALSO</title>
+<sect3><title>SEE ALSO</title>
 
 <para><emphasis>tiffinfo (1),</emphasis>
 <emphasis>libtiff (3)</emphasis>
 </para>
 </sect3>
 
-<sidebar><title>Sample output</title>
+<sect3><title>Sample output</title>
 <para>
 <command>tiffdump</command> shows you heaps of useful things about a TIFF image, basically anything stored in a tag. Some sample output is:
 </para>
@@ -2647,7 +2620,7 @@ StripByteCounts (279) LONG (4) 5&lt;8133 8174 8213 8134 5566&gt;
 PlanarConfig (284) SHORT (3) 1&lt;1&gt;
 [mikal@localhost tutorial-imaging]$ 
 </programlisting>
-</sidebar>
+</sect3>
 </sect2>
 
 
@@ -2656,7 +2629,7 @@ PlanarConfig (284) SHORT (3) 1&lt;1&gt;
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.17 2002-07-02 22:59:17 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.18 2002-07-03 05:44:12 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2680,16 +2653,14 @@ PlanarConfig (284) SHORT (3) 1&lt;1&gt;
 <!--  LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE  -->
 <!--  OF THIS SOFTWARE. -->
 <!--  -->
-<sect3>
-<title>NAME</title>
+<sect3><title>NAME</title>
 
 <para>tiffgt - display an image stored in a
 <emphasis>TIFF</emphasis>
 file (Silicon Graphics version)
 </para>
 </sect3>
-<sect3>
-<title>SYNOPSIS</title>
+<sect3><title>SYNOPSIS</title>
 
 <para><command>tiffgt</command>
 [
@@ -2698,8 +2669,7 @@ file (Silicon Graphics version)
 <emphasis>"input.tif ..."</emphasis>
 </para>
 </sect3>
-<sect3>
-<title>DESCRIPTION</title>
+<sect3><title>DESCRIPTION</title>
 
 <para><emphasis>tiffgt</emphasis>
 displays one or more images stored using the
@@ -2857,8 +2827,7 @@ Display the last image in the current file (unimplemented).
 
 <para></para>
 </sect3>
-<sect3>
-<title>OPTIONS</title>
+<sect3><title>OPTIONS</title>
 
 <para></para>
 <itemizedlist>
@@ -2983,15 +2952,13 @@ By default, the window type is not shown in the title bar.
 
 <para></para>
 </sect3>
-<sect3>
-<title>BUGS</title>
+<sect3><title>BUGS</title>
 
 <para>Images wider and taller than the display are silently truncated to avoid
 crashing old versions of the window manager.
 </para>
 </sect3>
-<sect3>
-<title>SEE ALSO</title>
+<sect3><title>SEE ALSO</title>
 
 <para><emphasis>tiffdump (1),</emphasis>
 <emphasis>tiffinfo (1),</emphasis>
@@ -3007,7 +2974,7 @@ crashing old versions of the window manager.
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.17 2002-07-02 22:59:17 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.18 2002-07-03 05:44:12 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3031,16 +2998,14 @@ crashing old versions of the window manager.
 <!--  LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE  -->
 <!--  OF THIS SOFTWARE. -->
 <!--  -->
-<sect3>
-<title>NAME</title>
+<sect3><title>NAME</title>
 
 <para>tiffinfo - print information about
 <emphasis>TIFF</emphasis>
 files
 </para>
 </sect3>
-<sect3>
-<title>SYNOPSIS</title>
+<sect3><title>SYNOPSIS</title>
 
 <para><command>tiffinfo</command>
 [
@@ -3049,8 +3014,7 @@ files
 <emphasis>"input.tif ..."</emphasis>
 </para>
 </sect3>
-<sect3>
-<title>DESCRIPTION</title>
+<sect3><title>DESCRIPTION</title>
 
 <para><emphasis>Tiffinfo</emphasis>
 displays information about files created according
@@ -3062,8 +3026,7 @@ is displayed, with the value of each tag shown symbolically
 (where sensible).
 </para>
 </sect3>
-<sect3>
-<title>OPTIONS</title>
+<sect3><title>OPTIONS</title>
 
 <para></para>
 <itemizedlist>
@@ -3128,8 +3091,7 @@ directory to
 
 <para></para>
 </sect3>
-<sect3>
-<title>SEE ALSO</title>
+<sect3><title>SEE ALSO</title>
 
 <para><emphasis>pal2rgb (1),</emphasis>
 <emphasis>tiffcp (1),</emphasis>
@@ -3139,7 +3101,7 @@ directory to
 </para>
 </sect3>
 
-<sidebar><title>Sample output</title>
+<sect3><title>Sample output</title>
 <para>
 <command>tiffinfo</command> is probably the most useful command which comes with libtiff... In normal operation, it shows you nicely formatted information about the TIFF image, like so:
 </para>
@@ -3185,7 +3147,7 @@ Strip 0:
  e4 e6 ea ee f1 f2 f1 ef f3 f3 f3 f2 f2 f2 f1 f1 f2 f1 f0 ef ee ed ec eb
  ... and so on
 </programlisting>
-</sidebar>
+</sect3>
 </sect2>
 
 
@@ -3194,7 +3156,7 @@ Strip 0:
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.17 2002-07-02 22:59:17 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.18 2002-07-03 05:44:12 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1990-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3218,16 +3180,14 @@ Strip 0:
 <!--  LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE  -->
 <!--  OF THIS SOFTWARE. -->
 <!--  -->
-<sect3>
-<title>NAME</title>
+<sect3><title>NAME</title>
 
 <para>tiffmedian - apply the median cut algorithm to data in a
 <emphasis>TIFF</emphasis>
 file
 </para>
 </sect3>
-<sect3>
-<title>SYNOPSIS</title>
+<sect3><title>SYNOPSIS</title>
 
 <para><command>tiffmedian</command>
 [
@@ -3237,8 +3197,7 @@ file
 <emphasis>output.tif</emphasis>
 </para>
 </sect3>
-<sect3>
-<title>DESCRIPTION</title>
+<sect3><title>DESCRIPTION</title>
 
 <para><emphasis>tiffmedian</emphasis>
 applys the median cut algorithm to an
@@ -3252,8 +3211,7 @@ The image data is quantized by mapping each
 pixel to the closest color values in the colormap.
 </para>
 </sect3>
-<sect3>
-<title>OPTIONS</title>
+<sect3><title>OPTIONS</title>
 
 <para></para>
 <itemizedlist>
@@ -3320,16 +3278,14 @@ that no more than 8 kilobytes of data appear in a strip.
 
 <para></para>
 </sect3>
-<sect3>
-<title>NOTES</title>
+<sect3><title>NOTES</title>
 
 <para>This program is derived from Paul Heckbert's
 <emphasis>median</emphasis>
 program.
 </para>
 </sect3>
-<sect3>
-<title>SEE ALSO</title>
+<sect3><title>SEE ALSO</title>
 
 <para><emphasis>pal2rgb (1),</emphasis>
 <emphasis>tiffinfo (1),</emphasis>
@@ -3342,10 +3298,13 @@ program.
 Heckbert, SIGGRAPH proceedings, 1982, pp. 297-307.
 </para>
 </sect3>
+
+<sect3><title>Sample output</title>
 <figure>
 <title>Sample output</title>
-<graphic format="EPS" fileref="todo.eps"></graphic>
+<graphic format="EPS" fileref="todo.eps">
 </figure>
+</sect3>
 </sect2>
 
 
@@ -3354,7 +3313,7 @@ Heckbert, SIGGRAPH proceedings, 1982, pp. 297-307.
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.17 2002-07-02 22:59:17 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.18 2002-07-03 05:44:12 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1992-1997 Sam Leffler -->
 <!--  Copyright (c) 1992-1997 Silicon Graphics, Inc. -->
@@ -3378,8 +3337,7 @@ Heckbert, SIGGRAPH proceedings, 1982, pp. 297-307.
 <!--  LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE  -->
 <!--  OF THIS SOFTWARE. -->
 <!--  -->
-<sect3>
-<title>NAME</title>
+<sect3><title>NAME</title>
 
 <para>tiffsplit - split a multi-image
 <emphasis>TIFF</emphasis>
@@ -3388,8 +3346,7 @@ into single-image
 files
 </para>
 </sect3>
-<sect3>
-<title>SYNOPSIS</title>
+<sect3><title>SYNOPSIS</title>
 
 <para><command>tiffsplit</command>
 <emphasis>src.tif</emphasis>
@@ -3398,8 +3355,7 @@ files
 ]
 </para>
 </sect3>
-<sect3>
-<title>DESCRIPTION</title>
+<sect3><title>DESCRIPTION</title>
 
 <para><emphasis>tiffsplit</emphasis>
 takes a multi-directory (page)
@@ -3422,30 +3378,29 @@ the default prefix of
 is used.
 </para>
 </sect3>
-<sect3>
-<title>OPTIONS</title>
+<sect3><title>OPTIONS</title>
 
 <para>None.
 </para>
 </sect3>
-<sect3>
-<title>BUGS</title>
+<sect3><title>BUGS</title>
 
 <para>Only a select set of ``known tags'' is copied when spliting.
 </para>
 </sect3>
-<sect3>
-<title>SEE ALSO</title>
+<sect3><title>SEE ALSO</title>
 
 <para><emphasis>tiffcp (1),</emphasis>
 <emphasis>tiffinfo (1),</emphasis>
 <emphasis>libtiff (3)</emphasis>
 </para>
 </sect3>
+<sect3><title>Sample output</title>
 <figure>
 <title>Sample output</title>
-<graphic format="EPS" fileref="todo.eps"></graphic>
+<graphic format="EPS" fileref="todo.eps">
 </figure>
+</sect3>
 </sect2>
 
 
@@ -3454,7 +3409,7 @@ is used.
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.17 2002-07-02 22:59:17 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.18 2002-07-03 05:44:12 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3478,16 +3433,14 @@ is used.
 <!--  LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE  -->
 <!--  OF THIS SOFTWARE. -->
 <!--  -->
-<sect3>
-<title>NAME</title>
+<sect3><title>NAME</title>
 
 <para>tiffsv - save an image from the framebuffer in a
 <emphasis>TIFF</emphasis>
 file (Silicon Graphics version)
 </para>
 </sect3>
-<sect3>
-<title>SYNOPSIS</title>
+<sect3><title>SYNOPSIS</title>
 
 <para><command>tiffsv</command>
 [
@@ -3499,8 +3452,7 @@ file (Silicon Graphics version)
 ]
 </para>
 </sect3>
-<sect3>
-<title>DESCRIPTION</title>
+<sect3><title>DESCRIPTION</title>
 
 <para><emphasis>tiffsv</emphasis>
 saves all or part of the framebuffer in a file using the
@@ -3514,8 +3466,7 @@ These characteristics can be overriden, or explicitly specified
 with the options described below.
 </para>
 </sect3>
-<sect3>
-<title>OPTIONS</title>
+<sect3><title>OPTIONS</title>
 
 <para></para>
 <itemizedlist>
@@ -3592,8 +3543,7 @@ that no more than 8 kilobytes of data appear in a strip.
 
 <para></para>
 </sect3>
-<sect3>
-<title>NOTE</title>
+<sect3><title>NOTE</title>
 
 <para>Except for the use of
 <emphasis>TIFF,</emphasis>
@@ -3612,8 +3562,7 @@ that invokes
 with the appropriate options.
 </para>
 </sect3>
-<sect3>
-<title>BUGS</title>
+<sect3><title>BUGS</title>
 
 <para>If data are saved compressed and in separate planes, then the
 rows in each strip is silently set to one to avoid limitations
@@ -3622,8 +3571,7 @@ in the
 library.
 </para>
 </sect3>
-<sect3>
-<title>SEE ALSO</title>
+<sect3><title>SEE ALSO</title>
 
 <para><emphasis>scrsave (6D)</emphasis>
 <emphasis>pal2rgb (1),</emphasis>
@@ -3635,10 +3583,12 @@ library.
 <emphasis>libtiff (3)</emphasis>
 </para>
 </sect3>
+<sect3><title>Sample output</title>
 <figure>
 <title>Sample output</title>
-<graphic format="EPS" fileref="todo.eps"></graphic>
+<graphic format="EPS" fileref="todo.eps">
 </figure>
+</sect3>
 </sect2>
 
 <sect2><title>tifftopnm</title>
@@ -3646,24 +3596,24 @@ library.
 ...
 </para>
 
-<sect3>
-<title>NAME</title>
+<sect3><title>NAME</title>
 
 <para>tifftopnm - convert a TIFF file into a portable anymap
 </para>
 </sect3>
-<sect3>
-<title>SYNOPSIS</title>
+<sect3><title>SYNOPSIS</title>
 
 <para><command>tifftopnm</command>
-[<keycap>--alphaout={<emphasis>alpha-filename</keycap>,<keycap>-</emphasis></keycap>}]
-DEFAULT COMMAND FOUND: RB [ --headerdump ]
+[
+DEFAULT COMMAND FOUND: B--alphaout
+={alpha-filename,-}]  [
+<command>--headerdump</command>
+]
 <emphasis>tiff-filename</emphasis>
 
 </para>
 </sect3>
-<sect3>
-<title>DESCRIPTION</title>
+<sect3><title>DESCRIPTION</title>
 
 <para>Reads a TIFF file as input.
 DEFAULT COMMAND FOUND: IX TIFF
@@ -3719,8 +3669,7 @@ library must be able to perform seeks on it.
 
 </para>
 </sect3>
-<sect3>
-<title>OPTIONS</title>
+<sect3><title>OPTIONS</title>
 
 <para></para>
 <itemizedlist>
@@ -3762,13 +3711,11 @@ in debugging TIFF file conversion problems.
 
 <para></para>
 </sect3>
-<sect3>
-<title>SEE ALSO</title>
+<sect3><title>SEE ALSO</title>
 
 <para></para>
 </sect3>
-<sect3>
-<title>AUTHOR</title>
+<sect3><title>AUTHOR</title>
 
 <para>Derived by Jef Poskanzer from tif2ras.c, which is
 Copyright (c) 1990 by Sun Microsystems, Inc.
@@ -3786,10 +3733,13 @@ Author: Patrick J. Naughton (naughton@wind.sun.com).
 <!--  other special, indirect and consequential damages. -->
 </para>
 </sect3>
+
+<sect3><title>Sample output</title>
 <figure>
 <title>Sample output</title>
-<graphic format="EPS" fileref="todo.eps"></graphic>
+<graphic format="EPS" fileref="todo.eps">
 </figure>
+</sect3>
 </sect2>
 </sect1>
 
@@ -4222,7 +4172,6 @@ usage (char *cmd, int exitamt)
 }
 </programlisting>
 <para><emphasis>Code: /home/mikal/opensource/tiff-grayscale/gray-wrong.c</emphasis></para>
-</sect2>
 
 <para>
 Which produces:
@@ -4230,8 +4179,9 @@ Which produces:
 
 <figure>
 <title>An average of the color values for each pixel</title>
-<graphic format="EPS" fileref="grayscale-figure2.eps"></graphic>
+<graphic format="EPS" fileref="grayscale-figure2.eps">
 </figure>
+</sect2>
 
 <sect2><title>A sensible algorithm</title>
 <programlisting>
@@ -4365,7 +4315,6 @@ usage (char *cmd, int exitamt)
 }
 </programlisting>
 <para><emphasis>Code: /home/mikal/opensource/tiff-grayscale/gray-good.c</emphasis></para>
-</sect2>
 
 <para>
 Which gives us:
@@ -4373,11 +4322,13 @@ Which gives us:
 
 <figure>
 <title>A correct conversion to gray scale</title>
-<graphic format="EPS" fileref="grayscale-figure3.eps"></graphic>
+<graphic format="EPS" fileref="grayscale-figure3.eps">
 </figure>
 
 <para>
 Now, just to justify that the second algorithm is better, have a look at the shadows on the hill and the trees in the background. The contrast and darkness of the second picture is might better than the averaging algorithm...
+</para>
+</sect2>
 </sect1>
 
 <sect1><title>Example: Repeated compression</title>
@@ -4478,6 +4429,7 @@ int main(int argc, char *argv[]){
 <sect1><title>Conclusion</title>
 <para>
 In this chapter we've discussed how to program with libtiff for black and white, gray scale and color images. We haven't been through an exhaustive discussion of the possible settings, or all the calls available in libtiff, but you should be ready to start exploring further.
+</para>
 </sect1>
 
 
@@ -4518,7 +4470,7 @@ the Professional Numismatists Guild or the ``Pack 'N' Go'' format)
 
 <figure>
 <title>Put chunk info in here</title>
-<graphic format="EPS" fileref="todo.eps"></graphic>
+<graphic format="EPS" fileref="todo.eps">
 </figure>
 
 <para>
@@ -4535,7 +4487,10 @@ This chapter will focus on the libpng library. This isn't really a limitation, a
 
 <sect1><title>Introduction</title>
 <para>
-...
+<figure>
+<title>More content here</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
 
 A bunch of the examples in this chapter are based on the pngtools code I wrote a while ago, which I have updated as part of writing this chapter.
 </para>
@@ -4549,25 +4504,37 @@ Much of the discussion in this chapter will make a whole bunch more sense if you
 
 <sect1><title>Installation</title>
 <para>
-...
+<figure>
+<title>More content here</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
 </para>
 
 <sect2><title>Unix</title>
 <para>
-...
+<figure>
+<title>More content here</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
 </para>
 </sect2>
 
 <sect2><title>win32</title>
 <para>
-...
+<figure>
+<title>More content here</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
 </para>
 </sect2>
 </sect1>
 
 <sect1><title>The PNG on disc format</title>
 <para>
-...
+<figure>
+<title>More content here</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
 </para>
 </sect1>
 
@@ -4656,7 +4623,10 @@ In this example, we do everything we need to open a PNG image, without actually 
 
 <sect1><title>PNG tags</title>
 <para>
-...
+<figure>
+<title>More content here</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
 </para>
 
 <sect2><title>pnginfo</title>
@@ -5006,17 +4976,18 @@ To be honest, the libtiff man pages are much better than the documentation which
 
 <sect2><title>libpng</title>
 <para>
-...
+<figure>
+<title>More content here</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
 </para>
 
-<sect3>
-<title>NAME</title>
+<sect3><title>NAME</title>
 
 <para>libpng - Portable Network Graphics (PNG) Reference Library 1.0.9
 </para>
 </sect3>
-<sect3>
-<title>SYNOPSIS</title>
+<sect3><title>SYNOPSIS</title>
 
 <para><emphasis><keycap>
 
@@ -5754,8 +5725,7 @@ To be honest, the libtiff man pages are much better than the documentation which
 
 </emphasis></keycap></para>
 </sect3>
-<sect3>
-<title>DESCRIPTION</title>
+<sect3><title>DESCRIPTION</title>
 
 <para>The
 <emphasis>libpng</emphasis>
@@ -5766,8 +5736,7 @@ compression library.
 Following is a copy of the libpng.txt file that accompanies libpng.
 </para>
 </sect3>
-<sect3>
-<title>LIBPNG.TXT</title>
+<sect3><title>LIBPNG.TXT</title>
 
 <para>libpng.txt - A description on how to use and modify libpng
 
@@ -5795,8 +5764,7 @@ Following is a copy of the libpng.txt file that accompanies libpng.
 
 </para>
 </sect3>
-<sect3>
-<title>I. Introduction</title>
+<sect3><title>I. Introduction</title>
 
 <para>
 This file describes how to use and modify the PNG reference library
@@ -5858,8 +5826,7 @@ same instance of a structure.
 
 </para>
 </sect3>
-<sect3>
-<title>II. Structures</title>
+<sect3><title>II. Structures</title>
 
 <para>
 There are two main structures that are important to libpng, png_struct
@@ -5893,8 +5860,7 @@ And while I'm on the topic, make sure you include the libpng header file:
 
 </para>
 </sect3>
-<sect3>
-<title>III. Reading</title>
+<sect3><title>III. Reading</title>
 
 <para>
 We'll now walk you through the possible functions to call when reading
@@ -7218,8 +7184,7 @@ png_infop info_ptr;
 
 </para>
 </sect3>
-<sect3>
-<title>IV. Writing</title>
+<sect3><title>IV. Writing</title>
 
 <para>
 Much of this is very similar to reading.  However, everything of
@@ -8029,8 +7994,7 @@ For a more compact example of writing a PNG image, see the file example.c.
 
 </para>
 </sect3>
-<sect3>
-<title>V. Modifying/Customizing libpng:</title>
+<sect3><title>V. Modifying/Customizing libpng:</title>
 
 <para>
 There are three issues here.  The first is changing how libpng does
@@ -8399,8 +8363,7 @@ this version of libpng, but if you insert some they will be printed.
 
 </para>
 </sect3>
-<sect3>
-<title>VI.  MNG support</title>
+<sect3><title>VI.  MNG support</title>
 
 <para>
 The MNG specification (available at http://www.libpng.org/pub/mng) allows
@@ -8428,8 +8391,7 @@ http://www.libmng.com) instead.
 
 </para>
 </sect3>
-<sect3>
-<title>VII.  Changes to Libpng from version 0.88</title>
+<sect3><title>VII.  Changes to Libpng from version 0.88</title>
 
 <para>
 It should be noted that versions of libpng later than 0.96 are not
@@ -8481,8 +8443,7 @@ application:
 
 </para>
 </sect3>
-<sect3>
-<title>VIII. Y2K Compliance in libpng</title>
+<sect3><title>VIII. Y2K Compliance in libpng</title>
 
 <para>
 January 31, 2001
@@ -8540,8 +8501,7 @@ no date-related code.
 
 </para>
 </sect3>
-<sect3>
-<title>NOTE</title>
+<sect3><title>NOTE</title>
 
 <para>
 Note about libpng version numbers:
@@ -8592,8 +8552,7 @@ the first widely used release:
 
 </para>
 </sect3>
-<sect3>
-<title>SEE ALSO</title>
+<sect3><title>SEE ALSO</title>
 
 <para>libpngpf(3), png(5)
 DEFAULT COMMAND FOUND: LP
@@ -8627,8 +8586,7 @@ and this library, the specification takes precedence.
 
 </para>
 </sect3>
-<sect3>
-<title>AUTHORS</title>
+<sect3><title>AUTHORS</title>
 
 <para>This man page: Glenn Randers-Pehrson
 &lt;randeg@alum.rpi.edu&gt;
@@ -8648,8 +8606,7 @@ Supported by the PNG development group
 
 </para>
 </sect3>
-<sect3>
-<title>COPYRIGHT NOTICE, DISCLAIMER, and LICENSE:</title>
+<sect3><title>COPYRIGHT NOTICE, DISCLAIMER, and LICENSE:</title>
 
 <para>
 (This copy of the libpng notices is provided for your convenience.  In case of
@@ -8760,7 +8717,10 @@ January 31, 2001
 
 <sect2><title>libpng.txt</title>
 <para>
-...
+<figure>
+<title>More content here</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
 </para>
 
 libpng.txt - A description on how to use and modify libpng
@@ -11504,13 +11464,19 @@ no date-related code.
 
 <sect1><title>Conclusion</title>
 <para>
-...
+<figure>
+<title>More content here</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
 </para>
 </sect1>
 
 <sect1><title>Further reading</title>
 <para>
-...
+<figure>
+<title>More content here</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
 </para>
 </sect1>
 
@@ -11630,19 +11596,19 @@ DES in Electronic Code Book (ECB) mode is a particularly poor choice of cryptogr
 
 <figure>
 <title>The TOWER corporate logo</title>
-<graphic format="EPS" fileref="desecb-figure1.eps"></graphic>
+<graphic format="EPS" fileref="desecb-figure1.eps">
 </figure>
 
 <figure>
 <title>After ECB encryption</title>
-<graphic format="EPS" fileref="desecb-figure2.eps"></graphic>
+<graphic format="EPS" fileref="desecb-figure2.eps">
 </figure>
 
 <para>
 You can see that whilst the image has certainly changed, the contents of the image has not really been obscured. 
 <figure>
 <title> more</title>
-<graphic format="EPS" fileref="todo.eps"></graphic>
+<graphic format="EPS" fileref="todo.eps">
 </figure>
 </para>
 
@@ -11658,7 +11624,7 @@ For those who have an excessive interest in code, I encrypted the TIFF image whi
 What about encrypting an image of text? 
 <figure>
 <title> more</title>
-<graphic format="EPS" fileref="todo.eps"></graphic>
+<graphic format="EPS" fileref="todo.eps">
 </figure>
 </para>
 
@@ -11666,7 +11632,7 @@ What about encrypting an image of text?
 We should note that ECB mode is not commonly used anyway. If you use something like PGP or blowfish, then you should be much happier... 
 <figure>
 <title> check this</title>
-<graphic format="EPS" fileref="todo.eps"></graphic>
+<graphic format="EPS" fileref="todo.eps">
 </figure>
 </para>
 </sect1>
@@ -11680,7 +11646,7 @@ Installation steps; ./configure; make; make install
 <para>
 <figure>
 <title>I'm only really talking about convert here -- what about the others?</title>
-<graphic format="EPS" fileref="todo.eps"></graphic>
+<graphic format="EPS" fileref="todo.eps">
 </figure>
 </para>
 
@@ -11720,7 +11686,7 @@ Now it's time to provide an example of how the ImageMagick commands can be used 
 <para>
 <figure>
 <title> should this be cut down a little</title>
-<graphic format="EPS" fileref="todo.eps"></graphic>
+<graphic format="EPS" fileref="todo.eps">
 </figure>
 </para>
 
@@ -12121,7 +12087,7 @@ The output of the script looks something like this:
 <para>
 <figure>
 <title> figure</title>
-<graphic format="EPS" fileref="todo.eps"></graphic>
+<graphic format="EPS" fileref="todo.eps">
 </figure>
 </para>
 </sect2>
@@ -12152,7 +12118,7 @@ There are sample images generated by allib available at aa... Some of the more i
 ..
 <figure>
 <title> insert images</title>
-<graphic format="EPS" fileref="todo.eps"></graphic>
+<graphic format="EPS" fileref="todo.eps">
 </figure>
 ..
 and
@@ -12162,7 +12128,7 @@ and
 <para>
 <figure>
 <title> more</title>
-<graphic format="EPS" fileref="todo.eps"></graphic>
+<graphic format="EPS" fileref="todo.eps">
 </figure>
 </para>
 </sect1>
@@ -12235,7 +12201,7 @@ There are a few resources which will make your life much easier. Here are some o
 <para>
 <figure>
 <title> This biblio entry is crap and broken and should be fixed...</title>
-<graphic format="EPS" fileref="todo.eps"></graphic>
+<graphic format="EPS" fileref="todo.eps">
 </figure>
 </para>
 

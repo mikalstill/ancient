@@ -14,7 +14,7 @@ describing the state of pixels, as opposed to recording the length and locations
 
 <figure>
 <title>A sample raster image</title>
-<graphic format="EPS" fileref="raster-figure1.eps"></graphic>
+<graphic format="EPS" fileref="raster-figure1.eps">
 </figure>
 
 <para>
@@ -28,7 +28,7 @@ If we zoom in enough on a portion of this image, we can see that it is made up o
 
 <figure>
 <title>Zooming in on a portion of the raster image</title>
-<graphic format="EPS" fileref="raster-figure2.eps"></graphic>
+<graphic format="EPS" fileref="raster-figure2.eps">
 </figure>
 
 <execute><cmd>todo</cmd><input>fix_the_falling_off_the_page_problem</input></execute>
@@ -66,17 +66,17 @@ Below I have included several pictures that illustrate this concept. The first f
 
 <figure>
 <title>The original image</title>
-<graphic format="EPS" fileref="grayscale-figure1.eps"></graphic>
+<graphic format="EPS" fileref="grayscale-figure1.eps">
 </figure>
 
 <figure>
 <title>An average of the color values for each pixel</title>
-<graphic format="EPS" fileref="grayscale-figure2.eps"></graphic>
+<graphic format="EPS" fileref="grayscale-figure2.eps">
 </figure>
 
 <figure>
 <title>A correct conversion to grayscale</title>
-<graphic format="EPS" fileref="grayscale-figure3.eps"></graphic>
+<graphic format="EPS" fileref="grayscale-figure3.eps">
 </figure>
 
 <para>

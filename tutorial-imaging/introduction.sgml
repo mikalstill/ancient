@@ -63,8 +63,17 @@ For those of you using gcc on a unix (or unix-like) operating system, then the f
 <sect1><title>Credits</title>
 <para>
 There are many people who need to be thanked when one attempts a project of this size. I would specifically like to thank my wife and son, who put up with me being geeky so very often.
+</para>
 
 <execute><cmd>todo</cmd><input>picture of Andrew and Catherine</input></execute>
+<para>
+I should also thank the following people:
+
+<itemizedlist>
+<listitem><para>Doug Jackson (doug_jackson@citadel.com.au), for proof reading and getting me interested in this whole topic to start with</para></listitem>
+<listitem><para>Tony Green (greeno@bandcamp.tv), for occassional docbook wrangling</para></listitem>
+<listitem><para>Michael Smith (smith@xml-doc.org), for docbook hints</para></listitem>
+</itemizedlist>
 </para>
 </sect1>
 
