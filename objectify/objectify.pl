@@ -108,9 +108,20 @@ foreach $key (keys %pointers){
     if($suppress{$class} eq ""){
 	print "class C$class\n{\n";
 	print "public:\n";
-	print "  C$class();  // todo\n";
-	print "  ~C$class(); // todo\n";
-	print "\n";
+
+	# The constructor needs to take the reference to the parent
+	print "  C$class($class *passed_ptr";
+	if($family{$class} ne ""){
+	    print ", $family{$class}& passed_$family{$class}) :\n";
+	    print "    m_$family{$class}(passed_$family{$class})\n";
+	    print "    { m_ptr = passed_ptr; }\n";
+	}
+	else{
+	    print ")\n";
+	    print "    { m_ptr = passed_ptr; }\n";
+	}
+
+	print "  ~C$class() { panda_xfree(m_ptr); }\n\n";
 	
 	# We need to output all the functions which use one of these pointers
 	my($rval, $fval, $aval, $origargs, @argsarray);
@@ -149,13 +160,25 @@ foreach $key (keys %pointers){
 		    if($argcount > 0){
 			print ", ";
 			}
+		    $temp =~ s/^ //;
 		    print "$temp a$argcount";
-		    $origargs =~ s/$temp *\**/a$argcount/;
+
+		    # Feed in the passed args
+		    $origargs =~ s/ *$temp *\**/ a$argcount/;
 		    $argcount++;
 		}
 		
 		print ") {";
+
+		# Subst our class's pointer
 		$origargs =~ s/$class *\*/m_ptr/g;
+
+		# How about a parent pointer?
+		if($family{$class} ne ""){
+		    $origargs =~ s/$family{$class} \*/&$family{$class}/;
+		    $origargs =~ s/$family{$class}/$family{$class}/;
+		}
+
 		$fval =~ s/^\*//;
 		if($rval ne "void"){
 		    print " return";
