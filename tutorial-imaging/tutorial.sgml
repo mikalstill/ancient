@@ -26,12 +26,11 @@ Welcome to the image programming tutorial for AUUG 2002...
     <execute><cmd>nextedition</cmd><input>Other raster formats</input></execute>
 <execute><cmd>builddb</cmd><input>pdf.sgml</input></execute>
     <execute><cmd>nextedition</cmd><input>opengl chapter</input></execute>
-<execute><cmd>nextedition</cmd><input>imagemagick.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>imagemagick.sgml</input></execute>
     <execute><cmd>nextedition</cmd><input>Imlib</input></execute>
     <execute><cmd>nextedition</cmd><input>AA</input></execute>
     <execute><cmd>nextedition</cmd><input>Rastermaster</input></execute>
     <execute><cmd>nextedition</cmd><input>Freetype</input></execute>
-    <execute><cmd>nextedition</cmd><input>GNU Autotools</input></execute>
     <execute><cmd>nextedition</cmd><input>SVGAlib</input></execute>
     <execute><cmd>nextedition</cmd><input>Resources chapter</input></execute>
     <execute><cmd>nextedition</cmd><input>conclusion.sgml</input></execute>

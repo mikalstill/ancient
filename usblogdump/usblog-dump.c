@@ -415,6 +415,9 @@ main (int argc, char *argv[])
     {
       if(do_showmatch == 1)
 	printf ("\nCorrelating the URBs:\n");
+      else
+	printf ("Repeated URBs suppressed\n");
+
       corrstep = 0;
       for (length = (int) (npackets / 2); length != 0; length--)
 	{
