@@ -289,6 +289,7 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
   }
 
   wxMenu *dev_menu = (wxMenu *) NULL;
+  dev_menu = new wxMenu(wxMENU_TEAROFF);
   dev_menu->Append (CEPMENU_TESTERRORS, "Test error handling",
 		    "This will test that the UI is handling errors correctly",
 		    FALSE);
