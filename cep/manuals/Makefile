@@ -5,7 +5,7 @@ all: clean user
 user: usermanual.sgml usermanual.ps usermanual.pdf
 	striptext -c < usermanual.sgml | wc -w
 
-usermanual.sgml: user.sgml quickstart.sgml install.sgml running.sgml uiconfig.sgml quickref.sgml
+usermanual.sgml: user.sgml 
 	builddb eps < user.sgml > usermanual.sgml 2> usermanual.log
 
 # General purpose rules
