@@ -18,41 +18,13 @@
 */
 
 #include "cepLsUi.h"
-  
-cepLsIsReweight::cepLsIsReweight():
-  wxMessageDialog(NULL, "Do you wish to use the Automatic Re-weighting Fuction?", "Least Squares Regression", wxYES_NO|wxCANCEL)
-{
-  Centre();
-
-  switch (ShowModal())
-  {
-    case wxID_YES:    //if yes pressed
-      m_isReweight = 1;
-      break;
-    case wxID_NO:     //if no pressed
-      m_isReweight = 0;
-      break;
-    case wxID_CANCEL: //if cancel pressed
-      m_isReweight = -1;
-      break;
-    default:
-      //**************ERROR here!
-      m_isReweight = -1;
-      break;
-  }  
-}
-
-int cepLsIsReweight::getIsReweight()
-{
-  return m_isReweight;   
-}
 
 BEGIN_EVENT_TABLE (cepLsShowDir, wxDialog)
   EVT_BUTTON(CEPBTN_DIR_SUBMIT, cepLsShowDir::dlgDirOnOK)
   EVT_BUTTON(CEPBTN_DIR_CANCEL, cepLsShowDir::dlgDirOnQuit)
   EVT_CLOSE( cepLsShowDir::dlgDirOnQuit)
 END_EVENT_TABLE ()
-                          
+
 cepLsShowDir::cepLsShowDir():
   wxDialog((wxDialog *) NULL, -1, "Choose Direction", wxPoint(120,120), wxSize(200, 200))
 {
@@ -75,7 +47,7 @@ cepLsShowDir::cepLsShowDir():
   Center();
   ShowModal();
 }
-      
+
 void cepLsShowDir::dlgDirOnQuit(wxCommandEvent& WXUNUSED(event))
 {
   //if cancel or quit button pressed set all values to false
@@ -89,7 +61,7 @@ void cepLsShowDir::dlgDirOnQuit(wxCommandEvent& WXUNUSED(event))
 void cepLsShowDir::dlgDirOnOK(wxCommandEvent& WXUNUSED(event))
 {
   EndModal(0);
-  Destroy();  
+  Destroy();
 }
 
 bool cepLsShowDir::getWhichDir(char dir)
@@ -109,68 +81,33 @@ bool cepLsShowDir::getWhichDir(char dir)
   }
 }
 
-cepLsReadP::cepLsReadP(string dir):
-  wxMessageDialog(NULL, wxString( "Do you wish to load the weighting matrix for direction ") + wxString(dir.c_str()) + wxString(" from a file?:" ), "Specify a Weighting Matrix", wxYES_NO|wxCANCEL)
-{
-  Centre();
-
-  switch (ShowModal())
-  {
-    case wxID_YES:    //if yes pressed
-      m_isRead = 1;
-      break;
-    case wxID_NO:     //if no pressed
-      m_isRead = 0;
-      break;
-    case wxID_CANCEL: //if cancel pressed
-      m_isRead = -1;
-      break;
-    default:
-      //**************ERROR here!
-      m_isRead = -1;
-      break;
-  }
-}
-
-int cepLsReadP::getIsReadP()
-{
-  return m_isRead;
-}
-
-cepLsShowFile::cepLsShowFile():
-  wxFileDialog(NULL, "Choose Weighted Matrix File", "", "", "*.dat", wxOPEN, wxPoint(-1, -1))
-{
-
-  Center();
-
-    switch (ShowModal())
-  {
-    case wxID_OK:     //if ok pressed
-      m_filename = GetPath().c_str();
-      break;
-    case wxID_CANCEL: //if cancel pressed
-      m_filename = "";
-      break;
-    default:
-      //ERROR HERE!
-      m_filename = "";
-      break;
-  }
-
-}
-
-string cepLsShowFile::getFilename()
-{
-  return m_filename;
-}
-
 cepLsUi::cepLsUi() {}
 
 void cepLsUi::showIsReweight()
 {
-  cepLsIsReweight sir;
+  wxMessageDialog dlg(NULL, "Do you wish to use the Automatic Re-weighting Fuction?", "Least Squares Regression", wxYES_NO|wxCANCEL);
 
-  m_isReweight = sir.getIsReweight();
+  dlg.Center();
+  
+  switch (dlg.ShowModal())
+  {
+    case wxID_YES:    //if yes pressed
+      m_isReweight = 1;
+      break;
+    case wxID_NO:     //if no pressed
+      m_isReweight = 0;
+      break;
+    case wxID_CANCEL: //if cancel pressed
+      m_isReweight = -1;
+      break;
+    default:
+      //**************ERROR here!
+      m_isReweight = -1;
+      break;
+  }  
+  //cepLsIsReweight sir;
+
+  //m_isReweight = sir.getIsReweight();
 }
 
 void cepLsUi::showWhichDir()
@@ -184,16 +121,53 @@ void cepLsUi::showWhichDir()
 
 void cepLsUi::showIsReadP(string dir)
 {
-  cepLsReadP rp(dir);
+  wxMessageDialog dlg(NULL, wxString( "Do you wish to load the weighting matrix for direction ") + wxString(dir.c_str()) + wxString(" from a file?:" ), "Specify a Weighting Matrix", wxYES_NO|wxCANCEL);
 
-  m_isReadP = rp.getIsReadP();
+  dlg.Centre();
+
+   switch (dlg.ShowModal())
+  {
+    case wxID_YES:    //if yes pressed
+      m_isReadP = 1;
+      break;
+    case wxID_NO:     //if no pressed
+      m_isReadP = 0;
+      break;
+    case wxID_CANCEL: //if cancel pressed
+      m_isReadP = -1;
+      break;
+    default:
+      //**************ERROR here!
+      m_isReadP = -1;
+      break;
+  }
+  //cepLsReadP rp(dir);
+
+  //m_isReadP = rp.getIsReadP();
 }
 
 void cepLsUi::showGetfNameP()
 {
-  cepLsShowFile sf;
+  wxFileDialog dlg(NULL, "Choose Weighted Matrix File", "", "", "*.dat", wxOPEN, wxPoint(-1, -1));
 
-  m_filename = sf.getFilename();
+  dlg.Centre();
+
+  switch (dlg.ShowModal())
+  {
+    case wxID_OK:     //if ok pressed
+      m_filename = dlg.GetPath().c_str();
+      break;
+    case wxID_CANCEL: //if cancel pressed
+      m_filename = "";
+      break;
+    default:
+      //ERROR HERE!
+      m_filename = "";
+      break;
+  }
+  //cepLsShowFile sf;
+
+  //m_filename = sf.getFilename();
 }
 
 int cepLsUi::getIsReweight()

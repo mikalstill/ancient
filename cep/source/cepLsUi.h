@@ -36,55 +36,6 @@
 /******************************************************************************
 DOCBOOK START
 
-FUNCTION cepLsIsReweight
-
-
-PURPOSE Displays the re-weighting dialog box for the Least Squares user interface
-
-SYNOPSIS START
-The follwing is an example of how to create this object.
-
-cepLsIsReweight rw;
-
-SYNOPSIS END
-
-DESCRIPTION START
-
-An implementation of the <command>cepLsIsReweight</command> class
-which displays a wxWindows mesage dialog box.
-</para>
-
-<para>
-<command>cepLsIsReweight()</command>
-Display the re-weighting dialog box.
-
-<para>
-<command>int getIsReweight();
-Get the value returned from the dialog box. Returns 1 for yes, 0 for no or -1
-for cancel.
-
-DESCRIPTION END
-
-DOCBOOK END
-******************************************************************************/
-
-class cepLsIsReweight: public wxMessageDialog
-{
-public:
-
-  //display the re-weighting dialog
-  cepLsIsReweight();
-
-  //get the value returned from the dialog box
-  int getIsReweight();
-
-private:
-  int m_isReweight;
-};
-
-/******************************************************************************
-DOCBOOK START
-
 FUNCTION cepLsShowDir
 
 
@@ -136,8 +87,9 @@ public:
   void dlgDirOnOK(wxCommandEvent& event);
 
 private:
-  wxPanel *m_panel;
-  wxStaticBox *m_statBox;
+  //declare the indivdual elements that make up the dialog box
+  wxPanel *m_panel;           
+  wxStaticBox *m_statBox;    
   wxStaticText *m_statText1, *m_statText2, *m_statText3;
   wxCheckBox *m_cbDirX, *m_cbDirY, *m_cbDirZ;
   wxButton *m_bSubmit, *m_bCancel;
@@ -145,105 +97,6 @@ private:
   DECLARE_EVENT_TABLE ()
 };
 
-/******************************************************************************
-DOCBOOK START
-
-FUNCTION cepLsReadP
-
-
-PURPOSE Displays the read from file dialog box for the Least Squares user interface
-
-SYNOPSIS START
-The follwing is an example of how to create this object.
-
-cepLsReadP rp;
-
-SYNOPSIS END
-
-DESCRIPTION START
-
-An implementation of the <command>cepLsReadP</command> class
-which displays a wxWindows mesage dialog box.
-</para>
-
-<para>
-<command>cepLsReadP(string dir)</command>
-Display the read from file dialog box for the specified direction.
-<para><itemizedlist>
-  <listitem><para>dir:-The data direction. Must be one of x, y or z</para></listitem>
-</itemizedlist></para>
-</para>
-
-<para>
-<command>int getIsReadP()</command>
-Get the value returned from the dialog box. Returns 1 for yes, 0 for no or -1
-for cancel.
-
-DESCRIPTION END
-
-DOCBOOK END
-******************************************************************************/
-
-class cepLsReadP: public wxMessageDialog
-{
-public:
-
-  //display the read from file dialog box
-  cepLsReadP(string dir);
-
-  int getIsReadP();
-private:
-  int m_isRead;
-};
-
-/******************************************************************************
-DOCBOOK START
-
-FUNCTION cepLsShowFile
-
-
-PURPOSE Displays the open a file dialog box for the Least Squares user interface
-
-SYNOPSIS START
-The follwing is an example of how to create this object.
-
-cepLsShowFile sf;
-
-SYNOPSIS END
-
-DESCRIPTION START
-
-An implementation of the <command>cepLsShowFile</command> class
-which displays a wxWindows mesage dialog box.
-</para>
-
-<para>
-<command>cepLsShowFile</command>
-Display the open file dialog box for the specified direction.
-</para>
-
-<para>
-<command>string getFilename()</command>
-Returns the full path of the file selected for opening. If getFilename() returns
-"" the user has canceled this operation.
-
-DESCRIPTION END
-
-DOCBOOK END
-******************************************************************************/
-
-class cepLsShowFile: public wxFileDialog
-{
-public:
-  //show the choose file dialog box
-  cepLsShowFile();
-
-  //gets the name of the file choosen
-  string getFilename();
-
-private:
-  string m_filename;
-};
 
 /******************************************************************************
 DOCBOOK START
@@ -341,10 +194,12 @@ public:
   string getfNameP();
 
 private:
-  int m_isReweight;
-  bool m_doDirX, m_doDirY, m_doDirZ;
-  int m_isReadP;
-  string m_filename;
+  int m_isReweight;   //holds the value returned from the reweighting dialog box
+  bool m_doDirX,      //was direction X selected?
+       m_doDirY,      //was direction Y selected?
+       m_doDirZ;      //was direction Z selected?
+  int m_isReadP;      //holds the value returned from the read from file dialog box
+  string m_filename;  //holds the file name selected in the read file dialog box
 };
 
   
