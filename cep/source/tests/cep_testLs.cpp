@@ -38,11 +38,14 @@
  *     void tearDown( void ) { ... }
  *
  * @author <your name here>
- * @version $Revision: 1.13 $ $Date: 2002-11-12 04:00:45 $
+ * @version $Revision: 1.14 $ $Date: 2002-11-13 06:21:16 $
  *
  * Revision History
  *
  * $Log: not supported by cvs2svn $
+ * Revision 1.13  2002/11/12 04:00:45  u983118
+ * User interface stuff again....
+ *
  * Revision 1.12  2002/11/11 06:14:14  u983118
  * fixed some ui stuff..
  * found more bugs in cepLs
@@ -197,11 +200,11 @@ protected:
     }
     
     //test for Colours
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(  1.0, newData.getValue(0,3), 0.01 );
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(  1.0, newData.getValue(1,3), 0.01 ); 
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(  1.0, newData.getValue(2,3), 0.01 );
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(  1.0, newData.getValue(3,3), 0.01 );
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(  1.0, newData.getValue(4,3), 0.01 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(  0.0, newData.getValue(0,3), 0.01 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(  0.0, newData.getValue(1,3), 0.01 ); 
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(  0.0, newData.getValue(2,3), 0.01 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(  0.0, newData.getValue(3,3), 0.01 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(  0.0, newData.getValue(4,3), 0.01 );
 
     //tests for B1 and B2
     CPPUNIT_ASSERT_DOUBLES_EQUAL( 0.05241276, ans.getB1(), 0.00000001 );
@@ -222,11 +225,11 @@ protected:
     
     
     //test for Colours
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(  1.0, residual.getValue(0,3), 0.01 );
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(  1.0, residual.getValue(1,3), 0.01 ); 
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(  1.0, residual.getValue(2,3), 0.01 );
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(  1.0, residual.getValue(3,3), 0.01 );
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(  1.0, residual.getValue(4,3), 0.01 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(  0.0, residual.getValue(0,3), 0.01 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(  0.0, residual.getValue(1,3), 0.01 ); 
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(  0.0, residual.getValue(2,3), 0.01 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(  0.0, residual.getValue(3,3), 0.01 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(  0.0, residual.getValue(4,3), 0.01 );
   }
   
   //test the re-weighting of VCV
@@ -295,11 +298,11 @@ protected:
     }
     
     //test for data Colours
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(  1.0, newData.getValue(0,3), 0.01 );
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(  1.0, newData.getValue(1,3), 0.01 ); 
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(  2.0, newData.getValue(2,3), 0.01 );
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(  1.0, newData.getValue(3,3), 0.01 );
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(  1.0, newData.getValue(4,3), 0.01 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(  0.0, newData.getValue(0,3), 0.01 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(  0.0, newData.getValue(1,3), 0.01 ); 
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(  1.0, newData.getValue(2,3), 0.01 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(  0.0, newData.getValue(3,3), 0.01 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(  0.0, newData.getValue(4,3), 0.01 );
 
 
     //test for new residual dates and errors data matrix
@@ -316,11 +319,11 @@ protected:
     CPPUNIT_ASSERT_DOUBLES_EQUAL(  0.0, residual.getValue(4,1), 0.01 );
     
     //test for Colours
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(  1.0, residual.getValue(0,3), 0.01 );
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(  1.0, residual.getValue(1,3), 0.01 ); 
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(  2.0, residual.getValue(2,3), 0.01 );
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(  1.0, residual.getValue(3,3), 0.01 );
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(  1.0, residual.getValue(4,3), 0.01 );    
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(  0.0, residual.getValue(0,3), 0.01 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(  0.0, residual.getValue(1,3), 0.01 ); 
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(  1.0, residual.getValue(2,3), 0.01 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(  0.0, residual.getValue(3,3), 0.01 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(  0.0, residual.getValue(4,3), 0.01 );    
   }
   
   void testLsVCVReweight2()
@@ -329,7 +332,7 @@ protected:
     cepDataset blah;
     cepLs ans;
     
-    blah.read("../../datasets/mb_AUCK_GPS");
+    blah.read("../../datasets/mb_STR1_GPS");
     
     data = blah.getMatrix(cepDataset::dirX);
     
@@ -411,11 +414,11 @@ protected:
     }
     
     //test for data Colours
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(  1.0, newData.getValue(0,3), 0.01 );
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(  1.0, newData.getValue(1,3), 0.01 ); 
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(  1.0, newData.getValue(2,3), 0.01 );
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(  1.0, newData.getValue(3,3), 0.01 );
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(  1.0, newData.getValue(4,3), 0.01 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(  0.0, newData.getValue(0,3), 0.01 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(  0.0, newData.getValue(1,3), 0.01 ); 
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(  0.0, newData.getValue(2,3), 0.01 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(  0.0, newData.getValue(3,3), 0.01 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(  0.0, newData.getValue(4,3), 0.01 );
 
     //test for new residual dates and errors data matrix
     for(int i = 0; i < newData.getNumRows(); i ++){
@@ -432,11 +435,11 @@ protected:
     
     
     //test for Colours
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(  1.0, residual.getValue(0,3), 0.01 );
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(  1.0, residual.getValue(1,3), 0.01 ); 
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(  1.0, residual.getValue(2,3), 0.01 );
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(  1.0, residual.getValue(3,3), 0.01 );
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(  1.0, residual.getValue(4,3), 0.01 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(  0.0, residual.getValue(0,3), 0.01 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(  0.0, residual.getValue(1,3), 0.01 ); 
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(  0.0, residual.getValue(2,3), 0.01 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(  0.0, residual.getValue(3,3), 0.01 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(  0.0, residual.getValue(4,3), 0.01 );
  
   }    
 }; // end Test
