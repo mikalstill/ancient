@@ -365,12 +365,32 @@ int CDhmm::Write(const char *fileName) const
 }
 
 //////////////////////////////////////////////////////////////////////
-// Mikal: Stub for question two of the assignment
+// Mikal: Read a trained HMM from disc. Return value indicates
+// success or failure
 //////////////////////////////////////////////////////////////////////
 
 int CDhmm::Read(const char *fileName)
 {
-   return 0;
+   // Mikal: Open the file. If this has failed, return a value indicating
+   // that
+   ofstream file(fileName, ios::in);
+   if(!file)
+      return 0;
+
+   // Mikal: Read the A and B matrices, and the pi vector from the file
+   int i, j;
+   for (i=0; i<NSTATES; i++)
+     for (j=0; j<NSTATES; j++)
+       file >> A[i][j];
+   for (i=0; i<NSTATES; i++)
+     for (j=0; j<NOBS; j++)
+       file >> B[i][j];
+   for (i=0; i<NSTATES; i++)
+     file >> pi[i];
+   
+   // Mikal: Close the file and return a value indicating success
+   file.close();
+   return 1;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -407,4 +427,3 @@ int ReadObs(char *obsFileName, obs &obsVector)
    obsFile.close();
    return obsVector.size();
 }
-

@@ -72,7 +72,7 @@ public:
    double LogLikelihood(const obs &) const;
 
    // Mikal: File IO routines for persisting the HMM to disc, and
-   // reading it back in
+   // reading it back in. Return 0 for failure, and 1 for success
    int Write(const char*) const;
    int Read(const char*);
 

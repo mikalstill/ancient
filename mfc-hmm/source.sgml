@@ -1,6 +1,6 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
 <article>
-<title>Computer Engineering Four Assignment One</title>
+<title>Computer Engineering Four Assignment Two</title>
    <subtitle>Speech Recognition</subtitle>
 
 <articleinfo>
@@ -14,204 +14,88 @@
 </articleinfo>
 
 <sect1>
-<title>Part A</title>
+<title>Question One</title>
 
-<sect2><title>Perform time-domain analysis with a frame size of 512</title>
-<sect3><title>Input the file, play it back and state what the spoken phrase is</title>
+<sect2><title>Comment dhmm.cpp and dhmm.h</title>
 <para>
-The spoken phrase is "Human Computer Communication".
-</para>
-</sect3>
-
-<sect3><title>Compute the energy contour in dB</title>
-<para>
-The following Matlab script was used to generate the energy contour in dB, including using the first frame as a reference of 0 dB.
+The following source files are my commented versions. All of the comments I have added start with the text <quote>Mikal: </quote> in order to more clearly identify them.
 </para>
 
-<execute><cmd>code2db</cmd><args>4</args><input>matlab/econtour.m</input></execute>
-</sect3>
+<execute><cmd>code2db</cmd><args>3</args><input>dhmm.h</input></execute>
+<execute><cmd>code2db</cmd><args>3</args><input>dhmm.cpp</input></execute>
 
-<sect3><title>Compute the normalised autocorrelation contour</title>
-<para>
-The following Matlab script was used to calculate the autocorrelation contour:
-</para>
-
-<execute><cmd>code2db</cmd><args>4</args><input>matlab/autocorr.m</input></execute>
-</sect3>
-
-<sect3><title>Set a suitable autocorrelation value for the voiced/unvoiced threshold and compute the fundamental frequency contour</title>
-<para>
-The fundamental frequency is calculated by the autocorrelation function in the code in the previous section. The values kmin and kmax were derived for the maximum and minimum frequencies for the voice / unvoice threshold as provided by Professor Wagner.
-</para>
-</sect3>
-
-<sect3><title>Plot all three of the above contours with a common time axis and on that plot mark the phoneme boundaries and label the phonemes</title>
-<para>
-Please refer the to next page for this graph, with annotation. The phonemes were selected based on reference to the Cambridge online dictionary (http://dictionary.cambridge.org), and the various notes distributed in class.
-</para>
-</sect3>
-
-<sect3><title>Documentation</title>
-<para>
-The two scripts presented earlier in this section to calculate the values required are tied together by the following Matlab script:
-</para>
-
-<execute><cmd>code2db</cmd><args>4</args><input>matlab/questionOne.m</input></execute>
-</sect3>
 </sect2>
 
-<sect2><title>Perform frequency-domain analysis on a frame in the centre of the first vowel /u/ and on a frame in the centre of the consonant /sh/</title>
+<beginpage>
+<sect2><title>User manual for DhmmTrain</title>
 <para>
-The following scripts were used to perform these calculations:
+describing the purpose, usage, and input and output file structures for the program
 </para>
-
-<execute><cmd>code2db</cmd><args>3</args><input>matlab/questionTwo.m</input></execute>
-<execute><cmd>code2db</cmd><args>3</args><input>matlab/ph_u.m</input></execute>
-<execute><cmd>code2db</cmd><args>3</args><input>matlab/ph_sh.m</input></execute>
-<execute><cmd>code2db</cmd><args>3</args><input>matlab/fd_analyse.m</input></execute>
-
-<sect3><title>/u/ plot</title>
-<para>
-Please refer to the next page for this plot.
-</para>
-</sect3>
-
-<sect3><title>/sh/ plot</title>
-<para>
-Please refer to the page following that for the /sh/ plots.
-</para>
-</sect3>
 </sect2>
-</sect1>
 
-<sect1><title>Part B</title>
+<beginpage>
+<sect2><title>Program output</title>
 <para>
-This part documents the speech recongition experiment.
+The following output is generated for the three different digits...
 </para>
 
-<sect2><title>Compute the codebook</title>
+<sect3><title>001</title>
 <para>
-The following code produces a LBG VQ codebook of size 32 from the 9 training MFC files.
-</para>
-
-<execute><cmd>code2db</cmd><args>3</args><input>c++/gencode.cpp</input></execute>
-<execute><cmd>code2db</cmd><args>3</args><input>c++/lbg.cpp</input></execute>
-<execute><cmd>code2db</cmd><args>3</args><input>c++/lbg.h</input></execute>
-<execute><cmd>code2db</cmd><args>3</args><input>c++/mfc.cpp</input></execute>
-<execute><cmd>code2db</cmd><args>3</args><input>c++/mfc.h</input></execute>
-<execute><cmd>code2db</cmd><args>3</args><input>c++/world.h</input></execute>
-
-<execute><cmd>code2db</cmd><args>3</args><input>c++/Makefile</input></execute>
-
-<sect3><title>Output codebook</title>
-<para>
-The output codebook is as follows:
-</para>
-
-<execute><cmd>code2db</cmd><input>c++/codebook.mfc</input></execute>
-</sect3>
-
-<sect3><title>Distortion values</title>
-<para>
-The following distortion values are calculated for the various phases in the codebook generation:
+The running program produces the following output:
 </para>
 
 <programlisting>
-<execute><cmd>grep</cmd><args>Distortion c++/output</args></execute>
+<execute><cmd>train</cmd><args>script-d001 d001.hmm</args></execute>
 </programlisting>
 
+<para>
+The trained HMM is as follows:
+</para>
+
+<execute><cmd>todo</cmd><input>Line breaking script</input></execute>
+<programlisting>
+<execute><cmd>linebreak</cmd><args>60</args><input>d001.hmm</input></execute>
+</programlisting>
 </sect3>
-</sect2>
 
-<sect2><title>Encoding the nine training files</title>
+<sect3><title>002</title>
 <para>
-This script was used to encode the nine training files:
+The running program produces the following output:
 </para>
 
+<programlisting>
+<execute><cmd>train</cmd><args>script-d002 d002.hmm</args></execute>
+</programlisting>
+
 <para>
-<execute><cmd>builddb</cmd><input>c++/encodeall.sh</input></execute>
+The trained HMM is as follows:
 </para>
 
-<sect3><title>Encoded files</title>
-<para>
-These are the encoded files:
-</para>
-
-<sect4><title>s014d001</title>
-<para>
-<execute><cmd>builddb</cmd><input>c++/s014d001.enc</input></execute>
-</para>
-</sect4>
-
-<sect4><title>s014d002</title>
-<para>
-<execute><cmd>builddb</cmd><input>c++/s014d002.enc</input></execute>
-</para>
-</sect4>
-
-<sect4><title>s014d003</title>
-<para>
-<execute><cmd>builddb</cmd><input>c++/s014d003.enc</input></execute>
-</para>
-</sect4>
-
-<sect4><title>s017d001</title>
-<para>
-<execute><cmd>builddb</cmd><input>c++/s017d001.enc</input></execute>
-</para>
-</sect4>
-
-<sect4><title>s017d002</title>
-<para>
-<execute><cmd>builddb</cmd><input>c++/s017d002.enc</input></execute>
-</para>
-</sect4>
-
-<sect4><title>s017d003</title>
-<para>
-<execute><cmd>builddb</cmd><input>c++/s017d003.enc</input></execute>
-</para>
-</sect4>
-
-<sect4><title>s029d001</title>
-<para>
-<execute><cmd>builddb</cmd><input>c++/s029d001.enc</input></execute>
-</para>
-</sect4>
-
-<sect4><title>s029d002</title>
-<para>
-<execute><cmd>builddb</cmd><input>c++/s029d002.enc</input></execute>
-</para>
-</sect4>
-
-<sect4><title>s029d003</title>
-<para>
-<execute><cmd>builddb</cmd><input>c++/s029d003.enc</input></execute>
-</para>
-</sect4>
-
-<sect4><title>s031d00x</title>
-<para>
-<execute><cmd>builddb</cmd><input>c++/s031d00x.enc</input></execute>
-</para>
-</sect4>
-
+<execute><cmd>todo</cmd><input>Line breaking script</input></execute>
+<programlisting>
+<execute><cmd>linebreak</cmd><args>60</args><input>d002.hmm</input></execute>
+</programlisting>
 </sect3>
-</sect2>
 
-<sect2><title>Verfication</title>
+<sect3><title>003</title>
 <para>
-The LBG VQ algorithm used in this part was verified by the use of selected dummy MFC files which a much smaller number of samples. This allowed me to manually calculate the correct cloud centroids et cetera, and then verify this against the program.
-</para>
-</sect2>
-
-<sect2><title>HMM initialization</title>
-<para>
-The following code was used for HMM initialization:
+The running program produces the following output:
 </para>
 
-<execute><cmd>code2db</cmd><args>3</args><input>c++/hmminit.cpp</input></execute>
+<programlisting>
+<execute><cmd>train</cmd><args>script-d003 d003.hmm</args></execute>
+</programlisting>
+
+<para>
+The trained HMM is as follows:
+</para>
+
+<execute><cmd>todo</cmd><input>Line breaking script</input></execute>
+<programlisting>
+<execute><cmd>linebreak</cmd><args>60</args><input>d003.hmm</input></execute>
+</programlisting>
+</sect3>
+
 </sect2>
 </sect1>
 </article>

@@ -3,10 +3,10 @@
 #include "debug.h"
 
 ///////////////////////////////////////////////////////////////////////////////
-//PROGRAM TO TRAIN A DISCRETE HIDDEN MARKOV MODEL
-//Usage: DHMMTrain scriptfile outfile
-//       scriptfile: contains the file names for the observation sequences
-//       outfile:    contains the file name for the output of the model
+// PROGRAM TO TRAIN A DISCRETE HIDDEN MARKOV MODEL
+// Usage: DHMMTrain scriptfile outfile
+//        scriptfile: contains the file names for the observation sequences
+//        outfile:    contains the file name for the output of the model
 ///////////////////////////////////////////////////////////////////////////////
 
 void main(int argc, char *argv[])
