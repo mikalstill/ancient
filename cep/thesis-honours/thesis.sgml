@@ -92,7 +92,7 @@ The following page greets users when they start the GDMS Internet interface.
 
 
 
-<chapter><title>Appendix One: GDMS Internet interface scripting elements</title>
+<appendix><title>GDMS Internet interface scripting elements</title>
 <sect1><title>Introduction</title>
 <para>
 This appendix documents the various tags which are implemented by the GDMS Internet interface in addition to the standard HTML tags normally available. All of these tags are within the scripting namespace provided by HTML 4.01 (Raggett, Le Hors, &amp; Jacobs 1999).
@@ -100,19 +100,19 @@ This appendix documents the various tags which are implemented by the GDMS Inter
 
 <execute><cmd>insertall</cmd><args>builddb . "cmd-*"</args></execute>
 </sect1>
-</chapter>
+</appendix>
 
-<chapter><title>Appendix Two: Source code</title>
+<appendix><title>Source code</title>
 <execute><cmd>code2db</cmd><input>~mikal/opensource-unstable/cep/source/web/gdms.pl</input></execute>
-</chapter>
+</appendix>
 
-<chapter><title>Appendix Three: Installation</title>
+<appendix><title>Installation</title>
 <para>
 ...
 </para>
-</chapter>
+</appendix>
 
-<chapter><title>Appendix Four: A sample configuration file</title>
+<appendix><title>A sample configuration file</title>
 <para>
 This appendix details a sample configuration file for the GDMS Internet interface. This file should be stored in the same directory as the GDMS CGI script. It should also be noted that the <quote>.cep</quote> configuration file that would normally reside in a user's home directory should also be in the same directory as the GDMS CGI script.
 </para>
@@ -126,6 +126,6 @@ The same gdms.config file is as follows:
 </para>
 
 <execute><cmd>code2db</cmd><input>/home/httpd/cgi-bin/gdms.config</input></execute>
-</chapter>
+</appendix>
 </book>
 

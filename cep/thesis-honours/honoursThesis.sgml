@@ -332,7 +332,7 @@ Warmerdam, F. and Welles, M., 24 January 2002 [last update],
 
 
 
-<chapter><title>Appendix One: GDMS Internet interface scripting elements</title>
+<appendix><title>GDMS Internet interface scripting elements</title>
 <sect1><title>Introduction</title>
 <para>
 This appendix documents the various tags which are implemented by the GDMS Internet interface in addition to the standard HTML tags normally available. All of these tags are within the scripting namespace provided by HTML 4.01 (Raggett, Le Hors, &amp; Jacobs 1999).
@@ -510,9 +510,9 @@ An example usage is:
 </sect2>
 
 </sect1>
-</chapter>
+</appendix>
 
-<chapter><title>Appendix Two: Source code</title>
+<appendix><title>Source code</title>
 <programlisting>
 #!/usr/bin/perl
 
@@ -950,15 +950,15 @@ sub performFFT(){
 }
 </programlisting>
 <para><emphasis>Code: eps</emphasis></para>
-</chapter>
+</appendix>
 
-<chapter><title>Appendix Three: Installation</title>
+<appendix><title>Installation</title>
 <para>
 ...
 </para>
-</chapter>
+</appendix>
 
-<chapter><title>Appendix Four: A sample configuration file</title>
+<appendix><title>A sample configuration file</title>
 <para>
 This appendix details a sample configuration file for the GDMS Internet interface. This file should be stored in the same directory as the GDMS CGI script. It should also be noted that the <quote>.cep</quote> configuration file that would normally reside in a user's home directory should also be in the same directory as the GDMS CGI script.
 </para>
@@ -1020,6 +1020,6 @@ $rooturl = "/cgi-bin/gdms.pl";
 $gdms = "/home/httpd/gdmsbatch";
 </programlisting>
 <para><emphasis>Code: eps</emphasis></para>
-</chapter>
+</appendix>
 </book>
 
