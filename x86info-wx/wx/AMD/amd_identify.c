@@ -1,5 +1,5 @@
 /*
- *  $Id: amd_identify.c,v 1.1.1.1 2003-04-06 07:40:30 root Exp $
+ *  $Id: amd_identify.c,v 1.2 2003-04-13 22:12:33 root Exp $
  *  This file is part of x86info.
  *  (C) 2001 Dave Jones.
  *
@@ -21,10 +21,10 @@ static char *amd_nameptr, *namebegin;
 static void do_assoc(unsigned long assoc)
 {
 	if ((assoc & 0xff) == 255)
-		printf("Fully");
+		output(msg_accumulate, "Fully");
 	else
-		printf("%ld-way", assoc);
-	printf(" associative. ");
+		output(msg_accumulate, "%ld-way", assoc);
+	output(msg_accumulate, " associative. ");
 }
 
 static void decode_AMD_cacheinfo(struct cpudata *cpu)
@@ -35,40 +35,45 @@ static void decode_AMD_cacheinfo(struct cpudata *cpu)
 		/* TLB and cache info */
 		cpuid(cpu->number, 0x80000005, &eax, &ebx, &ecx, &edx);
 
-		printf("Instruction TLB: ");
+		output(msg_accumulate, "Instruction TLB: ");
 		do_assoc((ebx >> 8) & 0xff);
-		printf("%ld entries.\n", ebx & 0xff);
+		output(msg_accumulate, "%ld entries.\n", ebx & 0xff);
+		output(msg_insttlb, "");
 
-		printf("Data TLB: ");
+		output(msg_accumulate, "Data TLB: ");
 		do_assoc(ebx >> 24);
-		printf("%ld entries.\n", (ebx >> 16) & 0xff);
+		output(msg_accumulate, "%ld entries.\n", (ebx >> 16) & 0xff);
+		output(msg_datatlb, "");
 
-		printf("L1 Data cache:\n\t");
-		printf("Size: %ldKb\t", ecx >> 24);
+		output(msg_accumulate, "L1 Data cache:\n\t");
+		output(msg_accumulate, "Size: %ldKb\t", ecx >> 24);
 		do_assoc((ecx >> 16) & 0xff);
-		printf("\n\t");
-		printf("lines per tag=%ld\t", (ecx >> 8) & 0xff);
-		printf("line size=%ld bytes.\n", ecx & 0xff);
+		output(msg_accumulate, "\n\t");
+		output(msg_accumulate, "lines per tag=%ld\t", (ecx >> 8) & 0xff);
+		output(msg_accumulate, "line size=%ld bytes.\n", ecx & 0xff);
+		output(msg_l1datacache, "");
 
-		printf("L1 Instruction cache:\n\t");
-		printf("Size: %ldKb\t", edx >> 24);
+		output(msg_accumulate, "L1 Instruction cache:\n\t");
+		output(msg_accumulate, "Size: %ldKb\t", edx >> 24);
 		do_assoc((edx >> 16) & 0xff);
-		printf("\n\t");
-		printf("lines per tag=%ld\t", (edx >> 8) & 0xff);
-		printf("line size=%ld bytes.\n", edx & 0xff);
+		output(msg_accumulate, "\n\t");
+		output(msg_accumulate, "lines per tag=%ld\t", (edx >> 8) & 0xff);
+		output(msg_accumulate, "line size=%ld bytes.\n", edx & 0xff);
+		output(msg_l1instcache, "");
 	}
 
 	/* check K6-III (and later) on-chip L2 cache size */
 	if (cpu->maxei >= 0x80000006) {
 		cpuid(cpu->number, 0x80000006, &eax, &ebx, &ecx, &edx);
-		printf("L2 (on CPU) cache:\n\t");
-		printf("Size: %ldKb\t", ecx >> 16);
+		output(msg_accumulate, "L2 (on CPU) cache:\n\t");
+		output(msg_accumulate, "Size: %ldKb\t", ecx >> 16);
 		do_assoc((ecx >> 12) & 0x0f);
-		printf("\n\t");
-		printf("lines per tag=%ld\t", (ecx >> 8) & 0x0f);
-		printf("line size=%ld bytes.\n", ecx & 0xff);
+		output(msg_accumulate, "\n\t");
+		output(msg_accumulate, "lines per tag=%ld\t", (ecx >> 8) & 0x0f);
+		output(msg_accumulate, "line size=%ld bytes.\n", ecx & 0xff);
+		output(msg_l2cache, "");
 	}
-	printf("\n");
+	output(msg_format, "\n");
 }
 
 

@@ -1,5 +1,5 @@
 /*
- *  $Id: amd_bluesmoke.c,v 1.2 2003-04-13 21:58:00 root Exp $
+ *  $Id: amd_bluesmoke.c,v 1.3 2003-04-13 22:12:33 root Exp $
  *  This file is part of x86info.
  *  (C) 2001 Dave Jones.
  *
@@ -43,8 +43,8 @@ void decode_athlon_bluesmoke(int cpunum)
 
 	if (read_msr(cpunum, MCG_STATUS, &val) == 1) {
 		if (val != 0) {
-			printf("            31       23       15       7 \n");
-			printf ("MCG_STATUS: ");
+			output (msg_format, "            31       23       15       7 \n");
+			output (msg_format, "MCG_STATUS: ");
 			dumpmsr_bin (cpunum, MCG_STATUS, 32);
 		}
 	}
@@ -55,55 +55,83 @@ void decode_athlon_bluesmoke(int cpunum)
 		output (msg_datacache, " Data cache check %sabled\n", val & (1<<0) ? "en" : "dis");
 		if ((val & (1<<0)) == 1) {
 			if (read_msr(cpunum, MC_CTL, &val2) == 1) {
-				output ("  ECC 1 bit error reporting %sabled\n", val2 & (1<<0) ? "en" : "dis");
-				output ("  ECC multi bit error reporting %sabled\n", val2 & (1<<1) ? "en" : "dis");
-				output ("  Data cache data parity %sabled\n", val2 & (1<<2) ? "en" : "dis");
-				output ("  Data cache main tag parity %sabled\n", val2 & (1<<3) ? "en" : "dis");
-				output ("  Data cache snoop tag parity %sabled\n", val2 & (1<<4) ? "en" : "dis");
-				output ("  L1 TLB parity %sabled\n", val2 & (1<<5) ? "en" : "dis");
-				output ("  L2 TLB parity %sabled\n", val2 & (1<<6) ? "en" : "dis");
+				output (msg_eccerror, "  ECC 1 bit error reporting %sabled\n", 
+					val2 & (1<<0) ? "en" : "dis");
+				output (msg_eccerror, "  ECC multi bit error reporting %sabled\n", 
+					val2 & (1<<1) ? "en" : "dis");
+				output (msg_dcparity, "  Data cache data parity %sabled\n", 
+					val2 & (1<<2) ? "en" : "dis");
+				output (msg_dcparity, "  Data cache main tag parity %sabled\n", 
+					val2 & (1<<3) ? "en" : "dis");
+				output (msg_dcparity, "  Data cache snoop tag parity %sabled\n", 
+					val2 & (1<<4) ? "en" : "dis");
+				output (msg_tlbparity, "  L1 TLB parity %sabled\n", 
+					val2 & (1<<5) ? "en" : "dis");
+				output (msg_tlbparity, "  L2 TLB parity %sabled\n", 
+					val2 & (1<<6) ? "en" : "dis");
 			}
 		}
 
-		output (" Instruction cache check %sabled\n", val & (1<<1) ? "en" : "dis");
+		output (msg_instcache, " Instruction cache check %sabled\n", 
+			val & (1<<1) ? "en" : "dis");
 		if (((val & (1<<1)) == 2) && (banks>1)) {
 			if (read_msr(cpunum, MC_CTL+4, &val2) == 1) {
-				output ("  ECC 1 bit error reporting %sabled\n", val2 & (1<<0) ? "en" : "dis");
-				output ("  ECC multi bit error reporting %sabled\n", val2 & (1<<1) ? "en" : "dis");
-				output ("  Instruction cache data parity %sabled\n", val2 & (1<<2) ? "en" : "dis");
-				output ("  IC main tag parity %sabled\n", val2 & (1<<3) ? "en" : "dis");
-				output ("  IC snoop tag parity %sabled\n", val2 & (1<<4) ? "en" : "dis");
-				output ("  L1 TLB parity %sabled\n", val2 & (1<<5) ? "en" : "dis");
-				output ("  L2 TLB parity %sabled\n", val2 & (1<<6) ? "en" : "dis");
-				output ("  Predecode array parity %sabled\n", val2 & (1<<7) ? "en" : "dis");
-				output ("  Target selector parity %sabled\n", val2 & (1<<8) ? "en" : "dis");
-				output ("  Read data error %sabled\n", val2 & (1<<9) ? "en" : "dis");
+				output (msg_eccerror, "  ECC 1 bit error reporting %sabled\n", 
+					val2 & (1<<0) ? "en" : "dis");
+				output (msg_eccerror, "  ECC multi bit error reporting %sabled\n", 
+					val2 & (1<<1) ? "en" : "dis");
+				output (msg_icparity, "  Instruction cache data parity %sabled\n", 
+					val2 & (1<<2) ? "en" : "dis");
+				output (msg_icparity, "  IC main tag parity %sabled\n", 
+					val2 & (1<<3) ? "en" : "dis");
+				output (msg_icparity, "  IC snoop tag parity %sabled\n", 
+					val2 & (1<<4) ? "en" : "dis");
+				output (msg_tlbparity, "  L1 TLB parity %sabled\n", 
+					val2 & (1<<5) ? "en" : "dis");
+				output (msg_tlbparity, "  L2 TLB parity %sabled\n", 
+					val2 & (1<<6) ? "en" : "dis");
+				output (msg_precodeparity, "  Predecode array parity %sabled\n", 
+					val2 & (1<<7) ? "en" : "dis");
+				output (msg_targselparity, "  Target selector parity %sabled\n", 
+					val2 & (1<<8) ? "en" : "dis");
+				output (msg_readerr, "  Read data error %sabled\n", 
+					val2 & (1<<9) ? "en" : "dis");
 			}
 		}
 
-		output (" Bus unit check %sabled\n", val & (1<<2) ? "en" : "dis");
+		output (msg_busunit, " Bus unit check %sabled\n", val & (1<<2) ? "en" : "dis");
 		if ((val & (1<<2)) == 4 && (banks>2)) {
 			if (read_msr(cpunum, MC_CTL+8, &val2) == 1) {
-				output ("  External L2 tag parity error %sabled\n", val2 & (1<<0) ? "en" : "dis");
-				output ("  L2 partial tag parity error %sabled\n", val2 & (1<<1) ? "en" : "dis");
-				output ("  System ECC TLB reload error %sabled\n", val2 & (1<<2) ? "en" : "dis");
-				output ("  L2 ECC TLB reload error %sabled\n", val2 & (1<<3) ? "en" : "dis");
-				output ("  L2 ECC K7 deallocate %sabled\n", val2 & (1<<4) ? "en" : "dis");
-				output ("  L2 ECC probe deallocate %sabled\n", val2 & (1<<5) ? "en" : "dis");
-				output ("  System datareaderror reporting %sabled\n", val2 & (1<<6) ? "en" : "dis");
+				output (msg_extl2parity, 
+					"  External L2 tag parity error %sabled\n", 
+					val2 & (1<<0) ? "en" : "dis");
+				output (msg_extl2parity, "  L2 partial tag parity error %sabled\n",
+					val2 & (1<<1) ? "en" : "dis");
+				output (msg_eccparity, "  System ECC TLB reload error %sabled\n", 
+					val2 & (1<<2) ? "en" : "dis");
+				output (msg_tlbparity, "  L2 ECC TLB reload error %sabled\n", 
+					val2 & (1<<3) ? "en" : "dis");
+				output (msg_eccparity, "  L2 ECC K7 deallocate %sabled\n", 
+					val2 & (1<<4) ? "en" : "dis");
+				output (msg_eccparity, "  L2 ECC probe deallocate %sabled\n", 
+					val2 & (1<<5) ? "en" : "dis");
+				output (msg_readerr, "  System datareaderror reporting %sabled\n", 
+					val2 & (1<<6) ? "en" : "dis");
 			}
 		}
 
-		output (" Load/Store unit check %sabled\n", val & (1<<3) ? "en" : "dis");
+		output (msg_lsunit, " Load/Store unit check %sabled\n", 
+			val & (1<<3) ? "en" : "dis");
 		if ((val & (1<<3)) == 8 && (banks>3)) {
 			if (read_msr(cpunum, MC_CTL+12, &val2) == 1) {
-				output ("  Read data error enable (loads) %sabled\n", val2 & (1<<0) ? "en" : "dis");
-				output ("  Read data error enable (stores) %sabled\n", val2 & (1<<1) ? "en" : "dis");
+				output (msg_readerr, "  Read data error enable (loads) %sabled\n", 
+					val2 & (1<<0) ? "en" : "dis");
+				output (msg_readerr, "  Read data error enable (stores) %sabled\n",
+					val2 & (1<<1) ? "en" : "dis");
 			}
 		}
 	}
 	output (msg_format, "\n");
-
 
 	output(msg_format, "           31       23       15       7 \n");
 	for (i=0; i<banks; i++) {

@@ -1,5 +1,5 @@
 /*
- *  $Id: MSR-K6.c,v 1.2 2003-04-13 21:58:00 root Exp $
+ *  $Id: MSR-K6.c,v 1.3 2003-04-13 22:12:33 root Exp $
  *  This file is part of x86info.
  *  (C) 2001 Dave Jones.
  *
@@ -31,7 +31,7 @@ void dump_k6_MSR (struct cpudata *cpu)
 		if (read_msr (cpu->number, 0xC0000082, &val) == 1) {
 			output (msg_waenable, "Write allocate enable limit: %dMbytes", 
 				(int) ((val & 0x7e) >>1) * 4);
-			output (msg_wambytes"Write allocate 15-16M bytes: %s", 
+			output (msg_wambytes, "Write allocate 15-16M bytes: %s", 
 				val & 1 ? "enabled" : "disabled");
 		} else {
 			output (msg_warning, "Couldn't read WHCR register.");

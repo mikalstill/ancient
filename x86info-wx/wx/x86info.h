@@ -162,7 +162,24 @@ enum
     msg_ewbemode,
     msg_syscallextn,
     msg_dataprefetch,
-    msg_datacache
+    msg_datacache,
+    msg_eccerror,
+    msg_dcparity,
+    msg_tlbparity,
+    msg_icparity,
+    msg_precodeparity,
+    msg_targselparity,
+    msg_readerr,
+    msg_busunit,
+    msg_extl2parity,
+    msg_lsunit,
+    msg_insttlb,
+    msg_datatlb,
+    msg_l1datacache,
+    msg_l1instcache,
+    msg_instcache,
+    msg_eccparity,
+    msg_l2cache
   };
 void output(int level, char *format, ...);
 
