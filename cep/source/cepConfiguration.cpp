@@ -179,14 +179,12 @@ cepError cepConfiguration::parseConfigEntry (const string & entry,
 
 cepError cepConfiguration::writeConfig (ofstream & out)
 {
-  cepError err;
-
   for (map_t::const_iterator i = map.begin (); i != map.end (); ++i)
   {
     out << i->first << "=" << i->second << endl;
   }
 
-  return err;
+  return cepError();
 }
 
 cepError cepConfiguration::getValue (const string & valkey,

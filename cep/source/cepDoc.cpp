@@ -63,6 +63,7 @@ cepDoc *gProgressDoc;
 cepDoc::cepDoc (void)
 {
   m_progress = NULL;
+  m_dataset = NULL;
   gProgressDoc = this;
 }
 
@@ -99,11 +100,21 @@ wxInputStream & cepDoc::LoadObject (wxInputStream & stream)
   m_progress = new wxProgressDialog ("Loading dataset",
                                      "Please wait while the dataset is loaded");
 
-  wxString filename = GetFilename ();
-  string parentFilename = filename.substr (0, filename.length () - 5).c_str ();
+  wxString
+    filename =
+    GetFilename ();
+  string
+    parentFilename =
+    filename.
+    substr (0, filename.length () - 5).
+    c_str ();
 
   m_dataset = new cepDataset (parentFilename, ds_progressCallback);
-  cepError loadErr = m_dataset->munch ();
+  cepDebugPrint ("Starting to load the dataset now");
+  cepError
+    loadErr =
+    m_dataset->
+    munch ();
 
   // todo_mikal: we should handle this error better
   if (loadErr.isReal ())
@@ -116,14 +127,16 @@ wxInputStream & cepDoc::LoadObject (wxInputStream & stream)
   // TODO_Mikal: Handle error condition better
 
   // Cleanup
-  delete m_progress;
+  delete
+    m_progress;
 
   m_progress = NULL;
 
   return stream;
 }
 
-void cepDoc::incrementProgress ()
+void
+cepDoc::incrementProgress ()
 {
   // todo_mikal: 10,000 readings is a lot, do we want to do better?
   m_progressCount++;
@@ -134,13 +147,15 @@ void cepDoc::incrementProgress ()
     m_progress->Update (m_progressCount / 100);
 }
 
-cepDataset *cepDoc::getDataset ()
+cepDataset *
+cepDoc::getDataset ()
 {
   return m_dataset;
 }
 
 // A scary global progress handler
-void ds_progressCallback (int plane, long line)
+void
+ds_progressCallback (int plane, long line)
 {
   gProgressDoc->incrementProgress ();
 }
