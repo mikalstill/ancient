@@ -32,6 +32,10 @@
 
 #define FUNCTIONCALL 1
 
+char *target;
+char *backing;
+int verbose;
+
 /**********************************************************************
  Utility functions
 **********************************************************************/
@@ -55,12 +59,12 @@ static char *mcachefs_makepath(const char *path, char *prefix)
 
 static char *mcachefs_makerealpath(const char *path)
 {
-  return mcachefs_makepath(path, TARGET);
+  return mcachefs_makepath(path, target);
 }
 
 static char *mcachefs_makebackingpath(const char *path)
 {
-  return mcachefs_makepath(path, BACKING);
+  return mcachefs_makepath(path, backing);
 }
 
 int mcachefs_fileinbacking(const char *path)
@@ -591,7 +595,7 @@ static int mcachefs_read(const char *path, char *buf, size_t size, off_t offset)
     int res;
     char *backingpath;
 
-    if(VERBOSE > FUNCTIONCALL)
+    if(verbose > FUNCTIONCALL)
       printf("mcachefs_read(path = %s, buf = ..., size = %d, offset = %d)\n",
 	     path, size, offset);
 
@@ -715,7 +719,26 @@ static struct fuse_operations mcachefs_oper = {
 
 int main(int argc, char *argv[])
 {
-    printf("Starting up...\n");
-    fuse_main(argc, argv, &mcachefs_oper);
-    return 0;
+  config_state *cfg;
+  char *val;
+
+  cfg = config_open("mcachefs");
+  if(!cfg)
+    {
+      printf("Couldn't open config file\n");
+      return 2;
+    }
+  target = config_getstring(cfg, "target");
+  backing = config_getstring(cfg, "backing");
+  val = config_getstring(cfg, "verbose");
+  if(val)
+    verbose = atoi(val);
+
+  printf("Filesystem now serving requests...\n");
+  printf("  config = 0x%08x\n", cfg);
+  printf("  target = %s\n", target);
+  printf("  backing = %s\n", backing);
+  printf("  verbosity = %d\n", verbose);
+  fuse_main(argc, argv, &mcachefs_oper);
+  return 0;
 }

@@ -73,7 +73,16 @@ config_state *config_open(char *name)
 
   if(fd == -1)
     {
-      fd = config_file_open(".", name, 0);
+      char *fname = malloc(strlen(name) + 5);
+      if(!fname)
+	{
+	  perror("config: could not allocate memory for config filename");
+	  free(cfg);
+	  return NULL;
+	}
+      snprintf(fname, strlen(name) + 5, "%s.cfg", name);
+      fd = config_file_open(".", fname, 0);
+      free(fname);
     }
 
   if(fd == -1)
