@@ -9,11 +9,51 @@ Aho, A. V, Sethi, R., Ullman, J.D. 1986, <emphasis>Compilers: Principles, Techni
 </para>
 
 <para>
+Arndt, J. 2002, <emphasis>cplxfft.h, Complex Fast Fourier Transform Template Class (Part of FXT)</emphasis> [Online] Available: http://www.jjj.de/fxt/
+</para>
+
+<para>
+Bellanger, M., 1984,
+<emphasis>Digital Processing of Signals</emphasis>,
+John Wiley and Sons
+</para>
+
+<para>
+Carezia, A., 18-Jun-2002 [last update],
+<emphasis>Dolph-Chebyshev Window</emphasis>,
+[online], Octave Sources, Available: http://www.octave.org/octave-lists/archive/octave-sources.2002/msg00019.html
+</para>
+
+<para>
 Chapman, M 2002, <emphasis>Window managers for X</emphasis> [Online] Available: http://www.plig.org/xwinman/cde.html
 </para>
 
 <para>
 Connolly, T., Begg, C. 1998, <emphasis>Database Systems: A practical approace to design, implementation, and management</emphasis>, Addison-Wesley Publishing, Massachusetts.
+</para>
+
+<para>
+Cppunit Project, 11-Apr-2002 [last update],
+<emphasis>CPP Unit, Unit Testing Library</emphasis>,
+[online], Sourceforge.net, Available: http://cppunit.sourceforge.net
+</para>
+
+<para>
+Flannery, B., Press, W., Teulosky, S., Vettering, W., 1988,
+<emphasis>Numerical Recipes in C</emphasis>,
+Cambridge University Press, Cambridge.
+</para>
+
+<para>
+Fowler, M., 1999,
+<emphasis>UML Distilled: A Brief Guide to the Standard Object Modeling Language</emphasis>,
+Addison-Wesley, New York.
+</para>
+
+<para>
+Gamma, E., Helm, R., Johnson, R., Vlissides, J., 1994,
+<emphasis>Design Patterns: Elements of Reusable Object-Oriented Software</emphasis>,
+Addison-Wesley, New York.
 </para>
 
 <para>
@@ -25,6 +65,31 @@ GTK 2002 <emphasis>GTK+ FAQ</emphasis> [Online] Available: http://www.gtk.org/fa
 </para>
 
 <para>
+Institute for Information and Signal Processing, 30-Mar-2002 [last update],
+<emphasis>ISIP Software Documenation<emphasis>,
+[Online], Mississippi State University,
+Available: http://www.isip.msstate.edu/projects/speech/software/documentation/class/algo/Window/
+</para>
+
+<para>
+Interstellar Research, 01-Aug-2001 [last update],
+<emphasis>Daqarta: FFT Windowing</emphasis>,
+[Online], Daqarta.com, Available: http://www.daqarta.com/ww00wndo.htm
+</para>
+
+<para>
+Jeffereis, R.E., 12-Nov-2002 [last update],
+<emphasis>XProgramming.com, an extreme programming resource</emphasis>,
+[Online] Jeffereis, R.E., Available: http://www.xprogramming.com
+</para>
+
+<para>
+Junit Project, 01-Aug-2001 [last update],
+<emphasis>JUnit, Testing Resources for Extreme Programming</emphasis>,
+[Online], objectmentor.com, Available: http://www.junit.org/
+</para>
+
+<para>
 KDE 2002, <emphasis>KDE Home Page</emphasis> [Online] Available: http://www.kde.org
 </para>
 
@@ -33,7 +98,28 @@ Levine, J.R., Mason, T., Brown, D 1990, <emphasis>lex &amp; yacc</emphasis>, O'R
 </para>
 
 <para>
+Lynch, P., 1996,
+<emphasis>The Dolph-Chebyshev Window: A Simple Optimal Filter</emphasis>,
+[Online] Availale: http://www.maths.tcd.ie/~plynch/Publications/Dolph.pdf
+</para>
+
+<para>
 Microsoft 2002 <emphasis>Windows XP screenshot</emphasis> [Online] Available: http://www.microsoft.com/presspass/newsroom/winxp/images/img016.jpg
+</para>
+
+<para>
+Rabiner L.R, Schafer R.W, 1978, <emphasis>Digital Processing of Speech Signals</emphasis>, Prentice Hall.
+</para>
+
+<para>
+Royster, D., 15 Feburary 2000 [last updated], <emphasis>Box Plots and Box & Whiskers Plots</emphasis> Hp., [Online], University of
+North Carolina at Charlotte, Avalible: http://www.math.uncc.edu/~droyster/courses/spring00/maed3103/Box_Plots.htm, 13 July 2002.
+</para>
+
+<para>
+Stroustrup, B., 2000,
+<emphasis>The C++ Programming Language, Special Ed</emphasis>,
+Addison-Wesley, New York.
 </para>
 
 <para>
@@ -45,18 +131,17 @@ Sun Microsystems 2002, <emphasis>GNOME 2.0 Desktop for the
 <para>
 Trolltech 2002, <emphasis>Trolltech Home Page</emphasis> [Online] Available: http://www.trolltech.com
 </para>
-<!--End of Mikals references -->
 
-
-<!--dans refs-->
 <para>
-Arndt, J. 2002, <emphasis>cplxfft.h, Complex Fast Fourier Transform Template Class (Part of FXT)</emphasis> [Online] Available: http://www.jjj.de/fxt/
+Unit++ Project, 04-May-2002 [last update],
+<emphasis>The Unit++ Testing Framework</emphasis>,
+[online], Sourceforge.net, Available: http://unitpp.sourceforge.net
 </para>
 
 <para>
-Rabiner L.R, Schafer R.W, 1978, <emphasis>Digital Processing of Speech Signals</emphasis>, Prentice Hall.
+Wittke, J., Mon, 29 Oct 2001 17:30 [last updated], <emphasis>Electron Microprobe Notes - Statistics</emphasis>, Hp, [Online],
+Northern Arizona University, Avalible: http://jan.ucc.nau.edu/~wittke/Microprobe/Statistics.html, 12 November 2002.
 </para>
-<!--end dans refs-->
 
 </sect1>
 
