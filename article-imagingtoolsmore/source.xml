@@ -66,6 +66,45 @@ Fill in or leave blank for production to fill in.-->
 <img src="rounded-ne-xview.png" width="98" height="57" alt="A rounded corner with xview"/>
 </figure>
 
+<p>The actual corner image will become more clear when we superimpose it upon an image, so let's get on with that.</p>
+
+<p>I have a thumbnail which I made earlier of the view from the shore of one of Canberra's lakes. Without the rounded corners, the thumbnail looks like this:</p>
+
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 3. Lake Burley Griffin</heading>
+<img src="lake.png" width="144" height="192" alt="A lake view"/>
+</figure>
+
+<p>To superimpose an image onto another, you use the <b>composite</b> command. Let's just do one corner, to see what happens...</p>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 1. Rounding one corner</heading>
+<code type="section">
+composite -gravity NorthEast rounded-ne.png lake.png lake-1.png
+</code>
+
+<p>This gives us the following image:</p>
+
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 4. Lake Burley Griffin with one rounded corner</heading>
+<img src="lake-1.png" width="144" height="192" alt="A lake view"/>
+</figure>
+
+<p>So let's do the rest of the corners...</p>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 2. Rounding all of the corners</heading>
+<code type="section">
+composite -gravity NorthEast rounded-ne.png lake.png lake-1.png
+composite -gravity NorthWest rounded-nw.png lake-1.png lake-2.png
+composite -gravity SouthEast rounded-se.png lake-2.png lake-3.png
+composite -gravity SouthWest rounded-sw.png lake-3.png lake-4.png
+</code>
+
+<p>Which gives us the finished image:</p>
+
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 5. Lake Burley Griffin with rounded corners</heading>
+<img src="lake-4.png" width="144" height="192" alt="A lake view"/>
+</figure>
+
+<p>Which looks kinda cool in my humble opinion.</p>
+
 </docbody>
 
 <relatedlist>
