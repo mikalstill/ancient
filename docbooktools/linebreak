@@ -1,7 +1,10 @@
 #!/usr/bin/perl
 
-# Make a text file have a maximum line width. Arg is max width
-# todo: doesn't deal with tabs
+# Make a text file have a maximum line width. Arguements are:
+#   - max width
+#   - indent on broken line
+
+# todo: doesn't deal with tabs, or broken line indent, or forced newlines...
 
 use strict;
 my($word, $indent);
