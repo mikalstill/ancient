@@ -2,16 +2,27 @@
 
 int main(int argc, char *argv[]){
   TIFF *image, *output;
-  uint16 photo;
+  uint16 photo, bps, spp, fillorder;
   tsize_t stripSize;
   unsigned long imageOffset, result;
   int stripMax, stripCount;
-  char *stripBuffer;
-  unsigned long bufferSize;
+  char *buffer, tempbyte;
+  unsigned long bufferSize, count;
 
   // Open the TIFF image
   if((image = TIFFOpen(argv[1], "r")) == NULL){
     fprintf(stderr, "Could not open incoming image\n");
+    exit(42);
+  }
+
+  // Check that it is of a type that we support
+  if((TIFFGetField(image, TIFFTAG_BITSPERSAMPLE, &bps) == 0) || (bps != 1)){
+    fprintf(stderr, "Either undefined or unsupported number of bits per sample\n");
+    exit(42);
+  }
+
+  if((TIFFGetField(image, TIFFTAG_SAMPLESPERPIXEL, &spp) == 0) || (spp != 1)){
+    fprintf(stderr, "Either undefined or unsupported number of samples per pixel\n");
     exit(42);
   }
 
@@ -21,24 +32,57 @@ int main(int argc, char *argv[]){
   imageOffset = 0;
   
   bufferSize = TIFFNumberOfStrips (image) * stripSize;
-  if((stripBuffer = (char *) malloc(bufferSize)) == NULL){
+  if((buffer = (char *) malloc(bufferSize)) == NULL){
     fprintf(stderr, "Could not allocate enough memory for the uncompressed image\n");
     exit(42);
   }
   
   for (stripCount = 0; stripCount < stripMax; stripCount++){
     if((result = TIFFReadEncodedStrip (image, stripCount,
-				      stripBuffer + imageOffset,
+				      buffer + imageOffset,
 				      stripSize)) == -1){
       fprintf(stderr, "Read error on input strip number %d\n", stripCount);
       exit(42);
     }
 
     imageOffset += result;
-  }  
+  }
 
-  // This affects whether we have to twiddle bits
-  TIFFGetField(image, TIFFTAG_PHOTOMETRIC, &photo);
+  // Deal with photometric interpretations
+  if(TIFFGetField(image, TIFFTAG_PHOTOMETRIC, &photo) == 0){
+    fprintf(stderr, "Image has an undefined photometric interpretation\n");
+    exit(42);
+  }
+  
+  if(photo != PHOTOMETRIC_MINISWHITE){
+    // Flip bits
+    for(count = 0; count < bufferSize; count++)
+      buffer[count] = ~buffer[count];
+  }
+
+  // Deal with fillorder
+  if(TIFFGetField(image, TIFFTAG_FILLORDER, &fillorder) == 0){
+    fprintf(stderr, "Image has an undefined fillorder\n");
+    exit(42);
+  }
+  
+  if(fillorder != FILLORDER_MSB2LSB){
+    // We need to swap bits -- ABCDEFGH becomes HGFEDCBA
+    for(count = 0; count < bufferSize; count++){
+      tempbyte = 0;
+      if(buffer[count] & 128 == 128) tempbyte += 1;
+      if(buffer[count] & 64 == 64) tempbyte += 2;
+      if(buffer[count] & 32 == 32) tempbyte += 4;
+      if(buffer[count] & 16 == 16) tempbyte += 8;
+      if(buffer[count] & 8 == 8) tempbyte += 16;
+      if(buffer[count] & 4 == 4) tempbyte += 32;
+      if(buffer[count] & 2 == 2) tempbyte += 64;
+      if(buffer[count] & 1 == 1) tempbyte += 128;
+      buffer[count] = tempbyte;
+    }
+  }
+     
+  // Do whatever it is we do with the buffer
 
   TIFFClose(image);
 }

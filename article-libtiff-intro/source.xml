@@ -162,9 +162,7 @@ The most important thing to remember when reading in TIFF images is to be flexib
 
 <p>What is photometric interpretation? Well, the representation of the image in the buffer is really a very arbitary thing. I might code my bitmaps so that 0 means black (TIFFTAG_MINISBLACK), whilst you might find black being 1 (TIFFTAG_MINISWHITE) more convenient. TIFF allows both, so our code has to be able to handle both cases. In the example below, I have assumed that the internal buffers need to be in MINISWHITE, so we will convert images which are in MINISBLACK.</p>
 
-<p>Other things to bear in mind are byte order (big endian or little endian), and fillorder (whether the first bit in the byte is the highest value, or the lowest). The example below also handles both of these correctly. For the example, I have assumed that we want the buffer in little endian, most significant bit first...</p>
-
-
+<p>The other big thing to bear in mind is fillorder (whether the first bit in the byte is the highest value, or the lowest). The example below also handles both of these correctly. I have assumed that we want the buffer to have the most significant bit first. TIFF images can be either big endian or little endian, but libtiff handles this for us. Thankfully, libtiff also supports the various compression algorithms without you having to worry about those. These are by far the scariest area of TIFF, so it is still worth your time to use libtiff.</p>
 
 
 
