@@ -169,49 +169,56 @@ cepPresentation::createBitmap ()
   long ymaxval = m_useErrors ? m_ymaxval + m_emaxval : m_ymaxval;
   long yminval = m_useErrors ? m_yminval - m_emaxval : m_yminval;
 
+  cepDebugPrint("yminval = " + cepToString(yminval) + 
+		" ymaxval = " + cepToString(ymaxval));
+
   // Correct for a centered view
   if(m_currentView == viewCentered){
     if(ymaxval > yminval) yminval = -ymaxval;
     else ymaxval = -yminval;
   }
 
+  cepDebugPrint("yminval = " + cepToString(yminval) + 
+		" ymaxval = " + cepToString(ymaxval));
+
   // Determine the vertical scaling factor
   long yrange = ymaxval - yminval;
-  long yscale = yrange / (m_height - 20);
+  float yscale = yrange / (m_height - 20);
 
   // If we are using errors, then we draw these underneath
   if(m_useErrors){
+    cepDebugPrint("Displaying errors");
     plot_setlinecolor(graph, m_errorColor.red, m_errorColor.green,
 		      m_errorColor.blue);
     for(unsigned int i = 0; i < m_data.size(); i++){
       if(m_data[i] != INVALID){
 	// Vertical line
-	plot_setlinestart(graph, i + 10, 
-			  (yrange - (m_data[i] + m_errors[i]) + yminval)
-			  / yscale + 10);
-	plot_addlinesegment(graph, i + 10, 
-			    (yrange - (m_data[i] - m_errors[i]) + yminval) 
-			    / yscale + 10);
+	plot_setlinestart(graph, i + 10, (unsigned int) 
+			  ((yrange - (m_data[i] + m_errors[i]) + 
+			   yminval) / yscale + 10));
+	plot_addlinesegment(graph, i + 10, (unsigned int)
+			    ((yrange - (m_data[i] - m_errors[i]) + yminval) 
+			    / yscale + 10));
 	plot_strokeline(graph);
 	plot_endline(graph);
 
 	// Top horizontal line
-	plot_setlinestart(graph, i + 8, 
-			  (yrange - (m_data[i] + m_errors[i]) + yminval)
-			  / yscale + 10);
-	plot_addlinesegment(graph, i + 12, 
-			    (yrange - (m_data[i] + m_errors[i]) + yminval) 
-			    / yscale + 10);
+	plot_setlinestart(graph, i + 8, (unsigned int)
+			  ((yrange - (m_data[i] + m_errors[i]) + yminval)
+			   / yscale + 10));
+	plot_addlinesegment(graph, i + 12, (unsigned int)
+			    ((yrange - (m_data[i] + m_errors[i]) + yminval) 
+			    / yscale + 10));
 	plot_strokeline(graph);
 	plot_endline(graph);
 
 	// Bottom horizontal line
-	plot_setlinestart(graph, i + 8, 
-			  (yrange - (m_data[i] - m_errors[i]) + yminval)
-			  / yscale + 10);
-	plot_addlinesegment(graph, i + 12, 
-			    (yrange - (m_data[i] - m_errors[i]) + yminval) 
-			    / yscale + 10);
+	plot_setlinestart(graph, i + 8, (unsigned int)
+			  ((yrange - (m_data[i] - m_errors[i]) + yminval)
+			   / yscale + 10));
+	plot_addlinesegment(graph, i + 12, (unsigned int) 
+			    ((yrange - (m_data[i] - m_errors[i]) + yminval) 
+			     / yscale + 10));
 	plot_strokeline(graph);
 	plot_endline(graph);
       }
@@ -227,12 +234,15 @@ cepPresentation::createBitmap ()
   plot_strokeline(graph);
   plot_endline(graph);
 
-  plot_setlinestart(graph, 10, (yrange - 0 + yminval) / yscale + 10);
-  // todo: this width might be wrong
-  plot_addlinesegment(graph, m_width - 10, 
-		      (yrange - 0 + yminval) / yscale + 10);
-  plot_strokeline(graph);
-  plot_endline(graph);
+  // In the zoomed view, there might not be an x axis...
+  if((m_currentView == viewCentered) && (ymaxval > 0) && (yminval < 0)){
+    plot_setlinestart(graph, 10, (unsigned int) 
+		      ((yrange - 0 + yminval) / yscale + 10));
+    plot_addlinesegment(graph, m_width - 10, (unsigned int) 
+			((yrange - 0 + yminval) / yscale + 10));
+    plot_strokeline(graph);
+    plot_endline(graph);
+  }
 
   // Now draw the actual graph
   plot_setlinecolor(graph, m_lineColor.red, m_lineColor.green,
@@ -241,13 +251,13 @@ cepPresentation::createBitmap ()
   for(unsigned int i = 0; i < m_data.size(); i++){
     if(m_data[i] != INVALID){
       if(!linestarted){
-	plot_setlinestart(graph, i + 10, (yrange - m_data[i] + yminval) 
-			  / yscale + 10);
+	plot_setlinestart(graph, i + 10, (unsigned int)
+			  ((yrange - m_data[i] + yminval) / yscale + 10));
 	linestarted = true;
       }
       else
-	plot_addlinesegment(graph, i + 10, (yrange - m_data[i] + yminval) 
-			    / yscale + 10);
+	plot_addlinesegment(graph, i + 10, (unsigned int)
+			    ((yrange - m_data[i] + yminval) / yscale + 10));
     }
   }
 
