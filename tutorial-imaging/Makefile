@@ -1,7 +1,7 @@
 tutorial: output.sgml output.ps
 	striptext.pl -c < output.sgml | wc -w
 
-output.sgml: tutorial.sgml tiff.sgml introduction.sgml concepts.sgml theory.sgml png.sgml pdf.sgml gif.sgml jpeg.sgml
+output.sgml: concept-antialias.sgml concept-ctm.sgml concept-encryption.sgml concept-grayscaleconvert.sgml concept-pixel.sgml concept-raster.sgml concepts.sgml concept-vector.sgml conclusion.sgml gif.sgml imagemagick.sgml introduction.sgml jpeg.sgml pdf.sgml pdf-type-boolean.sgml pdf-type-name.sgml pdf-type-numbers.sgml pdf-type-string.sgml pdf-type-template.sgml png.sgml svg.sgml template-list.sgml template.sgml template-table.sgml theory.sgml tiff.sgml tutorial.sgml
 	builddb.pl < tutorial.sgml > output.sgml
 
 output.ps: output.sgml

@@ -169,15 +169,67 @@ We have now mentioned the global color table, but haven't defined what it actual
 
 <sect3><title>Formula for global color table size</title>
 <para>
-The determine the size of the of the global color table, simply apply this formula: <emphasis>size of global color table = 2 ^ (size in table + 1)</emphasis>. The maximum size of the global color table is therefore <emphasis>2 ^ (8 + 1)</empasis>
+The determine the size of the of the global color table, simply apply this formula: <emphasis>size of global color table = 2 ^ (size in table + 1)</emphasis>. The maximum size of the global color table is therefore <emphasis>2 ^ (7 + 1)</empasis>, or 255 items.
 
 <para>
-The formula for the size of the global color table is as follows: <emphasis>size of table = 3 * 2^(size of global color table + 1)</emphasis>. Therefore, the maximum global color table size of 3 will result in a actual table size of <emphasis>3 * 2^4</emphasis>, which is <emphasis>
+There will actually be three times that number of color bytes in the global color table, because each color is 24 bit per pixel.
+</para>
 </sect2>
 
 <sect2><title>Global color table</title>
 <para>
-If the logcial screen block of the image specified that a global color table is present in the image, then this is the next part of the GIF data.
+If the logical screen block of the image specified that a global color table is present in the image, then this is the next part of the GIF data stream. The global color table is a palette -- in other words, it maps the values actually stored in the image data to the 24 bit values which are the colors.
+</para>
+
+<para>
+The format of the global color table is very simple, it is simply the red, green and blue values stored without any header or footer.
+</para>
+
+<table frame='all'><title>GIF on disc: the global color table</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<thead>
+<row>
+  <entry>Bytes</entry>
+  <entry>Description</entry>
+</row>
+</thead>
+<tbody>
+
+<row>
+  <entry>0</entry>
+  <entry>Colour 1 red entry</entry>
+</row>
+
+<row>
+  <entry>1</entry>
+  <entry>Colour 1 green entry</entry>
+</row>
+
+<row>
+  <entry>2</entry>
+  <entry>Colour 1 blue entry</entry>
+</row>
+
+<row>
+  <entry>...</entry>
+  <entry></entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+
+</sect2>
+
+<sect2><title>Data</title>
+<para>
+The actual data stored in the GIF data stream is stored in the next two sections, a graphics block and a special purpose block.
+</para>
+</sect2>
+
+<sect2><title>Image descriptors</title>
+<para>
+It is possible to store more than one image in the GIF data stream, which is how animated GIFs are implemented. These images must be sized so that they fit within the boundaries of the logical screens.
 </para>
 </sect2>
 
@@ -194,7 +246,12 @@ This portion of the GIF image format specifies the end of the data stream. It is
 </sect2>
 
 
- <GIF Data Stream>  ::=  Header <Logical Screen> <Data>* Trailer  <Logical Screen>  ::=  Logical Screen Descriptor [Global Color Table]  <Data>  ::=  <Graphic Block> | <Special-Purpose Block>  <Graphic Block>  ::=  [Graphic Control Extension] <Graphic-Rendering Block>  <Graphic-Rendering Block>  ::=  <Table-Based Image> | PlainText Extension  <Table-Based Image>  ::=  Image Descriptor [Local Color Table] Image Data  <Special-Purpose Block>  ::=  Application Extension | Comment Extension
+ <GIF Data Stream>  ::=  Header <Logical Screen> <Data>* Trailer  <Logical Screen>  ::=  Logical Screen Descriptor [Global Color Table]  
+
+
+
+
+<Data>  ::=  <Graphic Block> | <Special-Purpose Block>  <Graphic Block>  ::=  [Graphic Control Extension] <Graphic-Rendering Block>  <Graphic-Rendering Block>  ::=  <Table-Based Image> | PlainText Extension  <Table-Based Image>  ::=  Image Descriptor [Local Color Table] Image Data  <Special-Purpose Block>  ::=  Application Extension | Comment Extension
 
 
 

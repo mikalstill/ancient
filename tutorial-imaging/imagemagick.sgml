@@ -1,0 +1,74 @@
+<chapter id="chap-imagemagick"><title>Imagemagick</title>
+<para>
+There are also a few topics which are important enough to be mentioned here, but haven't found their way into the discussions in any other place. They therefore get a chapter of their own here at the end.
+</para>
+
+<sect1><title>ImageMagick</title>
+<para>
+Available from: xxx
+Installation steps; ./configure; make; make install
+</para>
+
+<para>
+<execute><cmd>todo</cmd><input>I'm only really talking about convert here -- what about the others?</input></execute>
+</para>
+
+<para>
+ImageMagick provides a series of convenient tools for converting and manipulating images. This includes converting between formats, changing the color space attributes, downsampling, scaling, rotation and text annotation. It should be noted that ImageMagick doesn't implement an API -- in other words it is a command line tool, which isn't really suited to being built into applications. ImageMagick also depends on many other packages (such as libtiff) being available for all it's functionality to work. These required helper packages are called "delegates".
+</para>
+
+<sect2><title>Example: Converting between image formats</title>
+<para>
+...
+</para>
+</sect2>
+
+<sect2><title>Example: Scaling an image</title>
+<para>
+...
+</para>
+</sect2>
+
+<sect2><title>Example: Rotating an image</title>
+<para>
+...
+</para>
+</sect2>
+
+<sect2><title>Example: Inserting text annotations onto an image</title>
+<para>
+...
+</para>
+</sect2>
+
+<sect2><title>A sample script -- generating a history of CVS commits to a repository</title>
+<para>
+Now it's time to provide an example of how the ImageMagick commands can be used to create something quite useful. This example is a script I wrote a few months ago to generate a graphical history of a CVS repository. The script takes the output of the <command>cvs log</command> command, and parses this. The <command>cvs log</command> output looks something like this:
+</para>
+
+<para>
+<execute><cmd>todo</cmd><input> should this be cut down a little</input></execute>
+</para>
+
+<programlisting>
+<execute><cmd>code2db.pl</cmd><input>source/imagemagick/cvsreport/sample.log</input></execute>
+</programlisting>
+
+<para>
+The following perl script parses this log file to produce a HTML description of the activity described by the log:
+</para>
+
+<programlisting>
+<execute><cmd>code2db.pl</cmd><input>source/imagemagick/cvsreport/cvsreport.pl</input></execute>
+</programlisting>
+
+<para>
+The output of the script looks something like this:
+</para>
+
+<para>
+<execute><cmd>todo</cmd><input> figure</input></execute>
+</para>
+</sect2>
+</sect1>
+</chapter>

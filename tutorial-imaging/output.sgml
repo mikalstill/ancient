@@ -1454,7 +1454,7 @@ usage (char *cmd, int exitamt)
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.32 2002-07-10 06:54:32 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.33 2002-07-10 21:44:41 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -1581,7 +1581,7 @@ Specify the percentage of the blue channel to use (default 11).
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.32 2002-07-10 06:54:32 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.33 2002-07-10 21:44:41 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -1820,7 +1820,7 @@ Matters are even worse for 4-, 2-, and 1-bit palette images.
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.32 2002-07-10 06:54:32 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.33 2002-07-10 21:44:41 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -1940,7 +1940,7 @@ ImageWidth: 256 520
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.32 2002-07-10 06:54:32 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.33 2002-07-10 21:44:41 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2217,7 +2217,7 @@ the source file.)
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.32 2002-07-10 06:54:32 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.33 2002-07-10 21:44:41 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1990-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2396,7 +2396,7 @@ This image, after being pushed through <command>tiffdither</command> looks somet
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.32 2002-07-10 06:54:32 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.33 2002-07-10 21:44:41 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2527,7 +2527,7 @@ PlanarConfig (284) SHORT (3) 1&lt;1&gt;
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.32 2002-07-10 06:54:32 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.33 2002-07-10 21:44:41 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2871,7 +2871,7 @@ crashing old versions of the window manager.
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.32 2002-07-10 06:54:32 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.33 2002-07-10 21:44:41 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3053,7 +3053,7 @@ Strip 0:
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.32 2002-07-10 06:54:32 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.33 2002-07-10 21:44:41 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1990-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3209,7 +3209,7 @@ Heckbert, SIGGRAPH proceedings, 1982, pp. 297-307.
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.32 2002-07-10 06:54:32 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.33 2002-07-10 21:44:41 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1992-1997 Sam Leffler -->
 <!--  Copyright (c) 1992-1997 Silicon Graphics, Inc. -->
@@ -3305,7 +3305,7 @@ is used.
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.32 2002-07-10 06:54:32 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.33 2002-07-10 21:44:41 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -4524,15 +4524,67 @@ We have now mentioned the global color table, but haven't defined what it actual
 
 <sect3><title>Formula for global color table size</title>
 <para>
-The determine the size of the of the global color table, simply apply this formula: <emphasis>size of global color table = 2 ^ (size in table + 1)</emphasis>. The maximum size of the global color table is therefore <emphasis>2 ^ (8 + 1)</empasis>
+The determine the size of the of the global color table, simply apply this formula: <emphasis>size of global color table = 2 ^ (size in table + 1)</emphasis>. The maximum size of the global color table is therefore <emphasis>2 ^ (7 + 1)</empasis>, or 255 items.
 
 <para>
-The formula for the size of the global color table is as follows: <emphasis>size of table = 3 * 2^(size of global color table + 1)</emphasis>. Therefore, the maximum global color table size of 3 will result in a actual table size of <emphasis>3 * 2^4</emphasis>, which is <emphasis>
+There will actually be three times that number of color bytes in the global color table, because each color is 24 bit per pixel.
+</para>
 </sect2>
 
 <sect2><title>Global color table</title>
 <para>
-If the logcial screen block of the image specified that a global color table is present in the image, then this is the next part of the GIF data.
+If the logical screen block of the image specified that a global color table is present in the image, then this is the next part of the GIF data stream. The global color table is a palette -- in other words, it maps the values actually stored in the image data to the 24 bit values which are the colors.
+</para>
+
+<para>
+The format of the global color table is very simple, it is simply the red, green and blue values stored without any header or footer.
+</para>
+
+<table frame='all'><title>GIF on disc: the global color table</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<thead>
+<row>
+  <entry>Bytes</entry>
+  <entry>Description</entry>
+</row>
+</thead>
+<tbody>
+
+<row>
+  <entry>0</entry>
+  <entry>Colour 1 red entry</entry>
+</row>
+
+<row>
+  <entry>1</entry>
+  <entry>Colour 1 green entry</entry>
+</row>
+
+<row>
+  <entry>2</entry>
+  <entry>Colour 1 blue entry</entry>
+</row>
+
+<row>
+  <entry>...</entry>
+  <entry></entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+
+</sect2>
+
+<sect2><title>Data</title>
+<para>
+The actual data stored in the GIF data stream is stored in the next two sections, a graphics block and a special purpose block.
+</para>
+</sect2>
+
+<sect2><title>Image descriptors</title>
+<para>
+It is possible to store more than one image in the GIF data stream, which is how animated GIFs are implemented. These images must be sized so that they fit within the boundaries of the logical screens.
 </para>
 </sect2>
 
@@ -4549,7 +4601,12 @@ This portion of the GIF image format specifies the end of the data stream. It is
 </sect2>
 
 
- <GIF Data Stream>  ::=  Header <Logical Screen> <Data>* Trailer  <Logical Screen>  ::=  Logical Screen Descriptor [Global Color Table]  <Data>  ::=  <Graphic Block> | <Special-Purpose Block>  <Graphic Block>  ::=  [Graphic Control Extension] <Graphic-Rendering Block>  <Graphic-Rendering Block>  ::=  <Table-Based Image> | PlainText Extension  <Table-Based Image>  ::=  Image Descriptor [Local Color Table] Image Data  <Special-Purpose Block>  ::=  Application Extension | Comment Extension
+ <GIF Data Stream>  ::=  Header <Logical Screen> <Data>* Trailer  <Logical Screen>  ::=  Logical Screen Descriptor [Global Color Table]  
+
+
+
+
+<Data>  ::=  <Graphic Block> | <Special-Purpose Block>  <Graphic Block>  ::=  [Graphic Control Extension] <Graphic-Rendering Block>  <Graphic-Rendering Block>  ::=  <Table-Based Image> | PlainText Extension  <Table-Based Image>  ::=  Image Descriptor [Local Color Table] Image Data  <Special-Purpose Block>  ::=  Application Extension | Comment Extension
 
 
 
@@ -5240,21 +5297,6 @@ This chapter will focus on the libpng library.
 </sect1>
 
 </chapter>
-
-
-<chapter id="chap-others"><title>Other raster image formats</title>
-<para>
-...
-</para>
-<sect1><title>Further reading</title>
-
-<para>
-...
-</para>
-</sect1>
-
-</chapter>
-
 
 <chapter id="chap-pdf"><title>PDF</title>
 <para>
@@ -7596,61 +7638,10 @@ The following resources might be of use if you need more information:
 </sect1>
 
 </chapter>
-
-
-<chapter id="chap-random"><title>Random important topics</title>
+<chapter id="chap-imagemagick"><title>Imagemagick</title>
 <para>
 There are also a few topics which are important enough to be mentioned here, but haven't found their way into the discussions in any other place. They therefore get a chapter of their own here at the end.
 </para>
-
-<sect1><title>Encrypting images can have unexpected effects</title>
-<para>
-DES in Electronic Code Book (ECB) mode is a particularly poor choice of cryptography for image files. This is because ECB mode implements a lookup table between the unencrypted value and the encrypted value. This results in a known input value turning into the same output value over and over. This can have some interesting bluring effects, but wont obscure the image contents. An example will help this make more sense -- figure 1 is the logo for the company I am currently working for. I took this image, and ran it through some DES ECB code and produced figure 2.
-</para>
-
-<figure>
-<title>The TOWER corporate logo</title>
-<graphic format="EPS" fileref="desecb-figure1.eps">
-</figure>
-
-<figure>
-<title>After ECB encryption</title>
-<graphic format="EPS" fileref="desecb-figure2.eps">
-</figure>
-
-<para>
-You can see that whilst the image has certainly changed, the contents of the image has not really been obscured. 
-<figure>
-<title> more</title>
-<graphic format="EPS" fileref="todo.eps">
-</figure>
-</para>
-
-<para>
-For those who have an excessive interest in code, I encrypted the TIFF image which is the TOWER logo with the code below...
-</para>
-
-<figure>
-<title>crypto code</title>
-<graphic format="EPS" fileref="todo.eps">
-</figure>
-
-<para>
-What about encrypting an image of text? 
-<figure>
-<title> more</title>
-<graphic format="EPS" fileref="todo.eps">
-</figure>
-</para>
-
-<para>
-We should note that ECB mode is not commonly used anyway. If you use something like PGP or blowfish, then you should be much happier... 
-<figure>
-<title> check this</title>
-<graphic format="EPS" fileref="todo.eps">
-</figure>
-</para>
-</sect1>
 
 <sect1><title>ImageMagick</title>
 <para>
@@ -8107,175 +8098,10 @@ The output of the script looks something like this:
 </para>
 </sect2>
 </sect1>
-
-<sect1><title>Imlib</title>
-<para>
-...
-</para>
-</sect1>
-
-<sect1><title>AA</title>
-<para>
-Available from: xxx
-Installation steps; ./configure; make; make install
-</para>
-
-<para>
-aalib is a library which renders images into black and white ASCII art. This can be quite useful for previewing images on consoles which don't have graphics capabilities (although these are becoming quite rare these days).
-</para>
-
-<para>
-I imagine that it's also probably one of the ways things like ASCII art versions of Star Wars are generated.
-</para>
-
-<para>
-There are sample images generated by allib available at aa... Some of the more interesting ones are:
-..
-<figure>
-<title> insert images</title>
-<graphic format="EPS" fileref="todo.eps">
-</figure>
-..
-and
-..
-</para>
-
-<para>
-<figure>
-<title> more</title>
-<graphic format="EPS" fileref="todo.eps">
-</figure>
-</para>
-</sect1>
-
-
-
-
-
-
-
-<sect1><title>RasterMaster</title>
-<para>
-...
-</para>
-</sect1>
-
-
-
-
-
-
-
-
-<sect1><title>FreeType</title>
-<para>
-...
-</para>
-</sect1>
-
-<sect1><title>The GNU autotools</title>
-<para>
-...
-</para>
-</sect1>
-
-<sect1><title>SVGAlib</title>
-<para>
-...
-</para>
-</sect1>
 </chapter>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<chapter id="chap-resources"><title>Resources</title>
-<para>
-There are a few resources which will make your life much easier. Here are some of my favourites:
-</para>
-
-<para>
-<figure>
-<title> This biblio entry is crap and broken and should be fixed...</title>
-<graphic format="EPS" fileref="todo.eps">
-</figure>
-</para>
-
-<bibliography><title>References</title>
-<bibliomixed>
-  <bibliomset relation='article'>
-    <surname>Foley</surname>, <firstname>James D</firstname>.
-    <surname>van Dam</surname>, <firstname>Andries</firstname>.
-    <surname>Feiner</surname>, <firstname>Steven K</firstname>.
-    <surname>Hughes</surname>, <firstname>John F</firstname>.
-    <title role='article'>Computer Graphics: Principles and Practise</title>.
-  </bibliomset>
-  <bibliomset relation='journal'>
-    <title>The World Wide Web Journal</title> 
-    <volumenum>2</volumenum><issuenum>1</issuenum>.
-    <publishername>O'Reilly &amp; Associates, Inc.</publishername> and
-    <corpname>The World Wide Web Consortium</corpname>.
-    <pubdate>Winter, 1996</pubdate></bibliomset>.
-</bibliomixed>
-</bibliography>
-
-
-
-</chapter>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <chapter id="chap-conclusion"><title>Conclusion</title>
 <para>
 ...
 </para>
 </chapter>
-
-
-
-
-
-<chapter><title>TODO</title>
-<para>
-Finish conversion of article 1
-Convert article 2
-DES code cleanup
-Comparison chart for image formats
-</para>
-</chapter>
-
 </book>
