@@ -7,11 +7,11 @@ prevfile="NULL"
 for item in `find $1 -type f -name "*pdf"`
 do
   # If we see a core file, there was an error last time
-  if [ -e core ]
-  then
-    echo "CORE: $prevfile" >> testparse-out/$timestamp.fail
-    rm -f core
-  fi
+#  if [ -e core ]
+#  then
+#    echo "CORE: $prevfile" >> testparse-out/$timestamp.fail
+#    rm -f core
+#  fi
 
   # We will parse this and see what happens
   prevfile=$item
@@ -24,10 +24,10 @@ do
   then
     # This failed
     echo "$result: $item" >> testparse-out/$timestamp.fail
-  elif [ -e core ]
-  then
-    echo "CORE: $item" >> testparse-out/$timestamp.fail
-    rm -f core
+#  elif [ -e core ]
+#  then
+#    echo "CORE: $item" >> testparse-out/$timestamp.fail
+#    rm -f core
   else
     echo "$result: $item" >> testparse-out/$timestamp.ok
   fi

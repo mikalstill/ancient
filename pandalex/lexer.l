@@ -212,15 +212,22 @@ exit(42);
                             return STRING; 
                                                                              }
 
-<INITIAL,BINARY>[\[\(\<][#<>a-zA-Z0-9\.\ :'+\-_\\\(\)]+[\>\)\]] {
-                          debuglex(yytext, -1, "bracketted string", binaryMode);
+<INITIAL,BINARY>\[(([^\[\]])|(\\\[)|(\\\]))*\] {
+                          debuglex(yytext, -1, "bracketted string v1", binaryMode);
                             yylval.textVal = 
                               (char *) returnStr(yytext, yyleng); 
                             return STRING; 
                                                                              }
 
-<INITIAL,BINARY>\(.*\) {
-                          debuglex(yytext, -1, "bracketted string 2", binaryMode);
+<INITIAL,BINARY>\((([^\(\)])|(\\\()|(\\\)))*\) {
+                          debuglex(yytext, -1, "bracketted string v2", binaryMode);
+                            yylval.textVal = 
+                              (char *) returnStr(yytext, yyleng); 
+                            return STRING; 
+                                                                             }
+
+<INITIAL,BINARY>\<(([^\<\>])|(\\\<)|(\\\>))*\> {
+                          debuglex(yytext, -1, "bracketted string v3", binaryMode);
                             yylval.textVal = 
                               (char *) returnStr(yytext, yyleng); 
                             return STRING; 
@@ -236,14 +243,6 @@ exit(42);
 
 <INITIAL,BINARY>[\[\(][#<>a-zA-Z0-9\.\ :'+\-_\\\(\)]+[\)\]]\>\> {
                           debuglex(yytext, -1, "bracketted-string-dblgt", binaryMode);
-                            yyless(yyleng - 2);
-                            yylval.textVal = 
-                              (char *) returnStr(yytext, yyleng); 
-                            return STRING; 
-                                                                             }
-
-<INITIAL,BINARY>\(.*\)\>\> {
-                          debuglex(yytext, -1, "bracketted-string-2-dblgt", binaryMode);
                             yyless(yyleng - 2);
                             yylval.textVal = 
                               (char *) returnStr(yytext, yyleng); 

@@ -63,7 +63,7 @@ linear    : xref trailer { }
           ;
 
 // Clibpdf sometimes puts some binary crap at the end of the file
-endcrap   : { binaryMode = 1; } binary { binaryMode = 0; }
+endcrap   : binary { }
           |
           ;
 
@@ -81,6 +81,7 @@ dictionary: DBLLT dict DBLGT { $$ = -1; }
           | ARRAY arrayvals ENDARRAY { $$ = -1; }
           | objref { $$ = -1; }
           | NAME { $$ = -1; }
+          | STRING { $$ = -1 };
           | { $$ = -1; }
           ;
 
@@ -112,7 +113,7 @@ objref    : INT INT OBJREF { if(($$ = (char *) malloc((intlen($1) + intlen($2) +
 			                       }
           ;
 
-stream    : STREAM { binaryMode = 1; } binary ENDSTREAM { binaryMode = 0; free($3); }
+stream    : STREAM binary ENDSTREAM { free($2); }
           |
           ;
 
