@@ -86,6 +86,10 @@ got_usr_signal( int sig )
 }
 
 #ifndef HAVE_DOSISH_SYSTEM
+
+/** If this is a system with signals, then we check if the signal is ignored
+    at the moment, then we continue to ignore it. Otherwise, we start doing
+    whatever action we were just asked to do */
 static void
 do_sigaction( int sig, struct sigaction *nact )
 {
@@ -97,16 +101,20 @@ do_sigaction( int sig, struct sigaction *nact )
 }
 #endif
 
+/** Define what actions should be taken for several types of signals */
 void
 init_signals()
 {
   #ifndef HAVE_DOSISH_SYSTEM
+  /** MS systems don't have signals */
     struct sigaction nact;
 
     nact.sa_handler = got_fatal_signal;
     sigemptyset( &nact.sa_mask );
     nact.sa_flags = 0;
-
+    
+    /** For each of the signals, we call do_sigaction, which will set the
+	action to what we specify if the signal is not currently ignored */
     do_sigaction( SIGINT, &nact );
     do_sigaction( SIGHUP, &nact );
     do_sigaction( SIGTERM, &nact );

@@ -52,6 +52,10 @@ pull_in_libs(void)
     g10u_revision_string(0);
 }
 
+/** The trap_unaligned call seems to only do things on Alpha Linux boxes
+    running something greater than or equal to glibc version two. I surmise
+    that this is something to do with 64 bit operations, but this is only
+    a guess. */
 
 #if defined(__linux__) && defined(__alpha__) && __GLIBC__ < 2
 #warning using trap_unaligned
@@ -72,19 +76,25 @@ trap_unaligned(void)
     setsysinfo(SSI_NVPAIRS, buf, 1, 0, 0, 0);
 }
 #else
+
+/** On any other platform we don't do anything at all... */
+
 void
 trap_unaligned(void)
 {  /* dummy */
 }
 #endif
 
-
+/** Work out how to disable core dumps */
 int
 disable_core_dumps()
 {
+  /** DOS doesn't have the concept of core dumps, so hey, it's easy */
  #ifdef HAVE_DOSISH_SYSTEM
     return 0;
  #else
+  /** Otherwise we need to use the setrlimit(2) call to make sure the maximum
+      core size is zero */
   #ifdef HAVE_SETRLIMIT
     struct rlimit limit;
 
@@ -93,8 +103,12 @@ disable_core_dumps()
     if( !setrlimit( RLIMIT_CORE, &limit ) )
 	return 0;
     if( errno != EINVAL && errno != ENOSYS )
+      /** We really care if we cannot disable core dumping, as this is a
+	  security hole... */
 	log_fatal(_("can't disable core dumps: %s\n"), strerror(errno) );
   #endif
+
+    /** Hey, just let it core dump */
     return 1;
  #endif
 }

@@ -606,18 +606,49 @@ main( int argc, char **argv )
     ulong requested_shm_size=0;
   #endif
 
+    /** This is the main function for the gpg user interface */
+
+    /** trap_unaligned does some stuff on some Linux Alpha machines */
     trap_unaligned();
+
+    /** Stop warning the user about secure memory for a bit */
     secmem_set_flags( secmem_get_flags() | 2 ); /* suspend warnings */
+
     /* Please note that we may running SUID(ROOT), so be very CAREFUL
      * when adding any stuff between here and the call to
      * secmem_init()  somewhere after the option parsing
      */
+
+    /** This sets the name of the application that is being logged.
+	GPG does not use syslog, I am not sure why. This might be because it
+	is not available on all platforms, but it shouldn't be too hard to
+	determine which platforms it is available for and then use it. The
+	other option is because it is not nessesarily good to report to root
+	problems with a user's copy of gpg on an untrusted machine.
+
+	Perhaps it should be implemented as an option in the config file
+	for gpg... */
     log_set_name("gpg");
+
+    /** Set a variable in util/random.c so that a random number will be
+	allocated to the secure memory */
     secure_random_alloc(); /* put random number into secure memory */
+
+    /** may_coredump will either be zero (if coredumping is disabled),
+	or one if it is enabled */
     may_coredump = disable_core_dumps();
+
+    /** Setup signals for systems that have them */
     init_signals();
+
+    /** create_dotlock called with a NULL arguement installs the atexit 
+	handler to remove the lock files when we are all done */
     create_dotlock(NULL); /* register locking cleanup */
+
+    /** International support using the GNU gettext library */
     i18n_init();
+
+    /** A whole bunch of option stuff */
     opt.command_fd = -1; /* no command fd */
     opt.compress = -1; /* defaults to standard compress level */
     /* note: if you change these lines, look at oOpenPGP */
@@ -984,6 +1015,8 @@ main( int argc, char **argv )
     if( opt.batch )
 	tty_batchmode( 1 );
 
+    /** At the start of main() we disabled secure memory warnings. Now we
+	turn them back on */
     secmem_set_flags( secmem_get_flags() & ~2 ); /* resume warnings */
 
     set_debug();

@@ -154,6 +154,7 @@ random_dump_stats()
 		    rndstats.ngetbytes2, rndstats.getbytes2 );
 }
 
+/** This is not a very exciting function. */
 void
 secure_random_alloc()
 {

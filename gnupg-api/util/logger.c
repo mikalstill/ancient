@@ -65,7 +65,7 @@ log_stream()
     return logfp;
 }
 
-
+/** Set the name of the application that is being logged */
 void
 log_set_name( const char *name )
 {
