@@ -12,12 +12,13 @@ main (int argc, char *argv[])
   uint32 width, height;
   tsize_t stripSize, stripNumber;
   unsigned long x, y;
-  char *inputFilename = NULL, *outputFilename = NULL, *raster, *roff, optchar;
-  int count = 4, i;
+  char *inputFilename = NULL, *outputFilename = NULL, 
+    outputFilenameActual[200], *raster, *roff, optchar;
+  int count;
 
   /////////////////////////////////////////////////////////////////////////////
   // Parse the command line options
-  while ((optchar = getopt (argc, argv, "i:o:c:")) != -1)
+  while ((optchar = getopt (argc, argv, "i:o:")) != -1)
     {
       switch (optchar)
 	{
@@ -29,15 +30,18 @@ main (int argc, char *argv[])
 	  outputFilename = (char *) strdup (optarg);
 	  break;
 
-	case 'c':
-	  count = atoi(optarg);
-	  break;
-
 	default:
 	  usage(argv[0], 0);
 	  break;
 	}
     }
+
+  // Check the output parent name
+  if(outputFilename == NULL){
+    fprintf(stderr, \
+	    "You need to specify a name for the series of output files\n");
+    usage(argv[0], 42);
+  }
 
   // Open the input TIFF image
   if ((inputFilename == NULL) ||
@@ -47,40 +51,44 @@ main (int argc, char *argv[])
       usage (argv[0], 42);
     }
 
-  // Open the output TIFF input
-  if ((outputFilename == NULL) ||
-      (output = TIFFOpen (outputFilename, "w")) == NULL)
-    {
-      fprintf (stderr, "Could not open outgoing input %s\n", outputFilename);
-      usage (argv[0], 42);
-    }
-
-  // Find the width and height of the input
-  TIFFGetField (input, TIFFTAG_IMAGEWIDTH, &width);
-  TIFFGetField (input, TIFFTAG_IMAGELENGTH, &height);
-
   /////////////////////////////////////////////////////////////////////////////
-  // Grab some memory
-  if ((raster = (char *) malloc (sizeof (char) * width * height * 3)) == NULL)
-    {
-      fprintf (stderr, "Could not allocate enough memory for input raster\n");
-      exit (42);
-    }
+  // Grab a sub file from the input image and move it to a separate file. We do
+  // this forever (until we break down below)...
+  for(count = 0;; count++){
+    // Find the width and height of the input
+    TIFFGetField (input, TIFFTAG_IMAGEWIDTH, &width);
+    TIFFGetField (input, TIFFTAG_IMAGELENGTH, &height);
 
-  /////////////////////////////////////////////////////////////////////////////
-  // Read the input into the memory buffer
-  // todo: I couldn't use TIFFReadRGBAStrip here, because it gets confused
-  stripSize = TIFFStripSize (input);
-  roff = raster;
-  for (stripNumber = 0; stripNumber < TIFFNumberOfStrips (input);
-       stripNumber++)
-    {
-      roff += TIFFReadEncodedStrip (input, stripNumber, roff, stripSize);
-    }
+    ///////////////////////////////////////////////////////////////////////////
+    // Grab some memory
+    if ((raster = (char *) malloc (sizeof (char) * width * height * 3)) == 
+	NULL)
+      {
+	fprintf (stderr, 
+		 "Could not allocate enough memory for input raster\n");
+	exit (42);
+      }
 
-  /////////////////////////////////////////////////////////////////////////////
-  // Write the image buffer to the file, we do this c times
-  for(i = 0; i < count; i++){
+    ///////////////////////////////////////////////////////////////////////////
+    // Read the input into the memory buffer
+    // todo: I couldn't use TIFFReadRGBAStrip here, because it gets confused
+    stripSize = TIFFStripSize (input);
+    roff = raster;
+    for (stripNumber = 0; stripNumber < TIFFNumberOfStrips (input);
+	 stripNumber++)
+      {
+	roff += TIFFReadEncodedStrip (input, stripNumber, roff, stripSize);
+      }
+    
+    ///////////////////////////////////////////////////////////////////////////
+    // Open the output TIFF
+    snprintf(outputFilenameActual, 200, "%s-%d.tif", outputFilename, count);
+    if ((output = TIFFOpen (outputFilenameActual, "w")) == NULL)
+      {
+	fprintf (stderr, "Could not open outgoing input %s\n", outputFilename);
+	usage (argv[0], 42);
+      }
+
     printf(".");
     fflush(stdout);
 
@@ -95,7 +103,7 @@ main (int argc, char *argv[])
     // todo: balance this off with having 8 kb per strip...
     TIFFSetField (output, TIFFTAG_ROWSPERSTRIP, 100000);
     
-
+    // Copy the subfile to a output location
     if (TIFFWriteEncodedStrip (output, 0, raster,
 			       width * height * 3 * sizeof (char)) == 0)
       {
@@ -103,11 +111,16 @@ main (int argc, char *argv[])
 	exit (42);
       }
 
+    ///////////////////////////////////////////////////////////////////////////
     // Flush this subfile and move onto the next one
-    if(TIFFWriteDirectory(output) == 0){
-      fprintf(stderr, "Error writing subfile %d\n", i);
-      exit(44);
+    if(TIFFReadDirectory(input) == 0){
+      printf(" No more subfiles");
+      break;
     }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Doing correct cleanup with a loop like this is important...
+    free(raster);
   }
   printf("\n");
     

@@ -1,0 +1,24 @@
+<chapter id="chap-imagetheory"><title>Imaging theory</title>
+<sect1><title>Theory of color and grayscale storage</title>
+<para>
+The first thing that we need to understand to be able to support color and grayscale images is the format of the image data within memory. There are two main representations for color and grayscale images. I'll explain these by describing grayscale, and then extend it to color.
+</para>
+
+<sect2><title>Direct storage of pixel data</title>
+<para>
+If you think back to the way pixel information was stored in the black and white images from the previous article, the information was just in the strips. You can also do this with grayscale and color images. This representation of image data is quite inefficient, because for the scenario when the image has a solid background (for example), there are many pixels with the same value. If the pixel data is stored in the strips, then this value will waste a large amount of space.
+</para>
+
+<para>
+Thankfully, there is a more efficient way to store image data. Imagine a simple four color 24 bit per pixel image. If we build a lookup table of the four color values (the 24 bit values which represent those colors), then we just need to store the relevant entry number of the color in the image strip itself. This can be done in only two bits, instead of the full 24. The maths looks something like this:
+</para>
+
+<para>
+A 24 bit color image which is 1,000 by 1,000 pixels will take 24 million bits to store. The same image, if it was a four color image, would take 4,000,000 bits for the strip data, and 98 bits for the color table. Neither of these numbers includes header and footer information for the file format, and the numbers are for uncompressed bitmaps. The advantages of the lookup table should be obvious. There is a name for this style of lookup table, it is called a <emphasis>palette</emphasis> -- probably because of those things painters carry around.
+</para>
+
+<para>
+This concept works for grayscale images as well. The only difference is that the colors in the palette are not just shades of gray.
+</para>
+</sect2>
+</chapter>

@@ -572,7 +572,6 @@ Public License instead of this License.
 </sect2>
 </sect1>
 </chapter>
-
 <chapter id="chap-concepts"><title>Imaging concepts</title>
 <para>
 There are some core terms which are used throughout this tutorial. This section defines these terms -- it's probably therefore worth bookmarking this section for reference throughout the rest of the day.
@@ -605,6 +604,11 @@ If we zoom in enough on a portion of this image, we can see that it is made up o
 <graphic format="EPS" fileref="raster-figure2.eps"></graphic>
 </figure>
 
+<figure>
+<title>fix_the_falling_off_the_page_problem</title>
+<graphic format="EPS" fileref="todo.eps"></graphic>
+</figure>
+
 <para>
 The code to produce this zoomed image is presented in the TIFF chapter of this tutorial.
 </para>
@@ -629,7 +633,56 @@ A pixel is the lowest unit of raster image description -- in other words, a rast
 <sect1><title>Converting color to grayscale</title>
 <para>
 How do you convert color images to grayscale? Well, my instant answer when I first had to do this was to just average the red, green and blue values. That answer is wrong. The reality is that the human eye is much better at seeing some colors than others. To get an accurate grayscale representation, you need to apply different coefficients to the color samples. Appropraite coefficients are 0.299 for red, 0.587 for green and 0.114 for blue.</para>
+
+<para>
+Below I have included several pictures that illustrate this concept. The first figure is a color image
+  <footnote><para>Which may or may not give you joy, depending on if you are viewing this document in color or not</para></footnote>
+, the second is the color image converted to grayscale without the coefficients applied, and the third image is a correct grayscale rendition.
+</para>
+
+<figure>
+<title>The original image</title>
+<graphic format="EPS" fileref="grayscale-figure1.eps"></graphic>
+</figure>
+
+<figure>
+<title>An average of the color values for each pixel</title>
+<graphic format="EPS" fileref="grayscale-figure2.eps"></graphic>
+</figure>
+
+<figure>
+<title>A correct conversion to grayscale</title>
+<graphic format="EPS" fileref="grayscale-figure3.eps"></graphic>
+</figure>
+
+<figure>
+<title>these_arent_right</title>
+<graphic format="EPS" fileref="todo.eps"></graphic>
+</figure>
+
+<para>
+The source code to generate these example images may be found in the TIFF chapter.
+</para>
 </sect1>
+
+<sect1><title>Anti-aliasing</title>
+<figure>
+<title>decribe</title>
+<graphic format="EPS" fileref="todo.eps"></graphic>
+</figure>
+
+<sect1>
+<title>Terminology</title>
+<para>	
+We need to get some terminology out of the way before we can discuss much. Images are made up of pixels. In black and white imaging, the pixel has one of two values -- 0 or 1. This can be represented in a single bit. For grayscale and color images however, the pixel needs to be able to store a much greater range of values -- if a pixel was to have 255 levels of gray, then we would need 8 bits to store that pixel. Each of these values is called a sample. TIFF expresses the size of the value in a tag called TIFFTAG_BITSPERSAMPLE. This will be 1 for black and white, and some larger number for grayscale.
+</para>
+
+<para>
+For color images, we need to store even more information. For each pixel we will need to store a red, green, and blue value. Each of these values are stored in a separate 'sample'. Therefore, we will need to define TIFFTAG_SAMPLESPERPIXEL -- this will be 1 for black and white or grayscale, but will normally be 3 for color images. We also need to define the size of each sample, so you'll still need to set a value for TIFFTAG_BITSPERSAMPLE.
+</para>
+</sect1>
+
+
 
 
 <sect1><title>Further reading</title>
@@ -638,8 +691,6 @@ How do you convert color images to grayscale? Well, my instant answer when I fir
 </para>
 </sect1>
 </chapter>
-
-
 <chapter id="chap-imagetheory"><title>Imaging theory</title>
 <sect1><title>Theory of color and grayscale storage</title>
 <para>
@@ -664,7 +715,6 @@ This concept works for grayscale images as well. The only difference is that the
 </para>
 </sect2>
 </chapter>
-
 <chapter id="chap-tiff"><title>TIFF</title>
 <para>
 <qoute>With great power comes great responsibility</quote> -- Spiderman
@@ -679,6 +729,11 @@ In this chapter we will discuss the Tagged Image File Format, which is one of th
 <para>
 TIFF (Tagged Image File Format) is a raster image format which was originally produced by Aldus and Microsoft. Aldus was later acquired by Adobe, who manage the TIFF specification to this day. At the time of writing of this chapter, the current version of the TIFF specification is TIFF version 6.0. The TIFF specification can be downloaded from http://partners.adobe.com/asn/developer/pdfs/tn/TIFF6.pdf. The TIFF technical notes at  
 </para>
+
+<figure>
+<title>tiff_tech_notes_location</title>
+<graphic format="EPS" fileref="todo.eps"></graphic>
+</figure>
 
 <para>TIFF is an extremely common, but quite complex raster image format. Libtiff is a standard implementation of the TIFF specification, which is free and works on many operating systems.
 </para>
@@ -1202,38 +1257,6 @@ This code works by first opening the image and checking that it is one that we c
 </sect2>
 </sect1>
 
-
-
-
-
-
-
-<sect1>
-<title>Abstract</title>
-<para>		
-TIFF is an extremely common, but quite complex raster image format. Libtiff is a standard implementation of the TIFF specification, which is free and works on many operating systems. This article discusses some of the pitfalls of TIFF, and guides the reader through use of the libtiff library. This article provides examples on how to use libtiff for your grayscale and color imaging needs.
-</para>
-
-<sidebar>
-<title>Did you read the previous article?</title>
-<para>This article is a follow up to my previous article on black and white graphics programming with libtiff. This article covers grayscale and color imaging, but it assumes that you have read and understood the code from the black and white article. It might be helpful to refer to that article before going too far here.</para>
-</sidebar>
-
-<para>With this article, I will discuss some of the theory required to understand how the image data is stored for color and grayscale. This theory applies to all imaging formats. We'll then discuss some of the specifics of using libtiff.</para>
-</sect1>
-
-<sect1>
-<title>Terminology</title>
-<para>	
-We need to get some terminology out of the way before we can discuss much. Images are made up of pixels. In black and white imaging, the pixel has one of two values -- 0 or 1. This can be represented in a single bit. For grayscale and color images however, the pixel needs to be able to store a much greater range of values -- if a pixel was to have 255 levels of gray, then we would need 8 bits to store that pixel. Each of these values is called a sample. TIFF expresses the size of the value in a tag called TIFFTAG_BITSPERSAMPLE. This will be 1 for black and white, and some larger number for grayscale.
-</para>
-
-<para>
-For color images, we need to store even more information. For each pixel we will need to store a red, green, and blue value. Each of these values are stored in a separate 'sample'. Therefore, we will need to define TIFFTAG_SAMPLESPERPIXEL -- this will be 1 for black and white or grayscale, but will normally be 3 for color images. We also need to define the size of each sample, so you'll still need to set a value for TIFFTAG_BITSPERSAMPLE.
-</para>
-</sect1>
-
-
 <sect2><title>Compression algorithms in libtiff</title>	
 <para>
 There are several compression algorithms available within libtiff. How do you select which one is right for your imaging needs?
@@ -1697,7 +1720,7 @@ main (int argc, char *argv[])
       usage (argv[0], 42);
     }
 
-  // Open the output TIFF input
+  // Open the output TIFF
   if ((outputFilename == NULL) ||
       (output = TIFFOpen (outputFilename, "w")) == NULL)
     {
@@ -1777,12 +1800,19 @@ usage (char *cmd, int exitamt)
 }
 </programlisting>
 <para><emphasis>Code: source/tiff/directories/create.c</emphasis></para>
+<figure>
+<title>README</title>
+<graphic format="EPS" fileref="todo.eps"></graphic>
+</figure>
 
 <figure>
 <title>Four pictures of my son Andrew</title>
 <graphic format="EPS" fileref="tiff-figure8.eps"></graphic>
 </figure>
-
+<figure>
+<title>quality_of_picture</title>
+<graphic format="EPS" fileref="todo.eps"></graphic>
+</figure>
 </sect1>
 
 <sect1><title>Reading more than one image inside a TIFF</title>
@@ -1799,6 +1829,154 @@ We should also probably know how to get to these images once we have more than o
 </figure>
 <figure>
 <title>more!</title>
+<graphic format="EPS" fileref="todo.eps"></graphic>
+</figure>
+
+<programlisting>
+#include &lt;stdio.h&gt;
+#include &lt;tiffio.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;string.h&gt;
+
+void usage (char *, int);
+
+int
+main (int argc, char *argv[])
+{
+  TIFF *input, *output;
+  uint32 width, height;
+  tsize_t stripSize, stripNumber;
+  unsigned long x, y;
+  char *inputFilename = NULL, *outputFilename = NULL, 
+    outputFilenameActual[200], *raster, *roff, optchar;
+  int count;
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Parse the command line options
+  while ((optchar = getopt (argc, argv, "i:o:")) != -1)
+    {
+      switch (optchar)
+	{
+	case 'i':
+	  inputFilename = (char *) strdup (optarg);
+	  break;
+
+	case 'o':
+	  outputFilename = (char *) strdup (optarg);
+	  break;
+
+	default:
+	  usage(argv[0], 0);
+	  break;
+	}
+    }
+
+  // Check the output parent name
+  if(outputFilename == NULL){
+    fprintf(stderr, \
+	    "You need to specify a name for the series of output files\n");
+    usage(argv[0], 42);
+  }
+
+  // Open the input TIFF image
+  if ((inputFilename == NULL) ||
+      (input = TIFFOpen (inputFilename, "r")) == NULL)
+    {
+      fprintf (stderr, "Could not open incoming input %s\n", inputFilename);
+      usage (argv[0], 42);
+    }
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Grab a sub file from the input image and move it to a separate file. We do
+  // this forever (until we break down below)...
+  for(count = 0;; count++){
+    // Find the width and height of the input
+    TIFFGetField (input, TIFFTAG_IMAGEWIDTH, &amp;width);
+    TIFFGetField (input, TIFFTAG_IMAGELENGTH, &amp;height);
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Grab some memory
+    if ((raster = (char *) malloc (sizeof (char) * width * height * 3)) == 
+	NULL)
+      {
+	fprintf (stderr, 
+		 "Could not allocate enough memory for input raster\n");
+	exit (42);
+      }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Read the input into the memory buffer
+    // todo: I couldn't use TIFFReadRGBAStrip here, because it gets confused
+    stripSize = TIFFStripSize (input);
+    roff = raster;
+    for (stripNumber = 0; stripNumber &lt; TIFFNumberOfStrips (input);
+	 stripNumber++)
+      {
+	roff += TIFFReadEncodedStrip (input, stripNumber, roff, stripSize);
+      }
+    
+    ///////////////////////////////////////////////////////////////////////////
+    // Open the output TIFF
+    snprintf(outputFilenameActual, 200, "%s-%d.tif", outputFilename, count);
+    if ((output = TIFFOpen (outputFilenameActual, "w")) == NULL)
+      {
+	fprintf (stderr, "Could not open outgoing input %s\n", outputFilename);
+	usage (argv[0], 42);
+      }
+
+    printf(".");
+    fflush(stdout);
+
+    // todo: We need to copy tags from the input image to the output image
+    TIFFSetField (output, TIFFTAG_IMAGEWIDTH, width);
+    TIFFSetField (output, TIFFTAG_IMAGELENGTH, height);
+    TIFFSetField (output, TIFFTAG_COMPRESSION, COMPRESSION_DEFLATE);
+    TIFFSetField (output, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+    TIFFSetField (output, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_RGB);
+    TIFFSetField (output, TIFFTAG_BITSPERSAMPLE, 8);
+    TIFFSetField (output, TIFFTAG_SAMPLESPERPIXEL, 3);
+    // todo: balance this off with having 8 kb per strip...
+    TIFFSetField (output, TIFFTAG_ROWSPERSTRIP, 100000);
+    
+    // Copy the subfile to a output location
+    if (TIFFWriteEncodedStrip (output, 0, raster,
+			       width * height * 3 * sizeof (char)) == 0)
+      {
+	fprintf (stderr, "Could not write the output image\n");
+	exit (42);
+      }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Flush this subfile and move onto the next one
+    if(TIFFReadDirectory(input) == 0){
+      printf(" No more subfiles");
+      break;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Doing correct cleanup with a loop like this is important...
+    free(raster);
+  }
+  printf("\n");
+    
+  // Cleanup
+  TIFFClose (input);
+  TIFFClose (output);
+  free (raster);
+}
+
+void
+usage (char *cmd, int exitamt)
+{
+  fprintf (stderr, "Bad command line arguements...\n\n");
+  fprintf (stderr, "Usage: %s -i &lt;inputfile&gt; -o &lt;outputfile&gt; -c &lt;count&gt;\n", 
+	   cmd);
+  exit (exitamt);
+}
+</programlisting>
+<para><emphasis>Code: source/tiff/directories/read.c</emphasis></para>
+<figure>
+<title>README</title>
 <graphic format="EPS" fileref="todo.eps"></graphic>
 </figure>
 </sect1>
@@ -1881,7 +2059,7 @@ main (int argc, char *argv[])
       usage (argv[0], 42);
     }
 
-  // Open the output TIFF input
+  // Open the output TIFF
   if ((outputFilename == NULL) ||
       (output = TIFFOpen (outputFilename, "w")) == NULL)
     {
@@ -2097,9 +2275,284 @@ usage (char *cmd, int exitamt)
 <para><emphasis>Code: source/tiff/pixels/pixel.c</emphasis></para>
 </sect1>
 
+<sect1><title>Example: Converting a color image to grayscale</title>
+<para>
+In one of the previous chapters I also promised to provide the source code for the grayscale conversion examples. Here it is, there are two versions -- a broken algorithm (averaging colour values), and a non-broken algorithm (using the NSTC recommended color coefficients).
+</para>
+
+<sect2><title>A broken algorithm</title>
+<programlisting>
+#include &lt;stdio.h&gt;
+#include &lt;tiffio.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;string.h&gt;
+
+void usage (char *, int);
+
+int
+main (int argc, char *argv[])
+{
+  TIFF *input, *output;
+  uint32 width, height, offset, offset2;
+  tsize_t stripSize, stripNumber;
+  unsigned long x, y;
+  char *inputFilename = NULL, *outputFilename = NULL, *raster, *roff,
+    optchar;
+  unsigned char *rout;
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Parse the command line options
+  while ((optchar = getopt (argc, argv, "i:o:x:y:w:l:")) != -1)
+    {
+      switch (optchar)
+	{
+	case 'i':
+	  inputFilename = (char *) strdup (optarg);
+	  break;
+
+	case 'o':
+	  outputFilename = (char *) strdup (optarg);
+	  break;
+
+	default:
+	  usage (argv[0], 0);
+	  break;
+	}
+    }
+
+  // Open the input TIFF image
+  if ((inputFilename == NULL) ||
+      (input = TIFFOpen (inputFilename, "r")) == NULL)
+    {
+      fprintf (stderr, "Could not open incoming input %s\n", inputFilename);
+      usage (argv[0], 42);
+    }
+
+  // Open the output TIFF
+  if ((outputFilename == NULL) ||
+      (output = TIFFOpen (outputFilename, "w")) == NULL)
+    {
+      fprintf (stderr, "Could not open outgoing input %s\n", outputFilename);
+      usage (argv[0], 42);
+    }
+
+  // Find the width and height of the input
+  TIFFGetField (input, TIFFTAG_IMAGEWIDTH, &amp;width);
+  TIFFGetField (input, TIFFTAG_IMAGELENGTH, &amp;height);
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Grab some memory
+  if ((raster = (char *) malloc (sizeof (char) * width * height * 3)) == NULL)
+    {
+      fprintf (stderr, "Could not allocate enough memory for input raster\n");
+      exit (42);
+    }
+
+  if ((rout = (unsigned char *) malloc (sizeof (char) * width * height)) 
+      == NULL)
+    {
+      fprintf (stderr,
+	       "Could not allocate enough memory for enlarged raster\n");
+      exit (42);
+    }
+
+  // todo: We need to copy tags from the input image to the output image
+  TIFFSetField (output, TIFFTAG_IMAGEWIDTH, width);
+  TIFFSetField (output, TIFFTAG_IMAGELENGTH, height);
+  TIFFSetField (output, TIFFTAG_COMPRESSION, COMPRESSION_DEFLATE);
+  TIFFSetField (output, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+  TIFFSetField (output, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_MINISBLACK);
+  TIFFSetField (output, TIFFTAG_BITSPERSAMPLE, 8);
+  TIFFSetField (output, TIFFTAG_SAMPLESPERPIXEL, 1);
+  // todo: balance this off with having 8 kb per strip...
+  TIFFSetField (output, TIFFTAG_ROWSPERSTRIP, 100000);
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Read the input into the memory buffer
+  // todo: I couldn't use TIFFReadRGBAStrip here, because it gets confused
+  stripSize = TIFFStripSize (input);
+  roff = raster;
+  for (stripNumber = 0; stripNumber &lt; TIFFNumberOfStrips (input);
+       stripNumber++)
+    {
+      roff += TIFFReadEncodedStrip (input, stripNumber, roff, stripSize);
+    }
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Convert to grayscale
+  offset2 = 0;
+  for(offset = 0; offset &lt; width * height * 3; offset += 3){
+    printf("%d ", (unsigned char) (raster[offset] + raster[offset + 1] + 
+		   raster[offset + 2]) / 3);
+    rout[offset2++] = (unsigned char) (raster[offset] + raster[offset + 1] + 
+		       raster[offset + 2]) / 3;
+  }
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Write the image buffer to the file
+  if (TIFFWriteEncodedStrip (output, 0, rout,
+			     width * height * sizeof (char)) == 0)
+    {
+      fprintf (stderr, "Could not write the output image\n");
+      exit (42);
+    }
+
+  // Cleanup
+  TIFFClose (input);
+  TIFFClose (output);
+  free (raster);
+  free (rout);
+}
+
+void
+usage (char *cmd, int exitamt)
+{
+  fprintf (stderr, "Bad command line arguements...\n\n");
+  fprintf (stderr, "Usage: %s -i &lt;inputfile&gt; -o &lt;outputfile&gt;\n", cmd);
+  exit (exitamt);
+}
+</programlisting>
+<para><emphasis>Code: source/tiff/grayscale/gray-wrong.c</emphasis></para>
+</sect2>
+
+<sect2><title>A sensible algorithm</title>
+<programlisting>
+#include &lt;stdio.h&gt;
+#include &lt;tiffio.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;string.h&gt;
+
+void usage (char *, int);
+
+int
+main (int argc, char *argv[])
+{
+  TIFF *input, *output;
+  uint32 width, height, offset, offset2;
+  tsize_t stripSize, stripNumber;
+  unsigned long x, y;
+  char *inputFilename = NULL, *outputFilename = NULL, *raster, *roff,
+    optchar;
+  unsigned char *rout;
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Parse the command line options
+  while ((optchar = getopt (argc, argv, "i:o:x:y:w:l:")) != -1)
+    {
+      switch (optchar)
+	{
+	case 'i':
+	  inputFilename = (char *) strdup (optarg);
+	  break;
+
+	case 'o':
+	  outputFilename = (char *) strdup (optarg);
+	  break;
+
+	default:
+	  usage (argv[0], 0);
+	  break;
+	}
+    }
+
+  // Open the input TIFF image
+  if ((inputFilename == NULL) ||
+      (input = TIFFOpen (inputFilename, "r")) == NULL)
+    {
+      fprintf (stderr, "Could not open incoming input %s\n", inputFilename);
+      usage (argv[0], 42);
+    }
+
+  // Open the output TIFF
+  if ((outputFilename == NULL) ||
+      (output = TIFFOpen (outputFilename, "w")) == NULL)
+    {
+      fprintf (stderr, "Could not open outgoing input %s\n", outputFilename);
+      usage (argv[0], 42);
+    }
+
+  // Find the width and height of the input
+  TIFFGetField (input, TIFFTAG_IMAGEWIDTH, &amp;width);
+  TIFFGetField (input, TIFFTAG_IMAGELENGTH, &amp;height);
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Grab some memory
+  if ((raster = (char *) malloc (sizeof (char) * width * height * 3)) == NULL)
+    {
+      fprintf (stderr, "Could not allocate enough memory for input raster\n");
+      exit (42);
+    }
+
+  if ((rout = (unsigned char *) malloc (sizeof (char) * width * height)) 
+      == NULL)
+    {
+      fprintf (stderr,
+	       "Could not allocate enough memory for enlarged raster\n");
+      exit (42);
+    }
+
+  // todo: We need to copy tags from the input image to the output image
+  TIFFSetField (output, TIFFTAG_IMAGEWIDTH, width);
+  TIFFSetField (output, TIFFTAG_IMAGELENGTH, height);
+  TIFFSetField (output, TIFFTAG_COMPRESSION, COMPRESSION_DEFLATE);
+  TIFFSetField (output, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+  TIFFSetField (output, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_MINISBLACK);
+  TIFFSetField (output, TIFFTAG_BITSPERSAMPLE, 8);
+  TIFFSetField (output, TIFFTAG_SAMPLESPERPIXEL, 1);
+  // todo: balance this off with having 8 kb per strip...
+  TIFFSetField (output, TIFFTAG_ROWSPERSTRIP, 100000);
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Read the input into the memory buffer
+  // todo: I couldn't use TIFFReadRGBAStrip here, because it gets confused
+  stripSize = TIFFStripSize (input);
+  roff = raster;
+  for (stripNumber = 0; stripNumber &lt; TIFFNumberOfStrips (input);
+       stripNumber++)
+    {
+      roff += TIFFReadEncodedStrip (input, stripNumber, roff, stripSize);
+    }
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Convert to grayscale
+  offset2 = 0;
+  for(offset = 0; offset &lt; width * height * 3; offset += 3){
+    rout[offset2++] = (unsigned char) (0.299 * raster[offset] + 
+				       0.587 * raster[offset + 1] + 
+				       0.114 * raster[offset + 2]);
+  }
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Write the image buffer to the file
+  if (TIFFWriteEncodedStrip (output, 0, rout,
+			     width * height * sizeof (char)) == 0)
+    {
+      fprintf (stderr, "Could not write the output image\n");
+      exit (42);
+    }
+
+  // Cleanup
+  TIFFClose (input);
+  TIFFClose (output);
+  free (raster);
+  free (rout);
+}
+
+void
+usage (char *cmd, int exitamt)
+{
+  fprintf (stderr, "Bad command line arguements...\n\n");
+  fprintf (stderr, "Usage: %s -i &lt;inputfile&gt; -o &lt;outputfile&gt;\n", cmd);
+  exit (exitamt);
+}
+</programlisting>
+<para><emphasis>Code: source/tiff/grayscale/gray-good.c</emphasis></para>
+</sect2>
+</sect1>
+
 <sect1><title>Conclusion</title>
 <para>
-In this article we've discussed how to program with libtiff for grayscale and color images. I've shown you some sample code which should help to get you started. You should now know enough to have a great time coding with libtiff. Thanks for taking the time to read this article.</para>
+In this chapter we've discussed how to program with libtiff for black and white, grayscale and color images. We haven't been through an exhaustive discussion of the possible settings, or all the calls available in libtiff, but you should be ready to start exploring further.
 </sect1>
 
 

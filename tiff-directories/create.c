@@ -47,7 +47,7 @@ main (int argc, char *argv[])
       usage (argv[0], 42);
     }
 
-  // Open the output TIFF input
+  // Open the output TIFF
   if ((outputFilename == NULL) ||
       (output = TIFFOpen (outputFilename, "w")) == NULL)
     {

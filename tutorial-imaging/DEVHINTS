@@ -1,0 +1,1 @@
+convert -sample 320x240 grayscale-figure1.jpg grayscale-figure1.eps

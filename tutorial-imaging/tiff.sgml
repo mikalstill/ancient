@@ -13,6 +13,8 @@ In this chapter we will discuss the Tagged Image File Format, which is one of th
 TIFF (Tagged Image File Format) is a raster image format which was originally produced by Aldus and Microsoft. Aldus was later acquired by Adobe, who manage the TIFF specification to this day. At the time of writing of this chapter, the current version of the TIFF specification is TIFF version 6.0. The TIFF specification can be downloaded from http://partners.adobe.com/asn/developer/pdfs/tn/TIFF6.pdf. The TIFF technical notes at  
 </para>
 
+%todo:tiff_tech_notes_location%
+
 <para>TIFF is an extremely common, but quite complex raster image format. Libtiff is a standard implementation of the TIFF specification, which is free and works on many operating systems.
 </para>
 </sect1>
@@ -368,38 +370,6 @@ This code works by first opening the image and checking that it is one that we c
 </sect2>
 </sect1>
 
-
-
-
-
-
-
-<sect1>
-<title>Abstract</title>
-<para>		
-TIFF is an extremely common, but quite complex raster image format. Libtiff is a standard implementation of the TIFF specification, which is free and works on many operating systems. This article discusses some of the pitfalls of TIFF, and guides the reader through use of the libtiff library. This article provides examples on how to use libtiff for your grayscale and color imaging needs.
-</para>
-
-<sidebar>
-<title>Did you read the previous article?</title>
-<para>This article is a follow up to my previous article on black and white graphics programming with libtiff. This article covers grayscale and color imaging, but it assumes that you have read and understood the code from the black and white article. It might be helpful to refer to that article before going too far here.</para>
-</sidebar>
-
-<para>With this article, I will discuss some of the theory required to understand how the image data is stored for color and grayscale. This theory applies to all imaging formats. We'll then discuss some of the specifics of using libtiff.</para>
-</sect1>
-
-<sect1>
-<title>Terminology</title>
-<para>	
-We need to get some terminology out of the way before we can discuss much. Images are made up of pixels. In black and white imaging, the pixel has one of two values -- 0 or 1. This can be represented in a single bit. For grayscale and color images however, the pixel needs to be able to store a much greater range of values -- if a pixel was to have 255 levels of gray, then we would need 8 bits to store that pixel. Each of these values is called a sample. TIFF expresses the size of the value in a tag called TIFFTAG_BITSPERSAMPLE. This will be 1 for black and white, and some larger number for grayscale.
-</para>
-
-<para>
-For color images, we need to store even more information. For each pixel we will need to store a red, green, and blue value. Each of these values are stored in a separate 'sample'. Therefore, we will need to define TIFFTAG_SAMPLESPERPIXEL -- this will be 1 for black and white or grayscale, but will normally be 3 for color images. We also need to define the size of each sample, so you'll still need to set a value for TIFFTAG_BITSPERSAMPLE.
-</para>
-</sect1>
-
-
 <sect2><title>Compression algorithms in libtiff</title>	
 <para>
 There are several compression algorithms available within libtiff. How do you select which one is right for your imaging needs?
@@ -610,13 +580,13 @@ Anyway, now that I've nagged you, putting mutliple images into one TIFF file is 
 </para>
 
 %code2db.pl:source/tiff/directories/create.c%
+%todo:README%
 
 <figure>
 <title>Four pictures of my son Andrew</title>
 <graphic format="EPS" fileref="tiff-figure8.eps"></graphic>
 </figure>
 %todo:quality_of_picture%
-
 </sect1>
 
 <sect1><title>Reading more than one image inside a TIFF</title>
@@ -629,6 +599,9 @@ We should also probably know how to get to these images once we have more than o
 
 %todo:convert_will_create_multiple_files%
 %todo:more!%
+
+%code2db.pl:source/tiff/directories/read.c%
+%todo:README%
 </sect1>
 
 
@@ -641,9 +614,23 @@ In the introduction to this tutorial I promised that I would include the code to
 %code2db.pl:source/tiff/pixels/pixel.c%
 </sect1>
 
+<sect1><title>Example: Converting a color image to grayscale</title>
+<para>
+In one of the previous chapters I also promised to provide the source code for the grayscale conversion examples. Here it is, there are two versions -- a broken algorithm (averaging colour values), and a non-broken algorithm (using the NSTC recommended color coefficients).
+</para>
+
+<sect2><title>A broken algorithm</title>
+%code2db.pl:source/tiff/grayscale/gray-wrong.c%
+</sect2>
+
+<sect2><title>A sensible algorithm</title>
+%code2db.pl:source/tiff/grayscale/gray-good.c%
+</sect2>
+</sect1>
+
 <sect1><title>Conclusion</title>
 <para>
-In this article we've discussed how to program with libtiff for grayscale and color images. I've shown you some sample code which should help to get you started. You should now know enough to have a great time coding with libtiff. Thanks for taking the time to read this article.</para>
+In this chapter we've discussed how to program with libtiff for black and white, grayscale and color images. We haven't been through an exhaustive discussion of the possible settings, or all the calls available in libtiff, but you should be ready to start exploring further.
 </sect1>
 
 
