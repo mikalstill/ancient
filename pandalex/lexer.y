@@ -46,7 +46,24 @@ objects   : object objects
           |
           ;
 
-object    : INT INT OBJ { printf("Object started %d %d\n", $1, $2); } DBLLT dict DBLGT stream ENDOBJ {}
+object    : INT INT OBJ { pandalex_callback(gpandalex_callback_objstart, gpandalex_callback_type_object, $1, $2); } DBLLT dict DBLGT stream ENDOBJ {}
+          ;
+
+dict      : NAME STRING dict {}
+          | NAME NAME dict {}
+          | NAME ARRAY arrayvals ENDARRAY dict {}
+          | NAME OBJREF dict {}
+          | NAME DBLLT dict DBLGT dict {}
+          | NAME INT dict {}
+          |
+          ;
+
+arrayvals : OBJREF arrayvals {}
+          | INT arrayvals {}
+          |
+          ;
+
+stream    : STREAM { binaryMode = 1; } binary { binaryMode  } DBLLT dict DBLGT stream ENDOBJ {}
           ;
 
 dict      : NAME STRING dict {}
@@ -104,12 +121,12 @@ void pandalex_callback(int event, int type, ...){
 
   // Start accessing the arguements from the end
   va_start(argptr, type);
-
+  
   // If no event handler is setup, then we ignore the event
   if(pandalex_callbacks[event] != NULL){
-    pandalex_callbacks[event] (int, int, argptr);
-    }
-
+    pandalex_callbacks[event] (event, type, argptr);
+  }
+  
   // Stop with the arguements
   va_end(argptr);
 }
@@ -170,6 +187,8 @@ int main(int argc, char *argv[]){
 			 pandalex_sample_specversion);
   pandalex_setupcallback(gpandalex_callback_entireheader, 
 			 pandalex_sample_entireheader);
+  pandalex_setupcallback(gpandalex_callback_objstart,
+			 pandalex_sample_objstart);
 
   pandalex_parse();
 
