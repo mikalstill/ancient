@@ -38,7 +38,12 @@
   <execute><cmd>builddb</cmd><input>imp_Testing.sgml</input></execute>
 </chapter>
 
-<chapter id="ch04"><title>Conclusion</title>
+<chapter id="ch04"><title>Documentation</title>
+<execute><cmd>builddb</cmd><input>docco.sgml</input></execute>
+</chapter>
+
+
+<chapter id="ch05"><title>Conclusion</title>
   <execute><cmd>builddb</cmd><input>conclusion.sgml</input></execute>
 </chapter>
 
