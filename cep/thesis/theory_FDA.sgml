@@ -24,8 +24,7 @@
   
   <equation>
     <title>Square Wave</title>
-    <alt>x(n) = sin(f) + 1/3*sin(3f) + 1/5*(sin5f)</alt>
-    <execute><cmd>eqimg</cmd><args>freq-squarewave.eps</args></execute>
+    <execute><cmd>img</cmd><args>freq-squarewave.eps</args></execute>
   </equation>
 	
   for all odd harmonics. Where <command>f</command> is the fundamental frequency.
@@ -104,17 +103,13 @@
   magnitude of the real and imaginary components of the FFT results. A good illustration of this concept is that of a 
   sine wave with its corresponding PSD plot.
 
-  <figure><title>50 kHz sin wave</title>
-      <execute><cmd>img</cmd><args>50HzSin.bmp</args></execute>
+
+  <figure><title>50Hz sin wave and corresponding PSD plot.</title>
+      <execute><cmd>img</cmd><args>sinTimeandFreq.eps</args></execute>
   </figure>
 
-  <figure><title>PSD plot of a 50 kHz sin wave</title>
-      <execute><cmd>img</cmd><args>fft50HzSin.bmp</args></execute>
-  </figure>
-
-  In the above figures, we see a pure sin wave with a frequency of 50Hz. This is confirmed in the PSD plot, where we see
-  that sin wave has energy only at 50Hz.
-
+  In the above figure, we see a pure sin wave with a frequency of 50Hz. The PSD plot shows the energy
+  content of the sine wave being at 50Hz.
 </para>
 
 <para>
@@ -154,7 +149,7 @@
 </para>
 
 <figure><title>CEDUNA_GPS(UP) - Residuals</title>
-<execute><cmd>img</cmd><args>gdms-cedu-res.png</args></execute>
+<execute><cmd>img</cmd><args>gdms-cedu-up-res.png</args></execute>
 </figure>
 
 <para>
@@ -164,13 +159,14 @@
 </para>
 
 <figure><title>CEDUNA_GPS(UP) - PSD</title>
-<execute><cmd>img</cmd><args>gdms-cedu-up-FFT.png</args></execute>
+<execute><cmd>img</cmd><args>gdms-cedu-up-res-fft.png</args></execute>
 </figure>
 
 <para>
-  So we see energy at the low frequency end from what seems to be significant value. This first major portion of energy
-  is Random Walk. In fact, it is believed that t In some cases, white noise can also be detected through spikes in the frequency domain. 
-  It is also believed that Random Walk can be seen through the spectrum provided on the graph.
+  From the PSD above, we can see energy at the low end of the frequency spectrum. This first major portion of energy
+  is Random Walk. In fact, closer inspection of the PSD plot reveals a periodicity along the spectrum. This is also 
+  believed to be Random Walk. In some cases, white noise can also be detected in the frequency domain, appearing 
+  as spikes.
 </para>
 
 <para>
