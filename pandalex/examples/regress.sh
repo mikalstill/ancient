@@ -18,6 +18,7 @@ else
 fi
 
 segfault=0
+stack=0
 parse=0
 ok=0
 other=0
@@ -49,11 +50,11 @@ do
       if [ `grep "stack overflow" /tmp/$$.err | wc -l | tr -d " "` -gt 0 ]
       then
 	echo "$1	Stack overflow" >> $path/$pcount/data.pandalex
+        stack=$(( $stack + 1 ))
       else
         echo "$1	Parse error" >> $path/$pcount/data.pandalex
+        parse=$(( $parse + 1 ))
       fi
-
-      parse=$(( $parse + 1 ))
     elif [ $retval == 0 ]
     then
       echo "$1	Ok" >> $path/$pcount/data.pandalex
@@ -65,7 +66,7 @@ do
 
     cat /tmp/$$ >> $path/$pcount/data.pandalex
     echo "------------------------------------------" >> $path/$pcount/data.pandalex
-    echo "$count: seg = $segfault, parse = $parse, other = $other, ok = $ok"
+    echo "$count: seg = $segfault, parse = $parse, stack = $stack, other = $other, ok = $ok"
   fi
 
   count=$(( $count + 1 ))
