@@ -53,8 +53,6 @@ private:
     char blue;
   } color;
 
-  void findMaxMinMa();
-
   long m_width;
   long m_height;
 

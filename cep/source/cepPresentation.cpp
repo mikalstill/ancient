@@ -81,33 +81,6 @@ cepPresentation::yAxisTitle (const string & title)
   m_yTitle = title;
 }
 
-// Find the maxima and minima in the matrix I am looking at
-// todo_mikal: should this be part of the matrix class so it is more efficient?
-void cepPresentation::findMaxMinMa()
-{
-  // todo_kristy: I should be able to just ask the matrix for these...
-  cepDebugPrint("Finding matrix maxima and minima");
-  for(int i = 0; i < m_ds->getNumRows(); i++){
-    if ((long) (m_ds->getValue(i, cepDataset::colDate) * 10000) > m_xmaxval) 
-      m_xmaxval = (long) (m_ds->getValue(i, cepDataset::colDate) * 10000);
-    if ((long) (m_ds->getValue(i, cepDataset::colDate) * 10000) < m_xminval) 
-      m_xminval = (long) (m_ds->getValue(i, cepDataset::colDate) * 10000);
-    
-    if ((long) (m_ds->getValue(i, cepDataset::colSample) * 10000) > m_ymaxval) 
-      m_ymaxval = (long) (m_ds->getValue(i, cepDataset::colSample) * 10000);
-    if ((long) (m_ds->getValue(i, cepDataset::colSample) * 10000) < m_yminval) 
-      m_yminval = (long) (m_ds->getValue(i, cepDataset::colSample) * 10000);
-    
-    if ((long) (m_ds->getValue(i, cepDataset::colError) * 10000) > m_emaxval) 
-      m_emaxval = (long) (m_ds->getValue(i, cepDataset::colError) * 10000);
-  }
-  cepDebugPrint("Found xmax = " + cepToString(m_xmaxval) + " xmin = " + cepToString(m_xminval) + 
-		" ymax = " + cepToString(m_ymaxval) + " ymin = " + cepToString(m_yminval) + 
-		" emax = " + cepToString(m_emaxval));
-  
-  m_haveMaxima = true;
-}
-
 cepError
 cepPresentation::createPDF (const string & filename)
 {
@@ -139,8 +112,18 @@ cepPresentation::createBitmap (float& scale, long& minval)
 #if defined HAVE_LIBMPLOT
   plot_state *graph;
 
-  if(!m_haveMaxima)
-    findMaxMinMa();
+  if(!m_haveMaxima){
+    m_xmaxval = (unsigned int) (m_ds->getMaxValue(cepDataset::colDate) * 10000);
+    m_xminval = (unsigned int) (m_ds->getMinValue(cepDataset::colDate) * 10000);
+    m_ymaxval = (unsigned int) (m_ds->getMaxValue(cepDataset::colSample) * 10000);
+    m_yminval = (unsigned int) (m_ds->getMinValue(cepDataset::colSample) * 10000);
+    m_emaxval = (unsigned int) (m_ds->getMaxValue(cepDataset::colError) * 10000);
+
+    cepDebugPrint("Graph extents: x = [" + cepToString(m_xminval) + " - " + 
+		  cepToString(m_xmaxval) + "] y = [" + cepToString(m_yminval) + " - " +
+		  cepToString(m_ymaxval) + "] e = " + cepToString(m_emaxval));
+    m_haveMaxima = true;
+  }
 
   if ((graph = plot_newplot (m_width, m_height)) == NULL)
     return cepError("Could not initialise a new plot", 
@@ -194,8 +177,17 @@ cepPresentation::createBitmap (float& scale, long& minval)
 		      m_errorColor.blue);
     for(int i = 0; i < m_ds->getNumRows(); i++){
       long convdate = (long) (m_ds->getValue(i, cepDataset::colDate) * 10000);
+      if(m_ds->getError().isReal())
+	return m_ds->getError();
+
       long convsample = (long) (m_ds->getValue(i, cepDataset::colSample) * 10000);
+      if(m_ds->getError().isReal())
+	return m_ds->getError();
+
       long converror = (long) (m_ds->getValue(i, cepDataset::colError) * 10000);
+      if(m_ds->getError().isReal())
+	return m_ds->getError();
+
       unsigned int horiz = (unsigned int) ((convdate - m_xminval) / xscale + graphInset);
 
       // Vertical line
@@ -286,7 +278,13 @@ cepPresentation::createBitmap (float& scale, long& minval)
 		    m_lineColor.blue);
   for(int i = 0; i < m_ds->getNumRows(); i++){
     long convdate = (long) (m_ds->getValue(i, cepDataset::colDate) * 10000);
+      if(m_ds->getError().isReal())
+	return m_ds->getError();
+
     long convsample = (long) (m_ds->getValue(i, cepDataset::colSample) * 10000);
+      if(m_ds->getError().isReal())
+	return m_ds->getError();
+
     unsigned int xpoint = (unsigned int) ((convdate - m_xminval) / xscale + graphInset);
     unsigned int ypoint = (unsigned int) ((yrange - convsample + yminval) / yscale + graphInset);
     

@@ -67,7 +67,8 @@ public:
     {
       colDate = 0,
       colSample,
-      colError
+      colError,
+      colColourHint
     };
 
   // Filename is the "root filename" e.g. mb_ANKR_GPS
