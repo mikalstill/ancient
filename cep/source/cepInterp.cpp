@@ -212,7 +212,7 @@ cepMatrix<double> & cepInterp::doInterp(const cepMatrix<double> & input,
 	{
 		if (inBounds(input, timeScale, position, i, newSize, oldSize))
 		{
-			timeScale.setValue(i,1, 
+			timeScale.setValue(i,1,
 								a.getValue(i,0)*pow((timescale.getValue(i,0)-input.getValue(i,0)),3.0)+
 								b.getValue(i,0)*pow((timescale.getValue(i,0)-input.getValue(i,0)),2.0)+
 								c.getValue(i,0)*(timescale.getValue(i,0)-input.getValue(i,0))+
@@ -238,6 +238,62 @@ cepMatrix<double> & cepInterp::cubicSplineInterp(const cepMatrix & input,
 cepMatrix<double> & cepInterp::dividedInterp(const cepMatrix<double> & input,
 												cepMatrix<double> & timeScale, int interpType)
 {
+	int i;
+	int j;
+	int count; // used for marking the point of exit from a loop
+	int oldSize = input.getNumRows();
+	int newSize = timescale.getNumRows();
+
+	// resizable datastructure to hold the divided differences table
+	vector<cepMatrix <double> * > diffs;
+
+	// vector to hold error estimation values
+	vector<double> errors;
+
+	double errorMod;	// interim value for calculating errors
+	double errorPos; // Position on the curve used for approximating the error
+
+	// calculate first colum of divided differences table
+	diffs.pushback(new cepMatrix<double> (oldSize-1,1);
+	for (j = 0; j <= oldSize - 1; j++)
+	{
+		diffs[0].setValue(j,0, (input.getValue(j+1,1)-input.getValue(j,1))/
+							(input.getValue(j+1,0) - input.getValue(j,0)));
+	}
+	// calculate error approximation for first value
+	errorPos = input.getValue(0,0)+input.getValue(1,0))*0.5;
+	errorMod = errorPos-input.getValue(0,0);
+	errors.pushback(errorMod * diffs[0].getValue(0,0));
+
+
+
+	// calculate rest of divided differences table
+	for (i = 2; i < oldSize; i++)
+	{
+		count = i
+		diffs.pushback(new cepMatrix<double> (oldSize-i,1);
+		for (j = 0; j <= oldSize - i; j++)
+		{
+			diffs[i-1].setValue(j,0, (diffs[i-2].getValue(j+1,0)-diffs[i-2].getValue(j,0))/
+								(input.getValue(j+1,0) - input.getValue(j,0)));
+		}
+		// calculate error for order i-2 divided difference table
+		errorMod = errorMod * (errorPos - input.getValue(i-1,0);
+		errors.pushback(errorMod * diffs[i-1].getValue(0,0));
+
+		// check error limits for early exit
+		if (errors[i-1] > errors[i-2])
+		{
+			// trigger exit from for loop
+			i = oldSize + 2;
+		}
+	}
+
+	if (i != oldSize) // if divided difference table loop exited early
+	{
+		count = count - 1; // decrease order of approx by 1
+	}
+
 
 }
 
