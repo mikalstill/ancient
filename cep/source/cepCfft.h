@@ -253,7 +253,10 @@ template < class CPLX > cepMatrix<ComplexDble>
   cepMatrix<ComplexDble> ffteedMatrix( numRows, numCols, numTables); //matrix contain to store processed values
 
 //calculate the frequency scale and place it in the return matrix
-
+  cout << endl
+       << "There are " << numRows << " rows; "
+       << numCols << " cols; " << numTables
+       << " tables." << endl;
   cout << "Calculating frequency scale.." << endl;
   //char junk;
   for (table=0; table < numTables; table++)
@@ -265,10 +268,11 @@ template < class CPLX > cepMatrix<ComplexDble>
     double freq = 1/sampleRate;
     
     cout << "Setting fft matrix scale values ..." << endl;
+    cout << "todo Daniel - something wrong with scaling!!!" << endl;
     for(row=0; row< halfSetSize; row++)
     {
     	ffteedMatrix.setValue(row,FIRSTCOLUMN,table, (freq*row)/numRows);
-	cout << ffteedMatrix.getValue(row,FIRSTCOLUMN, table) << endl;
+	//cout << ffteedMatrix.getValue(row,FIRSTCOLUMN, table) << endl;
     }
   }
   //cout << "key and enter to continue.." <<endl;
@@ -305,21 +309,20 @@ template < class CPLX > cepMatrix<ComplexDble>
     cout << endl;
     if (dir == 1)
     {
-        cout << "Performing forward fft on Matrix: Table " << table
-	     << "  Column  " << col << "\n";
+        cout << "Performing forward fft on Matrix " << endl;
         fft(arrayToFft);
     }
     else //(dir == 0)
     {
-        cout << "Performing Inverse fft on Matrix: Table " << table
-	     << "Column " << col << "\n";
+        cout << "Performing Inverse fft on Matrix: " << endl;
         ifft(arrayToFft);
     }
    
     //place the processed values into the marix.
-    //cout << "Outputting the results ... " << endl;
+    cout << "Outputting the results for column ";
     for (col =1; col < numCols; col ++)
     {
+        cout << col << endl;
         for (row = 0; row < numRows; row++)
 	{
              ffteedMatrix.setValue(row,col,table,arrayToFft[row]);

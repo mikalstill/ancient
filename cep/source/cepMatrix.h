@@ -438,7 +438,7 @@ const cepMatrix<T> & cepMatrix<T>::transpose ()
   return *this;
 }
 
-//****************Assignment operators*******************
+// ****************Assignment operators*******************
 template <class T>
 const cepMatrix<T> & cepMatrix<T>::operator+= (const cepMatrix & B)
 {
@@ -601,7 +601,7 @@ const cepMatrix<T> & cepMatrix<T>::operator*= (const T &scalar)
 }
 
 template <class T>
-//*****************copy operator***************************
+// *****************copy operator***************************
 const cepMatrix<T> & cepMatrix<T>::operator= (const cepMatrix & B)
 {
   numRows = B.numRows;
@@ -675,7 +675,7 @@ const cepMatrix<T> & cepMatrix<T>::operator= (const cepMatrix & B)
   return *this;
 }
 
-//***************query operators****************************
+// ***************query operators****************************
 
 template <class T>
 bool cepMatrix<T>::operator== (const cepMatrix & B)
@@ -751,7 +751,7 @@ bool cepMatrix<T>::isDiagonal ()
   return true;
 }
 
-//***************get/set methods**************************
+// ***************get/set methods**************************
 
 template <class T>
 const T& cepMatrix<T>::getValue (int row, int col) const
@@ -827,7 +827,7 @@ const int cepMatrix<T>::getNumCols () const
   return numCols;
 }
 
-//***************get/set methods 3D matrix**************************
+// ***************get/set methods 3D matrix**************************
 
 template <class T>
 const T& cepMatrix<T>::getValue (int row, int col, int tab) const

@@ -117,7 +117,7 @@ namespace
 	    {
 	      myMatrix.setValue (row, 0, 0,sinIndex);
 	      sinIndex++;
-	      cout << myMatrix.getValue(row,0,0) << "  ";
+	      //cout << myMatrix.getValue(row,0,0) << "  ";
 	    }
 	    cout << endl << endl;
 //	}
@@ -131,7 +131,7 @@ namespace
 	  for (int row = 0; row < numRows; row++)
 	    {
 	      myMatrix.setValue (row, col, 0, sin (sinIndex));
-	      cout << sinIndex << " -> " << myMatrix.getValue(row,col,0)  << "  ";
+	      //cout << sinIndex << " -> " << myMatrix.getValue(row,col,0)  << "  ";
 	      sinIndex++;
 	    }
 	    cout << endl << endl;
