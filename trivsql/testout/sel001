@@ -1,14 +1,1 @@
-
-==============================================
-| cola         | colb         | colc         |
-==============================================
-| duck         | chicken      | frog         |
-----------------------------------------------
-| duck         | hamster      | (null)       |
-----------------------------------------------
-| banana       | (null)       | frog         |
-----------------------------------------------
-
-
-Select returned 3 rows of 3 columns
-
+There was an error processing this statement.

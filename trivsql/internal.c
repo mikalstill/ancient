@@ -17,8 +17,9 @@ void trivsql_docreate(char *tname, char *cols)
 {
   char *t;
   char *u;
-
   int colCount = 0;
+
+  gState->rs->errno = TRIVSQL_FALSE;
 
   t = trivsql_xsnprintf("trivsql_%s_numrows", tname);
   trivsql_dbwrite(gState, t, "0");
@@ -45,6 +46,8 @@ void trivsql_doinsert(char *tname, char *cols, char *vals){
   char *t, *u, *c;
   int rowCount, i, col, numCols;
   int *colNumbers;
+
+  gState->rs->errno = TRIVSQL_FALSE;
 
   if((rowCount = trivsql_getrowcount(tname)) == -1){
     return;
