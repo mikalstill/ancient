@@ -51,12 +51,18 @@ endstream               { debuglex(yytext, "endstream", 0);
                           return ENDSTREAM;                                  }
 
 [+-]?[0-9]+             { debuglex(yytext, "integer", binaryMode);
-                          yylval.intVal = atoi(yytext);
-                          return((binaryMode == 0) ? INT : ANYTHING);        }
+                          if(binaryMode == 0){
+                            yylval.intVal = atoi(yytext);
+                            return INT;
+                            }
+                          else{
+                            yylval.textVal = yytext;
+                            return ANYTHING;
+                            }                                                }
 
 [+-]?[0-9]+\.[0-9]+     { debuglex(yytext, "floating point", binaryMode);
                           yylval.textVal = (char *) returnStr(yytext);
-                          return((binaryMode == 0) ? FP : ANYTHING);        }
+                          return((binaryMode == 0) ? FP : ANYTHING);         }
 
 \<\<                    { debuglex(yytext, "<<", binaryMode);
                           return DBLLT;                                      }

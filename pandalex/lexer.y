@@ -137,7 +137,7 @@ stream    : STREAM { binaryMode = 1; } binary ENDSTREAM { printf("Stream: filter
           |
           ;
 
-binary    : ANYTHING binary { $$ = strmcat($1, $2); }
+binary    : ANYTHING binary { $$ = strmcat($1, $2); free($2); }
           | { $$ = strmcpy(""); }
           ;
 
@@ -203,30 +203,30 @@ int yyerror(char *s){
 // Buffer overrun safe strcat
 char *strmcat(char *dest, char *append){
   char *new;
-
+  printf("a\n");
   // What length do we need?
   if((new = (char *) malloc(sizeof(char) * 
     (strlen(dest) + strlen(append) + 2))) == NULL){
     fprintf(stderr, "Could not malloc enough space\n");
     exit(42);
   }
-  
+  printf("b\n");
   sprintf(new, "%s%s", dest, append);
+  printf("c\n");
   return new;
 }
 
 // Buffer overrun safe strcpy
 char *strmcpy(char *data){
   char *new;
-
+  
   // What length do we need?
   if((new = (char *) malloc(sizeof(char) * (strlen(data) + 1))) == NULL){
     fprintf(stderr, "Could not malloc enough space\n");
     exit(42);
   }
-
+  
   strcpy(new, data);
-
   return new;
 }
 
