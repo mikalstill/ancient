@@ -27,4 +27,8 @@ string cepDtoa (double number);
 string cepFtoa (float number);
 bool cepIsBlank (char chr);
 
+int cepMax (int a, int b);
+int cepMin (int a, int b);
+int cepAbs (int a);
+
 #endif

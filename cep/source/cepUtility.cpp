@@ -21,7 +21,8 @@
 #include "cepCore.h"
 #include <stdio.h>
 
-string cepItoa (int number)
+string
+cepItoa (int number)
 {
   char buffer[10];
 
@@ -29,9 +30,10 @@ string cepItoa (int number)
   return string (buffer);
 }
 
-string cepLtoa (long number)
+string
+cepLtoa (long number)
 {
-  /*
+  /* 
    * BS - check the buffer size is sufficient to hold a long
    * is it possible for all digits be displayed? I think sci
    * notation might save us here
@@ -42,9 +44,10 @@ string cepLtoa (long number)
   return string (buffer);
 }
 
-string cepDtoa (double number)
+string
+cepDtoa (double number)
 {
-  /*
+  /* 
    * BS - check buffer again. I am pretty sure that doubles
    * are 15 digit mantissa + 4 digit ordinate
    * is it possible for all digits be displayed?
@@ -55,7 +58,8 @@ string cepDtoa (double number)
   return string (buffer);
 }
 
-string cepFtoa (float number)
+string
+cepFtoa (float number)
 {
   char buffer[10];
 
@@ -63,7 +67,8 @@ string cepFtoa (float number)
   return string (buffer);
 }
 
-bool cepIsBlank (char c)
+bool
+cepIsBlank (char c)
 {
   if (c == ' ')
     return true;
@@ -75,4 +80,28 @@ bool cepIsBlank (char c)
     return true;
 
   return false;
+}
+
+int
+cepMax (int a, int b)
+{
+  if (a > b)
+    return a;
+  return b;
+}
+
+int
+cepMin (int a, int b)
+{
+  if (a < b)
+    return a;
+  return b;
+}
+
+int
+cepAbs (int a)
+{
+  if (a < 0)
+    return -a;
+  return a;
 }
