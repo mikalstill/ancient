@@ -53,16 +53,16 @@ the use of OO methodology.
 </para>
 
  <figure><title>Deployment diagram for the <command>GDMS</command>.</title>
-      <execute><cmd>img</cmd><args>deployment.png</args></execute>
+      <execute><cmd>eqimg</cmd><args>deployment.png</args></execute>
   </figure>
 
 <para>
-  The next deployment digram is that of the error handling sub-system described above. In addition, each error is logged to file
+  The next digram is that of the error handling sub-system described above. In addition, each error is logged to file
   in order to facilitate debugging.
 </para>
 
- <figure><title>Deployment diagram for the Error Handling sub-system of the <command>GDMS</command>.</title>
-      <execute><cmd>img</cmd><args>error_handling.png</args></execute>
+ <figure><title>Class diagram for the Error Handling sub-system of the <command>GDMS</command>.</title>
+      <execute><cmd>eqimg</cmd><args>error_handling.png</args></execute>
   </figure>
 
 
