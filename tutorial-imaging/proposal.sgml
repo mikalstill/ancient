@@ -1,4 +1,4 @@
-<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1//EN">
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
 <article>
 <articleinfo>
   <author><firstname>Michael</firstname><surname>Still</surname></author>
@@ -10,7 +10,7 @@
 
 <sect1><title>Introduction</title>
 <para>
-...
+This document outlines my proposal to develop a book covering an introduction to image programming techniques and libraries for O'Reilly. I would be prepared to answer any questions this proposal might raise, either via email to mikal@stillhq.com, or alternatively by calling +6414 382 568.
 </para>
 </sect1>
 
@@ -34,6 +34,8 @@ AUDIENCE AND PURPOSE. At the first level, the book will satisfy those managers, 
 
 At the second level, the book will provide how-to help for engineers and managers--not those who write FDDI standards or design hot, new FDDI products, but rather those who have to cope with FDDI networks in their workaday environment. They need to be able to recognize the particular hardware components of an FDDI network and understand whether the knee connects to the skull or thighbone. They must comprehend the intricate rules governing the ways networks can be wired together (topologies), and the practical, simplifying ways to impose conceptual order upon these tangled topologies. And they need to know the basics of troubleshooting--as when someone plugs a system into the net incorrectly.
 The discussion of audience is informal and direct. We're not looking for detailed analysis of audience with supporting statistics--just a sense of just who it is you think you're writing for. Note also that the proposal doesn't just talk about the audience in the abstract, but about how the subject matter of the book will address their needs. Ideally, the purpose statement from the proposal could be used in the preface of the finished book, to help the reader figure out if the book is for him or her.
+</para>
+</sect1>
 
 <sect1><title>The Market for the Book</title>
 <para>
@@ -50,9 +52,64 @@ You should be aware that if there's a really good book on a topic from another p
 For example, you might point out that there are three books currently available on UNIX system administration, but that each has certain drawbacks that you hope to remedy in your own effort. Or you might point out that a particular book has been extremely successful, and that you plan to do a similar book for another subject.
 
 As noted in the previous chapter, we like best to do books on subjects that are poorly documented elsewhere. In that case, the statement of the competition (or lack thereof) is likely to be implicit in the description of the purpose and audience for the book.
+</para>
+</sect1>
+
+<sect1><title>Licensing issues</title>
+<para>
+Some of the basis for the TIFF chapter of the proposed book was developed at the expense of IBM for the IBM DeveloperWorks series of TIFF articles completed in the first half of 2002. The contract with IBM imposes no restrictive terms on the use of this content, other than that a note containing the text "First published by IBM DeveloperWorks" appear on any subsequent uses. The sample book already includes this statement at the end of the TIFF chapter.
+</para>
+
+<para>
+The sample work, which was produced for the Australian Unix User's Group annual winter conference, is licensed under the terms of the GNU Open Publication License, and the sample code is licensed under the terms of the GNU General Public License. It is possible that the license for the text of the book can be renegotiated if this is required by O'Reilly, although dual licensing would be preferable.
+</para>
+
+<para>
+Michael Still, the author of this proposal, currently owns all rights to the sample book submitted to O'Reilly.
+</para>
+</sect1>
 
 <sect1><title>The Outline</title>
 <para>
+I see the outline of the proposed book being along the lines of the following chapters (with indicative contents and length):
+
+<table frame='all'><title>Proposed book chapters</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<thead>
+<row>
+  <entry>Chapter name</entry>
+  <entry>Description of content</entry>
+  <entry>Current length</entry>
+  <entry>Approximate final length</entry>
+</row>
+</thead>
+<tbody>
+
+<row>
+  <entry>Introduction</entry>
+  <entry>Explaination of the motivation for the book, descriptions of the topics covered by the book, definition of assumed knowledge, license for the book content and sample code.</entry>
+  <entry>11</entry>
+  <entry>13</entry>
+</row>
+
+<row>
+  <entry></entry>
+  <entry></entry>
+  <entry></entry>
+  <entry></entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+
+
+introduction to basic terminology such as pixel, grayscale, and other similar terms. 
+
+
+
+
+
 Make your outline as detailed as possible. Until we can envision your book in exceedingly concrete terms, we cannot know whether to sign up for it. The outline should include:
 
     * A statement of purpose for each chapter.
@@ -91,6 +148,8 @@ Finally an explanation of:
 In this case, the author didn't even use full paragraphs, but a telegraphic style relying on sentence fragments. Nonetheless, one gets the feeling of a running commentary on the content and flow of the chapter.
 
 Be sure to provide us with an estimate of the size of the book. We aren't wedded to any number you provide, but it will help us to evaluate whether your treatment will be appropriately detailed, and whether your schedule is realistic. It will also help us to estimate the price of the book (and thus calculate the size of the advance we're willing to offer).
+</para>
+</sect1>
 
 <sect1><title>Schedule</title>
 <para>
@@ -105,47 +164,33 @@ Be sure to factor in the effects of such things as vacation time and competing d
 The schedule culminates in a completed first draft. If you've submitted chapters religiously to your editor, and incorporated his or her comments, your book should by now be substantially complete. Nonetheless, there is a wild card: it is at this point that we will submit your book for technical review by a collection of your peers (as well as by other editors on the ORA staff). If you've done a good job, technical review comments might be incorporated in only a few weeks. But it is equally likely that reviewers might point out major topics that have been left out, or errors in approach that might require more major rewriting.
 
 For purposes of establishing the delivery date in the contract (see Chapter 3), you should allow a month from the time you submit the completed first draft for technical review, and another month to six weeks to incorporate the review comments. The final date in your schedule is the turnover of your manuscript for production. Typically, we allow one month for final production (copyediting, setting page breaks, making sure that conventions are followed consistently, and producing camera-ready copy) and one month for printing.
+</para>
+</sect1>
 
-<sect1><title>Your Writing Sample</title>
+<sect1><title>Writing Sample</title>
 <para>
-If we have not worked with you before, we need to see a sample of your writing. Preferably, this will be a type of writing similar to the book you are proposing, although that certainly is not absolutely necessary. We can probably make the necessary judgments based on any extended piece of writing you provide us. This should be your writing (at least 99.44%)--not the partial work of an editor. If you have provided a "talking outline" as described above, that may prove an adequate writing sample, although it is better if you actually write a section of text from the book you are proposing. If we aren't satisfied with the writing sample you provide, we may ask you to do just that: write a chapter for the proposed book before we sign the contract.
-
-It is not that we are looking for Pulitzer prize-winning authors. Probably the single most important requirement is for you to have a thorough understanding of what you are writing about. But the writing sample will help us gauge the overall process more accurately: for example, our scheduling will be affected by the time we estimate is required for editorial support.
+A large portion of this book (approximately 30 percent) has already been developed for use with the Australian Unix Users Group annual winter conference. I have attached this document to my proposal as a writing sample. It should be noted that this document is by no means comprehensive, and need further development before it is ready to go to a printing stage.
+</para>
+</sect1>
 
 <sect1><title>The format of the manuscript</title>
 <para>
-In order to produce a book as rapidly, accurately, and inexpensively as possible, we need electronic source files that either have paragraph and inline style tags or that we can easily convert to file formats with paragraph and style tags. (If an author formats the source in a word processor by inserting a tab for a new paragraph and printing different levels of headers in gradations of point sizes and in special fonts, etc., so that text *prints* appropriately, that is of no use to us when it comes to book production. We need electronically coded paragraph and inline style tags, not font and point and space specifications.)
+The current draft of the book has been developed using the DocBook SGML DTD (version 4.1). It is my intention that this use of DocBook would continue through the lifecycle of the book. It should be noted that portions of the DocBook representation of the book is generated by a series of scripts written by myself. These scripts are publically available from my website at http://www.stillhq.com.
+</para>
+</sect1>
 
-Concretely, this means that any of the following formats for source files will optimize the production process for a given O'Reilly book:
-
-    * troff--if tagged with the -mS macro package that we have developed in house over the past decade and that we can provide freely to authors over the net for use with UNIX and Linux (and soon for Windows NT and Windows95).
-
-    * sgml--if tagged according to the DocBook DTD, a public domain specification for the structure of a document for which we can provide free printing and previewing tools for UNIX and Linux (and soon for Windows NT and perhaps even Windows95).
-
-    * Microsoft Word for PC or Macintosh--if tagged according to the paragraph and character style template in RTF (=Microsoft's interchange format) that is available as ftp://ftp.ora.com/pub/frame/templates/mswd/temp98.doc
-
-    * FrameMaker--again, if tagged according to the paragraph and character style tags in the template available for anonymous ftp as, for example for Nutshell books, the template is: ftp://ftp.ora.com/pub/frame/templates/best/best.chap.mif
-
-    * clean LaTeX, where "clean" means without elaborate local macros. If you have an author who wishes to use this option, it is especially important for us to have a sample file and to interact with the author as early as possible in the production process.
-
-<sect1><title>Who Are You?</title>
+<sect1><title>Who Am I?</title>
 <para>
-Obviously, a brief description of your qualifications can help us to evaluate your ability to deliver the manuscript you're proposing. But we're looking for more than a resumé.
+I have been an application developer for about four years now. Prior to that I administered networks of Unix and Windows machines in a variety of academic and government environments. For the majority of that time I have been working on developing image processing systems, some of which have had hundres of users. I am also the author of a variety of open source applications and libraries, including a PDF generation API. I have also supplied patches to a variety of other open source applications. I am also the maintainer of the comp.text.pdf USENET FAQ.
+</para>
 
-You see, we publish books with personality. Too many technical books read like a speech given in a monotone, with the speaker never looking up from the lectern. Personality in a book isn't funny stories (though they can be appropriate at times), or interjection of personal opinion (though that too can be appropriate): it is simply a matter of making "eye contact" with the reader.
+<para>
+My goal with this proposed book is to ease the pain that comes with a first foray into image programming. This is the book that I wished that I had owned when I first started in the field. The book documents some of the "gotchas" I have experienced in my years undertaking this type of development, as well as a solid introduction to the various formats available, so that developers can make informed decisions.
+</para>
 
-Keep in mind that although an "audience" is a class of readers, your book is only read by one person at a time, and so your book is truly a one-on-one between you and that reader.
-
-Despite what most of us learned in school, writing is above all communication--that is, the transfer of information between two parties. Just as we want to see that you've clearly identified your audience, we want to understand how not only your background but who you are will lend itself to the job.
-
-Here's an example of an effective personal statement:
-I've been a system administrator for eight years, managing systems ranging in size from Xenix-based PCs to mini-supercomputers. The largest site I managed had almost 200 systems. I've come to have a keen appreciation for the ten percent of the system that causes 90% of the problems. I believe that I can write a book that will save budding administrators the most painful two (the first two!) of those eight years.
-
-Among other things, I've come to realize that many system problems are really people problems, so I focus on ways to educate users and to create procedures that keep the problems from happening in the first place.
-Obviously, a statement like this might occur in a cover letter, or at the start of a proposal rather than in a little "biographical section" at the end. We don't look for a particular proposal format: we just want you to convince us that the book is worth doing, that you've thought it through, and that you're the person to do it. Exactly how you do that convincing is up to you.
-
-
-
-
+<para>
+I have previous experience writing to a professional standard. This includes a variety of conference presentations, and a recent series of two articles published by IBM DeveloperWorks (http://www-109.ibm.com/cgi-bin/click.pl?url=http://www-106.ibm.com/developerworks/library/l-libtiff/&amp;qry=tiff, and http://www-109.ibm.com/cgi-bin/click.pl?url=http://www-106.ibm.com/developerworks/library/l-libtiff2/&amp;qry=tiff).
+</para>
+</sect1>
 </article>
 

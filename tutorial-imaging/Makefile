@@ -19,3 +19,6 @@ slides: slides.sgml
 #	cp *.jpg content/
 #	cp -R content /home/httpd/html/notes/presentations/
 #	cp slides-list /home/httpd/html/notes/presentations/slides-list
+
+proposal: proposal.sgml
+	db2ps proposal.sgml 2> errs
