@@ -8,7 +8,7 @@
     A large number of interpolation methods exists, all having their advantages and disadvantages for
     different applications. As a result, the <command>GDMS</command> offers six different interpolation methods:-
   </para>
-  
+
   <orderedlist>
   <listitem><para>Nearest Neighbour</para></listitem>
   <listitem><para>Linear</para></listitem>
@@ -22,7 +22,7 @@
 <sect2><title>Theory</title>
   <para>
   Theoretically, each of the datasets that we analyse are sampled once a day at
-  exactly 12:00. This is, however, not always possible for reasons such as 
+  exactly 12:00. This is, however, not always possible for reasons such as
   such as equipment failure, extreme weather and in some case local politics.
   The Fourier transform algorithms available to us require that the dataset be regular.
   This means that if a dataset is missing a point or has an irregular sample rate then
@@ -203,7 +203,7 @@
     in peaks or troughs in the dataset.
   </para>
   </sect3>
-  
+
   <sect3><title>Newton Divided Difference Interpolation</title>
   <para>
     Mathematicians have long know that a nth order difference table can be used to accurately
@@ -251,7 +251,13 @@
 </sect2> <!--Theory-->
 
 <sect2><title>Conclusion</title>
-  <para></para>
+  <para>
+    Interpolation methods provide a useful toolkit that can be used to remove defects
+    within the dataset.  Interpolation methods can be used to fill holes in the time 
+    series allowing fourier transforms to be applied to a larger section of the data.
+    Due to an unforseen amount of high frequency noise however some more noise resistant
+    interpolation methods need to be added before the the results are optimal.
+  </para>
 </sect2> <!--Conclusion-->
 
 
