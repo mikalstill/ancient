@@ -68,7 +68,7 @@
 #include <wx/colordlg.h>
 
 IMPLEMENT_DYNAMIC_CLASS (cepView, wxView)
-BEGIN_EVENT_TABLE (cepView, wxView) 
+BEGIN_EVENT_TABLE (cepView, wxView)
   EVT_MENU (CEPMENU_ERRORS, cepView::OnToggleErrors)
   EVT_MENU (CEPMENU_COLORAXES, cepView::OnColorAxes)
   EVT_MENU (CEPMENU_COLORLINE, cepView::OnColorLine)
@@ -76,7 +76,7 @@ BEGIN_EVENT_TABLE (cepView, wxView)
   EVT_MENU (CEPMENU_SHOWX, cepView::OnToggleX)
   EVT_MENU (CEPMENU_SHOWY, cepView::OnToggleY)
   EVT_MENU (CEPMENU_SHOWZ, cepView::OnToggleZ)
-  EVT_MENU (CEPMENU_LS_VCV, cepView::OnLeastSquaresVCV)
+//  EVT_MENU (CEPMENU_LS_VCV, cepView::OnLeastSquaresVCV)
   EVT_MENU (CEPMENU_LS_RW, cepView::OnLeastSquaresRW)
   EVT_MENU (CEPMENU_WINDOW_BLACKMAN, cepView::OnWindowBlackman)
   EVT_MENU (CEPMENU_WINDOW_CHEBYSHEV, cepView::OnWindowChebyshev)
@@ -88,7 +88,7 @@ BEGIN_EVENT_TABLE (cepView, wxView)
   EVT_MENU (CEPMENU_INTERP_CUBICSPLINE, cepView::OnInterpCubicSpline)
   EVT_MENU (CEPMENU_INTERP_DIVIDED, cepView::OnInterpDivided)
 END_EVENT_TABLE ()
-  
+
 cepView::cepView ():
   m_plotfailed(false)
 {
@@ -254,7 +254,7 @@ void cepView::drawPresentation(cepDataset *theDataset, cepDataset::direction dir
     
     m_pngCache[(int) dir] = string(cfname);
   }
-  
+
   try
     {
       wxImage theImage (m_pngCache[(int) dir].c_str(), wxBITMAP_TYPE_PNG);
@@ -344,7 +344,7 @@ void cepView::OnToggleZ (wxCommandEvent &pevt)
 }
 
 // Perform a least squares regression on the dataset (in all directions)
-void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
+/*void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
 {
   cepLsUi lsUi;
   cepLs lsX, lsY, lsZ;
@@ -365,7 +365,7 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
       {
         lsX.cepDoVCV(*m_x);
         residuals = lsX.getResidual();
-        
+
         cout << "equation of the line is " << endl;
         cout << "y=" << lsX.getB1() << "x+" << lsX.getB2() << endl;
         cout << "residuals are: " << endl;
@@ -373,7 +373,7 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
           cout << residuals.getValue(i,0) << " ";
         }
         cout << endl;
-        
+
       }
       else
       {
@@ -404,7 +404,7 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
               cout << residuals.getValue(i,0) << " ";
             }
             cout << endl;
-          }   
+          }
         }
         else
         {
@@ -532,12 +532,12 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
   }
   canvas->Refresh();
 }
-
+*/
 void cepView::LeastSquaresVCV(cepMatrix<double> *mat, string direction)
 {
   // Do we have any data?
   if(mat == NULL){
-    cepError err("Cannot perform least squares regression on the " + 
+    cepError err("Cannot perform least squares regression on the " +
 		 direction + "matrix, because it is empty",
 		 cepError::sevErrorRecoverable);
     err.display();
