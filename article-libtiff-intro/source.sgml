@@ -17,7 +17,7 @@ TIFF is an extremely common, but quite complex raster image format. Libtiff is a
 </para>
 
 <para>
-TIFF (Tagged Image File Format) is a raster image format which was originally produced by <a href="http://www.adobe.com">Adobe</a>. Raster image formats are those which store the picture as a bitmap describing the state of pixels, as opposed to recording the length and locations of primatives such as lines and curves. Libtiff is one of the standard implementations of the TIFF specification, and is in wide use today because of its speed, power and easy source availability.
+TIFF (Tagged Image File Format) is a raster image format which was originally produced by Adobe. Raster image formats are those which store the picture as a bitmap describing the state of pixels, as opposed to recording the length and locations of primatives such as lines and curves. Libtiff is one of the standard implementations of the TIFF specification, and is in wide use today because of its speed, power and easy source availability.
 </para>
 
 <para>
@@ -342,13 +342,13 @@ In this article I have shown you how to write and read some simple black and whi
 <title>Resource list</title>
 <para>
 <orderedlist>
-<listitem><para>The <a href="http://www.libtiff.org">libtiff</a> website is a good place to download the libtiff source. It is also quite likely there is a binary package for your choosen operating system.</para></listitem>
+<listitem><para>The libtiff website (http://www.libtiff.org) is a good place to download the libtiff source. It is also quite likely there is a binary package for your choosen operating system.</para></listitem>
 
-<listitem><para>If all else fails, then the <a href="http://partners.adobe.com/asn/developer/pdfs/tn/TIFF6.pdf">Adobe TIFF specification</a> can be useful.</para></listitem>
+<listitem><para>If all else fails, then the Adobe TIFF Specification (http://partners.adobe.com/asn/developer/pdfs/tn/TIFF6.pdf) can be useful.</para></listitem>
 
-<listitem><para>The <a href="http://gopher.std.com/homepages/jimf/xloadimage.html">xloadimage</a> web page might be of interest.</para></listitem>
+<listitem><para>The xloadimage web page (http://gopher.std.com/homepages/jimf/xloadimage.html) might be of interest.</para></listitem>
 
-<listitem><para>The Cooper Union for the Advancement of Science and Art has some <a href="http://www.ee.cooper.edu/courses/course_pages/past_courses/EE458/TIFF/">notes</a> from a previous course dealing with libtiff online.</para></listitem>
+<listitem><para>The Cooper Union for the Advancement of Science and Art has some notes (http://www.ee.cooper.edu/courses/course_pages/past_courses/EE458/TIFF/) from a previous course dealing with libtiff online.</para></listitem>
 </orderedlist>
 </para>
 </sect1>
