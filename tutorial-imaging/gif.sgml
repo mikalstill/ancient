@@ -170,6 +170,7 @@ We have now mentioned the global color table, but haven't defined what it actual
 <sect3><title>Formula for global color table size</title>
 <para>
 The determine the size of the of the global color table, simply apply this formula: <emphasis>size of global color table = 2 ^ (size in table + 1)</emphasis>. The maximum size of the global color table is therefore <emphasis>2 ^ (7 + 1)</empasis>, or 255 items.
+</para>
 
 <para>
 There will actually be three times that number of color bytes in the global color table, because each color is 24 bit per pixel.
@@ -238,7 +239,7 @@ The format of the global color table is very simple, it is simply the red, green
 
 <sect2><title>Data</title>
 <para>
-The actual data stored in the GIF data stream is stored in the next two sections, a graphics block and a special purpose block. There is one of these data sections for each of these images. GIF data streams are valid, even if there are no images stored within the data stream.
+Next comes the images that are stored in the GIF data stream. GIF data streams are valid, even if there are no images stored within the data stream.
 </para>
 
 <sect3><title>Image descriptors</title>
@@ -434,8 +435,10 @@ The last block in the chain of image data subblocks will be a terminating subblo
 
 <sect2><title>Special purpose blocks</title>
 <para>
-
+The other thing which can be stored in the data area of the data stream of a GIF file is special purpose blocks. These are outside the scope of this tutorial, and wont be discussed here.
 </para>
+
+<execute><cmd>nextedition</cmd><input>Discuss them</input><execute>
 </sect2>
 
 <sect2><title>Trailer</title>
@@ -444,25 +447,15 @@ This portion of the GIF image format specifies the end of the data stream. It is
 </para>
 </sect2>
 
-
- <GIF Data Stream>  ::=  Header <Logical Screen> <Data>* Trailer  <Logical Screen>  ::=  Logical Screen Descriptor [Global Color Table]  
-
-
-
-
-<Data>  ::=  <Graphic Block> | <Special-Purpose Block>  <Graphic Block>  ::=  [Graphic Control Extension] <Graphic-Rendering Block>  <Graphic-Rendering Block>  ::=  <Table-Based Image> | PlainText Extension  <Table-Based Image>  ::=  Image Descriptor [Local Color Table] Image Data  <Special-Purpose Block>  ::=  Application Extension | Comment Extension
-
-
-
 <execute><cmd>nextedition</cmd><input>It would be cool to present grammars for all the image formats to help people understand them</input></execute>
 
 <sect2><title>Interlaced images</title>
 <para>
-
+GIF supports the interlacing of images, which is where are the image is loaded, progressively better representations of the image are displayed. Discussing the inner workings of this within the file format is out of the scope of this tutorial however.
 </para>
+
+<execute><cmd>nextedition</cmd><input>Discuss</input></execute>
 </sect2>
-
-
 </sect1>
 
 
