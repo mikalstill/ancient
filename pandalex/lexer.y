@@ -270,7 +270,16 @@ int main(int argc, char *argv[]){
 			 pandalex_sample_stream);
   pandalex_setupcallback(gpandalex_callback_dictint,
 			 pandalex_sample_dictint);
+  
+  // Initialise the dictint_list structure;
+  if((dictint_list = malloc(sizeof(pandalex_sample_dictint_list))) == NULL){
+    fprintf(stderr, "Could not initialise the dictint list\n");
+    exit(42);
+  }
 
+  dictint_list->next = NULL;
+
+  // Start parsing
   pandalex_parse();
 
   return 0;
