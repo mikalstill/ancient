@@ -1,0 +1,5 @@
+A simple application to demonstrate what values are considered "true" in a C if statement
+
+To compile, try:
+
+  gcc true.c -o true
