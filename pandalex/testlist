@@ -1,12 +1,20 @@
 #!/bin/bash
 
+rm doclist.fails doclist.pass 2> /dev/null
+
 for item in `cat doclist`
 do
+  echo -n "$item "
+
   ./lexer < $item > /dev/null 2> /tmp/$$
   if [ `cat /tmp/$$ | wc -l | tr -d " "` -gt 0 ]
   then
-    echo $item fails
+    echo fails
+    echo $item >> doclist.fails
+  else
+    echo passes
+    echo $item >> doclist.pass
   fi
 
-  rm /tmp/$$
+  rm /tmp/$$ 2> /dev/null
 done

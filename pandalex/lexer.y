@@ -9,6 +9,15 @@
 
   // The callbacks
   pandalex_callback_type pandalex_callbacks[gpandalex_callback_max];
+
+  // This information is needed for the stream callback
+  // streamLength is the length of the stream unless it is stored
+  // in a referred object, at which time streamLength = -2, and
+  // streamLengthObjRef stores the details of the object reference
+  // streamLength = -1 means undefined
+  int    streamLength;
+  char   *streamLengthObjRef;
+  char   *streamFilter;
 %}
 
           /* Define the possible yylval values */
@@ -28,6 +37,7 @@
 
 %type <textVal> binary
 %type <textVal> header
+%type <textVal> objref
 
 %%
 
@@ -36,14 +46,12 @@
 	    so we only need to append the value of $2, $3, $4 et al
           *********************************************************/
 pdf       : header { 
-                    pandalex_callback(gpandalex_callback_entireheader, 
-				      gpandalex_callback_type_string, $1); } 
+                    pandalex_callback(gpandalex_callback_entireheader, $1); } 
             object linear objects xref trailer
           ;
 
 header    : VERSION { 
-	            pandalex_callback(gpandalex_callback_specver, 
-				      gpandalex_callback_type_string, $1); }
+	            pandalex_callback(gpandalex_callback_specver, $1); }
             binary { 
                     $$ = $3; }
           ;
@@ -57,47 +65,57 @@ objects   : object objects
           ;
 
 object    : INT INT OBJ { 
-                    pandalex_callback(gpandalex_callback_objstart, 
-				      gpandalex_callback_type_object, 
-				      $1, $2); 
+                    pandalex_callback(gpandalex_callback_objstart, $1, $2); 
 #if defined DEBUG
-  fprintf(stderr, "object %d %d\n", $1, $2);
+  fprintf(stdout, "object %d %d\n", $1, $2);
 #endif
                           } 
             dictionary stream ENDOBJ {}
           ;
 
 dictionary: DBLLT dict DBLGT {}
-          | INT {}
+          | INT { pandalex_callback(gpandalex_callback_dictint, $2); }
           | ARRAY dict ENDARRAY {}
           |
           ;
 
 dict      : NAME STRING dict { 
-                    pandalex_callback(gpandalex_callback_dictitem_string, 
-				      gpandalex_callback_type_string, 
-				      $1, $2); }
+                    pandalex_callback(gpandalex_callback_dictitem_string, $1, $2); }
           | NAME NAME dict { 
-                    pandalex_callback(gpandalex_callback_dictitem_name, 
-				      gpandalex_callback_type_string, 
-				      $1, $2); }
+                    pandalex_callback(gpandalex_callback_dictitem_name, $1, $2); 
+
+		    // If this is for a stream, then we save the
+		    // filter name for convenience reasons
+		    if(strcmp($1, "Filter") == 0)
+		      streamFilter = strmcpy($2);
+                                               }
           | NAME ARRAY arrayvals ENDARRAY dict { 
 	    // This one needs work...
-                    pandalex_callback(gpandalex_callback_dictitem_array, 
-				      gpandalex_callback_type_string, 
-				      $1, $2); }
-          | NAME objref dict { }
+                    pandalex_callback(gpandalex_callback_dictitem_array, $1, $2); }
+          | NAME objref dict { 
 	    // pandalex_callback(gpandalex_callback_dictitem_object, 
 	    //		      gpandalex_callback_type_string, 
-	    //	      $1, $2); }
+	    //	      $1, $2); 
+
+                    // If this is for a stream, then we need to save
+		    // this info for convenience reasons
+	            if(strcmp($1, "Length") == 0){
+		      streamLength = -2;
+		      streamLengthObjRef = strmcpy($2);
+		    }
+	                                       }
+
           | NAME DBLLT dict DBLGT dict { 
-                    pandalex_callback(gpandalex_callback_dictitem_dict, 
-				      gpandalex_callback_type_string, 
-				      $1, $2); }
+                    pandalex_callback(gpandalex_callback_dictitem_dict, $1, $2); }
           | NAME INT dict { 
-                    pandalex_callback(gpandalex_callback_dictitem_int, 
-				      gpandalex_callback_type_string, 
-				      $1, $2); }
+                    pandalex_callback(gpandalex_callback_dictitem_int, $1, $2); 
+
+                    // If this is for a stream, then we need to save
+		    // this info for convenience reasons
+	            if(strcmp($1, "Length") == 0){
+		      streamLength = $2;
+                    }
+                                               }
           |
           ;
 
@@ -106,18 +124,16 @@ arrayvals : objref arrayvals {}
           |
           ;
 
-objref    : INT INT OBJREF {}
+objref    : INT INT OBJREF { if(($$ = (char *) malloc((intlen($1) + intlen($2) + 5) * sizeof(char))) == NULL){
+			       fprintf(stderr, "Could not allocate enough space for objref\n");
+			       exit(42);
+                               }
+			     
+			     sprintf($$, "%d %d R", $1, $2);
+			                       }
           ;
 
-stream    : { binaryMode = 1; } binary ENDSTREAM {}
-          ;
-
-arrayvals : objref arrayvals {}
-          | INT arrayvals {}
-          |
-          ;
-
-stream    : STREAM { binaryMode = 1; } binary ENDSTREAM 
+stream    : STREAM { binaryMode = 1; } binary ENDSTREAM { printf("Stream: filter = %s, length = %d / %s\n", streamFilter, streamLength, streamLengthObjRef); }
           |
           ;
 
@@ -144,6 +160,11 @@ void pandalex_init(){
   for(i = 0; i < gpandalex_callback_max; ++i){
     pandalex_callbacks[i] = NULL;
   }
+
+  // Initialise our few globals
+  streamFilter = NULL;
+  streamLengthObjRef = NULL;
+  streamLength = -1;
 }
 
 void pandalex_setupcallback(int callback, pandalex_callback_type functoid){
@@ -152,15 +173,15 @@ void pandalex_setupcallback(int callback, pandalex_callback_type functoid){
 
 // Here we call the callbacks. This includes converting to the types that the
 // callback function expects.
-void pandalex_callback(int event, int type, ...){
+void pandalex_callback(int event, ...){
   va_list argptr;
 
   // Start accessing the arguements from the end
-  va_start(argptr, type);
+  va_start(argptr, event);
   
   // If no event handler is setup, then we ignore the event
   if(pandalex_callbacks[event] != NULL){
-    pandalex_callbacks[event] (event, type, argptr);
+    pandalex_callbacks[event] (event, argptr);
   }
   
   // Stop with the arguements
@@ -199,7 +220,7 @@ char *strmcat(char *dest, char *append){
 }
 
 // Buffer overrun safe strcpy
-char *strmcpy(char *dest, char *data){
+char *strmcpy(char *data){
   char *new;
 
   // What length do we need?
@@ -213,7 +234,16 @@ char *strmcpy(char *dest, char *data){
   return new;
 }
 
+int intlen(int number){
+  int length = 0;
 
+  while(number > 0){
+    length ++;
+    number /= 10;
+  }
+
+  return number;
+}
 
 
 // Some demo code for how to use PandaLex
