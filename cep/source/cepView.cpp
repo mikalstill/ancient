@@ -666,9 +666,7 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
       // Actual data
       {
 	cepDebugPrint("Creating LS data dataset");
-	cepDataset newds(theDataset->getMatrix((cepDataset::direction) 0),
-			 theDataset->getMatrix((cepDataset::direction) 1),
-			 theDataset->getMatrix((cepDataset::direction) 2),
+	cepDataset newds(&data[0], &data[1], &data[2],
 			 theDataset->getOffset((cepDataset::direction) 0), 
 			 theDataset->getOffset((cepDataset::direction) 1), 
 			 theDataset->getOffset((cepDataset::direction) 2),
