@@ -15,9 +15,18 @@ char *inflateraster(char *input, unsigned long width, unsigned long height,
   int bytedepth, targetbytedepth;
   unsigned int inset, outset;
 
+  debug(dlTrace, string("Inflating raster: ") + toString((long) width) + 
+	string(" x ") + toString((long) height) + string(" bitdepth from ") +
+	toString(bitdepth) + string(" to ") + toString(targetbitdepth) +
+	string(" channels from ") + toString(channels) + string(" to ") +
+	toString(targetchannels));
+
   // Why are we here?
-  if((channels == targetchannels) && (bitdepth == targetbitdepth))
+  if((channels == targetchannels) && (bitdepth == targetbitdepth)){
+    debug(dlTrace, "Inflate raster resulted in NOOP");
+    // todo_mikal: this might cause a seg fault because of the double free
     return input;
+  }
 
   // Calculate the byte depth
   bytedepth = bitdepth / 8;
@@ -30,7 +39,8 @@ char *inflateraster(char *input, unsigned long width, unsigned long height,
     targetbytedepth++;
 
   // Build the output raster
-  if((output = (char *) malloc(width * height * targetchannels * targetbytedepth)) == NULL){
+  if((output = (char *) malloc(width * height * targetchannels * targetbytedepth)) 
+     == NULL){
     debug(dlError, "Failed to allocate enough memory for output raster");
     return (char *) -1;
   }
@@ -41,6 +51,7 @@ char *inflateraster(char *input, unsigned long width, unsigned long height,
     scalefactor = (float) pow(2.0, (double) targetbitdepth)  / 
       (float) pow(2.0, (double) bitdepth);
     debug(dlTrace, string("Scaling factor is ") + toString(scalefactor));
+    debug(dlTrace, string("Byte depth is ") + toString(bytedepth));
     
     // Work through the input pixels, and turn them into output pixels
     outset = 0;
@@ -53,7 +64,7 @@ char *inflateraster(char *input, unsigned long width, unsigned long height,
   
   // Are we the number of channels?
   // todo_mikal: we can't do both of these changes in one pass at the moment...
-  if(channels != targetchannels){
+  else if(channels != targetchannels){
     debug(dlTrace, string("Expanding from ") + toString(channels) + 
 	  string(" channels to ") + toString(targetchannels) + string(" channels"));
     debug(dlTrace, string("Target byte depth is: ") + toString(targetbytedepth));

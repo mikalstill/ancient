@@ -226,7 +226,6 @@ fax::decompress (char *input, unsigned long length, unsigned long &newlength)
   }
   debug(dlTrace, string("New length of stream is ") + toString((long) newlength));
 
-
   ///////////////////////////////////////
   // Temporarily write it out to a file as well so that I can visually inspect it...
   // Open the TIFF file
