@@ -2,7 +2,7 @@
 ### For information about this marvellous program,
 ### please go to http://www.gnu.org/software/unrtf/unrtf.html
 ### document uses ANSI character set
-### font table contains 2 fonts total
+### font table contains 3 fonts total
 
 -----------------
 Resume
@@ -11,7 +11,7 @@ Michael Still
 I am a resident of Canberra, Australia. I also hold Australian citizenship.
 I may be contacted at:
  email mikal@stillhq.com
- phone +61414 382 568
+ phone +61 419 286 329
  postal 33 Fred lane Cres, Gordon, ACT, 2906, Australia
 2. Academic qualifications
 I possess a Higher School Certificate (year 12) from Canberra Grammar School, in which I was rated in the top 10% of the state for almost all of my subjects, and was in the top 10% of the state overall.
@@ -21,25 +21,31 @@ I currently hold the LPI LPIC-1 certification.
 4. Industrial qualifications
 I have been trained in the following fields (this does not include on the job training and experience): 
 ?        
-Solaris system administration
+Microsoft SharePoint ISV integration
 ?        
-Windows NT system administration
+Microsoft Smart Client implementation
 ?        
-Oracle database administration
+Microsoft .NET development (essentials and industrial strength)
 ?        
-Prince II project management methodology
+Windows Server 2003 certification for ISV software products
 ?        
-FileNET EDMS and Workflow products
-?        
-C++ development
+Linux systems administration
 ?        
 TRIM Records Management, EDMS and Workflow products
 ?        
-Server 2003 certification for ISV software products
+C++ development
 ?        
-Microsoft .NET development (essentials and industrial strength)
+FileNET EDMS and Workflow products
+?        
+Prince II project management methodology
+?        
+Oracle database administration
+?        
+Windows NT system administration
+?        
+Solaris system administration
 5. Personal projects
-I have worked on the following personal projects, many of them licensed under and Open Source license of some form:
+I have worked on the following personal projects, many of them licensed under an Open Source license of some form:
 ?        
 several DocBook packages, including a build engine, a formatted comment extraction system, a groff to DocBook converter, and partial responsibility for the kernel-doc infrastructure used for the Linux? kernel
 ?        
@@ -49,7 +55,7 @@ a FAT file system decoder
 ?        
 a proof of concept API implementation for the GNU privacy guard PGP implementation
 ?        
-a simple rasterization library
+a raster graphics library
 ?        
 various Linux? kernel patches
 ?        
@@ -61,22 +67,22 @@ a DNS server written in Bourne again shell (bash)
 ?        
 a SnoopyPro, USB protocol analyzer log dumper
 ?        
-...And many other smaller projects (see http://www.stillhq.com/extracted/ for a full list)
+...and many other smaller projects (see http://www.stillhq.com/extracted/ for a full list)
 It should be noted however, that I also have experience in developing commercial applications as well.
 6. Internet community
-I have previously been the author of the comp.text.pdf USENET frequently asked questions document.
+I have previously been the author of the comp.text.pdf USENET frequently asked questions document, and have an active blog at http://www.stillhq.com
 7. Professional bodies
 I have held the following positions within a variety of professional bodies:
 ?        
-1997 - 1998: Chairman, Young Engineers Canberra, Institute of Engineers Australia
-?        
-2002 - 2003: Secretary, Canberra Chapter, the Australian Unix Users Group
+2004 - 2005 onwards: Ordinary committee member, Linux Australia
 ?        
 2003 onwards: Ordinary committee member, the Australian Unix Users Group
 ?        
-2004 onwards: Ordinary committee member, Linux Australia
+2002 - 2003: Secretary, Canberra Chapter, the Australian Unix Users Group
+?        
+1997 - 1998: Chairman, Young Engineers Canberra, Institute of Engineers Australia
 8. Current employment
-I am currently employed as a senior software engineer with TOWER Software Pty Ltd. This work involves management of complex exploratory development efforts, as well as project and product management and system development for our commercial software products.
+I am currently employed as a senior software engineer with TOWER Software Pty Ltd (http://www.towersoft.com.au), a leading ISV in Australia. This work involves management of complex exploratory development efforts, as well as project and product management and system development for our commercial software products.
 The majority of my time is spent solving complex technical problems. These might be problems I have encountered myself while implementing a system, but also includes problems delegated from other members of the team. These problems have ranged from errors in complex pieces of code dealing with images at a bit level, network programming, system design and implementation, or solving problems related to Microsoft Windows development. I am also responsible for large amounts of development in areas which were previously poorly understood by TOWER.
 8.1. Examples of recent development experience
 The following examples of systems I have recently developed might be of some assistance.
@@ -104,8 +110,8 @@ I have also been involved with many other coding and systems administration proj
 9. Expertise
 Below is a list of the expertise I have previously developed. I am confident in developing other areas of expertise as required.
 Development environments: GCC, GDB, Microsoft Visual Studio 6, Microsoft Visual Studio .NET (2002, 2003 and Whidbey), Borland C++ Builder, Borland JBuilder.
-Development tools:CVS, Visual Source Safe, dmalloc, ccache.
-Hardware: PC, Sun Microsystems and IBM RS/6000 series machines. I have also configured a variety of X Terminals, and Winterms, including devices from NCD, Labtam, and Wyse. My most recent work has focused on x86 based platforms.
+Development tools:CVS, Visual Source Safe, dmalloc, distcc, ccache.
+Hardware: Intel x86, Sun Microsystems and IBM RS/6000 series machines. I have also developed applications for mobile devices such as Pocket PCsM, and Smart Phones. I have configured a variety of X Terminals, and Winterms, including devices from NCD, Labtam, and Wyse. My most recent work has focused on x86 based platforms.
 GUI toolkits: Java, Java Swing, Windows MFC, wxWindows, WinForms.
 Languages: C, C++, C# (C Sharp), Java, UNIX shell (Bourne and Bourne Again mainly), Perl, Bison / Yacc, Lex / Flex, Expect, M68000 assembly, limited x86 assembly, ASP, ASP.NET, Visual Basic, and Visual Basic.NET. I have tutored in software development methodologies, and software development at a University level.
 Markup formats: HTML, SGML (including DocBook), XML.
@@ -194,7 +200,7 @@ I have held the following academic positions, in addition to my full time career
 13.1. Senior Software Engineer, TOWER Software Engineering Pty Ltd
 August 2001 onward.
 ?        
-Member of the team responsible for the server side coding for the world's leading Electronic Document Management and Records Management package, TRIM
+Member of the team responsible for the server side coding for a world leading Electronic Document Management and Records Management package, TRIM. TRIM is currently deployed at over 1,000 sites world wide, with more than 750,000 licensed users
 ?        
 Implemented a wide range of technologies, including document content indexing, ODMA compliance et cetera
 13.2. Team Leader, IPAustralia
@@ -258,5 +264,5 @@ August 1995 to July 1998.
 ?        
 Explain varied exhibits to customers of widely varied educational, national and ethnic backgrounds
 14. Referees
-Douglas Jackson, of 33 Fred Lane Cres, Gordon ACT 2906 Australia has agreed to act as a referee. He may be contacted at doug.jackson@citadel.com.au.
+Douglas Jackson, of 35 Fred Lane Cres, Gordon ACT 2906 Australia has agreed to act as a referee. He may be contacted at doug.jackson@citadel.com.au.
 Further referees are available upon request.

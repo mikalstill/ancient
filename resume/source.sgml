@@ -22,7 +22,7 @@ I may be contacted at:
 
 <programlisting>
 	email		mikal@stillhq.com
-	phone		+61414 382 568
+	phone		+61 419 286 329
 	postal		33 Fred lane Cres, Gordon, ACT, 2906, Australia
 </programlisting>
 </sect1>
@@ -48,22 +48,25 @@ I currently hold the LPI LPIC-1 certification.
 I have been trained in the following fields (this does not include on the job training and experience):
 
 <itemizedlist>
-<listitem><para>Solaris system administration</para></listitem>
-<listitem><para>Windows NT system administration</para></listitem>
-<listitem><para>Oracle database administration</para></listitem>
-<listitem><para>Prince II project management methodology</para></listitem>
-<listitem><para>FileNET EDMS and Workflow products</para></listitem>
-<listitem><para>C++ development</para></listitem>
-<listitem><para>TRIM Records Management, EDMS and Workflow products</para></listitem>
-<listitem><para>Server 2003 certification for ISV software products</para></listitem>
+<listitem><para>Microsoft SharePoint ISV integration</para></listitem>
+<listitem><para>Microsoft Smart Client implementation</para></listitem>
 <listitem><para>Microsoft .NET development (essentials and industrial strength)</para></listitem>
+<listitem><para>Windows Server 2003 certification for ISV software products</para></listitem>
+<listitem><para>Linux systems administration</para></listitem>
+<listitem><para>TRIM Records Management, EDMS and Workflow products</para></listitem>
+<listitem><para>C++ development</para></listitem>
+<listitem><para>FileNET EDMS and Workflow products</para></listitem>
+<listitem><para>Prince II project management methodology</para></listitem>
+<listitem><para>Oracle database administration</para></listitem>
+<listitem><para>Windows NT system administration</para></listitem>
+<listitem><para>Solaris system administration</para></listitem>
 </itemizedlist>
 </para>
 </sect1>
 
 <sect1><title>Personal projects</title>
 <para>
-I have worked on the following personal projects, many of them licensed under and Open Source license of some form:
+I have worked on the following personal projects, many of them licensed under an Open Source license of some form:
 </para>
 
 <itemizedlist>
@@ -71,13 +74,13 @@ I have worked on the following personal projects, many of them licensed under an
 <listitem><para>a techtonic movement visualization package, developed for researchers at University of Canberra and MIT</para></listitem>
 <listitem><para>a FAT file system decoder</para></listitem>
 <listitem><para>a proof of concept API implementation for the GNU privacy guard PGP implementation</para></listitem>
-<listitem><para>a simple rasterization library</para></listitem>
+<listitem><para>a raster graphics library</para></listitem>
 <listitem><para>various <trademark>Linux</trademark> kernel patches</para></listitem>
 <listitem><para>several PDF packages, including a generation API, a scripting front end to the generation API, a PDF parser API, and a simple editor</para></listitem>
 <listitem><para>several PNG image utilities</para></listitem>
 <listitem><para>a DNS server written in Bourne again shell (bash)</para></listitem>
 <listitem><para>a SnoopyPro, USB protocol analyzer log dumper</para></listitem>
-<listitem><para>...And many other smaller projects (see http://www.stillhq.com/extracted/ for a full list)</para></listitem>
+<listitem><para>...and many other smaller projects (see http://www.stillhq.com/extracted/ for a full list)</para></listitem>
 </itemizedlist>
 
 <para>
@@ -87,7 +90,7 @@ It should be noted however, that I also have experience in developing commercial
 
 <sect1><title>Internet community</title>
 <para>
-I have previously been the author of the comp.text.pdf USENET frequently asked questions document.
+I have previously been the author of the comp.text.pdf USENET frequently asked questions document, and have an active blog at http://www.stillhq.com
 </para>
 </sect1>
 
@@ -97,16 +100,16 @@ I have held the following positions within a variety of professional bodies:
 </para>
 
 <itemizedlist>
-<listitem><para>1997 - 1998: Chairman, Young Engineers Canberra, Institute of Engineers Australia</para></listitem>
-<listitem><para>2002 - 2003: Secretary, Canberra Chapter, the Australian Unix Users Group</para></listitem>
+<listitem><para>2004 - 2005 onwards: Ordinary committee member, Linux Australia</para></listitem>
 <listitem><para>2003 onwards: Ordinary committee member, the Australian Unix Users Group</para></listitem>
-<listitem><para>2004 onwards: Ordinary committee member, Linux Australia</para></listitem>
+<listitem><para>2002 - 2003: Secretary, Canberra Chapter, the Australian Unix Users Group</para></listitem>
+<listitem><para>1997 - 1998: Chairman, Young Engineers Canberra, Institute of Engineers Australia</para></listitem>
 </itemizedlist>
 </sect1>
 
 <sect1><title>Current employment</title>
 <para>
-I am currently employed as a senior software engineer with TOWER Software Pty Ltd. This work involves management of complex exploratory development efforts, as well as project and product management and system development for our commercial software products.
+I am currently employed as a senior software engineer with TOWER Software Pty Ltd (http://www.towersoft.com.au), a leading ISV in Australia. This work involves management of complex exploratory development efforts, as well as project and product management and system development for our commercial software products.
 </para>
 
 <para>
@@ -200,11 +203,11 @@ Below is a list of the expertise I have previously developed. I am confident in 
 </para>
 
 <para>
-<command>Development tools:</command>CVS, Visual Source Safe, dmalloc, ccache.
+<command>Development tools:</command>CVS, Visual Source Safe, dmalloc, distcc, ccache.
 </para>
 
 <para>
-<command>Hardware:</command> PC, Sun Microsystems and IBM RS/6000 series machines. I have also configured a variety of X Terminals, and Winterms, including devices from NCD, Labtam, and Wyse. My most recent work has focused on x86 based platforms.
+<command>Hardware:</command> Intel x86, Sun Microsystems and IBM RS/6000 series machines. I have also developed applications for mobile devices such as Pocket PCsM, and Smart Phones. I have configured a variety of X Terminals, and Winterms, including devices from NCD, Labtam, and Wyse. My most recent work has focused on x86 based platforms.
 </para>
 
 <para>
@@ -426,7 +429,7 @@ August 1995 to July 1998.
 
 <sect1><title>Referees</title>
 <para>
-Douglas Jackson, of 33 Fred Lane Cres, Gordon ACT 2906 Australia has agreed to act as a referee. He may be contacted at doug.jackson@citadel.com.au.
+Douglas Jackson, of 35 Fred Lane Cres, Gordon ACT 2906 Australia has agreed to act as a referee. He may be contacted at doug.jackson@citadel.com.au.
 </para>
 
 <para>
