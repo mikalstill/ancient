@@ -7,7 +7,7 @@ TITLE: VFS address space file operations -&gt; FUSE
 <tr><td width=30%>VFS</td><td width=10%></td><td width=30%>FUSE</td><td width=30%>Comments</td></tr>
 <tr bgcolor="CCCCCC"><td>readpage</td><td><img src="/notes/presentations/content/rightarrow.png"></td><td>read</td><td></td></tr>
 <tr>                 <td>writepage</td><td><img src="/notes/presentations/content/rightarrow.png"></td><td>write</td><td></td></tr>
-<tr bgcolor="CCCCCC"><td>preparewrite</td><td><img src="/notes/presentations/content/rightarrow.png"></td><td></td><td></td></tr>
+<tr bgcolor="CCCCCC"><td>preparewrite</td><td></td><td></td><td></td></tr>
 <tr>                 <td>commitwrite</td><td><img src="/notes/presentations/content/rightarrow.png"></td><td>write</td><td></td></tr>
 </table>
 </div>

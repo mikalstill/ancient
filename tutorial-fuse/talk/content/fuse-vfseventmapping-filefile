@@ -4,12 +4,12 @@ TITLE: VFS file file operations -&gt; FUSE
 
 <div align=center>
 <table border=0 width=90%>
-<tr><td width=33%>VFS</td><td width=33%>FUSE</td><td width=33%>Comments</td></tr>
-<tr bgcolor="CCCCCC"><td>open</td><td>open</td><td></td></tr>
-<tr>                 <td>release</td><td>release</td><td></td></tr>
-<tr bgcolor="CCCCCC"><td>fsync</td><td>fsync</td><td></td></tr>
-<tr>                 <td>read</td><td>read</td><td></td></tr>
-<tr bgcolor="CCCCCC"><td>write</td><td></td><td></td></tr>
-<tr>                 <td>mmap</td><td></td><td></td></tr>
+<tr><td width=30%>VFS</td><td></td><td width=30%>FUSE</td><td width=30%>Comments</td></tr>
+<tr bgcolor="CCCCCC"><td>open</td><td><img src="/notes/presentations/content/rightarrow.png"></td><td>open</td><td></td></tr>
+<tr>                 <td>release</td><td><img src="/notes/presentations/content/rightarrow.png"></td><td>release</td><td></td></tr>
+<tr bgcolor="CCCCCC"><td>fsync</td><td><img src="/notes/presentations/content/rightarrow.png"></td><td>fsync</td><td></td></tr>
+<tr>                 <td>read</td><td><img src="/notes/presentations/content/rightarrow.png"></td><td>read</td><td></td></tr>
+<tr bgcolor="CCCCCC"><td>write</td><td></td><td></td><td></td></tr>
+<tr>                 <td>mmap</td><td></td><td></td><td></td></tr>
 </table>
 </div>

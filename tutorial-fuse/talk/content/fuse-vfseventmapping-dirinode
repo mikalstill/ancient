@@ -4,18 +4,18 @@ TITLE: VFS directory inode operations -&gt; FUSE
 
 <div align=center>
 <table border=0 width=90%>
-<tr><td width=33%>VFS</td><td width=33%>FUSE</td><td width=33%>Comments</td></tr>
-<tr bgcolor="CCCCCC"><td>create</td><td></td><td></td></tr>
-<tr>                 <td>mknod</td><td>mknod</td><td></td></tr>
-<tr bgcolor="CCCCCC"><td>mkdir</td><td>mkdir</td><td></td></tr>
-<tr>                 <td>symlink</td><td>symlink</td><td></td></tr>
-<tr bgcolor="CCCCCC"><td>unlink</td><td>unlink</td><td></td></tr>
-<tr>                 <td>rmdir</td><td>rmdir</td><td></td></tr>
-<tr bgcolor="CCCCCC"><td>rename</td><td>rename</td><td></td></tr>
-<tr>                 <td>link</td><td>link</td><td></td></tr>
+<tr><td width=30%>VFS</td><td></td>2<td width=30%>FUSE</td><td width=30%>Comments</td></tr>
+<tr bgcolor="CCCCCC"><td>create</td><td></td><td></td><td></td></tr>
+<tr>                 <td>mknod</td><td><img src="/notes/presentations/content/rightarrow.png"></td><td>mknod</td><td></td></tr>
+<tr bgcolor="CCCCCC"><td>mkdir</td><td><img src="/notes/presentations/content/rightarrow.png"></td><td>mkdir</td><td></td></tr>
+<tr>                 <td>symlink</td><td><img src="/notes/presentations/content/rightarrow.png"></td><td>symlink</td><td></td></tr>
+<tr bgcolor="CCCCCC"><td>unlink</td><td><img src="/notes/presentations/content/rightarrow.png"></td><td>unlink</td><td></td></tr>
+<tr>                 <td>rmdir</td><td><img src="/notes/presentations/content/rightarrow.png"></td><td>rmdir</td><td></td></tr>
+<tr bgcolor="CCCCCC"><td>rename</td><td><img src="/notes/presentations/content/rightarrow.png"></td><td>rename</td><td></td></tr>
+<tr>                 <td>link</td><td><img src="/notes/presentations/content/rightarrow.png"></td><td>link</td><td></td></tr>
 <tr bgcolor="CCCCCC"><td>permission</td><td></td><td></td></tr>
-<tr>                 <td>setattr</td><td>chmod<br>chown<br>truncate<br>utime</td><td></td></tr>
-<tr bgcolor="CCCCCC"><td>setattr</td><td>getattr</td><td></td></tr>
-<tr>                 <td>getattr</td><td>getattr</td><td></td></tr>
+<tr>                 <td>setattr</td><td><img src="/notes/presentations/content/rightarrow.png"></td><td>chmod<br>chown<br>truncate<br>utime</td><td></td></tr>
+<tr bgcolor="CCCCCC"><td>setattr</td><td><img src="/notes/presentations/content/rightarrowdashed.png"></td><td>getattr</td><td></td></tr>
+<tr>                 <td>getattr</td><td><img src="/notes/presentations/content/rightarrow.png"></td><td>getattr</td><td></td></tr>
 </table>
 </div>
