@@ -8,7 +8,7 @@
   Walk and white noise, both of which which are known to affect each type of geodetic data to differing degrees,
   to be detected and removed. This, in turn, enables the geodetic community to gain a greater understanding of the elements that may 
   affect the accuracy of a given data set. In addition, an analysis of residuals resulting from a linear regression not only 
-  give a measure of how accurately the line of best fit models the data set it can also aid in the detection and deletion of 
+  give a measure of how accurately the model approximates the data set it can also aid in the detection and deletion of 
   erroneous points.        
   </para>
 </sect2> <!--Introduction-->
@@ -80,7 +80,7 @@
 
     </para>
         
-    <para>Another common constraint use in this type of analysis is to set y-intercept <command>c</command> at the point of the
+    <para>Another common constraint use in this type of analysis is to set y-intercept (<command>c</command>) to the point of the
     first time observation in the given system. This is desirable because of the time format used in geodetic
     data systems, that is, a decimal number where the numerator corresponds to the year and number of days into the year is 
     denominator. For example, the date value 2002.0014 corresponds to the Gregorian calender date of 12:00, 1 January 2002. If 
@@ -94,14 +94,14 @@
   </sect3><!--Linear Least Squares Regression Modeling-->
   
   <sect3><title>Weighting Matrices - Variance Co-variance and Random Walk</title>
-    <para>It is not uncommon in geodetic data, especially those taken over a long period of time (i.e. a number of years) that some
-    of the data value are less reliable than others. This can be due to failure or replacement of data gathering 
+    <para>It is not uncommon in geodetic data, especially data taken over a long period of time (i.e. a number of years) for some
+    of the value to be less reliable than others. This can be due to the failure or replacement of data gathering 
     equipment or natural phenomena such as earthquakes. In addition, random or white noise is known to
     affect different types of geodetic data to varying degrees. This type of signal distortion is truly random and has a zero mean
-    (<command>&mgr</command>) and a variance (<command>&sgr</command>), such that, over a sufficently large data set its
-    effects are cancelled out. The problem occors, however, where smaller systems are used, the white noise is not cancelled 
-    out and can distort the mean value of the given system. It is important, therefore, to have some mechanism of ensuring 
-    that this, potentially erroneous data, does not influence the linear regression analysis in an adverse manner. 
+    (<command>&mgr</command>) and a variance (<command>&sgr</command>), so that, over a sufficently large data set its
+    effects are cancelled out. The problem occors when smaller systems are used and the white noise is not cancelled 
+    out, this can distort the mean value of the given system. It is important, therefore, to have some mechanism of ensuring 
+    that this potentially erroneous data does not influence the linear regression analysis in an adverse manner. 
     In order to do this what is known as a Variance Co-variance (VCV) weighting matrix is employed. 
     </para>
     
@@ -116,12 +116,12 @@
      
     This method works by pre-multiplying the observation values with a number that represents its 
     "correctness" (see EQUATION 2). Therefore the weighting value specified on the diagonal of the VCV matrix should be a 
-    percentage value ranging from one to zero, whereby a value of one one means the given data point fully participates 
+    percentage value ranging from one to zero, whereby a value of one means the given data point fully participates 
     in the calculation and a value of zero indicates that the data point was erroneous and is discarded. 
     </para>
     
-    <para>Due to the nature of method of weighting data values, great care must be taken so that the linear regression model
-    calculated is not distorted. This is due to the fact that, by pre-multiplying the observation data with a weighting matrix the
+    <para>Due to the nature the of method of weighting data values, great care must be taken so that the linear regression model
+    calculated is not distorted. This is due to the fact that, by pre-multiplying the observation data with a weighting matrix
     their values are essentially being changed. If too few erroneous data points are un-weighted, the least squares line calculated 
     will not accurately represent the general data trend. Similarly, weighting out too may data points will cause the
     same error to occur. For example, one method of weighting an inconsistent system would be to assign a weighting value 
@@ -151,19 +151,19 @@
         <execute><cmd>eqimg</cmd><args>TD-boxkur.gif</args></execute>
     </figure>
 
-    for <command>k</command> &ne; 3,
+    for <command>k</command> &ne; 3.
     By applying this model, these anomalies will only be accentuated in the resulting linear regression model and either too many
-    data points will be weighted less than zero (in the case of skewed data) or too few points will be weighted out (in the case of 
-    data affected  by kurtosis). A far safer method of assigning a weighting matrix is to simply weight any data point greater 
+    data points will be weighted less than one or too few points will be weighted out. A far safer method of assigning a weighting 
+    matrix is to simply weight any data point greater 
     than three standard deviations above or below the mean to zero and all other values as one. This ensures the resulting model
     will be calculated using a standard Gaussian distribution, and thus will be unaffected by these phenomenon.
     </para>
     
-    <para>Another use of weighting matrices is to remove any underlying noise that may be affecting the system. One such
+    <para>Weighting matrices will also remove any underlying noise that may be affecting the system, one such
     trend is known as Random Walk, which is a phenomenon that the geodetic community believes occurs, particularly in GPS data.
-    Detection of this trend become more urgent in recent times because it is believed that Random Walk can only be accurately seen 
-    in systems that span at least six years, or preferably 10 years and data sets of this length have not become available until
-    now. If it is assumed that the data follows a standard Gaussian distribution (SEE FIGURE GAUSSIAN DISTRIBUTION) that is, 
+    Detection of this trend has become possible in recent times because it is believed that Random Walk can only be accurately 
+    seen in systems that span at least six years, or preferably 10 years and data sets of this length have not become available 
+    until now. If it is assumed that the data follows a standard Gaussian distribution (SEE FIGURE GAUSSIAN DISTRIBUTION) that is, 
     the observation values are evenly distributed then the expected Random Walk values are 
     </para>    
 
@@ -203,8 +203,8 @@
     
     <para>
     It is anticipated that using such a weighting matrix will remove any underlying Random Walk trend that may be affecting the data. 
-    At this time, however, this is some debate as to which equation should be use in order to determine the random walk co-efficients 
-    and thus the optimal weighting matrix. As a result, there is limited support for this type of calculation within the scope of 
+    At this time, however, this is some debate as to which equation should be used in order to determine the random walk co-efficients 
+    and therefore the optimal weighting matrix. As a result, there is limited support for this type of calculation within the scope of 
     the project.
     </para> 
   </sect3><!--Weighting Matrices - Variance Co-variance and Random Walk-->
@@ -220,7 +220,7 @@
     </equation>
     
     Where <command>L</command> is specified by (EQUATION 5). If the same constraint is applied to the apriori matrix as was used in
-    the linear least squares model, that is, it is assumed that or initial model has a slope and y-intercept of 0, the residual
+    the linear least squares model, that is, it is assumed that the initial model has a slope and y-intercept of 0, the residual
     equation becomes
     
     <equation>
@@ -231,9 +231,9 @@
     </para>
     
     <para>At the very least, the residual matrix shows how well the regression line approximates the given system, that is, the 
-    smaller the values of <command>V</command> the better the fit of the model. In addition, if the residuals are transformed into 
+    smaller the values of <command>V</command>, the better the fit of the model. In addition, if the residuals are transformed into 
     the Frequency Domain via a Fast Fourier Transform, an optimal model would give a totally flat frequency response. 
-    Another property of residuals is that the sum of the residuals should always be equal to zero. This is a very useful 
+    Another property of residuals is that their sum should always be equal to zero. This is a very useful 
     property for testing the validity of any residual calculation.
     </para>
     
@@ -254,9 +254,9 @@
       <execute><cmd>eqimg</cmd><args>time-weighting-2.eps</args></execute>
     </equation>
     
-    This method, however, leads to the new weighting matrix <command>&Sgr</command> that is not strictly diagonal and this is
-    undesirable as it is computationally much slower to calculate. For example, if the matrix equation
-    <command>A<superscript>T</superscript>P</command>  
+    This method leads to the new weighting matrix <command>&Sgr</command> that is not strictly diagonal, this is
+    undesirable becuase it is computationally much slower to calculate. For example, if the matrix equation
+    <command>A<superscript>T</superscript>P</command> was to be caulculated  
     where <command>A</command> was a <command>n</command> x 2 matrix and <command>P</command> was a
     <command>n</command> x <command>n</command> weighting matrix. If the weighting matrix was strictly
     diagonal then then it would take  2 x <command>n</command> multiplication operations to compute. 
@@ -265,11 +265,11 @@
     <command>n</command><superscript>2</superscript> addition operations to compute the same equation.   
     </para>
     
-    <para>Considering the slowness of using a weighting matrix that is not diagonal, another method of calculating a weighting
+    <para>Because of the slowness of using a weighting matrix that is not diagonal, another method of calculating a weighting
     matrix was sought. This method works entirely in the residual space and ensures that the weighting matrix is always diagonal.
     In this calculation, a line of best fit is calculated using (EQUATION 7) and the residuals are calculated using (EQUATION 14). 
     The residual matrix is then sorted in ascending order. From there the median and interquartile range can be calculated. The
-    threshold for three standard deviations above or below the mean, assuming a standard Gaussian distribution can be calculated by
+    threshold of three standard deviations above or below the mean, assuming a standard Gaussian distribution, can be calculated by
     adding 1.5 x the interquartile range to the 75% limit and subtracting 1.5 x the interquartile range from the 25% limit, 
     resulting in a box and whiskers plot. 
     
@@ -291,7 +291,7 @@
   can be employed to establish any general patterns in the data and give an indication of any data anomalies. It has also been seen 
   that by using a weighting matrix, erroneous data can be removed, thereby allowing the most accurate regression model to be fitted. 
   Weighting matrices can also be employed to detect and remove any underlying data trends, such as Random Walk that may be adversly
-  affecting the system. Time Domain analysis also allows a given system to be modelled in the residual space. This is important for 
+  affecting the system. Time Domain analysis allows a given system to be modelled in the residual space. This is important for 
   may reasons, firstly, the residuals give an indication of how well the regression model actually fits the observation data in both 
   the time and frequency domains. In addition, the residual space allows an optimal VCV weighting matrix to be calculated, such 
   that it is always guaranteed to be strictly diagonal. This vastly reduces the computational time required to calculate a 

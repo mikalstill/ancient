@@ -102,8 +102,8 @@
     
   <para>Both two dimensional and three dimensional matrices are stored as arrays and are treated as separate member variables within 
   the <command>cepMatrix</command> Template Classes. This approch was taken for several reasons, firstly due to the fact that
-  <command>cepMatrix</command> is a Template class all member variables had to be of a primitive type, that is, other templates or
-  objects can not be instantiated inside these classes. This restriction on Template Classes is actually a compiler dependant and 
+  <command>cepMatrix</command> is a Template class all member variables had to be of a primitive type, that is, other templates
+  can not be instantiated inside these classes. This restriction on Template Classes is actually a compiler dependant and 
   is not a limitation of the language specification, per se. It does, however, arise when using <command>g++</command> which is 
   the most widely use compiler on the operating systems in which the <command>GDMS</command> is required to be used. 
   This limitation, was therefore, applied the to <command>cepMatrix</command> class and thus each matrix was stored, 

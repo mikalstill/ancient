@@ -2,9 +2,10 @@
 
 <para>
 Time series analysis of discrete signals is not a new concept. Texts on this topic were printed as early as 1924. It was
-not, however, until  the digital computer appeared that the momentum of this field increased dramatically. The FORTRAN programming
-language enabled complex mathematics to be written on a computer. Many routines and texts appeared around
-this time, with the focus applications being in the areas of oil and space exploration. Further significant texts emerged from
+not, however, until the digital computer appeared, in the latter half of the 20th century, that momentum in this field 
+increased dramatically. The FORTRAN programming
+language has enabled complex mathematics to be written on a computer. Many routines and texts appeared around
+this time. The focus of these applications was in the areas of oil and space exploration, further significant texts emerged from
 Australia in the nineteen sixties and seventies on Fourier analysis of time series and its applications.
 </para>
 
@@ -12,9 +13,9 @@ Australia in the nineteen sixties and seventies on Fourier analysis of time seri
 Published works such as Numerical Recipes emerged, firstly in FORTRAN, then C and C++. This is accepted as
 the standard reference today for Numerical Analysis algorithms, covering least squares analysis, interpolation,
 statistics and frequency analysis techniques. Time Series View (TSVIEW) is a more recent example of a computerised
-package dealing time series analysis, developed at the Massachusetts Institute of Technology (MIT). It is a front end to MATLAB 
-providing time series analysis in the time domain. TSVIEW also provides an intuitive, interactive graphical user interface thereby
-allowing the easy analysis of a given data set.
+package dealing time series analysis and was developed at the Massachusetts Institute of Technology (MIT). It is a front end to 
+MATLAB providing time series analysis in the time domain. TSVIEW also provides an intuitive, interactive graphical user interface 
+thereby allowing the easy analysis of a given data set.
 </para>
 
 <para>
@@ -26,13 +27,13 @@ Its features include the following:
 
 <orderedlist>
 <listitem><para>Selecting or spanning a region of points for closer inspection (i.e. zooming).</para></listitem>
-<listitem><para>The ability to display with various symbol, data that is used in the solution. This also involves data that 
+<listitem><para>The ability to display, with various symbols, data that is used in the solution. This also involves data that 
 does not correctly fit a particular model and is therefore weighted out of the solution.</para></listitem>
 <listitem><para>The ability to weight and un-weight points.</para></listitem>
 <listitem><para>The ability to changes the value of any number of points.</para></listitem>
 <listitem><para>Allows the displacement of elementary statistics and regression coefficients.</para></listitem>
 <listitem><para>The testing of different processing strategies.</para></listitem>
-<listitem><para>A variable number of display windows open from one to 10.</para></listitem>
+<listitem><para>A variable number of display windows, ranging from one to 10.</para></listitem>
 <listitem><para>Quick and flexible use of file pointers.</para></listitem>
 </orderedlist>
 
@@ -54,17 +55,17 @@ does not correctly fit a particular model and is therefore weighted out of the s
 
 <para>
   
-  Whilst both TSVIEW and CVIEW are useful tool for analysis of this type of data, the are not without their short comings. MATLAB
-  is expensive to purchase, and this has prohibited some institutions from being able to use TSVIEW in this type of analysis
+  Whilst both TSVIEW and CVIEW are useful tools for analysis of this type of data, they are not without their short comings. MATLAB
+  is expensive to purchase, and this has prohibited some institutions from being able to use the TSVIEW package
   which requires this program to run. In addition, TSVIEW uses the MATLAB algorithms to calculate its data transformations and whilst
   this guarantees that all mathematical functionality has been rigorously tested and validated, these routines are not specifically
   optimised for the analysis of geodetic data. Similarly, the CVIEW package is not without its problems. Although it is faster than
   TSVIEW in calculating a solution this package has grown as a set of individual modules that have been added over time, and the whole
-  system is preserved inside X Windows wrappers. This has had the effect of making the package itself almost possible to maintain in
-  recent times. CVIEW also suffers from the problem that its user interface is dated and is not considered particularly user
+  system is preserved inside X Windows wrappers. This has had the effect of making the package itself almost impossible to maintain 
+  in recent times. CVIEW also suffers from the problem that its user interface is dated and is not considered particularly user
   friendly. This has meant that there is a steep leaning curve required for any user that may wish to use this product. One of the
   most important limitations of both these packages is, however, that they both lack any support for frequency domain analysis which
-  is imperative for the analysis of this type of data.
+  is imperative for the analysis of geodetic data.
 </para> 
 
 <para>
@@ -74,23 +75,24 @@ does not correctly fit a particular model and is therefore weighted out of the s
   included in both TSVIEW and CVIEW. The <command>GDMS</command>  provides time domain analysis in the form of Linear Least Squares Regression
   modelling. In addition, several interpolation and Gaussian filter (windowing) algorithms have been
   implemented, thereby allowing the data to be transformed into the frequency domain for analysis with such tools as Fast Fourier
-  Transforms (FFT) and Power Spectral Density Plots (PSD). By allowing analysis in both the time and frequency domains the <command>GDMS</command>
-  gives the user greater flexibility in determining the general data trend as well as detect and remove any erroneous data points that
-  may appear in the given data set. It also provides an intuitive user interface capable of, among other things graphing,
-  spanning and display multiple windows.
+  Transforms (FFT) and Power Spectral Density Plots (PSD). By allowing analysis in both the time and frequency domains the 
+  <command>GDMS</command>
+  gives the user greater flexibility in determining the general data trend as well as the ability to detect and remove any 
+  erroneous data points that may appear in the given data set. The <command>GDMS</command> also provides an intuitive user 
+  interface capable of, among other things graphing, spanning and display multiple windows.
 </para>
 
 <para>
   This thesis aims to provide a comprehensive insight in the theory behind the processing techniques
   that have been employed in the <command>GDMS</command>. Where appropriate alternative theories and algorithms are presented and 
   compared. The design methodology used in the implementation is discussed, along with the the prototype and
-  each specific algorithms with reasons for why they were chosen. Issues that arose throughout this process are also highlighted,
+  each specific algorithm with reasons for why they were chosen. Issues that arose throughout this process are also highlighted,
   ranging from design changes during the project, to difficulties with the implementation of various algorithms.
   In each section, we examine the potential improvements and enhancements that could be made to the
   various modules. A background on the testing approach is provided. As projects increase in size, standardised testing 
-  procedures becomes paramount. Here we detail the approach used for the testing of the various modules of the project. The thesis 
+  procedures becomes paramount. Here we detail the approach used for the testing of the various modules of the project. This paper 
   closes by providing among other things, what we believe to be a measure of the success of the project, both in terms of the 
-  project itself and also in terms of our enhanced knowledge and experience as a direct result of the project. 
+  project itself and also in terms of our enhanced knowledge and experience that resulted from undertaking this task. 
 </para>
 
 </sect1> <!--backgorund-->
