@@ -1,0 +1,158 @@
+? source/.deps
+? source/sample
+? source/.xvpics
+? source/ui
+
+RCS file: /cvs/cvs001/source/Makefile,v
+Working file: source/Makefile
+head: 1.4
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 4;	selected revisions: 4
+description:
+----------------------------
+revision 1.4
+date: 2002/05/29 02:27:58;  author: u964076;  state: Exp;  lines: +16 -6
+Mikal: Imported shamelessly stolen sample code from wx windows... This will hopefully become the basis for our user interface. Also modified the autotools stuff so that it all compiles cleanly. Some users might need to install wx windows before ui will build for them...
+----------------------------
+revision 1.3
+date: 2002/05/04 03:20:26;  author: u964076;  state: Exp;  lines: +3 -4
+Mikal: Code changes for the dataset storage
+----------------------------
+revision 1.2
+date: 2002/04/30 23:58:09;  author: u964076;  state: Exp;  lines: +27 -50
+Mikal: Added cepWindows to build process
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:04;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/Makefile.am,v
+Working file: source/Makefile.am
+head: 1.4
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 4;	selected revisions: 4
+description:
+----------------------------
+revision 1.4
+date: 2002/05/29 02:27:58;  author: u964076;  state: Exp;  lines: +2 -1
+Mikal: Imported shamelessly stolen sample code from wx windows... This will hopefully become the basis for our user interface. Also modified the autotools stuff so that it all compiles cleanly. Some users might need to install wx windows before ui will build for them...
+----------------------------
+revision 1.3
+date: 2002/05/04 03:20:26;  author: u964076;  state: Exp;  lines: +1 -1
+Mikal: Code changes for the dataset storage
+----------------------------
+revision 1.2
+date: 2002/04/30 23:58:09;  author: u964076;  state: Exp;  lines: +1 -1
+Mikal: Added cepWindows to build process
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:04;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/Makefile.in,v
+Working file: source/Makefile.in
+head: 1.4
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 4;	selected revisions: 4
+description:
+----------------------------
+revision 1.4
+date: 2002/05/29 02:27:58;  author: u964076;  state: Exp;  lines: +14 -4
+Mikal: Imported shamelessly stolen sample code from wx windows... This will hopefully become the basis for our user interface. Also modified the autotools stuff so that it all compiles cleanly. Some users might need to install wx windows before ui will build for them...
+----------------------------
+revision 1.3
+date: 2002/05/04 03:20:26;  author: u964076;  state: Exp;  lines: +3 -4
+Mikal: Code changes for the dataset storage
+----------------------------
+revision 1.2
+date: 2002/04/30 23:58:09;  author: u964076;  state: Exp;  lines: +24 -47
+Mikal: Added cepWindows to build process
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:05;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/NEWS,v
+Working file: source/NEWS
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:05;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/README,v
+Working file: source/README
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:05;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/TODO,v
+Working file: source/TODO
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/04/30 23:54:42;  author: u964076;  state: Exp;  lines: +1 -0
+Mikal: Updated changelog
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:05;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/aclocal.m4,v
+Working file: source/aclocal.m4
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:05;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+...and so on...
