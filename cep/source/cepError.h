@@ -154,9 +154,22 @@ Return the title which should be used in the display of this <command>cepError</
 <para>
 <command>int getIcon();</command>
 Return the icon identifier which should be used with the <command>cepError</command>.
+</para>
+
+<para>
+<command>static void addErrorHandler( cepErrorHandler );</command>
+add a specific error handler. this will be used to display and log errors as necesary.
+if an error handler is already subscribed, then this will fail and the previous handler
+will be undisturbed. Use removeErrorhander before assigning a new one.
+If No error handler is added then display and log will do nothing.
+</para>
+
+<para>
+<command>static void removeErrorHandler();</command>
+Removes the current error handler.
 DESCRIPTION END
 
-SEEALSO cepDebugPrint cepConfiguration
+SEEALSO cepErrorHandler cepWxErrorHandler cepTextErrorhandler cepConsoleErrorHandler
 DOCBOOK END
 ******************************************************************************/
 
@@ -184,7 +197,7 @@ public:
   cepError (const string & msg);
   cepError (const string & msg, severity level);
   static void addErrorHandler( class cepErrorHandler& h );
-  void removeErrorHandler();
+  static void removeErrorHandler();
   ~cepError ();
 
   bool isReal ();
