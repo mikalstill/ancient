@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# $1: A list of terms to audit for, separated by spaces
+# $2: Kernel version
+
+set -x
+
+for term in $1
+do
+	janitor $term > /home/httpd/html/linux/audit-$2-$term.html
+done

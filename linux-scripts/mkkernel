@@ -1,0 +1,26 @@
+#!/bin/bash
+
+set -x
+
+attempt(){
+    logger mkkernel `pwd`: attempting $1
+    make $1
+    die $?
+}
+
+die(){
+    if [ $1 -gt 0 ]
+    then
+	logger mkkernel `pwd`: died with exit code $1
+	exit $1
+    fi
+}
+
+logger mkkernel `pwd`: starting
+attempt clean
+attempt mrproper
+attempt xconfig
+attempt ""
+attempt modules_install
+cp arch/i386/boot/bzImage /boot/vmlinuz-2.5.59
+/sbin/lilo

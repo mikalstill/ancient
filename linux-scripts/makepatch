@@ -1,0 +1,19 @@
+#!/bin/bash
+
+set -x
+
+cd $1 > /dev/null
+make clean > /dev/null
+make mrproper > /dev/null
+cd /usr/src > /dev/null
+find $1 -type f -name "*~" -exec rm {} \; > /dev/null
+find $1 -type f -name "#*#" -exec rm {} \; > /dev/null
+
+cd $2 > /dev/null
+make clean > /dev/null
+make mrproper > /dev/null
+cd /usr/src > /dev/null
+find $2 -type f -name "*~" -exec rm {} \; > /dev/null
+find $2 -type f -name "#*#" -exec rm {} \; > /dev/null
+
+diff -Nur $1 $2

@@ -1,0 +1,30 @@
+#!/usr/bin/perl
+
+# Generate a webby TODO list for a kernel janitor task, based on a simple
+# search of the kernel source
+
+use strict;
+my($SEARCH, @line, $count);
+
+print "<html><body>\n";
+$count = 0;
+
+if($ARGV[1] eq ""){
+    open SEARCH, "find . -type f -exec egrep --with-filename --line-number \"$ARGV[0]\" {} \\; |";
+}
+else{
+    open SEARCH, "find . -type f -exec egrep --with-filename --line-number \"$ARGV[0]\" {} \\; | grep -v $ARGV[1] |";
+}
+    
+while(<SEARCH>){
+    @line = split(/:/, $_);
+
+    print "<a href=\"/cgi-bin/lin-annot?mode=display&page=";
+    print substr($line[0], 1, length($line[0]));
+    print "#line-$line[1]\">$line[0]</a>: ";
+    print "$line[2]<BR>\n";
+    $count ++;
+}
+
+print "($count entries checked)\n";
+print "</body></hmtl>\n";
