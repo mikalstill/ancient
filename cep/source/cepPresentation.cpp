@@ -19,10 +19,10 @@
 */
 
 #include "cepCore.h"
-#include <libplot.h>
+// #include <libplot.h>
 #include <png.h>
-#include <panda/constants.h>
-#include <panda/functions.h>
+// #include <panda/constants.h>
+// #include <panda/functions.h>
 
 // This number needs to be positive, and preferably greater than 2...
 // Having big numbers is more efficient, but wastes more RAM
