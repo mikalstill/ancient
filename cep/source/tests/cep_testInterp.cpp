@@ -37,7 +37,7 @@
  *     void tearDown( void ) { ... }
  *
  * @author <your name here>
- * @version $Revision: 1.7 $ $Date: 2002-11-13 01:57:40 $
+ * @version $Revision: 1.8 $ $Date: 2002-11-14 04:19:21 $
  *
  * Revision History
  *
@@ -520,7 +520,7 @@ protected:
 				               7.0, finish1.getValue(14,1));
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "values not equal",
 				               2.0, finish1.getValue(18,1));
- CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, finish1.getValue(21,1),0.005);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, finish1.getValue(21,1),0.005);
 
 
   }
@@ -619,18 +619,33 @@ protected:
 		// generate linear interp
 		finish1 = interpolate.doInterp(start, 1, DIVIDED_INTERP);
 
-/*		for (int i=0; i<finish1.getNumRows(); i++)
+    cout << "Final values\n";
+		for (int i=0; i<finish1.getNumRows(); i++)
 		{
 			for (int j=0; j<finish1.getNumCols(); j++)
 				cout << finish1.getValue(i,j) << " ";
 			cout << '\n';
-		}*/
+		}
 
-/*    for( int i=0; i<2*rows-1; i++ )
-      for( int j=0; j<cols-1; j++ )
-        CPPUNIT_ASSERT_EQUAL_MESSAGE( "values not equal",
-				               finish2.getValue(i,j), finish1.getValue(i,j));
-*/
+   CPPUNIT_ASSERT_EQUAL_MESSAGE( "values not equal",
+               4.0, finish1.getValue(0,1));
+   CPPUNIT_ASSERT_EQUAL_MESSAGE( "values not equal",
+               0.0, finish1.getValue(2,1));
+   CPPUNIT_ASSERT_EQUAL_MESSAGE( "values not equal",
+               4.0, finish1.getValue(5,1));
+   CPPUNIT_ASSERT_EQUAL_MESSAGE( "values not equal",
+               4.0, finish1.getValue(7,1));
+   CPPUNIT_ASSERT_EQUAL_MESSAGE( "values not equal",
+               0.0, finish1.getValue(9,1));
+   CPPUNIT_ASSERT_EQUAL_MESSAGE( "values not equal",
+               4.0, finish1.getValue(11,1));
+   CPPUNIT_ASSERT_EQUAL_MESSAGE( "values not equal",
+               4.0, finish1.getValue(13,1));
+   CPPUNIT_ASSERT_EQUAL_MESSAGE( "values not equal",
+               0.0, finish1.getValue(15,1));
+   CPPUNIT_ASSERT_EQUAL_MESSAGE( "values not equal",
+               4.0, finish1.getValue(17,1));
+
   }
 
 	/** Tests that a natural spline interpolation back onto the sample */
