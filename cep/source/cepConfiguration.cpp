@@ -205,17 +205,12 @@ cepError
   cepConfiguration::getValue (const string & valkey,
 			      const string & defval, string & outval)
 {
-  bool defaulted = false;
   map_t::const_iterator i = map.find (valkey);
 
   if (i == map.end ())
     outval = defval;
   else
     outval = map[valkey];
-
-  cepDebugPrint ("Configuration database get <string> : requested " + valkey
-		 + " and returned " + outval +
-		 (defaulted ? " (default)" : ""));
   return cepError ();
 }
 
@@ -235,9 +230,6 @@ cepError
     {
       outval = (map[valkey] == "true");
     }
-  cepDebugPrint ("Configuration database get bool requested " + valkey
-		 + " and returned " + (outval ? "true" : "false")
-		 + (defaulted ? " (default)" : ""));
   return cepError ();
 }
 
@@ -257,9 +249,6 @@ cepError
     {
       outval = atoi (map[valkey].c_str ());
     }
-  cepDebugPrint ("Configuration database get int requested " + valkey
-		 + " and returned " + cepToString (outval) +
-		 (defaulted ? " (default)" : ""));
   return cepError ();
 }
 
@@ -279,9 +268,6 @@ cepError
     {
       outval = atof (map[valkey].c_str ());
     }
-  cepDebugPrint ("Configuration database get int requested " + valkey
-		 + " and returned " + cepToString (outval) +
-		 (defaulted ? " (default)" : ""));
   return cepError ();
 }
 
@@ -289,8 +275,6 @@ cepError
   cepConfiguration::setValue (const string & valkey, const string & value)
 {
   map[valkey] = value;
-  cepDebugPrint ("Configuration database set string setting " + valkey +
-		 " to " + map[valkey]);
   return save (path);
 
 }
@@ -302,8 +286,6 @@ cepError cepConfiguration::setValue (const string & valkey, const int &value)
 
   oss << value;
   map[valkey] = oss.str ();
-  cepDebugPrint ("Configuration database set int setting " + valkey + " to " +
-		 map[valkey]);
   return save (path);
 
 }
@@ -315,8 +297,6 @@ cepError
 
   oss << value;
   map[valkey] = oss.str ();
-  cepDebugPrint ("Configuration database set int setting " + valkey + " to " +
-		 map[valkey]);
   return save (path);
 
 }
@@ -325,8 +305,6 @@ cepError
   cepConfiguration::setValue (const string & valkey, const bool & value)
 {
   map[valkey] = (value ? string ("true") : string ("false"));
-  cepDebugPrint ("Configuration database set bool setting " + valkey +
-		 " to " + map[valkey]);
   return save (path);
 }
 

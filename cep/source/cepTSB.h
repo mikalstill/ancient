@@ -21,7 +21,6 @@
 #ifndef CEP_TSB_HEADER
 #define CEP_TSB_HEADER
 
-// todo_mikal: is TSB being used any more?
 class cepTSB
 {
 public:

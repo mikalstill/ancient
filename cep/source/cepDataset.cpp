@@ -212,8 +212,6 @@ cepError cepDataset::read (const string & filename)
 	  // End of line?
 	  if ((c == '\n') && (thisLine.size () > 0))
 	    {
-	      cepDebugPrint ("Processing line: '" + thisLine + "'");
-
 	      // If this is a data bearing line
 	      if (cepIsNumeric (thisLine.c_str ()[0]))
 		{
@@ -692,9 +690,6 @@ string cepDataset::applyOffset (cepDataset::direction i, string value)
 
   retval = offset[0].substr (0, offset[0].length () - val[0].length ());
   retval += newvalue;
-
-  cepDebugPrint ("Offset calculation: offset = " + m_offset[i] +
-		 " value = " + newvalue + " resultant value = " + retval);
   return retval;
 }
 
@@ -719,10 +714,6 @@ string cepDataset::reverseOffset (cepDataset::direction i, string value)
       count++;
     }
 
-  cepDebugPrint ("Deoffset calculation offset = " + m_offset[i] +
-		 " value = " + value + " indent count = " +
-		 cepToString (count + 1) + " resultant value = " + sign +
-		 value.substr (count - 1, value.length ()));
   return string (sign + value.substr (count - 1, value.length ()));
 }
 
