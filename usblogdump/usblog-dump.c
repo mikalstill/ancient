@@ -1,5 +1,7 @@
 // Dump a Snoopy Pro logfile to stdout, including possible repeated URB 
-// suppression. Copyright (C) Michael Still 2003, released under the terms 
+// suppression. 
+//
+// Copyright (C) Michael Still 2003, 2004, 2005, released under the terms 
 // of the GNU GPL. If you find an URB marked "UNKNOWN", please email me 
 // the Snoopy Pro log, and the URB number of the problem URB.
 
@@ -12,13 +14,16 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdarg.h>
+#include <stdlib.h>
+#include <ctype.h>
 
 #include "fileutil.h"
 #include "md5-global.h"
 #include "md5.h"
 
-#define VERSION "(Version 0.3)"
-void usage(char *name)
+#define VERSION "(Version 0.4)"
+void
+usage (char *name)
 {
   printf (VERSION "\n\n");
   printf ("Try: %s [-i input] [-r] [-v]\n\n", name);
@@ -38,6 +43,7 @@ char *functname (unsigned int function);
 void usb_urb_header (char *file, long long *filep);
 #define USB_URB_HEADER_LENGTH 16
 void usb_urb_controltransfer (char *file, long long *filep);
+void usb_urb_bulktransfer (char *file, long long *filep);
 void usb_urb_hcd (char *file, long long *filep);
 #define USB_URB_HCD_LENGTH 32
 void usb_urb_listentry (char *file, long long *filep);
@@ -53,7 +59,7 @@ long urb_buffer_inset = 0;
 int urb_reallocs = 0;
 void urb_printf (char *format, ...);
 char *urb_xsnprintf (char *format, va_list ap);
-void urb_xfree(void *);
+void urb_xfree (void *);
 char *md5hash (char *);
 
 // A structure to store all our URBs
@@ -123,7 +129,7 @@ main (int argc, char *argv[])
 	default:
 	case '?':
 	  printf ("Unknown command line option...\n");
-	  usage(argv[0]);
+	  usage (argv[0]);
 	  exit (0);
 	  break;
 	}
@@ -132,7 +138,7 @@ main (int argc, char *argv[])
   if (input_filename == NULL)
     {
       printf ("No input file specified...\n");
-      usage(argv[0]);
+      usage (argv[0]);
       exit (0);
     }
 
@@ -151,7 +157,7 @@ main (int argc, char *argv[])
 
   if ((file =
        (char *) mmap (NULL, sb.st_size, PROT_READ | PROT_WRITE, MAP_SHARED,
-		      fd, 0)) == -1)
+		      fd, 0)) == MAP_FAILED)
     {
       fprintf (stderr, "Could not mmap data file\n");
       exit (43);
@@ -172,7 +178,7 @@ main (int argc, char *argv[])
     }
   printf ("\n");
 
-  if(do_showmatch == 1)
+  if (do_showmatch == 1)
     printf ("Grabbing the URBs\n");
 
   // Setup the URB head
@@ -183,13 +189,14 @@ main (int argc, char *argv[])
 	       "Memory allocation problem whilst setting up URB list head\n");
       exit (1);
     }
-  memset(urbhead, 0, sizeof (usb_allurbs) * npackets);
+  memset (urbhead, 0, sizeof (usb_allurbs) * npackets);
 
   // Details of the URB
   seq = -1;
   for (urbCount = 0; urbCount < npackets; urbCount++)
     {
-      if(do_verbose == 1) printf("Grabbing URB %d\n", urbCount);
+      if (do_verbose == 1)
+	printf ("Grabbing URB %d\n", urbCount);
       urbhead[urbCount].abend = 0;
 
       // Get the object tag (a MFCism) -- it tells us if there is an object 
@@ -207,8 +214,7 @@ main (int argc, char *argv[])
       urbhead[urbCount].sequence = temp;
 
       function = fileutil_getushort (file, &filep);
-      urb_printf ("Function: %s (0x%04x)\n", functname (function), 
-		  function);
+      urb_printf ("Function: %s (0x%04x)\n", functname (function), function);
 
       // printf("Time relative to start of dump: %d\n", 
       // fileutil_getuinteger(file, &filep) - tsrelative);
@@ -227,9 +233,8 @@ main (int argc, char *argv[])
 
       urb_printf ("Length: %d\n", fileutil_getuinteger (file, &filep));
       urb_printf ("Direction: %s\n",
-		  0 == fileutil_getinteger (file, &filep) ? 
-		  "host-to-device" : 
-		  "device-to-host");
+		  0 == fileutil_getinteger (file, &filep) ?
+		  "host-to-device" : "device-to-host");
 
       // The sequence number and timestamp are repeated for some reason...
       fileutil_getuinteger (file, &filep);
@@ -293,17 +298,37 @@ main (int argc, char *argv[])
 	  // CONTROL_TRANSFER
 
 	  psize = fileutil_getuinteger (file, &filep);
+	  //psize = fileutil_getnumber (file, &filep);
 	  urb_printf ("Transfer size: %d\n", psize);
 
 	  // Test whether data is present
-	  if (fileutil_getnumber (file, &filep) != 0)
+	  //if (fileutil_getnumber (file, &filep) != 0)
+	  if(psize != 0)
 	    {
 	      int i;
 
-	      urb_printf ("Data: ");
+	      fileutil_getnumber (file, &filep);
+
+	      urb_printf ("Data: \t");
 	      for (i = 0; i < psize; i++)
 		{
-		  urb_printf ("0x%02x ", (unsigned char) file[filep++]);
+		  if (isgraph (file[filep]))
+		    {
+		      urb_printf ("   %c ", (unsigned char) file[filep]);
+		    }
+		  else if (file[filep] == 0x20)
+		    {
+		      urb_printf ("<SP> ");
+		    }
+		  else
+		    {
+		      urb_printf ("0x%02x ", (unsigned char) file[filep]);
+		    }
+		  filep++;
+		  if (!((i + 1) % 16))
+		    {
+		      urb_printf ("\n\t");
+		    }
 		}
 	      urb_printf ("\n");
 	    }
@@ -312,6 +337,45 @@ main (int argc, char *argv[])
 	  // usb_urb_header(file, &filep);
 	  filep += USB_URB_HEADER_LENGTH;
 	  usb_urb_controltransfer (file, &filep);
+	  break;
+
+	case 0x9:
+	  // BULK_OR_INTERRUPT_TRANSFER
+
+	  psize = fileutil_getuinteger (file, &filep);
+	  urb_printf ("Transfer size: %d\n", psize);
+
+	  // Test whether data is present
+	  if (fileutil_getnumber (file, &filep) != 0)
+	    {
+	      int i;
+
+	      urb_printf ("Data: \t");
+	      for (i = 0; i < psize; i++)
+		{
+		  if (isgraph (file[filep]))
+		    {
+		      urb_printf ("   %c ", (unsigned char) file[filep]);
+		    }
+		  else if (file[filep] == 0x20)
+		    {
+		      urb_printf ("<SP> ");
+		    }
+		  else
+		    {
+		      urb_printf ("0x%02x ", (unsigned char) file[filep]);
+		    }
+		  filep++;
+		  if (!((i + 1) % 16))
+		    {
+		      urb_printf ("\n\t");
+		    }
+		}
+	      urb_printf ("\n");
+	    }
+	  filep += USB_URB_HEADER_LENGTH;
+	  usb_urb_bulktransfer (file, &filep);
+
 	  break;
 
 	case 0xA:
@@ -348,8 +412,6 @@ main (int argc, char *argv[])
 
 	case 0x17:
 	  // VENDOR_DEVICE
-	case 0x1B:
-	  // CLASS_INTERFACE
 	case 0x1C:
 	  // CLASS_ENDPOINT
 	case 0x20:
@@ -375,12 +437,36 @@ main (int argc, char *argv[])
 	  usb_urb_controltransfer (file, &filep);
 	  break;
 
+	case 0x1B:
+	  // CLASS_INTERFACE
+
+	  if ((temp = fileutil_getinteger (file, &filep)) != 0)
+	    {
+	      urb_printf ("Transfer length: %d\n", temp);
+
+	      // 0 indicates no data present
+	      if (fileutil_getnumber (file, &filep) != 0)
+		{
+		  filep += temp;
+		  urb_printf ("TODO: Implementing decoding\n");
+		}
+	    }
+	  urb_printf ("\n");
+
+	  usb_urb_header(file, &filep);
+	  usb_urb_controltransfer (file, &filep);
+	  break;
+
 	case 0x1E:
 	  // RESET_PIPE
 	  break;
 
+	case 0x28:
+	  // GET_DESCRIPTOR_FROM_INTERFACE
+	  break;
+
 	default:
-	  urb_printf ("\n*** Unknown function ***\n\n");
+	  urb_printf ("\n*** Unknown function (0x%x) ***\n\n", function);
 	  urb_printf ("Aborting further decoding. Please report this to\n");
 	  urb_printf ("Michael Still (mikal@stillhq.com)\n");
 	  urbhead[urbCount].abend = 1;
@@ -413,7 +499,7 @@ main (int argc, char *argv[])
   // Correlate
   if (do_suppress == 1)
     {
-      if(do_showmatch == 1)
+      if (do_showmatch == 1)
 	printf ("\nCorrelating the URBs:\n");
       else
 	printf ("Repeated URBs suppressed\n");
@@ -439,12 +525,13 @@ main (int argc, char *argv[])
 
 	      if (matchcount > 1)
 		{
-		  if(do_showmatch == 1)
+		  if (do_showmatch == 1)
 		    {
 		      printf ("  Found a match at URB %d of length %d which "
-			      "repeats %d times\n", inset, length, matchcount);
+			      "repeats %d times\n", inset, length,
+			      matchcount);
 		    }
-		  
+
 		  urbhead[inset + length - 1].rptlen = length;
 		  urbhead[inset + length - 1].rpttimes = matchcount;
 		  for (temp = inset + length;
@@ -465,19 +552,19 @@ main (int argc, char *argv[])
 	      "---------------------------------------------------------\n");
       printf ("URB %d, ", urbCount);
       printf ("number %d, ", urbhead[urbCount].number);
-      printf ("offset %d, ", urbhead[urbCount].filep);
+      printf ("offset %lld, ", urbhead[urbCount].filep);
       printf ("sequence %d, ", urbhead[urbCount].sequence);
       printf ("time %d, ", urbhead[urbCount].time);
       printf ("allocs %d\n", urbhead[urbCount].reallocs);
 
       if (urbhead[urbCount].desc != NULL)
 	{
-	  if(do_showhash == 1)
+	  if (do_showhash == 1)
 	    {
 	      printf ("MD5 hash: ");
 	      for (temp = 0; temp < 16; temp++)
 		{
-		  printf ("%02x ", 
+		  printf ("%02x ",
 			  (unsigned char) urbhead[urbCount].md5[temp]);
 		}
 	      printf ("\n");
@@ -523,6 +610,9 @@ functname (unsigned int function)
     case 0x8:
       return "CONTROL_TRANSFER";
 
+    case 0x9:
+      return "BULK_OR_INTERRUPT_TRANSFER";
+
     case 0xA:
       return "ISOCH_TRANSFER";
 
@@ -546,6 +636,9 @@ functname (unsigned int function)
 
     case 0x22:
       return "CLEAR_FEATURE_TO_OTHER";
+
+    case 0x28:
+      return "GET_DESCRIPTOR_FROM_INTERFACE";
 
     default:
       return "UNKNOWN";
@@ -593,7 +686,32 @@ usb_urb_controltransfer (char *file, long long *filep)
   count += USB_URB_HCD_LENGTH;
 
   // And now we have a setup packet
-  usb_setup_packet(file, &count);
+  usb_setup_packet (file, &count);
+  *filep = count;
+}
+
+void
+usb_urb_bulktransfer (char *file, long long *filep)
+{
+  long long count = *filep;
+
+  urb_printf ("URB bulk or interrupt transfer:\n");
+  // Skipped pipe handle pointer
+  count += 4;
+  urb_printf ("Transfer flags: %d\n", fileutil_getinteger (file, &count));
+  urb_printf ("Transfer buffer length: %d\n",
+	      fileutil_getinteger (file, &count));
+  // Skipped transfer buffer pointer
+  count += 4;
+  // Skipped transfer buffer MDL pointer
+  count += 4;
+  // Skipped next URB pointer
+  count += 4;
+  urb_printf ("\n");
+
+  // usb_urb_hcd(file, &count);
+  count += USB_URB_HCD_LENGTH;
+
   *filep = count;
 }
 
@@ -672,7 +790,7 @@ usb_ucd (char *file, long long *filep)
 }
 
 void
-usb_setup_packet(char *file, long long *filep)
+usb_setup_packet (char *file, long long *filep)
 {
   long long count = *filep;
   int type, req, val, idx, len;
@@ -684,164 +802,163 @@ usb_setup_packet(char *file, long long *filep)
   urb_printf ("Setup packet:\n");
   type = (unsigned char) file[count++];
   req = (unsigned char) file[count++];
-  val = fileutil_getshort(file, &count);
-  idx = fileutil_getshort(file, &count);
-  len = fileutil_getshort(file, &count);
+  val = fileutil_getshort (file, &count);
+  idx = fileutil_getshort (file, &count);
+  len = fileutil_getshort (file, &count);
 
   urb_printf ("  bmRequestType: 0x%02x (", type);
-  if(((type & 0x80) >> 7) == 1)
+  if (((type & 0x80) >> 7) == 1)
     {
-      urb_printf("device-to-host ");
-      lkdir = strdup("USB_DIR_IN");
+      urb_printf ("device-to-host ");
+      lkdir = strdup ("USB_DIR_IN");
     }
   else
     {
-      urb_printf("host-to-device ");
-      lkdir = strdup("USB_DIR_OUT");
+      urb_printf ("host-to-device ");
+      lkdir = strdup ("USB_DIR_OUT");
     }
-  if(len == 0)
-    urb_printf("[ignored] ");
+  if (len == 0)
+    urb_printf ("[ignored] ");
 
-  switch((type & 0x60) >> 5)
+  switch ((type & 0x60) >> 5)
     {
     case 0:
-      urb_printf("standard ");
-      lktype = strdup("USB_TYPE_STANDARD");
+      urb_printf ("standard ");
+      lktype = strdup ("USB_TYPE_STANDARD");
       stdreq = 1;
       break;
 
     case 1:
-      urb_printf("class ");
-      lktype = strdup("USB_TYPE_CLASS");
+      urb_printf ("class ");
+      lktype = strdup ("USB_TYPE_CLASS");
       break;
-      
+
     case 2:
-      urb_printf("vendor ");
-      lktype = strdup("USB_TYPE_VENDOR");
+      urb_printf ("vendor ");
+      lktype = strdup ("USB_TYPE_VENDOR");
       break;
 
     case 3:
-      urb_printf("reserved ");
-      lktype = strdup("USB_TYPE_RESERVED");
+      urb_printf ("reserved ");
+      lktype = strdup ("USB_TYPE_RESERVED");
       break;
     }
-  switch(type & 0x0F)
+  switch (type & 0x0F)
     {
     case 0:
-      urb_printf("device");
-      lkrecip = strdup("USB_RECIP_DEVICE");
+      urb_printf ("device");
+      lkrecip = strdup ("USB_RECIP_DEVICE");
       break;
 
     case 1:
-      urb_printf("interface");
-      lkrecip = strdup("USB_RECIP_INTERFACE");
+      urb_printf ("interface");
+      lkrecip = strdup ("USB_RECIP_INTERFACE");
       ifaceval = 1;
       break;
-      
+
     case 2:
-      urb_printf("endpoint");
-      lkrecip = strdup("USB_RECIP_ENDPOINT");
+      urb_printf ("endpoint");
+      lkrecip = strdup ("USB_RECIP_ENDPOINT");
       endval = 1;
       break;
 
     case 3:
-      urb_printf("other");
-      lkrecip = strdup("USB_RECIP_OTHER");
+      urb_printf ("other");
+      lkrecip = strdup ("USB_RECIP_OTHER");
       break;
 
     default:
-      urb_printf("reserved");
+      urb_printf ("reserved");
       break;
     }
-  urb_printf(")\n");
-  if(do_linux == 1)
-    urb_printf("  Linux kernel: %s | %s | %s\n\n", lkdir, lktype, lkrecip);
-  urb_xfree(lkdir);
-  urb_xfree(lktype);
-  urb_xfree(lkrecip);
+  urb_printf (")\n");
+  if (do_linux == 1)
+    urb_printf ("  Linux kernel: %s | %s | %s\n\n", lkdir, lktype, lkrecip);
+  urb_xfree (lkdir);
+  urb_xfree (lktype);
+  urb_xfree (lkrecip);
 
   urb_printf ("  bRequest: 0x%02x", req);
-  if(stdreq == 1)
+  if (stdreq == 1)
     {
-      switch(req)
+      switch (req)
 	{
-        case 0x00:
-          urb_printf(" GET_STATUS");
-          lkreq = strdup("USB_REQ_GET_STATUS");
-          break;
+	case 0x00:
+	  urb_printf (" GET_STATUS");
+	  lkreq = strdup ("USB_REQ_GET_STATUS");
+	  break;
 
-        case 0x01:
-          urb_printf(" CLEAR_FEATURE");
-          lkreq = strdup("USB_REQ_CLEAR_FEATURE");
-          break;
+	case 0x01:
+	  urb_printf (" CLEAR_FEATURE");
+	  lkreq = strdup ("USB_REQ_CLEAR_FEATURE");
+	  break;
 
-        case 0x03:
-          urb_printf(" SET_FEATURE");
-          lkreq = strdup("USB_REQ_SET_FEATURE");
-          break;
+	case 0x03:
+	  urb_printf (" SET_FEATURE");
+	  lkreq = strdup ("USB_REQ_SET_FEATURE");
+	  break;
 
-        case 0x05:
-          urb_printf(" SET_ADDRESS");
-          lkreq = strdup("USB_REQ_SET_ADDRESS");
-          break;
+	case 0x05:
+	  urb_printf (" SET_ADDRESS");
+	  lkreq = strdup ("USB_REQ_SET_ADDRESS");
+	  break;
 
-        case 0x06:
-          urb_printf(" GET_DESCRIPTOR");
-          lkreq = strdup("USB_REQ_GET_DESCRIPTOR");
-          break;
+	case 0x06:
+	  urb_printf (" GET_DESCRIPTOR");
+	  lkreq = strdup ("USB_REQ_GET_DESCRIPTOR");
+	  break;
 
-        case 0x07:
-          urb_printf(" SET_DESCRIPTOR");
-          lkreq = strdup("USB_REQ_SET_DESCRIPTOR");
-          break;
+	case 0x07:
+	  urb_printf (" SET_DESCRIPTOR");
+	  lkreq = strdup ("USB_REQ_SET_DESCRIPTOR");
+	  break;
 
-        case 0x08:
-          urb_printf(" GET_CONFIGURATION");
-          lkreq = strdup("USB_REQ_GET_CONFIGURATION");
-          break;
+	case 0x08:
+	  urb_printf (" GET_CONFIGURATION");
+	  lkreq = strdup ("USB_REQ_GET_CONFIGURATION");
+	  break;
 
-        case 0x09:
-          urb_printf(" SET_CONFIGURATION");
-          lkreq = strdup("USB_REQ_SET_CONFIGURATION");
-          break;
+	case 0x09:
+	  urb_printf (" SET_CONFIGURATION");
+	  lkreq = strdup ("USB_REQ_SET_CONFIGURATION");
+	  break;
 
-        case 0x0A:
-          urb_printf(" GET_INTERFACE");
-          lkreq = strdup("USB_REQ_GET_INTERFACE");
-          break;
+	case 0x0A:
+	  urb_printf (" GET_INTERFACE");
+	  lkreq = strdup ("USB_REQ_GET_INTERFACE");
+	  break;
 
-        case 0x0B:
-          urb_printf(" SET_INTERFACE");
-          lkreq = strdup("USB_REQ_SET_INTERFACE");
-          break;
+	case 0x0B:
+	  urb_printf (" SET_INTERFACE");
+	  lkreq = strdup ("USB_REQ_SET_INTERFACE");
+	  break;
 
-        case 0x0C:
-          urb_printf(" SYNCH_FRAME");
-          lkreq = strdup("USB_REQ_SYNCH_FRAME");
-          break;
+	case 0x0C:
+	  urb_printf (" SYNCH_FRAME");
+	  lkreq = strdup ("USB_REQ_SYNCH_FRAME");
+	  break;
 	}
 
-      urb_printf(" [standard]");
+      urb_printf (" [standard]");
     }
-  urb_printf("\n");
-  if(do_linux == 1)
-    urb_printf("  Linux kernel: %s\n\n", lkreq);
-  urb_xfree(lkreq);
+  urb_printf ("\n");
+  if (do_linux == 1)
+    urb_printf ("  Linux kernel: %s\n\n", lkreq);
+  urb_xfree (lkreq);
 
   urb_printf ("  wValue: 0x%04x (%d)\n", val, val);
 
   urb_printf ("  wIndex: 0x%04x (%d)", idx, idx);
-  if(endval == 1)
+  if (endval == 1)
     {
-      urb_printf(" [%s endpoint %d]",
-		 idx & 0x80 == 0x80 ? "in" : "out",
-		 idx & 0x0F);
+      urb_printf (" [%s endpoint %d]",
+		  (((idx & 0x80) == 0x80) ? "in" : "out"), idx & 0x0F);
     }
-  else if(ifaceval == 1)
+  else if (ifaceval == 1)
     {
-      urb_printf(" [interface %d]", (idx & 0xFF00) >> 8);
+      urb_printf (" [interface %d]", (idx & 0xFF00) >> 8);
     }
-  urb_printf("\n");
+  urb_printf ("\n");
 
   urb_printf ("  wLength: 0x%04x (%d)\n", len, len);
 
@@ -934,10 +1051,10 @@ urb_xsnprintf (char *format, va_list ap)
 }
 
 void
-urb_xfree(void *m)
+urb_xfree (void *m)
 {
-  if(m)
-    free(m);
+  if (m)
+    free (m);
 }
 
 char *

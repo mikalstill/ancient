@@ -1,5 +1,10 @@
+#include <stdlib.h>
+#include <string.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 #include "fileutil.h"
 #include "winlang.h"
+
 
 void
 fileutil_insertstring (FILE * output, char *string)
@@ -93,7 +98,7 @@ fileutil_displaynumber (char *input, char *format, long long *filep)
 int
 fileutil_getnumber (char *input, long long *filep)
 {
-  int i, read, readlocal;
+  int i;
   long long count = *filep;
 
   // Determine the length -- this matches C++ CArchive serialization
@@ -123,7 +128,7 @@ fileutil_displayunumber (char *input, char *format, long long *filep)
 unsigned int
 fileutil_getunumber (char *input, long long *filep)
 {
-  int i, read, readlocal;
+  int i;
   long long count = *filep;
 
   // Determine the length -- this matches C++ CArchive serialization
@@ -141,19 +146,20 @@ fileutil_getunumber (char *input, long long *filep)
 void
 fileutil_displayunicodestring (char *input, char *format, long long *filep)
 {
-  int i, read, readlocal;
   long long count = *filep;
 
   printf (format);
   while (input[count] != '\0')
     {
-      printf ("%c", input[count++], input[count]);
+      printf ("%c", input[count]);
+      count++;
+      printf ("%c", input[count]);
       count++;
     }
 
   // Skip over the NULL short at the end
   count += 2;
-  printf (" [%d bytes]", count - *filep);
+  printf (" [%lld bytes]", count - *filep);
 
   *filep = count;
 }
@@ -175,7 +181,7 @@ fileutil_displaylong (char *input, char *format, long long *filep)
   mylong.c[6] = input[*filep + 6];
   mylong.c[7] = input[*filep + 7];
 
-  printf ("(long long) %d [8 bytes]", mylong.i);
+  printf ("(long long) %lld [8 bytes]", mylong.i);
   *filep += 8;
   return mylong.i;
 }
@@ -191,7 +197,7 @@ fileutil_displayinteger (char *input, char *format, long long *filep)
   i = fileutil_getinteger (input, &count);
   *filep = count;
 
-  printf ("(int) %u [4 bytes]", i);
+  printf ("(int) %d [4 bytes]", i);
   return i;
 }
 
@@ -385,6 +391,7 @@ fileutil_displayguid (char *input, char *format, long long *filep)
   fileutil_displayshort (input, " ", &count);
   fileutil_displaybyteblock (input, " ", 8, &count);
   *filep = count;
+  return input;
 }
 
 // "Encoded integer", used by MS CHM
