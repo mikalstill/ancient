@@ -18,14 +18,22 @@
 <sect1>
 <title>Abstract</title>
 <para>
-Recently, I went to a conference and was keen enough to setup a webcam to take a picture every couple of seconds. Now I have 27,000 JPEG images, which I want to turn into a simple MPEG movie. This document details the process I went through to make this happen.
+Some time ago, I went to a conference and was keen enough to setup a webcam to take a picture every couple of seconds. I then had 27,000 JPEG images, which I wanted to turn into a simple MPEG movie. This document details the process I went through to make this happen.
+</para>
+</sect1>
+
+<sect1><title>About this document</title>
+<para>
+The version of this howto which you are currently reading is an update of the original version. I updated the document about a year after initially going through the process. This version reflects a few small changes in the open source projects which I used to perform the conversion, and some error corrections from the original version of this document.
 </para>
 
-<sidebar><title>This is an update of an older article</title>
 <para>
 Since the original version of this article, I have updated my machine from a pretty vanilla Redhat 7.1 box to a Debian unstable machine, for those who care about such things. Where things have changed from my experience about a year ago, I'll let you know.
 </para>
-</sidebar>
+
+<para>
+I'm also a little surprised about the amount of email I have received about the original version of this document &mdash; obviously lots of people are trying to solve this kind of problem. I also get a lot of email from people using <trademark>Microsoft Windows</trademark> and wanting to perform a similar conversion. Unfortunately, as someone who doesn't use Windows very much, I cannot recommend a way of doing this sort of processing on that platform, although it is possible that MJPEG tools could be compiled for <trademark>Windows</trademark> &mdash; I just haven't tried. I would recommend Google as a way of finding something to help you out.
+</para>
 </sect1>
 
 <sect1><title>About the author</title>
@@ -34,17 +42,21 @@ Michael has been working in the image processing field for several years, includ
 </para>
 
 <para>
-Michael has a website at http://www.stillhq.com, and may be emailled at mikal@stillhq.com
+Michael has a website at http://www.stillhq.com, and may be emailed at mikal@stillhq.com
 </para>
 </sect1>
 
 <sect1><title>MPEG tools</title>
 <para>
-The project I found which did the conversion is called MJPEG tools. The URL for this project is http://mjpeg.sourceforge.net. There were lots of dependancies, which we should talk about first. The updated version of this article was written with version 1.6.1 beta.
+When I went searching for something to convert my many JPEG files to a MPEG moving, I quickly came across the MJPEG tools project. The URL for this project is http://mjpeg.sourceforge.net. MJPEG tools is very powerful, but there are lots of dependencies, which we should talk about first. There are also a few build and install problems with some of these dependencies which need to be resolved along the way, which I have also documented here. The updated version of this article was written with version 1.6.1 beta.
 </para>
 </sect1>
 
-<sect1><title>Dependancies</title>
+<sect1><title>Dependencies</title>
+<para>
+Let's work through the various MJPEG tools dependencies one by one, and discuss what needs to be done to get them installed on your machine.
+</para>
+
 <sect2><title>libavifile</title>
 <para>
 This library can be found at http://avifile.sourceforge.net. It is needed by MJPEG tools to be able to handle AVI files. The version I used was 0.7.37. It follows the standard autotools install process:
@@ -92,7 +104,7 @@ For Debian, just do a <command>apt-get install libsdl-dev</command>.
 
 <sect2><title>nasm</title>
 <para>
-The NASM webpage can be found at http://nasm.sourceforge.net/. An explaination of where NASM came from can be found in the documentation:
+The NASM web page can be found at http://nasm.sourceforge.net/. An explanation of where NASM came from can be found in the documentation:
 </para>
 
 <blockquote><attribution>http://home.attbi.com/~fbkotler/nasmdoc1.html#section-1.1</attribution>
@@ -160,7 +172,7 @@ This seems to be because it is trying to install everything in the the current w
 
 <sect2><title>jpeg-mmx</title>
 <para>
-We'll also need the MJPEG people's MMX JPEG library, which was at version 0.1.4 at the time of writing this article. I believe the difference between the standard JPEG library and the MMX JPEG library is that the MMX version is optimised for MMX processors, and wont run on processors without MMX. The standard libjpeg also seems to be an option here. I downloaded version 0.1.4, and did the autotools thing.
+We'll also need the MJPEG people's MMX JPEG library, which was at version 0.1.4 at the time of writing this article. I believe the difference between the standard JPEG library and the MMX JPEG library is that the MMX version is optimized for MMX processors, and wont run on processors without MMX. The standard libjpeg also seems to be an option here, although my machine have MMX, so I didn't try it. I downloaded version 0.1.4, and did the autotools thing.
 </para>
 
 <para>
@@ -190,33 +202,33 @@ cp jpegint.h /usr/local/include/
 </programlisting>
 
 <para>
-TODO: debian package?
+TODO: Debian package?
 </para>
 </sect2>
 
 <sect2><title>movtar</title>
 <para>
-movtar is actaully written by the MJPEG people. You can download it from http://download.sourceforge.net/mjpeg/. I used the 1.3.0 release, which hasn't changed since I wrote this article a year ago. The install was autotooled once more. I am sure by now I don't have to explain how to do that...
+movtar is actually written by the MJPEG people. You can download it from http://download.sourceforge.net/mjpeg/. I used the 1.3.0 release, which hasn't changed since I wrote this article a year ago. The install was autotooled once more. I am sure by now I don't have to explain how to do that...
 </para>
 
 <para>
-TODO: debian package
+TODO: Debian package
 </para>
 </sect2>
 
 <sect2><title>fontconfig</title>
 <para>
-Since I first wrote this article, MJPEG tools appears to have added a dependany on the fontconfig library from www.fontconfig.org. I installed version 2.2.1. Annoyingly, the autotools configuration for MJPEG tools didn't detect that fontconfig was missing, it just failed to compile.
+Since I first wrote this article, MJPEG tools appears to have added a dependency on the fontconfig library from www.fontconfig.org. I installed version 2.2.1. Annoyingly, the autotools configuration for MJPEG tools didn't detect that fontconfig was missing, it just failed to compile.
 </para>
 
 <para>
-TODO: debian package
+TODO: Debian package
 </para>
 </sect2>
 
 <sect2><title>Compiling MJPEG tools itself</title>
 <para>
-I downloaded version 1.6.1 from the sourceforge website. Yet again, the install process was based off the autotools.
+I downloaded version 1.6.1 from the SourceForge website. Yet again, the install process was based off the autotools.
 </para>
 
 <para>
@@ -262,14 +274,14 @@ This time around, because I am using a newer version of GCC, I had to apply the 
 <execute><cmd>code2db</cmd><input>mjpegtools.patch</input></execute>
 
 <para>
-TODO: debian package
+TODO: Debian package
 </para>
 </sect2>
 </sect1>
 
 <sect1><title>Encoding the JPEGS into the MPEG</title>
 <para>
-Finally, we can use MJPEG tools to convert the JPEGs into a MPEG stream. The documentation for this says:
+Finally, we can use MJPEG tools to convert the JPEGs into a MPEG stream.
 </para>
 
 <para>
@@ -304,7 +316,7 @@ ls *.ppm | xargs -n1 cat | ppmtoy4m | mpeg2enc -o mpegfile.m1v
 </programlisting>
 
 <para>
-It should be noted that this command line requires that the input images be ppm files instead of jpeg files however. We can get around this by using convert to change the format of the images:
+It should be noted that this command line requires that the input images be PPM files instead of JPEG files however. We can get around this by using convert to change the format of the images:
 </para>
 
 <programlisting>
@@ -316,6 +328,12 @@ done
 
 <para>
 Note that the conversion is also quite slow, I walked away and came back later.
+</para>
+</sect1>
+
+<sect1><title>Conclusion</title>
+<para>
+In this document I have discussed how to install MJPEG tools and it's dependencies, and then discussed how to convert a bunch of JPEGs to PPM files, and then a single MPEG movie. I hope you have found this document of some use. Feel free to send me email if you have more questions, although I don't guarantee to personally answer then many hundreds of emails I receive each day.
 </para>
 </sect1>
 </article>
