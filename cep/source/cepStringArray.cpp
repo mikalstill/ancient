@@ -51,6 +51,8 @@ size_t cepStringArray::size()
 string cepStringArray::operator[](size_t index)
 {
   cepDebugPrint("Request for element " + cepToString(index) + " from string " + m_unbroken);
+  if(m_unbroken.length() == 0)
+    return "";
   if(index < m_broken.size())
     return m_broken[index];
   else return "";

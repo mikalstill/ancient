@@ -184,22 +184,13 @@ cepPresentation::createBitmap ()
 
   // Determine the vertical scaling factor
   long yrange = ymaxval - yminval;
-  float yscale = yrange / (m_height - 20);
+  double yscale = yrange / (m_height - 20);
+  float oldyscale = yrange / (m_height - 20);
 
   cepDebugPrint("Dimensions of graph bitmap: " + cepToString(m_width) + " x " +
 		cepToString(m_height));
-
-  // This little tweak deals with inaccuracies in the float rounding of the
-  // above
-  // todo_mikal: I am not happy with this, I should ask for suggestions...
-  cepDebugPrint("Yscale = " + cepToString(yscale));
-  if(yscale > 0){
-    yscale *= 2.0; // Was 1.3
-  }
-  else{
-    yscale /= 0.66;
-  }
-  cepDebugPrint("Yscale = " + cepToString(yscale));
+  cepDebugPrint("Yscale is: " + cepToString(oldyscale) + " (float) or " +
+		cepToString(yscale) + " (double)");
 
   // If we are using errors, then we draw these underneath
   if(m_useErrors){
