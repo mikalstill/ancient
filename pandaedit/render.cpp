@@ -324,6 +324,8 @@ pdfRender::command_cm ()
   m_graphicsMatrix.setValues (vals);
 }
 
+// todo_mikal: this will only work with black and white images for now...
+// todo_mikal: do all error paths cleanup enough?
 void
 pdfRender::command_Do ()
 {
@@ -356,25 +358,49 @@ pdfRender::command_Do ()
     }
 
   debug(dlTrace, "We should do something with this now...");
-  char *stream;
   bool needStreamClean (false);
   unsigned long length;
   raster rast (image);
-  stream = image.getStream (rast, needStreamClean, length);
+
+  // This stream is packed eight pixels to the byte if it is a black and white
+  // TIFF stream
+  unsigned char *stream = (unsigned char *) image.getStream (rast, 
+							     needStreamClean, 
+							     length);
   debug(dlTrace, string("Stream returned from object is ") + 
 	toString((long) length) + string(" bytes"));
 
-  // todo_mikal: I'm not sure what I was thinking when I put this here. Cleanup
-  //rast.setData (stream);
-
   // Expand the raster to the bit depth of the output raster
-  char *newstream2;
-  // todo_mikal: remove hard coding
-  //for(unsigned int i = 0; i < rast.getWidth() * rast.getHeight(); i++){
-  //  if(stream[i] == 1) stream[i] = 255;
-  //}
+  unsigned char *newstream, *newstream2;
+  // todo_mikal: eliminate mallocs and frees
+  if((newstream = (unsigned char *) malloc(length * 8)) == NULL){
+    debug(dlTrace, "Could not allocate memory for raster conversion");
+    return;
+  }
 
-  newstream2 = inflateraster(stream, rast.getWidth(), rast.getHeight(), 
+  memset(newstream, 0, length * 8);
+  unsigned int o = 0;
+  for(unsigned int i = 0; i < length; i++){
+    if(!(stream[i] & 128)) newstream[o] = 255;
+    o++;
+    if(!(stream[i] & 64)) newstream[o] = 255;
+    o++;
+    if(!(stream[i] & 32)) newstream[o] = 255;
+    o++;
+    if(!(stream[i] & 16)) newstream[o] = 255;
+    o++;
+    if(!(stream[i] & 8)) newstream[o] = 255;
+    o++;
+    if(!(stream[i] & 4)) newstream[o] = 255;
+    o++;
+    if(!(stream[i] & 2)) newstream[o] = 255;
+    o++;
+    if(!(stream[i] & 1)) newstream[o] = 255;
+    o++;
+  }
+
+  newstream2 = (unsigned char *) inflateraster((char *) newstream, 
+					       rast.getWidth(), rast.getHeight(), 
 			     8, 8, 1, 3);
   if((int) newstream2 == -1){
     free(stream);
@@ -382,8 +408,9 @@ pdfRender::command_Do ()
     return;
     }
 
-  plot_overlayraster(m_plot, newstream2, 0, 0, m_width, m_height, 
-		     rast.getWidth(), rast.getHeight(), 1);
+  plot_overlayraster(m_plot, (char *) newstream2, 0, 0, 
+		     m_width, m_height, 
+		     rast.getWidth(), rast.getHeight(), 0);
   if(needStreamClean)
     free(stream);
   free(newstream2);

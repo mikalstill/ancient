@@ -8,17 +8,6 @@ raster::raster (object & obj)
   // Type = XObject
   // SubType = Image
   // Name = <the name>
-
-  if (!obj.getDict ().getValue ("BitsPerComponent", m_bpc))
-    {
-      debug(dlTrace, "Image doesn't specify a sample size");
-    }
-
-  if (!obj.getDict ().getValue ("ColorSpace", m_cs))
-    {
-      debug(dlTrace, "Image doesn't specify a color space");
-    }
-
   dictionary decodeParms;
   if (obj.getDict ().getValue ("DecodeParms", decodeParms))
     {
@@ -41,12 +30,6 @@ raster::raster (object & obj)
     {
       debug(dlTrace, "Image does not specify a height");
     }
-}
-
-void
-raster::setData (char *data)
-{
-  m_data = data;
 }
 
 int

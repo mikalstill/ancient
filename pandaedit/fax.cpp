@@ -226,33 +226,6 @@ fax::decompress (char *input, unsigned long length, unsigned long &newlength)
   }
   debug(dlTrace, string("New length of stream is ") + toString((long) newlength));
 
-  ///////////////////////////////////////
-  // Temporarily write it out to a file as well so that I can visually inspect it...
-  // Open the TIFF file
-  if((image = TIFFOpen("output.tif", "w")) == NULL){
-    printf("Could not open output.tif for writing\n");
-    exit(42);
-  }
-
-  // We need to set some values for basic tags before we can add any data
-  TIFFSetField(image, TIFFTAG_IMAGEWIDTH, m_width);
-  TIFFSetField(image, TIFFTAG_IMAGELENGTH, m_length);
-  TIFFSetField(image, TIFFTAG_BITSPERSAMPLE, 1);
-  TIFFSetField(image, TIFFTAG_SAMPLESPERPIXEL, 1);
-  TIFFSetField(image, TIFFTAG_ROWSPERSTRIP, m_length);
-
-  TIFFSetField(image, TIFFTAG_COMPRESSION, COMPRESSION_CCITTFAX4);
-  TIFFSetField(image, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_MINISWHITE);
-  TIFFSetField(image, TIFFTAG_FILLORDER, FILLORDER_MSB2LSB);
-  TIFFSetField(image, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
-
-  TIFFSetField(image, TIFFTAG_XRESOLUTION, 300.0);
-  TIFFSetField(image, TIFFTAG_YRESOLUTION, 300.0);
-  TIFFSetField(image, TIFFTAG_RESOLUTIONUNIT, RESUNIT_INCH);
-
-  TIFFWriteEncodedStrip(image, 0, retval, newlength);
-  TIFFClose(image);
-
   // Cleanup
   free(globalImage);
   globalImage = NULL;
@@ -315,7 +288,7 @@ libtiffDummyReadProc (thandle_t fd, tdata_t buf, tsize_t size)
   memcpy (buf, globalImage + globalImageOffset, realsize);
   globalImageOffset += realsize;
 
-  debug(dlTrace, string("Image data read: ") + binaryToString(buf, realsize));
+  // debug(dlTrace, string("Image data read: ") + binaryToString(buf, realsize));
   debug(dlTrace, string("Read ") + toString(realsize) + string(" bytes"));
   debug(dlTrace, string("Offset = ") + toString((long) globalImageOffset));
   return size;
