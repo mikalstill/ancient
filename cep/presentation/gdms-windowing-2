@@ -9,4 +9,4 @@ TITLE: Windowing Algorithms (Blake)
   <li>Dolph-Chebyshev
   </ul>
 <li>prudent selection can attenuate the FD ripples
-<img src="windows.png" alt="various windowing algorithms">
+<img src="/notes/presentations/content/windows.png" alt="various windowing algorithms">
