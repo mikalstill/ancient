@@ -1,0 +1,1798 @@
+**** BEGIN LOGGING AT Tue May 13 22:53:38 2003
+
+May 13 22:53:38 --> You are now talking on #lse
+May 13 22:53:38 --- Topic for #lse is Yes this is the right channel for the 2.6 must-fix list discussion on Wednesday
+May 13 22:53:38 --- Topic for #lse set by hanna!~hlinder@bi01p1.co.us.ibm.com at Tue May 13 09:46:33
+May 13 23:22:42 --> sneakums (~sneakums@zork.zork.net) has joined #lse
+May 13 23:27:06 <-- maneesh has quit (Quit: Client Exiting)
+May 14 00:17:03 --> FreeLight_zzz (~francis@CPE0002b38c45e3-CM400045885308.cpe.net.cable.rogers.com) has joined #lse
+May 14 00:54:51 <-- FreeLight_zzz (~francis@CPE0002b38c45e3-CM400045885308.cpe.net.cable.rogers.com) has left #lse
+May 14 01:20:03 --> corbet (~user@jon-dsl.lwn.net) has joined #lse
+May 14 01:30:59 --> swiety (saint@guru.isasecret.com) has joined #lse
+May 14 01:33:06 --> hanna (~hlinder@32.97.110.142) has joined #lse
+May 14 01:33:20 <hanna> corbet! greetings
+May 14 01:37:27 <corbet> Howdy...  just trying to get the hang of this thing again...
+May 14 01:37:59 <sneakums> put your left leg in ...
+May 14 01:38:03 <corbet> I think the list time I IRC'd was during the Soviet coup, when somebody was typing reports from Moscow...
+May 14 01:38:25 <hanna> hehe. Im pretty happy with xchat myself...
+May 14 01:48:47 --> gregkh (~gregkh@12.231.249.244) has joined #lse
+May 14 02:35:04 --> gaughen (~gaughen@bi01p1.co.us.ibm.com) has joined #lse
+May 14 03:05:39 <-- swiety has quit (Ping timeout: 492 seconds)
+May 14 04:46:31 --> jdi (jdittmer@a089041.adsl.hansenet.de) has joined #lse
+May 14 04:46:44 <-- jdi (jdittmer@a089041.adsl.hansenet.de) has left #lse (Client Exiting)
+May 14 04:46:53 --> dardhal (~dardhal@89.Red-81-40-110.pooles.rima-tde.net) has joined #lse
+May 14 04:47:33 <dardhal> hi everyone
+May 14 04:48:21 <hanna> greetings dardhal
+May 14 05:16:14 --> faiku (faiku@212.174.49.51) has joined #lse
+May 14 05:29:30 <-- faiku has quit (Quit: Client Exiting)
+May 14 06:06:56 --> riel (~riel@riel.netop.oftc.net) has joined #lse
+May 14 06:07:05 <riel> hello
+May 14 06:33:37 --> hlinder (~hlinder@bi-01pt1.bluebird.ibm.com) has joined #lse
+May 14 06:34:19 --> hanna_ (~hlinder@32.97.110.142) has joined #lse
+May 14 06:34:29 <-- hanna has quit (Read error: Connection reset by peer)
+May 14 06:36:56 --- hanna_ is now known as hanna
+May 14 06:41:57 <-- hlinder has quit (Ping timeout: 492 seconds)
+May 14 06:49:24 --> cliffw (~cliffw@65.172.181.6) has joined #lse
+May 14 06:52:29 <hanna> hey cliff
+May 14 06:54:05 <cliffw> hey hanna
+May 14 07:04:37 --> e2rd (corso@62.89.96.86) has joined #lse
+May 14 07:34:05 --> hlinder (~hlinder@129.33.49.251) has joined #lse
+May 14 07:34:15 <-- gaughen has quit (Read error: Connection reset by peer)
+May 14 07:34:27 --> gaughen (~gaughen@32.97.110.142) has joined #lse
+May 14 07:34:35 <-- hanna has quit (Read error: Connection reset by peer)
+May 14 07:42:17 <-- hlinder has quit (Ping timeout: 485 seconds)
+May 14 07:44:33 --> gerrit_ (~gerrit@bi01p1.co.us.ibm.com) has joined #lse
+May 14 07:46:03 --> gerrit__ (~gerrit@32.97.110.142) has joined #lse
+May 14 07:47:24 --> hanna (~hlinder@bi01p1.co.us.ibm.com) has joined #lse
+May 14 08:03:27 <-- gerrit__ has quit (Quit: [x]chat)
+May 14 08:03:28 <-- gerrit_ has quit (Quit: [x]chat)
+May 14 08:03:41 --> gerrit (~gerrit@bi01p1.co.us.ibm.com) has joined #lse
+May 14 08:14:10 --> gerrit__ (~gerrit@bi-01pt1.bluebird.ibm.com) has joined #lse
+May 14 08:15:05 <-- gerrit has quit (Read error: Connection reset by peer)
+May 14 08:16:43 <-- hanna has quit (Read error: Connection reset by peer)
+May 14 08:17:03 --> gaughen_ (~gaughen@32.97.110.142) has joined #lse
+May 14 08:17:40 --> gerrit_ (~gerrit@32.97.110.142) has joined #lse
+May 14 08:18:21 <-- gaughen has quit (Read error: Connection reset by peer)
+May 14 08:22:24 <-- gerrit__ has quit (Ping timeout: 492 seconds)
+May 14 08:24:11 <-- gregkh (~gregkh@12.231.249.244) has left #lse
+May 14 08:31:14 --> hanna (~hlinder@bi01p1.co.us.ibm.com) has joined #lse
+May 14 08:37:50 --- riel is now known as unriel
+May 14 08:54:02 <-- gerrit_ has quit (Read error: Connection reset by peer)
+May 14 08:55:14 <-- hanna has quit (Read error: Connection reset by peer)
+May 14 08:55:58 --> gerrit_ (~gerrit@32.97.110.142) has joined #lse
+May 14 08:56:09 <-- cliffw (~cliffw@65.172.181.6) has left #lse (Client Exiting)
+May 14 09:13:53 <-- gerrit_ has quit (Read error: Connection reset by peer)
+May 14 09:13:57 --> sziwan (sziwan@212.244.218.42) has joined #lse
+May 14 09:15:22 --> gerrit_ (~gerrit@32.97.110.142) has joined #lse
+May 14 09:19:33 <-- sziwan has quit (Quit: leaving)
+May 14 09:49:16 <-- dardhal has quit (Quit: Tarde o temprano volveré)
+May 14 11:40:51 <-- gerrit_ has quit (Ping timeout: 488 seconds)
+May 14 11:44:23 <-- gaughen_ has quit (Quit: Client Exiting)
+May 14 14:06:15 <-- surriel has quit (uranium.oftc.net europa.oftc.net)
+May 14 14:08:15 --> surriel (~riel@riel.netop.oftc.net) has joined #lse
+May 14 14:08:15 --- infrared.oftc.net gives channel operator status to surriel
+May 14 14:59:20 --> andmike (~andmike@130.94.160.149) has joined #lse
+May 14 14:59:33 <wli> andmike: How's my aic7xxx fix look?
+May 14 15:31:27 <-- andmike (~andmike@130.94.160.149) has left #lse (Client exiting)
+May 14 15:51:23 --> gerrit_ (~gerrit@ip216-26-76-170.dsl.du.teleport.com) has joined #lse
+May 14 16:20:40 --> muli (~muli@nesher3.haifa.il.ibm.com) has joined #lse
+May 14 16:20:48 <muli> salutations
+May 14 16:21:01 <muli> is my time zone calculation correct and we should start in 40 minutes?
+May 14 16:24:06 <wli> you're s**tting me?
+May 14 16:26:26 <muli> no, I'm actually serious
+May 14 16:26:33 <muli> when should it start?
+May 14 16:26:51 <muli> I may have confused an AM/PM somewhere ;-) 
+May 14 16:27:06 <wli> no idea
+May 14 16:27:18 <wli> someone will flag me down
+May 14 16:28:11 <muli> what time is it on your side?
+May 14 16:28:38 <wli> 11:30PM
+May 14 16:28:48 <muli> on Tuesday, I assume?
+May 14 16:29:00 <wli> yep
+May 14 16:30:19 <muli> are you at PDT?
+May 14 16:30:26 <muli> or CDT, or EDT?
+May 14 16:30:41 <wli> PDT
+May 14 16:30:52 <muli> it's 2:00 PM, your time
+May 14 16:31:00 <muli> which means 14.5 hours from now
+May 14 16:31:09 <wli> no it's 11:30PM
+May 14 16:31:19 <wli> er
+May 14 16:31:20 <wli> nm
+May 14 16:31:29 <muli> the conference will be at 2:00 PM 
+May 14 16:31:40 <muli> I'm 10 hours ahead of you
+May 14 16:31:48 --> badspirit (~badspirit@80.49.51.30) has joined #lse
+May 14 16:31:49 <muli> which means 24:00 my time. 
+May 14 16:32:04 <badspirit> yo folks
+May 14 16:32:07 <wli> you mean 00:00?
+May 14 16:32:19 <muli> wli, I mean 23:50++ 
+May 14 16:32:28 <muli> doh! 23:59++
+May 14 16:34:25 <badspirit> brb
+May 14 16:34:33 <-- badspirit has quit (Client Quit)
+May 14 16:34:57 --> badspirit (~badspirit@pb30.przeworsk.sdi.tpnet.pl) has joined #lse
+May 14 16:49:22 <-- muli has quit (Quit: [BX] This BitchX's for you)
+May 14 16:54:40 --> green (green@linuxhacker.ru) has joined #lse
+May 14 17:06:51 --> nikita (~god@laputa.namesys.com) has joined #lse
+May 14 17:22:15 <-- badspirit has quit (Remote host closed the connection)
+May 14 17:30:30 <-- nikita has quit (Ping timeout: 492 seconds)
+May 14 17:32:36 --> badspirit (~badspirit@pb30.przeworsk.sdi.tpnet.pl) has joined #lse
+May 14 17:33:12 <-- badspirit has quit (Remote host closed the connection)
+May 14 17:36:11 --> badspirit (~badspirit@80.49.51.30) has joined #lse
+May 14 17:45:23 --> nikita (~god@laputa.namesys.com) has joined #lse
+May 14 20:15:29 <-- hrandoz has quit (Read error: No route to host)
+May 14 20:15:59 --> hrandoz (~hrandoz@user-38ld002.dialup.mindspring.com) has joined #lse
+May 14 20:37:15 <-- surriel has quit (uranium.oftc.net europa.oftc.net)
+May 14 20:37:27 --> surriel (~riel@riel.netop.oftc.net) has joined #lse
+May 14 20:37:27 --- infrared.oftc.net gives channel operator status to surriel
+May 14 20:58:21 --> tr606 (~sneppef@d51537E55.kabel.telenet.be) has joined #lse
+May 14 21:02:43 <badspirit> http://drumandbass.clubmusic.fm/ look at this (:
+May 14 21:17:56 --> h4rd (~malit@81.15.234.70) has joined #lse
+May 14 21:35:44 --> mdewand (~mdewand@nat-pool-bos.redhat.com) has joined #lse
+May 14 22:34:22 --- unriel is now known as riel
+May 14 23:00:09 <-- badspirit has quit (Quit: Client exiting)
+May 14 23:16:11 --> davej (~davej@81-86-107-140.dsl.pipex.com) has joined #lse
+May 14 23:25:53 --> Mercury (warp@24.99.36.145) has joined #lse
+May 14 23:29:44 --> badspirit (~badspirit@80.49.51.30) has joined #lse
+May 14 23:30:00 --> jonathaN (jonathan@deadlock.et.tudelft.nl) has joined #lse
+May 14 23:30:43 <-- h4rd has quit (Quit: spadam)
+May 14 23:38:31 --> kaeptnb (~kaeptnb@lifebookwl.ASK.FH-Furtwangen.DE) has joined #lse
+May 15 00:55:15 --> sneppef_ (~sneppef@195.207.48.218) has joined #lse
+May 15 00:55:33 --> cliffw (~cliffw@209.162.217.75) has joined #lse
+May 15 01:00:51 <-- mdewand has quit (Quit: Client Exiting)
+May 15 01:01:08 --> DnsInfector (~DnsInfect@81.53.249.254) has joined #lse
+May 15 01:01:31 <DnsInfector> hi
+May 15 01:01:39 <-- tr606 has quit (Ping timeout: 492 seconds)
+May 15 01:03:01 <-- sneppef_ has quit (Quit: Client Exiting)
+May 15 02:12:40 --> gaughen (~gaughen@32.97.110.142) has joined #lse
+May 15 02:15:28 --> hanna (~hlinder@32.97.110.142) has joined #lse
+May 15 02:18:50 --- wli gives channel operator status to hanna
+May 15 02:23:05 --- hanna has changed the topic to: 2.6 must-fix discussion with akpm at 2pm PDT today
+May 15 02:23:48 --> quintela (~quintela@213.60.19.173) has joined #lse
+May 15 02:24:29 --> grover (agrover@216-99-218-29.dsl.aracnet.com) has joined #lse
+May 15 02:27:32 <hanna> quintela, grover: welcome
+May 15 02:38:21 --> jlnance (~jlnance@216.181.42.97) has joined #lse
+May 15 02:38:56 <quintela> hanna: thanks.
+May 15 02:39:20 * quintela begins to wonder what is an easy way to translate 2pm PDT at the old good CET :)
+May 15 02:40:34 <hanna> quintela, timeanddate.com is helpful
+May 15 02:41:44 --> gregkh (~gregkh@12.231.249.244) has joined #lse
+May 15 02:44:08 --> txymp (~txymp@216.236.98.130) has joined #lse
+May 15 02:51:06 <-- jlnance has quit (Quit: I wasted the past 12m59s in Ninja IRC v1.5)
+May 15 03:01:05 --> PuckCh (~Bornet@adsl-62-167-187-45.adslplus.ch) has joined #lse
+May 15 03:11:40 <quintela> hanna: thanks
+May 15 03:12:05 <-- txymp (~txymp@216.236.98.130) has left #lse (Client Exiting)
+May 15 03:12:08 --> txymp (~txymp@216.236.98.130) has joined #lse
+May 15 03:22:00 --> JK (~jan@vexed2.alioth.net) has joined #lse
+May 15 03:25:52 --> Mammuth (~thsv@h190n2fls306o1003.telia.com) has joined #lse
+May 15 03:28:42 --> borb (~boris@212.118.89.49) has joined #lse
+May 15 03:28:46 --> jobh (~jbh@15.80-203-35.nextgentel.com) has joined #lse
+May 15 03:32:36 --> mdewand (~mdewand@66.187.230.200) has joined #lse
+May 15 03:37:46 <-- badspirit has quit (Quit: Client exiting)
+May 15 03:41:54 <-- DnsInfector has quit (Quit: Client exiting)
+May 15 03:42:30 <-- jobh (~jbh@15.80-203-35.nextgentel.com) has left #lse
+May 15 03:42:39 --> jobh (~jbh@15.80-203-35.nextgentel.com) has joined #lse
+May 15 03:51:46 --> maryedie (~maryedie@65.172.181.6) has joined #lse
+May 15 03:52:06 --> uriel (~binarydre@212.100.226.95) has joined #lse
+May 15 03:55:25 --> bullpen (~craiger@65.172.181.6) has joined #lse
+May 15 03:55:46 --- gerrit_ is now known as gerrit
+May 15 03:56:29 <-- Mammuth has quit (Quit: utdöd)
+May 15 03:57:26 --> kaber (~kaber@212.202.185.200) has joined #lse
+May 15 03:57:34 --> Mammuth (~thsv@81.224.179.190) has joined #lse
+May 15 03:58:05 --> NeXTstep (~NeXTstep@80.117.113.13) has joined #lse
+May 15 04:11:10 <txymp> what is the time
+May 15 04:11:35 <txymp> i mean how much more time left for 2pm
+May 15 04:12:07 --> saknussemm (~saknussem@200.49.213.2) has joined #lse
+May 15 04:12:26 <wli> 11:12AM PDT
+May 15 04:13:03 <txymp> where is this channel being logged
+May 15 04:14:11 <riel> it's 2 pm here ;)
+May 15 04:14:23 <riel> but I guess we have to wait for the people in california to sleep in and wake up
+May 15 04:14:33 <cliffw> it's 11:15AM PDT
+May 15 04:16:50 <-- maryedie has quit (Quit: Client Exiting)
+May 15 04:17:31 --> maryedie (~maryedie@65.172.181.6) has joined #lse
+May 15 04:18:11 <-- maryedie has quit (Client Quit)
+May 15 04:18:35 <-- saknussemm has quit (Quit: Client exiting)
+May 15 04:21:56 --> hsdhjadhlajdjlas (~chatzilla@65.212.155.130) has joined #lse
+May 15 04:26:40 <-- NeXTstep has quit (Quit: *** The Knock-Out Droppers Crew ***)
+May 15 04:33:57 --> maryedie (~maryedie@air-2.osdl.org) has joined #lse
+May 15 04:41:45 --> dardhal (~dardhal@81.40.111.59) has joined #lse
+May 15 04:41:54 <dardhal> hi
+May 15 04:42:41 --> msa (~maalanen@130.232.84.211) has joined #lse
+May 15 04:44:25 --> jk-jfk (jfk@157.158.1.3) has joined #lse
+May 15 04:57:21 --> chyrag (~chirag@202.88.172.71) has joined #lse
+May 15 04:57:37 <-- maryedie has quit (jupiter.oftc.net ozone.oftc.net)
+May 15 04:57:37 <-- txymp has quit (jupiter.oftc.net ozone.oftc.net)
+May 15 04:57:37 <-- grover has quit (jupiter.oftc.net ozone.oftc.net)
+May 15 04:57:37 <-- gerrit has quit (jupiter.oftc.net ozone.oftc.net)
+May 15 04:57:37 <-- sneakums has quit (jupiter.oftc.net ozone.oftc.net)
+May 15 04:57:37 <-- plars has quit (jupiter.oftc.net ozone.oftc.net)
+May 15 04:58:29 <riel> are we there yet ? ;)
+May 15 04:59:36 <gregkh> riel: 2 more hours...
+May 15 05:00:08 <riel> oh right
+May 15 05:00:09 --> maryedie (~maryedie@air-2.osdl.org) has joined #lse
+May 15 05:00:09 --> txymp (~txymp@216.236.98.130) has joined #lse
+May 15 05:00:09 --> grover (agrover@216-99-218-29.dsl.aracnet.com) has joined #lse
+May 15 05:00:09 --> gerrit (~gerrit@ip216-26-76-170.dsl.du.teleport.com) has joined #lse
+May 15 05:00:09 --> sneakums (~sneakums@zork.zork.net) has joined #lse
+May 15 05:00:09 --> plars (~plars@pixpat.austin.ibm.com) has joined #lse
+May 15 05:00:59 <-- jk-jfk (jfk@157.158.1.3) has left #lse
+May 15 05:01:19 --> rico (peak@217.81.133.15) has joined #lse
+May 15 05:01:48 --> arjan (~arjan@node-d-1ea6.a2000.nl) has joined #lse
+May 15 05:02:03 <txymp> where is this channel being logged
+May 15 05:03:40 --> MrWizer (~mrwizer@68.169.141.112) has joined #lse
+May 15 05:10:09 --> tr606 (~sneppef@195.162.211.188) has joined #lse
+May 15 05:14:13 <-- txymp (~txymp@216.236.98.130) has left #lse (Client Exiting)
+May 15 05:15:32 <riel> judging from the presence of corbet, I suspect this channel will be logged at LWN ;)
+May 15 05:18:16 --> NeXTstep (~NeXTstep@80.117.113.13) has joined #lse
+May 15 05:18:31 <corbet> LWN is watching you...:)
+May 15 05:21:15 <riel> corbet: good to see you again
+May 15 05:23:13 --> colpatch (~mcd@bi01p1.co.us.ibm.com) has joined #lse
+May 15 05:25:34 --> dm (~dm@12.98.126.212) has joined #lse
+May 15 05:25:54 <corbet> riel: likewise!
+May 15 05:25:59 <-- chyrag has quit (Quit: TinyIRC 1.1)
+May 15 05:26:07 * corbet apologizes for delay - full LWN Wednesday panic in effect
+May 15 05:26:11 <riel> heheheh
+May 15 05:26:29 <-- NeXTstep has quit (Quit: *** The Knock-Out Droppers Crew ***)
+May 15 05:30:43 --> Ueimor (~romieu@electric-eye.fr.zoreil.com) has joined #lse
+May 15 05:35:50 --> fatal_ (ledkt@2001:618:4:117f:2::) has joined #lse
+May 15 05:37:56 <-- gerrit has quit (Quit: [x]chat)
+May 15 05:38:35 --> gerrit_ (~gerrit@216.26.76.170) has joined #lse
+May 15 05:46:33 --> ernie (~petrides@66.187.230.200) has joined #lse
+May 15 05:47:25 --> NeXTstep (~NeXTstep@80.117.113.13) has joined #lse
+May 15 05:47:36 <riel> hi ernie ;)
+May 15 05:48:20 * hanna hopes akpm is awake...
+May 15 05:48:21 <ernie> riel: hi rik, thanks for the LSE info
+May 15 05:49:56 --> Steph (~sglass@192.35.232.241) has joined #lse
+May 15 05:50:57 <hanna> Steph, hello
+May 15 05:50:59 --> jbaron (~jbaron@66.187.230.200) has joined #lse
+May 15 05:52:07 --> andmike (~andmike@32.97.110.142) has joined #lse
+May 15 05:52:29 <Steph> hi back
+May 15 05:52:33 --> newbie8 (~new8@awork098185.netvigator.com) has joined #lse
+May 15 05:53:25 --> keith (~keith@bi01p1.co.us.ibm.com) has joined #lse
+May 15 05:53:34 <-- andmike has quit (Client Quit)
+May 15 05:54:06 <-- newbie8 has quit (Client Quit)
+May 15 05:54:15 --> viro (~al@165.247.161.165) has joined #lse
+May 15 05:54:30 <plars> hanna: I think this is going to be the best turnout for the lse conf in a long time, thought of moving it to irc in the future? :)
+May 15 05:54:45 * arjan greatly prefers IRC
+May 15 05:55:01 <riel> IRC is a lot easier
+May 15 05:55:22 <riel> you can scroll back a few lines
+May 15 05:55:51 <wli> I could care less. IRC is right there in front of me. For conference calls, I've got a headset.
+May 15 05:56:14 <viro> riel: that, and there's such thing as logs...
+May 15 05:56:16 --> jstultz (~jstultz@32.97.110.142) has joined #lse
+May 15 05:56:19 <hanna> plars, interesting idea. It woudl sure be cheaper for IBM..
+May 15 05:56:31 <arjan> irc.ibm.com
+May 15 05:56:32 <arjan> :)
+May 15 05:56:36 <arjan> or irc.kernel.org
+May 15 05:56:46 <wli> arjan: already exists, but internal-only
+May 15 05:56:52 --> rtbs (sbtr@62.127.41.25) has joined #lse
+May 15 05:56:57 <plars> no doubt, plus the added benefit of easier minutes to post on the website
+May 15 05:57:11 --> jdi (jdittmer@a089041.adsl.hansenet.de) has joined #lse
+May 15 05:57:19 <corbet> I just like that IRC lets me crank out the tunes while participating :)
+May 15 05:57:22 --> Bjornen (andreas@h183n2fls32o868.telia.com) has joined #lse
+May 15 05:57:26 * corbet puts on a Dead tape
+May 15 05:57:32 --> voogi (~voogi@213.65.185.159) has joined #lse
+May 15 05:57:33 --> shawk (~shawk@80.138.160.250) has joined #lse
+May 15 05:58:09 --> newbie8 (~new8@awork098185.netvigator.com) has joined #lse
+May 15 06:00:42 --> hbaum (~hbaum@bi01p1.co.us.ibm.com) has joined #lse
+May 15 06:02:02 --> fryelectronic (~tom@213.119.141.75) has joined #lse
+May 15 06:03:18 --> Astro (~astro@2001:618:400:1cec::1) has joined #lse
+May 15 06:03:42 --> akr (~akr@dis212095022199.vie.telering.at) has joined #lse
+May 15 06:04:39 * Stingray hides in shadows
+May 15 06:06:29 --> rz (roman@scrub.xs4all.nl) has joined #lse
+May 15 06:07:04 <gerrit_> viro:  you can get an mp3 and a transcription of a good call any more...  but not quite in real time.
+May 15 06:07:46 --> robbiew (~robbiew@pixpat.austin.ibm.com) has joined #lse
+May 15 06:08:10 <-- rtbs (sbtr@62.127.41.25) has left #lse
+May 15 06:08:13 --> cpufreak (~ahmulh@cpufreak.chair.oftc.net) has joined #lse
+May 15 06:08:13 <-- Steph has quit ()
+May 15 06:08:16 --> cdlu (cdlu@cdlu.noc.oftc.net) has joined #lse
+May 15 06:08:55 <-- borb has quit (Quit: Client exiting)
+May 15 06:09:10 <gerrit_> viro:  plus we were gonna let corbet take notes - I think he's proven that he could do a great job at that.  ;)  
+May 15 06:09:25 <riel> corbet: are you going to keep a complete irc log, too ?
+May 15 06:10:22 --> Steph (~sglass@192.35.232.241) has joined #lse
+May 15 06:10:23 --> randy (~rddunlap@65.172.181.6) has joined #lse
+May 15 06:11:08 <corbet> Yeah, I expect I'll post the log.
+May 15 06:11:27 <riel> cool
+May 15 06:13:11 --> bzzz (~bzzz@tmi.comex.ru) has joined #lse
+May 15 06:13:12 <hanna> thanks corbet. hows lwn going today?
+May 15 06:13:25 <corbet> I'll write up some sort of summary (non-subscription) as well. 
+May 15 06:13:45 <corbet> Hi, Hanna...LWN is desperate, don't know what we're going to put out there.
+May 15 06:13:54 <corbet> But, then, it's always that way this time of week.
+May 15 06:14:01 * hanna sees a 2.6 must-fix special edition
+May 15 06:15:03 --> mator (mator@gsib.sl.ru) has joined #lse
+May 15 06:15:52 <corbet> ...except I used that one a couple weeks ago...
+May 15 06:16:09 <mator> hello
+May 15 06:16:37 <mator> i don't know what time zone is PDT, but you freely can change topic to use it GMT time instead
+May 15 06:17:18 <riel> the meeting will start in about 45 minutes
+May 15 06:17:32 <riel> I guess that's 2300 UTC/GMT
+May 15 06:17:42 <arjan> 2300CET
+May 15 06:17:50 <akr> who's akpm ?
+May 15 06:18:09 <gerrit_> akpm == andrew morton
+May 15 06:18:16 <riel> umm right, 2100 UTC/GMT
+May 15 06:18:23 * riel is a bit tired ;)
+May 15 06:18:33 * arjan hands riel some vitamine C
+May 15 06:18:52 --> steved (~steved@64.179.20.100) has joined #lse
+May 15 06:19:01 <riel> hi steved
+May 15 06:19:16 --> muli (~mulix@line133-172.adsl.actcom.co.il) has joined #lse
+May 15 06:19:16 <steved> hey Rik...
+May 15 06:19:36 <wli> shame _A_ couldn't make it
+May 15 06:19:47 <muli> shame indeed
+May 15 06:19:52 <riel> at least he can read the irc log later
+May 15 06:22:17 <fryelectronic> welcome to fry's electronic
+May 15 06:22:40 --> aeb (~aeb@24.132.5.101) has joined #lse
+May 15 06:22:48 <neli> wli: _A_ == ??
+May 15 06:22:56 <viro> neli: Alan
+May 15 06:23:07 <riel> hi andries
+May 15 06:23:09 --> Gandalf (gandalf@tux.rsn.bth.se) has joined #lse
+May 15 06:23:12 <hanna> fryelectronic:  please no advertising
+May 15 06:23:25 --> willy (~willy@209.217.123.40) has joined #lse
+May 15 06:23:37 <randy> hi aeb, muli
+May 15 06:23:39 --> Arador (diego@213.99.229.71) has joined #lse
+May 15 06:23:43 <muli> neli, THE alan :-) 
+May 15 06:23:46 <muli> hi randy 
+May 15 06:24:09 --> nevdull (~rick@bi01p1.co.us.ibm.com) has joined #lse
+May 15 06:24:09 <fryelectronic> hanna: no offense, it was just a silly joke ;-) 
+May 15 06:24:49 <corbet> Newsflash: SCO just suspended (its) distribution of Linux...finally read the GPL...
+May 15 06:25:16 <riel> corbet: it'll be fun to see them argue for an injunction 6 months after refusing to tell people which bits they should stop shipping ;)
+May 15 06:25:31 <Stingray> corbet: according to what I've already read about them, they seem completely insane ;()
+May 15 06:25:57 <riel> "<judge> so ... you're telling me it is important that other people stop shipping those bits, yet you refused telling them exactly which bits when they asked you 6 months ago?"
+May 15 06:26:26 --> ben (~ben@134.9.11.130) has joined #lse
+May 15 06:27:26 --> noud (noud@e166150.upc-e.chello.nl) has joined #lse
+May 15 06:28:18 <steved> Stingray: the last gasp of a dying company...
+May 15 06:28:25 <viro> riel: FWIW, list of alleged pieces of s^HSCO IP would be useful.
+May 15 06:29:01 <-- hrandoz has quit (Quit:              )
+May 15 06:29:32 --> hrandoz (~hrandoz@user-38ld002.dialup.mindspring.com) has joined #lse
+May 15 06:29:33 <viro> riel: in the "large piles of crap can be found here" sense
+May 15 06:30:09 --> cdub (~chris@cerebus.wirex.com) has joined #lse
+May 15 06:30:11 --> hollis (~hollis@192.35.232.241) has joined #lse
+May 15 06:30:22 <Stingray> "the last X in 'linux' was stolen from 'UNIX'"
+May 15 06:30:25 --> moose (~cherry@65.172.181.6) has joined #lse
+May 15 06:30:31 --- ben is now known as neb
+May 15 06:30:34 <randy> or the first X
+May 15 06:30:39 <grover> I think x is trademarked
+May 15 06:30:42 <riel> viro: straight from SCO's lawyers onto the kernel janitor TODO list ? ;)
+May 15 06:30:49 <viro> riel: quite
+May 15 06:30:51 --> Kwuck (~jordi@213-96-38-177.uc.nombres.ttd.es) has joined #lse
+May 15 06:31:13 --> jmn (~nobody@nat-pool-bos.redhat.com) has joined #lse
+May 15 06:31:14 --- hanna gives channel operator status to riel
+May 15 06:31:17 <riel> thanks
+May 15 06:31:29 <Kwuck> hi 
+May 15 06:32:47 --> truesloik (~sloik@150.254.144.148) has joined #lse
+May 15 06:33:21 <-- Kwuck (~jordi@213-96-38-177.uc.nombres.ttd.es) has left #lse
+May 15 06:33:30 --> daniel_ (~daniel@air-2.osdl.org) has joined #lse
+May 15 06:33:33 --> Kwuck (~jordi@213-96-38-177.uc.nombres.ttd.es) has joined #lse
+May 15 06:33:37 <wli> keith: I got a bug I was wondering if you could take over
+May 15 06:33:58 <viro> riel: ObJanitors: it shouldn't be too hard to write a filter that would rate the source, start with obvious offenses against taste and train it on drivers
+May 15 06:34:03 --> omoplata (~omoplata@31.Red-81-35-231.pooles.rima-tde.net) has joined #lse
+May 15 06:34:19 <wli> keith: you already posted a fix for it; I /msg'd you the URL a second or two ago
+May 15 06:34:30 <riel> viro: you want to train it by feeding it all drivers as "bad" ? ;)
+May 15 06:34:41 <wli> well, where's a good one?
+May 15 06:34:55 <willy> tg3?
+May 15 06:35:04 <viro> riel: there's bad, there's very bad, there's nauseating, there's s390 and then there's SGI
+May 15 06:35:22 <riel> none come close to the iSeries drivers, I hope
+May 15 06:35:26 --> mochel (~mochel@65.172.181.6) has joined #lse
+May 15 06:35:28 <davej> viro: you forgot 'qlogic'
+May 15 06:35:41 --> apw (~apw@212.104.150.41) has joined #lse
+May 15 06:35:45 <riel> luckily IBM has been very nice about fixing their drivers
+May 15 06:35:47 <wli> shub_mmr_t.h
+May 15 06:35:50 <viro> davej: ... and could've done without reminders, thank you very much
+May 15 06:35:51 <green> rio serial stuff ripped straight off SCO is fun to read too
+May 15 06:35:56 <davej> HTH..
+May 15 06:36:06 <viro> green: that shit?!
+May 15 06:36:39 <viro> green: I had to look at it a lot during the last weeks.
+May 15 06:36:50 <green> viro: hehe, poor you ;)
+May 15 06:37:03 --> Set (~set@207.158.181.2) has joined #lse
+May 15 06:37:21 --> badari (~badari@bi01p1.co.us.ibm.com) has joined #lse
+May 15 06:37:36 --> Hilaus (~Hilaus@80.32.46.254) has joined #lse
+May 15 06:38:33 <-- omoplata has quit ()
+May 15 06:38:46 --> markh (~markh@65.172.181.6) has joined #lse
+May 15 06:39:11 --> boto (~ehabkost@brutus.conectiva.com.br) has joined #lse
+May 15 06:39:12 <viro> wli: aka "file with more than a hundred kilobytes of typedefs is not good"
+May 15 06:39:25 <wli> viro: =)
+May 15 06:39:31 <viro> wli: would catch DAC960.h as well
+May 15 06:39:41 <wli> oh yeah
+May 15 06:39:52 <wli> Dave Olien's been trying to maintain + clean that one IIRC
+May 15 06:40:17 --> sdesai (~sdesai@pixpat.austin.ibm.com) has joined #lse
+May 15 06:40:23 <riel> boto: hi eduardo
+May 15 06:40:55 <wli> guess it beats getting flamed to death wrt. virtwin() like he was before; only special ppl can move anything like that
+May 15 06:41:19 <boto> riel: hi rik
+May 15 06:42:29 --> patman (~patman@32.97.110.142) has joined #lse
+May 15 06:44:09 --> Intuxicated (~chatzilla@modemcable029.129-200-24.mtl.mc.videotron.ca) has joined #lse
+May 15 06:44:30 --> zaxl (alex@212.39.68.18) has joined #lse
+May 15 06:45:19 --> Lucifair (~luism@212.202.185.200) has joined #lse
+May 15 06:46:08 --> cryogen (~cryogen@cryogen.noc.oftc.net) has joined #lse
+May 15 06:46:18 --- riel gives channel operator status to cryogen
+May 15 06:46:23 --> rml (~rml@dialup-65.56.73.250.Dial1.Miami1.Level3.net) has joined #lse
+May 15 06:46:58 <rml> I am here to see the fabled akpm
+May 15 06:47:18 <riel> hanna,wli: I've just volunteered cryogen to help patrol the channel for bad/annoying behaviour during this meeting, so you two will only have to worry about the meeting itself and not about any stuff on the side
+May 15 06:47:44 * riel convinces some more OFTC staff to help ;)
+May 15 06:47:46 <cpufreak> heh
+May 15 06:48:01 --> dmc (~dmc@192.35.232.241) has joined #lse
+May 15 06:48:04 <hanna> thanks riel.
+May 15 06:48:17 <-- Hilaus has quit (Quit: Client Exiting)
+May 15 06:49:12 --> dmo (~dmo@65.172.181.6) has joined #lse
+May 15 06:49:30 <wli> speaking of DAC960
+May 15 06:49:34 --> oxymoron (~oxymoron@209.173.204.2) has joined #lse
+May 15 06:49:41 --> andmike (~andmike@130.94.160.149) has joined #lse
+May 15 06:49:52 <gregkh> rml: my grandma liked your picture on the cover :)
+May 15 06:50:00 <rml> gregkh: oh boy
+May 15 06:50:03 --> arnd (arnd@p508A81CB.dip0.t-ipconnect.de) has joined #lse
+May 15 06:50:12 <riel> gregkh: you found a girlfriend for rml ? ;)
+May 15 06:50:15 * riel RUNS
+May 15 06:50:20 --> ak (nadie@217.82.103.67) has joined #lse
+May 15 06:50:22 <rml> gregkh: mochel tells me I owe you two a beer for not talking about device stuff
+May 15 06:50:28 * rml kicks riel
+May 15 06:50:32 <rml> (how old is she?)
+May 15 06:50:33 <gregkh> rml: at least that many.
+May 15 06:50:39 <gregkh> rml: heh.
+May 15 06:51:03 <rml> gregkh: well, I told mochel the article was performance-oriented... but I will pay up nonetheless in Ottawa
+May 15 06:51:20 <-- Intuxicated has quit ()
+May 15 06:51:32 <gregkh> rml: yeah, driver's don't matter at all for performance...
+May 15 06:51:45 <rml> gregkh: you know what I mean :P
+May 15 06:52:04 * wli watches the scsi drivers bounce
+May 15 06:52:08 <gregkh> rml: just teasing ya.
+May 15 06:52:32 <Stingray> :)
+May 15 06:52:38 <hrandoz> davej: have you looked at the qlogic driver in -mm?
+May 15 06:52:51 <davej> hrandoz: no
+May 15 06:52:54 <wli> gigantor BSD emulation layer #2?
+May 15 06:53:32 <-- aeb has quit (Ping timeout: 485 seconds)
+May 15 06:54:05 <hrandoz> davej: i believe it's the feral driver.  seems to work well on QLA2200.
+May 15 06:54:15 --> Intuxicated (~chatzilla@modemcable029.129-200-24.mtl.mc.videotron.ca) has joined #lse
+May 15 06:54:16 --> mrmike (~klaus@p3EE2290E.dip.t-dialin.net) has joined #lse
+May 15 06:54:41 <patman> hrandoz: i run it (not whole mm) with qla2300 + NUMAQ all the time
+May 15 06:55:31 <wli> patman: who are the bouncing bad boys these days? I haven't bothered trying io-based stuff in, well, forever, since I'm not set up for it.
+May 15 06:55:32 --> jk-jfk (jfk@157.158.1.3) has joined #lse
+May 15 06:55:59 <patman> wli: i don't know - you mean with the aic driver?
+May 15 06:56:10 <wli> patman: any of them
+May 15 06:56:26 <dhansen> does the feral driver still choke under high loads?
+May 15 06:56:28 * zaxl  (Auto-Away after 10 mins) [BX-MsgLog On]
+May 15 06:56:30 <patman> wli: I don't hit any (that I know) 
+May 15 06:56:51 <wli> patman: things are better than I thought then
+May 15 06:56:56 <patman> dhansen: i never hit the choke, i usually lower tcq/queue depth 
+May 15 06:57:03 --> mikeg (~mgaughen@65.209.250.242) has joined #lse
+May 15 06:57:12 --> akpm (~akpm@12.47.58.127) has joined #lse
+May 15 06:57:15 <-- jk-jfk has quit (Client Quit)
+May 15 06:57:30 <wli> zwane: including pre-xAPIC non-MSI systems?
+May 15 06:57:39 <dhansen> patman: does it only happen when the queues are long?
+May 15 06:57:40 --> petemc (pete@2001:618:4:2000::cd4) has joined #lse
+May 15 06:58:00 --> zwane (User-10527@24.203.207.204) has joined #lse
+May 15 06:58:03 <wli> zwane: including pre-xAPIC non-MSI systems?
+May 15 06:58:08 <zwane> yes
+May 15 06:58:21 <wli> okay I can finally relax wrt. that one
+May 15 06:58:21 <patman> dhansen: I've never hit it, but it could be that or host adpapter (can_queue) limits
+May 15 06:58:28 <zwane> wli: the conditional can be removed completely
+May 15 06:58:38 --> Burner23 (~burner@port-212-202-203-32.reverse.qdsl-home.de) has joined #lse
+May 15 06:58:42 <hanna> Ok everyone lets get started now that akpm is here. First a few rules:
+May 15 06:58:56 <hanna> 1) Only talk if you have something relevent to add.
+May 15 06:59:24 --> phillips (~daniel@213.23.142.240) has joined #lse
+May 15 06:59:32 --> aeb (~aeb@213.84.53.62) has joined #lse
+May 15 06:59:32 <hanna> 2) keep in depth technical discussions to a minimum so we can try to get through the whole list in an hour
+May 15 06:59:46 --> akr_ (~akr@dis212095024083.vie.telering.at) has joined #lse
+May 15 06:59:55 <hanna> 3) We are going to start with the top of the list...
+May 15 07:00:12 --> Almighty (~morten@nextframe.net) has joined #lse
+May 15 07:00:14 --> roland (~roland@12.162.17.3) has joined #lse
+May 15 07:00:15 <hanna> akpm, Welcome and thanks for doing this. Would you like to get started?
+May 15 07:00:22 --> fbl (~fbl@4-249.ctame701-1.telepar.net.br) has joined #lse
+May 15 07:00:29 <akpm> hanna: sure.
+May 15 07:00:37 <akpm> top of list is - TTY locking is broken
+May 15 07:00:41 --> jejb (~jejb@64.109.89.110) has joined #lse
+May 15 07:00:51 <viro> akpm: it's more than just locking
+May 15 07:00:57 <akpm> viro's working on that one, so I'd expect that to be wrapped up 
+May 15 07:01:17 <-- Kwuck has quit (Quit: rehash)
+May 15 07:01:24 <akpm> viro: but I thin it's "in hand", yes?
+May 15 07:01:26 --> Nemesis (~ryan@194.153.169.196) has joined #lse
+May 15 07:01:30 <viro> akpm: it promises to be as bad as super.c stuff in 2.4.early
+May 15 07:01:39 --> Kwuck (~jordi@3ffe:b80:3:4481::2) has joined #lse
+May 15 07:01:42 --> mnc (~null@bi01p1.co.us.ibm.com) has joined #lse
+May 15 07:01:46 <viro> akpm: IOW, a long sequence of patches
+May 15 07:01:57 --> jk-jfk (~jfk@pa208.myslowice.sdi.tpnet.pl) has joined #lse
+May 15 07:01:57 <akpm> viro: do you have a decent set of test cases?
+May 15 07:02:08 <-- mrmike has quit (Remote host closed the connection)
+May 15 07:02:10 <viro> akpm: not right now
+May 15 07:02:29 <viro> akpm: I have a very incomplete list of provably oopsable races
+May 15 07:02:30 <willy> could the LTP people help by developing those?
+May 15 07:02:46 <ak> LSB has some tests, but it's not stress tests
+May 15 07:02:48 --> badspirit (~badspirit@80.49.51.30) has joined #lse
+May 15 07:02:51 <-- akr has quit (Ping timeout: 492 seconds)
+May 15 07:02:55 <badspirit> yo all
+May 15 07:03:00 <viro> akpm: it's not a matter of closing isolated holes
+May 15 07:03:16 <badspirit> 1 hour left ?
+May 15 07:03:18 <viro> akpm: entire thing is rotten
+May 15 07:03:33 <viro> akpm: locking rules there go back to 1.3/2.0
+May 15 07:03:48 <viro> akpm: and that code hadn't been updated since then
+May 15 07:04:14 --> janetinc (~janetinc@bi01p1.co.us.ibm.com) has joined #lse
+May 15 07:04:14 <akpm> viro: yeah.   Anyway, I think we can say that it's in progress, and contribution or identification of stress tests is needed?
+May 15 07:04:15 <viro> akpm: which means that almost everything is based on "we can't block in that piece of code"
+May 15 07:04:23 --> davem (~davem@216.101.162.243) has joined #lse
+May 15 07:04:24 --> mdomsch (~mdomsch@24.28.80.108) has joined #lse
+May 15 07:04:24 --> rmk (~rmk@3ffe:8260:2002:1:201:2ff:fe14:8fad) has joined #lse
+May 15 07:04:38 <viro> akpm: it is in progress, but it will be long
+May 15 07:04:48 <-- mikeg has quit (Quit: Client Exiting)
+May 15 07:04:53 --> dwmw2 (~dwmw2@193.237.130.41) has joined #lse
+May 15 07:05:03 <viro> akpm: keep in mind that almost all holes apply to 2.2 and practically all - to 2.4
+May 15 07:05:12 <viro> akpm: so we will need backportrs
+May 15 07:05:16 <-- voogi has quit ()
+May 15 07:05:29 <akpm> viro: aye, that's why everyone else has run away screaming
+May 15 07:05:39 <-- kaeptnb has quit (Ping timeout: 492 seconds)
+May 15 07:05:41 <akpm> anyway, moving on..
+May 15 07:05:45 --> mckenney (~mckenney@bi01p1.co.us.ibm.com) has joined #lse
+May 15 07:05:54 <akpm>  rmk: I think we need a generic RTC driver (which is backed by real RTCs).
+May 15 07:05:55 --> mikeg (~mgaughen@65.209.250.242) has joined #lse
+May 15 07:06:32 <akpm> so this is basically a backend/frontend thing to abstract out the RTC hardware a little better (I think)
+May 15 07:06:47 <randy> while agreeing with it, why must-fix?
+May 15 07:06:52 <hollis> akpm: what's wrong with drivers/char/genrtc.c ?
+May 15 07:06:53 <rmk> Tom Rini pointed out that genrtc.c should be able to satisfy most needs, so it needs investigating.
+May 15 07:07:10 --> kaeptnb (~kaeptnb@141.28.225.122) has joined #lse
+May 15 07:07:42 <akpm> randy: OK, I'll move that to wishlist, and if Russell gets onto it then cool.
+May 15 07:07:57 <akpm> drivers/block/
+May 15 07:08:05 <akpm> RAID0 dies on strangely aligned BIOs
+May 15 07:08:13 <akpm> other RAIDs do too.  This is in progress
+May 15 07:08:18 <akpm> some stuff was merged today
+May 15 07:08:23 <arjan> this is the 'need bio split' stuff?
+May 15 07:08:29 <akpm> arjan: yup
+May 15 07:08:37 --> ming (~ming@32.97.110.142) has joined #lse
+May 15 07:08:52 <oxymoron> Are there new exhaustion issues here?
+May 15 07:08:58 <akpm> arjan: neil and jens are moving ahead on that now
+May 15 07:09:01 <akpm> oxymoron: ?
+May 15 07:09:11 <arjan> akpm: if we add that function, we must be sure that it can split on not-a-page boundaries too
+May 15 07:09:18 <oxymoron> Needing to allocate new bios in IO layer under memory pressure..
+May 15 07:09:20 <arjan> akpm: otherwise it's useless for a bunch of thngs
+May 15 07:09:26 --> mbligh (~mbligh@216.99.192.236) has joined #lse
+May 15 07:09:36 <akpm> arjan: OK, noted.  WHcih brings us to the next point ;)
+May 15 07:09:42 <akpm> ideraid hasn't been ported to 2.5 at all yet.
+May 15 07:09:50 <riel> oxymoron: that's ok with limited numbers and mempool, please see mempool.c
+May 15 07:09:53 <arjan> ideraid should be able to use the DM layer
+May 15 07:10:03 <arjan> once we can split on not-a-page boundary
+May 15 07:10:09 <arjan> until we can split, it's stillborn
+May 15 07:10:10 --> tcw (tcw@209.198.128.6) has joined #lse
+May 15 07:10:26 --> gregg_it (~greg@adsl-178-71.37-151.net24.it) has joined #lse
+May 15 07:10:58 <arjan> (eg not possible at all in 2.6)
+May 15 07:11:02 <akpm> arjan: OK, well let's ping Jens on that one.  I'll mail him, cc yourself and neilb
+May 15 07:11:09 <gregkh> arjan: I thought the evms people had a patch for dm to do that.
+May 15 07:11:34 <arjan> gregkh: if there's a generic split that one should do it imo
+May 15 07:12:06 <-- robbiew (~robbiew@pixpat.austin.ibm.com) has left #lse
+May 15 07:12:19 <akpm> arjan: I lied.
+May 15 07:12:22 <akpm> [PATCH] bio walking code
+May 15 07:12:22 <akpm> 	
+May 15 07:12:22 <akpm> 	Add bio traversal functionality. This is a prereq for doing ide
+May 15 07:12:22 <akpm> 	multiwrites safely and sanely. 
+May 15 07:12:23 <-- ming has quit (Read error: Connection reset by peer)
+May 15 07:12:28 <akpm> was merged today
+May 15 07:12:33 <arjan> different thing
+May 15 07:12:34 <fryelectronic> what about support for software raid based ide cards like promise and highpoint ?
+May 15 07:12:43 <arjan> fryelectronic: that's ideraid
+May 15 07:12:54 <akpm> fryelectronic: that's what we are discussing
+May 15 07:12:59 <-- Intuxicated has quit ()
+May 15 07:13:00 --> ming (~ming@bi01p1.co.us.ibm.com) has joined #lse
+May 15 07:13:01 <arjan> fryelectronic: we're talking about that right now
+May 15 07:13:33 <-- ming has quit (Client Quit)
+May 15 07:13:34 <fryelectronic> :)
+May 15 07:13:57 <akpm> arjan: anyway.  Let's coordinate with axboe&neilb on that one.
+May 15 07:14:00 <akpm> next up:
+May 15 07:14:06 <akpm> CD burning.  There are still a few quirks to solve wrt SG_IO and ide-cd
+May 15 07:14:16 <akpm> that just looks like bugzilla fodder to me
+May 15 07:14:28 <akpm> drivers/input/
+May 15 07:14:35 <viro> akpm: locking
+May 15 07:14:36 <akpm> - rmk: unconverted keyboard/mouse drivers (there's a deadline of 2.6.0
+May 15 07:14:36 <akpm>   currently on these remaining in my/Linus' tree.)
+May 15 07:14:45 <akpm> viro: of what?
+May 15 07:14:50 <dwmw2> akpm: did the vmalloc races ever get fixed? You never did work out why my patch killed your machine, did you?
+May 15 07:14:53 <viro> akpm: of damn next to everything
+May 15 07:15:02 <viro> akpm: it's... optimistic code
+May 15 07:15:08 <akpm> viro: which code?
+May 15 07:15:11 <viro> akpm: input layer
+May 15 07:15:19 <akpm> dwmw2: nope.  I'll note that
+May 15 07:15:40 <rmk> akpm: those drivers are an issue for ARM people to sort out - only people with the hardware can test them.
+May 15 07:15:40 --> Intuxicated (~Intuxicat@modemcable029.129-200-24.mtl.mc.videotron.ca) has joined #lse
+May 15 07:16:05 <akpm> viro: vojtech has been pretty quiet lately.  Can you prepare a description of the problem, or were you planning on getting in there?
+May 15 07:16:07 <wli> dwmw2: flag me down about those, I looked into a different set of vmalloc races recently
+May 15 07:16:20 --> jfv (~jfv@32.97.110.142) has joined #lse
+May 15 07:16:28 <viro> akpm: the last time I'd checked almost nothing had been protected - basically, it assumed that nothing overlaps in time
+May 15 07:16:45 <viro> akpm: it might've become better, but I hadn't seen much activity there
+May 15 07:16:50 <rmk> akpm: I've had mail from vojtech recently, apparantly been rather busy.
+May 15 07:16:57 --> ming (~ming@bi01p1.co.us.ibm.com) has joined #lse
+May 15 07:17:00 <viro> akpm: I'll look into that code again
+May 15 07:17:14 <akpm> viro: thanks
+May 15 07:17:17 <rmk> akpm: I prodded him about a bug in atkbd.c, recognising mice connected to KVM switches as a keyboard.
+May 15 07:17:53 <ak> rmk: KVMs are problematic in general with the new code, mine needs a special option now.
+May 15 07:18:06 <dwmw2> wli: note there's no locking around the {un,}map_vm_area() calls. You can allocate a VM range after someone else frees it, set up your ptes and then they tear theirs down...
+May 15 07:18:13 <rmk> ak: this is more a timing issue, and there's a bug in there where a timeout never expires.
+May 15 07:18:39 <wli> dwmw2: that's what I "fixed", we can doublecheck things later
+May 15 07:18:41 <rmk> we end up refreshing a timeout each time we go around the loop, so we never timeout.
+May 15 07:18:44 --> Foske (~josh@e162077.upc-e.chello.nl) has joined #lse
+May 15 07:18:49 <viro> akpm: BTW, parport is nearly as bad as that and there the code is more hairy
+May 15 07:18:57 <-- badspirit has quit (Quit: Client exiting)
+May 15 07:19:07 --> ElectricElf (david@elf.noc.oftc.net) has joined #lse
+May 15 07:19:08 <ak> also the input keyboard stuff still has unusably obscure config options for standard PC hardware
+May 15 07:19:19 <akpm> viro: parport is hairy, and Tim seems to have vanished.  Is he still with RH?
+May 15 07:19:19 <oxymoron> ak: Agreed.
+May 15 07:19:27 <ak> if they're not already set you have no chance to get them correct
+May 15 07:19:35 <dwmw2> akpm: on honeymoon I think :)
+May 15 07:19:40 <Nemesis> parport has *always* been hairy
+May 15 07:19:55 <Foske> ak: imho that is well covered by make def, but I must agree it is a hell of a job to config the pc keyboard by hand
+May 15 07:19:56 <rmk> ak: I think the config stuff is all setup so that the default should allow it to just work.
+May 15 07:19:56 <akpm> dwmw2: is he still active kernelwise?
+May 15 07:20:07 <arjan> akpm: he still does parport stuff
+May 15 07:20:10 <rmk> ak: the problem comes when you take an old config with CONFIG_INPUT=m
+May 15 07:20:11 <ak> rmk: only from the oldconfig 
+May 15 07:20:28 <ak> rmk: if you do make oldconfig with a 2.4 config all hell breaks lose
+May 15 07:20:28 <oxymoron> Nemesis: actually the original parport code was one of the simplest drivers in the tree..
+May 15 07:20:52 <akpm> next?
+May 15 07:21:00 <akpm>  synaptic touchpad support.  There's a patch in -mm and someone emailed me today wrt forward-porting a spearate driver, so things are advancing there
+May 15 07:21:01 <viro> akpm: IMO parport is more of "figure out what API changes are needed for its users, get them done ASAP, then fix generic layer at leisure"
+May 15 07:21:43 <arjan> akpm: how's that different from the userspace tpconfig?
+May 15 07:21:45 <Foske> akpm: did I miss ACPI already ?
+May 15 07:22:08 <akpm> arjan: never heard of it
+May 15 07:22:13 <hanna> Foske, nope.
+May 15 07:22:19 <arjan> akpm: check it out some day then ;)
+May 15 07:22:37 <akpm> arjan: I don't know what a synaptics is ;)
+May 15 07:22:45 <Foske> hanna: oki...
+May 15 07:22:56 <oxymoron> akpm: Just about any laptop touchpad..
+May 15 07:23:15 <akpm> so does tpconfig mean that we don't need any kernel support for them?
+May 15 07:23:16 <Foske> one of the mayor issues IMHO: If your kernel doesn't work: disable ACPI and try again...
+May 15 07:23:43 <davej> how did extra driver support become a 'must-fix' item anyway ?
+May 15 07:23:52 <ak> foske: same as with 2.4. nothing has changed.
+May 15 07:23:57 <arjan> akpm: I think so; but I guess it's an "Ask Vojtech"
+May 15 07:24:03 <ak> foske: nothing to be concerned about for the release.
+May 15 07:24:04 <dwmw2> davej: we've taken to breaking the touchpad and clitmouse setups with the mouse probe
+May 15 07:24:05 <oxymoron> akpm: No, tpconfig may let you fiddle with the tap=click support and the like..
+May 15 07:24:17 --> jasonmc (~jasonmc@64.231.16.203) has joined #lse
+May 15 07:24:22 <akpm> davej: works in 2.4, lots of people want it I think
+May 15 07:24:24 <davej> dwmw2: ok
+May 15 07:24:48 <davej> any feedback on whether the driver in -mm fixes things?
+May 15 07:25:00 <oxymoron> davej: Not as of -3.
+May 15 07:25:03 <akpm> davej: not really.
+May 15 07:25:10 <Foske> later about that...
+May 15 07:25:47 <hanna> next?
+May 15 07:25:57 <-- PuckCh has quit (Ping timeout: 492 seconds)
+May 15 07:26:20 <akpm> "I have created an extra driver for the touchpad (as opposed
+May 15 07:26:21 <akpm> to modifying psmouse.c). I will work on the driver as soon as I find the
+May 15 07:26:21 <akpm> time and send you a copy."
+May 15 07:26:31 <akpm> Jens Taprogge <jens.taprogge@rwth-aachen.de>
+May 15 07:26:40 <akpm> we'll see.  Yup, next.
+May 15 07:26:47 <akpm> drivers/misc/
+May 15 07:26:52 <davej> if the mouse probe buggers things up, surely psmouse needs fixing too ?
+May 15 07:27:00 --> bunk (~bunk@129.187.202.58) has joined #lse
+May 15 07:27:05 <akpm>  rmk: UCB1[23]00 drivers, currently sitting in drivers/misc in the ARM
+May 15 07:27:05 <akpm>   tree.  (touchscreen, audio, gpio, type device.)
+May 15 07:27:21 <oxymoron> davej: (yes)
+May 15 07:27:41 <rmk> drivers/misc has traditionally been kept empty - are people happy for such stuff to end up in there, or does it need to find other places in the kernel tree?
+May 15 07:28:11 <willy> drivers/char == drivers/misc ...
+May 15 07:28:13 <oxymoron> rmk: Are you pushing to have ARM working out of the box for 2.6?
+May 15 07:28:21 --> drepper (~chatzilla@cpe-24-221-190-179.ca.sprintbbd.net) has joined #lse
+May 15 07:28:37 <viro> akpm: actually, misc.c has a good chance to die
+May 15 07:28:46 <rmk> oxymoron: I'm trying to get as much of ARM merged.  I'm currently working with a 1.8MB uncompressed patch which ain't good.
+May 15 07:28:48 <viro> akpm: with cdev-cidr that's trivial
+May 15 07:29:09 <viro> akpm: /proc/misc support is the only thing that remains after that
+May 15 07:29:45 <akpm> rmk: so it looks like those drivers need to find appropriate, separate homes in the tree?
+May 15 07:29:47 <rmk> my fear is that as soon as its seen ok to put stuff in drivers/misc, it'll fill up like mad.
+May 15 07:30:12 <ak> sounds hardly like an release issue, more something for 2.7
+May 15 07:30:21 <willy> agreed
+May 15 07:30:24 <randy> how hard is it to just move them?
+May 15 07:30:28 <rmk> ak: I'd rather not have to carry them across.
+May 15 07:30:46 <rmk> basically, I'm getting rather sick of carrying such a huge patch.
+May 15 07:30:52 <akpm> rmk: what would you prefer to do?
+May 15 07:30:58 <rmk> been doing it since 2.0 ;(
+May 15 07:30:59 <davej> rmk: why can't they live in sound/ drivers/input etc.. ?
+May 15 07:31:15 <-- shawk has quit (Quit: Client Exiting)
+May 15 07:31:42 <rmk> they're fairly closely related to each other, being all on one device.
+May 15 07:32:03 <riel> how about drivers/arm/ if they're arm-only devices anyway ?
+May 15 07:32:14 <akpm> rmk: drivers/UCB ?
+May 15 07:32:21 <davem> riel: nobody will grep in there when changing global APIs
+May 15 07:32:22 <davem> :-)
+May 15 07:32:27 <viro> akpm: acronym clash
+May 15 07:32:40 <akpm> drivers/rmk?
+May 15 07:32:45 <randy> or arch/arm/drivers ?
+May 15 07:32:46 <rmk> akpm: heh.
+May 15 07:32:55 <rmk> randy: been there, people didn't like it.
+May 15 07:32:59 <randy> ok
+May 15 07:33:02 <oxymoron> randy: Sets an even worse precedent than drivers/misc
+May 15 07:33:03 <arjan> akpm: likewise we need a drivers/obsolete
+May 15 07:33:07 <willy> drivers/arm seems fine, it's what we did for parisc
+May 15 07:33:12 <jejb> drivers/parisc is what parisc uses
+May 15 07:33:18 <randy> oxymoron: but we still/already have those.
+May 15 07:33:26 <willy> s390 ditto (though i hate to use s390 as a good example ;-)
+May 15 07:33:26 <davem> I'd personally prefer drivers/net/arm drivers/scsi/arm etc.
+May 15 07:33:33 <akpm> rmk: are they truly arm-only?
+May 15 07:34:02 <rmk> not really - they could be found elsewhere, but I'm not aware of other uses.
+May 15 07:34:12 <arjan> if it's not a gazillion of them, why even net/arm and not just net/ 
+May 15 07:34:40 <randy> drivers/whatever_ucb_is
+May 15 07:34:40 <jejb> Lay the tree out per maintainers, so drivers/arm/scsi for ARM only SCSI (only drivers/scsi/arm if they share lots of code)
+May 15 07:34:41 <rmk> there's a related issue - drivers/acorn/net could become drivers/net/arm
+May 15 07:34:54 <oxymoron> akpm: There are probably multi-device chipsets that will appear on multiple platforms soon..
+May 15 07:35:08 <rmk> likewise for drivers/acorn/scsi
+May 15 07:35:30 * davem doubts we're making progress on the todo list now
+May 15 07:35:34 <akpm> this is getting ratholey.
+May 15 07:35:35 <randy> right
+May 15 07:35:46 <davej> 1hr was optimistic for getting through this lot 8)
+May 15 07:35:53 <akpm> rmk: your call.  But there ain't no point in leaving them in your tree.
+May 15 07:35:55 <oxymoron> rmk: I think the concensus is anything but misc..
+May 15 07:36:10 <akpm> drivers/net/irda/
+May 15 07:36:11 <rmk> ok, I'll try to find a new home for them.
+May 15 07:36:13 <viro> rmk, akpm: let's skip that - it's isolated and can be discussed later
+May 15 07:36:36 <akpm> this is a bunch of jt thiings which are under control.  And a bug from rmk which I'll forward on.
+May 15 07:36:37 <rmk> akpm: I think we've sorted that one between myself and Jean.
+May 15 07:36:43 <akpm> ok
+May 15 07:36:48 <akpm> drivers/pci/
+May 15 07:36:49 --> zaitcev (~zaitcev@adsl-66-124-38-163.dsl.sktn01.pacbell.net) has joined #lse
+May 15 07:36:52 <akpm> alan: Some cardbus crashes the system
+May 15 07:37:09 <arjan> akpm: afaik the pci device list has no locking
+May 15 07:37:15 <arjan> which is the biggest thing
+May 15 07:37:16 <akpm> alan says: We have multiple drivers walking the pci device lists and also using
+May 15 07:37:17 <akpm>   things like pci_find_device in unsafe ways with no refcounting.  I think
+May 15 07:37:17 <akpm>   we have to make pci_find_device etc refcount somewhere and add
+May 15 07:37:17 <akpm>   pci_device_put as was done with networking.
+May 15 07:37:30 <akpm> that's been there for ever
+May 15 07:37:37 <ak> akpm: in tree cardbus has been traditionally unusable (in 2.4). 2.6 will just carry that on
+May 15 07:37:45 --> PugMajere (~ryan@68.60.187.197) has joined #lse
+May 15 07:37:51 <arjan> would be nice to get at least the infrastructure to do it right in
+May 15 07:37:54 <ak> everybody serious uses the external code
+May 15 07:37:57 <rmk> ak: report known problems in my direction please.
+May 15 07:38:00 <arjan> drivers can be fixed during 2.6.X itself
+May 15 07:38:01 <akpm> ak: where does the working code come from?
+May 15 07:38:02 <willy> i use the internal code
+May 15 07:38:07 <ak> akpm: dmills
+May 15 07:38:14 <akpm> dhinds?
+May 15 07:38:15 <oxymoron> ak: Disagree.
+May 15 07:38:19 <ak> erm hinds sorry
+May 15 07:38:20 <gregkh> ak: I'm going to be working on the pci locking stuff.
+May 15 07:38:32 <ak> all the distributions ship external
+May 15 07:38:33 <gerrit_> seems like things that are broken in 2.4 and still broken in 2.6 should be on a different list from regressions in 2.6 and incomplete features in 2.6.
+May 15 07:38:33 <dwmw2> pci locking is completely screwed. There's locking of sorts, but it's half-arsed
+May 15 07:38:57 <ak> and external supports many more chipsets and drivers than internal
+May 15 07:38:59 <arjan> ak: RH doesn't, Mandrake doesn't
+May 15 07:39:04 <rmk> weren't we going to deprecate find_device and friends ?
+May 15 07:39:06 <akpm> gerrit_: well if people aren't seriosuly hurting from them then they're not critical
+May 15 07:39:08 <willy> gerrit: not entirely -- 2.6 may make these problems more likely to hit, and 2.6 is more capable so it'll be run on more boxes
+May 15 07:39:13 <gregkh> gerrit_: no, pci locking still really needs to get fixed anyway.  it's much easier to do it on 2.5 than 2.4 because of the driver core now.
+May 15 07:39:14 <oxymoron> arjan: Debian ships both, of course..
+May 15 07:39:16 --> jfv_ (~jfv@bi01p1.nc.us.ibm.com) has joined #lse
+May 15 07:39:17 <-- zaxl has quit (Read error: Connection reset by peer)
+May 15 07:39:18 --> PuckCh (~Bornet@62.167.94.214) has joined #lse
+May 15 07:39:19 --> ricklind (~rick@129.33.49.251) has joined #lse
+May 15 07:39:20 <ak> arjan: are you sure?  a lot of bridge drivers are missing in internal
+May 15 07:39:27 --> patman_ (~patman@bi01p1.nc.us.ibm.com) has joined #lse
+May 15 07:39:27 --> gaughen_ (~gaughen@129.33.49.251) has joined #lse
+May 15 07:39:33 <arjan> ak: for RH I'm sure
+May 15 07:39:38 <gregkh> rmk: I wanted to, but couldn't find a way to do it, as there are legal users of that api.
+May 15 07:39:41 <ak> arjan: lots of wireless stuff also only works with external
+May 15 07:39:42 <gerrit_> if there's a good case to say that 2.6 is different than 2.4, then yeah, higher priority.  I'm also thinking of the tty stuff...
+May 15 07:39:48 --> hlinder (~hlinder@129.33.49.251) has joined #lse
+May 15 07:39:57 <arjan> ak: drivers are easily ported and added; different issue
+May 15 07:40:11 --> rick (~rick@32.97.110.142) has joined #lse
+May 15 07:40:13 --> mckenney_ (~mckenney@32.97.110.142) has joined #lse
+May 15 07:40:18 <-- ming has quit (autokilled: Session limit exceeded)
+May 15 07:40:19 <-- mckenney has quit (autokilled: Session limit exceeded)
+May 15 07:40:19 <-- janetinc has quit (autokilled: Session limit exceeded)
+May 15 07:40:19 <-- mnc has quit (autokilled: Session limit exceeded)
+May 15 07:40:19 <-- badari has quit (autokilled: Session limit exceeded)
+May 15 07:40:19 <-- hbaum has quit (autokilled: Session limit exceeded)
+May 15 07:40:19 <-- keith has quit (autokilled: Session limit exceeded)
+May 15 07:40:19 --> gaughen__ (~gaughen@bi01p1.co.us.ibm.com) has joined #lse
+May 15 07:40:19 <-- gaughen__ has quit (autokilled: Session limit exceeded)
+May 15 07:40:19 <-- nevdull has quit (autokilled: Session limit exceeded)
+May 15 07:40:19 <-- colpatch has quit (autokilled: Session limit exceeded)
+May 15 07:40:23 --> mnc (~null@32.97.110.142) has joined #lse
+May 15 07:40:27 <oxymoron> gerrit: Some things like tty were made worse by stuff like preempt even though they were pre-existing.
+May 15 07:40:34 <akpm> gerrit_: well things like tty are something which we do need to fix.  That's what a devel kernel is for, and if it holds up stabilisation of that devel kernel well bad luck.
+May 15 07:40:39 --- rick is now known as nevdull
+May 15 07:40:39 --> keith (~keith@32.97.110.142) has joined #lse
+May 15 07:40:46 --> dkwho (~davidho@199.71.138.178) has joined #lse
+May 15 07:40:59 <akpm> gerrit_: although it may not hold up 2.6.0
+May 15 07:41:05 <-- gaughen has quit (Read error: Connection reset by peer)
+May 15 07:41:06 <-- jfv has quit (Write error: connection closed)
+May 15 07:41:06 <-- jstultz has quit (Write error: connection closed)
+May 15 07:41:06 <-- patman has quit (Write error: connection closed)
+May 15 07:41:06 <-- hanna has quit (Write error: connection closed)
+May 15 07:41:07 <viro> oxymoron: ... not to mention BKL-hunters from certain company...
+May 15 07:41:13 <gerrit_> akpm:  agreed
+May 15 07:41:24 <akpm> movin' on
+May 15 07:41:29 <akpm> drivers/pcmcia/
+May 15 07:41:34 <akpm> alan: Most drivers crash the system on eject randomly with timer bugs.  I
+May 15 07:41:35 <akpm>   think after RMK's stuff is in most of the pcmcia/cardbus ones go except the
+May 15 07:41:35 <akpm>   locking disaster.
+May 15 07:41:37 --> hbaum (~hbaum@32.97.110.142) has joined #lse
+May 15 07:42:16 --> badari (~badari@32.97.110.142) has joined #lse
+May 15 07:42:19 <rmk> Linus finally took my patch today without complaint.  There's still a lot of work to do between Dominik and myself in there though.
+May 15 07:42:24 --> colpatch (~mcd@32.97.110.142) has joined #lse
+May 15 07:42:35 --> patman__ (~patman@32.97.110.142) has joined #lse
+May 15 07:42:43 --> tytso_ (~tytso@18.187.1.124) has joined #lse
+May 15 07:42:46 <akpm> rmk: but it's happening.  Is good.
+May 15 07:42:50 <rmk> yep.
+May 15 07:42:54 <akpm> drivers/pld/
+May 15 07:43:00 <akpm> rmk: EPXA (ARM platform) PLD hotswap drivers (drivers/pld)
+May 15 07:43:04 --> Bacchus (~ralf@80.139.86.183) has joined #lse
+May 15 07:43:08 <rmk> maybe drivers/arm/ stuff again?
+May 15 07:43:30 <akpm> rmk: ok,  you can decide what to do there?
+May 15 07:43:38 <rmk> ok.
+May 15 07:43:38 <-- patman__ has quit (autokilled: Session limit exceeded)
+May 15 07:43:38 <-- colpatch has quit (autokilled: Session limit exceeded)
+May 15 07:43:38 <-- badari has quit (autokilled: Session limit exceeded)
+May 15 07:43:38 <-- hbaum has quit (autokilled: Session limit exceeded)
+May 15 07:43:38 <-- keith has quit (autokilled: Session limit exceeded)
+May 15 07:43:38 <-- mnc has quit (autokilled: Session limit exceeded)
+May 15 07:43:38 <-- mckenney_ has quit (autokilled: Session limit exceeded)
+May 15 07:43:38 <-- nevdull has quit (autokilled: Session limit exceeded)
+May 15 07:43:56 <akpm> drivers/video/
+May 15 07:44:03 <davej> fb stuff changes according to position of moon. one day it works, next merge something else seems to break.
+May 15 07:44:04 <akpm> Lots of drivers don't compile, others do but don't work.
+May 15 07:44:06 <davem> jsimmons slowly making progress on tis
+May 15 07:44:16 <davem> I had to teach him how to maintain
+May 15 07:44:17 <davem> :-)
+May 15 07:44:26 <arjan> rare driver not compiling is not stopship
+May 15 07:44:32 <viro> akpm: lots of serial drivers in drivers/char and arch/* do not compile either
+May 15 07:44:33 <arjan> need a CONFIG_KNOWN_BROKEN
+May 15 07:44:34 <cpufreak> ok
+May 15 07:44:36 <cpufreak> that should be fixed
+May 15 07:44:38 <zaitcev> Wasn't jsimmons unemployed?
+May 15 07:44:39 <cpufreak> sorry about that
+May 15 07:44:39 <ak> fb really needs an better in kernel pageattr api
+May 15 07:44:57 <gerrit_> CONFIG_KNOWN_BROKEN or at least an actively maintained list of working vs. broken
+May 15 07:45:00 <ak> usually they're unusably slow on non x86 without write combining for the video buffer
+May 15 07:45:01 <dwmw2> zaitcev: yes. Not sure if that's still the case. 
+May 15 07:45:04 <akpm> davem: slowly.  Does James have help?  There's a Spanish-sounding guy who is very good, but I think he'd taken a month or two vacation.
+May 15 07:45:16 <akpm> viro: ok, noted
+May 15 07:45:19 <davej> there are also early-init problems with some of the framebuffers (like i810fb) too. Initialising fb from drivers/char/mem.c may not be the best thing.
+May 15 07:45:21 <gerrit_> I keep seeing a lot of "lots of things are broken" but a list of what works AND what is broken would be good
+May 15 07:45:31 <wli> part of that was my fault with the slabification
+May 15 07:45:32 <davem> akpm: geert supposedly helps him
+May 15 07:45:43 <gregkh> gerrit_: the osdl list is a good indication of that.
+May 15 07:45:45 <Almighty> akpm: Tony Daplas. the i810fb-guy.
+May 15 07:46:01 <akpm> Almighty: that's the one.  He does ice work.
+May 15 07:46:03 <akpm> nice
+May 15 07:46:06 <randy> yes
+May 15 07:46:07 <Almighty> akpm: yeah.
+May 15 07:46:26 <davem> moving on...
+May 15 07:46:29 <akpm> not sure what else to say there.
+May 15 07:46:35 <akpm> drivers/scsi/
+May 15 07:46:57 <arjan> CONFIG_KNOWN_BROKEN fodder again for not compiling stuff
+May 15 07:47:02 <akpm> lots of stuff there, and lots of developers and lots of interest in getting it fixed.  I don't think we need to say much?
+May 15 07:47:10 <davem> akpm: a large merge went in from hch recently, maybe it helped significantly here
+May 15 07:47:12 <davem> right
+May 15 07:47:13 <jejb> What *needs* to be fixed
+May 15 07:47:18 <oxymoron> If viro won't mention the locking nightmare, I will..
+May 15 07:47:21 <arjan> not old isa drivers
+May 15 07:47:32 <jejb> arjan: so wd33c99
+May 15 07:47:35 <willy> Please don't pull out sym53c8xx yet
+May 15 07:47:45 <rmk> I have a pending todo: I need to put the scsi error handling through a workout on my scsi bus from hell to make sure it does the right thing and doesn't get wedged.
+May 15 07:47:48 <willy> Think _2 still doesn't work on PA-RISC
+May 15 07:47:50 <akpm> where are we with qlogic?
+May 15 07:47:59 <jejb> willy: works for me on C360
+May 15 07:48:01 <-- ricklind has quit (Ping timeout: 497 seconds)
+May 15 07:48:12 <arjan> qlogic FC needs quite some work still wrt vendor drivers
+May 15 07:48:13 <andmike> rmk: Let me know if does not work.
+May 15 07:48:14 <-- jfv_ has quit (Write error: connection closed)
+May 15 07:48:16 <jejb> akpm: What do people think about the qlogic driver going in?
+May 15 07:48:17 <-- patman_ has quit (Read error: Connection timed out)
+May 15 07:48:22 <-- gaughen_ has quit (Ping timeout: 485 seconds)
+May 15 07:48:24 <arjan> but they're working on it; not stopship
+May 15 07:48:28 <akpm> jejb: which one?
+May 15 07:48:29 <willy> jejb: ok.  i need to make sure there's nothing left to fix that went into the original and not _2
+May 15 07:48:29 <arjan> just driveradd
+May 15 07:48:30 <akpm> feral?
+May 15 07:48:35 <davem> And then there's feral.com's qlogic drivers
+May 15 07:48:38 --> janetinc (~janetinc@32.97.110.142) has joined #lse
+May 15 07:48:38 <jejb> akpm: actually both qlogic and feral
+May 15 07:48:39 <oxymoron> There are race issues with hot adding and removing devices last I checked..
+May 15 07:48:40 <-- hlinder has quit (Ping timeout: 495 seconds)
+May 15 07:48:42 <davem> which actually work on SBUS kit
+May 15 07:48:49 --> ming (~ming@32.97.110.142) has joined #lse
+May 15 07:48:51 <wli> jejb: what's your take on qlogicisp.c? marginal case or vaguely important?
+May 15 07:48:52 --> badari (~badari@32.97.110.142) has joined #lse
+May 15 07:48:58 --> mnc (~null@bi01p1.co.us.ibm.com) has joined #lse
+May 15 07:49:02 <jejb> wli: unfixable without docs
+May 15 07:49:03 <davem> wli: we can kill that by putting in the feral stuff
+May 15 07:49:11 --> guest_3 (~Bunny@216.236.98.130) has joined #lse
+May 15 07:49:19 <wli> jejb/davem: Sounds like a plan.
+May 15 07:49:24 <jejb> hotplug is an issue but not a show stopper for SCSI.
+May 15 07:49:29 <davem> agreed
+May 15 07:49:29 --> mckenney (~mckenney@bi01p1.co.us.ibm.com) has joined #lse
+May 15 07:49:34 <akpm> jejb: my perception if that mjacob needs a bit of help.  More testers, closer review/feedback from yourself and hch
+May 15 07:49:47 <davem> akpm: his standards are too high :-)
+May 15 07:49:54 <davem> akpm: really, his driver is quite stable
+May 15 07:49:58 <jejb> akpm: no USB storage, but I'll try
+May 15 07:49:59 <zwane> please do, it's randomly useable (stopped working for me for a release then suddenly worked with not many people able to have a look)
+May 15 07:50:04 --> hanna (~hlinder@bi01p1.co.us.ibm.com) has joined #lse
+May 15 07:50:05 <akpm> davem: interesting to hear...
+May 15 07:50:13 <mbligh> davem / akpm, feral falls over fairly easily for us
+May 15 07:50:27 --> nevdull (~rick@32.97.110.142) has joined #lse
+May 15 07:50:27 <davem> mbligh: and qlogicisp.c does better? :-)
+May 15 07:50:35 <mbligh> davem, not the point ;-)
+May 15 07:50:37 <cpufreak> Those of you from IBM - sorry about that, the session limit has now been rasied to try and prevent a reoccurance of that.
+May 15 07:50:38 <wli> different cards
+May 15 07:50:48 --> jstultz (~jstultz@bi01p1.co.us.ibm.com) has joined #lse
+May 15 07:50:52 <davem> I say we put the feral stuff in there so it starts getting tested
+May 15 07:50:54 <dhansen> mbligh: patman disagrees.  He isn't having problems much any more
+May 15 07:50:54 --> colpatch (~mcd@bi01p1.co.us.ibm.com) has joined #lse
+May 15 07:50:55 <mbligh> wli, nope, feral will drive ISP
+May 15 07:50:56 <-- jbaron has quit (Quit: Client Exiting)
+May 15 07:50:59 <riel> cpufreak: thanks!
+May 15 07:50:59 --> hbaum (~hbaum@bi01p1.co.us.ibm.com) has joined #lse
+May 15 07:51:00 <jejb> wli: not entirely.  Feral covers all qlogic chips
+May 15 07:51:10 * mbligh pokes andmike ... what's up with feral nowadays?
+May 15 07:51:17 --- riel gives channel operator status to hanna
+May 15 07:51:31 <jejb> feral also does endianness and sbus unlike the other non FC ones
+May 15 07:51:34 <wli> qlogicisp.c falls over when you breathe on it for isp1020; IIRC other qlogic stuff is used mostly for feral wrt. IBM testing (you don't do perf runs on 32-bit cards on PAE boxen -- it's pointless)
+May 15 07:51:43 <andmike> jejb: The feral does need some queue work on FC cards
+May 15 07:52:03 <mbligh> wli, you obviously have dangerously bad breath ;-) Is pretty reliable for me
+May 15 07:52:19 <jejb> OK, what about putting *both* feral and qlogic in and hoping evolutionary pressure makes them better?
+May 15 07:52:22 <-- fryelectronic has quit (Quit: BitchX: its wax ecstatic)
+May 15 07:52:32 <mbligh> jejb, sounds good to me ;-)
+May 15 07:52:35 <arjan> either way it's all "just" driver adds
+May 15 07:52:40 <davem> moving on...
+May 15 07:52:41 <jejb> and thus dumping qlogicfc and qlogicisp
+May 15 07:52:43 <arjan> without core effect
+May 15 07:53:07 <zaitcev> jejb: Tried that before. Look at uhci and usb-uhci. It's not too convinient for distributors. Arjan may chime in, perhaps.
+May 15 07:53:25 <akpm> qlogic drivers: merge qlogicisp, feral with a view to dropping qlogicfc and qlogicisp
+May 15 07:53:25 <andmike> jejb: Sounds good to me
+May 15 07:53:29 <jejb> zaitcev: I'm unwilling to pick winners at this time
+May 15 07:53:44 <akpm> we done with scsi?
+May 15 07:53:56 <davem> I think so
+May 15 07:53:57 <wli> Yes
+May 15 07:53:59 <jejb> akpm: and merge the qla2xxx too
+May 15 07:53:59 <akpm> drivers/usb/gadget/
+May 15 07:54:03 --> patman (~patman@32.97.110.142) has joined #lse
+May 15 07:54:11 <jejb> Yes
+May 15 07:54:15 --> zaxl (~alex@212.50.18.217) has joined #lse
+May 15 07:54:22 <-- akr_ has quit (Quit: Client exiting)
+May 15 07:54:25 <akpm>  rmk: SA11xx USB client/gadget code (David B has been doing some work on
+May 15 07:54:25 <akpm>   this, and keeps trying to prod me, but unfortunately I haven't had the time
+May 15 07:54:25 <akpm>   to look at his work, sorry David.)
+May 15 07:54:40 <willy> wasn't that merged yesterday?
+May 15 07:54:51 <dwmw2> willy: not sa11x0 I think
+May 15 07:55:09 <davem> ok let david-b and rmk work it out
+May 15 07:55:13 <gregkh> davem: agreed.
+May 15 07:55:14 <jejb> There's a dma_api type issue in USB that's gone unaddressed.  Probably ignore it for 2.6?
+May 15 07:55:16 <randy> yses, not must-fix
+May 15 07:55:17 <akpm> looks like that'll happen in due course
+May 15 07:55:29 <davem> jejb: in the gadget stuff?
+May 15 07:55:51 <jejb> davem: yes, I think so.  They have a parallel API for doing transports
+May 15 07:56:07 <jejb> they wanted to hook into the DMA API.
+May 15 07:56:27 <davem> jejb: I'd need to take a closer look, but it doesn't even build with gcc-3.x currently
+May 15 07:56:28 <jejb> As long as it all works OK, I think that's 2.7.  But does it all work OK
+May 15 07:56:34 <jejb> ?
+May 15 07:56:41 <davem> jejb: makes "#if define(XXX)" note missing final 'd' in define.
+May 15 07:56:43 <gregkh> jejb: for the device stuff?  I didn't think so, but I'll look into it.
+May 15 07:57:07 <akpm> davem: I got it all compiling on ppc64, couple of fixlets needed
+May 15 07:57:15 <akpm> anyway usb gadget won't block 2.6 ;)
+May 15 07:57:17 <jejb> gregkh: thanks.
+May 15 07:57:17 <davem> akpm: k
+May 15 07:57:23 <akpm> fs/
+May 15 07:57:23 <davem> next
+May 15 07:57:29 <akpm> ext3 data=journal mode is bust.
+May 15 07:57:43 <akpm> that's me.  Still thinking about it.  It'll happen
+May 15 07:57:49 <akpm> ext3/htree doesn't play right with NFS server.  90% fixed in -mm.
+May 15 07:57:58 <viro> akpm: fs/char_dev.c needs removal of aeb stuff and merge of cdev-cidr.  In progress.
+May 15 07:58:01 <gerrit_> akpm:  if you need help with data=journal, testing, etc. ask ming
+May 15 07:58:09 <oxymoron> How's htree stability otherwise?
+May 15 07:58:20 <tytso_> akpm: you forwarded the nfs htree patches to linus, right?
+May 15 07:58:22 <ming> akpm: I would happy to help on testing
+May 15 07:58:45 <akpm> There's an outstanding NFS/htree problem to do with converting flat dirs to htree dirs.  A fix is known, but not implemented.
+May 15 07:59:24 <akpm> I'll bug Stephen/tytso.  If they can flesh out the fix then chris of bzzz could code it
+May 15 07:59:26 <akpm> I hope
+May 15 07:59:27 <steved> its a cookie issue..
+May 15 07:59:28 <tytso_> akpm: That should have been fixed with the patches you sent to Linus.
+May 15 07:59:31 <steved> I believe..
+May 15 07:59:34 --> gaughen (~gaughen@32.97.110.142) has joined #lse
+May 15 07:59:46 --- gregkh is now known as gregkh_gone
+May 15 07:59:46 <akpm> tytso_: so there are no outstanding NFS probs?
+May 15 07:59:49 <bzzz> akpm: any time
+May 15 07:59:57 <akpm> oxymoron: pretty good I think.
+May 15 08:00:01 <-- Set has quit (Read error: Connection reset by peer)
+May 15 08:00:10 <tytso_> tytso: The only problem I know of is that the NFS patches you sent to Linus fix the flat dir->nfs problems, but
+May 15 08:00:15 <tytso_> return '.' and '..
+May 15 08:00:26 --> lochii (lochii@singularity.convergence.cx) has joined #lse
+May 15 08:00:30 <akpm> ah, right.
+May 15 08:00:33 <tytso_> out of order.  Nothing seems to break, and I haven't had time to work up the patch to fix that, if it needs fixing.
+May 15 08:01:10 <tytso_> Once we get the OLS paper submitted, I'll get to work on that patch....
+May 15 08:01:41 * corbet thinks "finish OLS paper" belongs on the must-fix list
+May 15 08:01:49 <akpm> viro: fs/char_dev.c stuff noted
+May 15 08:02:01 <akpm> - AIO/direct-IO writes can race with truncate and wreck filesystems.
+May 15 08:02:11 <-- Steph has quit (Read error: Connection reset by peer)
+May 15 08:02:16 <akpm> that's possibly unfixable in the 2.6 context
+May 15 08:02:18 <viro> akpm: yes, they can.
+May 15 08:02:24 <wli> akpm: I just got sprayed with a list of like 10 aio bugs from internal stuff
+May 15 08:02:36 <viro> akpm: it's a Don't Do It, Then issue
+May 15 08:02:37 <arjan> akpm: sct fixed that for 2.4
+May 15 08:02:42 <akpm> wimpy option is to disable AIO/DIO for S_ISREG unless special mount option is given
+May 15 08:02:48 <oxymoron> viro: Seems like it.
+May 15 08:03:02 <ak> viro: it's not limited to root
+May 15 08:03:12 <akpm> arjan: no, this one is much more blatant than the 2.4 issues
+May 15 08:03:46 <gerrit_> janetinc:  are you aware of the aio/dio/s_ISREG issues?  are you planning to work them at all perhaps with suparna?
+May 15 08:03:48 <viro> ak: removal of O_DIRECT handling solves it neatly for me
+May 15 08:03:50 <-- tcw (tcw@209.198.128.6) has left #lse
+May 15 08:03:53 <akpm> we drop i_sem while IO is in progress.  It's a bit of a joke.
+May 15 08:04:06 <ak> viro: NAO
+May 15 08:04:08 --> ndabney (~smurf@65.172.181.6) has joined #lse
+May 15 08:04:20 <arjan> ak: why not
+May 15 08:04:25 <quintela> NAO?
+May 15 08:04:32 <willy> Not An Option
+May 15 08:04:32 --> Steph (~sglass@pixpat.austin.ibm.com) has joined #lse
+May 15 08:04:38 <janetinc> suparna and i can surely have a look at the aio/dio/s_ISREG issues
+May 15 08:04:48 --> sct (~sct@80-195-6-107.cable.ubr02.ed.blueyonder.co.uk) has joined #lse
+May 15 08:04:56 <bzzz> akpm: I believe there is 'use-after-free' bug in current jbd
+May 15 08:04:57 <-- Kwuck has quit (Quit: *ping*)
+May 15 08:05:02 <willy> (presumably it's not an option because people have already published TPC numbers ;-)
+May 15 08:05:06 <ak> arjan: because O_DIRECT is useful for a lot of things. you could make it root only, but that would be rather inconvenient 
+May 15 08:05:07 <gerrit_> akpm:  lets avoid the wimpy option if janet can do something here.
+May 15 08:05:10 <akpm> janetinc: I've discussed with suparna.  It's ugly.
+May 15 08:05:11 <oxymoron> AIO should be fixable, O_DIRECT seems more troublesome.
+May 15 08:05:29 <akpm> we also need to forward-port sct's fixes for regular O_DIRECT
+May 15 08:05:51 <gerrit_> akpm:  is their a pointer to sct's patches somewhere?  on your list perhaps?
+May 15 08:05:53 <sct> akpm: I think that should be fairly straightforward, I've been doing a bit more testing and they look OK.
+May 15 08:05:59 <wli> out of curiosity, is there any intention to merge the rest of aio? AIUI there's some large fraction of the actual async semantics that never hit the tree.
+May 15 08:06:23 <sct> gerrit_: Not yet.  There are some security implications.
+May 15 08:06:26 <jejb> Doesn't full AIO depend on error stacks which we don't have?
+May 15 08:06:27 <wli> (it sounds doubtful given the current state of affairs)
+May 15 08:06:31 <akpm> wli: I need to review suparna's stuff
+May 15 08:06:49 <oxymoron> wli: Linus was talking about a fairly major AIO-centric revamp when this last came up..
+May 15 08:06:51 <akpm> wli: and run it by bcrl
+May 15 08:06:53 <wli> jejb: worktodos and/or equivalents? yes
+May 15 08:07:02 <willy> akpm: suparna has major doubts about the last set of patches she sent
+May 15 08:07:10 <gerrit_> btw, anyone who has test cases that break aio/dio/etc. should submit them to LTP
+May 15 08:07:13 <akpm> willy: of what nature?
+May 15 08:07:24 <jejb> wli: ability to direct the driver error handlers is what I mean (i.e. don't retry 15 times etc.)
+May 15 08:07:32 <willy> akpm: mostly "better ways to do stuff", I think.
+May 15 08:07:54 <akpm> willy: ah.  I probably scared her ;)
+May 15 08:08:02 <sct> I just got back from a debate this evening and am off to bed shortly --- arjan said there was O_DIRECT stuff going on.
+May 15 08:08:04 <wli> jejb: AFAIK we have 0 of that and the 2.4.x stuff didn't either
+May 15 08:08:12 <akpm> willy: her architecture leverages existing error propagation.  It's workable.
+May 15 08:08:12 <sct> Anything I need to mention before I disappear?
+May 15 08:08:16 <jejb> wli:  that's why I said *full*
+May 15 08:08:31 <jejb> It also applies to layerd drivers (like md)
+May 15 08:08:32 <gerrit_> sct:  if you need help testing with that stuff, let janetmor@us.ibm.com or suparna know - we'll help
+May 15 08:08:33 <wli> sct: basically aio/dio writes race w/truncate and someone said you had s fix somewhere
+May 15 08:08:37 <akpm> sct: lock_journal() stinks ;)
+May 15 08:08:47 <sct> akpm: We know that. :)
+May 15 08:09:02 <sct> wli: aio isn't the problem, it's buffered/direct races which hurt.
+May 15 08:09:13 <akpm> bzzz's stuff is in my intray.  big.
+May 15 08:09:20 <wli> sct: okay so you know what's going on then?
+May 15 08:09:51 <akpm> wli: the stuff sct is working on is subtle.  AIO/DIO is a great big clanger.
+May 15 08:09:56 <willy> would lock_journal() suck less if we had spin-then-sleep semaphores?
+May 15 08:10:10 <akpm> willy: it might, yes.  Could be fun to play with
+May 15 08:10:12 <riel> would it be possible to simply have truncate() fail while any process has the file open with O_DIRECT ?
+May 15 08:10:12 <wli> This vaguely sounds like the stuff has owners & forward progress.
+May 15 08:10:24 <akpm> wli: yup
+May 15 08:10:27 <akpm> next....
+May 15 08:10:29 <akpm> devfs!
+May 15 08:10:32 <viro> riel: that's too ugly
+May 15 08:10:37 <tytso_> move to terminate...
+May 15 08:10:44 <viro> akpm: er. above comment applies
+May 15 08:10:51 <Almighty> hehe
+May 15 08:10:55 <viro> tytso: let hch do it
+May 15 08:10:58 <arjan> isn't it nearly gone alreayd?
+May 15 08:11:05 <viro> tytso: I'll help
+May 15 08:11:14 --> mrah (~Hicham@80.11.176.174) has joined #lse
+May 15 08:11:18 <akpm> the plan there (I hope) is to rip the core and put in smalldevfs
+May 15 08:11:53 <akpm> so people are working on that...
+May 15 08:11:55 <riel> I'm sure devfs will turn out nicely with hch and viro looking after it
+May 15 08:12:09 <akpm> anything else under fs/?
+May 15 08:12:19 <green> reiserfs? ;)
+May 15 08:12:23 <wli> akpm: hugetlbfs sucking on non-x86
+May 15 08:12:29 <wli> (moi)
+May 15 08:12:34 <-- Foske has quit (Quit: using sirc version 2.211+KSIRC/1.2.4)
+May 15 08:12:43 <viro> green: tail-related stuff
+May 15 08:12:44 <green> what's up with that reiserfs_read_pages patch that I believe sits in -mm?
+May 15 08:12:54 <akpm> wli: bugzilla stuff I think.  
+May 15 08:12:56 <viro> green: IIRC, there was some mess going on
+May 15 08:12:56 <green> viro: Hm, what's wrong with tail related stuff?
+May 15 08:13:14 <viro> green: I'll need to look through archives - might've been fixed
+May 15 08:13:15 <green> viro: any info/testcases? this is first time I hear about it
+May 15 08:13:19 <wli> akpm: sparc64 is gross negligence + zero hardware =(
+May 15 08:13:44 <davem> wli: Be nice if there was a testsuite somewhere, then I might work on it
+May 15 08:13:54 <davem> wli: otherwise I'm -ENORACLE
+May 15 08:14:01 <ak> davem: it's easy to test.
+May 15 08:14:11 <davem> ak: I don't want to have to code up test programs
+May 15 08:14:13 <green> also what's general opinion on st.blk_sizr increase, I wonder? (besides some broken applications breaking)?
+May 15 08:14:15 <davej> wli: btw, shouldn't hugetlbfs fail to mount if the cpu doesn't support large pages?
+May 15 08:14:16 <wli> davem: I'll bounce some stuff your way, then.
+May 15 08:14:20 <davem> wli: cool
+May 15 08:14:22 <ak> davem: just hack up the ltp shm testcases a bit
+May 15 08:14:41 <davem> davej: sparc64 supprots it, but I haven't maintained the code at all
+May 15 08:14:45 <wli> davej: oh boy, sounds like a bogon
+May 15 08:14:51 <davej> davem: yah, different issue..
+May 15 08:14:55 <akpm> green: that patch has been in -mm for ages, but I'm wobbly about the st_blocksize thing.
+May 15 08:15:05 <davej> wli: not sure if that got fixed, but it was the case a while back
+May 15 08:15:13 <davem> anything else?
+May 15 08:15:22 <ak> green: "some" is good. everybody using old bsd db breaks.
+May 15 08:15:27 <wli> I'm done with fs/
+May 15 08:15:37 <riel> how is ACL/EA stuff looking in 2.5 ?
+May 15 08:15:40 <green> akpm: Hans seems to strongly want it. I apoke with Sleepycat and they said that they limit their IO window to 16k anyway. kmail issue is fixed, what's left?
+May 15 08:15:43 <bzzz> akpm: probably, fast EA for ext3?
+May 15 08:15:58 <akpm> green: but you guys own it.  If you want to push ahead, and we have a mount option to turn it off, then let's do it.
+May 15 08:16:13 <-- gregg_it has quit (Remote host closed the connection)
+May 15 08:16:19 <green> akpm: ok, let's hope Linus will accept it then, I'll try to push it again tomorrow
+May 15 08:16:32 <akpm> bzzz: I'm an EA ignoramus.  I don't know if anyone is using it much, but the code has had decent testing in 2.4 I believe
+May 15 08:16:41 <akpm> green: is -mm uptodate?
+May 15 08:16:51 <oxymoron> I don't think EA/ACL qualifies as must-fix at this point.
+May 15 08:16:52 <viro> akpm: there is some generic stuff for namei/namespace/super, but that's a slow-merge and can go in 2.6 just fine
+May 15 08:17:01 <davej> green: is Hans still hoping for inclusion of reiser4 for 2.6 ?
+May 15 08:17:03 <sct> akpm: It has, there's a fair following of AG's patches on 2.4
+May 15 08:17:05 <green> akpm: Should be, I made exactly zero changes on top of what you have in -mm
+May 15 08:17:07 --> pzb (~pzb@peabody.ximian.com) has joined #lse
+May 15 08:17:13 <viro> davej: *what*?
+May 15 08:17:14 <green> davej: Yes, I think he does
+May 15 08:17:27 <davej> that seems to have gone quiet over the last months
+May 15 08:17:30 <oxymoron> 2.6.1, perhaps..
+May 15 08:17:35 <akpm> green: OK, please check it over, let me know and I'll send it on
+May 15 08:17:50 <green> davej: He thinks he have some secret agreement with Linus so that even if reiser4 is late for 2.6.0, it may get in later as it happened with reiserfs
+May 15 08:17:58 <green> akpm: Ok
+May 15 08:18:15 <akpm> kernel/
+May 15 08:18:21 <akpm> O(1) scheduler starvation, poor behaviour seems unresolved.
+May 15 08:18:24 <oxymoron> green: Hopefully Linus will hand over 2.6 at .0 this time around..
+May 15 08:18:30 <davej> green: difference being lots of people were using old reiser before the merge already due to distros merging it
+May 15 08:18:34 <nevdull> akpm: is Jens on?
+May 15 08:18:36 <arjan> akpm: is that sched_yield() stuff?
+May 15 08:18:37 <willy> openmp seems to be a good trigger
+May 15 08:18:41 <akpm> nevdull: nope
+May 15 08:18:45 <arjan> willy: openmp is sched_yield() crap
+May 15 08:18:49 <arjan> willy: intel bogon code
+May 15 08:18:50 <mbligh> akpm: wasn't that just Linus' patch?
+May 15 08:19:03 <arjan> willy: they ought to use cpu binding and suddenly all is well
+May 15 08:19:13 <nevdull> if this is the sched_yield stuff again, it shouldn't hold up.  But I think we need to know how it "still doesn't feel as good".
+May 15 08:19:17 <akpm> what's openmp?
+May 15 08:19:19 <green> davej: well, I don't know what to say on this then ;)
+May 15 08:19:26 <oxymoron> mbligh: Linus' patch was addressing a problem that's still there without the patch..
+May 15 08:19:27 <willy> akpm: like PVM, aiui
+May 15 08:19:30 <arjan> akpm: intel fortran lib
+May 15 08:19:38 <akpm> it has a scheduler problem?
+May 15 08:19:40 <drepper> akpm: there are at least two big problems with the interaction between futex and O(1).  Ingo has already patches.  But we need much more testing on big boxes.  Only 4p+ machines have problems
+May 15 08:19:41 <arjan> akpm: they try to parallel compute 
+May 15 08:19:51 <arjan> akpm: it calls sched_yield() in a tight loop in a spinlock like thing
+May 15 08:20:09 <wli> drepper: give me something to test
+May 15 08:20:10 <akpm> david m-t has said he's seen significant problems with compute loads too.  He'll be preparing a report next week
+May 15 08:20:11 <arjan> akpm: O(1) scheduler refuses to move 1 of them to the second cpu if you have 2 threads in contention
+May 15 08:20:19 <arjan> akpm: and then Intel gets upset about that
+May 15 08:20:19 <mbligh> drepper: IBM has plenty of big boxes we can help you with ;-)
+May 15 08:20:31 <gerrit_> akpm:  I have a lot of data that suggests that HT scheduling stinks - e.g. loss of performance with HT on...
+May 15 08:20:42 <arjan> akpm: davidmt bug is the same openmp issue
+May 15 08:20:43 <gerrit_> akpm:  but I don't think it is stuff to hold the freeze.  not a functional issue
+May 15 08:20:48 <willy> gerrit: well that could be a hardware problem too
+May 15 08:20:51 <davej> gerrit_: horses for courses... some loads its a win, some a lose.
+May 15 08:20:52 --> Cyb0org (~Cyb.org@217.96.197.18) has joined #lse
+May 15 08:20:56 --> jlas9 (~chatzilla@217-125-37-60.uc.nombres.ttd.es) has joined #lse
+May 15 08:20:57 <willy> arjan: no, he's got two issues
+May 15 08:20:59 <nevdull> find_busiest_queue has rounding errors due to the integer arithmetic. There are discontinuities in its decisions about where to balance.
+May 15 08:21:00 <wli> major performance target
+May 15 08:21:05 <willy> one's openmp, the other's something else
+May 15 08:21:07 <gerrit_> willy:  HT is a hardware problem.
+May 15 08:21:09 <randy> gerrit_: are those just degenerate cases (known) or not?
+May 15 08:21:10 <arjan> willy: ok
+May 15 08:21:27 <drepper> wli: mbligh: just get rhl9 and compile glibc with nptl.  there are several test programs aavailable.  I'd suggest joining the nptl mailing list
+May 15 08:21:27 <mbligh> nevdull: I had a fix for that somewhere
+May 15 08:21:36 <gerrit_> davej:  we have MS benchmarks and linux benchmarks on identical hardware.  MS shows a 20-30% gain, linux shows a degredation.
+May 15 08:21:43 <oxymoron> akpm: Do we still have the 'wiggling a window makes X go non-interactive' bug?
+May 15 08:21:50 <nevdull> mbligh: it's not hard to fix.  But it's still in the standard code.
+May 15 08:21:58 <davej> gerrit_: which benchmark ?
+May 15 08:22:04 <akpm> gerrit_: I have the impression that you have a lot of half-timers on the scheduler.  Is there a particular owner there who can help to push things along?
+May 15 08:22:05 <gerrit_> davej:  tpc-h
+May 15 08:22:12 <gerrit_> davej:  and I think specjbb (java)
+May 15 08:22:13 <dhansen> davej: Specjbb too
+May 15 08:22:18 <akpm> oxymoron: it's much improved
+May 15 08:22:21 <arjan> gerrit_: oracle is a cache hog; mssequelsewer isn't
+May 15 08:22:29 <mbligh> nevdull, just shift the divisors onto the other side of the eqn IIRC
+May 15 08:22:31 <arjan> gerrit_: HT sucks for cache hogs, you trash the other cpu's cache too
+May 15 08:22:35 <gerrit_> akpm:  nevdull is our focal point, andrew theurer hacks a bit as well
+May 15 08:22:41 <nevdull> akpm: I've heard one significant thing so far:  Ingo has patches.  Seems like we should try those before spending a lot of cycles on this.
+May 15 08:22:43 <-- mnc has quit (Remote host closed the connection)
+May 15 08:22:51 <gerrit_> arjan:  yep - well aware, and DB2 was on MS and Linux...
+May 15 08:22:58 <wli> drepper: we've got dedicated scheduler-interested ppl (e.g. nevdull, habanero, hubertus) we're probably better sharing our machines with to get you runtime, I'll see what I can do to get them plugged in
+May 15 08:23:00 <gerrit_> same app, radically different performance
+May 15 08:23:20 <arjan> gerrit_: same threading model ?
+May 15 08:23:49 <gerrit_> arjan:  hard to know - in theory yes, but in practice, theres a lot of arch specific code in the database
+May 15 08:24:08 <gerrit_> arjan:  hard to weed out the app differences - which is part of why it is taking so long.
+May 15 08:24:18 <gerrit_> arjan:  ditto on java related benchmarks.
+May 15 08:24:32 <ak> the NUMA scheduling will also need a lot of work, but that's a different issue (and no showstopper for release)
+May 15 08:24:48 <nevdull> ak: agreed.  NUMA needs work but need not hold up 2.6.
+May 15 08:24:49 <wli> nevdull: I'm concerned there are issues beyond load balancing going on. The queueing metrics I've collected appear to show some large discrepancies in scheduling latencies and waiting time on UP
+May 15 08:25:20 <gerrit_> and again, I don't think the HT stuff holds 2.6 - but it does need some better understanding and we are looking for that.
+May 15 08:25:21 <nevdull> Ok, those would be useful to go over.
+May 15 08:25:29 <akpm> hanna: admin: we're 33% of the way through.  How about we go through to the end of the "bugs" list, do features next time?
+May 15 08:25:34 --- riel is now known as unriel
+May 15 08:25:37 <gerrit_> and NUMA is likely to be a distro value add item across the board...
+May 15 08:25:46 <hanna> akpm sounds good. next week same time and day?
+May 15 08:25:57 <gerrit_> if it makes 2.6.XX, it will have to be mostly arch independent.
+May 15 08:26:08 <akpm> hanna: we cn wor that out later.  There's still 30-60 minutes worth today.
+May 15 08:26:26 <akpm> next?
+May 15 08:26:28 <ak> gerrit: one issue is that there is quite different NUMA. k8 style NUMA vs 2/4 cpus per node big iron numa
+May 15 08:26:38 <ak> gerrit: they need different strategies
+May 15 08:26:44 <mbligh> nevdull / ak: as long as we can turn it off (it's now a separate config option), I don't see it's a regression from 2.4 ;-)
+May 15 08:26:54 <davem> akpm: I also have to leave soon, need to hit net soonish :)
+May 15 08:27:02 <mbligh> ak, you mean page striping?
+May 15 08:27:10 <akpm> net/
+May 15 08:27:20 <akpm> davem: that seems to be under control?
+May 15 08:27:23 <davem> ALexey is on top of the first two entries.
+May 15 08:27:27 --> davej_ (~davej@81-86-107-140.dsl.pipex.com) has joined #lse
+May 15 08:27:29 <davem> The TCP hang issue is troublesome
+May 15 08:27:32 <davem> Need more traces
+May 15 08:27:41 <akpm> davem: yeah, sorry.  I need to pull finger out.
+May 15 08:27:45 <-- Steph has quit ()
+May 15 08:27:46 <akpm> I'll do that asap
+May 15 08:27:49 <davem> Thanks
+May 15 08:27:53 <davem> Also, related to modules/
+May 15 08:28:03 <davem> Rusty is working with us on two-stage unload
+May 15 08:28:09 <davem> You see that URL you have there?
+May 15 08:28:17 <davem> Ask shemminger for his mirror on osdl.org
+May 15 08:28:18 <akpm> yup
+May 15 08:28:23 <davem> Don't want my workstation getting spammed
+May 15 08:28:36 <randy> davem which is the TCP hang issue?
+May 15 08:28:42 <davem> Last one in net/
+May 15 08:28:43 <ak> davem: but it won't need driver changes I hope?
+May 15 08:28:48 <davem> ak: nope
+May 15 08:28:52 <-- Arador has quit (Quit: Arador)
+May 15 08:28:53 <ak> davem: tcp hang - i thought it was TCP_CORK only?
+May 15 08:28:53 <davem> ak: only if you specify module_shutdown()
+May 15 08:29:01 <ak> TCP_CORK is not a showstopper ;)
+May 15 08:29:02 <davem> ak: This is not known yet
+May 15 08:29:10 <davem> ak: Everyone uses it, yes it it
+May 15 08:29:10 <-- mrah has quit (Quit: Client Exiting)
+May 15 08:29:14 <-- sct has quit (Quit: ZZZzzz)
+May 15 08:29:15 <willy> oh -- not net/ as such, davej was reporting problems where a client can overstress a server and Bad Things happen -- I don't see that on the list
+May 15 08:29:27 <akpm> willy: nfs?
+May 15 08:29:29 <davej_> thats under nfs
+May 15 08:29:30 <davem> willy: That's pretty content free description
+May 15 08:29:31 <willy> yes
+May 15 08:29:38 <davej_> trond is on that
+May 15 08:29:45 <davem> sunrpc needs to be fixed module wise
+May 15 08:29:54 <davem> and de-lock_kernel()'d
+May 15 08:30:01 <randy> davem, this one:  http://www.osdl.org/archive/shemminger/modules.html
+May 15 08:30:06 <davem> randy: yep
+May 15 08:30:10 <akpm> I suspect my MAP_SHARED test will nuke nfs again.  Need to retest.  I pretty much know what to do there.  That's just a bug tho
+May 15 08:30:15 <ak> also soft needs to be fixed - there are quite a lot of uninterruptible waits in sunrpc/nfs
+May 15 08:30:21 <viro> davem: per-interface sysctls are FUBAR, but that's not new
+May 15 08:30:24 <ak> (not a showstopper of course)
+May 15 08:30:29 <davem> viro: which ones?
+May 15 08:30:56 <viro> davem: entire bunch - if they disappear on ifdown, you have trouble
+May 15 08:31:12 <davem> viro: we only unregister them on unregister_netdev()
+May 15 08:31:22 --> ricklind (~rick@129.33.49.251) has joined #lse
+May 15 08:31:25 <davem> viro: or are you talking about ipv4 ones?
+May 15 08:31:34 <viro> davem: yes
+May 15 08:31:35 --- dwmw2 is now known as gone_dwmw2
+May 15 08:31:38 --> rick (~rick@bi01p1.co.us.ibm.com) has joined #lse
+May 15 08:31:41 --> jstultz_ (~jstultz@bi01p1.co.us.ibm.com) has joined #lse
+May 15 08:31:47 <davem> viro: that explains it, I'll look into it
+May 15 08:31:49 --> hbaum_ (~hbaum@bi01p1.co.us.ibm.com) has joined #lse
+May 15 08:32:01 <-- bunk has quit (Quit: good night)
+May 15 08:32:02 <davem> akpm: My only panic is on the TCP hang thing
+May 15 08:32:05 <viro> davem: OK, later - I'll go through that code again and send you details
+May 15 08:32:09 <davem> akpm: also what about those unmapping SLAB hacks?
+May 15 08:32:30 <akpm> davem: hmm, I haven't played with that for a while
+May 15 08:32:37 <davem> akpm: there was no resolution
+May 15 08:32:42 <davem> akpm: was it determined to be buggy
+May 15 08:32:46 <davem> akpm: re: vmalloc races?
+May 15 08:32:57 <akpm> davem: there's uncertainty over the tlb invalidate.
+May 15 08:32:57 <-- moose has quit (Quit: Client Exiting)
+May 15 08:33:08 <-- nevdull has quit (Read error: Connection reset by peer)
+May 15 08:33:13 <davem> akpm: ok, because that thing could help find real bugs quite well
+May 15 08:33:22 <akpm> davem: I'll ping manfred.
+May 15 08:33:22 <green> akpm: but is there a patch one can look at?
+May 15 08:33:22 --- rick is now known as nevdull
+May 15 08:33:27 <-- hbaum has quit (Read error: Connection reset by peer)
+May 15 08:33:29 <-- jstultz has quit (Read error: Connection reset by peer)
+May 15 08:33:33 <davem> akpm: also his magazine hacks, needed for routing perf
+May 15 08:33:33 <akpm> green: it's in -mm
+May 15 08:33:51 <ak> akpm: it kills e100 with apply_alternatives
+May 15 08:33:52 <akpm> davem: that's 80% complete.  Is stable, speeds things up, needs some autotuning or a tuning API
+May 15 08:34:02 <davem> akpm: great
+May 15 08:34:07 <ak> and I didn't find a bug in my code
+May 15 08:34:09 <wli> magazining is a good general optimization
+May 15 08:34:11 <-- Burner23 has quit (Quit: leaving)
+May 15 08:34:14 <akpm> davem: has been in -mm for a couple of weeks
+May 15 08:34:18 <davem> akpm: other than tweaks and bits, that all wrt. networking
+May 15 08:34:27 <akpm> davem: ok, thanks.
+May 15 08:34:30 <davem> np, later guys
+May 15 08:34:37 <akpm> back to kenrel/
+May 15 08:34:40 <-- JK has quit (Remote host closed the connection)
+May 15 08:34:42 <-- davem has quit (Quit: Client Exiting)
+May 15 08:34:44 <akpm> Alan: 32bit uid support is *still* broken for process accounting.
+May 15 08:34:49 <akpm> Create a 32bit uid, turn accounting on.  Shock horror it doesn't work
+May 15 08:34:50 <akpm>   because the field is 16bit.  We need an acct structure flag day for 2.6
+May 15 08:34:50 <akpm>   IMHO
+May 15 08:35:02 <ak> akpm: does anybody still use process accounting ?
+May 15 08:35:05 <akpm> anyone here understand this?
+May 15 08:35:10 <viro> akpm: sure
+May 15 08:35:12 <wli> yes
+May 15 08:35:21 <gerrit_> sure, but who really uses process accounting?
+May 15 08:35:37 <ak> the people who do supercomputer accounting have more complex patches anyways
+May 15 08:35:37 <viro> akpm: the record is fixed-format.
+May 15 08:35:42 <viro> akpm: binary
+May 15 08:35:44 <oxymoron> Paranoid folks too.
+May 15 08:35:54 <viro> akpm: with narrow field for UID
+May 15 08:36:05 <tytso_> Well, if no one uses it, then a flag day switch of the structure before 2.6.0 ships should be easy.
+May 15 08:36:12 <viro> akpm: fix: change the format
+May 15 08:36:13 <arjan> akpm: yes
+May 15 08:36:26 <arjan> akpm: afaik there's 16 bits of spare change in the records
+May 15 08:36:30 <viro> akpm: will require change of sa(8)
+May 15 08:36:31 <arjan> akpm: so not unfixable
+May 15 08:36:44 <arjan> viro: are you sure? I thought there was some spare space in that struct
+May 15 08:37:16 <viro> arjan: let me check
+May 15 08:37:21 --> alb (~Libertad@200.43.231.239) has joined #lse
+May 15 08:37:27 --> vizard (~jeff@24.43.126.4) has joined #lse
+May 15 08:37:53 <wli> akpm: random goop: the task refcounting bug is taking forever to track down, may or may not be worth promoting
+May 15 08:38:21 <viro> arjan: umm... there's some padding in the end, but...
+May 15 08:38:23 <oxymoron> akpm: this accounting stuff is pretty narrow-interest, you can probably move on..
+May 15 08:38:38 <arjan> viro: ok so fixable, not pretty but fixable
+May 15 08:38:57 <akpm> oxymoron: well if we need to change API we'd better do it soon and loudly.
+May 15 08:38:58 <viro> OK, next?
+May 15 08:39:09 <arjan> akpm: padding -> no break. next. ;)
+May 15 08:39:10 <-- rico (peak@217.81.133.15) has left #lse
+May 15 08:39:21 <akpm> ok, who's going to do it?
+May 15 08:39:31 <arjan> akpm: Alan has a patch ready
+May 15 08:39:34 <oxymoron> Let's nominate Alan..
+May 15 08:39:36 <akpm> ah, OK.
+May 15 08:39:42 <-- ricklind has quit (Ping timeout: 485 seconds)
+May 15 08:39:47 <akpm> mm/
+May 15 08:39:53 <akpm> Overcommit accounting gets wrong answers
+May 15 08:40:04 <akpm> this is fairly nasty.  I'll tkae another look at that.
+May 15 08:40:11 <akpm> - Proper user level no overcommit also requires a root margin adding
+May 15 08:40:12 <-- hollis has quit (Quit: night)
+May 15 08:40:19 <akpm> alan said this was surprisingly simple.
+May 15 08:40:32 <akpm> anything else in mm?
+May 15 08:40:37 <wli> akpm: slab parts aren't _that_ bad; morton pages are another matter entirely
+May 15 08:40:38 <jejb> GFP_DMA32?
+May 15 08:40:55 <wli> jejb: love to have it, wishlist?
+May 15 08:41:00 --> acme (~acme@2-211.ctame701-2.telepar.net.br) has joined #lse
+May 15 08:41:01 <-- Cyb0org has quit (Quit: .)
+May 15 08:41:04 <hanna> closing in on 2 hours...
+May 15 08:41:08 * willy moves it be called GFP_4G
+May 15 08:41:14 <jejb> wli: can be done with minor header tweaking.  Needed for IA64 noiommu
+May 15 08:41:30 <akpm> jejb: that's a separate zone.  If we really want it, then yeah, who has patch?
+May 15 08:41:35 <zaitcev> s390x needs 2GB limits
+May 15 08:41:45 <jejb> akpm: can be implemented in current zone
+May 15 08:41:45 <arjan> jejb: only if you don't merge the real ia64 noiommu fix
+May 15 08:41:50 <zaitcev> Not 4, mind
+May 15 08:41:53 <arjan> well
+May 15 08:41:59 <arjan> we need an allocator that takes a bitmask
+May 15 08:42:06 <arjan> also for 31 bit PCI devices
+May 15 08:42:13 <arjan> as low level primitive
+May 15 08:42:18 <wli> okay then let's take this one to another forum?
+May 15 08:42:21 <zaitcev> Currently they just defined GFP_DMA to be 31 bit long
+May 15 08:42:23 <jejb> arjan: so kmalloc_mask() instead.  That's invasive
+May 15 08:42:24 <zaitcev> Sorry
+May 15 08:42:48 <-- arjan has quit (Quit: sleeptime for real)
+May 15 08:42:51 <willy> zaitcev: right, and ia64 defines GFP_DMA to be anything under 4GB
+May 15 08:43:18 <wli> well we don't even agree on strategy here so let's make up our minds some other time
+May 15 08:43:35 <akpm> I'll poke the stakeholders, see if we can work out what we want to do
+May 15 08:43:47 <akpm> modules
+May 15 08:44:04 <akpm> everything I have here seems to be under control.
+May 15 08:44:06 <jejb> OK.  GFP_DMA32 is the quick fix. kmalloc_mask() is better but more difficult
+May 15 08:44:21 <willy> without rusty here, no point in discussing modules
+May 15 08:44:36 <acme> akpm:  have you seen DaveM's take on modules for complex subsystems like IPv6 and IPv4? 
+May 15 08:44:37 --> davidvh (~David@dhcp14096.mccollum.fsu.edu) has joined #lse
+May 15 08:44:42 <viro> willy: yup
+May 15 08:44:48 <hanna> maybe next call will be earlier so europeans/aussies can make it..
+May 15 08:44:50 <akpm> but there are issues wrt alleged overall loss of functionality cmpared to 2.4..
+May 15 08:44:53 <acme> IPv4 is not an issue right now, its not modular anyway
+May 15 08:45:05 <akpm> acme: yes, dave mentioned two-stage unload
+May 15 08:45:20 <akpm> next?
+May 15 08:45:21 <acme> but IPv6 has just too many dinamicly allocated structs to do tons of __module_get/put
+May 15 08:45:37 <acme> I'll get his unpublished doc on modules and post here
+May 15 08:45:38 <ak> not unloading ipv6 would also be no regression - it is not unloadable in 2.4
+May 15 08:45:46 <akpm> waht ak said.
+May 15 08:45:54 <acme> ak:  agreed
+May 15 08:46:08 <akpm> net/*/netfilter/
+May 15 08:46:11 <ak> just bridge etc.but these can be made ununloadable too
+May 15 08:46:16 <willy> akpm: also rusty
+May 15 08:46:17 <akpm> that's rusty stuff, under control.
+May 15 08:46:22 <akpm> sound/
+May 15 08:46:30 <phillips> the original time is ok for europe, except 9 to 5ers
+May 15 08:46:36 <akpm> rmk: several OSS drivers for SA11xx-based hardware in need of
+May 15 08:46:36 <akpm>   ALSA-ification and L3 bus support code for these.
+May 15 08:46:42 <phillips> aussies can make it if they get up early
+May 15 08:46:47 <davej_> lots of OSS drivers still lacking fixes from 2.4
+May 15 08:47:01 <akpm> davej_: does that have an owner?
+May 15 08:47:02 <willy> one plan i heard was to kill OSS for 2.6
+May 15 08:47:13 <acme> I've heard that as well
+May 15 08:47:15 <davej_> Adam Belay was supposed to be scooping them up, but I've not seen anything from him
+May 15 08:47:15 <rmk> more drivers stuff from me... the oss drivers can't go in as is because it seems that the OSS bits seem to use virt_to_bus
+May 15 08:47:19 <wli> willy: is there functionality loss implied?
+May 15 08:47:24 <davej_> willy: last I heard was 'some of it.. maybe'
+May 15 08:47:28 <acme> not sure if alsa replaces everything in OSS tho
+May 15 08:47:32 <-- Astro has quit (Quit: The Well Of Wishes awaits in Crypt Of Decay...)
+May 15 08:47:47 <oxymoron> There's some OSS->Alsa breakage, yes.
+May 15 08:47:50 <davej_> killing it off completley is probably 2.7 material
+May 15 08:47:58 <acme> davej_:  agreed
+May 15 08:48:07 <rmk> so basically for arm everything has to be alsa.
+May 15 08:48:17 <wli> kill duplicates?
+May 15 08:48:35 <-- mdomsch has quit (Quit: [BX] The Invisible Man uses BitchX, you just can't see it!)
+May 15 08:48:37 <oxymoron> wli: Mark deprecated, move on?
+May 15 08:48:51 <akpm> yup
+May 15 08:48:56 <akpm> global stuff.
+May 15 08:49:02 <akpm> Lots of 2.4 fixes including some security are not in 2.5
+May 15 08:49:11 <akpm> main problem: how do we find them again?
+May 15 08:49:20 <davej_> I've got a bunch of those pending cleaning up/rediffing
+May 15 08:49:23 <davej_> Alan also has a bunch
+May 15 08:49:29 <ak> akpm: HZ=1000 :- it made the timer handler bugs with skipping jiffies worsep
+May 15 08:49:37 <akpm> ok
+May 15 08:49:40 <badari>  akpm: I asked Dipankar to follow up
+May 15 08:49:47 <davej_> going through the old 2.4 commit logs could be worthwhile for someone with too much time on their hands
+May 15 08:49:48 <akpm> ak: what's the fix for that
+May 15 08:49:49 <akpm> ?
+May 15 08:50:06 --- randy is now known as randy_gone
+May 15 08:50:18 <ak> akpm: implement a PLL for the timer interrupt (arjan was talking about that)
+May 15 08:50:24 <akpm> ak: does the lost_tick stuff help?
+May 15 08:50:27 <wli> PLL?
+May 15 08:50:33 <willy> Phase Locked Loop
+May 15 08:50:35 <oxymoron> wli: phase locked loop
+May 15 08:50:37 <ak> or lower HZ again
+May 15 08:50:44 <ak> akpm: only for a single lost tick
+May 15 08:50:55 <oxymoron> ak: Quick summary of problem again?
+May 15 08:50:56 <akpm> ak: what is the cause?
+May 15 08:51:05 <ak> akpm: ACPI or SMM code
+May 15 08:51:18 <ak> they sometimes add quite long delays with interrupts off
+May 15 08:51:27 <oxymoron> ak: Missing expiry of timers?
+May 15 08:51:34 <willy> ACPI is fixable ... SMM less so
+May 15 08:51:48 <ak> oxymoron: no gettimeofday becomes non monotonous, which breaks applications
+May 15 08:52:27 <oxymoron> ak: Ahh..
+May 15 08:52:27 <akpm> hmm, I don't see this being fixed.
+May 15 08:52:47 <willy> ia64 has a mechanism for ensuring that gettimeofday is monotonous
+May 15 08:52:49 <ak> akpm: or add hack: single lock for gettimeofday that stops it going backwards
+May 15 08:52:57 <-- Lucifair (~luism@212.202.185.200) has left #lse (Client exiting)
+May 15 08:53:03 <ak> akpm: but it will cost you because gettimeofday is time critical
+May 15 08:53:06 <willy> i'm not sure people would like it, it involves a cmpxchg
+May 15 08:53:09 <wli> stanford checks look like they can be easily catalogued
+May 15 08:53:14 <-- Intuxicated has quit (Read error: Connection reset by peer)
+May 15 08:53:27 <ak> akpm: e.g. it's called for each network packet, so that would eed a fastpath (network stack can deal with it going backwards)
+May 15 08:53:29 <davej_> wli: that stuff is logged on their website (and bugzilla)
+May 15 08:53:36 <akpm> wli: badari was looking into the Stanford bugs
+May 15 08:53:39 <-- rz has quit (Quit: Client exiting)
+May 15 08:53:43 <ak> but x86-64 has it as vsyscall which cannot do locks 
+May 15 08:53:49 <badari> akpm: hollisb is working on these
+May 15 08:54:10 <oxymoron> ak: Can we reduce the externally visible time resolution?
+May 15 08:54:19 <phillips> I'd like to see 2.6.0 guarantee monotonic gettimeofday
+May 15 08:54:25 <willy> ak: but you can loop till successful like ia64 does
+May 15 08:54:46 <ak> willy: no, vsyscalls cannot update global state
+May 15 08:55:31 <akpm> ak: do you think you can come up with a plan for tfixing his?  John Stultz may be able to help out.
+May 15 08:55:45 * jstultz_ wakes up
+May 15 08:55:53 <ak> akpm: i don't have bandwidth to work on it, sorry.
+May 15 08:55:59 <ak> just wanted to mention the problem
+May 15 08:56:12 <akpm> ak: as in: suggest a fix, that's all.
+May 15 08:56:15 <gerrit_> hbaum, jstultz: does jstultz have bandwidth to dedicate to this?
+May 15 08:56:20 <ak> akpm: talk to arjan
+May 15 08:56:30 <ak> he had some ideas
+May 15 08:56:56 * akpm nominates jstultz_ ;)
+May 15 08:57:10 <acme> ok, found: netdev TODO list made by DaveM and with help from a bunch of people: http://pizda.ninka.net/~davem/netdev.html
+May 15 08:57:21 <akpm> movin on, last item..
+May 15 08:57:22 <gerrit_> akpm: jstultz it is - we'll have to work out details
+May 15 08:57:35 <jstultz_> noted.
+May 15 08:57:35 <akpm> 64-bit dev_t
+May 15 08:57:41 <hbaum_> gerrit_: yep jstultz can find the time
+May 15 08:57:56 <viro> akpm: we need to sort the mess in cdev out before that
+May 15 08:58:11 <viro> akpm: cdev-cidr will do that
+May 15 08:58:13 <aeb> Things are in good shape, I think
+May 15 08:58:22 <viro> aeb: like hell they are
+May 15 08:58:33 <aeb> Independent of what happens in cdev
+May 15 08:58:48 <viro> akpm: we _really_ need to get sane API for device number allocation and get it right
+May 15 08:58:57 <viro> akpm: and that's more serious than cdev
+May 15 08:59:08 <viro> akpm: what we have now is a joke
+May 15 08:59:31 <aeb> We have nothing at all
+May 15 08:59:37 <akpm> viro: can that work be decoupled from simply making dev_t wider to userspace?
+May 15 08:59:54 <akpm> viro: because it'll take time to weed out remaining broken userspace apps
+May 15 09:00:05 <akpm> nice to do that in parallel with cdev rework
+May 15 09:00:13 <viro> akpm: cdev is not a problem
+May 15 09:00:20 <gerrit_> viro:  getting work aka badari's for 5000 devices on IA32 is a major thing for IBM across the board and also for oracle.
+May 15 09:00:42 <viro> akpm: however, /proc/devices changes will be needed
+May 15 09:00:54 <viro> akpm: and we'd better get that stuff right.
+May 15 09:00:56 <gerrit_> viro:  we are highly motivated to "do the right thing" for 2.6
+May 15 09:01:11 <wli> gerrit: IMHO the fix for that is probably not 2.6 mergeable (if mergeable at all)
+May 15 09:01:19 <viro> wli: ?
+May 15 09:01:19 <gerrit_> viro:  if there are things we need to do to get it right, give us pointers
+May 15 09:01:20 <wli> gerrit: I've outlined what it is, though.
+May 15 09:01:37 <aeb> But tThere is no need to use /proc/devices for anything with major > 255
+May 15 09:01:57 <-- colpatch has quit (Quit: Client Exiting)
+May 15 09:02:04 <wli> viro: stashing info to re-instantiate what are currently pinned dentries/inodes somewhere besides lowmem
+May 15 09:02:11 <oxymoron> proc/devices must continue to exist for everything that used it in 2.4.
+May 15 09:02:25 <viro> oxymoron: I'm not sure
+May 15 09:02:36 <wli> viro: I'd need a serious sit-down just to work out the fs mechanics to get it plausible, much less working, and it's guaranteed the world will hate it.
+May 15 09:02:45 <aeb> I gave a list of users of /proc/devices earlier today or yesterday 
+May 15 09:02:59 --> tridge (~tridge@fjall.tridgell.net) has joined #lse
+May 15 09:03:04 <oxymoron> aeb: In response to hch? Saw that..
+May 15 09:03:13 <viro> oxymoron: it's becoming a PITA and it's not about to get prettier
+May 15 09:03:52 <viro> oxymoron: we can leave it as-is, but that means a massive kludge existing only to keep /proc/devices alive
+May 15 09:04:01 <viro> oxymoron: really massive kludge
+May 15 09:04:38 <akpm> I'm confused
+May 15 09:04:38 <viro> akpm: OK
+May 15 09:05:06 <viro> akpm: let me put it that way: getting syscall boundary into sane shape wrt 64bit dev_t is easy
+May 15 09:05:08 <PugMajere> can /proc/devices, or an equivalent file be created with some fancy hooks using /sbin/hotplug and converting /proc/devices into a symlink to somewhere else?
+May 15 09:05:10 <wli> viro: er, sorry if I wasn't clear on the issue, the dentry cache / inode cache lowmem hit from sysfs et al with insane numbers of devices is crippling to the PAE boxen (space behavior of various things was pretty well analyzed and the 2 or 3 above this were already knocked out of the running). i.e. something nobody (except PAE system vendors) even wants fixed.
+May 15 09:05:32 <viro> akpm: the stuff that bites is
+May 15 09:05:58 <viro> a) filesystems that keep dev_t of external log - with not enough width
+May 15 09:06:00 <oxymoron> viro: Do you have a plan re legacy device numbering? 
+May 15 09:06:05 <viro> b) ioctls
+May 15 09:06:11 <viro> oxymoron: ?
+May 15 09:06:18 <akpm> wli: we need to revisit that.  Linus was totally against dopey icache/dcaceh hacks, and when you do the numbers, the VFS cache mem usage wasn't _taht_ bad.  It was mainly pinned requests and stuff.
+May 15 09:06:20 <viro> oxymoron: leave it as-is, obviously
+May 15 09:06:41 <akpm> viro: I thought aeb had basically fixed the ioctls?
+May 15 09:06:44 <oxymoron> viro: I think we only care about /proc/devices for stuff that -had- an 8:8 number.
+May 15 09:07:17 <viro> akpm: IOW, when foo_bar_we_are_special_ioctl_wank_wank_wank() passes int and casts it to dev_t - we got a problem
+May 15 09:07:29 <viro> akpm: there are remaining instances
+May 15 09:07:31 <wli> akpm: If it turns out to be necessary I'll probably be on the hook for it, but it's probably just not for mainline.
+May 15 09:07:32 <akpm> viro: ext3 external journal we can just break.  it's a plaything, not serious feature.
+May 15 09:08:14 <tytso_> akpm: yes, no one should be using it in production.
+May 15 09:08:19 <viro> akpm: aeb had fixed some, but it's nowhere near completeness
+May 15 09:08:30 <akpm> viro: if we merge up the minimal 64-bit patch then those things will be noticed sooner, won't they?
+May 15 09:08:53 <viro> akpm: not sure
+May 15 09:09:03 --> niemeyer (~niemeyer@200.103.138.210) has joined #lse
+May 15 09:09:07 <viro> akpm: sorry - back in a couple of minutes (RL)
+May 15 09:09:08 <aeb> "noticed" is not my style
+May 15 09:09:15 <akpm> viro: aeb was reviewing hundreds of ioctls
+May 15 09:09:18 <aeb> things must be provably correct
+May 15 09:09:36 <tytso_> akpm: Especially if we alias the legacy devices at 0xFFFFabcd :-)
+May 15 09:09:49 --> yg_home (~yusufg@cm61-10-95-8.hkcable.com.hk) has joined #lse
+May 15 09:09:56 <akpm> aeb: how far along is that review?
+May 15 09:10:02 <oxymoron> tytso: Interesting. Breaks everything, but interesting.
+May 15 09:10:27 <aeb> I think I did two-thirds or so, but was unsure how things
+May 15 09:10:35 <aeb> would go now that viro is back
+May 15 09:10:47 <tytso_> oxymoron: might as well find them now
+May 15 09:10:52 * viro returns
+May 15 09:10:56 <-- ak has quit (Quit: using sirc version 2.151+ssfe)
+May 15 09:11:03 <aeb> However, I am happy to see that everybody seems to agree what to do at the syscall boundary
+May 15 09:11:41 <akpm> so suppose we were to jsut merge up the 64-bit patches from -mm.  What's bad about that idea?
+May 15 09:11:54 <viro> akpm: it's a matter of grep, actually - most of uses of dev_t and kdev_t are gone, so it's not too hard to find the rest
+May 15 09:12:07 <-- zaitcev has quit (Quit: bye bye)
+May 15 09:12:07 <viro> akpm: mail them to me, OK?
+May 15 09:12:15 <akpm> viro: sure will.
+May 15 09:12:48 <akpm> viro: and it sounds like the cdev work, device number allocation, etc is ongoing non-showstopper?  
+May 15 09:13:12 <viro> akpm: cdev work is ongoing and it must be done before 2.6
+May 15 09:13:22 <viro> akpm: at least on the upper levels
+May 15 09:13:37 <akpm> viro: what are you up to there?
+May 15 09:13:39 <gerrit_> viro:  is this a multi-month task, though?  or is there any chance it'll be done in a month or so?
+May 15 09:14:01 <oxymoron> gerrit: Seems unlikely with the tty stuff in addition..
+May 15 09:14:13 <-- markh has quit (Quit: Client Exiting)
+May 15 09:14:24 <gerrit_> oxymoron:  yeah, I'm adding in my head, hoping the close down is sooner rather than later...
+May 15 09:14:28 --> ajax (~jakorty@208.248.32.211) has joined #lse
+May 15 09:14:29 <viro> akpm: main group is pretty stable and I hope to feed it to Linus RSN
+May 15 09:14:47 <viro> akpm: that's cdev-cidr and ->i_cdev/->i_cindex stuff
+May 15 09:15:24 <akpm> ok, thanks.
+May 15 09:15:40 <viro> akpm: after that we need to fix refcounting for tty_driver (oopsable race, must fix anyway, hopefully about a week until it's merged)
+May 15 09:16:08 <akpm> anyone else have anything we need to talk about today?
+May 15 09:16:08 <viro> akpm: then we can do tty/misc/upper levels of sound and hopefully upper level of USB
+May 15 09:16:18 <wli> viro: is there room for helpers in the equation? You mentioned backports/etc. would be needed?
+May 15 09:16:18 <-- ajax has quit (Client Quit)
+May 15 09:16:42 <viro> wli: see above - after the first two parts are in, it branches
+May 15 09:17:01 <viro> wli: IOW, propagation into subsystems is independent
+May 15 09:17:29 <oxymoron> wli: Backports for tty fixes, yes. 
+May 15 09:17:39 <-- tridge has quit (Quit: Client exiting)
+May 15 09:17:47 <viro> akpm: USB is a place where we _really_ need to deal with dynamic allocation of device numbers
+May 15 09:17:50 <wli> viro: That sounds ugly. Is anyone around who can handle working on that level for tty/ldisc/etc. fixes?
+May 15 09:17:53 <viro> akpm: and that will bite
+May 15 09:18:08 <wli> (besides you)
+May 15 09:18:30 <viro> folks, that's #kernel stuff, IMO
+May 15 09:18:40 <wli> okay
+May 15 09:18:42 <-- janetinc has quit (Quit: Client Exiting)
+May 15 09:18:57 <akpm> I think we're done here for today.
+May 15 09:19:07 <hanna> Great thanks everyone.
+May 15 09:19:09 <rmk> akpm: power management.
+May 15 09:19:11 <viro> akpm: ACK
+May 15 09:19:12 <-- dmc has quit (Quit: using sirc version 2.211+KSIRC/1.2.4)
+May 15 09:19:18 <akpm> thanks folks.
+May 15 09:19:22 <hanna> Thanks to cryogen and other oftc.net admins!
+May 15 09:19:24 <rmk> mochel was working on a replacement for the existing stuff with benh.
+May 15 09:19:27 <-- jk-jfk has quit (Quit: [BX] Size DOES matter)
+May 15 09:19:38 <-- jejb has quit (Quit: bye)
+May 15 09:19:45 <-- viro has quit (Quit: Leaving)
+May 15 09:19:48 <rmk> I suspect its too late for it to go into 2.6 tho.
+May 15 09:19:49 <hanna> guys we can do this again next week or the week after if need be. We should do the features too at some point.
+May 15 09:20:08 <hanna> Next time Im joining from home.. the network is less flakey there!
+May 15 09:20:09 <akpm> hanna: next week would suit.  No point hanging around
+May 15 09:20:14 <-- mckenney (~mckenney@bi01p1.co.us.ibm.com) has left #lse (Client Exiting)
+May 15 09:20:16 <-- aeb has quit (Remote host closed the connection)
+May 15 09:20:26 <-- badari (~badari@32.97.110.142) has left #lse (Client Exiting)
+May 15 09:20:38 <hanna> akpm, agreed. What is the earliest you could do it to encourage other people to attend?
+May 15 09:20:54 <akpm> 11AM?
+May 15 09:21:06 <oxymoron> Is that PDT?
+May 15 09:21:12 <akpm> yup
+May 15 09:21:15 <rmk> can we have it specified in UTC please? 8)
+May 15 09:21:25 <bzzz> yes ;)
+May 15 09:21:36 <akpm> three hours earlier than this one
+May 15 09:21:47 <rmk> I think most people know the offset of their local timezone from UTC, but not from PDT or some other zone.
+May 15 09:22:02 <oxymoron> PDT is -7.
+May 15 09:22:04 <hanna> rmk. ok sorry. Ill do it then.
+May 15 09:22:14 <rmk> thanks.
+May 15 09:22:26 <-- pzb has quit (Quit: Client Exiting)
+May 15 09:22:27 <phillips> any latecomers want a copy of the channel log?
+May 15 09:22:30 <hanna> so we could do itthree hours earlier next week on wednesday and encourage the people who couldnt make it this time to attend.
+May 15 09:22:39 <hanna> phillips, please... hannal@us.ibm.com
+May 15 09:23:12 <acme> phillips:  {acme,niemeyer}@conectiva.com.br
+May 15 09:23:21 <hanna> corbet might have a write up on lwn.net this week.
+May 15 09:23:22 <-- andmike (~andmike@130.94.160.149) has left #lse (Client exiting)
+May 15 09:23:25 <tytso_> phillips: tytso@mit.edu
+May 15 09:23:32 <-- patman (~patman@32.97.110.142) has left #lse (Client Exiting)
+May 15 09:23:35 <alb> phillips: would you mind? albertogli@telpin.com.ar
+May 15 09:23:37 <Almighty> phillips: morten.helgesen@nextframe.net
+May 15 09:23:42 <Almighty> phillips: thanks.
+May 15 09:23:47 <corbet> I'll post a copy of the log on LWN within half an hour or so; writeup will take longer.
+May 15 09:23:50 <rmk> isn't this degenerating into everyone?
+May 15 09:23:51 <phillips> tytso_, alb, almighty, sending
+May 15 09:24:00 <phillips> acme, hanna, already sent
+May 15 09:24:02 <rmk> phillips: rmk@arm.linux.org.uk please
+May 15 09:24:03 <hanna> corbet, phillips: Thanks!
+May 15 09:24:11 <Almighty> corbet: great!
+May 15 09:24:14 <-- mochel (~mochel@65.172.181.6) has left #lse
+May 15 09:24:15 <Almighty> rmk :)
+May 15 09:24:27 <acme> thanks!
+May 15 09:24:34 <yg_home> phillips: yusufg@outblaze.com please
+May 15 09:24:37 <akpm> http://www.zipworld.com.au/~akpm/linux/must-fix-irc-14-May.txt
+May 15 09:25:04 <-- zaxl has quit (Quit: .)
+May 15 09:25:09 <-- kaber (~kaber@212.202.185.200) has left #lse (Client exiting)
+May 15 09:25:09 <-- tytso_ has quit (Quit: Leaving)
+May 15 09:25:13 <MrWizer> phillips: mrwizer@adelphia.net please
+May 15 09:25:16 <hanna> akpm, thanks. I will edit it to make it readable and put it on lse.sf.net too
+May 15 09:25:22 <-- cliffw has quit (Quit: Client Exiting)
+May 15 09:25:28 <alb> phillips: thanks
+May 15 09:25:37 <hanna> akpm, was this useful for you?
+May 15 09:25:54 <akpm> hanna: it's an inch along the road ;)
+May 15 09:26:19 <-- bullpen (~craiger@65.172.181.6) has left #lse (Client Exiting)
+May 15 09:26:38 <hanna> akpm, yeah. hopefully not a waste of 2 hours though...
+May 15 09:26:43 <phillips> ok, I think I sent to everybody who asked
+May 15 09:27:02 <phillips> acme got two copies, the 2nd w/o wordwrap
+May 15 09:27:10 <akpm> phillips: http://www.zipworld.com.au/~akpm/linux/must-fix-irc-14-May.txt
+May 15 09:27:22 <phillips> :)
+May 15 09:27:45 <wli> ripping out joins/parts might help too; not sure if there's a auto-log-cleaner or what
+May 15 09:27:51 <phillips> yup
+May 15 09:27:54 <acme> np
+May 15 09:28:03 <phillips> next time, with 20/20 hindsight
+May 15 09:28:06 <wli> probably doable with grep and/or perl
+May 15 09:28:12 <wli> (shudder)
+May 15 09:28:21 <-- ernie (~petrides@66.187.230.200) has left #lse (Client Exiting)
+May 15 09:28:33 <-- fbl has quit (Quit: Client exiting)
+May 15 09:28:53 <-- Ueimor (~romieu@electric-eye.fr.zoreil.com) has left #lse
+May 15 09:28:55 <Almighty> akpm: btw - anyone mention ATA TCQ ? it`s fixed. Jens and I have had a ~24 hours long TCQ-athlon ... hehe - the blacklist should stop (some) people from seeing funny stuff due to borked drives.
+May 15 09:29:08 <-- sdesai has quit (Quit: Client Exiting)
+May 15 09:29:09 <akpm> Almighty: yup, that's history
+May 15 09:29:26 <Almighty> akpm: jup - you probably picked it up from one of his mails to lkml :)
+May 15 09:29:27 <wli> ISTR it being mentioned very early on
+May 15 09:29:39 <Almighty> wli: ok
+May 15 09:29:50 <oxymoron> wli: I think you're imagining..
+May 15 09:30:19 * phillips decides that the join/parts are too interesting to throw away
+May 15 09:30:33 <phillips> barely ;)
+May 15 09:30:38 <Almighty> heh
+May 15 09:30:40 <wli> mentioned on another channel
+May 15 09:32:16 <-- lochii has quit (Quit: sleep)
+May 15 09:33:20 <-- phillips (~daniel@213.23.142.240) has left #lse (Client Exiting)
+May 15 09:34:04 <-- rmk (~rmk@3ffe:8260:2002:1:201:2ff:fe14:8fad) has left #lse
+May 15 09:34:32 --> phillips (~daniel@213.23.142.240) has joined #lse
+May 15 09:34:40 <noud> i did /ignore #lse JOINS PARTS QUITS in irssi
+May 15 09:34:56 <phillips> oh I suppose I should ask if there are device-mapper issues on the must-fix list
+May 15 09:35:04 <noud> now to save the log for reference
+May 15 09:35:09 <-- daniel_ has quit (Quit: Client Exiting)
+May 15 09:35:23 <-- guest_3 has quit (Quit: Client Exiting)
+May 15 09:35:32 --> Intuxicated (~Intuxicat@24.200.129.29) has joined #lse
+May 15 09:35:47 <-- dmo has quit (Quit: Client Exiting)
+May 15 09:35:47 * phillips counts to 10 and decides there are no device-mapper issues
+May 15 09:36:29 <-- drepper (~chatzilla@cpe-24-221-190-179.ca.sprintbbd.net) has left #lse
+May 15 09:37:13 <-- davidvh has quit (Quit: ChatZilla 0.8.11 [Mozilla rv:1.2.1/20030225])
+May 15 09:37:30 * phillips wonders if "stable api" is a device-mapper issue
+May 15 09:38:23 <wli> heh
+May 15 09:41:55 --> reload (~reload@purge.bash.sh) has joined #lse
+May 15 09:41:59 <-- hsdhjadhlajdjlas has quit (Remote host closed the connection)
+May 15 09:42:12 <noud> http://infernoz.cjb.net:8008/2.6-must_fix_with_akpm.txt.bz2 -- without JOINS PARTS
+May 15 09:42:33 <noud> oops, http://infernoz.cjb.net:8008/~noud/2.6-must_fix_with_akpm.txt.bz2
+May 15 09:42:35 --> davidvh (~davidvh@dhcp14096.mccollum.fsu.edu) has joined #lse
+May 15 09:43:06 <noud> recoreded it for a friend who could not join today
+May 15 09:44:50 <-- hbaum_ has quit (Quit: Client Exiting)
+May 15 09:45:15 <phillips> noud, 404 Not Found
+May 15 09:46:31 <noud> lemme see
+May 15 09:47:34 <corbet> OK, my version is up at http://lwn.net/Articles/32156/.
+May 15 09:47:35 <davidvh> Has anyone gotten ALSA to actually work in 2.5.69-bk9?
+May 15 09:48:37 <phillips> nice
+May 15 09:49:06 <hanna> corbet, looks nice. Thanks...
+May 15 09:49:22 <phillips> complete with join/parts, I think they add to it
+May 15 09:49:26 <-- niemeyer (~niemeyer@200.103.138.210) has left #lse (I like core dumps)
+May 15 09:49:27 <gerrit_> corbet:  definitely a great solution
+May 15 09:49:37 <phillips> I also dumped a /who into mine, but I cut it out before emailing
+May 15 09:51:35 <-- arnd has quit (Quit: ChatZilla 0.8.7 [Mozilla rv:1.0.2/1])
+May 15 09:52:05 <hanna> phillips, I let my management know our network flakiness was an interruption to the flow of the chat... perhaps adding flame to bottom somewhere... otherwise next time Im joining from home.
+May 15 09:52:10 <-- davidvh has quit (Quit: ChatZilla 0.8.11 [Mozilla rv:1.2.1/20030225])
+May 15 09:52:23 <-- ndabney has quit (Quit: ircII EPIC4-1.1.11 -- Are we there yet?)
+May 15 09:53:07 <phillips> ah, I was wondering about the split
+May 15 09:53:21 <phillips> was that an ibm node on oftc?
+May 15 09:53:43 <dardhal> it's 01:53 here, and time to go for me, thanks everyone :)
+May 15 09:53:50 <davej_> looked like too many concurrent connections from ibm. oftc upped the limit a while later..
+May 15 09:53:54 <-- dardhal (~dardhal@81.40.111.59) has left #lse (Tarde o temprano volveré)
+May 15 09:54:32 <hanna> there were too many of us and it triggered a clone bot prevention mechanism... at least the first time. the second time was network flakiness...
+May 15 09:54:53 --> hensema (~hensema@cc78409-a.hnglo1.ov.home.nl) has joined #lse
+May 15 09:55:01 <nevdull> davej_: the problem was a flakey box/router/hw inside and when everybody tried to rejoin before they left, it hit the limit.
+May 15 09:55:05 <phillips> anyway, it's an excuse to work from home
+May 15 09:55:09 <nevdull> flakey network still got it started :)
+May 15 09:55:15 <davej_> bummer.
+May 15 09:55:43 <hanna> embarrassing and disruptive...
+May 15 09:55:49 <Gandalf> lets just hope it wasn't a linux router :)
+May 15 09:55:52 <davej_> these things happen....
+May 15 09:56:02 <nevdull> yeah, next time we should all call the help desk simultaneously :)
+May 15 09:56:05 <hanna> at least once a month..
+May 15 09:56:27 <nevdull> ...unless their phone queuing works the same way ...
+May 15 09:56:30 <-- yg_home has quit (Quit: Client Exiting)
+May 15 09:56:49 <phillips> oh, next time I'm going to /version everybody and see who's running windows
+May 15 09:57:26 * hensema has faked his /version reply :-)
+May 15 09:57:53 <wli> *** hensema is ~hensema@cc78409-a.hnglo1.ov.home.nl (* I'm to lame to read BitchX.doc *)
+May 15 09:57:59 <zwane> phillips: my money is on wli runnin windows ME
+May 15 09:58:07 * hensema is NOT using bitchx
+May 15 09:58:11 <wli> *** CTCP VERSION reply from hensema: Running HensIRC v0.7.2b on GNU/Cygwin32
+May 15 09:58:19 <zwane> christ
+May 15 09:58:35 <hensema> actually it's irssi on linux
+May 15 09:58:41 <hensema> but that would be a dull reply
+May 15 09:59:43 <hensema> what's the status of ipv6 in the current 2.5 tree?
+May 15 10:00:02 <hensema> I'm a bit behind, but my box is very slow in getting an autoconfigured ipv6 address
+May 15 10:00:17 <hensema> (on 2.5.66-mm3)
+May 15 10:00:43 <Gandalf> hensema: I'll have to check next time I reboot, all I know is that it has worked when I wanted to use it
+May 15 10:00:46 <phillips> that would be a davem question
+May 15 10:01:09 <hensema> Gandalf: it takes 5-8 minutes on my box
+May 15 10:01:22 <-- Mercury has quit (Ping timeout: 485 seconds)
+May 15 10:01:27 <phillips> personally, I'm skeptical that ipv6 matters very much
+May 15 10:02:18 * Intuxicated kicks his stupid non-ipv6 linksys router
+May 15 10:02:27 <-- tr606 has quit (Quit: Client Exiting)
+May 15 10:02:28 <Gandalf> it will take a long time until ipv6 is widespread
+May 15 10:02:38 <hensema> I think the support in 2.6 should be as good as the support in 2.4, i.e. no regressions
+May 15 10:02:57 <hensema> preferably better support of course ;-)
+May 15 10:03:05 <Gandalf> it should be improved, new features and bugfixes has gone in
+May 15 10:03:08 <-- MrWizer has quit ()
+May 15 10:03:10 <-- rml (~rml@dialup-65.56.73.250.Dial1.Miami1.Level3.net) has left #lse (Client exiting)
+May 15 10:08:25 <-- ElectricElf (david@elf.noc.oftc.net) has left #lse
+May 15 10:08:58 <-- corbet has quit (Quit: ERC Version 3.0 $Revision: 1.1.1.1 $ (IRC client for Emacs))
+May 15 10:10:31 <-- hensema has quit (Quit: Changing server)
+May 15 10:10:39 --> hensema (~hensema@dexter.ipv6.hensema.net) has joined #lse
+May 15 10:12:15 --> billh (billh@wsip-68-15-8-100.sd.sd.cox.net) has joined #lse
+May 15 10:12:35 * billh didn't even know that this channel existed until now
+May 15 10:14:26 <phillips> Linux Scalability Effort
+May 15 10:14:37 <phillips> lots of people don't know
+May 15 10:14:51 <billh> yeah, I didn't know until I got an lkml mail about it.
+May 15 10:15:36 <billh> There's a pretty good sized group here
+May 15 10:18:20 <phillips> because of the must-fix party
+May 15 10:18:37 <phillips> normally, not many, there should be more
+May 15 10:28:06 <-- gaughen (~gaughen@32.97.110.142) has left #lse (Client Exiting)
+May 15 10:28:12 <-- acme (~acme@2-211.ctame701-2.telepar.net.br) has left #lse
+May 15 10:29:07 --- hanna has changed the topic to: Next 2.6 discussion tentatively planned for Wednesday May 21 11am PDT or 0400 UTC
+May 15 10:29:37 <hanna> I think I calculated utc correctly..
+May 15 10:33:04 --- boto is now known as boto_gone
+May 15 10:33:12 <-- steved has quit (Quit: Client Exiting)
+May 15 10:39:34 <-- davej_ has quit (Quit: Client exiting)
+May 15 10:40:26 <phillips> hanna, that's 5 a.m. in europe or did I read it wrong?
+May 15 10:41:04 * phillips read it wrong
+May 15 10:41:32 <phillips> that would be 20:00 central european time I think
+May 15 10:41:49 <hanna> phillips, all I know is PDT (pacific daylight time) is -7 hr from utc. so I just subtraced 7 from 11am and ended up with 4am utc time?
+May 15 10:42:06 <phillips> better try adding
+May 15 10:42:25 <fatal_> hanna: aren't you supposed to add 7h to get UTC?
+May 15 10:42:41 <phillips> also, I'm quite unsure about how daylight savings factors into it
+May 15 10:42:44 <hanna> Obviously I dont do this often, call me a dumb american...
+May 15 10:43:16 <hanna> phillips daylight saving is just -7 from utc as opposed to -8 the other half of the year...
+May 15 10:43:24 <davej> is it just 3 hrs earlier than this week ?
+May 15 10:43:27 <hanna> fatal_:  so I should add... Ok.
+May 15 10:43:32 <hanna> davej.. exactly!
+May 15 10:43:35 <davej> in which case that'll be 7PM GMT
+May 15 10:43:37 <phillips> hanna, quick test: which coast is vancouver on? ;)
+May 15 10:43:43 <fatal_> I'm GMT+2 (Central European Time + Daylight saving (summertime)), today's talk started at 23:00 .. 21:00 GMT ... 3h earlier next week means?
+May 15 10:43:44 <davej> erm.. s/GMT/BST/
+May 15 10:43:46 <hanna> same as pdt philips
+May 15 10:44:13 <hanna> phillips, west coast same as me and akpm are on...
+May 15 10:44:32 <phillips> hanna, your geography is above average for an american
+May 15 10:44:47 <phillips> granted I did give you a hint: it's on a coast
+May 15 10:44:53 <hanna> haha... Ive driven to vancouver it is a great city
+May 15 10:46:53 --> _Bacchus_ (~ralf@p508B5D18.dip.t-dialin.net) has joined #lse
+May 15 10:47:05 <phillips> hanna, anyway, I think we concluded that you should change the topic to 1800 UTC
+May 15 10:48:06 --- hanna has changed the topic to: Next 2.6 discussion tentatively planned for Wednesday May 21 1800 UTC (11am PDT)
+May 15 10:48:22 <hanna> phillips, going to OLS this year?
+May 15 10:48:33 <phillips> yes
+May 15 10:48:38 <hanna> cool. see you there.
+May 15 10:48:54 <phillips> looking forward to it
+May 15 10:49:06 <hanna> I will once we get this paper finished...
+May 15 10:49:16 <phillips> the paper this year is?
+May 15 10:49:48 <phillips> last year was "why dcache needs rcu locking"
+May 15 10:50:58 <-- roland has quit (Remote host closed the connection)
+May 15 10:51:07 <nevdull> this year it's "why we should have started sooner" :)
+May 15 10:51:46 <hanna> phillips, yeah. this year Im a minor player in Why kernel hackers should care about complex benchmarks... or somesuch... basically enterprise level benchmarks on bleeding edge 2.5 kernels...
+May 15 10:52:04 <hanna> phillips and Im running the LSE bof
+May 15 10:52:12 <phillips> ah
+May 15 10:52:42 <nevdull> hanna: still more than I'm doing .. last year it was BKL bashing and this year, well, this year we're having a baby too close to OLS :)
+May 15 10:52:54 <-- mator has quit (Quit: Putin & Bush use Irssi.)
+May 15 10:53:07 <hanna> nevdull leading a bof != giving birth ;) congrats.
+May 15 10:53:41 <nevdull> technically I should pass those on to my wife I think.  I just get to be the birthing room nazi. :)
+May 15 10:53:50 <-- _Bacchus_ has quit (Quit: Client Exiting)
+May 15 10:54:40 <-- Bacchus has quit (Ping timeout: 488 seconds)
+May 15 10:54:46 <hanna> phillips, tytso is presenting our paper (I might do part of it if he wants me to)...
+May 15 10:54:48 <nevdull> but thank you!
+May 15 10:55:00 <hanna> nevdull, youre welcome.
+May 15 10:55:03 <phillips> hanna, I have an idea, lets have a "does sco have any right to life?" bof
+May 15 10:55:17 <willy> sco will be dead by ols
+May 15 10:55:21 <willy> (i wish)
+May 15 10:56:06 <nevdull> they do seem to have made a name for themselves.
+May 15 11:01:07 --> Bacchus (~ralf@80.139.93.24) has joined #lse
+May 15 11:04:25 <-- hanna has quit (Remote host closed the connection)
+May 15 11:09:45 <-- Intuxicated has quit (Quit: ChatZilla 0.8.23 [Mozilla rv:1.3/20030418])
+May 15 11:12:06 <phillips> hmm, I have a better idea for a bof
+May 15 11:12:24 <phillips> "is there any Linux code in Unixware?"
+May 15 11:13:40 <-- mikeg has quit (Quit: Client Exiting)

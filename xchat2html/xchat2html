@@ -1,0 +1,94 @@
+#!/usr/bin/perl
+
+use strict;
+my(%people, $count, $spacing);
+
+$spacing = 100;
+$count = $spacing;
+print "<table>\n";
+while(<>){
+  chomp;
+  s/</&lt;/g;
+  s/>/&gt;/g;
+
+  # Date time stamp
+  s/^([a-zA-z]+ [0-9]+ [0-9:]+)/<tr><td>$1<\/td>/;
+
+  # People coming and going
+  if(/^(.*<\/td>) (&lt;--.*)$/){
+    $_ = "$1<td></td><td bgcolor=\"EEEEEE\">$2</td>";
+  }
+  elsif(/^(.*<\/td>) (--&gt;.*)$/){
+    $_ = "$1<td></td><td bgcolor=\"EEEEEE\">$2</td>";
+  }
+
+  # Op messages
+  elsif(/^(.*<\/td>) (---.*)$/){
+    $_ = "$1<td></td><td bgcolor=\"EEEEEE\">$2</td>";
+  }
+
+  # Emote messages
+  elsif(/^(.*<\/td>) +\* ([^ ]*) (.*)$/){
+    if($people{$2} eq ""){
+      $people{$2} = getcolor($count);
+      $count += $spacing;
+    }
+    $_ = "$1<td bgcolor=\"#".$people{$2}."\"><b>$2</b></td><td> * $2 $3</td>";
+  }
+
+  # Logging messages
+  elsif(/^(\*\*\*\*.*)$/){
+    $_ = "<tr><td></td><td></td><td bgcolor=\"EEEEEE\">$1</td>";
+  }
+
+  # People talking
+  elsif(/^([^&]*)&lt;([^ ]*)&gt;(.*)$/){
+    if($people{$2} eq ""){
+      $people{$2} = getcolor($count);
+      $count += $spacing;
+    }
+    $_ = "$1<td bgcolor=\"#".$people{$2}."\"><b>$2</b></td><td>$3</td>";
+  }
+
+  if(/^[ \t]*$/){
+    $_ = "";
+  }
+  else{
+    print "$_</tr>\n";
+  }
+}
+
+print "</table>\n";
+
+sub getcolor(){
+  my($input) = @_;
+  my(@mangled, $byte, $bit, $count);
+
+  $mangled[0] = 0;
+  $mangled[1] = 0;
+  $mangled[2] = 0;
+
+  for($count = 0; $count < 24; $count++){
+    $byte = int($count % 3);
+    $bit = int($count / 3);
+
+    if($input & pow(2, $count)){
+      $mangled[$byte] += pow(2, 7 - $bit);
+    }
+  }
+
+  return sprintf("%02x%02x%02x", $mangled[0], $mangled[1], $mangled[2]);
+}
+
+sub pow(){
+  my($number, $exponent) = @_;
+  my($temp);
+
+  $temp = $number;
+  while($exponent > 1){
+    $temp *= $number;
+    $exponent--;
+  }
+
+  return $temp;
+}
