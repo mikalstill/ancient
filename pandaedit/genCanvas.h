@@ -54,6 +54,7 @@ public:
 
 private:
   void endTool();
+  void showControlPoints(wxClientDC & dc, bool showOnlyMostRecent);
 
   DECLARE_EVENT_TABLE () 
 

@@ -132,6 +132,9 @@ genCanvas::OnMouseEvent (wxMouseEvent & event)
 	      over += " selection";
 	      m_editting = true;
 	      m_editTarget = demangled - 1;
+
+	      // We also need to paint the control points onto the canvas...
+	      showControlPoints(dc, false);
 	    }
 
 	  over += string(" over object id ") + toString(demangled);
@@ -229,4 +232,25 @@ genCanvas::endTool()
       Refresh();
     }
   m_controlPoints.clear();
+}
+
+void
+genCanvas::showControlPoints(wxClientDC & dc, bool onlyMostRecent)
+{
+  dc.SetLogicalFunction (wxINVERT);
+  dc.SetPen (*wxBLACK_PEN);
+  dc.SetBrush (*wxBLACK_BRUSH);
+  for(unsigned int i = (onlyMostRecent ? m_controlPoints.size() - 1 : 0); 
+      i < m_controlPoints.size(); i++)
+    {
+      // TODO mikal: make nicer?
+      dc.DrawLine(wxPoint(m_controlPoints[i].x - CONTROLSIZE,
+			  m_controlPoints[i].y - CONTROLSIZE),
+		  wxPoint(m_controlPoints[i].x + CONTROLSIZE,
+			  m_controlPoints[i].y + CONTROLSIZE));
+      dc.DrawLine(wxPoint(m_controlPoints[i].x - CONTROLSIZE,
+			  m_controlPoints[i].y + CONTROLSIZE),
+		  wxPoint(m_controlPoints[i].x + CONTROLSIZE,
+			  m_controlPoints[i].y - CONTROLSIZE));
+    }
 }

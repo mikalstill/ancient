@@ -3,7 +3,9 @@ PandaEdit has a variety of different tools. All of these have behaviour which is
 COMMON COMMANDS
 ---------------
 
-Right click while hovering over an object to select that object. This will make the control points appear.
+Right click while hovering over an object to select that object. This will make the control points appear. Any new drawing commands will be appended to this newly selected object (if that makes sense for that tool).
+
+Shift click on a control point to move that point.
 
 LINE TOOL
 ---------
