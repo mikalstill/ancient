@@ -30,7 +30,7 @@
 <p>With this article, I will discuss some of the theory required to understand how the image data is stored for color and grayscale. This theory applies to all imaging formats. We'll then discuss some of the specifics of using libtiff.</p>
 
 <p><heading refname="h1" type="major" toc="yes">Terminology</heading>	
-We need to get some terminology out of the way before we can discuss much. Images are made up of pixels. In black and white imaging, the pixel has one of two values -- 0 or 1. This can be represented in a single bit. For grayscale and color images however, the pixel needs to be able to store a much greater range of values for a pixel -- if a pixel was to have 255 levels of gray, then we would need 8 bits to store that pizel. Each of these values are called a sample. TIFF expresses the size of the value in a tag called TIFFTAG_BITSPERSAMPLE. This will be 1 for black and white, and some larger number for grayscale.</p>
+We need to get some terminology out of the way before we can discuss much. Images are made up of pixels. In black and white imaging, the pixel has one of two values -- 0 or 1. This can be represented in a single bit. For grayscale and color images however, the pixel needs to be able to store a much greater range of values -- if a pixel was to have 255 levels of gray, then we would need 8 bits to store that pixel. Each of these values is called a sample. TIFF expresses the size of the value in a tag called TIFFTAG_BITSPERSAMPLE. This will be 1 for black and white, and some larger number for grayscale.</p>
 
 <p>For color images, we need to store even more information. For each pixel we will need to store a red, green, and blue value. Each of these values are stored in a separate 'sample'. Therefore, we will need to define TIFFTAG_SAMPLESPERPIXEL -- this will be 1 for black and white or grayscale, but will normally be 3 for color images. We also need to define the size of each sample, so you'll still need to set a value for TIFFTAG_BITSPERSAMPLE.</p>
 
@@ -38,28 +38,8 @@ We need to get some terminology out of the way before we can discuss much. Image
 The first thing that we need to understand to be able to support color and grayscale images is the format of the image data within memory. There are two main representations for color and grayscale images. I'll explain these by describing grayscale, and then extend it to color.</p>
 
 <p><heading refname="h2" type="minor" toc="yes">Direct storage of pixel data</heading>
-If you think back to the way pixel information was stored in the black and white images from the previous article, the information was just in the strips. This concept is described in the <TODO figure> figure below. You can also do this with grayscale <TODO figure> and color images, and shown in <TODO figure>. This representation of image data is quite inefficient, because for the scenario when the image has a solid background (for example), there are many pixels with the same value. If the pixel data is stored in the strips, then this value will waste a large amount of space.
+If you think back to the way pixel information was stored in the black and white images from the previous article, the information was just in the strips. You can also do this with grayscale and color images. This representation of image data is quite inefficient, because for the scenario when the image has a solid background (for example), there are many pixels with the same value. If the pixel data is stored in the strips, then this value will waste a large amount of space.
 </p>
-
-<figure>
-<heading refname="strip-bandw" type="figure" toc="no">Figure x. In strip black and white data</heading>
-<img src="xxx.jpg" width="500" height="200" alt="[Sample figure; code correct height and width"/>
-</figure>
-
-<figure>
-<heading refname="strip-gray" type="figure" toc="no">Figure x. In strip grayscale data</heading>
-<img src="xxx.jpg" width="500" height="200" alt="[Sample figure; code correct height and width"/>
-</figure>
-
-<figure>
-<heading refname="strip-color" type="figure" toc="no">Figure x. In strip color data</heading>
-<img src="xxx.jpg" width="500" height="200" alt="[Sample figure; code correct height and width"/>
-</figure>
-
-<figure>
-<heading refname="strip-palette" type="figure" toc="no">Figure x. Paletted image data</heading>
-<img src="xxx.jpg" width="500" height="200" alt="[Sample figure; code correct height and width"/>
-</figure>
 
 <p>Thankfully, there is a more efficient way to store image data. Imagine a simple four color 24 bit per pixel image. If we build a lookup table of the four color values (the 24 bit values which represent those colors), then we just need to store the relevant entry number of the color in the image strip itself. This can be done in only two bits, instead of the full 24. The maths looks something like this:</p>
 
@@ -119,25 +99,25 @@ There are several compression algorithms available within libtiff. How do you se
 <p>Whether this is a problem depends on the type of your data. To test how much of a problem this is, I wrote a simple libtiff program which repeatedly uncompresses and recompresses an image. What I found was that with pictures, the data is much more resilient to repeated compression.</p>
 
 <figure>
-<heading refname="picture-start" type="figure" toc="no">Figure x. The picture before we compressed it</heading>
-<img src="xxx.jpg" width="500" height="200" alt="[Sample figure; code correct height and width"/>
+<heading refname="picture-start" type="figure" toc="no">Figure 1. The picture before we compressed it</heading>
+<img src="picture-start.jpg" width="160" height="47" alt="IBM logo"/>
 </figure>
 
 <figure>
-<heading refname="text-start" type="figure" toc="no">Figure x. The picture before we compressed it</heading>
-<img src="xxx.jpg" width="500" height="200" alt="[Sample figure; code correct height and width"/>
+<heading refname="text-start" type="figure" toc="no">Figure 2. The sample text before we compressed it</heading>
+<img src="text-start.jpg" width="292" height="258" alt="Some sample text"/>
 </figure>
 
 <p>The code I used had a 'quality' rating of 25% on the JPEG compression, which is a way of tweaking the loss of the compression algorithm. The lower the quality, the higher the compression ratio. The default is 75%.</p>
 
 <figure>
-<heading refname="picture-200" type="figure" toc="no">Figure x. The picture after it has been recompressed 200 times</heading>
-<img src="xxx.jpg" width="500" height="200" alt="[Sample figure; code correct height and width"/>
+<heading refname="picture-200" type="figure" toc="no">Figure 3. The picture after it has been recompressed 200 times</heading>
+<img src="picture-200.jpg" width="160" height="47" alt="The IBM logo, having been recompressed 200 times"/>
 </figure>
 
 <figure>
-<heading refname="text-200" type="figure" toc="no">Figure x. The picture after it has been recompressed 200 times</heading>
-<img src="xxx.jpg" width="500" height="200" alt="[Sample figure; code correct height and width"/>
+<heading refname="text-200" type="figure" toc="no">Figure 4. The text after it has been recompressed 200 times</heading>
+<img src="text-200.jpg" width="292" height="258" alt="A picture of some text, having been compressed 200 times"/>
 </figure>
 </sidebar>
 
@@ -164,12 +144,11 @@ int main(int argc, char *argv[]){
     exit(42);
   }
 
-  // Find the width and height of the image
-  TIFFGetField(image, TIFFTAG_IMAGEWIDTH, &width);
-  TIFFGetField(image, TIFFTAG_IMAGELENGTH, &height);
-  imagesize = height * width + 1;
-  
-  if((raster = (uint32 *) malloc(sizeof(uint32) * imagesize)) == NULL){
+  // We need to know the width and the height before we can malloc
+  width = 42;
+  height = 42;
+
+  if((raster = (char *) malloc(sizeof(char) * width * height * 3)) == NULL){
     fprintf(stderr, "Could not allocate enough memory\n");
     exit(42);
   }
@@ -214,7 +193,7 @@ So how do we write a paletted version of this image? Well, libtiff makes this re
 
 
 <p><heading refname="h1" type="major" toc="yes">Reading a color image</heading>
-Now all we have to do is work out how to read other people's color and grayscale images reliably, and we're home free. Initially I was very tempted to tell you just to use the TIFFReadRGBAStrip() and TIFFReadRGBBSTile() calls, which hide some of the potential ugliness from the caller. This function has some limitations I'm not astoundingly happy with though. To quote the TIFFReadRGBAStrip() man page:</p>
+Now all we have to do is work out how to read other people's color and grayscale images reliably, and we're home free. Initially I was very tempted to not tell you about the TIFFReadRGBAStrip() and TIFFReadRGBBSTile() calls, which hide some of the potential ugliness from the caller. These functions have some limitations I'm not astoundingly happy with. To quote the TIFFReadRGBAStrip() man page:</p>
 
 <!-- Is this the correct way to code a quote? -->
 <p><pre>
@@ -252,26 +231,64 @@ Now all we have to do is work out how to read other people's color and grayscale
    strip. The TIFFReadRGBATile() function does a similar operation for tiled images.
 </pre></p>
 
-<p>There are a couple of odd things about this method: it defines (0, 0) to be in a different location from all the other code that we have been writing.
+<p>There are a couple of odd things about this function -- it defines (0, 0) to be in a different location from all the other code that we have been writing. In all the previous code we have written, the (0, 0) point has been in the top left of the image. This call defines (0, 0) to be in the bottom left. The other limitation to be aware of is that not all valid values for bits per sample are supported. If you find these quirks unacceptable, then remember that you can still use TIFFReadEncodedStrip() in the same manner that we did for the black and white images in the previous article...</p>
+
+<heading refname="read-example-simple" type="code" toc="no">Reading a color image with TIFFReadEncodedStrip()</heading>
+#include &lt;stdio.h&gt;
+#include &lt;tiffio.h&gt;
+
+int main(int argc, char *argv[]){
+  TIFF *image;
+  uint32 width, height, *raster;
+  tsize_t stripSize;
+  unsigned long imagesize, c, d, e;
+
+  // Open the TIFF image
+  if((image = TIFFOpen(argv[1], "r")) == NULL){
+    fprintf(stderr, "Could not open incoming image\n");
+    exit(42);
+  }
+
+  // Find the width and height of the image
+  TIFFGetField(image, TIFFTAG_IMAGEWIDTH, &width);
+  TIFFGetField(image, TIFFTAG_IMAGELENGTH, &height);
+  imagesize = height * width + 1;
+  
+  if((raster = (uint32 *) malloc(sizeof(uint32) * imagesize)) == NULL){
+    fprintf(stderr, "Could not allocate enough memory\n");
+    exit(42);
+  }
+
+  // Read the image into the memory buffer
+  if(TIFFReadRGBAStrip(image, 0, raster) == 0){
+    fprintf(stderr, "Could not read image\n");
+    exit(42);
+  }
+
+  <b>// Here I fix the reversal of the image (vertically) and show you how to get the color values from each pixel</b>
+  d = 0;
+  for(e = height - 1; e != -1; e--){
+    for(c = 0; c < width; c++){
+      // Red = TIFFGetR(raster[e * width + c]);
+      // Green = TIFFGetG(raster[e * width + c]);
+      // Blue = TIFFGetB(raster[e * width + c]);
+    }
+  }
+
+  free(raster);
+  TIFFClose(image);
+}
+</code>
 
 
 
 
 
+<p><heading refname="h1" type="major" toc="yes">Advanced topics</heading>
+Well, now that we understand how to read and write basically any image format we can think of, there are two other things we should quickly discuss.</p>
 
-
-
-
-
-
-
-
-
-
-
-
-<p><heading refname="h1" type="major" toc="yes">Advanced topics</heading>	
-Well, now that we understand how to read and write basically any image format we can think of, there are is one other thing we should quickly discuss. All of these examples that I have included to this point have read and written with files. There are many scenarios when you wouldn't want to store your image data in a file, but would still want to use libtiff and tiff. For example, you might have customer pictures for id cards, and these would be stored in a database.</p>
+<p><heading refname="h2" type="minor" toc="yes">Storing TIFF data in places other than files</heading>
+All of these examples that I have included to this point have read and written with files. There are many scenarios when you wouldn't want to store your image data in a file, but would still want to use libtiff and tiff. For example, you might have customer pictures for id cards, and these would be stored in a database.</p>
 
 <p>The example which I am most familiar with is PDF documents. In PDF files, you can embed images into the document. These images can be in a subset of TIFF if desired, and TIFF is quite clearly the choice for black and white images.</p>
 
@@ -280,91 +297,55 @@ Well, now that we understand how to read and write basically any image format we
 <p>If you need more information about hooking the file input and output functions within libtiff than this article allows, then have a look at the images.c file in Panda, my PDF library. The web pages for Panda can be found at <a href="http://www.stillhq.com/cgi-bin/getpage?area=panda&page=index.htm">http://www.stillhq.com/cgi-bin/getpage?area=panda&page=index.htm</a>.</p>
 </sidebar>
 
-<p>libtiff allows you to replace the file input and output functions in the library with your own. This is done with the TIFFClientOpen() method. Here's an example:</p>
+<p>libtiff allows you to replace the file input and output functions in the library with your own. This is done with the TIFFClientOpen() method. Here's an example (please note this code wont compile, and is just to describe the main concepts:</p>
 
 <heading refname="write-example-simple" type="code" toc="no">Using TIFFClientOpen</heading>
-#include <tiffio.h>
+#include &lt;tiffio.h&gt;
+#include &lt;pthread.h&gt;
 
-pthread_mutex_t convMutex = PTHREAD_MUTEX_INITIALIZER;
+// Function prototypes
 static tsize_t libtiffDummyReadProc (thandle_t fd, tdata_t buf, tsize_t size);
-static tsize_t libtiffDummyWriteProc (thandle_t fd, tdata_t buf,
-				      tsize_t size);
+static tsize_t libtiffDummyWriteProc (thandle_t fd, tdata_t buf, tsize_t size);
 static toff_t libtiffDummySeekProc (thandle_t fd, toff_t off, int i);
 static int libtiffDummyCloseProc (thandle_t fd);
 
+// We need globals because of the callbacks (they don't allow us to pass state)
 char *globalImageBuffer;
 unsigned long globalImageBufferOffset;
 
+// This mutex keeps the globals safe by ensuring only one user at a time
+pthread_mutex_t convMutex = PTHREAD_MUTEX_INITIALIZER;
 
+<b>...</b>
 
+TIFF *conv;
 
+// Lock the mutex
+pthread_mutex_lock (&convMutex);
 
+globalImageBuffer = NULL;
+globalImageBufferOffset = 0;
 
-
-
-
-  TIFF *conv;
-      pthread_mutex_lock (&convMutex);
-
-      globalImageBuffer = NULL;
-      globalImageBufferOffset = 0;
-
-      // Open the dummy document (which actually only exists in memory)
-      conv =
-	TIFFClientOpen ("dummy", "w", (thandle_t) - 1, libtiffDummyReadProc,
+// Open the dummy document (which actually only exists in memory)
+conv = TIFFClientOpen ("dummy", "w", (thandle_t) - 1, libtiffDummyReadProc,
 			libtiffDummyWriteProc, libtiffDummySeekProc,
 			libtiffDummyCloseProc, NULL, NULL, NULL);
 
-      // Copy the image information ready for conversion
-      stripSize = TIFFStripSize (image);
-      stripMax = TIFFNumberOfStrips (image);
-      imageOffset = 0;
+// Setup the image as if it was any other tiff image here, including setting tags
 
-      stripBuffer = panda_xmalloc (TIFFNumberOfStrips (image) * stripSize);
+<b>...</b>
 
-      for (stripCount = 0; stripCount < stripMax; stripCount++)
-	{
-	  imageOffset += TIFFReadEncodedStrip (image, stripCount,
-					       stripBuffer + imageOffset,
-					       stripSize);
-	}
+// Actually do the client open
+TIFFWriteEncodedStrip (conv, 0, stripBuffer, imageOffset);
 
-      // We also need to copy some of the attributes of the tiff image
-      // Bits per sample has to be 1 because this is going to be a G4/G3 image
-      // (and all other image formats were stripped out above).
-      twidth = width;
-      theight = height;
-      TIFFSetField (conv, TIFFTAG_IMAGEWIDTH, twidth);
-      TIFFSetField (conv, TIFFTAG_IMAGELENGTH, theight);
-      TIFFSetField (conv, TIFFTAG_BITSPERSAMPLE, 1);
-      TIFFSetField (conv, TIFFTAG_COMPRESSION, compression);
-      TIFFSetField (conv, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
-      TIFFSetField (conv, TIFFTAG_ROWSPERSTRIP, height + 1);
-      TIFFSetField (conv, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_MINISWHITE);
-      TIFFSetField (conv, TIFFTAG_FILLORDER, FILLORDER_MSB2LSB);
-      TIFFSetField (conv, TIFFTAG_SAMPLESPERPIXEL, 1);
-      TIFFSetField (conv, TIFFTAG_ORIENTATION, ORIENTATION_TOPLEFT);
-      TIFFSetField (conv, TIFFTAG_RESOLUTIONUNIT, RESUNIT_INCH);
-      TIFFSetField (conv, TIFFTAG_XRESOLUTION, 300);
-      TIFFSetField (conv, TIFFTAG_YRESOLUTION, 300);
+// Unlock the mutex
+pthread_mutex_unlock (&convMutex);
 
-      if (compression == COMPRESSION_CCITTFAX4)
-	TIFFSetField (conv, TIFFTAG_GROUP4OPTIONS, 0);
+...
 
-      // Actually do the conversion
-      TIFFWriteEncodedStrip (conv, 0, stripBuffer, imageOffset);
+/////////////////// Callbacks to libtiff
 
-      // Finish up
-      free (stripBuffer);
-
-      pthread_mutex_unlock (&convMutex);
-
-
-
-
-
-
-
+<b>...</b>
 
 static tsize_t
 libtiffDummyReadProc (thandle_t fd, tdata_t buf, tsize_t size)
@@ -374,45 +355,44 @@ libtiffDummyReadProc (thandle_t fd, tdata_t buf, tsize_t size)
   return 0;
 }
 
-
-
-
-
 static tsize_t
 libtiffDummyWriteProc (thandle_t fd, tdata_t buf, tsize_t size)
 {
   // libtiff will try to write an 8 byte header into the tiff file. We need
   // to ignore this because PDF does not use it...
   if ((size == 8) && (((char *) buf)[0] == 'I') && (((char *) buf)[1] == 'I')
-      && (((char *) buf)[2] == 42))
+     && (((char *) buf)[2] == 42))
     {
-      // Skip the header -- little endian
+    // Skip the header -- little endian
     }
   else if ((size == 8) && (((char *) buf)[0] == 'M') &&
-	   (((char *) buf)[1] == 'M') && (((char *) buf)[2] == 42))
+       (((char *) buf)[1] == 'M') && (((char *) buf)[2] == 42))
     {
-      // Skip the header -- big endian
+    // Skip the header -- big endian
     }
   else
     {
-      // Have we done anything yet?
-      if (globalImageBuffer == NULL)
-	globalImageBuffer = (char *) panda_xmalloc (size * sizeof (char));
+    // Have we done anything yet?
+    if (globalImageBuffer == NULL)
+	if((globalImageBuffer = (char *) malloc (size * sizeof (char))) == NULL)
+        {
+          fprintf(stderr, "Memory allocation error\n");
+          exit(42);
+        }
 
-      // Otherwise, we need to grow the memory buffer
-      else
+    // Otherwise, we need to grow the memory buffer
+    else
 	{
 	  if ((globalImageBuffer = (char *) realloc (globalImageBuffer,
 						     (size * sizeof (char)) +
-						     globalImageBufferOffset))
-	      == NULL)
-	    panda_error (panda_true,
-			 "Could not grow the tiff conversion memory buffer.");
+						     globalImageBufferOffset)) == NULL)
+	    fprintf(stderr, "Could not grow the tiff conversion memory buffer\n");
+            exit(42);
 	}
 
-      // Now move the image data into the buffer
-      memcpy (globalImageBuffer + globalImageBufferOffset, buf, size);
-      globalImageBufferOffset += size;
+    // Now move the image data into the buffer
+    memcpy (globalImageBuffer + globalImageBufferOffset, buf, size);
+    globalImageBufferOffset += size;
     }
 
   return (size);
@@ -431,12 +411,14 @@ libtiffDummyCloseProc (thandle_t fd)
   // Return a zero meaning all is well
   return 0;
 }
-
-
 </code>
 
 
+<p><heading refname="h2" type="minor" toc="yes">Converting color to grayscale</heading>
+How do you convert color images to grayscale? Well, my instant answer when I first had to do this was to just average the red, green and blue values. That answer is wrong. The reality is that the human eye is much better at seeing some colors than others. To get an accurate grayscale representation, you need to apply different coefficients to the color samples. Appropraite coefficients are 0.299 for red, 0.587 for green and 0.114 for blue.</p>
 
+<p><heading refname="h1" type="major" toc="yes">Conclusion</heading>
+In this article we've discussed how to program with libtiff for grayscale and color images. I've shown you some sample code which should help to get you started. You should now know enough to have a great time coding with libtiff. Thanks for taking the time to read this article.</p>
 
 
 
@@ -444,14 +426,17 @@ libtiffDummyCloseProc (thandle_t fd)
 
 <p><heading refname="" type="resourcelist" toc="no">Source code used in this article</heading></p>
 <ul>
-<li>Repeated compression source</li>
-<li>Repeated compression script</li>
-<li>Tarball of recompressed sample images</li>
+<li><a href=".../read.c">read.c</a>: reading example</li>
+<li><a href=".../write.c">write.c</a>: writing example</li>
+<li><a href=".../client.c">client.c</a>: client example</li>
+<li><a href=".../recompress.c">recompress.c</a>: Repeated compression source</li>
+<li><a href=".../recompress.sh">recompress.sh</a>: Repeated compression script</li>
+<li></li>
 </ul>
 
 <ul>
 <li>[First resource item and link without a heading]</li>
-<li>[Second resource item and link without a heading]</li>
+<li><a href="http://www.inforamp.net/~poynton/notes/colour_and_gamma/ColorFAQ.html">http://www.inforamp.net/~poynton/notes/colour_and_gamma/ColorFAQ.html</a>: a FAQ document discussion of converting to grayscale</li>
 </ul>
 </resourcelist>
 
