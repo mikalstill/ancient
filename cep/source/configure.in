@@ -1,3 +1,21 @@
+dnl  Configuration options for the application
+dnl     Copyright (C) Michael Still 2002
+dnl     Copyright (C) Blake Swadling 2002
+dnl     
+dnl  This program is free software; you can redistribute it and/or modify it
+dnl  under the terms of the GNU General Public License as published by the Free
+dnl  Software Foundation; either version 2 of the License, or (at your option)
+dnl  any later version.
+dnl   
+dnl  This program is distributed in the hope that it will be useful, but WITHOUT 
+dnl  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+dnl  FITNESS FOR A PARTICULAR PURPOSE.dnl    See the GNU General Public License for
+dnl  more details.
+dnl   
+dnl  You should have received a copy of the GNU General Public License along
+dnl  with this program; if not, write to the Free Software Foundation, Inc., 675 
+dnl  Mass Ave, Cambridge, MA 02139, USA.
+
 dnl Process this file with autoconf to produce a configure script.
 AC_INIT(cepError.cpp)
 AC_CONFIG_AUX_DIR(config)
@@ -26,15 +44,6 @@ AC_CHECK_LIB(fftw, fftw_create_plan)
 dnl -lm:
 AC_CHECK_LIB(m, atan)
 
-dnl -lm:
-AC_CHECK_LIB(dmalloc, malloc)
-
-dnl -lz:
-AC_CHECK_LIB(z, uncompress)
-
-#dnl -lfl:
-#AC_CHECK_LIB(fl, yywrap)
-
 dnl -lpthread
 AC_CHECK_LIB(pthread, pthread_mutex_unlock)
 
@@ -50,12 +59,6 @@ AC_CHECK_LIB(X11, XFreeFontInfo)
 dnl -lwx  --> THIS IS BAD AND MIGHT BREAK
 AC_CHECK_LIB(wx_gtk-2.2, OnIdle__12wxHtmlWindowR11wxIdleEvent)
 
-dnl -ltrivsql
-AC_CHECK_LIB(fl, yywrap)
-
-dnl -ltrivsql
-AC_CHECK_LIB(trivsql, trivsql_rsmovenext)
-
 dnl -lplot
 AC_CHECK_LIB(plot, plot_newplot)
 
@@ -68,11 +71,14 @@ AC_HEADER_STDC
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 
-dnl Stupid defines to keep wx happy
+dnl Tell wx that it is using GTK
 AC_DEFINE(__WXGTK__)
 
-dnl Stu[id code to ensure that dvelopers do not ignore warnings
+dnl Ensure developers don't ignore warnings
+AC_CANONICAL_HOST
 AC_DEFINE(_GNU_SOURCE)
+
+dnl todo: Shouldn't this be the build system $build?
 case "$host" in
   *-*-openbsd*)
     CFLAGS="$CFLAGS -pthread"
