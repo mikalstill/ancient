@@ -1,5 +1,5 @@
 %{
-#include "y.tab.h"
+#include "parser.h"
 #include "lexinterface.h"
 #include <unistd.h>
 #include <stdlib.h>

@@ -1,5 +1,5 @@
-noinst_PROGRAMS = lexer
-lexer_SOURCES = lexer.y lexer.l samples.c
+SUBDIRS = . tdb
 
-y.tab.h y.tab.c: lexer.y
-	$(YACC) -d lexer.y
+noinst_PROGRAMS = sample
+sample_SOURCES = parser.y lexer.l samples.c
+YFLAGS = -d
