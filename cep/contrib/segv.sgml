@@ -1,0 +1,11 @@
+<sect2><title>segv</title>
+<para>
+<command>segv</command> is a segmentation violation error handler, which is useful for development debugging. It is not envisaged that users of <command>GDMS</command> will need to install this. <command>segv</command> uses ld.so preload operations to catch segmentation violations, and display a backtrace...
+</para>
+
+<sect3><title>Authors</title>
+<para>
+Dr Andrew Tridgell wrote <command>segv</command>. It can be downloaded from his website at http://junkcode.samba.org.
+</para>
+</sect3>
+</sect2>
