@@ -17,7 +17,7 @@
   <sect3><title>Implementation</title>
     <para>Time Domain Analysis is implemented as a separate class inside the <command>GDMS</command> called <command>cepLs</command>
     and all calculations are encapsulated therein. A given solution is essentially reached by solving the Least Squares equation 
-    (TD THEORY EQU 7) and a set of residuals are calculated by (TD THEORY EQU 14). Each calculation produces three 
+    equation 2-7 and a set of residuals are calculated by equation 2-13. Each calculation produces three 
     matrices, <command>X</command> which is the solution to the Least Squares matrix equation and contains the unknown co-efficients 
     <command>m</command> and <command>c</command> of the line equation (TD THEORY EQU 1). The second matrix indicates whether 
     or not the given data point was weighted out of the calculations and finally, the matrix of residuals is also produced.
@@ -28,10 +28,10 @@
     the maximum amount of flexibility in determining to what degree a given point in the data set will influence the line of best
     fit. Another method of VCV analysis offered is that of automatic re-weighting. In this type of analysis, the most accurate
     regression model is calculated by the process of automated re-weighing using the residual space which is discussed in
-    depth in the (SEE THEORY TD). The implementation of this process can also be seen in the following diagram
+    depth in chapter 2, Time Domain analyisis. The implementation of this process can also be seen in the following diagram
     
     <figure><title>Flow Diagram of the Automated Re-Weighting Process of VCV Least Squares Analysis</title>
-        <execute><cmd>img</cmd><args>TD-ReweightFlow.gif</args></execute>
+        <execute><cmd>eqimg</cmd><args>TD-ReweightFlow.gif</args></execute>
     </figure>
 
     </para>
@@ -60,7 +60,7 @@
     <para>As one of the goals of <command>GDMS</command> speed of operations, great care has been taken to optimise the calculation
     speed of solutions in the Time Domain. This includes employing the use of passing values by reference to and from 
     functions where ever possible, thus saving the time that it takes to replicate the parameters being passed in memory. 
-    The main optimisation, however, takes place in the area of matrix multiplication. It can be seen from (TD EQUATION 7 and 14) 
+    The main optimisation, however, takes place in the area of matrix multiplication. It can be seen from equations 2-7 and 2-13 
     that this is the most often used operation in calculating a Least Squares 
     solution and is by far the slowest of all the matrix operations. This is due to the fact that in a normal matrix 
     multiplication if, for example, we were multiplying matrix A by matrix B where A is <command>m</command> x 
