@@ -1,0 +1,4 @@
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c", &Test::cpt_mb_ALBA_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m", &Test::cpt_mb_ALBA_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c", &Test::cpt_mb_ALBA_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m", &Test::cpt_mb_ALBA_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m));

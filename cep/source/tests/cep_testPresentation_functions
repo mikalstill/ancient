@@ -1,0 +1,76 @@
+void cpt_mb_ALBA_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c ()
+{
+  switch(fork())
+  {
+    case -1:
+      CPPUNIT_ASSERT_MESSAGE("fork failed", false);
+      break;
+
+    case 0:
+      sleep(30);
+      system("killall -9 ui");
+      break;
+
+    default:
+      CPPUNIT_ASSERT_MESSAGE("Test mb_ALBA_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c failed", system("../ui -d mb_ALBA_GPS -a yes -e yes -x yes -y yes -z yes -c") != 139);
+      break;
+  }
+}
+
+void cpt_mb_ALBA_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m ()
+{
+  switch(fork())
+  {
+    case -1:
+      CPPUNIT_ASSERT_MESSAGE("fork failed", false);
+      break;
+
+    case 0:
+      sleep(30);
+      system("killall -9 ui");
+      break;
+
+    default:
+      CPPUNIT_ASSERT_MESSAGE("Test mb_ALBA_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m failed", system("../ui -d mb_ALBA_GPS -a yes -e yes -x yes -y yes -z yes -m") != 139);
+      break;
+  }
+}
+
+void cpt_mb_ALBA_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c ()
+{
+  switch(fork())
+  {
+    case -1:
+      CPPUNIT_ASSERT_MESSAGE("fork failed", false);
+      break;
+
+    case 0:
+      sleep(30);
+      system("killall -9 ui");
+      break;
+
+    default:
+      CPPUNIT_ASSERT_MESSAGE("Test mb_ALBA_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c failed", system("../ui -d mb_ALBA_GPS -a yes -e yes -x yes -y yes -z no -c") != 139);
+      break;
+  }
+}
+
+void cpt_mb_ALBA_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m ()
+{
+  switch(fork())
+  {
+    case -1:
+      CPPUNIT_ASSERT_MESSAGE("fork failed", false);
+      break;
+
+    case 0:
+      sleep(30);
+      system("killall -9 ui");
+      break;
+
+    default:
+      CPPUNIT_ASSERT_MESSAGE("Test mb_ALBA_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m failed", system("../ui -d mb_ALBA_GPS -a yes -e yes -x yes -y yes -z no -m") != 139);
+      break;
+  }
+}
+
