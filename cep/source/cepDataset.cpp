@@ -243,3 +243,20 @@ bool cepDataset::isWellFormed()
 {
   return m_wellformed;
 }
+
+cepDataset::direction cepDataset::getDirectionFromName(string name)
+{
+  string lname = cepToLower(name);
+
+  if(name == "x")
+    return dirX;
+  if(name == "y")
+    return dirY;
+  if(name == "z")
+    return dirZ;
+
+  cepError unknown("Unknown direction " + name + " requested of the dataset",
+		   cepError::sevErrorRecoverable);
+  unknown.display();
+  return dirX;
+}

@@ -88,6 +88,9 @@ public:
   vector < cep_datarow > &getData (direction dir);
   cepMatrix <double> *getMatrix(direction dir);
 
+  // Utility methods
+  direction getDirectionFromName(string name);
+
 private:
     string m_filename;
     cepDatasetProgressCB m_progress;

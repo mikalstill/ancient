@@ -21,6 +21,7 @@
 #ifndef CEP_UTILITY_HEADER
 #define CEP_UTILITY_HEADER
 
+// String methods
 string cepToString (int number);
 string cepToString (long number);
 string cepToString (double number);
@@ -29,9 +30,14 @@ string cepToString (bool val);
 string cepToString (char val);
 string cepToString (size_t val);
 
+string cepToLower (string in);
+string cepToUpper (string in);
+
+// Evaluation methods
 bool cepIsBlank (char chr);
 bool cepIsNumeric(char chr);
 
+// Mathematical methods
 int cepMax (int a, int b);
 int cepMin (int a, int b);
 int cepAbs (int a);

@@ -35,6 +35,7 @@
 #define GLOBALS_HERE
 #include "cepCore.h"
 #include "cepPresentation.h"
+#include "cepPlot.h"
 #include "cepStringArray.h"
 #include <unistd.h>
 
@@ -76,46 +77,8 @@ IMPLEMENT_APP (cepApp) cepApp::cepApp (void)
 bool
 cepApp::OnInit (void)
 {
-  // Create a document manager
-  m_docManager = new wxDocManager;
-
   // Get a reference to the configuration
   m_config = (cepConfiguration *)&cepConfiguration::getInstance();
-
-  // subscribe a wx windows based error handler
-  errHandler = new cepWxErrorHandler();
-  cepError::addErrorHandler( *errHandler );
-
-  // Create a template relating drawing documents to their views
-  (void)new
-    wxDocTemplate ((wxDocManager *) m_docManager, "Dataset", "*.dat1",
-                   "", "dat1", "Dataset", "Dataset View",
-                   CLASSINFO (cepDoc), CLASSINFO (cepView));
-
-  // Initialise bitmap handlers (we need these for the presentation layer)
-#if wxUSE_LIBPNG
-  wxImage::AddHandler (new wxPNGHandler);
-#endif
-
-#if wxUSE_LIBJPEG
-  wxImage::AddHandler (new wxJPEGHandler);
-#endif
-
-#if wxUSE_LIBTIFF
-  wxImage::AddHandler (new wxTIFFHandler);
-#endif
-
-#if wxUSE_GIF
-  wxImage::AddHandler (new wxGIFHandler);
-#endif
-
-#if wxUSE_PCX
-  wxImage::AddHandler (new wxPCXHandler);
-#endif
-
-#if wxUSE_PNM
-  wxImage::AddHandler (new wxPNMHandler);
-#endif
 
   // We can process command line options here if we want
   // todo_mikal: make this sexier
@@ -206,10 +169,7 @@ cepApp::OnInit (void)
   if(batchMode){
     if(batchfile != ""){
       // We need to turn off the wxWindows error mode and do text errors 
-      // instead
-      
-      // todo_mikal: I need support for removal here...
-      //cepError::removeErrorHandler  
+      // instead      
       errHandler = new cepTextErrorHandler();
       cepError::addErrorHandler( *errHandler );
       
@@ -236,7 +196,12 @@ cepApp::OnInit (void)
 	    cout << "Dataset " << sa[1] << " read" << endl;
 	  }
 	  else if(sa[0] == "plot"){
-	    
+	    cepDebugPrint("Started plotting");
+	    cepPlot plot(&ds, cepDataset::dirX, sa[2], 300);
+	    cepDebugPrint("Finished plotting");
+	    if(plot.getFailed()){
+	      cerr << "Plotting failed" << endl;
+	    }
 	  }
 	  else{
 	    cerr << "Command not found: " << sa[0] << endl;
@@ -251,13 +216,53 @@ cepApp::OnInit (void)
       }
 
       cepDebugPrint("Finished processing batch command file");
-      exit(0);
+      return FALSE;
     }
     else{
       cepError err("Could must specify a batch filename\n");
       err.display();
     }
   }
+
+  // Create a document manager
+  m_docManager = new wxDocManager;
+
+  // Subscribe a wx windows based error handler
+      // todo_mikal: I need support for removal here...
+      //cepError::removeErrorHandler  
+  errHandler = new cepWxErrorHandler();
+  cepError::addErrorHandler( *errHandler );
+
+  // Create a template relating drawing documents to their views
+  (void)new
+    wxDocTemplate ((wxDocManager *) m_docManager, "Dataset", "*.dat1",
+                   "", "dat1", "Dataset", "Dataset View",
+                   CLASSINFO (cepDoc), CLASSINFO (cepView));
+
+  // Initialise bitmap handlers (we need these for the presentation layer)
+#if wxUSE_LIBPNG
+  wxImage::AddHandler (new wxPNGHandler);
+#endif
+
+#if wxUSE_LIBJPEG
+  wxImage::AddHandler (new wxJPEGHandler);
+#endif
+
+#if wxUSE_LIBTIFF
+  wxImage::AddHandler (new wxTIFFHandler);
+#endif
+
+#if wxUSE_GIF
+  wxImage::AddHandler (new wxGIFHandler);
+#endif
+
+#if wxUSE_PCX
+  wxImage::AddHandler (new wxPCXHandler);
+#endif
+
+#if wxUSE_PNM
+  wxImage::AddHandler (new wxPNMHandler);
+#endif
     
   // Create the main frame window
   int windowx, windowy;

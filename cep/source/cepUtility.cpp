@@ -155,3 +155,23 @@ cepAbs (int a)
     return -a;
   return a;
 }
+
+string cepToLower(string in)
+{
+  string out;
+
+  for(int count = 0; count < in.length(); count++)
+    out += tolower(in.c_str()[count]);
+  
+  return out;
+}
+
+string cepToUpper(string in)
+{
+  string out;
+
+  for(int count = 0; count < in.length(); count++)
+    out += toupper(in.c_str()[count]);
+  
+  return out;
+}

@@ -178,13 +178,15 @@ sub generateAndLink(){
 	print STDERR "Plot cache miss for ".$result->param('dataset')." (x)\n";
 	open COMMANDS, "> $tmpdir/gdms-$$.cmd" or 
 	    die "Could not open temporary file $tmpdir/gdms-$$.cmd\n";
-	print COMMANDS "open ".$result->param('dataset')."\n";
+	print COMMANDS "open $datasets/".$result->param('dataset')."\n";
 	print COMMANDS "plot x $file\n";
 	close COMMANDS;
 
 	# Execute the gdms main program with this command script
-	`$gdms -b $tmpdir/gdms-$$.cmd`;
+	`$gdms -b $tmpdir/gdms-$$.cmd` or 
+	    die "GDMS execution error for: $gdms -b $tmpdir/gdms-$$.cmd";
     }
     
     # Now link to that image
+    return "<img src=\"$ploturl/".$result->param('dataset')."-$dir.png\">";
 }
