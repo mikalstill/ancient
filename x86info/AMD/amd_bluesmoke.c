@@ -1,5 +1,5 @@
 /*
- *  $Id: bluesmoke.c,v 1.1.1.1 2003-04-24 09:37:35 root Exp $
+ *  $Id: amd_bluesmoke.c,v 1.1 2003-04-24 09:44:58 root Exp $
  *  This file is part of x86info.
  *  (C) 2001 Dave Jones.
  *
