@@ -1,0 +1,175 @@
+Resume for Michael Still
+
+Contact details:
+I am a resident of Canberra, Australia. I also hold Australian citizenship.
+
+I may be contacted at:
+	email		mikal@stillhq.com
+	phone		+61414 382 568
+	postal		12 Bushby Close, Gordon, ACT, 2906, Australia
+
+Formal educational qualifications:
+I possess a Higher School Certificate (year 12) from Canberra Grammar School, in which I was rated in the top 10% of the state for almost all of my subjects, and was in the top 10% of the state overall.
+
+I am currently studying towards a Bachelor of Engineering in Computer Engineering, specializing in Software Engineering part time. I have been undertaking this since 1996, and am due to complete the degree by the end of next year. I am also studying towards a Law degree at the same time. This study has been mainly undertaken part time while working fulltime.
+
+Industry training:
+I have been trained in the following fields (this does not include on the job training and experience):
+·	FileNET EDMS and Workflow products
+·	TRIM Records Management, EDMS and Workflow products
+·	Solaris system administration
+·	Windows NT system administration
+·	Prince II project management methodology
+
+Open source:
+I am committed to the concept of open source development, and am currently working on a few open source projects. These currently include:
+·	Panda, the only open source and truly free PDF generation API that I am aware of
+·	PandaLex, an open source PDF parser
+·	PandaScript, an open source scripting interface to Panda
+·	Autodocbook, an automatic documentation generator which produces Docbook DTD SGML
+·	Groff2db, a gruff to docbook converter
+·	Getpage, a dynamic website generation tool
+·	…And many other smaller projects
+
+Internet community
+I am the author of the comp.text.pdf USENET frequently asked questions document.
+
+Current employment
+
+I am currently employed as a senior software engineer with TOWER Software Pty Ltd. This work involves management of complex exploratory development efforts, as well as project management and system development for our commercial software products
+
+The majority of my time is spent solving complex technical problems. These might be problems I have encountered myself while implementing a system, but also includes problems delegated from other members of the team. These problems have ranged from errors in complex pieces of code dealing with images at a bit level, generating PDF documents from scratch, or solving problems related to Microsoft Windows development. I am also responsible for large amounts of development in areas which were previously poorly understood by TOWER.
+
+Examples of recent development experience:
+The following examples of systems I have recently developed might be of some assistance.
+
+API work:
+
+Panda, an open source PDF generation API is currently under development and is available for download . Panda supports all of the major PDF constructs, as well as containing JPEG and TIFF support. This involves low level manipulation of TIFF images into the subset of the TIFF specification that is supported by the PDF specification.
+
+PandaLex, an open source PDF parsing engine, which is currently nearing it first public release. This involves a bison and flex parser where some of the information parsed is binary. This library will allow Panda to support modification of existing PDF documents, as well as aid the reverse engineering required for development of support for linearized PDF .
+
+PandaScript , an open source scripting interface to Panda, which was developed using bison and flex.
+
+Patches to clibpdf (http://www.fastio.com) to support TIFF imaging, as well as the standard JPEG imaging support already present in the library. This was before the official clibpdf TIFF version was released, and we still use my version internally. The clibpdf library is fairly large, with the patched version comprising 15,000 lines of code. A large amount of debugging work was required to allow clibpdf to function correctly.
+
+I have previously worked on implementation of API functionality for the GNU Privacy Guard (a PKI implementation), and am familiar with a fair portion of the layout of that code base.
+
+Application work:
+
+I have been involved with the implementation of various Internet based systems for IPAustralia. IPAustralia is the Australian Patents, Trade Marks, and Designs offices.
+
+I have developed several large scale PDF generation applications for IPAustralia. These were developed in C using a PDF generation API, and partially led to the development of Panda. These applications are capable of generating a 4,500 page PDF document in less than a minute on mid-range PC hardware running FreeBSD -- suitable for serving these documents on the fly to Internet customers. There is also a Windows NT version of one of these applications.
+
+Development of a standard data loading infrastructure for IPAustralia capable of dealing with a large range of data input from CD ROMs, DVDs, tapes and scanning applications. This infrastructure is based on a UNIX server process, and is responsible for the loading of 99% of the corporate mission critical data.
+
+Large scaling image processing and storage:
+
+A selection of imaging applications which involve low level manipulation of image data. These have used libtiff, libjpeg and are starting to use libpng. Types of applications developed include image conversion, text insertion and data extraction applications. These applications are developed as needed internally by IPAustralia.
+
+The ongoing maintenance and development of several corporate imaging systems, ranging for 9 million TIFF images, to 500,000 TIFF images, to 200,000 PDF documents.
+
+Commercial software development of a leading Records Management and EDMS product
+
+This has included implementation of the ODMA specification, the parsing of Microsoft structured storage files, MFC user interfaces, document content searching and many other projects.
+
+System Testing:
+
+I believe that proper testing of code before release is important. At one of my previous jobs (in the list below), I was responsible for the testing of a complex Internet application for Australia's largest telecommunications company. This involved the generation of use cases, test scripts, the planning of regression, unit and occasionally acceptance testing, and the implementation of this testing.
+
+I am currently responsible for the acceptance testing for the Windows and Unix APIs for the most expensive piece of software my current employer has ever acquired -- an EDMS / Workflow suite from Objective Corporation.
+
+My open source coding is also thoroughly tested. Panda, for instance, is put through a series of regression and common use tests before each release. Before a release is marked as stable, as series of unstable 'release candidates' are also released to the wider developer community for testing. I am also working on implementation of a series of automated test cases, possibly using dejaGNU. I am also interested in implementing a series of random tests, where API calls are randomly made to check for errors in less commonly used execution paths. I regularly run code profilers and a debugging version of the memory management API to check for bottlenecks and memory leaks.
+
+I have also liased with the Quality Assurance team at TOWER Software on many occasions, and understand the issues involved with testing of complex commercial software packages.
+
+Other:
+
+I have also been involved with many other coding and systems administration projects, the above a merely some recent highlights. These include web based, Windows based, and UNIX based systems. I have also undertaken mainframe integration work. I have been involved with the support of various mission critical systems.
+
+One of my current projects for my personal time is the development of a NFS server, which is proving to be a good opportunity to develop my understanding on Sun RPC calls.
+
+Expertise:
+Below is a list of the expertise I currently have. I am confident in developing other areas of expertise as required.
+
+Development environments: GCC, GDB, Microsoft Visual Studio 6, Borland C++Builder, CVS, dmalloc, ccache.
+
+Hardware: PC, Sun Microsystems and IBM RS/6000 series machines.
+
+GUI toolkits: Java, Java Swing, Windows MFC, wxWindows.
+
+Languages: C, C++, Java, UNIX shell (Bourne and Bourne Again mainly), Perl, Bison / Yacc, Lex / Flex, Expect, M68000 assembly, and Visual Basic.
+
+Markup formats and web interfaces: HTML, SGML, XML, and CGI-BIN.
+
+Networking: Including Windows, Linux, FreeBSD, Cisco and Cabletron based solutions. Most of my knowledge revolves around TCP/IP and it’s associated protocols such as RIP, BGP, OSPF, DHCP, DNS, et cetera.
+
+Operating systems: Linux, FreeBSD, Solaris, AIX, various Windows iterations. I also have some experience using cygwin.
+
+Packaging / portability: autoconf, automake and InstallShield.
+
+Presentations
+
+I have given the following technical presentations:
+·	October 2000: Canberra Linux User's Group, “Panda”
+·	November 2000: Australian Open Source Symposium, “Panda”
+·	June 2001: Australian Open Source Symposium, “2D Imaging using Open Source”
+·	September 2001: Australian Unix User’s Group Annual Conference, “Open Source PDF handling with Panda and PandaLex”
+·	May 2002: Canberra Linux User’s Group, “TrivSQL: A SQL database implemented with tdb”
+·	May 2002: Canberra Linux User’s Group, “Building an 802.11b access point with linux”
+·	August 2002: Australian National University Guest Lecture COMP3410, “Electronic Document Management with TRIM”
+·	September 2002: Australian Unix User’s Group Annual Conference, “Graphics programming tutorial” (enrollment levels permitting)
+
+Articles I have written for industry journals:
+·	March 2002: IBM Developer Works, “Graphics programming with libtiff: Black and White”
+·	June 2002: IBM Developer Works, “Graphics programming with libtiff: grayscale and color images”
+·	May 2002: Australian Unix User’s Group Newsletter (AUUGN), “Graphics programming with libtiff: Black and White” [reprint]
+	
+Academic employment:
+I have held the following academic positions, in addition to my full time career in the IT industry:
+·	University of Canberra, Tutor, Distributed Systems Technology: 2002 – 2 sessions (this is an introductory networking unit revolving around TCP/IP networks and their various protocols).
+·	Australian National University, COMP 3410: Guest lecturer on Electronic Document Management, August 2002
+
+Employment history:
+
+August 2001 onwards (Senior Software Engineer, TOWER Software Engineering Pty Ltd)
+·	member of the team responsible for the server side coding for the world’s leading Electronic Document Management and Records Management package, TRIM
+·	implemented a wide range of technologies, including document content indexing, ODMA compliance et cetera
+
+November 1999 to August 2001 (Team Leader, IPAustralia)
+·	manage a team of developers producing corporate imaging and storage solutions
+·	lead C programmer for the organization
+·	requirements analysis, system design and architecture and implementation for corporate systems
+·	project management of the development portion of selected corporate projects
+·	systems administration of a small number of development machines
+·	XML, HTML and SGML work, including coordinating the approach to these markup environments across the company
+
+March 1999 to November 1999 (Systems Administrator / Developer, IPAustralia)
+·	systems administrator for FreeBSD, AIX and Solaris systems
+·	developer (C, Java, UNIX shell, and Visual Basic)
+·	supported existing systems in various languages (C, UNIX shell, and Perl)
+·	these tasks included a large amount of client liaison work, and systems analysis and design
+
+April 1998 to March 1999 (Network Manager, NATSEM, University of Canberra)
+·	systems administrator for Solaris, Linux and Windows NT systems
+·	support for Windows 95 desktop machines
+·	support of various Cisco network hardware and the LAN infrastructure
+
+July 1998 (Department of Defense)
+·	Java development
+
+February 1998 to June 1998 and August 1997 to November 1997 (Network Manager, Signadou campus, Australian Catholic University)
+·	system administrator for Windows NT servers
+·	support of Windows 3.11, 95 and NT desktop clients
+·	manage Cisco and Cabletron network hardware
+
+August 1997 - April 1998 (Network Support, Education and Management Faculties, University of Canberra)
+·	systems administrator for Solaris, Macintosh and Windows NT systems
+·	support of Windows 3.11, 95, NT, Macintosh and Linux desktop systems
+·	manage network hardware from various vendors
+
+February 1997 to September 1997 (Tester, Aspect Computing)
+·	planning and implementation of a testing plan for a large SQL Oracle database with HTML front end including development of test cases, unit, system, acceptance and regression testing and liaison with developers
+
+August 1995 to July 1998 (Explainer, Questacon)
+·	explain varied exhibits to customers of widely varied educational, national and ethnic backgrounds
