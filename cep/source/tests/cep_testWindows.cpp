@@ -26,18 +26,7 @@
  * Tests the framework which has been set up to window the incoming data
  *
  * @author Blake Swadling
- * @version $Revision: 1.3 $
- *
- * Revision History
- *
- * $Log: not supported by cvs2svn $
- * Revision 1.2  2002/08/29 10:50:47  u982087
- * updated.
- *
- * Revision 1.1  2002/08/28 14:28:11  u982087
- * initial revision
- *
- *
+ * @version $Revision: 1.4 $
  */
 
 namespace {
