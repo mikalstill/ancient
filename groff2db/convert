@@ -15,7 +15,17 @@ my($parastate, $liststate, $listitemstate, $footnotestate, $sectionstate, $table
 my($length);
 my($chapters, $chapter, $chaptercount, $temp, $inputused);
 my($linecount, $condlinecount, $firstsect);
+my(@inline, @outline);
 
+#####################################################################
+# We setup the conversion rules for many of the translations here...
+#####################################################################
+
+# Table start
+$inline[0] = "\.TH[ \t]*(.*)";
+$outline[0] = "$tablestate = 1; $temp = \"\";";
+
+#####################################################################
 # We need to check the command line arguements...
 if($ARGV[0] eq "jade" ){
     print "Jade output style selected (one big file).\n";
