@@ -85,13 +85,10 @@ void cepError::display ()
   log ();
   cout << getTitle () << ": " << m_msg << endl;
 
-  // BS - removed to prevent segfault in the absence of config file
-  
-/*
   if (gDisplayParams[(int)m_level].get () == cepTSB::stUndefined)
   {
     // Deliberately dropping cepError return value here
-    bool dodisp = true;
+    bool dodisp;
 
     gConfiguration->getValue (string ("cepErrordisplaylevel") +
                  cepItoa ((int)m_level), true, dodisp);
@@ -115,7 +112,7 @@ void cepError::display ()
   else
     // This presents a smaller danger of an infinite loop
     cepDebugPrint ("Display requested on empty cepError");
-*/
+
 }
 
 string cepError::getTitle ()
