@@ -18,7 +18,7 @@ testls_SOURCES = alltests.cpp cep_testLs.cpp
 testls_LDADD = ../cepLs.o
 
 testdataset_SOURCES = alltests.cpp cep_testDataset.cpp
-testdataset_LDADD = ../cepDataset.o
+testdataset_LDADD = ../cepDataset.o ../cepStringArray.o
 
 testnumeric_SOURCES = alltests.cpp cep_testNumeric.cpp
 

@@ -88,7 +88,7 @@ testls_SOURCES = alltests.cpp cep_testLs.cpp
 testls_LDADD = ../cepLs.o
 
 testdataset_SOURCES = alltests.cpp cep_testDataset.cpp
-testdataset_LDADD = ../cepDataset.o
+testdataset_LDADD = ../cepDataset.o ../cepStringArray.o
 
 testnumeric_SOURCES = alltests.cpp cep_testNumeric.cpp
 
@@ -137,7 +137,7 @@ cep_testConfig.o cep_testLs.o cep_testDataset.o cep_testNumeric.o \
 cep_testCfft.o
 testall_DEPENDENCIES =  ../cepDataWindower.o ../cepWindowAlg.o \
 ../cepWindowRect.o ../cepwindowhamming.o ../cepwindowchebyshev.o \
-../cepwindowblackman.o ../cepLs.o ../cepDataset.o
+../cepwindowblackman.o ../cepLs.o ../cepDataset.o ../cepStringArray.o
 testall_LDFLAGS = 
 testwindows_OBJECTS =  alltests.o cep_testWindows.o
 testwindows_DEPENDENCIES =  ../cepDataWindower.o ../cepWindowAlg.o \
@@ -156,7 +156,7 @@ testls_OBJECTS =  alltests.o cep_testLs.o
 testls_DEPENDENCIES =  ../cepLs.o
 testls_LDFLAGS = 
 testdataset_OBJECTS =  alltests.o cep_testDataset.o
-testdataset_DEPENDENCIES =  ../cepDataset.o
+testdataset_DEPENDENCIES =  ../cepDataset.o ../cepStringArray.o
 testdataset_LDFLAGS = 
 testnumeric_OBJECTS =  alltests.o cep_testNumeric.o
 testnumeric_LDADD = $(LDADD)

@@ -88,7 +88,7 @@ testls_SOURCES = alltests.cpp cep_testLs.cpp
 testls_LDADD = ../cepLs.o
 
 testdataset_SOURCES = alltests.cpp cep_testDataset.cpp
-testdataset_LDADD = ../cepDataset.o
+testdataset_LDADD = ../cepDataset.o ../cepStringArray.o
 
 testnumeric_SOURCES = alltests.cpp cep_testNumeric.cpp
 
@@ -114,9 +114,9 @@ CONFIG_CLEAN_FILES =
 PROGRAMS =  $(noinst_PROGRAMS)
 
 
-DEFS =  -DPACKAGE=\"cep\" -DVERSION=\"0.1\" -DHAVE_LIBM=1 -DHAVE_LIBPTHREAD=1 -DHAVE_LIBWX_GTK_2_2=1 -DHAVE_LIBPLOT=1 -DHAVE_LIBPNG=1 -DSTDC_HEADERS=1 -D__WXGTK__=1 -D_GNU_SOURCE=1  -I. -I$(srcdir) 
+DEFS =  -DPACKAGE=\"cep\" -DVERSION=\"0.1\" -DHAVE_LIBM=1 -DHAVE_LIBPTHREAD=1 -DHAVE_LIBWX_GTK_2_2=1 -DHAVE_LIBPLOT=1 -DHAVE_LIBPNG=1 -DHAVE_LIBPCRE=1 -DSTDC_HEADERS=1 -D__WXGTK__=1 -D_GNU_SOURCE=1  -I. -I$(srcdir) 
 CPPFLAGS =  -D_REENTRANT -Wall
-LIBS = -lpng -lplot -lwx_gtk-2.2 -lpthread -lm 
+LIBS = -lpcre -lpng -lplot -lwx_gtk-2.2 -lpthread -lm 
 testallhuge_OBJECTS =  alltests.o cep_testPresentation000.o \
 cep_testPresentation1000.o cep_testPresentation1200.o \
 cep_testPresentation1400.o cep_testPresentation1600.o \
@@ -137,7 +137,7 @@ cep_testConfig.o cep_testLs.o cep_testDataset.o cep_testNumeric.o \
 cep_testCfft.o
 testall_DEPENDENCIES =  ../cepDataWindower.o ../cepWindowAlg.o \
 ../cepWindowRect.o ../cepwindowhamming.o ../cepwindowchebyshev.o \
-../cepwindowblackman.o ../cepLs.o ../cepDataset.o
+../cepwindowblackman.o ../cepLs.o ../cepDataset.o ../cepStringArray.o
 testall_LDFLAGS = 
 testwindows_OBJECTS =  alltests.o cep_testWindows.o
 testwindows_DEPENDENCIES =  ../cepDataWindower.o ../cepWindowAlg.o \
@@ -156,7 +156,7 @@ testls_OBJECTS =  alltests.o cep_testLs.o
 testls_DEPENDENCIES =  ../cepLs.o
 testls_LDFLAGS = 
 testdataset_OBJECTS =  alltests.o cep_testDataset.o
-testdataset_DEPENDENCIES =  ../cepDataset.o
+testdataset_DEPENDENCIES =  ../cepDataset.o ../cepStringArray.o
 testdataset_LDFLAGS = 
 testnumeric_OBJECTS =  alltests.o cep_testNumeric.o
 testnumeric_LDADD = $(LDADD)
