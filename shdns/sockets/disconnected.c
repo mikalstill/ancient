@@ -25,8 +25,7 @@ main (int argc, char *argv[])
   // We will listen with this file descriptor
   if ((lfd = socket (AF_INET, SOCK_DGRAM, 0)) < 0)
     {
-      fprintf (stderr, 
-	       "Error whilst starting to listen\n");
+      fprintf (stderr, "Error whilst starting to listen\n");
       exit (42);
     }
 
@@ -37,8 +36,7 @@ main (int argc, char *argv[])
   servaddr.sin_port = htons (1234);
 
   // Bind to the address
-  if (bind (lfd, (struct sockaddr *) &servaddr, 
-	    sizeof (servaddr)) < 0)
+  if (bind (lfd, (struct sockaddr *) &servaddr, sizeof (servaddr)) < 0)
     {
       perror ("Couldn't bind");
       exit (42);
@@ -51,25 +49,23 @@ main (int argc, char *argv[])
       printf ("Reading...\n");
       clen = sizeof (clientaddr);
       if ((len = recvfrom (lfd, buf, len, 0,
-			   (struct sockaddr *)
-			   &clientaddr, &clen)) < 0)
-	{
-	  perror ("Socket read error");
-	  exit (42);
-	}
+                           (struct sockaddr *) &clientaddr, &clen)) < 0)
+        {
+          perror ("Socket read error");
+          exit (42);
+        }
       if (len == 0)
-	break;
+        break;
 
       // The buffer is not null terminated
       buf[len] = '\0';
       printf ("Read: %s\n", buf);
 
       // And send it straight back
-      if (sendto (lfd, buf, len, 0, &clientaddr, 
-		  clen) < 0)
-	{
-	  perror ("Socket write error");
-	  exit (42);
-	}
+      if (sendto (lfd, buf, len, 0, &clientaddr, clen) < 0)
+        {
+          perror ("Socket write error");
+          exit (42);
+        }
     }
 }

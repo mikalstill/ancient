@@ -25,8 +25,7 @@ main (int argc, char *argv[])
   // We will listen with this file descriptor
   if ((lfd = socket (AF_INET, SOCK_DGRAM, 0)) < 0)
     {
-      fprintf (stderr, 
-	       "Error whilst starting to listen\n");
+      fprintf (stderr, "Error whilst starting to listen\n");
       exit (42);
     }
 
@@ -37,8 +36,7 @@ main (int argc, char *argv[])
   servaddr.sin_port = htons (1234);
 
   // Bind to the address
-  if (bind (lfd, (struct sockaddr *) &servaddr, 
-	    sizeof (servaddr)) < 0)
+  if (bind (lfd, (struct sockaddr *) &servaddr, sizeof (servaddr)) < 0)
     {
       perror ("Couldn't bind");
       exit (42);
@@ -53,46 +51,45 @@ main (int argc, char *argv[])
       printf ("Reading...\n");
       clen = sizeof (clientaddr);
       if ((len = recvfrom (lfd, buf, len, MSG_PEEK,
-			   (struct sockaddr *) 
-			   &clientaddr, &clen)) < 0)
-	{
-	  perror ("Socket peek error");
-	  exit (42);
-	}
+                           (struct sockaddr *) &clientaddr, &clen)) < 0)
+        {
+          perror ("Socket peek error");
+          exit (42);
+        }
       if (len == 0)
-	break;
+        break;
 
       // Connect
       if (connect (lfd, &clientaddr, clen) < 0)
-	{
-	  perror ("Could not connect");
-	  exit (42);
-	}
+        {
+          perror ("Could not connect");
+          exit (42);
+        }
 
       printf ("Data arrived\n");
 
       // Spawn a child to handle this packet
       switch (fork ())
-	{
-	case -1:
-	  perror ("Couldn't spawn child to handle connection");
-	  exit (42);
+        {
+        case -1:
+          perror ("Couldn't spawn child to handle connection");
+          exit (42);
 
-	case 0:
-	  // Child process -- setup the file 
-	  // descriptors, and the run the helper 
-	  // application
-	  dup2 (lfd, 0);
-	  dup2 (lfd, 1);
+        case 0:
+          // Child process -- setup the file 
+          // descriptors, and the run the helper 
+          // application
+          dup2 (lfd, 0);
+          dup2 (lfd, 1);
 
-	  execl ("/bin/cat", "cat", NULL);
-	  perror ("Exec failed");
-	  exit (42);
-	  break;
+          execl ("/bin/cat", "cat", NULL);
+          perror ("Exec failed");
+          exit (42);
+          break;
 
-	default:
-	  // Parent process
-	  break;
-	}
+        default:
+          // Parent process
+          break;
+        }
     }
 }
