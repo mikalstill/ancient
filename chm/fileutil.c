@@ -50,9 +50,9 @@ void fileutil_displaystring(FILE *input, char *format){
   for(; i != 0; i--){
     printf("%c", fgetc(input));
   }
-  printf("\n");
 }
 
+// Display a 4 byte int
 int fileutil_displayinteger(FILE *input, char *format){
   mint32 myint;
 
@@ -63,10 +63,11 @@ int fileutil_displayinteger(FILE *input, char *format){
   myint.c[2] = fgetc(input);
   myint.c[3] = fgetc(input);
 
-  printf("(int) %d\n", myint.i);
+  printf("(int) %d", myint.i);
   return myint.i;
 }
 
+// Display a short (aka DWORD), 2 bytes
 int fileutil_displayshort(FILE *input, char *format){
   mint32 myint;
 
@@ -75,10 +76,44 @@ int fileutil_displayshort(FILE *input, char *format){
   myint.c[0] = fgetc(input);
   myint.c[1] = fgetc(input);
 
-  printf("(short) %d\n", myint.i);
+  printf("(short) %d", myint.i);
   return myint.i;
 }
 
+char *fileutil_displaybyteblock(FILE *input, char *format, int len){
+  int count;
+  unsigned char *result;
+
+  printf("%s (%d bytes) ", format, len);
+
+  if((result = (unsigned char *) malloc(sizeof(char) * len)) == NULL){
+    fprintf(stderr, "Memory allocation error\n");
+    return NULL;
+  }
+
+  for(count = 0; count < len; count++){
+    result[count] = fileutil_displaybyte_actual(input, "");
+  }
+
+  return result;
+}
+
+int fileutil_displaybyte(FILE *input, char *format){
+  printf(format);
+  return fileutil_displaybyte_actual(input, "(byte) ");
+}
+
+// Display a byte (aka WORD)
+int fileutil_displaybyte_actual(FILE *input, char *format){
+  unsigned char byte;
+
+  printf(format);
+  byte = fgetc(input);
+  printf("%d", byte);
+  return byte;
+}
+
+// Display a language ID having made a half hearted attempt to decode it
 int fileutil_displaywindowslanguage(FILE *input, char *format){
   mint32 myint;
 
@@ -99,34 +134,18 @@ int fileutil_displaywindowslanguage(FILE *input, char *format){
     break;
 
   default:
-    printf("(windows language) %#x\n", myint.i);
+    printf("(windows language) %#x", myint.i);
     break;
   }
 
   return myint.i;
 }
 
+// Display a MS GUID
 char *fileutil_displayguid(FILE *input, char *format){
-  mint32 myint1, myint2, count;
-  char bytes[8], result[;
-
   printf(format);
-
-  myint1.i = 0;
-  myint1.c[0] = fgetc(input);
-  myint1.c[1] = fgetc(input);
-  myint1.c[2] = fgetc(input);
-  myint1.c[3] = fgetc(input);
-
-  myint2.i = 0;
-  myint2.c[0] = fgetc(input);
-  myint2.c[1] = fgetc(input);
-  myint2.c[2] = fgetc(input);
-  myint2.c[3] = fgetc(input);
-  
-  for(count = 0; count < 8; count++){
-    bytes[count] = fgetc(input);
-  }
-
-  
+  fileutil_displayshort(input, "");
+  fileutil_displaybyte(input, " ");
+  fileutil_displaybyte(input, " ");
+  fileutil_displaybyteblock(input, " ", 8);
 }

@@ -21,11 +21,14 @@ int main(int argc, char *argv[]){
   /////////////////////////////////////////////////////////////////////////////
   printf("Magic bytes: %c%c%c%c\n", fgetc(input), fgetc(input), fgetc(input),
 	 fgetc(input));
-  fileutil_displayinteger(input, "Version: ");
-  fileutil_displayinteger(input, "Header length: ");
-  fileutil_displayinteger(input, "Unknown (should be 1): ");
-  fileutil_displayinteger(input, "Timestamp: ");
-  fileutil_displaywindowslanguage(input, "Language: ");
-  fileutil_displayguid(input, "GUID 1: ");
-  fileutil_displayguid(input, "GUID 2: ");
+  fileutil_displayinteger(input, "Version: "); printf("\n");
+  fileutil_displayinteger(input, "Header length: "); printf("\n");
+  fileutil_displayinteger(input, "Unknown (should be 1): "); printf("\n");
+  fileutil_displayinteger(input, "Timestamp: "); printf("\n");
+  fileutil_displaywindowslanguage(input, "Language: "); printf("\n");
+  fileutil_displayguid(input, "GUID 1: "); printf("\n");
+  fileutil_displayguid(input, "GUID 2: "); printf("\n");
+
+  fileutil_displaybyteblock(input, "Section start offset: ", 16); printf("\n");
+  fileutil_displaybyteblock(input, "Section length: ", 16); printf("\n");
 }

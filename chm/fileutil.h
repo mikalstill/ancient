@@ -10,6 +10,9 @@ void fileutil_insertshort(FILE *, int);
 void fileutil_displaystring(FILE *, char *);
 int fileutil_displayinteger(FILE *, char *);
 int fileutil_displayshort(FILE *, char *);
+char *fileutil_displaybyteblock(FILE *, char *, int);
+int fileutil_displaybyte(FILE *, char *);
+int fileutil_displaybyte_actual(FILE *, char *);
 int fileutil_displaywindowslanguage(FILE *, char *);
 
 typedef union memopad_internal_mint32{
