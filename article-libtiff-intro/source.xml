@@ -155,7 +155,14 @@ Reading TIFF files reliably is much harder than writing them. Unfortunately, I d
 <img src="figure1.jpg" width="200" height="144" alt="Sydney Harbour Bridge in tiles, 200 x 144"/>
 </figure>
 
+<p>Tiled images are comparatively uncommon, so I will focus on stripped images in this article. Remember as we go along, that the single stripped case is merely a subset of a multiple strip images.</p>
 
+<p><heading refname="infrastructure-read" type="minor" toc="yes">Infrastructure for reading</heading>
+The most important thing to remember when reading in TIFF images is to be flexible. The example below has the same basic concepts as the writing example above, with the major difference being that it needs to deal with many possible input images. Apart from stripping and tiling, the most important thing to remember to be flexible about is photometric interpretation. Luckily, with black and white images there are only two photometric interpretations to worry about (with colour and to a certain extent grayscale images there are many more).</p>
+
+<p>What is photometric interpretation? Well, the representation of the image in the buffer is really a very arbitary thing. I might code my bitmaps so that 0 means black (TIFFTAG_MINISBLACK), whilst you might find black being 1 (TIFFTAG_MINISWHITE) more convenient. TIFF allows both, so our code has to be able to handle both cases. In the example below, I have assumed that the internal buffers need to be in MINISWHITE, so we will convert images which are in MINISBLACK.</p>
+
+<p>Other things to bear in mind are byte order (big endian or little endian), and fillorder (whether the first bit in the byte is the highest value, or the lowest). The example below also handles both of these correctly. For the example, I have assumed that we want the buffer in little endian, most significant bit first...</p>
 
 
 
