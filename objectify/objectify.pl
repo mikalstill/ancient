@@ -113,13 +113,13 @@ foreach $key (keys %pointers){
 	print "\n";
 	
 	# We need to output all the functions which use one of these pointers
-	my($rval, $fval, $aval, @argsarray);
+	my($rval, $fval, $aval, $origargs, @argsarray);
 	@argsarray = split(/;/, $pointers{$key});
 	
 	while($argsarray[0] ne ""){
 	    $rval = shift(@argsarray);
 	    $fval = shift(@argsarray);
-	    $aval = shift(@argsarray);
+	    $aval = $origargs = shift(@argsarray);
 	    
 	    # Do we have a child relationship because of this function?
 	    $aval =~ s/$class[ \t\*]+[, ]*//;
@@ -141,7 +141,27 @@ foreach $key (keys %pointers){
 	    if($skip == 0){
 		$_ = $fval;
 		s/.*_//;
-		print "  $rval $_ ($aval);\n";
+		print "  $rval $_ (";
+
+		my($argcount);
+		$argcount = 0;
+		foreach $temp (split/,/, $aval){
+		    if($argcount > 0){
+			print ", ";
+			}
+		    print "$temp a$argcount";
+		    $origargs =~ s/$temp *\**/a$argcount/;
+		    $argcount++;
+		}
+		
+		print ") {";
+		$origargs =~ s/$class *\*/m_ptr/g;
+		$fval =~ s/^\*//;
+		if($rval ne "void"){
+		    print " return";
+		}
+		print " $fval($origargs); ";
+		print "}\n";
 	    }
 	}
 	
