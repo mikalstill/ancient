@@ -152,6 +152,21 @@ trailer                 { debuglex(yytext, -1, "trailer", binaryMode);
                             }
                                                                              }
 
+\<\<\/[#a-zA-Z\-_0-9\.\+]+ { debuglex(yytext, -1, "dbllt-name", binaryMode);
+
+                          if(binaryMode == 0){
+                            yylval.textVal = 
+                              (char *) returnStr(yytext + 1, -1);
+                            return DBLLTNAME;
+                            }
+                          else{
+                            yylval.sval.data =
+                              (char *) returnStr(yytext, yyleng);
+                            yylval.sval.len = yyleng;
+                            return ANYTHING;
+                            }
+                                                                             }
+
                         /* --- stuff required for objects ---               */
 R                       { debuglex(yytext, -1, "object reference", binaryMode);
 

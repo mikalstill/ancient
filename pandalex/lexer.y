@@ -37,7 +37,7 @@
 }
 
 %token <textVal> VERSION
-%token <textVal> NAME <textVal> STRING
+%token <textVal> NAME <textVal> DBLLTNAME <textVal> STRING
 %token <textVal> OBJREF <textVal> OBJ <textVal> ENDOBJ <intVal> INT 
 %token <textVal> FP <textVal> DBLLT <textVal> DBLGT 
 %token <textVal> STREAM <textVal> ENDSTREAM
@@ -85,7 +85,16 @@ object    : INT INT OBJ {
             dictionary { if($5 != -1) pandalex_callback(pandalex_event_dictint, $1, $2, $5); } stream ENDOBJ {}
           ;
 
+// DBLLTNAME required for dodgy generators -- davince and typereader
+// todo_mikal: fully implement
 dictionary: DBLLT dict DBLGT { $$ = -1; }
+          | DBLLTNAME STRING dict DBLGT { $$ = -1; }
+          | DBLLTNAME NAME dict DBLGT { $$ = -1; }
+          | DBLLTNAME ARRAY dict DBLGT { $$ = -1; }
+          | DBLLTNAME objref dict DBLGT { $$ = -1; }
+          | DBLLTNAME DBLLT dict DBLGT dict DBLGT { $$ = -1; }
+          | DBLLTNAME INT dict DBLGT { $$ = -1; }
+          | DBLLTNAME FP dict DBLGT { $$ = -1; }
           | INT { $$ = $1; }
           | ARRAY arrayvals ENDARRAY { $$ = -1; }
           | objref { $$ = -1; }
