@@ -37,11 +37,11 @@ plot_state *plot_newplot (unsigned int, unsigned int);
 char *plot_getraster (plot_state * state);
 
 // Primitive operations
-void plot_setlinestart (plot_state *, int, int);
-void plot_addlinesegment (plot_state *, int, int);
-void plot_addcubiccurvesegment (plot_state *, int, int, int, int, int, int);
-void plot_addquadraticcurvesegmentone (plot_state *, int, int, int, int);
-void plot_addquadraticcurvesegmenttwo (plot_state *, int, int, int, int);
+void plot_setlinestart (plot_state *, unsigned int, unsigned int);
+void plot_addlinesegment (plot_state *, unsigned int, unsigned int);
+void plot_addcubiccurvesegment (plot_state *, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int);
+void plot_addquadraticcurvesegmentone (plot_state *, unsigned int, unsigned int, unsigned int, unsigned int);
+void plot_addquadraticcurvesegmenttwo (plot_state *, unsigned int, unsigned int, unsigned int, unsigned int);
 void plot_closeline (plot_state *);
 
 // Things to do with a line once built
@@ -57,11 +57,9 @@ void plot_setlinedash (plot_state *, int, int, int);
 void plot_setfillcolor (plot_state *, int, int, int);
 void plot_setlinecolor (plot_state *, int, int, int);
 
-
 // Operations based on primitive operations
-void plot_rectangle (plot_state *, int, int, int, int);
+void plot_rectangle (plot_state *, unsigned int, unsigned int, unsigned int, unsigned int);
 
-
-// Simple stuff we need
+// Internal methods
 unsigned int plot_min (unsigned int one, unsigned int two);
 unsigned int plot_max (unsigned int one, unsigned int two);

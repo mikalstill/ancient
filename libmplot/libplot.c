@@ -1,3 +1,21 @@
+/******************************************************************************
+  Copyright (C) Michael Still 2002
+  
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+******************************************************************************/
+
 #include <stdio.h>
 #include <string.h>
 
@@ -115,7 +133,7 @@ PURPOSE sets the starting point of series of lines and curves
 
 SYNOPSIS START
 #include&lt;libplot.h&gt;
-void plot_setlinestart (plot_state *state, int x, int y);
+void plot_setlinestart (plot_state *state, unsigned int x, unsigned int y);
 SYNOPSIS END
 
 DESCRIPTION Set the starting point for the sequence of curves and lines that it to be drawn on the current plot. This call is compulsory for almost all of the line drawing functions. It is not required for the <command>plot_rectangle plot_rectanglerot</command> function.
@@ -137,7 +155,7 @@ DOCBOOK END
 ******************************************************************************/
 
 void
-plot_setlinestart (plot_state * state, int x, int y)
+plot_setlinestart (plot_state * state, unsigned int x, unsigned int y)
 {
   plot_endline (state);
   state->line = (plot_lineseg *) malloc (sizeof (plot_lineseg));
@@ -158,7 +176,7 @@ PURPOSE add a straight line segment to the polygon
 
 SYNOPSIS START
 #include&lt;libplot.h&gt;
-void plot_addlinesegment (plot_state *state, int x, int y);
+void plot_addlinesegment (plot_state *state, unsigned int x, unsigned int y);
 SYNOPSIS END
 
 DESCRIPTION This function adds a straight line segment to the polygon currently being drawn. The line travels from the current pen location (the end of the previous drawing command, or <command>plot_setlinestart</command> function call), to the point specified.
@@ -181,7 +199,7 @@ DOCBOOK END
 ******************************************************************************/
 
 void
-plot_addlinesegment (plot_state * state, int x, int y)
+plot_addlinesegment (plot_state * state, unsigned int x, unsigned int y)
 {
   // Find the end of the line
   plot_lineseg *current;
@@ -204,22 +222,22 @@ plot_addlinesegment (plot_state * state, int x, int y)
 }
 
 void
-plot_addcubiccurvesegment (plot_state * state, int x1, int y1, int x2, int y2,
-			   int x3, int y3)
+plot_addcubiccurvesegment (plot_state * state, unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2,
+			   unsigned int x3, unsigned int y3)
 {
   fprintf (stderr, "todo\n");
 }
 
 void
-plot_addquadraticcurvesegmentone (plot_state * state, int x1, int y1,
-				  int x2, int y2)
+plot_addquadraticcurvesegmentone (plot_state * state, unsigned int x1, unsigned int y1,
+				  unsigned int x2, unsigned int y2)
 {
   fprintf (stderr, "todo\n");
 }
 
 void
-plot_addquadraticcurvesegmenttwo (plot_state * state, int x1, int y1,
-				  int x2, int y2)
+plot_addquadraticcurvesegmenttwo (plot_state * state, unsigned int x1, unsigned int y1,
+				  unsigned int x2, unsigned int y2)
 {
   fprintf (stderr, "todo\n");
 }
@@ -354,9 +372,10 @@ plot_strokeline (plot_state * state)
 {
   // todo: support for non straight lines
   plot_lineseg *current;
-  unsigned int x1, y1, c;
+  unsigned int x1, y1, c, d;
   unsigned int rise, run;
   float newy;
+  int prevy;
 
   if (state->line == NULL)
     return;
@@ -387,12 +406,25 @@ plot_strokeline (plot_state * state)
 	}
       else
 	{
+	  rise = current->y - y1;
+	  run = current->x - x1;
+
 	  for (c = plot_min (x1, current->x);
 	       c < plot_max (x1, current->x) + 1; c++)
 	    {
-	      rise = current->y - y1;
-	      run = current->x - x1;
+	      prevy = (int) newy;
 	      newy = ((float) rise / run) * c;
+
+	      if(c == plot_min (x1, current->x))
+		prevy = (int) newy;
+
+	      if(abs(prevy - (int) newy) > 1){
+		for(d = plot_min(prevy, (int) newy); 
+		    d < plot_max(prevy, (int) newy); d++){
+		  state->raster[state->x * d + c - 1] = state->linecolor;
+		}
+	      }
+
 	      state->raster[state->x * ((int) newy) + c] = state->linecolor;
 	    }
 	}
@@ -516,7 +548,7 @@ PURPOSE draw a rectangle
 
 SYNOPSIS START
 #include&lt;libplot.h&gt;
-void plot_rectangle plot_rectanglerot (plot_state *state, int x1, int y1, int x2, int y2);
+void plot_rectangle plot_rectanglerot (plot_state *state, unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2);
 SYNOPSIS END
 
 DESCRIPTION Draw a rectangle on the plot. x1, y1 is the top left corner, and x2, y2 is the bottom right corner of the rectangle. After this call you can use <command>plot_strokeline</command> and <command>plot_fillline</command> to actaully affect the raster.
@@ -537,7 +569,8 @@ DOCBOOK END
 ******************************************************************************/
 
 void
-plot_rectangle (plot_state * state, int x1, int y1, int x2, int y2)
+plot_rectangle (plot_state * state, unsigned int x1, unsigned int y1, 
+		unsigned int x2, unsigned int y2)
 {
   plot_setlinestart (state, x1, y1);
   plot_addlinesegment (state, x2, y1);
@@ -548,10 +581,17 @@ plot_rectangle (plot_state * state, int x1, int y1, int x2, int y2)
 
 // todo: this signature makes little sense
 void
-plot_rectanglerot (plot_state * state, int x1, int y1,
-		   int x2, int y2, float angle)
+plot_rectanglerot (plot_state * state, unsigned int x1, unsigned int y1,
+		   unsigned int x2, unsigned int y2, float angle)
 {
   fprintf (stderr, "todo\n");
+}
+
+void
+plot_circle (plot_state * state, unsigned int x, unsigned int y, 
+	     unsigned int r)
+{
+
 }
 
 ///////////////////
