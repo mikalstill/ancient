@@ -17,3 +17,6 @@ output.html: output.sgml
 	db2html --nochunks output.sgml
 	mv output/output.html .
 	rm -rf output
+
+output.txt: output.rtf
+	unrtf --text output.rtf > output.txt

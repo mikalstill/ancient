@@ -1,0 +1,262 @@
+### Translation from RTF performed by UnRTF, version 0.19.2
+### For information about this marvellous program,
+### please go to http://www.gnu.org/software/unrtf/unrtf.html
+### document uses ANSI character set
+### font table contains 2 fonts total
+
+-----------------
+Resume
+Michael Still
+1. Personal details
+I am a resident of Canberra, Australia. I also hold Australian citizenship.
+I may be contacted at:
+ email mikal@stillhq.com
+ phone +61414 382 568
+ postal 33 Fred lane Cres, Gordon, ACT, 2906, Australia
+2. Academic qualifications
+I possess a Higher School Certificate (year 12) from Canberra Grammar School, in which I was rated in the top 10% of the state for almost all of my subjects, and was in the top 10% of the state overall.
+I also hold a Bachelor of Computer Engineering (BEng) from University of Canberra, with first class honors. I started this degree in 1996, and completed it in 2003, having studied part time for the majority of the degree. I am currently undertaking a part-time PhD at the Australian National University, looking into methods of computer assisting device driver development.
+3. Industry certifications
+I currently hold the LPI LPIC-1 certification.
+4. Industrial qualifications
+I have been trained in the following fields (this does not include on the job training and experience): 
+?        
+Solaris system administration
+?        
+Windows NT system administration
+?        
+Oracle database administration
+?        
+Prince II project management methodology
+?        
+FileNET EDMS and Workflow products
+?        
+C++ development
+?        
+TRIM Records Management, EDMS and Workflow products
+?        
+Server 2003 certification for ISV software products
+?        
+Microsoft .NET development (essentials and industrial strength)
+5. Personal projects
+I have worked on the following personal projects, many of them licensed under and Open Source license of some form:
+?        
+several DocBook packages, including a build engine, a formatted comment extraction system, a groff to DocBook converter, and partial responsibility for the kernel-doc infrastructure used for the Linux? kernel
+?        
+a techtonic movement visualization package, developed for researchers at University of Canberra and MIT
+?        
+a FAT file system decoder
+?        
+a proof of concept API implementation for the GNU privacy guard PGP implementation
+?        
+a simple rasterization library
+?        
+various Linux? kernel patches
+?        
+several PDF packages, including a generation API, a scripting front end to the generation API, a PDF parser API, and a simple editor
+?        
+several PNG image utilities
+?        
+a DNS server written in Bourne again shell (bash)
+?        
+a SnoopyPro, USB protocol analyzer log dumper
+?        
+...And many other smaller projects (see http://www.stillhq.com/extracted/ for a full list)
+It should be noted however, that I also have experience in developing commercial applications as well.
+6. Internet community
+I have previously been the author of the comp.text.pdf USENET frequently asked questions document.
+7. Professional bodies
+I have held the following positions within a variety of professional bodies:
+?        
+1997 - 1998: Chairman, Young Engineers Canberra, Institute of Engineers Australia
+?        
+2002 - 2003: Secretary, Canberra Chapter, the Australian Unix Users Group
+?        
+2003 onwards: Ordinary committee member, the Australian Unix Users Group
+?        
+2004 onwards: Ordinary committee member, Linux Australia
+8. Current employment
+I am currently employed as a senior software engineer with TOWER Software Pty Ltd. This work involves management of complex exploratory development efforts, as well as project and product management and system development for our commercial software products.
+The majority of my time is spent solving complex technical problems. These might be problems I have encountered myself while implementing a system, but also includes problems delegated from other members of the team. These problems have ranged from errors in complex pieces of code dealing with images at a bit level, network programming, system design and implementation, or solving problems related to Microsoft Windows development. I am also responsible for large amounts of development in areas which were previously poorly understood by TOWER.
+8.1. Examples of recent development experience
+The following examples of systems I have recently developed might be of some assistance.
+8.1.1. API work
+Panda, an open source PDF generation API. Panda supports all of the major PDF constructs, as well as containing JPEG, PNG and TIFF support. This involves low level manipulation of TIFF images into the subset of the TIFF specification that is supported by the PDF specification.
+PandaLex, an open source PDF parsing engine. This involves a bison and flex parser where some of the information parsed is binary. This library allows PandaEdit to support modification of existing PDF documents, as well as aid the reverse engineering required for development of support for linearized PDF.
+PandaScript, an open source scripting interface to Panda, which was developed using bison and flex.
+A Web Service version of the extensive TRIM SDK.
+8.1.2. Application work
+I have been involved with the implementation of various Internet based systems for IPAustralia, the Australian Patents, Trade Marks, and Designs offices. I have developed several large scale PDF generation applications for IPAustralia. These were developed in C using a PDF generation API, and partially led to the development of Panda.
+Development of a standard data loading infrastructure for IPAustralia capable of dealing with a large range of data input from CD ROMs, DVDs, tapes and scanning applications. This infrastructure is based on a UNIX server process, and is responsible for the loading of 99% of the corporate mission critical data.
+8.1.3. Large scaling image processing and storage
+A selection of imaging applications which involve low level manipulation of image data. These have used libtiff, libjpeg and are starting to use libpng. Types of applications developed include image conversion, text insertion and data extraction applications. These applications are developed as needed internally by IPAustralia.
+The ongoing maintenance and development of several corporate imaging systems, ranging for 9 million TIFF images, to 500,000 TIFF images, to 200,000 PDF documents.
+8.1.4. Commercial software development of a leading Records Management and EDMS product
+This has included implementation of the ODMA specification, the parsing of Microsoft structured storage files, MFC user interfaces, document content searching, a custom web server, and many other projects. Development was initially undertaken under win32 using COM and DCOM in C++. Subsequently some development work was undertaken in C# using the Microsoft .NET Framework and Microsoft .NET Compact Framework.
+8.1.5. System Testing
+I believe that proper testing of code before release is important. At one of my previous jobs (in the list below), I was a member of the team responsible for the testing of a complex Internet application for Australia's largest telecommunications company. This involved the generation of use cases, test scripts, the planning of regression, unit and occasionally acceptance testing, and the implementation of this testing.
+I have previously been responsible for the acceptance testing for the Windows and Unix APIs for an EDMS / Workflow suite from Objective Corporation.
+I have also liaised with the Quality Assurance team at TOWER Software on many occasions, and understand the issues involved with testing of complex commercial software packages.
+8.1.6. Kernel development
+I have a contributed a variety of patches to the Linux kernel, starting with the late part of the 2.5 development series. Many of these patches are janitorial in nature, although I have also worked on the kernel-doc documentation infrastructure. For more information about the current status of my kernel patches, you can check my patch tracker at: http://www.stillhq.com/cgi-bin/patchtrack?dir=linux/patches
+8.1.7. Other
+I have also been involved with many other coding and systems administration projects, the above a merely some recent highlights. These include web based, Windows based, and UNIX based systems. I have also undertaken mainframe integration work. I have been involved with the support of various mission critical systems.
+9. Expertise
+Below is a list of the expertise I have previously developed. I am confident in developing other areas of expertise as required.
+Development environments: GCC, GDB, Microsoft Visual Studio 6, Microsoft Visual Studio .NET (2002, 2003 and Whidbey), Borland C++ Builder, Borland JBuilder.
+Development tools:CVS, Visual Source Safe, dmalloc, ccache.
+Hardware: PC, Sun Microsystems and IBM RS/6000 series machines. I have also configured a variety of X Terminals, and Winterms, including devices from NCD, Labtam, and Wyse. My most recent work has focused on x86 based platforms.
+GUI toolkits: Java, Java Swing, Windows MFC, wxWindows, WinForms.
+Languages: C, C++, C# (C Sharp), Java, UNIX shell (Bourne and Bourne Again mainly), Perl, Bison / Yacc, Lex / Flex, Expect, M68000 assembly, limited x86 assembly, ASP, ASP.NET, Visual Basic, and Visual Basic.NET. I have tutored in software development methodologies, and software development at a University level.
+Markup formats: HTML, SGML (including DocBook), XML.
+Networking: Including Windows, Linux, FreeBSD, Cisco and Cabletron based solutions. Most of my knowledge revolves around TCP/IP and it's associated protocols such as RIP, BGP, OSPF, DHCP, DNS, et cetera. I have tutored in networking at a University level. I have also implemented DNS, SMTP, HTTP, and vCARD solely from reference to the relevant specifications and reference books.
+Operating systems: Linux, FreeBSD, Solaris, AIX, various Windows iterations. I have a variety of accepted patches in the Linux kernel. I have tutored in Operating Systems at a University level.
+Packaging / portability: autoconf, automake, libtool.
+10. Presentations
+I have given the following technical presentations:
+?        
+October 2000: Canberra Linux User's Group, Panda
+?        
+November 2000: Australian Open Source Symposium, Panda
+?        
+June 2001: Australian Open Source Symposium, 2D Imaging using Open Source
+?        
+September 2001: Australian Unix User's Group Annual Conference, Open Source PDF handling with Panda and PandaLex
+?        
+May 2002: Canberra Linux User's Group, TrivSQL: A SQL database implemented with tdb
+?        
+May 2002: Canberra Linux User's Group, Building an 802.11b access point with linux
+?        
+August 2002: Australian National University Guest Lecture COMP3410, Electronic Document Management with TRIM
+?        
+September 2002: Australian Unix User's Group Annual Conference, Graphics programming tutorial (cancelled due to lack of enrollments)
+?        
+September 2002: Australian Unix User's Group Annual Conference, Session Chair, Linux Kernel track
+?        
+October 2002: Canberra Linux User's Group, Using the autotools for your application
+?        
+November 2002: Australian Unix User's Group, Canberra Chapter Technical Symposium, Fixing whats wrong with bind: shdns
+?        
+April 2003: Canberra Linux User's Group, The PandaEdit PDF editor
+?        
+May 2003: Australian Unix User's Group, Canberra Chapter Technical Symposium, Open Source inservice for ACT secondary school teachers
+?        
+September 2003: Australian Unix User's Group Annual Conference, Session Chair, WWW track
+?        
+January 2004: linux.conf.au, Fixing what's wrong with Bind
+?        
+June 2004: Canberra Linux User's Group, An introductory FUSE tutorial
+?        
+July 2004: Ottawa Linux Symposium, An introductory FUSE tutorial
+?        
+September 2004: Australian National University Computer Science Seminar, An introductory FUSE tutorial
+?        
+September 2004: TRIM User's Forum IT Stream, The TRIM Web Service
+11. Publications
+I have had the following articles and papers published:
+?        
+September 2001: Australian Unix User's Group Annual Conference Proceedings, Open Source PDF handling with Panda and PandaLex
+?        
+March 2002: IBM Developer Works, Graphics programming with libtiff: Black and White
+?        
+May 2002: Australian Unix User's Group Newsletter (AUUGN), Graphics programming with libtiff: Black and White [reprint]
+?        
+June 2002: IBM Developer Works, Graphics programming with libtiff: gray scale and color images
+?        
+March 2003: Australian Unix User's Group Newsletter (AUUGN), Tuning and customizing a linux system (book review)
+?        
+July 2003: IBM Developer Works, Graphics from the command line: Flip, size, rotate, and more with ImageMagick (this item was subsequently linked to and discussed on Slashdot, Linux Weekly News, Linux Today, LinuxDevices.com, Linux.com / OSDN, linux.box.sk, and many other sites)
+?        
+August 2003: Linmagau, JPEG to MPEG conversion howto
+?        
+October 2003: Australian Unix User's Group Newsletter (AUUGN), Google Hacks (book review)
+?        
+October 2003: Australian Unix User's Group Newsletter (AUUGN), Checking C Programs with Lint (book review)
+?        
+October 2003: Australian Unix User's Group Newsletter (AUUGN), Essential CVS (book review)
+?        
+January 2004: Linux.conf.au Conference Proceedings, Fixing what's wrong with Bind
+?        
+March 2004: IBM Developer Works, More graphics from the command line
+12. Academic employment
+I have held the following academic positions, in addition to my full time career in the IT industry:
+?        
+2002: University of Canberra, Tutor, Distributed Systems Technology: 2 sessions (this is an introductory networking unit revolving around TCP/IP networks and their various protocols)
+?        
+2002: Australian National University, Guest lecturer, COMP 3410: Guest lecturer on Electronic Document Management, August 2002
+?        
+2003: University of Canberra, Tutor, Systems Software: 1 session (this is an Operating Systems unit)
+?        
+2003: Australian National University, Tutor, COMP 2210: 1 session (this is a software design methodology unit)
+?        
+2004: Australian National University, Tutor, COMP 3310: 2 sessions (this is a network programming and design unit)
+13. Employment history
+13.1. Senior Software Engineer, TOWER Software Engineering Pty Ltd
+August 2001 onward.
+?        
+Member of the team responsible for the server side coding for the world's leading Electronic Document Management and Records Management package, TRIM
+?        
+Implemented a wide range of technologies, including document content indexing, ODMA compliance et cetera
+13.2. Team Leader, IPAustralia
+November 1999 to August 2001.
+?        
+Manage a team of developers producing corporate imaging and storage solutions
+?        
+Lead C programmer for the organization
+?        
+Requirements analysis, system design and architecture and implementation for corporate systems
+?        
+Project management of the development portion of selected corporate projects
+?        
+Systems administration of a small number of development machines
+?        
+XML, HTML and SGML work, including coordinating the approach to these markup environments across the company
+13.3. Systems Administrator / Developer, IPAustralia
+March 1999 to November 1999.
+?        
+Systems administrator for FreeBSD, AIX and Solaris systems
+?        
+Developer (C, Java, UNIX shell, and Visual Basic)
+?        
+Supported existing systems in various languages (C, UNIX shell, and Perl)
+?        
+These tasks included a large amount of client liaison work, and systems analysis and design
+13.4. Network Manager, NATSEM, University of Canberra
+April 1998 to March 1999.
+?        
+Systems administrator for Solaris, Linux and Windows NT systems
+?        
+Support for Windows 95 desktop machines
+?        
+Support of various Cisco network hardware and the LAN infrastructure
+13.5. Department of Defense
+July 1998
+?        
+Java development
+13.6. Network Manager, Signadou campus, Australian Catholic University
+February 1998 to June 1998 and August 1997 to November 1997.
+?        
+Systems administrator for Windows NT servers
+?        
+Support of Windows 3.11, 95 and NT desktop clients
+?        
+Manage Cisco and Cabletron network hardware
+13.7. Network Support, Education and Management Faculties, University of Canberra
+August 1997 - April 1998.
+?        
+Systems administrator for Solaris, Macintosh and Windows NT systems
+?        
+Support of Windows 3.11, 95, NT, Macintosh and Linux desktop systems
+?        
+Manage network hardware from various vendors
+13.8. Software Tester, Aspect Computing
+February 1997 to September 1997.
+?        
+Planning and implementation of a testing plan for a large SQL Oracle database with HTML front end including development of test cases, unit, system, acceptance and regression testing and liaison with developers
+13.9. Explainer, Questacon
+August 1995 to July 1998.
+?        
+Explain varied exhibits to customers of widely varied educational, national and ethnic backgrounds
+14. Referees
+Douglas Jackson, of 33 Fred Lane Cres, Gordon ACT 2906 Australia has agreed to act as a referee. He may be contacted at doug.jackson@citadel.com.au.
+Further referees are available upon request.
