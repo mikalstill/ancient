@@ -183,8 +183,10 @@ cepView::OnDraw (wxDC * dc)
 	}
 
       // Set the title of the tab if we haven't already
-      if(frame->GetTitle() == "")
-	frame->SetTitle(string(theDataset->getName() + " - " + theDataset->getProcHistory()).c_str());
+      if(frame->GetTitle() == ""){
+	frame->SetTitle(string(theDataset->getName() + " - " + 
+			       theDataset->getProcHistory()).c_str());
+      }
       
       // If the size of the window has changed, then declare that we need to regenerate...
       int x, y;
