@@ -102,7 +102,7 @@ namespace
     void test2dFwdFft ()
     {
       int numTables = 1;
-      int numRows = 512;
+      int numRows = 256;
       int numCols = 2;
       int sinIndex = 0;
 
@@ -137,10 +137,10 @@ namespace
 	    cout << endl;
 	}
 
-      //cfft<ComplexDble> FFT (512); //nbuild operator object
-      cfft < ComplexDble > FFT (512);
+      //cfft<ComplexDble> FFT (256); //nbuild operator object
+      cfft < ComplexDble > FFT (256);
       
-      //ComplexDble Array[512];
+      //ComplexDble Array[256];
       cepMatrix < ComplexDble > myComplexMatrix(numRows,numCols,numTables);
 
       //....
