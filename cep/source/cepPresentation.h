@@ -51,7 +51,6 @@ public:
   void setLineColor(char red, char green, char blue);
   void setAverageColor(char red, char green, char blue);
   void setErrorColor(char red, char green, char blue);
-  void setView(view v);
 
   cepError createPDF (const string & filename);
   cepError createBitmap ();

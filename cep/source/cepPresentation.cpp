@@ -241,47 +241,34 @@ cepPresentation::createBitmap ()
   plot_endline(graph);
 
   // In the zoomed view, there might not be an x axis...
-  if((m_currentView == viewCentered) || 
-     ((m_currentView == viewZoomed) && (ymaxval > 0) && (yminval < 0))){
-    plot_setlinestart(graph, 10, (unsigned int) 
+  //  if((m_currentView == viewCentered) || 
+  //     ((m_currentView == viewZoomed) && (ymaxval > 0) && (yminval < 0))){
+  plot_setlinestart(graph, 10, (unsigned int) 
+		    ((yrange - 0 + yminval) / yscale + 10));
+  plot_addlinesegment(graph, m_width - 10, (unsigned int) 
 		      ((yrange - 0 + yminval) / yscale + 10));
-    plot_addlinesegment(graph, m_width - 10, (unsigned int) 
-			((yrange - 0 + yminval) / yscale + 10));
-    plot_strokeline(graph);
-    plot_endline(graph);
-  }
-  else cepDebugPrint("Skipping x axis");
-
+  plot_strokeline(graph);
+  plot_endline(graph);
+  //  }
+  //  else cepDebugPrint("Skipping x axis");
+  
   // Now draw the actual graph
   plot_setlinecolor(graph, m_lineColor.red, m_lineColor.green,
 		    m_lineColor.blue);
-  bool linestarted(false);
   for(unsigned int i = 0; i < m_data.size(); i++){
     if(m_data[i] != INVALID){
-      if(!linestarted){
-	cepDebugPrint("Graph point: " + cepToString(i + 10) + ", " +
-		      cepToString((yrange - m_data[i] + yminval) 
-				  / yscale + 10));
-	plot_setlinestart(graph, i + 10, (unsigned int)
-			  ((yrange - m_data[i] + yminval) / yscale + 10));
-	linestarted = true;
-      }
-      else{
-	cepDebugPrint("Graph point: " + cepToString(i + 10) + ", " +
-		      cepToString((yrange - m_data[i] + yminval) 
-				  / yscale + 10));
-	plot_addlinesegment(graph, i + 10, (unsigned int)
-			    ((yrange - m_data[i] + yminval) / yscale + 10));
-      }
+      unsigned int xpoint = i + 10;
+      unsigned int ypoint = (unsigned int) ((yrange - m_data[i] + yminval) / yscale + 10);
+
+      plot_setlinestart(graph, xpoint - 1, ypoint);
+      plot_addlinesegment(graph, xpoint, ypoint - 1);
+      plot_addlinesegment(graph, xpoint + 1, ypoint);
+      plot_addlinesegment(graph, xpoint, ypoint + 1);
+      plot_closeline(graph);
+      plot_strokeline(graph);
+      plot_endline(graph);
     }
   }
-
-  if(linestarted){
-    plot_strokeline(graph);
-    plot_endline(graph);
-  }
-  else
-    return cepError("No points to graph", cepError::sevErrorRecoverable);
 
   // Now put the text annotations onto the bitmap
   plot_setfontcolor(graph, 26, 22, 249);
@@ -447,7 +434,3 @@ void cepPresentation::setLineColor(char red, char green, char blue)
   m_lineColor.blue = blue;
 }
 
-void cepPresentation::setView(view v)
-{
-  m_currentView = v;
-}

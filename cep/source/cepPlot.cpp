@@ -95,13 +95,6 @@ cepPlot::cepPlot(cepDataset *theDataset, cepDataset::direction dir, string cfnam
   if(err.isReal()) err.display();
   pres.setErrorColor(red, green, blue);
   
-  // Which view?
-  int currentView;
-  err = config->getValue("ui-viewmenu-currentview", 
-			   (int) cepPresentation::viewCentered, currentView);
-  if(err.isReal()) err.display();
-  pres.setView((cepPresentation::view) currentView);
-  
   // Various textual labels
   pres.yAxisTitle("This is a foo");
 

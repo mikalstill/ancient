@@ -94,10 +94,13 @@ public:
   
   // Utility methods
   direction getDirectionFromName(string name);
+  string applyOffset(string value);
 
 private:
     string m_filename;
     string m_header[3];
+    string m_offset;
+
     cepDatasetProgressCB m_progress;
     vector < cep_datarow > m_datax, m_datay, m_dataz;
     bool m_ready;

@@ -76,8 +76,6 @@ BEGIN_EVENT_TABLE (cepView, wxView)
   EVT_MENU (CEPMENU_COLORAVERAGE, cepView::OnColorAverage)
   EVT_MENU (CEPMENU_COLORERROR, cepView::OnColorError)
   EVT_MENU (CEPMENU_ELIMINATEOUTLIERS, cepView::OnEliminateOutliers)
-  EVT_MENU (CEPMENU_VIEWCENTERED, cepView::OnViewCentered)
-  EVT_MENU (CEPMENU_VIEWZOOMED, cepView::OnViewZoomed)
   EVT_MENU (CEPMENU_SHOWX, cepView::OnToggleX)
   EVT_MENU (CEPMENU_SHOWY, cepView::OnToggleY)
   EVT_MENU (CEPMENU_SHOWZ, cepView::OnToggleZ)
@@ -417,40 +415,6 @@ void cepView::OnEliminateOutliers(wxCommandEvent& event)
   // todo_mikal: not implemented at this time (and disabled in the menu)
   cepEliminateDialog elim;
   elim.display();
-}
-
-void cepView::OnViewCentered(wxCommandEvent& event)
-{
-  wxMenuBar *bar = frame->GetMenuBar();
-  if(bar){
-    wxMenu* view_menu = bar->GetMenu(bar->FindMenu("View"));
-    if(view_menu){
-      view_menu->Check(CEPMENU_VIEWCENTERED, true);
-      view_menu->Check(CEPMENU_VIEWZOOMED, false);
-
-      m_config->setValue("ui-viewmenu-currentview",
-			 cepPresentation::viewCentered);
-      m_dirty = true;
-      canvas->Refresh();
-    }
-  }
-}
-
-void cepView::OnViewZoomed(wxCommandEvent& event)
-{
-  wxMenuBar *bar = frame->GetMenuBar();
-  if(bar){
-    wxMenu* view_menu = bar->GetMenu(bar->FindMenu("View"));
-    if(view_menu){
-      view_menu->Check(CEPMENU_VIEWCENTERED, false);
-      view_menu->Check(CEPMENU_VIEWZOOMED, true);
-
-      m_config->setValue("ui-viewmenu-currentview",
-			 cepPresentation::viewZoomed);
-      m_dirty = true;
-      canvas->Refresh();
-    }
-  }
 }
 
 void cepView::OnToggleX (wxCommandEvent &pevt)

@@ -395,30 +395,6 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
       
       view_menu->AppendSeparator();
       
-      view_menu->Append (CEPMENU_VIEWCENTERED, "View centered graphs",
-			 "Center the graphs around the horizontal axes",
-			 TRUE);
-      err = m_config->getValue("ui-viewmenu-viewcentered", true, confval);
-      if(err.isReal()){
-	view_menu->Check(CEPMENU_VIEWCENTERED, true);
-	err.display();
-      }
-      else
-	view_menu->Check(CEPMENU_VIEWCENTERED, confval);
-      
-      view_menu->Append (CEPMENU_VIEWZOOMED, "View zoomed graphs",
-			 "Zoom in on the interesting elements in the graph",
-			 TRUE);
-      err = m_config->getValue("ui-viewmenu-viewzoomed", false, confval);
-      if(err.isReal()){
-	view_menu->Check(CEPMENU_VIEWZOOMED, false);
-	err.display();
-      }
-      else
-	view_menu->Check(CEPMENU_VIEWZOOMED, confval);
-      
-      view_menu->AppendSeparator();
-      
       view_menu->Append(CEPMENU_SHOWX, "Show X",
 			"Show the X direction graph", TRUE);
       err = m_config->getValue("ui-viewmenu-showx", true, confval);

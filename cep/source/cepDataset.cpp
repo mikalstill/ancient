@@ -25,6 +25,7 @@
 
 cepDataset::cepDataset ():
   m_filename(""),
+  m_offset(""),
   m_ready(false),
   m_wellformed(false)
 {
@@ -126,7 +127,8 @@ cepError cepDataset::read (const string& filename)
 		// Break the line into it's columns, I prefer this to the strtok method we used to use...
 		cepStringArray sa(thisLine, " ");
 		row.date = atof(sa[0].c_str());
-		row.sample = atof(sa[1].c_str());
+		// todo_mikal: perhaps cache the float version of the offset in a member variable?
+		row.sample = atof(applyOffset(sa[1]).c_str()) - atof(m_offset.c_str());
 		row.error = atof(sa[2].c_str());
 		
 		if(lastRow.date == -1)
@@ -163,10 +165,12 @@ cepError cepDataset::read (const string& filename)
 	    else
 	      {
 		// This is a header / textual line -- perhaps it's even an offset line
+		m_header[1] += thisLine;
+
 		cepStringArray sa(thisLine, " ");
-		if(cepIsNumeric(sa[7].c_str()[0]))
+		if(cepIsNumeric(sa[6].c_str()[0]))
 		  {
-		    cepDebugPrint("Found offset " + sa[7]);
+		    m_offset = sa[6];
 		  }
 	      }
 	    
@@ -364,3 +368,31 @@ cepDataset::direction cepDataset::getDirectionFromName(string name)
   return dirX;
 }
 
+// The datasets have an offset which we need to apply. For instance:
+// m_offset = 425634.1235
+// value = 1.1234
+//
+// should result in 425631.1234
+string cepDataset::applyOffset(string value)
+{
+  // Remove the sign from the value
+  string newvalue;
+  cepDebugPrint("Value leading character is " + value.substr(0, 1));
+  if(value.substr(0, 1) == "-")
+    newvalue = value.substr(1, value.length() - 1);
+  else newvalue = value;
+  cepDebugPrint("New value is " + newvalue);
+
+  // Find the decimal points
+  cepStringArray offset(m_offset, ".");
+  cepStringArray val(newvalue, ".");
+  string retval;
+  
+  retval = offset[0].substr(0, offset[0].length() - val[0].length());
+  retval += newvalue;
+
+  cepDebugPrint("Offset calculation: offset = " + m_offset +
+		" value = " + newvalue);
+  cepDebugPrint("Resultant value = " + retval);
+  return retval;
+}

@@ -47,14 +47,9 @@ cepToString (long number)
 string
 cepToString (double number)
 {
-  /* 
-   * todo BS - check buffer again. I am pretty sure that doubles
-   * are 15 digit mantissa + 4 digit ordinate
-   * is it possible for all digits be displayed?
-   */
-  char buffer[10];
+  char buffer[20];
 
-  snprintf (buffer, 10, "%f", number);
+  snprintf (buffer, 20, "%f", number);
   return string (buffer);
 }
 
