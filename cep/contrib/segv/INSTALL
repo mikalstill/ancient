@@ -1,0 +1,3 @@
+NOTE THAT INSTALLING THIS SCRIPT CAN CAUSE PAIN... BOX NEVER BOOTING AGAIN KIND OF PAIN.
+
+This code / script has been taken from tridge's junk code directory on the samba CVS server. It uses ld.so magic to catch segmentation violations, and display a backtrace...
