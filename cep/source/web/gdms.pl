@@ -191,7 +191,7 @@ sub generateAndLink(){
 
     print STDERR "Filename is: $file\n";
 
-#    if(! -f $file){
+    if(! -f $file){
 	# We need to generate the image
 	print STDERR "Plot cache miss for ".$result->param('dataset')." ($dir)\n";
 	open COMMANDS, "> $tmpdir/gdms-$unique.cmd" or 
@@ -204,7 +204,7 @@ sub generateAndLink(){
 	`$gdms -b $tmpdir/gdms-$unique.cmd` or 
 	    die "GDMS execution error for: $gdms -b $tmpdir/gdms-$unique.cmd";
 	print STDERR "Return code as $?\n";
-#    }
+    }
     
     # Now link to that image
     return "<img src=\"$ploturl/".$result->param('dataset')."-$dir.png\">";
