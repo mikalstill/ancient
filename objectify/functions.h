@@ -215,7 +215,8 @@ INTERNAL  void panda_setproperty (panda_object *, int, int, int);
 ******************************************************************************/
 
   panda_page *panda_newtemplate (panda_pdf *, char *);
-  void panda_applytemplate (panda_pdf *, panda_page *, panda_page *);
+  // This one breaks objectify for now...
+INTERNAL  void panda_applytemplate (panda_pdf *, panda_page *, panda_page *);
 
 /******************************************************************************
   Text.c

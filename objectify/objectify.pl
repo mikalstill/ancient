@@ -109,7 +109,7 @@ foreach $key (keys %pointers){
 	# The constructor needs to take the reference to the parent
 	print "  C$class($class *passed_ptr";
 	if($family{$class} ne ""){
-	    print ", $family{$class}& passed_$family{$class}) :\n";
+	    print ", $family{$class}* passed_$family{$class}) :\n";
 	    print "    m_$family{$class}(passed_$family{$class})\n";
 	    print "    { m_ptr = passed_ptr; }\n";
 	}
@@ -126,7 +126,8 @@ foreach $key (keys %pointers){
 
 	while($argsarray[0] ne ""){
 	    ($rval, $fval, $aval) = split(/!/, shift @argsarray);
-	    	    
+	    $origargs = $aval;
+
 	    # Do we have a child relationship because of this function?
 	    $aval =~ s/$class[ \t\*]+[, ]*//;
 	    if($family{$class} ne ""){
@@ -169,8 +170,8 @@ foreach $key (keys %pointers){
 
 		# How about a parent pointer?
 		if($family{$class} ne ""){
-		    $origargs =~ s/$family{$class} \*/&$family{$class}/;
-		    $origargs =~ s/$family{$class}/$family{$class}/;
+		    $origargs =~ s/$family{$class} \*/$family{$class}/;
+		    $origargs =~ s/$family{$class}/m_$family{$class}/;
 		}
 
 		$fval =~ s/^\*//;
@@ -187,7 +188,7 @@ foreach $key (keys %pointers){
 	print "  $key m_ptr;\n";
 	
 	if($family{$class} ne ""){
-	    print "  $family{$class}& m_$family{$class}\n";
+	    print "  $family{$class}* m_$family{$class};\n";
 	}
 	
 	print "};\n\n";
