@@ -131,8 +131,9 @@ foreach $adate (@dates){
 	    for($i = 0; $i < $newcolnum; $i++){
 		$temp = $heading{$i};
 		$temp =~ s/[\/\.]/_/g;
+		$temp =~ s/\r*\n*$//;
 		if(! -e "colheader-$temp.jpg"){
-		    print STDERR "Generating column header $temp\n";
+		    print STDERR "Generating column header colheader-$temp.jpg\n";
 		    `convert -font helvetica -pointsize 10 -draw "text 1,10 $heading{$i}" -rotate -90 blank.jpg colheader-$temp.jpg`;
 		}
 		$headerhtml = $headerhtml . 
@@ -225,8 +226,9 @@ if($prevmonth ne ""){
     for($i = 0; $i < $newcolnum; $i++){
 	$temp = $heading{$i};
 	$temp =~ s/[\/\.]/_/g;
+	$temp =~ s/\r*\n*$//;
 	if(! -e "colheader-$temp.jpg"){
-	    print STDERR "Generating column header $temp\n";
+	    print STDERR "Generating column header colheader-$temp.jpg\n";
 	    `convert -font helvetica -pointsize 10 -draw "text 1,10 $heading{$i}" -rotate -90 blank.jpg colheader-$temp.jpg`;
 	}
 	$headerhtml = $headerhtml . 
