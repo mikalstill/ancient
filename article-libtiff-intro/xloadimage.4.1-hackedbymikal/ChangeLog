@@ -1,0 +1,2 @@
+2002-01-27 Michael Still mikal@stillhq.com
+	xview / xloadimage doesn't manage to view black and white images correctly. I think that this is because the image buffer assumes 8 bit images being input, instead of the libtiff 8 pixels to byte packing.

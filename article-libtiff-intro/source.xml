@@ -26,7 +26,7 @@
 <p>This article focuses on black and white TIFF images, there isn't enough space in the article to cover color images as well. These will be covered in another article in a later edition of DeveloperWorks.</p>
 
 <p><heading refname="hard" type="major" toc="yes">Coding for TIFF can be hard</heading>	
-Most file format specifications define some basic rules for the representation of the file. For instance, PNG<CHECKTHIS> (a compeditor to TIFF) documents are always big endian. TIFF doesn't mandate things like this though, here is a list of some of the seemingly basic things that it doesn't define:</p>
+Most file format specifications define some basic rules for the representation of the file. For instance, PNG (a compeditor to TIFF) documents are always big endian. TIFF doesn't mandate things like this though, here is a list of some of the seemingly basic things that it doesn't define:</p>
 
 <ul>
   <li>The byte order -- big endian, or little endian
