@@ -31,6 +31,10 @@ cepError processInterpLs (cepDataset * ds, double sampleRate,
 cepError processWindow (cepDataset * ds, const cepWindow wType, string desc,
 			int size, int overlap, string newcfname);
 cepError processFFT (cepDataset * ds, string newcfname);
-cepError processLsVCV (cepDataset * ds, int isReweight, cepDataset & normal,
-		       cepDataset & residual);
+cepError processLsVCV (cepDataset * ds, cepDataset::direction i,
+		       cepMatrix<double> & data, cepMatrix<double> & residual,
+		       double & b1, double & b2);
+cepError processLsVCV (cepDataset * ds, cepDataset::direction i, cepMatrix<double> &reweight,
+		       cepMatrix<double> & data, cepMatrix<double> & residual,
+		       double & b1, double & b2);
 cepError processLsRW (cepDataset * ds);

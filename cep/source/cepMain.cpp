@@ -81,6 +81,7 @@ main (int argc, char *argv[])
 	    {
 	      cepStringArray sa (line, " ");
 
+	      // Open a dataset
 	      if (sa[0] == "open")
 		{
 		  err = ds.read (sa[1]);
@@ -89,6 +90,8 @@ main (int argc, char *argv[])
 		      err.display ();
 		    }
 		}
+
+	      // Plot a dataset
 	      else if (sa[0] == "plot")
 		{
 		  float dummyscale1, dummyscale2;
@@ -105,6 +108,8 @@ main (int argc, char *argv[])
 		      cerr << "Plotting failed" << endl;
 		    }
 		}
+	      
+	      // Window a dataset
 	      else if (sa[0] == "window")
 		{
 		  cepError err;
@@ -142,6 +147,8 @@ main (int argc, char *argv[])
 		    cout << "Windowing failed: " << err.getMessage() << endl;
 		  }
 		}
+
+	      // Interpolate a dataset
 	      else if (sa[0] == "interp")
 		{
 		  int iType;
@@ -178,6 +185,8 @@ main (int argc, char *argv[])
 		    cout << "Windowing failed: " << err.getMessage() << endl;
 		  }
 		}
+
+	      // Perform a FFT on the dataset
 	      else if (sa[0] == "fft")
 		{
 		  cepError err = processFFT(&ds, sa[1]);
@@ -185,6 +194,14 @@ main (int argc, char *argv[])
 		    cout << "FFT failed: " << err.getMessage() << endl;
 		  }
 		}
+
+	      // Perform a LS regression on the dataset
+	      else if(sa[0] == "ls")
+		{
+		  
+		}
+
+	      // Unknown command
 	      else
 		{
 		  cepDebugPrint ("Command not found: " + sa[0]);

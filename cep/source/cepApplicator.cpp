@@ -339,11 +339,45 @@ processFFT (cepDataset * ds, string newcfname)
   return cepError ();
 }
 
+// A LS with automatic reweighting
 cepError
-processLsVCV (cepDataset * ds, int isReweight, cepDataset & normal,
-	      cepDataset & residual)
+processLsVCV (cepDataset * ds, cepDataset::direction i, cepMatrix<double> & data, 
+	      cepMatrix<double> & residual, double & b1, double & b2)
 {
-  return cepError ();
+  cepLs thisLs;
+  thisLs.cepDoVCV (*(ds->getMatrix (i)));
+  if(thisLs.getError().isReal() == true)
+    {
+      return thisLs.getError();
+    }  
+  
+  residual = thisLs.getResidual ();
+  data = thisLs.getDataset();
+  b1 = thisLs.getB1();
+  b2 = thisLs.getB2();
+
+  return cepError();
+}
+
+// A LS with a reweight
+cepError
+processLsVCV (cepDataset * ds, cepDataset::direction i, cepMatrix<double> & reweight,
+	      cepMatrix<double> & data, cepMatrix<double> & residual, 
+	      double & b1, double & b2)
+{
+  cepLs thisLs;
+  thisLs.cepDoVCV (*ds->getMatrix (i), reweight);
+  if(thisLs.getError().isReal() == true)
+    {
+      return thisLs.getError();
+    }
+
+  residual = thisLs.getResidual ();
+  data = thisLs.getDataset();
+  b1 = thisLs.getB1();
+  b2 = thisLs.getB2();
+
+  return cepError();
 }
 
 cepError

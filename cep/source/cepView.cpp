@@ -530,35 +530,23 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
       // User cancelled
       if(lsUi.getIsReweight() == -1)
 	return;
-
-      // todo_mikal: remove? lsUi.showWhichDir();
       
       // For each direction
       for(int i = 0; i < cepDataset::dirUnknown; i++)
 	{
 	  cepDebugPrint("Reweighting in the " + cepToString(i) + " direction");
-	  
-	  // All directions are currently processed. The lsUi.getWhichDir (dirNames[i]) call can be used
-	  // to make this optional later (where dirNames are: 'x', 'y', 'z')
 
 	  // Reweight if required
 	  if(lsUi.getIsReweight () == -1)
 	    return;
-
 	  if(lsUi.getIsReweight () == 1)
 	    {
-	      cepLs thisLs;
-	      thisLs.cepDoVCV (*theDataset->getMatrix ((cepDataset::direction) i));
-	      if(thisLs.getError().isReal() == true)
-		{
-		  thisLs.getError().display();
-		  return;
-		}  
-	      
-	      residuals[i] = thisLs.getResidual ();
-	      data[i] = thisLs.getDataset();
-	      b1s[i] = thisLs.getB1();
-	      b2s[i] = thisLs.getB2();
+	      cepError err = processLsVCV(theDataset, (cepDataset::direction) i, data[i], 
+					  residuals[i], b1s[i], b2s[i]);
+	      if(err.isReal()){
+		err.display();
+		return;
+	      }
 	    }
 	  
 	  // Otherwise, don't reweight
@@ -575,18 +563,14 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
 		  if (lsUi.getfNameP () != "")
 		    {
 		      cepMatrix<double> matP;
-		      cepLs thisLs;
 		      matP = cepReadMatrix (lsUi.getfNameP ());
-		      thisLs.cepDoVCV (*theDataset->getMatrix ((cepDataset::direction) i), matP);
-		      if(thisLs.getError().isReal() == true)
-			{
-			  thisLs.getError().display();
-			  return;
-			}
-		      residuals[i] = thisLs.getResidual ();
-		      data[i] = thisLs.getDataset();
-		      b1s[i] = thisLs.getB1();
-		      b2s[i] = thisLs.getB2();
+		      cepError err = processLsVCV(theDataset, (cepDataset::direction) i, 
+						  data[i], 
+						  residuals[i], b1s[i], b2s[i]);
+		      if(err.isReal()){
+			err.display();
+			return;
+		      }
 		    }
 		}
 	      else if (lsUi.getIsReadP () == 0)
@@ -624,41 +608,47 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
 		         fromDate = lsUi.getFromDate(),
 		         val = lsUi.getWeight();
 		  bool isDoVCV = lsUi.getDoVCV();
-      while(isDoVCV == false)
-      {
-        if((toDate != -1.0) && (fromDate != -1.0) && (val != -1.0))
-        {
-          populateMatP(matP, toDate, fromDate, val, *theDataset->getMatrix((cepDataset::direction) i));
-        }
-        else
-        {
-          //if user hits cancel
-          return;
-        }
 
-        lsUi.showWeight((theDataset->getMatrix((cepDataset::direction) i))->getValue(0,0),
-                        (theDataset->getMatrix((cepDataset::direction) i))->getValue((theDataset->getMatrix((cepDataset::direction) i))->getNumRows() -1,0),
-                         1.0);
-
-        toDate = lsUi.getToDate();
-        fromDate = lsUi.getFromDate();
-        val = lsUi.getWeight();
-        isDoVCV = lsUi.getDoVCV();
-      }
- 
-	    if(lsUi.getDoVCV())
-	    {
-	      cepLs thisLs;
-	      thisLs.cepDoVCV(*theDataset->getMatrix((cepDataset::direction) i), matP);
-	      residuals[i] = thisLs.getResidual ();
-	      data[i] = thisLs.getDataset();
-	      b1s[i] = thisLs.getB1();
-	      b2s[i] = thisLs.getB2();
-	    }
+		  while(isDoVCV == false)
+		    {
+		      if((toDate != -1.0) && (fromDate != -1.0) && (val != -1.0))
+			{
+			  populateMatP(matP, toDate, fromDate, val, 
+				       *theDataset->getMatrix((cepDataset::direction) i));
+			}
+		      else
+			{
+			  //if user hits cancel
+			  return;
+			}
+		      
+		      lsUi.showWeight((theDataset->getMatrix((cepDataset::direction) i))->
+				      getValue(0,0),
+				      (theDataset->getMatrix((cepDataset::direction) i))->
+				      getValue((theDataset->getMatrix((cepDataset::direction) i))->
+					       getNumRows() -1,0),
+				      1.0);
+		      
+		      toDate = lsUi.getToDate();
+		      fromDate = lsUi.getFromDate();
+		      val = lsUi.getWeight();
+		      isDoVCV = lsUi.getDoVCV();
+		    }
+		  
+		  if(lsUi.getDoVCV())
+		    {
+		      cepError err = processLsVCV(theDataset, (cepDataset::direction) i, 
+						  data[i], 
+						  residuals[i], b1s[i], b2s[i]);
+		      if(err.isReal()){
+			err.display();
+			return;
+		      }
+		    }
 		}
 	    }
 	}
-        
+      
       //////////////////////////////////////////////////////////////////////////////////////////
       // Now we can process the results of the LS regression (this includes popping up a new tab)
       
@@ -798,13 +788,11 @@ void cepView::OnWindowChebyshev (wxCommandEvent& event)
 void cepView::OnWindowHamming (wxCommandEvent& event)
 {
   uiProcessWindow(cepDataWindower::WINDOW_HAMMING, "Hamming Window");
-
 }
 
 void cepView::OnWindowHanning (wxCommandEvent& event)
 {
   uiProcessWindow(cepDataWindower::WINDOW_HANNING, "Hanning Window");
-
 }
 
 void cepView::OnWindowRect (wxCommandEvent& event)
