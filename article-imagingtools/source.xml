@@ -9,10 +9,9 @@ If known, specify the (skill) level, 1 to 5 -->
 <dw-article toc="auto" ratings="auto" level="1" localsite="worldwide" related_contents="auto">
 <id domino-uid=""/>
 
-<todo>
 <!-- META DATA 
 Enter unique keywords for this article in the content field. -->
-<meta name="keywords" content="Unique keywords for your article go here.  Case doesn't matter; no need to include both upper and lower case for same item.  Separate keywords with commas."/>
+<meta name="keywords" content="image, raster, imagemagick, convert, rotate, scale, thumbnail, resize, artistic"/>
 <!-- Fill in or leave blank for production to fill in.  -->
 <meta name="lastupdate" content="2003mmdd your-initials"/>
 
@@ -42,19 +41,14 @@ Create an author tag for each author. Provide author's company name, e-mail addr
 Fill in or leave blank for production to fill in.-->
 <date month="5" day="15" year="2003"/>
 
-<todo>
 <!-- ABSTRACT 
 Enter a brief summary of the article. Do not include any line breaks in the content. Do not worry about providing a "miniabstract."  Production will take care of that if it's necessary. -->
-<abstract miniabstract=""></abstract>
+<abstract miniabstract="">This article discusses commonly used image manipulations using command line tools, mainly from the imagemagick suite.</abstract>
 
 <!-- Ignore these lines. -->
 <column-info col-name="" col-icon=""/>
 <docbody>
 
-<!-- BEGIN THE BODY OF THE ARTICLE -->
-
-<!-- INTRODUCTORY PARAGRAPHS
-Every paragraph needs a <p> and </p>. -->
 <p>In previous articles, we've discussed imaging coding using libtiff. This article has a different focus, it discusses how to perform image manipulation using command line tools. This is something I do personally quite often, especially since I have picked up a couple of digital cameras, and now have to manage a library of several thousand happy snaps. It's an especially attractive option when you only want to perform a manipulation once or twice, and don't mind if it takes a little longer than it absolutely has to.</p>
 
 <p>This article takes the form of discussing specific problems as examples, but the concepts should be applicable to other problem spaces as well.</p>
@@ -95,7 +89,7 @@ convert -sample 80x40 input.jpg output.jpg
 </figure>
 
 <todo>
-<p>It looks a little like 8040 has had it's aspect ratio saved. I need to confirm this.  If you want to maintain the aspect ratio of the image, then you can use percentages, such as:</p>
+<p>Imagemagick will automatically respect the ratio created by the two sides of the image when it is resizing. This means that the aspect ratio of the new image will be the same as that of the previous image. In the example above, this means that the resized image is actually 53 by 40, instead of the requested 80 by 40.  Another way of specifying the size of the output image is to use percentages. This can be convenient if you're not sure of the size of the input image, or if you're not concerned with having the new image be an exact size. An example of how to use percentages is:</p>
 
 <heading refname="" type="code" toc="no" name="" alttoc="">Listing 2. Create a thumbnail which is a percentage of the old size</heading>
 <code type="section">
@@ -403,8 +397,12 @@ convert -charcoal 200 input.jpg output.jpg
 
 <heading refname="" type="minor" toc="no" name="" alttoc="">Colorize</heading>
 
-<todo>
-<p>What is colorizing?</p>
+<p>Colorizing is the process of blending the color of each pixel with a specified colour. The arguement to the effect is the color to blend with. This can either be specified as a percentage (which will be used for each of red, green, and blue), or as three percentages. It is also possible to provide either one of three actual values.</p>
+
+<sidebar>
+<heading refname="" type="sidebar" toc="no" name="" alttoc="">Specifying three values</heading>
+<p>To specify three values, one for each of the red, green and blue samples, use an arguement of the form <i>red/green/blue</i>, for example, 10/20/30 would mean red has a value of 10, green a value of 20, and blue a value of 30. You can also use percentages within this construct.</p>
+</sidebar>
 
 <heading refname="" type="code" toc="no" name="" alttoc="">Listing xxx. Applying a colorizing effect</heading>
 <code type="section">
@@ -534,21 +532,38 @@ convert -sample 25%x25% -spread 4 \
 
 <heading refname="" type="major" toc="yes" name="" alttoc="">Things to note about image manipulation</heading>
 
-<todo>
-<p>JPEG compression is great for large images such as photos. However, the compression is normally lossy (in that image data is thrown away as part of the compression process). This makes JPEG very poor for compressing text which needs to remain readable. The other thing to bear in mind is that the loss is accumulative -- see my previous DeveloperWorks article on color imaging with libtiff for more information on this.</p>
+<p>There are some things you should remember about image manipulation before you rush out and start modifying every image you own. Firstly, you should give some thought to what image format you are going to use long term, before you end up with many images in a format that you later regret. This is made especially easy, as you can use <i>convert</i> to change the format of the images, as discussed earlier in this article.</p>
 
-<todo>
-<p>Refer to libtiff article convering compression options</p>
+<p>JPEG compression is great for large images such as photos. However, the compression is normally lossy (in that image data is thrown away as part of the compression process). This makes JPEG very poor for compressing text which needs to remain readable. The other thing to bear in mind is that the loss is accumulative.</p>
+
+<p>PNG is normally a good choice for color images where you don't want accumulating loss to effect the quality of the image after a series of manipulations.</p>
+
+<p>See my previous DeveloperWorks article on color imaging with libtiff for more information on this topic, the URL is in the resources section at the end of this article.</p>
+
+<p>Also, you should remember that most of the manipulations shown in this article are one way. For example, once you've shrunk and image, that image data is gone. If you blow up the image again later, then the output will be quite pixelated. For example, let's take a picture, make a thumbnail, and then expand the image again. To save some space, I'll just include the before and after images here, and skip the intervening thumbnail.</p>
+
+<figure>	
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure xxx. A waterfall in Cairns</heading>
+<img src="waterfall.jpg" width="640" height="480" alt="A waterfall"/>
+</figure>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing xxx. Create a blocky image</heading>
+<code type="section">
+convert -sample 10% -sample 1000% input.jpg output.jpg
+</code>
+
+<p>This produces an image which looks like:</p>
+
+<figure>	
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure xxx. A blocky waterfall</heading>
+<img src="blocky.jpg" width="640" height="480" alt="A blocky waterfall"/>
+</figure>
+
+<p>I think you would have to agree, it's quite hard to see the waterfall in the finished picture, although unfocusing your eyes seems to help.</p>
 
 
 
 
-
-
-
-<!-- END THE BODY OF THE ARTICLE -->
-
-<!-- Ignore this line. -->
 </docbody>
 
 <!-- RELATED LIST
