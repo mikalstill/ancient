@@ -28,7 +28,9 @@
 #include <sys/mman.h>
 #include <sys/file.h>
 
+#ifdef DEVEL
 #include <tdb.h>
+#endif
 
 #include "config.h"
 
@@ -37,7 +39,10 @@
 char *target;
 char *backing;
 int verbose;
+
+#ifdef DEVEL
 TDB_CONTEXT *db;
+#endif
 
 /**********************************************************************
  Utility functions
@@ -753,13 +758,18 @@ int main(int argc, char *argv[])
       val = config_getstring(cfg, key);
       if(val)
 	verbose = atoi(val);
+
+#ifdef DEVEL
       snprintf(key, keylen, "%s/blockdb", argv[1]);
       tdbpath = config_getstring(cfg, key);
+#endif
 
       printf("Filesystem now serving requests...\n");
       printf("  target = %s\n", target);
       printf("  backing = %s\n", backing);
       printf("  verbosity = %d\n", verbose);
+
+#ifdef DEVEL
       printf("  block database = %s\n", tdbpath);
 
       /* Now open the TDB */
@@ -769,6 +779,7 @@ int main(int argc, char *argv[])
 	  perror("Couldn't open block database");
 	  exit(2);
 	}
+#endif
     }
   else
     {

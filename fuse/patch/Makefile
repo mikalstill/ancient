@@ -1,7 +1,7 @@
 # Generated automatically from Makefile.in by configure.
-# Makefile.in generated automatically by automake 1.4-p4 from Makefile.am
+# Makefile.in generated automatically by automake 1.4-p6 from Makefile.am
 
-# Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
+# Copyright (C) 1994, 1995-8, 1999, 2001 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
@@ -40,9 +40,9 @@ pkgincludedir = $(includedir)/fuse
 
 top_builddir = ..
 
-ACLOCAL = aclocal
+ACLOCAL = aclocal-1.4
 AUTOCONF = autoconf
-AUTOMAKE = automake
+AUTOMAKE = automake-1.4
 AUTOHEADER = autoheader
 
 INSTALL = /usr/bin/install -c
@@ -68,10 +68,10 @@ MAKEINFO = makeinfo
 PACKAGE = fuse
 RANLIB = ranlib
 VERSION = 1.1
-kernelsrc = /usr/src/linux-2.6.5-cset-20040413_2232-build
-kmoduledir = /lib/modules/2.6.5
-majver = 2.6
-subdirs = include patch contrib kernel lib util example
+kernelsrc = /usr/src/linux-2.4.23
+kmoduledir = /lib/modules/2.4.23
+majver = 2.4
+subdirs = include patch kernel lib util example contrib
 
 EXTRA_DIST = *.patch
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
