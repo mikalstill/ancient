@@ -3,6 +3,14 @@
 #include <vector>
 #include <string>
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#ifndef OBJECTMODEL_H
+#define OBJECTMODEL_H
+
+class dictionary;
 class object;
 class pdf;
 
@@ -23,6 +31,7 @@ class dictitem{
   void setValue(string value);
   void setValue(int num, int gen);
   void setValue(int integer);
+  void setValue(dictionary dict);
 
   diType getType();
   string getName();
@@ -52,16 +61,19 @@ class dictionary{
   bool getValue(string dname, pdf& thePDF, object& obj);
   bool getValue(string dname, string& value);
 
+  vector<dictitem> getItems();
+
  private:
   vector<dictitem> m_items;
 };
 
 class object{
  public:
-  object();
   object(int number, int generation);
+  object(const object& obj);
+  ~object();
 
-  object& operator=(object& other);
+  object operator=(const object& other);
 
   void addStream(char *stream, unsigned int streamLength);
   void addDictionary(dictionary dict);
@@ -120,3 +132,5 @@ class pdf{
 
   vector<object> m_objects;
 };
+
+#endif

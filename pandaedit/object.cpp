@@ -3,36 +3,77 @@
 #include "objectmodel.h"
 #include <stdio.h>
 
-object::object()
-{}
-
 object::object(int number, int generation):
   m_number(number),
-  m_generation(generation)
+  m_generation(generation),
+  m_stream(NULL)
 {
   printf("DEBUG: Created a new object %d %d\n", number, generation);
 }
 
-object& object::operator=(object& other)
+object::object(const object& other)
 {
-  printf("DEBUG: Copying object\n");
+  printf("DEBUG: Copy constructing object %d %d\n", other.m_number, other.m_generation);
   m_number = other.m_number;
   m_generation = other.m_generation;
   m_dictionary = other.m_dictionary;
-  printf("DEBUG: Stream to be copied is: %s %d\n", other.m_stream,
-	 other.m_streamLength);
-  //memcpy(m_stream, other.m_stream, strlen(other.m_stream));
-  m_streamLength = other.m_streamLength;
+
+  if(other.m_stream != NULL){
+    m_stream = new char [other.m_streamLength];
+    memcpy(m_stream, other.m_stream, other.m_streamLength);
+    m_stream[other.m_streamLength] = '\0';
+    m_streamLength = other.m_streamLength;
+    }
+  else{
+    m_stream = NULL;
+    m_streamLength = 0;
+  }
+  printf("DEBUG: Copied\n");
+}
+
+object::~object()
+{
+  printf("DEBUG: Deleting object %d %d\n", m_number, m_generation);
+  if(m_stream != NULL){
+    printf("DEBUG: Cleaning up stream 0x%08x\n", m_stream);
+    delete[] m_stream;
+    m_stream = NULL;
+  }
+  printf("DEBUG: Finished cleaning up\n");
+}
+
+object object::operator=(const object& other)
+{
+  printf("DEBUG: Copying object %d %d to %d %d\n", other.m_number, other.m_generation,
+	 m_number, m_generation);
+  m_number = other.m_number;
+  m_generation = other.m_generation;
+  m_dictionary = other.m_dictionary;
+  
+  if(m_stream != NULL)
+    delete[] m_stream;
+
+  if(other.m_stream != NULL){
+    m_stream = new char [other.m_streamLength];
+    memcpy(m_stream, other.m_stream, other.m_streamLength);
+    m_stream[other.m_streamLength] = '\0';
+    m_streamLength = other.m_streamLength;
+  }
+  else{
+    m_stream = NULL;
+    m_streamLength = 0;
+  }
   printf("DEBUG: Copied\n");
   return *this;
 }
 
 void object::addStream(char *streamData, unsigned int streamLength)
 {
-  //  memcpy(m_stream, streamData, streamLength);
-  //  m_streamLength = streamLength;
-  m_stream = strdup("Foobar");
-  m_streamLength = strlen("Foobar") + 1;
+  printf("DEBUG: Added a stream to object %d %d\n", m_number, m_generation);
+  m_stream = new char [streamLength];
+  memcpy(m_stream, streamData, streamLength);
+  m_stream[streamLength] = '\0';
+  m_streamLength = streamLength;
 }
 
 void object::addDictionary(dictionary dict)

@@ -29,6 +29,11 @@ void dictitem::setValue(int integer)
   m_int = integer;
 }
 
+void dictitem::setValue(dictionary dict)
+{
+  m_dictionary = dict.getItems();
+}
+
 dictitem::diType dictitem::getType()
 {
   return m_type;

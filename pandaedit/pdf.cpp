@@ -15,6 +15,7 @@ void pdf::setSpecVer(float version)
 
 void pdf::addObject(object theObject)
 {
+  printf("DEBUG: Adding object %d %d\n", theObject.getNumber(), theObject.getGeneration());
   m_objects.push_back(theObject);
 }
 

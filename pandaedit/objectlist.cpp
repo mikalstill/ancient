@@ -33,7 +33,7 @@ objectlist::objectlist(string input, pdf& thePDF):
 object objectlist::operator[](unsigned int i)
 {
   // todo_mikal: this is a hack
-  object foo;
+  object foo(-1, -1);
   object& obj = foo;
   m_pdf.findObject(m_objects[i].number, m_objects[i].generation, obj);
   return obj;

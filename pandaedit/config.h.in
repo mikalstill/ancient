@@ -1,0 +1,35 @@
+/* config.h.in.  Generated automatically from configure.in by autoheader.  */
+
+/* Define if you don't have vprintf but do have _doprnt.  */
+#undef HAVE_DOPRNT
+
+/* Define if you have the vprintf function.  */
+#undef HAVE_VPRINTF
+
+/* Define if you have the ANSI C header files.  */
+#undef STDC_HEADERS
+
+/* Define if you have the <stdio.h> header file.  */
+#undef HAVE_STDIO_H
+
+/* Define if you have the dmalloc library (-ldmalloc).  */
+#undef HAVE_LIBDMALLOC
+
+/* Define if you have the fl library (-lfl).  */
+#undef HAVE_LIBFL
+
+/* Define if you have the m library (-lm).  */
+#undef HAVE_LIBM
+
+/* Define if you have the mplot library (-lmplot).  */
+#undef HAVE_LIBMPLOT
+
+/* Define if you have the pandalex library (-lpandalex).  */
+#undef HAVE_LIBPANDALEX
+
+/* Name of package */
+#undef PACKAGE
+
+/* Version number of package */
+#undef VERSION
+

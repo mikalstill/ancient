@@ -1,3 +1,18 @@
+#include <stdarg.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <zlib.h>
+#include <ctype.h>
+
+#include <stack>
+
+#include <pandalex.h>
+
+#ifndef PANDAEDIT_H
+#define PANDAEDIT_H
+
+// Parsing interface
 void pandaedit_begindocument(int, va_list);
 void pandaedit_specversion(int, va_list);
 void pandaedit_objstart(int, va_list);
@@ -16,18 +31,6 @@ void pandaedit_dictitem_int(int, va_list);
 void pandaedit_stream(int, va_list);
 void pandaedit_procstream(char *, int, char *, int);
 
-// This data type is needed for pandaedit_stream and 
-// pandaedit_dictint
-typedef struct pandaedit_internal_dictint_list{
-  char *value;
-  int waiting;
-  int number;
-
-  char *stream;
-  int streamlen;
-  char *filter;
-
-  struct pandaedit_internal_dictint_list  *next; 
-} pandaedit_dictint_list;
-
 int pandaedit_atoi(char *);
+
+#endif

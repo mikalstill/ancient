@@ -58,3 +58,8 @@ bool dictionary::getValue(string dname, string& value)
 
   return false;
 }
+
+vector<dictitem> dictionary::getItems()
+{
+  return m_items;
+}
