@@ -59,7 +59,7 @@ object    : INT INT OBJ {
 #if defined DEBUG
   fprintf(stderr, "object %d %d\n", $1, $2);
 #endif
-                         } 
+                          } 
             DBLLT dict DBLGT stream ENDOBJ {}
           ;
 
@@ -100,15 +100,6 @@ objref    : INT INT OBJREF {}
           ;
 
 stream    : { binaryMode = 1; } binary ENDSTREAM {}
-          ;
-
-dict      : NAME STRING dict {}
-          | NAME NAME dict {}
-          | NAME ARRAY arrayvals ENDARRAY dict {}
-          | NAME objref dict {}
-          | NAME DBLLT dict DBLGT dict {}
-          | NAME INT dict {}
-          |
           ;
 
 arrayvals : objref arrayvals {}
