@@ -1,0 +1,4 @@
+ "Test mb_TID1_GPS -a no -e yes -x yes -y no -z no -c failed"
+ "Test mb_TID1_GPS -a no -e no -x yes -y no -z no -c failed"
+ "Test mb_TID1_GPS -a yes -e yes -x yes -y no -z no -c failed"
+ "Test mb_TID1_GPS -a yes -e no -x yes -y no -z no -c failed"
