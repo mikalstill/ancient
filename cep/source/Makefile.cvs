@@ -1,21 +1,20 @@
+# Revision History
+# 
+#  $Log: not supported by cvs2svn $
+#
 
 all:
+	@echo ""
 	@echo "This Makefile is only for the CVS repository"
 	@echo "This will be deleted before making the distribution"
 	@echo ""
 	@if test ! -d config; then \
-	   echo "*** creating config directory" ;\
-	   @mkdir config;\
+	   echo "*** creating config directory" ; \
+	   mkdir config; \
 	fi
 	@if test ! -f config\ltmain.sh; then \
-	   @echo "*** fetching ltmain.sh"; \
-	   @cp `locate ltmain.sh | grep libtool` config/; \
-	   @if ! $? -eq 0; then \
-	     @echo "*** unable to locate ltmain.sh"; \
-	     @echo "*** try running 'locate ltmain.sh' and finding the file yourself"; \
-	     @echo "*** it should be somewhere like /usr/chare/libtool-xxx"
-	     @exit 1
-	  fi
+	   echo "*** locating ltmain.sh"; \
+	   ln -s `locate ltmain.sh | grep libtool` config/ltmain.sh; \
 	fi
 	@echo "*** Retrieving configure tests needed by configure.in"
 	@aclocal
