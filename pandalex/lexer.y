@@ -136,7 +136,7 @@ objref    : INT INT OBJREF { if(($$ = (char *) malloc((intlen($1) + intlen($2) +
 			                       }
           ;
 
-stream    : STREAM { binaryMode = 1; } binary ENDSTREAM { pandalex_callback(gpandalex_callback_stream, streamFilter, streamLength, streamLengthObjRef, $3); free($3); }
+stream    : STREAM { binaryMode = 1; } binary ENDSTREAM { printf("filter = %s, length = %d, lengthObj = %s\n", streamFilter, streamLength, streamLengthObjRef); pandalex_callback(gpandalex_callback_stream, streamFilter, streamLength, streamLengthObjRef, $3); free($3); }
           |
           ;
 

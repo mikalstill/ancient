@@ -113,7 +113,8 @@ void pandalex_sample_stream(int event, va_list argptr){
       pandalex_sample_procstream(filter, length, streamData);
     }
     else{
-      fprintf(stderr, "Stream with length having undefined meaning\n");
+      fprintf(stderr, "Stream with length having undefined meaning %d\n",
+	      length);
       exit(44);
     }
   }
@@ -127,6 +128,8 @@ void pandalex_sample_dictint(int event, va_list argptr){
 
 void pandalex_sample_procstream(char *filter, int length, char *data){
   // Do something with the stream
+  printf("Do something with the stream\n");
+
 }
 
 
