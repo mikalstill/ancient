@@ -12,7 +12,15 @@ This chapter will focus on the libpng library.
 <sect1><title>Introduction</title>
 <para>
 ...
+
+A bunch of the examples in this chapter are based on the pngitools code I wrote a while ago, which I have updated as part of writing this chapter.
 </para>
+
+<sidebar><title>Refer to the TIFF chapter</title>
+<para>
+Much of the discussion in this chapter will make a whole bunch more sense if you've read the TIFF chapter. Off you go, I'll wait for you to come back...
+</para>
+</sidebar>
 </sect1>
 
 <sect1><title>Installation</title>
@@ -37,6 +45,25 @@ This chapter will focus on the libpng library.
 <para>
 ...
 </para>
+</sect1>
+
+<sect1><title>Opening a PNG file</title>
+<para>
+...
+</para>
+</sect1>
+
+<sect1><title>PNG tags</title>
+<para>
+...
+</para>
+
+<sect2><title>pnginfo</title>
+<para>
+The <command>pnginfo</command> command implemented here is modelled on the <command>tiffinfo</command>, which was discussed in the TIFF chapter earlier in this tutorial. In fact, the output text is written to be as close to the <command>tiffinfo</command> command as possible.
+</para>
+
+<execute><cmd>code2db.pl</cmd><input>~mikal/opensource/pngtools/pnginfo.c</input></execute>
 </sect1>
 
 <sect1><title>Conclusion</title>

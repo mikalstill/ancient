@@ -10,7 +10,7 @@
 <execute><cmd>builddb.pl</cmd><input>concepts.sgml</input></execute>
 <execute><cmd>builddb.pl</cmd><input>theory.sgml</input></execute>
 <execute><cmd>builddb.pl</cmd><input>tiff.sgml</input></execute>
-<execute><cmd>builddb.pl</cmd><input>png.sgml</input</execute>
+<execute><cmd>builddb.pl</cmd><input>png.sgml</input></execute>
 <execute><cmd>builddb.pl</cmd><input>jpeg.sgml</input></execute>
 
 <sect1><title>Further reading</title>
