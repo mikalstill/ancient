@@ -8,6 +8,6 @@ libpandalex_la_SOURCES = parser.y lexer.l tdb.c spinlock.c
 pandalexincludedir = $(includedir)
 pandalexinclude_HEADERS = pandalex.h
 
-noinst_PROGRAMS = sample
-sample_SOURCES = samples.c
+noinst_PROGRAMS = example
+example_SOURCES = samples.c
 
