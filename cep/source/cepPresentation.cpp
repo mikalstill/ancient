@@ -260,7 +260,7 @@ cepPresentation::createBitmap (float& scale, long& minval)
     err.display();
     fontfile = "n022003l.pfb";
   }
-  plot_setfont(graph, (char *) fontfile.c_str(), 12);
+  plot_setfont(graph, (char *) fontfile.c_str(), 10);
 
   // Minimum value horizontal
   const int textHeight = 5;
