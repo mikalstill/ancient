@@ -119,7 +119,7 @@ cepView::OnClose (bool deleteWindow)
   // and the canvas stays.
   canvas->Clear ();
   canvas->view = (wxView *) NULL;
-  canvas = (MyCanvas *) NULL;
+  canvas = (cepCanvas *) NULL;
 
   wxString s (wxTheApp->GetAppName ());
   if (frame)
@@ -141,10 +141,10 @@ cepView::OnClose (bool deleteWindow)
  * Window implementations
  */
 
-BEGIN_EVENT_TABLE (MyCanvas, wxScrolledWindow)
-EVT_MOUSE_EVENTS (MyCanvas::OnMouseEvent) END_EVENT_TABLE ()
+BEGIN_EVENT_TABLE (cepCanvas, wxScrolledWindow)
+EVT_MOUSE_EVENTS (cepCanvas::OnMouseEvent) END_EVENT_TABLE ()
 // Define a constructor for my canvas
-MyCanvas::MyCanvas (wxView * v, wxFrame * frame, const wxPoint & pos, const wxSize & size, long style):
+cepCanvas::cepCanvas (wxView * v, wxFrame * frame, const wxPoint & pos, const wxSize & size, long style):
 wxScrolledWindow (frame, -1, pos, size, style)
 {
   view = v;
@@ -152,7 +152,7 @@ wxScrolledWindow (frame, -1, pos, size, style)
 
 // Define the repainting behaviour
 void
-MyCanvas::OnDraw (wxDC & dc)
+cepCanvas::OnDraw (wxDC & dc)
 {
   if (view)
     view->OnDraw (&dc);
@@ -161,7 +161,7 @@ MyCanvas::OnDraw (wxDC & dc)
 // This implements a tiny doodling program. Drag the mouse using
 // the left button.
 void
-MyCanvas::OnMouseEvent (wxMouseEvent & event)
+cepCanvas::OnMouseEvent (wxMouseEvent & event)
 {
   if (!view)
     return;

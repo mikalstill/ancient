@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     04/01/98
-// RCS-ID:      $Id: cepUI.h,v 1.3 2002-06-02 10:53:15 u964076 Exp $
+// RCS-ID:      $Id: cepUI.h,v 1.4 2002-06-02 20:29:58 u964076 Exp $
 // Copyright:   (c) Julian Smart and Markus Holzem
 // Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////
@@ -21,10 +21,10 @@
 class wxDocManager;
 
 // Define a new application
-class MyApp:public wxApp
+class cepApp:public wxApp
 {
 public:
-  MyApp (void);
+  cepApp (void);
   bool OnInit (void);
   int OnExit (void);
 
@@ -35,24 +35,24 @@ protected:
     wxDocManager * m_docManager;
 };
 
-DECLARE_APP (MyApp)
+DECLARE_APP (cepApp)
 // Define a new frame
-     class MyCanvas;
-     class MyFrame:public wxDocMDIParentFrame
+     class cepCanvas;
+     class cepFrame:public wxDocMDIParentFrame
      {
-     DECLARE_CLASS (MyFrame) public:
+     DECLARE_CLASS (cepFrame) public:
        wxMenu * editMenu;
 
-       MyFrame (wxDocManager * manager, wxFrame * frame,
+       cepFrame (wxDocManager * manager, wxFrame * frame,
 		const wxString & title, const wxPoint & pos,
 		const wxSize & size, long type);
 
        void OnAbout (wxCommandEvent & event);
-       MyCanvas *CreateCanvas (wxView * view, wxFrame * parent);
+       cepCanvas *CreateCanvas (wxView * view, wxFrame * parent);
 
        DECLARE_EVENT_TABLE ()};
 
-     extern MyFrame *GetMainFrame (void);
+     extern cepFrame *GetMainFrame (void);
 
 #define DOCVIEW_CUT     1
 #define DOCVIEW_ABOUT   2

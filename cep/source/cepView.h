@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     04/01/98
-// RCS-ID:      $Id: cepView.h,v 1.2 2002-06-02 10:53:16 u964076 Exp $
+// RCS-ID:      $Id: cepView.h,v 1.3 2002-06-02 20:29:58 u964076 Exp $
 // Copyright:   (c) Julian Smart and Markus Holzem
 // Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////
@@ -18,12 +18,12 @@
 
 #include "wx/docview.h"
 
-class MyCanvas:public wxScrolledWindow
+class cepCanvas:public wxScrolledWindow
 {
 public:
   wxView * view;
 
-  MyCanvas (wxView * v, wxFrame * frame, const wxPoint & pos,
+  cepCanvas (wxView * v, wxFrame * frame, const wxPoint & pos,
 	    const wxSize & size, long style);
   virtual void OnDraw (wxDC & dc);
   void OnMouseEvent (wxMouseEvent & event);
@@ -44,11 +44,11 @@ class cepView:public wxView
 {
 public:
   wxFrame * frame;
-  MyCanvas *canvas;
+  cepCanvas *canvas;
 
     cepView ()
   {
-    canvas = (MyCanvas *) NULL;
+    canvas = (cepCanvas *) NULL;
     frame = (wxFrame *) NULL;
   }
    ~cepView ()

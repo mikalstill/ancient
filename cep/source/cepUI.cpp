@@ -53,9 +53,9 @@
 #include "cepDoc.h"
 #include "cepView.h"
 
-MyFrame *frame = (MyFrame *) NULL;
+cepFrame *frame = (cepFrame *) NULL;
 
-IMPLEMENT_APP (MyApp) MyApp::MyApp (void)
+IMPLEMENT_APP (cepApp) cepApp::cepApp (void)
 {
   m_docManager = (wxDocManager *) NULL;
   
@@ -68,7 +68,7 @@ IMPLEMENT_APP (MyApp) MyApp::MyApp (void)
 }
 
 bool
-MyApp::OnInit (void)
+cepApp::OnInit (void)
 {
   // Create a document manager
   m_docManager = new wxDocManager;
@@ -81,7 +81,7 @@ MyApp::OnInit (void)
 
   // Create the main frame window
   frame =
-    new MyFrame ((wxDocManager *) m_docManager, (wxFrame *) NULL,
+    new cepFrame ((wxDocManager *) m_docManager, (wxFrame *) NULL,
 		 (const wxString) "Techtonic Information Transform System", wxPoint (0, 0), wxSize (1000, 700),
 		 wxDEFAULT_FRAME_STYLE);
 
@@ -139,7 +139,7 @@ MyApp::OnInit (void)
 }
 
 int
-MyApp::OnExit (void)
+cepApp::OnExit (void)
 {
   delete m_docManager;
   return 0;
@@ -151,7 +151,7 @@ MyApp::OnExit (void)
  */
 
 wxMDIChildFrame *
-MyApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
+cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
 {
   // Make a child frame
   wxDocMDIChildFrame *subframe =
@@ -219,14 +219,14 @@ MyApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
  * This is the top-level window of the application.
  */
 
-IMPLEMENT_CLASS (MyFrame, wxDocMDIParentFrame) BEGIN_EVENT_TABLE (MyFrame, wxDocMDIParentFrame) EVT_MENU (DOCVIEW_ABOUT, MyFrame::OnAbout) END_EVENT_TABLE ()MyFrame::MyFrame (wxDocManager * manager, wxFrame * frame, const wxString & title, const wxPoint & pos, const wxSize & size, long type):
+IMPLEMENT_CLASS (cepFrame, wxDocMDIParentFrame) BEGIN_EVENT_TABLE (cepFrame, wxDocMDIParentFrame) EVT_MENU (DOCVIEW_ABOUT, cepFrame::OnAbout) END_EVENT_TABLE ()cepFrame::cepFrame (wxDocManager * manager, wxFrame * frame, const wxString & title, const wxPoint & pos, const wxSize & size, long type):
 wxDocMDIParentFrame (manager, frame, -1, title, pos, size, type, "myFrame")
 {
   editMenu = (wxMenu *) NULL;
 }
 
 void
-MyFrame::OnAbout (wxCommandEvent & WXUNUSED (event))
+cepFrame::OnAbout (wxCommandEvent & WXUNUSED (event))
 {
   (void)
     wxMessageBox
@@ -236,16 +236,16 @@ MyFrame::OnAbout (wxCommandEvent & WXUNUSED (event))
 
 // Creates a canvas. Called from view.cpp when a new drawing
 // view is created.
-MyCanvas *
-MyFrame::CreateCanvas (wxView * view, wxFrame * parent)
+cepCanvas *
+cepFrame::CreateCanvas (wxView * view, wxFrame * parent)
 {
   int width, height;
   parent->GetClientSize (&width, &height);
 
   // Non-retained canvas
-  MyCanvas *canvas =
-    new MyCanvas (view, parent, wxPoint (0, 0), wxSize (width, height), 0);
-  canvas->SetCursor (wxCursor (wxCURSOR_PENCIL));
+  cepCanvas *canvas =
+    new cepCanvas (view, parent, wxPoint (0, 0), wxSize (width, height), 0);
+  // canvas->SetCursor (wxCursor (wxCURSOR_PENCIL));
 
   // Give it scrollbars
   canvas->SetScrollbars (20, 20, 50, 50);
@@ -253,7 +253,7 @@ MyFrame::CreateCanvas (wxView * view, wxFrame * parent)
   return canvas;
 }
 
-MyFrame *
+cepFrame *
 GetMainFrame (void)
 {
   return frame;
