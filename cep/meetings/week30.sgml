@@ -1,0 +1,40 @@
+<chapter id="meetings-week30"><title>Semester Two, Week 09</title>
+<para>
+
+</para>
+
+<sect1><title>Sunday 22nd September</title>
+<para>
+This meeting ran from 2.00 to 17.00
+<orderedlist>
+<listitem><para>Doccumentation</para></listitem>
+<listitem><para>Autodocbook/para></listitem>
+<listitem><para>Docbooktools</para></listitem>
+<listitem><para>Testing</para></listitem>
+</orderedlist>
+</para>
+
+<para>
+<emphasis>This was an informal meeting to discuss issues relating to mainly doccumentation and also testing.</emphasis>
+</para>
+
+<para>
+In attendance at the meeting
+<orderedlist>
+<listitem><para>Daniel</para></listitem>
+listitem><para>Michael</para></listitem>
+</orderedlist>
+</para>
+
+<sect2><title>Action items</title>
+
+<para>
+<orderedlist>
+<listitem><para>Daniel to be responsible for constructing the doccumentation from the comments placed in source files.</para></listitem>
+</orderedlist>
+</para>
+
+</sect2>
+</sect1>
+
+</chapter>
