@@ -1,9 +1,11 @@
 Outline for the article:
 
  - Introduction: what is tiff, what is libtiff, Adobe's involvement
-
- - Focus on black and white, the principles are the same for colour
-    - A later article?
+    - What is TIFF
+    - What is Libtiff
+    - Adobe's name
+    - Why can TIFF coding be hard?
+    - Focus on black and white, the principles are the same for colour
 
  - The easy part: writing a tiff file out
     - Making a bitmap

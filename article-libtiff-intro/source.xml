@@ -6,42 +6,43 @@
 
 <!-- IF THIS IS PART OF A SERIES, ENTER SERIES TITLE BELOW.   OTHERWISE, REMOVE THIS TAG.  DO NOT END TEXT WITH A COLON;  THE STYLESHEET HANDLES THIS-->
    <seriestitle>[Optional series title]</seriestitle>
-   <papertitle>[Enter required paper title here]</papertitle>
+   <papertitle>TIFF imaging with libtiff</papertitle>
    <subtitle>[Enter required paper subtitle here]</subtitle>
-<!-- AT A MINIMUM, PROVIDE AUTHOR NAME AND JOB TITLE.  IF AVAILABLE, CODE COMPANY AND EMAIL ATTRIBUTES.  IF AUTHOR PIC EXISTS, FILL IN SRC= ATTRIBUTE ON IMG TAG; DELETE IMG TAG IF NO AUTHOR PIC EXISTS.  CREATE AN AUTHOR TAG FOR EACH AUTHOR-->
-   <author company="" email="" jobtitle="[Job title (initial cap only)]" name="[Author name]"><img border="0" src="http://www-106.ibm.com/developerworks/i/[author.jpg]" height="80" width="64"/>[Biographical text about author goes here; remove the text between the author tags if no biographical information exists.  Paragraph tags are needed only if there is a second paragraph.]  You can contact [author] at <a href="mailto:userid@us.ibm.com">userid@us.ibm.com</a>.</author>
-<!-- PUT CORRECT MONTH/YEAR HERE -->
-   <date month="July" year="2001"></date>
-<!-- ENTER CORRECT ZONE HERE.  REPEAT TAG FOR MORE THAN ONE ZONE-->
-   <zone name="linux"></zone>
-<!-- ENTER URL AND SIZE ATTRIBUTES BELOW IF PDF EXISTS; OTHERWISE, REMOVE TAG-->
-   <pdf url="ftp://www6.software.ibm.com/software/developer/library/[xxx.pdf]" size="xxKB"></pdf>
-<!-- ENTER URL ATTRIBUTE BELOW IF ZIP FILE EXISTS; OTHERWISE, REMOVE TAG-->
-   <zip url="ftp://www6.software.ibm.com/software/developer/library/xxx.zip"></zip>
-<!-- ENTER URL ATTRIBUTE BELOW IF THERE IS A DISCUSSION FORUM FOR THIS ARTICLE; OTHERWISE, REMOVE TAG.  FILL IN THE ZONE NAME, xxx_df.nsf, AND THE FORUM NUMBER:  THE LAST xx IN THE PATH.  SPECIAL CHARACTERS (%nn) ARE USED IN THE PATH BELOW SO THE XML WILL VALIDATE.-->	
-   <forumurl url="http://www-105.ibm.com/developerworks/[xxx_df.nsf/AllViewTemplate%3FOpenForm%26RestrictToCategory%3Dxx]"></forumurl>
-<!-- ENTER THE UNIQUE KEYWORDS FOR THIS ARTICLE BELOW.  THE STYLESHEET WILL GENERATE THE APPROPRIATE META ABSTRACT AND DESCRIPTION TAGS FOR THIS ARTICLE.-->
-   <meta name="KEYWORDS" content="[unique keywords]" />	
-<!-- ENTER DATE CREATED AND INITIALS OF FORMATTER BELOW -->	
-   <meta name="LASTUPDATE" content="[2001MMDD initials]"/>
+   <author company="TOWER Software Engineering" email="mikal@stillhq.com" jobtitle="Senior Software Engineer" name="Michael Still">Michael has been working in the image processing field for several years, including a couple of years managing and dveloping large image databases for an Australian government department. He currently works for TOWER Software, who manufacture a world leading EDMS and Records Management package named TRIM. Michael is also the developer of Panda, an open source PDF generation API, as well as being the maintainer of the comp.text.pdf USENET frequently asked questions document. You can contact Michael at <a href="mailto:mikal@stillhq.com">mikal@stillhq.com</a>.</author>
 
+   <date month="February" year="2002"></date>
+   <zone name="linux"></zone>
+   <pdf url="ftp://www6.software.ibm.com/software/developer/library/[xxx.pdf]" size="xxKB"></pdf>
+   <zip url="ftp://www6.software.ibm.com/software/developer/library/xxx.zip"></zip>
+
+   <meta name="KEYWORDS" content="tiff libtiff image imaging raster bitmap" />	
+   <meta name="LASTUPDATE" content="20020211 MBS"/>
         
-<!-- ENTER ONE OR MORE "RELATED CONTENT" ITEMS BELOW.   REMOVE THIS SECTION IF THERE ARE NO RELATED CONTENT ITEMS-->	
    <relatedlist>
    <a href="">[Link 1 to related content]</a>
    <a href="">[Link 2 to related content]</a>
    </relatedlist>			
 		
 <!-- ENTER ARTICLE ABSTRACT BELOW.  REMOVE ANY BLANKS OR CARRIAGE RETURN CHARACTERS WITHIN THE TEXT.  KEEP THE ABSTRACT SHORT (NO MORE THAN SEVEN LINES ON THE HTML PAGE).  THESE RESTRICTIONS ARE REQUIRED FOR THE "EMAIL IT!" FUNCTION. -->	
-   <abstract>[Enter the article abstract here.  No paragraph tag is needed.  The 'abstract' should be short -- no more than seven lines on the HTML page -- so it will fit in the email it! pop-up window.]</abstract>
+   <abstract>TIFF is an extremely common, but quite complex raster image format. Libtiff is a standard implementation of the TIFF specification, which is free and works on many operating systems. This article discusses some of the pitfalls of TIFF, and guides the reader through use of the libtiff library.</abstract>
 
-<p>[Start article text here]</p>
+<p>TIFF (Tagged Image File Format) is a raster image format which was originally produced by <a href="http://www.adobe.com">Adobe</a>. Raster image formats are those which store the picture as a bitmap describing the state of pixels, as opposed to recording the length and locations of primatives such as lines and curves. Libtiff is one of the standard implementations of the TIFF specification, and is in wide use today because of its speed, power and easy source availability.</p>
 
-<!--MAJOR HEADING: CODE HEADING TAG WITH TYPE="MAJOR".  ENTER A REFERENCE NAME TO BE USED AS AN INLINE LINK IN THE TOC.  USE ALT= ATTRIBUTE IF YOU WANT THE TOC TEXT TO BE DIFFERENT FROM THE HEADING.   PRECEDE ALL MAJOR HEADINGS WITH A PARAGRAPH TAG-->
-<p><heading refname="h1" type="major" toc="yes">[Major heading 1]</heading>	
-[Insert paragraph text here and end the paragraph with an end paragraph tag.]</p>
+<p>This article focuses on black and white TIFF images, there ins't enough space in the article to cover color images as well. These will be covered in another article in a later edition of DeveloperWorks.</p>
+
+<p><heading refname="hard" type="major" toc="yes">Coding for TIFF can be hard</heading>	
+Most file format specifications define some basic rules for the representation of the file. For instance, PNG<CHECKTHIS> (a compeditor to TIFF) documents are always big endian. TIFF doesn't mandate things like this though, here is a list of some of the seemingly basic things that it doesn't define:</p>
+
+<ul>
+  <li>The byte order -- big endian, or little endian
+  <li>The fill order of the bit within the image bytes -- most significant bit first, or least significant
+  <li>The meaning of a given pixel value for black and white -- is 0 black, or white?
+  <li>...and so on
+</ul>
+
+<p>This means that creating a TIFF can be very easy, because it is rare to have to do any conversion of the data that you already have. It does mean, on the other hand, that being able to read in random tiff created by other applications can be very hard -- you have to code for all these possible combinations in order to be reasonably certain of having a reliable product.</p>
 	
-<p>[Next paragraph goes here]</p>
+<p>So how do you write an application which can read in all these different possible permutations of the TIFF format? Well, there are some basic guidelines to follow, which will make your life easier. The most important of these is: <i>never make an assumption</i>.</p>
 
 <!--MINOR HEADING: CODE HEADING TAG WITH TYPE="MINOR".  ENTER A REFERENCE NAME TO BE USED AS AN INLINE LINK IN THE TOC.  USE ALT= ATTRIBUTE IF YOU WANT THE TOC TEXT TO BE DIFFERENT FROM THE HEADING.  TO REMOVE THIS HEADING FROM THE TOC, CODE TOC="NO".   PRECEDE ALL MINOR HEADINGS WITH A PARAGRAPH TAG-->
 <p><heading refname="h2" type="minor" toc="yes">[Minor heading 1]</heading>
@@ -133,8 +134,8 @@ Use the space key to indent lines.]
 <!-- RESOURCE LIST WITH HEADINGS:  PLACE HEADINGS INSIDE RESOURCELIST TAG WITH TYPE="RESOURCELIST".  DO NOT SURROUND LIST WITH PARAGRAPH TAGS, BUT USE PARAGRAPH TAGS AROUND RESOURCELIST HEADINGS.-->
 <resourcelist>
 <ul>
-<li>[First resource item and link without a heading]</li>
-<li>[Second resource item and link without a heading]</li>
+<li>The <a href="http://www.libtiff.org">libtiff</a> website is a good place to download the libtiff source. It is also quite likely there is a binary package for your choosen operating system.</li>
+<li>If all else fails, then the <a href="http://partners.adobe.com/asn/developer/pdfs/tn/TIFF6.pdf">Adobe TIFF specification</a> can be useful.</li>
 </ul>
 <p><heading refname="" type="resourcelist" toc="no">[Sample resource list heading]</heading></p>
 <ul>
@@ -143,12 +144,4 @@ Use the space key to indent lines.]
 </ul>
 </resourcelist>
 
-<!-- IF AN ATTRIBUTION IS REQUIRED, USE AN APPROPRIATE ONE BELOW OR ENTER NEW TEXT-->
-<!--   JavaWorld ATTRIBUTION :  REMOVE COMMENTS TO USE OR REMOVE TAGS BELOW -->
-<!--<attribution>Reprinted with permission from  <a href="http://www.javaworld.com/?IBMDev">JavaWorld</a> magazine. Copyright Web Publishing Inc., an IDG Communications company.  Register for <a href="http://www.javaworld.com/javaworld/common/jw-subscribe.html?IBMDev">editorial e-mail</a> alerts.</attribution>-->
-
-<!--   LinuxWorld ATTRIBUTION :  REMOVE COMMENTS TO USE OR REMOVE TAGS BELOW -->
-<!--<attribution>Reprinted with permission from <a href="http://www.linuxworld.com?IBMDev">LinuxWorld</a> magazine. Copyright Web Publishing Inc., an IDG Communications company. <a href="http://www.linuxworld.com/linuxworld/common/lw-subscribe.html?IBMDev">Register for editorial e-mail</a>.</attribution>-->
-	
-<!-- ENDS ARTICLE -->
 </article>
