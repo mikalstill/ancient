@@ -322,9 +322,19 @@ cepError cepDataset::write (const string& filename)
       for(int vcount = 0; vcount < m_data[i]->getNumRows(); vcount++)
 	{
 	  files[i] << " " << cepToString(m_data[i]->getValue(vcount, colDate));
+	  if(m_data[i]->getError().isReal())
+	    return m_data[i]->getError();
+
 	  files[i] << "     " << reverseOffset((direction) i,
-					       cepToString(m_data[i]->getValue(vcount, colSample) + m_offsetFloat[i]));
+					       cepToString(m_data[i]->getValue(vcount, colSample) + 
+							   m_offsetFloat[i]));
+	  if(m_data[i]->getError().isReal())
+	    return m_data[i]->getError();
+
 	  files[i] << "   " << cepToString(m_data[i]->getValue(vcount, colError));
+	  if(m_data[i]->getError().isReal())
+	    return m_data[i]->getError();
+
 	  files[i] << endl;
 	}
 
