@@ -1,0 +1,1 @@
+An example of how to use libpng callbacks to save your PNG data in places other than files

@@ -5,55 +5,44 @@
 
 use strict;
 
-my(%phash, %chash, %nhash, $INFILE, $lines, $line, $letter, $ref);
-
-#$chash{"foo"} = "bar";
-#$phash{"wibble"} = \%chash;
+my(%phash, $INFILE, $lines, $line, $letter, $ref);
 
 %phash = ();
-$phash{"END"} = "aval";
-dumphash(%phash);
-exit;
 
 # Go through the system dictionary
-open INFILE, "< /usr/share/dict/words";
+open INFILE, "< words";    # /usr/share/dict/words";
 print "Reading in the system dictionary...\n";
 $lines = 0;
 while(<INFILE>){
     $lines++;
     chomp;
     $line = lc;
-    %chash = %phash;
-
-    # We go through each character in the word, and build it's item in the trie
-    while(length($line) > 0){
-	$letter = substr($line, 0, 1);
-
-	# Get me a reference to the hash I am adding to
-	if(exists $chash{$letter}){
-	    $ref = $chash{$letter};	
-	}
-	else{
-	    $chash{$letter}{"banana"} = "foo";
-	}
-	
-	if(!exists $chash{$letter}){
-	    die "Could not add sub hash\n";
-	}
-
-	# If the length is one, then add a terminal
-	    
-
-	# Move on to the next letter
-	$ref = $chash{$letter};
-	%chash = %$ref;
-	$line = substr($line, 1);
-    }
+    addword($line, %phash);
 }
 close INFILE;
 print "Read $lines words\n";
 dumphash(%phash);
 exit;
+
+sub addword{
+    my($line, %hash) = @_;
+
+    print "\n\"$line\" -- ";
+
+    if(length($line) == 0){
+	print "[Terminal]";
+	$hash{"END"} = "END";
+    }
+    else{
+	print "Adding ".substr($line, 0, 1);
+	if(!exists $hash{substr($line, 0, 1)}){
+	    print " [New]";
+	    $hash{substr($line, 0, 1)} = ();
+	}
+
+	addword(substr($line, 1), $hash{substr($line, 0, 1)});
+    }
+}
 
 sub dumphash{
     my(%hash, $depth) = @_;
