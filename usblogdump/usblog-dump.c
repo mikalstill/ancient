@@ -28,11 +28,16 @@ usage (char *name)
   printf (VERSION "\n\n");
   printf ("Try: %s [-i input] [-r] [-v]\n\n", name);
   printf ("\t-b <num>:  Suppress bulk data beyond length <num>\n");
-  printf ("\t-B:        Dump data as binary instead of hex\n");
+  printf ("\n");
+  printf ("\tThese options are mutually exclusive:\n");
+  printf ("\t\t-B:        Dump data as binary instead of hex\n");
+  printf ("\t\t-d <prog>: Binary transfer decoder helper application\n");
+  printf ("\n");
   printf ("\t-i <name>: The name of the input usblog file\n");
   printf ("\t-l:        Output Linux kernel equivalent descriptions\n");
   printf ("\t-m:        Show MD5 hashes of URB descriptions\n");
   printf ("\t             (Only useful if you're debugging -r)\n");
+  printf ("\t-n:        Display output now (useful for large dumps and debugging)\n");
   printf ("\t-r:        Suppress repeated URB sequences\n");
   printf ("\t-R:        -r, and show the match debugging information\n");
   printf ("\t-v:        Verbose debugging output\n");
@@ -55,8 +60,9 @@ void usb_ucd (char *file, long long *filep);
 void usb_setup_packet (char *file, long long *filep);
 
 // Output
-void dump_data(char *file, long long *filep, int psize);
+void dump_data(char *file, long long *filep, int psize, char *type);
 char *to_binary(unsigned char number);
+int decodein, decodeout;
 
 // URB output
 char *urb_buffer = NULL;
@@ -93,7 +99,7 @@ usb_allurbs;
 // Used for correlation
 int hashcmp (usb_allurbs * head, int inset, int testinset, int length);
 
-int do_linux = 0, do_showhash = 0, do_binarydumps = 0;
+int do_linux = 0, do_showhash = 0, do_binarydumps = 0, do_decoder = 0, do_now = 0;
 
 int
 main (int argc, char *argv[])
@@ -101,35 +107,17 @@ main (int argc, char *argv[])
   int fd, npackets, otag, urbCount, function, psize, tsrelative, temp, temp2,
     numifaces, seq, length, inset, testinset, corrstep, matchcount, optchar,
     do_suppress = 0, do_showmatch = 0, do_verbose = 0, do_bulk = 0;
-  char *file, *input_filename = NULL;
+  char *file, *input_filename = NULL, *decoder = NULL;
   long long filep;
   struct stat sb;
   usb_allurbs *urbhead;
   int transfer_direction;
   int max_bulk = 0;
 
-  while ((optchar = getopt (argc, argv, "i:lmrRvb:B")) != -1)
+  while ((optchar = getopt (argc, argv, "i:lmrRvb:Bd:n")) != -1)
     {
       switch (optchar)
 	{
-	case 'l':
-	  do_linux = 1;
-	  break;
-
-	case 'm':
-	  do_showhash = 1;
-	  break;
-
-	case 'R':
-	  do_showmatch = 1;
-	case 'r':
-	  do_suppress = 1;
-	  break;
-
-	case 'v':
-	  do_verbose = 1;
-	  break;
-
 	case 'b':
 	  do_bulk = 1;
 	  max_bulk = atoi(optarg);
@@ -139,8 +127,37 @@ main (int argc, char *argv[])
 	  do_binarydumps = 1;
 	  break;
 
+	case 'd':
+	  do_decoder = 1;
+	  decoder = (char *) strdup(optarg);
+	  break;
+
 	case 'i':
 	  input_filename = (char *) strdup (optarg);
+	  break;
+
+	case 'l':
+	  do_linux = 1;
+	  break;
+
+	case 'm':
+	  do_showhash = 1;
+	  break;
+
+	case 'n':
+	  do_now = 1;
+	  break;
+
+	case 'R':
+	  do_showmatch = 1;
+	  break;
+
+	case 'r':
+	  do_suppress = 1;
+	  break;
+
+	case 'v':
+	  do_verbose = 1;
 	  break;
 
 	default:
@@ -162,24 +179,65 @@ main (int argc, char *argv[])
   // Map the input file into memory
   if ((fd = open (input_filename, O_RDWR)) < 0)
     {
-      fprintf (stderr, "Could not open the data file\n");
-      exit (43);
+      perror("Could not open the data file");
+      exit (42);
     }
 
   if (fstat (fd, &sb) < 0)
     {
-      fprintf (stderr, "File stat error\n");
-      exit (43);
+      perror("File stat error");
+      exit (42);
     }
 
   if ((file =
        (char *) mmap (NULL, sb.st_size, PROT_READ | PROT_WRITE, MAP_SHARED,
 		      fd, 0)) == MAP_FAILED)
     {
-      fprintf (stderr, "Could not mmap data file\n");
-      exit (43);
+      perror("Could not mmap data file");
+      exit (42);
     }
   filep = 0;
+
+  // Setup the decoder app if we need one
+  if(do_decoder == 1)
+    {
+      int decoderinput[2], decoderoutput[2];
+
+      if(pipe(decoderinput) < 0)
+	{
+	  perror("Error setting up decoder input pipe");
+	  exit(42);
+	}
+
+      if(pipe(decoderoutput) < 0)
+	{
+	  perror("Error setting up decoder output pipe");
+	  exit(42);
+	}
+
+      switch(fork())
+	{
+	case 0:
+	  dup2(decoderinput[0], STDIN_FILENO);
+	  close(decoderinput[1]);
+	  
+	  close(decoderoutput[0]);
+	  dup2(decoderoutput[1], STDOUT_FILENO);
+
+	  execl(decoder, "usblogdump-decoder", (char *) NULL);
+	  
+	case -1:
+	  perror("Couldn't fork decoder");
+	  exit(42);
+
+	default:
+	  close(decoderinput[0]);
+	  decodein = decoderinput[1];
+
+	  decodeout = decoderoutput[0];
+	  close(decoderoutput[1]);
+	}
+    }
 
   // Details of the dump, skip over the URB pointers
   npackets = fileutil_getnumber (file, &filep);
@@ -202,9 +260,8 @@ main (int argc, char *argv[])
   if ((urbhead =
        (usb_allurbs *) malloc (sizeof (usb_allurbs) * npackets)) == NULL)
     {
-      fprintf (stderr,
-	       "Memory allocation problem whilst setting up URB list head\n");
-      exit (1);
+      perror("Memory allocation problem whilst setting up URB list head");
+      exit (42);
     }
   memset (urbhead, 0, sizeof (usb_allurbs) * npackets);
 
@@ -231,12 +288,23 @@ main (int argc, char *argv[])
       urbhead[urbCount].sequence = temp;
 
       function = fileutil_getushort (file, &filep);
-      urb_printf ("Function: %s (0x%04x)\n", functname (function), function);
-
-      // printf("Time relative to start of dump: %d\n", 
-      // fileutil_getuinteger(file, &filep) - tsrelative);
+      
       urbhead[urbCount].time =
 	fileutil_getuinteger (file, &filep) - tsrelative;
+
+      if(do_now == 1)
+	{
+	  printf ("\n"
+		  "---------------------------------------------------------\n");
+	  printf ("sequence %d: ", urbhead[urbCount].sequence);
+	  printf ("URB %d, ", urbCount);
+	  printf ("number %d, ", urbhead[urbCount].number);
+	  printf ("offset %lld, ", urbhead[urbCount].filep);
+	  printf ("time %d ", urbhead[urbCount].time);
+	  printf ("\n\n");
+	}
+
+      urb_printf ("Function: %s (0x%04x)\n", functname (function), function);
 
       urbhead[urbCount].endpoint = fileutil_getnumber (file, &filep);
       urb_printf ("Endpoint: %d%s\n", urbhead[urbCount].endpoint,
@@ -323,8 +391,8 @@ main (int argc, char *argv[])
             {
               if(fileutil_getnumber (file, &filep) != 0)
                 {
-                  urb_printf ("Data: \n");
-		  dump_data(file, &filep, psize);
+                  urb_printf ("Control Data: \n");
+		  dump_data(file, &filep, psize, "CTRL");
                 }
               urb_printf ("\n");
             }
@@ -349,7 +417,9 @@ main (int argc, char *argv[])
 			  urbhead[urbCount].time,
 			  ((0 == transfer_direction) ? "host-to-device" : "device-to-host"));
 
-	      dump_data(file, &filep, (((do_bulk) && (psize > max_bulk)) ? max_bulk : psize));
+	      dump_data(file, &filep, 
+			(((do_bulk) && (psize > max_bulk)) ? max_bulk : psize),
+			"BULK");
 	      urb_printf ("\n");
 
 	      filep +=
@@ -510,42 +580,45 @@ main (int argc, char *argv[])
     }
 
   // And now we should display the urbs
-  for (urbCount = 0; urbCount < npackets; urbCount++)
+  if(do_now == 0)
     {
-      printf ("\n"
-	      "---------------------------------------------------------\n");
-      printf ("sequence %d: ", urbhead[urbCount].sequence);
-      printf ("URB %d, ", urbCount);
-      printf ("number %d, ", urbhead[urbCount].number);
-      printf ("offset %lld, ", urbhead[urbCount].filep);
-      printf ("time %d, ", urbhead[urbCount].time);
-      printf ("allocs %d\n", urbhead[urbCount].reallocs);
-
-      if (urbhead[urbCount].desc != NULL)
+      for (urbCount = 0; urbCount < npackets; urbCount++)
 	{
-	  if (do_showhash == 1)
+	  printf ("\n"
+		  "---------------------------------------------------------\n");
+	  printf ("sequence %d: ", urbhead[urbCount].sequence);
+	  printf ("URB %d, ", urbCount);
+	  printf ("number %d, ", urbhead[urbCount].number);
+	  printf ("offset %lld, ", urbhead[urbCount].filep);
+	  printf ("time %d, ", urbhead[urbCount].time);
+	  printf ("allocs %d\n", urbhead[urbCount].reallocs);
+	  
+	  if (urbhead[urbCount].desc != NULL)
 	    {
-	      printf ("MD5 hash: ");
-	      for (temp = 0; temp < 16; temp++)
+	      if (do_showhash == 1)
 		{
-		  printf ("%02x ",
-			  (unsigned char) urbhead[urbCount].md5[temp]);
+		  printf ("MD5 hash: ");
+		  for (temp = 0; temp < 16; temp++)
+		    {
+		      printf ("%02x ",
+			      (unsigned char) urbhead[urbCount].md5[temp]);
+		    }
+		  printf ("\n");
 		}
-	      printf ("\n");
+	      printf ("\n%s", urbhead[urbCount].desc);
 	    }
-	  printf ("\n%s", urbhead[urbCount].desc);
-	}
+	  
+	  if (urbhead[urbCount].rptlen != 0)
+	    {
+	      printf ("\n(Sequence of %d URBs repeats %d times)\n\n",
+		      urbhead[urbCount].rptlen, urbhead[urbCount].rpttimes);
+	      urbCount +=
+		urbhead[urbCount].rptlen * (urbhead[urbCount].rpttimes - 1);
+	    }
 
-      if (urbhead[urbCount].rptlen != 0)
-	{
-	  printf ("\n(Sequence of %d URBs repeats %d times)\n\n",
-		  urbhead[urbCount].rptlen, urbhead[urbCount].rpttimes);
-	  urbCount +=
-	    urbhead[urbCount].rptlen * (urbhead[urbCount].rpttimes - 1);
+	  if (urbhead[urbCount].abend != 0)
+	    urbCount = npackets + 1;
 	}
-
-      if (urbhead[urbCount].abend != 0)
-	urbCount = npackets + 1;
     }
 
   // It's polite to cleanup
@@ -951,30 +1024,37 @@ urb_printf (char *format, ...)
   char *temp;
   int templen;
 
-  // Get the string which is just this output
   va_start (ap, format);
-  temp = urb_xsnprintf (format, ap);
-  templen = strlen (temp);
-  va_end (ap);
-
-  // Append it to the buffer which is this URB
-  if (urb_buffer_inset + templen + 1 > urb_buffer_size)
+  if(do_now == 1)
     {
-      urb_buffer =
-	(char *) realloc (urb_buffer, urb_buffer_size + templen + 500);
-      if (urb_buffer == NULL)
-	{
-	  fprintf (stderr, "Memory allocation error\n");
-	  exit (1);
-	}
-      urb_buffer_size += templen + 500;
-      urb_reallocs++;
+      vprintf(format, ap);
     }
-  strcpy (urb_buffer + urb_buffer_inset, temp);
-  urb_buffer_inset += templen;
-
-  // Cleanup
-  free (temp);
+  else
+    {
+      // Get the string which is just this output
+      temp = urb_xsnprintf (format, ap);
+      templen = strlen (temp);
+      
+      // Append it to the buffer which is this URB
+      if (urb_buffer_inset + templen + 1 > urb_buffer_size)
+	{
+	  urb_buffer =
+	    (char *) realloc (urb_buffer, urb_buffer_size + templen + 500);
+	  if (urb_buffer == NULL)
+	    {
+	      perror("Memory allocation error");
+	      exit (42);
+	    }
+	  urb_buffer_size += templen + 500;
+	  urb_reallocs++;
+	}
+      strcpy (urb_buffer + urb_buffer_inset, temp);
+      urb_buffer_inset += templen;
+      
+      // Cleanup
+      free (temp);
+    }
+  va_end (ap);
 }
 
 char *
@@ -990,8 +1070,8 @@ urb_xsnprintf (char *format, va_list ap)
       output = (char *) realloc (output, size);
       if (output == NULL)
 	{
-	  fprintf (stderr, "Memory allocation error 2\n");
-	  exit (1);
+	  perror("Memory allocation error 2");
+	  exit (42);
 	}
       result = vsnprintf (output, size, format, ap);
 
@@ -1029,8 +1109,8 @@ md5hash (char *input)
 
   if ((digest = (char *) malloc (16)) == NULL)
     {
-      fprintf (stderr, "Memory error 3\n");
-      exit (1);
+      perror("Memory error 3");
+      exit (42);
     }
 
   MD5Init (&context);
@@ -1070,15 +1150,25 @@ hashcmp (usb_allurbs * head, int inset, int testinset, int length)
 }
 
 // Do a nicely formatted dump of some data
-void dump_data(char *file, long long *filep, int psize)
+void dump_data(char *file, long long *filep, int psize, char *type)
 {
   long long count = *filep;
   int i;
 
   urb_printf("\t");
+  if (do_decoder == 1)
+    {
+      write(decodein, type, strlen(type));
+      write(decodein, " ", 1);
+    }
+ 
   for (i = 0; i < psize; i++)
     {
-      if (do_binarydumps == 1)
+      if (do_decoder == 1)
+	{
+	  write(decodein, file + count, 1);
+	}
+      else if (do_binarydumps == 1)
 	{
 	  char *conv = to_binary((unsigned char) file[count]);
 	  urb_printf("%s ", conv);
@@ -1107,6 +1197,44 @@ void dump_data(char *file, long long *filep, int psize)
 	}
     }
 
+  if(do_decoder == 1)
+    {
+      char decoded[2];
+      int lastwasnewline = 0, len;
+
+      write(decodein, "\n.\n", 3);
+      while(1)
+	{
+	  if((len = read(decodeout, decoded, 1)) == 0)
+	    {
+	      break;
+	    }
+	  if(len == -1)
+	    {
+	      perror("Error reading from decoder");
+	      exit(42);
+	    }
+
+	  decoded[len] = 0;
+	  if(decoded[0] == '\n')
+	    {
+	      lastwasnewline = 1;
+	    }
+	  else if((decoded[0] == '.') && (lastwasnewline == 1))
+	    {
+	      break;
+	    }
+	  else
+	    {
+	      lastwasnewline = 0;
+	    }
+
+	  urb_printf("%c", decoded[0]);
+	}
+
+      read(decodeout, decoded, 1);
+    }
+
   *filep = count;
 }
 
@@ -1116,7 +1244,7 @@ char *to_binary(unsigned char number)
 
   if((retval = malloc(sizeof(char) * 9)) == NULL)
     {
-      fprintf(stderr, "Could not allocate memory\n");
+      perror("Could not allocate memory");
       exit(42);
     }
 

@@ -1,4 +1,4 @@
-all:	usblog-dump
+all:	usblog-dump decoder-usbstepper
 
 usblog-dump:	usblog-dump.o fileutil.o winlang.h md5.o
 	gcc -Wall -ggdb -o usblog-dump usblog-dump.o fileutil.o md5.o
@@ -12,5 +12,8 @@ fileutil.o: fileutil.c fileutil.h
 md5.o: md5c.c md5.h md5-global.h
 	gcc -Wall -c -ggdb -o md5.o md5c.c
 
+decoder-usbstepper: decoder-usbstepper.c
+	gcc -Wall decoder-usbstepper.c -o decoder-usbstepper
+
 clean:	
-	rm -f *.o *~ core usblog-dump
+	rm -f *.o *~ core usblog-dump decoder-usbstepper
