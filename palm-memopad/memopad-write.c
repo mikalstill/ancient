@@ -17,11 +17,14 @@ char *memopad_xsnprintf(char *, ...);
 void memopad_xfree(void *);
 void *memopad_xrealloc(void *, size_t);
 int memopad_min(int, int);
+void *memopad_xmalloc(size_t);
+char *memopad_strlimit(char *, int);
 
 int main(int argc, char *argv[]){
   FILE *output;
-  int rcnt, fd;
+  int rcnt, fd, chunkcnt = 0;
   char *contents, *data;
+  unsigned long offset;
   struct stat statbuf;
 
   srand(time(NULL));
@@ -74,34 +77,10 @@ int main(int argc, char *argv[]){
   memopad_insertshort(output, 6);
   memopad_insertshort(output, 1);
 
-  // Record count * field count
-  memopad_insertinteger(output, (argc - 1) * 6);
-
+  // Determine how many records we are going to create
   // For each record
   for(rcnt = 0 ; rcnt < argc - 1; rcnt++){
-    // Record id
-    memopad_insertinteger(output, 1);
-    memopad_insertinteger(output, 15466507 - 
-			  (1 + (int) (15466507.0 * rand() / 
-				      (RAND_MAX + 1.0))));
-    
-    // Status
-    memopad_insertinteger(output, 1);
-    memopad_insertinteger(output, 0);
-
-    // Position
-    memopad_insertinteger(output, 1);
-    memopad_insertinteger(output, 1);
-    
-    // Memo contents -- we add the name of the file as the first line of
-    // the memo entry so we know what file we are editting...
-    memopad_insertinteger(output, 5);
-    memopad_insertinteger(output, 0);
-
-    ///////////////////////////////////////////////////////////////////////////
     // Open the data file
-    printf("Processing %s\n", argv[rcnt + 1]);
-
     if ((fd = open (argv[rcnt + 1], O_RDONLY)) < 0)
       {
 	fprintf (stderr, "Could not open the data file: %s\n", argv[rcnt + 1]);
@@ -110,30 +89,83 @@ int main(int argc, char *argv[]){
     
     fstat(fd, &statbuf);
     if(statbuf.st_size > 4095){
-      printf("  File is too big for a single chunk, truncating\n");
+      printf("%s is too big for a single chunk and will be split\n",
+	     argv[rcnt + 1]);
+      chunkcnt += statbuf.st_size / 4096;
+      chunkcnt += (statbuf.st_size % 4096 == 0) ? 0 : 1;
     }
+    else{
+      chunkcnt++;
+    }
+    close(fd);
+  }
+
+  // Record count * field count
+  printf("Chunk count is %d\n", chunkcnt);
+  memopad_insertinteger(output, chunkcnt * 6);
+
+  // For each record
+  for(rcnt = 0 ; rcnt < argc - 1; rcnt++){
+    // Open the data file
+    printf("Processing %s: ", argv[rcnt + 1]);
+
+    if ((fd = open (argv[rcnt + 1], O_RDONLY)) < 0)
+      {
+	fprintf (stderr, "Could not open the data file: %s\n", argv[rcnt + 1]);
+	exit (0);
+      }
+    
+    fstat(fd, &statbuf);
+    offset = 0;
 
     if ((data = (char *) 
-	 mmap (NULL, memopad_min(statbuf.st_size, 4095), 
+	 mmap (NULL, statbuf.st_size, 
 	       PROT_READ, MAP_SHARED, fd, 0)) == -1)
       {
 	fprintf (stderr, "Could not mmap data file: %s\n", argv[rcnt + 1]);
 	exit (0);
       }
     
-    contents = memopad_xsnprintf("File: %s\r\n%s", argv[rcnt + 1], data);
-    memopad_insertstring(output, contents);
-    memopad_xfree(contents);
+    while(offset < statbuf.st_size){
+      printf(".");
+
+      // Record id
+      memopad_insertinteger(output, 1);
+      memopad_insertinteger(output, 15466507 - 
+			    (1 + (int) (15466507.0 * rand() / 
+					(RAND_MAX + 1.0))));
+      
+      // Status
+      memopad_insertinteger(output, 1);
+      memopad_insertinteger(output, 0);
+      
+      // Position
+      memopad_insertinteger(output, 1);
+      memopad_insertinteger(output, 1);
+      
+      // Memo contents -- we add the name of the file as the first line of
+      // the memo entry so we know what file we are editting...
+      memopad_insertinteger(output, 5);
+      memopad_insertinteger(output, 0);
+      
+      contents = memopad_xsnprintf("File: %s\r\n%s", argv[rcnt + 1], memopad_strlimit(data + offset, 4096));
+      memopad_insertstring(output, contents);
+      memopad_xfree(contents);
+      
+      // Private
+      memopad_insertinteger(output, 6);
+      memopad_insertinteger(output, 0);
+      
+      // Category
+      memopad_insertinteger(output, 1);
+      memopad_insertinteger(output, 0);
+
+      offset += 4096;
+    }
+
+    printf("\n");
     munmap(data, statbuf.st_size);
     close(fd);
-    
-    // Private
-    memopad_insertinteger(output, 6);
-    memopad_insertinteger(output, 0);
-
-    // Category
-    memopad_insertinteger(output, 1);
-    memopad_insertinteger(output, 0);
   }
 }
 
@@ -229,6 +261,33 @@ memopad_xrealloc (void *memory, size_t size)
 
 int memopad_min(int one, int two)
 {
-  if(one > two) return one;
+  if(one < two) return one;
   return two;
+}
+
+void *memopad_xmalloc (size_t size)
+{
+  void *buffer;
+
+  if ((buffer = malloc (size)) == NULL)
+    {
+      fprintf(stderr, "memopad memory allocation error");
+      exit(42);
+    }
+
+  return buffer;
+}
+
+char *memopad_strlimit(char *str, int maxlen){
+  char *newptr;
+  int count;
+
+  if(strlen(str) < maxlen) return str;
+  
+  newptr = memopad_xmalloc(sizeof(char) * maxlen);
+  for(count = 0; count < maxlen; count++){
+    newptr[count] = str[count];
+  }
+  newptr[count] = 0;
+  return newptr;
 }

@@ -1,7 +1,7 @@
 all:	memopad-dump memopad-write
 
 memopad-dump:	memopad-dump.c
-	gcc memopad-dump.c -o memopad-dump
+	gcc -ggdb memopad-dump.c -o memopad-dump
 
 memopad-write:	memopad-write.c
-	gcc memopad-write.c -o memopad-write
+	gcc -ggdb memopad-write.c -o memopad-write
