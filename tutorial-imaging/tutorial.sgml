@@ -4,6 +4,16 @@
 <authorgroup>
 <author><firstname>Michael</firstname><surname>Still</surname></author>
 </authorgroup>
+
+<slidetext>
+Welcome to the image programming tutorial for AUUG 2002...
+
+
+<figure><title>Port Arthur, Tasmania</title>
+<execute><cmd>img</cmd><args>tutorial-figure1.jpg</args></execute>
+</figure>
+
+</slidetext>
 </bookinfo>
 
 <execute><cmd>builddb</cmd><input>introduction.sgml</input></execute>

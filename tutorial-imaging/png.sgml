@@ -1,9 +1,11 @@
 <chapter id="chap-png"><title>PNG</title>
+<slideinclude>
 <para><quote>
 A Turbo-Studly Image Format with Lossless Compression
 (Not Related to Papua New Guinea, the Pawnee National Grassland,
 the Professional Numismatists Guild or the ``Pack 'N' Go'' format)
 </quote> -- libpng.org</para>
+</slideinclude>
 
 <para>
 PNG
@@ -13,21 +15,44 @@ is my favorite image format after TIFF. It is well conceived, well implemented, 
 , unlike TIFF. PNG is also much simpler in many respects than TIFF.
 </para>
 
+<slidebreak>
 <para>
 This chapter will focus on the libpng library. This isn't really a limitation, as the people behind libpng are also the people who write the PNG specification, so you're pretty safe in assuming that if it's useful and PNG does it, then libpng implements it.
 </para>
+
+<slidetext>
+<li>We'll focus on libpng
+<li>This is written by the sample people as the specification
+<li>So it's basically got everything
+</slidetext>
 
 <sect1><title>Introduction</title>
 <para>
 PNG happened because of the patent problems with the GIF format described in an earlier chapter of this tutorial. In the words of the official history of PNG:
 </para>
 
+<slidetext>
+<li>Why did PNG happen?
+<li>Patent problems with GIF
+  <ul>
+  <li>After many people had become very used to the GIF format
+  </ul>
+<li>To quote the official PNG history<BR>
+</slidetext>
+
+<slideinclude>
 <para>
 <quote>
 ... Unisys in 1993 began aggressively pursuing commercial vendors of software-only LZW implementations. CompuServe seems to have been its primary target at first, culminating in an agreement--quietly announced on 28 December 1994, right in the middle of the Christmas holidays--to begin collecting royalties from authors of GIF-supporting software. The spit hit the fan on the Internet the following week; what was then the comp.graphics newsgroup went nuts, to use a technical term. As is the way of Usenet, much ire was directed at CompuServe for making the announcement, and then at Unisys once the details became a little clearer; but mixed in with the noise was the genesis of an informal Internet working group led by Thomas Boutell [2]. Its purpose was not only to design a replacement for the GIF format, but a successor to it: better, smaller, more extensible, and FREE.
 </quote>
 -- http://www.libpng.org/pub/png/pnghist.html
 </para>
+</slideinclude>
+
+<slidetext>
+<BR><BR>
+<li>See the printed manual for more history
+</slidetext>
 
 <para>
 The PNG has gone from being a simple specification with limitations such as only supporting 8 bit images first announced on comp.graphics, comp.compression and comp.infosystems.www.providers, into a mature and extremely extensible image format.
@@ -344,16 +369,6 @@ There are various values which are valid for the color type field. Each of these
 For all of these types, the sample depth is the same as the bit depth, except for type three, where the sample depth is always eight bits.
 </para>
 
-<sect3><title>Filtering algorithm</title>
-<para>
-The PNG specification states on page 16 of version 1.2:
-
-<quote>
-Filter method is a single-byte integer that indicates the preprocessing method applied to the image data be-fore compression. At present, only filter method 0 (adaptive filtering with five basic filter types) is defined. As with the compression method field, decoders must check this byte and report an error if it holds an unrec-ognized code. See Filter Algorithms (Chapter 6) for details.
-</quote
-</para>
-</sect3>
-
 <table frame='all'><title>PNG on disc: IHDR chunk</title>
 <tgroup cols='2' align='left' colsep='1' rowsep='1'>
 <tbody>
@@ -381,6 +396,16 @@ Filter method is a single-byte integer that indicates the preprocessing method a
 </tbody>
 </tgroup>
 </table>
+
+<sect3><title>Filtering algorithm</title>
+<para>
+The PNG specification states on page 16 of version 1.2:
+
+<quote>
+Filter method is a single-byte integer that indicates the preprocessing method applied to the image data be-fore compression. At present, only filter method 0 (adaptive filtering with five basic filter types) is defined. As with the compression method field, decoders must check this byte and report an error if it holds an unrec-ognized code. See Filter Algorithms (Chapter 6) for details.
+</quote
+</para>
+</sect3>
 </sect2>
 
 <sect2><title>The PLTE chunk</title>

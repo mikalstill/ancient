@@ -4,8 +4,15 @@ There are some core terms which are used throughout this tutorial. This section 
 </para>
 
 <para>
-These terms are presented in alphabetical order. Some of them might seem a bit odd, but they're here because the are interesting...
+These terms are presented in alphabetical order. Some of them might seem a bit odd, but they're here because they are interesting...
 </para>
+
+<slidetext>
+<li>There are some core terms which we need to define before we continue
+<li>These terms are all in the manual
+<li>So you can refer back to that if you get confused later
+<li><b>If these are too basic, and I am wasting your time, then please let me know</b>
+</slidetext>
 
 <execute><cmd>insertall</cmd><args>concept-.*.sgml</args></execute>
 <execute><cmd>nextedition</cmd><input>References</input></execute>

@@ -3,18 +3,38 @@
 DES in Electronic Code Book (ECB) mode is a particularly poor choice of cryptography for image files. This is because ECB mode implements a look up table between the unencrypted value and the encrypted value. This results in a known input value turning into the same output value over and over. This can have some interesting blurring effects, but wont obscure the image contents. An example will help this make more sense -- the first figure is the logo for the company I am currently working for. I took this image, and ran it through some DES ECB code and produced the second figure.
 </para>
 
-<figure><title>The TOWER corporate logo</title>
-<graphic format="EPS" fileref="desecb-figure1.eps">
-</figure>
+<slidetext>
+<li>Encrypting images using codebook cryptography can have unexpected results
+<li>For example, my company's logo...
+</slidetext>
 
-<figure><title>After ECB encryption</title>
-<graphic format="EPS" fileref="desecb-figure2.eps">
+<slideinclude>
+<figure><title>The TOWER corporate logo</title>
+<execute><cmd>img</cmd><args>desecb-figure1.jpg</args></execute>
 </figure>
+</slideinclude>
+
+<slidebreak>
+
+<slidetext>
+<li>After encryption using DES ECB mode
+</slidetext>
+
+<slideinclude>
+<figure><title>After ECB encryption</title>
+<execute><cmd>img</cmd><args>desecb-figure2.jpg</args></execute>
+</figure>
+</slideinclude>
 
 <para>
 You can see that whilst the image has certainly changed, the contents of the image has not really been obscured. 
 <execute><cmd>nextedition</cmd><input> more</input></execute>
 </para>
+
+<slidetext>
+<li>(This image is upside down because I am lazy)
+<li>We can see that the content of the image has not been hidden
+</slidetext>
 
 <execute><cmd>nextedition</cmd><input>For those who have an excessive interest in code, I encrypted the TIFF image which is the TOWER logo with the code below...: crypto code</input></execute>
 
@@ -24,4 +44,8 @@ You can see that whilst the image has certainly changed, the contents of the ima
 We should note that ECB mode is not commonly used anyway. If you use something like PGP or blowfish, then you should be much happier... 
 <execute><cmd>nextedition</cmd><input> check this</input></execute>
 </para>
+
+<slidetext>
+<li>We should note that non codebook cryptography <i>might</i> be better
+</slidetext>
 </sect1>

@@ -3,40 +3,74 @@
 Imagine that you are drawing a triangle across an image (or on the screen for that matter). The triangle is sometimes going to cross pixels in a way which makes them not totally turned on. Have a look at the figure below to see what I mean...
 </para>
 
+<slidetext>
+<li>Imagine that you're drawing a triangle
+<li>There are some pixels which are only going to be half on...
+</slidetext>
+
+<slideinclude>
 <figure><title>Drawing a triangle</title>
-<graphic format="EPS" fileref="antialias-figure1.eps">
+<execute><cmd>img</cmd><args>antialias-figure1.png</args></execute>
 </figure>
+</slideinclude>
 
 <para>
 If we only have a black and white image, then we'll end up with an image like the one in the figure below. I am sure you'll agree that this isn't a very good representation of the side of the triangle.
 </para>
 
+<slidetext>
+<li>This results in a black and white image which looks quite gross...
+</slidetext>
+
+<slidebreak>
+
+<slideinclude>
 <figure><title>A triangle with only black pixels</title>
-<graphic format="EPS" fileref="antialias-figure2.eps">
+<execute><cmd>img</cmd><args>antialias-figure2.png</args></execute>
 </figure>
+</slideinclude>
 
 <para>
 Anti-aliasing is when we try to correct for this problem by inserting some gray pixels. In the figure below, we have given some of the pixels a gray value which is based on how much of the pixel is <quote>filled</quote> with the triangle.
 </para>
 
+<slidetext>
+<li>We can try to correct this by making some pixels half black
+  <ul>
+  <li>(Assuming we can have a grayscale version of the image)
+  </ul>
+</slidetext>
+
+<slidebreak>
+
+<slideinclude>
 <figure><title>A triangle with gray scale pixels</title>
-<graphic format="EPS" fileref="antialias-figure3.eps">
+<execute><cmd>img</cmd><args>antialias-figure3.png</args></execute>
 </figure>
+</slideinclude>
 
 <para>
 The triangle might be a little clearer without the grid lines.
 </para>
 
+<slidebreak>
+
+<slidetext>
+<li>Without the gridlines...
+</slidetext>
+
+<slideinclude>
 <figure><title>Anti-aliased triangle without grid lines</title>
-<graphic format="EPS" fileref="antialias-figure4.eps">
+<execute><cmd>img</cmd><args>antialias-figure4.png</args></execute>
 </figure>
+</slideinclude>
 
 <para>
 For comparison, there is the triangle we started with...
 </para>
 
 <figure><title>The original triangle</title>
-<graphic format="EPS" fileref="antialias-figure5.eps">
+<execute><cmd>img</cmd><args>antialias-figure5.png</args></execute>
 </figure>
 
 <para>

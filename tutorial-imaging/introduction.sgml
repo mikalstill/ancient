@@ -7,6 +7,14 @@ This document is the manual associated with my tutorial on imaging programming p
 Please note that all the information in this tutorial is copyright, as described elsewhere in this document.
 </para>
 
+<slidetext>
+<li>This set of slides will cover the material for the tutorial
+<li>It is available online at http://www.stillhq.com
+<li>I strongly prefer that people interrupt with questions as we go along...
+<li>If something isn't clear to you, then it is probably unclear to other people as well
+<li>It also eases the boredom associated with having to listen to me all day long
+</slidetext>
+
 <sect1><title>About the author</title>
 <para>
 Michael has been working in the image processing field for several years, including a couple of years managing and developing large image databases for an Australian government department. He currently works for TOWER Software, who manufacture a world leading EDMS and Records Management package named TRIM. Michael is also the developer of Panda, an open source PDF generation API, as well as being the maintainer of the comp.text.pdf USENET frequently asked questions document. You can contact Michael at mikal@stillhq.com.
@@ -15,12 +23,38 @@ Michael has been working in the image processing field for several years, includ
 <para>
 Michael also has a whole bunch of code (most of which relates to imaging) at his website: http://www.stillhq.com
 </para>
+
+<slidetext>
+Michael Still<br>
+Senior Software Engineer<br>
+TOWER Software<br>
+<br>
+Architecture and Data Services Group,<br>
+Research and Development Section<br>
+<br>
+<li>TOWER is an Australian ISV developing document management software
+
+<br><br>
+
+<li>I can be contacted at: mikal@stillhq.com
+<li>There is heaps of sample code, including the samples from this tutorial at http://www.stillhq.com
+</slidetext>
 </sect1>
 
 <sect1><title>Motivation for this tutorial</title>
 <para>
 This tutorial started life as a series of articles about the TIFF image format, which were published by IBM DeveloperWorks (http://www.ibm.com/developerworks) in April and June 2002. This logically grew into the tutorial you see before you today. This tutorial is based on my several years experience as an imaging developer, and the common mistakes that people seem to make over and over. Perhaps this tutorial will go some way to correcting some common misconceptions.
 </para>
+
+<slidetext>
+<li>This tutorial started life as two articles on TIFF for IBM DeveloperWorks
+<li>I came to the conclusion that I couldn't explain everything I wanted to in 7,000 words
+
+<br><br>
+
+<li>It's the start of the manual I wished I had had when I started image programming
+<li>It isn't finished yet -- there is always so much more to tell
+</slidetext>
 </sect1>
 
 <sect1><title>Assumed knowledge</title>
@@ -28,7 +62,9 @@ This tutorial started life as a series of articles about the TIFF image format, 
 There are some things which I assume you know, and which are outside the scope of this tutorial.
 </para>
 
+<noslide>
 <sect2><title>C</title>
+</noslide>
 <para>
 This tutorial discusses code. Almost all of the code discussed is written in C. It is therefore safe to assume that if you don't have a good working knowledge of C, then you're likely to get a lot less out of this tutorial as those who do know some C. On the other hand, don't worry about the more esoteric syntax, I'll explain this as we need it.
 </para>
@@ -36,9 +72,15 @@ This tutorial discusses code. Almost all of the code discussed is written in C. 
 <para>
 It should also be noted that the code samples in this tutorial are not optimal. They have been written to be as readable as possible, and not necessarily the most efficient possible. Please bear this in mind before blindly copying them.
 </para>
+
+<slidetext>
+<li>C
+</slidetext>
 </sect2>
 
+<noslide>
 <sect2><title>How to compile and link on your chosen operating system</title>
+</noslide>
 <para>
 It is outside the scope of this document to teach you how to compile and link source code into an executable form on your chosen architecture and operating system. You will need to understand this before you will be able to use any of the code in this document.
 </para>
@@ -56,6 +98,10 @@ For those of you using gcc on a unix (or unix-like) operating system, then the f
 <listitem><para>The make files included with the samples in this tutorial a probably a bad place to look for introductory compile examples, as they use automake and autoconf to try to detect where the various required libraries are installed...</para></listitem>
 </orderedlist>
 </para>
+
+<slidetext>
+<li>How to compile and link
+</slidetext>
 </sect2>
 </sect1>
 
@@ -64,10 +110,22 @@ For those of you using gcc on a unix (or unix-like) operating system, then the f
 There are many people who need to be thanked when one attempts a project of this size. I would specifically like to thank my wife and son, who put up with me being geeky so very often.
 </para>
 
-<figure><title>Catherine and Andrew</title>
-<graphic format="EPS" fileref="introduction-figure1.eps">
-</figure>
+<slidetext>
+<li>I should thank the following people:
+  <ul>
+  <li>My wife Catherine, and my son Andrew
+  <li>Doug Jackson
+  <li>Tony Green
+  <li>Michael Smith
+  <li>Greg Lehey
+  <li>Lenny Muellner  
+</slidetext>
 
+<slideinclude>
+<figure><title>Catherine and Andrew</title>
+<execute><cmd>img</cmd><args>introduction-figure1.jpg</args></execute>
+</figure>
+</slideinclude>
 
 <para>
 I should also thank the following people:
@@ -80,8 +138,10 @@ I should also thank the following people:
 <listitem><para>Greg Lehey, for giving me access to his docbook environment when I was having jade pain</para></listitem>
 <listitem><para>Lenny Muellner, of O'Reilly, for helping me with my gmat problems</para></listitem>
 </itemizedlist>
+
 </sect1>
 
+<noslide>
 <sect1><title>How this document was produced</title>
 <para>
 This tutorial was written in DocBook SGML using xemacs. This was then converted into PDF using the jade SGML tools. Diagrams were developed in a combination of the gimp, Adobe Illustrator, and custom developed code. Diagrams were converted to EPS as required by jade using ImageMagick.
@@ -151,4 +211,5 @@ OF THIS SOFTWARE.
 </para>
 </sect2>
 </sect1>
+</noslide>
 </chapter>
