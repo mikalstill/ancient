@@ -84,7 +84,7 @@ am__quote = @am__quote@
 install_sh = @install_sh@
 
 lib_LTLIBRARIES = libplot.la
-noinst_PROGRAMS = sample graph parabola
+noinst_PROGRAMS = sample graph parabola fill
 
 libplot_la_SOURCES = libplot.c
 libplot_la_CFLAGS = $(FREETYPE_CFLAGS)
@@ -98,6 +98,8 @@ graph_SOURCES = exgraph.c
 graph_LDADD = -lplot -L.libs
 parabola_SOURCES = parabola.c
 parabola_LDADD = -lplot -L.libs
+fill_SOURCES = fill.c
+fill_LDADD = -lplot -L.libs
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
 CONFIG_CLEAN_FILES = 
@@ -122,6 +124,9 @@ graph_LDFLAGS =
 parabola_OBJECTS =  parabola.o
 parabola_DEPENDENCIES = 
 parabola_LDFLAGS = 
+fill_OBJECTS =  fill.o
+fill_DEPENDENCIES = 
+fill_LDFLAGS = 
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -137,10 +142,10 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = gtar
 GZIP_ENV = --best
-DEP_FILES =  .deps/example.P .deps/exgraph.P .deps/libplot.P \
-.deps/parabola.P
-SOURCES = $(libplot_la_SOURCES) $(sample_SOURCES) $(graph_SOURCES) $(parabola_SOURCES)
-OBJECTS = $(libplot_la_OBJECTS) $(sample_OBJECTS) $(graph_OBJECTS) $(parabola_OBJECTS)
+DEP_FILES =  .deps/example.P .deps/exgraph.P .deps/fill.P \
+.deps/libplot.P .deps/parabola.P
+SOURCES = $(libplot_la_SOURCES) $(sample_SOURCES) $(graph_SOURCES) $(parabola_SOURCES) $(fill_SOURCES)
+OBJECTS = $(libplot_la_OBJECTS) $(sample_OBJECTS) $(graph_OBJECTS) $(parabola_OBJECTS) $(fill_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
@@ -240,6 +245,10 @@ graph: $(graph_OBJECTS) $(graph_DEPENDENCIES)
 parabola: $(parabola_OBJECTS) $(parabola_DEPENDENCIES)
 	@rm -f parabola
 	$(LINK) $(parabola_LDFLAGS) $(parabola_OBJECTS) $(parabola_LDADD) $(LIBS)
+
+fill: $(fill_OBJECTS) $(fill_DEPENDENCIES)
+	@rm -f fill
+	$(LINK) $(fill_LDFLAGS) $(fill_OBJECTS) $(fill_LDADD) $(LIBS)
 
 install-includeHEADERS: $(include_HEADERS)
 	@$(NORMAL_INSTALL)

@@ -107,8 +107,8 @@ unsigned int plot_min (unsigned int one, unsigned int two);
 unsigned int plot_max (unsigned int one, unsigned int two);
 int plot_loadglyph(plot_state *, char);
 int plot_paintglyph(plot_state *, char, int);
-void plot_drawpoint(plot_state *, unsigned int, unsigned int);
-void plot_drawpointactual(plot_state *, unsigned int, unsigned int);
+void plot_drawpoint(plot_state *, plot_pixel, unsigned int, unsigned int);
+void plot_drawpointactual(plot_state *, plot_pixel, unsigned int, unsigned int);
 
 #ifdef __cplusplus
 }

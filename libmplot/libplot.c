@@ -104,6 +104,11 @@ plot_newplot (unsigned int x, unsigned int y)
   return state;
 }
 
+void plot_closeplot(plot_state *state)
+{
+  fprintf(stderr, "todo\n");
+}
+
 /******************************************************************************
 DOCBOOK START
 
@@ -439,7 +444,7 @@ plot_strokeline (plot_state * state)
 	  for (c = plot_min (x1, current->x);
 	       c < plot_max (x1, current->x) + 1; c++)
 	    {
-	      plot_drawpoint (state, c, y1);
+	      plot_drawpoint (state, state->linecolor, c, y1);
 	    }
 	}
       else if (x1 == current->x)
@@ -447,7 +452,7 @@ plot_strokeline (plot_state * state)
 	  for (c = plot_min (y1, current->y);
 	       c < plot_max (y1, current->y) + 1; c++)
 	    {
-	      plot_drawpoint (state, x1, c);
+	      plot_drawpoint (state, state->linecolor, x1, c);
 	    }
 	}
       else
@@ -470,11 +475,11 @@ plot_strokeline (plot_state * state)
 		  for (d = plot_min (prevy, (int) newy);
 		       d < plot_max (prevy, (int) newy); d++)
 		    {
-		      plot_drawpoint (state, c - 1, d);
+		      plot_drawpoint (state, state->linecolor, c - 1, d);
 		    }
 		}
 
-	      plot_drawpoint (state, c, (int) newy);
+	      plot_drawpoint (state, state->linecolor, c, (int) newy);
 	    }
 	}
 
@@ -486,12 +491,12 @@ plot_strokeline (plot_state * state)
 
 // Draw a single point on the raster, with the current pen properties
 void
-plot_drawpoint (plot_state * state, unsigned int x, unsigned int y)
+plot_drawpoint (plot_state * state, plot_pixel color, unsigned int x, unsigned int y)
 {
   unsigned int xc, yc, tempx, tempy;
 
   if((state->linewidthx == 1) && (state->linewidthy == 1)){
-    plot_drawpointactual(state, x, y);
+    plot_drawpointactual(state, color, x, y);
     return;
   }
 
@@ -501,7 +506,7 @@ plot_drawpoint (plot_state * state, unsigned int x, unsigned int y)
       tempy = y - (state->linewidthy / 2);
       for(yc = 0; yc < state->linewidthy; yc++)
 	{
-	  plot_drawpointactual(state, tempx, tempy);
+	  plot_drawpointactual(state, color, tempx, tempy);
 	  tempy++;
 	}
       tempx++;
@@ -510,19 +515,57 @@ plot_drawpoint (plot_state * state, unsigned int x, unsigned int y)
 
 // Turn on a single pixel
 void
-plot_drawpointactual (plot_state * state, unsigned int x, unsigned int y)
+plot_drawpointactual (plot_state * state, plot_pixel color, unsigned int x, unsigned int y)
 {
   unsigned long ptr = state->x * y + x;
   
   if (ptr > state->maxptr)
     return;
-  state->raster[ptr] = state->linecolor;
+  state->raster[ptr] = color;
 }
 
+// Fill a polygon with the stated color -- I suspect this routine is outlandishly inefficient, but I
+// am too tired to think of a better way to do it... This only implements the even odd rule at the 
+// moment.
+// todo_mikal: non-zero winding rule as well
 void
 plot_fillline (plot_state * state)
 {
-  fprintf (stderr, "todo\n");
+  plot_state *tempstate;
+  int intersects, prev = 0;
+  unsigned int row, col;
+
+  // Build a temporary copy of just that polygon
+  tempstate = plot_newplot(state->x, state->y);
+  tempstate->line = state->line;
+  plot_strokeline(tempstate);
+  
+  // For each row
+  for(row = 0; row < state->x ; row++)
+    {
+      intersects = 0;
+      for(col = 0; col < state->y; col++)
+	{
+	  if((tempstate->raster[row * state->x + col].r + 
+	      tempstate->raster[row * state->x + col].g + 
+	      tempstate->raster[row * state->x + col].b) != 765)
+	    {
+	      if(prev == 0)
+		intersects++;
+	      prev++;
+	    }
+	  else
+	    {
+	      if(prev > 2)
+		intersects++;
+	      prev = 0;
+	    }
+
+	  if((prev == 0) && (intersects % 2 == 1)){
+	    plot_drawpointactual(state, state->fillcolor, col, row);
+	  }
+	}
+    }
 }
 
 // State modification functions
