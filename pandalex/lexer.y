@@ -15,7 +15,6 @@
           /* Define the possible yylval values */
 %union {
   int        intVal;
-  char       *textVal;
 
   struct streamVal{
     char *data;
@@ -23,21 +22,21 @@
   } sval;
 }
 
-%token <textVal> VERSION
-%token <textVal> NAME
-%token <textVal> STRING
-%token <textVal> OBJREF <textVal> OBJ <textVal> ENDOBJ 
+%token <sval> VERSION
+%token <sval> NAME
+%token <sval> STRING
+%token <sval> OBJREF <sval> OBJ <sval> ENDOBJ 
 %token <intVal> INT
-%token <textVal> FP
-%token <textVal> DBLLT <textVal> DBLGT
-%token <textVal> STREAM <textVal> ENDSTREAM
-%token <textVal> ARRAY <textVal> ENDARRAY <textVal> ENDARRAYDBLGT
-%token <textVal> PDFEOF XREF TRAILER
+%token <sval> FP
+%token <sval> DBLLT <sval> DBLGT
+%token <sval> STREAM <sval> ENDSTREAM
+%token <sval> ARRAY <sval> ENDARRAY <sval> ENDARRAYDBLGT
+%token <sval> PDFEOF XREF TRAILER
 %token <sval> ANYTHING
 
 %type <sval> binary
 %type <sval> header
-%type <textVal> objref
+%type <sval> objref
 
 %type <intVal> dictionary
 
@@ -53,7 +52,7 @@ pdf       : { pandalex_callback(pandalex_event_begindocument, ""); }
           ;
 
 header    : VERSION { pandalex_callback(pandalex_event_specver, $1); }
-            binary { $$ = $3; }
+            binary { $$.data = pandalex_strmcat($1.data, $1.len, $3.data, $3.len); $$.len = $1.len + $3.len + 1; }
           ;
 
 linear    : xref trailer { }
@@ -103,12 +102,13 @@ arrayvals : objref arrayvals {}
           |
           ;
 
-objref    : INT INT OBJREF { if(($$ = (char *) malloc((intlen($1) + intlen($2) + 5) * sizeof(char))) == NULL){
+objref    : INT INT OBJREF { if(($$.data = (char *) malloc((pandalex_intlen($1) + pandalex_intlen($2) + 5) * sizeof(char))) == NULL){
 			       fprintf(stderr, "Could not allocate enough space for objref\n");
 			       exit(42);
                                }
 			     
-			     sprintf($$, "%d %d R", $1, $2);
+			     sprintf($$.data, "%d %d R", $1, $2);
+			     $$.len = strlen($$.data) + 1;
 			                       }
           ;
 
@@ -116,9 +116,9 @@ stream    : STREAM binary ENDSTREAM { free($2); }
           |
           ;
 
-binary    : ANYTHING binary { $$.data = strmcat($1.data, $1.len, $2.data, $2.len); $$.len = $1.len + $2.len; free($2); }
-          | STRING binary { $$.data = strmcpy($1, -1); $$.len = strlen($1); }   /* New, may cause problems */
-          | { $$.data = strmcpy("", -1); $$.len=0; }
+binary    : ANYTHING binary { $$.data = pandalex_strmcat($1.data, $1.len, $2.data, $2.len); $$.len = $1.len + $2.len; free($2); }
+          | STRING binary { $$.data = pandalex_strmcpy($1.data, -1); $$.len = strlen($1.data); }   /* New, may cause problems */
+          | { $$.data = pandalex_strmcpy("", -1); $$.len = 0; }
           ;
 
 xref      : XREF INT INT xrefitems {}
@@ -175,22 +175,16 @@ int yyerror(char *s){
   fprintf(stderr, "  document (if possible) to mikal@stillhq.com, so that this can\n");
   fprintf(stderr, "  be fixed for the next release...\n\n");
   fprintf(stderr, "version = 0.4\n");
-  fprintf(stderr, "last token = \"%s\" (%d)\n", yylval.textVal, yylval.intVal);
+  fprintf(stderr, "last token = \"%s\" (%d) or %d\n", yylval.sval.data, yylval.sval.len, yylval.intVal);
   fprintf(stderr, "\n---------------------------------------------------------------\n");
 
   exit(42);
 }
 
 // Buffer overrun safe strcat
-char *strmcat(char *dest, int destLen, char *append, int appendLen){
+char *pandalex_strmcat(char *dest, int destLen, char *append, int appendLen){
   char *new;
   int count, len;
-
-#if defined DEBUG
-  //  printf("strmcat was passed %d, %d:\n", destLen, appendLen);
-  //  debuglex(dest, destLen, "first arg", 0);
-  //  debuglex(append, appendLen, "second arg", 0);
-#endif
 
   // What length do we need?
   if((new = (char *) malloc(sizeof(char) * 
@@ -223,11 +217,11 @@ char *strmcat(char *dest, int destLen, char *append, int appendLen){
 }
 
 // Buffer overrun safe strcpy
-char *strmcpy(char *data, int len){
-  return strmcat(data, len, "", 0);
+char *pandalex_strmcpy(char *data, int len){
+  return pandalex_strmcat(data, len, "", 0);
 }
 
-int intlen(int number){
+int pandalex_intlen(int number){
   int length = 0;
 
   while(number > 0){

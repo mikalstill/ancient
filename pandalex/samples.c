@@ -149,10 +149,10 @@ void pdfinfo_stream(int event, va_list argptr){
 
       printf("Do something about waiting for the info\n");
 
-      now->value = (char *) strmcpy(lengthObj, -1);
-      now->filter = (char *) strmcpy(filter, -1);
+      now->value = (char *) pandalex_strmcpy(lengthObj, -1);
+      now->filter = (char *) pandalex_strmcpy(filter, -1);
 
-      now->stream = (char *) strmcpy(streamData + 2, streamDataLen - 2);
+      now->stream = (char *) pandalex_strmcpy(streamData + 2, streamDataLen - 2);
       now->stream[strlen(now->stream)] = '\0';
 
       now->streamlen = streamDataLen - 2;
@@ -197,7 +197,7 @@ void pdfinfo_dictint(int event, va_list argptr){
 
   // Information is handed to this event in a slightly different manner to
   // the stream event handler. Fix this.
-  if((objref = (char *) malloc((intlen(objnum) + intlen(objgen) + 5) * sizeof(char))) == NULL){
+  if((objref = (char *) malloc((pandalex_intlen(objnum) + pandalex_intlen(objgen) + 5) * sizeof(char))) == NULL){
     fprintf(stderr, "Could not allocate enough space for objref\n");
     exit(42);
   }
@@ -227,7 +227,7 @@ void pdfinfo_dictint(int event, va_list argptr){
       exit(42);
     }
     
-    now->value = (char *) strmcpy(objref, -1);
+    now->value = (char *) pandalex_strmcpy(objref, -1);
     now->filter = NULL;
     now->stream = NULL;
     now->waiting = 2;
