@@ -79,10 +79,6 @@
     each new point is placed on a line between the two adjacent points.
     The Equation for adding a new point is: (TODO:ADD LINEAR INTERP EQUATION 1)
   </para>
-
-  <para>
-    where: (TODO:ADD LINEAR INTERP EQUATION 2)
-  </para>
   <para>
     Linear interpolation has several advantages.  Firstly each added point has a
     value that is approximately the same as nearby value thus obtaining values significantly out of range
@@ -108,17 +104,16 @@
     To produce a spine for a dataset of <command>n+1</command> points you have to produce n separate
     cubics.  Each of these cubic should have each end match up exactly with the
     points to either side.  And on the same point the two adjacent cubic should
-    have shared first and second derivatives. Each of these cubics can be described by the equation: 
+    have shared first and second derivatives. Each of these cubics can be described by the equation:
     (TODO: Spline equation 1)
   </para>
   <para>
-    Because each of these cubics begins at a any existing point we can say: (TODO: Spline equation 2)
+    Because each of these cubics begins at a any existing point we can say: <command>d<subscript>i
+    </subscript> = y<subscript>i</subscript>
   </para>
   <para>
-    where <command>
-            h<subscript>i</subscript>=(x<subscript>i+1</subscript> - x<subscript>i</subscript>)
-	  </command>,
-    is the width of the the interval.
+    where <command>h<subscript>i</subscript>=(x<subscript>i+1</subscript> -
+    x<subscript>i</subscript>)</command>, is the width of the the interval.
   </para>
   <para>
     Also if we make s the set of second derivatives; then through algebraic simplification
