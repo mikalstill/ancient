@@ -6,7 +6,8 @@ int main(int argc, char *argv[]){
   uint16 photo, bps, spp, fillorder;
   uint32 width, height, *raster;
   tsize_t stripSize;
-  unsigned long imagesize, c;
+  unsigned long imagesize, c, d;
+  char *raster2;
 
   // Open the TIFF image
   if((image = TIFFOpen(argv[1], "r")) == NULL){
@@ -24,7 +25,13 @@ int main(int argc, char *argv[]){
   TIFFGetField(image, TIFFTAG_IMAGEWIDTH, &width);
   TIFFGetField(image, TIFFTAG_IMAGELENGTH, &height);
   imagesize = height * width + 1;
+  
   if((raster = (uint32 *) malloc(sizeof(uint32) * imagesize)) == NULL){
+    fprintf(stderr, "Could not allocate enough memory\n");
+    exit(42);
+  }
+
+  if((raster2 = (char *) malloc(sizeof(char) * imagesize * 3)) == NULL){
     fprintf(stderr, "Could not allocate enough memory\n");
     exit(42);
   }
@@ -35,21 +42,25 @@ int main(int argc, char *argv[]){
     exit(42);
   }
 
-  for(c = 0; c < imagesize * 4; c++){
-    printf("%02x\n", raster[c]);
+  d = 0;
+  for(c = 0; c < imagesize; c++){
+    raster2[d++] = TIFFGetR(raster[c]);
+    raster2[d++] = TIFFGetG(raster[c]);
+    raster2[d++] = TIFFGetB(raster[c]);
   }
 
   // Recompress it straight away -- set the tags we require
   TIFFSetField(output, TIFFTAG_IMAGEWIDTH, width);
   TIFFSetField(output, TIFFTAG_IMAGELENGTH, height);
-  TIFFSetField(output, TIFFTAG_COMPRESSION, COMPRESSION_DEFLATE);
+  TIFFSetField(output, TIFFTAG_COMPRESSION, COMPRESSION_JPEG);
   TIFFSetField(output, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
   TIFFSetField(output, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_RGB);
   TIFFSetField(output, TIFFTAG_BITSPERSAMPLE, 8);
   TIFFSetField(output, TIFFTAG_SAMPLESPERPIXEL, 3);
+  TIFFSetField(output, TIFFTAG_JPEGQUALITY, 25);
 
   // Actually write the image
-  if(TIFFWriteEncodedStrip(output, 0, raster, imagesize * 4) == 0){
+  if(TIFFWriteEncodedStrip(output, 0, raster2, imagesize * 3) == 0){
     fprintf(stderr, "Could not read image\n");
     exit(42);
   }
