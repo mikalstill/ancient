@@ -4,10 +4,15 @@
 # docbook compliant XML.
 
 # Heading state handling needs some love
+# Index entries also need work
+# Check for <para></para><para></para>
+# Screen is not entirely appropriate for display mapping
+# Lists within lists
+# Email address are note properly identified
 
 use strict;
 my($INPUT, $OUTPUT);
-my($parastate, $liststate, $listitemstate, $footnotestate, $sectionstate, $italicstate, $displaystate);
+my($parastate, $liststate, $listitemstate, $footnotestate, $sectionstate, $italicstate, $displaystate, $emailstate);
 my($length);
 my($chapters, $chapter, $chaptercount);
 
@@ -22,7 +27,7 @@ open OUTPUT, "> output.sgml";
 #print OUTPUT "<!DOCTYPE book PUBLIC \"-//Norman Walsh//DTD DocBk XML V3.1.4//EN\"\n";
 #print OUTPUT "                         \"http://nwalsh.com/docbook/xml/3.1.4/db3xml.dtd\">\n";
 print OUTPUT "<!DOCTYPE book PUBLIC \"-//OASIS//DTD DocBook V3.1//EN\">\n";
-print OUTPUT "<book><title>Missing title</title>";
+print OUTPUT "<book><bookinfo><title>The Complete FreeBSD</title><author><firstname>Greg</firstname><surname>Lehey</surname></author><copyright><year>2001</year><holder>Greg Lehey</holder></copyright></bookinfo>\n";
 
 # For each chapter we specified
 foreach $chapter (split(/ /, $chapters)){
@@ -32,16 +37,28 @@ foreach $chapter (split(/ /, $chapters)){
 
     $liststate = 0;
     $listitemstate = 0;
-    $parastate = 1;
+    $parastate = 0;
     $footnotestate = 0;
     $sectionstate = 0;
     $italicstate = 0;
     $displaystate = 0;
+    $emailstate = 0;
     
     # For each line in the file...
     while(<INPUT>){
+#	print OUTPUT "LlPFSIDE $liststate$listitemstate$parastate$footnotestate$sectionstate$italicstate$displaystate$emailstate\n";
+
 	# We run some little conversion rules to deal with things like italics et al
 	
+	# Ampersands
+	s/&/&amp;/g;
+
+	# LT
+	s/</&lt;/g;
+
+	# GT
+	s/>/&gt;/g;
+
 	# Footnote thingie we don't use
 	s/\\\*F//g;
 	
@@ -49,18 +66,54 @@ foreach $chapter (split(/ /, $chapters)){
 	$length = length $_;
 	s/\\fI/<emphasis>/g;
 	if($length != length($_)){
-	    $italicstate = 1;
+	    $italicstate++;
+	    dblog($OUTPUT, "DBLOG: Turned italic state on ($italicstate)\n");
+	}
+
+   	$length = length $_;
+	s/\\f\(CB/<emphasis>/g;
+	if($length != length($_)){
+	    $italicstate++;
+	    dblog($OUTPUT, "DBLOG: Turned italic state on ($italicstate)\n");
+	}
+
+	if($italicstate > 0){
+	    $length = length($_);
+	    s/\\fP[^ \t,.]*/<\/emphasis>/g;
+	    if($length != length($_)){
+		$italicstate--;
+	    }
+	    else{
+		s/\\fR[^ \t,.]*/<\/emphasis>/g;
+		if($length != length($_)){
+		    $italicstate--;
+		}
+	    }
+	}
+
+	# Email addresses
+	$length = length $_;
+	s/\\f\(CW/<emphasis>/g;
+	if($length != length($_)){
+	    $emailstate++;
 	}
 	
-	if($italicstate == 1){
+	if($emailstate == 1){
+	    $length = length($_);
 	    s/\\fP[^ \t,.]*/<\/emphasis>/g;
+	    if($length != length($_)){
+		$emailstate--;
+	    }
+	    else{
+		s/\\fR[^ \t,.]*/<\/emphasis>/g;
+		if($length != length($_)){
+		    $emailstate--;
+		}
+	    }
 	}
 
 	# Prompts
 	s/\\fC([^ \t,.]*)/<command>$1<\/command>/g;
-
-	# Ampersands
-	s/&/&amp;/g;
 
 	##############################################################
 	# Comments
@@ -69,53 +122,59 @@ foreach $chapter (split(/ /, $chapters)){
 
 	# Aside start
 	elsif(/^\.Aside(.*)/i){
+	    $parastate = endpara($parastate, $OUTPUT);
 	    print OUTPUT "<sidebar><para>\n";
 	}
 
 	elsif(/^\.End-aside(.*)/i){
-	    print OUTPUT "</para></sidebar>\n";
+	    print OUTPUT "</para></sidebar><para>\n";
+	    $parastate++;
 	}
 	
 	# Display start
 	elsif(/^\.DS(.*)/i){
-	    endpara($parastate, $OUTPUT);
-	    print OUTPUT "<screen><para>\n";
+	    $parastate = endpara($parastate, $OUTPUT);
+	    print OUTPUT "<screen>\n";
 	    $displaystate = 1;
-	    $parastate = 1;
+	}
+
+	# Display start
+	elsif(/^\.Dx(.*)/i){
+	    $parastate = endpara($parastate, $OUTPUT);
+	    print OUTPUT "<screen>\n";
+	    $displaystate = 1;
 	}
 	
 	# Display end
 	elsif(/^\.DE(.*)/i){
-	    endpara($parastate, $OUTPUT);	    
 	    if($displaystate == 1){
 		print OUTPUT "</screen><para>\n";
 	    }
 	    $displaystate = 0;
-	    $parastate = 1;
+	    $parastate++;
 	}
 	
 	# Footnote start
 	elsif(/^\.FS[ \t]*(.*)/i){
 	    print OUTPUT "<footnote><para>\n";
-	    $parastate = 1;
+	    $parastate++;
 	    $footnotestate = 1;
 	}
 	
 	# Footnote end
 	elsif(/^\.FE[ \t]*(.*)/i){
 	    if($footnotestate == 0){
-		print OUTPUT "LOG: Footnote end for a non-open footnote!\n";
+		dblog($OUTPUT, "DBLOG: Footnote end for a non-open footnote!\n");
 	    }
 	    
-	    endpara($parastate, $OUTPUT);
-	    $parastate = 0;
+	    $parastate = endpara($parastate, $OUTPUT);
 	    print OUTPUT "</footnote>\n";
 	    $footnotestate = 0;
 	}
 	
 	# Headings
 	elsif(/^\.H([0-7])[ \t]*(.*)/i){
-	    endpara($parastate, $OUTPUT);
+	    $parastate = endpara($parastate, $OUTPUT);
 	    
 	    if($sectionstate == 1){
 		print OUTPUT "</section>\n";
@@ -126,64 +185,78 @@ foreach $chapter (split(/ /, $chapters)){
 	    
 	    print OUTPUT "<section><title>$_</title>\n";
 	    print OUTPUT "<para>\n";
-	    $parastate = 1;
+	    $parastate++;
 	    $sectionstate = 1;
 	}
 	
 	# Headings (Unsupported)
 	elsif(/^\.H([8-9])[ \t]*(.*)/i){
-	    endpara($parastate, $OUTPUT);
-	    $parastate = 0;
+	    $parastate = endpara($parastate, $OUTPUT);
 	    print OUTPUT "<section><title>Title???</title>\n";
 	    $sectionstate = 1;
 	}
 	
 	# List start
 	elsif((/^\.LS(.*)/i) || (/^\.LB(.*)/i)){
-	    endpara($parastate, $OUTPUT);
-	    $parastate = 0;
-	    print OUTPUT "<itemizedlist>\n";
+	    $parastate = endpara($parastate, $OUTPUT);
+
+	    if($liststate == 0){
+		print OUTPUT "<itemizedlist>\n";
+	    }
+	    else{
+		if($listitemstate > 0){
+		    print OUTPUT "</listitem>\n";
+		    $listitemstate--;
+		}
+
+		print OUTPUT "</itemizedlist>\n";
+		print OUTPUT "<orderedlist>\n";
+	    }
 	    $liststate++;
 	}
 	
 	# List item
 	elsif(/^\.LI(.*)/i){
 	    if($liststate == 0){
-		print OUTPUT "LOG: List item for a non-open list!\n";
+		dblog($OUTPUT, "DBLOG: List item for a non-open list!\n");
 	    }
 	    
-	    endpara($parastate, $OUTPUT);
-	    $parastate = 0;
+	    $parastate = endpara($parastate, $OUTPUT);
 	    if($listitemstate == 1){
 		print OUTPUT "</listitem>\n";
 	    }
 	    
 	    print OUTPUT "<listitem><para>\n";
-	    $parastate = 1;
+	    $parastate++;
 	    $listitemstate = 1;
 	}
 	
 	# List end
 	elsif(/^\.LE(.*)/i){
 	    if($liststate == 0){
-		print OUTPUT "LOG: List end for a non-open list!\n";
+		dblog($OUTPUT, "DBLOG: List end for a non-open list!\n");
 	    }
 	    
-	    endpara($parastate, $OUTPUT);
-	    $parastate = 0;
-	    
-	    if($listitemstate == 1){
+	    $parastate = endpara($parastate, $OUTPUT);
+	 
+	    if($listitemstate > 0){
 		print OUTPUT "</listitem>\n";
 	    }
-	    
+
+	    if($liststate == 1){
+		print OUTPUT "</itemizedlist><para>\n";
+		$parastate++;
+	    }
+	    else{
+		print OUTPUT "</orderedlist>\n";
+		print OUTPUT "<itemizedlist>\n";
+	    }
 	    $liststate--;
-	    print OUTPUT "</itemizedlist>\n";
-	    print OUTPUT "DEBUG LOG: listlevel = $liststate\n";
+	    dblog($OUTPUT, "DEBUG DBLOG: listlevel = $liststate\n");
 	    $listitemstate = 0;
-	    $parastate = 1;
 
 	    if($liststate < 0){
-		print OUTPUT "LOG: Negative list state entered\n";
+		dblog($OUTPUT, "DBLOG: Negative list state entered\n");
 	    }
 	}
 	
@@ -194,9 +267,9 @@ foreach $chapter (split(/ /, $chapters)){
 	
 	# Paragraphs
 	elsif(/^\.P[ \t]*([0-9]*)(.*)/i){
-	    endpara($parastate, $OUTPUT);
+	    $parastate = endpara($parastate, $OUTPUT);
 	    print OUTPUT "<para>\n";
-	    $parastate = 1;
+	    $parastate++;
 	}
 	
 	# Unknown command
@@ -219,17 +292,17 @@ foreach $chapter (split(/ /, $chapters)){
 	    print OUTPUT "<chapter><title>$2</title>\n";
 	    print OUTPUT "<section><title></title>\n";
 	    print OUTPUT "<para>\n";
-	    $parastate = 1;
+	    $parastate++;
 	    $sectionstate = 1;
 	    }
 
 	elsif(/^\.X[ \t]\"([^ \"]*)[\"]*/i){
-	    print OUTPUT "<indexentry><primaryie>$1</primaryie></indexentry>\n";
+	    print OUTPUT "<indexterm><primary>$1</primary></indexterm>\n";
 	}
 	
 	# We don't know anything about this command at all
 	elsif(/^\.(.*)/i){
-	    print OUTPUT "LOG: DEFAULT COMMAND FOUND: $1\n";
+	    dblog($OUTPUT, "DBLOG: DEFAULT COMMAND FOUND: $1\n");
 	}
 	
 	# A document line?
@@ -238,19 +311,18 @@ foreach $chapter (split(/ /, $chapters)){
 	}
     }
     
-    endpara($parastate, $OUTPUT);
-    $parastate = 0;
+    $parastate = endpara($parastate, $OUTPUT);
     
     if($liststate == 1){
-	print OUTPUT "LOG: Not closed list at end of document!\n";
+	dblog($OUTPUT, "DBLOG: Not closed list at end of document!\n");
     }
     
     if($footnotestate == 1){
-	print OUTPUT "LOG: Not closed footnote at end of document!\n";
+	dblog($OUTPUT, "DBLOG: Not closed footnote at end of document!\n");
     }
     
     if($sectionstate == 1){
-	print OUTPUT "LOG: Not closed section at end of document (closed)!\n";
+	dblog($OUTPUT, "DBLOG: Not closed section at end of document (closed)!\n");
 	print OUTPUT "</section>";
     }
     
@@ -265,7 +337,19 @@ exit;
 sub endpara(){
     my($ps, $OUTPUT) = @_;
 
-    if($ps == 1){
+    if($ps > 0){
 	print OUTPUT "</para>\n";
+	$ps--;
     }
+    else{
+	dblog($OUTPUT, "DBLOG: Chose not to close para here (parastate is $ps)\n");
+    }
+
+    return $ps;
+}
+
+sub dblog(){
+    my($OUTPUT, $string) = @_;
+
+#    print OUTPUT $string;
 }
