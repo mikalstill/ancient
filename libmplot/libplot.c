@@ -1,5 +1,5 @@
 /******************************************************************************
-  Copyright (C) Michael Still 2002, 2003
+  Copyright (C) Michael Still 2002, 2003, 2004
   
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -124,9 +124,23 @@ plot_newplot (unsigned int x, unsigned int y)
   return state;
 }
 
+void plot_safefree(void *ptr)
+{
+  if(ptr)
+    free(ptr);
+}
+
 void plot_closeplot(plot_state *state)
 {
-  fprintf(stderr, "todo\n");
+  plot_endline(state);
+  plot_safefree(state->raster);
+  plot_safefree(state->linedash);
+
+#if defined HAVE_LIBFREETYPE
+  plot_safefree(state->face);
+  plot_safefree(state->ft);
+  plot_safefree(state->fontpath);
+#endif
 }
 
 /******************************************************************************
@@ -772,6 +786,9 @@ plot_fillline (plot_state * state)
 	    }
 	}
     }
+
+  // Clean up the tempstate
+  plot_closeplot(tempstate);
 }
 
 /******************************************************************************
