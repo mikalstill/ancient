@@ -734,10 +734,10 @@ cepView::processWindow(const cepWindow wType, string desc)
     for(int i = 0; i < cepDataset::dirUnknown; i++)
     {
       cepDebugPrint("Window: " + cepToString(i));
-      cout << "window size:" << endl
-           << "rows: " << theDoc->getDataset()->getMatrix((cepDataset::direction) i)->getNumRows() << endl
-           << "cols: " << theDoc->getDataset()->getMatrix((cepDataset::direction) i)->getNumCols() << endl
-           << "tabs: " << theDoc->getDataset()->getMatrix((cepDataset::direction) i)->getNumTables() << endl;
+//      cout << "window size:" << endl
+//           << "rows: " << theDoc->getDataset()->getMatrix((cepDataset::direction) i)->getNumRows() << endl
+//           << "cols: " << theDoc->getDataset()->getMatrix((cepDataset::direction) i)->getNumCols() << endl
+//           << "tabs: " << theDoc->getDataset()->getMatrix((cepDataset::direction) i)->getNumTables() << endl;
            
       cepError werr = cepDataWindower::window(*theDoc->getDataset()->getMatrix((cepDataset::direction) i),
                                                 windowed[i]);

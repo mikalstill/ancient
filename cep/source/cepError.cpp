@@ -32,7 +32,7 @@ cepError::cepError ()
 cepError::cepError (const string & msg)
 {
   m_message = msg;
-  m_level = cepError::sevErrorFatal;
+  m_level = cepError::sevWarning;
   m_actioned = false;
 }
 

@@ -71,11 +71,11 @@ void cepDataWindower::init() {
   cepWindowChebyshev::setTransitionBandwidth( tbw );
   if( err.isReal() ) err.log();
 
-  cout << "window params loaded" <<endl;
-  cout << "type: " << algType.toString() << endl;
-  cout << "size: " << cepToString( size ) << endl;
-  cout << "overlap: " << cepToString( overlap ) << endl;
-  cout << "bandwidth: " << cepToString( tbw ) << endl;
+//  cout << "window params loaded" <<endl
+//       << "type: " << algType.toString() << endl
+//       << "size: " << cepToString( size ) << endl
+//       << "overlap: " << cepToString( overlap ) << endl
+//       << "bandwidth: " << cepToString( tbw ) << endl;
 }
 
 
@@ -189,13 +189,13 @@ const cepError cepDataWindower::window( const cepMatrix<double> & dataIn,
       result.setValue(element, 1, win, const_cast< cepMatrix<double>& >(dataIn).getValue( ptr, 1 )*coeffs.getValue(element,0));
       result.setValue(element, 2, win, color);
       
-      cout << "scale=" << const_cast< cepMatrix<double>& >(dataIn).getValue( ptr, 0 )
-           << "(" << result.getValue(element, 0, win) << ")"
-           << "   value=" << const_cast< cepMatrix<double>& >(dataIn).getValue( ptr, 1 )*coeffs.getValue(element,0)
-           << "(" << result.getValue(element, 1, win) << ")"
-           << "   color=" << color
-           << "(" << result.getValue(element, 2, win) << ")"
-           << endl;
+//      cout << "scale=" << const_cast< cepMatrix<double>& >(dataIn).getValue( ptr, 0 )
+//           << "(" << result.getValue(element, 0, win) << ")"
+//           << "   value=" << const_cast< cepMatrix<double>& >(dataIn).getValue( ptr, 1 )*coeffs.getValue(element,0)
+//           << "(" << result.getValue(element, 1, win) << ")"
+//           << "   color=" << color
+//           << "(" << result.getValue(element, 2, win) << ")"
+//           << endl;
     }
   }
 

@@ -195,38 +195,39 @@ cepError cepDataset::read(const string & filename)
                     rowcolor =
                         ((sa.size() > 3) ? atof(sa[2].c_str()) : 0.0);
 
+                    // if we have a row containing 3 consecutive delimiters then we add a new window
+                    if (rowdate == delim || rowsample == delim || rowerror == delim) {
+                        cout << "("<<rowdate<<","<<rowsample<<","<<rowerror<<","<<rowcolor<<") "
+                             << "found delimiters on line " << numLines << endl;
+                        data.push_back(cepVector4D());
+
+                        lastRowdate = rowdate;
+                        lastRowsample = rowsample;
+                        lastRowerror = rowerror;
+                        lastRowcolor = rowcolor;
+                        thisLine="";
+                        continue;
+                    }
+
                     if (lastRowdate == -1) {
-                        // if we have a row containing 3 consecutive delimiters then we add a new window
-                        if (rowdate == delim && rowsample == delim
-                            && rowerror == delim) {
-                            data.push_back(cepVector4D());
-                        } else {
-                            try {
-//                                data.at( (int)data.size() - 1).push_back(rowdate,
-//                                                                   rowsample,
-//                                                                   rowerror,
-//                                                                   rowcolor);
-                                data[ (int)data.size() - 1 ].push_back(rowdate,
-                                                                       rowsample,
-                                                                       rowerror,
-                                                                       rowcolor);
+                        data[ (int)data.size() - 1 ].push_back(rowdate,
+                                                                   rowsample,
+                                                                   rowerror,
+                                                                   rowcolor);
 
-                            }
-                            catch(...) {
-                                cepDebugPrint
-                                    ("exceeded bounds of data vector");
-                                return cepError
-                                    ("exceeded bounds of data vector @ __FILE__, __LINE__");
-                            }
-
-                            lastRowdate = rowdate;
-                            lastRowsample = rowsample;
-                            lastRowerror = rowerror;
-                            lastRowcolor = rowcolor;
-                        }
+                        lastRowdate = rowdate;
+                        lastRowsample = rowsample;
+                        lastRowerror = rowerror;
+                        lastRowcolor = rowcolor;
                     } else {
-                        if (rowdate < lastRowdate) {
+                        if (rowdate < lastRowdate && lastRowdate != delim) {
                             m_ready = true;
+                            cepDebugPrint
+                                ("dataset not in date order");
+                            cepDebugPrint
+                                ("last date="+cepToString(lastRowdate));
+                            cepDebugPrint
+                                ("this date="+cepToString(rowdate));
                             return cepError("dataset: " + m_filename +
                                             ".dat" + cepToString(i + 1) +
                                             " is not in date order! At line "
@@ -273,7 +274,7 @@ cepError cepDataset::read(const string & filename)
                     // This is a header / textual line -- perhaps it's
                     // even an offset line
                     // BS - todo. check if the tag for fourier domain is here !!!
-		    // See Mikal's comment below...
+                    // See Mikal's comment below...
                     if (numLines == 1) {
                         cepStringArray sa(thisLine, " ");
 
@@ -421,12 +422,12 @@ cepError cepDataset::write(const string & filename)
 	}
 	files[i] << endl << endl;
 
-        cepDebugPrint("Writing dataset with offset of " + m_offset[i] +
-                      " in direction " + cepToString(i));
-        cout << "writing dataset to " << filename << endl;
-        cout << "elements=" << m_data[i]->getNumRows() << endl;
-        cout << "columns=" << m_data[i]->getNumCols() << endl;
-        cout << "windows=" << m_data[i]->getNumTables() << endl;
+//        cepDebugPrint("Writing dataset with offset of " + m_offset[i] +
+//                      " in direction " + cepToString(i));
+//        cout << "writing dataset to " << filename << endl;
+//        cout << "elements=" << m_data[i]->getNumRows() << endl;
+//        cout << "columns=" << m_data[i]->getNumCols() << endl;
+//        cout << "windows=" << m_data[i]->getNumTables() << endl;
 
         // if we have multiple windows.
         // the 2D matrix cannot handle being called with 3 params, even if the third on is always 1
@@ -481,7 +482,7 @@ cepError cepDataset::write(const string & filename)
                 files[i] << line.str() << endl;
             }
         }
-        cout << endl;
+//        cout << endl;
 
         files[i].close();
     }
