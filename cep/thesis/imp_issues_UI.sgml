@@ -4,7 +4,8 @@
 
 <sect3><title>Introduction</title>
 <para>
-The <command>GDMS</command> user interface is the most prominent part of the application. It is the main way in which the user experiences the application. <command>GDMS</command> currently supports two user interface variants:
+The <command>GDMS</command> user interface is the most prominent part of the application. It is the main way in which the user 
+experiences the application. <command>GDMS</command> currently supports two user interface variants:
 </para>
 
 <itemizedlist>
@@ -13,18 +14,23 @@ The <command>GDMS</command> user interface is the most prominent part of the app
 </itemizedlist>
 
 <para>
-This section will deal primarily with the research undertaken for implementing the X windows user interface. This is not only due to the fact that the scale of implementation required was much greater for this variant, however, also because there were many more alternatives available.
+This section will deal primarily with the research undertaken for implementing the X windows user interface. 
+This is not only due to the fact that the scale of implementation required was much greater for this variant, and because 
+there were many more alternatives available.
 </para>
 </sect3> <!--Introduction-->
 
 <sect3><title>Graphical user interface</title>
 <para>
-There are a plethora graphical user interface toolkits available today. As each has it's advantages, a small survey of the options considered, and then a discussion of why <emphasis>wxWindows</emphasis> was selected is appropriate.
+There are a plethora graphical user interface toolkits available today. As each has it's advantages, a small survey of the 
+options considered, and then a discussion of why <emphasis>wxWindows</emphasis> was selected is appropriate.
 </para>
 
 <sect4><title>CDE</title>
 <para>
-The Common Desktop Environment (CDE) was jointly developed by Hewlett-Packard, IBM, Novell and Sun Microsystems. These companies have subsequently adopted CDE as the standard window manager as shipped on a variety of their various operating systems (Chapman 2002). CDE uses the Motif windowing toolkit.
+The Common Desktop Environment (CDE) was jointly developed by Hewlett-Packard, IBM, Novell and Sun Microsystems. 
+These companies have subsequently adopted CDE as the standard window manager as shipped on a variety of their various 
+operating systems (Chapman 2002). CDE uses the Motif windowing toolkit.
 </para>
 
 <figure><title>Sun Microsystem's default CDE configuration (Chapman 2002)</title>
@@ -35,7 +41,8 @@ The Common Desktop Environment (CDE) was jointly developed by Hewlett-Packard, I
 
 <sect4><title>CDE</title>
 <para>
-KDE development started in October 1996 (KDE 2002), as a replacement for Sun's CDE. KDE is based on Trolltech's qt widget set (Trolltech 2002). KDE is available as an installation option on the majority of the Linux distributions available.
+KDE development started in October 1996 (KDE 2002), as a replacement for Sun's CDE. KDE is based on Trolltech's qt widget set 
+(Trolltech 2002). KDE is available as an installation option on the majority of the Linux distributions available.
 </para>
 
 <figure><title>The default KDE theme, Konquerer (KDE 2002)</title>
@@ -45,11 +52,14 @@ KDE development started in October 1996 (KDE 2002), as a replacement for Sun's C
 
 <sect4><title>Gnome</title>
 <para>
-Gnome is the default window manager and windowing toolkit set for the majority of Linux distributions, including Linux, which the Survey Lab at the University of Canberra makes extensive use of. Gnome is implemented using the GTK windowing toolkit (GTK 2002).
+Gnome is the default window manager and windowing toolkit set for the majority of Linux distributions, including Linux, 
+which the Survey Lab at the University of Canberra makes extensive use of. Gnome is implemented using the GTK windowing 
+toolkit (GTK 2002).
 </para>
 
 <para>
-Sun Microsystems have recently announced that from Solaris 8 on wards, Gnome will be available as a window manager. They have also announce that CDE will be replaced with Gnome in future releases (Sun Microsystems 2002).
+Sun Microsystems have recently announced that from Solaris 8 on wards, Gnome will be available as a window manager. 
+They have also announce that CDE will be replaced with Gnome in future releases (Sun Microsystems 2002).
 </para>
 
 <figure><title>The Solaris version of the GNOME desktop (Gnome 2002)</title>
@@ -59,7 +69,8 @@ Sun Microsystems have recently announced that from Solaris 8 on wards, Gnome wil
 
 <sect4><title>Microsoft Windows</title>
 <para>
-Whilst not a X windows toolkit, Window's MFC toolkit was considered as a development alternative for <command>GDMS</command>. However, the survey lab does not currently contain any Microsoft Windows machines, so this option was not pursued any further.
+Whilst not a X windows toolkit, Window's MFC toolkit was considered as a development alternative for <command>GDMS</command>. 
+However, the survey lab does not currently contain any Microsoft Windows machines, so this option was not pursued any further.
 </para>
 
 <figure><title>The Windows XP desktop (Microsoft 2002)</title>
@@ -69,7 +80,8 @@ Whilst not a X windows toolkit, Window's MFC toolkit was considered as a develop
 
 <sect4><title>wxWindows</title>
 <para>
-Whilst wxWindows is not a window manager in the same sense as all the other window managers discussed in this section, it has a variety of advantages relevant to <command>GDMS</command>. These include:
+Whilst wxWindows is not a window manager in the same sense as the others discussed in this section, 
+it has a variety of advantages relevant to <command>GDMS</command>. These include:
 </para>
 
 <itemizedlist>
@@ -156,6 +168,7 @@ A grammar consists of three building blocks. Each of the tokens which can be ret
 <para>
 This grammar defines a language in which a SQL statement can consist of either a <emphasis>create</emphasis>, an <emphasis>insert</emphasis>, or a <emphasis>select</emphasis> statement, as shown by the SQL production. The empty non-terminal on the SQL production ensures that an end of file or empty line is also matched.
 It should also be noted that the SQL production is recursive, except for this case which matches the empty line or end of file.
+
 </para>
 </sect4>
 
@@ -170,7 +183,11 @@ in that all commands are parsed based on only one line, and no recursion within 
 
   <sect3><title>Implementation</title>
   <para>
-As mentioned earlier in this section, the graphical user interface to <command>GDMS</command> was implemented using the wxWindows windowing toolkit. The batch user interface was developed using a hand coded parser written in c++. This has maximised the amount of design flexibility enjoyed by the development team, whilst minimizing the amount of unnessary code development.
+As mentioned earlier in this section, the graphical user interface to <command>GDMS</command> was 
+implemented using the wxWindows windowing toolkit. 
+The batch user interface was developed using a hand coded parser written in c++.
+This has maximised the amount of design flexibility enjoyed by the development team, 
+whilst minimizing the amount of unnessary code development.
   </para>      
   </sect3> <!--Implementation-->
   

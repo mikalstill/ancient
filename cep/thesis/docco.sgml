@@ -3,9 +3,9 @@
 <para>
   Documentaion is of signifiant importance in any project, particularly with those that are not confined to a finite scope.
    The <command>GDMS</command> is one such project. In a time series analysis system, there are an enormous number of 
-    possible features. In a finite session such as this project, a careful balance must be drawn between the functionality 
+    possible features. In a finite devlopment period such as this project, a careful balance must be drawn between the functionality 
     and the documentation. We needed to maximise our coding time whilst still providing sufficient documentation to both meet 
-    the requirements and include all of the necessary information that might be needed by any future developers and users. 
+    the requirements and include all of the necessary information that be required by any future developers and users. 
     This led to our decision to use a number of tools to assist with the documentation.
 </para>
 
@@ -14,8 +14,8 @@
 <sect1><title>Docbook</title>
 
 <para>
- Docbook is system for writing documents using SGML or XML. It facilitates structure and is well suited for writing books or 
- papers of this kind. Unlike formal word processors, docbook greatly reduces the time spend on standardising the format of a document by
+ Docbook is system for writing documents using SGML or XML. It facilitates documment structure and is well suited for writing books or 
+ papers of this kind. Unlike formal word processors, docbook greatly reduces the time spent on standardising the format of a document by
  ensuring title fonts are consistent in type and size, tables, equations and figures are listed, along with the insertion of a table of 
  contents. In addition, document layout, justification and other such features are dealt with 
  automatically by docbook. The syntax used for docbook is SGML, which is very similar to HTML. As most of the group members were already
@@ -25,14 +25,14 @@
 
 <sect2><title>Docbook Tools</title>
 <para>
-  Docbook is also easy to automate, whihc was another determining factor in using this tool. Automation was achieved by using Docbook tools, 
+  Docbook easy to automate, which was another determining factor in using this tool. Automation was achieved by using Docbook tools, 
   a suite of programs used to generate the docbook output. The process is similar to compiling source code, utilising a makefile to target 
   the desired files and build them.  These files can then be structured in a hierarchical manner to ensure consistent and easy
   organisation. A typical document might contain a top level file, for example, thesis.sgml, which links the other files, such as 
   timedomain.sgml 
   and theory.sgml. This file also contains the top level information such as whether the document is a
   book or an article, in which case various pages are generated automatically by docbook accordingly. Thesis.sgml might
-  also conatin a preface and glossary and other such general information sections.
+  also contains a preface and glossary and other such general information sections.
 </para>
 
 <para>
@@ -62,7 +62,7 @@
 
 <para>
   The above example describes a simple book with three chapters. Each of the target SGML files would in turn be
-  divided into section within the chapter. This method of documentation has its benefits. some of these being:-
+  divided into section within the chapter. This method of documentation has its benefits, some of these being:-
 </para>
 
 <itemizedlist>
