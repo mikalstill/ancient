@@ -1,6 +1,14 @@
 // Libplot, a simple C library to draw graphs into rasters. Many of the drawing
 // commands here are modelled on those available in PDF...
 
+#ifndef LIBPLOT_HEADER
+#define LIBPLOT_HEADER
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 typedef struct plot_internal_pixel
 {
   unsigned char r, g, b;
@@ -65,3 +73,9 @@ void plot_circle (plot_state *, unsigned int, unsigned int, unsigned int);
 // Internal methods
 unsigned int plot_min (unsigned int one, unsigned int two);
 unsigned int plot_max (unsigned int one, unsigned int two);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif
