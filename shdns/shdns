@@ -3,6 +3,10 @@
 #############
 # shdns: take a query and build a response
 
+# Set this to the location of the lookup
+# file
+execpath="/home/mikal/opensource/shdns/"
+
 # The state of a given bit in the byte: 
 # (byte, poweroftwo)
 dumpbit(){
@@ -151,7 +155,8 @@ process(){
   logger "shdns $$ Packet id: $id"
 
   # Flags: 2 bytes
-  temp=`cat $1 | cut -b $inset |  od -Ad -c | head -1 | cut -f 2 -d " "`; inset=$(( $inset + 1 ))
+  temp=`cat $1 | cut -b $inset |  od -Ad -c | head -1 | cut -f 2 -d " "`
+    inset=$(( $inset + 1 ))
   testbit $temp 128; qr=$?
   testbit $temp 8; op=$?
   testbit $temp 4; aa=$?
@@ -263,7 +268,7 @@ process(){
       name=`echo $name | sed 's/\.$//'`
     
       # Lookup the name in the db file
-      result=`grep "$name" /home/mikal/opensource/shdns/lookup | tr -s "\t" | cut -f 2`
+      result=`grep "$name" "$execpath" lookup | tr -s "\t" | cut -f 2`
       logger "shdns $$ Result: $result"
 
       ##############################################
