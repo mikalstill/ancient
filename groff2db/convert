@@ -65,6 +65,11 @@ while(<STDIN>){
     if(/^\.so (.*)\.[0-9].*/i){
 	$_ = ".P\nSee $1";
     }
+
+    # Blank lines in man pages equate to the .P macro in mm land
+    if(/^[ \t\r]*$/){
+	$_ = ".P\n";
+    }
     
     # If we are in table state, then we need to rewrite lines for the 
     # table cells
@@ -516,6 +521,8 @@ while(<INPUT>){
 
     # Paragraphs
     elsif(/^\.P[ \t]*([0-9]*)(.*)/i){
+	print "$state\n";
+	$state = "";
 	endpara();
 	startpara();
     }

@@ -16,7 +16,7 @@ trivsql_state *trivsql_init(char *filename){
   // We write the version of trivsql we used into a tag in the tdb for 
   // debugging
   if(state->db != NULL)
-    trivsql_dbwrite(gState, "trivsql_lastversion", trivsql_version);  
+    trivsql_dbwrite(state, "trivsql_lastversion", trivsql_version);  
 
   return state;
 }
