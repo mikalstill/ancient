@@ -16,6 +16,12 @@ while(<>){
   s/<meta[^>]*>//;
   s/<zone[^>]*>//;
   s/<content-area[^>]*>//;
+  s/<forumurl[^>]*>//;
+  s/<download-feature[^>]*>//;
+  s/<pdf[^>]*>//;
+  s/<name>.*<\/name>//;
+  s/<img src=""[^>]*>//;
+  s/<br[^>]*//;
 
   s/<seriestitle[^>]*>//;
   s/<\/seriestitle[^>]*>//;
@@ -23,7 +29,7 @@ while(<>){
   s/<author[^>]*>//;
   s/<\/author[^>]*>//;
   s/<bio>/<articleinfo>\n<author>\n<authorblurb>\n<para>/;
-  s/<\/bio>/<\/para>\n<\/authorblurb>\n<\/author>\n<\/articleinfo/;
+  s/<\/bio>/<\/para>\n<\/authorblurb>\n<\/author>\n<\/articleinfo>/;
 
   s/<date[^>]*>//;
   s/<abstract[^>]*>/<abstract>\n<para><emphasis>/;
@@ -39,11 +45,10 @@ while(<>){
   s/<\/b>/<\/command>/g;
 
   s/<figure>//;
-  s/<heading refname="" type="figure"[^>]*>.*<\/heading>//;
+  s/<heading refname=""[^>]*>.*<\/heading>//;
   s/<\/figure>//;
   s/<img src="([^"]*)"[^>]*>/<execute><cmd>img<\/cmd><args>$1<\/args><\/execute>/;
 
-  s/<heading refname="" type="code" toc="no" name="" alttoc="">.*<\/heading>//;
   s/<code[^>]*>/<programlisting>/;
   s/<\/code>/<\/programlisting>/;
 

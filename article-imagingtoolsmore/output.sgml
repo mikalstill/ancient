@@ -17,11 +17,11 @@
 <title>More graphics from the command line</title>
 <subtitle>Tips and tricks for using ImageMagick on Linux</subtitle>
 
- <forumurl url=""/>
+ 
 
- <download-feature downloadtype="code" filename="" url-ftp=""/>
+ 
 
- <pdf url="" size="xx KB"/>
+ 
 
  
  <articleinfo>
@@ -36,9 +36,9 @@ open-source PDF generation API, as well as a bunch of other Open Source
 code.</para>
 </authorblurb>
 </author>
-</articleinfo
- <graphic format="" fileref="gen.">
- <name>Michael Still</name>
+</articleinfo>
+ 
+ 
  
 
  
@@ -49,15 +49,9 @@ code.</para>
 <para><emphasis>There's nothing quite like command-line tools for handling large batches of tasks, and image manipulations are no exception. Web developers and administrators will appreciate the ability to handle large numbers of files easily, either at the command line or in scripts. Programmer Michael Still presents more examples of the ImageMagick suite, this time demonstrating how to put cool curved corners on your images, a variety of different frames and borders, converting to and from Adobe's PDF format, and how to extract all the images from multiple page file formats.</emphasis></para>
 </abstract>
 
- <abstract>
-<para><emphasis></abstract-extended>
-
  
 
  
-
- <abstract>
-<para><emphasis></abstract-extended>
 
  
 
@@ -70,7 +64,7 @@ ImageMagick. This article expands on the techniques discussed in that
 previous article, as well as answering as many of those questions as I
 can. If this is the first ImageMagick article from IBM DeveloperWorks that
 you've found, you would do well to have a look at this first article as
-well -- you will find it linked in the <ahref="#resources">Resources section.</para>
+well -- you will find it linked in the Resources section.</para>
 
 <para>This article takes the form of discussing specific problems as
 examples, but the concepts should be applicable to other problem spaces as
@@ -84,7 +78,7 @@ me. That doesn't mean the other tools out there are broken, it just means
 that I'm happy with what I am using now.</para>
 
 
-<sect1><title>Curving corners</title>
+
 
 <para>If you have a look at Mac OS/X, and many Web sites, the pictures have
 quite nice curved corners. How do you achieve this effect with
@@ -98,7 +92,7 @@ original image. There's no real need for the corners to be curved even --
 we could have angled corners, or something much more fancy.</para>
 
 <sidebar>
-<title>The GIMP</title>
+
 
 <para>The GIMP, the GNU Image Manipulation Package, is a very useful raster
 graphics editor, much like Adobe Photoshop. It's great for tweaking
@@ -152,10 +146,10 @@ command gives us the following image:</para>
 
 <para>
 <programlisting>
-composite -gravity NorthEast rounded-ne.png lake.png lake-1.png <br />
-composite -gravity NorthWest rounded-nw.png lake-1.png lake-2.png <br />
-composite -gravity SouthEast rounded-se.png lake-2.png lake-3.png <br />
-composite -gravity SouthWest rounded-sw.png lake-3.png lake-4.png <br />
+composite -gravity NorthEast rounded-ne.png lake.png lake-1.png >
+composite -gravity NorthWest rounded-nw.png lake-1.png lake-2.png >
+composite -gravity SouthEast rounded-se.png lake-2.png lake-3.png >
+composite -gravity SouthWest rounded-sw.png lake-3.png lake-4.png >
 </programlisting>
 </para>
 
@@ -182,16 +176,16 @@ a given directory:</para>
 <programlisting>
 for img in *.png
 do
-  composite -gravity NorthEast rounded-ne.png $img.png $img-1.png <br />
-  composite -gravity NorthWest rounded-nw.png $img-1.png $img-2.png <br />
-  composite -gravity SouthEast rounded-se.png $img-2.png $img-3.png <br />
-  composite -gravity SouthWest rounded-sw.png $img-3.png $img-4.png <br />
+  composite -gravity NorthEast rounded-ne.png $img.png $img-1.png >
+  composite -gravity NorthWest rounded-nw.png $img-1.png $img-2.png >
+  composite -gravity SouthEast rounded-se.png $img-2.png $img-3.png >
+  composite -gravity SouthWest rounded-sw.png $img-3.png $img-4.png >
 done
 </programlisting>
 </para>
 
 <sidebar>
-<title>Gravity</title>
+
 
 <para>The gravity argument specifies where on the background image the
 superimposed image is placed. The possible gravities, and their effects
@@ -208,13 +202,12 @@ left-hand corner of the background image.</para>
 </sidebar>
 
 
-</sect1>
-<sect1><title>Putting frames around images</title>
+
 
 <para>Another thing which several readers asked about was how to add frames
 to images. Again, this is relatively easy to do with ImageMagick.</para>
 
-<sect2><title>A raised or lowered border</title>
+
 
 <para>The first type of frame I will show you is a raised or lowered border.
 This effect works by tweaking the colors at the edge of an image to give
@@ -259,8 +252,7 @@ convert +raise 5x5 tree.png tree-lowered.png
 
 
 
-</sect2>
-<sect2><title>A simple colored border</title>
+
 
 <para>If you're after something a little more simple, you might be interested
 in a border of just a solid color. ImageMagick can do this for you as
@@ -308,8 +300,7 @@ blue, and A the alpha (transparency) value:</para>
 <listitem><para>rgba(r,g,b,a) - (r,g,b,a are decimal numbers)  </para></listitem>
 </itemizedlist>
 
-</sect2>
-<sect2><title>Building a more complicated frame</title>
+
 
 <para>Next let's build a slightly more complicated frame, using the
 <emphasis>-frame</emphasis> command-line argument. First we'll add a simple frame which
@@ -389,9 +380,7 @@ convert -mattecolor gray -frame 25x25+25+0 rock.png rock-frame2.png
 
 
 
-</sect2>
-</sect1>
-<sect1><title>Processing many images at once</title>
+
 
 <para>In my previous article, I showed you sample code to apply conversions
 to many images at once. As has been pointed out by several people, the
@@ -399,8 +388,7 @@ code I showed was not the best way of doing this.</para>
 
 <para>Here's the code I showed you:</para>
 
-<heading refname="" type="code" toc="no" name="" alttoc="">Listing 1. Thumbnailing 
-all the JPEGs in the current directory</title>
+
 <programlisting>
 for img in `ls *.jpg`
 do
@@ -463,8 +451,7 @@ stick with convert and bash.</para>
 
 
 
-</sect1>
-<sect1><title>PDF handling</title>
+
 
 <para>So far all of the examples we've discussed, both in this article and
 the previous one, have discussed simple conversions where each image
@@ -499,8 +486,7 @@ convert foo.pdf pages.png
 <para>This will do what we want -- each page has been extracted to it's own
 PNG file. However, there's an unexpected naming side effect.</para>
 
-<heading refname="" type="code" toc="no" name="" alttoc="">Listing 3. Check out
-the filenames</title>
+
 <programlisting>
 mikal@deathstar:~/foo$ convert foo.pdf pages.png
 mikal@deathstar:~/foo$ ls pages*
@@ -551,8 +537,7 @@ the last filename in the list is the name of the PDF document to put them
 all into.</para>
 
 
-</sect1>
-<sect1><title>Other formats which support more than one image per file</title>
+
 
 <para>There are 45 other file formats which can store more than one image
 when used with ImageMagick, checkout the information in the references list
@@ -569,8 +554,7 @@ fax you just received as a TIFF image.</para>
 deserves more discussion than I have space for in this article.</para>
 
 
-</sect1>
-<sect1><title>Conclusion</title>
+
 
 <para>In this article we've expanded on some of the interesting techniques
 discussed in my previous article about ImageMagick, including how to round

@@ -68,15 +68,11 @@ code.</bio>
 
  <abstract>There's nothing quite like command-line tools for handling large batches of tasks, and image manipulations are no exception. Web developers and administrators will appreciate the ability to handle large numbers of files easily, either at the command line or in scripts. Programmer Michael Still presents more examples of the ImageMagick suite, this time demonstrating how to put cool curved corners on your images, a variety of different frames and borders, converting to and from Adobe's PDF format, and how to extract all the images from multiple page file formats.</abstract>
 
- <abstract-extended></abstract-extended>
-
  <column-info
  col-name=""
  col-icon="column_icon.gif"/>
 
  <docbody>
-
- <abstract-extended></abstract-extended>
 
  <column-info
  col-name=""
@@ -91,8 +87,7 @@ ImageMagick. This article expands on the techniques discussed in that
 previous article, as well as answering as many of those questions as I
 can. If this is the first ImageMagick article from IBM DeveloperWorks that
 you've found, you would do well to have a look at this first article as
-well -- you will find it linked in the <a
-href="#resources">Resources</a> section.</p>
+well -- you will find it linked in the <a href="#resources">Resources</a> section.</p>
 
 <p>This article takes the form of discussing specific problems as
 examples, but the concepts should be applicable to other problem spaces as
@@ -137,7 +132,7 @@ show through. This can be a little confusing, as some image viewers such
 as <b>xview</b> will show the transparency in black or some other color.</p>
 
 <figure>
-<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 2. The curved corner displayed with xview</heading>
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 1. The curved corner displayed with xview</heading>
 <img src="rounded-ne-xview.jpg" width="98" height="57" alt="A rounded corner with xview"/>
 </figure>
 
@@ -147,7 +142,7 @@ earlier of the view from the shore of one of Canberra's lakes. Without the
 rounded corners, the thumbnail looks like this:</p>
 
 <figure>
-<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 3. Lake Burley Griffin</heading>
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 2. Lake Burley Griffin</heading>
 <img src="lake.jpg" width="144" height="192" alt="A lake view"/>
 </figure>
 
@@ -165,7 +160,7 @@ superimposed image -- in our case the rounded corner. This particular
 command gives us the following image:</p>
 
 <figure>
-<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 4. Lake Burley Griffin with one rounded corner</heading>
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 3. Lake Burley Griffin with one rounded corner</heading>
 <img src="lake-1.jpg" width="144" height="192" alt="A lake view"/>
 </figure>
 
@@ -184,7 +179,7 @@ composite -gravity SouthWest rounded-sw.png lake-3.png lake-4.png <br />
 <p>Which gives us the finished image:</p>
 
 <figure>
-<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 5. Lake Burley Griffin with rounded corners</heading>
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 4. Lake Burley Griffin with rounded corners</heading>
 <img src="lake-4.jpg" width="144" height="192" alt="A lake view"/>
 </figure>
 
@@ -259,7 +254,7 @@ convert -raise 5x5 tree.png tree-raised.png
 <p>Which gives us the finished image:</p>
 
 <figure>
-<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 6. An image with a raised border</heading>
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 5. An image with a raised border</heading>
 <img src="tree-raised.jpg" width="320" height="240" alt="Some trees by a bay with a raised border"/>
 </figure>
 
@@ -275,7 +270,7 @@ convert +raise 5x5 tree.png tree-lowered.png
 <p>Which gives a slightly different finished image:</p>
 
 <figure>
-<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 7. An image with a lowered border</heading>
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 6. An image with a lowered border</heading>
 <img src="tree-lowered.jpg" width="320" height="240" alt="Some trees by a bay with a lowered border"/>
 </figure>
 
@@ -295,7 +290,7 @@ convert -bordercolor red -border 5x5 flower.png flower-border.png
 <p>Which creates:</p>
 
 <figure>
-<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 8. An image with a red border</heading>
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 7. An image with a red border</heading>
 <img src="flower-border.jpg" width="190" height="250" alt="Some flowers with a red border"/>
 </figure>
 
@@ -346,7 +341,7 @@ convert -mattecolor black -frame 5x5 beach.png beach-frame.png
 the border command.</p>
 
 <figure>
-<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 9. A simple black border</heading>
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 8. A simple black border</heading>
 <img src="beach-frame.jpg" width="330" height="250" alt="A picture of the beach with a simple black frame"/>
 </figure>
 
@@ -362,7 +357,7 @@ convert -mattecolor black -frame 5x5+2 beach.png beach-frame2.png
 <p>Which is getting there:</p>
 
 <figure>
-<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 10. The same picture, but with some more decoration</heading>
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 9. The same picture, but with some more decoration</heading>
 <img src="beach-frame2.jpg" width="330" height="250" alt="A picture of the each with a slightly more complicated border"/>
 </figure>
 
@@ -378,7 +373,7 @@ convert -mattecolor black -frame 5x5+2+2 beach.png beach-frame3.png
 <p>Which finally gives us:</p>
 
 <figure>
-<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 11. A finished frame</heading>
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 10. A finished frame</heading>
 <img src="beach-frame3.jpg" width="330" height="250" alt="A picture of the beach with a finished frame"/>
 </figure>
 
@@ -403,7 +398,7 @@ convert -mattecolor gray -frame 25x25+25+0 rock.png rock-frame2.png
 </p>
 
 <figure>
-<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 13. A couple of frames</heading>
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 11. A couple of frames</heading>
 <img src="rock-frames.jpg" width="370" height="145" alt="A couple of rock pictures with nice frames"/>
 </figure>
 
@@ -416,8 +411,7 @@ code I showed was not the best way of doing this.</p>
 
 <p>Here's the code I showed you:</p>
 
-<heading refname="" type="code" toc="no" name="" alttoc="">Listing 1. Thumbnailing 
-all the JPEGs in the current directory</heading>
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 1. Thumbnailing all the JPEGs in the current directory</heading>
 <code type="section">
 for img in `ls *.jpg`
 do
@@ -496,7 +490,7 @@ pictures of my recent trip to linux.conf.au
 way):</p>
 
 <figure>
-<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 14. A sample PDF with a bunch of images</heading>
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 12. A sample PDF with a bunch of images</heading>
 <img src="foo-pdf-smaller.jpg" width="359" height="268" alt="Some images in a PDF"/>
 </figure>
 
@@ -515,8 +509,7 @@ convert foo.pdf pages.png
 <p>This will do what we want -- each page has been extracted to it's own
 PNG file. However, there's an unexpected naming side effect.</p>
 
-<heading refname="" type="code" toc="no" name="" alttoc="">Listing 3. Check out
-the filenames</heading>
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 3. Check out the filenames</heading>
 <code type="section">
 mikal@deathstar:~/foo$ convert foo.pdf pages.png
 mikal@deathstar:~/foo$ ls pages*
