@@ -203,7 +203,7 @@
     With natural splines solving for <command>S</command> is done by solving:(TODO: Spline equation 6)
   </para>
   <para>
-    The two end values, <command>S<subscript>0</subscript></command> and <command>S<subscript>n</subscript><command>, are then
+    The two end values, <command>S<subscript>0</subscript></command> and <command>S<subscript>n</subscript></command>, are then
     set to zero.
   </para>
   <para>
