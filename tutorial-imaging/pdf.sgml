@@ -1,6 +1,21 @@
 <chapter id="chap-pdf"><title>PDF</title>
 <para>
+<quote>
+"THE ORIGINS OF THE Portable Document Format and the Adobe Acrobat product family date to early 1990. At that time, the PostScript page description language was rapidly becoming the
+worldwide standard for the production of the printed page. PDF builds on the PostScript page description language by layering a document structure and interactive navigation features on
+PostScript's underlying imaging model, providing a convenient, efficient mechanism enabling documents to be reliably viewed and printed anywhere. The PDF specification was first published at
+the same time the first Acrobat products were introduced in 1993. Since then, updated versions of the specification have been and continue to be available from Adobe via the World Wide Web.
+This book is the first version of the specification that is completely self-contained, including the precise documentation of the underlying imaging model from PostScript along with the
+PDF-specific features that are combined in version 1.3 of the PDF standard." -- PDF Specification
+</quote>
+</para>
+
+<para>
 Portable Document Format (PDF) isn't strictly an image format. However, people are increasingly asking for PDF functionality in applications -- especially those on the Internet.
+</para>
+
+<para>
+This chapter will focus on PDF 1.3 (second edition), because that is the specification version which I am most familiar with at the moment.
 </para>
 
 <sect1><title>Introduction</title>
@@ -23,8 +38,118 @@ This chapter is broken into five major sections. These are:
 
 <sect1><title>All about the PDF format</title>
 <para>
-<execute><cmd>todo</cmd><input>Content</input></execute>
+The PDF file format is broken into a tree structure. This tree is made up of combinations of a few possible objects. We'll start by describing these objects, and then move onto how they fit together.
 </para>
+
+<sect2><title>File header</title>
+<para>
+Every PDF file starts with a simple header which declares the file to be a valid PDF file. This header will look something like this:
+</para>
+
+<programlisting>
+%PDF-1.3 ∞<9F><92><9C><9F>‘‡Œ–––
+</programlisting>
+
+<para>
+This header had the following parts:
+</para>
+
+<itemizedlist>
+<listitem><para><emphasis>%PDF-</emphasis>: this is a PDF document.</para></listitem>
+<listitem><para><emphasis>1.3</emphasis>: it meets version 1.3 of the PDF specification.</para></listitem>
+<listitem><para><emphasis>∞<9F><92><9C><9F>‘‡Œ–––</emphasis>: random binary stuff. This is just here so that <quote>smart</quote> FTP clients don't decide the file is an ASCII file in error
+  <footnote><para>Whilst the vast majority of PDF structure is represented with ASCII text, this doesn't stop you from embedding binary into the file</para></footnote>
+.</para></listitem>
+</itemizedlist>
+</para>
+
+<sect3><title>Specification versions</title>
+<para>
+There have been five versions of the PDF specification released at the time of writing this document. They are:
+
+<itemizedlist>
+<listitem><para><emphasis>1.0</emphasis>: maps functionality available in Adobe Acrobat 1.0</para></listitem>
+<listitem><para><emphasis>1.1</emphasis>: maps functionality available in Adobe Acrobat 2.0</para></listitem>
+<listitem><para><emphasis>1.2</emphasis>: maps functionality available in Adobe Acrobat 3.0</para></listitem>
+<listitem><para><emphasis>1.3 (both first and second editions)</emphasis>: maps functionality available in Adobe Acrobat 4.0</para></listitem>
+<listitem><para><emphasis>1.4</emphasis>: maps functionality available in Adobe Acrobat 5.0</para></listitem>
+</itemizedlist>
+
+<para>
+In theory at least, the PDF specification versions should be backwards compatible -- viewers should ignore object types and dictionary entries that they don't understand. This means that you can also insert your own information into the PDF document without breaking its ability to be viewed in other applications.
+</para>
+</sect3>
+</sect2>
+
+<sect2><title>Objects</title>
+<para>
+Objects in PDF files have a number, and a generation (version) number. They are represented as an ASCII text sequence in the file, for instance:
+</para>
+
+<programlisting>
+1 0 obj
+&lt;&lt;
+        /Type /Catalog
+        /Pages 2 0 R
+&gt;&gt;
+endobj
+</programlisting>
+
+<para>
+This object is the 0th version of object number 1. The text between the &lt;&lt; and the &gt;&gt; is discussed in the next section.
+</para>
+</sect2>
+
+<sect2><title>Dictionaries</title>
+<para>
+Objects have associated with them a (key, value) pair database. This stores properties of the object -- these would normally include things like the dimensions of the page, or the name of the author of the document, and other interesting things like that.
+</para>
+
+<para>
+In the example object above, we had the following dictionary items...
+</para>
+
+<programlisting>
+        /Type /Catalog
+        /Pages 2 0 R
+</programlisting>
+
+<para>
+This dictionary specifies that the key <quote>Type</quote> has the value <quote>Catalog</quote>, and that the value <quote>Pages</quote> has the value <quote>2 0 R</quote>. This last value is an object reference, which we discuss in the Redirection section a little bit later in this chapter.
+</para>
+
+<sect3><title>Dictionary data types</title>
+<para>
+What data types are valid in dictionaries? Well, version 1.3 of the PDF specification names the following data types:
+</para>
+
+
+</sect3>
+
+<sect3><title>Minimal dictionaries</title>
+<para>
+Redirection
+</para>
+</sect3>
+</sect2>
+
+<sect2><title>Streams</title>
+<para>
+
+</para>
+
+<sect3><title>Filters on streams</title>
+<para>
+
+</para>
+</sect3>
+</sect2>
+
+<sect2><title>Redirection</title>
+<para>
+
+</para>
+</sect2>
 </sect1>
 
 <sect1><title>ClibPDF</title>
