@@ -15,7 +15,7 @@ void do_control_transfer(char *file, long long *inputfilep)
     manusi, prodsi, serialsi, noofconfigs, temp;	      
 
   psize = fileutil_getuinteger (file, &filep);
-  urb_printf ("Transfer size: %d\n", psize);
+  urb_printf ("Control transfer size: %d\n", psize);
   
   // Test whether data is present
   if(psize != 0)
@@ -66,6 +66,14 @@ void do_control_transfer(char *file, long long *inputfilep)
 		  urb_printf("\t\tNumber of configurations: %d\n", noofconfigs);
 		}
 
+	        if(do_linux == 1)
+		  {
+		    urbhead[urbCount].abend = 0;
+		    output_preamble(vend, prod);
+		    output_probe_function();
+		    output_disconnect_function();
+		  }
+
 	      free(specver);
 	      free(devrelno);
 	      break;
@@ -115,10 +123,6 @@ void do_control_transfer(char *file, long long *inputfilep)
 	      break;
 	    }
 	}
-      else
-	{
-	  dump_data(file, &filep, psize, "CTRL");
-	}
     }
   urb_printf ("\n");
   
@@ -126,12 +130,6 @@ void do_control_transfer(char *file, long long *inputfilep)
   // usb_urb_header(file, &filep);
   filep += USB_URB_HEADER_LENGTH;
   usb_urb_controltransfer (file, &filep);
-  
-  if(do_linux == 1)
-    {
-      urbhead[urbCount].abend = 0;
-      output_probe_function();
-    }
   
   *inputfilep = filep;
 }

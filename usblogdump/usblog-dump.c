@@ -20,11 +20,12 @@ int urb_reallocs = 0;
 int urbCount;
 usb_allurbs *urbhead;
 
-#define VERSION "(Version 0.4)"
+char *module = NULL;
+
 void
 usage (char *name)
 {
-  printf (VERSION "\n\n");
+  printf ("(" VERSION ")\n\n");
   printf ("Try: %s [-i input] [-r] [-v]\n\n", name);
   printf ("\t-b <num>:  Suppress bulk data beyond length <num>\n");
   printf ("\n");
@@ -37,7 +38,7 @@ usage (char *name)
   printf ("\t\t              doesn't know how to decode the data...\n");
   printf ("\n");
   printf ("\t-i <name>: The name of the input usblog file\n");
-  printf ("\t-l:        Output Linux kernel equivalent descriptions\n");
+  printf ("\t-l <name>: Output Linux kernel code for a driver");
   printf ("\t-m:        Show MD5 hashes of URB descriptions\n");
   printf ("\t             (Only useful if you're debugging -r)\n");
   printf ("\t-n:        Display output now (useful for large dumps and debugging)\n");
@@ -63,7 +64,7 @@ main (int argc, char *argv[])
   int transfer_direction;
   int max_bulk = 0;
 
-  while ((optchar = getopt (argc, argv, "i:lmrRvb:Bd:neI")) != -1)
+  while ((optchar = getopt (argc, argv, "i:l:mrRvb:Bd:neI")) != -1)
     {
       switch (optchar)
 	{
@@ -96,6 +97,7 @@ main (int argc, char *argv[])
 
 	case 'l':
 	  do_linux = 1;
+	  module = (char *) strdup(optarg);
 	  break;
 
 	case 'm':
@@ -360,6 +362,7 @@ main (int argc, char *argv[])
 	  break;
 
 	case 0x8:
+	  // CONTROL_TRANSFER
 	  do_control_transfer(file, &filep);
 	  break;
 
@@ -1302,8 +1305,6 @@ code_printf (section sect, char *format, ...)
   va_list ap;
   char *temp;
   int templen;
-
-  printf("Code printf\n\n");
 
   va_start (ap, format);
   if(do_now == 1)

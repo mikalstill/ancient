@@ -1,3 +1,6 @@
+#define VERSION "Version 0.5"
+#define COPYRIGHT "Copyright (c) 2005 Michael Still <mikal@stillhq.com>"
+
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
