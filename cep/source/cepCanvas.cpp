@@ -169,24 +169,25 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
     m_selectXStart = -1;
 
     float startExtracted = ((selectXStart - 10) * m_scale[selDir] + m_minval[selDir]) / 10000;
-    cepDate startDate(startExtracted);
-
     float endExtracted = ((m_selectXEnd - 10) * m_scale[selDir] + m_minval[selDir]) / 10000;
-    cepDate endDate(endExtracted);
-
     if(startExtracted > endExtracted){
       float temp = endExtracted;
       endExtracted = startExtracted;
       startExtracted = temp;
     }
 
+    cepDate startDate(startExtracted);
+    cepDate endDate(endExtracted);
+
     // Allow the user to tweak the dates entered
     cepDateUi dateUI;
     dateUI.showDateRange(endDate, startDate);
     if(dateUI.getToDate() < 0){
+      Refresh();
       return;
     }
     if(dateUI.getFromDate() < 0){
+      Refresh();
       return;
     }
     cepDebugPrint("User editted selection region to: " + cepToString(dateUI.getFromDate()) + " to " +
