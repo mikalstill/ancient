@@ -48,7 +48,6 @@ DOCBOOK END
 // THIS CANNOT DO A DISPLAY, AS THE CONFIG DB CODE USES THIS TO LOG DB PROBLEMS
 // AND cepError::display() USES THE CONFIG DB...
 ///////////////////////////////////////////////////////////////////////////////
-
 #define cepDebugPrint(errmsg) \
   { \
     cepError newname_cepDebugPrint(string("") + string(errmsg) + string(" at ") + string(__FILE__) + \
@@ -160,10 +159,15 @@ SEEALSO cepDebugPrint cepConfiguration
 DOCBOOK END
 ******************************************************************************/
 
+#include <string>
+#include "cepErrorHandler.h"
+#include "cepUtility.h"
+
+using namespace std;
+
 class cepError
 {
 public:
-  // todo_mikal: implement severity
   enum severity
   {
     sevOk = 0,
@@ -175,22 +179,29 @@ public:
     sevMax
   };
 
-    cepError ();
-    cepError (const string & msg);
-    cepError (const string & msg, severity level);
-   ~cepError ();
+  cepError ();
+  cepError (const string & msg);
+  cepError (const string & msg, severity level);
+  static void addErrorHandler( class cepErrorHandler& h );
+  ~cepError ();
 
   bool isReal ();
   void clear ();
   void log ();
   void display ();
-  string getTitle ();
-  int getIcon ();
+
+  // BS - remove these when we get the friend thing for cepErrorHandler sorted
+  string & getMessage();
+  int getSeverity();
 
 private:
-    string m_msg;
-  severity m_level;
-  bool m_actioned;
+  
+  static bool handlerInstalled;
+  static class cepErrorHandler *handler;
+
+  string message;
+  severity level;
+  bool actioned;
 };
 
 #endif

@@ -14,161 +14,83 @@
   * You should have received a copy of the GNU General Public License along
   * with this program; if not, write to the Free Software Foundation, Inc., 675 
   * Mass Ave, Cambridge, MA 02139, USA. */
+#include "cepError.h"
 
-#include "cepCore.h"
 
-#ifdef __WXGTK__
-// For compilers that support precompilation, includes "wx/wx.h".
-#include "wx/wxprec.h"
-
-#ifdef __BORLANDC__
-#pragma hdrstop
-#endif
-
-#ifndef WX_PRECOMP
-#include "wx/wx.h"
-#endif
-#include "wx/txtstrm.h"
-
-#if !wxUSE_DOC_VIEW_ARCHITECTURE
-#error You must set wxUSE_DOC_VIEW_ARCHITECTURE to 1 in setup.h!
-#endif
-#endif
 
 // todo_mikal: copy constructor, should have actioned status
 
-cepError::cepError ():
-m_msg (), m_level (cepError::sevOk), m_actioned (true)
+cepError::cepError ()
 {
+  message = "";
+  level = cepError::sevOk;
+  actioned = true;
 }
 
-cepError::cepError (const string & msg):m_msg (msg),
-m_level (cepError::sevErrorFatal), m_actioned (false)
+cepError::cepError (const string & msg)
 {
+  message = msg;
+  level = cepError::sevErrorFatal;
+  actioned = false;
 }
 
-cepError::cepError (const string & msg, cepError::severity level):m_msg (msg),
-m_level (level), m_actioned (false)
+cepError::cepError (const string & msg, cepError::severity level)
 {
+  message = msg;
+  level = level;
+  actioned = false;
 }
+
+bool cepError::handlerInstalled=false;
+cepErrorHandler * cepError::handler = NULL;
 
 cepError::~cepError ()
 {
-  if (!m_actioned)
-    cepDebugPrint ("cepError was not actioned: " + m_msg);
+  if (!actioned)
+    cepDebugPrint ("cepError was not actioned: " + message);
+}
+
+void cepError::addErrorHandler( cepErrorHandler& h )
+{
+  if( !handlerInstalled )
+  {
+    handler = &h;
+    handlerInstalled = true;
+  }
 }
 
 bool cepError::isReal ()
 {
-  m_actioned = true;
-  return m_msg != "";
+  actioned = true;
+  return message != "";
 }
 
 void cepError::clear ()
 {
-  m_actioned = true;
-  m_msg = "";
+  actioned = true;
+  message = "";
 }
 
 void cepError::log ()
 {
-  gLog << m_msg << " (severity " << m_level << ")" << endl;
-  m_actioned = true;
+  handler->logError( *this );
+  actioned = true;
 }
 
 void cepError::display ()
 {
-  m_actioned = true;
-
-  // Log everything for now
-  // todo_mikal improve
-  log ();
-  cout << getTitle () << ": " << m_msg << endl;
-
-  if (gDisplayParams[(int)m_level].get () == cepTSB::stUndefined)
-  {
-    // Deliberately dropping cepError return value here
-    bool dodisp;
-
-    gConfiguration->getValue (string ("cepErrordisplaylevel") +
-                 cepItoa ((int)m_level), true, dodisp);
-                 
-    gDisplayParams[(int)m_level].set (dodisp);
+  if( handler != NULL ) {
+    handler->displayError( *this );
   }
-
-  if (gDisplayParams[(int)m_level].get () == cepTSB::stFalse)
-    return;
-
-  if (m_msg != "")
-  {
-#ifdef __WXGTK__
-    wxMessageBox (m_msg.c_str (), getTitle ().c_str (),
-                  wxOK | wxCENTRE | getIcon ());
-#else
-    cout << getTitle () << ": " << m_msg << endl;
-#endif
-
-  }
-  else
-    // This presents a smaller danger of an infinite loop
-    cepDebugPrint ("Display requested on empty cepError");
-
+  actioned = true;
 }
 
-string cepError::getTitle ()
+int cepError::getSeverity()
 {
-  switch (m_level)
-  {
-  case sevOk:
-    return "Ok";
-
-  case sevDebug:
-    return "Debug";
-
-  case sevInformational:
-    return "Informational";
-
-  case sevWarning:
-    return "Warning";
-
-  case sevErrorRecoverable:
-    return "Recoverable Error";
-
-  case sevErrorFatal:
-    return "Fatal error";
-
-  default:
-    return "UNKNOWN ERROR LEVEL";
-  }
+  return level;
 }
 
-int cepError::getIcon ()
+string & cepError::getMessage()
 {
-#ifdef __WXGTK__
-  switch (m_level)
-  {
-  case sevOk:
-    return 0;
-
-  case sevDebug:
-    return wxICON_QUESTION;
-
-  case sevInformational:
-    return wxICON_INFORMATION;
-
-  case sevWarning:
-    return wxICON_EXCLAMATION;
-
-  case sevErrorRecoverable:
-    return wxICON_ERROR;
-
-  case sevErrorFatal:
-    return wxICON_ERROR;
-
-  default:
-    return wxICON_QUESTION;
-  }
-#endif
-
-  return 0;
+  return message;
 }
