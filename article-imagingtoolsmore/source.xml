@@ -94,7 +94,7 @@ composite -gravity NorthEast rounded-ne.png lake.png lake-1.png
 <p>The gravity argument specifies where on the background image the superimposed image is placed. The possible gravities, and their effects are:</p> 
 
 <heading refname="" type="figure" toc="no" name="" alttoc="">Gravity directions</heading>
-<img src="gravity2.png" width="261" height="205" alt="Gravity directions"/>
+<img src="gravity2.png" width="261" height="295" alt="Gravity directions"/>
 
 <p>For example, SouthWest will force the superimposed image to the bottom left hand corner of the background image.</p>
 </figure>
@@ -170,7 +170,7 @@ convert -bordercolor red -border 5x5 flower.png flower-border.png
 <p>Which creates:</p>
 
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 8. An image with a red border</heading>
-<img src="flower-border.png" width="320" height="240" alt="Some flowers with a red border"/>
+<img src="flower-border.png" width="190" height="250" alt="Some flowers with a red border"/>
 </figure>
 
 <p>What border colors can we specify on the command line? Well, the list is simply too long to put into this article. To get a copy of the list, execute this command:</p>
@@ -209,7 +209,7 @@ convert -mattecolor black -frame 5x5 beach.png beach-frame.png
 <p>The arguments are <i>-mattcolor</i> and <i>-frame</i> instead of <i>-bordercolor</i> and <i>-border</i>, but the rest is the same as with the border command.</p>
 
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 9. A simple black border</heading>
-<img src="beach-frame.png" width="320" height="240" alt="A picture of the beach with a simple black frame"/>
+<img src="beach-frame.png" width="330" height="250" alt="A picture of the beach with a simple black frame"/>
 </figure>
 
 <p>Now we can add some extra complexity by adding some gray shading similar to what the <i>-raise</i> command gave us.</p>
@@ -222,7 +222,7 @@ convert -mattecolor black -frame 5x5+2 beach.png beach-frame2.png
 <p>Which is getting there:</p>
 
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 10. The same picture, but with some more decoration</heading>
-<img src="beach-frame2.png" width="320" height="240" alt="A picture of the each with a slightly more complicated border"/>
+<img src="beach-frame2.png" width="330" height="250" alt="A picture of the each with a slightly more complicated border"/>
 </figure>
 
 <p>Finally, we can add some more decoration, to get the final effect I want...</p>
@@ -235,7 +235,7 @@ convert -mattecolor black -frame 5x5+2+2 beach.png beach-frame3.png
 <p>Which finally gives us:</p>
 
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 11. A finished frame</heading>
-<img src="beach-frame3.png" width="320" height="240" alt="A picture of the beach with a finished frame"/>
+<img src="beach-frame3.png" width="330" height="250" alt="A picture of the beach with a finished frame"/>
 </figure>
 
 <p>If you're looking at ways to make nice frames for your images, then I recommend that you spend a few moments playing with the arguments to the <i>-frame</i> command. For example, here's some interesting frames for a picture of a rock at King's Canyon, in Australia.</p>
@@ -246,7 +246,7 @@ convert -mattecolor gray -frame 25x25+0+25 rock.png rock-frame1.png
 </code>
 
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 12. An interesting frame</heading>
-<img src="rock-frame1.png" width="320" height="240" alt="A rock picture with a frame"/>
+<img src="rock-frame1.png" width="370" height="290" alt="A rock picture with a frame"/>
 </figure>
 
 <heading refname="" type="code" toc="no" name="" alttoc="">Listing 11. An interesting frame mark 2</heading>
@@ -255,7 +255,7 @@ convert -mattecolor gray -frame 25x25+25+0 rock.png rock-frame2.png
 </code>
 
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 13. Another interesting frame</heading>
-<img src="rock-frame2.png" width="320" height="240" alt="A rock picture with a frame"/>
+<img src="rock-frame2.png" width="370" height="290" alt="A rock picture with a frame"/>
 </figure>
 
 
@@ -331,7 +331,7 @@ mogrify -format png -sample 25%x25% *.jpg
 <p>The most common example is ImageMagick's PDF handling. Let's imagine a scenario where you are sent a PDF which is a series of images (one per page). ImageMagick will extract those images for you into separate files. For example, here's a screen shot of a PDF document containing some pictures of my recent trip to <a href="http://conf.linux.org.au">linux.conf.au</a>, which rocked by the way:</p>
 
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 14. A sample PDF with a bunch of images</heading>
-<img src="foo-pdf-smaller.png" width="320" height="240" alt="Some images in a PDF"/>
+<img src="foo-pdf-smaller.png" width="359" height="268" alt="Some images in a PDF"/>
 </figure>
 
 <p>Let's imagine that the above PDF had been sent to you by a friend. You want to extract the images for further processing.</p>
@@ -370,23 +370,23 @@ mikal@deathstar:~/foo$
 <p>Because I've shown you really small versions of the images in the PDF, I figure I owe showing you larger versions. Adelaide is a really nice place by the way -- nearly as good as Canberra!</p>
 
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 15. A really big fig tree</heading>
-<img src="pages-000.png" width="320" height="240" alt="Some images in a PDF"/>
+<img src="pages-000.png" width="306" height="396" alt="Some images in a PDF"/>
 </figure>
 
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 16. The Torrens river</heading>
-<img src="pages-001.png" width="320" height="240" alt="Some images in a PDF"/>
+<img src="pages-001.png" width="306" height="396" alt="Some images in a PDF"/>
 </figure>
 
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 17. A park</heading>
-<img src="pages-002.png" width="320" height="240" alt="Some images in a PDF"/>
+<img src="pages-002.png" width="306" height="396" alt="Some images in a PDF"/>
 </figure>
 
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 18. St Peter's Cathedral by night</heading>
-<img src="pages-003.png" width="320" height="240" alt="Some images in a PDF"/>
+<img src="pages-003.png" width="306" height="396" alt="Some images in a PDF"/>
 </figure>
 
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 19. A very cold Tux</heading>
-<img src="pages-004.png" width="320" height="240" alt="Some images in a PDF"/>
+<img src="pages-004.png" width="306" height="396" alt="Some images in a PDF"/>
 </figure>
 
 <p>It should be noted that you can extract PDF pages which also contain text. What is actually happening under the hood is that ImageMagick is using Ghostscript to render the page, and then converting it to your chosen image format. There's no optical character recognition though -- what you get is a bitmap.</p>
