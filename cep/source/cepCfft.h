@@ -26,20 +26,17 @@
  * Note: Modifications include the addition of Matrix capabilities; 
          the reversal of sign, and results - (essentially conjugate) 
  */
+
 /******************************************************************************
 DOCBOOK START
 
-FUNCTION <!-- class name -->
-cepCfft
+FUNCTION cepCfft
 
-PURPOSE <!-- use cases -->
-computes forward and inverse fft on a 2 or 3D Matrix or an array.  
+PURPOSE Computes forward and inverse fft on a 2 or 3D Matrix or an array.  
 
 SYNOPSIS START
-<!-- how to instantiate one? -->
-#include <complex.h>
 #include <math.h>
-#include <cepcepCfft.h>
+#include <cepCfft.h>
 typedef complex<double> Complex;
 
 ...fill array...
@@ -67,25 +64,31 @@ myMatrix = FFT.matrixFft (myMatrix, 0); //inverse transform
 SYNOPSIS END
 
 DESCRIPTION START
-<!-- description goes here -->
 <para>This class can be used in 2 ways..The first is as originally intended. That is, computing an FFT on an array of data. The
 second is spceific to GDMS. The FFT is computed on a matrix of data, with the results returned in a complex matrix. The FFT can be
-in either direction as specified in the function call.</para>
+in either direction as specified in the function call.
+</para>
 
-<para> <!-- per function descriptions -->
+<para> 
 <command>FFTobject.matrixFft (myMatrix, direction);</command>
 Computes the FFT on the matrix in the direction specified.
-
 <command>myMatrix</command> The matrix containing the data to be FFT'd
 <command>direction</command>. int direction. 1 for forward 0 for inverse.
+</para>
 
+<para>
 <command>FFTobject.fft(complexArray);</command>
 Computes a forward FFT on the array passed. The results are written to the same array.
-<command>complexArray</command> The array of type complex containing the data to be FFT'd.
+<command>complexArray</command> 
+The array of type complex containing the data to be FFT'd.
+</para>
 
+<para>
 <command>FFTobject.ifft(complexArray);</command>
 Computes an inverse FFT on the array passed. The results are written to the same array.
 <command>complexArray</command> The array of type complex containing the data to be FFT'd.
+</para>
+
 DESCRIPTION END
 
 DOCBOOK END
