@@ -78,7 +78,9 @@ Below I have included several pictures that illustrate this concept. The first f
 <graphic format="EPS" fileref="grayscale-figure3.eps"></graphic>
 </figure>
 
-%todo:these_arent_right%
+<para>
+You can see that the sensible algorithm is better, have a look at the shadows on the hill and the trees in the background. The contrast and darkness of the second picture is might better than the averaging algorithm...
+</para>
 
 <para>
 The source code to generate these example images may be found in the TIFF chapter.

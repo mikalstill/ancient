@@ -15,7 +15,7 @@ TIFF (Tagged Image File Format) is a raster image format which was originally pr
 
 %todo:tiff_tech_notes_location%
 
-<para>TIFF is an extremely common, but quite complex raster image format. Libtiff is a standard implementation of the TIFF specification, which is free and works on many operating systems.
+<para>Libtiff is a standard implementation of the TIFF specification, which is free and works on many operating systems. All of the examples in this chapter refer to libtiff.
 </para>
 </sect1>
 
@@ -262,7 +262,7 @@ The code above is pretty simple. All you need to use libtiff is to include the t
 <sect2>
 <title>Writing the image</title>
 <para>
-To make up for how boring that example was, I am now pleased to present you with possibly the worst picture of the Sydney Harbour Bridge ever drawn. In the example below, the image is already in the image buffer, and all we have to do is save it to the file on disc. The example first opens a tiff image in write mode, and then places the image into that file.
+To make up for how boring that example was, I am now pleased to present you with possibly the worst picture of the Sydney Harbour Bridge ever drawn. In the example below, the image is already in the image buffer, and all we have to do is save it to the file on disc. The example first opens a TIFF image in write mode, and then places the image into that file.
 </para>
 
 <para>
@@ -282,7 +282,7 @@ Xview is part of the xloadimage package written by Jim Frost, which comes with X
 </para>
 
 <para>
-It's a good example of how hard it can be to handle TIFF images well. I am currently working on a patch to submit to Jim which will resolve this problem. If you have trouble viewing the output of the sample code, then try using some other program, like the gimp.
+It's a good example of how hard it can be to handle TIFF images well. If you have trouble viewing the output of the sample code, then try using some other program, like the gimp.
 </para>
 </sidebar>
 
@@ -319,11 +319,7 @@ If you need more information about any of the libtiff function calls mentioned i
 <sect1>
 <title>Reading Black and White TIFF files</title>
 <para>
-Reading TIFF files reliably is much harder than writing them. Unfortunately, I don't have enough space in this chapter to discuss all of the important issues. Some of them will need to be left to later chapters. There are also plenty of pages on the web which discuss the issues involved. Some of my favourites are included in the references section at the end of this chapter.
-</para>
-
-<para>
-The issue that complicates reading black and white TIFF images the most is the several different storage schemes which are possible within the TIFF file itself. libtiff doesn't hold your hand much with these schemes, so you have to be able to handle them yourself. The three schemes TIFF supports are single stripped images, stripped images, and tiled images.
+Reading TIFF files reliably is much harder than writing them. The issue that complicates reading black and white TIFF images the most is the several different storage schemes which are possible within the TIFF file itself. libtiff doesn't hold your hand much with these schemes, so you have to be able to handle them yourself. The three schemes TIFF supports are single stripped images, stripped images, and tiled images.
 </para>
 
 <orderedlist>
@@ -391,13 +387,13 @@ There are several compression algorithms available within libtiff. How do you se
 <tbody>
 <row>
 <entry>CCITT Group 4 Fax and Group 3 Fax</entry>
-<entry>This entry is here for completeness. If your coding for black and white images, then you're probably using the CCITT fax compression methods. These compression algorithms don't support color.</entry>
+<entry>If your coding for black and white images, then you're probably using the CCITT fax compression methods. These compression algorithms don't support color.</entry>
 <entry>_CCITTFAX3, _CCITTFAX4</entry>
 </row>
 
 <row>
 <entry>JPEG</entry>
-<entry>JPEG compression is great for large images such as photos. However, the compression is normally lossy (in that image data is thrown away as part of the compression process). This makes JPEG very poor for compressing text which needs to remain readable. The other thing to bear in mind is that the loss is accumulative -- see the sidebar for more information about this.</entry>
+<entry>JPEG compression is great for large images such as photos. However, the compression is normally lossy (in that image data is thrown away as part of the compression process). This makes JPEG very poor for compressing text which needs to remain readable. The other thing to bear in mind is that the loss is accumulative -- see the loss section below for more information about this.</entry>
 <entry>_JPEG</entry>
 </row>
 
@@ -444,6 +440,10 @@ The code I used had a 'quality' rating of 25% on the JPEG compression, which is 
 <title>The text after it has been recompressed 200 times</title>
 <graphic format="EPS" fileref="tiff-figure7.eps"></graphic>
 </figure>
+
+<para>
+The code for the repeated compression example is at the end of this chapter.
+</para>
 </sect2>
 </sect1>
 
@@ -470,7 +470,7 @@ In this example, we have three samples per pixel. If this was a black and white 
 
 <sect1><title>Writing a paletted color image</title>
 <para>
-So how do we write a paletted version of this image? Well, libtiff makes this really easy -- all we need to do is change the value of TIFFTAG_PHOTOMETRIC to PHOTOMETRIC_PALETTE. It's not really worth including an example in this article, given it's a one word change.</para>
+So how do we write a paletted version of this image? Well, libtiff makes this really easy -- all we need to do is change the value of TIFFTAG_PHOTOMETRIC to PHOTOMETRIC_PALETTE. It's not really worth including an example in this chapter, given it's a one word change.</para>
 </sect1>
 
 
@@ -532,7 +532,7 @@ Now all we have to do is work out how to read other people's color and grayscale
    strip. The TIFFReadRGBATile() function does a similar operation for tiled images.
 </emphasis></para>
 
-<para>There are a couple of odd things about this function -- it defines (0, 0) to be in a different location from all the other code that we have been writing. In all the previous code we have written, the (0, 0) point has been in the top left of the image. This call defines (0, 0) to be in the bottom left. The other limitation to be aware of is that not all valid values for bits per sample are supported. If you find these quirks unacceptable, then remember that you can still use TIFFReadEncodedStrip() in the same manner that we did for the black and white images in the previous article...</para>
+<para>There are a couple of odd things about this function -- it defines (0, 0) to be in a different location from all the other code that we have been writing. In all the previous code we have written, the (0, 0) point has been in the top left of the image. This call defines (0, 0) to be in the bottom left. The other limitation to be aware of is that not all valid values for bits per sample are supported. If you find these quirks unacceptable, then remember that you can still use TIFFReadEncodedStrip() in the same manner that we did for the black and white images in the previous chapter...</para>
 
 %code2db.pl:source/tiff/color-read/read.c%
 </sect1>
@@ -542,7 +542,7 @@ Now all we have to do is work out how to read other people's color and grayscale
 
 <sect1><title>Storing TIFF data in places other than files</title>
 <para>
-All of these examples that I have included to this point have read and written with files. There are many scenarios when you wouldn't want to store your image data in a file, but would still want to use libtiff and tiff. For example, you might have customer pictures for id cards, and these would be stored in a database.
+All of these examples that I have included to this point have read and written with files. There are many scenarios when you wouldn't want to store your image data in a file, but would still want to use libtiff and TIFF. For example, you might have customer pictures for id cards, and these would be stored in a database.
 </para>
 
 <para>
@@ -550,7 +550,7 @@ The example which I am most familiar with is PDF documents. In PDF files, you ca
 </para>
 
 <sidebar><title>An expanded example</title>
-<para>If you need more information about hooking the file input and output functions within libtiff than this article allows, then have a look at the images.c file in Panda, my PDF library. The web pages for Panda can be found at http://www.stillhq.com
+<para>If you need more information about hooking the file input and output functions within libtiff than this chapter allows, then have a look at the images.c file in Panda, my PDF library. The web pages for Panda can be found at http://www.stillhq.com
   <footnote><para>http://www.stillhq.com/cgi-bin/getpage?area=panda&lt;page=index.htm to be exact.</para></footnote>
 .
 </sidebar>
@@ -623,9 +623,39 @@ In one of the previous chapters I also promised to provide the source code for t
 %code2db.pl:source/tiff/grayscale/gray-wrong.c%
 </sect2>
 
+<para>
+Which produces:
+</para>
+
+<figure>
+<title>An average of the color values for each pixel</title>
+<graphic format="EPS" fileref="grayscale-figure2.eps"></graphic>
+</figure>
+
 <sect2><title>A sensible algorithm</title>
 %code2db.pl:source/tiff/grayscale/gray-good.c%
 </sect2>
+
+<para>
+Which gives us:
+</para>
+
+<figure>
+<title>A correct conversion to grayscale</title>
+<graphic format="EPS" fileref="grayscale-figure3.eps"></graphic>
+</figure>
+
+<para>
+Now, just to justify that the second algorithm is better, have a look at the shadows on the hill and the trees in the background. The contrast and darkness of the second picture is might better than the averaging algorithm...
+</sect1>
+
+<sect1><title>Example: Repeated compression</title>
+<para>
+Earlier in this chapter I promised that I would include the code for the repeated compression loss example, so here it is. The example is made up of a simple (and quite ugly) shell script, and a c program to actually compress the images...
+</para>
+
+%code2db.pl:source/tiff/recompress/recompress.sh%
+%code2db.pl:source/tiff/recompress/recompress.c%
 </sect1>
 
 <sect1><title>Conclusion</title>
