@@ -68,7 +68,7 @@ This chapter discusses the actual application which was produced. The applicatio
 </para>
 
 <para>
-When the application starts, the command is not defined, as the user is unlikely to have specified one as part of the URL. This results in the <command>GDMS Internet interface</command> using the <emphasis>main</emphasis> command. The user is then presented with a welcome screen, which displays the message of the day. The message of the day in intended to be used to warn the users of the <command>GDMS Internet interface</command> of schedualled unavailability of the system, or new datasets having been added. There are no limits on the text that can be included in the message of the day however, so it could inform users of an impending Christmas party, or other equally unrelated events.
+When the application starts, the command is not defined, as the user is unlikely to have specified one as part of the URL. This results in the <command>GDMS Internet interface</command> using the <emphasis>main</emphasis> command. The user is then presented with a welcome screen, which displays the message of the day. The message of the day in intended to be used to warn the users of the <command>GDMS Internet interface</command> of scheduled unavailability of the system, or new datasets having been added. There are no limits on the text that can be included in the message of the day however, so it could inform users of an impending Christmas party, or other equally unrelated events.
 </para>
 
 <figure><title>GDMS Internet interface welcome screen</title>
@@ -129,6 +129,9 @@ There is some scope for future improvement of the <command>GDMS Internet interfa
 <listitem><para>Better title display for the datasets. This is not currently implemented, because it either means repeating the dataset parsing code in the <command>GDMS Internet interface</command>, or invoking <command>GDMS</command> much more than would otherwise occur.</para></listitem>
 </itemizedlist>
 
+<para>
+Overall, the <command>GDMS Internet interface</command> is a stable and reliable light weight interface to the <command>GDMS</command> batch interface.
+</para>
 </chapter>
 
 
@@ -160,9 +163,28 @@ This appendix documents the various tags which are implemented by the <command>G
 
 <appendix><title>Installation</title>
 <para>
-TODO
+To install the <command>GDMS Internet interface</command>, simply place it within your web servers CGI executable directory. Then work through the various options listed in the configuration file, and ensure that they are correct for your system. The most commonly incorrect settings are the paths to locations such as the temporary directory. These may be set to anything you desire, with the limitation that the plots directory <emphasis>must</emphasis> be accessible to the web server, as the images are served directly from this folder.
 </para>
+
+<para>
+Note that no compilation of the <command>GDMS Internet interface</command> is required, as Perl is an interpreted language.
+</para>
+
+<para>
+It is also important to ensure that all permissions are set correctly on the new directories to ensure that the web server remains secure. Consult your local system administrator for assistance.
+</para>
+
 </appendix>
+
+
+
+
+
+
+
+
+
+
 
 <appendix><title>A sample configuration file</title>
 <para>

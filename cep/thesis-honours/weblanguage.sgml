@@ -62,7 +62,26 @@ Perl was originally developed by Larry Wall in 1987 (Perl Mongers, 1999) and is 
 </para>
 
 <para>
-TODO
+Perl's inbuilt handling of CGI web interfaces makes it much easier to develop web applications than it would be in C or C++. For example, the following is a simple hello world application in Perl:
+</para>
+
+<programlisting>
+# Import some modules
+use strict;
+use CGI;
+
+# Declare variables because strict is enabled
+my($result);
+
+# Setup the CGI module, and output headers
+$result = new CGI();
+print $result->header;
+
+print "Hello World";
+</programlisting>
+
+<para>
+It can be seen from this example that Perl makes CGI programming trivial. This same program in C or C++ would have taken many more lines, and would have needed to include the hard coding of the required headers.
 </para>
 
 <para>
