@@ -16,11 +16,6 @@
 # --------
 #  - Table conversion
 
-# Todo
-# ----
-#  - <title></title> et al
-#  - ensure no blank lines at the end of program listings...
-
 # Unread email
 # ------------
 #  - em2
@@ -455,7 +450,7 @@ foreach $chapter (split(/ /, $chapters)){
 	
 	# Page link target -- some of Greg's anchors start with numbers, which is why we insert some text
 	elsif(/^\.Pn[ \t]+(.*)/i){
-	    print OUTPUT "<anchor id=\"anchor-$1\"/>\n";
+	    print OUTPUT "<anchor id=\"CFBSD-$1\"/>\n";
 	}
 
 	# Paragraphs
@@ -531,7 +526,7 @@ foreach $chapter (split(/ /, $chapters)){
 
 	# Chapters
 	elsif(/^\.Chapter[ \t]\\\*\[([^ \t]*)\][ \t]\"(.*)\"/){
-	    print OUTPUT "<chapter id=\"anchor-$1\">";
+	    print OUTPUT "<chapter id=\"CFBSD-$1\">";
 	    if($2 ne ""){
 		print OUTPUT "<title>$2</title>\n";
 	    }
@@ -557,7 +552,7 @@ foreach $chapter (split(/ /, $chapters)){
 	# A document line?
 	else{
 	    # References to chapters and stuff like that
-	    s/\\\*\[([^\]]*)\]/<xref linkend=\"anchor-$1\"\/>/g;
+	    s/\\\*\[([^\]]*)\]/<xref linkend=\"CFBSD-$1\"\/>/g;
 
 	    if($tablestate > 1){
 		s/\#/<\/entry><entry>/g;
@@ -667,7 +662,7 @@ sub processstyles(){
 	    
 	    $_ = $word;
 	    if(/(.*)\\fB(.*)/){
-		$word = closeallstates() . "$1<command>$2";
+		$word = closeallstates() . "$1<keycap>$2";
 		$stylestate = "$stylestate" . "B";
 	    }
 	    
@@ -745,7 +740,7 @@ sub closestate(){
 	return "<\/emphasis>";
     }
     elsif($state eq "B"){
-	return "<\/command>";
+	return "<\/keycap>";
     }
     elsif($state eq "b"){
 	return "<\/command>";
