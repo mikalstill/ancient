@@ -39,11 +39,15 @@
  *     void tearDown( void ) { ... }
  *
  * @author <your name here>
- * @version $Revision: 1.1 $ $Date: 2002-08-09 14:28:58 $
+ * @version $Revision: 1.2 $ $Date: 2002-08-28 11:52:36 $
  *
  * Revision History
  *
  * $Log: not supported by cvs2svn $
+ * Revision 1.1  2002/08/09 14:28:58  u982087
+ * An initial test that verifies config
+ * This wold be exteded but config has been verified via use.
+ *
  * Revision 1.1  2002/08/04 04:04:16  u982087
  * Initial revison
  *
@@ -94,8 +98,9 @@ protected:
     string key("name");
     string value("blake");
     string returned;
-    
-    config cfg("testcfg");
+
+    cepConfiguration::initialise("testcfg");
+    config cfg = cepConfiguration::getInstance();
     pair< string, string > vals;
     
     cfg.setValue( key, value);
