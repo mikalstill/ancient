@@ -215,7 +215,7 @@
     calculated by the matrix equation
     
     <equation>
-      <title>Residual Equation</title>
+      <title>Residual Equation 1a</title>
       <execute><cmd>eqimg</cmd><args>time-residual.eps</args></execute>
     </equation>
     
@@ -224,7 +224,7 @@
     equation becomes
     
     <equation>
-      <title>Constrained Residual Equation</title>
+      <title>Residual Equation 1b</title>
       <execute><cmd>eqimg</cmd><args>time-restresidual.eps</args></execute>
     </equation>
     
