@@ -323,6 +323,7 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
   wxMenu *view_menu = (wxMenu *) NULL;
   wxMenu *maths_menu = (wxMenu *) NULL;
   wxMenu *ls_submenu = (wxMenu *) NULL;
+  wxMenu *window_submenu = (wxMenu *) NULL;
   wxMenu *dev_menu = (wxMenu *) NULL;
   
   if (isCanvas)
@@ -446,7 +447,7 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
       // The maths menu
       maths_menu = new wxMenu(wxMENU_TEAROFF);
       
-
+      ////
       ls_submenu = new wxMenu(wxMENU_TEAROFF);
       ls_submenu->Append (CEPMENU_LS_VCV, "Variance Co-variance",
 			 "Perform a VCV least squares regression",
@@ -458,6 +459,23 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
       
       maths_menu->Append (CEPMENU_LS, "Least squares", ls_submenu,
 			  "Least squares regression options");
+
+      ////
+      window_submenu = new wxMenu(wxMENU_TEAROFF);
+      window_submenu->Append (CEPMENU_WINDOW_BLACKMAN, "Blackman",
+			      "Blackman windowing", FALSE);
+      
+      window_submenu->Append (CEPMENU_WINDOW_CHEBYSHEV, "Chebyshev",
+			      "Chebyshev windowing", FALSE);
+      
+      window_submenu->Append (CEPMENU_WINDOW_HAMMING, "Hamming",
+			      "Hamming windowing", FALSE);
+
+      window_submenu->Append (CEPMENU_WINDOW_RECT, "Rectangular",
+			      "Rectangular windowing", FALSE);
+
+      maths_menu->Append (CEPMENU_WINDOW, "Windowing", window_submenu,
+			  "Dataset windowing");
     }
   
   /////////////////////////////////////////////////////////////////////////////

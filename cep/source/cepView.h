@@ -91,12 +91,18 @@ public:
   void OnToggleX (wxCommandEvent& event);
   void OnToggleY (wxCommandEvent& event);
   void OnToggleZ (wxCommandEvent& event);
- 
+
+  // Least squares
   void OnLeastSquaresVCV (wxCommandEvent& event);
   void LeastSquaresVCV (cepMatrix<double> *mat, string direction);
-
   void OnLeastSquaresRW (wxCommandEvent& event);
   void LeastSquaresRW (cepMatrix<double> *mat, string direction);
+
+  // Windowing
+  void OnWindowBlackman (wxCommandEvent& event);
+  void OnWindowChebyshev (wxCommandEvent& event);
+  void OnWindowHamming (wxCommandEvent& event);
+  void OnWindowRect (wxCommandEvent& event);
 
 private:
   DECLARE_DYNAMIC_CLASS (cepView) 

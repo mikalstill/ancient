@@ -108,6 +108,11 @@ GetMainFrame (void);
 #define CEPMENU_LS_VCV 16
 #define CEPMENU_LS_RW 17
 #define CEPMENU_LS 18
+#define CEPMENU_WINDOW_BLACKMAN 19
+#define CEPMENU_WINDOW_CHEBYSHEV 20
+#define CEPMENU_WINDOW_HAMMING 21
+#define CEPMENU_WINDOW_RECT 22
+#define CEPMENU_WINDOW 23
 
 extern bool singleWindowMode;
 

@@ -78,6 +78,10 @@ BEGIN_EVENT_TABLE (cepView, wxView)
   EVT_MENU (CEPMENU_SHOWZ, cepView::OnToggleZ)
   EVT_MENU (CEPMENU_LS_VCV, cepView::OnLeastSquaresVCV)
   EVT_MENU (CEPMENU_LS_RW, cepView::OnLeastSquaresRW)
+  EVT_MENU (CEPMENU_WINDOW_BLACKMAN, cepView::OnWindowBlackman)
+  EVT_MENU (CEPMENU_WINDOW_CHEBYSHEV, cepView::OnWindowChebyshev)
+  EVT_MENU (CEPMENU_WINDOW_HAMMING, cepView::OnWindowHamming)
+  EVT_MENU (CEPMENU_WINDOW_RECT, cepView::OnWindowRect)
 END_EVENT_TABLE ()
   
 cepView::cepView ():
@@ -652,3 +656,15 @@ void cepView::LeastSquaresRW(cepMatrix<double> *mat, string direction)
   cepLs myLs;
   myLs.cepDoVCV(*mat, pmatrix);
 }
+
+void cepView::OnWindowBlackman (wxCommandEvent& event)
+{}
+
+void cepView::OnWindowChebyshev (wxCommandEvent& event)
+{}
+
+void cepView::OnWindowHamming (wxCommandEvent& event)
+{}
+
+void cepView::OnWindowRect (wxCommandEvent& event)
+{}
