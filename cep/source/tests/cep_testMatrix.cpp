@@ -37,11 +37,14 @@
  *     void tearDown( void ) { ... }
  *
  * @author <your name here>
- * @version $Revision: 1.14 $ $Date: 2002-10-20 04:36:48 $
+ * @version $Revision: 1.15 $ $Date: 2002-10-20 05:25:26 $
  *
  * Revision History
  *
  * $Log: not supported by cvs2svn $
+ * Revision 1.14  2002/10/20 04:36:48  u983118
+ * fixed a few things in tests
+ *
  * Revision 1.12  2002/10/01 06:19:53  u983118
  * added test for != fuction
  *
@@ -91,7 +94,6 @@ public:
     int rows = 2, cols = 2, tables = 3;
     cepMatrix<double> A(rows, cols, tables);
     
-    cout << "here" << endl;
     
     for(int i = 0; i < rows; i ++)
     {

@@ -181,7 +181,6 @@ protected:
            day2("01"), 
            shortDate2("01/03/3000"), 
            longDate2("01 March 3000");
-     cout << "short date " << date2.getShortDate() << endl;
    
     CPPUNIT_ASSERT_MESSAGE ("wrong Year", year2 == date2.getYear());
     CPPUNIT_ASSERT_MESSAGE ("wrong Month", month2 == date2.getMonth());
