@@ -13,7 +13,7 @@ dnl Checks for programs.
 AC_PROG_CC
 AC_PROG_INSTALL
 AC_PROG_RANLIB
-AM_PROG_LIBTOOL
+AC_PROG_LIBTOOL
 
 dnl Checks for libraries.
 dnl The syntax is library name, function, action if found, action if not found

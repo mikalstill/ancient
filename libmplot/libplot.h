@@ -17,7 +17,7 @@ typedef struct plot_internal_state
 }
 plot_state;
 
-plot_state *plot_newplot (unsigned int x, unsigned int y);
+plot_state *plot_newplot (unsigned int, unsigned int);
 
 // Primitive operations
 void plot_setlinestart (plot_state *, int, int);
