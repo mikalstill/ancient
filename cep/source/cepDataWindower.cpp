@@ -26,21 +26,21 @@
 
 
 
-Window::Window( int id, const char* name ) {
+cepWindow::cepWindow( int id, const char* name ) {
   myID = id;
   str = name;
 }
-bool Window::operator== (const Window &w) const {
+bool cepWindow::operator== (const cepWindow &w) const {
   return (w.id() == myID);
 }
 
-bool Window::operator!=(const Window &w) const {
+bool cepWindow::operator!=(const cepWindow &w) const {
   return (w.id() != myID);
 }
-const int Window::id() const {
+const int cepWindow::id() const {
   return myID;
 }
-const char* Window::toString() const {
+const char* cepWindow::toString() const {
   return str;
 }
 
@@ -59,7 +59,7 @@ const cepError cepDataWindower::setChebBandwidth( double dw ) {
   return cepWindowChebyshev::setTransitionBandwidth( dw );
 }
 
-const cepError cepDataWindower::setWindowType( const Window &type, const int sz, const int ol ) {
+const cepError cepDataWindower::setWindowType( const cepWindow &type, const int sz, const int ol ) {
   
   algType = type;
   size = sz;
@@ -160,14 +160,14 @@ const cepError cepDataWindower::window( const cepMatrix<double> & dataIn,
   return cepError();
 }
 
-const Window cepDataWindower::WINDOW_RECTANGULAR(1, "Rectangular");
-const Window cepDataWindower::WINDOW_HAMMING(2, "Hamming");
-const Window cepDataWindower::WINDOW_BLACKMAN(3, "Blackman");
-const Window cepDataWindower::WINDOW_CHEBYSHEV(4, "Chebyshev");
-const Window cepDataWindower::WINDOW_UNDEFINED(5, "Undefined");
+const cepWindow cepDataWindower::WINDOW_RECTANGULAR(1, "Rectangular");
+const cepWindow cepDataWindower::WINDOW_HAMMING(2, "Hamming");
+const cepWindow cepDataWindower::WINDOW_BLACKMAN(3, "Blackman");
+const cepWindow cepDataWindower::WINDOW_CHEBYSHEV(4, "Chebyshev");
+const cepWindow cepDataWindower::WINDOW_UNDEFINED(5, "Undefined");
 
 int cepDataWindower::size = 0;
 int cepDataWindower::overlap = 0;
 cepWindowAlg* cepDataWindower::windowAlg = 0;
-Window cepDataWindower::algType = WINDOW_UNDEFINED;
+cepWindow cepDataWindower::algType = WINDOW_UNDEFINED;
 
