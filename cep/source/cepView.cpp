@@ -61,8 +61,6 @@
 #include "cepLsUi.h"
 #include "cepInterpUi.h"
 #include "cepWindowUi.h"
-#include "cepwindowchebyshev.h"
-#include "cepDataWindower.h"
 
 #include "cepDate.h"
 #include "cepDateUi.h"
@@ -659,7 +657,8 @@ void cepView::OnLeastSquaresRW (wxCommandEvent &pevt)
         }
       else
         {
-          cout << "re-weigting thingie goes here" << endl;
+          wxMessageBox("The random walk functionality has not been implemented at this time.",
+		       "Sorry", wxOK);
         }
     }
   }
@@ -667,87 +666,100 @@ void cepView::OnLeastSquaresRW (wxCommandEvent &pevt)
 
 void cepView::OnWindowBlackman (wxCommandEvent& event)
 {
-  cepWindowUi windowUi;
-  bool ok = false;
-
-  do
-  {
-    windowUi.show();
-    if( windowUi.cancelled() ) return;
-    if( windowUi.checkValues().isReal() ) {
-      windowUi.checkValues().display();
-    } else {
-      ok = true;
-    }
-  } while( !ok  );
-
-  cepDataWindower::setWindowType( cepDataWindower::WINDOW_BLACKMAN, windowUi.getSize(), windowUi.getOverlap());
+  processWindow(cepDataWindower::WINDOW_BLACKMAN, "Blackman Window");
 }
 
 void cepView::OnWindowChebyshev (wxCommandEvent& event)
 {
-  cepWindowUi windowUi;
-  bool ok = false;
-
-  do
-  {
-    windowUi.showBandwidth();
-    if( windowUi.cancelled() ) return;
-    if( windowUi.checkValues().isReal() ) {
-      windowUi.checkValues().display();
-    } else {
-      ok = true;
-    }
-  } while( !ok  );
-
-  double bw = windowUi.getBandwidth();
-  if( bw != cepWindowBandwidth::UNINITIALISED_FLOAT ){
-    cepError err = cepWindowChebyshev::setTransitionBandwidth( bw );
-    if( err.isReal() ) {
-      err.display();
-      return;
-    }
-  cepDataWindower::setWindowType( cepDataWindower::WINDOW_CHEBYSHEV, windowUi.getSize(), windowUi.getOverlap() );
-  }
+  processWindow(cepDataWindower::WINDOW_CHEBYSHEV, "Chebyshev Window");
 }
 
 void cepView::OnWindowHamming (wxCommandEvent& event)
 {
-  cepWindowUi windowUi;
-  bool ok = false;
-
-  do
-  {
-    windowUi.show();
-    if( windowUi.cancelled() ) return;
-    if( windowUi.checkValues().isReal() ) {
-      windowUi.checkValues().display();
-    } else {
-      ok = true;
-    }
-  } while( !ok  );
-
-  cepDataWindower::setWindowType( cepDataWindower::WINDOW_HAMMING, windowUi.getSize(), windowUi.getOverlap() );
+  processWindow(cepDataWindower::WINDOW_HAMMING, "Hamming Window");
 
 }
 
 void cepView::OnWindowRect (wxCommandEvent& event)
 {
-  cepWindowUi windowUi;
-  bool ok = false;
-  do
-  {
-    windowUi.show();
-    if( windowUi.cancelled() ) return;
-    if( windowUi.checkValues().isReal() ) {
-      windowUi.checkValues().display();
-    } else {
-      ok = true;
-    }
-  } while( !ok  );
-  
-  cepDataWindower::setWindowType( cepDataWindower::WINDOW_RECTANGULAR, windowUi.getSize(), windowUi.getOverlap() );
+  processWindow(cepDataWindower::WINDOW_RECTANGULAR, "Rect Window");
+}
 
+void
+cepView::processWindow(const cepWindow wType, string desc)
+{
+  cepMatrix<double> windowed[cepDataset::dirUnknown];
+
+  cepDoc *theDoc = (cepDoc *) GetDocument ();
+  cepDataset *theDataset = theDoc->getDataset ();
+  if (theDataset && theDataset->isReady() && theDataset->isWellFormed()){
+    cepWindowUi windowUi;
+
+    cepDebugPrint("Prompt for Window information");
+    bool ok = false;
+    do
+      {
+	windowUi.show();
+	if( windowUi.cancelled() ) return;
+	if( windowUi.checkValues().isReal() ) {
+	  windowUi.checkValues().display();
+	} else {
+	  ok = true;
+	}
+      } while( !ok  );
+    
+    if(wType == cepDataWindower::WINDOW_CHEBYSHEV){
+      double bw = windowUi.getBandwidth();
+      if( bw != cepWindowBandwidth::UNINITIALISED_FLOAT ){
+	cepError err = cepWindowChebyshev::setTransitionBandwidth( bw );
+	if( err.isReal() ) {
+	  err.display();
+	  return;
+	}
+      }
+    }
+    
+    cepDebugPrint("Set window type");
+    cepDataWindower::setWindowType(wType , windowUi.getSize(), windowUi.getOverlap() );
+    
+    // Now actually window
+    for(int i = 0; i < cepDataset::dirUnknown; i++)
+      {
+	cepDebugPrint("Window: " + cepToString(i));
+	cepError werr = cepDataWindower::window(*theDoc->getDataset ()->getMatrix((cepDataset::direction) i),
+						windowed[i]);
+	if(werr.isReal()){
+	  werr.display();
+	  return;
+	}
+      }
+    
+    // Now we can process the results
+    cepDebugPrint("Display results");
+    cepDataset newds(&windowed[0], &windowed[1], &windowed[2], 
+		   theDataset->getOffset((cepDataset::direction) 0), 
+		     theDataset->getOffset((cepDataset::direction) 1), 
+		     theDataset->getOffset((cepDataset::direction) 2),
+		     theDataset->getProcHistory() + " : " + desc, 
+		     theDataset->getHeader((cepDataset::direction) 0), 
+		     theDataset->getHeader((cepDataset::direction) 1), 
+		     theDataset->getHeader((cepDataset::direction) 2));
+    
+    char *cfname = strdup("/tmp/cep.XXXXXX");
+    int fd;
+    fd = mkstemp(cfname);
+    close(fd);
+    
+    string newcfname(string(cfname) + "~" + theDataset->getName());
+    newds.write(newcfname.c_str());
+    
+    wxGetApp().m_docManager->CreateDocument(string(newcfname + ".dat1").c_str(), wxDOC_SILENT);
+    free(cfname);
+    
+    // Actually force the graphs to redraw
+    m_dirty = true;
+    canvas->Refresh();
+  }
 }
 
 void cepView::OnInterpNearest (wxCommandEvent& event)
@@ -834,6 +846,11 @@ void cepView::OnFFT (wxCommandEvent& event)
   if (theDataset && theDataset->isReady() && theDataset->isWellFormed()){
     for(int i = 0; i < cepDataset::dirUnknown; i++)
       {
+	// We need to copy add the data across into complex land...
+	//	cepMatrix<ComplexDble> input = *theDataset->getMatrix((cepDataset::direction) i);
+	
+
+
 	//	cepCfft<double> myFFT(theDataset->getMatrix((cepDataset::direction) i)->getNumRows());
 	//	ffted[i] = myFFT.matrixFft(*theDataset->getMatrix((cepDataset::direction) i), 1);
       }

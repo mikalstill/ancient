@@ -37,6 +37,8 @@
 #define __VIEWSAMPLEH__
 
 #include "cepCanvas.h"
+#include "cepwindowchebyshev.h"
+#include "cepDataWindower.h"
 
 class cepView:public wxView
 {
@@ -109,6 +111,7 @@ private:
 		    const double &val, cepMatrix<double> &data);
 
   void processInterp(const int iType, string desc);
+  void processWindow(const cepWindow wType, string desc);
 
   string m_pngCache[3];
   bool m_dirty;
