@@ -1,0 +1,5 @@
+A simple ls.
+
+To compile, try:
+
+  gcc ls.c -o ls
