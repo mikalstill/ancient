@@ -7,10 +7,20 @@ use strict;
 use DBI;
 
 my($database, $select, @data);
-my($col, $table, $where);
+my($col, $table, $where, $dbname);
 my($INPUT, $OUTPUT, $buffer);
 
-$database = DBI->connect("DBI:mysql:database=ctpfaq:host=localhost", "root", "xxx", { PrintError => 0 });
+# Set the arguments to being empty
+$dbname = "";
+$col = "";
+$table = "";
+$where = "";
+
+# If nothing has been set on the command line, then we prompt the user...
+print "Database: ";
+$dbname=<STDIN>;
+
+$database = DBI->connect("DBI:mysql:database=$dbname:host=localhost", "root", "vodka4me", { PrintError => 0 });
 
 if(!defined($database)){
   print "Database connection failed" . DBI->errstr;
