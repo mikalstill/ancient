@@ -284,11 +284,8 @@ double cepMatrix::getValue (int row, int col)
     cout << "Invalid refence\n";
     exit (1);
   }
-  else
-  {
-    return matrix[(row * numCols) + col];
-
-  }
+  
+  return matrix[(row * numCols) + col];
 }
 
 void cepMatrix::setValue (int row, int col, double value)
@@ -298,10 +295,8 @@ void cepMatrix::setValue (int row, int col, double value)
     cout << "Invalid refence\n";
     exit (1);
   }
-  else
-  {
-    matrix[(row * numCols) + col] = value;
-  }
+  
+  matrix[(row * numCols) + col] = value;
 }
 
 int cepMatrix::getNumRows ()
