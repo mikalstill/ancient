@@ -313,7 +313,11 @@ floriade.jpg stillhq.jpg
 <img src="stillhq.jpg" width="640" height="480" alt="Floriade after badging"/>
 </figure>
 
+<p><i>-fill white</i>: fill the letters with white, instead of the standard black.</p>
 
+<p><i>-pointsize 36</i>: the size of the letters, in points. There are 72 points to an inch.</p>
+
+<p><i>-draw 'text 10,50 "..."'</i>: a set of drawing commands, in this case move to the position 10, 50 and then draw the text in the double quotes. The single quotes are used because the double quotes are needed within the drawing command if more than one word is to be drawn, and you cannot have double quotes within double quotes.</p>
 
 
 
