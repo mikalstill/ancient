@@ -121,6 +121,10 @@ plot_newplot (unsigned int x, unsigned int y)
     state->ctm[i] = 0.0;
   state->ctm[0] = 1.0;
   state->ctm[3] = 1.0;
+
+  // We might not need to fill anything
+  state->tempstate = NULL;
+
   return state;
 }
 
@@ -732,6 +736,7 @@ plot_fillline (plot_state * state)
 {
   int intersects;
   unsigned int row, col, lcol;
+  int bboxx1, bboxx2, bboxy1, bboxy2;
 
   // Build a temporary copy of just that polygon
   if(state->tempstate == NULL)
@@ -740,16 +745,21 @@ plot_fillline (plot_state * state)
     {
       memset (state->tempstate->raster, 255, 
 	      sizeof (plot_pixel) * state->tempstate->x * state->tempstate->y);
-      plot_endline(state->tempstate);
     }
 
   state->tempstate->line = state->line;
   plot_strokeline(state->tempstate);
-  
+
+  plot_boundingbox(state, &bboxx1, &bboxy1, &bboxx2, &bboxy2);
+  bboxx1 = plot_max(0, bboxx1 - 1);
+  bboxy1 = plot_max(0, bboxy1 - 1);
+  bboxx2 = plot_min(0, bboxx2 - 1);
+  bboxy2 = plot_min(0, bboxy2 - 1);
+
   // For every point in the raster
-  for(row = 0; row < state->y ; row++)
+  for(row = bboxy1; row < bboxy2 ; row++)
     {
-      for(col = 0; col < state->x; col++)
+      for(col = bboxx1; col < bboxx2; col++)
 	{
 	  // The first direction is forwards
 	  intersects = 0;
@@ -1717,4 +1727,27 @@ void plot_overlayraster(plot_state * state, char *raster,
       iy++;
     }
   }
+}
+
+// TODO: This doesn't take into account the width of the line being painted...
+void plot_boundingbox(plot_state *state, int *x1, int *y1, int *x2, int *y2)
+{
+  plot_lineseg *current;
+
+  *y1 = state->y;
+  *x1 = state->x;
+  *x2 = 0;
+  *y2 = 0;
+
+  current = state->line;
+  current = current->next;
+  while (current != NULL)
+    {
+      if(current->x < *x1) *x1 = current->x;
+      if(current->x > *x2) *x2 = current->x;
+      if(current->y < *y1) *y1 = current->y;
+      if(current->y > *y2) *y2 = current->y;
+
+      current = current->next;
+    }
 }
