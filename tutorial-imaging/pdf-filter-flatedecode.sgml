@@ -1,0 +1,7 @@
+<sect4><title>FlateDecode</title>
+<para>
+Flate compression (which is implemented by zlib), is the compression codec using in PNG images. It is very good for colour image and textual data.
+</para>
+
+<execute><cmd>nextedition</cmd><input>More on this</input></execute>
+</sect4>

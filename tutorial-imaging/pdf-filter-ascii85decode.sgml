@@ -1,0 +1,19 @@
+<sect4><title>ASCII85Decode</title>
+<para>
+The ASCII85 filter takes binary data, and turns it into base 85 representation. This is needed by some email clients (among other things), because they can't handle embedding binary data into their protocols.
+</para>
+
+<para>
+The <emphasis>comp.text.pdf frequently asked questions</emphasis> refers to the code examples below by way of explaination:
+</para>
+
+<execute><cmd>code2db.pl</cmd><input>~mikal/opensource/ascii85/encode85.c</input></execute>
+
+<execute><cmd>code2db.pl</cmd><input>~mikal/opensource/ascii85/decode85.c</input></execute>
+
+<para>
+These two code snippets were written by Paul Haahr, http://www.webcom.com/~haahr/, and is stated to be in the public domain.
+</para>
+
+<execute><cmd>nextedition</cmd><input>More on this</input></execute>
+</sect4>

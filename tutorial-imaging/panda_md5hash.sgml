@@ -1,0 +1,51 @@
+<!-- 
+
+     This document is part of the panda distribution, and is covered
+     by the GNU GPL, a copy of which is in the file named COPYING inside the
+     distribution.
+
+     This program and it's documentation are distributed in the hope that 
+     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
+     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+-->
+
+<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
+
+<refentry id="panda_md5hash">
+<refmeta>
+<refentrytitle>panda_md5hash</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_md5hash</refname>
+<refpurpose>a wrapper to Rivest's MD5 code</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ char *panda_md5hash(char *input);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para><command>PANDA INTERNAL</command>. This function generates a hash on the given string and then returns that hash.</para>
+</refsect1>
+
+<refsect1>
+<title>RETURNS</title>
+<para>A hash on the input string as a string</para>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLE</title>
+<para> his is an internal function which will only be needed by those playing deeply with Panda itself, so I won't provide an example.
+</para>
+</refsect1>
+
+</refentry>

@@ -1,0 +1,69 @@
+<!-- 
+
+     This document is part of the panda distribution, and is covered
+     by the GNU GPL, a copy of which is in the file named COPYING inside the
+     distribution.
+
+     This program and it's documentation are distributed in the hope that 
+     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
+     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+-->
+
+<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
+
+<refentry id="panda_freetextannotation">
+<refmeta>
+<refentrytitle>panda_freetextannotation</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_freetextannotation</refname>
+<refpurpose>draw a text annotation which doesn't look like a sticky note onto a page</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_freetextannotation(panda_pdf *document, panda_page *page,
+ char *text, int top, int left, int bottom, int right,
+ int flags);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>This function inserts a text annotation onto one of the pages in your PDF document. The possible values for the flags arguement are: panda_annotationflag_invisible; panda_annotationflag_hidden; panda_annotationflag_print; panda_annotationflag_nozoom; panda_annotationflag_norotate; panda_annotationflag_noview; panda_annotationflag_readonly -- the values for this arguement may by OR'ed together if needed.</para>
+</refsect1>
+
+<refsect1>
+<title>RETURNS</title>
+<para>Nothing</para>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLE</title>
+<para> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *demo;
+ panda_page *currPage;
+ 
+ panda_init();
+ if ((demo = panda_open ("output.pdf", "w")) == NULL)
+ panda_error (panda_true, "demo: could not open output.pdf to write to.");
+ currPage = panda_newpage (demo, panda_pagesize_a4);
+ 
+ panda_freetextannotation(demo, currPage, "Hello", 10, 10, 50, 50, 0);
+</para>
+</refsect1>
+
+<refsect1>
+<title>SEE ALSO</title>
+<para>panda_textannotation, panda_insertannotation</para>
+</refsect1>
+
+</refentry>

@@ -1,0 +1,364 @@
+<sect1><title>ClibPDF</title>
+<para>
+ClibPDF was my first introduction to PDF generation APIs. It is available from http://www.fastio.com, and was last updated in December 1999, so it is starting to get a little old. There are still many people who use ClibPDF however.
+</para>
+
+<para>
+Note that ClibPDF is not free software. The license is included below for your reference:
+</para>
+
+<execute><cmd>pdf2db.sh</cmd><args>clibpdf-license.pdf "ClibPDF license"</args></execute>
+
+<para>
+To summarise the license, this quote from the ClibPDF README page sums it up:
+</para>
+
+<programlisting>
+This package is released under:
+FastIO ClibPDF Software License 1.30, January 27, 2000.
+
+ClibPDF and Premium ClibPDF are not public-domain or free software.
+</programlisting>
+
+<para>
+This almost certainly limits what you can do with the library, and means that using the library will cost you money.
+</para>
+
+<sect2><title>Installation</title>
+<para>
+The first step to installing ClibPDF is to download the source from http://www.fastio.com. At the time of writing the source download is on the front page, about half way down. I can't guarantee that this wont have changed by the time you come to download the library, but then again the page hasn't changed in several years now, so it doesn't strike me a likely.
+</para>
+
+<sect3><title>Unix</title>
+<para>
+ClibPDF does not use configure scripts. The first step of the installation is to therefore copy your operating system's Makefile over the top of the sample Makefile. The various distributed Makefiles are:
+</para>
+
+<itemizedlist>
+<listitem><para>Makefile.AIX42</para></listitem>
+<listitem><para>Makefile.BSDI</para></listitem>
+<listitem><para>Makefile.Cygwin</para></listitem>
+<listitem><para>Makefile.FreeBSD</para></listitem>
+<listitem><para>Makefile.HPUX</para></listitem>
+<listitem><para>Makefile.irix62gcc</para></listitem>
+<listitem><para>Makefile.MacOSX</para></listitem>
+<listitem><para>Makefile.NetBSD</para></listitem>
+<listitem><para>Makefile.NEXTSTEP</para></listitem>
+<listitem><para>Makefile.SolarisGCC</para></listitem>
+<listitem><para>Makefile.SolarisSunCC</para></listitem>
+<listitem><para>Makefile.SunOS5x</para></listitem>
+</itemizedlist>
+
+<para>
+If your operating system isn't listed in the available Makefiles, you'll need to copy the closest one and then edit it until the compile works.
+</para>
+
+<para>
+Once you have copied your Makefile to the file named <emphasis>Makefile</emphasis>, then follow these steps to install ClibPDF...
+</para>
+
+<itemizedlist>
+<listitem><para>make</para></listitem>
+<listitem><para>make lib</para></listitem>
+<listitem><para>make install</para></listitem>
+</itemizedlist>
+
+<para>
+You might need to edit parts of the Makefile to make the install work properly for your system.
+</para>
+</sect3>
+
+<sect3><title>win32</title>
+<para>
+ClibPDF doesn't support win32 directly. It is however written in ANSI C, so a port shouldn't be very hard at all.
+</para>
+</sect3>
+</sect2>
+
+<sect2><title>Hello world example</title>
+<para>
+The most basic PDF example is the hello world application. Here is the ClibPDF iteration:
+</para>
+
+<execute><cmd>code2db.pl</cmd><input>source/pdf/clibpdf/hello/hello.c</input></execute>
+
+<para>
+This produces a PDF which looks like (somewhat reduced from it's real size)...
+</para>
+
+<execute><cmd>pdf2db.sh</cmd><args>source/pdf/clibpdf/hello/hello.pdf "ClibPDF hello world"</args></execute>
+
+<para>
+The first block initializes ClibPDF, then we create a page, put some text on it, and then close the document.
+</para>
+</sect2>
+
+<sect2><title>Initialization</title>
+<programlisting>
+CPDFdoc *cpdf_open(int pspdf, CPDFdocLimits *docLimits);
+void cpdf_init(CPDFdoc *pdf);
+
+char  *cpdf_getOutputFilename(CPDFdoc *pdf);
+void cpdf_setOutputFilename(CPDFdoc *pdf, const char *file);
+</programlisting>
+
+<para>
+ClibPDF requires multiple initialization calls. As seen in the hello world example above, we needed to call <command>cpdf_open</command> and <command>cpdf_init</command> at the start of our application. <command>cpdf_open</command> initializes ClibPDF itself, and returns a pointer to a <command>CPDFdoc</command>, which will represent our document. This pointer must then be initialized with a call to <command>cpdf_init</command>. The <command>*OutputFilename</command> functions are used to get and set the filename that the PDF document will be written to when finalized.
+</para>
+
+<execute><cmd>nextedition</cmd><input>Can you be creating multiple PDF files at once?</input></execute>
+</sect2>
+
+<sect2><title>Creating pages</title>
+<programlisting>
+int cpdf_pageInit(CPDFdoc *pdf, int pagenum, int rot, const char *mediaboxstr, const char *cropboxstr);
+int cpdf_setCurrentPage(CPDFdoc *pdf, int page);
+</programlisting>
+
+<para>
+Creating pages in ClibPDF is done with the <command>cpdf_pageInit</command> function. This function takes some arguements:
+</para>
+
+<itemizedlist>
+<listitem><para><emphasis>CPDFdoc *pdf</emphasis>: the PDF document to add the page to</para></listitem>
+<listitem><para><emphasis>int pagenum</emphasis>: the page number for the new page (the first page of a PDF is page 1)</para></listitem>
+<listitem><para><emphasis>int rot</emphasis>: whether the page is PORTRAIT or LANDSCAPE (defined in the cpdflib header)</para></listitem>
+<listitem><para><emphasis>const char *mediaboxstr</emphasis>: the page size string, see below</para></listitem>
+<listitem><para><emphasis>const char *cropboxstr</emphasis>: the crop box for the page</para></listitem>
+</itemizedlist>
+
+<execute><cmd>nextedition</cmd><input>Define crop box in the PDF intro</input></execute>
+
+<para>
+There are some default page size strings provided by ClibPDF, although it is possible to use your own as well. The sizes provided by ClibPDF are:
+</para>
+
+<itemizedlist>
+<listitem><para>LETTER</para></listitem>
+<listitem><para>LEGAL</para></listitem>
+<listitem><para>A4</para></listitem>
+<listitem><para>B5</para></listitem>
+<listitem><para>C5</para></listitem>
+</itemizedlist>
+
+<para>
+There are also the following other page sizes, which for some reason aren't documented in the manual...
+</para>
+
+<itemizedlist>
+<listitem><para>DL</para></listitem>
+<listitem><para>EXECUTIVE</para></listitem>
+<listitem><para>COMM10</para></listitem>
+<listitem><para>MONARCH</para></listitem>
+<listitem><para>FILM35MM</para></listitem>
+</itemizedlist>
+
+<para>
+Page size strings are as embedded into the PDF document (which matches how Panda uses these strings as well). The format of the string is left, top, right, bottom. For example:
+</para>
+
+<programlisting>
+0 0 612 792
+</programlisting>
+
+<para>
+You can also be working on multiple pages at once. Use the <command>cpdf_setCurrentPage</command> function to switch between pages (compare this with how Panda implements this).
+</para>
+</sect2>
+
+<sect2><title>Finalization</title>
+<programlisting>
+void cpdf_finalizePage(CPDFdoc *pdf, int page);
+void cpdf_finalizeAll(CPDFdoc *pdf);
+int cpdf_savePDFmemoryStreamToFile(CPDFdoc *pdf, const char *file);
+char *cpdf_getBufferForPDF(CPDFdoc *pdf, int *length);
+</programlisting>
+
+<para>
+These functions are used to finalize the PDF document. Use the <command>cpdf_finalizePage</command> function to force a page to be generated immediately. This may decrease resource usage for the PDF document. This function call is optional. <command>cpdf_finalizeAll</command> is called to write the PDF document out to the memory stream or the file on disc. If this function is not called, then the PDF file will be empty. You cannot add items to the PDF file once it has been finalized. <command>cpdf_close</command> closes the PDF file and deallocates resources which were consumed by the file.
+</para>
+
+
+</sect2>
+
+<sect2><title>Inserting text</title>
+<para>
+rotation, word wrap support
+</para>
+</sect2>
+
+<sect2><title>Fonts</title>
+<para>
+embedded / other
+</para>
+</sect2>
+
+<sect2><title>Inserting raster images</title>
+<para>
+
+</para>
+
+<sect3><title>TIFF support</title>
+<para>
+
+</para>
+</sect3>
+
+<sect3><title>JPEG support</title>
+<para>
+
+</para>
+</sect3>
+
+<sect3><title>PNG support</title>
+<para>
+
+</para>
+</sect3>
+
+<sect3><title>Other raster formats</title>
+<para>
+
+</para>
+</sect3>
+</sect2>
+
+<sect2><title>Vector graphics</title>
+<para>
+
+</para>
+
+<sect3><title>Lines</title>
+<para>
+
+</para>
+</sect3>
+
+<sect3><title>Fills</title>
+<para>
+
+</para>
+</sect3>
+
+<sect3><title>Dashing</title>
+<para>
+
+</para>
+</sect3>
+</sect2>
+
+<sect2><title>Document metadata</title>
+<para>
+
+</para>
+</sect2>
+
+<sect2><title>Presentation support</title>
+<programlisting>
+void cpdf_setPageDuration(CPDFdoc *pdf, float seconds);
+int cpdf_setPageTransition(CPDFdoc *pdf, int type, float duration, float direction, int HV, int IO);
+</programlisting>
+
+<para>
+<command>cpdf_setPageDuration</command> is self explainatory. The arguements to the <command>cpdf_setPageTransition</command> are not as obvious. They are:
+</para>
+
+<itemizedlist>
+<listitem><para><empahsis>CPDFdoc *pdf</emphasis>: </para></listitem>
+<listitem><para><empahsis>int type</emphasis>: </para></listitem>
+<listitem><para><empahsis>float duration</emphasis>: </para></listitem>
+<listitem><para><empahsis>float direction</emphasis>: </para></listitem>
+<listitem><para><empahsis>int HV</emphasis>: </para></listitem>
+<listitem><para><empahsis>int IO</emphasis>: </para></listitem>
+</itemizedlist>
+
+</sect2>
+
+<sect2><title>Cool features</title>
+<para>
+ClibPDF has some cool features which aren't available in the other PDF generation libraries discussed in this tutorial. In brief, these are:
+</para>
+
+<itemizedlist>
+<listitem><para>ClibPDF allows you to write the PDF to a memory stream, or a file, which would work well if you were byte serving the PDF on the web, or if you wanted to embed it into something like a database.</para></listitem>
+<listitem><para></para></listitem>
+<listitem><para></para></listitem>
+<listitem><para></para></listitem>
+<listitem><para></para></listitem>
+</itemizedlist>
+
+<programlisting>
+CPDFerrorHandler cpdf_setErrorHandler(CPDFdoc *pdf, CPDFerrorHandler handler);
+void cpdf_Error(CPDFdoc *pdf, int level, const char* module, const char* fmt, ...);
+CPDFglobalErrorHandler cpdf_setGlobalErrorHandler(CPDFglobalErrorHandler handler);
+void cpdf_GlobalError(int level, const char* module, const char* fmt, ...);
+</programlisting>
+
+<para>
+Error handling
+</para>
+
+<programlisting>
+void cpdf_enableCompression(CPDFdoc *pdf, int cmpON);
+</programlisting>
+
+<para>
+This function will enable compression of page descriptions, which can quite significantly reduce the size of the PDF document. This function simply enables a Flate filter on these page description streams.
+</para>
+
+<programlisting>
+void cpdf_setDefaultDomainUnit(CPDFdoc *pdf, float defunit);
+... and a variety of other domain function calls ...
+</programlisting>
+
+<para>
+Explain domains
+</para>
+
+<programlisting>
+void cpdf_useContentMemStream(CPDFdoc *pdf, int flag);
+</programlisting>
+
+<para>
+This function call can be called if you want to use temporary files instead of memory buffers. This can be useful for machines which don't have much memory, but it is quite slow. You might find that you are better off simply increasing the amount of swap space allocated on the system. The ClibPDF documentation also implies that this function call is not thread safe.
+</para>
+</sect2>
+
+<sect2><title>Room for improvement</title>
+<programlisting>
+void cpdf_setGlobalDocumentLimits(int maxPages, int maxFonts, int maxImages, int maxAnnots, int maxObjects);
+</programlisting>
+
+<para>
+ClibPDF has internal limitations for the sizes of various data structures. These must be explicitly changed before the library is used if they don't fit your needs. The defaults are:
+</para>
+
+<itemizedlist>
+<listitem><para><emphasis>Maximum number of pages</emphasis>: default value is 100</para></listitem>
+<listitem><para><emphasis>Maximum number of fonts</emphasis>: default value is 180</para></listitem>
+<listitem><para><emphasis>Maximum number of images (rasters)</emphasis>: default value is 100</para></listitem>
+<listitem><para><emphasis>Maximum number of annotations</emphasis>: default value is 100</para></listitem>
+<listitem><para><emphasis>Maximum number of objects</emphasis>: default value is 5,000 (it is strange that this value is exposed to the user)</para></listitem>
+</itemizedlist>
+
+<para>
+These values can be changed using the <command>CPDFdocLimits</command> structure, which is passed to many of the ClibPDF function calls. It is interesting to note that this gives us a perspective on the internal coding style of ClibPDF. Many of the internal structures are based on fixed size arrays, which is why the size must be known from the start. These arrays will allow for ClibPDF to be marginally faster than implementations that use linked lists, but it also decreases the utility of the library.
+</para>
+</sect2>
+
+
+
+
+
+
+</sect1>
+
+
+
+
+
+
+
+
+
+

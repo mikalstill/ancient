@@ -1,0 +1,7 @@
+<sect4><title>ASCIIHexDecode</title>
+<para>
+For similar reasons to ASCII85, you can also represent your binary data as hexidecimal. This filter implements this.
+</para>
+
+<execute><cmd>nextedition</cmd><input>More on this</input></execute>
+</sect4>

@@ -1022,10 +1022,8 @@ In this example, we do everything we need to open a PNG image, without actually 
 
 <listitem><para>The info struct gives us access to important information about the image</para></listitem>
 
-<listitem><para>Then we read the IHDR chunk (see above)</para></listitem>
+<listitem><para>Then we read the IHDR chunk (see above for a description of this chunk)</para></listitem>
 </itemizedlist>
-
-<execute><cmd>todo</cmd><input>PNG client information reference</input></execute>
 </sect1>
 
 
@@ -1099,12 +1097,12 @@ This chapter hasn't been as complete as the TIFF chapter, for which I apologise.
 <sect1><title>Further reading</title>
 <para>
 <itemizedlist>
-<listitem><para>http://www.libpng.org/pub/png/png.html: The libpng homepage.</para><listitem>
-<listitem><para>http://www.libpng.org/pub/png/pngintro.html: An introduction to PNG features.</para><listitem>
-<listitem><para>http://www.libpng.org/pub/png/pngfaq.html: The PNG FAQ.</para><listitem>
-<listitem><para>http://www.libpng.org/pub/png/pnghist.html: A history of PNG.</para><listitem>
-<listitem><para>http://www.libpng.org/pub/png/spec/: Version 1.2 of the PNG specification.</para><listitem>
-<listitem><para>http://www.libpng.org/pub/png/libpng.html: libpng download page</para><listitem>
+<listitem><para>http://www.libpng.org/pub/png/png.html: The libpng homepage.</para></listitem>
+<listitem><para>http://www.libpng.org/pub/png/pngintro.html: An introduction to PNG features.</para></listitem>
+<listitem><para>http://www.libpng.org/pub/png/pngfaq.html: The PNG FAQ.</para></listitem>
+<listitem><para>http://www.libpng.org/pub/png/pnghist.html: A history of PNG.</para></listitem>
+<listitem><para>http://www.libpng.org/pub/png/spec/: Version 1.2 of the PNG specification.</para></listitem>
+<listitem><para>http://www.libpng.org/pub/png/libpng.html: libpng download page</para></listitem>
 </itemizedlist>
 </para>
 </sect1>

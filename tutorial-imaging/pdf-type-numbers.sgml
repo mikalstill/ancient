@@ -9,7 +9,7 @@ numbers.
 <para>
 Integer numbers can be either positive or negative (with a leading sign value if needed) and have a maximum value of ... and a minimum value of ... .
 
-<execute><cmd>todo</cmd><input>sizeof(int)</input></execute>
+<execute><cmd>nextedition</cmd><input>sizeof(int)</input></execute>
 </para>
 
 <sect6><title>Examples</title>
@@ -27,7 +27,7 @@ Integer numbers can be either positive or negative (with a leading sign value if
 <para>
 Real numbers can exist in the range ... to ..., and may or may not have leading zeros.
 
-<execute><cmd>todo</cmd><input>sizeof(real)</input></execute>
+<execute><cmd>nextedition</cmd><input>sizeof(real)</input></execute>
 </para>
 
 <sect6><title>Examples</title>

@@ -77,6 +77,8 @@ I should also thank the following people:
 <listitem><para>Doug Jackson (doug_jackson@citadel.com.au), for proof reading and getting me interested in this whole topic to start with</para></listitem>
 <listitem><para>Tony Green (greeno@bandcamp.tv), for occasional DocBook wrangling</para></listitem>
 <listitem><para>Michael Smith (smith@xml-doc.org), for DocBook hints</para></listitem>
+<listitem><para>Greg Lehey, for giving me access to his docbook environment when I was having jade pain</para></listitem>
+<listitem><para>Lenny Muellner, of O'Reilly, for helping me with my gmat problems</para></listitem>
 </itemizedlist>
 </sect1>
 
@@ -146,12 +148,6 @@ OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
 WHETHER OR NOT ADVISED OF THE POSSIBILITY OF DAMAGE, AND ON ANY THEORY OF 
 LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE 
 OF THIS SOFTWARE.
-</para>
-</sect2>
-
-<sect2><title>License for some ClibPDF examples</title>
-<para>
-Some ClibPDF examples are subject to the ClibPDF license, which is included in the PDF chapter of this tutorial.
 </para>
 </sect2>
 </sect1>

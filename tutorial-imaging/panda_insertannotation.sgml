@@ -1,0 +1,59 @@
+<!-- 
+
+     This document is part of the panda distribution, and is covered
+     by the GNU GPL, a copy of which is in the file named COPYING inside the
+     distribution.
+
+     This program and it's documentation are distributed in the hope that 
+     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
+     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+-->
+
+<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
+
+<refentry id="panda_insertannotation">
+<refmeta>
+<refentrytitle>panda_insertannotation</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_insertannotation</refname>
+<refpurpose>actually insert an annotation</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_object *panda_insertannotation(panda_pdf *document, panda_page *page,
+ int top, int left, int bottom, int right,
+ int flags)
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para><command>PANDA INTERNAL</command>. This function call creates the object to store the annotation and the common elements which are required.</para>
+</refsect1>
+
+<refsect1>
+<title>RETURNS</title>
+<para>The annotation object which was created.</para>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLE</title>
+<para> ou shouldn't need an example because this is an internal call
+</para>
+</refsect1>
+
+<refsect1>
+<title>SEE ALSO</title>
+<para>panda_textannotation, panda_freetextannotation</para>
+</refsect1>
+
+</refentry>

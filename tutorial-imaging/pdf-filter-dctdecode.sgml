@@ -1,0 +1,7 @@
+<sect4><title>DCTDecode</title>
+<para>
+DCT (Descrete Cosine Transform) is the compression codec used by JPEG images. As discussed elsewhere in this document, it is good for color images, but is lossy.
+</para>
+
+<execute><cmd>nextedition</cmd><input>More on this</input></execute>
+</sect4>

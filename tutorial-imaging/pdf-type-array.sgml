@@ -1,0 +1,11 @@
+<sect4><title>Arrays</title>
+<para>
+An array is a one dimensional collection of other values. Unlike most programming languages, the contents of the array can be of several types, for instance we could mix integers with strings in a single array. Arrays start and end with square brackets.
+</para>
+
+<sect5><title>Examples</title>
+<programlisting>
+[(foo) (bar) 42.3 /AName]
+</programlisting>
+</sect5>
+</sect4>

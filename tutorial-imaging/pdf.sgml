@@ -16,19 +16,11 @@ This chapter will focus on PDF 1.3 (second edition), because that is the specifi
 
 <sect1><title>Introduction</title>
 <para>
-<execute><cmd>todo</cmd><input>Content</input></execute>
+In a sense this PDF chapter is the culmination of the tutorial... Many of the formats we have discussed up to this point can be included in some way in PDF files. I think that PDF is probably the most interesting imaging format in common use today.
 </para>
 
 <para>
-This chapter is broken into five major sections. These are:
-
-<itemizedlist>
-<listitem><para>Discussion of the PDF format itself</para></listitem>
-<listitem><para>An introduction to ClibPDF</para></listitem>
-<listitem><para>An introduction to PDFLib</para></listitem>
-<listitem><para>An introduction to Panda</para></listitem>
-<listitem><para>Discussion of the Adobe PDF tools</para></listitem>
-</itemizedlist>
+This chapter is broken into two major sections. These are: a discussion of the PDF format, and then an introduction to Panda, a PDF generation API.
 </para>
 </sect1>
 
@@ -125,7 +117,6 @@ This dictionary specifies that the key <quote>Type</quote> has the value <quote>
 What data types are valid in dictionaries? Well, version 1.3 of the PDF specification names the following data types:
 </para>
 
-<execute><cmd>todo</cmd><input>Do these</input></execute>
 <execute><cmd>insertall.sh</cmd><args>pdf-type-.*.sgml</args></execute>
 
 <sect4><title>A lexer for PDF</title>
@@ -214,13 +205,52 @@ So what are the possible filters? Well, as of PDF 1.3
 </para>
 
 <execute><cmd>insertall.sh</cmd><args>pdf-filter-.*.sgml</args></execute>
-<execute><cmd>todo</cmd><input>Do these</input></execute>
 
 </sect3>
 </sect2>
 
 <sect2><title>Object structure</title>
-<execute><cmd>todo</cmd><input>Detail here</input></execute>
+<para>
+The diagram below shows the basic object structure of a PDF document. It can be much more complex than this, especially if you reuse commonly used objects like the logo which is on every page of the document. In words, the structure is something like:
+</para>
+
+<sect3><title>Catalog Object</title>
+<para>
+Every PDF document has a catalog object. This catalog object refers to a pages object.
+</para>
+</sect3>
+
+<sect3><title>Pages object</title>
+<para>
+The pages object stores a list of pages within the PDF document, in the form of a dictionary array with the key name <quote>/Kids</quote>. Each of these pages will have an object.
+</para>
+</sect3>
+
+<sect3><title>A Page object per page</title>
+<para>
+Each page object will have a content object.
+</para>
+</sect3>
+
+<sect3><title>Content objects</title>
+<para>
+Each content object will refer to the pages object, as well as refering to resources that that needed to draw this page. The resources can be used by other contents objects as well. Resources are things like fonts, and images.
+</para>
+
+<para>
+A postscript-like description of the layout of the page is stored in this object's stream.
+</para>
+</sect3>
+
+<sect3><title>Resources</title>
+<para>
+A resources object stores information you need to be able to use a given resource such as a font or image.
+</para>
+
+<para>
+If the resource is an image or an embedded font, then the additional binary data (such as a raster) is stored in this objects stream.
+</para>
+</sect3>
 
 <figure><title>A typical PDF object structure</title>
 <graphic format="EPS" fileref="pdf-figure1.eps">
@@ -238,543 +268,6 @@ PDF documents can be used to create presentation slide shows. There are two main
 It is important to note that not all PDF viewers support this functionality.
 </para>
 </sect1>
-
-<sect1><title>On with the libraries</title>
-<para>
-Now that we've discussed the format of the PDF file format, we can talk about the different options for building PDF files. The three main options are ClibPDF, PDFlib, and Panda. Adobe also sells a PDf library, but it has a reputation for being extremely expensive.
-</para>
-
-<para>
-In our discussion of the three libraries, we will work through the same set of programs, to give you an opportunity to compare the three libraries. After all, they all have their own strengths, and weaknesses.
-</para>
-</sect1>
-
-<sect1><title>ClibPDF</title>
-<para>
-ClibPDF was my first introduction to PDF generation APIs. It is available from http://www.fastio.com, and was last updated in December 1999, so it is starting to get a little old. There are still many people who use ClibPDF however.
-</para>
-
-<para>
-Note that ClibPDF is not free software. The license is included below for your reference:
-</para>
-
-<execute><cmd>pdf2db.sh</cmd><args>clibpdf-license.pdf "ClibPDF license"</args></execute>
-
-<para>
-To summarise the license, this quote from the ClibPDF README page sums it up:
-</para>
-
-<programlisting>
-This package is released under:
-FastIO ClibPDF Software License 1.30, January 27, 2000.
-
-ClibPDF and Premium ClibPDF are not public-domain or free software.
-</programlisting>
-
-<para>
-This almost certainly limits what you can do with the library, and means that using the library will cost you money.
-</para>
-
-<sect2><title>Installation</title>
-<para>
-The first step to installing ClibPDF is to download the source from http://www.fastio.com. At the time of writing the source download is on the front page, about half way down. I can't guarantee that this wont have changed by the time you come to download the library, but then again the page hasn't changed in several years now, so it doesn't strike me a likely.
-</para>
-
-<sect3><title>Unix</title>
-<para>
-ClibPDF does not use configure scripts. The first step of the installation is to therefore copy your operating system's Makefile over the top of the sample Makefile. The various distributed Makefiles are:
-</para>
-
-<itemizedlist>
-<listitem><para>Makefile.AIX42</para></listitem>
-<listitem><para>Makefile.BSDI</para></listitem>
-<listitem><para>Makefile.Cygwin</para></listitem>
-<listitem><para>Makefile.FreeBSD</para></listitem>
-<listitem><para>Makefile.HPUX</para></listitem>
-<listitem><para>Makefile.irix62gcc</para></listitem>
-<listitem><para>Makefile.MacOSX</para></listitem>
-<listitem><para>Makefile.NetBSD</para></listitem>
-<listitem><para>Makefile.NEXTSTEP</para></listitem>
-<listitem><para>Makefile.SolarisGCC</para></listitem>
-<listitem><para>Makefile.SolarisSunCC</para></listitem>
-<listitem><para>Makefile.SunOS5x</para></listitem>
-</itemizedlist>
-
-<para>
-If your operating system isn't listed in the available Makefiles, you'll need to copy the closest one and then edit it until the compile works.
-</para>
-
-<para>
-Once you have copied your Makefile to the file named <emphasis>Makefile</emphasis>, then follow these steps to install ClibPDF...
-</para>
-
-<itemizedlist>
-<listitem><para>make</para></listitem>
-<listitem><para>make lib</para></listitem>
-<listitem><para>make install</para></listitem>
-</itemizedlist>
-
-<para>
-You might need to edit parts of the Makefile to make the install work properly for your system.
-</para>
-</sect3>
-
-<sect3><title>win32</title>
-<para>
-ClibPDF doesn't support win32 directly. It is however written in ANSI C, so a port shouldn't be very hard at all.
-
-<execute><cmd>todo</cmd><input>Port ClibPDF</input></execute>
-</para>
-</sect3>
-</sect2>
-
-<sect2><title>Hello world example</title>
-<para>
-The most basic PDF example is the hello world application. Here is the ClibPDF iteration:
-</para>
-
-<execute><cmd>code2db.pl</cmd><input>source/pdf/clibpdf/hello/hello.c</input></execute>
-
-<para>
-This produces a PDF which looks like (somewhat reduced from it's real size)...
-</para>
-
-<execute><cmd>pdf2db.sh</cmd><args>source/pdf/clibpdf/hello/hello.pdf "ClibPDF hello world"</args></execute>
-
-<para>
-The first block initializes ClibPDF, then we create a page, put some text on it, and then close the document.
-</para>
-</sect2>
-
-<sect2><title>Initialization</title>
-<programlisting>
-CPDFdoc *cpdf_open(int pspdf, CPDFdocLimits *docLimits);
-void cpdf_init(CPDFdoc *pdf);
-
-char  *cpdf_getOutputFilename(CPDFdoc *pdf);
-void cpdf_setOutputFilename(CPDFdoc *pdf, const char *file);
-</programlisting>
-
-<para>
-ClibPDF requires multiple initialization calls. As seen in the hello world example above, we needed to call <command>cpdf_open</command> and <command>cpdf_init</command> at the start of our application. <command>cpdf_open</command> initializes ClibPDF itself, and returns a pointer to a <command>CPDFdoc</command>, which will represent our document. This pointer must then be initialized with a call to <command>cpdf_init</command>. The <command>*OutputFilename</command> functions are used to get and set the filename that the PDF document will be written to when finalized.
-</para>
-
-<execute><cmd>todo</cmd><input>Can you be creating multiple PDF files at once?</input></execute>
-</sect2>
-
-<sect2><title>Creating pages</title>
-<programlisting>
-int cpdf_pageInit(CPDFdoc *pdf, int pagenum, int rot, const char *mediaboxstr, const char *cropboxstr);
-int cpdf_setCurrentPage(CPDFdoc *pdf, int page);
-</programlisting>
-
-<para>
-Creating pages in ClibPDF is done with the <command>cpdf_pageInit</command> function. This function takes some arguements:
-</para>
-
-<itemizedlist>
-<listitem><para><emphasis>CPDFdoc *pdf</emphasis>: the PDF document to add the page to</para></listitem>
-<listitem><para><emphasis>int pagenum</emphasis>: the page number for the new page (the first page of a PDF is page 1)</para></listitem>
-<listitem><para><emphasis>int rot</emphasis>: whether the page is PORTRAIT or LANDSCAPE (defined in the cpdflib header)</para></listitem>
-<listitem><para><emphasis>const char *mediaboxstr</emphasis>: the page size string, see below</para></listitem>
-<listitem><para><emphasis>const char *cropboxstr</emphasis>: the crop box for the page</para></listitem>
-</itemizedlist>
-
-<execute><cmd>todo</cmd><input>Define crop box in the PDF intro</input></execute>
-
-<para>
-There are some default page size strings provided by ClibPDF, although it is possible to use your own as well. The sizes provided by ClibPDF are:
-</para>
-
-<itemizedlist>
-<listitem><para>LETTER</para></listitem>
-<listitem><para>LEGAL</para></listitem>
-<listitem><para>A4</para></listitem>
-<listitem><para>B5</para></listitem>
-<listitem><para>C5</para></listitem>
-</itemizedlist>
-
-<para>
-There are also the following other page sizes, which for some reason aren't documented in the manual...
-</para>
-
-<itemizedlist>
-<listitem><para>DL</para></listitem>
-<listitem><para>EXECUTIVE</para></listitem>
-<listitem><para>COMM10</para></listitem>
-<listitem><para>MONARCH</para></listitem>
-<listitem><para>FILM35MM</para></listitem>
-</itemizedlist>
-
-<para>
-Page size strings are as embedded into the PDF document (which matches how Panda uses these strings as well). The format of the string is left, top, right, bottom. For example:
-</para>
-
-<programlisting>
-0 0 612 792
-</programlisting>
-
-<para>
-You can also be working on multiple pages at once. Use the <command>cpdf_setCurrentPage</command> function to switch between pages (compare this with how PDFlib and Panda implement this).
-</para>
-</sect2>
-
-<sect2><title>Finalization</title>
-<programlisting>
-void cpdf_finalizePage(CPDFdoc *pdf, int page);
-void cpdf_finalizeAll(CPDFdoc *pdf);
-int cpdf_savePDFmemoryStreamToFile(CPDFdoc *pdf, const char *file);
-char *cpdf_getBufferForPDF(CPDFdoc *pdf, int *length);
-</programlisting>
-
-<para>
-These functions are used to finalize the PDF document. Use the <command>cpdf_finalizePage</command> function to force a page to be generated immediately. This may decrease resource usage for the PDF document. This function call is optional. <command>cpdf_finalizeAll</command> is called to write the PDF document out to the memory stream or the file on disc. If this function is not called, then the PDF file will be empty. You cannot add items to the PDF file once it has been finalized. <command>cpdf_close</command> closes the PDF file and deallocates resources which were consumed by the file.
-</para>
-
-
-</sect2>
-
-<sect2><title>Inserting text</title>
-<para>
-rotation, word wrap support
-</para>
-</sect2>
-
-<sect2><title>Fonts</title>
-<para>
-embedded / other
-</para>
-</sect2>
-
-<sect2><title>Inserting raster images</title>
-<para>
-
-</para>
-
-<sect3><title>TIFF support</title>
-<para>
-
-</para>
-</sect3>
-
-<sect3><title>JPEG support</title>
-<para>
-
-</para>
-</sect3>
-
-<sect3><title>PNG support</title>
-<para>
-
-</para>
-</sect3>
-
-<sect3><title>Other raster formats</title>
-<para>
-
-</para>
-</sect3>
-</sect2>
-
-<sect2><title>Vector graphics</title>
-<para>
-
-</para>
-
-<sect3><title>Lines</title>
-<para>
-
-</para>
-</sect3>
-
-<sect3><title>Fills</title>
-<para>
-
-</para>
-</sect3>
-
-<sect3><title>Dashing</title>
-<para>
-
-</para>
-</sect3>
-</sect2>
-
-<sect2><title>Document metadata</title>
-<para>
-
-</para>
-</sect2>
-
-<sect2><title>Presentation support</title>
-<programlisting>
-void cpdf_setPageDuration(CPDFdoc *pdf, float seconds);
-int cpdf_setPageTransition(CPDFdoc *pdf, int type, float duration, float direction, int HV, int IO);
-</programlisting>
-
-<para>
-<command>cpdf_setPageDuration</command> is self explainatory. The arguements to the <command>cpdf_setPageTransition</command> are not as obvious. They are:
-</para>
-
-<itemizedlist>
-<listitem><para><empahsis>CPDFdoc *pdf</emphasis>: </para></listitem>
-<listitem><para><empahsis>int type</emphasis>: </para></listitem>
-<listitem><para><empahsis>float duration</emphasis>: </para></listitem>
-<listitem><para><empahsis>float direction</emphasis>: </para></listitem>
-<listitem><para><empahsis>int HV</emphasis>: </para></listitem>
-<listitem><para><empahsis>int IO</emphasis>: </para></listitem>
-</itemizedlist>
-
-</sect2>
-
-<sect2><title>Cool features</title>
-<para>
-ClibPDF has some cool features which aren't available in the other PDF generation libraries discussed in this tutorial. In brief, these are:
-</para>
-
-<itemizedlist>
-<listitem><para>ClibPDF allows you to write the PDF to a memory stream, or a file, which would work well if you were byte serving the PDF on the web, or if you wanted to embed it into something like a database.</para></listitem>
-<listitem><para></para></listitem>
-<listitem><para></para></listitem>
-<listitem><para></para></listitem>
-<listitem><para></para></listitem>
-</itemizedlist>
-
-<programlisting>
-CPDFerrorHandler cpdf_setErrorHandler(CPDFdoc *pdf, CPDFerrorHandler handler);
-void cpdf_Error(CPDFdoc *pdf, int level, const char* module, const char* fmt, ...);
-CPDFglobalErrorHandler cpdf_setGlobalErrorHandler(CPDFglobalErrorHandler handler);
-void cpdf_GlobalError(int level, const char* module, const char* fmt, ...);
-</programlisting>
-
-<para>
-Error handling
-</para>
-
-<programlisting>
-void cpdf_enableCompression(CPDFdoc *pdf, int cmpON);
-</programlisting>
-
-<para>
-This function will enable compression of page descriptions, which can quite significantly reduce the size of the PDF document. This function simply enables a Flate filter on these page description streams.
-</para>
-
-<programlisting>
-void cpdf_setDefaultDomainUnit(CPDFdoc *pdf, float defunit);
-... and a variety of other domain function calls ...
-</programlisting>
-
-<para>
-Explain domains
-</para>
-
-<programlisting>
-void cpdf_useContentMemStream(CPDFdoc *pdf, int flag);
-</programlisting>
-
-<para>
-This function call can be called if you want to use temporary files instead of memory buffers. This can be useful for machines which don't have much memory, but it is quite slow. You might find that you are better off simply increasing the amount of swap space allocated on the system. The ClibPDF documentation also implies that this function call is not thread safe.
-</para>
-</sect2>
-
-<sect2><title>Room for improvement</title>
-<programlisting>
-void cpdf_setGlobalDocumentLimits(int maxPages, int maxFonts, int maxImages, int maxAnnots, int maxObjects);
-</programlisting>
-
-<para>
-ClibPDF has internal limitations for the sizes of various data structures. These must be explicitly changed before the library is used if they don't fit your needs. The defaults are:
-</para>
-
-<itemizedlist>
-<listitem><para><emphasis>Maximum number of pages</emphasis>: default value is 100</para></listitem>
-<listitem><para><emphasis>Maximum number of fonts</emphasis>: default value is 180</para></listitem>
-<listitem><para><emphasis>Maximum number of images (rasters)</emphasis>: default value is 100</para></listitem>
-<listitem><para><emphasis>Maximum number of annotations</emphasis>: default value is 100</para></listitem>
-<listitem><para><emphasis>Maximum number of objects</emphasis>: default value is 5,000 (it is strange that this value is exposed to the user)</para></listitem>
-</itemizedlist>
-
-<para>
-These values can be changed using the <command>CPDFdocLimits</command> structure, which is passed to many of the ClibPDF function calls. It is interesting to note that this gives us a perspective on the internal coding style of ClibPDF. Many of the internal structures are based on fixed size arrays, which is why the size must be known from the start. These arrays will allow for ClibPDF to be marginally faster than implementations that use linked lists, but it also decreases the utility of the library.
-</para>
-</sect2>
-
-
-
-
-
-
-</sect1>
-
-
-
-
-
-
-
-
-
-
-<sect1><title>PDFlib</title>
-<para>
-<execute><cmd>todo</cmd><input>Content</input></execute>
-</para>
-
-<sect2><title>Installation</title>
-<para>
-<execute><cmd>todo</cmd><input>Content</input></execute>
-</para>
-
-<sect3><title>Unix</title>
-<para>
-<execute><cmd>todo</cmd><input>Content</input></execute>
-</para>
-</sect3>
-
-<sect3><title>win32</title>
-<para>
-<execute><cmd>todo</cmd><input>Content</input></execute>
-</para>
-</sect3>
-</sect2>
-
-<sect2><title>Initialization</title>
-<para>
-
-</para>
-</sect2>
-
-<sect2><title>Creating pages</title>
-<para>
-paper sizes
-</para>
-</sect2>
-
-<sect2><title>Finalization</title>
-<para>
-
-</para>
-</sect2>
-
-<sect2><title>Inserting text</title>
-<para>
-rotation, word wrap support
-</para>
-</sect2>
-
-<sect2><title>Fonts</title>
-<para>
-embedded / other
-</para>
-</sect2>
-
-<sect2><title>Inserting raster images</title>
-<para>
-
-</para>
-
-<sect3><title>TIFF support</title>
-<para>
-
-</para>
-</sect3>
-
-<sect3><title>JPEG support</title>
-<para>
-
-</para>
-</sect3>
-
-<sect3><title>PNG support</title>
-<para>
-
-</para>
-</sect3>
-
-<sect3><title>Other raster formats</title>
-<para>
-
-</para>
-</sect3>
-</sect2>
-
-<sect2><title>Vector graphics</title>
-<para>
-
-</para>
-
-<sect3><title>Lines</title>
-<para>
-
-</para>
-</sect3>
-
-<sect3><title>Fills</title>
-<para>
-
-</para>
-</sect3>
-
-<sect3><title>Dashing</title>
-<para>
-
-</para>
-</sect3>
-</sect2>
-
-<sect2><title>Document metadata</title>
-<para>
-
-</para>
-</sect2>
-
-
-
-<sect2><title>Presentation support</title>
-<para>
-
-</para>
-</sect2>
-
-
-<sect2><title>Cool features</title>
-<para>
-
-</para>
-</sect2>
-
-<sect2><title>Room for improvement</title>
-<para>
-
-</para>
-</sect2>
-
-
-
-
-
-
-</sect1>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <sect1><title>Panda</title>
 <para>
@@ -829,91 +322,116 @@ Which produces...
 <execute><cmd>pdf2db.sh</cmd><args>source/pdf/panda/hello/hello.pdf "Panda hello world"</args></execute>
 
 <para>
-The calling order here is very similar to ClibPDF and PDFlib, so I wont go into incredibly verbose explainations here.
+todo
 </para>
 </sect2>
 
 <sect2><title>Initialization</title>
 <para>
-
+Initialisation of Panda is easy. Simply call <command>panda_init</command>(). You'll also need to create a PDF document, which is done with the <command>panda_open</command> function.
 </para>
+
+<execute><cmd>builddb.pl</cmd><input>panda_init.sgml</input></execute>
+<execute><cmd>builddb.pl</cmd><input>panda_open.sgml</input></execute>
 </sect2>
 
 <sect2><title>Creating pages</title>
 <para>
-paper sizes
+Pages are created in Panda using the <command>panda_newpage</command> function. You can magically be editting as many pages at a time as you like with Panda without any additional calls being needed.
 </para>
+
+<execute><cmd>builddb.pl</cmd><input>panda_newpage.sgml</input></execute>
 </sect2>
 
 <sect2><title>Finalization</title>
 <para>
-
+Pages don't need to be closed in Panda. This is done when the <command>panda_close</command> function is called. This function writes the entire PDF document out to disc.
 </para>
+
+<execute><cmd>builddb.pl</cmd><input>panda_close.sgml</input></execute>
 </sect2>
 
 <sect2><title>Inserting text</title>
 <para>
-rotation, word wrap support
+One of the advantages which ClibPDF has over Panda is that it currently supported word wrap, whereas Panda doesn't. Panda does have a variety of text functionality however. The public text functions in Panda are: <command>panda_textboxrot</commmand>, which creates a text box at a jaunty angle, <command>panda_textbox</command>, which creates a horizontal textbox (a zero angle), and <command>panda_textdirection</command>, which sets the flow direction for text.
 </para>
+
+<execute><cmd>builddb.pl</cmd><input>panda_textbox.sgml</input></execute>
+<execute><cmd>builddb.pl</cmd><input>panda_textboxrot.sgml</input></execute>
+<execute><cmd>builddb.pl</cmd><input>panda_textdirection.sgml</input></execute>
 </sect2>
 
 <sect2><title>Fonts</title>
 <para>
-embedded / other
+Panda currently only supports the standard PDF fonts, and will not allow you to embed arbitary fonts into your PDF documents (unlike PDFlib). Some users might find this a little limiting for the time being. In Panda, you use fonts by first creating a pointer to the font using <command>panda_createfont</command>, and then start using that font with <command>panda_setfont</command>. This allows you use efficiently create the five fonts you are going to use in the document, and then swap backwards and forwards within that set of five with no performance penalty.
 </para>
+
+<execute><cmd>builddb.pl</cmd><input>panda_createfont.sgml</input></execute>
+<execute><cmd>builddb.pl</cmd><input>panda_setfont.sgml</input></execute>
 </sect2>
 
 <sect2><title>Inserting raster images</title>
 <para>
-
+Panda probably has the best raster image support of any of the PDF libraries available (not including Adobe's libraries). This is because this is my main area of expertise, and has been the main focus of the Panda development effort. For example ClibPDF only supports TIFF images in a limited set of formats, whereas I am not aware of any TIFF files which cannot be inserting into a PDF with Panda. Panda also never creates temporary files on disc when it needs to convert between TIFF formats, unlike PDFlib.
 </para>
 
 <sect3><title>TIFF support</title>
 <para>
-
+Panda support TIFF fully.
 </para>
 </sect3>
 
 <sect3><title>JPEG support</title>
 <para>
-
+Panda supports JPEG fully.
 </para>
 </sect3>
 
 <sect3><title>PNG support</title>
 <para>
-
+Panda supports PNG fully.
 </para>
 </sect3>
 
-<sect3><title>Other raster formats</title>
+<sect3><title>Inserting images onto pages</title>
 <para>
-
+In Panda you use the <command>panda_imagebox</command>, and the <command>panda_imageboxrot</command> functions to insert images.
 </para>
+
+<execute><cmd>builddb.pl</cmd><input>panda_imagebox.sgml</input></execute>
+<execute><cmd>builddb.pl</cmd><input>panda_imageboxrot.sgml</input></execute>
 </sect3>
 </sect2>
 
 <sect2><title>Vector graphics</title>
 <para>
-
+Panda, supports the full range of PDF vector graphics commands. See the sections below for a description of the functionality available.
 </para>
 
 <sect3><title>Lines</title>
 <para>
-
+With Panda, the way you draw a line is to first create a line with <command>panda_setlinestart</command>, you then draw line segments with <command>panda_addlinesegment</command>. When you're finished, you close the line with <command>panda_closeline</command>. <command>panda_strokeline</command> is used to force the line to be drawn.
 </para>
+
+<execute><cmd>builddb.pl</cmd><input>panda_setlinestart.sgml</input></execute>
+<execute><cmd>builddb.pl</cmd><input>panda_addlinesegment.sgml</input></execute>
+<execute><cmd>builddb.pl</cmd><input>panda_closeline.sgml</input></execute>
+<execute><cmd>builddb.pl</cmd><input>panda_endline.sgml</input></execute>
+<execute><cmd>builddb.pl</cmd><input>panda_strokeline.sgml</input></execute>
 </sect3>
 
-<sect3><title>Fills</title>
+<sect3><title>Fills and other line attributes</title>
 <para>
 
 </para>
-</sect3>
 
-<sect3><title>Dashing</title>
-<para>
+<execute><cmd>builddb.pl</cmd><input>panda_fillline.sgml</input></execute>
+<execute><cmd>builddb.pl</cmd><input>panda_setlinecap.sgml</input></execute>
+<execute><cmd>builddb.pl</cmd><input>panda_setlinecolor.sgml</input></execute>
+<execute><cmd>builddb.pl</cmd><input>panda_setlinejoin.sgml</input></execute>
+<execute><cmd>builddb.pl</cmd><input>panda_setlinewidth.sgml</input></execute>
+<execute><cmd>builddb.pl</cmd><input>panda_setlinedashing.sgml</input></execute>
 
-</para>
 </sect3>
 </sect2>
 
@@ -929,6 +447,19 @@ embedded / other
 </para>
 </sect2>
 
+<sect2><title>A full Panda example</title>
+<para>
+This section presents a full Panda example showing what the library is capable of. This code comes from the Panda distribution:
+</para>
+
+<execute><cmd>code2db.pl</cmd><input>~mikal/opensource/panda/examples/main.c</input></execute>
+
+<para>
+It produces output like:
+</para>
+
+<execute><cmd>pdf2db.sh</cmd><input>~mikal/opensource/panda/examples/output.pdf</input></execute>
+</sect2>
 
 <sect2><title>Cool features</title>
 <para>
@@ -938,7 +469,7 @@ embedded / other
 
 <sect2><title>Room for improvement</title>
 <para>
-
+Word wrap of text boxes.
 </para>
 </sect2>
 
@@ -989,60 +520,6 @@ embedded / other
 It seems useful to provide a summary of the differences we have learnt about the various PDF libraries which are available as we worked through this chapter.
 </para>
 
-<table frame='all'><title>Differences between the PDF libraries</title>
-<tgroup cols='4' align='left' colsep='1' rowsep='1'>
-<thead>
-<row>
-  <entry>Feature</entry>
-  <entry>ClibPDF</entry>
-  <entry>PDFlib</entry>
-  <entry>Panda</entry>
-  <entry>Adobe</entry>
-</row>
-</thead>
-<tbody>
-
-<row>
-<entry>License</entry>
-<entry>FastIO license. Not opensource / free software / public domain</entry>
-<entry></entry>
-<entry>GNU GPL Version 2</entry>
-<entry></entry>
-</row>
-
-<row>
-<entry>Cost</entry>
-<entry>$1,000 USD+</entry>
-<entry></entry>
-<entry>$0</entry>
-<entry></entry>
-</row>
-
-
-<row>
-<entry>Free for non commercial use?</entry>
-<entry>Yes, with conditions</entry>
-<entry></entry>
-<entry>Always free</entry>
-<entry></entry>
-</row>
-
-
-<row>
-<entry>DeleteMe</entry>
-<entry></entry>
-<entry></entry>
-<entry></entry>
-<entry></entry>
-</row>
-
-
-
-</tbody>
-</tgroup>
-</table>
-</sect1>
-
 <sect1><title>A lexer for PDF</title>
 <para>
 Part of my Panda work has been the development of a lexer for PDF documents known as Panda<emphasis>Lex</emphasis>. Whilst Panda<emphasis>Lex</emphasis> is by no means complete, it might prove to be useful for your understanding of the PDF document structure. I have therefore included it here. The lexer takes the form of several components: a lexer for the grammar, a grammar, and some c code to hold it all together.
@@ -1086,7 +563,7 @@ The following resources might be of use if you need more information:
 </para>
 
 <itemizedlist>
-<listitem><para>http://developer.adobe.com has many useful resources, including the PDF specification (at the time of writing the latest version is 1.4, although this chapter is based on 1.3, because this is what is supported by the three libraries discussed here).</para></listitem>
+<listitem><para>http://developer.adobe.com has many useful resources, including the PDF specification (at the time of writing the latest version is 1.4, although this chapter is based on 1.3, because this is what is supported by the two libraries discussed here).</para></listitem>
 <listitem><para></para></listitem>
 <listitem><para></para></listitem>
 <listitem><para></para></listitem>

@@ -1,0 +1,5 @@
+<sect4><title>RunLengthDecode</title>
+<para>
+Run length compression is a very simple compression codec, and it not recommended for most purposes.
+</para>
+</sect4>

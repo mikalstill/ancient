@@ -1,0 +1,7 @@
+<sect4><title>LZWDecode</title>
+<para>
+LZW is the compression codec used by GIF images. No publically available libraries implement LZW compression, and it is recommended you don't use it as many Acrobat viewers don't implement LZW decompression. Even Adobe's own products stear away from using this filter.
+</para>
+
+<execute><cmd>nextedition</cmd><input>More on this</input></execute>
+</sect4>

@@ -1,0 +1,7 @@
+<sect4><title>CCITTFaxDecode</title>
+<para>
+This is the compression codec known as group3 and group 4 fax in TIFF. It is about as good as compression gets for black and white images.
+</para>
+
+<execute><cmd>nextedition</cmd><input>More on this</input></execute>
+</sect4>

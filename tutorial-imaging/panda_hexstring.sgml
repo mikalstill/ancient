@@ -1,0 +1,51 @@
+<!-- 
+
+     This document is part of the panda distribution, and is covered
+     by the GNU GPL, a copy of which is in the file named COPYING inside the
+     distribution.
+
+     This program and it's documentation are distributed in the hope that 
+     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
+     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+-->
+
+<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
+
+<refentry id="panda_hexstring">
+<refmeta>
+<refentrytitle>panda_hexstring</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_hexstring</refname>
+<refpurpose>take a string of possibly binary bytes, and represent them in hex</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ char *panda_hexstring(char *input);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para><command>PANDA INTERNAL</command>. This function converts a binary array of chars into an array of hex characters. An assumption is made that there are no zero bytes in the middle of the string.</para>
+</refsect1>
+
+<refsect1>
+<title>RETURNS</title>
+<para>A string of hex</para>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLE</title>
+<para> his is an internal function which will only be needed by those playing deeply with Panda itself, so I won't provide an example.
+</para>
+</refsect1>
+
+</refentry>

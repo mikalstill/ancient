@@ -1,0 +1,53 @@
+<table frame='all'><title>Differences between the PDF libraries</title>
+<tgroup cols='4' align='left' colsep='1' rowsep='1'>
+<thead>
+<row>
+  <entry>Feature</entry>
+  <entry>ClibPDF</entry>
+  <entry>PDFlib</entry>
+  <entry>Panda</entry>
+  <entry>Adobe</entry>
+</row>
+</thead>
+<tbody>
+
+<row>
+<entry>License</entry>
+<entry>FastIO license. Not opensource / free software / public domain</entry>
+<entry></entry>
+<entry>GNU GPL Version 2</entry>
+<entry></entry>
+</row>
+
+<row>
+<entry>Cost</entry>
+<entry>$1,000 USD+</entry>
+<entry></entry>
+<entry>$0</entry>
+<entry></entry>
+</row>
+
+
+<row>
+<entry>Free for non commercial use?</entry>
+<entry>Yes, with conditions</entry>
+<entry></entry>
+<entry>Always free</entry>
+<entry></entry>
+</row>
+
+
+<row>
+<entry>DeleteMe</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row>
+
+
+
+</tbody>
+</tgroup>
+</table>
+</sect1>
