@@ -117,25 +117,27 @@ foreach $chapter (split(/ /, $chapters)){
 
 	# Aside start
 	elsif(/^\.Aside(.*)/i){
-	    $parastate = endpara($parastate, $OUTPUT);
-	    print OUTPUT "<sidebar><para>\n";
+	    endpara();
+	    print OUTPUT "<sidebar>\n";
+            startpara();
 	}
 
 	elsif(/^\.End-aside(.*)/i){
-	    print OUTPUT "</para></sidebar><para>\n";
-	    $parastate++;
+            endpara();
+	    print OUTPUT "</sidebar>\n";
+            startpara();
 	}
 	
 	# Display start -- is case sensitive
 	elsif(/^\.DS(.*)/){
-	    $parastate = endpara($parastate, $OUTPUT);
+	    endpara();
 	    print OUTPUT "<screen>\n";
 	    $displaystate = 1;
 	}
 
 	# Display start
 	elsif(/^\.Dx(.*)/i){
-	    $parastate = endpara($parastate, $OUTPUT);
+	    endpara();
 	    print OUTPUT "<screen>\n";
 	    $displaystate = 1;
 	}
@@ -143,16 +145,16 @@ foreach $chapter (split(/ /, $chapters)){
 	# Display end
 	elsif(/^\.DE(.*)/i){
 	    if($displaystate == 1){
-		print OUTPUT "</screen><para>\n";
+		print OUTPUT "</screen>\n";
+                startpara();
 	    }
 	    $displaystate = 0;
-	    $parastate++;
 	}
 	
 	# Footnote start
 	elsif(/^\.FS[ \t]*(.*)/i){
-	    print OUTPUT "<footnote><para>\n";
-	    $parastate++;
+	    print OUTPUT "<footnote>\n";
+            startpara();
 	    $footnotestate = 1;
 	}
 	
@@ -162,14 +164,14 @@ foreach $chapter (split(/ /, $chapters)){
 		dblog("{DBLOG: Footnote end for a non-open footnote!}");
 	    }
 	    
-	    $parastate = endpara($parastate, $OUTPUT);
+	    endpara();
 	    print OUTPUT "</footnote>\n";
 	    $footnotestate = 0;
 	}
 	
 	# Headings
 	elsif(/^\.H([0-7])[ \t]*(.*)/i){
-	    $parastate = endpara($parastate, $OUTPUT);
+	    endpara();
 	    
 	    if($sectionstate == 1){
 		print OUTPUT "</section>\n";
@@ -179,53 +181,36 @@ foreach $chapter (split(/ /, $chapters)){
 	    s/\"//g;
 	    
 	    print OUTPUT "<section><title>$_</title>\n";
-	    print OUTPUT "<para>\n";
-	    $parastate++;
+            startpara();
 	    $sectionstate = 1;
 	}
 	
 	# Headings (Unsupported)
 	elsif(/^\.H([8-9])[ \t]*(.*)/i){
-	    $parastate = endpara($parastate, $OUTPUT);
+	    endpara();
 	    print OUTPUT "<section><title>Title???</title>\n";
 	    $sectionstate = 1;
 	}
 	
 	# List start
 	elsif((/^\.LS(.*)/i) || (/^\.LB(.*)/i)){
-	    $parastate = endpara($parastate, $OUTPUT);
-
-	    if($liststate == 0){
-		print OUTPUT "<itemizedlist>\n";
-	    }
-	    else{
-		if($listitemstate > 0){
-		    print OUTPUT "</listitem>\n";
-		    $listitemstate--;
-		}
-
-		print OUTPUT "</itemizedlist>\n";
-		print OUTPUT "<orderedlist>\n";
-	    }
-	    $liststate++;
+            liststart();
 	}
 	
 	# List item
 	elsif(/^\.LI(.*)/i){
 	    if($liststate == 0){
 		dblog("{DBLOG: List item for a non-open list!}");
-                $parastate = endpara($parastate, $OUTPUT);
-                print OUTPUT "<itemizedlist>\n";
-                $liststate++;
+                liststart();
 	    }
 	    
-	    $parastate = endpara($parastate, $OUTPUT);
+	    endpara();
 	    if($listitemstate == 1){
 		print OUTPUT "</listitem>\n";
 	    }
 	    
-	    print OUTPUT "<listitem><para>\n";
-	    $parastate++;
+	    print OUTPUT "<listitem>\n";
+            startpara();
 	    $listitemstate = 1;
 	}
 	
@@ -235,15 +220,15 @@ foreach $chapter (split(/ /, $chapters)){
 		dblog("{DBLOG: List end for a non-open list!}");
 	    }
 	    
-	    $parastate = endpara($parastate, $OUTPUT);
+	    endpara();
 	 
 	    if($listitemstate > 0){
 		print OUTPUT "</listitem>\n";
 	    }
 
 	    if($liststate == 1){
-		print OUTPUT "</itemizedlist><para>\n";
-		$parastate++;
+		print OUTPUT "</itemizedlist>\n";
+                startpara();
 	    }
 	    else{
 		print OUTPUT "</orderedlist>\n";
@@ -265,9 +250,8 @@ foreach $chapter (split(/ /, $chapters)){
 	
 	# Paragraphs
 	elsif(/^\.P[ \t]*([0-9]*)(.*)/i){
-	    $parastate = endpara($parastate, $OUTPUT);
-	    print OUTPUT "<para>\n";
-	    $parastate++;
+	    endpara();
+            startpara();
 	}
 	
 	# Unknown command
@@ -289,8 +273,7 @@ foreach $chapter (split(/ /, $chapters)){
 	elsif(/^\.Chapter[ \t]([^ \t]*)[ \t]\"(.*)\"/){
 	    print OUTPUT "<chapter><title>$2</title>\n";
 	    print OUTPUT "<section><title></title>\n";
-	    print OUTPUT "<para>\n";
-	    $parastate++;
+            startpara();
 	    $sectionstate = 1;
 	    }
 
@@ -309,7 +292,7 @@ foreach $chapter (split(/ /, $chapters)){
 	}
     }
     
-    $parastate = endpara($parastate, $OUTPUT);
+    endpara();
     
     if($liststate == 1){
 	dblog("{DBLOG: Not closed list at end of document!}");
@@ -339,18 +322,35 @@ print "\bProcessed $chaptercount chapters\n";
 print OUTPUT "</book>\n";
 exit;
 
-sub endpara(){
-    my($ps, $OUTPUT) = @_;
+sub liststart(){
+    endpara();
 
-    if($ps > 0){
-	print OUTPUT "</para>\n";
-	$ps--;
-    }
+    if($liststate == 0){
+        print OUTPUT "<itemizedlist>\n";
+        }
     else{
-	dblog("{DBLOG: Chose not to close para here (parastate is $ps)}");
+        if($listitemstate > 0){
+            print OUTPUT "</listitem>\n";
+            $listitemstate--;
+        }
+
+        print OUTPUT "</itemizedlist>\n";
+        print OUTPUT "<orderedlist>\n";
+        }
+
+    $liststate++;
     }
 
-    return $ps;
+sub endpara(){
+    if($parastate > 0){
+	print OUTPUT "$parastate</para>\n";
+	$parastate--;
+    }
+}
+
+sub startpara(){
+    print OUTPUT "<para>";
+    $parastate++;
 }
 
 sub processstyles(){
