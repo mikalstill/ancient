@@ -334,6 +334,10 @@ The <command>shdns</command> implementation strategy is summarized by the follow
 </para>
 
 <execute><cmd>eqimg</cmd><args>shdns-design.png</args></execute>
+
+<para>
+You'll note that the reply to the DNS request is constructed in a temporary file and then sent back to the client. This is because <command>inetd</command> will send the output of each <emphasis>write</emphasis> as it's own packet. <command>shdns</command> therefore needs to force all of the reply packet to be written at one time.
+</para>
 </sect2>
 
 <sect2><title>Setting up shdns</title>

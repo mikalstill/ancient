@@ -199,6 +199,8 @@ The <b>shdns</b> implementation strategy is summarized by the following diagram.
 
 [Please insert the image shdns-design.png here]
 
+You'll note that the reply to the DNS request is constructed in a temporary file and then sent back to the client. This is because <b>inetd</b> will send the output of each <i>write</i> as it's own packet. <b>shdns</b> therefore needs to force all of the reply packet to be written at one time. 
+
 Setting up shdns
 ----------------
 

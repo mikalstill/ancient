@@ -1,4 +1,4 @@
-ervice myecho
+service myecho
 {
         socket_type     = dgram
         protocol        = udp
