@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Backout a regression we regret
+# $1 is the name of the bad tag, which must be the last
+
+path="/home/httpd/html/pdfdb"
+highest=`cat $path/highest`
+highest=$(( $highest + 1 ))
+
+count=1
+while [ $count -lt $highest ]
+do
+  pcount=`printf %06d $count`
+  if [ -d $path/$pcount ]
+  then
+    if [ `grep "$1" $path/$pcount/data.pandalex | wc -l | tr -d " "` -gt 0 ]
+    then
+      line=`grep --line-number "$1" $path/$pcount/data.pandalex | sed 's/:.*//'`
+      echo $count: $line
+      line=$(( $line - 1 ))
+      head -$line $path/$pcount/data.pandalex > $path/$pcount/data.pandalex.new
+      mv $path/$pcount/data.pandalex.new $path/$pcount/data.pandalex
+    fi
+  fi
+
+  count=$(( $count + 1 ))
+done

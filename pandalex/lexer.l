@@ -99,18 +99,18 @@ exit(42);
                             return TRAILER;
                                                                              }
 
-<INITIAL>\/[@:=\*#a-zA-Z\-_0-9\.\+,]+ { debuglex(yytext, yyleng, "name");
+<INITIAL>\/[^\<\>\[\] \t\n\r\/\(\)]+ { debuglex(yytext, yyleng, "name");
                             yylval.sval.data = (char *) returnStr(yytext + 1, yyleng);
                             yylval.sval.len = yyleng - 1;
                             return NAME;
                                                                              }
 
-<INITIAL>\<\<\/[#a-zA-Z\-_0-9\.\+]+ { debuglex(yytext, yyleng, "dbllt-name");
+<INITIAL>\<\<\/[^\<\>\[\] \t\n\r\/\(\)]+ { debuglex(yytext, yyleng, "dbllt-name");
                             yyless(2);
                             return DBLLT;
                                                                              }
 
-<INITIAL>\/[#a-zA-Z\-_0-9\.\+]+\>\>     { debuglex(yytext, yyleng, "name-dblgt");
+<INITIAL>\/[\<\>\[\] \t\n\r\/\(\)]+\>\>     { debuglex(yytext, yyleng, "name-dblgt");
                             yyless(yyleng - 2);
                             yylval.sval.data = (char *) returnStr(yytext + 1, yyleng);
                             yylval.sval.len = yyleng - 1;

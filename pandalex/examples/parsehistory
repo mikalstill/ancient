@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Show the parse history of $1
+
+echo ""
+echo "Parse history for $1"
+head -1 /home/httpd/html/pdfdb/$1/data.pandalex 
+for line in `grep --line-number -- "------------------" /home/httpd/html/pdfdb/$1/data.pandalex | sed 's/:.*//'`
+do
+  line=$(( $line + 1 ))
+  head -$line /home/httpd/html/pdfdb/$1/data.pandalex | tail -1
+done

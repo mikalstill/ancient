@@ -192,9 +192,11 @@ xref      : XREF INT INT { pandalex_callback(pandalex_event_xrefstart); }
               xrefitems {}
           ;
 
+// Made recursive for the benefit of 000357
 // completely implemented
 xrefitems : INT INT STRING { pandalex_callback(pandalex_event_xrefitem, $1, $2, $3); }
               xrefitems
+	  | INT INT xrefitems {}
           | { pandalex_callback(pandalex_event_xrefend); }
           ;
 
