@@ -66,7 +66,6 @@ SEEALSO
 DOCBOOK END
 ******************************************************************************/
 
-
 class cepCanvas:public wxScrolledWindow
 {
 public:

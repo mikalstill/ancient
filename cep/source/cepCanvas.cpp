@@ -1,4 +1,3 @@
-
 /* 
  *   Canvas for the CEP program
  *   Copyright (C) Michael Still                    2002
@@ -114,12 +113,20 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
   
   string dirName;
   cepDataset::direction selDir = determineGraph(pt.y, dirName);
+  if(selDir < 0){
+    cepDebugPrint("Determined graph as: " + cepToString(selDir));
+    return;
+  }
+  if(selDir > 2){
+    cepDebugPrint("Determined graph as: " + cepToString(selDir));
+    return;
+  }
   
   // Is the mouse down?
   if(event.LeftIsDown()){
     int top, bottom, width;
-    graphPlacement(m_selDir, top, bottom, width);
-    
+    graphPlacement(selDir, top, bottom, width);
+
     if(m_selectXStart == -1){
       m_selectXStart = m_selectXPrevious = pt.x;
       m_selDir = selDir;
@@ -176,6 +183,12 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
 
     float startExtracted = ((selectXStart - 10) * m_scale[selDir] + m_minval[selDir]) / 10000;
     float endExtracted = ((m_selectXEnd - 10) * m_scale[selDir] + m_minval[selDir]) / 10000;
+
+    if(startExtracted > endExtracted){
+      float temp = endExtracted;
+      endExtracted = startExtracted;
+      startExtracted = temp;
+    }
 
     // todo_mikal: dialog to allow tweakage
     wxMessageBox(string("Process this mouse selection: " + m_selDirString + " " + 

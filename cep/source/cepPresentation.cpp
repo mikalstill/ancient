@@ -97,9 +97,6 @@ void cepPresentation::findMaxMinMa()
     if ((long) (m_ds->getValue(i, cepDataset::colSample) * 10000) < m_yminval) 
       m_yminval = (long) (m_ds->getValue(i, cepDataset::colSample) * 10000);
     
-    cepDebugPrint("Float version = " + cepToString(m_ds->getValue(i, 2)));
-    cepDebugPrint("Comparing error: " + cepToString((long) (m_ds->getValue(i, 2) * 10000)) +
-		  " at line " + cepToString(i));
     if ((long) (m_ds->getValue(i, cepDataset::colError) * 10000) > m_emaxval) 
       m_emaxval = (long) (m_ds->getValue(i, cepDataset::colError) * 10000);
   }
@@ -196,9 +193,6 @@ cepPresentation::createBitmap (float& scale, long& minval)
       long converror = (long) (m_ds->getValue(i, cepDataset::colError) * 10000);
       unsigned int horiz = (unsigned int) ((convdate - m_xminval) / xscale + 10);
 
-      cepDebugPrint("Plotting " + cepToString(convdate) +  " " + cepToString(convsample) + " " +
-		    cepToString(converror) + " horiz = " + cepToString(horiz));
-
       // Vertical line
       plot_setlinestart(graph, horiz,
 			(unsigned int) ((yrange - (convsample + converror) + 
@@ -233,6 +227,7 @@ cepPresentation::createBitmap (float& scale, long& minval)
 
   // Draw the axes. We want the graph to be over this, but the error lines to
   // be underneath
+  cepDebugPrint("Plotting axes");
   plot_setlinecolor(graph, m_axesColor.red, m_axesColor.green,
 		    m_axesColor.blue);
   plot_setlinestart(graph, 9, 0);
@@ -256,6 +251,7 @@ cepPresentation::createBitmap (float& scale, long& minval)
   plot_writestring(graph, (char *) m_yTitle.c_str());  
 
   // Now draw the actual graph
+  cepDebugPrint("Plotting graph");
   plot_setlinecolor(graph, m_lineColor.red, m_lineColor.green,
 		    m_lineColor.blue);
   for(int i = 0; i < m_ds->getNumRows(); i++){
@@ -272,6 +268,8 @@ cepPresentation::createBitmap (float& scale, long& minval)
     plot_strokeline(graph);
     plot_endline(graph);
   }
+
+  cepDebugPrint("Finishing plotting");
 
   // Get the raster (in case we use it later)
   m_raster = plot_getraster (graph);
