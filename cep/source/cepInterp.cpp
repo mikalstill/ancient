@@ -304,10 +304,11 @@ cepMatrix<double> cepInterp::dividedInterp(cepMatrix<double> & input,
 		errors.push_back(errorMod * diffs[i-1]->getValue(0,0));
 
 		// check error limits for early exit
-		if ((errors[i-1] > errors[i-2]) || (sum == 0))
+		if ((pow(errors[i-1],2) > pow(errors[i-2],2)) || (sum == 0))
 		{
 			// trigger exit from for loop
 			i = oldSize + 2;
+      cout  << "Sum: " << sum << '\n';
 		}
 	}
   cout << '\n';
