@@ -212,7 +212,9 @@ bool cepApp::OnInit (void)
 
 int cepApp::OnExit (void)
 {
-  delete m_docManager;
+  // BS 06/08/2002 - removed as this segfaults if data has been loaded.
+  // why? i dunno :)
+  // delete m_docManager;
 
   return 0;
 }
