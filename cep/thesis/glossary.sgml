@@ -14,6 +14,12 @@
         </para></glossdef>
     </glossentry>
 
+    <glossentry><glossterm>VCV</glossterm>
+      <glossdef><para>
+           Variance Co-variance
+        </para></glossdef>
+    </glossentry>
+    
     <glossentry><glossterm>VLBI</glossterm>
       <glossdef><para>
            Very Long Base Line interferometry
