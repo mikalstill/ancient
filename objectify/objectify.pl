@@ -63,6 +63,7 @@ foreach $possfunction (split(/;/, $code)){
 	    $_ = $arg;
 	    if(($arg ne "char*") && ($arg ne "int*") && ($arg ne "void*") && 
 	       (/\*$/)){
+		$arg =~ s/\*$//;
 		$pointers{$arg} = $pointers{$arg}."$rval!$fval!$aval;";
 		$processed = 1;
 	    }
@@ -92,7 +93,6 @@ foreach $possfunction (split(/;/, $code)){
 # Determine the parent relationships between clases
 foreach $key (keys %pointers){
     $class = $key;
-    $class =~ s/\*$//;
 
     if($suppress{$class} eq ""){
 	# We need to output all the functions which use one of these pointers
@@ -115,7 +115,6 @@ foreach $key (keys %pointers){
 # We now know the commonly passed pointers
 foreach $key (keys %pointers){
     $class = $key;
-    $class =~ s/\*$//;
 
     if($suppress{$class} eq ""){
 	print "class C$class\n{\n";
@@ -162,9 +161,16 @@ foreach $key (keys %pointers){
 	    }
 
 	    if($skip == 0){
+		# Sometimes instead of returning a straight pointer, we will want to return a class
 		$_ = $fval;
 		s/[^_*]*_//;
-		print "  $rval $_ (";
+		if($pointers{$rval} ne ""){
+		    s/\*//;
+		    print "  C$rval $_ (";
+		}
+		else{
+		    print "  $rval $_ (";
+		}
 
 		my($argcount);
 		$argcount = 0;
@@ -195,7 +201,14 @@ foreach $key (keys %pointers){
 		if($rval ne "void"){
 		    print " return";
 		}
-		print " $fval($origargs); ";
+
+		# If we are building a class, then do it here
+		if($pointers{$rval} ne ""){
+		    print " C$rval($fval($origargs)); ";
+		}
+		else{
+		    print " $fval($origargs); ";
+		}
 		print "}\n";
 	    }
 	}
@@ -203,11 +216,11 @@ foreach $key (keys %pointers){
 	if($creates{$class} ne ""){
 	    print "\n";
 	    print "private:\n";
-	    print "  $key m_ptr;\n";
+	    print "  $key *m_ptr;\n";
 	}
 
 	if($parents{$class} ne ""){
-	    print "  $parents{$class}* m_$parents{$class};\n";
+	    print "  $parents{$class} *m_$parents{$class};\n";
 	}
 	
 	print "};\n\n";
