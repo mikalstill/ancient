@@ -27,19 +27,19 @@ create   : CREATE TABLE STRING '(' colvalspec ')' ';'
          ;
 
 insert   : INSERT INTO STRING '(' colvalspec ')' VALUES '(' colvalspec ')' ';'
-{ gState->rs = trivsql_makers((char *) $3); gState->rs->errno = trivsql_checktable((char *) $3); if(gState->rs->errno == TRIVSQL_FALSE){trivsql_doinsert((char *) $3, (char *) $5, (char *) $9);}}
+{ gState->rs = trivsql_makers((char *) $3); trivsql_checktable((char *) $3, &gState->rs); if(gState->rs->errno == TRIVSQL_FALSE){trivsql_doinsert((char *) $3, (char *) $5, (char *) $9);}}
          ;
 
-sel      : SELECT cvsaster FROM STRING wsel ';'
-{ gState->rs = trivsql_makers((char *) $4); gState->rs->errno = trivsql_checktable((char *) $4); if(gState->rs->errno == TRIVSQL_FALSE){trivsql_doselect((char *) $4, (char *) $2);}}
+sel      : SELECT cvsaster FROM STRING { gState->rs = trivsql_makers((char *) $4); trivsql_xfree(gState->table); gState->table = trivsql_xsnprintf("%s", $4); } wsel ';'
+{ trivsql_checktable((char *) $4, &gState->rs); if(gState->rs->errno == TRIVSQL_FALSE){trivsql_doselect((char *) $4, (char *) $2);}}
          ;
 
 alt      : ALTER STRING ADD COLUMN STRING ';'
-{ gState->rs = trivsql_makers((char *) $2); gState->rs->errno = trivsql_checktable((char *) $2); if(gState->rs->errno == TRIVSQL_FALSE){trivsql_doalter((char *) $2, (char *) $5);}}
+{ gState->rs = trivsql_makers((char *) $2); trivsql_checktable((char *) $2, &gState->rs); if(gState->rs->errno == TRIVSQL_FALSE){trivsql_doalter((char *) $2, (char *) $5);}}
          ;
 
-upd      : UPDATE STRING SET STRING '=' str wsel ';'
-{gState->rs = trivsql_makers((char *) $2); gState->rs->errno = trivsql_checktable((char *) $2); if(gState->rs->errno == TRIVSQL_FALSE){trivsql_doselect((char *) $2, (char *) $4); trivsql_updaters(gState, gState->rs, (char *) $4, (char *) $6);}}
+upd      : UPDATE STRING SET STRING '=' str { gState->rs = trivsql_makers((char *) $2); trivsql_xfree(gState->table); gState->table = trivsql_xsnprintf("%s", $2); } wsel ';'
+{trivsql_checktable((char *) $2, &gState->rs); if(gState->rs->errno == TRIVSQL_FALSE){trivsql_doselect((char *) $2, (char *) $4); trivsql_updaters(gState, gState->rs, (char *) $4, (char *) $6);}}
          ;
 
 
@@ -52,7 +52,7 @@ colvalspec : str ',' colvalspec { $$ = trivsql_xsnprintf("%s;%s", (char *) $1, (
          | str { $$ = trivsql_xsnprintf("%s", (char *) $1); }
          ;
 
-wsel     : WHERE selector
+wsel     : WHERE selector { gState->seltree = $2; }
          |
          ;
 
@@ -61,7 +61,7 @@ selector : str '=' str { $$ = trivsql_makesel(trivsql_selequal, $1, $3); }
          | selector AND selector { $$ = trivsql_makeslr(trivsql_seland, $1, $3); }
          | selector OR selector { $$ = trivsql_makeslr(trivsql_seland, $1, $3); }
          | '(' selector ')' { $$ = $2; }
-	 | { gState->selector = NULL }
+	 | { $$ = NULL }
          ;
 
 str      : STRING { $$ = $1 } 

@@ -1,1 +1,3 @@
+CREATE TABLE upd (one, two);
+
 This statement produced no results.

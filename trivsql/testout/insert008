@@ -1,1 +1,4 @@
+INSERT INTO cepConfig (mainwindowsizex) VALUES ('224');
+
 There was an error processing this statement (8).
+trivsql engine reported: The column "mainwindowsizex" does not exist in the table "cepConfig" (search inset is 1).

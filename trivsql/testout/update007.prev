@@ -1,10 +1,10 @@
+UPDATE upd SET two = 'g' WHERE two = 'f';
+
 
 ================
 | two          |
 ================
-| b            |
-----------------
 | f            |
 ----------------
 
-Select returned 2 rows of 1 columns
+Select returned 1 rows of 1 columns

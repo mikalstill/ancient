@@ -1,3 +1,5 @@
+SELECT cola, colc FROM foo;
+
 
 ===============================
 | cola         | colc         |

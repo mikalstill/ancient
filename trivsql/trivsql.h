@@ -20,6 +20,7 @@ extern "C"
 #define TRIVSQL_TDBSTOREERROR 7
 #define TRIVSQL_NOSUCHCOLUMN 8
 #define TRIVSQL_NOROWSTOUPDATE 9
+#define TRIVSQL_BADSELCOLARG 10
 
 #define SELTRUE 1
 #define SELFALSE 0
@@ -29,7 +30,9 @@ typedef int (*trivsql_selectorfunc) (char *arg1, char *arg2);
 typedef struct trivsql_internal_seltreenode
 {
   char *selArgOne;
+  int selColOne;
   char *selArgTwo;
+  int selColTwo;
   trivsql_selectorfunc selector;
   struct trivsql_internal_seltreenode *left, *right;
 } trivsql_seltreenode;
@@ -58,17 +61,15 @@ typedef struct trivsql_internal_rs
   char *cols;
 
   int errno;
+  char *errstring;
 } trivsql_recordset;
 
 typedef struct trivsql_internal_state
 {
   TDB_CONTEXT *db;
   trivsql_recordset *rs;
-  
-  char *selArgOne;
-  char *selArgTwo;
-  trivsql_selectorfunc selector;
   trivsql_seltreenode *seltree;
+  char *table;
 } trivsql_state;
 
 // Internal functions
@@ -88,7 +89,9 @@ trivsql_seltreenode* trivsql_makesel(trivsql_selectorfunc, char *, char *);
 trivsql_seltreenode* trivsql_makeslr(trivsql_selectorfunc,
 				     trivsql_seltreenode *,
 				     trivsql_seltreenode *);
-int trivsql_checktable(char *);
+int trivsql_executeselector(trivsql_seltreenode *, int);
+
+void trivsql_checktable(char *, trivsql_recordset *);
 
 void *trivsql_xmalloc(size_t);
 void trivsql_dbwrite(trivsql_state *, char *, char *);
@@ -101,8 +104,8 @@ int trivsql_min(int, int);
 // Selectors
 int trivsql_selequal(char *, char *);
 int trivsql_sellike(char *, char *);
-int trivsql_selor(trivsql_seltreenode *, trivsql_seltreenode *);
-int trivsql_seland(trivsql_seltreenode *, trivsql_seltreenode *);
+int trivsql_selor(int, int);
+int trivsql_seland(int, int);
 
 // Interface methods
 trivsql_state *trivsql_opendb(char *);

@@ -1,1 +1,2 @@
-There was an error processing this statement (2).
+SELECT * FROM nosuchtable;
+

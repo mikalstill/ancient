@@ -1,3 +1,5 @@
+UPDATE upd SET one = 'c';
+
 
 ================
 | one          |

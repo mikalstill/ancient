@@ -52,6 +52,8 @@ void trivsql_displayrs(trivsql_recordset *rs){
   default:
     printf("There was an error processing this statement (%d).\n",
 	   rs->errno);
+    if(rs->errstring != NULL)
+      printf("trivsql engine reported: %s\n", rs->errstring);
     return;
   }
 

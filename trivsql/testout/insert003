@@ -1,1 +1,3 @@
+INSERT INTO foo (cola, colc) VALUES ('banana', 'frog');
+
 This statement produced no results.

@@ -10,6 +10,7 @@ trivsql_state *trivsql_init(char *filename){
   state->db = tdb_open(filename, 0, 0, O_RDWR | O_CREAT, 0600);
   state->rs = NULL;
   state->seltree = NULL;
+  state->table = NULL;
 
   return state;
 }
@@ -88,8 +89,8 @@ void trivsql_doinsert(char *tname, char *cols, char *vals){
 
 void trivsql_doselect(char *tname, char *cols){
   int *colNumbers;
-  int row, rowCount, numCols, addMe, sac1, sac2;
-  char *t, *u, *sa1, *sa2, *localCols;
+  int row, rowCount, numCols;
+  char *t, *u, *localCols;
 
   // If the columns list is '*', substitute a list of all the columns
   if(strcmp(cols, "*") == 0)
@@ -112,36 +113,8 @@ void trivsql_doselect(char *tname, char *cols){
     return;
   }
 
-  // Prepare the selector arguements
-  if(gState->selector != NULL){
-    sa1 = gState->selArgOne;
-    sa2 = gState->selArgTwo;
-    sac1 = trivsql_findcol(tname, localCols, sa1);
-    sac2 = trivsql_findcol(tname, localCols, sa2);
-  }
-
   for(row = 0; row < rowCount; row++){
-    addMe = SELTRUE;
-
-    if(gState->selector != NULL){
-      if(sac1 != -1){
-	trivsql_xfree(sa1);
-	t = trivsql_xsnprintf("trivsql_%s_col%drow%d", tname, colNumbers[sac1], row);
-	sa1 = trivsql_dbread(gState, t);
-	trivsql_xfree(t);
-      }
-
-      if(sac2 != -1){
-	trivsql_xfree(sa2);
-	t = trivsql_xsnprintf("trivsql_%s_col%drow%d", tname, colNumbers[sac2], row);
-	sa2 = trivsql_dbread(gState, t);
-	trivsql_xfree(t);
-      }
-
-      addMe = (gState->selector)(sa1, sa2);
-    }
-
-    if(addMe == SELTRUE)
+    if(trivsql_executeselector(gState->seltree, row) == SELTRUE)
       trivsql_addrow(gState->rs, tname, row, colNumbers);
   }
 }
@@ -315,7 +288,9 @@ int *trivsql_parsecols(char *tname, char *cols, int *numCols){
 
       if(u == NULL){
 	trivsql_xfree(t);
+	// todo_mikal: this make break if used during a selection...
 	gState->rs->errno = TRIVSQL_NOSUCHCOLUMN;
+	gState->rs->errstring = trivsql_xsnprintf("The column \"%s\" does not exist in the table \"%s\" (search inset is %d).", c, tname, i);
 	return NULL;
       }
       else if(strcmp(u, c) == 0){
@@ -367,6 +342,7 @@ int trivsql_getrowcount(char *tname){
   
   if(u == NULL){
     gState->rs->errno = TRIVSQL_NOSUCHTABLE;
+    gState->rs->errstring = trivsql_xsnprintf("Could not determine the row count for the table \"%s\" because the table does not exist", tname);
     return -1;
   }
 
@@ -444,16 +420,17 @@ int trivsql_min(int a, int b){
   return a;
 }
 
-int trivsql_checktable(char *tname){
+void trivsql_checktable(char *tname, trivsql_recordset *rs){
   char *t, *u;
   
   t = trivsql_xsnprintf("trivsql_%s_numrows", tname);
   u = trivsql_dbread(gState, t);
   trivsql_xfree(t);
  
-  if(u == NULL)
-    return TRIVSQL_NOSUCHTABLE;
-  return TRIVSQL_FALSE;
+  if(u == NULL){
+    (*rs).errno = TRIVSQL_NOSUCHTABLE;
+    (*rs).errstring = trivsql_xsnprintf("Existance check for the table \"%s\" determined that the table does not exist.", tname);
+  }
 }
 
 trivsql_recordset* trivsql_makers(char *tname){
@@ -469,6 +446,7 @@ trivsql_recordset* trivsql_makers(char *tname){
   rrs->tname = trivsql_xsnprintf("%s", tname);
   rrs->currentRow = rrs->rows;
   rrs->errno = TRIVSQL_FALSE;
+  rrs->errstring = NULL;
   rrs->cols = NULL;
 
   return rrs;
@@ -480,7 +458,9 @@ trivsql_seltreenode* trivsql_makest(){
   // Build the recordset
   rst = trivsql_xmalloc(sizeof(trivsql_seltreenode));
   rst->selArgOne = NULL;
+  rst->selColOne = -1;
   rst->selArgTwo = NULL;
+  rst->selColTwo = -1;
   rst->selector = NULL;
   rst->left = NULL;
   rst->right = NULL;
@@ -489,11 +469,29 @@ trivsql_seltreenode* trivsql_makest(){
 }
 
 trivsql_seltreenode* trivsql_makesel(trivsql_selectorfunc func, char *a1, 
-				     char * a2){
+				     char *a2){
+  int *colNumbers, numCols;
+
   trivsql_seltreenode *tst = trivsql_makest(); 
-  tst->selector = func; 
-  tst->selArgOne = a1; 
-  tst->selArgTwo = a2;
+  tst->selector = func;
+
+  if((colNumbers = trivsql_parsecols(gState->table, a1, &numCols)) == NULL){
+      tst->selArgOne = a1;
+      gState->rs->errno = TRIVSQL_FALSE;
+  }
+  else{
+      tst->selColOne = colNumbers[0];
+  }
+  trivsql_xfree(colNumbers);
+
+  if((colNumbers = trivsql_parsecols(gState->table, a2, &numCols)) == NULL){
+      tst->selArgTwo = a2;
+      gState->rs->errno = TRIVSQL_FALSE;
+  }
+  else{
+      tst->selColTwo = colNumbers[0];
+  }
+  trivsql_xfree(colNumbers);
 
   return tst;
 }
@@ -505,4 +503,43 @@ trivsql_seltreenode* trivsql_makeslr(trivsql_selectorfunc func,
   tst->selector = func;
   tst->left = left;
   tst->right = right;
+}
+
+int trivsql_executeselector(trivsql_seltreenode* node, int row){
+  char *a1, *a2, *t;
+
+  if(node == NULL)
+    return SELTRUE;
+
+  if(((node->selArgOne != NULL) || (node->selColOne != -1)) &&
+     ((node->selArgTwo != NULL) || (node->selColTwo != -1))){
+    if(node->selColOne == -1)
+      a1 = node->selArgOne;
+    else{
+      t = trivsql_xsnprintf("trivsql_%s_col%drow%d", gState->table, 
+			    node->selColOne, row);
+      a1 = trivsql_dbread(gState, t);
+      trivsql_xfree(t);
+
+      if(a1 == NULL)
+	return SELFALSE;
+    }
+    
+    if(node->selColTwo == -1)
+      a2 = node->selArgTwo;
+    else{
+      t = trivsql_xsnprintf("trivsql_%s_col%drow%d", gState->table, 
+			    node->selColTwo, row);
+      a2 = trivsql_dbread(gState, t);
+      trivsql_xfree(t);
+
+      if(a2 == NULL)
+	return SELFALSE;
+    }
+    
+    return (node->selector)(a1, a2);
+  }
+ 
+  return (node->selector)(trivsql_executeselector(node->left, row),
+			  trivsql_executeselector(node->right, row));
 }

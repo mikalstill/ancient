@@ -1,1 +1,3 @@
+ALTER foo ADD COLUMN cold;
+
 This statement produced no results.
