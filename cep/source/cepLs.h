@@ -38,7 +38,7 @@ public:
   double getB1();
   //get the value B1 in the least squares solution y=B1*x +B2   
   double getB2();
-  //get the value B1 in the solution y=B1*x +B2
+  //get the value B2 in the solution y=B1*x +B2
   
 private:
 
