@@ -220,6 +220,24 @@ Based on the factors outlined above, the PNG image format was selected for the G
 
 </chapter>
 
+
+<chapter><title>Implementation</title>
+<para>
+This chapter discusses the actual application which was produced.
+</para>
+
+<sect1><title>Welcome screen</title>
+<para>
+The following page greets users when they start the GDMS Internet interface.
+</para>
+
+<figure><title>GDMS Internet interface welcome screen</title>
+<graphic format="eps" fileref="gen-gdmsii-welcome.eps">
+</figure>
+
+</sect1>
+</chapter>
+
 <chapter><title>Appendix One: GDMS Internet interface scripting elements</title>
 <sect1><title>Introduction</title>
 <para>

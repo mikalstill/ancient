@@ -53,6 +53,24 @@ The GDMS Internet interface follows the recommendations of the most recent HTML 
 
 </chapter>
 
+
+<chapter><title>Implementation</title>
+<para>
+This chapter discusses the actual application which was produced.
+</para>
+
+<sect1><title>Welcome screen</title>
+<para>
+The following page greets users when they start the GDMS Internet interface.
+</para>
+
+<figure><title>GDMS Internet interface welcome screen</title>
+<execute><cmd>eqimg</cmd><args>gdmsii-welcome.png</args></execute>
+</figure>
+
+</sect1>
+</chapter>
+
 <chapter><title>Appendix One: GDMS Internet interface scripting elements</title>
 <sect1><title>Introduction</title>
 <para>
