@@ -1,1 +1,0 @@
-The cepMatrixImp holds all the data for a matrix... The actuall current rotation of the matrix and things like that is held in the cepMatrix.
