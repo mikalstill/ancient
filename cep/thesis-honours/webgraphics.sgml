@@ -23,7 +23,7 @@ TIFF is therefore an inappropriate image format for use for the <command>GDMS In
 
 <sect2><title>Graphics Interchange Format</title>
 <para>
-The Graphics Interchange Format (GIF) was co-developed by CompuServe Inc. and Unisys Corporation in the late 1980s and early 1990s. GIF is dependant on LZW compression (CompuServe 1990), which is now having it's patent enforced by Unisys (Anonymous 2002). The GIF format itself is quite limited, with a maximum palette size of 255 entries -- in other words 255 distinct colours are available in each image.
+The Graphics Interchange Format (GIF) was co-developed by CompuServe Inc. and Unisys Corporation in the late 1980s and early 1990s. GIF is dependant on LZW compression (CompuServe 1990), which is now having it's patent enforced by Unisys (Anonymous 2002). The GIF format itself is quite limited, with a maximum palette size of 255 entries &mdash; in other words 255 distinct colours are available in each image.
 </para>
 
 <para>
@@ -37,7 +37,7 @@ Despite all of these largely political issues, the GIF format is still well supp
 
 <sect2><title>Joint Picture Experts Group File Interchange Format</title>
 <para>
-JPEG is an interesting image format because whilst the JPEG compression codec has been standardized by ISO, the actual on disc format commonly called JPEG is not part of the ISO standard. The file format commonly called JPEG is actually JPEG JFIF -- created by the Independent JPEG Group (Lilly 1996).
+JPEG is an interesting image format because whilst the JPEG compression codec has been standardized by ISO, the actual on disc format commonly called JPEG is not part of the ISO standard. The file format commonly called JPEG is actually JPEG JFIF &mdash; created by the Independent JPEG Group (Lilly 1996).
 </para>
 
 <para>
@@ -46,7 +46,7 @@ JPEG support in web browsers is excellent, with support rapidly improving after 
 
 <sect3><title>Loss</title>
 <para>
-The JPEG compression algorithm is lossy -- in other words, the act of compressing the image results in image data being discarded. This has the effect of noticeably reducing the clarity of the images -- a characteristic which is especially noticeable with images which contain text at smaller point sizes. The use of such text is a feature of the <command>GDMS</command> graphing subsystem.
+The JPEG compression algorithm is lossy &mdash; in other words, the act of compressing the image results in image data being discarded. This has the effect of noticeably reducing the clarity of the images &mdash; a characteristic which is especially noticeable with images which contain text at smaller point sizes. The use of such text is a feature of the <command>GDMS</command> graphing subsystem.
 </para>
 
 <para>

@@ -42,7 +42,7 @@ Developing the <command>GDMS Internet interface</command> in PHP would necessita
 
 <sect2><title>Active Server Pages</title>
 <para>
-Active Server Pages (ASP) is Microsoft's equivalent of PHP. Discussion of this alternative is deliberately brief, because ASP effectively has all the advantages and disadvantages of PHP, with the additional constraint that it only operates of Microsoft web server products running on Microsoft Operating Systems. This is not an acceptable constraint for the main target user of the application -- the University of Canberra Survey Laboratory, who are not heavy users of Microsoft products.
+Active Server Pages (ASP) is Microsoft's equivalent of PHP. Discussion of this alternative is deliberately brief, because ASP effectively has all the advantages and disadvantages of PHP, with the additional constraint that it only operates of Microsoft web server products running on Microsoft Operating Systems. This is not an acceptable constraint for the main target user of the application &mdash; the University of Canberra Survey Laboratory, who are not heavy users of Microsoft products.
 </para>
 </sect2>
 

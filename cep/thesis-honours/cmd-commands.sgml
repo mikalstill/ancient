@@ -1,6 +1,6 @@
 <sect2><title>commands</title>
 <para>
-This tag will display a menu of the commands available in the current context -- for example, when the Internet interface first starts, it will list the open command. Commands which are not available, but are normally available will appear in a disabled style. This results in a list of commands which is consistent, and therefore reduces the potential for user confusion.
+This tag will display a menu of the commands available in the current context &mdash; for example, when the Internet interface first starts, it will list the open command. Commands which are not available, but are normally available will appear in a disabled style. This results in a list of commands which is consistent, and therefore reduces the potential for user confusion.
 </para>
 
 <para>

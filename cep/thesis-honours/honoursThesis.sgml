@@ -61,7 +61,7 @@ HyperText Markup Language is the <emphasis>lingua franca</emphasis> of the web. 
 <acronym>JFIF</acronym>
 <glossdef>
 <para>
-The file format commonly called JPEG is actually JPEG JFIF (JPEG File Interchange Format) -- created by the Independent JPEG Group (Lilly 1996).
+The file format commonly called JPEG is actually JPEG JFIF (JPEG File Interchange Format) &mdash; created by the Independent JPEG Group (Lilly 1996).
 </para>
 </glossdef>
 </glossentry><glossentry id="jpeg"><glossterm>JPEG</glossterm>
@@ -180,7 +180,7 @@ Developing the <command>GDMS Internet interface</command> in PHP would necessita
 
 <sect2><title>Active Server Pages</title>
 <para>
-Active Server Pages (ASP) is Microsoft's equivalent of PHP. Discussion of this alternative is deliberately brief, because ASP effectively has all the advantages and disadvantages of PHP, with the additional constraint that it only operates of Microsoft web server products running on Microsoft Operating Systems. This is not an acceptable constraint for the main target user of the application -- the University of Canberra Survey Laboratory, who are not heavy users of Microsoft products.
+Active Server Pages (ASP) is Microsoft's equivalent of PHP. Discussion of this alternative is deliberately brief, because ASP effectively has all the advantages and disadvantages of PHP, with the additional constraint that it only operates of Microsoft web server products running on Microsoft Operating Systems. This is not an acceptable constraint for the main target user of the application &mdash; the University of Canberra Survey Laboratory, who are not heavy users of Microsoft products.
 </para>
 </sect2>
 
@@ -269,7 +269,7 @@ TIFF is therefore an inappropriate image format for use for the <command>GDMS In
 
 <sect2><title>Graphics Interchange Format</title>
 <para>
-The Graphics Interchange Format (GIF) was co-developed by CompuServe Inc. and Unisys Corporation in the late 1980s and early 1990s. GIF is dependant on LZW compression (CompuServe 1990), which is now having it's patent enforced by Unisys (Anonymous 2002). The GIF format itself is quite limited, with a maximum palette size of 255 entries -- in other words 255 distinct colours are available in each image.
+The Graphics Interchange Format (GIF) was co-developed by CompuServe Inc. and Unisys Corporation in the late 1980s and early 1990s. GIF is dependant on LZW compression (CompuServe 1990), which is now having it's patent enforced by Unisys (Anonymous 2002). The GIF format itself is quite limited, with a maximum palette size of 255 entries &mdash; in other words 255 distinct colours are available in each image.
 </para>
 
 <para>
@@ -283,7 +283,7 @@ Despite all of these largely political issues, the GIF format is still well supp
 
 <sect2><title>Joint Picture Experts Group File Interchange Format</title>
 <para>
-JPEG is an interesting image format because whilst the JPEG compression codec has been standardized by ISO, the actual on disc format commonly called JPEG is not part of the ISO standard. The file format commonly called JPEG is actually JPEG JFIF -- created by the Independent JPEG Group (Lilly 1996).
+JPEG is an interesting image format because whilst the JPEG compression codec has been standardized by ISO, the actual on disc format commonly called JPEG is not part of the ISO standard. The file format commonly called JPEG is actually JPEG JFIF &mdash; created by the Independent JPEG Group (Lilly 1996).
 </para>
 
 <para>
@@ -292,7 +292,7 @@ JPEG support in web browsers is excellent, with support rapidly improving after 
 
 <sect3><title>Loss</title>
 <para>
-The JPEG compression algorithm is lossy -- in other words, the act of compressing the image results in image data being discarded. This has the effect of noticeably reducing the clarity of the images -- a characteristic which is especially noticeable with images which contain text at smaller point sizes. The use of such text is a feature of the <command>GDMS</command> graphing subsystem.
+The JPEG compression algorithm is lossy &mdash; in other words, the act of compressing the image results in image data being discarded. This has the effect of noticeably reducing the clarity of the images &mdash; a characteristic which is especially noticeable with images which contain text at smaller point sizes. The use of such text is a feature of the <command>GDMS</command> graphing subsystem.
 </para>
 
 <para>
@@ -522,7 +522,7 @@ This appendix documents the various tags which are implemented by the <command>G
 
 <sect2><title>commands</title>
 <para>
-This tag will display a menu of the commands available in the current context -- for example, when the Internet interface first starts, it will list the open command. Commands which are not available, but are normally available will appear in a disabled style. This results in a list of commands which is consistent, and therefore reduces the potential for user confusion.
+This tag will display a menu of the commands available in the current context &mdash; for example, when the Internet interface first starts, it will list the open command. Commands which are not available, but are normally available will appear in a disabled style. This results in a list of commands which is consistent, and therefore reduces the potential for user confusion.
 </para>
 
 <para>
@@ -696,7 +696,7 @@ An example usage is:
 </sect2>
 <sect2><title>motd</title>
 <para>
-This tag will display a welcome message to the user -- the Message Of The Day (MOTD). This can be used to inform users of new datasets now being available, planned system outages, and other such informational messages.
+This tag will display a welcome message to the user &mdash; the Message Of The Day (MOTD). This can be used to inform users of new datasets now being available, planned system outages, and other such informational messages.
 </para>
 
 <para>
@@ -828,9 +828,6 @@ if($command eq "lsprocess"){
     performLs("auto");
     }
 
-    if($result-&gt;param('desc') ne ""){
-    $temp = $temp."&amp;desc=".$result-&gt;param('desc');
-    }
     $temp = $temp."&amp;intype=temp";
 
     # And now bounce of to the real page
@@ -850,9 +847,6 @@ elsif($command eq "lsprocesstwo"){
     # Do the processing here
     performLs($result-&gt;param('lsargs'));
 
-    if($result-&gt;param('desc') ne ""){
-    $temp = $temp."&amp;desc=".$result-&gt;param('desc');
-    }
     $temp = $temp."&amp;intype=temp";
 
     # And now bounce of to the real page
@@ -863,9 +857,6 @@ elsif($command eq "lsprocesstwo"){
 elsif($command eq "windowprocess"){
     $temp = "$rooturl?dataset=".$result-&gt;param('dataset')."-win".
     $result-&gt;param('wtype')."&amp;command=plot";
-    if($result-&gt;param('desc') ne ""){
-    $temp = $temp."&amp;desc=".$result-&gt;param('desc');
-    }
     $temp = $temp."&amp;intype=temp";
 
     # Do the processing here
@@ -879,9 +870,7 @@ elsif($command eq "windowprocess"){
 elsif($command eq "interpprocess"){
     $temp = "$rooturl?dataset=".$result-&gt;param('dataset')."-interp".
     $result-&gt;param('itype')."&amp;command=plot";
-    if($result-&gt;param('desc') ne ""){
-    $temp = $temp."&amp;desc=".$result-&gt;param('desc');
-    }
+
     $temp = $temp."&amp;intype=temp";
 
     # Do the processing here
@@ -895,9 +884,7 @@ elsif($command eq "interpprocess"){
 elsif($command eq "fftprocess"){
     $temp = "$rooturl?dataset=".$result-&gt;param('dataset').
     "-fft&amp;command=plot";
-    if($result-&gt;param('desc') ne ""){
-    $temp = $temp."&amp;desc=".$result-&gt;param('desc');
-    }
+
     $temp = $temp."&amp;intype=temp";
 
     # Do the processing here
@@ -941,7 +928,6 @@ sub processTemplate(@args){
     while($len != length($line)){
         $len = length($_);
 
-        # todo: there must be a better way of doing this...
         $_ = $line;
         if(/(.*)&amp;{([^%]*)};(.*)/){
         $pre = $1;
@@ -953,26 +939,34 @@ sub processTemplate(@args){
             $line = $pre.getCommands().$post;
         }
         elsif($cmd eq "dataset"){
+            my($tempdescription);
+
             # The name of the current dataset
+            if($result-&gt;param('dataset') ne ""){
             if($result-&gt;param('intype') ne "temp"){
-            open TEMP, ("head -1 $datasets/".$result-&gt;param('dataset').".dat1 |");
+                open TEMP, ("head -1 $datasets/".
+                    $result-&gt;param('dataset').
+                    ".dat1 |");
             }
             else{
-            open TEMP, ("head -1 $tmpdir/".$result-&gt;param('dataset').".dat1 |");
+                open TEMP, ("head -1 $tmpdir/".
+                    $result-&gt;param('dataset').
+                    ".dat1 |");
             }
             
+            $tempdescription = "";
             while(&lt;TEMP&gt;){
-            chomp;
-            $line = $pre.$_.$post;
+                chomp;
+                $tempdescription = "Filename: &lt;i&gt;".
+                $result-&gt;param('dataset')."&lt;/i&gt;&lt;BR&gt;".
+                $_;
             }
             close TEMP;
-
-#            if($result-&gt;param('desc') eq ""){
-#            $line = $pre.$result-&gt;param('dataset').$post;
-#            }
-#            else{
-#            $line = $pre.$result-&gt;param('desc').$post;
-#            }
+            $line = $pre.$tempdescription.$post;
+            }
+            else{
+            $line = $pre.$post;
+            }
         }
         elsif($cmd eq "datasets"){
             # List the datasets in the dataset directory
