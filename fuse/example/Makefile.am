@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-noinst_PROGRAMS = fusexmp null hello 
+noinst_PROGRAMS = fusexmp null hello
 
 fusexmp_SOURCES = fusexmp.c
 null_SOURCES = null.c
