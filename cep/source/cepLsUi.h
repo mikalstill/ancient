@@ -55,11 +55,6 @@ which displays a custom wxWindows dialog box.
 </para>
 
 <para>
-<command>cepLsShowDir()</command>
-Displays the choose direction dialog box
-</para>
-
-<para>
 <command>bool getWhichDir(char dir)</command>
 Returns true if the given direction is selected, otherwise false is returned.
 <para><itemizedlist>
@@ -104,7 +99,7 @@ DOCBOOK START
 FUNCTION cepLsUi
 
 
-PURPOSE Displays the open a file dialog box for the Least Squares user interface
+PURPOSE Displays the Least Squares user interface
 
 SYNOPSIS START
 The follwing is an example of how to create this object.
