@@ -18,7 +18,7 @@ Welcome to the image programming tutorial for AUUG 2002...
 
 <execute><cmd>builddb</cmd><input>introduction.sgml</input></execute>
 <execute><cmd>builddb</cmd><input>concepts.sgml</input></execute>
-    <execute><cmd>nextedition</cmd><input>tiff.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>tiff.sgml</input></execute>
 <execute><cmd>builddb</cmd><input>gif.sgml</input></execute>
 <execute><cmd>builddb</cmd><input>png.sgml</input></execute>
     <execute><cmd>nextedition</cmd><input>jpeg.sgml</input></execute>

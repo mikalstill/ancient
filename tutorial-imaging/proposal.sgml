@@ -16,11 +16,11 @@ This document outlines my proposal to develop a book covering an introduction to
 
 <sect1><title>The book</title>
 <para>
-<emphasis>Advanced image programming with Open Source</emphasis> is aimed at competent Unix C programmers who need to include imaging capabilities into their applications. The book will describe enough of the technical aspects of each format covered to provide a good grounding in the fundamentals, before moving on to discuss the intricacies of using the various APIs associated with the imaging formats. This is the book that I wished I had be able to buy when I first started image programming.
+<emphasis>Advanced image programming with Open Source</emphasis> is aimed at competent Unix C programmers who need to include imaging capabilities into their applications. The book will describe enough of the technical aspects of each format covered to provide a good grounding in the fundamentals, before moving on to discuss the intricacies of using the various APIs associated with the imaging formats. This is the book that I wished I had been able to buy when I first started image programming.
 </para>
 
 <para>
-The book has it's basis in a tutorial written for an Australian Unix User's Group conference tutorial, and therefore will provide an excellent introduction to the topic area, whilst also addressing advanced topics later in the manuscript.. The book will provide an excellent grounding for a semester long course in raster image programming for Universities and Colleges. It will include a series of tutorial questions at the end of the, and sample answers to these questions will be made available, either in the form of an instructor's version of the manuscript, or an additional volume. I am extremely open to the concept of the book being class tested, whilst either in draft form, or once published. It is my intention that the book be a useful teaching tool.
+The book has it's basis in a tutorial written for an Australian Unix User's Group conference tutorial, and therefore will provide an excellent introduction to the topic area, whilst also addressing advanced topics later in the manuscript. The book will provide an excellent grounding for a semester long course in raster image programming for Universities and Colleges. It will include a series of tutorial questions at the end of each chapter, and sample answers to these questions will be made available, either in the form of an instructor's version of the manuscript, or an additional volume. I am extremely open to the concept of the book being class tested, whilst either in draft form, or once published. It is my intention that the book be a useful teaching tool.
 </para>
 
 <para>
@@ -38,7 +38,7 @@ The main focus of the book is raster (bitmap) image processing of formats such a
 
 <sect1><title>The Market for the Book</title>
 <para>
-There are a large number of programmers who develop code which manipulates images. Many of these developers do not understand adequately the intricacies of the formats they are using, and this results in programs which don't work well. I my experience, many of the developers I have worked with could have made good use of a book such as the one I propose.
+There are a large number of programmers who develop code which manipulates images. Many of these developers do not understand adequately the intricacies of the formats they are using, and this results in programs which don't work well. In my experience, many of the developers I have worked with could have made good use of a book such as the one I propose.
 </para>
 
 <para>
@@ -46,7 +46,7 @@ For example, the PDF format is quite fashionable at the moment. One of my previo
 </para>
 
 <para>
-The book is also well suited to courses for competent C programmers &mdash; this would include at Universities and Colleges, as well as advanced high school courses. It is well suited to the over seas and trade markets.
+The book is also well suited to courses for competent C programmers &mdash; this would include Universities and Colleges, as well as advanced high school courses. It is well suited to over seas and trade markets.
 </para>
 
 <para>
@@ -124,7 +124,7 @@ It should be noted that all the APIs discussed in the book are covered by Open S
 </row>
 
 <row>
-  <entry>PNG. Comparison the PNG file format with GIF, the advantages of PNG over GIF, and discussion of how PNG is technically superior to GIF. An extensive discussion of how to use the libpng API, which comparisons with the libtiff examples from the TIFF chapter where appropriate. This chapter currently includes libpng documentation, which will be removed and replaced by a better discussion of the API and more examples.</entry>
+  <entry>PNG. Comparison of the PNG file format with GIF, the advantages of PNG over GIF, and discussion of how PNG is technically superior to GIF. An extensive discussion of how to use the libpng API, and comparison with the libtiff examples from the TIFF chapter where appropriate. This chapter currently includes libpng documentation, which will be removed and replaced by a better discussion of the API and more examples.</entry>
   <entry>70</entry>
   <entry>80</entry>
 </row>
@@ -219,7 +219,7 @@ Illustrations will be frequently used.
 
 <sect2><title>Use of color in illustrations</title>
 <para>
-A facility for a series color plates grouped somewhere within the book would be preferred, but this is not absolutely essential.
+A facility for a series of color plates grouped somewhere within the book would be preferred, but this is not absolutely essential.
 </para>
 </sect2>
 </sect1>
@@ -352,7 +352,7 @@ A large portion of this book (approximately 30 percent) has already been develop
 
 <sect1><title>The format of the manuscript</title>
 <para>
-The current draft of the book has been developed using the DocBook SGML DTD (version 4.1). It is my intention that this use of DocBook would continue through the life cycle of the book, although this is negotiable based on your processing requirements. It should be noted that portions of the DocBook representation of the book is generated by a series of scripts written by myself. These scripts are publically available from my website at http://www.stillhq.com.
+The current draft of the book has been developed using the DocBook SGML DTD (version 4.1). It is my intention that this use of DocBook would continue through the life cycle of the book, although this is negotiable based on your processing requirements. It should be noted that portions of the DocBook representation of the book is generated by a series of scripts written by myself. These scripts are publicly available from my website at http://www.stillhq.com.
 </para>
 </sect1>
 
@@ -366,7 +366,7 @@ My goal with this proposed book is to ease the pain that comes with a first fora
 </para>
 
 <para>
-I have previous experience writing to a professional standard. This includes a variety of conference presentations, and a recent series of two articles published by IBM DeveloperWorks (http://www-109.ibm.com/cgi-bin/click.pl?url=http://www-106.ibm.com/developerworks/library/l-libtiff/&amp;qry=tiff, and http://www-109.ibm.com/cgi-bin/click.pl?url=http://www-106.ibm.com/developerworks/library/l-libtiff2/&amp;qry=tiff). I am currently work on a network programming article for Linux Journal.
+I have previous experience writing to a professional standard. This includes a variety of conference presentations, and a recent series of two articles published by IBM DeveloperWorks (http://www-109.ibm.com/cgi-bin/click.pl?url=http://www-106.ibm.com/developerworks/library/l-libtiff/&amp;qry=tiff, and http://www-109.ibm.com/cgi-bin/click.pl?url=http://www-106.ibm.com/developerworks/library/l-libtiff2/&amp;qry=tiff). I am currently working on a network programming article for Linux Journal.
 </para>
 
 <para>
