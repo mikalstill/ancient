@@ -1,3 +1,4 @@
   * Reduce shift/reduce conflicts
   * Memory leaks
-  * Efficiency might be improved by a better handling of binary data in images
+  * Very large PDFs can cause core dumps
+  * Reimplement the callbacks

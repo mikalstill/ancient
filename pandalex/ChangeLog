@@ -1,0 +1,4 @@
+Release 0.1 -> Release 0.4
+
+2002-03-07 Michael Still mikal@stillhq.com
+	A whole bunch of work over a number of months in getting the parsing engine right. It now parses the vast majority of my test set. See testparse-out/ for more information
