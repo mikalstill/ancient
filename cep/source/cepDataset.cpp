@@ -200,10 +200,15 @@ cepError cepDataset::read(const string & filename)
                             data.push_back(cepVector4D());
                         } else {
                             try {
-                                data.at(data.size() - 1).push_back(rowdate,
-                                                                   rowsample,
-                                                                   rowerror,
-                                                                   rowcolor);
+//                                data.at( (int)data.size() - 1).push_back(rowdate,
+//                                                                   rowsample,
+//                                                                   rowerror,
+//                                                                   rowcolor);
+                                data[ (int)data.size() - 1 ].push_back(rowdate,
+                                                                       rowsample,
+                                                                       rowerror,
+                                                                       rowcolor);
+
                             }
                             catch(...) {
                                 cepDebugPrint
@@ -242,11 +247,10 @@ cepError cepDataset::read(const string & filename)
                                     data.push_back(cepVector4D());
                                 } else {
                                     try {
-                                        data.at(data.size() -
-                                                1).push_back(rowdate,
-                                                             rowsample,
-                                                             rowerror,
-                                                             rowcolor);
+                                        data[ data.size()-1 ].push_back(rowdate,
+                                                                        rowsample,
+                                                                        rowerror,
+                                                                        rowcolor);
                                     }
                                     catch(...) {
                                         cepDebugPrint
@@ -290,44 +294,44 @@ cepError cepDataset::read(const string & filename)
 
         // Copy the vectors into the matrix
         if (data.size() == 1) {
-            int elements = data.at(0).size();
+            int elements = data[0].size();
             m_data[i] = new cepMatrix < double >(elements, 4);
             for (int vcount = 0; vcount < elements; vcount++) {
-                m_data[i]->setValue(vcount, colDate, data.at(0).Xat(vcount));
+                m_data[i]->setValue(vcount, colDate, data[0].Xat(vcount));
                 if (m_data[i]->getError().isReal())
                     return m_data[i]->getError();
 
-                m_data[i]->setValue(vcount, colSample, data.at(0).Yat(vcount));
+                m_data[i]->setValue(vcount, colSample, data[0].Yat(vcount));
                 if (m_data[i]->getError().isReal())
                     return m_data[i]->getError();
 
-                m_data[i]->setValue(vcount, colError, data.at(0).Zat(vcount));
+                m_data[i]->setValue(vcount, colError, data[0].Zat(vcount));
                 if (m_data[i]->getError().isReal())
                     return m_data[i]->getError();
 
-                m_data[i]->setValue(vcount, colColourHint, data.at(0).Cat(vcount));
+                m_data[i]->setValue(vcount, colColourHint, data[0].Cat(vcount));
                 if (m_data[i]->getError().isReal())
                     return m_data[i]->getError();
             }
         } else {
-            m_data[i] = new cepMatrix < double >(data.size(), 4, data.at(0).size());
+            m_data[i] = new cepMatrix < double >(data.size(), 4, data[0].size());
             // for each window
             for( int wcount = 0; wcount<(int)data.size(); ++wcount ) {
                 // for each window element
-                for( int vcount = 0; vcount<(int)data.at(0).size(); ++vcount ) {
-                    m_data[i]->setValue(vcount, colDate, wcount, data.at(wcount).Xat(vcount));
+                for( int vcount = 0; vcount<(int)data[0].size(); ++vcount ) {
+                    m_data[i]->setValue(vcount, colDate, wcount, data[wcount].Xat(vcount));
                     if (m_data[i]->getError().isReal())
                         return m_data[i]->getError();
                         
-                    m_data[i]->setValue(vcount, colSample, wcount, data.at(wcount).Yat(vcount));
+                    m_data[i]->setValue(vcount, colSample, wcount, data[wcount].Yat(vcount));
                     if (m_data[i]->getError().isReal())
                         return m_data[i]->getError();
                         
-                    m_data[i]->setValue(vcount, colError, wcount, data.at(wcount).Zat(vcount));
+                    m_data[i]->setValue(vcount, colError, wcount, data[wcount].Zat(vcount));
                     if (m_data[i]->getError().isReal())
                         return m_data[i]->getError();
                         
-                    m_data[i]->setValue(vcount, colColourHint, wcount, data.at(wcount).Cat(vcount));
+                    m_data[i]->setValue(vcount, colColourHint, wcount, data[wcount].Cat(vcount));
                     if (m_data[i]->getError().isReal())
                         return m_data[i]->getError();
                 }
@@ -698,21 +702,21 @@ void cepVector4D::push_back(double xval, double yval, double zval,
     c.push_back(cval);
 
 }
-double cepVector4D::Xat(int i)
+double cepVector4D::Xat(int &i)
 {
-    return x.at(i);
+    return x[i];
 }
-double cepVector4D::Yat(int i)
+double cepVector4D::Yat(int &i)
 {
-    return y.at(i);
+    return y[i];
 }
-double cepVector4D::Zat(int i)
+double cepVector4D::Zat(int &i)
 {
-    return z.at(i);
+    return z[i];
 }
-double cepVector4D::Cat(int i)
+double cepVector4D::Cat(int &i)
 {
-    return c.at(i);
+    return c[i];
 }
 
 int cepVector4D::size()

@@ -138,10 +138,10 @@ class cepVector4D {
     cepVector4D();
     void push_back(double xval, double yval, double zval, double cval);
     int size();
-    double Xat(int index);
-    double Yat(int index);
-    double Zat(int index);
-    double Cat(int index);
+    double Xat(int &index);
+    double Yat(int &index);
+    double Zat(int &index);
+    double Cat(int &index);
   protected:
      vector < double >x;
      vector < double >y;
