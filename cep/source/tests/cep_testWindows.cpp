@@ -20,13 +20,14 @@
 #include <iostream>
 
 #include "../cepDataWindower.h"
+#include "../cepConsoleErrorHandler.h"
 
 
 /**
  * Tests the framework which has been set up to window the incoming data
  *
  * @author Blake Swadling
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 
 namespace {
@@ -53,7 +54,7 @@ protected:
    */
   void testRectangular ()
   {
-    // cout << "testing window ... ";
+    cout << "testing rectangular ... " << endl;
     
     windower->setWindowType( cepDataWindower::WINDOW_RECTANGULAR, 10, 0 );
 
@@ -92,6 +93,7 @@ protected:
    */
   void testHamming ()
   {
+    cout << "testing hamming ... " << endl;
     int size = 100;
     windower->setWindowType( cepDataWindower::WINDOW_HAMMING, size, 0 );
     
@@ -113,6 +115,7 @@ protected:
    */
   void testBlackman ()
   {
+    cout << "testing blackman ... " << endl;
     int size = 100;
     windower->setWindowType( cepDataWindower::WINDOW_BLACKMAN, size, 0 );
 
@@ -136,11 +139,17 @@ protected:
    */
   void testChebyshev ()
   {
-    int size = 100;
+    cout << "testing chebyshev ... " << endl;
+    int size = 99;
     windower->setWindowType( cepDataWindower::WINDOW_CHEBYSHEV, size, 0 );
 
     cepMatrix<double> result;
-    windower->window( makeData( size ), result );
+    cepMatrix<double> input = makeData( size );
+    cepError err = windower->window( input , result );
+    if( err.isReal() ) {
+      err.display();
+    }
+      
 
     ofstream f("windows.txt", ios::app);
     f << endl << endl << "Dolph Chebyshev Window Output" << endl;
@@ -171,6 +180,8 @@ public:
   /* default constructor */
   Test() : CppUnit::TestFixture() {
     windower = NULL;
+    cepErrorHandler *eh = new cepConsoleErrorHandler();
+    cepError::addErrorHandler( *eh );
   }
 
   /** setup - run prior to each test */
@@ -199,10 +210,10 @@ public:
       new CppUnit::TestCaller<Test>( "testHamming", &Test::testHamming ) );
     suiteOfTests->addTest(
       new CppUnit::TestCaller<Test>( "testBlackman", &Test::testBlackman ) );
-    /*
+    
     suiteOfTests->addTest(
       new CppUnit::TestCaller<Test>( "testChebyshev", &Test::testChebyshev ) );
-    */
+    
        
     return suiteOfTests;
   }
