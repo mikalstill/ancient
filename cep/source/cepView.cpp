@@ -372,15 +372,7 @@ void cepView::OnToggleZ (wxCommandEvent &pevt)
 void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
 {
   cepMatrix <double> residuals, data;
-  cepDate toDate(1999.9987), fromDate(1999.0014);
 
-  cepDateUi date;
-  date.showDateRange(toDate, fromDate);
-
-  cout << endl << endl << "#########BACK" << endl;
-  cout << "From date " << date.getFromDate() << endl;
-  cout << "To date " << date.getToDate() << endl;
-  
   cepDoc *theDoc = (cepDoc *) GetDocument ();
   cepDataset *theDataset = theDoc->getDataset ();
   if (theDataset && theDataset->isReady() && theDataset->isWellFormed())
@@ -521,7 +513,10 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
                   }
                 }
                 cout << "re-weight graph thingie goes here " << endl;
-                lsUi.showWeight(2002.0014, 2003.4041, 1.0);
+                lsUi.showWeight((theDataset->getMatrix((cepDataset::direction) i))->getValue(0,0),
+                                  (theDataset->getMatrix((cepDataset::direction) i))->getValue((theDataset->getMatrix((cepDataset::direction) i))->getNumRows() -1,0),
+                                   1.0);
+
                 double toDate = lsUi.getToDate(),
                        fromDate = lsUi.getFromDate(),
                        val = lsUi.getWeight();
@@ -566,7 +561,10 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
                   }
                   cout << "here " << endl;
 
-                  lsUi.showWeight(2002.0014, 2003.4041, 1.0);
+                  lsUi.showWeight((theDataset->getMatrix((cepDataset::direction) i))->getValue(0,0),
+                                  (theDataset->getMatrix((cepDataset::direction) i))->getValue((theDataset->getMatrix((cepDataset::direction) i))->getNumRows() -1,0),
+                                   1.0);
+
                   cout << "showing new box........." << endl;
                   
                   toDate = lsUi.getToDate();
