@@ -1,13 +1,15 @@
-#!/usr/local/bin/perl
+#!/usr/bin/perl
 
 use strict;
-my($cmd, $cmdstr, $input, $output, $arg, $TMP);
+my($cmd, $cmdstr, $input, $output, $arg, $TMP, $suppress);
 
 # Make sure local scripts can run
 $ENV{PATH} = $ENV{PATH} . ":.";
+$suppress = 0;
 
 # This script runs through the specified docbook source, and applies the 
-# commands in % blocks
+# commands in <execute></execute> blocks. It also plays games with conditional
+# inclusion of text...
 #
 # <execute><cmd></cmd><args></args><input></input><output></output></execute>
 # <postexecute>... as above ...</postexecute>
@@ -17,7 +19,6 @@ $ENV{PATH} = $ENV{PATH} . ":.";
 # default input of the processed file
 
 # This should be fixed...
-
 open TMP, "> builddb-$$.tmp";
 process("execute", "", \*STDIN, \*TMP);
 close TMP;
@@ -25,14 +26,30 @@ open TMP, "< builddb-$$.tmp";
 process("postexecute", "builddb-$$.tmp", \*TMP, \*STDOUT);
 close TMP;
 unlink "builddb-$$.tmp";
-
 exit;
 
 sub process($){
     my($exblock, $exfilename, $INPTR, $OUTPTR) = @_;
 
     while(<$INPTR>){
-	if(/(.*)<$exblock>(.*)<\/$exblock>(.*)/){
+	if((/(.*)<\/slidetext>/) || (/(.*)<\/noslide>/)){
+	    $suppress = 0;
+	}
+	elsif((/(.*)<slidetext>/) && ($ARGV[0] ne "jpg")){
+	    $suppress = 1;
+	}
+	elsif((/(.*)<slidebreak>/) && ($ARGV[0] ne "jpg")){
+	}
+	elsif(/(.*)<noslide>/){
+	    if($ARGV[0] eq "jpg"){
+		$suppress = 1;
+	    }
+	}
+	elsif(/(.*)<slideinclude>/){
+	}
+	elsif(/(.*)<\/slideinclude>/){
+	}
+	elsif((/(.*)<$exblock>(.*)<\/$exblock>(.*)/) && ($suppress == 0)){
 	    print $OUTPTR $1;
 	    $cmd = $2;
 	    
@@ -92,7 +109,10 @@ sub process($){
 		    $cmdstr = "$cmdstr > $output";
 		}
 		
-		print $OUTPTR `$cmdstr`;
+		print STDERR "Executing: $cmdstr\n";
+		$output=`$cmdstr`;
+		$output =~ s/([^\r])\n/$1\r\n/g;
+		print $OUTPTR "$output";
 	    }
 	    elsif($cmd eq "todo"){
 		print $OUTPTR "<figure>\n";
@@ -105,7 +125,7 @@ sub process($){
 
 	    print $OUTPTR "$3";
 	}
-	else{
+	elsif($suppress == 0){
 	    print $OUTPTR $_;
 	}
     }

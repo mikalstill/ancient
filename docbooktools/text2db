@@ -1,4 +1,4 @@
-#!/usr/local/bin/perl
+#!/usr/bin/perl
 
 use strict;
 my($line, $prevline, $listmode, $listitemmode, $paramode, $ctr_l, $subst, $sectnum, $firstsectnum, $temp, $codemode);

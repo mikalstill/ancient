@@ -2,9 +2,9 @@
 
 rm -f insertall-$$.tmp 2> /dev/null
 
-for item in `ls | egrep $1 | egrep -v "~$"`
+for item in `ls $2 | egrep $3 | egrep -v "~$"`
 do
-  echo "<execute><cmd>builddb</cmd><args>$2</args><input>$item</input></execute>" >> insertall-$$.tmp
+  echo "<execute><cmd>$1</cmd><args>$4</args><input>$2/$item</input></execute>" >> insertall-$$.tmp
 done
 
 builddb < insertall-$$.tmp

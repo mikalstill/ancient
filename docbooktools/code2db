@@ -1,4 +1,4 @@
-#!/usr/local/bin/perl
+#!/usr/bin/perl
 
 use strict;
 my($suppress);
@@ -6,6 +6,9 @@ my($suppress);
 $suppress = 0;
 
 # Make C code safe for display in docbook
+if($ARGV[2] ne ""){
+    print "<sect$ARGV[0]><title>Code: $ARGV[1]</title>\n";
+}
 print "<programlisting>\n";
 
 while(<STDIN>){
@@ -29,4 +32,10 @@ while(<STDIN>){
 }
 
 print "</programlisting>\n";
-print "<para><emphasis>Code: $ARGV[1]</emphasis></para>\n";
+
+if($ARGV[2] ne ""){
+    print "</sect$ARGV[0]>\n";
+}
+else{
+    print "<para><emphasis>Code: $ARGV[0]</emphasis></para>\n";
+}
