@@ -8,6 +8,7 @@ trivsql_state *trivsql_init(char *filename){
 
   state = (trivsql_state *) trivsql_xmalloc(sizeof(trivsql_state));
   state->db = tdb_open(filename, 0, 0, O_RDWR | O_CREAT, 0600);
+  state->rs = NULL;
 
   return state;
 }
@@ -123,6 +124,8 @@ trivsql_recordset *trivsql_doselect(char *tname, char *cols){
   rrs->rows->next = NULL;
   rrs->rows->cols = NULL;
   rrs->numRows = 0;
+  rrs->tname = trivsql_xsnprintf("%s", tname);
+  rrs->cols = trivsql_xsnprintf("%s", cols);
 
   for(row = 0; row < rowCount; row++){
     addMe = SELTRUE;
@@ -334,89 +337,6 @@ int trivsql_findcol(char *tname, char *cols, char *col){
   }
 
   return -1;
-}
-
-void trivsql_displayrs(trivsql_recordset *rs, char *tname, char *cols){
-  int i, col;
-  char *t, *u, *c, *localCols, *tempCols;
-  trivsql_row *theRow;
-  trivsql_col *theCol;
-
-  // Print the header line
-  printf("Select returned %d rows of %d columns\n\n=", rs->numRows, rs->numCols);
-  for(i = 0; i < rs->numCols; i++){
-    printf("===============");
-  }
-  printf("\n|");
-
-  // If the columns list is '*', substitute a list of all the columns
-  if(strcmp(cols, "*") == 0)
-    localCols = trivsql_getallcolumns(tname);
-  else{
-    localCols = cols;
-    tempCols = trivsql_xsnprintf("%s", cols);
-
-    // Determine that the named columns exist (unless we know they do)
-    col = 0;
-    c = strtok(tempCols, ";");
-    while(c != NULL){
-      i = 0;
-      while(1){
-	t = trivsql_xsnprintf("trivsql_%s_col%d", tname, i);
-	u = trivsql_dbread(gState, t);
-	
-	if(u == NULL){
-	  trivsql_xfree(t);
-	  fprintf(stderr, "%s is an unknown column\n", c);
-	  return;
-	}
-	else if(strcmp(u, c) == 0){
-	  trivsql_xfree(t);
-	  trivsql_xfree(u);
-	  break;
-	}
-	
-	trivsql_xfree(t);
-	trivsql_xfree(u);
-	i++;
-      }
-
-    c = strtok(NULL, ";");
-    }
-  }
-
-  // Print out the column names
-  c = strtok(localCols, ";");
-  while(c != NULL){
-    printf(" %-12s |", c);
-    c = strtok(NULL, ";");
-  }
-  
-  printf("\n=");
-  for(i = 0; i < rs->numCols; i++){
-    printf("===============");
-  }
-  printf("\n");
-
-  // Print out the values we have found
-  theRow = rs->rows;
-  while(theRow->next != NULL){
-    printf("|");
-    theCol = theRow->cols;
-    while(theCol->next != NULL){
-      printf(" %-12s |", theCol->val);
-      theCol = theCol->next;
-    }
-
-    printf("\n-");
-    for(i = 0; i < rs->numCols; i++){
-      printf("---------------");
-    }
-    printf("\n");
-    theRow = theRow->next;
-  }
-
-  printf("\n\n");
 }
 
 int trivsql_getrowcount(char *tname){

@@ -10,7 +10,7 @@ int main(int argc, char *argv[]){
 
   while(fgets(cmd, 1000, stdin) != NULL){
     rs = trivsql_execute(ourState, cmd);
-    trivsql_displayrs(rs);
+    if(rs != NULL) trivsql_displayrs(rs);
     trivsql_xfree(rs);
   }
 }

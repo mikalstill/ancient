@@ -18,23 +18,23 @@ sql      : create sql | insert sql | sel sql
          ;
 
 create   : CREATE TABLE STRING '(' colvalspec ')' ';' 
-{ trivsql_docreate($3, $5); } 
+{ trivsql_docreate((char *) $3, (char *) $5); } 
          ;
 
 insert   : INSERT INTO STRING '(' colvalspec ')' VALUES '(' colvalspec ')' ';'
-{ trivsql_doinsert($3, $5, $9); }
+{ trivsql_doinsert((char *) $3, (char *) $5, (char *) $9); }
          ;
 
 sel      : SELECT cvsaster FROM STRING selector ';'
-{ gState->rs = trivsql_doselect($4, $2), $4, $2); }
+{ gState->rs = trivsql_doselect((char *) $4, (char *) $2); }
          ;
 
-cvsaster : colvalspec { $$ = trivsql_xsnprintf("%s", $1); }
+cvsaster : colvalspec { $$ = trivsql_xsnprintf("%s", (char *) $1); }
          | '*' { $$ = trivsql_xsnprintf("*"); }
          ;
 
-colvalspec : str ',' colvalspec { $$ = trivsql_xsnprintf("%s;%s", $1, $3); } 
-         | str { $$ = trivsql_xsnprintf("%s", $1); }
+colvalspec : str ',' colvalspec { $$ = trivsql_xsnprintf("%s;%s", (char *) $1, (char *) $3); } 
+         | str { $$ = trivsql_xsnprintf("%s", (char *) $1); }
          ;
 
 selector : WHERE str '=' str { gState->selector = trivsql_selequal; gState->selArgOne = $2; gState->selArgTwo = $4 }

@@ -705,19 +705,19 @@ yyreduce:
 
 case 5:
 #line 21 "parser.y"
-{ trivsql_docreate(yyvsp[-4], yyvsp[-2]); ;
+{ trivsql_docreate((char *) yyvsp[-4], (char *) yyvsp[-2]); ;
     break;}
 case 6:
 #line 25 "parser.y"
-{ trivsql_doinsert(yyvsp[-8], yyvsp[-6], yyvsp[-2]); ;
+{ trivsql_doinsert((char *) yyvsp[-8], (char *) yyvsp[-6], (char *) yyvsp[-2]); ;
     break;}
 case 7:
 #line 29 "parser.y"
-{ trivsql_recordset *rs; trivsql_displayrs(rs = trivsql_doselect(yyvsp[-2], yyvsp[-4]), yyvsp[-2], yyvsp[-4]); /*trivsql_xfree(rs);*/ ;
+{ gState->rs = trivsql_doselect((char *) yyvsp[-2], (char *) yyvsp[-4]); ;
     break;}
 case 8:
 #line 32 "parser.y"
-{ yyval = trivsql_xsnprintf("%s", yyvsp[0]); ;
+{ yyval = trivsql_xsnprintf("%s", (char *) yyvsp[0]); ;
     break;}
 case 9:
 #line 33 "parser.y"
@@ -725,11 +725,11 @@ case 9:
     break;}
 case 10:
 #line 36 "parser.y"
-{ yyval = trivsql_xsnprintf("%s;%s", yyvsp[-2], yyvsp[0]); ;
+{ yyval = trivsql_xsnprintf("%s;%s", (char *) yyvsp[-2], (char *) yyvsp[0]); ;
     break;}
 case 11:
 #line 37 "parser.y"
-{ yyval = trivsql_xsnprintf("%s", yyvsp[0]); ;
+{ yyval = trivsql_xsnprintf("%s", (char *) yyvsp[0]); ;
     break;}
 case 12:
 #line 40 "parser.y"

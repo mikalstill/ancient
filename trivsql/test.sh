@@ -27,10 +27,20 @@ echo "Creating db"
 echo " -- Create table"
 verify "CREATE TABLE foo (cola, colb, colc);" create001
 
+if [ "%$1%" = "%create%" ]
+then
+  exit
+fi
+
 echo " -- Insert into table"
 verify "INSERT INTO foo (cola, colb, colc) VALUES ('duck', 'chicken', 'frog');" insert001
 verify "INSERT INTO foo (cola, colb) VALUES ('duck', 'hamster');" insert002
 verify "INSERT INTO foo (cola, colc) VALUES ('banana', 'frog');" insert003
+
+if [ "%$1%" = "%insert%" ]
+then
+  exit
+fi
 
 echo ""
 echo "Select tests"

@@ -5,15 +5,6 @@
 #define SELFALSE 0
 typedef int (*trivsql_selectorfunc) (char *arg1, char *arg2);
 
-typedef struct trivsql_internal_state
-{
-  TDB_CONTEXT *db;
-  char *selArgOne;
-  char *selArgTwo;
-  trivsql_selectorfunc selector;
-  trivsql_recordset *rs;
-} trivsql_state;
-
 typedef struct trivsql_internal_col
 {
   char *val;
@@ -31,7 +22,18 @@ typedef struct trivsql_internal_rs
   int numCols;
   int numRows;
   trivsql_row *rows;
+  char *tname;
+  char *cols;
 } trivsql_recordset;
+
+typedef struct trivsql_internal_state
+{
+  TDB_CONTEXT *db;
+  char *selArgOne;
+  char *selArgTwo;
+  trivsql_selectorfunc selector;
+  trivsql_recordset *rs;
+} trivsql_state;
 
 // Internal functions
 trivsql_state *trivsql_init(char *);
@@ -41,7 +43,6 @@ trivsql_recordset *trivsql_doselect(char *, char *);
 
 int *trivsql_parsecols(char *, char *, int *);
 int trivsql_findcol(char *, char *, char *);
-void trivsql_displayrs(trivsql_recordset *, char *, char *);
 void trivsql_addrow(trivsql_recordset *, char *, int, int *);
 char *trivsql_getallcolumns(char *);
 
@@ -61,3 +62,4 @@ int trivsql_sellike(char *, char *);
 trivsql_state *trivsql_opendb(char *);
 trivsql_recordset *trivsql_execute(trivsql_state *, char *);
 int trivsql_gettext(char *, int);
+void trivsql_displayrs(trivsql_recordset *);
