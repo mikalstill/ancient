@@ -55,7 +55,11 @@ I see the outline of the proposed book being along the lines of the following ch
 <footnote><para>
   Chapter lengths are given in A4 pages.
 </para></footnote>
-:
+</para>
+
+<para>
+It should be noted that all the APIs discussed in the book are covered by open source licensing of some form, and that all of these APIs are usable on win32 platforms as well as various unices including Linux.
+</para>
 
 <table frame='all'><title>Proposed book chapters</title>
 <tgroup cols='3' align='left' colsep='1' rowsep='1'>
@@ -173,10 +177,6 @@ I see the outline of the proposed book being along the lines of the following ch
 </tbody>
 </tgroup>
 </table>
-
-<para>
-It should be noted that all the APIs discussed in the book are covered by open source licensing of some form, and that all of these APIs are usable on win32 platforms as well as various unices including Linux.
-</para>
 
 <sect2><title>Rationale for the organization of the book</title>
 <para>

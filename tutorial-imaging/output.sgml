@@ -1204,7 +1204,7 @@ main (int argc, char *argv[])
   char buffer[32 * 9];
 }
 </programlisting>
-<para><emphasis>Code: /home/mikal/opensource/tiff-bw-write/write-infrastructure.c</emphasis></para>
+<para><emphasis>Code: eps</emphasis></para>
 
 
 <para>
@@ -1260,7 +1260,7 @@ int main(int argc, char *argv[]){
   TIFFClose(image);
 }
 </programlisting>
-<para><emphasis>Code: /home/mikal/opensource/tiff-bw-write/write-nohex.c</emphasis></para>
+<para><emphasis>Code: eps</emphasis></para>
 
 <para>
 There are some interesting things to note in this example. The most interesting of these is that the output image will not display using the xview command on my Linux machine. In fact, I couldn't find an example of a group 4 fax compressed black and white image which would display using that program. See the sidebar for more detail.
@@ -1461,7 +1461,7 @@ int main(int argc, char *argv[]){
   TIFFClose(image);
 }
 </programlisting>
-<para><emphasis>Code: /home/mikal/opensource/tiff-bw-read/read.c</emphasis></para>
+<para><emphasis>Code: eps</emphasis></para>
 
 <para>
 This code works by first opening the image and checking that it is one that we can handle. It then reads in all the strip for the image, and appends them together in one large memory block. If required, it also flips bits until the photo metric interpretation the one we handle, and deals with having to swap bits if the fill order is wrong. Finally, our sample outputs the image as a series of lines composed of hex values. Remember that each of the values represents 8 pixels in the actual image.
@@ -1607,7 +1607,7 @@ int main(int argc, char *argv[]){
   TIFFClose(output);
 }
 </programlisting>
-<para><emphasis>Code: /home/mikal/opensource/tiff-color-write/write.c</emphasis></para>
+<para><emphasis>Code: eps</emphasis></para>
 
 
 <para>
@@ -1740,7 +1740,7 @@ int main(int argc, char *argv[]){
   TIFFClose(image);
 }
 </programlisting>
-<para><emphasis>Code: /home/mikal/opensource/tiff-color-read/read.c</emphasis></para>
+<para><emphasis>Code: eps</emphasis></para>
 </sect1>
 
 
@@ -1879,7 +1879,7 @@ libtiffDummyCloseProc (thandle_t fd)
   return 0;
 }
 </programlisting>
-<para><emphasis>Code: /home/mikal/opensource/tiff-client/client.c</emphasis></para>
+<para><emphasis>Code: eps</emphasis></para>
 </sect1>
 
 
@@ -2032,7 +2032,7 @@ usage (char *cmd, int exitamt)
   exit (exitamt);
 }
 </programlisting>
-<para><emphasis>Code: /home/mikal/opensource/tiff-directories/create.c</emphasis></para>
+<para><emphasis>Code: eps</emphasis></para>
 
 <figure><title>Four pictures of my son Andrew</title>
 <graphic format="eps" fileref="gen-tiff-figure8.eps">
@@ -2192,7 +2192,7 @@ usage (char *cmd, int exitamt)
   exit (exitamt);
 }
 </programlisting>
-<para><emphasis>Code: /home/mikal/opensource/tiff-directories/read.c</emphasis></para>
+<para><emphasis>Code: eps</emphasis></para>
 
 </sect1>
 
@@ -2202,7 +2202,7 @@ I have included the man pages to some of the more useful libtiff commands, so th
 </para>
 
 <sect2><title>tiff2bw</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2325,7 +2325,7 @@ Specify the percentage of the blue channel to use (default 11).
 </sect2>
 
 <sect2><title>tiff2ps</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2586,7 +2586,7 @@ Matters are even worse for 4-, 2-, and 1-bit palette images.
 
 
 <sect2><title>tiffcmp</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2711,7 +2711,7 @@ ImageWidth: 256 520
 </sect2>
 
 <sect2><title>tiffcp</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3032,7 +3032,7 @@ tiffcp -c none -,=% -b CCD,X.tif CCD,X%1%.tif result.tif
 
 
 <sect2><title>tiffdither</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1990-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3204,7 +3204,7 @@ This image, after being pushed through <command>tiffdither</command> looks somet
 </sect2>
 
 <sect2><title>tiffdump</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3331,7 +3331,7 @@ PlanarConfig (284) SHORT (3) 1&lt;1&gt;
 </sect2>
 
 <sect2><title>tiffgt</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3673,7 +3673,7 @@ crashing old versions of the window manager.
 </sect2>
 
 <sect2><title>tiffinfo</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3850,7 +3850,7 @@ Strip 0:
 </sect2>
 
 <sect2><title>tiffmedian</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1990-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3995,7 +3995,7 @@ Heckbert, SIGGRAPH proceedings, 1982, pp. 297-307.
 </sect2>
 
 <sect2><title>tiffsplit</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1992-1997 Sam Leffler -->
 <!--  Copyright (c) 1992-1997 Silicon Graphics, Inc. -->
@@ -4080,7 +4080,7 @@ is used.
 </sect2>
 
 <sect2><title>tiffsv</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -4421,7 +4421,7 @@ It is also useful to have the man pages for the libtiff API man pages to refer t
 
 
 <sect2><title>TIFFbuffer</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1995 Sam Leffler -->
 <!--  Copyright (c) 1995 Silicon Graphics, Inc. -->
@@ -4533,7 +4533,7 @@ was unable to dynamically allocate space for a data buffer.
 
 
 <sect2><title>TIFFClose</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -4600,7 +4600,7 @@ routine.
 
 
 <sect2><title>TIFFcodec</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1995 Sam Leffler -->
 <!--  Copyright (c) 1995 Silicon Graphics, Inc. -->
@@ -4753,7 +4753,7 @@ compression schemes.
 
 
 <sect2><title>TIFFError</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -4868,7 +4868,7 @@ returns a reference to the previous error handling function.
 
 
 <sect2><title>TIFFFlush</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -4968,7 +4968,7 @@ routine.
 
 
 <sect2><title>TIFFGetField</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -5270,7 +5270,7 @@ routine.
 
 
 <sect2><title>TIFFmemory</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1995 Sam Leffler -->
 <!--  Copyright (c) 1995 Silicon Graphics, Inc. -->
@@ -5397,7 +5397,7 @@ repsectively.
 
 
 <sect2><title>TIFFOpen</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -5735,7 +5735,7 @@ This is a limitation of the library.
 
 
 <sect2><title>TIFFPrintDirectory</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1991-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -5823,7 +5823,7 @@ parameter defaults to 0.
 
 
 <sect2><title>TIFFquery</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6005,7 +6005,7 @@ library software.
 
 
 <sect2><title>TIFFReadDirectory</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6223,7 +6223,7 @@ the missing value based on the file size.
 
 
 <sect2><title>TIFFReadEncodedStrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6320,7 +6320,7 @@ routine.
 
 
 <sect2><title>TIFFReadEncodedTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6420,7 +6420,7 @@ routine.
 
 
 <sect2><title>TIFFReadRawStrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6502,7 +6502,7 @@ routine.
 
 
 <sect2><title>TIFFReadRawTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6586,7 +6586,7 @@ routine.
 
 
 <sect2><title>TIFFReadRGBAImage</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1991-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6824,7 +6824,7 @@ not handled correctly.
 
 
 <sect2><title>TIFFReadRGBAStrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1991-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -7055,7 +7055,7 @@ not handled correctly.
 
 
 <sect2><title>TIFFReadRGBATile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1991-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -7290,7 +7290,7 @@ not handled correctly.
 
 
 <sect2><title>TIFFReadScanline</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -7417,7 +7417,7 @@ the strip- and tile-based interfaces to read these formats.
 
 
 <sect2><title>TIFFReadTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -7556,7 +7556,7 @@ routine.
 
 
 <sect2><title>TIFFRGBAImage</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1991-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -7929,7 +7929,7 @@ not handled correctly.
 
 
 <sect2><title>TIFFSetDirectory</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -8037,7 +8037,7 @@ points to the next directory in a file.
 
 
 <sect2><title>TIFFSetField</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -8290,7 +8290,7 @@ An invalid value was supplied for the named tag.
 
 
 <sect2><title>TIFFsize</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -8365,7 +8365,7 @@ if data is stored as separate planes.
 
 
 <sect2><title>TIFFstrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1992-1997 Sam Leffler -->
 <!--  Copyright (c) 1992-1997 Silicon Graphics, Inc. -->
@@ -8492,7 +8492,7 @@ returns the number of strips in the image.
 
 
 <sect2><title>TIFFswab</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -8612,7 +8612,7 @@ i.e.
 
 
 <sect2><title>TIFFtile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -8829,7 +8829,7 @@ returns the number of tiles in the image.
 
 
 <sect2><title>TIFFWarning</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -8921,7 +8921,7 @@ returns a reference to the previous error handling function.
 
 
 <sect2><title>TIFFWriteDirectory</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -9073,7 +9073,7 @@ written.
 
 
 <sect2><title>TIFFWriteEncodedStrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -9212,7 +9212,7 @@ offsets and byte counts.
 
 
 <sect2><title>TIFFWriteEncodedTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -9342,7 +9342,7 @@ offsets and byte counts.
 
 
 <sect2><title>TIFFWriteRawStrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -9470,7 +9470,7 @@ currently specified image dimensions.
 
 
 <sect2><title>TIFFWriteRawTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -9584,7 +9584,7 @@ specified image dimensions.
 
 
 <sect2><title>TIFFWriteScanline</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -9788,7 +9788,7 @@ the library does not pack the block-interleaved samples.
 
 
 <sect2><title>TIFFWriteTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.60 2002-10-04 03:04:43 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -10182,7 +10182,7 @@ usage (char *cmd, int exitamt)
   exit (exitamt);
 }
 </programlisting>
-<para><emphasis>Code: /home/mikal/opensource/tiff-pixels/pixel.c</emphasis></para>
+<para><emphasis>Code: eps</emphasis></para>
 </sect1>
 
 <sect1><title>Example: Converting a color image to gray scale</title>
@@ -10322,7 +10322,7 @@ usage (char *cmd, int exitamt)
   exit (exitamt);
 }
 </programlisting>
-<para><emphasis>Code: /home/mikal/opensource/tiff-grayscale/gray-wrong.c</emphasis></para>
+<para><emphasis>Code: eps</emphasis></para>
 
 <para>
 Which produces:
@@ -10464,7 +10464,7 @@ usage (char *cmd, int exitamt)
   exit (exitamt);
 }
 </programlisting>
-<para><emphasis>Code: /home/mikal/opensource/tiff-grayscale/gray-good.c</emphasis></para>
+<para><emphasis>Code: eps</emphasis></para>
 
 <para>
 Which gives us:
@@ -10497,7 +10497,7 @@ do
   count=$(( $count + 1 ))
 done
 </programlisting>
-<para><emphasis>Code: /home/mikal/opensource/tiff-recompress/recompress.sh</emphasis></para>
+<para><emphasis>Code: eps</emphasis></para>
 <programlisting>
 #include &lt;stdio.h&gt;
 #include &lt;tiffio.h&gt;
@@ -10572,7 +10572,7 @@ int main(int argc, char *argv[]){
   TIFFClose(image);
 }
 </programlisting>
-<para><emphasis>Code: /home/mikal/opensource/tiff-recompress/recompress.c</emphasis></para>
+<para><emphasis>Code: eps</emphasis></para>
 </sect1>
 
 <sect1><title>Conclusion</title>
@@ -12170,7 +12170,7 @@ int main(int argc, char *argv[]){
   png_destroy_read_struct(&amp;png, &amp;info, NULL);
 }
 </programlisting>
-<para><emphasis>Code: /home/mikal/opensource/png-open/read-infrastructure.c</emphasis></para>
+<para><emphasis>Code: eps</emphasis></para>
 
 <para>
 In this example, we do everything we need to open a PNG image, without actually reading the image data. The steps to getting to the image data are:
@@ -12562,7 +12562,7 @@ usage ()
   pnginfo_error ("Usage: pnginfo [-d] [-D] &lt;filenames&gt;");
 }
 </programlisting>
-<para><emphasis>Code: /home/mikal/opensource/pngtools/pnginfo.c</emphasis></para>
+<para><emphasis>Code: eps</emphasis></para>
 </sect1>
 
 
@@ -12665,7 +12665,7 @@ int main(int argc, char *argv[]){
   png_destroy_read_struct (&amp;png, &amp;info, NULL);
 }
 </programlisting>
-<para><emphasis>Code: /home/mikal/opensource/png-open/read.c</emphasis></para>
+<para><emphasis>Code: eps</emphasis></para>
 </sect1>
 
 
@@ -12810,7 +12810,7 @@ int main(int argc, char *argv[]){
   fclose(image);
 }
 </programlisting>
-<para><emphasis>Code: /home/mikal/opensource/png-write/write.c</emphasis></para>
+<para><emphasis>Code: eps</emphasis></para>
 </sect1>
 
 <sect1><title>Storing PNG data in places other than files</title>
@@ -12935,7 +12935,7 @@ libpngDummyFlushProc (png_structp png)
 {
 }
 </programlisting>
-<para><emphasis>Code: /home/mikal/opensource/png-client/client.c</emphasis></para>
+<para><emphasis>Code: eps</emphasis></para>
 </sect1>
 
 
@@ -19021,7 +19021,7 @@ int main(int argc, char *argv[]) {
 	return 0;
 }
 </programlisting>
-<para><emphasis>Code: /home/mikal/opensource/ascii85/encode85.c</emphasis></para>
+<para><emphasis>Code: eps</emphasis></para>
 
 <programlisting>
 /* decode85 -- convert from ascii85 format */
@@ -19156,7 +19156,7 @@ int main(int argc, char *argv[]) {
 	return 0;
 }
 </programlisting>
-<para><emphasis>Code: /home/mikal/opensource/ascii85/decode85.c</emphasis></para>
+<para><emphasis>Code: eps</emphasis></para>
 
 <para>
 These two code snippets were written by Paul Haahr, http://www.webcom.com/~haahr/, and is stated to be in the public domain.
@@ -19340,7 +19340,7 @@ main (int argc, char *argv[])
   return 0;
 }
 </programlisting>
-<para><emphasis>Code: source/pdf/panda/hello/hello.c</emphasis></para>
+<para><emphasis>Code: eps</emphasis></para>
 
 <para>
 Which produces...
@@ -22499,7 +22499,7 @@ panda_errorCallback (char *description)
   fprintf (stderr, "Callback: %s\n", description);
 }
 </programlisting>
-<para><emphasis>Code: /home/mikal/opensource/panda/examples/main.c</emphasis></para>
+<para><emphasis>Code: eps</emphasis></para>
 
 <para>
 It produces output like:
@@ -22869,7 +22869,7 @@ char *returnStr(char *yytext, int len){
   return lval;
 }
 </programlisting>
-<para><emphasis>Code: /home/mikal/opensource/pandalex/lexer.l</emphasis></para>
+<para><emphasis>Code: eps</emphasis></para>
 </sect2>
 
 <sect2><title>lexinterface.h</title>
@@ -22915,7 +22915,7 @@ void pandalex_setupcallback(int, pandalex_callback_type);
 void pandalex_callback(int, ...);
 
 </programlisting>
-<para><emphasis>Code: /home/mikal/opensource/pandalex/lexinterface.h</emphasis></para>
+<para><emphasis>Code: eps</emphasis></para>
 </sect2>
 
 <sect2><title>pandalex.h</title>
@@ -22924,7 +22924,7 @@ char *pandalex_strmcat(char *, int, char *, int);
 char *pandalex_strmcpy(char *, int);
 int pandalex_intlen(int);
 </programlisting>
-<para><emphasis>Code: /home/mikal/opensource/pandalex/pandalex.h</emphasis></para>
+<para><emphasis>Code: eps</emphasis></para>
 </sect2>
 
 <sect2><title>parser.y</title>
@@ -23181,7 +23181,7 @@ int pandalex_intlen(int number){
   return number;
 }
 </programlisting>
-<para><emphasis>Code: /home/mikal/opensource/pandalex/parser.y</emphasis></para>
+<para><emphasis>Code: eps</emphasis></para>
 </sect2>
 
 <sect2><title>samples.c</title>
@@ -23609,7 +23609,7 @@ void pdfdump_procstream(char *filter, int length, char *data, int dataLen){
   }
 }
 </programlisting>
-<para><emphasis>Code: /home/mikal/opensource/pandalex/samples.c</emphasis></para>
+<para><emphasis>Code: eps</emphasis></para>
 </sect2>
 
 <sect2><title>samples.h</title>
@@ -23648,7 +23648,7 @@ typedef struct pdfdump_internal_dictint_list{
   struct pdfdump_internal_dictint_list  *next; 
 } pdfdump_dictint_list;
 </programlisting>
-<para><emphasis>Code: /home/mikal/opensource/pandalex/samples.h</emphasis></para>
+<para><emphasis>Code: eps</emphasis></para>
 </sect2>
 
 </sect1>

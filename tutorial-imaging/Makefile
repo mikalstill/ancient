@@ -23,3 +23,6 @@ slides: slides.sgml
 proposal: proposal.sgml
 	db2ps proposal.sgml 2> errs
 	striptext -c < proposal.sgml | wc -w
+
+proposal.pdf: proposal.ps
+	ps2pdf proposal.ps
