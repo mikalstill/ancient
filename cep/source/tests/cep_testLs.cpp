@@ -18,9 +18,10 @@
 #include <cppunit/extensions/HelperMacros.h>
 
 #include <stdio.h>
+#include <iomanip>
 
 #include "../cepLs.h"
-
+#include "../cepDataset.h"
 /**
  * A test template for use when creating a new test suite. I has been 
  * declared in the anonymous namespace so that the test does not need
@@ -36,11 +37,14 @@
  *     void tearDown( void ) { ... }
  *
  * @author <your name here>
- * @version $Revision: 1.8 $ $Date: 2002-10-01 06:19:33 $
+ * @version $Revision: 1.9 $ $Date: 2002-10-24 07:58:06 $
  *
  * Revision History
  *
  * $Log: not supported by cvs2svn $
+ * Revision 1.8  2002/10/01 06:19:33  u983118
+ * added some testing for auto re-weight VCV LS
+ *
  * Revision 1.6  2002/09/08 05:50:27  u983118
  * Updated test for new way that the date, sample, error stuff is stored
  *
@@ -80,15 +84,18 @@ public:
     CppUnit::TestSuite *suiteOfTests = new CppUnit::TestSuite( "Test" );
     
     /* REGISTER YOUR TEST HERE */
-    suiteOfTests->addTest(
+/*    suiteOfTests->addTest(
       new CppUnit::TestCaller<Test>( "testLsVCV", &Test::testLsVCV ) );
     
     suiteOfTests->addTest(
       new CppUnit::TestCaller<Test>( "testLsVCVReweight", &Test::testLsVCVReweight ) );
-    
+*/
     suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "testLsVCVReweight2", &Test::testLsVCVReweight2 ) );
+    
+/*    suiteOfTests->addTest(
       new CppUnit::TestCaller<Test>( "testLsRW", &Test::testLsRW ) );
-                  
+*/                  
     return suiteOfTests;
   }
 
@@ -211,6 +218,29 @@ protected:
     CPPUNIT_ASSERT_DOUBLES_EQUAL(  0.0, residual.getValue(4,0), 0.01 );  
   }
   
+  void testLsVCVReweight2()
+  {
+    cepMatrix<double> *data, residual;
+    cepDataset blah;
+    cepLs ans;
+    
+    blah.read("../../datasets/mb_AUCK_GPS");
+    
+    data = blah.getMatrix(cepDataset::dirX);
+    
+    cout << endl << "data is" << endl;
+    
+    for(int i = 0; i < data->getNumRows(); i ++){
+      for(int j = 0; j < data->getNumCols(); j ++){
+        cout << setprecision(10) << data->getValue(i,j) << " ";
+      }
+      cout << endl;
+    }
+    
+    ans.cepDoVCV(*data);
+    residual = ans.getResidual();
+        
+  }
   //test RW LS
   void testLsRW()
   {
