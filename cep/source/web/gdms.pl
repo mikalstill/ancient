@@ -174,7 +174,6 @@ sub processTemplate(@args){
 	while($len != length($line)){
 	    $len = length($_);
 
-	    # todo: there must be a better way of doing this...
 	    $_ = $line;
 	    if(/(.*)&{([^%]*)};(.*)/){
 		$pre = $1;
@@ -186,19 +185,34 @@ sub processTemplate(@args){
 		    $line = $pre.getCommands().$post;
 		}
 		elsif($cmd eq "dataset"){
+		    my($tempdescription);
+
 		    # The name of the current dataset
-		    if($result->param('intype') ne "temp"){
-			open TEMP, ("head -1 $datasets/".$result->param('dataset').".dat1 |");
+		    if($result->param('dataset') ne ""){
+			if($result->param('intype') ne "temp"){
+			    open TEMP, ("head -1 $datasets/".
+					$result->param('dataset').
+					".dat1 |");
+			}
+			else{
+			    open TEMP, ("head -1 $tmpdir/".
+					$result->param('dataset').
+					".dat1 |");
+			}
+			
+			$tempdescription = "";
+			while(<TEMP>){
+			    chomp;
+			    $tempdescription = "Filename: <i>".
+				$result->param('dataset')."</i><BR>".
+				$_;
+			}
+			close TEMP;
+			$line = $pre.$tempdescription.$post;
 		    }
 		    else{
-			open TEMP, ("head -1 $tmpdir/".$result->param('dataset').".dat1 |");
+			$line = $pre.$post;
 		    }
-		    
-		    while(<TEMP>){
-			chomp;
-			$line = $pre.$_.$post;
-		    }
-		    close TEMP;
 		}
 		elsif($cmd eq "datasets"){
 		    # List the datasets in the dataset directory
