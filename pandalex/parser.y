@@ -161,7 +161,7 @@ objref    : INT INT OBJREF { if(($$.data = (char *) malloc((pandalex_intlen($1) 
           ;
 
 // completely implemented
-stream    : STREAM binary ENDSTREAM { pandalex_callback(pandalex_event_stream, $2.data, $2.len); free($2.data); }
+stream    : STREAM binary ENDSTREAM { pandalex_callback(pandalex_event_stream, $2.data, $2.len); /*free($2.data);*/ }
           |
           ;
 
@@ -272,7 +272,7 @@ int yyerror(char *s){
   fprintf(stderr, "  document (if possible) to mikal@stillhq.com, so that this can\n");
   fprintf(stderr, "  be fixed for the next release...\n\n");
   fprintf(stderr, "version = %s\n", VERSION);
-  fprintf(stderr, "last token = \"%s\" (%d) or %d\n", yylval.sval.data, yylval.sval.len, yylval.intVal);
+  //  fprintf(stderr, "last token = \"%s\" (%d) or %d\n", yylval.sval.data, yylval.sval.len, yylval.intVal);
   fprintf(stderr, "\n---------------------------------------------------------------\n");
 
   exit(42);
