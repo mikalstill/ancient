@@ -320,7 +320,7 @@
 The first design requirement for the GDMS project, was that it be licensed un the GNU General Public
 License. The reason for this is to allow access to the software by people who are not necessarily in a
 position to use propriatry software. The GDMS package is complex and relies on a number of external
-libraries for mathematical and graphical functionality. Similar pripriatry libraries can be very
+libraries for mathematical and graphical functionality. Similar propriatry libraries can be very
 expensive.
 </para>
 
@@ -328,8 +328,20 @@ expensive.
 The second issue here, which is in fact related to the first, is the need to have a package which is
 as platform independant as possible. This contributed significantly to the choice of programming
 language. In using  ANSI ISO compliant C++, the GDMS package is intended to run on most Unix based
-operating systems. 
+operating systems. It should also be noted that most modern windowing toolkits require C++.
 </para>
+
+<para>
+The choice of user interface toolkit also maximized the cross platform capabilities of the application. This is because <command>wxWindows</command> has been specifically built to be easily ported, and currently runs on the following platforms:
+</para>
+
+<itemizedlist>
+<listitem><para>Microsoft Windows</para></listitem>
+<listitem><para>Unix (including Linux)/GTK+</para></listitem>
+<listitem><para>Unix (including Linux)/Motif and X11</para></listitem>
+<listitem><para>MacOS</para></listitem>
+<listitem><para>OS/2</para></listitem>
+</itemizedlist>
 
 <para>
 The next important design desicion involves the methodologies used to design implement the GDMS

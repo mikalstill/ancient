@@ -3,32 +3,97 @@
 <sect2><title>User Interface</title>
 
   <sect3><title>Introduction</title>
-    <para></para>
+<para>
+The <command>GDMS</command> user interface is the most prominent part of the application. It is the main way in which the user experiences the application. <command>GDMS</command> currently supports two user interface variants:
+</para>
+
+<itemizedlist>
+<listitem><para>The X windows user interface (the program called <command>gdms</command>)</para></listitem>
+<listitem><para>The batch user interface (the program called <command>gdms-batch</command>)</para></listitem>
+</itemizedlist>
+
+<para>
+This section will mainly discuss the research undertaken for implementing the X windows user interface. This is partially because the scale of implementation required was much greater for this variant, but is also because there were many more alternatives available for this variant.
+</para>
   </sect3> <!--Introduction-->
 
   <sect3><title>Research</title>
-    <para>
-     - wxWindows etc...
-     - Assess alternative stuff
-    </para>
+
+<sect4><title>X windows user interface</title>
+<para>
+wx, qt, gtk, kde, gnome
+</para>
+</sect4>
+
+<sect4><title>Batch user interface</title>
+<para>
+There are two common implementation methodologies for scripting languages. Both of these were considered for the <command>GDMS</command> implementation. The most common manner for implementing the parser and grammar for a scripting language is by using the compiler construction tools <command>yacc</command>, and <command>lex</command> (or their free versions, <command>bison</command> and <command>flex</command>). 
+</para>
+
+<para>
+<command>lex</command> and <command>flex</command> are parser generation tools. They take a lexical specification file, and generate a left associative (TODO CHECK) finite state machine for matching input strings. A sample of a lexical specification is shown below:
+</para>
+
+<programlisting>
+<INITIAL>\%PDF-[0-9]+\.[0-9]+    { debuglex(yytext, -1, "version");
+                                   yylval.sval.data = (char *) returnStr(yytext, -1);
+                                   yylval.sval.len = yyleng;
+                                   return VERSION;
+                                 }
+
+<INITIAL>[+-]?[0-9]+\.[0-9]+     { debuglex(yytext, -1, "floating point");
+                                   yylval.sval.data = (char *) returnStr(yytext, yyleng);
+                                   yylval.sval.len = yyleng; 
+                                   return FP; 
+                                 }
+
+<INITIAL>[+-]?[0-9]+\.[0-9]+\>\> { debuglex(yytext, -1, "floating point");
+                                   yyless(yyleng - 2);
+                                   yylval.sval.data = (char *) returnStr(yytext, yyleng);
+                                   yylval.sval.len = yyleng;
+                                   return FP;
+                                 } 
+</programlisting>
+
+<para>
+In this example, two tokens are defined, VERSION, and FP. The syntax for these specifications is fairly trivial. The first field, which is wrapped in angled brackets, is the name of the state that the specification should be used in. All of the examples shown here are for the default state, known as INITIAL. What follows this is a posix compliant regular expression to be matched. Finally, within the braces is some c code to execute which a match occurs.
+</para>
+
+<para>
+In each of these examples, the c code writes a log entry for the match, setups up the data structure symbolizing the match, and then returns the name of the lexicial token which was matched.
+</para>
+
+<para>
+<command>yacc</command> and <command>bison</command> define the grammer which uses the tokens defined by <command>lex</command> or <command>flex</command>. In effect, this defines valid orders for the tokens to appear in, and what operations should be performed when a set of tokens is matched. Error handling for undefined token combinations is also supplied by the grammar (with hooks for reporting to the user in a manner which is appropriate to that particular application.
+</para>
+
+<para>
+A sample grammar specification is as follows:
+</para>
+
+<programlisting>
+
+</programlisting>
+</sect4>
+
   </sect3> <!--research-->
 
   <sect3><title>Implementation</title>
-    <para>
+  <para>
        - How was it done?
        - Speed/ Optimisations
-    </para>
+  </para>      
   </sect3> <!--Implementation-->
-
+  
   <sect3><title>Integration</title>
-    <para></para>
   </sect3> <!--Integration-->
 
 
   <sect3><title>Future Enahncements</title>
-    <para>
-    </para>
+  <para>
+  </para>
   </sect3> <!--Future Enahncements-->
+
 
 </sect2> <!--UI-->
 
