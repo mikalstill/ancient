@@ -16,6 +16,7 @@ void memopad_insertshort(FILE *, int);
 char *memopad_xsnprintf(char *, ...);
 void memopad_xfree(void *);
 void *memopad_xrealloc(void *, size_t);
+int memopad_min(int, int);
 
 int main(int argc, char *argv[]){
   FILE *output;
@@ -108,9 +109,13 @@ int main(int argc, char *argv[]){
       }
     
     fstat(fd, &statbuf);
+    if(statbuf.st_size > 4095){
+      printf("  File is too big for a single chunk, truncating\n");
+    }
 
     if ((data = (char *) 
-	 mmap (NULL, statbuf.st_size, PROT_READ, MAP_SHARED, fd, 0)) == -1)
+	 mmap (NULL, memopad_min(statbuf.st_size, 4095), 
+	       PROT_READ, MAP_SHARED, fd, 0)) == -1)
       {
 	fprintf (stderr, "Could not mmap data file: %s\n", argv[rcnt + 1]);
 	exit (0);
@@ -220,4 +225,10 @@ memopad_xrealloc (void *memory, size_t size)
     }
 
   return buffer;
+}
+
+int memopad_min(int one, int two)
+{
+  if(one > two) return one;
+  return two;
 }
