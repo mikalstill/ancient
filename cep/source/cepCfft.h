@@ -105,7 +105,10 @@ DOCBOOK END
 #define checkMatrixError(matrix) \
   { \
     if (matrix.getError().isReal()) \
-      m_error =(char*) matrix.getError().getMessage().c_str(); return matrix; \
+    { \
+      m_error =(char*) matrix.getError().getMessage().c_str(); \
+      return matrix; \
+    } \
   }
 
 
@@ -387,7 +390,7 @@ template < class T > cepMatrix < ComplexDble > cepCfft <
 	      if (col == 1)	//if we are looking at a data value
 	      {
 		//calculate the magnitude
-		tempValue = pow (real (arrayToFft[row]),2) + pow (imag (arrayToFft[row]), 2);
+		tempValue = sqrt( pow (real (arrayToFft[row]),2) + pow (imag (arrayToFft[row]), 2) );
               }
 	      else		//we are looking at the error or the last coloumn
 	      {

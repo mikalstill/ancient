@@ -145,7 +145,7 @@ namespace
 		{
 		  realResult = real (fftarraycos[r]);
 		  imagResult = imag (fftarraycos[r]);
-		  mag = (pow(realResult,2) + pow(imagResult,2));
+		  mag = sqrt (pow(realResult,2) + pow(imagResult,2) );
                   magDif = mag - real(myMatrix.getValue (r, c, t));
 		  CPPUNIT_ASSERT (magDif < MAGTOL);
 		}		//for r
@@ -226,7 +226,7 @@ namespace
 		  //imagResult = 
 		  //abs (imag (fftarraysin[r]) - imag (myMatrix.getValue (r, c, t)));
 		  imagResult = imag (fftarraysin[r]);
-		  mag = (pow(realResult,2) + pow(imagResult,2));
+		  mag = sqrt ( pow(realResult,2) + pow(imagResult,2) );
                   magDif = mag - real(myMatrix.getValue (r, c, t));
 		  CPPUNIT_ASSERT (magDif < MAGTOL);
 		}		//for r
