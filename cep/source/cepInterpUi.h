@@ -84,7 +84,7 @@ class cepInterpShowRate: public wxDialog
 public:
   
   //show the "Specify Sample Rate" dialog box
-  cepInterpShowRate(wxString val, wxString dir, double units);
+  cepInterpShowRate(wxString val, double units);
 
   //returns the sample rate specified
   wxString getSample();

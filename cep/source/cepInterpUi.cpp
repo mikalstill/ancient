@@ -25,21 +25,21 @@ BEGIN_EVENT_TABLE (cepInterpShowRate, wxDialog)
   EVT_CLOSE( cepInterpShowRate::dlgRateOnQuit)
 END_EVENT_TABLE ()
                           
-cepInterpShowRate::cepInterpShowRate(wxString val, wxString dir, double units):
+cepInterpShowRate::cepInterpShowRate(wxString val, double units):
   wxDialog((wxDialog *) NULL, -1, "Specify Sample Rate", wxPoint(120,120), wxSize(200, 200))
 {  
   m_panel = new wxPanel(this, -1, wxPoint(120,120), wxSize(200,200));
 
   m_statBox = new wxStaticBox(m_panel, -1, "", wxPoint(15, 30), wxSize(170, 120));
 
-  m_statText1 = new wxStaticText(m_panel, -1, "Please specify the sample rate for the", wxPoint(5,5), wxSize(190, 20), wxALIGN_CENTRE);
-  m_statText2 = new wxStaticText(m_panel, -1, wxString("interpolated data in dir ") + dir + wxString(":"), wxPoint(5,19), wxSize(190, 20), wxALIGN_CENTRE);
+  m_statText1 = new wxStaticText(m_panel, -1, "Please specify the sample rate", wxPoint(5,5), wxSize(190, 20), wxALIGN_CENTRE);
+  m_statText2 = new wxStaticText(m_panel, -1,"for the interpolated data ", wxPoint(5,19), wxSize(190, 20), wxALIGN_CENTRE);
 
-  m_statText3 = new wxStaticText(m_panel, -1, "Sample Rate:", wxPoint(25,60), wxSize(100, 20), wxALIGN_LEFT);
+  m_statText3 = new wxStaticText(m_panel, -1, "Sample Rate:", wxPoint(25,40), wxSize(100, 20), wxALIGN_LEFT);
 
-  m_tbSample = new wxTextCtrl(m_panel, -1, val, wxPoint(110, 60), wxSize(60, 20));
+  m_tbSample = new wxTextCtrl(m_panel, -1, val, wxPoint(110, 40), wxSize(70, 20));
 
-  m_rbYear = new wxRadioButton(m_panel, -1, "Years", wxPoint(25, 75), wxSize(120, 20), wxRB_GROUP);
+  m_rbYear = new wxRadioButton(m_panel, -1, "Years", wxPoint(25, 65), wxSize(120, 20), wxRB_GROUP);
   m_rbDays = new wxRadioButton(m_panel, -1, "Month", wxPoint(25, 90));
   m_rbHours = new wxRadioButton(m_panel, -1, "Days", wxPoint(25, 115));
 
@@ -120,7 +120,7 @@ void cepInterpUi::showSampleRate(double val)
 {
   bool isValid = false;
   cepInterpShowRate *rate;
-  rate = new cepInterpShowRate(cepToString(val).c_str(), "", 1.0);
+  rate = new cepInterpShowRate(cepToString(val).c_str(), 1.0);
 
   m_sampleRate = rate->getSample();
   m_sampleUnits = rate->getSampleUnits();
@@ -144,7 +144,7 @@ void cepInterpUi::showSampleRate(double val)
           (atof(m_sampleRate.c_str()) <= 0))
       {
         cepError("Error. Sample rate must be a number greater than 0", cepError::sevWarning).display();
-        rate = new cepInterpShowRate(m_sampleRate, "", m_sampleUnits);
+        rate = new cepInterpShowRate(m_sampleRate, m_sampleUnits);
         m_sampleRate = rate->getSample();
         m_sampleUnits = rate->getSampleUnits();
         isValid = false;
