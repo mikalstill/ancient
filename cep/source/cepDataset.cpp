@@ -48,7 +48,7 @@ cepDataset::cepDataset (cepDatasetProgressCB callback):
 }
 
 cepDataset::cepDataset (cepMatrix<double> *data0, cepMatrix<double> *data1, cepMatrix<double> *data2, 
-			string offset, string procHistory):
+			string offset, string procHistory, string headers[3]):
   m_filename(""),
   m_procHistory(procHistory),
   m_ready(true),
@@ -58,6 +58,9 @@ cepDataset::cepDataset (cepMatrix<double> *data0, cepMatrix<double> *data1, cepM
   m_data[1] = data1;
   m_data[2] = data2;
   m_offset = offset;
+  m_header[0] = headers[0];
+  m_header[1] = headers[1];
+  m_header[2] = headers[2];
 }
 
 cepError cepDataset::read (const string& filename)
@@ -293,8 +296,7 @@ cepError cepDataset::write (const string& filename)
   for(int i = 0; i < 3; i++)
     {
       files[i] << m_procHistory << endl;
-      // todo_mikal: the rest of this line...
-      files[i] << "x x x x x x " << m_offset << " m" << endl << endl;
+      files[i] << m_header[i] << endl << endl;
 
       for(int vcount = 0; vcount < m_data[i]->getNumRows(); vcount++)
 	{
@@ -424,7 +426,8 @@ cepDataset cepDataset::filter(float low, float high)
     }
   }
 
-  return cepDataset(data[0], data[1], data[2], m_offset, m_procHistory + ": Zoomed");
+  return cepDataset(data[0], data[1], data[2], m_offset, m_procHistory + ": Zoomed",
+		    m_header);
 }
 
 // The display name of the dataset
