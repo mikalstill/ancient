@@ -408,7 +408,7 @@ object::getCommandStream(int index)
 	      else
 		cmd += "l\n";
 	    }
-	  cmd += "S\n";
+	  cmd += "S\n\n";
 	}
       break;
 
