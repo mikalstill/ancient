@@ -133,6 +133,39 @@ dictionary::getValue (string dname, dictionary & value)
   return false;
 }
 
+bool
+dictionary::getValue (string dname, pdf &thePDF, objectlist & objs)
+{
+  debug(dlTrace, string("Get objects named ") + dname + 
+	string(" from dictionary "));
+  for (unsigned int i = 0; i < m_items.size (); i++){
+    debug(dlTrace, string("Compare with: ") + m_items[i].getName());
+    if (m_items[i].getName () == dname)
+      {
+	debug(dlTrace, "Found");
+
+	switch(m_items[i].getType()){
+	case dictitem::diTypeObjectReference:
+	  objs.push_back(m_items[i].getObjectReferenceValue());
+	  break;
+	  
+	case dictitem::diTypeString:
+	  objs.push_back(m_items[i].getStringValue(), &thePDF);
+	  break;
+	  
+	default:
+	  debug(dlError, "Cannot convert type to an objectlist");
+	  return false;
+	}
+	
+	return true;
+      }
+  }
+
+  debug(dlTrace, "Not found");
+  return false;
+}
+
 vector < dictitem > dictionary::getItems ()
 {
   return m_items;

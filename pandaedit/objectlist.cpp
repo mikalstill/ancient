@@ -10,12 +10,51 @@ objectlist::objectlist ():
 {
 }
 
-objectlist::objectlist (string input, pdf* thePDF):
-  m_pdf (thePDF)
+objectlist::objectlist (string input, pdf* thePDF)
+{
+  push_back(input, thePDF);
+}
+
+object
+objectlist::operator[] (unsigned int i)
+{
+  // todo_mikal: this is a hack
+  object
+  foo (-1, -1);
+  object & obj = foo;
+  m_pdf->findObject (m_objects[i].number, m_objects[i].generation, obj);
+  return obj;
+}
+
+unsigned int
+objectlist::size ()
+{
+  return m_objects.size ();
+}
+
+void
+objectlist::push_back(const objectreference& ref)
+{
+  m_objects.push_back(ref);
+}
+
+void
+objectlist::push_back(const object &obj)
+{
+  objectreference temp;
+  temp.number = ((object) obj).getNumber();
+  temp.generation = ((object) obj).getGeneration();
+  m_objects.push_back(temp);
+}
+
+void
+objectlist::push_back(const string input, pdf *thePDF)
 {
   // There might be non numeric stuff in the first few characters which
   // we don't want. For instance Oracle Reports puts \r's after the [ and
   // before the ]...
+  m_pdf = thePDF;
+
   unsigned int startchar = 0;
   while(!isNumericCharacter(input[startchar], false))
     startchar++;
@@ -86,21 +125,4 @@ objectlist::objectlist (string input, pdf* thePDF):
 
   debug(dlTrace, string("Built a ") + toString(m_objects.size()) + 
 	string(" item list"));
-}
-
-object
-objectlist::operator[] (unsigned int i)
-{
-  // todo_mikal: this is a hack
-  object
-  foo (-1, -1);
-  object & obj = foo;
-  m_pdf->findObject (m_objects[i].number, m_objects[i].generation, obj);
-  return obj;
-}
-
-unsigned int
-objectlist::size ()
-{
-  return m_objects.size ();
 }

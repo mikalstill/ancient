@@ -14,8 +14,17 @@ using namespace std;
 #ifndef OBJECTMODEL_H
 #define OBJECTMODEL_H
 
+typedef struct
+{
+  int number;
+  int generation;
+}
+objectreference;
+
+// Forward references
 class dictionary;
 class object;
+class objectlist;
 class pdf;
 
 class dictitem
@@ -46,6 +55,7 @@ public:
   int getGeneration ();
   string getStringValue ();
   dictionary getDictionaryValue ();
+  objectreference getObjectReferenceValue ();
 
 private:
   diType m_type;
@@ -75,6 +85,7 @@ public:
   bool getValue (string dname, string & value);
   bool getValue (string dname, dictionary & subdict);
   bool getValue (string dname, int &value);
+  bool getValue (string dname, pdf &thePDF, objectlist & value);
 
   vector < dictitem > getItems ();
 
@@ -121,13 +132,6 @@ private:
   dictionary m_dictionary;
 };
 
-typedef struct
-{
-  int number;
-  int generation;
-}
-objectreference;
-
 class objectlist
 {
 public:
@@ -135,6 +139,9 @@ public:
   objectlist (string input, pdf* thePDF);
   object operator[] (unsigned int i);
   unsigned int size ();
+  void push_back(const objectreference &ref);
+  void push_back(const object &obj);
+  void push_back(const string objs, pdf* thePDF);
 
 private:
   vector < objectreference > m_objects;

@@ -17,7 +17,6 @@ char *inflateraster(char *input, unsigned long width, unsigned long height,
 pdfRender::pdfRender (pdf & thePDF, object page, object pages, int pageno):
 m_page (page),
 m_pages (pages),
-m_contents (-1, -1),
 m_mode (rmGraphics),
 m_invalid (true),
 m_plot (NULL),
@@ -27,12 +26,12 @@ m_pageno (pageno)
 {
   if (!m_page.hasDictItem (dictitem::diTypeObjectReference, "Contents"))
     {
-      debug(dlError, "Bad PDF: Page is blank");
+      debug(dlTrace, "Contents is not an object reference");
     }
   if (!m_page.getDict ().getValue ("Contents", m_pdf, m_contents))
     {
       debug(dlError,
-	       "Bad PDF: Could not get contents object, but the page references it!");
+	    "Bad PDF: Could not get contents object, but the page references it!");
     }
 
   m_invalid = false;
@@ -42,7 +41,6 @@ m_pageno (pageno)
 pdfRender::pdfRender (const pdfRender & other):
 m_page (-1, -1),
 m_pages (other.m_pages),
-m_contents (-1, -1),
 m_pdf (""),
 m_hasLine (false),
 m_pageno (-1)
@@ -54,6 +52,8 @@ pdfRender::render ()
 {
   // Find the size of the page and setup a plot
   // todo_mikal: fix this
+  debug(dlTrace, "Commence render");
+
   if (m_plot != NULL)
     debug(dlTrace, "Memory leak as render called more than once");
 
@@ -84,12 +84,20 @@ pdfRender::render ()
       return false;
     }
 
+  for(unsigned int i = 0; i < m_contents.size(); i++){
+    if(!processContentsObject(m_contents[i]))
+      return false;
+  }
+}
+
+bool
+pdfRender::processContentsObject(const object& contents){
   // Read the stream and action any commands
   char *stream;
   unsigned long inset, length;
   bool needStreamClean (false);
 
-  stream = m_contents.getStream (needStreamClean, length);
+  stream = ((object) contents).getStream (needStreamClean, length);
   debug(dlTrace, string("Process page stream of length ") + 
 	toString((long) length));
   if((stream == NULL) || (length == 0)){
@@ -160,6 +168,7 @@ pdfRender::processLine (string line)
 	pushArguement (tokens[i]);
       else if (isName (tokens[i]))
 	pushArguement (tokens[i]);
+
       else if ("b" == tokens[i])
 	command_b ();
       else if ("b*" == tokens[i])
@@ -170,58 +179,78 @@ pdfRender::processLine (string line)
 	command_Bstar ();
       else if ("BT" == tokens[i])
 	command_BT ();
+
       else if ("c" == tokens[i])
 	command_c ();
       else if ("cm" == tokens[i])
 	command_cm ();
+
       else if ("Do" == tokens[i])
 	command_Do ();
+
       else if ("ET" == tokens[i])
 	command_ET ();
+
       else if ("f" == tokens[i])
 	command_f ();
       else if ("f*" == tokens[i])
 	command_fstar ();
       else if ("F" == tokens[i])
 	command_F ();
+
       else if ("g" == tokens[i])
 	command_g ();
       else if ("G" == tokens[i])
 	command_G ();
+
       else if ("h" == tokens[i])
 	command_h ();
+
       else if ("l" == tokens[i])
 	command_l ();
+
       else if ("m" == tokens[i])
 	command_m ();
+
       else if ("q" == tokens[i])
 	command_q ();
       else if ("Q" == tokens[i])
 	command_Q ();
+
       else if ("re" == tokens[i])
 	command_re ();
       else if ("rg" == tokens[i])
 	command_rg ();
-      else if ("rg" == tokens[i])
+      else if ("RG" == tokens[i])
 	command_RG ();
+
       else if ("S" == tokens[i])
 	command_S ();
+
       else if ("Td" == tokens[i])
 	command_Td ();
+      else if ("TD" == tokens[i])
+	command_TD ();
       else if ("Tf" == tokens[i])
 	command_Tf ();
       else if ("Tj" == tokens[i])
 	command_Tj ();
+      else if ("TL" == tokens[i])
+	command_TL ();
       else if ("Tm" == tokens[i])
 	command_Tm ();
       else if ("Tr" == tokens[i])
 	command_Tr ();
+
       else if ("v" == tokens[i])
 	command_v ();
+
       else if ("w" == tokens[i])
 	command_w ();
+
       else if ("y" == tokens[i])
 	command_y ();
+
       else
 	debug(dlInformational, string("Dropped token ") + tokens[i]);
     }
@@ -300,6 +329,7 @@ pdfRender::command_BT ()
 
   m_mode = rmText;
   m_textMatrix.setIdentity ();
+  m_textLineMatrix = m_textMatrix;
 }
 
 void
@@ -587,12 +617,14 @@ pdfRender::command_m ()
   m_hasLine = true;
 }
 
+// Save graphics state
 void
 pdfRender::command_q ()
 {
   debug(dlInformational, "Save graphics state [not implemented]");
 }
 
+// Restore graphics state
 void
 pdfRender::command_Q ()
 {
@@ -686,7 +718,31 @@ pdfRender::command_S ()
 void
 pdfRender::command_Td ()
 {
-  debug(dlInformational, "Td [not implemented]");
+  matrix newvals;
+  float x, y;
+
+  y = atof (m_arguements.top ().c_str ());
+  m_arguements.pop ();
+  x = atof (m_arguements.top ().c_str ());
+  m_arguements.pop ();
+
+  newvals.setIdentity();
+  newvals.setVertical(y);
+  newvals.setHorizontal(x);
+
+  m_textMatrix = newvals * m_textLineMatrix;
+  m_textLineMatrix = m_textMatrix;
+}
+
+// Move text position and set leading
+void
+pdfRender::command_TD ()
+{
+  debug(dlInformational, "TD [not implemented]");
+  command_Td();
+
+  // Need to push -y back on here (I think)
+  command_TL();
 }
 
 void
@@ -754,6 +810,13 @@ pdfRender::command_Tj ()
   m_arguements.pop ();
 }
 
+// Set the text leading
+void
+pdfRender::command_TL ()
+{
+  debug(dlInformational, "TL [not implemented]");
+}
+
 // Set the text matrix
 void
 pdfRender::command_Tm ()
@@ -768,6 +831,7 @@ pdfRender::command_Tm ()
     }
 
   m_textMatrix.setValues (vals);
+  m_textLineMatrix = m_textMatrix;
 }
 
 void

@@ -126,3 +126,12 @@ dictitem::getDictionaryValue ()
   debug(dlTrace, "Value lookup failed");
   return m_dictionary;
 }
+
+objectreference
+dictitem::getObjectReferenceValue()
+{
+  objectreference ref;
+  ref.number = m_int;
+  ref.generation = m_generation;
+  return ref;
+}

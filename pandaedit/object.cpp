@@ -175,7 +175,9 @@ object::hasDictItem (dictitem::diType type, string dname)
 	}
       else
 	{
-	  debug(dlTrace, "Dictionary item type is wrong");
+	  debug(dlTrace, 
+		string("Dictionary item type is wrong. The item is of type: ") +
+		toString(item.getType()));
 	}
     }
   else

@@ -16,8 +16,10 @@ public:
   string getPNGfile ();
 
 private:
-    pdfRender (const pdfRender & other);
-
+  pdfRender (const pdfRender & other);
+  
+  bool processContentsObject(const object &obj);
+  
   void processLine (string line);
   void pushArguement (string arg);
 
@@ -45,8 +47,10 @@ private:
   void command_RG ();
   void command_S ();
   void command_Td ();
+  void command_TD ();
   void command_Tf ();
   void command_Tj ();
+  void command_TL ();
   void command_Tm ();
   void command_Tr ();
   void command_v ();
@@ -60,9 +64,10 @@ private:
     rmGraphics
   };
 
-  object m_page, m_pages, m_contents;
+  object m_page, m_pages;
+  objectlist m_contents;
   rmMode m_mode;
-  matrix m_textMatrix, m_graphicsMatrix;
+  matrix m_textMatrix, m_textLineMatrix, m_graphicsMatrix;
     stack < string > m_arguements;
   bool m_invalid;
   pdf m_pdf;
