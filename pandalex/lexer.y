@@ -23,7 +23,7 @@
 %token <textVal> FP <textVal> DBLLT <textVal> DBLGT 
 %token <textVal> STREAM <textVal> ENDSTREAM
 %token <textVal> ARRAY <textVal> ENDARRAY
-%token <textVal> PDFEOF
+%token <textVal> PDFEOF XREF TRAILER
 %token <textVal> ANYTHING
 
 %type <textVal> binary
@@ -38,7 +38,7 @@
 pdf       : header { 
                     pandalex_callback(gpandalex_callback_entireheader, 
 				      gpandalex_callback_type_string, $1); } 
-            objects xref trailer
+            object linear objects xref trailer
           ;
 
 header    : VERSION { 
@@ -48,8 +48,12 @@ header    : VERSION {
                     $$ = $3; }
           ;
 
-objects   : object objects
+linear    : xref trailer { }
           |
+          ;
+
+objects   : object objects
+          | 
           ;
 
 object    : INT INT OBJ { 
@@ -60,7 +64,13 @@ object    : INT INT OBJ {
   fprintf(stderr, "object %d %d\n", $1, $2);
 #endif
                           } 
-            DBLLT dict DBLGT stream ENDOBJ {}
+            dictionary stream ENDOBJ {}
+          ;
+
+dictionary: DBLLT dict DBLGT {}
+          | INT {}
+          | ARRAY dict ENDARRAY {}
+          |
           ;
 
 dict      : NAME STRING dict { 
@@ -111,18 +121,18 @@ stream    : STREAM { binaryMode = 1; } binary ENDSTREAM
           |
           ;
 
-binary    : ANYTHING { printf("Last thing was an anything\n"); } binary {}
+binary    : ANYTHING binary {}
           | {}
           ;
 
-xref      : STRING INT INT xrefitems {}
+xref      : XREF INT INT xrefitems {}
           ;
 
 xrefitems : INT INT STRING xrefitems {}
           |
           ;
 
-trailer   : STRING DBLLT dict DBLGT STRING INT PDFEOF {}
+trailer   : TRAILER DBLLT dict DBLGT STRING INT PDFEOF {}
           ;
 
 %%

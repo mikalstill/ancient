@@ -20,6 +20,14 @@ char *returnStr(char *);
                             return ANYTHING;
                           }                                                  }
 
+xref                    { debuglex(yytext, "xref", binaryMode);
+                          yylval.textVal = (char *) returnStr(yytext + 1);
+                          return((binaryMode == 0) ? XREF : ANYTHING);       }
+
+trailer                 { debuglex(yytext, "trailer", binaryMode);
+                          yylval.textVal = (char *) returnStr(yytext + 1);
+                          return((binaryMode == 0) ? TRAILER : ANYTHING);    }
+
 \/[a-zA-Z\-_0-9\.]+     { debuglex(yytext, "name", binaryMode);
                           yylval.textVal = (char *) returnStr(yytext + 1);
                           return((binaryMode == 0) ? NAME : ANYTHING);       }
@@ -61,7 +69,7 @@ endstream               { debuglex(yytext, "endstream", 0);
                           yylval.textVal = (char *) returnStr(yytext);
                           return((binaryMode == 0) ? STRING : ANYTHING);     }
 
-\([a-zA-Z0-9\.\ :'+\-_]+\) {
+[\[\(][<>a-zA-Z0-9\.\ :'+\-_\\\(\)]+[\)\]] {
                           debuglex(yytext, "bracketted string", binaryMode);
                           yylval.textVal = (char *) returnStr(yytext);
                           return((binaryMode == 0) ? STRING : ANYTHING);     }
