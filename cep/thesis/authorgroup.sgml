@@ -1,14 +1,15 @@
 <authorgroup>
-<author>
-  <firstname>Michael</firstname>
-  <surname>Still</surname>
-  <affiliation><jobtitle>964076</jobtitle></affiliation>
-</author>
 
 <author>
   <firstname>Daniel</firstname>
   <surname>Fernandez</surname>
   <affiliation><jobtitle>991672</jobtitle></affiliation>
+</author>
+
+<author>
+  <firstname>Michael</firstname>
+  <surname>Still</surname>
+  <affiliation><jobtitle>964076</jobtitle></affiliation>
 </author>
 
 <author>
@@ -18,14 +19,15 @@
 </author>
 
 <author>
+  <firstname>Kristy</firstname>
+  <surname>Van Der Vlist</surname>
+  <affiliation><jobtitle>983118</jobtitle></affiliation>
+</author>
+
+<author>
   <firstname>Nick</firstname>
   <surname>Wheatstone</surname>
   <affiliation><jobtitle>983131</jobtitle></affiliation>
 </author>
 
-<author>
-  <firstname>Kristy</firstname>
-  <surname>Van Der Vlist</surname>
-  <affiliation><jobtitle>983118</jobtitle></affiliation>
-</author>
 </authorgroup>

@@ -3,7 +3,7 @@
 all: thesis
 
 thesis: GDMSthesis.sgml GDMSthesis.ps GDMSthesis.pdf
-	striptext -c < techmanual.sgml | wc -w
+	striptext -c < GDMSthesis.sgml | wc -w
 
 GDMSthesis.sgml: thesis.sgml
 	builddb eps < thesis.sgml > GDMSthesis.sgml 2> GDMSthesis.log

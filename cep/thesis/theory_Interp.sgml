@@ -1,17 +1,21 @@
-<sect1><title>Interpolation</title> 
+<sect1><title>Interpolation</title>
 
 <sect2><title>Introduction</title>
+  <para></para>
 </sect2> <!--Introduction-->
 
 <sect2><title>Theory</title>
-ideas:
--req'd for data to be FFT'd - FFT data must be regular
--provides models for periods where data is not available
--need several techniques as no single technq. suits all applications.
+  <para>
+    ideas:
+    -req'd for data to be FFT'd - FFT data must be regular
+    -provides models for periods where data is not available
+    -need several techniques as no single technq. suits all applications.
+   </para>
 
 </sect2> <!--Theory-->
 
 <sect2><title>Conclusion</title>
+  <para></para>
 </sect2> <!--Conclusion-->
 
 

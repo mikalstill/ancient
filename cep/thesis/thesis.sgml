@@ -4,20 +4,36 @@
 <execute><cmd>builddb</cmd><input>authorgroup.sgml</input></execute>
 </bookinfo>
 
-<execute><cmd>builddb</cmd><input>theory_intro.sgml</input></execute>
-<execute><cmd>builddb</cmd><input>theory_TDA.sgml</input></execute>
-<execute><cmd>builddb</cmd><input>theory_Interp.sgml</input></execute>
-<execute><cmd>builddb</cmd><input>theory_Window.sgml</input></execute>
-<execute><cmd>builddb</cmd><input>theory_FDA.sgml</input></execute>
-<execute><cmd>builddb</cmd><input>theory_UI.sgml</input></execute>
-<execute><cmd>builddb</cmd><input>imp_design.sgml</input></execute>
-<execute><cmd>builddb</cmd><input>imp_proto.sgml</input></execute>
-<execute><cmd>builddb</cmd><input>imp_issues_TDA.sgml</input></execute>
-<execute><cmd>builddb</cmd><input>imp_issues_Interp.sgml</input></execute>
-<execute><cmd>builddb</cmd><input>imp_issues_window.sgml</input></execute>
-<execute><cmd>builddb</cmd><input>imp_issues_FDA.sgml</input></execute>
-<execute><cmd>builddb</cmd><input>imp_issues_UI.sgml</input></execute>
-<execute><cmd>builddb</cmd><input>imp_Testing.sgml</input></execute>
-<execute><cmd>builddb</cmd><input>conclsusion.sgml</input></execute>
+<chapter><title> Theory </title>
+  <execute><cmd>builddb</cmd><input>theory_intro.sgml</input></execute>
+  <execute><cmd>builddb</cmd><input>theory_TDA.sgml</input></execute>
+  <execute><cmd>builddb</cmd><input>theory_Interp.sgml</input></execute>
+  <execute><cmd>builddb</cmd><input>theory_Window.sgml</input></execute>
+  <execute><cmd>builddb</cmd><input>theory_FDA.sgml</input></execute>
+  <execute><cmd>builddb</cmd><input>theory_UI.sgml</input></execute>
+</chapter>
+
+<chapter><title>Implementation</title>
+
+  <execute><cmd>builddb</cmd><input>imp_design.sgml</input></execute>
+  <execute><cmd>builddb</cmd><input>imp_proto.sgml</input></execute>
+
+  <sect1><title>Implementation Issues</title>
+    <execute><cmd>builddb</cmd><input>imp_issues_TDA.sgml</input></execute>
+    <execute><cmd>builddb</cmd><input>imp_issues_Interp.sgml</input></execute>
+    <execute><cmd>builddb</cmd><input>imp_issues_window.sgml</input></execute>
+    <execute><cmd>builddb</cmd><input>imp_issues_FDA.sgml</input></execute>
+    <execute><cmd>builddb</cmd><input>imp_issues_UI.sgml</input></execute>
+  </sect1>
+
+</chapter>
+
+<chapter><title>Testing</title>
+  <execute><cmd>builddb</cmd><input>imp_Testing.sgml</input></execute>
+</chapter>
+
+<chapter><title>Conclusion</title>
+  <execute><cmd>builddb</cmd><input>conclusion.sgml</input></execute>
+</chapter>
 
 </book>

@@ -3,6 +3,7 @@
 <sect2><title>Windowing</title>
 
   <sect3><title>Introduction</title>
+    <para></para>
   </sect3> <!--Introduction-->
 
   <sect3><title>Research</title>
@@ -14,17 +15,16 @@
   </sect3> <!--research-->
 
   <sect3><title>Implementation</title>
-  <para>
+    <para>
        - How was it done?
        - Speed/ Optimisations
-  </para>      
+    </para>
   </sect3> <!--Implementation-->
-  
-  <sect3><title>Future Enahncements</title>
-  <para>
-  </para>
-  </sect3> <!--Future Enahncements-->
 
+  <sect3><title>Future Enahncements</title>
+    <para>
+    </para>
+  </sect3> <!--Future Enahncements-->
 
 </sect2> <!--Windowing-->
 

@@ -3,31 +3,32 @@
 <sect2><title>User Interface</title>
 
   <sect3><title>Introduction</title>
+    <para></para>
   </sect3> <!--Introduction-->
 
   <sect3><title>Research</title>
-  <para>
+    <para>
      - wxWindows etc...
      - Assess alternative stuff
-  </para>
+    </para>
   </sect3> <!--research-->
 
   <sect3><title>Implementation</title>
-  <para>
+    <para>
        - How was it done?
        - Speed/ Optimisations
-  </para>      
+    </para>
   </sect3> <!--Implementation-->
-  
+
   <sect3><title>Integration</title>
+    <para></para>
   </sect3> <!--Integration-->
 
 
   <sect3><title>Future Enahncements</title>
-  <para>
-  </para>
+    <para>
+    </para>
   </sect3> <!--Future Enahncements-->
-
 
 </sect2> <!--UI-->
 

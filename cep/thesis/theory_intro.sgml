@@ -1,54 +1,52 @@
-<sect1><title>Background</title> 
+<sect1><title>Background</title>
 
-<para> 
-This package is intended for use in the analysis of GPS <footnote><para>Global Positioning System</para></footnote>, VLBI
-<footnote><para>Very Long Baseline Interferometry</para></footnote> and SLR <footnote><para>Satellite Laser Ranging</para></footnote> data on
-tectonic movement. The data is extensive, covering around ten years of measurements from stations around the globe. The
-GPS, VLBI, and SLR data have various anomalies due to their different vulnerabilies to conditions, such as delay due to the
-ionosphere, temperature, and other considerations including projected stellite orbits.
+<para>
+  This package is intended for use in the analysis of GPS <footnote><para>Global Positioning System</para></footnote>, VLBI
+  <footnote><para>Very Long Baseline Interferometry</para></footnote> and SLR <footnote><para>Satellite Laser Ranging</para></footnote> data on
+  tectonic movement. The data is extensive, covering around ten years of measurements from stations around the globe. The
+  GPS, VLBI, and SLR data have various anomalies due to their different vulnerabilies to conditions, such as delay due to the
+  ionosphere, temperature, and other considerations including projected stellite orbits.
 </para>
 
 <para>
-In an attempt to overcome these,
-we need to perform various transformations on the data, and compare these results. It is intended to
-do this by taking the two input data sets, in a defined format, and through analysis in both the time and frequency
-domains, merge the data sets into a new data set, making use of those parts of the GPS, VLBI and SLR data which contain
-the least noise. Some of the techniques employed during this data processing wil include, Least Squares regression, Fast Fourier Transforms
-(FFT), Gaussian filter, Gabor transforms (specgrams) and Power Spectral Density plots (PSD).
+  In an attempt to overcome these,
+  we need to perform various transformations on the data, and compare these results. It is intended to
+  do this by taking the two input data sets, in a defined format, and through analysis in both the time and frequency
+  domains, merge the data sets into a new data set, making use of those parts of the GPS, VLBI and SLR data which contain
+  the least noise. Some of the techniques employed during this data processing wil include, Least Squares regression, Fast Fourier Transforms
+  (FFT), Gaussian filter, Gabor transforms (specgrams) and Power Spectral Density plots (PSD).
 </para>
 
 
 <para>
-Other ideas:
+  Other ideas:
 
-Various organisations around the world collect data from a variety of sources, such as GPS, VLBI and SLR monitoring stations. This data 
-provides information regarding among other things, tectonic plate movement. This allows organisations to draw conclusions to the level 
-of continental drift, ocean levels, etc.
+  Various organisations around the world collect data from a variety of sources, such as GPS, VLBI and SLR monitoring stations. This data
+  provides information regarding among other things, tectonic plate movement. This allows organisations to draw conclusions to the level
+  of continental drift, ocean levels, etc.
 </para>
 
 <para>
-Before the data can be interpreted, it must be processed. This, as with most raw data, involves shaping it into a format which can be 
-readily understood by people, and in almost all cases software. Information from data is general more readily extracted from graphical 
-forms, enabling for example, trends in the data to be seen if they exist. The next step is to be able to take into consideration various 
-circumstances that may arrise during monitoring. There may be changes in equipment, malfunctionions, bad or whether, or as many cases, 
-noise in the data. Before drawing any conlusions from the data, people need to be certain that they are dealing with only the necessary 
-information.
-<para/>
-
-<para>
-It is at this point, that software becomes an important tool. It can be used to model certain situtations or remove unwanted data. For 
-example if a know malfunction was noted at a given time, the modelling process can deal with this event by perhaps removing the data, 
-or applying we-weighting algorithms to the data etc. 
+  Before the data can be interpreted, it must be processed. This, as with most raw data, involves shaping it into a format which can be
+  readily understood by people, and in almost all cases software. Information from data is general more readily extracted from graphical
+  forms, enabling for example, trends in the data to be seen if they exist. The next step is to be able to take into consideration various
+  circumstances that may arrise during monitoring. There may be changes in equipment, malfunctionions, bad or whether, or as many cases,
+  noise in the data. Before drawing any conlusions from the data, people need to be certain that they are dealing with only the necessary
+  information.
 </para>
 
 <para>
-In many cases with data analysis, there is a need to view different representions of the data, for example, in the Frequency Domain. 
-Once again, this may allow the identification of trend or patterns. What happens when the frequency of the monitoring decreases or 
-increases? Such questions can assist in more accurate and informed conlcusions as to what exactly the data is saying.
+  It is at this point, that software becomes an important tool. It can be used to model certain situtations or remove unwanted data. For
+  example if a know malfunction was noted at a given time, the modelling process can deal with this event by perhaps removing the data,
+  or applying we-weighting algorithms to the data etc.
+</para>
+
+<para>
+  In many cases with data analysis, there is a need to view different representions of the data, for example, in the Frequency Domain.
+  Once again, this may allow the identification of trend or patterns. What happens when the frequency of the monitoring decreases or
+  increases? Such questions can assist in more accurate and informed conlcusions as to what exactly the data is saying.
 </para>
 
 </sect1> <!--backgorund-->
- 
-</chapter> 
- 
- 
+
+

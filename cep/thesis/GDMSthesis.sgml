@@ -1,0 +1,615 @@
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
+<book><bookinfo>
+<title>GDMS: Thesis</title>
+<authorgroup>
+<author>
+  <firstname>Michael</firstname>
+  <surname>Still</surname>
+  <affiliation><jobtitle>964076</jobtitle></affiliation>
+</author>
+
+<author>
+  <firstname>Daniel</firstname>
+  <surname>Fernandez</surname>
+  <affiliation><jobtitle>991672</jobtitle></affiliation>
+</author>
+
+<author>
+  <firstname>Blake</firstname>
+  <surname>Swadling</surname>
+  <affiliation><jobtitle>982087</jobtitle></affiliation>
+</author>
+
+<author>
+  <firstname>Nick</firstname>
+  <surname>Wheatstone</surname>
+  <affiliation><jobtitle>983131</jobtitle></affiliation>
+</author>
+
+<author>
+  <firstname>Kristy</firstname>
+  <surname>Van Der Vlist</surname>
+  <affiliation><jobtitle>983118</jobtitle></affiliation>
+</author>
+</authorgroup>
+</bookinfo>
+
+<chapter><title> Theory </title>
+  <sect1><title>Background</title>
+
+<para>
+  This package is intended for use in the analysis of GPS <footnote><para>Global Positioning System</para></footnote>, VLBI
+  <footnote><para>Very Long Baseline Interferometry</para></footnote> and SLR <footnote><para>Satellite Laser Ranging</para></footnote> data on
+  tectonic movement. The data is extensive, covering around ten years of measurements from stations around the globe. The
+  GPS, VLBI, and SLR data have various anomalies due to their different vulnerabilies to conditions, such as delay due to the
+  ionosphere, temperature, and other considerations including projected stellite orbits.
+</para>
+
+<para>
+  In an attempt to overcome these,
+  we need to perform various transformations on the data, and compare these results. It is intended to
+  do this by taking the two input data sets, in a defined format, and through analysis in both the time and frequency
+  domains, merge the data sets into a new data set, making use of those parts of the GPS, VLBI and SLR data which contain
+  the least noise. Some of the techniques employed during this data processing wil include, Least Squares regression, Fast Fourier Transforms
+  (FFT), Gaussian filter, Gabor transforms (specgrams) and Power Spectral Density plots (PSD).
+</para>
+
+
+<para>
+  Other ideas:
+
+  Various organisations around the world collect data from a variety of sources, such as GPS, VLBI and SLR monitoring stations. This data
+  provides information regarding among other things, tectonic plate movement. This allows organisations to draw conclusions to the level
+  of continental drift, ocean levels, etc.
+</para>
+
+<para>
+  Before the data can be interpreted, it must be processed. This, as with most raw data, involves shaping it into a format which can be
+  readily understood by people, and in almost all cases software. Information from data is general more readily extracted from graphical
+  forms, enabling for example, trends in the data to be seen if they exist. The next step is to be able to take into consideration various
+  circumstances that may arrise during monitoring. There may be changes in equipment, malfunctionions, bad or whether, or as many cases,
+  noise in the data. Before drawing any conlusions from the data, people need to be certain that they are dealing with only the necessary
+  information.
+</para>
+
+<para>
+  It is at this point, that software becomes an important tool. It can be used to model certain situtations or remove unwanted data. For
+  example if a know malfunction was noted at a given time, the modelling process can deal with this event by perhaps removing the data,
+  or applying we-weighting algorithms to the data etc.
+</para>
+
+<para>
+  In many cases with data analysis, there is a need to view different representions of the data, for example, in the Frequency Domain.
+  Once again, this may allow the identification of trend or patterns. What happens when the frequency of the monitoring decreases or
+  increases? Such questions can assist in more accurate and informed conlcusions as to what exactly the data is saying.
+</para>
+
+</sect1> <!--backgorund-->
+
+
+  <sect1><title>Time Domain Analysis</title>
+
+<sect2><title>Introduction</title>
+   <para></para>
+</sect2> <!--Introduction-->
+
+<sect2><title>Theory</title>
+  <para></para>
+</sect2> <!--Theory-->
+
+<sect2><title>Conclusion</title>
+  <para></para>
+</sect2> <!--Conclusion-->
+
+</sect1> <!--TDA-->
+
+  <sect1><title>Interpolation</title>
+
+<sect2><title>Introduction</title>
+  <para></para>
+</sect2> <!--Introduction-->
+
+<sect2><title>Theory</title>
+  <para>
+    ideas:
+    -req'd for data to be FFT'd - FFT data must be regular
+    -provides models for periods where data is not available
+    -need several techniques as no single technq. suits all applications.
+   </para>
+
+</sect2> <!--Theory-->
+
+<sect2><title>Conclusion</title>
+  <para></para>
+</sect2> <!--Conclusion-->
+
+
+</sect1> <!--Interpolation-->
+
+  <sect1><title>Windowing</title>
+
+<sect2><title>Introduction</title>
+  <para></para>
+</sect2> <!--Introduction-->
+
+<sect2><title>Theory</title>
+  <para>
+   Ideas:
+   - Helps reduce spectral leakage for when a signla is transformed into the freq. domain
+   - Trade off - between amplitude accuracy, frequency accuracy, and noise reduction.
+   - Need several as no single windowing algorithm suits all appplications
+  </para>
+
+</sect2> <!--Theory-->
+
+<sect2><title>Conclusion</title>
+  <para></para>
+</sect2> <!--Conclusion-->
+
+</sect1> <!--Windowing-->
+
+  <sect1><title>Frequency Domain Analysis</title>
+
+<sect2><title>Introduction</title>
+
+<para>
+  Fourier transforms enable us to view the frequency representation of data that exists in the time domain. In visual terms, the
+  result is frequency on the horizontal axis with amplitude on the vertical. From such a graph, we can see details of what is happening in
+  the data at particular frequencies. This provides for opportunities such as the removal of erroneous frequencies in the given data set
+  and noise reduction. Once the desired actions have been carried out in the frequency domain, an inverse transform can be applied to
+  return the data to the time domain.
+
+  Another use of Fourier Transforms are to produce Power Spectral Density (PSD) plots.
+
+</para>
+
+</sect2> <!--Introduction-->
+
+
+
+<sect2><title>Theory</title>
+
+<para>
+  The concepts of frequency domain analysis should commence with the Fourier transform. Any waveform can be constructed purely from sine
+  and cosine waves. An example of this is a pure square wave. It is constructed from the following:
+  <equation>
+    <title>Square Wave</title>
+    <alt>x(n) = sin(f) + 1/3*sin(3f) + 1/5*(sin5f)</alt>
+    <graphic format="eps" fileref="gen-forward_fourier.eps">
+  </equation>
+</para>
+
+<para>
+	...for all odd harmonics. Where f is the fundamental frequency.
+</para>
+
+<para>
+  It therefore stand to reason that any waveform can be broken down into to these sine and cosine components. The
+  Fourier transform is such a tool to carry out this analysis. The Fourier transform effectively analysis a given input signal, by
+  decomposing it into those sinusoids of different frequencies, that sum the original signal.
+</para>
+
+<para>
+  The resulting function from a Fourier transform is function of frequency. This can be expressed in terms of frequency f, or angular
+  frequency. The Fourier transform of a signal x(n) is:
+
+  <equation>
+    <title>Fourier Transform</title>
+    <graphic format="eps" fileref="gen-forward_fourier.eps">
+  </equation>
+</para>
+
+<para>
+  We can also computer the inverse Fourier transform, returning us a function of time:
+
+  <equation>
+    <title>Inverse Fourier Transform</title>
+    <alt>x(n) = 1/2pi * int( X( e^(jw) ) * e^(jwn) )dw - where w = 2pif</alt>
+    <graphic format="eps" fileref="gen-inverse_fourier.eps">
+  </equation>
+</para>
+
+<para>
+  The above transforms, are not however, available for all sequences x(n). This is where the Discrete Fourier transform (DFT) comes in. It
+  restricts the sequence x(n) to the following conditions:
+</para>
+
+<para>
+<itemizedlist>
+<listitem><para> The N values x(0) ... x(N-1).</para></listitem>
+<listitem><para> Equidistant values around the unit circle.</para></listitem>
+</itemizedlist>
+</para>
+
+<para>
+ The formula for the DFT is:
+
+  <equation>
+    <title>Forward Discrete Fourier Transform</title>
+    <alt>X(k) = X(e^(j2pik/N)) = sum from n=0 ..N-1 ( x(n)*e^(-j2pikn/N) )</alt>
+    <graphic format="eps" fileref="gen-forward_discrete_fourier.eps">
+  </equation>
+
+  and the inverse DFT:
+
+  <equation>
+    <title>Inverse Discrete Fourier Transform</title>
+    <alt>x(n) = 1/N * sum from n-0..N-1(X(k)*e^(j2pikn/N))</alt>
+    <graphic format="eps" fileref="gen-inverse_discrete_fourier.eps">
+  </equation>
+
+  The discrete frequency k above is given by f(k) = k*fs/N where fs is the sampling frequency of the signal.
+</para>
+
+<para>
+  The problem with the DFT is that it is slow, with O(N^2). This brought about the Fast Fourier transform.
+  The Fast Fourier transform takes into account that the DFT wastes a good deal of time with unnecessary multiplications. For example,
+  there is no need to multiply something by zero, when the zero can be used outright. Given that multiplication is one of the slower
+  instructions on computers, this is a time saver. Another area where the FFT screams efficiency, is that it takes into account the fact
+  that value repeat in sinusoids. For example, every 90 degrees, the value 1 reappears on a sine or cosine changing only its sine. Therefore
+  many results may determined by taking into account these factors. Through this increased efficiency, the FFT reduces the computation
+  time to O(NlogN).
+</para>
+
+<para>
+  The power spectrum is very useful in signal processing. It is the most common frequency measuremnt, allowing you to find how much energy
+  exists at a given frequency. Derived from the power spectrum is the power spectral density (PSD) measurment. A PSD plot provides
+  information on how much energy exists in a band of frequencies. This technique is particularly useful for measuring the noise content
+  in a signal. A PSD plot is created by plotting the magnitude of the real and imaginary components of the FFT results.
+</para>
+
+
+</sect2> <!--Theory-->
+
+
+<sect2><title>Conclusion</title>
+  <para></para>
+</sect2> <!--Conclusion-->
+
+</sect1> <!--FDA-->
+
+  <sect1><title>User Interface</title>
+
+<sect2><title>Introduction</title>
+  <para></para>
+</sect2> <!--Introduction-->
+
+<sect2><title>Theory</title>
+  <para></para>
+</sect2> <!--Theory-->
+
+<sect2><title>Conclusion</title>
+  <para></para>
+</sect2> <!--Conclusion-->
+
+</sect1> <!--UI-->
+
+</chapter>
+
+<chapter><title>Implementation</title>
+
+  <sect1><title>Design Philosophy</title>
+
+<sect2><title>Introduction</title>
+
+<para>
+The first design requirement for the GDMS project, was that it be licensed un the GNU General Public
+License. The reason for this is to allow access to the software by people who are not necessarily in a
+position to use propriatry software. The GDMS package is complex and relies on a number of external
+libraries for mathematical and graphical functionality. Similar pripriatry libraries can be very
+expensive.
+</para>
+
+<para>
+The second issue here, which is in fact related to the first, is the need to have a package which is
+as platform independant as possible. This contributed significantly to the choice of programming
+language. In using  ANSI ISO compliant C++, the GDMS package is intended to run on most Unix based
+operating systems. 
+</para>
+
+<para>
+The next important design desicion involves the methodologies used to design implement the GDMS
+package. Given the complexity of the system, the Object Oriented approach was deemed the most
+suitable. Using OO, the package lends itself well to future enhancements, maintenance and
+extensibility. In fact, throught the implementation process, changes in design were required to
+suit the reuirements of the growing system. These changes, although not always trivial, were faciliated by
+the use of OO methodology.
+</para>
+
+
+</sect2> <!--Introduction-->
+
+<sect2><title>Theory</title>
+
+  <para>
+    - ANSI ISO stuff
+  </para>
+
+  <para>
+    - Serious OO talk
+   </para>
+
+</sect2> <!--Theory-->
+
+<sect2><title>Future Enahncements</title>
+  <!--may want to integrate this with conclusion?-->
+  <para></para>
+</sect2> <!--Future Enahncements-->
+
+<sect2><title>Conclusion</title>
+  <para></para>
+</sect2> <!--Conclusion-->
+
+</sect1> <!--design-->
+
+  <sect1><title>Prototype</title>
+
+  <sect2><title>Introduction</title>
+    <para>
+      Matlab, Functionality etc..
+    </para>
+
+    <para>
+      The MATLAB prototype was the minimum requirement of the project. It was to carry out all of the essential
+      mathematical functionality providing not only a working model, however also acting as a test bed for final
+      product functionality. Most of the features implemented in C++ were tested in this way to ensure correct and
+      consistent results. Limited time was spent on dressing the prototype as it was completed early enough in the
+      project for group to be able turn to the full implementation in C++.
+    </para>
+
+  </sect2> <!--Introduction-->
+
+  <sect2><title>Theory</title>
+    <para>
+      Research also - TSView etc..
+    </para>
+  </sect2> <!--Theory-->
+
+  <sect2><title>Conclusion</title>
+    <para></para>
+  </sect2> <!--Conclusion-->
+
+</sect1> <!--Proto-->
+
+
+  <sect1><title>Implementation Issues</title>
+    <!--these sections will sit under sect1 - Implementation Issues-->
+
+<sect2><title>Time Domain Analysis</title>
+
+  <sect3><title>Introduction</title>
+    <para></para>
+  </sect3> <!--Introduction-->
+
+  <sect3><title>Least Squares and Residuals</title>
+    <para></para>
+    <sect4><title>Research</title>
+      <para>
+         - Which algorithms?
+         - Asses alternative algorithms
+      </para>
+    </sect4> <!--research-->
+  </sect3> <!--LS/residuals-->
+
+  <sect3><title>Implementation</title>
+    <para>
+      - Speed/ Optimisations
+    </para>
+  </sect3> <!--Implementation-->
+
+  <sect3><title>Future Enahncements</title>
+    <para>
+    </para>
+  </sect3> <!--Future Enahncements-->
+
+</sect2> <!--TDA-->
+
+
+    <!--these sections will sit under sect1 - Implementation Issues-->
+
+<sect2><title>Interpolation</title>
+
+  <para></para>
+
+  <sect3><title>Introduction</title>
+    <para></para>
+  </sect3> <!--Introduction-->
+
+  <sect3><title>Research</title>
+    <para>
+     - Splines etc..
+     - Which algorithms?
+     - Assess alternative algorithms
+    </para>
+  </sect3> <!--research-->
+
+  <sect3><title>Implementation</title>
+    <para>
+       - How was it done?
+       - Speed/ Optimisations
+    </para>
+  </sect3> <!--Implementation-->
+
+  <sect3><title>Future Enahncements</title>
+    <para>
+    </para>
+  </sect3> <!--Future Enahncements-->
+
+</sect2> <!--Interp-->
+
+    <!--these sections will sit under sect1 - Implementation Issues-->
+
+<sect2><title>Windowing</title>
+
+  <sect3><title>Introduction</title>
+    <para></para>
+  </sect3> <!--Introduction-->
+
+  <sect3><title>Research</title>
+    <para>
+       - Hamming, blackman, chebychev, etc..
+       - Which algorithms?
+       - Assess alternative algorithms
+    </para>
+  </sect3> <!--research-->
+
+  <sect3><title>Implementation</title>
+    <para>
+       - How was it done?
+       - Speed/ Optimisations
+    </para>
+  </sect3> <!--Implementation-->
+
+  <sect3><title>Future Enahncements</title>
+    <para>
+    </para>
+  </sect3> <!--Future Enahncements-->
+
+</sect2> <!--Windowing-->
+
+    <!--these sections will sit under sect1 - Implementation Issues-->
+
+<sect2><title>Frequency Domain Analysis</title>
+
+  <sect3><title>Introduction</title>
+    <para></para>
+  </sect3> <!--Introduction-->
+
+  <sect3><title>Research</title>
+    <para>
+       - FFTW etc..
+       - Which algorithms?
+       - Assess alternative algorithms
+    </para>
+
+  <para>
+     Why FFT template class?
+
+     A considerable amount of time was spend researching the FFTW (Fastest Fourier
+     Transform in the West) library written in C. The library is considered by many sources to be the most
+     correct, efficient, and probably the most widely used. Tests were carried out with the library  to
+     ensure it could be well integrated with GDMS.
+  </para>
+
+  <para>
+     During this testing process, another FFT library was found. This was a simple template class written
+     in C++. Testing was carried out with this class and it was decided that it would be more easily
+     integrated with GDMS, suiting the system's paradigm. During closer inspection and testing of the
+     template class, it was discovered that that is did have limitations and required some modifications.
+     The necessary changes were made and it was integrated. Although it is quite likely that FFTW has
+     greater levels of efficiency and flexibility, the template class offered a more consistent solution
+     for GDMS.
+   </para>
+
+   <para>
+     The group did intend to employ the use of FFTW is time allowed in order to surpass the restrictions of
+     the template class, however this was not to be the case.
+   </para>
+
+  </sect3> <!--research-->
+
+  <sect3><title>Implementation</title>
+     <para>
+       - FFT, PSD
+       - How was it done?
+       - Speed/ Optimisations
+    </para>
+  </sect3> <!--Implementation-->
+
+  <sect3><title>Future Enahncements</title>
+    <para>
+    </para>
+  </sect3> <!--Future Enahncements-->
+
+</sect2> <!--FDA-->
+
+    <!--these sections will sit under sect1 - Implementation Issues-->
+
+<sect2><title>User Interface</title>
+
+  <sect3><title>Introduction</title>
+    <para></para>
+  </sect3> <!--Introduction-->
+
+  <sect3><title>Research</title>
+    <para>
+     - wxWindows etc...
+     - Assess alternative stuff
+    </para>
+  </sect3> <!--research-->
+
+  <sect3><title>Implementation</title>
+    <para>
+       - How was it done?
+       - Speed/ Optimisations
+    </para>
+  </sect3> <!--Implementation-->
+
+  <sect3><title>Integration</title>
+    <para></para>
+  </sect3> <!--Integration-->
+
+
+  <sect3><title>Future Enahncements</title>
+    <para>
+    </para>
+  </sect3> <!--Future Enahncements-->
+
+</sect2> <!--UI-->
+
+  </sect1>
+
+</chapter>
+
+<chapter><title>Testing</title>
+  <!--these sections will sit under sect1 - Implementation Issues-->
+
+<sect1><title>Testing</title>
+
+  <sect2><title>User Interface Testing</title>
+  
+    <sect3><title>Introduction</title>
+      <para></para>
+    </sect3> <!--Introduction-->
+
+    <sect3><title>Future Enahncements</title>
+    <!--Do we want/need this here?-->
+      <para></para>
+    </sect3> <!--Future Enahncements-->
+
+  </sect2> <!--UI Testing-->
+
+
+  <sect2><title>Unit Testing</title>
+
+    <sect3><title>Introduction</title>
+      <para></para>
+    </sect3> <!--Introduction-->
+
+    <sect3><title>Future Enahncements</title>
+    <!--Do we want/need this here?-->
+    <para></para>
+    </sect3> <!--Future Enahncements-->
+  </sect2> <!--UI Testing-->
+
+</sect1> <!--Testing-->
+
+</chapter>
+
+<chapter><title>Conclusion</title>
+  <sect1><title>Conclusion</title>
+<para>
+<itemizedlist>
+  <listitem><para>What did we do?</para></listitem>
+  <listitem><para>Did we succeed?</para></listitem>
+  <listitem><para>Good or bad result?</para></listitem>
+  <listitem><para>What did we learn?</para></listitem>
+  <listitem><para>Summarise lessons</para></listitem>
+  <listitem><para>Summarise future enhancements</para></listitem>
+</itemizedlist>
+</para>
+</sect1> <!--Conclusion-->
+
+</chapter>
+
+</book>
