@@ -37,12 +37,16 @@ void fileutil_insertshort(FILE *output, int value){
 
 // Display a C++ serialized string
 void fileutil_displaystring(char *input, char *format, long long *filep){
-  int i, read, readlocal;
+  int i, j, read, readlocal;
   long long count = *filep;
 
   // Determine the length of the file -- this matches C++ CString serialization
-  // The byte length broke MFC serialization
-  //i = fileutil_displaybyte(input, "  Length might be a byte: ", &count); printf("\n");
+  // STD C i = fileutil_displaybyte(input, "  Length might be a byte: ", &count); printf("\n");
+
+  // Tweak needed for MFC serialization, untested for std C
+  // STD C if(i != 0){
+  // STD C   count--;
+
   //if(i == 0xFF){
   i = fileutil_displayshort(input, "  Length might be a short: ", &count); printf("\n");
   if(i == 0xFFFF){
@@ -50,9 +54,10 @@ void fileutil_displaystring(char *input, char *format, long long *filep){
     printf("\n");
   }
   //}
-
+  // STD C }
+  
   printf(format, i);
-  for(; i != 0; i--){
+  for(j = i; j != 0; j--){
     printf("%c", input[count++]);
   }
 
@@ -86,6 +91,16 @@ int fileutil_displaynumber(char *input, char *format, long long *filep){
 // Display a C++ serialized number
 unsigned int fileutil_displayunumber(char *input, char *format, 
 				     long long *filep){
+  int i;
+
+  i = fileutil_getunumber(input, filep);
+  printf(format);
+  printf("%u", (unsigned int) i);
+  return i;
+}
+
+// Get a C++ serialized number
+unsigned int fileutil_getunumber(char *input, long long *filep){
   int i, read, readlocal;
   long long count = *filep;
 
@@ -95,13 +110,6 @@ unsigned int fileutil_displayunumber(char *input, char *format,
   if(i == 0xFFFF){
     i = fileutil_displayinteger(input, "  Value might be an integer: ", 
 				&count);
-    printf("\n");
-    printf(format);
-    printf("%u", (unsigned int) i);
-  }
-  else{
-    printf(format);
-    printf("%u", (unsigned int) i);
   }
 
   *filep = count;
@@ -147,37 +155,57 @@ long fileutil_displaylong(char *input, char *format, long long *filep){
 }
 
 // Display a 4 byte int
-int fileutil_displayinteger(char *input, char *format, long long *filep){
+int fileutil_displayinteger(char *input, char *format, 
+				      long long *filep){
+  long long count = *filep;
+  int i;
+
+  printf(format);
+  i = fileutil_getinteger(input, &count);
+  *filep = count;
+
+  printf("(int) %u [4 bytes]", i);
+  return i;
+}
+
+// Display a 4 byte int
+int fileutil_getinteger(char *input, long long *filep){
   mint32 myint;
 
   myint.i = 0;
-  printf(format);
-
   myint.c[0] = input[*filep]; 
   myint.c[1] = input[*filep + 1];
   myint.c[2] = input[*filep + 2]; 
   myint.c[3] = input[*filep + 3]; 
   *filep += 4;
 
-  printf("(int) %d [4 bytes]", myint.i);
   return myint.i;
 }
 
 // Display a 4 byte unsigned int (DWORD)
 unsigned int fileutil_displayuinteger(char *input, char *format, 
 				      long long *filep){
+  long long count = *filep;
+  unsigned int i;
+
+  printf(format);
+  i = fileutil_getuinteger(input, &count);
+  *filep = count;
+
+  printf("(unsigned int) %u [4 bytes]", i);
+  return i;
+}
+
+// Get a 4 byte unsigned int (DWORD)
+unsigned int fileutil_getuinteger(char *input, long long *filep){
   mint32 myint;
 
   myint.i = 0;
-  printf(format);
-
   myint.c[0] = input[*filep]; 
   myint.c[1] = input[*filep + 1];
   myint.c[2] = input[*filep + 2]; 
   myint.c[3] = input[*filep + 3]; 
   *filep += 4;
-
-  printf("(unsigned int) %u [4 bytes]", (unsigned int) myint.i);
   return myint.i;
 }
 
@@ -195,17 +223,29 @@ int fileutil_displayshort(char *input, char *format, long long *filep){
   return myint.i;
 }
 
+// Display a 4 byte unsigned int (DWORD)
+unsigned int fileutil_displayushort(char *input, char *format, 
+				      long long *filep){
+  long long count = *filep;
+  unsigned int i;
+
+  printf(format);
+  i = fileutil_getushort(input, &count);
+  *filep = count;
+
+  printf("(unsigned short) %u [2 bytes]", i);
+  return i;
+}
+
 // Display an unsigned short, 2 bytes
-unsigned int fileutil_displayushort(char *input, char *format, long long *filep){
+unsigned int fileutil_getushort(char *input, long long *filep){
   mint32 myint;
 
   myint.i = 0;
-  printf(format);
   myint.c[0] = input[*filep]; 
   myint.c[1] = input[*filep + 1]; 
   *filep += 2;
 
-  printf("(unsigned short) %u [2 bytes]", (unsigned int) myint.i);
   return myint.i;
 }
 
@@ -214,7 +254,7 @@ char *fileutil_displaybyteblock(char *input, char *format, int len, long long *f
   unsigned char *result;
   long long consumed = *filep;
 
-  printf("%s (%d bytes) ", format, len);
+  printf("%s (%d bytes) 0x", format, len);
   if((result = (unsigned char *) malloc(sizeof(char) * len)) == NULL){
     fprintf(stderr, "Memory allocation error\n");
     return NULL;
@@ -239,7 +279,7 @@ int fileutil_displaybyte_actual(char *input, char *format, long long *filep){
 
   printf(format);
   byte = input[*filep]; 
-  printf("%d", byte);
+  printf("%x(%d) ", byte, byte);
   *filep += 1;
   return byte;
 }

@@ -9,14 +9,22 @@ void fileutil_insertshort(FILE *, int);
 
 void fileutil_displaystring(char *, char *, long long *);
 int fileutil_displaynumber(char *, char *, long long *);
+
+unsigned int fileutil_getunumber(char *, long long *);
 unsigned int fileutil_displayunumber(char *, char *, long long *);
 
 void fileutil_displayunicodestring(char *, char *, long long *);
 long fileutil_displaylong(char *, char *, long long *);
+
+int fileutil_getinteger(char *, long long *);
 int fileutil_displayinteger(char *, char *, long long *);
+unsigned int fileutil_getuinteger(char *, long long *);
 unsigned int fileutil_displayuinteger(char *, char *, long long *);
+
 int fileutil_displayshort(char *, char *, long long *);
+unsigned int fileutil_getushort(char *, long long *);
 unsigned int fileutil_displayushort(char *, char *, long long *);
+
 char *fileutil_displaybyteblock(char *, char *, int, long long *);
 int fileutil_displaybyte(char *, char *, long long *);
 int fileutil_displaybyte_actual(char *, char *, long long *);
