@@ -408,21 +408,6 @@ cepMatrix<T>::cepMatrix (const cepMatrix & B)
       }
     }
     m_matrix = NULL;
-
-  for (int i = 0; i < m_numTables; i++)
-  {
-    for (int j = 0; j < m_numRows; j++)
-    {
-      for(int k = 0; k < m_numCols; k ++)
-      {
-        m_tables[i][(j * m_numCols) + k] = B.m_tables[i][(j * m_numCols) + k];
-        cout << m_tables[i][(j * m_numCols) + k] << " ";
-      }
-      cout << endl;
-    }
-    cout << endl;
-  }
-
   }
   else
   {
