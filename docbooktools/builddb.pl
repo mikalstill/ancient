@@ -30,7 +30,6 @@ exit;
 
 sub process($){
     my($exblock, $exfilename, $INPTR, $OUTPTR) = @_;
-    print STDERR "builddb.pl is processing $exblock blocks...\n";
 
     while(<$INPTR>){
 	if(/(.*)<$exblock>(.*)<\/$exblock>(.*)/){
@@ -93,7 +92,6 @@ sub process($){
 		    $cmdstr = "$cmdstr > $output";
 		}
 		
-		print STDERR "Executing command: $cmdstr\n";
 		print $OUTPTR `$cmdstr`;
 	    }
 	    elsif($cmd eq "todo"){
@@ -103,7 +101,6 @@ sub process($){
 		print $OUTPTR "</figure>\n";
 	    }
 	    elsif($cmd eq "nextedition"){
-		print STDERR "Item for next edition found\n";
 	    }
 
 	    print $OUTPTR "$3";
