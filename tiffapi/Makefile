@@ -59,25 +59,15 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 CC = gcc
 LEX = flex
-MAINT = #
-MAKEINFO = makeinfo
-PACKAGE = panda
 PLATFORM = UNIX
 RANLIB = ranlib
-VERSION = 0.4
 YACC = bison -y
 
-SUBDIRS = panda man
+SUBDIRS = tiffapi
 
-noinst_PROGRAMS = pandademo pandademolegacy
-lib_LIBRARIES = libpanda.a
+lib_LIBRARIES = libtiffapi.a
 
-pandademo_SOURCES = curves.c date.c font.c info.c main.c memory.c panda.c trailer.c error.c images.c internal.c objects.c template.c text.c utility.c xref.c
-
-pandademolegacy_SOURCES = curves.c date.c font.c info.c legacymain.c memory.c panda.c trailer.c error.c images.c internal.c objects.c template.c text.c utility.c xref.c
-
-libpanda_a_SOURCES = curves.c date.c font.c info.c memory.c panda.c trailer.c error.c images.c internal.c objects.c template.c text.c utility.c xref.c
-ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
+libtiffapi_a_SOURCES = error.c memory.c tiffapi.c
 mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
 CONFIG_CLEAN_FILES = 
 LIBRARIES =  $(lib_LIBRARIES)
@@ -87,44 +77,27 @@ DEFS =  -DPACKAGE=\"panda\" -DVERSION=\"0.4\" -DYYTEXT_POINTER=1 -DHAVE_LIBDMALL
 CPPFLAGS = 
 LDFLAGS = 
 LIBS = -ljpeg -ltiff -lpng -lm -ldmalloc 
-libpanda_a_LIBADD = 
-libpanda_a_OBJECTS =  curves.o date.o font.o info.o memory.o panda.o \
-trailer.o error.o images.o internal.o objects.o template.o text.o \
-utility.o xref.o
+libtiffapi_a_LIBADD = 
+libtiffapi_a_OBJECTS =  error.o memory.o tiffapi.o
 AR = ar
-PROGRAMS =  $(noinst_PROGRAMS)
-
-pandademo_OBJECTS =  curves.o date.o font.o info.o main.o memory.o \
-panda.o trailer.o error.o images.o internal.o objects.o template.o \
-text.o utility.o xref.o
-pandademo_LDADD = $(LDADD)
-pandademo_DEPENDENCIES = 
-pandademo_LDFLAGS = 
-pandademolegacy_OBJECTS =  curves.o date.o font.o info.o legacymain.o \
-memory.o panda.o trailer.o error.o images.o internal.o objects.o \
-template.o text.o utility.o xref.o
-pandademolegacy_LDADD = $(LDADD)
-pandademolegacy_DEPENDENCIES = 
-pandademolegacy_LDFLAGS = 
 CFLAGS = -g -O2
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
 DIST_COMMON =  README AUTHORS COPYING ChangeLog INSTALL Makefile.am \
-Makefile.in NEWS TODO aclocal.m4 configure configure.in
+Makefile.in NEWS configure configure.in
 
+
+PACKAGE = panda
+VERSION = 0.4
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = gtar
 GZIP_ENV = --best
-DEP_FILES =  .deps/curves.P .deps/date.P .deps/error.P .deps/font.P \
-.deps/images.P .deps/info.P .deps/internal.P .deps/legacymain.P \
-.deps/main.P .deps/memory.P .deps/objects.P .deps/panda.P \
-.deps/template.P .deps/text.P .deps/trailer.P .deps/utility.P \
-.deps/xref.P
-SOURCES = $(libpanda_a_SOURCES) $(pandademo_SOURCES) $(pandademolegacy_SOURCES)
-OBJECTS = $(libpanda_a_OBJECTS) $(pandademo_OBJECTS) $(pandademolegacy_OBJECTS)
+DEP_FILES =  .deps/error.P .deps/memory.P .deps/tiffapi.P
+SOURCES = $(libtiffapi_a_SOURCES)
+OBJECTS = $(libtiffapi_a_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
@@ -136,8 +109,6 @@ Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status $(BUILT_SOURCES)
 	cd $(top_builddir) \
 	  && CONFIG_FILES=$@ CONFIG_HEADERS= $(SHELL) ./config.status
 
-$(ACLOCAL_M4): # configure.in 
-	cd $(srcdir) && $(ACLOCAL)
 
 config.status: $(srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 	$(SHELL) ./config.status --recheck
@@ -192,27 +163,10 @@ distclean-compile:
 
 maintainer-clean-compile:
 
-libpanda.a: $(libpanda_a_OBJECTS) $(libpanda_a_DEPENDENCIES)
-	-rm -f libpanda.a
-	$(AR) cru libpanda.a $(libpanda_a_OBJECTS) $(libpanda_a_LIBADD)
-	$(RANLIB) libpanda.a
-
-mostlyclean-noinstPROGRAMS:
-
-clean-noinstPROGRAMS:
-	-test -z "$(noinst_PROGRAMS)" || rm -f $(noinst_PROGRAMS)
-
-distclean-noinstPROGRAMS:
-
-maintainer-clean-noinstPROGRAMS:
-
-pandademo: $(pandademo_OBJECTS) $(pandademo_DEPENDENCIES)
-	@rm -f pandademo
-	$(LINK) $(pandademo_LDFLAGS) $(pandademo_OBJECTS) $(pandademo_LDADD) $(LIBS)
-
-pandademolegacy: $(pandademolegacy_OBJECTS) $(pandademolegacy_DEPENDENCIES)
-	@rm -f pandademolegacy
-	$(LINK) $(pandademolegacy_LDFLAGS) $(pandademolegacy_OBJECTS) $(pandademolegacy_LDADD) $(LIBS)
+libtiffapi.a: $(libtiffapi_a_OBJECTS) $(libtiffapi_a_DEPENDENCIES)
+	-rm -f libtiffapi.a
+	$(AR) cru libtiffapi.a $(libtiffapi_a_OBJECTS) $(libtiffapi_a_LIBADD)
+	$(RANLIB) libtiffapi.a
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run `make' without going through this Makefile.
@@ -417,7 +371,7 @@ install-am: all-am
 install: install-recursive
 uninstall-am: uninstall-libLIBRARIES
 uninstall: uninstall-recursive
-all-am: Makefile $(LIBRARIES) $(PROGRAMS)
+all-am: Makefile $(LIBRARIES)
 all-redirect: all-recursive
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) AM_INSTALL_PROGRAM_FLAGS=-s install
@@ -436,26 +390,23 @@ distclean-generic:
 
 maintainer-clean-generic:
 mostlyclean-am:  mostlyclean-libLIBRARIES mostlyclean-compile \
-		mostlyclean-noinstPROGRAMS mostlyclean-tags \
-		mostlyclean-depend mostlyclean-generic
+		mostlyclean-tags mostlyclean-depend mostlyclean-generic
 
 mostlyclean: mostlyclean-recursive
 
-clean-am:  clean-libLIBRARIES clean-compile clean-noinstPROGRAMS \
-		clean-tags clean-depend clean-generic mostlyclean-am
+clean-am:  clean-libLIBRARIES clean-compile clean-tags clean-depend \
+		clean-generic mostlyclean-am
 
 clean: clean-recursive
 
-distclean-am:  distclean-libLIBRARIES distclean-compile \
-		distclean-noinstPROGRAMS distclean-tags \
+distclean-am:  distclean-libLIBRARIES distclean-compile distclean-tags \
 		distclean-depend distclean-generic clean-am
 
 distclean: distclean-recursive
 	-rm -f config.status
 
 maintainer-clean-am:  maintainer-clean-libLIBRARIES \
-		maintainer-clean-compile \
-		maintainer-clean-noinstPROGRAMS maintainer-clean-tags \
+		maintainer-clean-compile maintainer-clean-tags \
 		maintainer-clean-depend maintainer-clean-generic \
 		distclean-am
 	@echo "This command is intended for maintainers to use;"
@@ -467,9 +418,7 @@ maintainer-clean: maintainer-clean-recursive
 .PHONY: mostlyclean-libLIBRARIES distclean-libLIBRARIES \
 clean-libLIBRARIES maintainer-clean-libLIBRARIES uninstall-libLIBRARIES \
 install-libLIBRARIES mostlyclean-compile distclean-compile \
-clean-compile maintainer-clean-compile mostlyclean-noinstPROGRAMS \
-distclean-noinstPROGRAMS clean-noinstPROGRAMS \
-maintainer-clean-noinstPROGRAMS install-data-recursive \
+clean-compile maintainer-clean-compile install-data-recursive \
 uninstall-data-recursive install-exec-recursive \
 uninstall-exec-recursive installdirs-recursive uninstalldirs-recursive \
 all-recursive check-recursive installcheck-recursive info-recursive \
