@@ -1,0 +1,7 @@
+panda_open "output.pdf" "w"
+panda_newpage "[0 0 200 200]"
+panda_setlinestart 10 10
+panda_addlinesegment 190 190
+panda_strokeline
+panda_close
+

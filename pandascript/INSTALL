@@ -4,4 +4,12 @@ Welcome to pandascript. To install, try the following:
   make
   make install
 
-demo.sh contains some demo code, and have a look at the man pages for more details...
+test contains some demo code, and have a look at the man pages for more details... To run the test:
+
+  ./pandascript < test
+
+which will give you a file named output.pdf
+
+If you're really keen and want to regenerate the automatically generated code, then try:
+
+  ./generate.sh *template
