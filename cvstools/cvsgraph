@@ -10,16 +10,16 @@ my($HISTORY, $filename, $date, %dateline, $day, $adate, @dates,
 open HISTORY, "< logout";
 
 # We need some colors for authors -- I only bother to define 10 here
-$colors[0] = "CC3399";
-$colors[1] = "9900FF";
-$colors[2] = "666699";
-$colors[3] = "6699FF";
-$colors[4] = "00FFCC";
-$colors[5] = "66FF99";
-$colors[6] = "33CC33";
-$colors[7] = "99CC33";
-$colors[8] = "663300";
-$colors[9] = "FF6666";
+$colors[0] = "FF9900";
+$colors[1]  = "FFFF00";
+$colors[2] = "33FF33";
+$colors[3] = "66CCCC";
+$colors[4] = "6666CC";
+$colors[5] = "CC66CC";
+$colors[6] = "996633";
+$colors[7] = "006600";
+$colors[8] = "333399";
+$colors[9] = "C0C0C0";
 
 # Some names for the months of the year
 $monthnames[1] = "Jan";

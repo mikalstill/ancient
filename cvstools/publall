@@ -10,7 +10,7 @@ do
   export project=$item
   export description=`cat $item/ABOUT`
 
-  subst.pl < cvstools/template > /tmp/$$
+  subst < cvstools/template > /tmp/$$
   mv /tmp/$$ /home/httpd/html/news/opensource/`printf "%06d" $count`
   count=$(( $count + 1 ))
 done
@@ -18,7 +18,7 @@ done
 export project="Summary"
 export description="This is a summary of the projects on this page: <ul>"
 
-subst.pl < cvstools/template2 > /tmp/$$
+subst < cvstools/template2 > /tmp/$$
 
 for item in `find . -type f -name ABOUT -print | sed -e 's/^\.\///' -e 's/\/ABOUT//' | sort`
 do
