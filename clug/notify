@@ -1,0 +1,17 @@
+#!/bin/bash
+
+export day=`date +"%d"`
+export month=`date +"%B"`
+mon=`date +"%m"`
+export year=`date +"%Y"`
+
+thurs=`cal $mon $year | head -6 | tail -1 | cut -f 5 -d " "`
+nthurs=$(( $day + 3 ))
+export thurs
+
+if [ $nthurs = $thurs ]
+then
+  ./subst.pl < template | mail -s "CLUG meeting $thurs $month $year" mikal
+else
+  echo "nothing" | mail mikal
+fi
