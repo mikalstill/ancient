@@ -100,6 +100,7 @@ DOCBOOK END
 #include <stdio.h>
 #include <complex>
 #include "cepMatrix.h"
+#include <string>
 
 
 #define checkMatrixError(matrix) \
@@ -308,7 +309,7 @@ template < class T > cepMatrix < ComplexDble > cepCfft <
   const double DAYSINYEAR = 365.25;
   //const double HOURSINYEAR = 8766; //365.25*24 - days*hours
   //const double SECSINYEAR = 31557600; //365.25*24*3600 - days*hours*minutes(in seconds)
-  const double EQUIDISTOL = 0.01;
+  const double EQUIDISTOL = 0.1;
 
   double checks[NUMCHECKS];
 
@@ -317,75 +318,60 @@ template < class T > cepMatrix < ComplexDble > cepCfft <
   checkMatrixError(ffteedMatrix);
 
   if (dir == 1)			//Forward,  calculate scale
-    {
-      for (table = 0; table < numTables; table++)
-	{
-	  //size of dataset = numRows
-	  int halfSetSize = (int) (numRows * 0.5);
-	  double sampleRate = abs ((real (matrix.getValue (0, 0, 0)) - 
+  {
+    for (table = 0; table < numTables; table++)
+	  {
+	    //size of dataset = numRows
+	    int halfSetSize = (int) (numRows * 0.5);
+	    double sampleRate = abs ((real (matrix.getValue (0, 0, 0)) - 
                                     real (matrix.getValue (1, 0, 0)))) *
 				    DAYSINYEAR;
-	  checkMatrixError(matrix);
-	  double freq = 1 / sampleRate;
+	    checkMatrixError(matrix);
+	    double freq = 1 / sampleRate;
 
-	  //the first half of the scale
-	  for (row = 0; row < halfSetSize; row++)
-	  {
-	    ffteedMatrix.setValue (row, FIRSTCOLUMN, table,(freq * (row)) / numRows);
-	    checkMatrixError(ffteedMatrix);
-	  }
-    
-
-	  //the second half of the scale
-	  //	  for (row = halfSetSize; row < numRows; row++)
-	  //	  {
-	  //	    ffteedMatrix.setValue (row, FIRSTCOLUMN, table,(freq * (numRows - row)) / numRows);
-	  //	    checkMatrixError(ffteedMatrix);	   
-	  //	  }
-	}			//for table
-    }				//end if
+	    //the first half of the scale
+	    for (row = 0; row < halfSetSize; row++)
+	    {
+	      ffteedMatrix.setValue (row, FIRSTCOLUMN, table,(freq * (row)) / numRows);
+	      checkMatrixError(ffteedMatrix);
+	    }
+	  }			//for table
+  }				//end if
 
   //populate the array to send to fft module.
   //start at 1st column as we do not want to fft this.
   for (table = 0; table < numTables; table++)
     {
 
-      //for (col = 1; col < numCols; col++)
-      //{//while there are still columns
       col = 1;
       int checkIndex=0;
       for (row = 0; row < numRows-3; row++)
       //row =0;
       
 	{
-	  checkIndex = row;
-	  //for (count = 0; count < NUMCHECKS; count++)
-	  //while (checkIndex < numRows - 3)
-	  //  {
-	   //   for (count = 0; count < NUMCHECKS; count++)
- 	   //   {
+	   //checkIndex = row;
 	   count =0;     
+
 	   checks[0] = real (matrix.getValue (row, col - 1, table));
+		 checkMatrixError(matrix);
 	   checks[1] = real (matrix.getValue (row+1, col - 1, table));
+		 checkMatrixError(matrix);
 	   checks[2] = real (matrix.getValue (row+2, col - 1, table));
-	   
-	   checkMatrixError(matrix); //ADDED 21/11
-	   //checkIndex++;
-		
-	      //}
+	   checkMatrixError(matrix); 
 	      
 	      //only want to check continuous index on forward transform
 	      if (dir == 1)
 	      {
 	        if ((checks[2] - checks[1]) - (checks[1] - checks[0]) >= EQUIDISTOL)
 	        {
-	  	  m_error = cepError("Error, samples are not equidistant: Cannot proceed with FFT. Line: ",
+	  	  m_error = cepError(string("Error, samples are not equidistant: Cannot proceed with FFT. Value1: ") +
+				cepToString(checks[0]) + " Value2: " + cepToString(checks[1])
+				+ " Value3: " + cepToString(checks[2]),
 		  cepError::sevErrorRecoverable);
 		  m_error.log();
 		  //cout << "Oops..Samples not equidistant!" << endl;
 	        }//if
 	      }//if dir ==1
-	    //}//while
 
 	  //populate the arry to be fft'd            
 	  //arrayToFft[row] = matrix.getValue (row, col, table);
