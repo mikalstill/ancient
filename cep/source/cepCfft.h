@@ -252,10 +252,9 @@ template < class CPLX > void cfft < CPLX >::hermitian (CPLX * buf)
 /*
  *
  */
-template < class CPLX > int cfft < CPLX >::canFft(cepMatrix<ComplexDble> & matrix)
-{
-
-}
+//template < class CPLX > int cfft < CPLX >::canFft(cepMatrix<ComplexDble> & matrix)
+//{
+//}
 /*
  * cfft::matrixFft
  * imports: matrix: the matrix holding the data to be fft'd
@@ -271,55 +270,65 @@ template < class CPLX > cepMatrix<ComplexDble>
   int numTables = matrix.getNumTables();
   int rowCount = 0, colCount = 0;
   int arraySize = numRows;
-  int rCol, rRow, wCol, wRow, rTable,count;
+  int col, row, table,count;
   int checkValues1, checkValues2;
 
   const int NUMCHECKS = 3;
   int checks[NUMCHECKS];
 
+  ComplexDble arrayToFft[arraySize];
+  cepMatrix<ComplexDble> ffteedMatrix( numRows, numCols, numTables); //matrix contain to store processed values
+
   //populate the array to send to fft module.
   //start at 1st column as we do not want to fft the date.
-  for (rTable = 0; rTable < numTables; rTable++){
-    for (rCol = 1; rCol < numCols; rCol++){//while there are still columns
-      for (rRow = 0; rRow < numRows-1; rRow++){
-	for (count = 0; count < NUMCHECKS; count++)
-	       checks[count] = matrix.getValue(count,rCol);
-	if ( (checks[0] - checks[1]) != (checks[1] - checks[2]) )
-	  //todo: daniel: throw an error values not equidistant.
-	else
-	  arrayToFft[rRow]=checks[0];  //populate the arry to be fft'd
-      }//end for rRow
-    }//end for rCol 
-  }//end for rTable
-  
-  ComplexDble arrayToFft[arraySize];
-  cepMatrix<ComplexDble> ffteedMatrix( numRows, numCols, numTables) //matrix contain to store processed values
-
-//      cout << "dir = " << dir << "\n";
-//      cout << "numCols = " << numCols << "\n";
-//      cout << "numRows = " << numRows << "\n";
+  for (table = 0; table < numTables; table++)
+  {
+      
+    for (col = 1; col < numCols; col++)
+    {//while there are still columns
+    
+        for (row = 0; row < numRows-1; row++)
+        {
+	    for (count = 0; count < NUMCHECKS; count++)
+    	    {
+	        checks[count] = matrix.getValue(count,col);
+	    }
+	       
+	    if ( (checks[0] - checks[1]) != (checks[1] - checks[2]) )
+	        ;//todo daniel: throw an error values not equidistant.
+            else
+	        arrayToFft[row]=checks[0];  //populate the arry to be fft'd
+        }//end for row
+    }//end for col 
 
     /*********************************compute the fft.************************************/
-      if (dir == 1)
-      {
-        cout << "Performing forward fft on Matrix: Table " << rTable
+ 
+    if (dir == FORWARD)
+    {
+        cout << "Performing forward fft on Matrix: Table " << table
 	     << "Column  " << rCol << "\n";
         fft(arrayToFft);
-      }
-      else
-      {
-        cout << "Performing Inverse fft on Matrix: Table " << rTable
+    }
+    else //(dir == REVERSE)
+    {
+        cout << "Performing Inverse fft on Matrix: Table " << table
 	     << "Column " << rCol << "\n";
         ifft(arrayToFft);
-      }
-      //place the processed values into the marix.
-      for (wRow = 0; wRow < numRows; wRow++){
-        ffteedMatrix.setValue(wRow,rCol,rTable,arrayToFft[wRow]);
-        cout << ffteedMatrix.getValue(rTable,wRow,rCol);
-      }//end write loop
-    } //for rCol
-  }//end for rTable
+    }
+   
+    //place the processed values into the marix.
+    for (col =0; col < numCols; col ++)
+    {
+        for (row = 0; row < numRows; row++)
+	{
+             ffteedMatrix.setValue(row,col,table,arrayToFft[row]);
+             cout << ffteedMatrix.getValue(table,row,col);
+         }//
+    } //for col
 
+    
+  }//end for table
+  
   return ffteedMatrix;
 }//end method
 
