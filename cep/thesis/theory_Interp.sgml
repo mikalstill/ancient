@@ -127,7 +127,7 @@
     we can get:
   </para>
   <equation>
-    <title>Equation of a cubic (Gerald and Wheatley, 1999)</title>
+    <title>Elements of a cubic (Gerald and Wheatley, 1999)</title>
     <execute><cmd>eqimg</cmd><args>interp_spline_abc.bmp</args></execute>
   </equation>
   <para>
@@ -183,8 +183,12 @@
     have shared first and second derivatives.
   </para>
   <para>
-    Each of these cubics can be described by the equation: (TODO: Spline equation 1)
+    Each of these cubics can be described by the equation:
   </para>
+  <equation>
+    <title>Equation of a cubic (Gerald and Wheatley, 1999)</title>
+    <execute><cmd>eqimg</cmd><args>interp_cubic.bmp</args></execute>
+  </equation>
   <para>
     Because each of these cubics begins at a point we can say:
     <command>d<subscript>i</subscript> = y<subscript>i</subscript></command>
@@ -197,10 +201,14 @@
   </para>
   <para>
     Also if we make <command>S</command> the set of second derivatives; then through algebraic simplification
-    we can get: (TODO: Spline equations 3,4,5)
+    we can get:
   </para>
+  <equation>
+    <title>Elements of a cubic (Gerald and Wheatley, 1999)</title>
+    <execute><cmd>eqimg</cmd><args>interp_spline_abc.bmp</args></execute>
+  </equation>
   <para>
-    With natural splines solving for <command>S</command> is done by solving:(TODO: Spline equation 6)
+    With natural splines solving for <command>S</command> is done by solving:
   </para>
   <equation>
     <title>Solving for S (Gerald and Wheatley, 1999)</title>
@@ -223,17 +231,33 @@
   </para>
   <para>
     The Newton divided differences mewthod is based on building a table of divided differences.  The
-    divided difference between two points in a dataset is defined as: (TODO: divided difference eq 1)
+    divided difference between two points in a dataset is defined as:
   </para>
+  <equation>
+    <title>Standard divided difference (Gerald and Wheatley, 1999)</title>
+    <execute><cmd>eqimg</cmd><args>interp_DD1.bmp</args></execute>
+  </equation>
   <para>
-    Likewise higher order divided differences can be defined as: (TODO: divided difference eq 2)
+    Likewise higher order divided differences can be defined as:
   </para>
+  <equation>
+    <title>Divided difference of differences (Gerald and Wheatley, 1999)</title>
+    <execute><cmd>eqimg</cmd><args>interp_DD2.bmp</args></execute>
+  </equation>
   <para>
-    These divided differences are built into a table as follows: (TODO: divided difference eq 3)
+    These divided differences are built into a table as follows:
   </para>
+  <equation>
+    <title>Divided difference table (Gerald and Wheatley, 1999)</title>
+    <execute><cmd>eqimg</cmd><args>interp_DD3.bmp</args></execute>
+  </equation>
   <para>
-    This table can then be used to generate an equation: (TODO: divided difference eq 4)
+    This table can then be used to generate an equation:
   </para>
+    <equation>
+    <title>Newton divided differences (Gerald and Wheatley, 1999)</title>
+    <execute><cmd>eqimg</cmd><args>interp_DD4.bmp</args></execute>
+  </equation>
   <para>
     A full mathematical derivation can be found in Gerald &amp; Wheatley (1999), page 229.
   </para>
