@@ -60,7 +60,6 @@ foreach $possfunction (split(/;/, $code)){
 	    $_ = $arg;
 	    if(($arg ne "char*") && ($arg ne "int*") && ($arg ne "void*") && 
 	       (/\*$/)){
-		print STDERR "Expanding pointers for $arg from \"$pointers{$arg}\" to include \"$rval;$fval;$aval;\"\n";
 		$pointers{$arg} = $pointers{$arg}."$rval;$fval;$aval;";
 	    }
 	}
