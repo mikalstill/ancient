@@ -17,8 +17,8 @@ Follow these steps to install <command>libplot</command>
 <execute><cmd>todo</cmd><input>Is this version number up to date?</input></execute>
 
 <programlisting>
-tar xvzf libplot_0_2.tgz
-cd libplot-0.2
+tar xvzf libplot_0_3.tgz
+cd libplot-0.3
 ./configure
 make
 make install

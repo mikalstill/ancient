@@ -1,6 +1,6 @@
 <sect2><title>wxWindows</title>
 <para>
-<command>wxWindows</commdand> is a UI widget toolkit similar to Qt and the Gnome toolkit. It is cross platform, including:
+<command>wxWindows</command> is a UI widget toolkit similar to Qt and the Gnome toolkit. It is cross platform, including:
 
 <orderedlist>
 <listitem><para>Support for various unices</para></listitem>
@@ -18,7 +18,7 @@ It has been in development for the last ten years, so it is extremely stable.
 </sect3>
 
 <sect3><title>Installation</title>
-<para>
+<programlisting>
 cd wxwindows
 bunzip2 wxGTK-2.2.9.tar.bz2
 tar xvf wxGTK-2.2.9.tar
@@ -27,7 +27,7 @@ cd wxGTK-2.2.9
 make
 make install
 cp lib/wx/include/gtk-2.2/wx/setup.h /usr/local/include/wx/
-</para>
+</programlisting>
 
 <para>
 If you have installed <command>libplot</command> on an architecture / operating system combination which supports dynamic libraries, then you will need to run the <command>ldconfig</command> command or equivalent.
