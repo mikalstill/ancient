@@ -18,7 +18,7 @@ LIBS="-lcppunit -lm -lfl"
 # look for alltests
 if [ ! -f $ALLTESTS ]; then
 	echo "$ALLTESTS was not located."
-	echo 'Please change $ALLTESTS to point to it or jst bloody make one :)'
+	echo 'Please change $ALLTESTS to point to it or just bloody make one :)'
 	exit 1
 fi
 
@@ -34,6 +34,12 @@ for FILE in `ls $TEST_PREFIX*.cpp`; do
 	OBJ_NAME=`echo $FILE| sed 's/.cpp//g'`
 	echo "g++ $CCFLAGS $DEFINES -c -o $OBJ_NAME.o $FILE"
 	g++ $CCFLAGS $DEFINES -c -o $OBJ_NAME.o $FILE
+
+	if [ $? -gt 0 ]
+        then
+	    echo "Build of a test failed"
+	    exit
+	fi
 done
 
 #make compile the main and link the objects
