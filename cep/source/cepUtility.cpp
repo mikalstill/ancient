@@ -54,6 +54,10 @@ isblank (char c)
     return true;
   if (c == '\t')
     return true;
+  if (c == '\r')
+    return true;
+  if (c == '\n')
+    return true;
 
   return false;
 }

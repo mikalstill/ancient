@@ -92,12 +92,9 @@ cepDataset::munch ()
 	    {
 	      if (isblank (c))
 		{
-		  if(prevc == '\n')
+		  if(!isblank(prevc))
 		    {
-		    }
-		  else
-		    {
-		      thisLine += "~" + itoa(prevc) + "~";
+		    thisLine += " ";
 		    }
 		}
 	      else
@@ -144,8 +141,9 @@ cepDataset::munch ()
 
 	      if (m_progress)
 		m_progress (i + 1, lines[i]);
-	      prevc = c;
 	    }
+
+	  prevc = c;
 	}
     }
 
