@@ -21,8 +21,8 @@
 #include "cepCore.h"
 #include "cepPresentation.h"
 
-#if defined HAVE_LIBPLOT
-#include <libplot.h>
+#if defined HAVE_LIBMPLOT
+#include <libmplot.h>
 #endif
 
 #if defined HAVE_LIBPNG
@@ -159,7 +159,7 @@ cepPresentation::createPDF (const string & filename)
 cepError
 cepPresentation::createBitmap ()
 {
-#if defined HAVE_LIBPLOT
+#if defined HAVE_LIBMPLOT
   plot_state *graph;
 
   if ((graph = plot_newplot (m_width, m_height)) == NULL)
@@ -282,15 +282,15 @@ cepPresentation::createBitmap ()
   m_raster = plot_getraster (graph);
   return cepError ();
 #else
-  return cepError ("Libplot was not installed at configuration time",
-		   cepError::sevErrorRecoverable);
+  return cepError ("Libmplot was not installed at configuration time",
+		   cepError::sevErrorFatal);
 #endif
 }
 
 cepError
 cepPresentation::createPNG (const string & filename)
 {
-#if defined HAVE_LIBPLOT
+#if defined HAVE_LIBMPLOT
 #if defined HAVE_LIBPNG
   cepDebugPrint ("Generating PNG for: " + filename);
 
@@ -373,8 +373,8 @@ cepPresentation::createPNG (const string & filename)
 		   cepError::sevErrorRecoverable);
 #endif
 #else
-  return cepError ("Libplot was missing at configure time",
-		   cepError::sevErrorRecoverable);
+  return cepError ("Libmplot was missing at configure time",
+		   cepError::sevErrorFatal);
 #endif
 }
 

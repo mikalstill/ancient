@@ -241,20 +241,6 @@ cepView::OnUpdate (wxView * WXUNUSED (sender), wxObject * WXUNUSED (hint))
 {
   if (canvas)
     canvas->Refresh ();
-
-/* Is the following necessary?
-#ifdef __WXMSW__
-  if (canvas)
-    canvas->Refresh();
-#else
-  if (canvas)
-    {
-      wxClientDC dc(canvas);
-      dc.Clear();
-      OnDraw(& dc);
-    }
-#endif
-*/
 }
 
 // Clean up windows used for displaying the view.

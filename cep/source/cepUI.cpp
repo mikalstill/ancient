@@ -572,6 +572,12 @@ cepFrame::OnTestErrors (wxCommandEvent & WXUNUSED (event))
   }
 }
 
+void
+cepFrame::OnOpen (wxCommandEvent& WXUNUSED(event))
+{
+  wxMessageBox("Foo", "Bar");
+}
+
 // Creates a canvas. Called from view.cpp when a new drawing
 // view is created.
 cepCanvas *

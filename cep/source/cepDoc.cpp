@@ -72,19 +72,10 @@ cepDoc::~cepDoc (void)
   delete m_dataset;
 }
 
-#if wxUSE_STD_IOSTREAM
-ostream & cepDoc::SaveObject (ostream & stream)
+bool cepDoc::OnSaveDocument(const wxString& filename)
 {
-#else
-wxOutputStream & cepDoc::SaveObject (wxOutputStream & stream)
-{
-#endif
-
-  wxString filename = GetFilename ();
   string newfilename;
 
-  // todo_mikal: this doesn't work as well as it should yet... The stream we are handed
-  // shouldn't be open yet...
   cepDebugPrint("Filename extension: " + filename.substr(filename.length() - 5, filename.length()));
   if(filename.substr(filename.length() - 5, filename.length()) == ".dat1"){
     newfilename = filename.substr(0, filename.length() - 5);
@@ -93,26 +84,15 @@ wxOutputStream & cepDoc::SaveObject (wxOutputStream & stream)
     newfilename = filename;
   }
   m_dataset->write(newfilename);
-  return stream;
+  return TRUE;
 }
-
-// This method is called when the user has selected open from the file menu
-// We do the actual opening here, and then lie to wxWindows about the stream
-// to the file for it to try to open it
-#if wxUSE_STD_IOSTREAM
-istream & cepDoc::LoadObject (istream & stream)
-#else
-wxInputStream & cepDoc::LoadObject (wxInputStream & stream)
-#endif
+ 
+bool cepDoc::OnOpenDocument(const wxString& filename)
 {
-  // wxDocument::LoadObject (stream);
-
   // Actually create the dataset
   m_progressCount = 0;
   m_progress = new wxProgressDialog ("Loading dataset",
                                      "Please wait while the dataset is loaded");
-
-  wxString filename = GetFilename ();
   string parentFilename = filename.substr (0, filename.length () - 5).c_str ();
 
   m_dataset = new cepDataset (ds_progressCallback);
@@ -127,7 +107,7 @@ wxInputStream & cepDoc::LoadObject (wxInputStream & stream)
   // Cleanup
   delete m_progress;
   m_progress = NULL;
-  return stream;
+  return TRUE;
 }
 
 void

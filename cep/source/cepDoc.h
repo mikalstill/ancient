@@ -45,23 +45,20 @@
 
 class cepDoc:public wxDocument
 {
-DECLARE_DYNAMIC_CLASS (cepDoc) public:
+  DECLARE_DYNAMIC_CLASS (cepDoc) 
+
+public:
   cepDoc (void);
-   ~cepDoc (void);
-
-#if wxUSE_STD_IOSTREAM
-    ostream & SaveObject (ostream & text_stream);
-    istream & LoadObject (istream & text_stream);
-#else
-    wxOutputStream & SaveObject (wxOutputStream & stream);
-    wxInputStream & LoadObject (wxInputStream & stream);
-#endif
-
+  ~cepDoc (void);
+  
+  bool OnOpenDocument(const wxString& filename);
+  bool OnSaveDocument(const wxString& filename);
+  
   void incrementProgress ();
   cepDataset *getDataset ();
-
-private:
-    cepDataset * m_dataset;
+  
+ private:
+  cepDataset * m_dataset;
   wxProgressDialog *m_progress;
   int m_progressCount;
 };

@@ -79,6 +79,8 @@ public:
   void OnAbout (wxCommandEvent & event);
   void OnTestErrors (wxCommandEvent & event);
 
+  void OnOpen (wxCommandEvent &event);
+
   cepCanvas *CreateCanvas (wxView * view, wxFrame * parent);
   void OnClose (wxCloseEvent & evt);
 
@@ -121,11 +123,8 @@ GetMainFrame (void);
 #define CEPMENU_INTERP_CUBICSPLINE 27
 #define CEPMENU_INTERP_DIVIDED 28
 #define CEPMENU_INTERP 29
-
-//for cepLs UI
 #define CEPBTN_DIR_SUBMIT 30
 #define CEPBTN_DIR_CANCEL 31
-
 #define CEPBTN_READ_SUBMIT 32
 #define CEPBTN_READ_CANCEL 33
 

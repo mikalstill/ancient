@@ -57,8 +57,8 @@ AC_CHECK_LIB(X11, XFreeFontInfo)
 dnl -lwx  --> THIS IS BAD AND MIGHT BREAK
 AC_CHECK_LIB(wx_gtk-2.2, OnIdle__12wxHtmlWindowR11wxIdleEvent)
 
-dnl -lplot
-AC_CHECK_LIB(plot, plot_newplot)
+dnl -lmplot
+AC_CHECK_LIB(mplot, plot_newplot)
 
 dnl -lpng
 AC_CHECK_LIB(png, png_create_write_struct)
