@@ -1,7 +1,6 @@
  /* 
   * Imp for the CEP error handler
   * Copyright (C) Blake Swadling                   2002
-  * Copyright (C) Michael Still                    2002
   * 
   * This program is free software; you can redistribute it and/or modify it
   * under the terms of the GNU General Public License as published by the Free
@@ -31,8 +30,6 @@ public:
    
 protected:
   cepErrorHandler();
-// BS - how to get this to work? This header is included in cepError
-/* friend int cepError::getSeverity(); */
 private:
    
 };

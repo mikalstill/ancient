@@ -1,7 +1,6 @@
  /* 
   * Imp for the CEP error handler
   * Copyright (C) Blake Swadling                   2002
-  * Copyright (C) Michael Still                    2002
   * 
   * This program is free software; you can redistribute it and/or modify it
   * under the terms of the GNU General Public License as published by the Free
@@ -20,12 +19,6 @@
 
 #include "cepErrorHandler.h"
 
-cepErrorHandler::cepErrorHandler()
-{
-  
-}
+cepErrorHandler::cepErrorHandler() { }
 
-cepErrorHandler::~cepErrorHandler()
-{
-  
-}
+cepErrorHandler::~cepErrorHandler() { }
