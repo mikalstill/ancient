@@ -147,6 +147,36 @@ plot_setlinestart (plot_state *state, int x, int y)
   state->line->y = y;
 }
 
+/******************************************************************************
+DOCBOOK START
+
+FUNCTION plot_addlinesegment
+PURPOSE add a straight line segment to the polygon
+
+SYNOPSIS START
+#include&lt;libplot.h&gt;
+void plot_addlinesegment (plot_state *state, int x, int y);
+SYNOPSIS END
+
+DESCRIPTION This function adds a straight line segment to the polygon currently being drawn. The line travels from the current pen location (the end of the previous drawing command, or <command>plot_setlinestart</command> function call), to the point specified.
+
+RETURNS Nothing
+
+EXAMPLE START
+#include&lt;libplot.h&gt;
+plot_state *graph;
+
+if((graph = plot_newplot(400, 300)) == NULL){
+  ... error ...
+}
+
+plot_setlinestart(graph, 10, 10);
+plot_addlinesegment(graph, 20, 20);
+EXAMPLE END
+SEEALSO plot_newplot plot_getraster plot_setlinestart plot_addcubiccurvesegment plot_addquadraticcurvesegmentone plot_addquadraticcurvesegmenttwo plot_closeline plot_endline plot_strokeline plot_fillline plot_setlinewidth plot_setlinecap plot_setlinejoin plot_setlinedash plot_setfillcolor plot_setlinecolor plot_rectangle plot_rectanglerot
+DOCBOOK END
+******************************************************************************/
+
 void
 plot_addlinesegment (plot_state *state, int x, int y)
 {
@@ -190,6 +220,37 @@ plot_addquadraticcurvesegmenttwo (plot_state *state, int x1, int y1,
 {
   fprintf (stderr, "todo\n");
 }
+
+/******************************************************************************
+DOCBOOK START
+
+FUNCTION plot_closeline
+PURPOSE return to the start of this polygon
+
+SYNOPSIS START
+#include&lt;libplot.h&gt;
+void plot_closeline(plot_state *state);
+SYNOPSIS END
+
+DESCRIPTION This function draws a straight line segment between the current pen location, and the starting point of the polygon.
+
+RETURNS Nothing
+
+EXAMPLE START
+#include&lt;libplot.h&gt;
+plot_state *graph;
+
+if((graph = plot_newplot(400, 300)) == NULL){
+  ... error ...
+}
+
+plot_setlinestart(graph, 10, 10);
+... drawing commands ...
+plot_closeline(graph);
+EXAMPLE END
+SEEALSO plot_newplot plot_getraster plot_setlinestart plot_addlinesegment plot_addcubiccurvesegment plot_addquadraticcurvesegmentone plot_addquadraticcurvesegmenttwo plot_endline plot_strokeline plot_fillline plot_setlinewidth plot_setlinecap plot_setlinejoin plot_setlinedash plot_setfillcolor plot_setlinecolor plot_rectangle plot_rectanglerot
+DOCBOOK END
+******************************************************************************/
 
 void
 plot_closeline (plot_state *state)
@@ -253,9 +314,39 @@ plot_endline (plot_state *state)
   plot_endline(state);
 }
 
+/******************************************************************************
+DOCBOOK START
+
+FUNCTION plot_strokeline
+PURPOSE draw the outline specified by the current polygon
+
+SYNOPSIS START
+#include&lt;libplot.h&gt;
+void plot_strokeline(plot_state *state);
+SYNOPSIS END
+
+DESCRIPTION 
+
+RETURNS Nothing
+
+EXAMPLE START
+#include&lt;libplot.h&gt;
+plot_state *graph;
+
+if((graph = plot_newplot(400, 300)) == NULL){
+  ... error ...
+}
+
+EXAMPLE END
+SEEALSO plot_newplot plot_getraster plot_setlinestart plot_addlinesegment plot_addcubiccurvesegment plot_addquadraticcurvesegmentone plot_addquadraticcurvesegmenttwo plot_closeline plot_endline plot_strokeline plot_fillline plot_setlinewidth plot_setlinecap plot_setlinejoin plot_setlinedash plot_setfillcolor plot_setlinecolor plot_rectangle plot_rectanglerot
+DOCBOOK END
+******************************************************************************/
+
+
 void
 plot_strokeline (plot_state *state)
 {
+  // todo: support for non straight lines
   plot_lineseg *current;
   unsigned int x1, y1, c;
   unsigned int rise, run;

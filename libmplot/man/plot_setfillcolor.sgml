@@ -1,0 +1,83 @@
+<!-- 
+
+     This document is part of the libplot distribution, and is covered
+     by the GNU GPL, a copy of which is in the file named COPYING inside the
+     distribution.
+
+     This program and it's documentation are distributed in the hope that 
+     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
+     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+-->
+
+<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
+
+<refentry id="plot_setfillcolor">
+<refmeta>
+<refentrytitle>plot_setfillcolor</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>plot_setfillcolor</refname>
+<refpurpose>sets the colour that the finished polygon will be filled with</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;libplot.h&gt;
+ void plot_setfillcolor (plot_state *state, int red, int green, int blue);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>Set the colour to fill the polygon with when the <command>plot_fillline</command> function is called.</para>
+</refsect1>
+
+<refsect1>
+<title>RETURNS</title>
+<para>Nothing</para>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLE</title>
+<para> #include&lt;libplot.h&gt;
+ plot_state *graph;
+ 
+ if((graph = plot_newplot(400, 300)) == NULL){
+ ... error ...
+ }
+ 
+ plot_setfillcolor(state, 255, 0, 0); // red
+</para>
+</refsect1>
+
+<refsect1>
+<title>SEE ALSO</title>
+<para>plot_newplot plot_getraster plot_setlinestart plot_addlinesegment plot_addcubiccurvesegment plot_addquadraticcurvesegmentone plot_addquadraticcurvesegmenttwo plot_closeline plot_endline plot_strokeline plot_fillline plot_setlinewidth plot_setlinecap plot_setlinejoin plot_setlinedash plot_setlinecolor plot_rectangle plot_rectanglerot</para>
+</refsect1>
+
+
+<refsect1>
+    <title>VERSION</title>
+    <para>
+This documentation was generated for <command>libplot</command> 0.1 by <command>autodocbook</command> (http://www.stillhq.com).
+    </para>
+</refsect1>
+
+<refsect1>
+    <title>AUTHOR</title>
+    <para>
+<command>libplot</command> is under development by Michael Still (mikal@stillhq.com). All code is Copyright Michael Still 2002,  and is released under the GNU GPL. Code submissions are welcomed. Contact Michael at the address above if you have something you would like to contribute.
+</para>
+</refsect1>
+
+<refsect1>
+    <title>BUGS</title>
+    <para>
+There  are no known bugs in <command>libplot</command>. If you find one, please contact mikal@stillhq.com and let me know.
+</para>
+</refsect1>
+</refentry>
