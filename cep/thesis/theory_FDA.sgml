@@ -79,7 +79,7 @@
   
   <equation>
     <title>Inverse Discrete Fourier Transform (Rabiner and Schafer, 1978)</title>
-    <execute><cmd>eqimg</cmd><args>equation-for-DFT-k.bmp</args></execute>
+    <execute><cmd>eqimg</cmd><args>fOfk.bmp</args></execute>
   </equation>
 <para>  
   where <command>f<subscript>s</subscript></command> is the sampling frequency of the signal, and <command>k</command> is the number of
