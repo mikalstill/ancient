@@ -299,7 +299,7 @@ cepError
 cepCanvas::graphPlacement(cepDataset::direction dir, int& top, int& bottom, int& width){
   // Get the total size of the canvas
   int cwidth, cheight;
-  GetSize (&cwidth, &cheight);
+  m_frame->GetSize (&cwidth, &cheight);
   cepDebugPrint("Canvas size: " + cepToString(cwidth) + " x " + cepToString(cheight));
  
   // Determine how many graphs we are showing, and which ones
