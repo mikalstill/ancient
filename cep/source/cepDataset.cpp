@@ -31,6 +31,37 @@ m_filename (filename)
   m_progress = callback;
 }
 
+
+cepDataset::cepDataset (string filename):
+m_filename (filename)
+{
+  m_progress = NULL;
+}
+
+//this may be a little wrong...
+//this constructor will be called at the end of cepDataset::doWindow in order to rerturn
+//the 2 values: the vector of windowed data, and the number of windows in the vector.
+cepDatset::cepDataset(vector<cep_datarow> windowVector, int numWindows):
+{
+	m_windowVector = windowVector;
+	m_numWindows = numWindows;
+	//todo: daniel - suss out whether or not we will need to change other value...ie make some NULL
+	//might be a bad idea.
+}
+
+
+//this may also be a little wrong....
+//this constructor will be called at the end of cepDataset::doHam in order to rerturn
+//the 2 values: the single hamming value, and the weight.
+cepDatset::cepDataset(double value, double weight):
+{
+	m_hamValue = value;
+	m_hamWeight = weight;
+	//todo: daniel - suss out whether or not we will need to change other value...ie make some NULL
+	//might be a bad idea.
+}
+
+
 cepError
 cepDataset::munch ()
 {

@@ -53,6 +53,11 @@ private:
   string m_filename;
   cepDatasetProgressCB m_progress;
   vector<cep_datarow> m_data;
+  vector<cep_datarow> windowVector; //vector of windowed data
+  int m_numWindows; //number of windows in the windowed data
+  double m_hamValue; //single haming value
+  double m_hamWeight; //hamming weight
+
 };
 
 #endif

@@ -1,14 +1,8 @@
 /*
-
  These methods will be placed into cepDataset .....soon.
- Vector not yet iMPLEMENTED FOR WINDOWaRRAY.	or data.
-
 */
 
-
-//doto_daniel: change the indices for array and vectors so they start at ZERO not ONE
-
-void //todo_daniel: this will end being a return type .
+cepDataset
 cepDataset::doHam (double datRow[3], double startWindow, double winSize)
 {
 	/*	Imports:
@@ -72,7 +66,7 @@ cepDataset::doWindow (double winSize, double overlap) //todo_daniel: once vector
   // Work out number of windows 
   numWindows = ceil(((lastdate - firstdate)*(1+2*overlap))/winSize); //round up to nearest integer
 	if (overlap != 0){
-    numWindows -=1;
+    numWindows -=1;//totdo:daniel - may not need this line.
 	}
   
   // Divide into windows 
@@ -114,21 +108,22 @@ cepDataset::doWindow (double winSize, double overlap) //todo_daniel: once vector
 
 
   // populate final window with remaining data
-  vecCtr = nextFirstRecord; 
+  dataVectorRow = nextFirstRecord; 
   currentFirstRecord = nextFirstRecord;
   startWindow = startWindow + winSize;
-  while (vecCtr < numSamples)
+  while (dataVectorRow < numSamples)
   {
-    for (k=0; k<3; k++)
+    for (col=0; col<3; col++)
 	{
 		//windowArray(k,numWindows,vecCtr-(currentFirstRecord)) = dataCopy[vecCtr][k];
 		windowData[numWindows][col][dataVectorRow-currentFirstRecord] = dataCopy[dataVectorRow][col];
     }
-    vecCtr += 1;
+    dataVectorRow += 1;
   } //end while
 
-  cepDatset windowData = new cepDataset(windowArray, numWindows);
-  return windowData;
-
+	//create cep_windowData populated withthe windowData vector and numWindows for return to the calling place
+	cepDatset cep_windowData = new cepDataset(windowData, numWindows);
+	return cep_windowData;
+	
 }//end void cepDatset::doWindow
 
