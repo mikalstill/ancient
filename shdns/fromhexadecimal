@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Take an hex number and output it's decimal version
+hex=$1
+length=`echo $hex | wc -c | tr -d " "`
+power=1
+
+while [ $length -gt 2 ]
+do
+  power=$(( $power * 16 ))
+  length=$(( $length - 1 ))
+done
+
+decimal=0
+while [ "%$hex%" != "%%" ]
+do
+  digit=`echo $hex | cut -b 1`
+  echo -n "Hex = $hex, Digit = $digit, Power = $power, Value = "
+
+  value=$(( $digit * $power ))
+  echo $value
+  
+  decimal=$(( $decimal + value ))
+  power=$(( $power / 16 ))
+  hex=`echo $hex | sed 's/^.//'`
+done
+
+echo ""
+echo "Result = $decimal"

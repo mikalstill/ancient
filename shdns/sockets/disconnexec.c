@@ -1,10 +1,13 @@
-// Disconnected UDP socket example: this example simply waits for 
-// traffic, and the starts a process to deal with the results. One
-// process per packet, one packet per process. This version wont 
-// work, because the socket is not connected. In fact, cat is 
-// smart enough to warn us about this:
+// Disconnected UDP socket example: this example 
+// simply waits for traffic, and the starts a 
+// process to deal with the results. One process 
+// per packet, one packet per process. This version 
+// wont work, because the socket is not connected. 
+// In fact, cat is smart enough to warn us about 
+// this:
 //
-//           cat: write error: Transport endpoint is not connected
+//      cat: write error: Transport endpoint is not 
+//      connected
 
 #include <stdio.h>
 #include <errno.h>
@@ -21,7 +24,8 @@ int main(int argc, char *argv[]){
   
   // We will listen with this file descriptor
   if((lfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0){
-    fprintf(stderr, "Error whilst starting to listen\n");
+    fprintf(stderr, 
+	    "Error whilst starting to listen\n");
     exit(42);
   }
 
@@ -32,14 +36,15 @@ int main(int argc, char *argv[]){
   servaddr.sin_port = htons(1234);
 
   // Bind to the address
-  if(bind(lfd, (struct sockaddr *) &servaddr, sizeof(servaddr)) 
+  if(bind(lfd, (struct sockaddr *) &servaddr, 
+	  sizeof(servaddr)) 
      < 0){
     perror("Couldn't bind");
     exit(42);
   }
 
-  // Setup the list of file descriptors we want to wait for 
-  // events on
+  // Setup the list of file descriptors we want to 
+  // wait for events on
   pfd.fd = lfd;
   pfd.events = POLLIN | POLLPRI;
   
@@ -59,8 +64,9 @@ int main(int argc, char *argv[]){
       exit(42);
       
     case 0:
-      // Child process -- setup the file descriptors, and the run 
-      // the helper application
+      // Child process -- setup the file 
+      // descriptors, and the run the helper 
+      // application
       dup2(lfd, 0);
       dup2(lfd, 1);
 
