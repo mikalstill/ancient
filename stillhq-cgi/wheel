@@ -1,0 +1,85 @@
+#!/usr/bin/perl
+
+# Generate a simple color wheel for use on my web site
+
+use strict;
+use CGI;
+my($colorA, $colorB, $colorC, $colorD, $format, @hex, $result);
+
+$hex[0] = "0";
+$hex[1] = "1";
+$hex[2] = "2";
+$hex[3] = "3";
+$hex[4] = "4";
+$hex[5] = "5";
+$hex[6] = "6";
+$hex[7] = "7";
+$hex[8] = "8";
+$hex[9] = "9";
+$hex[10] = "A";
+$hex[11] = "B";
+$hex[12] = "C";
+$hex[13] = "D";
+$hex[14] = "E";
+$hex[15] = "F";
+
+$result = new CGI;
+print $result->header;
+
+$format = "";
+if($result->param("red") eq ""){
+    $format = "$format%s%s";
+    print "<b>Red = variable</b><br>";
+}
+else{
+    $format = "$format".$result->param("red");
+    print "<b>Red = ".$result->param("red")."</b><br>";
+}
+
+if($result->param("green") eq ""){
+    $format = "$format%s%s";
+    print "<b>Green = variable</b><br>";
+}
+else{
+    $format = "$format".$result->param("green");
+    print "<b>Green = ".$result->param("green")."</b><br>";
+}
+
+if($result->param("blue") eq ""){
+    $format = "$format%s%s";
+    print "<b>Blue = variable</b><br><br>";
+}
+else{
+    $format = "$format".$result->param("blue");
+    print "<b>Blue = ".$result->param("blue")."</b><br>";
+}
+
+print "<table>";
+for($colorA = 0; $colorA < 16; $colorA += 2){
+    print "<tr>\n";
+    for($colorB = 0; $colorB < 16; $colorB += 2){
+	print "<td><table>";
+
+	for($colorC = 0; $colorC < 16; $colorC += 2){
+	    print "<tr>\n";
+	    for($colorD = 0; $colorD < 16; $colorD += 2){
+		print "<td bgcolor=\"";
+		printf "$format", printHex($colorA), printHex($colorB), printHex($colorC), printHex($colorD);
+		print "\">&nbsp;";
+		print "</font></td>\n";
+	    }
+	    print "</tr>\n";
+	}
+
+	print "</table></td>\n";
+    }
+    print "</tr>\n";
+}
+print "</table>";
+
+#############################################################################
+
+sub printHex(){
+    my($input) = @_;
+    return $hex[$input];
+}

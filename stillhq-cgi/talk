@@ -1,0 +1,108 @@
+#!/usr/bin/perl
+
+use strict;
+use CGI;
+
+my($result, $path, $area, $talk, $thisslide, $maxslide, $filename, $count, $nextslide, $prevtitle);
+
+$result = new CGI();
+#$path = "/home/httpd/html";
+#$path = "/var/www/html";
+$path = "/home/s/stillhq/public_html/";
+
+$area = $result->param('area');
+$talk = $result->param('talk');
+$thisslide = $result->param('slide');
+$maxslide = `cat $path/$area/presentations/$talk | wc -l | tr -d " "` + 1;
+
+# Make zero look like zero
+if($thisslide eq ""){
+    $thisslide = 0;
+}
+$nextslide = $thisslide + 1;
+
+print "Content-type: text/html\n\n";
+print "<html><head><title>Slide show: $talk: $thisslide</title>\n";
+print "</head><body><div align=right>";
+if($thisslide != 0){
+    print "<a href=\"/cgi-bin/talk?area=$area&talk=$talk\">Contents</a>";
+}
+elsif($result->param("size") eq "1"){
+    print "<a href=\"/cgi-bin/talk?area=$area&talk=$talk\">Hide slide sizes</a>";
+}
+else{
+    print "<a href=\"/cgi-bin/talk?area=$area&talk=$talk&size=1\">Show slide sizes</a>";
+    }
+print "&nbsp;&nbsp;&nbsp;\n\n";
+
+if($thisslide < $maxslide + 1){
+    print "<a href=\"/cgi-bin/talk?area=$area&talk=$talk&slide=$nextslide\">Next</a>\n\n";
+}
+print "</div><BR><BR>\n\n";
+print "<center>\n";
+print "<table BGCOLOR=\"#999999\" WIDTH=\"95%\" CELLSPACING=0 BORDER=0 CELLPADDING=7>\n";
+print "<tr><td BGCOLOR=\"#2255FF\">\n";
+print "<font color=\"FFFFFF\" size=4 face=\"Lucida,Verdana,Helvetica,Arial\">\n";
+print "<b>\n\n";
+
+$prevtitle = "";
+
+if($thisslide == 0){
+    print "Table of contents";
+
+    print "</b></font></td></tr><tr><td BGCOLOR=\"FFFFFF\">\n";
+    print "<font color=\"000000\" size=4 face=\"Lucida,Verdana,Helvetica,Arial\">\n";
+
+    my($FILE);
+    $count = 1;
+    open FILE, "< $path/$area/presentations/$talk";
+    while(<FILE>){
+	chomp;
+	print "<LI><a href=\"/cgi-bin/talk?area=$area&talk=$talk&slide=$count\">";
+	$prevtitle = gettitle("$path/$area/presentations/$_");
+	print "$prevtitle</a>";
+
+	if($result->param("size") eq "1"){
+	    print "(".`cat $path/$area/presentations/$_ | wc -c | tr -d " "`." bytes)<BR>";
+	}
+
+	$count++;
+    }
+    close FILE;
+}
+elsif($thisslide < $maxslide + 1){
+    $filename = `head -$thisslide $path/$area/presentations/$talk | tail -1`;
+
+    print gettitle("$path/$area/presentations/$filename");
+    print "</b></font></td></tr><tr><td BGCOLOR=\"FFFFFF\">\n";
+    print "<font color=\"000000\" size=4 face=\"Lucida,Verdana,Helvetica,Arial\">\n";
+    print getbody("$path/$area/presentations/$filename");
+}
+else{
+    print "End of show\n\n";
+}
+
+print "</td></tr></table><br>&nbsp;</font></b><hr>\n";
+print "<div align=right>$thisslide of $maxslide</div>";
+print "</body></html>\n";
+
+exit;
+
+###########################################################
+sub gettitle{
+    my($filename) = @_;
+    my($temp);
+    
+    $temp = `grep TITLE $filename`;
+    $temp =~ s/TITLE: //;
+    $temp =~ s/<.*?>//g;
+    return $temp;
+}
+
+sub getbody{
+    my($filename) = @_;
+    my($temp);
+    
+    $temp = `grep -v TITLE $filename`;
+    return $temp;
+}

@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-# This program takes the kernel source for 2.4.18 and webifies it
+# This program takes the kernel source for 2.5.44 and webifies it
 use strict;
 use CGI;
 use DBI;
@@ -24,7 +24,7 @@ print $result->header;
 print $result->start_html(-title=>"lin-annot");
 
 $database = DBI->connect("DBI:mysql:database=linux:host=localhost", "root", "vodka4me", { PrintError => 0 });
-$srcdir = "/usr/src/linux-2.4.18-orig";
+$srcdir = "/usr/src/linux-2.5.44";
 
 if(!defined($database)){
     print "Database connection failed" . DBI->errstr;
@@ -80,7 +80,7 @@ if($mode eq ""){
 	    $inputfullfile =~ s/[\*\/]$//;
 	    print "<td width=\"20%\"><BR><a href=\"/cgi-bin/lin-annot?mode=display&page=";
 	    $_ = $srcdir;
-	    s/\/usr\/src\/linux-2.4.18-orig//;
+	    s/\/usr\/src\/linux-2.5.44//;
 	    print "$_/$inputfullfile\"><center><img src=\"/mikalicons/$icon\"><BR><BR><b>$inputfullfile</b></center></a><BR></td>\n";
 	}
 
@@ -126,7 +126,7 @@ elsif($mode eq "insert"){
     s/\'/\'\'/g;
     $annot = $_;
 
-    $filehash = `/usr/bin/md5sum /usr/src/linux-2.4.18-orig/$page | cut -f 1 -d " "`;
+    $filehash = `/usr/bin/md5sum /usr/src/linux-2.5.44/$page | cut -f 1 -d " "`;
     $select = $database->prepare("INSERT INTO annotations (file, line, annot, md5) VALUES ('$page', $line, '$annot', '$filehash')");
     if(!defined($select)){
 	print "Could not arrange select";
@@ -135,7 +135,7 @@ elsif($mode eq "insert"){
     }
     
     $select->execute() or die "Could not execute select" . $select->errstr;
-    print "<I>File hash (md5sum /usr/src/linux-2.4.18-orig/$page): $filehash<BR>Defined the annotation</i><br>\n";
+    print "<I>File hash (md5sum /usr/src/linux-2.5.44/$page): $filehash<BR>Defined the annotation</i><br>\n";
 
     if($word ne ""){
 	$select = $database->prepare("INSERT INTO words (word, file, line) VALUES ('$word', '$page', $line)");
@@ -167,7 +167,7 @@ elsif($mode eq "edit"){
     if($select->rows > 0){
 	@data = $select->fetchrow_array();
 
-	$filehash = `/usr/bin/md5sum /usr/src/linux-2.4.18-orig/$data[1] | cut -f 1 -d " "`;
+	$filehash = `/usr/bin/md5sum /usr/src/linux-2.5.44/$data[1] | cut -f 1 -d " "`;
 	if($filehash eq ""){
 	    print "Could not generate a hash";
 	    exit;
@@ -211,7 +211,7 @@ sub dostuff(){
 
     $file = "$filename";
     $file =~ s/\/\//\//g;
-    $filehash = `/usr/bin/md5sum /usr/src/linux-2.4.18-orig/$page | cut -f 1 -d " "`;
+    $filehash = `/usr/bin/md5sum /usr/src/linux-2.5.44/$page | cut -f 1 -d " "`;
 
     ###############################################
     # Build a list of all hot words
@@ -247,7 +247,7 @@ sub dostuff(){
 	}
     }
 
-    $select = $database->prepare("SELECT line, annot FROM annotations WHERE file = '$file'");
+    $select = $database->prepare("SELECT line, annot, ano FROM annotations WHERE file = '$file'");
     if(!defined($select)){
 	print "Could not arrange select";
 	$database->disconnect();
@@ -269,6 +269,7 @@ sub dostuff(){
 
     ###############################################
     # Now we go through and post process this to add the links for comments
+    print STDERR "code2html \"$srcdir/$file\"\n";
     open HTMLFILE, "/usr/local/bin/code2html \"$srcdir/$file\" 2> /dev/null |" or die "Couldn't open";
 
     $bodyfound = 0;
@@ -291,21 +292,18 @@ sub dostuff(){
 	    }
 
 	    if($annotations{$line} ne ""){
-		$_ = $annotations{$line};
-
-		if(/OLD~(.*)/){
-		     print "<table bgcolor=\"BB4444\" width=\"60%\"><tr><td width=\"20%\">";
+		if($annotations{$line} =~ /OLD~(.*)/){
+		     print "<table width=\"60%\"><tr><td width=\"20%\" bgcolor=\"BB4444\">";
 		     print "<a href=\"/cgi-bin/lin-annot?mode=edit&ano=$data[2]&cmd=import\">Import</a><br>";
 		     print "<a href=\"/cgi-bin/lin-annot?mode=edit&ano=$data[2]&cmd=delete\">Delete</a><br>";
-		     print "<td><i><b>This annotation comes from a different version of this source file. There are several operations you can perform 
-on this annotation...</b></i><BR><BR>";
-		     print "$_</td></tr></table></div>";
+		     print "<td bgcolor=\"BB4444\"><i><b>This annotation comes from a different version of this source file. There are several operations you can perform on this annotation...</b></i><BR><BR>";
+		     print "$1</td></tr></table></div>";
 		}
 		else
 		{
 		    print "<div align=right>";
-		    print "<table bgcolor=\"FFBB19\" width=\"60%\"><tr><td>";
-		    print "$_</td></tr></table></div>";
+		    print "<table width=\"60%\"><tr><td bgcolor=\"FFBB19\">";
+		    print $annotations{$line}."</td></tr></table></div>";
 		}
 	    }
 	    print "\n";
@@ -329,7 +327,8 @@ on this annotation...</b></i><BR><BR>";
 	$line++;
     }
 
+    # If we didn't see many lines, then things didn't work out...
     if($line < 2){
-	print "Markup of this file failed";
+	print "Markup of this file failed: \"$srcdir/$file\"";
     }
 }

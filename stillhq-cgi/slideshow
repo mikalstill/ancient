@@ -6,7 +6,8 @@ use CGI;
 my($result, $path, $area, $thisslide, $maxslide, $filename, $delay);
 
 $result = new CGI();
-$path = "/home/httpd/html";
+#$path = "/home/httpd/html";
+$path = "/home/s/stillhq/public_html/"
 $area = $result->param('area');
 $thisslide = $result->param('slide') + 1;
 $maxslide = `cat $path/$area/pictures/jpegs | wc -l | tr -d " "`;

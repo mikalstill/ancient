@@ -1,0 +1,80 @@
+#!/usr/bin/perl
+
+use strict;
+use CGI;
+my($result, $LIST, $COMMENT, $path, $dir, $line, @sb, %colors, $state, $count);
+
+$result = new CGI();
+print $result->header;
+
+$path = "/home/httpd/html/";
+$dir = $result->param('dir');
+
+$colors{"Unknown"} = "yellow";    # Unknown state
+$colors{"Tweaking"} = "orange";   # Bounced for tweaks
+$colors{"Rejected"} = "red";      # Someone said no
+$colors{"Accepted"} = "green";    # Pushed into the code base
+$colors{"Trivial"} = "blue";      # Trivial patch monkey is managing
+$colors{"Maintainer"} = "purple"; # Maintainer has accepted
+$colors{"Obsolete"} = "";         # Patch has been replaced with a newer one
+$colors{"Waiting"} = "4444FF";    # Waiting for someone to comment
+
+print "Mikal's patch tracker. This page tracks the current status of the patches I have submitted to the linux kernel. It's really for my own reference, but if you want to peruse, then so be it...<BR><BR>\n";
+
+print "<table>";
+print "<tr><td><b>Patch</b></td><td><b>Modified Date</b></td><td><b>Status</b></td><td><b>Comments</b></td></tr>";
+$line = 1;
+$count = 0;
+open LIST, "ls $path/$dir | grep -v state | grep -v comments |";
+while(<LIST>){
+    chomp;
+    $count++;
+
+    # The name of the patch
+    print "<tr";
+    if($line == 1){
+	print " bgcolor=\"CCCCCC\"";
+	$line = 0;
+	}
+    else{
+	$line++;
+    }
+    print "><td><a href=\"/$dir/$_\">$_</a></td>";
+    
+    # The creation date of the patch
+    @sb = stat("$path/$dir/$_");
+    print "<td>".localtime($sb[9])."</td>";
+
+    # Status of the patch
+    if(! -f "$path/$dir/$_-state"){
+	print "<td bgcolor=\"".$colors{"Unknown"}."\">Unknown</td>";
+    }
+    else{
+	$state=`cat $path/$dir/$_-state`;
+	chomp $state;
+	print "<td bgcolor=\"".$colors{$state}."\">$state</td>";
+    }
+
+    if(! -f "$path/$dir/$_-comments"){
+	print "<td></td>";
+    }
+    else{
+	print "<td>";
+	open COMMENT, "< $path/$dir/$_-comments";
+	while(<COMMENT>){
+	    s/</&lt;/g;
+	    s/>/&gt;/g;
+	    s/@/ [at] /g;
+	    s/From:(.*)/<i>From:$1<\/i><BR>/g;
+	    s/^[ \t]*$/<BR><BR>/g;
+	    print $_;
+	}
+	print "</td>";
+	close COMMENT;
+    }
+
+    print "</tr>\n";
+}
+print "</table>";
+
+print "<BR><BR>($count patches)<BR><BR>";

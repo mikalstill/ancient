@@ -40,7 +40,7 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 #
-# $Id: cvsweb,v 1.1 2002-07-24 20:58:28 mikal Exp $
+# $Id: cvsweb,v 1.2 2002-10-29 23:36:44 mikal Exp $
 #
 ###
 require 5.000;
@@ -123,7 +123,7 @@ sub OSCODE();
 ##### Start of Configuration Area ########
 # == EDIT this == 
 # User configuration is stored in
-$config = $ENV{'CVSWEB_CONFIG'} || '/home/httpd/cgi-bin/cvsweb.conf';
+$config = $ENV{'CVSWEB_CONFIG'} || '/home/s/stillhq/public_html/cgi-bin/cvsweb.conf';
 
 # == Configuration defaults ==
 # Defaults for configuration variables that shouldn't need
@@ -2398,7 +2398,7 @@ sub navigateHeader ($$$$$) {
     $swhere = urlencode($filename) if ($swhere eq "");
     print "<\!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">";
     print "<HTML>\n<HEAD>\n";
-    print '<!-- hennerik CVSweb $Revision: 1.1 $ -->';
+    print '<!-- hennerik CVSweb $Revision: 1.2 $ -->';
     print "\n<TITLE>$path$filename - $title - $rev</TITLE></HEAD>\n";
     print  "<BODY BGCOLOR=\"$backcolor\">\n";
     print "<table width=\"100%\" border=0 cellspacing=0 cellpadding=1 bgcolor=\"$navigationHeaderColor\">";
@@ -2755,7 +2755,7 @@ sub http_header(;$) {
 
 sub html_header($) {
     my ($title) = @_;
-    my $version = '$Revision: 1.1 $';
+    my $version = '$Revision: 1.2 $';
     http_header();
     print <<EOH;
 <!doctype html public "-//W3C//DTD HTML 4.0 Transitional//EN"
