@@ -37,11 +37,14 @@
  *     void tearDown( void ) { ... }
  *
  * @author <your name here>
- * @version $Revision: 1.8 $ $Date: 2002-08-27 09:07:26 $
+ * @version $Revision: 1.9 $ $Date: 2002-08-28 11:52:53 $
  *
  * Revision History
  *
  * $Log: not supported by cvs2svn $
+ * Revision 1.8  2002/08/27 09:07:26  u983118
+ * added tests for 3D matrix
+ *
  * Revision 1.7  2002/08/24 01:51:02  u983118
  * new tests for cepMatrix template, cepLs core implementation
  *
@@ -505,7 +508,7 @@ protected:
       }
     }
     
-    cout << "finished test\n";
+    // cout << "finished test\n";
   }
 }; // end Test
 
