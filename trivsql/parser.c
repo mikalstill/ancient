@@ -1063,6 +1063,7 @@ trivsql_recordset *trivsql_doselect(char *tname, char *cols){
   rrs = trivsql_xmalloc(sizeof(trivsql_recordset));
   rrs->numCols = sizeof(colNumbers) / sizeof(int);
   rrs->rows = NULL;
+  rrs->numRows = 0;
 
   printf("%d cols\n", rrs->numCols);
 
@@ -1075,6 +1076,8 @@ void *
 trivsql_xmalloc (size_t size)
 {
   void *buffer;
+
+  printf("Xmalloc: requested size is %d bytes\n", size);
 
   if ((buffer = malloc (size)) == NULL)
     {
@@ -1263,23 +1266,17 @@ void trivsql_addrow(trivsql_recordset *rs, char *tname, int row, int *cols){
   int colCount;
   trivsql_row *theRow;
 
-  // Make space for the new row
-  printf("Realloc %08x to %d\n", rs->rows,  sizeof(rs->rows) + sizeof(trivsql_row));
-  rs->rows = trivsql_xrealloc(rs->rows, sizeof(rs->rows) + sizeof(trivsql_row));
-  printf("Realloced\n");
-  theRow = rs->rows - sizeof(trivsql_row);
-
   printf("Malloc for %d cols\n", rs->numCols);
-  theRow->cols = (char **) trivsql_xmalloc(rs->numCols * sizeof(char *));
+
+  // Make space for the new row
+
 
   // Get the row
   for(colCount = 0; colCount < rs->numCols; colCount++){
     printf("Grab col (of %d)\n", rs->numCols);
 
     t = trivsql_xsnprintf("trivsql_%s_col%drow%d", tname, cols[colCount], row);
-    theRow->cols[colCount] = trivsql_dbread(gState, t);
-    
-    printf("Free %s\n", t);
+    printf("%s\n", trivsql_dbread(gState, t));
     trivsql_xfree(t);
   }
 }

@@ -14,7 +14,8 @@ typedef struct trivsql_internal_row
 typedef struct trivsql_internal_rs
 {
   int numCols;
-  trivsql_row *rows;
+  int numRows;
+  trivsql_row **rows;
 } trivsql_recordset;
 
 trivsql_state *trivsql_init(char *);
