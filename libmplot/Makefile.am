@@ -11,5 +11,5 @@ sample_SOURCES = example.c
 sample_LDADD = -lplot -L.libs
 graph_SOURCES = exgraph.c
 graph_LDADD = -lplot -L.libs
-parabola_SOURCES = exgraph.c
+parabola_SOURCES = parabola.c
 parabola_LDADD = -lplot -L.libs

@@ -96,7 +96,7 @@ sample_SOURCES = example.c
 sample_LDADD = -lplot -L.libs
 graph_SOURCES = exgraph.c
 graph_LDADD = -lplot -L.libs
-parabola_SOURCES = exgraph.c
+parabola_SOURCES = parabola.c
 parabola_LDADD = -lplot -L.libs
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
@@ -119,7 +119,7 @@ sample_LDFLAGS =
 graph_OBJECTS =  exgraph.o
 graph_DEPENDENCIES = 
 graph_LDFLAGS = 
-parabola_OBJECTS =  exgraph.o
+parabola_OBJECTS =  parabola.o
 parabola_DEPENDENCIES = 
 parabola_LDFLAGS = 
 CFLAGS = @CFLAGS@
@@ -137,7 +137,8 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = gtar
 GZIP_ENV = --best
-DEP_FILES =  .deps/example.P .deps/exgraph.P .deps/libplot.P
+DEP_FILES =  .deps/example.P .deps/exgraph.P .deps/libplot.P \
+.deps/parabola.P
 SOURCES = $(libplot_la_SOURCES) $(sample_SOURCES) $(graph_SOURCES) $(parabola_SOURCES)
 OBJECTS = $(libplot_la_OBJECTS) $(sample_OBJECTS) $(graph_OBJECTS) $(parabola_OBJECTS)
 
