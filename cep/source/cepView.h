@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     04/01/98
-// RCS-ID:      $Id: cepView.h,v 1.4 2002-06-02 20:41:58 u964076 Exp $
+// RCS-ID:      $Id: cepView.h,v 1.5 2002-06-03 19:51:29 u964076 Exp $
 // Copyright:   (c) Julian Smart and Markus Holzem
 // Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////
@@ -30,6 +30,8 @@ public:
 
 private:
   DECLARE_EVENT_TABLE ()
+
+    wxButton m_button;
 };
 
 class cepView:public wxView

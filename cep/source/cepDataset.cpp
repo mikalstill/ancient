@@ -20,13 +20,13 @@
 
 #include "core.h"
 
-cepDataset::cepDataset (string filename):
+cepDataset::cepDataset (const string& filename):
 m_filename (filename)
 {
   m_progress = NULL;
 }
 
-cepDataset::cepDataset (string filename, cepDatasetProgressCB callback):
+cepDataset::cepDataset (const string& filename, cepDatasetProgressCB callback):
 m_filename (filename)
 {
   m_progress = callback;

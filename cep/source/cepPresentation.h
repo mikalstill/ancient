@@ -31,15 +31,15 @@ class cepPresentation
 public:
   cepPresentation (long width = -1, long height = -1);
 
-  void xAxisTitle (string title);
-  void yAxisTitle (string title);
+  void xAxisTitle (const string& title);
+  void yAxisTitle (const string& title);
   void xAxisScale (int unitsPerCentiPixel);
   void yAxisScale (int unitsPerCentiPixel);
 
   void addDataPoint (long x, long y);
 
-  cepError createPDF (string filename);
-  cepError createBitmap (string filename);
+  cepError createPDF (const string& filename);
+  cepError createBitmap (const string& filename);
 
 private:
   void interpolate ();
@@ -53,8 +53,8 @@ private:
   int m_xUnit;
   int m_yUnit;
 
-    vector < long >m_data;
-    vector < bool > m_dataValid;
+  vector < long > m_data;
+  vector < bool > m_dataValid;
 };
 
 #endif

@@ -29,6 +29,3 @@ private:
   cepMatrix mul( double* row, int rowElements, cepMatrix &mat );
 
 };
-  
-  
-  

@@ -42,12 +42,12 @@ m_msg (), m_level (cepError::sevOk), m_actioned (true)
 {
 }
 
-cepError::cepError (string msg):
+cepError::cepError (const string& msg):
 m_msg (msg), m_level (cepError::sevErrorFatal), m_actioned (false)
 {
 }
 
-cepError::cepError (string msg, cepError::severity level):
+cepError::cepError (const string& msg, cepError::severity level):
 m_msg (msg), m_level (level), m_actioned (false)
 {
 }
@@ -69,11 +69,24 @@ bool cepError::isReal ()
 }
 
 void
+cepError::clear ()
+{
+  m_actioned = true;
+  m_msg = "";
+}
+
+void
 cepError::display ()
 {
   m_actioned = true;
 
-  if (!gOptions.errorDisplay[m_level])
+  bool dodisp = true;
+  string keyname(string("cepError-display-level") + 
+		 cepItoa((int) m_level));
+
+  // Deliberately dropping cepError return value here
+  gConfiguration->getValue(keyname, true, dodisp);
+  if (!dodisp)
     return;
 
   if (m_msg != "")

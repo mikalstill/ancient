@@ -15,3 +15,12 @@
 
 20020602 Michael Still (mikal@stillhq.com)
 	Started on the open dialog. Got cepError working with wxWindows
+
+20020602 Michael Still (mikal@stillhq.com)
+	UI improvements
+
+20020603 Michael Still (mikal@stillhq.com)
+	Started implementing the configuration database per user...
+
+20020603 Michael Still (mikal@stillhq.com)
+	Made everything which makes sense const

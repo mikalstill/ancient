@@ -35,13 +35,13 @@ m_dataValid (1, bool (false))
 }
 
 void
-cepPresentation::xAxisTitle (string title)
+cepPresentation::xAxisTitle (const string& title)
 {
   m_xTitle = title;
 }
 
 void
-cepPresentation::yAxisTitle (string title)
+cepPresentation::yAxisTitle (const string& title)
 {
   m_yTitle = title;
 }
@@ -141,12 +141,12 @@ cepPresentation::interpolate ()
     }
 }
 
-cepError cepPresentation::createPDF (string filename)
+cepError cepPresentation::createPDF (const string& filename)
 {
   return cepError ();
 }
 
-cepError cepPresentation::createBitmap (string filename)
+cepError cepPresentation::createBitmap (const string& filename)
 {
   interpolate ();
   return cepError ();

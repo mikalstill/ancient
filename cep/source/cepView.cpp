@@ -151,6 +151,15 @@ cepCanvas::cepCanvas (wxView * v, wxFrame * frame, const wxPoint & pos,
   wxScrolledWindow (frame, -1, pos, size, style)
 {
   view = v;
+
+  // Is this where we create new controls?
+  wxPoint pos, size;
+  pos.x = 100;
+  pos.y = 42;
+  size.x = -1;
+  size.y = -1;
+
+  //  m_button = new wxButton(v, -1, "This is a button", pos, size, 
 }
 
 // Define the repainting behaviour

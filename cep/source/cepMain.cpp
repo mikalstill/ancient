@@ -27,13 +27,6 @@ main (int argc, char *argv[])
 {
   cepError ce;
 
-  // Define some simple default options
-  gOptions.errorDisplay[cepError::sevDebug] = false;
-  gOptions.errorDisplay[cepError::sevInformational] = true;
-  gOptions.errorDisplay[cepError::sevWarning] = true;
-  gOptions.errorDisplay[cepError::sevErrorRecoverable] = true;
-  gOptions.errorDisplay[cepError::sevErrorFatal] = true;
-
   cepDataset myds ("../datasets/mb_ANKR_GPS", ds_progressCallback);
   ce = myds.munch ();
   if (ce.isReal ())

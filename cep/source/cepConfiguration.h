@@ -1,5 +1,5 @@
 /* 
-   Imp for the CEP error
+   Imp for the CEP configuration storage thingie
    Copyright (C) Michael Still                    2002
    
    This program is free software; you can redistribute it and/or modify
@@ -17,39 +17,21 @@
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifndef CEP_ERROR_HEADER
-#define CEP_ERROR_HEADER
+#ifndef CEP_CONFIG_HEADER
+#define CEP_CONFIG_HEADER
 
-class cepError
+class cepConfiguration
 {
 public:
-  // todo_mikal: implement severity
-  enum severity
-  {
-    sevOk = 0,
-    sevDebug,
-    sevInformational,
-    sevWarning,
-    sevErrorRecoverable,
-    sevErrorFatal,
-    sevMax
-  };
+  // Filename is the file which the config database should be persisted to
+  cepConfiguration (const string& filename);
 
-    cepError ();
-    cepError (const string& msg);
-    cepError (const string& msg, severity level);
-   ~cepError ();
+  // Get the value for a given configuration item, including default
+  cepError getValue(const string& valkey, const string& defval, 
+		    string& outval);
+  cepError getValue(const string& valkey, const bool& defval, bool& outval);
 
-  bool isReal ();
-  void clear();
-  void display ();
-  string getTitle();
-  int getIcon();
-  
-private:
-  string m_msg;
-  severity m_level;
-  bool m_actioned;
+  cepError setValue(const string& valkey, const int& value);
 };
 
 #endif

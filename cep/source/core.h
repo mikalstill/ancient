@@ -8,7 +8,7 @@
    the Free Software Foundation; either version 2 of the License, or
    (at your option) any later version.
    
-   This program is distributed in the hope that it will be useful,
+   This program is distibuted in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
@@ -39,13 +39,8 @@
 #include "cepDataset.h"
 #include "cepPresentation.h"
 #include "cepDate.h"
+#include "cepConfiguration.h"
 
-typedef struct cep_internal_options
-{
-  bool errorDisplay[cepError::sevMax];
-}
-cep_options;
-
-GLOBAL_THINGIE cep_options gOptions;
+GLOBAL_THINGIE cepConfiguration *gConfiguration;
 
 #endif

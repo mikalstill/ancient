@@ -53,18 +53,48 @@
 #include "cepDoc.h"
 #include "cepView.h"
 
+#include <stdlib.h>
+
 cepFrame *frame = (cepFrame *) NULL;
 
+// Start up our application. NOTE THAT YOU CAN'T DISPLAY MESSAGE BOXES HERE
+// BECAUSE WXWINDOWS ISN'T READY YET. Hence the m_error thing...
 IMPLEMENT_APP (cepApp) cepApp::cepApp (void)
 {
   m_docManager = (wxDocManager *) NULL;
+
+  // Open our configuration
+  char *homedir = getenv("HOME");
+  string config("");
+
+  if(homedir == NULL)
+    {
+      cepError error("Unable to determine your home directory. Defaulting to the current working directory", cepError::sevInformational);
+      m_error = error;
+      error.clear();
+    }
+  else
+    {
+      config = string(homedir);
+      config += "/";
+    }
+
+  config += ".cep";
+  gConfiguration = new cepConfiguration(config);
+
+  if(!m_error.isReal()){
+    cepError dbg("Configuration database is located at: " + config,
+  		 cepError::sevDebug);
+    m_error = dbg;
+    dbg.clear();
+  }
   
   // Define some simple default options for the handling of cepErrors
-  gOptions.errorDisplay[cepError::sevDebug] = false;
-  gOptions.errorDisplay[cepError::sevInformational] = true;
-  gOptions.errorDisplay[cepError::sevWarning] = true;
-  gOptions.errorDisplay[cepError::sevErrorRecoverable] = true;
-  gOptions.errorDisplay[cepError::sevErrorFatal] = true;
+  //  gOptions.errorDisplay[cepError::sevDebug] = false;
+  //  gOptions.errorDisplay[cepError::sevInformational] = true;
+  //  gOptions.errorDisplay[cepError::sevWarning] = true;
+  //  gOptions.errorDisplay[cepError::sevErrorRecoverable] = true;
+  //  gOptions.errorDisplay[cepError::sevErrorFatal] = true;
 }
 
 bool
@@ -87,6 +117,7 @@ cepApp::OnInit (void)
 		  wxDEFAULT_FRAME_STYLE);
   
   // Give it an icon (this is ignored in MDI mode: uses resources)
+  // todo_mikal: We should have our own icon
 #ifdef __WXMSW__
   frame->SetIcon (wxIcon ("doc"));
 #endif
@@ -98,11 +129,10 @@ cepApp::OnInit (void)
   wxMenu *file_menu = new wxMenu;
   wxMenu *edit_menu = (wxMenu *) NULL;
 
-  file_menu->Append (wxID_NEW, "&New...\tCtrl-N");
-  file_menu->Append (wxID_OPEN, "&Open...\tCtrl-X");
-
+  // This is magic, the shortcut keys just work from the menu name...
+  file_menu->Append (wxID_OPEN, "&Open...\tCtrl-O");
   file_menu->AppendSeparator ();
-  file_menu->Append (wxID_EXIT, "E&xit\tAlt-X");
+  file_menu->Append (wxID_EXIT, "E&xit\tCtrl-Q");
 
   // A nice touch: a history of files visited. Use this menu.
   m_docManager->FileHistoryUseMenu (file_menu);
@@ -124,6 +154,12 @@ cepApp::OnInit (void)
   frame->Show (TRUE);
 
   SetTopWindow (frame);
+
+  // Are there old errors?
+  if(m_error.isReal()){
+    m_error.display();
+    m_error.clear();
+  }
 
   // Display tips on startup
   // todo_mikal: make tips work
@@ -238,8 +274,7 @@ cepFrame::cepFrame (wxDocManager * manager, wxFrame * frame,
 void
 cepFrame::OnAbout (wxCommandEvent & WXUNUSED (event))
 {
-  (void)
-    wxMessageBox
+  wxMessageBox
     ("Techtonic Information Transform System\n\nA GPS, VLBI and SLR dataset manipulation tool by\n\tMichael Still\n\tDaniel Fernandez\n\tBlake Swadling\n\tNick Wheatstone\n\tand Kristy Van Der Vlist\n\nPortions copyright: Julian Smart julian.smart@ukonline.co.uk\n\nReleased under the terms of the GNU GPL",
      "About Techtonic Information Transform System");
 }
@@ -267,4 +302,30 @@ cepFrame *
 GetMainFrame (void)
 {
   return frame;
+}
+
+// Capture the window close event, so we can save config info about the window
+// todo_mikal: not called on close of application...
+void cepFrame::OnCloseWindow(wxCloseEvent& evt)
+{
+  // Save the window size to the configuration database
+  int width, height;
+  GetSize(&width, &height);
+
+  cepError err;
+  err = gConfiguration->setValue("mainwindow-size-x", width);
+  if(err.isReal()){
+    err.display();
+    err.clear();
+  }
+  else{
+    err = gConfiguration->setValue("mainwindow-size-y", height);
+    if(err.isReal()){
+      err.display();
+      err.clear();
+    }
+  }
+
+  // And actually close
+  wxDocMDIParentFrame::OnCloseWindow(evt);
 }

@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     04/01/98
-// RCS-ID:      $Id: cepUI.h,v 1.4 2002-06-02 20:29:58 u964076 Exp $
+// RCS-ID:      $Id: cepUI.h,v 1.5 2002-06-03 19:51:28 u964076 Exp $
 // Copyright:   (c) Julian Smart and Markus Holzem
 // Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////
@@ -17,6 +17,7 @@
 #define __DOCVIEWSAMPLEH__
 
 #include "wx/docmdi.h"
+#include "core.h"
 
 class wxDocManager;
 
@@ -33,26 +34,31 @@ public:
 
 protected:
     wxDocManager * m_docManager;
+    cepError m_error;
 };
 
 DECLARE_APP (cepApp)
-// Define a new frame
+     
+     // Define a new frame
      class cepCanvas;
      class cepFrame:public wxDocMDIParentFrame
      {
-     DECLARE_CLASS (cepFrame) public:
-       wxMenu * editMenu;
+     DECLARE_CLASS (cepFrame) 
+       public:
+     wxMenu * editMenu;
+     
+     cepFrame (wxDocManager * manager, wxFrame * frame,
+	       const wxString & title, const wxPoint & pos,
+	       const wxSize & size, long type);
+     
+     void OnAbout (wxCommandEvent & event);
+     cepCanvas *CreateCanvas (wxView * view, wxFrame * parent);
+     void OnCloseWindow(wxCloseEvent& evt);
+     
+     DECLARE_EVENT_TABLE ()
+};
 
-       cepFrame (wxDocManager * manager, wxFrame * frame,
-		const wxString & title, const wxPoint & pos,
-		const wxSize & size, long type);
-
-       void OnAbout (wxCommandEvent & event);
-       cepCanvas *CreateCanvas (wxView * view, wxFrame * parent);
-
-       DECLARE_EVENT_TABLE ()};
-
-     extern cepFrame *GetMainFrame (void);
+extern cepFrame *GetMainFrame (void);
 
 #define DOCVIEW_CUT     1
 #define DOCVIEW_ABOUT   2
