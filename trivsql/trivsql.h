@@ -1,6 +1,14 @@
 #include "tdb.h"
 #include "spinlock.h"
 
+#ifndef TRIVSQL_HEADER
+#define TRIVSQL_HEADER
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 #define TRIVSQL_TRUE 1
 #define TRIVSQL_FALSE 0
 #define SELTRUE 1
@@ -72,3 +80,9 @@ void trivsql_rsmovenext(trivsql_recordset *);
 int trivsql_rseof(trivsql_recordset *);
 int trivsql_rsbof(trivsql_recordset *);
 char *trivsql_rsfield(trivsql_recordset *, int);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif

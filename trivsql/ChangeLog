@@ -1,2 +1,4 @@
 Trivsql 0.2 -> Trivsql 0.3
 
+20020605 Michael Still (mikal@stillhq.com)
+	Added functions mapping the ADO recordset interface
