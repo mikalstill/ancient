@@ -14,7 +14,12 @@ attempt(){
       jarg="-j 7 CC=distcc"
     fi
 
-    make $jarg $1
+    if [ "%$1%" == "%menuconfig%" ]
+    then
+      make $jarg $1
+    else
+      make $jarg $1 # | tee - /tmp/mkkernel-$1-$jarg
+    fi
     die $?
 }
 

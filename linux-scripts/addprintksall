@@ -1,0 +1,9 @@
+#!/bin/bash
+
+for item in `ls *.c`
+do
+  base=`basename $item .c`
+
+  mv $item $base-master.c
+  addprintks $base-master.c > $item
+done

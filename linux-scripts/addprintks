@@ -45,22 +45,37 @@ while(<INPUT>){
     if(!(/ifdef/)){$match[4] = 1;}
     else{$match[4] = 0;}
 
-    if(/^[ \t]*\/\*/){$match[5] = 1;}
+    if(!(/==/)){$match[5] = 1;}
     else{$match[5] = 0;}
 
-    if(/return [^a-zA-Z_].*\(/){$match[6] = 1;}
+    if(/^[ \t]*\/\*/){$match[6] = 1;}
     else{$match[6] = 0;}
+
+    if(/return [^a-zA-Z_].*\(/){$match[7] = 1;}
+    else{$match[7] = 0;}
+
+    if(/if[ \t]*\(/){$match[8] = 1;}
+    else{$match[8] = 0;}
+
+    if(/kmalloc/){$match[9] = 1;}
+    else{$match[9] = 0;}
 
     ####################
 
     $summary = 0;
-    if($match[0] && $match[1] && $match[2] && $match[3] && $match[4]){$summary = 1}
-    elsif($match[5]){$summary = 2;}
-    elsif($match[6]){$summary = 3;}
+    if($match[0] && $match[1] && $match[2] && $match[3] && $match[4]
+       && $match[5]){$summary = 1}
+    elsif($match[6]){$summary = 2;}
+    elsif($match[7]){$summary = 3;}
+    elsif($match[8]){$summary = 4;}
+    elsif($match[9]){$summary = 5;}
 
-    if(($match[0] && $match[1] && $match[2] && $match[3] && $match[4])
-       || $match[5]
-       || $match[6]){
+    if(($match[0] && $match[1] && $match[2] && $match[3] && $match[4]
+	&& $match[5])
+       || $match[6]
+       || $match[7]
+       || $match[8]
+       || $match[9]){
       $infunc = 3;
       print "\t/* Inserted by functrace [$summary: @match] */\n";
       $location = $LINES[$inset - 1];
