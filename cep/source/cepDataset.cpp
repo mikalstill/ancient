@@ -33,6 +33,8 @@ cepDataset::cepDataset ():
     m_data[i] = NULL;
     m_offset[i] = "";
     m_offsetFloat[i] = 0.0;
+    m_b1[i] = -1.0;
+    m_b2[i] = -1.0;
   }
 
   m_progress = NULL;
@@ -48,6 +50,8 @@ cepDataset::cepDataset (cepDatasetProgressCB callback):
     m_data[i] = NULL;
     m_offset[i] = "";
     m_offsetFloat[i] = 0.0;
+    m_b1[i] = -1.0;
+    m_b2[i] = -1.0;
   }
 
   m_progress = callback;
@@ -55,7 +59,9 @@ cepDataset::cepDataset (cepDatasetProgressCB callback):
 
 cepDataset::cepDataset (cepMatrix<double> *data0, cepMatrix<double> *data1, cepMatrix<double> *data2, 
 			string offset0, string offset1, string offset2, string procHistory, 
-			string header0, string header1, string header2):
+			string header0, string header1, string header2,
+			double b1_0, double b1_1, double b1_2,
+			double b2_0, double b2_1, double b2_2):
   m_filename(""),
   m_procHistory(procHistory),
   m_ready(true),
@@ -75,6 +81,14 @@ cepDataset::cepDataset (cepMatrix<double> *data0, cepMatrix<double> *data1, cepM
   m_header[0] = header0;
   m_header[1] = header1;
   m_header[2] = header2;
+
+  m_b1[0] = b1_0;
+  m_b1[1] = b1_1;
+  m_b1[2] = b1_2;
+  
+  m_b2[0] = b2_0;
+  m_b2[1] = b2_1;
+  m_b2[2] = b2_2;
 }
 
 cepError cepDataset::read (const string& filename)
@@ -510,7 +524,9 @@ cepDataset cepDataset::filter(float low, float high)
 
   return cepDataset(data[0], data[1], data[2], m_offset[0], m_offset[1], m_offset[2], 
 		    m_procHistory + ": Zoomed",
-		    m_header[0], m_header[1], m_header[2]);
+		    m_header[0], m_header[1], m_header[2],
+		    m_b1[0], m_b1[1], m_b1[2],
+		    m_b2[0], m_b2[1], m_b2[2]);
 }
 
 // The display name of the dataset

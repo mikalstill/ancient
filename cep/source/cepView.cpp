@@ -665,21 +665,21 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
 		       theDataset->getProcHistory() + " : Residuals", 
 		       theDataset->getHeader((cepDataset::direction) 0), 
 		       theDataset->getHeader((cepDataset::direction) 1), 
-		       theDataset->getHeader((cepDataset::direction) 2));
+		       theDataset->getHeader((cepDataset::direction) 2),
+		       b1s[0], b1s[1], b1s[2], b2s[0], b2s[1], b2s[2]);
 
 
-		       char *cfname = strdup("/tmp/cep.XXXXXX");
-		       int fd;
-		       fd = mkstemp(cfname);
-        close(fd);
-        
-        string newcfname(string(cfname) + "~" + theDataset->getName());
-        newds.write(newcfname.c_str());
-        
-        wxGetApp().m_docManager->CreateDocument(string(newcfname + ".dat1").c_str(), wxDOC_SILENT);
-        free(cfname);
-
-
+      char *cfname = strdup("/tmp/cep.XXXXXX");
+      int fd;
+      fd = mkstemp(cfname);
+      close(fd);
+      
+      string newcfname(string(cfname) + "~" + theDataset->getName());
+      newds.write(newcfname.c_str());
+      
+      wxGetApp().m_docManager->CreateDocument(string(newcfname + ".dat1").c_str(), wxDOC_SILENT);
+      free(cfname);
+      
       // Actually force the graphs to redraw
       m_dirty = true;
       canvas->Refresh();

@@ -77,7 +77,9 @@ public:
   cepDataset (const cepDatasetProgressCB callback);
   cepDataset (cepMatrix<double> *data0, cepMatrix<double> *data1, cepMatrix<double> *data2, 
 	      string offset0, string offset1, string offset2, string procHistory,
-	      string header0, string header1, string header2);
+	      string header0, string header1, string header2,
+	      double b1_0, double b1_1, double b1_2,
+	      double b2_0, double b2_1, double b1_2);
 
   // Actually process the file
   cepError read(const string& filename);
@@ -104,15 +106,18 @@ private:
   string reverseOffset(direction i, string value);
 
   string m_filename;
-  string m_header[3];
-  string m_offset[3];
+  string m_header[dirUnknown];
+  string m_offset[dirUnknown];
   string m_procHistory;
-  float m_offsetFloat[3];
+  float m_offsetFloat[dirUnknown];
 
   cepDatasetProgressCB m_progress;
   cepMatrix<double> *m_data[dirUnknown];
   bool m_ready;
   bool m_wellformed;
+
+  double m_b1[dirUnknown];
+  double m_b2[dirUnknown];
 };
 
 #endif
