@@ -1,6 +1,6 @@
 .SUFFIXES : .sgml .ps .pdf
 
-all: thesis
+all: clean thesis
 
 thesis: GDMSthesis.sgml GDMSthesis.ps GDMSthesis.pdf
 	striptext -c < GDMSthesis.sgml | wc -w
