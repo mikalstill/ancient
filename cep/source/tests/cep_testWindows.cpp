@@ -26,11 +26,14 @@
  * Tests the framework which has been set up to window the incoming data
  *
  * @author Blake Swadling
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  *
  * Revision History
  *
  * $Log: not supported by cvs2svn $
+ * Revision 1.2  2002/08/29 10:50:47  u982087
+ * updated.
+ *
  * Revision 1.1  2002/08/28 14:28:11  u982087
  * initial revision
  *
@@ -134,6 +137,29 @@ protected:
     f.close();
 
   }
+
+
+
+
+  /** Test the hamming window. Dumps the coefficients to a delimited text file
+   * for viewing in your spread sheet of choice
+   */
+  void testChebyshev ()
+  {
+    int size = 100;
+    windower->setWindowType( cepDataWindower::WINDOW_CHEBYSHEV, size, 0 );
+
+    cepMatrix<double> result;
+    windower->window( makeData( size ), result );
+
+    ofstream f("windows.txt", ios::app);
+    f << endl << endl;
+    for( int i=0; i<result.getNumCols(); ++i ) {
+      f << result.getValue(0, i, 0) << ' ' << result.getValue(0, i, 1) << endl;
+    }
+    f.close();
+
+  }
   
 private:
   MyDataWindower *windower;
@@ -183,6 +209,10 @@ public:
       new CppUnit::TestCaller<Test>( "testHamming", &Test::testHamming ) );
     suiteOfTests->addTest(
       new CppUnit::TestCaller<Test>( "testBlackman", &Test::testBlackman ) );
+    /*
+    suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "testChebyshev", &Test::testChebyshev ) );
+    */
        
     return suiteOfTests;
   }
