@@ -70,28 +70,28 @@ cepWindowBandwidth::cepWindowBandwidth( bool getBandwidth ):
 }
 
 
-double cepWindowBandwidth::getSize()
+int cepWindowBandwidth::getSize()
 {
   for(size_t i = 0; i < m_size.Length(); i ++)
   {
     if(cepIsNumeric(m_size.GetChar(i)) == false)
     {
-      return NAN;
+      return -1;
     }
   }
-  return (atof(m_size.c_str()));
+  return (int)(atof(m_size.c_str()));
 }
  
-double cepWindowBandwidth::getOverlap()
+int cepWindowBandwidth::getOverlap()
 {
   for(size_t i = 0; i < m_overlap.Length(); i ++)
   {
     if(cepIsNumeric(m_overlap.GetChar(i)) == false)
     {
-      return NAN;
+      return -1;
     }
   }
-  return (atof(m_overlap.c_str()));
+  return (int)(atof(m_overlap.c_str()));
 }
 
 
@@ -144,6 +144,14 @@ void cepWindowUi::show()
   m_bandwidth = wa.getBandwidth();
 }
   
+int cepWindowUi::getSize()
+{
+  return m_size;
+}
+int cepWindowUi::getOverlap()
+{
+  return m_overlap;
+}
 double cepWindowUi::getBandwidth()
 {
   return m_bandwidth;

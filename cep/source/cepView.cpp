@@ -532,7 +532,6 @@ void cepView::OnWindowBlackman (wxCommandEvent& event)
 void cepView::OnWindowChebyshev (wxCommandEvent& event)
 {
   cepWindowUi windowUi;
-
   windowUi.showBandwidth();
 
   while( isnan( windowUi.getBandwidth()))
@@ -548,6 +547,7 @@ void cepView::OnWindowChebyshev (wxCommandEvent& event)
       err.display();
       return;
     }
+    
     cout << "value accepted" << endl;
   }
 }

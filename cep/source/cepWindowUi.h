@@ -78,9 +78,9 @@ public:
   cepWindowBandwidth( bool getBandwidth );
 
   //gets the Size value
-  double getSize();
+  int getSize();
   //gets the Overlap value
-  double getOverlap();
+  int getOverlap();
   //gets the Bandwidth value
   double getBandwidth();
 
@@ -156,10 +156,12 @@ public:
   void show();
 
   //gets the Bandwidth value
+  int getSize();
+  int getOverlap();
   double getBandwidth();
 private:
-  double m_size;   //the specified Size value
-  double m_overlap;   //the specified Overlap value
+  int m_size;   //the specified Size value
+  int m_overlap;   //the specified Overlap value
   double m_bandwidth;   //the specified Bandwidth value
 };
 
