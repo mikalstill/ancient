@@ -1,0 +1,34 @@
+
+all:
+	@echo "This Makefile is only for the CVS repository"
+	@echo "This will be deleted before making the distribution"
+	@echo ""
+	@if test ! -d config; then \
+	   echo "*** creating config directory" ;\
+	   @mkdir config;\
+	fi
+	@if test ! -f config\ltmain.sh; then \
+	   @echo "*** fetching ltmain.sh"; \
+	   @cp `locate ltmain.sh | grep libtool` config/; \
+	   @if ! $? -eq 0; then \
+	     @echo "*** unable to locate ltmain.sh"; \
+	     @echo "*** try running 'locate ltmain.sh' and finding the file yourself"; \
+	     @echo "*** it should be somewhere like /usr/chare/libtool-xxx"
+	     @exit 1
+	  fi
+	fi
+	@echo "*** Retrieving configure tests needed by configure.in"
+	@aclocal
+	@echo "*** Building Makefile templates (step one)"
+	@automake --add-missing > /dev/null 2>&1
+	@echo "*** Building Makefile templates (step two)"
+	@autoconf
+	@perl -pi -e 'if (/\[\/\$$\]\*. INSTALL=/) { print $$_ ; $$_ = "\"\") ;;\n"; }' configure
+	@-rm -f config.cache config.h
+	@echo "*** Create date/time stamp"
+	@touch stamp-h.in
+	@echo "*** Finished"
+	@echo "    Don't forget to run ./configure"
+	@echo "    If you haven't done so in a while, run ./configure --help"
+
+.SILENT:
