@@ -112,7 +112,7 @@
 
   </para>
   </sect3>
-  <sect3>
+  <sect3><title>Foobar</title>
   <para>
   For example a cubic spline interpolation provides a smooth curve with no instantaneous slope
   changes.  The advantage of cubic splines is that provided with a high sample rate system
