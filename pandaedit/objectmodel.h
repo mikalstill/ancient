@@ -51,6 +51,10 @@ typedef struct
   unsigned char *rast;
   matrix ctm;
 
+  string text;
+  string font;
+  int size;
+
   // I don't seem to be able to use object::commandType here, as it gets all
   // circular in it's confusion
   int type;
@@ -147,7 +151,9 @@ public:
      cLine = 0,
      cImage,
      cSaveState,
-     cRestoreState
+     cRestoreState,
+     cText,
+     cFont
    };
 
   object operator= (const object & other);
@@ -173,12 +179,16 @@ public:
   void rewriteCommand(int index, commandType type, 
 		      vector<cmdControlPoint> controlPoints);
   void clearCommands();
+
+  // TODO: There should be one of these to push things into the raster as well
   void executeCommand(int index, panda_page *pg);
 
   unsigned int getCommandCount();
   void getCommandLineColor(int index, int& r, int& g, int &b);
   void getCommandFillColor(int index, int& r, int& g, int &b);
   void getCommandCTM(int index, matrix &ctm);
+  void getCommandText(int index, string &text);
+  void getCommandFontAndSize(int index, string &text, int &size);
 
   vector<cmdControlPoint> getCommandPoints(int index, commandType & type);
   int getCommandId(int index);

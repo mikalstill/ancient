@@ -116,6 +116,8 @@ pdfRender::render ()
 	}
 
       // Set the colours for the object
+      // TODO: Only set the colours if they have changed from the previous
+      // command
       debug(dlTrace, "Set object colours");
       int r, g, b;
       page.getCommandLineColor(cmdcnt, r, g, b);
@@ -124,6 +126,7 @@ pdfRender::render ()
       plot_setfillcolor(m_plot, r, g, b);
 
       // Set the CTM
+      // TODO: Ditto, only if changed
       matrix ctm;
       page.getCommandCTM(cmdcnt, ctm);
       
@@ -145,16 +148,22 @@ pdfRender::render ()
 		  ctm.getRawItem(0, 2), ctm.getRawItem(1, 2));
 
       // Paint the object
-      debug(dlTrace, "Paint object");
       object::commandType type;
       vector<cmdControlPoint> controlPoints = 
 	page.getCommandPoints(cmdcnt, type);
-      
+      debug(dlTrace, string("Paint object with enum entry: ") + 
+	    toString(type));
+
+      string text, font;
+      int size;
+      page.getCommandText(cmdcnt, text);
+      page.getCommandFontAndSize(cmdcnt, font, size);
+
 #define SCALEDPT(in, mem) \
       (unsigned int) (controlPoints[in].mem.x * m_xscale), \
       (unsigned int) (controlPoints[in].mem.y * m_yscale)
 
-      if(controlPoints.size() > 0)
+      //      if(controlPoints.size() > 0)
 	{
 	  debug(dlTrace, "The object contains control points");
 	  char *plotState;
@@ -266,8 +275,7 @@ pdfRender::render ()
 		{
 		  //		  if(page.getCommandRaster(cmdcnt) != NULL)
 		    //		    plot_overlayraster(m_plot, 
-		    //	       (char *) page.getCommandRaster(cmdcnt), 
-		    //	       controlPoints[0].pt.x, 
+		    //	       (char *) page.getCommandRaster(cmdcnt), 		    //	       controlPoints[0].pt.x, 
 		    //	       controlPoints[0].pt.y,
 		    //	       controlPoints[1].pt.x, 
 		    //	       controlPoints[1].pt.y,
@@ -297,6 +305,17 @@ pdfRender::render ()
 	      else{
 		debug(dlTrace, "No state to apply");
 	      }
+	      break;
+
+	    case object::cText:
+	      debug(dlTrace, string("Writing the string: " + text));
+	      debug(dlTrace, string("With font: " + font));
+	      debug(dlTrace, string("And size: " + size));
+	      // TODO: Use the right font and size and location
+	      plot_setfontcolor(m_plot, 26, 22, 249);
+	      plot_setfont(m_plot, "n019004l.pfb", 18);
+	      plot_settextlocation(m_plot, 20, 70);
+	      plot_writestring(m_plot, (char *) text.c_str());
 	      break;
 
 	    default:
@@ -393,14 +412,9 @@ pdfRender::processCommandString(char *commandString, unsigned int length)
       line = "";
     }
 
-  // We might have a left over fragment of a command block as well
   if(m_commandString != "")
-    {
-      debug(dlTrace, "Appending command fragment");
-      //      appendCommand();
-      m_commandString = "";
-      m_controlString = "";
-    }
+    debug(dlTrace, "Command string wasn't NULL");
+  m_commandString = "";
 }
 
 void
@@ -707,8 +721,9 @@ pdfRender::getPNGfile ()
 void
 pdfRender::appendCommand(object::commandType type)
 {
-  if(m_controlPoints.size() == 0)
-    return;
+  // This test didn't work out, as text drawing commands don't have any control points
+  //if(m_controlPoints.size() == 0)
+  //  return;
 
   // Determine if this command is an append target
   command cmd;
@@ -784,11 +799,18 @@ pdfRender::appendCommand(object::commandType type)
   newcmd.rast = m_raster;
   newcmd.ctm = m_graphicsMatrix;
 
+  newcmd.text = m_text;
+  newcmd.font = m_font;
+  newcmd.size = m_size;
+
   // Ask the document to append the command
   debug(dlTrace, string("Appending a command with the unique id ") +
 	toString(newcmd.unique));
+  debug(dlTrace, string("m_text is: " + m_text));
   m_doc->appendCommand(m_pageno, newcmd);
   m_controlPoints.clear();
+
+  // TODO: Free m_raster
 }
 
 wxPoint

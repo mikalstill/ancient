@@ -597,26 +597,28 @@ pdfRender::command_TD ()
 void
 pdfRender::command_Tf ()
 {
-  debug(dlError, "Need to implement Tf");
-
-  string fontName, fontSize;
-
-  // Pop our arguements (reverse order)
-  fontSize = m_arguements.top ();
+  // We don't append this as a command, as it is an attribute
+  // of the text commands which we append. This is done so that
+  // if the command order is rearranged, then it won't affect
+  // the font used...
+  m_size = atoi(m_arguements.top().c_str());
   m_arguements.pop ();
-  fontName = m_arguements.top ();
+  m_font = m_arguements.top ();
   m_arguements.pop ();
-
-  m_commandString += fontName + " " + fontSize + " Tf\n";
 }
 
 // Show the text
 void
 pdfRender::command_Tj ()
 {
-  debug(dlError, "Need to implement Tj");
+  m_text = m_arguements.top ();
+  m_arguements.pop ();
 
-  m_commandString += "Tj\n";
+  debug(dlTrace, string("Appending a Tj command with the text: \"" + m_text + "\""));
+  if(markingLength(m_text) == 0)
+    debug(dlError, "No text for text drawing command");
+  else
+    appendCommand(object::cText);
 }
 
 // Set the text leading

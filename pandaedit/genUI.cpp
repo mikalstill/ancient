@@ -39,6 +39,7 @@
 #include <unistd.h>
 
 #include "configuration.h"
+#include "verbosity.h"
 
 fstream gLog;
 extern int gVerboseLevel;
@@ -86,7 +87,8 @@ bool genApp::OnInit (void)
   errHandler = new genWxErrorHandler ();
   genError::addErrorHandler (*errHandler);
 
-  gVerboseLevel = 100;
+  // These values are the highest level you _don't_ want to see
+  gVerboseLevel = dlInformational;
   gLogLevel = 100;
 
   // Create a document manager

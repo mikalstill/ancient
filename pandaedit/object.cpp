@@ -477,6 +477,23 @@ void object::getCommandCTM(int index, matrix &ctm)
   ctm = m_commands[index].ctm;
 }
 
+void object::getCommandText(int index, string &text)
+{
+  if(index >= m_commands.size())
+    return;
+
+  text = m_commands[index].text;
+}
+
+void object::getCommandFontAndSize(int index, string &font, int &size)
+{
+  if(index >= m_commands.size())
+    return;
+
+  font = m_commands[index].font;
+  size = m_commands[index].size;
+}
+
 void
 object::executeCommand(int index, panda_page *pg)
 {

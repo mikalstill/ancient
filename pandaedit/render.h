@@ -111,6 +111,10 @@ private:
   unsigned char *m_raster;
   float m_xscale, m_yscale;
 
+  string m_text;
+  string m_font;
+  int m_size;
+  
   // TODO mikal: these are obsolete and should be removed
   string m_commandString, m_controlString;
 };

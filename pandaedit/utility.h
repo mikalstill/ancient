@@ -33,4 +33,6 @@ int min (int a, int b);
 int abs (int a);
 bool isPowerOfTwo (int a);
 
+int markingLength(string str);
+
 #endif
