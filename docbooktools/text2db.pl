@@ -1,14 +1,20 @@
 #!/usr/local/bin/perl
 
 use strict;
-my($line, $prevline, $listmode, $listitemmode, $paramode, $ctr_l, $subst);
+my($line, $prevline, $listmode, $listitemmode, $paramode, $ctr_l, $subst, $sectnum, $firstsectnum, $temp);
 
 # Make random textfiles safe for display in docbook (outside a programlisting
 # block)
 
+$firstsectnum = $ARGV[1] - 1;
+if($firstsectnum eq ""){
+    $firstsectnum = 1;
+}
+
 $paramode = 1;
 $listmode = 0;
 $listitemmode = 0;
+$sectnum = $firstsectnum;
 
 $ctr_l = chr(12);
 print "<para>";
@@ -54,10 +60,6 @@ while(<STDIN>){
 		$line = "</para>";
 		$paramode = 0;
 	    }
-#	    if($listmode == 1){
-#		$line = "$line</listitem></itemizedlist>";
-#		$listmode = 0;
-#	    }
 	}
 
 	# We deal with lines starting with a number and then a fullstop as a 
@@ -77,6 +79,24 @@ while(<STDIN>){
 	    $listmode = 1;
 	    $listitemmode = 1;
 	    $paramode = 1;
+	}
+
+	# The libpng.txt file uses I. FOO as a heading format
+	elsif(/^(I+)\. (.*)/){
+	    $temp = "\n<sect".($firstsectnum + 1)."><title>$1. $2</title>";
+	    
+	    if($paramode == 1){
+		print "</para>";
+		$paramode = 0;
+	    }
+	    
+	    if($sectnum != $firstsectnum){
+		print "</sect$sectnum>\n";
+	    }
+
+	    $sectnum = $firstsectnum + 1;
+	    print $temp;
+	    $line = "";
 	}
 
 	# If this is a line with text, then we need to start a para sometimes
