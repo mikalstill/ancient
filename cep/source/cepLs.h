@@ -36,6 +36,9 @@ public:
   //do one iteration of the least squares algoritum
   const cepLs & cepDoVCV(cepMatrix<double> &data, cepMatrix<double> &matP);
 
+  //iterate least squares algoritum until stable
+  const cepLs & cepDoVCV(cepMatrix<double> &data);
+
   //do one iteration of the least squares algoritum
   const cepLs & cepDoRW(cepMatrix<double> &matA, cepMatrix<double> &matP);
 
@@ -60,12 +63,26 @@ private:
   //calculate the residuals of the least squares tranformation
   void calcResiduals(cepMatrix<double> &matA, cepMatrix<double> &matL );
 
+  //make the intial P matrix
+  const cepMatrix<double> initResiduals(cepMatrix<double> &data);
+
+  //make the intial P matrix
+  const cepMatrix<double> makeP(cepMatrix<double> &data);
+
   //make the A matrix
   const cepMatrix<double> makeA(cepMatrix<double> &data);
 
   //make the L matrix
   const cepMatrix<double> makeL(cepMatrix<double> &data);
 
+  //calc least square for a VCV matrix
+  void calcVCV(cepMatrix<double> &matA, cepMatrix<double> &matP, cepMatrix<double> &matL);
+
+  //calc least squares for a RW matrix
+  void calcRW(cepMatrix<double> &matA, cepMatrix<double> &matP, cepMatrix<double> &matL);
+
+  const cepMatrix<double> reweightVCV();
+  
   //calculate the matrix inverse
   const cepMatrix<double> inverse(cepMatrix<double> &mat);
 

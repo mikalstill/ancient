@@ -17,6 +17,7 @@
   * Mass Ave, Cambridge, MA 02139, USA. 
 */
 
+#include <math.h>
 #include "cepLs.h"
 
 cepLs::cepLs()
@@ -29,37 +30,38 @@ cepLs::~cepLs()
 
 const cepLs & cepLs::cepDoVCV(cepMatrix<double> &data, cepMatrix<double> &matP)
 {
-
-  cepMatrix<double> matA, matL, Atrans, AtransP, AtPInv;
-
+  cepMatrix<double> matA, matL;
+  
   matA = makeA(data);
   matL = makeL(data);
 
   sanityCheck(matA, matP);
   
-  Atrans = matA;
-  Atrans.transpose();
+  calcVCV(matA, matP, matL);
   
-  //if matrix is diagonal
-  if(matP.isDiagonal() == true)
+  return *this;
+}
+
+const cepLs & cepLs::cepDoVCV(cepMatrix<double> &data)
+{
+
+  cepMatrix<double> matA, matL, matP, lastResid;
+  
+  matA = makeA(data);
+  matL = makeL(data);
+  matP = makeP(data);
+  lastResid = initResiduals(data);
+   
+  sanityCheck(matA, matP);
+
+  calcVCV(matA, matP, matL);
+  
+  while(residual != lastResid)
   {
-    AtransP = mulDiag(Atrans, matP);
+    lastResid = residual;
+    matP = reweightVCV();
+    calcVCV(matA, matP, matL);
   }
-  else
-  {
-    cepError("Error, matP is not a VCV matrix", cepError::sevErrorRecoverable);
-  }
-
-  //caluclate (A^TPA)^-1
-  AtPInv = mulA(AtransP, matA);
-  AtPInv = inverse(AtPInv);
-
-  //calcualte A^TPL
-  AtransP *= matL;  
-  AtPInv *= AtransP;
-
-  matX = AtPInv;
-  calcResiduals(matA, matL);
 
   return *this;
 }
@@ -67,28 +69,15 @@ const cepLs & cepLs::cepDoVCV(cepMatrix<double> &data, cepMatrix<double> &matP)
 const cepLs & cepLs::cepDoRW(cepMatrix<double> &data, cepMatrix<double> &matP)
 {
 
-  cepMatrix<double> matA, matL, Atrans, AtransP, AtPInv;
+  cepMatrix<double> matA, matL;
 
   matA = makeA(data);
   matL = makeL(data);
 
   sanityCheck(matA, matP);
   
-  Atrans = matA;
-  Atrans.transpose();
-  AtransP = Amul(Atrans, matP);
-
-  //caluclate (A^TPA)^-1
-  AtPInv = mulA(AtransP, matA);
-  AtPInv = inverse(AtPInv);
-
-  //calcualte A^TPL
-  AtransP *= matL;
-  AtPInv *= AtransP;
-
-  matX = AtPInv;
-  calcResiduals(matA, matL);
-
+  calcRW(matA, matP, matL);
+  
   return *this;
 }
 
@@ -105,6 +94,37 @@ double cepLs::getB1()
 double cepLs::getB2()
 {
   return matX.getValue(1,0);
+}
+const cepMatrix<double> cepLs::initResiduals(cepMatrix<double> &data)
+{
+  cepMatrix<double> initResid(data.getNumRows(),1);
+  
+  for(int i = 0; i < initResid.getNumRows(); i ++){
+    initResid.setValue(i,0,0);
+  }
+
+  return initResid;
+}
+
+const cepMatrix<double> cepLs::makeP(cepMatrix<double> &data)
+{
+  cepMatrix<double>matP(data.getNumRows(), data.getNumRows());
+
+  for(int i = 0; i < matP.getNumRows(); i++)
+  {
+    for(int j = 0; j < matP.getNumCols(); j ++)
+    {
+      if(i == j)
+      {
+        matP.setValue(i,j, 1);
+      }
+      else
+      {
+        matP.setValue(i,j, 0);
+      }
+    }
+  }
+  return matP;      
 }
 
 const cepMatrix<double> cepLs::makeA(cepMatrix<double> &data)
@@ -134,7 +154,139 @@ const cepMatrix<double> cepLs::makeL(cepMatrix<double> &data)
     return matL;
 }
 
+void cepLs::calcVCV(cepMatrix<double> &matA, cepMatrix<double> &matP, cepMatrix<double> &matL)
+{
+  cepMatrix<double> Atrans, AtransP, AtPInv;
 
+  Atrans = matA;
+  Atrans.transpose();
+
+  //if matrix is diagonal
+  if(matP.isDiagonal() == true)
+  {
+    AtransP = mulDiag(Atrans, matP);
+  }
+  else
+  {
+    cepError("Error, matP is not a VCV matrix", cepError::sevErrorRecoverable);
+  }
+
+  //caluclate (A^TPA)^-1
+  AtPInv = mulA(AtransP, matA);
+  AtPInv = inverse(AtPInv);
+
+  //calcualte A^TPL
+  AtransP *= matL;
+  AtPInv *= AtransP;
+
+  matX = AtPInv;
+  calcResiduals(matA, matL);
+}
+
+void cepLs::calcRW(cepMatrix<double> &matA, cepMatrix<double> &matP, cepMatrix<double> &matL)
+{
+  cepMatrix<double> Atrans, AtransP, AtPInv;
+
+  Atrans = matA;
+  Atrans.transpose();
+  AtransP = Amul(Atrans, matP);
+
+  //caluclate (A^TPA)^-1
+  AtPInv = mulA(AtransP, matA);
+  AtPInv = inverse(AtPInv);
+
+  //calcualte A^TPL
+  AtransP *= matL;
+  AtPInv *= AtransP;
+
+  matX = AtPInv;
+  calcResiduals(matA, matL);
+}
+
+const cepMatrix<double> cepLs::reweightVCV()
+{
+  cepMatrix<double> tempResidual (5,1), newP(residual.getNumRows(), residual.getNumRows());
+  int numSwap = -1, median;
+  double temp, per25, per75, upperQ, lowerQ;
+  tempResidual = residual;
+
+  //sort residuals in ascending order
+  for(int i = 0; i < tempResidual.getNumRows(); i ++){
+    if(numSwap == 0)
+    {
+      break;
+    }
+
+    numSwap = 0;
+    for(int j = 0; j < tempResidual.getNumRows() - 1 - i; j ++){
+      if(tempResidual.getValue(j,0) > tempResidual.getValue(j+1, 0))
+      {
+        temp = tempResidual.getValue(j,0);
+        tempResidual.setValue(j,0,tempResidual.getValue(j+1,0));
+        tempResidual.setValue(j+1, 0, temp);
+        numSwap++;
+      }
+    }
+  }
+
+  //calc lower & upper quartiles
+  if((tempResidual.getNumRows() % 2) == 0)
+  {
+    median = tempResidual.getNumRows()/2;
+    if(median %2 == 0)
+    {
+      lowerQ = (tempResidual.getValue(median/2 - 1,0) + tempResidual.getValue((median/2),0))/2;
+      upperQ = (tempResidual.getValue(median/2 + median - 1,0) + tempResidual.getValue((median/2) + median,0))/2;
+    }
+    else
+    {
+      lowerQ = tempResidual.getValue((int)ceil(median/2),0);      
+      upperQ = tempResidual.getValue((int)ceil(median/2) + median,0);
+    }
+  }
+  else
+  {
+    median = (int)ceil((double)tempResidual.getNumRows()/2);
+
+    if(median %2 == 0)
+    {
+      lowerQ = (tempResidual.getValue(median/2 - 1,0) + tempResidual.getValue((median/2),0))/2;
+      upperQ = (tempResidual.getValue((median/2) - 2 + median,0) + tempResidual.getValue((median/2) - 1 + median,0))/2;
+        }
+    else
+    {
+      lowerQ = tempResidual.getValue((int)ceil(median/2),0);
+      upperQ = tempResidual.getValue((int)ceil(median/2) + median - 1,0);
+    }
+  }  
+
+  per25 = lowerQ - ((upperQ-lowerQ) * 1.5);
+  per75 = upperQ + ((upperQ-lowerQ) * 1.5);
+
+  //create new P matrix
+  for(int i = 0; i < newP.getNumRows(); i ++)
+  {
+    for(int j = 0; j < newP.getNumCols(); j ++)
+    {
+      if(i != j)
+      {
+        newP.setValue(i,j,0);
+      }
+      else
+      {
+        if((residual.getValue(i,0) < per25) || (residual.getValue(i,0) > per75))
+        {
+          newP.setValue(i, j, 0);
+        }
+        else
+        {
+          newP.setValue(i,j, 1);
+        }
+      }
+    }
+  }    
+  return newP; 
+}
 const cepMatrix<double> cepLs::Amul(cepMatrix<double> &matA, cepMatrix<double> &matB)
 {
   cepMatrix<double> ans(matA.getNumRows(), matB.getNumCols());
