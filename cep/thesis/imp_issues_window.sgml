@@ -8,57 +8,53 @@
 
   <sect3><title>Research</title>
     <para>
-      - Rectangular, Blackman, Hamming, Dolph-Chebychev, etc..
-      - Which algorithms?
-        - Rectangular: inluded for preliminary testing)
-        - Blackman: used to compare and contrast with hamming
-        - Hamming: a useful and very good algorithm. this provides nice side lobe attenuation
-        - Dolph-Chebyshev: another very good algorithm. This possesses a frequency response similar
-          to a Hamming window, however provides better attenuation of high frequencies. the minumum
-          attenuation of frequencies greater than the sampling frequency for dolph-chebyshev is 63 dB
-          as compared to 50 dB for hamming
-
-      - Assess alternative algorithms
-        This has been designed to be easily extensible. A new algorithm can be added by specialising
-        the cepWindowAlg class and overriding the getValue method.
-        A new windowing algorithm can be added at the expense of less than 10 lines of code (with the
-        exception of those such as dolph-chebyshev who require alot more attention)
+      locating algorithms for the implementation of the initial windowing algorithms was trivial.
+      these are all well documented and are easily implemetned. Dolph-Chebyshev window algorithm
+      was a little more elusive. initial attempts to implement this algorithm were unsuccessful.
+      2 different tacks were taken. Initially an attempt was made to implement this purely in the
+      timen domain, based on an algorihtm sourced from the speech recognition research at
+      the Institute for Signal and Information Processing, ISIP, located at Mississippi State University.
+      After many hours spent trying to validate the algorithm to it was decided that this could not be used.
+      A second attempt was made using a window generateed int the frequency domain, using code based on the
+      orignal 1947 paper by Dolph. This algorithm only supported odd window sizes, and its use of the ifft
+      required that its size be 2^n. this was unsatisfactory. The final algorithm that was implemented is
+      based on fortran code published in 1977 by IEEE Acoustics, Speech, and Signal Processing Society,
+      <!--TODO put this in the references section-->
     </para>
   </sect3> <!--research-->
 
   <sect3><title>Implementation</title>
   <para>
-       - How was it done?
-
-                           cepWindowAlg     <-------------------    cepDataWindower
-                                 ^
-                                 |
-              --------------------------------------
-              |            |           |           |
-          rectangular   blackman    hamming    chebyshev
-
-        - These coefficients can be generated for an arbitrary window size. The requirement that
-          the windowed data can be converted to the Fourier domain imposes afuther limitation in that
-          the fourier libraries we are using will only operate on a data set of size 2^n ( 0 &amp;< n < inf);
-          This restriction has been implmented at the UI level, maintaining the flexibility of the
-          windowing subsystem.
-
-
-        - Blackman - this was added at a simlar time
-            coeff(i) = 0.42 - 0.5*cos( 2*PI*val ) + 0.08*cos(4*PI* i/(size-1));
+    The windowing subsystem is designed to be extensible. Using OO techniques, a general algorithm for generating
+    the window is combined with a specialiesed class which generates the individual coefficient. This means that to
+    add another algorithm costs as little 10 lines of code, including user interface integration.
+  </para>
+  <para>
+    For all windows, coefficients can be generated for an arbitrary window size. The requirement that
+    the windowed data can be converted to the Fourier domain imposes futher limitation in that
+    the Fourier libraries we are using will only operate on a data set of size 2^n ( 0 &amp; n &amp; inf);
+    This restriction has been implmented at the UI level, maintaining the flexibility of the
+    windowing subsystem.
+  </para>
+  <para>
+    The actual algorithms implemented are as follows
+        - Hanning. implemented using the time honoured formula
+          coeff(i) = 0.50 - 0.50*cos( 2*PI*i/(size-1) );
         - Hamming. implemented using the time honoured formula
-            coeff(i) = 0.54 - 0.46*cos( 2*PI*i/(size-1) );
+          coeff(i) = 0.54 - 0.46*cos( 2*PI*i/(size-1) );
+        - Blackman - this was added at a simlar time
+          coeff(i) = 0.42 - 0.5*cos( 2*PI*val ) + 0.08*cos(4*PI* i/(size-1));
         - Dolph-Chebychev
+          chebyshev is implemeted as the inverse DFT of the chebyshev polynomial evaluated
+          at N equally spaced frequencies on the unit circle the equation for the nth order
+          chebyshev equation clculated at x is
+          cheb(n,x) = cos(n*acos(x(ind)))
 
-            http://www.maths.tcd.ie/~plynch/Publications/Dolph.pdf
-            http://www.isip.msstate.edu/projects/speech/software/documentation/class/algo/Window/
-            http://www.octave.org/octave-lists/archive/octave-sources.2002/msg00019.html
-            dolph
         - etc..
        - Speed/ Optimisations
           - calulation of window coefficients are performed only when the algorithm is changed, or paramters
             are altered.
-          - for the simpler algoritms, speed is not an issue. Th emost expensive of these algorithms [blackman]
+          - for the simpler algorithms, speed is not an issue. The most expensive of these algorithms [blackman]
             2 cosines and 6 muliplications. this is inexpensive when considering the frequency at which recalulation
             will be required, and the relatively small size of the window required.
           - Dolph-Chebyshev will be more expensive. The code that is implmented is based on a FORTRAN algorithm. This
@@ -66,6 +62,12 @@
             The support the ability of the user to request a window of arbitrary size, this particular window algorithm
             implements is own inverse fourier transform.
             <!-- TODO - insert an example of the ifft here -->
+
+      - Assess alternative algorithms
+        This has been designed to be easily extensible. A new algorithm can be added by specialising
+        the cepWindowAlg class and overriding the getValue method.
+        A new windowing algorithm can be added at the expense of less than 10 lines of code (with the
+        exception of those such as dolph-chebyshev who require alot more attention)
 
   </para>
   </sect3> <!--Implementation-->
@@ -76,6 +78,18 @@
   - possible optimisation of the dolph-chebyshev code
   </para>
   </sect3> <!--Future Enahncements-->
+
+  <sect3><title>References</title>
+  <para>
+  <!--
+    http://www.maths.tcd.ie/~plynch/Publications/Dolph.pdf
+    http://www.isip.msstate.edu/projects/speech/software/documentation/class/algo/Window/
+    http://www.octave.org/octave-lists/archive/octave-sources.2002/msg00019.html
+    "Programs for Digital Signal Processing", IEEE Acoustics, Speech, and Signal Processing Society, 1977
+    dolph
+  -->
+  </para>
+  </sect3>
 
 
 </sect2> <!--Windowing-->
