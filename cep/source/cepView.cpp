@@ -76,7 +76,7 @@ BEGIN_EVENT_TABLE (cepView, wxView)
   EVT_MENU (CEPMENU_SHOWX, cepView::OnToggleX)
   EVT_MENU (CEPMENU_SHOWY, cepView::OnToggleY)
   EVT_MENU (CEPMENU_SHOWZ, cepView::OnToggleZ)
-  EVT_MENU (CEPMENU_LS, cepView::OnLeastSquares)
+  EVT_MENU (CEPMENU_LS, cepView::OnLeastSquaresVCV)
 END_EVENT_TABLE ()
   
 cepView::cepView ():
@@ -90,6 +90,19 @@ cepView::cepView ():
   m_x = NULL;
   m_y = NULL;
   m_z = NULL;
+
+  // Do we want to display a LS regression?
+  cepError err;
+  int currentLs;
+  err = m_config->getValue("ui-mathmenu-displayls",
+			   (int) lsDisplayNone,
+			   currentLs);
+  if(err.isReal()){
+    err.display();
+  }
+  else{
+    m_displayLs = (cepLsDisplay) currentLs;
+  }
 }
 
 cepView::~cepView ()
@@ -584,18 +597,25 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
 }
 
 // Perform a least squares regression on the dataset (in all directions)
-void cepView::OnLeastSquares (wxCommandEvent &pevt)
+void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
 {
   m_dirty = true;
 
-  LeastSquares(m_x, "x");
-  LeastSquares(m_y, "y");
-  LeastSquares(m_z, "z");
-  
+  LeastSquaresVCV(m_x, "x");
+  LeastSquaresVCV(m_y, "y");
+  LeastSquaresVCV(m_z, "z");
+
+  m_displayLs = lsDisplayVCV;
+  cepError err;
+  err = m_config->setValue("ui-mathmenu-displayls", (int) m_displayLs);
+  if(err.isReal()){
+    err.display();
+  }
+
   // todo_mikal post redraw
 }
 
-void cepView::LeastSquares(cepMatrix<double> *mat, string direction)
+void cepView::LeastSquaresVCV(cepMatrix<double> *mat, string direction)
 {
   // Do we have any data?
   if(mat == NULL){

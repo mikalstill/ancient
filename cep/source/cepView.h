@@ -60,6 +60,12 @@ private:
 class cepView:public wxView
 {
 public:
+  enum cepLsDisplay{
+    lsDisplayNone = 0,
+      lsDisplayVCV,
+      lsDisplayRW
+  };
+
   wxFrame * frame;
   cepCanvas *canvas;
 
@@ -85,9 +91,9 @@ public:
   void OnToggleX (wxCommandEvent& event);
   void OnToggleY (wxCommandEvent& event);
   void OnToggleZ (wxCommandEvent& event);
-  void OnLeastSquares (wxCommandEvent& event);
-
-  void LeastSquares (cepMatrix<double> *mat, string direction);
+ 
+  void OnLeastSquaresVCV (wxCommandEvent& event);
+  void LeastSquaresVCV (cepMatrix<double> *mat, string direction);
 
 private:
   DECLARE_DYNAMIC_CLASS (cepView) 
@@ -99,6 +105,7 @@ private:
   string m_pngCache[3]; 
   bool m_dirty;
   bool m_plotfailed;
+  cepLsDisplay m_displayLs;
   cepConfiguration *m_config;
   cepWxErrorHandler *errHandler;
 
