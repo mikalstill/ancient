@@ -9,8 +9,10 @@
 #include "fileutil.h"
 
 int main(int argc, char *argv[]){
-  int fd, count, bytespersec, secperclu, resseccnt, numfats, rootentcnt, totsec16, fatsz16, rootdirsec, fatsz, totsec, totsec32, datasec, fattype, hidseccnt;
-  long clucnt;
+  int fd, count, bytespersec, secperclu, resseccnt, numfats, rootentcnt, totsec16, 
+    fatsz16, rootdirsec, fatsz, totsec, totsec32, datasec, fattype, hidseccnt,
+    fatcount, chainsize;
+  long clucnt, lowclucnt, thisclu;
   char *file;
   long long filep;
   struct stat sb;
@@ -139,9 +141,36 @@ int main(int argc, char *argv[]){
     printf("%02x ", (unsigned char) file[filep++]);
   printf("\n\n");
 
-  // First FAT
-  printf("First FAT starts at byte: %d\n", resseccnt* bytespersec);
+  for(fatcount = 32000; fatcount < numfats; fatcount++){
+    printf("FAT %d starts at byte: %d\n", fatcount, 
+	   (resseccnt + fatcount) * bytespersec);
+    filep = (resseccnt + fatcount) * bytespersec;
+    printf("System information: ");
+    for(count = 0; count < 4; count++)
+      printf("%02x ", (unsigned char) file[filep++]);
+    printf("\n\n");
+    
+    // Follow a chain
+    thisclu = 2;
+    lowclucnt = 2;
+    
+    while(lowclucnt < fatsz16 * 2){
+      thisclu = lowclucnt++;
+      printf("0x%04x ", thisclu);
+      thisclu = (unsigned short) file[(resseccnt * bytespersec) + (thisclu * 2)];
+      chainsize = 1;
 
+      while((thisclu != 0) && (thisclu < 0xFFF7)){
+	printf("0x%04x ", 
+	       (unsigned short) file[(resseccnt * bytespersec) + (thisclu * 2)]);
+	thisclu = (unsigned short) file[(resseccnt * bytespersec) + (thisclu * 2)];
+	chainsize++;
+      }
+      
+      printf("END (%d bytes)\n\n", chainsize * bytespersec);
+    }
+  }
+  
   // It's polite to cleanup
   munmap(file, sb.st_size);
   close(fd);
