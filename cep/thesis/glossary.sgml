@@ -39,15 +39,29 @@
 
    <glossentry><glossterm>FFTW</glossterm>
       <glossdef><para>
-      Fastest Fourier Transform in the West, a C library to preform Fast Fourier Transforms.
+      Fastest Fourier Transform in the West, a C library to perform Fast Fourier Transforms.
         </para></glossdef>
     </glossentry>
 
+    <glossentry><glossterm>IDFT</glossterm>
+      <glossdef><para>
+	   Inverse Discrete Fourier Transform
+        </para></glossdef>
+    </glossentry>
+    
+
+    <glossentry><glossterm>IFFT</glossterm>
+      <glossdef><para>
+	   Inverse  Fast Fourier Transform
+        </para></glossdef>
+    </glossentry>
+    
     <glossentry><glossterm>ISIP</glossterm>
       <glossdef><para>
 	   Institute for Signal and Information Processing, Mississippi State University
         </para></glossdef>
     </glossentry>
+
 
     <glossentry><glossterm>MIT</glossterm>
       <glossdef><para>
@@ -57,7 +71,7 @@
     
     <glossentry><glossterm>NTB</glossterm>
       <glossdef><para>
-           Normalised Transition Bandwidth. Used for tuning the Dolph-Chebyshev window
+           Normalised Transition Bandwidth, used for tuning the Dolph-Chebyshev window
         </para></glossdef>
     </glossentry>
 
@@ -93,7 +107,7 @@
     
     <glossentry><glossterm>VLBI</glossterm>
       <glossdef><para>
-           Very Long Base Line interferometry
+           Very Long Baseline Interferometry
         </para></glossdef>
     </glossentry>
 
