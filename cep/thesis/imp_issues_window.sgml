@@ -9,13 +9,19 @@
   <sect3><title>Research</title>
     <para>
       Locating algorithms for the implementation of the initial windowing algorithms was trivial. The majority of these are well
-      documented and are easily implemented. Dolph-Chebyshev window algorithm, however, was a little more elusive. Initial attempts to implement
-      this algorithm were unsuccessful. Two different approaches were taken: Initially an attempt was made to implement this purely in the
-      time domain, based on an algorithm sourced from the speech recognition research at the Institute for Signal and Information Processing,
-      ISIP, located at Mississippi State University. After many hours spent trying to validate the algorithm, it was decided that this could
-      not be used. A second attempt was made using a window generated in the frequency domain, using code based on the original 1947 paper
-      by Dolph. This algorithm only supported odd window sizes, and its use of the IFFT required that its size be 2<superscript>n</superscript>.
-      This was unsatisfactory. The final algorithm that was implemented is based on FORTRAN code published in 1977 by
+      documented and are easily implemented. Dolph-Chebyshev window algorithm, however, was a little more elusive. Initial attempts 
+      to implement
+      this algorithm were unsuccessful. Two different approaches were taken; initially an attempt was made to implement this purely 
+      in the
+      time domain, based on an algorithm sourced from the speech recognition research at the Institute for Signal and Information 
+      Processing,
+      ISIP, located at Mississippi State University. After many hours spent trying to validate the algorithm, it was decided that 
+      this could
+      not be used. A second attempt was made using a window generated in the frequency domain, using code based on the original 
+      1947 paper
+      by Dolph. This algorithm only supported odd window sizes, and the implementation of the IFFT libary contained in the 
+      <command>GDMS</command> required that its window size be  2<superscript>n</superscript>.
+      The final algorithm that was implemented is based on FORTRAN code published in 1977 by
       IEEE Acoustics, Speech, and Signal Processing Society,
     </para>
   </sect3> <!--research-->
@@ -23,7 +29,7 @@
   <sect3><title>Implementation</title>
   <para>
     The windowing subsystem is designed to be extensible. Using OO techniques, a general algorithm for generating the window is
-    combined with a specialised class which generates the individual coefficient. This means that to add another algorithm costs
+    combined with a specialised class which generates each individual coefficient. This means that to add another algorithm costs
     as little 10 lines of code, including user interface integration.   
     <figure>
       <title>Windowing Class Structure</title>
@@ -33,20 +39,23 @@
   <para>
     For all windows, coefficients can be generated for an arbitrary window size. The requirement that the windowed data be
     transformed to the Fourier domain imposes further limitation in that the Fourier libraries we are using will only operate on a
-    data set of size 2<superscript>n</superscript>, 0 &lt; n &lt; &infin;. This restriction has been implemented at the User interface
-    level, maintaining the flexibility of the windowing subsystem.
+    data set of size 2<superscript>n</superscript>, 0 &lt; n &lt; &infin;. This restriction has been implemented at the User 
+    interface level, maintaining the flexibility of the windowing subsystem.
   </para>
 
   <sect4><title>Optimisation Issues</title>
   <para>
     Due to the simple nature of the majority of the algorithms in this module, speed is not generally an issue. With the exception
-    of Chebyshev, the most expensive calculation involves two cosine and four multiplications. Since the size of the windows used
-    tend to be small this is a relatively insignificant overhead. Dolph-Chebyshev is a little different, since this window is
-    calculated in the Fourier domain it is computationally more expensive. In order to support the flexibility of the windowing
+    of Chebyshev, the most expensive calculation involves two cosine and four multiplication operations. Since the size of the 
+    windows used
+    tend to be small this is a relatively insignificant overhead. Dolph-Chebyshev is a little different, as this window is
+    calculated in the Fourier domain, the trasfomed into the time domain via an IFFT it is computationally more expensive. 
+    In order to support the flexibility of the windowing
     subsystem, this algorithm implements its own IFFT. Due to the small size of the window used, however, this cost is minimal. In
-    fact, this cost is more than offset by the increase in flexibility and confidence in the integrity of the algorithm.
-   In order to address performance concerns and to speed the process as a whole, the number of calculations performed in this subsystem has
-    been carefully considered and recalculation of the coefficients is only performed when it is the unavoidable.
+    fact, it is more than offset by the increase in flexibility and confidence in the integrity of the algorithm.
+    In order to address performance concerns and to speed up the process as a whole, the number of calculations performed in this 
+    subsystem has
+    been carefully considered and recalculation of the coefficients is only performed when it is unavoidable.
    </para>
  </sect4>
      
