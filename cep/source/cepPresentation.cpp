@@ -266,10 +266,17 @@ cepPresentation::createBitmap (float& scale, long& minval)
 		       m_height - textHeight);
   plot_writestring(graph, (char *) endDate.getShortDate().c_str());
 
+  /////////////////////////
   // Minimum value vertical
-  plot_settextlocation(graph, textHeight + 2, m_height - graphInset);
-  plot_writestringrot(graph, "Foo", 30);
+  plot_settextlocation(graph, textHeight + 10, m_height - graphInset);
+  plot_writestringrot(graph, (char *) cepToString((float) m_yminval / 10000, true).c_str(), 90);
 
+  // Maximum value vertical
+  plot_settextlocation(graph, textHeight + 10,
+		       plot_stringheight(graph, (char *) 
+					 cepToString((float) m_ymaxval / 10000, true).c_str()) + 
+		       graphInset);
+  plot_writestringrot(graph, (char *) cepToString((float) m_ymaxval / 10000, true).c_str(), 90);
   
   ////////////////////////////////////////////////////////////////////////////////
   // Now draw the actual graph

@@ -49,11 +49,21 @@ cepToString (double number)
 }
 
 string
-cepToString (float number)
+cepToString (float number, bool suppressTrailingZeros)
 {
   char buffer[10];
 
   snprintf (buffer, 10, "%f", number);
+
+  // Remove trailing zeros (sometimes)
+  if(suppressTrailingZeros){
+    int i = strlen(buffer) - 1;
+    while(buffer[i] == '0'){
+      i--;
+    }
+    buffer[i + 1] = '\0';
+  }
+
   return string (buffer);
 }
 

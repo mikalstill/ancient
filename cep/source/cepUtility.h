@@ -27,7 +27,7 @@ using namespace std;
 string cepToString (int number);
 string cepToString (long number);
 string cepToString (double number);
-string cepToString (float number);
+string cepToString (float number, bool suppressTailingZeros = false);
 string cepToString (bool val);
 string cepToString (char val);
 string cepToString (size_t val);
