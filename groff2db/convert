@@ -16,10 +16,11 @@
 # Bold is also an emphasis at the moment
 # And R'ing of text
 # Table formatting
+# Strip styles out when we are in display state
 
 use strict;
 my($INPUT, $OUTPUT);
-my($parastate, $liststate, $listitemstate, $footnotestate, $sectionstate, $tablestate, $stylestate, $displaystate, $waitstate);
+my($parastate, $liststate, $listitemstate, $footnotestate, $sectionstate, $tablestate, $stylestate, $displaystate, $waitstate, $quotestate);
 my($length);
 my($chapters, $chapter, $chaptercount, $temp, $inputused);
 my(@spinner, $linecount, $condlinecount);
@@ -59,6 +60,7 @@ foreach $chapter (split(/ /, $chapters)){
     $tablestate = 0;
     $displaystate = 0;
     $stylestate = "";
+    $quotestate = 0;
     $inputused = 0;
     
     # For each line in the file...
@@ -126,26 +128,19 @@ foreach $chapter (split(/ /, $chapters)){
 	}
 	
 	# Display start -- is case sensitive
-	elsif(/^\.DS(.*)/){
+	elsif((/^\.DS(.*)/) || (/^\.Dx(.*)/i)){
 	    endpara();
-	    print OUTPUT "<screen>\n";
+	    print OUTPUT "<example><title></title><programlisting>\n";
 	    $displaystate = 1;
 	}
 
-	# Display start
-	elsif(/^\.Dx(.*)/i){
-	    endpara();
-	    print OUTPUT "<screen>\n";
-	    $displaystate = 1;
-	}
-	
 	# Display end
 	elsif(/^\.DE(.*)/i){
 	    if($displaystate == 1){
-		print OUTPUT "</screen>\n";
-                startpara();
+		print OUTPUT "</programlisting></example>\n";
+		$displaystate = 0;
+		startpara();
 	    }
-	    $displaystate = 0;
 	}
 	
 	# Footnote start
@@ -168,6 +163,7 @@ foreach $chapter (split(/ /, $chapters)){
 	
 	# Headings
 	elsif(/^\.H([0-7])[ \t]*(.*)/i){
+	    print OUTPUT closeallstates();
 	    endpara();
 	    
 	    if($sectionstate == 1){
@@ -184,6 +180,7 @@ foreach $chapter (split(/ /, $chapters)){
 	
 	# Headings (Unsupported)
 	elsif(/^\.H([8-9])[ \t]*(.*)/i){
+	    print OUTPUT closeallstates();
 	    endpara();
 	    print OUTPUT "<section><title>Title???</title>\n";
 	    $sectionstate = 1;
@@ -249,6 +246,15 @@ foreach $chapter (split(/ /, $chapters)){
 	elsif(/^\.P[ \t]*([0-9]*)(.*)/i){
 	    endpara();
             startpara();
+	}
+
+	elsif(/^\.Quote(.*)/i){
+	    print OUTPUT "<quote>\n";
+	    $quotestate = 1;
+	}
+
+	elsif((/^\.End-quote(.*)/i) && ($quotestate == 1)){
+	    print OUTPUT "</quote>\n";
 	}
 	
 	# Unknown command
@@ -340,69 +346,82 @@ sub liststart(){
 
 sub endpara(){
     if($parastate > 0){
-	print OUTPUT "$parastate</para>\n";
+	print OUTPUT "</para>\n";
 	$parastate--;
     }
 }
 
 sub startpara(){
-    print OUTPUT "<para>";
-    $parastate++;
+    if($displaystate == 0){
+	print OUTPUT "<para>";
+	$parastate++;
+    }
+    else{
+	print OUTPUT "\n\n";
+    }
 }
 
 sub processstyles(){
     my($line) = @_;
-    my($newline, $word, $retStr);
+    my($newline, $word, $retStr, $length);
     
     $newline = "";
 
+    # It turns out that a whole bunch of these are actually font change
+    # commands...
     foreach $word (split(/ /, $line)){
-	$_ = $word;
-	if(/^(.*)\\fB(.*)/){
-	    $word = closeallstates() . "$1<command>$2";
-	    $stylestate = "$stylestate" . "B";
-	}
-	
-	$_ = $word;
-	if(/^(.*)\\fI(.*)/){
-	    $word = "$1<emphasis>$2";
-	    $stylestate = "$stylestate" . "I";
-	}
+	$length = 0;
 
-	$_ = $word;
-	if(/^(.*)\\fC(.*)/){
-	    $word = closeallstates() . "$1<command>$2";
-	    $stylestate = "$stylestate" . "c";
-	}
+	while($length != length($word)){
+	    $length = length($word);
 
-	$_ = $word;
-	if(/^(.*)\\f\(CW(.*)/){
-	    $word = "$1<emphasis>$2";
-	    $stylestate = "$stylestate" . "W";
-	}
-
-	$_ = $word;
-	if(/^(.*)\\f\(CB(.*)/){
-	    $word = closeallstates() . "$1<command>$2";
-	    $stylestate = "$stylestate" . "b";
-	}
-
-	$_ = $word;
-	if(/^(.*)\\f([RP])(.*)/){
-	    dblog("{$stylestate}");
-
-	    if($2 eq "R"){
-		$word = "$1" . closeallstates() . "$3";
+	    $_ = $word;
+	    if(/(.*)\\fB(.*)/){
+		$word = closeallstates() . "$1<command>$2";
+		$stylestate = "$stylestate" . "B";
 	    }
-	    else{
-		$retStr = closestate(substr($stylestate, length($stylestate) - 1, 1));
-		if($1 eq ""){
-		    $word = "$retStr$3";
+	    
+	    $_ = $word;
+	    if(/(.*)\\fI(.*)/){
+		$word = "$1<emphasis>$2";
+		$stylestate = "$stylestate" . "I";
+	    }
+	    
+	    $_ = $word;
+	    if(/(.*)\\fC(.*)/){
+		$word = closeallstates() . "$1<command>$2";
+		$stylestate = "$stylestate" . "c";
+	    }
+	    
+	    $_ = $word;
+	    if(/(.*)\\f\(CW(.*)/){
+		$word = "$1<emphasis>$2";
+		$stylestate = "$stylestate" . "W";
+	    }
+	    
+	    $_ = $word;
+	    if(/(.*)\\f\(CB(.*)/){
+		$word = closeallstates() . "$1<command>$2";
+		$stylestate = "$stylestate" . "b";
+	    }
+	    
+	    $_ = $word;
+	    if(/(.*)\\f([RP])(.*)/){
+		dblog("{$stylestate}");
+		
+		if($2 eq "R"){
+		    $word = "$1" . closeallstates() . "$3";
 		}
 		else{
-		    $word = "$1$retStr$3";
+		    $retStr = closestate(substr($stylestate, length($stylestate) - 1, 1));
+		    if($1 eq ""){
+			$word = "$retStr$3";
+		    }
+		    else{
+			$word = "$1$retStr$3";
+		    }
+		    $stylestate =~ s/[A-Za-z]$//;
 		}
-		$stylestate =~ s/[A-Za-z]$//;
 	    }
 	}
 	
