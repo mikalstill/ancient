@@ -2,6 +2,7 @@ void pdfdump_begindocument(int, va_list);
 void pdfdump_specversion(int, va_list);
 void pdfdump_entireheader(int, va_list);
 void pdfdump_objstart(int, va_list);
+void pdfdump_objend(int, va_list);
 
 void pdfdump_dictitem_string(int, va_list);
 void pdfdump_dictitem_name(int, va_list);

@@ -31,6 +31,7 @@ int main(int argc, char *argv[]){
   pandalex_setupcallback(pandalex_event_specver, pdfdump_specversion);
   pandalex_setupcallback(pandalex_event_entireheader, pdfdump_entireheader);
   pandalex_setupcallback(pandalex_event_objstart, pdfdump_objstart);
+  pandalex_setupcallback(pandalex_event_objend, pdfdump_objend);
 
   pandalex_setupcallback(pandalex_event_dictitem_string, pdfdump_dictitem_string);
   pandalex_setupcallback(pandalex_event_dictitem_name, pdfdump_dictitem_name);
@@ -96,6 +97,16 @@ void pdfdump_objstart(int event, va_list argptr){
 	 number, generation);
 }
 
+void pdfdump_objend(int event, va_list argptr){
+  int generation, number;
+
+  number = va_arg(argptr, int);
+  generation = va_arg(argptr, int);
+
+  printf("Object %d ended (generation %d)\n",
+	 number, generation);
+}
+
 void pdfdump_dictitem_string(int event, va_list argptr){
   char *name, *value;
   
@@ -105,7 +116,11 @@ void pdfdump_dictitem_string(int event, va_list argptr){
 }
 
 void pdfdump_dictitem_name(int event, va_list argptr){
-  printf("Dictionary name\n");
+  char *name, *value;
+  
+  name = va_arg(argptr, char *);
+  value = va_arg(argptr, char *);
+  printf("  [Name] %s = %s\n", name, value);
 }
 
 void pdfdump_dictitem_array(int event, va_list argptr){
@@ -113,7 +128,11 @@ void pdfdump_dictitem_array(int event, va_list argptr){
 }
 
 void pdfdump_dictitem_object(int event, va_list argptr){
-  printf("Dictionary object\n");
+  char *name, *value;
+  
+  name = va_arg(argptr, char *);
+  value = va_arg(argptr, char *);
+  printf("  [Object reference] %s = %s\n", name, value);
 }
 
 void pdfdump_dictitem_dict(int event, va_list argptr){

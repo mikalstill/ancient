@@ -76,7 +76,7 @@ objects   : object objects
 // todo_mikal: might need a .data here
 object    : INT INT OBJ { pandalex_callback(pandalex_event_objstart, $1, $2); } 
             dictionary { if($5 != -1) pandalex_callback(pandalex_event_dictint, $1, $2, $5); } 
-            stream ENDOBJ {}
+            stream ENDOBJ { pandalex_callback(pandalex_event_objend, $1, $2); }
           ;
 
 dictionary: DBLLT dict DBLGT { $$ = -1; }

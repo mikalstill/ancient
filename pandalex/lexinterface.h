@@ -7,6 +7,7 @@ enum{
     pandalex_event_specver,
     pandalex_event_entireheader,
     pandalex_event_objstart,
+    pandalex_event_objend,
     pandalex_event_dictitem_string,
     pandalex_event_dictitem_name,
     pandalex_event_dictitem_array,
