@@ -25,8 +25,13 @@
 
           /* Define the possible yylval values */
 %union {
-  int      intVal;
-  char     *textVal;
+  int        intVal;
+  char       *textVal;
+
+  struct streamVal{
+    char *data;
+    int len;
+  } sval;
 }
 
 %token <textVal> VERSION
@@ -36,11 +41,13 @@
 %token <textVal> STREAM <textVal> ENDSTREAM
 %token <textVal> ARRAY <textVal> ENDARRAY
 %token <textVal> PDFEOF XREF TRAILER
-%token <textVal> ANYTHING
+%token <sval> ANYTHING
 
-%type <textVal> binary
+%type <sval> binary
 %type <textVal> header
 %type <textVal> objref
+
+%type <intVal> dictionary
 
 %%
 
@@ -56,7 +63,7 @@ pdf       : header {
 header    : VERSION { 
 	            pandalex_callback(gpandalex_callback_specver, $1); }
             binary { 
-                    $$ = $3; }
+                    $$ = $3.data; }
           ;
 
 linear    : xref trailer { }
@@ -73,13 +80,13 @@ object    : INT INT OBJ {
   fprintf(stdout, "object %d %d\n", $1, $2);
 #endif
                           } 
-            dictionary stream ENDOBJ {}
+            dictionary { if($5 != -1) pandalex_callback(gpandalex_callback_dictint, $1, $2, $5); } stream ENDOBJ {}
           ;
 
-dictionary: DBLLT dict DBLGT {}
-          | INT { pandalex_callback(gpandalex_callback_dictint, $1); }
-          | ARRAY dict ENDARRAY {}
-          |
+dictionary: DBLLT dict DBLGT { $$ = -1; }
+          | INT { $$ = $1; }
+          | ARRAY dict ENDARRAY { $$ = -1; }
+          | { $$ = -1; }
           ;
 
 dict      : NAME STRING dict { 
@@ -90,7 +97,7 @@ dict      : NAME STRING dict {
 		    // If this is for a stream, then we save the
 		    // filter name for convenience reasons
 		    if(strcmp($1, "Filter") == 0)
-		      streamFilter = strmcpy($2);
+		      streamFilter = strmcpy($2, -1);
                                                }
           | NAME ARRAY arrayvals ENDARRAY dict { 
 	    // This one needs work...
@@ -104,7 +111,7 @@ dict      : NAME STRING dict {
 		    // this info for convenience reasons
 	            if(strcmp($1, "Length") == 0){
 		      streamLength = -2;
-		      streamLengthObjRef = strmcpy($2);
+		      streamLengthObjRef = strmcpy($2, -1);
 		    }
 	                                       }
 
@@ -140,8 +147,8 @@ stream    : STREAM { binaryMode = 1; } binary ENDSTREAM { printf("filter = %s, l
           |
           ;
 
-binary    : ANYTHING binary { $$ = strmcat($1, $2); free($2); }
-          | { $$ = strmcpy(""); }
+binary    : ANYTHING binary { $$.data = strmcat($1.data, $1.len, $2.data, $2.len); $$.len = $1.len + $2.len; free($2); }
+          | { $$.data = strmcpy("", -1); $$.len=0; }
           ;
 
 xref      : XREF INT INT xrefitems {}
@@ -204,32 +211,43 @@ int yyerror(char *s){
 }
 
 // Buffer overrun safe strcat
-char *strmcat(char *dest, char *append){
+char *strmcat(char *dest, int destLen, char *append, int appendLen){
   char *new;
-  
+  int count, len;
+
   // What length do we need?
   if((new = (char *) malloc(sizeof(char) * 
-    (strlen(dest) + strlen(append) + 2))) == NULL){
+			    (((destLen == -1) ? strlen(dest) : destLen) + 
+			    ((appendLen == -1) ? strlen(append) : appendLen) + 
+			    2))) == NULL){
     fprintf(stderr, "Could not malloc enough space\n");
     exit(42);
   }
- 
-  sprintf(new, "%s%s", dest, append);
+  
+  if((destLen == -1) && (appendLen == -1))
+    sprintf(new, "%s%s", dest, append);
+  else{
+    // We need to copy characters the hard way
+    count = 0;
+
+    for(len = 0; len < ((destLen == -1) ? strlen(dest) : destLen); len++){
+      new[count] = dest[len];
+      count++;
+    }
+
+    for(len = 0; len < ((appendLen == -1) ? strlen(append) : appendLen); len++){
+      new[count] = append[len];
+      count++;
+    }
+
+    new[count] = '\0';
+  }
   return new;
 }
 
 // Buffer overrun safe strcpy
-char *strmcpy(char *data){
-  char *new;
-  
-  // What length do we need?
-  if((new = (char *) malloc(sizeof(char) * (strlen(data) + 1))) == NULL){
-    fprintf(stderr, "Could not malloc enough space\n");
-    exit(42);
-  }
-  
-  strcpy(new, data);
-  return new;
+char *strmcpy(char *data, int len){
+  return strmcat(data, len, "", 0);
 }
 
 int intlen(int number){
