@@ -1,6 +1,6 @@
 %{
 #include "parser.h"
-#include "pandalexinterface.h"
+#include "pandalex.h"
 #include <unistd.h>
 #include <stdlib.h>
 

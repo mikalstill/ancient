@@ -8,7 +8,6 @@
 #include <unistd.h>
 #include <fcntl.h>
   
-#include <pandalexinterface.h>
 #include <pandalex.h>
 
 #include "samples.h"
