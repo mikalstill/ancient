@@ -224,13 +224,13 @@
       <execute><cmd>eqimg</cmd><args>time-residual.bmp</args></execute>
     </equation>
     
-    Where <command>L</command> is specified by (see equation 2-5). If the same constraint is applied to the apriori matrix as was used in
+    Where <command>L</command> is specified by equation 2-5. If the same constraint is applied to the apriori matrix as was used in
     the linear least squares model, that is, it is assumed that the initial model has a slope and y-intercept of 0, the residual
     equation becomes
     
     <equation>
       <title>Residual Equation 1b</title>
-      <execute><cmd>eqimg</cmd><args>time-restresidual.bmp</args></execute>
+      <execute><cmd>eqimg</cmd><args>time-rest-residual.bmp</args></execute>
     </equation>
     
     </para>
