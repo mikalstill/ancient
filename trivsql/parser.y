@@ -26,8 +26,12 @@ insert   : INSERT INTO STRING '(' colvalspec ')' VALUES '(' colvalspec ')' ';'
 { trivsql_doinsert($3, $5, $9); }
          ;
 
-sel      : SELECT colvalspec FROM STRING selector ';'
+sel      : SELECT cvsaster FROM STRING selector ';'
 { trivsql_recordset *rs; trivsql_displayrs(rs = trivsql_doselect($4, $2), $4, $2); /*trivsql_xfree(rs);*/ }
+         ;
+
+cvsaster : colvalspec { $$ = trivsql_xsnprintf("%s", $1); }
+         | '*' { $$ = trivsql_xsnprintf("%s", $1); }
          ;
 
 colvalspec : str ',' colvalspec { $$ = trivsql_xsnprintf("%s;%s", $1, $3); } 
