@@ -1,5 +1,5 @@
 /******************************************************************************
-  Copyright (C) Michael Still 2002
+  Copyright (C) Michael Still 2002, 2003
   
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -58,6 +58,7 @@ plot_state *
 plot_newplot (unsigned int x, unsigned int y)
 {
   plot_state *state;
+  int i;
 
   state = malloc (sizeof (plot_state));
   if (state == NULL)
@@ -109,10 +110,17 @@ plot_newplot (unsigned int x, unsigned int y)
   state->fontpath = NULL;
   state->fontsize = 0;
 
+  // Current location
   state->textx = 0;
   state->texty = 0;
   state->penx = 0;
   state->peny = 0;
+
+  // Current transformation matrix -- the identity
+  for(i = 0; i < 6; i++)
+    state->ctm[i] = 0.0;
+  state->ctm[0] = 1.0;
+  state->ctm[3] = 1.0;
   return state;
 }
 
@@ -632,26 +640,43 @@ plot_drawpoint (plot_state * state, plot_pixel color, int isLine,
     }
 }
 
-// Turn on a single pixel
+// Turn on a single pixel, including applying the CTM as required
+// Not used for text...
 void
-plot_drawpointactual (plot_state * state, plot_pixel color, int isLine, unsigned int x, unsigned int y)
+plot_drawpointactual (plot_state * state, plot_pixel color, int isLine, 
+		      unsigned int origx, unsigned int origy)
 {
-  unsigned long ptr = state->x * y + x;
+  unsigned int x, y;
+  unsigned long ptr;
   int linedashcount;
 
+  // Apply the CTM
+  x = (unsigned int) (((float) origx * state->ctm[0]) + 
+		      ((float) state->ctm[2] * origy) + 
+		      state->ctm[4]);
+  y = (unsigned int) (((float) origx * state->ctm[1]) + 
+		      ((float) state->ctm[3] * origy) + 
+		      state->ctm[5]);
+  ptr = state->x * y + x;
+
+  // Make sure we are within bounds
   if ((x >= state->x) || (y >= state->y))
     return;
   
+  // Deal with dashing
   state->linedashcount++;
   if(state->linedashcount > (state->linedashlen - 1)){
     state->linedashcount = 0;
   }
   linedashcount = state->linedashcount;
 
-  if((state->linedashlen > 0) && (isLine == LIBMPLOT_TRUE) && (state->linedash[linedashcount] == '\0')){
+  if((state->linedashlen > 0) && 
+     (isLine == LIBMPLOT_TRUE) && 
+     (state->linedash[linedashcount] == '\0')){
     return;
   }
   
+  // Paint the pixel
   state->raster[ptr] = color;
 }
 
@@ -1454,7 +1479,17 @@ plot_stringheight (plot_state * state, char *string)
   return height;
 }
 
-
+// TODO mikal: document
+void plot_setctm (plot_state * state, float a, float b, float c,
+		  float d, float e, float f)
+{
+  state->ctm[0] = a;
+  state->ctm[1] = b;
+  state->ctm[2] = c;
+  state->ctm[3] = d;
+  state->ctm[4] = e;
+  state->ctm[5] = f;
+}
 
 
 

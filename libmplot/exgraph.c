@@ -18,10 +18,15 @@
 
 #include <stdio.h>
 #include <png.h>
+#include <math.h>
 #include <libmplot.h>
 
 char *words[] = {"This", "is", "a", "string", "which", "is", "quite", "long.",
-		 "It", "demonstrates", "how", "to", "do", "word", "wrap", NULL};
+		 "It", "demonstrates", "how", "to", "do", "word", "wrap", 
+		 NULL};
+
+#define CHECKEXIT if(stopPoint == stopCount) goto done; stopCount++;
+#define PI 3.1415
 
 int
 main (int argc, char *argv[])
@@ -34,27 +39,45 @@ main (int argc, char *argv[])
   png_bytepp row_pointers = NULL;
   plot_state *graph;
   char *raster;
-  float angle;
-  int x, count;
+  float angle, ctmAngle = 0.0;
+  int x, count, stopPoint = -1, stopCount = 0;
 
   if((graph = plot_newplot(400, 200)) == NULL){
     fprintf(stderr, "Could not allocate a new plot\n");
     exit(1);
   }
 
+  // TODO mikal: this should use getopt one day...
+  if(argc > 0){
+    stopPoint = atoi(argv[1]);
+  }
+  if(argc > 1){
+    ctmAngle = atof(argv[2]);
+  }
+
+  plot_setctm(graph, 
+	      cos (ctmAngle * PI / 180.0),
+	      sin (ctmAngle * PI / 180.0),
+	      -sin (ctmAngle * PI / 180.0),
+	      cos (ctmAngle * PI / 180.0),
+	      0, 0);
+	      
   // Draw some axes
+  CHECKEXIT // 0
   plot_setlinecolor(graph, 0, 0, 0);
   plot_setlinestart(graph, 10, 10);
   plot_addlinesegment(graph, 10, 190);
   plot_strokeline(graph);
   plot_endline(graph);
 
+  CHECKEXIT // 1
   plot_setlinestart(graph, 10, 100);
   plot_addlinesegment(graph, 390, 100);
   plot_strokeline(graph);
   plot_endline(graph);
 
   // Draw the sin graph
+  CHECKEXIT // 2
   plot_setlinecolor(graph, 255, 0, 0);
   plot_setlinedash(graph, 2, "\0\1");
   plot_setlinestart(graph, 10, 100);
@@ -67,6 +90,7 @@ main (int argc, char *argv[])
   plot_endline(graph);
 
   // Draw the cos graph
+  CHECKEXIT // 3
   plot_setlinecolor(graph, 0, 255, 0);
   plot_setlinedash(graph, 0, "");
   plot_setlinewidth(graph, 2, 10);
@@ -80,6 +104,7 @@ main (int argc, char *argv[])
   plot_endline(graph);
 
   // Write out some text
+  CHECKEXIT // 4
   plot_setfontcolor(graph, 26, 22, 249);
   plot_setfont(graph, "n019004l.pfb", 18);
   plot_settextlocation(graph, 20, 70);
@@ -98,6 +123,7 @@ main (int argc, char *argv[])
     count++;
   }
 
+  CHECKEXIT // 5
   plot_settextlocation(graph, 200, 100);
   plot_writestringrot(graph, "0 0 0", 0);
   plot_settextlocation(graph, 200, 100);
@@ -108,6 +134,7 @@ main (int argc, char *argv[])
   plot_writestringrot(graph, "270 270 270", 270);
 
   // Write out the PNG file
+ done:
   raster = plot_getraster(graph);
 
   if((image = fopen("graph.png", "wb")) == NULL){

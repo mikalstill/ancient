@@ -20,6 +20,10 @@
 #define LIBMPLOT_HORIZONTAL 1
 #define LIBMPLOT_NOTAPPLICABLE 2
 
+// These are used for automated conversion of this header to other languages
+#define SUPPRESS(x)
+#define INTERNAL
+
 #ifdef __cplusplus
 extern "C"
 {
@@ -66,6 +70,8 @@ typedef struct plot_internal_state
 
   unsigned int penx;
   unsigned int peny;
+
+  float ctm[6];
 
 #if defined HAVE_LIBFREETYPE
   FT_Library *ft;
@@ -125,17 +131,26 @@ void plot_overlayraster(plot_state * state, char *raster,
 			unsigned int rx, unsigned int ry,
 			int debug);
 
+// Current Transformation Matrix
+// [a b 0]
+// [c d 0]
+// [e f 1]
+void plot_setctm (plot_state * state, float a, float b, float c,
+		  float d, float e, float f);
+
 // Persistance of state methods
 char *plot_persiststate(plot_state * state);
 void plot_applystate(plot_state * state, char *pstr);
 
 // Internal methods
-int plot_min (int one, int two);
-int plot_max (int one, int two);
-int plot_loadglyph(plot_state *, char);
-int plot_paintglyph(plot_state *, char, int, int);
-void plot_drawpoint(plot_state *, plot_pixel, int isLine, unsigned int, unsigned int);
-void plot_drawpointactual(plot_state *, plot_pixel, int isLine, unsigned int, unsigned int);
+INTERNAL int plot_min (int one, int two);
+INTERNAL int plot_max (int one, int two);
+INTERNAL int plot_loadglyph(plot_state *, char);
+INTERNAL int plot_paintglyph(plot_state *, char, int, int);
+INTERNAL void plot_drawpoint(plot_state *, plot_pixel, 
+			     int isLine, unsigned int, unsigned int);
+INTERNAL void plot_drawpointactual(plot_state *, plot_pixel, 
+				   int isLine, unsigned int, unsigned int);
 
 #ifdef __cplusplus
 }
