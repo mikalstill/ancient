@@ -113,9 +113,14 @@
       <title>Standard Gaussian Distribution</title>
       <execute><cmd>eqimg</cmd><args>time-gaussian.bmp</args></execute>
     </equation>
+    
+    <figure>
+      <title>Diagram of Standard Gaussian Distribution</title>
+      <execute><cmd>eqimg</cmd><args>TD-Gaussian.gif</args></execute>
+    </figure>
      
     This method works by pre-multiplying the observation values with a number that represents its 
-    "correctness" (see EQUATION 2). Therefore the weighting value specified on the diagonal of the VCV matrix should be a 
+    "correctness" (see equation 2-2). Therefore the weighting value specified on the diagonal of the VCV matrix should be a 
     percentage value ranging from one to zero, whereby a value of one means the given data point fully participates 
     in the calculation and a value of zero indicates that the data point was erroneous and is discarded. 
     </para>
@@ -137,7 +142,7 @@
     </equation>
     
     <figure><title>Box Plot of a Skewed Data Set</title>
-        <execute><cmd>eqimg</cmd><args>TD-boxskew.bmp</args></execute>
+        <execute><cmd>eqimg</cmd><args>TD-boxskew.gif</args></execute>
     </figure>
 
     where <command>s</command> &ne; 0 and/or affected by kurtosis where the forth moment is
@@ -163,7 +168,7 @@
     trend is known as Random Walk, which is a phenomenon that the geodetic community believes occurs, particularly in GPS data.
     Detection of this trend has become possible in recent times because it is believed that Random Walk can only be accurately 
     seen in systems that span at least six years, or preferably 10 years and data sets of this length have not become available 
-    until now. If it is assumed that the data follows a standard Gaussian distribution (SEE FIGURE GAUSSIAN DISTRIBUTION) that is, 
+    until now. If it is assumed that the data follows a standard Gaussian distribution (see figure 2-1) that is, 
     the observation values are evenly distributed then the expected Random Walk values are 
     </para>    
 
@@ -219,7 +224,7 @@
       <execute><cmd>eqimg</cmd><args>time-residual.bmp</args></execute>
     </equation>
     
-    Where <command>L</command> is specified by (EQUATION 5). If the same constraint is applied to the apriori matrix as was used in
+    Where <command>L</command> is specified by (see equation 2-5). If the same constraint is applied to the apriori matrix as was used in
     the linear least squares model, that is, it is assumed that the initial model has a slope and y-intercept of 0, the residual
     equation becomes
     
@@ -267,7 +272,7 @@
     
     <para>Because of the slowness of using a weighting matrix that is not diagonal, another method of calculating a weighting
     matrix was sought. This method works entirely in the residual space and ensures that the weighting matrix is always diagonal.
-    In this calculation, a line of best fit is calculated using (EQUATION 7) and the residuals are calculated using (EQUATION 14). 
+    In this calculation, a line of best fit is calculated using (see equation 2-7) and the residuals are calculated using (EQUATION 14). 
     The residual matrix is then sorted in ascending order. From there the median and interquartile range can be calculated. The
     threshold of three standard deviations above or below the mean, assuming a standard Gaussian distribution, can be calculated by
     adding 1.5 x the interquartile range to the 75% limit and subtracting 1.5 x the interquartile range from the 25% limit, 
