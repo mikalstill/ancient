@@ -25,6 +25,7 @@ if($thisslide < $maxslide){
     $filename = `head -$thisslide $path/$area/pictures/jpegs | tail -1`;
     print "<meta http-equiv=\"refresh\" content=\"$delay;URL=/cgi-bin/slideshow?area=$area&slide=$thisslide&delay=$delay\">\n";
     print "</head><body><img src=\"/$area/pictures/$filename\">\n";
+    print "<BR>/$area/pictures/$filename\n";
 }
 else{
     print "</head><body>End of show";
