@@ -1,0 +1,76 @@
+TITLE: AUUG 2002: Imaging Tutorial: Introduction: Continued 19
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;tiffio.h&gt;
+
+int main(int argc, char *argv[]){
+  TIFF *image;
+  uint32 width, height, *raster;
+  tsize_t stripSize;
+  unsigned long imagesize, c, d, e;
+
+  // Open the TIFF image
+  if((image = TIFFOpen(argv[1], "r")) == NULL){
+    fprintf(stderr, "Could not open incoming image\n");
+    exit(42);
+  }
+
+  // Find the width and height of the image
+  TIFFGetField(image, TIFFTAG_IMAGEWIDTH, &amp;width);
+  TIFFGetField(image, TIFFTAG_IMAGELENGTH, &amp;height);
+  imagesize = height * width + 1;
+  
+  if((raster = (uint32 *) malloc(sizeof(uint32) * imagesize)) == NULL){
+    fprintf(stderr, "Could not allocate enough memory\n");
+    exit(42);
+  }
+
+  // Read the image into the memory buffer
+  if(TIFFReadRGBAStrip(image, 0, raster) == 0){
+    fprintf(stderr, "Could not read image\n");
+    exit(42);
+  }
+
+  // Here I fix the reversal of the image (vertically) and show you how to get the color values from each pixel
+  d = 0;
+  for(e = height - 1; e != -1; e--){
+    for(c = 0; c &lt; width; c++){
+      // Red = TIFFGetR(raster[e * width + c]);
+      // Green = TIFFGetG(raster[e * width + c]);
+      // Blue = TIFFGetB(raster[e * width + c]);
+    }
+  }
+
+  TIFFClose(image);
+}
+</pre>
+<BR><BR><i>Code: /home/mikal/opensource/tiff-color-read/read.c</i>
+
+
+
+
+
+<BR><BR><b>Storing TIFF data in places other than files</b>
+<BR><BR>
+All of these examples that I have included to this point have read and written with files. There are many scenarios when you wouldn't want to store your image data in a file, but would still want to use libtiff and TIFF. For example, you might have customer pictures for id cards, and these would be stored in a database.
+
+
+
+<li>There are times when it isn't appropriate to store your image data in files
+<li>There are lots of examples of when you might want to put the data in a database instead
+<li>Perhaps the image data is going to be embedded into another file format
+
+<BR><BR>
+The example which I am most familiar with is PDF documents. In PDF files, you can embed images into the document. These images can be in a subset of TIFF if desired, and TIFF is quite clearly the choice for black and white images.
+
+
+
+<BR><BR>
+<li>The example I am most familiar with is the PDF specification
+<li>The PDF format is basically ASCII (as we will see later)
+<li>But has embedded binary "streams" such as TIFF data
+<li>So we would like to be able to create these streams with libtiff
+<li>...instead of having to implement our own TIFF library
+
+
+<slidebreak>

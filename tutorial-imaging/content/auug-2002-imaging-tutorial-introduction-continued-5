@@ -1,0 +1,38 @@
+TITLE: AUUG 2002: Imaging Tutorial: Introduction: Continued 5
+
+
+<li>A tiled image is like your bathroom wall...
+<li>This is often used for extremely large images such as maps
+
+<br><br><div align="center"><b>The Sydney Harbor Bridge, in tiles</b>
+<br><img src="/notes/presentations/content/gen-tiff-figure3.jpg">
+</div><BR><BR>
+
+<BR><BR>
+Tiled images are comparatively uncommon, so I will focus on stripped images in this chapter. Remember as we go along, that the single stripped case is merely a subset of a multiple strip images.
+
+
+
+<li>Tiled images are not very common
+<li>So we'll focus on stripped images
+
+<BR><BR><b>Infrastructure for reading</b>
+<BR><BR>
+The most important thing to remember when reading in TIFF images is to be flexible. The example below has the same basic concepts as the writing example above, with the major difference being that it needs to deal with many possible input images. Apart from stripping and tiling, the most important thing to remember to be flexible about is photo metric interpretation. Luckily, with black and white images there are only two photo metric interpretations to worry about (with color and to a certain extent gray scale images there are many more).
+
+
+
+<li>We need to remember to be flexible in the input that we accept
+<BR><BR>
+<li>Be flexible about:
+  <ul>
+  <li>Stipping / tiling
+  <li>Strip sizes
+  <li>Photometric interpretation
+  </ul>
+
+<BR><BR>
+What is photo metric interpretation? Well, the representation of the image in the buffer is really a very arbitrary thing. I might code my bitmaps so that 0 means black (PHOTOMETRIC_MINISBLACK), whilst you might find black being 1 (PHOTOMETRIC_MINISWHITE) more convenient. TIFF allows both (in the TIFFTAG_PHOTOMETRIC tag), so our code has to be able to handle both cases. In the example below, I have assumed that the internal buffers need to be in PHOTOMETRIC_MINISWHITE so we will convert images which are in PHOTOMETRIC_MINISBLACK.
+
+
+<slidebreak>

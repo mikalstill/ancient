@@ -1,0 +1,59 @@
+TITLE: AUUG 2002: Imaging Tutorial: Introduction: Continued 16
+
+<li>The other interesting thing we should talk about now is planar configuration
+<li>You don't have to have your image data grouped like:
+
+<pre>
+RGBRGBRGBRGBRGB
+</pre>
+
+<li>Grouping all the red samples together is equally valid, for instance:
+
+<pre>
+RRRRRGGGGGBBBBB
+</pre>
+
+<li>Have a look at the libtiff documentation on TIFFTAG_PLANARCONFIG for more details
+
+
+<BR><BR><b>Writing a paletted color image</b>
+<BR><BR>
+So how do we write a paletted version of this image? Well, libtiff makes this really easy -- all we need to do is change the value of TIFFTAG_PHOTOMETRIC to PHOTOMETRIC_PALETTE. It's not really worth including an example in this chapter, given it's a one word change.
+
+
+<li>Writing a paletted image with libtiff is really easy...
+<li>Just change TIFFTAG_PHOTOMETRIC to PHOTOMETRIC_PALETTE
+
+
+
+
+
+
+<BR><BR><b>Reading a color image</b>
+<BR><BR>
+Now all we have to do is work out how to read other people's color and gray scale images reliably, and we're home free. Initially I was very tempted to not tell you about the TIFFReadRGBAStrip() and TIFFReadRGBBSTile() calls, which hide some of the potential ugliness from the caller. These functions have some limitations I'm not astoundingly happy with. To quote the TIFFReadRGBAStrip() man page:
+
+
+<li>Now we just need to work out how to read color images in
+<li>Here's why I'm not telling you about TIFFReadRGBAStrip() and TIFFReadRGBATile()
+
+<BR><BR><i>
+   TIFFReadRGBAStrip reads a single strip of a strip-based image into memory,
+   storing  the  result  in  the  user supplied RGBA raster. The raster is assumed to be an array of
+   width   times   rowsperstrip   32-bit   entries,   where   width   is  the  width  of  the  image
+   (TIFFTAG_IMAGEWIDTH) and rowsperstrip is the maximum lines in a strip (TIFFTAG_ROWSPERSTRIP).
+</i>
+
+<BR><BR><i>
+   The  strip  value  should  be  the  strip  number  (strip  zero  is the first) as returned by the
+   TIFFComputeStrip function, but always for sample 0.
+</i>
+
+<BR><BR><i>
+   Note  that  the  raster  is  assume  to  be  organized  such  that the pixel at location (x,y) is
+   raster[y*width+x];  with  the  raster  origin in the lower-left hand corner of the strip. That is
+   bottom  to  top  organization. When reading a partial last strip in the file the last line of the
+   image will begin at the beginning of the buffer.
+</i>
+
+<slidebreak>

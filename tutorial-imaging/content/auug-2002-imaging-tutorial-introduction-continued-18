@@ -1,0 +1,16 @@
+TITLE: AUUG 2002: Imaging Tutorial: Introduction: Continued 18
+<BR><BR>There are a couple of odd things about this function -- it defines (0, 0) to be in a different location from all the other code that we have been writing. In all the previous code we have written, the (0, 0) point has been in the top left of the image. This call defines (0, 0) to be in the bottom left. The other limitation to be aware of is that not all valid values for bits per sample are supported. If you find these quirks unacceptable, then remember that you can still use TIFFReadEncodedStrip() in the same manner that we did for the black and white images in the previous chapter...
+
+
+<li>So what's wrong with this function?
+  <ul>
+  <li>It defines the origin (0,0) in a different way from <b>all</b> the other libtiff calls
+  <li>Not all valid values for bits per sample are handled
+  </ul>
+
+<BR><BR>
+
+<li>We're going to use it anyway, because it makes the code clearer...
+<li>Remember that you can always use TIFFReadEncodedStrip() like we did for the black and white images -- although you then have to interpret the image data yourself
+
+<slidebreak>

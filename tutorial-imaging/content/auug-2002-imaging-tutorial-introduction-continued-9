@@ -1,0 +1,75 @@
+TITLE: AUUG 2002: Imaging Tutorial: Introduction: Continued 9
+
+<li>This code works by opening an image
+<li>Checking that it is one that we support
+<li>Reading in all the strips and appending them together
+<li>Twiddling bits if required
+<li>Output the hex representation of the image
+
+
+<BR><BR><b>Compression algorithms in libtiff</b>	
+<BR><BR>
+There are several compression algorithms available within libtiff. How do you select which one is right for your imaging needs?
+
+
+<BR><BR>
+<i>Please note that all the tags in this table should be preceded by COMPRESSION, for example COMPRESSION_CCITTFAXG4...</i>. The compression option is stored in the tag TIFFTAG_COMPRESSION.
+
+
+
+<li>Stored in TIFFTAG_COMPRESSION
+<BR><BR>
+
+<table>
+
+
+<tr bgcolor=BBBBBB>
+  <td>Compression algorithm</td>
+  <td>Well suited for</td>
+  <td>COMPRESSION</td>
+</tr>
+
+
+<tr>
+<td>CCITT Group 4 Fax and Group 3 Fax</td>
+<td>If your coding for black and white images, then you're probably using the CCITT fax compression methods. These compression algorithms don't support color.</td>
+<td>_CCITTFAX3, _CCITTFAX4</td>
+</tr>
+
+<tr bgcolor=BBBBBB>
+<td>JPEG</td>
+<td>JPEG compression is great for large images such as photos. However, the compression is normally lossy (in that image data is thrown away as part of the compression process). This makes JPEG very poor for compressing text which needs to remain readable. The other thing to bear in mind is that the loss is accumulative -- see the loss section below for more information about this.</td>
+<td>_JPEG</td>
+</tr>
+
+<tr>
+<td>LZW</td>
+<td><i>This is the compression algorithm used in GIF images. Because of the licensing requirements from Unisys, support for this compression codec has been removed from libtiff. There are patches available if you would like to add it back, but the majority of programs your code will integrate with no linger support LZW.</i></td>
+<td>_LZW</td>
+</tr>
+
+<tr bgcolor=BBBBBB>
+<td>Deflate</td>
+<td>This is the gzip compression algorithm, which is also used for PNG. It is the compression algorithm I would recommend for color images.</td>
+<td>_DEFLATE</td>
+</tr>
+
+
+</table>
+
+
+<BR><BR><b>Accumulating loss?</b>
+<BR><BR>
+Why does the loss in lossy compression algorithms such as JPEG accumulate? Imagine that you compress an image using JPEG. You then need to add say a bar code to the image, so you uncompress the image, add the bar code, and recompress it. When the recompression occurs, then a new set of loss is introduced. You can imagine that if you do this enough, then you'll end up with an image which is a big blob.
+
+
+
+<li>JPEG compression can be a bad choice for some forms of data
+<li>This is because it is lossy
+<li>This loss accumulates through repeated compression and decompression
+
+<BR><BR>
+Whether this is a problem depends on the type of your data. To test how much of a problem this is, I wrote a simple libtiff program which repeatedly uncompresses and recompresses an image. What I found was that with pictures, the data is much more resilient to repeated compression.
+
+
+<slidebreak>

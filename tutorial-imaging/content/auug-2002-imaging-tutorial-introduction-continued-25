@@ -1,0 +1,673 @@
+TITLE: AUUG 2002: Imaging Tutorial: Introduction: Continued 25
+<pre>
+[mikal@localhost tutorial-imaging]$ tiffinfo -d tiff-figure9.tif
+TIFF Directory at offset 0x40f7c
+  Image Width: 640 Image Length: 480
+  Bits/Sample: 8
+  Compression Scheme: Deflate
+  Photometric Interpretation: min-is-black
+  Samples/Pixel: 1
+  Rows/Strip: 100000
+  Planar Configuration: single image plane
+Strip 0:
+ 59 5d 5c 55 4f 51 58 5d 5a 5a 57 51 4d 4d 4e 4d 58 54 55 5f 6c 76 7a 7c
+ 86 83 89 89 7f 7c 79 6e 61 57 70 7a 64 6f 7d 62 60 61 68 75 82 85 7e 76
+ 78 79 80 7a 66 5f 62 61 53 5b 62 6d 77 75 7a 8e a0 91 7a 66 5d 5d 61 62
+ 6f 69 65 64 63 61 63 68 76 79 74 76 86 8b 86 85 83 83 66 6a a0 b8 a7 a1
+ 94 a7 9d 72 5b 69 7b 7c 88 84 7f 7a 73 72 7e 8c 94 96 8a 75 6f 77 75 6a
+ 73 7d 85 85 84 89 90 94 8b 7d 74 7a 84 8a 8e 91 9c 99 87 7e 8d 93 85 79
+ 73 7e 88 87 80 7e 88 92 96 93 95 9d a1 9c 94 91 9c 8f 90 9e 9e 8a 7b 7b
+ 89 7a 68 5d 58 5b 66 71 81 82 7c 71 6c 6f 70 6e 5f 62 60 60 65 66 6f 84
+ 85 93 a4 a8 98 86 81 86 88 7e 83 7a 73 74 6f 7e 78 72 73 74 71 75 73 67
+ 72 73 77 85 90 8a 8f a7 ba cc cc c0 c1 c8 cf d7 dd e6 ec e5 e2 ef ed d4
+ e4 e6 ea ee f1 f2 f1 ef f3 f3 f3 f2 f2 f2 f1 f1 f2 f1 f0 ef ee ed ec eb
+ ... and so on
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<BR><BR><b>API Man Pages</b>
+<BR><BR>
+It is also useful to have the man pages for the libtiff API man pages to refer to...
+
+
+
+<li>There are also extensive man pages for the API -- check yout manual
+
+
+
+
+
+
+
+
+
+
+<BR><BR><b>Example: Pixel enlargement</b>
+<BR><BR>
+In the introduction to this tutorial I promised that I would include the code to draw the demonstration that raster images are made up of pixels. Well, this example is that code.
+
+
+
+<li>In the early stages of this tutorial I showed you a pixel enlargement...
+<li>Here's the code that did that
+
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;tiffio.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;string.h&gt;
+
+void usage (char *, int);
+
+#define EOFFSET 150
+
+int
+main (int argc, char *argv[])
+{
+  TIFF *input, *output;
+  uint32 width, height, offset, offset2, xs = 0, ys = 0, xe = -1, ye = -1;
+  tsize_t stripSize, stripNumber;
+  unsigned long x, y;
+  char *inputFilename = NULL, *outputFilename = NULL, *raster, *roff,
+    *enlarged, *rout, optchar;
+  int xrep, yrep;
+  float m;
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Parse the command line options
+  while ((optchar = getopt (argc, argv, "i:o:x:y:w:l:")) != -1)
+    {
+      switch (optchar)
+	{
+	case 'i':
+	  inputFilename = (char *) strdup (optarg);
+	  break;
+
+	case 'o':
+	  outputFilename = (char *) strdup (optarg);
+	  break;
+
+	case 'x':
+	  xs = atoi (optarg);
+	  break;
+
+	case 'y':
+	  ys = atoi (optarg);
+	  break;
+
+	case 'w':
+	  xe = xs + atoi (optarg);
+	  break;
+
+	case 'l':
+	  ye = ys + atoi (optarg);
+	  break;
+
+	default:
+	  usage (argv[0], 0);
+	  break;
+	}
+    }
+
+  // Make sure we have reasonable defaults
+  if (xe == -1)
+    xe = xs + 10;
+
+  if (ye == -1)
+    ye = ys + 10;
+
+  // Open the input TIFF image
+  if ((inputFilename == NULL) ||
+      (input = TIFFOpen (inputFilename, "r")) == NULL)
+    {
+      fprintf (stderr, "Could not open incoming input %s\n", inputFilename);
+      usage (argv[0], 42);
+    }
+
+  // Open the output TIFF
+  if ((outputFilename == NULL) ||
+      (output = TIFFOpen (outputFilename, "w")) == NULL)
+    {
+      fprintf (stderr, "Could not open outgoing input %s\n", outputFilename);
+      usage (argv[0], 42);
+    }
+
+  // Find the width and height of the input
+  TIFFGetField (input, TIFFTAG_IMAGEWIDTH, &amp;width);
+  TIFFGetField (input, TIFFTAG_IMAGELENGTH, &amp;height);
+
+  // Sanity check some of our arguements
+  if (xe &gt; width)
+    {
+      fprintf (stderr,
+	       "You choice of starting x position, or width, results in the enlargement falling off the edge of the input image\n");
+      usage (argv[0], 43);
+    }
+
+  if (ye &gt; height)
+    {
+      fprintf (stderr,
+	       "You choice of starting y position, or length, results in the enlargement falling off the end of the input image\n");
+      usage (argv[0], 43);
+    }
+
+  printf ("Enlarging a %d by %d portion of the image\n", xe - xs, ye - ys);
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Grab some memory
+  if ((raster = (char *) malloc (sizeof (char) * width * height * 3)) == NULL)
+    {
+      fprintf (stderr, "Could not allocate enough memory for input raster\n");
+      exit (42);
+    }
+
+  // todo: crap assumption about the data being 8 bps, 3 spp
+  if ((enlarged = (char *) malloc (sizeof (char) * (xe - xs) * (ye - ys) * 3 *
+				   121)) == NULL)
+    {
+      fprintf (stderr,
+	       "Could not allocate enough memory for enlarged raster\n");
+      exit (42);
+    }
+
+  if ((rout = (char *) malloc (sizeof (char) * (width + EOFFSET) * height * 3))
+      == NULL)
+    {
+      fprintf (stderr,
+	       "Could not allocate enough memory for output raster\n");
+      exit (42);
+    }
+
+  // todo: We need to copy tags from the input image to the output image
+  TIFFSetField (output, TIFFTAG_IMAGEWIDTH, width + EOFFSET);
+  TIFFSetField (output, TIFFTAG_IMAGELENGTH, height);
+  TIFFSetField (output, TIFFTAG_COMPRESSION, COMPRESSION_DEFLATE);
+  TIFFSetField (output, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+  TIFFSetField (output, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_RGB);
+  TIFFSetField (output, TIFFTAG_BITSPERSAMPLE, 8);
+  TIFFSetField (output, TIFFTAG_SAMPLESPERPIXEL, 3);
+  // todo: balance this off with having 8 kb per strip...
+  TIFFSetField (output, TIFFTAG_ROWSPERSTRIP, 100000);
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Read the input into the memory buffer
+  // todo: I couldn't use TIFFReadRGBAStrip here, because it gets confused
+  stripSize = TIFFStripSize (input);
+  roff = raster;
+  for (stripNumber = 0; stripNumber &lt; TIFFNumberOfStrips (input);
+       stripNumber++)
+    {
+      roff += TIFFReadEncodedStrip (input, stripNumber, roff, stripSize);
+    }
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Actually do the enlargement of the portion of the image specified
+  offset = offset2 = 0;
+  for (y = ys; y &lt; ye; y++)
+    {
+      for (yrep = 0; yrep &lt; 10; yrep++)
+	{
+	  for (x = xs; x &lt; xe; x++)
+	    {
+	      offset = (x + (y * width)) * 3;
+	      for (xrep = 0; xrep &lt; 10; xrep++)
+		{
+		  memcpy (enlarged + offset2, raster + offset, 3);
+		  offset2 += 3;
+		}
+
+	      // The white border to the left of the pixel
+	      memset (enlarged + offset2, 255, 3);
+	      offset2 += 3;
+	    }
+	}
+
+      // The white line at the bottom of these pixels
+      memset (enlarged + offset2, 255, (ye - ys) * 3 * 11);
+      offset2 += (ye - ys) * 3 * 11;
+    }
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Now we assemble the two parts of the image together into a big output
+  // raster
+  memset (rout, 255, sizeof (char) * (width + EOFFSET) * height * 3);
+
+  // The original image
+  offset = 0;
+  offset2 = 0;
+  for (y = 0; y &lt; height; y++)
+    {
+      memcpy (rout + offset2, raster + offset, width * 3);
+      offset += width * 3;
+      offset2 += (width + EOFFSET) * 3;
+    }
+
+  // Box the bit that was enlarged in the original image, can't use memset here
+  // Top line
+  offset = (((width + EOFFSET) * (ys - 1)) + xs - 1) * 3;
+  for (x = 0; x &lt; xe - xs + 2; x++)
+    {
+      rout[offset++] = 255;
+      rout[offset++] = 0;
+      rout[offset++] = 0;
+    }
+
+  // Bottom line
+  offset = (((width + EOFFSET) * ye) + xs - 1) * 3;
+  for (x = 0; x &lt; xe - xs + 2; x++)
+    {
+      rout[offset++] = 255;
+      rout[offset++] = 0;
+      rout[offset++] = 0;
+    }
+
+  // Vertical lines
+  offset = (((width + EOFFSET) * ys) + xs - 1) * 3;
+  for (y = 0; y &lt; ye - ys + 1; y++)
+    {
+      rout[offset] = 255;
+      rout[offset + 1] = 0;
+      rout[offset + 2] = 0;
+
+      rout[offset + ((ye - ys + 1) * 3)] = 255;
+      rout[offset + ((ye - ys + 1) * 3) + 1] = 0;
+      rout[offset + ((ye - ys + 1) * 3) + 2] = 0;
+
+      offset += (width + EOFFSET) * 3;
+    }
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Box the enlarged portion of the image
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Draw the two diagonal lines between the original and the enlarged
+  //    this bit is based on the premis that y = mx + b
+  //    and m = (y2 - y1) / (x2 - x1) and that geometry hasn't significantly
+  //    changed since my high school days
+  //
+  //    if we assume that the first point is the origin, then the maths is
+  //    even easier
+  // 
+  //    which I think is probably a fairly safe set of assumptions at this
+  //    stage...
+  // todo
+  //  printf("ye = %d, xe = %d\n", ye, xe);
+  //  m = (ye - ys) / (xe - xs);
+  //  for(x = 0; x &lt; (xe - xs); x++){
+  //    y = m * x;
+  //    
+  //    printf("%d, %d (%f = %f)\n", x, y, m, ye / xe);
+  //  }
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Copy the enlarged portion across
+
+  offset = 0;
+  offset2 = (((((height / 2) - ((ye - ys) * 11 / 2)) *
+	       (width + EOFFSET)) + width + 20) * 3);
+  for (y = 0; y &lt; (ye - ys) * 11; y++)
+    {
+      memcpy (rout + offset2, enlarged + offset, (ye - ys) * 11 * 3);
+      offset += (ye - ys) * 11 * 3;
+      offset2 += (width + EOFFSET) * 3;
+    }
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Write the image buffer to the file
+  if (TIFFWriteEncodedStrip (output, 0, rout,
+			     (width + EOFFSET) * height * 3 * sizeof (char)) == 0)
+    {
+      fprintf (stderr, "Could not write the output image\n");
+      exit (42);
+    }
+
+  // Cleanup
+  TIFFClose (input);
+  TIFFClose (output);
+  free (raster);
+  free (enlarged);
+}
+
+void
+usage (char *cmd, int exitamt)
+{
+  fprintf (stderr, "Bad command line arguements...\n\n");
+  fprintf (stderr, "Usage: %s -i &lt;inputfile&gt; -o &lt;outputfile&gt; -x &lt;start x&gt; -y &lt;start y&gt; -w &lt;width&gt; -l &lt;length&gt;\n", cmd);
+  exit (exitamt);
+}
+</pre>
+<BR><BR><i>Code: /home/mikal/opensource/tiff-pixels/pixel.c</i>
+
+
+<BR><BR><b>Example: Converting a color image to gray scale</b>
+<BR><BR>
+In one of the previous chapters I also promised to provide the source code for the gray scale conversion examples. Here it is, there are two versions -- a broken algorithm (averaging color values), and a non-broken algorithm (using the NTSC recommended color coefficients).
+
+
+
+<li>Earlier on I also promised some grayscale conversion code...
+
+<BR><BR><b>A broken algorithm</b>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;tiffio.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;string.h&gt;
+
+void usage (char *, int);
+
+int
+main (int argc, char *argv[])
+{
+  TIFF *input, *output;
+  uint32 width, height, offset, offset2;
+  tsize_t stripSize, stripNumber;
+  unsigned long x, y;
+  char *inputFilename = NULL, *outputFilename = NULL, *raster, *roff,
+    optchar;
+  unsigned char *rout;
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Parse the command line options
+  while ((optchar = getopt (argc, argv, "i:o:x:y:w:l:")) != -1)
+    {
+      switch (optchar)
+	{
+	case 'i':
+	  inputFilename = (char *) strdup (optarg);
+	  break;
+
+	case 'o':
+	  outputFilename = (char *) strdup (optarg);
+	  break;
+
+	default:
+	  usage (argv[0], 0);
+	  break;
+	}
+    }
+
+  // Open the input TIFF image
+  if ((inputFilename == NULL) ||
+      (input = TIFFOpen (inputFilename, "r")) == NULL)
+    {
+      fprintf (stderr, "Could not open incoming input %s\n", inputFilename);
+      usage (argv[0], 42);
+    }
+
+  // Open the output TIFF
+  if ((outputFilename == NULL) ||
+      (output = TIFFOpen (outputFilename, "w")) == NULL)
+    {
+      fprintf (stderr, "Could not open outgoing input %s\n", outputFilename);
+      usage (argv[0], 42);
+    }
+
+  // Find the width and height of the input
+  TIFFGetField (input, TIFFTAG_IMAGEWIDTH, &amp;width);
+  TIFFGetField (input, TIFFTAG_IMAGELENGTH, &amp;height);
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Grab some memory
+  if ((raster = (char *) malloc (sizeof (char) * width * height * 3)) == NULL)
+    {
+      fprintf (stderr, "Could not allocate enough memory for input raster\n");
+      exit (42);
+    }
+
+  if ((rout = (unsigned char *) malloc (sizeof (char) * width * height)) 
+      == NULL)
+    {
+      fprintf (stderr,
+	       "Could not allocate enough memory for enlarged raster\n");
+      exit (42);
+    }
+
+  // todo: We need to copy tags from the input image to the output image
+  TIFFSetField (output, TIFFTAG_IMAGEWIDTH, width);
+  TIFFSetField (output, TIFFTAG_IMAGELENGTH, height);
+  TIFFSetField (output, TIFFTAG_COMPRESSION, COMPRESSION_DEFLATE);
+  TIFFSetField (output, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+  TIFFSetField (output, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_MINISBLACK);
+  TIFFSetField (output, TIFFTAG_BITSPERSAMPLE, 8);
+  TIFFSetField (output, TIFFTAG_SAMPLESPERPIXEL, 1);
+  // todo: balance this off with having 8 kb per strip...
+  TIFFSetField (output, TIFFTAG_ROWSPERSTRIP, 100000);
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Read the input into the memory buffer
+  // todo: I couldn't use TIFFReadRGBAStrip here, because it gets confused
+  stripSize = TIFFStripSize (input);
+  roff = raster;
+  for (stripNumber = 0; stripNumber &lt; TIFFNumberOfStrips (input);
+       stripNumber++)
+    {
+      roff += TIFFReadEncodedStrip (input, stripNumber, roff, stripSize);
+    }
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Convert to grayscale
+  offset2 = 0;
+  for(offset = 0; offset &lt; width * height * 3; offset += 3){
+    rout[offset2++] = ((unsigned char) (raster[offset]) * 0.333 + 
+		       (unsigned char) (raster[offset + 1]) * 0.333 + 
+		       (unsigned char) (raster[offset + 2]) * 0.333);
+  }
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Write the image buffer to the file
+  if (TIFFWriteEncodedStrip (output, 0, rout,
+			     width * height * sizeof (char)) == 0)
+    {
+      fprintf (stderr, "Could not write the output image\n");
+      exit (42);
+    }
+
+  // Cleanup
+  TIFFClose (input);
+  TIFFClose (output);
+  free (raster);
+  free (rout);
+}
+
+void
+usage (char *cmd, int exitamt)
+{
+  fprintf (stderr, "Bad command line arguements...\n\n");
+  fprintf (stderr, "Usage: %s -i &lt;inputfile&gt; -o &lt;outputfile&gt;\n", cmd);
+  exit (exitamt);
+}
+</pre>
+<BR><BR><i>Code: /home/mikal/opensource/tiff-grayscale/gray-wrong.c</i>
+
+<BR><BR>
+Which produces:
+
+
+<br><br><div align="center"><b>An average of the color values for each pixel</b>
+<br><img src="/notes/presentations/content/gen-grayscale-figure2.jpg">
+</div><BR><BR>
+
+
+<BR><BR><b>A sensible algorithm</b>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;tiffio.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;string.h&gt;
+
+void usage (char *, int);
+
+int
+main (int argc, char *argv[])
+{
+  TIFF *input, *output;
+  uint32 width, height, offset, offset2;
+  tsize_t stripSize, stripNumber;
+  unsigned long x, y;
+  char *inputFilename = NULL, *outputFilename = NULL, *raster, *roff,
+    optchar;
+  unsigned char *rout;
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Parse the command line options
+  while ((optchar = getopt (argc, argv, "i:o:x:y:w:l:")) != -1)
+    {
+      switch (optchar)
+	{
+	case 'i':
+	  inputFilename = (char *) strdup (optarg);
+	  break;
+
+	case 'o':
+	  outputFilename = (char *) strdup (optarg);
+	  break;
+
+	default:
+	  usage (argv[0], 0);
+	  break;
+	}
+    }
+
+  // Open the input TIFF image
+  if ((inputFilename == NULL) ||
+      (input = TIFFOpen (inputFilename, "r")) == NULL)
+    {
+      fprintf (stderr, "Could not open incoming input %s\n", inputFilename);
+      usage (argv[0], 42);
+    }
+
+  // Open the output TIFF
+  if ((outputFilename == NULL) ||
+      (output = TIFFOpen (outputFilename, "w")) == NULL)
+    {
+      fprintf (stderr, "Could not open outgoing input %s\n", outputFilename);
+      usage (argv[0], 42);
+    }
+
+  // Find the width and height of the input
+  TIFFGetField (input, TIFFTAG_IMAGEWIDTH, &amp;width);
+  TIFFGetField (input, TIFFTAG_IMAGELENGTH, &amp;height);
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Grab some memory
+  if ((raster = (char *) malloc (sizeof (char) * width * height * 3)) == NULL)
+    {
+      fprintf (stderr, "Could not allocate enough memory for input raster\n");
+      exit (42);
+    }
+
+  if ((rout = (unsigned char *) malloc (sizeof (char) * width * height)) 
+      == NULL)
+    {
+      fprintf (stderr,
+	       "Could not allocate enough memory for enlarged raster\n");
+      exit (42);
+    }
+
+  // todo: We need to copy tags from the input image to the output image
+  TIFFSetField (output, TIFFTAG_IMAGEWIDTH, width);
+  TIFFSetField (output, TIFFTAG_IMAGELENGTH, height);
+  TIFFSetField (output, TIFFTAG_COMPRESSION, COMPRESSION_DEFLATE);
+  TIFFSetField (output, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+  TIFFSetField (output, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_MINISBLACK);
+  TIFFSetField (output, TIFFTAG_BITSPERSAMPLE, 8);
+  TIFFSetField (output, TIFFTAG_SAMPLESPERPIXEL, 1);
+  // todo: balance this off with having 8 kb per strip...
+  TIFFSetField (output, TIFFTAG_ROWSPERSTRIP, 100000);
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Read the input into the memory buffer
+  // todo: I couldn't use TIFFReadRGBAStrip here, because it gets confused
+  stripSize = TIFFStripSize (input);
+  roff = raster;
+  for (stripNumber = 0; stripNumber &lt; TIFFNumberOfStrips (input);
+       stripNumber++)
+    {
+      roff += TIFFReadEncodedStrip (input, stripNumber, roff, stripSize);
+    }
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Convert to grayscale
+  offset2 = 0;
+  for(offset = 0; offset &lt; width * height * 3; offset += 3){
+    rout[offset2++] = ((unsigned char) (raster[offset]) * 0.299 + 
+		       (unsigned char) (raster[offset + 1]) * 0.587 + 
+		       (unsigned char) (raster[offset + 2]) * 0.114);
+  }
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Write the image buffer to the file
+  if (TIFFWriteEncodedStrip (output, 0, rout,
+			     width * height * sizeof (char)) == 0)
+    {
+      fprintf (stderr, "Could not write the output image\n");
+      exit (42);
+    }
+
+  // Cleanup
+  TIFFClose (input);
+  TIFFClose (output);
+  free (raster);
+  free (rout);
+}
+
+void
+usage (char *cmd, int exitamt)
+{
+  fprintf (stderr, "Bad command line arguements...\n\n");
+  fprintf (stderr, "Usage: %s -i &lt;inputfile&gt; -o &lt;outputfile&gt;\n", cmd);
+  exit (exitamt);
+}
+</pre>
+<BR><BR><i>Code: /home/mikal/opensource/tiff-grayscale/gray-good.c</i>
+
+<BR><BR>
+Which gives us:
+
+
+<br><br><div align="center"><b>A correct conversion to gray scale</b>
+<br><img src="/notes/presentations/content/gen-grayscale-figure3.jpg">
+</div><BR><BR>
+
+<BR><BR>
+Now, just to justify that the second algorithm is better, have a look at the shadows on the hill and the trees in the background. The contrast and darkness of the second picture is might better than the averaging algorithm...
+
+
+
+
+
+<BR><BR><b>Conclusion</b>
+<BR><BR>
+In this chapter we've discussed the TIFF file format, how to program with libtiff for black and white, gray scale and color images. We haven't been through an exhaustive discussion of the possible settings, or all the calls available in libtiff, but you should be ready to start exploring further.
+
+
+
+<li>So what have we learnt?
+  <ul>
+  <li>Something about the TIFF file format
+  <li>Black and white images with libtiff
+  <li>Color images with libtiff
+  <li>You should now have enough information to at least start to use libtiff...
+  </ul>
+
+
+
+<BR><BR><b>Portions first published by IBM DeveloperWorks</b>
+<BR><BR>
+The basis of this chapter was two articles, first published by IBM DeveloperWorks at http://www.ibm.com/developerworks/ in April and May 2002. This material has been expanded in these chapters from the original 5,000 words.
+
+
+</chapter>
+<chapter id="chap-gif"><b>GIF</b>

@@ -1,0 +1,24 @@
+TITLE: AUUG 2002: Imaging Tutorial: Introduction: Continued 6
+
+<li>What is photometric interpretation?
+<li>It's the representation of the image in the raster
+<BR><BR>
+<li>For example, I might code my bitmaps so black is represented by 1
+<li>... you might use 0 for black
+<li>TIFF allows both in the TIFFTAG_PHOTOMETRIC tag
+  <ul>
+  <li>PHOTOMETRIC_MINISWHITE
+  <li>PHOTOMETRIC_MINISBLACK
+  </ul>
+<BR><BR>
+<li>In the examples here I have assumed we need PHOTOMETRIC_MINISWHITE, so we will convert PHOTOMETRIC_MINISBLACK as required.
+
+<BR><BR>
+<i>Note that some versions of this tutorial had the tag names wrong...</i>
+
+
+<BR><BR>
+The other big thing to bear in mind is fill order (whether the first bit in the byte is the highest value, or the lowest). The example below also handles both of these correctly. I have assumed that we want the buffer to have the most significant bit first. TIFF images can be either big endian or little endian, but libtiff handles this for us. Thankfully, libtiff also supports the various compression algorithms without you having to worry about those. These are by far the scariest area of TIFF, so it is still worth your time to use libtiff.
+
+
+<slidebreak>

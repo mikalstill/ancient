@@ -1,0 +1,115 @@
+TITLE: AUUG 2002: Imaging Tutorial: About the author
+<BR><BR>
+Michael has been working in the image processing field for several years, including a couple of years managing and developing large image databases for an Australian government department. He currently works for TOWER Software, who manufacture a world leading EDMS and Records Management package named TRIM. Michael is also the developer of Panda, an open source PDF generation API, as well as being the maintainer of the comp.text.pdf USENET frequently asked questions document. You can contact Michael at mikal@stillhq.com.
+
+
+<BR><BR>
+Michael also has a whole bunch of code (most of which relates to imaging) at his website: http://www.stillhq.com
+
+
+
+Michael Still<br>
+Senior Software Engineer<br>
+TOWER Software<br>
+<br>
+Architecture and Data Services Group,<br>
+Research and Development Section<br>
+<br>
+<li>TOWER is an Australian ISV developing document management software
+
+<br><br>
+
+<li>I can be contacted at: mikal@stillhq.com
+<li>There is heaps of sample code, including the samples from this tutorial at http://www.stillhq.com
+
+
+<BR><BR><b>Motivation for this tutorial</b>
+<BR><BR>
+This tutorial started life as a series of articles about the TIFF image format, which were published by IBM DeveloperWorks (http://www.ibm.com/developerworks) in April and June 2002. This logically grew into the tutorial you see before you today. This tutorial is based on my several years experience as an imaging developer, and the common mistakes that people seem to make over and over. Perhaps this tutorial will go some way to correcting some common misconceptions.
+
+
+
+<li>This tutorial started life as two articles on TIFF for IBM DeveloperWorks
+<li>I came to the conclusion that I couldn't explain everything I wanted to in 7,000 words
+
+<br><br>
+
+<li>It's the start of the manual I wished I had had when I started image programming
+<li>It isn't finished yet -- there is always so much more to tell
+
+
+<BR><BR><b>Assumed knowledge</b>
+<BR><BR>
+There are some things which I assume you know, and which are outside the scope of this tutorial.
+
+
+<BR><BR>
+This tutorial discusses code. Almost all of the code discussed is written in C. It is therefore safe to assume that if you don't have a good working knowledge of C, then you're likely to get a lot less out of this tutorial as those who do know some C. On the other hand, don't worry about the more esoteric syntax, I'll explain this as we need it.
+
+
+<BR><BR>
+It should also be noted that the code samples in this tutorial are not optimal. They have been written to be as readable as possible, and not necessarily the most efficient possible. Please bear this in mind before blindly copying them.
+
+
+
+<li>C
+
+
+<BR><BR>
+It is outside the scope of this document to teach you how to compile and link source code into an executable form on your chosen architecture and operating system. You will need to understand this before you will be able to use any of the code in this document.
+
+
+<BR><BR>
+For those of you using gcc on a unix (or unix-like) operating system, then the following points might be all you need to know. If you need more information, then a http://www.google.com search will serve you well.
+
+
+<li>Libraries are added to the link command using the -l command line option. For instance, to compile and link the source file foo, with the tiff library, you would use a command line along the lines of <i><b>gcc foo.c -o foo -ltiff -lm</b></i>.
+
+<li>You need to include -lm almost always. When you compile a c program using gcc without specifying any libraries, you get a -lm for free. As soon as you start specifying any libraries (for instance in this case -ltiff), then you also need to explicitly specify the math library as well.
+
+<li>You will almost certainly also need to add the library and include paths for the installed version of the relevant library to the compile command line as well. Directories are added to the library search path using the -L command line option. Include directories are added with the -I option.
+
+<li>The make files included with the samples in this tutorial a probably a bad place to look for introductory compile examples, as they use automake and autoconf to try to detect where the various required libraries are installed...
+
+
+
+
+<li>How to compile and link
+
+
+
+<BR><BR><b>Credits</b>
+<BR><BR>
+There are many people who need to be thanked when one attempts a project of this size. I would specifically like to thank my wife and son, who put up with me being geeky so very often.
+
+
+
+<li>I should thank the following people:
+  <ul>
+  <li>My wife Catherine, and my son Andrew
+  <li>Doug Jackson
+  <li>Tony Green
+  <li>Michael Smith
+  <li>Greg Lehey
+  <li>Lenny Muellner  
+
+<br><br><div align="center"><b>Catherine and Andrew</b>
+<br><img src="/notes/presentations/content/gen-introduction-figure1.jpg">
+</div><BR><BR>
+
+<BR><BR>
+I should also thank the following people:
+
+
+
+<li>Doug Jackson (doug_jackson@citadel.com.au), for proof reading and getting me interested in this whole topic to start with
+<li>Tony Green (greeno@bandcamp.tv), for occasional DocBook wrangling
+<li>Michael Smith (smith@xml-doc.org), for DocBook hints
+<li>Greg Lehey, for giving me access to his docbook environment when I was having jade pain
+<li>Lenny Muellner, of O'Reilly, for helping me with my gmat problems
+
+
+
+
+</chapter>
+<chapter id="chap-concepts"><b>Imaging concepts</b>

@@ -1,0 +1,55 @@
+TITLE: AUUG 2002: Imaging Tutorial: Introduction: Continued 28
+
+<li><i>
+<BR><BR>
+We have now mentioned the global color table, but haven't defined what it actually means. Don't panic, we'll get there in just a second.
+
+
+
+</i>
+
+<BR><BR><b>Formula for global color table size</b>
+<BR><BR>
+To determine the size of the of the global color table, simply apply this formula: <i>size of global color table = 2 ^ (size in table + 1)</i>. The maximum size of the global color table is therefore <i>2 ^ (7 + 1)</i>, or 255 items.
+
+
+
+<pre>
+size of global color table = 2 ^ (size in table + 1)
+</pre>
+
+<li>The maximum size is therefore:
+
+<pre>
+2 ^ (7 + 1)
+</pre>
+
+<li>Which is 255 items
+<li>There will actually be three times that number of color bytes in the global color table
+<li>... Because colors are 24 bit per pixel
+
+<BR><BR>
+There will actually be three times that number of color bytes in the global color table, because each color is 24 bit per pixel.
+
+
+
+
+<BR><BR><b>Global color table</b>
+<BR><BR>
+If the logical screen block of the image specified that a global color table is present in the image, then this is the next part of the GIF data stream. The global color table is a palette -- in other words, it maps the values actually stored in the image data to the 24 bit values which are the colors.
+
+
+
+<li>If the logical screen section specified the presence of a global color table, then that is next
+<li>The global color table is a palette
+<li>The format is very simple
+  <ul>
+  <li>Just the red, green and blue values
+  <li>No header or footer
+  </ul>
+
+<BR><BR>
+The format of the global color table is very simple, it is simply the red, green and blue values stored without any header or footer.
+
+
+<slidebreak>

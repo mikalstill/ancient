@@ -1,0 +1,29 @@
+TITLE: AUUG 2002: Imaging Tutorial: Introduction: Continued 15
+
+<BR><BR>
+You can see from this code some of the things that we have discussed in theory. The image has three samples per pixel, each of eight bits. This means that the image is a 24 bit RGB image. If this was a black and white or gray scale image, then this value would be one. The tag PHOTOMETRIC_RGB says that the image data is stored within the strips themselves (as opposed to being paletted) -- more about this in a second.
+
+
+
+<li>There are some things we should pay attention to in this code:
+  <ul>
+  <li>The image has three (red, green and blue) samples per pixel
+  <li>Each of these samples is 8 bits
+  <li>This is therefore a 24 bit color image
+  </ul>
+
+<sidebar><b>Other values for samples per pixel?</b>
+<BR><BR>
+In this example, we have three samples per pixel. If this was a black and white image, or a gray scale image, then we would have one sample per pixel. There are other valid values for here as well -- for instance, sometimes people will store a transparency value for a given pixel, which is called an alpha channel. This would result in having four samples per pixel. It is possible to have an arbitrary number of samples per pixel, which is good if you need to pack in extra information about a pixel. <i>Note that doing this can break image viewers which make silly assumptions -- I once had to write code for a former employer to strip out alpha channels and the like so that their PDF generator wouldn't crash.</i>
+
+
+
+<li>Now is probably as good a time as any to tell you that you're not limited to three samples per pixel
+<li>You can have an arbitary number
+<li>For instance, this is where alpha channel information is stored in almost all image formats
+<li>Having more than three samples per pixel can break viewers which make ugly assumptions
+</sidebar>
+
+<BR><BR>The other interesting thing to discuss here is the planar configuration of the image. Here we have specified PLANARCONFIG_CONTIG, which means that the red green and blue information for a given pixel is grouped together in the strips of image data. The other option is PLANARCONFIG_SEPARATE, where the red samples for the image are stored together, then the blue samples, and finally the green samples.
+
+<slidebreak>

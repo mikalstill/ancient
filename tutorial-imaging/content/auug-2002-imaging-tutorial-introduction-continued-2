@@ -1,0 +1,179 @@
+TITLE: AUUG 2002: Imaging Tutorial: Introduction: Continued 2
+
+
+<li>These entries have a type
+<li>Options are:
+  <br>
+  <ul>
+
+
+<li>1: BYTE 8 bit unsigned integer
+<li>2: ASCII 8 bit byte that contains a 7 bit ASCII code
+<li>3: SHORT 16 bit (2 byte) unsigned integer
+<li>4: LONG 32 bit (4 byte) unsigned integer
+<li>5: RATIONAL Two LONGs: the first represents the numerator of a fraction; the second, the denominator
+
+
+<BR><BR>
+TIFF version 6 added the following fields:
+
+
+
+<li>6: SBYTE An 8 bit signed integer
+<li>7: UNDEFINED An 8 bit byte that may contain anything
+<li>8: SSHORT A 16 bit (2 byte) signed integer
+<li>9: SLONG A 32 bit (4 byte) signed integer
+<li>10: SRATIONAL Two SLONGs: the first represents the numerator of a fraction; the second, the denominator
+<li>11: FLOAT Singled precision (4 byte) IEEE format
+<li>12: DOUBLE Double precision (8 byte) IEEE format
+
+
+<BR><BR>
+Sign is implemented using two's complement notation. New field types may be added later, although it seems unlikely at this stage, given the TIFF specification hasn't changed in quite a long time. Image readers should ignore types they don't understand
+  <i>(You need not worry about this, because libtiff worries about all of this for you.)</i>
+.
+
+
+
+<br><br>
+<li>Sign is implemented using 2's complement
+<li>Adobe reserve the right to add new types later
+
+
+
+<BR><BR><b>So where's the image data?</b>
+<BR><BR>
+Interestingly, the image data itself is just stored as another tag value... The tag value StripOffsets stores where in the file the image data strips start. The tag value StripByteCounts stores the size of each strip.
+
+
+
+
+
+<BR><BR><b>Coding for TIFF can be hard</b>
+<BR><BR>	
+Most file format specifications define some basic rules for the representation of the file. For instance, PNG (a competitor to TIFF) documents are always big endian. TIFF doesn't mandate things like this though, here is a list of some of the seemingly basic things that it doesn't define:
+
+
+<li>Most file formats lay down basic rules covering:
+  <ul>
+
+
+  <li>The byte order -- big endian, or little endian
+  <li>The fill order of the bit within the image bytes -- most significant bit first, or least significant
+  <li>The meaning of a given pixel value for black and white -- is 0 black, or white?
+  <li>...and so on
+
+
+
+
+  </ul>
+<li>TIFF doesn't
+
+<BR><BR>
+This means that creating a TIFF can be very easy, because it is rare to have to do any conversion of the data that you already have. It does mean, on the other hand, that being able to read in random TIFFs created by other applications can be very hard -- you have to code for all these possible combinations in order to be reasonably certain of having a reliable product.
+
+	
+
+<li>This makes it very easy to create TIFFs
+<li>Your current internal format is probably good enough
+<li>Very hard to read in TIFF files well however
+
+<BR><BR>
+So how do you write an application which can read in all these different possible permutations of the TIFF format? The most important thing to remember is to <i>never make assumptions about the format of the image data you are reading in</i>.
+
+
+
+<br><br>
+<li><i>Try to avoid making assumptions...</i>
+
+
+<BR><BR><b>Writing Black and White TIFF files</b>
+<BR><BR>
+The first thing I want to do is show you how to write a TIFF file out. We'll then get onto how to read a TIFF file back into your program.
+
+
+
+<li>It must be time to see some code by now...
+	
+
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;tiffio.h&gt;
+
+int
+main (int argc, char *argv[])
+{
+  char buffer[32 * 9];
+}
+</pre>
+<BR><BR><i>Code: /home/mikal/opensource/tiff-bw-write/write-infrastructure.c</i>
+
+
+<BR><BR>
+<li>Is this the most boring code example <b>every</b> or what?
+
+<BR><BR>
+The code above is pretty simple. All you need to use libtiff is to include the tiffio.h header file. The char buffer that we have defined here is going to be our black and white image, so we should define one of those next...
+
+
+
+<BR><BR><b>Writing the image</b>
+<BR><BR>
+To make up for how boring that example was, I am now pleased to present you with possibly the worst picture of the Sydney Harbor Bridge ever drawn. In the example below, the image is already in the image buffer, and all we have to do is save it to the file on disc. The example first opens a TIFF image in write mode, and then places the image into that file.
+
+
+<BR><BR>
+Please note, that for clarity I have omitted the actual hex for the image, this is available in the download version of this code for those who are interested.
+
+
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;tiffio.h&gt;
+
+int main(int argc, char *argv[]){
+  // Define an image -- this is 32 pixels by 9 pixels
+  char buffer[25 * 144] = { ...boring hex omitted... };
+
+  TIFF *image;
+
+  // Open the TIFF file
+  if((image = TIFFOpen("output.tif", "w")) == NULL){
+    printf("Could not open output.tif for writing\n");
+    exit(42);
+  }
+
+  // We need to set some values for basic tags before we can add any data
+  TIFFSetField(image, TIFFTAG_IMAGEWIDTH, 25 * 8);
+  TIFFSetField(image, TIFFTAG_IMAGELENGTH, 144);
+  TIFFSetField(image, TIFFTAG_BITSPERSAMPLE, 1);
+  TIFFSetField(image, TIFFTAG_SAMPLESPERPIXEL, 1);
+  TIFFSetField(image, TIFFTAG_ROWSPERSTRIP, 144);
+
+  TIFFSetField(image, TIFFTAG_COMPRESSION, COMPRESSION_CCITTFAX4);
+  TIFFSetField(image, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_MINISWHITE);
+  TIFFSetField(image, TIFFTAG_FILLORDER, FILLORDER_MSB2LSB);
+  TIFFSetField(image, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+
+  TIFFSetField(image, TIFFTAG_XRESOLUTION, 150.0);
+  TIFFSetField(image, TIFFTAG_YRESOLUTION, 150.0);
+  TIFFSetField(image, TIFFTAG_RESOLUTIONUNIT, RESUNIT_INCH);
+  
+  // Write the information to the file
+  TIFFWriteEncodedStrip(image, 0, buffer, 25 * 144);
+
+  // Close the file
+  TIFFClose(image);
+}
+</pre>
+<BR><BR><i>Code: /home/mikal/opensource/tiff-bw-write/write-nohex.c</i>
+
+<BR><BR>
+There are some interesting things to note in this example. The most interesting of these is that the output image will not display using the xview command on my Linux machine. In fact, I couldn't find an example of a group 4 fax compressed black and white image which would display using that program. See the sidebar for more detail.
+
+
+
+<BR><BR>
+The sample code shows the basics of using the libtiff API. The following interesting points should be noted...
+
+
+<slidebreak>

@@ -1,0 +1,74 @@
+TITLE: AUUG 2002: Imaging Tutorial: Introduction: Continued 29
+<table>
+
+
+<tr>
+  <td>Bytes</td>
+  <td>Description</td>
+</tr>
+
+
+
+<tr bgcolor=BBBBBB>
+  <td>0</td>
+  <td>Colour 1 red entry</td>
+</tr>
+
+<tr>
+  <td>1</td>
+  <td>Colour 1 green entry</td>
+</tr>
+
+<tr bgcolor=BBBBBB>
+  <td>2</td>
+  <td>Colour 1 blue entry</td>
+</tr>
+
+<tr>
+  <td>...</td>
+  <td></td>
+</tr>
+
+<tr bgcolor=BBBBBB>
+  <td></td>
+  <td>Colour x red entry</td>
+</tr>
+
+<tr>
+  <td></td>
+  <td>Colour x green entry</td>
+</tr>
+
+<tr bgcolor=BBBBBB>
+  <td></td>
+  <td>Colour x blue entry</td>
+</tr>
+
+
+
+</table>
+
+
+<BR><BR><b>Data</b>
+<BR><BR>
+Next comes the images that are stored in the GIF data stream. GIF data streams are valid, even if there are no images stored within the data stream.
+
+
+
+<li>Now we get each of the images stored in the GIF file...
+
+<BR><BR><b>Image descriptors</b>
+<BR><BR>
+<i>Each image in the Data Stream is composed of an Image Descriptor, an optional Local Color Table, and the image data. Each image must fit within the boundaries of the Logical Screen, as defined in the Logical Screen Descriptor.</i> -- GIF 89a specification
+
+
+<BR><BR>
+The image descriptor is stored at the start of each image within the data stream. The image description stores information which is specific to that single image, unlike the logical screen section, which has a global scope over all images in the data stream. The image descriptor has the following layout:
+
+
+
+<BR><BR>
+<li>The image descriptor is stored at the start of each image
+<li>It stores information which is specific to that single image
+
+<slidebreak>

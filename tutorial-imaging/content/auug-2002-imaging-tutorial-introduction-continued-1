@@ -1,0 +1,135 @@
+TITLE: AUUG 2002: Imaging Tutorial: Introduction: Continued 1
+
+<BR><BR>Libtiff is a standard implementation of the TIFF specification, which is free and works on many operating systems. All of the examples in this chapter refer to libtiff.
+
+
+
+<li>Libtiff is an open implementation of the TIFF specification
+<li>It is not GPL
+<li>More like a BSD license
+<li>There is documentation in the manual on how to install libtiff
+
+
+
+<BR><BR><b>The TIFF on disc format</b>
+<BR><BR>
+It is useful for use to know something about how TIFF images are laid out on disc. For a fuller discussion of this, have a look at the TIFF specification version 6, which is referenced in the further reading section of this chapter
+  <i>(From page 13 onwards...)</i>
+.
+
+
+
+<li>We should talk about how TIFF images are laid out on disc
+<li>This will help us understand the inner workings of the format better
+<li>There are more details on this in the TIFF specification if you need them
+
+<BR><BR><b>File header</b>
+<table>
+
+
+<tr>
+  <td>Bytes</td>
+  <td>Description</td>
+</tr>
+
+
+
+<tr bgcolor=BBBBBB>
+<td>0 - 1</td>
+<td>Byte order for this file: ll (ASCII) for little endian, or MM (ASCII) for big endian</td>
+</tr>
+
+<tr>
+<td>2 - 3</td>
+<td>Magic number = 42, in the byte order specified above</td>
+</tr>
+
+<tr bgcolor=BBBBBB>
+<td>4 - 7</td>
+<td>Offset in bytes to the first IFD
+  <i>(IFD: Image File Directory)</i>
+</td>
+</tr>
+
+
+
+</table>
+
+
+
+
+
+<BR><BR><b>Image File Directory</b>
+<table>
+
+
+<tr>
+  <td>Bytes</td>
+  <td>Description</td>
+</tr>
+
+
+
+<tr bgcolor=BBBBBB>
+<td>0 - 1</td>
+<td>Number of entries in the IFD</td>
+</tr>
+
+<tr>
+<td>???</td>
+<td>The entries in the IFD (all are 12 bytes long)</td>
+</tr>
+
+<tr bgcolor=BBBBBB>
+<td>4 bytes at end</td>
+<td>Offset in bytes to the next IFD (four zero bytes if this is the last IFD)</td>
+</tr>
+
+
+
+</table>
+
+
+
+
+
+<BR><BR><b>Image File Directory Entries</b>
+<table>
+
+
+<tr>
+  <td>Bytes</td>
+  <td>Description</td>
+</tr>
+
+
+
+<tr bgcolor=BBBBBB>
+<td>0 - 1</td>
+<td>Tag that identifies the entry. Have a look at tiff.h</td>
+</tr>
+
+<tr>
+<td>2 - 3</td>
+<td>Field type</td>
+</tr>
+
+<tr bgcolor=BBBBBB>
+<td>4 - 7</td>
+<td>Count of the number of type size fields used. For instance, if the type is an ASCII string, then this field will store the length of the string, including the NULL terminating byte that C strings have. The count does not include padding (if any).</td>
+</tr>
+
+<tr>
+<td>8 - 11</td>
+<td>The number of bytes inside the file that the value is stored at. Because the value must be stored on a word boundary, it will always be an even number. This file offset may point anywhere in the file, even after the image data.</td>
+</tr>
+
+
+
+</table>
+
+<BR><BR>
+These entries have a type associated with them, possible types are:
+
+
+<slidebreak>

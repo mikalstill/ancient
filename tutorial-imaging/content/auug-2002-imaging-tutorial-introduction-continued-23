@@ -1,0 +1,10 @@
+TITLE: AUUG 2002: Imaging Tutorial: Introduction: Continued 23
+<br><br><div align="center"><b>The gray scale input image</b>
+<br><img src="/notes/presentations/content/gen-tiff-figure9.jpg">
+</div><BR><BR>
+
+<BR><BR>
+This image, after being pushed through <i><b>tiffdither</b></i> looks something like:
+
+
+<slidebreak>

@@ -1,0 +1,145 @@
+TITLE: AUUG 2002: Imaging Tutorial: Introduction: Continued 26
+<BR><BR>
+GIF was once the image format of choice for the Internet, in web browsers at least. This is not nearly as much the case today. The main reason for this is because Unisys has only relatively recently started enforcing the Patent they hold on LZW compression.
+
+
+<BR><BR>
+The disappearance of GIF from the scene is not a major loss, especially as the format was not particularly extensible.
+
+
+
+
+
+
+
+
+<BR><BR><b>The GIF on disc format</b>
+<BR><BR>
+The GIF file format is much simpler than that used for TIFF files. Pay attention to this description though, because it will help explain PNG images when we get to them in a later chapter.
+
+
+
+<li>The GIF format is quite simple -- the entire specification is only a few pages
+<li>We only describe the format
+<li>Mainly because it will help with the explaination of PNG
+
+
+<BR><BR><b>The data stream</b>
+<BR><BR>
+The outer body of a GIF image is called a data stream, for reasons described in the last few paragraphs. This data stream can be thought of as a file for the purposes of this discussion. The data stream is composed of header, a section called the logical screen, the image data, and a trailer. These elements are described individually below.
+
+
+
+<li>We're going to refer to the term data stream a bit in the coming slides...
+<li>The GIF specification doesn't refer to files
+<li>The equivalent concept is a data stream
+<li>A data stream doesn't have to be a file
+
+
+<BR><BR><b>The header</b>
+<table>
+
+
+<tr>
+  <td>Bytes</td>
+  <td>Description</td>
+</tr>
+
+
+
+<tr bgcolor=BBBBBB>
+<td>0 - 2</td>
+<td>A magic number identifying that this is a GIF image. This should be the ASCII characters "GIF".</td>
+</tr>
+
+<tr>
+<td>3 - 5</td>
+<td>The version number of the GIF specification this image uses. See below for a list of possible version numbers.</td>
+</tr>
+
+
+
+</table>
+
+<BR><BR>
+There are two main version numbers which are in common use for GIF images. These are:
+
+
+
+<li>Version number options are:
+  <ul>
+
+
+<li>87a (released in May 1987)
+<li>89a (released in July 1989)
+
+
+<BR><BR><b>Version numbers</b>
+<BR><BR>
+The GIF specification makes it quite clear that the image generator should use the lowest version number which matches the functionality required to correctly decode the image. This makes the generation of images a little more complex, as the generator needs to know the specification version number of each feature, but it ensures the maximum possible level of backwards compatability, without sacraficing accuracy of decoding of the image. To quote the GIF specification:
+
+
+
+<li>The GIF specification states that the image generator should use the lowest version number possible
+<li>Whilst still having the image make sense
+<li>This makes the generation of images a little more complex
+<li>It ensures the maximum backwards compatability
+
+<BR><BR>
+<i>The version number in the Header of a Data Stream is intended to identify the minimum set of capabilities required of a decoder in order to fully process the Data Stream. An encoder should use the earliest possible version number that includes all the blocks used in the Data Stream. ... The encoder should make every attempt to use the earliest version number covering all the blocks in the Data Stream; the unnecessary use of later version numbers will hinder processing by some decoders.</i>
+
+
+
+<BR><BR>
+<li>The version number in the header identifies the minimum set of capabilities required to view that image
+
+
+
+<BR><BR><b>Logical Screen</b>
+<BR><BR>
+The logical screen is the area on which the image will be painted. This block defines the characteristics of this virtual screen:
+
+
+
+<li>The logical screen is the area on which the image will be painted
+<BR><BR>
+
+<table>
+
+
+<tr bgcolor=BBBBBB>
+  <td>Bytes</td>
+  <td>Description</td>
+</tr>
+
+
+
+<tr>
+  <td>0 - 1</td>
+  <td>Width</td>
+</tr>
+
+<tr bgcolor=BBBBBB>
+  <td>2 - 3</td>
+  <td>Height</td>
+</tr>
+
+<tr>
+  <td>4</td>
+  <td>Packed fields. See below for a description.</td>
+</tr>
+
+<tr bgcolor=BBBBBB>
+  <td>5</td>
+  <td>Background color index. If a global color table exists, then this indicates the index into that table to use for pixels which are transparent. For instance, the author of the GIF image might have specified a certain shade of blue as representing a transparent pixel. If the global color table is not supported by this image, this value should be zero.</td>
+</tr>
+
+<tr>
+  <td>6</td>
+  <td>Pixel aspect ratio -- of the original image. The default value is zero, but if desired, this value can be used to calculate the original image aspect ratio using the formula <i>aspect ratio = (pixel aspect ratio + 15) / 64</i></td>
+</tr>
+
+
+</table>
+
+<slidebreak>

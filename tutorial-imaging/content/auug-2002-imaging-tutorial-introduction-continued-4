@@ -1,0 +1,38 @@
+TITLE: AUUG 2002: Imaging Tutorial: Introduction: Continued 4
+
+<br><br><div align="center"><b>The Sydney Harbor Bridge, by Michael Still</b>
+<br><img src="/notes/presentations/content/gen-tiff-figure1.jpg">
+</div><BR><BR>
+
+
+
+<BR><BR><b>Reading Black and White TIFF files</b>
+<BR><BR>
+Reading TIFF files reliably is much harder than writing them. The issue that complicates reading black and white TIFF images the most is the several different storage schemes which are possible within the TIFF file itself. libtiff doesn't hold your hand much with these schemes, so you have to be able to handle them yourself. The three schemes TIFF supports are single stripped images, stripped images, and tiled images.
+
+
+
+<li>As I said before, reliable reading is much harder than writing
+<li>First let's talk about stripping, and tiling of images...
+
+
+<li>A single strip image is as the name suggests -- a special case of a stripped image. In this case, all of the bitmap is stored in one large block. I have experienced reliability issues with images which are single strip on Windows machines. The general recommendation is that no one strip should take more than 8 kilobytes uncompressed which with black and white images limits us to 65,536 pixels in a single strip.
+
+
+<li>Single strip is where all the image data is in one block (a strip)
+<li>This can be unreliable if the strip is bigger than 8kb
+
+<li>A multiple strip image is where horizontal blocks of the image are stored together. More than one strip is joined vertically to make the entire bitmap. Figure 2 shows this concept.
+
+
+<BR><BR>
+<li>Multiple strip images have many horizontal strips
+
+<li>A tiled image is like your bathroom wall, it is composed of tiles. This representation is show in Figure 3, and is useful for extremely large images -- this is especially true when you might only want to manipulate a small portion of the image at any one time.
+
+
+<br><br><div align="center"><b>The Sydney Harbor Bridge, in strips</b>
+<br><img src="/notes/presentations/content/gen-tiff-figure2.jpg">
+</div><BR><BR>
+
+<slidebreak>

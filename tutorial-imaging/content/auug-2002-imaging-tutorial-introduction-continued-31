@@ -1,0 +1,5145 @@
+TITLE: AUUG 2002: Imaging Tutorial: Introduction: Continued 31
+<BR><BR>
+In a sense this PDF chapter is the culmination of the tutorial... Many of the formats we have discussed up to this point can be included in some way in PDF files. I think that PDF is probably the most interesting imaging format in common use today.
+
+
+<BR><BR>
+This chapter is broken into two major sections. These are: a discussion of the PDF format, and then an introduction to Panda, a PDF generation API.
+
+
+
+<BR><BR><b>All about the PDF format</b>
+<BR><BR>
+The PDF file format is broken into a tree structure. This tree is made up of combinations of a few possible objects. We'll start by describing these objects, and then move onto how they fit together.
+
+
+<BR><BR><b>File header</b>
+<BR><BR>
+Every PDF file starts with a simple header which declares the file to be a valid PDF file. This header will look something like this:
+
+
+<pre>
+%PDF-1.3 ∞<9F><92><9C><9F>‘‡Œ–––
+</pre>
+
+<BR><BR>
+This header had the following parts:
+
+
+
+<li><i>%PDF-</i>: this is a PDF document.
+<li><i>1.3</i>: it meets version 1.3 of the PDF specification.
+<li><i>∞<9F><92><9C><9F>‘‡Œ–––</i>: random binary stuff. This is just here so that <i>smart</i> FTP clients don't decide the file is an ASCII file in error
+  <i>(Whilst the vast majority of PDF structure is represented with ASCII text, this doesn't stop you from embedding binary into the file)</i>
+.
+
+
+<BR><BR><b>Specification versions</b>
+<BR><BR>
+There have been five versions of the PDF specification released at the time of writing this document. They are:
+
+
+
+<li><i>1.0</i>: maps functionality available in Adobe Acrobat 1.0
+<li><i>1.1</i>: maps functionality available in Adobe Acrobat 2.0
+<li><i>1.2</i>: maps functionality available in Adobe Acrobat 3.0
+<li><i>1.3 (both first and second editions)</i>: maps functionality available in Adobe Acrobat 4.0
+<li><i>1.4</i>: maps functionality available in Adobe Acrobat 5.0
+
+
+<BR><BR>
+In theory at least, the PDF specification versions should be backwards compatible -- viewers should ignore object types and dictionary entries that they don't understand. This means that you can also insert your own information into the PDF document without breaking its ability to be viewed in other applications.
+
+
+
+
+<BR><BR><b>Objects</b>
+<BR><BR>
+Objects in PDF files have a number, and a generation (version) number. They are represented as an ASCII text sequence in the file, for instance:
+
+
+<pre>
+1 0 obj
+&lt;&lt;
+        /Type /Catalog
+        /Pages 2 0 R
+&gt;&gt;
+endobj
+</pre>
+
+<BR><BR>
+This object is the 0th version of object number 1. The text between the &lt;&lt; and the &gt;&gt; is discussed in the next section.
+
+
+<sidebar><b>Order of objects in the file</b>
+<BR><BR>
+Note that objects can appear in the file in any order, because there is a look up table called an XREF table at the end of the file that they can be looked up from.
+
+</sidebar>
+
+
+<BR><BR><b>Dictionaries</b>
+<BR><BR>
+Objects have associated with them a (key, value) pair database. This stores properties of the object -- these would normally include things like the dimensions of the page, or the name of the author of the document, and other interesting things like that.
+
+
+<BR><BR>
+In the example object above, we had the following dictionary items...
+
+
+<pre>
+        /Type /Catalog
+        /Pages 2 0 R
+</pre>
+
+<BR><BR>
+This dictionary specifies that the key <i>Type</i> has the value <i>Catalog</i>, and that the value <i>Pages</i> has the value <i>2 0 R</i>. This last value is an object reference, which we discuss in the Redirection section a little bit later in this chapter.
+
+
+<BR><BR><b>Dictionary data types</b>
+<BR><BR>
+What data types are valid in dictionaries? Well, version 1.3 of the PDF specification names the following data types:
+
+
+<BR><BR><b>Arrays</b>
+<BR><BR>
+An array is a one dimensional collection of other values. Unlike most programming languages, the contents of the array can be of several types, for instance we could mix integers with strings in a single array. Arrays start and end with square brackets.
+
+
+<BR><BR><b>Examples</b>
+<pre>
+[(foo) (bar) 42.3 /AName]
+</pre>
+
+
+<BR><BR><b>Boolean</b>
+<BR><BR>
+Boolean values are represented with the words <i><b>true</b></i> and <i><b>false</b></i>.
+
+
+<BR><BR><b>Examples</b>
+<pre>
+/ExplodeOnOpening true
+/Rotate false
+</pre>
+
+
+<BR><BR><b>Names</b>
+<BR><BR>
+A name is a sequence of characters not including whitespace which follow a forward slash. Names are used in object dictionaries for the names of keys, and for some values of keys.
+
+
+<BR><BR><b>Examples</b>
+<pre>
+</pre>
+
+
+<BR><BR><b>Numbers</b>
+<BR><BR>
+Known as numeric types in the PDF specification (for somewhat obvious reasons), this includes all forms of numbers. These can either be integer or real
+  <i>(Non integer)</i>
+numbers.
+
+
+<BR><BR><b>Integers</b>
+<BR><BR>
+Integer numbers can be either positive or negative (with a leading sign value if needed) and have a maximum value of ... and a minimum value of ... .
+
+
+
+
+<BR><BR><b>Examples</b>
+<pre>
+123
+43445
++176
+-17
+0
+</pre>
+
+
+<BR><BR><b>Real numbers</b>
+<BR><BR>
+Real numbers can exist in the range ... to ..., and may or may not have leading zeros.
+
+
+
+
+<BR><BR><b>Examples</b>
+<pre>
+34.5
+-3.62
++123.5
+4.
+-.002
+0.0
+</pre>
+
+
+<BR><BR><b>Caveats</b>
+<BR><BR>
+The PDF specification makes the following point:
+
+<i>PDF does not support the PostScript syntax for numbers with non-decimal radices (such as 16#FFFE) or in exponent format (such as 6.02E23).</i>
+  <i>(PDF Specification 1.3, second edition, page 27)</i>
+
+
+
+<BR><BR><b>Strings</b>
+<BR><BR>
+Strings are represented a series of unsigned bytes
+  <i>(That is, in the range 0 to 255.)</i>
+which is identical to the ASCII strings most programmers are familar with in C. There are two main representations of strings. These are:
+
+
+<BR><BR><b>Bracket notation</b>
+<BR><BR>
+Strings can be wrapped in curved brackets such as () to delimit the start and end of the string. Strings may also contain brackets, so long as they are balanced or escaped with a backslash.
+
+
+<BR><BR>
+These are known as literal strings in the PDF specification.
+
+
+
+<BR><BR><b>Examples</b>
+<pre>
+(hello)
+(hello world)
+(hello world \(the people I like\))
+(hello world (the people I like))
+</pre>
+
+
+<BR><BR><b>Escaped characters</b>
+<BR><BR>
+There are a series of standard characters which are used with the backslash escape. These are:
+
+
+
+<li><i>\n</i>: Newline
+<li><i>\r</i>: Carriage return
+<li><i>\t</i>: Tab
+<li><i>\b</i>: Backspace
+<li><i>\f</i>: Form feed
+<li><i>\(</i>: Open bracket
+<li><i>\)</i>: Close bracket
+<li><i>\\</i>: Backslash
+<li><i>\ddd</i>: Arbitary character (ddd is a number in octal)
+
+
+<BR><BR>
+The backslash operator can also be used to continue text on the next line. For instance:
+
+
+<pre>
+(This is a very long string which we want to \
+break over a couple of lines.)
+</pre>
+
+<BR><BR>
+This means that we can also embed newlines without using the escape. For instance, these two text blocks are the same:
+
+
+<pre>
+(This is a 
+string \
+with some lines)
+</pre>
+
+<BR><BR>
+and
+
+
+<pre>
+(This is a\nstring with some lines)
+</pre>
+
+<BR><BR>
+More on strings in this notation can be found in the PDF specification, version 1.3, on page 30.
+
+
+
+<BR><BR><b>Hexadecimal notation</b>
+<BR><BR>
+Strings can also be written in hexadecimal form, and in this case are enclosed in angle brackets.
+
+
+
+<BR><BR><b>Examples</b>
+<BR><BR>
+An example of a hexidecimal string is:
+
+
+<pre>
+&lt;4E6F762073686D6F7A206B6120706F702E&gt;
+</pre>
+
+<BR><BR>
+If the final digit is missing, then it is assumed to be zero. For instance, the following string:
+
+
+<pre>
+&lt;901FA&gt;
+</pre>
+
+<BR><BR>
+Is the same as:
+
+
+<pre>
+&lt;901FA0&gt;
+</pre>
+
+
+
+
+<BR><BR><b>A lexer for PDF</b>
+<BR><BR>
+Refer to the lexer for PDF documents at the end of this chapter if you are more interested in the format of data types.
+
+
+
+
+<BR><BR><b>Minimal dictionaries</b>
+<BR><BR>
+In addition to having full dictionaries, it is possible to have very simple objects which only have one value in the dictionary, these objects look a little different than a normal object, for instance:
+
+
+<pre>
+17 0 obj
+203
+endobj
+</pre>
+
+<BR><BR>
+In this example, the object stores a simple integer value. Why would you want to do this? Well, the answer is that in a dictionary you can have the value for the key stored in another object:
+
+
+<pre>
+42 0 obj
+&lt;&lt;
+  /Length 24 0 R
+&gt;&gt;
+endobj
+
+24 0 obj
+462
+endobj
+</pre>
+
+<BR><BR>
+Here, we don't know the length of the stream associated with the object (I describe these in a second) at the time we wrote the object out, so we can simply insert it later in the document. This is called an object reference, which is in the form:
+
+
+<pre>
+objectnumber revision R
+</pre>
+
+
+
+<BR><BR><b>Streams</b>
+<BR><BR>
+The other type of data that an object can have associated with it is a stream. Streams are used to store less structured data, for instance descriptions of the items on a page, or random binary data. The form for a stream is:
+
+
+<pre>
+42 0 obj
+&lt;&lt;
+  /Length 24 0 R
+&gt;&gt;
+stream
+...stream data...
+endstream
+endobj
+</pre>
+
+<BR><BR>
+A description for the page layout descriptions is outside the scope of this document. 
+
+
+The other type of information which can be stored in a stream is arbitrary information such as the content of images (which would normally be raster information). 
+
+
+An in depth discussion of the formatting of the raster information is also outside the scope of this document.
+
+
+<BR><BR><b>Filters on streams</b>
+<BR><BR>
+Streams can be filtered. A filter is an operation which occurs on the stream contents before they are saved into the PDF document, examples include compression, and ASCII85 encoding
+  <i>(ASCII85 encoding is when you take binary data (which will be in the range 0x00 to 0xFF per byte, and force it into the range 0x00 to 0x55. This is done because some transport mediums (such as email), cannot handle binary data, so the data is made to look more like ASCII information. Note that this bloats the size of the data somewhat.)</i>
+, which can't really be called compression.
+
+
+<BR><BR>
+So what are the possible filters? Well, as of PDF 1.3
+  <i>(More have been added to this list in PDF 1.4)</i>
+, they are:
+
+
+<BR><BR><b>ASCII85Decode</b>
+<BR><BR>
+The ASCII85 filter takes binary data, and turns it into base 85 representation. This is needed by some email clients (among other things), because they can't handle embedding binary data into their protocols.
+
+
+<BR><BR>
+The <i>comp.text.pdf frequently asked questions</i> refers to the code examples below by way of explaination:
+
+
+<pre>
+/* encode85 -- convert to ascii85 format */
+
+#include &lt;stdio.h&gt;
+#define	atoi(s)	strtol(s, 0, 0)
+
+static unsigned long width = 72, pos = 0, tuple = 0;
+static int count = 0;
+
+void init85(void) {
+	printf("&lt;~");
+	pos = 2;
+}
+
+void encode(unsigned long tuple, int count) {
+	int i;
+	char buf[5], *s = buf;
+	i = 5;
+	do {
+		*s++ = tuple % 85;
+		tuple /= 85;
+	} while (--i &gt; 0);
+	i = count;
+	do {
+		putchar(*--s + '!');
+		if (pos++ &gt;= width) {
+			pos = 0;
+			putchar('\n');
+		}
+	} while (i-- &gt; 0);
+}
+
+void put85(unsigned c) {
+	switch (count++) {
+	case 0:	tuple |= (c &lt;&lt; 24); break;
+	case 1: tuple |= (c &lt;&lt; 16); break;
+	case 2:	tuple |= (c &lt;&lt;  8); break;
+	case 3:
+		tuple |= c;
+		if (tuple == 0) {
+			putchar('z');
+			if (pos++ &gt;= width) {
+				pos = 0;
+				putchar('\n');
+			}
+		} else
+			encode(tuple, count);
+		tuple = 0;
+		count = 0;
+		break;
+	}
+}
+
+void cleanup85(void) {
+	if (count &gt; 0)
+		encode(tuple, count);
+	if (pos + 2 &gt; width)
+		putchar('\n');
+	printf("~&gt;\n");
+}
+
+void copy85(FILE *fp) {
+	unsigned c;
+	while ((c = getc(fp)) != EOF)
+		put85(c);
+}
+
+void usage(void) {
+	fprintf(stderr, "usage: encode85 [-w width] file ...\n");
+	exit(1);
+}
+
+extern int getopt(int, char *[], const char *);
+extern int optind;
+extern char *optarg;
+
+int main(int argc, char *argv[]) {
+	int i;
+	while ((i = getopt(argc, argv, "w:?")) != EOF)
+		switch (i) {
+		case 'w':
+			width = atoi(optarg);
+			if (width == 0)
+				width = ~0;
+			break;
+		case '?':
+			usage();
+		}
+	
+	init85();
+	if (optind == argc)
+		copy85(stdin);
+	else
+		for (i = optind; i &lt; argc; i++) {
+			FILE *fp = fopen(argv[i], "r");
+			if (fp == NULL) {
+				perror(argv[i]);
+				return 1;
+			}
+			copy85(fp);
+			fclose(fp);
+		}
+	cleanup85();
+	return 0;
+}
+</pre>
+<BR><BR><i>Code: /home/mikal/opensource/ascii85/encode85.c</i>
+
+<pre>
+/* decode85 -- convert from ascii85 format */
+
+#include &lt;stdio.h&gt;
+
+static unsigned long pow85[] = {
+	85*85*85*85, 85*85*85, 85*85, 85, 1
+};
+
+void wput(unsigned long tuple, int bytes) {
+	switch (bytes) {
+	case 4:
+		putchar(tuple &gt;&gt; 24);
+		putchar(tuple &gt;&gt; 16);
+		putchar(tuple &gt;&gt;  8);
+		putchar(tuple);
+		break;
+	case 3:
+		putchar(tuple &gt;&gt; 24);
+		putchar(tuple &gt;&gt; 16);
+		putchar(tuple &gt;&gt;  8);
+		break;
+	case 2:
+		putchar(tuple &gt;&gt; 24);
+		putchar(tuple &gt;&gt; 16);
+		break;
+	case 1:
+		putchar(tuple &gt;&gt; 24);
+		break;
+	}
+}
+
+void decode85(FILE *fp, const char *file) {
+	unsigned long tuple = 0;
+	int c, count = 0;
+	for (;;)
+		switch (c = getc(fp)) {
+		default:
+			if (c &lt; '!' || c &gt; 'u') {
+				fprintf(stderr, "%s: bad character in ascii85 region: %#o\n", file, c);
+				exit(1);
+			}
+			tuple += (c - '!') * pow85[count++];
+			if (count == 5) {
+				wput(tuple, 4);
+				count = 0;
+				tuple = 0;
+			}
+			break;
+		case 'z':
+			if (count != 0) {
+				fprintf(stderr, "%s: z inside ascii85 5-tuple\n", file);
+				exit(1);
+			}
+			putchar(0);
+			putchar(0);
+			putchar(0);
+			putchar(0);
+			break;
+		case '~':
+			if (getc(fp) == '&gt;') {
+				if (count &gt; 0) {
+					count--;
+					tuple += pow85[count];
+					wput(tuple, count);
+				}
+				c = getc(fp);
+				return;
+			}
+			fprintf(stderr, "%s: ~ without &gt; in ascii85 section\n", file);
+			exit(1);
+		case '\n': case '\r': case '\t': case ' ':
+		case '\0': case '\f': case '\b': case 0177:
+			break;
+		case EOF:
+			fprintf(stderr, "%s: EOF inside ascii85 section\n", file);
+			exit(1);
+		}
+}
+
+void decode(FILE *fp, const char *file, int preserve) {
+	int c;
+	while ((c = getc(fp)) != EOF)
+		if (c == '&lt;')
+			if ((c = getc(fp)) == '~')
+				decode85(fp, file);
+			else {
+				if (preserve)
+					putchar('&lt;');
+				if (c == EOF)
+					break;
+				if (preserve)
+					putchar(c);
+			}
+		else
+			if (preserve)
+				putchar(c);
+}
+
+void usage(void) {
+	fprintf(stderr, "usage: decode85 [-p] file ...\n");
+	exit(1);
+}
+
+extern int getopt(int, char *[], const char *);
+extern int optind;
+extern char *optarg;
+
+int main(int argc, char *argv[]) {
+	int i, preserve;
+	preserve = 0;
+	while ((i = getopt(argc, argv, "p?")) != EOF)
+		switch (i) {
+		case 'p': preserve = 1; break;
+		case '?': usage();
+		}
+	
+
+	if (optind == argc)
+		decode(stdin, "decode85", preserve);
+	else
+		for (i = optind; i &lt; argc; i++) {
+			FILE *fp = fopen(argv[i], "r");
+			if (fp == NULL) {
+				perror(argv[i]);
+				return 1;
+			}
+			decode(fp, argv[i], preserve);
+			fclose(fp);
+		}
+	return 0;
+}
+</pre>
+<BR><BR><i>Code: /home/mikal/opensource/ascii85/decode85.c</i>
+
+<BR><BR>
+These two code snippets were written by Paul Haahr, http://www.webcom.com/~haahr/, and is stated to be in the public domain.
+
+
+
+<BR><BR><b>ASCIIHexDecode</b>
+<BR><BR>
+For similar reasons to ASCII85, you can also represent your binary data as hexidecimal. This filter implements this.
+
+
+
+<BR><BR><b>CCITTFaxDecode</b>
+<BR><BR>
+This is the compression codec known as group3 and group 4 fax in TIFF. It is about as good as compression gets for black and white images.
+
+
+
+<BR><BR><b>DCTDecode</b>
+<BR><BR>
+DCT (Descrete Cosine Transform) is the compression codec used by JPEG images. As discussed elsewhere in this document, it is good for color images, but is lossy.
+
+
+
+<BR><BR><b>FlateDecode</b>
+<BR><BR>
+Flate compression (which is implemented by zlib), is the compression codec using in PNG images. It is very good for colour image and textual data.
+
+
+
+<BR><BR><b>LZWDecode</b>
+<BR><BR>
+LZW is the compression codec used by GIF images. No publically available libraries implement LZW compression, and it is recommended you don't use it as many Acrobat viewers don't implement LZW decompression. Even Adobe's own products stear away from using this filter.
+
+
+
+<BR><BR><b>RunLengthDecode</b>
+<BR><BR>
+Run length compression is a very simple compression codec, and it not recommended for most purposes.
+
+
+
+
+
+
+<BR><BR><b>Object structure</b>
+<BR><BR>
+The diagram below shows the basic object structure of a PDF document. It can be much more complex than this, especially if you reuse commonly used objects like the logo which is on every page of the document. In words, the structure is something like:
+
+
+<BR><BR><b>Catalog Object</b>
+<BR><BR>
+Every PDF document has a catalog object. This catalog object refers to a pages object.
+
+
+
+<BR><BR><b>Pages object</b>
+<BR><BR>
+The pages object stores a list of pages within the PDF document, in the form of a dictionary array with the key name <i>/Kids</i>. Each of these pages will have an object.
+
+
+
+<BR><BR><b>A Page object per page</b>
+<BR><BR>
+Each page object will have a content object.
+
+
+
+<BR><BR><b>Content objects</b>
+<BR><BR>
+Each content object will refer to the pages object, as well as referring to resources that that needed to draw this page. The resources can be used by other contents objects as well. Resources are things like fonts, and images.
+
+
+<BR><BR>
+A postscript-like description of the layout of the page is stored in this object's stream.
+
+
+
+<BR><BR><b>Resources</b>
+<BR><BR>
+A resources object stores information you need to be able to use a given resource such as a font or image.
+
+
+<BR><BR>
+If the resource is an image or an embedded font, then the additional binary data (such as a raster) is stored in this objects stream.
+
+
+
+<BR><BR><b>Typical object structure</b>
+<br><br><div align="center"><b>A typical PDF object structure</b>
+<br><img src="/notes/presentations/content/gen-pdf-figure1.jpg">
+</div><BR><BR>
+
+
+
+
+<BR><BR><b>Support for presentations</b>
+<BR><BR>
+PDF documents can be used to create presentation slide shows. There are two main features which support this use of PDF -- page duration, and page transitions. The page duration is the amount of time that the page will appear on the screen before the PDF viewer automatically moves onto the next page. The transition is the effect applied to the PDF pages when they are being swapped between -- this is very similar to the Microsoft Power Point presentations.
+
+
+<BR><BR>
+It is important to note that not all PDF viewers support this functionality.
+
+
+
+<BR><BR><b>Panda</b>
+<BR><BR>
+Panda is my own PDF generation library. I wrote it because I was not happy with the license and some of the limitations with ClibPDF, and the license for PDFlib wasn't acceptable. To be honest, the best way to learn about something is also to build an implementation of it, which was an additional motivation.
+
+
+<BR><BR>
+You can get Panda from http://www.stillhq.com, and is licensed under the GNU GPL, which can be found at the start of this tutorial.
+
+
+<BR><BR><b>Installation</b>
+<BR><BR>
+First, download Panda from http://www.stillhq.com, and then follow these simple steps:
+
+
+<BR><BR><b>Unix</b>
+<BR><BR>
+Follow these simple steps to install Panda on your unix system:
+
+
+
+<li>Extract the tarball
+<li>Change into the Panda directory
+<li>./configure
+<li>make
+<li>make install
+
+
+<BR><BR>
+This will also build the examples in the examples directory.
+
+
+
+<BR><BR><b>win32</b>
+<BR><BR>
+Panda currently compiles quite happily on Windows, and if you download the right version of the tarball even includes a Microsoft Visual Studio project file. Note that the current version of Panda (0.5.1), doesn't include a COM wrapper for Panda, so you either need to be programing in C or C++, or a language which can import DLL symbols (for instance Microsoft Visual Basic).
+
+
+
+
+<BR><BR><b>Hello world example</b>
+<BR><BR>
+The most basic PDF example is the hello world application. Here is the Panda iteration:
+
+
+<pre>
+#include  &lt;panda/functions.h&gt;
+#include  &lt;panda/constants.h&gt;
+
+int
+main (int argc, char *argv[])
+{
+  panda_pdf *demo;
+  panda_page *currPage;
+
+  // Initialise the library
+  panda_init ();
+
+  // Open our demo PDF
+  if ((demo = panda_open ("hello.pdf", "w")) == NULL)
+    {
+      fprintf (stderr, "Could not open hello.pdf\n");
+      exit (1);
+    }
+
+  // Create a page
+  currPage = panda_newpage (demo, panda_pagesize_a4);
+
+  // Write some text to the page
+  panda_setfont (demo, panda_createfont (demo, "Times-Roman", 1,
+  					 "MacRomanEncoding"));
+  panda_textbox (demo, currPage, 600, 10, 700, 300, "Hello world");
+
+  // Finished all the demoing, close the PDF document
+  panda_close (demo);
+  return 0;
+}
+</pre>
+<BR><BR><i>Code: source/pdf/panda/hello/hello.c</i>
+
+<BR><BR>
+Which produces...
+
+
+<br><br><div align="center">
+<b>Panda hello world</b>
+<br><img src="/notes/presentations/content/source/pdf/panda/hello/hello.pdf.eps">
+</div><BR><BR>
+
+
+
+<BR><BR><b>Initialization</b>
+<BR><BR>
+Initialization of Panda is easy. Simply call <i><b>panda_init</b></i>(). You'll also need to create a PDF document, which is done with the <i><b>panda_open</b></i> function.
+
+
+<refentry id="panda_init">
+<refmeta>
+<refentrytitle>panda_init</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_init</refname>
+<refpurpose>setup Panda ready for use</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_init (void);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>Performs some simple setup of Panda before it is used for the first time in your application.
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_init();
+
+</refsect1>
+
+</refentry>
+<refentry id="panda_open">
+<refmeta>
+<refentrytitle>panda_open</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_open</refname>
+<refpurpose>open a PDF document</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ panda_pdf * panda_open (char *filename, char *mode);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>Open the named PDF document with the mode specified. The only mode currently supported is "w", but others will be integrated later. The interface to this function is identical in it's behaviour to the <i><b>fopen</b></i>() function call offered by the ANSI C standard IO library.
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>A pointer to a panda_pdf structure
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+
+</refsect1>
+
+<refsect1>
+<b>SEE ALSO</b>
+<BR><BR>panda_init, panda_open_actual, panda_open_suppress, panda_close
+</refsect1>
+
+</refentry>
+
+
+<BR><BR><b>Creating pages</b>
+<BR><BR>
+Pages are created in Panda using the <i><b>panda_newpage</b></i> function. You can magically be editing as many pages at a time as you like with Panda without any additional calls being needed.
+
+
+<refentry id="panda_newpage">
+<refmeta>
+<refentrytitle>panda_newpage</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_newpage</refname>
+<refpurpose>create a new page in the PDF</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ panda_page *panda_newpage(panda_pdf *document, char *pagesize);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>Create a new blank page at the end of the PDF with the specified size. Use the standard pagesize strings that are defined by Panda for most things. These are <i><b>panda_pagesize_a4</b></i>, and <i><b>panda_pagesize_usletter</b></i>. If you need to create your own page sizes, then have a look at these for hints.
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ panda_page *page;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ page = panda_newpage (document, panda_pagesize_a4);
+
+</refsect1>
+
+<refsect1>
+<b>SEE ALSO</b>
+<BR><BR>panda_open, panda_close
+</refsect1>
+
+</refentry>
+
+
+<BR><BR><b>Object properties</b>
+<BR><BR>
+Panda allows you to selectively apply properties to portions of your PDF document. The most common example is choosing which portions of your PDF document to compress.
+
+
+<refentry id="panda_setobjectproperty">
+<refmeta>
+<refentrytitle>panda_setobjectproperty</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_setobjectproperty</refname>
+<refpurpose>set a property value for an object</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_setobjectproperty (panda_object *target, int scope, int propid, int propval);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>Properties are a way of specifing things about objects. These properties can have either a cascade scope (they affect all subsequently created objects that are children of that object) -- <i><b>panda_scope_cascade</b></i>, or local (they only occur for that object) -- <i><b>panda_scope_local</b></i>. Possible properties are defined in the <i><b>panda_const_properties</b></i> manual page.
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>None
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ panda_object *obj;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ obj = panda_newobject(document, panda_object_normal);
+ panda_setproperty(obj, panda_scope_cascade, panda_object_property_compress, panda_true);
+ 
+
+</refsect1>
+
+<refsect1>
+<b>SEE ALSO</b>
+<BR><BR>panda_newobject, panda_const_properties
+</refsect1>
+
+</refentry>
+
+
+<BR><BR><b>Finalizing</b>
+<BR><BR>
+Pages don't need to be closed in Panda. This is done when the <i><b>panda_close</b></i> function is called. This function writes the entire PDF document out to disc.
+
+
+<refentry id="panda_close">
+<refmeta>
+<refentrytitle>panda_close</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_close</refname>
+<refpurpose>write a PDF document out to disk</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_close (panda_pdf *document);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>Write out the PDF document we have created to disk, clean up and free memory.
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ panda_page *page;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ page = panda_newpage (document, panda_pagesize_a4);
+ panda_close(document);
+
+</refsect1>
+
+<refsect1>
+<b>SEE ALSO</b>
+<BR><BR>panda_open
+</refsect1>
+
+</refentry>
+
+
+<BR><BR><b>Inserting text</b>
+<BR><BR>
+One of the advantages which ClibPDF has over Panda is that it currently supported word wrap, whereas Panda doesn't. Panda does have a variety of text functionality however. The public text functions in Panda are: <i><b>panda_textboxrot</b></i>, which creates a text box at a jaunty angle, <i><b>panda_textbox</b></i>, which creates a horizontal textbox (a zero angle), and <i><b>panda_textdirection</b></i>, which sets the flow direction for text.
+
+
+<refentry id="panda_textbox">
+<refmeta>
+<refentrytitle>panda_textbox</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_textbox</refname>
+<refpurpose>display some text on the PDF page specified</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_textbox (panda_pdf * output, panda_page * thisPage, int top, int left, int bottom, int right, char *text);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>This function call creates a textbox on the specified page, and then displays the specified text within that page. The current font mode and style et cetera will be used. Sometime in the near future, line wrapping will be used...
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ panda_page *page;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ page = panda_newpage (document, panda_pagesize_a4);
+ panda_textbox (demo, currPage, 20 + (lineDepth * 20), 200, 40 + (lineDepth * 20), 400, "Demonstration of a text mode");
+
+</refsect1>
+
+<refsect1>
+<b>SEE ALSO</b>
+<BR><BR>panda_createfont, panda_setfont, panda_panda_setfontsize, panda_getfontobj, panda_setfontmode, panda_setcharacterspacing, panda_setwordspacing, panda_sethorizontalscaling, panda_setleading, panda_textboxrot
+</refsect1>
+
+</refentry>
+<refentry id="panda_textboxrot">
+<refmeta>
+<refentrytitle>panda_textboxrot</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_textboxrot</refname>
+<refpurpose>display some text at a jaunty angle on the PDF page specified</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_textbox (panda_pdf * output, panda_page * thisPage, int top, int left, int bottom, int right, double angle, char *text);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>This function call creates a textbox on the specified page, and then displays the specified text within that page. The text is displayed at the spefied angle. The current font mode and style et cetera will be used. Sometime in the near future, line wrapping will be used...
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ panda_page *page;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ page = panda_newpage (document, panda_pagesize_a4);
+ panda_textboxrot (demo, currPage, 20 + (lineDepth * 20), 200, 40 + (lineDepth * 20), 400, 33.0, "Demonstration of a text mode");
+
+</refsect1>
+
+<refsect1>
+<b>SEE ALSO</b>
+<BR><BR>panda_createfont, panda_setfont, panda_panda_setfontsize, panda_getfontobj, panda_setfontmode, panda_setcharacterspacing, panda_setwordspacing, panda_sethorizontalscaling, panda_setleading, panda_textbox
+</refsect1>
+
+</refentry>
+<refentry id="panda_textdirection">
+<refmeta>
+<refentrytitle>panda_textdirection</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_textdirection</refname>
+<refpurpose>specify the direction that the text flows within the document</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_textdirection (panda_pdf *document, int dir);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>This function records information within the PDF indicating the direction that the text in the document flows in. The possible values for the dir arguement are: <i><b>panda_textdirection_l2r</b></i>, text is read left to right; <i><b>panda_textdirection_r2l</b></i>, text is read right to left. The default for this value is <i><b>panda_textdirection_l2r</b></i>.
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ panda_textdirection(document, panda_textdirection_r2l);
+
+</refsect1>
+
+</refentry>
+
+
+<BR><BR><b>Fonts</b>
+<BR><BR>
+Panda currently only supports the standard PDF fonts, and will not allow you to embed arbitrary fonts into your PDF documents (unlike PDFlib). Some users might find this a little limiting for the time being. In Panda, you use fonts by first creating a pointer to the font using <i><b>panda_createfont</b></i>, and then start using that font with <i><b>panda_setfont</b></i>. This allows you use efficiently create the five fonts you are going to use in the document, and then swap backwards and forwards within that set of five with no performance penalty.
+
+
+<refentry id="panda_createfont">
+<refmeta>
+<refentrytitle>panda_createfont</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_createfont</refname>
+<refpurpose>return a handle to the requested font</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ char * panda_createfont (panda_pdf * output, char *fontname, int type, char *encoding)
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR><i><b>PANDA INTERNAL</b></i>. This funtion call creates a font object for the requested font and returns the identifier that should be used when the font is set within the PDF document.
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>A font identifier (handle) as a null terminated string.
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *output;
+ char *fonthandle;
+ 
+ panda_init();
+ output = panda_open("output.pdf", "w");
+ fonthandle = (output, "Helventica", 3, "MacRomanEncoding");
+
+</refsect1>
+
+<refsect1>
+<b>SEE ALSO</b>
+<BR><BR>panda_setfont
+</refsect1>
+
+</refentry>
+<refentry id="panda_setfont">
+<refmeta>
+<refentrytitle>panda_setfont</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_setfont</refname>
+<refpurpose>set the current font to be that specified</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_setfont (char *fontident);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>Once you have generated a font identifier for a given font, you can then set that current font to that font using this call. Create a font identifier with the <i><b>panda_createfont</b></i>() call.
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *output;
+ char *fonthandle;
+ 
+ panda_init();
+ output = panda_open ("output.pdf", "w");
+ fonthandle = panda_createfont (output, "Helventica", 3, "MacRomanEncoding");
+ panda_setfont (fonthandle);
+
+</refsect1>
+
+<refsect1>
+<b>SEE ALSO</b>
+<BR><BR>panda_createfont
+</refsect1>
+
+</refentry>
+
+
+<BR><BR><b>Font attributes</b>
+<BR><BR>
+Panda also allows you to set a variety of font attributes...
+
+
+<refentry id="panda_setcharacterspacing">
+<refmeta>
+<refentrytitle>panda_setcharacterspacing</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_setcharacterspacing</refname>
+<refpurpose>set the space between characters</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_setcharacterspacing (panda_page *target, double amount);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>Set the amount of additional space between characters in points.
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *output;
+ 
+ panda_init();
+ output = panda_open("output.pdf", "w");
+ panda_setcharacterspacing(output, 42.3);
+
+</refsect1>
+
+<refsect1>
+<b>SEE ALSO</b>
+<BR><BR>panda_setwordspacing, panda_sethorizontalscaling, panda_setleading
+</refsect1>
+
+</refentry>
+<refentry id="panda_setfillcolor">
+<refmeta>
+<refentrytitle>panda_setfillcolor</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_setfillcolor</refname>
+<refpurpose>set the color to fill a close shape with</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_setfillcolor (panda_page *target, int red, int green, int blue);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>This function sets the color to fill a close shape with when the shape is closed. It is expressed as a combinartion of red, green, and blue. The maximum number for each value is 255 (a number greater than 255 is reduced to 255).
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ panda_page *page;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ page = panda_newpage (document, panda_pagesize_a4);
+ 
+ panda_setlinestart (page, 100, 200);
+ panda_setfillcolor (page, 100, 200, 300);
+ panda_addlinesegment (page, 200, 200);
+ panda_addlinesegment (page, 250, 300);
+ panda_closeline (page);
+ panda_endline (page);
+
+</refsect1>
+
+<refsect1>
+<b>SEE ALSO</b>
+<BR><BR>panda_setlinestart, panda_addlinesegment, panda_addcubiccurvesegment, panda_addquadraticsegmentone, panda_addquadraticcurvesegmenttwo, panda_closeline, panda_rectangle, panda_endline, panda_strokeline, panda_fillline, panda_setlinewidth, panda_setlinecap, panda_setlinejoin, panda_setlinedash, panda_setlinecolor
+</refsect1>
+
+</refentry>
+<refentry id="panda_setfontmode">
+<refmeta>
+<refentrytitle>panda_setfontmode</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_setfontmode</refname>
+<refpurpose>set the current font mode</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_setfontmode (panda_page *target, int mode);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>Set the drawing mode for the current font. Valid modes are: panda_textmode_normal, panda_textmode_outline, panda_textmode_filledoutline, panda_textmode_invisible, panda_textmode_filledclipped, panda_textmode_strokedclipped, panda_textmode_filledstrokedclipped and panda_textmode_clipped.
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *output;
+ 
+ panda_init();
+ output = panda_open("output.pdf", "w");
+ panda_setfontmode(output, panda_textmode_outline);
+
+</refsect1>
+
+<refsect1>
+<b>SEE ALSO</b>
+<BR><BR>panda_setfontsize, panda_setfont
+</refsect1>
+
+</refentry>
+<refentry id="panda_setfontsize">
+<refmeta>
+<refentrytitle>panda_setfontsize</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_setfontsize</refname>
+<refpurpose>set the current font size</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_setfontsize (panda_page *target, int size);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>Set the size of the font to be used next (in points).
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *output;
+ 
+ panda_init();
+ output = panda_open("output.pdf", "w");
+ setfontsize(output, 42);
+
+</refsect1>
+
+<refsect1>
+<b>SEE ALSO</b>
+<BR><BR>panda_setfontmode, panda_setfont
+</refsect1>
+
+</refentry>
+<refentry id="panda_sethorizontalscaling">
+<refmeta>
+<refentrytitle>panda_sethorizontalscaling</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_sethorizontalscaling</refname>
+<refpurpose>set the horizontal scaling of text</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_sethorizontalscaling (panda_pdf *output, double amount);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>Set the horizontal scaling factor of the text in percent.
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *output;
+ 
+ panda_init();
+ output = panda_open("output.pdf", "w");
+ panda_sethorizontalscaling(output, 42.3);
+
+</refsect1>
+
+<refsect1>
+<b>SEE ALSO</b>
+<BR><BR>panda_setcharacterspacing, panda_setwordspacing, panda_setleading
+</refsect1>
+
+</refentry>
+<refentry id="panda_setleading">
+<refmeta>
+<refentrytitle>panda_setleading</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_setleading</refname>
+<refpurpose>set the amount of space between lines of text</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_setleading (panda_pdf *output, double amount);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>Set the amount of space between lines of text in points.
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *output;
+ 
+ panda_init();
+ output = panda_open("output.pdf", "w");
+ panda_setleading(output, 42.3);
+
+</refsect1>
+
+<refsect1>
+<b>SEE ALSO</b>
+<BR><BR>panda_setcharacterspacing, panda_setwordspacing, panda_sethorizontalscaling
+</refsect1>
+
+</refentry>
+<refentry id="panda_setwordspacing">
+<refmeta>
+<refentrytitle>panda_setwordspacing</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_setwordspacing</refname>
+<refpurpose>set the space between words</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_setwordspacing (panda_page *target, double amount);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>Set the amount of additional space between words in points.
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *output;
+ 
+ panda_init();
+ output = panda_open("output.pdf", "w");
+ panda_setwordspacing(output, 42.3);
+
+</refsect1>
+
+<refsect1>
+<b>SEE ALSO</b>
+<BR><BR>panda_setcharacterspacing, panda_sethorizontalscaling, panda_setleading
+</refsect1>
+
+</refentry>
+
+
+
+<BR><BR><b>Inserting raster images</b>
+<BR><BR>
+Panda probably has the best raster image support of any of the PDF libraries available (not including Adobe's libraries). This is because this is my main area of expertise, and has been the main focus of the Panda development effort. For example ClibPDF only supports TIFF images in a limited set of formats, whereas I am not aware of any TIFF files which cannot be inserting into a PDF with Panda. Panda also never creates temporary files on disc when it needs to convert between TIFF formats, unlike PDFlib.
+
+
+<BR><BR><b>TIFF support</b>
+<BR><BR>
+Panda support TIFF fully.
+
+
+
+<BR><BR><b>JPEG support</b>
+<BR><BR>
+Panda supports JPEG fully.
+
+
+
+<BR><BR><b>PNG support</b>
+<BR><BR>
+Panda supports PNG fully.
+
+
+
+<BR><BR><b>Inserting images onto pages</b>
+<BR><BR>
+In Panda you use the <i><b>panda_imagebox</b></i>, and the <i><b>panda_imageboxrot</b></i> functions to insert images.
+
+
+<refentry id="panda_imagebox">
+<refmeta>
+<refentrytitle>panda_imagebox</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_imagebox</refname>
+<refpurpose>insert an image into the PDF document at the specified location</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_panda_imagebox (panda_pdf * output, panda_page * target, int top, int left, int bottom, int right, char *filename, int type);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>This function call inserts an image into the PDF document at the specified location using a reasonable default for rotation (none). This call is included for backward compatability withprevious releases of the API and it is recommened that new code call <i><b>panda_imageboxrot</b></i>(). It is unlikely that this call will be retired however. The image types accepted by this call are: panda_image_tiff, panda_image_jpeg and panda_image_png.
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *demo;
+ panda_page *currPage;
+ 
+ panda_init ();
+ 
+ if ((demo = panda_open ("output.pdf", "w")) == NULL)
+ panda_error (panda_true, "demo: could not open output.pdf to write to.");
+ 
+ currPage = panda_newpage (demo, panda_pagesize_a4);
+ 
+ panda_imagebox (demo, currPage, 0, 0, currPage->height / 2,
+ currPage->width, "input.tif", panda_image_tiff);
+
+</refsect1>
+
+<refsect1>
+<b>SEE ALSO</b>
+<BR><BR>panda_imageboxrot
+</refsect1>
+
+</refentry>
+<refentry id="panda_imageboxrot">
+<refmeta>
+<refentrytitle>panda_imageboxrot</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_imageboxrot</refname>
+<refpurpose>insert an image into the PDF document at the specified location</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_panda_imageboxrot (panda_pdf * output, panda_page * target, int top, int left, int bottom, int right, double angle, char *filename, int type);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>This function call inserts an image into the PDF document at the specified location, including the ability to rotate the image on the page. It should be noted that xpdf will sometimes make the rotated image look quite sickly. This is in fact a bug in xpdf (which has beenr eported), and not a bug in <i><b>Panda</b></i>. The image types accepted by this call are: panda_image_tiff, panda_image_jpeg and panda_image_png.
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *demo;
+ panda_page *currPage;
+ 
+ panda_init ();
+ 
+ if ((demo = panda_open ("output.pdf", "w")) == NULL)
+ panda_error (panda_true, "demo: could not open output.pdf to write to.");
+ 
+ currPage = panda_newpage (demo, panda_pagesize_a4);
+ 
+ panda_imagebox (demo, currPage, 0, 0, currPage->height / 2,
+ currPage->width, 45.0, "input.tif", panda_image_tiff);
+
+</refsect1>
+
+<refsect1>
+<b>SEE ALSO</b>
+<BR><BR>panda_imagebox
+</refsect1>
+
+</refentry>
+
+
+
+<BR><BR><b>Vector graphics</b>
+<BR><BR>
+Panda, supports the full range of PDF vector graphics commands. See the sections below for a description of the functionality available.
+
+
+<BR><BR><b>Lines</b>
+<BR><BR>
+With Panda, the way you draw a line is to first create a line with <i><b>panda_setlinestart</b></i>, you then draw line segments with <i><b>panda_addlinesegment</b></i>. When you're finished, you close the line with <i><b>panda_closeline</b></i>. <i><b>panda_strokeline</b></i> is used to force the line to be drawn. You can also add curved segments to a line using <i><b>panda_addcubiccurvesegment</b></i>, <i><b>panda_addquadraticcurvesegmentone</b></i>, and <i><b>panda_addquadraticcurvesegmenttwo</b></i>. Finally, if all you want is a rectangle, then use <i><b>panda_rectangle</b></i> to do it for you.
+
+
+<refentry id="panda_setlinestart">
+<refmeta>
+<refentrytitle>panda_setlinestart</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_setlinestart</refname>
+<refpurpose>sets the starting point of a curve</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_setlinestart (panda_page * target, int x, int y);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>Set the starting point for the sequence of curves and lines that it to be drawn on the current page. This call is compulsory for almost all of the line drawing functions. It is not required for the <i><b>panda_rectangle</b></i> call.
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ panda_page *page;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ page = panda_newpage (document, panda_pagesize_a4);
+ 
+ panda_setlinestart (page, 100, 200);
+
+</refsect1>
+
+<refsect1>
+<b>SEE ALSO</b>
+<BR><BR>panda_addlinesegment, panda_addcubiccurvesegment, panda_addquadraticsegmentone, panda_addquadraticcurvesegmenttwo, panda_closeline, panda_rectangle, panda_endline, panda_strokeline, panda_fillline, panda_setlinewidth, panda_setlinecap, panda_setlinejoin, panda_setlinedash, panda_setfillcolor, panda_setlinecolor
+</refsect1>
+
+</refentry>
+<refentry id="panda_addlinesegment">
+<refmeta>
+<refentrytitle>panda_addlinesegment</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_addlinesegment</refname>
+<refpurpose>add a straight segment to the line shape we are drawing</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_addlinesegment (panda_page * target, int x, int y);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>Add a point to the shape we are currently drawing with a straight line between the current cursor location and (x,y).
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ panda_page *page;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ page = panda_newpage (document, panda_pagesize_a4);
+ 
+ panda_setlinestart (page, 100, 200);
+ panda_addlinesegment (page, 200, 200);
+
+</refsect1>
+
+<refsect1>
+<b>SEE ALSO</b>
+<BR><BR>panda_setlinestart, panda_addcubiccurvesegment, panda_addquadraticsegmentone, panda_addquadraticcurvesegmenttwo, panda_closeline, panda_rectangle, panda_endline, panda_strokeline, panda_fillline, panda_setlinewidth, panda_setlinecap, panda_setlinejoin, panda_setlinedash, panda_setfillcolor, panda_setlinecolor
+</refsect1>
+
+</refentry>
+<refentry id="panda_closeline">
+<refmeta>
+<refentrytitle>panda_closeline</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_closeline</refname>
+<refpurpose>close off the line shape we are drawing</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_closeline(panda_page * target);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>Close the line shape we are drawing by returning to the starting point as set by <i><b>panda_setlinestart</b></i>();
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ panda_page *page;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ page = panda_newpage (document, panda_pagesize_a4);
+ 
+ panda_setlinestart (page, 100, 200);
+ panda_addlinesegment (page, 200, 200);
+ panda_addlinesegment (page, 400, 300);
+ panda_closeline (page);
+
+</refsect1>
+
+<refsect1>
+<b>SEE ALSO</b>
+<BR><BR>panda_setlinestart, panda_addlinesegment, panda_addcubiccurvesegment, panda_addquadraticsegmentone, panda_addquadraticcurvesegmenttwo, panda_rectangle, panda_endline, panda_strokeline, panda_fillline, panda_setlinewidth, panda_setlinecap, panda_setlinejoin, panda_setlinedash, panda_setfillcolor, panda_setlinecolor
+</refsect1>
+
+</refentry>
+<refentry id="panda_endline">
+<refmeta>
+<refentrytitle>panda_endline</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_endline</refname>
+<refpurpose>finalise the current line shape</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_endline( panda_page *target);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>Finalise the line shape we are drawing. Only one line shape may be drawn at any one time. There is no need for this call with the <i><b>panda_rectangle</b></i>() call.
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ panda_page *page;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ page = panda_newpage (document, panda_pagesize_a4);
+ 
+ panda_setlinestart (page, 100, 200);
+ panda_addlinesegment (page, 200, 200);
+ panda_endline (page);
+
+</refsect1>
+
+<refsect1>
+<b>SEE ALSO</b>
+<BR><BR>panda_setlinestart,  panda_addlinesegment, panda_addcubiccurvesegment, panda_addquadraticsegmentone, panda_addquadraticcurvesegmenttwo, panda_closeline, panda_rectangle, panda_strokeline, panda_fillline, panda_setlinewidth, panda_setlinecap, panda_setlinejoin, panda_setlinedash, panda_setfillcolor, panda_setlinecolor
+</refsect1>
+
+</refentry>
+<refentry id="panda_strokeline">
+<refmeta>
+<refentrytitle>panda_strokeline</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_strokeline</refname>
+<refpurpose>stroke the line shape we have just drawn</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_strokeline (panda_page * target);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>This function must be called for the line shape that we have drawn to actually display on the PDF page. This process is known as 'stroking', and hence the name of this function call.
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ panda_page *page;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ page = panda_newpage (document, panda_pagesize_a4);
+ 
+ panda_setlinestart (page, 100, 200);
+ panda_addlinesegment (page, 200, 200);
+ panda_strokeline (page);
+ panda_endline (page);
+
+</refsect1>
+
+<refsect1>
+<b>SEE ALSO</b>
+<BR><BR>panda_setlinestart,  panda_addlinesegment, panda_addcubiccurvesegment, panda_addquadraticsegmentone, panda_addquadraticcurvesegmenttwo, panda_closeline, panda_rectangle, panda_endline, panda_fillline, panda_setlinewidth, panda_setlinecap, panda_setlinejoin, panda_setlinedash, panda_setfillcolor, panda_setlinecolor
+</refsect1>
+
+</refentry>
+
+<refentry id="panda_addcubiccurvesegment">
+<refmeta>
+<refentrytitle>panda_addcubiccurvesegment</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_addcubiccurvesegment</refname>
+<refpurpose>add a curved segment to the line shape we are drawing</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_addcubiccurvesegment (panda_page * target, int x, int y, int cx1, int cy1, int cx2, int cy2);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>Add a point to the shape we are currently drawing with a cubic curve between the current cursor location and (x,y). There are two control points used to generate the cubic curve. They are (cx1, cy1) and (cx2, cy2).
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ panda_page *page;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ page = panda_newpage (document, panda_pagesize_a4);
+ 
+ panda_setlinestart (currPage, 210, 210);
+ panda_addcubiccurvesegment (currPage, 310, 210, 225, 300, 275, 400);
+
+</refsect1>
+
+<refsect1>
+<b>SEE ALSO</b>
+<BR><BR>panda_setlinestart, panda_addlinesegment, panda_addquadraticsegmentone, panda_addquadraticcurvesegmenttwo, panda_closeline, panda_rectangle, panda_endline, panda_strokeline, panda_fillline, panda_setlinewidth, panda_setlinecap, panda_setlinejoin, panda_setlinedash, panda_setfillcolor, panda_setlinecolor
+</refsect1>
+
+</refentry>
+<refentry id="panda_addquadraticcurvesegmentone">
+<refmeta>
+<refentrytitle>panda_addquadraticcurvesegmentone</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_addquadraticcurvesegmentone</refname>
+<refpurpose>add a curved segment to the line shape that we are drawing</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_addquadraticcurvesegmentone (panda_page * target, int x, int y, int cx1, int cy1);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>This function adds a curved segment to the line shape that we are drawing. The curved segment has a control point, namely (cx1, cy1). This call creates slightly different curves from <i><b>panda_addquadraticcurvesegmenttwo</b></i>();
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ panda_page *page;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ page = panda_newpage (document, panda_pagesize_a4);
+ 
+ panda_setlinestart (page, 100, 200);
+ panda_addquadraticcurvesegmentone (page, 200, 200, 12, 32);
+
+</refsect1>
+
+<refsect1>
+<b>SEE ALSO</b>
+<BR><BR>panda_setlinestart, panda_addlinesegment, panda_addcubiccurvesegment, panda_addquadraticcurvesegmenttwo, panda_closeline, panda_rectangle, panda_endline, panda_strokeline, panda_fillline, panda_setlinewidth, panda_setlinecap, panda_setlinejoin, panda_setlinedash, panda_setfillcolor, panda_setlinecolor
+</refsect1>
+
+</refentry>
+<refentry id="panda_addquadraticcurvesegmenttwo">
+<refmeta>
+<refentrytitle>panda_addquadraticcurvesegmenttwo</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_addquadraticcurvesegmenttwo</refname>
+<refpurpose>add a curved segment to the line shape that we are drawing</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_addquadraticcurvesegmenttwo (panda_page * target, int x, int y, int cx1, int cy1);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>This function adds a curved segment to the line shape that we are drawing. The curved segment has a control point, namely (cx1, cy1). This call creates slightly different curves from <i><b>panda_addquadraticcurvesegmentone</b></i>();
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ panda_page *page;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ page = panda_newpage (document, panda_pagesize_a4);
+ 
+ panda_setlinestart (page, 100, 200);
+ panda_addquadraticcurvesegmenttwo (page, 200, 200, 12, 32);
+
+</refsect1>
+
+<refsect1>
+<b>SEE ALSO</b>
+<BR><BR>panda_setlinestart, panda_addlinesegment, panda_addcubiccurvesegment, panda_addquadraticcurvesegmenttwo, panda_closeline, panda_rectangle, panda_endline, panda_strokeline, panda_fillline, panda_setlinewidth, panda_setlinecap, panda_setlinejoin, panda_setlinedash, panda_setfillcolor, panda_setlinecolor
+</refsect1>
+
+</refentry>
+
+<refentry id="panda_rectangle">
+<refmeta>
+<refentrytitle>panda_rectangle</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_rectangle</refname>
+<refpurpose>draw a rectangle</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_rectangle (panda_page * target, int top, int left, int bottom, int right);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>Draw a rectangle on the PDF page. There is no need for the <i><b>panda_setlinestart</b></i>() or <i><b>panda_closeline</b></i>() calls.
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ panda_page *page;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ page = panda_newpage (document, panda_pagesize_a4);
+ 
+ panda_rectangle( page, 10, 10, 150, 200);
+
+</refsect1>
+
+<refsect1>
+<b>SEE ALSO</b>
+<BR><BR>panda_setlinestart,  panda_addlinesegment, panda_addcubiccurvesegment, panda_addquadraticsegmentone, panda_addquadraticcurvesegmenttwo, panda_closeline, panda_endline, panda_strokeline, panda_fillline, panda_setlinewidth, panda_setlinecap, panda_setlinejoin, panda_setlinedash, panda_setfillcolor, panda_setlinecolor
+</refsect1>
+
+</refentry>
+
+
+<BR><BR><b>Fills and other line attributes</b>
+<BR><BR>
+Once you have drawn a line, then it can be filled. You can also configure the state of the pen <i>before</i> you draw the line to change the way it appears...
+
+
+<refentry id="panda_fillline">
+<refmeta>
+<refentrytitle>panda_fillline</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_fillline</refname>
+<refpurpose>fill the closed shape we just drew</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_fillline (panda_page * target);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>Fill the shape we have just drawn with the previously defined fill.
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ panda_page *page;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ page = panda_newpage (document, panda_pagesize_a4);
+ 
+ panda_setlinestart (page, 100, 200);
+ panda_addlinesegment (page, 200, 200);
+ panda_addlinesegment (page, 250, 250);
+ panda_endline (page);
+ panda_fillline (page);
+
+</refsect1>
+
+<refsect1>
+<b>SEE ALSO</b>
+<BR><BR>panda_setlinestart, panda_addlinesegment, panda_addcubiccurvesegment, panda_addquadraticsegmentone, panda_addquadraticcurvesegmenttwo, panda_closeline, panda_rectangle, panda_endline, panda_strokeline, panda_setlinewidth, panda_setlinecap, panda_setlinejoin, panda_setlinedash, panda_setfillcolor, panda_setlinecolor
+</refsect1>
+
+</refentry>
+<refentry id="panda_setlinecap">
+<refmeta>
+<refentrytitle>panda_setlinecap</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_setlinecap</refname>
+<refpurpose>sets the line cap for the lines we are drawing now</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_setlinecap ( panda_page *target, int cap);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>A line cap is used at the ends of lines that do not meet other lines. The different cap styles are defined in panda/constants.h and are: panda_linecap_butt, panda_linecap_round and panda_linecap_projectedsquare.
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ panda_page *page;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ page = panda_newpage (document, panda_pagesize_a4);
+ 
+ panda_setlinestart (page, 100, 200);
+ panda_setlinecap (page, panda_linecap_round);
+ panda_addlinesegment (page, 200, 200);
+
+</refsect1>
+
+<refsect1>
+<b>SEE ALSO</b>
+<BR><BR>panda_setlinestart, panda_addlinesegment, panda_addcubiccurvesegment, panda_addquadraticsegmentone, panda_addquadraticcurvesegmenttwo, panda_closeline, panda_rectangle, panda_endline, panda_strokeline, panda_fillline, panda_setlinewidth, panda_setlinejoin, panda_setlinedash, panda_setfillcolor, panda_setlinecolor
+</refsect1>
+
+</refentry>
+<refentry id="panda_setlinecolor">
+<refmeta>
+<refentrytitle>panda_setlinecolor</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_setlinecolor</refname>
+<refpurpose>change the color of the line drawn</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_setlinecolor (panda_page *target, int red, int green, int blue);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>Set the color of lines being drawn using a combination of red, green and blue.
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ panda_page *page;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ page = panda_newpage (document, panda_pagesize_a4);
+ 
+ panda_setlinestart (page, 100, 200);
+ panda_setlinecolor (page, 100, 200, 450);
+ panda_addlinesegment (page, 200, 200);
+
+</refsect1>
+
+<refsect1>
+<b>SEE ALSO</b>
+<BR><BR>panda_setlinestart, panda_addlinesegment, panda_addcubiccurvesegment, panda_addquadraticsegmentone, panda_addquadraticcurvesegmenttwo, panda_closeline, panda_rectangle, panda_endline, panda_strokeline, panda_fillline, panda_setlinewidth, panda_setlinecap, panda_setlinejoin, panda_setlinedash, panda_setfillcolor
+</refsect1>
+
+</refentry>
+<refentry id="panda_setlinejoin">
+<refmeta>
+<refentrytitle>panda_setlinejoin</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_setlinejoin</refname>
+<refpurpose>is used to set the line join style</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_setlinejoin (panda_page *target, int join);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>A line join is used where the ends of two lines meet. The valid line joins are defined in panda/constants.h and are: panda_linejoin_miter, panda_linejoin_round and panda_linejoin_bevel.
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ panda_page *page;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ page = panda_newpage (document, panda_pagesize_a4);
+ 
+ panda_setlinestart (page, 100, 200);
+ panda_setlinejoin (page, panda_linejoin_bevel);
+ panda_addlinesegment (page, 200, 200);
+
+</refsect1>
+
+<refsect1>
+<b>SEE ALSO</b>
+<BR><BR>panda_setlinestart, panda_addlinesegment, panda_addcubiccurvesegment, panda_addquadraticsegmentone, panda_addquadraticcurvesegmenttwo, panda_closeline, panda_rectangle, panda_endline, panda_strokeline, panda_fillline, panda_setlinewidth, panda_setlinecap, panda_setfillcolor, panda_setlinecolor
+</refsect1>
+
+</refentry>
+<refentry id="panda_setlinewidth">
+<refmeta>
+<refentrytitle>panda_setlinewidth</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_setlinewidth</refname>
+<refpurpose>sets the width of the line that we are drawing</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_setlinewidth (panda_page * target, int width);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>Set the width of the line that is being drawn... You can use <i><b>panda_setlinecap</b></i>(), <i><b>panda_setlinejoin</b></i>() and <i><b>panda_setlinedash</b></i>() to change other characteristics of the line.
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ panda_page *page;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ page = panda_newpage (document, panda_pagesize_a4);
+ 
+ panda_setlinestart (page, 100, 200);
+ panda_setlinewidth (page, 42);
+ panda_addlinesegment (page, 200, 200);
+
+</refsect1>
+
+<refsect1>
+<b>SEE ALSO</b>
+<BR><BR>panda_setlinestart, panda_addlinesegment, panda_addcubiccurvesegment, panda_addquadraticsegmentone, panda_addquadraticcurvesegmenttwo, panda_closeline, panda_rectangle, panda_endline, panda_strokeline, panda_fillline, panda_setlinecap, panda_setlinejoin, panda_setlinedash, panda_setfillcolor, panda_setlinecolor
+</refsect1>
+
+</refentry>
+<refentry id="panda_setlinedashing">
+<refmeta>
+<refentrytitle>panda_setlinedashing</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_setlinedashing</refname>
+<refpurpose>draw the subsequent lines with the defined dashing pattern</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_setlinedashing (panda_page *target, int on, int off, int pahse);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>This function allows the user to define a line dashing style, which is then applied to subsequent lines drawn on that page. The dashing style is defined as a on and off number, as well as a phase. For example, on = 2, off = 4, phase = 0 should result in a line like:
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ panda_page *page;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ page = panda_newpage (document, panda_pagesize_a4);
+ 
+ panda_setlinestart (page, 100, 200);
+ panda_setlinedash (page, 2, 4, 0);
+ panda_addlinesegment (page, 200, 200);
+
+</refsect1>
+
+<refsect1>
+<b>SEE ALSO</b>
+<BR><BR>panda_setlinestart, panda_addlinesegment, panda_addcubiccurvesegment, panda_addquadraticsegmentone, panda_addquadraticcurvesegmenttwo, panda_closeline, panda_rectangle, panda_endline, panda_strokeline, panda_fillline, panda_setlinewidth, panda_setlinecap, panda_setlinejoin, panda_setfillcolor, panda_setlinecolor
+</refsect1>
+
+</refentry>
+
+
+
+
+<BR><BR><b>Document meta data</b>
+<BR><BR>
+PDF supports embedding meta data about a document into the PDF itself, and Panda supports this through the following calls:
+
+
+<refentry id="panda_setauthor">
+<refmeta>
+<refentrytitle>panda_setauthor</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_setauthor</refname>
+<refpurpose>set the author string for the PDF document</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_setauthor (panda_pdf *output, char *value);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>This function sets the value of the author within the PDF document.
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ panda_setauthor(document, "Mikal");
+
+</refsect1>
+
+<refsect1>
+<b>SEE ALSO</b>
+<BR><BR>panda_checkinfo, panda_setcreator, panda_settitle, panda_setsubject, panda_setkeywords, panda_setid
+</refsect1>
+
+</refentry>
+<refentry id="panda_setkeywords">
+<refmeta>
+<refentrytitle>panda_setkeywords</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_setkeywords</refname>
+<refpurpose>set the keywords string for the PDF document</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_setkeywords (panda_pdf *output, char *value);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>This function sets the value of the keywords string within the PDF document. The string is merely a list of keywords in the form "cats dogs hamsters chickens"
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ panda_setkeywords(document, "panda documentation pdf api generate");
+
+</refsect1>
+
+<refsect1>
+<b>SEE ALSO</b>
+<BR><BR>panda_checkinfo, panda_setauthor, panda_setcreator, panda_settitle, panda_setsubject, panda_setid
+</refsect1>
+
+</refentry>
+<refentry id="panda_setsubject">
+<refmeta>
+<refentrytitle>panda_setsubject</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_setsubject</refname>
+<refpurpose>set the subject string for the PDF document</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_setsubject (panda_pdf *output, char *value);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>This function sets the value of the subject within the PDF document.
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ panda_setsubject(document, "Mikal's homework");
+
+</refsect1>
+
+<refsect1>
+<b>SEE ALSO</b>
+<BR><BR>panda_checkinfo, panda_setauthor, panda_setcreator, panda_settitle, panda_setkeywords, panda_setid
+</refsect1>
+
+</refentry>
+<refentry id="panda_settitle">
+<refmeta>
+<refentrytitle>panda_settitle</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_settitle</refname>
+<refpurpose>set the title string for the PDF document</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_settitle (panda_pdf *output, char *value);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>This function sets the value of the title within the PDF document.
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ panda_settitle(document, "Mikal's excellent PDF document");
+
+</refsect1>
+
+<refsect1>
+<b>SEE ALSO</b>
+<BR><BR>panda_checkinfo, panda_setcreator, panda_setauthor, panda_setsubject, panda_setkeywords, panda_setid
+</refsect1>
+
+</refentry>
+
+
+
+<BR><BR><b>Presentation support</b>
+<BR><BR>
+PDF can be used for presentations, and therefore allows you to specify a number of interesting things which are normally associated more with Microsoft Power Point presentations...
+
+
+<refentry id="panda_centerwindow">
+<refmeta>
+<refentrytitle>panda_centerwindow</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_centerwindow</refname>
+<refpurpose>ask the viewer to center the document's window on the screen when the PDF is displayed</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_centerwindow (panda_pdf *document, int onoroff);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>This function records information in the output PDF document requesting that the viewing application center the displayed PDF document on the screen when it is opened. This option is not supported by all viewers, and therefore should not be relied upon. The on or off arguement is a panda_true value, which does the obvious thing. The default is to not center the window.
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ panda_centerwindow(document, panda_true);
+
+</refsect1>
+
+</refentry>
+<refentry id="panda_fitwindow">
+<refmeta>
+<refentrytitle>panda_fitwindow</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_fitwindow</refname>
+<refpurpose>ask the viewer to fit the viewer window to the first page of the PDF document when it is opened</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_fitwindow (panda_pdf *document, int onoroff);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>This function records information in the output PDF document requesting that the viewing application fit the display window to the first page of the PDF document when it is opened. This option is not supported by all viewers, and therefore should not be relied upon. The on or off arguement is a panda_true value, which does the obvious thing. The default is to not fit the document to the window.
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ panda_fitwindow(document, panda_true);
+
+</refsect1>
+
+</refentry>
+<refentry id="panda_fullscreen">
+<refmeta>
+<refentrytitle>panda_fullscreen</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_fullscreen</refname>
+<refpurpose>ask the viewer to display the PDF document in fullscreen mode</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_fullscreen (panda_pdf *document, int onoroff);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>This function records information in the output PDF document requesting that the viewing application display the document in full screen mode. This option is not supported by all viewers, and therefore should not be relied upon. The on or off arguement is a panda_true value, which does the obvious thing. The default is to not display the PDF in fullscreen mode.
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ panda_fullscreen(document, panda_true);
+
+</refsect1>
+
+</refentry>
+<refentry id="panda_hidemenubar">
+<refmeta>
+<refentrytitle>panda_hidemenubar</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_hidemenubar</refname>
+<refpurpose>ask the viewer to hide it's menu bar when this PDF is displayed</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_hidemenubar (panda_pdf *document, int onoroff);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>This function records information in the output PDF document requesting that the viewing application's menu bar not be displayed when this PDF is opened. This option is not supported by all viewers, and therefore should not be relied upon. The on or off arguement is a panda_true value, which does the obvious thing. The default is to show the menu bar.
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ panda_hidemenubar(document, panda_true);
+
+</refsect1>
+
+</refentry>
+<refentry id="panda_hidetoolbar">
+<refmeta>
+<refentrytitle>panda_hidetoolbar</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_hidetoolbar</refname>
+<refpurpose>ask the viewer to hide it's tool bar when this PDF is displayed</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_hidetoolbar (panda_pdf *document, int onoroff);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>This function records information in the output PDF document requesting that the viewing application's tool bar not be displayed when this PDF is opened. This option is not supported by all viewers, and therefore should not be relied upon. The on or off arguement is a panda_true value, which does the obvious thing. The default is to show the tool bar.
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ panda_hidetoolbar(document, panda_true);
+
+</refsect1>
+
+</refentry>
+<refentry id="panda_hidewindowui">
+<refmeta>
+<refentrytitle>panda_hidewindowui</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_hidewindowui</refname>
+<refpurpose>ask the viewer to hide it's display window user interface when this PDF is displayed</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_hidewindowui (panda_pdf *document, int onoroff);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>This function records information in the output PDF document requesting that the viewing application's window user interface not be displayed when this PDF is opened. This option is not supported by all viewers, and therefore should not be relied upon. The on or off arguement is a panda_true value, which does the obvious thing. The default is to display the user interface.
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ panda_hidewindowui(document, panda_true);
+
+</refsect1>
+
+</refentry>
+<refentry id="panda_nfspagemodde">
+<refmeta>
+<refentrytitle>panda_nfspagemodde</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_nfspagemodde</refname>
+<refpurpose>defines display characteristics for the PDF document if it is using non fullscreen mode after defaulting to fullscreen mode</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_nfspagemode (panda_pdf *document, int pagemode);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>If the document in question is using fullscreen mode and then exits from fullscreen mode, then this function configures the behaviour of several of the 'eye candy' options available in some viewers. The possible values for pagemode are: <i><b>panda_window_usenone</b></i>, which displays neither the outline or thumbnails (if present); <i><b>panda_window_useoutlines</b></i>, which displays only the outline for the document; <i><b>panda_window_usethumbs</b></i>, which only displays thumbnails. <i><b>Please note that this function will only have an effect on the viewer if the page mode has been set to fullscreen with the panda_fullscreen() function call</b></i>
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ panda_nfspagemode(document, panda_window_usenone);
+
+</refsect1>
+
+<refsect1>
+<b>SEE ALSO</b>
+<BR><BR>panda_fullscreen
+</refsect1>
+
+</refentry>
+<refentry id="panda_pageduration">
+<refmeta>
+<refentrytitle>panda_pageduration</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_pageduration</refname>
+<refpurpose>specify the maximum number of seconds that a page should be displayed by the viewer before moving on</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_pageduration (panda_page *target, int seconds);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>This function records information within the PDF indicating the maximum number of seconds that the given page should be displayed within the viewer. This is useful for presentations and the like where you might like to automatically move onto the next page in the document at some point. The default value for this is to never move onto the next page automatically. If this value is changed from the default, there is currently no way to revert back to the default later. The feature may not be implemented by all viewers.
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ panda_page *page;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ page = panda_newpage (document, panda_pagesize_a4);
+ 
+ panda_pageduration (page, 30.5);
+
+</refsect1>
+
+</refentry>
+<refentry id="panda_transduration">
+<refmeta>
+<refentrytitle>panda_transduration</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_transduration</refname>
+<refpurpose>specify the number of seconds that a page transition effect should take to occur</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_transduration (panda_page *target, double seconds);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>This function records information within the PDF indicating the maximum number of seconds that the given page transition effect should be displayed within the viewer. This is useful for presentations and the like when you realise that you are addicted to Microsoft Powerpoint...
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ panda_page *page;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ page = panda_newpage (document, panda_pagesize_a4);
+ 
+ panda_transduration (page, 30.5);
+
+</refsect1>
+
+</refentry>
+<refentry id="panda_transstyle">
+<refmeta>
+<refentrytitle>panda_transstyle</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_transstyle</refname>
+<refpurpose>specify the type of page change transition that should occur</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_transstyle (panda_page *target, int style);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR> his function records information within the PDF indicating the preferred page transition style to use. The following are valid styles to use:
+ 
+ <li>panda_pagetrans_split_yi -- vertical split from the inside of the page
+ <li>panda_pagetrans_split_yo -- vertical split from the outside of the page
+ <li>panda_pagetrans_split_xi -- horizontal split from the inside of the page
+ <li>panda_pagetrans_split_xo -- horizontal split from the outside of the page
+ <li>panda_pagetrans_blinds_y -- vertical blinds effect
+ <li>panda_pagetrans_blinds_x -- horizontal blinds effect
+ <li>panda_pagetrans_box_i -- box expanding from the inside of the page
+ <li>panda_pagetrans_box_o -- box contracting from the outside of the page
+ <li>panda_pagetrans_wipe_0 -- a single line wipes the page away from the left to the right
+ <li>panda_pagetrans_wipe_90 -- a single line wipes the page away from the bottom to the top
+ <li>panda_pagetrans_wipe_180 -- a single line wipes the page away from the right to the left
+ <li>panda_pagetrans_wipe_270 -- a single line wipes the page away from the top to the bottom
+ <li>panda_pagetrans_dissolve -- the old page dissolves slowly into the new page
+ <li>panda_pagetrans_glitter_0 -- a glitter effect that moves from the left to the right of the page
+ <li>panda_pagetrans_glitter_270 -- a glitter effect that moves from the top to the bottom of the page
+ <li>panda_pagetrans_glitter_315 -- a glitter effect that moves from the top left to the bottom right of the page
+ <li>panda_pagetrans_none -- no transition effect
+ 
+ 
+ 
+ <BR><BR>
+ he default transition is to have no transition at all. It should be noted that not all viewers support these transition effects.
+
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ panda_page *page;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ page = panda_newpage (document, panda_pagesize_a4);
+ 
+ panda_transduration (page, 30.5);
+
+</refsect1>
+
+</refentry>
+
+
+
+<BR><BR><b>Page templates</b>
+<BR><BR>
+A page template is created using <i><b>panda_newtemplate</b></i>. A template is just like any other page, and uses all the normal drawing functions. The cool bit is that you can then apply a template to another page using <i><b>panda_applytemplate</b></i>. This allows for the standard parts of the page to only be defined once -- which is very useful for things like letterhead.
+
+
+<refentry id="panda_newtemplate">
+<refmeta>
+<refentrytitle>panda_newtemplate</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_newtemplate</refname>
+<refpurpose>create a template page in the PDF</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_newtemplate(panda_pdf *document, char *pageSize);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>This function is used to create 'template' pages which can then be refered to on other pages. For instance, if you were creating a document that used a standard letter head, then it would make sense to construct the letterhead as a template, and then use this on all the pages. The created template looks and feels just like any other page in the document for the purposes of creating content. Refer to the <i><b>panda_newpage</b></i> man page for details on how to use pages.
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>A pointer to the template page
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ panda_page *templatepage;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ templatepage = panda_newtemplate (document, panda_pagesize_a4);
+
+</refsect1>
+
+<refsect1>
+<b>SEE ALSO</b>
+<BR><BR>panda_newpage, panda_applytemplate
+</refsect1>
+
+</refentry>
+<refentry id="panda_applytemplate">
+<refmeta>
+<refentrytitle>panda_applytemplate</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_applytemplate</refname>
+<refpurpose>use a template page previously created</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_applytemplate (panda_pdf * output, panda_page * target,
+ panda_page * template)
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<b>DESCRIPTION</b>
+<BR><BR>This function is used to use a template created with the <i><b>panda_newtemplate</b></i> function call.
+</refsect1>
+
+<refsect1>
+<b>RETURNS</b>
+<BR><BR>Nothing
+</refsect1>
+
+<refsect1>
+<b>EXAMPLE</b>
+<BR><BR> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ panda_page *templatepage, *realpage;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ templatepage = panda_newtemplate (document, panda_pagesize_a4);
+ realpage = panda_newpage (document, panda_pagesize_a4);
+ 
+ ... the order of the drawing commands to the two pages doesn't matter ...
+ 
+ panda_applytemplate(document, realpage, templatepage);
+
+</refsect1>
+
+<refsect1>
+<b>SEE ALSO</b>
+<BR><BR>panda_newpage, panda_newtemplate
+</refsect1>
+
+</refentry>
+
+
+
+<BR><BR><b>A full Panda example</b>
+<BR><BR>
+This section presents a full Panda example showing what the library is capable of. This code comes from the Panda distribution:
+
+
+<pre>
+
+#include  &lt;panda/functions.h&gt;
+#include  &lt;panda/constants.h&gt;
+
+int
+main (int argc, char *argv[])
+{
+  panda_pdf *demo;
+  panda_page *currPage, *templatePage;
+  int lineDepth, trans;
+  char tempString[1024], *tempPtr;
+
+  printf ("Welcome to the Panda 0.4 sample application...\n");
+
+  // Initialise the library
+  panda_init ();
+
+  // Open our demo PDF
+  if ((demo = panda_open ("output.pdf", "w")) == NULL)
+    panda_error (panda_true, "demo: could not open output.pdf to write to.");
+
+  // These are normally commented out because they are annoying
+  //panda_hidetoolbar (demo, panda_true);
+  //panda_hidemenubar (demo, panda_true);
+  //panda_hidewindowui (demo, panda_true);
+
+  if ((argc &gt; 1) &amp;&amp; (strcmp (argv[1], "compressed") == 0))
+    {
+      printf ("Turn on compression\n");
+
+      panda_setproperty (demo-&gt;pages, panda_scope_cascade,
+			 panda_object_property_compress, panda_true);
+
+      printf ("Just before compression level set\n");
+
+      panda_setproperty (demo-&gt;pages, panda_scope_cascade,
+			 panda_object_property_compress_level, 9);
+    }
+  else
+    printf ("For compressed sample, use %s compressed\n", argv[0]);
+
+  // Image functionality
+  ///////////////////////////////////////////////////////////////////////////
+
+  // Create a page
+  currPage = panda_newpage (demo, panda_pagesize_a4);
+
+  // Put in the background images
+  panda_imagebox (demo, currPage, 0, 0, currPage-&gt;height / 2,
+		  currPage-&gt;width, "images/input.tif", panda_image_tiff);
+  panda_imagebox (demo, currPage, currPage-&gt;height / 2, 0,
+		  currPage-&gt;height, currPage-&gt;width, "images/input2.tif",
+		  panda_image_tiff);
+
+  panda_imagebox (demo, currPage, 317, 317, 434, 434, "images/gnu_box.jpg",
+		  panda_image_jpeg);
+  panda_imagebox (demo, currPage, 434, 434, 551, 551, "images/gnu_box.jpg",
+		  panda_image_jpeg);
+
+  // Do an panda_imageboxrot or two to test the code included by Ceasar Miquel
+  panda_imageboxrot (demo, currPage, 600, 0, 717, 117, 15.0,
+		     "images/gnu_box.jpg", panda_image_jpeg);
+
+  panda_imageboxrot (demo, currPage, 600, 200, 717, 317, 30.0,
+		     "images/gnu_box.jpg", panda_image_jpeg);
+
+  panda_imageboxrot (demo, currPage, 600, 400, 717, 517, 42.0,
+		     "images/gnu_box.jpg", panda_image_jpeg);
+
+  panda_imageboxrot (demo, currPage, 700, 0, 817, 117, 90.0,
+		     "images/gnu_box.jpg", panda_image_jpeg);
+
+  panda_imageboxrot (demo, currPage, 700, 200, 817, 317, 132.0,
+		     "images/gnu_box.jpg", panda_image_jpeg);
+
+  // Insert a PNG to show that I can
+  panda_imageboxrot (demo, currPage, 100, 200, 200, 300, 0.0,
+		     "images/libpng.png", panda_image_png);
+
+  panda_imageboxrot (demo, currPage, 300, 200, 400, 300, 0.0,
+		     "images/gnu.png", panda_image_png);
+
+  panda_imageboxrot (demo, currPage, 100, 420, 310, 620, 36.0,
+		     "images/RedbrushAlpha.png", panda_image_png);
+
+  // (c) statement
+  panda_setfont (demo, tempPtr = panda_createfont (demo, "Times-Roman", 1,
+						   "MacRomanEncoding"));
+  panda_textbox (demo, currPage, 600, 10, 700, 300,
+		 "The background image on this page is Copyright 2000 Andrew Cagney");
+  panda_textbox (demo, currPage, 620, 10, 720, 300,
+		 "and is distributed under the terms of the GPL...");
+  panda_textbox (demo, currPage, 310, 320, 330, 800,
+		 "Flower (c) 1999 Pieter S. van der Meulen");
+  free (tempPtr);
+
+  panda_setfont (demo, tempPtr =
+		 panda_createfont (demo, "Helvetica-Bold", 1,
+				   "MacRomanEncoding"));
+  panda_textboxrot (demo, currPage, 200, 30, 230,
+		 30, 45.0, "With new improved angled text!");
+  free (tempPtr);
+
+  ///////////////////////////////////////////////////////////////////////////
+  // Text functionality (with a few images thrown in as well)
+  ///////////////////////////////////////////////////////////////////////////
+
+  currPage = panda_newpage (demo, panda_pagesize_a4);
+
+  // I am not drawing a multiline string here because I am not sure how to 
+  // represent this in the PDF at the moment
+  sprintf (tempString,
+	   "Hello %c5World! %cMy name %c5is Panda!\nAnd I am a PDF generator\nI handle multiple line text ok .once you have set a leading.",
+	   4, 6, 5);
+  panda_textbox (demo, currPage, 10, 10, 100, 30, tempString);
+
+  panda_setfont (demo, tempPtr = panda_createfont (demo, "Symbol", 1,
+						   "MacRomanEncoding"));
+  panda_textbox (demo, currPage, 50, 10, 100, 30, "Symbol");
+  free (tempPtr);
+
+  panda_setfont (demo, tempPtr =
+		 panda_createfont (demo, "Helvetica-Bold", 1,
+				   "MacRomanEncoding"));
+  panda_textbox (demo, currPage, 70, 30, 100, 30, "A line in Helvetica-Bold");
+  free (tempPtr);
+
+  panda_imagebox (demo, currPage, 100, 100, 150, 150, "images/gnu-head.jpg",
+		  panda_image_jpeg);
+  panda_textbox (demo, currPage, 90, 110, 200, 200, "INFRONTINFRONTINFRONT");
+
+  panda_textbox (demo, currPage, 190, 210, 300, 300, "BEHINDBEHINDBEHIND");
+  panda_imagebox (demo, currPage, 200, 200, 317, 317, "images/gnu_box.jpg",
+		  panda_image_jpeg);
+
+  panda_textbox (demo, currPage, 300, 10, 400, 50,
+		 "A second textbox on the page");
+
+  ///////////////////////////////////////////////////////////////////////////
+  // Demonstrate the supported text modes
+  ///////////////////////////////////////////////////////////////////////////
+
+  currPage = panda_newpage (demo, panda_pagesize_a4);
+  panda_setleading (demo, 16.0);
+
+  for (lineDepth = 0; lineDepth &lt; 8; lineDepth++)
+    {
+      panda_setfontmode (demo, panda_textmode_normal);
+
+      switch (lineDepth)
+	{
+	case panda_textmode_normal:
+	  panda_textbox (demo, currPage, 20 + (lineDepth * 20), 10,
+			 40 + (lineDepth * 20), 400, "Normal");
+	  break;
+
+	case panda_textmode_outline:
+	  panda_textbox (demo, currPage, 20 + (lineDepth * 20), 10,
+			 40 + (lineDepth * 20), 400, "Outline");
+	  break;
+
+	case panda_textmode_filledoutline:
+	  panda_textbox (demo, currPage, 20 + (lineDepth * 20), 10,
+			 40 + (lineDepth * 20), 400, "FilledOutline");
+	  break;
+
+	case panda_textmode_invisible:
+	  panda_textbox (demo, currPage, 20 + (lineDepth * 20), 10,
+			 40 + (lineDepth * 20), 400, "Invisible");
+	  break;
+
+	case panda_textmode_filledclipped:
+	  panda_textbox (demo, currPage, 20 + (lineDepth * 20), 10,
+			 40 + (lineDepth * 20), 400, "FilledClipped");
+	  break;
+
+	case panda_textmode_strokedclipped:
+	  panda_textbox (demo, currPage, 20 + (lineDepth * 20), 10,
+			 40 + (lineDepth * 20), 400, "Stroked Clipped");
+	  break;
+
+	case panda_textmode_filledstrokedclipped:
+	  panda_textbox (demo, currPage, 20 + (lineDepth * 20), 10,
+			 40 + (lineDepth * 20), 400,
+			 "Filled Stroked Clipped");
+	  break;
+
+	case panda_textmode_clipped:
+	  panda_textbox (demo, currPage, 20 + (lineDepth * 20), 10,
+			 40 + (lineDepth * 20), 400, "Clipped");
+	  break;
+	}
+
+      panda_setcharacterspacing (demo, (double) lineDepth);
+      panda_setwordspacing (demo, (double) lineDepth * 10);
+      panda_sethorizontalscaling (demo, (double) 1 - (lineDepth * 0.1));
+
+      panda_setfontmode (demo, lineDepth);
+      panda_textbox (demo, currPage, 20 + (lineDepth * 20), 200,
+		     40 + (lineDepth * 20), 400,
+		     "Demonstration of a text mode");
+    }
+
+  ///////////////////////////////////////////////////////////////////////////
+  // Demonstrate the supported lines and curve thingies -- note that no
+  // graphics state is held from the previous set of lines, so you'll need
+  // to rebuild it each time.
+  ///////////////////////////////////////////////////////////////////////////
+
+  currPage = panda_newpage (demo, panda_pagesize_a4);
+
+  panda_setfontmode (demo, panda_textmode_normal);
+  panda_textbox (demo, currPage, 40, 10, 55, 200,
+		 "Please note that these shapes are lines, and there is no");
+  panda_textbox (demo, currPage, 60, 10, 75, 200,
+		 "requirement to have the shapes closed...");
+
+  // Straight lines of all types -- stroked
+  panda_setlinestart (currPage, 110, 110);
+  panda_addlinesegment (currPage, 160, 130);
+  panda_addlinesegment (currPage, 210, 186);
+  panda_addlinesegment (currPage, 96, 22);
+  panda_closeline (currPage);
+  panda_strokeline (currPage);
+  panda_endline (currPage);
+
+  // Now some curves -- stroked
+  panda_setlinestart (currPage, 210, 210);
+  panda_addcubiccurvesegment (currPage, 310, 210, 225, 300, 275, 400);
+  panda_addquadraticcurvesegmentone (currPage, 160, 160, 200, 225);
+  panda_addquadraticcurvesegmenttwo (currPage, 210, 210, 250, 375);
+  panda_closeline (currPage);
+  panda_strokeline (currPage);
+  panda_endline (currPage);
+
+  // Rectangles -- stroked
+  panda_rectangle (currPage, 210, 210, 310, 310);
+  panda_strokeline (currPage);
+  panda_endline (currPage);
+
+  // Straight lines of all types -- stroked and filled
+  panda_setlinecolor (currPage, 99, 33, 255);
+  panda_setfillcolor (currPage, 112, 38, 300);
+  panda_setlinestart (currPage, 110, 310);
+  panda_setlinewidth (currPage, 5);
+  panda_addlinesegment (currPage, 160, 330);
+  panda_addlinesegment (currPage, 210, 386);
+  panda_addlinesegment (currPage, 96, 222);
+  panda_closeline (currPage);
+  panda_fillline (currPage);
+  panda_endline (currPage);
+
+  // Now some curves -- stroked and filled
+  panda_setfillcolor (currPage, 112, 138, 37);
+  panda_setlinestart (currPage, 210, 410);
+  panda_setlinewidth (currPage, 5);
+  panda_addcubiccurvesegment (currPage, 310, 410, 225, 500, 275, 600);
+  panda_addquadraticcurvesegmentone (currPage, 160, 360, 200, 425);
+  panda_addquadraticcurvesegmenttwo (currPage, 210, 410, 250, 575);
+  panda_closeline (currPage);
+  //panda_strokeline (currPage);
+  panda_fillline (currPage);
+  panda_endline (currPage);
+
+  // Rectangles -- stroked filled
+  panda_setfillcolor (currPage, 38, 38, 38);
+  panda_setlinewidth (currPage, 5);
+  panda_rectangle (currPage, 410, 210, 510, 310);
+  //panda_strokeline (currPage);
+  panda_fillline (currPage);
+  panda_endline (currPage);
+
+  // Straight lines of all types -- stroked and capped
+  panda_setlinewidth (currPage, 10);
+  panda_setlinestart (currPage, 100, 600);
+  panda_addlinesegment (currPage, 200, 600);
+  panda_strokeline (currPage);
+  panda_endline (currPage);
+
+  panda_setlinewidth (currPage, 10);
+  panda_setlinecap (currPage, panda_linecap_butt);
+  panda_setlinestart (currPage, 100, 625);
+  panda_addlinesegment (currPage, 200, 625);
+  panda_strokeline (currPage);
+  panda_endline (currPage);
+
+  panda_setlinewidth (currPage, 10);
+  panda_setlinecap (currPage, panda_linecap_round);
+  panda_setlinestart (currPage, 100, 650);
+  panda_addlinesegment (currPage, 200, 650);
+  panda_strokeline (currPage);
+  panda_endline (currPage);
+
+  panda_setlinewidth (currPage, 10);
+  panda_setlinecap (currPage, panda_linecap_projectedsquare);
+  panda_setlinestart (currPage, 100, 675);
+  panda_addlinesegment (currPage, 200, 675);
+  panda_strokeline (currPage);
+  panda_endline (currPage);
+
+  // Mitre joints
+  panda_setlinewidth (currPage, 10);
+  panda_setlinecap (currPage, panda_linecap_butt);
+  panda_setlinestart (currPage, 300, 600);
+  panda_addlinesegment (currPage, 350, 650);
+  panda_addlinesegment (currPage, 400, 600);
+  panda_strokeline (currPage);
+  panda_endline (currPage);
+
+  panda_setlinewidth (currPage, 10);
+  panda_setlinejoin (currPage, panda_linejoin_miter);
+  panda_setlinestart (currPage, 300, 625);
+  panda_addlinesegment (currPage, 350, 675);
+  panda_addlinesegment (currPage, 400, 625);
+  panda_strokeline (currPage);
+  panda_endline (currPage);
+
+  panda_setlinewidth (currPage, 10);
+  panda_setlinejoin (currPage, panda_linejoin_round);
+  panda_setlinestart (currPage, 300, 650);
+  panda_addlinesegment (currPage, 350, 700);
+  panda_addlinesegment (currPage, 400, 650);
+  panda_strokeline (currPage);
+  panda_endline (currPage);
+
+  panda_setlinewidth (currPage, 10);
+  panda_setlinejoin (currPage, panda_linejoin_bevel);
+  panda_setlinestart (currPage, 300, 675);
+  panda_addlinesegment (currPage, 350, 725);
+  panda_addlinesegment (currPage, 400, 675);
+  panda_strokeline (currPage);
+  panda_endline (currPage);
+
+  // Do some work with line dashing
+  panda_setlinedash (currPage, 1, 0, 0);
+  panda_setlinejoin (currPage, panda_linejoin_round);
+
+  panda_setlinestart (currPage, 100, 800);
+  panda_addlinesegment (currPage, 100, 750);
+  panda_addlinesegment (currPage, 140, 800);
+  panda_closeline (currPage);
+  panda_strokeline (currPage);
+  panda_endline (currPage);
+
+  panda_setlinedash (currPage, 3, 3, 0);
+  panda_setlinestart (currPage, 150, 800);
+  panda_addlinesegment (currPage, 150, 750);
+  panda_addlinesegment (currPage, 190, 800);
+  panda_closeline (currPage);
+  panda_strokeline (currPage);
+  panda_endline (currPage);
+
+  panda_setlinedash (currPage, 2, 1, 1);
+  panda_setlinestart (currPage, 200, 800);
+  panda_addlinesegment (currPage, 200, 750);
+  panda_addlinesegment (currPage, 240, 800);
+  panda_closeline (currPage);
+  panda_strokeline (currPage);
+  panda_endline (currPage);
+
+  ///////////////////////////////////////////////////////////////////////////
+  // Why not have some annotations as well?
+  ///////////////////////////////////////////////////////////////////////////
+
+  panda_textannotation(demo, currPage, panda_true, "Hello", "Text annotation",
+		       10, 10, 50, 50, 1.0, 0.0, 0.0,
+		       panda_icon_comment, 0);
+  panda_lineannotation(demo, currPage, "Line annotation", "Line annotation",
+		       50, 50, 150, 150, 
+		       150, 150, 200, 200, 
+		       0.0, 1.0, 0.0, 0);
+
+  ///////////////////////////////////////////////////////////////////////////
+  // We can also setup template pages to make life a little easier (and the
+  // document a little smaller)
+  ///////////////////////////////////////////////////////////////////////////
+
+  templatePage = panda_newtemplate(demo, panda_pagesize_a4);
+  panda_setlinestart (templatePage, 100, 800);
+  panda_addlinesegment (templatePage, 100, 750);
+  panda_addlinesegment (templatePage, 140, 800);
+  panda_closeline (templatePage);
+  panda_strokeline (templatePage);
+  panda_endline (templatePage);
+
+  panda_setlinedash (templatePage, 3, 3, 0);
+  panda_setlinestart (templatePage, 150, 800);
+  panda_addlinesegment (templatePage, 150, 750);
+  panda_addlinesegment (templatePage, 190, 800);
+  panda_closeline (templatePage);
+  panda_strokeline (templatePage);
+  panda_endline (templatePage);
+
+  currPage = panda_newpage(demo, panda_pagesize_a4);
+  panda_applytemplate(demo, currPage, templatePage);
+
+  ///////////////////////////////////////////////////////////////////////////
+  // Let's try some transitions
+  ///////////////////////////////////////////////////////////////////////////
+  
+  for(trans = 0; trans &lt; panda_pagetrans_none; trans++)
+    {
+      currPage = panda_newpage(demo, panda_pagesize_a4);
+      panda_pageduration(demo, currPage, 5);
+      panda_transduration(demo, currPage, 5.0);
+      panda_transstyle(demo, currPage, trans);
+      
+      panda_setlinecolor (currPage, trans * 20, 0, trans * 10);
+      panda_setfillcolor (currPage, trans * 20, 0, trans * 10);
+      panda_setlinestart (currPage, 0, 0);
+      panda_setlinewidth (currPage, 5);
+      panda_addlinesegment (currPage, 1000, 0);
+      panda_addlinesegment (currPage, 1000, 1000);
+      panda_addlinesegment (currPage, 0, 1000);
+      panda_closeline (currPage);
+      panda_fillline (currPage);
+      panda_endline (currPage);
+    }
+
+  currPage = panda_newpage(demo, panda_pagesize_a4);
+
+  // Finished all the demoing, close the PDF document
+  panda_close (demo);
+
+  // We should return a value here
+  return 0;
+}
+
+// Allow a callback to be setup to display a dialog box for an error or
+// whatever before we terminate the application
+void
+panda_errorCallback (char *description)
+{
+  fprintf (stderr, "Callback: %s\n", description);
+}
+</pre>
+<BR><BR><i>Code: /home/mikal/opensource/panda/examples/main.c</i>
+
+<BR><BR>
+It produces output like:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<BR><BR><b>A lexer for PDF</b>
+<BR><BR>
+Part of my Panda work has been the development of a lexer for PDF documents known as Panda<i>Lex</i>. Whilst Panda<i>Lex</i> is by no means complete, it might prove to be useful for your understanding of the PDF document structure. I have therefore included it here. The lexer takes the form of several components: a lexer for the grammar, a grammar, and some c code to hold it all together.
+
+
+<BR><BR><b>lexer.l</b>
+<pre>
+%{
+#include "parser.h"
+#include "lexinterface.h"
+#include &lt;unistd.h&gt;
+#include &lt;stdlib.h&gt;
+
+void debuglex(char *, int, char *);
+char *returnStr(char *, int);
+void *pandalex_xmalloc(size_t);
+void *pandalex_xrealloc(void *, size_t);
+char *pandalex_xsnprintf(char *, ...);
+void pandalex_error(char *);
+
+void *
+pandalex_xmalloc (size_t size)
+{
+  void *buffer;
+
+  if ((buffer = malloc (size)) == NULL)
+    {
+      pandalex_error ("pandalex_xmalloc failed to allocate memory");
+    }
+
+  return buffer;
+}
+void *
+pandalex_xrealloc (void *memory, size_t size)
+{
+  void *buffer;
+
+  if ((buffer = realloc (memory, size)) == NULL)
+    {
+      pandalex_error ("pandalex_xrealloc failed to allocate memory");
+    }
+
+  return buffer;
+}
+
+char *
+pandalex_xsnprintf (char *format, ...)
+{
+  char *output = NULL;
+  int size, result;
+  va_list ap;
+
+  /* We start with the size of the format string as a guess */
+  size = strlen (format);
+  va_start (ap, format);
+
+  while (1)
+    {
+      output = pandalex_xrealloc (output, size);
+      result = vsnprintf (output, size, format, ap);
+
+      if (result == -1)
+        {
+          /* Up to glibc 2.0.6 and Microsoft's implementation*/
+          size += 100;
+        }
+      else
+        {
+          /* Check if we are done */
+      if (result &lt; size)
+            break;
+
+          /* Glibc from now on */
+          size = result + 1;
+        }
+  }
+
+  va_end (ap);
+  return output;
+}
+
+void
+pandalex_error(char *msg){
+fprintf(stderr, "%s\n", msg);
+exit(42);
+}
+%}
+
+%x BINARY
+%%
+
+&lt;INITIAL&gt;\%PDF-[0-9]+\.[0-9]+    { debuglex(yytext, -1, "version");
+                            yylval.sval.data = (char *) returnStr(yytext, -1);
+                            yylval.sval.len = yyleng;
+                            return VERSION;
+                                                                             }
+
+&lt;INITIAL&gt;[ \t\r\n]+              { debuglex(yytext, -1, "whitespace");
+                                                                          }
+
+&lt;INITIAL&gt;xref                    { debuglex(yytext, -1, "xref");
+                            yylval.sval.data = (char *) returnStr(yytext + 1, -1);
+                            yylval.sval.len = yyleng - 1;
+                            return XREF;
+                                                                             }
+
+&lt;INITIAL&gt;trailer                 { debuglex(yytext, -1, "trailer");
+                            yylval.sval.data = (char *) returnStr(yytext + 1, -1);
+                            yylval.sval.len = yyleng - 1;
+                            return TRAILER;
+                                                                             }
+
+&lt;INITIAL&gt;\/[#a-zA-Z\-_0-9\.\+,]+ { debuglex(yytext, -1, "name");
+                            yylval.sval.data = (char *) returnStr(yytext + 1, -1);
+                            yylval.sval.len = yyleng - 1;
+                            return NAME;
+                                                                             }
+
+&lt;INITIAL&gt;\&lt;\&lt;\/[#a-zA-Z\-_0-9\.\+]+ { debuglex(yytext, -1, "dbllt-name");
+                            yyless(2);
+                            return DBLLT;
+                                                                             }
+
+&lt;INITIAL&gt;\/[#a-zA-Z\-_0-9\.\+]+\&gt;\&gt;     { debuglex(yytext, -1, "name-dblgt");
+                            yyless(yyleng - 2);
+                            yylval.sval.data = (char *) returnStr(yytext + 1, -1);
+                            yylval.sval.len = yyleng - 1;
+                            return NAME;
+}
+
+                        /* --- stuff required for objects ---               */
+&lt;INITIAL&gt;R                       { debuglex(yytext, -1, "object reference");
+                            yylval.sval.data = (char *) returnStr(yytext, -1);
+                            yylval.sval.len = yyleng;
+                            return OBJREF; 
+                                                                             }
+
+&lt;INITIAL&gt;R\&gt;\&gt;                       { debuglex(yytext, -1, "object-reference-dblgt");
+                            yyless(yyleng - 2);
+                            yylval.sval.data = (char *) returnStr(yytext, -1);
+                            yylval.sval.len = yyleng;
+                            return OBJREF; 
+                                                                             }
+
+&lt;INITIAL&gt;R\/                       { debuglex(yytext, -1, "object-reference-namestart");
+                            yyless(yyleng - 1);
+                            yylval.sval.data = (char *) returnStr(yytext, -1);
+                            yylval.sval.len = yyleng;
+                            return OBJREF; 
+                                                                             }
+
+&lt;INITIAL&gt;obj                     { debuglex(yytext, -1, "obj");
+                            yylval.sval.data = (char *) returnStr(yytext, -1);
+                            yylval.sval.len = yyleng;
+                            return OBJ; 
+                                                                             }
+
+&lt;INITIAL&gt;endobj                  { debuglex(yytext, -1, "endobj");
+                            yylval.sval.data = (char *) returnStr(yytext, -1);
+                            yylval.sval.len = yyleng;
+                            return ENDOBJ; 
+                                                                             }
+
+&lt;INITIAL&gt;stream                  { debuglex(yytext, -1, "stream");
+                          BEGIN(BINARY);
+                          return STREAM;                                     }
+
+&lt;INITIAL&gt;[+-]?[0-9]+             { debuglex(yytext, -1, "integer");
+                            yylval.intVal = atoi(yytext);
+                            return INT; 
+                                                                             }
+
+&lt;INITIAL&gt;[+-]?[0-9]+\&gt;\&gt;             { debuglex(yytext, -1, "integer-dblgt");
+                            yyless(yyleng - 2);
+                            yylval.intVal = atoi(yytext);
+                            return INT; 
+                                                                             }
+
+
+&lt;INITIAL&gt;[+-]?[0-9]+\.[0-9]+     { debuglex(yytext, -1, "floating point");
+                            yylval.sval.data = (char *) returnStr(yytext, yyleng);
+                            yylval.sval.len = yyleng; 
+                            return FP; 
+                                                                             }
+
+&lt;INITIAL&gt;[+-]?[0-9]+\.[0-9]+\&gt;\&gt;     { debuglex(yytext, -1, "floating point");
+                            yyless(yyleng - 2);
+                            yylval.sval.data = (char *) returnStr(yytext, yyleng);
+                            yylval.sval.len = yyleng;
+                            return FP; 
+                                                                             }
+
+&lt;INITIAL&gt;\&lt;\&lt;                    { debuglex(yytext, -1, "&lt;&lt;");
+                            return DBLLT; 
+                                                                             }
+
+&lt;INITIAL&gt;\&gt;\&gt;                    { debuglex(yytext, -1, "&gt;&gt;");
+                            return DBLGT; 
+                                                                             }
+
+&lt;INITIAL&gt;\&gt;\&gt;\&gt;\&gt;                    { debuglex(yytext, -1, "&gt;&gt;&gt;&gt;");
+                            yyless(yyleng - 2);
+                            return DBLGT; 
+                                                                             }
+
+
+&lt;INITIAL,BINARY&gt;([#a-zA-Z0-9\.:'+\-!_]+[a-zA-Z0-9\.:'+\-!_\\]*)+ { 
+                          debuglex(yytext, -1, "string");
+                            yylval.sval.data = (char *) returnStr(yytext, yyleng);
+                            yylval.sval.len = yyleng;
+
+                            if(strcmp(yytext, "endstream") == 0){
+                              BEGIN(INITIAL);
+                              return ENDSTREAM;
+                              }
+
+                            return STRING; 
+                                                                             }
+
+&lt;INITIAL,BINARY&gt;\[(([^\[\]])|(\\\[)|(\\\]))*\] {
+                          debuglex(yytext, -1, "bracketted string v1");
+                            yylval.sval.data = (char *) returnStr(yytext, yyleng); 
+                            yylval.sval.len = yyleng;
+                            return STRING; 
+                                                                             }
+
+&lt;INITIAL,BINARY&gt;\((([^\(\)])|(\\\()|(\\\)))*\) {
+                          debuglex(yytext, -1, "bracketted string v2");
+                            yylval.sval.data = (char *) returnStr(yytext, yyleng);
+                            yylval.sval.len = yyleng; 
+                            return STRING; 
+                                                                             }
+
+&lt;INITIAL,BINARY&gt;\&lt;(([^\&lt;\&gt;])|(\\\&lt;)|(\\\&gt;))*\&gt; {
+                          debuglex(yytext, -1, "bracketted string v3");
+                            yylval.sval.data = (char *) returnStr(yytext, yyleng);
+                            yylval.sval.len = yyleng; 
+                            return STRING; 
+                                                                             }
+
+&lt;INITIAL,BINARY&gt;([#a-zA-Z0-9\.:'+\-!_]+[a-zA-Z0-9\.:'+\-!_\\\/]*)+\&gt;\&gt; { 
+                          debuglex(yytext, -1, "string-dblgt");
+                            yyless(yyleng - 2);
+                            yylval.sval.data = (char *) returnStr(yytext, yyleng);
+                            yylval.sval.len = yyleng; 
+                            return STRING; 
+                                                                             }
+
+&lt;INITIAL,BINARY&gt;[\[\(][#&lt;&gt;a-zA-Z0-9\.\ :'+\-_\\\(\)]+[\)\]]\&gt;\&gt; {
+                          debuglex(yytext, -1, "bracketted-string-dblgt");
+                            yyless(yyleng - 2);
+                            yylval.sval.data = (char *) returnStr(yytext, yyleng);
+                            yylval.sval.len = yyleng; 
+                            return STRING; 
+                                                                             }
+
+                        /* --- Array handling ---                           */
+
+&lt;INITIAL&gt;\[                      { debuglex(yytext, -1, "[");
+                            yylval.sval.data = (char *) returnStr(yytext, yyleng);
+                            yylval.sval.len = yyleng; 
+                            return ARRAY; 
+                                                                             }
+
+&lt;INITIAL&gt;\]                      { debuglex(yytext, -1, "]");
+                            yylval.sval.data = (char *) returnStr(yytext, yyleng);
+                            yylval.sval.len = yyleng; 
+                            return ENDARRAY; 
+                                                                             }
+
+&lt;INITIAL&gt;\]\&gt;\&gt;                      { debuglex(yytext, -1, "]");
+                            yyless(yyleng - 2);
+                            yylval.sval.data = (char *) returnStr(yytext, yyleng);
+                            yylval.sval.len = yyleng; 
+                            return ENDARRAY; 
+                                                                             }
+
+                        /* --- Stuff needed for the xref and trailer ---    */
+
+&lt;INITIAL&gt;\%\%EOF                 { debuglex(yytext, -1, "end of file");
+                            return PDFEOF; 
+                                                                             }
+
+                        /* --- Stuff used to match binary streams --- 
+
+                               The following amazing production is
+                               used to deal with the massive
+                               streams that images can create              */
+
+&lt;BINARY&gt;[^end]+           { debuglex(yytext, yyleng, "binary mode");
+                          yylval.sval.data = (char *) returnStr(yytext, yyleng);
+                          yylval.sval.len = yyleng;
+                          return ANYTHING;
+                                                                             }
+
+.                       { debuglex("!", -1, "the catch all");
+                            yylval.sval.data = (char *) returnStr(yytext, yyleng);
+                            yylval.sval.len = yyleng;
+                            return ANYTHING; 
+                                                                             }
+
+%%
+
+void debuglex(char *text, int len, char *desc){
+#if defined DEBUG
+  int i;
+
+  printf("Lexer rule is \"%s\", match is \"", desc);  
+
+  for(i = 0; i &lt; ((len == -1) ? strlen(text) : len); i++){
+    if(text[i] == '\n') printf(" \\n " );
+    else if(text[i] == '\t') printf(" \\t ");
+    else if(text[i] == '\r') printf(" \\r ");
+    else if(text[i] == ' ') printf(" sp ");
+    else if(isprint(text[i])) printf("%c", text[i]);
+    else printf(" \\%d ", (unsigned char) text[i]);
+    }
+
+  printf("\"\n");
+#endif
+}
+
+char *returnStr(char *yytext, int len){
+  char *lval;
+
+  if((lval = malloc(sizeof(char) * 
+    ((len == -1) ? strlen(yytext) : len) + 1)) == NULL)
+    error("Could not make space for lexer return.");
+  memcpy(lval, yytext, ((len == -1) ? strlen(yytext) : len) + 1);
+
+  return lval;
+}
+</pre>
+<BR><BR><i>Code: /home/mikal/opensource/pandalex/lexer.l</i>
+
+
+<BR><BR><b>lexinterface.h</b>
+<pre>
+// This file defines the callbacks that users can setup to use PandaLex
+
+#include &lt;stdarg.h&gt;
+
+enum{
+  pandalex_event_begindocument = 0,
+    pandalex_event_specver,
+    pandalex_event_entireheader,
+    pandalex_event_objstart,
+    pandalex_event_objend,
+    pandalex_event_dictitem_string,
+    pandalex_event_dictitem_name,
+    pandalex_event_dictitem_arraystart,
+    pandalex_event_dictitem_arrayitem,
+    pandalex_event_dictitem_arrayend,
+    pandalex_event_dictitem_object,
+    pandalex_event_dictitem_dict,
+    pandalex_event_dictitem_dictend,
+    pandalex_event_dictitem_int,
+    pandalex_event_stream,
+    pandalex_event_dictint,
+    pandalex_event_xrefstart,
+    pandalex_event_xrefitem,
+    pandalex_event_xrefend,
+    pandalex_event_trailerstart,
+    pandalex_event_trailerend,
+    pandalex_event_enddocument,
+    pandalex_event_max
+    };
+
+// Callbacks are defined so that they have a type for the arguments they
+// possess associated with them. Where possible the arguments created by the
+// lexer will be converted into the types needed by the callback. If not,
+// an error is returned
+typedef void (*pandalex_callback_type)(int, va_list);
+
+
+void pandalex_setupcallback(int, pandalex_callback_type);
+void pandalex_callback(int, ...);
+
+</pre>
+<BR><BR><i>Code: /home/mikal/opensource/pandalex/lexinterface.h</i>
+
+
+<BR><BR><b>pandalex.h</b>
+<pre>
+char *pandalex_strmcat(char *, int, char *, int);
+char *pandalex_strmcpy(char *, int);
+int pandalex_intlen(int);
+</pre>
+<BR><BR><i>Code: /home/mikal/opensource/pandalex/pandalex.h</i>
+
+
+<BR><BR><b>parser.y</b>
+<pre>
+%{
+  #include "lexinterface.h"
+  #include "samples.h"
+  #include "pandalex.h"
+
+  #include &lt;stdarg.h&gt;
+
+  #define YYMAXDEPTH 50000
+  #define YYERROR_VERBOSE 1
+
+  // The callbacks
+  pandalex_callback_type pandalex_callbacks[pandalex_event_max];
+%}
+
+          /* Define the possible yylval values */
+%union {
+  int        intVal;
+
+  struct streamVal{
+    char *data;
+    int len;
+  } sval;
+}
+
+%token &lt;sval&gt; VERSION
+%token &lt;sval&gt; NAME
+%token &lt;sval&gt; STRING
+%token &lt;sval&gt; OBJREF &lt;sval&gt; OBJ &lt;sval&gt; ENDOBJ 
+%token &lt;intVal&gt; INT
+%token &lt;sval&gt; FP
+%token &lt;sval&gt; DBLLT &lt;sval&gt; DBLGT
+%token &lt;sval&gt; STREAM &lt;sval&gt; ENDSTREAM
+%token &lt;sval&gt; ARRAY &lt;sval&gt; ENDARRAY &lt;sval&gt; ENDARRAYDBLGT
+%token &lt;sval&gt; PDFEOF XREF TRAILER
+%token &lt;sval&gt; ANYTHING
+
+%type &lt;sval&gt; binary
+%type &lt;sval&gt; header
+%type &lt;sval&gt; objref
+%type &lt;sval&gt; arrayvals
+
+%type &lt;intVal&gt; dictionary
+%type &lt;intVal&gt; subdictionary
+
+%%
+
+// completely implemented
+pdf       : { pandalex_callback(pandalex_event_begindocument, ""); } 
+            header { pandalex_callback(pandalex_event_entireheader, $2.data); } 
+            object linear objects xref trailer endcrap
+          ;
+
+// completely implemented
+header    : VERSION { pandalex_callback(pandalex_event_specver, $1.data); }
+            binary { $$.data = pandalex_strmcat($1.data, $1.len, $3.data, $3.len); $$.len = $1.len + $3.len + 1; }
+          ;
+
+linear    : xref trailer { }
+          |
+          ;
+
+// Clibpdf sometimes puts some binary crap at the end of the file (pointer
+// problems?)
+// completely implemented
+endcrap   : binary { }
+          |
+          ;
+
+// completely implemented
+objects   : object objects
+          | 
+          ;
+
+// todo_mikal: might need a .data here
+object    : INT INT OBJ { pandalex_callback(pandalex_event_objstart, $1, $2); } 
+            dictionary { if($5 != -1) pandalex_callback(pandalex_event_dictint, $1, $2, $5); } 
+            stream ENDOBJ { pandalex_callback(pandalex_event_objend, $1, $2); }
+          ;
+
+dictionary: DBLLT dict DBLGT { $$ = -1; }
+          | INT { $$ = $1; }
+          | ARRAY arrayvals ENDARRAY { $$ = -1; }
+          | objref { $$ = -1; }
+          | NAME { $$ = -1; }
+          | STRING { $$ = -1 };
+          | { $$ = -1; }
+          ;
+
+subdictionary: DBLLT dict DBLGT { $$ = -1 };
+
+dict      : NAME STRING { pandalex_callback(pandalex_event_dictitem_string, $1.data, $2.data); } dict
+          | NAME NAME { pandalex_callback(pandalex_event_dictitem_name, $1.data, $2.data); } dict
+          | NAME ARRAY { pandalex_callback(pandalex_event_dictitem_arraystart, $1.data); } 
+              arrayvals ENDARRAY { pandalex_callback(pandalex_event_dictitem_arrayend, $1.data); } dict
+          | NAME objref { pandalex_callback(pandalex_event_dictitem_object, $1.data, $2.data); } dict
+          | NAME { pandalex_callback(pandalex_event_dictitem_dict, $1.data); } 
+              subdictionary { pandalex_callback(pandalex_event_dictitem_dictend, $1.data); } dict
+          | NAME INT { pandalex_callback(pandalex_event_dictitem_int, $1.data, $2); } dict
+          | NAME FP {} dict
+          | 
+          ;
+
+arrayvals : objref { pandalex_callback(pandalex_event_dictitem_arrayitem, $1.data); } arrayvals 
+          | INT { /*todo*/ } arrayvals
+          | NAME { pandalex_callback(pandalex_event_dictitem_arrayitem, $1.data); } arrayvals
+          | STRING { pandalex_callback(pandalex_event_dictitem_arrayitem, $1.data); } arrayvals
+          | ARRAY { pandalex_callback(pandalex_event_dictitem_arrayitem, $1.data); } arrayvals
+          | DBLLT { pandalex_callback(pandalex_event_dictitem_dict, "array-dictitem"); } 
+              dict DBLGT { pandalex_callback(pandalex_event_dictitem_dictend, "array-dictitem"); } arrayvals
+          | {}
+          ;
+
+// completely implemented
+objref    : INT INT OBJREF { if(($$.data = (char *) malloc((pandalex_intlen($1) + pandalex_intlen($2) + 5) * sizeof(char))) == NULL){
+			       fprintf(stderr, "Could not allocate enough space for objref\n");
+			       exit(42);
+                               }
+			     
+			     sprintf($$.data, "%d %d R", $1, $2);
+			     $$.len = strlen($$.data) + 1;
+			                       }
+          ;
+
+// completely implemented
+stream    : STREAM binary ENDSTREAM { pandalex_callback(pandalex_event_stream, $2.data, $2.len); free($2); }
+          |
+          ;
+
+// completely implemented: callbacks are handled in the callers to this
+binary    : ANYTHING binary { $$.data = pandalex_strmcat($1.data, $1.len, $2.data, $2.len); $$.len = $1.len + $2.len; free($2); }
+          | STRING binary { $$.data = pandalex_strmcpy($1.data, -1); $$.len = strlen($1.data); }
+          | { $$.data = pandalex_strmcpy("", -1); $$.len = 0; }
+          ;
+
+// completely implemented
+xref      : XREF INT INT { pandalex_callback(pandalex_event_xrefstart); }
+              xrefitems {}
+          ;
+
+// completely implemented
+xrefitems : INT INT STRING { pandalex_callback(pandalex_event_xrefitem, $1, $2, $3); }
+              xrefitems
+          | { pandalex_callback(pandalex_event_xrefend); }
+          ;
+
+// completely implemented
+trailer   : TRAILER { pandalex_callback(pandalex_event_trailerstart); } 
+              DBLLT dict DBLGT STRING INT { pandalex_callback(pandalex_event_trailerend, $6, $7); } 
+              PDFEOF { pandalex_callback(pandalex_event_enddocument); }
+          ;
+
+%%
+
+void pandalex_init(){
+  int i;
+
+  // Make sure that the callbacks default to nothing
+  for(i = 0; i &lt; pandalex_event_max; ++i){
+    pandalex_callbacks[i] = NULL;
+  }
+}
+
+void pandalex_setupcallback(int callback, pandalex_callback_type functoid){
+  pandalex_callbacks[callback] = functoid;
+}
+
+// Here we call the callbacks. This includes converting to the types that the
+// callback function expects.
+void pandalex_callback(int event, ...){
+  va_list argptr;
+
+  // Start accessing the arguements from the end
+  va_start(argptr, event);
+  
+  // If no event handler is setup, then we ignore the event
+  if(pandalex_callbacks[event] != NULL){
+    pandalex_callbacks[event] (event, argptr);
+  }
+  
+  // Stop with the arguements
+  va_end(argptr);
+}
+
+int pandalex_parse(){
+  // We are not looking into a stream at the moment
+  yyparse();
+}
+
+int yyerror(char *s){
+  fprintf(stderr, "\n---------------------------------------------------------------\n");
+  fprintf(stderr, "PandaLex parser error (%s):\n", s);
+  fprintf(stderr, "  Please send this error text, along with a copy of your PDF\n");
+  fprintf(stderr, "  document (if possible) to mikal@stillhq.com, so that this can\n");
+  fprintf(stderr, "  be fixed for the next release...\n\n");
+  fprintf(stderr, "version = 0.4\n");
+  fprintf(stderr, "last token = \"%s\" (%d) or %d\n", yylval.sval.data, yylval.sval.len, yylval.intVal);
+  fprintf(stderr, "\n---------------------------------------------------------------\n");
+
+  exit(42);
+}
+
+// Buffer overrun safe strcat
+char *pandalex_strmcat(char *dest, int destLen, char *append, int appendLen){
+  char *new;
+  int count, len;
+
+  // What length do we need?
+  if((new = (char *) malloc(sizeof(char) * 
+			    (((destLen == -1) ? strlen(dest) : destLen) + 
+			    ((appendLen == -1) ? strlen(append) : appendLen) + 
+			    2))) == NULL){
+    fprintf(stderr, "Could not malloc enough space\n");
+    exit(42);
+  }
+  
+  if((destLen == -1) &amp;&amp; (appendLen == -1))
+    sprintf(new, "%s%s", dest, append);
+  else{
+    // We need to copy characters the hard way -- change this to a memcpy
+    count = 0;
+
+    for(len = 0; len &lt; ((destLen == -1) ? strlen(dest) : destLen); len++){
+      new[count] = dest[len];
+      count++;
+    }
+
+    for(len = 0; len &lt; ((appendLen == -1) ? strlen(append) : appendLen); len++){
+      new[count] = append[len];
+      count++;
+    }
+
+    new[count] = '\0';
+  }
+  return new;
+}
+
+// Buffer overrun safe strcpy
+char *pandalex_strmcpy(char *data, int len){
+  return pandalex_strmcat(data, len, "", 0);
+}
+
+int pandalex_intlen(int number){
+  int length = 0;
+
+  while(number &gt; 0){
+    length ++;
+    number /= 10;
+  }
+
+  return number;
+}
+</pre>
+<BR><BR><i>Code: /home/mikal/opensource/pandalex/parser.y</i>
+
+
+<BR><BR><b>samples.c</b>
+<pre>
+/* A sample application using pandalex -- this is pdfdump */
+
+#include &lt;stdarg.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;zlib.h&gt;
+#include "samples.h"
+#include "lexinterface.h"
+
+enum{
+  pdfdump_dump = 0,
+    pdfdump_meta
+    };
+int pdfdump_application;
+
+pdfdump_dictint_list *dictint_list;
+
+// Some demo code for how to use PandaLex
+int main(int argc, char *argv[]){
+  pandalex_init();
+
+  // Parse the command line to find out what we are doing today -- this needs more thought
+  if(strcmp(argv[0], "pdfmeta") == 0){
+    pdfdump_application = pdfdump_meta;
+  }
+  else
+    pdfdump_application = pdfdump_dump;
+
+  // Setup the callbacks
+  pandalex_setupcallback(pandalex_event_begindocument, pdfdump_begindocument);
+
+  pandalex_setupcallback(pandalex_event_specver, pdfdump_specversion);
+  pandalex_setupcallback(pandalex_event_entireheader, pdfdump_entireheader);
+  pandalex_setupcallback(pandalex_event_objstart, pdfdump_objstart);
+  pandalex_setupcallback(pandalex_event_objend, pdfdump_objend);
+
+  pandalex_setupcallback(pandalex_event_dictitem_string, pdfdump_dictitem_string);
+  pandalex_setupcallback(pandalex_event_dictitem_name, pdfdump_dictitem_name);
+  pandalex_setupcallback(pandalex_event_dictitem_arraystart, pdfdump_dictitem_arraystart);
+  pandalex_setupcallback(pandalex_event_dictitem_arrayitem, pdfdump_dictitem_arrayitem);
+  pandalex_setupcallback(pandalex_event_dictitem_arrayend, pdfdump_dictitem_arrayend);
+  pandalex_setupcallback(pandalex_event_dictitem_object, pdfdump_dictitem_object);
+  pandalex_setupcallback(pandalex_event_dictitem_dict, pdfdump_dictitem_dict);
+  pandalex_setupcallback(pandalex_event_dictitem_dictend, pdfdump_dictitem_dictend);
+  pandalex_setupcallback(pandalex_event_dictitem_int, pdfdump_dictitem_int);
+
+  pandalex_setupcallback(pandalex_event_stream, pdfdump_stream);
+  pandalex_setupcallback(pandalex_event_dictint, pdfdump_dictint);
+  
+  // Initialise the dictint_list structure;
+  if((dictint_list = (pdfdump_dictint_list *)
+      malloc(sizeof(pdfdump_dictint_list))) == NULL){
+    fprintf(stderr, "Could not initialise the dictint list\n");
+    exit(42);
+  }
+
+  dictint_list-&gt;next = NULL;
+
+  // Start parsing
+  pandalex_parse();
+
+  return 0;
+}
+
+char *pandalex_xsnprintf(char *, ...);
+
+// Arguement is the name of the file as a char *
+void pdfdump_begindocument(int event, va_list argptr){
+  char *filename;
+
+  filename = va_arg(argptr, char *);
+  printf("Information for document: \"%s\"\n\n", filename);
+}
+
+void pdfdump_specversion(int event, va_list argptr){
+  printf("Specification version is: %s\n", (char *) va_arg(argptr, char *));
+}
+
+void pdfdump_entireheader(int event, va_list argptr){
+  int    i;
+  char   *textMatch = (char *) va_arg(argptr, char *);
+
+  printf("Entire document header is: ");
+
+  for(i = 0; i &lt; strlen(textMatch); i++){
+    if(isprint(textMatch[i])) printf("%c ", textMatch[i]);
+    else printf("\\%d ", textMatch[i]);
+  }
+
+  printf("\n");
+}
+
+void pdfdump_objstart(int event, va_list argptr){
+  int generation, number;
+
+  number = va_arg(argptr, int);
+  generation = va_arg(argptr, int);
+
+  printf("Object %d started (generation %d)\n",
+	 number, generation);
+}
+
+void pdfdump_objend(int event, va_list argptr){
+  int generation, number;
+
+  number = va_arg(argptr, int);
+  generation = va_arg(argptr, int);
+
+  printf("Object %d ended (generation %d)\n",
+	 number, generation);
+}
+
+void pdfdump_dictitem_string(int event, va_list argptr){
+  char *name, *value;
+  
+  name = va_arg(argptr, char *);
+  value = va_arg(argptr, char *);
+  printf("  [String] %s = \"%s\"\n", name, value);
+}
+
+void pdfdump_dictitem_name(int event, va_list argptr){
+  char *name, *value;
+  
+  name = va_arg(argptr, char *);
+  value = va_arg(argptr, char *);
+  printf("  [Name] %s = %s\n", name, value);
+}
+
+void pdfdump_dictitem_arraystart(int event, va_list argptr){
+  char *name;
+  
+  name = va_arg(argptr, char *);
+  printf("  Array %s starts\n", name);
+}
+
+void pdfdump_dictitem_arrayitem(int event, va_list argptr){
+  char *value;
+  
+  value = va_arg(argptr, char *);
+  printf("  [Array] %s\n", value);
+}
+
+void pdfdump_dictitem_arrayend(int event, va_list argptr){
+  char *name;
+  
+  name = va_arg(argptr, char *);
+  printf("  Array %s ends\n", name);
+}
+
+void pdfdump_dictitem_object(int event, va_list argptr){
+  char *name, *value;
+  
+  name = va_arg(argptr, char *);
+  value = va_arg(argptr, char *);
+  printf("  [Object reference] %s = %s\n", name, value);
+}
+
+void pdfdump_dictitem_dict(int event, va_list argptr){
+  char *name;
+
+  name = va_arg(argptr, char *);
+  printf("Subdictionary \"%s\" starts\n", name);
+}
+
+void pdfdump_dictitem_dictend(int event, va_list argptr){
+  char *name;
+
+  name = va_arg(argptr, char *);
+  printf("Subdictionary \"%s\" ends\n", name);
+}
+
+void pdfdump_dictitem_int(int event, va_list argptr){
+  int value;
+  char *name;
+
+  name = va_arg(argptr, char *);
+  value = va_arg(argptr, int);
+
+  printf("  [Integer] %s = %d\n", name, value);
+}
+
+void pdfdump_stream(int event, va_list argptr){
+  char *filter;
+  int length;
+  char *lengthObj;
+  char *streamData;
+  int streamDataLen;
+  pdfdump_dictint_list  *now;
+  int found;
+
+  printf("  [Stream]\n");
+
+  filter = va_arg(argptr, char *);
+  length = (int) va_arg(argptr, char *);
+  lengthObj = va_arg(argptr, char *);
+  streamData = va_arg(argptr, char *);
+  streamDataLen = va_arg(argptr, int);
+
+  // Determine if we know the length
+  switch(length){
+  case -2:
+    // We don't - have we seen the obj already?
+    printf("    Length is stored in object\n");
+    break;
+
+  case -1:
+    // It was never defined
+    printf("    Length field not defined\n");
+    break;
+
+  default:
+    printf("    Length is stated to be %d\n", length);
+    pdfdump_procstream(filter, length, streamData, streamDataLen);
+    break;
+  }
+}
+
+void pdfdump_dictint(int event, va_list argptr){
+  int found;
+  int objnum, objgen, value;
+  char *objref;
+  pdfdump_dictint_list *now;
+
+  // Get the passed information
+  objnum = va_arg(argptr, int);
+  objgen = va_arg(argptr, int);
+  value = va_arg(argptr, int);
+
+  printf("Do something with the dictint %d %d R = %d\n", objnum, objgen, value);
+
+  // Information is handed to this event in a slightly different manner to
+  // the stream event handler. Fix this.
+  if((objref = (char *) malloc((pandalex_intlen(objnum) + pandalex_intlen(objgen) + 5) * sizeof(char))) == NULL){
+    fprintf(stderr, "Could not allocate enough space for objref\n");
+    exit(42);
+  }
+  
+  sprintf(objref, "%d %d R", objnum, objgen);
+
+  // Are we already waiting?
+  now = dictint_list;
+  found = 0;
+
+  while((now-&gt;next != NULL) &amp;&amp; (found == 0)){
+    if(strcmp(objref, now-&gt;value) == 0){
+      // Yes -- do something
+      pdfdump_procstream(now-&gt;filter, value, now-&gt;stream, now-&gt;streamlen);
+      found = 1;
+    }
+
+    now = now-&gt;next;
+  }
+
+  // No -- save data and wait
+  if(found == 0){
+    // now is already the end of the list
+    if((now-&gt;next = (pdfdump_dictint_list *)
+	malloc(sizeof(pdfdump_dictint_list))) == NULL){
+      fprintf(stderr, "Could not add to list of waiting streams\n");
+      exit(42);
+    }
+    
+    now-&gt;value = (char *) pandalex_strmcpy(objref, -1);
+    now-&gt;filter = NULL;
+    now-&gt;stream = NULL;
+    now-&gt;waiting = 2;
+    now = now-&gt;next;
+    now-&gt;next = NULL;
+  }
+}
+
+void pdfdump_procstream(char *filter, int length, char *data, int dataLen){
+  char *uncompressed, *dataPtr, *linhintdesc[17];
+  uLong srcLen, dstLen = 512;
+  int result, i, linhintlens[17], number, count;
+
+  linhintlens[0] = 32;
+  linhintdesc[0] = pandalex_xsnprintf("Least number of objects in a page");
+  linhintlens[1] = 32;
+  linhintdesc[1] = pandalex_xsnprintf("Location of the first page object");
+  linhintlens[2] = 16;
+  linhintdesc[2] = pandalex_xsnprintf("Page objects delta bits");
+  linhintlens[3] = 32;
+  linhintdesc[3] = pandalex_xsnprintf("Least page length");
+  linhintlens[4] = 16;
+  linhintdesc[4] = pandalex_xsnprintf("Page length delta bits");
+  linhintlens[5] = 32;
+  linhintdesc[5] = pandalex_xsnprintf("Least content stream offset");
+  linhintlens[6] = 16;
+  linhintdesc[6] = pandalex_xsnprintf("Content stream offset delta bits");
+  linhintlens[7] = 32;
+  linhintdesc[7] = pandalex_xsnprintf("Least content stream length");
+  linhintlens[8] = 16;
+  linhintdesc[8] = pandalex_xsnprintf("Contents stream length delta bits");
+  linhintlens[9] = 16;
+  linhintdesc[9] = pandalex_xsnprintf("Greatest shared object number bits");
+  linhintlens[10] = 16;
+  linhintdesc[10] = pandalex_xsnprintf("Numerically greatest shared object number bits");
+  linhintlens[11] = 16;
+  linhintdesc[11] = pandalex_xsnprintf("Numeration object fraction bits");
+  linhintlens[12] = 16;
+  linhintdesc[12] = pandalex_xsnprintf("Denominator object fraction bits");
+  linhintlens[13] = 16;
+  linhintdesc[13] = pandalex_xsnprintf("?????");
+
+  // Check length
+  if(length &lt; 1){
+    fprintf(stderr, "Stream length is not believable\n");
+    return;
+  }
+
+  // Check there is a filter at all
+  if(filter == NULL){
+    fprintf(stderr, "This stream is not compressed!\n");
+    return;
+  }
+
+  // If the stream starts with a \r or a \n or a \r\n, then these should be stripped off
+  dataPtr = data;
+  while((dataPtr[0] == '\r') || (dataPtr[0] == '\n')) dataPtr++;
+
+  // Do something with the stream
+  if(strcmp(filter, "FlateDecode") == 0){
+    printf("Do something involving Flate\n");
+    
+    //    printf("--------------------------------------------------");
+    //for(i = 0; i &lt; dataLen; i++)
+    //  printf("%c", data[i]);
+    //printf("--------------------------------------------------");
+
+
+    // - 1
+    for(i = -10; i &lt; 1; i++){
+      srcLen = dataLen + i;
+      dstLen = 512;
+      printf("[%d] ", i);
+     
+      if((uncompressed = (char *) malloc(sizeof(char) * dstLen)) == NULL){
+	fprintf(stderr, "Could not make enough space to decompress Flate stream\n");
+	exit(42);
+      }
+      
+      // We grow the output buffer until we no longer get buffer size errors
+      while((result = uncompress(uncompressed, &amp;dstLen, dataPtr, srcLen)) == Z_BUF_ERROR){
+	printf(".");
+	fflush(stdout);
+	
+	dstLen *= 2;
+	if(((uncompressed = (char *) realloc(uncompressed, dstLen)) == NULL) ||
+	   (dstLen &gt; 10000000)){
+	  // We could not grow the buffer, so we exit
+	  printf("!");
+	  fflush(stdout);
+	  free(uncompressed);
+	  break;
+	}
+      }
+
+      if(result == Z_OK) printf(" HIT");
+      printf(" *\n");
+    }
+    
+    if(result != Z_OK){
+      fprintf(stderr, "Flate decompression failed because of ");
+      
+      switch(result){
+      case Z_MEM_ERROR:
+	fprintf(stderr, "not enough memory\n");
+	break;
+	
+      case Z_DATA_ERROR:
+	fprintf(stderr, "corrupt input data\n");
+	break;
+
+      case Z_BUF_ERROR:
+	fprintf(stderr, "buffer error\n");
+	break;
+
+      default:
+	fprintf(stderr, "unknown error (%d)\n", result);
+	break;
+      }
+      
+      debuglex(data, srcLen, "Flate compression failure", 0);
+      exit(46);
+    }
+    
+    printf("\n");
+    printf("----------- UNCOMPRESSED STREAM IS -------------------------------------------\n");
+    // printf("%s\n", uncompressed);
+    printf("Total uncompressed size: %d\n\n", dstLen);
+
+    count = 0;
+
+    for(i = 0; count &lt; 13;){
+      number = 0;
+      if(linhintlens[count] == 16){
+	number = uncompressed[i] &lt;&lt; 8 | uncompressed[i + 1];
+	i += 2;
+      }
+      else{
+	number = uncompressed[i] &lt;&lt; 24 | uncompressed[i + 1] &lt;&lt; 16 |
+	  uncompressed[i + 2] &lt;&lt; 8 | uncompressed[i + 3];
+	i += 4;
+      }
+
+      printf("%s [%d]: %d\n", linhintdesc[count], linhintlens[count], number);
+      count++;
+    }
+
+    printf("\nTotal bytes used: %d\n", i);
+    printf("\n------------------------------------------------------------------------------\n");
+  }
+  else if(strcmp(filter, "LZWDecode") == 0){
+    printf("LZW compression is encumbered by Patents and therefore not supported\n"); 
+  }
+  else if(strcmp(filter, "CCITTFaxDecode") == 0){
+    printf("Do something involving CCITTFax compression (TIFF)\n");
+  }
+  else{
+    printf("Unknown filter \"%s\"\n", filter);
+  }
+}
+</pre>
+<BR><BR><i>Code: /home/mikal/opensource/pandalex/samples.c</i>
+
+
+<BR><BR><b>samples.h</b>
+<pre>
+void pdfdump_begindocument(int, va_list);
+void pdfdump_specversion(int, va_list);
+void pdfdump_entireheader(int, va_list);
+void pdfdump_objstart(int, va_list);
+void pdfdump_objend(int, va_list);
+
+void pdfdump_dictitem_string(int, va_list);
+void pdfdump_dictitem_name(int, va_list);
+void pdfdump_dictitem_arraystart(int, va_list);
+void pdfdump_dictitem_arrayitem(int, va_list);
+void pdfdump_dictitem_arrayend(int, va_list);
+void pdfdump_dictitem_object(int, va_list);
+void pdfdump_dictitem_dict(int, va_list);
+void pdfdump_dictitem_dictend(int, va_list);
+void pdfdump_dictitem_int(int, va_list);
+
+void pdfdump_stream(int, va_list);
+void pdfdump_dictint(int, va_list);
+void pdfdump_procstream(char *, int, char *, int);
+
+// This data type is needed for pdfdump_stream and 
+// pdfdump_dictint
+typedef struct pdfdump_internal_dictint_list{
+  char *value;
+  int waiting;
+  int number;
+
+  char *stream;
+  int streamlen;
+  char *filter;
+
+  struct pdfdump_internal_dictint_list  *next; 
+} pdfdump_dictint_list;
+</pre>
+<BR><BR><i>Code: /home/mikal/opensource/pandalex/samples.h</i>
+
+
+
+
+<BR><BR><b>Conclusion</b>
+<BR><BR>
+In this chapter we have discussed the inner workings of the PDF format, which is quite different to the other formats we have discussed in this document. We have also examined Panda, and seen how to use it to generate our PDF documents.
+
+
+
+<BR><BR><b>Further reading</b>
+<BR><BR>
+The following resources might be of use if you need more information:
+
+
+
+<li>http://developer.adobe.com has many useful resources, including the PDF specification (at the time of writing the latest version is 1.4, although this chapter is based on 1.3, because this is what is supported by the two libraries discussed here).
+<li>http://www.stillhq.com: has the comp.text.pdf frequently asked questions, as well as the Panda pages.
+
+
+
+</chapter>
+</book>

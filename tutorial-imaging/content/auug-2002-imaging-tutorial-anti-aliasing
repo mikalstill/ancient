@@ -1,0 +1,7 @@
+TITLE: AUUG 2002: Imaging Tutorial: Anti-aliasing
+<BR><BR>
+Imagine that you are drawing a triangle across an image (or on the screen for that matter). The triangle is sometimes going to cross pixels in a way which makes them not totally turned on. Have a look at the figure below to see what I mean...
+
+
+</chapter>
+<chapter id="chap-tiff"><b>TIFF</b>
