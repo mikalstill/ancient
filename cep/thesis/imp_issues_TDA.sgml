@@ -31,7 +31,7 @@
     depth in the (SEE THEORY TD). The implementation of this process can also be seen in the follwing diagram
     
     <figure><title>Flow Diagram of the Automated Re-Weighting Process of VCV Least Squares Anaysis</title>
-        <execute><cmd>img</cmd><args>TD-ReweightFlow.gif</args></execute>
+        <execute><cmd>eqimg</cmd><args>TD-ReweightFlow.gif</args></execute>
     </figure>
 
     </para>

@@ -22,7 +22,7 @@
     
     <equation>
       <title>Equation of the Line</title>
-      <execute><cmd>img</cmd><args>fTD-equ1.gif</args></execute>
+      <execute><cmd>eqimg</cmd><args>time-line.eps</args></execute>
     </equation>
 
     
@@ -34,14 +34,14 @@
     
     <equation>
       <title>Linear Least Squares Regression Equation 1a</title>
-      <execute><cmd>img</cmd><args>fTD-equ2.gif</args></execute>
+      <execute><cmd>eqimg</cmd><args>time-lsreg.eps</args></execute>
     </equation>
     
     where <command>X</command> is the corrections to the apriori estimates
     
     <equation>
       <title>Corrections to Apriori Matrix</title>
-      <execute><cmd>img</cmd><args>fTD-equ3.bmp</args></execute>
+      <execute><cmd>eqimg</cmd><args>time-corrections.eps</args></execute>
     </equation>
     
     and <command>n</command> is the number of observations in the system. The <command>A</command> matrix is the know as the design
@@ -49,7 +49,7 @@
     
     <equation>
       <title>Design Matrix</title>
-      <execute><cmd>img</cmd><args>fTD-equ4.gif</args></execute>
+      <execute><cmd>eqimg</cmd><args>time-design.eps</args></execute>
     </equation>
     
     <command>P</command> is the <command>n</command> x <command>n</command> weighting matrix and <command>L</command> is the apriori
@@ -57,7 +57,7 @@
     
     <equation>
       <title>Apriori Matrix 1a</title>
-      <execute><cmd>img</cmd><args>fTD-equ5.gif</args></execute>
+      <execute><cmd>eqimg</cmd><args>time-apriorimatrix.eps</args></execute>
     </equation>
     
     </para>
@@ -68,14 +68,14 @@
     
     <equation>
       <title>Apriori Matrix 1b</title>
-      <execute><cmd>img</cmd><args>fTD-equ6.gif</args></execute>
+      <execute><cmd>eqimg</cmd><args>time-apriorimatrix-2.eps</args></execute>
     </equation>
     
     and hence Equation 2 becomes
     
     <equation>
       <title>Linear Least Squares Regression Equation 1b</title>
-      <execute><cmd>img</cmd><args>fTD-equ7.gif</args></execute>
+      <execute><cmd>eqimg</cmd><args>time-lsreg-2.eps</args></execute>
     </equation>
 
     </para>
@@ -111,7 +111,7 @@
     
     <equation>
       <title>Standard Gaussian Distribution</title>
-      <execute><cmd>img</cmd><args>fTD-equ10.gif</args></execute>
+      <execute><cmd>eqimg</cmd><args>time-gaussian.eps</args></execute>
     </equation>
      
     This method works by pre-multiplying the observation values with a number that represents its 
@@ -133,22 +133,22 @@
     
     <equation>
       <title>Skewness</title>
-      <execute><cmd>img</cmd><args>fTD-equskew.bmp</args></execute>
+      <execute><cmd>eqimg</cmd><args>time-skew.eps</args></execute>
     </equation>
     
     <figure><title>Box Plot of a Skewed Data Set</title>
-        <execute><cmd>img</cmd><args>TD-boxskew.gif</args></execute>
+        <execute><cmd>eqimg</cmd><args>TD-boxskew.gif</args></execute>
     </figure>
 
     where <command>s</command> &ne; 0 and/or affected by kurtosis where the forth moment is
     
     <equation>
       <title>Kurtosis</title>
-      <execute><cmd>img</cmd><args>fTD-equkur.bmp</args></execute>
+      <execute><cmd>img</cmd><args>time-kur.eps</args></execute>
     </equation>
     
     <figure><title>Box Plot of a Data Set affected by Kurtosis</title>
-        <execute><cmd>img</cmd><args>TD-boxkur.gif</args></execute>
+        <execute><cmd>eqimg</cmd><args>TD-boxkur.gif</args></execute>
     </figure>
 
     for <command>k</command> &ne; 3,
@@ -198,7 +198,7 @@
 
     <equation>
       <title>Random Walk Weighting Matrix</title>
-      <execute><cmd>img</cmd><args>fTD-equ12.gif</args></execute>
+      <execute><cmd>eqimg</cmd><args>time-rwweight.eps</args></execute>
     </equation>
     
     <para>
@@ -216,7 +216,7 @@
     
     <equation>
       <title>Residual Equation</title>
-      <execute><cmd>img</cmd><args>fTD-equ13.gif</args></execute>
+      <execute><cmd>eqimg</cmd><args>time-residual.eps</args></execute>
     </equation>
     
     Where <command>L</command> is specified by (EQUATION 5). If the same constraint is applied to the apriori matrix as was used in
@@ -225,7 +225,7 @@
     
     <equation>
       <title>Constrained Residual Equation</title>
-      <execute><cmd>img</cmd><args>fTD-equ14.gif</args></execute>
+      <execute><cmd>eqimg</cmd><args>time-restresidual.eps</args></execute>
     </equation>
     
     </para>
@@ -244,14 +244,14 @@
     
     <equation>
       <title>Weighting Matrix Equation 1a</title>
-      <execute><cmd>img</cmd><args>fTD-equ16.bmp</args></execute>
+      <execute><cmd>eqimg</cmd><args>time-weighting.eps</args></execute>
     </equation>
     
     where <command>N</command> is given by
     
     <equation>
       <title>Weighting Matrix Equation 1b</title>
-      <execute><cmd>img</cmd><args>fTD-equ17.gif</args></execute>
+      <execute><cmd>eqimg</cmd><args>time-weighting-2.eps</args></execute>
     </equation>
     
     This method, however, leads to the new weighting matrix <command>&Sgr</command> that is not strictly diagonal and this is
@@ -274,7 +274,7 @@
     resulting in a box and whiskers plot. 
     
     <figure><title>Box Plot of Data Set Re-weighting Using Resdiuals</title>
-        <execute><cmd>img</cmd><args>TD-boxplot.gif</args></execute>
+        <execute><cmd>eqimg</cmd><args>TD-boxplot.gif</args></execute>
     </figure>
 
     Therefore, any residual with a value greater than three standard deviations above the mean is considered to be erroneous and 
