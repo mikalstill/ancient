@@ -32,6 +32,7 @@ usage (char *name)
   printf ("\tThese options are mutually exclusive:\n");
   printf ("\t\t-B:        Dump data as binary instead of hex\n");
   printf ("\t\t-d <prog>: Binary transfer decoder helper application\n");
+  printf ("\t\t-e:        Excessive dumping mode. Show binary, hex and decimal\n");
   printf ("\n");
   printf ("\t-i <name>: The name of the input usblog file\n");
   printf ("\t-l:        Output Linux kernel equivalent descriptions\n");
@@ -100,7 +101,8 @@ usb_allurbs;
 // Used for correlation
 int hashcmp (usb_allurbs * head, int inset, int testinset, int length);
 
-int do_linux = 0, do_showhash = 0, do_binarydumps = 0, do_decoder = 0, do_now = 0;
+int do_linux = 0, do_showhash = 0, do_binarydumps = 0, do_excessivedumps = 0, 
+  do_decoder = 0, do_now = 0;
 
 int
 main (int argc, char *argv[])
@@ -115,7 +117,7 @@ main (int argc, char *argv[])
   int transfer_direction;
   int max_bulk = 0;
 
-  while ((optchar = getopt (argc, argv, "i:lmrRvb:Bd:n")) != -1)
+  while ((optchar = getopt (argc, argv, "i:lmrRvb:Bd:ne")) != -1)
     {
       switch (optchar)
 	{
@@ -131,6 +133,11 @@ main (int argc, char *argv[])
 	case 'd':
 	  do_decoder = 1;
 	  decoder = (char *) strdup(optarg);
+	  break;
+
+	case 'e':
+	  do_binarydumps = 1;
+	  do_excessivedumps = 1;
 	  break;
 
 	case 'i':
@@ -318,9 +325,10 @@ main (int argc, char *argv[])
       urb_printf_flags(temp);
       if(temp & 0x00000001) urb_printf("\tEnd point known\n");
       if(temp & 0x00000002) urb_printf("\tPipehandle present\n");
-      if(temp & 0x00000004) urb_printf("\tDirection in\n");
-      if(temp & 0x00000008) urb_printf("\tDirection out\n");
-      if(temp & 0x00000010) urb_printf("\tComing up\n");
+      if(temp & 0x00000004) urb_printf("\tDirection: in\n");
+      if(temp & 0x00000008) urb_printf("\tDirection: out\n");
+      if(temp & 0x00000010) urb_printf("\tComing: up\n");
+      else urb_printf("\tComing: down\n");
 
       urb_printf ("Status: %d\n", fileutil_getinteger (file, &filep));
       urb_printf ("Link: %d\n", fileutil_getuinteger (file, &filep));
@@ -1191,6 +1199,7 @@ void dump_data(char *file, long long *filep, int psize, char *type)
 {
   long long count = *filep;
   int i;
+  unsigned char temp;
 
   urb_printf("\t");
   if (do_decoder == 1)
@@ -1207,9 +1216,15 @@ void dump_data(char *file, long long *filep, int psize, char *type)
 	}
       else if (do_binarydumps == 1)
 	{
-	  char *conv = to_binary((unsigned char) file[count]);
+	  temp = (unsigned char) file[count];
+	  char *conv = to_binary(temp);
 	  urb_printf("%s ", conv);
 	  free(conv);
+
+	  if(do_excessivedumps == 1)
+	    {
+	      urb_printf("decimal(%d) hex(%02x)\n\t", temp, temp);
+	    }
 	}
       else if (isgraph (file[count]))
 	{
