@@ -1,0 +1,99 @@
+#!/usr/bin/perl
+
+# This script is used to edit news items on a given page -- it is assumed that
+# this script is run in an htaccess protected area
+
+use strict;
+use CGI;
+
+# Setup the result of the CGI
+my($result, $path, $newsname, $newsline, $highest, $temp, $OUTPUT, $fname);
+$result = new CGI();
+
+# The path is where to find the information to build the pages
+$path = "/home/httpd/html/";
+
+# Output the standard HTML prelude, which includes stuff like the page title
+print $result->header;
+
+# Get the extra arguements
+dumpfile("$path/common/stdnews-start");
+print "Updating a news item";
+dumpfile("$path/common/stdnews-divider");
+$fname = $result->param('newsitem');
+print "Modify file: $fname<BR><BR>";
+modifynewsitem($fname);
+dumpfile("$path/common/stdnews-end");
+
+
+print $result->end_html;
+
+exit;
+
+
+
+
+
+
+
+
+sub modifynewsitem{
+    my($filename) = @_;
+    
+    print "The news item is being committed, with it's news id being $highest";
+    print "</b><BR><BR>\n";
+    
+    # Actually commit
+    open OUTPUT, "> $filename" or die "Cannot open";
+    
+    $temp = $result->param('title');
+    print OUTPUT "TITLE: $temp\n";
+    
+    $temp = $result->param('postdate');
+    print OUTPUT "POSTDATE: $temp\n";
+    
+    $temp = $result->param('postemail');
+    print OUTPUT "POSTER: $temp\n";
+    
+    $temp = $result->param('poster');
+    print OUTPUT "POSTERNAME: $temp\nBEGIN CONTENT\n";
+    
+    $temp = $result->param('content');
+    $temp =~ s/\'\'/\"/g;
+    print OUTPUT "$temp";
+    
+    close OUTPUT;
+    
+    print "Done writing to $filename";
+    dumpfile("$path/common/stdnews-end");
+}
+
+# Dump the named file to stdout
+sub dumpfile{
+    my($file) = @_;
+    my($FILEBIT);
+    
+    print "\n<! $file >\n";
+    open FILEBIT, $file;
+    
+    while(<FILEBIT>){
+	print "$_";
+    }
+    
+    print "\n";
+    close(FILEBIT);
+}
+
+# Display an error message to the user
+sub error{
+    my($path, $message) = @_;
+    
+    dumpfile("$path/common/stdnews-start");
+    print "Error!";
+    dumpfile("$path/common/stdnews-divider");
+    print "$message\n";
+    print "</b><BR><BR>\n";
+    print "Please contact <a href=\"mailto:mikal\@stillhq.com\">mikal\@stillhq.com </a> and let him know the URL you were trying to access (normally at the top of the page), and what link you clicked on to get here (if there was one).\n";
+    dumpfile("$path/common/stdnews-end");
+    print $result->end_html;
+}
