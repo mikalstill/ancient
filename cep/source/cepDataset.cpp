@@ -211,10 +211,6 @@ cepError cepDataset::read(const string & filename)
 							   rowsample,
 							   rowerror,
 							   rowcolor);
-		    cepDebugPrint("Push: " + cepToString(rowdate) + " " + 
-				  cepToString(rowsample) + " " + 
-				  cepToString(rowerror) + " " + 
-				  cepToString(rowcolor));
 		    		    
                     if (lastRowdate != -1){
 		      if(rowdate < lastRowdate) {

@@ -982,28 +982,31 @@ void cepView::OnFFT (wxCommandEvent& event)
 
 	// We need to copy add the data across into complex land...
 	cepMatrix<ComplexDble> input(theDataset->getMatrix((cepDataset::direction) i)->getNumRows(),
-				     theDataset->getMatrix((cepDataset::direction) i)->getNumCols());
+				     theDataset->getMatrix((cepDataset::direction) i)->getNumCols(),
+				     theDataset->getMatrix((cepDataset::direction) i)->getNumTables());
 	
-	// I assume that an FFT is only on a 2d matrix
-	for(int row = 0; 
-	    row < theDataset->getMatrix((cepDataset::direction) i)->getNumRows(); row++){
-	  for(int col = 0; 
-	      col < theDataset->getMatrix((cepDataset::direction) i)->getNumCols(); col++){
-	    input.setValue(row, col, theDataset->getMatrix((cepDataset::direction) i)->
-	      getValue(row, col));
-
-	    if(theDataset->getMatrix((cepDataset::direction) i)->getError().isReal()){
-	      cepDebugPrint("FFT data conversion, extract from dataset");
-	      theDataset->getMatrix((cepDataset::direction) i)->getError().display();
-	      canvas->Refresh();
-	      return;
-	    }
-
-	    if(input.getError().isReal()){
-	      cepDebugPrint("FFT data conversion, push to input");
-	      input.getError().display();
-	      canvas->Refresh();
-	      return;
+	for(int table = 0;
+	    table < theDataset->getMatrix((cepDataset::direction) i)->getNumTables(); table++){
+	  for(int row = 0; 
+	      row < theDataset->getMatrix((cepDataset::direction) i)->getNumRows(); row++){
+	    for(int col = 0; 
+		col < theDataset->getMatrix((cepDataset::direction) i)->getNumCols(); col++){
+	      input.setValue(row, col, table, theDataset->getMatrix((cepDataset::direction) i)->
+			     getValue(row, col, table));
+	      
+	      if(theDataset->getMatrix((cepDataset::direction) i)->getError().isReal()){
+		cepDebugPrint("FFT data conversion, extract from dataset");
+		theDataset->getMatrix((cepDataset::direction) i)->getError().display();
+		canvas->Refresh();
+		return;
+	      }
+	      
+	      if(input.getError().isReal()){
+		cepDebugPrint("FFT data conversion, push to input");
+		input.getError().display();
+		canvas->Refresh();
+		return;
+	      }
 	    }
 	  }
 	}
@@ -1029,60 +1032,67 @@ void cepView::OnFFT (wxCommandEvent& event)
 	  }
 	cepDebugPrint("FFT applied to " + cepToString(fftScale) + " elements");
 
-	cepCfft<ComplexDble> myFFT(fftScale);
-	if(myFFT.getError().isReal()){
-	  cepDebugPrint("Error from FFT initialization function");
-	  myFFT.getError().display();
-	  canvas->Refresh();
-	  return;
-	}
-
-	cepMatrix<ComplexDble> output = myFFT.matrixFft(input, 1);
-	if(myFFT.getError().isReal()){
-	  cepDebugPrint("Error from FFT calculation function");
-	  myFFT.getError().display();
-	  canvas->Refresh();
-	  return;
-	}
-
 	// Make a new matrix to put this into
-	ffted[i] = cepMatrix<double> (output.getNumRows() - 1, output.getNumCols());
-	if(output.getError().isReal()){
+	ffted[i] = cepMatrix<double> ((fftScale / 2) - 1, 
+				      theDataset->getMatrix((cepDataset::direction) i)->getNumCols(),
+				      theDataset->getMatrix((cepDataset::direction) i)->getNumTables());
+	if(theDataset->getMatrix((cepDataset::direction) i)->getError().isReal()){
 	  cepDebugPrint("Error determining size of FFT output");
-	  output.getError().display();
+	  theDataset->getMatrix((cepDataset::direction) i)->getError().display();
 	  canvas->Refresh();
 	  return;
 	}
 
-	// Now we need to get the data back to what we want
-	cepDebugPrint("The output matrix is " + cepToString(output.getNumRows()) + " x " +
-		      cepToString(output.getNumCols()));
-	for(int row = 0; row < output.getNumRows(); row++){
-	  for(int col = 0; col < output.getNumCols(); col++){
-	    cepDebugPrint("Getting output: row = " + cepToString(row) + " col = " +
-			  cepToString(col));
-
-	    // The first row of the FFT output is treated separately...
-	    if(row == 0){
-	      if(col == 1){
-		energies[i] = real(output.getValue(row, col, 0));
-	      }
-	    }
-	    else{
-	      // Again, I have assumed that there is only one table
-	      ffted[i].setValue(row - 1, col, real(output.getValue(row, col, 0)));
-	      if(output.getError().isReal()){
-		cepDebugPrint("FFT data conversion, get output");
-		output.getError().display();
-		canvas->Refresh();
-		return;
-	      }
+	// Do the FFT on each table
+	for(int table = 0; 
+	    table < theDataset->getMatrix((cepDataset::direction) i)->getNumTables(); table++){
+	  // Setup the FFT
+	  cepCfft<ComplexDble> myFFT(fftScale);
+	  if(myFFT.getError().isReal()){
+	    cepDebugPrint("Error from FFT initialization function");
+	    myFFT.getError().display();
+	    canvas->Refresh();
+	    return;
+	  }
+	  
+	  // Perform the FFT
+	  cepMatrix<ComplexDble> output = myFFT.matrixFft(input, 1);
+	  if(myFFT.getError().isReal()){
+	    cepDebugPrint("Error from FFT calculation function");
+	    myFFT.getError().display();
+	    canvas->Refresh();
+	    return;
+	  }
+	  
+	  // Now we need to get the data back to what we want
+	  cepDebugPrint("The output matrix is " + cepToString(output.getNumRows()) + " x " +
+			cepToString(output.getNumCols()));
+	  for(int row = 0; row < output.getNumRows(); row++){
+	    for(int col = 0; col < output.getNumCols(); col++){
+	      cepDebugPrint("Getting output: row = " + cepToString(row) + " col = " +
+			    cepToString(col));
 	      
-	      if(ffted[i].getError().isReal()){
-		cepDebugPrint("FFT data conversion, push to new dataset");
-		ffted[i].getError().display();
-		canvas->Refresh();
-		return;
+	      // The first row of the FFT output is treated separately...
+	      if(row == 0){
+		if(col == 1){
+		  energies[i] = real(output.getValue(row, col, 0));
+		}
+	      }
+	      else{
+		ffted[i].setValue(row - 1, col, table, real(output.getValue(row, col, 0)));
+		if(output.getError().isReal()){
+		  cepDebugPrint("FFT data conversion, get output");
+		  output.getError().display();
+		  canvas->Refresh();
+		  return;
+		}
+		
+		if(ffted[i].getError().isReal()){
+		  cepDebugPrint("FFT data conversion, push to new dataset");
+		  ffted[i].getError().display();
+		  canvas->Refresh();
+		  return;
+		}
 	      }
 	    }
 	  }
