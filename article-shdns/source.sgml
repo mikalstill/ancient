@@ -76,18 +76,14 @@ UDP, on the other hand, does none of this. A single packet is sent, and it eithe
 A good example of a common network protocol that uses UDP is the Domain Name System (DNS). UDP is well suited here because the packets are short (they fit in a single datagram) and we therefore don't have to worry about our packets arriving out of order. We also want DNS to be as fast as possible. 
 </para>
 
+<sidebar><title>DNS and UDP</title>
 <para>
-TODO: Does the DNS RFC specify why UDP is used?
+It should be noted that RFC 1034 <quote>Domain names &mdash; Concepts and Facilties</quote> does specify that TCP can also be used for DNS. In fact, because UDP packets are limited to 512 bytes, TCP has to be used for zone transfers. However, RFC 1035 <quote>Domain Names &mdash; Implementation and Specification</quote>does recommend that normal queries occur via UDP.
 </para>
+</sidebar>
 
 <para>
-TODO: is there more processor load associated with all the extra processing required to make TCP reliable?
-</para>
-
-<para>
-For more information on UDP, and IP in general, I recommend:
-
-TODO
+See the further reading section at the end of the this article for recommendations of places to read more about UDP, IP, and DNS.
 </para>
 
 <sect2><title>Disconnected sockets</title>
@@ -330,34 +326,51 @@ TODO PATCH
 
 <sect1><title>shdns</title>
 <para>
-TODO
+This article wouldn't be complete without an example of a UDP shell script to run from <command>inetd</command> or <command>xinetd</command>. It seems obvious to me that something non-trivial is required here. I therefore present for your enjoyment <command>shdns</command>, a DNS server implemented in bash shell script.
 </para>
 
 <sect2><title>The code</title>
 <para>
-TODO
+The code for <command>shdns</command> is broken into two components. The first is a simple script which redirects the input packet to a file, so that <command>shdns</command> can move backwards and forwards within the input packet to grab the bits it needs as required.
 </para>
 
 <execute><cmd>code2db</cmd><input>~mikal/opensource/shdns/shdns-server</input></execute>
 
 <para>
-TODO
+The other part of the code is the script which actually parses the input DNS UDP packet and responds. Note that this is merely a proof of concept at the moment, it doesn't attempt to implement the entire DNS protocol &mdash; there is only enough here to perform a name lookup.
 </para>
 
 <execute><cmd>code2db</cmd><input>~mikal/opensource/shdns/shdns</input></execute>
-</sect2>
 
-<sect2><title>Does it work?</title>
 <para>
-TODO
+The <command>shdns</command> implemenation strategy is summarised by the following diagram.
 </para>
+
+<execute><cmd>eqimg</cmd><args>shdns-design.png</args></execute>
+
 </sect2>
 </sect1>
 
 <sect1><title>Getting the code from this article</title>
 <para>
-TODO
+The code for this article is available from my website. Checkout http://www.stillhq.com/extracted/shdns for more information.
 </para>
 </sect1>
+
+<sect1><title>Further reading</title>
+<para>
+The following is a list of reading I found useful whilst working on this article. If you're interested in this topic area and want to learn more, then starting with this list might be helpful.
+</para>
+
+<itemizedlist>
+<listitem><para>A list of DNS related Internet RFCs -- http://www.faqs.org/rfcs/dns-rfcs.html</para></listitem>
+<listitem><para>An excellent introduction to DNS, as well as many other protocols -- TCP/IP Illustrated, Volume One: The protocols, by W Richard Stevens, published by Addison-Wesley</para></listitem>
+<listitem><para></para></listitem>
+<listitem><para></para></listitem>
+<listitem><para></para></listitem>
+<listitem><para></para></listitem>
+<listitem><para></para></listitem>
+<listitem><para></para></listitem>
+</itemizedlist>
 
 </article>
