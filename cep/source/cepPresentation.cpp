@@ -20,6 +20,7 @@
 
 #include "cepCore.h"
 #include "cepPresentation.h"
+#include "cepDate.h"
 
 #if defined HAVE_LIBMPLOT
 #include <libmplot.h>
@@ -245,10 +246,28 @@ cepPresentation::createBitmap (float& scale, long& minval)
   
   // The scale also belongs over the errors, but below the graph line
   plot_setfontcolor(graph, 26, 22, 249);
-  plot_setfont(graph, "n022003l.pfb", 9);
-  plot_settextlocation(graph, 20,
+  plot_setfont(graph, "n022003l.pfb", 12);
+
+  // Minimum value
+  cepDate startDate((float) m_xminval / 10000);
+  plot_settextlocation(graph, 10, 
 		       (unsigned int) ((yrange - 0 + yminval) / yscale + 10));
-  plot_writestring(graph, (char *) m_yTitle.c_str());  
+  plot_writestring(graph, (char *) startDate.getShortDate().c_str());  
+  
+  // Midpoint value
+  cepDate midDate((float) ((m_xmaxval - m_xminval) / 2 + m_xminval) / 10000);
+  plot_settextlocation(graph, 
+		       (m_width / 2) - 
+		       (plot_stringwidth(graph, (char *) midDate.getShortDate().c_str())/ 2), 
+		       (unsigned int) ((yrange - 0 + yminval) / yscale + 10));
+  plot_writestring(graph, (char *) midDate.getShortDate().c_str());
+
+  // Maximum value
+  cepDate endDate((float) m_xmaxval / 10000);
+  plot_settextlocation(graph, m_width - 
+		       plot_stringwidth(graph, (char *) endDate.getShortDate().c_str()) - 5, 
+		       (unsigned int) ((yrange - 0 + yminval) / yscale + 10));
+  plot_writestring(graph, (char *) endDate.getShortDate().c_str());
 
   // Now draw the actual graph
   cepDebugPrint("Plotting graph");

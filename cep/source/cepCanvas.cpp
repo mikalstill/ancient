@@ -182,7 +182,10 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
     m_selectXStart = -1;
 
     float startExtracted = ((selectXStart - 10) * m_scale[selDir] + m_minval[selDir]) / 10000;
+    cepDate startDate(startExtracted);
+
     float endExtracted = ((m_selectXEnd - 10) * m_scale[selDir] + m_minval[selDir]) / 10000;
+    cepDate endDate(endExtracted);
 
     if(startExtracted > endExtracted){
       float temp = endExtracted;
@@ -192,8 +195,8 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
 
     // todo_mikal: dialog to allow tweakage
     wxMessageBox(string("Process this mouse selection: " + m_selDirString + " " + 
-			cepToString(startExtracted) + " to " + m_selDirString + " " + 
-			cepToString(endExtracted)).c_str());
+			startDate.getLongDate() + " to " + m_selDirString + " " + 
+			endDate.getLongDate()).c_str());
     ((cepFrame *) wxGetApp().GetTopWindow())->SetStatusText("", 2);
 
     // Extract the dataset
@@ -231,7 +234,7 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
   }
 }
 
-// Determine which graph we are over
+// Determine which graph we are over (and display it to the user in the status bar)
 cepDataset::direction
 cepCanvas::determineGraph(int y, string& name){
   if(y < 0){
