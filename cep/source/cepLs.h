@@ -40,8 +40,7 @@ public:
   const cepLs & cepDoRW(cepMatrix<double> &matA, cepMatrix<double> &matP);
 
   //get the value of the residual at pos (x,y)    
-  const cepMatrix<double> &cepLs::getResidual();
-  // double getResidual(int, int);
+  const cepMatrix<double> &getResidual();
   
   //get the value B1 in the least squares solution y=B1*x +B2  
   double getB1();
