@@ -1,71 +1,104 @@
 #!/usr/local/bin/perl
 
 use strict;
-my($cmd, $cmdstr, $input, $output, $arg);
+my($cmd, $cmdstr, $input, $output, $arg, $TMP);
 
 # Make sure local scripts can run
 $ENV{PATH} = $ENV{PATH} . ":.";
 
-# This script runs through the specified docbook source, and applies the commands in % blocks
+# This script runs through the specified docbook source, and applies the 
+# commands in % blocks
+#
+# <execute><cmd></cmd><args></args><input></input><output></output></execute>
+# <postexecute>... as above ...</postexecute>
+#
+# execute blocks happen as the file is read (including recursively)
+# postexecute blocks happen once the entire file has been processed, and have 
+# default input of the processed file
 
-while(<STDIN>){
-    if(/(.*)<execute>(.*)<\/execute>(.*)/){
-	print $1;
-	$cmd = $2;
+# This should be fixed...
 
-	$_ = $cmd;
-	if(/<input>/){
-	    $input = $cmd;
-	    $input =~ s/.*<input>//;
-	    $input =~ s/<\/input>.*//;
-	}
-	else{
-	    $input = "";
-	}
+open TMP, "> builddb.tmp";
+process("execute", "", \*STDIN, \*TMP);
+close TMP;
+open TMP, "< builddb.tmp";
+process("postexecute", "builddb.tmp", \*TMP, \*STDOUT);
+close TMP;
+unlink "builddb.tmp";
 
-	if(/<output>/){
-	    $output = $cmd;
-	    $output =~ s/.*<output>//;
-	    $output =~ s/<\/output>.*//;
-	}
-	else{
-	    $output = "";
-	}
+exit;
 
-	if(/<args>/){
-	    $arg = $cmd;
-	    $arg =~ s/.*<args>//;
-	    $arg =~ s/<\/args>.*//;
-	}
-	else{
-	    $arg = "";
-	}
+sub process($){
+    my($exblock, $exfilename, $INPTR, $OUTPTR) = @_;
 
-	$cmd =~ s/.*<cmd>//;
-	$cmd =~ s/<\/cmd>.*//;
-
-	if($cmd ne "todo"){
-	    $cmdstr = "$cmd $arg";
-
-	    if($input ne ""){
-		$cmdstr = "$cmdstr < $input";
+    while(<$INPTR>){
+	if(/(.*)<$exblock>(.*)<\/$exblock>(.*)/){
+	    print $OUTPTR $1;
+	    $cmd = $2;
+	    
+	    $_ = $cmd;
+	    if(/<input>/){
+		$input = $cmd;
+		$input =~ s/.*<input>//;
+		$input =~ s/<\/input>.*//;
 	    }
-
-	    if($output ne ""){
-		$cmdstr = "$cmdstr > $output";
+	    else{
+		$input = "";
 	    }
-
-	    system($cmdstr);
+	    
+	    if(/<output>/){
+		$output = $cmd;
+		$output =~ s/.*<output>//;
+		$output =~ s/<\/output>.*//;
+	    }
+	    else{
+		$output = "";
+	    }
+	    
+	    if(/<args>/){
+		$arg = $cmd;
+		$arg =~ s/.*<args>//;
+		$arg =~ s/<\/args>.*//;
+	    }
+	    else{
+		$arg = "";
+	    }
+	    
+	    $cmd =~ s/.*<cmd>//;
+	    $cmd =~ s/<\/cmd>.*//;
+	    
+	    if($cmd ne "todo"){
+		$cmdstr = "$cmd $arg";
+		
+		if($input ne ""){
+		    if($exblock ne "postexecute"){
+			$cmdstr = "$cmdstr $input < $input";
+		    }
+		    else{
+			$cmdstr = "$cmdstr < $input";
+		    }
+		}
+		elsif($exblock eq "postexecute"){
+		    $cmdstr = "$cmdstr < $exfilename";
+		}
+		
+		
+		if($output ne ""){
+		    $cmdstr = "$cmdstr > $output";
+		}
+		
+		print $OUTPTR `$cmdstr`;
+	    }
+	    else{
+		print $OUTPTR "<figure>\n";
+		print $OUTPTR "<title>$input</title>\n";
+		print $OUTPTR "<graphic format=\"EPS\" fileref=\"todo.eps\"></graphic>\n";
+		print $OUTPTR "</figure>\n";
+	    }
+	    print $OUTPTR "$3";
 	}
 	else{
-	    print "<figure>\n";
-	    print "<title>$input</title>\n";
-	    print "<graphic format=\"EPS\" fileref=\"todo.eps\"></graphic>\n";
-	    print "</figure>\n";
+	    print $OUTPTR $_;
 	}
-	print "$3";
-    }
-    else{
-	print $_;
     }
 }
