@@ -50,8 +50,9 @@ public:
   wxView *m_view;
 
 private:
-  DECLARE_EVENT_TABLE () wxFrame *m_frame;
+  DECLARE_EVENT_TABLE () 
 
+  wxFrame *m_frame;
   vector<wxPoint> m_controlPoints;
 };
 

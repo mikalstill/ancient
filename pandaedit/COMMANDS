@@ -1,0 +1,14 @@
+PandaEdit has a variety of different tools. All of these have behaviour which is at least loosely modelled on the Adobe Illustrator behaviour I love so much. This file describes the commands which have been implemented so far.
+
+LINE TOOL
+---------
+
+When I first started using Illustrator, it took me about an hour to work out how to draw a straight line -- a seemingly simple task. It turns out to be a special case of the bezier curve tool. PandaEdit avoids all of this by implementing a line drawing tool (called 'line' in the command list). The following bevaiours are implemented:
+
+ - click with left mouse button: draw a straight line from the previous point to here. If this is the first point, then simply turn on a single pixel.
+
+ - draw with left mouse button: the same behaviour as above, but it results in the appearance of a curved "freehand" line being drawn.
+
+ - click with left mouse button with control key down: end the current line drawing session. The line tool is still the selected tool.
+
+ - select another tool: end the current line.
