@@ -726,16 +726,27 @@ void cepView::OnInterpNearest (wxCommandEvent& event)
 {
   cepInterpUi interpUi;
 
-  interpUi.showSampleRate();
+  cepDoc *theDoc = (cepDoc *) GetDocument ();
+  cepDataset *theDataset = theDoc->getDataset ();
+  const char *dirStrings[] = {"x (North)", "y (East)", "z (Up)"};
 
-  while(interpUi.getSampleRate() == -2)
+  for(int i = 0; i < cepDataset::dirUnknown; i++)
   {
-    cepError("Error. Sample rate must be a number", cepError::sevWarning).display();
-    interpUi.showSampleRate();
-  }
+    interpUi.showSampleRate(fabs(((theDataset->getMatrix((cepDataset::direction) i))->getValue(0,1) +
+                            (theDataset->getMatrix((cepDataset::direction) i))->getValue(1,1))/2.0), dirStrings[i]);
 
-  if(interpUi.getSampleRate()!= -1){
-    cout << "call Nearst Neighbour" << endl;
+    cout << "sample Rate returned is " << interpUi.getSampleRate() << endl;
+    //if operation not canceled
+    if(interpUi.getSampleRate()!= -1){
+
+      //dataset = cepInterp.doInterp(current dataset, sample rate, interptype)
+      cout << "call Nearst Neighbour" << endl;
+    }
+    else
+    {
+      //if user canceled in any direction bail out
+      break;
+    }
   }
 }
 
@@ -743,16 +754,27 @@ void cepView::OnInterpLinear (wxCommandEvent& event)
 {
   cepInterpUi interpUi;
 
-  interpUi.showSampleRate();
+  cepDoc *theDoc = (cepDoc *) GetDocument ();
+  cepDataset *theDataset = theDoc->getDataset ();
+  const char *dirStrings[] = {"x (North)", "y (East)", "z (Up)"};
 
-  while(interpUi.getSampleRate() == -2)
+  for(int i = 0; i < cepDataset::dirUnknown; i++)
   {
-    cepError("Error. Sample rate must be a number", cepError::sevWarning).display();
-    interpUi.showSampleRate();
-  }
+    interpUi.showSampleRate(fabs(((theDataset->getMatrix((cepDataset::direction) i))->getValue(0,1) +
+                            (theDataset->getMatrix((cepDataset::direction) i))->getValue(1,1))/2.0), dirStrings[i]);
 
-  if(interpUi.getSampleRate()!= -1){
-    cout << "call LInerar" << endl;
+    cout << "sample Rate returned is " << interpUi.getSampleRate() << endl;
+    //if operation not canceled
+    if(interpUi.getSampleRate()!= -1){
+
+      //dataset = cepInterp.doInterp(current dataset, sample rate, interptype)
+      cout << "call Liner Interp" << endl;
+    }
+    else
+    {
+      //if user canceled in any direction bail out
+      break;
+    }
   }
 }
 
@@ -760,49 +782,83 @@ void cepView::OnInterpNaturalSpline (wxCommandEvent& event)
 {
   cepInterpUi interpUi;
 
-  interpUi.showSampleRate();
+  cepDoc *theDoc = (cepDoc *) GetDocument ();
+  cepDataset *theDataset = theDoc->getDataset ();
+  const char *dirStrings[] = {"x (North)", "y (East)", "z (Up)"};
 
-  while(interpUi.getSampleRate() == -2)
+  for(int i = 0; i < cepDataset::dirUnknown; i++)
   {
-    cepError("Error. Sample rate must be a number", cepError::sevWarning).display();
-    interpUi.showSampleRate();
-  }
+    interpUi.showSampleRate(fabs(((theDataset->getMatrix((cepDataset::direction) i))->getValue(0,1) +
+                            (theDataset->getMatrix((cepDataset::direction) i))->getValue(1,1))/2.0), dirStrings[i]);
 
-  if(interpUi.getSampleRate()!= -1){
-    cout << "call natural spline" << endl;
+    cout << "sample Rate returned is " << interpUi.getSampleRate() << endl;
+    //if operation not canceled
+    if(interpUi.getSampleRate()!= -1){
+
+      //dataset = cepInterp.doInterp(current dataset, sample rate, interptype)
+      cout << "call Natural spline" << endl;
+    }
+    else
+    {
+      //if user canceled in any direction bail out
+      break;
+    }
   }
 }
 
 void cepView::OnInterpCubicSpline (wxCommandEvent& event)
 {
-    cepInterpUi interpUi;
+  cepInterpUi interpUi;
 
-  interpUi.showSampleRate();
+  cepDoc *theDoc = (cepDoc *) GetDocument ();
+  cepDataset *theDataset = theDoc->getDataset ();
+  const char *dirStrings[] = {"x (North)", "y (East)", "z (Up)"};
 
-  while(interpUi.getSampleRate() == -2)
+  for(int i = 0; i < cepDataset::dirUnknown; i++)
   {
-    cepError("Error. Sample rate must be a number", cepError::sevWarning).display();
-    interpUi.showSampleRate();
-  }
+    interpUi.showSampleRate(fabs(((theDataset->getMatrix((cepDataset::direction) i))->getValue(0,1) +
+                            (theDataset->getMatrix((cepDataset::direction) i))->getValue(1,1))/2.0), dirStrings[i]);
 
-  if(interpUi.getSampleRate()!= -1){
-    cout << "call cubic spline" << endl;
+    cout << "sample Rate returned is " << interpUi.getSampleRate() << endl;
+    //if operation not canceled
+    if(interpUi.getSampleRate()!= -1){
+
+      //dataset = cepInterp.doInterp(current dataset, sample rate, interptype)
+      cout << "call Cubic Spline" << endl;
+    }
+    else
+    {
+      //if user canceled in any direction bail out
+      break;
+    }
   }
 }
 
 void cepView::OnInterpDivided (wxCommandEvent& event)
 {
   cepInterpUi interpUi;
-  interpUi.showSampleRate();
 
-  while(interpUi.getSampleRate() == -2)
+  cepDoc *theDoc = (cepDoc *) GetDocument ();
+  cepDataset *theDataset = theDoc->getDataset ();
+  const char *dirStrings[] = {"x (North)", "y (East)", "z (Up)"};
+
+  for(int i = 0; i < cepDataset::dirUnknown; i++)
   {
-    cepError("Error. Sample rate must be a number", cepError::sevWarning).display();
-    interpUi.showSampleRate();
-  }
+    interpUi.showSampleRate(fabs(((theDataset->getMatrix((cepDataset::direction) i))->getValue(0,1) +
+                            (theDataset->getMatrix((cepDataset::direction) i))->getValue(1,1))/2.0), dirStrings[i]);
 
-  if(interpUi.getSampleRate()!= -1){
-    cout << "call Newton Divided differences" << endl;
+    cout << "sample Rate returned is " << interpUi.getSampleRate() << endl;
+    //if operation not canceled
+    if(interpUi.getSampleRate()!= -1){
+
+      //dataset = cepInterp.doInterp(current dataset, sample rate, interptype)
+      cout << "call Divided diffrences" << endl;
+    }
+    else
+    {
+      //if user canceled in any direction bail out
+      break;
+    }
   }
 }
 
