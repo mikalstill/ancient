@@ -22,6 +22,18 @@ Michael also has a whole bunch of code (most of which relates to imaging) at his
 </para>
 </sect1>
 
+<sect1><title>Assumed knowledge</title>
+<para>
+There are some things which I assume you know, and which are outside the scope of this tutorial.
+</para>
+
+<sect2><title>C</title>
+<para>
+This tutorial discusses code. Almost all of the code discussed is written in C. It is therefore safe to assume that if you don't have a good working knowledge of C, then you're likely to get a lot less out of this tutorial as those who do know some C. On the other hand, don't worry about the more esoteric syntax, I'll explain this as we need it.
+</para>
+</sect2>
+</sect1>
+
 <sect1><title>Credits</title>
 <para>
 There are many people who need to be thanked when one attempts a project of this size. I would specifically like to thank my wife and son, who put up with me being geeky so very often.
@@ -31,22 +43,78 @@ TODO -- picture of Andrew and Catherine
 </sect1>
 </chapter>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <chapter id="chap-concepts"><title>Imaging concepts</title>
 <para>
-...
+There are some core terms which are used throughout this tutorial. This section defines these terms -- it's probably therefore worth bookmarking this section for reference throughout the rest of the day.
 </para>
 
 <sect1><title>Rasters</title>
 <para>
-...
+     <indexterm><primary>Raster</primary></indexterm>
+     <indexterm><primary>Image format</primary><secondary>raster</secondary></indexterm>
+The most common image format (and the focus of the majority of this tutorial) is raster image formats. Raster image formats are those which store the picture as a bitmap
+     <footnote><para>You can think of a bitmap as being simply an array of pixels. We'll talk more about this later</para></footnote>
+describing the state of pixels, as opposed to recording the length and locations of primatives such as lines and curves. Common examples include the output of photoshop, the gimp, scanners and digital cameras. Effectively, your monitor and printer are raster output devices.
+</para>
+
+<para>
+Raster image formats include TIFF, GIF, PNG, and most of the other formats in this tutorial. If in doubt, assume that it's a raster format unless I tell you otherwise.
 </para>
 </sect1>
 
-<sect1><title>If it's not raster, then what is it?</title>
+<sect1><title>Non-raster</title>
 <para>
-...
+     <indexterm><primary>Non-raster</primary></indexterm>
+     <indexterm><primary>Image format</primary><secondary>non-raster</secondary></indexterm>
+Some images aren't raster images. These images are normally composed of primative drawing commands, such as draw a line, draw a circle, et cetera. The advantage of non-raster formats is that it is an exact representation of the image, they also scale much better. Examples of non-raster formats include Scalar Vector Graphics (SVG), Adobe Illustrator files, Windows Meta Files, and to a certain extent PDF documents. A plotter is a non-raster output device.
+</para>
+
+<para>
+TODO -- I don't like the term non-raster
 </para>
 </sect1>
+
+<sect1><title>Pixel</title>
+<para>
+     <indexterm><primary>Pixel</primary></indexterm>
+A pixel is the lowest unit of raster image description -- in other words, a raster image is defined in terms of pixels.
+</para>
+</sect1>
+
 
 <sect1><title>Further reading</title>
 <para>
@@ -56,19 +124,50 @@ TODO -- picture of Andrew and Catherine
 
 </chapter>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <chapter id="chap-tiff"><title>TIFF</title>
 <para>
 ...
 </para>
 
 <sect1>
-<title>Abstract</title>
+<title>Introduction</title>
 <para>
-TIFF is an extremely common, but quite complex raster image format. Libtiff is a standard implementation of the TIFF specification, which is free and works on many operating systems. This chapter discusses some of the pitfalls of TIFF, and guides the reader through use of the libtiff library. This chapter provides examples on how to use libtiff for your black and white imaging needs.
-</para>
-
-<para>
-TIFF (Tagged Image File Format) is a raster image format which was originally produced by Adobe. Raster image formats are those which store the picture as a bitmap describing the state of pixels, as opposed to recording the length and locations of primatives such as lines and curves. Libtiff is one of the standard implementations of the TIFF specification, and is in wide use today because of its speed, power and easy source availability.
+TIFF (Tagged Image File Format) is a raster image format which was originally produced by Adobe. TIFF is an extremely common, but quite complex raster image format. Libtiff is a standard implementation of the TIFF specification, which is free and works on many operating systems. This chapter discusses some of the pitfalls of TIFF, and guides the reader through use of the libtiff library. This chapter provides examples on how to use libtiff for your black and white imaging needs.
 </para>
 </sect1>
 
@@ -506,6 +605,19 @@ First published by IBM developerWorks at http://www.ibm.com/developerworks/.
 
 </chapter>
 
+<chapter id="chap-opengl"><title>OpenGL</title>
+<para>
+...
+</para>
+<sect1><title>Further reading</title>
+
+<para>
+...
+</para>
+</sect1>
+
+</chapter>
+
 <chapter id="chap-random"><title>Random important topics</title>
 <para>
 There are also a few topics which are important enough to be mentioned here, but haven't found their way into the discussions in any other place. They therefore get a chapter of their own here at the end.
@@ -513,9 +625,37 @@ There are also a few topics which are important enough to be mentioned here, but
 
 <sect1><title>Encrypting images can have unexpected effects</title>
 <para>
-DES in Electronic Code Book (ECB) mode is a particularly poor choice of cryptography for image files. This is because ECB mode implements a lookup table between the unencrypted value and the encrypted value...
+DES in Electronic Code Book (ECB) mode is a particularly poor choice of cryptography for image files. This is because ECB mode implements a lookup table between the unencrypted value and the encrypted value. This results in a known input value turning into the same output value over and over. This can have some interesting bluring effects, but wont obscure the image contents. An example will help this make more sense -- figure 1 is the logo for the company I am currently working for. I took this image, and ran it through some DES ECB code and produced figure 2.
+</para>
 
-TODO more
+<figure>
+<title>The TOWER corporate logo</title>
+<graphic format="EPS" fileref="desecb-figure1.eps"></graphic>
+</figure>
+
+<figure>
+<title>After ECB encryption</title>
+<graphic format="EPS" fileref="desecb-figure2.eps"></graphic>
+</figure>
+
+<para>
+You can see that whilst the image has certainly changed, the contents of the image has not really been obscured. TODO more
+</para>
+
+<para>
+For those who have an excessive interest in code, I encrypted the TIFF image which is the TOWER logo with the code below:
+</para>
+
+<programlisting>
+...
+</programlisting>
+
+<para>
+What about encrypting an image of text? TODO more
+</para>
+
+<para>
+We should note that ECB mode is not commonly used anyway. If you use something like PGP or blowfish, then you should be much happier... TODO check this
 </para>
 </sect1>
 
@@ -565,6 +705,14 @@ TODO more
 <chapter id="chap-conclusion"><title>Conclusion</title>
 <para>
 ...
+</para>
+</chapter>
+
+<chapter><title>TODO</title>
+<para>
+Finish conversion of article 1
+Convert article 2
+DES code cleanup
 </para>
 </chapter>
 
