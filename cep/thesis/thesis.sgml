@@ -40,4 +40,8 @@
   <execute><cmd>builddb</cmd><input>conclusion.sgml</input></execute>
 </chapter>
 
+<chapter><title>References</title>
+  <execute><cmd>builddb</cmd><input>references.sgml</input></execute>
+</chapter>  
+
 </book>
