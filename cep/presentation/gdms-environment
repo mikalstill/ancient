@@ -1,5 +1,9 @@
 TITLE: Operating environment (Mikal)
 
+<table width="100%">
+<tr>
+<td>
+<font color="000000" size=4 face="Lucida,Verdana,Helvetica,Arial">
 <li>GDMS is written to be portable
 <li>wxWindows runs on:
   <ul>
@@ -8,3 +12,17 @@ TITLE: Operating environment (Mikal)
   <li>Microsoft Windows
   </ul>
 <li>Developed and heavily tested on Linux
+
+<BR><BR>
+
+<li>Highly configurable
+<li>Code designed with future extensions in mind
+</font>
+</td>
+<td>
+<div align="right">
+<img src="/notes/presentations/content/gdms-environment.png">
+</div>
+</td>
+</tr>
+</table>

@@ -1,4 +1,28 @@
 TITLE: Fast Fourier Transforms: Applications in Data Analysis (Daniel)
 
+<table width="100%">
+<tr>
+<td>
+<font color="000000" size=4 face="Lucida,Verdana,Helvetica,Arial">
 <li>Noise detection
 <li>Frequency trends
+</td>
+<td>
+
+Time Domain:<BR>
+
+<div align=right>
+<img src="/notes/presentations/content/gdms-str1-east-td.png">
+</div>
+
+<BR><BR><BR>
+
+Frequency Domain:<BR>
+<div align=right>
+<img src="/notes/presentations/content/gdms-str1-east-fd.png">
+</div>
+
+<i>(STR1_GPS East)</i>
+</td>
+</tr>
+</table>
