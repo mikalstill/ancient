@@ -82,31 +82,31 @@ There are several compression algorithms available within libtiff. How do you se
 <tr valign="top">
 <td><b>Compression algorithm</b></td>
 <td><b>Well suited for</b></td>
+<td><b>TIFFTAG</b></td>
 </tr>
 
 <tr valign="top">
 <td>CCITT Group 4 Fax and Group 3 Fax</td>
 <td>This entry is here for completeness. If your coding for black and white images, then you're probably using the CCITT fax compression methods. These compression algorithms don't support color.</td>
+<td>COMPRESSION_CCITTFAX3, COMPRESSION_CCITTFAX4</td>
 </tr>
 
 <tr valign="top">
 <td>JPEG</td>
 <td>JPEG compression is great for large images such as photos. However, the compression is normally lossy (in that image data is thrown away as part of the compression process). This makes JPEG very poor for compressing text which needs to remain readable. The other thing to bear in mind is that the loss is accumulative -- see the sidebar for more information about this.</td>
+<td>COMPRESSION_JPEG</td>
 </tr>
 
 <tr valign="top">
 <td>LZW</td>
 <td><i>This is the compression algorithm used in GIF images. Because of the licensing requirements from Unisys, support for this compression codec has been removed from libtiff. There are patches available if you would like to add it back, but the majority of programs your code will integrate with no linger support LZW.</i></td>
+<td>COMPRESSION_LZW</td>
 </tr>
 
 <tr valign="top">
 <td>Deflate</td>
 <td>This is the gzip compression algorithm, which is also used for PNG. It is the compression algorithm I would recommend for color images.</td>
-</tr>
-
-<tr valign="top">
-<td>Content A3</td>
-<td>Content B3</td>
+<td>COMPRESSION_DEFLATE</td>
 </tr>
 </table>
 
@@ -150,8 +150,8 @@ It time to show you how to write a color image to disc. Remember that this is a 
 </p>
 
 <heading refname="write-example-simple" type="code" toc="no">Writing a color image</heading>
-#include <tiffio.h>
-#include <stdio.h>
+#include &lt;tiffio.h&gt;
+#include &lt;stdio.h&gt;
 
 int main(int argc, char *argv[]){
   TIFF *output;
@@ -174,15 +174,15 @@ int main(int argc, char *argv[]){
     exit(42);
   }
 
-// Magical stuff for creating the image
-
+  // Magical stuff for creating the image
+  // ...
 
   // Write the tiff tags to the file
   TIFFSetField(output, TIFFTAG_IMAGEWIDTH, width);
   TIFFSetField(output, TIFFTAG_IMAGELENGTH, height);
   TIFFSetField(output, TIFFTAG_COMPRESSION, COMPRESSION_DEFLATE);
   TIFFSetField(output, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
-  TIFFSetField(output, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_RGB);
+  <b>TIFFSetField(output, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_RGB);</b>
   TIFFSetField(output, TIFFTAG_BITSPERSAMPLE, 8);
   TIFFSetField(output, TIFFTAG_SAMPLESPERPIXEL, 3);
 
@@ -195,6 +195,21 @@ int main(int argc, char *argv[]){
   TIFFClose(output);
 }
 </code>
+
+<p>You can see from this code some of the things that we have discussed in theory. The image has three samples per pixel, each of eight bits. This means that the image is a 24 bit RGB image. If this was a black and white or grayscale image, then this value would be one. The tag PHOTOMETRIC_RGB says that the image data is stored within the strips themselves (as opposed to being paletted) -- more about this in a second.</p>
+
+<sidebar>
+<heading refname="" type="sidebar" toc="no">Other values for samples per pixel?</heading>
+<p>In this example, we have three samples per pixel. If this was a black and white image, or a grayscale image, then we would have one sample per pixel. There are other valid values for here as well -- for instance, sometimes people will store a transparency value for a given pixel, which is called an alpha channel. This would result in having four samples per pixel. It is possible to have an arbitary number of samples per pixel, which is good if you need to pack in extra information about a pixel. <i>Note that doing this can break image viewers which make silly assumptions -- I once had to write code for a former employer to strip out alpha channels and the like so that their PDF generator wouldn't crash.</i></p>
+</sidebar>
+
+<p>The other interesting thing to discuss here is the planar configuration of the image. Here we have specifed PLANARCONFIG_CONTIG, which means that the red green and blue information for a given pixel is grouped together in the strips of image data. The other option is PLANARCONFIG_SEPARATE, where the red samples for the image are stored together, then the blue samples, and finally the green samples.</p>
+
+
+
+
+
+
 
 
 
