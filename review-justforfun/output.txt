@@ -1,19 +1,13 @@
 
 Just for Fun: The story of an accidental revolutionary by Linus
-Torvaldsand David Diamond. Texere 2001 (ISBN 1-58799-080-6)
+Torvalds and David Diamond. Texere 2001 (ISBN 1-58799-080-6)
 
 Reviewed by Michael Still <mikal@stillhq.com>
      _________________________________________________________
 
    Reviewed by Michael Still <mikal@stillhq.com>
 
-   Did you know that there is a maximum of ten words in a
-   Google(TM) search, or that repeating a word results in
-   different search results? What about the fact that some search
-   types are antisocial, and wont work with other search types?
-   How about the fact that the order of your keywords affects the
-   results that are returned? Neither did I, and I use Google(TM)
-   nearly every day.
+   ...
 
    Just for Fun is the story of Linus' life, told with the
    assistance of a journalist. Rather conveniently, it appears
