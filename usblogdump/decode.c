@@ -113,6 +113,12 @@ void do_control_transfer(char *file, long long *inputfilep)
 		  urb_printf("\n");
 		  do_decoder = dec;
 		}
+
+	      if(do_linux == 1)
+		{
+		  // I don't think there is anything I need to do here...
+		  urbhead[urbCount].abend = 0;
+		}
 	      break;
 	      
 	    default:
