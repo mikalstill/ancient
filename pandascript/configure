@@ -454,7 +454,7 @@ echo > confdefs.h
 
 # A filename unique to this package, relative to the directory that
 # configure is in, which we can look for to find out if srcdir is correct.
-ac_unique_file=constants.h
+ac_unique_file=lexer.l
 
 # Find the source files, if location was not specified.
 if test -z "$srcdir"; then
@@ -1331,9 +1331,9 @@ else
 fi
 
 
-echo $ac_n "checking for yylex in -lfl""... $ac_c" 1>&6
-echo "configure:1336: checking for yylex in -lfl" >&5
-ac_lib_var=`echo fl'_'yylex | sed 'y%./+-%__p_%'`
+echo $ac_n "checking for yywrap in -lfl""... $ac_c" 1>&6
+echo "configure:1336: checking for yywrap in -lfl" >&5
+ac_lib_var=`echo fl'_'yywrap | sed 'y%./+-%__p_%'`
 if eval "test \"`echo '$''{'ac_cv_lib_$ac_lib_var'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -1345,10 +1345,10 @@ cat > conftest.$ac_ext <<EOF
 /* Override any gcc2 internal prototype to avoid an error.  */
 /* We use char because int might match the return type of a gcc2
     builtin and then its argument prototype would still apply.  */
-char yylex();
+char yywrap();
 
 int main() {
-yylex()
+yywrap()
 ; return 0; }
 EOF
 if { (eval echo configure:1355: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
