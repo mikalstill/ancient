@@ -311,6 +311,108 @@ mogrify -format png -sample 25%x25% *.jpg
 
 <p>All of the conversions previously defined will also work with the <b>mogrify</b> command, so if you don't mind the original images being overwritten then it's a good choice.</p>
 
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 15. Thumb nailing all the JPEGs in the current directory, with mogrify</heading>
+<code type="section">
+mogrify -format png -sample 25%x25% *.jpg
+</code>
+
+
+
+
+
+
+
+
+
+<heading refname="" type="major" toc="yes" name="" alttoc="">PDF handling</heading>
+
+<p>So far all of the examples we've discussed, both in this artile and the previous one, have discussed simple conversions where each image stands alone. ImageMagick can also do interesting conversions to more than one image at once which are worth mentioning.</p>
+
+<p>The most common example is ImageMagick's PDF handling. Let's imagine a scenario where you are sent a PDF which is a series of images (one per page). ImageMagick will extract those images for you into separate files. FOr example, here's a screenshot of a PDF document containing some pictures of my recent trip to <a href="http://conf.linux.org.au">linux.conf.au</a>, which rocked by the way:</p>
+
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 13. A sample PDF with a bunch of images</heading>
+<img src="foo-pdf-smaller.png" width="320" height="240" alt="Some images in a PDF"/>
+</figure>
+
+<p>Let's imagine that the above PDF had been sent to you by a friend. You want to extract the images for further processing.</p>
+
+<p>The <b>convert</b> can of course extract these images from the PDF document:</p>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 16. Extracting pages from a PDF document</heading>
+<code type="section">
+convert foo.pdf pages.png
+</code>
+
+<p>This will do what we want -- each page has been extracted to it's own PNG file. However, there's an unexpected naming side effect.</p>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 17. Checkout the filenames</heading>
+<code type="section">
+mikal@deathstar:~/foo$ convert foo.pdf pages.png
+mikal@deathstar:~/foo$ ls pages*
+pages.png.0  pages.png.1  pages.png.2  pages.png.3  pages.png.4
+mikal@deathstar:~/foo$ 
+</code>
+
+<p>Because the command created more than one PNG file, a unique number has been appended to the filename to make them unique. This wont work so well if you then try to use code or scripts which make assumptions about the filetype based on the extension of the file.</p>
+
+<p><b>convert</b> of course allows us to specify the filename a little better. The command above really should have looked like:</p>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 17. Extracting pages from a PDF document with better filenames</heading>
+<code type="section">
+mikal@deathstar:~/foo$ convert foo.pdf pages-%03d.png
+mikal@deathstar:~/foo$ ls pages*  
+pages-000.png  pages-001.png  pages-002.png  pages-003.png  pages-004.png
+mikal@deathstar:~/foo$ 
+</code>
+
+<p>The <i>%03d</i> is a <b>printf</b> style format specifier. All you need to know for this use is that <i>%d</i> means a decimal number, and that you can also pack in a set of leading zeros by inserting a 0&lt;number&gt; into the sequence. The number specifies the total number of digits the displayed value should consume.</p>
+
+<p>Because I've shown you really small versions of the images in the PDF, I figure I owe showing you larger versions. Adelaide is a really nice place by the way -- nearly as good as Canberra!</p>
+
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 14. A really big fig tree</heading>
+<img src="pages-000.png" width="320" height="240" alt="Some images in a PDF"/>
+</figure>
+
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 15. The Torrens river</heading>
+<img src="pages-001.png" width="320" height="240" alt="Some images in a PDF"/>
+</figure>
+
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 16. A park</heading>
+<img src="pages-002.png" width="320" height="240" alt="Some images in a PDF"/>
+</figure>
+
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 17. St Peter's Cathedral by night</heading>
+<img src="pages-003.png" width="320" height="240" alt="Some images in a PDF"/>
+</figure>
+
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 18. A very cold Tux</heading>
+<img src="pages-004.png" width="320" height="240" alt="Some images in a PDF"/>
+</figure>
+
+<p>It should be noted that you can extract PDF pages which also contain text. What is actually happening under the hood is that ImageMagick is using Ghostscript to render the page, and then converting it to your chosen image format. There's no optical character recognition though -- what you get is a bitmap.</p>
+
+<p>You can also convert image files into PDFs with <b>convert</b> as well. In fact the PDF from the example above was build with this command:</p>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 18. Building a PDF</heading>
+<code type="section">
+convert dsc* foo.pdf
+</code>
+
+<p>Just pass a list of image files to <b>convert</b>, and make sure that the last filename in the list is the name of the PDF document to put them all into.</p>
+
+
+
+
+<heading refname="" type="major" toc="yes" name="" alttoc="">Other formats which support more than one image per file</heading>
+
+<p>There are 45 other file formats which can store more than one image when used with ImageMagick, the others are: AVS, BMP, CAPTION, DCX, DIB, FAX, GIF, GRAY, HDF, ICB, JBG, JBIG, M2V, MAT, MATTE, MIFF, MNG, MPEG, MPG, MTV, P7, PBM, PDF, PGM, PNM, PPM, PS, PS2, PS3, RAS, RGB, RGBA, SGI, SUN, SVG, TEXT, TGA, TIF, TIFF, TXT, VDA, VID, VIFF, VST, and XV.</p>
+
+<p>All of these are handled in the same way that the PDF example described. Some of these are also really interesting. It's very convenient to be able to extract the pages of a postscript file as images (think about having thumbnails of your published papers on your website for instance), or being able to get to all of the pages of that multiple page fax you just received as a TIFF image.</p>
+
+<p>You can even extract frames from your MPEG movies, although that deserves more discussion than I have space for in this article.</p>
+
+
+
 </docbody>
 
 <relatedlist>

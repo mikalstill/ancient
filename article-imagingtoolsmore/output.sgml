@@ -325,4 +325,104 @@ mogrify -format png -sample 25%x25% *.jpg
 <para>All of the conversions previously defined will also work with the <command>mogrify</command> command, so if you don't mind the original images being overwritten then it's a good choice.</para>
 
 
+<programlisting>
+mogrify -format png -sample 25%x25% *.jpg
+</programlisting>
+
+
+
+
+
+
+
+
+
+</sect1>
+<sect1><title>PDF handling</title>
+
+<para>So far all of the examples we've discussed, both in this artile and the previous one, have discussed simple conversions where each image stands alone. ImageMagick can also do interesting conversions to more than one image at once which are worth mentioning.</para>
+
+<para>The most common example is ImageMagick's PDF handling. Let's imagine a scenario where you are sent a PDF which is a series of images (one per page). ImageMagick will extract those images for you into separate files. FOr example, here's a screenshot of a PDF document containing some pictures of my recent trip to linux.conf.au, which rocked by the way:</para>
+
+
+<graphic format="eps" fileref="gen-foo-pdf-smaller.eps">
+
+
+<para>Let's imagine that the above PDF had been sent to you by a friend. You want to extract the images for further processing.</para>
+
+<para>The <command>convert</command> can of course extract these images from the PDF document:</para>
+
+
+<programlisting>
+convert foo.pdf pages.png
+</programlisting>
+
+<para>This will do what we want -- each page has been extracted to it's own PNG file. However, there's an unexpected naming side effect.</para>
+
+
+<programlisting>
+mikal@deathstar:~/foo$ convert foo.pdf pages.png
+mikal@deathstar:~/foo$ ls pages*
+pages.png.0  pages.png.1  pages.png.2  pages.png.3  pages.png.4
+mikal@deathstar:~/foo$ 
+</programlisting>
+
+<para>Because the command created more than one PNG file, a unique number has been appended to the filename to make them unique. This wont work so well if you then try to use code or scripts which make assumptions about the filetype based on the extension of the file.</para>
+
+<para><command>convert</command> of course allows us to specify the filename a little better. The command above really should have looked like:</para>
+
+
+<programlisting>
+mikal@deathstar:~/foo$ convert foo.pdf pages-%03d.png
+mikal@deathstar:~/foo$ ls pages*  
+pages-000.png  pages-001.png  pages-002.png  pages-003.png  pages-004.png
+mikal@deathstar:~/foo$ 
+</programlisting>
+
+<para>The <emphasis>%03d</emphasis> is a <command>printf</command> style format specifier. All you need to know for this use is that <emphasis>%d</emphasis> means a decimal number, and that you can also pack in a set of leading zeros by inserting a 0&lt;number&gt; into the sequence. The number specifies the total number of digits the displayed value should consume.</para>
+
+<para>Because I've shown you really small versions of the images in the PDF, I figure I owe showing you larger versions. Adelaide is a really nice place by the way -- nearly as good as Canberra!</para>
+
+
+<graphic format="eps" fileref="gen-pages-000.eps">
+
+
+
+<graphic format="eps" fileref="gen-pages-001.eps">
+
+
+
+<graphic format="eps" fileref="gen-pages-002.eps">
+
+
+
+<graphic format="eps" fileref="gen-pages-003.eps">
+
+
+
+<graphic format="eps" fileref="gen-pages-004.eps">
+
+
+<para>It should be noted that you can extract PDF pages which also contain text. What is actually happening under the hood is that ImageMagick is using Ghostscript to render the page, and then converting it to your chosen image format. There's no optical character recognition though -- what you get is a bitmap.</para>
+
+<para>You can also convert image files into PDFs with <command>convert</command> as well. In fact the PDF from the example above was build with this command:</para>
+
+
+<programlisting>
+convert dsc* foo.pdf
+</programlisting>
+
+<para>Just pass a list of image files to <command>convert</command>, and make sure that the last filename in the list is the name of the PDF document to put them all into.</para>
+
+
+
+
+</sect1>
+<sect1><title>Other formats which support more than one image per file</title>
+
+<para>There are 45 other file formats which can store more than one image when used with ImageMagick, the others are: AVS, BMP, CAPTION, DCX, DIB, FAX, GIF, GRAY, HDF, ICB, JBG, JBIG, M2V, MAT, MATTE, MIFF, MNG, MPEG, MPG, MTV, P7, PBM, PDF, PGM, PNM, PPM, PS, PS2, PS3, RAS, RGB, RGBA, SGI, SUN, SVG, TEXT, TGA, TIF, TIFF, TXT, VDA, VID, VIFF, VST, and XV.</para>
+
+<para>All of these are handled in the same way that the PDF example described. Some of these are also really interesting. It's very convenient to be able to extract the pages of a postscript file as images (think about having thumbnails of your published papers on your website for instance), or being able to get to all of the pages of that multiple page fax you just received as a TIFF image.</para>
+
+
 
