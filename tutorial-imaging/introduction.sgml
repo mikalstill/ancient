@@ -102,15 +102,11 @@ This document is covered by two licenses -- the license for the text of this doc
 </para>
 
 <sect2><title>License for text (OPL)</title>
-<para>
-<execute><cmd>text2db.pl.none</cmd><input>OPL</input></execute>
-</para>
+<execute><cmd>text2db.pl</cmd><input>OPL</input></execute>
 </sect2>
 
 <sect2><title>License for source code (GPL)</title>
-<para>
 <execute><cmd>text2db.pl</cmd><input>GPL</input></execute>
-</para>
 </sect2>
 
 <sect2><title>License for the libtiff man pages</title>
