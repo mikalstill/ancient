@@ -84,7 +84,7 @@
 
   <equation>
     <title>Inverse Discrete Fourier Transform</title>
-    <alt>x(n) = 1/N * sum from n-0..N-1(X(k)*e^(j2pikn/N))</alt>
+    <alt>x(n) = 1/N * sum from n-0..N-1(X(k)e^(j2pikn/N))</alt>
     <execute><cmd>img</cmd><args>fInverse_discrete_fourier.gif</args></execute>
   </equation>
 
