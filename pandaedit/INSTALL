@@ -1,0 +1,5 @@
+You'll need to install the dependances listed in the DEPENDANCIES file, and then just type:
+
+./configure
+make
+make install
