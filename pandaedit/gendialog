@@ -1,0 +1,115 @@
+#!/usr/bin/perl
+
+# Implement a simple language for the description of dialog boxes. These are
+# then compiled into c++ source code which can be used by PandaEdit. I did
+# this because I got bored with fiddling with c++ to get the layout right...
+
+use strict;
+my($INPUT, $type, $cmd, $arg, $arg2, $arg3, $line, $x, $y, $xinset, $yinset,
+  $xspacing, $yspacing, $editcount, $temp);
+
+open INPUT, "< $ARGV[0].desc" or die "Could not open desc file\n";
+print STDERR "Generating $ARGV[0]\n";
+$ENV{'CLASSNAME'} = $ARGV[0];
+$ENV{'GENTIME'} = `date`;
+
+$editcount = 0;
+
+while(<INPUT>){
+  chomp;
+  $line = $_;
+
+  if($line =~ /^#.*/){
+    # Ignore comments
+  }
+  elsif($line =~ /^([^ \t]+)[ \t]*([^\t]*)[ \t]*([^\t]*)[ \t]*([^\t]*)/){
+    $cmd = $1;
+    $arg = $2;
+    $arg2 = $3;
+    $arg3 = $4;
+
+    if($cmd eq "BEGIN"){
+      $x = $xinset;
+      $y = $yinset;
+      }
+    elsif($cmd eq "DIALOG"){
+      $type = $cmd;
+    }
+    elsif($cmd eq "EDIT"){
+      $ENV{'SETUP'} = $ENV{'SETUP'}.
+	"config->getValue(\"$arg2\", \"$arg3\", confstr);\n".
+	  "m_edit$editcount = new wxTextCtrl (m_panel, -1, confstr.c_str(),".
+	    "wxPoint ($x, $y), wxSize ($arg, 30));\n";
+      $editcount++;
+      $x += $arg + $xspacing;
+    }
+    elsif($cmd eq "END"){
+      $ENV{'HEIGHT'} = $y + $yinset + 30;
+      if($editcount > 0){
+	$ENV{'EDITBOXES'} = "wxTextCtrl ";
+	while($editcount > 0){
+	  $ENV{'EDITBOXES'} = $ENV{'EDITBOXES'}."*m_edit$editcount, ";
+	  $editcount--;
+	}
+	$ENV{'EDITBOXES'} = $ENV{'EDITBOXES'}."*m_edit0;";
+      }
+
+      print STDERR "subst < template.$type.cpp > $ARGV[0].cpp\n";
+      system("subst < template.$type.cpp > $ARGV[0].cpp");
+      print STDERR "subst < template.$type.h > $ARGV[0].h\n";
+      system("subst < template.$type.h > $ARGV[0].h");
+    }
+    elsif($cmd eq "TEXT"){
+      # A text box (not editable)
+      $temp = $y + 5;
+      $ENV{'SETUP'} = $ENV{'SETUP'}.
+	"new wxStaticText (m_panel, -1, \"$arg2\", ".
+	  "wxPoint ($x, $temp), wxSize ($arg, 30), wxALIGN_$arg3);\n";
+      $x += $arg + $xspacing;
+    }
+    elsif($cmd eq "NEWLINE"){
+      $x = $xinset;
+      $y += $yspacing + 30;
+    }
+    elsif($cmd eq "OKCANCEL"){
+      $y += $yspacing;
+      $ENV{'SETUP'} = $ENV{'SETUP'}.
+	"m_ok = new wxButton (m_panel, wxID_OK, \"Ok\", wxPoint (60, $y));\n".
+	  "m_ok->SetDefault ();\n".
+	    "m_cancel = new wxButton (m_panel, wxID_CANCEL, \"Cancel\", wxPoint (170, $y));\n";
+      $x = $xinset;
+      $y += $yspacing;
+    }
+    elsif($cmd eq "TITLE"){
+      $ENV{'TITLE'} = $arg;
+    }
+    elsif($cmd eq "WIDTH"){
+      $ENV{'WIDTH'} = $arg;
+    }
+    elsif($cmd eq "XINSET"){
+      $xinset = $arg;
+    }
+    elsif($cmd eq "XSPACING"){
+      $xspacing = $arg;
+    }
+    elsif($cmd eq "YINSET"){
+      $yinset = $arg;
+    }
+    elsif($cmd eq "YSPACING"){
+      $yspacing = $arg;
+    }
+    else{
+      print STDERR "Unknown command $cmd\n";
+      exit 1;
+    }
+  }
+  elsif($line =~ /^[ \t]*/){
+    # Ignore empty lines
+  }
+  else{
+    print STDERR "Parse error on line: $line\n";
+  }
+}
+
+print STDERR "Finished\n";
+exit 0;

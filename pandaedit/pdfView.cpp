@@ -60,6 +60,7 @@
 #include "verbosity.h"
 #include "utility.h"
 #include "configuration.h"
+#include "dlgPageZoom.h"
 
 #include <sstream>
 #include <iostream>
@@ -78,6 +79,7 @@ IMPLEMENT_DYNAMIC_CLASS (pdfView, wxView)
   EVT_MENU (GENMENU_SAVEPAGESTREAM, pdfView::OnSavePageStream)
 
   EVT_MENU (GENMENU_NEWPAGE, pdfView::OnNewPage)
+  EVT_MENU (GENMENU_ZOOM, pdfView::OnZoom)
 
   EVT_MENU (GENMENU_NEXTPAGE, pdfView::OnNextPage)
   EVT_MENU (GENMENU_PREVPAGE, pdfView::OnPrevPage)
@@ -175,12 +177,19 @@ pdfView::OnDraw (wxDC * dc)
   unsigned int x, y;
   int cx, cy;
   ((wxFrame *) wxGetApp ().GetTopWindow ())->GetSize(&cx, &cy);
-  if((theDoc->getPageSize(m_page, x, y)) && ((max(x, max(600, cx)) != cx) || 
-					     (max(y, max(400, cy)) != cy)))
+  if(theDoc->getPageSize(m_page, x, y))
     {
-      debug(dlTrace, "Resizing window");
-      ((wxFrame *) wxGetApp ().GetTopWindow ())->SetSize(max(x, max(600, cx)), 
-							 max(y, max(400, cy)));
+      x = (unsigned int) (x * m_xscale);
+      y = (unsigned int) (y * m_yscale);
+
+      if((max(x, max(600, cx)) != cx) || 
+	 (max(y, max(400, cy)) != cy))
+	{
+	  debug(dlTrace, "Resizing window");
+	  ((wxFrame *) wxGetApp ().GetTopWindow ())->
+	    SetSize(max(x, max(600, cx)), 
+		    max(y, max(400, cy)));
+	}
     }
 
   string& filename = m_renders[m_page];
@@ -604,4 +613,10 @@ pdfView::OnSavePageStream (wxCommandEvent & event)
     
     pageFile.close();
   }
+}
+
+void
+pdfView::OnZoom(wxCommandEvent&)
+{
+  dlgPageZoom psize;
 }

@@ -1,0 +1,37 @@
+# This dialog is used for page zooming
+DIALOG
+
+# The width of the dialog -- you have to tweak this until it is right
+WIDTH		330
+
+# Left margin
+XINSET		5
+
+# Top margin
+YINSET		5
+
+# Horiztonal spacing
+XSPACING	10
+
+# Vertical spacing
+YSPACING	10
+
+#################################
+# Now for the dialog itself
+BEGIN
+
+TITLE	Page zoom
+TEXT	290	Enter a zooming factor for page display:	LEFT
+NEWLINE
+
+TEXT	50	Width						RIGHT
+EDIT	50	user-pagezoom-x					100
+TEXT	20	%						LEFT
+TEXT	50	Height						RIGHT
+EDIT	50	user-pagezoom-y					100
+TEXT	20	%						LEFT
+NEWLINE
+
+OKCANCEL
+
+END

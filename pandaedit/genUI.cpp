@@ -237,6 +237,9 @@ genApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
   file_menu->Append (GENMENU_DOCINFO, "About document...");
 
   file_menu->AppendSeparator ();
+  file_menu->Append (GENMENU_ZOOM, "Zoom...");
+
+  file_menu->AppendSeparator ();
   file_menu->Append (wxID_EXIT, "E&xit");
 
   wxMenuBar *menu_bar = new wxMenuBar;

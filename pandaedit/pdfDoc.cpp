@@ -151,8 +151,6 @@ bool
 pdfDoc::OnNewDocument ()
 {
   debug(dlTrace, "New document");
-
-  // TODO mikal: prompt for page size
   dlgPageSize psize;
   psize.getSize(m_width, m_height);
 

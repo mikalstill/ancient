@@ -63,6 +63,8 @@ public:
   void OnSavePageStream (wxCommandEvent & event);
 
   void OnNewPage (wxCommandEvent & event);
+  void OnZoom (wxCommandEvent & event);
+
   void OnNextPage (wxCommandEvent & event);
   void OnPrevPage (wxCommandEvent & event);
   void OnLineTool (wxCommandEvent & event);
