@@ -5,14 +5,19 @@
 
 <sect1><title>Tuesday 29th October</title>
 <para>
-This meeting ran from ? to ?
+This meeting ran from 2.30 to ?
 <orderedlist>
 <listitem><para>Project status</para></listitem>
+<listitem><para>Documentation</para></listitem>
+<listitem><para>Debugging</para></listitem>
+<listitem><para>Integration</para></listitem>
 </orderedlist>
 </para>
 
 <para>
-<emphasis>This was an informal meeting to discuss the state of the project.
+<emphasis>This was an informal meeting to discuss the state of the project. Of
+particular concern were issues relating to debugging, integration with the UI
+and again, documentation.
 </emphasis>
 </para>
 

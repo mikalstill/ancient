@@ -5,7 +5,7 @@
 
 <sect1><title>Tuesday 22nd October</title>
 <para>
-This meeting ran from 1800 to 1830
+This meeting ran from 18.00 to 18.30
 <orderedlist>
 <listitem><para>Project status</para></listitem>
 </orderedlist>
@@ -37,16 +37,102 @@ In attendance at the meeting
 </sect2>
 </sect1>
 
-<sect1><title>Sunday 27th October</title>
+
+<sect1><title>Wednesday 23rd October</title>
 <para>
-This meeting ran from 14.00 to 
+This meeting ran from 17.00 to 17.30
 <orderedlist>
-<listitem><para>Project status</para></listitem>
+<listitem><para>Project Status</para></listitem>
+<listitem><para>Documentation</para></listitem>
+<listitem><para>Product Features</para></listitem>
+
 </orderedlist>
 </para>
 
 <para>
-<emphasis>This was an informal meeting to discuss the state of the project.
+<emphasis>This was an informal, impromtu meeting to discuss the state of the project, in
+particular, the status of the project documentation. Concerns were discussed about whether or not automatically generated
+documentation using Docbook and Docbooktools would be considered suitable by those evaluating
+the project. Also discussed was the tendency for features to just appear; both through discoveries during coding, and expressed needs and
+desires from Prof. Peter Morgan and other interested parties.
+</emphasis>
+</para>
+
+<para>
+In attendance at the meeting
+<orderedlist>
+<listitem><para>Daniel</para></listitem>
+<listitem><para>Michael</para></listitem>
+<listitem><para>Kristy</para></listitem>
+</orderedlist>
+</para>
+
+<sect2><title>Action items</title>
+
+<para>
+The following action items were identified:
+<orderedlist>
+<listitem><para>Efforts would be made to have a complete, demonstratable product to show Prof.
+Peter Morgan upon his return from overseas in early November. This would allow changes to be
+made if Peter thought it necessary. This would also provide the potential for minor additional
+features to be added if they were deemed to be absolutely necessary. Finally, having the project
+essentailly completed at this time would allow significant focus on the documentation.</para></listitem>
+<listitem><para>It was agreed that Daniel move his attention towards project documentation.</para></listitem>
+</orderedlist>
+</para>
+
+</sect2>
+</sect1>
+
+<sect1><title>Thursday 24th October</title>
+<para>
+This meeting ran from 17.30 to 16.30
+<orderedlist>
+<listitem><para>Project status</para></listitem>
+<listitem><para>PPresentation Abstract</para></listitem>
+</orderedlist>
+</para>
+
+<para>
+<emphasis>This was an informal meeting to discuss the state of the project, and to continue the email discuss of the
+abstract for the presentation.
+</emphasis>
+</para>
+
+<para>
+In attendance at the meeting
+<orderedlist>
+<listitem><para>Daniel</para></listitem>
+<listitem><para>Kristy</para></listitem>
+<listitem><para>Nick</para></listitem>
+<listitem><para>Blake</para></listitem>
+</orderedlist>
+</para>
+
+<sect2><title>Action items</title>
+
+<para>
+<orderedlist>
+<listitem><para>No action items were identified.</para></listitem>
+</orderedlist>
+</para>
+
+</sect2>
+</sect1>
+
+
+<sect1><title>Sunday 27th October</title>
+<para>
+This meeting ran from 14.00 to 15.00 
+<orderedlist>
+<listitem><para>Project status</para></listitem>
+<listitem><para>Documentation</para></listitem>
+</orderedlist>
+</para>
+
+<para>
+<emphasis>This was an informal meeting to discuss the state of the project. The main topic of discussion was the
+documentation. The issue relating to the acceptance of docbook was of a particular concern.
 </emphasis>
 </para>
 
@@ -64,8 +150,10 @@ In attendance at the meeting
 <sect2><title>Action items</title>
 
 <para>
+The following action items were identified.
 <orderedlist>
-<listitem><para>No action items were identified.</para></listitem>
+<listitem><para>Documentation to continue despite the docbook unceratinty</para></listitem>
+<listitem><para>The docbook issue to be resolved as soon as Assoc. Prof. Peter Morgan returns to Australia.</para></listitem>
 </orderedlist>
 </para>
 
