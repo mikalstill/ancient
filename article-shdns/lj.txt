@@ -118,8 +118,8 @@ You'll recall that a couple of examples ago I showed you the code for a simple <
 
 [Please insert the code file named ~mikal/opensource/shdns/sockets/connexec.c here]
 
-inetd and xinetd patches
-------------------------
+inetd and xinetd configuration
+------------------------------
 
 The two standard inetd implementations that most people use are called <b>inetd</b> and <b>xinetd</b>. <b>inetd</b> doesn't implement a connected socket for the server before starting it, which means that it is effectively impossible to write a standard shell script which processes UDP network traffic using a stock <b>inetd</b>. <b>xinetd</b> however does connect the socket before calling the script. 
 

@@ -581,7 +581,7 @@ main (int argc, char *argv[])
 <para><emphasis>Code: connexec.c</emphasis></para>
 </sect2>
 
-<sect2><title>inetd and xinetd patches</title>
+<sect2><title>inetd and xinetd configuration</title>
 <para>
 The two standard inetd implementations that most people use are called <command>inetd</command> and <command>xinetd</command>. <command>inetd</command> doesn't implement a connected socket for the server before starting it, which means that it is effectively impossible to write a standard shell script which processes UDP network traffic using a stock <command>inetd</command>. <command>xinetd</command> however does connect the socket before calling the script.
 </para>
