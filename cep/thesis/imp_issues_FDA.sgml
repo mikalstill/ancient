@@ -3,72 +3,76 @@
 <sect2><title>Frequency Domain Analysis</title>
 
   <sect3><title>Introduction</title>
-    <para>
-    Being a common data analysis tool, there are a number of FFT libraries available in various languages. We therefore decided that it
-    may be more efficient to use a third party library for a number of reasons; The first, is given that there are a lot available, we
-    assumed that we find at least one which was efficient and correct. Another consideration affecting this decision is the format of the FFT
-    routine. I.e. whether it is a stand alone library , a simple class or a template class.
+    <para> 
+    Being a common data analysis tool, there are a number of FFT libraries available in various languages. We therefore decided 
+    that it may be more efficient to use a third party library for a number of reasons and given that there were many
+    available, we assumed that at least one package could be found that would meet our requirements. Some considerations
+    affecting our choice of FFT packages is the format of the FFT routine, the language they were written in and whether 
+    it was a stand alone library, or simple class or a template class.
     </para>
   </sect3> <!--Introduction-->
 
   <sect3><title>Research</title>
     <para>
-       The first library found in our research was the Fastest Fourier Transform in the West (FFTW) library from MIT. This library is
-       widely referenced and documented, and further more, is reputed to be the most efficient FFT library in existence. The FFTW library
-       is written in C, so more time was spend research other available libraries in an attempt to maintain C++ consistency through the
-       project. Another point here, is the FFTW is quite large, and with the number of Dependant libraries for <command>GDMS</command> increasing, this needed
-       to be taken into consideration.
+       The first library found in our research was the Fastest Fourier Transform in the West (FFTW) library from MIT. This 
+       library is widely referenced and documented, and is reputed to be the most efficient FFT library in existence. The FFTW 
+       library, however, was written in C, and was therefore discarded an attempt to maintain C++ consistency through the
+       project. In addition, is the FFTW is quite large, and with the number of Dependant libraries for <command>GDMS</command> 
+       increasing, it was determined that it was preferable to find a smaller library.
      </para>
 
      <para>
-      Another candidate that was discovered after testing had already commenced with the FFTW library. This was a complex template
-       class to compute FFTs written in C++ (Arndt, 2002). This was considered as suitable choice as it was simple compared to FFTW, and also suited our
-       loose object oriented design. A further benefit of using this template class is that FFT objects are not restricted by type.
-       They can be of type <command>complex</command> or <command>double</command>. This does give some flexibility in terms of the
-       the class returns. We might desire simple <command>double</command> values for PSD plotting, <command>complex</command> or perhaps
-       complex values for further processing post FFT. The FFT class provides also of course, the ability to perform inverse FFTs on
-       a given set of data. As far as the issue with speed is concerned, there was no evidence found during
-       the testing of the complex template FFT class to suggest that it would be too slow compared to FFTW. We therefore decided to integrate it into the project.
+      Another candidate that was discovered after testing had already commenced with the FFTW library. This was a complex 
+      template class to compute a FFT written in C++ (Arndt, 2002). This was considered as suitable choice as it was less complex 
+      than FFTW, and also suited our loose object oriented design. A further benefit of using this implementation of a 
+      FFT was due to the fact that it was a Template Class object was not restricted by type. This gave us greater flexibility in
+      the type of data that could be FFT and what format the data would be returned in. For example, we might desire simple 
+      <command>double</command>  values for PSD plotting, or perhaps <command>complex</command> values for further processing 
+      after the FFT had been preformed. The FFT class also provides, the ability to perform inverse FFTs on a given set of data. 
+      As far as the issue with speed was concerned, there was no evidence found during the testing of the complex template FFT 
+      class to suggest that it would be much slower than FFTW. We therefore decided to integrate this implementation into the 
+      project.
     </para>
 
   </sect3> <!--research-->
 
   <sect3><title>Implementation</title>
      <para>
-       The FFT class could not be integrated without modifications. Firstly there was an issue with the sign of the Fourier transform. This
-       refers to the FFT theory of this document where the standard Fourier formulae were discussed. The original template class operates
-       contrary to this standard, providing incorrect results and therefore needed to be changed. This problem was overlooked in the initial
-       algorithm selection process and appeared only later in the unit testing. Further information specific to testing can be found in the
-       Testing chapter later in this document.
+       The FFT class could not be integrated without modifications. Firstly, there was an issue with the sign of the Fourier 
+       transform. This refers to the FFT theory of this document where the standard Fourier formulae were discussed (SEE FD THEORY). 
+       The original template class operates contrary to this standard and it appeared to calculate incorrect results. This problem 
+       was overlooked in the initial algorithm selection process and appeared only later in the unit testing. Further information 
+       specific to testing can be found in the Testing chapter later in this document. (TODO: YOU NEED TO EXPAND A BIT MORE HERE
+       WASN'T IT BECAUSE THE FFT LIBRARY CALCULATED THE INVERSE OF WHAT YOU EXPECTED??)
     </para>
 
     <para>
-      Another problem to contend with was the way in which the original template class deals with data structures. Firstly, the class computes FFTs on an array of data. <command>GDMS</command> uses matrices
-      to pass data from class to class. This was in fact the first change made to the class. It needed to be modified to accept a matrix as
-      opposed to an array. With the matrix in hand. cepCfft.h populates an array with the matrix values and then populates a matrix with the FFT
-      results. From the FFT results, the magnitudes are created and placed into the matrix to be returned to the function caller. Also
-      calculated is frequency scale. A PSD plot makes little sense without some indication of the frequencies. TODO: yuk. The scale is
+      Another problem integration problem occurred because of the way in which the original template class deals with data 
+      structures. Firstly, the class computes FFTs on and returns an array of data, where as <command>GDMS</command> uses matrices
+      to pass data from class to class and thus it needed to be modified to accept this data type. Another change that was required
+      was that the FFT library needed to modified to calculate a frequency scale in order to enable PSD plots to be graphed. 
+      (TODO: EXPLAIN A BIT BETTER HOW THIS WAS DONE)
+      TODO: yuk. The scale is
       calculated based on the dates provided in the input matrix. The period used for the calculation is one day.
     </para>
-
     <para>
        TODO: - Speed/ Optimisations. Maybe talk about how the original template class is written in terms of efficient code??
+       (TODO:- YOU PROLLY DON'T NEED THIS AT ALL SEENING AS WE GOT THIS FROM SOMEWHERE ELSE)
     </para>
   </sect3> <!--Implementation-->
 
   <sect3><title>Future Enhancements</title>
    <para>
-     In the frequency domain analysis, the <command>GDMS</command> package currently only carries out PSD plotting and inverse IFFTs. Additional 
-     functionality such as the FFT class returning the FFT data is a reasonably trivial task to complete. Its omission from the final
-     specifications was solely down to time constraints. The FFT class already supports this, remembering that the FFT data
-     is complex before the magnitude is calculated and returned as a <command>double</command>.
-   </para>
-
-   <para>
-    A further enhancement to the frequency domain analysis of the <command>GDMS</command>, would be to allow the removal of points from the frequency
-    domain, and then returning to the time domain. This technique is effectively noise removal. If there are certain anomalies
-    that seem to be occurring at certain frequencies, the data set with these frequencies removed may well provided answers to the
-    which might ordinarily be unavailable. 
+     In the frequency domain analysis, the <command>GDMS</command> package currently only carries out PSD plotting and inverse 
+     IFFTs. Additional  functionality such as the FFT class returning the FFT data is a reasonably trivial task to complete (TODO: THIS 
+     DOSEN'T MAKE ANY SENSE DO YOU MEAN COMPLEX DATA SO THAT IT CAN BE IFFT LATER?). 
+     Its omission from the final specifications was solely due to time constraints. This functionality is already supported within
+     the FFT framework, so adding this in future releases should be trivial. A further enhancement to the frequency domain 
+     analysis of the <command>GDMS</command>, would be to allow the removal of erroneous data in the frequency domain, and then
+     allowing the user to transform the data back into the time domain via an Inverse FFT. This would be an extremely useful function,
+     as certain erroneous data, such as signal noise are not easily detected or removed in the time domain and this is much easier
+     to carry out in the frequency domain. By allowing the transform of the remaining data back into the time domain, the effects of
+     removing the erroneous signals can be determined.  
    </para>
   </sect3> <!--Future Enahncements-->
 

@@ -1,76 +1,96 @@
-<sect1><title>Background</title>
+<sect1><title>Introduction</title>
 
 <para>
-Time series analysis is by no means a new concept. Texts on this topic were printed as early as 1924. It was
- when the digital computer appeared that the momentum of this field increased dramatically. The FORTRAN programming
+Time series analysis of discrete signals is not a new concept. Texts on this topic were printed as early as 1924. It was
+not, however, until  the digital computer appeared that the momentum of this field increased dramatically. The FORTRAN programming
 language enabled complex mathematics to be written on a computer. Many routines and texts appeared around
-this time, with the focus applications being those in the areas of oil and space exploration. Further significant texts emerged from
+this time, with the focus applications being in the areas of oil and space exploration. Further significant texts emerged from
 Australia in the sixties and seventies on Fourier analysis of time series and its applications.
 </para>
 
 <para>
 Published works such as Numerical Recipes emerged, firstly in FORTRAN, then C and C++. This is accepted as
 the standard reference today for Numerical Analysis algorithms, covering least squares analysis, interpolation,
-statistics and frequency analysis techniques. TSVIEW is a more recent example of a computerised
-package dealing time series analysis, developed at the Massachusetts Institute of Technology (MIT). It is a front end to MATLAB providing time series analysis in the time
-domain. It provides an intuitive, interactive graphical user interface to allow the analysis of the loaded data.
+statistics and frequency analysis techniques. Time Series View (TSVIEW) is a more recent example of a computerised
+package dealing time series analysis, developed at the Massachusetts Institute of Technology (MIT). It is a front end to MATLAB 
+providing time series analysis in the time domain. TSVIEW also provides an intuitive, interactive graphical user interface thereby
+allowing the easy analysis of a given data set.
 </para>
 
 <para>
 MIT is an institution with significant influence in the area of time
 series analysis. It is also home to the GAMIT/GLOBK suite of programs for the analysis
-of GPS, VLBI and SLR data. It is worthwhile to take a brief look at the functionality of this suite, 
-paying particular attention to the CVIEW module. Its features include the following:
+of Global Positioning System (GPS), Very Long Baseline Interferometry (VLBI) and Satellite Laser Ranging (SLR) data. 
+It is worthwhile to take a brief look at the functionality of this suite, paying particular attention to the CVIEW module. 
+Its features include the following:
 
 <orderedlist>
 <listitem><para>Selecting or spanning a region of points for closer inspection (i.e. zooming).</para></listitem>
-<listitem><para>The ability to display with various symbol data that is used in the solution. This also involves data that does not
-correctly fit a particular model and is therefore weighted out of the solution.</para></listitem>
-<listitem><para>The ability to weight and unweight points.</para></listitem>
+<listitem><para>The ability to display with various symbol, data that is used in the solution. This also involves data that 
+does not correctly fit a particular model and is therefore weighted out of the solution.</para></listitem>
+<listitem><para>The ability to weight and un-weight points.</para></listitem>
 <listitem><para>The ability to changes the value of any number of points.</para></listitem>
 <listitem><para>Allows the displacement of elementary statistics and regression coefficients.</para></listitem>
 <listitem><para>The testing of different processing strategies.</para></listitem>
-<listitem><para>A variable number of display windows open from1 to 10.</para></listitem>
+<listitem><para>A variable number of display windows open from one to 10.</para></listitem>
 <listitem><para>Quick and flexible use of file pointers.</para></listitem>
 </orderedlist>
 
 </para>
 
 <para>
-  The <command>GDMS</command> package aims to provide as many of the above features as possible and more. The data set from the various
-  sources are extensive, covering in the order of ten years of measurements from stations around the globe. The
-  GPS, VLBI, and SLR data are susceptible to various conditions, potentially affecting the validity of the data. 
+  The geodetic data sets used in this analysis are extensive, covering in the order of ten years of measurements from stations 
+  around the globe. The GPS, VLBI, and SLR data are susceptible to various conditions, potentially affecting the validity of the data. 
   Some of these conditions include:-
    <itemizedlist>
      <listitem><para>Ionospheric delay.</para></listitem>
      <listitem><para>Temperature fluctuations.</para></listitem>
      <listitem><para>Other considerations including projected satellite orbits.</para></listitem>
    </itemizedlist>
-  With the ability to model certain situations, taking into consideration factors such as those above, conclusions can be drawn regarding,
-  among other things, tectonic plate movement, the level of continental drift and ocean levels.
+  With the ability to model certain situations, taking into consideration factors such as those above, conclusions can be drawn 
+  regarding, amongst other things, tectonic plate movement, the level of continental drift and weather conditions.  
+  
 </para>
 
 <para>
-  Before the data can be interpreted, it must be processed. This involves shaping it into a format which can be
-  readily understood. Information from data is general more readily extracted from graphical
-  forms, enabling for example, trends in the data to be seen. The next step is to be able to take into consideration various
-  circumstances that may arise during monitoring. There may be changes in equipment, malfunctions, bad weather, or as many cases,
-  noise in the data. This leads to the need for the removal of noise. In other words, the ability to remove erroneous data points from a given data set.
-   In order to extract the relevant information from the data, we need to perform various transformations on the data.
-  Some useful techniques commonly used in this process are; Least Squares regression, Fast Fourier
-  Transforms (FFT), Gabor transforms (specgrams), Guassian filters, and Power Spectral Density plots (PSD).
+  
+  Whilst both TSVIEW and CVIEW are useful tool for analysis of this type of data, the are not without their short comings. MATLAB
+  is expensive to purchase, and this has prohibited some institutions from being able to use TSVIEW in this type of analysis
+  which requires this program to run. In addition, TSVIEW uses the MATLAB algorithms to calculate its data transformations and whilst
+  this guarantees that all mathematical functionality has been rigorously tested and validated, these routines are not specifically
+  optimised for the analysis of geodetic data. Similarly, the CVIEW package is not without its problems. Although it is faster than
+  TSVIEW in calculating a solution this package has grown as a set of individual modules that have been added over time, and the whole
+  system is preserved inside X Windows wrappers. This has had the effect of making the package itself almost possible to maintain in
+  recent times. CVIEW also suffers from the problem that its user interface is dated and is not considered particularly user
+  friendly. This has meant that there is a steep leaning curve required for any user that may wish to use this product. One of the
+  most important limitations of both these packages is, however, that they both lack any support for frequency domain analysis which
+  is imperative for the analysis of this type of data.
+</para> 
+
+<para>
+  Consequently, the final year project developed by Daniel Fernandez, Michael Still, Blake Swadling, Kristy Van Der Vlist and Nick
+  Wheatstone know as The Geodetic Data Modelling System (<command>GDMS</command>) was created for the specific purpose of remedying
+  the short falls of the existing geodetic data analysis applications. This system aims to provide and expand upon the features
+  included in both TSVIEW and CVIEW. The GDMS  provides time domain analysis in the form of Linear Least Squares Regression
+  modelling. In addition, several interpolation and Gaussian filter (windowing) algorithms have been
+  implemented, thereby allowing the data to be transformed into the frequency domain for analysis with such tools as Fast Fourier
+  Transforms (FFT) and Power Spectral Density Plots (PSD). By allowing analysis in both the time and frequency domains the GDMS
+  give the user greater flexibility in determine the general data trend as well as detect and remove any erroneous data points that 
+  may appear in the given data set. It also provides an intuitive user interface capable of, amongst other things graphing, 
+  spanning and multiple display windows.
 </para>
 
 <para>
   This thesis aims to provide a comprehensive insight in the theory behind the processing techniques
-  that have been employed in the <command>GDMS</command>. Where appropriate alternative theories and algorithms are presented and compared.
-  The design methodology used in the implementation is discussed, along with the implementation of the prototype, and the specific algorithms and why they were chosen. 
-  Issues that arose throughout this process are also discussed where relevant. These range from design changes during the project, to
-  difficulties with various algorithms. In each section, we examine the potential improvements and enhancements that could be made to the
+  that have been employed in the <command>GDMS</command>. Where appropriate alternative theories and algorithms are presented and 
+  compared. The design methodology used in the implementation is discussed, along with the the prototype, and 
+  each specific algorithms with reasons for why they were chosen. Issues that arose throughout this process are also highlighted,
+  range from design changes during the project, to difficulties with the implementation of various algorithms. 
+  In each section, we examine the potential improvements and enhancements that could be made to the
   various modules. A background on the testing approach is provided. As projects increase in size, standardised testing 
-  procedures becomes paramount. Here we detail the approach used for the testing of the various modules of the project. The thesis closes 
-  by providing among other things, what we believe to be a measure of the success of the project, both in terms of the project itself and also
-  in terms of our enhanced knowledge and experience as a direct result of the project. 
+  procedures becomes paramount. Here we detail the approach used for the testing of the various modules of the project. The thesis 
+  closes by providing among other things, what we believe to be a measure of the success of the project, both in terms of the 
+  project itself and also in terms of our enhanced knowledge and experience as a direct result of the project. 
 </para>
 
 </sect1> <!--backgorund-->

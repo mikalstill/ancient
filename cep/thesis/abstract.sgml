@@ -1,18 +1,17 @@
 <abstract><title>Abstract</title>
 <para>
 
-This thesis discusses the theory and implementation of the <command>GDMS</command>, a software time series analysis tool box.
-The year long project carried out by the authors, involved first prototyping a system in MATLAB, before implementing a full
-version in ANSI ISO C++. A brief background on the past and current state of play in the area of time series analysis, giving
-an indication of where the <command>GDMS</command> fits in. The thesis is divided into four main chapters. The first provides
-a comprehensive look at the theory behind all process employed in the system. These include time domain and frequency domain
-analysis, along with interpolation, windowing and of course the user interface. For the time domain analysis, these sections
- further divide, into areas such as linear least squares regression, weighting matrices and random walk. We then move to
- interpolation where discussion include linear interpolation, divided differences and cubic splines. The next logical step in
- the process takes us through windowing in its various forms, such as Hamming, Hanning, Chebychev and more. The frequency
- domain analysis details the theory for fast Fourier transforms and power spectral density plots.  The second chapter
- discusses the implementation of the prototype and the full system. In addition, issues which arose are examined here, along with discussions on how the
-algorithms and the system as a whole can be improved. The final chapter concludes the project by looking back on the project
-in terms of both its measure of success, and what we, the project team have taken away from the process.
+This thesis discusses the theory and implementation of the Geodetic Data Modelling System (<command>GDMS</command>), a software 
+time series analysis application designed specifically for the analysis of Global Positioning Satellite (GPS), Very Long Baseline
+Interferometry (VLBI) and Satellite Laser Ranging (SLR) data. The year long project carried out by the authors, involved first 
+prototyping a system in MATLAB, before implementing a full version in ANSI ISO C++. This thesis starts with a brief discussion on 
+the history of time series analysis, and an introduction to the <command>GDMS</command>. It is then divided into five main chapters,
+the first providing a comprehensive look at the theory behind all process employed in the system. These include time domain and 
+frequency domain analysis, along with interpolation, windowing and the user interface. The second chapter
+discusses design methodology,  the implementation of the prototype and of the <command>GDMS</command> itself. In addition, issues 
+which arose are examined, along with discussions future enhancements that could be made to this system. The third chapter 
+discusses the testing methodology, which is an integral part of any systems software design and the fifth chapter discusses the
+documentation process. The final chapter concludes the  project by looking back on it both in terms of its measure of success, 
+and how we, the project team, have enhanced our knowledge.
 </para>
 </abstract>

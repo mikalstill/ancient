@@ -3,14 +3,11 @@
 <sect2><title>Introduction</title>
 
 <para>
-  Fourier transforms enable us to view the frequency representation of data that exists in the time domain. In visual terms, the
-  result is frequency on the horizontal axis with amplitude on the vertical axis. From such a graph, we can see details of what is happening in
-  the data at particular frequencies. This provides for opportunities such as the removal of erroneous frequencies in the given data set
-  and noise reduction. Whilst in the frequency domain, we can also produce Power Spectral Density (PSD) plots. The specifics of this are
-  discussed later. Once the desired actions have been carried out in the frequency domain, an inverse transform can be applied to
-  return the data to the time domain. Here we can see whether or not changes in the frequency domain were in fact beneficial. The remainder
-  of the section looks at the theory behind the Fourier transform and its variants, along with some restrictions imposed by them.
-
+  Fourier transforms enable us to view the frequency representation of data that exists in the time domain. This provides 
+  a means of removing erroneous frequencies in the given data set and noise reduction. Whilst in the frequency domain, 
+  we can also produce Power Spectral Density (PSD) plots. Once erroneous data has been removed in the frequency domain, 
+  an inverse transform can be applied to return the data to the time domain. Here we ascertain the the effects of removing such data
+  had on the original system. 
 
 </para>
 
@@ -21,40 +18,28 @@
 <sect2><title>Theory</title>
 
 <para>
-  The concepts of frequency domain analysis should commence with the Fourier transform. Any waveform can be constructed purely from sine
-  and cosine waves. An example of this is a pure square wave. It can be constructed using only the odd harmonics of a sin wave as
-  follows:
+  The concepts of frequency domain analysis should commence with the Fourier transform. Any waveform can be constructed purely 
+  from a set of sine and cosine waves. An example of this is a pure square wave, which can be constructed using only the odd 
+  harmonics of a sin wave as follows:
+  
   <equation>
     <title>Square Wave</title>
     <alt>x(n) = sin(f) + 1/3*sin(3f) + 1/5*(sin5f)</alt>
     <execute><cmd>img</cmd><args>fSquareWave.gif</args></execute>
   </equation>
-	...for all odd harmonics. Where f is the fundamental frequency.
-</para>
-
-<para>
-  So given that waveforms can be constructed using sin and cosine waves, it stands to reason that any waveform can be broken down into
-  to these sine and cosine components. The
-  Fourier transform is such a tool to carry out this analysis. The Fourier transform effectively analysis a given input signal, by
-  decomposing it into those sinusoids of different frequencies, that sum the original signal. The restriction with the basic Fourier
-  transform however, is that it is not reliable for signal sampled at discrete time intervals. In other words, it works best with continuous
-  signals (Lepple 2000).
-</para>
-
-<para>
-  The resulting function from a Fourier transform is function of frequency. This can be expressed in terms of frequency, f, or angular
-  frequency, &ohgr;. The Fourier transform of a signal x(n) is:
-
-  X(&ohgr;) = &Sgr;x(n)e<superscript>j&ohgr;</superscript>
+	
+  for all odd harmonics. Where <command>f</command> is the fundamental frequency.
+  In addition, just as any signal can be modelled by a set of sine and cosine waves the converse is also true and any signal can be
+  decomposed into a set of sine and cosine waves. This is achieved by using the Fourier Transform, which preforms this signal 
+  decomposition and transforms it into the frequency domain. The Fourier Transform is calculated as
 
   <equation>
     <title>Fourier Transform (Rabiner and Schafer, 1978)</title>
     <execute><cmd>img</cmd><args>fForward_fourier.gif</args></execute>
   </equation>
-</para>
-
-<para>
-  We can also computer the inverse Fourier transform, returning us a function of time:
+  
+  where <command>&egr;<superscript>j&ohgr;</superscript></command> is equal to <command>&ohgr;</command> or the angular frequency.
+  We can also computer the inverse Fourier transform, returning us a function of time
 
   <equation>
     <title>Inverse Fourier Transform (Rabiner and Schafer, 1978)</title>
@@ -62,49 +47,62 @@
   </equation>
 </para>
 
-<para>
-  The above transforms, are not however, available for all sequences x(n). This is where the Discrete Fourier transform (DFT) comes in,
-  enabling the transformation if a discrete signal. It restricts the sequence x(n) to the following conditions:
+<para>  
+  The above transforms are not, however, available for all sequences <command>x</command>(<command>n</command>). This is due to the
+  fact that the basic Fourier transform is not reliable for signal sampled at discrete time 
+  interval as it is designed for use with with continuous signals (Lepple 2000). In addition, this set of equations is not guaranteed
+  to converge for all  <command>x</command>(<command>n</command>). To remedy this, the Discrete Fourier transform (DFT), is often
+  used thus enabling the transformation of a discrete signal and guaranteeing convergence. This is achieved restricting the 
+  sequence <command>x</command>(<command>n</command>) to the following conditions:
 </para>
+
 <itemizedlist>
-<listitem><para> The N values x(0)..x(N-1).</para></listitem>
+<listitem><para> The <command>N</command> values <command>x</command>(0)..<command>x</command>(<command>N</command>-1).</para></listitem>
 <listitem><para> Equidistant values around the unit circle.</para></listitem>
 </itemizedlist>
 
 <para>
- The formula for the DFT is:
+ The formula for the DFT is
 
   <equation>
     <title>Forward Discrete Fourier Transform (Rabiner and Schafer, 1978)</title>
     <execute><cmd>img</cmd><args>fForward_discrete_fourier.gif</args></execute>
   </equation>
 
-  and the inverse DFT:
+  and the inverse DFT is given by
 </para>
   <equation>
     <title>Inverse Discrete Fourier Transform (Rabiner and Schafer, 1978)</title>
     <execute><cmd>img</cmd><args>fInverse_discrete_fourier.gif</args></execute>
   </equation>
 <para>
-  The discrete frequency k above is given by f(k) = k*fs/N where fs is the sampling frequency of the signal.
+  The discrete frequency <command>k</command> above is given by 
+  <command>f</command>(<command>k</command>) =
+  <command>k</command>*<command>f<subscript>s</subscript></command>/<command>N</command> 
+  where <command>f<subscript>s</subscript></command> is the sampling frequency of the signal.
 </para>
 
 <para>
-  The problem with the DFT is that it is slow, with O(N<superscript>2</superscript>). This brought about the Fast Fourier transform.
-  The Fast Fourier transform takes into account that the DFT wastes a good deal of time with unnecessary multiplications. For example,
-  there is no need to multiply something by zero, when the zero can be used outright. Given that multiplication is one of the slower
-  instructions on computers, this is a time saver. Another area where the FFT screams efficiency, is that it takes into account the fact
-  that value repeat in sinusoids. For example, every 90 degrees, the value 1 reappears on a sine or cosine changing only its sine. Therefore
-  many results may determined by taking into account these factors. Through this increased efficiency, the FFT reduces the computation
-  time to O(NlogN).
+  The problem with the DFT is that it is computationally expensive, with O(<command>N<superscript>2</superscript></command>). 
+  In recognition of this limitation the Fast Fourier Transform (FFT) was developed.
+  This function takes into account the fact that in calculating a DFT much time is wasted with unnecessary multiplications. 
+  For example, it is unnecessary to multiply any number by zero, as the answer will always be zero. 
+  Given that multiplication is one of the slowest operations on most types of computers, reducing number that need to be calculated
+  will shorten the time taken to calculate a solution. 
+  The FFT also decreases the computational load of a DFT by taking into account the fact that a sinusoid is
+  periodic, and its values are mirrored around the x-axis at <command>T</command>/2. For example, every 90 degrees, the value 
+  one reappears in a sine or cosine signal, changing only its sign. Many results, therefore, may determined by taking into account 
+  these factors. Through this increased efficiency, the FFT reduces the computation time to
+  O(<command>N</command>log<command>N</command>).
 </para>
 
 <para>
-  The power spectrum is very useful in signal processing. It is the most common frequency measurement, allowing you to find how much energy
-  exists at a given frequency. Derived from the power spectrum is the power spectral density (PSD) measurement. A PSD plot provides
-  information on how much energy exists in a band of frequencies. This technique is particularly useful for measuring the noise content
-  in a signal. A PSD plot is created by plotting the magnitude of the real and imaginary components of the FFT results. A good
-  illustration of this concept is that of a sine wave with its corresponding PSD plot.
+  The power spectrum is very useful in signal processing. It is the most common frequency measurement, allowing you to determine the
+  amount of energy that exists at a given frequency. Derived from the power spectrum is the power spectral density (PSD) 
+  measurement. A PSD plot provides information on the magnitude of energy that exists in a given band of frequencies. 
+  This technique is particularly useful for measuring the noise content in a signal. A PSD plot is created by plotting the 
+  magnitude of the real and imaginary components of the FFT results. A good illustration of this concept is that of a 
+  sine wave with its corresponding PSD plot.
 
   <figure><title>50 kHz sin wave</title>
       <execute><cmd>img</cmd><args>50HzSin.bmp</args></execute>
@@ -114,7 +112,7 @@
       <execute><cmd>img</cmd><args>fft50HzSin.bmp</args></execute>
   </figure>
 
-  In the above figures, we see the purse sin wave with a frequency of 50Hz. This is confirmed in the PSD plot, where we see
+  In the above figures, we see a pure sin wave with a frequency of 50Hz. This is confirmed in the PSD plot, where we see
   that sin wave has energy only at 50Hz.
 
 </para>
@@ -131,20 +129,25 @@
 </para>
 
 <para>
-  Given a signal x(n) sampled at a sampling frequency of f<subscript>s</subscript>, the maximum frequency that can be analysed,
-  f<subscript>max</subscript> is equal to 1/2 of f<subscript>s</subscript>. In other words, to accurately represent and analyse the
-  signal x(n), it must be sampled at a rate greater the 2f<subscript>s</subscript>, where 2f<subscript>s</subscript> =
-  f<subscript>N</subscript>, where f<subscript>N</subscript> is known as the Nyquist frequency. The simplest example to illustrate this
-  is the sampling of a 20kHz audio signal. To accurately represent this signal, it must be sampled at greater than 40kHz. This value is
-  typically 44100Hz, for example CD audio. Generally signals are sampled at several times f<subscript>N</subscript> to ensure accurate
-  results. In the more relevant case of time series analysis, where datasets may consist of a sample per day, the maximum frequency that
-  can be analysed here is 0.5cycles/day.
+  Given a signal <command>x</command>(<command>n</command>) sampled at a sampling frequency of
+  <command>f<subscript>s</subscript></command>, the maximum frequency that can be analysed,
+  <command>f<subscript>max</subscript></command> is equal to 1/2 of <command>f<subscript>s</subscript></command>. 
+  In other words, to accurately represent and analyse the
+  signal <command>x</command>(<command>n</command>), it must be sampled at a rate greater the
+  2<command>f<subscript>s</subscript></command>, where 2<command>f<subscript>s</subscript></command> =
+  <command>f<subscript>N</subscript></command> and <command>f<subscript>N</subscript></command> is known as the Nyquist frequency. 
+  The simplest example to illustrate this is the sampling of a 20kHz audio signal. To accurately represent this signal, 
+  it must be sampled at greater than 40kHz. This value is typically 44100Hz, for example CD audio. Generally signals are sampled 
+  at several times <command>f<subscript>N</subscript></command> to ensure accurate results. In the case of 
+  time series analysis, where datasets are typically sampled at a rate of once per day, the maximum frequency that can be analysed 
+  is 0.5 cycles/day.
 </para>
 
 <para>
-  The resolution is also an interesting point. The frequency resolution of a signal in the frequency domain, is inversely proportional
-  to the length of the waveform. So if the length of the analysed waveform is doubled, the resolution is halved. This is clearer if we
-  consider the relationship f<subscript>res</subscript>= f<subscript>s</subscript>/N, N being the number of points. If we double the
+  The frequency resolution of a signal is also constrained by the fact that it is inversely proportional
+  to the length of the waveform. Subsequently, if the length of the analysed waveform is doubled, the resolution is halved. 
+  This is clearer if we consider the relationship <command>f<subscript>res</subscript></command> =
+  <command>f<subscript>s</subscript>/N</command>, where <command>N</command> is number of points (IN WHAT!?!). If we double the
   number of points while maintain the sample rate, our frequency resolution is halved.
 </para>
 
@@ -153,8 +156,9 @@
 
 <sect2><title>Conclusion</title>
   <para>
-    There is no question as to the value and importance of frequency domain analysis. We are able to see information invisible to us in
-    the time domain. Trends in the data relating to frequency can be identified, and it is even possible to reduce noise by removing
+    There is no question as to the value and importance of frequency domain analysis of time series data. We are able to see 
+    information invisible to us in the time domain. Trends in the data relating to frequency can be identified, 
+    and it is even possible to reduce noise by removing
     points while in the frequency domain before returning to the time domain. TODO: more more more...
   </para>
 </sect2> <!--Conclusion-->

@@ -1,10 +1,27 @@
 <!--TODO:- ENSURE GLOSSARY IS IN ALPHABETICAL ORDER!-->
 <glossary><title>Glossary of Terms</title>
 
+    <glossentry><glossterm>CVIEW</glossterm>
+      <glossdef><para>
+	   C File View 
+        </para></glossdef>
+    </glossentry>
+
+    <glossentry><glossterm>DFT</glossterm>
+      <glossdef><para>
+      Discrete Fourier Transform
+        </para></glossdef>
+    </glossentry>
+
+    <glossentry><glossterm>GAMIT</glossterm>
+      <glossdef><para>
+	   Global Positioning System At Massachusetts Institute of Technology 
+        </para></glossdef>
+    </glossentry>
 
     <glossentry><glossterm>GDMS</glossterm>
       <glossdef><para>
-	   Geodetic Data Modeling System
+	   Geodetic Data Modelling System
         </para></glossdef>
     </glossentry>
 
@@ -14,9 +31,33 @@
         </para></glossdef>
     </glossentry>
 
+    <glossentry><glossterm>FFT</glossterm>
+      <glossdef><para>
+      Fast Fourier Transform
+        </para></glossdef>
+    </glossentry>
+
+   <glossentry><glossterm>FFTW</glossterm>
+      <glossdef><para>
+      Fastest Fourier Transform in the West, a C library to preform Fast Fourier Transforms.
+        </para></glossdef>
+    </glossentry>
+
     <glossentry><glossterm>ISIP</glossterm>
       <glossdef><para>
 	   Institute for Signal and Information Processing, Mississippi State University
+        </para></glossdef>
+    </glossentry>
+
+    <glossentry><glossterm>MIT</glossterm>
+      <glossdef><para>
+           Massachusetts Institute of Technology
+        </para></glossdef>
+    </glossentry>
+
+    <glossentry><glossterm>PSD</glossterm>
+      <glossdef><para>
+      Power Spectral Density
         </para></glossdef>
     </glossentry>
 
@@ -32,6 +73,12 @@
         </para></glossdef>
     </glossentry>
 
+    <glossentry><glossterm>TSVIEW</glossterm>
+      <glossdef><para>
+           Time Series View
+        </para></glossdef>
+    </glossentry>
+    
     <glossentry><glossterm>VCV</glossterm>
       <glossdef><para>
            Variance Co-variance
