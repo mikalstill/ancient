@@ -64,7 +64,7 @@ PACKAGE = @PACKAGE@
 VERSION = @VERSION@
 
 bin_PROGRAMS = pandaedit
-pandaedit_SOURCES = pandaedit.cpp stringArray.cpp object.cpp dictionary.cpp dictitem.cpp pdf.cpp objectlist.cpp utility.cpp parseinterface.cpp render.cpp matrix.cpp configuration.cpp lzw.cpp fax.cpp raster.cpp pdfDoc.cpp genError.cpp genErrorHandler.cpp genUI.cpp pdfView.cpp genWxErrorHandler.cpp genCanvas.cpp pagecache.cpp verbosity.cpp inflateraster.cpp flate.cpp cmdLines.cpp
+pandaedit_SOURCES = pandaedit.cpp stringArray.cpp object.cpp dictionary.cpp dictitem.cpp pdf.cpp objectlist.cpp utility.cpp parseinterface.cpp render.cpp matrix.cpp configuration.cpp lzw.cpp fax.cpp raster.cpp pdfDoc.cpp genError.cpp genErrorHandler.cpp genUI.cpp pdfView.cpp genWxErrorHandler.cpp genCanvas.cpp pagecache.cpp verbosity.cpp inflateraster.cpp flate.cpp
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
 CONFIG_CLEAN_FILES = 
@@ -79,7 +79,7 @@ pandaedit_OBJECTS =  pandaedit.o stringArray.o object.o dictionary.o \
 dictitem.o pdf.o objectlist.o utility.o parseinterface.o render.o \
 matrix.o configuration.o lzw.o fax.o raster.o pdfDoc.o genError.o \
 genErrorHandler.o genUI.o pdfView.o genWxErrorHandler.o genCanvas.o \
-pagecache.o verbosity.o inflateraster.o flate.o cmdLines.o
+pagecache.o verbosity.o inflateraster.o flate.o
 pandaedit_LDADD = $(LDADD)
 pandaedit_DEPENDENCIES = 
 pandaedit_LDFLAGS = 
@@ -95,14 +95,14 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP_ENV = --best
-DEP_FILES =  .deps/cmdLines.P .deps/configuration.P .deps/dictionary.P \
-.deps/dictitem.P .deps/fax.P .deps/flate.P .deps/genCanvas.P \
-.deps/genError.P .deps/genErrorHandler.P .deps/genUI.P \
-.deps/genWxErrorHandler.P .deps/inflateraster.P .deps/lzw.P \
-.deps/matrix.P .deps/object.P .deps/objectlist.P .deps/pagecache.P \
-.deps/pandaedit.P .deps/parseinterface.P .deps/pdf.P .deps/pdfDoc.P \
-.deps/pdfView.P .deps/raster.P .deps/render.P .deps/stringArray.P \
-.deps/utility.P .deps/verbosity.P
+DEP_FILES =  .deps/configuration.P .deps/dictionary.P .deps/dictitem.P \
+.deps/fax.P .deps/flate.P .deps/genCanvas.P .deps/genError.P \
+.deps/genErrorHandler.P .deps/genUI.P .deps/genWxErrorHandler.P \
+.deps/inflateraster.P .deps/lzw.P .deps/matrix.P .deps/object.P \
+.deps/objectlist.P .deps/pagecache.P .deps/pandaedit.P \
+.deps/parseinterface.P .deps/pdf.P .deps/pdfDoc.P .deps/pdfView.P \
+.deps/raster.P .deps/render.P .deps/stringArray.P .deps/utility.P \
+.deps/verbosity.P
 SOURCES = $(pandaedit_SOURCES)
 OBJECTS = $(pandaedit_OBJECTS)
 

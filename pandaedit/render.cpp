@@ -39,7 +39,7 @@ m_pageno (pageno)
 
 // Not yet implemented (private)
 pdfRender::pdfRender (const pdfRender & other):
-m_page (-1, -1),
+m_page (objNumNoSuch, objNumNoSuch),
 m_pages (other.m_pages),
 m_pdf (""),
 m_hasLine (false),
@@ -407,7 +407,7 @@ pdfRender::command_Do ()
       return;
     }
 
-  object image (-1, -1);
+  object image (objNumNoSuch, objNumNoSuch);
   if (!xobj.getValue (arg.substr (1, arg.length () - 1), m_pdf, image))
     {
       debug(dlTrace, "Named resource does not exist");
@@ -763,7 +763,7 @@ pdfRender::command_Tf ()
   // Find the named font
   dictionary resources;
   dictionary fonts;
-  object font (-1, -1);
+  object font (objNumNoSuch, objNumNoSuch);
   string fontResource, fontFile ("px10.ttf");
   bool fontFound (false);
 

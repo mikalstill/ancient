@@ -14,7 +14,8 @@
 object::object (int number, int generation):
 m_number (number),
 m_generation (generation),
-m_stream (NULL)
+m_stream (NULL),
+m_changed(true)
 {
   debug(dlTrace, string("Created a new object ") + toString(number) +
 	string(" ") + toString(generation));
@@ -392,3 +393,13 @@ object::getStreamLength ()
 {
   return m_streamLength;
 }
+
+void
+object::appendCommand(string commandString)
+{
+  debug(dlTrace, "Appending a new drawing command");
+  m_commands.push_back(commandString);
+  m_changed = true;
+}
+
+// todo_mikal: finish changed

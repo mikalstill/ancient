@@ -66,7 +66,7 @@ public:
   void OnAboutDocument (wxCommandEvent & event);
 
   tool getCurrentTool();
-
+  void appendCommand(string command);
   
 
 private:

@@ -188,6 +188,22 @@ pdfDoc::getPages()
   return m_pages;
 }
 
+void
+pdfDoc::appendCommand(int pageNum, string commandString)
+{
+  while(pageNum >= m_pages.size())
+    appendPage();
+
+  m_pages[pageNum].appendCommand(commandString);
+}
+
+void
+pdfDoc::appendPage()
+{
+  object newpage(objNumAppended, objNumAppended);
+  m_pages.push_back(newpage, m_pdf);
+}
+
 // A scary global progress handler
 void
 ds_progressCallback ()

@@ -75,7 +75,7 @@ dictitem::getStringValue ()
   case diTypeObjectReference:
     debug(dlTrace, "Dictionary item refers to remote object invocation");
     if(m_pdf){
-      object value(-1, -1);
+      object value(objNumNoSuch, objNumNoSuch);
       if(m_pdf->findObject(m_int, m_generation, value))
 	{
 	  string strval;
@@ -107,7 +107,7 @@ dictitem::getDictionaryValue ()
   case diTypeObjectReference:
     debug(dlTrace, "Dictionary item refers to remote object invocation");
     if(m_pdf){
-      object value(-1, -1);
+      object value(objNumNoSuch, objNumNoSuch);
       if(m_pdf->findObject(m_int, m_generation, value))
 	{
 	  return value;

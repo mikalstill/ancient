@@ -179,7 +179,7 @@ void
 pdfView::populatePageFromPDF(pdf *thePDF, string& filename)
 {
   try{
-    object foo(-1, -1);
+    object foo(objNumNoSuch, objNumNoSuch);
     
     // Find the catalog -- I could probably miss this step, but it seems like
     // a good idea for now...
@@ -337,4 +337,17 @@ pdfView::OnLineTool(wxCommandEvent&)
 {
   m_currentToolDesc = "Line Tool";
   m_currentTool = pdfView::line;
+}
+
+void
+pdfView::appendCommand(string commandString)
+{
+  pdfDoc *theDoc = (pdfDoc *) GetDocument ();
+  if(!theDoc->isReady()){
+    debug(dlTrace, 
+	  "Drawing command addition ignored because PDF document not ready");
+    return;
+  }
+
+  theDoc->appendCommand(m_page, commandString);
 }

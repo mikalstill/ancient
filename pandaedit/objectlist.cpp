@@ -19,7 +19,7 @@ object
 objectlist::operator[] (unsigned int i)
 {
   // todo_mikal: this is a hack
-  object foo (-1, -1);
+  object foo (objNumNoSuch, objNumNoSuch);
   object & obj = foo;
   
   if(m_pdf){
@@ -103,7 +103,7 @@ objectlist::push_back(const string input, pdf *thePDF)
       // This can be a recursive list, so we check that here
       ref.number = atoi (tokens[inset++].c_str ());
       ref.generation = atoi (tokens[inset++].c_str ());
-      object subpages(-1, -1);
+      object subpages(objNumNoSuch, objNumNoSuch);
       if(!thePDF->findObject(ref.number, ref.generation, subpages)){
 	debug(dlError, "Referenced page does not exist");
 	return;

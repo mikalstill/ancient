@@ -82,8 +82,19 @@ genCanvas::OnDraw (wxDC & dc)
 void
 genCanvas::OnMouseEvent (wxMouseEvent & event)
 {
-  if(event.LeftIsDown())
+  // End the current instance of a tool, but not the tool
+  if(event.LeftIsDown() && event.ControlDown())
     {
+      debug(dlTrace, "Tool instance ended, tool still selected");
+      
+      if(m_view)
+	((pdfView *) m_view)->appendCommand("Mary had a little lamb");
+      m_controlPoints.clear();
+    }
+  
+  // Continue with the current tool
+  else if(event.LeftIsDown())
+  {
       debug(dlTrace, "Obtaining device context");
       wxClientDC dc (this);
       PrepareDC (dc);

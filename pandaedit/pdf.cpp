@@ -5,7 +5,7 @@
 
 pdf::pdf ():
   m_filename(""),
-  m_previousEnd(-1, -1)
+  m_previousEnd(objNumNoSuch, objNumNoSuch)
 {
 }
 
@@ -77,7 +77,7 @@ pdf::getPages ()
 {
   try
   {
-    object foo (-1, -1);
+    object foo (objNumNoSuch, objNumNoSuch);
 
     // Find the catalog -- I could probably miss this step, but it seems like
     // a good idea for now...

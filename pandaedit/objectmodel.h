@@ -12,11 +12,16 @@ using namespace std;
 #endif
 
 #include <wx/gdicmn.h>
-#include "streamCommand.h"
-#include "cmdLines.h"
 
 #ifndef OBJECTMODEL_H
 #define OBJECTMODEL_H
+
+enum
+  {
+    objNumNoSuch = -1,
+    objNumAppended = -2
+  };
+
 
 typedef struct
 {
@@ -120,6 +125,8 @@ public:
 		   unsigned long &length);
   unsigned long getStreamLength ();
 
+  void appendCommand(string commandString);
+
 private:
   char *applyFilter(string filter, char *instream, unsigned long inlength, 
 		    unsigned long& length);
@@ -132,6 +139,8 @@ private:
 
   char *m_stream;
   unsigned long m_streamLength;
+  vector<string> m_commands;
+  bool m_changed;
 
   dictionary m_dictionary;
 };
