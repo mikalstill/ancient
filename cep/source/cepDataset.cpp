@@ -244,8 +244,16 @@ cepError cepDataset::read (const string& filename)
     m_data[i] = new cepMatrix<double>(dates.size(), 3);
     for(unsigned int vcount = 0; vcount < dates.size(); vcount++){
       m_data[i]->setValue(vcount, colDate, dates[vcount]);
+      if(m_data[i]->getError().isReal())
+	return m_data[i]->getError();
+
       m_data[i]->setValue(vcount, colSample, samples[vcount]);
+      if(m_data[i]->getError().isReal())
+	return m_data[i]->getError();
+
       m_data[i]->setValue(vcount, colError, errors[vcount]);
+      if(m_data[i]->getError().isReal())
+	return m_data[i]->getError();
     }
     
     files[i].close();
@@ -452,8 +460,22 @@ cepDataset cepDataset::filter(float low, float high)
       if((m_data[dir]->getValue(i, colDate) >= low) &&
 	 (m_data[dir]->getValue(i, colDate) <= high)){
 	dates.push_back(m_data[dir]->getValue(i, colDate));
+	if(m_data[dir]->getError().isReal()){
+	  m_data[dir]->getError().display();
+	  return cepDataset();
+	}
+
 	samples.push_back(m_data[dir]->getValue(i, colSample));
+	if(m_data[dir]->getError().isReal()){
+	  m_data[dir]->getError().display();
+	  return cepDataset();
+	}
+
 	errors.push_back(m_data[dir]->getValue(i, colError));
+	if(m_data[dir]->getError().isReal()){
+	  m_data[dir]->getError().display();
+	  return cepDataset();
+	}
       }
     }
 
@@ -462,8 +484,22 @@ cepDataset cepDataset::filter(float low, float high)
       data[dir] = new cepMatrix<double>(dates.size(), 3);
       for(unsigned int vcount = 0; vcount < dates.size(); vcount++){
 	data[dir]->setValue(vcount, colDate, dates[vcount]);
+	if(m_data[dir]->getError().isReal()){
+	  m_data[dir]->getError().display();
+	  return cepDataset();
+	}
+
 	data[dir]->setValue(vcount, colSample, samples[vcount]);
+	if(m_data[dir]->getError().isReal()){
+	  m_data[dir]->getError().display();
+	  return cepDataset();
+	}
+
 	data[dir]->setValue(vcount, colError, errors[vcount]);
+	if(m_data[dir]->getError().isReal()){
+	  m_data[dir]->getError().display();
+	  return cepDataset();
+	}
       }
     }
     else{
