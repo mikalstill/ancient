@@ -115,8 +115,7 @@ sharedstatedir = ${prefix}/com
 sysconfdir = ${prefix}/etc
 target_alias = 
 bin_PROGRAMS = x86info
-COMMONSOURCES = AMD/MSR-Athlon.c AMD/MSR-K6.c AMD/amd_bluesmoke.c AMD/amd_identify.c Cyrix/cyrix_identify.c IDT/MSR-C3.c IDT/idt_identify.c Intel/intel_bluesmoke.c Intel/cachesize.c Intel/eblcr.c Intel/intel_identify.c MHz.c NatSemi/natsemi_identify.c RiSE/rise_identify.c binary.c connector.c cpuid.c features.c get_model_name.c havecpuid.c identify.c mptable.c mtrr.c rdmsr.c x86info.c cpuid_UP.S
-x86info_SOURCES = $(COMMONSOURCES) main.c
+x86info_SOURCES = AMD/MSR-Athlon.c AMD/MSR-K6.c AMD/amd_bluesmoke.c AMD/amd_identify.c Cyrix/cyrix_identify.c IDT/MSR-C3.c IDT/idt_identify.c Intel/intel_bluesmoke.c Intel/cachesize.c Intel/eblcr.c Intel/intel_identify.c MHz.c NatSemi/natsemi_identify.c RiSE/rise_identify.c binary.c connector.c cpuid.c features.c get_model_name.c havecpuid.c identify.c mptable.c mtrr.c rdmsr.c x86info.c cpuid_UP.S
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
@@ -124,7 +123,7 @@ CONFIG_CLEAN_FILES =
 bin_PROGRAMS = x86info$(EXEEXT)
 PROGRAMS = $(bin_PROGRAMS)
 
-am__objects_1 = MSR-Athlon.$(OBJEXT) MSR-K6.$(OBJEXT) \
+am_x86info_OBJECTS = MSR-Athlon.$(OBJEXT) MSR-K6.$(OBJEXT) \
 	amd_bluesmoke.$(OBJEXT) amd_identify.$(OBJEXT) \
 	cyrix_identify.$(OBJEXT) MSR-C3.$(OBJEXT) \
 	idt_identify.$(OBJEXT) intel_bluesmoke.$(OBJEXT) \
@@ -135,7 +134,6 @@ am__objects_1 = MSR-Athlon.$(OBJEXT) MSR-K6.$(OBJEXT) \
 	havecpuid.$(OBJEXT) identify.$(OBJEXT) mptable.$(OBJEXT) \
 	mtrr.$(OBJEXT) rdmsr.$(OBJEXT) x86info.$(OBJEXT) \
 	cpuid_UP.$(OBJEXT)
-am_x86info_OBJECTS = $(am__objects_1) main.$(OBJEXT)
 x86info_OBJECTS = $(am_x86info_OBJECTS)
 x86info_LDADD = $(LDADD)
 x86info_DEPENDENCIES =
@@ -155,7 +153,7 @@ DEP_FILES = ./$(DEPDIR)/MHz.Po ./$(DEPDIR)/MSR-Athlon.Po \
 	./$(DEPDIR)/havecpuid.Po ./$(DEPDIR)/identify.Po \
 	./$(DEPDIR)/idt_identify.Po \
 	./$(DEPDIR)/intel_bluesmoke.Po \
-	./$(DEPDIR)/intel_identify.Po ./$(DEPDIR)/main.Po \
+	./$(DEPDIR)/intel_identify.Po \
 	./$(DEPDIR)/mptable.Po ./$(DEPDIR)/mtrr.Po \
 	./$(DEPDIR)/natsemi_identify.Po \
 	./$(DEPDIR)/rdmsr.Po ./$(DEPDIR)/rise_identify.Po \
@@ -245,7 +243,6 @@ include ./$(DEPDIR)/identify.Po
 include ./$(DEPDIR)/idt_identify.Po
 include ./$(DEPDIR)/intel_bluesmoke.Po
 include ./$(DEPDIR)/intel_identify.Po
-include ./$(DEPDIR)/main.Po
 include ./$(DEPDIR)/mptable.Po
 include ./$(DEPDIR)/mtrr.Po
 include ./$(DEPDIR)/natsemi_identify.Po

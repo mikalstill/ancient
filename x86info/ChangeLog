@@ -1,3 +1,6 @@
+2003-04-25  Michael Still <mikal@stillhq.com>
+	* Implemented automake and autoconf. This involved the renaming of some files
+
 2002-11-11  Dave Jones <davej@codemonkey.org.uk>
 
 	* mptable.c: Change formatting for better fit on 79 columns.
