@@ -19,13 +19,13 @@ Michael's student number is 964076. He can be contacted at mikal@stillhq.com. Co
 
 <sect1><title>The meeting</title>
 <para>
-<command>genstruct</command> is a C based data dumping package which Andrew Tridgell discussed at the June 2002 Canberra Linux User's Group meeting on 27 June 2002. It finds it's roots in the perl and java <command>Data::Dumper</command> methodologies, and is an extremely powerful tool for development. Dr Tridgell orginally developed <command>genstruct</command> for the <command>Samba</command> project.
+<command>genstruct</command> is a C based data dumping package which Andrew Tridgell discussed at the June 2002 Canberra Linux User's Group meeting on 27 June 2002. It finds it's roots in the perl <command>Data::Dumper</command> nad java string marshalling methodologies, and is an extremely powerful tool for development. Dr Tridgell orginally developed <command>genstruct</command> for the <command>Samba</command> project. In this paper I discuss points Dr Tridgell raised in his talk in further detail.
 </para>
 </sect1>
 
 <sect1><title>What is genstruct?</title>
 <para>
-As I mentioned earlier, <command>genstruct</command> is very similar in some respects to the perl <command>Data::Dumper</command>. It is therefore useful to provide a brief introduction to that functionality before moving onto <command>genstruct</command>.
+As previosuly mentioned, <command>genstruct</command> is very similar in some respects to the perl <command>Data::Dumper</command>. It is therefore useful to provide a brief introduction to that functionality before moving onto <command>genstruct</command>.
 </para>
 
 <sect2><title>Perl's Data::Dumper in a nutshell</title>
@@ -87,6 +87,76 @@ char *gen_dump(const struct parse_struct *pinfo,
 <listitem><para><emphasis>unsigned indent</emphasis>: is the starting indent for ease of recursive calling. Set it to zero.</para></listitem>
 </itemizedlist>
 </para>
+
+<para>
+The most interesting thing here is the <emphasis>pinfo</emphasis> structure which is the first arguement to this <command>gen_dump</command> function. The <emphasis>pinfo_test1</emphasis> in this example looks like:
+</para>
+
+<programlisting>
+static const struct parse_struct pinfo_test1[] = {
+{"foo", 0, sizeof(char), offsetof(struct test1, foo), 100, NULL, 
+  0, gen_dump_char, gen_parse_char},
+{"foo2", 1, sizeof(char), offsetof(struct test1, foo2), 20, NULL, 
+  0, gen_dump_char, gen_parse_char},
+{"xlen", 0, sizeof(int), offsetof(struct test1, xlen), 0, NULL, 
+  0, gen_dump_int, gen_parse_int},
+{"iarray", 1, sizeof(int), offsetof(struct test1, iarray), 0, 
+  "xlen", 0, gen_dump_int, gen_parse_int},
+// ... and so on ...
+{NULL, 0, 0, 0, 0, NULL, 0, NULL, NULL}};
+</programlisting>
+
+<para>
+This table might seem a bit daunting at first, but readers need to remember that they're not expected to be able to read, generate, or use these tables. They are created solely for the use of <command>genstruct</command>.
+</para>
+
+<para>
+The output of the <command>gen_dump</command> function call will be something like:
+</para>
+
+<programlisting>
+foo = {hello foo}
+foo2 = 1:{foo2 \7d you}, 2:{foo2 you 2}
+xlen = 6
+iarray = 0:9, 1:4, 2:3, 3:9, 4:7
+slen = 3
+strings = 0:{test string 48}, 1:{test string 69}, 2:{test string 36}
+s2 = 2:{t2 string 0}, 3:{t2 string 74}
+d1 = 3.5
+d3 = -7
+test2 = {
+        x1 = 4
+        foo = {hello \7b there}
+        fstring = {blah 1}
+        dlen = 12
+        dfoo = {q\a9\08z\faO\ca\e3\1d\b2M\88}
+        fvalue = APPLE
+        next = {
+                x1 = 5
+                foo = {hello \7b there}
+                fstring = {blah 1}
+                dlen = 28
+                dfoo = {\e8\8f\dc\1c\0e\c7)'\ea\da\07e\ca\042\ce\078?\b0@\ba\ab\90\84\8e\ad6}
+                fvalue = APPLE
+                next = {
+                        x1 = 6
+                        foo = {hello \7b there}
+                        fstring = {blah 1}
+                        dlen = 27
+                        dfoo = {5r\c3\c4O\e0\d2\16      \f9\01\e3\01f\ad\05\98\7b^L\d0\bb\bd\11uh\a1\f9}
+                        fvalue = APPLE
+                        next = {
+                                x1 = 7
+                                foo = {hello \7b there}
+                                fstring = {blah 1}
+                                dlen = 14
+                                dfoo = {N/\d1\83\a2\94G\f1t\1a\07\7d\13\08}
+                                fvalue = APPLE
+                        }
+                }
+        }
+}
+</programlisting>
 </sect2>
 </sect1>
 

@@ -1,5 +1,5 @@
 short: output.sgml output.ps
-	striptext.pl output.sgml | wc -w
+	striptext.pl -c output.sgml | wc -w
 
 output.sgml: source.sgml
 	builddb.pl < source.sgml > output.sgml
