@@ -12,17 +12,17 @@ TITLE: Fast Fourier Transforms: Applications in Data Analysis (Daniel)
 Time Domain:<BR>
 
 <div align=right>
-<img src="/notes/presentations/content/gdms-str1-east-td.png">
+<img src="/notes/presentations/content/gdms-cedu-up-T.png">
 </div>
 
 <BR><BR><BR>
 
 Frequency Domain:<BR>
 <div align=right>
-<img src="/notes/presentations/content/gdms-str1-east-fd.png">
+<img src="/notes/presentations/content/gdms-cedu-up-F.png">
 </div>
 
-<i>(STR1_GPS East)</i>
+<i>(CEDU_GPS Up)</i>
 </td>
 </tr>
 </table>
