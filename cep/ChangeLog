@@ -33,6 +33,13 @@
 	Addressed more todos.
 	Fixed implementation of vectors in both windows and ham.
 
+2002-05-07 Daniel Fernandez daniel.fernandez@ise.canberra.edu.au
+	Added private members to cepDataset.h.
+	Added constructor to cepDataset.cpp to deal with window and 
+	hamming return paramaters.
+	
+	
+	
 
 
  
