@@ -215,10 +215,11 @@ cepMatrix<double> cepInterp::doInterp(cepMatrix<double> & input,
 
 	// augment t with s then row reduce
 	rowReduce(t,s,n);
+
 	// use values of s to calculate a, b and c
 	calc_abc(a,b,c,s,h,input,n);
-	// use a,b,c and d to interpolate the data to the new timescale
 
+	// use a,b,c and d to interpolate the data to the new timescale
 	int position = 0;
 	for (i = 0; i < newSize; i++)
 	{
@@ -382,14 +383,13 @@ void cepInterp::rowReduce(cepMatrix<double> & t, cepMatrix<double> & s, int n)
 		s.setValue(i,0, s.getValue(i,0)/t.getValue(i-1,1));
 		t.setValue(i-1,1, 1.0);
 
-		// subtractraction to eliminate first value in next row
+		// subtraction to eliminate first value in next row
 		t.setValue(i,1, t.getValue(i,1) - t.getValue(i-1,2)*t.getValue(i,0));
 		s.setValue(i+1,0, s.getValue(i+1,0) - s.getValue(i,0)*t.getValue(i,0));
 		t.setValue(i,0, 0.0);
 	}
   // for last row
 	// row divided by first element
-	t.setValue(n-2,2, t.getValue(n-2,2)/t.getValue(n-2,1));
 	s.setValue(n-1,0, s.getValue(n-1,0)/t.getValue(n-2,1));
 	t.setValue(n-2,1, 1.0);
 
@@ -409,8 +409,8 @@ void cepInterp::calc_abc(cepMatrix<double> & a,cepMatrix<double> & b,cepMatrix<d
 	for (i = 0; i < n; i++)
 	{
 		a.setValue(i,0, (s.getValue(i+1,0)-s.getValue(i,0))/(6.0*h.getValue(i,0)));
-		b.setValue(i,0, s.getValue(i,0));
-		c.setValue(i,0, (input.getValue(i+1,0)-input.getValue(i,0))/h.getValue(i,0) -
+		b.setValue(i,0, s.getValue(i,0)*0.5);
+		c.setValue(i,0, (input.getValue(i+1,1)-input.getValue(i,1))/h.getValue(i,0) -
 							(h.getValue(i,0)*(2.0*s.getValue(i,0) + s.getValue(i+1,0)))/6.0);
 	}
 }
