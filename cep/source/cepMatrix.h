@@ -392,7 +392,7 @@ cepMatrix<T>::cepMatrix (int rows, int cols, int tab)
   if (m_tables == NULL)
   {
     m_error = (char *)"Could not allocate memory for Matrix";
-    goto END;
+    return;
   }
 
   for(int i = 0; i < m_numTables; i++)
@@ -402,11 +402,9 @@ cepMatrix<T>::cepMatrix (int rows, int cols, int tab)
     if (m_tables[i] == NULL)
     {
       m_error = (char *)"Could not allocate memory for Matrix";
-      goto END;
+      return;
     }
   }
-
-END: cout << "";
 }
 
 template <class T>
@@ -458,7 +456,11 @@ const cepMatrix<T> & cepMatrix<T>::transpose ()
   if (m_matrix == NULL)
   {
     m_error = (char *)"Can Not Transpose a 3D matrix";
-    goto END;
+    if(tempMatrix != NULL)
+    {
+      delete[]tempMatrix;
+    }
+    return *this;
   }
 
   m_matrix = new T[m_numRows * m_numCols];
@@ -466,7 +468,11 @@ const cepMatrix<T> & cepMatrix<T>::transpose ()
   if (m_matrix == NULL)
   {
     m_error = (char *)"Could not allocate memory for Matrix";
-    goto END;
+    if(tempMatrix != NULL)
+    {
+      delete[]tempMatrix;
+    }
+    return *this;
   }
 
   //calculates the matrix transpose
@@ -478,7 +484,6 @@ const cepMatrix<T> & cepMatrix<T>::transpose ()
     }
   }
 
-END:
   if(tempMatrix != NULL)
   {
     delete[]tempMatrix;
@@ -498,7 +503,11 @@ const cepMatrix<T> & cepMatrix<T>::operator+= (const cepMatrix & B)
   if (m_matrix == NULL)
   {
     m_error = (char *)" Could not allocate memory for Matrix";
-    goto END;
+    if(tempMatrix != NULL)
+    {
+      delete[]tempMatrix;
+    }
+    return *this;
   }
 
   m_matrix = new T[m_numRows * m_numCols];
@@ -506,13 +515,21 @@ const cepMatrix<T> & cepMatrix<T>::operator+= (const cepMatrix & B)
   if (m_matrix == NULL)
   {
     m_error = (char *)"Could not allocate memory for Matrix";
-    goto END;
+    if(tempMatrix != NULL)
+    {
+      delete[]tempMatrix;
+    }
+    return *this;
   }
 
   if ((B.m_numRows != m_numRows) || (B.m_numCols != m_numCols))
   {
     m_error = (char *)"Matrix sizes are wrong";
-    goto END;
+    if(tempMatrix != NULL)
+    {
+      delete[]tempMatrix;
+    }
+    return *this;
   }
   else
   {
@@ -526,7 +543,6 @@ const cepMatrix<T> & cepMatrix<T>::operator+= (const cepMatrix & B)
     }
   }
 
-END:
   if(tempMatrix != NULL)
   {
     delete[]tempMatrix;
@@ -545,7 +561,11 @@ const cepMatrix<T> & cepMatrix<T>::operator-= (const cepMatrix & B)
   if (m_matrix == NULL)
   {
     m_error = (char *)" Can not use the - operator on a 3D Matrix";
-    goto END;
+    if(tempMatrix != NULL)
+    {
+      delete[]tempMatrix;
+    }
+    return *this;
   }
 
   m_matrix = new T[m_numRows * m_numCols];
@@ -553,13 +573,21 @@ const cepMatrix<T> & cepMatrix<T>::operator-= (const cepMatrix & B)
   if (m_matrix == NULL)
   {
     m_error = (char *)"Could not allocate memory for Matrix";
-    goto END;
+    if(tempMatrix != NULL)
+    {
+      delete[]tempMatrix;
+    }
+    return *this;
   }
   
   if ((B.m_numRows != m_numRows) || (B.m_numCols != m_numCols))
   {
     m_error = (char *)" Matrix sizes are wrong";
-    goto END;
+    if(tempMatrix != NULL)
+    {
+      delete[]tempMatrix;
+    }
+    return *this;
   }
   else
   {
@@ -573,7 +601,6 @@ const cepMatrix<T> & cepMatrix<T>::operator-= (const cepMatrix & B)
     }
   }
 
-END:
   if(tempMatrix != NULL)
   {
     delete[]tempMatrix;
@@ -593,13 +620,21 @@ const cepMatrix<T> & cepMatrix<T>::operator*= (const cepMatrix & B)
   if (m_matrix == NULL)
   {
     m_error = (char *)" Can not use the - operator on a 3D Matrix";
-    goto END;
+    if(tempMatrix != NULL)
+    {
+      delete[]tempMatrix;
+    }
+    return *this;
   }
 
   if (m_numCols != B.m_numRows)
   {
     m_error = (char *)" Matrix sizes are wrong";
-    goto END;
+    if(tempMatrix != NULL)
+    {
+      delete[]tempMatrix;
+    }
+    return *this;
   }
   else
   {
@@ -608,7 +643,11 @@ const cepMatrix<T> & cepMatrix<T>::operator*= (const cepMatrix & B)
     if (m_matrix == NULL)
     {
       m_error = (char *)" Could not allocate memory for Matrix";
-      goto END;
+      if(tempMatrix != NULL)
+    {
+      delete[]tempMatrix;
+    }
+    return *this;
     }
 
     for (i = 0; i < m_numRows * B.m_numCols; i++)
@@ -634,7 +673,6 @@ const cepMatrix<T> & cepMatrix<T>::operator*= (const cepMatrix & B)
 
   m_numCols = B.m_numCols;
 
-END:
   if(tempMatrix != NULL)
   {
     delete[]tempMatrix;
@@ -881,7 +919,11 @@ const cepMatrix<T>& cepMatrix<T>::resize(int newRows)
   if (m_matrix == NULL)
   {
     m_error = (char *)" Can not resize a 3D Matrix";
-    goto END;
+    if(tempMatrix != NULL)
+    {
+      delete[]tempMatrix;
+    }
+    return *this;
   }
 
   if(m_numRows <= newRows)
@@ -891,7 +933,11 @@ const cepMatrix<T>& cepMatrix<T>::resize(int newRows)
     if (tempMatrix == NULL)
     {
       m_error = (char *)" Could not allocate memory for Matrix";
-      goto END;
+      if(tempMatrix != NULL)
+      {
+        delete[]tempMatrix;
+      }
+      return *this;
     }
 
     for(int i = 0; i < (m_numRows * m_numCols); i ++)
@@ -903,7 +949,11 @@ const cepMatrix<T>& cepMatrix<T>::resize(int newRows)
     if (m_matrix == NULL)
     {
       m_error = (char *)" Could not allocate memory for Matrix";
-      goto END;
+      if(tempMatrix != NULL)
+      {
+        delete[]tempMatrix;
+      }
+      return *this;
     }
 
     for(int i = 0; i < (m_numRows * m_numCols); i ++)
@@ -916,10 +966,13 @@ const cepMatrix<T>& cepMatrix<T>::resize(int newRows)
   else
   {
     m_error = (char *)"Can not make a matrix smaller";
-    goto END;
+    if(tempMatrix != NULL)
+    {
+      delete[]tempMatrix;
+    }
+    return *this;
   }
 
-END:
   if(tempMatrix != NULL)
   {
     delete[]tempMatrix;
@@ -948,7 +1001,6 @@ const T cepMatrix<T>::getValue (int row, int col)
 
   if (col >= m_numCols)
   {
-    cout << "in error" << endl;
     m_error = (char *)"Invalid Col Number";
     return (T)NULL;
   }
@@ -963,18 +1015,16 @@ void cepMatrix<T>::setValue (const int row, const int col, const T & value)
   if (row >= m_numRows)
   {
     m_error = (char *)"Invalid Row Number";
-    goto END;
+    return;
   }
 
   if (col >= m_numCols)
   {
     m_error = (char *)"Invalid Col Number";
-    goto END;
+    return;
   }
 
   m_matrix[(row * m_numCols) + col] = value;
-
-END: cout << "";
 }
 
 template <class T>
@@ -1034,23 +1084,22 @@ void cepMatrix<T>::setValue (const int row, const int col, const int tab, const 
   if (row >= m_numRows)
   {
     m_error = (char *)"Invalid Row Number";
-    goto END;
+    return;
   }
 
   if (col >= m_numCols)
   {
     m_error = (char *)"Invalid Col Number";
-    goto END;
+    return;
   }
   if (tab >= m_numTables)
   {
     m_error = (char *)"Invalid Table Number";
-    goto END;
+    return;
   }
 
   m_tables[tab][(row * m_numCols) + col] = value;
 
-END: cout << "";
 }
 
 template <class T>
