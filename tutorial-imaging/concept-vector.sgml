@@ -2,6 +2,6 @@
 <para>
      <indexterm><primary>Vector</primary></indexterm>
      <indexterm><primary>Image format</primary><secondary>vector</secondary></indexterm>
-Some images aren't raster images. These images are normally composed of primative drawing commands, such as draw a line, draw a circle, et cetera. The advantage of vector formats is that it is an exact representation of the image, they also scale much better. Examples of vector formats include Scalar Vector Graphics (SVG), Adobe Illustrator files, Windows Meta Files, and to a certain extent PDF documents. A plotter is a vector output device.
+Some images aren't raster images. These images are normally composed of primitive drawing commands, such as draw a line, draw a circle, et cetera. The advantage of vector formats is that it is an exact representation of the image, they also scale much better. Examples of vector formats include Scalar Vector Graphics (SVG), Adobe Illustrator files, Windows Meta Files, and to a certain extent PDF documents. A plotter is a vector output device.
 </para>
 </sect1>
