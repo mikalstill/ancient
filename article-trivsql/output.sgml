@@ -126,14 +126,36 @@ The problem with this is that it produces horribly verbose code, because the cod
 SQL was selected as a logical layer over <command>tdb</command> because there are many developers in the world which are already familiar with it. It is also relatively simple to parse and process the commands.
 </para>
 
+<sect2><title>Parsing SQL</title>
 <para>
-Later in this article I will discuss some of the techniques I have used to parse the SQL commands presented to <command>trivsql</command>.
+The SQL parser for <command>trivsql</command> is implemented in <command>flex</command> and <command>bison</command>, the listings for which are included at the end of this article. These files define a simple grammar for the supported SQL commands.
 </para>
+
+<para>
+The following SQL commands are currently supported:
+</para>
+
+<itemizedlist>
+<listitem><para><command>CREATE</command>: used to create a table, for example <emphasis>CREATE TABLE newtable (cola, colb, colc);</emphasis>. Inside the brackets is a comma separated list of column names. Note that <command>trivsql</command> doesn't currently support datatypes for the columns of tables, so it is up to the user to make sure that they parse the string values in each column correctly -- this will change in a later version of <command>trivsql</command>.</para></listitem>
+
+<listitem><para><command>INSERT</command>: for example <emphasis>INSERT INTO newtable (cola, colc) VALUES ('123', 'banana');</emphasis>. Here we are inserting the given values into the table <emphasis>newtable</emphasis> as specified in the column list. <command>trivsql</command> supports NULL values, so the list of columns here does not need to include every column in the table.</para></listitem>
+
+<listitem><para><command>SELECT</command>: this is the most compilicated of the SQL commands supported by <command>trivsql</command>. An example is <emphasis>SELECT * FROM newtable WHERE cola = '123';</emphasis>. You are not required to have a conditional applied to the select statement -- so <emphasis>SELECT * FROM newtable</emphasis> will return all the rows in the table. If the select has returned a column value which has a NULL value (i.e. data has never been inserted there), then you'll recieve a (char *) NULL. The available conditions are discussed below.</para></listitem>
+
+<listitem><para><command>ALTER</command>: <emphasis>ALTER newtable ADD COLUMN cold;</emphasis> allows you to add columns to a table. At the moment you can only add columns to a table with the <emphasis>ALTER</emphasis> command.</para></listitem>
+
+<listitem><para><command>UPDATE</command>: allows commands of the form <emphasis>UPDATE newtable SET two = 'g' WHERE two = 'f';</emphasis>. This is useful for changing existing values in a row without having to remove the entire row and then readd it.</para></listitem>
+</itemizedlist>
+</sect2>
 </sect1>
 
 <sect1><title>The current state of play</title>
 <para>
-...
+As shown by the list of SQL commands supported, <command>trivsql</command> is by no means a complete SQL implementation at this time. It is however quite useful, and stable. Because it is open source, it is also possible for users to add support for their own SQL commands if they are needed.
+</para>
+
+<para>
+<command>trivsql</command> is still being actively developed -- future releases will include greater functionality, so users should keep track of what has recently been released by occassionally visiting http://www.stillhq.com
 </para>
 </sect1>
 
