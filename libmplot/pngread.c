@@ -20,7 +20,7 @@ char *readimage(char *filename, unsigned long *width, unsigned long *height,
 
   // Open the file
   if ((image = fopen (filename, "rb")) == NULL){
-    fprintf(stderr, "Could not open the specified PNG file.");
+    fprintf(stderr, "Could not open \"%s\"\n", filename);
     goto error;
   }
 

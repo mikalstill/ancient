@@ -334,7 +334,7 @@ plot_addcubiccurvesegment (plot_state * state,
   float finx0 = state->penx, finx1 = inx2, finx2 = inx3, finx3 = inx1;
   float finy0 = state->peny, finy1 = iny2, finy2 = iny3, finy3 = iny1;
 
-  // todo: maths to make this an efficient choice...
+  // todo: maths to make this an efficient choice (for the value of tstep)...
   tstep = 0.025;
   for (t = tstep; t <= 1 + tstep; t += tstep)
     {
@@ -351,6 +351,7 @@ plot_addcubiccurvesegment (plot_state * state,
       plot_addlinesegment(state, (unsigned int) calcx, (unsigned int) calcy);
     }
 }
+
 /******************************************************************************
 DOCBOOK START
 
@@ -751,10 +752,10 @@ plot_fillline (plot_state * state)
   plot_strokeline(state->tempstate);
 
   plot_boundingbox(state, &bboxx1, &bboxy1, &bboxx2, &bboxy2);
-  bboxx1 = plot_max(0, bboxx1 - 1);
-  bboxy1 = plot_max(0, bboxy1 - 1);
-  bboxx2 = plot_min(0, bboxx2 - 1);
-  bboxy2 = plot_min(0, bboxy2 - 1);
+  bboxx1 = plot_max(0, bboxx1 - 2);
+  bboxy1 = plot_max(0, bboxy1 - 2);
+  bboxx2 = plot_min(state->x, bboxx2 + 2);
+  bboxy2 = plot_min(state->y, bboxy2 + 2);
 
   // For every point in the raster
   for(row = bboxy1; row < bboxy2 ; row++)
