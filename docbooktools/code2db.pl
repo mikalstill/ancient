@@ -20,7 +20,7 @@ while(<STDIN>){
 	s/</&lt;/g;
 	s/>/&gt;/g;
 	
-	print "$_\n";
+	print "$_\r\n";
     }
 
     if(($suppress == 1) && (/\*\*\*\*\*\*\*\*\*\/$/)){
