@@ -116,16 +116,16 @@ sub processTemplate(){
 		    # Output a message of the day
 		    $line = $pre.processTemplate("$templates/motd.html").$post;
 		}
-		elsif($cmd eq "xplot"){
+		elsif($cmd eq "northplot"){
 		    # A plot in the X direction
 		    print STDERR "Plotting in x direction\n";
 		    $line = $pre.generateAndLink("x").$post;
 		}
-		elsif($cmd eq "yplot"){
+		elsif($cmd eq "eastplot"){
 		    # A plot in the Y direction
 		    $line = $pre.generateAndLink("y").$post;
 		}
-		elsif($cmd eq "zplot"){
+		elsif($cmd eq "upplot"){
 		    # A plot in the Z direction
 		    $line = $pre.generateAndLink("z").$post;
 		}
