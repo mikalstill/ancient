@@ -52,6 +52,7 @@
 #include "cepPlot.h"
 #include "cepLsUi.h"
 #include "cepDate.h"
+#include "cepDateUi.h"
 
 #include "cepLs.h"
 
@@ -179,10 +180,19 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
       startExtracted = temp;
     }
 
-    // todo_mikal: dialog to allow tweakage
-    wxMessageBox(string("Process this mouse selection: " + m_selDirString + " " + 
-			startDate.getLongDate() + " to " + m_selDirString + " " + 
-			endDate.getLongDate()).c_str());
+    // Allow the user to tweak the dates entered
+    cepDateUi dateUI;
+    dateUI.showDateRange(endDate, startDate);
+    if(dateUI.getToDate() < 0){
+      return;
+    }
+    if(dateUI.getFromDate() < 0){
+      return;
+    }
+    cepDebugPrint("User editted selection region to: " + cepToString(dateUI.getFromDate()) + " to " +
+		  cepToString(dateUI.getToDate()));
+
+    // Clear the status bar
     ((cepFrame *) wxGetApp().GetTopWindow())->SetStatusText("", 2);
 
     // Extract the dataset
@@ -191,7 +201,7 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
     
     // We can only handle this event if we are ready
     if (theDataset && theDataset->isReady()){
-      cepDataset newds = theDataset->filter(startExtracted, endExtracted);
+      cepDataset newds = theDataset->filter(dateUI.getFromDate(), dateUI.getToDate());
       if(newds.getMatrix((cepDataset::direction) 0) == NULL){
 	cepError err("The selected region did not contain any datapoints",
 		     cepError::sevErrorRecoverable);
