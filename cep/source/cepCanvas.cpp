@@ -137,9 +137,7 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
       float startExtracted = ((m_selectXStart - 10) * m_scale[selDir] + m_minval[selDir]) / 10000;
       cepDate start(startExtracted);
       string startDate = start.getDay() + " " + start.getShortMonthName() + " " + start.getYear();
-
-      string sel = string(m_selDirString + " " +  startDate);
-      ((cepFrame *) wxGetApp().GetTopWindow())->SetStatusText(sel.c_str(), 2);
+      ((cepFrame *) wxGetApp().GetTopWindow())->SetStatusText(startDate.c_str(), 2);
 
       dc.DrawLine(m_selectXStart, 0, m_selectXStart, cheight);
     }
@@ -154,7 +152,7 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
       cepDate end(endExtracted);
       string endDate = end.getDay() + " " + end.getShortMonthName() + " " + end.getYear();
 
-      string sel = string(m_selDirString + " " + startDate + " to " + endDate);
+      string sel = string(startDate + " to " + endDate);
       ((cepFrame *) wxGetApp().GetTopWindow())->SetStatusText(sel.c_str(), 2);
 
       // Draw the highlight
@@ -235,9 +233,7 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
     cepDate hoverDate(extracted);
     string hover = hoverDate.getDay() + " " + hoverDate.getShortMonthName() + " " +
       hoverDate.getYear();
-    
-    string sel = string(m_selDirString + " " + hover);
-    ((cepFrame *) wxGetApp().GetTopWindow())->SetStatusText(sel.c_str(), 2);
+    ((cepFrame *) wxGetApp().GetTopWindow())->SetStatusText(hover.c_str(), 2);
   }
 }
 
