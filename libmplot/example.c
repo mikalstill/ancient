@@ -56,6 +56,10 @@ main (int argc, char *argv[])
     exit(42);
   }
   plot_overlayraster(graph, newgnu, 10, 10, 90, 90, gnux, gnuy);
+  plot_setlinecolor(graph, 255, 0, 0);
+  plot_rectangle(graph, 10, 10, 90, 90);
+  plot_strokeline(graph);
+  plot_endline(graph);
 
   // A red line from 10, 10 to 20, 10
   plot_setlinecolor(graph, 255, 0, 0);

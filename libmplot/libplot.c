@@ -1591,14 +1591,47 @@ plot_paintglyph (plot_state * state, char character, int dopaint, int countdirec
 }
 
 // todo_mikal: document
+// This uses a quick and dirty scaling algorithm based on accumulators -- the output
+// isn't very sexy, but it is fast. I should add more algorithms later...
 void plot_overlayraster(plot_state * state, char *raster,
 			unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2, 
 			unsigned int rx, unsigned int ry){
-  unsigned int x, y;
+  unsigned int x, y, ix, iy;
   plot_pixel *pixels = (plot_pixel *) raster;
+  float xscale, xacc, yscale, yacc;
+  int xdir = 1, ydir = 1;
 
-  for(x = x1; x < plot_min(x2, state->x); x++)
-    for(y = y1; y < plot_min(y2, state->y); y++){
-      state->raster[y * state->x + x] = pixels[y * rx + x];
+  printf("Width = %d, new width = %d\n", rx, x2 - x1);
+  xscale = ((float) (x2) - x1) / rx;
+  if(x2 - x1 < rx) xdir = -1;
+  printf("Height = %d, new height = %d\n", ry, y2 - y1);
+  yscale = ((float) (y2) - y1) / ry;
+  if(y2 - y1 < ry) ydir = -1;
+
+  yacc = 0.0;
+  for(iy = 0, y = 0; y < ry; y++){
+    yacc += yscale;
+
+    // If the accumulator says to touch this row at all
+    while(yacc > 1.0){
+      xacc = 0.0;
+      for(ix = 0, x = 0; x < rx; x++){
+	xacc += xscale;
+	while(xacc > 1.0){
+	  // The image is shrinking, so this is a pixel we add
+	  if(xdir == -1){
+	    state->raster[(y1 + iy) * state->x + x1 + ix] = pixels[y * rx + x];
+	    ix++;
+	  }
+	  else{
+	    printf("Do expansion\n");
+	  }
+	  
+	  xacc -= 1.0;
+	}
+      }
+      yacc -= 1.0;
+      iy++;
     }
+  }
 }
