@@ -10,8 +10,6 @@
   
 #include <pandalex.h>
 
-#include "samples.h"
-  
 #include <stdarg.h>
 #include <stdlib.h>
 #include <stdio.h>
