@@ -1,8 +1,9 @@
 <chapter><title>Installing GDMS</title>
 <sect1><title>Dependancies</title>
   <para>
-    There are several dependancies that the user needs to be aware of whilst installing GDMS from source. Each of these
-    dependancies, and their version at the time that this manual was produced are documented below.
+    There are several dependencies that the user needs to be aware of whilst installing GDMS from source. These are
+    wxWindows, mplot, pcre, and freetype. Each of these dependancies, and their version at the time that this manual
+    was produced are documented below.
   </para>
 
   <para>
@@ -29,13 +30,23 @@
 
 <sect1><title>Installing</title>
   <para>
-    The installation proces for the <command>GDMS</command> is as follows:
+    The installation process for the <command>GDMS</command> is as follows:
+    <itemizedlist>
+      <listitem>Change to the source directory</listitem>
+      <listitem>Type the following commands:
+      <programlisting>
+        ./configure
+        make
+        make install
+      </programlisting>
+      This will install the application to the default path, the prefix for which is currently
+      <programlisting>/usr/local/</programlisting>. If your path is not set to search this location
+      the this need to be done. Check the documentation for your specific opertating system for
+      more information on how to do this.
+      </listitem>
+    </itemizedlist>
   </para>
-  <programlisting>
-    ./configure
-    make
-    make install
-  </programlisting>
+
 </sect1>
 
 

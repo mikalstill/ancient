@@ -1,42 +1,43 @@
 <chapter><title>Quick start guide</title>
 
-<sect1><title>Foo</title>
+<sect1><title>Getting Started</title>
   <para>
-    Follow the instructions in the installation section of this user manual and then at a shell prompt, type
+    Follow the instructions in the installation section of this user manual and then at a shell prompt, type gdms
 </para>
 <programlisting>
-./gdms
+[user@localhost /home/user]$ gdms
 </programlisting>
 <para>
-  To open a data set, select <command>File</command> - <command>Open</command>. Browse to the location in which the
-  data sets to be opened resides and then click <command>Open</command>.
+  To open a data set, select <command>File</command> - <command>Open</command>. Browse to the location of the desired 
+  data set and then click <command>Open</command>.
 </para>
 
 <para>
-  Now that a dataset has been loaded, use the <command>Maths</command> menu to carry out data processing. For further details of specific
-  options here, please refer to the Reference chapter.
-</para>
-<para>
-  To close the data set currently in focus, select
-  <command>File</command> - <command>Close.</command>.
-</para>
-<para>
-  To exit the program, simply select <command>File</command> -
-  <command>Exit</command>. 
-</para>
-<para>
-  To save the data set after processing, select <command>File</command> -
-  <command>Save</command>. Choose the desired location and click <command>OK</command>.
-</para>
-<para>
-  To save under a
-  different file name, select <command>File</command> - <command>Save As</command>. Enter a file name and once again,
-  choose a location and click <command>OK</command>.
+  After the data set has been loaded, use the <command>Maths</command> menu to carry out data processing. For further
+  details of specific options, please refer to the chapter titled 'Using GDMS'.
 </para>
 
 <para>
-  For further details on these features and the other <command>GDMS</command> functionality, please refer to the Reference
-  section of this manual.
+  To close the data set currently in focus, select <command>File</command> - <command>Close.</command>.
+</para>
+
+<para>
+  To exit the program, select <command>File</command> -  <command>Exit</command>. 
+</para>
+
+<para>
+  To save the data set after processing, select <command>File</command> - <command>Save</command>.
+  Choose the desired location and click <command>OK</command>.
+</para>
+
+<para>
+  To save under a different file name, select <command>File</command> - <command>Save As</command>.
+  Choose a location, enter the filename and click <command>OK</command>.
+</para>
+
+<para>
+  For further details on these features and the other <command>GDMS</command> functionality, please refer
+  to the setion titled 'Using GDMS'.
 </para>
 </sect1>
 
