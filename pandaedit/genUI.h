@@ -86,7 +86,9 @@ DECLARE_APP (genApp)
 
      extern genFrame *GetMainFrame (void);
 
-#define GENMENU_ABOUT   2
+#define GENMENU_ABOUT 2
+#define GENMENU_NEXTPAGE 3
+#define GENMENU_PREVPAGE 4
 
      extern bool singleWindowMode;
 

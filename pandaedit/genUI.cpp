@@ -213,6 +213,7 @@ genApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
 			    wxPoint (10, 10), wxSize (300, 300),
 			    wxDEFAULT_FRAME_STYLE);
 
+  // todo_mikal: icons
 #ifdef __WXMSW__
   subframe->SetIcon (wxString (isCanvas ? "chart" : "notepad"));
 #endif
@@ -220,7 +221,10 @@ genApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
   subframe->SetIcon (wxIcon ("doc.xbm"));
 #endif
 
+  ////////////////////////////
   // Make a menubar
+
+  // File menu
   wxMenu *file_menu = new wxMenu;
 
   file_menu->Append (wxID_OPEN, "&Open...");
@@ -239,11 +243,23 @@ genApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
   file_menu->AppendSeparator ();
   file_menu->Append (wxID_EXIT, "E&xit");
 
-  wxMenu *help_menu = new wxMenu;
-  help_menu->Append (GENMENU_ABOUT, "&About");
-
   wxMenuBar *menu_bar = new wxMenuBar;
   menu_bar->Append (file_menu, "&File");
+
+  // Navigation menu
+  if(isCanvas){
+    wxMenu *nav_menu = new wxMenu;
+    
+    // todo_mikal: Use PAGEUP and PAGEDOWN as well...
+    nav_menu->Append (GENMENU_PREVPAGE, "Prev page\tF11");
+    nav_menu->Append (GENMENU_NEXTPAGE, "Next page\tF12");
+
+    menu_bar->Append (nav_menu, "Navigation");
+  }
+
+  // Help Menu
+  wxMenu *help_menu = new wxMenu;
+  help_menu->Append (GENMENU_ABOUT, "&About\tF1");
   menu_bar->Append (help_menu, "&Help");
 
   // Associate the menu bar with the frame

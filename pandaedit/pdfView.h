@@ -62,6 +62,9 @@ public:
   void OnUpdate (wxView * sender, wxObject * hint = (wxObject *) NULL);
   bool OnClose (bool deleteWindow = TRUE);
 
+  void OnNextPage (wxCommandEvent & event);
+  void OnPrevPage (wxCommandEvent & event);
+
 private:
   pageCache m_renders;
   int m_page;

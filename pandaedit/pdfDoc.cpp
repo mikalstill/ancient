@@ -149,6 +149,12 @@ pdfDoc::getPDF()
   return m_pdf;
 }
 
+unsigned int
+pdfDoc::getPageCount()
+{
+  return m_pages.size();
+}
+
 // A scary global progress handler
 void
 ds_progressCallback ()

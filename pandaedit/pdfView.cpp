@@ -1,7 +1,7 @@
 
 /* 
  *   UI for the CEP program
- *   Copyright (C) Michael Still                    2002
+ *   Copyright (C) Michael Still                    2002, 2003
  *   Copyright (C) Kristy Van Der Vlist             2002
  *   Copyright (C) Blake swadling                   2002
  *
@@ -68,6 +68,8 @@
 
 IMPLEMENT_DYNAMIC_CLASS (pdfView, wxView)
 BEGIN_EVENT_TABLE (pdfView, wxView)
+EVT_MENU (GENMENU_NEXTPAGE, pdfView::OnNextPage)
+EVT_MENU (GENMENU_PREVPAGE, pdfView::OnPrevPage)
 END_EVENT_TABLE ()
 
 pdfView::pdfView ()
@@ -228,4 +230,41 @@ pdfView::OnClose (bool deleteWindow)
       return TRUE;
     }
   return TRUE;
+}
+
+void
+pdfView::OnNextPage(wxCommandEvent&)
+{
+  // todo_mikal: end check
+  pdfDoc *theDoc = (pdfDoc *) GetDocument ();
+  if(!theDoc->isReady()){
+    printf("DEBUG: Page change ignored because PDF document not ready\n");
+    return;
+  }
+
+  if(m_page + 1 < theDoc->getPageCount()){
+    m_page++;
+    canvas->Refresh();
+  }
+  else{
+    printf("DEBUG: No more pages\n");
+  }
+}
+
+void
+pdfView::OnPrevPage(wxCommandEvent&)
+{
+  pdfDoc *theDoc = (pdfDoc *) GetDocument ();
+  if(!theDoc->isReady()){
+    printf("DEBUG: Page change ignored because PDF document not ready\n");
+    return;
+  }
+
+  if(m_page != 0){
+    m_page--;
+    canvas->Refresh();
+  }
+  else{
+    printf("DEBUG: Already at the start of the document\n");
+  }
 }
