@@ -1,5 +1,5 @@
 %{
-//#include "lexer.tab.h"
+//#include "lexer.c"
 
 extern int binaryMode;
 

@@ -1,10 +1,5 @@
 %{
-  #include "constants.h"
-  #include "functions.h"
-
   int    binaryMode;
-  pdf    *yypdf;
-  object *yycurobj = NULL;
 %}
 
           /* Define the possible yylval values */
@@ -33,60 +28,23 @@
 pdf       : header objects xref trailer
           ;
 
-header    : VERSION binary {
-                      // I'm not sure what the binary is doing for me, 
-                      // the version seems to have all of the header 
-                      // information...
-                      pdfprintf(yypdf, "%s", $1);
-		      free($1);
-                                                                             }
+header    : VERSION binary {}
           ;
 
 objects   : object objects
           |
           ;
 
-object    : INT INT OBJ {
-		      // Create the object in the new PDF we are building
-		      yycurobj = newobject(yypdf, gNormal);
-
-		      // Make the object actually look like the one we read
-		      yycurobj->number = $1;
-		      yycurobj->generation = $2;
-
-		      // Make the object a child of the pages object
-		      addchild(yypdf->dummyObj, yycurobj);
-                                                                             }
+object    : INT INT OBJ {}
                         DBLLT dict DBLGT stream ENDOBJ
           ;
 
-dict      : NAME STRING dict {
-                      adddictitem(yycurobj->dict, $1, gLiteralTextValue, $2);
-		      free($1);
-		      free($2);
-                                                                             }
-          | NAME NAME dict {
-                      ((dictionary *) 
- 		        adddictitem(yycurobj->dict, $1, gLiteralTextValue, $2))
-                        ->valueType = gTextValue;
-		      free($1);
-		      free($2);
-                                                                             }
-          | NAME ARRAY arrayvals ENDARRAY dict {
-                                                                             }
-          | NAME OBJREF dict {
-                      ((dictionary *) 
- 		        adddictitem(yycurobj->dict, $1, gLiteralTextValue, $2))
-                        ->valueType = gObjValue;
-		      free($1);
-		      free($2);
-                                                                             }
-          | NAME DBLLT dict DBLGT dict {
-                                                                             }
-          | NAME INT dict {
-	              adddictitem(yycurobj->dict, $1, gIntValue, $2);
-		      free($1);
-                                                                             }
+dict      : NAME STRING dict {}
+          | NAME NAME dict {}
+          | NAME ARRAY arrayvals ENDARRAY dict {}
+          | NAME OBJREF dict {}
+          | NAME DBLLT dict DBLGT dict {}
+          | NAME INT dict {}
           |
           ;
 
@@ -99,21 +57,8 @@ stream    : STREAM { binaryMode = 1; } binary { binaryMode = 0; } ENDSTREAM
           |
           ;
 
-binary    : ANYTHING binary {
-  if($2 != NULL){
-  		  if(($$ = malloc(sizeof($1) + sizeof($2))) == NULL)
-  		    error("Could not build the binary stream.");
-		  printf("%s ___ %s\n", $1, $2);
-  		  //strcpy($$, $2);
-  //		  strcat($$, $2);
-  //		  free($1);
-  //		  free($2);
-  		}
-  		else $$ = $1;
-                                                                             }
-          | {
-                        $$ = NULL;
-                                                                             }
+binary    : ANYTHING binary {}
+          | {}
           ;
 
 xref      : STRING INT INT xrefitems {}
@@ -124,7 +69,7 @@ xrefitems : INT INT STRING xrefitems {}
           ;
 
 trailer   : STRING DBLLT dict DBLGT STRING INT PDFEOF {}
-;
+          ;
 
 %%
 
@@ -132,15 +77,7 @@ main(){
   // We are not looking into a stream at the moment
   binaryMode = 0;
 
-  // Startup the pdf library and stuff
-  initpanda();
-  if((yypdf = pdfopen_suppress("lexical.pdf", "w")) == NULL)
-    error("lexer: could not open lexical.pdf");
-
   yyparse();
-
-  // Write the new pdf out
-  pdfclose(yypdf);
 }
 
 yyerror(char *s){
