@@ -85,6 +85,9 @@ plot_newplot (unsigned int x, unsigned int y)
   state->linecolor.b = 0;
 
   state->line = (plot_lineseg *) NULL;
+
+  if(FT_Init_FreeType(&state->ft))
+    state->ft = NULL;
   return state;
 }
 

@@ -1,6 +1,11 @@
 // Libplot, a simple C library to draw graphs into rasters. Many of the drawing
 // commands here are modelled on those available in PDF...
 
+#if defined HAVE_LIBFREETYPE
+#include <ft2build.h>
+#include FT_FREETYPE_H
+#endif
+
 #ifndef LIBPLOT_HEADER
 #define LIBPLOT_HEADER
 
@@ -38,6 +43,11 @@ typedef struct plot_internal_state
   int linedash;
   plot_pixel fillcolor;
   plot_pixel linecolor;
+
+#if defined HAVE_LIBFREETYPE
+  // Freetype
+  FT_Library ft;
+#endif
 }
 plot_state;
 

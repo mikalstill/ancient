@@ -20,9 +20,21 @@ dnl The syntax is library name, function, action if found, action if not found
 dnl We just use the default if found action which adds -l<lib> to the LIBS var
 dnl and #defined HAVE_LIB<lib>
 
-
 dnl -lm:
 AC_CHECK_LIB(m, atan)
+
+dnl -lfreetype
+AC_CHECK_LIB(freetype, FT_Init_FreeType)
+
+dnl This is an excessively ugly freetype check
+AC_PATH_PROG(FREETYPE_CONFIG, freetype-config, no)
+if test x$FREETYPE_CONFIG = xno ; then
+  AC_MSG_ERROR([*** freetype-config not found])
+fi
+
+FREETYPE_CFLAGS="`$FREETYPE_CONFIG --cflags`"
+FREETYPE_LIBS="`$FREETYPE_CONFIG --libs`"
+CFLAGS="$CFLAGS $FREETYPE_CFLAGS"
 
 dnl -lpng:
 AC_CHECK_LIB(png, png_init_io)
