@@ -112,9 +112,8 @@ If we have not worked with you before, we need to see a sample of your writing. 
 
 It is not that we are looking for Pulitzer prize-winning authors. Probably the single most important requirement is for you to have a thorough understanding of what you are writing about. But the writing sample will help us gauge the overall process more accurately: for example, our scheduling will be affected by the time we estimate is required for editorial support.
 
-<sect1><title>Tools</title>
+<sect1><title>The format of the manuscript</title>
 <para>
-Approved Formats
 In order to produce a book as rapidly, accurately, and inexpensively as possible, we need electronic source files that either have paragraph and inline style tags or that we can easily convert to file formats with paragraph and style tags. (If an author formats the source in a word processor by inserting a tab for a new paragraph and printing different levels of headers in gradations of point sizes and in special fonts, etc., so that text *prints* appropriately, that is of no use to us when it comes to book production. We need electronically coded paragraph and inline style tags, not font and point and space specifications.)
 
 Concretely, this means that any of the following formats for source files will optimize the production process for a given O'Reilly book:
@@ -128,22 +127,6 @@ Concretely, this means that any of the following formats for source files will o
     * FrameMaker--again, if tagged according to the paragraph and character style tags in the template available for anonymous ftp as, for example for Nutshell books, the template is: ftp://ftp.ora.com/pub/frame/templates/best/best.chap.mif
 
     * clean LaTeX, where "clean" means without elaborate local macros. If you have an author who wishes to use this option, it is especially important for us to have a sample file and to interact with the author as early as possible in the production process.
-
-<sect1><title>Only-if-you-must Formats</title>
-<para>
-Authors should be discouraged from providing files in the following formats because they will definitely slow down a book's production and increase its cost. Files in these formats will be pushed back to editorial for further work. If necessary, we'll hire freelancers to convert the files to acceptable formats, and then we'll submit the revised files to editorial for review before release to production. All this means not just delays but also increased possibility of screw-ups and hassles for all concerned.
-
-# TeX files marked up in home-grown macros: our filter will not recognize them and will need to be completely reconfigured for a one-shot job.
-
-# WordPerfect files: while WordPerfect has transferable style tags for headings and other paragraph types, its inline tagging is not transferable.
-
-# HTML files: although it is a form of sgml, it is a low level of markup and requires work in order to be acceptable for print. At a minimum, HTML files should be parsable with weblint.
-
-# MacWrite (old versions), Nisus, or files from other word processors that do not provide real paragraph or inline style tags.
-
-# Files in any of the above list of approved formats if they are *incorrectly* tagged with paragraph and inline style tags or, which is worse, *not tagged at all*. (On the other hand, if a file is correctly and completely tagged with paragraph and inline style tags that do not happen to be from our templates, it *is* usable, because we can easily change the tag names to the ones we use.)
-
-# Books in multiple file formats, whether they are in approved or only-if-you-must formats. If a book is in multiple file formats, we cannot then filter all the files of a book at once, but have to run several different filters, each requiring its own cleanup phase (no filter is perfect, and all have different shortcomings). In other words, each additional file format for a file of the same book can require an added amount of work comparable to (though certainly not equal to) that for a whole new book in a single file format. For more information about formats and templates, please contact The ORA Production Tools Department.
 
 <sect1><title>Who Are You?</title>
 <para>
