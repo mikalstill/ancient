@@ -16,11 +16,23 @@ pdfdump_dictint_list *dictint_list;
 
 char *filter = NULL;
 
+void binarySafePrint(char *input){
+  int i;
+
+  for(i = 0; i < strlen(input); i++){
+    if(isprint(input[i]))
+      printf("%c", input[i]);
+    else
+      printf(" \\%d ", (unsigned char) input[i]);
+  }
+}
+
 // Some demo code for how to use PandaLex
 int main(int argc, char *argv[]){
   pandalex_init();
 
-  // Parse the command line to find out what we are doing today -- this needs more thought
+  // Parse the command line to find out what we are doing today -- this needs 
+  // more thought
   if(strcmp(argv[0], "pdfmeta") == 0){
     pdfdump_application = pdfdump_meta;
   }
@@ -35,14 +47,20 @@ int main(int argc, char *argv[]){
   pandalex_setupcallback(pandalex_event_objstart, pdfdump_objstart);
   pandalex_setupcallback(pandalex_event_objend, pdfdump_objend);
 
-  pandalex_setupcallback(pandalex_event_dictitem_string, pdfdump_dictitem_string);
+  pandalex_setupcallback(pandalex_event_dictitem_string, 
+			 pdfdump_dictitem_string);
   pandalex_setupcallback(pandalex_event_dictitem_name, pdfdump_dictitem_name);
-  pandalex_setupcallback(pandalex_event_dictitem_arraystart, pdfdump_dictitem_arraystart);
-  pandalex_setupcallback(pandalex_event_dictitem_arrayitem, pdfdump_dictitem_arrayitem);
-  pandalex_setupcallback(pandalex_event_dictitem_arrayend, pdfdump_dictitem_arrayend);
-  pandalex_setupcallback(pandalex_event_dictitem_object, pdfdump_dictitem_object);
+  pandalex_setupcallback(pandalex_event_dictitem_arraystart, 
+			 pdfdump_dictitem_arraystart);
+  pandalex_setupcallback(pandalex_event_dictitem_arrayitem, 
+			 pdfdump_dictitem_arrayitem);
+  pandalex_setupcallback(pandalex_event_dictitem_arrayend, 
+			 pdfdump_dictitem_arrayend);
+  pandalex_setupcallback(pandalex_event_dictitem_object, 
+			 pdfdump_dictitem_object);
   pandalex_setupcallback(pandalex_event_dictitem_dict, pdfdump_dictitem_dict);
-  pandalex_setupcallback(pandalex_event_dictitem_dictend, pdfdump_dictitem_dictend);
+  pandalex_setupcallback(pandalex_event_dictitem_dictend, 
+			 pdfdump_dictitem_dictend);
   pandalex_setupcallback(pandalex_event_dictitem_int, pdfdump_dictitem_int);
 
   pandalex_setupcallback(pandalex_event_stream, pdfdump_stream);
@@ -120,7 +138,9 @@ void pdfdump_dictitem_string(int event, va_list argptr){
   
   name = va_arg(argptr, char *);
   value = va_arg(argptr, char *);
-  printf("  [String] %s = \"%s\"\n", name, value);
+  printf("  [String] %s = \"", name);
+  binarySafePrint(value);
+  printf("\"\n");
 
   if(strcmp(name, "Filter") == 0){
     filter = value;
@@ -199,8 +219,6 @@ void pdfdump_stream(int event, va_list argptr){
   streamDataLen = va_arg(argptr, int);
 
   printf("  Length = %d\n", streamDataLen);
-  printf("\n\n--------------------------------\n%s\n--------------------------------\n\n", 
-	 streamData);
 }
 
 void pdfdump_dictint(int event, va_list argptr){

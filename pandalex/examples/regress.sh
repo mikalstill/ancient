@@ -25,6 +25,7 @@ other=0
 path="/home/httpd/html/pdfdb"
 pcount=`printf "%06d" $count`
 highest=`cat $path/highest`
+highest=$(( $highest + 1 ))
 
 while [ $count -lt $highest ]
 do

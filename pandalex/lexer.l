@@ -207,23 +207,26 @@ exit(42);
                             return STRING; 
                                                                              }
 
-<INITIAL,BINARY>\[(([^\[\]])|(\\\[)|(\\\]))*\] {
+<INITIAL,BINARY>\[(([^\[\]])|(\\\[)|([^\\]\\\]))*\] {
                           debuglex(yytext, yyleng, "bracketted string v1");
-                            yylval.sval.data = (char *) returnStr(yytext, yyleng); 
+                            yylval.sval.data = (char *) returnStr(yytext, 
+								  yyleng); 
                             yylval.sval.len = yyleng;
                             return STRING; 
                                                                              }
 
-<INITIAL,BINARY>\((([^\(\)])|(\\\()|(\\\)))*\) {
+<INITIAL,BINARY>\((([^\(\)])|(\\\()|([^\\]\\\)))*\) {
                           debuglex(yytext, yyleng, "bracketted string v2");
-                            yylval.sval.data = (char *) returnStr(yytext, yyleng);
+                            yylval.sval.data = (char *) returnStr(yytext, 
+								  yyleng);
                             yylval.sval.len = yyleng; 
                             return STRING; 
                                                                              }
 
-<INITIAL,BINARY>\<(([^\<\>])|(\\\<)|(\\\>))*\> {
+<INITIAL,BINARY>\<(([^\<\>])|(\\\<)|([^\\]\\\>))*\> {
                           debuglex(yytext, yyleng, "bracketted string v3");
-                            yylval.sval.data = (char *) returnStr(yytext, yyleng);
+                            yylval.sval.data = (char *) returnStr(yytext, 
+								  yyleng);
                             yylval.sval.len = yyleng; 
                             return STRING; 
                                                                              }
