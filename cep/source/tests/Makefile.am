@@ -16,7 +16,7 @@ testmatrix_SOURCES = alltests.cpp cep_testMatrix.cpp
 testconfig_SOURCES = alltests.cpp cep_testConfig.cpp
 
 testls_SOURCES = alltests.cpp cep_testLs.cpp
-testls_LDADD = ../cepLs.o
+testls_LDADD = ../cepLs.o ../cepDataset.o ../cepStringArray.o
 
 testdataset_SOURCES = alltests.cpp cep_testDataset.cpp
 testdataset_LDADD = ../cepDataset.o ../cepStringArray.o ../cepMatrixIO.o
