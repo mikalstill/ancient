@@ -70,7 +70,7 @@
     can be seen from (EQUATION 1) that this is the most often used operation in calculating a Least Squares solution and is by far
     the slowest of all the matrix operations. This is due to the fact that in a normal matrix multiplication if, for example, we
     were multiplying matrix A by matrix B where A is <command>m</command> x <command>n</command> and B is <command>n</command> x
-    <command>o<command> it would take <command>m</command> x <command>n</command> x <command>o</command> additions plus 
+    <command>o</command> it would take <command>m</command> x <command>n</command> x <command>o</command> additions plus 
     <command>m</command> x <command>n</command> x <command>o</command> multiplications to reach as solution. Conversely, if certain
     properties are known about the matrices that are being used, the number of computations can be greatly reduced. For instance,
     in VCV Time Domain analysis we know that the weighting matrix P is always strictly diagonal, that is, for every
