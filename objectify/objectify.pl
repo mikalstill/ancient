@@ -60,7 +60,7 @@ foreach $possfunction (split(/;/, $code)){
 	    $_ = $arg;
 	    if(($arg ne "char*") && ($arg ne "int*") && ($arg ne "void*") && 
 	       (/\*$/)){
-		$pointers{$arg} = $pointers{$arg}."$rval;$fval;$aval;";
+		$pointers{$arg} = $pointers{$arg}."$rval!$fval!$aval;";
 	    }
 	}
 
@@ -83,12 +83,9 @@ foreach $key (keys %pointers){
 	# We need to output all the functions which use one of these pointers
 	my($rval, $fval, $aval, @argsarray);
 	@argsarray = split(/;/, $pointers{$key});
-	
+
 	while($argsarray[0] ne ""){
-	    $rval = shift(@argsarray);
-	    $fval = shift(@argsarray);
-	    $aval = shift(@argsarray);
-	    
+	    ($rval, $fval, $aval) = split(/!/, shift @argsarray);
 	    $aval =~ s/$class[ \t\*]+[, ]*//;
 	    
 	    # We only support one parent at the moment
@@ -126,17 +123,14 @@ foreach $key (keys %pointers){
 	# We need to output all the functions which use one of these pointers
 	my($rval, $fval, $aval, $origargs, @argsarray);
 	@argsarray = split(/;/, $pointers{$key});
-	
+
 	while($argsarray[0] ne ""){
-	    $rval = shift(@argsarray);
-	    $fval = shift(@argsarray);
-	    $aval = $origargs = shift(@argsarray);
-	    
+	    ($rval, $fval, $aval) = split(/!/, shift @argsarray);
+	    	    
 	    # Do we have a child relationship because of this function?
 	    $aval =~ s/$class[ \t\*]+[, ]*//;
 	    if($family{$class} ne ""){
 		$temp = $family{$class};
-		
 		$aval =~ s/$temp[ \t\*]+[, ]*//;
 	    }
 
