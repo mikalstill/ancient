@@ -57,18 +57,31 @@ I have been trained in the following fields (this does not include on the job tr
 
 <sect1><title>Open source</title>
 <para>
-I am committed to the concept of open source development, and am currently working on a few open source projects. These currently include:
+I am committed to the concept of open source development, and am currently working on a few open source projects in my free time. These currently include:
 </para>
 
 <itemizedlist>
-<listitem><para>Panda, the only open source and truly free PDF generation API that I am aware of that is written in C</para></listitem>
-<listitem><para>PandaLex, an open source PDF parser</para></listitem>
-<listitem><para>PandaScript, an open source scripting interface to Panda</para></listitem>
-<listitem><para>Autodocbook, an automatic documentation generator which produces DocBook DTD SGML</para></listitem>
-<listitem><para>Groff2db, a gruff to DocBook converter</para></listitem>
-<listitem><para>Getpage, a dynamic website generation tool</para></listitem>
+<listitem><para>a variety of articles and book reviews discussing open source software</para></listitem>
+<listitem><para>selections of sample code in various languages</para></listitem>
+<listitem><para>several <trademark>Palm</trademark> integration projects</para></listitem>
+<listitem><para>several DocBook packages, including a build engine, a formatted comment extraction system, a groff to DocBook converter, and partial responsibility for the kernel-doc infrasturcture used for the <trademark>Linux</trademark> kernel</para></listitem>
+<listitem><para>a vcard parser</para></listitem>
+<listitem><para>a techtonic movement visualization package, developed for researchers at Univeristy of Canberra and MIT</para></listitem>
+<listitem><para>a Microsoft CHM (compiled help) extractor</para></listitem>
+<listitem><para>a FAT filesystem decoder</para></listitem>
+<listitem><para>a proof of concept API implementation for the GNU privacy guard PGP implementation</para></listitem>
+<listitem><para>a simple rasterization library</para></listitem>
+<listitem><para>various <trademark>Linux</trademark> kernel patches</para></listitem>
+<listitem><para>several PDF packages, including a generation API, a scirpting front end to the generation API, a PDF parser API, and a simple editor</para></listitem>
+<listitem><para>several PNG image utilities</para></listitem>
+<listitem><para>a DNS server written in bourne again shell (bash)</para></listitem>
+<listitem><para>a SnoopyPro, USB protocol analyser log dumper</para></listitem>
 <listitem><para>...And many other smaller projects</para></listitem>
 </itemizedlist>
+
+<para>
+It should be noted however, that I also have experience in developing commercial applications as well.
+</para>
 </sect1>
 
 <sect1><title>Internet community</title>
@@ -95,7 +108,7 @@ I am currently employed as a senior software engineer with TOWER Software Pty Lt
 </para>
 
 <para>
-The majority of my time is spent solving complex technical problems. These might be problems I have encountered myself while implementing a system, but also includes problems delegated from other members of the team. These problems have ranged from errors in complex pieces of code dealing with images at a bit level, generating PDF documents from scratch, or solving problems related to Microsoft Windows development. I am also responsible for large amounts of development in areas which were previously poorly understood by TOWER.
+The majority of my time is spent solving complex technical problems. These might be problems I have encountered myself while implementing a system, but also includes problems delegated from other members of the team. These problems have ranged from errors in complex pieces of code dealing with images at a bit level, network programming, system design and implementation, or solving problems related to Microsoft Windows development. I am also responsible for large amounts of development in areas which were previously poorly understood by TOWER.
 </para>
 
 <sect2><title>Examples of recent development experience</title>
@@ -105,11 +118,11 @@ The following examples of systems I have recently developed might be of some ass
 
 <sect3><title>API work</title>
 <para>
-Panda, an open source PDF generation API is currently under development and is available for download . Panda supports all of the major PDF constructs, as well as containing JPEG and TIFF support. This involves low level manipulation of TIFF images into the subset of the TIFF specification that is supported by the PDF specification.
+Panda, an open source PDF generation API is currently under development and is available for download . Panda supports all of the major PDF constructs, as well as containing JPEG, PNG and TIFF support. This involves low level manipulation of TIFF images into the subset of the TIFF specification that is supported by the PDF specification.
 </para>
 
 <para>
-PandaLex, an open source PDF parsing engine, which is currently nearing it first public release. This involves a bison and flex parser where some of the information parsed is binary. This library will allow Panda to support modification of existing PDF documents, as well as aid the reverse engineering required for development of support for linearized PDF .
+PandaLex, an open source PDF parsing engine. This involves a bison and flex parser where some of the information parsed is binary. This library allows PandaEdit to support modification of existing PDF documents, as well as aid the reverse engineering required for development of support for linearized PDF.
 </para>
 
 <para>
@@ -119,11 +132,7 @@ PandaScript, an open source scripting interface to Panda, which was developed us
 
 <sect3><title>Application work</title>
 <para>
-I have been involved with the implementation of various Internet based systems for IPAustralia. IPAustralia is the Australian Patents, Trade Marks, and Designs offices.
-</para>
-
-<para>
-I have developed several large scale PDF generation applications for IPAustralia. These were developed in C using a PDF generation API, and partially led to the development of Panda. These applications are capable of generating a 4,500 page PDF document in less than a minute on mid-range PC hardware running FreeBSD -- suitable for serving these documents on the fly to Internet customers. There is also a Windows NT version of one of these applications.
+I have been involved with the implementation of various Internet based systems for IPAustralia, the Australian Patents, Trade Marks, and Designs offices. I have developed several large scale PDF generation applications for IPAustralia. These were developed in C using a PDF generation API, and partially led to the development of Panda. These applications are capable of generating a 4,500 page PDF document in less than a minute on mid-range PC hardware running FreeBSD -- suitable for serving these documents on the fly to Internet customers. There is also a Windows NT version of one of these applications.
 </para>
 
 <para>
@@ -143,25 +152,27 @@ The ongoing maintenance and development of several corporate imaging systems, ra
 
 <sect3><title>Commercial software development of a leading Records Management and EDMS product</title>
 <para>
-This has included implementation of the ODMA specification, the parsing of Microsoft structured storage files, MFC user interfaces, document content searching and many other projects. Development was undertaken under win32 using COM and DCOM.
+This has included implementation of the ODMA specification, the parsing of Microsoft structured storage files, MFC user interfaces, document content searching, a custom web server, and many other projects. Development was undertaken under win32 using COM and DCOM.
 </para>
 </sect3>
 
 <sect3><title>System Testing</title>
 <para>
-I believe that proper testing of code before release is important. At one of my previous jobs (in the list below), I was responsible for the testing of a complex Internet application for Australia's largest telecommunications company. This involved the generation of use cases, test scripts, the planning of regression, unit and occasionally acceptance testing, and the implementation of this testing.
+I believe that proper testing of code before release is important. At one of my previous jobs (in the list below), I was a member of the team responsible for the testing of a complex Internet application for Australia's largest telecommunications company. This involved the generation of use cases, test scripts, the planning of regression, unit and occasionally acceptance testing, and the implementation of this testing.
 </para>
 
 <para>
-I am currently responsible for the acceptance testing for the Windows and Unix APIs for the most expensive piece of software my current employer has ever acquired -- an EDMS / Workflow suite from Objective Corporation.
-</para>
-
-<para>
-My open source coding is also thoroughly tested. Panda, for instance, is put through a series of regression and common use tests before each release. Before a release is marked as stable, as series of unstable <quote>release candidates</quote> are also released to the wider developer community for testing. I am also working on implementation of a series of automated test cases, possibly using dejaGNU. I am also interested in implementing a series of random tests, where API calls are randomly made to check for errors in less commonly used execution paths. I regularly run code profilers and a debugging version of the memory management API to check for bottlenecks and memory leaks.
+I have previously been  responsible for the acceptance testing for the Windows and Unix APIs for the most expensive piece of software my current employer at the time had ever acquired -- an EDMS / Workflow suite from Objective Corporation.
 </para>
 
 <para>
 I have also liaised with the Quality Assurance team at TOWER Software on many occasions, and understand the issues involved with testing of complex commercial software packages.
+</para>
+</sect3>
+
+<sect3><title>Kernel development</title>
+<para>
+I have a contributed a variety of patches to the Linux kernel, starting with the late part of the 2.5 development series. Many of these patches are janitorial in nature, although I have also worked on the kernel-doc documentation infrastructure. For more information about the current status of my kernel patches, you can check my patch tracker at: http://www.stillhq.com/cgi-bin/patchtrack?dir=linux/patches
 </para>
 </sect3>
 
@@ -207,7 +218,7 @@ Below is a list of the expertise I currently have. I am confident in developing 
 </para>
 
 <para>
-Packaging / portability: autoconf, automake, libtool and InstallShield.
+<command>Packaging / portability:</command> autoconf, automake, libtool and InstallShield.
 </para>
 </sect1>
 
