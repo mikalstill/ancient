@@ -99,7 +99,7 @@ And to retrieve the value:
 </programlisting>
 
 <para>
-This doesn't work so well when the data you want to store is more complex. For example, let's imagine that we want to store some more information about Daniel -- for instance how many bytes he has transfered this session and a list of his favourite users. I can think of three ways that we can store this information in a <command>tdb</command> database:
+This doesn't work so well when the data you want to store is more complex. For example, let's imagine that we want to store some more information about Daniel -- for instance how many bytes he has transfered this session and a list of his favourite users. I can think of four ways that we can store this information in a <command>tdb</command> database:
 
 <orderedlist>
 <listitem><para>We can define a structure that contains these elements, and then store the pointer to this structure in the <command>tdb</command>. The problem with this is that it doesn't persist across restarts of the program, because the pointer will no longer be valid.</para></listitem>
@@ -116,7 +116,7 @@ The problem with this is that it produces horribly verbose code, because the cod
 
 <listitem><para>We can push all the information into one string, and then store that in the <command>tdb</command>, but this means that we have to handle parsing the information again when you need it back. Since writing <command>trivsql</command> the Samba team has dealt with exactly this problem in this manner. To ease the implementation, Dr Andrew Tridgell has written <command>genstruct</command>, which takes c structures (including pointers) and serializes them into strings. <command>genstruct</command> is available from http://www.samba.org.</para></listitem>
 
-<listitem><para>You can use <command>trivsql</command>, which looks after all the ugliness for you, and allows you to perform select and insert statements in a manner familiar to many programmers. It also makes you more attractive to the opposite sex.</para></listitem>
+<listitem><para>You can use <command>trivsql</command>, which looks after all the ugliness for you, and allows you to perform select and insert statements in a manner familiar to many programmers.</para></listitem>
 </orderedlist>
 </para>
 </sect1>
@@ -133,13 +133,13 @@ Later in this article I will discuss some of the techniques I have used to parse
 
 <sect1><title>The current state of play</title>
 <para>
-The intention is not to implement the full SQL specification at this time. Currently, <command>trivsql</command> supports the CREATE TABLE command; the SELECT command; and the INSERT command. By the time this paper is presented at AUUG, the UPDATE command will also be implemented.
+...
 </para>
 </sect1>
 
 <sect1><title>Interface to trivsql</title>
 <para>
-
+...
 </para>
 </sect1>
 
@@ -186,6 +186,26 @@ int main(int argc, char *argv[]){
 }
 </programlisting>
 <para><emphasis>Code: /home/mikal/opensource/trivsql/example.c</emphasis></para>
+
+<sect2><title>Input</title>
+<para>
+The following input:
+</para>
+
+<programlisting>
+CREATE TABLE newtable (cola, colb, colc);
+SELECT * FROM newtable;
+INSERT INTO newtable (cola, colc) VALUES ('123', 'banana');
+SELECT * FROM newtable;
+SELECT * FROM newtable WHERE cola = '123';
+</programlisting>
+<para><emphasis>Code: /home/mikal/opensource/trivsql/example.sql</emphasis></para>
+
+<para>
+Produces the following output:
+</para>
+
+</sect2>
 </sect1>
 
 
@@ -202,7 +222,7 @@ Given that the Samba team chose to use <command>genstruct</command> to solve thi
 
 <sect1><title>What is genstruct?</title>
 <para>
-As previously mentioned, <command>genstruct</command> is very similar in some respects to the perl <command>Data::Dumper</command>. It is therefore useful to provide a brief introduction to that functionality before moving onto <command>genstruct</command>.
+<command>genstruct</command> is very similar in some respects to the perl <command>Data::Dumper</command>. It is therefore useful to provide a brief introduction to that functionality before moving onto <command>genstruct</command>.
 </para>
 
 <sect2><title>Perl's Data::Dumper in a nutshell</title>
@@ -216,6 +236,16 @@ Which produces...
 </para>
 
 <programlisting>
+$VAR1 = [
+          'foo',
+          'bar'
+        ];
+$VAR2 = {
+          'walter' => 'wibble',
+          'carl' => 'chicken',
+          'bob' => 'banana'
+        };
+$VAR3 = 42;
 </programlisting>
 </sect2>
 
@@ -455,6 +485,11 @@ However, the disadvantages of this solution are:
 </sect1>
 
 
+<sect1><title>Conclusion</title>
+<para>
+This paper has described <command>trivsql</command>, a SQL engine which can be embedded into your code. This code is still a work in progress, and updates on it's development can be found at http://www.stillhq.com
+</para>
+</sect1>
 
 
 
@@ -548,19 +583,19 @@ create   : CREATE TABLE STRING '(' colvalspec ')' ';'
          ;
 
 insert   : INSERT INTO STRING '(' colvalspec ')' VALUES '(' colvalspec ')' ';'
-{ gState-&gt;rs = trivsql_makers((char *) $3); trivsql_checktable((char *) $3, &amp;gState-&gt;rs); if(gState-&gt;rs-&gt;errno == TRIVSQL_FALSE){trivsql_doinsert((char *) $3, (char *) $5, (char *) $9);}}
+{ gState-&gt;rs = trivsql_makers((char *) $3); trivsql_checktable((char *) $3, gState-&gt;rs); if(gState-&gt;rs-&gt;errno == TRIVSQL_FALSE){trivsql_doinsert((char *) $3, (char *) $5, (char *) $9);}}
          ;
 
 sel      : SELECT cvsaster FROM STRING { gState-&gt;rs = trivsql_makers((char *) $4); trivsql_xfree(gState-&gt;table); gState-&gt;table = trivsql_xsnprintf("%s", $4); } wsel ';'
-{ trivsql_checktable((char *) $4, &amp;gState-&gt;rs); if(gState-&gt;rs-&gt;errno == TRIVSQL_FALSE){trivsql_doselect((char *) $4, (char *) $2);}}
+{ trivsql_checktable((char *) $4, gState-&gt;rs); if(gState-&gt;rs-&gt;errno == TRIVSQL_FALSE){trivsql_doselect((char *) $4, (char *) $2);}}
          ;
 
 alt      : ALTER STRING ADD COLUMN STRING ';'
-{ gState-&gt;rs = trivsql_makers((char *) $2); trivsql_checktable((char *) $2, &amp;gState-&gt;rs); if(gState-&gt;rs-&gt;errno == TRIVSQL_FALSE){trivsql_doalter((char *) $2, (char *) $5);}}
+{ gState-&gt;rs = trivsql_makers((char *) $2); trivsql_checktable((char *) $2, gState-&gt;rs); if(gState-&gt;rs-&gt;errno == TRIVSQL_FALSE){trivsql_doalter((char *) $2, (char *) $5);}}
          ;
 
 upd      : UPDATE STRING SET STRING '=' str { gState-&gt;rs = trivsql_makers((char *) $2); trivsql_xfree(gState-&gt;table); gState-&gt;table = trivsql_xsnprintf("%s", $2); } wsel ';'
-{trivsql_checktable((char *) $2, &amp;gState-&gt;rs); if(gState-&gt;rs-&gt;errno == TRIVSQL_FALSE){trivsql_doselect((char *) $2, (char *) $4); trivsql_updaters(gState, gState-&gt;rs, (char *) $4, (char *) $6);}}
+{trivsql_checktable((char *) $2, gState-&gt;rs); if(gState-&gt;rs-&gt;errno == TRIVSQL_FALSE){trivsql_doselect((char *) $2, (char *) $4); trivsql_updaters(gState, gState-&gt;rs, (char *) $4, (char *) $6);}}
          ;
 
 
@@ -582,11 +617,11 @@ selector : str '=' str { $$ = trivsql_makesel(trivsql_selequal, $1, $3); }
          | selector AND selector { $$ = trivsql_makeslr(trivsql_seland, $1, $3); }
          | selector OR selector { $$ = trivsql_makeslr(trivsql_seland, $1, $3); }
          | '(' selector ')' { $$ = $2; }
-	 | { $$ = NULL }
+	 | { $$ = NULL; }
          ;
 
-str      : STRING { $$ = $1 } 
-         | '\'' STRING '\'' { $$ = $2 }
+str      : STRING { $$ = $1; } 
+         | '\'' STRING '\'' { $$ = $2; }
          ; 
 
 %%
@@ -599,643 +634,222 @@ int yyerror(char *s){
 <para><emphasis>Code: /home/mikal/opensource/trivsql/parser.y</emphasis></para>
 </sect2>
 
+<sect2><title>Automake Makefile.am</title>
+<para>
+The following file is used to automatically generate a Makefile, in conjunction with <command>autoconf</command>.
+</para>
+
+<programlisting>
+lib_LTLIBRARIES = libtrivsql.la
+noinst_PROGRAMS = sample
+
+libtrivsql_la_SOURCES = parser.y lexer.l tdb.c spinlock.c selectors.c interface.c internal.c
+
+include_HEADERS = trivsql.h trivsql_tdb.h trivsql_spinlock.h
+
+sample_SOURCES = example.c
+sample_LDADD = -ltrivsql -L.libs
+
+YFLAGS = -d
+</programlisting>
+<para><emphasis>Code: /home/mikal/opensource/trivsql/Makefile.am</emphasis></para>
+</sect2>
+
+
+<sect2><title>Autoconf configure.in</title>
+<para>
+The following file is used to automatically generate a configure script, which will build a Makefile appropriate to the build host.
+</para>
+
+<programlisting>
+dnl Process this file with autoconf to produce a configure script.
+AC_INIT(lexer.l)
+AC_CONFIG_AUX_DIR(config)
+AC_REVISION
+AM_INIT_AUTOMAKE(trivsql, 0.4.1)
+AM_MAINTAINER_MODE
+
+dnl Libtool
+AC_LIBTOOL_WIN32_DLL
+AC_LIBTOOL_DLOPEN
+
+dnl Checks for programs.
+AC_PROG_CC
+AM_PROG_LEX
+AC_PROG_YACC
+AC_PROG_INSTALL
+AC_PROG_RANLIB
+AM_PROG_LIBTOOL
+
+dnl Checks for libraries.
+dnl The syntax is library name, function, action if found, action if not found
+dnl We just use the default if found action which adds -l&lt;lib&gt; to the LIBS var
+dnl and #defined HAVE_LIB&lt;lib&gt;
+
+
+dnl -lm:
+AC_CHECK_LIB(m, atan)
+
+dnl -lfl:
+AC_CHECK_LIB(fl, yywrap)
+
+dnl Checks for header files.
+dnl STDC checks for stdlib.h stdarg.h string.h and float.h
+AC_HEADER_STDC
+
+dnl Checks for typedefs, structures, and compiler characteristics.
+
+dnl Checks for library functions.
+
+AC_OUTPUT(Makefile)
+
+
+
+
+</programlisting>
+<para><emphasis>Code: /home/mikal/opensource/trivsql/configure.in</emphasis></para>
+</sect2>
+
+
 <sect2><title>C source code</title>
 <para>
 The following files implement <command>trivsql</command> and <command>tdb</command>...
 </para>
 
 <programlisting>
-dnl aclocal.m4 generated automatically by aclocal 1.4
 
-dnl Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
-dnl This file is free software; the Free Software Foundation
-dnl gives unlimited permission to copy and/or distribute it,
-dnl with or without modifications, as long as this notice is preserved.
+#include "trivsql_tdb.h"
+#include "trivsql_spinlock.h"
 
-dnl This program is distributed in the hope that it will be useful,
-dnl but WITHOUT ANY WARRANTY, to the extent permitted by law; without
-dnl even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-dnl PARTICULAR PURPOSE.
+#ifndef TRIVSQL_HEADER
+#define TRIVSQL_HEADER
 
-# Do all the work for Automake.  This macro actually does too much --
-# some checks are only needed if your package does certain things.
-# But this isn't really a big deal.
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 
-# serial 1
+#define TRIVSQL_FALSE 0
+#define TRIVSQL_TRUE 1
 
-dnl Usage:
-dnl AM_INIT_AUTOMAKE(package,version, [no-define])
+#define TRIVSQL_NOSUCHTABLE 2
+#define TRIVSQL_BADVALUES 3
+#define TRIVSQL_MEMORYERROR 4
+#define TRIVSQL_TDBNULLKEY 5
+#define TRIVSQL_TDBNULLDATA 6
+#define TRIVSQL_TDBSTOREERROR 7
+#define TRIVSQL_NOSUCHCOLUMN 8
+#define TRIVSQL_NOROWSTOUPDATE 9
+#define TRIVSQL_BADSELCOLARG 10
+#define TRIVSQL_DBOPENFAIL 11
 
-AC_DEFUN(AM_INIT_AUTOMAKE,
-[AC_REQUIRE([AC_PROG_INSTALL])
-PACKAGE=[$1]
-AC_SUBST(PACKAGE)
-VERSION=[$2]
-AC_SUBST(VERSION)
-dnl test to see if srcdir already configured
-if test "`cd $srcdir &amp;&amp; pwd`" != "`pwd`" &amp;&amp; test -f $srcdir/config.status; then
-  AC_MSG_ERROR([source directory already configured; run "make distclean" there first])
-fi
-ifelse([$3],,
-AC_DEFINE_UNQUOTED(PACKAGE, "$PACKAGE", [Name of package])
-AC_DEFINE_UNQUOTED(VERSION, "$VERSION", [Version number of package]))
-AC_REQUIRE([AM_SANITY_CHECK])
-AC_REQUIRE([AC_ARG_PROGRAM])
-dnl FIXME This is truly gross.
-missing_dir=`cd $ac_aux_dir &amp;&amp; pwd`
-AM_MISSING_PROG(ACLOCAL, aclocal, $missing_dir)
-AM_MISSING_PROG(AUTOCONF, autoconf, $missing_dir)
-AM_MISSING_PROG(AUTOMAKE, automake, $missing_dir)
-AM_MISSING_PROG(AUTOHEADER, autoheader, $missing_dir)
-AM_MISSING_PROG(MAKEINFO, makeinfo, $missing_dir)
-AC_REQUIRE([AC_PROG_MAKE_SET])])
+#define SELTRUE 1
+#define SELFALSE 0
 
-#
-# Check to make sure that the build environment is sane.
-#
+typedef int (*trivsql_selectorfunc) (char *arg1, char *arg2);
 
-AC_DEFUN(AM_SANITY_CHECK,
-[AC_MSG_CHECKING([whether build environment is sane])
-# Just in case
-sleep 1
-echo timestamp &gt; conftestfile
-# Do `set' in a subshell so we don't clobber the current shell's
-# arguments.  Must try -L first in case configure is actually a
-# symlink; some systems play weird games with the mod time of symlinks
-# (eg FreeBSD returns the mod time of the symlink's containing
-# directory).
-if (
-   set X `ls -Lt $srcdir/configure conftestfile 2&gt; /dev/null`
-   if test "[$]*" = "X"; then
-      # -L didn't work.
-      set X `ls -t $srcdir/configure conftestfile`
-   fi
-   if test "[$]*" != "X $srcdir/configure conftestfile" \
-      &amp;&amp; test "[$]*" != "X conftestfile $srcdir/configure"; then
+typedef struct trivsql_internal_seltreenode
+{
+  char *selArgOne;
+  int selColOne;
+  char *selArgTwo;
+  int selColTwo;
+  trivsql_selectorfunc selector;
+  struct trivsql_internal_seltreenode *left, *right;
+} trivsql_seltreenode;
 
-      # If neither matched, then we have a broken ls.  This can happen
-      # if, for instance, CONFIG_SHELL is bash and it inherits a
-      # broken ls alias from the environment.  This has actually
-      # happened.  Such a system could not be considered "sane".
-      AC_MSG_ERROR([ls -t appears to fail.  Make sure there is not a broken
-alias in your environment])
-   fi
+typedef struct trivsql_internal_col
+{
+  char *val;
+  char *key;
+  struct trivsql_internal_col *next;
+} trivsql_col;
 
-   test "[$]2" = conftestfile
-   )
-then
-   # Ok.
-   :
-else
-   AC_MSG_ERROR([newly created file is older than distributed files!
-Check your system clock])
-fi
-rm -f conftest*
-AC_MSG_RESULT(yes)])
+typedef struct trivsql_internal_row
+{
+  trivsql_col *cols;
+  struct trivsql_internal_row *next, *prev;
+} trivsql_row;
 
-dnl AM_MISSING_PROG(NAME, PROGRAM, DIRECTORY)
-dnl The program must properly implement --version.
-AC_DEFUN(AM_MISSING_PROG,
-[AC_MSG_CHECKING(for working $2)
-# Run test in a subshell; some versions of sh will print an error if
-# an executable is not found, even if stderr is redirected.
-# Redirect stdin to placate older versions of autoconf.  Sigh.
-if ($2 --version) &lt; /dev/null &gt; /dev/null 2&gt;&amp;1; then
-   $1=$2
-   AC_MSG_RESULT(found)
-else
-   $1="$3/missing $2"
-   AC_MSG_RESULT(missing)
-fi
-AC_SUBST($1)])
+typedef struct trivsql_internal_rs
+{
+  int numCols;
+  int numRows;
+  trivsql_row *rows;
+  trivsql_row *currentRow;
 
-# Add --enable-maintainer-mode option to configure.
-# From Jim Meyering
+  char *tname;
+  char *cols;
 
-# serial 1
+  int errno;
+  char *errstring;
+} trivsql_recordset;
 
-AC_DEFUN(AM_MAINTAINER_MODE,
-[AC_MSG_CHECKING([whether to enable maintainer-specific portions of Makefiles])
-  dnl maintainer-mode is disabled by default
-  AC_ARG_ENABLE(maintainer-mode,
-[  --enable-maintainer-mode enable make rules and dependencies not useful
-                          (and sometimes confusing) to the casual installer],
-      USE_MAINTAINER_MODE=$enableval,
-      USE_MAINTAINER_MODE=no)
-  AC_MSG_RESULT($USE_MAINTAINER_MODE)
-  AM_CONDITIONAL(MAINTAINER_MODE, test $USE_MAINTAINER_MODE = yes)
-  MAINT=$MAINTAINER_MODE_TRUE
-  AC_SUBST(MAINT)dnl
-]
-)
-
-# Define a conditional.
-
-AC_DEFUN(AM_CONDITIONAL,
-[AC_SUBST($1_TRUE)
-AC_SUBST($1_FALSE)
-if $2; then
-  $1_TRUE=
-  $1_FALSE='#'
-else
-  $1_TRUE='#'
-  $1_FALSE=
-fi])
-
-
-# serial 40 AC_PROG_LIBTOOL
-AC_DEFUN(AC_PROG_LIBTOOL,
-[AC_REQUIRE([AC_LIBTOOL_SETUP])dnl
-
-# Save cache, so that ltconfig can load it
-AC_CACHE_SAVE
-
-# Actually configure libtool.  ac_aux_dir is where install-sh is found.
-CC="$CC" CFLAGS="$CFLAGS" CPPFLAGS="$CPPFLAGS" \
-LD="$LD" LDFLAGS="$LDFLAGS" LIBS="$LIBS" \
-LN_S="$LN_S" NM="$NM" RANLIB="$RANLIB" \
-DLLTOOL="$DLLTOOL" AS="$AS" OBJDUMP="$OBJDUMP" \
-${CONFIG_SHELL-/bin/sh} $ac_aux_dir/ltconfig --no-reexec \
-$libtool_flags --no-verify $ac_aux_dir/ltmain.sh $host \
-|| AC_MSG_ERROR([libtool configure failed])
-
-# Reload cache, that may have been modified by ltconfig
-AC_CACHE_LOAD
-
-# This can be used to rebuild libtool when needed
-LIBTOOL_DEPS="$ac_aux_dir/ltconfig $ac_aux_dir/ltmain.sh"
-
-# Always use our own libtool.
-LIBTOOL='$(SHELL) $(top_builddir)/libtool'
-AC_SUBST(LIBTOOL)dnl
-
-# Redirect the config.log output again, so that the ltconfig log is not
-# clobbered by the next message.
-exec 5&gt;&gt;./config.log
-])
-
-AC_DEFUN(AC_LIBTOOL_SETUP,
-[AC_PREREQ(2.13)dnl
-AC_REQUIRE([AC_ENABLE_SHARED])dnl
-AC_REQUIRE([AC_ENABLE_STATIC])dnl
-AC_REQUIRE([AC_ENABLE_FAST_INSTALL])dnl
-AC_REQUIRE([AC_CANONICAL_HOST])dnl
-AC_REQUIRE([AC_CANONICAL_BUILD])dnl
-AC_REQUIRE([AC_PROG_RANLIB])dnl
-AC_REQUIRE([AC_PROG_CC])dnl
-AC_REQUIRE([AC_PROG_LD])dnl
-AC_REQUIRE([AC_PROG_NM])dnl
-AC_REQUIRE([AC_PROG_LN_S])dnl
-dnl
-
-# Check for any special flags to pass to ltconfig.
-libtool_flags="--cache-file=$cache_file"
-test "$enable_shared" = no &amp;&amp; libtool_flags="$libtool_flags --disable-shared"
-test "$enable_static" = no &amp;&amp; libtool_flags="$libtool_flags --disable-static"
-test "$enable_fast_install" = no &amp;&amp; libtool_flags="$libtool_flags --disable-fast-install"
-test "$ac_cv_prog_gcc" = yes &amp;&amp; libtool_flags="$libtool_flags --with-gcc"
-test "$ac_cv_prog_gnu_ld" = yes &amp;&amp; libtool_flags="$libtool_flags --with-gnu-ld"
-ifdef([AC_PROVIDE_AC_LIBTOOL_DLOPEN],
-[libtool_flags="$libtool_flags --enable-dlopen"])
-ifdef([AC_PROVIDE_AC_LIBTOOL_WIN32_DLL],
-[libtool_flags="$libtool_flags --enable-win32-dll"])
-AC_ARG_ENABLE(libtool-lock,
-  [  --disable-libtool-lock  avoid locking (might break parallel builds)])
-test "x$enable_libtool_lock" = xno &amp;&amp; libtool_flags="$libtool_flags --disable-lock"
-test x"$silent" = xyes &amp;&amp; libtool_flags="$libtool_flags --silent"
-
-# Some flags need to be propagated to the compiler or linker for good
-# libtool support.
-case "$host" in
-*-*-irix6*)
-  # Find out which ABI we are using.
-  echo '[#]line __oline__ "configure"' &gt; conftest.$ac_ext
-  if AC_TRY_EVAL(ac_compile); then
-    case "`/usr/bin/file conftest.o`" in
-    *32-bit*)
-      LD="${LD-ld} -32"
-      ;;
-    *N32*)
-      LD="${LD-ld} -n32"
-      ;;
-    *64-bit*)
-      LD="${LD-ld} -64"
-      ;;
-    esac
-  fi
-  rm -rf conftest*
-  ;;
-
-*-*-sco3.2v5*)
-  # On SCO OpenServer 5, we need -belf to get full-featured binaries.
-  SAVE_CFLAGS="$CFLAGS"
-  CFLAGS="$CFLAGS -belf"
-  AC_CACHE_CHECK([whether the C compiler needs -belf], lt_cv_cc_needs_belf,
-    [AC_LANG_SAVE
-     AC_LANG_C
-     AC_TRY_LINK([],[],[lt_cv_cc_needs_belf=yes],[lt_cv_cc_needs_belf=no])
-     AC_LANG_RESTORE])
-  if test x"$lt_cv_cc_needs_belf" != x"yes"; then
-    # this is probably gcc 2.8.0, egcs 1.0 or newer; no need for -belf
-    CFLAGS="$SAVE_CFLAGS"
-  fi
-  ;;
-
-ifdef([AC_PROVIDE_AC_LIBTOOL_WIN32_DLL],
-[*-*-cygwin* | *-*-mingw*)
-  AC_CHECK_TOOL(DLLTOOL, dlltool, false)
-  AC_CHECK_TOOL(AS, as, false)
-  AC_CHECK_TOOL(OBJDUMP, objdump, false)
-  ;;
-])
-esac
-])
-
-# AC_LIBTOOL_DLOPEN - enable checks for dlopen support
-AC_DEFUN(AC_LIBTOOL_DLOPEN, [AC_BEFORE([$0],[AC_LIBTOOL_SETUP])])
-
-# AC_LIBTOOL_WIN32_DLL - declare package support for building win32 dll's
-AC_DEFUN(AC_LIBTOOL_WIN32_DLL, [AC_BEFORE([$0], [AC_LIBTOOL_SETUP])])
-
-# AC_ENABLE_SHARED - implement the --enable-shared flag
-# Usage: AC_ENABLE_SHARED[(DEFAULT)]
-#   Where DEFAULT is either `yes' or `no'.  If omitted, it defaults to
-#   `yes'.
-AC_DEFUN(AC_ENABLE_SHARED, [dnl
-define([AC_ENABLE_SHARED_DEFAULT], ifelse($1, no, no, yes))dnl
-AC_ARG_ENABLE(shared,
-changequote(&lt;&lt;, &gt;&gt;)dnl
-&lt;&lt;  --enable-shared[=PKGS]  build shared libraries [default=&gt;&gt;AC_ENABLE_SHARED_DEFAULT],
-changequote([, ])dnl
-[p=${PACKAGE-default}
-case "$enableval" in
-yes) enable_shared=yes ;;
-no) enable_shared=no ;;
-*)
-  enable_shared=no
-  # Look at the argument we got.  We use all the common list separators.
-  IFS="${IFS= 	}"; ac_save_ifs="$IFS"; IFS="${IFS}:,"
-  for pkg in $enableval; do
-    if test "X$pkg" = "X$p"; then
-      enable_shared=yes
-    fi
-  done
-  IFS="$ac_save_ifs"
-  ;;
-esac],
-enable_shared=AC_ENABLE_SHARED_DEFAULT)dnl
-])
-
-# AC_DISABLE_SHARED - set the default shared flag to --disable-shared
-AC_DEFUN(AC_DISABLE_SHARED, [AC_BEFORE([$0],[AC_LIBTOOL_SETUP])dnl
-AC_ENABLE_SHARED(no)])
-
-# AC_ENABLE_STATIC - implement the --enable-static flag
-# Usage: AC_ENABLE_STATIC[(DEFAULT)]
-#   Where DEFAULT is either `yes' or `no'.  If omitted, it defaults to
-#   `yes'.
-AC_DEFUN(AC_ENABLE_STATIC, [dnl
-define([AC_ENABLE_STATIC_DEFAULT], ifelse($1, no, no, yes))dnl
-AC_ARG_ENABLE(static,
-changequote(&lt;&lt;, &gt;&gt;)dnl
-&lt;&lt;  --enable-static[=PKGS]  build static libraries [default=&gt;&gt;AC_ENABLE_STATIC_DEFAULT],
-changequote([, ])dnl
-[p=${PACKAGE-default}
-case "$enableval" in
-yes) enable_static=yes ;;
-no) enable_static=no ;;
-*)
-  enable_static=no
-  # Look at the argument we got.  We use all the common list separators.
-  IFS="${IFS= 	}"; ac_save_ifs="$IFS"; IFS="${IFS}:,"
-  for pkg in $enableval; do
-    if test "X$pkg" = "X$p"; then
-      enable_static=yes
-    fi
-  done
-  IFS="$ac_save_ifs"
-  ;;
-esac],
-enable_static=AC_ENABLE_STATIC_DEFAULT)dnl
-])
-
-# AC_DISABLE_STATIC - set the default static flag to --disable-static
-AC_DEFUN(AC_DISABLE_STATIC, [AC_BEFORE([$0],[AC_LIBTOOL_SETUP])dnl
-AC_ENABLE_STATIC(no)])
-
-
-# AC_ENABLE_FAST_INSTALL - implement the --enable-fast-install flag
-# Usage: AC_ENABLE_FAST_INSTALL[(DEFAULT)]
-#   Where DEFAULT is either `yes' or `no'.  If omitted, it defaults to
-#   `yes'.
-AC_DEFUN(AC_ENABLE_FAST_INSTALL, [dnl
-define([AC_ENABLE_FAST_INSTALL_DEFAULT], ifelse($1, no, no, yes))dnl
-AC_ARG_ENABLE(fast-install,
-changequote(&lt;&lt;, &gt;&gt;)dnl
-&lt;&lt;  --enable-fast-install[=PKGS]  optimize for fast installation [default=&gt;&gt;AC_ENABLE_FAST_INSTALL_DEFAULT],
-changequote([, ])dnl
-[p=${PACKAGE-default}
-case "$enableval" in
-yes) enable_fast_install=yes ;;
-no) enable_fast_install=no ;;
-*)
-  enable_fast_install=no
-  # Look at the argument we got.  We use all the common list separators.
-  IFS="${IFS= 	}"; ac_save_ifs="$IFS"; IFS="${IFS}:,"
-  for pkg in $enableval; do
-    if test "X$pkg" = "X$p"; then
-      enable_fast_install=yes
-    fi
-  done
-  IFS="$ac_save_ifs"
-  ;;
-esac],
-enable_fast_install=AC_ENABLE_FAST_INSTALL_DEFAULT)dnl
-])
-
-# AC_ENABLE_FAST_INSTALL - set the default to --disable-fast-install
-AC_DEFUN(AC_DISABLE_FAST_INSTALL, [AC_BEFORE([$0],[AC_LIBTOOL_SETUP])dnl
-AC_ENABLE_FAST_INSTALL(no)])
-
-# AC_PROG_LD - find the path to the GNU or non-GNU linker
-AC_DEFUN(AC_PROG_LD,
-[AC_ARG_WITH(gnu-ld,
-[  --with-gnu-ld           assume the C compiler uses GNU ld [default=no]],
-test "$withval" = no || with_gnu_ld=yes, with_gnu_ld=no)
-AC_REQUIRE([AC_PROG_CC])dnl
-AC_REQUIRE([AC_CANONICAL_HOST])dnl
-AC_REQUIRE([AC_CANONICAL_BUILD])dnl
-ac_prog=ld
-if test "$ac_cv_prog_gcc" = yes; then
-  # Check if gcc -print-prog-name=ld gives a path.
-  AC_MSG_CHECKING([for ld used by GCC])
-  ac_prog=`($CC -print-prog-name=ld) 2&gt;&amp;5`
-  case "$ac_prog" in
-    # Accept absolute paths.
-changequote(,)dnl
-    [\\/]* | [A-Za-z]:[\\/]*)
-      re_direlt='/[^/][^/]*/\.\./'
-changequote([,])dnl
-      # Canonicalize the path of ld
-      ac_prog=`echo $ac_prog| sed 's%\\\\%/%g'`
-      while echo $ac_prog | grep "$re_direlt" &gt; /dev/null 2&gt;&amp;1; do
-	ac_prog=`echo $ac_prog| sed "s%$re_direlt%/%"`
-      done
-      test -z "$LD" &amp;&amp; LD="$ac_prog"
-      ;;
-  "")
-    # If it fails, then pretend we aren't using GCC.
-    ac_prog=ld
-    ;;
-  *)
-    # If it is relative, then search for the first ld in PATH.
-    with_gnu_ld=unknown
-    ;;
-  esac
-elif test "$with_gnu_ld" = yes; then
-  AC_MSG_CHECKING([for GNU ld])
-else
-  AC_MSG_CHECKING([for non-GNU ld])
-fi
-AC_CACHE_VAL(ac_cv_path_LD,
-[if test -z "$LD"; then
-  IFS="${IFS= 	}"; ac_save_ifs="$IFS"; IFS="${IFS}${PATH_SEPARATOR-:}"
-  for ac_dir in $PATH; do
-    test -z "$ac_dir" &amp;&amp; ac_dir=.
-    if test -f "$ac_dir/$ac_prog" || test -f "$ac_dir/$ac_prog$ac_exeext"; then
-      ac_cv_path_LD="$ac_dir/$ac_prog"
-      # Check to see if the program is GNU ld.  I'd rather use --version,
-      # but apparently some GNU ld's only accept -v.
-      # Break only if it was the GNU/non-GNU ld that we prefer.
-      if "$ac_cv_path_LD" -v 2&gt;&amp;1 &lt; /dev/null | egrep '(GNU|with BFD)' &gt; /dev/null; then
-	test "$with_gnu_ld" != no &amp;&amp; break
-      else
-	test "$with_gnu_ld" != yes &amp;&amp; break
-      fi
-    fi
-  done
-  IFS="$ac_save_ifs"
-else
-  ac_cv_path_LD="$LD" # Let the user override the test with a path.
-fi])
-LD="$ac_cv_path_LD"
-if test -n "$LD"; then
-  AC_MSG_RESULT($LD)
-else
-  AC_MSG_RESULT(no)
-fi
-test -z "$LD" &amp;&amp; AC_MSG_ERROR([no acceptable ld found in \$PATH])
-AC_SUBST(LD)
-AC_PROG_LD_GNU
-])
-
-AC_DEFUN(AC_PROG_LD_GNU,
-[AC_CACHE_CHECK([if the linker ($LD) is GNU ld], ac_cv_prog_gnu_ld,
-[# I'd rather use --version here, but apparently some GNU ld's only accept -v.
-if $LD -v 2&gt;&amp;1 &lt;/dev/null | egrep '(GNU|with BFD)' 1&gt;&amp;5; then
-  ac_cv_prog_gnu_ld=yes
-else
-  ac_cv_prog_gnu_ld=no
-fi])
-])
-
-# AC_PROG_NM - find the path to a BSD-compatible name lister
-AC_DEFUN(AC_PROG_NM,
-[AC_MSG_CHECKING([for BSD-compatible nm])
-AC_CACHE_VAL(ac_cv_path_NM,
-[if test -n "$NM"; then
-  # Let the user override the test.
-  ac_cv_path_NM="$NM"
-else
-  IFS="${IFS= 	}"; ac_save_ifs="$IFS"; IFS="${IFS}${PATH_SEPARATOR-:}"
-  for ac_dir in $PATH /usr/ccs/bin /usr/ucb /bin; do
-    test -z "$ac_dir" &amp;&amp; ac_dir=.
-    if test -f $ac_dir/nm || test -f $ac_dir/nm$ac_exeext ; then
-      # Check to see if the nm accepts a BSD-compat flag.
-      # Adding the `sed 1q' prevents false positives on HP-UX, which says:
-      #   nm: unknown option "B" ignored
-      if ($ac_dir/nm -B /dev/null 2&gt;&amp;1 | sed '1q'; exit 0) | egrep /dev/null &gt;/dev/null; then
-	ac_cv_path_NM="$ac_dir/nm -B"
-	break
-      elif ($ac_dir/nm -p /dev/null 2&gt;&amp;1 | sed '1q'; exit 0) | egrep /dev/null &gt;/dev/null; then
-	ac_cv_path_NM="$ac_dir/nm -p"
-	break
-      else
-	ac_cv_path_NM=${ac_cv_path_NM="$ac_dir/nm"} # keep the first match, but
-	continue # so that we can try to find one that supports BSD flags
-      fi
-    fi
-  done
-  IFS="$ac_save_ifs"
-  test -z "$ac_cv_path_NM" &amp;&amp; ac_cv_path_NM=nm
-fi])
-NM="$ac_cv_path_NM"
-AC_MSG_RESULT([$NM])
-AC_SUBST(NM)
-])
-
-# AC_CHECK_LIBM - check for math library
-AC_DEFUN(AC_CHECK_LIBM,
-[AC_REQUIRE([AC_CANONICAL_HOST])dnl
-LIBM=
-case "$host" in
-*-*-beos* | *-*-cygwin*)
-  # These system don't have libm
-  ;;
-*-ncr-sysv4.3*)
-  AC_CHECK_LIB(mw, _mwvalidcheckl, LIBM="-lmw")
-  AC_CHECK_LIB(m, main, LIBM="$LIBM -lm")
-  ;;
-*)
-  AC_CHECK_LIB(m, main, LIBM="-lm")
-  ;;
-esac
-])
-
-# AC_LIBLTDL_CONVENIENCE[(dir)] - sets LIBLTDL to the link flags for
-# the libltdl convenience library, adds --enable-ltdl-convenience to
-# the configure arguments.  Note that LIBLTDL is not AC_SUBSTed, nor
-# is AC_CONFIG_SUBDIRS called.  If DIR is not provided, it is assumed
-# to be `${top_builddir}/libltdl'.  Make sure you start DIR with
-# '${top_builddir}/' (note the single quotes!) if your package is not
-# flat, and, if you're not using automake, define top_builddir as
-# appropriate in the Makefiles.
-AC_DEFUN(AC_LIBLTDL_CONVENIENCE, [AC_BEFORE([$0],[AC_LIBTOOL_SETUP])dnl
-  case "$enable_ltdl_convenience" in
-  no) AC_MSG_ERROR([this package needs a convenience libltdl]) ;;
-  "") enable_ltdl_convenience=yes
-      ac_configure_args="$ac_configure_args --enable-ltdl-convenience" ;;
-  esac
-  LIBLTDL=ifelse($#,1,$1,['${top_builddir}/libltdl'])/libltdlc.la
-  INCLTDL=ifelse($#,1,-I$1,['-I${top_builddir}/libltdl'])
-])
-
-# AC_LIBLTDL_INSTALLABLE[(dir)] - sets LIBLTDL to the link flags for
-# the libltdl installable library, and adds --enable-ltdl-install to
-# the configure arguments.  Note that LIBLTDL is not AC_SUBSTed, nor
-# is AC_CONFIG_SUBDIRS called.  If DIR is not provided, it is assumed
-# to be `${top_builddir}/libltdl'.  Make sure you start DIR with
-# '${top_builddir}/' (note the single quotes!) if your package is not
-# flat, and, if you're not using automake, define top_builddir as
-# appropriate in the Makefiles.
-# In the future, this macro may have to be called after AC_PROG_LIBTOOL.
-AC_DEFUN(AC_LIBLTDL_INSTALLABLE, [AC_BEFORE([$0],[AC_LIBTOOL_SETUP])dnl
-  AC_CHECK_LIB(ltdl, main,
-  [test x"$enable_ltdl_install" != xyes &amp;&amp; enable_ltdl_install=no],
-  [if test x"$enable_ltdl_install" = xno; then
-     AC_MSG_WARN([libltdl not installed, but installation disabled])
-   else
-     enable_ltdl_install=yes
-   fi
-  ])
-  if test x"$enable_ltdl_install" = x"yes"; then
-    ac_configure_args="$ac_configure_args --enable-ltdl-install"
-    LIBLTDL=ifelse($#,1,$1,['${top_builddir}/libltdl'])/libltdl.la
-    INCLTDL=ifelse($#,1,-I$1,['-I${top_builddir}/libltdl'])
-  else
-    ac_configure_args="$ac_configure_args --enable-ltdl-install=no"
-    LIBLTDL="-lltdl"
-    INCLTDL=
-  fi
-])
-
-dnl old names
-AC_DEFUN(AM_PROG_LIBTOOL, [indir([AC_PROG_LIBTOOL])])dnl
-AC_DEFUN(AM_ENABLE_SHARED, [indir([AC_ENABLE_SHARED], $@)])dnl
-AC_DEFUN(AM_ENABLE_STATIC, [indir([AC_ENABLE_STATIC], $@)])dnl
-AC_DEFUN(AM_DISABLE_SHARED, [indir([AC_DISABLE_SHARED], $@)])dnl
-AC_DEFUN(AM_DISABLE_STATIC, [indir([AC_DISABLE_STATIC], $@)])dnl
-AC_DEFUN(AM_PROG_LD, [indir([AC_PROG_LD])])dnl
-AC_DEFUN(AM_PROG_NM, [indir([AC_PROG_NM])])dnl
-
-dnl This is just to silence aclocal about the macro not being used
-ifelse([AC_DISABLE_FAST_INSTALL])dnl
-
-
-dnl AM_PROG_LEX
-dnl Look for flex, lex or missing, then run AC_PROG_LEX and AC_DECL_YYTEXT
-AC_DEFUN(AM_PROG_LEX,
-[missing_dir=ifelse([$1],,`cd $ac_aux_dir &amp;&amp; pwd`,$1)
-AC_CHECK_PROGS(LEX, flex lex, "$missing_dir/missing flex")
-AC_PROG_LEX
-AC_DECL_YYTEXT])
-
-</programlisting>
-<para><emphasis>Code: /home/mikal/opensource/trivsql/aclocal.m4</emphasis></para>
-<programlisting>
-# This file is a shell script that caches the results of configure
-# tests run on this system so they can be shared between configure
-# scripts and configure runs.  It is not useful on other systems.
-# If it contains results you don't want to keep, you may remove or edit it.
-#
-# By default, configure uses ./config.cache as the cache file,
-# creating it if it does not exist already.  You can give configure
-# the --cache-file=FILE option to use a different cache file; that is
-# what configure does when it calls configure scripts in
-# subdirectories, so they share the cache.
-# Giving --cache-file=/dev/null disables caching, for debugging configure.
-# config.status only pays attention to the cache file if you give it the
-# --recheck option to rerun configure.
-#
-ac_cv_exeext=${ac_cv_exeext=no}
-ac_cv_header_dlfcn_h=${ac_cv_header_dlfcn_h=yes}
-ac_cv_header_stdc=${ac_cv_header_stdc=yes}
-ac_cv_lib_dl_dlopen=${ac_cv_lib_dl_dlopen=yes}
-ac_cv_lib_fl_yywrap=${ac_cv_lib_fl_yywrap=yes}
-ac_cv_lib_m_atan=${ac_cv_lib_m_atan=yes}
-ac_cv_path_LD=${ac_cv_path_LD=/usr/bin/ld}
-ac_cv_path_NM=${ac_cv_path_NM='/usr/bin/nm -B'}
-ac_cv_path_install=${ac_cv_path_install='/usr/bin/install -c'}
-ac_cv_prog_CC=${ac_cv_prog_CC=gcc}
-ac_cv_prog_CPP=${ac_cv_prog_CPP='gcc -E'}
-ac_cv_prog_LEX=${ac_cv_prog_LEX=flex}
-ac_cv_prog_LN_S=${ac_cv_prog_LN_S='ln -s'}
-ac_cv_prog_RANLIB=${ac_cv_prog_RANLIB=ranlib}
-ac_cv_prog_YACC=${ac_cv_prog_YACC='bison -y'}
-ac_cv_prog_cc_cross=${ac_cv_prog_cc_cross=no}
-ac_cv_prog_cc_g=${ac_cv_prog_cc_g=yes}
-ac_cv_prog_cc_works=${ac_cv_prog_cc_works=yes}
-ac_cv_prog_gcc=${ac_cv_prog_gcc=yes}
-ac_cv_prog_gnu_ld=${ac_cv_prog_gnu_ld=yes}
-ac_cv_prog_lex_root=${ac_cv_prog_lex_root=lex.yy}
-ac_cv_prog_lex_yytext_pointer=${ac_cv_prog_lex_yytext_pointer=yes}
-ac_cv_prog_make_make_set=${ac_cv_prog_make_make_set=yes}
-lt_cv_dlopen=${lt_cv_dlopen=dlopen}
-lt_cv_dlopen_libs=${lt_cv_dlopen_libs=-ldl}
-lt_cv_dlopen_self=${lt_cv_dlopen_self=yes}
-lt_cv_dlopen_self_static=${lt_cv_dlopen_self_static=no}
-</programlisting>
-<para><emphasis>Code: /home/mikal/opensource/trivsql/config.cache</emphasis></para>
-<programlisting>
-
-#include &lt;stdio.h&gt;
-#include "trivsql.h"
-
-int main(int argc, char *argv[]){
-  trivsql_state *ourState;
+typedef struct trivsql_internal_state
+{
+  TDB_CONTEXT *db;
   trivsql_recordset *rs;
-  char cmd[1000];
+  trivsql_seltreenode *seltree;
+  char *table;
+} trivsql_state;
 
-  if(argc != 2){
-    fprintf(stderr, "Please specify a db file\n");
-    exit(42);
-  }
+// Internal functions
+trivsql_state *trivsql_init(char *);
+void trivsql_docreate(char *, char *);
+void trivsql_doinsert(char *, char *, char *);
+void trivsql_doselect(char *, char *);
+void trivsql_doalter(char *, char *);
 
-  ourState = trivsql_opendb(argv[1]);
-  if(trivsql_initok(ourState) != TRIVSQL_TRUE){
-    fprintf(stderr, "Database open failed\n");
-    exit(42);
-  }
+int *trivsql_parsecols(char *, char *, int *);
+int trivsql_findcol(char *, char *, char *);
+void trivsql_addrow(trivsql_recordset *, char *, int, int *);
+char *trivsql_getallcolumns(char *);
+trivsql_recordset *trivsql_makers();
+trivsql_seltreenode *trivsql_makest();
+trivsql_seltreenode* trivsql_makesel(trivsql_selectorfunc, char *, char *);
+trivsql_seltreenode* trivsql_makeslr(trivsql_selectorfunc,
+				     trivsql_seltreenode *,
+				     trivsql_seltreenode *);
+int trivsql_executeselector(trivsql_seltreenode *, int);
 
-  while(fgets(cmd, 1000, stdin) != NULL){
-    rs = trivsql_execute(ourState, cmd);
-    if(rs != NULL) trivsql_displayrs(rs);
-    else printf("NULL recordset\n");
-    trivsql_xfree(rs);
-  }
+void trivsql_checktable(char *, trivsql_recordset *);
+
+void *trivsql_xmalloc(size_t);
+void trivsql_dbwrite(trivsql_state *, char *, char *);
+char *trivsql_dbread(trivsql_state *, char *);
+char *trivsql_xsnprintf(char *, ...);
+void trivsql_xfree(void *);
+void *trivsql_xrealloc(void *, size_t);
+int trivsql_min(int, int);
+int trivsql_initok(trivsql_state *);
+
+// Selectors
+int trivsql_selequal(char *, char *);
+int trivsql_sellike(char *, char *);
+int trivsql_selor(int, int);
+int trivsql_seland(int, int);
+
+// Interface methods
+trivsql_state *trivsql_opendb(char *);
+trivsql_recordset *trivsql_execute(trivsql_state *, char *);
+int trivsql_gettext(char *, int);
+void trivsql_displayrs(trivsql_recordset *);
+void trivsql_rsmovefirst(trivsql_recordset *);
+void trivsql_rsmovenext(trivsql_recordset *);
+int trivsql_rseof(trivsql_recordset *);
+int trivsql_rsbof(trivsql_recordset *);
+char *trivsql_rsfield(trivsql_recordset *, int);
+void trivsql_updaters(trivsql_state *, trivsql_recordset *, char *, char *);
+void trivsql_rsupdatefield(trivsql_state *, trivsql_recordset *, 
+			   int, char *newval);
+
+#ifdef __cplusplus
 }
+#endif
+
+#endif
 </programlisting>
-<para><emphasis>Code: /home/mikal/opensource/trivsql/example.c</emphasis></para>
+<para><emphasis>Code: /home/mikal/opensource/trivsql/trivsql.h</emphasis></para>
 <programlisting>
 
 #include "trivsql.h"
@@ -2031,2855 +1645,39 @@ int trivsql_seland(int left, int right){
 </programlisting>
 <para><emphasis>Code: /home/mikal/opensource/trivsql/selectors.c</emphasis></para>
 <programlisting>
-/* 
-   Unix SMB/Netbios implementation.
-   Version 3.0
-   Samba database functions
-   Copyright (C) Anton Blanchard                   2001
-   
-   This program is free software; you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 2 of the License, or
-   (at your option) any later version.
-   
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-   
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-*/
-#if HAVE_CONFIG_H
-#include &lt;config.h&gt;
-#endif
 
-#include &lt;stdlib.h&gt;
 #include &lt;stdio.h&gt;
-#include &lt;unistd.h&gt;
-#include &lt;string.h&gt;
-#include &lt;fcntl.h&gt;
-#include &lt;errno.h&gt;
-#include &lt;sys/stat.h&gt;
-#include &lt;time.h&gt;
-#include "tdb.h"
-#include "spinlock.h"
+#include "trivsql.h"
 
-#define DEBUG
-
-#ifdef USE_SPINLOCKS
-
-/*
- * ARCH SPECIFIC
- */
-
-#if defined(SPARC_SPINLOCKS)
-
-static inline int __spin_trylock(spinlock_t *lock)
-{
-	unsigned int result;
-
-	asm volatile("ldstub    [%1], %0"
-		: "=r" (result)
-		: "r" (lock)
-		: "memory");
-
-	return (result == 0) ? 0 : EBUSY;
-}
-
-static inline void __spin_unlock(spinlock_t *lock)
-{
-	asm volatile("":::"memory");
-	*lock = 0;
-}
-
-static inline void __spin_lock_init(spinlock_t *lock)
-{
-	*lock = 0;
-}
-
-static inline int __spin_is_locked(spinlock_t *lock)
-{
-	return (*lock != 0);
-}
-
-#elif defined(POWERPC_SPINLOCKS) 
-
-static inline int __spin_trylock(spinlock_t *lock)
-{
-	unsigned int result;
-
-	__asm__ __volatile__(
-"1:	lwarx		%0,0,%1\n\
-	cmpwi		0,%0,0\n\
-	li		%0,0\n\
-	bne-		2f\n\
-	li		%0,1\n\
-	stwcx.		%0,0,%1\n\
-	bne-		1b\n\
-	isync\n\
-2:"	: "=&amp;r"(result)
-	: "r"(lock)
-	: "cr0", "memory");
-
-	return (result == 1) ? 0 : EBUSY;
-}
-
-static inline void __spin_unlock(spinlock_t *lock)
-{
-	asm volatile("eieio":::"memory");
-	*lock = 0;
-}
-
-static inline void __spin_lock_init(spinlock_t *lock)
-{
-	*lock = 0;
-}
-
-static inline int __spin_is_locked(spinlock_t *lock)
-{
-	return (*lock != 0);
-}
-
-#elif defined(INTEL_SPINLOCKS) 
-
-static inline int __spin_trylock(spinlock_t *lock)
-{
-	int oldval;
-
-	asm volatile("xchgl %0,%1"
-		: "=r" (oldval), "=m" (*lock)
-		: "0" (0)
-		: "memory");
-
-	return oldval &gt; 0 ? 0 : EBUSY;
-}
-
-static inline void __spin_unlock(spinlock_t *lock)
-{
-	asm volatile("":::"memory");
-	*lock = 1;
-}
-
-static inline void __spin_lock_init(spinlock_t *lock)
-{
-	*lock = 1;
-}
-
-static inline int __spin_is_locked(spinlock_t *lock)
-{
-	return (*lock != 1);
-}
-
-#elif defined(MIPS_SPINLOCKS) 
-
-static inline unsigned int load_linked(unsigned long addr)
-{
-	unsigned int res;
-
-	__asm__ __volatile__("ll\t%0,(%1)"
-		: "=r" (res)
-		: "r" (addr));
-
-	return res;
-}
-
-static inline unsigned int store_conditional(unsigned long addr, unsigned int value)
-{
-	unsigned int res;
-
-	__asm__ __volatile__("sc\t%0,(%2)"
-		: "=r" (res)
-		: "0" (value), "r" (addr));
-	return res;
-}
-
-static inline int __spin_trylock(spinlock_t *lock)
-{
-	unsigned int mw;
-
-	do {
-		mw = load_linked(lock);
-		if (mw) 
-			return EBUSY;
-	} while (!store_conditional(lock, 1));
-
-	asm volatile("":::"memory");
-
-	return 0;
-}
-
-static inline void __spin_unlock(spinlock_t *lock)
-{
-	asm volatile("":::"memory");
-	*lock = 0;
-}
-
-static inline void __spin_lock_init(spinlock_t *lock)
-{
-	*lock = 0;
-}
-
-static inline int __spin_is_locked(spinlock_t *lock)
-{
-	return (*lock != 0);
-}
-
-#else
-#error Need to implement spinlock code in spinlock.c
-#endif
-
-/*
- * OS SPECIFIC
- */
-
-static void yield_cpu(void)
-{
-	struct timespec tm;
-
-#ifdef USE_SCHED_YIELD
-	sched_yield();
-#else
-	/* Linux will busy loop for delays &lt; 2ms on real time tasks */
-	tm.tv_sec = 0;
-	tm.tv_nsec = 2000000L + 1;
-	nanosleep(&amp;tm, NULL);
-#endif
-}
-
-static int this_is_smp(void)
-{
-	return 0;
-}
-
-/*
- * GENERIC
- */
-
-static int smp_machine = 0;
-
-static inline void __spin_lock(spinlock_t *lock)
-{
-	int ntries = 0;
-
-	while(__spin_trylock(lock)) {
-		while(__spin_is_locked(lock)) {
-			if (smp_machine &amp;&amp; ntries++ &lt; MAX_BUSY_LOOPS)
-				continue;
-			yield_cpu();
-		}
-	}
-}
-
-static void __read_lock(tdb_rwlock_t *rwlock)
-{
-	int ntries = 0;
-
-	while(1) {
-		__spin_lock(&amp;rwlock-&gt;lock);
-
-		if (!(rwlock-&gt;count &amp; RWLOCK_BIAS)) {
-			rwlock-&gt;count++;
-			__spin_unlock(&amp;rwlock-&gt;lock);
-			return;
-		}
-	
-		__spin_unlock(&amp;rwlock-&gt;lock);
-
-		while(rwlock-&gt;count &amp; RWLOCK_BIAS) {
-			if (smp_machine &amp;&amp; ntries++ &lt; MAX_BUSY_LOOPS)
-				continue;
-			yield_cpu();
-		}
-	}
-}
-
-static void __write_lock(tdb_rwlock_t *rwlock)
-{
-	int ntries = 0;
-
-	while(1) {
-		__spin_lock(&amp;rwlock-&gt;lock);
-
-		if (rwlock-&gt;count == 0) {
-			rwlock-&gt;count |= RWLOCK_BIAS;
-			__spin_unlock(&amp;rwlock-&gt;lock);
-			return;
-		}
-
-		__spin_unlock(&amp;rwlock-&gt;lock);
-
-		while(rwlock-&gt;count != 0) {
-			if (smp_machine &amp;&amp; ntries++ &lt; MAX_BUSY_LOOPS)
-				continue;
-			yield_cpu();
-		}
-	}
-}
-
-static void __write_unlock(tdb_rwlock_t *rwlock)
-{
-	__spin_lock(&amp;rwlock-&gt;lock);
-
-#ifdef DEBUG
-	if (!(rwlock-&gt;count &amp; RWLOCK_BIAS))
-		fprintf(stderr, "bug: write_unlock\n");
-#endif
-
-	rwlock-&gt;count &amp;= ~RWLOCK_BIAS;
-	__spin_unlock(&amp;rwlock-&gt;lock);
-}
-
-static void __read_unlock(tdb_rwlock_t *rwlock)
-{
-	__spin_lock(&amp;rwlock-&gt;lock);
-
-#ifdef DEBUG
-	if (!rwlock-&gt;count)
-		fprintf(stderr, "bug: read_unlock\n");
-
-	if (rwlock-&gt;count &amp; RWLOCK_BIAS)
-		fprintf(stderr, "bug: read_unlock\n");
-#endif
-
-	rwlock-&gt;count--;
-	__spin_unlock(&amp;rwlock-&gt;lock);
-}
-
-/* TDB SPECIFIC */
-
-/* lock a list in the database. list -1 is the alloc list */
-int tdb_spinlock(TDB_CONTEXT *tdb, int list, int rw_type)
-{
-	tdb_rwlock_t *rwlocks;
-
-	if (!tdb-&gt;map_ptr) return -1;
-	rwlocks = (tdb_rwlock_t *)((char *)tdb-&gt;map_ptr + tdb-&gt;header.rwlocks);
-
-	switch(rw_type) {
-	case F_RDLCK:
-		__read_lock(&amp;rwlocks[list+1]);
-		break;
-
-	case F_WRLCK:
-		__write_lock(&amp;rwlocks[list+1]);
-		break;
-
-	default:
-		return TDB_ERRCODE(TDB_ERR_LOCK, -1);
-	}
-	return 0;
-}
-
-/* unlock the database. */
-int tdb_spinunlock(TDB_CONTEXT *tdb, int list, int rw_type)
-{
-	tdb_rwlock_t *rwlocks;
-
-	if (!tdb-&gt;map_ptr) return -1;
-	rwlocks = (tdb_rwlock_t *)((char *)tdb-&gt;map_ptr + tdb-&gt;header.rwlocks);
-
-	switch(rw_type) {
-	case F_RDLCK:
-		__read_unlock(&amp;rwlocks[list+1]);
-		break;
-
-	case F_WRLCK:
-		__write_unlock(&amp;rwlocks[list+1]);
-		break;
-
-	default:
-		return TDB_ERRCODE(TDB_ERR_LOCK, -1);
-	}
-
-	return 0;
-}
-
-int tdb_create_rwlocks(int fd, unsigned int hash_size)
-{
-	unsigned size, i;
-	tdb_rwlock_t *rwlocks;
-
-	size = (hash_size + 1) * sizeof(tdb_rwlock_t);
-	rwlocks = malloc(size);
-	if (!rwlocks)
-		return -1;
-
-	for(i = 0; i &lt; hash_size+1; i++) {
-		__spin_lock_init(&amp;rwlocks[i].lock);
-		rwlocks[i].count = 0;
-	}
-
-	/* Write it out (appending to end) */
-	if (write(fd, rwlocks, size) != size) {
-		free(rwlocks);
-		return -1;
-	}
-	smp_machine = this_is_smp();
-	free(rwlocks);
-	return 0;
-}
-
-int tdb_clear_spinlocks(TDB_CONTEXT *tdb)
-{
-	tdb_rwlock_t *rwlocks;
-	unsigned i;
-
-	if (tdb-&gt;header.rwlocks == 0) return 0;
-	if (!tdb-&gt;map_ptr) return -1;
-
-	/* We're mmapped here */
-	rwlocks = (tdb_rwlock_t *)((char *)tdb-&gt;map_ptr + tdb-&gt;header.rwlocks);
-	for(i = 0; i &lt; tdb-&gt;header.hash_size+1; i++) {
-		__spin_lock_init(&amp;rwlocks[i].lock);
-		rwlocks[i].count = 0;
-	}
-	return 0;
-}
-#else
-int tdb_create_rwlocks(int fd, unsigned int hash_size) { return 0; }
-int tdb_spinlock(TDB_CONTEXT *tdb, int list, int rw_type) { return -1; }
-int tdb_spinunlock(TDB_CONTEXT *tdb, int list, int rw_type) { return -1; }
-
-/* Non-spinlock version: remove spinlock pointer */
-int tdb_clear_spinlocks(TDB_CONTEXT *tdb)
-{
-	tdb_off off = (tdb_off)((char *)&amp;tdb-&gt;header.rwlocks
-				- (char *)&amp;tdb-&gt;header);
-
-	tdb-&gt;header.rwlocks = 0;
-	if (lseek(tdb-&gt;fd, off, SEEK_SET) != off
-	    || write(tdb-&gt;fd, (void *)&amp;tdb-&gt;header.rwlocks,
-		     sizeof(tdb-&gt;header.rwlocks)) 
-	    != sizeof(tdb-&gt;header.rwlocks))
-		return -1;
-	return 0;
-}
-#endif
-</programlisting>
-<para><emphasis>Code: /home/mikal/opensource/trivsql/spinlock.c</emphasis></para>
-<programlisting>
- /* 
-   Unix SMB/Netbios implementation.
-   Version 3.0
-   Samba database functions
-   Copyright (C) Andrew Tridgell              1999-2000
-   Copyright (C) Luke Kenneth Casson Leighton      2000
-   Copyright (C) Paul `Rusty' Russell		   2000
-   Copyright (C) Jeremy Allison			   2000
-   
-   This program is free software; you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 2 of the License, or
-   (at your option) any later version.
-   
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-   
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-*/
-#if HAVE_CONFIG_H
-#include &lt;config.h&gt;
-#endif
-
-#include &lt;stdlib.h&gt;
-#include &lt;stdio.h&gt;
-#include &lt;fcntl.h&gt;
-#include &lt;unistd.h&gt;
-#include &lt;string.h&gt;
-#include &lt;fcntl.h&gt;
-#include &lt;errno.h&gt;
-#include &lt;sys/mman.h&gt;
-#include &lt;sys/stat.h&gt;
-#include "tdb.h"
-#include "spinlock.h"
-
-#define TDB_MAGIC_FOOD "TDB file\n"
-#define TDB_VERSION (0x26011967 + 6)
-#define TDB_MAGIC (0x26011999U)
-#define TDB_FREE_MAGIC (~TDB_MAGIC)
-#define TDB_DEAD_MAGIC (0xFEE1DEAD)
-#define TDB_ALIGNMENT 4
-#define MIN_REC_SIZE (2*sizeof(struct list_struct) + TDB_ALIGNMENT)
-#define DEFAULT_HASH_SIZE 131
-#define TDB_PAGE_SIZE 0x2000
-#define FREELIST_TOP (sizeof(struct tdb_header))
-#define TDB_ALIGN(x,a) (((x) + (a)-1) &amp; ~((a)-1))
-#define TDB_BYTEREV(x) (((((x)&amp;0xff)&lt;&lt;24)|((x)&amp;0xFF00)&lt;&lt;8)|(((x)&gt;&gt;8)&amp;0xFF00)|((x)&gt;&gt;24))
-#define TDB_DEAD(r) ((r)-&gt;magic == TDB_DEAD_MAGIC)
-#define TDB_BAD_MAGIC(r) ((r)-&gt;magic != TDB_MAGIC &amp;&amp; !TDB_DEAD(r))
-#define TDB_HASH_TOP(hash) (FREELIST_TOP + (BUCKET(hash)+1)*sizeof(tdb_off))
-
-/* NB assumes there is a local variable called "tdb" that is the
- * current context, also takes doubly-parenthesized print-style
- * argument. */
-#define TDB_LOG(x) (tdb-&gt;log_fn?((tdb-&gt;log_fn x),0) : 0)
-
-/* lock offsets */
-#define GLOBAL_LOCK 0
-#define ACTIVE_LOCK 4
-
-#ifndef MAP_FILE
-#define MAP_FILE 0
-#endif
-
-#ifndef MAP_FAILED
-#define MAP_FAILED ((void *)-1)
-#endif
-
-/* free memory if the pointer is valid and zero the pointer */
-#ifndef SAFE_FREE
-#define SAFE_FREE(x) do { if ((x) != NULL) {free((x)); (x)=NULL;} } while(0)
-#endif
-
-#define BUCKET(hash) ((hash) % tdb-&gt;header.hash_size)
-TDB_DATA tdb_null;
-
-/* all contexts, to ensure no double-opens (fcntl locks don't nest!) */
-static TDB_CONTEXT *tdbs = NULL;
-
-static void tdb_munmap(TDB_CONTEXT *tdb)
-{
-	if (tdb-&gt;flags &amp; TDB_INTERNAL)
-		return;
-
-#ifdef HAVE_MMAP
-	if (tdb-&gt;map_ptr)
-		munmap(tdb-&gt;map_ptr, tdb-&gt;map_size);
-#endif
-	tdb-&gt;map_ptr = NULL;
-}
-
-static void tdb_mmap(TDB_CONTEXT *tdb)
-{
-	if (tdb-&gt;flags &amp; TDB_INTERNAL)
-		return;
-
-#ifdef HAVE_MMAP
-	if (!(tdb-&gt;flags &amp; TDB_NOMMAP)) {
-		tdb-&gt;map_ptr = mmap(NULL, tdb-&gt;map_size, 
-				    PROT_READ|(tdb-&gt;read_only? 0:PROT_WRITE), 
-				    MAP_SHARED|MAP_FILE, tdb-&gt;fd, 0);
-
-		/*
-		 * NB. When mmap fails it returns MAP_FAILED *NOT* NULL !!!!
-		 */
-
-		if (tdb-&gt;map_ptr == MAP_FAILED) {
-			tdb-&gt;map_ptr = NULL;
-			TDB_LOG((tdb, 2, "tdb_mmap failed for size %d (%s)\n", 
-				 tdb-&gt;map_size, strerror(errno)));
-		}
-	} else {
-		tdb-&gt;map_ptr = NULL;
-	}
-#else
-	tdb-&gt;map_ptr = NULL;
-#endif
-}
-
-/* Endian conversion: we only ever deal with 4 byte quantities */
-static void *convert(void *buf, u32 size)
-{
-	u32 i, *p = buf;
-	for (i = 0; i &lt; size / 4; i++)
-		p[i] = TDB_BYTEREV(p[i]);
-	return buf;
-}
-#define DOCONV() (tdb-&gt;flags &amp; TDB_CONVERT)
-#define CONVERT(x) (DOCONV() ? convert(&amp;x, sizeof(x)) : &amp;x)
-
-/* the body of the database is made of one list_struct for the free space
-   plus a separate data list for each hash value */
-struct list_struct {
-	tdb_off next; /* offset of the next record in the list */
-	tdb_len rec_len; /* total byte length of record */
-	tdb_len key_len; /* byte length of key */
-	tdb_len data_len; /* byte length of data */
-	u32 full_hash; /* the full 32 bit hash of the key */
-	u32 magic;   /* try to catch errors */
-	/* the following union is implied:
-		union {
-			char record[rec_len];
-			struct {
-				char key[key_len];
-				char data[data_len];
-			}
-			u32 totalsize; (tailer)
-		}
-	*/
-};
-
-/* a byte range locking function - return 0 on success
-   this functions locks/unlocks 1 byte at the specified offset.
-
-   On error, errno is also set so that errors are passed back properly
-   through tdb_open(). */
-static int tdb_brlock(TDB_CONTEXT *tdb, tdb_off offset, 
-		      int rw_type, int lck_type, int probe)
-{
-	struct flock fl;
-
-	if (tdb-&gt;flags &amp; TDB_NOLOCK)
-		return 0;
-	if (tdb-&gt;read_only) {
-		errno = EACCES;
-		return -1;
-	}
-
-	fl.l_type = rw_type;
-	fl.l_whence = SEEK_SET;
-	fl.l_start = offset;
-	fl.l_len = 1;
-	fl.l_pid = 0;
-
-	if (fcntl(tdb-&gt;fd,lck_type,&amp;fl) == -1) {
-		if (!probe) {
-			TDB_LOG((tdb, 5,"tdb_brlock failed (fd=%d) at offset %d rw_type=%d lck_type=%d\n", 
-				 tdb-&gt;fd, offset, rw_type, lck_type));
-		}
-		/* errno set by fcntl */
-		return TDB_ERRCODE(TDB_ERR_LOCK, -1);
-	}
-	return 0;
-}
-
-/* lock a list in the database. list -1 is the alloc list */
-static int tdb_lock(TDB_CONTEXT *tdb, int list, int ltype)
-{
-	if (list &lt; -1 || list &gt;= (int)tdb-&gt;header.hash_size) {
-		TDB_LOG((tdb, 0,"tdb_lock: invalid list %d for ltype=%d\n", 
-			   list, ltype));
-		return -1;
-	}
-	if (tdb-&gt;flags &amp; TDB_NOLOCK)
-		return 0;
-
-	/* Since fcntl locks don't nest, we do a lock for the first one,
-	   and simply bump the count for future ones */
-	if (tdb-&gt;locked[list+1].count == 0) {
-		if (!tdb-&gt;read_only &amp;&amp; tdb-&gt;header.rwlocks) {
-			if (tdb_spinlock(tdb, list, ltype)) {
-				TDB_LOG((tdb, 0, "tdb_lock spinlock failed on list ltype=%d\n", 
-					   list, ltype));
-				return -1;
-			}
-		} else if (tdb_brlock(tdb,FREELIST_TOP+4*list,ltype,F_SETLKW, 0)) {
-			TDB_LOG((tdb, 0,"tdb_lock failed on list %d ltype=%d (%s)\n", 
-					   list, ltype, strerror(errno)));
-			return -1;
-		}
-		tdb-&gt;locked[list+1].ltype = ltype;
-	}
-	tdb-&gt;locked[list+1].count++;
-	return 0;
-}
-
-/* unlock the database: returns void because it's too late for errors. */
-static void tdb_unlock(TDB_CONTEXT *tdb, int list, int ltype)
-{
-	if (tdb-&gt;flags &amp; TDB_NOLOCK)
-		return;
-
-	/* Sanity checks */
-	if (list &lt; -1 || list &gt;= (int)tdb-&gt;header.hash_size)
-		return;
-	if (tdb-&gt;locked[list+1].count==0)
-		return;
-
-	if (tdb-&gt;locked[list+1].count == 1) {
-		/* Down to last nested lock: unlock underneath */
-		if (!tdb-&gt;read_only &amp;&amp; tdb-&gt;header.rwlocks)
-			tdb_spinunlock(tdb, list, ltype);
-		else
-			tdb_brlock(tdb, FREELIST_TOP+4*list, F_UNLCK, F_SETLKW, 0);
-	}
-	tdb-&gt;locked[list+1].count--;
-}
-
-/* This is based on the hash agorithm from gdbm */
-static u32 tdb_hash(TDB_DATA *key)
-{
-	u32 value;	/* Used to compute the hash value.  */
-	u32   i;	/* Used to cycle through random values. */
-
-	/* Set the initial value from the key size. */
-	for (value = 0x238F13AF * key-&gt;dsize, i=0; i &lt; key-&gt;dsize; i++)
-		value = (value + (key-&gt;dptr[i] &lt;&lt; (i*5 % 24)));
-
-	return (1103515243 * value + 12345);  
-}
-
-/* check for an out of bounds access - if it is out of bounds then
-   see if the database has been expanded by someone else and expand
-   if necessary 
-   note that "len" is the minimum length needed for the db
-*/
-static int tdb_oob(TDB_CONTEXT *tdb, tdb_off len, int probe)
-{
-	struct stat st;
-	if (len &lt;= tdb-&gt;map_size)
-		return 0;
-	if (tdb-&gt;flags &amp; TDB_INTERNAL) {
-		if (!probe) {
-			TDB_LOG((tdb, 0,"tdb_oob len %d beyond internal malloc size %d\n",
-				 (int)len, (int)tdb-&gt;map_size));
-		}
-		return TDB_ERRCODE(TDB_ERR_IO, -1);
-	}
-
-	if (fstat(tdb-&gt;fd, &amp;st) == -1)
-		return TDB_ERRCODE(TDB_ERR_IO, -1);
-
-	if (st.st_size &lt; (size_t)len) {
-		if (!probe) {
-			TDB_LOG((tdb, 0,"tdb_oob len %d beyond eof at %d\n",
-				 (int)len, (int)st.st_size));
-		}
-		return TDB_ERRCODE(TDB_ERR_IO, -1);
-	}
-
-	/* Unmap, update size, remap */
-	tdb_munmap(tdb);
-	tdb-&gt;map_size = st.st_size;
-	tdb_mmap(tdb);
-	return 0;
-}
-
-/* write a lump of data at a specified offset */
-static int tdb_write(TDB_CONTEXT *tdb, tdb_off off, void *buf, tdb_len len)
-{
-	if (tdb_oob(tdb, off + len, 0) != 0)
-		return -1;
-
-	if (tdb-&gt;map_ptr)
-		memcpy(off + (char *)tdb-&gt;map_ptr, buf, len);
-#ifdef HAVE_PWRITE
-	else if (pwrite(tdb-&gt;fd, buf, len, off) != (ssize_t)len) {
-#else
-	else if (lseek(tdb-&gt;fd, off, SEEK_SET) != off
-		 || write(tdb-&gt;fd, buf, len) != (ssize_t)len) {
-#endif
-		TDB_LOG((tdb, 0,"tdb_write failed at %d len=%d (%s)\n",
-			   off, len, strerror(errno)));
-		return TDB_ERRCODE(TDB_ERR_IO, -1);
-	}
-	return 0;
-}
-
-/* read a lump of data at a specified offset, maybe convert */
-static int tdb_read(TDB_CONTEXT *tdb,tdb_off off,void *buf,tdb_len len,int cv)
-{
-	if (tdb_oob(tdb, off + len, 0) != 0)
-		return -1;
-
-	if (tdb-&gt;map_ptr)
-		memcpy(buf, off + (char *)tdb-&gt;map_ptr, len);
-#ifdef HAVE_PREAD
-	else if (pread(tdb-&gt;fd, buf, len, off) != (ssize_t)len) {
-#else
-	else if (lseek(tdb-&gt;fd, off, SEEK_SET) != off
-		 || read(tdb-&gt;fd, buf, len) != (ssize_t)len) {
-#endif
-		TDB_LOG((tdb, 0,"tdb_read failed at %d len=%d (%s)\n",
-			   off, len, strerror(errno)));
-		return TDB_ERRCODE(TDB_ERR_IO, -1);
-	}
-	if (cv)
-		convert(buf, len);
-	return 0;
-}
-
-/* read a lump of data, allocating the space for it */
-static char *tdb_alloc_read(TDB_CONTEXT *tdb, tdb_off offset, tdb_len len)
-{
-	char *buf;
-
-	if (!(buf = malloc(len))) {
-		TDB_LOG((tdb, 0,"tdb_alloc_read malloc failed len=%d (%s)\n",
-			   len, strerror(errno)));
-		return TDB_ERRCODE(TDB_ERR_OOM, buf);
-	}
-	if (tdb_read(tdb, offset, buf, len, 0) == -1) {
-		SAFE_FREE(buf);
-		return NULL;
-	}
-	return buf;
-}
-
-/* read/write a tdb_off */
-static int ofs_read(TDB_CONTEXT *tdb, tdb_off offset, tdb_off *d)
-{
-	return tdb_read(tdb, offset, (char*)d, sizeof(*d), DOCONV());
-}
-static int ofs_write(TDB_CONTEXT *tdb, tdb_off offset, tdb_off *d)
-{
-	tdb_off off = *d;
-	return tdb_write(tdb, offset, CONVERT(off), sizeof(*d));
-}
-
-/* read/write a record */
-static int rec_read(TDB_CONTEXT *tdb, tdb_off offset, struct list_struct *rec)
-{
-	if (tdb_read(tdb, offset, rec, sizeof(*rec),DOCONV()) == -1)
-		return -1;
-	if (TDB_BAD_MAGIC(rec)) {
-		TDB_LOG((tdb, 0,"rec_read bad magic 0x%x at offset=%d\n", rec-&gt;magic, offset));
-		return TDB_ERRCODE(TDB_ERR_CORRUPT, -1);
-	}
-	return tdb_oob(tdb, rec-&gt;next+sizeof(*rec), 0);
-}
-static int rec_write(TDB_CONTEXT *tdb, tdb_off offset, struct list_struct *rec)
-{
-	struct list_struct r = *rec;
-	return tdb_write(tdb, offset, CONVERT(r), sizeof(r));
-}
-
-/* read a freelist record and check for simple errors */
-static int rec_free_read(TDB_CONTEXT *tdb, tdb_off off, struct list_struct *rec)
-{
-	if (tdb_read(tdb, off, rec, sizeof(*rec),DOCONV()) == -1)
-		return -1;
-	if (rec-&gt;magic != TDB_FREE_MAGIC) {
-		TDB_LOG((tdb, 0,"rec_free_read bad magic 0x%x at offset=%d\n", 
-			   rec-&gt;magic, off));
-		return TDB_ERRCODE(TDB_ERR_CORRUPT, -1);
-	}
-	if (tdb_oob(tdb, rec-&gt;next+sizeof(*rec), 0) != 0)
-		return -1;
-	return 0;
-}
-
-/* update a record tailer (must hold allocation lock) */
-static int update_tailer(TDB_CONTEXT *tdb, tdb_off offset,
-			 const struct list_struct *rec)
-{
-	tdb_off totalsize;
-
-	/* Offset of tailer from record header */
-	totalsize = sizeof(*rec) + rec-&gt;rec_len;
-	return ofs_write(tdb, offset + totalsize - sizeof(tdb_off),
-			 &amp;totalsize);
-}
-
-static tdb_off tdb_dump_record(TDB_CONTEXT *tdb, tdb_off offset)
-{
-	struct list_struct rec;
-	tdb_off tailer_ofs, tailer;
-
-	if (tdb_read(tdb, offset, (char *)&amp;rec, sizeof(rec), DOCONV()) == -1) {
-		printf("ERROR: failed to read record at %u\n", offset);
-		return 0;
-	}
-
-	printf(" rec: offset=%u next=%d rec_len=%d key_len=%d data_len=%d full_hash=0x%x magic=0x%x\n",
-	       offset, rec.next, rec.rec_len, rec.key_len, rec.data_len, rec.full_hash, rec.magic);
-
-	tailer_ofs = offset + sizeof(rec) + rec.rec_len - sizeof(tdb_off);
-	if (ofs_read(tdb, tailer_ofs, &amp;tailer) == -1) {
-		printf("ERROR: failed to read tailer at %u\n", tailer_ofs);
-		return rec.next;
-	}
-
-	if (tailer != rec.rec_len + sizeof(rec)) {
-		printf("ERROR: tailer does not match record! tailer=%u totalsize=%u\n",
-				(unsigned)tailer, (unsigned)(rec.rec_len + sizeof(rec)));
-	}
-	return rec.next;
-}
-
-static void tdb_dump_chain(TDB_CONTEXT *tdb, int i)
-{
-	tdb_off rec_ptr, top;
-
-	top = TDB_HASH_TOP(i);
-
-	tdb_lock(tdb, i, F_WRLCK);
-
-	if (ofs_read(tdb, top, &amp;rec_ptr) == -1) {
-		tdb_unlock(tdb, i, F_WRLCK);
-		return;
-	}
-
-	if (rec_ptr)
-		printf("hash=%d\n", i);
-
-	while (rec_ptr) {
-		rec_ptr = tdb_dump_record(tdb, rec_ptr);
-	}
-	tdb_unlock(tdb, i, F_WRLCK);
-}
-
-void tdb_dump_all(TDB_CONTEXT *tdb)
-{
-	int i;
-	for (i=0;i&lt;tdb-&gt;header.hash_size;i++) {
-		tdb_dump_chain(tdb, i);
-	}
-	printf("freelist:\n");
-	tdb_dump_chain(tdb, -1);
-}
-
-void tdb_printfreelist(TDB_CONTEXT *tdb)
-{
-	long total_free = 0;
-	tdb_off offset, rec_ptr;
-	struct list_struct rec;
-
-	tdb_lock(tdb, -1, F_WRLCK);
-
-	offset = FREELIST_TOP;
-
-	/* read in the freelist top */
-	if (ofs_read(tdb, offset, &amp;rec_ptr) == -1) {
-		return;
-	}
-
-	printf("freelist top=[0x%08x]\n", rec_ptr );
-	while (rec_ptr) {
-		if (tdb_read(tdb, rec_ptr, (char *)&amp;rec, sizeof(rec), DOCONV()) == -1) {
-			return;
-		}
-
-		if (rec.magic != TDB_FREE_MAGIC) {
-			printf("bad magic 0x%08x in free list\n", rec.magic);
-			return;
-		}
-
-		printf("entry offset=[0x%08x], rec.rec_len = [0x%08x (%d)]\n", rec.next, rec.rec_len, rec.rec_len );
-		total_free += rec.rec_len;
-
-		/* move to the next record */
-		rec_ptr = rec.next;
-	}
-	printf("total rec_len = [0x%08x (%d)]\n", (int)total_free, 
-               (int)total_free);
-
-	tdb_unlock(tdb, -1, F_WRLCK);
-}
-
-/* Remove an element from the freelist.  Must have alloc lock. */
-static int remove_from_freelist(TDB_CONTEXT *tdb, tdb_off off, tdb_off next)
-{
-	tdb_off last_ptr, i;
-
-	/* read in the freelist top */
-	last_ptr = FREELIST_TOP;
-	while (ofs_read(tdb, last_ptr, &amp;i) != -1 &amp;&amp; i != 0) {
-		if (i == off) {
-			/* We've found it! */
-			return ofs_write(tdb, last_ptr, &amp;next);
-		}
-		/* Follow chain (next offset is at start of record) */
-		last_ptr = i;
-	}
-	TDB_LOG((tdb, 0,"remove_from_freelist: not on list at off=%d\n", off));
-	return TDB_ERRCODE(TDB_ERR_CORRUPT, -1);
-}
-
-/* Add an element into the freelist. Merge adjacent records if
-   neccessary. */
-static int tdb_free(TDB_CONTEXT *tdb, tdb_off offset, struct list_struct *rec)
-{
-	tdb_off right, left;
-
-	/* Allocation and tailer lock */
-	if (tdb_lock(tdb, -1, F_WRLCK) != 0)
-		return -1;
-
-	/* set an initial tailer, so if we fail we don't leave a bogus record */
-	update_tailer(tdb, offset, rec);
-
-	/* Look right first (I'm an Australian, dammit) */
-	right = offset + sizeof(*rec) + rec-&gt;rec_len;
-	if (right + sizeof(*rec) &lt;= tdb-&gt;map_size) {
-		struct list_struct r;
-
-		if (tdb_read(tdb, right, &amp;r, sizeof(r), DOCONV()) == -1) {
-			TDB_LOG((tdb, 0, "tdb_free: right read failed at %u\n", right));
-			goto left;
-		}
-
-		/* If it's free, expand to include it. */
-		if (r.magic == TDB_FREE_MAGIC) {
-			if (remove_from_freelist(tdb, right, r.next) == -1) {
-				TDB_LOG((tdb, 0, "tdb_free: right free failed at %u\n", right));
-				goto left;
-			}
-			rec-&gt;rec_len += sizeof(r) + r.rec_len;
-		}
-	}
-
-left:
-	/* Look left */
-	left = offset - sizeof(tdb_off);
-	if (left &gt; TDB_HASH_TOP(tdb-&gt;header.hash_size-1)) {
-		struct list_struct l;
-		tdb_off leftsize;
-
-		/* Read in tailer and jump back to header */
-		if (ofs_read(tdb, left, &amp;leftsize) == -1) {
-			TDB_LOG((tdb, 0, "tdb_free: left offset read failed at %u\n", left));
-			goto update;
-		}
-		left = offset - leftsize;
-
-		/* Now read in record */
-		if (tdb_read(tdb, left, &amp;l, sizeof(l), DOCONV()) == -1) {
-			TDB_LOG((tdb, 0, "tdb_free: left read failed at %u (%u)\n", left, leftsize));
-			goto update;
-		}
-
-		/* If it's free, expand to include it. */
-		if (l.magic == TDB_FREE_MAGIC) {
-			if (remove_from_freelist(tdb, left, l.next) == -1) {
-				TDB_LOG((tdb, 0, "tdb_free: left free failed at %u\n", left));
-				goto update;
-			} else {
-				offset = left;
-				rec-&gt;rec_len += leftsize;
-			}
-		}
-	}
-
-update:
-	if (update_tailer(tdb, offset, rec) == -1) {
-		TDB_LOG((tdb, 0, "tdb_free: update_tailer failed at %u\n", offset));
-		goto fail;
-	}
-
-	/* Now, prepend to free list */
-	rec-&gt;magic = TDB_FREE_MAGIC;
-
-	if (ofs_read(tdb, FREELIST_TOP, &amp;rec-&gt;next) == -1 ||
-	    rec_write(tdb, offset, rec) == -1 ||
-	    ofs_write(tdb, FREELIST_TOP, &amp;offset) == -1) {
-		TDB_LOG((tdb, 0, "tdb_free record write failed at offset=%d\n", offset));
-		goto fail;
-	}
-
-	/* And we're done. */
-	tdb_unlock(tdb, -1, F_WRLCK);
-	return 0;
-
- fail:
-	tdb_unlock(tdb, -1, F_WRLCK);
-	return -1;
-}
-
-
-/* expand a file.  we prefer to use ftruncate, as that is what posix
-  says to use for mmap expansion */
-static int expand_file(TDB_CONTEXT *tdb, tdb_off size, tdb_off addition)
-{
-	char buf[1024];
-#if HAVE_FTRUNCATE_EXTEND
-	if (ftruncate(tdb-&gt;fd, size+addition) != 0) {
-		TDB_LOG((tdb, 0, "expand_file ftruncate to %d failed (%s)\n", 
-			   size+addition, strerror(errno)));
-		return -1;
-	}
-#else
-	char b = 0;
-
-#ifdef HAVE_PWRITE
-	if (pwrite(tdb-&gt;fd,  &amp;b, 1, (size+addition) - 1) != 1) {
-#else
-	if (lseek(tdb-&gt;fd, (size+addition) - 1, SEEK_SET) != (size+addition) - 1 || 
-	    write(tdb-&gt;fd, &amp;b, 1) != 1) {
-#endif
-		TDB_LOG((tdb, 0, "expand_file to %d failed (%s)\n", 
-			   size+addition, strerror(errno)));
-		return -1;
-	}
-#endif
-
-	/* now fill the file with something. This ensures that the file isn't sparse, which would be
-	   very bad if we ran out of disk. This must be done with write, not via mmap */
-	memset(buf, 0x42, sizeof(buf));
-	while (addition) {
-		int n = addition&gt;sizeof(buf)?sizeof(buf):addition;
-#ifdef HAVE_PWRITE
-		int ret = pwrite(tdb-&gt;fd, buf, n, size);
-#else
-		int ret;
-		if (lseek(tdb-&gt;fd, size, SEEK_SET) != size)
-			return -1;
-		ret = write(tdb-&gt;fd, buf, n);
-#endif
-		if (ret != n) {
-			TDB_LOG((tdb, 0, "expand_file write of %d failed (%s)\n", 
-				   n, strerror(errno)));
-			return -1;
-		}
-		addition -= n;
-		size += n;
-	}
-	return 0;
-}
-
-
-/* expand the database at least size bytes by expanding the underlying
-   file and doing the mmap again if necessary */
-static int tdb_expand(TDB_CONTEXT *tdb, tdb_off size)
-{
-	struct list_struct rec;
-	tdb_off offset;
-
-	if (tdb_lock(tdb, -1, F_WRLCK) == -1) {
-		TDB_LOG((tdb, 0, "lock failed in tdb_expand\n"));
-		return -1;
-	}
-
-	/* must know about any previous expansions by another process */
-	tdb_oob(tdb, tdb-&gt;map_size + 1, 1);
-
-	/* always make room for at least 10 more records, and round
-           the database up to a multiple of TDB_PAGE_SIZE */
-	size = TDB_ALIGN(tdb-&gt;map_size + size*10, TDB_PAGE_SIZE) - tdb-&gt;map_size;
-
-	if (!(tdb-&gt;flags &amp; TDB_INTERNAL))
-		tdb_munmap(tdb);
-
-	/*
-	 * We must ensure the file is unmapped before doing this
-	 * to ensure consistency with systems like OpenBSD where
-	 * writes and mmaps are not consistent.
-	 */
-
-	/* expand the file itself */
-	if (!(tdb-&gt;flags &amp; TDB_INTERNAL)) {
-		if (expand_file(tdb, tdb-&gt;map_size, size) != 0)
-			goto fail;
-	}
-
-	tdb-&gt;map_size += size;
-
-	if (tdb-&gt;flags &amp; TDB_INTERNAL)
-		tdb-&gt;map_ptr = realloc(tdb-&gt;map_ptr, tdb-&gt;map_size);
-	else {
-		/*
-		 * We must ensure the file is remapped before adding the space
-		 * to ensure consistency with systems like OpenBSD where
-		 * writes and mmaps are not consistent.
-		 */
-
-		/* We're ok if the mmap fails as we'll fallback to read/write */
-		tdb_mmap(tdb);
-	}
-
-	/* form a new freelist record */
-	memset(&amp;rec,'\0',sizeof(rec));
-	rec.rec_len = size - sizeof(rec);
-
-	/* link it into the free list */
-	offset = tdb-&gt;map_size - size;
-	if (tdb_free(tdb, offset, &amp;rec) == -1)
-		goto fail;
-
-	tdb_unlock(tdb, -1, F_WRLCK);
-	return 0;
- fail:
-	tdb_unlock(tdb, -1, F_WRLCK);
-	return -1;
-}
-
-/* allocate some space from the free list. The offset returned points
-   to a unconnected list_struct within the database with room for at
-   least length bytes of total data
-
-   0 is returned if the space could not be allocated
- */
-static tdb_off tdb_allocate(TDB_CONTEXT *tdb, tdb_len length,
-			    struct list_struct *rec)
-{
-	tdb_off rec_ptr, last_ptr, newrec_ptr;
-	struct list_struct newrec;
-
-	if (tdb_lock(tdb, -1, F_WRLCK) == -1)
-		return 0;
-
-	/* Extra bytes required for tailer */
-	length += sizeof(tdb_off);
-
- again:
-	last_ptr = FREELIST_TOP;
-
-	/* read in the freelist top */
-	if (ofs_read(tdb, FREELIST_TOP, &amp;rec_ptr) == -1)
-		goto fail;
-
-	/* keep looking until we find a freelist record big enough */
-	while (rec_ptr) {
-		if (rec_free_read(tdb, rec_ptr, rec) == -1)
-			goto fail;
-
-		if (rec-&gt;rec_len &gt;= length) {
-			/* found it - now possibly split it up  */
-			if (rec-&gt;rec_len &gt; length + MIN_REC_SIZE) {
-				/* Length of left piece */
-				length = TDB_ALIGN(length, TDB_ALIGNMENT);
-
-				/* Right piece to go on free list */
-				newrec.rec_len = rec-&gt;rec_len
-					- (sizeof(*rec) + length);
-				newrec_ptr = rec_ptr + sizeof(*rec) + length;
-
-				/* And left record is shortened */
-				rec-&gt;rec_len = length;
-			} else
-				newrec_ptr = 0;
-
-			/* Remove allocated record from the free list */
-			if (ofs_write(tdb, last_ptr, &amp;rec-&gt;next) == -1)
-				goto fail;
-
-			/* Update header: do this before we drop alloc
-                           lock, otherwise tdb_free() might try to
-                           merge with us, thinking we're free.
-                           (Thanks Jeremy Allison). */
-			rec-&gt;magic = TDB_MAGIC;
-			if (rec_write(tdb, rec_ptr, rec) == -1)
-				goto fail;
-
-			/* Did we create new block? */
-			if (newrec_ptr) {
-				/* Update allocated record tailer (we
-                                   shortened it). */
-				if (update_tailer(tdb, rec_ptr, rec) == -1)
-					goto fail;
-
-				/* Free new record */
-				if (tdb_free(tdb, newrec_ptr, &amp;newrec) == -1)
-					goto fail;
-			}
-
-			/* all done - return the new record offset */
-			tdb_unlock(tdb, -1, F_WRLCK);
-			return rec_ptr;
-		}
-		/* move to the next record */
-		last_ptr = rec_ptr;
-		rec_ptr = rec-&gt;next;
-	}
-	/* we didn't find enough space. See if we can expand the
-	   database and if we can then try again */
-	if (tdb_expand(tdb, length + sizeof(*rec)) == 0)
-		goto again;
- fail:
-	tdb_unlock(tdb, -1, F_WRLCK);
-	return 0;
-}
-
-/* initialise a new database with a specified hash size */
-static int tdb_new_database(TDB_CONTEXT *tdb, int hash_size)
-{
-	struct tdb_header *newdb;
-	int size, ret = -1;
-
-	/* We make it up in memory, then write it out if not internal */
-	size = sizeof(struct tdb_header) + (hash_size+1)*sizeof(tdb_off);
-	if (!(newdb = calloc(size, 1)))
-		return TDB_ERRCODE(TDB_ERR_OOM, -1);
-
-	/* Fill in the header */
-	newdb-&gt;version = TDB_VERSION;
-	newdb-&gt;hash_size = hash_size;
-#ifdef USE_SPINLOCKS
-	newdb-&gt;rwlocks = size;
-#endif
-	if (tdb-&gt;flags &amp; TDB_INTERNAL) {
-		tdb-&gt;map_size = size;
-		tdb-&gt;map_ptr = (char *)newdb;
-		memcpy(&amp;tdb-&gt;header, newdb, sizeof(tdb-&gt;header));
-		/* Convert the `ondisk' version if asked. */
-		CONVERT(*newdb);
-		return 0;
-	}
-	if (lseek(tdb-&gt;fd, 0, SEEK_SET) == -1)
-		goto fail;
-
-	if (ftruncate(tdb-&gt;fd, 0) == -1)
-		goto fail;
-
-	/* This creates an endian-converted header, as if read from disk */
-	CONVERT(*newdb);
-	memcpy(&amp;tdb-&gt;header, newdb, sizeof(tdb-&gt;header));
-	/* Don't endian-convert the magic food! */
-	memcpy(newdb-&gt;magic_food, TDB_MAGIC_FOOD, strlen(TDB_MAGIC_FOOD)+1);
-	if (write(tdb-&gt;fd, newdb, size) != size)
-		ret = -1;
-	else
-		ret = tdb_create_rwlocks(tdb-&gt;fd, hash_size);
-
-  fail:
-	SAFE_FREE(newdb);
-	return ret;
-}
-
-/* Returns 0 on fail.  On success, return offset of record, and fills
-   in rec */
-static tdb_off tdb_find(TDB_CONTEXT *tdb, TDB_DATA key, u32 hash,
-			struct list_struct *r)
-{
-	tdb_off rec_ptr;
-	
-	/* read in the hash top */
-	if (ofs_read(tdb, TDB_HASH_TOP(hash), &amp;rec_ptr) == -1)
-		return 0;
-
-	/* keep looking until we find the right record */
-	while (rec_ptr) {
-		if (rec_read(tdb, rec_ptr, r) == -1)
-			return 0;
-
-		if (!TDB_DEAD(r) &amp;&amp; hash==r-&gt;full_hash &amp;&amp; key.dsize==r-&gt;key_len) {
-			char *k;
-			/* a very likely hit - read the key */
-			k = tdb_alloc_read(tdb, rec_ptr + sizeof(*r), 
-					   r-&gt;key_len);
-			if (!k)
-				return 0;
-
-			if (memcmp(key.dptr, k, key.dsize) == 0) {
-				SAFE_FREE(k);
-				return rec_ptr;
-			}
-			SAFE_FREE(k);
-		}
-		rec_ptr = r-&gt;next;
-	}
-	return TDB_ERRCODE(TDB_ERR_NOEXIST, 0);
-}
-
-/* If they do lockkeys, check that this hash is one they locked */
-static int tdb_keylocked(TDB_CONTEXT *tdb, u32 hash)
-{
-	u32 i;
-	if (!tdb-&gt;lockedkeys)
-		return 1;
-	for (i = 0; i &lt; tdb-&gt;lockedkeys[0]; i++)
-		if (tdb-&gt;lockedkeys[i+1] == hash)
-			return 1;
-	return TDB_ERRCODE(TDB_ERR_NOLOCK, 0);
-}
-
-/* As tdb_find, but if you succeed, keep the lock */
-static tdb_off tdb_find_lock(TDB_CONTEXT *tdb, TDB_DATA key, int locktype,
-			     struct list_struct *rec)
-{
-	u32 hash, rec_ptr;
-
-	hash = tdb_hash(&amp;key);
-	if (!tdb_keylocked(tdb, hash))
-		return 0;
-	if (tdb_lock(tdb, BUCKET(hash), locktype) == -1)
-		return 0;
-	if (!(rec_ptr = tdb_find(tdb, key, hash, rec)))
-		tdb_unlock(tdb, BUCKET(hash), locktype);
-	return rec_ptr;
-}
-
-enum TDB_ERROR tdb_error(TDB_CONTEXT *tdb)
-{
-	return tdb-&gt;ecode;
-}
-
-static struct tdb_errname {
-	enum TDB_ERROR ecode; const char *estring;
-} emap[] = { {TDB_SUCCESS, "Success"},
-	     {TDB_ERR_CORRUPT, "Corrupt database"},
-	     {TDB_ERR_IO, "IO Error"},
-	     {TDB_ERR_LOCK, "Locking error"},
-	     {TDB_ERR_OOM, "Out of memory"},
-	     {TDB_ERR_EXISTS, "Record exists"},
-	     {TDB_ERR_NOLOCK, "Lock exists on other keys"},
-	     {TDB_ERR_NOEXIST, "Record does not exist"} };
-
-/* Error string for the last tdb error */
-const char *tdb_errorstr(TDB_CONTEXT *tdb)
-{
-	u32 i;
-	for (i = 0; i &lt; sizeof(emap) / sizeof(struct tdb_errname); i++)
-		if (tdb-&gt;ecode == emap[i].ecode)
-			return emap[i].estring;
-	return "Invalid error code";
-}
-
-/* update an entry in place - this only works if the new data size
-   is &lt;= the old data size and the key exists.
-   on failure return -1
-*/
-static int tdb_update(TDB_CONTEXT *tdb, TDB_DATA key, TDB_DATA dbuf)
-{
-	struct list_struct rec;
-	tdb_off rec_ptr;
-	int ret = -1;
-
-	/* find entry */
-	if (!(rec_ptr = tdb_find_lock(tdb, key, F_WRLCK, &amp;rec)))
-		return -1;
-
-	/* must be long enough key, data and tailer */
-	if (rec.rec_len &lt; key.dsize + dbuf.dsize + sizeof(tdb_off)) {
-		tdb-&gt;ecode = TDB_SUCCESS; /* Not really an error */
-		goto out;
-	}
-
-	if (tdb_write(tdb, rec_ptr + sizeof(rec) + rec.key_len,
-		      dbuf.dptr, dbuf.dsize) == -1)
-		goto out;
-
-	if (dbuf.dsize != rec.data_len) {
-		/* update size */
-		rec.data_len = dbuf.dsize;
-		ret = rec_write(tdb, rec_ptr, &amp;rec);
-	} else
-		ret = 0;
- out:
-	tdb_unlock(tdb, BUCKET(rec.full_hash), F_WRLCK);
-	return ret;
-}
-
-/* find an entry in the database given a key */
-TDB_DATA tdb_fetch(TDB_CONTEXT *tdb, TDB_DATA key)
-{
-	tdb_off rec_ptr;
-	struct list_struct rec;
-	TDB_DATA ret;
-
-	/* find which hash bucket it is in */
-	if (!(rec_ptr = tdb_find_lock(tdb,key,F_RDLCK,&amp;rec)))
-		return tdb_null;
-
-	ret.dptr = tdb_alloc_read(tdb, rec_ptr + sizeof(rec) + rec.key_len,
-				  rec.data_len);
-	ret.dsize = rec.data_len;
-	tdb_unlock(tdb, BUCKET(rec.full_hash), F_RDLCK);
-	return ret;
-}
-
-/* check if an entry in the database exists 
-
-   note that 1 is returned if the key is found and 0 is returned if not found
-   this doesn't match the conventions in the rest of this module, but is
-   compatible with gdbm
-*/
-int tdb_exists(TDB_CONTEXT *tdb, TDB_DATA key)
-{
-	struct list_struct rec;
-	
-	if (tdb_find_lock(tdb, key, F_RDLCK, &amp;rec) == 0)
-		return 0;
-	tdb_unlock(tdb, BUCKET(rec.full_hash), F_RDLCK);
-	return 1;
-}
-
-/* record lock stops delete underneath */
-static int lock_record(TDB_CONTEXT *tdb, tdb_off off)
-{
-	return off ? tdb_brlock(tdb, off, F_RDLCK, F_SETLKW, 0) : 0;
-}
-/*
-  Write locks override our own fcntl readlocks, so check it here.
-  Note this is meant to be F_SETLK, *not* F_SETLKW, as it's not
-  an error to fail to get the lock here.
-*/
- 
-static int write_lock_record(TDB_CONTEXT *tdb, tdb_off off)
-{
-	struct tdb_traverse_lock *i;
-	for (i = &amp;tdb-&gt;travlocks; i; i = i-&gt;next)
-		if (i-&gt;off == off)
-			return -1;
-	return tdb_brlock(tdb, off, F_WRLCK, F_SETLK, 1);
-}
-
-/*
-  Note this is meant to be F_SETLK, *not* F_SETLKW, as it's not
-  an error to fail to get the lock here.
-*/
-
-static int write_unlock_record(TDB_CONTEXT *tdb, tdb_off off)
-{
-	return tdb_brlock(tdb, off, F_UNLCK, F_SETLK, 0);
-}
-/* fcntl locks don't stack: avoid unlocking someone else's */
-static int unlock_record(TDB_CONTEXT *tdb, tdb_off off)
-{
-	struct tdb_traverse_lock *i;
-	u32 count = 0;
-
-	if (off == 0)
-		return 0;
-	for (i = &amp;tdb-&gt;travlocks; i; i = i-&gt;next)
-		if (i-&gt;off == off)
-			count++;
-	return (count == 1 ? tdb_brlock(tdb, off, F_UNLCK, F_SETLKW, 0) : 0);
-}
-
-/* actually delete an entry in the database given the offset */
-static int do_delete(TDB_CONTEXT *tdb, tdb_off rec_ptr, struct list_struct*rec)
-{
-	tdb_off last_ptr, i;
-	struct list_struct lastrec;
-
-	if (tdb-&gt;read_only) return -1;
-
-	if (write_lock_record(tdb, rec_ptr) == -1) {
-		/* Someone traversing here: mark it as dead */
-		rec-&gt;magic = TDB_DEAD_MAGIC;
-		return rec_write(tdb, rec_ptr, rec);
-	}
-	write_unlock_record(tdb, rec_ptr);
-
-	/* find previous record in hash chain */
-	if (ofs_read(tdb, TDB_HASH_TOP(rec-&gt;full_hash), &amp;i) == -1)
-		return -1;
-	for (last_ptr = 0; i != rec_ptr; last_ptr = i, i = lastrec.next)
-		if (rec_read(tdb, i, &amp;lastrec) == -1)
-			return -1;
-
-	/* unlink it: next ptr is at start of record. */
-	if (last_ptr == 0)
-		last_ptr = TDB_HASH_TOP(rec-&gt;full_hash);
-	if (ofs_write(tdb, last_ptr, &amp;rec-&gt;next) == -1)
-		return -1;
-
-	/* recover the space */
-	if (tdb_free(tdb, rec_ptr, rec) == -1)
-		return -1;
-	return 0;
-}
-
-/* Uses traverse lock: 0 = finish, -1 = error, other = record offset */
-static int tdb_next_lock(TDB_CONTEXT *tdb, struct tdb_traverse_lock *tlock,
-			 struct list_struct *rec)
-{
-	int want_next = (tlock-&gt;off != 0);
-
-	/* No traversal allows if you've called tdb_lockkeys() */
-	if (tdb-&gt;lockedkeys)
-		return TDB_ERRCODE(TDB_ERR_NOLOCK, -1);
-
-	/* Lock each chain from the start one. */
-	for (; tlock-&gt;hash &lt; tdb-&gt;header.hash_size; tlock-&gt;hash++) {
-		if (tdb_lock(tdb, tlock-&gt;hash, F_WRLCK) == -1)
-			return -1;
-
-		/* No previous record?  Start at top of chain. */
-		if (!tlock-&gt;off) {
-			if (ofs_read(tdb, TDB_HASH_TOP(tlock-&gt;hash),
-				     &amp;tlock-&gt;off) == -1)
-				goto fail;
-		} else {
-			/* Otherwise unlock the previous record. */
-			unlock_record(tdb, tlock-&gt;off);
-		}
-
-		if (want_next) {
-			/* We have offset of old record: grab next */
-			if (rec_read(tdb, tlock-&gt;off, rec) == -1)
-				goto fail;
-			tlock-&gt;off = rec-&gt;next;
-		}
-
-		/* Iterate through chain */
-		while( tlock-&gt;off) {
-			tdb_off current;
-			if (rec_read(tdb, tlock-&gt;off, rec) == -1)
-				goto fail;
-			if (!TDB_DEAD(rec)) {
-				/* Woohoo: we found one! */
-				lock_record(tdb, tlock-&gt;off);
-				return tlock-&gt;off;
-			}
-			/* Try to clean dead ones from old traverses */
-			current = tlock-&gt;off;
-			tlock-&gt;off = rec-&gt;next;
-			do_delete(tdb, current, rec);
-		}
-		tdb_unlock(tdb, tlock-&gt;hash, F_WRLCK);
-		want_next = 0;
-	}
-	/* We finished iteration without finding anything */
-	return TDB_ERRCODE(TDB_SUCCESS, 0);
-
- fail:
-	tlock-&gt;off = 0;
-	tdb_unlock(tdb, tlock-&gt;hash, F_WRLCK);
-	return -1;
-}
-
-/* traverse the entire database - calling fn(tdb, key, data) on each element.
-   return -1 on error or the record count traversed
-   if fn is NULL then it is not called
-   a non-zero return value from fn() indicates that the traversal should stop
-  */
-int tdb_traverse(TDB_CONTEXT *tdb, tdb_traverse_func fn, void *state)
-{
-	TDB_DATA key, dbuf;
-	struct list_struct rec;
-	struct tdb_traverse_lock tl = { NULL, 0, 0 };
-	int ret, count = 0;
-
-	/* This was in the initializaton, above, but the IRIX compiler
-	 * did not like it.  crh
-	 */
-	tl.next = tdb-&gt;travlocks.next;
-
-	/* fcntl locks don't stack: beware traverse inside traverse */
-	tdb-&gt;travlocks.next = &amp;tl;
-
-	/* tdb_next_lock places locks on the record returned, and its chain */
-	while ((ret = tdb_next_lock(tdb, &amp;tl, &amp;rec)) &gt; 0) {
-		count++;
-		/* now read the full record */
-		key.dptr = tdb_alloc_read(tdb, tl.off + sizeof(rec), 
-					  rec.key_len + rec.data_len);
-		if (!key.dptr) {
-			tdb_unlock(tdb, tl.hash, F_WRLCK);
-			unlock_record(tdb, tl.off);
-			tdb-&gt;travlocks.next = tl.next;
-			return -1;
-		}
-		key.dsize = rec.key_len;
-		dbuf.dptr = key.dptr + rec.key_len;
-		dbuf.dsize = rec.data_len;
-
-		/* Drop chain lock, call out */
-		tdb_unlock(tdb, tl.hash, F_WRLCK);
-		if (fn &amp;&amp; fn(tdb, key, dbuf, state)) {
-			/* They want us to terminate traversal */
-			unlock_record(tdb, tl.off);
-			tdb-&gt;travlocks.next = tl.next;
-			SAFE_FREE(key.dptr);
-			return count;
-		}
-		SAFE_FREE(key.dptr);
-	}
-	tdb-&gt;travlocks.next = tl.next;
-	if (ret &lt; 0)
-		return -1;
-	else
-		return count;
-}
-
-/* find the first entry in the database and return its key */
-TDB_DATA tdb_firstkey(TDB_CONTEXT *tdb)
-{
-	TDB_DATA key;
-	struct list_struct rec;
-
-	/* release any old lock */
-	unlock_record(tdb, tdb-&gt;travlocks.off);
-	tdb-&gt;travlocks.off = tdb-&gt;travlocks.hash = 0;
-
-	if (tdb_next_lock(tdb, &amp;tdb-&gt;travlocks, &amp;rec) &lt;= 0)
-		return tdb_null;
-	/* now read the key */
-	key.dsize = rec.key_len;
-	key.dptr =tdb_alloc_read(tdb,tdb-&gt;travlocks.off+sizeof(rec),key.dsize);
-	tdb_unlock(tdb, BUCKET(tdb-&gt;travlocks.hash), F_WRLCK);
-	return key;
-}
-
-/* find the next entry in the database, returning its key */
-TDB_DATA tdb_nextkey(TDB_CONTEXT *tdb, TDB_DATA oldkey)
-{
-	u32 oldhash;
-	TDB_DATA key = tdb_null;
-	struct list_struct rec;
-	char *k = NULL;
-
-	/* Is locked key the old key?  If so, traverse will be reliable. */
-	if (tdb-&gt;travlocks.off) {
-		if (tdb_lock(tdb,tdb-&gt;travlocks.hash,F_WRLCK))
-			return tdb_null;
-		if (rec_read(tdb, tdb-&gt;travlocks.off, &amp;rec) == -1
-		    || !(k = tdb_alloc_read(tdb,tdb-&gt;travlocks.off+sizeof(rec),
-					    rec.key_len))
-		    || memcmp(k, oldkey.dptr, oldkey.dsize) != 0) {
-			/* No, it wasn't: unlock it and start from scratch */
-			unlock_record(tdb, tdb-&gt;travlocks.off);
-			tdb_unlock(tdb, tdb-&gt;travlocks.hash, F_WRLCK);
-			tdb-&gt;travlocks.off = 0;
-		}
-
-		SAFE_FREE(k);
-	}
-
-	if (!tdb-&gt;travlocks.off) {
-		/* No previous element: do normal find, and lock record */
-		tdb-&gt;travlocks.off = tdb_find_lock(tdb, oldkey, F_WRLCK, &amp;rec);
-		if (!tdb-&gt;travlocks.off)
-			return tdb_null;
-		tdb-&gt;travlocks.hash = BUCKET(rec.full_hash);
-		lock_record(tdb, tdb-&gt;travlocks.off);
-	}
-	oldhash = tdb-&gt;travlocks.hash;
-
-	/* Grab next record: locks chain and returned record,
-	   unlocks old record */
-	if (tdb_next_lock(tdb, &amp;tdb-&gt;travlocks, &amp;rec) &gt; 0) {
-		key.dsize = rec.key_len;
-		key.dptr = tdb_alloc_read(tdb, tdb-&gt;travlocks.off+sizeof(rec),
-					  key.dsize);
-		/* Unlock the chain of this new record */
-		tdb_unlock(tdb, tdb-&gt;travlocks.hash, F_WRLCK);
-	}
-	/* Unlock the chain of old record */
-	tdb_unlock(tdb, BUCKET(oldhash), F_WRLCK);
-	return key;
-}
-
-/* delete an entry in the database given a key */
-int tdb_delete(TDB_CONTEXT *tdb, TDB_DATA key)
-{
-	tdb_off rec_ptr;
-	struct list_struct rec;
-	int ret;
-
-	if (!(rec_ptr = tdb_find_lock(tdb, key, F_WRLCK, &amp;rec)))
-		return -1;
-	ret = do_delete(tdb, rec_ptr, &amp;rec);
-	tdb_unlock(tdb, BUCKET(rec.full_hash), F_WRLCK);
-	return ret;
-}
-
-/* store an element in the database, replacing any existing element
-   with the same key 
-
-   return 0 on success, -1 on failure
-*/
-int tdb_store(TDB_CONTEXT *tdb, TDB_DATA key, TDB_DATA dbuf, int flag)
-{
-	struct list_struct rec;
-	u32 hash;
-	tdb_off rec_ptr;
-	char *p = NULL;
-	int ret = 0;
-
-	/* find which hash bucket it is in */
-	hash = tdb_hash(&amp;key);
-	if (!tdb_keylocked(tdb, hash))
-		return -1;
-	if (tdb_lock(tdb, BUCKET(hash), F_WRLCK) == -1)
-		return -1;
-
-	/* check for it existing, on insert. */
-	if (flag == TDB_INSERT) {
-		if (tdb_exists(tdb, key)) {
-			tdb-&gt;ecode = TDB_ERR_EXISTS;
-			goto fail;
-		}
-	} else {
-		/* first try in-place update, on modify or replace. */
-		if (tdb_update(tdb, key, dbuf) == 0)
-			goto out;
-		if (flag == TDB_MODIFY &amp;&amp; tdb-&gt;ecode == TDB_ERR_NOEXIST)
-			goto fail;
-	}
-	/* reset the error code potentially set by the tdb_update() */
-	tdb-&gt;ecode = TDB_SUCCESS;
-
-	/* delete any existing record - if it doesn't exist we don't
-           care.  Doing this first reduces fragmentation, and avoids
-           coalescing with `allocated' block before it's updated. */
-	if (flag != TDB_INSERT)
-		tdb_delete(tdb, key);
-
-	/* Copy key+value *before* allocating free space in case malloc
-	   fails and we are left with a dead spot in the tdb. */
-
-	if (!(p = (char *)malloc(key.dsize + dbuf.dsize))) {
-		tdb-&gt;ecode = TDB_ERR_OOM;
-		goto fail;
-	}
-
-	memcpy(p, key.dptr, key.dsize);
-	memcpy(p+key.dsize, dbuf.dptr, dbuf.dsize);
-
-	/* now we're into insert / modify / replace of a record which
-	 * we know could not be optimised by an in-place store (for
-	 * various reasons).  */
-	if (!(rec_ptr = tdb_allocate(tdb, key.dsize + dbuf.dsize, &amp;rec)))
-		goto fail;
-
-	/* Read hash top into next ptr */
-	if (ofs_read(tdb, TDB_HASH_TOP(hash), &amp;rec.next) == -1)
-		goto fail;
-
-	rec.key_len = key.dsize;
-	rec.data_len = dbuf.dsize;
-	rec.full_hash = hash;
-	rec.magic = TDB_MAGIC;
-
-	/* write out and point the top of the hash chain at it */
-	if (rec_write(tdb, rec_ptr, &amp;rec) == -1
-	    || tdb_write(tdb, rec_ptr+sizeof(rec), p, key.dsize+dbuf.dsize)==-1
-	    || ofs_write(tdb, TDB_HASH_TOP(hash), &amp;rec_ptr) == -1) {
-	fail:
-		/* Need to tdb_unallocate() here */
-		ret = -1;
-	}
- out:
-	SAFE_FREE(p); 
-	tdb_unlock(tdb, BUCKET(hash), F_WRLCK);
-	return ret;
-}
-
-static int tdb_already_open(dev_t device,
-			    ino_t ino)
-{
-	TDB_CONTEXT *i;
-	
-	for (i = tdbs; i; i = i-&gt;next) {
-		if (i-&gt;device == device &amp;&amp; i-&gt;inode == ino) {
-			return 1;
-		}
-	}
-
-	return 0;
-}
-
-/* open the database, creating it if necessary 
-
-   The open_flags and mode are passed straight to the open call on the
-   database file. A flags value of O_WRONLY is invalid. The hash size
-   is advisory, use zero for a default value.
-
-   Return is NULL on error, in which case errno is also set.  Don't 
-   try to call tdb_error or tdb_errname, just do strerror(errno).
-
-   @param name may be NULL for internal databases. */
-TDB_CONTEXT *tdb_open(const char *name, int hash_size, int tdb_flags,
-		      int open_flags, mode_t mode)
-{
-	return tdb_open_ex(name, hash_size, tdb_flags, open_flags, mode, NULL);
-}
-
-
-TDB_CONTEXT *tdb_open_ex(const char *name, int hash_size, int tdb_flags,
-			 int open_flags, mode_t mode,
-			 tdb_log_func log_fn)
-{
-	TDB_CONTEXT *tdb;
-	struct stat st;
-	int rev = 0, locked;
-
-	if (!(tdb = calloc(1, sizeof *tdb))) {
-		/* Can't log this */
-		errno = ENOMEM;
-		goto fail;
-	}
-	tdb-&gt;fd = -1;
-	tdb-&gt;name = NULL;
-	tdb-&gt;map_ptr = NULL;
-	tdb-&gt;lockedkeys = NULL;
-	tdb-&gt;flags = tdb_flags;
-	tdb-&gt;open_flags = open_flags;
-	tdb-&gt;log_fn = log_fn;
-	
-	if ((open_flags &amp; O_ACCMODE) == O_WRONLY) {
-		TDB_LOG((tdb, 0, "tdb_open_ex: can't open tdb %s write-only\n",
-			 name));
-		errno = EINVAL;
-		goto fail;
-	}
-	
-	if (hash_size == 0)
-		hash_size = DEFAULT_HASH_SIZE;
-	if ((open_flags &amp; O_ACCMODE) == O_RDONLY) {
-		tdb-&gt;read_only = 1;
-		/* read only databases don't do locking or clear if first */
-		tdb-&gt;flags |= TDB_NOLOCK;
-		tdb-&gt;flags &amp;= ~TDB_CLEAR_IF_FIRST;
-	}
-
-	/* internal databases don't mmap or lock, and start off cleared */
-	if (tdb-&gt;flags &amp; TDB_INTERNAL) {
-		tdb-&gt;flags |= (TDB_NOLOCK | TDB_NOMMAP);
-		tdb-&gt;flags &amp;= ~TDB_CLEAR_IF_FIRST;
-		tdb_new_database(tdb, hash_size);
-		goto internal;
-	}
-
-	if ((tdb-&gt;fd = open(name, open_flags, mode)) == -1) {
-		TDB_LOG((tdb, 5, "tdb_open_ex: could not open file %s: %s\n",
-			 name, strerror(errno)));
-		goto fail;	/* errno set by open(2) */
-	}
-
-	/* ensure there is only one process initialising at once */
-	if (tdb_brlock(tdb, GLOBAL_LOCK, F_WRLCK, F_SETLKW, 0) == -1) {
-		TDB_LOG((tdb, 0, "tdb_open_ex: failed to get global lock on %s: %s\n",
-			 name, strerror(errno)));
-		goto fail;	/* errno set by tdb_brlock */
-	}
-
-	/* we need to zero database if we are the only one with it open */
-	if ((locked = (tdb_brlock(tdb, ACTIVE_LOCK, F_WRLCK, F_SETLK, 0) == 0))
-	    &amp;&amp; (tdb_flags &amp; TDB_CLEAR_IF_FIRST)) {
-		open_flags |= O_CREAT;
-		if (ftruncate(tdb-&gt;fd, 0) == -1) {
-			TDB_LOG((tdb, 0, "tdb_open_ex: "
-				 "failed to truncate %s: %s\n",
-				 name, strerror(errno)));
-			goto fail; /* errno set by ftruncate */
-		}
-	}
-
-	if (read(tdb-&gt;fd, &amp;tdb-&gt;header, sizeof(tdb-&gt;header)) != sizeof(tdb-&gt;header)
-	    || strcmp(tdb-&gt;header.magic_food, TDB_MAGIC_FOOD) != 0
-	    || (tdb-&gt;header.version != TDB_VERSION
-		&amp;&amp; !(rev = (tdb-&gt;header.version==TDB_BYTEREV(TDB_VERSION))))) {
-		/* its not a valid database - possibly initialise it */
-		if (!(open_flags &amp; O_CREAT) || tdb_new_database(tdb, hash_size) == -1) {
-			errno = EIO; /* ie bad format or something */
-			goto fail;
-		}
-		rev = (tdb-&gt;flags &amp; TDB_CONVERT);
-	}
-	if (!rev)
-		tdb-&gt;flags &amp;= ~TDB_CONVERT;
-	else {
-		tdb-&gt;flags |= TDB_CONVERT;
-		convert(&amp;tdb-&gt;header, sizeof(tdb-&gt;header));
-	}
-	if (fstat(tdb-&gt;fd, &amp;st) == -1)
-		goto fail;
-
-	/* Is it already in the open list?  If so, fail. */
-	if (tdb_already_open(st.st_dev, st.st_ino)) {
-		TDB_LOG((tdb, 2, "tdb_open_ex: "
-			 "%s (%d,%d) is already open in this process\n",
-			 name, st.st_dev, st.st_ino));
-		errno = EBUSY;
-		goto fail;
-	}
-
-	if (!(tdb-&gt;name = (char *)strdup(name))) {
-		errno = ENOMEM;
-		goto fail;
-	}
-
-	tdb-&gt;map_size = st.st_size;
-	tdb-&gt;device = st.st_dev;
-	tdb-&gt;inode = st.st_ino;
-	tdb-&gt;locked = calloc(tdb-&gt;header.hash_size+1, sizeof(tdb-&gt;locked[0]));
-	if (!tdb-&gt;locked) {
-		TDB_LOG((tdb, 2, "tdb_open_ex: "
-			 "failed to allocate lock structure for %s\n",
-			 name));
-		errno = ENOMEM;
-		goto fail;
-	}
-	tdb_mmap(tdb);
-	if (locked) {
-		if (!tdb-&gt;read_only)
-			tdb_clear_spinlocks(tdb);
-		if (tdb_brlock(tdb, ACTIVE_LOCK, F_UNLCK, F_SETLK, 0) == -1) {
-			TDB_LOG((tdb, 0, "tdb_open_ex: "
-				 "failed to take ACTIVE_LOCK on %s: %s\n",
-				 name, strerror(errno)));
-			goto fail;
-		}
-	}
-	/* leave this lock in place to indicate it's in use */
-	if (tdb_brlock(tdb, ACTIVE_LOCK, F_RDLCK, F_SETLKW, 0) == -1)
-		goto fail;
-
- internal:
-	/* Internal (memory-only) databases skip all the code above to
-	 * do with disk files, and resume here by releasing their
-	 * global lock and hooking into the active list. */
-	if (tdb_brlock(tdb, GLOBAL_LOCK, F_UNLCK, F_SETLKW, 0) == -1)
-		goto fail;
-	tdb-&gt;next = tdbs;
-	tdbs = tdb;
-	return tdb;
-
- fail:
-	{ int save_errno = errno;
-
-	if (!tdb)
-		return NULL;
-	
-	if (tdb-&gt;map_ptr) {
-		if (tdb-&gt;flags &amp; TDB_INTERNAL)
-			SAFE_FREE(tdb-&gt;map_ptr);
-		else
-			tdb_munmap(tdb);
-	}
-	SAFE_FREE(tdb-&gt;name);
-	if (tdb-&gt;fd != -1)
-		close(tdb-&gt;fd);
-	SAFE_FREE(tdb-&gt;locked);
-	errno = save_errno;
-	return NULL;
-	}
-}
-
-/* close a database */
-int tdb_close(TDB_CONTEXT *tdb)
-{
-	TDB_CONTEXT **i;
-	int ret = 0;
-
-	if (tdb-&gt;map_ptr) {
-		if (tdb-&gt;flags &amp; TDB_INTERNAL)
-			SAFE_FREE(tdb-&gt;map_ptr);
-		else
-			tdb_munmap(tdb);
-	}
-	SAFE_FREE(tdb-&gt;name);
-	if (tdb-&gt;fd != -1)
-		ret = close(tdb-&gt;fd);
-	SAFE_FREE(tdb-&gt;locked);
-	SAFE_FREE(tdb-&gt;lockedkeys);
-
-	/* Remove from contexts list */
-	for (i = &amp;tdbs; *i; i = &amp;(*i)-&gt;next) {
-		if (*i == tdb) {
-			*i = tdb-&gt;next;
-			break;
-		}
-	}
-
-	memset(tdb, 0, sizeof(*tdb));
-	SAFE_FREE(tdb);
-
-	return ret;
-}
-
-/* lock/unlock entire database */
-int tdb_lockall(TDB_CONTEXT *tdb)
-{
-	u32 i;
-
-	/* There are no locks on read-only dbs */
-	if (tdb-&gt;read_only)
-		return TDB_ERRCODE(TDB_ERR_LOCK, -1);
-	if (tdb-&gt;lockedkeys)
-		return TDB_ERRCODE(TDB_ERR_NOLOCK, -1);
-	for (i = 0; i &lt; tdb-&gt;header.hash_size; i++) 
-		if (tdb_lock(tdb, i, F_WRLCK))
-			break;
-
-	/* If error, release locks we have... */
-	if (i &lt; tdb-&gt;header.hash_size) {
-		u32 j;
-
-		for ( j = 0; j &lt; i; j++)
-			tdb_unlock(tdb, j, F_WRLCK);
-		return TDB_ERRCODE(TDB_ERR_NOLOCK, -1);
-	}
-
-	return 0;
-}
-void tdb_unlockall(TDB_CONTEXT *tdb)
-{
-	u32 i;
-	for (i=0; i &lt; tdb-&gt;header.hash_size; i++)
-		tdb_unlock(tdb, i, F_WRLCK);
-}
-
-int tdb_lockkeys(TDB_CONTEXT *tdb, u32 number, TDB_DATA keys[])
-{
-	u32 i, j, hash;
-
-	/* Can't lock more keys if already locked */
-	if (tdb-&gt;lockedkeys)
-		return TDB_ERRCODE(TDB_ERR_NOLOCK, -1);
-	if (!(tdb-&gt;lockedkeys = malloc(sizeof(u32) * (number+1))))
-		return TDB_ERRCODE(TDB_ERR_OOM, -1);
-	/* First number in array is # keys */
-	tdb-&gt;lockedkeys[0] = number;
-
-	/* Insertion sort by bucket */
-	for (i = 0; i &lt; number; i++) {
-		hash = tdb_hash(&amp;keys[i]);
-		for (j = 0; j &lt; i &amp;&amp; BUCKET(tdb-&gt;lockedkeys[j+1]) &lt; BUCKET(hash); j++);
-			memmove(&amp;tdb-&gt;lockedkeys[j+2], &amp;tdb-&gt;lockedkeys[j+1], sizeof(u32) * (i-j));
-		tdb-&gt;lockedkeys[j+1] = hash;
-	}
-	/* Finally, lock in order */
-	for (i = 0; i &lt; number; i++)
-		if (tdb_lock(tdb, i, F_WRLCK))
-			break;
-
-	/* If error, release locks we have... */
-	if (i &lt; number) {
-		for ( j = 0; j &lt; i; j++)
-			tdb_unlock(tdb, j, F_WRLCK);
-		SAFE_FREE(tdb-&gt;lockedkeys);
-		return TDB_ERRCODE(TDB_ERR_NOLOCK, -1);
-	}
-	return 0;
-}
-
-/* Unlock the keys previously locked by tdb_lockkeys() */
-void tdb_unlockkeys(TDB_CONTEXT *tdb)
-{
-	u32 i;
-	for (i = 0; i &lt; tdb-&gt;lockedkeys[0]; i++)
-		tdb_unlock(tdb, tdb-&gt;lockedkeys[i+1], F_WRLCK);
-	SAFE_FREE(tdb-&gt;lockedkeys);
-}
-
-/* lock/unlock one hash chain. This is meant to be used to reduce
-   contention - it cannot guarantee how many records will be locked */
-int tdb_chainlock(TDB_CONTEXT *tdb, TDB_DATA key)
-{
-	return tdb_lock(tdb, BUCKET(tdb_hash(&amp;key)), F_WRLCK);
-}
-void tdb_chainunlock(TDB_CONTEXT *tdb, TDB_DATA key)
-{
-	tdb_unlock(tdb, BUCKET(tdb_hash(&amp;key)), F_WRLCK);
-}
-
-
-/* register a loging function */
-void tdb_logging_function(TDB_CONTEXT *tdb, void (*fn)(TDB_CONTEXT *, int , const char *, ...))
-{
-	tdb-&gt;log_fn = fn;
-}
-
-
-/* reopen a tdb - this is used after a fork to ensure that we have an independent
-   seek pointer from our parent and to re-establish locks */
-int tdb_reopen(TDB_CONTEXT *tdb)
-{
-	struct stat st;
-
-	tdb_munmap(tdb);
-	close(tdb-&gt;fd);
-	tdb-&gt;fd = open(tdb-&gt;name, tdb-&gt;open_flags &amp; ~(O_CREAT|O_TRUNC), 0);
-	if (tdb-&gt;fd == -1) {
-		TDB_LOG((tdb, 0, "tdb_reopen: open failed (%s)\n", strerror(errno)));
-		goto fail;
-	}
-	fstat(tdb-&gt;fd, &amp;st);
-	if (st.st_ino != tdb-&gt;inode || st.st_dev != tdb-&gt;device) {
-		TDB_LOG((tdb, 0, "tdb_reopen: file dev/inode has changed!\n"));
-		goto fail;
-	}
-	tdb_mmap(tdb);
-	if (tdb_brlock(tdb, ACTIVE_LOCK, F_RDLCK, F_SETLKW, 0) == -1) {
-		TDB_LOG((tdb, 0, "tdb_reopen: failed to obtain active lock\n"));
-		goto fail;
-	}
-
-	return 0;
-
-fail:
-	tdb_close(tdb);
-	return -1;
-}
-
-/* reopen all tdb's */
-int tdb_reopen_all(void)
-{
-	TDB_CONTEXT *tdb;
-
-	for (tdb=tdbs; tdb; tdb = tdb-&gt;next) {
-		if (tdb_reopen(tdb) != 0) return -1;
-	}
-
-	return 0;
-}
-</programlisting>
-<para><emphasis>Code: /home/mikal/opensource/trivsql/tdb.c</emphasis></para>
-<programlisting>
-#ifndef __SPINLOCK_H__
-#define __SPINLOCK_H__
-
-#if HAVE_CONFIG_H
-#include &lt;config.h&gt;
-#endif
-
-#include &lt;trivsql_tdb.h&gt;
-
-#ifdef USE_SPINLOCKS
-
-#define RWLOCK_BIAS 0x1000UL
-
-/* OS SPECIFIC */
-#define MAX_BUSY_LOOPS 1000
-#undef USE_SCHED_YIELD
-
-/* ARCH SPECIFIC */
-/* We should make sure these are padded to a cache line */
-#if defined(SPARC_SPINLOCKS)
-typedef volatile char spinlock_t;
-#elif defined(POWERPC_SPINLOCKS)
-typedef volatile unsigned long spinlock_t;
-#elif defined(INTEL_SPINLOCKS)
-typedef volatile int spinlock_t;
-#elif defined(MIPS_SPINLOCKS)
-typedef volatile unsigned long spinlock_t;
-#else
-#error Need to implement spinlock code in spinlock.h
-#endif
-
-typedef struct {
-	spinlock_t lock;
-	volatile int count;
-} tdb_rwlock_t;
-
-int tdb_spinlock(TDB_CONTEXT *tdb, int list, int rw_type);
-int tdb_spinunlock(TDB_CONTEXT *tdb, int list, int rw_type);
-int tdb_create_rwlocks(int fd, unsigned int hash_size);
-int tdb_clear_spinlocks(TDB_CONTEXT *tdb);
-
-#else /* !USE_SPINLOCKS */
-#if 0
-#define tdb_create_rwlocks(fd, hash_size) 0
-#define tdb_spinlock(tdb, list, rw_type) (-1)
-#define tdb_spinunlock(tdb, list, rw_type) (-1)
-#else
-int tdb_spinlock(TDB_CONTEXT *tdb, int list, int rw_type);
-int tdb_spinunlock(TDB_CONTEXT *tdb, int list, int rw_type);
-int tdb_create_rwlocks(int fd, unsigned int hash_size);
-#endif
-int tdb_clear_spinlocks(TDB_CONTEXT *tdb);
-#endif
-
-#endif
-</programlisting>
-<para><emphasis>Code: /home/mikal/opensource/trivsql/trivsql_spinlock.h</emphasis></para>
-<programlisting>
-Trivsql 0.1 -&gt; 0.2
-
-20020605 Michael Still (mikal@stillhq.com)
-	Added functions mapping the ADO recordset interface
-
-20020606 Michael Still (mikal@stillhq.com)
-	Improved error reporting
-
-Trivsql 0.2 -&gt; 0.3
-
-20020606 Michael Still (mikal@stillhq.com)
-	SQL parsing fixes
-
-Trivsql 0.3 -&gt; 0.3.1
-
-20020606 Michael Still (mikal@stillhq.com)
-	Bug fixes
-
-Trivsql 0.3.1 -&gt; 0.3.2
-
-20020606 Michael Still (mikal@stillhq.com)
-	ALTER TABLE command
-
-20020607 Michael Still (mikal@stillhq.com)
-	The key names for the cells are now stored in the recordset to enable updatable recordsets to be implemented soon...
-
-20020608 Michael Still (mikal@stillhq.com)
-	Updateable recordsets now work
-
-Trivsql 0.2 -&gt; 0.3
-</programlisting>
-<para><emphasis>Code: /home/mikal/opensource/trivsql/ChangeLog</emphasis></para>
-<programlisting>
-# This file is a shell script that caches the results of configure
-# tests run on this system so they can be shared between configure
-# scripts and configure runs.  It is not useful on other systems.
-# If it contains results you don't want to keep, you may remove or edit it.
-#
-# By default, configure uses ./config.cache as the cache file,
-# creating it if it does not exist already.  You can give configure
-# the --cache-file=FILE option to use a different cache file; that is
-# what configure does when it calls configure scripts in
-# subdirectories, so they share the cache.
-# Giving --cache-file=/dev/null disables caching, for debugging configure.
-# config.status only pays attention to the cache file if you give it the
-# --recheck option to rerun configure.
-#
-ac_cv_exeext=${ac_cv_exeext=no}
-ac_cv_header_dlfcn_h=${ac_cv_header_dlfcn_h=yes}
-ac_cv_header_stdc=${ac_cv_header_stdc=yes}
-ac_cv_lib_dl_dlopen=${ac_cv_lib_dl_dlopen=yes}
-ac_cv_lib_fl_yywrap=${ac_cv_lib_fl_yywrap=yes}
-ac_cv_lib_m_atan=${ac_cv_lib_m_atan=yes}
-ac_cv_path_LD=${ac_cv_path_LD=/usr/bin/ld}
-ac_cv_path_NM=${ac_cv_path_NM='/usr/bin/nm -B'}
-ac_cv_path_install=${ac_cv_path_install='/usr/bin/install -c'}
-ac_cv_prog_CC=${ac_cv_prog_CC=gcc}
-ac_cv_prog_CPP=${ac_cv_prog_CPP='gcc -E'}
-ac_cv_prog_LEX=${ac_cv_prog_LEX=flex}
-ac_cv_prog_LN_S=${ac_cv_prog_LN_S='ln -s'}
-ac_cv_prog_RANLIB=${ac_cv_prog_RANLIB=ranlib}
-ac_cv_prog_YACC=${ac_cv_prog_YACC='bison -y'}
-ac_cv_prog_cc_cross=${ac_cv_prog_cc_cross=no}
-ac_cv_prog_cc_g=${ac_cv_prog_cc_g=yes}
-ac_cv_prog_cc_works=${ac_cv_prog_cc_works=yes}
-ac_cv_prog_gcc=${ac_cv_prog_gcc=yes}
-ac_cv_prog_gnu_ld=${ac_cv_prog_gnu_ld=yes}
-ac_cv_prog_lex_root=${ac_cv_prog_lex_root=lex.yy}
-ac_cv_prog_lex_yytext_pointer=${ac_cv_prog_lex_yytext_pointer=yes}
-ac_cv_prog_make_make_set=${ac_cv_prog_make_make_set=yes}
-lt_cv_dlopen=${lt_cv_dlopen=dlopen}
-lt_cv_dlopen_libs=${lt_cv_dlopen_libs=-ldl}
-lt_cv_dlopen_self=${lt_cv_dlopen_self=yes}
-lt_cv_dlopen_self_static=${lt_cv_dlopen_self_static=no}
-</programlisting>
-<para><emphasis>Code: /home/mikal/opensource/trivsql/config.cache</emphasis></para>
-<programlisting>
-  Copyright (C) Michael Still 2002
-  
-  This program is free software; you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation; either version 2 of the License, or
-  (at your option) any later version.
-
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-  
-  You should have received a copy of the GNU General Public License
-  along with this program; if not, write to the Free Software
-  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-</programlisting>
-<para><emphasis>Code: /home/mikal/opensource/trivsql/Copyright</emphasis></para>
-<programlisting>
-#!/bin/bash
-
-function verify (){
-    loclearn=0
-    if [ "%$3%" = "%2%" ]
-    then
-      loclearn=1
-    elif [ "%$3%" = "%1%" ]
-    then
-      loclearn=1
-    fi
-
-    locdisplay=0
-    if [ "%$34%" = "%2%" ]
-    then
-      locdisplay=1
-    elif [ "%$4%" = "%1%" ]
-    then
-      locdisplay=1
-    fi
-
-    touch testout/$2
-    echo -n "$2: \"$1\" "
-    echo "$1" &gt; testout/$2.new
-    echo "" &gt;&gt; testout/$2.new
-    echo "$1" | ./sample foo.tdb &gt;&gt; testout/$2.new
-    
-    if [ $? == 139 ]
-    then
-      echo "Core dump" &gt; testout/$2.new
-      rm core
-    fi
-
-    if [ `diff testout/$2 testout/$2.new | wc -l | tr -d " "` -gt 0 ]
-    then
-      if [ "%$loclearn%" = "%1%" ]
-      then
-        echo "[NEW RESULT LEARNT]"
-	cp testout/$2.new testout/$2
-      else
-        echo -n "[FAIL"
-	touch testout/$2.prev
-        if [ `diff testout/$2.prev testout/$2.new | wc -l | tr -d " "` -gt 0 ]
-        then
-          echo " NEW]"
-	  echo "--------------------------------------------------------------"
-	  cat testout/$2.new
-	  echo "--------------------------------------------------------------"
-        else
-          echo " OLD]"
-        fi
-      fi
-    else
-      echo "[PASS]"
-    fi
-
-    if [ "%$locdisplay%" = "%1%" ]
-    then
-      echo ""
-      cat testout/$2.new
-      echo ""
-    fi
-
-    # We remember last time as well
-    mv testout/$2.new testout/$2.prev
-}
-
-###################################################################
-
-echo "Parsing command line variables"
-result=0
-
-learn=0     # Don't learn the output as correct
-display=0   # Don't display output
-
-while [ $result -lt 1 ]
-do
-  getopts "ld" arg 
-  result=$?
-
-  if [ $result -lt 1 ]
-  then
-    case $arg in
-	\? )
-	echo "Usage: $0 [-l]"
-	echo ""
-	echo "l: Learn that the current output is \"correct\""
-	echo "d: Display the current output"
-        echo ""    
-	exit 0 ;;
-	
-	l )
-	if [ "%$optarg%" = "%%" ]
-        then
-          echo "Learning all new values"
-          learn=1
-        else
-          echo "Learning new values for $optarg"
-          learn=$optarg
-        fi ;;
-
-	d )
-	if [ "%$optarg%" = "%%" ]
-        then
-          echo "Displaying values"
-          display=1
-        else
-          echo "Displaying value for $optarg"
-          display=$optarg
-        fi ;;
-    esac
-  fi
-done
-
-echo "Removing old db"
-rm foo.tdb
-
-echo "Creating db"
-verify "CREATE TABLE foo (cola, colb, colc);" create001 $learn $display
-verify "CREATE TABLE hyphen-hyphen (hyphen-col);" create002 $learn $display
-verify "CREATE TABLE mIxEdCaSe (cola);" create003 $learn $display
-verify "CREATE TABLE singlecol ('foo');" create004 $learn $display
-verify "CREATE TABLE cepConfig (version);" create005 $learn $display
-
-if [ "%$1%" = "%create%" ]
-then
-  exit
-fi
-
-echo ""
-echo "Insert into table"
-verify "INSERT INTO foo (cola, colb, colc) VALUES ('duck', 'chicken', 'frog');" insert001 $learn $display
-verify "INSERT INTO foo (cola, colb) VALUES ('duck', 'hamster');" insert002 $learn $display
-verify "INSERT INTO foo (cola, colc) VALUES ('banana', 'frog');" insert003 $learn $display
-verify "INSERT INTO banana (cola) VALUES ('chicken');" insert004 $learn $display
-verify "INSERT INTO foo (cola) VALUES ('this-has-hyphens');" insert005 $learn $display
-verify "INSERT INTO hyphen-hyphen (hyphen-col) VALUES ('567');" insert006 $learn $display
-verify "INSERT INTO mIxEdCaSe (cola) VALUES ('567');" insert007 $learn $display
-verify "INSERT INTO cepConfig (mainwindowsizex) VALUES ('224');" insert008 $learn $display
-
-if [ "%$1%" = "%insert%" ]
-then
-  exit
-fi
-
-echo ""
-echo "Select tests"
-verify "SELECT cola, colb, colc FROM foo;" sel001 $learn $display
-verify "SELECT * FROM foo;" sel002 $learn $display
-verify "SELECT cola, colc FROM foo;" sel003 $learn $display
-verify "SELECT cola, colb, colc FROM foo WHERE cola = 'duck';" sel004 $learn $display
-verify "SELECT * FROM nosuchtable;" sel005 $learn $display
-verify "SELECT cola FROM foo;" sel006 $learn $display
-
-echo ""
-echo "Alter tests"
-verify "ALTER foo ADD COLUMN cold;" alter001 $learn $display
-verify "SELECT * FROM foo;" alter002 $learn $display
-verify "INSERT INTO foo (cola, cold) VALUES('duck', 'gerkin');" alter003 $learn $display
-verify "SELECT * FROM foo;" alter004 $learn $display
-
-echo ""
-echo "Update tests"
-verify "CREATE TABLE upd (one, two);" update001 $learn $display
-verify "INSERT INTO upd (one, two) VALUES('a', 'b');" update002 $learn $display
-verify "SELECT * FROM upd;" update003 $learn $display
-verify "UPDATE upd SET one = 'c';" update004 $learn $display
-verify "SELECT * FROM upd;" update005 $learn $display
-verify "INSERT INTO upd (one, two) VALUES('e', 'f');" update006 $learn $display
-verify "UPDATE upd SET two = 'g' WHERE two = 'f';" update007 $learn $display
-verify "SELECT * FROM upd;" update008 $learn $display
-
-echo ""
-echo "Selection tree tests"
-verify "SELECT * FROM foo WHERE cola = 'duck' AND colb = 'chicken';" seltree001 $learn $display
-verify "SELECT * FROM foo WHERE cola = 'duck' OR colb = 'chicken';" seltree002 $learn $display
-</programlisting>
-<para><emphasis>Code: /home/mikal/opensource/trivsql/test.sh</emphasis></para>
-<programlisting>
-
-#include "trivsql_tdb.h"
-#include "trivsql_spinlock.h"
-
-#ifndef TRIVSQL_HEADER
-#define TRIVSQL_HEADER
-
-#ifdef __cplusplus
-extern "C"
-{
-#endif
-
-#define TRIVSQL_FALSE 0
-#define TRIVSQL_TRUE 1
-
-#define TRIVSQL_NOSUCHTABLE 2
-#define TRIVSQL_BADVALUES 3
-#define TRIVSQL_MEMORYERROR 4
-#define TRIVSQL_TDBNULLKEY 5
-#define TRIVSQL_TDBNULLDATA 6
-#define TRIVSQL_TDBSTOREERROR 7
-#define TRIVSQL_NOSUCHCOLUMN 8
-#define TRIVSQL_NOROWSTOUPDATE 9
-#define TRIVSQL_BADSELCOLARG 10
-#define TRIVSQL_DBOPENFAIL 11
-
-#define SELTRUE 1
-#define SELFALSE 0
-
-typedef int (*trivsql_selectorfunc) (char *arg1, char *arg2);
-
-typedef struct trivsql_internal_seltreenode
-{
-  char *selArgOne;
-  int selColOne;
-  char *selArgTwo;
-  int selColTwo;
-  trivsql_selectorfunc selector;
-  struct trivsql_internal_seltreenode *left, *right;
-} trivsql_seltreenode;
-
-typedef struct trivsql_internal_col
-{
-  char *val;
-  char *key;
-  struct trivsql_internal_col *next;
-} trivsql_col;
-
-typedef struct trivsql_internal_row
-{
-  trivsql_col *cols;
-  struct trivsql_internal_row *next, *prev;
-} trivsql_row;
-
-typedef struct trivsql_internal_rs
-{
-  int numCols;
-  int numRows;
-  trivsql_row *rows;
-  trivsql_row *currentRow;
-
-  char *tname;
-  char *cols;
-
-  int errno;
-  char *errstring;
-} trivsql_recordset;
-
-typedef struct trivsql_internal_state
-{
-  TDB_CONTEXT *db;
+int main(int argc, char *argv[]){
+  trivsql_state *ourState;
   trivsql_recordset *rs;
-  trivsql_seltreenode *seltree;
-  char *table;
-} trivsql_state;
+  char cmd[1000];
 
-// Internal functions
-trivsql_state *trivsql_init(char *);
-void trivsql_docreate(char *, char *);
-void trivsql_doinsert(char *, char *, char *);
-void trivsql_doselect(char *, char *);
-void trivsql_doalter(char *, char *);
+  if(argc != 2){
+    fprintf(stderr, "Please specify a db file\n");
+    exit(42);
+  }
 
-int *trivsql_parsecols(char *, char *, int *);
-int trivsql_findcol(char *, char *, char *);
-void trivsql_addrow(trivsql_recordset *, char *, int, int *);
-char *trivsql_getallcolumns(char *);
-trivsql_recordset *trivsql_makers();
-trivsql_seltreenode *trivsql_makest();
-trivsql_seltreenode* trivsql_makesel(trivsql_selectorfunc, char *, char *);
-trivsql_seltreenode* trivsql_makeslr(trivsql_selectorfunc,
-				     trivsql_seltreenode *,
-				     trivsql_seltreenode *);
-int trivsql_executeselector(trivsql_seltreenode *, int);
+  ourState = trivsql_opendb(argv[1]);
+  if(trivsql_initok(ourState) != TRIVSQL_TRUE){
+    fprintf(stderr, "Database open failed\n");
+    exit(42);
+  }
 
-void trivsql_checktable(char *, trivsql_recordset *);
-
-void *trivsql_xmalloc(size_t);
-void trivsql_dbwrite(trivsql_state *, char *, char *);
-char *trivsql_dbread(trivsql_state *, char *);
-char *trivsql_xsnprintf(char *, ...);
-void trivsql_xfree(void *);
-void *trivsql_xrealloc(void *, size_t);
-int trivsql_min(int, int);
-int trivsql_initok(trivsql_state *);
-
-// Selectors
-int trivsql_selequal(char *, char *);
-int trivsql_sellike(char *, char *);
-int trivsql_selor(int, int);
-int trivsql_seland(int, int);
-
-// Interface methods
-trivsql_state *trivsql_opendb(char *);
-trivsql_recordset *trivsql_execute(trivsql_state *, char *);
-int trivsql_gettext(char *, int);
-void trivsql_displayrs(trivsql_recordset *);
-void trivsql_rsmovefirst(trivsql_recordset *);
-void trivsql_rsmovenext(trivsql_recordset *);
-int trivsql_rseof(trivsql_recordset *);
-int trivsql_rsbof(trivsql_recordset *);
-char *trivsql_rsfield(trivsql_recordset *, int);
-void trivsql_updaters(trivsql_state *, trivsql_recordset *, char *, char *);
-void trivsql_rsupdatefield(trivsql_state *, trivsql_recordset *, 
-			   int, char *newval);
-
-#ifdef __cplusplus
+  while(fgets(cmd, 1000, stdin) != NULL){
+    rs = trivsql_execute(ourState, cmd);
+    if(rs != NULL) trivsql_displayrs(rs);
+    else printf("NULL recordset\n");
+    trivsql_xfree(rs);
+  }
 }
-#endif
-
-#endif
 </programlisting>
-<para><emphasis>Code: /home/mikal/opensource/trivsql/trivsql.h</emphasis></para>
-<programlisting>
-#ifndef __SPINLOCK_H__
-#define __SPINLOCK_H__
+<para><emphasis>Code: /home/mikal/opensource/trivsql/example.c</emphasis></para>
 
-#if HAVE_CONFIG_H
-#include &lt;config.h&gt;
-#endif
-
-#include &lt;trivsql_tdb.h&gt;
-
-#ifdef USE_SPINLOCKS
-
-#define RWLOCK_BIAS 0x1000UL
-
-/* OS SPECIFIC */
-#define MAX_BUSY_LOOPS 1000
-#undef USE_SCHED_YIELD
-
-/* ARCH SPECIFIC */
-/* We should make sure these are padded to a cache line */
-#if defined(SPARC_SPINLOCKS)
-typedef volatile char spinlock_t;
-#elif defined(POWERPC_SPINLOCKS)
-typedef volatile unsigned long spinlock_t;
-#elif defined(INTEL_SPINLOCKS)
-typedef volatile int spinlock_t;
-#elif defined(MIPS_SPINLOCKS)
-typedef volatile unsigned long spinlock_t;
-#else
-#error Need to implement spinlock code in spinlock.h
-#endif
-
-typedef struct {
-	spinlock_t lock;
-	volatile int count;
-} tdb_rwlock_t;
-
-int tdb_spinlock(TDB_CONTEXT *tdb, int list, int rw_type);
-int tdb_spinunlock(TDB_CONTEXT *tdb, int list, int rw_type);
-int tdb_create_rwlocks(int fd, unsigned int hash_size);
-int tdb_clear_spinlocks(TDB_CONTEXT *tdb);
-
-#else /* !USE_SPINLOCKS */
-#if 0
-#define tdb_create_rwlocks(fd, hash_size) 0
-#define tdb_spinlock(tdb, list, rw_type) (-1)
-#define tdb_spinunlock(tdb, list, rw_type) (-1)
-#else
-int tdb_spinlock(TDB_CONTEXT *tdb, int list, int rw_type);
-int tdb_spinunlock(TDB_CONTEXT *tdb, int list, int rw_type);
-int tdb_create_rwlocks(int fd, unsigned int hash_size);
-#endif
-int tdb_clear_spinlocks(TDB_CONTEXT *tdb);
-#endif
-
-#endif
-</programlisting>
-<para><emphasis>Code: /home/mikal/opensource/trivsql/trivsql_spinlock.h</emphasis></para>
-<programlisting>
-#ifndef __TDB_H__
-#define __TDB_H__
-
-/* 
-   Unix SMB/Netbios implementation.
-   Version 3.0
-   Samba database functions
-   Copyright (C) Andrew Tridgell 1999
-   
-   This program is free software; you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 2 of the License, or
-   (at your option) any later version.
-   
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-   
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-*/
-
-#ifdef  __cplusplus
-extern "C" {
-#endif
-
-#include &lt;stdlib.h&gt;
-#include &lt;stdio.h&gt;
-#include &lt;fcntl.h&gt;
-#include &lt;unistd.h&gt;
-#include &lt;string.h&gt;
-#include &lt;fcntl.h&gt;
-#include &lt;sys/mman.h&gt;
-#include &lt;sys/stat.h&gt;
-#include &lt;sys/time.h&gt;
-
-/* flags to tdb_store() */
-#define TDB_REPLACE 1
-#define TDB_INSERT 2
-#define TDB_MODIFY 3
-
-/* flags for tdb_open() */
-#define TDB_DEFAULT 0 /* just a readability place holder */
-#define TDB_CLEAR_IF_FIRST 1
-#define TDB_INTERNAL 2 /* don't store on disk */
-#define TDB_NOLOCK   4 /* don't do any locking */
-#define TDB_NOMMAP   8 /* don't use mmap */
-#define TDB_CONVERT 16 /* convert endian (internal use) */
-
-#define TDB_ERRCODE(code, ret) ((tdb-&gt;ecode = (code)), ret)
-
-/* error codes */
-enum TDB_ERROR {TDB_SUCCESS=0, TDB_ERR_CORRUPT, TDB_ERR_IO, TDB_ERR_LOCK, 
-		TDB_ERR_OOM, TDB_ERR_EXISTS, TDB_ERR_NOEXIST, TDB_ERR_NOLOCK };
-
-#ifndef u32
-#define u32 unsigned
-#endif
-
-typedef struct {
-	char *dptr;
-	size_t dsize;
-} TDB_DATA;
-
-typedef u32 tdb_len;
-typedef u32 tdb_off;
-
-/* this is stored at the front of every database */
-struct tdb_header {
-	char magic_food[32]; /* for /etc/magic */
-	u32 version; /* version of the code */
-	u32 hash_size; /* number of hash entries */
-	tdb_off rwlocks;
-	tdb_off reserved[31];
-};
-
-struct tdb_lock_type {
-	u32 count;
-	u32 ltype;
-};
-
-struct tdb_traverse_lock {
-	struct tdb_traverse_lock *next;
-	u32 off;
-	u32 hash;
-};
-
-/* this is the context structure that is returned from a db open */
-typedef struct tdb_context {
-	char *name; /* the name of the database */
-	void *map_ptr; /* where it is currently mapped */
-	int fd; /* open file descriptor for the database */
-	tdb_len map_size; /* how much space has been mapped */
-	int read_only; /* opened read-only */
-	struct tdb_lock_type *locked; /* array of chain locks */
-	enum TDB_ERROR ecode; /* error code for last tdb error */
-	struct tdb_header header; /* a cached copy of the header */
-	u32 flags; /* the flags passed to tdb_open */
-	u32 *lockedkeys; /* array of locked keys: first is #keys */
-	struct tdb_traverse_lock travlocks; /* current traversal locks */
-	struct tdb_context *next; /* all tdbs to avoid multiple opens */
-	dev_t device;	/* uniquely identifies this tdb */
-	ino_t inode;	/* uniquely identifies this tdb */
-	void (*log_fn)(struct tdb_context *tdb, int level, const char *, ...); /* logging function */
-	int open_flags; /* flags used in the open - needed by reopen */
-} TDB_CONTEXT;
-
-typedef int (*tdb_traverse_func)(TDB_CONTEXT *, TDB_DATA, TDB_DATA, void *);
-typedef void (*tdb_log_func)(TDB_CONTEXT *, int , const char *, ...);
-
-TDB_CONTEXT *tdb_open(const char *name, int hash_size, int tdb_flags,
-		      int open_flags, mode_t mode);
-TDB_CONTEXT *tdb_open_ex(const char *name, int hash_size, int tdb_flags,
-			 int open_flags, mode_t mode,
-			 tdb_log_func log_fn);
-
-int tdb_reopen(TDB_CONTEXT *tdb);
-int tdb_reopen_all(void);
-void tdb_logging_function(TDB_CONTEXT *tdb, tdb_log_func);
-enum TDB_ERROR tdb_error(TDB_CONTEXT *tdb);
-const char *tdb_errorstr(TDB_CONTEXT *tdb);
-TDB_DATA tdb_fetch(TDB_CONTEXT *tdb, TDB_DATA key);
-int tdb_delete(TDB_CONTEXT *tdb, TDB_DATA key);
-int tdb_store(TDB_CONTEXT *tdb, TDB_DATA key, TDB_DATA dbuf, int flag);
-int tdb_close(TDB_CONTEXT *tdb);
-TDB_DATA tdb_firstkey(TDB_CONTEXT *tdb);
-TDB_DATA tdb_nextkey(TDB_CONTEXT *tdb, TDB_DATA key);
-int tdb_traverse(TDB_CONTEXT *tdb, tdb_traverse_func fn, void *state);
-int tdb_exists(TDB_CONTEXT *tdb, TDB_DATA key);
-int tdb_lockkeys(TDB_CONTEXT *tdb, u32 number, TDB_DATA keys[]);
-void tdb_unlockkeys(TDB_CONTEXT *tdb);
-int tdb_lockall(TDB_CONTEXT *tdb);
-void tdb_unlockall(TDB_CONTEXT *tdb);
-
-/* Low level locking functions: use with care */
-int tdb_chainlock(TDB_CONTEXT *tdb, TDB_DATA key);
-void tdb_chainunlock(TDB_CONTEXT *tdb, TDB_DATA key);
-
-/* Debug functions. Not used in production. */
-void tdb_dump_all(TDB_CONTEXT *tdb);
-void tdb_printfreelist(TDB_CONTEXT *tdb);
-
-extern TDB_DATA tdb_null;
-
-#ifdef  __cplusplus
-}
-#endif
-
-#endif /* tdb.h */
-</programlisting>
-<para><emphasis>Code: /home/mikal/opensource/trivsql/trivsql_tdb.h</emphasis></para>
-</sect2>
-</sect1>
-
-<sect1><title>Conclusion</title>
 <para>
-This paper has described <command>trivsql</command>, a SQL engine which can be embedded into your code. This code is still a work in progress, and updates on it's development can be found at http://www.stillhq.com
+I haven't included the TDB code, as it is not strictly part of <command>trivsql</command>, and may be downloaded from http://www.samba.org
 </para>
+</sect2>
 </sect1>
 </article>

@@ -99,7 +99,7 @@ And to retrieve the value:
 </programlisting>
 
 <para>
-This doesn't work so well when the data you want to store is more complex. For example, let's imagine that we want to store some more information about Daniel -- for instance how many bytes he has transfered this session and a list of his favourite users. I can think of three ways that we can store this information in a <command>tdb</command> database:
+This doesn't work so well when the data you want to store is more complex. For example, let's imagine that we want to store some more information about Daniel -- for instance how many bytes he has transfered this session and a list of his favourite users. I can think of four ways that we can store this information in a <command>tdb</command> database:
 
 <orderedlist>
 <listitem><para>We can define a structure that contains these elements, and then store the pointer to this structure in the <command>tdb</command>. The problem with this is that it doesn't persist across restarts of the program, because the pointer will no longer be valid.</para></listitem>
@@ -116,7 +116,7 @@ The problem with this is that it produces horribly verbose code, because the cod
 
 <listitem><para>We can push all the information into one string, and then store that in the <command>tdb</command>, but this means that we have to handle parsing the information again when you need it back. Since writing <command>trivsql</command> the Samba team has dealt with exactly this problem in this manner. To ease the implementation, Dr Andrew Tridgell has written <command>genstruct</command>, which takes c structures (including pointers) and serializes them into strings. <command>genstruct</command> is available from http://www.samba.org.</para></listitem>
 
-<listitem><para>You can use <command>trivsql</command>, which looks after all the ugliness for you, and allows you to perform select and insert statements in a manner familiar to many programmers. It also makes you more attractive to the opposite sex.</para></listitem>
+<listitem><para>You can use <command>trivsql</command>, which looks after all the ugliness for you, and allows you to perform select and insert statements in a manner familiar to many programmers.</para></listitem>
 </orderedlist>
 </para>
 </sect1>
@@ -133,13 +133,13 @@ Later in this article I will discuss some of the techniques I have used to parse
 
 <sect1><title>The current state of play</title>
 <para>
-The intention is not to implement the full SQL specification at this time. Currently, <command>trivsql</command> supports the CREATE TABLE command; the SELECT command; and the INSERT command. By the time this paper is presented at AUUG, the UPDATE command will also be implemented.
+...
 </para>
 </sect1>
 
 <sect1><title>Interface to trivsql</title>
 <para>
-
+...
 </para>
 </sect1>
 
@@ -169,7 +169,8 @@ The following input:
 Produces the following output:
 </para>
 
-<execute><cmd>~mikal/opensource/trivsql/example</cmd><input>~mikal/opensource/trivsql/example.sql</input></execute>
+<execute><cmd>~mikal/opensource/trivsql/sample</cmd><args>article.tdb</args><input>~mikal/opensource/trivsql/example.sql</input></execute>
+</sect2>
 </sect1>
 
 
@@ -208,6 +209,11 @@ However, the disadvantages of this solution are:
 </sect1>
 
 
+<sect1><title>Conclusion</title>
+<para>
+This paper has described <command>trivsql</command>, a SQL engine which can be embedded into your code. This code is still a work in progress, and updates on it's development can be found at http://www.stillhq.com
+</para>
+</sect1>
 
 
 
@@ -239,19 +245,38 @@ The grammar for my SQL implementation is:
 <execute><cmd>code2db</cmd><input>~mikal/opensource/trivsql/parser.y</input></execute>
 </sect2>
 
+<sect2><title>Automake Makefile.am</title>
+<para>
+The following file is used to automatically generate a Makefile, in conjunction with <command>autoconf</command>.
+</para>
+
+<execute><cmd>code2db</cmd><input>~mikal/opensource/trivsql/Makefile.am</input></execute>
+</sect2>
+
+
+<sect2><title>Autoconf configure.in</title>
+<para>
+The following file is used to automatically generate a configure script, which will build a Makefile appropriate to the build host.
+</para>
+
+<execute><cmd>code2db</cmd><input>~mikal/opensource/trivsql/configure.in</input></execute>
+</sect2>
+
+
 <sect2><title>C source code</title>
 <para>
 The following files implement <command>trivsql</command> and <command>tdb</command>...
 </para>
 
-<execute><cmd>insertall</cmd><args>code2db ~mikal/opensource/trivsql *.c</args></execute>
-<execute><cmd>insertall</cmd><args>code2db ~mikal/opensource/trivsql *.h</args></execute>
-</sect2>
-</sect1>
+<execute><cmd>code2db</cmd><input>~mikal/opensource/trivsql/trivsql.h</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource/trivsql/interface.c</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource/trivsql/internal.c</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource/trivsql/selectors.c</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource/trivsql/example.c</input></execute>
 
-<sect1><title>Conclusion</title>
 <para>
-This paper has described <command>trivsql</command>, a SQL engine which can be embedded into your code. This code is still a work in progress, and updates on it's development can be found at http://www.stillhq.com
+I haven't included the TDB code, as it is not strictly part of <command>trivsql</command>, and may be downloaded from http://www.samba.org
 </para>
+</sect2>
 </sect1>
 </article>
