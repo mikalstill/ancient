@@ -60,7 +60,7 @@ Fill in or leave blank for production to fill in.-->
 
 <figure>	
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 1. A picture of a rose</heading>
-<img src="rose.jpg" width="640" height="480" alt="A picture of a rose"/>
+<img src="rose.jpg" width="576" height="432" alt="A picture of a rose"/>
 </figure>
 
 <p>To resize the image with convert, just use the -sample command line option. For example, let's say that I want thumb nails to be 80x40 pixels. The command line would be:</p>
@@ -74,7 +74,7 @@ convert -sample 80x40 input.jpg output.jpg
 
 <figure>	
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 2. A first attempt at a thumbnail</heading>
-<img src="convert-sample-8040.jpg" width="80" height="40" alt="A thumbnail of a rose"/>
+<img src="convert-sample-8040.jpg" width="48" height="36" alt="A thumbnail of a rose"/>
 </figure>
 
 <p>Imagemagick will automatically respect the ratio created by the two sides of the image when it is resizing. This means that the aspect ratio of the new image will be the same as that of the previous image. In the example above, this means that the resized image is actually 53 by 40, instead of the requested 80 by 40.  Another way of specifying the size of the output image is to use percentages. This can be convenient if you're not sure of the size of the input image, or if you're not concerned with having the new image be an exact size. An example of how to use percentages is:</p>
@@ -88,7 +88,7 @@ convert -sample 25%x25% input.jpg output.jpg
 
 <figure>	
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 3. A second attempt at a thumbnail</heading>
-<img src="convert-sample-25pct.jpg" width="160" height="120" alt="A thumbnail of a rose"/>
+<img src="convert-sample-25pct.jpg" width="144" height="108" alt="A thumbnail of a rose"/>
 </figure>
 
 <p>This can be used on the command line to generate thumb nails for images within a directory. Whilst this article isn't about shell scripting, I'll quickly show you an example of how to generate a thumbnail of each JPEG in the current directory.</p>
@@ -216,7 +216,7 @@ deathstar:/home/mikal# identify -format "%wx%h" sample.png
 
 <figure>	
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 4. Port Arthur on it's side</heading>
-<img src="portarthur.jpg" width="640" height="480" alt="A sideways picture of Port Arthur"/>
+<img src="portarthur.jpg" width="576" height="432" alt="A sideways picture of Port Arthur"/>
 </figure>
 
 <p>To rotate this picture, we again turn to the <i>convert</i> command from imagemagick. The command line to use is:</p>
@@ -231,7 +231,7 @@ convert -rotate 90 input.jpg output.jpg
 
 <figure>	
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 5. Port Arthur</heading>
-<img src="portarthur-rot.jpg" width="480" height="640" alt="A picture of Port Arthur"/>
+<img src="portarthur-rot.jpg" width="432" height="576" alt="A picture of Port Arthur"/>
 </figure>
 
 <p>Note that the argument to the -rotate option is the number of degrees of the right to rotate the image. If you want to rotate to the left, then use a negative number.</p>
@@ -268,7 +268,7 @@ convert input.jpg output.png
 
 <figure>	
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 6. A picture from Floriade 2003</heading>
-<img src="floriade.jpg" width="640" height="480" alt="Floriade 2002"/>
+<img src="floriade.jpg" width="576" height="432" alt="Floriade 2002"/>
 </figure>
 
 <heading refname="" type="code" toc="no" name="" alttoc="">Listing 10. Annotating the image</heading>
@@ -280,7 +280,7 @@ floriade.jpg comment.jpg
 
 <figure>	
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 7. An annotated picture from Floriade 2002</heading>
-<img src="comment.jpg" width="640" height="480" alt="Floriade 2002 after annotation"/>
+<img src="comment.jpg" width="576" height="432" alt="Floriade 2002 after annotation"/>
 </figure>
 
 <p>This is by far the most complex <i>convert</i> command line we have seen so far in the article, so I will take some time to explain it bit by bit.</p>
@@ -296,7 +296,7 @@ floriade.jpg stillhq.jpg
 
 <figure>	
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 8. An image which has been badged to stop unauthorized use</heading>
-<img src="stillhq.jpg" width="640" height="480" alt="Floriade after badging"/>
+<img src="stillhq.jpg" width="576" height="432" alt="Floriade after badging"/>
 </figure>
 
 <p><i>-fill white</i>: fill the letters with white, instead of the standard black.</p>
@@ -321,7 +321,7 @@ floriade.jpg stillhq.jpg
 
 <figure>	
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 9. Uluru at sunset</heading>
-<img src="uluru.jpg" width="640" height="480" alt="Uluru"/>
+<img src="uluru.jpg" width="576" height="432" alt="Uluru"/>
 </figure>
 
 <p>This photo of Uluru, formerly known as Ayer's Rock, was taken at sunset.</p>
@@ -346,7 +346,7 @@ convert -charcoal 2 input.jpg output.jpg
 
 <figure>	
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 10. Uluru at sunset after a charcoal effect is applied</heading>
-<img src="charcoal.jpg" width="640" height="480" alt="Uluru after a charcoal effect"/>
+<img src="charcoal.jpg" width="576" height="432" alt="Uluru after a charcoal effect"/>
 </figure>
 
 <p>Increasing the magnitude of the argument to the charcoal option increases the amount of "charcoal" applied to the image, but also makes the generation of the image much slower. Here's an example with a little more charcoal.</p>
@@ -358,7 +358,7 @@ convert -charcoal 10 input.jpg output.jpg
 
 <figure>	
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 11. Uluru at sunset after more charcoal effect is applied</heading>
-<img src="charcoal-medium.jpg" width="640" height="480" alt="Uluru after more charcoal effect"/>
+<img src="charcoal-medium.jpg" width="576" height="432" alt="Uluru after more charcoal effect"/>
 </figure>
 
 <heading refname="" type="code" toc="no" name="" alttoc="">Listing 14. Applying an intense charcoal effect</heading>
@@ -368,7 +368,7 @@ convert -charcoal 200 input.jpg output.jpg
 
 <figure>	
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 12. Uluru at sunset after excessive charcoal effect</heading>
-<img src="charcoal-intense.jpg" width="640" height="480" alt="Uluru after even more charcoal effect"/>
+<img src="charcoal-intense.jpg" width="576" height="432" alt="Uluru after even more charcoal effect"/>
 </figure>
 
 <p>An intensity of 200 was used to produce the image above.</p>
@@ -399,7 +399,7 @@ convert -colourize 255 input.jpg output.jpg
 
 <figure>	
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 13. Uluru at sunset after a colorizing effect is applied</heading>
-<img src="colorize.jpg" width="640" height="480" alt="Uluru after a charcoal effect"/>
+<img src="colorize.jpg" width="576" height="432" alt="Uluru after a charcoal effect"/>
 </figure>
 
 
@@ -418,7 +418,7 @@ convert -implode 4 input.jpg output.jpg
 
 <figure>	
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 14. Uluru at sunset after imploding</heading>
-<img src="implode.jpg" width="640" height="480" alt="Uluru after an implosion effect"/>
+<img src="implode.jpg" width="576" height="432" alt="Uluru after an implosion effect"/>
 </figure>
 
 
@@ -445,7 +445,7 @@ convert -solarize 42 input.jpg output.jpg
 
 <figure>	
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 15. Uluru at sunset after solarizing</heading>
-<img src="solarize.jpg" width="640" height="480" alt="Uluru after a solarization effect"/>
+<img src="solarize.jpg" width="576" height="432" alt="Uluru after a solarization effect"/>
 </figure>
 
 
@@ -466,7 +466,7 @@ convert -spread 5 input.jpg output.jpg
 
 <figure>	
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 16. Uluru at sunset after spreading</heading>
-<img src="spread.jpg" width="640" height="480" alt="Uluru after a spreading effect"/>
+<img src="spread.jpg" width="576" height="432" alt="Uluru after a spreading effect"/>
 </figure>
 
 
@@ -493,7 +493,7 @@ convert -sample 25%x25% -spread 4 \
 
 <figure>	
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 17. Uluru after chained effects</heading>
-<img src="chained.jpg" width="160" height="120" alt="Uluru after a chain of effects"/>
+<img src="chained.jpg" width="144" height="108" alt="Uluru after a chain of effects"/>
 </figure>
 
 
@@ -531,7 +531,7 @@ convert -sample 25%x25% -spread 4 \
 
 <figure>	
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 18. A waterfall in Cairns</heading>
-<img src="waterfall.jpg" width="640" height="480" alt="A waterfall"/>
+<img src="waterfall.jpg" width="432" height="576" alt="A waterfall"/>
 </figure>
 
 <heading refname="" type="code" toc="no" name="" alttoc="">Listing 20. Create a blocky image</heading>
@@ -543,7 +543,7 @@ convert -sample 10% -sample 1000% input.jpg output.jpg
 
 <figure>	
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 19. A blocky waterfall</heading>
-<img src="blocky.jpg" width="640" height="480" alt="A blocky waterfall"/>
+<img src="blocky.jpg" width="432" height="576" alt="A blocky waterfall"/>
 </figure>
 
 <p>I think you would have to agree, it's quite hard to see the waterfall in the finished picture, although unfocusing your eyes seems to help.</p>
