@@ -2,6 +2,19 @@
 
 <sect1><title>Testing</title>
 
+  <sect2><title>Unit Testing</title>
+
+    <sect3><title>Introduction</title>
+      <!-- TODO - reference this properly and fill in the blanks -->
+      <para>A number of alternatives were examined for application in this project</para>
+    </sect3> <!--Introduction-->
+
+    <sect3><title>Future Enahncements</title>
+    <!--Do we want/need this here?-->
+    <para></para>
+    </sect3> <!--Future Enahncements-->
+  </sect2> <!--UI Testing-->
+
   <sect2><title>User Interface Testing</title>
   
     <sect3><title>Introduction</title>
@@ -13,20 +26,6 @@
       <para></para>
     </sect3> <!--Future Enahncements-->
 
-  </sect2> <!--UI Testing-->
-
-
-  <sect2><title>Unit Testing</title>
-
-    <sect3><title>Introduction</title>
-      <!-- TODO - reference this properly and fill in the blanks -->
-      <para>The primary mechanism employed for testing the system was Unit testing [ref xprogramming.org]</para>
-    </sect3> <!--Introduction-->
-
-    <sect3><title>Future Enahncements</title>
-    <!--Do we want/need this here?-->
-    <para></para>
-    </sect3> <!--Future Enahncements-->
   </sect2> <!--UI Testing-->
 
 </sect1> <!--Testing-->
