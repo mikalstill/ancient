@@ -24,7 +24,6 @@ content/demo-mcachefs-readonly
 content/fuse-vfseventmapping-dirinode
 content/fuse-vfseventmapping-dirfile
 content/fuse-vfseventmapping-fileinode
-content/fuse-vfseventmapping-symlinkinode
 content/fuse-vfseventmapping-filefile
 content/fuse-vfseventmapping-addrfile
 content/fuse-whatcallbackwhen
