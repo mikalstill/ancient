@@ -639,7 +639,7 @@ plot_drawpointactual (plot_state * state, plot_pixel color, int isLine, unsigned
   unsigned long ptr = state->x * y + x;
   int linedashcount;
 
-  if ((x > state->x) || (y > state->y))
+  if ((x >= state->x) || (y >= state->y))
     return;
   
   state->linedashcount++;
