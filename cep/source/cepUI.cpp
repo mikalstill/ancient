@@ -345,8 +345,22 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
       else
 	view_menu->Check(CEPMENU_ERRORS, confval);
       
+      ////
+      view_menu->Append (CEPMENU_GRID, "Show grid",
+		       "Toggle whether a grid is shown on graphs",
+			 TRUE);
+      err = m_config->getValue("ui-viewmenu-showgrid", true, confval);
+      if(err.isReal()){
+	view_menu->Check(CEPMENU_GRID, true);
+      err.display();
+      }
+      else
+	view_menu->Check(CEPMENU_GRID, confval);
+
+      ////
       view_menu->AppendSeparator();
       
+      ////
       view_menu->Append(CEPMENU_SHOWX, "Show North",
 			"Show the north direction graph", TRUE);
       err = m_config->getValue("ui-viewmenu-showx", true, confval);
@@ -357,6 +371,7 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
       else
 	view_menu->Check(CEPMENU_SHOWX, confval);
       
+      ////
       view_menu->Append(CEPMENU_SHOWY, "Show East",
 			"Show the east direction graph", TRUE);
       err = m_config->getValue("ui-viewmenu-showy", true, confval);
@@ -367,6 +382,7 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
       else
 	view_menu->Check(CEPMENU_SHOWY, confval);
       
+      ////
       view_menu->Append(CEPMENU_SHOWZ, "Show Up",
 			"Show the up direction graph", TRUE);
       err = m_config->getValue("ui-viewmenu-showz", true, confval);
@@ -377,8 +393,10 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
       else
 	view_menu->Check(CEPMENU_SHOWZ, confval);
       
+      ////
       view_menu->AppendSeparator();
       
+      ////
       view_menu->Append (CEPMENU_COLORAXES, "Axes color",
 			 "The color of the axes on the graph", FALSE);
       
@@ -388,6 +406,13 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
       view_menu->Append (CEPMENU_COLORERROR, "Error color",
 			 "The color of the error bars on the graph", FALSE);
 
+      view_menu->Append (CEPMENU_COLORFONT, "Font color",
+			 "The color of the font on the graph", FALSE);
+
+      view_menu->Append (CEPMENU_COLORGRID, "Grid color",
+			 "The color of the grid on the graph", FALSE);
+
+      ////
       view_menu->AppendSeparator();
 
       view_menu->Append (CEPMENU_SELECTFONT, "Select graph font",

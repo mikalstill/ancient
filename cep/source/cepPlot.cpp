@@ -42,6 +42,11 @@ cepPlot::cepPlot(cepDataset *theDataset, cepDataset::direction dir, string cfnam
   if(err.isReal()) err.display();    
   pres.useErrors(toggle);
   
+  // Grid
+  err = config->getValue("ui-viewmenu-showgrid", true, toggle);
+  if(err.isReal()) err.display();    
+  pres.useGrid(toggle);
+  
   // Axes
   err = config->getValue("ui-graph-color-axis-r", 255, red);
   if(err.isReal()) err.display();
@@ -68,6 +73,24 @@ cepPlot::cepPlot(cepDataset *theDataset, cepDataset::direction dir, string cfnam
   err = config->getValue("ui-graph-color-error-b", 127, blue);
   if(err.isReal()) err.display();
   pres.setErrorColor(red, green, blue);
+  
+  // Font color
+  err = config->getValue("ui-graph-color-font-r", 0, red);
+  if(err.isReal()) err.display();
+  err = config->getValue("ui-graph-color-font-g", 0, green);
+  if(err.isReal()) err.display();
+  err = config->getValue("ui-graph-color-font-b", 0, blue);
+  if(err.isReal()) err.display();
+  pres.setFontColor(red, green, blue);
+  
+  // Grid color
+  err = config->getValue("ui-graph-color-grid-r", 127, red);
+  if(err.isReal()) err.display();
+  err = config->getValue("ui-graph-color-grid-g", 127, green);
+  if(err.isReal()) err.display();
+  err = config->getValue("ui-graph-color-grid-b", 127, blue);
+  if(err.isReal()) err.display();
+  pres.setGridColor(red, green, blue);
   
   // Various textual labels
   pres.yAxisTitle("This is a foo");

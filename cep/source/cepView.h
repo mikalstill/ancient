@@ -66,14 +66,17 @@ public:
   void OnColorLine  (wxCommandEvent& event);
   void OnColorAverage  (wxCommandEvent& event);
   void OnColorError  (wxCommandEvent& event);
+  void OnColorFont  (wxCommandEvent& event);
+  void OnColorGrid  (wxCommandEvent& event);
+
   void OnSelectFont (wxCommandEvent& event);
-  void OnViewCentered (wxCommandEvent& event);
-  void OnViewZoomed (wxCommandEvent& event);
+
   void OnToggleX (wxCommandEvent& event);
   void OnToggleY (wxCommandEvent& event);
   void OnToggleZ (wxCommandEvent& event);
 
   void OnToggleErrors (wxCommandEvent &pevt);
+  void OnToggleGrid (wxCommandEvent &pevt);
 
   // Least squares
   void OnLeastSquaresVCV (wxCommandEvent& event);

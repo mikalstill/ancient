@@ -38,9 +38,13 @@ public:
   void yAxisTitle (const string & title);
 
   void useErrors(bool yesno);
+  void useGrid(bool yesno);
+
   void setAxesColor(char red, char green, char blue);
   void setLineColor(char red, char green, char blue);
   void setErrorColor(char red, char green, char blue);
+  void setGridColor(char red, char green, char blue);
+  void setFontColor(char red, char green, char blue);
 
   cepError createPDF (const string & filename);
   cepError createBitmap (float& scale, long& range);
@@ -70,8 +74,11 @@ private:
   color m_axesColor;
   color m_lineColor;
   color m_errorColor;
+  color m_gridColor;
+  color m_fontColor;
 
   bool m_useErrors;
+  bool m_useGrid;
   char *m_raster;
 
   cepMatrix<double> *m_ds;

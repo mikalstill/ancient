@@ -138,6 +138,9 @@ GetMainFrame (void);
 #define CEPBTN_DATE_CANCEL 40
 #define CEPMENU_SELECTFONT 41
 #define CEPMENU_FFT 42
+#define CEPMENU_COLORFONT 43
+#define CEPMENU_GRID 44
+#define CEPMENU_COLORGRID 45
 
 extern bool singleWindowMode;     
 

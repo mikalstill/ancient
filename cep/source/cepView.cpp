@@ -84,9 +84,12 @@
 IMPLEMENT_DYNAMIC_CLASS (cepView, wxView)
 BEGIN_EVENT_TABLE (cepView, wxView)
   EVT_MENU (CEPMENU_ERRORS, cepView::OnToggleErrors)
+  EVT_MENU (CEPMENU_GRID, cepView::OnToggleGrid)
   EVT_MENU (CEPMENU_COLORAXES, cepView::OnColorAxes)
   EVT_MENU (CEPMENU_COLORLINE, cepView::OnColorLine)
   EVT_MENU (CEPMENU_COLORERROR, cepView::OnColorError)
+  EVT_MENU (CEPMENU_COLORGRID, cepView::OnColorGrid)
+  EVT_MENU (CEPMENU_COLORFONT, cepView::OnColorFont)
   EVT_MENU (CEPMENU_SHOWX, cepView::OnToggleX)
   EVT_MENU (CEPMENU_SHOWY, cepView::OnToggleY)
   EVT_MENU (CEPMENU_SHOWZ, cepView::OnToggleZ)
@@ -313,6 +316,13 @@ void cepView::OnToggleErrors (wxCommandEvent &pevt)
   canvas->Refresh();  
 }
 
+void cepView::OnToggleGrid (wxCommandEvent &pevt)
+{
+  m_config->setValue("ui-viewmenu-showgrid", pevt.IsChecked());
+  m_dirty = true;
+  canvas->Refresh();  
+}
+
 void
 cepView::OnColorAxes (wxCommandEvent & WXUNUSED (event))
 {
@@ -355,6 +365,38 @@ cepView::OnColorError (wxCommandEvent & WXUNUSED (event))
     m_config->setValue("ui-graph-color-error-r", color.Red());
     m_config->setValue("ui-graph-color-error-g", color.Green());
     m_config->setValue("ui-graph-color-error-b", color.Blue());
+
+    m_dirty = true;
+    canvas->Refresh();
+  }
+}
+
+void
+cepView::OnColorGrid (wxCommandEvent & WXUNUSED (event))
+{
+  wxColourDialog picker(NULL);
+  if(picker.ShowModal() == wxID_OK){
+    wxColourData data = picker.GetColourData();
+    wxColour color = data.GetColour();
+    m_config->setValue("ui-graph-color-grid-r", color.Red());
+    m_config->setValue("ui-graph-color-grid-g", color.Green());
+    m_config->setValue("ui-graph-color-grid-b", color.Blue());
+
+    m_dirty = true;
+    canvas->Refresh();
+  }
+}
+
+void
+cepView::OnColorFont (wxCommandEvent & WXUNUSED (event))
+{
+  wxColourDialog picker(NULL);
+  if(picker.ShowModal() == wxID_OK){
+    wxColourData data = picker.GetColourData();
+    wxColour color = data.GetColour();
+    m_config->setValue("ui-graph-color-font-r", color.Red());
+    m_config->setValue("ui-graph-color-font-g", color.Green());
+    m_config->setValue("ui-graph-color-font-b", color.Blue());
 
     m_dirty = true;
     canvas->Refresh();

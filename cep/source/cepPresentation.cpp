@@ -54,6 +54,7 @@ cepPresentation::cepPresentation (long width, long height, cepMatrix<double> *ds
   m_ymaxval(-2000000000),
   m_emaxval(-2000000000),
   m_useErrors(true),
+  m_useGrid(true),
   m_raster(NULL),
   m_ds(ds),
   m_haveMaxima(false),
@@ -72,6 +73,14 @@ cepPresentation::cepPresentation (long width, long height, cepMatrix<double> *ds
   m_errorColor.red = 0;
   m_errorColor.green = 0;
   m_errorColor.blue = 0;
+
+  m_fontColor.red = 0;
+  m_fontColor.green = 0;
+  m_fontColor.blue = 0;
+
+  m_gridColor.red = 0;
+  m_gridColor.green = 0;
+  m_gridColor.blue = 0;
 
   cepDebugPrint("Presentation has a LS line: " + cepToString(haveLs));
   m_config = (cepConfiguration *)&cepConfiguration::getInstance();
@@ -119,6 +128,7 @@ cepPresentation::createBitmap (float& scale, long& minval)
 {
 #if defined HAVE_LIBMPLOT
   plot_state *graph;
+  cepError err;
 
   if(!m_haveMaxima){
     m_xmaxval = (unsigned int) (m_ds->getMaxValue(cepDataset::colDate) * 10000);
@@ -183,6 +193,18 @@ cepPresentation::createBitmap (float& scale, long& minval)
 		cepToString(m_height));
   cepDebugPrint("Yscale is: " + cepToString(yscale));
   cepDebugPrint("Xscale is: " + cepToString(xscale));
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // The grid is always at the absolute bottom of the painting stack
+  if(m_useGrid){
+    plot_setlinecolor(graph, m_gridColor.red, m_gridColor.green, m_gridColor.blue);
+    for(int i = graphInset; i < m_height - graphInset; i += (m_height - graphInset * 2) / 10){
+      plot_setlinestart(graph, graphInset, i);
+      plot_addlinesegment(graph, m_width - graphInset, i);
+      plot_strokeline(graph);
+      plot_endline(graph);
+    }
+  }
 
   ////////////////////////////////////////////////////////////////////////////////
   // If we are using errors, then we draw these underneath
@@ -257,9 +279,8 @@ cepPresentation::createBitmap (float& scale, long& minval)
   
   ////////////////////////////////////////////////////////////////////////////////
   // The scale also belongs over the errors, but below the graph line
-  plot_setfontcolor(graph, 26, 22, 249);
+  plot_setfontcolor(graph, m_fontColor.red, m_fontColor.green, m_fontColor.blue);
   string fontfile;
-  cepError err;
   err = m_config->getValue("ui-graph-font", "n022003l.pfb", fontfile);
   if(err.isReal()){
     err.display();
@@ -269,7 +290,7 @@ cepPresentation::createBitmap (float& scale, long& minval)
 
   // Minimum value horizontal
   const int textHeight = 5;
-  plot_setlinecolor(graph, 26, 22, 249);
+  plot_setlinecolor(graph, m_fontColor.red, m_fontColor.green, m_fontColor.blue);
   plot_setlinestart(graph, graphInset, m_height - textHeight - 12);
   plot_addlinesegment(graph, graphInset, m_height - textHeight - 9);
   plot_strokeline(graph);
@@ -470,6 +491,11 @@ void cepPresentation::useErrors(bool yesno)
   m_useErrors = yesno;
 }
 
+void cepPresentation::useGrid(bool yesno)
+{
+  m_useGrid = yesno;
+}
+
 void cepPresentation::setErrorColor(char red, char green, char blue)
 {
   m_errorColor.red = red;
@@ -489,5 +515,19 @@ void cepPresentation::setLineColor(char red, char green, char blue)
   m_lineColor.red = red;
   m_lineColor.green = green;
   m_lineColor.blue = blue;
+}
+
+void cepPresentation::setFontColor(char red, char green, char blue)
+{
+  m_fontColor.red = red;
+  m_fontColor.green = green;
+  m_fontColor.blue = blue;
+}
+
+void cepPresentation::setGridColor(char red, char green, char blue)
+{
+  m_gridColor.red = red;
+  m_gridColor.green = green;
+  m_gridColor.blue = blue;
 }
 
