@@ -184,10 +184,11 @@
 
 <sect2><title>Conclusion</title>
   <para>
-    There is no question as to the value and importance of frequency domain analysis of time series data. We are able to see
-    information invisible to us in the time domain. Trends in the data relating to frequency can be identified,
-    and it is even possible to reduce noise by removing
-    points while in the frequency domain before returning to the time domain. TODO: more more more...
+    This sectioned has provided a brief discussion on frequency domain analysis, including the theory and and some applications. Frequency domain 
+    analysis is a very useful tool for time series analysis. We are able to see information invisible to us in the time domain. 
+    Frequency trends and noise can be identified in the data. This includes the detection of
+    Random Walk thorgh periodicity, and white noise through the presence of spikes. It is even possible to reduce noise by removing certain
+    frequencies that are believed to be noise.  
   </para>
 </sect2> <!--Conclusion-->
 
