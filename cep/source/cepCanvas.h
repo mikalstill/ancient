@@ -86,6 +86,7 @@ public:
   long m_xminval[cepDataset::dirUnknown];
   long m_yminval[cepDataset::dirUnknown];
   long m_yrange[cepDataset::dirUnknown];
+  bool m_isFreq[cepDataset::dirUnknown];
 
  private:
   DECLARE_EVENT_TABLE ()

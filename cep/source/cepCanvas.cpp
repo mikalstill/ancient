@@ -78,6 +78,9 @@ cepCanvas::cepCanvas (wxView * v, wxFrame * frame, const wxPoint & pos,
   m_frame(frame)
 {
   m_config = (cepConfiguration *)&cepConfiguration::getInstance();
+  m_isFreq[0] = false;
+  m_isFreq[1] = false;
+  m_isFreq[2] = false;
 }
 
 // Define the repainting behaviour
@@ -143,24 +146,37 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
       m_selDirString = dirName;
 
       float startExtracted = ((m_selectXStart - 10) * m_horizScale[selDir] + m_xminval[selDir]) / 10000;
-      cepDate start(startExtracted);
-      string startDate = start.getDay() + " " + start.getShortMonthName() + " " + start.getYear();
-      ((cepFrame *) wxGetApp().GetTopWindow())->SetStatusText(startDate.c_str(), 2);
+      string startDate;
+      if(!m_isFreq[selDir]){
+	cepDate start(startExtracted);
+	startDate = start.getDay() + " " + start.getShortMonthName() + " " + start.getYear();
+      }
+      else{
+	startDate = cepToString(startExtracted, true) + " Hz";
+      }
 
+      ((cepFrame *) wxGetApp().GetTopWindow())->SetStatusText(startDate.c_str(), 2);
       dc.DrawLine(m_selectXStart, 0, m_selectXStart, cheight);
     }
     else{
       m_selectXEnd = pt.x;
 
       float startExtracted = ((m_selectXStart - 10) * m_horizScale[selDir] + m_xminval[selDir]) / 10000;
-      cepDate start(startExtracted);
-      string startDate = start.getDay() + " " + start.getShortMonthName() + " " + start.getYear();
-
       float endExtracted = ((m_selectXEnd - 10) * m_horizScale[selDir] + m_xminval[selDir]) / 10000;
-      cepDate end(endExtracted);
-      string endDate = end.getDay() + " " + end.getShortMonthName() + " " + end.getYear();
+      string sel;
+      if(!m_isFreq[selDir]){
+	cepDate start(startExtracted);
+	string startDate = start.getDay() + " " + start.getShortMonthName() + " " + start.getYear();
 
-      string sel = string(startDate + " to " + endDate);
+	cepDate end(endExtracted);
+	string endDate = end.getDay() + " " + end.getShortMonthName() + " " + end.getYear();
+
+	sel = string(startDate + " to " + endDate);
+      }
+      else{
+	sel = cepToString(startExtracted, true) + " Hz to " + cepToString(endExtracted, true) + " Hz";
+      }
+
       ((cepFrame *) wxGetApp().GetTopWindow())->SetStatusText(sel.c_str(), 2);
 
       // Draw the highlight
@@ -281,9 +297,18 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
     float yextracted = (m_yrange[selDir] + m_yminval[selDir] - 
 			((float) (pt.y - top - 20) * m_vertScale[selDir])) / 10000;
 
-    string hover = hoverDate.getDay() + " " + hoverDate.getShortMonthName() + " " +
-      hoverDate.getYear() + " (" + cepToString(xextracted, true) + ") reading " +
-      cepToString(yextracted, true);
+    string hover;
+
+    if(!m_isFreq[selDir]){
+      hover = hoverDate.getDay() + " " + hoverDate.getShortMonthName() + " " +
+	hoverDate.getYear() + " (" + cepToString(xextracted, true) + ") reading " +
+	cepToString(yextracted, true);
+    }
+    else{
+      hover = cepToString(xextracted, true) + " Hz reading " +
+	cepToString(yextracted, true);
+    }
+
     ((cepFrame *) wxGetApp().GetTopWindow())->SetStatusText(hover.c_str(), 2);
   }
 }

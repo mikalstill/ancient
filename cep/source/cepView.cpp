@@ -298,6 +298,7 @@ void cepView::drawPresentation(cepDataset *theDataset, cepDataset::direction dir
 		 canvas->m_yrange[(int) dir], theDataset->getHaveLs(dir),
 		 theDataset->isFreqDomain(), theDataset->getEnergy(dir));
     m_plotfailed = plot.getFailed();
+    canvas->m_isFreq[(int) dir] = theDataset->isFreqDomain();
     
     m_pngCache[(int) dir] = string(cfname);
   }

@@ -143,7 +143,6 @@ cepError cepDataset::read(const string & filename)
         if (m_progress)
             m_progress(i + 1, 0);
 
-
         // this will hold all of the data read from file
         vector < cepVector4D > data;
         data.push_back(cepVector4D());
@@ -195,12 +194,14 @@ cepError cepDataset::read(const string & filename)
 
                     // if we have a row containing 3 consecutive delimiters then we add a new window
                     if (rowdate == delim || rowsample == delim || rowerror == delim) {
+		        cepDebugPrint("Pushing back a " + cepToString(data[data.size() - 1].size()) +
+				      " element window (1)");
                         data.push_back(cepVector4D());
 
-                        lastRowdate = -1;
-                        lastRowsample = -1;
-                        lastRowerror = -1;
-                        lastRowcolor = -1;
+                        lastRowdate = delim;
+                        lastRowsample = delim;
+                        lastRowerror = delim;
+                        lastRowcolor = delim;
                         thisLine="";
                         continue;
                     }
@@ -218,44 +219,40 @@ cepError cepDataset::read(const string & filename)
                     } else {
                         if (rowdate < lastRowdate && lastRowdate != delim) {
                             m_ready = true;
-                            cepDebugPrint
-                                ("dataset not in date order");
-                            cepDebugPrint
-                                ("last date="+cepToString(lastRowdate));
-                            cepDebugPrint
-                                ("this date="+cepToString(rowdate));
-                            return cepError("dataset: " + m_filename +
+                            return cepError("Dataset file " + m_filename +
                                             ".dat" + cepToString(i + 1) +
-                                            " is not in date order! At line "
+                                            " is not in date order. The error occured at line "
                                             + cepToString(numLines),
                                             cepError::sevErrorRecoverable);
                         } else {
                             if (rowdate == lastRowdate) {
                                 m_ready = true;
-                                return cepError("dataset: " + m_filename +
-                                                ".dat" + cepToString(i +
-                                                                     1) +
+                                return cepError("Dataset file " + m_filename +
+                                                ".dat" + cepToString(i + 1) +
                                                 " contains repeated values at line "
                                                 + cepToString(numLines),
                                                 cepError::
                                                 sevErrorRecoverable);
                             } else {
-                                // if we have a row containing 3 consecutive delimiters then we add a new window
+                                // if we have a row containing 3 consecutive delimiters then we add a 
+			        // new window
                                 if (rowdate == delim && rowsample == delim
                                     && rowerror == delim) {
+				    cepDebugPrint("Pushing back a " + 
+						  cepToString(data[data.size() - 1].size()) +
+						  " element window (2)");
                                     data.push_back(cepVector4D());
                                 } else {
                                     try {
-                                        data[ data.size()-1 ].push_back(rowdate,
-                                                                        rowsample,
-                                                                        rowerror,
-                                                                        rowcolor);
+                                        data[ data.size() - 1 ].push_back(rowdate,
+									  rowsample,
+									  rowerror,
+									  rowcolor);
                                     }
                                     catch(...) {
-                                        cepDebugPrint
-                                            ("exceeded bounds of data vector");
                                         return cepError
-                                            ("exceeded bounds of data vector @ __FILE__, __LINE__");
+					  ("Error reading dataset file into memory",
+					   cepError::sevWarning);
                                     }
 
                                     lastRowdate = rowdate;
@@ -643,6 +640,12 @@ cepDataset cepDataset::filter(float low, float high)
     vector < double >errors;
     cepMatrix < double >*data[dirUnknown];
 
+    if(data[0]->getNumTables() > 1){
+      cepError err("You cannot zoom on a windowed dataset", cepError::sevErrorRecoverable);
+      err.display();
+      return cepDataset();
+    }
+
     for (int dir = 0; dir < dirUnknown; dir++) {
         dates.clear();
         samples.clear();
@@ -710,6 +713,12 @@ cepDataset cepDataset::replace(float low, float high, float sample)
     vector < double >samples;
     vector < double >errors;
     cepMatrix < double >*data[dirUnknown];
+
+    if(data[0]->getNumTables() > 1){
+      cepError err("You cannot perform a replace on a windowed dataset", cepError::sevErrorRecoverable);
+      err.display();
+      return cepDataset();
+    }
 
     for (int dir = 0; dir < dirUnknown; dir++) {
         dates.clear();
