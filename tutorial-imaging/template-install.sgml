@@ -1,0 +1,29 @@
+<sect2><title>Installation</title>
+<para>
+...
+</para>
+
+<sect3><title>Unix</title>
+<para>
+Follow these simple steps to install Panda on your unix system:
+</para>
+
+<itemizedlist>
+<listitem><para>Extract the tarball</para></listitem>
+<listitem><para>Change into the Panda directory</para></listitem>
+<listitem><para>./configure</para></listitem>
+<listitem><para>make</para></listitem>
+<listitem><para>make install</para></listitem>
+</itemizedlist>
+
+<para>
+This will also build the examples in the examples directory.
+</para>
+</sect3>
+
+<sect3><title>win32</title>
+<para>
+
+</para>
+</sect3>
+</sect2>
