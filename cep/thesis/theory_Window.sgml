@@ -13,7 +13,7 @@
   The reduction in aliasing is a tradeoff, and the cost is an increase in the width of the spectral peak. Each separate
   windowing algorithm has different characteristics. According to Dakarta.com the characteristics are as follows:
   <itemizedlist>
-  <listitem><command>Hanning:</command>
+  <listitem><para><command>Hanning:</command></para>
      <para>
        Good resolution of spectral peaks and good rejection of sidelobe leakage "skirts" at low levels for input signals that
        don't have an integer number of cycles in the N-points data set. A good choice for most uses. Hanning window is a
@@ -25,7 +25,7 @@
     </para>
   </listitem>
 
-  <listitem><command>Hamming</command>
+  <listitem><para><command>Hamming</command></para>
     <para>
       Finer resolution of spectral peaks than Hanning, but poorer rejection of sidelobe skirts at low levels.
     </para>
@@ -35,7 +35,7 @@
     </para>
   </listitem>
 
-  <listitem><command>Blackman</command>
+  <listitem><para><command>Blackman</command></para>
     <para>
       Peak resolution is not as fine as Hanning, but the response shape flares out less at lower levels
       and rejection of sidelobes is better
@@ -46,7 +46,7 @@
     </para>
   </listitem>
 
-  <listitem><command>Dolph-Chebyshev</command>
+  <listitem><para><command>Dolph-Chebyshev</command></para>
     <para>
       Very similar to hamming, with better high frequency attenuation. Where hamming results in a 50dB attenuation
       for frequencies above the sampling frequency, Dolph-Chebyshev provides 63dB attenuation for the same frequencies.
@@ -57,6 +57,7 @@
     </para>
   </listitem>
   </itemizedlist>
+</para>
 </sect2> <!--Theory-->
 
 <sect2><title>Conclusion</title>
