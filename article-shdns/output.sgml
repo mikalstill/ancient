@@ -803,7 +803,7 @@ twiddlebit(){
   return $temp
 }
 
-# Spin until a byte exists: (filename, bytenumber)
+# Spin until a byte exists: (filename, bytenumber, wait)
 spinfor(){
   local len
 
