@@ -488,56 +488,39 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
 				  1.0);
 		  
 		  double toDate = lsUi.getToDate(),
-		    fromDate = lsUi.getFromDate(),
-		    val = lsUi.getWeight();
-		  
-		  while(!lsUi.getDoVCV() &&
-			((fromDate != -2) && (toDate != -2) && (val != -2)))
-		    {
-		      if((fromDate != -1) && (toDate != -1))
-			{
-			  if(fromDate <= toDate)
-			    {
-			      if(!isnan(val))
-				{
-				  populateMatP(matP, toDate, fromDate, val, 
-					       *theDataset->getMatrix((cepDataset::direction) i));
-				}
-			      else
-				{
-				  cepError("Weighting value must be a number", 
-					   cepError::sevWarning).display();
-				  return;
-				}
-			    }
-			  else
-			    {
-			      cepError("Start date is after finish date", 
-				       cepError::sevWarning).display();
-			      return;
-			    }
-			}
-		      
-		      lsUi.showWeight((theDataset->getMatrix((cepDataset::direction) i))->
-				      getValue(0,0),
-				      (theDataset->getMatrix((cepDataset::direction) i))->
-				      getValue((theDataset->getMatrix((cepDataset::direction) i))->
-					       getNumRows() -1,0),
-				      1.0);
-		      
-		      toDate = lsUi.getToDate();
-		      fromDate = lsUi.getFromDate();
-		      val = lsUi.getWeight();
-		    }			    
-		  
-		  if(lsUi.getDoVCV())
-		    {
-		      thisLs.cepDoVCV(*theDataset->getMatrix((cepDataset::direction) i), matP);
-		      residuals[i] = thisLs.getResidual ();
-		      data[i] = thisLs.getDataset();
-		      b1s[i] = thisLs.getB1();
-		      b2s[i] = thisLs.getB2();
-		    }
+		         fromDate = lsUi.getFromDate(),
+		         val = lsUi.getWeight();
+		  bool isDoVCV = lsUi.getDoVCV();
+      while(isDoVCV == false)
+      {
+        if((toDate != -1.0) || (fromDate != -1.0) || (val != -1.0))
+        {
+          populateMatP(matP, toDate, fromDate, val, *theDataset->getMatrix((cepDataset::direction) i));
+        }
+        else
+        {
+          //if user hits cancel
+          return;
+        }
+
+        lsUi.showWeight((theDataset->getMatrix((cepDataset::direction) i))->getValue(0,0),
+                        (theDataset->getMatrix((cepDataset::direction) i))->getValue((theDataset->getMatrix((cepDataset::direction) i))->getNumRows() -1,0),
+                         1.0);
+
+        toDate = lsUi.getToDate();
+        fromDate = lsUi.getFromDate();
+        val = lsUi.getWeight();
+        isDoVCV = lsUi.getDoVCV();
+      }
+ 
+	    if(lsUi.getDoVCV())
+	    {
+	      thisLs.cepDoVCV(*theDataset->getMatrix((cepDataset::direction) i), matP);
+	      residuals[i] = thisLs.getResidual ();
+	      data[i] = thisLs.getDataset();
+	      b1s[i] = thisLs.getB1();
+	      b2s[i] = thisLs.getB2();
+	    }
 		}
 	    }
 	}
@@ -745,7 +728,7 @@ void cepView::OnInterpNearest (wxCommandEvent& event)
     else
     {
       //if user canceled in any direction bail out
-      break;
+      return;
     }
   }
 }
@@ -773,7 +756,7 @@ void cepView::OnInterpLinear (wxCommandEvent& event)
     else
     {
       //if user canceled in any direction bail out
-      break;
+      return;
     }
   }
 }
@@ -801,7 +784,7 @@ void cepView::OnInterpNaturalSpline (wxCommandEvent& event)
     else
     {
       //if user canceled in any direction bail out
-      break;
+      return;
     }
   }
 }
@@ -829,7 +812,7 @@ void cepView::OnInterpCubicSpline (wxCommandEvent& event)
     else
     {
       //if user canceled in any direction bail out
-      break;
+      return;
     }
   }
 }
@@ -857,7 +840,7 @@ void cepView::OnInterpDivided (wxCommandEvent& event)
     else
     {
       //if user canceled in any direction bail out
-      break;
+      return;
     }
   }
 }
