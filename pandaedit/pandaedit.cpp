@@ -75,19 +75,13 @@ int main(int argc, char *argv[]){
 
   // Find the pages, and then display just the first page
   objectlist pagelist(kids, *thePDF);
-  object firstpage = pagelist[0];
-  if(!firstpage.hasDictItem(dictitem::diTypeObjectReference, "Contents")){
-    fprintf(stderr, "Bad PDF: Page is blank\n");
+  pdfRender renPage(*thePDF, pagelist[0]);
+  if(!renPage.render()){
+    fprintf(stderr, "Page render failed\n");
     exit(1);
   }
-  object& firstpagestream = foo;
-  if(!firstpage.getDict().getValue("Contents", *thePDF, firstpagestream)){
-    fprintf(stderr, "Bad PDF: Could not get contents object, but the page references it!\n");
-    exit(1);
-  }
-
-  pdfRender renPage(firstpagestream);
-  renPage.render();
+  printf("DEBUG: PNG filename is %s\n",
+	 renPage.getPNGfile().c_str());
 
   return 0;
 }

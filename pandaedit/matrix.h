@@ -9,6 +9,12 @@ class matrix
   void setIdentity();
   void setValues(float vals[6]);
 
+  float getHorizontal();
+  float getVertical();
+  float getAngle();
+
+  void dumpMatrix();
+
  private:
   float m_matrix[3][3];
 };
