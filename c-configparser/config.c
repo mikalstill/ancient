@@ -73,7 +73,16 @@ config_state *config_open(char *name)
 
   if(fd == -1)
     {
-      fd = config_file_open(".", name, 0);
+      char *fname = malloc(strlen(name) + 5);
+      if(!fname)
+	{
+	  perror("config: could not allocate memory for config filename");
+	  free(cfg);
+	  return NULL;
+	}
+      snprintf(fname, strlen(name) + 5, "%s.cfg", name);
+      fd = config_file_open(".", fname, 0);
+      free(fname);
     }
 
   if(fd == -1)
@@ -144,7 +153,7 @@ struct config_list *config_parse(char *file)
 
   head = (struct config_list *) malloc(sizeof(struct config_list));
   if(!head)
-    return;
+    return NULL;
 
   /*
    * Work through the file and build a linked list of lines
@@ -160,7 +169,7 @@ struct config_list *config_parse(char *file)
     {
       p = (struct config_list *) malloc(sizeof(struct config_list));
       if(!p)
-	return;
+	return NULL;
       
       p->line = line;
       p->key = NULL;
