@@ -28,9 +28,9 @@ END_EVENT_TABLE ()
 cepInterpShowRate::cepInterpShowRate(const wxString & val, const double & units):
   wxDialog((wxDialog *) NULL, -1, "Specify Sample Rate", wxPoint(120,120), wxSize(200, 130))
 {
-  m_panel = new wxPanel(this, -1, wxPoint(120,120), wxSize(200,200));
+  m_panel = new wxPanel(this, -1, wxPoint(120,120), wxSize(200,130));
 
-  m_statBox = new wxStaticBox(m_panel, -1, "", wxPoint(15, 30), wxSize(170, 120));
+  m_statBox = new wxStaticBox(m_panel, -1, "", wxPoint(15, 30), wxSize(170, 50));
 
   m_statText1 = new wxStaticText(m_panel, -1, "Please specify the sample rate", wxPoint(5,5), wxSize(190, 20), wxALIGN_CENTRE);
   m_statText2 = new wxStaticText(m_panel, -1,"for the interpolated data ", wxPoint(5,19), wxSize(190, 20), wxALIGN_CENTRE);
