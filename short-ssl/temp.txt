@@ -4,12 +4,20 @@ Secure Sockets Layer: Pitfalls and Risks
    A final year project discussion paper (number three)
 
 
-About the author
 
-Michael's student number is 964076. He can be contacted at mikal@stillhq.com. Copyright (c) Michael Still 2002. This submission is
+  Michael
+  Still
+  
+    964076
+  
+
+
+
+
 striptexttemp.txt-c
 wc -wtemp.txt
 words, not including the code snippets.
+
 
 
 

