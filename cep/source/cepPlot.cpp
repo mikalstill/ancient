@@ -24,7 +24,7 @@
 
 cepPlot::cepPlot(cepDataset *theDataset, cepDataset::direction dir, string cfname, long x, long y,
 		 float& horizScale, float& vertScale, long& xminval, long& yminval, long& yrange,
-		 bool haveLs, bool freqDomain, float energy):
+		 bool haveLs, bool freqDomain, float energy, int windowTarget):
   m_plotfailed(false)
 {
   cepConfiguration *config;
@@ -131,8 +131,8 @@ cepPlot::cepPlot(cepDataset *theDataset, cepDataset::direction dir, string cfnam
   if(err.isReal()) err.display();
   pres.setGridColor(red, green, blue);
   
-  // Various textual labels
-  pres.yAxisTitle("This is a foo");
+  // Decide which window to draw
+  pres.setDisplayWindow(windowTarget);
 
   // Create the bitmap
   err = pres.createPNG (cfname, horizScale, vertScale, xminval, yminval, yrange);

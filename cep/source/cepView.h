@@ -76,6 +76,13 @@ public:
   void OnColorGrid  (wxCommandEvent& event);
 
   void OnSelectFont (wxCommandEvent& event);
+  void OnSelectFontSize6 (wxCommandEvent& event);
+  void OnSelectFontSize8 (wxCommandEvent& event);
+  void OnSelectFontSize9 (wxCommandEvent& event);
+  void OnSelectFontSize10 (wxCommandEvent& event);
+  void OnSelectFontSize11 (wxCommandEvent& event);
+  void OnSelectFontSize12 (wxCommandEvent& event);
+  void OnSelectFontSize14 (wxCommandEvent& event);
 
   void OnToggleX (wxCommandEvent& event);
   void OnToggleY (wxCommandEvent& event);

@@ -313,6 +313,7 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
   wxMenu *edit_menu = (wxMenu *) NULL;
   wxMenu *view_menu = (wxMenu *) NULL;
   wxMenu *maths_menu = (wxMenu *) NULL;
+  wxMenu *size_submenu = (wxMenu *) NULL;
   wxMenu *ls_submenu = (wxMenu *) NULL;
   wxMenu *window_submenu = (wxMenu *) NULL;
   wxMenu *interp_submenu = (wxMenu *) NULL;
@@ -433,6 +434,20 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
 
       view_menu->Append (CEPMENU_SELECTFONT, "Select graph font",
 			 "The font which is used for the graph plots", FALSE);
+
+      ////
+
+      size_submenu = new wxMenu(wxMENU_TEAROFF);
+      size_submenu->Append (CEPMENU_FONTSIZE6, "6", "Set the font size to 6 points", FALSE);
+      size_submenu->Append (CEPMENU_FONTSIZE8, "8", "Set the font size to 8 points", FALSE);
+      size_submenu->Append (CEPMENU_FONTSIZE9, "9", "Set the font size to 9 points", FALSE);
+      size_submenu->Append (CEPMENU_FONTSIZE10, "10", "Set the font size to 10 points", FALSE);
+      size_submenu->Append (CEPMENU_FONTSIZE11, "11", "Set the font size to 11 points", FALSE);
+      size_submenu->Append (CEPMENU_FONTSIZE12, "12", "Set the font size to 12 points", FALSE);
+      size_submenu->Append (CEPMENU_FONTSIZE14, "14", "Set the font size to 14 points", FALSE);
+
+      view_menu->Append (CEPMENU_LS, "Font size", size_submenu,
+			  "Select a font size");
       
       /////////////////////////////////////////////////////////////////////////
       // The maths menu

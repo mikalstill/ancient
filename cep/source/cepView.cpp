@@ -111,6 +111,13 @@ BEGIN_EVENT_TABLE (cepView, wxView)
   EVT_MENU (CEPMENU_WINDOWNEXT, cepView::OnNextWindow)
   EVT_MENU (CEPMENU_WINDOWPREV, cepView::OnPrevWindow)
   EVT_MENU (CEPMENU_SELECTFONT, cepView::OnSelectFont)
+  EVT_MENU (CEPMENU_FONTSIZE6, cepView::OnSelectFontSize6)
+  EVT_MENU (CEPMENU_FONTSIZE8, cepView::OnSelectFontSize8)
+  EVT_MENU (CEPMENU_FONTSIZE9, cepView::OnSelectFontSize9)
+  EVT_MENU (CEPMENU_FONTSIZE10, cepView::OnSelectFontSize10)
+  EVT_MENU (CEPMENU_FONTSIZE11, cepView::OnSelectFontSize11)
+  EVT_MENU (CEPMENU_FONTSIZE12, cepView::OnSelectFontSize12)
+  EVT_MENU (CEPMENU_FONTSIZE14, cepView::OnSelectFontSize14)
 END_EVENT_TABLE ()
 
 cepView::cepView ():
@@ -302,7 +309,8 @@ void cepView::drawPresentation(cepDataset *theDataset, cepDataset::direction dir
 		 canvas->m_vertScale[(int) dir], canvas->m_horizScale[(int) dir],
 		 canvas->m_xminval[(int) dir], canvas->m_yminval[(int) dir],
 		 canvas->m_yrange[(int) dir], theDataset->getHaveLs(dir),
-		 theDataset->isFreqDomain(), theDataset->getEnergy(dir));
+		 theDataset->isFreqDomain(), theDataset->getEnergy(dir),
+		 m_currentWindow);
     m_plotfailed = plot.getFailed();
     canvas->m_isFreq[(int) dir] = theDataset->isFreqDomain();
     
@@ -510,6 +518,13 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
   cepDataset *theDataset = theDoc->getDataset ();
   if (theDataset && theDataset->isReady() && theDataset->isWellFormed())
     {
+      if(theDataset->getMatrix(cepDataset::dirX)->getNumTables() > 1){
+	cepError err("You cannot zoom on a windowed dataset", cepError::sevErrorRecoverable);
+	err.display();
+	canvas->Refresh();
+	return;
+      }
+      
       // Prompt for processing options
       cepLsUi lsUi;
       lsUi.showIsReweight();
@@ -740,6 +755,13 @@ void cepView::OnLeastSquaresRW (wxCommandEvent &pevt)
   cepDataset *theDataset = theDoc->getDataset ();
   if (theDataset && theDataset->isReady() && theDataset->isWellFormed())
   {
+    if(theDataset->getMatrix(cepDataset::dirX)->getNumTables() > 1){
+      cepError err("You cannot zoom on a windowed dataset", cepError::sevErrorRecoverable);
+      err.display();
+      canvas->Refresh();
+      return;
+    }
+
     lsUi.showWhichDir();
 
     // For each direction
@@ -1160,7 +1182,77 @@ void cepView::OnSelectFont (wxCommandEvent& event)
   }
 }
 
-void cepView::OnNextWindow(wxCommandEvent& event)
+void cepView::OnSelectFontSize6 (wxCommandEvent& event)
+{
+  cepError err = m_config->setValue("ui-graph-font-size", 6);
+  if(err.isReal())
+    err.display();
+
+  m_dirty = true;
+  canvas->Refresh();
+}
+
+void cepView::OnSelectFontSize8 (wxCommandEvent& event)
+{
+  cepError err = m_config->setValue("ui-graph-font-size", 8);
+  if(err.isReal())
+    err.display();
+
+  m_dirty = true;
+  canvas->Refresh();
+}
+
+void cepView::OnSelectFontSize9 (wxCommandEvent& event)
+{
+  cepError err = m_config->setValue("ui-graph-font-size", 9);
+  if(err.isReal())
+    err.display();
+
+  m_dirty = true;
+  canvas->Refresh();
+}
+
+void cepView::OnSelectFontSize10 (wxCommandEvent& event)
+{
+  cepError err = m_config->setValue("ui-graph-font-size", 10);
+  if(err.isReal())
+    err.display();
+
+  m_dirty = true;
+  canvas->Refresh();
+}
+
+void cepView::OnSelectFontSize11 (wxCommandEvent& event)
+{
+  cepError err = m_config->setValue("ui-graph-font-size", 11);
+  if(err.isReal())
+    err.display();
+
+  m_dirty = true;
+  canvas->Refresh();
+}
+
+void cepView::OnSelectFontSize12 (wxCommandEvent& event)
+{
+  cepError err = m_config->setValue("ui-graph-font-size", 12);
+  if(err.isReal())
+    err.display();
+
+  m_dirty = true;
+  canvas->Refresh();
+}
+
+void cepView::OnSelectFontSize14 (wxCommandEvent& event)
+{
+  cepError err = m_config->setValue("ui-graph-font-size", 14);
+  if(err.isReal())
+    err.display();
+
+  m_dirty = true;
+  canvas->Refresh();
+}
+
+void cepView::OnPrevWindow(wxCommandEvent& event)
 {
   cepDoc *theDoc = (cepDoc *) GetDocument ();
   cepDataset *theDataset = theDoc->getDataset ();
@@ -1173,7 +1265,7 @@ void cepView::OnNextWindow(wxCommandEvent& event)
   }
 }
 
-void cepView::OnPrevWindow(wxCommandEvent& event)
+void cepView::OnNextWindow(wxCommandEvent& event)
 {
   cepDoc *theDoc = (cepDoc *) GetDocument ();
   cepDataset *theDataset = theDoc->getDataset ();

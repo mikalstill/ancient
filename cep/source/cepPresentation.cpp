@@ -143,14 +143,27 @@ cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminva
     return cepError("Could not initialise a new plot", 
 		    cepError::sevErrorRecoverable);
 
+  // Font colour
   plot_setfontcolor(graph, m_fontColor.red, m_fontColor.green, m_fontColor.blue);
+
+  // Font file
   string fontfile;
   err = m_config->getValue("ui-graph-font", "n022003l.pfb", fontfile);
   if(err.isReal()){
     err.display();
     fontfile = "n022003l.pfb";
   }
-  plot_setfont(graph, (char *) fontfile.c_str(), 10);
+
+  // Font size
+  int fontSize;
+  err = m_config->getValue("ui-graph-font-size", 10, fontSize);
+  if(err.isReal()){
+    err.display();
+    fontSize = 10;
+  }
+
+  // Actually set
+  plot_setfont(graph, (char *) fontfile.c_str(), fontSize);
 
   if(!m_haveMaxima){
     m_xmaxval = (unsigned int) (m_ds->getMaxValue(cepDataset::colDate) * 10000);
@@ -542,9 +555,20 @@ cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminva
   }
   else if(m_freqDomain){
     string freqEnergy = "FFT Mean = " + cepToString(m_e, true);
-    plot_settextlocation(graph, graphInset * 2, graphInset + graphInset);
+    plot_settextlocation(graph, graphInset * 2, graphInset * 3);
     plot_writestring(graph, (char *) freqEnergy.c_str()); 
   }
+
+  string windowString;
+  if(m_displayWindow == -1){
+    windowString = "Showing all windows";
+  }
+  else{
+    windowString = "Showing window: " + cepToString(m_displayWindow + 1) + " of " + 
+      cepToString(m_ds->getNumTables());
+  }
+  plot_settextlocation(graph, graphInset * 2, graphInset * 2);
+  plot_writestring(graph, (char *) windowString.c_str()); 
 
   cepDebugPrint("Finishing plotting");
 
@@ -727,4 +751,5 @@ void cepPresentation::setFreqParams(float energy){
 
 void cepPresentation::setDisplayWindow(int number){
   m_displayWindow = number;
+  cepDebugPrint("Current window set to " + cepToString(number));
 }

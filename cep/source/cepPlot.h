@@ -29,7 +29,7 @@ class cepPlot{
   cepPlot(cepDataset *theDataset, cepDataset::direction dir, 
 	  string cfname, long x, long y, float& vertScale, float& horizScale, 
 	  long& xminval, long& yminval, long& yrange, bool haveLs,
-	  bool freqDomain, float energy);
+	  bool freqDomain, float energy, int windowTarget);
 
   bool getFailed();
 
