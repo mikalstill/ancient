@@ -34,7 +34,7 @@ string
 cepToString (long number)
 {
   /* 
-   * BS - check the buffer size is sufficient to hold a long
+   * todo BS - check the buffer size is sufficient to hold a long
    * is it possible for all digits be displayed? I think sci
    * notation might save us here
    */
@@ -48,7 +48,7 @@ string
 cepToString (double number)
 {
   /* 
-   * BS - check buffer again. I am pretty sure that doubles
+   * todo BS - check buffer again. I am pretty sure that doubles
    * are 15 digit mantissa + 4 digit ordinate
    * is it possible for all digits be displayed?
    */
@@ -77,9 +77,9 @@ cepToString (bool val)
 string
 cepToString (char val)
 {
-  char buffer[10];
+  char buffer[2];
 
-  snprintf (buffer, 10, "%d", val);
+  snprintf (buffer, 2, "%c", val);
   return string(buffer);
 }
 

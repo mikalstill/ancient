@@ -111,4 +111,4 @@ case "$host" in
   echo "This project may not compile on this system. Good luck :-)";;
 esac
 
-AC_OUTPUT(Makefile)
+AC_OUTPUT(tests/Makefile Makefile)

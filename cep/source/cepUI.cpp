@@ -188,49 +188,59 @@ cepApp::OnInit (void)
 
   // We can process command line options here if we want
   // todo_mikal: make this sexier
+  cepDebugPrint("Starting to parse command line options");
   int optchar;
   string filename;
   cepError err;
 
-  while ((optchar = getopt (argc, argv, "d:a:e:xyzcmk")) != -1)
+  while ((optchar = getopt (argc, argv, "d:a:e:x:y:z:cmk")) != -1)
     {
+      cepDebugPrint("CLI Options character: " + cepToString((char) optchar));
       switch (optchar)
         {
 	case 'd':
+	  cepDebugPrint("CLI Dataset: " + string(optarg));
 	  filename = optarg;
 	  break;
 
 	case 'a':
+	  cepDebugPrint("CLI Show averages: " + string(optarg));
 	  m_config->setValue("ui-viewmenu-showaverages",
 			     string(optarg) == "yes");
 	  break;
 
 	case 'e':
+	  cepDebugPrint("CLI Show errors: " + string(optarg));
 	  m_config->setValue("ui-viewmenu-showerrors",
 			     string(optarg) == "yes");
 	  break;
 
 	case 'x':
+	  cepDebugPrint("CLI Show X: " + string(optarg));
 	  m_config->setValue("ui-viewmenu-showx",
 			     string(optarg) == "yes");
 	  break;
 
 	case 'y':
+	  cepDebugPrint("CLI Show Y: " + string(optarg));
 	  m_config->setValue("ui-viewmenu-showy",
 			     string(optarg) == "yes");
 	  break;
 
 	case 'z':
+	  cepDebugPrint("CLI Show Z: " + string(optarg));
 	  m_config->setValue("ui-viewmenu-showz",
 			     string(optarg) == "yes");
 	  break;
 
 	case 'c':
+	  cepDebugPrint("CLI Centered view");
 	  m_config->setValue("ui-viewmenu-currentview",
 			     cepPresentation::viewCentered);
 	  break;
 
 	case 'm':
+	  cepDebugPrint("CLI Zoomed view");
 	  m_config->setValue("ui-viewmenu-currentview",
 			     cepPresentation::viewZoomed);
 	  break;

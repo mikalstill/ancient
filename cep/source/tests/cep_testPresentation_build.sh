@@ -29,11 +29,11 @@ do
   suiteOfTests->addTest(new CppUnit::TestCaller<Test>("$func", &Test::cpt_$func));
 EOF
 	      cat <<EOF >> cep_testPresentation_functions
-void cpt_$func ()
-{
-  runUI("$cmdline");
-}
+void cpt_$func ();
+EOF
 
+	      cat <<EOF >> cep_testPresentation_implementations
+void cpt_$func (){runUI("$cmdline");}
 EOF
 
 	    count=$(( $count + 1 ))
