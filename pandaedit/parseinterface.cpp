@@ -1,6 +1,8 @@
 #include "pandaedit.h"
 #include "objectmodel.h"
 #include "stringArray.h"
+#include "verbosity.h"
+#include "utility.h"
 
 extern pdf *thePDF;
 extern object *currentObject;
@@ -56,7 +58,7 @@ pandaedit_objend (int event, va_list argptr)
     {
       if (!currentDictionary.empty ())
 	{
-	  printf ("DEBUG: Adding dictionary because of object end\n");
+	  debug(dlTrace, "Adding dictionary because of object end");
 	  currentObject->addDictionary (currentDictionary.top ());
 	  currentDictionary.pop ();
 	}
@@ -65,7 +67,7 @@ pandaedit_objend (int event, va_list argptr)
     }
   else
     {
-      printf ("DEBUG: Attempt to finish a NULL object\n");
+      debug(dlTrace, "Attempt to finish a NULL object");
     }
 }
 
@@ -79,7 +81,7 @@ pandaedit_dictitem_string (int event, va_list argptr)
 
   if (currentDictionary.empty ())
     {
-      fprintf (stderr, "Adding item to empty dictionary\n");
+      debug(dlTrace, "Adding item to empty dictionary");
       return;
     }
 
@@ -98,7 +100,7 @@ pandaedit_dictitem_name (int event, va_list argptr)
 
   if (currentDictionary.empty ())
     {
-      fprintf (stderr, "Adding item to empty dictionary\n");
+      debug(dlTrace, "Adding item to empty dictionary");
       return;
     }
 
@@ -113,7 +115,7 @@ pandaedit_dictitem_arraystart (int event, va_list argptr)
   char *name;
 
   name = va_arg (argptr, char *);
-  printf ("  Array %s starts\n", name);
+  debug(dlTrace, string("Array ") + name + string(" starts"));
 }
 
 void
@@ -122,7 +124,7 @@ pandaedit_dictitem_arrayitem (int event, va_list argptr)
   char *value;
 
   value = va_arg (argptr, char *);
-  printf ("  [Array] %s\n", value);
+  debug(dlTrace, string("  [Array] ") + value);
 }
 
 void
@@ -131,7 +133,7 @@ pandaedit_dictitem_arrayend (int event, va_list argptr)
   char *name;
 
   name = va_arg (argptr, char *);
-  printf ("  Array %s ends\n", name);
+  debug(dlTrace, string("  Array ") + name + string(" ends"));
 }
 
 void
@@ -144,7 +146,7 @@ pandaedit_dictitem_object (int event, va_list argptr)
 
   if (currentDictionary.empty ())
     {
-      fprintf (stderr, "Adding item to empty dictionary\n");
+      debug(dlTrace, "Adding item to empty dictionary");
       return;
     }
 
@@ -160,7 +162,7 @@ pandaedit_dictitem_dict (int event, va_list argptr)
   char *name;
 
   name = va_arg (argptr, char *);
-  printf ("DEBUG: Subdictionary \"%s\" starts\n", name);
+  debug(dlTrace, string("Subdictionary \"") + name + string("\" starts"));
   dictionary temp;
   currentDictionary.push (temp);
 }
@@ -174,7 +176,7 @@ pandaedit_dictitem_dictend (int event, va_list argptr)
 
   if (currentDictionary.empty ())
     {
-      printf ("DEBUG: A non-existant dictionary ended\n");
+      debug(dlTrace, "A non-existant dictionary ended");
       return;
     }
 
@@ -182,21 +184,20 @@ pandaedit_dictitem_dictend (int event, va_list argptr)
     {
       if (currentObject != NULL)
 	{
-	  printf
-	    ("DEBUG: Adding dictionary because of subdictionary end (but it isn't a subdictionary)\n");
+	  debug(dlTrace,
+		"Adding dictionary because of subdictionary end (but it isn't a subdictionary)");
 	  currentObject->addDictionary (currentDictionary.top ());
 	}
       else
 	{
-	  printf ("DEBUG: Attempt to add a dictionary to a null object\n");
+	  debug(dlTrace, "Attempt to add a dictionary to a null object\n");
 	}
       currentDictionary.pop ();
     }
   else
     {
-      printf
-	("DEBUG: Adding a subdictionary named %s to the parent dictionary\n",
-	 name);
+      debug(dlTrace, string("Adding a subdictionary named ") + name +
+	    string(" to the parent dictionary"));
       dictitem temp (dictitem::diTypeDictionary, name);
       temp.setValue (currentDictionary.top ());
       currentDictionary.pop ();
@@ -218,7 +219,7 @@ pandaedit_dictitem_int (int event, va_list argptr)
 
   if (currentDictionary.empty ())
     {
-      fprintf (stderr, "Adding item to empty dictionary\n");
+      debug(dlTrace, "Adding item to empty dictionary");
       return;
     }
 
@@ -235,6 +236,6 @@ pandaedit_stream (int event, va_list argptr)
 
   streamData = va_arg (argptr, char *);
   streamDataLen = va_arg (argptr, int);
-  printf ("DEBUG: Parser found a stream of length %d\n", streamDataLen);
+  debug(dlTrace, string("Parser found a stream of length ") + toString((long) streamDataLen));
   currentObject->addStream (streamData, streamDataLen);
 }

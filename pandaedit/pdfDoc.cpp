@@ -56,7 +56,7 @@
 #include "pdfView.h"
 #include "objectmodel.h"
 #include "utility.h"
-#include <stdio.h>
+#include "verbosity.h"
 
 IMPLEMENT_DYNAMIC_CLASS (pdfDoc, wxDocument)
 
@@ -77,12 +77,17 @@ pdfDoc::~pdfDoc (void)
 bool
 pdfDoc::OnSaveDocument (const wxString & filename)
 {
+  // todo_mikal: truncate filename?
+  m_filename = filename;
   return TRUE;
 }
 
 bool
 pdfDoc::OnOpenDocument (const wxString & filename)
 {
+  // todo_mikal: truncate filename?
+  m_filename = filename;
+
   m_progressCount = 0;
   m_progressMax = 10;
   m_progress = new wxProgressDialog ("Loading PDF file",
@@ -109,7 +114,7 @@ pdfDoc::OnOpenDocument (const wxString & filename)
 	{
 	  delete m_progress;
 	  m_progress = NULL;
-	  printf("DEBUG: Document contains no pages\n");
+	  debug(dlError, "Document contains no pages");
 	  return FALSE;
 	}
     }
@@ -117,7 +122,7 @@ pdfDoc::OnOpenDocument (const wxString & filename)
     {
       delete m_progress;
       m_progress = NULL;
-      printf("DEBUG: Parse failed\n");
+      debug(dlError, "Parse failed");
       return FALSE;
     }
 
@@ -133,7 +138,6 @@ pdfDoc::incrementProgress ()
   m_progressCount++;
   if (m_progressCount > m_progressMax)
     m_progressMax *= 2;
-  printf ("DEBUG: Progress %d of %d\n", m_progressCount, m_progressMax);
   m_progress->Update (m_progressCount * 100 / m_progressMax);
 }
 
@@ -153,6 +157,12 @@ unsigned int
 pdfDoc::getPageCount()
 {
   return m_pages.size();
+}
+
+string
+pdfDoc::getFilename()
+{
+  return m_filename;
 }
 
 // A scary global progress handler

@@ -1,13 +1,13 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <stdio.h>
 
 #include "render.h"
 #include "utility.h"
 #include "stringArray.h"
 #include "configuration.h"
-
 #include "raster.h"
+#include "verbosity.h"
 
 pdfRender::pdfRender (pdf & thePDF, object page, int pageno):
 m_page (page),
@@ -21,12 +21,12 @@ m_pageno (pageno)
 {
   if (!m_page.hasDictItem (dictitem::diTypeObjectReference, "Contents"))
     {
-      fprintf (stderr, "Bad PDF: Page is blank\n");
+      debug(dlError, "Bad PDF: Page is blank");
     }
   if (!m_page.getDict ().getValue ("Contents", m_pdf, m_contents))
     {
-      fprintf (stderr,
-	       "Bad PDF: Could not get contents object, but the page references it!\n");
+      debug(dlError,
+	       "Bad PDF: Could not get contents object, but the page references it!");
     }
 
   m_invalid = false;
@@ -48,7 +48,7 @@ pdfRender::render ()
   // Find the size of the page and setup a plot
   // todo_mikal: fix this
   if (m_plot != NULL)
-    printf ("DEBUG: Memory leak as render called more than once\n");
+    debug(dlTrace, "Memory leak as render called more than once");
 
   string mediaBox;
   m_page.getDict ().getValue ("MediaBox", mediaBox);
@@ -56,10 +56,11 @@ pdfRender::render ()
 
   m_width = atoi (boxArgs[2].c_str ());
   m_height = atoi (boxArgs[3].c_str ());
-  printf ("DEBUG: Page size is %d by %d\n", m_width, m_height);
+  debug(dlTrace, string("Page size is ") + toString(m_width) + string(" by ") +
+	toString(m_height));
   if ((m_plot = plot_newplot (m_width, m_height)) == NULL)
     {
-      fprintf (stderr, "Failed to initialize new page plot\n");
+      debug(dlError, "Failed to initialize new page plot");
       return false;
     }
 
@@ -69,7 +70,7 @@ pdfRender::render ()
   bool needStreamClean (false);
 
   stream = m_contents.getStream (needStreamClean, length);
-  printf ("DEBUG: Process page stream\n");
+  debug(dlTrace, "Process page stream");
   // todo_mikal: this might be too slow because of the accessor
   string line;
   inset = 0;
@@ -82,7 +83,7 @@ pdfRender::render ()
       else
 	{
 	  // Process the line
-	  printf ("DEBUG: Process line \"%s\"\n", line.c_str ());
+	  debug(dlTrace, string("Process line \"") + line + string("\""));
 	  processLine (line);
 	  line = "";
 	}
@@ -100,7 +101,7 @@ pdfRender::processLine (string line)
 {
   if (line.length () < 1)
     {
-      printf ("DEBUG: Empty line\n");
+      debug(dlTrace, "Empty line");
       return;
     }
 
@@ -116,13 +117,14 @@ pdfRender::processLine (string line)
 	{
 	  sarg = tokens[i].substr (1, tokens[i].length () - 1);
 	  sargMode = true;
-	  printf ("DEBUG: String argument started\n");
+	  debug(dlTrace, "String argument started");
 	}
       else if (tokens[i][tokens[i].length () - 1] == ')')
 	{
 	  sarg += " " + tokens[i].substr (0, tokens[i].length () - 1);
 	  sargMode = false;
-	  printf ("DEBUG: String arguement finished (%s)\n", sarg.c_str ());
+	  debug(dlTrace, string("String arguement finished (") + sarg +
+		string(")"));
 	  pushArguement (sarg);
 	}
       else if (sargMode)
@@ -195,12 +197,12 @@ pdfRender::processLine (string line)
       else if ("y" == tokens[i])
 	command_y ();
       else
-	printf ("DEBUG: Dropped token %s\n", tokens[i].c_str ());
+	debug(dlTrace, string("Dropped token ") + tokens[i]);
     }
   if (sargMode)
     {
-      printf ("DEBUG: String mode never ended on line. Line so far: %s\n",
-	      sarg.c_str ());
+      debug(dlTrace, string("String mode never ended on line. Line so far: ") +
+	      sarg);
     }
 }
 
@@ -208,7 +210,7 @@ pdfRender::processLine (string line)
 void
 pdfRender::pushArguement (string arg)
 {
-  printf ("DEBUG: Pushing arguement %s\n", arg.c_str ());
+  debug(dlTrace, string("Pushing arguement ") + arg);
   m_arguements.push (arg);
 }
 
@@ -217,16 +219,14 @@ pdfRender::pushArguement (string arg)
 void
 pdfRender::command_b ()
 {
-  printf
-    ("DEBUG: b -- non zero winding fill not implemented, using even odd\n");
+  debug(dlTrace, "b -- non zero winding fill not implemented, using even odd");
   command_bstar ();
 }
 
 void
 pdfRender::command_B ()
 {
-  printf
-    ("DEBUG: B -- non zero winding fill not implemented, using even odd\n");
+  debug(dlTrace, "B -- non zero winding fill not implemented, using even odd");
   command_Bstar ();
 }
 
@@ -235,7 +235,7 @@ pdfRender::command_bstar ()
 {
   if (m_mode != rmGraphics)
     {
-      printf ("DEBUG: Not in graphics mode\n");
+      debug(dlTrace, "Not in graphics mode");
       return;
     }
 
@@ -250,7 +250,7 @@ pdfRender::command_Bstar ()
 {
   if (m_mode != rmGraphics)
     {
-      printf ("DEBUG: Not in graphics mode\n");
+      debug(dlTrace, "Not in graphics mode");
       return;
     }
 
@@ -263,10 +263,10 @@ pdfRender::command_Bstar ()
 void
 pdfRender::command_BT ()
 {
-  printf ("DEBUG: BT\n");
+  debug(dlTrace, "BT");
   if (m_mode == rmText)
     {
-      printf ("DEBUG: Error -- already in text mode\n");
+      debug(dlTrace, "Error -- already in text mode");
       return;
     }
 
@@ -295,12 +295,10 @@ pdfRender::command_c ()
 
   if (m_mode != rmGraphics)
     {
-      printf ("DEBUG: Not in graphics mode\n");
+      debug(dlTrace, "Not in graphics mode");
       return;
     }
 
-  printf ("DEBUG: Add cubic curve segment %d, %d & %d, %d & %d, %d\n",
-	  x1, y1, x2, y2, x3, y3);
   plot_addcubiccurvesegment (m_plot, x1, y1, x2, y2, x3, y3);
   m_hasLine = true;
 }
@@ -311,7 +309,7 @@ pdfRender::command_cm ()
 {
   float vals[6];
 
-  printf ("DEBUG: cm\n");
+  debug(dlTrace, "cm");
   for (int i = 0; i < 6; i++)
     {
       vals[5 - i] = atof (m_arguements.top ().c_str ());
@@ -325,7 +323,7 @@ void
 pdfRender::command_Do ()
 {
   string arg;
-  printf ("DEBUG: Do\n");
+  debug(dlTrace, "Do");
 
   // The arguement is the name of a resource entry
   arg = m_arguements.top ();
@@ -334,25 +332,25 @@ pdfRender::command_Do ()
   dictionary resdict;
   if (!m_page.getDict ().getValue ("Resources", resdict))
     {
-      printf ("DEBUG: Resource dictionary not found\n");
+      debug(dlTrace, "Resource dictionary not found");
       return;
     }
 
   dictionary xobj;
   if (!resdict.getValue ("XObject", xobj))
     {
-      printf ("DEBUG: Resource dictionary not found\n");
+      debug(dlTrace, "Resource dictionary not found");
       return;
     }
 
   object image (-1, -1);
   if (!xobj.getValue (arg.substr (1, arg.length () - 1), m_pdf, image))
     {
-      printf ("DEBUG: Named resource does not exist\n");
+      debug(dlTrace, "Named resource does not exist");
       return;
     }
 
-  printf ("DEBUG: We should do something with this now...\n");
+  debug(dlTrace, "We should do something with this now...");
   char *stream;
   bool needStreamClean (false);
   unsigned long length;
@@ -365,10 +363,10 @@ pdfRender::command_Do ()
 void
 pdfRender::command_ET ()
 {
-  printf ("DEBUG: ET\n");
+  debug(dlTrace, "ET");
   if (m_mode != rmText)
     {
-      printf ("DEBUG: Error -- exitting non existant text mode\n");
+      debug(dlTrace, "Error -- exitting non existant text mode");
     }
   m_mode = rmGraphics;
 }
@@ -377,8 +375,7 @@ pdfRender::command_ET ()
 void
 pdfRender::command_f ()
 {
-  printf
-    ("DEBUG: f -- non zero winding fill not implemented, using even odd\n");
+  debug(dlTrace, "f -- non zero winding fill not implemented, using even odd");
   command_fstar ();
 }
 
@@ -388,11 +385,11 @@ pdfRender::command_fstar ()
 {
   if (m_mode != rmGraphics)
     {
-      printf ("DEBUG: Not in graphics mode\n");
+      debug(dlTrace, "Not in graphics mode");
       return;
     }
 
-  printf ("DEBUG: Even odd fill\n");
+  debug(dlTrace, "Even odd fill");
   plot_fillline (m_plot);
   m_hasLine = true;
 }
@@ -401,8 +398,7 @@ pdfRender::command_fstar ()
 void
 pdfRender::command_F ()
 {
-  printf
-    ("DEBUG: F -- non zero winding fill not implemented, using even odd\n");
+  debug(dlTrace, "F -- non zero winding fill not implemented, using even odd");
   command_fstar ();
 }
 
@@ -415,11 +411,11 @@ pdfRender::command_g ()
 
   if (m_mode != rmGraphics)
     {
-      printf ("DEBUG: Not in graphics mode\n");
+      debug(dlTrace, "Not in graphics mode");
       return;
     }
 
-  printf ("DEBUG: Set grayscale stroke %d\n", g);
+  debug(dlTrace, string("Set grayscale stroke ") + toString(g));
   plot_setlinecolor (m_plot, (unsigned int) (255 * g),
 		     (unsigned int) (255 * g), (unsigned int) (255 * g));
   m_hasLine = true;
@@ -434,11 +430,11 @@ pdfRender::command_G ()
 
   if (m_mode != rmGraphics)
     {
-      printf ("DEBUG: Not in graphics mode\n");
+      debug(dlTrace, "Not in graphics mode");
       return;
     }
 
-  printf ("DEBUG: Set grayscale fill %D\n", g);
+  debug(dlTrace, string("Set grayscale fill ") + toString(g));
   plot_setfillcolor (m_plot, (unsigned int) (255 * g),
 		     (unsigned int) (255 * g), (unsigned int) (255 * g));
   m_hasLine = true;
@@ -450,11 +446,11 @@ pdfRender::command_h ()
 {
   if (m_mode != rmGraphics)
     {
-      printf ("DEBUG: Not in graphics mode\n");
+      debug(dlTrace, "Not in graphics mode");
       return;
     }
 
-  printf ("DEBUG: Close line\n");
+  debug(dlTrace, "Close line");
   plot_closeline (m_plot);
   m_hasLine = true;
 }
@@ -473,11 +469,10 @@ pdfRender::command_l ()
 
   if (m_mode != rmGraphics)
     {
-      printf ("DEBUG: Not in graphics mode\n");
+      debug(dlTrace, "Not in graphics mode");
       return;
     }
 
-  printf ("DEBUG: Add line segment %d, %d\n", x, y);
   plot_addlinesegment (m_plot, x, y);
   m_hasLine = true;
 }
@@ -496,13 +491,12 @@ pdfRender::command_m ()
 
   if (m_mode != rmGraphics)
     {
-      printf ("DEBUG: Not in graphics mode\n");
+      debug(dlTrace, "Not in graphics mode");
       return;
     }
 
   if (m_hasLine)
     plot_endline (m_plot);
-  printf ("DEBUG: Move to %d, %d\n", x, y);
   plot_setlinestart (m_plot, x, y);
   m_hasLine = true;
 }
@@ -510,13 +504,13 @@ pdfRender::command_m ()
 void
 pdfRender::command_q ()
 {
-  printf ("DEBUG: Save graphics state [not implemented]\n");
+  debug(dlTrace, "Save graphics state [not implemented]");
 }
 
 void
 pdfRender::command_Q ()
 {
-  printf ("DEBUG: Restore graphics state [not implemented]\n");
+  debug(dlTrace, "Restore graphics state [not implemented]");
 }
 
 // A rectangle
@@ -537,11 +531,10 @@ pdfRender::command_re ()
 
   if (m_mode != rmGraphics)
     {
-      printf ("DEBUG: Not in graphics mode\n");
+      debug(dlTrace, "Not in graphics mode");
       return;
     }
 
-  printf ("DEBUG: Rectangle %d, %d & %d, %d\n", left, top, right, bottom);
   plot_rectangle (m_plot, left, top, right, bottom);
   m_hasLine = true;
 }
@@ -562,11 +555,10 @@ pdfRender::command_rg ()
 
   if (m_mode != rmGraphics)
     {
-      printf ("DEBUG: Not in graphics mode\n");
+      debug(dlTrace, "Not in graphics mode");
       return;
     }
 
-  printf ("DEBUG: RGB fill color %d %d %d\n", r, g, b);
   plot_setfillcolor (m_plot, (unsigned int) (255 * r),
 		     (unsigned int) (255 * g), (unsigned int) (255 * b));
   m_hasLine = true;
@@ -588,11 +580,10 @@ pdfRender::command_RG ()
 
   if (m_mode != rmGraphics)
     {
-      printf ("DEBUG: Not in graphics mode\n");
+      debug(dlTrace, "Not in graphics mode");
       return;
     }
 
-  printf ("DEBUG: RGB line color %d %d %d\n", r, g, b);
   plot_setlinecolor (m_plot, (unsigned int) (255 * r),
 		     (unsigned int) (255 * g), (unsigned int) (255 * b));
   m_hasLine = true;
@@ -609,7 +600,7 @@ pdfRender::command_S ()
 void
 pdfRender::command_Td ()
 {
-  printf ("DEBUG: Td [not implemented]\n");
+  debug(dlTrace, "Td [not implemented]");
 }
 
 void
@@ -623,9 +614,6 @@ pdfRender::command_Tf ()
   fontName = m_arguements.top ();
   m_arguements.pop ();
 
-  printf ("DEBUG: Tf font = %s size = %s\n", fontName.c_str (),
-	  fontSize.c_str ());
-
   // Find the named font
   dictionary resources;
   dictionary fonts;
@@ -635,16 +623,16 @@ pdfRender::command_Tf ()
 
   if (!m_page.getDict ().getValue ("Resources", resources))
     {
-      printf ("DEBUG: Font not found (no resources)\n");
+      debug(dlTrace, "Font not found (no resources)");
     }
   else if (!resources.getValue ("Font", fonts))
     {
-      printf ("DEBUG: Font not found (no font entry in resources)\n");
+      debug(dlTrace, "Font not found (no font entry in resources)");
     }
   else if (!fonts.
 	   getValue (fontName.substr (1, fontName.length ()), m_pdf, font))
     {
-      printf ("DEBUG: Font not found (named font not listed in resources)\n");
+      debug(dlTrace, "Font not found (named font not listed in resources)");
     }
   else if (font.getDict ().getValue ("BaseFont", fontResource))
     {
@@ -654,14 +642,14 @@ pdfRender::command_Tf ()
   // Now map this name to a TrueType file somewhere on the system
   if (fontFound)
     {
-      printf ("DEBUG: Lookup font %s\n", fontResource.c_str ());
+      debug(dlTrace, string("Lookup font ") + fontResource);
       configuration *config;
       config = (configuration *) & configuration::getInstance ();
       config->getValue (string ("basefont-") + fontResource + "-map",
 			"px10.ttf", fontFile);
     }
 
-  printf ("DEBUG: Using font filename %s\n", fontFile.c_str ());
+  debug(dlTrace, string("Using font filename ") + fontFile);
   plot_setfont (m_plot, (char *) fontFile.c_str (), atoi (fontSize.c_str ()));
 }
 
@@ -669,7 +657,7 @@ pdfRender::command_Tf ()
 void
 pdfRender::command_Tj ()
 {
-  printf ("DEBUG: Tj %s\n", m_arguements.top ().c_str ());
+  debug(dlTrace, string("Tj ") + m_arguements.top ());
   plot_settextlocation (m_plot, (unsigned int) m_textMatrix.getHorizontal (),
 			(unsigned int) (m_height -
 					m_textMatrix.getVertical ()));
@@ -683,7 +671,7 @@ pdfRender::command_Tm ()
 {
   float vals[6];
 
-  printf ("DEBUG: Tm\n");
+  debug(dlTrace, "Tm");
   for (int i = 0; i < 6; i++)
     {
       vals[5 - i] = atof (m_arguements.top ().c_str ());
@@ -696,7 +684,7 @@ pdfRender::command_Tm ()
 void
 pdfRender::command_Tr ()
 {
-  printf ("DEBUG: Tr [not implemented]\n");
+  debug(dlTrace, "Tr [not implemented]");
 }
 
 void
@@ -716,11 +704,10 @@ pdfRender::command_v ()
 
   if (m_mode != rmGraphics)
     {
-      printf ("DEBUG: Not in graphics mode\n");
+      debug(dlTrace, "Not in graphics mode");
       return;
     }
 
-  printf ("DEBUG: Add cubic curve segment %d, %d & %d, %d\n", x1, y1, x2, y2);
   plot_addquadraticcurvesegmentone (m_plot, x1, y1, x2, y2);
   m_hasLine = true;
 }
@@ -736,7 +723,7 @@ pdfRender::command_w ()
 
   if (m_mode != rmGraphics)
     {
-      printf ("DEBUG: Not in graphics mode\n");
+      debug(dlTrace, "Not in graphics mode");
       return;
     }
 
@@ -760,11 +747,10 @@ pdfRender::command_y ()
 
   if (m_mode != rmGraphics)
     {
-      printf ("DEBUG: Not in graphics mode\n");
+      debug(dlTrace, "Not in graphics mode");
       return;
     }
 
-  printf ("DEBUG: Add cubic curve segment %d, %d & %d, %d\n", x1, y1, x2, y2);
   plot_addquadraticcurvesegmenttwo (m_plot, x1, y1, x2, y2);
   m_hasLine = true;
 }
@@ -774,7 +760,7 @@ pdfRender::getPNGfile ()
 {
   if (m_invalid)
     {
-      printf ("DEBUG: Page render is invalid\n");
+      debug(dlTrace, "Page render is invalid");
       return "";
     }
 
@@ -789,17 +775,18 @@ pdfRender::getPNGfile ()
   raster = plot_getraster (m_plot);
 
   // Build a random filename
+  debug(dlTrace, "Generating a temporary filename");
   char cfname[100];
-  sprintf (cfname, "/tmp/pandaedit.p%03d.XXXXXX", m_pageno);
+  snprintf (cfname, 100, "/tmp/pandaedit.p%03d.XXXXXX", m_pageno);
   int fd;
   fd = mkstemp (cfname);
   close (fd);
   string tempName (cfname);
-  free (cfname);
+  debug(dlTrace, "Finished generating temporary filename");
 
   if ((image = fopen (tempName.c_str (), "wb")) == NULL)
     {
-      fprintf (stderr, "Could not open the output image\n");
+      debug(dlError, "Could not open the output image");
       return "";
     }
 
@@ -808,7 +795,7 @@ pdfRender::getPNGfile ()
        png_create_write_struct (PNG_LIBPNG_VER_STRING, NULL, NULL,
 				NULL)) == NULL)
     {
-      fprintf (stderr,
+      debug(dlError,
 	       "Could not create write structure for PNG (out of memory?)");
       return "";
     }
@@ -816,14 +803,14 @@ pdfRender::getPNGfile ()
   // Get ready to specify important stuff about the image
   if ((info = png_create_info_struct (png)) == NULL)
     {
-      fprintf (stderr,
+      debug(dlError,
 	       "Could not create PNG info structure for writing (out of memory?)");
       return "";
     }
 
   if (setjmp (png_jmpbuf (png)))
     {
-      fprintf (stderr, "Could not set the PNG jump value for writing");
+      debug(dlError, "Could not set the PNG jump value for writing");
       return "";
     }
 
@@ -842,7 +829,7 @@ pdfRender::getPNGfile ()
   if ((row_pointers =
        (png_byte **) malloc (m_height * sizeof (png_bytep))) == NULL)
     {
-      fprintf (stderr, "Could not allocate memory\n");
+      debug(dlError, "Could not allocate memory");
       exit (42);
     }
 

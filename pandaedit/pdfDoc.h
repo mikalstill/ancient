@@ -57,6 +57,7 @@ DECLARE_DYNAMIC_CLASS (pdfDoc) public:
   bool isReady();
   pdf *getPDF();
   unsigned int getPageCount();
+  string getFilename();
 
 private:
   wxProgressDialog * m_progress;
@@ -64,6 +65,7 @@ private:
   pdf *m_pdf;
   objectlist m_pages;
   bool m_ready;
+  string m_filename;
 };
 #endif
 

@@ -2,8 +2,7 @@
 #include "utility.h"
 #include "decompressor.h"
 #include "lzw.h"
-
-#include <stdio.h>
+#include "verbosity.h"
 
 bool
 operator== (vector < unsigned char >&a, vector < unsigned char >&b)
@@ -43,16 +42,6 @@ lzwTable::exists (vector < unsigned char >seq)
 bool
 lzwTable::pushValue (vector < unsigned char >seq)
 {
-  printf ("DEBUG: Add to LZW codebook slot %d: '", m_table.size () + 258);
-  for (unsigned int i = 0; i < seq.size (); i++)
-    {
-      if (isprint (seq[i]))
-	printf ("%c", seq[i]);
-      else
-	printf (" \\%d ", seq[i]);
-    }
-  printf ("'\n");
-
   m_table.push_back (seq);
 
   // todo_mikal: this is probably wrong
@@ -91,7 +80,8 @@ lzw::decompress (char *input, unsigned long length, unsigned long &newlength)
   vector < unsigned char >oldCode, newCode, output;
   bool setup (false);
 
-  printf ("DEBUG: LZW decompression of %d byte stream\n", length);
+  debug(dlTrace, string("LZW decompression of ") + toString((long) length) +
+	string(" byte stream"));
 
   // The codebook size varies between 9 and 12, but starts at 9
   value = 0;
@@ -109,23 +99,21 @@ lzw::decompress (char *input, unsigned long length, unsigned long &newlength)
 	  if (valinset == codesize)
 	    {
 	      // Print out some debugging information
-	      printf ("DEBUG: LZW decompression: %4d: ", value);
+	      debug(dlTrace, string("LZW decompression: ") + toString(value));
 	      if (value == 256)
 		{
-		  printf ("(clear table)");
+		  debug(dlTrace, "Clear table");
 		  oldCode.clear ();
 		  m_table.clear ();
 		}
 	      else if (value == 257)
 		{
-		  printf ("(end of data)\n");
+		  debug(dlTrace, "End of data");
 		  goto done;
 		}
 	      else if (value < 256)
 		{
-		  printf ("(value) ");
-		  if (isprint (value))
-		    printf ("'%c'", value);
+		  debug(dlTrace, "Value");
 
 		  // By definitition the first entry in the stream will be a value
 		  if (!setup)
@@ -142,25 +130,16 @@ lzw::decompress (char *input, unsigned long length, unsigned long &newlength)
 		}
 	      else
 		{
-		  printf ("(code)  '");
+		  debug(dlTrace, "Code");
 		  newCode = m_table.getValue (value);
-		  for (unsigned int i = 0; i < newCode.size (); i++)
-		    {
-		      if (isprint (newCode[i]))
-			printf ("%c", newCode[i]);
-		      else
-			printf (" \\%d ", newCode[i]);
-		    }
-		  printf ("' [%d]", newCode.size ());
 		}
-	      printf ("\n");
 
 	      // Deal with missed codes
 	      if ((newCode.size () == 0) && (oldCode.size () > 0)
 		  && (m_table.size () != 0))
 		{
-		  printf ("DEBUG: LZW miss detection (%d)\n",
-			  m_table.size ());
+		  debug(dlTrace, string("LZW miss detection (") + 
+			toString(m_table.size ()) + string(")"));
 		  newCode = oldCode;
 		  newCode.push_back (oldCode[0]);
 		}

@@ -122,13 +122,23 @@ pdfView::OnDraw (wxDC * dc)
   dc->SetPen (*wxBLACK_PEN);
 
   pdfDoc *theDoc = (pdfDoc *) GetDocument ();
-  if(!theDoc->isReady()){
-    printf("DEBUG: Draw ignored because PDF document not ready\n");
+  if(!theDoc){
+    debug(dlTrace, "No document");
     return;
   }
 
+  if(!theDoc->isReady()){
+    debug(dlTrace, "Draw ignored because PDF document not ready");
+    return;
+  }
+
+  // Set the title of the tab if we haven't already
+  if(frame->GetTitle() == ""){
+    frame->SetTitle(theDoc->getFilename().c_str());
+  }
+  
   string& filename = m_renders[m_page];
-  printf("DEBUG: Page render cache names \"%s\"\n", filename.c_str());
+  debug(dlTrace, string("Page render cache names \"") + filename + string("\""));
   if(filename == ""){
     try{
       object foo(-1, -1);
@@ -138,26 +148,26 @@ pdfView::OnDraw (wxDC * dc)
       // a good idea for now...
       object& catalog = foo;
       if(!thePDF->findObject(dictitem::diTypeName, "Type", "Catalog", catalog)){
-	fprintf(stderr, "Bad PDF: No catalog\n");
+	debug(dlError, "Bad PDF: No catalog");
 	exit(1);
       }
 
       // Now find the pages object as refered to by the catalog
       if(!catalog.hasDictItem(dictitem::diTypeObjectReference, "Pages")){
-	fprintf(stderr, "Bad PDF: No pages object refered to in catalog\n");
+	debug(dlError, "Bad PDF: No pages object refered to in catalog");
 	exit(1);
       }
 
       object& pages = foo;
       if(!catalog.getDict().getValue("Pages", *thePDF, pages)){
-	fprintf(stderr, "Bad PDF: Could not get pages object, but the catalog references it!\n");
+	debug(dlError, "Bad PDF: Could not get pages object, but the catalog references it!");
 	exit(1); 
       } 
 
       // Now find all the page objects referenced in the pages object
       string kids;
       if(!pages.getDict().getValue("Kids", kids)){
-	fprintf(stderr, "Bad PDF: No pages found in PDF\n");
+	debug(dlError, "Bad PDF: No pages found in PDF");
 	exit(1);
       }
       
@@ -165,17 +175,15 @@ pdfView::OnDraw (wxDC * dc)
       objectlist pagelist(kids, thePDF);
       pdfRender renPage(*thePDF, pagelist[m_page], m_page);
       if(!renPage.render()){
-	fprintf(stderr, "Page render failed\n");
+	debug(dlError, "Page render failed");
 	exit(1);
       }
-      printf("DEBUG: PNG filename is %s\n",
-	     renPage.getPNGfile().c_str());
-
-      // Now push that into the cache
+      
+      // Now push that into the cache -- this should only be called once
       filename = renPage.getPNGfile();
     }
     catch(...){
-      fprintf(stderr, "Exception caught\n");
+      debug(dlError, "Exception caught");
       exit(40);
     }
   }
@@ -183,7 +191,7 @@ pdfView::OnDraw (wxDC * dc)
   // And now we can assume that there is a PNG somewhere out there we can paint...
   // todo_mikal: shrinking options
   // todo_mikal: center if smaller than window
-  printf("DEBUG: Painting PNG \"%s\"\n", filename.c_str());
+  debug(dlTrace, string("Painting PNG \"") + filename + string("\""));
   try
     {
       wxImage theImage (filename.c_str(), wxBITMAP_TYPE_PNG);
@@ -192,7 +200,7 @@ pdfView::OnDraw (wxDC * dc)
     }
   catch (...)
     {
-      printf("DEBUG: Exception caught in the graph draw routine");
+      debug(dlError, "Exception caught in the graph draw routine");
     }
 }
 
@@ -240,7 +248,7 @@ pdfView::OnNextPage(wxCommandEvent&)
   // todo_mikal: end check
   pdfDoc *theDoc = (pdfDoc *) GetDocument ();
   if(!theDoc->isReady()){
-    printf("DEBUG: Page change ignored because PDF document not ready\n");
+    debug(dlTrace, "Page change ignored because PDF document not ready");
     return;
   }
 
@@ -249,7 +257,7 @@ pdfView::OnNextPage(wxCommandEvent&)
     canvas->Refresh();
   }
   else{
-    printf("DEBUG: No more pages\n");
+    debug(dlTrace, "No more pages");
   }
 }
 
@@ -258,7 +266,7 @@ pdfView::OnPrevPage(wxCommandEvent&)
 {
   pdfDoc *theDoc = (pdfDoc *) GetDocument ();
   if(!theDoc->isReady()){
-    printf("DEBUG: Page change ignored because PDF document not ready\n");
+    debug(dlTrace, "Page change ignored because PDF document not ready");
     return;
   }
 
@@ -267,6 +275,6 @@ pdfView::OnPrevPage(wxCommandEvent&)
     canvas->Refresh();
   }
   else{
-    printf("DEBUG: Already at the start of the document\n");
+    debug(dlTrace, "Already at the start of the document");
   }
 }

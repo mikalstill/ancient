@@ -1,8 +1,7 @@
 // Implementation of the PDF object
-
-#include <stdio.h>
-
 #include "objectmodel.h"
+#include "verbosity.h"
+#include "utility.h"
 
 pdf::pdf ():
   m_filename("")
@@ -23,27 +22,28 @@ pdf::setSpecVer (float version)
 void
 pdf::addObject (object theObject)
 {
-  printf ("DEBUG: Adding object %d %d\n", theObject.getNumber (),
-	  theObject.getGeneration ());
+  debug(dlTrace, string("Adding object ") + toString(theObject.getNumber()) +
+	string(" ") + toString(theObject.getGeneration ()));
   m_objects.push_back (theObject);
 }
 
 bool
 pdf::findObject (int number, int generation, object & obj)
 {
-  printf ("DEBUG: Finding object %d %d\n", number, generation);
+  debug(dlTrace, string("Finding object ") + toString(number) +
+	string(" ") + toString(generation));
   for (unsigned int i = 0; i < m_objects.size (); i++)
     {
       if ((m_objects[i].getNumber () == number) &&
 	  (m_objects[i].getGeneration () == generation))
 	{
 	  obj = m_objects[i];
-	  printf ("DEBUG: Found\n");
+	  debug(dlTrace, "Found");
 	  return true;
 	}
     }
 
-  printf ("DEBUG: Not found\n");
+  debug(dlTrace, "Not found");
   return false;
 }
 
@@ -51,19 +51,18 @@ bool
 pdf::findObject (dictitem::diType type, string dname, string dvalue,
 		 object & obj)
 {
-  printf ("DEBUG: Finding object %s\n", dname.c_str ());
+  debug(dlTrace, string("Finding object ") + dname);
   for (unsigned int i = 0; i < m_objects.size (); i++)
     {
-      printf ("DEBUG: Checking object %d\n", i);
       if (m_objects[i].hasDictItem (type, dname, dvalue))
 	{
 	    obj = m_objects[i];
-	    printf ("DEBUG: Object found\n");
+	    debug(dlTrace, "Found");
 	    return true;
 	}
     }
 
-  printf ("DEBUG: Object not found\n");
+  debug(dlTrace, "Not found");
   return false;
 }
 
@@ -84,30 +83,31 @@ pdf::getPages ()
     object & catalog = foo;
     if (!findObject (dictitem::diTypeName, "Type", "Catalog", catalog))
       {
- 	fprintf (stderr, "Bad PDF: No catalog\n");
- 	exit (1);
+ 	debug(dlError, "Bad PDF: No catalog");
+	return objectlist();
       }
     
     // Now find the pages object as refered to by the catalog
+    debug(dlTrace, string("Catalog object is ") + toString(catalog.getNumber()) + string(" ") +
+	  toString(catalog.getGeneration()));
     if (!catalog.hasDictItem (dictitem::diTypeObjectReference, "Pages"))
       {
-	fprintf (stderr, "Bad PDF: No pages object refered to in catalog\n");
-	exit (1);
+	debug(dlError, "Bad PDF: No pages object refered to in catalog");
+	return objectlist();
       }
     object & pages = foo;
     if (!catalog.getDict ().getValue ("Pages", *this, pages))
       {
-	fprintf (stderr,
-		 "Bad PDF: Could not get pages object, but the catalog references it!\n");
-	exit (1);
+	debug(dlTrace, "Bad PDF: Could not get pages object, but the catalog references it!");
+	return objectlist();
       }
     
     // Now find all the page objects referenced in the pages object
     string kids;
     if (!pages.getDict ().getValue ("Kids", kids))
       {
-	fprintf (stderr, "Bad PDF: No pages found in PDF\n");
-	exit (1);
+	debug(dlError, "Bad PDF: No pages found in PDF");
+	return objectlist();
       }
     
     // Find the pages, and then display just the first page
@@ -115,7 +115,7 @@ pdf::getPages ()
   }
   catch (...)
     {
-      printf("DEBUG: Exception caught in pdf::getPages()\n");
+      debug(dlError, "Exception caught in pdf::getPages()");
     }
 
   return objectlist ();

@@ -1,5 +1,6 @@
 #include "objectmodel.h"
-#include <stdio.h>
+#include "verbosity.h"
+#include "utility.h"
 
 raster::raster (object & obj)
 {
@@ -10,12 +11,12 @@ raster::raster (object & obj)
 
   if (!obj.getDict ().getValue ("BitsPerComponent", m_bpc))
     {
-      printf ("DEBUG: Image doesn't specify a sample size\n");
+      debug(dlTrace, "Image doesn't specify a sample size");
     }
 
   if (!obj.getDict ().getValue ("ColorSpace", m_cs))
     {
-      printf ("DEBUG: Image doesn't specify a color space\n");
+      debug(dlTrace, "Image doesn't specify a color space");
     }
 
   dictionary decodeParms;
@@ -23,23 +24,22 @@ raster::raster (object & obj)
     {
       if (!decodeParms.getValue ("K", m_k))
 	{
-	  printf
-	    ("DEBUG: Image doesn't specify a K value for the decode hints\n");
+	  debug(dlTrace, "Image doesn't specify a K value for the decode hints");
 	}
     }
   else
     {
-      printf ("DEBUG: Image does not define any decoding hints\n");
+      debug(dlTrace, "Image does not define any decoding hints");
     }
 
   if (!obj.getDict ().getValue ("Width", m_width))
     {
-      printf ("DEBUG: Image does not specify a width\n");
+      debug(dlTrace, "Image does not specify a width");
     }
 
   if (!obj.getDict ().getValue ("Height", m_height))
     {
-      printf ("DEBUG: Image does not specify a height\n");
+      debug(dlTrace, "Image does not specify a height");
     }
 }
 

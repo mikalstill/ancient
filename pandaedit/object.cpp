@@ -139,6 +139,8 @@ object::hasDictItem (dictitem::diType type, string dname, string dvalue)
       if (m_dictionary.findItem (dname, item))
 	return item.getStringValue () == dvalue;
     }
+
+  return false;
 }
 
 bool

@@ -3,7 +3,7 @@
 #include "objectmodel.h"
 #include "stringArray.h"
 #include "utility.h"
-#include <stdio.h>
+#include "verbosity.h"
 
 objectlist::objectlist ():
   m_pdf(NULL)
@@ -17,8 +17,8 @@ objectlist::objectlist (string input, pdf* thePDF):
   unsigned int inset = 0;
   objectreference ref;
 
-  printf ("DEBUG: Started constructing object list from %s\n",
-	  input.substr (1, input.length () - 2).c_str ());
+  debug(dlTrace, string("Started constructing object list from ") +
+	  input.substr (1, input.length () - 2));
   while (1)
     {
       if (!isPositiveInteger (tokens[inset]))
@@ -32,12 +32,12 @@ objectlist::objectlist (string input, pdf* thePDF):
       ref.generation = atoi (tokens[inset++].c_str ());
       inset++;
 
-      printf ("DEBUG: List referenced object %d %d\n", ref.number,
-	      ref.generation);
+      debug(dlTrace, string("List referenced object ") + toString(ref.number) +
+	    string(" ") + toString(ref.generation));
       m_objects.push_back (ref);
     }
 
-  printf ("DEBUG: Built a %d item list\n", m_objects.size ());
+  debug(dlTrace, string("Built a ") + toString(m_objects.size()) + string(" item list"));
 }
 
 object
