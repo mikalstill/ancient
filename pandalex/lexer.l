@@ -1,12 +1,85 @@
 %{
 #include "lexer.tab.h"
 #include "lexinterface.h"
+#include <unistd.h>
+#include <stdlib.h>
 
 extern int binaryMode;
 
 void debuglex(char *, int, char *, int);
 char *returnStr(char *, int);
 
+void *pandalex_xmalloc(size_t);
+void *pandalex_xrealloc(void *, size_t);
+char *pandalex_xsnprintf(char *, ...);
+void pandalex_error(char *);
+
+void *
+pandalex_xmalloc (size_t size)
+{
+  void *buffer;
+
+  if ((buffer = malloc (size)) == NULL)
+    {
+      pandalex_error ("pandalex_xmalloc failed to allocate memory");
+    }
+
+  return buffer;
+}
+void *
+pandalex_xrealloc (void *memory, size_t size)
+{
+  void *buffer;
+
+  if ((buffer = realloc (memory, size)) == NULL)
+    {
+      pandalex_error ("pandalex_xrealloc failed to allocate memory");
+    }
+
+  return buffer;
+}
+
+char *
+pandalex_xsnprintf (char *format, ...)
+{
+  char *output = NULL;
+  int size, result;
+  va_list ap;
+
+  /* We start with the size of the format string as a guess */
+  size = strlen (format);
+  va_start (ap, format);
+
+  while (1)
+    {
+      output = pandalex_xrealloc (output, size);
+      result = vsnprintf (output, size, format, ap);
+
+      if (result == -1)
+        {
+          /* Up to glibc 2.0.6 and Microsoft's implementation*/
+          size += 100;
+        }
+      else
+        {
+          /* Check if we are done */
+      if (result < size)
+            break;
+
+          /* Glibc from now on */
+          size = result + 1;
+        }
+  }
+
+  va_end (ap);
+  return output;
+}
+
+void
+pandalex_error(char *msg){
+fprintf(stderr, "%s\n", msg);
+exit(42);
+}
 %}
 
 %%
