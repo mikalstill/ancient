@@ -6,7 +6,8 @@ TITLE: getdir
 
 <pre>
 unsigned char d_type
-    This is the type of the file, possibly unknown. The following constants are defined for its value:
+    This is the type of the file, possibly unknown. The following constants are
+defined for its value:
 
     DT_UNKNOWN
         The type is unknown. On some systems this is the only value returned.
@@ -29,5 +30,8 @@ unsigned char d_type
     DT_BLK
         A block device. 
 
-    This member is a BSD extension. The symbol _DIRENT_HAVE_D_TYPE is defined if this member is available. On systems where it is used, it corresponds to the file type bits in the st_mode member of struct statbuf. If the value cannot be determine the member value is DT_UNKNOWN.
+    This member is a BSD extension. The symbol _DIRENT_HAVE_D_TYPE is defined i
+this member is available. On systems where it is used, it corresponds to the 
+file type bits in the st_mode member of struct statbuf. If the value cannot be 
+determine the member value is DT_UNKNOWN.
 </pre></ul>

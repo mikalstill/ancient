@@ -1,0 +1,24 @@
+Command terminated by signal 2
+798.08user 50.23system 14:31.24elapsed 97%CPU (0avgtext+0avgdata 0maxresident)k
+0inputs+0outputs (326major+13312930minor)pagefaults 0swaps
+
+Command exited with non-zero status 2
+1145.69user 70.27system 20:33.32elapsed 98%CPU (0avgtext+0avgdata 0maxresident)k
+0inputs+0outputs (53major+18445814minor)pagefaults 0swaps
+
+Command exited with non-zero status 2
+1146.23user 69.63system 20:39.99elapsed 98%CPU (0avgtext+0avgdata 0maxresident)k
+0inputs+0outputs (245major+18445622minor)pagefaults 0swaps
+
+Command exited with non-zero status 2
+1145.61user 69.97system 20:34.23elapsed 98%CPU (0avgtext+0avgdata 0maxresident)k
+0inputs+0outputs (108major+18445759minor)pagefaults 0swaps
+
+Command exited with non-zero status 2
+1145.90user 70.19system 20:35.62elapsed 98%CPU (0avgtext+0avgdata 0maxresident)k
+0inputs+0outputs (128major+18446822minor)pagefaults 0swaps
+
+Command exited with non-zero status 2
+1146.22user 69.99system 20:39.80elapsed 98%CPU (0avgtext+0avgdata 0maxresident)k
+0inputs+0outputs (187major+18445774minor)pagefaults 0swaps
+

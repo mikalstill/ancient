@@ -3,12 +3,17 @@ TITLE: About this talk
 <ul>
 <li>This talk is meant to be a tutorial
 
-<li>It's still a bit raw because I've been quite busy recently
-<li>By the time OLS comes up, there will be slides and a paper online
-<li>I'll let the list know when they're ready
-<li>I would appreciate feedback on the tutorial in private mail to me
+<li>Downloads:
 
-%%<li>You can therefore find the code for all the examples at: ...
-%%<li>You can find the slides and a full paper about the tutorial at: ...
-%%<li>I encourage you to download them during the tutorial and have a play
+<ul>
+<li>Source for FUSE
+<li>Source for all the examples
+<li>These slides
+</ul>
+
+<li>... http://www.stillhq.com/extracted/tutorial-fuse/
+
+<BR><BR>
+
+<li>I encourage you to download them during the tutorial and have a play
 </ul>

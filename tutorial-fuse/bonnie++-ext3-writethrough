@@ -1,0 +1,50 @@
+Version  1.03       ------Sequential Output------ --Sequential Input- --Random-
+                    -Per Chr- --Block-- -Rewrite- -Per Chr- --Block-- --Seeks--
+Machine        Size K/sec %CP K/sec %CP K/sec %CP K/sec %CP K/sec %CP  /sec %CP
+challenger       2G 14037  43 22377   4  9857   2 20704  57 22355   3  52.9   0
+                    ------Sequential Create------ --------Random Create--------
+                    -Create-- --Read--- -Delete-- -Create-- --Read--- -Delete--
+              files  /sec %CP  /sec %CP  /sec %CP  /sec %CP  /sec %CP  /sec %CP
+                 16  2489   2 +++++ +++ +++++ +++  2542   1 +++++ +++ 10218   7
+challenger,2G,14037,43,22377,4,9857,2,20704,57,22355,3,52.9,0,16,2489,2,+++++,+++,+++++,+++,2542,1,+++++,+++,10218,7
+
+Version  1.03       ------Sequential Output------ --Sequential Input- --Random-
+                    -Per Chr- --Block-- -Rewrite- -Per Chr- --Block-- --Seeks--
+Machine        Size K/sec %CP K/sec %CP K/sec %CP K/sec %CP K/sec %CP  /sec %CP
+challenger       2G 18517  56 22284   4  9655   2 21293  59 23364   3  50.9   0
+                    ------Sequential Create------ --------Random Create--------
+                    -Create-- --Read--- -Delete-- -Create-- --Read--- -Delete--
+              files  /sec %CP  /sec %CP  /sec %CP  /sec %CP  /sec %CP  /sec %CP
+                 16  2493   2 +++++ +++ +++++ +++  2516   1 +++++ +++ 10101   6
+challenger,2G,18517,56,22284,4,9655,2,21293,59,23364,3,50.9,0,16,2493,2,+++++,+++,+++++,+++,2516,1,+++++,+++,10101,6
+
+Version  1.03       ------Sequential Output------ --Sequential Input- --Random-
+                    -Per Chr- --Block-- -Rewrite- -Per Chr- --Block-- --Seeks--
+Machine        Size K/sec %CP K/sec %CP K/sec %CP K/sec %CP K/sec %CP  /sec %CP
+challenger       2G 18362  56 22925   4  9658   2 21327  59 23303   3  51.8   0
+                    ------Sequential Create------ --------Random Create--------
+                    -Create-- --Read--- -Delete-- -Create-- --Read--- -Delete--
+              files  /sec %CP  /sec %CP  /sec %CP  /sec %CP  /sec %CP  /sec %CP
+                 16  2452   1 +++++ +++ +++++ +++  2543   1 +++++ +++ 10402   6
+challenger,2G,18362,56,22925,4,9658,2,21327,59,23303,3,51.8,0,16,2452,1,+++++,+++,+++++,+++,2543,1,+++++,+++,10402,6
+
+Version  1.03       ------Sequential Output------ --Sequential Input- --Random-
+                    -Per Chr- --Block-- -Rewrite- -Per Chr- --Block-- --Seeks--
+Machine        Size K/sec %CP K/sec %CP K/sec %CP K/sec %CP K/sec %CP  /sec %CP
+challenger       2G 18279  56 21340   4 10039   2 20759  58 23179   3  52.3   0
+                    ------Sequential Create------ --------Random Create--------
+                    -Create-- --Read--- -Delete-- -Create-- --Read--- -Delete--
+              files  /sec %CP  /sec %CP  /sec %CP  /sec %CP  /sec %CP  /sec %CP
+                 16  2460   2 +++++ +++ +++++ +++  2534   1 +++++ +++  9968   6
+challenger,2G,18279,56,21340,4,10039,2,20759,58,23179,3,52.3,0,16,2460,2,+++++,+++,+++++,+++,2534,1,+++++,+++,9968,6
+
+Version  1.03       ------Sequential Output------ --Sequential Input- --Random-
+                    -Per Chr- --Block-- -Rewrite- -Per Chr- --Block-- --Seeks--
+Machine        Size K/sec %CP K/sec %CP K/sec %CP K/sec %CP K/sec %CP  /sec %CP
+challenger       2G 18547  56 21484   4  9997   2 21051  58 22783   3  52.7   0
+                    ------Sequential Create------ --------Random Create--------
+                    -Create-- --Read--- -Delete-- -Create-- --Read--- -Delete--
+              files  /sec %CP  /sec %CP  /sec %CP  /sec %CP  /sec %CP  /sec %CP
+                 16  2462   1 +++++ +++ +++++ +++  2538   1 +++++ +++ 10128   6
+challenger,2G,18547,56,21484,4,9997,2,21051,58,22783,3,52.7,0,16,2462,1,+++++,+++,+++++,+++,2538,1,+++++,+++,10128,6
+

@@ -1,11 +1,30 @@
 TITLE: Performance: dbench
 
 <ul>
-<li>TODO samba
+<li>A benchmark developed by Andrew Tridgell to simulate the IO load from the netbench SMB benchmark
 
 <BR><BR>
 
-<pre>
-dbench 20
-</pre>
+<b>Straight ext3:</b><br>
+<ul><pre>
+Throughput 187.801 MB/sec 20 procs
+Throughput 183.047 MB/sec 20 procs
+Throughput 188.623 MB/sec 20 procs
+Throughput 188.305 MB/sec 20 procs
+</pre></ul>
+
+<BR><BR>
+
+<b>Userspace write through to ext3:</b><br>
+<ul><pre>
+Throughput 187.436 MB/sec 20 procs
+Throughput 179.678 MB/sec 20 procs
+Throughput 183.651 MB/sec 20 procs
+Throughput 181.739 MB/sec 20 procs
+</pre></ul>
+
+<BR><BR>
+
+<li>3 percent throughput loss
+
 </ul>

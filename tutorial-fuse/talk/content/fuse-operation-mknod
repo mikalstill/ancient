@@ -9,6 +9,8 @@ static int mcachefs_mknod(const char *path, mode_t mode, dev_t rdev)
 </pre>
 
 <li>mcachefs just passes the arguements straight through to the mknod system call
+<li>Returns -errno if mknod returned -1
+
 </ul>
 
 %% How are accesses to the device special file done in the kernel? Do they get

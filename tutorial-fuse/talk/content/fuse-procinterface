@@ -1,6 +1,7 @@
 TITLE: So how does FUSE work?
 
 <ul>
+
 <li>FUSE loads a kernel module which hooks into the VFS layer
 <li>The kernel module writes data to a file named /proc/fs/fuse/dev
 <li>The userspace library reads the data from there

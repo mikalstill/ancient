@@ -17,6 +17,7 @@ content/fuse-commandline
 content/fuse-addfs-2
 content/fuse-addfs-3
 content/fuse-procinterface
+content/fuse-kernelmodule-picture
 content/fuse-kernelmodule
 content/fuse-userspacelibrary
 content/fuse-mcachefs
@@ -56,6 +57,8 @@ content/fuse-operation-write
 content/fuse-operation-statfs
 content/fuse-operation-release
 content/fuse-operation-fsync
+content/fuse-operationdefaults
+content/fuse-operationdefaults-2
 content/fuse-threadingmodel
 content/fuse-performancemetrics
 content/fuse-kernelcompiles
