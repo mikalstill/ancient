@@ -78,7 +78,7 @@
   The <command>cepMatrix</command> Class Template also supports other operations built to facilitate implementation inside the
   <command>GDMS</command> application. This includes an operation to query the matrix and determine if it is a strictly diagonal
   and operations to determine the maximum and minimum values of a given column in a matrix. There is also an operation
-  to resize a matrix by adding a given number of rows to it. In addition, there are several get and set accessor methods provided 
+  to resize a matrix by adding a given number of rows to it. In addition, there are several get and set accesor methods provided 
   for accessing individual elements of a given matrix.
   </para>
  

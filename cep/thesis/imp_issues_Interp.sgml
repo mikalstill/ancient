@@ -53,7 +53,7 @@
   <sect3><title>Implementation</title>
     <para>
       The interpolation methods for this program were implemented within a class
-      called <command>cepInterp</command> and share a common accessor method, <command>doInterp</command>. The required
+      called <command>cepInterp</command> and share a common accesor method, <command>doInterp</command>. The required
       information require to be passed to <command>doInterp</command> is the original dataset, the sample rate and
       the type of interpolation. <command>DoInterp</command> then converts the given data set to Julian days and generates
       a new time scale before calling the individual interpolation methods.
@@ -199,7 +199,7 @@ For each point in output(i)
 end for
 </programlisting>
   <para>
-    <command>Optimization note</command>: To increase the speed and
+    <command>Optimisation note</command>: To increase the speed and
     efficiency of this algorithm the <command>n-1</command> by <command>n-1</command> tridiagonal matrix <command>t</command>
     has been represented by a <command>n-1</command> by 3 dimensional matrix in the program. In addition,
     some commands have been grouped differently for similar reasons.
@@ -277,7 +277,7 @@ end for
 
   <sect3><title>Future Enhancements</title>
     <para>
-      In hindsight implementing the Matlab set of methods was not an
+      In hindsight implementing the MATLAB set of methods was not an
       optimal choice, as the interpolation method that they used were too
       susceptible to very high frequency noise.  To overcome this problem we
       would recommend the implementation of a number of new, noise resistant,

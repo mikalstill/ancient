@@ -146,7 +146,7 @@ In this example, two tokens are defined, VERSION, and FP. The syntax for these s
 field, which is wrapped in angled brackets, is the name of the state that the specification should be used in. All of the examples 
 shown here are for the default state, known as INITIAL (Levin, Mason &amp; Brown 1990). What follows this is a posix compliant 
 regular expression to be matched. Finally, within the braces lies C code to execute when a match occurs.
-In each of these examples, the C code writes a log entry for the match, sets up the data structure symbolizing the match, and then 
+In each of these examples, the C code writes a log entry for the match, sets up the data structure symbolising the match, and then 
 returns the name of the lexical token which was matched.
 </para>
 
@@ -213,7 +213,7 @@ As mentioned earlier in this section, the graphical user interface to <command>G
 implemented using the wxWindows windowing toolkit. 
 The batch user interface was developed using a hand coded parser written in c++.
 This has maximised the amount of design flexibility enjoyed by the development team, 
-whilst minimizing the amount of unnecessary code development.
+whilst minimising the amount of unnecessary code development.
   </para>      
   </sect3> <!--Implementation-->
   

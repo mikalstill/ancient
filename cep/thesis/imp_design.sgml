@@ -18,7 +18,7 @@ operating systems. It should also be noted that most modern windowing toolkits r
 </para>
 
 <para>
-The choice of user interface toolkit also maximized the cross platform capabilities of the application. 
+The choice of user interface toolkit also maximised the cross platform capabilities of the application. 
 <command>WxWindows</command> was therefore chosen as it has been specifically built to be easily ported, and currently 
 runs on the following platforms:-
 </para>

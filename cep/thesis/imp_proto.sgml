@@ -23,7 +23,7 @@
        such as interpolation, windowing and frequency domain analysis to be added.
        Once the the mathematical functionality of the prototype was complete, work began on a UI.
        Not long into the its development, however, it was decided that it would not be of much benefit and that our attention should
-       be focused on the main implementation of the application. The <command>m-files</command> from the Matlab prototype have been included
+       be focused on the main implementation of the application. The <command>m-files</command> from the MATLAB prototype have been included
        on the CD accompanying this thesis.
     </para>
   </sect2> <!--Theory-->
