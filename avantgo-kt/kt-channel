@@ -1,0 +1,87 @@
+#!/usr/bin/perl
+
+# Read in the KT XML and turn it into a bunch of smaller pages. This perhaps should use a perl XML
+# muncher?
+
+use strict;
+use CGI;
+
+my($INPUT, $result, $section, $scount, $dumping);
+
+$result = new CGI();
+print $result->header();
+
+# The start of the page
+print "<html><head><title>Kernel Traffic : ";
+if($result->param('page') eq ""){
+    print "Main Page";
+}
+else{
+    print "Page ".$result->param('page');
+}
+print "</title></head><body>\n";
+
+# Links we always have
+if($result->param('page') eq ""){
+    print "<a href=\"/cgi-bin/kt-channel?page=stats\">Statistics</a><BR>\n";
+}
+
+$section = 0;
+$scount = 1;
+$dumping = 0;
+open INPUT, "wget -q -O - http://kt.zork.net/kernel-traffic/latest.xml |";
+while(<INPUT>){
+    if($result->param('page') eq ""){
+	if(/^section/){
+	    $section = 1;
+	}
+
+	elsif(($section = 1) && (/^[ \t]+title=\"(.*)\"/)){
+	    print "<LI><a href=\"/cgi-bin/kt-channel?page=$scount\">$1</a><BR>\n";
+	    $scount++;
+	    $section = 0;
+	}
+	else{
+	    $section = 0;
+	}
+    }
+    elsif($result->param('page') eq "stats"){
+	if(/^<person posts=\"([^\"]*)\" size=\"([^\"]*)\" who=\"([^\"]*)\"/){
+	    print "$3: $1 posts in $2 bytes<BR>\n";
+	}
+    }
+    
+    # The page must be a section number to aim at...
+    else{
+	if(/^<section/){
+	    $scount++;
+	}
+
+	if(($scount - 1) == $result->param('page')){
+	    if(/^[ \t]*title=\"(.*)\"/){
+		print "<b>$1</b><BR>\n";
+	    }
+	    elsif(/^[ \t]*subject=\"(.*)\"/){
+		print "<i>($1)</i><BR>\n";
+	    }
+	    elsif(/^[ \t]*startdate=\"(.*)\"/){
+		print "<i>Start: $1</i><BR>\n";
+	    }
+	    elsif(/^[ \t]*enddate=\"(.*)\"/){
+		print "<i>End: $1</i><BR>\n";
+	    }
+	    elsif(/^>/){
+		print "<BR>\n";
+		$dumping = 1;
+	    }
+	    elsif(/^<\/section>/){
+		$dumping = 0;
+	    }
+	    elsif($dumping == 1){
+		print $_;
+	    }
+	}
+    }
+}
+
+print "\n</body></html>";
