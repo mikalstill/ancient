@@ -4,6 +4,10 @@
 <execute><cmd>builddb</cmd><input>authorgroup.sgml</input></execute>
 </bookinfo>
 
+
+
+ <execute><cmd>builddb</cmd><input>glossary.sgml</input></execute>
+
 <chapter><title> Theory </title>
   <execute><cmd>builddb</cmd><input>theory_intro.sgml</input></execute>
   <execute><cmd>builddb</cmd><input>theory_TDA.sgml</input></execute>
