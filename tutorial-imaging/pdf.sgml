@@ -1,0 +1,66 @@
+<sect1><title>ClibPDF</title>
+<sect1><title>PDFlib</title>
+<sect1><title>Panda</title>
+<sect1><title>Adobe products</title>
+
+<chapter id="chap-pdf"><title>PDF</title>
+<para>
+Portable Document Format (PDF) isn't strictly an image format. However, people are increasingly asking for PDF functionality in applications -- especially those on the Internet.
+</para>
+
+<para>
+This chapter is broken into five major sections. These are:
+
+<itemizedlist>
+<listitem><para>Discussion of the PDF format itself</para></listitem>
+<listitem><para>An introduction to ClibPDF</para></listitem>
+<listitem><para>An introduction to PDFLib</para></listitem>
+<listitem><para>An introduction to Panda</para></listitem>
+<listitem><para>Discussion of the Adobe PDF tools</para></listitem>
+</itemizedlist>
+</para>
+
+<sect1><title>Introduction</title>
+<para>
+...
+</para>
+</sect1>
+
+<sect1><title>Installation</title>
+<para>
+...
+</para>
+
+<sect2><title>Unix</title>
+<para>
+...
+</para>
+</sect2>
+
+<sect2><title>win32</title>
+<para>
+...
+</para>
+</sect2>
+</sect1>
+
+<sect1><title>The PNG on disc format</title>
+<para>
+...
+</para>
+</sect1>
+
+<sect1><title>Conclusion</title>
+<para>
+...
+</para>
+</sect1>
+
+<sect1><title>Further reading</title>
+<para>
+...
+</para>
+</sect1>
+
+</chapter>
+

@@ -49,42 +49,9 @@
 
 </chapter>
 
-<chapter id="chap-pdf"><title>PDF</title>
-<para>
-...
-</para>
 
-<sect1><title>ClibPDF</title>
-<para>
-...
-</para>
-</sect1>
+<execute><cmd>builddb.pl</cmd><input>pdf.sgml</input></execute>
 
-<sect1><title>PDFlib</title>
-<para>
-...
-</para>
-</sect1>
-
-<sect1><title>Panda</title>
-<para>
-...
-</para>
-</sect1>
-
-<sect1><title>Adobe products</title>
-<para>
-...
-</para>
-</sect1>
-
-<sect1><title>Further reading</title>
-<para>
-...
-</para>
-</sect1>
-
-</chapter>
 
 <chapter id="chap-opengl"><title>OpenGL</title>
 <para>
