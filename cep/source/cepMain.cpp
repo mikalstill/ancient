@@ -28,7 +28,7 @@ main (int argc, char *argv[])
   cepError ce;
 
   // Define some simple default options
-  gOptions.errorDisplay[cepError::sevDebug] = true;
+  gOptions.errorDisplay[cepError::sevDebug] = false;
   gOptions.errorDisplay[cepError::sevInformational] = true;
   gOptions.errorDisplay[cepError::sevWarning] = true;
   gOptions.errorDisplay[cepError::sevErrorRecoverable] = true;

@@ -51,8 +51,8 @@
 #endif
 
 #include "cepUI.h"
-#include "doc.h"
-#include "view.h"
+#include "cepDoc.h"
+#include "cepView.h"
 
 IMPLEMENT_DYNAMIC_CLASS (cepView, wxView)
 BEGIN_EVENT_TABLE (cepView, wxView)

@@ -1,10 +1,10 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        doc.h
+// Name:        cepDoc.h
 // Purpose:     Document classes
 // Author:      Julian Smart
 // Modified by:
 // Created:     04/01/98
-// RCS-ID:      $Id: cepDoc.h,v 1.1 2002-06-02 10:13:02 u964076 Exp $
+// RCS-ID:      $Id: cepDoc.h,v 1.2 2002-06-02 10:53:15 u964076 Exp $
 // Copyright:   (c) Julian Smart and Markus Holzem
 // Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////
@@ -17,20 +17,31 @@
 #define __DOCSAMPLEH__
 
 #include "wx/docview.h"
+#include "core.h"
+#include <wx/progdlg.h>
 
 class cepDoc:public wxDocument
 {
 DECLARE_DYNAMIC_CLASS (cepDoc) private:
 public:
-  cepDoc (void);
-   ~cepDoc (void);
-
+ cepDoc (void);
+ ~cepDoc (void);
+ 
 #if wxUSE_STD_IOSTREAM
-    ostream & SaveObject (ostream & text_stream);
-    istream & LoadObject (istream & text_stream);
+ ostream & SaveObject (ostream & text_stream);
+ istream & LoadObject (istream & text_stream);
 #else
-    wxOutputStream & SaveObject (wxOutputStream & stream);
-    wxInputStream & LoadObject (wxInputStream & stream);
+ wxOutputStream & SaveObject (wxOutputStream & stream);
+ wxInputStream & LoadObject (wxInputStream & stream);
 #endif
+
+ void incrementProgress();
+ 
+ private:
+ cepDataset *m_dataset;
+ wxProgressDialog *m_progress;
+ int m_progressCount;
 };
 #endif
+
+void ds_progressCallback (int plane, long line);

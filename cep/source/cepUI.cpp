@@ -31,6 +31,9 @@
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
+#define GLOBALS_HERE
+#include "core.h"
+
 // For compilers that support precompilation, includes "wx/wx.h".
 #include "wx/wxprec.h"
 
@@ -47,11 +50,8 @@
 #endif
 
 #include "cepUI.h"
-#include "doc.h"
-#include "view.h"
-
-#define GLOBALS_HERE
-#include "core.h"
+#include "cepDoc.h"
+#include "cepView.h"
 
 MyFrame *frame = (MyFrame *) NULL;
 
@@ -60,7 +60,7 @@ IMPLEMENT_APP (MyApp) MyApp::MyApp (void)
   m_docManager = (wxDocManager *) NULL;
   
   // Define some simple default options for the handling of cepErrors
-  gOptions.errorDisplay[cepError::sevDebug] = true;
+  gOptions.errorDisplay[cepError::sevDebug] = false;
   gOptions.errorDisplay[cepError::sevInformational] = true;
   gOptions.errorDisplay[cepError::sevWarning] = true;
   gOptions.errorDisplay[cepError::sevErrorRecoverable] = true;

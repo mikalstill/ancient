@@ -52,17 +52,23 @@
 #endif
 
 #include "core.h"
-#include "doc.h"
-#include "view.h"
+#include "cepDoc.h"
+#include "cepView.h"
 
 IMPLEMENT_DYNAMIC_CLASS (cepDoc, wxDocument)
 
+// This is needed for the progess callback to get to us
+cepDoc *gProgressDoc;
+
 cepDoc::cepDoc (void)
 {
+  m_progress = NULL;
+  gProgressDoc = this;
 }
 
 cepDoc::~cepDoc (void)
 {
+  delete m_dataset;
 }
 
 #if wxUSE_STD_IOSTREAM
@@ -93,8 +99,39 @@ wxInputStream & cepDoc::LoadObject (wxInputStream & stream)
   SetTitle("Foo");
 
   // Actually create the dataset
-  cepError bobble("This is a cep error", cepError::sevErrorFatal);
-  bobble.display();
+  m_progressCount = 0;
+  m_progress = new wxProgressDialog("Loading dataset", 
+				    "Please wait while the dataset is loaded");
+
+  m_dataset = new cepDataset("../datasets/mb_ANKR_GPS", ds_progressCallback);
+  cepError loadErr = m_dataset->munch();
+
+  if(loadErr.isReal())
+    loadErr.display();
+
+  // TODO_Mikal: Handle error condition better
+
+  // Cleanup
+  delete m_progress;
+  m_progress = NULL;
 
   return stream;
+}
+
+void cepDoc::incrementProgress()
+{
+  // todo_mikal: 10,000 readings is a lot, do we want to do better?
+  m_progressCount++;
+  if(m_progressCount > 10000)
+    m_progressCount = 0;
+
+  if(m_progressCount % 100 == 0)
+    m_progress->Update(m_progressCount / 100);
+}
+
+// A scary global progress handler
+void
+ds_progressCallback (int plane, long line)
+{
+  gProgressDoc->incrementProgress();
 }

@@ -1,16 +1,16 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        docview.h
+// Name:        doccepView.h
 // Purpose:     Document/view demo
 // Author:      Julian Smart
 // Modified by:
 // Created:     04/01/98
-// RCS-ID:      $Id: cepUI.h,v 1.2 2002-05-29 02:56:12 u964076 Exp $
+// RCS-ID:      $Id: cepUI.h,v 1.3 2002-06-02 10:53:15 u964076 Exp $
 // Copyright:   (c) Julian Smart and Markus Holzem
 // Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////
 
 #ifdef __GNUG__
-// #pragma interface "docview.h"
+// #pragma interface "doccepView.h"
 #endif
 
 #ifndef __DOCVIEWSAMPLEH__

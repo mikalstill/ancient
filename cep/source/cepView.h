@@ -1,10 +1,10 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        view.h
+// Name:        cepView.h
 // Purpose:     View classes
 // Author:      Julian Smart
 // Modified by:
 // Created:     04/01/98
-// RCS-ID:      $Id: cepView.h,v 1.1 2002-06-02 10:13:02 u964076 Exp $
+// RCS-ID:      $Id: cepView.h,v 1.2 2002-06-02 10:53:16 u964076 Exp $
 // Copyright:   (c) Julian Smart and Markus Holzem
 // Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////
