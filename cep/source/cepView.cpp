@@ -137,10 +137,10 @@ bool cepView::OnCreate (wxDocument * doc, long WXUNUSED (flags))
   //  m_parentFrame = wxGetApp().GetMainFrame();
   canvas = GetMainFrame()->CreateCanvas (this, frame);
 
+  frame->GetSize (&m_x, &m_y);
+
 #ifdef __X__
   // X seems to require a forced resize
-  int x, y;
-  frame->GetSize (&x, &y);
   frame->SetSize (-1, -1, x, y);
 #endif
 
@@ -170,11 +170,20 @@ cepView::OnDraw (wxDC * dc)
 	  OnClose();
 	  return;
 	}
-      
+
       // Set the title of the tab if we haven't already
       if(frame->GetTitle() == "")
 	frame->SetTitle(string(theDataset->getName() + " - " + theDataset->getProcHistory()).c_str());
       
+      // If the size of the window has changed, then declare that we need to regenerate...
+      int x, y;
+      frame->GetSize(&x, &y);
+      if((x != m_x) || (y != m_y)){
+	cepDebugPrint("Detected window resize event");
+	frame->GetSize(&m_x, &m_y);
+	m_dirty = true;
+      }
+
       // Graph the matrices
       cepError err;
       int top, bottom, width;
@@ -203,6 +212,7 @@ cepView::OnDraw (wxDC * dc)
 void
 cepView::OnUpdate (wxView * WXUNUSED (sender), wxObject * WXUNUSED (hint))
 {
+  m_dirty = true;
   if (canvas)
     canvas->Refresh ();
 }

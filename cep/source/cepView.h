@@ -104,6 +104,7 @@ private:
   cepLsDisplay m_displayLs;
   cepConfiguration *m_config;
   cepErrorHandler *errHandler;
+  int m_x, m_y;
 };
 
 
