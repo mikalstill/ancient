@@ -1,0 +1,54 @@
+<sect1><title>cpuid</title>
+<sect2><title>Acronym definition</title>
+<para>
+<emphasis>Intel</emphasis> <emphasis>CPU</emphasis> instruction mnemonic.
+</para>
+
+<sect2><title>Definition</title>
+<para>
+The linux <emphasis>kernel</emphasis> for x86 includes support for the cpuid instruction. The following code is used as of 2.5.59:
+</para>
+
+<programlisting>
+/*
+ * Generic CPUID function
+ */
+static inline void cpuid(int op, int *eax, int *ebx, int *ecx, int *edx)
+{
+        __asm__("cpuid"
+               : "=a" (*eax),
+                 "=b" (*ebx),
+                 "=c" (*ecx),
+                 "=d" (*edx)
+               : "0" (op));
+}
+</programlisting>
+
+<para>
+Other architectures implement cpuid functions as well. This <emphasis>inline assembly</emphasis> 
+</para>
+
+<para>
+There is a program by Phil Karn (KA9Q) called cpuid which calls this instruction as well.
+</para>
+</sect2>
+
+<sect2><title>Implementation source files</title>
+<itemizedlist>
+<listitem><para>/include/asm-i386/processor.h</para></listitem>
+</itemizedlist>
+</sect2>
+
+<sect2><title>References</title>
+<itemizedlist>
+<listitem><para>Intel instruction set manual</para></listitem>
+</itemizedlist>
+</sect2>
+
+<sect2><title>Entry history</title>
+<itemizedlist>
+<listitem><para>Entry created: Wed Mar 19 21:26:37 EST 2003</para></listitem>
+<listitem><para>Entry owner: <emphasis>Michael Still</emphasis> (mikal@stillhq.com)</para></listitem>
+<listitem><para>Status: Unfinalized</para></listitem>
+</itemizedlist>
+</sect1>

@@ -1,0 +1,31 @@
+<sect1><title>GCC</title>
+<sect2><title>Acronym definition</title>
+<para>
+<emphasis>GNU</emphasis> <emphasis>CC</emphasis>
+</para>
+
+<sect2><title>Definition</title>
+<para>
+...
+</para>
+</sect2>
+
+<sect2><title>References</title>
+<itemizedlist>
+<listitem><para>...</para></listitem>
+</itemizedlist>
+</sect2>
+
+<sect2><title>See also</title>
+<itemizedlist>
+<listitem><para><emphasis>Inline assembly</emphasis></para></listitem>
+</itemizedlist>
+</sect2>
+
+<sect2><title>Entry history</title>
+<itemizedlist>
+<listitem><para>Entry created: Wed Mar 19 21:29:25 EST 2003</para></listitem>
+<listitem><para>Entry owner: <emphasis>Michael Still</emphasis> (mikal@stillhq.com)</para></listitem>
+<listitem><para>Status: TODO</para></listitem>
+</itemizedlist>
+</sect1>
