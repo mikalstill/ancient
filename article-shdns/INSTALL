@@ -1,0 +1,1 @@
+No install required, simply type make to build the article (although this also depends on article-genstruct being in the parent directory)
