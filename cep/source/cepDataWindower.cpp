@@ -118,7 +118,7 @@ const cepError cepDataWindower::window( const cepMatrix<double> & dataIn,
    * TODO BS - if we have no windowing algorithm defined should we simply fail
    * or should we use rectangular?
    */
-  if( windowAlg == NULL ) {
+  if( windowAlg == NULL || algType == WINDOW_UNDEFINED ) {
     return cepError( "Window algorithm is not defined. Windowing failed", cepError::sevErrorRecoverable );
   }
   int numSamples = const_cast<cepMatrix<double>&>(dataIn).getNumRows();
@@ -137,8 +137,11 @@ const cepError cepDataWindower::window( const cepMatrix<double> & dataIn,
 
   cepMatrix<double> coeffs = windowAlg->getCoeffs();                // scaling factors
   cepMatrix<double> result( numWindows, windowAlg->getSize(), 3 );  // result. numwindows x windowSize x 2
-  
-  for( int win = 0, color=0; win < numWindows; ++win, color=(color++)%3 ) {
+
+  int color = 1;
+  for( int win = 0; win < numWindows; ++win ) {
+    // a number between
+    color = 1+win%3;
     for( int element = 0; element < windowAlg->getSize(); ++element ) {
 
       // sanity check
@@ -149,9 +152,9 @@ const cepError cepDataWindower::window( const cepMatrix<double> & dataIn,
       
       // copy the date directly & scale the value
       // 0 is date, 1 is value
-      result.setValue(win, element, 0, const_cast< cepMatrix<double>& >(dataIn).getValue( ptr, 0 ));
-      result.setValue(win, element, 1, const_cast< cepMatrix<double>& >(dataIn).getValue( ptr, 1 )*coeffs.getValue(element,0));
-      result.setValue(win, element, 0, const_cast< cepMatrix<double>& >(dataIn).getValue( ptr, 2 ));
+      result.setValue(element, 0, win, const_cast< cepMatrix<double>& >(dataIn).getValue( ptr, 0 ));
+      result.setValue(element, 1, win, const_cast< cepMatrix<double>& >(dataIn).getValue( ptr, 1 )*coeffs.getValue(element,0));
+      result.setValue(element, 0, win, const_cast< cepMatrix<double>& >(dataIn).getValue( ptr, 2 ));
     }
   }
 
