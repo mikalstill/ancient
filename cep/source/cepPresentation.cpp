@@ -19,10 +19,19 @@
 */
 
 #include "cepCore.h"
-// #include <libplot.h>
+
+#if defined HAVE_LIBPLOT
+#include <libplot.h>
+#endif
+
+#if defined HAVE_LIBPNG
 #include <png.h>
-// #include <panda/constants.h>
-// #include <panda/functions.h>
+#endif
+
+#if defined HAVE_LIBPANDA
+#include <panda/constants.h>
+#include <panda/functions.h>
+#endif
 
 // This number needs to be positive, and preferably greater than 2...
 // Having big numbers is more efficient, but wastes more RAM
@@ -38,13 +47,11 @@ cepPresentation::cepPresentation (long width, long height):
   m_height(height),
   m_xTitle("Undefined Axis Title"),
   m_yTitle("Undefined Axis Title"),
-  m_xUnit(-1),
-  m_yUnit(-1),
   m_raster(NULL),
-  m_xminval(32000),
-  m_xmaxval(-32000),
-  m_yminval(32000),
-  m_ymaxval(-32000),
+  m_xminval(2000000000),
+  m_xmaxval(-2000000000),
+  m_yminval(2000000000),
+  m_ymaxval(-2000000000),
   m_useAverage(false)
 {
   m_averageColor.red = 0;
@@ -72,18 +79,6 @@ cepPresentation::yAxisTitle (const string & title)
   m_yTitle = title;
 }
 
-void
-cepPresentation::xAxisScale (int units)
-{
-  m_xUnit = units;
-}
-
-void
-cepPresentation::yAxisScale (int units)
-{
-  m_yUnit = units;
-}
-
 cepError cepPresentation::addDataPoint (long x, long y)
 {
   cepDebugPrint ("Current data vector size is: " + cepItoa (m_data.size ()));
@@ -94,7 +89,11 @@ cepError cepPresentation::addDataPoint (long x, long y)
   {
     try
     {
+      int i = m_data.size();
       m_data.resize (x + CHUNKALLOC);
+      for(; i < m_data.size(); i++)
+	m_data[i] = INVALID;
+
       cepDebugPrint ("Resize presentation data to " + cepLtoa (x + CHUNKALLOC));
     }
     catch (...)
@@ -112,9 +111,9 @@ cepError cepPresentation::addDataPoint (long x, long y)
   if (x < m_xminval)
     m_xminval = x;
 
-  if (x > m_ymaxval)
+  if (y > m_ymaxval)
     m_ymaxval = y;
-  if (x < m_yminval)
+  if (y < m_yminval)
     m_yminval = y;
 
   return cepError ();
@@ -128,7 +127,7 @@ cepPresentation::createPDF (const string & filename)
     ("TODO: This feature is not currently implemented. Please come again.",
      cepError::sevWarning);
 
-#if defined HAVE_PANDA
+#if defined HAVE_LIBPANDA
   cepDebugPrint ("Generating PDF for: " + filename);
   createBitmap ();
 
@@ -168,6 +167,7 @@ cepPresentation::createBitmap ()
 
   switch(m_currentView){
   case viewCentered:
+    cepDebugPrint("Centered graph view");
     midpoint = m_height / 2;
     yscale = cepMax (m_ymaxval, cepAbs (m_yminval)) / (midpoint - 10);
 
@@ -195,19 +195,20 @@ cepPresentation::createBitmap ()
 	    if (!linestarted)
 	      {
 		plot_setlinestart (graph, i + 10, 
-				   midpoint - (m_data[i] / yscale));
+				   (unsigned int) (midpoint - (m_data[i] / yscale)));
 		linestarted = true;
 	      }
 	    else
 	      plot_addlinesegment (graph, i + 10, 
-				   midpoint - (m_data[i] / yscale));
+				   (unsigned int) (midpoint - (m_data[i] / yscale)));
 	  }
       }
     break;
 
   case viewZoomed:
+    cepDebugPrint("Zoomed graph view");
     midpoint = 0;
-    yscale = (m_ymaxval - m_yminval) / m_height;
+    yscale = ((float) (m_ymaxval - m_yminval)) / ((float) m_height);
 
     // Draw the data points
     plot_setlinecolor (graph, m_lineColor.red, m_lineColor.green, 
@@ -218,19 +219,16 @@ cepPresentation::createBitmap ()
 	  {
 	    if (!linestarted)
 	      {
-		cepDebugPrint("GP: " + cepItoa(m_height - 
-					       ((m_data[i] - m_yminval) / yscale)));
 		plot_setlinestart (graph, i + 10, 
-				   m_height - 
-				   ((m_data[i] - m_yminval) / yscale));
+				   (unsigned int) (m_height - 
+				   ((m_data[i] - m_yminval) / yscale)));
 		linestarted = true;
 	      }
-	    else
-	      cepDebugPrint("GP: " + cepItoa(m_height - 
-					     ((m_data[i] - m_yminval) / yscale)));
+	    else{
 	      plot_addlinesegment (graph, i + 10, 
-				   m_height - 
-				   ((m_data[i] - m_yminval) / yscale));
+				   (unsigned int) (m_height - 
+				   ((m_data[i] - m_yminval) / yscale)));
+	    }
 	  }
       }    
     break;
@@ -254,8 +252,8 @@ cepPresentation::createBitmap ()
     cepDebugPrint("Drawing average line");
     plot_setlinecolor(graph, m_averageColor.red, m_averageColor.green,
 		      m_averageColor.blue);
-    plot_setlinestart(graph, 10, midpoint - (m_average / yscale));
-    plot_addlinesegment(graph, m_width, midpoint - (m_average / yscale));
+    plot_setlinestart(graph, 10, (unsigned int) midpoint - (m_average / yscale));
+    plot_addlinesegment(graph, m_width, (unsigned int) midpoint - (m_average / yscale));
     plot_strokeline(graph);
     plot_endline(graph);
   }
