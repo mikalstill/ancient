@@ -428,7 +428,7 @@ int trivsql_checktable(char *tname){
  
   if(u == NULL)
     return TRIVSQL_NOSUCHTABLE;
-  return TRIVSQL_TABLEOK;
+  return TRIVSQL_TRUE;
 }
 
 trivsql_recordset* trivsql_makers(char *tname){

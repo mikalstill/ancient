@@ -42,6 +42,20 @@ void trivsql_displayrs(trivsql_recordset *rs){
   trivsql_row *theRow;
   trivsql_col *theCol;
 
+  // Was there an error?
+  switch(rs->errno){
+  case TRIVSQL_FALSE:
+    printf("This statement produced no results.\n");
+    return;
+
+  case TRIVSQL_TRUE:
+    break;
+
+  default:
+    printf("There was an error processing this statement.\n");
+    return;
+  }
+
   // Print the header line
   printf("\n=");
   for(i = 0; i < rs->numCols; i++){
@@ -92,6 +106,7 @@ void trivsql_rsmovenext(trivsql_recordset *rs){
 }
 
 int trivsql_rseof(trivsql_recordset *rs){
+  if(rs->errno != TRIVSQL_TRUE) return TRIVSQL_TRUE;
   return rs->currentRow->next == NULL ? TRIVSQL_TRUE : TRIVSQL_FALSE;
 }
 

@@ -6,7 +6,6 @@ function verify (){
     echo "$1" | ./sample > testout/$2.new
     if [ `diff testout/$2 testout/$2.new | wc -l | tr -d " "` -gt 0 ]
       then
-      echo " -- $1:"
       echo "    - Results have changed!"
       echo "    - Old:"
       cat testout/$2

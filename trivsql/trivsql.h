@@ -12,8 +12,7 @@ extern "C"
 #define TRIVSQL_FALSE 0
 #define TRIVSQL_TRUE 1
 
-#define TRIVSQL_TABLEOK 2
-#define TRIVSQL_NOSUCHTABLE 3
+#define TRIVSQL_NOSUCHTABLE 2
 
 #define SELTRUE 1
 #define SELFALSE 0

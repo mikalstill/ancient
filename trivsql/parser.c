@@ -709,11 +709,11 @@ case 5:
     break;}
 case 6:
 #line 25 "parser.y"
-{ gState->rs = trivsql_makers((char *) yyvsp[-8]); gState->rs->errno = trivsql_checktable((char *) yyvsp[-8]); if(gState->rs->errno == TRIVSQL_TABLEOK){trivsql_doinsert((char *) yyvsp[-8], (char *) yyvsp[-6], (char *) yyvsp[-2]);};
+{ gState->rs = trivsql_makers((char *) yyvsp[-8]); gState->rs->errno = trivsql_checktable((char *) yyvsp[-8]); if(gState->rs->errno == TRIVSQL_TRUE){trivsql_doinsert((char *) yyvsp[-8], (char *) yyvsp[-6], (char *) yyvsp[-2]);};
     break;}
 case 7:
 #line 29 "parser.y"
-{ gState->rs = trivsql_makers((char *) yyvsp[-2]); gState->rs->errno = trivsql_checktable((char *) yyvsp[-2]); if(gState->rs->errno == TRIVSQL_TABLEOK){trivsql_doselect((char *) yyvsp[-2], (char *) yyvsp[-4]);};
+{ gState->rs = trivsql_makers((char *) yyvsp[-2]); gState->rs->errno = trivsql_checktable((char *) yyvsp[-2]); if(gState->rs->errno == TRIVSQL_TRUE){trivsql_doselect((char *) yyvsp[-2], (char *) yyvsp[-4]);};
     break;}
 case 8:
 #line 32 "parser.y"
