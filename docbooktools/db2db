@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Strip out the document header line if it is there so that things work
+cat - | grep -v "<!DOCTYPE" | builddb $*

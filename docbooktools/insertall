@@ -2,8 +2,10 @@
 
 rm -f insertall-$$.tmp 2> /dev/null
 
-for item in `ls $2 | egrep $3 | egrep -v "~$"`
+echo "insertall: Searching $2 for $3" >> /dev/stderr
+for item in `ls $2 | egrep "$3" | egrep -v "~$"`
 do
+  echo "insertall: Found $item" >> /dev/stderr
   echo "<execute><cmd>$1</cmd><args>$4</args><input>$2/$item</input></execute>" >> insertall-$$.tmp
 done
 
