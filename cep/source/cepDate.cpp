@@ -118,8 +118,7 @@ cepDate::popMonthAndDay ()
     }
 }
 
-string
-cepDate::toString ()
+string cepDate::toString ()
 {
   popMonthAndDay ();
   popYear ();

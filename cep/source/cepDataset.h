@@ -33,10 +33,11 @@ typedef struct cep_internal_datarow
   float date;
   float sample;
   float error;
-} cep_datarow;
+}
+cep_datarow;
 
 // This is used for the 'columns' in the windowing algorithm
-typedef vector<cep_datarow> cep_datacol;
+typedef vector < cep_datarow > cep_datacol;
 
 class cepDataset
 {
@@ -45,13 +46,13 @@ public:
   // I append the .dat1, .dat2 and .dat3 myself...
   cepDataset (string filename);
   cepDataset (string filename, cepDatasetProgressCB callback);
-  cepDataset (vector<cep_datacol> windowVector, int numWindows);
-  cepDataset (double value, double weight);
+  cepDataset (vector < cep_datacol > windowVector, int numWindows);
+    cepDataset (double value, double weight);
 
   // Manipulations 
   cepDataset doWindow (cepDataset dir, double winSize, double overlap);
   cepDataset doHam (double datRow[3], double startWindow, double winSize);
-  
+
   // Actually process the file
   cepError munch ();
 
@@ -63,17 +64,17 @@ public:
   };
 
   // Accessor methods
-  vector<cep_datarow>& getDataPtr(direction);
+    vector < cep_datarow > &getDataPtr (direction);
 
 private:
-  string m_filename;
+    string m_filename;
   cepDatasetProgressCB m_progress;
-  vector<cep_datarow> m_datax, m_datay, m_dataz;
-  vector<cep_datacol> m_windowVector; //vector of windowed data
-  int m_numWindows; //number of windows in the windowed data
-  double m_hamValue; //single haming value
-  double m_hamWeight; //hamming weight
-  
+    vector < cep_datarow > m_datax, m_datay, m_dataz;
+    vector < cep_datacol > m_windowVector;	//vector of windowed data
+  int m_numWindows;		//number of windows in the windowed data
+  double m_hamValue;		//single haming value
+  double m_hamWeight;		//hamming weight
+
 
 };
 

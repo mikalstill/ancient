@@ -141,14 +141,12 @@ cepPresentation::interpolate ()
     }
 }
 
-cepError
-cepPresentation::createPDF (string filename)
+cepError cepPresentation::createPDF (string filename)
 {
   return cepError ();
 }
 
-cepError
-cepPresentation::createBitmap (string filename)
+cepError cepPresentation::createBitmap (string filename)
 {
   interpolate ();
   return cepError ();

@@ -44,8 +44,7 @@ cepError::~cepError ()
     }
 }
 
-bool
-cepError::isReal ()
+bool cepError::isReal ()
 {
   m_actioned = true;
   return m_msg != "";
