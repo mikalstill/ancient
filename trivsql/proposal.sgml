@@ -1,0 +1,143 @@
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
+<article>
+<title>tsql: A trivial SQL engine for your application</title>
+
+<sect1><title>About the author and this paper</title>
+  <para>
+      Michael has been working in the image processing field for several years, including a couple of years managing and developing large image databases for an Australian government department. He currently works for TOWER Software, who manufacture a world leading EDMS and Records Management package named TRIM. Michael is also the developer of Panda, an open source PDF generation API, as well as being the maintainer of the comp.text.pdf USENET frequently asked questions document.
+    </para>
+
+    <para>
+    <emphasis>This document is a submission for a technical presentation (30 minutes, with 10 minutes of questions) for AUUG 2002.</emphasis>
+    </para>
+</sect1>
+
+<sect1><title>Executive summary</title>
+<para>
+tsql is a simple SQL engine, implemented on the tdb database engine. The intention of this engine is that it can be embedded into your application, allowing the use of familiar SQL constructs for accessing data stored within your application.
+</para>
+</sect1>
+
+<sect1>
+<title>An introduction to tdb</title>
+<para>
+tdb is a (name, value) pair storing database similar to gdbm. It was originally implemented for the Samba project, as a way of avoiding having to implement a large number of in memory linked lists for storing usage and access information. The code for tdb is available from the Samba CVS server.
+</para>
+
+<para>
+To quote from the Samba source code: <quote>This is a simple database API. 
+It was inspired by the realisation that
+in Samba we have several ad-hoc bits of code that essentially
+implement small databases for sharing structures between parts of
+Samba. As I was about to add another I realised that a generic
+database module was called for to replace all the ad-hoc bits.
+
+I based the interface on gdbm. I couldn't use gdbm as we need to be
+able to have multiple writers to the databases at one time.</quote>
+</para>
+
+<para>
+To make use of a tdb database at the most trivial level, you open the database with a <command>tdb_open</command> function call, you can then add pairs to the database using the <command>tdb_store</command> function, and retrieve pairs from the database with the <command>tdb_fetch</command> function. The database is closed when you are finished with the via the <command>tdb_close</command> function.
+
+<footnote>
+<para>
+There are also functions which allow you to do slightly more interesting operations, such as enumerating all of the keys defined in the database.
+</para>
+</footnote>
+
+</para>
+</sect1>
+
+<sect1><title>Why tsql?</title>
+<para>
+The functionality offered by tdb is satisfactory for simple databases where all you want to store is small nuggets of data. For instance, when you want to store that the user Daniel is logged on, then a piece of code such as:
+</para>
+
+<programlisting>
+  TDB_CONTEXT db;
+  TDB_DATA dbkey, dbdata;
+
+  // Open the database
+  document->db = tdb_open ("foo.tdb", 0,
+                           TDB_CLEAR_IF_FIRST, O_RDWR | O_CREAT | O_TRUNC,
+                           0600);
+
+  // Store the value
+  dbkey.dptr = "Daniel";
+  dbkey.dsize = strlen (key) + 1;
+  dbdata.dptr = "LoggedOn";
+  dbdata.dsize = strlen (value) + 1;
+
+  if (tdb_store (db, dbkey, dbdata, TDB_REPLACE) != 0)
+    {
+      fprintf(stderr, "Could not store value");
+    }
+</programlisting>
+
+<para>
+And to retrieve the value:
+</para>
+
+<programlisting>
+  TDB_CONTEXT db;
+  TDB_DATA dbkey, dbdata;
+
+  // Open the database
+  document->db = tdb_open ("foo.tdb", 0,
+                           TDB_CLEAR_IF_FIRST, O_RDWR | O_CREAT | O_TRUNC,
+                           0600);
+
+  // Fetch the value
+  dbkey.dptr = "Daniel";
+  dbkey.dsize = strlen (key) + 1;
+
+  dbdata = tdb_fetch (document->db, dbkey);
+</programlisting>
+
+<para>
+This doesn't work so well when the data you want to store is more complex. For example, let's imagine that we want to store some more information about Daniel -- for instance how many bytes he has transfered this session and a list of his favourite users. I can think of three ways that we can store this information in a tdb database:
+
+<orderedlist>
+<listitem><para>We can define a structure that contains these elements, and then store the pointer to this structure in the tdb. The problem with this is that it doesn't persist across restarts of the program, because the pointer will no longer be valid.</para></listitem>
+
+<listitem><para>We can use a series of interestingly named keys, each storing a piece of information. For example:
+     <orderedlist>
+     <listitem><para>daniel-bytestransfered</para></listitem>
+     <listitem><para>daniel-friends</para></listitem>
+     <listitem><para>et cetera</para></listitem>
+     </orderedlist>
+
+The problem with this is that it produces horribly verbose code, because the code to read a single key is repeated all over the place.
+</para></listitem>
+
+<listitem><para>We can push all the information into one string, and then store that in the tdb, but this means that we have to handle parsing the information again when you need it back.</para></listitem>
+
+<listitem><para>You can use tsql, which looks after all the ugliness for you, and allows you to perform select and insert statements in a manner familiar to many programmers. It also makes you more attractive to the opposite sex.</para></listitem>
+</orderedlist>
+</para>
+</sect1>
+
+<sect1><title>Why SQL?</title>
+<para>
+SQL was selected as a logical layer over tdb because there are many developers in the world which are already familiar with it. It is also relatively simple to parse and process the commands.
+</para>
+</sect1>
+
+<sect1><title>The current state of play</title>
+<para>
+The intention is not to implement the full SQL specification at this time. Currently, tsql supports the CREATE TABLE command; the SELECT command; and the INSERT command. By the time this paper is presented at AUUG, the UPDATE command will also be implemented.
+</para>
+
+<sect2><title>Examples of use</title>
+<para>
+The final paper will discuss how to use tsql, and will include examples...
+</para>
+</sect2>
+</sect1>
+
+<sect1><title>Conclusion</title>
+<para>
+This paper has described tsql, a SQL engine which can be embedded into your code. This code is still a work in progress, and updates on it's development can be found at http://www.stillhq.com
+</para>
+</sect1>
+</article>
