@@ -68,8 +68,10 @@
 	used to generate the meeting reports rather than buildreport.sh as it
 	fixes the problems associated with the first one. 
 
- 
 2002-08-04 Kristy Van Der Vlist bobhchicken@bigpond.comi
 	added final version of cepMatrix to source. Also added updated version
 	of cepLs - the residual calcs are to come.
+
+2002-08-16 Daniel Fernandez daniel.fernandez@ise.canberra.edu.au
+	added fft template class and test code
 
