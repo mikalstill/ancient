@@ -90,7 +90,7 @@ cepError cepTmpClean::execute(int& deleted, bool doDelete)
       deleted++;
       if(doDelete){
 	bool doPrompt;
-	m_config->getValue ("ui-tmpclean-prompt", true, doPrompt);
+	m_config->getValue ("ui-tmpclean-prompt", false, doPrompt);
 	if(!doPrompt || 
 	   (wxMessageBox(string("The temporary file cleaner has detected an unneeded file named " + 
 				string(m_path + "/" + string(dirp->d_name)) + 

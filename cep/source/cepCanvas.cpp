@@ -189,16 +189,22 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
     // We can only handle this event if we are ready
     if (theDataset && theDataset->isReady()){
       cepDataset newds = theDataset->filter(startExtracted, endExtracted);
-
-      char *cfname = strdup(string(string("/tmp/cep.XXXXXX") + "~" + theDataset->getName() + 
-				   " Zoomed").c_str());
-      int fd;
-      fd = mkstemp(cfname);
-      close(fd);
-      newds.write(cfname);
-
-      wxGetApp().m_docManager->CreateDocument(string(string(cfname) + ".dat1").c_str(), wxDOC_SILENT);
-      free(cfname);
+      if(newds.getMatrix((cepDataset::direction) 0) == NULL){
+	cepError err("The selected region did not contain any datapoints",
+		     cepError::sevErrorRecoverable);
+	err.display();
+      }
+      else{
+	char *cfname = strdup(string(string("/tmp/cep.XXXXXX") + "~" + theDataset->getName() + 
+				     " Zoomed").c_str());
+	int fd;
+	fd = mkstemp(cfname);
+	close(fd);
+	newds.write(cfname);
+	
+	wxGetApp().m_docManager->CreateDocument(string(string(cfname) + ".dat1").c_str(), wxDOC_SILENT);
+	free(cfname);
+      }
     }
     else{
       cepError notReady("The dataset is not ready for that action to be performed",

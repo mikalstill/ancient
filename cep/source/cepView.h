@@ -75,7 +75,6 @@ public:
 
   // Least squares
   void OnLeastSquaresVCV (wxCommandEvent& event);
-  void LeastSquaresVCV (cepMatrix<double> *mat, string direction);
   void OnLeastSquaresRW (wxCommandEvent& event);
   void LeastSquaresRW (cepMatrix<double> *mat, string direction);
 

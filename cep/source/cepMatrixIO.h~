@@ -88,6 +88,9 @@ public:
   // Return a filtered dataset
   cepDataset filter(float low, float high);
 
+  // Reads a LS P weighting matrix from a file
+  //  cepMatrix <double> getP(const string& filename);
+  
   // Utility methods
   direction getDirectionFromName(string name);
   string getRootFilename();
