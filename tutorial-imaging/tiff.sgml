@@ -46,7 +46,7 @@ The instructions for how to compile the library are as follows:
 </para>
 
 <itemizedlist>
-<listitem><para>Uncompress the libtiff distibution</para></listitem>
+<listitem><para>Uncompress the libtiff distribution</para></listitem>
 <listitem><para>Change directory into the libtiff directory inside the distribution</para></listitem>
 <listitem><para>Copy ..\contrib\winnt\fax3sm.c to fax3sm_winnt.c</para></listitem>
 <listitem><para>Copy ..\contrib\winnt\libtiff.def to libtiff.def</para></listitem>
@@ -599,31 +599,19 @@ This example below demonstrates how to do this.
 
 <sect1><title>Man pages</title>
 <para>
-<execute><cmd>todo</cmd><input>TODO stuff</input></execute>
+I have included the man pages to some of the more useful libtiff commands, so that you have them for reference when you need them.
 </para>
 
 <sect2><title>tiff2bw</title>
-<para>
-<execute><cmd>todo</cmd><input>TODO stuff</input></execute>
-</para>
-
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiff2bw.1</input><args>-s 3</args>></execute>
 </sect2>
 
 <sect2><title>tiff2ps</title>
-<para>
-<execute><cmd>todo</cmd><input>TODO stuff</input></execute>
-</para>
-
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiff2ps.1</input><args>-s 3</args></execute>
 </sect2>
 
 
 <sect2><title>tiffcmp</title>
-<para>
-<execute><cmd>todo</cmd><input>TODO stuff</input></execute>
-</para>
-
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffcmp.1</input><args>-s 3</args></execute>
 
 <sect3><title>Sample output</title>
@@ -641,19 +629,11 @@ ImageWidth: 256 520
 
 
 <sect2><title>tiffcp</title>
-<para>
-<execute><cmd>todo</cmd><input>TODO stuff</input></execute>
-</para>
-
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffcp.1</input><args>-s 3</args></execute>
 </sect2>
 
 
 <sect2><title>tiffdither</title>
-<para>
-<execute><cmd>todo</cmd><input>TODO stuff</input></execute>
-</para>
-
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffdither.1</input><args>-s 3</args></execute>
 
 <sect3><title>Sample output</title>
@@ -677,10 +657,6 @@ This image, after being pushed through <command>tiffdither</command> looks somet
 
 
 <sect2><title>tiffdump</title>
-<para>
-<execute><cmd>todo</cmd><input>TODO stuff</input></execute>
-</para>
-
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffdump.1</input><args>-s 3</args></execute>
 
 <sect3><title>Sample output</title>
@@ -711,19 +687,11 @@ PlanarConfig (284) SHORT (3) 1&lt;1&gt;
 
 
 <sect2><title>tiffgt</title>
-<para>
-<execute><cmd>todo</cmd><input>TODO stuff</input></execute>
-</para>
-
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffgt.1</input><args>-s 3</args></execute>
 </sect2>
 
 
 <sect2><title>tiffinfo</title>
-<para>
-<execute><cmd>todo</cmd><input>TODO stuff</input></execute>
-</para>
-
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffinfo.1</input><args>-s 3</args></execute>
 
 <sect3><title>Sample output</title>
@@ -777,53 +745,38 @@ Strip 0:
 
 
 <sect2><title>tiffmedian</title>
-<para>
-<execute><cmd>todo</cmd><input>TODO stuff</input></execute>
-</para>
-
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffmedian.1</input><args>-s 3</args></execute>
-
-<sect3><title>Sample output</title>
-<execute><cmd>todo</cmd><input>Sample output</input></execute>
-</sect3>
 </sect2>
 
 
 <sect2><title>tiffsplit</title>
-<para>
-<execute><cmd>todo</cmd><input>TODO stuff</input></execute>
-</para>
-
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffsplit.1</input><args>-s 3</args></execute>
-<sect3><title>Sample output</title>
-<execute><cmd>todo</cmd><input>Sample output</input></execute>
-</sect3>
 </sect2>
 
 
 <sect2><title>tiffsv</title>
-<para>
-<execute><cmd>todo</cmd><input>TODO stuff</input></execute>
-</para>
-
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffsv.1</input><args>-s 3</args></execute>
-<sect3><title>Sample output</title>
-<execute><cmd>todo</cmd><input>Sample output</input></execute>
-</sect3>
 </sect2>
 
 <sect2><title>tifftopnm</title>
-<para>
-<execute><cmd>todo</cmd><input>TODO stuff</input></execute>
-</para>
-
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tifftopnm.1</input><args>-s 3</args></execute>
-
-<sect3><title>Sample output</title>
-<execute><cmd>todo</cmd><input>Sample output</input></execute>
-</sect3>
 </sect2>
 </sect1>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<execute><cmd>nextedition</cmd><input>tiff-apiman.sgml</input></execute>
 
 <sect1><title>Example: Pixel enlargement</title>
 <para>

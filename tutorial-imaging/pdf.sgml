@@ -221,6 +221,11 @@ So what are the possible filters? Well, as of PDF 1.3
 
 <sect2><title>Object structure</title>
 <execute><cmd>todo</cmd><input>Detail here</input></execute>
+
+<figure><title>A typical PDF object structure</title>
+<graphic format="EPS" fileref="pdf-figure1.eps">
+</figure>
+
 </sect2>
 </sect1>
 

@@ -860,7 +860,6 @@ This means that the total saving on an uncompressed image is 11,413,936 bytes. T
 Some images aren't raster images. These images are normally composed of primitive drawing commands, such as draw a line, draw a circle, et cetera. The advantage of vector formats is that it is an exact representation of the image, they also scale much better. Examples of vector formats include Scalar Vector Graphics (SVG), Adobe Illustrator files, Windows Meta Files, and to a certain extent PDF documents. A plotter is a vector output device.
 </para>
 </sect1>
-</sect1>
 </chapter>
 <chapter id="chap-tiff"><title>TIFF</title>
 <para>
@@ -2085,21 +2084,11 @@ usage (char *cmd, int exitamt)
 
 <sect1><title>Man pages</title>
 <para>
-<figure>
-<title>TODO stuff</title>
-<graphic format="EPS" fileref="todo.eps">
-</figure>
+I have included the man pages to some of the more useful libtiff commands, so that you have them for reference when you need them.
 </para>
 
 <sect2><title>tiff2bw</title>
-<para>
-<figure>
-<title>TODO stuff</title>
-<graphic format="EPS" fileref="todo.eps">
-</figure>
-</para>
-
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.47 2002-07-13 06:58:39 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.48 2002-07-13 10:29:20 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2222,14 +2211,7 @@ Specify the percentage of the blue channel to use (default 11).
 </sect2>
 
 <sect2><title>tiff2ps</title>
-<para>
-<figure>
-<title>TODO stuff</title>
-<graphic format="EPS" fileref="todo.eps">
-</figure>
-</para>
-
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.47 2002-07-13 06:58:39 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.48 2002-07-13 10:29:20 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2464,14 +2446,7 @@ Matters are even worse for 4-, 2-, and 1-bit palette images.
 
 
 <sect2><title>tiffcmp</title>
-<para>
-<figure>
-<title>TODO stuff</title>
-<graphic format="EPS" fileref="todo.eps">
-</figure>
-</para>
-
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.47 2002-07-13 06:58:39 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.48 2002-07-13 10:29:20 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2587,14 +2562,7 @@ ImageWidth: 256 520
 
 
 <sect2><title>tiffcp</title>
-<para>
-<figure>
-<title>TODO stuff</title>
-<graphic format="EPS" fileref="todo.eps">
-</figure>
-</para>
-
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.47 2002-07-13 06:58:39 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.48 2002-07-13 10:29:20 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2867,14 +2835,7 @@ the source file.)
 
 
 <sect2><title>tiffdither</title>
-<para>
-<figure>
-<title>TODO stuff</title>
-<graphic format="EPS" fileref="todo.eps">
-</figure>
-</para>
-
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.47 2002-07-13 06:58:39 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.48 2002-07-13 10:29:20 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1990-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3047,14 +3008,7 @@ This image, after being pushed through <command>tiffdither</command> looks somet
 
 
 <sect2><title>tiffdump</title>
-<para>
-<figure>
-<title>TODO stuff</title>
-<graphic format="EPS" fileref="todo.eps">
-</figure>
-</para>
-
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.47 2002-07-13 06:58:39 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.48 2002-07-13 10:29:20 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3181,14 +3135,7 @@ PlanarConfig (284) SHORT (3) 1&lt;1&gt;
 
 
 <sect2><title>tiffgt</title>
-<para>
-<figure>
-<title>TODO stuff</title>
-<graphic format="EPS" fileref="todo.eps">
-</figure>
-</para>
-
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.47 2002-07-13 06:58:39 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.48 2002-07-13 10:29:20 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3528,14 +3475,7 @@ crashing old versions of the window manager.
 
 
 <sect2><title>tiffinfo</title>
-<para>
-<figure>
-<title>TODO stuff</title>
-<graphic format="EPS" fileref="todo.eps">
-</figure>
-</para>
-
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.47 2002-07-13 06:58:39 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.48 2002-07-13 10:29:20 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3713,14 +3653,7 @@ Strip 0:
 
 
 <sect2><title>tiffmedian</title>
-<para>
-<figure>
-<title>TODO stuff</title>
-<graphic format="EPS" fileref="todo.eps">
-</figure>
-</para>
-
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.47 2002-07-13 06:58:39 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.48 2002-07-13 10:29:20 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1990-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3861,25 +3794,11 @@ program.
 Heckbert, SIGGRAPH proceedings, 1982, pp. 297-307.
 </para>
 </sect3>
-
-<sect3><title>Sample output</title>
-<figure>
-<title>Sample output</title>
-<graphic format="EPS" fileref="todo.eps">
-</figure>
-</sect3>
 </sect2>
 
 
 <sect2><title>tiffsplit</title>
-<para>
-<figure>
-<title>TODO stuff</title>
-<graphic format="EPS" fileref="todo.eps">
-</figure>
-</para>
-
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.47 2002-07-13 06:58:39 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.48 2002-07-13 10:29:20 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1992-1997 Sam Leffler -->
 <!--  Copyright (c) 1992-1997 Silicon Graphics, Inc. -->
@@ -3961,24 +3880,11 @@ is used.
 <emphasis>libtiff (3)</emphasis>
 </para>
 </sect3>
-<sect3><title>Sample output</title>
-<figure>
-<title>Sample output</title>
-<graphic format="EPS" fileref="todo.eps">
-</figure>
-</sect3>
 </sect2>
 
 
 <sect2><title>tiffsv</title>
-<para>
-<figure>
-<title>TODO stuff</title>
-<graphic format="EPS" fileref="todo.eps">
-</figure>
-</para>
-
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.47 2002-07-13 06:58:39 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.48 2002-07-13 10:29:20 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -4151,22 +4057,9 @@ library.
 <emphasis>libtiff (3)</emphasis>
 </para>
 </sect3>
-<sect3><title>Sample output</title>
-<figure>
-<title>Sample output</title>
-<graphic format="EPS" fileref="todo.eps">
-</figure>
-</sect3>
 </sect2>
 
 <sect2><title>tifftopnm</title>
-<para>
-<figure>
-<title>TODO stuff</title>
-<graphic format="EPS" fileref="todo.eps">
-</figure>
-</para>
-
 <sect3><title>NAME</title>
 
 <para>tifftopnm - convert a TIFF file into a portable anymap
@@ -4301,15 +4194,22 @@ Author: Patrick J. Naughton (naughton@wind.sun.com).
 <!--  other special, indirect and consequential damages. -->
 </para>
 </sect3>
-
-<sect3><title>Sample output</title>
-<figure>
-<title>Sample output</title>
-<graphic format="EPS" fileref="todo.eps">
-</figure>
-</sect3>
 </sect2>
 </sect1>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <sect1><title>Example: Pixel enlargement</title>
 <para>
@@ -5199,12 +5099,13 @@ We have now mentioned the global color table, but haven't defined what it actual
 
 <sect3><title>Formula for global color table size</title>
 <para>
-The determine the size of the of the global color table, simply apply this formula: <emphasis>size of global color table = 2 ^ (size in table + 1)</emphasis>. The maximum size of the global color table is therefore <emphasis>2 ^ (7 + 1)</empasis>, or 255 items.
+The determine the size of the of the global color table, simply apply this formula: <emphasis>size of global color table = 2 ^ (size in table + 1)</emphasis>. The maximum size of the global color table is therefore <emphasis>2 ^ (7 + 1)</emphasis>, or 255 items.
 </para>
 
 <para>
 There will actually be three times that number of color bytes in the global color table, because each color is 24 bit per pixel.
 </para>
+</sect3>
 </sect2>
 
 <sect2><title>Global color table</title>
@@ -5467,7 +5368,6 @@ The last block in the chain of image data subblocks will be a terminating subblo
 The other thing which can be stored in the data area of the data stream of a GIF file is special purpose blocks. These are outside the scope of this tutorial, and wont be discussed here.
 </para>
 
-<execute><cmd>nextedition</cmd><input>Discuss them</input><execute>
 </sect2>
 
 <sect2><title>Trailer</title>
@@ -5486,8 +5386,11 @@ GIF supports the interlacing of images, which is where are the image is loaded, 
 </sect1>
 
 
-
-
+<sect1><title>Conclusion</title>
+<para>
+In this chapter we have learnt how the GIF format is laid out internally. This will be useful when it is time to dicsuss the PNG format...
+</para>
+</sect1>
 </chapter>
 <chapter id="chap-png"><title>PNG</title>
 <para><quote>
@@ -6487,6 +6390,11 @@ So what are the possible filters? Well, as of PDF 1.3
 <title>Detail here</title>
 <graphic format="EPS" fileref="todo.eps">
 </figure>
+
+<figure><title>A typical PDF object structure</title>
+<graphic format="EPS" fileref="pdf-figure1.eps">
+</figure>
+
 </sect2>
 </sect1>
 

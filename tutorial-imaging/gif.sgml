@@ -169,12 +169,13 @@ We have now mentioned the global color table, but haven't defined what it actual
 
 <sect3><title>Formula for global color table size</title>
 <para>
-The determine the size of the of the global color table, simply apply this formula: <emphasis>size of global color table = 2 ^ (size in table + 1)</emphasis>. The maximum size of the global color table is therefore <emphasis>2 ^ (7 + 1)</empasis>, or 255 items.
+The determine the size of the of the global color table, simply apply this formula: <emphasis>size of global color table = 2 ^ (size in table + 1)</emphasis>. The maximum size of the global color table is therefore <emphasis>2 ^ (7 + 1)</emphasis>, or 255 items.
 </para>
 
 <para>
 There will actually be three times that number of color bytes in the global color table, because each color is 24 bit per pixel.
 </para>
+</sect3>
 </sect2>
 
 <sect2><title>Global color table</title>
@@ -438,7 +439,7 @@ The last block in the chain of image data subblocks will be a terminating subblo
 The other thing which can be stored in the data area of the data stream of a GIF file is special purpose blocks. These are outside the scope of this tutorial, and wont be discussed here.
 </para>
 
-<execute><cmd>nextedition</cmd><input>Discuss them</input><execute>
+<execute><cmd>nextedition</cmd><input>Discuss them</input></execute>
 </sect2>
 
 <sect2><title>Trailer</title>
@@ -458,8 +459,11 @@ GIF supports the interlacing of images, which is where are the image is loaded, 
 </sect2>
 </sect1>
 
-
 <execute><cmd>nextedition</cmd><input>gif-coding.sgml</input></execute>
 
-
+<sect1><title>Conclusion</title>
+<para>
+In this chapter we have learnt how the GIF format is laid out internally. This will be useful when it is time to dicsuss the PNG format...
+</para>
+</sect1>
 </chapter>
