@@ -7,12 +7,38 @@
 </para>
 
 <sect1><title>Introduction to ld.so</title>
-
+<para>
+Whenever a program is run on a Linux machine, the operating system loads the program using ld.so
+</para>
 </sect1>
 
 <sect1><title>Preloading your own libraries</title>
 <para>
 
 </para>
+
+<sect2><title>LD_PRELOAD</title>
+<para>
+</para>
+</sect2>
+
+<sect2><title>/etc/ld.preload</title>
+<para>
+</para>
+</sect2>
+
+<sect2><title>Why?</title>
+<para>
+Why would you want to preload your own shared objects before the application gets to load objects? Well, this allows you to intercept calls to functions, and therefore allows you to change their behaviour. In the Linux world, this is probably only of use to change the behaviour of closed source applications such as <emphasis>VMWare</emphasis>. In fact, this is what got me interested in ld hacks.
+</para>
+
+<para>
+You see, the first ld preload hack I came across was written by Andrew Tridgel (tridge@samba.org). Andrew wanted to be able to use iso images instead of having to have a physical CD ROM drive attached to the machine. His code to implement this looks like:
+</para>
+
+<execute><cmd>code2db.pl</cmd><input>~mikal/external/cvs.samba.org/fakecd/fakecd.c</input></execute>
+</sect2>
 </sect1>
+
+
 </article>
