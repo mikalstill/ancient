@@ -145,21 +145,21 @@
 
 <para>
   As mentioned earlier, noise is inherent in the datasets with which we are dealing. Once common example is Random Walk.
-  This type of noise changes with time and therefore illudes accurate prediction. For further details on Random Walk, please refer
+  This type of noise changes with time and therefore eludes accurate prediction. For further details on Random Walk, please refer
   to the time domain analysis chapter of this thesis. A convenient and appropriate method for viewing Random Walk, in
-  particular the freucnies at which it is most promemant, is in the frequency domain. THe conversion to the frequency
-  domain is commonly done from the residual space of a daatset, i.e. the dataset has already undergone least squares regression
+  particular the frequencies at which it is most prominent, is in the frequency domain. The conversion to the frequency
+  domain is commonly done from the residual space of a dataset, i.e. the dataset has already undergone least squares regression
   analysis, including calculation of the residuals. Many of the datasets contain what appear to be Random Walk. One such example
-  is the datset from CEDUNA. In the residual space(see figure below), the periodicity of the signal is clear.
+  is the dataset from CEDUNA. In the residual space(see figure below), the periodicity of the signal is clear.
 </para>
 
-<figure><title>CEDUNA_GPS(UP) - REsiduals</title>
+<figure><title>CEDUNA_GPS(UP) - Residuals</title>
 <execute><cmd>img</cmd><args>gdms-cedu-res.png</args></execute>
 </figure>
 
 <para>
   In the frequency domain, we can now expect to see which frequency components make up the above signal. In particular,
-  we want to identify the noise component of the signal. The following figure is the result of an FFT on the REsiduals
+  we want to identify the noise component of the signal. The following figure is the result of an FFT on the Residuals
   of CEDUNA (UP).
 </para>
 
@@ -169,8 +169,8 @@
 
 <para>
   So we see energy at the low frequency end from what seems to be significant value. This first major portion of energy
-  is Random Walk. In fact, it is believed that t Insome cases, white noise can also be detected through spikes in the frequecny domain. 
-  It is also believed that Random Walk can be seen through the spectrum povided on teh graph.
+  is Random Walk. In fact, it is believed that t In some cases, white noise can also be detected through spikes in the frequency domain. 
+  It is also believed that Random Walk can be seen through the spectrum provided on the graph.
 </para>
 
 <para>
