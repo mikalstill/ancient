@@ -47,6 +47,15 @@ dtoa (double number)
   return string (buffer);
 }
 
+string
+ftoa (float number)
+{
+  char buffer[10];
+
+  snprintf (buffer, 10, "%f", number);
+  return string (buffer);
+}
+
 bool
 isblank (char c)
 {

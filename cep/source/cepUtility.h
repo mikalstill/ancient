@@ -23,6 +23,7 @@
 string itoa (int number);
 string ltoa (long number);
 string dtoa (double number);
+string ftoa (float number);
 bool isblank (char c);
 
 #endif

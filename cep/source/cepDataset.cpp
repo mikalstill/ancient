@@ -110,11 +110,12 @@ cepDataset::munch ()
 	      if (lines[i] > 3)
 		{
 		  // We process this line
-		  cepError dbg ("Dataset line from " + m_filename + "[" +
-				itoa (i) + "]: " + thisLine,
-				cepError::sevDebug);
-		  dbg.display ();
-		  thisLine = "";
+		  {
+		    cepError dbg ("Dataset line from " + m_filename + "[" +
+				  itoa (i) + "]: " + thisLine,
+				  cepError::sevDebug);
+		    dbg.display ();
+		  }
 
 		  // Put the data into the dataset data thingies
 		  // todo_mikal: is there a more c++ way to tokenize a string?
@@ -123,13 +124,23 @@ cepDataset::munch ()
 		  char *value;
 		  
 		  line = strdup(thisLine.c_str());
-		  row.x.date = atof((value = strtok(line, " ")) != NULL ? value : "0");
-		  row.x.sample = atof((value = strtok(line, " ")) != NULL ? value : "0");
-		  row.x.error = atof((value = strtok(line, " ")) != NULL ? value : "0");
+		  row.x.date = atof((value = strtok(line, " ")) != NULL ? value : "-1");
+		  row.x.sample = atof((value = strtok(NULL, " ")) != NULL ? value : "-1");
+		  row.x.error = atof((value = strtok(NULL, " ")) != NULL ? value : "-1");
 		  if(line != NULL)
 		    free(line);
 
 		  m_data.push_back(row);
+
+		  {
+		    cepError dbg ("Dataset line parsed to [" +
+				  ftoa (row.x.date) + ", " + ftoa(row.x.sample) + ", " +
+				  ftoa (row.x.error) + "]",
+				  cepError::sevDebug);
+		    dbg.display ();
+		  }
+
+		  thisLine = "";
 		}
 	      else
 		{
