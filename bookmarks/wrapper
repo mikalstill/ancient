@@ -1,3 +1,41 @@
 #!/bin/bash
 
+echo "Generating"
 ./bkmrkconv.pl -f bookmarks -d output
+
+echo "Fixing links (this is quite slow)"
+cd output
+
+echo -n "0%"
+for item in `ls | grep -v src`
+do
+  echo -n " "
+done
+echo "100%"
+
+echo -n "  "
+sedcmd=""
+rm ../subst.log 2> /dev/null
+for item in `ls | grep -v src`
+do
+  newname=`echo $item | sed 's/.html//'`
+  sedcmd="$sedcmd -e s/\"$item\"/\"\/cgi-bin\/getpage?area=bookmarks\&page=bookmark\&item=$newname\"/g"
+  echo "$item --> /cgi-bin/getpage?area=bookmarks&page=bookmark&item=$newname" >> ../subst.log
+  echo -n "."
+done
+
+echo ""
+echo -n "  "
+for item in `ls | grep -v src`
+do
+  cat $item | sed $sedcmd > $item.new
+  mv -f $item.new $item
+  echo -n "."
+done
+
+echo ""
+echo "Renaming html files"
+for item in `ls | grep -v src`
+do
+  mv -f $item /home/httpd/html/bookmarks/`echo $item | sed 's/.html//'`
+done
