@@ -77,14 +77,14 @@
 <para>
   Our use of docbook, however, was not altogether seemless. We found version inconsistencies in different
   Linux distributions. Once we updated all of the development machines to use the same version of docbook, we ran into
-  further trouble. It seemed still that the different distributions were not consistent when it came to building the
+  further trouble. It would seem that different distributions are not consistent when it came to building the
   documentation. An example of this, is that on some of the machines, although the docbook scripts would build the
   document, it was incomplete. This was due to the fact that SGML syntax errors were not being caught by the scripts
   and as a result, later in the build process when the build finally broke, it was extremely difficult to determine
-  exactly where the problems originated. The same docbook version used on a different distribution caught the SGML errors allowing
+  exactly where the problem originated. The same docbook version used on a different distribution caught the SGML errors allowing
   us to debug and fix any problems. Furthermore, the templates on the different distributions varied such that page numbering
   was not always consistent. This was the case even on different versions of the same distribution. To overcome
-  these issues, we simply generated the final submission of the documentation on the most suitable template.
+  these issues, we simply generated the final submission of the documentation using the most suitable template.
 </para>
 
 </sect2>
@@ -93,9 +93,9 @@
 <para>
  Autodocbook is tool employed for the documentation of source code. It is a simple perl script designed to parse
   C or C++ source files extracting comment blocks within specific tags and turning them into docbook sgml files.
-  These can then in turn be used to create  man pages, info pages and HTML documentation. This again serves to
+  These can then be used to create  man pages, info pages and HTML documentation. This again serves to
   minimise the need to make changes in several places, for example, if comments need to be changed for a specific
-  class or file, it is done in the class file and the Autodocbook script is run again requiring no further action. The second obvious
+  class or file, it is done in the class file and the Autodocbook script is run again. The second
   situtation is in the creation of the other possible documents, such as man pages, info pages and HTML files. The appropriate
   conversion script is run on the target files and the task is complete.
 </para>
