@@ -229,10 +229,8 @@ object::getStream (bool & needsStreamClean, unsigned long &length)
 	// Setup the decompression loop
 	char *out;
 	unsigned long outlength = m_streamLength;
-        out = new char[outlength + 1];
-	out[0] = 'x';
-	memcpy(out + 1, m_stream, outlength);
-	outlength++;
+        out = new char[outlength];
+	memcpy(out, m_stream, outlength);
 
 	for(unsigned int i = 0; i < filters.size(); i++){
 	  char *in;
