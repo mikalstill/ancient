@@ -125,17 +125,15 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
 
     // Record the type of selection
     if(event.LeftIsDown() && (m_select != selLeft)){
+      cepDebugPrint("Reset selection region (left)");
       m_selectXStart = -1;
       m_select = selLeft;
     }
     else if(event.RightIsDown() && (m_select != selRight)){
+      cepDebugPrint("Reset selection region (right)");
       m_selectXStart = -1;
       m_select = selRight;
     }
-
-    // This should never happen
-    else
-      m_select = selNone;
 
     if(m_selectXStart == -1){
       m_selectXStart = m_selectXPrevious = pt.x;
