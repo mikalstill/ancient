@@ -24,14 +24,9 @@
 cepConfiguration::cepConfiguration (const string & filename)
 {
   path.assign (filename);
-  cepError error = load (path);
+  // disard any error here. If we try to display it we get a segfault
+  load (path);
 
-  // check the status of the load
-  // if it fails terminate with an error message
-  if (error.isReal ())
-  {
-    error.display ();
-  }
 }
 
 cepConfiguration::~cepConfiguration ()
@@ -176,15 +171,15 @@ cepError cepConfiguration::writeConfig (ofstream & out)
 cepError cepConfiguration::getValue (const string & valkey,
                                      const string & defval, string & outval)
 {
-  map_t::const_iterator i = map.find (valkey);
   bool defaulted = false;
+  map_t::const_iterator i = map.find (valkey);
 
   if (i == map.end ())
   {
     outval = defval;
   }
   else
-  {
+ {
     outval = map[valkey];
   }
   cout << "<get<string> : requested " << valkey
@@ -195,8 +190,8 @@ cepError cepConfiguration::getValue (const string & valkey,
 cepError cepConfiguration::getValue (const string & valkey, const bool & defval,
                                      bool & outval)
 {
-  map_t::const_iterator i = map.find (valkey);
   bool defaulted = false;
+  map_t::const_iterator i = map.find (valkey);
 
   if (i == map.end ())
   {
@@ -216,8 +211,8 @@ cepError cepConfiguration::getValue (const string & valkey, const bool & defval,
 cepError cepConfiguration::getValue (const string & valkey, const int &defval,
                                      int &outval)
 {
-  map_t::const_iterator i = map.find (valkey);
   bool defaulted = false;
+  map_t::const_iterator i = map.find (valkey);
 
   if (i == map.end ())
   {

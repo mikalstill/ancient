@@ -23,10 +23,10 @@
 #include <iostream.h>
 #include <functional>
 
-/**A drop in replacement for the original, broken cepConfiguration.
+/**A drop in replacement for the original cepConfiguration.
   *This implements a whiteboard pattern.
   *@author Blake Swadling
-  *@version $Revision: 1.8 $
+  *@version $Revision: 1.9 $
   */
 
 class cepConfiguration
