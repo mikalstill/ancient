@@ -4,6 +4,27 @@ TITLE: write
 static int mcachefs_write(const char *path, const char *buf, size_t size,
                      off_t offset)
 {
-<b>...</b>
+    int fd;
+    int res;
+    char *realpath;
+
+    realpath = mcachefs_makerealpath(path);
+    if(realpath == NULL)
+      {
+        return -ENOMEM;
+      }
+
+    fd = open(realpath, O_WRONLY);
+
+    free(realpath);
+    if(fd == -1)
+        return -errno;
+
+    res = pwrite(fd, buf, size, offset);
+    if(res == -1)
+        res = -errno;
+    
+    close(fd);
+    return res;
 }
 </pre></ul>

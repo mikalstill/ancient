@@ -10,62 +10,435 @@
 
 <chapter><title>Introduction</title>
 <para>
-<emphasis>This is a draft version of this document. It is by no means complete. Please don't redistribute this version of the document, wait for the final one to come out first. If you have suggestions on how to improve the tutorial, please mail them to me at mikal@stillhq.com</emphasis>
+This tutorial covers FUSE, a userspace library and kernel module which facilitates the implementation of Linux filesystems in userspace. FUSE can be found at http://sourceforge.net/projects/avf/, and first came to my attention because of an article from LWN at http://lwn.net/Articles/68104/. This tutorial was first written as part of a tutorial on FUSE that I presented at OLS 2004.
 </para>
 
 <para>
-This tutorial covers FUSE, a userspace library and kernel module which facilitates the implementation of Linux filesystems in userspace. FUSE can be found at http://sourceforge.net/projects/avf/, and first came to my attention because of an article from LWN at http://lwn.net/Articles/68104/.
+If you have comments on this tutorial, please contact me at mikal@stillhq.com. The latest version of this tutorial is always available at http://www.stillhq.com/extracted/tutorial-fuse/
 </para>
 
-<sect1><title>Why would you want custom filesystems?</title>
+<sect1><title>What is FUSE?</title>
 <para>
-When you think about it, filesystems are an incredibly useful thing, and there are many reasons to write small filesystems to perform specific tasks. I first encountered FUSE when I had a need for something to cache the result of reads over a slow NFS network. For example, the university which I am studying at has labs full of machines which use NFS for read only storage of dependancies for student projects. It isn't practical to copy all of these files to the local machines until they are needed, as the machines have limited storage. A caching filesystem solves this problem by only storing the files which are actually used locally.
-</para>
-
-<para>
-There are other obvious examples. I do a lot of image programming, and one of things that I have in my collection of test images is a set of every possible TIFF image (within certain limits). This lets me test my code exhaustively before putting it into production. Now, it's easy to generate those test images are required from one or two source images, but that would mean having much more complicated test clients. A custom filesystem lets me instead have those images generated on demand when I am testing. While this makes the testing process slower, it is worth it for not having to store many gigabytes of test images.
+FUSE is a kernel module and userspace library which allows you to implement filesystems in userspace, instead of having to write kernel code. This makes it particularly useful for writing custom filesystems, especially if they're for one off tasks. FUSE can be downloaded from http://sf.net/projects/avf/.
 </para>
 </sect1>
 
-<sect1><title>Why in userspace?</title>
+<sect1><title>Why would you want a filesystem in userspace?</title>
 <para>
-So, why would you put these custom filesystems into user space? Well, kernel programming is a lot harder to debug, and doesn't feel natural for a lot of application developers. Userspace code on the other hand has access to all the standard debugging tools which most programmers are familiar with.
+I first encountered FUSE when I wanted a custom filesystem, so I am a good example of why you would want to develop a filesystem in userspace. At the time I was doing a lot of image processing coding, and one of the tests I would perform was to process every possible permutation of the TIFF image headers though my code to make sure that they all produced the expected result. This was needed because there are <emphasis>many</emphasis> valid representations of a single TIFF image, because you can change endianness, byte ordering, strip sizes, the interpretation of high and low values, the compression used, and many many other attributes of the TIFF image.
 </para>
 
 <para>
-Additionally, there is a lot of userspace support code to do almost anything you could want to put into your filesystem. In my example of a filesystem which generates test images, all of the image processing code exists in userspace already. If I was to write such a filesystem in kernel space, then I would also have to come up with the image processing code as well. It also seems wrong headed to do lots of image processing code in the kernel -- the kernel should be short and sweet.
-</para>
-</sect1>
-
-<sect1><title>Its a useful learning tool for students</title>
-<para>
-Because a userspace filesystem is not running in the kernel, it makes it a little less scary when a bug happens in your filesystem -- the machine wont nessesarily stop.
-</para>
-</sect1>
-</chapter>
-
-<chapter><title>A first glance at the FUSE implementation</title>
-<para>
-TODO
+Producing each of these images was relatively inexpensive, but at the time I needed to pregenerate them and then store them on disc, which took up way more storage than I really wanted to dedicate to the task. If I had been able to write a custom filesystem at the time, then I could have just produced the image in question based on an encoded filename when the file was opened, and destroyed that temporary image when it was no longer open in the testing application. This would have made the test suite run a little slower, but would have saved me a bunch of storage in return.
 </para>
 
-<sect1><title>The kernel module</title>
 <para>
-On startup, the file /proc/fs/fuse/dev is registered. This is then used for communication between the userspace worker process and the kernel module which hooks FUSE into the VFS layer of the kernel.
+Another example of a custom filesystem is a simple caching fileystem, and this is the example which I will discuss through most of this tutorial. Imagine that you have a NFS mounted remote filesystem over a relatively slow network -- for example you're play MP3's over a NFS mount on your wireless network. With the slower wireless networks most of us use, this is quite a painful experience.
+</para>
+
+<para>
+FUSE makes it possible to stack a caching filesystem in front of this NFS filesystem, which makes this use of the NFS filesystem much less painful. This works by having the caching userspace filesystem act as the filesystem which the MP3 player accesses, and this filesystem maintains a cache of recently accessed objects. The caching filesystem can then use the NFS mounted filesystem to access the remote data to populate the cache, and thus doesn't need to implement the NFS protocol itself.
 </para>
 </sect1>
 
-<sect1><title>The user space library</title>
+<sect1><title>Currently released FUSE filesystems</title>
 <para>
-TODO
+The FUSE documentation lists the following filesystems as being currently released (http://www.inf.bme.hu/~mszeredi/fuse/Filesystems):
 </para>
 
-<sect2><title>The fuse_operations structure</title>
+<itemizedlist>
+<listitem><para><command>OW</command> -- OWFS is a method under linux to allow 1-wire devices to appear like files in a directory</para></listitem>
+<listitem><para><command>FunFS</command> -- FunFS is an advanced network file system with a simple goal: to be better than NFS, currently marked as alpha</para></listitem>
+<listitem><para><command>EncFS</command> -- EncFS provides an encrypted filesystem in user-space. The EncFS module itself runs without any special permissions and uses the FUSE library and Linux kernel module to provide the filesystem interface</para></listitem>
+<listitem><para><command>SMB for FUSE</command> -- With SMB for Fuse you can seamlessly browse your network neighbourhood as were it on your own filesystem</para></listitem>
+<listitem><para><command>Run-Time-Access</command> -- RTA is a specialized memory resident interface to the internal data of your application. It is not a stand-alone server but a library which attaches to your program and offers up your program's internal structures and arrays as tables in a database and as files in a virtual file system</para></listitem>
+<listitem><para><command>PhoneBook</command> -- PhoneBook is expressly designed for use in situations where someone can be under pressure (legal, military and/or criminal) to disclose decryption keys, and has a 'chaffing' scheme whereby the user can disclose only passphrases for non-sensitive material, and credibly deny the existence of anything else</para></listitem>
+<listitem><para><command>KIO Fuse Gateway</command> -- This gateway makes it possible to mount ioslaves or a general ioslave-gateway via fuse and make them this way available to all linux apps</para></listitem>
+</itemizedlist>
+</sect1>
+
+<sect1><title>Available language bindings</title>
 <para>
-As with many modules within the kernel itself, the operations which can be performed on your userspace filesystem are handed to FUSE using a structure containing a list of function pointers. Here's a sample:
+...
 </para>
 
-<programlisting>
+<para>
+========================================================
+content/fuse-languagebindings
+--------------------------------------------------------
+TITLE: Language bindings for implementing your filesystem
+
+&lt;ul&gt;
+&lt;li&gt;C
+&lt;li&gt;Perl
+&lt;li&gt;Python
+&lt;li&gt;Java
+&lt;/ul&gt;
+
+
+========================================================
+content/fuse-whyuserspace
+--------------------------------------------------------
+TITLE: Why userspace?
+
+&lt;ul&gt;
+&lt;li&gt;Ok, so I want a custom filesystem
+&lt;li&gt;Why should I do it in userspace?
+
+&lt;BR&gt;&lt;BR&gt;
+
+&lt;li&gt;Broken kernel code makes many people sad
+&lt;li&gt;Kernel programming is harder than userspace programming
+&lt;li&gt;There are lots of nice userspace libraries
+&lt;li&gt;There are a &lt;i&gt;lot&lt;/i&gt; of trained userspace coders out there
+&lt;li&gt;Some things just don't make sense in kernel space
+&lt;/ul&gt;
+
+
+========================================================
+content/demo-intro
+--------------------------------------------------------
+TITLE: A quick introductary demo
+
+%% Demonstrate what a fuse filesystem looks like
+%% Steps are something like this:
+%% modprobe fuse
+%% ./addfs /mnt
+%% cat /mnt/34+6
+
+
+%% One of challenges with implementing a filesystem like
+%% this is that you need to be able to stat the file before
+%% it is opened. This means that you need to create the file
+%% at getattr() time.
+
+
+========================================================
+content/fuse-addfs
+--------------------------------------------------------
+TITLE: The code for that filesystem
+
+&lt;ul&gt;&lt;pre&gt;
+#include &lt;fuse.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;errno.h&gt;
+
+static int addfs_getattr(const char *path, struct stat *stbuf)
+{
+  printf("getattr: %s\n", path);
+  memset(stbuf, 0, sizeof(struct stat));
+  if(strcmp(path, "/") == 0)
+  {
+    stbuf-&gt;st_mode = S_IFDIR | 0755;
+    stbuf-&gt;st_nlink = 2;
+  }
+  else
+  {
+    stbuf-&gt;st_mode = S_IFREG | 0444;
+    stbuf-&gt;st_nlink = 1;
+    stbuf-&gt;st_size = 9;
+  }
+    
+  return 0;
+}
+
+static int addfs_open(const char *path, int flags)
+{
+  return 0;
+}
+
+static int addfs_read(const char *path, char *buf, size_t size, off_t offset)
+{
+  int a, b, idx;
+  char *tok, *p;
+
+  printf("read: %s\n", path);
+  for(idx = strlen(path) - 1; idx &gt; 0; idx--);
+  p = (char *) strdup(path + idx + 1);
+  a = atoi(strtok(p, "+"));
+  b = atoi(strtok(NULL, "+"));
+  snprintf(buf, size, "%8d\n", a + b);
+  return strlen(buf);
+}
+
+static struct fuse_operations addfs_oper = {
+    .getattr	= addfs_getattr,
+    .open	= addfs_open,
+    .read	= addfs_read
+};
+
+int main(int argc, char *argv[])
+{
+  printf("addfs 0.1 starting up...\n");
+  fuse_main(argc, argv, &amp;addfs_oper);
+  return 0;
+}
+&lt;/pre&gt;&lt;/ul&gt;
+
+
+========================================================
+content/fuse-addfs-1
+--------------------------------------------------------
+TITLE: Let's work through that code example
+
+&lt;ul&gt;&lt;pre&gt;
+static struct fuse_operations addfs_oper = {
+    .getattr	= addfs_getattr,
+    .open	= addfs_open,
+    .read	= addfs_read
+};
+
+int main(int argc, char *argv[])
+{
+  printf("addfs 0.1 starting up...\n");
+  fuse_main(argc, argv, &amp;addfs_oper);
+  return 0;
+}
+&lt;/pre&gt;&lt;/ul&gt;
+
+
+========================================================
+content/fuse-commandline
+--------------------------------------------------------
+TITLE: Fuse command line options
+
+&lt;ul&gt;
+&lt;ul&gt;&lt;pre&gt;
+Options:
+    -d      enable debug output
+    -s      disable multithreaded operation
+    -h      print help
+
+Fusermount options:
+            see 'fusermount -h'
+&lt;/pre&gt;&lt;/ul&gt;
+
+&lt;BR&gt;&lt;BR&gt;
+
+&lt;ul&gt;&lt;pre&gt;
+fusermount: [options] mountpoint [program [args ...]]
+Options:
+ -h       print help
+ -u       unmount
+ -p       check default permissions on files
+ -c       cache in kernel space if possible
+ -x       allow other users to access the files (only for root)
+ -n name  add 'name' as the filesystem name to mtab
+ -l       issue large reads
+ -q       quiet: don't complain if unmount fails
+&lt;/pre&gt;&lt;/ul&gt;
+
+&lt;/ul&gt;
+
+%% TODO
+
+
+========================================================
+content/fuse-addfs-2
+--------------------------------------------------------
+TITLE: More addfs code...
+
+&lt;ul&gt;&lt;pre&gt;
+static int addfs_getattr(const char *path, struct stat *stbuf)
+{
+  printf("getattr: %s\n", path);
+  memset(stbuf, 0, sizeof(struct stat));
+  if(strcmp(path, "/") == 0)
+  {
+    stbuf-&gt;st_mode = S_IFDIR | 0755;
+    stbuf-&gt;st_nlink = 2;
+  }
+  else
+  {
+    stbuf-&gt;st_mode = S_IFREG | 0444;
+    stbuf-&gt;st_nlink = 1;
+    stbuf-&gt;st_size = 9;
+  }
+    
+  return 0;
+}
+&lt;/pre&gt;&lt;/ul&gt;
+
+
+========================================================
+content/fuse-addfs-3
+--------------------------------------------------------
+TITLE: More addfs code...
+
+&lt;ul&gt;&lt;pre&gt;
+static int addfs_open(const char *path, int flags)
+{
+  return 0;
+}
+
+static int addfs_read(const char *path, char *buf, size_t size, off_t offset)
+{
+  int a, b, idx;
+  char *tok, *p;
+
+  printf("read: %s\n", path);
+  for(idx = strlen(path) - 1; idx &gt; 0; idx--);
+  p = (char *) strdup(path + idx + 1);
+  a = atoi(strtok(p, "+"));
+  b = atoi(strtok(NULL, "+"));
+  snprintf(buf, size, "%8d\n", a + b);
+  return strlen(buf);
+}
+&lt;/pre&gt;&lt;/ul&gt;
+
+
+========================================================
+content/fuse-procinterface
+--------------------------------------------------------
+TITLE: So how does FUSE work?
+
+&lt;ul&gt;
+
+&lt;li&gt;FUSE loads a kernel module which hooks into the VFS layer
+&lt;li&gt;The kernel module writes data to a file named /proc/fs/fuse/dev
+&lt;li&gt;The userspace library reads the data from there
+&lt;li&gt;Your functions are then called by the userspace library
+&lt;/ul&gt;
+
+
+========================================================
+content/fuse-kernelmodule-picture
+--------------------------------------------------------
+TITLE: Let's have that in a picture
+
+&lt;BR&gt;&lt;BR&gt;
+
+&lt;div align=center&gt;
+&lt;img src="/notes/presentations/content/fuse-architecture.png"&gt;
+&lt;/div&gt;
+
+
+========================================================
+content/fuse-kernelmodule
+--------------------------------------------------------
+TITLE: More about the kernel module
+
+&lt;ul&gt;
+&lt;li&gt;The kernel component of FUSE is relatively small at 2,500 lines
+&lt;li&gt;Quite readable
+&lt;li&gt;Manages the registration and use of the file in /proc
+&lt;li&gt;Inferfaces with the VFS layer
+&lt;/ul&gt;
+
+
+
+========================================================
+content/fuse-userspacelibrary
+--------------------------------------------------------
+TITLE: More about the userspace library
+
+&lt;ul&gt;
+&lt;li&gt;Even smaller than the kernel module at 1,500 lines
+&lt;li&gt;You need to link your code with this library and pthreads
+&lt;li&gt;For example:
+
+&lt;ul&gt;&lt;pre&gt;
+addfs: addfs.c
+	gcc addfs.c -o addfs -lfuse -lm -lpthread
+&lt;/pre&gt;&lt;/ul&gt;
+&lt;/ul&gt;
+
+
+========================================================
+content/fuse-mcachefs
+--------------------------------------------------------
+TITLE: mcachefs
+
+&lt;ul&gt;
+&lt;li&gt;The example I'm going to talk about during this tutorial is mcachefs
+&lt;li&gt;A relatively simple caching filesystem based on FUSE
+&lt;li&gt;You tell it:
+
+&lt;ul&gt;
+&lt;li&gt;what locally mounted directory is the target
+&lt;li&gt;where to put cached copies of files from that target
+&lt;li&gt;where to mount the cache filesystem
+&lt;/ul&gt;
+
+&lt;li&gt;Provides cached access to slow remotely mounted filesystems
+&lt;li&gt;For example NFS over a 11mbit network connection
+&lt;/ul&gt;
+
+
+========================================================
+content/demo-mcachefs-intro
+--------------------------------------------------------
+TITLE: A quick mcachefs demo
+
+&lt;ul&gt;
+&lt;li&gt;For this demo we're going to need a slow filesystem
+&lt;li&gt;To be able to demo it, we're going to need a slow filesystem to talk to
+&lt;BR&gt;&lt;BR&gt;
+&lt;li&gt;Introducing yet another custom filesystem -- waitfs
+&lt;li&gt;Performs the file operation you request, after an arbitary wait
+&lt;li&gt;It's not a good simulation of a latent network, because it doesn't account for the size of the transfer
+&lt;li&gt;It's good enough for our demo though
+&lt;/ul&gt;
+
+%% ./waitfs /wait
+%% ./mcachefs /cache
+%% ls /cache
+%% xview /cache/wait/home/mikal/images/*
+%% xview /cache/wait/home/mikal/images/*
+
+
+========================================================
+content/demo-mcachefs-doit
+--------------------------------------------------------
+TITLE: mcachefs demo
+
+
+========================================================
+content/linux-fpstructs
+--------------------------------------------------------
+TITLE: Structures of function pointers
+
+&lt;ul&gt;
+&lt;li&gt;One common implementation technique in the Linux kernel is to pass structures containing function pointers around
+&lt;li&gt;This makes it a lot easier to implement pluggable code such as modules
+&lt;li&gt;For example when you register a new USB driver, you pass the kernel a structure listing the functions to call for common events
+&lt;li&gt;The kernel then calls the relevant function when that event occurs
+
+&lt;BR&gt;&lt;BR&gt;
+
+&lt;ul&gt;&lt;pre&gt;
+static struct usb_driver ov511_driver = {
+        .owner =        THIS_MODULE,
+        .name =         "ov511",
+        .id_table =     device_table,
+        .probe =        ov51x_probe,
+        .disconnect =   ov51x_disconnect
+};
+&lt;/pre&gt;&lt;/ul&gt;
+
+&lt;BR&gt;&lt;BR&gt;
+
+&lt;li&gt;&lt;i&gt;probe&lt;/i&gt; is called for device insert (to determine if this is an OV511)
+&lt;li&gt;&lt;i&gt;disconnect&lt;/i&gt; is used for device removal
+&lt;/ul&gt;
+
+
+========================================================
+content/fuse-fuse_operations
+--------------------------------------------------------
+TITLE: fuse_operations
+
+&lt;ul&gt;
+&lt;li&gt;FUSE uses the concept of structures of function pointers in the same manner as the kernel
+&lt;li&gt;The structure used by FUSE is called &lt;i&gt;fuse_operations&lt;/i&gt; and encompasses all of the events which can occur on your userspace filesystem
+&lt;li&gt;Here's the one from mcachefs:
+
+&lt;BR&gt;&lt;BR&gt;
+
+&lt;ul&gt;&lt;pre&gt;
 static struct fuse_operations mcachefs_oper = {
     .getattr    = mcachefs_getattr,
     .readlink   = mcachefs_readlink,
@@ -86,46 +459,936 @@ static struct fuse_operations mcachefs_oper = {
     .write      = mcachefs_write,
     .statfs     = mcachefs_statfs,
     .release    = mcachefs_release,
-    .fsync      = mcachefs_fsync   
+    .fsync      = mcachefs_fsync  
 };
-</programlisting>
+&lt;/pre&gt;&lt;/ul&gt;
+&lt;/ul&gt;
 
-<para>
-When the userspace program which implements your filesystem starts up, it passes this structure to the FUSE library with the <emphasis>fuse_main</emphasis>() function call. The call I used for the <emphasis>fuse_operations</emphasis> structure above was:
-</para>
 
-<programlisting>
-fuse_main(argc, argv, &amp;mcachefs_oper);
-</programlisting>
+========================================================
+content/mcachefs-operations
+--------------------------------------------------------
+TITLE: The fuse_operations structure from mcachefs
 
-<para>
-<emphasis>fuse_main</emphasis>() performs some command line arguement parsing (hence the argc and argv arguements), and then starts processing requests for the filesystem. <emphasis>fuse_main </emphasis>() doesn't return until the userspace filesystem is unmounted.
-</para>
-</sect2>
+&lt;ul&gt;
+&lt;li&gt;That previous fuse_operations structure was taken from mcachefs
+&lt;li&gt;Which implements every possible operation
+&lt;li&gt;You don't have to implement them all
+&lt;li&gt;Either leave the unwanted ones undefined, or set them to null
+&lt;li&gt;As we did for addfs:
+
+&lt;pre&gt;
+static struct fuse_operations addfs_oper = {
+    .getattr	= addfs_getattr,
+    .open	= addfs_open,
+    .read	= addfs_read
+};
+&lt;/pre&gt;&lt;/ul&gt;
+
+
+========================================================
+content/fuse-whataretheseoperations
+--------------------------------------------------------
+TITLE: So what are all those operations?
+
+&lt;ul&gt;
+&lt;li&gt;So, there's lots of operations to hook to
+&lt;li&gt;What are they all, and which ones do I care about?
+&lt;li&gt;There's two ways to look at that question, and we'll do both...
+
+&lt;BR&gt;&lt;BR&gt;
+
+&lt;li&gt;Firstly, how do they map to VFS operations?
+&lt;/ul&gt;
+
+
+========================================================
+content/linux-vfs
+--------------------------------------------------------
+TITLE: The Linux VFS layer in one minute (or less)
+
+&lt;ul&gt;
+&lt;li&gt;I am by no means a VFS expert
+&lt;li&gt;Which is kinda the point of this talk...
+&lt;li&gt;So this description might gloss over important points
+&lt;li&gt;(I've had a lot of trouble finding a recent VFS tutorial)
+%% TODO
+
+&lt;BR&gt;&lt;BR&gt;
+
+&lt;li&gt;VFS is an abstraction of filesystems
+&lt;li&gt;Original concept from Sun when the implemented NFS
+&lt;li&gt;Lots of Unices do it something like this
+&lt;li&gt;How Linux achieves pluggable filesystems
+
+&lt;BR&gt;&lt;BR&gt;
+
+&lt;li&gt;Defines structures of operations which can be performed on common data structures
+
+&lt;BR&gt;&lt;BR&gt;
+
+&lt;li&gt;Let's take a look at the way FUSE maps into VFS
+
+
+========================================================
+content/fuse-vfseventmapping-dirinode
+--------------------------------------------------------
+TITLE: VFS directory inode operations -&gt; FUSE
+
+&lt;BR&gt;&lt;BR&gt;
+
+&lt;div align=center&gt;
+&lt;table border=0 width=90%&gt;
+&lt;tr&gt;&lt;td width=30%&gt;VFS&lt;/td&gt;&lt;td width=10%&gt;&lt;/td&gt;&lt;td width=30%&gt;FUSE&lt;/td&gt;&lt;td width=30%&gt;Comments&lt;/td&gt;&lt;/tr&gt;
+&lt;tr bgcolor="CCCCCC"&gt;&lt;td&gt;create&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;                 &lt;td&gt;mknod&lt;/td&gt;&lt;td&gt;&lt;img src="/notes/presentations/content/rightarrow.png"&gt;&lt;/td&gt;&lt;td&gt;mknod&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr bgcolor="CCCCCC"&gt;&lt;td&gt;mkdir&lt;/td&gt;&lt;td&gt;&lt;img src="/notes/presentations/content/rightarrow.png"&gt;&lt;/td&gt;&lt;td&gt;mkdir&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;                 &lt;td&gt;symlink&lt;/td&gt;&lt;td&gt;&lt;img src="/notes/presentations/content/rightarrow.png"&gt;&lt;/td&gt;&lt;td&gt;symlink&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr bgcolor="CCCCCC"&gt;&lt;td&gt;unlink&lt;/td&gt;&lt;td&gt;&lt;img src="/notes/presentations/content/rightarrow.png"&gt;&lt;/td&gt;&lt;td&gt;unlink&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;                 &lt;td&gt;rmdir&lt;/td&gt;&lt;td&gt;&lt;img src="/notes/presentations/content/rightarrow.png"&gt;&lt;/td&gt;&lt;td&gt;rmdir&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr bgcolor="CCCCCC"&gt;&lt;td&gt;rename&lt;/td&gt;&lt;td&gt;&lt;img src="/notes/presentations/content/rightarrow.png"&gt;&lt;/td&gt;&lt;td&gt;rename&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;                 &lt;td&gt;link&lt;/td&gt;&lt;td&gt;&lt;img src="/notes/presentations/content/rightarrow.png"&gt;&lt;/td&gt;&lt;td&gt;link&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr bgcolor="CCCCCC"&gt;&lt;td&gt;permission&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;                 &lt;td&gt;setattr&lt;/td&gt;&lt;td&gt;&lt;img src="/notes/presentations/content/rightarrow.png"&gt;&lt;/td&gt;&lt;td&gt;chmod&lt;br&gt;chown&lt;br&gt;truncate&lt;br&gt;utime&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr bgcolor="CCCCCC"&gt;&lt;td&gt;setattr&lt;/td&gt;&lt;td&gt;&lt;img src="/notes/presentations/content/rightarrowdashed.png"&gt;&lt;/td&gt;&lt;td&gt;getattr&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;                 &lt;td&gt;lookup&lt;/td&gt;&lt;td&gt;&lt;img src="/notes/presentations/content/rightarrowdashed.png"&gt;&lt;/td&gt;&lt;td&gt;getattr&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr bgcolor="CCCCCC"&gt;&lt;td&gt;getattr&lt;/td&gt;&lt;td&gt;&lt;img src="/notes/presentations/content/rightarrow.png"&gt;&lt;/td&gt;&lt;td&gt;getattr&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+
+
+========================================================
+content/fuse-vfseventmapping-dirfile
+--------------------------------------------------------
+TITLE: VFS directory file operations -&gt; FUSE
+
+&lt;BR&gt;&lt;BR&gt;
+
+&lt;div align=center&gt;
+&lt;table border=0 width=90%&gt;
+&lt;tr&gt;&lt;td width=30%&gt;VFS&lt;/td&gt;&lt;td width=10%&gt;&lt;/td&gt;&lt;td width=30%&gt;FUSE&lt;/td&gt;&lt;td width=30%&gt;Comments&lt;/td&gt;&lt;/tr&gt;
+&lt;tr bgcolor="CCCCCC"&gt;&lt;td&gt;read&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;                 &lt;td&gt;readdir&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr bgcolor="CCCCCC"&gt;&lt;td&gt;open&lt;/td&gt;&lt;td&gt;&lt;img src="/notes/presentations/content/rightarrow.png"&gt;&lt;/td&gt;&lt;td&gt;getdir&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;                 &lt;td&gt;release&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+
+
+========================================================
+content/fuse-vfseventmapping-fileinode
+--------------------------------------------------------
+TITLE: VFS file and symlink inode operations -&gt; FUSE
+
+&lt;BR&gt;&lt;BR&gt;
+
+&lt;div align=center&gt;
+&lt;table border=0 width=90%&gt;
+&lt;tr&gt;&lt;td width=30%&gt;VFS&lt;/td&gt;&lt;td width=10%&gt;&lt;/td&gt;&lt;td width=30%&gt;FUSE&lt;/td&gt;&lt;td width=30%&gt;Comments&lt;/td&gt;&lt;/tr&gt;
+&lt;tr bgcolor="CCCCCC"&gt;&lt;td&gt;permission&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;                 &lt;td&gt;setattr&lt;/td&gt;&lt;td&gt;&lt;img src="/notes/presentations/content/rightarrow.png"&gt;&lt;/td&gt;&lt;td&gt;chmod&lt;br&gt;chown&lt;br&gt;truncate&lt;br&gt;utime&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr bgcolor="CCCCCC"&gt;&lt;td&gt;setattr&lt;/td&gt;&lt;td&gt;&lt;img src="/notes/presentations/content/rightarrowdashed.png"&gt;&lt;/td&gt;&lt;td&gt;getattr&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;                 &lt;td&gt;getattr&lt;/td&gt;&lt;td&gt;&lt;img src="/notes/presentations/content/rightarrow.png"&gt;&lt;/td&gt;&lt;td&gt;getattr&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr bgcolor="CCCCCC"&gt;&lt;td&gt;readlink&lt;/td&gt;&lt;td&gt;&lt;img src="/notes/presentations/content/rightarrow.png"&gt;&lt;/td&gt;&lt;td&gt;readlink&lt;/td&gt;&lt;td&gt;Symlink&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;                 &lt;td&gt;followlink&lt;/td&gt;&lt;td&gt;&lt;img src="/notes/presentations/content/rightarrow.png"&gt;&lt;/td&gt;&lt;td&gt;readlink&lt;/td&gt;&lt;td&gt;Symlink&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+
+
+========================================================
+content/fuse-vfseventmapping-filefile
+--------------------------------------------------------
+TITLE: VFS file file operations -&gt; FUSE
+
+&lt;BR&gt;&lt;BR&gt;
+
+&lt;div align=center&gt;
+&lt;table border=0 width=90%&gt;
+&lt;tr&gt;&lt;td width=30%&gt;VFS&lt;/td&gt;&lt;td width=10%&gt;&lt;/td&gt;&lt;td width=30%&gt;FUSE&lt;/td&gt;&lt;td width=30%&gt;Comments&lt;/td&gt;&lt;/tr&gt;
+&lt;tr bgcolor="CCCCCC"&gt;&lt;td&gt;open&lt;/td&gt;&lt;td&gt;&lt;img src="/notes/presentations/content/rightarrow.png"&gt;&lt;/td&gt;&lt;td&gt;open&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;                 &lt;td&gt;release&lt;/td&gt;&lt;td&gt;&lt;img src="/notes/presentations/content/rightarrow.png"&gt;&lt;/td&gt;&lt;td&gt;release&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr bgcolor="CCCCCC"&gt;&lt;td&gt;fsync&lt;/td&gt;&lt;td&gt;&lt;img src="/notes/presentations/content/rightarrow.png"&gt;&lt;/td&gt;&lt;td&gt;fsync&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;                 &lt;td&gt;read&lt;/td&gt;&lt;td&gt;&lt;img src="/notes/presentations/content/rightarrowmany.png"&gt;&lt;/td&gt;&lt;td&gt;read&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr bgcolor="CCCCCC"&gt;&lt;td&gt;write&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;                 &lt;td&gt;mmap&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+
+
+========================================================
+content/fuse-vfseventmapping-addrfile
+--------------------------------------------------------
+TITLE: VFS address space file operations -&gt; FUSE
+
+&lt;BR&gt;&lt;BR&gt;
+
+&lt;div align=center&gt;
+&lt;table border=0 width=90%&gt;
+&lt;tr&gt;&lt;td width=30%&gt;VFS&lt;/td&gt;&lt;td width=10%&gt;&lt;/td&gt;&lt;td width=30%&gt;FUSE&lt;/td&gt;&lt;td width=30%&gt;Comments&lt;/td&gt;&lt;/tr&gt;
+&lt;tr bgcolor="CCCCCC"&gt;&lt;td&gt;readpage&lt;/td&gt;&lt;td&gt;&lt;img src="/notes/presentations/content/rightarrow.png"&gt;&lt;/td&gt;&lt;td&gt;read&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;                 &lt;td&gt;writepage&lt;/td&gt;&lt;td&gt;&lt;img src="/notes/presentations/content/rightarrow.png"&gt;&lt;/td&gt;&lt;td&gt;write&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr bgcolor="CCCCCC"&gt;&lt;td&gt;prepare_write&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;                 &lt;td&gt;commit_write&lt;/td&gt;&lt;td&gt;&lt;img src="/notes/presentations/content/rightarrow.png"&gt;&lt;/td&gt;&lt;td&gt;write&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+
+
+========================================================
+content/fuse-whatcallbackwhen
+--------------------------------------------------------
+TITLE: What do we need to do for each operation?
+
+&lt;ul&gt;
+&lt;li&gt;Another way to look at it is to ask what we need to do to implement each operation
+&lt;li&gt;That would form a step by step guide to writing a FUSE filesystem
+&lt;li&gt;Which sounds kinda like a tutorial...
+
+&lt;BR&gt;&lt;BR&gt;
+
+&lt;li&gt;Let's do that!
+&lt;/ul&gt;
+
+
+
+========================================================
+content/fuse-returnvalues
+--------------------------------------------------------
+TITLE: Return values from your operations
+
+&lt;ul&gt;
+&lt;li&gt;Error codes are negative
+&lt;li&gt;Generally the only thing returned is an error code, or zero
+&lt;/ul&gt;
+
+
+========================================================
+content/fuse-operation-getattr-1
+--------------------------------------------------------
+TITLE: getattr
+
+&lt;ul&gt;
+&lt;li&gt;This is the kernel equivalent of stat
+&lt;li&gt;Here's the mcachefs version:
+
+&lt;pre&gt;
+static int mcachefs_getattr(const char *path, struct stat *stbuf)
+{
+    int res;
+    char *realpath;
+
+    realpath = mcachefs_makerealpath(path);
+    if(realpath == NULL)
+      {
+	return -ENOMEM;
+      }
+    
+    res = lstat(realpath, stbuf);
+
+    free(realpath);
+    if(res == -1)
+      return -errno;
+    return 0;
+}
+&lt;/pre&gt;
+
+&lt;li&gt;There is some extra stuff here to deal with mcachefs' backing store
+&lt;/ul&gt;
+
+
+========================================================
+content/fuse-operation-getattr-2
+--------------------------------------------------------
+TITLE: getattr
+
+&lt;ul&gt;
+&lt;li&gt;The statbuf which lstat returns is kinda big...
+
+&lt;pre&gt;
+struct stat {
+    dev_t         st_dev;      /* device */
+    ino_t         st_ino;      /* inode */
+    &lt;b&gt;mode_t        st_mode;     /* protection */&lt;/b&gt;
+    &lt;b&gt;nlink_t       st_nlink;    /* number of hard links */&lt;/b&gt;
+    &lt;b&gt;uid_t         st_uid;      /* user ID of owner */&lt;/b&gt;
+    &lt;b&gt;gid_t         st_gid;      /* group ID of owner */&lt;/b&gt;
+    &lt;b&gt;dev_t         st_rdev;     /* device type (if inode device) */&lt;/b&gt;
+    &lt;b&gt;off_t         st_size;     /* total size, in bytes */&lt;/b&gt;
+    blksize_t     st_blksize;  /* blocksize for filesystem I/O */
+    &lt;b&gt;blkcnt_t      st_blocks;   /* number of blocks allocated */&lt;/b&gt;
+    &lt;b&gt;time_t        st_atime;    /* time of last access */&lt;/b&gt;
+    &lt;b&gt;time_t        st_mtime;    /* time of last modification */&lt;/b&gt;
+    &lt;b&gt;time_t        st_ctime;    /* time of last status change */&lt;/b&gt;
+};
+&lt;/pre&gt;
+
+&lt;li&gt;The lines in bold are actually &lt;i&gt;used&lt;/i&gt; by FUSE
+&lt;li&gt;So they're the ones you'd have to hand fill if you don't have a backing file to refer to
+&lt;li&gt;What if you don't know the file size? Read the "Dynamic files with FUSE" thread from the mailing list...
+&lt;/ul&gt;
+
+
+========================================================
+content/fuse-operation-readlink
+--------------------------------------------------------
+TITLE: readlink
+
+&lt;ul&gt;&lt;pre&gt;
+SYNOPSIS
+       #include &lt;unistd.h&gt;
+
+       int readlink(const char *path, char *buf, size_t bufsiz);
+
+DESCRIPTION
+       readlink  places  the  contents of the symbolic link path in the buffer
+       buf, which has size bufsiz.  readlink does not append a  NUL  character
+       to  buf.   It will truncate the contents (to a length of bufsiz charac-
+       ters), in case the buffer is too small to hold all of the contents.
+&lt;/pre&gt;
+
+&lt;pre&gt;
+static int mcachefs_readlink(const char *path, char *buf, size_t size)
+{
+    int res;
+    char *realpath;
+    
+    realpath = mcachefs_makerealpath(path);
+    if(realpath == NULL)
+      {
+	return -ENOMEM;
+      }
+    
+    res = readlink(realpath, buf, size - 1);
+
+    free(realpath);
+    if(res == -1)
+      return -errno;
+
+    buf[res] = '\0';
+    return 0;
+}
+&lt;/pre&gt;&lt;/ul&gt;
+
+
+========================================================
+content/fuse-operation-getdir-1
+--------------------------------------------------------
+TITLE: getdir
+
+&lt;ul&gt;
+&lt;li&gt;getdir is the opendir(), readdir(), and closedir() system calls rolled into one
+&lt;li&gt;You call the filldir parameter (which is a function pointer) once for each directory item
+
+&lt;pre&gt;
+static int mcachefs_getdir(const char *path, fuse_dirh_t h, fuse_dirfil_t filler)
+{
+    DIR *dp;
+    struct dirent *de;
+    int res = 0;
+    char *realpath;
+
+    realpath = mcachefs_makerealpath(path);
+    if(realpath == NULL)
+      {
+	return -ENOMEM;
+      }
+
+    dp = opendir(realpath);
+    
+    free(realpath);
+    if(dp == NULL)
+      return -errno;
+
+    while((de = readdir(dp)) != NULL) {
+        res = filler(h, de-&gt;d_name, de-&gt;d_type);
+        if(res != 0)
+            break;
+    }
+
+    closedir(dp);
+    return res;
+}
+&lt;/pre&gt;
+
+
+========================================================
+content/fuse-operation-getdir-2
+--------------------------------------------------------
+TITLE: getdir
+
+&lt;ul&gt;
+&lt;li&gt;The man page for readdir() doesn't specify the values for type
+&lt;li&gt;The glibc manual says:
+
+&lt;pre&gt;
+unsigned char d_type
+    This is the type of the file, possibly unknown. The following constants are
+defined for its value:
+
+    DT_UNKNOWN
+        The type is unknown. On some systems this is the only value returned.
+
+    DT_REG
+        A regular file.
+
+    DT_DIR
+        A directory.
+
+    DT_FIFO
+        A named pipe, or FIFO. See section 15.3 FIFO Special Files.
+
+    DT_SOCK
+        A local-domain socket.
+
+    DT_CHR
+        A character device.
+
+    DT_BLK
+        A block device. 
+
+    This member is a BSD extension. The symbol _DIRENT_HAVE_D_TYPE is defined i
+this member is available. On systems where it is used, it corresponds to the 
+file type bits in the st_mode member of struct statbuf. If the value cannot be 
+determine the member value is DT_UNKNOWN.
+&lt;/pre&gt;&lt;/ul&gt;
+
+
+========================================================
+content/fuse-operation-mknod
+--------------------------------------------------------
+TITLE: mknod
+
+&lt;ul&gt;
+&lt;pre&gt;
+static int mcachefs_mknod(const char *path, mode_t mode, dev_t rdev)
+{
+&lt;b&gt;...&lt;/b&gt;
+}
+&lt;/pre&gt;
+
+&lt;li&gt;mcachefs just passes the arguements straight through to the mknod system call
+&lt;li&gt;Returns -errno if mknod returned -1
+
+&lt;/ul&gt;
+
+%% How are accesses to the device special file done in the kernel? Do they get
+%% read calls?
+
+
+========================================================
+content/fuse-operation-mkdir
+--------------------------------------------------------
+TITLE: mkdir
+
+&lt;ul&gt;&lt;pre&gt;
+static int mcachefs_mkdir(const char *path, mode_t mode)
+{
+&lt;b&gt;...&lt;/b&gt;
+}
+&lt;/pre&gt;&lt;/ul&gt;
+
+
+========================================================
+content/fuse-operation-symlink
+--------------------------------------------------------
+TITLE: symlink
+
+&lt;ul&gt;&lt;pre&gt;
+static int mcachefs_symlink(const char *from, const char *to)
+{
+&lt;b&gt;...&lt;/b&gt;
+}
+&lt;/pre&gt;&lt;/ul&gt;
+
+
+========================================================
+content/fuse-operation-unlink
+--------------------------------------------------------
+TITLE: unlink
+
+&lt;ul&gt;&lt;pre&gt;
+static int mcachefs_unlink(const char *path)
+{
+&lt;b&gt;...&lt;/b&gt;
+}
+&lt;/pre&gt;&lt;/ul&gt;
+
+
+
+========================================================
+content/fuse-operation-rmdir
+--------------------------------------------------------
+TITLE: rmdir
+
+&lt;ul&gt;&lt;pre&gt;
+static int mcachefs_rmdir(const char *path)
+{
+&lt;b&gt;...&lt;/b&gt;
+}
+&lt;/pre&gt;&lt;/ul&gt;
+
+
+========================================================
+content/fuse-operation-rename
+--------------------------------------------------------
+TITLE: rename
+
+&lt;ul&gt;&lt;pre&gt;
+static int mcachefs_rename(const char *from, const char *to)
+{
+&lt;b&gt;...&lt;/b&gt;
+}
+&lt;/pre&gt;&lt;/ul&gt;
+
+
+========================================================
+content/fuse-operation-link
+--------------------------------------------------------
+TITLE: link
+
+&lt;ul&gt;&lt;pre&gt;
+static int mcachefs_link(const char *from, const char *to)
+{
+&lt;b&gt;...&lt;/b&gt;
+}
+&lt;/pre&gt;&lt;/ul&gt;
+
+
+========================================================
+content/fuse-operation-chmod
+--------------------------------------------------------
+TITLE: chmod
+
+&lt;ul&gt;&lt;pre&gt;
+static int mcachefs_chmod(const char *path, mode_t mode)
+{
+&lt;b&gt;...&lt;/b&gt;
+}
+&lt;/pre&gt;&lt;/ul&gt;
+
+
+========================================================
+content/fuse-operation-chown
+--------------------------------------------------------
+TITLE: chown
+
+&lt;ul&gt;&lt;pre&gt;
+static int mcachefs_chown(const char *path, uid_t uid, gid_t gid)
+{
+    int res;
+    char *realpath;
+
+    realpath = mcachefs_makerealpath(path);
+    if(realpath == NULL)
+      {
+	return -ENOMEM;
+      }
+
+    res = lchown(realpath, uid, gid);
+
+    free(realpath);
+    if(res == -1)
+        return -errno;
+
+    return 0;
+}
+&lt;/pre&gt;&lt;/ul&gt;
+
+
+========================================================
+content/fuse-operation-truncate
+--------------------------------------------------------
+TITLE: truncate
+
+&lt;ul&gt;&lt;pre&gt;
+static int mcachefs_truncate(const char *path, off_t size)
+{
+&lt;b&gt;...&lt;/b&gt;
+}
+&lt;/pre&gt;
+
+&lt;li&gt;Remember -- people can truncate things bigger!
+&lt;/ul&gt;
+
+
+========================================================
+content/fuse-operation-utime
+--------------------------------------------------------
+TITLE: utime
+
+&lt;ul&gt;&lt;pre&gt;
+static int mcachefs_utime(const char *path, struct utimbuf *buf)
+{
+&lt;b&gt;...&lt;/b&gt;
+}
+&lt;/pre&gt;&lt;/ul&gt;
+
+
+========================================================
+content/fuse-operation-open
+--------------------------------------------------------
+TITLE: open
+
+&lt;ul&gt;&lt;pre&gt;
+static int mcachefs_open(const char *path, int flags)
+{
+&lt;b&gt;...&lt;/b&gt;
+}
+&lt;/pre&gt;
+
+&lt;li&gt;Basically an existance and permissions check
+&lt;li&gt;&lt;i&gt;Does not return a file handle&lt;/i&gt;
+&lt;/ul&gt;
+
+
+========================================================
+content/fuse-operation-read
+--------------------------------------------------------
+TITLE: read
+
+&lt;ul&gt;&lt;pre&gt;
+static int mcachefs_read(const char *path, char *buf, size_t size, off_t offset)
+{
+    int fd;
+    int res;
+    char *backingpath;
+
+    if(!mcachefs_fileinbacking(path))
+      mcachefs_copytobacking(path);
+
+    backingpath = mcachefs_makebackingpath(path);
+    if(backingpath == NULL)
+      {
+	return -ENOMEM;
+      }
+
+    fd = open(backingpath, O_RDONLY);
+
+    free(backingpath);
+    if(fd == -1)
+        return -errno;
+    
+    res = pread(fd, buf, size, offset);
+    if(res == -1)
+        res = -errno;
+    
+    close(fd);
+    return res;
+}
+&lt;/pre&gt;&lt;/ul&gt;
+
+
+========================================================
+content/fuse-operation-write
+--------------------------------------------------------
+TITLE: write
+
+&lt;ul&gt;&lt;pre&gt;
+static int mcachefs_write(const char *path, const char *buf, size_t size,
+                     off_t offset)
+{
+    int fd;
+    int res;
+    char *realpath;
+
+    realpath = mcachefs_makerealpath(path);
+    if(realpath == NULL)
+      {
+        return -ENOMEM;
+      }
+
+    fd = open(realpath, O_WRONLY);
+
+    free(realpath);
+    if(fd == -1)
+        return -errno;
+
+    res = pwrite(fd, buf, size, offset);
+    if(res == -1)
+        res = -errno;
+    
+    close(fd);
+    return res;
+}
+&lt;/pre&gt;&lt;/ul&gt;
+
+
+========================================================
+content/fuse-operation-statfs
+--------------------------------------------------------
+TITLE: statfs
+
+&lt;ul&gt;&lt;pre&gt;
+static int mcachefs_statfs(struct fuse_statfs *fst)
+{
+    struct statfs st;
+    int rv = statfs("/",&amp;st);
+
+    if(!rv) {
+    	fst-&gt;block_size  = st.f_bsize;
+    	fst-&gt;blocks      = st.f_blocks;
+    	fst-&gt;blocks_free = st.f_bavail;
+    	fst-&gt;files       = st.f_files;
+    	fst-&gt;files_free  = st.f_ffree;
+    	fst-&gt;namelen     = st.f_namelen;
+    }
+    return rv;
+}
+&lt;/pre&gt;&lt;/ul&gt;
+
+
+========================================================
+content/fuse-operation-release
+--------------------------------------------------------
+TITLE: release
+
+&lt;ul&gt;&lt;pre&gt;
+static int mcachefs_release(const char *path, int flags)
+{
+    /* Just a stub.  This method is optional and can safely be left
+       unimplemented */
+    (void) path;
+    (void) flags;
+    return 0;
+}
+&lt;/pre&gt;&lt;/ul&gt;
+
+
+========================================================
+content/fuse-operation-fsync
+--------------------------------------------------------
+TITLE: fsync
+
+&lt;ul&gt;&lt;pre&gt;
+static int mcachefs_fsync(const char *path, int isdatasync)
+{
+    /* Just a stub.  This method is optional and can safely be left
+       unimplemented */
+    (void) path;
+    (void) isdatasync;
+    return 0;
+}
+&lt;/pre&gt;&lt;/ul&gt;
+
+
+========================================================
+content/fuse-operationdefaults
+--------------------------------------------------------
+TITLE: Why can't FUSE provide default behaviours for a lot of those?
+
+&lt;ul&gt;
+&lt;li&gt;There are a lot of operations there which need to be implemented
+&lt;li&gt;For a writethrough filesystem or my caching filesystem a lot of them just use the existing system call
+&lt;li&gt;Why can't FUSE just provide these for me?
+
+&lt;BR&gt;&lt;BR&gt;
+
+&lt;li&gt;FUSE doesn't know where your data is
+&lt;li&gt;The normal syscall might not be appropriate to your filesystem
+&lt;li&gt;How do you tell FUSE to use the default behaviour?
+
+&lt;/ul&gt;
+
+
+========================================================
+content/fuse-operationdefaults-2
+--------------------------------------------------------
+TITLE: Why can't FUSE provide default behaviours for a lot of those?
+
+&lt;ul&gt;
+&lt;li&gt;We can answer a few of those:
+
+&lt;BR&gt;&lt;BR&gt;
+
+&lt;li&gt;Specify the default by passing -1 as the function pointer?
+&lt;li&gt;Specify a path to prepend to the path of the object being accessed
+&lt;li&gt;If the syscall doesn't map to your needs, then you're always going to have to provide it anyway.
+
+&lt;BR&gt;&lt;BR&gt;
+
+&lt;li&gt;I'm still trying to decide if there is enough need to bother writing a patch to do this...
+
+%% TODO: Write a patch to implement this...
+
+&lt;/ul&gt;
+
+
+========================================================
+content/fuse-threadingmodel
+--------------------------------------------------------
+TITLE: The FUSE threading model
+
+&lt;ul&gt;
+&lt;li&gt;By default FUSE is threaded
+&lt;li&gt;You can disable this if you would like with a command line option
+&lt;/ul&gt;
+
+
+========================================================
+content/fuse-performancemetrics
+--------------------------------------------------------
+TITLE: Performance metrics
+
+&lt;ul&gt;
+&lt;li&gt;How does FUSE compare with traditional filesystems?
+&lt;li&gt;All of the following metrics are based on this scheme:
+
+&lt;ul&gt;
+&lt;li&gt;Perform an operation on a ext3 filesystem
+&lt;li&gt;Perform the same operation on a simple write through filesystem which points straight at the ext3 filesystem used above
+&lt;li&gt;Compare
+&lt;/ul&gt;
+&lt;/ul&gt;
+
+
+========================================================
+content/fuse-kernelcompiles
+--------------------------------------------------------
+TITLE: Performance: kernel compiles
+
+&lt;ul&gt;
+&lt;li&gt;The ultimate performance metric?
+
+&lt;BR&gt;&lt;BR&gt;
+
+&lt;ul&gt;&lt;pre&gt;
+make clean
+make mrproper
+make allyesconfig
+time make
+&lt;/pre&gt;&lt;/ul&gt;
+
+&lt;BR&gt;&lt;BR&gt;
+
+&lt;b&gt;Straight ext3:&lt;/b&gt;&lt;br&gt;
+&lt;ul&gt;&lt;pre&gt;
+1145.69user 70.27system 20:33.32elapsed 98%CPU (0avgtext+0avgdata 0maxresident)k
+1146.23user 69.63system 20:39.99elapsed 98%CPU (0avgtext+0avgdata 0maxresident)k
+1145.61user 69.97system 20:34.23elapsed 98%CPU (0avgtext+0avgdata 0maxresident)k
+1145.90user 70.19system 20:35.62elapsed 98%CPU (0avgtext+0avgdata 0maxresident)k
+1146.22user 69.99system 20:39.80elapsed 98%CPU (0avgtext+0avgdata 0maxresident)k
+&lt;/pre&gt;&lt;/ul&gt;
+
+&lt;BR&gt;&lt;BR&gt;
+
+&lt;b&gt;Userspace write through to ext3:&lt;/b&gt;&lt;br&gt;
+&lt;ul&gt;&lt;pre&gt;
+1151.70user 78.65system 22:07.49elapsed 92%CPU (0avgtext+0avgdata 0maxresident)k
+1151.59user 78.30system 22:13.22elapsed 92%CPU (0avgtext+0avgdata 0maxresident)k
+1151.40user 78.46system 22:17.37elapsed 91%CPU (0avgtext+0avgdata 0maxresident)k
+1151.48user 78.88system 22:13.04elapsed 92%CPU (0avgtext+0avgdata 0maxresident)k
+1150.97user 78.53system 22:18.70elapsed 91%CPU (0avgtext+0avgdata 0maxresident)k
+&lt;/pre&gt;&lt;/ul&gt;
+&lt;/ul&gt;
+
+
+========================================================
+content/fuse-bonnie++
+--------------------------------------------------------
+TITLE: Performance: bonnie++
+
+&lt;ul&gt;
+
+&lt;b&gt;Straight ext3:&lt;/b&gt;&lt;br&gt;
+&lt;ul&gt;&lt;pre&gt;
+Version  1.03       ------Sequential Output------ --Sequential Input- --Random-
+                    -Per Chr- --Block-- -Rewrite- -Per Chr- --Block-- --Seeks--
+Machine        Size K/sec %CP K/sec %CP K/sec %CP K/sec %CP K/sec %CP  /sec %CP
+challenger       2G 23723  74 23900   6  9162   2 22858  64 27670   3 125.5   0
+                    ------Sequential Create------ --------Random Create--------
+                    -Create-- --Read--- -Delete-- -Create-- --Read--- -Delete--
+              files  /sec %CP  /sec %CP  /sec %CP  /sec %CP  /sec %CP  /sec %CP
+                 16  2675  97 +++++ +++ +++++ +++  2801  98 +++++ +++ 13645  9
+&lt;/pre&gt;&lt;/ul&gt;
+
+&lt;BR&gt;&lt;BR&gt;
+
+&lt;b&gt;Userspace write through to ext3:&lt;/b&gt;&lt;br&gt;
+&lt;ul&gt;&lt;pre&gt;
+Version  1.03       ------Sequential Output------ --Sequential Input- --Random-
+                    -Per Chr- --Block-- -Rewrite- -Per Chr- --Block-- --Seeks--
+Machine        Size K/sec %CP K/sec %CP K/sec %CP K/sec %CP K/sec %CP  /sec %CP
+challenger       2G 14037  43 22377   4  9857   2 20704  57 22355   3  52.9   0
+                    ------Sequential Create------ --------Random Create--------
+                    -Create-- --Read--- -Delete-- -Create-- --Read--- -Delete--
+              files  /sec %CP  /sec %CP  /sec %CP  /sec %CP  /sec %CP  /sec %CP
+                 16  2489   2 +++++ +++ +++++ +++  2542   1 +++++ +++ 10218   7
+&lt;/pre&gt;&lt;/ul&gt;
+&lt;/ul&gt;
+
+
+
+========================================================
+content/fuse-dbench
+--------------------------------------------------------
+TITLE: Performance: dbench
+
+&lt;ul&gt;
+&lt;li&gt;A benchmark developed by Andrew Tridgell to simulate the IO load from the netbench SMB benchmark
+
+&lt;BR&gt;&lt;BR&gt;
+
+&lt;b&gt;Straight ext3:&lt;/b&gt;&lt;br&gt;
+&lt;ul&gt;&lt;pre&gt;
+Throughput 187.801 MB/sec 20 procs
+Throughput 183.047 MB/sec 20 procs
+Throughput 188.623 MB/sec 20 procs
+Throughput 188.305 MB/sec 20 procs
+&lt;/pre&gt;&lt;/ul&gt;
+
+&lt;BR&gt;&lt;BR&gt;
+
+&lt;b&gt;Userspace write through to ext3:&lt;/b&gt;&lt;br&gt;
+&lt;ul&gt;&lt;pre&gt;
+Throughput 187.436 MB/sec 20 procs
+Throughput 179.678 MB/sec 20 procs
+Throughput 183.651 MB/sec 20 procs
+Throughput 181.739 MB/sec 20 procs
+&lt;/pre&gt;&lt;/ul&gt;
+
+&lt;BR&gt;&lt;BR&gt;
+
+&lt;li&gt;3 percent throughput loss
+
+&lt;/ul&gt;
+
+
+
+========================================================
+content/fuse-mounting
+--------------------------------------------------------
+TITLE: Mounting your filesystem
+
+&lt;ul&gt;
+&lt;li&gt;Run your userspace filesystem and pass through where to mount to
+&lt;li&gt;There are issues with doing it this way (mtab locking)
+&lt;li&gt;Work is happening on integrating with mount
+&lt;li&gt;It's not there yet...
+&lt;/ul&gt;
+
+
+========================================================
+content/fuse-unmounting
+--------------------------------------------------------
+TITLE: Unmounting your filesystem
+
+&lt;ul&gt;
+&lt;li&gt;Do this in the normal way
+&lt;li&gt;The userspace program for that filesystem will then terminate
+&lt;/ul&gt;
+
+
+========================================================
+content/fuse-largefilesupport
+--------------------------------------------------------
+TITLE: Large file support
+
+&lt;ul&gt;
+&lt;li&gt;FUSE 1.1 currently truncates files at 2GB
+&lt;li&gt;Miklos was working on a patch for this
+&lt;li&gt;I'm not sure if it made it into the recently released 1.2
+&lt;/ul&gt;
+
+
 </sect1>
 </chapter>
-
-<chapter><title>A first pass at a FUSE filesystem</title>
-<para>
-The example which we will follow through for this tutorial is my caching userspace filesystem. When I originally wrote the filesystem, it took the <command>open</command>() call for a file, checked for existance in the cache, and if the file didn't exist in the cache copied it across the network to the cache. All subsequent requests go to the cache, so if the file doesn't exist when <command>open</command>()ed, the cache wouldn't be populated, and subsequent operations on the file would fail as well.
-</para>
-
-<para>
-The advantage of this is that cache management can be done in userspace with a find command, on the proviso that there is no one accessing the cache while the maintence is being performed. It is also a relatively simple filesystem to implement and understand. The disadvantages are that none of the metadata is cached, and the <command>open</command>() operation is <emphasis>very</emphasis> slow to complete. Imagine copying a two gigabyte file over the network before the <command>open</command>() completes.
-</para>
-
-<execute><cmd>code2db</cmd><input>mcachefs-01/mcachefs.c</input></execute>
-</chapter>
-
-
-<appendix><title>config.[ch] as used in examples</title>
-<para>
-Several of the examples refer to a file named config.c or config.h, which are reproduced here.
-</para>
-
-<execute><cmd>code2db</cmd><input>mcachefs-01/config.h</input></execute>
-
-<execute><cmd>code2db</cmd><input>mcachefs-01/config.c</input></execute>
-</appendix>
-
 </book>

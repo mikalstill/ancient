@@ -9,6 +9,10 @@ TITLE: Why can't FUSE provide default behaviours for a lot of those?
 <li>Specify a path to prepend to the path of the object being accessed
 <li>If the syscall doesn't map to your needs, then you're always going to have to provide it anyway.
 
+<BR><BR>
+
+<li>I'm still trying to decide if there is enough need to bother writing a patch to do this...
+
 %% TODO: Write a patch to implement this...
 
 </ul>
