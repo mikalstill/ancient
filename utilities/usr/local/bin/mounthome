@@ -1,7 +1,11 @@
 #!/bin/bash
 
-mount -t smb //george/mp3 /mnt/george/mp3 -o username=Administrator
-mount -t smb //george/wav /mnt/george/wav -o username=Administrator
-mount -t smb //george/data /mnt/george/data -o username=Administrator
-mount -t smb //george/pictures /mnt/george/pictures -o username=Administrator
-mount -t smb //george/cdrom /mnt/george/cdrom -o username=Administrator
+# This is far from perfect
+echo -n "Password: "
+read password
+
+mount -t smb //george/mp3 /mnt/george/mp3 -o "username=Administrator,password=$password"
+mount -t smb //george/wav /mnt/george/wav -o "username=Administrator,password=$password"
+mount -t smb //george/data /mnt/george/data -o "username=Administrator,password=$password"
+mount -t smb //george/pictures /mnt/george/pictures -o "username=Administrator,password=$password"
+mount -t smb //george/cdrom /mnt/george/cdrom -o "username=Administrator,password=$password"
