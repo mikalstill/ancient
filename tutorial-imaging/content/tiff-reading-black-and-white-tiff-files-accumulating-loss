@@ -1,0 +1,5 @@
+TITLE: TIFF: Reading Black and White TIFF files: Accumulating loss?
+<li>JPEG compression can be a bad choice for some forms of data
+<li>This is because it is lossy
+<li>This loss accumulates through repeated compression and decompression
+

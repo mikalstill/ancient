@@ -1,0 +1,11 @@
+TITLE: TIFF: Reading Black and White TIFF files: Continued 1
+<li>A tiled image is like your bathroom wall...
+<li>This is often used for extremely large images such as maps
+
+<br><br><div align="center"><b>The Sydney Harbor Bridge, in tiles</b>
+<br><img src="/notes/presentations/content/gen-tiff-figure3.jpg">
+</div><BR><BR>
+
+<li>Tiled images are not very common
+<li>So we'll focus on stripped images
+

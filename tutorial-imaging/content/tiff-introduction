@@ -1,0 +1,12 @@
+TITLE: TIFF: Introduction
+<li><b>T</b>agged <b>I</b>mage <b>F</b>ile <b>F</b>ormat
+<li>Developed by Aldus (remember them?) and Microsoft
+<li>Aldus was acquired by Adobe, who still administer the TIFF specification
+<li>Download the spec from:
+
+  <a href="http://partners.adobe.com/asn/developer/pdfs/tn/TIFF6.pdf">http://partners.adobe.com/asn/developer/pdfs/tn/TIFF6.pdf</a>
+
+<li>Technical implementation notes can be found at:
+
+  <a href="http://partners.adobe.com/asn/developer/technotes/main.html">http://partners.adobe.com/asn/developer/technotes/main.html</a>
+

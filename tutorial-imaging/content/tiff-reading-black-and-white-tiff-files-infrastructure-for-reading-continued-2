@@ -1,0 +1,7 @@
+TITLE: TIFF: Reading Black and White TIFF files: Infrastructure for reading: Continued 2
+<li>The other thing to bear in mind is the fill order of the bytes
+<li>This is whether the first bit in the byte has the highest value or the lowest
+<li>This is subtly different from endianness
+<BR><BR>
+<li>Libtiff deals with endian issues for us automatically
+

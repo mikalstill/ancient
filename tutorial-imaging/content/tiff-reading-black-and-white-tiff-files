@@ -1,0 +1,14 @@
+TITLE: TIFF: Reading Black and White TIFF files
+<li>As I said before, reliable reading is much harder than writing
+<li>First let's talk about stripping, and tiling of images...
+
+<li>Single strip is where all the image data is in one block (a strip)
+<li>This can be unreliable if the strip is bigger than 8kb
+
+<BR><BR>
+<li>Multiple strip images have many horizontal strips
+
+<br><br><div align="center"><b>The Sydney Harbor Bridge, in strips</b>
+<br><img src="/notes/presentations/content/gen-tiff-figure2.jpg">
+</div><BR><BR>
+

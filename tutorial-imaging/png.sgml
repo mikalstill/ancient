@@ -1011,7 +1011,12 @@ Time of last image modification.
 
 
 
-
+<slidebreak>
+<slidetext>
+<B><I>This is where I stopped creating slides, as the tutorial was cancelled...
+</i></b>
+</slidetext>
+<noslide>
 
 
 
@@ -1112,7 +1117,6 @@ This example below, much like the TIFFClient examples in the TIFF chapter shows 
 
 
 
-<noslide>
 <sect1><title>Man pages</title>
 <para>
 To be honest, the libtiff man pages are much better than the documentation which comes with libpng. libpng has one main man page, which is included for ease of reference below.
@@ -1122,7 +1126,6 @@ To be honest, the libtiff man pages are much better than the documentation which
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/png/man/libpng.3</input><args>-s 3</args></execute>
 </sect2>
 </sect1>
-</noslide>
 
 <sect1><title>Conclusion</title>
 <para>
