@@ -16,28 +16,40 @@ $col = "";
 $table = "";
 $where = "";
 
+# This should use getopt, but the Telstra ADSL network is down, so I can't get doco
+$dbname = $ARGV[0];
+$col = $ARGV[1];
+$table = $ARGV[2];
+$where = $ARGV[3];
+
 # If nothing has been set on the command line, then we prompt the user...
-print "Database: ";
-$dbname=<STDIN>;
-
+if($dbname eq ""){
+    print "Database: ";
+    $dbname=<STDIN>;
+}
 $database = DBI->connect("DBI:mysql:database=$dbname:host=localhost", "root", "vodka4me", { PrintError => 0 });
-
 if(!defined($database)){
   print "Database connection failed" . DBI->errstr;
   exit;
   }
 
-print "Column: ";
-$col=<STDIN>;
-chomp $col;
+if($col eq ""){
+    print "Column: ";
+    $col=<STDIN>;
+    chomp $col;
+}
 
-print "Table: ";
-$table=<STDIN>;
-chomp $table;
+if($table eq ""){
+    print "Table: ";
+    $table=<STDIN>;
+    chomp $table;
+}
 
-print "Where: ";
-$where=<STDIN>;
-chomp $where;
+if($where eq ""){
+    print "Where: ";
+    $where=<STDIN>;
+    chomp $where;
+}
 
 # Get the data to edit
 $select = $database->prepare("SELECT $col FROM $table WHERE $where");
