@@ -2,16 +2,17 @@
 <book><bookinfo>
 <title>GDMS: Thesis</title>
 <authorgroup>
-<author>
-  <firstname>Michael</firstname>
-  <surname>Still</surname>
-  <affiliation><jobtitle>964076</jobtitle></affiliation>
-</author>
 
 <author>
   <firstname>Daniel</firstname>
   <surname>Fernandez</surname>
   <affiliation><jobtitle>991672</jobtitle></affiliation>
+</author>
+
+<author>
+  <firstname>Michael</firstname>
+  <surname>Still</surname>
+  <affiliation><jobtitle>964076</jobtitle></affiliation>
 </author>
 
 <author>
@@ -21,16 +22,17 @@
 </author>
 
 <author>
+  <firstname>Kristy</firstname>
+  <surname>Van Der Vlist</surname>
+  <affiliation><jobtitle>983118</jobtitle></affiliation>
+</author>
+
+<author>
   <firstname>Nick</firstname>
   <surname>Wheatstone</surname>
   <affiliation><jobtitle>983131</jobtitle></affiliation>
 </author>
 
-<author>
-  <firstname>Kristy</firstname>
-  <surname>Van Der Vlist</surname>
-  <affiliation><jobtitle>983118</jobtitle></affiliation>
-</author>
 </authorgroup>
 </bookinfo>
 
@@ -87,11 +89,14 @@
 </sect1> <!--backgorund-->
 
 
-  <sect1><title>Time Domain Analysis</title>
+  <sect1><title>Time Domain Analysis</title> 
 
 <sect2><title>Introduction</title>
-   <para></para>
+  <para> Time domain analysis is a powerful tool for analyising discrete singals, such as those associated with GPS, VLBI
+  and SLR data.
+  </para>
 </sect2> <!--Introduction-->
+
 
 <sect2><title>Theory</title>
   <para></para>
@@ -102,7 +107,6 @@
 </sect2> <!--Conclusion-->
 
 </sect1> <!--TDA-->
-
   <sect1><title>Interpolation</title>
 
 <sect2><title>Introduction</title>

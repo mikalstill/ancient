@@ -1,14 +1,18 @@
 <sect1><title>Time Domain Analysis</title> 
 
 <sect2><title>Introduction</title>
-
+  <para> Time domain analysis is a powerful tool for analyising discrete singals, such as those associated with GPS, VLBI
+  and SLR data.
+  </para>
 </sect2> <!--Introduction-->
 
-<para> Time domain analysis is a powerful tool for analyising discrete singals, such as those associated with GPS, VLBI and SLR data. 
+
 <sect2><title>Theory</title>
+  <para></para>
 </sect2> <!--Theory-->
 
 <sect2><title>Conclusion</title>
+  <para></para>
 </sect2> <!--Conclusion-->
 
 </sect1> <!--TDA-->

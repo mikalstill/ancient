@@ -9,20 +9,8 @@
 </para>
 
 <para>
-  In an attempt to overcome these,
-  we need to perform various transformations on the data, and compare these results. It is intended to
-  do this by taking the two input data sets, in a defined format, and through analysis in both the time and frequency
-  domains, merge the data sets into a new data set, making use of those parts of the GPS, VLBI and SLR data which contain
-  the least noise. Some of the techniques employed during this data processing wil include, Least Squares regression, Fast Fourier Transforms
-  (FFT), Gaussian filter, Gabor transforms (specgrams) and Power Spectral Density plots (PSD).
-</para>
-
-
-<para>
-  Other ideas:
-
-  Various organisations around the world collect data from a variety of sources, such as GPS, VLBI and SLR monitoring stations. This data
-  provides information regarding among other things, tectonic plate movement. This allows organisations to draw conclusions to the level
+  Various organisations around the world collect data from the aformentioned sources. This data provides information
+  regarding among other things, tectonic plate movement. This allows organisations to draw conclusions to the level
   of continental drift, ocean levels, etc.
 </para>
 
@@ -33,6 +21,9 @@
   circumstances that may arrise during monitoring. There may be changes in equipment, malfunctionions, bad or whether, or as many cases,
   noise in the data. Before drawing any conlusions from the data, people need to be certain that they are dealing with only the necessary
   information.
+  In order to extract the relavent information from the data, we need to perform various transformations on the data.
+  Some of the techniques employed during this data processing include, Least Squares regression, Fast Fourier
+  Transforms (FFT), Gabor transforms (specgrams) and Power Spectral Density plots (PSD).
 </para>
 
 <para>
@@ -44,7 +35,7 @@
 <para>
   In many cases with data analysis, there is a need to view different representions of the data, for example, in the Frequency Domain.
   Once again, this may allow the identification of trend or patterns. What happens when the frequency of the monitoring decreases or
-  increases? Such questions can assist in more accurate and informed conlcusions as to what exactly the data is saying.
+  increases? Such questions can assist in more accurate and informed conlcusions as to what exactly the data is telling us.
 </para>
 
 </sect1> <!--backgorund-->
