@@ -115,12 +115,12 @@ There are several compression algorithms available within libtiff. How do you se
 
 <figure>
 <title>The picture before we compressed it</title>
-<graphic format="JPEG" fileref="picture-start.jpg"></graphic>
+<graphic format="JPEG" fileref="picture-start.jpg">
 </figure>
 
 <figure>
 <title>The sample text before we compressed it</title>
-<graphic format="JPEG" fileref="text-start.jpg"></graphic>
+<graphic format="JPEG" fileref="text-start.jpg">
 </figure>
 
 <para>
@@ -128,12 +128,12 @@ The code I used had a 'quality' rating of 25% on the JPEG compression, which is 
 
 <figure>
 <title>The picture after it has been recompressed 200 times</title>
-<graphic format="JPEG" fileref="picture-200.jpg"></graphic>
+<graphic format="JPEG" fileref="picture-200.jpg">
 </figure>
 
 <figure>
 <title>The text after it has been recompressed 200 times</title>
-<graphic format="JPEG" fileref="text-200.jpg"></graphic>
+<graphic format="JPEG" fileref="text-200.jpg">
 </figure>
 </sidebar>
 </sect2>
