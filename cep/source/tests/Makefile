@@ -55,6 +55,7 @@ MATRIX = cep_testMatrix.o
 CONFIG = cep_testConfig.o
 WINDOWER = cep_testWindows.o
 PRESENTATION = cep_testPresentation.o
+DATASET = cep_testDataset.o
 LS = cep_testLs.o
 
 ###########################################################
@@ -69,8 +70,9 @@ OBJS_WINDOWER = ../cepDataWindower.o ../cepWindowAlg.o\
 ../cepWindowRect.o ../cepwindowhamming.o ../cepwindowchebyshev.o\
 ../cepwindowblackman.o
 OBJS_PRESENTATION =
+OBJS_DATASET = ../cepDataset.o
 
-OBJS_ALL = $(OBJS) $(OBJS_MATRIX) $(OBJS_CONFIG) $(OBJS_WINDOWER) $(OBJS_PRESENTATION) $(OBJS_LS)
+OBJS_ALL = $(OBJS) $(OBJS_MATRIX) $(OBJS_CONFIG) $(OBJS_WINDOWER) $(OBJS_PRESENTATION) $(OBJS_LS) $(OBJS_DATASET)
 
 ###########################################################
 # rule for all cpp files
@@ -80,8 +82,8 @@ OBJS_ALL = $(OBJS) $(OBJS_MATRIX) $(OBJS_CONFIG) $(OBJS_WINDOWER) $(OBJS_PRESENT
   
 ###########################################################
 # makes all tests an links to a binary called "testall"
-all: runner $(MATRIX) $(CONFIG) $(WINDOWER) $(PRESENTATION) $(LS)
-	$(LXX) $(LXXFLAGS) -o test$@ $(MATRIX) $(CONFIG) $(WINDOWER) $(PRESENTATION) $(LS) $(RUNNER) $(OBJS_ALL) $(LXXLIBS)
+all: runner $(MATRIX) $(CONFIG) $(WINDOWER) $(PRESENTATION) $(LS) $(DATASET)
+	$(LXX) $(LXXFLAGS) -o test$@ $(MATRIX) $(CONFIG) $(WINDOWER) $(PRESENTATION) $(LS) $(RUNNER) $(DATASET) $(OBJS_ALL) $(LXXLIBS)
 
 
 ###########################################################
@@ -122,12 +124,20 @@ config: runner $(CONFIG)
 windower: runner $(WINDOWER)
 	$(LXX) $(LXXFLAGS) -o test$@ $(WINDOWER) $(RUNNER) $(OBJS) $(OBJS_WINDOWER) $(LXXLIBS)
 
+  
 ###########################################################
 # Builds the presentation specific tests
 presentation: runner $(PRESENTATION)
 	$(LXX) $(LXXFLAGS) -o test$@ $(PRESENTATION) $(RUNNER) $(OBJS) $(OBJS_PRESENTATION) $(LXXLIBS)
 
+  
 ###########################################################
 # Builds the least squares specific tests
 ls: runner $(LS)
 	$(LXX) $(LXXFLAGS) -o test$@ $(LS) $(RUNNER) $(OBJS) $(OBJS_LS) $(LXXLIBS)
+
+  
+###########################################################
+# Builds the least squares specific tests
+dataset: runner $(DATASET)
+	$(LXX) $(LXXFLAGS) -o test$@ $(DATASET) $(RUNNER) $(OBJS) $(OBJS_DATASET) $(LXXLIBS)
