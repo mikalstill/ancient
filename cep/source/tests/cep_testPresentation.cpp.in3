@@ -1,3 +1,33 @@
+
+  // The testing function
+  void runUI(string cmdline){
+    int childPid;	
+    switch(childPid = fork())
+    {
+      case -1:
+        CPPUNIT_ASSERT_MESSAGE("fork failed", false);
+        break;
+
+      case 0:
+        sleep(5);
+        system("killall -9 ui");
+        exit(0);
+        break;
+
+      default:
+        int result = system(string("../ui -d ../../datasets/" + cmdline).c_str());
+        kill(childPid, 9);
+        //printf("Result is %d signalled %s (%d)\n", WEXITSTATUS(result),
+        //       WIFSIGNALED(result) ? "true" : "false",
+        //       WTERMSIG(result));
+        // WCOREDUMP would have been good, but glibc doesn't implement it
+        CPPUNIT_ASSERT_MESSAGE(string("Test " + cmdline + " failed").c_str(), 
+                               WTERMSIG(result) != SIGSEGV);
+        break;
+    }
+  }
 };
+
 CPPUNIT_TEST_SUITE_REGISTRATION( Test );
+
 } // end namespace

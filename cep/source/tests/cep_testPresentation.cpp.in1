@@ -26,6 +26,7 @@
 #include <exception>
 #include <sys/types.h>
 #include <unistd.h>
+#include <signal.h>
 
 namespace {
 class Test : public CppUnit::TestFixture {

@@ -31,27 +31,13 @@ EOF
 	      cat <<EOF >> cep_testPresentation_functions
 void cpt_$func ()
 {
-  switch(fork())
-  {
-    case -1:
-      CPPUNIT_ASSERT_MESSAGE("fork failed", false);
-      break;
-
-    case 0:
-      sleep(30);
-      system("killall -9 ui");
-      break;
-
-    default:
-      CPPUNIT_ASSERT_MESSAGE("Test $func failed", system("../ui -d $cmdline") != 139);
-      break;
-  }
+  runUI("$cmdline");
 }
 
 EOF
 
 	    count=$(( $count + 1 ))
-	    if [ $count -gt 3 ]
+	    if [ $count -gt $1 ]
 	    then
 	      cat cep_testPresentation.cpp.in1 > cep_testPresentation.cpp
 	      cat cep_testPresentation_suite >> cep_testPresentation.cpp

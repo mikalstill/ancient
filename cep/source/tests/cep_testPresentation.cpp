@@ -26,6 +26,7 @@
 #include <exception>
 #include <sys/types.h>
 #include <unistd.h>
+#include <signal.h>
 
 namespace {
 class Test : public CppUnit::TestFixture {
@@ -43,87 +44,6042 @@ public:
   suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m", &Test::cpt_mb_ALBA_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m));
   suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c", &Test::cpt_mb_ALBA_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c));
   suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m", &Test::cpt_mb_ALBA_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c", &Test::cpt_mb_ALBA_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m", &Test::cpt_mb_ALBA_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_yes_e_yes_x_yes_y_no_z_no_c", &Test::cpt_mb_ALBA_GPS_a_yes_e_yes_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_yes_e_yes_x_yes_y_no_z_no_m", &Test::cpt_mb_ALBA_GPS_a_yes_e_yes_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c", &Test::cpt_mb_ALBA_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m", &Test::cpt_mb_ALBA_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_yes_e_yes_x_no_y_yes_z_no_c", &Test::cpt_mb_ALBA_GPS_a_yes_e_yes_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_yes_e_yes_x_no_y_yes_z_no_m", &Test::cpt_mb_ALBA_GPS_a_yes_e_yes_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_yes_e_yes_x_no_y_no_z_yes_c", &Test::cpt_mb_ALBA_GPS_a_yes_e_yes_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_yes_e_yes_x_no_y_no_z_yes_m", &Test::cpt_mb_ALBA_GPS_a_yes_e_yes_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_yes_e_yes_x_no_y_no_z_no_c", &Test::cpt_mb_ALBA_GPS_a_yes_e_yes_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_yes_e_yes_x_no_y_no_z_no_m", &Test::cpt_mb_ALBA_GPS_a_yes_e_yes_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c", &Test::cpt_mb_ALBA_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m", &Test::cpt_mb_ALBA_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_yes_e_no_x_yes_y_yes_z_no_c", &Test::cpt_mb_ALBA_GPS_a_yes_e_no_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_yes_e_no_x_yes_y_yes_z_no_m", &Test::cpt_mb_ALBA_GPS_a_yes_e_no_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_yes_e_no_x_yes_y_no_z_yes_c", &Test::cpt_mb_ALBA_GPS_a_yes_e_no_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_yes_e_no_x_yes_y_no_z_yes_m", &Test::cpt_mb_ALBA_GPS_a_yes_e_no_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_yes_e_no_x_yes_y_no_z_no_c", &Test::cpt_mb_ALBA_GPS_a_yes_e_no_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_yes_e_no_x_yes_y_no_z_no_m", &Test::cpt_mb_ALBA_GPS_a_yes_e_no_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_yes_e_no_x_no_y_yes_z_yes_c", &Test::cpt_mb_ALBA_GPS_a_yes_e_no_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_yes_e_no_x_no_y_yes_z_yes_m", &Test::cpt_mb_ALBA_GPS_a_yes_e_no_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_yes_e_no_x_no_y_yes_z_no_c", &Test::cpt_mb_ALBA_GPS_a_yes_e_no_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_yes_e_no_x_no_y_yes_z_no_m", &Test::cpt_mb_ALBA_GPS_a_yes_e_no_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_yes_e_no_x_no_y_no_z_yes_c", &Test::cpt_mb_ALBA_GPS_a_yes_e_no_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_yes_e_no_x_no_y_no_z_yes_m", &Test::cpt_mb_ALBA_GPS_a_yes_e_no_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_yes_e_no_x_no_y_no_z_no_c", &Test::cpt_mb_ALBA_GPS_a_yes_e_no_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_yes_e_no_x_no_y_no_z_no_m", &Test::cpt_mb_ALBA_GPS_a_yes_e_no_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c", &Test::cpt_mb_ALBA_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m", &Test::cpt_mb_ALBA_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_no_e_yes_x_yes_y_yes_z_no_c", &Test::cpt_mb_ALBA_GPS_a_no_e_yes_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_no_e_yes_x_yes_y_yes_z_no_m", &Test::cpt_mb_ALBA_GPS_a_no_e_yes_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_no_e_yes_x_yes_y_no_z_yes_c", &Test::cpt_mb_ALBA_GPS_a_no_e_yes_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_no_e_yes_x_yes_y_no_z_yes_m", &Test::cpt_mb_ALBA_GPS_a_no_e_yes_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_no_e_yes_x_yes_y_no_z_no_c", &Test::cpt_mb_ALBA_GPS_a_no_e_yes_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_no_e_yes_x_yes_y_no_z_no_m", &Test::cpt_mb_ALBA_GPS_a_no_e_yes_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_no_e_yes_x_no_y_yes_z_yes_c", &Test::cpt_mb_ALBA_GPS_a_no_e_yes_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_no_e_yes_x_no_y_yes_z_yes_m", &Test::cpt_mb_ALBA_GPS_a_no_e_yes_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_no_e_yes_x_no_y_yes_z_no_c", &Test::cpt_mb_ALBA_GPS_a_no_e_yes_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_no_e_yes_x_no_y_yes_z_no_m", &Test::cpt_mb_ALBA_GPS_a_no_e_yes_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_no_e_yes_x_no_y_no_z_yes_c", &Test::cpt_mb_ALBA_GPS_a_no_e_yes_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_no_e_yes_x_no_y_no_z_yes_m", &Test::cpt_mb_ALBA_GPS_a_no_e_yes_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_no_e_yes_x_no_y_no_z_no_c", &Test::cpt_mb_ALBA_GPS_a_no_e_yes_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_no_e_yes_x_no_y_no_z_no_m", &Test::cpt_mb_ALBA_GPS_a_no_e_yes_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_no_e_no_x_yes_y_yes_z_yes_c", &Test::cpt_mb_ALBA_GPS_a_no_e_no_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_no_e_no_x_yes_y_yes_z_yes_m", &Test::cpt_mb_ALBA_GPS_a_no_e_no_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_no_e_no_x_yes_y_yes_z_no_c", &Test::cpt_mb_ALBA_GPS_a_no_e_no_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_no_e_no_x_yes_y_yes_z_no_m", &Test::cpt_mb_ALBA_GPS_a_no_e_no_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_no_e_no_x_yes_y_no_z_yes_c", &Test::cpt_mb_ALBA_GPS_a_no_e_no_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_no_e_no_x_yes_y_no_z_yes_m", &Test::cpt_mb_ALBA_GPS_a_no_e_no_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_no_e_no_x_yes_y_no_z_no_c", &Test::cpt_mb_ALBA_GPS_a_no_e_no_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_no_e_no_x_yes_y_no_z_no_m", &Test::cpt_mb_ALBA_GPS_a_no_e_no_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_no_e_no_x_no_y_yes_z_yes_c", &Test::cpt_mb_ALBA_GPS_a_no_e_no_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_no_e_no_x_no_y_yes_z_yes_m", &Test::cpt_mb_ALBA_GPS_a_no_e_no_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_no_e_no_x_no_y_yes_z_no_c", &Test::cpt_mb_ALBA_GPS_a_no_e_no_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_no_e_no_x_no_y_yes_z_no_m", &Test::cpt_mb_ALBA_GPS_a_no_e_no_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_no_e_no_x_no_y_no_z_yes_c", &Test::cpt_mb_ALBA_GPS_a_no_e_no_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_no_e_no_x_no_y_no_z_yes_m", &Test::cpt_mb_ALBA_GPS_a_no_e_no_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_no_e_no_x_no_y_no_z_no_c", &Test::cpt_mb_ALBA_GPS_a_no_e_no_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALBA_GPS_a_no_e_no_x_no_y_no_z_no_m", &Test::cpt_mb_ALBA_GPS_a_no_e_no_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c", &Test::cpt_mb_ALIC_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m", &Test::cpt_mb_ALIC_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c", &Test::cpt_mb_ALIC_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m", &Test::cpt_mb_ALIC_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c", &Test::cpt_mb_ALIC_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m", &Test::cpt_mb_ALIC_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_yes_e_yes_x_yes_y_no_z_no_c", &Test::cpt_mb_ALIC_GPS_a_yes_e_yes_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_yes_e_yes_x_yes_y_no_z_no_m", &Test::cpt_mb_ALIC_GPS_a_yes_e_yes_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c", &Test::cpt_mb_ALIC_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m", &Test::cpt_mb_ALIC_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_yes_e_yes_x_no_y_yes_z_no_c", &Test::cpt_mb_ALIC_GPS_a_yes_e_yes_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_yes_e_yes_x_no_y_yes_z_no_m", &Test::cpt_mb_ALIC_GPS_a_yes_e_yes_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_yes_e_yes_x_no_y_no_z_yes_c", &Test::cpt_mb_ALIC_GPS_a_yes_e_yes_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_yes_e_yes_x_no_y_no_z_yes_m", &Test::cpt_mb_ALIC_GPS_a_yes_e_yes_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_yes_e_yes_x_no_y_no_z_no_c", &Test::cpt_mb_ALIC_GPS_a_yes_e_yes_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_yes_e_yes_x_no_y_no_z_no_m", &Test::cpt_mb_ALIC_GPS_a_yes_e_yes_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c", &Test::cpt_mb_ALIC_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m", &Test::cpt_mb_ALIC_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_yes_e_no_x_yes_y_yes_z_no_c", &Test::cpt_mb_ALIC_GPS_a_yes_e_no_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_yes_e_no_x_yes_y_yes_z_no_m", &Test::cpt_mb_ALIC_GPS_a_yes_e_no_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_yes_e_no_x_yes_y_no_z_yes_c", &Test::cpt_mb_ALIC_GPS_a_yes_e_no_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_yes_e_no_x_yes_y_no_z_yes_m", &Test::cpt_mb_ALIC_GPS_a_yes_e_no_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_yes_e_no_x_yes_y_no_z_no_c", &Test::cpt_mb_ALIC_GPS_a_yes_e_no_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_yes_e_no_x_yes_y_no_z_no_m", &Test::cpt_mb_ALIC_GPS_a_yes_e_no_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_yes_e_no_x_no_y_yes_z_yes_c", &Test::cpt_mb_ALIC_GPS_a_yes_e_no_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_yes_e_no_x_no_y_yes_z_yes_m", &Test::cpt_mb_ALIC_GPS_a_yes_e_no_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_yes_e_no_x_no_y_yes_z_no_c", &Test::cpt_mb_ALIC_GPS_a_yes_e_no_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_yes_e_no_x_no_y_yes_z_no_m", &Test::cpt_mb_ALIC_GPS_a_yes_e_no_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_yes_e_no_x_no_y_no_z_yes_c", &Test::cpt_mb_ALIC_GPS_a_yes_e_no_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_yes_e_no_x_no_y_no_z_yes_m", &Test::cpt_mb_ALIC_GPS_a_yes_e_no_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_yes_e_no_x_no_y_no_z_no_c", &Test::cpt_mb_ALIC_GPS_a_yes_e_no_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_yes_e_no_x_no_y_no_z_no_m", &Test::cpt_mb_ALIC_GPS_a_yes_e_no_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c", &Test::cpt_mb_ALIC_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m", &Test::cpt_mb_ALIC_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_no_e_yes_x_yes_y_yes_z_no_c", &Test::cpt_mb_ALIC_GPS_a_no_e_yes_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_no_e_yes_x_yes_y_yes_z_no_m", &Test::cpt_mb_ALIC_GPS_a_no_e_yes_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_no_e_yes_x_yes_y_no_z_yes_c", &Test::cpt_mb_ALIC_GPS_a_no_e_yes_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_no_e_yes_x_yes_y_no_z_yes_m", &Test::cpt_mb_ALIC_GPS_a_no_e_yes_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_no_e_yes_x_yes_y_no_z_no_c", &Test::cpt_mb_ALIC_GPS_a_no_e_yes_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_no_e_yes_x_yes_y_no_z_no_m", &Test::cpt_mb_ALIC_GPS_a_no_e_yes_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_no_e_yes_x_no_y_yes_z_yes_c", &Test::cpt_mb_ALIC_GPS_a_no_e_yes_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_no_e_yes_x_no_y_yes_z_yes_m", &Test::cpt_mb_ALIC_GPS_a_no_e_yes_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_no_e_yes_x_no_y_yes_z_no_c", &Test::cpt_mb_ALIC_GPS_a_no_e_yes_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_no_e_yes_x_no_y_yes_z_no_m", &Test::cpt_mb_ALIC_GPS_a_no_e_yes_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_no_e_yes_x_no_y_no_z_yes_c", &Test::cpt_mb_ALIC_GPS_a_no_e_yes_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_no_e_yes_x_no_y_no_z_yes_m", &Test::cpt_mb_ALIC_GPS_a_no_e_yes_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_no_e_yes_x_no_y_no_z_no_c", &Test::cpt_mb_ALIC_GPS_a_no_e_yes_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_no_e_yes_x_no_y_no_z_no_m", &Test::cpt_mb_ALIC_GPS_a_no_e_yes_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_no_e_no_x_yes_y_yes_z_yes_c", &Test::cpt_mb_ALIC_GPS_a_no_e_no_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_no_e_no_x_yes_y_yes_z_yes_m", &Test::cpt_mb_ALIC_GPS_a_no_e_no_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_no_e_no_x_yes_y_yes_z_no_c", &Test::cpt_mb_ALIC_GPS_a_no_e_no_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_no_e_no_x_yes_y_yes_z_no_m", &Test::cpt_mb_ALIC_GPS_a_no_e_no_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_no_e_no_x_yes_y_no_z_yes_c", &Test::cpt_mb_ALIC_GPS_a_no_e_no_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_no_e_no_x_yes_y_no_z_yes_m", &Test::cpt_mb_ALIC_GPS_a_no_e_no_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_no_e_no_x_yes_y_no_z_no_c", &Test::cpt_mb_ALIC_GPS_a_no_e_no_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_no_e_no_x_yes_y_no_z_no_m", &Test::cpt_mb_ALIC_GPS_a_no_e_no_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_no_e_no_x_no_y_yes_z_yes_c", &Test::cpt_mb_ALIC_GPS_a_no_e_no_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_no_e_no_x_no_y_yes_z_yes_m", &Test::cpt_mb_ALIC_GPS_a_no_e_no_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_no_e_no_x_no_y_yes_z_no_c", &Test::cpt_mb_ALIC_GPS_a_no_e_no_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_no_e_no_x_no_y_yes_z_no_m", &Test::cpt_mb_ALIC_GPS_a_no_e_no_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_no_e_no_x_no_y_no_z_yes_c", &Test::cpt_mb_ALIC_GPS_a_no_e_no_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_no_e_no_x_no_y_no_z_yes_m", &Test::cpt_mb_ALIC_GPS_a_no_e_no_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_no_e_no_x_no_y_no_z_no_c", &Test::cpt_mb_ALIC_GPS_a_no_e_no_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALIC_GPS_a_no_e_no_x_no_y_no_z_no_m", &Test::cpt_mb_ALIC_GPS_a_no_e_no_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c", &Test::cpt_mb_ALYA_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m", &Test::cpt_mb_ALYA_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c", &Test::cpt_mb_ALYA_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m", &Test::cpt_mb_ALYA_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c", &Test::cpt_mb_ALYA_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m", &Test::cpt_mb_ALYA_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_yes_e_yes_x_yes_y_no_z_no_c", &Test::cpt_mb_ALYA_GPS_a_yes_e_yes_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_yes_e_yes_x_yes_y_no_z_no_m", &Test::cpt_mb_ALYA_GPS_a_yes_e_yes_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c", &Test::cpt_mb_ALYA_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m", &Test::cpt_mb_ALYA_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_yes_e_yes_x_no_y_yes_z_no_c", &Test::cpt_mb_ALYA_GPS_a_yes_e_yes_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_yes_e_yes_x_no_y_yes_z_no_m", &Test::cpt_mb_ALYA_GPS_a_yes_e_yes_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_yes_e_yes_x_no_y_no_z_yes_c", &Test::cpt_mb_ALYA_GPS_a_yes_e_yes_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_yes_e_yes_x_no_y_no_z_yes_m", &Test::cpt_mb_ALYA_GPS_a_yes_e_yes_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_yes_e_yes_x_no_y_no_z_no_c", &Test::cpt_mb_ALYA_GPS_a_yes_e_yes_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_yes_e_yes_x_no_y_no_z_no_m", &Test::cpt_mb_ALYA_GPS_a_yes_e_yes_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c", &Test::cpt_mb_ALYA_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m", &Test::cpt_mb_ALYA_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_yes_e_no_x_yes_y_yes_z_no_c", &Test::cpt_mb_ALYA_GPS_a_yes_e_no_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_yes_e_no_x_yes_y_yes_z_no_m", &Test::cpt_mb_ALYA_GPS_a_yes_e_no_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_yes_e_no_x_yes_y_no_z_yes_c", &Test::cpt_mb_ALYA_GPS_a_yes_e_no_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_yes_e_no_x_yes_y_no_z_yes_m", &Test::cpt_mb_ALYA_GPS_a_yes_e_no_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_yes_e_no_x_yes_y_no_z_no_c", &Test::cpt_mb_ALYA_GPS_a_yes_e_no_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_yes_e_no_x_yes_y_no_z_no_m", &Test::cpt_mb_ALYA_GPS_a_yes_e_no_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_yes_e_no_x_no_y_yes_z_yes_c", &Test::cpt_mb_ALYA_GPS_a_yes_e_no_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_yes_e_no_x_no_y_yes_z_yes_m", &Test::cpt_mb_ALYA_GPS_a_yes_e_no_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_yes_e_no_x_no_y_yes_z_no_c", &Test::cpt_mb_ALYA_GPS_a_yes_e_no_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_yes_e_no_x_no_y_yes_z_no_m", &Test::cpt_mb_ALYA_GPS_a_yes_e_no_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_yes_e_no_x_no_y_no_z_yes_c", &Test::cpt_mb_ALYA_GPS_a_yes_e_no_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_yes_e_no_x_no_y_no_z_yes_m", &Test::cpt_mb_ALYA_GPS_a_yes_e_no_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_yes_e_no_x_no_y_no_z_no_c", &Test::cpt_mb_ALYA_GPS_a_yes_e_no_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_yes_e_no_x_no_y_no_z_no_m", &Test::cpt_mb_ALYA_GPS_a_yes_e_no_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c", &Test::cpt_mb_ALYA_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m", &Test::cpt_mb_ALYA_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_no_e_yes_x_yes_y_yes_z_no_c", &Test::cpt_mb_ALYA_GPS_a_no_e_yes_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_no_e_yes_x_yes_y_yes_z_no_m", &Test::cpt_mb_ALYA_GPS_a_no_e_yes_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_no_e_yes_x_yes_y_no_z_yes_c", &Test::cpt_mb_ALYA_GPS_a_no_e_yes_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_no_e_yes_x_yes_y_no_z_yes_m", &Test::cpt_mb_ALYA_GPS_a_no_e_yes_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_no_e_yes_x_yes_y_no_z_no_c", &Test::cpt_mb_ALYA_GPS_a_no_e_yes_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_no_e_yes_x_yes_y_no_z_no_m", &Test::cpt_mb_ALYA_GPS_a_no_e_yes_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_no_e_yes_x_no_y_yes_z_yes_c", &Test::cpt_mb_ALYA_GPS_a_no_e_yes_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_no_e_yes_x_no_y_yes_z_yes_m", &Test::cpt_mb_ALYA_GPS_a_no_e_yes_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_no_e_yes_x_no_y_yes_z_no_c", &Test::cpt_mb_ALYA_GPS_a_no_e_yes_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_no_e_yes_x_no_y_yes_z_no_m", &Test::cpt_mb_ALYA_GPS_a_no_e_yes_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_no_e_yes_x_no_y_no_z_yes_c", &Test::cpt_mb_ALYA_GPS_a_no_e_yes_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_no_e_yes_x_no_y_no_z_yes_m", &Test::cpt_mb_ALYA_GPS_a_no_e_yes_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_no_e_yes_x_no_y_no_z_no_c", &Test::cpt_mb_ALYA_GPS_a_no_e_yes_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_no_e_yes_x_no_y_no_z_no_m", &Test::cpt_mb_ALYA_GPS_a_no_e_yes_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_no_e_no_x_yes_y_yes_z_yes_c", &Test::cpt_mb_ALYA_GPS_a_no_e_no_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_no_e_no_x_yes_y_yes_z_yes_m", &Test::cpt_mb_ALYA_GPS_a_no_e_no_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_no_e_no_x_yes_y_yes_z_no_c", &Test::cpt_mb_ALYA_GPS_a_no_e_no_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_no_e_no_x_yes_y_yes_z_no_m", &Test::cpt_mb_ALYA_GPS_a_no_e_no_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_no_e_no_x_yes_y_no_z_yes_c", &Test::cpt_mb_ALYA_GPS_a_no_e_no_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_no_e_no_x_yes_y_no_z_yes_m", &Test::cpt_mb_ALYA_GPS_a_no_e_no_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_no_e_no_x_yes_y_no_z_no_c", &Test::cpt_mb_ALYA_GPS_a_no_e_no_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_no_e_no_x_yes_y_no_z_no_m", &Test::cpt_mb_ALYA_GPS_a_no_e_no_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_no_e_no_x_no_y_yes_z_yes_c", &Test::cpt_mb_ALYA_GPS_a_no_e_no_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_no_e_no_x_no_y_yes_z_yes_m", &Test::cpt_mb_ALYA_GPS_a_no_e_no_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_no_e_no_x_no_y_yes_z_no_c", &Test::cpt_mb_ALYA_GPS_a_no_e_no_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_no_e_no_x_no_y_yes_z_no_m", &Test::cpt_mb_ALYA_GPS_a_no_e_no_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_no_e_no_x_no_y_no_z_yes_c", &Test::cpt_mb_ALYA_GPS_a_no_e_no_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_no_e_no_x_no_y_no_z_yes_m", &Test::cpt_mb_ALYA_GPS_a_no_e_no_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_no_e_no_x_no_y_no_z_no_c", &Test::cpt_mb_ALYA_GPS_a_no_e_no_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ALYA_GPS_a_no_e_no_x_no_y_no_z_no_m", &Test::cpt_mb_ALYA_GPS_a_no_e_no_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c", &Test::cpt_mb_ANKR_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m", &Test::cpt_mb_ANKR_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c", &Test::cpt_mb_ANKR_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m", &Test::cpt_mb_ANKR_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c", &Test::cpt_mb_ANKR_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m", &Test::cpt_mb_ANKR_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_yes_e_yes_x_yes_y_no_z_no_c", &Test::cpt_mb_ANKR_GPS_a_yes_e_yes_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_yes_e_yes_x_yes_y_no_z_no_m", &Test::cpt_mb_ANKR_GPS_a_yes_e_yes_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c", &Test::cpt_mb_ANKR_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m", &Test::cpt_mb_ANKR_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_yes_e_yes_x_no_y_yes_z_no_c", &Test::cpt_mb_ANKR_GPS_a_yes_e_yes_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_yes_e_yes_x_no_y_yes_z_no_m", &Test::cpt_mb_ANKR_GPS_a_yes_e_yes_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_yes_e_yes_x_no_y_no_z_yes_c", &Test::cpt_mb_ANKR_GPS_a_yes_e_yes_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_yes_e_yes_x_no_y_no_z_yes_m", &Test::cpt_mb_ANKR_GPS_a_yes_e_yes_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_yes_e_yes_x_no_y_no_z_no_c", &Test::cpt_mb_ANKR_GPS_a_yes_e_yes_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_yes_e_yes_x_no_y_no_z_no_m", &Test::cpt_mb_ANKR_GPS_a_yes_e_yes_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c", &Test::cpt_mb_ANKR_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m", &Test::cpt_mb_ANKR_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_yes_e_no_x_yes_y_yes_z_no_c", &Test::cpt_mb_ANKR_GPS_a_yes_e_no_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_yes_e_no_x_yes_y_yes_z_no_m", &Test::cpt_mb_ANKR_GPS_a_yes_e_no_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_yes_e_no_x_yes_y_no_z_yes_c", &Test::cpt_mb_ANKR_GPS_a_yes_e_no_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_yes_e_no_x_yes_y_no_z_yes_m", &Test::cpt_mb_ANKR_GPS_a_yes_e_no_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_yes_e_no_x_yes_y_no_z_no_c", &Test::cpt_mb_ANKR_GPS_a_yes_e_no_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_yes_e_no_x_yes_y_no_z_no_m", &Test::cpt_mb_ANKR_GPS_a_yes_e_no_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_yes_e_no_x_no_y_yes_z_yes_c", &Test::cpt_mb_ANKR_GPS_a_yes_e_no_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_yes_e_no_x_no_y_yes_z_yes_m", &Test::cpt_mb_ANKR_GPS_a_yes_e_no_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_yes_e_no_x_no_y_yes_z_no_c", &Test::cpt_mb_ANKR_GPS_a_yes_e_no_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_yes_e_no_x_no_y_yes_z_no_m", &Test::cpt_mb_ANKR_GPS_a_yes_e_no_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_yes_e_no_x_no_y_no_z_yes_c", &Test::cpt_mb_ANKR_GPS_a_yes_e_no_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_yes_e_no_x_no_y_no_z_yes_m", &Test::cpt_mb_ANKR_GPS_a_yes_e_no_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_yes_e_no_x_no_y_no_z_no_c", &Test::cpt_mb_ANKR_GPS_a_yes_e_no_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_yes_e_no_x_no_y_no_z_no_m", &Test::cpt_mb_ANKR_GPS_a_yes_e_no_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c", &Test::cpt_mb_ANKR_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m", &Test::cpt_mb_ANKR_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_no_e_yes_x_yes_y_yes_z_no_c", &Test::cpt_mb_ANKR_GPS_a_no_e_yes_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_no_e_yes_x_yes_y_yes_z_no_m", &Test::cpt_mb_ANKR_GPS_a_no_e_yes_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_no_e_yes_x_yes_y_no_z_yes_c", &Test::cpt_mb_ANKR_GPS_a_no_e_yes_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_no_e_yes_x_yes_y_no_z_yes_m", &Test::cpt_mb_ANKR_GPS_a_no_e_yes_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_no_e_yes_x_yes_y_no_z_no_c", &Test::cpt_mb_ANKR_GPS_a_no_e_yes_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_no_e_yes_x_yes_y_no_z_no_m", &Test::cpt_mb_ANKR_GPS_a_no_e_yes_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_no_e_yes_x_no_y_yes_z_yes_c", &Test::cpt_mb_ANKR_GPS_a_no_e_yes_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_no_e_yes_x_no_y_yes_z_yes_m", &Test::cpt_mb_ANKR_GPS_a_no_e_yes_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_no_e_yes_x_no_y_yes_z_no_c", &Test::cpt_mb_ANKR_GPS_a_no_e_yes_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_no_e_yes_x_no_y_yes_z_no_m", &Test::cpt_mb_ANKR_GPS_a_no_e_yes_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_no_e_yes_x_no_y_no_z_yes_c", &Test::cpt_mb_ANKR_GPS_a_no_e_yes_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_no_e_yes_x_no_y_no_z_yes_m", &Test::cpt_mb_ANKR_GPS_a_no_e_yes_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_no_e_yes_x_no_y_no_z_no_c", &Test::cpt_mb_ANKR_GPS_a_no_e_yes_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_no_e_yes_x_no_y_no_z_no_m", &Test::cpt_mb_ANKR_GPS_a_no_e_yes_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_no_e_no_x_yes_y_yes_z_yes_c", &Test::cpt_mb_ANKR_GPS_a_no_e_no_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_no_e_no_x_yes_y_yes_z_yes_m", &Test::cpt_mb_ANKR_GPS_a_no_e_no_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_no_e_no_x_yes_y_yes_z_no_c", &Test::cpt_mb_ANKR_GPS_a_no_e_no_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_no_e_no_x_yes_y_yes_z_no_m", &Test::cpt_mb_ANKR_GPS_a_no_e_no_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_no_e_no_x_yes_y_no_z_yes_c", &Test::cpt_mb_ANKR_GPS_a_no_e_no_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_no_e_no_x_yes_y_no_z_yes_m", &Test::cpt_mb_ANKR_GPS_a_no_e_no_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_no_e_no_x_yes_y_no_z_no_c", &Test::cpt_mb_ANKR_GPS_a_no_e_no_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_no_e_no_x_yes_y_no_z_no_m", &Test::cpt_mb_ANKR_GPS_a_no_e_no_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_no_e_no_x_no_y_yes_z_yes_c", &Test::cpt_mb_ANKR_GPS_a_no_e_no_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_no_e_no_x_no_y_yes_z_yes_m", &Test::cpt_mb_ANKR_GPS_a_no_e_no_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_no_e_no_x_no_y_yes_z_no_c", &Test::cpt_mb_ANKR_GPS_a_no_e_no_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_no_e_no_x_no_y_yes_z_no_m", &Test::cpt_mb_ANKR_GPS_a_no_e_no_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_no_e_no_x_no_y_no_z_yes_c", &Test::cpt_mb_ANKR_GPS_a_no_e_no_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_no_e_no_x_no_y_no_z_yes_m", &Test::cpt_mb_ANKR_GPS_a_no_e_no_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_no_e_no_x_no_y_no_z_no_c", &Test::cpt_mb_ANKR_GPS_a_no_e_no_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_ANKR_GPS_a_no_e_no_x_no_y_no_z_no_m", &Test::cpt_mb_ANKR_GPS_a_no_e_no_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c", &Test::cpt_mb_AUCK_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m", &Test::cpt_mb_AUCK_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c", &Test::cpt_mb_AUCK_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m", &Test::cpt_mb_AUCK_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c", &Test::cpt_mb_AUCK_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m", &Test::cpt_mb_AUCK_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_yes_e_yes_x_yes_y_no_z_no_c", &Test::cpt_mb_AUCK_GPS_a_yes_e_yes_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_yes_e_yes_x_yes_y_no_z_no_m", &Test::cpt_mb_AUCK_GPS_a_yes_e_yes_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c", &Test::cpt_mb_AUCK_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m", &Test::cpt_mb_AUCK_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_yes_e_yes_x_no_y_yes_z_no_c", &Test::cpt_mb_AUCK_GPS_a_yes_e_yes_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_yes_e_yes_x_no_y_yes_z_no_m", &Test::cpt_mb_AUCK_GPS_a_yes_e_yes_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_yes_e_yes_x_no_y_no_z_yes_c", &Test::cpt_mb_AUCK_GPS_a_yes_e_yes_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_yes_e_yes_x_no_y_no_z_yes_m", &Test::cpt_mb_AUCK_GPS_a_yes_e_yes_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_yes_e_yes_x_no_y_no_z_no_c", &Test::cpt_mb_AUCK_GPS_a_yes_e_yes_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_yes_e_yes_x_no_y_no_z_no_m", &Test::cpt_mb_AUCK_GPS_a_yes_e_yes_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c", &Test::cpt_mb_AUCK_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m", &Test::cpt_mb_AUCK_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_yes_e_no_x_yes_y_yes_z_no_c", &Test::cpt_mb_AUCK_GPS_a_yes_e_no_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_yes_e_no_x_yes_y_yes_z_no_m", &Test::cpt_mb_AUCK_GPS_a_yes_e_no_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_yes_e_no_x_yes_y_no_z_yes_c", &Test::cpt_mb_AUCK_GPS_a_yes_e_no_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_yes_e_no_x_yes_y_no_z_yes_m", &Test::cpt_mb_AUCK_GPS_a_yes_e_no_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_yes_e_no_x_yes_y_no_z_no_c", &Test::cpt_mb_AUCK_GPS_a_yes_e_no_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_yes_e_no_x_yes_y_no_z_no_m", &Test::cpt_mb_AUCK_GPS_a_yes_e_no_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_yes_e_no_x_no_y_yes_z_yes_c", &Test::cpt_mb_AUCK_GPS_a_yes_e_no_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_yes_e_no_x_no_y_yes_z_yes_m", &Test::cpt_mb_AUCK_GPS_a_yes_e_no_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_yes_e_no_x_no_y_yes_z_no_c", &Test::cpt_mb_AUCK_GPS_a_yes_e_no_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_yes_e_no_x_no_y_yes_z_no_m", &Test::cpt_mb_AUCK_GPS_a_yes_e_no_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_yes_e_no_x_no_y_no_z_yes_c", &Test::cpt_mb_AUCK_GPS_a_yes_e_no_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_yes_e_no_x_no_y_no_z_yes_m", &Test::cpt_mb_AUCK_GPS_a_yes_e_no_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_yes_e_no_x_no_y_no_z_no_c", &Test::cpt_mb_AUCK_GPS_a_yes_e_no_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_yes_e_no_x_no_y_no_z_no_m", &Test::cpt_mb_AUCK_GPS_a_yes_e_no_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c", &Test::cpt_mb_AUCK_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m", &Test::cpt_mb_AUCK_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_no_e_yes_x_yes_y_yes_z_no_c", &Test::cpt_mb_AUCK_GPS_a_no_e_yes_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_no_e_yes_x_yes_y_yes_z_no_m", &Test::cpt_mb_AUCK_GPS_a_no_e_yes_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_no_e_yes_x_yes_y_no_z_yes_c", &Test::cpt_mb_AUCK_GPS_a_no_e_yes_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_no_e_yes_x_yes_y_no_z_yes_m", &Test::cpt_mb_AUCK_GPS_a_no_e_yes_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_no_e_yes_x_yes_y_no_z_no_c", &Test::cpt_mb_AUCK_GPS_a_no_e_yes_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_no_e_yes_x_yes_y_no_z_no_m", &Test::cpt_mb_AUCK_GPS_a_no_e_yes_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_no_e_yes_x_no_y_yes_z_yes_c", &Test::cpt_mb_AUCK_GPS_a_no_e_yes_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_no_e_yes_x_no_y_yes_z_yes_m", &Test::cpt_mb_AUCK_GPS_a_no_e_yes_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_no_e_yes_x_no_y_yes_z_no_c", &Test::cpt_mb_AUCK_GPS_a_no_e_yes_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_no_e_yes_x_no_y_yes_z_no_m", &Test::cpt_mb_AUCK_GPS_a_no_e_yes_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_no_e_yes_x_no_y_no_z_yes_c", &Test::cpt_mb_AUCK_GPS_a_no_e_yes_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_no_e_yes_x_no_y_no_z_yes_m", &Test::cpt_mb_AUCK_GPS_a_no_e_yes_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_no_e_yes_x_no_y_no_z_no_c", &Test::cpt_mb_AUCK_GPS_a_no_e_yes_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_no_e_yes_x_no_y_no_z_no_m", &Test::cpt_mb_AUCK_GPS_a_no_e_yes_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_no_e_no_x_yes_y_yes_z_yes_c", &Test::cpt_mb_AUCK_GPS_a_no_e_no_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_no_e_no_x_yes_y_yes_z_yes_m", &Test::cpt_mb_AUCK_GPS_a_no_e_no_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_no_e_no_x_yes_y_yes_z_no_c", &Test::cpt_mb_AUCK_GPS_a_no_e_no_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_no_e_no_x_yes_y_yes_z_no_m", &Test::cpt_mb_AUCK_GPS_a_no_e_no_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_no_e_no_x_yes_y_no_z_yes_c", &Test::cpt_mb_AUCK_GPS_a_no_e_no_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_no_e_no_x_yes_y_no_z_yes_m", &Test::cpt_mb_AUCK_GPS_a_no_e_no_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_no_e_no_x_yes_y_no_z_no_c", &Test::cpt_mb_AUCK_GPS_a_no_e_no_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_no_e_no_x_yes_y_no_z_no_m", &Test::cpt_mb_AUCK_GPS_a_no_e_no_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_no_e_no_x_no_y_yes_z_yes_c", &Test::cpt_mb_AUCK_GPS_a_no_e_no_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_no_e_no_x_no_y_yes_z_yes_m", &Test::cpt_mb_AUCK_GPS_a_no_e_no_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_no_e_no_x_no_y_yes_z_no_c", &Test::cpt_mb_AUCK_GPS_a_no_e_no_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_no_e_no_x_no_y_yes_z_no_m", &Test::cpt_mb_AUCK_GPS_a_no_e_no_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_no_e_no_x_no_y_no_z_yes_c", &Test::cpt_mb_AUCK_GPS_a_no_e_no_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_no_e_no_x_no_y_no_z_yes_m", &Test::cpt_mb_AUCK_GPS_a_no_e_no_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_no_e_no_x_no_y_no_z_no_c", &Test::cpt_mb_AUCK_GPS_a_no_e_no_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_AUCK_GPS_a_no_e_no_x_no_y_no_z_no_m", &Test::cpt_mb_AUCK_GPS_a_no_e_no_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c", &Test::cpt_mb_BAHR_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m", &Test::cpt_mb_BAHR_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c", &Test::cpt_mb_BAHR_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m", &Test::cpt_mb_BAHR_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c", &Test::cpt_mb_BAHR_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m", &Test::cpt_mb_BAHR_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_yes_e_yes_x_yes_y_no_z_no_c", &Test::cpt_mb_BAHR_GPS_a_yes_e_yes_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_yes_e_yes_x_yes_y_no_z_no_m", &Test::cpt_mb_BAHR_GPS_a_yes_e_yes_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c", &Test::cpt_mb_BAHR_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m", &Test::cpt_mb_BAHR_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_yes_e_yes_x_no_y_yes_z_no_c", &Test::cpt_mb_BAHR_GPS_a_yes_e_yes_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_yes_e_yes_x_no_y_yes_z_no_m", &Test::cpt_mb_BAHR_GPS_a_yes_e_yes_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_yes_e_yes_x_no_y_no_z_yes_c", &Test::cpt_mb_BAHR_GPS_a_yes_e_yes_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_yes_e_yes_x_no_y_no_z_yes_m", &Test::cpt_mb_BAHR_GPS_a_yes_e_yes_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_yes_e_yes_x_no_y_no_z_no_c", &Test::cpt_mb_BAHR_GPS_a_yes_e_yes_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_yes_e_yes_x_no_y_no_z_no_m", &Test::cpt_mb_BAHR_GPS_a_yes_e_yes_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c", &Test::cpt_mb_BAHR_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m", &Test::cpt_mb_BAHR_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_yes_e_no_x_yes_y_yes_z_no_c", &Test::cpt_mb_BAHR_GPS_a_yes_e_no_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_yes_e_no_x_yes_y_yes_z_no_m", &Test::cpt_mb_BAHR_GPS_a_yes_e_no_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_yes_e_no_x_yes_y_no_z_yes_c", &Test::cpt_mb_BAHR_GPS_a_yes_e_no_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_yes_e_no_x_yes_y_no_z_yes_m", &Test::cpt_mb_BAHR_GPS_a_yes_e_no_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_yes_e_no_x_yes_y_no_z_no_c", &Test::cpt_mb_BAHR_GPS_a_yes_e_no_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_yes_e_no_x_yes_y_no_z_no_m", &Test::cpt_mb_BAHR_GPS_a_yes_e_no_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_yes_e_no_x_no_y_yes_z_yes_c", &Test::cpt_mb_BAHR_GPS_a_yes_e_no_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_yes_e_no_x_no_y_yes_z_yes_m", &Test::cpt_mb_BAHR_GPS_a_yes_e_no_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_yes_e_no_x_no_y_yes_z_no_c", &Test::cpt_mb_BAHR_GPS_a_yes_e_no_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_yes_e_no_x_no_y_yes_z_no_m", &Test::cpt_mb_BAHR_GPS_a_yes_e_no_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_yes_e_no_x_no_y_no_z_yes_c", &Test::cpt_mb_BAHR_GPS_a_yes_e_no_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_yes_e_no_x_no_y_no_z_yes_m", &Test::cpt_mb_BAHR_GPS_a_yes_e_no_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_yes_e_no_x_no_y_no_z_no_c", &Test::cpt_mb_BAHR_GPS_a_yes_e_no_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_yes_e_no_x_no_y_no_z_no_m", &Test::cpt_mb_BAHR_GPS_a_yes_e_no_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c", &Test::cpt_mb_BAHR_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m", &Test::cpt_mb_BAHR_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_no_e_yes_x_yes_y_yes_z_no_c", &Test::cpt_mb_BAHR_GPS_a_no_e_yes_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_no_e_yes_x_yes_y_yes_z_no_m", &Test::cpt_mb_BAHR_GPS_a_no_e_yes_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_no_e_yes_x_yes_y_no_z_yes_c", &Test::cpt_mb_BAHR_GPS_a_no_e_yes_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_no_e_yes_x_yes_y_no_z_yes_m", &Test::cpt_mb_BAHR_GPS_a_no_e_yes_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_no_e_yes_x_yes_y_no_z_no_c", &Test::cpt_mb_BAHR_GPS_a_no_e_yes_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_no_e_yes_x_yes_y_no_z_no_m", &Test::cpt_mb_BAHR_GPS_a_no_e_yes_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_no_e_yes_x_no_y_yes_z_yes_c", &Test::cpt_mb_BAHR_GPS_a_no_e_yes_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_no_e_yes_x_no_y_yes_z_yes_m", &Test::cpt_mb_BAHR_GPS_a_no_e_yes_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_no_e_yes_x_no_y_yes_z_no_c", &Test::cpt_mb_BAHR_GPS_a_no_e_yes_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_no_e_yes_x_no_y_yes_z_no_m", &Test::cpt_mb_BAHR_GPS_a_no_e_yes_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_no_e_yes_x_no_y_no_z_yes_c", &Test::cpt_mb_BAHR_GPS_a_no_e_yes_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_no_e_yes_x_no_y_no_z_yes_m", &Test::cpt_mb_BAHR_GPS_a_no_e_yes_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_no_e_yes_x_no_y_no_z_no_c", &Test::cpt_mb_BAHR_GPS_a_no_e_yes_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_no_e_yes_x_no_y_no_z_no_m", &Test::cpt_mb_BAHR_GPS_a_no_e_yes_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_no_e_no_x_yes_y_yes_z_yes_c", &Test::cpt_mb_BAHR_GPS_a_no_e_no_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_no_e_no_x_yes_y_yes_z_yes_m", &Test::cpt_mb_BAHR_GPS_a_no_e_no_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_no_e_no_x_yes_y_yes_z_no_c", &Test::cpt_mb_BAHR_GPS_a_no_e_no_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_no_e_no_x_yes_y_yes_z_no_m", &Test::cpt_mb_BAHR_GPS_a_no_e_no_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_no_e_no_x_yes_y_no_z_yes_c", &Test::cpt_mb_BAHR_GPS_a_no_e_no_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_no_e_no_x_yes_y_no_z_yes_m", &Test::cpt_mb_BAHR_GPS_a_no_e_no_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_no_e_no_x_yes_y_no_z_no_c", &Test::cpt_mb_BAHR_GPS_a_no_e_no_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_no_e_no_x_yes_y_no_z_no_m", &Test::cpt_mb_BAHR_GPS_a_no_e_no_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_no_e_no_x_no_y_yes_z_yes_c", &Test::cpt_mb_BAHR_GPS_a_no_e_no_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_no_e_no_x_no_y_yes_z_yes_m", &Test::cpt_mb_BAHR_GPS_a_no_e_no_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_no_e_no_x_no_y_yes_z_no_c", &Test::cpt_mb_BAHR_GPS_a_no_e_no_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_no_e_no_x_no_y_yes_z_no_m", &Test::cpt_mb_BAHR_GPS_a_no_e_no_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_no_e_no_x_no_y_no_z_yes_c", &Test::cpt_mb_BAHR_GPS_a_no_e_no_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_no_e_no_x_no_y_no_z_yes_m", &Test::cpt_mb_BAHR_GPS_a_no_e_no_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_no_e_no_x_no_y_no_z_no_c", &Test::cpt_mb_BAHR_GPS_a_no_e_no_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAHR_GPS_a_no_e_no_x_no_y_no_z_no_m", &Test::cpt_mb_BAHR_GPS_a_no_e_no_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c", &Test::cpt_mb_BAMA_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m", &Test::cpt_mb_BAMA_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c", &Test::cpt_mb_BAMA_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m", &Test::cpt_mb_BAMA_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c", &Test::cpt_mb_BAMA_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m", &Test::cpt_mb_BAMA_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_yes_e_yes_x_yes_y_no_z_no_c", &Test::cpt_mb_BAMA_GPS_a_yes_e_yes_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_yes_e_yes_x_yes_y_no_z_no_m", &Test::cpt_mb_BAMA_GPS_a_yes_e_yes_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c", &Test::cpt_mb_BAMA_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m", &Test::cpt_mb_BAMA_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_yes_e_yes_x_no_y_yes_z_no_c", &Test::cpt_mb_BAMA_GPS_a_yes_e_yes_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_yes_e_yes_x_no_y_yes_z_no_m", &Test::cpt_mb_BAMA_GPS_a_yes_e_yes_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_yes_e_yes_x_no_y_no_z_yes_c", &Test::cpt_mb_BAMA_GPS_a_yes_e_yes_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_yes_e_yes_x_no_y_no_z_yes_m", &Test::cpt_mb_BAMA_GPS_a_yes_e_yes_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_yes_e_yes_x_no_y_no_z_no_c", &Test::cpt_mb_BAMA_GPS_a_yes_e_yes_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_yes_e_yes_x_no_y_no_z_no_m", &Test::cpt_mb_BAMA_GPS_a_yes_e_yes_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c", &Test::cpt_mb_BAMA_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m", &Test::cpt_mb_BAMA_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_yes_e_no_x_yes_y_yes_z_no_c", &Test::cpt_mb_BAMA_GPS_a_yes_e_no_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_yes_e_no_x_yes_y_yes_z_no_m", &Test::cpt_mb_BAMA_GPS_a_yes_e_no_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_yes_e_no_x_yes_y_no_z_yes_c", &Test::cpt_mb_BAMA_GPS_a_yes_e_no_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_yes_e_no_x_yes_y_no_z_yes_m", &Test::cpt_mb_BAMA_GPS_a_yes_e_no_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_yes_e_no_x_yes_y_no_z_no_c", &Test::cpt_mb_BAMA_GPS_a_yes_e_no_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_yes_e_no_x_yes_y_no_z_no_m", &Test::cpt_mb_BAMA_GPS_a_yes_e_no_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_yes_e_no_x_no_y_yes_z_yes_c", &Test::cpt_mb_BAMA_GPS_a_yes_e_no_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_yes_e_no_x_no_y_yes_z_yes_m", &Test::cpt_mb_BAMA_GPS_a_yes_e_no_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_yes_e_no_x_no_y_yes_z_no_c", &Test::cpt_mb_BAMA_GPS_a_yes_e_no_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_yes_e_no_x_no_y_yes_z_no_m", &Test::cpt_mb_BAMA_GPS_a_yes_e_no_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_yes_e_no_x_no_y_no_z_yes_c", &Test::cpt_mb_BAMA_GPS_a_yes_e_no_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_yes_e_no_x_no_y_no_z_yes_m", &Test::cpt_mb_BAMA_GPS_a_yes_e_no_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_yes_e_no_x_no_y_no_z_no_c", &Test::cpt_mb_BAMA_GPS_a_yes_e_no_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_yes_e_no_x_no_y_no_z_no_m", &Test::cpt_mb_BAMA_GPS_a_yes_e_no_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c", &Test::cpt_mb_BAMA_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m", &Test::cpt_mb_BAMA_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_no_e_yes_x_yes_y_yes_z_no_c", &Test::cpt_mb_BAMA_GPS_a_no_e_yes_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_no_e_yes_x_yes_y_yes_z_no_m", &Test::cpt_mb_BAMA_GPS_a_no_e_yes_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_no_e_yes_x_yes_y_no_z_yes_c", &Test::cpt_mb_BAMA_GPS_a_no_e_yes_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_no_e_yes_x_yes_y_no_z_yes_m", &Test::cpt_mb_BAMA_GPS_a_no_e_yes_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_no_e_yes_x_yes_y_no_z_no_c", &Test::cpt_mb_BAMA_GPS_a_no_e_yes_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_no_e_yes_x_yes_y_no_z_no_m", &Test::cpt_mb_BAMA_GPS_a_no_e_yes_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_no_e_yes_x_no_y_yes_z_yes_c", &Test::cpt_mb_BAMA_GPS_a_no_e_yes_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_no_e_yes_x_no_y_yes_z_yes_m", &Test::cpt_mb_BAMA_GPS_a_no_e_yes_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_no_e_yes_x_no_y_yes_z_no_c", &Test::cpt_mb_BAMA_GPS_a_no_e_yes_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_no_e_yes_x_no_y_yes_z_no_m", &Test::cpt_mb_BAMA_GPS_a_no_e_yes_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_no_e_yes_x_no_y_no_z_yes_c", &Test::cpt_mb_BAMA_GPS_a_no_e_yes_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_no_e_yes_x_no_y_no_z_yes_m", &Test::cpt_mb_BAMA_GPS_a_no_e_yes_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_no_e_yes_x_no_y_no_z_no_c", &Test::cpt_mb_BAMA_GPS_a_no_e_yes_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_no_e_yes_x_no_y_no_z_no_m", &Test::cpt_mb_BAMA_GPS_a_no_e_yes_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_no_e_no_x_yes_y_yes_z_yes_c", &Test::cpt_mb_BAMA_GPS_a_no_e_no_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_no_e_no_x_yes_y_yes_z_yes_m", &Test::cpt_mb_BAMA_GPS_a_no_e_no_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_no_e_no_x_yes_y_yes_z_no_c", &Test::cpt_mb_BAMA_GPS_a_no_e_no_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_no_e_no_x_yes_y_yes_z_no_m", &Test::cpt_mb_BAMA_GPS_a_no_e_no_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_no_e_no_x_yes_y_no_z_yes_c", &Test::cpt_mb_BAMA_GPS_a_no_e_no_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_no_e_no_x_yes_y_no_z_yes_m", &Test::cpt_mb_BAMA_GPS_a_no_e_no_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_no_e_no_x_yes_y_no_z_no_c", &Test::cpt_mb_BAMA_GPS_a_no_e_no_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_no_e_no_x_yes_y_no_z_no_m", &Test::cpt_mb_BAMA_GPS_a_no_e_no_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_no_e_no_x_no_y_yes_z_yes_c", &Test::cpt_mb_BAMA_GPS_a_no_e_no_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_no_e_no_x_no_y_yes_z_yes_m", &Test::cpt_mb_BAMA_GPS_a_no_e_no_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_no_e_no_x_no_y_yes_z_no_c", &Test::cpt_mb_BAMA_GPS_a_no_e_no_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_no_e_no_x_no_y_yes_z_no_m", &Test::cpt_mb_BAMA_GPS_a_no_e_no_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_no_e_no_x_no_y_no_z_yes_c", &Test::cpt_mb_BAMA_GPS_a_no_e_no_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_no_e_no_x_no_y_no_z_yes_m", &Test::cpt_mb_BAMA_GPS_a_no_e_no_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_no_e_no_x_no_y_no_z_no_c", &Test::cpt_mb_BAMA_GPS_a_no_e_no_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BAMA_GPS_a_no_e_no_x_no_y_no_z_no_m", &Test::cpt_mb_BAMA_GPS_a_no_e_no_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c", &Test::cpt_mb_BRIS_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m", &Test::cpt_mb_BRIS_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c", &Test::cpt_mb_BRIS_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m", &Test::cpt_mb_BRIS_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c", &Test::cpt_mb_BRIS_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m", &Test::cpt_mb_BRIS_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_yes_e_yes_x_yes_y_no_z_no_c", &Test::cpt_mb_BRIS_GPS_a_yes_e_yes_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_yes_e_yes_x_yes_y_no_z_no_m", &Test::cpt_mb_BRIS_GPS_a_yes_e_yes_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c", &Test::cpt_mb_BRIS_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m", &Test::cpt_mb_BRIS_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_yes_e_yes_x_no_y_yes_z_no_c", &Test::cpt_mb_BRIS_GPS_a_yes_e_yes_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_yes_e_yes_x_no_y_yes_z_no_m", &Test::cpt_mb_BRIS_GPS_a_yes_e_yes_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_yes_e_yes_x_no_y_no_z_yes_c", &Test::cpt_mb_BRIS_GPS_a_yes_e_yes_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_yes_e_yes_x_no_y_no_z_yes_m", &Test::cpt_mb_BRIS_GPS_a_yes_e_yes_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_yes_e_yes_x_no_y_no_z_no_c", &Test::cpt_mb_BRIS_GPS_a_yes_e_yes_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_yes_e_yes_x_no_y_no_z_no_m", &Test::cpt_mb_BRIS_GPS_a_yes_e_yes_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c", &Test::cpt_mb_BRIS_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m", &Test::cpt_mb_BRIS_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_yes_e_no_x_yes_y_yes_z_no_c", &Test::cpt_mb_BRIS_GPS_a_yes_e_no_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_yes_e_no_x_yes_y_yes_z_no_m", &Test::cpt_mb_BRIS_GPS_a_yes_e_no_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_yes_e_no_x_yes_y_no_z_yes_c", &Test::cpt_mb_BRIS_GPS_a_yes_e_no_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_yes_e_no_x_yes_y_no_z_yes_m", &Test::cpt_mb_BRIS_GPS_a_yes_e_no_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_yes_e_no_x_yes_y_no_z_no_c", &Test::cpt_mb_BRIS_GPS_a_yes_e_no_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_yes_e_no_x_yes_y_no_z_no_m", &Test::cpt_mb_BRIS_GPS_a_yes_e_no_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_yes_e_no_x_no_y_yes_z_yes_c", &Test::cpt_mb_BRIS_GPS_a_yes_e_no_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_yes_e_no_x_no_y_yes_z_yes_m", &Test::cpt_mb_BRIS_GPS_a_yes_e_no_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_yes_e_no_x_no_y_yes_z_no_c", &Test::cpt_mb_BRIS_GPS_a_yes_e_no_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_yes_e_no_x_no_y_yes_z_no_m", &Test::cpt_mb_BRIS_GPS_a_yes_e_no_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_yes_e_no_x_no_y_no_z_yes_c", &Test::cpt_mb_BRIS_GPS_a_yes_e_no_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_yes_e_no_x_no_y_no_z_yes_m", &Test::cpt_mb_BRIS_GPS_a_yes_e_no_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_yes_e_no_x_no_y_no_z_no_c", &Test::cpt_mb_BRIS_GPS_a_yes_e_no_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_yes_e_no_x_no_y_no_z_no_m", &Test::cpt_mb_BRIS_GPS_a_yes_e_no_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c", &Test::cpt_mb_BRIS_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m", &Test::cpt_mb_BRIS_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_no_e_yes_x_yes_y_yes_z_no_c", &Test::cpt_mb_BRIS_GPS_a_no_e_yes_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_no_e_yes_x_yes_y_yes_z_no_m", &Test::cpt_mb_BRIS_GPS_a_no_e_yes_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_no_e_yes_x_yes_y_no_z_yes_c", &Test::cpt_mb_BRIS_GPS_a_no_e_yes_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_no_e_yes_x_yes_y_no_z_yes_m", &Test::cpt_mb_BRIS_GPS_a_no_e_yes_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_no_e_yes_x_yes_y_no_z_no_c", &Test::cpt_mb_BRIS_GPS_a_no_e_yes_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_no_e_yes_x_yes_y_no_z_no_m", &Test::cpt_mb_BRIS_GPS_a_no_e_yes_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_no_e_yes_x_no_y_yes_z_yes_c", &Test::cpt_mb_BRIS_GPS_a_no_e_yes_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_no_e_yes_x_no_y_yes_z_yes_m", &Test::cpt_mb_BRIS_GPS_a_no_e_yes_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_no_e_yes_x_no_y_yes_z_no_c", &Test::cpt_mb_BRIS_GPS_a_no_e_yes_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_no_e_yes_x_no_y_yes_z_no_m", &Test::cpt_mb_BRIS_GPS_a_no_e_yes_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_no_e_yes_x_no_y_no_z_yes_c", &Test::cpt_mb_BRIS_GPS_a_no_e_yes_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_no_e_yes_x_no_y_no_z_yes_m", &Test::cpt_mb_BRIS_GPS_a_no_e_yes_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_no_e_yes_x_no_y_no_z_no_c", &Test::cpt_mb_BRIS_GPS_a_no_e_yes_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_no_e_yes_x_no_y_no_z_no_m", &Test::cpt_mb_BRIS_GPS_a_no_e_yes_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_no_e_no_x_yes_y_yes_z_yes_c", &Test::cpt_mb_BRIS_GPS_a_no_e_no_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_no_e_no_x_yes_y_yes_z_yes_m", &Test::cpt_mb_BRIS_GPS_a_no_e_no_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_no_e_no_x_yes_y_yes_z_no_c", &Test::cpt_mb_BRIS_GPS_a_no_e_no_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_no_e_no_x_yes_y_yes_z_no_m", &Test::cpt_mb_BRIS_GPS_a_no_e_no_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_no_e_no_x_yes_y_no_z_yes_c", &Test::cpt_mb_BRIS_GPS_a_no_e_no_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_no_e_no_x_yes_y_no_z_yes_m", &Test::cpt_mb_BRIS_GPS_a_no_e_no_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_no_e_no_x_yes_y_no_z_no_c", &Test::cpt_mb_BRIS_GPS_a_no_e_no_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_no_e_no_x_yes_y_no_z_no_m", &Test::cpt_mb_BRIS_GPS_a_no_e_no_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_no_e_no_x_no_y_yes_z_yes_c", &Test::cpt_mb_BRIS_GPS_a_no_e_no_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_no_e_no_x_no_y_yes_z_yes_m", &Test::cpt_mb_BRIS_GPS_a_no_e_no_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_no_e_no_x_no_y_yes_z_no_c", &Test::cpt_mb_BRIS_GPS_a_no_e_no_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_no_e_no_x_no_y_yes_z_no_m", &Test::cpt_mb_BRIS_GPS_a_no_e_no_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_no_e_no_x_no_y_no_z_yes_c", &Test::cpt_mb_BRIS_GPS_a_no_e_no_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_no_e_no_x_no_y_no_z_yes_m", &Test::cpt_mb_BRIS_GPS_a_no_e_no_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_no_e_no_x_no_y_no_z_no_c", &Test::cpt_mb_BRIS_GPS_a_no_e_no_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BRIS_GPS_a_no_e_no_x_no_y_no_z_no_m", &Test::cpt_mb_BRIS_GPS_a_no_e_no_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c", &Test::cpt_mb_BUNB_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m", &Test::cpt_mb_BUNB_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c", &Test::cpt_mb_BUNB_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m", &Test::cpt_mb_BUNB_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c", &Test::cpt_mb_BUNB_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m", &Test::cpt_mb_BUNB_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_yes_e_yes_x_yes_y_no_z_no_c", &Test::cpt_mb_BUNB_GPS_a_yes_e_yes_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_yes_e_yes_x_yes_y_no_z_no_m", &Test::cpt_mb_BUNB_GPS_a_yes_e_yes_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c", &Test::cpt_mb_BUNB_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m", &Test::cpt_mb_BUNB_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_yes_e_yes_x_no_y_yes_z_no_c", &Test::cpt_mb_BUNB_GPS_a_yes_e_yes_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_yes_e_yes_x_no_y_yes_z_no_m", &Test::cpt_mb_BUNB_GPS_a_yes_e_yes_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_yes_e_yes_x_no_y_no_z_yes_c", &Test::cpt_mb_BUNB_GPS_a_yes_e_yes_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_yes_e_yes_x_no_y_no_z_yes_m", &Test::cpt_mb_BUNB_GPS_a_yes_e_yes_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_yes_e_yes_x_no_y_no_z_no_c", &Test::cpt_mb_BUNB_GPS_a_yes_e_yes_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_yes_e_yes_x_no_y_no_z_no_m", &Test::cpt_mb_BUNB_GPS_a_yes_e_yes_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c", &Test::cpt_mb_BUNB_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m", &Test::cpt_mb_BUNB_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_yes_e_no_x_yes_y_yes_z_no_c", &Test::cpt_mb_BUNB_GPS_a_yes_e_no_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_yes_e_no_x_yes_y_yes_z_no_m", &Test::cpt_mb_BUNB_GPS_a_yes_e_no_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_yes_e_no_x_yes_y_no_z_yes_c", &Test::cpt_mb_BUNB_GPS_a_yes_e_no_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_yes_e_no_x_yes_y_no_z_yes_m", &Test::cpt_mb_BUNB_GPS_a_yes_e_no_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_yes_e_no_x_yes_y_no_z_no_c", &Test::cpt_mb_BUNB_GPS_a_yes_e_no_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_yes_e_no_x_yes_y_no_z_no_m", &Test::cpt_mb_BUNB_GPS_a_yes_e_no_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_yes_e_no_x_no_y_yes_z_yes_c", &Test::cpt_mb_BUNB_GPS_a_yes_e_no_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_yes_e_no_x_no_y_yes_z_yes_m", &Test::cpt_mb_BUNB_GPS_a_yes_e_no_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_yes_e_no_x_no_y_yes_z_no_c", &Test::cpt_mb_BUNB_GPS_a_yes_e_no_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_yes_e_no_x_no_y_yes_z_no_m", &Test::cpt_mb_BUNB_GPS_a_yes_e_no_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_yes_e_no_x_no_y_no_z_yes_c", &Test::cpt_mb_BUNB_GPS_a_yes_e_no_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_yes_e_no_x_no_y_no_z_yes_m", &Test::cpt_mb_BUNB_GPS_a_yes_e_no_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_yes_e_no_x_no_y_no_z_no_c", &Test::cpt_mb_BUNB_GPS_a_yes_e_no_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_yes_e_no_x_no_y_no_z_no_m", &Test::cpt_mb_BUNB_GPS_a_yes_e_no_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c", &Test::cpt_mb_BUNB_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m", &Test::cpt_mb_BUNB_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_no_e_yes_x_yes_y_yes_z_no_c", &Test::cpt_mb_BUNB_GPS_a_no_e_yes_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_no_e_yes_x_yes_y_yes_z_no_m", &Test::cpt_mb_BUNB_GPS_a_no_e_yes_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_no_e_yes_x_yes_y_no_z_yes_c", &Test::cpt_mb_BUNB_GPS_a_no_e_yes_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_no_e_yes_x_yes_y_no_z_yes_m", &Test::cpt_mb_BUNB_GPS_a_no_e_yes_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_no_e_yes_x_yes_y_no_z_no_c", &Test::cpt_mb_BUNB_GPS_a_no_e_yes_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_no_e_yes_x_yes_y_no_z_no_m", &Test::cpt_mb_BUNB_GPS_a_no_e_yes_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_no_e_yes_x_no_y_yes_z_yes_c", &Test::cpt_mb_BUNB_GPS_a_no_e_yes_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_no_e_yes_x_no_y_yes_z_yes_m", &Test::cpt_mb_BUNB_GPS_a_no_e_yes_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_no_e_yes_x_no_y_yes_z_no_c", &Test::cpt_mb_BUNB_GPS_a_no_e_yes_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_no_e_yes_x_no_y_yes_z_no_m", &Test::cpt_mb_BUNB_GPS_a_no_e_yes_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_no_e_yes_x_no_y_no_z_yes_c", &Test::cpt_mb_BUNB_GPS_a_no_e_yes_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_no_e_yes_x_no_y_no_z_yes_m", &Test::cpt_mb_BUNB_GPS_a_no_e_yes_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_no_e_yes_x_no_y_no_z_no_c", &Test::cpt_mb_BUNB_GPS_a_no_e_yes_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_no_e_yes_x_no_y_no_z_no_m", &Test::cpt_mb_BUNB_GPS_a_no_e_yes_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_no_e_no_x_yes_y_yes_z_yes_c", &Test::cpt_mb_BUNB_GPS_a_no_e_no_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_no_e_no_x_yes_y_yes_z_yes_m", &Test::cpt_mb_BUNB_GPS_a_no_e_no_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_no_e_no_x_yes_y_yes_z_no_c", &Test::cpt_mb_BUNB_GPS_a_no_e_no_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_no_e_no_x_yes_y_yes_z_no_m", &Test::cpt_mb_BUNB_GPS_a_no_e_no_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_no_e_no_x_yes_y_no_z_yes_c", &Test::cpt_mb_BUNB_GPS_a_no_e_no_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_no_e_no_x_yes_y_no_z_yes_m", &Test::cpt_mb_BUNB_GPS_a_no_e_no_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_no_e_no_x_yes_y_no_z_no_c", &Test::cpt_mb_BUNB_GPS_a_no_e_no_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_no_e_no_x_yes_y_no_z_no_m", &Test::cpt_mb_BUNB_GPS_a_no_e_no_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_no_e_no_x_no_y_yes_z_yes_c", &Test::cpt_mb_BUNB_GPS_a_no_e_no_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_no_e_no_x_no_y_yes_z_yes_m", &Test::cpt_mb_BUNB_GPS_a_no_e_no_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_no_e_no_x_no_y_yes_z_no_c", &Test::cpt_mb_BUNB_GPS_a_no_e_no_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_no_e_no_x_no_y_yes_z_no_m", &Test::cpt_mb_BUNB_GPS_a_no_e_no_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_no_e_no_x_no_y_no_z_yes_c", &Test::cpt_mb_BUNB_GPS_a_no_e_no_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_no_e_no_x_no_y_no_z_yes_m", &Test::cpt_mb_BUNB_GPS_a_no_e_no_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_no_e_no_x_no_y_no_z_no_c", &Test::cpt_mb_BUNB_GPS_a_no_e_no_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUNB_GPS_a_no_e_no_x_no_y_no_z_no_m", &Test::cpt_mb_BUNB_GPS_a_no_e_no_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c", &Test::cpt_mb_BUND_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m", &Test::cpt_mb_BUND_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c", &Test::cpt_mb_BUND_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m", &Test::cpt_mb_BUND_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c", &Test::cpt_mb_BUND_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m", &Test::cpt_mb_BUND_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_yes_e_yes_x_yes_y_no_z_no_c", &Test::cpt_mb_BUND_GPS_a_yes_e_yes_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_yes_e_yes_x_yes_y_no_z_no_m", &Test::cpt_mb_BUND_GPS_a_yes_e_yes_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c", &Test::cpt_mb_BUND_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m", &Test::cpt_mb_BUND_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_yes_e_yes_x_no_y_yes_z_no_c", &Test::cpt_mb_BUND_GPS_a_yes_e_yes_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_yes_e_yes_x_no_y_yes_z_no_m", &Test::cpt_mb_BUND_GPS_a_yes_e_yes_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_yes_e_yes_x_no_y_no_z_yes_c", &Test::cpt_mb_BUND_GPS_a_yes_e_yes_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_yes_e_yes_x_no_y_no_z_yes_m", &Test::cpt_mb_BUND_GPS_a_yes_e_yes_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_yes_e_yes_x_no_y_no_z_no_c", &Test::cpt_mb_BUND_GPS_a_yes_e_yes_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_yes_e_yes_x_no_y_no_z_no_m", &Test::cpt_mb_BUND_GPS_a_yes_e_yes_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c", &Test::cpt_mb_BUND_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m", &Test::cpt_mb_BUND_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_yes_e_no_x_yes_y_yes_z_no_c", &Test::cpt_mb_BUND_GPS_a_yes_e_no_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_yes_e_no_x_yes_y_yes_z_no_m", &Test::cpt_mb_BUND_GPS_a_yes_e_no_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_yes_e_no_x_yes_y_no_z_yes_c", &Test::cpt_mb_BUND_GPS_a_yes_e_no_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_yes_e_no_x_yes_y_no_z_yes_m", &Test::cpt_mb_BUND_GPS_a_yes_e_no_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_yes_e_no_x_yes_y_no_z_no_c", &Test::cpt_mb_BUND_GPS_a_yes_e_no_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_yes_e_no_x_yes_y_no_z_no_m", &Test::cpt_mb_BUND_GPS_a_yes_e_no_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_yes_e_no_x_no_y_yes_z_yes_c", &Test::cpt_mb_BUND_GPS_a_yes_e_no_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_yes_e_no_x_no_y_yes_z_yes_m", &Test::cpt_mb_BUND_GPS_a_yes_e_no_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_yes_e_no_x_no_y_yes_z_no_c", &Test::cpt_mb_BUND_GPS_a_yes_e_no_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_yes_e_no_x_no_y_yes_z_no_m", &Test::cpt_mb_BUND_GPS_a_yes_e_no_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_yes_e_no_x_no_y_no_z_yes_c", &Test::cpt_mb_BUND_GPS_a_yes_e_no_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_yes_e_no_x_no_y_no_z_yes_m", &Test::cpt_mb_BUND_GPS_a_yes_e_no_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_yes_e_no_x_no_y_no_z_no_c", &Test::cpt_mb_BUND_GPS_a_yes_e_no_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_yes_e_no_x_no_y_no_z_no_m", &Test::cpt_mb_BUND_GPS_a_yes_e_no_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c", &Test::cpt_mb_BUND_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m", &Test::cpt_mb_BUND_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_no_e_yes_x_yes_y_yes_z_no_c", &Test::cpt_mb_BUND_GPS_a_no_e_yes_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_no_e_yes_x_yes_y_yes_z_no_m", &Test::cpt_mb_BUND_GPS_a_no_e_yes_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_no_e_yes_x_yes_y_no_z_yes_c", &Test::cpt_mb_BUND_GPS_a_no_e_yes_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_no_e_yes_x_yes_y_no_z_yes_m", &Test::cpt_mb_BUND_GPS_a_no_e_yes_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_no_e_yes_x_yes_y_no_z_no_c", &Test::cpt_mb_BUND_GPS_a_no_e_yes_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_no_e_yes_x_yes_y_no_z_no_m", &Test::cpt_mb_BUND_GPS_a_no_e_yes_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_no_e_yes_x_no_y_yes_z_yes_c", &Test::cpt_mb_BUND_GPS_a_no_e_yes_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_no_e_yes_x_no_y_yes_z_yes_m", &Test::cpt_mb_BUND_GPS_a_no_e_yes_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_no_e_yes_x_no_y_yes_z_no_c", &Test::cpt_mb_BUND_GPS_a_no_e_yes_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_no_e_yes_x_no_y_yes_z_no_m", &Test::cpt_mb_BUND_GPS_a_no_e_yes_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_no_e_yes_x_no_y_no_z_yes_c", &Test::cpt_mb_BUND_GPS_a_no_e_yes_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_no_e_yes_x_no_y_no_z_yes_m", &Test::cpt_mb_BUND_GPS_a_no_e_yes_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_no_e_yes_x_no_y_no_z_no_c", &Test::cpt_mb_BUND_GPS_a_no_e_yes_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_no_e_yes_x_no_y_no_z_no_m", &Test::cpt_mb_BUND_GPS_a_no_e_yes_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_no_e_no_x_yes_y_yes_z_yes_c", &Test::cpt_mb_BUND_GPS_a_no_e_no_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_no_e_no_x_yes_y_yes_z_yes_m", &Test::cpt_mb_BUND_GPS_a_no_e_no_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_no_e_no_x_yes_y_yes_z_no_c", &Test::cpt_mb_BUND_GPS_a_no_e_no_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_no_e_no_x_yes_y_yes_z_no_m", &Test::cpt_mb_BUND_GPS_a_no_e_no_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_no_e_no_x_yes_y_no_z_yes_c", &Test::cpt_mb_BUND_GPS_a_no_e_no_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_no_e_no_x_yes_y_no_z_yes_m", &Test::cpt_mb_BUND_GPS_a_no_e_no_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_no_e_no_x_yes_y_no_z_no_c", &Test::cpt_mb_BUND_GPS_a_no_e_no_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_no_e_no_x_yes_y_no_z_no_m", &Test::cpt_mb_BUND_GPS_a_no_e_no_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_no_e_no_x_no_y_yes_z_yes_c", &Test::cpt_mb_BUND_GPS_a_no_e_no_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_no_e_no_x_no_y_yes_z_yes_m", &Test::cpt_mb_BUND_GPS_a_no_e_no_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_no_e_no_x_no_y_yes_z_no_c", &Test::cpt_mb_BUND_GPS_a_no_e_no_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_no_e_no_x_no_y_yes_z_no_m", &Test::cpt_mb_BUND_GPS_a_no_e_no_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_no_e_no_x_no_y_no_z_yes_c", &Test::cpt_mb_BUND_GPS_a_no_e_no_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_no_e_no_x_no_y_no_z_yes_m", &Test::cpt_mb_BUND_GPS_a_no_e_no_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_no_e_no_x_no_y_no_z_no_c", &Test::cpt_mb_BUND_GPS_a_no_e_no_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUND_GPS_a_no_e_no_x_no_y_no_z_no_m", &Test::cpt_mb_BUND_GPS_a_no_e_no_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c", &Test::cpt_mb_BUR1_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m", &Test::cpt_mb_BUR1_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c", &Test::cpt_mb_BUR1_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m", &Test::cpt_mb_BUR1_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c", &Test::cpt_mb_BUR1_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m", &Test::cpt_mb_BUR1_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_yes_e_yes_x_yes_y_no_z_no_c", &Test::cpt_mb_BUR1_GPS_a_yes_e_yes_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_yes_e_yes_x_yes_y_no_z_no_m", &Test::cpt_mb_BUR1_GPS_a_yes_e_yes_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c", &Test::cpt_mb_BUR1_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m", &Test::cpt_mb_BUR1_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_yes_e_yes_x_no_y_yes_z_no_c", &Test::cpt_mb_BUR1_GPS_a_yes_e_yes_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_yes_e_yes_x_no_y_yes_z_no_m", &Test::cpt_mb_BUR1_GPS_a_yes_e_yes_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_yes_e_yes_x_no_y_no_z_yes_c", &Test::cpt_mb_BUR1_GPS_a_yes_e_yes_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_yes_e_yes_x_no_y_no_z_yes_m", &Test::cpt_mb_BUR1_GPS_a_yes_e_yes_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_yes_e_yes_x_no_y_no_z_no_c", &Test::cpt_mb_BUR1_GPS_a_yes_e_yes_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_yes_e_yes_x_no_y_no_z_no_m", &Test::cpt_mb_BUR1_GPS_a_yes_e_yes_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c", &Test::cpt_mb_BUR1_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m", &Test::cpt_mb_BUR1_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_yes_e_no_x_yes_y_yes_z_no_c", &Test::cpt_mb_BUR1_GPS_a_yes_e_no_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_yes_e_no_x_yes_y_yes_z_no_m", &Test::cpt_mb_BUR1_GPS_a_yes_e_no_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_yes_e_no_x_yes_y_no_z_yes_c", &Test::cpt_mb_BUR1_GPS_a_yes_e_no_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_yes_e_no_x_yes_y_no_z_yes_m", &Test::cpt_mb_BUR1_GPS_a_yes_e_no_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_yes_e_no_x_yes_y_no_z_no_c", &Test::cpt_mb_BUR1_GPS_a_yes_e_no_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_yes_e_no_x_yes_y_no_z_no_m", &Test::cpt_mb_BUR1_GPS_a_yes_e_no_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_yes_e_no_x_no_y_yes_z_yes_c", &Test::cpt_mb_BUR1_GPS_a_yes_e_no_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_yes_e_no_x_no_y_yes_z_yes_m", &Test::cpt_mb_BUR1_GPS_a_yes_e_no_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_yes_e_no_x_no_y_yes_z_no_c", &Test::cpt_mb_BUR1_GPS_a_yes_e_no_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_yes_e_no_x_no_y_yes_z_no_m", &Test::cpt_mb_BUR1_GPS_a_yes_e_no_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_yes_e_no_x_no_y_no_z_yes_c", &Test::cpt_mb_BUR1_GPS_a_yes_e_no_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_yes_e_no_x_no_y_no_z_yes_m", &Test::cpt_mb_BUR1_GPS_a_yes_e_no_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_yes_e_no_x_no_y_no_z_no_c", &Test::cpt_mb_BUR1_GPS_a_yes_e_no_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_yes_e_no_x_no_y_no_z_no_m", &Test::cpt_mb_BUR1_GPS_a_yes_e_no_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c", &Test::cpt_mb_BUR1_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m", &Test::cpt_mb_BUR1_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_no_e_yes_x_yes_y_yes_z_no_c", &Test::cpt_mb_BUR1_GPS_a_no_e_yes_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_no_e_yes_x_yes_y_yes_z_no_m", &Test::cpt_mb_BUR1_GPS_a_no_e_yes_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_no_e_yes_x_yes_y_no_z_yes_c", &Test::cpt_mb_BUR1_GPS_a_no_e_yes_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_no_e_yes_x_yes_y_no_z_yes_m", &Test::cpt_mb_BUR1_GPS_a_no_e_yes_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_no_e_yes_x_yes_y_no_z_no_c", &Test::cpt_mb_BUR1_GPS_a_no_e_yes_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_no_e_yes_x_yes_y_no_z_no_m", &Test::cpt_mb_BUR1_GPS_a_no_e_yes_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_no_e_yes_x_no_y_yes_z_yes_c", &Test::cpt_mb_BUR1_GPS_a_no_e_yes_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_no_e_yes_x_no_y_yes_z_yes_m", &Test::cpt_mb_BUR1_GPS_a_no_e_yes_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_no_e_yes_x_no_y_yes_z_no_c", &Test::cpt_mb_BUR1_GPS_a_no_e_yes_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_no_e_yes_x_no_y_yes_z_no_m", &Test::cpt_mb_BUR1_GPS_a_no_e_yes_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_no_e_yes_x_no_y_no_z_yes_c", &Test::cpt_mb_BUR1_GPS_a_no_e_yes_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_no_e_yes_x_no_y_no_z_yes_m", &Test::cpt_mb_BUR1_GPS_a_no_e_yes_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_no_e_yes_x_no_y_no_z_no_c", &Test::cpt_mb_BUR1_GPS_a_no_e_yes_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_no_e_yes_x_no_y_no_z_no_m", &Test::cpt_mb_BUR1_GPS_a_no_e_yes_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_no_e_no_x_yes_y_yes_z_yes_c", &Test::cpt_mb_BUR1_GPS_a_no_e_no_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_no_e_no_x_yes_y_yes_z_yes_m", &Test::cpt_mb_BUR1_GPS_a_no_e_no_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_no_e_no_x_yes_y_yes_z_no_c", &Test::cpt_mb_BUR1_GPS_a_no_e_no_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_no_e_no_x_yes_y_yes_z_no_m", &Test::cpt_mb_BUR1_GPS_a_no_e_no_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_no_e_no_x_yes_y_no_z_yes_c", &Test::cpt_mb_BUR1_GPS_a_no_e_no_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_no_e_no_x_yes_y_no_z_yes_m", &Test::cpt_mb_BUR1_GPS_a_no_e_no_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_no_e_no_x_yes_y_no_z_no_c", &Test::cpt_mb_BUR1_GPS_a_no_e_no_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_no_e_no_x_yes_y_no_z_no_m", &Test::cpt_mb_BUR1_GPS_a_no_e_no_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_no_e_no_x_no_y_yes_z_yes_c", &Test::cpt_mb_BUR1_GPS_a_no_e_no_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_no_e_no_x_no_y_yes_z_yes_m", &Test::cpt_mb_BUR1_GPS_a_no_e_no_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_no_e_no_x_no_y_yes_z_no_c", &Test::cpt_mb_BUR1_GPS_a_no_e_no_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_no_e_no_x_no_y_yes_z_no_m", &Test::cpt_mb_BUR1_GPS_a_no_e_no_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_no_e_no_x_no_y_no_z_yes_c", &Test::cpt_mb_BUR1_GPS_a_no_e_no_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_no_e_no_x_no_y_no_z_yes_m", &Test::cpt_mb_BUR1_GPS_a_no_e_no_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_no_e_no_x_no_y_no_z_no_c", &Test::cpt_mb_BUR1_GPS_a_no_e_no_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_BUR1_GPS_a_no_e_no_x_no_y_no_z_no_m", &Test::cpt_mb_BUR1_GPS_a_no_e_no_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c", &Test::cpt_mb_CAIR_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m", &Test::cpt_mb_CAIR_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c", &Test::cpt_mb_CAIR_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m", &Test::cpt_mb_CAIR_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c", &Test::cpt_mb_CAIR_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m", &Test::cpt_mb_CAIR_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_yes_e_yes_x_yes_y_no_z_no_c", &Test::cpt_mb_CAIR_GPS_a_yes_e_yes_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_yes_e_yes_x_yes_y_no_z_no_m", &Test::cpt_mb_CAIR_GPS_a_yes_e_yes_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c", &Test::cpt_mb_CAIR_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m", &Test::cpt_mb_CAIR_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_yes_e_yes_x_no_y_yes_z_no_c", &Test::cpt_mb_CAIR_GPS_a_yes_e_yes_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_yes_e_yes_x_no_y_yes_z_no_m", &Test::cpt_mb_CAIR_GPS_a_yes_e_yes_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_yes_e_yes_x_no_y_no_z_yes_c", &Test::cpt_mb_CAIR_GPS_a_yes_e_yes_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_yes_e_yes_x_no_y_no_z_yes_m", &Test::cpt_mb_CAIR_GPS_a_yes_e_yes_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_yes_e_yes_x_no_y_no_z_no_c", &Test::cpt_mb_CAIR_GPS_a_yes_e_yes_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_yes_e_yes_x_no_y_no_z_no_m", &Test::cpt_mb_CAIR_GPS_a_yes_e_yes_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c", &Test::cpt_mb_CAIR_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m", &Test::cpt_mb_CAIR_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_yes_e_no_x_yes_y_yes_z_no_c", &Test::cpt_mb_CAIR_GPS_a_yes_e_no_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_yes_e_no_x_yes_y_yes_z_no_m", &Test::cpt_mb_CAIR_GPS_a_yes_e_no_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_yes_e_no_x_yes_y_no_z_yes_c", &Test::cpt_mb_CAIR_GPS_a_yes_e_no_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_yes_e_no_x_yes_y_no_z_yes_m", &Test::cpt_mb_CAIR_GPS_a_yes_e_no_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_yes_e_no_x_yes_y_no_z_no_c", &Test::cpt_mb_CAIR_GPS_a_yes_e_no_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_yes_e_no_x_yes_y_no_z_no_m", &Test::cpt_mb_CAIR_GPS_a_yes_e_no_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_yes_e_no_x_no_y_yes_z_yes_c", &Test::cpt_mb_CAIR_GPS_a_yes_e_no_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_yes_e_no_x_no_y_yes_z_yes_m", &Test::cpt_mb_CAIR_GPS_a_yes_e_no_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_yes_e_no_x_no_y_yes_z_no_c", &Test::cpt_mb_CAIR_GPS_a_yes_e_no_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_yes_e_no_x_no_y_yes_z_no_m", &Test::cpt_mb_CAIR_GPS_a_yes_e_no_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_yes_e_no_x_no_y_no_z_yes_c", &Test::cpt_mb_CAIR_GPS_a_yes_e_no_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_yes_e_no_x_no_y_no_z_yes_m", &Test::cpt_mb_CAIR_GPS_a_yes_e_no_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_yes_e_no_x_no_y_no_z_no_c", &Test::cpt_mb_CAIR_GPS_a_yes_e_no_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_yes_e_no_x_no_y_no_z_no_m", &Test::cpt_mb_CAIR_GPS_a_yes_e_no_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c", &Test::cpt_mb_CAIR_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m", &Test::cpt_mb_CAIR_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_no_e_yes_x_yes_y_yes_z_no_c", &Test::cpt_mb_CAIR_GPS_a_no_e_yes_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_no_e_yes_x_yes_y_yes_z_no_m", &Test::cpt_mb_CAIR_GPS_a_no_e_yes_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_no_e_yes_x_yes_y_no_z_yes_c", &Test::cpt_mb_CAIR_GPS_a_no_e_yes_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_no_e_yes_x_yes_y_no_z_yes_m", &Test::cpt_mb_CAIR_GPS_a_no_e_yes_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_no_e_yes_x_yes_y_no_z_no_c", &Test::cpt_mb_CAIR_GPS_a_no_e_yes_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_no_e_yes_x_yes_y_no_z_no_m", &Test::cpt_mb_CAIR_GPS_a_no_e_yes_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_no_e_yes_x_no_y_yes_z_yes_c", &Test::cpt_mb_CAIR_GPS_a_no_e_yes_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_no_e_yes_x_no_y_yes_z_yes_m", &Test::cpt_mb_CAIR_GPS_a_no_e_yes_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_no_e_yes_x_no_y_yes_z_no_c", &Test::cpt_mb_CAIR_GPS_a_no_e_yes_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_no_e_yes_x_no_y_yes_z_no_m", &Test::cpt_mb_CAIR_GPS_a_no_e_yes_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_no_e_yes_x_no_y_no_z_yes_c", &Test::cpt_mb_CAIR_GPS_a_no_e_yes_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_no_e_yes_x_no_y_no_z_yes_m", &Test::cpt_mb_CAIR_GPS_a_no_e_yes_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_no_e_yes_x_no_y_no_z_no_c", &Test::cpt_mb_CAIR_GPS_a_no_e_yes_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_no_e_yes_x_no_y_no_z_no_m", &Test::cpt_mb_CAIR_GPS_a_no_e_yes_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_no_e_no_x_yes_y_yes_z_yes_c", &Test::cpt_mb_CAIR_GPS_a_no_e_no_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_no_e_no_x_yes_y_yes_z_yes_m", &Test::cpt_mb_CAIR_GPS_a_no_e_no_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_no_e_no_x_yes_y_yes_z_no_c", &Test::cpt_mb_CAIR_GPS_a_no_e_no_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_no_e_no_x_yes_y_yes_z_no_m", &Test::cpt_mb_CAIR_GPS_a_no_e_no_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_no_e_no_x_yes_y_no_z_yes_c", &Test::cpt_mb_CAIR_GPS_a_no_e_no_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_no_e_no_x_yes_y_no_z_yes_m", &Test::cpt_mb_CAIR_GPS_a_no_e_no_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_no_e_no_x_yes_y_no_z_no_c", &Test::cpt_mb_CAIR_GPS_a_no_e_no_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_no_e_no_x_yes_y_no_z_no_m", &Test::cpt_mb_CAIR_GPS_a_no_e_no_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_no_e_no_x_no_y_yes_z_yes_c", &Test::cpt_mb_CAIR_GPS_a_no_e_no_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_no_e_no_x_no_y_yes_z_yes_m", &Test::cpt_mb_CAIR_GPS_a_no_e_no_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_no_e_no_x_no_y_yes_z_no_c", &Test::cpt_mb_CAIR_GPS_a_no_e_no_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_no_e_no_x_no_y_yes_z_no_m", &Test::cpt_mb_CAIR_GPS_a_no_e_no_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_no_e_no_x_no_y_no_z_yes_c", &Test::cpt_mb_CAIR_GPS_a_no_e_no_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_no_e_no_x_no_y_no_z_yes_m", &Test::cpt_mb_CAIR_GPS_a_no_e_no_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_no_e_no_x_no_y_no_z_no_c", &Test::cpt_mb_CAIR_GPS_a_no_e_no_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAIR_GPS_a_no_e_no_x_no_y_no_z_no_m", &Test::cpt_mb_CAIR_GPS_a_no_e_no_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c", &Test::cpt_mb_CARN_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m", &Test::cpt_mb_CARN_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c", &Test::cpt_mb_CARN_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m", &Test::cpt_mb_CARN_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c", &Test::cpt_mb_CARN_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m", &Test::cpt_mb_CARN_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_yes_e_yes_x_yes_y_no_z_no_c", &Test::cpt_mb_CARN_GPS_a_yes_e_yes_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_yes_e_yes_x_yes_y_no_z_no_m", &Test::cpt_mb_CARN_GPS_a_yes_e_yes_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c", &Test::cpt_mb_CARN_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m", &Test::cpt_mb_CARN_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_yes_e_yes_x_no_y_yes_z_no_c", &Test::cpt_mb_CARN_GPS_a_yes_e_yes_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_yes_e_yes_x_no_y_yes_z_no_m", &Test::cpt_mb_CARN_GPS_a_yes_e_yes_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_yes_e_yes_x_no_y_no_z_yes_c", &Test::cpt_mb_CARN_GPS_a_yes_e_yes_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_yes_e_yes_x_no_y_no_z_yes_m", &Test::cpt_mb_CARN_GPS_a_yes_e_yes_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_yes_e_yes_x_no_y_no_z_no_c", &Test::cpt_mb_CARN_GPS_a_yes_e_yes_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_yes_e_yes_x_no_y_no_z_no_m", &Test::cpt_mb_CARN_GPS_a_yes_e_yes_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c", &Test::cpt_mb_CARN_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m", &Test::cpt_mb_CARN_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_yes_e_no_x_yes_y_yes_z_no_c", &Test::cpt_mb_CARN_GPS_a_yes_e_no_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_yes_e_no_x_yes_y_yes_z_no_m", &Test::cpt_mb_CARN_GPS_a_yes_e_no_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_yes_e_no_x_yes_y_no_z_yes_c", &Test::cpt_mb_CARN_GPS_a_yes_e_no_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_yes_e_no_x_yes_y_no_z_yes_m", &Test::cpt_mb_CARN_GPS_a_yes_e_no_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_yes_e_no_x_yes_y_no_z_no_c", &Test::cpt_mb_CARN_GPS_a_yes_e_no_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_yes_e_no_x_yes_y_no_z_no_m", &Test::cpt_mb_CARN_GPS_a_yes_e_no_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_yes_e_no_x_no_y_yes_z_yes_c", &Test::cpt_mb_CARN_GPS_a_yes_e_no_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_yes_e_no_x_no_y_yes_z_yes_m", &Test::cpt_mb_CARN_GPS_a_yes_e_no_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_yes_e_no_x_no_y_yes_z_no_c", &Test::cpt_mb_CARN_GPS_a_yes_e_no_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_yes_e_no_x_no_y_yes_z_no_m", &Test::cpt_mb_CARN_GPS_a_yes_e_no_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_yes_e_no_x_no_y_no_z_yes_c", &Test::cpt_mb_CARN_GPS_a_yes_e_no_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_yes_e_no_x_no_y_no_z_yes_m", &Test::cpt_mb_CARN_GPS_a_yes_e_no_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_yes_e_no_x_no_y_no_z_no_c", &Test::cpt_mb_CARN_GPS_a_yes_e_no_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_yes_e_no_x_no_y_no_z_no_m", &Test::cpt_mb_CARN_GPS_a_yes_e_no_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c", &Test::cpt_mb_CARN_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m", &Test::cpt_mb_CARN_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_no_e_yes_x_yes_y_yes_z_no_c", &Test::cpt_mb_CARN_GPS_a_no_e_yes_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_no_e_yes_x_yes_y_yes_z_no_m", &Test::cpt_mb_CARN_GPS_a_no_e_yes_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_no_e_yes_x_yes_y_no_z_yes_c", &Test::cpt_mb_CARN_GPS_a_no_e_yes_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_no_e_yes_x_yes_y_no_z_yes_m", &Test::cpt_mb_CARN_GPS_a_no_e_yes_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_no_e_yes_x_yes_y_no_z_no_c", &Test::cpt_mb_CARN_GPS_a_no_e_yes_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_no_e_yes_x_yes_y_no_z_no_m", &Test::cpt_mb_CARN_GPS_a_no_e_yes_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_no_e_yes_x_no_y_yes_z_yes_c", &Test::cpt_mb_CARN_GPS_a_no_e_yes_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_no_e_yes_x_no_y_yes_z_yes_m", &Test::cpt_mb_CARN_GPS_a_no_e_yes_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_no_e_yes_x_no_y_yes_z_no_c", &Test::cpt_mb_CARN_GPS_a_no_e_yes_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_no_e_yes_x_no_y_yes_z_no_m", &Test::cpt_mb_CARN_GPS_a_no_e_yes_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_no_e_yes_x_no_y_no_z_yes_c", &Test::cpt_mb_CARN_GPS_a_no_e_yes_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_no_e_yes_x_no_y_no_z_yes_m", &Test::cpt_mb_CARN_GPS_a_no_e_yes_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_no_e_yes_x_no_y_no_z_no_c", &Test::cpt_mb_CARN_GPS_a_no_e_yes_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_no_e_yes_x_no_y_no_z_no_m", &Test::cpt_mb_CARN_GPS_a_no_e_yes_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_no_e_no_x_yes_y_yes_z_yes_c", &Test::cpt_mb_CARN_GPS_a_no_e_no_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_no_e_no_x_yes_y_yes_z_yes_m", &Test::cpt_mb_CARN_GPS_a_no_e_no_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_no_e_no_x_yes_y_yes_z_no_c", &Test::cpt_mb_CARN_GPS_a_no_e_no_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_no_e_no_x_yes_y_yes_z_no_m", &Test::cpt_mb_CARN_GPS_a_no_e_no_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_no_e_no_x_yes_y_no_z_yes_c", &Test::cpt_mb_CARN_GPS_a_no_e_no_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_no_e_no_x_yes_y_no_z_yes_m", &Test::cpt_mb_CARN_GPS_a_no_e_no_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_no_e_no_x_yes_y_no_z_no_c", &Test::cpt_mb_CARN_GPS_a_no_e_no_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_no_e_no_x_yes_y_no_z_no_m", &Test::cpt_mb_CARN_GPS_a_no_e_no_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_no_e_no_x_no_y_yes_z_yes_c", &Test::cpt_mb_CARN_GPS_a_no_e_no_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_no_e_no_x_no_y_yes_z_yes_m", &Test::cpt_mb_CARN_GPS_a_no_e_no_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_no_e_no_x_no_y_yes_z_no_c", &Test::cpt_mb_CARN_GPS_a_no_e_no_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_no_e_no_x_no_y_yes_z_no_m", &Test::cpt_mb_CARN_GPS_a_no_e_no_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_no_e_no_x_no_y_no_z_yes_c", &Test::cpt_mb_CARN_GPS_a_no_e_no_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_no_e_no_x_no_y_no_z_yes_m", &Test::cpt_mb_CARN_GPS_a_no_e_no_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_no_e_no_x_no_y_no_z_no_c", &Test::cpt_mb_CARN_GPS_a_no_e_no_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CARN_GPS_a_no_e_no_x_no_y_no_z_no_m", &Test::cpt_mb_CARN_GPS_a_no_e_no_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c", &Test::cpt_mb_CAS1_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m", &Test::cpt_mb_CAS1_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c", &Test::cpt_mb_CAS1_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m", &Test::cpt_mb_CAS1_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c", &Test::cpt_mb_CAS1_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m", &Test::cpt_mb_CAS1_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_yes_e_yes_x_yes_y_no_z_no_c", &Test::cpt_mb_CAS1_GPS_a_yes_e_yes_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_yes_e_yes_x_yes_y_no_z_no_m", &Test::cpt_mb_CAS1_GPS_a_yes_e_yes_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c", &Test::cpt_mb_CAS1_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m", &Test::cpt_mb_CAS1_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_yes_e_yes_x_no_y_yes_z_no_c", &Test::cpt_mb_CAS1_GPS_a_yes_e_yes_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_yes_e_yes_x_no_y_yes_z_no_m", &Test::cpt_mb_CAS1_GPS_a_yes_e_yes_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_yes_e_yes_x_no_y_no_z_yes_c", &Test::cpt_mb_CAS1_GPS_a_yes_e_yes_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_yes_e_yes_x_no_y_no_z_yes_m", &Test::cpt_mb_CAS1_GPS_a_yes_e_yes_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_yes_e_yes_x_no_y_no_z_no_c", &Test::cpt_mb_CAS1_GPS_a_yes_e_yes_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_yes_e_yes_x_no_y_no_z_no_m", &Test::cpt_mb_CAS1_GPS_a_yes_e_yes_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c", &Test::cpt_mb_CAS1_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m", &Test::cpt_mb_CAS1_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_yes_e_no_x_yes_y_yes_z_no_c", &Test::cpt_mb_CAS1_GPS_a_yes_e_no_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_yes_e_no_x_yes_y_yes_z_no_m", &Test::cpt_mb_CAS1_GPS_a_yes_e_no_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_yes_e_no_x_yes_y_no_z_yes_c", &Test::cpt_mb_CAS1_GPS_a_yes_e_no_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_yes_e_no_x_yes_y_no_z_yes_m", &Test::cpt_mb_CAS1_GPS_a_yes_e_no_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_yes_e_no_x_yes_y_no_z_no_c", &Test::cpt_mb_CAS1_GPS_a_yes_e_no_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_yes_e_no_x_yes_y_no_z_no_m", &Test::cpt_mb_CAS1_GPS_a_yes_e_no_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_yes_e_no_x_no_y_yes_z_yes_c", &Test::cpt_mb_CAS1_GPS_a_yes_e_no_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_yes_e_no_x_no_y_yes_z_yes_m", &Test::cpt_mb_CAS1_GPS_a_yes_e_no_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_yes_e_no_x_no_y_yes_z_no_c", &Test::cpt_mb_CAS1_GPS_a_yes_e_no_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_yes_e_no_x_no_y_yes_z_no_m", &Test::cpt_mb_CAS1_GPS_a_yes_e_no_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_yes_e_no_x_no_y_no_z_yes_c", &Test::cpt_mb_CAS1_GPS_a_yes_e_no_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_yes_e_no_x_no_y_no_z_yes_m", &Test::cpt_mb_CAS1_GPS_a_yes_e_no_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_yes_e_no_x_no_y_no_z_no_c", &Test::cpt_mb_CAS1_GPS_a_yes_e_no_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_yes_e_no_x_no_y_no_z_no_m", &Test::cpt_mb_CAS1_GPS_a_yes_e_no_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c", &Test::cpt_mb_CAS1_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m", &Test::cpt_mb_CAS1_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_no_e_yes_x_yes_y_yes_z_no_c", &Test::cpt_mb_CAS1_GPS_a_no_e_yes_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_no_e_yes_x_yes_y_yes_z_no_m", &Test::cpt_mb_CAS1_GPS_a_no_e_yes_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_no_e_yes_x_yes_y_no_z_yes_c", &Test::cpt_mb_CAS1_GPS_a_no_e_yes_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_no_e_yes_x_yes_y_no_z_yes_m", &Test::cpt_mb_CAS1_GPS_a_no_e_yes_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_no_e_yes_x_yes_y_no_z_no_c", &Test::cpt_mb_CAS1_GPS_a_no_e_yes_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_no_e_yes_x_yes_y_no_z_no_m", &Test::cpt_mb_CAS1_GPS_a_no_e_yes_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_no_e_yes_x_no_y_yes_z_yes_c", &Test::cpt_mb_CAS1_GPS_a_no_e_yes_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_no_e_yes_x_no_y_yes_z_yes_m", &Test::cpt_mb_CAS1_GPS_a_no_e_yes_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_no_e_yes_x_no_y_yes_z_no_c", &Test::cpt_mb_CAS1_GPS_a_no_e_yes_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_no_e_yes_x_no_y_yes_z_no_m", &Test::cpt_mb_CAS1_GPS_a_no_e_yes_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_no_e_yes_x_no_y_no_z_yes_c", &Test::cpt_mb_CAS1_GPS_a_no_e_yes_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_no_e_yes_x_no_y_no_z_yes_m", &Test::cpt_mb_CAS1_GPS_a_no_e_yes_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_no_e_yes_x_no_y_no_z_no_c", &Test::cpt_mb_CAS1_GPS_a_no_e_yes_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_no_e_yes_x_no_y_no_z_no_m", &Test::cpt_mb_CAS1_GPS_a_no_e_yes_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_no_e_no_x_yes_y_yes_z_yes_c", &Test::cpt_mb_CAS1_GPS_a_no_e_no_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_no_e_no_x_yes_y_yes_z_yes_m", &Test::cpt_mb_CAS1_GPS_a_no_e_no_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_no_e_no_x_yes_y_yes_z_no_c", &Test::cpt_mb_CAS1_GPS_a_no_e_no_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_no_e_no_x_yes_y_yes_z_no_m", &Test::cpt_mb_CAS1_GPS_a_no_e_no_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_no_e_no_x_yes_y_no_z_yes_c", &Test::cpt_mb_CAS1_GPS_a_no_e_no_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_no_e_no_x_yes_y_no_z_yes_m", &Test::cpt_mb_CAS1_GPS_a_no_e_no_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_no_e_no_x_yes_y_no_z_no_c", &Test::cpt_mb_CAS1_GPS_a_no_e_no_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_no_e_no_x_yes_y_no_z_no_m", &Test::cpt_mb_CAS1_GPS_a_no_e_no_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_no_e_no_x_no_y_yes_z_yes_c", &Test::cpt_mb_CAS1_GPS_a_no_e_no_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_no_e_no_x_no_y_yes_z_yes_m", &Test::cpt_mb_CAS1_GPS_a_no_e_no_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_no_e_no_x_no_y_yes_z_no_c", &Test::cpt_mb_CAS1_GPS_a_no_e_no_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_no_e_no_x_no_y_yes_z_no_m", &Test::cpt_mb_CAS1_GPS_a_no_e_no_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_no_e_no_x_no_y_no_z_yes_c", &Test::cpt_mb_CAS1_GPS_a_no_e_no_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_no_e_no_x_no_y_no_z_yes_m", &Test::cpt_mb_CAS1_GPS_a_no_e_no_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_no_e_no_x_no_y_no_z_no_c", &Test::cpt_mb_CAS1_GPS_a_no_e_no_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CAS1_GPS_a_no_e_no_x_no_y_no_z_no_m", &Test::cpt_mb_CAS1_GPS_a_no_e_no_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c", &Test::cpt_mb_CEDU_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m", &Test::cpt_mb_CEDU_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c", &Test::cpt_mb_CEDU_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m", &Test::cpt_mb_CEDU_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c", &Test::cpt_mb_CEDU_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m", &Test::cpt_mb_CEDU_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_yes_e_yes_x_yes_y_no_z_no_c", &Test::cpt_mb_CEDU_GPS_a_yes_e_yes_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_yes_e_yes_x_yes_y_no_z_no_m", &Test::cpt_mb_CEDU_GPS_a_yes_e_yes_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c", &Test::cpt_mb_CEDU_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m", &Test::cpt_mb_CEDU_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_yes_e_yes_x_no_y_yes_z_no_c", &Test::cpt_mb_CEDU_GPS_a_yes_e_yes_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_yes_e_yes_x_no_y_yes_z_no_m", &Test::cpt_mb_CEDU_GPS_a_yes_e_yes_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_yes_e_yes_x_no_y_no_z_yes_c", &Test::cpt_mb_CEDU_GPS_a_yes_e_yes_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_yes_e_yes_x_no_y_no_z_yes_m", &Test::cpt_mb_CEDU_GPS_a_yes_e_yes_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_yes_e_yes_x_no_y_no_z_no_c", &Test::cpt_mb_CEDU_GPS_a_yes_e_yes_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_yes_e_yes_x_no_y_no_z_no_m", &Test::cpt_mb_CEDU_GPS_a_yes_e_yes_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c", &Test::cpt_mb_CEDU_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m", &Test::cpt_mb_CEDU_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_yes_e_no_x_yes_y_yes_z_no_c", &Test::cpt_mb_CEDU_GPS_a_yes_e_no_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_yes_e_no_x_yes_y_yes_z_no_m", &Test::cpt_mb_CEDU_GPS_a_yes_e_no_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_yes_e_no_x_yes_y_no_z_yes_c", &Test::cpt_mb_CEDU_GPS_a_yes_e_no_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_yes_e_no_x_yes_y_no_z_yes_m", &Test::cpt_mb_CEDU_GPS_a_yes_e_no_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_yes_e_no_x_yes_y_no_z_no_c", &Test::cpt_mb_CEDU_GPS_a_yes_e_no_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_yes_e_no_x_yes_y_no_z_no_m", &Test::cpt_mb_CEDU_GPS_a_yes_e_no_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_yes_e_no_x_no_y_yes_z_yes_c", &Test::cpt_mb_CEDU_GPS_a_yes_e_no_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_yes_e_no_x_no_y_yes_z_yes_m", &Test::cpt_mb_CEDU_GPS_a_yes_e_no_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_yes_e_no_x_no_y_yes_z_no_c", &Test::cpt_mb_CEDU_GPS_a_yes_e_no_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_yes_e_no_x_no_y_yes_z_no_m", &Test::cpt_mb_CEDU_GPS_a_yes_e_no_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_yes_e_no_x_no_y_no_z_yes_c", &Test::cpt_mb_CEDU_GPS_a_yes_e_no_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_yes_e_no_x_no_y_no_z_yes_m", &Test::cpt_mb_CEDU_GPS_a_yes_e_no_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_yes_e_no_x_no_y_no_z_no_c", &Test::cpt_mb_CEDU_GPS_a_yes_e_no_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_yes_e_no_x_no_y_no_z_no_m", &Test::cpt_mb_CEDU_GPS_a_yes_e_no_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c", &Test::cpt_mb_CEDU_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m", &Test::cpt_mb_CEDU_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_no_e_yes_x_yes_y_yes_z_no_c", &Test::cpt_mb_CEDU_GPS_a_no_e_yes_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_no_e_yes_x_yes_y_yes_z_no_m", &Test::cpt_mb_CEDU_GPS_a_no_e_yes_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_no_e_yes_x_yes_y_no_z_yes_c", &Test::cpt_mb_CEDU_GPS_a_no_e_yes_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_no_e_yes_x_yes_y_no_z_yes_m", &Test::cpt_mb_CEDU_GPS_a_no_e_yes_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_no_e_yes_x_yes_y_no_z_no_c", &Test::cpt_mb_CEDU_GPS_a_no_e_yes_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_no_e_yes_x_yes_y_no_z_no_m", &Test::cpt_mb_CEDU_GPS_a_no_e_yes_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_no_e_yes_x_no_y_yes_z_yes_c", &Test::cpt_mb_CEDU_GPS_a_no_e_yes_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_no_e_yes_x_no_y_yes_z_yes_m", &Test::cpt_mb_CEDU_GPS_a_no_e_yes_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_no_e_yes_x_no_y_yes_z_no_c", &Test::cpt_mb_CEDU_GPS_a_no_e_yes_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_no_e_yes_x_no_y_yes_z_no_m", &Test::cpt_mb_CEDU_GPS_a_no_e_yes_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_no_e_yes_x_no_y_no_z_yes_c", &Test::cpt_mb_CEDU_GPS_a_no_e_yes_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_no_e_yes_x_no_y_no_z_yes_m", &Test::cpt_mb_CEDU_GPS_a_no_e_yes_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_no_e_yes_x_no_y_no_z_no_c", &Test::cpt_mb_CEDU_GPS_a_no_e_yes_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_no_e_yes_x_no_y_no_z_no_m", &Test::cpt_mb_CEDU_GPS_a_no_e_yes_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_no_e_no_x_yes_y_yes_z_yes_c", &Test::cpt_mb_CEDU_GPS_a_no_e_no_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_no_e_no_x_yes_y_yes_z_yes_m", &Test::cpt_mb_CEDU_GPS_a_no_e_no_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_no_e_no_x_yes_y_yes_z_no_c", &Test::cpt_mb_CEDU_GPS_a_no_e_no_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_no_e_no_x_yes_y_yes_z_no_m", &Test::cpt_mb_CEDU_GPS_a_no_e_no_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_no_e_no_x_yes_y_no_z_yes_c", &Test::cpt_mb_CEDU_GPS_a_no_e_no_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_no_e_no_x_yes_y_no_z_yes_m", &Test::cpt_mb_CEDU_GPS_a_no_e_no_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_no_e_no_x_yes_y_no_z_no_c", &Test::cpt_mb_CEDU_GPS_a_no_e_no_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_no_e_no_x_yes_y_no_z_no_m", &Test::cpt_mb_CEDU_GPS_a_no_e_no_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_no_e_no_x_no_y_yes_z_yes_c", &Test::cpt_mb_CEDU_GPS_a_no_e_no_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_no_e_no_x_no_y_yes_z_yes_m", &Test::cpt_mb_CEDU_GPS_a_no_e_no_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_no_e_no_x_no_y_yes_z_no_c", &Test::cpt_mb_CEDU_GPS_a_no_e_no_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_no_e_no_x_no_y_yes_z_no_m", &Test::cpt_mb_CEDU_GPS_a_no_e_no_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_no_e_no_x_no_y_no_z_yes_c", &Test::cpt_mb_CEDU_GPS_a_no_e_no_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_no_e_no_x_no_y_no_z_yes_m", &Test::cpt_mb_CEDU_GPS_a_no_e_no_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_no_e_no_x_no_y_no_z_no_c", &Test::cpt_mb_CEDU_GPS_a_no_e_no_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CEDU_GPS_a_no_e_no_x_no_y_no_z_no_m", &Test::cpt_mb_CEDU_GPS_a_no_e_no_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CENI_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c", &Test::cpt_mb_CENI_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CENI_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m", &Test::cpt_mb_CENI_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CENI_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c", &Test::cpt_mb_CENI_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CENI_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m", &Test::cpt_mb_CENI_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CENI_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c", &Test::cpt_mb_CENI_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CENI_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m", &Test::cpt_mb_CENI_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CENI_GPS_a_yes_e_yes_x_yes_y_no_z_no_c", &Test::cpt_mb_CENI_GPS_a_yes_e_yes_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CENI_GPS_a_yes_e_yes_x_yes_y_no_z_no_m", &Test::cpt_mb_CENI_GPS_a_yes_e_yes_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CENI_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c", &Test::cpt_mb_CENI_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CENI_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m", &Test::cpt_mb_CENI_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CENI_GPS_a_yes_e_yes_x_no_y_yes_z_no_c", &Test::cpt_mb_CENI_GPS_a_yes_e_yes_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CENI_GPS_a_yes_e_yes_x_no_y_yes_z_no_m", &Test::cpt_mb_CENI_GPS_a_yes_e_yes_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CENI_GPS_a_yes_e_yes_x_no_y_no_z_yes_c", &Test::cpt_mb_CENI_GPS_a_yes_e_yes_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CENI_GPS_a_yes_e_yes_x_no_y_no_z_yes_m", &Test::cpt_mb_CENI_GPS_a_yes_e_yes_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CENI_GPS_a_yes_e_yes_x_no_y_no_z_no_c", &Test::cpt_mb_CENI_GPS_a_yes_e_yes_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CENI_GPS_a_yes_e_yes_x_no_y_no_z_no_m", &Test::cpt_mb_CENI_GPS_a_yes_e_yes_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CENI_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c", &Test::cpt_mb_CENI_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CENI_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m", &Test::cpt_mb_CENI_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CENI_GPS_a_yes_e_no_x_yes_y_yes_z_no_c", &Test::cpt_mb_CENI_GPS_a_yes_e_no_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CENI_GPS_a_yes_e_no_x_yes_y_yes_z_no_m", &Test::cpt_mb_CENI_GPS_a_yes_e_no_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CENI_GPS_a_yes_e_no_x_yes_y_no_z_yes_c", &Test::cpt_mb_CENI_GPS_a_yes_e_no_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CENI_GPS_a_yes_e_no_x_yes_y_no_z_yes_m", &Test::cpt_mb_CENI_GPS_a_yes_e_no_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CENI_GPS_a_yes_e_no_x_yes_y_no_z_no_c", &Test::cpt_mb_CENI_GPS_a_yes_e_no_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CENI_GPS_a_yes_e_no_x_yes_y_no_z_no_m", &Test::cpt_mb_CENI_GPS_a_yes_e_no_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CENI_GPS_a_yes_e_no_x_no_y_yes_z_yes_c", &Test::cpt_mb_CENI_GPS_a_yes_e_no_x_no_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CENI_GPS_a_yes_e_no_x_no_y_yes_z_yes_m", &Test::cpt_mb_CENI_GPS_a_yes_e_no_x_no_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CENI_GPS_a_yes_e_no_x_no_y_yes_z_no_c", &Test::cpt_mb_CENI_GPS_a_yes_e_no_x_no_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CENI_GPS_a_yes_e_no_x_no_y_yes_z_no_m", &Test::cpt_mb_CENI_GPS_a_yes_e_no_x_no_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CENI_GPS_a_yes_e_no_x_no_y_no_z_yes_c", &Test::cpt_mb_CENI_GPS_a_yes_e_no_x_no_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CENI_GPS_a_yes_e_no_x_no_y_no_z_yes_m", &Test::cpt_mb_CENI_GPS_a_yes_e_no_x_no_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CENI_GPS_a_yes_e_no_x_no_y_no_z_no_c", &Test::cpt_mb_CENI_GPS_a_yes_e_no_x_no_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CENI_GPS_a_yes_e_no_x_no_y_no_z_no_m", &Test::cpt_mb_CENI_GPS_a_yes_e_no_x_no_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CENI_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c", &Test::cpt_mb_CENI_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CENI_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m", &Test::cpt_mb_CENI_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CENI_GPS_a_no_e_yes_x_yes_y_yes_z_no_c", &Test::cpt_mb_CENI_GPS_a_no_e_yes_x_yes_y_yes_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CENI_GPS_a_no_e_yes_x_yes_y_yes_z_no_m", &Test::cpt_mb_CENI_GPS_a_no_e_yes_x_yes_y_yes_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CENI_GPS_a_no_e_yes_x_yes_y_no_z_yes_c", &Test::cpt_mb_CENI_GPS_a_no_e_yes_x_yes_y_no_z_yes_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CENI_GPS_a_no_e_yes_x_yes_y_no_z_yes_m", &Test::cpt_mb_CENI_GPS_a_no_e_yes_x_yes_y_no_z_yes_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CENI_GPS_a_no_e_yes_x_yes_y_no_z_no_c", &Test::cpt_mb_CENI_GPS_a_no_e_yes_x_yes_y_no_z_no_c));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CENI_GPS_a_no_e_yes_x_yes_y_no_z_no_m", &Test::cpt_mb_CENI_GPS_a_no_e_yes_x_yes_y_no_z_no_m));
+  suiteOfTests->addTest(new CppUnit::TestCaller<Test>("mb_CENI_GPS_a_no_e_yes_x_no_y_yes_z_yes_c", &Test::cpt_mb_CENI_GPS_a_no_e_yes_x_no_y_yes_z_yes_c));
     return suiteOfTests;
   }
 
 protected:
 void cpt_mb_ALBA_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c ()
 {
-  switch(fork())
-  {
-    case -1:
-      CPPUNIT_ASSERT_MESSAGE("fork failed", false);
-      break;
-
-    case 0:
-      sleep(30);
-      system("killall -9 ui");
-      break;
-
-    default:
-      CPPUNIT_ASSERT_MESSAGE("Test mb_ALBA_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c failed", system("../ui -d mb_ALBA_GPS -a yes -e yes -x yes -y yes -z yes -c") != 139);
-      break;
-  }
+  runUI("mb_ALBA_GPS -a yes -e yes -x yes -y yes -z yes -c");
 }
 
 void cpt_mb_ALBA_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m ()
 {
-  switch(fork())
-  {
-    case -1:
-      CPPUNIT_ASSERT_MESSAGE("fork failed", false);
-      break;
-
-    case 0:
-      sleep(30);
-      system("killall -9 ui");
-      break;
-
-    default:
-      CPPUNIT_ASSERT_MESSAGE("Test mb_ALBA_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m failed", system("../ui -d mb_ALBA_GPS -a yes -e yes -x yes -y yes -z yes -m") != 139);
-      break;
-  }
+  runUI("mb_ALBA_GPS -a yes -e yes -x yes -y yes -z yes -m");
 }
 
 void cpt_mb_ALBA_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c ()
 {
-  switch(fork())
-  {
-    case -1:
-      CPPUNIT_ASSERT_MESSAGE("fork failed", false);
-      break;
-
-    case 0:
-      sleep(30);
-      system("killall -9 ui");
-      break;
-
-    default:
-      CPPUNIT_ASSERT_MESSAGE("Test mb_ALBA_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c failed", system("../ui -d mb_ALBA_GPS -a yes -e yes -x yes -y yes -z no -c") != 139);
-      break;
-  }
+  runUI("mb_ALBA_GPS -a yes -e yes -x yes -y yes -z no -c");
 }
 
 void cpt_mb_ALBA_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m ()
 {
-  switch(fork())
-  {
-    case -1:
-      CPPUNIT_ASSERT_MESSAGE("fork failed", false);
-      break;
+  runUI("mb_ALBA_GPS -a yes -e yes -x yes -y yes -z no -m");
+}
 
-    case 0:
-      sleep(30);
-      system("killall -9 ui");
-      break;
+void cpt_mb_ALBA_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_ALBA_GPS -a yes -e yes -x yes -y no -z yes -c");
+}
 
-    default:
-      CPPUNIT_ASSERT_MESSAGE("Test mb_ALBA_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m failed", system("../ui -d mb_ALBA_GPS -a yes -e yes -x yes -y yes -z no -m") != 139);
-      break;
-  }
+void cpt_mb_ALBA_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_ALBA_GPS -a yes -e yes -x yes -y no -z yes -m");
+}
+
+void cpt_mb_ALBA_GPS_a_yes_e_yes_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_ALBA_GPS -a yes -e yes -x yes -y no -z no -c");
+}
+
+void cpt_mb_ALBA_GPS_a_yes_e_yes_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_ALBA_GPS -a yes -e yes -x yes -y no -z no -m");
+}
+
+void cpt_mb_ALBA_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_ALBA_GPS -a yes -e yes -x no -y yes -z yes -c");
+}
+
+void cpt_mb_ALBA_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_ALBA_GPS -a yes -e yes -x no -y yes -z yes -m");
+}
+
+void cpt_mb_ALBA_GPS_a_yes_e_yes_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_ALBA_GPS -a yes -e yes -x no -y yes -z no -c");
+}
+
+void cpt_mb_ALBA_GPS_a_yes_e_yes_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_ALBA_GPS -a yes -e yes -x no -y yes -z no -m");
+}
+
+void cpt_mb_ALBA_GPS_a_yes_e_yes_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_ALBA_GPS -a yes -e yes -x no -y no -z yes -c");
+}
+
+void cpt_mb_ALBA_GPS_a_yes_e_yes_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_ALBA_GPS -a yes -e yes -x no -y no -z yes -m");
+}
+
+void cpt_mb_ALBA_GPS_a_yes_e_yes_x_no_y_no_z_no_c ()
+{
+  runUI("mb_ALBA_GPS -a yes -e yes -x no -y no -z no -c");
+}
+
+void cpt_mb_ALBA_GPS_a_yes_e_yes_x_no_y_no_z_no_m ()
+{
+  runUI("mb_ALBA_GPS -a yes -e yes -x no -y no -z no -m");
+}
+
+void cpt_mb_ALBA_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_ALBA_GPS -a yes -e no -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_ALBA_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_ALBA_GPS -a yes -e no -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_ALBA_GPS_a_yes_e_no_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_ALBA_GPS -a yes -e no -x yes -y yes -z no -c");
+}
+
+void cpt_mb_ALBA_GPS_a_yes_e_no_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_ALBA_GPS -a yes -e no -x yes -y yes -z no -m");
+}
+
+void cpt_mb_ALBA_GPS_a_yes_e_no_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_ALBA_GPS -a yes -e no -x yes -y no -z yes -c");
+}
+
+void cpt_mb_ALBA_GPS_a_yes_e_no_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_ALBA_GPS -a yes -e no -x yes -y no -z yes -m");
+}
+
+void cpt_mb_ALBA_GPS_a_yes_e_no_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_ALBA_GPS -a yes -e no -x yes -y no -z no -c");
+}
+
+void cpt_mb_ALBA_GPS_a_yes_e_no_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_ALBA_GPS -a yes -e no -x yes -y no -z no -m");
+}
+
+void cpt_mb_ALBA_GPS_a_yes_e_no_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_ALBA_GPS -a yes -e no -x no -y yes -z yes -c");
+}
+
+void cpt_mb_ALBA_GPS_a_yes_e_no_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_ALBA_GPS -a yes -e no -x no -y yes -z yes -m");
+}
+
+void cpt_mb_ALBA_GPS_a_yes_e_no_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_ALBA_GPS -a yes -e no -x no -y yes -z no -c");
+}
+
+void cpt_mb_ALBA_GPS_a_yes_e_no_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_ALBA_GPS -a yes -e no -x no -y yes -z no -m");
+}
+
+void cpt_mb_ALBA_GPS_a_yes_e_no_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_ALBA_GPS -a yes -e no -x no -y no -z yes -c");
+}
+
+void cpt_mb_ALBA_GPS_a_yes_e_no_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_ALBA_GPS -a yes -e no -x no -y no -z yes -m");
+}
+
+void cpt_mb_ALBA_GPS_a_yes_e_no_x_no_y_no_z_no_c ()
+{
+  runUI("mb_ALBA_GPS -a yes -e no -x no -y no -z no -c");
+}
+
+void cpt_mb_ALBA_GPS_a_yes_e_no_x_no_y_no_z_no_m ()
+{
+  runUI("mb_ALBA_GPS -a yes -e no -x no -y no -z no -m");
+}
+
+void cpt_mb_ALBA_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_ALBA_GPS -a no -e yes -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_ALBA_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_ALBA_GPS -a no -e yes -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_ALBA_GPS_a_no_e_yes_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_ALBA_GPS -a no -e yes -x yes -y yes -z no -c");
+}
+
+void cpt_mb_ALBA_GPS_a_no_e_yes_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_ALBA_GPS -a no -e yes -x yes -y yes -z no -m");
+}
+
+void cpt_mb_ALBA_GPS_a_no_e_yes_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_ALBA_GPS -a no -e yes -x yes -y no -z yes -c");
+}
+
+void cpt_mb_ALBA_GPS_a_no_e_yes_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_ALBA_GPS -a no -e yes -x yes -y no -z yes -m");
+}
+
+void cpt_mb_ALBA_GPS_a_no_e_yes_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_ALBA_GPS -a no -e yes -x yes -y no -z no -c");
+}
+
+void cpt_mb_ALBA_GPS_a_no_e_yes_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_ALBA_GPS -a no -e yes -x yes -y no -z no -m");
+}
+
+void cpt_mb_ALBA_GPS_a_no_e_yes_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_ALBA_GPS -a no -e yes -x no -y yes -z yes -c");
+}
+
+void cpt_mb_ALBA_GPS_a_no_e_yes_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_ALBA_GPS -a no -e yes -x no -y yes -z yes -m");
+}
+
+void cpt_mb_ALBA_GPS_a_no_e_yes_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_ALBA_GPS -a no -e yes -x no -y yes -z no -c");
+}
+
+void cpt_mb_ALBA_GPS_a_no_e_yes_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_ALBA_GPS -a no -e yes -x no -y yes -z no -m");
+}
+
+void cpt_mb_ALBA_GPS_a_no_e_yes_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_ALBA_GPS -a no -e yes -x no -y no -z yes -c");
+}
+
+void cpt_mb_ALBA_GPS_a_no_e_yes_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_ALBA_GPS -a no -e yes -x no -y no -z yes -m");
+}
+
+void cpt_mb_ALBA_GPS_a_no_e_yes_x_no_y_no_z_no_c ()
+{
+  runUI("mb_ALBA_GPS -a no -e yes -x no -y no -z no -c");
+}
+
+void cpt_mb_ALBA_GPS_a_no_e_yes_x_no_y_no_z_no_m ()
+{
+  runUI("mb_ALBA_GPS -a no -e yes -x no -y no -z no -m");
+}
+
+void cpt_mb_ALBA_GPS_a_no_e_no_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_ALBA_GPS -a no -e no -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_ALBA_GPS_a_no_e_no_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_ALBA_GPS -a no -e no -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_ALBA_GPS_a_no_e_no_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_ALBA_GPS -a no -e no -x yes -y yes -z no -c");
+}
+
+void cpt_mb_ALBA_GPS_a_no_e_no_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_ALBA_GPS -a no -e no -x yes -y yes -z no -m");
+}
+
+void cpt_mb_ALBA_GPS_a_no_e_no_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_ALBA_GPS -a no -e no -x yes -y no -z yes -c");
+}
+
+void cpt_mb_ALBA_GPS_a_no_e_no_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_ALBA_GPS -a no -e no -x yes -y no -z yes -m");
+}
+
+void cpt_mb_ALBA_GPS_a_no_e_no_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_ALBA_GPS -a no -e no -x yes -y no -z no -c");
+}
+
+void cpt_mb_ALBA_GPS_a_no_e_no_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_ALBA_GPS -a no -e no -x yes -y no -z no -m");
+}
+
+void cpt_mb_ALBA_GPS_a_no_e_no_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_ALBA_GPS -a no -e no -x no -y yes -z yes -c");
+}
+
+void cpt_mb_ALBA_GPS_a_no_e_no_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_ALBA_GPS -a no -e no -x no -y yes -z yes -m");
+}
+
+void cpt_mb_ALBA_GPS_a_no_e_no_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_ALBA_GPS -a no -e no -x no -y yes -z no -c");
+}
+
+void cpt_mb_ALBA_GPS_a_no_e_no_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_ALBA_GPS -a no -e no -x no -y yes -z no -m");
+}
+
+void cpt_mb_ALBA_GPS_a_no_e_no_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_ALBA_GPS -a no -e no -x no -y no -z yes -c");
+}
+
+void cpt_mb_ALBA_GPS_a_no_e_no_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_ALBA_GPS -a no -e no -x no -y no -z yes -m");
+}
+
+void cpt_mb_ALBA_GPS_a_no_e_no_x_no_y_no_z_no_c ()
+{
+  runUI("mb_ALBA_GPS -a no -e no -x no -y no -z no -c");
+}
+
+void cpt_mb_ALBA_GPS_a_no_e_no_x_no_y_no_z_no_m ()
+{
+  runUI("mb_ALBA_GPS -a no -e no -x no -y no -z no -m");
+}
+
+void cpt_mb_ALIC_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_ALIC_GPS -a yes -e yes -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_ALIC_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_ALIC_GPS -a yes -e yes -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_ALIC_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_ALIC_GPS -a yes -e yes -x yes -y yes -z no -c");
+}
+
+void cpt_mb_ALIC_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_ALIC_GPS -a yes -e yes -x yes -y yes -z no -m");
+}
+
+void cpt_mb_ALIC_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_ALIC_GPS -a yes -e yes -x yes -y no -z yes -c");
+}
+
+void cpt_mb_ALIC_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_ALIC_GPS -a yes -e yes -x yes -y no -z yes -m");
+}
+
+void cpt_mb_ALIC_GPS_a_yes_e_yes_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_ALIC_GPS -a yes -e yes -x yes -y no -z no -c");
+}
+
+void cpt_mb_ALIC_GPS_a_yes_e_yes_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_ALIC_GPS -a yes -e yes -x yes -y no -z no -m");
+}
+
+void cpt_mb_ALIC_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_ALIC_GPS -a yes -e yes -x no -y yes -z yes -c");
+}
+
+void cpt_mb_ALIC_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_ALIC_GPS -a yes -e yes -x no -y yes -z yes -m");
+}
+
+void cpt_mb_ALIC_GPS_a_yes_e_yes_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_ALIC_GPS -a yes -e yes -x no -y yes -z no -c");
+}
+
+void cpt_mb_ALIC_GPS_a_yes_e_yes_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_ALIC_GPS -a yes -e yes -x no -y yes -z no -m");
+}
+
+void cpt_mb_ALIC_GPS_a_yes_e_yes_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_ALIC_GPS -a yes -e yes -x no -y no -z yes -c");
+}
+
+void cpt_mb_ALIC_GPS_a_yes_e_yes_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_ALIC_GPS -a yes -e yes -x no -y no -z yes -m");
+}
+
+void cpt_mb_ALIC_GPS_a_yes_e_yes_x_no_y_no_z_no_c ()
+{
+  runUI("mb_ALIC_GPS -a yes -e yes -x no -y no -z no -c");
+}
+
+void cpt_mb_ALIC_GPS_a_yes_e_yes_x_no_y_no_z_no_m ()
+{
+  runUI("mb_ALIC_GPS -a yes -e yes -x no -y no -z no -m");
+}
+
+void cpt_mb_ALIC_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_ALIC_GPS -a yes -e no -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_ALIC_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_ALIC_GPS -a yes -e no -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_ALIC_GPS_a_yes_e_no_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_ALIC_GPS -a yes -e no -x yes -y yes -z no -c");
+}
+
+void cpt_mb_ALIC_GPS_a_yes_e_no_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_ALIC_GPS -a yes -e no -x yes -y yes -z no -m");
+}
+
+void cpt_mb_ALIC_GPS_a_yes_e_no_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_ALIC_GPS -a yes -e no -x yes -y no -z yes -c");
+}
+
+void cpt_mb_ALIC_GPS_a_yes_e_no_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_ALIC_GPS -a yes -e no -x yes -y no -z yes -m");
+}
+
+void cpt_mb_ALIC_GPS_a_yes_e_no_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_ALIC_GPS -a yes -e no -x yes -y no -z no -c");
+}
+
+void cpt_mb_ALIC_GPS_a_yes_e_no_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_ALIC_GPS -a yes -e no -x yes -y no -z no -m");
+}
+
+void cpt_mb_ALIC_GPS_a_yes_e_no_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_ALIC_GPS -a yes -e no -x no -y yes -z yes -c");
+}
+
+void cpt_mb_ALIC_GPS_a_yes_e_no_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_ALIC_GPS -a yes -e no -x no -y yes -z yes -m");
+}
+
+void cpt_mb_ALIC_GPS_a_yes_e_no_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_ALIC_GPS -a yes -e no -x no -y yes -z no -c");
+}
+
+void cpt_mb_ALIC_GPS_a_yes_e_no_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_ALIC_GPS -a yes -e no -x no -y yes -z no -m");
+}
+
+void cpt_mb_ALIC_GPS_a_yes_e_no_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_ALIC_GPS -a yes -e no -x no -y no -z yes -c");
+}
+
+void cpt_mb_ALIC_GPS_a_yes_e_no_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_ALIC_GPS -a yes -e no -x no -y no -z yes -m");
+}
+
+void cpt_mb_ALIC_GPS_a_yes_e_no_x_no_y_no_z_no_c ()
+{
+  runUI("mb_ALIC_GPS -a yes -e no -x no -y no -z no -c");
+}
+
+void cpt_mb_ALIC_GPS_a_yes_e_no_x_no_y_no_z_no_m ()
+{
+  runUI("mb_ALIC_GPS -a yes -e no -x no -y no -z no -m");
+}
+
+void cpt_mb_ALIC_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_ALIC_GPS -a no -e yes -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_ALIC_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_ALIC_GPS -a no -e yes -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_ALIC_GPS_a_no_e_yes_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_ALIC_GPS -a no -e yes -x yes -y yes -z no -c");
+}
+
+void cpt_mb_ALIC_GPS_a_no_e_yes_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_ALIC_GPS -a no -e yes -x yes -y yes -z no -m");
+}
+
+void cpt_mb_ALIC_GPS_a_no_e_yes_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_ALIC_GPS -a no -e yes -x yes -y no -z yes -c");
+}
+
+void cpt_mb_ALIC_GPS_a_no_e_yes_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_ALIC_GPS -a no -e yes -x yes -y no -z yes -m");
+}
+
+void cpt_mb_ALIC_GPS_a_no_e_yes_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_ALIC_GPS -a no -e yes -x yes -y no -z no -c");
+}
+
+void cpt_mb_ALIC_GPS_a_no_e_yes_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_ALIC_GPS -a no -e yes -x yes -y no -z no -m");
+}
+
+void cpt_mb_ALIC_GPS_a_no_e_yes_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_ALIC_GPS -a no -e yes -x no -y yes -z yes -c");
+}
+
+void cpt_mb_ALIC_GPS_a_no_e_yes_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_ALIC_GPS -a no -e yes -x no -y yes -z yes -m");
+}
+
+void cpt_mb_ALIC_GPS_a_no_e_yes_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_ALIC_GPS -a no -e yes -x no -y yes -z no -c");
+}
+
+void cpt_mb_ALIC_GPS_a_no_e_yes_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_ALIC_GPS -a no -e yes -x no -y yes -z no -m");
+}
+
+void cpt_mb_ALIC_GPS_a_no_e_yes_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_ALIC_GPS -a no -e yes -x no -y no -z yes -c");
+}
+
+void cpt_mb_ALIC_GPS_a_no_e_yes_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_ALIC_GPS -a no -e yes -x no -y no -z yes -m");
+}
+
+void cpt_mb_ALIC_GPS_a_no_e_yes_x_no_y_no_z_no_c ()
+{
+  runUI("mb_ALIC_GPS -a no -e yes -x no -y no -z no -c");
+}
+
+void cpt_mb_ALIC_GPS_a_no_e_yes_x_no_y_no_z_no_m ()
+{
+  runUI("mb_ALIC_GPS -a no -e yes -x no -y no -z no -m");
+}
+
+void cpt_mb_ALIC_GPS_a_no_e_no_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_ALIC_GPS -a no -e no -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_ALIC_GPS_a_no_e_no_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_ALIC_GPS -a no -e no -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_ALIC_GPS_a_no_e_no_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_ALIC_GPS -a no -e no -x yes -y yes -z no -c");
+}
+
+void cpt_mb_ALIC_GPS_a_no_e_no_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_ALIC_GPS -a no -e no -x yes -y yes -z no -m");
+}
+
+void cpt_mb_ALIC_GPS_a_no_e_no_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_ALIC_GPS -a no -e no -x yes -y no -z yes -c");
+}
+
+void cpt_mb_ALIC_GPS_a_no_e_no_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_ALIC_GPS -a no -e no -x yes -y no -z yes -m");
+}
+
+void cpt_mb_ALIC_GPS_a_no_e_no_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_ALIC_GPS -a no -e no -x yes -y no -z no -c");
+}
+
+void cpt_mb_ALIC_GPS_a_no_e_no_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_ALIC_GPS -a no -e no -x yes -y no -z no -m");
+}
+
+void cpt_mb_ALIC_GPS_a_no_e_no_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_ALIC_GPS -a no -e no -x no -y yes -z yes -c");
+}
+
+void cpt_mb_ALIC_GPS_a_no_e_no_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_ALIC_GPS -a no -e no -x no -y yes -z yes -m");
+}
+
+void cpt_mb_ALIC_GPS_a_no_e_no_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_ALIC_GPS -a no -e no -x no -y yes -z no -c");
+}
+
+void cpt_mb_ALIC_GPS_a_no_e_no_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_ALIC_GPS -a no -e no -x no -y yes -z no -m");
+}
+
+void cpt_mb_ALIC_GPS_a_no_e_no_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_ALIC_GPS -a no -e no -x no -y no -z yes -c");
+}
+
+void cpt_mb_ALIC_GPS_a_no_e_no_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_ALIC_GPS -a no -e no -x no -y no -z yes -m");
+}
+
+void cpt_mb_ALIC_GPS_a_no_e_no_x_no_y_no_z_no_c ()
+{
+  runUI("mb_ALIC_GPS -a no -e no -x no -y no -z no -c");
+}
+
+void cpt_mb_ALIC_GPS_a_no_e_no_x_no_y_no_z_no_m ()
+{
+  runUI("mb_ALIC_GPS -a no -e no -x no -y no -z no -m");
+}
+
+void cpt_mb_ALYA_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_ALYA_GPS -a yes -e yes -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_ALYA_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_ALYA_GPS -a yes -e yes -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_ALYA_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_ALYA_GPS -a yes -e yes -x yes -y yes -z no -c");
+}
+
+void cpt_mb_ALYA_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_ALYA_GPS -a yes -e yes -x yes -y yes -z no -m");
+}
+
+void cpt_mb_ALYA_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_ALYA_GPS -a yes -e yes -x yes -y no -z yes -c");
+}
+
+void cpt_mb_ALYA_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_ALYA_GPS -a yes -e yes -x yes -y no -z yes -m");
+}
+
+void cpt_mb_ALYA_GPS_a_yes_e_yes_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_ALYA_GPS -a yes -e yes -x yes -y no -z no -c");
+}
+
+void cpt_mb_ALYA_GPS_a_yes_e_yes_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_ALYA_GPS -a yes -e yes -x yes -y no -z no -m");
+}
+
+void cpt_mb_ALYA_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_ALYA_GPS -a yes -e yes -x no -y yes -z yes -c");
+}
+
+void cpt_mb_ALYA_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_ALYA_GPS -a yes -e yes -x no -y yes -z yes -m");
+}
+
+void cpt_mb_ALYA_GPS_a_yes_e_yes_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_ALYA_GPS -a yes -e yes -x no -y yes -z no -c");
+}
+
+void cpt_mb_ALYA_GPS_a_yes_e_yes_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_ALYA_GPS -a yes -e yes -x no -y yes -z no -m");
+}
+
+void cpt_mb_ALYA_GPS_a_yes_e_yes_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_ALYA_GPS -a yes -e yes -x no -y no -z yes -c");
+}
+
+void cpt_mb_ALYA_GPS_a_yes_e_yes_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_ALYA_GPS -a yes -e yes -x no -y no -z yes -m");
+}
+
+void cpt_mb_ALYA_GPS_a_yes_e_yes_x_no_y_no_z_no_c ()
+{
+  runUI("mb_ALYA_GPS -a yes -e yes -x no -y no -z no -c");
+}
+
+void cpt_mb_ALYA_GPS_a_yes_e_yes_x_no_y_no_z_no_m ()
+{
+  runUI("mb_ALYA_GPS -a yes -e yes -x no -y no -z no -m");
+}
+
+void cpt_mb_ALYA_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_ALYA_GPS -a yes -e no -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_ALYA_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_ALYA_GPS -a yes -e no -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_ALYA_GPS_a_yes_e_no_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_ALYA_GPS -a yes -e no -x yes -y yes -z no -c");
+}
+
+void cpt_mb_ALYA_GPS_a_yes_e_no_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_ALYA_GPS -a yes -e no -x yes -y yes -z no -m");
+}
+
+void cpt_mb_ALYA_GPS_a_yes_e_no_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_ALYA_GPS -a yes -e no -x yes -y no -z yes -c");
+}
+
+void cpt_mb_ALYA_GPS_a_yes_e_no_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_ALYA_GPS -a yes -e no -x yes -y no -z yes -m");
+}
+
+void cpt_mb_ALYA_GPS_a_yes_e_no_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_ALYA_GPS -a yes -e no -x yes -y no -z no -c");
+}
+
+void cpt_mb_ALYA_GPS_a_yes_e_no_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_ALYA_GPS -a yes -e no -x yes -y no -z no -m");
+}
+
+void cpt_mb_ALYA_GPS_a_yes_e_no_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_ALYA_GPS -a yes -e no -x no -y yes -z yes -c");
+}
+
+void cpt_mb_ALYA_GPS_a_yes_e_no_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_ALYA_GPS -a yes -e no -x no -y yes -z yes -m");
+}
+
+void cpt_mb_ALYA_GPS_a_yes_e_no_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_ALYA_GPS -a yes -e no -x no -y yes -z no -c");
+}
+
+void cpt_mb_ALYA_GPS_a_yes_e_no_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_ALYA_GPS -a yes -e no -x no -y yes -z no -m");
+}
+
+void cpt_mb_ALYA_GPS_a_yes_e_no_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_ALYA_GPS -a yes -e no -x no -y no -z yes -c");
+}
+
+void cpt_mb_ALYA_GPS_a_yes_e_no_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_ALYA_GPS -a yes -e no -x no -y no -z yes -m");
+}
+
+void cpt_mb_ALYA_GPS_a_yes_e_no_x_no_y_no_z_no_c ()
+{
+  runUI("mb_ALYA_GPS -a yes -e no -x no -y no -z no -c");
+}
+
+void cpt_mb_ALYA_GPS_a_yes_e_no_x_no_y_no_z_no_m ()
+{
+  runUI("mb_ALYA_GPS -a yes -e no -x no -y no -z no -m");
+}
+
+void cpt_mb_ALYA_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_ALYA_GPS -a no -e yes -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_ALYA_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_ALYA_GPS -a no -e yes -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_ALYA_GPS_a_no_e_yes_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_ALYA_GPS -a no -e yes -x yes -y yes -z no -c");
+}
+
+void cpt_mb_ALYA_GPS_a_no_e_yes_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_ALYA_GPS -a no -e yes -x yes -y yes -z no -m");
+}
+
+void cpt_mb_ALYA_GPS_a_no_e_yes_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_ALYA_GPS -a no -e yes -x yes -y no -z yes -c");
+}
+
+void cpt_mb_ALYA_GPS_a_no_e_yes_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_ALYA_GPS -a no -e yes -x yes -y no -z yes -m");
+}
+
+void cpt_mb_ALYA_GPS_a_no_e_yes_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_ALYA_GPS -a no -e yes -x yes -y no -z no -c");
+}
+
+void cpt_mb_ALYA_GPS_a_no_e_yes_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_ALYA_GPS -a no -e yes -x yes -y no -z no -m");
+}
+
+void cpt_mb_ALYA_GPS_a_no_e_yes_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_ALYA_GPS -a no -e yes -x no -y yes -z yes -c");
+}
+
+void cpt_mb_ALYA_GPS_a_no_e_yes_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_ALYA_GPS -a no -e yes -x no -y yes -z yes -m");
+}
+
+void cpt_mb_ALYA_GPS_a_no_e_yes_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_ALYA_GPS -a no -e yes -x no -y yes -z no -c");
+}
+
+void cpt_mb_ALYA_GPS_a_no_e_yes_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_ALYA_GPS -a no -e yes -x no -y yes -z no -m");
+}
+
+void cpt_mb_ALYA_GPS_a_no_e_yes_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_ALYA_GPS -a no -e yes -x no -y no -z yes -c");
+}
+
+void cpt_mb_ALYA_GPS_a_no_e_yes_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_ALYA_GPS -a no -e yes -x no -y no -z yes -m");
+}
+
+void cpt_mb_ALYA_GPS_a_no_e_yes_x_no_y_no_z_no_c ()
+{
+  runUI("mb_ALYA_GPS -a no -e yes -x no -y no -z no -c");
+}
+
+void cpt_mb_ALYA_GPS_a_no_e_yes_x_no_y_no_z_no_m ()
+{
+  runUI("mb_ALYA_GPS -a no -e yes -x no -y no -z no -m");
+}
+
+void cpt_mb_ALYA_GPS_a_no_e_no_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_ALYA_GPS -a no -e no -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_ALYA_GPS_a_no_e_no_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_ALYA_GPS -a no -e no -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_ALYA_GPS_a_no_e_no_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_ALYA_GPS -a no -e no -x yes -y yes -z no -c");
+}
+
+void cpt_mb_ALYA_GPS_a_no_e_no_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_ALYA_GPS -a no -e no -x yes -y yes -z no -m");
+}
+
+void cpt_mb_ALYA_GPS_a_no_e_no_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_ALYA_GPS -a no -e no -x yes -y no -z yes -c");
+}
+
+void cpt_mb_ALYA_GPS_a_no_e_no_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_ALYA_GPS -a no -e no -x yes -y no -z yes -m");
+}
+
+void cpt_mb_ALYA_GPS_a_no_e_no_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_ALYA_GPS -a no -e no -x yes -y no -z no -c");
+}
+
+void cpt_mb_ALYA_GPS_a_no_e_no_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_ALYA_GPS -a no -e no -x yes -y no -z no -m");
+}
+
+void cpt_mb_ALYA_GPS_a_no_e_no_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_ALYA_GPS -a no -e no -x no -y yes -z yes -c");
+}
+
+void cpt_mb_ALYA_GPS_a_no_e_no_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_ALYA_GPS -a no -e no -x no -y yes -z yes -m");
+}
+
+void cpt_mb_ALYA_GPS_a_no_e_no_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_ALYA_GPS -a no -e no -x no -y yes -z no -c");
+}
+
+void cpt_mb_ALYA_GPS_a_no_e_no_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_ALYA_GPS -a no -e no -x no -y yes -z no -m");
+}
+
+void cpt_mb_ALYA_GPS_a_no_e_no_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_ALYA_GPS -a no -e no -x no -y no -z yes -c");
+}
+
+void cpt_mb_ALYA_GPS_a_no_e_no_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_ALYA_GPS -a no -e no -x no -y no -z yes -m");
+}
+
+void cpt_mb_ALYA_GPS_a_no_e_no_x_no_y_no_z_no_c ()
+{
+  runUI("mb_ALYA_GPS -a no -e no -x no -y no -z no -c");
+}
+
+void cpt_mb_ALYA_GPS_a_no_e_no_x_no_y_no_z_no_m ()
+{
+  runUI("mb_ALYA_GPS -a no -e no -x no -y no -z no -m");
+}
+
+void cpt_mb_ANKR_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_ANKR_GPS -a yes -e yes -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_ANKR_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_ANKR_GPS -a yes -e yes -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_ANKR_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_ANKR_GPS -a yes -e yes -x yes -y yes -z no -c");
+}
+
+void cpt_mb_ANKR_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_ANKR_GPS -a yes -e yes -x yes -y yes -z no -m");
+}
+
+void cpt_mb_ANKR_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_ANKR_GPS -a yes -e yes -x yes -y no -z yes -c");
+}
+
+void cpt_mb_ANKR_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_ANKR_GPS -a yes -e yes -x yes -y no -z yes -m");
+}
+
+void cpt_mb_ANKR_GPS_a_yes_e_yes_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_ANKR_GPS -a yes -e yes -x yes -y no -z no -c");
+}
+
+void cpt_mb_ANKR_GPS_a_yes_e_yes_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_ANKR_GPS -a yes -e yes -x yes -y no -z no -m");
+}
+
+void cpt_mb_ANKR_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_ANKR_GPS -a yes -e yes -x no -y yes -z yes -c");
+}
+
+void cpt_mb_ANKR_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_ANKR_GPS -a yes -e yes -x no -y yes -z yes -m");
+}
+
+void cpt_mb_ANKR_GPS_a_yes_e_yes_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_ANKR_GPS -a yes -e yes -x no -y yes -z no -c");
+}
+
+void cpt_mb_ANKR_GPS_a_yes_e_yes_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_ANKR_GPS -a yes -e yes -x no -y yes -z no -m");
+}
+
+void cpt_mb_ANKR_GPS_a_yes_e_yes_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_ANKR_GPS -a yes -e yes -x no -y no -z yes -c");
+}
+
+void cpt_mb_ANKR_GPS_a_yes_e_yes_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_ANKR_GPS -a yes -e yes -x no -y no -z yes -m");
+}
+
+void cpt_mb_ANKR_GPS_a_yes_e_yes_x_no_y_no_z_no_c ()
+{
+  runUI("mb_ANKR_GPS -a yes -e yes -x no -y no -z no -c");
+}
+
+void cpt_mb_ANKR_GPS_a_yes_e_yes_x_no_y_no_z_no_m ()
+{
+  runUI("mb_ANKR_GPS -a yes -e yes -x no -y no -z no -m");
+}
+
+void cpt_mb_ANKR_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_ANKR_GPS -a yes -e no -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_ANKR_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_ANKR_GPS -a yes -e no -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_ANKR_GPS_a_yes_e_no_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_ANKR_GPS -a yes -e no -x yes -y yes -z no -c");
+}
+
+void cpt_mb_ANKR_GPS_a_yes_e_no_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_ANKR_GPS -a yes -e no -x yes -y yes -z no -m");
+}
+
+void cpt_mb_ANKR_GPS_a_yes_e_no_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_ANKR_GPS -a yes -e no -x yes -y no -z yes -c");
+}
+
+void cpt_mb_ANKR_GPS_a_yes_e_no_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_ANKR_GPS -a yes -e no -x yes -y no -z yes -m");
+}
+
+void cpt_mb_ANKR_GPS_a_yes_e_no_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_ANKR_GPS -a yes -e no -x yes -y no -z no -c");
+}
+
+void cpt_mb_ANKR_GPS_a_yes_e_no_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_ANKR_GPS -a yes -e no -x yes -y no -z no -m");
+}
+
+void cpt_mb_ANKR_GPS_a_yes_e_no_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_ANKR_GPS -a yes -e no -x no -y yes -z yes -c");
+}
+
+void cpt_mb_ANKR_GPS_a_yes_e_no_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_ANKR_GPS -a yes -e no -x no -y yes -z yes -m");
+}
+
+void cpt_mb_ANKR_GPS_a_yes_e_no_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_ANKR_GPS -a yes -e no -x no -y yes -z no -c");
+}
+
+void cpt_mb_ANKR_GPS_a_yes_e_no_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_ANKR_GPS -a yes -e no -x no -y yes -z no -m");
+}
+
+void cpt_mb_ANKR_GPS_a_yes_e_no_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_ANKR_GPS -a yes -e no -x no -y no -z yes -c");
+}
+
+void cpt_mb_ANKR_GPS_a_yes_e_no_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_ANKR_GPS -a yes -e no -x no -y no -z yes -m");
+}
+
+void cpt_mb_ANKR_GPS_a_yes_e_no_x_no_y_no_z_no_c ()
+{
+  runUI("mb_ANKR_GPS -a yes -e no -x no -y no -z no -c");
+}
+
+void cpt_mb_ANKR_GPS_a_yes_e_no_x_no_y_no_z_no_m ()
+{
+  runUI("mb_ANKR_GPS -a yes -e no -x no -y no -z no -m");
+}
+
+void cpt_mb_ANKR_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_ANKR_GPS -a no -e yes -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_ANKR_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_ANKR_GPS -a no -e yes -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_ANKR_GPS_a_no_e_yes_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_ANKR_GPS -a no -e yes -x yes -y yes -z no -c");
+}
+
+void cpt_mb_ANKR_GPS_a_no_e_yes_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_ANKR_GPS -a no -e yes -x yes -y yes -z no -m");
+}
+
+void cpt_mb_ANKR_GPS_a_no_e_yes_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_ANKR_GPS -a no -e yes -x yes -y no -z yes -c");
+}
+
+void cpt_mb_ANKR_GPS_a_no_e_yes_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_ANKR_GPS -a no -e yes -x yes -y no -z yes -m");
+}
+
+void cpt_mb_ANKR_GPS_a_no_e_yes_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_ANKR_GPS -a no -e yes -x yes -y no -z no -c");
+}
+
+void cpt_mb_ANKR_GPS_a_no_e_yes_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_ANKR_GPS -a no -e yes -x yes -y no -z no -m");
+}
+
+void cpt_mb_ANKR_GPS_a_no_e_yes_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_ANKR_GPS -a no -e yes -x no -y yes -z yes -c");
+}
+
+void cpt_mb_ANKR_GPS_a_no_e_yes_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_ANKR_GPS -a no -e yes -x no -y yes -z yes -m");
+}
+
+void cpt_mb_ANKR_GPS_a_no_e_yes_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_ANKR_GPS -a no -e yes -x no -y yes -z no -c");
+}
+
+void cpt_mb_ANKR_GPS_a_no_e_yes_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_ANKR_GPS -a no -e yes -x no -y yes -z no -m");
+}
+
+void cpt_mb_ANKR_GPS_a_no_e_yes_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_ANKR_GPS -a no -e yes -x no -y no -z yes -c");
+}
+
+void cpt_mb_ANKR_GPS_a_no_e_yes_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_ANKR_GPS -a no -e yes -x no -y no -z yes -m");
+}
+
+void cpt_mb_ANKR_GPS_a_no_e_yes_x_no_y_no_z_no_c ()
+{
+  runUI("mb_ANKR_GPS -a no -e yes -x no -y no -z no -c");
+}
+
+void cpt_mb_ANKR_GPS_a_no_e_yes_x_no_y_no_z_no_m ()
+{
+  runUI("mb_ANKR_GPS -a no -e yes -x no -y no -z no -m");
+}
+
+void cpt_mb_ANKR_GPS_a_no_e_no_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_ANKR_GPS -a no -e no -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_ANKR_GPS_a_no_e_no_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_ANKR_GPS -a no -e no -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_ANKR_GPS_a_no_e_no_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_ANKR_GPS -a no -e no -x yes -y yes -z no -c");
+}
+
+void cpt_mb_ANKR_GPS_a_no_e_no_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_ANKR_GPS -a no -e no -x yes -y yes -z no -m");
+}
+
+void cpt_mb_ANKR_GPS_a_no_e_no_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_ANKR_GPS -a no -e no -x yes -y no -z yes -c");
+}
+
+void cpt_mb_ANKR_GPS_a_no_e_no_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_ANKR_GPS -a no -e no -x yes -y no -z yes -m");
+}
+
+void cpt_mb_ANKR_GPS_a_no_e_no_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_ANKR_GPS -a no -e no -x yes -y no -z no -c");
+}
+
+void cpt_mb_ANKR_GPS_a_no_e_no_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_ANKR_GPS -a no -e no -x yes -y no -z no -m");
+}
+
+void cpt_mb_ANKR_GPS_a_no_e_no_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_ANKR_GPS -a no -e no -x no -y yes -z yes -c");
+}
+
+void cpt_mb_ANKR_GPS_a_no_e_no_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_ANKR_GPS -a no -e no -x no -y yes -z yes -m");
+}
+
+void cpt_mb_ANKR_GPS_a_no_e_no_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_ANKR_GPS -a no -e no -x no -y yes -z no -c");
+}
+
+void cpt_mb_ANKR_GPS_a_no_e_no_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_ANKR_GPS -a no -e no -x no -y yes -z no -m");
+}
+
+void cpt_mb_ANKR_GPS_a_no_e_no_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_ANKR_GPS -a no -e no -x no -y no -z yes -c");
+}
+
+void cpt_mb_ANKR_GPS_a_no_e_no_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_ANKR_GPS -a no -e no -x no -y no -z yes -m");
+}
+
+void cpt_mb_ANKR_GPS_a_no_e_no_x_no_y_no_z_no_c ()
+{
+  runUI("mb_ANKR_GPS -a no -e no -x no -y no -z no -c");
+}
+
+void cpt_mb_ANKR_GPS_a_no_e_no_x_no_y_no_z_no_m ()
+{
+  runUI("mb_ANKR_GPS -a no -e no -x no -y no -z no -m");
+}
+
+void cpt_mb_AUCK_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_AUCK_GPS -a yes -e yes -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_AUCK_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_AUCK_GPS -a yes -e yes -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_AUCK_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_AUCK_GPS -a yes -e yes -x yes -y yes -z no -c");
+}
+
+void cpt_mb_AUCK_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_AUCK_GPS -a yes -e yes -x yes -y yes -z no -m");
+}
+
+void cpt_mb_AUCK_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_AUCK_GPS -a yes -e yes -x yes -y no -z yes -c");
+}
+
+void cpt_mb_AUCK_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_AUCK_GPS -a yes -e yes -x yes -y no -z yes -m");
+}
+
+void cpt_mb_AUCK_GPS_a_yes_e_yes_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_AUCK_GPS -a yes -e yes -x yes -y no -z no -c");
+}
+
+void cpt_mb_AUCK_GPS_a_yes_e_yes_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_AUCK_GPS -a yes -e yes -x yes -y no -z no -m");
+}
+
+void cpt_mb_AUCK_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_AUCK_GPS -a yes -e yes -x no -y yes -z yes -c");
+}
+
+void cpt_mb_AUCK_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_AUCK_GPS -a yes -e yes -x no -y yes -z yes -m");
+}
+
+void cpt_mb_AUCK_GPS_a_yes_e_yes_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_AUCK_GPS -a yes -e yes -x no -y yes -z no -c");
+}
+
+void cpt_mb_AUCK_GPS_a_yes_e_yes_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_AUCK_GPS -a yes -e yes -x no -y yes -z no -m");
+}
+
+void cpt_mb_AUCK_GPS_a_yes_e_yes_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_AUCK_GPS -a yes -e yes -x no -y no -z yes -c");
+}
+
+void cpt_mb_AUCK_GPS_a_yes_e_yes_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_AUCK_GPS -a yes -e yes -x no -y no -z yes -m");
+}
+
+void cpt_mb_AUCK_GPS_a_yes_e_yes_x_no_y_no_z_no_c ()
+{
+  runUI("mb_AUCK_GPS -a yes -e yes -x no -y no -z no -c");
+}
+
+void cpt_mb_AUCK_GPS_a_yes_e_yes_x_no_y_no_z_no_m ()
+{
+  runUI("mb_AUCK_GPS -a yes -e yes -x no -y no -z no -m");
+}
+
+void cpt_mb_AUCK_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_AUCK_GPS -a yes -e no -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_AUCK_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_AUCK_GPS -a yes -e no -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_AUCK_GPS_a_yes_e_no_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_AUCK_GPS -a yes -e no -x yes -y yes -z no -c");
+}
+
+void cpt_mb_AUCK_GPS_a_yes_e_no_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_AUCK_GPS -a yes -e no -x yes -y yes -z no -m");
+}
+
+void cpt_mb_AUCK_GPS_a_yes_e_no_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_AUCK_GPS -a yes -e no -x yes -y no -z yes -c");
+}
+
+void cpt_mb_AUCK_GPS_a_yes_e_no_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_AUCK_GPS -a yes -e no -x yes -y no -z yes -m");
+}
+
+void cpt_mb_AUCK_GPS_a_yes_e_no_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_AUCK_GPS -a yes -e no -x yes -y no -z no -c");
+}
+
+void cpt_mb_AUCK_GPS_a_yes_e_no_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_AUCK_GPS -a yes -e no -x yes -y no -z no -m");
+}
+
+void cpt_mb_AUCK_GPS_a_yes_e_no_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_AUCK_GPS -a yes -e no -x no -y yes -z yes -c");
+}
+
+void cpt_mb_AUCK_GPS_a_yes_e_no_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_AUCK_GPS -a yes -e no -x no -y yes -z yes -m");
+}
+
+void cpt_mb_AUCK_GPS_a_yes_e_no_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_AUCK_GPS -a yes -e no -x no -y yes -z no -c");
+}
+
+void cpt_mb_AUCK_GPS_a_yes_e_no_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_AUCK_GPS -a yes -e no -x no -y yes -z no -m");
+}
+
+void cpt_mb_AUCK_GPS_a_yes_e_no_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_AUCK_GPS -a yes -e no -x no -y no -z yes -c");
+}
+
+void cpt_mb_AUCK_GPS_a_yes_e_no_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_AUCK_GPS -a yes -e no -x no -y no -z yes -m");
+}
+
+void cpt_mb_AUCK_GPS_a_yes_e_no_x_no_y_no_z_no_c ()
+{
+  runUI("mb_AUCK_GPS -a yes -e no -x no -y no -z no -c");
+}
+
+void cpt_mb_AUCK_GPS_a_yes_e_no_x_no_y_no_z_no_m ()
+{
+  runUI("mb_AUCK_GPS -a yes -e no -x no -y no -z no -m");
+}
+
+void cpt_mb_AUCK_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_AUCK_GPS -a no -e yes -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_AUCK_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_AUCK_GPS -a no -e yes -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_AUCK_GPS_a_no_e_yes_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_AUCK_GPS -a no -e yes -x yes -y yes -z no -c");
+}
+
+void cpt_mb_AUCK_GPS_a_no_e_yes_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_AUCK_GPS -a no -e yes -x yes -y yes -z no -m");
+}
+
+void cpt_mb_AUCK_GPS_a_no_e_yes_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_AUCK_GPS -a no -e yes -x yes -y no -z yes -c");
+}
+
+void cpt_mb_AUCK_GPS_a_no_e_yes_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_AUCK_GPS -a no -e yes -x yes -y no -z yes -m");
+}
+
+void cpt_mb_AUCK_GPS_a_no_e_yes_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_AUCK_GPS -a no -e yes -x yes -y no -z no -c");
+}
+
+void cpt_mb_AUCK_GPS_a_no_e_yes_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_AUCK_GPS -a no -e yes -x yes -y no -z no -m");
+}
+
+void cpt_mb_AUCK_GPS_a_no_e_yes_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_AUCK_GPS -a no -e yes -x no -y yes -z yes -c");
+}
+
+void cpt_mb_AUCK_GPS_a_no_e_yes_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_AUCK_GPS -a no -e yes -x no -y yes -z yes -m");
+}
+
+void cpt_mb_AUCK_GPS_a_no_e_yes_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_AUCK_GPS -a no -e yes -x no -y yes -z no -c");
+}
+
+void cpt_mb_AUCK_GPS_a_no_e_yes_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_AUCK_GPS -a no -e yes -x no -y yes -z no -m");
+}
+
+void cpt_mb_AUCK_GPS_a_no_e_yes_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_AUCK_GPS -a no -e yes -x no -y no -z yes -c");
+}
+
+void cpt_mb_AUCK_GPS_a_no_e_yes_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_AUCK_GPS -a no -e yes -x no -y no -z yes -m");
+}
+
+void cpt_mb_AUCK_GPS_a_no_e_yes_x_no_y_no_z_no_c ()
+{
+  runUI("mb_AUCK_GPS -a no -e yes -x no -y no -z no -c");
+}
+
+void cpt_mb_AUCK_GPS_a_no_e_yes_x_no_y_no_z_no_m ()
+{
+  runUI("mb_AUCK_GPS -a no -e yes -x no -y no -z no -m");
+}
+
+void cpt_mb_AUCK_GPS_a_no_e_no_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_AUCK_GPS -a no -e no -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_AUCK_GPS_a_no_e_no_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_AUCK_GPS -a no -e no -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_AUCK_GPS_a_no_e_no_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_AUCK_GPS -a no -e no -x yes -y yes -z no -c");
+}
+
+void cpt_mb_AUCK_GPS_a_no_e_no_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_AUCK_GPS -a no -e no -x yes -y yes -z no -m");
+}
+
+void cpt_mb_AUCK_GPS_a_no_e_no_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_AUCK_GPS -a no -e no -x yes -y no -z yes -c");
+}
+
+void cpt_mb_AUCK_GPS_a_no_e_no_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_AUCK_GPS -a no -e no -x yes -y no -z yes -m");
+}
+
+void cpt_mb_AUCK_GPS_a_no_e_no_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_AUCK_GPS -a no -e no -x yes -y no -z no -c");
+}
+
+void cpt_mb_AUCK_GPS_a_no_e_no_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_AUCK_GPS -a no -e no -x yes -y no -z no -m");
+}
+
+void cpt_mb_AUCK_GPS_a_no_e_no_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_AUCK_GPS -a no -e no -x no -y yes -z yes -c");
+}
+
+void cpt_mb_AUCK_GPS_a_no_e_no_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_AUCK_GPS -a no -e no -x no -y yes -z yes -m");
+}
+
+void cpt_mb_AUCK_GPS_a_no_e_no_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_AUCK_GPS -a no -e no -x no -y yes -z no -c");
+}
+
+void cpt_mb_AUCK_GPS_a_no_e_no_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_AUCK_GPS -a no -e no -x no -y yes -z no -m");
+}
+
+void cpt_mb_AUCK_GPS_a_no_e_no_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_AUCK_GPS -a no -e no -x no -y no -z yes -c");
+}
+
+void cpt_mb_AUCK_GPS_a_no_e_no_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_AUCK_GPS -a no -e no -x no -y no -z yes -m");
+}
+
+void cpt_mb_AUCK_GPS_a_no_e_no_x_no_y_no_z_no_c ()
+{
+  runUI("mb_AUCK_GPS -a no -e no -x no -y no -z no -c");
+}
+
+void cpt_mb_AUCK_GPS_a_no_e_no_x_no_y_no_z_no_m ()
+{
+  runUI("mb_AUCK_GPS -a no -e no -x no -y no -z no -m");
+}
+
+void cpt_mb_BAHR_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_BAHR_GPS -a yes -e yes -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_BAHR_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_BAHR_GPS -a yes -e yes -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_BAHR_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_BAHR_GPS -a yes -e yes -x yes -y yes -z no -c");
+}
+
+void cpt_mb_BAHR_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_BAHR_GPS -a yes -e yes -x yes -y yes -z no -m");
+}
+
+void cpt_mb_BAHR_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_BAHR_GPS -a yes -e yes -x yes -y no -z yes -c");
+}
+
+void cpt_mb_BAHR_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_BAHR_GPS -a yes -e yes -x yes -y no -z yes -m");
+}
+
+void cpt_mb_BAHR_GPS_a_yes_e_yes_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_BAHR_GPS -a yes -e yes -x yes -y no -z no -c");
+}
+
+void cpt_mb_BAHR_GPS_a_yes_e_yes_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_BAHR_GPS -a yes -e yes -x yes -y no -z no -m");
+}
+
+void cpt_mb_BAHR_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_BAHR_GPS -a yes -e yes -x no -y yes -z yes -c");
+}
+
+void cpt_mb_BAHR_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_BAHR_GPS -a yes -e yes -x no -y yes -z yes -m");
+}
+
+void cpt_mb_BAHR_GPS_a_yes_e_yes_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_BAHR_GPS -a yes -e yes -x no -y yes -z no -c");
+}
+
+void cpt_mb_BAHR_GPS_a_yes_e_yes_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_BAHR_GPS -a yes -e yes -x no -y yes -z no -m");
+}
+
+void cpt_mb_BAHR_GPS_a_yes_e_yes_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_BAHR_GPS -a yes -e yes -x no -y no -z yes -c");
+}
+
+void cpt_mb_BAHR_GPS_a_yes_e_yes_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_BAHR_GPS -a yes -e yes -x no -y no -z yes -m");
+}
+
+void cpt_mb_BAHR_GPS_a_yes_e_yes_x_no_y_no_z_no_c ()
+{
+  runUI("mb_BAHR_GPS -a yes -e yes -x no -y no -z no -c");
+}
+
+void cpt_mb_BAHR_GPS_a_yes_e_yes_x_no_y_no_z_no_m ()
+{
+  runUI("mb_BAHR_GPS -a yes -e yes -x no -y no -z no -m");
+}
+
+void cpt_mb_BAHR_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_BAHR_GPS -a yes -e no -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_BAHR_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_BAHR_GPS -a yes -e no -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_BAHR_GPS_a_yes_e_no_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_BAHR_GPS -a yes -e no -x yes -y yes -z no -c");
+}
+
+void cpt_mb_BAHR_GPS_a_yes_e_no_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_BAHR_GPS -a yes -e no -x yes -y yes -z no -m");
+}
+
+void cpt_mb_BAHR_GPS_a_yes_e_no_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_BAHR_GPS -a yes -e no -x yes -y no -z yes -c");
+}
+
+void cpt_mb_BAHR_GPS_a_yes_e_no_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_BAHR_GPS -a yes -e no -x yes -y no -z yes -m");
+}
+
+void cpt_mb_BAHR_GPS_a_yes_e_no_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_BAHR_GPS -a yes -e no -x yes -y no -z no -c");
+}
+
+void cpt_mb_BAHR_GPS_a_yes_e_no_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_BAHR_GPS -a yes -e no -x yes -y no -z no -m");
+}
+
+void cpt_mb_BAHR_GPS_a_yes_e_no_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_BAHR_GPS -a yes -e no -x no -y yes -z yes -c");
+}
+
+void cpt_mb_BAHR_GPS_a_yes_e_no_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_BAHR_GPS -a yes -e no -x no -y yes -z yes -m");
+}
+
+void cpt_mb_BAHR_GPS_a_yes_e_no_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_BAHR_GPS -a yes -e no -x no -y yes -z no -c");
+}
+
+void cpt_mb_BAHR_GPS_a_yes_e_no_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_BAHR_GPS -a yes -e no -x no -y yes -z no -m");
+}
+
+void cpt_mb_BAHR_GPS_a_yes_e_no_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_BAHR_GPS -a yes -e no -x no -y no -z yes -c");
+}
+
+void cpt_mb_BAHR_GPS_a_yes_e_no_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_BAHR_GPS -a yes -e no -x no -y no -z yes -m");
+}
+
+void cpt_mb_BAHR_GPS_a_yes_e_no_x_no_y_no_z_no_c ()
+{
+  runUI("mb_BAHR_GPS -a yes -e no -x no -y no -z no -c");
+}
+
+void cpt_mb_BAHR_GPS_a_yes_e_no_x_no_y_no_z_no_m ()
+{
+  runUI("mb_BAHR_GPS -a yes -e no -x no -y no -z no -m");
+}
+
+void cpt_mb_BAHR_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_BAHR_GPS -a no -e yes -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_BAHR_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_BAHR_GPS -a no -e yes -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_BAHR_GPS_a_no_e_yes_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_BAHR_GPS -a no -e yes -x yes -y yes -z no -c");
+}
+
+void cpt_mb_BAHR_GPS_a_no_e_yes_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_BAHR_GPS -a no -e yes -x yes -y yes -z no -m");
+}
+
+void cpt_mb_BAHR_GPS_a_no_e_yes_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_BAHR_GPS -a no -e yes -x yes -y no -z yes -c");
+}
+
+void cpt_mb_BAHR_GPS_a_no_e_yes_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_BAHR_GPS -a no -e yes -x yes -y no -z yes -m");
+}
+
+void cpt_mb_BAHR_GPS_a_no_e_yes_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_BAHR_GPS -a no -e yes -x yes -y no -z no -c");
+}
+
+void cpt_mb_BAHR_GPS_a_no_e_yes_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_BAHR_GPS -a no -e yes -x yes -y no -z no -m");
+}
+
+void cpt_mb_BAHR_GPS_a_no_e_yes_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_BAHR_GPS -a no -e yes -x no -y yes -z yes -c");
+}
+
+void cpt_mb_BAHR_GPS_a_no_e_yes_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_BAHR_GPS -a no -e yes -x no -y yes -z yes -m");
+}
+
+void cpt_mb_BAHR_GPS_a_no_e_yes_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_BAHR_GPS -a no -e yes -x no -y yes -z no -c");
+}
+
+void cpt_mb_BAHR_GPS_a_no_e_yes_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_BAHR_GPS -a no -e yes -x no -y yes -z no -m");
+}
+
+void cpt_mb_BAHR_GPS_a_no_e_yes_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_BAHR_GPS -a no -e yes -x no -y no -z yes -c");
+}
+
+void cpt_mb_BAHR_GPS_a_no_e_yes_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_BAHR_GPS -a no -e yes -x no -y no -z yes -m");
+}
+
+void cpt_mb_BAHR_GPS_a_no_e_yes_x_no_y_no_z_no_c ()
+{
+  runUI("mb_BAHR_GPS -a no -e yes -x no -y no -z no -c");
+}
+
+void cpt_mb_BAHR_GPS_a_no_e_yes_x_no_y_no_z_no_m ()
+{
+  runUI("mb_BAHR_GPS -a no -e yes -x no -y no -z no -m");
+}
+
+void cpt_mb_BAHR_GPS_a_no_e_no_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_BAHR_GPS -a no -e no -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_BAHR_GPS_a_no_e_no_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_BAHR_GPS -a no -e no -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_BAHR_GPS_a_no_e_no_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_BAHR_GPS -a no -e no -x yes -y yes -z no -c");
+}
+
+void cpt_mb_BAHR_GPS_a_no_e_no_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_BAHR_GPS -a no -e no -x yes -y yes -z no -m");
+}
+
+void cpt_mb_BAHR_GPS_a_no_e_no_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_BAHR_GPS -a no -e no -x yes -y no -z yes -c");
+}
+
+void cpt_mb_BAHR_GPS_a_no_e_no_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_BAHR_GPS -a no -e no -x yes -y no -z yes -m");
+}
+
+void cpt_mb_BAHR_GPS_a_no_e_no_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_BAHR_GPS -a no -e no -x yes -y no -z no -c");
+}
+
+void cpt_mb_BAHR_GPS_a_no_e_no_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_BAHR_GPS -a no -e no -x yes -y no -z no -m");
+}
+
+void cpt_mb_BAHR_GPS_a_no_e_no_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_BAHR_GPS -a no -e no -x no -y yes -z yes -c");
+}
+
+void cpt_mb_BAHR_GPS_a_no_e_no_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_BAHR_GPS -a no -e no -x no -y yes -z yes -m");
+}
+
+void cpt_mb_BAHR_GPS_a_no_e_no_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_BAHR_GPS -a no -e no -x no -y yes -z no -c");
+}
+
+void cpt_mb_BAHR_GPS_a_no_e_no_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_BAHR_GPS -a no -e no -x no -y yes -z no -m");
+}
+
+void cpt_mb_BAHR_GPS_a_no_e_no_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_BAHR_GPS -a no -e no -x no -y no -z yes -c");
+}
+
+void cpt_mb_BAHR_GPS_a_no_e_no_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_BAHR_GPS -a no -e no -x no -y no -z yes -m");
+}
+
+void cpt_mb_BAHR_GPS_a_no_e_no_x_no_y_no_z_no_c ()
+{
+  runUI("mb_BAHR_GPS -a no -e no -x no -y no -z no -c");
+}
+
+void cpt_mb_BAHR_GPS_a_no_e_no_x_no_y_no_z_no_m ()
+{
+  runUI("mb_BAHR_GPS -a no -e no -x no -y no -z no -m");
+}
+
+void cpt_mb_BAMA_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_BAMA_GPS -a yes -e yes -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_BAMA_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_BAMA_GPS -a yes -e yes -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_BAMA_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_BAMA_GPS -a yes -e yes -x yes -y yes -z no -c");
+}
+
+void cpt_mb_BAMA_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_BAMA_GPS -a yes -e yes -x yes -y yes -z no -m");
+}
+
+void cpt_mb_BAMA_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_BAMA_GPS -a yes -e yes -x yes -y no -z yes -c");
+}
+
+void cpt_mb_BAMA_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_BAMA_GPS -a yes -e yes -x yes -y no -z yes -m");
+}
+
+void cpt_mb_BAMA_GPS_a_yes_e_yes_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_BAMA_GPS -a yes -e yes -x yes -y no -z no -c");
+}
+
+void cpt_mb_BAMA_GPS_a_yes_e_yes_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_BAMA_GPS -a yes -e yes -x yes -y no -z no -m");
+}
+
+void cpt_mb_BAMA_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_BAMA_GPS -a yes -e yes -x no -y yes -z yes -c");
+}
+
+void cpt_mb_BAMA_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_BAMA_GPS -a yes -e yes -x no -y yes -z yes -m");
+}
+
+void cpt_mb_BAMA_GPS_a_yes_e_yes_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_BAMA_GPS -a yes -e yes -x no -y yes -z no -c");
+}
+
+void cpt_mb_BAMA_GPS_a_yes_e_yes_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_BAMA_GPS -a yes -e yes -x no -y yes -z no -m");
+}
+
+void cpt_mb_BAMA_GPS_a_yes_e_yes_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_BAMA_GPS -a yes -e yes -x no -y no -z yes -c");
+}
+
+void cpt_mb_BAMA_GPS_a_yes_e_yes_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_BAMA_GPS -a yes -e yes -x no -y no -z yes -m");
+}
+
+void cpt_mb_BAMA_GPS_a_yes_e_yes_x_no_y_no_z_no_c ()
+{
+  runUI("mb_BAMA_GPS -a yes -e yes -x no -y no -z no -c");
+}
+
+void cpt_mb_BAMA_GPS_a_yes_e_yes_x_no_y_no_z_no_m ()
+{
+  runUI("mb_BAMA_GPS -a yes -e yes -x no -y no -z no -m");
+}
+
+void cpt_mb_BAMA_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_BAMA_GPS -a yes -e no -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_BAMA_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_BAMA_GPS -a yes -e no -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_BAMA_GPS_a_yes_e_no_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_BAMA_GPS -a yes -e no -x yes -y yes -z no -c");
+}
+
+void cpt_mb_BAMA_GPS_a_yes_e_no_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_BAMA_GPS -a yes -e no -x yes -y yes -z no -m");
+}
+
+void cpt_mb_BAMA_GPS_a_yes_e_no_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_BAMA_GPS -a yes -e no -x yes -y no -z yes -c");
+}
+
+void cpt_mb_BAMA_GPS_a_yes_e_no_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_BAMA_GPS -a yes -e no -x yes -y no -z yes -m");
+}
+
+void cpt_mb_BAMA_GPS_a_yes_e_no_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_BAMA_GPS -a yes -e no -x yes -y no -z no -c");
+}
+
+void cpt_mb_BAMA_GPS_a_yes_e_no_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_BAMA_GPS -a yes -e no -x yes -y no -z no -m");
+}
+
+void cpt_mb_BAMA_GPS_a_yes_e_no_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_BAMA_GPS -a yes -e no -x no -y yes -z yes -c");
+}
+
+void cpt_mb_BAMA_GPS_a_yes_e_no_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_BAMA_GPS -a yes -e no -x no -y yes -z yes -m");
+}
+
+void cpt_mb_BAMA_GPS_a_yes_e_no_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_BAMA_GPS -a yes -e no -x no -y yes -z no -c");
+}
+
+void cpt_mb_BAMA_GPS_a_yes_e_no_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_BAMA_GPS -a yes -e no -x no -y yes -z no -m");
+}
+
+void cpt_mb_BAMA_GPS_a_yes_e_no_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_BAMA_GPS -a yes -e no -x no -y no -z yes -c");
+}
+
+void cpt_mb_BAMA_GPS_a_yes_e_no_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_BAMA_GPS -a yes -e no -x no -y no -z yes -m");
+}
+
+void cpt_mb_BAMA_GPS_a_yes_e_no_x_no_y_no_z_no_c ()
+{
+  runUI("mb_BAMA_GPS -a yes -e no -x no -y no -z no -c");
+}
+
+void cpt_mb_BAMA_GPS_a_yes_e_no_x_no_y_no_z_no_m ()
+{
+  runUI("mb_BAMA_GPS -a yes -e no -x no -y no -z no -m");
+}
+
+void cpt_mb_BAMA_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_BAMA_GPS -a no -e yes -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_BAMA_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_BAMA_GPS -a no -e yes -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_BAMA_GPS_a_no_e_yes_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_BAMA_GPS -a no -e yes -x yes -y yes -z no -c");
+}
+
+void cpt_mb_BAMA_GPS_a_no_e_yes_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_BAMA_GPS -a no -e yes -x yes -y yes -z no -m");
+}
+
+void cpt_mb_BAMA_GPS_a_no_e_yes_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_BAMA_GPS -a no -e yes -x yes -y no -z yes -c");
+}
+
+void cpt_mb_BAMA_GPS_a_no_e_yes_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_BAMA_GPS -a no -e yes -x yes -y no -z yes -m");
+}
+
+void cpt_mb_BAMA_GPS_a_no_e_yes_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_BAMA_GPS -a no -e yes -x yes -y no -z no -c");
+}
+
+void cpt_mb_BAMA_GPS_a_no_e_yes_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_BAMA_GPS -a no -e yes -x yes -y no -z no -m");
+}
+
+void cpt_mb_BAMA_GPS_a_no_e_yes_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_BAMA_GPS -a no -e yes -x no -y yes -z yes -c");
+}
+
+void cpt_mb_BAMA_GPS_a_no_e_yes_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_BAMA_GPS -a no -e yes -x no -y yes -z yes -m");
+}
+
+void cpt_mb_BAMA_GPS_a_no_e_yes_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_BAMA_GPS -a no -e yes -x no -y yes -z no -c");
+}
+
+void cpt_mb_BAMA_GPS_a_no_e_yes_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_BAMA_GPS -a no -e yes -x no -y yes -z no -m");
+}
+
+void cpt_mb_BAMA_GPS_a_no_e_yes_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_BAMA_GPS -a no -e yes -x no -y no -z yes -c");
+}
+
+void cpt_mb_BAMA_GPS_a_no_e_yes_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_BAMA_GPS -a no -e yes -x no -y no -z yes -m");
+}
+
+void cpt_mb_BAMA_GPS_a_no_e_yes_x_no_y_no_z_no_c ()
+{
+  runUI("mb_BAMA_GPS -a no -e yes -x no -y no -z no -c");
+}
+
+void cpt_mb_BAMA_GPS_a_no_e_yes_x_no_y_no_z_no_m ()
+{
+  runUI("mb_BAMA_GPS -a no -e yes -x no -y no -z no -m");
+}
+
+void cpt_mb_BAMA_GPS_a_no_e_no_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_BAMA_GPS -a no -e no -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_BAMA_GPS_a_no_e_no_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_BAMA_GPS -a no -e no -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_BAMA_GPS_a_no_e_no_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_BAMA_GPS -a no -e no -x yes -y yes -z no -c");
+}
+
+void cpt_mb_BAMA_GPS_a_no_e_no_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_BAMA_GPS -a no -e no -x yes -y yes -z no -m");
+}
+
+void cpt_mb_BAMA_GPS_a_no_e_no_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_BAMA_GPS -a no -e no -x yes -y no -z yes -c");
+}
+
+void cpt_mb_BAMA_GPS_a_no_e_no_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_BAMA_GPS -a no -e no -x yes -y no -z yes -m");
+}
+
+void cpt_mb_BAMA_GPS_a_no_e_no_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_BAMA_GPS -a no -e no -x yes -y no -z no -c");
+}
+
+void cpt_mb_BAMA_GPS_a_no_e_no_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_BAMA_GPS -a no -e no -x yes -y no -z no -m");
+}
+
+void cpt_mb_BAMA_GPS_a_no_e_no_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_BAMA_GPS -a no -e no -x no -y yes -z yes -c");
+}
+
+void cpt_mb_BAMA_GPS_a_no_e_no_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_BAMA_GPS -a no -e no -x no -y yes -z yes -m");
+}
+
+void cpt_mb_BAMA_GPS_a_no_e_no_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_BAMA_GPS -a no -e no -x no -y yes -z no -c");
+}
+
+void cpt_mb_BAMA_GPS_a_no_e_no_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_BAMA_GPS -a no -e no -x no -y yes -z no -m");
+}
+
+void cpt_mb_BAMA_GPS_a_no_e_no_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_BAMA_GPS -a no -e no -x no -y no -z yes -c");
+}
+
+void cpt_mb_BAMA_GPS_a_no_e_no_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_BAMA_GPS -a no -e no -x no -y no -z yes -m");
+}
+
+void cpt_mb_BAMA_GPS_a_no_e_no_x_no_y_no_z_no_c ()
+{
+  runUI("mb_BAMA_GPS -a no -e no -x no -y no -z no -c");
+}
+
+void cpt_mb_BAMA_GPS_a_no_e_no_x_no_y_no_z_no_m ()
+{
+  runUI("mb_BAMA_GPS -a no -e no -x no -y no -z no -m");
+}
+
+void cpt_mb_BRIS_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_BRIS_GPS -a yes -e yes -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_BRIS_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_BRIS_GPS -a yes -e yes -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_BRIS_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_BRIS_GPS -a yes -e yes -x yes -y yes -z no -c");
+}
+
+void cpt_mb_BRIS_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_BRIS_GPS -a yes -e yes -x yes -y yes -z no -m");
+}
+
+void cpt_mb_BRIS_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_BRIS_GPS -a yes -e yes -x yes -y no -z yes -c");
+}
+
+void cpt_mb_BRIS_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_BRIS_GPS -a yes -e yes -x yes -y no -z yes -m");
+}
+
+void cpt_mb_BRIS_GPS_a_yes_e_yes_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_BRIS_GPS -a yes -e yes -x yes -y no -z no -c");
+}
+
+void cpt_mb_BRIS_GPS_a_yes_e_yes_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_BRIS_GPS -a yes -e yes -x yes -y no -z no -m");
+}
+
+void cpt_mb_BRIS_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_BRIS_GPS -a yes -e yes -x no -y yes -z yes -c");
+}
+
+void cpt_mb_BRIS_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_BRIS_GPS -a yes -e yes -x no -y yes -z yes -m");
+}
+
+void cpt_mb_BRIS_GPS_a_yes_e_yes_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_BRIS_GPS -a yes -e yes -x no -y yes -z no -c");
+}
+
+void cpt_mb_BRIS_GPS_a_yes_e_yes_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_BRIS_GPS -a yes -e yes -x no -y yes -z no -m");
+}
+
+void cpt_mb_BRIS_GPS_a_yes_e_yes_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_BRIS_GPS -a yes -e yes -x no -y no -z yes -c");
+}
+
+void cpt_mb_BRIS_GPS_a_yes_e_yes_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_BRIS_GPS -a yes -e yes -x no -y no -z yes -m");
+}
+
+void cpt_mb_BRIS_GPS_a_yes_e_yes_x_no_y_no_z_no_c ()
+{
+  runUI("mb_BRIS_GPS -a yes -e yes -x no -y no -z no -c");
+}
+
+void cpt_mb_BRIS_GPS_a_yes_e_yes_x_no_y_no_z_no_m ()
+{
+  runUI("mb_BRIS_GPS -a yes -e yes -x no -y no -z no -m");
+}
+
+void cpt_mb_BRIS_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_BRIS_GPS -a yes -e no -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_BRIS_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_BRIS_GPS -a yes -e no -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_BRIS_GPS_a_yes_e_no_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_BRIS_GPS -a yes -e no -x yes -y yes -z no -c");
+}
+
+void cpt_mb_BRIS_GPS_a_yes_e_no_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_BRIS_GPS -a yes -e no -x yes -y yes -z no -m");
+}
+
+void cpt_mb_BRIS_GPS_a_yes_e_no_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_BRIS_GPS -a yes -e no -x yes -y no -z yes -c");
+}
+
+void cpt_mb_BRIS_GPS_a_yes_e_no_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_BRIS_GPS -a yes -e no -x yes -y no -z yes -m");
+}
+
+void cpt_mb_BRIS_GPS_a_yes_e_no_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_BRIS_GPS -a yes -e no -x yes -y no -z no -c");
+}
+
+void cpt_mb_BRIS_GPS_a_yes_e_no_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_BRIS_GPS -a yes -e no -x yes -y no -z no -m");
+}
+
+void cpt_mb_BRIS_GPS_a_yes_e_no_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_BRIS_GPS -a yes -e no -x no -y yes -z yes -c");
+}
+
+void cpt_mb_BRIS_GPS_a_yes_e_no_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_BRIS_GPS -a yes -e no -x no -y yes -z yes -m");
+}
+
+void cpt_mb_BRIS_GPS_a_yes_e_no_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_BRIS_GPS -a yes -e no -x no -y yes -z no -c");
+}
+
+void cpt_mb_BRIS_GPS_a_yes_e_no_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_BRIS_GPS -a yes -e no -x no -y yes -z no -m");
+}
+
+void cpt_mb_BRIS_GPS_a_yes_e_no_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_BRIS_GPS -a yes -e no -x no -y no -z yes -c");
+}
+
+void cpt_mb_BRIS_GPS_a_yes_e_no_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_BRIS_GPS -a yes -e no -x no -y no -z yes -m");
+}
+
+void cpt_mb_BRIS_GPS_a_yes_e_no_x_no_y_no_z_no_c ()
+{
+  runUI("mb_BRIS_GPS -a yes -e no -x no -y no -z no -c");
+}
+
+void cpt_mb_BRIS_GPS_a_yes_e_no_x_no_y_no_z_no_m ()
+{
+  runUI("mb_BRIS_GPS -a yes -e no -x no -y no -z no -m");
+}
+
+void cpt_mb_BRIS_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_BRIS_GPS -a no -e yes -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_BRIS_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_BRIS_GPS -a no -e yes -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_BRIS_GPS_a_no_e_yes_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_BRIS_GPS -a no -e yes -x yes -y yes -z no -c");
+}
+
+void cpt_mb_BRIS_GPS_a_no_e_yes_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_BRIS_GPS -a no -e yes -x yes -y yes -z no -m");
+}
+
+void cpt_mb_BRIS_GPS_a_no_e_yes_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_BRIS_GPS -a no -e yes -x yes -y no -z yes -c");
+}
+
+void cpt_mb_BRIS_GPS_a_no_e_yes_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_BRIS_GPS -a no -e yes -x yes -y no -z yes -m");
+}
+
+void cpt_mb_BRIS_GPS_a_no_e_yes_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_BRIS_GPS -a no -e yes -x yes -y no -z no -c");
+}
+
+void cpt_mb_BRIS_GPS_a_no_e_yes_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_BRIS_GPS -a no -e yes -x yes -y no -z no -m");
+}
+
+void cpt_mb_BRIS_GPS_a_no_e_yes_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_BRIS_GPS -a no -e yes -x no -y yes -z yes -c");
+}
+
+void cpt_mb_BRIS_GPS_a_no_e_yes_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_BRIS_GPS -a no -e yes -x no -y yes -z yes -m");
+}
+
+void cpt_mb_BRIS_GPS_a_no_e_yes_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_BRIS_GPS -a no -e yes -x no -y yes -z no -c");
+}
+
+void cpt_mb_BRIS_GPS_a_no_e_yes_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_BRIS_GPS -a no -e yes -x no -y yes -z no -m");
+}
+
+void cpt_mb_BRIS_GPS_a_no_e_yes_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_BRIS_GPS -a no -e yes -x no -y no -z yes -c");
+}
+
+void cpt_mb_BRIS_GPS_a_no_e_yes_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_BRIS_GPS -a no -e yes -x no -y no -z yes -m");
+}
+
+void cpt_mb_BRIS_GPS_a_no_e_yes_x_no_y_no_z_no_c ()
+{
+  runUI("mb_BRIS_GPS -a no -e yes -x no -y no -z no -c");
+}
+
+void cpt_mb_BRIS_GPS_a_no_e_yes_x_no_y_no_z_no_m ()
+{
+  runUI("mb_BRIS_GPS -a no -e yes -x no -y no -z no -m");
+}
+
+void cpt_mb_BRIS_GPS_a_no_e_no_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_BRIS_GPS -a no -e no -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_BRIS_GPS_a_no_e_no_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_BRIS_GPS -a no -e no -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_BRIS_GPS_a_no_e_no_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_BRIS_GPS -a no -e no -x yes -y yes -z no -c");
+}
+
+void cpt_mb_BRIS_GPS_a_no_e_no_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_BRIS_GPS -a no -e no -x yes -y yes -z no -m");
+}
+
+void cpt_mb_BRIS_GPS_a_no_e_no_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_BRIS_GPS -a no -e no -x yes -y no -z yes -c");
+}
+
+void cpt_mb_BRIS_GPS_a_no_e_no_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_BRIS_GPS -a no -e no -x yes -y no -z yes -m");
+}
+
+void cpt_mb_BRIS_GPS_a_no_e_no_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_BRIS_GPS -a no -e no -x yes -y no -z no -c");
+}
+
+void cpt_mb_BRIS_GPS_a_no_e_no_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_BRIS_GPS -a no -e no -x yes -y no -z no -m");
+}
+
+void cpt_mb_BRIS_GPS_a_no_e_no_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_BRIS_GPS -a no -e no -x no -y yes -z yes -c");
+}
+
+void cpt_mb_BRIS_GPS_a_no_e_no_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_BRIS_GPS -a no -e no -x no -y yes -z yes -m");
+}
+
+void cpt_mb_BRIS_GPS_a_no_e_no_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_BRIS_GPS -a no -e no -x no -y yes -z no -c");
+}
+
+void cpt_mb_BRIS_GPS_a_no_e_no_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_BRIS_GPS -a no -e no -x no -y yes -z no -m");
+}
+
+void cpt_mb_BRIS_GPS_a_no_e_no_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_BRIS_GPS -a no -e no -x no -y no -z yes -c");
+}
+
+void cpt_mb_BRIS_GPS_a_no_e_no_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_BRIS_GPS -a no -e no -x no -y no -z yes -m");
+}
+
+void cpt_mb_BRIS_GPS_a_no_e_no_x_no_y_no_z_no_c ()
+{
+  runUI("mb_BRIS_GPS -a no -e no -x no -y no -z no -c");
+}
+
+void cpt_mb_BRIS_GPS_a_no_e_no_x_no_y_no_z_no_m ()
+{
+  runUI("mb_BRIS_GPS -a no -e no -x no -y no -z no -m");
+}
+
+void cpt_mb_BUNB_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_BUNB_GPS -a yes -e yes -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_BUNB_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_BUNB_GPS -a yes -e yes -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_BUNB_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_BUNB_GPS -a yes -e yes -x yes -y yes -z no -c");
+}
+
+void cpt_mb_BUNB_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_BUNB_GPS -a yes -e yes -x yes -y yes -z no -m");
+}
+
+void cpt_mb_BUNB_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_BUNB_GPS -a yes -e yes -x yes -y no -z yes -c");
+}
+
+void cpt_mb_BUNB_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_BUNB_GPS -a yes -e yes -x yes -y no -z yes -m");
+}
+
+void cpt_mb_BUNB_GPS_a_yes_e_yes_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_BUNB_GPS -a yes -e yes -x yes -y no -z no -c");
+}
+
+void cpt_mb_BUNB_GPS_a_yes_e_yes_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_BUNB_GPS -a yes -e yes -x yes -y no -z no -m");
+}
+
+void cpt_mb_BUNB_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_BUNB_GPS -a yes -e yes -x no -y yes -z yes -c");
+}
+
+void cpt_mb_BUNB_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_BUNB_GPS -a yes -e yes -x no -y yes -z yes -m");
+}
+
+void cpt_mb_BUNB_GPS_a_yes_e_yes_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_BUNB_GPS -a yes -e yes -x no -y yes -z no -c");
+}
+
+void cpt_mb_BUNB_GPS_a_yes_e_yes_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_BUNB_GPS -a yes -e yes -x no -y yes -z no -m");
+}
+
+void cpt_mb_BUNB_GPS_a_yes_e_yes_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_BUNB_GPS -a yes -e yes -x no -y no -z yes -c");
+}
+
+void cpt_mb_BUNB_GPS_a_yes_e_yes_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_BUNB_GPS -a yes -e yes -x no -y no -z yes -m");
+}
+
+void cpt_mb_BUNB_GPS_a_yes_e_yes_x_no_y_no_z_no_c ()
+{
+  runUI("mb_BUNB_GPS -a yes -e yes -x no -y no -z no -c");
+}
+
+void cpt_mb_BUNB_GPS_a_yes_e_yes_x_no_y_no_z_no_m ()
+{
+  runUI("mb_BUNB_GPS -a yes -e yes -x no -y no -z no -m");
+}
+
+void cpt_mb_BUNB_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_BUNB_GPS -a yes -e no -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_BUNB_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_BUNB_GPS -a yes -e no -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_BUNB_GPS_a_yes_e_no_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_BUNB_GPS -a yes -e no -x yes -y yes -z no -c");
+}
+
+void cpt_mb_BUNB_GPS_a_yes_e_no_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_BUNB_GPS -a yes -e no -x yes -y yes -z no -m");
+}
+
+void cpt_mb_BUNB_GPS_a_yes_e_no_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_BUNB_GPS -a yes -e no -x yes -y no -z yes -c");
+}
+
+void cpt_mb_BUNB_GPS_a_yes_e_no_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_BUNB_GPS -a yes -e no -x yes -y no -z yes -m");
+}
+
+void cpt_mb_BUNB_GPS_a_yes_e_no_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_BUNB_GPS -a yes -e no -x yes -y no -z no -c");
+}
+
+void cpt_mb_BUNB_GPS_a_yes_e_no_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_BUNB_GPS -a yes -e no -x yes -y no -z no -m");
+}
+
+void cpt_mb_BUNB_GPS_a_yes_e_no_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_BUNB_GPS -a yes -e no -x no -y yes -z yes -c");
+}
+
+void cpt_mb_BUNB_GPS_a_yes_e_no_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_BUNB_GPS -a yes -e no -x no -y yes -z yes -m");
+}
+
+void cpt_mb_BUNB_GPS_a_yes_e_no_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_BUNB_GPS -a yes -e no -x no -y yes -z no -c");
+}
+
+void cpt_mb_BUNB_GPS_a_yes_e_no_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_BUNB_GPS -a yes -e no -x no -y yes -z no -m");
+}
+
+void cpt_mb_BUNB_GPS_a_yes_e_no_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_BUNB_GPS -a yes -e no -x no -y no -z yes -c");
+}
+
+void cpt_mb_BUNB_GPS_a_yes_e_no_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_BUNB_GPS -a yes -e no -x no -y no -z yes -m");
+}
+
+void cpt_mb_BUNB_GPS_a_yes_e_no_x_no_y_no_z_no_c ()
+{
+  runUI("mb_BUNB_GPS -a yes -e no -x no -y no -z no -c");
+}
+
+void cpt_mb_BUNB_GPS_a_yes_e_no_x_no_y_no_z_no_m ()
+{
+  runUI("mb_BUNB_GPS -a yes -e no -x no -y no -z no -m");
+}
+
+void cpt_mb_BUNB_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_BUNB_GPS -a no -e yes -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_BUNB_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_BUNB_GPS -a no -e yes -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_BUNB_GPS_a_no_e_yes_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_BUNB_GPS -a no -e yes -x yes -y yes -z no -c");
+}
+
+void cpt_mb_BUNB_GPS_a_no_e_yes_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_BUNB_GPS -a no -e yes -x yes -y yes -z no -m");
+}
+
+void cpt_mb_BUNB_GPS_a_no_e_yes_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_BUNB_GPS -a no -e yes -x yes -y no -z yes -c");
+}
+
+void cpt_mb_BUNB_GPS_a_no_e_yes_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_BUNB_GPS -a no -e yes -x yes -y no -z yes -m");
+}
+
+void cpt_mb_BUNB_GPS_a_no_e_yes_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_BUNB_GPS -a no -e yes -x yes -y no -z no -c");
+}
+
+void cpt_mb_BUNB_GPS_a_no_e_yes_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_BUNB_GPS -a no -e yes -x yes -y no -z no -m");
+}
+
+void cpt_mb_BUNB_GPS_a_no_e_yes_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_BUNB_GPS -a no -e yes -x no -y yes -z yes -c");
+}
+
+void cpt_mb_BUNB_GPS_a_no_e_yes_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_BUNB_GPS -a no -e yes -x no -y yes -z yes -m");
+}
+
+void cpt_mb_BUNB_GPS_a_no_e_yes_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_BUNB_GPS -a no -e yes -x no -y yes -z no -c");
+}
+
+void cpt_mb_BUNB_GPS_a_no_e_yes_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_BUNB_GPS -a no -e yes -x no -y yes -z no -m");
+}
+
+void cpt_mb_BUNB_GPS_a_no_e_yes_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_BUNB_GPS -a no -e yes -x no -y no -z yes -c");
+}
+
+void cpt_mb_BUNB_GPS_a_no_e_yes_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_BUNB_GPS -a no -e yes -x no -y no -z yes -m");
+}
+
+void cpt_mb_BUNB_GPS_a_no_e_yes_x_no_y_no_z_no_c ()
+{
+  runUI("mb_BUNB_GPS -a no -e yes -x no -y no -z no -c");
+}
+
+void cpt_mb_BUNB_GPS_a_no_e_yes_x_no_y_no_z_no_m ()
+{
+  runUI("mb_BUNB_GPS -a no -e yes -x no -y no -z no -m");
+}
+
+void cpt_mb_BUNB_GPS_a_no_e_no_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_BUNB_GPS -a no -e no -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_BUNB_GPS_a_no_e_no_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_BUNB_GPS -a no -e no -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_BUNB_GPS_a_no_e_no_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_BUNB_GPS -a no -e no -x yes -y yes -z no -c");
+}
+
+void cpt_mb_BUNB_GPS_a_no_e_no_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_BUNB_GPS -a no -e no -x yes -y yes -z no -m");
+}
+
+void cpt_mb_BUNB_GPS_a_no_e_no_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_BUNB_GPS -a no -e no -x yes -y no -z yes -c");
+}
+
+void cpt_mb_BUNB_GPS_a_no_e_no_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_BUNB_GPS -a no -e no -x yes -y no -z yes -m");
+}
+
+void cpt_mb_BUNB_GPS_a_no_e_no_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_BUNB_GPS -a no -e no -x yes -y no -z no -c");
+}
+
+void cpt_mb_BUNB_GPS_a_no_e_no_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_BUNB_GPS -a no -e no -x yes -y no -z no -m");
+}
+
+void cpt_mb_BUNB_GPS_a_no_e_no_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_BUNB_GPS -a no -e no -x no -y yes -z yes -c");
+}
+
+void cpt_mb_BUNB_GPS_a_no_e_no_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_BUNB_GPS -a no -e no -x no -y yes -z yes -m");
+}
+
+void cpt_mb_BUNB_GPS_a_no_e_no_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_BUNB_GPS -a no -e no -x no -y yes -z no -c");
+}
+
+void cpt_mb_BUNB_GPS_a_no_e_no_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_BUNB_GPS -a no -e no -x no -y yes -z no -m");
+}
+
+void cpt_mb_BUNB_GPS_a_no_e_no_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_BUNB_GPS -a no -e no -x no -y no -z yes -c");
+}
+
+void cpt_mb_BUNB_GPS_a_no_e_no_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_BUNB_GPS -a no -e no -x no -y no -z yes -m");
+}
+
+void cpt_mb_BUNB_GPS_a_no_e_no_x_no_y_no_z_no_c ()
+{
+  runUI("mb_BUNB_GPS -a no -e no -x no -y no -z no -c");
+}
+
+void cpt_mb_BUNB_GPS_a_no_e_no_x_no_y_no_z_no_m ()
+{
+  runUI("mb_BUNB_GPS -a no -e no -x no -y no -z no -m");
+}
+
+void cpt_mb_BUND_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_BUND_GPS -a yes -e yes -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_BUND_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_BUND_GPS -a yes -e yes -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_BUND_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_BUND_GPS -a yes -e yes -x yes -y yes -z no -c");
+}
+
+void cpt_mb_BUND_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_BUND_GPS -a yes -e yes -x yes -y yes -z no -m");
+}
+
+void cpt_mb_BUND_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_BUND_GPS -a yes -e yes -x yes -y no -z yes -c");
+}
+
+void cpt_mb_BUND_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_BUND_GPS -a yes -e yes -x yes -y no -z yes -m");
+}
+
+void cpt_mb_BUND_GPS_a_yes_e_yes_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_BUND_GPS -a yes -e yes -x yes -y no -z no -c");
+}
+
+void cpt_mb_BUND_GPS_a_yes_e_yes_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_BUND_GPS -a yes -e yes -x yes -y no -z no -m");
+}
+
+void cpt_mb_BUND_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_BUND_GPS -a yes -e yes -x no -y yes -z yes -c");
+}
+
+void cpt_mb_BUND_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_BUND_GPS -a yes -e yes -x no -y yes -z yes -m");
+}
+
+void cpt_mb_BUND_GPS_a_yes_e_yes_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_BUND_GPS -a yes -e yes -x no -y yes -z no -c");
+}
+
+void cpt_mb_BUND_GPS_a_yes_e_yes_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_BUND_GPS -a yes -e yes -x no -y yes -z no -m");
+}
+
+void cpt_mb_BUND_GPS_a_yes_e_yes_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_BUND_GPS -a yes -e yes -x no -y no -z yes -c");
+}
+
+void cpt_mb_BUND_GPS_a_yes_e_yes_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_BUND_GPS -a yes -e yes -x no -y no -z yes -m");
+}
+
+void cpt_mb_BUND_GPS_a_yes_e_yes_x_no_y_no_z_no_c ()
+{
+  runUI("mb_BUND_GPS -a yes -e yes -x no -y no -z no -c");
+}
+
+void cpt_mb_BUND_GPS_a_yes_e_yes_x_no_y_no_z_no_m ()
+{
+  runUI("mb_BUND_GPS -a yes -e yes -x no -y no -z no -m");
+}
+
+void cpt_mb_BUND_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_BUND_GPS -a yes -e no -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_BUND_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_BUND_GPS -a yes -e no -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_BUND_GPS_a_yes_e_no_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_BUND_GPS -a yes -e no -x yes -y yes -z no -c");
+}
+
+void cpt_mb_BUND_GPS_a_yes_e_no_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_BUND_GPS -a yes -e no -x yes -y yes -z no -m");
+}
+
+void cpt_mb_BUND_GPS_a_yes_e_no_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_BUND_GPS -a yes -e no -x yes -y no -z yes -c");
+}
+
+void cpt_mb_BUND_GPS_a_yes_e_no_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_BUND_GPS -a yes -e no -x yes -y no -z yes -m");
+}
+
+void cpt_mb_BUND_GPS_a_yes_e_no_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_BUND_GPS -a yes -e no -x yes -y no -z no -c");
+}
+
+void cpt_mb_BUND_GPS_a_yes_e_no_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_BUND_GPS -a yes -e no -x yes -y no -z no -m");
+}
+
+void cpt_mb_BUND_GPS_a_yes_e_no_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_BUND_GPS -a yes -e no -x no -y yes -z yes -c");
+}
+
+void cpt_mb_BUND_GPS_a_yes_e_no_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_BUND_GPS -a yes -e no -x no -y yes -z yes -m");
+}
+
+void cpt_mb_BUND_GPS_a_yes_e_no_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_BUND_GPS -a yes -e no -x no -y yes -z no -c");
+}
+
+void cpt_mb_BUND_GPS_a_yes_e_no_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_BUND_GPS -a yes -e no -x no -y yes -z no -m");
+}
+
+void cpt_mb_BUND_GPS_a_yes_e_no_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_BUND_GPS -a yes -e no -x no -y no -z yes -c");
+}
+
+void cpt_mb_BUND_GPS_a_yes_e_no_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_BUND_GPS -a yes -e no -x no -y no -z yes -m");
+}
+
+void cpt_mb_BUND_GPS_a_yes_e_no_x_no_y_no_z_no_c ()
+{
+  runUI("mb_BUND_GPS -a yes -e no -x no -y no -z no -c");
+}
+
+void cpt_mb_BUND_GPS_a_yes_e_no_x_no_y_no_z_no_m ()
+{
+  runUI("mb_BUND_GPS -a yes -e no -x no -y no -z no -m");
+}
+
+void cpt_mb_BUND_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_BUND_GPS -a no -e yes -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_BUND_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_BUND_GPS -a no -e yes -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_BUND_GPS_a_no_e_yes_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_BUND_GPS -a no -e yes -x yes -y yes -z no -c");
+}
+
+void cpt_mb_BUND_GPS_a_no_e_yes_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_BUND_GPS -a no -e yes -x yes -y yes -z no -m");
+}
+
+void cpt_mb_BUND_GPS_a_no_e_yes_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_BUND_GPS -a no -e yes -x yes -y no -z yes -c");
+}
+
+void cpt_mb_BUND_GPS_a_no_e_yes_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_BUND_GPS -a no -e yes -x yes -y no -z yes -m");
+}
+
+void cpt_mb_BUND_GPS_a_no_e_yes_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_BUND_GPS -a no -e yes -x yes -y no -z no -c");
+}
+
+void cpt_mb_BUND_GPS_a_no_e_yes_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_BUND_GPS -a no -e yes -x yes -y no -z no -m");
+}
+
+void cpt_mb_BUND_GPS_a_no_e_yes_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_BUND_GPS -a no -e yes -x no -y yes -z yes -c");
+}
+
+void cpt_mb_BUND_GPS_a_no_e_yes_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_BUND_GPS -a no -e yes -x no -y yes -z yes -m");
+}
+
+void cpt_mb_BUND_GPS_a_no_e_yes_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_BUND_GPS -a no -e yes -x no -y yes -z no -c");
+}
+
+void cpt_mb_BUND_GPS_a_no_e_yes_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_BUND_GPS -a no -e yes -x no -y yes -z no -m");
+}
+
+void cpt_mb_BUND_GPS_a_no_e_yes_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_BUND_GPS -a no -e yes -x no -y no -z yes -c");
+}
+
+void cpt_mb_BUND_GPS_a_no_e_yes_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_BUND_GPS -a no -e yes -x no -y no -z yes -m");
+}
+
+void cpt_mb_BUND_GPS_a_no_e_yes_x_no_y_no_z_no_c ()
+{
+  runUI("mb_BUND_GPS -a no -e yes -x no -y no -z no -c");
+}
+
+void cpt_mb_BUND_GPS_a_no_e_yes_x_no_y_no_z_no_m ()
+{
+  runUI("mb_BUND_GPS -a no -e yes -x no -y no -z no -m");
+}
+
+void cpt_mb_BUND_GPS_a_no_e_no_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_BUND_GPS -a no -e no -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_BUND_GPS_a_no_e_no_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_BUND_GPS -a no -e no -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_BUND_GPS_a_no_e_no_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_BUND_GPS -a no -e no -x yes -y yes -z no -c");
+}
+
+void cpt_mb_BUND_GPS_a_no_e_no_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_BUND_GPS -a no -e no -x yes -y yes -z no -m");
+}
+
+void cpt_mb_BUND_GPS_a_no_e_no_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_BUND_GPS -a no -e no -x yes -y no -z yes -c");
+}
+
+void cpt_mb_BUND_GPS_a_no_e_no_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_BUND_GPS -a no -e no -x yes -y no -z yes -m");
+}
+
+void cpt_mb_BUND_GPS_a_no_e_no_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_BUND_GPS -a no -e no -x yes -y no -z no -c");
+}
+
+void cpt_mb_BUND_GPS_a_no_e_no_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_BUND_GPS -a no -e no -x yes -y no -z no -m");
+}
+
+void cpt_mb_BUND_GPS_a_no_e_no_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_BUND_GPS -a no -e no -x no -y yes -z yes -c");
+}
+
+void cpt_mb_BUND_GPS_a_no_e_no_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_BUND_GPS -a no -e no -x no -y yes -z yes -m");
+}
+
+void cpt_mb_BUND_GPS_a_no_e_no_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_BUND_GPS -a no -e no -x no -y yes -z no -c");
+}
+
+void cpt_mb_BUND_GPS_a_no_e_no_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_BUND_GPS -a no -e no -x no -y yes -z no -m");
+}
+
+void cpt_mb_BUND_GPS_a_no_e_no_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_BUND_GPS -a no -e no -x no -y no -z yes -c");
+}
+
+void cpt_mb_BUND_GPS_a_no_e_no_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_BUND_GPS -a no -e no -x no -y no -z yes -m");
+}
+
+void cpt_mb_BUND_GPS_a_no_e_no_x_no_y_no_z_no_c ()
+{
+  runUI("mb_BUND_GPS -a no -e no -x no -y no -z no -c");
+}
+
+void cpt_mb_BUND_GPS_a_no_e_no_x_no_y_no_z_no_m ()
+{
+  runUI("mb_BUND_GPS -a no -e no -x no -y no -z no -m");
+}
+
+void cpt_mb_BUR1_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_BUR1_GPS -a yes -e yes -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_BUR1_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_BUR1_GPS -a yes -e yes -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_BUR1_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_BUR1_GPS -a yes -e yes -x yes -y yes -z no -c");
+}
+
+void cpt_mb_BUR1_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_BUR1_GPS -a yes -e yes -x yes -y yes -z no -m");
+}
+
+void cpt_mb_BUR1_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_BUR1_GPS -a yes -e yes -x yes -y no -z yes -c");
+}
+
+void cpt_mb_BUR1_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_BUR1_GPS -a yes -e yes -x yes -y no -z yes -m");
+}
+
+void cpt_mb_BUR1_GPS_a_yes_e_yes_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_BUR1_GPS -a yes -e yes -x yes -y no -z no -c");
+}
+
+void cpt_mb_BUR1_GPS_a_yes_e_yes_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_BUR1_GPS -a yes -e yes -x yes -y no -z no -m");
+}
+
+void cpt_mb_BUR1_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_BUR1_GPS -a yes -e yes -x no -y yes -z yes -c");
+}
+
+void cpt_mb_BUR1_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_BUR1_GPS -a yes -e yes -x no -y yes -z yes -m");
+}
+
+void cpt_mb_BUR1_GPS_a_yes_e_yes_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_BUR1_GPS -a yes -e yes -x no -y yes -z no -c");
+}
+
+void cpt_mb_BUR1_GPS_a_yes_e_yes_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_BUR1_GPS -a yes -e yes -x no -y yes -z no -m");
+}
+
+void cpt_mb_BUR1_GPS_a_yes_e_yes_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_BUR1_GPS -a yes -e yes -x no -y no -z yes -c");
+}
+
+void cpt_mb_BUR1_GPS_a_yes_e_yes_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_BUR1_GPS -a yes -e yes -x no -y no -z yes -m");
+}
+
+void cpt_mb_BUR1_GPS_a_yes_e_yes_x_no_y_no_z_no_c ()
+{
+  runUI("mb_BUR1_GPS -a yes -e yes -x no -y no -z no -c");
+}
+
+void cpt_mb_BUR1_GPS_a_yes_e_yes_x_no_y_no_z_no_m ()
+{
+  runUI("mb_BUR1_GPS -a yes -e yes -x no -y no -z no -m");
+}
+
+void cpt_mb_BUR1_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_BUR1_GPS -a yes -e no -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_BUR1_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_BUR1_GPS -a yes -e no -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_BUR1_GPS_a_yes_e_no_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_BUR1_GPS -a yes -e no -x yes -y yes -z no -c");
+}
+
+void cpt_mb_BUR1_GPS_a_yes_e_no_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_BUR1_GPS -a yes -e no -x yes -y yes -z no -m");
+}
+
+void cpt_mb_BUR1_GPS_a_yes_e_no_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_BUR1_GPS -a yes -e no -x yes -y no -z yes -c");
+}
+
+void cpt_mb_BUR1_GPS_a_yes_e_no_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_BUR1_GPS -a yes -e no -x yes -y no -z yes -m");
+}
+
+void cpt_mb_BUR1_GPS_a_yes_e_no_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_BUR1_GPS -a yes -e no -x yes -y no -z no -c");
+}
+
+void cpt_mb_BUR1_GPS_a_yes_e_no_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_BUR1_GPS -a yes -e no -x yes -y no -z no -m");
+}
+
+void cpt_mb_BUR1_GPS_a_yes_e_no_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_BUR1_GPS -a yes -e no -x no -y yes -z yes -c");
+}
+
+void cpt_mb_BUR1_GPS_a_yes_e_no_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_BUR1_GPS -a yes -e no -x no -y yes -z yes -m");
+}
+
+void cpt_mb_BUR1_GPS_a_yes_e_no_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_BUR1_GPS -a yes -e no -x no -y yes -z no -c");
+}
+
+void cpt_mb_BUR1_GPS_a_yes_e_no_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_BUR1_GPS -a yes -e no -x no -y yes -z no -m");
+}
+
+void cpt_mb_BUR1_GPS_a_yes_e_no_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_BUR1_GPS -a yes -e no -x no -y no -z yes -c");
+}
+
+void cpt_mb_BUR1_GPS_a_yes_e_no_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_BUR1_GPS -a yes -e no -x no -y no -z yes -m");
+}
+
+void cpt_mb_BUR1_GPS_a_yes_e_no_x_no_y_no_z_no_c ()
+{
+  runUI("mb_BUR1_GPS -a yes -e no -x no -y no -z no -c");
+}
+
+void cpt_mb_BUR1_GPS_a_yes_e_no_x_no_y_no_z_no_m ()
+{
+  runUI("mb_BUR1_GPS -a yes -e no -x no -y no -z no -m");
+}
+
+void cpt_mb_BUR1_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_BUR1_GPS -a no -e yes -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_BUR1_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_BUR1_GPS -a no -e yes -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_BUR1_GPS_a_no_e_yes_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_BUR1_GPS -a no -e yes -x yes -y yes -z no -c");
+}
+
+void cpt_mb_BUR1_GPS_a_no_e_yes_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_BUR1_GPS -a no -e yes -x yes -y yes -z no -m");
+}
+
+void cpt_mb_BUR1_GPS_a_no_e_yes_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_BUR1_GPS -a no -e yes -x yes -y no -z yes -c");
+}
+
+void cpt_mb_BUR1_GPS_a_no_e_yes_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_BUR1_GPS -a no -e yes -x yes -y no -z yes -m");
+}
+
+void cpt_mb_BUR1_GPS_a_no_e_yes_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_BUR1_GPS -a no -e yes -x yes -y no -z no -c");
+}
+
+void cpt_mb_BUR1_GPS_a_no_e_yes_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_BUR1_GPS -a no -e yes -x yes -y no -z no -m");
+}
+
+void cpt_mb_BUR1_GPS_a_no_e_yes_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_BUR1_GPS -a no -e yes -x no -y yes -z yes -c");
+}
+
+void cpt_mb_BUR1_GPS_a_no_e_yes_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_BUR1_GPS -a no -e yes -x no -y yes -z yes -m");
+}
+
+void cpt_mb_BUR1_GPS_a_no_e_yes_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_BUR1_GPS -a no -e yes -x no -y yes -z no -c");
+}
+
+void cpt_mb_BUR1_GPS_a_no_e_yes_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_BUR1_GPS -a no -e yes -x no -y yes -z no -m");
+}
+
+void cpt_mb_BUR1_GPS_a_no_e_yes_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_BUR1_GPS -a no -e yes -x no -y no -z yes -c");
+}
+
+void cpt_mb_BUR1_GPS_a_no_e_yes_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_BUR1_GPS -a no -e yes -x no -y no -z yes -m");
+}
+
+void cpt_mb_BUR1_GPS_a_no_e_yes_x_no_y_no_z_no_c ()
+{
+  runUI("mb_BUR1_GPS -a no -e yes -x no -y no -z no -c");
+}
+
+void cpt_mb_BUR1_GPS_a_no_e_yes_x_no_y_no_z_no_m ()
+{
+  runUI("mb_BUR1_GPS -a no -e yes -x no -y no -z no -m");
+}
+
+void cpt_mb_BUR1_GPS_a_no_e_no_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_BUR1_GPS -a no -e no -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_BUR1_GPS_a_no_e_no_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_BUR1_GPS -a no -e no -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_BUR1_GPS_a_no_e_no_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_BUR1_GPS -a no -e no -x yes -y yes -z no -c");
+}
+
+void cpt_mb_BUR1_GPS_a_no_e_no_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_BUR1_GPS -a no -e no -x yes -y yes -z no -m");
+}
+
+void cpt_mb_BUR1_GPS_a_no_e_no_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_BUR1_GPS -a no -e no -x yes -y no -z yes -c");
+}
+
+void cpt_mb_BUR1_GPS_a_no_e_no_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_BUR1_GPS -a no -e no -x yes -y no -z yes -m");
+}
+
+void cpt_mb_BUR1_GPS_a_no_e_no_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_BUR1_GPS -a no -e no -x yes -y no -z no -c");
+}
+
+void cpt_mb_BUR1_GPS_a_no_e_no_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_BUR1_GPS -a no -e no -x yes -y no -z no -m");
+}
+
+void cpt_mb_BUR1_GPS_a_no_e_no_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_BUR1_GPS -a no -e no -x no -y yes -z yes -c");
+}
+
+void cpt_mb_BUR1_GPS_a_no_e_no_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_BUR1_GPS -a no -e no -x no -y yes -z yes -m");
+}
+
+void cpt_mb_BUR1_GPS_a_no_e_no_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_BUR1_GPS -a no -e no -x no -y yes -z no -c");
+}
+
+void cpt_mb_BUR1_GPS_a_no_e_no_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_BUR1_GPS -a no -e no -x no -y yes -z no -m");
+}
+
+void cpt_mb_BUR1_GPS_a_no_e_no_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_BUR1_GPS -a no -e no -x no -y no -z yes -c");
+}
+
+void cpt_mb_BUR1_GPS_a_no_e_no_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_BUR1_GPS -a no -e no -x no -y no -z yes -m");
+}
+
+void cpt_mb_BUR1_GPS_a_no_e_no_x_no_y_no_z_no_c ()
+{
+  runUI("mb_BUR1_GPS -a no -e no -x no -y no -z no -c");
+}
+
+void cpt_mb_BUR1_GPS_a_no_e_no_x_no_y_no_z_no_m ()
+{
+  runUI("mb_BUR1_GPS -a no -e no -x no -y no -z no -m");
+}
+
+void cpt_mb_CAIR_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_CAIR_GPS -a yes -e yes -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_CAIR_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_CAIR_GPS -a yes -e yes -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_CAIR_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_CAIR_GPS -a yes -e yes -x yes -y yes -z no -c");
+}
+
+void cpt_mb_CAIR_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_CAIR_GPS -a yes -e yes -x yes -y yes -z no -m");
+}
+
+void cpt_mb_CAIR_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_CAIR_GPS -a yes -e yes -x yes -y no -z yes -c");
+}
+
+void cpt_mb_CAIR_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_CAIR_GPS -a yes -e yes -x yes -y no -z yes -m");
+}
+
+void cpt_mb_CAIR_GPS_a_yes_e_yes_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_CAIR_GPS -a yes -e yes -x yes -y no -z no -c");
+}
+
+void cpt_mb_CAIR_GPS_a_yes_e_yes_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_CAIR_GPS -a yes -e yes -x yes -y no -z no -m");
+}
+
+void cpt_mb_CAIR_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_CAIR_GPS -a yes -e yes -x no -y yes -z yes -c");
+}
+
+void cpt_mb_CAIR_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_CAIR_GPS -a yes -e yes -x no -y yes -z yes -m");
+}
+
+void cpt_mb_CAIR_GPS_a_yes_e_yes_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_CAIR_GPS -a yes -e yes -x no -y yes -z no -c");
+}
+
+void cpt_mb_CAIR_GPS_a_yes_e_yes_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_CAIR_GPS -a yes -e yes -x no -y yes -z no -m");
+}
+
+void cpt_mb_CAIR_GPS_a_yes_e_yes_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_CAIR_GPS -a yes -e yes -x no -y no -z yes -c");
+}
+
+void cpt_mb_CAIR_GPS_a_yes_e_yes_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_CAIR_GPS -a yes -e yes -x no -y no -z yes -m");
+}
+
+void cpt_mb_CAIR_GPS_a_yes_e_yes_x_no_y_no_z_no_c ()
+{
+  runUI("mb_CAIR_GPS -a yes -e yes -x no -y no -z no -c");
+}
+
+void cpt_mb_CAIR_GPS_a_yes_e_yes_x_no_y_no_z_no_m ()
+{
+  runUI("mb_CAIR_GPS -a yes -e yes -x no -y no -z no -m");
+}
+
+void cpt_mb_CAIR_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_CAIR_GPS -a yes -e no -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_CAIR_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_CAIR_GPS -a yes -e no -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_CAIR_GPS_a_yes_e_no_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_CAIR_GPS -a yes -e no -x yes -y yes -z no -c");
+}
+
+void cpt_mb_CAIR_GPS_a_yes_e_no_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_CAIR_GPS -a yes -e no -x yes -y yes -z no -m");
+}
+
+void cpt_mb_CAIR_GPS_a_yes_e_no_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_CAIR_GPS -a yes -e no -x yes -y no -z yes -c");
+}
+
+void cpt_mb_CAIR_GPS_a_yes_e_no_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_CAIR_GPS -a yes -e no -x yes -y no -z yes -m");
+}
+
+void cpt_mb_CAIR_GPS_a_yes_e_no_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_CAIR_GPS -a yes -e no -x yes -y no -z no -c");
+}
+
+void cpt_mb_CAIR_GPS_a_yes_e_no_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_CAIR_GPS -a yes -e no -x yes -y no -z no -m");
+}
+
+void cpt_mb_CAIR_GPS_a_yes_e_no_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_CAIR_GPS -a yes -e no -x no -y yes -z yes -c");
+}
+
+void cpt_mb_CAIR_GPS_a_yes_e_no_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_CAIR_GPS -a yes -e no -x no -y yes -z yes -m");
+}
+
+void cpt_mb_CAIR_GPS_a_yes_e_no_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_CAIR_GPS -a yes -e no -x no -y yes -z no -c");
+}
+
+void cpt_mb_CAIR_GPS_a_yes_e_no_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_CAIR_GPS -a yes -e no -x no -y yes -z no -m");
+}
+
+void cpt_mb_CAIR_GPS_a_yes_e_no_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_CAIR_GPS -a yes -e no -x no -y no -z yes -c");
+}
+
+void cpt_mb_CAIR_GPS_a_yes_e_no_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_CAIR_GPS -a yes -e no -x no -y no -z yes -m");
+}
+
+void cpt_mb_CAIR_GPS_a_yes_e_no_x_no_y_no_z_no_c ()
+{
+  runUI("mb_CAIR_GPS -a yes -e no -x no -y no -z no -c");
+}
+
+void cpt_mb_CAIR_GPS_a_yes_e_no_x_no_y_no_z_no_m ()
+{
+  runUI("mb_CAIR_GPS -a yes -e no -x no -y no -z no -m");
+}
+
+void cpt_mb_CAIR_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_CAIR_GPS -a no -e yes -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_CAIR_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_CAIR_GPS -a no -e yes -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_CAIR_GPS_a_no_e_yes_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_CAIR_GPS -a no -e yes -x yes -y yes -z no -c");
+}
+
+void cpt_mb_CAIR_GPS_a_no_e_yes_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_CAIR_GPS -a no -e yes -x yes -y yes -z no -m");
+}
+
+void cpt_mb_CAIR_GPS_a_no_e_yes_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_CAIR_GPS -a no -e yes -x yes -y no -z yes -c");
+}
+
+void cpt_mb_CAIR_GPS_a_no_e_yes_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_CAIR_GPS -a no -e yes -x yes -y no -z yes -m");
+}
+
+void cpt_mb_CAIR_GPS_a_no_e_yes_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_CAIR_GPS -a no -e yes -x yes -y no -z no -c");
+}
+
+void cpt_mb_CAIR_GPS_a_no_e_yes_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_CAIR_GPS -a no -e yes -x yes -y no -z no -m");
+}
+
+void cpt_mb_CAIR_GPS_a_no_e_yes_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_CAIR_GPS -a no -e yes -x no -y yes -z yes -c");
+}
+
+void cpt_mb_CAIR_GPS_a_no_e_yes_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_CAIR_GPS -a no -e yes -x no -y yes -z yes -m");
+}
+
+void cpt_mb_CAIR_GPS_a_no_e_yes_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_CAIR_GPS -a no -e yes -x no -y yes -z no -c");
+}
+
+void cpt_mb_CAIR_GPS_a_no_e_yes_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_CAIR_GPS -a no -e yes -x no -y yes -z no -m");
+}
+
+void cpt_mb_CAIR_GPS_a_no_e_yes_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_CAIR_GPS -a no -e yes -x no -y no -z yes -c");
+}
+
+void cpt_mb_CAIR_GPS_a_no_e_yes_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_CAIR_GPS -a no -e yes -x no -y no -z yes -m");
+}
+
+void cpt_mb_CAIR_GPS_a_no_e_yes_x_no_y_no_z_no_c ()
+{
+  runUI("mb_CAIR_GPS -a no -e yes -x no -y no -z no -c");
+}
+
+void cpt_mb_CAIR_GPS_a_no_e_yes_x_no_y_no_z_no_m ()
+{
+  runUI("mb_CAIR_GPS -a no -e yes -x no -y no -z no -m");
+}
+
+void cpt_mb_CAIR_GPS_a_no_e_no_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_CAIR_GPS -a no -e no -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_CAIR_GPS_a_no_e_no_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_CAIR_GPS -a no -e no -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_CAIR_GPS_a_no_e_no_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_CAIR_GPS -a no -e no -x yes -y yes -z no -c");
+}
+
+void cpt_mb_CAIR_GPS_a_no_e_no_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_CAIR_GPS -a no -e no -x yes -y yes -z no -m");
+}
+
+void cpt_mb_CAIR_GPS_a_no_e_no_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_CAIR_GPS -a no -e no -x yes -y no -z yes -c");
+}
+
+void cpt_mb_CAIR_GPS_a_no_e_no_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_CAIR_GPS -a no -e no -x yes -y no -z yes -m");
+}
+
+void cpt_mb_CAIR_GPS_a_no_e_no_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_CAIR_GPS -a no -e no -x yes -y no -z no -c");
+}
+
+void cpt_mb_CAIR_GPS_a_no_e_no_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_CAIR_GPS -a no -e no -x yes -y no -z no -m");
+}
+
+void cpt_mb_CAIR_GPS_a_no_e_no_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_CAIR_GPS -a no -e no -x no -y yes -z yes -c");
+}
+
+void cpt_mb_CAIR_GPS_a_no_e_no_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_CAIR_GPS -a no -e no -x no -y yes -z yes -m");
+}
+
+void cpt_mb_CAIR_GPS_a_no_e_no_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_CAIR_GPS -a no -e no -x no -y yes -z no -c");
+}
+
+void cpt_mb_CAIR_GPS_a_no_e_no_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_CAIR_GPS -a no -e no -x no -y yes -z no -m");
+}
+
+void cpt_mb_CAIR_GPS_a_no_e_no_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_CAIR_GPS -a no -e no -x no -y no -z yes -c");
+}
+
+void cpt_mb_CAIR_GPS_a_no_e_no_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_CAIR_GPS -a no -e no -x no -y no -z yes -m");
+}
+
+void cpt_mb_CAIR_GPS_a_no_e_no_x_no_y_no_z_no_c ()
+{
+  runUI("mb_CAIR_GPS -a no -e no -x no -y no -z no -c");
+}
+
+void cpt_mb_CAIR_GPS_a_no_e_no_x_no_y_no_z_no_m ()
+{
+  runUI("mb_CAIR_GPS -a no -e no -x no -y no -z no -m");
+}
+
+void cpt_mb_CARN_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_CARN_GPS -a yes -e yes -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_CARN_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_CARN_GPS -a yes -e yes -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_CARN_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_CARN_GPS -a yes -e yes -x yes -y yes -z no -c");
+}
+
+void cpt_mb_CARN_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_CARN_GPS -a yes -e yes -x yes -y yes -z no -m");
+}
+
+void cpt_mb_CARN_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_CARN_GPS -a yes -e yes -x yes -y no -z yes -c");
+}
+
+void cpt_mb_CARN_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_CARN_GPS -a yes -e yes -x yes -y no -z yes -m");
+}
+
+void cpt_mb_CARN_GPS_a_yes_e_yes_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_CARN_GPS -a yes -e yes -x yes -y no -z no -c");
+}
+
+void cpt_mb_CARN_GPS_a_yes_e_yes_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_CARN_GPS -a yes -e yes -x yes -y no -z no -m");
+}
+
+void cpt_mb_CARN_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_CARN_GPS -a yes -e yes -x no -y yes -z yes -c");
+}
+
+void cpt_mb_CARN_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_CARN_GPS -a yes -e yes -x no -y yes -z yes -m");
+}
+
+void cpt_mb_CARN_GPS_a_yes_e_yes_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_CARN_GPS -a yes -e yes -x no -y yes -z no -c");
+}
+
+void cpt_mb_CARN_GPS_a_yes_e_yes_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_CARN_GPS -a yes -e yes -x no -y yes -z no -m");
+}
+
+void cpt_mb_CARN_GPS_a_yes_e_yes_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_CARN_GPS -a yes -e yes -x no -y no -z yes -c");
+}
+
+void cpt_mb_CARN_GPS_a_yes_e_yes_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_CARN_GPS -a yes -e yes -x no -y no -z yes -m");
+}
+
+void cpt_mb_CARN_GPS_a_yes_e_yes_x_no_y_no_z_no_c ()
+{
+  runUI("mb_CARN_GPS -a yes -e yes -x no -y no -z no -c");
+}
+
+void cpt_mb_CARN_GPS_a_yes_e_yes_x_no_y_no_z_no_m ()
+{
+  runUI("mb_CARN_GPS -a yes -e yes -x no -y no -z no -m");
+}
+
+void cpt_mb_CARN_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_CARN_GPS -a yes -e no -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_CARN_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_CARN_GPS -a yes -e no -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_CARN_GPS_a_yes_e_no_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_CARN_GPS -a yes -e no -x yes -y yes -z no -c");
+}
+
+void cpt_mb_CARN_GPS_a_yes_e_no_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_CARN_GPS -a yes -e no -x yes -y yes -z no -m");
+}
+
+void cpt_mb_CARN_GPS_a_yes_e_no_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_CARN_GPS -a yes -e no -x yes -y no -z yes -c");
+}
+
+void cpt_mb_CARN_GPS_a_yes_e_no_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_CARN_GPS -a yes -e no -x yes -y no -z yes -m");
+}
+
+void cpt_mb_CARN_GPS_a_yes_e_no_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_CARN_GPS -a yes -e no -x yes -y no -z no -c");
+}
+
+void cpt_mb_CARN_GPS_a_yes_e_no_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_CARN_GPS -a yes -e no -x yes -y no -z no -m");
+}
+
+void cpt_mb_CARN_GPS_a_yes_e_no_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_CARN_GPS -a yes -e no -x no -y yes -z yes -c");
+}
+
+void cpt_mb_CARN_GPS_a_yes_e_no_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_CARN_GPS -a yes -e no -x no -y yes -z yes -m");
+}
+
+void cpt_mb_CARN_GPS_a_yes_e_no_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_CARN_GPS -a yes -e no -x no -y yes -z no -c");
+}
+
+void cpt_mb_CARN_GPS_a_yes_e_no_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_CARN_GPS -a yes -e no -x no -y yes -z no -m");
+}
+
+void cpt_mb_CARN_GPS_a_yes_e_no_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_CARN_GPS -a yes -e no -x no -y no -z yes -c");
+}
+
+void cpt_mb_CARN_GPS_a_yes_e_no_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_CARN_GPS -a yes -e no -x no -y no -z yes -m");
+}
+
+void cpt_mb_CARN_GPS_a_yes_e_no_x_no_y_no_z_no_c ()
+{
+  runUI("mb_CARN_GPS -a yes -e no -x no -y no -z no -c");
+}
+
+void cpt_mb_CARN_GPS_a_yes_e_no_x_no_y_no_z_no_m ()
+{
+  runUI("mb_CARN_GPS -a yes -e no -x no -y no -z no -m");
+}
+
+void cpt_mb_CARN_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_CARN_GPS -a no -e yes -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_CARN_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_CARN_GPS -a no -e yes -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_CARN_GPS_a_no_e_yes_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_CARN_GPS -a no -e yes -x yes -y yes -z no -c");
+}
+
+void cpt_mb_CARN_GPS_a_no_e_yes_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_CARN_GPS -a no -e yes -x yes -y yes -z no -m");
+}
+
+void cpt_mb_CARN_GPS_a_no_e_yes_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_CARN_GPS -a no -e yes -x yes -y no -z yes -c");
+}
+
+void cpt_mb_CARN_GPS_a_no_e_yes_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_CARN_GPS -a no -e yes -x yes -y no -z yes -m");
+}
+
+void cpt_mb_CARN_GPS_a_no_e_yes_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_CARN_GPS -a no -e yes -x yes -y no -z no -c");
+}
+
+void cpt_mb_CARN_GPS_a_no_e_yes_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_CARN_GPS -a no -e yes -x yes -y no -z no -m");
+}
+
+void cpt_mb_CARN_GPS_a_no_e_yes_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_CARN_GPS -a no -e yes -x no -y yes -z yes -c");
+}
+
+void cpt_mb_CARN_GPS_a_no_e_yes_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_CARN_GPS -a no -e yes -x no -y yes -z yes -m");
+}
+
+void cpt_mb_CARN_GPS_a_no_e_yes_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_CARN_GPS -a no -e yes -x no -y yes -z no -c");
+}
+
+void cpt_mb_CARN_GPS_a_no_e_yes_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_CARN_GPS -a no -e yes -x no -y yes -z no -m");
+}
+
+void cpt_mb_CARN_GPS_a_no_e_yes_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_CARN_GPS -a no -e yes -x no -y no -z yes -c");
+}
+
+void cpt_mb_CARN_GPS_a_no_e_yes_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_CARN_GPS -a no -e yes -x no -y no -z yes -m");
+}
+
+void cpt_mb_CARN_GPS_a_no_e_yes_x_no_y_no_z_no_c ()
+{
+  runUI("mb_CARN_GPS -a no -e yes -x no -y no -z no -c");
+}
+
+void cpt_mb_CARN_GPS_a_no_e_yes_x_no_y_no_z_no_m ()
+{
+  runUI("mb_CARN_GPS -a no -e yes -x no -y no -z no -m");
+}
+
+void cpt_mb_CARN_GPS_a_no_e_no_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_CARN_GPS -a no -e no -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_CARN_GPS_a_no_e_no_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_CARN_GPS -a no -e no -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_CARN_GPS_a_no_e_no_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_CARN_GPS -a no -e no -x yes -y yes -z no -c");
+}
+
+void cpt_mb_CARN_GPS_a_no_e_no_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_CARN_GPS -a no -e no -x yes -y yes -z no -m");
+}
+
+void cpt_mb_CARN_GPS_a_no_e_no_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_CARN_GPS -a no -e no -x yes -y no -z yes -c");
+}
+
+void cpt_mb_CARN_GPS_a_no_e_no_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_CARN_GPS -a no -e no -x yes -y no -z yes -m");
+}
+
+void cpt_mb_CARN_GPS_a_no_e_no_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_CARN_GPS -a no -e no -x yes -y no -z no -c");
+}
+
+void cpt_mb_CARN_GPS_a_no_e_no_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_CARN_GPS -a no -e no -x yes -y no -z no -m");
+}
+
+void cpt_mb_CARN_GPS_a_no_e_no_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_CARN_GPS -a no -e no -x no -y yes -z yes -c");
+}
+
+void cpt_mb_CARN_GPS_a_no_e_no_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_CARN_GPS -a no -e no -x no -y yes -z yes -m");
+}
+
+void cpt_mb_CARN_GPS_a_no_e_no_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_CARN_GPS -a no -e no -x no -y yes -z no -c");
+}
+
+void cpt_mb_CARN_GPS_a_no_e_no_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_CARN_GPS -a no -e no -x no -y yes -z no -m");
+}
+
+void cpt_mb_CARN_GPS_a_no_e_no_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_CARN_GPS -a no -e no -x no -y no -z yes -c");
+}
+
+void cpt_mb_CARN_GPS_a_no_e_no_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_CARN_GPS -a no -e no -x no -y no -z yes -m");
+}
+
+void cpt_mb_CARN_GPS_a_no_e_no_x_no_y_no_z_no_c ()
+{
+  runUI("mb_CARN_GPS -a no -e no -x no -y no -z no -c");
+}
+
+void cpt_mb_CARN_GPS_a_no_e_no_x_no_y_no_z_no_m ()
+{
+  runUI("mb_CARN_GPS -a no -e no -x no -y no -z no -m");
+}
+
+void cpt_mb_CAS1_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_CAS1_GPS -a yes -e yes -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_CAS1_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_CAS1_GPS -a yes -e yes -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_CAS1_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_CAS1_GPS -a yes -e yes -x yes -y yes -z no -c");
+}
+
+void cpt_mb_CAS1_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_CAS1_GPS -a yes -e yes -x yes -y yes -z no -m");
+}
+
+void cpt_mb_CAS1_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_CAS1_GPS -a yes -e yes -x yes -y no -z yes -c");
+}
+
+void cpt_mb_CAS1_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_CAS1_GPS -a yes -e yes -x yes -y no -z yes -m");
+}
+
+void cpt_mb_CAS1_GPS_a_yes_e_yes_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_CAS1_GPS -a yes -e yes -x yes -y no -z no -c");
+}
+
+void cpt_mb_CAS1_GPS_a_yes_e_yes_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_CAS1_GPS -a yes -e yes -x yes -y no -z no -m");
+}
+
+void cpt_mb_CAS1_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_CAS1_GPS -a yes -e yes -x no -y yes -z yes -c");
+}
+
+void cpt_mb_CAS1_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_CAS1_GPS -a yes -e yes -x no -y yes -z yes -m");
+}
+
+void cpt_mb_CAS1_GPS_a_yes_e_yes_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_CAS1_GPS -a yes -e yes -x no -y yes -z no -c");
+}
+
+void cpt_mb_CAS1_GPS_a_yes_e_yes_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_CAS1_GPS -a yes -e yes -x no -y yes -z no -m");
+}
+
+void cpt_mb_CAS1_GPS_a_yes_e_yes_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_CAS1_GPS -a yes -e yes -x no -y no -z yes -c");
+}
+
+void cpt_mb_CAS1_GPS_a_yes_e_yes_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_CAS1_GPS -a yes -e yes -x no -y no -z yes -m");
+}
+
+void cpt_mb_CAS1_GPS_a_yes_e_yes_x_no_y_no_z_no_c ()
+{
+  runUI("mb_CAS1_GPS -a yes -e yes -x no -y no -z no -c");
+}
+
+void cpt_mb_CAS1_GPS_a_yes_e_yes_x_no_y_no_z_no_m ()
+{
+  runUI("mb_CAS1_GPS -a yes -e yes -x no -y no -z no -m");
+}
+
+void cpt_mb_CAS1_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_CAS1_GPS -a yes -e no -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_CAS1_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_CAS1_GPS -a yes -e no -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_CAS1_GPS_a_yes_e_no_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_CAS1_GPS -a yes -e no -x yes -y yes -z no -c");
+}
+
+void cpt_mb_CAS1_GPS_a_yes_e_no_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_CAS1_GPS -a yes -e no -x yes -y yes -z no -m");
+}
+
+void cpt_mb_CAS1_GPS_a_yes_e_no_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_CAS1_GPS -a yes -e no -x yes -y no -z yes -c");
+}
+
+void cpt_mb_CAS1_GPS_a_yes_e_no_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_CAS1_GPS -a yes -e no -x yes -y no -z yes -m");
+}
+
+void cpt_mb_CAS1_GPS_a_yes_e_no_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_CAS1_GPS -a yes -e no -x yes -y no -z no -c");
+}
+
+void cpt_mb_CAS1_GPS_a_yes_e_no_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_CAS1_GPS -a yes -e no -x yes -y no -z no -m");
+}
+
+void cpt_mb_CAS1_GPS_a_yes_e_no_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_CAS1_GPS -a yes -e no -x no -y yes -z yes -c");
+}
+
+void cpt_mb_CAS1_GPS_a_yes_e_no_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_CAS1_GPS -a yes -e no -x no -y yes -z yes -m");
+}
+
+void cpt_mb_CAS1_GPS_a_yes_e_no_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_CAS1_GPS -a yes -e no -x no -y yes -z no -c");
+}
+
+void cpt_mb_CAS1_GPS_a_yes_e_no_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_CAS1_GPS -a yes -e no -x no -y yes -z no -m");
+}
+
+void cpt_mb_CAS1_GPS_a_yes_e_no_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_CAS1_GPS -a yes -e no -x no -y no -z yes -c");
+}
+
+void cpt_mb_CAS1_GPS_a_yes_e_no_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_CAS1_GPS -a yes -e no -x no -y no -z yes -m");
+}
+
+void cpt_mb_CAS1_GPS_a_yes_e_no_x_no_y_no_z_no_c ()
+{
+  runUI("mb_CAS1_GPS -a yes -e no -x no -y no -z no -c");
+}
+
+void cpt_mb_CAS1_GPS_a_yes_e_no_x_no_y_no_z_no_m ()
+{
+  runUI("mb_CAS1_GPS -a yes -e no -x no -y no -z no -m");
+}
+
+void cpt_mb_CAS1_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_CAS1_GPS -a no -e yes -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_CAS1_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_CAS1_GPS -a no -e yes -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_CAS1_GPS_a_no_e_yes_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_CAS1_GPS -a no -e yes -x yes -y yes -z no -c");
+}
+
+void cpt_mb_CAS1_GPS_a_no_e_yes_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_CAS1_GPS -a no -e yes -x yes -y yes -z no -m");
+}
+
+void cpt_mb_CAS1_GPS_a_no_e_yes_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_CAS1_GPS -a no -e yes -x yes -y no -z yes -c");
+}
+
+void cpt_mb_CAS1_GPS_a_no_e_yes_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_CAS1_GPS -a no -e yes -x yes -y no -z yes -m");
+}
+
+void cpt_mb_CAS1_GPS_a_no_e_yes_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_CAS1_GPS -a no -e yes -x yes -y no -z no -c");
+}
+
+void cpt_mb_CAS1_GPS_a_no_e_yes_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_CAS1_GPS -a no -e yes -x yes -y no -z no -m");
+}
+
+void cpt_mb_CAS1_GPS_a_no_e_yes_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_CAS1_GPS -a no -e yes -x no -y yes -z yes -c");
+}
+
+void cpt_mb_CAS1_GPS_a_no_e_yes_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_CAS1_GPS -a no -e yes -x no -y yes -z yes -m");
+}
+
+void cpt_mb_CAS1_GPS_a_no_e_yes_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_CAS1_GPS -a no -e yes -x no -y yes -z no -c");
+}
+
+void cpt_mb_CAS1_GPS_a_no_e_yes_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_CAS1_GPS -a no -e yes -x no -y yes -z no -m");
+}
+
+void cpt_mb_CAS1_GPS_a_no_e_yes_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_CAS1_GPS -a no -e yes -x no -y no -z yes -c");
+}
+
+void cpt_mb_CAS1_GPS_a_no_e_yes_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_CAS1_GPS -a no -e yes -x no -y no -z yes -m");
+}
+
+void cpt_mb_CAS1_GPS_a_no_e_yes_x_no_y_no_z_no_c ()
+{
+  runUI("mb_CAS1_GPS -a no -e yes -x no -y no -z no -c");
+}
+
+void cpt_mb_CAS1_GPS_a_no_e_yes_x_no_y_no_z_no_m ()
+{
+  runUI("mb_CAS1_GPS -a no -e yes -x no -y no -z no -m");
+}
+
+void cpt_mb_CAS1_GPS_a_no_e_no_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_CAS1_GPS -a no -e no -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_CAS1_GPS_a_no_e_no_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_CAS1_GPS -a no -e no -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_CAS1_GPS_a_no_e_no_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_CAS1_GPS -a no -e no -x yes -y yes -z no -c");
+}
+
+void cpt_mb_CAS1_GPS_a_no_e_no_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_CAS1_GPS -a no -e no -x yes -y yes -z no -m");
+}
+
+void cpt_mb_CAS1_GPS_a_no_e_no_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_CAS1_GPS -a no -e no -x yes -y no -z yes -c");
+}
+
+void cpt_mb_CAS1_GPS_a_no_e_no_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_CAS1_GPS -a no -e no -x yes -y no -z yes -m");
+}
+
+void cpt_mb_CAS1_GPS_a_no_e_no_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_CAS1_GPS -a no -e no -x yes -y no -z no -c");
+}
+
+void cpt_mb_CAS1_GPS_a_no_e_no_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_CAS1_GPS -a no -e no -x yes -y no -z no -m");
+}
+
+void cpt_mb_CAS1_GPS_a_no_e_no_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_CAS1_GPS -a no -e no -x no -y yes -z yes -c");
+}
+
+void cpt_mb_CAS1_GPS_a_no_e_no_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_CAS1_GPS -a no -e no -x no -y yes -z yes -m");
+}
+
+void cpt_mb_CAS1_GPS_a_no_e_no_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_CAS1_GPS -a no -e no -x no -y yes -z no -c");
+}
+
+void cpt_mb_CAS1_GPS_a_no_e_no_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_CAS1_GPS -a no -e no -x no -y yes -z no -m");
+}
+
+void cpt_mb_CAS1_GPS_a_no_e_no_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_CAS1_GPS -a no -e no -x no -y no -z yes -c");
+}
+
+void cpt_mb_CAS1_GPS_a_no_e_no_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_CAS1_GPS -a no -e no -x no -y no -z yes -m");
+}
+
+void cpt_mb_CAS1_GPS_a_no_e_no_x_no_y_no_z_no_c ()
+{
+  runUI("mb_CAS1_GPS -a no -e no -x no -y no -z no -c");
+}
+
+void cpt_mb_CAS1_GPS_a_no_e_no_x_no_y_no_z_no_m ()
+{
+  runUI("mb_CAS1_GPS -a no -e no -x no -y no -z no -m");
+}
+
+void cpt_mb_CEDU_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_CEDU_GPS -a yes -e yes -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_CEDU_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_CEDU_GPS -a yes -e yes -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_CEDU_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_CEDU_GPS -a yes -e yes -x yes -y yes -z no -c");
+}
+
+void cpt_mb_CEDU_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_CEDU_GPS -a yes -e yes -x yes -y yes -z no -m");
+}
+
+void cpt_mb_CEDU_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_CEDU_GPS -a yes -e yes -x yes -y no -z yes -c");
+}
+
+void cpt_mb_CEDU_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_CEDU_GPS -a yes -e yes -x yes -y no -z yes -m");
+}
+
+void cpt_mb_CEDU_GPS_a_yes_e_yes_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_CEDU_GPS -a yes -e yes -x yes -y no -z no -c");
+}
+
+void cpt_mb_CEDU_GPS_a_yes_e_yes_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_CEDU_GPS -a yes -e yes -x yes -y no -z no -m");
+}
+
+void cpt_mb_CEDU_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_CEDU_GPS -a yes -e yes -x no -y yes -z yes -c");
+}
+
+void cpt_mb_CEDU_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_CEDU_GPS -a yes -e yes -x no -y yes -z yes -m");
+}
+
+void cpt_mb_CEDU_GPS_a_yes_e_yes_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_CEDU_GPS -a yes -e yes -x no -y yes -z no -c");
+}
+
+void cpt_mb_CEDU_GPS_a_yes_e_yes_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_CEDU_GPS -a yes -e yes -x no -y yes -z no -m");
+}
+
+void cpt_mb_CEDU_GPS_a_yes_e_yes_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_CEDU_GPS -a yes -e yes -x no -y no -z yes -c");
+}
+
+void cpt_mb_CEDU_GPS_a_yes_e_yes_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_CEDU_GPS -a yes -e yes -x no -y no -z yes -m");
+}
+
+void cpt_mb_CEDU_GPS_a_yes_e_yes_x_no_y_no_z_no_c ()
+{
+  runUI("mb_CEDU_GPS -a yes -e yes -x no -y no -z no -c");
+}
+
+void cpt_mb_CEDU_GPS_a_yes_e_yes_x_no_y_no_z_no_m ()
+{
+  runUI("mb_CEDU_GPS -a yes -e yes -x no -y no -z no -m");
+}
+
+void cpt_mb_CEDU_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_CEDU_GPS -a yes -e no -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_CEDU_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_CEDU_GPS -a yes -e no -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_CEDU_GPS_a_yes_e_no_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_CEDU_GPS -a yes -e no -x yes -y yes -z no -c");
+}
+
+void cpt_mb_CEDU_GPS_a_yes_e_no_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_CEDU_GPS -a yes -e no -x yes -y yes -z no -m");
+}
+
+void cpt_mb_CEDU_GPS_a_yes_e_no_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_CEDU_GPS -a yes -e no -x yes -y no -z yes -c");
+}
+
+void cpt_mb_CEDU_GPS_a_yes_e_no_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_CEDU_GPS -a yes -e no -x yes -y no -z yes -m");
+}
+
+void cpt_mb_CEDU_GPS_a_yes_e_no_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_CEDU_GPS -a yes -e no -x yes -y no -z no -c");
+}
+
+void cpt_mb_CEDU_GPS_a_yes_e_no_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_CEDU_GPS -a yes -e no -x yes -y no -z no -m");
+}
+
+void cpt_mb_CEDU_GPS_a_yes_e_no_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_CEDU_GPS -a yes -e no -x no -y yes -z yes -c");
+}
+
+void cpt_mb_CEDU_GPS_a_yes_e_no_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_CEDU_GPS -a yes -e no -x no -y yes -z yes -m");
+}
+
+void cpt_mb_CEDU_GPS_a_yes_e_no_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_CEDU_GPS -a yes -e no -x no -y yes -z no -c");
+}
+
+void cpt_mb_CEDU_GPS_a_yes_e_no_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_CEDU_GPS -a yes -e no -x no -y yes -z no -m");
+}
+
+void cpt_mb_CEDU_GPS_a_yes_e_no_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_CEDU_GPS -a yes -e no -x no -y no -z yes -c");
+}
+
+void cpt_mb_CEDU_GPS_a_yes_e_no_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_CEDU_GPS -a yes -e no -x no -y no -z yes -m");
+}
+
+void cpt_mb_CEDU_GPS_a_yes_e_no_x_no_y_no_z_no_c ()
+{
+  runUI("mb_CEDU_GPS -a yes -e no -x no -y no -z no -c");
+}
+
+void cpt_mb_CEDU_GPS_a_yes_e_no_x_no_y_no_z_no_m ()
+{
+  runUI("mb_CEDU_GPS -a yes -e no -x no -y no -z no -m");
+}
+
+void cpt_mb_CEDU_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_CEDU_GPS -a no -e yes -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_CEDU_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_CEDU_GPS -a no -e yes -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_CEDU_GPS_a_no_e_yes_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_CEDU_GPS -a no -e yes -x yes -y yes -z no -c");
+}
+
+void cpt_mb_CEDU_GPS_a_no_e_yes_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_CEDU_GPS -a no -e yes -x yes -y yes -z no -m");
+}
+
+void cpt_mb_CEDU_GPS_a_no_e_yes_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_CEDU_GPS -a no -e yes -x yes -y no -z yes -c");
+}
+
+void cpt_mb_CEDU_GPS_a_no_e_yes_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_CEDU_GPS -a no -e yes -x yes -y no -z yes -m");
+}
+
+void cpt_mb_CEDU_GPS_a_no_e_yes_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_CEDU_GPS -a no -e yes -x yes -y no -z no -c");
+}
+
+void cpt_mb_CEDU_GPS_a_no_e_yes_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_CEDU_GPS -a no -e yes -x yes -y no -z no -m");
+}
+
+void cpt_mb_CEDU_GPS_a_no_e_yes_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_CEDU_GPS -a no -e yes -x no -y yes -z yes -c");
+}
+
+void cpt_mb_CEDU_GPS_a_no_e_yes_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_CEDU_GPS -a no -e yes -x no -y yes -z yes -m");
+}
+
+void cpt_mb_CEDU_GPS_a_no_e_yes_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_CEDU_GPS -a no -e yes -x no -y yes -z no -c");
+}
+
+void cpt_mb_CEDU_GPS_a_no_e_yes_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_CEDU_GPS -a no -e yes -x no -y yes -z no -m");
+}
+
+void cpt_mb_CEDU_GPS_a_no_e_yes_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_CEDU_GPS -a no -e yes -x no -y no -z yes -c");
+}
+
+void cpt_mb_CEDU_GPS_a_no_e_yes_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_CEDU_GPS -a no -e yes -x no -y no -z yes -m");
+}
+
+void cpt_mb_CEDU_GPS_a_no_e_yes_x_no_y_no_z_no_c ()
+{
+  runUI("mb_CEDU_GPS -a no -e yes -x no -y no -z no -c");
+}
+
+void cpt_mb_CEDU_GPS_a_no_e_yes_x_no_y_no_z_no_m ()
+{
+  runUI("mb_CEDU_GPS -a no -e yes -x no -y no -z no -m");
+}
+
+void cpt_mb_CEDU_GPS_a_no_e_no_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_CEDU_GPS -a no -e no -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_CEDU_GPS_a_no_e_no_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_CEDU_GPS -a no -e no -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_CEDU_GPS_a_no_e_no_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_CEDU_GPS -a no -e no -x yes -y yes -z no -c");
+}
+
+void cpt_mb_CEDU_GPS_a_no_e_no_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_CEDU_GPS -a no -e no -x yes -y yes -z no -m");
+}
+
+void cpt_mb_CEDU_GPS_a_no_e_no_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_CEDU_GPS -a no -e no -x yes -y no -z yes -c");
+}
+
+void cpt_mb_CEDU_GPS_a_no_e_no_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_CEDU_GPS -a no -e no -x yes -y no -z yes -m");
+}
+
+void cpt_mb_CEDU_GPS_a_no_e_no_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_CEDU_GPS -a no -e no -x yes -y no -z no -c");
+}
+
+void cpt_mb_CEDU_GPS_a_no_e_no_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_CEDU_GPS -a no -e no -x yes -y no -z no -m");
+}
+
+void cpt_mb_CEDU_GPS_a_no_e_no_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_CEDU_GPS -a no -e no -x no -y yes -z yes -c");
+}
+
+void cpt_mb_CEDU_GPS_a_no_e_no_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_CEDU_GPS -a no -e no -x no -y yes -z yes -m");
+}
+
+void cpt_mb_CEDU_GPS_a_no_e_no_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_CEDU_GPS -a no -e no -x no -y yes -z no -c");
+}
+
+void cpt_mb_CEDU_GPS_a_no_e_no_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_CEDU_GPS -a no -e no -x no -y yes -z no -m");
+}
+
+void cpt_mb_CEDU_GPS_a_no_e_no_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_CEDU_GPS -a no -e no -x no -y no -z yes -c");
+}
+
+void cpt_mb_CEDU_GPS_a_no_e_no_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_CEDU_GPS -a no -e no -x no -y no -z yes -m");
+}
+
+void cpt_mb_CEDU_GPS_a_no_e_no_x_no_y_no_z_no_c ()
+{
+  runUI("mb_CEDU_GPS -a no -e no -x no -y no -z no -c");
+}
+
+void cpt_mb_CEDU_GPS_a_no_e_no_x_no_y_no_z_no_m ()
+{
+  runUI("mb_CEDU_GPS -a no -e no -x no -y no -z no -m");
+}
+
+void cpt_mb_CENI_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_CENI_GPS -a yes -e yes -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_CENI_GPS_a_yes_e_yes_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_CENI_GPS -a yes -e yes -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_CENI_GPS_a_yes_e_yes_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_CENI_GPS -a yes -e yes -x yes -y yes -z no -c");
+}
+
+void cpt_mb_CENI_GPS_a_yes_e_yes_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_CENI_GPS -a yes -e yes -x yes -y yes -z no -m");
+}
+
+void cpt_mb_CENI_GPS_a_yes_e_yes_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_CENI_GPS -a yes -e yes -x yes -y no -z yes -c");
+}
+
+void cpt_mb_CENI_GPS_a_yes_e_yes_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_CENI_GPS -a yes -e yes -x yes -y no -z yes -m");
+}
+
+void cpt_mb_CENI_GPS_a_yes_e_yes_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_CENI_GPS -a yes -e yes -x yes -y no -z no -c");
+}
+
+void cpt_mb_CENI_GPS_a_yes_e_yes_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_CENI_GPS -a yes -e yes -x yes -y no -z no -m");
+}
+
+void cpt_mb_CENI_GPS_a_yes_e_yes_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_CENI_GPS -a yes -e yes -x no -y yes -z yes -c");
+}
+
+void cpt_mb_CENI_GPS_a_yes_e_yes_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_CENI_GPS -a yes -e yes -x no -y yes -z yes -m");
+}
+
+void cpt_mb_CENI_GPS_a_yes_e_yes_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_CENI_GPS -a yes -e yes -x no -y yes -z no -c");
+}
+
+void cpt_mb_CENI_GPS_a_yes_e_yes_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_CENI_GPS -a yes -e yes -x no -y yes -z no -m");
+}
+
+void cpt_mb_CENI_GPS_a_yes_e_yes_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_CENI_GPS -a yes -e yes -x no -y no -z yes -c");
+}
+
+void cpt_mb_CENI_GPS_a_yes_e_yes_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_CENI_GPS -a yes -e yes -x no -y no -z yes -m");
+}
+
+void cpt_mb_CENI_GPS_a_yes_e_yes_x_no_y_no_z_no_c ()
+{
+  runUI("mb_CENI_GPS -a yes -e yes -x no -y no -z no -c");
+}
+
+void cpt_mb_CENI_GPS_a_yes_e_yes_x_no_y_no_z_no_m ()
+{
+  runUI("mb_CENI_GPS -a yes -e yes -x no -y no -z no -m");
+}
+
+void cpt_mb_CENI_GPS_a_yes_e_no_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_CENI_GPS -a yes -e no -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_CENI_GPS_a_yes_e_no_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_CENI_GPS -a yes -e no -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_CENI_GPS_a_yes_e_no_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_CENI_GPS -a yes -e no -x yes -y yes -z no -c");
+}
+
+void cpt_mb_CENI_GPS_a_yes_e_no_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_CENI_GPS -a yes -e no -x yes -y yes -z no -m");
+}
+
+void cpt_mb_CENI_GPS_a_yes_e_no_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_CENI_GPS -a yes -e no -x yes -y no -z yes -c");
+}
+
+void cpt_mb_CENI_GPS_a_yes_e_no_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_CENI_GPS -a yes -e no -x yes -y no -z yes -m");
+}
+
+void cpt_mb_CENI_GPS_a_yes_e_no_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_CENI_GPS -a yes -e no -x yes -y no -z no -c");
+}
+
+void cpt_mb_CENI_GPS_a_yes_e_no_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_CENI_GPS -a yes -e no -x yes -y no -z no -m");
+}
+
+void cpt_mb_CENI_GPS_a_yes_e_no_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_CENI_GPS -a yes -e no -x no -y yes -z yes -c");
+}
+
+void cpt_mb_CENI_GPS_a_yes_e_no_x_no_y_yes_z_yes_m ()
+{
+  runUI("mb_CENI_GPS -a yes -e no -x no -y yes -z yes -m");
+}
+
+void cpt_mb_CENI_GPS_a_yes_e_no_x_no_y_yes_z_no_c ()
+{
+  runUI("mb_CENI_GPS -a yes -e no -x no -y yes -z no -c");
+}
+
+void cpt_mb_CENI_GPS_a_yes_e_no_x_no_y_yes_z_no_m ()
+{
+  runUI("mb_CENI_GPS -a yes -e no -x no -y yes -z no -m");
+}
+
+void cpt_mb_CENI_GPS_a_yes_e_no_x_no_y_no_z_yes_c ()
+{
+  runUI("mb_CENI_GPS -a yes -e no -x no -y no -z yes -c");
+}
+
+void cpt_mb_CENI_GPS_a_yes_e_no_x_no_y_no_z_yes_m ()
+{
+  runUI("mb_CENI_GPS -a yes -e no -x no -y no -z yes -m");
+}
+
+void cpt_mb_CENI_GPS_a_yes_e_no_x_no_y_no_z_no_c ()
+{
+  runUI("mb_CENI_GPS -a yes -e no -x no -y no -z no -c");
+}
+
+void cpt_mb_CENI_GPS_a_yes_e_no_x_no_y_no_z_no_m ()
+{
+  runUI("mb_CENI_GPS -a yes -e no -x no -y no -z no -m");
+}
+
+void cpt_mb_CENI_GPS_a_no_e_yes_x_yes_y_yes_z_yes_c ()
+{
+  runUI("mb_CENI_GPS -a no -e yes -x yes -y yes -z yes -c");
+}
+
+void cpt_mb_CENI_GPS_a_no_e_yes_x_yes_y_yes_z_yes_m ()
+{
+  runUI("mb_CENI_GPS -a no -e yes -x yes -y yes -z yes -m");
+}
+
+void cpt_mb_CENI_GPS_a_no_e_yes_x_yes_y_yes_z_no_c ()
+{
+  runUI("mb_CENI_GPS -a no -e yes -x yes -y yes -z no -c");
+}
+
+void cpt_mb_CENI_GPS_a_no_e_yes_x_yes_y_yes_z_no_m ()
+{
+  runUI("mb_CENI_GPS -a no -e yes -x yes -y yes -z no -m");
+}
+
+void cpt_mb_CENI_GPS_a_no_e_yes_x_yes_y_no_z_yes_c ()
+{
+  runUI("mb_CENI_GPS -a no -e yes -x yes -y no -z yes -c");
+}
+
+void cpt_mb_CENI_GPS_a_no_e_yes_x_yes_y_no_z_yes_m ()
+{
+  runUI("mb_CENI_GPS -a no -e yes -x yes -y no -z yes -m");
+}
+
+void cpt_mb_CENI_GPS_a_no_e_yes_x_yes_y_no_z_no_c ()
+{
+  runUI("mb_CENI_GPS -a no -e yes -x yes -y no -z no -c");
+}
+
+void cpt_mb_CENI_GPS_a_no_e_yes_x_yes_y_no_z_no_m ()
+{
+  runUI("mb_CENI_GPS -a no -e yes -x yes -y no -z no -m");
+}
+
+void cpt_mb_CENI_GPS_a_no_e_yes_x_no_y_yes_z_yes_c ()
+{
+  runUI("mb_CENI_GPS -a no -e yes -x no -y yes -z yes -c");
 }
 
 
-CPPUNIT_TEST_SUITE_REGISTRATION( Test );
+  // The testing function
+  void runUI(string cmdline){
+    int childPid;	
+    switch(childPid = fork())
+    {
+      case -1:
+        CPPUNIT_ASSERT_MESSAGE("fork failed", false);
+        break;
+
+      case 0:
+        sleep(5);
+        system("killall -9 ui");
+        exit(0);
+        break;
+
+      default:
+        int result = system(string("../ui -d ../../datasets/" + cmdline).c_str());
+        kill(childPid, 9);
+        //printf("Result is %d signalled %s (%d)\n", WEXITSTATUS(result),
+        //       WIFSIGNALED(result) ? "true" : "false",
+        //       WTERMSIG(result));
+        // WCOREDUMP would have been good, but glibc doesn't implement it
+        CPPUNIT_ASSERT_MESSAGE(string("Test " + cmdline + " failed").c_str(), 
+                               WTERMSIG(result) != SIGSEGV);
+        break;
+    }
+  }
 };
+
+CPPUNIT_TEST_SUITE_REGISTRATION( Test );
+
 } // end namespace
