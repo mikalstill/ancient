@@ -1,7 +1,7 @@
 #!/bin/bash
 
 cvs -d :pserver:cvs@pserver.samba.org:/cvsroot login
-for item in `ls | egrep -v ".sh$" | egrep -v "~$"`
+for item in `ls`
 do
   echo -------------------------------------------------------------------
   echo $item
