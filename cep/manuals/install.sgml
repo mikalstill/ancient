@@ -15,13 +15,13 @@
     </emphasis>
   </para>
   
-  <execute><cmd>builddb</cmd><input>docbook-scripts.sgml</input></execute>
-  <execute><cmd>builddb</cmd><input>libmlplot.sgml</input></execute>
-  <execute><cmd>builddb</cmd><input>freetype.sgml</input></execute>
-  <execute><cmd>builddb</cmd><input>wxWIndows.sgml</input></execute>
-  <execute><cmd>builddb</cmd><input>segv.sgml</input></execute>
   <execute><cmd>builddb</cmd><input>autodocbook.sgml</input></execute>
+  <execute><cmd>builddb</cmd><input>docbook-scripts.sgml</input></execute>
+  <execute><cmd>builddb</cmd><input>freetype.sgml</input></execute>
+  <execute><cmd>builddb</cmd><input>libmlplot.sgml</input></execute>
   <execute><cmd>builddb</cmd><input>pcre.sgml</input></execute>
+  <execute><cmd>builddb</cmd><input>segv.sgml</input></execute>
+  <execute><cmd>builddb</cmd><input>wxWIndows.sgml</input></execute>
 
 </sect1>
 

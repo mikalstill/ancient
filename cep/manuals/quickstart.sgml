@@ -14,7 +14,7 @@
 
 <para>
   Now that a dataset has been loaded, use the <command>Maths</command> menu to carry out data processing. For further details of specific
-  options here, please refer to the Reference chapter. 
+  options here, please refer to the Reference chapter.
 </para>
 <para>
   To close the data set currently in focus, select
@@ -32,6 +32,11 @@
   To save under a
   different file name, select <command>File</command> - <command>Save As</command>. Enter a file name and once again,
   choose a location and click <command>OK</command>.
+</para>
+
+<para>
+  For further details on these features and the other <command>GDMS</command> functionality, please refer to the Reference
+  section of this manual.
 </para>
 </sect1>
 
