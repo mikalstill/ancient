@@ -161,7 +161,7 @@ bool genApp::OnInit (void)
     new
     wxMenu;
 
-  help_menu->Append (CEPMENU_ABOUT, "&About\tF1");
+  help_menu->Append (GENMENU_ABOUT, "&About\tF1");
 
   wxMenuBar *
     menu_bar =
@@ -240,7 +240,7 @@ genApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
   file_menu->Append (wxID_EXIT, "E&xit");
 
   wxMenu *help_menu = new wxMenu;
-  help_menu->Append (CEPMENU_ABOUT, "&About");
+  help_menu->Append (GENMENU_ABOUT, "&About");
 
   wxMenuBar *menu_bar = new wxMenuBar;
   menu_bar->Append (file_menu, "&File");
@@ -255,7 +255,13 @@ genApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
  * This is the top-level window of the application.
  */
 
-IMPLEMENT_CLASS (genFrame, wxDocMDIParentFrame) BEGIN_EVENT_TABLE (genFrame, wxDocMDIParentFrame) EVT_MENU (CEPMENU_ABOUT, genFrame::OnAbout) EVT_MENU (CEPMENU_TESTERRORS, genFrame::OnTestErrors) EVT_CLOSE (genFrame::OnClose) END_EVENT_TABLE ()genFrame::genFrame (wxDocManager * manager, wxFrame * frame, const wxString & title, const wxPoint & pos, const wxSize & size, long type):
+IMPLEMENT_CLASS (genFrame, wxDocMDIParentFrame)
+BEGIN_EVENT_TABLE (genFrame, wxDocMDIParentFrame)
+EVT_MENU (GENMENU_ABOUT, genFrame::OnAbout)
+EVT_CLOSE (genFrame::OnClose)
+END_EVENT_TABLE ()
+
+genFrame::genFrame (wxDocManager * manager, wxFrame * frame, const wxString & title, const wxPoint & pos, const wxSize & size, long type):
 wxDocMDIParentFrame (manager, frame, -1, title, pos, size, type, "myFrame")
 {
   editMenu = (wxMenu *) NULL;
@@ -268,10 +274,11 @@ genFrame::OnAbout (wxCommandEvent & WXUNUSED (event))
 {
   ostringstream msg;
 
-  msg << "Geodetic Data Modelling System\n\n";
-  msg << "A GPS, VLBI and SLR dataset manipulation tool by\n";
+  msg << "PandaEdit\n\n";
+  msg << "A PDF viewer by\n";
+  msg << "    Michael Still (mikal@stillhq.com)\n\n";
+  msg << "Contributions by\n";
   msg << "    Daniel Fernandez\n";
-  msg << "    Michael Still\n";
   msg << "    Blake Swadling\n";
   msg << "    Nick Wheatstone\n";
   msg << "    Kristy Van Der Vlist\n\n";
@@ -280,7 +287,7 @@ genFrame::OnAbout (wxCommandEvent & WXUNUSED (event))
 
   wxMessageBox
     ((const wxString &) msg.str ().c_str (),
-     "About Geodetic Data Modelling System");
+     "About PandaEdit");
 }
 
 void
