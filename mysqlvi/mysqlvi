@@ -1,0 +1,74 @@
+#!/usr/bin/perl
+
+# Copyright (c) Michael Still (mikal@stillhq.com) 2001
+# Released under the terms of the GNU GPL version 2.
+
+use strict;
+use DBI;
+
+my($database, $select, @data);
+my($col, $table, $where);
+my($INPUT, $OUTPUT, $buffer);
+
+$database = DBI->connect("DBI:mysql:database=ctpfaq:host=localhost", "root", "xxx", { PrintError => 0 });
+
+if(!defined($database)){
+  print "Database connection failed" . DBI->errstr;
+  exit;
+  }
+
+print "Column: ";
+$col=<STDIN>;
+chomp $col;
+
+print "Table: ";
+$table=<STDIN>;
+chomp $table;
+
+print "Where: ";
+$where=<STDIN>;
+chomp $where;
+
+# Get the data to edit
+$select = $database->prepare("SELECT $col FROM $table WHERE $where");
+if(!defined($select)){
+    print "Could not arrange select";
+    $database->disconnect();
+    exit;
+}
+
+open OUTPUT, "> /tmp/mysqlvi.$$";
+
+# Results?
+$select->execute() or die "Could not execute select" . $select->errstr;
+if($select->rows > 0){
+    while(@data = $select->fetchrow_array()){
+	print OUTPUT "$data[0]\n";
+    }
+}
+else{
+    print "Error: the database select returned no rows! (";
+    print $select->rows;
+    print ")";
+}
+
+close OUTPUT;
+system("vi /tmp/mysqlvi.$$");
+open INPUT, "< /tmp/mysqlvi.$$";
+
+$buffer="";
+while(<INPUT>){
+    $buffer = "$buffer$_";
+}
+chomp $buffer;
+
+# Put the data back
+$select = $database->prepare("UPDATE $table SET $col = \"$buffer\" WHERE $where");
+if(!defined($select)){
+    print "Could not arrange update";
+    $database->disconnect();
+    exit;
+}
+
+# Results?
+$select->execute() or die "Could not execute updae" . $select->errstr;
