@@ -56,18 +56,10 @@ cepDataWindower::~cepDataWindower(){
 }
 
 const cepError cepDataWindower::setChebBandwidth( double dw ) {
-  if( windowAlg == NULL || algType != WINDOW_CHEBYSHEV ) {
-    return cepError("Not using chebyshev algorithm. cannot set parameters", cepError::sevWarning);
-  }
-  ((cepWindowChebyshev *)windowAlg)->setTransitionBandwidth( dw );
-  
-  return cepError();
+  return cepWindowChebyshev::setTransitionBandwidth( dw );
 }
 
-
-
 const cepError cepDataWindower::setWindowType( const Window &type, const int sz, const int ol ) {
-
   
   algType = type;
   size = sz;
@@ -127,7 +119,7 @@ const cepError cepDataWindower::window( const cepMatrix<double> & dataIn,
    * or should we use rectangular?
    */
   if( windowAlg == NULL ) {
-    return cepError( "Window algorithm is not defined. Windowing failed" );
+    return cepError( "Window algorithm is not defined. Windowing failed", cepError::sevErrorRecoverable );
   }
   int numSamples = const_cast<cepMatrix<double>&>(dataIn).getNumRows();
   int numWindows = countWindows( numSamples, windowAlg->getSize(), overlap );
@@ -138,8 +130,8 @@ const cepError cepDataWindower::window( const cepMatrix<double> & dataIn,
     return cepError("invalid window size specified. size must not be greater than the sample size");
   } else if( const_cast<cepMatrix<double>&>(dataIn).getNumCols() < 2 ) {
     return cepError("insufficient data to proceed. require at least 2 cols: date and sample");
-  } else if( increment <= 0 ) {
-    return cepError("invalid overlap specified. overlap must be less than the window size");
+  } else if( increment < 0 ) {
+    return cepError("invalid overlap specified. cannot be negative");
   }
 
 

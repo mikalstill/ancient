@@ -31,7 +31,14 @@ BEGIN_EVENT_TABLE (cepWindowBandwidth, wxDialog)
 END_EVENT_TABLE ()
                           
 cepWindowBandwidth::cepWindowBandwidth( bool getBandwidth ):
-  wxDialog((wxDialog *) NULL, -1, "Specify Transition Bandwidth", wxPoint(120,120), wxSize(250, 142))
+  wxDialog((wxDialog *) NULL, -1, "Specify Transition Bandwidth", wxPoint(120,120), wxSize(250, 142)),
+  m_panel(NULL),
+  m_statBox(NULL),
+  m_statText1(NULL), m_statText2(NULL), m_statText3(NULL), m_statText4(NULL), m_statText5(NULL),
+  m_tbSize(NULL), m_tbOverlap(NULL), m_tbBandwidth(NULL),
+  m_bSubmit(NULL), m_bCancel(NULL),
+  m_size(UNINITIALISED_STR), m_overlap(UNINITIALISED_STR), m_bandwidth(UNINITIALISED_STR),
+  aborted( false )
 {
   ostringstream currentSize;
   currentSize << cepDataWindower::getSize();
@@ -55,16 +62,16 @@ cepWindowBandwidth::cepWindowBandwidth( bool getBandwidth ):
   // the text labels
   m_statText1 = new wxStaticText(m_panel, -1, "Please specify the Window Parameters", wxPoint(5,5), wxSize(240, 20), wxALIGN_CENTRE);
 
-  m_statText3 = new wxStaticText(m_panel, -1, "Size:", wxPoint(35,inputY), wxSize(70, 20), wxALIGN_LEFT);
-  m_tbBandwidth = new wxTextCtrl(m_panel, -1, currentSize.str().c_str(), wxPoint(100, inputY), wxSize(115, 20));
+  m_statText2 = new wxStaticText(m_panel, -1, "Size:", wxPoint(35,inputY), wxSize(70, 20), wxALIGN_LEFT);
+  m_tbSize = new wxTextCtrl(m_panel, -1, currentSize.str().c_str(), wxPoint(100, inputY), wxSize(115, 20));
 
   m_statText3 = new wxStaticText(m_panel, -1, "Overlap:", wxPoint(35,inputY+step), wxSize(70, 20), wxALIGN_LEFT);
-  m_tbBandwidth = new wxTextCtrl(m_panel, -1, currentOverlap.str().c_str(), wxPoint(100, inputY+step), wxSize(115, 20));
+  m_tbOverlap = new wxTextCtrl(m_panel, -1, currentOverlap.str().c_str(), wxPoint(100, inputY+step), wxSize(115, 20));
 
-  // only display
+  // only display if we are asking for bandwidth
   if( getBandwidth ) {
-     m_statText2 = new wxStaticText(m_panel, -1, "Normalised Transition Bandwidth", wxPoint(5,inputY+(2*step)), wxSize(240, 20), wxALIGN_CENTRE);
-     m_statText3 = new wxStaticText(m_panel, -1, "NTB:", wxPoint(35,inputY+(3*step)), wxSize(70, 20), wxALIGN_LEFT);
+     m_statText4 = new wxStaticText(m_panel, -1, "Normalised Transition Bandwidth", wxPoint(5,inputY+(2*step)), wxSize(240, 20), wxALIGN_CENTRE);
+     m_statText5 = new wxStaticText(m_panel, -1, "NTB:", wxPoint(35,inputY+(3*step)), wxSize(70, 20), wxALIGN_LEFT);
      m_tbBandwidth = new wxTextCtrl(m_panel, -1, currentBW.str().c_str(), wxPoint(100, inputY+(3*step)), wxSize(115, 20));
   }
  
@@ -73,7 +80,7 @@ cepWindowBandwidth::cepWindowBandwidth( bool getBandwidth ):
   m_bSubmit = new wxButton(m_panel, CEPBTN_ATT_SUBMIT, "Ok", wxPoint(25,boxHeight+buttonHeight));
   m_bSubmit->SetDefault();
   m_bCancel = new wxButton(m_panel, CEPBTN_ATT_CANCEL, "Cancel", wxPoint(145,boxHeight+buttonHeight));
-
+  
   Center();
   ShowModal();
 }
@@ -81,9 +88,11 @@ cepWindowBandwidth::cepWindowBandwidth( bool getBandwidth ):
 
 int cepWindowBandwidth::getSize()
 {
+  if( aborted ) return UNINITIALISED_INT;
+  
   for(size_t i = 0; i < m_size.Length(); i ++)
   {
-    if(cepIsNumeric(m_size.GetChar(i)) == false)
+    if( !cepIsNumeric(m_size.GetChar(i)) )
     {
       return -1;
     }
@@ -93,9 +102,11 @@ int cepWindowBandwidth::getSize()
  
 int cepWindowBandwidth::getOverlap()
 {
+  if( aborted ) return UNINITIALISED_INT;
+  
   for(size_t i = 0; i < m_overlap.Length(); i ++)
   {
-    if(cepIsNumeric(m_overlap.GetChar(i)) == false)
+    if( !cepIsNumeric(m_overlap.GetChar(i)) )
     {
       return -1;
     }
@@ -106,9 +117,11 @@ int cepWindowBandwidth::getOverlap()
 
 double cepWindowBandwidth::getBandwidth()
 {
+  if( aborted ) return UNINITIALISED_FLOAT;
+  
   for(size_t i = 0; i < m_bandwidth.Length(); i ++)
   {
-    if(cepIsNumeric(m_bandwidth.GetChar(i)) == false)
+    if( !cepIsNumeric(m_bandwidth.GetChar(i)) )
     {
       return NAN;
     }
@@ -118,20 +131,36 @@ double cepWindowBandwidth::getBandwidth()
        
 void cepWindowBandwidth::dlgBandwidthOnQuit(wxCommandEvent& WXUNUSED(event))
 {
-  //if cancel or quit button pressed 
-  m_bandwidth = "-1";
-  
+  //if cancel or quit button pressed
+  aborted = true;  
   EndModal(1);
   Destroy();
 }
 
 void cepWindowBandwidth::dlgBandwidthOnOK(wxCommandEvent& WXUNUSED(event))
 {
-  m_bandwidth = m_tbBandwidth->GetValue();
+  aborted = false;
   
+  m_size = m_tbSize->GetValue();
+  m_overlap = m_tbOverlap->GetValue();
+  // check if we have access to the bandwidth box
+  if( m_tbBandwidth != NULL ) {
+    m_bandwidth = m_tbBandwidth->GetValue();
+  }
   EndModal(0);
   Destroy();
 }
+
+bool cepWindowBandwidth::cancelled() {
+  return aborted;
+}
+
+const char*  cepWindowBandwidth::UNINITIALISED_STR = "";
+const int    cepWindowBandwidth::UNINITIALISED_INT = 0xCAFEBABE;
+const double cepWindowBandwidth::UNINITIALISED_FLOAT = 1.602e-19;
+
+
+
 
 cepWindowUi::cepWindowUi() {}
 
@@ -142,6 +171,7 @@ void cepWindowUi::showBandwidth()
   m_size = wa.getSize();
   m_overlap = wa.getOverlap();
   m_bandwidth = wa.getBandwidth();
+  aborted = wa.cancelled();
   
 }
 
@@ -152,6 +182,7 @@ void cepWindowUi::show()
 
   m_size = wa.getSize();
   m_overlap = wa.getOverlap();
+  aborted = wa.cancelled();
 }
   
 int cepWindowUi::getSize()
@@ -166,8 +197,13 @@ double cepWindowUi::getBandwidth()
 {
   return m_bandwidth;
 }
+bool cepWindowUi::cancelled()
+{
+  return aborted;
+}
 
-
-const char* cepWindowBandwidth::UNINITIALISED_STR = "-1";
-const int cepWindowBandwidth::UNINITIALISED = atoi(UNINITIALISED_STR);
+cepError cepWindowUi::checkValues()
+{
+  return cepError();
+}
 

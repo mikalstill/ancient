@@ -114,8 +114,8 @@ cepView::cepView ():
   cepError err;
   int currentLs;
   err = m_config->getValue("ui-mathmenu-displayls",
-			   (int) lsDisplayNone,
-			   currentLs);
+    (int) lsDisplayNone,
+    currentLs);
   if(err.isReal()){
     err.display();
   }
@@ -704,9 +704,12 @@ void cepView::OnWindowBlackman (wxCommandEvent& event)
   do
   {
     windowUi.show();
-    if( windowUi.getSize()==-1 ) cepError("Error. size must be a positive integer", cepError::sevWarning).display();
-    else if( windowUi.getOverlap()==-1 ) cepError("Error. overlap must be a positive integer", cepError::sevWarning).display();
-    else ok = true;
+    if( windowUi.cancelled() ) return;
+    if( windowUi.checkValues().isReal() ) {
+      windowUi.checkValues().display();
+    } else {
+      ok = true;
+    }
   } while( !ok  );
 
   cepDataWindower::setWindowType( cepDataWindower::WINDOW_BLACKMAN, windowUi.getSize(), windowUi.getOverlap() );
@@ -720,14 +723,16 @@ void cepView::OnWindowChebyshev (wxCommandEvent& event)
   do
   {
     windowUi.showBandwidth();
-    if( isnan( windowUi.getBandwidth()) ) cepError("Error. transition bandwidth must be a number", cepError::sevWarning).display();
-    else if( windowUi.getSize()==-1 ) cepError("Error. size must be a positive integer", cepError::sevWarning).display();
-    else if( windowUi.getOverlap()==-1 ) cepError("Error. overlap must be a positive integer", cepError::sevWarning).display();
-    else ok = true;
+    if( windowUi.cancelled() ) return;
+    if( windowUi.checkValues().isReal() ) {
+      windowUi.checkValues().display();
+    } else {
+      ok = true;
+    }
   } while( !ok  );
 
   double bw = windowUi.getBandwidth();
-  if( bw != cepWindowBandwidth::UNINITIALISED ){
+  if( bw != cepWindowBandwidth::UNINITIALISED_FLOAT ){
     cepError err = cepWindowChebyshev::setTransitionBandwidth( bw );
     if( err.isReal() ) {
       err.display();
@@ -745,9 +750,12 @@ void cepView::OnWindowHamming (wxCommandEvent& event)
   do
   {
     windowUi.show();
-    if( windowUi.getSize()==-1 ) cepError("Error. size must be a positive integer", cepError::sevWarning).display();
-    else if( windowUi.getOverlap()==-1 ) cepError("Error. overlap must be a positive integer", cepError::sevWarning).display();
-    else ok = true;
+    if( windowUi.cancelled() ) return;
+    if( windowUi.checkValues().isReal() ) {
+      windowUi.checkValues().display();
+    } else {
+      ok = true;
+    }
   } while( !ok  );
 
   cepDataWindower::setWindowType( cepDataWindower::WINDOW_HAMMING, windowUi.getSize(), windowUi.getOverlap() );
@@ -758,14 +766,17 @@ void cepView::OnWindowRect (wxCommandEvent& event)
 {
   cepWindowUi windowUi;
   bool ok = false;
-
   do
   {
     windowUi.show();
-    if( windowUi.getSize()==-1 ) cepError("Error. size must be a positive integer", cepError::sevWarning).display();
-    else if( windowUi.getOverlap()==-1 ) cepError("Error. overlap must be a positive integer", cepError::sevWarning).display();
-    else ok = true;
+    if( windowUi.cancelled() ) return;
+    if( windowUi.checkValues().isReal() ) {
+      windowUi.checkValues().display();
+    } else {
+      ok = true;
+    }
   } while( !ok  );
+  
   cepDataWindower::setWindowType( cepDataWindower::WINDOW_RECTANGULAR, windowUi.getSize(), windowUi.getOverlap() );
 
 }

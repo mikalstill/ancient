@@ -90,21 +90,24 @@ public:
   //the on Ok event
   void dlgBandwidthOnOK(wxCommandEvent& event);
 
+  bool cancelled();
+
 private:
-  static const char* UNINITIALISED_STR;
+  static const char*  UNINITIALISED_STR;
 public:
-  static const int UNINITIALISED;
+  static const int    UNINITIALISED_INT;
+  static const double UNINITIALISED_FLOAT;
 
 private:
   //declerations for the elements of the dialog box
   wxPanel *m_panel;
   wxStaticBox *m_statBox;
-  wxStaticText *m_statText1, *m_statText2, *m_statText3;
-  wxTextCtrl *m_tbBandwidth;
+  wxStaticText *m_statText1, *m_statText2, *m_statText3, *m_statText4, *m_statText5;
+  wxTextCtrl *m_tbSize, *m_tbOverlap, *m_tbBandwidth;
   wxButton *m_bSubmit, *m_bCancel;
-  wxString m_size;
-  wxString m_overlap;
-  wxString m_bandwidth;
+  wxString m_size, m_overlap, m_bandwidth;
+
+  bool aborted;
   
   DECLARE_EVENT_TABLE ()
 
@@ -159,10 +162,16 @@ public:
   int getSize();
   int getOverlap();
   double getBandwidth();
+
+  bool cancelled();
+  cepError checkValues();
+
+  
 private:
   int m_size;   //the specified Size value
   int m_overlap;   //the specified Overlap value
   double m_bandwidth;   //the specified Bandwidth value
+  bool aborted;
 };
 
 
