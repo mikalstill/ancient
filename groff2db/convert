@@ -1,5 +1,9 @@
 #!/usr/bin/perl
 
+# groff2db. Copyright (c) Michael Still 2001
+# Released under the terms of the GNU GPL. Please submit all patches to mikal@stillhq.com
+# Initially developed for Greg Lehey's "The Complete FreeBSD"...
+
 # The basic concept of this script to to convert troff marked up input into
 # docbook compliant XML.
 
@@ -15,14 +19,22 @@
 
 use strict;
 my($INPUT, $OUTPUT);
-my($parastate, $liststate, $listitemstate, $footnotestate, $sectionstate, $tablestate, $stylestate, $displaystate);
+my($parastate, $liststate, $listitemstate, $footnotestate, $sectionstate, $tablestate, $stylestate, $displaystate, $waitstate);
 my($length);
 my($chapters, $chapter, $chaptercount, $temp);
+my(@spinner, $linecount, $condlinecount);
 
-#$chapters = "introduction.mm concepts.mm evolution.mm quickinstall.mm shareinstall.mm install.mm xsetup.mm postinstall.mm ports.mm problems.mm xtheory.mm unixref.mm starting.mm filesys.mm disks.mm tapes.mm printers.mm desktop.mm building.mm current.mm emulate.mm netintro.mm netsetup.mm isp.mm modems.mm ppp.mm slip.mm dns.mm firewall.mm netdebug.mm nfs.mm netbasics.mm email.mm www.mm fax.mm micronet.mm mobile.mm";
-$chapters = "filesys.mm";
+$chapters = "introduction.mm concepts.mm evolution.mm quickinstall.mm shareinstall.mm install.mm xsetup.mm postinstall.mm ports.mm problems.mm xtheory.mm unixref.mm starting.mm filesys.mm disks.mm tapes.mm printers.mm desktop.mm building.mm current.mm emulate.mm netintro.mm netsetup.mm isp.mm modems.mm ppp.mm slip.mm dns.mm firewall.mm netdebug.mm nfs.mm netbasics.mm email.mm www.mm fax.mm micronet.mm mobile.mm";
+#$chapters = "filesys.mm";
+#$chapters = "xtheory.mm";
 
-$chaptercount;
+$spinner[0] = "-";
+$spinner[1] = "\\";
+$spinner[2] = "|";
+$spinner[3] = "/";
+
+$chaptercount = 0;
+$linecount = 0;
 
 open OUTPUT, "> output.sgml";
 
@@ -36,7 +48,7 @@ print OUTPUT "<book><bookinfo><title>The Complete FreeBSD</title><author><firstn
 # For each chapter we specified
 foreach $chapter (split(/ /, $chapters)){
     $chaptercount++;
-    print "Processing chapter $chapter ($chaptercount)\n";
+    print "Processing chapter $chapter ($chaptercount)\n ";
     open INPUT, "< $chapter";
 
     $liststate = 0;
@@ -50,7 +62,27 @@ foreach $chapter (split(/ /, $chapters)){
     
     # For each line in the file...
     while(<INPUT>){
-#	print OUTPUT "LlPFSIDE $liststate$listitemstate$parastate$footnotestate$sectionstate$italicstate$displaystate$emailstate\n";
+	$linecount++;
+	print "\b$spinner[$linecount % 4]";
+
+	# There are some conditional elements used, for instance in xtheory.mm (which is also an
+	# article)
+	if(/^..if article/){
+	    $waitstate = 1;
+	    $condlinecount = 0;
+	    while(($waitstate == 1) && ($_ = <INPUT>)){
+		$linecount++;
+		$condlinecount++;
+
+		if(/^..else/){
+		    $waitstate = 0;
+		}
+		elsif(/^..endif/){
+		    $waitstate = 0;
+		}
+	    }
+	    print "\b  [Conditional was $condlinecount lines]\n ";
+	}
 
 	# Ampersands
 	s/&/&amp;/g;
@@ -288,7 +320,7 @@ foreach $chapter (split(/ /, $chapters)){
     close INPUT;
 }
 
-print "Processed $chaptercount chapters\n";
+print "\bProcessed $chaptercount chapters\n";
 print OUTPUT "</book>\n";
 exit;
 
@@ -363,7 +395,7 @@ sub processstyles(){
 
 	    if($2 eq "R"){
 		for($count = length($stylestate) - 1; $count > -1; $count--){
-		    closestate(substr($stylestate, $count, 1));
+		    $retStr = closestate(substr($stylestate, $count, 1));
 	       
 		    if($1 eq ""){
 			$word = "$retStr$3";
@@ -385,7 +417,7 @@ sub processstyles(){
 		$stylestate =~ s/[A-Za-z]$//;
 	    }
 	}
-
+	
 	$newline = "$newline$word ";
     }
     return $newline;
@@ -407,7 +439,6 @@ sub closestate(){
 	return "<\/emphasis>";
     }
     else{
-	print "No state closed\n";
 	return "";
     }
 }
