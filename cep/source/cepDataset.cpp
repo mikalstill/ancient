@@ -35,36 +35,8 @@ m_filename (filename),
   m_progress = callback;
 }
 
-//this may be a little wrong...
-//this constructor will be called at the end of cepDataset::doWindow in order to rerturn
-//the 2 values: the vector of windowed data, and the number of windows in the vector.
-cepDataset::cepDataset (vector < cep_datacol > windowVector, int numWindows):
-  m_filename(""),
-  m_ready(false)
-{
-  m_windowVector = windowVector;
-  m_numWindows = numWindows;
-  // todo: daniel - suss out whether or not we will need to change other
-  // value...ie make some NULL
-  // might be a bad idea.
-}
 
-//this may also be a little wrong....
-//this constructor will be called at the end of cepDataset::doHam in order to rerturn
-//the 2 values: the single hamming value, and the weight.
-cepDataset::cepDataset (double value, double weight):
-  m_filename(""),
-  m_ready(false)
-{
-  m_hamValue = value;
-  m_hamWeight = weight;
-  // todo: daniel - suss out whether or not we will need to change other
-  // value...ie make some NULL
-  // might be a bad idea.
-}
-
-cepError
-cepDataset::munch ()
+cepError cepDataset::munch ()
 {
   // Step One: ensure that all of the files we need are actually there,
   // it would be crap to read two of the three files, and _then_ report
@@ -93,8 +65,7 @@ cepDataset::munch ()
   if (errString != "")
   {
     return
-      cepError
-      ("File IO error for this dataset. Could not open the file(s):" +
+      cepError("File IO error for this dataset. Could not open the file(s):" +
        errString + ".");
   }
 
@@ -113,6 +84,11 @@ cepDataset::munch ()
 
     while (!files[i].eof ())
     {
+      cep_datarow lastRow;
+      lastRow.date = -1;
+      lastRow.sample = -1;
+      lastRow.error = -1;
+      
       files[i].read (&c, 1);
 
       // We skip the first three lines of the file
@@ -152,7 +128,34 @@ cepDataset::munch ()
           if (line != NULL)
             free (line);
 
-          getData ((cepDataset::direction) i).push_back (row);
+          if(lastRow.date == -1)
+          {
+            getData ((cepDataset::direction) i).push_back (row);
+            lastRow = row;
+          }
+          else
+          {
+            if(row.date == lastRow.date)
+            {
+              return cepError("The file " + m_filename + " contains repeated values for date " + cepToString(row.date));
+            }
+            else
+            {
+              if(row.date < lastRow.date)
+              {
+                return cepError("The file " + m_filename + " is not in date order");
+              }
+              else
+              {
+                if((isnan(row.date) == 0) && (isnan(row.sample) == 0) && (isnan(row.error) == 0))
+                {
+                  getData ((cepDataset::direction) i).push_back (row);
+                  lastRow = row;
+                }
+              }
+            }
+          }  
+
           thisLine = "";
         }
         else
@@ -167,158 +170,15 @@ cepDataset::munch ()
     }
   }
 
-  // Did we get the same number of lines from each of the files?
-  if ((lines[0] != lines[1]) || (lines[1] != lines[2]))
+  // Are the files over the same period??
+  if (((m_datax.front().date != m_datay.front().date) || (m_datay.front().date != m_dataz.front().date)) || ((m_datax.back().date != m_datay.back().date) || (m_datay.back().date != m_dataz.back().date)))
   {
-    return
-      cepError
-      ("The number of lines read from the data files were not equal (" +
-       cepToString (lines[0]) + ", " + cepToString (lines[1]) + ", " +
-       cepToString (lines[2]) + ").");
+    return cepError("The data set values do not represent the same time period");
   }
 
   m_ready = true;
   return cepError ();
 }
-
-cepDataset cepDataset::doHam (double datRow[3], double startWindow, 
-			      double winSize)
-{
-
-  /* Imports:
-   *   datRow:      a data row from the standard array of data [date,value,error]
-   *   startWindow: the date of the start of the hamming window
-   *   winSize:     the size (in decimal years) of the window
-   *
-   * Exports:
-   *   hamValue: the hamming value
-   *   hamWeight: the weight of the value within the set
-   */
-
-  float hamWeight = 0;
-  float hamValue = 0;
-  float cosMe = 2 * M_PI * ((datRow[0] - startWindow) / (winSize));
-
-  hamWeight = 0.54 - 0.46 * cos (cosMe);
-  // todo:daniel ask nick why
-  // 0.54 and .46...shouldn't be
-  // hard coded here.
-  hamValue = datRow[1] * hamWeight;
-  cepDataset cep_ham (hamValue, hamWeight);
-
-  return cep_ham;
-  // totdo:daniel- need to ensure a constructor to deal with this returning
-  // business above.
-
-} // end doHam
-
-//todo_daniel: once vector exists..fix this..wont need param data.
-cepDataset
-  cepDataset::doWindow (cepDataset::direction dir, double winSize,
-                        double overlap)
-{
-
-  /* Groups data into square windows with a pre-defined width. Imports: *
-   * winSize - size of each window (deciaml years) * overlap - amount of
-   * overlap between each window Exports: * windowData: WAS -- Vector of
-   * windowed data (numWindows X 3 X largestWindow) * numWindows: The number of 
-   * * seperate windows that were populated with data */
-
-  int nextFirstRecord;          // start of next window
-  int currentFirstRecord;       // start of current window
-  double firstDate;             // the first dat in the the data
-  double lastDate;              // the last date in the data
-  double overlapWinSize;
-  int numWindows;               // the total number of windows required
-  double startWindow;
-
-  vector < cep_datarow > &datPointer = getData (dir);
-
-  // get timescale of data set 
-  firstDate = datPointer[0].date;
-  lastDate = datPointer[datPointer.size ()].date;
-
-  // For optimizing speed slightly 
-  overlapWinSize = winSize * (1 - overlap);
-
-  // Work out number of windows
-  // todo_mikal: clean up this line (compile warnings)
-  numWindows = (int)ceil (((lastDate - firstDate) * (1 + 2 * overlap)) / winSize);      // round 
-                                                                                        // 
-  // 
-  // up 
-  // to 
-  // nearest 
-  // integer
-  if (overlap != 0)
-  {
-    numWindows -= 1;            // todo:daniel - may not need this line.
-  }
-
-  // Divide into windows 
-  nextFirstRecord = 0;
-
-  startWindow = datPointer[0].date - winSize;
-
-  int dataVectorRow;            // vector counter
-  int row;                      // loop counter
-
-  // The window data is a two dimensional array
-  vector < cep_datacol > windowData;
-
-  for (row = 0; row < numWindows; row++)
-  {
-    vector < cep_datarow > tempRow;
-    tempRow.resize (datPointer.size ());
-
-    // Point vector counter to start of window 
-    dataVectorRow = nextFirstRecord;
-    currentFirstRecord = nextFirstRecord;
-
-    // Save array reference to start of window
-    startWindow = startWindow + overlapWinSize;
-
-    // Populate first half of window
-    while (datPointer[dataVectorRow].date < (startWindow + overlapWinSize))
-    {
-      // Place the date, sample and error for the predefined direciton into
-      // windowData
-      tempRow[dataVectorRow - currentFirstRecord] = datPointer[dataVectorRow];
-      dataVectorRow += 1;       // increment vector row counter
-    }
-
-    // mark start of next window for later use
-    nextFirstRecord = dataVectorRow;
-
-    // populate second half of window
-    while (datPointer[dataVectorRow].date < (startWindow + winSize))
-    {
-      // place the date, sample and error for the predefined direciton into
-      // windowData
-      tempRow[dataVectorRow - currentFirstRecord] = datPointer[dataVectorRow];
-      dataVectorRow += 1;       // increment vector row counter
-    }
-
-    windowData.push_back (tempRow);
-  }                             // end for
-
-  // populate final window with remaining data
-  dataVectorRow = nextFirstRecord;
-  currentFirstRecord = nextFirstRecord;
-  startWindow = startWindow + winSize;
-  while (dataVectorRow < (int)datPointer.size ())
-  {
-    // place the date, sample and error for the predefined direciton into
-    // windowData
-    windowData[numWindows][dataVectorRow - currentFirstRecord] =
-      datPointer[dataVectorRow];
-    dataVectorRow += 1;         // increment vector row counter
-  }                             // end while
-
-  // TODO daniel -- I'm not sure this is really a dataset any more, because it
-  // only has one direction...
-  return cepDataset (windowData, numWindows);
-}                               // end doWindow
 
 vector < cep_datarow > &cepDataset::getData (direction dir)
 {
@@ -341,6 +201,20 @@ vector < cep_datarow > &cepDataset::getData (direction dir)
   return m_datax;
 }
 
+cepMatrix < double > cepDataset::getMatrix(direction dir)
+{
+  vector < cep_datarow > vec = getData(dir);
+  cepMatrix < double > mat(vec.size(), 3);
+
+  for(int i = 0; i < (signed)vec.size(); i ++)
+  {
+    mat.setValue(i, 0, vec[i].date);
+    mat.setValue(i, 1, vec[i].sample);
+    mat.setValue(i, 2, vec[i].error);
+  }
+  
+  return mat;
+}
 bool cepDataset::isReady()
 {
   return m_ready;

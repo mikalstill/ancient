@@ -24,6 +24,7 @@
 
 #include <vector>
 #include <string>
+#include "cepMatrix.h"
 
 class cepError;
 
@@ -49,9 +50,9 @@ typedef void (*cepDatasetProgressCB) (int plane, long lineno);
 
 typedef struct cep_internal_datarow
 {
-  float date;
-  float sample;
-  float error;
+  double date;
+  double sample;
+  double error;
 }
 cep_datarow;
 
@@ -70,31 +71,20 @@ public:
 
   // Filename is the "root filename" e.g. mb_ANKR_GPS
   // I append the .dat1, .dat2 and .dat3 myself...
-    cepDataset (const string & filename);
-    cepDataset (const string & filename, const cepDatasetProgressCB callback);
-    cepDataset (vector < cep_datacol > windowVector, int numWindows);
-    cepDataset (double value, double weight);
-
-  // Manipulations 
-  cepDataset doWindow (cepDataset::direction dir, double winSize,
-                       double overlap);
-  cepDataset doHam (double datRow[3], double startWindow, double winSize);
+  cepDataset (const string & filename);
+  cepDataset (const string & filename, const cepDatasetProgressCB callback);
 
   // Actually process the file
   cepError munch ();
   bool isReady();
 
   // Accessor methods
-    vector < cep_datarow > &getData (direction);
-
+  vector < cep_datarow > &getData (direction dir);
+  cepMatrix <double> getMatrix(direction dir);
 private:
     string m_filename;
     cepDatasetProgressCB m_progress;
     vector < cep_datarow > m_datax, m_datay, m_dataz;
-    vector < cep_datacol > m_windowVector;      // vector of windowed data
-    int m_numWindows;             // number of windows in the windowed data
-    double m_hamValue;            // single haming value
-    double m_hamWeight;           // hamming weight
     bool m_ready;
 };
 
