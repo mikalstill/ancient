@@ -19,25 +19,34 @@
  */
 
 #include "stringArray.h"
+#include "utility.h"
+#include "verbosity.h"
 
 stringArray::stringArray (string input, string delim):
 m_broken (0, string ("")), m_unbroken (input)
 {
   char *temp, *p;
 
-  // Break the string by the delimiter
-  temp = strdup (input.c_str ());
-  p = strtok (temp, delim.c_str ());
-
-  while (p != NULL)
+  debug(dlTrace, string("String array input length is ") + 
+	toString(input.length()));
+  if(input.length() > 0)
     {
-      m_broken.resize (m_broken.size () + 1);
-      m_broken[m_broken.size () - 1] = p;
-      p = strtok (NULL, delim.c_str ());
-    }
+      debug(dlTrace, "String array non empty input");
 
-  // Cleanup
-  free (temp);
+      // Break the string by the delimiter
+      temp = strdup (input.c_str ());
+      p = strtok (temp, delim.c_str ());
+      
+      while (p != NULL)
+	{
+	  m_broken.resize (m_broken.size () + 1);
+	  m_broken[m_broken.size () - 1] = p;
+	  p = strtok (NULL, delim.c_str ());
+	}
+      
+      // Cleanup
+      free (temp);
+    }
 }
 
 size_t

@@ -3,6 +3,8 @@
 #include <vector>
 #include <string>
 
+using namespace std;
+
 #include "raster.h"
 
 #ifdef HAVE_CONFIG_H
@@ -29,8 +31,8 @@ public:
     diTypeInt
   };
 
-    dictitem ();
-    dictitem (diType type, string name);
+  dictitem ();
+  dictitem (diType type, string name, pdf *thePDF);
 
   void setValue (string value);
   void setValue (int num, int gen);
@@ -46,14 +48,15 @@ public:
   dictionary getDictionaryValue ();
 
 private:
-    diType m_type;
+  diType m_type;
   string m_name;
+  pdf *m_pdf;
 
   int m_int;
   int m_generation;
   string m_string;
-    vector < int >m_intArray;
-    vector < dictitem > m_dictionary;
+  vector < int >m_intArray;
+  vector < dictitem > m_dictionary;
 };
 
 class dictionary
@@ -61,6 +64,7 @@ class dictionary
 public:
   dictionary ();
   dictionary (vector < dictitem > subdict);
+  dictionary (object other);
 
   void add (dictitem item);
   unsigned int size ();
@@ -72,10 +76,10 @@ public:
   bool getValue (string dname, dictionary & subdict);
   bool getValue (string dname, int &value);
 
-    vector < dictitem > getItems ();
+  vector < dictitem > getItems ();
 
 private:
-    vector < dictitem > m_items;
+  vector < dictitem > m_items;
 };
 
 class object
@@ -93,7 +97,7 @@ public:
   bool hasDictItem (dictitem::diType type, string dname);
   bool hasDictItem (dictitem::diType type, string dname, string dvalue);
 
-    dictionary & getDict ();
+  dictionary & getDict ();
   int getNumber ();
   int getGeneration ();
   char *getStream (bool & needsStreamClean, unsigned long &length);
@@ -149,8 +153,9 @@ public:
 		   object & obj);
   bool findObject (int number, int generation, object & obj);
 
-    vector < object > &getObjects ();
+  vector < object > &getObjects ();
   objectlist getPages ();
+  string getFilename();
 
 private:
     string m_filename;

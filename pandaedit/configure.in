@@ -62,16 +62,7 @@ AC_CHECK_LIB(X11, XFreeFontInfo)
 dnl -lwx 
 dnl This must seek a global. mangled names will no do at all
 dnl AC_CHECK_LIB(wx_gtk-2.2, OnIdle__12wxHtmlWindowR11wxIdleEvent, [], [
-AC_CHECK_LIB(wx_gtk-2.2, wxTheApp, [], [
-  echo
-  echo "    *****************************************"
-  echo "    *                                       *"
-  echo "    *   libwx_gtk-2.2 not found, aborting   *"
-  echo "    *                                       *"
-  echo "    *****************************************"
-  echo
-  exit 1
-  ])
+AC_CHECK_LIB(wx_gtk-2.2, wxTheApp)
 
 dnl Checks for header files.
 dnl STDC checks for stdlib.h stdarg.h string.h and float.h

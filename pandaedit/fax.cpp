@@ -12,6 +12,9 @@
 #include <pthread.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <string>
+
+using namespace std;
 
 pthread_mutex_t convMutex = PTHREAD_MUTEX_INITIALIZER;
 
@@ -60,7 +63,8 @@ fax::decompress (char *input, unsigned long length, unsigned long &newlength)
   if(globalImage != NULL)
     free(globalImage);
   if((globalImage = (char *) malloc(length + sizeof(fakeTiff) + 
-				    (sizeof(fakeTiffRemoteRational) * 2 ))) == NULL){
+				    (sizeof(fakeTiffRemoteRational) * 2 ))) 
+     == NULL){
     debug(dlError, "Fake TIFF memory allocation error");
     goto error;
   }
@@ -133,7 +137,8 @@ fax::decompress (char *input, unsigned long length, unsigned long &newlength)
   globalTiff->entries[entries].tag = 273;
   globalTiff->entries[entries].type = 4;
   globalTiff->entries[entries].count = 1;
-  globalTiff->entries[entries].valueOrOffset.l = sizeof(fakeTiff) + (sizeof(fakeTiffRemoteRational) * 2);
+  globalTiff->entries[entries].valueOrOffset.l = sizeof(fakeTiff) + 
+    (sizeof(fakeTiffRemoteRational) * 2);
   entries++;
 
   // Samples per pixel (short, 1 immediate entry)
@@ -164,15 +169,18 @@ fax::decompress (char *input, unsigned long length, unsigned long &newlength)
   globalTiff->entries[entries].type = 5;
   globalTiff->entries[entries].count = 1;
   globalTiff->entries[entries].valueOrOffset.l = sizeof(fakeTiff);
-  debug(dlTrace, string("X resolution offset: ") + toString(globalTiff->entries[entries].valueOrOffset.l));
+  debug(dlTrace, string("X resolution offset: ") + 
+	toString(globalTiff->entries[entries].valueOrOffset.l));
   entries++;
 
   // Y resolution (rational, 1 remote entry)
   globalTiff->entries[entries].tag = 283;
   globalTiff->entries[entries].type = 5;
   globalTiff->entries[entries].count = 1;
-  globalTiff->entries[entries].valueOrOffset.l = sizeof(fakeTiff) + sizeof(fakeTiffRemoteRational);
-  debug(dlTrace, string("Y resolution offset: ") + toString(globalTiff->entries[entries].valueOrOffset.l));
+  globalTiff->entries[entries].valueOrOffset.l = sizeof(fakeTiff) + 
+    sizeof(fakeTiffRemoteRational);
+  debug(dlTrace, string("Y resolution offset: ") + 
+	toString(globalTiff->entries[entries].valueOrOffset.l));
   entries++;
 
   // And now write out the number of entries
@@ -185,14 +193,17 @@ fax::decompress (char *input, unsigned long length, unsigned long &newlength)
   xres->n = 300;
   xres->d = 1;
 
-  yres = (fakeTiffRemoteRational *) globalImage + sizeof(fakeTiff) + sizeof(fakeTiffRemoteRational);
+  yres = (fakeTiffRemoteRational *) globalImage + sizeof(fakeTiff) + 
+    sizeof(fakeTiffRemoteRational);
   yres->n = 300;
   yres->d = 1;
 
   //////////////////////////////////
   // Now remember the length, and copy the image data
-  globalImageLength = sizeof(fakeTiff) + sizeof(fakeTiffRemoteRational) * 2 + length;
-  globalImageBuffer = globalImage + sizeof(fakeTiff) + (sizeof(fakeTiffRemoteRational) * 2);
+  globalImageLength = sizeof(fakeTiff) + sizeof(fakeTiffRemoteRational) * 
+    2 + length;
+  globalImageBuffer = globalImage + sizeof(fakeTiff) + 
+    (sizeof(fakeTiffRemoteRational) * 2);
   memcpy(globalImageBuffer, input, length);
 
   // Now fake libtiff out
@@ -214,7 +225,8 @@ fax::decompress (char *input, unsigned long length, unsigned long &newlength)
   newlength = TIFFStripSize(stream);
   debug(dlTrace, string("The TIFF width is ") + toString(m_width));
   debug(dlTrace, string("The TIFF height is ") + toString(m_length));
-  debug(dlTrace, string("The TIFF strip size is ") + toString((long) newlength));
+  debug(dlTrace, string("The TIFF strip size is ") + 
+	toString((long) newlength));
   if((retval = (char *) malloc(newlength)) == NULL){
     debug(dlError, "Failed to allocate enough memory for decompressed TIFF");
     goto error;
@@ -224,7 +236,8 @@ fax::decompress (char *input, unsigned long length, unsigned long &newlength)
     debug(dlError, "Failled to read encoded image data from fake TIFF");
     goto error;
   }
-  debug(dlTrace, string("New length of stream is ") + toString((long) newlength));
+  debug(dlTrace, string("New length of stream is ") + 
+	toString((long) newlength));
 
   // Cleanup
   free(globalImage);

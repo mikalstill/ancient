@@ -13,24 +13,39 @@ objectlist::objectlist ():
 objectlist::objectlist (string input, pdf* thePDF):
   m_pdf (thePDF)
 {
-  stringArray tokens (input.substr (1, input.length () - 2), " ");
+  // There might be non numeric stuff in the first few characters which
+  // we don't want. For instance Oracle Reports puts \r's after the [ and
+  // before the ]...
+  unsigned int startchar = 0;
+  while(!isNumericCharacter(input[startchar], false))
+    startchar++;
+
+  stringArray tokens (input.substr (startchar, 
+				    input.length () - startchar - 1), " ");
   unsigned int inset = 0;
   objectreference ref;
 
   debug(dlTrace, string("Started constructing object list from ") +
-	  input.substr (1, input.length () - 2));
+	  input.substr (startchar, input.length () - startchar - 1));
   while (1)
     {
       if (!isPositiveInteger (tokens[inset])){
-	debug(dlError, "Object number for page is not a positive integer");
+	debug(dlError, 
+	      string("Object number for page is not a positive integer:") +
+	      string(tokens[inset]));
 	return;
       }
       if (!isPositiveInteger (tokens[inset + 1])){
-	debug(dlError, "Generation number for page is not a positive integer");
+	debug(dlError, 
+	      string("Generation number for page is not a positive integer:") +
+	      string(tokens[inset]));
 	return;
       }
       if (tokens[inset + 2] != "R"){
-	debug(dlError, "Object reference for page lacks a reference identifier");
+	debug(dlError, 
+	      string("Object reference for page lacks a reference identifier: ") +
+	      tokens[inset] + string(" ") + tokens[inset + 1] + string(" ") +
+	      tokens[inset + 2]);
 	return;
       }
 

@@ -72,9 +72,9 @@ object::~object ()
 object
 object::operator= (const object & other)
 {
-  debug(dlTrace, string("Copying object ") + toString(other.m_number) + string(" ") +
-	toString(other.m_generation) + string(" to ") + toString(m_number) +
-	string(" ") + toString(m_generation));
+  debug(dlTrace, string("Copying object ") + toString(other.m_number) + 
+	string(" ") + toString(other.m_generation) + string(" to ") + 
+	toString(m_number) + string(" ") + toString(m_generation));
   m_number = other.m_number;
   m_generation = other.m_generation;
   m_dictionary = other.m_dictionary;
@@ -103,9 +103,11 @@ object::operator= (const object & other)
 void
 object::addStream (char *streamData, unsigned int streamLength)
 {
-  debug(dlTrace, "Added a stream to object " + toString(m_number) + string(" ") +
-	toString(m_generation));
-  debug(dlTrace, string("Stream is: ") + binaryToString(streamData, streamLength));
+  debug(dlTrace, "Added a stream to object " + toString(m_number) + 
+	string(" ") + toString(m_generation));
+  debug(dlTrace, string("Stream is: ") + 
+	binaryToString(streamData, streamLength));
+
   // todo_mikal: fix this!
   m_stream = new char[streamLength * 2];
   if (m_stream != NULL)
@@ -138,8 +140,9 @@ bool
 object::hasDictItem (dictitem::diType type, string dname, string dvalue)
 {
   debug(dlTrace, string("Checking for a dictionary item named ") + dname +
-    string(" in object ") + toString(m_number) + string(" ") + toString(m_generation));
-
+	string(" in object ") + toString(m_number) + string(" ") + 
+	toString(m_generation));
+  
   // todo_mikal: this is inefficient
   if (hasDictItem (type, dname))
     {
@@ -157,7 +160,8 @@ bool
 object::hasDictItem (dictitem::diType type, string dname)
 {
   debug(dlTrace, string("Checking for a dictionary item named ") + dname +
-    string(" in object ") + toString(m_number) + string(" ") + toString(m_generation));
+	string(" in object ") + toString(m_number) + string(" ") + 
+	toString(m_generation));
 
   // todo_mikal: this is a hack
   dictitem foo;

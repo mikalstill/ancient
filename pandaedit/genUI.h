@@ -90,6 +90,7 @@ DECLARE_APP (genApp)
 #define GENMENU_NEXTPAGE 3
 #define GENMENU_PREVPAGE 4
 #define GENMENU_BINARYDEBUG 5
+#define GENMENU_DOCINFO 6
 
      extern bool singleWindowMode;
 

@@ -13,6 +13,11 @@ dictionary::dictionary (vector < dictitem > subdict)
   m_items = subdict;
 }
 
+dictionary::dictionary(object other)
+{
+  m_items = other.getDict().getItems();
+}
+
 void
 dictionary::add (dictitem item)
 {
@@ -55,7 +60,8 @@ dictionary::findItem (string dname, dictitem & item)
 bool
 dictionary::getValue (string dname, pdf & thePDF, object & obj)
 {
-  debug(dlTrace, string("Get object named ") + dname + string(" from dictionary "));
+  debug(dlTrace, string("Get object named ") + dname + 
+	string(" from dictionary "));
   for (unsigned int i = 0; i < m_items.size (); i++){
     debug(dlTrace, string("Compare with: ") + m_items[i].getName());
     if (m_items[i].getName () == dname)
@@ -73,7 +79,8 @@ dictionary::getValue (string dname, pdf & thePDF, object & obj)
 bool
 dictionary::getValue (string dname, string & value)
 {
-  debug(dlTrace, string("Get string named ") + dname + string(" from dictionary"));
+  debug(dlTrace, string("Get string named ") + dname + 
+	string(" from dictionary"));
   for (unsigned int i = 0; i < m_items.size (); i++){
     debug(dlTrace, string("Compare with: ") + m_items[i].getName());
     if (m_items[i].getName () == dname)
@@ -91,7 +98,8 @@ dictionary::getValue (string dname, string & value)
 bool
 dictionary::getValue (string dname, int &value)
 {
-  debug(dlTrace, string("Get int named ") + dname + string(" from dictionary"));
+  debug(dlTrace, string("Get int named ") + dname + 
+	string(" from dictionary"));
   for (unsigned int i = 0; i < m_items.size (); i++){
     debug(dlTrace, string("Compare with: ") + m_items[i].getName());
     if (m_items[i].getName () == dname)

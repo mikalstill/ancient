@@ -65,6 +65,8 @@ public:
   void OnNextPage (wxCommandEvent & event);
   void OnPrevPage (wxCommandEvent & event);
 
+  void OnAboutDocument (wxCommandEvent & event);
+
 private:
   pageCache m_renders;
   int m_page;

@@ -90,7 +90,8 @@ pdfRender::render ()
   bool needStreamClean (false);
 
   stream = m_contents.getStream (needStreamClean, length);
-  debug(dlTrace, string("Process page stream of length ") + toString((long) length));
+  debug(dlTrace, string("Process page stream of length ") + 
+	toString((long) length));
   if((stream == NULL) || (length == 0)){
     debug(dlError, "Invalid page description stream");
     return false;
@@ -419,15 +420,19 @@ pdfRender::command_Do ()
     o++;
   }
 
+  debug(dlTrace, string("Image width and height at insertion time: ") +
+	toString(rast.getWidth()) + string(" by ") +
+	toString(rast.getHeight()));
   newstream2 = (unsigned char *) inflateraster((char *) newstream, 
-					       rast.getWidth(), rast.getHeight(), 
-			     8, 8, 1, 3);
+					       rast.getWidth(), 
+					       rast.getHeight(), 
+					       8, 8, 1, 3);
   if((int) newstream2 == -1){
     free(stream);
     debug(dlError, "Raster inflation failed");
     return;
-    }
-
+  }
+  
   plot_overlayraster(m_plot, (char *) newstream2, 0, 0, 
 		     m_width, m_height, 
 		     rast.getWidth(), rast.getHeight(), 0);

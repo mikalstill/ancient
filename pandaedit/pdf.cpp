@@ -88,7 +88,8 @@ pdf::getPages ()
       }
     
     // Now find the pages object as refered to by the catalog
-    debug(dlTrace, string("Catalog object is ") + toString(catalog.getNumber()) + string(" ") +
+    debug(dlTrace, string("Catalog object is ") + 
+	  toString(catalog.getNumber()) + string(" ") +
 	  toString(catalog.getGeneration()));
     if (!catalog.hasDictItem (dictitem::diTypeObjectReference, "Pages"))
       {
@@ -111,6 +112,12 @@ pdf::getPages ()
       }
     
     // Find the pages, and then display just the first page
+    debug(dlTrace, string("Kids = ") + kids);
+    debug(dlTrace, string("Kids length = ") + toString(kids.length()));
+    
+    // todo_mikal: I shouldn't need to do this...
+    if(kids.length() == 0)
+      return objectlist();
     return objectlist (kids, this);
   }
   catch (...)
@@ -119,4 +126,10 @@ pdf::getPages ()
     }
 
   return objectlist ();
+}
+
+string
+pdf::getFilename()
+{
+  return m_filename;
 }

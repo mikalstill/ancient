@@ -3,6 +3,8 @@
 #include "verbosity.h"
 #include "utility.h"
 
+using namespace std;
+
 matrix::matrix ()
 {
   for (int i = 0; i < 3; i++)

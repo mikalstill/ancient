@@ -3,6 +3,8 @@
 
 #include <fstream>
 
+using namespace std;
+
 int gVerboseLevel;
 int gLogLevel;
 extern fstream gLog;

@@ -60,6 +60,8 @@
 #include "verbosity.h"
 #include "utility.h"
 
+#include <sstream>
+#include <iostream>
 #include <stdlib.h>
 #include <unistd.h>
 #include <math.h>
@@ -69,11 +71,12 @@
 #include <wx/colordlg.h>
 
 IMPLEMENT_DYNAMIC_CLASS (pdfView, wxView)
-BEGIN_EVENT_TABLE (pdfView, wxView)
-EVT_MENU (GENMENU_NEXTPAGE, pdfView::OnNextPage)
-EVT_MENU (GENMENU_PREVPAGE, pdfView::OnPrevPage)
-END_EVENT_TABLE ()
-
+  BEGIN_EVENT_TABLE (pdfView, wxView)
+  EVT_MENU (GENMENU_NEXTPAGE, pdfView::OnNextPage)
+  EVT_MENU (GENMENU_PREVPAGE, pdfView::OnPrevPage)
+  EVT_MENU (GENMENU_DOCINFO, pdfView::OnAboutDocument)
+  END_EVENT_TABLE ()
+  
 pdfView::pdfView ()
 {
   canvas = (genCanvas *) NULL;
@@ -247,10 +250,41 @@ pdfView::OnClose (bool deleteWindow)
   return TRUE;
 }
 
+// Display some basic information about the document
+void
+pdfView::OnAboutDocument (wxCommandEvent & WXUNUSED (event))
+{
+  ostringstream msg;
+  pdfDoc *theDoc = (pdfDoc *) GetDocument ();
+  if(!theDoc->isReady()){
+    debug(dlTrace, "Ignoring info request until document is parsed");
+    return;
+  }
+
+  // todo_mikal: finish this
+  msg << "Filename: " << theDoc->getFilename() << endl << endl;
+  msg << "Document Title: ";
+  msg << "Document Subject: ";
+  msg << "Document Author: ";
+  msg << "Document Keywords: ";
+  msg << "Binding: TODO" << endl;
+  msg << "Creator: ";
+  msg << "Producer: ";
+  msg << "Creation date: ";
+  msg << "Last modified: ";
+  msg << "Security: ";
+  msg << "PDF Specification version: ";
+  msg << "Linearized (fast web view): ";
+  msg << "Tagged: ";
+
+  wxMessageBox
+    ((const wxString &) msg.str ().c_str (),
+     "About this PDF");
+}
+
 void
 pdfView::OnNextPage(wxCommandEvent&)
 {
-  // todo_mikal: end check
   pdfDoc *theDoc = (pdfDoc *) GetDocument ();
   if(!theDoc->isReady()){
     debug(dlTrace, "Page change ignored because PDF document not ready");

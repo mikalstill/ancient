@@ -3,6 +3,8 @@
 
 #include <string>
 
+using namespace std;
+
 // String methods
 string toString (int number);
 string toString (long number);

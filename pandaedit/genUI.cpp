@@ -86,7 +86,7 @@ bool genApp::OnInit (void)
   errHandler = new genWxErrorHandler ();
   genError::addErrorHandler (*errHandler);
 
-  gVerboseLevel = 100;
+  gVerboseLevel = 2;
   gLogLevel = 100;
 
   // Create a document manager
@@ -246,6 +246,9 @@ genApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
       file_menu->Append (wxID_PRINT_SETUP, "Print &Setup...");
       file_menu->Append (wxID_PREVIEW, "Print Pre&view");
     }
+
+  file_menu->AppendSeparator ();
+  file_menu->Append (GENMENU_DOCINFO, "About document...");
 
   file_menu->AppendSeparator ();
   file_menu->Append (wxID_EXIT, "E&xit");

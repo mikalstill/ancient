@@ -3,6 +3,8 @@
 #ifndef VERBOSITY_H
 #define VERBOSITY_H
 
+using namespace std;
+
 enum debugLevel{
   dlError = 0,
   dlWarning,
