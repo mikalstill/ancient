@@ -25,14 +25,16 @@
 
 cepDataset::cepDataset ():
   m_filename(""),
-  m_offset(""),
   m_procHistory(""),
-  m_offsetFloat(0.0),
   m_ready(false),
   m_wellformed(false)
 {
-  for(int i = 0; i < dirUnknown; i++)
+  for(int i = 0; i < dirUnknown; i++){
     m_data[i] = NULL;
+    m_offset[i] = "";
+    m_offsetFloat[i] = 0.0;
+  }
+
   m_progress = NULL;
 }
 
@@ -42,13 +44,17 @@ cepDataset::cepDataset (cepDatasetProgressCB callback):
   m_ready(false),
   m_wellformed(false)
 { 
-  for(int i = 0; i < dirUnknown; i++)
+  for(int i = 0; i < dirUnknown; i++){
     m_data[i] = NULL;
+    m_offset[i] = "";
+    m_offsetFloat[i] = 0.0;
+  }
+
   m_progress = callback;
 }
 
 cepDataset::cepDataset (cepMatrix<double> *data0, cepMatrix<double> *data1, cepMatrix<double> *data2, 
-			string offset, string procHistory, string headers[3]):
+			string offsets[3], string procHistory, string headers[3]):
   m_filename(""),
   m_procHistory(procHistory),
   m_ready(true),
@@ -57,7 +63,14 @@ cepDataset::cepDataset (cepMatrix<double> *data0, cepMatrix<double> *data1, cepM
   m_data[0] = data0;
   m_data[1] = data1;
   m_data[2] = data2;
-  m_offset = offset;
+  
+  m_offset[0] = offsets[0];
+  m_offsetFloat[0] = atof(offsets[0].c_str());
+  m_offset[1] = offsets[1];
+  m_offsetFloat[1] = atof(offsets[1].c_str());
+  m_offset[2] = offsets[2];
+  m_offsetFloat[2] = atof(offsets[2].c_str());
+
   m_header[0] = headers[0];
   m_header[1] = headers[1];
   m_header[2] = headers[2];
@@ -156,7 +169,7 @@ cepError cepDataset::read (const string& filename)
 		// Break the line into it's columns, I prefer this to the strtok method we used to use...
 		cepStringArray sa(thisLine, " ");
 		rowdate = atof(sa[0].c_str());
-		rowsample = atof(applyOffset(sa[1]).c_str()) - m_offsetFloat;
+		rowsample = atof(applyOffset((direction) i, sa[1]).c_str()) - m_offsetFloat[i];
 		rowerror = atof(sa[2].c_str());
 		
 		if(lastRowdate == -1)
@@ -210,8 +223,8 @@ cepError cepDataset::read (const string& filename)
 		  if(cepIsNumeric(sa[6].c_str()[0]))
 		    {
 		      m_header[i] += thisLine;
-		      m_offset = sa[6];
-		      m_offsetFloat = atof(m_offset.c_str());
+		      m_offset[i] = sa[6];
+		      m_offsetFloat[i] = atof(m_offset[i].c_str());
 		    }
 
 		  // Well, then it must be a processing statement line
@@ -297,11 +310,13 @@ cepError cepDataset::write (const string& filename)
     {
       files[i] << m_procHistory << endl;
       files[i] << m_header[i] << endl << endl;
+      cepDebugPrint("Writing dataset with offset of " + m_offset[i] + " in direction " + cepToString(i));
 
       for(int vcount = 0; vcount < m_data[i]->getNumRows(); vcount++)
 	{
 	  files[i] << " " << cepToString(m_data[i]->getValue(vcount, colDate));
-	  files[i] << "     " << cepToString(m_data[i]->getValue(vcount, colSample));
+	  files[i] << "     " << reverseOffset((direction) i,
+					       cepToString(m_data[i]->getValue(vcount, colSample) + m_offsetFloat[i]));
 	  files[i] << "   " << cepToString(m_data[i]->getValue(vcount, colError));
 	  files[i] << endl;
 	}
@@ -350,38 +365,51 @@ cepDataset::direction cepDataset::getDirectionFromName(string name)
 // value = 1.1234
 //
 // should result in 425631.1234
-string cepDataset::applyOffset(string value)
+string cepDataset::applyOffset(cepDataset::direction i, string value)
 {
   // Remove the sign from the value
   string newvalue;
-  cepDebugPrint("Value leading character is " + value.substr(0, 1));
   if(value.substr(0, 1) == "-")
     newvalue = value.substr(1, value.length() - 1);
   else newvalue = value;
-  cepDebugPrint("New value is " + newvalue);
 
   // Find the decimal points
-  cepStringArray offset(m_offset, ".");
+  cepStringArray offset(m_offset[i], ".");
   cepStringArray val(newvalue, ".");
   string retval;
   
   retval = offset[0].substr(0, offset[0].length() - val[0].length());
   retval += newvalue;
 
-  cepDebugPrint("Offset calculation: offset = " + m_offset +
-		" value = " + newvalue);
-  cepDebugPrint("Resultant value = " + retval);
+  cepDebugPrint("Offset calculation: offset = " + m_offset[i] +
+		" value = " + newvalue + " resultant value = " + retval);
   return retval;
 }
 
-string cepDataset::reverseOffset(string value)
+string cepDataset::reverseOffset(cepDataset::direction i, string value)
 {
-  string newvalue;
+  // Remove the sign from the value
+  string sign("");
   if(value.substr(0, 1) == "-")
-    newvalue = "-";
+    sign = "-";
 
-  newvalue += cepToString(atof(m_offset.c_str()) - atof(value.c_str()));
-  return newvalue;
+  int count = 1;
+  while(value.substr(0, count) == m_offset[i].substr(0, count)){
+    cepDebugPrint("Finding: " + value.substr(0, count) +
+		  ", " + m_offset[i].substr(0, count) + " count = " +
+		  cepToString(count));
+    if(value.substr(count, 1) == "."){
+      cepDebugPrint("Breaking because of a decimal point");
+      break;
+    }
+
+    count++;
+  }
+
+  cepDebugPrint("Deoffset calculation offset = " + m_offset[i] + " value = " + value +
+		" indent count = " + cepToString(count + 1) + " resultant value = " +
+		sign + value.substr(count - 1, value.length()));
+  return string(sign + value.substr(count - 1, value.length()));
 }
 
 // Return the root filename for the dataset
@@ -442,4 +470,10 @@ string cepDataset::getName()
 string cepDataset::getProcHistory()
 {
   return m_procHistory;
+}
+
+// Return the offset applied to this dataset
+string cepDataset::getOffset(direction i)
+{
+  return m_offset[i];
 }

@@ -26,7 +26,7 @@ use CGI;
 my($result, $command, $TEMP);
 
 # Variables set by the config file
-my($templates, $datasets, $commandentry, $discommandentry, $selectstart, $selectentry, $selectend, $plotcache, $tmpdir, $rooturl, $ploturl, $gdms);
+my($templates, $datasets, $commandentry, $discommandentry, $selectstart, $selectentry, $selectend, $plotcache, $tmpdir, $rooturl, $ploturl, $gdms, $temp);
 
 # Setup the CGI module
 $result = new CGI();
@@ -34,6 +34,10 @@ print $result->header;
 
 # Read in the config file
 eval `cat gdms.config` or die "GDMS web could not read it's config file: $@";
+print STDERR "Working directory is: ".`pwd`;
+$temp = $gdms;
+$temp =~ s/\/.*$//;
+print STDERR "Changing to: $temp\n";
 
 # Determine what page we are accessing
 $command = $result->param('command');
