@@ -46,7 +46,7 @@ main (void)
   }
 
   //do the transform
-  FFT32.ifft (Array);  // forward transform
+  FFT32.fft (Array);  // forward transform
   cout << "\n";
 
   //debugging output..

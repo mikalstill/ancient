@@ -97,11 +97,11 @@ public:
   ~cfft ();
   inline void fft (CPLX * buf)  // perform forward fft on buffer
   {
-    fft_func (buf, 0);
+    fft_func (buf, 1); //note: changed from 0 to 1 to effectively change fft sign - Daniel Fernandez
   }
   inline void ifft (CPLX * buf) // perform reverse fft on buffer
   {
-    fft_func (buf, 1);
+    fft_func (buf, 0); //note: changed from 1 to 0 to effectively change fft sign - Daniel Fernandez
   }
   inline int length () const
   {
@@ -219,8 +219,10 @@ template < class CPLX > void cfft < CPLX >::hermitian (CPLX * buf)
 }
 
 /*
- * cfft::fft_func(buf,0) performs a forward fft on the data in the buffer specified.
- * cfft::fft_func(buf,1) performs an inverse fft on the data in the buffer specified.
+ * cfft::fft_func(buf,1) performs a forward fft on the data in the buffer specified.
+ * cfft::fft_func(buf,0) performs an inverse fft on the data in the buffer specified.
+ * note: reversed iflag - ie reversed sign..we want fft to have negative sign and
+ * inverse fft to have positive. Daniel Fernandez
  */
 template < class CPLX > void cfft < CPLX >::fft_func (CPLX * buf, int iflag)
 {
