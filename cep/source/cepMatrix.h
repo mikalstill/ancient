@@ -861,13 +861,13 @@ const T cepMatrix<T>::getMaxValue(const int & col)
   if (m_matrix == NULL)
   {
     m_error = (char *)" Can not use the getMax operator on a 3D Matrix";
-    return (T)NULL;
+    return (T)0;
   }
 
   if (col >= m_numCols)
   {
     m_error = (char *)"Invalid Col Number";
-    return (T)NULL;
+    return (T)0;
   }
 
   maxVal = m_matrix[col];
@@ -893,13 +893,13 @@ const T cepMatrix<T>::getMinValue(const int & col)
   if (m_matrix == NULL)
   {
     m_error = (char *)" Can not use the getMax operator on a 3D Matrix";
-    return (T)NULL;
+    return (T)0;
   }
 
   if (col >= m_numCols)
   {
     m_error = (char *)"Invalid Col Number";
-    return (T)NULL;
+    return (T)0;
   }
 
   minVal = m_matrix[col];
@@ -997,19 +997,19 @@ const T cepMatrix<T>::getValue (const int & row, const int & col)
   if (m_matrix == NULL)
   {
     m_error = (char *)"The matrix contains no values";
-    return (T)NULL;
+    return (T)0;
   }
 
   if (row >= m_numRows)
   {
     m_error = (char *)"Invalid Row Number";
-    return (T)NULL;
+    return (T)0;
   }
 
   if (col >= m_numCols)
   {
     m_error = (char *)"Invalid Col Number";
-    return (T)NULL;
+    return (T)0;
   }
   return m_matrix[(row * m_numCols) + col];
 }
@@ -1065,24 +1065,24 @@ const T cepMatrix<T>::getValue (const int & row, const int & col, const int & ta
   if (m_tables == NULL)
   {
     m_error = (char *)"The matrix contains no values";
-    return (T)NULL;
+    return (T)0;
   }
 
   if (row >= m_numRows)
   {
     m_error = (char *)"Invalid Row Number";
-    return (T)NULL;
+    return (T)0;
   }
 
   if (col >= m_numCols)
   {
     m_error = (char *)"Invalid Col Number";
-    return (T)NULL;
+    return (T)0;
   }
   if (tab >= m_numTables)
   {
     m_error = (char *)"Invalid Table Number";
-    return (T)NULL;
+    return (T)0;
   }
 
   return m_tables[tab][(row * m_numCols) + col];
