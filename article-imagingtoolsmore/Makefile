@@ -1,4 +1,4 @@
-short:  output.ps
+short:  output.ps output.pdf
 	striptext -c < output.sgml | wc -w
 
 built.sgml: source.xml dw2db
