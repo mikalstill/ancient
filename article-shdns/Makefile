@@ -1,3 +1,5 @@
+all:	short lj
+
 short: output.sgml output.ps output.pdf
 	striptext -c < output.sgml | wc -w
 
@@ -14,4 +16,5 @@ clean:
 	rm output* gen-* *~
 
 lj: output.sgml
-	./format.pl < output.sgml > lj.txt
+	./format.pl < source.sgml > lj.txt
+	wc -w *.txt sidebar-*

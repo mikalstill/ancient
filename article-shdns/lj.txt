@@ -28,7 +28,8 @@ UDP is unreliable, which means it does none of this for you. It is the programme
 
 So why would you ever use UDP? Well, all this reliability in TCP comes at a price. That price is performance. Before a TCP connection is estabilished, the following protocol sequence occurs. 
 
-** graphic: No command string for this tag (level sect1)
+[Please insert the image tcp-handshake.png here]
+
 So before the two machines can even communicate, they've spent a round trip just setting up the connection (the ACK can be sent at the same time as the first packet, as we don't have to wait for an ACK ACK to come back). 
 
 UDP, on the other hand, does none of this. A single packet is sent, and it either arrives or it doesn't. Normally the client application will note that a reply was never received after a given timeout, and retransmit the packet. 
@@ -45,24 +46,20 @@ Disconnected sockets
 By default when a UDP socket is created, it is disconnected. What's a disconnected socket? The short answer is that it isn't associated with any given remote machine. This means that each time we fetch data from the socket we have to use the &lt;i&gt;recvfrom&lt;/i&gt;(2) function call: 
 
 [cw]
- int recvfrom(int s, void *buf, size_t len, int flags, struct sockaddr *from, socklen_t *fromlen); 
+int recvfrom(int s, void *buf, size_t len, int flags, struct sockaddr *from, socklen_t *fromlen); 
 [ecw]
 
 The &lt;i&gt;struct sockaddr&lt;/i&gt; arguement in this function call is populated with enough information for the program to be able to determine where to send the reply packet. The reponse needs to be sent with the &lt;i&gt;sendto&lt;/i&gt;(2) call: 
 
 [cw]
- int sendto(int s, const void *msg, size_t len, int flags, const struct sockaddr *to, socklen_t tolen); 
+int sendto(int s, const void *msg, size_t len, int flags, const struct sockaddr *to, socklen_t tolen); 
 [ecw]
 
 The &lt;i&gt;sendto&lt;/i&gt; function call takes another &lt;i&gt;struct sockaddr&lt;/i&gt; arguement which specifies where the packet should be sent. 
 
 The code listing below is an example of how to use the &lt;i&gt;recvfrom&lt;/i&gt; and &lt;i&gt;sendto&lt;/i&gt; functions. This example is a simple UDP echo server. The program waits on a given port, and whenever it receives data, sends it straight back. 
 
-[cw]
- // Disconnected UDP socket example: this example  // simply reads from clients (there can be more  // than one), and returns what they said straight  // back to them. You'll note that we can't use read  // and write to get to the traffic, as this is not  // available for disconnected UDP sockets. #include &lt;stdio.h&gt; #include &lt;errno.h&gt; #include &lt;unistd.h&gt; #include &lt;sys/types.h&gt; #include &lt;sys/socket.h&gt; #include &lt;netinet/in.h&gt; int main (int argc, char *argv[]) {   int lfd;   struct sockaddr_in servaddr;   struct sockaddr clientaddr;   char buf[1024];   size_t len;   socklen_t clen;   // We will listen with this file descriptor   if ((lfd = socket (AF_INET, SOCK_DGRAM, 0)) &lt; 0)     {       fprintf (stderr,             "Error whilst starting to listen\n");       exit (42);     }   // Define what we are listening for   bzero (&amp;servaddr, sizeof (servaddr));   servaddr.sin_family = AF_INET;   servaddr.sin_addr.s_addr = htonl (INADDR_ANY);   servaddr.sin_port = htons (1234);   // Bind to the address   if (bind (lfd, (struct sockaddr *) &amp;servaddr,          sizeof (servaddr)) &lt; 0)     {       perror ("Couldn't bind");       exit (42);     }   // Do stuff   while (1)     {       len = 1024;       printf ("Reading...\n");       clen = sizeof (clientaddr);       if ((len = recvfrom (lfd, buf, len, 0,                (struct sockaddr *)                &amp;clientaddr, &amp;clen)) &lt; 0)     {       perror ("Socket read error");       exit (42);     }       if (len == 0)     break;       // The buffer is not null terminated       buf[len] = '\0';       printf ("Read: %s\n", buf);       // And send it straight back       if (sendto (lfd, buf, len, 0, &amp;clientaddr,            clen) &lt; 0)     {       perror ("Socket write error");       exit (42);     }     } } 
-[ecw]
-
-&lt;i&gt;Code: disconnected.c&lt;/i&gt;
+[Please insert the code file named ~mikal/opensource/shdns/sockets/disconnected.c here]
 
 Let's have a look at this program running. As we can see from the source code, the program listens on UDP port 1234 (very imaginative). We can use &lt;b&gt;netcat&lt;/b&gt; to test the program. First, we need to start the server in a different terminal, this is as simple as running it. 
 
@@ -71,13 +68,13 @@ Let's have a look at this program running. As we can see from the source code, t
 A client interaction with the server looks like this: 
 
 [cw]
- [mikal@localhost article]# nc -u localhost 1234 hello hello out out there there  punt! [mikal@localhost article]#  
+[Please insert the file named netcat-client.txt here]
 [ecw]
 
 Note that the "punt!" is me hitting control c on &lt;b&gt;netcat&lt;/b&gt;. The server output for this session is: 
 
 [cw]
- [root@localhost sockets]# ./disconnected  Reading... Read: hello Reading... Read: out Reading... Read: there Reading... 
+[Please insert the file named server.txt here]
 [ecw]
 
 There are a couple of things worth noting here. Firstly, the UDP server can handle multiple clients at once in the single process. This is because each packet comes in, and is then responded to &mdash; there is no assumption made that packets come from the same machine. This model works well for the single packet communication paradigm. Secondly, because the server simply waits for a packet, responds, and then starts waiting again, the server survives disconnects from the client, it simply waits until a new packet comes along. 
@@ -93,11 +90,7 @@ We can demonstrate this by writing a very simple, and probably quite impractical
 
 This is a particularly useful example, because our shell scripts are eventually going to run from &lt;b&gt;inetd&lt;/b&gt;, so having an understanding of how it works is very useful... 
 
-[cw]
- // Disconnected UDP socket example: this example  // simply waits for traffic, and the starts a  // process to deal with the results. One process  // per packet, one packet per process. This version  // wont work, because the socket is not connected.  // In fact, cat is smart enough to warn us about  // this: // //      cat: write error: Transport endpoint is not  //      connected #include &lt;stdio.h&gt; #include &lt;errno.h&gt; #include &lt;unistd.h&gt; #include &lt;sys/types.h&gt; #include &lt;sys/socket.h&gt; #include &lt;sys/poll.h&gt; #include &lt;netinet/in.h&gt; int main(int argc, char *argv[]){   int lfd;   struct sockaddr_in servaddr;   struct pollfd pfd;      // We will listen with this file descriptor   if((lfd = socket(AF_INET, SOCK_DGRAM, 0)) &lt; 0){     fprintf(stderr,          "Error whilst starting to listen\n");     exit(42);   }   // Define what we are listening for   bzero(&amp;servaddr, sizeof(servaddr));   servaddr.sin_family = AF_INET;   servaddr.sin_addr.s_addr = htonl(INADDR_ANY);   servaddr.sin_port = htons(1234);   // Bind to the address   if(bind(lfd, (struct sockaddr *) &amp;servaddr,        sizeof(servaddr))       &lt; 0){     perror("Couldn't bind");     exit(42);   }   // Setup the list of file descriptors we want to    // wait for events on   pfd.fd = lfd;   pfd.events = POLLIN | POLLPRI;      // Do stuff   while(1){     if(poll(&amp;pfd, 1, -1) &lt; 0){       perror("Waiting for new data failed");       exit(42);     }     printf("Data arrived\n");     // Spawn a child to handle this packet     switch(fork()){     case -1:       perror("Couldn't spawn child to handle connection");       exit(42);            case 0:       // Child process -- setup the file        // descriptors, and the run the helper        // application       dup2(lfd, 0);       dup2(lfd, 1);       execl("/bin/cat", "cat", NULL);       perror("Exec failed");       exit(42);       break;     default:       // Parent process       break;     }   } } 
-[ecw]
-
-&lt;i&gt;Code: disconnexec.c&lt;/i&gt;
+[Please insert the code file named ~mikal/opensource/shdns/sockets/disconnexec.c here]
 
 All this program does is wait on port 1234 until a connection comes in, forks, and the new child process starts executing the server program (in this case &lt;b&gt;cat&lt;/b&gt;). This technique relies on the fact that the child process will share the environment of the parent process, including it's filehandles. These are duplicated to stdin and stdout before the server program starts executing, so that network input goes into stdin, and server output is sent back over the network. 
 
@@ -112,11 +105,7 @@ When the &lt;i&gt;connect&lt;/i&gt; function is called, it simply records which 
 
 Here's a simple example of a connected socket version of the disconnected echo server above. Note that we now use &lt;i&gt;read&lt;/i&gt; and &lt;i&gt;write&lt;/i&gt; function calls for all the network input output. 
 
-[cw]
- // Connected UDP socket example: this example  // simply reads from clients (there can be more  // than one), and returns what they said straight  // back to them. You'll note that we can now use  // read and write to get to the traffic... #include &lt;stdio.h&gt; #include &lt;errno.h&gt; #include &lt;unistd.h&gt; #include &lt;sys/types.h&gt; #include &lt;sys/socket.h&gt; #include &lt;netinet/in.h&gt; int main (int argc, char *argv[]) {   int lfd;   struct sockaddr_in servaddr;   struct sockaddr clientaddr;   char buf[1024];   size_t len;   socklen_t clen;   // We will listen with this file descriptor   if ((lfd = socket (AF_INET, SOCK_DGRAM, 0)) &lt; 0)     {       fprintf (stderr,             "Error whilst starting to listen\n");       exit (42);     }   // Define what we are listening for   bzero (&amp;servaddr, sizeof (servaddr));   servaddr.sin_family = AF_INET;   servaddr.sin_addr.s_addr = htonl (INADDR_ANY);   servaddr.sin_port = htons (1234);   // Bind to the address   if (bind (lfd, (struct sockaddr *) &amp;servaddr,          sizeof (servaddr)) &lt; 0)     {       perror ("Couldn't bind");       exit (42);     }   // Do stuff   while (1)     {       // We need to peek at the first part of the        // packet to determine who to connect to       len = 1;       printf ("Reading...\n");       clen = sizeof (clientaddr);       if ((len = recvfrom (lfd, buf, len, MSG_PEEK,                (struct sockaddr *)                 &amp;clientaddr, &amp;clen)) &lt; 0)     {       perror ("Socket peek error");       exit (42);     }       if (len == 0)     break;       // Connect       if (connect (lfd, &amp;clientaddr, clen) &lt; 0)     {       perror ("Could not connect");       exit (42);     }       // And now we can just use the normal read        // and write       len = 1024;       if ((len = read (lfd, buf, len)) &lt; 0)     {       perror ("Socket read error");       exit (42);     }       if (write (lfd, buf, len) &lt; 0)     {       perror ("Socket write error");       exit (42);     }     } } 
-[ecw]
-
-&lt;i&gt;Code: connected.c&lt;/i&gt;
+[Please insert the code file named ~mikal/opensource/shdns/sockets/connected.c here]
 
 We do cheat a little in this example, there is one &lt;i&gt;recvfrom&lt;/i&gt; call. This is used to "peek" at the data which is waiting on the socket to determine the address to connect to. The &lt;i&gt;MSG_PEEK&lt;/i&gt; means that the data is not actually removed from the queue of data to be processed by this call. 
 
@@ -127,11 +116,7 @@ Back to our simple inetd server
 
 You'll recall that a couple of examples ago I showed you the code for a simple &lt;b&gt;inetd&lt;/b&gt; server. This example below expands that so that now it uses a connected socket. This example will behave just like the hard coded echo server in the first and third examples in this article (except that the server debugging output doesn't happen any more). 
 
-[cw]
- // Connected UDP socket example: this example this  // example simply waits for traffic, and the starts  // a process to deal with the results. One process  // per packet, one packet per process. You'll note  // that we can now use read and write to get to the  // traffic, and that this all works... #include &lt;stdio.h&gt; #include &lt;errno.h&gt; #include &lt;unistd.h&gt; #include &lt;sys/types.h&gt; #include &lt;sys/socket.h&gt; #include &lt;netinet/in.h&gt; int main (int argc, char *argv[]) {   int lfd;   struct sockaddr_in servaddr;   struct sockaddr clientaddr;   char buf[1024];   size_t len;   socklen_t clen;   // We will listen with this file descriptor   if ((lfd = socket (AF_INET, SOCK_DGRAM, 0)) &lt; 0)     {       fprintf (stderr,             "Error whilst starting to listen\n");       exit (42);     }   // Define what we are listening for   bzero (&amp;servaddr, sizeof (servaddr));   servaddr.sin_family = AF_INET;   servaddr.sin_addr.s_addr = htonl (INADDR_ANY);   servaddr.sin_port = htons (1234);   // Bind to the address   if (bind (lfd, (struct sockaddr *) &amp;servaddr,          sizeof (servaddr)) &lt; 0)     {       perror ("Couldn't bind");       exit (42);     }   // Do stuff   while (1)     {       // We need to peek at the first part of the        // packet to determine who to connect to       len = 1;       printf ("Reading...\n");       clen = sizeof (clientaddr);       if ((len = recvfrom (lfd, buf, len, MSG_PEEK,                (struct sockaddr *)                 &amp;clientaddr, &amp;clen)) &lt; 0)     {       perror ("Socket peek error");       exit (42);     }       if (len == 0)     break;       // Connect       if (connect (lfd, &amp;clientaddr, clen) &lt; 0)     {       perror ("Could not connect");       exit (42);     }       printf ("Data arrived\n");       // Spawn a child to handle this packet       switch (fork ())     {     case -1:       perror ("Couldn't spawn child to handle connection");       exit (42);     case 0:       // Child process -- setup the file        // descriptors, and the run the helper        // application       dup2 (lfd, 0);       dup2 (lfd, 1);       execl ("/bin/cat", "cat", NULL);       perror ("Exec failed");       exit (42);       break;     default:       // Parent process       break;     }     } } 
-[ecw]
-
-&lt;i&gt;Code: connexec.c&lt;/i&gt;
+[Please insert the code file named ~mikal/opensource/shdns/sockets/connexec.c here]
 
 inetd and xinetd patches
 ------------------------
@@ -145,16 +130,12 @@ inetd patch
 
 The package which contains &lt;b&gt;inetd&lt;/b&gt; as run on Debian is called &lt;i&gt;netkit&lt;/i&gt;. The following is a patch to use connected sockets for UDP and TCP servers. 
 
-[cw]
- diff -ur netkit-base-0.16/inetd/inetd.c netkit-base-0.16-hacked/inetd/inetd.c --- netkit-base-0.16/inetd/inetd.c    Wed Nov 24 06:31:53 1999 +++ netkit-base-0.16-hacked/inetd/inetd.c    Thu Jan 23 13:42:59 2003 @@ -470,7 +470,30 @@              return;          }          if (pid==0) { +                char buf[2]; +            size_t len = 1; +            struct sockaddr clientaddr; +            socklen_t clen; +                          /* child */ +            len = sizeof(clientaddr); +            if ((len = recvfrom(ctrl, buf, len, MSG_PEEK,  +                       (struct sockaddr *) &amp;clientaddr,  +                       &amp;clen)) &lt; 0) { +                    syslog(LOG_WARNING, "failed to peek for (for %s): %m", +                       sep-&gt;se_service); +            } +            if (len==0) { +                    syslog(LOG_WARNING, "no data (for %s): %m", +                       sep-&gt;se_service); +            } + +            // Connect +            if (connect(ctrl, &amp;clientaddr, clen) &lt; 0) { +                    syslog(LOG_WARNING, "connect failed (for %s): %m", +                       sep-&gt;se_service); +            } +              dup2(ctrl, 0);              close(ctrl);              dup2(0, 1); 
-[ecw]
-
-&lt;i&gt;Code: netkit.patch&lt;/i&gt;
+[Please insert the code file named ~mikal/opensource/shdns/netkit.patch here]
 
 A simple example of how to configure &lt;b&gt;inetd&lt;/b&gt; to handle our UDP echo server is shown below &mdash; the configuration file this line is added to is /etc/inetd.conf. It should be noted that &lt;i&gt;myecho&lt;/i&gt; is the name of a service I had to add to /etc/services because &lt;b&gt;inetd&lt;/b&gt; insists on all services being listed there... 
 
 [cw]
- # An example UDP echo server myecho    dgram   udp     nowait    root    /bin/cat cat - 
+[Please insert the file named inetd.txt here]
 [ecw]
 
 This service has the following characteristics: 
@@ -163,7 +144,7 @@ This service has the following characteristics:
 [dot] The service name is &lt;i&gt;myecho&lt;/i&gt;. The listing in /etc/services is:
 
 [cw]
- myecho		1234/udp			# Simple echo example for LJ article 
+[Please insert the file named services.txt here]
 [ecw]
 
 [Please insert the sidebar file named sidebar-4 here]
@@ -199,23 +180,16 @@ The code
 
 The code for &lt;b&gt;shdns&lt;/b&gt; is broken into two components. The first is a simple script which redirects the input packet to a file, so that &lt;b&gt;shdns&lt;/b&gt; can move backwards and forwards within the input packet to grab the bits it needs as required. 
 
-[cw]
- #!/bin/bash logger "shdns $$ Started listening" /home/mikal/opensource/shdns/shdns /tmp/shdns-$$ &amp; cat - &gt; /tmp/shdns-$$ logger "shdns $$ Waiting for processor to end" wait logger "shdns $$ Stopped listening" 
-[ecw]
-
-&lt;i&gt;Code: shdns-server&lt;/i&gt;
+[Please insert the code file named ~mikal/opensource/shdns/shdns-server here]
 
 The other part of the code is the script which actually parses the input DNS UDP packet and responds. Note that this is merely a proof of concept at the moment, it doesn't attempt to implement the entire DNS protocol &mdash; there is only enough here to perform a name lookup. 
 
-[cw]
- #!/bin/bash ############# # shdns: take a query and build a response # The state of a given bit in the byte:  # (byte, poweroftwo) dumpbit(){   local temp   temp=$1   if [ $1 -gt $(( $2 - 1 )) ]   then     echo -n "1"     temp=$(( $1 - $2 ))   else     echo -n "0"   fi   return $temp } # Is a given bit on? (byte, poweroftwo) testbit(){   return `dumpbit $1 $2` } # Turn on a given bit in the byte: (initial byte  # state, poweroftwo, desiredstate) # Returns a decimal version of the byte twiddlebit(){   local temp   temp=$1   testbit $1 $2   if [ $? = 1 ]   then     if [ $3 = 0 ]     then       temp=$(( $temp - $2 ))     fi   else      if [ $3 = 1 ]     then       temp=$(( $temp + $2 ))     fi   fi   return $temp } # Spin until a byte exists: (filename, bytenumber) spinfor(){   local len   len=`cat $1 | wc -c | tr -d " "`   while [ $len -lt $2 ]   do     logger "shdns $$ Spin on byte $2"     usleep $3     len=`cat $1 | wc -c | tr -d " "`   done } # Read a single byte from a file:  # (filename, bytenumber) readbyte(){   spinfor $1 $2 10    cat $1 | cut -b $2 } # Read a range of bytes from a file:  # (filename, startbyte, length) readstring(){   spinfor $1 $(( $2 + $3 - 1 )) 10   logger "shdns $$ Getting byte range $1:$2-"$(( $2 + $3 - 1 ))":$3"   cat $1 | cut -b $2-$(( $2 + $3 - 1 )) } # Read a single binary byte as decimal from a file:  # (filename, bytenumber) readbytebinary(){   local temp   spinfor $1 $2 1000   return `cat $1 | cut -b $2 | od -Ad -t u1 | head -1 | tr -s " " | cut -f 2 -d " "` } # Output the bit for this value:  # (inputvalue, byteoffset) writebinarybit(){   if [ $1 -gt $(( $2 - 1 )) ]   then     echo -n "1"     return $(( $1 - $2 ))   else     echo -n "0"     return $1   fi } # Turn a number into a binary byte: (inputvalue) writebinarybyte(){   writebinarybit $1 128   writebinarybit $? 64   writebinarybit $? 32   writebinarybit $? 16   writebinarybit $? 8   writebinarybit $? 4   writebinarybit $? 2   writebinarybit $? 1 } # Output the byte which is represented by a decimal  # number tobyte(){   local octal   local quotient   local remainder   # Echo only takes octal numbers, so we convert   quotient=$1   if [ $quotient -eq 0 ]   then     octal="0"   fi   while [ $quotient -ne 0 ]   do     remainder=$(( $quotient % 8 ))     octal="$remainder$octal"     quotient=$(( $quotient / 8 ))   done   echo -n -e \\$octal } #################################################### process(){   logger "shdns $$ Started parsing $1 at $2"   inset=$2   # Identification: 2 bytes   readbytebinary "$1" $inset; idtopbyte=$?     inset=$(( $inset + 1 ))   readbytebinary "$1" $inset; idbotbyte=$?      inset=$(( $inset + 1 ))   logger "shdns $$ Packet id portions: $idtopbyte $idbotbyte"   id=$(( ($idtopbyte * 128) + $idbotbyte ))   logger "shdns $$ Packet id: $id"   # Flags: 2 bytes   temp=`cat $1 | cut -b $inset |  od -Ad -c | head -1 | cut -f 2 -d " "`; inset=$(( $inset + 1 ))   testbit $temp 128; qr=$?   testbit $temp 8; op=$?   testbit $temp 4; aa=$?   testbit $temp 2; trun=$?   testbit $temp 1; rd=$?   logger "shdns $$ Query / response: $qr"   logger "shdns $$ Opcode: $op"   logger "shdns $$ Authoritative answer: $aa"   logger "shdns $$ Packet truncated: $trun"   logger "shdns $$ Recursion desired: $rd"   readbytebinary "$1" $inset; temp=$?     inset=$(( $inset + 1 ))   testbit $temp 128; ra=$?      logger "shdns $$ Recursion available: $ra"      # The number of questions is the next two bytes   readbytebinary "$1" $inset; topbyte=$?     inset=$(( $inset + 1 ))   readbytebinary "$1" $inset; botbyte=$?     inset=$(( $inset + 1 ))   qcount=$(( ($topbyte * 128) + $botbyte ))   logger "shdns $$ Number of questions: $qcount"      # The number of answers is the next two bytes   readbytebinary "$1" $inset; topbyte=$?     inset=$(( $inset + 1 ))   readbytebinary "$1" $inset; botbyte=$?     inset=$(( $inset + 1 ))   acount=$(( ($topbyte * 128) + $botbyte ))   logger "shdns $$ Number of answers: $acount"      # The number of authority RRs is the next two    # bytes   readbytebinary "$1" $inset; topbyte=$?     inset=$(( $inset + 1 ))   readbytebinary "$1" $inset; botbyte=$?     inset=$(( $inset + 1 ))   authcount=$(( ($topbyte * 128) + $botbyte ))   logger "shdns $$ Number of authorities: $authcount"      # The number of additional RRs is the next two    # bytes   readbytebinary "$1" $inset; topbyte=$?     inset=$(( $inset + 1 ))   readbytebinary "$1" $inset; botbyte=$?     inset=$(( $inset + 1 ))   addcount=$(( ($topbyte * 128) + $botbyte ))   logger "shdns $$ Number of additionals: $addcount"      ######################   # For each question   ######################      len=42   questioncount=0      while [ $questioncount -lt $qcount ]   do     questionstart=$inset     logger "shdns $$ Question"     name=""        namelength=0     readbytebinary "$1" $inset; len=$?     while [ $len -gt 0 ]     do       inset=$(( $inset + 1 ))       name="$name"`readstring "$1" $inset $len`"."       inset=$(( $inset + $len ))              namelength=$(( $namelength + $len + 1 ))       readbytebinary "$1" $inset; len=$?     done     inset=$(( $inset + 1 ))     logger "shdns $$ Lookup: $name"        # Type of question -- assume we only want the      # last byte for now...     inset=$(( $inset + 1 ))     readbytebinary "$1" $inset; type=$?     error="none"     temp="shdns $$ Determine the query type"     case $type in     1 ) temp="$temp A";;     2 ) temp="$temp NS";;     5 ) temp="$temp CNAME";;     12 ) temp="$temp PTR";;     13 ) temp="$temp HINFO";;     15 ) temp="$temp MX";;     * ) temp="Error: Unknown query type"; error="yes";;     esac        logger "$temp (error = $error)"     inset=$(( $inset + 1 ))       # The class should always be 1 -- assume it's      # all in the last byte as well     inset=$(( $inset + 1 ))     readbytebinary "$1" $inset; class=$?       inset=$(( $inset + 1 ))     logger "shdns $$ Query class: $class"        if [ "%$error%" = "%none%" ]     then       # Dodgy bug fix       name=`echo $name | sed 's/\.$//'`            # Lookup the name in the db file       result=`grep "$name" /home/mikal/opensource/shdns/lookup | tr -s "\t" | cut -f 2`       logger "shdns $$ Result: $result"       ##############################################       # Now we need to build a response to the query       # The id number we were handed gets handed        # straight back       tobyte $idtopbyte &gt; /tmp/shdns-response-$$       tobyte $idbotbyte &gt;&gt; /tmp/shdns-response-$$       # Flag this packet as being a reply        # (we currently never claim to be authoritive)       tobyte 128 &gt;&gt; /tmp/shdns-response-$$       tobyte 0 &gt;&gt; /tmp/shdns-response-$$       # Number of questions (we have to return the        # question we are answering)       tobyte 0 &gt;&gt; /tmp/shdns-response-$$       tobyte 1 &gt;&gt; /tmp/shdns-response-$$         # Number of answers       tobyte 0 &gt;&gt; /tmp/shdns-response-$$       tobyte 1 &gt;&gt; /tmp/shdns-response-$$       # Number of authorities       tobyte 0 &gt;&gt; /tmp/shdns-response-$$       tobyte 0 &gt;&gt; /tmp/shdns-response-$$       # Number of additionals       tobyte 0 &gt;&gt; /tmp/shdns-response-$$       tobyte 0 &gt;&gt; /tmp/shdns-response-$$       # It's easy to return the question, we just        # copy it...       echo -n `readstring $1 $questionstart $namelength` &gt;&gt; /tmp/shdns-response-$$       tobyte 0 &gt;&gt; /tmp/shdns-response-$$       tobyte 0 &gt;&gt; /tmp/shdns-response-$$       tobyte $type &gt;&gt; /tmp/shdns-response-$$       tobyte 0 &gt;&gt; /tmp/shdns-response-$$       tobyte $class &gt;&gt; /tmp/shdns-response-$$       # The domain name we are answering for in        # this answer       echo -n `readstring $1 $questionstart $namelength` &gt;&gt; /tmp/shdns-response-$$       tobyte 0 &gt;&gt; /tmp/shdns-response-$$       # The type is the same as in the question       tobyte 0 &gt;&gt; /tmp/shdns-response-$$       tobyte $type &gt;&gt; /tmp/shdns-response-$$       # The class is the same as well       tobyte 0 &gt;&gt; /tmp/shdns-response-$$       tobyte $class &gt;&gt; /tmp/shdns-response-$$       # The time to live is always low, because we        # are dodgy       tobyte 0 &gt;&gt; /tmp/shdns-response-$$       tobyte 0 &gt;&gt; /tmp/shdns-response-$$       tobyte 0 &gt;&gt; /tmp/shdns-response-$$       tobyte 4 &gt;&gt; /tmp/shdns-response-$$       # The length of the returned data is always        # an IP (32 bits)       tobyte 0 &gt;&gt; /tmp/shdns-response-$$       tobyte 4 &gt;&gt; /tmp/shdns-response-$$       # And now the answer as a number       # For the result in the answer, we are going        # to need this in a binary form of decimal       while [ "%$result%" != "%%" ]       do         temp=`echo $result | cut -f 1 -d "."`         result=`echo $result | sed 's/^[0-9]*\.*//'`         tobyte $temp &gt;&gt; /tmp/shdns-response-$$         logger "shdns $$ Processing result segment: $temp ($result)"       done       # And now we can send the result (done this        # way to make sure it is all in one packet)       cat /tmp/shdns-response-$$       logger "shdns $$ Finished extracting result"     else       # Work out the erroneous type       logger "shdns $$ Erroneous type was $type ("`dumpbyte $type`")"     fi     logger "shdns $$ Finished processing question"     questioncount=$(( $questioncount + 1 ))   done   return $inset`twiddlebit 0 128 1` } #################################################### # The entry point for the script offset=1 spinfor $1 $offset process $1 $offset offset=$? logger "shdns $$ Ended at $offset" killall -9 cat exit 
-[ecw]
-
-&lt;i&gt;Code: shdns&lt;/i&gt;
+[Please insert the code file named ~mikal/opensource/shdns/shdns here]
 
 The &lt;b&gt;shdns&lt;/b&gt; implemenation strategy is summarised by the following diagram. 
 
-** graphic: No command string for this tag (level sect2)
+[Please insert the image shdns-design.png here]
+
 Getting the code from this article
 ==================================
 

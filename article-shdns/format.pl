@@ -38,7 +38,7 @@ $tag{"listitem"} = "print \"[dot] \"; \$level = \"listitem\";";
 $tag{"quote"} = "\$remainder=\"\$pre\\\"\$remainder\"";
 $tag{"/quote"} = "\$remainder=\"\$pre\\\"\$remainder\"";
 
-$tag{"programlisting"} = "\$remainder=\"\[cw]\n\$remainder\"";
+$tag{"programlisting"} = "print \"[cw]\n\";";
 $tag{"/programlisting"} =  "print \"\$pre\n[ecw]\n\n\";";
 
 $tag{"sidebar"} = "\$external = \"\"; \$level = \"sidebar\";";
@@ -65,12 +65,15 @@ $tag{"execute-/cmd"} = "if(\$pre eq \"eqimg\"){
                          }
                        elsif(\$pre eq \"cat\"){
                          print \"[Please insert the file named \";
+                         \$level = \"catexecute\";
                          }
                        else{
                          print \"UNKNOWN EXECUTE COMMAND (\$pre)\n\"
                          }";
 $tag{"execute-/args"} = "print \"\$pre here]\n\n\";";
 $tag{"execute-/input"} = "print \"\$pre here]\n\n\";";
+$tag{"catexecute-/args"} = "print \"\$pre here]\";";
+$tag{"catexecute-/input"} = "print \"\$pre here]\";";
 
 #####
 $tag{"sidebar-/title"} = 
