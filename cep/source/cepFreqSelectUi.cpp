@@ -1,6 +1,7 @@
 /*
-  * Imp for the Date wxWindows UI implementation
+  * Imp for the frequency wxWindows UI implementation
   * Copyright (C) Kristy Van Der Vlist             2002
+  * Copyright (C) Michael Still                    2002
   *
   * This program is free software; you can redistribute it and/or modify it
   * under the terms of the GNU General Public License as published by the Free
@@ -17,15 +18,15 @@
   * Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#include "cepDateUi.h"
+#include "cepFreqSelectUi.h"
 
-BEGIN_EVENT_TABLE (cepDateRange, wxDialog)
-  EVT_BUTTON(CEPBTN_ATT_SUBMIT, cepDateRange::dlgDateOnOK)
-  EVT_BUTTON(CEPBTN_ATT_CANCEL, cepDateRange::dlgDateOnQuit)
-  EVT_CLOSE( cepDateRange::dlgDateOnQuit)
+BEGIN_EVENT_TABLE (cepFreqRange, wxDialog)
+  EVT_BUTTON(CEPBTN_ATT_SUBMIT, cepFreqRange::dlgOnOK)
+  EVT_BUTTON(CEPBTN_ATT_CANCEL, cepFreqRange::dlgOnQuit)
+  EVT_CLOSE( cepFreqRange::dlgOnQuit)
 END_EVENT_TABLE ()
                           
-cepDateRange::cepDateRange(cepDate toDate, cepDate fromDate):
+cepFreqRange::cepFreqRange(cepDate toDate, cepDate fromDate):
   wxDialog((wxDialog *) NULL, -1, "Select Data Range", wxPoint(120,200), wxSize(300, 200))
 {
   m_panel = new wxPanel(this, -1, wxPoint(120,200), wxSize(300,200));
@@ -61,53 +62,53 @@ cepDateRange::cepDateRange(cepDate toDate, cepDate fromDate):
   ShowModal();
 }
 
-const double & cepDateRange::getToDate()
+const double & cepFreqRange::getTo()
 {
-  return m_toDate;
+  return m_to;
 }
 
-const double & cepDateRange::getFromDate()
+const double & cepFreqRange::getFrom()
 {
-  return m_fromDate;
+  return m_from;
 }
 
-void cepDateRange::dlgDateOnQuit(wxCommandEvent& WXUNUSED(event))
+void cepFreqRange::dlgOnQuit(wxCommandEvent& WXUNUSED(event))
 {
   //set values to -2 if cancel is hit
-  m_toDate = -2.0;
-  m_fromDate = -2.0;
+  m_to = -2.0;
+  m_from = -2.0;
   
   EndModal(1);
   Destroy();
 }
 
-void cepDateRange::dlgDateOnOK(wxCommandEvent& WXUNUSED(event))
+void cepFreqRange::dlgOnOK(wxCommandEvent& WXUNUSED(event))
 {
   //convert dates entered to a decimal date
-  m_toDate = cepDate(atoi(m_cbToDay->GetValue().c_str()), m_cbToMonth->GetValue().c_str(), atoi(m_tbToYear->GetValue().c_str())).getDecimalDate();
-  m_fromDate = cepDate(atoi(m_cbFromDay->GetValue().c_str()), m_cbFromMonth->GetValue().c_str(), atoi(m_tbFromYear->GetValue().c_str())).getDecimalDate();
+  m_to = cep(atoi(m_cbToDay->GetValue().c_str()), m_cbToMonth->GetValue().c_str(), atoi(m_tbToYear->GetValue().c_str())).getDecimal();
+  m_from = cep(atoi(m_cbFromDay->GetValue().c_str()), m_cbFromMonth->GetValue().c_str(), atoi(m_tbFromYear->GetValue().c_str())).getDecimal();
 
   EndModal(0);
   Destroy();  
 }
 
-cepDateUi::cepDateUi() {}
+cepFreqUi::cepFreqUi() {}
 
-void cepDateUi::showDateRange(cepDate toDate, cepDate fromDate)
+void cepFreqUi::showRange(cep to, cep from)
 {
-  cepDateRange dr(toDate, fromDate);
+  cepFreqRange dr(to, from);
 
-  m_fromDate = dr.getFromDate();
-  m_toDate = dr.getToDate();
+  m_from = dr.getFrom();
+  m_to = dr.getTo();
 }
 
-double & cepDateUi::getToDate()
+double & cepFreqUi::getTo()
 {
-  return m_toDate;
+  return m_to;
 }
 
-double & cepDateUi::getFromDate()
+double & cepFreqUi::getFrom()
 {
-  return m_fromDate;
+  return m_from;
 }
 
