@@ -1,9 +1,10 @@
 #!/usr/bin/perl
 
 use strict;
-my($sectlevel, $subst);
+my($sectlevel, $subst, $suppress);
 
 $sectlevel = 0;
+$suppress = 0;
 while(<>){
   s/<\?xml version[^>]*>/<!DOCTYPE article PUBLIC "-\/\/OASIS\/\/DTD DocBook V4.1\/\/EN">/;
   s/<\?xml[^>]*>//;
@@ -97,7 +98,17 @@ while(<>){
     }
     s/<\/resourcelist>/$subst/;
   }
-  print $_;
+
+  if(/<relatedlist>/){
+    $suppress = 1;
+  }
+  elsif(/<\/relatelist>/){
+    $suppress = 0;
+  }
+
+  if($suppress == 0){
+    print $_;
+  }
 }
 
 
