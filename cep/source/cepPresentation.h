@@ -32,7 +32,7 @@ class cepError;
 class cepPresentation
 {
 public:
-  cepPresentation (long width, long height, cepMatrix<double> *ds);
+  cepPresentation (long width, long height, cepMatrix<double> *ds, double b1, double b2);
 
   void xAxisTitle (const string & title);
   void yAxisTitle (const string & title);
@@ -76,6 +76,9 @@ private:
 
   cepMatrix<double> *m_ds;
   bool m_haveMaxima;
+
+  double m_b1;
+  double m_b2;
 };
 
 #endif

@@ -89,6 +89,8 @@ public:
 
   // Accessor methods
   cepMatrix <double> * getMatrix(direction dir);
+  double getB1(direction dir);
+  double getB2(direction dir);
 
   // Return a filtered dataset
   cepDataset filter(float low, float high);

@@ -41,7 +41,7 @@ const long CHUNKALLOC = 10;
 
 const long INVALID = -2000000000;
 
-cepPresentation::cepPresentation (long width, long height, cepMatrix<double> *ds):
+cepPresentation::cepPresentation (long width, long height, cepMatrix<double> *ds, double b1, double b2):
   m_width(width + 1),
   m_height(height),
   m_xTitle("Undefined Axis Title"),
@@ -54,7 +54,9 @@ cepPresentation::cepPresentation (long width, long height, cepMatrix<double> *ds
   m_useErrors(true),
   m_raster(NULL),
   m_ds(ds),
-  m_haveMaxima(false)
+  m_haveMaxima(false),
+  m_b1(b1),
+  m_b2(b2)
 {
   m_axesColor.red = 0;
   m_axesColor.green = 0;

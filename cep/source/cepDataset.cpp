@@ -554,3 +554,15 @@ string cepDataset::getHeader(direction i)
 {
   return m_header[i];
 }
+
+// Get the B1 LS line coefficient for a given direction
+double cepDataset::getB1(direction i)
+{
+  return m_b1[i];
+}
+
+// Get the B2 LS line coefficient for a given direction
+double cepDataset::getB2(direction i)
+{
+  return m_b2[i];
+}
