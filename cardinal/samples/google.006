@@ -1,0 +1,13 @@
+Content-Type: text/x-vcard;
+	name="Joe Blow.vcf"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename="Joe Blow.vcf"
+
+BEGIN:VCARD
+VERSION:2.1
+N:Blow;Joe
+FN:Joe Blow
+EMAIL;PREF;INTERNET:joeblow@workisp.com
+REV:20011023T222923Z
+END:VCARD

@@ -1,0 +1,20 @@
+Content-Type: text/x-vcard; charset=us-ascii;
+ name="liath.vcf"
+Content-Transfer-Encoding: 7bit
+Content-Description: Card for Liat Harary
+Content-Disposition: attachment;
+ filename="liath.vcf"
+
+begin:vcard 
+n:harary;liat
+tel;fax:09-9598980
+tel;work:09-9598673
+x-mozilla-html:FALSE
+url:www.informix.com/il
+org:ComSoft Technologies Ltd;ATG
+adr:;;3 Hagalim Blvd.;Herzelia;Israel;;
+version:2.1
+email;internet:liath@applicom.co.il
+title:Pre-Sale Engineer
+fn:liat harary
+end:vcard

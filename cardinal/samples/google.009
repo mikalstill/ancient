@@ -1,0 +1,29 @@
+Content-Type: text/x-vcard
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: attachment; filename="Eric Naujock .vcf"
+
+BEGIN:VCARD
+VERSION:2.1
+X-GWTYPE:USER
+FN:379698.GWIA:naujocke@abacusii.com
+TEL;WORK:419-885-0082 X241
+ORG:;Support
+TEL;PREF;FAX:419-885-2717
+EMAIL;WORK;PREF:naujocke@abacusii.com
+N:Naujock ;Eric
+TITLE:Networking Eng.
+X-GWUSERID:naujocke
+END:VCARD
+
+BEGIN:VCARD
+VERSION:2.1
+X-GWTYPE:USER
+FN:Eric Naujock=20
+TEL;WORK:419-885-0082 X241
+ORG:;Support
+TEL;PREF;FAX:419-885-2717
+EMAIL;WORK;PREF;NGW:naujocke@abacusii.com
+N:Naujock ;Eric
+TITLE:Networking Eng.
+X-GWUSERID:naujocke
+END:VCARD

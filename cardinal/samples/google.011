@@ -1,0 +1,20 @@
+Content-Type: text/x-vcard; charset=us-ascii;
+ name="info.vcf"
+Content-Transfer-Encoding: 7bit
+Content-Description: Card for Maxime's
+Content-Disposition: attachment;
+ filename="info.vcf"
+
+begin:vcard
+n:;Maxime
+tel;work:020-6100267   (14.00-22.00 uur)
+x-mozilla-html:FALSE
+url:www.maximes.com
+org:Studio Maxime's
+adr:;;;Amsterdam;;;
+version:2.1
+email;internet:info@maximes.com
+title:Mrs.
+x-mozilla-cpt:;24912
+fn:Maxime
+end:vcard

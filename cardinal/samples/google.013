@@ -1,0 +1,19 @@
+Content-Type: text/x-vcard; charset=us-ascii;
+ name="vrajan.vcf"
+Content-Transfer-Encoding: 7bit
+Content-Description: Card for Rajan Varad G
+Content-Disposition: attachment;
+ filename="vrajan.vcf"
+
+begin:vcard 
+n:Rajan;Varad
+x-mozilla-html:FALSE
+org:Hughes Space and Communications;Information Technology
+adr:;;;;;;
+version:2.1
+email;internet:varad.rajan@hsc.hac.com
+title:Technical Staff
+note;quoted-printable:Ph: 310-662-5195=0D=0AFax: 310-364-5933
+x-mozilla-cpt:;0
+fn:Varad Rajan
+end:vcard

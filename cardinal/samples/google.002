@@ -1,0 +1,20 @@
+Content-Type: text/x-vcard; charset=us-ascii;
+ name="Steve.Rompala.vcf"
+Content-Transfer-Encoding: 7bit
+Content-Description: Card for Steve Rompala
+Content-Disposition: attachment;
+ filename="Steve.Rompala.vcf"
+
+begin:vcard 
+n:Rompala;Stephen
+tel;fax:(514)-855-2157
+tel;work:(514)-855-5001 x51836
+x-mozilla-html:FALSE
+org:Bombardier Aerospace ;Corporate Cad/Cam Manufacturing
+version:2.1
+email;internet:steve.rompala@canadair.ca
+title:Group Leader
+adr;quoted-printable:;;Bombardier AeroSpace=0D=0A1800 Boul Marcel Laurin=0D=0APlant 1, Dept 487;St-Laurent ;Quebec;H4R-1K2;Canada
+x-mozilla-cpt:;31744
+fn:Stephen Rompala
+end:vcard

@@ -1,0 +1,21 @@
+Content-Type: text/x-vcard; charset=us-ascii;
+ name="randy.vcf"
+Content-Transfer-Encoding: 7bit
+Content-Description: Card for RP Pelletier
+Content-Disposition: attachment;
+ filename="randy.vcf"
+
+begin:vcard 
+n:Pelletier;Randy
+tel;cell:207.332.1132
+tel;work:207.773.3533 x4263
+x-mozilla-html:TRUE
+url:www.gofish.com
+org:gofish.com;engineering
+adr:;;PO Box 15340;Portland, Me 04112;;;
+version:2.1
+email;internet:randy@gofish.com
+title:director of technical operations
+x-mozilla-cpt:;8304
+fn:Randy P. Pelletier
+end:vcard

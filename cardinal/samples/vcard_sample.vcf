@@ -1,0 +1,23 @@
+BEGIN:VCARD
+VERSION:2.1
+N:Still;Michael;Benjamin;Mr;ESQ
+FN:Michael Still
+ORG:TOWER Software Engineering;Research and Development
+TITLE:Senior Software Engineer
+ROLE:Software Engineer
+NOTE;ENCODING=QUOTED-PRINTABLE:This is some text in the comment field
+TEL;WORK;VOICE:(800) 900-0111 ext. 2 
+TEL;HOME;VOICE:(213) 123-1234
+TEL;WORK;FAX:(800) 900-0111
+TEL;HOME;FAX:(213) 123-1235
+URL:http://newstars.com
+URL:http://www.stillhq.com
+TEL;PAGER;VOICE:(213) 899-123
+TEL;CELL;VOICE:(213) 899-121
+TEL;CAR;VOICE:(213) 899-124
+EMAIL;TLX:455542
+BDAY:55-04-12
+ADR;HOME:;123 Santa Monica Blvd;Apt. 9-C;Los Angeles;California;93566;USA
+ADR;WORK;ENCODING=QUOTED-PRINTABLE:;Suite A;1900 Sunset Blvd=0D=0ASuite A;Los Angeles;California;93566-2121;USA
+ADR;POSTAL;ENCODING=QUOTED-PRINTABLE:P.O. Box 4568;;P.O. Box 4568;Los Angeles;California;93564-4568;USA
+END:VCARD

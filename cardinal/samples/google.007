@@ -1,0 +1,16 @@
+Content-Type: text/x-vcard; charset=us-ascii; name="kyle.vcf"
+Content-Transfer-Encoding: 7bit
+Content-Description: Card for Kyle
+Content-Disposition: attachment; filename="kyle.vcf"
+
+begin:vcard 
+n:Bateman;Kyle
+x-mozilla-html:FALSE
+org:Action Target Inc.
+adr:;;;;;;
+version:2.1
+email;internet:kyle@actarg.com
+title:President
+x-mozilla-cpt:;0
+fn:Kyle Bateman
+end:vcard

@@ -1,0 +1,23 @@
+Content-Type: text/x-vcard; charset=us-ascii;
+ name="raymond.chui.vcf"
+Content-Transfer-Encoding: 7bit
+Content-Description: Card for Raymond Chui
+Content-Disposition: attachment;
+ filename="raymond.chui.vcf"
+
+begin:vcard 
+n:Chui;Raymond
+tel;fax:(301)713-0963
+tel;home:ICQ #: 16722494
+tel;work:(301)713-0624 Ext. 168
+x-mozilla-html:TRUE
+url:http://members.xoom.com/rchui/
+org:NWS, NOAA
+version:2.1
+email;internet:Raymond.Chui@noaa.gov
+title:SA, DBA
+adr;quoted-printable:;;NOAA, NWS, Office of Hydrology, W/OH2=0D=0A1325
+East-West Highway, Room 8112;Silver Spring;MD;20910-3283;U.S.A.
+x-mozilla-cpt:;30256
+fn:Raymond Chui
+end:vcard

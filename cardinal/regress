@@ -1,6 +1,11 @@
 #!/bin/sh
 
-for item in `find samples -type f`
+for item in `find samples -type f | grep -v CVS`
 do
+  echo "---------------------------"
+  echo $item
   ./vcard < $item
+  echo ""
+  echo ""
+  echo ""
 done

@@ -1,0 +1,35 @@
+Content-Type: text/x-vcard;
+	name="VideoCDs.vcf"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: attachment;
+	filename="VideoCDs.vcf"
+
+BEGIN:VCARD
+VERSION:2.1
+N:VideoCDs/Soft/MP3;Ezequiel
+FN:Ezequiel VideoCDs/Soft/MP3
+ORG:VideoCDs
+NOTE;ENCODING=3DQUOTED-PRINTABLE:Pel=3DEDculas en CD, no es DVD pero la =
+calidad de sonido y video es excelente.=3D
+=3D0D=3D0ASoftware en CDROM, MP3 y m=3DFAsica, a un costo razonable. =
+Tambi=3DE9n hac=3D
+emos copias de CD a CD, backup de HD, CDAudio, etc.=3D0D=3D0AEntregas a =
+domicili=3D
+o en Capital Federal sin cargo.=3D0D=3D0AEnvios al =
+interior.=3D0D=3D0ACalidad, serie=3D
+dad, experiencia.=3D0D=3D0A
+TEL;WORK;VOICE:15-5133-5355
+TEL;WORK;VOICE:15-055-8477
+TEL;CELL;VOICE:15-5133-5355
+ADR;WORK:;;;Buenos Aires;;;Argentina
+LABEL;WORK;ENCODING=3DQUOTED-PRINTABLE:Buenos Aires=3D0D=3D0AArgentina
+ADR;HOME:;;;Buenos Aires;;;Argentina
+LABEL;HOME;ENCODING=3DQUOTED-PRINTABLE:Buenos Aires=3D0D=3D0AArgentina
+URL:http://www.digitaldj.com.ar
+URL:http://www.videocds.com.ar
+EMAIL;INTERNET:dvdfan@bigfoot.com
+EMAIL;INTERNET:provisoria@hotmail.com
+EMAIL;INTERNET:marcoss@tutopia.com
+EMAIL;PREF;INTERNET:dvdfane@yahoo.com
+REV:20010226T220527Z
+END:VCARD
