@@ -2,7 +2,7 @@
 <acronym>GDMS</acronym>
 <glossdef>
 <para>
-<command>GDMS</command>, the Geodetic Data Modeling System, is the name given the the undergraduate portion of my final year project. This is an X Windows based modeling package for geodetic data, and includes least squares, interpolation, windowing and fast Fourier transformation functionality.
+<command>GDMS</command>, the Geodetic Data Modeling System, is the name given to the undergraduate portion of my final year project. This is an X Windows based modeling package for geodetic data, and includes least squares, interpolation, windowing and fast Fourier transformation functionality.
 </para>
 </glossdef>
 </glossentry>

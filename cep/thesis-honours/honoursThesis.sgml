@@ -40,14 +40,14 @@ CGI, or Common Gateway Interface, is a standard which defines methods by which w
 <acronym>GDMS</acronym>
 <glossdef>
 <para>
-<command>GDMS</command>, the Geodetic Data Modeling System, is the name given the the undergraduate portion of my final year project. This is an X Windows based modeling package for geodetic data, and includes least squares, interpolation, windowing and fast Fourier transformation functionality.
+<command>GDMS</command>, the Geodetic Data Modeling System, is the name given to the undergraduate portion of my final year project. This is an X Windows based modeling package for geodetic data, and includes least squares, interpolation, windowing and fast Fourier transformation functionality.
 </para>
 </glossdef>
 </glossentry><glossentry id="gif"><glossterm>GIF</glossterm>
 <acronym>GIF</acronym>
 <glossdef>
 <para>
-The Graphics Interchange Format (GIF) was co-developed by CompuServe Inc. and Unisys Corporation in the late 1980s and early 1990s. GIF is dependent on LZW compression (CompuServe 1990), which is now having it's patent enforced by Unisys (Anonymous 2002). The GIF format itself is quite limited, with a maximum palette size of 255 entries -- in order words 255 distinct colours are available in each image.
+The Graphics Interchange Format (GIF) was co-developed by CompuServe Inc. and Unisys Corporation in the late 1980s and early 1990s. GIF is dependent on LZW compression (CompuServe 1990), which is now having it's patent enforced by Unisys (Anonymous 2002).
 </para>
 </glossdef>
 </glossentry><glossentry id="html"><glossterm>HTML</glossterm>
@@ -124,13 +124,13 @@ At the time that the <command>Geodetic Data Modeling System</command> (GDMS) imp
 </para>
 
 <para>
-Initially, it was though that a Internet interface to <command>GDMS</command> was outside the achievable scope of the project for 2002. However, as the year progressed, it became clear to me that implementing a Internet interface was indeed achievable, and would add genuinely useful functionality to the application. Hence this honors extension was undertaken.
+Initially, it was thought that a Internet interface to <command>GDMS</command> was outside the achievable scope of the project for 2002. However, as the year progressed, it became clear to me that implementing a Internet interface was indeed achievable, and would add genuinely useful functionality to the application. Hence this honors extension was undertaken.
 </para>
 </sect1>
 
 <sect1><title>Outcome</title>
 <para>
-This document describes the design process and implementation of the <command>GDMS Internet interface</command>, and Perl application intended to operate under the Common Gateway Interface (CGI) offered by most modern web servers, including Apache, which is the web server in use within the University of Canberra Survey Laboratory. This application allows the on line use of almost all of the functionality available under the X windows <command>GDMS</command> system.
+This document describes the design process and implementation of the <command>GDMS Internet interface</command>, a Perl application intended to operate under the Common Gateway Interface (CGI) offered by most modern web servers, including Apache, which is the web server in use within the University of Canberra Survey Laboratory. This application allows the on line use of almost all of the functionality available under the X windows <command>GDMS</command> system.
 </para>
 </sect1>
 </chapter>
@@ -143,7 +143,7 @@ A variety of implementation techniques were considered for the <command>GDMS Int
 
 <sect2><title>PHP: Hypertext Preprocessor</title>
 <para>
-There is some evidence that the name originally stood for <emphasis>Personal Home Page tools</emphasis> (Lerdorf 1995). PHP is an in page scripting language which was originally developed by Rasmus Lerdorf (Lerdorf 1995). It is now maintained and extended by a on line team of developers lead by Rasmus Lerdorf (AIMS Group, 2002).
+There is some evidence that the name of PHP originally stood for <emphasis>Personal Home Page tools</emphasis> (Lerdorf 1995). PHP is an in-page scripting language which was originally developed by Rasmus Lerdorf (Lerdorf 1995). It is now maintained and extended by a on line team of developers lead by Rasmus Lerdorf (AIMS Group, 2002).
 </para>
 
 <para>
@@ -190,7 +190,7 @@ Another implementation alternative considered was to implement the system in eit
 </para>
 
 <para>
-C and C++ are also not idiomatic methods of implementing CGI applications, and this would therefore increase the difficulty of maintaining the system for future students and administrators.
+C and C++ are not idiomatic methods of implementing CGI applications, and this would therefore increase the difficulty of maintaining the system for future students and administrators.
 </para>
 </sect2>
 
@@ -250,7 +250,7 @@ TIFF is therefore an inappropriate image format for use for the <command>GDMS In
 
 <sect2><title>Graphics Interchange Format</title>
 <para>
-The Graphics Interchange Format (GIF) was co-developed by CompuServe Inc. and Unisys Corporation in the late 1980s and early 1990s. GIF is dependant on LZW compression (CompuServe 1990), which is now having it's patent enforced by Unisys (Anonymous 2002). The GIF format itself is quite limited, with a maximum palette size of 255 entries -- in order words 255 distinct colours are available in each image.
+The Graphics Interchange Format (GIF) was co-developed by CompuServe Inc. and Unisys Corporation in the late 1980s and early 1990s. GIF is dependant on LZW compression (CompuServe 1990), which is now having it's patent enforced by Unisys (Anonymous 2002). The GIF format itself is quite limited, with a maximum palette size of 255 entries -- in other words 255 distinct colours are available in each image.
 </para>
 
 <para>
@@ -1315,7 +1315,7 @@ sub performFFT(){
 
 <appendix><title>Installation</title>
 <para>
-...
+TODO
 </para>
 </appendix>
 

@@ -33,13 +33,13 @@ At the time that the <command>Geodetic Data Modeling System</command> (GDMS) imp
 </para>
 
 <para>
-Initially, it was though that a Internet interface to <command>GDMS</command> was outside the achievable scope of the project for 2002. However, as the year progressed, it became clear to me that implementing a Internet interface was indeed achievable, and would add genuinely useful functionality to the application. Hence this honors extension was undertaken.
+Initially, it was thought that a Internet interface to <command>GDMS</command> was outside the achievable scope of the project for 2002. However, as the year progressed, it became clear to me that implementing a Internet interface was indeed achievable, and would add genuinely useful functionality to the application. Hence this honors extension was undertaken.
 </para>
 </sect1>
 
 <sect1><title>Outcome</title>
 <para>
-This document describes the design process and implementation of the <command>GDMS Internet interface</command>, and Perl application intended to operate under the Common Gateway Interface (CGI) offered by most modern web servers, including Apache, which is the web server in use within the University of Canberra Survey Laboratory. This application allows the on line use of almost all of the functionality available under the X windows <command>GDMS</command> system.
+This document describes the design process and implementation of the <command>GDMS Internet interface</command>, a Perl application intended to operate under the Common Gateway Interface (CGI) offered by most modern web servers, including Apache, which is the web server in use within the University of Canberra Survey Laboratory. This application allows the on line use of almost all of the functionality available under the X windows <command>GDMS</command> system.
 </para>
 </sect1>
 </chapter>
@@ -159,7 +159,7 @@ This appendix documents the various tags which are implemented by the <command>G
 
 <appendix><title>Installation</title>
 <para>
-...
+TODO
 </para>
 </appendix>
 

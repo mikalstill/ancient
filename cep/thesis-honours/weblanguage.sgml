@@ -5,7 +5,7 @@ A variety of implementation techniques were considered for the <command>GDMS Int
 
 <sect2><title>PHP: Hypertext Preprocessor</title>
 <para>
-There is some evidence that the name originally stood for <emphasis>Personal Home Page tools</emphasis> (Lerdorf 1995). PHP is an in page scripting language which was originally developed by Rasmus Lerdorf (Lerdorf 1995). It is now maintained and extended by a on line team of developers lead by Rasmus Lerdorf (AIMS Group, 2002).
+There is some evidence that the name of PHP originally stood for <emphasis>Personal Home Page tools</emphasis> (Lerdorf 1995). PHP is an in-page scripting language which was originally developed by Rasmus Lerdorf (Lerdorf 1995). It is now maintained and extended by a on line team of developers lead by Rasmus Lerdorf (AIMS Group, 2002).
 </para>
 
 <para>
@@ -52,7 +52,7 @@ Another implementation alternative considered was to implement the system in eit
 </para>
 
 <para>
-C and C++ are also not idiomatic methods of implementing CGI applications, and this would therefore increase the difficulty of maintaining the system for future students and administrators.
+C and C++ are not idiomatic methods of implementing CGI applications, and this would therefore increase the difficulty of maintaining the system for future students and administrators.
 </para>
 </sect2>
 
