@@ -1,0 +1,22 @@
+#!/usr/bin/perl
+
+# Make a text file have a maximum line width. Arg is max width
+# todo: doesn't deal with tabs
+
+use strict;
+my($word, $indent);
+
+$indent = 0;
+while(<STDIN>){
+    chomp;
+    
+    foreach $word (split(/ /, $_)){
+	if(($indent + length($word)) > $ARGV[0]){
+	    print "\r\n";
+	    $indent = 0;
+	}
+	
+	$indent += length($word);
+	print "$word ";
+    }
+}

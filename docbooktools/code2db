@@ -1,12 +1,18 @@
 #!/usr/bin/perl
 
+# Arguements (all optional):
+#   - The section number to wrap the code in
+#   - The name of the source file
+
 use strict;
 my($suppress);
 
 $suppress = 0;
 
+print STDERR "code2db: $ARGV[0] $ARGV[1] $ARGV[2]\n";
+
 # Make C code safe for display in docbook
-if($ARGV[2] ne ""){
+if($ARGV[1] ne ""){
     print "<sect$ARGV[0]><title>Code: $ARGV[1]</title>\n";
 }
 print "<programlisting>\n";
@@ -33,7 +39,7 @@ while(<STDIN>){
 
 print "</programlisting>\n";
 
-if($ARGV[2] ne ""){
+if($ARGV[1] ne ""){
     print "</sect$ARGV[0]>\n";
 }
 else{
