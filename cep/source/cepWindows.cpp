@@ -102,7 +102,7 @@ cepDataset::doWindow (double winSize, double overlap) //todo_daniel: once vector
 				//windowArray(k,i,vecCtr-(currentFirstRecord)) = dataCopy[vecCtr][k];
 				windowData[row][col][dataVectorRow-currentFirstRecord] = dataCopy[dataVectorRow][col];
 			}
-			vecCtr += 1; // increment vector counter
+			dataVectorRow += 1; // increment vector counter
 	} //end while
   } // end for
 
