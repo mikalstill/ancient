@@ -6,7 +6,10 @@
 <sect1>
 <title>About the author</title>
 <para>
-Michael's student number is 964076. He can be contacted at mikal@stillhq.com. Copyright (c) Michael Still 2002.
+Michael's student number is 964076. He can be contacted at mikal@stillhq.com. Copyright (c) Michael Still 2002. This submission is
+<postexecute><cmd>striptext.pl</cmd><input>output.sgml</input><output>temp.txt</output><args>-c</args></postexecute>
+<postexecute><cmd>wc -w</cmd><input>temp.txt</input></postexecute>
+words, not including the code snippets.
 </para>
 </sect1>
 
@@ -157,12 +160,43 @@ test2 = {
         }
 }
 </programlisting>
+
+<para>
+This string representation can then be stored for later use.
+</para>
 </sect2>
 </sect1>
 
 <sect1><title>The other side of the equation</title>
 <para>
 The only reason you would use a package such as <command>Data::Dumper</command> or <command>genstruct</command> is so that you can read the information back in later. This is done with the <command>eval</command> function in perl. <command>genstruct</command>'s equivalent is ...
+</para>
+</sect1>
+
+<sect1><title>Additional features</title>
+<para>
+<command>genstruct</command> also has the following additional features:
+
+<itemizedlist>
+<listitem><para>It is </para></listitem>
+<listitem><para>  </para></listitem>
+</itemizedlist>
+</para>
+</sect1>
+
+<sect1><title>Limitations</title>
+<para>
+</para>
+</sect1>
+
+<sect1><title>Uses</title>
+<para>
+There are several reasons that developers will be interested in <command>genstruct</command>. The main one is that it is a very convenient way of storing information between instances of a program -- for instance you could save information about the session that the user had just completed on program exit (for instance the size of the main window and the last five documents opened) into a structure, and then generate a string representation of this structure to save to a file. On startup, you can read the string back into the structure, and go from there. This was the original reason that the code was developed for the Samba project
+  <footnote><para>The Samba team needs to store a large amount of information about user connections. This ranges from the name of all logged on users, to the locks on files that those users currently hold. At the moment this information is stored in a series of (key, value) <command>tdb</command> databases (<command>tdb</command> is outside the scope of this paper. A brief summary is that it is a very powerful gdbm like (key, value) pair database which supports concurrent access and locking. It has also had a SQL implementation built on top of it, although the Samba team doesn't use this), with several keys for each user's information. It is now possible to simply save a string representation of a structure describing the user, and recover that structure each time it is needed.</para></footnote>
+</para>
+
+<para>
+Interestingly, <command>genstruct</command> has other uses. For instance, if you have a long run server process such as Samba, then it is possible that you might want to change some of the internal data structures whilst the program is running -- for instance if its the middle of the night and you only want to be backing up files, then you could save the normal structures to a string, and then reload them into a different set of structures which is optimised for large file reads. This would rely on <command>genstructs</command> ability to provide default values for keys which didn't exist when the string was created. Dr Tridgell expressed this as a major advantage of <command>genstruct</command> for the Samba team.
 </para>
 </sect1>
 
