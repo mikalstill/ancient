@@ -1,7 +1,7 @@
 #!/usr/local/bin/perl
 
 use strict;
-my($cmd, $input, $arg);
+my($cmd, $cmdstr, $input, $output, $arg);
 
 # Make sure local scripts can run
 $ENV{PATH} = $ENV{PATH} . ":.";
@@ -23,6 +23,15 @@ while(<STDIN>){
 	    $input = "";
 	}
 
+	if(/<output>/){
+	    $output = $cmd;
+	    $output =~ s/.*<output>//;
+	    $output =~ s/<\/output>.*//;
+	}
+	else{
+	    $output = "";
+	}
+
 	if(/<args>/){
 	    $arg = $cmd;
 	    $arg =~ s/.*<args>//;
@@ -36,12 +45,17 @@ while(<STDIN>){
 	$cmd =~ s/<\/cmd>.*//;
 
 	if($cmd ne "todo"){
+	    $cmdstr = "$cmd $arg";
+
 	    if($input ne ""){
-		print `$cmd $arg $input < $input`;
+		$cmdstr = "$cmdstr < $input";
 	    }
-	    else{
-		print `$cmd`;
+
+	    if($output ne ""){
+		$cmdstr = "$cmdstr > $output";
 	    }
+
+	    system($cmdstr);
 	}
 	else{
 	    print "<figure>\n";
