@@ -11,6 +11,8 @@
 
 #include "stringArray.h"
 
+int gUniqueSelection = 0;
+
 object::object (int number, int generation):
 m_number (number),
 m_generation (generation),
@@ -355,12 +357,12 @@ object::getStreamLength ()
 }
 
 void
-object::appendCommand(string visible, string control, string select)
+object::appendCommand(string visible, string control)
 {
   command cmd;
   cmd.visible = visible;
   cmd.control = control;
-  cmd.select = select;
+  cmd.unique = gUniqueSelection++;
 
   m_commands.push_back(cmd);
   m_changed = true;
@@ -375,18 +377,7 @@ object::getCommandCount()
 // TODO mikal: this might not be the most efficient way of doing this. What
 // about pushing each into Panda individually?
 string
-object::getCommandStream()
+object::getCommandStream(int index)
 {
-  string rval;
-
-  debug(dlTrace, string("Dumping a ") + toString(m_commands.size()) +
-	string(" command chain"));
-  for(unsigned int i = 0; i < m_commands.size(); i++)
-    {
-      rval += m_commands[i].control;
-      rval += m_commands[i].visible;
-    }
-
-  debug(dlTrace, "Dumping finished");
-  return rval;
+  return m_commands[index].control + string("\n") + m_commands[index].visible;
 }

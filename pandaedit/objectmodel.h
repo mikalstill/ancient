@@ -35,6 +35,7 @@ typedef struct
   string visible;
   string control;
   string select;
+  int unique;
 }
 command;
 
@@ -142,9 +143,9 @@ public:
   char *getStream (raster & image, unsigned long &length);
   unsigned long getStreamLength ();
 
-  void appendCommand(string visible, string control, string select);
+  void appendCommand(string visible, string control);
   unsigned int getCommandCount();
-  string getCommandStream();
+  string getCommandStream(int index);
   
 private:
   char *applyFilter(string filter, char *instream, unsigned long inlength, 

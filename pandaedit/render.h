@@ -97,8 +97,7 @@ private:
   void render_w ();
   void render_y ();
 
-  void appendCommand(string commandString, string controlString,
-		     string selectString);
+  void appendCommand(string commandString, string controlString);
 
   enum rmMode
   {
@@ -115,10 +114,10 @@ private:
   bool m_hasLine;
   int m_pageno;
 
-  plot_state *m_plot;
+  plot_state *m_plot, *m_select;
   unsigned int m_width, m_height;
 
-  string m_commandString, m_controlString, m_selectString;
+  string m_commandString, m_controlString;
 };
 
 #endif

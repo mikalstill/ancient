@@ -113,9 +113,13 @@ pdfDoc::OnSaveDocument (const wxString & filename)
 
       // Push the drawing commands into the pages stream (skip the Panda
       // creator functions, but use Panda to keep track of bytes etc)
-      pg->contents->layoutstream = 
-	panda_streamprintf(pg->contents->layoutstream,
-			   (char *) m_pages[count].getCommandStream().c_str());
+      for(int cmdcnt = 0; cmdcnt < m_pages[count].getCommandCount(); cmdcnt++)
+	{
+	  pg->contents->layoutstream = 
+	    panda_streamprintf(pg->contents->layoutstream,
+			       (char *) m_pages[count].
+			       getCommandStream(cmdcnt).c_str());
+	}
       debug(dlTrace, "Finished saving page");
     }
   debug(dlTrace, "All pages added");
@@ -238,7 +242,7 @@ pdfDoc::appendCommand(int pageNum, string commandString, string controlString,
   while(pageNum >= m_pages.size())
     appendPage();
 
-  m_pages[pageNum].appendCommand(commandString, controlString, selectString);
+  m_pages[pageNum].appendCommand(commandString, controlString);
 }
 
 void

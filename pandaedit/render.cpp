@@ -10,10 +10,13 @@
 #include "raster.h"
 #include "verbosity.h"
 
+#define SELECTWIDTH 10
+
 pdfRender::pdfRender (pdfDoc *theDoc, int pageno):
 m_doc(theDoc),
 m_mode (rmGraphics),
 m_plot (NULL),
+m_select (NULL),
 m_hasLine (false),
 m_pageno (pageno)
 {
@@ -38,6 +41,13 @@ pdfRender::render ()
 	  debug(dlError, "Failed to initialize new page plot");
 	  return false;
 	}
+
+      if ((m_select = plot_newplot (m_width, m_height)) == NULL)
+	{
+	  debug(dlError, "Failed to initialize new page plot");
+	  return false;
+	}
+      plot_setlinewidth(m_select, SELECTWIDTH, SELECTWIDTH);
 #else
       debug(dlError, "Libmplot not found at configure time. Graphics "
 	    "functionality is therefore not available");
@@ -57,8 +67,12 @@ pdfRender::render ()
 
   // Now we need to process each of the elements in the command array
   debug(dlTrace, "Commence rendering the preprocessed commands");
-  string cmd = m_doc->getPage(m_pageno).getCommandStream();
-  processCommandString((char *) cmd.c_str(), cmd.length(), false);
+  for(int cmdcnt = 0; cmdcnt < m_doc->getPage(m_pageno).getCommandCount();
+      cmdcnt++)
+    {
+      string cmd = m_doc->getPage(m_pageno).getCommandStream(cmdcnt);
+      processCommandString((char *) cmd.c_str(), cmd.length(), false);
+    }
   return true;
 }
 
@@ -114,7 +128,6 @@ pdfRender::processCommandString(char *commandString, unsigned int length,
 
   m_commandString = "";
   m_controlString = "";
-  m_selectString = "";
 
   while (inset < length)
     {
@@ -149,10 +162,9 @@ pdfRender::processCommandString(char *commandString, unsigned int length,
   if(m_commandString != "")
     {
       debug(dlTrace, "Appending command fragment");
-      appendCommand(m_commandString, m_controlString, m_selectString);
+      appendCommand(m_commandString, m_controlString);
       m_commandString = "";
       m_controlString = "";
-      m_selectString = "";
     }
 }
 
@@ -413,9 +425,7 @@ pdfRender::getPNGfile ()
 // TODO mikal: Do we really need these arguments here? There are all passed
 // member variables
 void
-pdfRender::appendCommand(string commandString, string controlString,
-			 string selectString)
+pdfRender::appendCommand(string commandString, string controlString)
 {
-  m_doc->getPage(m_pageno).appendCommand(commandString, controlString,
-					 selectString);
+  m_doc->getPage(m_pageno).appendCommand(commandString, controlString);
 }
