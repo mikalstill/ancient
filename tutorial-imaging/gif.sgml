@@ -475,10 +475,25 @@ GIF supports the interlacing of images, which is where are the image is loaded, 
 
 
 
-<sect1><title>libgif</title>
+<sect1><title>giflib</title>
 <para>
-This library was originally written by Gershon Elbor and Eric Raymond
+This library was originally written by Gershon Elbor and Eric Raymond. In the words of the history in the documentation for giflib:
 </para>
+
+<programlisting>
+This package was originally written by Gershon Elber in 1990 on an IBM PC under MS-DOS using Borland Turbo C. He made it portable to several UNIX environments.
+
+The 2.1 version featured substantial changes and additions by Eric S. Raymond . These included the DGifSlurp/EGifSpew function pair for enabling non-sequential operations on GIF images and
+the tools icon2gif, gifovly, gifburst, and gifcompose.
+
+The 2.4 version converted all the docs from an idiosyncratic plain-text formal to to HTML.
+</programlisting>
+
+<para>
+It is now maintained by Toshio Kuratomi (badger@prtr-13.ucsc.edu), and the website for giflib is at http://prtr-13.ucsc.edu/~badger/software/giflib.shtml. It should be noted that the download link for giflib on this site is broken, and that I had to dig a little to find a copy of giflib. I have therefore included it in the contrib directory of this tutorial.
+</para>
+
+
 </sect1>
 
 <sect1><title>libungif</title>
