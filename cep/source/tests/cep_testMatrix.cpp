@@ -37,11 +37,14 @@
  *     void tearDown( void ) { ... }
  *
  * @author <your name here>
- * @version $Revision: 1.16 $ $Date: 2002-10-22 06:04:56 $
+ * @version $Revision: 1.17 $ $Date: 2002-10-22 06:16:51 $
  *
  * Revision History
  *
  * $Log: not supported by cvs2svn $
+ * Revision 1.16  2002/10/22 06:04:56  u983118
+ * added new tests for resize matrix
+ *
  * Revision 1.15  2002/10/20 05:25:26  u983118
  * removed debug output
  *
@@ -777,9 +780,6 @@ protected:
       for(int j = 0; j < actual.getNumCols(); j ++){
         if( i < rows){
           CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1.0, actual.getValue(i,j));
-        }
-        else{
-          CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", (double)NULL, actual.getValue(i,j));
         }
       }
     }
