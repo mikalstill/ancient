@@ -2,6 +2,7 @@
 /* 
  *   Imp for the CEP date
  *   Copyright (C) Michael Still                    2002
+ *   Copyright (C) Kristy Van Der Vlist             2002
  *   
  *   This program is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -21,6 +22,73 @@
 #ifndef CEP_DATE_HEADER
 #define CEP_DATE_HEADER
 
+#include <string>
+#include "cepUtility.h"
+#include "cepError.h"
+
+/******************************************************************************
+DOCBOOK START
+
+FUNCTION cepDate
+
+
+PURPOSE Converts a decimal date in the format of YYYY.DDDD, in which 1 day is
+equal to 0.0027 to a standard Gregorian date.
+
+SYNOPSIS START
+The follwing is an example of how to create a cepDate object.
+
+cepDate date(value);
+
+where value is the decimal date to be converted.
+
+SYNOPSIS END
+
+DESCRIPTION START
+An implementation of the <command>cepDate</command> class
+converts a decimal date to a Gegorian date.
+</para>
+
+<para>
+<command>const string getDay()</command>
+returns day of month in the format of 01...31
+</para>
+
+<para>
+<command>const string getMonth()</command>
+returns month in the format of 01...12
+</para>
+
+<para>
+<command>const string getMonthName()</command>
+returns month as a string in the format of January...December
+</para>
+
+<para>
+<command>const string getYear()</command>
+returns year in the format of YYYY
+</para>
+
+<para>
+<command>const string getShortDate()</command>
+returns date in short date in the format of DD/MM/YY
+</para>
+
+<para>
+<command>const string getLongDate()</command>
+returns date in long date date in the format of DD MMMMMM YY
+
+DESCRIPTION END
+
+DOCBOOK END
+******************************************************************************/
+const string MONTH_NAMES[12] = { "January", "February", "March", "April", "May",
+  "June", "July", "August", "September", "October",
+  "November", "December"
+};
+
+const double DAY_VAL = 0.0027;
+
 class cepError;
 
 class cepDate
@@ -28,22 +96,24 @@ class cepDate
 public:
   cepDate (double decimal);
 
-  void popDayOfYear ();
-  void popDaysInYear ();
-  void popYear ();
-  void popMonthAndDay ();
+  //returns day of month 01...31
+  const string getDay();
+  //returns month 01...12
+  const string getMonth();
+  //returns month as a string January...December
+  const string getMonthName();
+  //returns year in format YYYY
+  const string getYear();
 
-  string toString ();
-
+  //returns date in short date format DD/MM/YY
+  const string getShortDate();
+  //returns date in long date format DD MMMMMM YY
+  const string getLongDate();
 private:
-  double m_decimal;
-  int m_yearDays;
-  int m_year;
-  int m_dayOfYear;
-  bool m_leap;
+  int m_month,  
+      m_day,
+      m_year;
 
-  int m_day;
-  int m_month;
 };
 
 #endif

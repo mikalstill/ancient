@@ -2,6 +2,7 @@
 /* 
  *   Imp for the CEP date
  *   Copyright (C) Michael Still                    2002
+ *   Copyright (C) Kristy Van Der Vlist             2002
  *   
  *   This program is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -18,95 +19,122 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#include "cepCore.h"
+#include "cepDate.h"
 
-const string cMonthNames[12] = { "January", "February", "March", "April", "May",
-  "June", "July", "August", "September", "October",
-  "November", "December"
-};
-
-cepDate::cepDate (double decimal):m_yearDays (-1),
-m_year (-1), m_dayOfYear (-1), m_leap (false), m_day (-1), m_month (-1)
+cepDate::cepDate (double date)
 {
-  m_decimal = decimal;
-}
+  int monthNums[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+  int i = 0;
+  
+  m_year = m_day = m_month = 0;;
+  
+  m_year = (int)date;
 
-void cepDate::popDayOfYear ()
-{
-  popYear ();
-  popDaysInYear ();
-
-  if (m_dayOfYear == -1)
+  //check if leap year
+  if(((m_year % 100 == 0) && (m_year % 400 == 0)) ||
+    ((m_year % 100 != 0) && (m_year % 4 == 0)))
   {
-    m_dayOfYear = (int)(m_yearDays * (m_decimal - m_year));
-    cepDebugPrint (cepToString (m_decimal) + " converts to " +
-                   cepToString (m_dayOfYear) + " days");
+    monthNums[1] ++;
   }
-}
 
-void cepDate::popDaysInYear ()
-{
-  popYear ();
+  //get the day of Year number (0-365 or 366)
+  m_day = (int)((float)((date - m_year)/DAY_VAL));
 
-  if (m_yearDays == -1)
+  //get the day of month
+  while ((i < 11) && (m_day - monthNums[i] > 0))
   {
-    // This is Blake's fault -- he made me do it
-    // todo_mikal: Change days in years
-    m_yearDays = ((m_year % 100 == 0) && (m_year % 400 == 0)) ||
-      ((m_year % 100 != 0) && (m_year % 4 == 0)) ? 366 : 365;
-
-    cepDebugPrint (cepToString (m_decimal) + " converts to " +
-                   cepToString (m_yearDays) + " days in the year");
-
-    if (m_yearDays == 366)
-      m_leap = true;
+    m_day -= monthNums[i];
+    i++;
   }
+  m_month = i;
 }
 
-void cepDate::popYear ()
+const string cepDate::getDay()
 {
-  if (m_year == -1)
+  string day;
+
+  //zero pad if nessisary
+  if( m_day < 10)
   {
-    m_year = (int)m_decimal;
-
-    cepDebugPrint (cepToString (m_decimal) + " converts to " +
-                   cepToString (m_year) + " year");
+    day = "0";
+    day += cepToString(m_day);
   }
-}
-
-void cepDate::popMonthAndDay ()
-{
-  popDayOfYear ();
-  popYear ();
-  popDaysInYear ();
-
-  if (m_day == -1)
+  else
   {
-    int dayOfYear = m_dayOfYear;
-    int i = 0;
-
-    int months[12] = { 31, m_leap ? 29 : 28, 31, 31, 31, 31, 31, 31, 31, 31,
-      31, 31
-    };
-
-    while ((i < 11) && (dayOfYear - months[i] > 0))
-    {
-      dayOfYear -= months[i];
-      i++;
-    }
-    m_day = dayOfYear;
-    m_month = i;
-
-    cepDebugPrint (cepToString (m_decimal) + " converts to " + cepToString (m_day) +
-                   " " + cMonthNames[m_month]);
+    day = cepToString(m_day);
   }
+  return day;
 }
 
-string cepDate::toString ()
+const string cepDate::getMonth()
 {
-  popMonthAndDay ();
-  popYear ();
+  string month;
 
-  return string (cepToString (m_day) + " " + cMonthNames[m_month] + " " +
-                 cepToString (m_year));
+  //zero pad if nessisary
+  if( m_month < 10)
+  {
+    month = "0";
+    month += cepToString(m_month+1);
+  }
+  else
+  {
+    month = cepToString(m_month+1);
+  }
+  
+  return month;
+}
+
+const string cepDate::getMonthName()
+{
+  return MONTH_NAMES[m_month];
+}
+
+const string cepDate::getYear()
+{
+  return (cepToString(m_year));
+}
+
+const string cepDate::getShortDate()
+{
+  string day, month;
+
+  //zero pad if nessisary
+  if( m_day < 10)
+  {
+    day = "0";
+    day += cepToString(m_day);
+  }
+  else
+  {
+    day = cepToString(m_day);
+  }
+
+  if( m_month < 10)
+  {
+    month = "0";
+    month += cepToString(m_month+1);
+  }
+  else
+  {
+    month = cepToString(m_month+1);
+  }
+
+  return (day + "/" + month + "/" + cepToString(m_year));
+}
+const string cepDate::getLongDate()
+{
+  string day, month;
+
+  //zero pad if nessisary
+  if( m_day < 10)
+  {
+    day = "0";
+    day += cepToString(m_day);
+  }
+  else
+  {
+    day = cepToString(m_day);
+  }
+
+  return(day + " " + MONTH_NAMES[m_month] + " " + cepToString(m_year));
 }
