@@ -282,8 +282,6 @@ cepWindowUi::checkValues ()
     return cepError ("invalid overlap requested");
   if (m_overlap > m_size)
     return cepError ("overlap exceeds window size");
-  if (!check2n (m_size))
-    return cepError ("size needs to be a power of 2");
 
   return cepError ();
 }
@@ -296,18 +294,4 @@ cepWindowUi::checkChebValues ()
   if (isnan (m_bandwidth))
     return cepError ("bandwidth is not a number!");
   return cepError ();
-}
-
-bool
-cepWindowUi::check2n (int n)
-{
-  int counter = 0;
-  while (n)
-    {
-      if (n & 0x1)
-	counter++;
-      n = n >> 1;
-    }
-  // if we have a value = 2^n then only 1 bit should be set
-  return (counter == 1);
 }

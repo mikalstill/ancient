@@ -528,6 +528,14 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
       ////
       maths_menu->Append (CEPMENU_FFT, "Fast Fourier Transform",
 			  "Calculate an FFT for this dataset", FALSE);
+
+      ///
+      maths_menu->Append (CEPMENU_DFT, "Discrete Fourier Transform",
+			  "Calculate a DFT for this dataset", FALSE);
+      
+      ////
+      maths_menu->Append (CEPMENU_WELCH, "Welch Average",
+			  "Calculate the Welch average of the dataset", FALSE);
     }
 
   /////////////////////////////////////////////////////////////////////////////

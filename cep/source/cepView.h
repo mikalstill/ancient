@@ -115,6 +115,10 @@ public:
   // FFT
   void OnFFT (wxCommandEvent & event);
 
+  // Nick's honours extension
+  void OnDFT (wxCommandEvent& event);
+  void OnWelch (wxCommandEvent& event);
+
   // Window selection
   void OnNextWindow (wxCommandEvent & event);
   void OnPrevWindow (wxCommandEvent & event);

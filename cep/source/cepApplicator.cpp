@@ -385,3 +385,51 @@ processLsRW (cepDataset * ds)
 {
   return cepError ();
 }
+
+cepError
+processDFT (cepDataset * ds, string newcfname)
+{
+  cepMatrix < double >psdWithout1st[cepDataset::dirUnknown];
+  double energies[cepDataset::dirUnknown];
+
+  for (int i = 0; i < cepDataset::dirUnknown; i++)
+  {
+    cepMatrix <ComplexDble> fftData;
+    cepMatrix <double> psd;
+    cepDFT myDFT;
+    fftData = myDFT.DFT( *(ds->getMatrix((cepDataset::direction) i)));
+    cepPSD myPSD;
+    psd = myPSD.makePSD(fftData);
+
+    int halfWinSize = psd.getNumRows()/2;
+    int numCols = psd.getNumCols();
+    int numWindows = psd.getNumTables();
+    psdWithout1st[i] =	cepMatrix < double >(halfWinSize-1, numCols, numWindows);
+    for (int window = 0; window < numWindows; window++)
+    {
+      for (int row = 1; row < halfWinSize; row++)
+      {
+        for (int col = 0; col < numCols; col++)
+        {
+          psdWithout1st[i].setValue(row-1,col,window, psd.getValue(row,col,window));
+        }
+      }
+    }
+    energies[i] = psd.getValue(0,1,0);
+  }
+ 
+ // Now we can process the results
+  cepDataset newds (&psdWithout1st[0], &psdWithout1st[1], &psdWithout1st[2],
+		    ds->getOffset ((cepDataset::direction) 0),
+		    ds->getOffset ((cepDataset::direction) 1),
+		    ds->getOffset ((cepDataset::direction) 2),
+		    ds->getProcHistory () + " : DFT",
+		    ds->getHeader ((cepDataset::direction) 0),
+		    ds->getHeader ((cepDataset::direction) 1),
+		    ds->getHeader ((cepDataset::direction) 2));
+  newds.setFreqDomain (true);
+  newds.setFreqEnergies (energies[0], energies[1], energies[2]);
+  newds.write (newcfname);
+  cepDebugPrint ("Finished writing");
+  return cepError ();
+}

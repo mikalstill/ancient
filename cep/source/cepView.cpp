@@ -67,6 +67,7 @@
 #include "cepMatrixIO.h"
 
 #include "cepApplicator.h"
+#include "cepWelch.h"
 
 #include <stdlib.h>
 #include <unistd.h>
@@ -106,6 +107,8 @@ BEGIN_EVENT_TABLE (cepView, wxView)
   EVT_MENU (CEPMENU_INTERP_DIVIDED, cepView::OnInterpDivided)
   EVT_MENU (CEPMENU_INTERP_LS, cepView::OnInterpLs)
   EVT_MENU (CEPMENU_FFT, cepView::OnFFT)
+  EVT_MENU (CEPMENU_DFT, cepView::OnDFT)
+  EVT_MENU (CEPMENU_WELCH, cepView::OnWelch)
   EVT_MENU (CEPMENU_WINDOWNEXT, cepView::OnNextWindow)
   EVT_MENU (CEPMENU_WINDOWPREV, cepView::OnPrevWindow)
   EVT_MENU (CEPMENU_SELECTFONT, cepView::OnSelectFont)
@@ -1099,5 +1102,115 @@ void cepView::OnNextWindow(wxCommandEvent& event)
     }
   }
 
+  canvas->Refresh();
+}
+
+void cepView::OnDFT (wxCommandEvent& event)
+{
+  cepDoc *theDoc = (cepDoc *) GetDocument ();
+  cepDataset *theDataset = theDoc->getDataset ();
+  if (theDataset && theDataset->isReady() && theDataset->isWellFormed()){
+    char *cfname = strdup("/tmp/cep.XXXXXX");
+    int fd;
+    fd = mkstemp(cfname);
+    close(fd);
+
+    string newcfname(string(cfname) + "~" + theDataset->getName());
+    cepError err = processDFT(theDataset, newcfname);
+    if(err.isReal()){
+      err.display();
+      canvas->Refresh();
+      return;
+    }
+
+    wxGetApp().m_docManager->CreateDocument(string(newcfname + ".dat1").c_str(), wxDOC_SILENT);
+    free(cfname);
+  }
+  canvas->Refresh();
+
+}
+
+void cepView::OnWelch (wxCommandEvent& event)
+{
+  //*****************************TODO**************************
+  cepInterpUi interpUi;
+
+  cepDoc *theDoc = (cepDoc *) GetDocument ();
+  cepDataset *theDataset = theDoc->getDataset ();
+  if (theDataset && theDataset->isReady() && theDataset->isWellFormed())
+  {
+    interpUi.showSampleRate(1);
+    if(interpUi.getSampleRate() == -1)
+    {
+      canvas->Refresh();
+      return;
+    }
+
+    // For the future add a dialog box to choose interp type
+    // For the future add a dialog box to choose window type
+
+    cepWindowUi windowUi;
+    cepError err;
+    err = windowUi.show();
+    if( windowUi.cancelled() )
+    {
+	    cepDebugPrint("Operation cancelled");
+	    canvas->Refresh();
+	    return;
+    }
+
+    // for Future: add yes no dialog box for detrend
+    bool detrend = true;
+
+    cepMatrix<double> shortWelch[cepDataset::dirUnknown];
+    double energies[cepDataset::dirUnknown];
+    cepWelch welcher;
+    for (int i = 0; i < cepDataset::dirUnknown; i++)
+    {
+      cepMatrix <double> welch = welcher.welchFromTime(*theDataset->getMatrix((cepDataset::direction) i),
+            interpUi.getSampleRate(), LINEAR_INTERP, windowUi.getSize(), windowUi.getOverlap(),
+            cepDataWindower::WINDOW_HAMMING, detrend);
+
+    int halfWinSize = welch.getNumRows()/2;
+    int numCols = welch.getNumCols();
+    int numWindows = welch.getNumTables();
+    shortWelch[i] =	cepMatrix < double >(halfWinSize-1, numCols, numWindows);
+    for (int window = 0; window < numWindows; window++)
+    {
+      for (int row = 1; row < halfWinSize; row++)
+      {
+        for (int col = 0; col < numCols; col++)
+        {
+          shortWelch[i].setValue(row-1,col,window, welch.getValue(row,col,window));
+        }
+      }
+    }
+    energies[i] = welch.getValue(0,1,0);
+
+    }
+
+    char *cfname = strdup("/tmp/cep.XXXXXX");
+    int fd;
+    fd = mkstemp(cfname);
+    close(fd);
+
+    string newcfname(string(cfname) + "~" + theDataset->getName());
+
+      // Now we can process the results
+    cepDataset newds (&shortWelch[0], &shortWelch[1], &shortWelch[2],
+		    theDataset->getOffset ((cepDataset::direction) 0),
+		    theDataset->getOffset ((cepDataset::direction) 1),
+		    theDataset->getOffset ((cepDataset::direction) 2),
+		    theDataset->getProcHistory () + " : Welch" ,
+		    theDataset->getHeader ((cepDataset::direction) 0),
+		    theDataset->getHeader ((cepDataset::direction) 1),
+		    theDataset->getHeader ((cepDataset::direction) 2));
+    newds.setFreqDomain (true);
+    newds.setFreqEnergies (energies[0], energies[1], energies[2]);
+    newds.write (newcfname);
+
+    wxGetApp().m_docManager->CreateDocument(string(newcfname + ".dat1").c_str(), wxDOC_SILENT);
+    free(cfname);
+	}
   canvas->Refresh();
 }

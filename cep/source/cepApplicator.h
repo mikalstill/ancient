@@ -23,6 +23,8 @@
 #include "cepInterp.h"
 #include "cepDataWindower.h"
 #include "cepCfft.h"
+#include "cepDFT.h"
+#include "cepPSD.h"
 
 cepError processInterp (cepDataset * ds, const int iType, string desc,
 			double sampleRate, string newcfname);
@@ -38,3 +40,4 @@ cepError processLsVCV (cepDataset * ds, cepDataset::direction i, cepMatrix<doubl
 		       cepMatrix<double> & data, cepMatrix<double> & residual,
 		       double & b1, double & b2);
 cepError processLsRW (cepDataset * ds);
+cepError processDFT (cepDataset * ds, string newcfname);

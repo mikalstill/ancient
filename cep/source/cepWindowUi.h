@@ -173,8 +173,6 @@ private:
   int m_overlap;		//the specified Overlap value
   double m_bandwidth;		//the specified Bandwidth value
   bool aborted;
-
-  bool check2n (int n);
 };
 
 
