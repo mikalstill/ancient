@@ -92,7 +92,13 @@
            Normalised Transition Bandwidth, used for tuning the Dolph-Chebyshev window
         </para></glossdef>
     </glossentry>
-
+    
+    <glossentry><glossterm>OO</glossterm>
+      <glossdef><para>
+            Object Oriented.
+      </para></glossdef>
+    </glossentry>
+    
     <glossentry><glossterm>PSD</glossterm>
       <glossdef><para>
       Power Spectral Density
