@@ -7,7 +7,7 @@
 <title>About the author</title>
 <para>
 Michael's student number is 964076. He can be contacted at mikal@stillhq.com. Copyright (c) Michael Still 2002. This submission is
-<postexecute><cmd>striptext.pl</cmd><output>temp.txt</output><args>-c</args></postexecute>
+<postexecute><cmd>striptext</cmd><output>temp.txt</output><args>-c</args></postexecute>
 <postexecute><cmd>wc -w</cmd><input>temp.txt</input></postexecute>
 words, not including the code snippets.
 </para>
@@ -16,9 +16,9 @@ words, not including the code snippets.
 <sect1>
 <title>Abstract</title>
 <para>
-As far as Microsoft is concerned, the future of computing is .NET and distributed computing. A large part of their infrastructure for this is XML and a protocol known as SOAP. SOAP is the subject of this discussion paper
+As far as Microsoft is concerned, the future of computing is .NET and distributed computing. A large part of their infrastructure for this is XML (Extensible Markup Language) and a protocol known as SOAP (Simple Object Access Protocol). SOAP is the subject of this discussion paper
   <footnote><para>XML is considered to be outside the scope of this paper, but it is assumed that the reader has some knowledge of the workings of XML.</para></footnote>
-. SOAP is the Simple Object Access Protocol, and is essentially a XML RPC over HTTP protocol.
+. SOAP is essentially a XML RPC (Remote Proceedure Call) over HTTP (Hyper Text Transfer Protocol) protocol.
 </para>
 </sect1>
 
@@ -36,11 +36,11 @@ This report is based on a day long tutorial on XML and SOAP which I attended on 
 <sect1><title>What is SOAP</title>
 <sect2><title>History</title>
 <para>
-Microsoft has toyed with remote procedure call methods for many years. The most common of these at the moment would have to be DCOM
+Microsoft has toyed with remote procedure call methods for many years. The most common of these at the moment would have to be DCOM (Distributed Component Object Model)
   <footnote><para>The distributed COM implementation, which unfortunately has problems dealing with low latency or low bandwidth network connections -- for instance most Internet connections.</para></footnote>
 . SOAP is an attempt to develop a RPC mechanism which will work well over the Internet. Interestingly, SOAP is also one of the few examples of a protocol championed by Microsoft which has been published as an open standard
   <footnote><para>It is currently a draft specification with the <emphasis>w3c</emphasis> http://www.w3.org/TR/SOAP/</para></footnote>
-, which means developers outside of Microsoft are empowered to develop their own implementations if they want to, without having to resort to reverse engineering techniques.
+. This means developers outside of Microsoft are empowered to develop their own implementations if they want to, without having to resort to reverse engineering techniques.
 </para>
 
 <para>
@@ -65,9 +65,7 @@ This paper will attempt to address all of these issues.
 
 <sect2><title>The protocol</title>
 <para>
-SOAP is defined in terms of an XML DTD
-  <footnote><para>Document Type Definition -- a way of defining a grammar that your XML will obey for a certain type of transaction.</para></footnote>
-, which is what has been submitted to the <emphasis>w3c</emphasis> as a proposed specification. A RPC call (when using the HTTP transport) takes the form of a request for a given page, which the RPC arguments packed into an XML document which is posted to the web service
+SOAP is defined in terms of an XML DTD (Document Type Definition -- a way of defining a grammar that your XML stream will obey for a certain type of transaction), which is what has been submitted to the <emphasis>w3c</emphasis> as a proposed specification. A RPC call (when using the HTTP transport) takes the form of a request for a given page, which the RPC arguments packed into an XML document which is posted to the web service
   <footnote><para>The name given to a piece of software which offers RPC facilities under SOAP.</para></footnote>
 using the same mechanism that POSTs use under CGI. The result of the RPC call is returned in the form of another XML document, which would be displayed in the browser if the client was a web browser.
 </para>
@@ -86,7 +84,7 @@ One possible solution to at least part of this problem is to make client server 
 
 <sect1><title>Resolving concerns about TRIM</title>
 <para>
-As mentioned earlier in this document, TRIM is a prime candidate for conversion to SOAP. Does SOAP help resolve TRIM's problems (which are indicative of those experienced by DCOM users industry wide)? Comparing them point to point:
+As mentioned earlier in this document, TRIM is a prime candidate for conversion to SOAP. Does SOAP help resolve TRIM's DCOM problems? Comparing them point to point:
 
 <orderedlist>
 <listitem><para><emphasis>Scalability</emphasis>: how to make HTTP connections scale is a well understood area
@@ -102,7 +100,7 @@ As mentioned earlier in this document, TRIM is a prime candidate for conversion 
 </para>
 
 <para>
-Overall, it is my understanding at this time that there is no compelling reason to convert TRIM from DCOM to SOAP.
+Overall, it is my understanding at this time that there is no compelling reason to convert TRIM from DCOM to SOAP, as shown by the comparison above.
 </para>
 </sect1>
 
@@ -112,7 +110,7 @@ The talk, as well as the speakers, were well presented. The conference proceedin
 </para>
 
 <para>
-One criticism of the speakers were that they were very Microsoft focused in their discussions, with most of the examples being in Visual Basic (the exceptions were in Microsoft's new language, C#). This is not entirely unexpected at a Microsoft development conference.
+One criticism of the speakers was that they were very Microsoft focused in their discussions, with most of the examples being in Visual Basic (the exceptions were in Microsoft's new language, C#). This is not entirely unexpected at a Microsoft development conference.
 </para>
 </sect1>
 
