@@ -2106,7 +2106,7 @@ I have included the man pages to some of the more useful libtiff commands, so th
 </para>
 
 <sect2><title>tiff2bw</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2229,7 +2229,7 @@ Specify the percentage of the blue channel to use (default 11).
 </sect2>
 
 <sect2><title>tiff2ps</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2490,7 +2490,7 @@ Matters are even worse for 4-, 2-, and 1-bit palette images.
 
 
 <sect2><title>tiffcmp</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2616,7 +2616,7 @@ ImageWidth: 256 520
 
 
 <sect2><title>tiffcp</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2937,7 +2937,7 @@ tiffcp -c none -,=% -b CCD,X.tif CCD,X%1%.tif result.tif
 
 
 <sect2><title>tiffdither</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1990-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3110,7 +3110,7 @@ This image, after being pushed through <command>tiffdither</command> looks somet
 
 
 <sect2><title>tiffdump</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3238,7 +3238,7 @@ PlanarConfig (284) SHORT (3) 1&lt;1&gt;
 
 
 <sect2><title>tiffgt</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3581,7 +3581,7 @@ crashing old versions of the window manager.
 
 
 <sect2><title>tiffinfo</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3759,7 +3759,7 @@ Strip 0:
 
 
 <sect2><title>tiffmedian</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1990-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3905,7 +3905,7 @@ Heckbert, SIGGRAPH proceedings, 1982, pp. 297-307.
 
 
 <sect2><title>tiffsplit</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1992-1997 Sam Leffler -->
 <!--  Copyright (c) 1992-1997 Silicon Graphics, Inc. -->
@@ -3991,7 +3991,7 @@ is used.
 
 
 <sect2><title>tiffsv</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -4331,7 +4331,7 @@ It is also useful to have the man pages for the libtiff API man pages to refer t
 </para>
 
 <sect2><title>TIFFbuffer</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1995 Sam Leffler -->
 <!--  Copyright (c) 1995 Silicon Graphics, Inc. -->
@@ -4443,7 +4443,7 @@ was unable to dynamically allocate space for a data buffer.
 
 
 <sect2><title>TIFFClose</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -4510,7 +4510,7 @@ routine.
 
 
 <sect2><title>TIFFcodec</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1995 Sam Leffler -->
 <!--  Copyright (c) 1995 Silicon Graphics, Inc. -->
@@ -4663,7 +4663,7 @@ compression schemes.
 
 
 <sect2><title>TIFFError</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -4778,7 +4778,7 @@ returns a reference to the previous error handling function.
 
 
 <sect2><title>TIFFFlush</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -4878,7 +4878,7 @@ routine.
 
 
 <sect2><title>TIFFGetField</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -5180,7 +5180,7 @@ routine.
 
 
 <sect2><title>TIFFmemory</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1995 Sam Leffler -->
 <!--  Copyright (c) 1995 Silicon Graphics, Inc. -->
@@ -5307,7 +5307,7 @@ repsectively.
 
 
 <sect2><title>TIFFOpen</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -5645,7 +5645,7 @@ This is a limitation of the library.
 
 
 <sect2><title>TIFFPrintDirectory</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1991-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -5733,7 +5733,7 @@ parameter defaults to 0.
 
 
 <sect2><title>TIFFquery</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -5915,7 +5915,7 @@ library software.
 
 
 <sect2><title>TIFFReadDirectory</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6133,7 +6133,7 @@ the missing value based on the file size.
 
 
 <sect2><title>TIFFReadEncodedStrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6230,7 +6230,7 @@ routine.
 
 
 <sect2><title>TIFFReadEncodedTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6330,7 +6330,7 @@ routine.
 
 
 <sect2><title>TIFFReadRawStrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6412,7 +6412,7 @@ routine.
 
 
 <sect2><title>TIFFReadRawTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6496,7 +6496,7 @@ routine.
 
 
 <sect2><title>TIFFReadRGBAImage</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1991-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6734,7 +6734,7 @@ not handled correctly.
 
 
 <sect2><title>TIFFReadRGBAStrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1991-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6965,7 +6965,7 @@ not handled correctly.
 
 
 <sect2><title>TIFFReadRGBATile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1991-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -7200,7 +7200,7 @@ not handled correctly.
 
 
 <sect2><title>TIFFReadScanline</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -7327,7 +7327,7 @@ the strip- and tile-based interfaces to read these formats.
 
 
 <sect2><title>TIFFReadTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -7466,7 +7466,7 @@ routine.
 
 
 <sect2><title>TIFFRGBAImage</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1991-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -7839,7 +7839,7 @@ not handled correctly.
 
 
 <sect2><title>TIFFSetDirectory</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -7947,7 +7947,7 @@ points to the next directory in a file.
 
 
 <sect2><title>TIFFSetField</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -8200,7 +8200,7 @@ An invalid value was supplied for the named tag.
 
 
 <sect2><title>TIFFsize</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -8275,7 +8275,7 @@ if data is stored as separate planes.
 
 
 <sect2><title>TIFFstrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1992-1997 Sam Leffler -->
 <!--  Copyright (c) 1992-1997 Silicon Graphics, Inc. -->
@@ -8402,7 +8402,7 @@ returns the number of strips in the image.
 
 
 <sect2><title>TIFFswab</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -8522,7 +8522,7 @@ i.e.
 
 
 <sect2><title>TIFFtile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -8739,7 +8739,7 @@ returns the number of tiles in the image.
 
 
 <sect2><title>TIFFWarning</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -8831,7 +8831,7 @@ returns a reference to the previous error handling function.
 
 
 <sect2><title>TIFFWriteDirectory</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -8983,7 +8983,7 @@ written.
 
 
 <sect2><title>TIFFWriteEncodedStrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -9122,7 +9122,7 @@ offsets and byte counts.
 
 
 <sect2><title>TIFFWriteEncodedTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -9252,7 +9252,7 @@ offsets and byte counts.
 
 
 <sect2><title>TIFFWriteRawStrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -9380,7 +9380,7 @@ currently specified image dimensions.
 
 
 <sect2><title>TIFFWriteRawTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -9494,7 +9494,7 @@ specified image dimensions.
 
 
 <sect2><title>TIFFWriteScanline</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -9698,7 +9698,7 @@ the library does not pack the block-interleaved samples.
 
 
 <sect2><title>TIFFWriteTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.54 2002-07-17 12:17:34 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.55 2002-07-17 12:45:34 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -11019,7 +11019,7 @@ The PNG has gone from being a simple specification with limitations such as only
 </para>
 
 <para>
-Various versions of the PNG specificiation have been published as RFC-2083 and as a W3C Recommendation, which means that supporting the format is a lot easier because it is well defined.
+Various versions of the PNG specification have been published as RFC-2083 and as a W3C Recommendation, which means that supporting the format is a lot easier because it is well defined.
 </para>
 
 <para>
@@ -11064,7 +11064,7 @@ It is useful to introduce the PNG file format as one of the first parts of this 
 
 <sect2><title>Byte order</title>
 <para>
-If you recall the TIFF format, multi byte values can either be little endian or big endian. This means that the libtiff library must perform byte swapping everytime you read a value which takes more than one byte (which is most of the time). libpng doesn't have these problems, as all multi byte values are in network byte order (big endian).
+If you recall the TIFF format, multi byte values can either be little endian or big endian. This means that the libtiff library must perform byte swapping every time you read a value which takes more than one byte (which is most of the time). libpng doesn't have these problems, as all multi byte values are in network byte order (big endian).
 </para>
 </sect2>
 
@@ -11209,7 +11209,7 @@ The case used in chunk names has special significance. The table below describes
 
 </sect2>
 
-<sect2><title>CRC algorithmn</title>
+<sect2><title>CRC algorithm</title>
 <para>
 The exact workings of the CRC algorithm are outside the scope of this tutorial...
 </para>
@@ -11292,7 +11292,7 @@ There are various values which are valid for the color type field. Each of these
 
 <row>
   <entry>0: 1, 2, 4, 8, 16</entry>
-  <entry>Each pixel is a grayscale sample</entry>
+  <entry>Each pixel is a gray scale sample</entry>
 </row>
 
 <row>
@@ -11312,7 +11312,7 @@ There are various values which are valid for the color type field. Each of these
 
 <row>
   <entry>4: 8, 16</entry>
-  <entry>Each pixel is a grayscale sample, followed by an alpha channel</entry>
+  <entry>Each pixel is a gray scale sample, followed by an alpha channel</entry>
 </row>
 
 <row>
@@ -12526,7 +12526,7 @@ int main(int argc, char *argv[]){
 
 <sect1><title>Writing a PNG image</title>
 <para>
-Wrinting a PNG file is <emphasis>very</emphasis> to reading the PNG file. The example below extends the code from above to open a PNG file, and then copy it to a new PNG file.
+Writing a PNG file is <emphasis>very</emphasis> to reading the PNG file. The example below extends the code from above to open a PNG file, and then copy it to a new PNG file.
 </para>
 
 <programlisting>
@@ -12668,7 +12668,7 @@ int main(int argc, char *argv[]){
 
 <sect1><title>Storing PNG data in places other than files</title>
 <para>
-This example below, much like the TIFFClient examples in the TIFF chapter shows how to use the libpng callbacks to get to image data in places other than files. Note that it wont compile, but it does give you an example of the structure you need...
+This example below, much like the TIFFClient examples in the TIFF chapter shows how to use the libpng call backs to get to image data in places other than files. Note that it wont compile, but it does give you an example of the structure you need...
 </para>
 
 <programlisting>
@@ -18346,7 +18346,7 @@ January 31, 2001
 
 <sect1><title>Conclusion</title>
 <para>
-This chapter hasn't been as complete as the TIFF chapter, for which I apologise. I have shown you all the important things about the PNG format though -- the layout of the images on disc, how to open and read an image, how to write an image, how to use the client callbacks to save data in places other than files, and I have included the libpng documentation.
+This chapter hasn't been as complete as the TIFF chapter, for which I apologize. I have shown you all the important things about the PNG format though -- the layout of the images on disc, how to open and read an image, how to write an image, how to use the client call backs to save data in places other than files, and I have included the libpng documentation.
 </para>
 </sect1>
 
@@ -18456,7 +18456,7 @@ This object is the 0th version of object number 1. The text between the &lt;&lt;
 
 <sidebar><title>Order of objects in the file</title>
 <para>
-Note that objects can appear in the file in any order, because there is a lookup table called an XREF table at the end of the file that they can be looked up from.
+Note that objects can appear in the file in any order, because there is a look up table called an XREF table at the end of the file that they can be looked up from.
 </para>
 </sidebar>
 </sect2>
@@ -18529,8 +18529,9 @@ numbers.
 Integer numbers can be either positive or negative (with a leading sign value if needed) and have a maximum value of ... and a minimum value of ... .
 
 </para>
+</sect5>
 
-<sect6><title>Examples</title>
+<sect5><title>Examples</title>
 <programlisting>
 123
 43445
@@ -18538,7 +18539,6 @@ Integer numbers can be either positive or negative (with a leading sign value if
 -17
 0
 </programlisting>
-</sect6>
 </sect5>
 
 <sect5><title>Real numbers</title>
@@ -18546,8 +18546,9 @@ Integer numbers can be either positive or negative (with a leading sign value if
 Real numbers can exist in the range ... to ..., and may or may not have leading zeros.
 
 </para>
+</sect5>
 
-<sect6><title>Examples</title>
+<sect5><title>Examples</title>
 <programlisting>
 34.5
 -3.62
@@ -18556,7 +18557,6 @@ Real numbers can exist in the range ... to ..., and may or may not have leading 
 -.002
 0.0
 </programlisting>
-</sect6>
 </sect5>
 
 <sect5><title>Caveats</title>
@@ -18566,6 +18566,7 @@ The PDF specification makes the following point:
 <quote>PDF does not support the PostScript syntax for numbers with non-decimal radices (such as 16#FFFE) or in exponent format (such as 6.02E23).</quote>
   <footnote><para>PDF Specification 1.3, second edition, page 27</para></footnote>
 </para>
+</sect5>
 </sect4>
 <sect4><title>Strings</title>
 <para>
@@ -18582,17 +18583,18 @@ Strings can be wrapped in curved brackets such as () to delimit the start and en
 <para>
 These are known as literal strings in the PDF specification.
 </para>
+</sect5>
 
-<sect6><title>Examples</title>
+<sect5><title>Examples</title>
 <programlisting>
 (hello)
 (hello world)
 (hello world \(the people I like\))
 (hello world (the people I like))
 </programlisting>
-</sect6>
+</sect5>
 
-<sect6><title>Escaped characters</title>
+<sect5><title>Escaped characters</title>
 <para>
 There are a series of standard characters which are used with the backslash escape. These are:
 </para>
@@ -18645,8 +18647,9 @@ More on strings in this notation can be found in the PDF specification, version 
 <para>
 Strings can also be written in hexadecimal form, and in this case are enclosed in angle brackets.
 </para>
+</sect5>
 
-<sect6><title>Examples</title>
+<sect5><title>Examples</title>
 <para>
 An example of a hexidecimal string is:
 </para>
@@ -18670,7 +18673,6 @@ Is the same as:
 <programlisting>
 &lt;901FA0&gt;
 </programlisting>
-</sect6>
 </sect5>
 
 </sect4>
@@ -18739,10 +18741,10 @@ endobj
 A description for the page layout descriptions is outside the scope of this document. 
 
 
-The other type of information which can be stored in a stream is arbitary information such as the content of images (which would normally be raster information). 
+The other type of information which can be stored in a stream is arbitrary information such as the content of images (which would normally be raster information). 
 
 
-An indepth discussion of the formatting of the raster information is also outside the scope of this document.
+An in depth discussion of the formatting of the raster information is also outside the scope of this document.
 </para>
 
 <sect3><title>Filters on streams</title>
@@ -19079,7 +19081,7 @@ Each page object will have a content object.
 
 <sect3><title>Content objects</title>
 <para>
-Each content object will refer to the pages object, as well as refering to resources that that needed to draw this page. The resources can be used by other contents objects as well. Resources are things like fonts, and images.
+Each content object will refer to the pages object, as well as referring to resources that that needed to draw this page. The resources can be used by other contents objects as well. Resources are things like fonts, and images.
 </para>
 
 <para>
@@ -19097,16 +19099,17 @@ If the resource is an image or an embedded font, then the additional binary data
 </para>
 </sect3>
 
+<sect3><title>Typical object structure</title>
 <figure><title>A typical PDF object structure</title>
 <graphic format="EPS" fileref="pdf-figure1.eps">
 </figure>
-
+</sect3>
 </sect2>
 </sect1>
 
 <sect1><title>Support for presentations</title>
 <para>
-PDF documents can be used to create presentation slide shows. There are two main features which support this use of PDF -- page duration, and page transitions. The page duration is the amount of time that the page will appear on the screen before the PDF viewer automatically moves onto the next page. The transition is the effect applied to the PDF pages when they are being swapped between -- this is very similar to the Microsoft PowerPoint presentations.
+PDF documents can be used to create presentation slide shows. There are two main features which support this use of PDF -- page duration, and page transitions. The page duration is the amount of time that the page will appear on the screen before the PDF viewer automatically moves onto the next page. The transition is the effect applied to the PDF pages when they are being swapped between -- this is very similar to the Microsoft Power Point presentations.
 </para>
 
 <para>
@@ -19202,30 +19205,12 @@ Which produces...
 <graphic format="EPS" fileref="source/pdf/panda/hello/hello.pdf.eps">
 </figure>
 
-
-<para>
-todo
-</para>
 </sect2>
 
 <sect2><title>Initialization</title>
 <para>
-Initialisation of Panda is easy. Simply call <command>panda_init</command>(). You'll also need to create a PDF document, which is done with the <command>panda_open</command> function.
+Initialization of Panda is easy. Simply call <command>panda_init</command>(). You'll also need to create a PDF document, which is done with the <command>panda_open</command> function.
 </para>
-
-<!-- 
-
-     This document is part of the panda distribution, and is covered
-     by the GNU GPL, a copy of which is in the file named COPYING inside the
-     distribution.
-
-     This program and it's documentation are distributed in the hope that 
-     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
-     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
--->
-
-<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
 
 <refentry id="panda_init">
 <refmeta>
@@ -19267,20 +19252,6 @@ Initialisation of Panda is easy. Simply call <command>panda_init</command>(). Yo
 </refsect1>
 
 </refentry>
-<!-- 
-
-     This document is part of the panda distribution, and is covered
-     by the GNU GPL, a copy of which is in the file named COPYING inside the
-     distribution.
-
-     This program and it's documentation are distributed in the hope that 
-     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
-     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
--->
-
-<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
-
 <refentry id="panda_open">
 <refmeta>
 <refentrytitle>panda_open</refentrytitle>
@@ -19334,22 +19305,8 @@ Initialisation of Panda is easy. Simply call <command>panda_init</command>(). Yo
 
 <sect2><title>Creating pages</title>
 <para>
-Pages are created in Panda using the <command>panda_newpage</command> function. You can magically be editting as many pages at a time as you like with Panda without any additional calls being needed.
+Pages are created in Panda using the <command>panda_newpage</command> function. You can magically be editing as many pages at a time as you like with Panda without any additional calls being needed.
 </para>
-
-<!-- 
-
-     This document is part of the panda distribution, and is covered
-     by the GNU GPL, a copy of which is in the file named COPYING inside the
-     distribution.
-
-     This program and it's documentation are distributed in the hope that 
-     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
-     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
--->
-
-<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
 
 <refentry id="panda_newpage">
 <refmeta>
@@ -19404,24 +19361,70 @@ Pages are created in Panda using the <command>panda_newpage</command> function. 
 </refentry>
 </sect2>
 
-<sect2><title>Finalization</title>
+<sect2><title>Object properties</title>
+<para>
+Panda allows you to selectively apply properties to portions of your PDF document. The most common example is choosing which portions of your PDF document to compress.
+</para>
+
+<refentry id="panda_setobjectproperty">
+<refmeta>
+<refentrytitle>panda_setobjectproperty</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_setobjectproperty</refname>
+<refpurpose>set a property value for an object</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_setobjectproperty (panda_object *target, int scope, int propid, int propval);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>Properties are a way of specifing things about objects. These properties can have either a cascade scope (they affect all subsequently created objects that are children of that object) -- <command>panda_scope_cascade</command>, or local (they only occur for that object) -- <command>panda_scope_local</command>. Possible properties are defined in the <command>panda_const_properties</command> manual page.</para>
+</refsect1>
+
+<refsect1>
+<title>RETURNS</title>
+<para>None</para>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLE</title>
+<para> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ panda_object *obj;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ obj = panda_newobject(document, panda_object_normal);
+ panda_setproperty(obj, panda_scope_cascade, panda_object_property_compress, panda_true);
+ 
+</para>
+</refsect1>
+
+<refsect1>
+<title>SEE ALSO</title>
+<para>panda_newobject, panda_const_properties</para>
+</refsect1>
+
+</refentry>
+</sect2>
+
+<sect2><title>Finalizing</title>
 <para>
 Pages don't need to be closed in Panda. This is done when the <command>panda_close</command> function is called. This function writes the entire PDF document out to disc.
 </para>
-
-<!-- 
-
-     This document is part of the panda distribution, and is covered
-     by the GNU GPL, a copy of which is in the file named COPYING inside the
-     distribution.
-
-     This program and it's documentation are distributed in the hope that 
-     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
-     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
--->
-
-<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
 
 <refentry id="panda_close">
 <refmeta>
@@ -19479,22 +19482,8 @@ Pages don't need to be closed in Panda. This is done when the <command>panda_clo
 
 <sect2><title>Inserting text</title>
 <para>
-One of the advantages which ClibPDF has over Panda is that it currently supported word wrap, whereas Panda doesn't. Panda does have a variety of text functionality however. The public text functions in Panda are: <command>panda_textboxrot</commmand>, which creates a text box at a jaunty angle, <command>panda_textbox</command>, which creates a horizontal textbox (a zero angle), and <command>panda_textdirection</command>, which sets the flow direction for text.
+One of the advantages which ClibPDF has over Panda is that it currently supported word wrap, whereas Panda doesn't. Panda does have a variety of text functionality however. The public text functions in Panda are: <command>panda_textboxrot</command>, which creates a text box at a jaunty angle, <command>panda_textbox</command>, which creates a horizontal textbox (a zero angle), and <command>panda_textdirection</command>, which sets the flow direction for text.
 </para>
-
-<!-- 
-
-     This document is part of the panda distribution, and is covered
-     by the GNU GPL, a copy of which is in the file named COPYING inside the
-     distribution.
-
-     This program and it's documentation are distributed in the hope that 
-     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
-     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
--->
-
-<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
 
 <refentry id="panda_textbox">
 <refmeta>
@@ -19548,20 +19537,6 @@ One of the advantages which ClibPDF has over Panda is that it currently supporte
 </refsect1>
 
 </refentry>
-<!-- 
-
-     This document is part of the panda distribution, and is covered
-     by the GNU GPL, a copy of which is in the file named COPYING inside the
-     distribution.
-
-     This program and it's documentation are distributed in the hope that 
-     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
-     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
--->
-
-<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
-
 <refentry id="panda_textboxrot">
 <refmeta>
 <refentrytitle>panda_textboxrot</refentrytitle>
@@ -19614,20 +19589,6 @@ One of the advantages which ClibPDF has over Panda is that it currently supporte
 </refsect1>
 
 </refentry>
-<!-- 
-
-     This document is part of the panda distribution, and is covered
-     by the GNU GPL, a copy of which is in the file named COPYING inside the
-     distribution.
-
-     This program and it's documentation are distributed in the hope that 
-     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
-     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
--->
-
-<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
-
 <refentry id="panda_textdirection">
 <refmeta>
 <refentrytitle>panda_textdirection</refentrytitle>
@@ -19677,22 +19638,8 @@ One of the advantages which ClibPDF has over Panda is that it currently supporte
 
 <sect2><title>Fonts</title>
 <para>
-Panda currently only supports the standard PDF fonts, and will not allow you to embed arbitary fonts into your PDF documents (unlike PDFlib). Some users might find this a little limiting for the time being. In Panda, you use fonts by first creating a pointer to the font using <command>panda_createfont</command>, and then start using that font with <command>panda_setfont</command>. This allows you use efficiently create the five fonts you are going to use in the document, and then swap backwards and forwards within that set of five with no performance penalty.
+Panda currently only supports the standard PDF fonts, and will not allow you to embed arbitrary fonts into your PDF documents (unlike PDFlib). Some users might find this a little limiting for the time being. In Panda, you use fonts by first creating a pointer to the font using <command>panda_createfont</command>, and then start using that font with <command>panda_setfont</command>. This allows you use efficiently create the five fonts you are going to use in the document, and then swap backwards and forwards within that set of five with no performance penalty.
 </para>
-
-<!-- 
-
-     This document is part of the panda distribution, and is covered
-     by the GNU GPL, a copy of which is in the file named COPYING inside the
-     distribution.
-
-     This program and it's documentation are distributed in the hope that 
-     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
-     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
--->
-
-<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
 
 <refentry id="panda_createfont">
 <refmeta>
@@ -19744,20 +19691,6 @@ Panda currently only supports the standard PDF fonts, and will not allow you to 
 </refsect1>
 
 </refentry>
-<!-- 
-
-     This document is part of the panda distribution, and is covered
-     by the GNU GPL, a copy of which is in the file named COPYING inside the
-     distribution.
-
-     This program and it's documentation are distributed in the hope that 
-     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
-     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
--->
-
-<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
-
 <refentry id="panda_setfont">
 <refmeta>
 <refentrytitle>panda_setfont</refentrytitle>
@@ -19811,6 +19744,366 @@ Panda currently only supports the standard PDF fonts, and will not allow you to 
 </refentry>
 </sect2>
 
+<sect2><title>Font attributes</title>
+<para>
+Panda also allows you to set a variety of font attributes...
+</para>
+
+<refentry id="panda_setcharacterspacing">
+<refmeta>
+<refentrytitle>panda_setcharacterspacing</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_setcharacterspacing</refname>
+<refpurpose>set the space between characters</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_setcharacterspacing (panda_page *target, double amount);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>Set the amount of additional space between characters in points.</para>
+</refsect1>
+
+<refsect1>
+<title>RETURNS</title>
+<para>Nothing</para>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLE</title>
+<para> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *output;
+ 
+ panda_init();
+ output = panda_open("output.pdf", "w");
+ panda_setcharacterspacing(output, 42.3);
+</para>
+</refsect1>
+
+<refsect1>
+<title>SEE ALSO</title>
+<para>panda_setwordspacing, panda_sethorizontalscaling, panda_setleading</para>
+</refsect1>
+
+</refentry>
+<refentry id="panda_setfillcolor">
+<refmeta>
+<refentrytitle>panda_setfillcolor</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_setfillcolor</refname>
+<refpurpose>set the color to fill a close shape with</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_setfillcolor (panda_page *target, int red, int green, int blue);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>This function sets the color to fill a close shape with when the shape is closed. It is expressed as a combinartion of red, green, and blue. The maximum number for each value is 255 (a number greater than 255 is reduced to 255).</para>
+</refsect1>
+
+<refsect1>
+<title>RETURNS</title>
+<para>Nothing</para>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLE</title>
+<para> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ panda_page *page;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ page = panda_newpage (document, panda_pagesize_a4);
+ 
+ panda_setlinestart (page, 100, 200);
+ panda_setfillcolor (page, 100, 200, 300);
+ panda_addlinesegment (page, 200, 200);
+ panda_addlinesegment (page, 250, 300);
+ panda_closeline (page);
+ panda_endline (page);
+</para>
+</refsect1>
+
+<refsect1>
+<title>SEE ALSO</title>
+<para>panda_setlinestart, panda_addlinesegment, panda_addcubiccurvesegment, panda_addquadraticsegmentone, panda_addquadraticcurvesegmenttwo, panda_closeline, panda_rectangle, panda_endline, panda_strokeline, panda_fillline, panda_setlinewidth, panda_setlinecap, panda_setlinejoin, panda_setlinedash, panda_setlinecolor</para>
+</refsect1>
+
+</refentry>
+<refentry id="panda_setfontmode">
+<refmeta>
+<refentrytitle>panda_setfontmode</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_setfontmode</refname>
+<refpurpose>set the current font mode</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_setfontmode (panda_page *target, int mode);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>Set the drawing mode for the current font. Valid modes are: panda_textmode_normal, panda_textmode_outline, panda_textmode_filledoutline, panda_textmode_invisible, panda_textmode_filledclipped, panda_textmode_strokedclipped, panda_textmode_filledstrokedclipped and panda_textmode_clipped.</para>
+</refsect1>
+
+<refsect1>
+<title>RETURNS</title>
+<para>Nothing</para>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLE</title>
+<para> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *output;
+ 
+ panda_init();
+ output = panda_open("output.pdf", "w");
+ panda_setfontmode(output, panda_textmode_outline);
+</para>
+</refsect1>
+
+<refsect1>
+<title>SEE ALSO</title>
+<para>panda_setfontsize, panda_setfont</para>
+</refsect1>
+
+</refentry>
+<refentry id="panda_setfontsize">
+<refmeta>
+<refentrytitle>panda_setfontsize</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_setfontsize</refname>
+<refpurpose>set the current font size</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_setfontsize (panda_page *target, int size);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>Set the size of the font to be used next (in points).</para>
+</refsect1>
+
+<refsect1>
+<title>RETURNS</title>
+<para>Nothing</para>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLE</title>
+<para> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *output;
+ 
+ panda_init();
+ output = panda_open("output.pdf", "w");
+ setfontsize(output, 42);
+</para>
+</refsect1>
+
+<refsect1>
+<title>SEE ALSO</title>
+<para>panda_setfontmode, panda_setfont</para>
+</refsect1>
+
+</refentry>
+<refentry id="panda_sethorizontalscaling">
+<refmeta>
+<refentrytitle>panda_sethorizontalscaling</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_sethorizontalscaling</refname>
+<refpurpose>set the horizontal scaling of text</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_sethorizontalscaling (panda_pdf *output, double amount);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>Set the horizontal scaling factor of the text in percent.</para>
+</refsect1>
+
+<refsect1>
+<title>RETURNS</title>
+<para>Nothing</para>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLE</title>
+<para> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *output;
+ 
+ panda_init();
+ output = panda_open("output.pdf", "w");
+ panda_sethorizontalscaling(output, 42.3);
+</para>
+</refsect1>
+
+<refsect1>
+<title>SEE ALSO</title>
+<para>panda_setcharacterspacing, panda_setwordspacing, panda_setleading</para>
+</refsect1>
+
+</refentry>
+<refentry id="panda_setleading">
+<refmeta>
+<refentrytitle>panda_setleading</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_setleading</refname>
+<refpurpose>set the amount of space between lines of text</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_setleading (panda_pdf *output, double amount);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>Set the amount of space between lines of text in points.</para>
+</refsect1>
+
+<refsect1>
+<title>RETURNS</title>
+<para>Nothing</para>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLE</title>
+<para> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *output;
+ 
+ panda_init();
+ output = panda_open("output.pdf", "w");
+ panda_setleading(output, 42.3);
+</para>
+</refsect1>
+
+<refsect1>
+<title>SEE ALSO</title>
+<para>panda_setcharacterspacing, panda_setwordspacing, panda_sethorizontalscaling</para>
+</refsect1>
+
+</refentry>
+<refentry id="panda_setwordspacing">
+<refmeta>
+<refentrytitle>panda_setwordspacing</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_setwordspacing</refname>
+<refpurpose>set the space between words</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_setwordspacing (panda_page *target, double amount);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>Set the amount of additional space between words in points.</para>
+</refsect1>
+
+<refsect1>
+<title>RETURNS</title>
+<para>Nothing</para>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLE</title>
+<para> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *output;
+ 
+ panda_init();
+ output = panda_open("output.pdf", "w");
+ panda_setwordspacing(output, 42.3);
+</para>
+</refsect1>
+
+<refsect1>
+<title>SEE ALSO</title>
+<para>panda_setcharacterspacing, panda_sethorizontalscaling, panda_setleading</para>
+</refsect1>
+
+</refentry>
+
+</sect2>
+
 <sect2><title>Inserting raster images</title>
 <para>
 Panda probably has the best raster image support of any of the PDF libraries available (not including Adobe's libraries). This is because this is my main area of expertise, and has been the main focus of the Panda development effort. For example ClibPDF only supports TIFF images in a limited set of formats, whereas I am not aware of any TIFF files which cannot be inserting into a PDF with Panda. Panda also never creates temporary files on disc when it needs to convert between TIFF formats, unlike PDFlib.
@@ -19838,20 +20131,6 @@ Panda supports PNG fully.
 <para>
 In Panda you use the <command>panda_imagebox</command>, and the <command>panda_imageboxrot</command> functions to insert images.
 </para>
-
-<!-- 
-
-     This document is part of the panda distribution, and is covered
-     by the GNU GPL, a copy of which is in the file named COPYING inside the
-     distribution.
-
-     This program and it's documentation are distributed in the hope that 
-     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
-     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
--->
-
-<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
 
 <refentry id="panda_imagebox">
 <refmeta>
@@ -19909,20 +20188,6 @@ In Panda you use the <command>panda_imagebox</command>, and the <command>panda_i
 </refsect1>
 
 </refentry>
-<!-- 
-
-     This document is part of the panda distribution, and is covered
-     by the GNU GPL, a copy of which is in the file named COPYING inside the
-     distribution.
-
-     This program and it's documentation are distributed in the hope that 
-     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
-     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
--->
-
-<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
-
 <refentry id="panda_imageboxrot">
 <refmeta>
 <refentrytitle>panda_imageboxrot</refentrytitle>
@@ -19989,22 +20254,8 @@ Panda, supports the full range of PDF vector graphics commands. See the sections
 
 <sect3><title>Lines</title>
 <para>
-With Panda, the way you draw a line is to first create a line with <command>panda_setlinestart</command>, you then draw line segments with <command>panda_addlinesegment</command>. When you're finished, you close the line with <command>panda_closeline</command>. <command>panda_strokeline</command> is used to force the line to be drawn.
+With Panda, the way you draw a line is to first create a line with <command>panda_setlinestart</command>, you then draw line segments with <command>panda_addlinesegment</command>. When you're finished, you close the line with <command>panda_closeline</command>. <command>panda_strokeline</command> is used to force the line to be drawn. You can also add curved segments to a line using <command>panda_addcubiccurvesegment</command>, <command>panda_addquadraticcurvesegmentone</command>, and <command>panda_addquadraticcurvesegmenttwo</command>. Finally, if all you want is a rectangle, then use <command>panda_rectangle</command> to do it for you.
 </para>
-
-<!-- 
-
-     This document is part of the panda distribution, and is covered
-     by the GNU GPL, a copy of which is in the file named COPYING inside the
-     distribution.
-
-     This program and it's documentation are distributed in the hope that 
-     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
-     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
--->
-
-<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
 
 <refentry id="panda_setlinestart">
 <refmeta>
@@ -20059,20 +20310,6 @@ With Panda, the way you draw a line is to first create a line with <command>pand
 </refsect1>
 
 </refentry>
-<!-- 
-
-     This document is part of the panda distribution, and is covered
-     by the GNU GPL, a copy of which is in the file named COPYING inside the
-     distribution.
-
-     This program and it's documentation are distributed in the hope that 
-     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
-     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
--->
-
-<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
-
 <refentry id="panda_addlinesegment">
 <refmeta>
 <refentrytitle>panda_addlinesegment</refentrytitle>
@@ -20127,20 +20364,6 @@ With Panda, the way you draw a line is to first create a line with <command>pand
 </refsect1>
 
 </refentry>
-<!-- 
-
-     This document is part of the panda distribution, and is covered
-     by the GNU GPL, a copy of which is in the file named COPYING inside the
-     distribution.
-
-     This program and it's documentation are distributed in the hope that 
-     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
-     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
--->
-
-<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
-
 <refentry id="panda_closeline">
 <refmeta>
 <refentrytitle>panda_closeline</refentrytitle>
@@ -20197,20 +20420,6 @@ With Panda, the way you draw a line is to first create a line with <command>pand
 </refsect1>
 
 </refentry>
-<!-- 
-
-     This document is part of the panda distribution, and is covered
-     by the GNU GPL, a copy of which is in the file named COPYING inside the
-     distribution.
-
-     This program and it's documentation are distributed in the hope that 
-     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
-     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
--->
-
-<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
-
 <refentry id="panda_endline">
 <refmeta>
 <refentrytitle>panda_endline</refentrytitle>
@@ -20266,20 +20475,6 @@ With Panda, the way you draw a line is to first create a line with <command>pand
 </refsect1>
 
 </refentry>
-<!-- 
-
-     This document is part of the panda distribution, and is covered
-     by the GNU GPL, a copy of which is in the file named COPYING inside the
-     distribution.
-
-     This program and it's documentation are distributed in the hope that 
-     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
-     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
--->
-
-<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
-
 <refentry id="panda_strokeline">
 <refmeta>
 <refentrytitle>panda_strokeline</refentrytitle>
@@ -20336,26 +20531,229 @@ With Panda, the way you draw a line is to first create a line with <command>pand
 </refsect1>
 
 </refentry>
+
+<refentry id="panda_addcubiccurvesegment">
+<refmeta>
+<refentrytitle>panda_addcubiccurvesegment</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_addcubiccurvesegment</refname>
+<refpurpose>add a curved segment to the line shape we are drawing</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_addcubiccurvesegment (panda_page * target, int x, int y, int cx1, int cy1, int cx2, int cy2);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>Add a point to the shape we are currently drawing with a cubic curve between the current cursor location and (x,y). There are two control points used to generate the cubic curve. They are (cx1, cy1) and (cx2, cy2).</para>
+</refsect1>
+
+<refsect1>
+<title>RETURNS</title>
+<para>Nothing</para>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLE</title>
+<para> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ panda_page *page;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ page = panda_newpage (document, panda_pagesize_a4);
+ 
+ panda_setlinestart (currPage, 210, 210);
+ panda_addcubiccurvesegment (currPage, 310, 210, 225, 300, 275, 400);
+</para>
+</refsect1>
+
+<refsect1>
+<title>SEE ALSO</title>
+<para>panda_setlinestart, panda_addlinesegment, panda_addquadraticsegmentone, panda_addquadraticcurvesegmenttwo, panda_closeline, panda_rectangle, panda_endline, panda_strokeline, panda_fillline, panda_setlinewidth, panda_setlinecap, panda_setlinejoin, panda_setlinedash, panda_setfillcolor, panda_setlinecolor</para>
+</refsect1>
+
+</refentry>
+<refentry id="panda_addquadraticcurvesegmentone">
+<refmeta>
+<refentrytitle>panda_addquadraticcurvesegmentone</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_addquadraticcurvesegmentone</refname>
+<refpurpose>add a curved segment to the line shape that we are drawing</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_addquadraticcurvesegmentone (panda_page * target, int x, int y, int cx1, int cy1);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>This function adds a curved segment to the line shape that we are drawing. The curved segment has a control point, namely (cx1, cy1). This call creates slightly different curves from <command>panda_addquadraticcurvesegmenttwo</command>();</para>
+</refsect1>
+
+<refsect1>
+<title>RETURNS</title>
+<para>Nothing</para>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLE</title>
+<para> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ panda_page *page;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ page = panda_newpage (document, panda_pagesize_a4);
+ 
+ panda_setlinestart (page, 100, 200);
+ panda_addquadraticcurvesegmentone (page, 200, 200, 12, 32);
+</para>
+</refsect1>
+
+<refsect1>
+<title>SEE ALSO</title>
+<para>panda_setlinestart, panda_addlinesegment, panda_addcubiccurvesegment, panda_addquadraticcurvesegmenttwo, panda_closeline, panda_rectangle, panda_endline, panda_strokeline, panda_fillline, panda_setlinewidth, panda_setlinecap, panda_setlinejoin, panda_setlinedash, panda_setfillcolor, panda_setlinecolor</para>
+</refsect1>
+
+</refentry>
+<refentry id="panda_addquadraticcurvesegmenttwo">
+<refmeta>
+<refentrytitle>panda_addquadraticcurvesegmenttwo</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_addquadraticcurvesegmenttwo</refname>
+<refpurpose>add a curved segment to the line shape that we are drawing</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_addquadraticcurvesegmenttwo (panda_page * target, int x, int y, int cx1, int cy1);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>This function adds a curved segment to the line shape that we are drawing. The curved segment has a control point, namely (cx1, cy1). This call creates slightly different curves from <command>panda_addquadraticcurvesegmentone</command>();</para>
+</refsect1>
+
+<refsect1>
+<title>RETURNS</title>
+<para>Nothing</para>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLE</title>
+<para> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ panda_page *page;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ page = panda_newpage (document, panda_pagesize_a4);
+ 
+ panda_setlinestart (page, 100, 200);
+ panda_addquadraticcurvesegmenttwo (page, 200, 200, 12, 32);
+</para>
+</refsect1>
+
+<refsect1>
+<title>SEE ALSO</title>
+<para>panda_setlinestart, panda_addlinesegment, panda_addcubiccurvesegment, panda_addquadraticcurvesegmenttwo, panda_closeline, panda_rectangle, panda_endline, panda_strokeline, panda_fillline, panda_setlinewidth, panda_setlinecap, panda_setlinejoin, panda_setlinedash, panda_setfillcolor, panda_setlinecolor</para>
+</refsect1>
+
+</refentry>
+
+<refentry id="panda_rectangle">
+<refmeta>
+<refentrytitle>panda_rectangle</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_rectangle</refname>
+<refpurpose>draw a rectangle</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_rectangle (panda_page * target, int top, int left, int bottom, int right);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>Draw a rectangle on the PDF page. There is no need for the <command>panda_setlinestart</command>() or <command>panda_closeline</command>() calls.</para>
+</refsect1>
+
+<refsect1>
+<title>RETURNS</title>
+<para>Nothing</para>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLE</title>
+<para> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ panda_page *page;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ page = panda_newpage (document, panda_pagesize_a4);
+ 
+ panda_rectangle( page, 10, 10, 150, 200);
+</para>
+</refsect1>
+
+<refsect1>
+<title>SEE ALSO</title>
+<para>panda_setlinestart,  panda_addlinesegment, panda_addcubiccurvesegment, panda_addquadraticsegmentone, panda_addquadraticcurvesegmenttwo, panda_closeline, panda_endline, panda_strokeline, panda_fillline, panda_setlinewidth, panda_setlinecap, panda_setlinejoin, panda_setlinedash, panda_setfillcolor, panda_setlinecolor</para>
+</refsect1>
+
+</refentry>
 </sect3>
 
 <sect3><title>Fills and other line attributes</title>
 <para>
-
+Once you have drawn a line, then it can be filled. You can also configure the state of the pen <emphasis>before</emphasis> you draw the line to change the way it appears...
 </para>
-
-<!-- 
-
-     This document is part of the panda distribution, and is covered
-     by the GNU GPL, a copy of which is in the file named COPYING inside the
-     distribution.
-
-     This program and it's documentation are distributed in the hope that 
-     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
-     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
--->
-
-<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
 
 <refentry id="panda_fillline">
 <refmeta>
@@ -20414,20 +20812,6 @@ With Panda, the way you draw a line is to first create a line with <command>pand
 </refsect1>
 
 </refentry>
-<!-- 
-
-     This document is part of the panda distribution, and is covered
-     by the GNU GPL, a copy of which is in the file named COPYING inside the
-     distribution.
-
-     This program and it's documentation are distributed in the hope that 
-     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
-     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
--->
-
-<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
-
 <refentry id="panda_setlinecap">
 <refmeta>
 <refentrytitle>panda_setlinecap</refentrytitle>
@@ -20483,20 +20867,6 @@ With Panda, the way you draw a line is to first create a line with <command>pand
 </refsect1>
 
 </refentry>
-<!-- 
-
-     This document is part of the panda distribution, and is covered
-     by the GNU GPL, a copy of which is in the file named COPYING inside the
-     distribution.
-
-     This program and it's documentation are distributed in the hope that 
-     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
-     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
--->
-
-<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
-
 <refentry id="panda_setlinecolor">
 <refmeta>
 <refentrytitle>panda_setlinecolor</refentrytitle>
@@ -20552,20 +20922,6 @@ With Panda, the way you draw a line is to first create a line with <command>pand
 </refsect1>
 
 </refentry>
-<!-- 
-
-     This document is part of the panda distribution, and is covered
-     by the GNU GPL, a copy of which is in the file named COPYING inside the
-     distribution.
-
-     This program and it's documentation are distributed in the hope that 
-     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
-     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
--->
-
-<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
-
 <refentry id="panda_setlinejoin">
 <refmeta>
 <refentrytitle>panda_setlinejoin</refentrytitle>
@@ -20621,20 +20977,6 @@ With Panda, the way you draw a line is to first create a line with <command>pand
 </refsect1>
 
 </refentry>
-<!-- 
-
-     This document is part of the panda distribution, and is covered
-     by the GNU GPL, a copy of which is in the file named COPYING inside the
-     distribution.
-
-     This program and it's documentation are distributed in the hope that 
-     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
-     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
--->
-
-<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
-
 <refentry id="panda_setlinewidth">
 <refmeta>
 <refentrytitle>panda_setlinewidth</refentrytitle>
@@ -20690,20 +21032,6 @@ With Panda, the way you draw a line is to first create a line with <command>pand
 </refsect1>
 
 </refentry>
-<!-- 
-
-     This document is part of the panda distribution, and is covered
-     by the GNU GPL, a copy of which is in the file named COPYING inside the
-     distribution.
-
-     This program and it's documentation are distributed in the hope that 
-     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
-     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
--->
-
-<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
-
 <refentry id="panda_setlinedashing">
 <refmeta>
 <refentrytitle>panda_setlinedashing</refentrytitle>
@@ -20763,24 +21091,10 @@ With Panda, the way you draw a line is to first create a line with <command>pand
 </sect3>
 </sect2>
 
-<sect2><title>Document metadata</title>
+<sect2><title>Document meta data</title>
 <para>
-PDF supports embedding metadata about a document into the PDF itself, and Panda supports this through the following calls:
+PDF supports embedding meta data about a document into the PDF itself, and Panda supports this through the following calls:
 </para>
-
-<!-- 
-
-     This document is part of the panda distribution, and is covered
-     by the GNU GPL, a copy of which is in the file named COPYING inside the
-     distribution.
-
-     This program and it's documentation are distributed in the hope that 
-     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
-     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
--->
-
-<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
 
 <refentry id="panda_setauthor">
 <refmeta>
@@ -20832,20 +21146,6 @@ PDF supports embedding metadata about a document into the PDF itself, and Panda 
 </refsect1>
 
 </refentry>
-<!-- 
-
-     This document is part of the panda distribution, and is covered
-     by the GNU GPL, a copy of which is in the file named COPYING inside the
-     distribution.
-
-     This program and it's documentation are distributed in the hope that 
-     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
-     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
--->
-
-<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
-
 <refentry id="panda_setkeywords">
 <refmeta>
 <refentrytitle>panda_setkeywords</refentrytitle>
@@ -20896,20 +21196,6 @@ PDF supports embedding metadata about a document into the PDF itself, and Panda 
 </refsect1>
 
 </refentry>
-<!-- 
-
-     This document is part of the panda distribution, and is covered
-     by the GNU GPL, a copy of which is in the file named COPYING inside the
-     distribution.
-
-     This program and it's documentation are distributed in the hope that 
-     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
-     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
--->
-
-<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
-
 <refentry id="panda_setsubject">
 <refmeta>
 <refentrytitle>panda_setsubject</refentrytitle>
@@ -20960,20 +21246,6 @@ PDF supports embedding metadata about a document into the PDF itself, and Panda 
 </refsect1>
 
 </refentry>
-<!-- 
-
-     This document is part of the panda distribution, and is covered
-     by the GNU GPL, a copy of which is in the file named COPYING inside the
-     distribution.
-
-     This program and it's documentation are distributed in the hope that 
-     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
-     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
--->
-
-<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
-
 <refentry id="panda_settitle">
 <refmeta>
 <refentrytitle>panda_settitle</refentrytitle>
@@ -21029,22 +21301,8 @@ PDF supports embedding metadata about a document into the PDF itself, and Panda 
 
 <sect2><title>Presentation support</title>
 <para>
-PDF can be used for presentations, and therefore allows you to specify a number of interesting things which are normally associated more with Microsoft PowerPoint presentations...
+PDF can be used for presentations, and therefore allows you to specify a number of interesting things which are normally associated more with Microsoft Power Point presentations...
 </para>
-
-<!-- 
-
-     This document is part of the panda distribution, and is covered
-     by the GNU GPL, a copy of which is in the file named COPYING inside the
-     distribution.
-
-     This program and it's documentation are distributed in the hope that 
-     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
-     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
--->
-
-<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
 
 <refentry id="panda_centerwindow">
 <refmeta>
@@ -21091,20 +21349,6 @@ PDF can be used for presentations, and therefore allows you to specify a number 
 </refsect1>
 
 </refentry>
-<!-- 
-
-     This document is part of the panda distribution, and is covered
-     by the GNU GPL, a copy of which is in the file named COPYING inside the
-     distribution.
-
-     This program and it's documentation are distributed in the hope that 
-     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
-     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
--->
-
-<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
-
 <refentry id="panda_fitwindow">
 <refmeta>
 <refentrytitle>panda_fitwindow</refentrytitle>
@@ -21150,20 +21394,6 @@ PDF can be used for presentations, and therefore allows you to specify a number 
 </refsect1>
 
 </refentry>
-<!-- 
-
-     This document is part of the panda distribution, and is covered
-     by the GNU GPL, a copy of which is in the file named COPYING inside the
-     distribution.
-
-     This program and it's documentation are distributed in the hope that 
-     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
-     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
--->
-
-<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
-
 <refentry id="panda_fullscreen">
 <refmeta>
 <refentrytitle>panda_fullscreen</refentrytitle>
@@ -21209,20 +21439,6 @@ PDF can be used for presentations, and therefore allows you to specify a number 
 </refsect1>
 
 </refentry>
-<!-- 
-
-     This document is part of the panda distribution, and is covered
-     by the GNU GPL, a copy of which is in the file named COPYING inside the
-     distribution.
-
-     This program and it's documentation are distributed in the hope that 
-     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
-     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
--->
-
-<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
-
 <refentry id="panda_hidemenubar">
 <refmeta>
 <refentrytitle>panda_hidemenubar</refentrytitle>
@@ -21268,20 +21484,6 @@ PDF can be used for presentations, and therefore allows you to specify a number 
 </refsect1>
 
 </refentry>
-<!-- 
-
-     This document is part of the panda distribution, and is covered
-     by the GNU GPL, a copy of which is in the file named COPYING inside the
-     distribution.
-
-     This program and it's documentation are distributed in the hope that 
-     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
-     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
--->
-
-<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
-
 <refentry id="panda_hidetoolbar">
 <refmeta>
 <refentrytitle>panda_hidetoolbar</refentrytitle>
@@ -21327,20 +21529,6 @@ PDF can be used for presentations, and therefore allows you to specify a number 
 </refsect1>
 
 </refentry>
-<!-- 
-
-     This document is part of the panda distribution, and is covered
-     by the GNU GPL, a copy of which is in the file named COPYING inside the
-     distribution.
-
-     This program and it's documentation are distributed in the hope that 
-     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
-     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
--->
-
-<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
-
 <refentry id="panda_hidewindowui">
 <refmeta>
 <refentrytitle>panda_hidewindowui</refentrytitle>
@@ -21386,20 +21574,6 @@ PDF can be used for presentations, and therefore allows you to specify a number 
 </refsect1>
 
 </refentry>
-<!-- 
-
-     This document is part of the panda distribution, and is covered
-     by the GNU GPL, a copy of which is in the file named COPYING inside the
-     distribution.
-
-     This program and it's documentation are distributed in the hope that 
-     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
-     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
--->
-
-<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
-
 <refentry id="panda_nfspagemodde">
 <refmeta>
 <refentrytitle>panda_nfspagemodde</refentrytitle>
@@ -21450,20 +21624,6 @@ PDF can be used for presentations, and therefore allows you to specify a number 
 </refsect1>
 
 </refentry>
-<!-- 
-
-     This document is part of the panda distribution, and is covered
-     by the GNU GPL, a copy of which is in the file named COPYING inside the
-     distribution.
-
-     This program and it's documentation are distributed in the hope that 
-     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
-     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
--->
-
-<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
-
 <refentry id="panda_pageduration">
 <refmeta>
 <refentrytitle>panda_pageduration</refentrytitle>
@@ -21512,20 +21672,6 @@ PDF can be used for presentations, and therefore allows you to specify a number 
 </refsect1>
 
 </refentry>
-<!-- 
-
-     This document is part of the panda distribution, and is covered
-     by the GNU GPL, a copy of which is in the file named COPYING inside the
-     distribution.
-
-     This program and it's documentation are distributed in the hope that 
-     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
-     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
--->
-
-<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
-
 <refentry id="panda_transduration">
 <refmeta>
 <refentrytitle>panda_transduration</refentrytitle>
@@ -21574,20 +21720,6 @@ PDF can be used for presentations, and therefore allows you to specify a number 
 </refsect1>
 
 </refentry>
-<!-- 
-
-     This document is part of the panda distribution, and is covered
-     by the GNU GPL, a copy of which is in the file named COPYING inside the
-     distribution.
-
-     This program and it's documentation are distributed in the hope that 
-     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
-     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
--->
-
-<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
-
 <refentry id="panda_transstyle">
 <refmeta>
 <refentrytitle>panda_transstyle</refentrytitle>
@@ -21612,23 +21744,23 @@ PDF can be used for presentations, and therefore allows you to specify a number 
 <title>DESCRIPTION</title>
 <para> his function records information within the PDF indicating the preferred page transition style to use. The following are valid styles to use:
  <orderedlist>
- <listitem>panda_pagetrans_split_yi -- vertical split from the inside of the page</listitem>
- <listitem>panda_pagetrans_split_yo -- vertical split from the outside of the page</listitem>
- <listitem>panda_pagetrans_split_xi -- horizontal split from the inside of the page</listitem>
- <listitem>panda_pagetrans_split_xo -- horizontal split from the outside of the page</listitem>
- <listitem>panda_pagetrans_blinds_y -- vertical blinds effect</listitem>
- <listitem>panda_pagetrans_blinds_x -- horizontal blinds effect</listitem>
- <listitem>panda_pagetrans_box_i -- box expanding from the inside of the page</listitem>
- <listitem>panda_pagetrans_box_o -- box contracting from the outside of the page</listitem>
- <listitem>panda_pagetrans_wipe_0 -- a single line wipes the page away from the left to the right</listitem>
- <listitem>panda_pagetrans_wipe_90 -- a single line wipes the page away from the bottom to the top</listitem>
- <listitem>panda_pagetrans_wipe_180 -- a single line wipes the page away from the right to the left</listitem>
- <listitem>panda_pagetrans_wipe_270 -- a single line wipes the page away from the top to the bottom</listitem>
- <listitem>panda_pagetrans_dissolve -- the old page dissolves slowly into the new page</listitem>
- <listitem>panda_pagetrans_glitter_0 -- a glitter effect that moves from the left to the right of the page</listitem>
- <listitem>panda_pagetrans_glitter_270 -- a glitter effect that moves from the top to the bottom of the page</listitem>
- <listitem>panda_pagetrans_glitter_315 -- a glitter effect that moves from the top left to the bottom right of the page</listitem>
- <listitem>panda_pagetrans_none -- no transition effect</listitem>
+ <listitem><para>panda_pagetrans_split_yi -- vertical split from the inside of the page</para></listitem>
+ <listitem><para>panda_pagetrans_split_yo -- vertical split from the outside of the page</para></listitem>
+ <listitem><para>panda_pagetrans_split_xi -- horizontal split from the inside of the page</para></listitem>
+ <listitem><para>panda_pagetrans_split_xo -- horizontal split from the outside of the page</para></listitem>
+ <listitem><para>panda_pagetrans_blinds_y -- vertical blinds effect</para></listitem>
+ <listitem><para>panda_pagetrans_blinds_x -- horizontal blinds effect</para></listitem>
+ <listitem><para>panda_pagetrans_box_i -- box expanding from the inside of the page</para></listitem>
+ <listitem><para>panda_pagetrans_box_o -- box contracting from the outside of the page</para></listitem>
+ <listitem><para>panda_pagetrans_wipe_0 -- a single line wipes the page away from the left to the right</para></listitem>
+ <listitem><para>panda_pagetrans_wipe_90 -- a single line wipes the page away from the bottom to the top</para></listitem>
+ <listitem><para>panda_pagetrans_wipe_180 -- a single line wipes the page away from the right to the left</para></listitem>
+ <listitem><para>panda_pagetrans_wipe_270 -- a single line wipes the page away from the top to the bottom</para></listitem>
+ <listitem><para>panda_pagetrans_dissolve -- the old page dissolves slowly into the new page</para></listitem>
+ <listitem><para>panda_pagetrans_glitter_0 -- a glitter effect that moves from the left to the right of the page</para></listitem>
+ <listitem><para>panda_pagetrans_glitter_270 -- a glitter effect that moves from the top to the bottom of the page</para></listitem>
+ <listitem><para>panda_pagetrans_glitter_315 -- a glitter effect that moves from the top left to the bottom right of the page</para></listitem>
+ <listitem><para>panda_pagetrans_none -- no transition effect</para></listitem>
  </orderedlist>
  
  </para>
@@ -21657,6 +21789,122 @@ PDF can be used for presentations, and therefore allows you to specify a number 
  
  panda_transduration (page, 30.5);
 </para>
+</refsect1>
+
+</refentry>
+
+</sect2>
+
+<sect2><title>Page templates</title>
+<para>
+A page template is created using <command>panda_newtemplate</command>. A template is just like any other page, and uses all the normal drawing functions. The cool bit is that you can then apply a template to another page using <command>panda_applytemplate</command>. This allows for the standard parts of the page to only be defined once -- which is very useful for things like letterhead.
+</para>
+
+<refentry id="panda_newtemplate">
+<refmeta>
+<refentrytitle>panda_newtemplate</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_newtemplate</refname>
+<refpurpose>create a template page in the PDF</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_newtemplate(panda_pdf *document, char *pageSize);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>This function is used to create 'template' pages which can then be refered to on other pages. For instance, if you were creating a document that used a standard letter head, then it would make sense to construct the letterhead as a template, and then use this on all the pages. The created template looks and feels just like any other page in the document for the purposes of creating content. Refer to the <command>panda_newpage</command> man page for details on how to use pages.</para>
+</refsect1>
+
+<refsect1>
+<title>RETURNS</title>
+<para>A pointer to the template page</para>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLE</title>
+<para> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ panda_page *templatepage;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ templatepage = panda_newtemplate (document, panda_pagesize_a4);
+</para>
+</refsect1>
+
+<refsect1>
+<title>SEE ALSO</title>
+<para>panda_newpage, panda_applytemplate</para>
+</refsect1>
+
+</refentry>
+<refentry id="panda_applytemplate">
+<refmeta>
+<refentrytitle>panda_applytemplate</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>panda_applytemplate</refname>
+<refpurpose>use a template page previously created</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ void panda_applytemplate (panda_pdf * output, panda_page * target,
+ panda_page * template)
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>This function is used to use a template created with the <command>panda_newtemplate</command> function call.</para>
+</refsect1>
+
+<refsect1>
+<title>RETURNS</title>
+<para>Nothing</para>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLE</title>
+<para> #include&lt;panda/constants.h&gt;
+ #include&lt;panda/functions.h&gt;
+ 
+ panda_pdf *document;
+ panda_page *templatepage, *realpage;
+ 
+ panda_init();
+ 
+ document = panda_open("filename.pdf", "w");
+ templatepage = panda_newtemplate (document, panda_pagesize_a4);
+ realpage = panda_newpage (document, panda_pagesize_a4);
+ 
+ ... the order of the drawing commands to the two pages doesn't matter ...
+ 
+ panda_applytemplate(document, realpage, templatepage);
+</para>
+</refsect1>
+
+<refsect1>
+<title>SEE ALSO</title>
+<para>panda_newpage, panda_newtemplate</para>
 </refsect1>
 
 </refentry>
@@ -22223,24 +22471,6 @@ It produces output like:
 
 </sect2>
 
-<sect2><title>Cool features</title>
-<para>
-
-</para>
-</sect2>
-
-<sect2><title>Room for improvement</title>
-<para>
-Word wrap of text boxes.
-</para>
-</sect2>
-
-
-
-
-
-
-
 </sect1>
 
 
@@ -22269,21 +22499,6 @@ Word wrap of text boxes.
 
 
 
-
-<sect1><title>Adobe products</title>
-<para>
-<figure>
-<title>Content</title>
-<graphic format="EPS" fileref="todo.eps">
-</figure>
-</para>
-</sect1>
-
-
-<sect1><title>Summary of the differences between PDF libraries</title>
-<para>
-It seems useful to provide a summary of the differences we have learnt about the various PDF libraries which are available as we worked through this chapter.
-</para>
 
 <sect1><title>A lexer for PDF</title>
 <para>
@@ -23404,10 +23619,7 @@ typedef struct pdfdump_internal_dictint_list{
 
 <sect1><title>Conclusion</title>
 <para>
-<figure>
-<title>Content</title>
-<graphic format="EPS" fileref="todo.eps">
-</figure>
+In this chapter we have discussed the inner workings of the PDF format, which is quite different to the other formats we have discussed in this document. We have also examined Panda, and seen how to use it to generate our PDF documents.
 </para>
 </sect1>
 
@@ -23418,10 +23630,7 @@ The following resources might be of use if you need more information:
 
 <itemizedlist>
 <listitem><para>http://developer.adobe.com has many useful resources, including the PDF specification (at the time of writing the latest version is 1.4, although this chapter is based on 1.3, because this is what is supported by the two libraries discussed here).</para></listitem>
-<listitem><para></para></listitem>
-<listitem><para></para></listitem>
-<listitem><para></para></listitem>
-<listitem><para></para></listitem>
+<listitem><para>http://www.stillhq.com: has the comp.text.pdf frequently asked questions, as well as the Panda pages.</para></listitem>
 </itemizedlist>
 </sect1>
 
