@@ -1,60 +1,121 @@
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+###########################################################
 #
-# Makefile for GDMS tests
+# Makefile for GDMS tests. For those who asre unfamiliar
+# with make you can make these in various ways
+#
+# 1) simply type "make" or "make all". This will build the
+#    uber test that runs all registered tests
+#
+# 2) type "make <target>" where target is the particular
+#    test that you want to run. This makes a binary called
+#    "test<target>".
+#    e.g. to test the matrix class you would type
+#    "make matrix" which will output a binary called
+#    "testmatrix"
+#
+# Limitation:
+# 1) This makefile expects the object files for the
+#    actual project to be pre built. you will get
+#    NASTY link errors if these files are missing.
+#    If you get these then you need to build the project
+# 2) Due t a imitaiton of make you need to indent the
+#    second line of a rule with a TAB character. If you
+#    get an error like the following then you need to
+#    ensure that there si a precedign tab char before
+#    the rule.
+#      Makefile:115: *** missing separator.  Stop.
 #
 # Author: Blake Swadling <blake@swadling.org>, Sept 2002
 #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+###########################################################
 
+
+###########################################################
 # for make clean
 RM = rm -f
 
+
+###########################################################
 # compiler settings
 CXX = g++
 CXXDEFINES = -D_GNU_SOURCE -D__WXGTK__ -D__CEP_UNIT_TEST__
 CXXFLAGS = -g -Wall $(CXXDEFINES)
 
+
+###########################################################
 # linker settings
 LXX = g++
 LXXFLAGS = -L..
 LXXLIBS = -lcppunit -lm
 
+###########################################################
 # objects for make targets
 RUNNER = alltests.o
 MATRIX = cep_testMatrix.o
 CONFIG = cep_testConfig.o
-WINDOWS = cep_testWindows.o
+WINDOWER = cep_testWindows.o
 
+
+###########################################################
 # additional objects required for linking
+# make target specific object lists here
+
 OBJS = ../cepError.o ../cepUtility.o
 OBJS_MATRIX  =
 OBJS_CONFIG  =
-OBJS_WINDOWS = ../cepDataWindower.o ../cepWindowAlg.o\
+OBJS_WINDOWER = ../cepDataWindower.o ../cepWindowAlg.o\
 ../cepWindowRect.o ../cepwindowhamming.o ../cepwindowchebyshev.o\
 ../cepwindowblackman.o
-OBJS_ALL = $(OBJS) $(OBJS_MATRIX) $(OBJS_CONFIG) $(OBJS_WINDOWS)
+OBJS_ALL = $(OBJS) $(OBJS_MATRIX) $(OBJS_CONFIG) $(OBJS_WINDOWER)
 
 
+###########################################################
+# rule for all cpp files
 %.o : %.cpp
 	${CXX} ${CXXFLAGS} -c $< -o $@
 
-all: runner $(MATRIX) $(CONFIG) $(WINDOWS)
-	$(LXX) $(LXXFLAGS) -o test$@ $(MATRIX) $(CONFIG) $(WINDOWS) $(RUNNER) $(OBJS_ALL) $(LXXLIBS)
+  
+###########################################################
+# makes all tests an links to a binary called "testall"
+all: runner $(MATRIX) $(CONFIG) $(WINDOWER)
+	$(LXX) $(LXXFLAGS) -o test$@ $(MATRIX) $(CONFIG) $(WINDOWER) $(RUNNER) $(OBJS_ALL) $(LXXLIBS)
 
+
+###########################################################
+# removes objects and core files
 tidy :
 	@$(RM) *.o core
 
+  
+###########################################################
+# removes the binaris as well as the other crud
 clean : tidy
 	@$(RM) test*
 
-runner: $(OBJS_RUNNER)
   
-matrix: runner $(OBJS_MATRIX)
+###########################################################
+# compiles alltest.cpp file with the declaration of main(...)
+runner: $(RUNNER)
+
+
+###########################################################
+################ The specific tarets. #####################
+###########################################################
+
+###########################################################
+# Builds the matrix specific tests
+matrix: runner $(MATRIX)
 	$(LXX) $(LXXFLAGS) -o test$@ $(MATRIX) $(RUNNER) $(OBJS) $(LXXLIBS)
 
-config: runner $(OBJS_CONFIG)
+
+###########################################################
+# Builds the config specific tests
+config: runner $(CONFIG)
 	$(LXX) $(LXXFLAGS) -o test$@ $(CONFIG) $(RUNNER) $(OBJS) $(LXXLIBS)
 
-windows: runner $(OBJS_WINDOWS)
-	$(LXX) $(LXXFLAGS) -o test$@ $(WINDOWS) $(RUNNER) $(OBJS) $(OBJS_WINDOWS) $(LXXLIBS)
+
+###########################################################
+# Builds the windower specific tests
+windower: runner $(WINDOWER)
+	$(LXX) $(LXXFLAGS) -o test$@ $(WINDOWER) $(RUNNER) $(OBJS) $(OBJS_WINDOWER) $(LXXLIBS)
 
