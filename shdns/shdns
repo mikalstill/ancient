@@ -71,8 +71,18 @@ twiddlebit(){
   return $temp
 }
 
+# Spin until a byte exists
+spinfor(){
+  while [ `cat $1 | wc -c | tr -d " "` -lt $2 ]
+  do
+    logger "shdns needed byte $2"
+    usleep 10
+  done
+}
+
 # Read a single byte from a file
 readbyte(){
+  spinfor $1 $2 
   cat $1 | cut -b $2
 }
 
@@ -80,6 +90,7 @@ readbyte(){
 readbytebinary(){
   local temp
 
+  spinfor $1 $2
   temp=`cat $1 | cut -b $2 | od -Ad -c | head -1 | tr -s " " | cut -f 2 -d " "`
   if [ `echo $temp | cut -b 1` = "\\" ]
   then
@@ -106,14 +117,13 @@ readbytebinary(){
 ######################
 
 logger "shdns $$ started"
-cat - > /tmp/input-$$
 
 # Identification: 2 bytes
-id=`cat /tmp/input-$$ | cut -b 1,2`
+id=`cat $1 | cut -b 1,2`
 logger "shdns $$ Packet id: $id"
 
 # Flags: 2 bytes
-temp=`cat /tmp/input-$$ | cut -b 3 |  od -Ad -c | head -1 | cut -f 2 -d " "`
+temp=`cat $1 | cut -b 3 |  od -Ad -c | head -1 | cut -f 2 -d " "`
 testbit $temp 128; qr=$?
 testbit $temp 8; op=$?
 testbit $temp 4; aa=$?
@@ -126,32 +136,32 @@ logger "shdns $$ Authoritative answer: $aa"
 logger "shdns $$ Packet truncated: $trun"
 logger "shdns $$ Recursion desired: $rd"
 
-readbytebinary "/tmp/input-$$" 3; temp=$?
+readbytebinary "$1" 3; temp=$?
 testbit $temp 128; ra=$?
 
 logger "shdns $$ Recursion available: $ra"
 
 # The number of questions is the next two bytes
-readbytebinary "/tmp/input-$$" 5; topbyte=$?
-readbytebinary "/tmp/input-$$" 6; botbyte=$?
+readbytebinary "$1" 5; topbyte=$?
+readbytebinary "$1" 6; botbyte=$?
 qcount=$(( ($topbyte * 128) + $botbyte ))
 logger "shdns $$ Number of questions: $qcount"
 
 # The number of answers is the next two bytes
-readbytebinary "/tmp/input-$$" 7; topbyte=$?
-readbytebinary "/tmp/input-$$" 8; botbyte=$?
+readbytebinary "$1" 7; topbyte=$?
+readbytebinary "$1" 8; botbyte=$?
 acount=$(( ($topbyte * 128) + $botbyte ))
 logger "shdns $$ Number of answers: $acount"
 
 # The number of authority RRs is the next two bytes
-readbytebinary "/tmp/input-$$" 9; topbyte=$?
-readbytebinary "/tmp/input-$$" 10; botbyte=$?
+readbytebinary "$1" 9; topbyte=$?
+readbytebinary "$1" 10; botbyte=$?
 authcount=$(( ($topbyte * 128) + $botbyte ))
 logger "shdns $$ Number of authorities: $authcount"
 
 # The number of additional RRs is the next two bytes
-readbytebinary "/tmp/input-$$" 11; topbyte=$?
-readbytebinary "/tmp/input-$$" 12; botbyte=$?
+readbytebinary "$1" 11; topbyte=$?
+readbytebinary "$1" 12; botbyte=$?
 addcount=$(( ($topbyte * 128) + $botbyte ))
 logger "shdns $$ Number of additionals: $addcount"
 
@@ -171,27 +181,26 @@ do
   while [ $len -gt 0 ]
   do
     # For each portion of the name
-    readbytebinary "/tmp/input-$$" $inset; len=$?
+    readbytebinary "$1" $inset; len=$?
     count=0
     inset=$(( $inset + 1 ))
 
     while [ $count -lt $len ]
     do
-      char=`readbyte "/tmp/input-$$" $inset`
+      char=`readbyte "$1" $inset`
       name="$name$char"
 
       inset=$(( $inset + 1 ))
       count=$(( $count + 1 ))
     done
 
-    echo -n " "
     name="$name."
   done
 
   logger "shdns $$ Lookup: $name"
 
   # Type of question
-  readbytebinary "/tmp/input-$$" $inset; type=$?
+  readbytebinary "$1" $inset; type=$?
   temp="  Query type:"
 
   case $type in
@@ -207,7 +216,7 @@ do
   logger $temp
 
   # The class should always be 1
-  readbytebinary "/tmp/input-$$" $(( $inset + 1 )); class=$?
+  readbytebinary "$1" $(( $inset + 1 )); class=$?
   logger "shdns $$ Query class: $class"
 
   # Dodgy bug fix
