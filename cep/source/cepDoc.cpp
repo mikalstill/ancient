@@ -76,18 +76,23 @@ wxOutputStream & cepDoc::SaveObject (wxOutputStream & stream)
 }
 #endif
 
+// This method is called when the user has selected open from the file menu
+// We do the actually opening here, and then lie to wxWindows about the stream
+// to the file for it to try to open it
 #if wxUSE_STD_IOSTREAM
 istream & cepDoc::LoadObject (istream & stream)
-{
-  printf("Wibble");
-  wxDocument::LoadObject (stream);
-  return stream;
-}
 #else
 wxInputStream & cepDoc::LoadObject (wxInputStream & stream)
+#endif
 {
-  printf("Wobble\n");
-  wxDocument::LoadObject (stream);
+  wxMessageBox(GetFilename(), "Banana");
+  //wxDocument::LoadObject (stream);
+
+  // We need to change the filename which is displayed in the tab
+  SetTitle("Foo");
+
+  // Actually create the dataset
+  
+
   return stream;
 }
-#endif
