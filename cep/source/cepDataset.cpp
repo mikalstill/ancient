@@ -94,6 +94,7 @@ m_procHistory(procHistory), m_ready(true), m_wellformed(true)
 cepError cepDataset::read(const string & filename)
 {
     m_filename = filename;
+    frequencyData = false;
 
     // Step One: ensure that all of the files we need are actually there,
     // it would be bad to read two of the three files, and _then_ report
@@ -102,8 +103,10 @@ cepError cepDataset::read(const string & filename)
     long numLines;
     char c, prevc;
     string thisLine;
-    double rowdate, rowsample, rowerror;
-    double lastRowdate, lastRowsample, lastRowerror;
+    // BS - added color and initialisation
+    double rowdate = 0.0, rowsample = 0.0, rowerror = 0.0, rowcolor = 0.0;
+    double lastRowdate = -1,
+        lastRowsample = -1, lastRowerror = -1, lastRowcolor = -1;
 
     files[0].open(string(m_filename + ".dat1").c_str(), ios::in);
     files[1].open(string(m_filename + ".dat2").c_str(), ios::in);
@@ -131,14 +134,16 @@ cepError cepDataset::read(const string & filename)
     }
     cepDebugPrint("All dataset files exist");
 
+
     // Read the file
     for (int i = 0; i < 3; i++) {
         if (m_progress)
             m_progress(i + 1, 0);
 
-        vector < double >dates;
-        vector < double >samples;
-        vector < double >errors;
+
+        // this will hold all of the data read from file
+        vector < cepVector4D > data;
+        data.push_back(cepVector4D());
 
         c = 0;
         prevc = '\n';
@@ -148,6 +153,8 @@ cepError cepDataset::read(const string & filename)
         lastRowdate = -1;
         lastRowsample = -1;
         lastRowerror = -1;
+        lastRowcolor = -1;
+
         cepDebugPrint("File read initialization complete");
 
         while (!files[i].eof()) {
@@ -162,9 +169,11 @@ cepError cepDataset::read(const string & filename)
                 thisLine += c;
             }
 
-            // End of line?
-            if ((c == '\n') && (thisLine != "")) {
-                cepDebugPrint("Processing line: " + thisLine);
+            // End of line?                                    colColorHint
+            // have we read a full line?
+            if ((c == '\n') && (thisLine.size() > 0 )) {
+//                cout << thisLine << endl;
+                cepDebugPrint("Processing line: '" + thisLine + "'");
 
                 // If this is a data bearing line
                 if (cepIsNumeric(thisLine.c_str()[0])) {
@@ -180,15 +189,34 @@ cepError cepDataset::read(const string & filename)
                         atof(applyOffset((direction) i, sa[1]).c_str()) -
                         m_offsetFloat[i];
                     rowerror = atof(sa[2].c_str());
+                    // if we have a color colum, read it in
+                    rowcolor =
+                        ((sa.size() > 3) ? atof(sa[2].c_str()) : 0.0);
 
                     if (lastRowdate == -1) {
-                        dates.push_back(rowdate);
-                        samples.push_back(rowsample);
-                        errors.push_back(rowerror);
+                        // if we have a row containing 3 consecutive delimiters then we add a new window
+                        if (rowdate == delim && rowsample == delim
+                            && rowerror == delim) {
+                            data.push_back(cepVector4D());
+                        } else {
+                            try {
+                                data.at(data.size() - 1).push_back(rowdate,
+                                                                   rowsample,
+                                                                   rowerror,
+                                                                   rowcolor);
+                            }
+                            catch(...) {
+                                cepDebugPrint
+                                    ("exceeded bounds of data vector");
+                                return cepError
+                                    ("exceeded bounds of data vector @ __FILE__, __LINE__");
+                            }
 
-                        lastRowdate = rowdate;
-                        lastRowsample = rowsample;
-                        lastRowerror = rowerror;
+                            lastRowdate = rowdate;
+                            lastRowsample = rowsample;
+                            lastRowerror = rowerror;
+                            lastRowcolor = rowcolor;
+                        }
                     } else {
                         if (rowdate < lastRowdate) {
                             m_ready = true;
@@ -208,19 +236,37 @@ cepError cepDataset::read(const string & filename)
                                                 cepError::
                                                 sevErrorRecoverable);
                             } else {
-                                dates.push_back(rowdate);
-                                samples.push_back(rowsample);
-                                errors.push_back(rowerror);
+                                // if we have a row containing 3 consecutive delimiters then we add a new window
+                                if (rowdate == delim && rowsample == delim
+                                    && rowerror == delim) {
+                                    data.push_back(cepVector4D());
+                                } else {
+                                    try {
+                                        data.at(data.size() -
+                                                1).push_back(rowdate,
+                                                             rowsample,
+                                                             rowerror,
+                                                             rowcolor);
+                                    }
+                                    catch(...) {
+                                        cepDebugPrint
+                                            ("exceeded bounds of data vector");
+                                        return cepError
+                                            ("exceeded bounds of data vector @ __FILE__, __LINE__");
+                                    }
 
-                                lastRowdate = rowdate;
-                                lastRowsample = rowsample;
-                                lastRowerror = rowerror;
+                                    lastRowdate = rowdate;
+                                    lastRowsample = rowsample;
+                                    lastRowerror = rowerror;
+                                    lastRowcolor = rowcolor;
+                                }
                             }
                         }
                     }
                 } else {
                     // This is a header / textual line -- perhaps it's
                     // even an offset line
+                    // BS - todo. check if the tag for fourier domain is here !!!
                     if (numLines == 1) {
                         cepStringArray sa(thisLine, " ");
 
@@ -237,26 +283,55 @@ cepError cepDataset::read(const string & filename)
                         }
                     }
                 }
-
                 thisLine = "";
             }
             prevc = c;
         }
 
         // Copy the vectors into the matrix
-        m_data[i] = new cepMatrix < double >(dates.size(), 3);
-        for (unsigned int vcount = 0; vcount < dates.size(); vcount++) {
-            m_data[i]->setValue(vcount, colDate, dates[vcount]);
-            if (m_data[i]->getError().isReal())
-                return m_data[i]->getError();
+        if (data.size() == 1) {
+            int elements = data.at(0).size();
+            m_data[i] = new cepMatrix < double >(elements, 4);
+            for (int vcount = 0; vcount < elements; vcount++) {
+                m_data[i]->setValue(vcount, colDate, data.at(0).Xat(vcount));
+                if (m_data[i]->getError().isReal())
+                    return m_data[i]->getError();
 
-            m_data[i]->setValue(vcount, colSample, samples[vcount]);
-            if (m_data[i]->getError().isReal())
-                return m_data[i]->getError();
+                m_data[i]->setValue(vcount, colSample, data.at(0).Yat(vcount));
+                if (m_data[i]->getError().isReal())
+                    return m_data[i]->getError();
 
-            m_data[i]->setValue(vcount, colError, errors[vcount]);
-            if (m_data[i]->getError().isReal())
-                return m_data[i]->getError();
+                m_data[i]->setValue(vcount, colError, data.at(0).Zat(vcount));
+                if (m_data[i]->getError().isReal())
+                    return m_data[i]->getError();
+
+                m_data[i]->setValue(vcount, colColourHint, data.at(0).Cat(vcount));
+                if (m_data[i]->getError().isReal())
+                    return m_data[i]->getError();
+            }
+        } else {
+            m_data[i] = new cepMatrix < double >(data.size(), 4, data.at(0).size());
+            // for each window
+            for( int wcount = 0; wcount<(int)data.size(); ++wcount ) {
+                // for each window element
+                for( int vcount = 0; vcount<(int)data.at(0).size(); ++vcount ) {
+                    m_data[i]->setValue(vcount, colDate, wcount, data.at(wcount).Xat(vcount));
+                    if (m_data[i]->getError().isReal())
+                        return m_data[i]->getError();
+                        
+                    m_data[i]->setValue(vcount, colSample, wcount, data.at(wcount).Yat(vcount));
+                    if (m_data[i]->getError().isReal())
+                        return m_data[i]->getError();
+                        
+                    m_data[i]->setValue(vcount, colError, wcount, data.at(wcount).Zat(vcount));
+                    if (m_data[i]->getError().isReal())
+                        return m_data[i]->getError();
+                        
+                    m_data[i]->setValue(vcount, colColourHint, wcount, data.at(wcount).Cat(vcount));
+                    if (m_data[i]->getError().isReal())
+                        return m_data[i]->getError();
+                }
+            }
         }
 
         files[i].close();
@@ -264,14 +339,20 @@ cepError cepDataset::read(const string & filename)
 
     // Are the files over the same period??
     if (((m_data[0]->getValue(0, 0) != m_data[1]->getValue(0, 0))
-         || (m_data[1]->getValue(0, 0) != m_data[2]->getValue(0, 0))
-         || ((m_data[0]->getValue(m_data[0]->getNumRows() - 1, 0)
-              != m_data[1]->getValue(m_data[0]->getNumRows() - 1, 0))
-             || (m_data[1]->getValue(m_data[0]->getNumRows() - 1, 0)
-                 != m_data[2]->getValue(m_data[0]->getNumRows() - 1, 0))))) {
+         || (m_data[1]->getValue(0, 0) != m_data[2]->getValue(0, 0)))
+        ||
+        ((m_data[0]->getValue(m_data[0]->getNumRows() - 1, 0) !=
+          m_data[1]->getValue(m_data[0]->getNumRows() - 1, 0))
+         || (m_data[1]->getValue(m_data[0]->getNumRows() - 1, 0) !=
+             m_data[2]->getValue(m_data[0]->getNumRows() - 1, 0)))) {
         m_ready = true;
-        return cepError("The data set " + m_filename +
-                        " values do not represent the same time period",
+        cepDebugPrint("Date North [first]=" + cepToString(m_data[0]->getValue(0, 0)));
+        cepDebugPrint("Date East  [first]=" + cepToString(m_data[1]->getValue(0, 0)));
+        cepDebugPrint("Date Up    [first]=" + cepToString(m_data[2]->getValue(0, 0)));
+        cepDebugPrint("Date North [last]=" +  cepToString(m_data[0]->getValue(m_data[0]->getNumRows()-1, 0)));
+        cepDebugPrint("Date East  [last]=" + cepToString(m_data[1]->getValue(m_data[1]->getNumRows()-1, 0)));
+        cepDebugPrint("Date Up    [last]=" + cepToString(m_data[2]->getValue(m_data[2]->getNumRows()-1, 0)));
+        return cepError("The data set " + m_filename + " values do not represent the same time period",
                         cepError::sevErrorRecoverable);
     }
 
@@ -327,36 +408,74 @@ cepError cepDataset::write(const string & filename)
         files[i] << m_header[i] << endl << endl;
         cepDebugPrint("Writing dataset with offset of " + m_offset[i] +
                       " in direction " + cepToString(i));
+        cout << "writing dataset to " << filename << endl;
+        cout << "elements=" << m_data[i]->getNumRows() << endl;
+        cout << "columns=" << m_data[i]->getNumCols() << endl;
+        cout << "windows=" << m_data[i]->getNumTables() << endl;
 
-        for (int vcount = 0; vcount < m_data[i]->getNumRows(); vcount++) {
-            files[i] << " " << cepToString(m_data[i]->
-                                           getValue(vcount, colDate));
-            if (m_data[i]->getError().isReal())
-                return m_data[i]->getError();
+        // if we have multiple windows.
+        // the 2D matrix cannot handle being called with 3 params, even if the third on is always 1
+        // BUGGER
+        bool mult = (m_data[i]->getNumTables() > 1);
+        // iterate through windows
+        for (int wcount = 0; wcount < m_data[i]->getNumTables(); wcount++ ) {
+            // iterate through elements of each window
+            if( wcount > 0 && wcount < m_data[i]->getNumTables() ) {
+                delimitWindow(files[i]);
+            }
+            for (int vcount = 0; vcount < m_data[i]->getNumRows(); vcount++) {
+                ostringstream line;
+                if( mult ) {
+                    line << " " << cepToString(m_data[i]->getValue(vcount, colDate, wcount));
+                } else {
+                    line << " " << cepToString(m_data[i]->getValue(vcount, colDate));
+                }
+                if (m_data[i]->getError().isReal())
+                    return m_data[i]->getError();
 
-            files[i] << "     " << reverseOffset((direction) i,
-                                                 cepToString(m_data[i]->
-                                                             getValue
-                                                             (vcount,
-                                                              colSample)
-                                                             +
-                                                             m_offsetFloat
-                                                             [i]));
-            if (m_data[i]->getError().isReal())
-                return m_data[i]->getError();
+                if( mult ) {
+                    line << " " << reverseOffset((direction) i,cepToString(m_data[i]->getValue(vcount,colSample, wcount)+m_offsetFloat[i]));
+                } else {
+                    line << " " << reverseOffset((direction) i,cepToString(m_data[i]->getValue(vcount,colSample)+m_offsetFloat[i]));
+                }
+                if (m_data[i]->getError().isReal())
+                    return m_data[i]->getError();
 
-            files[i] << "   " << cepToString(m_data[i]->
-                                             getValue(vcount, colError));
-            if (m_data[i]->getError().isReal())
-                return m_data[i]->getError();
+                if( mult ) {
+                    line << " " << cepToString(m_data[i]->getValue(vcount, colError, wcount));
+                } else {
+                    line << " " << cepToString(m_data[i]->getValue(vcount, colError));
+                }
+                if (m_data[i]->getError().isReal())
+                    return m_data[i]->getError();
 
-            files[i] << endl;
+                // if we have more than 3 fields, write real data, otherwise write 0
+                if( m_data[i]->getNumCols() > 3 ) {
+                    if( mult ) {
+                        line << " " << cepToString(m_data[i]->getValue(vcount, colColourHint, wcount));
+                    } else {
+                        line << " " << cepToString(m_data[i]->getValue(vcount, colColourHint));
+                    }
+                } else {
+                     line << " " << 0.0;
+                }
+                
+                if (m_data[i]->getError().isReal())
+                    return m_data[i]->getError();
+                    
+                files[i] << line.str() << endl;
+            }
         }
+        cout << endl;
 
         files[i].close();
     }
 
     return cepError();
+}
+
+void cepDataset::delimitWindow( fstream &f ) {
+    f << " " << delim << "  " << delim << "  " << delim << "  " << delim << endl;
 }
 
 cepMatrix < double >*cepDataset::getMatrix(direction dir)
@@ -563,35 +682,39 @@ bool cepDataset::getHaveLs(direction i)
     return m_haveLs[i];
 }
 
+const double cepDataset::delim = -255.0;
 
 
 cepVector4D::cepVector4D():
-x(),y(),z(),c()
-{}
-void cepVector4D::push_back( double xval, double yval, double zval, double cval)
+x(), y(), z(), c()
+{
+}
+void cepVector4D::push_back(double xval, double yval, double zval,
+                            double cval)
 {
     x.push_back(xval);
     y.push_back(yval);
     z.push_back(zval);
     c.push_back(cval);
-    
+
 }
-double cepVector4D::Xat( int i )
+double cepVector4D::Xat(int i)
 {
-    return x.at( i );
+    return x.at(i);
 }
-double cepVector4D::Yat( int i )
+double cepVector4D::Yat(int i)
 {
-    return y.at( i );   
+    return y.at(i);
 }
-double cepVector4D::Zat( int i )
+double cepVector4D::Zat(int i)
 {
-    return z.at( i );   
+    return z.at(i);
 }
-double cepVector4D::Cat( int i )
+double cepVector4D::Cat(int i)
 {
-    return c.at( i );
+    return c.at(i);
 }
+
 int cepVector4D::size()
 {
     // all 3 directions are the same size

@@ -26,6 +26,7 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <sstream>
 #include "cepMatrix.h"
 #include "cepError.h"
 #include "cepUtility.h"
@@ -73,8 +74,8 @@ class cepDataset {
      cepDataset();
      cepDataset(const cepDatasetProgressCB callback);
 
-     // 19 parameters. might this be overkill?
-     // requires a rethink
+    // 19 parameters. might this be overkill?
+    // requires a rethink
      cepDataset(cepMatrix < double >*data0, cepMatrix < double >*data1,
                 cepMatrix < double >*data2, string offset0,
                 string offset1, string offset2, string procHistory,
@@ -105,10 +106,12 @@ class cepDataset {
     string getOffset(direction i);
     string getHeader(direction i);
     bool getHaveLs(direction i);
+    bool isFreqDomain();
 
   private:
     string applyOffset(direction i, string value);
     string reverseOffset(direction i, string value);
+    void delimitWindow( fstream &f );
 
     string m_filename;
     string m_header[dirUnknown];
@@ -120,27 +123,30 @@ class cepDataset {
      cepMatrix < double >*m_data[dirUnknown];
     bool m_ready;
     bool m_wellformed;
+    bool frequencyData;
 
     double m_b1[dirUnknown];
     double m_b2[dirUnknown];
     bool m_haveLs[dirUnknown];
+
+    static const double delim;
 };
 
 
 class cepVector4D {
-public:
+  public:
     cepVector4D();
-    void push_back( double xval, double yval, double zval, double cval);
+    void push_back(double xval, double yval, double zval, double cval);
     int size();
-    double Xat( int index );
-    double Yat( int index );
-    double Zat( int index );
-    double Cat( int index );
-protected:
-    vector<double> x;
-    vector<double> y;
-    vector<double> z;
-    vector<double> c;
+    double Xat(int index);
+    double Yat(int index);
+    double Zat(int index);
+    double Cat(int index);
+  protected:
+     vector < double >x;
+     vector < double >y;
+     vector < double >z;
+     vector < double >c;
 };
 
 #endif
