@@ -1,0 +1,281 @@
+Number of packets: 52
+Plugin timestamp: 338118
+Timestamp is relative
+
+Grabbing the URBs
+
+---------------------------------------------------------
+URB 0, number 0, offset 232, sequence 1, time 1, allocs 1
+MD5 hash: 8a 2d 2c f2 f2 5d 0d 19 01 0f fb 38 c0 bf 96 fb 
+
+Function: GET_DESCRIPTOR_FROM_DEVICE (0x000b)
+Endpoint: 0 (default)
+Pipe handle: 0x00000000
+Flags: 4
+Status: 0
+Link: 0
+
+Length: 96
+Direction: to
+
+URB header:
+Length: 80
+Status: 0
+Flags: 0
+
+---------------------------------------------------------
+URB 1, number 1, offset 322, sequence 1, time 6, allocs 2
+MD5 hash: 55 1b a7 5f 81 2d 75 4c 6d 60 f0 04 2a 66 84 1e 
+
+Function: CONTROL_TRANSFER (0x0008)
+Endpoint: 0 (default)
+Pipe handle: 0x8326bed4
+Flags: 6
+Status: 0
+Link: 0
+
+Length: 120
+Direction: from
+
+URB header:
+Length: 80
+Status: 0
+Flags: 3
+Transfer size: 18
+Data: 0x12 0x01 0x10 0x01 0x00 0x00 0x00 0x08 0xe8 0x04 0xfa 0xff 0x00 0x01 0x00 0x00 0x00 0x01 
+URB control transfer:
+Transfer flags: 3
+Transfer buffer length: 18
+
+Setup packet:
+  bmRequestType: 0x80 (device-to-host standard device)
+  bRequest: 0x06 GET_DESCRIPTOR [standard]
+  wValue: 0x0100 (256)
+  wIndex: 0x0000 (0)
+  wLength: 0x0012 (18)
+
+---------------------------------------------------------
+URB 2, number 2, offset 492, sequence 2, time 6, allocs 1
+MD5 hash: 8a 2d 2c f2 f2 5d 0d 19 01 0f fb 38 c0 bf 96 fb 
+
+Function: GET_DESCRIPTOR_FROM_DEVICE (0x000b)
+Endpoint: 0 (default)
+Pipe handle: 0x00000000
+Flags: 4
+Status: 0
+Link: 0
+
+Length: 96
+Direction: to
+
+URB header:
+Length: 80
+Status: 0
+Flags: 0
+
+---------------------------------------------------------
+URB 3, number 3, offset 558, sequence 2, time 14, allocs 2
+MD5 hash: 70 f2 26 96 ca 7f 61 f8 16 2a 01 52 a0 f9 4f 22 
+
+Function: CONTROL_TRANSFER (0x0008)
+Endpoint: 0 (default)
+Pipe handle: 0x8326bed4
+Flags: 6
+Status: 0
+Link: 0
+
+Length: 134
+Direction: from
+
+URB header:
+Length: 80
+Status: 0
+Flags: 3
+Transfer size: 32
+Data: 0x09 0x02 0x20 0x00 0x01 0x01 0x00 0x80 0x32 0x09 0x04 0x00 0x00 0x02 0x00 0x00 0x02 0x00 0x07 0x05 0x02 0x02 0x40 0x00 0x00 0x07 0x05 0x83 0x02 0x40 0x00 0x00 
+URB control transfer:
+Transfer flags: 3
+Transfer buffer length: 32
+
+Setup packet:
+  bmRequestType: 0x80 (device-to-host standard device)
+  bRequest: 0x06 GET_DESCRIPTOR [standard]
+  wValue: 0x0200 (512)
+  wIndex: 0x0000 (0)
+  wLength: 0x0109 (265)
+
+---------------------------------------------------------
+URB 4, number 4, offset 770, sequence 3, time 14, allocs 2
+MD5 hash: 4a ee b9 cb 5d 03 5b d9 80 29 3f bc 7f 0a c7 34 
+
+Function: SELECT_CONFIGURATION (0x0000)
+Endpoint: 0 (default)
+Pipe handle: 0x00000000
+Flags: 0
+Status: 0
+Link: 0
+
+Length: 105
+Direction: to
+
+URB header:
+Length: 80
+Status: 0
+Flags: 0
+Length: 56
+Interface number: 0x00
+Alternate setting: 0x00
+Class: 0x00
+Subclass: 0x00
+Protocol: 0x00
+Reserved: 0x00
+Number of pipes: 0
+
+Maximum packet size: 0
+End point address: 0x00
+Interval: 0x00
+USB pipe type: 0
+Maximum transfer size: 4096
+Pipe flags: 0
+
+UCD present: 1
+Length: 0x09
+Descriptor type: 0x02
+Total length: 32
+Number of interfaces: 0x01
+Configuration value: 0x01
+Configuration: 0x00
+Attributes: 0x80
+Max power: 0x32
+Number of interfaces ignored: 1
+
+---------------------------------------------------------
+URB 5, number 5, offset 971, sequence 3, time 17, allocs 2
+MD5 hash: 9f 08 52 3a 0d 5b f4 fd ef 78 9c 6c 90 64 de a4 
+
+Function: SELECT_CONFIGURATION (0x0000)
+Endpoint: 0 (default)
+Pipe handle: 0x00000000
+Flags: 0
+Status: 0
+Link: 0
+
+Length: 105
+Direction: from
+
+URB header:
+Length: 80
+Status: 0
+Flags: 0
+Length: 56
+Interface number: 0x00
+Alternate setting: 0x00
+Class: 0x00
+Subclass: 0x00
+Protocol: 0x02
+Reserved: 0x00
+Number of pipes: 2
+
+Maximum packet size: 64
+End point address: 0x02
+Interval: 0x00
+USB pipe type: 2
+Maximum transfer size: 4096
+Pipe flags: 0
+
+UCD present: 1
+Length: 0x09
+Descriptor type: 0x02
+Total length: 32
+Number of interfaces: 0x01
+Configuration value: 0x01
+Configuration: 0x00
+Attributes: 0x80
+Max power: 0x32
+Number of interfaces ignored: 1
+
+---------------------------------------------------------
+URB 6, number 6, offset 1172, sequence 4, time 49259, allocs 1
+MD5 hash: 1a c5 b7 17 c3 68 d6 3d 82 bd 33 49 76 c9 f4 fb 
+
+Function: VENDOR_DEVICE (0x0017)
+Endpoint: 0 (default)
+Pipe handle: 0x00000000
+Flags: 6
+Status: 0
+Link: 0
+
+Length: 97
+Direction: to
+
+URB header:
+Length: 80
+Status: 0
+Flags: 0
+Transfer length: 1
+
+URB control transfer:
+Transfer flags: 3
+Transfer buffer length: 1
+
+Setup packet:
+  bmRequestType: 0x00 (host-to-device [ignored] standard device)
+  bRequest: 0x0a GET_INTERFACE [standard]
+  wValue: 0x0000 (0)
+  wIndex: 0x0000 (0)
+  wLength: 0x0000 (0)
+
+---------------------------------------------------------
+URB 7, number 7, offset 1324, sequence 4, time 49263, allocs 1
+MD5 hash: 3b 74 f9 84 69 32 f8 76 f4 a2 03 69 48 d1 76 6c 
+
+Function: CONTROL_TRANSFER (0x0008)
+Endpoint: 0 (default)
+Pipe handle: 0x8326bed4
+Flags: 6
+Status: 0
+Link: 0
+
+Length: 103
+Direction: from
+
+URB header:
+Length: 80
+Status: 0
+Flags: 3
+Transfer size: 1
+Data: 0x40 
+URB control transfer:
+Transfer flags: 3
+Transfer buffer length: 1
+
+Setup packet:
+  bmRequestType: 0xc0 (device-to-host vendor device)
+  bRequest: 0x0a
+  wValue: 0x0000 (0)
+  wIndex: 0x0000 (0)
+  wLength: 0x0001 (1)
+
+---------------------------------------------------------
+URB 8, number 8, offset 1509, sequence 5, time 49263, allocs 1
+MD5 hash: dc 41 40 ea 94 a4 7b 69 f3 c0 58 ab e1 0a 41 32 
+
+Function: UNKNOWN (0x0009)
+Endpoint: 0 (default)
+Pipe handle: 0x8312cc00
+Flags: 2
+Status: 0
+Link: 0
+
+Length: 158
+Direction: to
+
+URB header:
+Length: 72
+Status: 0
+Flags: 0
+
+*** Unknown function ***
+
+Aborting further decoding. Please report this to
+Michael Still (mikal@stillhq.com)

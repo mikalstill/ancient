@@ -23,6 +23,7 @@ void usage(char *name)
   printf (VERSION "\n\n");
   printf ("Try: %s [-i input] [-r] [-v]\n\n", name);
   printf ("\t-i <name>: The name of the input usblog file\n");
+  printf ("\t-l:        Output Linux kernel equivalent descriptions\n");
   printf ("\t-r:        Suppressed repeated URB sequences\n");
   printf ("\t-v:        Verbose debugging output\n");
   printf ("\n");
@@ -49,6 +50,7 @@ long urb_buffer_inset = 0;
 int urb_reallocs = 0;
 void urb_printf (char *format, ...);
 char *urb_xsnprintf (char *format, va_list ap);
+void urb_xfree(void *);
 char *md5hash (char *);
 
 // A structure to store all our URBs
@@ -57,7 +59,7 @@ typedef struct usb_internal_allurbs
   int number;
   long long filep;
   int sequence;
-  int time;
+  unsigned int time;
   int reallocs;
   int deleted;
 
@@ -76,6 +78,8 @@ usb_allurbs;
 // Used for correlation
 int hashcmp (usb_allurbs * head, int inset, int testinset, int length);
 
+int do_linux = 0;
+
 int
 main (int argc, char *argv[])
 {
@@ -87,10 +91,14 @@ main (int argc, char *argv[])
   struct stat sb;
   usb_allurbs *urbhead;
 
-  while ((optchar = getopt (argc, argv, "i:rv")) != -1)
+  while ((optchar = getopt (argc, argv, "i:lrv")) != -1)
     {
       switch (optchar)
 	{
+	case 'l':
+	  do_linux = 1;
+	  break;
+
 	case 'r':
 	  do_suppress = 1;
 	  break;
@@ -386,9 +394,7 @@ main (int argc, char *argv[])
       urb_buffer = NULL;
       urb_buffer_inset = 0;
       urb_buffer_size = 0;
-      printf("Resetting reallocs from %d\n", urb_reallocs);
       urb_reallocs = 0;
-      printf("Reset to %d\n", urb_reallocs);
     }
 
   // Correlate
@@ -435,11 +441,14 @@ main (int argc, char *argv[])
   for (urbCount = 0; urbCount < npackets; urbCount++)
     {
       printf ("\n"
-	      "---------------------------------------------------------\n"
-	      "URB %d, number %d, offset %d, sequence %d, time %d, allocs %d\n",
-	      urbCount, urbhead[urbCount].number, urbhead[urbCount].filep, 
-	      urbhead[urbCount].sequence, urbhead[urbCount].time, 
-	      urbhead[urbCount].reallocs);
+	      "---------------------------------------------------------\n");
+      printf ("URB %d, ", urbCount);
+      printf ("number %d, ", urbhead[urbCount].number);
+      printf ("offset %d, ", urbhead[urbCount].filep);
+      printf ("sequence %d, ", urbhead[urbCount].sequence);
+      printf ("time %d, ", urbhead[urbCount].time);
+      printf ("allocs %d\n", urbhead[urbCount].reallocs);
+
       if (urbhead[urbCount].desc != NULL)
 	{
 	  printf ("MD5 hash: ");
@@ -643,6 +652,7 @@ usb_setup_packet(char *file, long long *filep)
   long long count = *filep;
   int type, req, val, idx, len;
   int stdreq = 0, endval = 0, ifaceval = 0;
+  char *lkdir = NULL, *lktype = NULL, *lkrecip = NULL, *lkreq = NULL;
 
   // Decode a setup packet
   // TODO: I have just written this, and need to desk check that it is correct
@@ -655,9 +665,15 @@ usb_setup_packet(char *file, long long *filep)
 
   urb_printf ("  bmRequestType: 0x%02x (", type);
   if(((type & 0x80) >> 7) == 1)
-    urb_printf("device-to-host ");
+    {
+      urb_printf("device-to-host ");
+      lkdir = strdup("USB_DIR_IN");
+    }
   else
-    urb_printf("host-to-device ");
+    {
+      urb_printf("host-to-device ");
+      lkdir = strdup("USB_DIR_OUT");
+    }
   if(len == 0)
     urb_printf("[ignored] ");
 
@@ -665,39 +681,47 @@ usb_setup_packet(char *file, long long *filep)
     {
     case 0:
       urb_printf("standard ");
+      lktype = strdup("USB_TYPE_STANDARD");
       stdreq = 1;
       break;
 
     case 1:
       urb_printf("class ");
+      lktype = strdup("USB_TYPE_CLASS");
       break;
       
     case 2:
       urb_printf("vendor ");
+      lktype = strdup("USB_TYPE_VENDOR");
       break;
 
     case 3:
       urb_printf("reserved ");
+      lktype = strdup("USB_TYPE_RESERVED");
       break;
     }
   switch(type & 0x0F)
     {
     case 0:
       urb_printf("device");
+      lkrecip = strdup("USB_RECIP_DEVICE");
       break;
 
     case 1:
       urb_printf("interface");
+      lkrecip = strdup("USB_RECIP_INTERFACE");
       ifaceval = 1;
       break;
       
     case 2:
       urb_printf("endpoint");
+      lkrecip = strdup("USB_RECIP_ENDPOINT");
       endval = 1;
       break;
 
     case 3:
       urb_printf("other");
+      lkrecip = strdup("USB_RECIP_OTHER");
       break;
 
     default:
@@ -705,13 +729,79 @@ usb_setup_packet(char *file, long long *filep)
       break;
     }
   urb_printf(")\n");
+  if(do_linux == 1)
+    urb_printf("  Linux kernel: %s | %s | %s\n\n", lkdir, lktype, lkrecip);
+  urb_xfree(lkdir);
+  urb_xfree(lktype);
+  urb_xfree(lkrecip);
 
   urb_printf ("  bRequest: 0x%02x", req);
   if(stdreq == 1)
     {
+      switch(req)
+	{
+        case 0x00:
+          urb_printf(" GET_STATUS");
+          lkreq = strdup("USB_REQ_GET_STATUS");
+          break;
+
+        case 0x01:
+          urb_printf(" CLEAR_FEATURE");
+          lkreq = strdup("USB_REQ_CLEAR_FEATURE");
+          break;
+
+        case 0x03:
+          urb_printf(" SET_FEATURE");
+          lkreq = strdup("USB_REQ_SET_FEATURE");
+          break;
+
+        case 0x05:
+          urb_printf(" SET_ADDRESS");
+          lkreq = strdup("USB_REQ_SET_ADDRESS");
+          break;
+
+        case 0x06:
+          urb_printf(" GET_DESCRIPTOR");
+          lkreq = strdup("USB_REQ_GET_DESCRIPTOR");
+          break;
+
+        case 0x07:
+          urb_printf(" SET_DESCRIPTOR");
+          lkreq = strdup("USB_REQ_SET_DESCRIPTOR");
+          break;
+
+        case 0x08:
+          urb_printf(" GET_CONFIGURATION");
+          lkreq = strdup("USB_REQ_GET_CONFIGURATION");
+          break;
+
+        case 0x09:
+          urb_printf(" SET_CONFIGURATION");
+          lkreq = strdup("USB_REQ_SET_CONFIGURATION");
+          break;
+
+        case 0x0A:
+          urb_printf(" GET_INTERFACE");
+          lkreq = strdup("USB_REQ_GET_INTERFACE");
+          break;
+
+        case 0x0B:
+          urb_printf(" SET_INTERFACE");
+          lkreq = strdup("USB_REQ_SET_INTERFACE");
+          break;
+
+        case 0x0C:
+          urb_printf(" SYNCH_FRAME");
+          lkreq = strdup("USB_REQ_SYNCH_FRAME");
+          break;
+	}
+
       urb_printf(" [standard]");
     }
   urb_printf("\n");
+  if(do_linux == 1)
+    urb_printf("  Linux kernel: %s\n\n", lkreq);
+  urb_xfree(lkreq);
 
   urb_printf ("  wValue: 0x%04x (%d)\n", val, val);
 
@@ -816,6 +906,13 @@ urb_xsnprintf (char *format, va_list ap)
     }
 
   return output;
+}
+
+void
+urb_xfree(void *m)
+{
+  if(m)
+    free(m);
 }
 
 char *
