@@ -15,6 +15,7 @@ while(<>){
   s/<id domino[^>]*>//;
   s/<meta[^>]*>//;
   s/<zone[^>]*>//;
+  s/<content-area[^>]*>//;
 
   s/<seriestitle[^>]*>//;
   s/<\/seriestitle[^>]*>//;

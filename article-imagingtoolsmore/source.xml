@@ -1,277 +1,423 @@
-<?xml version="1.0" encoding="UTF-8"?>
+ <?xml version="1.0" encoding="UTF-8"?>
 
-<?xml-stylesheet type="text/xsl" href="C:\Documents and Settings\Administrator\My Documents\Articles\1 - Templates\dw-document-html-2.1.xsl"?>
-<dw-document xmlns:dw="http://www.ibm.com/developerWorks/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="C:\Documents and Settings\Administrator\My Documents\Articles\1 - Templates\dw-document-2.1.xsd">
+ <?xml-stylesheet
+ type="text/xsl"
+ href="C:\Documents and Settings\Administrator\My Documents\Articles\1 -
+ Templates\dw-document-html-2.1.xsl"?>
 
-<!-- SKILL LEVEL 
-If known, specify the (skill) level, 1 to 5 -->
-<dw-article toc="auto" ratings="auto" level="1" localsite="worldwide" related_contents="auto">
-<id domino-uid=""/>
+ <dw-document
+ xmlns:dw="http://www.ibm.com/developerWorks/"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:noNamespaceSchemaLocation="http://dw.raleigh.ibm.com/developerworks/library/schema/2.2/dw-document-2.2.xsd">
 
-<meta name="keywords" content="image, raster, imagemagick, convert, rotate, scale, thumbnail, resize, artistic"/>
-<!-- Fill in or leave blank for production to fill in.  -->
-<meta name="lastupdate" content="20040206mbs"/>
+ <dw-article
+ toc="auto"
+ ratings="auto"
+ level="1"
+ localsite="worldwide"
+ related_contents="auto">
 
-<zone name="linux"/>
+ <id
+ domino-uid=""
+ content-id=""/>
 
-<seriestitle></seriestitle>
+ <meta name="keywords"
+ content="IBM, developerWorks, Linux, Michael Still, image, raster,
+imagemagick, convert, rotate, scale, thumbnail, resize, artistic, graphic,
+graphics, manipulation, conversion, photos, rounded corners, superimpose,
+logo, logos"/>
+
+ <meta name="Last update" content="150204 nm"/>
+
+ <content-area name="linux"/>
+
 <title>More graphics from the command line</title>
-<subtitle></subtitle>
-<!--  End TITLE -->
+<subtitle>Tips and tricks for using ImageMagick on Linux</subtitle>
 
-<!-- Ignore these lines. -->
-<!-- <forumurl url=""/> -->
-<!-- <zip url=""/> -->
-<!-- <pdf size="" url=""/> -->
+ <forumurl
+ url=""/>
 
-<author company="TOWER Software" email="mikal@stillhq.com" jobtitle="Senior Software Engineer" name="Michael Still">
-<bio>Michael has been working in the image processing field for several years, including a couple of years managing and developing large image databases for an Australian government department. He currently works for TOWER Software, who manufacture a world leading EDMS and Records Management package named TRIM. Michael is also the developer of Panda, an open source PDF generation API, as well as a bunch of other Open Source code.</bio></author>
-<!--  End AUTHOR -->
+ <download-feature
+ downloadtype="code"
+ filename=""
+ url-ftp=""/>
 
-<!-- DATE INFO
-Fill in or leave blank for production to fill in.-->
-<date month="12" day="25" year="2003"/>
+ <pdf
+ url=""
+ size="xx KB"/>
 
-<abstract miniabstract="">This article discusses commonly used image manipulations using command line tools, mainly from the ImageMagick suite. It expands on the examples from the "Command line imaging tools" article.</abstract>
+ <author
+ jobtitle="Senior Software Engineer"
+ email_cc="youngt01@us.ibm.com"
+ email="mikal@stillhq.com"
+ company="TOWER Software">
+ <bio>Michael has been working in the image processing field for several
+years, including a couple of years managing and developing large image
+databases for an Australian government department. He currently works for
+TOWER Software, which manufactures a world-leading EDMS and Records
+Management package named TRIM. Michael is also the developer of Panda, an
+open-source PDF generation API, as well as a bunch of other Open Source
+code.</bio>
+ <img src="" width="64" height="80"/>
+ <name>Michael Still</name>
+ </author>
 
-<column-info col-name="" col-icon=""/>
-<docbody>
+ <date day="15" month="03" year="2004"/>
 
-<p>Last year I wrote an article for IBM DeveloperWorks about image manipulations on the command line using ImageMagick. The article was quite well received, and since then I have fielded many email questions on ImageMagick. This article expands on the techniques discussed in that previous article, as well as answering as many of those questions as I can. If this is the first ImageMagick article from IBM DeveloperWorks that you've found, you would do well to have a look at this first article as well.</p>
+ <date-updated day="15" month="3" year="2004"/>
 
-<p>This article takes the form of discussing specific problems as examples, but the concepts should be applicable to other problem spaces as well. This is the same approach as taken in the previous article. The techniques discussed here also work in combination with those we've discussed previously.</p>
+ <abstract>There's nothing quite like command-line tools for handling large batches of tasks, and image manipulations are no exception. Web developers and administrators will appreciate the ability to handle large numbers of files easily, either at the command line or in scripts. Programmer Michael Still presents more examples of the ImageMagick suite, this time demonstrating how to put cool curved corners on your images, a variety of different frames and borders, converting to and from Adobe's PDF format, and how to extract all the images from multiple page file formats.</abstract>
 
-<p>It should be noted that there are many ways to do the things discussed in this article. I will only discuss the methods I use, and know work for me. That doesn't mean the other tools out there are broken, it just means that I'm happy with what I am using now.</p>
+ <abstract-extended></abstract-extended>
 
+ <column-info
+ col-name=""
+ col-icon="column_icon.gif"/>
 
+ <docbody>
 
+ <abstract-extended></abstract-extended>
 
+ <column-info
+ col-name=""
+ col-icon="column_icon.gif"/>
+
+ <docbody>
+
+<p>Last year I wrote an article for IBM DeveloperWorks about image
+manipulations on the command line using ImageMagick. The article was quite
+well received, and since then I have fielded many email questions on
+ImageMagick. This article expands on the techniques discussed in that
+previous article, as well as answering as many of those questions as I
+can. If this is the first ImageMagick article from IBM DeveloperWorks that
+you've found, you would do well to have a look at this first article as
+well -- you will find it linked in the <a
+href="#resources">Resources</a> section.</p>
+
+<p>This article takes the form of discussing specific problems as
+examples, but the concepts should be applicable to other problem spaces as
+well. This is the same approach as taken in the previous article. The
+techniques discussed here also work in combination with those we've
+discussed previously.</p>
+
+<p>It should be noted that there are many ways to do the things discussed
+in this article. I will only discuss the methods I use, and know work for
+me. That doesn't mean the other tools out there are broken, it just means
+that I'm happy with what I am using now.</p>
 
 
 <heading refname="" type="major" toc="yes" name="" alttoc="">Curving corners</heading>
-<p>If you have a look at MacOS X, and many websites, the pictures have quite nice curved corners. How do you achieve this effect with ImageMagick? Well, we're going to have to show some enginuity in producing this effect by using the <b>composite</b> command.</p>
 
-<p>Before we get there though, let's talk about the strategy we're going to employ. If you think about it, an image with curved corners can be made by taking some standard pre-made corners, and superimposing them over the original image. There's no real need for the corners to be curved even -- we could have angled corners, or something much more fancy.</p>
+<p>If you have a look at Mac OS/X, and many Web sites, the pictures have
+quite nice curved corners. How do you achieve this effect with
+ImageMagick? Well, we're going to have to show some ingenuity in producing
+this effect by using the <code type="inline">composite</code> command.</p>
 
-<p>So, the first step is to make some corners. Below is a corner I whipped up in the GIMP. I wont show you all four, as the others are just this one rotated by differing multiples of 90 degrees.</p>
+<p>Before we get there though, let's talk about the strategy we're going
+to employ. If you think about it, an image with curved corners can be made
+by taking some standard pre-made corners, and superimposing them over the
+original image. There's no real need for the corners to be curved even --
+we could have angled corners, or something much more fancy.</p>
 
 <sidebar>
 <heading refname="" type="sidebar" toc="no" name="" alttoc="">The GIMP</heading>
-<p>The GIMP, the GNU Image Manipulation Package, is a very useful raster graphics editor, much like Adobe Photoshop. It's great for tweaking images, or for creating your own new pictures. Checkout <a href="http://www.gimp.org">www.gimp.org</a> for more details.</p> 
+
+<p>The GIMP, the GNU Image Manipulation Package, is a very useful raster
+graphics editor, much like Adobe Photoshop. It's great for tweaking
+images, or for creating your own new pictures. Check out
+the  <a href="#resources">Resources</a>
+section of this article for links to the Gimp and Gimp resources.
+</p>
+
 </sidebar>
 
-<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 1. A curved corner made in the GIMP</heading>
-<img src="rounded-ne.png" width="10" height="10" alt="A rounded corner"/>
-</figure>
+<p>Remember to make the unwanted parts of the corner transparent. 
+This transparency will allow the image we are adding the corners to to 
+show through. This can be a little confusing, as some image viewers such 
+as <b>xview</b> will show the transparency in black or some other color.</p>
 
-<p>You should note that the curve on this image is actually in white, and the rest of the image is transparent. This transparency will allow the image we are adding the corners to to show through. This can be a little confusing, as some image viewers such as <b>xview</b> will show the transparency in black or some other color.</p>
-
+<figure>
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 2. The curved corner displayed with xview</heading>
-<img src="rounded-ne-xview.png" width="98" height="57" alt="A rounded corner with xview"/>
+<img src="rounded-ne-xview.jpg" width="98" height="57" alt="A rounded corner with xview"/>
 </figure>
 
-<p>The actual corner image will become more clear when we superimpose it upon an image, so let's get on with that. I have a thumbnail which I made earlier of the view from the shore of one of Canberra's lakes. Without the rounded corners, the thumbnail looks like this:</p>
+<p>The actual corner image will become more clear when we superimpose it
+upon an image, so let's get on with that. I have a thumbnail which I made
+earlier of the view from the shore of one of Canberra's lakes. Without the
+rounded corners, the thumbnail looks like this:</p>
 
+<figure>
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 3. Lake Burley Griffin</heading>
-<img src="lake.png" width="144" height="192" alt="A lake view"/>
+<img src="lake.jpg" width="144" height="192" alt="A lake view"/>
 </figure>
 
-<p>To superimpose an image onto another, you use the <b>composite</b> command. Let's just do one corner, to see what happens...</p>
+<p>To superimpose one image onto another, you use the <code type="inline">composite</code>
+command. Let's just do one corner, to see what happens...</p>
 
-<heading refname="" type="code" toc="no" name="" alttoc="">Listing 1. Rounding one corner</heading>
-<code type="section">
+<p>
+<code type="inline">
 composite -gravity NorthEast rounded-ne.png lake.png lake-1.png
 </code>
+</p>
 
-<p>Here, the gravity argument defines where on the image to put the superimposed image -- in our case the rounded corner. This particular command gives us the following image:</p>
+<p>Here, the gravity argument defines where on the image to put the
+superimposed image -- in our case the rounded corner. This particular
+command gives us the following image:</p>
 
+<figure>
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 4. Lake Burley Griffin with one rounded corner</heading>
-<img src="lake-1.png" width="144" height="192" alt="A lake view"/>
+<img src="lake-1.jpg" width="144" height="192" alt="A lake view"/>
 </figure>
 
-<sidebar>
-<heading refname="" type="sidebar" toc="no" name="" alttoc="">Gravity</heading>
-<p>The gravity argument specifies where on the background image the superimposed image is placed. The possible gravities, and their effects are:</p> 
-
-<heading refname="" type="figure" toc="no" name="" alttoc="">Gravity directions</heading>
-<img src="gravity2.png" width="261" height="295" alt="Gravity directions"/>
-
-<p>For example, SouthWest will force the superimposed image to the bottom left hand corner of the background image.</p>
-</figure>
-</sidebar>
 
 <p>So let's do the rest of the corners...</p>
 
-<heading refname="" type="code" toc="no" name="" alttoc="">Listing 2. Rounding all of the corners</heading>
-<code type="section">
-composite -gravity NorthEast rounded-ne.png lake.png lake-1.png
-composite -gravity NorthWest rounded-nw.png lake-1.png lake-2.png
-composite -gravity SouthEast rounded-se.png lake-2.png lake-3.png
-composite -gravity SouthWest rounded-sw.png lake-3.png lake-4.png
+<p>
+<code type="inline">
+composite -gravity NorthEast rounded-ne.png lake.png lake-1.png <br />
+composite -gravity NorthWest rounded-nw.png lake-1.png lake-2.png <br />
+composite -gravity SouthEast rounded-se.png lake-2.png lake-3.png <br />
+composite -gravity SouthWest rounded-sw.png lake-3.png lake-4.png <br />
 </code>
+</p>
 
 <p>Which gives us the finished image:</p>
 
+<figure>
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 5. Lake Burley Griffin with rounded corners</heading>
-<img src="lake-4.png" width="144" height="192" alt="A lake view"/>
+<img src="lake-4.jpg" width="144" height="192" alt="A lake view"/>
 </figure>
 
-<p>Which looks kinda cool in my humble opinion. You should also take note that there is no reason for these corner images to be rounded. If you're interested in angled corners or such, then they're equally possible -- just change the corner images in a bitmap editor.</p>
+<p>Which looks kinda cool in my humble opinion. You should also take note
+that there is no reason for these corner images to be rounded. If you're
+interested in angled corners or such, then they're equally possible --
+just change the corner images in a bitmap editor. In fact, you could even
+superimpose your logo onto the image instead of a corner.</p>
 
-<p>If you want to use my rounded corners, a URL is listed in the resources section at the end of this article.</p>
+<p>If you want to use my rounded corners, a URL is listed in the resources
+section at the end of this article.</p>
 
+<p>Finally, here's how to round all the corners of all the png images in
+a given directory:</p>
+
+<p>
+<code type="inline">
+for img in *.png
+do
+  composite -gravity NorthEast rounded-ne.png $img.png $img-1.png <br />
+  composite -gravity NorthWest rounded-nw.png $img-1.png $img-2.png <br />
+  composite -gravity SouthEast rounded-se.png $img-2.png $img-3.png <br />
+  composite -gravity SouthWest rounded-sw.png $img-3.png $img-4.png <br />
+done
+</code>
+</p>
+
+<sidebar>
+<heading refname="" type="sidebar" toc="no" name="" alttoc="">Gravity</heading>
+
+<p>The gravity argument specifies where on the background image the
+superimposed image is placed. The possible gravities, and their effects
+are:</p>
+
+<figure>
+<heading refname="" type="figure" toc="no" name="" alttoc="">Gravity directions</heading>
+<img src="gravity2.jpg" width="261" height="295" alt="Gravity directions"/>
+</figure>
+
+<p>For example, SouthWest will force the superimposed image to the bottom
+left-hand corner of the background image.</p>
+
+</sidebar>
 
 
 <heading refname="" type="major" toc="yes" name="" alttoc="">Putting frames around images</heading>
-<p>Another thing which several readers asked about was how to add frames to images. Again, this is relatively easy to do with ImageMagick.</p>
+
+<p>Another thing which several readers asked about was how to add frames
+to images. Again, this is relatively easy to do with ImageMagick.</p>
 
 <heading refname="" type="minor" toc="yes" name="" alttoc="">A raised or lowered border</heading>
 
-<p>The first type of frame I will show you is a raised or lowered border. This effect works by tweaking the colors at the edge of an image to give the impression that it is either raised above the surrounding surface, or pushed below it. For the effect, you need to specify a size, with the horizontal size first, and then the vertical size. These sizes must obey the rule that twice the size specified must be less than or equal to the dimension of the image in that direction. For example, you can't specify a frame size vertically that is more than half the vertical size of the image.</p>
+<p>The first type of frame I will show you is a raised or lowered border.
+This effect works by tweaking the colors at the edge of an image to give
+the impression that it is either raised above the surrounding surface, or
+pushed below it. For the effect, you need to specify a size, with the
+horizontal size first, and then the vertical size. These sizes must obey
+the rule that twice the size specified must be less than or equal to the
+dimension of the image in that direction. For example, you can't specify a
+frame size vertically that is more than half the vertical size of the
+image.</p>
 
-<p>To create a raised border, use the <i>-raise</i> command line argument. For example, to create a 5 pixel by 5 pixel border, we execute:</p>
+<p>To create a raised border, use the <i>-raise</i> command-line argument.
+For example, to create a 5 pixel by 5 pixel border, we execute:</p>
 
-<heading refname="" type="code" toc="no" name="" alttoc="">Listing 3. Creating a raised border</heading>
-<code type="section">
+<p>
+<code type="inline">
 convert -raise 5x5 tree.png tree-raised.png
 </code>
+</p>
 
 <p>Which gives us the finished image:</p>
 
+<figure>
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 6. An image with a raised border</heading>
-<img src="tree-raised.png" width="320" height="240" alt="Some trees by a bay with a raised border"/>
+<img src="tree-raised.jpg" width="320" height="240" alt="Some trees by a bay with a raised border"/>
 </figure>
 
-<p>To create a lowered border, just use the <i>+raise</i> command line argument instead. For example:</p>
+<p>To create a lowered border, just use the <i>+raise</i> command-line
+argument instead. For example:</p>
 
-<heading refname="" type="code" toc="no" name="" alttoc="">Listing 4. Creating a lowered border</heading>
-<code type="section">
+<p>
+<code type="inline">
 convert +raise 5x5 tree.png tree-lowered.png
 </code>
+</p>
 
 <p>Which gives a slightly different finished image:</p>
 
-<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 7. An image with a raised border</heading>
-<img src="tree-lowered.png" width="320" height="240" alt="Some trees by a bay with a lowered border"/>
+<figure>
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 7. An image with a lowered border</heading>
+<img src="tree-lowered.jpg" width="320" height="240" alt="Some trees by a bay with a lowered border"/>
 </figure>
-
-
 
 
 <heading refname="" type="minor" toc="yes" name="" alttoc="">A simple colored border</heading>
 
-<p>If you're after something a little more simple, you might be interested in a border of just a solid color. ImageMagick can do this for you as well.</p>
+<p>If you're after something a little more simple, you might be interested
+in a border of just a solid color. ImageMagick can do this for you as
+well.</p>
 
-<heading refname="" type="code" toc="no" name="" alttoc="">Listing 5. Creating a simple solid red border</heading>
-<code type="section">
+<p>
+<code type="inline">
 convert -bordercolor red -border 5x5 flower.png flower-border.png
 </code>
+</p>
 
 <p>Which creates:</p>
 
+<figure>
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 8. An image with a red border</heading>
-<img src="flower-border.png" width="190" height="250" alt="Some flowers with a red border"/>
+<img src="flower-border.jpg" width="190" height="250" alt="Some flowers with a red border"/>
 </figure>
 
-<p>What border colors can we specify on the command line? Well, the list is simply too long to put into this article. To get a copy of the list, execute this command:</p>
+<p>What border colors can we specify on the command line? Well, the list
+is simply too long to put into this article. To get a copy of the list,
+execute this command:</p>
 
-<heading refname="" type="code" toc="no" name="" alttoc="">Listing 6. Generate a list of colors usable in borders</heading>
-<code type="section">
+<p>
+<code type="inline">
 convert -list color
 </code>
+</p>
 
-<p>Here's a list of some of the more commonly used colors of the 683 available: aquamarine, azure, beige, bisque, black, blue, brown, burlywood, chartreuse, chocolate, coral, cornsilk, cyan, firebrick, gainsboro, gold, goldenrod, green, honeydew, ivory, khaki, lavender, linen, magenta, maroon, moccasin, navy, orange, orchid, peru, pink, plum, purple, red, salmon, seashell, sienna, snow, tan, thistle, tomato, turquoise, violet, wheat and yellow.</p>
-
-<p>You can also of course specify your own colors by using any of the following formats, where R represents the red value, G the green, B the blue, and A the alpha (transparency) value:</p>
+<p>From bisque to burlywood and from cornsilk to seashell, there are 683 
+"basic" colors to choose from -- which is not to mention that you can also 
+specify your own colors by using any of the
+following formats, where R represents the red value, G the green, B the
+blue, and A the alpha (transparency) value:</p>
 
 <ul>
-<li>#RGB - (R,G,B are hex numbers, 4 bits each)
-<li>#RRGGBB - (8 bits each)
-<li>#RRRGGGBBB - (12 bits each)
-<li>#RRRRGGGGBBBB - (16 bits each)
-<li>#RGBA - (4 bits each)
-<li>#RRGGBBAA - (8 bits each)
-<li>#RRRGGGBBBAAA - (12 bits each)
-<li>#RRRRGGGGBBBBAAAA - (16 bits each)
-<li>rgb(r,g,b) - (r,g,b are decimal numbers)
-<li>rgba(r,g,b,a) - (r,g,b,a are decimal numbers)
+<li>#RGB - (R,G,B are hex numbers, 4 bits each) </li>
+<li>#RRGGBB - (8 bits each)  </li>
+<li>#RRRGGGBBB - (12 bits each)  </li>
+<li>#RRRRGGGGBBBB - (16 bits each)  </li>
+<li>#RGBA - (4 bits each)  </li>
+<li>#RRGGBBAA - (8 bits each)  </li>
+<li>#RRRGGGBBBAAA - (12 bits each)  </li>
+<li>#RRRRGGGGBBBBAAAA - (16 bits each)  </li>
+<li>rgb(r,g,b) - (r,g,b are decimal numbers)  </li>
+<li>rgba(r,g,b,a) - (r,g,b,a are decimal numbers)  </li>
 </ul>
 
 <heading refname="" type="minor" toc="yes" name="" alttoc="">Building a more complicated frame</heading>
 
-<p>Next let's build a slightly more complicated frame, using the <i>-frame</i> command line argument. First we'll add a simple frame which is identical (except for the color) to the border we built in the previous example.</p>
+<p>Next let's build a slightly more complicated frame, using the
+<i>-frame</i> command-line argument. First we'll add a simple frame which
+is identical (except for the color) to the border we built in the previous
+example.</p>
 
-<heading refname="" type="code" toc="no" name="" alttoc="">Listing 7. Creating a simple solid red border</heading>
-<code type="section">
+<p>
+<code type="inline">
 convert -mattecolor black -frame 5x5 beach.png beach-frame.png
 </code>
+</p>
 
-<p>The arguments are <i>-mattcolor</i> and <i>-frame</i> instead of <i>-bordercolor</i> and <i>-border</i>, but the rest is the same as with the border command.</p>
+<p>The arguments are <i>-mattcolor</i> and <i>-frame</i> instead of
+<i>-bordercolor</i> and <i>-border</i>, but the rest is the same as with
+the border command.</p>
 
+<figure>
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 9. A simple black border</heading>
-<img src="beach-frame.png" width="330" height="250" alt="A picture of the beach with a simple black frame"/>
+<img src="beach-frame.jpg" width="330" height="250" alt="A picture of the beach with a simple black frame"/>
 </figure>
 
-<p>Now we can add some extra complexity by adding some gray shading similar to what the <i>-raise</i> command gave us.</p>
+<p>Now we can add some extra complexity by adding some gray shading
+similar to what the <i>-raise</i> command gave us.</p>
 
-<heading refname="" type="code" toc="no" name="" alttoc="">Listing 8. A simple black border with some gray around the edges</heading>
-<code type="section">
+<p>
+<code type="inline">
 convert -mattecolor black -frame 5x5+2 beach.png beach-frame2.png
 </code>
+</p>
 
 <p>Which is getting there:</p>
 
+<figure>
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 10. The same picture, but with some more decoration</heading>
-<img src="beach-frame2.png" width="330" height="250" alt="A picture of the each with a slightly more complicated border"/>
+<img src="beach-frame2.jpg" width="330" height="250" alt="A picture of the each with a slightly more complicated border"/>
 </figure>
 
-<p>Finally, we can add some more decoration, to get the final effect I want...</p>
+<p>Finally, we can add some more decoration, to get the final effect I
+want...</p>
 
-<heading refname="" type="code" toc="no" name="" alttoc="">Listing 9. A fully decorated frame</heading>
-<code type="section">
+<p>
+<code type="inline">
 convert -mattecolor black -frame 5x5+2+2 beach.png beach-frame3.png
 </code>
+</p>
 
 <p>Which finally gives us:</p>
 
+<figure>
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 11. A finished frame</heading>
-<img src="beach-frame3.png" width="330" height="250" alt="A picture of the beach with a finished frame"/>
+<img src="beach-frame3.jpg" width="330" height="250" alt="A picture of the beach with a finished frame"/>
 </figure>
 
-<p>If you're looking at ways to make nice frames for your images, then I recommend that you spend a few moments playing with the arguments to the <i>-frame</i> command. For example, here's some interesting frames for a picture of a rock at King's Canyon, in Australia.</p>
+<p>If you're looking at ways to make nice frames for your images, then I
+recommend that you spend a few moments playing with the arguments to the
+<i>-frame</i> command. For example, here's some interesting frames for a
+picture of a rock at King's Canyon, in Australia.</p>
 
-<heading refname="" type="code" toc="no" name="" alttoc="">Listing 10. An interesting frame mark 1</heading>
-<code type="section">
+<p>For more information on the various frames available, checkout the
+<b>convert</b> manpage.</p>
+
+<p>
+<code type="inline">
 convert -mattecolor gray -frame 25x25+0+25 rock.png rock-frame1.png
 </code>
+</p>
 
-<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 12. An interesting frame</heading>
-<img src="rock-frame1.png" width="370" height="290" alt="A rock picture with a frame"/>
-</figure>
-
-<heading refname="" type="code" toc="no" name="" alttoc="">Listing 11. An interesting frame mark 2</heading>
-<code type="section">
+<p>
+<code type="inline">
 convert -mattecolor gray -frame 25x25+25+0 rock.png rock-frame2.png
 </code>
+</p>
 
-<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 13. Another interesting frame</heading>
-<img src="rock-frame2.png" width="370" height="290" alt="A rock picture with a frame"/>
+<figure>
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 13. A couple of frames</heading>
+<img src="rock-frames.jpg" width="370" height="145" alt="A couple of rock pictures with nice frames"/>
 </figure>
-
-
-
-
-
-
 
 
 <heading refname="" type="major" toc="yes" name="" alttoc="">Processing many images at once</heading>
 
-<p>In my previous article, I showed you sample code to apply conversions to many images at once. As has been pointed out by several people, the code I showed was not the best way of doing this.</p>
+<p>In my previous article, I showed you sample code to apply conversions
+to many images at once. As has been pointed out by several people, the
+code I showed was not the best way of doing this.</p>
 
 <p>Here's the code I showed you:</p>
 
-<heading refname="" type="code" toc="no" name="" alttoc="">Listing 12. Thumb nailing all the JPEGs in the current directory</heading>
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 1. Thumbnailing 
+all the JPEGs in the current directory</heading>
 <code type="section">
 for img in `ls *.jpg`
 do
@@ -279,9 +425,13 @@ do
 done
 </code>
 
-<p>Now it turns out that this is poor bash style, as it doesn't handle spaces in filenames very gracefully (each word will be treated as a separate filename). Instead, a better way of doing this in bash is to do:</p>
 
-<heading refname="" type="code" toc="no" name="" alttoc="">Listing 13. Thumb nailing all the JPEGs in the current directory, with better bash</heading>
+<p>Now it turns out that this is poor bash style, as it doesn't handle
+spaces in filenames very gracefully (each word will be treated as a
+separate filename). Instead, a better way of doing this in bash is to
+do:</p>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 2. Thumbnailing all the JPEGs in the current directory, with better bash</heading>
 <code type="section">
 for img in *.jpg
 do
@@ -291,61 +441,82 @@ done
 
 <p>Which which will handle spaces in filenames much more gracefully.</p>
 
-<p>It turns out however that both of these solutions aren't needed with ImageMagick -- we can just use the <b>mogrify</b> command. <b>mogrify</b> is used to convert a sequence of images (although it will work for single images as well).</p>
+<p>It turns out, however, that both of these solutions aren't needed with
+ImageMagick -- we can just use the <b>mogrify</b> command. <b>mogrify</b>
+is used to convert a sequence of images (although it will work for single
+images as well).</p>
 
 <p>That code snippet above becomes:</p>
 
-<heading refname="" type="code" toc="no" name="" alttoc="">Listing 14. Thumb nailing all the JPEGs in the current directory, with mogrify</heading>
-<code type="section">
+<p>
+<code type="inline">
 mogrify -sample 25%x25% *.jpg
 </code>
+</p>
 
-<p><i>Note that this will overwrite the original images with new ones. This is one of the limitations of <b>mogrify</b>, in that it is harder to specify output filenames.</i> The only way to specify an output filename is to change the format of the output image compared with the input image. This will result in a different extension for the new image. For example:</p>
+<p><i>Note that this will overwrite the original images with new ones.
+This is one of the limitations of <b>mogrify</b>, in that it is harder to
+specify output filenames.</i> The only way to specify an output filename
+is to change the format of the output image compared with the input image.
+This will result in a different extension for the new image. For
+example:</p>
 
-<heading refname="" type="code" toc="no" name="" alttoc="">Listing 15. Thumb nailing all the JPEGs in the current directory, with mogrify</heading>
-<code type="section">
+<p>
+<code type="inline">
 mogrify -format png -sample 25%x25% *.jpg
 </code>
+</p>
 
-<p>This will create a series of output files with the jpg at the end of the filename has been replaced with a png, with the associated image format change.</p>
+<p>This will create a series of output files where the jpg at the end of
+the filename has been replaced with a png, with the associated image
+format change.</p>
 
-<p>All of the conversions previously defined will also work with the <b>mogrify</b> command, so if you don't mind the original images being overwritten then it's a good choice.</p>
-
-<heading refname="" type="code" toc="no" name="" alttoc="">Listing 16. Thumb nailing all the JPEGs in the current directory, with mogrify</heading>
-<code type="section">
-mogrify -format png -sample 25%x25% *.jpg
-</code>
-
-
-
-
-
-
+<p>All of the conversions previously defined will also work with the
+<b>mogrify</b> command, so if you don't mind the original images being
+overwritten then it's a good choice. If you do mind
+that the originals are overwritten, you can either copy them to a
+temporary directory to mogrify them and change their names -- or you could
+stick with convert and bash.</p>
 
 
 
 <heading refname="" type="major" toc="yes" name="" alttoc="">PDF handling</heading>
 
-<p>So far all of the examples we've discussed, both in this article and the previous one, have discussed simple conversions where each image stands alone. ImageMagick can also do interesting conversions to more than one image at once which are worth mentioning.</p>
+<p>So far all of the examples we've discussed, both in this article and
+the previous one, have discussed simple conversions where each image
+stands alone. ImageMagick can also do interesting conversions to more than
+one image at once which are worth mentioning.</p>
 
-<p>The most common example is ImageMagick's PDF handling. Let's imagine a scenario where you are sent a PDF which is a series of images (one per page). ImageMagick will extract those images for you into separate files. For example, here's a screen shot of a PDF document containing some pictures of my recent trip to <a href="http://conf.linux.org.au">linux.conf.au</a>, which rocked by the way:</p>
+<p>The most common example is ImageMagick's PDF handling. Let's imagine a
+scenario where you are sent a PDF which is a series of images (one per
+page). ImageMagick will extract those images for you into separate files.
+For example, here's a screen shot of a PDF document containing some
+pictures of my recent trip to linux.conf.au
+(which rocked by the
+way):</p>
 
+<figure>
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 14. A sample PDF with a bunch of images</heading>
-<img src="foo-pdf-smaller.png" width="359" height="268" alt="Some images in a PDF"/>
+<img src="foo-pdf-smaller.jpg" width="359" height="268" alt="Some images in a PDF"/>
 </figure>
 
-<p>Let's imagine that the above PDF had been sent to you by a friend. You want to extract the images for further processing.</p>
+<p>Let's imagine that the above PDF had been sent to you by a friend. You
+want to extract the images for further processing.</p>
 
-<p>The <b>convert</b> can of course extract these images from the PDF document:</p>
+<p>The <code type="inline">convert</code> can of course extract these images from the PDF
+document:</p>
 
-<heading refname="" type="code" toc="no" name="" alttoc="">Listing 17. Extracting pages from a PDF document</heading>
-<code type="section">
+<p>
+<code type="inline">
 convert foo.pdf pages.png
 </code>
+</p>
 
-<p>This will do what we want -- each page has been extracted to it's own PNG file. However, there's an unexpected naming side effect.</p>
+<p>This will do what we want -- each page has been extracted to it's own
+PNG file. However, there's an unexpected naming side effect.</p>
 
-<heading refname="" type="code" toc="no" name="" alttoc="">Listing 18. Checkout the filenames</heading>
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 3. Check out
+the filenames</heading>
 <code type="section">
 mikal@deathstar:~/foo$ convert foo.pdf pages.png
 mikal@deathstar:~/foo$ ls pages*
@@ -353,11 +524,16 @@ pages.png.0  pages.png.1  pages.png.2  pages.png.3  pages.png.4
 mikal@deathstar:~/foo$ 
 </code>
 
-<p>Because the command created more than one PNG file, a unique number has been appended to the filename to make them unique. This wont work so well if you then try to use code or scripts which make assumptions about the file type based on the extension of the file.</p>
 
-<p><b>convert</b> of course allows us to specify the filename a little better. The command above really should have looked like:</p>
+<p>Because the command created more than one PNG file, a unique number has
+been appended to the filename. This won't work so well
+if you then try to use code or scripts which make assumptions about the
+file type based on the extension of the file.</p>
 
-<heading refname="" type="code" toc="no" name="" alttoc="">Listing 19. Extracting pages from a PDF document with better filenames</heading>
+<p>Being a friendly utility, <code type="inline">convert</code> allows us to specify the filename a little
+better. The command above really should have looked like:</p>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 4. Extracting pages from a PDF document with better filenames</heading>
 <code type="section">
 mikal@deathstar:~/foo$ convert foo.pdf pages-%03d.png
 mikal@deathstar:~/foo$ ls pages*  
@@ -365,67 +541,66 @@ pages-000.png  pages-001.png  pages-002.png  pages-003.png  pages-004.png
 mikal@deathstar:~/foo$ 
 </code>
 
-<p>The <i>%03d</i> is a <b>printf</b> style format specifier. All you need to know for this use is that <i>%d</i> means a decimal number, and that you can also pack in a set of leading zeros by inserting a 0&lt;number&gt; into the sequence. The number specifies the total number of digits the displayed value should consume.</p>
+<p>The <i>%03d</i> is a <b>printf</b>-style format specifier. All you need
+to know for this use is that <i>%d</i> means a decimal number, and that
+you can also pack in a set of leading zeros by inserting a 0&lt;number&gt;
+into the sequence. The number specifies the total number of digits the
+displayed value should consume.</p>
 
-<p>Because I've shown you really small versions of the images in the PDF, I figure I owe showing you larger versions. Adelaide is a really nice place by the way -- nearly as good as Canberra!</p>
+<p>It should be noted that you can extract PDF pages which also contain
+text. What is actually happening under the hood is that ImageMagick is
+using Ghostscript to render the page, and then converting it to your
+chosen image format. There's no optical character recognition though --
+what you get is a bitmap.</p>
 
-<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 15. A really big fig tree</heading>
-<img src="pages-000.png" width="306" height="396" alt="Some images in a PDF"/>
-</figure>
+<p>You can also convert image files into PDFs with <code type="inline">convert</code>.
+In fact the PDF from the example above was built with this command:</p>
 
-<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 16. The Torrens river</heading>
-<img src="pages-001.png" width="306" height="396" alt="Some images in a PDF"/>
-</figure>
-
-<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 17. A park</heading>
-<img src="pages-002.png" width="306" height="396" alt="Some images in a PDF"/>
-</figure>
-
-<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 18. St Peter's Cathedral by night</heading>
-<img src="pages-003.png" width="306" height="396" alt="Some images in a PDF"/>
-</figure>
-
-<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 19. A very cold Tux</heading>
-<img src="pages-004.png" width="306" height="396" alt="Some images in a PDF"/>
-</figure>
-
-<p>It should be noted that you can extract PDF pages which also contain text. What is actually happening under the hood is that ImageMagick is using Ghostscript to render the page, and then converting it to your chosen image format. There's no optical character recognition though -- what you get is a bitmap.</p>
-
-<p>You can also convert image files into PDFs with <b>convert</b> as well. In fact the PDF from the example above was build with this command:</p>
-
-<heading refname="" type="code" toc="no" name="" alttoc="">Listing 20. Building a PDF</heading>
-<code type="section">
+<p>
+<code type="inline">
 convert dsc* foo.pdf
 </code>
+</p>
 
-<p>Just pass a list of image files to <b>convert</b>, and make sure that the last filename in the list is the name of the PDF document to put them all into.</p>
-
-
+<p>Just pass a list of image files to <b>convert</b>, and make sure that
+the last filename in the list is the name of the PDF document to put them
+all into.</p>
 
 
 <heading refname="" type="major" toc="yes" name="" alttoc="">Other formats which support more than one image per file</heading>
 
-<p>There are 45 other file formats which can store more than one image when used with ImageMagick, the others are: AVS, BMP, CAPTION, DCX, DIB, FAX, GIF, GRAY, HDF, ICB, JBG, JBIG, M2V, MAT, MATTE, MIFF, MNG, MPEG, MPG, MTV, P7, PBM, PDF, PGM, PNM, PPM, PS, PS2, PS3, RAS, RGB, RGBA, SGI, SUN, SVG, TEXT, TGA, TIF, TIFF, TXT, VDA, VID, VIFF, VST, and XV.</p>
+<p>There are 45 other file formats which can store more than one image
+when used with ImageMagick, checkout the information in the references list
+below.</p>
 
-<p>All of these are handled in the same way that the PDF example described. Some of these are also really interesting. It's very convenient to be able to extract the pages of a postscript file as images (think about having thumbnails of your published papers on your website for instance), or being able to get to all of the pages of that multiple page fax you just received as a TIFF image.</p>
+<p>All of these are handled in the same way as the PDF example
+described. Some of these are also really interesting. It's very convenient
+to be able to extract the pages of a postscript file as images (think
+about having thumbnails of your published papers on your Web site for
+instance), or being able to get to all of the pages of that multiple-page
+fax you just received as a TIFF image.</p>
 
-<p>You can even extract frames from your MPEG movies, although that deserves more discussion than I have space for in this article.</p>
-
-
-
-
-
-
-
+<p>You can even extract frames from your MPEG movies, although that
+deserves more discussion than I have space for in this article.</p>
 
 
 <heading refname="" type="major" toc="yes" name="" alttoc="">Conclusion</heading>
 
-<p>In this article we've expanded on some of the interesting techniques discussed in my previous article about ImageMagick, including how to round the corners of your images (especially the thumbnails we discussed last time), add a variety of nice frames to your images, process many images at once. We finished up with how to extract images from multi page formats, and how to build new multi page documents.</p>
+<p>In this article we've expanded on some of the interesting techniques
+discussed in my previous article about ImageMagick, including how to round
+the corners of your images (especially the thumbnails we discussed last
+time), add a variety of nice frames to your images, and process many images at
+once. We finished up with how to extract images from multi-page formats,
+and how to build new multi-page documents.</p>
 
-<p>If you're looking for more information, then I encourage you to checkout the ImageMagick website in the references section of this article. Also, if you have any questions feel free to email me. If I don't have the time to personally answer you're email, or if a question is common, then perhaps it will end up getting answered in a subsequent article.</p>
+<p>If you're looking for more information, then I encourage you to
+check out the ImageMagick Web site in the <a href="#resources">Resources</a> 
+section of this
+article. Also, if you have any questions feel free to email me.</p>
 
-<p>Many thanks to all those people who asked the sensible questions which became this article. I also thank you with your patience at how long I took to answer them.</p>
+<p>Many thanks to all those people who asked the sensible questions which
+became this article. I also thank you for your patience with how long I
+took to answer them.</p>
 
 
 </docbody>
@@ -434,24 +609,126 @@ convert dsc* foo.pdf
 <a href="http://www-106.ibm.com/developerworks/linux/library/l-libtiff/">Graphics programming with libtiff</a>
 <a href="http://www-106.ibm.com/developerworks/linux/library/l-libtiff2/">Graphics programming with libtiff, Part 2</a>
 <a href="http://www-106.ibm.com/developerworks/linux/library/l-graf/">Graphics from the command line</a>
+<a href="http://www-106.ibm.com/developerworks/xml/edu/x-dw-xiactsvg-i.html">Interactive, dynamic Scalable Vector Graphics</a>
+<a href="http://www.alphaworks.ibm.com/tech/tk4mpeg4">IBM Toolkit for MPEG-4</a>
+<a href="http://www-106.ibm.com/developerworks/websphere/library/techarticles/0111_kemble/0111_kemble.html">Voice-Enabling Your Web Sites</a>
+<a href="http://www-306.ibm.com/software/tivoli/products/web-site-analyzer/">IBM Tivoli Web Site Analyzer</a>
 </relatedlist>
 
 <resourcelist>
 <ul>
 
-<li>The <a href="http://www.imagemagick.org">ImageMagick</a> website is an excellent resource, and offers downloads of the ImageMagick source code.
+ <li> ImageMagick is a collection of tools and libraries to read, write, 
+and manipulate images in over 89 major formats. 
+The <a href="http://www.imagemagick.org">ImageMagick</a> Web site is
+an excellent resource, and offers downloads of the ImageMagick source
+code. 
+The <a href="http://www.imagemagick.org/www/utilities.html">Command-line
+utilities</a> page gives more information on convert, mogrify, 
+composite and other tools like compare and conjure, as well as 
+their options -- it also gives a complete list of the 
+file formats that are recognized by ImageMagick. </li>
 
-<li>"<a href="http://www-106.ibm.com/developerworks/linux/library/l-libtiff/">Graphics programming with libtiff</a>" (<i>developerWorks</i>, March 2002) discusses black and white imaging concepts, with a particular focus on TIFF images.</li>
+<li>
+You can also invoke ImageMagick capabilities from your favorite 
+programming language, from C and Java to Perl and PHP. Check the list 
+of <a href="http://www.imagemagick.org/www/apis.html">programming 
+interfaces</a> for more information.
+</li>
 
-<li>"<a href="http://www-106.ibm.com/developerworks/linux/library/l-libtiff2/">Graphics programming with libtiff, Part 2</a>" (<i>developerWorks</i>, June 2002) discusses color TIFF images, but also discusses important topics such as which compression scheme is right for you.</li>
+<li>
+Learn even more at Anthony Thyssen's 
+<a href="http://www.cit.gu.edu.au/~anthony/graphics/imagick6/">ImageMagick Examples</a> page.
+</li>
 
-<li>"<a href="http://www-106.ibm.com/developerworks/linux/library/l-graf/">Graphics from the command line</a>" (<i>developerWorks</i>, July 2003) is the first article in the series and discusses how to thumbnail, rotate, apply interesting graphical manipulations, and determine image information with ImageMagick.
+<li>
+The
+<a href="">GIMP</a>, or GNU Image Manipulation Program, 
+is a freely  
+distributed piece of software suitable for such tasks as photo retouching,
+image composition and image authoring.  It is released under
+the GNU General Public License (GPL).
+</li>
 
-<li>The <a href="http://www.stillhq.com/cgi-bin/getpage?area=pngtools">pnginfo</a> is part of the pngtools suite.</li>
+<li>
+Many of the pictures in this article were taken during my recent trip to
+<a href="linux.conf.au">linux.conf.au</a>.
+</li> 
 
-<li>The <a href="http://www.stillhq.com/extracted/article-imagingtoolsmore">corners</a> I used in the first example available for download.</li>
+ <li>The <a
+href="http://www.stillhq.com/extracted/article-imagingtoolsmore/corners">corners</a>
+I used in the first example are available for download, I waive the copyright on these images (although I don't waive the copyright on the rest of the images in this article).
+</li>
 
-</ul>
-</resourcelist>
+ <li>"<a
+href="http://www-106.ibm.com/developerworks/linux/library/l-graf/">Graphics
+from the command line</a>" (<i>developerWorks</i>, July 2003) is the first
+article in the series and discusses how to thumbnail, rotate, apply
+interesting graphical manipulations, and determine image information with
+ImageMagick.</li>
+
+ <li>"<a
+href="http://www-106.ibm.com/developerworks/linux/library/l-libtiff/">Graphics
+programming with libtiff</a>" (<i>developerWorks</i>, March 2002)
+discusses black and white imaging concepts, with a particular focus on
+TIFF images.</li>
+
+ <li>"<a
+href="http://www-106.ibm.com/developerworks/linux/library/l-libtiff2/">Graphics
+programming with libtiff, Part 2</a>" (<i>developerWorks</i>, June 2002)
+discusses color TIFF images, but also discusses important topics such as
+which compression scheme is right for you.</li>
+
+<li>
+Scalable Vector Graphics (SVG) 
+is an XML application language which describes 2D vector
+  graphics
+including 
+ animation and scripting functionality. Get started with 
+<a href="http://www-106.ibm.com/developerworks/xml/edu/x-dw-xiactsvg-i.html">Interactive, dynamic Scalable Vector Graphics</a> 
+(<i>developerWorks</i>, February 2002).
+</li>
+
+
+<li>
+The 
+<a href="http://www.alphaworks.ibm.com/tech/tk4mpeg4">IBM Toolkit for MPEG-4</a>
+is a set of Java classes and APIs with sample playback and MPEG-4 
+generation applications. It's also one of the top downloads at 
+alphaWorks -- check it out for yourself to see why!
+</li>
+
+<li>
+Got pictures? Add voice to your Web site 
+with  <a href="www.voicexml.org">VoiceXML</a>. Get started with the article,
+<a href="http://www-106.ibm.com/developerworks/websphere/library/techarticles/0111_kemble/0111_kemble.html">Voice-Enabling Your Web Sites</a> 
+(<i>developerWorks</i>, November 2001).
+</li>
+
+<li>
+Got pictures <i>and</i> voice? Find out what impact it's having with 
+<a href="http://www-306.ibm.com/software/tivoli/products/web-site-analyzer/">IBM Tivoli Web Site Analyzer</a>. IBM Tivoli Web Site Analyzer
+captures, analyzes, stores and reports on 
+Web site usage, 
+health, integrity and site content, and 
+provides essential metrics on visitor site interactions and the site's
+overall performance
+</li>
+
+
+ <li>
+ Find more resources for Linux developers in the <a
+ href="http://www.ibm.com/developerworks/linux/">developerWorks Linux
+ section</a>.
+ </li>
+
+ <li>
+ You'll find a wide selection of books on Linux at the <a
+ href="http://devworks.krcinfo.com/WebForms/ProductList.aspx?Search=Category&amp;id=300&amp;parent=Linux">Linux section</a> of the Developer Bookstore.
+ </li>
+
+    </ul>
+  </resourcelist>
+
 </dw-article>
 </dw-document>
