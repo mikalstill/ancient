@@ -26,8 +26,8 @@ insert   : INSERT INTO STRING '(' colvalspec ')' VALUES '(' colvalspec ')' ';'
 { trivsql_doinsert($3, $5, $9); }
          ;
 
-sel      : SELECT '*' FROM STRING ';' 
-{ trivsql_rs *rs; trivsql_doselect(gState, -1, NULL, (char *) $4, -1, NULL, rs); }
+sel      : SELECT colvalspec FROM STRING ';' 
+{ trivsql_recordset *rs; trivsql_displayrs(rs = trivsql_doselect($4, $2)); trivsql_xfree(rs); }
          ;
 
 colvalspec : STRING ',' colvalspec 
@@ -55,7 +55,6 @@ int main(int argc, char *argv[]){
 
   return 0;
 }
-
 trivsql_state *trivsql_init(char *filename){
   trivsql_state *state;
 
@@ -96,62 +95,17 @@ void trivsql_docreate(char *tname, char *cols)
 } 
 
 void trivsql_doinsert(char *tname, char *cols, char *vals){
-  char *t;
-  char *u;
-  char *c;
-  int rowNumber;
+  char *t, *u, *c;
+  int rowCount, i, col, numCols;
   int *colNumbers;
-  int i;
-  int col;
-  int numCols;
 
-  // Determine if the table exists, and if so how many rows it has
-  t = trivsql_xsnprintf("trivsql_%s_numrows", tname);
-  u = trivsql_dbread(gState, t);
-  
-  if(u == NULL){
-    fprintf(stderr, "Table does not exist\n");
+  if((rowCount = trivsql_getrowcount(tname)) == -1){
     return;
   }
-  rowNumber = atoi(u);
-  trivsql_xfree(u);
-  trivsql_xfree(t);
   
-  // How many columns do we have?
-  for(i = 0, numCols = 0; i < strlen(cols); i++)
-    if(cols[i] == ';')
-      numCols++;
-  
-  colNumbers = trivsql_xmalloc(sizeof(int) * numCols);
-  
-  // Determine that the named columns exist
-  col = 0;
-  c = strtok(cols, ";");
-  while(c != NULL){
-    i = 0;
-    while(1){
-      t = trivsql_xsnprintf("trivsql_%s_col%d", tname, i);
-      u = trivsql_dbread(gState, t);
-
-      if(u == NULL){
-	trivsql_xfree(t);
-	fprintf(stderr, "%s is an unknown column\n", c);
-	return;
-      }
-      else if(strcmp(u, c) == 0){
-	trivsql_xfree(t);
-	trivsql_xfree(u);
-	break;
-      }
-
-      trivsql_xfree(t);
-      trivsql_xfree(u);
-      i++;
-    }
-
-    colNumbers[col] = i;
-    c = strtok(NULL, ";");
-    col++;
+  // Get ready for columns
+  if((colNumbers = trivsql_parsecols(tname, cols)) == NULL){
+    return;
   }
 
   // How we have the right number of values?
@@ -168,7 +122,7 @@ void trivsql_doinsert(char *tname, char *cols, char *vals){
   c = strtok(vals, ";");
   col = 0;
   while(c != NULL){
-    t = trivsql_xsnprintf("trivsql_%s_col%drow%d", tname, colNumbers[col], rowNumber);
+    t = trivsql_xsnprintf("trivsql_%s_col%drow%d", tname, colNumbers[col], rowCount);
     trivsql_dbwrite(gState, t, c);
     trivsql_xfree(t);
     
@@ -178,61 +132,37 @@ void trivsql_doinsert(char *tname, char *cols, char *vals){
 
   // And we should keep count of how many of the rows are in the table
   t = trivsql_xsnprintf("trivsql_%s_numrows", tname);
-  u = trivsql_xsnprintf("%d", rowNumber + 1);
+  u = trivsql_xsnprintf("%d", rowCount + 1);
   trivsql_dbwrite(gState, t, u);
   trivsql_xfree(t);
   trivsql_xfree(u);
 }
 
-int trivsql_doselect(trivsql_state *state,
-		  int colc, char *cols[], char *table, int condc, 
-		  char *conds[], trivsql_rs *rs){
- 
-  int i, rc;
+trivsql_recordset *trivsql_doselect(char *tname, char *cols){
+  int *colNumbers;
+  int row, rowCount;
   char *t, *u;
-  
-  // Check that all the columns exist
-  for(i = 0; i < colc; i++){
-    // todo_mikal
+  trivsql_recordset *rrs;
+
+  // Get ready for columns
+  if((colNumbers = trivsql_parsecols(tname, cols)) == NULL){
+    return;
   }
 
-  // If we're getting all the columns
-  if(colc == -1){
-    t = trivsql_xsnprintf("trivsql_%s_numcols", table);
-    u = trivsql_dbread(state, t);
-
-    if(!u){
-      trivsql_xfree(t);
-      return -1;
-    }
-
-    trivsql_xfree(t);
-    colc=atoi(u);
-    trivsql_xfree(u);
+  // Decide what rows on the table match the select condition
+  if((rowCount = trivsql_getrowcount(tname)) == -1){
+    return;
   }
 
-  // Build an empty record set
-  rs = (trivsql_rs *) trivsql_xmalloc(sizeof(trivsql_rs));
-  rs->numFields = colc;
+  rrs = trivsql_xmalloc(sizeof(trivsql_recordset));
+  rrs->numCols = sizeof(colNumbers) / sizeof(int);
+  rrs->rows = NULL;
 
-  // Find all the rows which match this selection
-  t = trivsql_xsnprintf("trivsql_%s_numrows", table);
-  u = trivsql_dbread(state, t);
+  printf("%d cols\n", rrs->numCols);
 
-  if(!u){
-    trivsql_xfree(t);
-    return -2;
+  for(row = 0; row < rowCount; row++){
+    trivsql_addrow(rrs, tname, row, colNumbers);
   }
-
-  trivsql_xfree(t);
-  rc=atoi(u);
-  trivsql_xfree(u);
-
-  for(i = 0; i < rc; i++){
-    printf(".");
-  }
-
-  return 0;
 }
 
 void *
@@ -353,3 +283,97 @@ trivsql_xrealloc (void *memory, size_t size)
   return buffer;
 }
 
+int *trivsql_parsecols(char *tname, char *cols){
+  int i, col, c, numCols;
+  int *colNumbers = NULL;
+  char *t, *u;
+
+  // How many columns do we have?
+  for(i = 0, numCols = 0; i < strlen(cols); i++)
+    if(cols[i] == ';')
+      numCols++;
+  
+  colNumbers = trivsql_xmalloc(sizeof(int) * numCols);
+  
+  // Determine that the named columns exist
+  col = 0;
+  c = strtok(cols, ";");
+  while(c != NULL){
+    i = 0;
+    while(1){
+      t = trivsql_xsnprintf("trivsql_%s_col%d", tname, i);
+      u = trivsql_dbread(gState, t);
+
+      if(u == NULL){
+	trivsql_xfree(t);
+	fprintf(stderr, "%s is an unknown column\n", c);
+	return NULL;
+      }
+      else if(strcmp(u, c) == 0){
+	trivsql_xfree(t);
+	trivsql_xfree(u);
+	break;
+      }
+
+      trivsql_xfree(t);
+      trivsql_xfree(u);
+      i++;
+    }
+
+    colNumbers[col] = i;
+    c = strtok(NULL, ";");
+    col++;
+  }
+
+  return colNumbers;
+}
+
+void trivsql_displayrs(trivsql_recordset *rs){
+  printf("Should have displayed~!\n");
+}
+
+int trivsql_getrowcount(char *tname){
+  char *t, *u;
+  int rowCount;
+
+  // Determine if the table exists, and if so how many rows it has
+  t = trivsql_xsnprintf("trivsql_%s_numrows", tname);
+  u = trivsql_dbread(gState, t);
+  
+  if(u == NULL){
+    fprintf(stderr, "Table does not exist\n");
+    return -1;
+  }
+
+  rowCount = atoi(u);
+  trivsql_xfree(u);
+  trivsql_xfree(t);
+
+  return rowCount;
+}
+
+void trivsql_addrow(trivsql_recordset *rs, char *tname, int row, int *cols){
+  char *t;
+  int colCount;
+  trivsql_row *theRow;
+
+  // Make space for the new row
+  printf("Realloc %08x to %d\n", rs->rows,  sizeof(rs->rows) + sizeof(trivsql_row));
+  rs->rows = trivsql_xrealloc(rs->rows, sizeof(rs->rows) + sizeof(trivsql_row));
+  printf("Realloced\n");
+  theRow = rs->rows - sizeof(trivsql_row);
+
+  printf("Malloc for %d cols\n", rs->numCols);
+  theRow->cols = (char **) trivsql_xmalloc(rs->numCols * sizeof(char *));
+
+  // Get the row
+  for(colCount = 0; colCount < rs->numCols; colCount++){
+    printf("Grab col (of %d)\n", rs->numCols);
+
+    t = trivsql_xsnprintf("trivsql_%s_col%drow%d", tname, cols[colCount], row);
+    theRow->cols[colCount] = trivsql_dbread(gState, t);
+    
+    printf("Free %s\n", t);
+    trivsql_xfree(t);
+  }
+}

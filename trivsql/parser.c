@@ -37,16 +37,16 @@
 
 #define	YYFINAL		40
 #define	YYFLAG		-32768
-#define	YYNTBASE	17
+#define	YYNTBASE	16
 
-#define YYTRANSLATE(x) ((unsigned)(x) <= 264 ? yytranslate[x] : 22)
+#define YYTRANSLATE(x) ((unsigned)(x) <= 264 ? yytranslate[x] : 21)
 
 static const char yytranslate[] = {     0,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-     2,     2,     2,     2,     2,     2,     2,     2,    16,    11,
-    12,    14,     2,    15,     2,     2,     2,     2,     2,     2,
+     2,     2,     2,     2,     2,     2,     2,     2,    15,    11,
+    12,     2,     2,    14,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,    13,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -77,12 +77,12 @@ static const short yyprhs[] = {     0,
     48,    52
 };
 
-static const short yyrhs[] = {    18,
-    17,     0,    19,    17,     0,    20,    17,     0,     0,     3,
-     4,    10,    11,    21,    12,    13,     0,     5,     7,    10,
-    11,    21,    12,     6,    11,    21,    12,    13,     0,     8,
-    14,     9,    10,    13,     0,    10,    15,    21,     0,    16,
-    10,    16,    15,    21,     0,    10,     0,    16,    10,    16,
+static const short yyrhs[] = {    17,
+    16,     0,    18,    16,     0,    19,    16,     0,     0,     3,
+     4,    10,    11,    20,    12,    13,     0,     5,     7,    10,
+    11,    20,    12,     6,    11,    20,    12,    13,     0,     8,
+    20,     9,    10,    13,     0,    10,    14,    20,     0,    15,
+    10,    15,    14,    20,     0,    10,     0,    15,    10,    15,
      0,     0
 };
 
@@ -100,13 +100,13 @@ static const short yyrline[] = { 0,
 
 static const char * const yytname[] = {   "$","error","$undefined.","CREATE",
 "TABLE","INSERT","VALUES","INTO","SELECT","FROM","STRING","'('","')'","';'",
-"'*'","','","'\\''","sql","create","insert","sel","colvalspec", NULL
+"','","'\\''","sql","create","insert","sel","colvalspec", NULL
 };
 #endif
 
 static const short yyr1[] = {     0,
-    17,    17,    17,    17,    18,    19,    20,    21,    21,    21,
-    21,    21
+    16,    16,    16,    16,    17,    18,    19,    20,    20,    20,
+    20,    20
 };
 
 static const short yyr2[] = {     0,
@@ -115,43 +115,43 @@ static const short yyr2[] = {     0,
 };
 
 static const short yydefact[] = {     4,
-     0,     0,     0,     4,     4,     4,     0,     0,     0,     1,
-     2,     3,     0,     0,     0,    12,    12,     0,    10,     0,
-     0,     0,     7,    12,     0,     0,     0,     8,    11,     5,
-     0,    12,    12,     9,     0,     0,     6,     0,     0,     0
+     0,     0,    12,     4,     4,     4,     0,     0,    10,     0,
+     0,     1,     2,     3,     0,     0,    12,     0,     0,    12,
+    12,     8,    11,     0,     0,     0,    12,     7,     0,     0,
+     9,     5,     0,    12,     0,     0,     6,     0,     0,     0
 };
 
-static const short yydefgoto[] = {    10,
-     4,     5,     6,    21
+static const short yydefgoto[] = {    12,
+     4,     5,     6,    11
 };
 
-static const short yypact[] = {     9,
-    -3,    -5,    -9,     9,     9,     9,    -4,     1,     4,-32768,
--32768,-32768,     7,     8,    10,    -6,    -6,    11,     6,    12,
-    13,    14,-32768,    -6,    15,    16,    17,-32768,    18,-32768,
-    19,    -6,    -6,-32768,    20,    21,-32768,    27,    28,-32768
+static const short yypact[] = {     6,
+     8,    -5,    -2,     6,     6,     6,     5,     9,    -9,    10,
+     7,-32768,-32768,-32768,    11,    12,    -2,     3,    14,    -2,
+    -2,-32768,    13,    15,    17,    18,    -2,-32768,    19,    20,
+-32768,-32768,    22,    -2,    23,    21,-32768,    25,    31,-32768
 };
 
-static const short yypgoto[] = {     3,
+static const short yypgoto[] = {     1,
 -32768,-32768,-32768,   -17
 };
 
 
-#define	YYLAST		34
+#define	YYLAST		35
 
 
 static const short yytable[] = {    22,
-     7,     8,    38,    19,     9,    13,    28,    11,    12,    20,
-    14,     1,    15,     2,    34,    35,     3,    16,    17,    18,
-    24,    25,    31,    23,    26,    27,    39,    40,    30,    33,
-    29,    36,    32,    37
+    38,     8,    25,    26,    17,    13,    14,     9,     1,    31,
+     2,     7,    10,     3,    15,    19,    35,    23,    16,    18,
+     0,    20,    21,    24,    39,    33,    27,    28,    29,    30,
+    40,    32,    34,    37,    36
 };
 
 static const short yycheck[] = {    17,
-     4,     7,     0,    10,    14,    10,    24,     5,     6,    16,
-    10,     3,     9,     5,    32,    33,     8,    11,    11,    10,
-    15,    10,     6,    13,    12,    12,     0,     0,    13,    11,
-    16,    12,    15,    13
+     0,     7,    20,    21,    14,     5,     6,    10,     3,    27,
+     5,     4,    15,     8,    10,     9,    34,    15,    10,    10,
+    -1,    11,    11,    10,     0,     6,    14,    13,    12,    12,
+     0,    13,    11,    13,    12
 };
 /* -*-C-*-  Note some compilers choke on comments on `#line' lines.  */
 #line 3 "/usr/lib/bison.simple"
@@ -706,7 +706,7 @@ case 6:
     break;}
 case 7:
 #line 30 "parser.y"
-{ trivsql_rs *rs; trivsql_doselect(gState, -1, NULL, (char *) yyvsp[-1], -1, NULL, rs); ;
+{ trivsql_recordset *rs; trivsql_displayrs(rs = trivsql_doselect(yyvsp[-1], yyvsp[-3])); trivsql_xfree(rs); ;
     break;}
 case 8:
 #line 34 "parser.y"
@@ -961,7 +961,6 @@ int main(int argc, char *argv[]){
 
   return 0;
 }
-
 trivsql_state *trivsql_init(char *filename){
   trivsql_state *state;
 
@@ -1002,62 +1001,17 @@ void trivsql_docreate(char *tname, char *cols)
 } 
 
 void trivsql_doinsert(char *tname, char *cols, char *vals){
-  char *t;
-  char *u;
-  char *c;
-  int rowNumber;
+  char *t, *u, *c;
+  int rowCount, i, col, numCols;
   int *colNumbers;
-  int i;
-  int col;
-  int numCols;
 
-  // Determine if the table exists, and if so how many rows it has
-  t = trivsql_xsnprintf("trivsql_%s_numrows", tname);
-  u = trivsql_dbread(gState, t);
-  
-  if(u == NULL){
-    fprintf(stderr, "Table does not exist\n");
+  if((rowCount = trivsql_getrowcount(tname)) == -1){
     return;
   }
-  rowNumber = atoi(u);
-  trivsql_xfree(u);
-  trivsql_xfree(t);
   
-  // How many columns do we have?
-  for(i = 0, numCols = 0; i < strlen(cols); i++)
-    if(cols[i] == ';')
-      numCols++;
-  
-  colNumbers = trivsql_xmalloc(sizeof(int) * numCols);
-  
-  // Determine that the named columns exist
-  col = 0;
-  c = strtok(cols, ";");
-  while(c != NULL){
-    i = 0;
-    while(1){
-      t = trivsql_xsnprintf("trivsql_%s_col%d", tname, i);
-      u = trivsql_dbread(gState, t);
-
-      if(u == NULL){
-	trivsql_xfree(t);
-	fprintf(stderr, "%s is an unknown column\n", c);
-	return;
-      }
-      else if(strcmp(u, c) == 0){
-	trivsql_xfree(t);
-	trivsql_xfree(u);
-	break;
-      }
-
-      trivsql_xfree(t);
-      trivsql_xfree(u);
-      i++;
-    }
-
-    colNumbers[col] = i;
-    c = strtok(NULL, ";");
-    col++;
+  // Get ready for columns
+  if((colNumbers = trivsql_parsecols(tname, cols)) == NULL){
+    return;
   }
 
   // How we have the right number of values?
@@ -1074,7 +1028,7 @@ void trivsql_doinsert(char *tname, char *cols, char *vals){
   c = strtok(vals, ";");
   col = 0;
   while(c != NULL){
-    t = trivsql_xsnprintf("trivsql_%s_col%drow%d", tname, colNumbers[col], rowNumber);
+    t = trivsql_xsnprintf("trivsql_%s_col%drow%d", tname, colNumbers[col], rowCount);
     trivsql_dbwrite(gState, t, c);
     trivsql_xfree(t);
     
@@ -1084,61 +1038,37 @@ void trivsql_doinsert(char *tname, char *cols, char *vals){
 
   // And we should keep count of how many of the rows are in the table
   t = trivsql_xsnprintf("trivsql_%s_numrows", tname);
-  u = trivsql_xsnprintf("%d", rowNumber + 1);
+  u = trivsql_xsnprintf("%d", rowCount + 1);
   trivsql_dbwrite(gState, t, u);
   trivsql_xfree(t);
   trivsql_xfree(u);
 }
 
-int trivsql_doselect(trivsql_state *state,
-		  int colc, char *cols[], char *table, int condc, 
-		  char *conds[], trivsql_rs *rs){
- 
-  int i, rc;
+trivsql_recordset *trivsql_doselect(char *tname, char *cols){
+  int *colNumbers;
+  int row, rowCount;
   char *t, *u;
-  
-  // Check that all the columns exist
-  for(i = 0; i < colc; i++){
-    // todo_mikal
+  trivsql_recordset *rrs;
+
+  // Get ready for columns
+  if((colNumbers = trivsql_parsecols(tname, cols)) == NULL){
+    return;
   }
 
-  // If we're getting all the columns
-  if(colc == -1){
-    t = trivsql_xsnprintf("trivsql_%s_numcols", table);
-    u = trivsql_dbread(state, t);
-
-    if(!u){
-      trivsql_xfree(t);
-      return -1;
-    }
-
-    trivsql_xfree(t);
-    colc=atoi(u);
-    trivsql_xfree(u);
+  // Decide what rows on the table match the select condition
+  if((rowCount = trivsql_getrowcount(tname)) == -1){
+    return;
   }
 
-  // Build an empty record set
-  rs = (trivsql_rs *) trivsql_xmalloc(sizeof(trivsql_rs));
-  rs->numFields = colc;
+  rrs = trivsql_xmalloc(sizeof(trivsql_recordset));
+  rrs->numCols = sizeof(colNumbers) / sizeof(int);
+  rrs->rows = NULL;
 
-  // Find all the rows which match this selection
-  t = trivsql_xsnprintf("trivsql_%s_numrows", table);
-  u = trivsql_dbread(state, t);
+  printf("%d cols\n", rrs->numCols);
 
-  if(!u){
-    trivsql_xfree(t);
-    return -2;
+  for(row = 0; row < rowCount; row++){
+    trivsql_addrow(rrs, tname, row, colNumbers);
   }
-
-  trivsql_xfree(t);
-  rc=atoi(u);
-  trivsql_xfree(u);
-
-  for(i = 0; i < rc; i++){
-    printf(".");
-  }
-
-  return 0;
 }
 
 void *
@@ -1259,3 +1189,97 @@ trivsql_xrealloc (void *memory, size_t size)
   return buffer;
 }
 
+int *trivsql_parsecols(char *tname, char *cols){
+  int i, col, c, numCols;
+  int *colNumbers = NULL;
+  char *t, *u;
+
+  // How many columns do we have?
+  for(i = 0, numCols = 0; i < strlen(cols); i++)
+    if(cols[i] == ';')
+      numCols++;
+  
+  colNumbers = trivsql_xmalloc(sizeof(int) * numCols);
+  
+  // Determine that the named columns exist
+  col = 0;
+  c = strtok(cols, ";");
+  while(c != NULL){
+    i = 0;
+    while(1){
+      t = trivsql_xsnprintf("trivsql_%s_col%d", tname, i);
+      u = trivsql_dbread(gState, t);
+
+      if(u == NULL){
+	trivsql_xfree(t);
+	fprintf(stderr, "%s is an unknown column\n", c);
+	return NULL;
+      }
+      else if(strcmp(u, c) == 0){
+	trivsql_xfree(t);
+	trivsql_xfree(u);
+	break;
+      }
+
+      trivsql_xfree(t);
+      trivsql_xfree(u);
+      i++;
+    }
+
+    colNumbers[col] = i;
+    c = strtok(NULL, ";");
+    col++;
+  }
+
+  return colNumbers;
+}
+
+void trivsql_displayrs(trivsql_recordset *rs){
+  printf("Should have displayed~!\n");
+}
+
+int trivsql_getrowcount(char *tname){
+  char *t, *u;
+  int rowCount;
+
+  // Determine if the table exists, and if so how many rows it has
+  t = trivsql_xsnprintf("trivsql_%s_numrows", tname);
+  u = trivsql_dbread(gState, t);
+  
+  if(u == NULL){
+    fprintf(stderr, "Table does not exist\n");
+    return -1;
+  }
+
+  rowCount = atoi(u);
+  trivsql_xfree(u);
+  trivsql_xfree(t);
+
+  return rowCount;
+}
+
+void trivsql_addrow(trivsql_recordset *rs, char *tname, int row, int *cols){
+  char *t;
+  int colCount;
+  trivsql_row *theRow;
+
+  // Make space for the new row
+  printf("Realloc %08x to %d\n", rs->rows,  sizeof(rs->rows) + sizeof(trivsql_row));
+  rs->rows = trivsql_xrealloc(rs->rows, sizeof(rs->rows) + sizeof(trivsql_row));
+  printf("Realloced\n");
+  theRow = rs->rows - sizeof(trivsql_row);
+
+  printf("Malloc for %d cols\n", rs->numCols);
+  theRow->cols = (char **) trivsql_xmalloc(rs->numCols * sizeof(char *));
+
+  // Get the row
+  for(colCount = 0; colCount < rs->numCols; colCount++){
+    printf("Grab col (of %d)\n", rs->numCols);
+
+    t = trivsql_xsnprintf("trivsql_%s_col%drow%d", tname, cols[colCount], row);
+    theRow->cols[colCount] = trivsql_dbread(gState, t);
+    
+    printf("Free %s\n", t);
+    trivsql_xfree(t);
+  }
+}
