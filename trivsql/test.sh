@@ -24,6 +24,13 @@ function verify (){
     echo "$1" > testout/$2.new
     echo "" >> testout/$2.new
     echo "$1" | ./sample foo.tdb >> testout/$2.new
+    
+    if [ $? == 139 ]
+    then
+      echo "Core dump" > testout/$2.new
+      rm core
+    fi
+
     if [ `diff testout/$2 testout/$2.new | wc -l | tr -d " "` -gt 0 ]
     then
       if [ "%$loclearn%" = "%1%" ]
@@ -36,9 +43,9 @@ function verify (){
         if [ `diff testout/$2.prev testout/$2.new | wc -l | tr -d " "` -gt 0 ]
         then
           echo " NEW]"
-	  echo ""
+	  echo "--------------------------------------------------------------"
 	  cat testout/$2.new
-	  echo ""
+	  echo "--------------------------------------------------------------"
         else
           echo " OLD]"
         fi

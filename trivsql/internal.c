@@ -133,7 +133,8 @@ void trivsql_doalter(char *tname, char *cols)
 
   t = trivsql_xsnprintf("trivsql_%s_numcols", tname);
   u = trivsql_dbread(gState, t);
-  colCount = atoi(u);
+  if(u == NULL) colCount = 0;
+  else colCount = atoi(u);
   trivsql_xfree(t);
   trivsql_xfree(u);
 
@@ -397,7 +398,8 @@ char *trivsql_getallcolumns(char *tname)
 
   t = trivsql_xsnprintf("trivsql_%s_numcols", tname);
   u = trivsql_dbread(gState, t);
-  maxCols = atoi(u);
+  if(u == NULL) maxCols = 0;
+  else maxCols = atoi(u);
   trivsql_xfree(t);
   trivsql_xfree(u);
 

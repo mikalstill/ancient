@@ -1,2 +1,4 @@
 SELECT * FROM nosuchtable;
 
+There was an error processing this statement (2).
+trivsql engine reported: Could not determine the row count for the table "nosuchtable" because the table does not exist
