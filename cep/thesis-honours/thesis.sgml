@@ -86,6 +86,18 @@ This appendix documents the various tags which are implemented by the GDMS Inter
 </chapter>
 
 <chapter><title>Appendix Three: A sample configuration file</title>
+<para>
+This appendix details a sample configuration file for the GDMS Internet interface. This file should be stored in the same directory as the GDMS CGI script. It should also be noted that the <quote>.cep</quote> configuration file that would normally reside in a user's home directory should also be in the same directory as the GDMS CGI script.
+</para>
+
+<para>
+The easiest way to create a suitable <quote>.cep</quote> configuration file is to run GDMS as any user, configure it so that you are happy with the graph output, and then copy that .cep file to the right location. Don't forget to update the permissions so that the user the web server is running as has read and write permissions on the file.
+</para>
+
+<para>
+The same gdms.config file is as follows:
+</para>
+
 <execute><cmd>code2db</cmd><input>/home/httpd/cgi-bin/gdms.config</input></execute>
 </chapter>
 

@@ -24,6 +24,7 @@
 #include "cepPlot.h"
 #include "cepStringArray.h"
 #include "cepTextErrorHandler.h"
+#include "cepApplicator.h"
 #include <unistd.h>
 
 int
@@ -103,6 +104,43 @@ main (int argc, char *argv[])
 		    {
 		      cerr << "Plotting failed" << endl;
 		    }
+		}
+	      else if (sa[0] == "window")
+		{
+		  cepError err;
+		  int size = atoi(sa[2].c_str());
+		  int overlap = atoi(sa[3].c_str());
+
+		  if(sa[1] == "rectangular"){
+		    err = processWindow(&ds, cepDataWindower::WINDOW_RECTANGULAR, 
+					"Rect window", size, overlap, sa[4]);
+		  }
+		  else if(sa[1] == "hamming"){
+		    err = processWindow(&ds, cepDataWindower::WINDOW_HAMMING, 
+					"Hamming window", size, overlap, sa[4]);
+		  }
+		  else if(sa[1] == "hanning"){
+		    err = processWindow(&ds, cepDataWindower::WINDOW_HANNING, 
+					"Hanning window", size, overlap, sa[4]);
+		  }
+		  else if(sa[1] == "blackman"){
+		    err = processWindow(&ds, cepDataWindower::WINDOW_BLACKMAN, 
+					"Blackman window", size, overlap, sa[4]);
+		  }
+		  else if(sa[1] == "chebyshev"){
+		    err = processWindow(&ds, cepDataWindower::WINDOW_CHEBYSHEV, 
+					"Chebyshev window", size, overlap, sa[4]);
+		  }
+		  else
+		    {
+		      cepDebugPrint ("Unknown window type: " + sa[1]);
+		      cerr << "Unknown window type" << endl;
+		      continue;
+		    }
+
+		  if(err.isReal()){
+		    cout << "Windowing failed: " << err.getMessage() << endl;
+		  }
 		}
 	      else
 		{

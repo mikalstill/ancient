@@ -1,0 +1,13 @@
+<sect2><title>lsparams</title>
+<para>
+This tag will output the HTML form required for the entry of Least Squares processing parameters. The user will then select "Ok" on this web form, and the Least Squares regression will occur.
+</para>
+
+<para>
+An example usage is:
+</para>
+
+<programlisting>
+&amp;{lsparams};
+</programlisting>
+</sect2>

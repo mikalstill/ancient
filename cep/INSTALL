@@ -1,0 +1,2 @@
+Run ./configure, and then make in the source directory to install... Note that the dependancies in contrib/ must have been installed first.
+
