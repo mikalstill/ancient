@@ -142,10 +142,53 @@ main (int argc, char *argv[])
 		    cout << "Windowing failed: " << err.getMessage() << endl;
 		  }
 		}
+	      else if (sa[0] == "interp")
+		{
+		  int iType;
+		  string desc;
+		  if(sa[1] == "nearest"){
+		    iType = NEAREST_INTERP;
+		    desc = "Nearest interp";
+		  }
+		  else if(sa[1] == "linear"){
+		    iType = LINEAR_INTERP;
+		    desc = "Linear interp";
+		  }
+		  else if(sa[1] == "nspline"){
+		    iType = NATURAL_SPLINE_INTERP;
+		    desc = "Natural spline interp";
+		  }
+		  else if(sa[1] == "cspline"){
+		    iType = CUBIC_SPLINE_INTERP;
+		    desc = "Cubic spline interp";
+		  }
+		  else if(sa[1] == "divided"){
+		    iType = DIVIDED_INTERP;
+		    desc = "Divided interp";
+		  }
+		  else
+		    {
+		      cepDebugPrint ("Unknown window type: " + sa[1]);
+		      cerr << "Unknown window type" << endl;
+		      continue;
+		    }
+
+		  cepError err = processInterp(&ds, iType, desc, atof(sa[2].c_str()), sa[3]);
+		  if(err.isReal()){
+		    cout << "Windowing failed: " << err.getMessage() << endl;
+		  }
+		}
+	      else if (sa[0] == "fft")
+		{
+		  cepError err = processFFT(&ds, sa[1]);
+		  if(err.isReal()){
+		    cout << "FFT failed: " << err.getMessage() << endl;
+		  }
+		}
 	      else
 		{
 		  cepDebugPrint ("Command not found: " + sa[0]);
-		  cerr << "Command not found" << endl;
+		  cerr << "Command not found: " << sa[0] << endl;
 		}
 
 	      // Clear the line, so we can start again...
