@@ -13,7 +13,7 @@
 # There are some section references which need to be manually fixed (search for "Section reference" in the SGML
 
 use strict;
-my($INPUT, $OUTPUT, $outputstyle);
+my($INPUT, $OUTPUT, $PREPROC, $outputstyle);
 my($parastate, $liststate, $listitemstate, $footnotestate, $sectionstate, $tablestate, $stylestate, $displaystate, $waitstate, $quotestate, $pausedlist, $tablestate, $tablecolcount, $tablecellline, $tablebracestate);
 my($length);
 my($chapters, $chapter, $chaptercount, $temp, $inputused);
@@ -51,8 +51,38 @@ foreach $chapter (split(/ /, $chapters)){
     }
 
     $chaptercount++;
-    print "Processing chapter $chapter ($chaptercount)\n ";
+
+    print "Preprocessing chapter $chapter\n";
+    print "  - Table conversion\n";
+
     open INPUT, "< $chapter.mm";
+    open PREPROC, "> $chapter.pp";
+    $tablestate = 0;
+
+    while(<INPUT>){
+	# Table start
+	if(/^\.TS[ \t]*(.*)/i){
+	    $tablestate = 1;
+	}
+	
+	# Table end
+	elsif(/^\.TE/i){
+	    $tablestate = 0;
+	}
+
+	# If we are in table state, then we need to rewrite lines for the table cells
+	if( $tablestate == 1 ){
+	    #s/T\}\#T\{/\#/g;
+	    s/T\{\n//;
+	    s/T\}//g;
+	}
+	print PREPROC "$_";
+    }
+    close INPUT;
+    close PREPROC;
+
+    print "Processing chapter $chapter ($chaptercount)\n ";
+    open INPUT, "< $chapter.pp";
 
     $liststate = 0;
     $listitemstate = 0;
@@ -92,7 +122,7 @@ foreach $chapter (split(/ /, $chapters)){
 		    $waitstate = 0;
 		}
 	    }
-	    print "  [Conditional was $condlinecount lines]\n ";
+#	    print "  [Conditional was $condlinecount lines]\n ";
 	}
 
 	# Ampersands
