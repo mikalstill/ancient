@@ -18,7 +18,7 @@ This conference paper is about two things. The main focus of the paper is to dis
 </para>
 
 <para>
-In this paper I assume that you have a working knowledge of both bash scripting and C programming. If you don't then hopefully you'll still get something out of the paper, but you might have to skip bits which are too technical.
+In this paper I assume that you have a working knowledge of both bash scripting and C programming. If you don't then hopefully you'll still get something out of the paper, but you might want to trust me about what the code snippets actually do.
 </para>
 </sect1>
 
@@ -65,7 +65,7 @@ So why would you ever use UDP? This reliability in TCP comes at a price. That pr
 <graphic format="eps" fileref="gen-tcp-handshake.eps">
 
 <para>
-So before the two machines can even communicate, they've spent a round trip just setting up the connection (the ACK can be sent at the same time as the first packet, as we don't have to wait for an ACK ACK to come back).
+So before the two machines can even communicate, they've spent a round trip, and processing time, just setting up the connection (the ACK can be sent at the same time as the first packet, as we don't have to wait for an ACK ACK to come back).
 </para>
 
 <para>
@@ -200,7 +200,7 @@ Let's have a look at this program running. As we can see from the source code, t
 
 <sidebar><title>netcat rocks</title>
 <para>
-<command>netcat</command> rocks. It's a little application which lets you push data to arbitrary port numbers using both UDP and TCP. It can also be used to create very simple servers, because <command>netcat</command> can do all the listening for you. For more information, and download details, checkout http://www.atstake.com/research/tools/network_utilities/.
+<command>netcat</command> rocks. Its a little application which lets you push data to arbitrary port numbers using both UDP and TCP. It can also be used to create very simple servers, because <command>netcat</command> can do all the listening for you. For more information, and download details, checkout http://www.atstake.com/research/tools/network_utilities/.
 </para>
 </sidebar>
 
@@ -252,7 +252,7 @@ We can demonstrate this by writing a very simple, and probably quite impractical
 
 <sidebar><title>What is inetd?</title>
 <para>
-<command>inetd</command>, and it's fairly common <command>xinetd</command> alternative are super daemons. Their role in the networking food chain is as a way of running programs to process network traffic as demand requires. For example, many <command>rsync</command> servers operate from <command>inetd</command>. What this means is that <command>inetd</command> runs in the background as a daemon waiting for connections from clients to the <command>rsync</command> port. It then starts a new copy of <command>rsync</command> for each of these connections, and <command>rsync</command> processes the traffic (and perhaps responds).
+<command>inetd</command>, and its fairly common <command>xinetd</command> alternative are super daemons. Their role in the networking food chain is as a way of running programs to process network traffic as demand requires. For example, many <command>rsync</command> servers operate from <command>inetd</command>. What this means is that <command>inetd</command> runs in the background as a daemon waiting for connections from clients to the <command>rsync</command> port. It then starts a new copy of <command>rsync</command> for each of these connections, and <command>rsync</command> processes the traffic (and perhaps responds).
 </para>
 
 <para>
@@ -360,11 +360,11 @@ main (int argc, char *argv[])
 <para><emphasis>Code: disconnexec.c</emphasis></para>
 
 <para>
-All this program does is wait on port 1234 until a connection comes in, forks, and the new child process starts executing the server program (in this case <command>cat</command>). This technique relies on the fact that the child process will share the environment of the parent process, including it's file handles. These are duplicated to stdin and stdout before the server program starts executing, so that network input goes into stdin, and server output is sent back over the network.
+All this program does is wait on port 1234 until a connection comes in, forks, and the new child process starts executing the server program (in this case <command>cat</command>). This technique relies on the fact that the child process will share the environment of the parent process, including its file handles. These are duplicated to stdin and stdout before the server program starts executing, so that network input goes into stdin, and server output is sent back over the network.
 </para>
 
 <para>
-This of course doesn't work because the socket is disconnected, so <command>cat</command>'s <emphasis>read</emphasis> call will work, but it's <emphasis>write</emphasis> call fails because the socket layer doesn't know where to send the response to.
+This of course doesn't work because the socket is disconnected, so <command>cat</command>'s <emphasis>read</emphasis> call will work, but its <emphasis>write</emphasis> call fails because the socket layer doesn't know where to send the response to.
 </para>
 </sect2>
 
@@ -476,11 +476,11 @@ main (int argc, char *argv[])
 <para><emphasis>Code: connected.c</emphasis></para>
 
 <para>
-We do cheat a little in this example, there is one <emphasis>recvfrom</emphasis> call. This is used to <quote>peek</quote> at the data which is waiting on the socket to determine the address to connect to. The <emphasis>MSG_PEEK</emphasis> means that the data is not actually removed from the queue of data to be processed by this call.
+We do cheat a little in this example, there is one <emphasis>recvfrom</emphasis> call. This is used to <quote>peek</quote> at the data which is waiting on the socket to determine the address to which we will connect. The <emphasis>MSG_PEEK</emphasis> means that the data is not actually removed from the queue of data to be processed by this call.
 </para>
 
 <para>
-I wont include an example of what this program looks like when it runs, because it looks exactly the same as the disconnected echo server above.
+I won't include an example of what this program looks like when it runs, because it looks exactly the same as the disconnected echo server above.
 </para>
 </sect2>
 
@@ -658,11 +658,11 @@ This service has the following characteristics:
 <itemizedlist>
 <listitem><para>The service name is <emphasis>myecho</emphasis>. The listing in /etc/services is:</para>
 <programlisting>
-myecho		1234/udp			# Simple echo example for LJ article</programlisting>
+myecho		1234/udp			# Simple echo example for LCA 2004 paper</programlisting>
 
 <sidebar><title>Why not echo?</title>
 <para>
-Note that we can't use the name <emphasis>echo</emphasis> for our service because of a couple of reasons: it is already defined in /etc/services; it is an internal service which <command>inetd</command> already offers using the normal port number; and we wanted to define a different port number for the service, without breaking things which might use the old /etc/services entry.
+Note that we can't use the name <emphasis>echo</emphasis> for our service for a couple of reasons: it is already defined in /etc/services; it is an internal service which <command>inetd</command> already offers using the normal port number; and we wanted to define a different port number for the service, without breaking things which might use the old /etc/services entry.
 </para>
 </sidebar>
 </listitem>
@@ -1131,7 +1131,7 @@ The <command>shdns</command> implementation strategy is summarized by the follow
 <graphic format="eps" fileref="gen-shdns-design.eps">
 
 <para>
-You'll note that the reply to the DNS request is constructed in a temporary file and then sent back to the client. This is because <command>inetd</command> will send the output of each <emphasis>write</emphasis> as it's own packet. <command>shdns</command> therefore needs to force all of the reply packet to be written at one time.
+You'll note that the reply to the DNS request is constructed in a temporary file and then sent back to the client. This is because <command>inetd</command> will send the output of each <emphasis>write</emphasis> as its own packet. <command>shdns</command> therefore needs to force all of the reply packet to be written at one time.
 </para>
 </sect2>
 

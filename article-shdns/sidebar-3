@@ -1,7 +1,7 @@
 What is inetd?
 --------------
 
-<b>inetd</b>, and it's fairly common <b>xinetd</b> alternative are super daemons. Their role in the networking food chain is as a way of running programs to process network traffic as demand requires. For example, many <b>rsync</b> servers operate from <b>inetd</b>. What this means is that <b>inetd</b> runs in the background as a daemon waiting for connections from clients to the <b>rsync</b> port. It then starts a new copy of <b>rsync</b> for each of these connections, and <b>rsync</b> processes the traffic (and perhaps responds). 
+<b>inetd</b>, and its fairly common <b>xinetd</b> alternative are super daemons. Their role in the networking food chain is as a way of running programs to process network traffic as demand requires. For example, many <b>rsync</b> servers operate from <b>inetd</b>. What this means is that <b>inetd</b> runs in the background as a daemon waiting for connections from clients to the <b>rsync</b> port. It then starts a new copy of <b>rsync</b> for each of these connections, and <b>rsync</b> processes the traffic (and perhaps responds). 
 
 Many developers write network servers which are intended to be run by <b>inetd</b> because it simplifies development of the application. <b>inetd</b> handles most of the plumbing for the application. 
 

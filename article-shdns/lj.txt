@@ -13,7 +13,7 @@ Introduction
 
 This conference paper is about two things. The main focus of the paper is to discuss how to write useful UDP servers in a common scripting language such as bash. The other, more minor, focus of the paper is to give a brief tutorial on the differences between disconnected and connected sockets. 
 
-In this paper I assume that you have a working knowledge of both bash scripting and C programming. If you don't then hopefully you'll still get something out of the paper, but you might have to skip bits which are too technical. 
+In this paper I assume that you have a working knowledge of both bash scripting and C programming. If you don't then hopefully you'll still get something out of the paper, but you might want to trust me about what the code snippets actually do. 
 
 UDP
 ===
@@ -30,7 +30,7 @@ So why would you ever use UDP? This reliability in TCP comes at a price. That pr
 
 [Please insert the image tcp-handshake.png here]
 
-So before the two machines can even communicate, they've spent a round trip just setting up the connection (the ACK can be sent at the same time as the first packet, as we don't have to wait for an ACK ACK to come back). 
+So before the two machines can even communicate, they've spent a round trip, and processing time, just setting up the connection (the ACK can be sent at the same time as the first packet, as we don't have to wait for an ACK ACK to come back). 
 
 UDP, on the other hand, does none of this. A single packet is sent, and it either arrives or it doesn't. Normally the client application will note that a reply was never received after a given timeout, and retransmit the packet. 
 
@@ -92,9 +92,9 @@ This is a particularly useful example, because our shell scripts are eventually 
 
 [Please insert the code file named /home/opensource/shdns/sockets/disconnexec.c here]
 
-All this program does is wait on port 1234 until a connection comes in, forks, and the new child process starts executing the server program (in this case <b>cat</b>). This technique relies on the fact that the child process will share the environment of the parent process, including it's file handles. These are duplicated to stdin and stdout before the server program starts executing, so that network input goes into stdin, and server output is sent back over the network. 
+All this program does is wait on port 1234 until a connection comes in, forks, and the new child process starts executing the server program (in this case <b>cat</b>). This technique relies on the fact that the child process will share the environment of the parent process, including its file handles. These are duplicated to stdin and stdout before the server program starts executing, so that network input goes into stdin, and server output is sent back over the network. 
 
-This of course doesn't work because the socket is disconnected, so <b>cat</b>'s <i>read</i> call will work, but it's <i>write</i> call fails because the socket layer doesn't know where to send the response to. 
+This of course doesn't work because the socket is disconnected, so <b>cat</b>'s <i>read</i> call will work, but its <i>write</i> call fails because the socket layer doesn't know where to send the response to. 
 
 Connected sockets
 -----------------
@@ -107,9 +107,9 @@ Here's a simple example of a connected socket version of the disconnected echo s
 
 [Please insert the code file named /home/opensource/shdns/sockets/connected.c here]
 
-We do cheat a little in this example, there is one <i>recvfrom</i> call. This is used to "peek" at the data which is waiting on the socket to determine the address to connect to. The <i>MSG_PEEK</i> means that the data is not actually removed from the queue of data to be processed by this call. 
+We do cheat a little in this example, there is one <i>recvfrom</i> call. This is used to "peek" at the data which is waiting on the socket to determine the address to which we will connect. The <i>MSG_PEEK</i> means that the data is not actually removed from the queue of data to be processed by this call. 
 
-I wont include an example of what this program looks like when it runs, because it looks exactly the same as the disconnected echo server above. 
+I won't include an example of what this program looks like when it runs, because it looks exactly the same as the disconnected echo server above. 
 
 Back to our simple inetd server
 -------------------------------
@@ -199,7 +199,7 @@ The <b>shdns</b> implementation strategy is summarized by the following diagram.
 
 [Please insert the image shdns-design.png here]
 
-You'll note that the reply to the DNS request is constructed in a temporary file and then sent back to the client. This is because <b>inetd</b> will send the output of each <i>write</i> as it's own packet. <b>shdns</b> therefore needs to force all of the reply packet to be written at one time. 
+You'll note that the reply to the DNS request is constructed in a temporary file and then sent back to the client. This is because <b>inetd</b> will send the output of each <i>write</i> as its own packet. <b>shdns</b> therefore needs to force all of the reply packet to be written at one time. 
 
 Setting up shdns
 ----------------
