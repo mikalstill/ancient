@@ -19,12 +19,13 @@ my($INPUT, $PREPROC, $outputstyle);
 my($parastate, $liststate, $listitemstate, $footnotestate, $sectionstate, $tablestate, $stylestate, $displaystate, $waitstate, $quotestate, $pausedlist, $tablestate, $tablecolcount, $tablebracestate);
 my($length);
 my($temp);
-my($linecount, $condlinecount, $firstsect, $topsectnum);
+my($linecount, $condlinecount, $firstsect, $firstsectnum);
 my(@inline, @outline, $linemax, $count);
 
-$topsectnum = $ARGV[3];
-if($topsectnum eq ""){
-    $topsectnum = 0;
+# todo: fix this hack
+$firstsectnum = $ARGV[1] - 1;
+if($firstsectnum eq ""){
+    $firstsectnum = 0;
 }
 
 $linecount = 0;
@@ -596,7 +597,8 @@ while(<INPUT>){
 
 endpara();
     
-while($sectionstate > 0){
+while($sectionstate > $firstsectnum){
+    print "</sect$sectionstate>\n";
     $sectionstate--;
 }
 
@@ -626,16 +628,18 @@ sub listend(){
     if($listitemstate > 0){
 	print "</listitem>\n";
     }
-    
-    if($liststate == 1){
-	print "</itemizedlist>\n";
-	startpara();
-    }
-    else{
-	print "</orderedlist>\n";
-	$pausedlist = 1;
-    }
+
+    if($liststate > 0){
+	if($liststate == 1){
+	    print "</itemizedlist>\n";
+	    startpara();
+	}
+	else{
+	    print "</orderedlist>\n";
+	    $pausedlist = 1;
+	}
     $liststate--;
+    }
     $listitemstate = 0;
 }
 
