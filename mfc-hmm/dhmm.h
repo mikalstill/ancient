@@ -64,7 +64,9 @@ public:
 	virtual ~CDhmm();
 
    // Mikal: Train the HMM based on the observations passed as
-   // arguement one
+   // arguement one. The return value is the number of 
+   // reestimation cycles which were needed before the model
+   // converged.
    int Train(const obsArray &);
 
    // Mikal: Calculate the log likelihood of the passed observations

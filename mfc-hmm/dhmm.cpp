@@ -37,12 +37,14 @@ CDhmm::~CDhmm()
 
 ////////////////////////////////////////////////////////////////////////
 // Mikal: Train the HMM based on all the observations which have been
-// collected.
+// collected. Returns the number of cycles executed before the model
+// converged.
 ////////////////////////////////////////////////////////////////////////
 
 int CDhmm::Train(const obsArray &allObservations)
 {
-   int count[NSTATES][NOBS], total[NSTATES]; // <comment>
+   int count[NSTATES][NOBS], total[NSTATES]; // Mikal: A set of counters
+                                             // and a total
 
    int meanDur;                              // Mikal: The total number
                                              // of all coded vectors
@@ -60,7 +62,7 @@ int CDhmm::Train(const obsArray &allObservations)
    int i,j,v,t,cyc;                          // Mikal: Various counters
 
    //-------------------------------------------------------------------
-   // PART 1 - <comment>
+   // Mikal: PART 1 - INITIALIZE THE MODEL
    //-------------------------------------------------------------------
 
    debug("Train: MODEL INITIALISATION",1);
@@ -124,17 +126,20 @@ int CDhmm::Train(const obsArray &allObservations)
    for (i=0; i<NSTATES; i++)
       for (j=0; j<NOBS; j++)
       {
-         // <comment>
+         // Mikal: Every value in the B matrix defaults to a small
+	 // likelihood of an ejection
          B[i][j] = RARE_OBS / NOBS;
 
-         // <comment>
+         // Mikal: If there are observations for this column, then
+	 // change the value to something a little more likely
          if (total[i] > 0)
             B[i][j] += (1 - RARE_OBS) * count[i][j] / total[i];
       }
    debug("B=",(double *)B,NSTATES*NOBS,1);
 
    //-------------------------------------------------------------------
-   // PART 2 - <comment>
+   // Mikal: PART 2 - REESTIMATE A GIVEN NUMBER OF TIMES OR UNTIL A
+   // THRESHHOLD IS MET (EPSILON)
    //-------------------------------------------------------------------
    for(cyc=0; cyc<NO_CYCLES; cyc++)
    {
@@ -151,7 +156,9 @@ int CDhmm::Train(const obsArray &allObservations)
             acc4[i][j] = 0.0;
       }
 
-      // <comment>
+      // Mikal: Sumlogp is the Viterbi score for that round. The code
+      // cycles through the forward algorithm until the change in the
+      // Viterbi score is below some threshhold EPSILON.
       sumlogp = 0.0;
       for (v=0; v<allObservations.size(); v++)
       {
@@ -159,14 +166,14 @@ int CDhmm::Train(const obsArray &allObservations)
       }
       debug("sum log p",&sumlogp,1,2);
 
-      // <comment>
+      // Mikal: Reestimate the A and B matrices and the pi vector
       reestimate();
       debug("Reestimated A",(double *)A,NSTATES*NSTATES,1);
       debug("Reestimated B",(double *)B,NSTATES*NOBS,1);
       debug("Reestimated PI",pi,NSTATES,1);
 
       //----------------------------------------------------------------
-      // Mikal: If the log likelihood has converged within the tolerance
+      // Mikal: If the Viterbi score has converged within the tolerance
       // specified by EPSILON, then stop reestimating. We cannot exit
       // until we have done at least two reestimations (cyc = 0 and 1)
       //----------------------------------------------------------------
@@ -183,11 +190,12 @@ int CDhmm::Train(const obsArray &allObservations)
 
 double CDhmm::TrainOne (const obs &o)
 {
-   double logp = 0.0;         // <comment>
+   double logp = 0.0;         // Mikal: The log of the Viterbi score
    double xi, gamma, term;
    int   i, j, t;
 
-   // <comment>
+   // Mikal: Allocate memory for the alpha matrix, the beta vector,
+   // the next beta vector, and the scale vector
    double **alpha = new double* [o.size()];
    for (t=0; t<o.size(); t++)
       alpha[t] = new double [NSTATES];
@@ -195,17 +203,20 @@ double CDhmm::TrainOne (const obs &o)
    double *nxtbeta = new double [NSTATES];
    double *scale = new double [o.size()];
 
-   // <comment>
+   // Mikal: acc0 is the number of observations which have been trained
    acc0++;
 
-   // <comment>
+   // Mikal: The forward algorithm for each of the values in the observation
    for (t=0; t<o.size(); t++)
    {
       scale[t] = 0.0;
       for (i=0; i<NSTATES; i++)
       {
-         if (t==0)
-            alpha[t][i] = pi[i] * B[i][o[t]];
+	 // Mikal: Forward algorithm initialization
+	 if (t==0)
+	   alpha[t][i] = pi[i] * B[i][o[t]];
+
+	 // Mikal: Induction
          else
          {
             alpha[t][i] = 0.0;
@@ -213,6 +224,8 @@ double CDhmm::TrainOne (const obs &o)
                alpha[t][i] += alpha[t-1][j] * A[j][i];
             alpha[t][i] *= B[i][o[t]];
          }
+
+	 // Mikal: Termination
          scale[t] += alpha[t][i];
       }
       debug("TrainOne: alpha_unscld=",alpha[t],NSTATES,2);
@@ -229,7 +242,7 @@ double CDhmm::TrainOne (const obs &o)
 
    debug("TrainOne: scale=",scale,o.size(),2);
 
-   // <comment>
+   // Mikal: Use the backward algorithm as well
    for (t=o.size()-1; t>=0; t--)
    {
       for (i=0; i<NSTATES; i++)
@@ -254,7 +267,8 @@ double CDhmm::TrainOne (const obs &o)
          }
          debug("TrainOne: gamma  =",&gamma,1,2);
 
-         // <comment>
+         // Mikal: Update the values of the other accumulators, which are
+	 // used for the B matrix
          acc4[i][o[t]] += gamma;
          acc5[i]       += gamma;
          if (t==0)
@@ -273,7 +287,8 @@ double CDhmm::TrainOne (const obs &o)
    debug("TrainOne: acc4",(double *)acc4,NSTATES*o.size(),2);
    debug("TrainOne: acc5",acc5,NSTATES,2);
 
-   // <comment>
+   // Mikal: Clean up all the local variables we allocated above, and
+   // then return the logarithm of the Viterbi score
    for (t=0; t<o.size(); t++)
       delete [] alpha[t];
    delete [] alpha;
@@ -294,32 +309,39 @@ void CDhmm::reestimate ()
 
    if (acc0 != 0)
    {
-      // <comment>
+      // Mikal: Set the values of all entries in the pi vector to being
+      // acc1 divided by the number of observations trained
       for (i=0; i<NSTATES; i++)
          pi[i] = acc1[i]/acc0;
       debug("REESTIMATE: PI",pi,NSTATES,3);
 
-      // <comment>
+      // Mikal: Reestimation of the A matrix. For each value in the
+      // matrix, set the value to a small number, and then reset it
+      // to something more than this if the accumulator for the
+      // for the column is greater than zero
       for (i=0; i<NSTATES; i++)
          for (j=0; j<NSTATES; j++)
          {
-            // <comment>
+            // Mikal: Set the value in the matix to a small value
             A[i][j] = RARE_TRANS / NSTATES;
 
-            // <comment>
+            // Mikal: If the accumulator has recorded something for this
+	    // column, then reset the value
             if (acc3[i] > 0.0)
                A[i][j] += (1 - RARE_TRANS) * acc2[i][j] / acc3[i];
          }
       debug("REESTIMATE: A",(double *)A,NSTATES*NSTATES,3);
 
-      // <comment>
+      // Mikal: Reestimate the B matrix, the algorithm is the same
+      // as above, but with a different set of accumulators
       for (i=0; i<NSTATES; i++)
          for (k=0; k<NOBS; k++)
          {
-            // <comment>
+            // Mikal: Set the value to a small value
             B[i][k] = RARE_OBS / NOBS;
 
-            // <comment>
+            // Mikal: If the accumulator has recorded something for this
+	    // column, then reset the value
             if (acc5[i] > 0.0)
                B[i][k] += (1 - RARE_OBS) * acc4[i][k] / acc5[i];
          }
@@ -378,15 +400,15 @@ int CDhmm::Read(const char *fileName)
       return 0;
 
    // Mikal: Read the A and B matrices, and the pi vector from the file
-   int i, j;
-   for (i=0; i<NSTATES; i++)
-     for (j=0; j<NSTATES; j++)
-       file >> A[i][j];
-   for (i=0; i<NSTATES; i++)
-     for (j=0; j<NOBS; j++)
-       file >> B[i][j];
-   for (i=0; i<NSTATES; i++)
-     file >> pi[i];
+//    int i, j;
+//    for (i=0; i<NSTATES; i++)
+//      for (j=0; j<NSTATES; j++)
+//        file >> A[i][j];
+//    for (i=0; i<NSTATES; i++)
+//      for (j=0; j<NOBS; j++)
+//        file >> B[i][j];
+//    for (i=0; i<NSTATES; i++)
+//      file >> pi[i];
    
    // Mikal: Close the file and return a value indicating success
    file.close();
