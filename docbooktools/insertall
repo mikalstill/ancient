@@ -4,7 +4,7 @@ rm -f insertall-$$.tmp 2> /dev/null
 
 for item in `ls | egrep $1 | egrep -v "~$"`
 do
-  echo "<execute><cmd>builddb</cmd><input>$item</input></execute>" >> insertall-$$.tmp
+  echo "<execute><cmd>builddb</cmd><args>$2</args><input>$item</input></execute>" >> insertall-$$.tmp
 done
 
 builddb < insertall-$$.tmp

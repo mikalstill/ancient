@@ -1,0 +1,137 @@
+#!/usr/local/bin/perl
+
+use strict;
+
+my($chapname, $chaptitle, $slidename, $slidetitle, $incmode, $suppress,
+   $LIST, $SLIDE);
+
+$incmode = 0;
+$suppress = 0;
+$chapname = "";
+
+open LIST, "> slides-list";
+
+# Eat the input and turn it into slides for a presentation
+while(<STDIN>){
+    # Be keen to turn include mode off, and slow to turn it on...
+    if(/(.*)<\/slideinclude>/ || /(.*)<\/slidetext>/){
+	if($chapname ne ""){
+	    $_ = makeslidetext($1);
+	    print SLIDE "$_\n";
+	}
+	
+	$incmode = 0;
+	print STDERR "Turning include mode off\n";
+    }
+    if(($incmode == 1) && ($chapname ne "")){
+	$_ = makeslidetext($_);
+	print SLIDE "$_";
+    }
+    elsif($incmode == 1){
+	print STDERR "Included text skipped for lack of a slide: $_";
+    }
+
+    # Found a chapter
+    if(/.*<chapter .*>/i){
+	$chapname = "";
+    }
+
+    # Found a slide name (a title)
+    if((/(.*)<title>(.*)<\/title>.*/i) && ($suppress == 0)){
+	if($1 eq "<figure>"){
+	}
+	elsif($chapname eq ""){
+	    $chaptitle = $2;
+	    $chapname = makefile($2);
+	    
+	    close SLIDE;
+	    open SLIDE, "> slide/$chapname";
+	    print SLIDE "TITLE: $chaptitle\n\n";
+	    print LIST "slide/$chapname\n";
+	}
+	else{
+	    $slidetitle = $2;
+	    $slidename = makefile($2);
+	    $slidename =~ s/^$chapname-//;
+	    
+	    close SLIDE;
+	    open SLIDE, "> slide/$chapname-$slidename";
+	    print SLIDE "TITLE: $chaptitle -- $slidetitle\n\n";
+	    print LIST "slide/$chapname-$slidename\n";
+	}
+    }
+    
+    if(/.*<slideinclude>/ || /.*<slidetext>/){
+	$incmode = 1;
+	print STDERR "Turning include mode on\n";
+    }
+
+    # Forcing a page break in a side
+    if(/.*<slidebreak>/){
+	print STDERR "Slide page break\n";
+	$_ = $slidename;
+	close SLIDE;
+
+	if(/(.*-cont-)([0-9]+)/){
+	    $slidename = "$1".($2 + 1);
+	}
+	else{
+	    my($hyphen);
+	    if($slidename ne ""){
+		$hyphen = "-";
+	    }
+	    else{
+		$hyphen = "";
+	    }
+
+	    $slidename = "$slidename$hyphen"."cont-2";
+	}
+
+	print STDERR "New slide name is $slidename\n";
+	open SLIDE, "> slide/$chapname-$slidename";
+	print SLIDE "TITLE: $chaptitle -- $slidetitle (continued)\n\n";
+	print LIST "slide/$chapname-$slidename\n";
+    }
+
+    # We can also suppress titles from being included
+    if(/.*<noslide>/){
+	$suppress = 1;
+	print STDERR "Suppressing contents of sgml\n";
+    }
+    if(/.*<\/noslide>/){
+	$suppress = 0;
+	print STDERR "Suppression disabled\n";
+    }
+}
+
+exit;
+
+sub makefile(){
+    my($temp) = @_;
+
+    $temp = lc($temp);
+    $temp =~ s/[ \t]/-/g;
+    $temp =~ s/://g;
+    $temp =~ s/the-//g;
+    return $temp;
+}
+
+sub makeslidetext(){
+    my($temp) = @_;
+
+    print STDERR "IN: $temp";
+    $temp =~ s/<slidetext>//g;
+    $temp =~ s/<\/slidetext>//g;
+    $temp =~ s/<para>/<BR><BR>/g;
+    $temp =~ s/<\/para>//g;
+    $temp =~ s/<quote>/<i>/g;
+    $temp =~ s/<\/quote>/<\/i>/g;
+    $temp =~ s/<figure>/<br><br><div align=\"center\">/g;
+    $temp =~ s/<title>/<b>/g;
+    $temp =~ s/<\/title>/<\/b>/g;
+    $temp =~ s/<graphic format.*fileref=\"/<br><img src=\"\/notes\/presentations\/slide\//g;
+    $temp =~ s/<\/figure>/<\/div><BR><BR>/g;
+    print STDERR "OUT: $temp";
+
+    return $temp;
+}

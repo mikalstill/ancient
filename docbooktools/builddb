@@ -69,10 +69,10 @@ sub process($){
 	    
 	    if(($cmd ne "todo") && ($cmd ne "nextedition")){
 		if($arg ne ""){
-		    $cmdstr = "$cmd $arg";
+		    $cmdstr = "$cmd $arg $ARGV[0]";
 		}
 		else{
-		    $cmdstr = "$cmd";
+		    $cmdstr = "$cmd $ARGV[0]";
 		}
 
 		if($input ne ""){
