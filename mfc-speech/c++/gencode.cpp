@@ -27,6 +27,24 @@ main (int argc, char *argv[])
   cb.init (data);
   cb.cloud (data);
 
+  // Distortion information
+  float distortion (0.0);
+  for (size_t i = 0; i < data.size (); i++)
+    {
+      float closest (2000000.0);
+      for (size_t j = 0; j < cb.size (); j++)
+	{
+	  if (data.getFrame (i) - cb.getLine (j) < closest)
+	    closest = data.getFrame (i) - cb.getLine (j);
+	}
+
+      distortion += closest;
+    }
+
+  cout << "Distortion for " << cb.size () << " entry codebook: " <<
+    "total: " << distortion << " average: " <<
+    (distortion / data.size ()) << endl << endl;
+
   // We fork five times, because we want 32 output codebook entries
   int i;
   for (i = 0; i < 5; i++)
@@ -84,7 +102,24 @@ main (int argc, char *argv[])
 	{
 	  cout << cb.getLine (i) << endl;
 	}
-      cout << endl;
+
+      // Distortion information
+      float distortion (0.0);
+      for (size_t i = 0; i < data.size (); i++)
+	{
+	  float closest (2000000.0);
+	  for (size_t j = 0; j < cb.size (); j++)
+	    {
+	      if (data.getFrame (i) - cb.getLine (j) < closest)
+		closest = data.getFrame (i) - cb.getLine (j);
+	    }
+
+	  distortion += closest;
+	}
+
+      cout << "Distortion for " << cb.size () << " entry codebook: " <<
+	"total: " << distortion << " average: " <<
+	(distortion / data.size ()) << endl << endl;
     }
 
   cout << "Final codebook size is: " << cb.size () << endl;

@@ -28,7 +28,7 @@ The spoken phrase is "Human Computer Communication".
 The following Matlab script was used to generate the energy contour in dB, including using the first frame as a reference of 0 dB.
 </para>
 
-<execute><cmd>code2db</cmd><input>econtour.m</input></execute>
+<execute><cmd>code2db</cmd><args>4</args><input>matlab/econtour.m</input></execute>
 </sect3>
 
 <sect3><title>Compute the normalised autocorrelation contour</title>
@@ -36,12 +36,12 @@ The following Matlab script was used to generate the energy contour in dB, inclu
 The following Matlab script was used to calculate the autocorrelation contour:
 </para>
 
-<execute><cmd>code2db</cmd><input>autocorr.m</input></execute>
+<execute><cmd>code2db</cmd><args>4</args><input>matlab/autocorr.m</input></execute>
 </sect3>
 
 <sect3><title>Set a suitable autocorrelation value for the voiced/unvoiced threshold and compute the fundamental frequency contour</title>
 <para>
-The fundamental frequency is calculated by the autocorrelation function in the code in the previous section.
+The fundamental frequency is calculated by the autocorrelation function in the code in the previous section. The values kmin and kmax were derived for the maximum and minimum frequencies for the voice / unvoice threshold as provided by Professor Wagner.
 </para>
 </sect3>
 
@@ -56,7 +56,7 @@ Please refer the to next page for this graph, with annotation.
 The two scripts presented earlier in this section to calculate the values required are tied together by the following Matlab script:
 </para>
 
-<execute><cmd>code2db</cmd><input>questionOne.m</input></execute>
+<execute><cmd>code2db</cmd><args>4</args><input>matlab/questionOne.m</input></execute>
 </sect3>
 </sect2>
 
@@ -65,10 +65,10 @@ The two scripts presented earlier in this section to calculate the values requir
 The following scripts were used to perform these calculations:
 </para>
 
-<execute><cmd>code2db</cmd><input>questionTwo.m</input></execute>
-<execute><cmd>code2db</cmd><input>ph_u.m</input></execute>
-<execute><cmd>code2db</cmd><input>ph_sh.m</input></execute>
-<execute><cmd>code2db</cmd><input>fd_analyse.m</input></execute>
+<execute><cmd>code2db</cmd><args>3</args><input>matlab/questionTwo.m</input></execute>
+<execute><cmd>code2db</cmd><args>3</args><input>matlab/ph_u.m</input></execute>
+<execute><cmd>code2db</cmd><args>3</args><input>matlab/ph_sh.m</input></execute>
+<execute><cmd>code2db</cmd><args>3</args><input>matlab/fd_analyse.m</input></execute>
 
 <sect3><title>/u/ plot</title>
 <para>
@@ -82,9 +82,128 @@ Please refer to the page following that for the /sh/ plots.
 </para>
 </sect3>
 </sect2>
+</sect1>
 
+<sect1><title>Part B</title>
+<para>
+This part documents the speech recongition experiment.
+</para>
 
+<sect2><title>Compute the codebook</title>
+<para>
+The following code produces a LBG VQ codebook of size 32 from the 9 training MFC files.
+</para>
 
+<execute><cmd>code2db</cmd><args>3</args><input>c++/gencode.cpp</input></execute>
+<execute><cmd>code2db</cmd><args>3</args><input>c++/lbg.cpp</input></execute>
+<execute><cmd>code2db</cmd><args>3</args><input>c++/lbg.h</input></execute>
+<execute><cmd>code2db</cmd><args>3</args><input>c++/mfc.cpp</input></execute>
+<execute><cmd>code2db</cmd><args>3</args><input>c++/mfc.h</input></execute>
+<execute><cmd>code2db</cmd><args>3</args><input>c++/world.h</input></execute>
 
+<execute><cmd>code2db</cmd><args>3</args><input>c++/Makefile</input></execute>
+
+<sect3><title>Output codebook</title>
+<para>
+The output codebook is as follows:
+</para>
+
+<execute><cmd>code2db</cmd><input>c++/codebook.mfc</input></execute>
+</sect3>
+
+<sect3><title>Distortion values</title>
+<para>
+The following distortion values are calculated for the various phases in the codebook generation:
+</para>
+
+<programlisting>
+<execute><cmd>grep</cmd><args>Distortion c++/output</args></execute>
+</programlisting>
+
+</sect3>
+</sect2>
+
+<sect2><title>Encoding the nine training files</title>
+<para>
+This script was used to encode the nine training files:
+</para>
+
+<para>
+<execute><cmd>builddb</cmd><input>c++/encodeall.sh</input></execute>
+</para>
+
+<sect3><title>Encoded files</title>
+<para>
+These are the encoded files:
+</para>
+
+<sect4><title>s014d001</title>
+<para>
+<execute><cmd>builddb</cmd><input>c++/s014d001.enc</input></execute>
+</para>
+</sect4>
+
+<sect4><title>s014d002</title>
+<para>
+<execute><cmd>builddb</cmd><input>c++/s014d002.enc</input></execute>
+</para>
+</sect4>
+
+<sect4><title>s014d003</title>
+<para>
+<execute><cmd>builddb</cmd><input>c++/s014d003.enc</input></execute>
+</para>
+</sect4>
+
+<sect4><title>s017d001</title>
+<para>
+<execute><cmd>builddb</cmd><input>c++/s017d001.enc</input></execute>
+</para>
+</sect4>
+
+<sect4><title>s017d002</title>
+<para>
+<execute><cmd>builddb</cmd><input>c++/s017d002.enc</input></execute>
+</para>
+</sect4>
+
+<sect4><title>s017d003</title>
+<para>
+<execute><cmd>builddb</cmd><input>c++/s017d003.enc</input></execute>
+</para>
+</sect4>
+
+<sect4><title>s029d001</title>
+<para>
+<execute><cmd>builddb</cmd><input>c++/s029d001.enc</input></execute>
+</para>
+</sect4>
+
+<sect4><title>s029d002</title>
+<para>
+<execute><cmd>builddb</cmd><input>c++/s029d002.enc</input></execute>
+</para>
+</sect4>
+
+<sect4><title>s029d003</title>
+<para>
+<execute><cmd>builddb</cmd><input>c++/s029d003.enc</input></execute>
+</para>
+</sect4>
+
+<sect4><title>s031d00x</title>
+<para>
+<execute><cmd>builddb</cmd><input>c++/s031d00x.enc</input></execute>
+</para>
+</sect4>
+
+</sect3>
+</sect2>
+
+<sect2><title>Verfication</title>
+<para>
+The LBG VQ algorithm used in this part was verified by the use of selected dummy MFC files which a much smaller number of samples. This allowed me to manually calculate the correct cloud centroids et cetera, and then verify this against the program.
+</para>
+</sect2>
 </sect1>
 </article>

@@ -19,7 +19,8 @@ m_recenters (0), m_donations (0)
     }
 }
 
-size_t codebook::size ()
+size_t
+codebook::size ()
 {
   return m_table.size ();
 }
