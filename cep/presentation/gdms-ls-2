@@ -1,0 +1,20 @@
+TITLE: Types of Least Squares Regression Analysis 
+
+
+<li>Variance Co-variance With Automated Re-weighting
+
+<ul>
+  <li>The least squares line is calculated by using the automated Re-weighting process 
+
+  <br>
+
+  <li>STR_1 GPS North least squares regression model
+ 
+  PUT GRAPH OF LEAST SQUARES LINE WITH NO AUTOMATIC RE-WEIGHTING HERE
+
+  <li> ST_1 GPS North residuals
+
+  PUT GRAPH OF LEAST SQUARES RESIDUALS WITH NO AUTOMATIC RE-WEIGHTING HERE
+</ul>
+
+<li> Random Walk 
