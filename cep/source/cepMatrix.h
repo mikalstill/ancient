@@ -72,6 +72,10 @@ public:
   //returns true if A and B are equal, else returns false  
   bool operator== (const cepMatrix &B);
 
+  //compares A to B where A is the current matrix object and B is another matrix
+  //returns true if A and B are equal, else returns false
+  bool operator!= (const cepMatrix &B);
+
   //determies whether the A, the current matrix object is strictly Diagonal.
   //returs true if A is diagonal, else returns false  
   bool isDiagonal ();
@@ -500,6 +504,11 @@ bool cepMatrix<T>::operator== (const cepMatrix & B)
   return true;
 }
 
+template <class T>
+bool cepMatrix<T>::operator!= (const cepMatrix & B)
+{
+  return !(*this==B);
+}
 template <class T>
 bool cepMatrix<T>::isDiagonal ()
 {
