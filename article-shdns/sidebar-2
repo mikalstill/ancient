@@ -1,5 +1,5 @@
 netcat rocks
 ------------
 
-&lt;b&gt;netcat&lt;/b&gt; rocks. It's a little application which lets you push data to arbitary port numbers using both UDP and TCP. It can also be used to create very simple servers, because &lt;b&gt;netcat&lt;/b&gt; can do all the listening for you. For more information, and download details, checkout http://www.atstake.com/research/tools/network_utilities/. 
+&lt;b&gt;netcat&lt;/b&gt; rocks. It's a little application which lets you push data to arbitrary port numbers using both UDP and TCP. It can also be used to create very simple servers, because &lt;b&gt;netcat&lt;/b&gt; can do all the listening for you. For more information, and download details, checkout http://www.atstake.com/research/tools/network_utilities/. 
 

@@ -43,7 +43,7 @@ In this article I assume that you have a working knowledge of both bash scriptin
 
 <sect1><title>UDP</title>
 <para>
-It strikes me as logical to start this article with an extremely brief introduction to UDP. At some points it makes sense to compare this with the alternative, TCP.
+It strikes me as logical to start with an extremely brief introduction to UDP. At some points it makes sense to compare this with the alternative, TCP.
 </para>
 
 <para>
@@ -59,7 +59,7 @@ UDP is unreliable, which means it does none of this for you. It is the programme
 </para>
 
 <para>
-So why would you ever use UDP? Well, all this reliability in TCP comes at a price. That price is performance. Before a TCP connection is established, the following protocol sequence occurs.
+So why would you ever use UDP? This reliability in TCP comes at a price. That price is performance. Before a TCP connection is established, the following protocol sequence occurs.
 </para>
 
 <execute><cmd>eqimg</cmd><args>tcp-handshake.png</args></execute>
@@ -140,13 +140,13 @@ Note that the <quote>punt!</quote> is me hitting control c on <command>netcat</c
 </programlisting>
 
 <para>
-There are a couple of things worth noting here. Firstly, the UDP server can handle multiple clients at once in the single process. This is because each packet comes in, and is then responded to &mdash; there is no assumption made that packets come from the same machine. This model works well for the single packet communication paradigm. Secondly, because the server simply waits for a packet, responds, and then starts waiting again, the server survives disconnects from the client, it simply waits until a new packet comes along.
+There are a couple of things worth noting here. Firstly, the UDP server can handle multiple clients at once in the single process. This is because each packet comes in, and is then responded to &mdash; there is no assumption made that packets come from the same machine. This model works well for the single packet communication paradigm. Secondly, since the server simply waits for a packet, responds, and then starts waiting again, the server survives disconnects from the client, it simply waits until a new packet comes along.
 </para>
 </sect2>
 
 <sect2><title>Disconnected sockets and scripting</title>
 <para>
-This article is really about writing useful UDP servers using scripting languages &mdash; specifically <emphasis>bash</emphasis>. In this instance, the disconnected nature of these default UDP sockets causes great pain. This is because there is no trivial way in bash to call <emphasis>recvfrom</emphasis> and <emphasis>sendto</emphasis>. Shell scripts really want to be able to use the standard <emphasis>read</emphasis> and <emphasis>write</emphasis> calls, because these languages are really intended for file and pipe input output, as opposed to socket traffic.
+This article is really about writing useful UDP servers using scripting languages &mdash; specifically <emphasis>bash</emphasis>. In this instance, the disconnected nature of these default UDP sockets causes great pain. This is because there is no trivial way in bash to call <emphasis>recvfrom</emphasis> and <emphasis>sendto</emphasis>. Shell scripts want to be able to use the standard <emphasis>read</emphasis> and <emphasis>write</emphasis> calls, because these languages are intended for file and pipe input output, as opposed to socket traffic.
 </para>
 
 <para>
@@ -216,7 +216,7 @@ I wont include an example of what this program looks like when it runs, because 
 
 <sect2><title>Back to our simple inetd server</title>
 <para>
-You'll recall that a couple of examples ago I showed you the code for a simple <command>inetd</command> server. This example below expands that so that now it uses a connected socket. This example will behave just like the hard coded echo server in the first and third examples in this article (except that the server debugging output doesn't happen any more).
+You'll recall that a couple of examples ago I showed you the code for a simple <command>inetd</command> server. This example below expands on that so it uses a connected socket. This example will behave just like the hard coded echo server in the first and third examples in this article (except that the server debugging output doesn't happen any more).
 </para>
 
 <execute><cmd>code2db</cmd><input>~mikal/opensource/shdns/sockets/connexec.c</input></execute>
@@ -224,11 +224,11 @@ You'll recall that a couple of examples ago I showed you the code for a simple <
 
 <sect2><title>inetd and xinetd patches</title>
 <para>
-The two standard inetd implementations that most people use are called <command>inetd</command> and <command>xinetd</command>. Neither of these implements a connected socket for the server before starting it, which means that it is effectively impossible to write a standard shell script which processes UDP network traffic.
+The two standard inetd implementations that most people use are called <command>inetd</command> and <command>xinetd</command>. <command>inetd</command> doesn't implement a connected socket for the server before starting it, which means that it is effectively impossible to write a standard shell script which processes UDP network traffic using a stock <command>inetd</command>. <command>xinetd</command> however does connect the socket before calling the script.
 </para>
 
 <para>
-It therefore seems logical to me to include some patches to make <command>inetd</command> and <command>xinetd</command> behave in the manner that I would like them to. After all, surely if your goal is as noble as implementing a DNS server in shell script, then surely the operating system should be modified to accommodate that?
+It seems logical to me to include a patch to make <command>inetd</command> behave in the manner that I would like it to. After all, if our goal is as noble as implementing a DNS server in shell script, then surely the operating system should be modified to accommodate us?
 </para>
 
 <sect3><title>inetd patch</title>
@@ -278,16 +278,6 @@ Note that we can't use the name <emphasis>echo</emphasis> for our service becaus
 
 
 </sect3>
-
-<sect3><title>xinetd patch</title>
-<para>
-<command>xinetd</command> is the <command>inetd</command> implementation shipped by Red Hat. It is much more complex than that implemented by <emphasis>netkit</emphasis>.
-</para>
-
-<para>
-TODO PATCH
-</para>
-</sect3>
 </sect2>
 </sect1>
 
@@ -305,7 +295,7 @@ TODO PATCH
 
 <sect1><title>shdns</title>
 <para>
-This article wouldn't be complete without an example of a UDP shell script to run from <command>inetd</command> or <command>xinetd</command>. It seems obvious to me that something non-trivial is required here. I therefore present for your enjoyment <command>shdns</command>, a DNS server implemented in bash shell script.
+This article wouldn't be complete without an example of a UDP shell script to run from <command>inetd</command> or <command>xinetd</command>. Something non-trivial is required here, so I present for your enjoyment <command>shdns</command>, a DNS server implemented in bash shell script.
 </para>
 
 <sect2><title>The code</title>

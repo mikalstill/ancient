@@ -6,7 +6,7 @@ About the author
 
 Michael has been working in the image processing field for several years, including a couple of years managing and developing large image databases for an Australian government department. He currently works for TOWER Software, who manufacture a world leading EDMS and Records Management package named TRIM. Michael is also the developer of Panda, an open source PDF generation API, as well as a bunch of other Open Source code. 
 
-Michael has a website at http://www.stillhq.com. 
+Michael has a web site at http://www.stillhq.com. 
 
 Introduction
 ============
@@ -18,15 +18,15 @@ In this article I assume that you have a working knowledge of both bash scriptin
 UDP
 ===
 
-It strikes me as logical to start this article with an extremely brief introduction to UDP. At some points it makes sense to compare this with the alternative, TCP. 
+It strikes me as logical to start with an extremely brief introduction to UDP. At some points it makes sense to compare this with the alternative, TCP. 
 
 Both UDP and TCP sit on top of the Internet protocol, which handles all the plumbing of actually getting the data out of the back of the client machine to the server. This is where the similarity ends. UDP is the &lt;i&gt;User Datagram Protocol&lt;/i&gt;, and is unreliable. On the other hand, TCP is the &lt;i&gt;Transmission Control Protocol&lt;/i&gt;, and is reliable. 
 
-What is reliability? Well, TCP will hold your hand and ensure for you that every packet you send is recieved by the other machine. It will also ensure that the packets arrive in the right order. There are also some games played with the choice of initial sequence number to make it harder for man in the middle attacks to be successful. 
+What is reliability? Well, TCP will hold your hand and ensure for you that every packet you send is received by the other machine. It will also ensure that the packets arrive in the right order. There are also some games played with the choice of initial sequence number to make it harder for man in the middle attacks to be successful. 
 
 UDP is unreliable, which means it does none of this for you. It is the programmer's responsibility to ensure that all the packets sent arrived, and were in the right order. 
 
-So why would you ever use UDP? Well, all this reliability in TCP comes at a price. That price is performance. Before a TCP connection is estabilished, the following protocol sequence occurs. 
+So why would you ever use UDP? This reliability in TCP comes at a price. That price is performance. Before a TCP connection is established, the following protocol sequence occurs. 
 
 [Please insert the image tcp-handshake.png here]
 
@@ -49,13 +49,13 @@ By default when a UDP socket is created, it is disconnected. What's a disconnect
 int recvfrom(int s, void *buf, size_t len, int flags, struct sockaddr *from, socklen_t *fromlen); 
 [ecw]
 
-The &lt;i&gt;struct sockaddr&lt;/i&gt; arguement in this function call is populated with enough information for the program to be able to determine where to send the reply packet. The reponse needs to be sent with the &lt;i&gt;sendto&lt;/i&gt;(2) call: 
+The &lt;i&gt;struct sockaddr&lt;/i&gt; argument in this function call is populated with enough information for the program to be able to determine where to send the reply packet. The response needs to be sent with the &lt;i&gt;sendto&lt;/i&gt;(2) call: 
 
 [cw]
 int sendto(int s, const void *msg, size_t len, int flags, const struct sockaddr *to, socklen_t tolen); 
 [ecw]
 
-The &lt;i&gt;sendto&lt;/i&gt; function call takes another &lt;i&gt;struct sockaddr&lt;/i&gt; arguement which specifies where the packet should be sent. 
+The &lt;i&gt;sendto&lt;/i&gt; function call takes another &lt;i&gt;struct sockaddr&lt;/i&gt; argument which specifies where the packet should be sent. 
 
 The code listing below is an example of how to use the &lt;i&gt;recvfrom&lt;/i&gt; and &lt;i&gt;sendto&lt;/i&gt; functions. This example is a simple UDP echo server. The program waits on a given port, and whenever it receives data, sends it straight back. 
 
@@ -77,12 +77,12 @@ Note that the "punt!" is me hitting control c on &lt;b&gt;netcat&lt;/b&gt;. The 
 [Please insert the file named server.txt here]
 [ecw]
 
-There are a couple of things worth noting here. Firstly, the UDP server can handle multiple clients at once in the single process. This is because each packet comes in, and is then responded to &mdash; there is no assumption made that packets come from the same machine. This model works well for the single packet communication paradigm. Secondly, because the server simply waits for a packet, responds, and then starts waiting again, the server survives disconnects from the client, it simply waits until a new packet comes along. 
+There are a couple of things worth noting here. Firstly, the UDP server can handle multiple clients at once in the single process. This is because each packet comes in, and is then responded to &mdash; there is no assumption made that packets come from the same machine. This model works well for the single packet communication paradigm. Secondly, since the server simply waits for a packet, responds, and then starts waiting again, the server survives disconnects from the client, it simply waits until a new packet comes along. 
 
 Disconnected sockets and scripting
 ----------------------------------
 
-This article is really about writing useful UDP servers using scripting languages &mdash; specifically &lt;i&gt;bash&lt;/i&gt;. In this instance, the disconnected nature of these default UDP sockets causes great pain. This is because there is no trivial way in bash to call &lt;i&gt;recvfrom&lt;/i&gt; and &lt;i&gt;sendto&lt;/i&gt;. Shell scripts really want to be able to use the standard &lt;i&gt;read&lt;/i&gt; and &lt;i&gt;write&lt;/i&gt; calls, because these languages are really intended for file and pipe input output, as opposed to socket traffic. 
+This article is really about writing useful UDP servers using scripting languages &mdash; specifically &lt;i&gt;bash&lt;/i&gt;. In this instance, the disconnected nature of these default UDP sockets causes great pain. This is because there is no trivial way in bash to call &lt;i&gt;recvfrom&lt;/i&gt; and &lt;i&gt;sendto&lt;/i&gt;. Shell scripts want to be able to use the standard &lt;i&gt;read&lt;/i&gt; and &lt;i&gt;write&lt;/i&gt; calls, because these languages are intended for file and pipe input output, as opposed to socket traffic. 
 
 We can demonstrate this by writing a very simple, and probably quite impractical &lt;b&gt;inetd&lt;/b&gt; server. 
 
@@ -92,7 +92,7 @@ This is a particularly useful example, because our shell scripts are eventually 
 
 [Please insert the code file named ~mikal/opensource/shdns/sockets/disconnexec.c here]
 
-All this program does is wait on port 1234 until a connection comes in, forks, and the new child process starts executing the server program (in this case &lt;b&gt;cat&lt;/b&gt;). This technique relies on the fact that the child process will share the environment of the parent process, including it's filehandles. These are duplicated to stdin and stdout before the server program starts executing, so that network input goes into stdin, and server output is sent back over the network. 
+All this program does is wait on port 1234 until a connection comes in, forks, and the new child process starts executing the server program (in this case &lt;b&gt;cat&lt;/b&gt;). This technique relies on the fact that the child process will share the environment of the parent process, including it's file handles. These are duplicated to stdin and stdout before the server program starts executing, so that network input goes into stdin, and server output is sent back over the network. 
 
 This of course doesn't work because the socket is disconnected, so &lt;b&gt;cat&lt;/b&gt;'s &lt;i&gt;read&lt;/i&gt; call will work, but it's &lt;i&gt;write&lt;/i&gt; call fails because the socket layer doesn't know where to send the response to. 
 
@@ -114,7 +114,7 @@ I wont include an example of what this program looks like when it runs, because 
 Back to our simple inetd server
 -------------------------------
 
-You'll recall that a couple of examples ago I showed you the code for a simple &lt;b&gt;inetd&lt;/b&gt; server. This example below expands that so that now it uses a connected socket. This example will behave just like the hard coded echo server in the first and third examples in this article (except that the server debugging output doesn't happen any more). 
+You'll recall that a couple of examples ago I showed you the code for a simple &lt;b&gt;inetd&lt;/b&gt; server. This example below expands on that so it uses a connected socket. This example will behave just like the hard coded echo server in the first and third examples in this article (except that the server debugging output doesn't happen any more). 
 
 [Please insert the code file named ~mikal/opensource/shdns/sockets/connexec.c here]
 
@@ -123,7 +123,7 @@ inetd and xinetd patches
 
 The two standard inetd implementations that most people use are called &lt;b&gt;inetd&lt;/b&gt; and &lt;b&gt;xinetd&lt;/b&gt;. Neither of these implements a connected socket for the server before starting it, which means that it is effectively impossible to write a standard shell script which processes UDP network traffic. 
 
-It therefore seems logical to me to include some patches to make &lt;b&gt;inetd&lt;/b&gt; and &lt;b&gt;xinetd&lt;/b&gt; behave in the manner that I would like them to. Afterall, surely if your goal is as noble as implementing a DNS server in shell script, then surely the operating system should be modified to accomodate that? 
+It seems logical to me to include some patches to make &lt;b&gt;inetd&lt;/b&gt; and &lt;b&gt;xinetd&lt;/b&gt; behave in the manner that I would like them to. After all, if our goal is as noble as implementing a DNS server in shell script, then surely the operating system should be modified to accommodate us? 
 
 inetd patch
 -----------
@@ -153,13 +153,13 @@ This service has the following characteristics:
 
 [dot] The protocol is UDP.
 
-[dot] &lt;i&gt;nowait&lt;/i&gt; is used to indicate that one server should be started per packet, instead of waiting for the previous server to exit. This arguement should always be nowait for TCP servers.
+[dot] &lt;i&gt;nowait&lt;/i&gt; is used to indicate that one server should be started per packet, instead of waiting for the previous server to exit. This argument should always be nowait for TCP servers.
 
 [dot] The server runs as root.
 
 [dot] The server is located at /bin/cat
 
-[dot] The server should be started with these arguements. Note that the name of the executable is always the first arguement. Checkout &lt;i&gt;execve&lt;/i&gt;(2) for more details.
+[dot] The server should be started with these arguments. Note that the name of the executable is always the first argument. Checkout &lt;i&gt;execve&lt;/i&gt;(2) for more details.
 
 [endlist]
 
@@ -173,7 +173,7 @@ TODO PATCH
 shdns
 =====
 
-This article wouldn't be complete without an example of a UDP shell script to run from &lt;b&gt;inetd&lt;/b&gt; or &lt;b&gt;xinetd&lt;/b&gt;. It seems obvious to me that something non-trivial is required here. I therefore present for your enjoyment &lt;b&gt;shdns&lt;/b&gt;, a DNS server implemented in bash shell script. 
+This article wouldn't be complete without an example of a UDP shell script to run from &lt;b&gt;inetd&lt;/b&gt; or &lt;b&gt;xinetd&lt;/b&gt;. Something non-trivial is required here, so I present for your enjoyment &lt;b&gt;shdns&lt;/b&gt;, a DNS server implemented in bash shell script. 
 
 The code
 --------
@@ -186,14 +186,14 @@ The other part of the code is the script which actually parses the input DNS UDP
 
 [Please insert the code file named ~mikal/opensource/shdns/shdns here]
 
-The &lt;b&gt;shdns&lt;/b&gt; implemenation strategy is summarised by the following diagram. 
+The &lt;b&gt;shdns&lt;/b&gt; implementation strategy is summarized by the following diagram. 
 
 [Please insert the image shdns-design.png here]
 
 Getting the code from this article
 ==================================
 
-The code for this article is available from my website. Checkout http://www.stillhq.com/extracted/shdns for more information. 
+The code for this article is available from my web site. Checkout http://www.stillhq.com/extracted/shdns for more information. 
 
 Further reading
 ===============

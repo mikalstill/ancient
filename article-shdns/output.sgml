@@ -8,7 +8,7 @@ Michael has been working in the image processing field for several years, includ
 </para>
 
 <para>
-Michael has a website at http://www.stillhq.com.
+Michael has a web site at http://www.stillhq.com.
 </para>
 </sect1>
 
@@ -43,7 +43,7 @@ In this article I assume that you have a working knowledge of both bash scriptin
 
 <sect1><title>UDP</title>
 <para>
-It strikes me as logical to start this article with an extremely brief introduction to UDP. At some points it makes sense to compare this with the alternative, TCP.
+It strikes me as logical to start with an extremely brief introduction to UDP. At some points it makes sense to compare this with the alternative, TCP.
 </para>
 
 <para>
@@ -51,7 +51,7 @@ Both UDP and TCP sit on top of the Internet protocol, which handles all the plum
 </para>
 
 <para>
-What is reliability? Well, TCP will hold your hand and ensure for you that every packet you send is recieved by the other machine. It will also ensure that the packets arrive in the right order. There are also some games played with the choice of initial sequence number to make it harder for man in the middle attacks to be successful.
+What is reliability? Well, TCP will hold your hand and ensure for you that every packet you send is received by the other machine. It will also ensure that the packets arrive in the right order. There are also some games played with the choice of initial sequence number to make it harder for man in the middle attacks to be successful.
 </para>
 
 <para>
@@ -59,7 +59,7 @@ UDP is unreliable, which means it does none of this for you. It is the programme
 </para>
 
 <para>
-So why would you ever use UDP? Well, all this reliability in TCP comes at a price. That price is performance. Before a TCP connection is estabilished, the following protocol sequence occurs.
+So why would you ever use UDP? This reliability in TCP comes at a price. That price is performance. Before a TCP connection is established, the following protocol sequence occurs.
 </para>
 
 <graphic format="eps" fileref="gen-tcp-handshake.eps">
@@ -78,7 +78,7 @@ A good example of a common network protocol that uses UDP is the Domain Name Sys
 
 <sidebar><title>DNS and UDP</title>
 <para>
-It should be noted that RFC 1034 <quote>Domain names &mdash; Concepts and Facilties</quote> does specify that TCP can also be used for DNS. In fact, because UDP packets are limited to 512 bytes, TCP has to be used for zone transfers. However, RFC 1035 <quote>Domain Names &mdash; Implementation and Specification</quote>does recommend that normal queries occur via UDP.
+It should be noted that RFC 1034 <quote>Domain names &mdash; Concepts and Facilities</quote> does specify that TCP can also be used for DNS. In fact, because UDP packets are limited to 512 bytes, TCP has to be used for zone transfers. However, RFC 1035 <quote>Domain Names &mdash; Implementation and Specification</quote>does recommend that normal queries occur via UDP.
 </para>
 </sidebar>
 
@@ -96,7 +96,7 @@ int recvfrom(int s, void *buf, size_t len, int flags, struct sockaddr *from, soc
 </programlisting>
 
 <para>
-The <emphasis>struct sockaddr</emphasis> arguement in this function call is populated with enough information for the program to be able to determine where to send the reply packet. The reponse needs to be sent with the <emphasis>sendto</emphasis>(2) call:
+The <emphasis>struct sockaddr</emphasis> argument in this function call is populated with enough information for the program to be able to determine where to send the reply packet. The response needs to be sent with the <emphasis>sendto</emphasis>(2) call:
 </para>
 
 <programlisting>
@@ -104,7 +104,7 @@ int sendto(int s, const void *msg, size_t len, int flags, const struct sockaddr 
 </programlisting>
 
 <para>
-The <emphasis>sendto</emphasis> function call takes another <emphasis>struct sockaddr</emphasis> arguement which specifies where the packet should be sent.
+The <emphasis>sendto</emphasis> function call takes another <emphasis>struct sockaddr</emphasis> argument which specifies where the packet should be sent.
 </para>
 
 <para>
@@ -196,7 +196,7 @@ Let's have a look at this program running. As we can see from the source code, t
 
 <sidebar><title>netcat rocks</title>
 <para>
-<command>netcat</command> rocks. It's a little application which lets you push data to arbitary port numbers using both UDP and TCP. It can also be used to create very simple servers, because <command>netcat</command> can do all the listening for you. For more information, and download details, checkout http://www.atstake.com/research/tools/network_utilities/.
+<command>netcat</command> rocks. It's a little application which lets you push data to arbitrary port numbers using both UDP and TCP. It can also be used to create very simple servers, because <command>netcat</command> can do all the listening for you. For more information, and download details, checkout http://www.atstake.com/research/tools/network_utilities/.
 </para>
 </sidebar>
 
@@ -233,13 +233,13 @@ Read: there
 Reading...</programlisting>
 
 <para>
-There are a couple of things worth noting here. Firstly, the UDP server can handle multiple clients at once in the single process. This is because each packet comes in, and is then responded to &mdash; there is no assumption made that packets come from the same machine. This model works well for the single packet communication paradigm. Secondly, because the server simply waits for a packet, responds, and then starts waiting again, the server survives disconnects from the client, it simply waits until a new packet comes along.
+There are a couple of things worth noting here. Firstly, the UDP server can handle multiple clients at once in the single process. This is because each packet comes in, and is then responded to &mdash; there is no assumption made that packets come from the same machine. This model works well for the single packet communication paradigm. Secondly, since the server simply waits for a packet, responds, and then starts waiting again, the server survives disconnects from the client, it simply waits until a new packet comes along.
 </para>
 </sect2>
 
 <sect2><title>Disconnected sockets and scripting</title>
 <para>
-This article is really about writing useful UDP servers using scripting languages &mdash; specifically <emphasis>bash</emphasis>. In this instance, the disconnected nature of these default UDP sockets causes great pain. This is because there is no trivial way in bash to call <emphasis>recvfrom</emphasis> and <emphasis>sendto</emphasis>. Shell scripts really want to be able to use the standard <emphasis>read</emphasis> and <emphasis>write</emphasis> calls, because these languages are really intended for file and pipe input output, as opposed to socket traffic.
+This article is really about writing useful UDP servers using scripting languages &mdash; specifically <emphasis>bash</emphasis>. In this instance, the disconnected nature of these default UDP sockets causes great pain. This is because there is no trivial way in bash to call <emphasis>recvfrom</emphasis> and <emphasis>sendto</emphasis>. Shell scripts want to be able to use the standard <emphasis>read</emphasis> and <emphasis>write</emphasis> calls, because these languages are intended for file and pipe input output, as opposed to socket traffic.
 </para>
 
 <para>
@@ -352,7 +352,7 @@ int main(int argc, char *argv[]){
 <para><emphasis>Code: disconnexec.c</emphasis></para>
 
 <para>
-All this program does is wait on port 1234 until a connection comes in, forks, and the new child process starts executing the server program (in this case <command>cat</command>). This technique relies on the fact that the child process will share the environment of the parent process, including it's filehandles. These are duplicated to stdin and stdout before the server program starts executing, so that network input goes into stdin, and server output is sent back over the network.
+All this program does is wait on port 1234 until a connection comes in, forks, and the new child process starts executing the server program (in this case <command>cat</command>). This technique relies on the fact that the child process will share the environment of the parent process, including it's file handles. These are duplicated to stdin and stdout before the server program starts executing, so that network input goes into stdin, and server output is sent back over the network.
 </para>
 
 <para>
@@ -481,7 +481,7 @@ I wont include an example of what this program looks like when it runs, because 
 
 <sect2><title>Back to our simple inetd server</title>
 <para>
-You'll recall that a couple of examples ago I showed you the code for a simple <command>inetd</command> server. This example below expands that so that now it uses a connected socket. This example will behave just like the hard coded echo server in the first and third examples in this article (except that the server debugging output doesn't happen any more).
+You'll recall that a couple of examples ago I showed you the code for a simple <command>inetd</command> server. This example below expands on that so it uses a connected socket. This example will behave just like the hard coded echo server in the first and third examples in this article (except that the server debugging output doesn't happen any more).
 </para>
 
 <programlisting>
@@ -593,7 +593,7 @@ The two standard inetd implementations that most people use are called <command>
 </para>
 
 <para>
-It therefore seems logical to me to include some patches to make <command>inetd</command> and <command>xinetd</command> behave in the manner that I would like them to. Afterall, surely if your goal is as noble as implementing a DNS server in shell script, then surely the operating system should be modified to accomodate that?
+It seems logical to me to include some patches to make <command>inetd</command> and <command>xinetd</command> behave in the manner that I would like them to. After all, if our goal is as noble as implementing a DNS server in shell script, then surely the operating system should be modified to accommodate us?
 </para>
 
 <sect3><title>inetd patch</title>
@@ -658,7 +658,7 @@ myecho		1234/udp			# Simple echo example for LJ article</programlisting>
 
 <sidebar><title>Why not echo?</title>
 <para>
-Note that we can't use the name <emphasis>echo</emphasis> for our service because of a couple of reasons: it is already defined in /etc/services; it is an internal service which <command>inetd</command> already offers using the normal port number; and we wanted to define a different port number for the service, without b reaking things which might use the old /etc/services entry.
+Note that we can't use the name <emphasis>echo</emphasis> for our service because of a couple of reasons: it is already defined in /etc/services; it is an internal service which <command>inetd</command> already offers using the normal port number; and we wanted to define a different port number for the service, without breaking things which might use the old /etc/services entry.
 </para>
 </sidebar>
 </listitem>
@@ -667,13 +667,13 @@ Note that we can't use the name <emphasis>echo</emphasis> for our service becaus
 
 <listitem><para>The protocol is UDP.</para></listitem>
 
-<listitem><para><emphasis>nowait</emphasis> is used to indicate that one server should be started per packet, instead of waiting for the previous server to exit. This arguement should always be nowait for TCP servers.</para></listitem>
+<listitem><para><emphasis>nowait</emphasis> is used to indicate that one server should be started per packet, instead of waiting for the previous server to exit. This argument should always be nowait for TCP servers.</para></listitem>
 
 <listitem><para>The server runs as root.</para></listitem>
 
 <listitem><para>The server is located at /bin/cat</para></listitem>
 
-<listitem><para>The server should be started with these arguements. Note that the name of the executable is always the first arguement. Checkout <emphasis>execve</emphasis>(2) for more details.</para></listitem>
+<listitem><para>The server should be started with these arguments. Note that the name of the executable is always the first argument. Checkout <emphasis>execve</emphasis>(2) for more details.</para></listitem>
 </itemizedlist>
 
 
@@ -705,7 +705,7 @@ TODO PATCH
 
 <sect1><title>shdns</title>
 <para>
-This article wouldn't be complete without an example of a UDP shell script to run from <command>inetd</command> or <command>xinetd</command>. It seems obvious to me that something non-trivial is required here. I therefore present for your enjoyment <command>shdns</command>, a DNS server implemented in bash shell script.
+This article wouldn't be complete without an example of a UDP shell script to run from <command>inetd</command> or <command>xinetd</command>. Something non-trivial is required here, so I present for your enjoyment <command>shdns</command>, a DNS server implemented in bash shell script.
 </para>
 
 <sect2><title>The code</title>
@@ -1102,7 +1102,7 @@ exit
 <para><emphasis>Code: shdns</emphasis></para>
 
 <para>
-The <command>shdns</command> implemenation strategy is summarised by the following diagram.
+The <command>shdns</command> implementation strategy is summarized by the following diagram.
 </para>
 
 <graphic format="eps" fileref="gen-shdns-design.eps">
@@ -1112,7 +1112,7 @@ The <command>shdns</command> implemenation strategy is summarised by the followi
 
 <sect1><title>Getting the code from this article</title>
 <para>
-The code for this article is available from my website. Checkout http://www.stillhq.com/extracted/shdns for more information.
+The code for this article is available from my web site. Checkout http://www.stillhq.com/extracted/shdns for more information.
 </para>
 </sect1>
 
