@@ -1,0 +1,43 @@
+jade:/home/kristy/personal/cep/cvs001/meetings/output.sgml:398:6:E: document type does not allow element "SECT3" here
+jade:/home/kristy/personal/cep/cvs001/meetings/output.sgml:501:10:E: character data is not allowed here
+jade:/home/kristy/personal/cep/cvs001/meetings/output.sgml:525:5:E: document type does not allow element "PARA" here; missing one of "FOOTNOTE", "MSGTEXT", "CAUTION", "IMPORTANT", "NOTE", "TIP", "WARNING", "BLOCKQUOTE", "INFORMALEXAMPLE" start-tag
+jade:/home/kristy/personal/cep/cvs001/meetings/output.sgml:531:7:E: end tag for "PARA" omitted, but OMITTAG NO was specified
+jade:/home/kristy/personal/cep/cvs001/meetings/output.sgml:524:0: start tag was here
+jade:/home/kristy/personal/cep/cvs001/meetings/output.sgml:570:5:E: document type does not allow element "PARA" here; missing one of "FOOTNOTE", "MSGTEXT", "CAUTION", "IMPORTANT", "NOTE", "TIP", "WARNING", "BLOCKQUOTE", "INFORMALEXAMPLE" start-tag
+jade:/home/kristy/personal/cep/cvs001/meetings/output.sgml:579:7:E: end tag for "PARA" omitted, but OMITTAG NO was specified
+jade:/home/kristy/personal/cep/cvs001/meetings/output.sgml:569:0: start tag was here
+jade:/home/kristy/personal/cep/cvs001/meetings/output.sgml:583:6:E: document type does not allow element "SECT3" here
+jade:/home/kristy/personal/cep/cvs001/meetings/output.sgml:611:5:E: document type does not allow element "PARA" here; missing one of "FOOTNOTE", "MSGTEXT", "CAUTION", "IMPORTANT", "NOTE", "TIP", "WARNING", "BLOCKQUOTE", "INFORMALEXAMPLE" start-tag
+jade:/home/kristy/personal/cep/cvs001/meetings/output.sgml:620:7:E: end tag for "PARA" omitted, but OMITTAG NO was specified
+jade:/home/kristy/personal/cep/cvs001/meetings/output.sgml:610:0: start tag was here
+jade:/home/kristy/personal/cep/cvs001/meetings/output.sgml:636:10:E: character data is not allowed here
+jade:/home/kristy/personal/cep/cvs001/meetings/output.sgml:660:5:E: document type does not allow element "PARA" here; missing one of "FOOTNOTE", "MSGTEXT", "CAUTION", "IMPORTANT", "NOTE", "TIP", "WARNING", "BLOCKQUOTE", "INFORMALEXAMPLE" start-tag
+jade:/home/kristy/personal/cep/cvs001/meetings/output.sgml:666:7:E: end tag for "PARA" omitted, but OMITTAG NO was specified
+jade:/home/kristy/personal/cep/cvs001/meetings/output.sgml:659:0: start tag was here
+jade:/home/kristy/personal/cep/cvs001/meetings/output.sgml:670:13:E: ID "MEETINGS-WEEK15" already defined
+jade:/home/kristy/personal/cep/cvs001/meetings/output.sgml:489:13: ID "MEETINGS-WEEK15" first defined here
+jade:/home/kristy/personal/cep/cvs001/meetings/output.sgml:682:10:E: character data is not allowed here
+jade:/home/kristy/personal/cep/cvs001/meetings/output.sgml:706:5:E: document type does not allow element "PARA" here; missing one of "FOOTNOTE", "MSGTEXT", "CAUTION", "IMPORTANT", "NOTE", "TIP", "WARNING", "BLOCKQUOTE", "INFORMALEXAMPLE" start-tag
+jade:/home/kristy/personal/cep/cvs001/meetings/output.sgml:712:7:E: end tag for "PARA" omitted, but OMITTAG NO was specified
+jade:/home/kristy/personal/cep/cvs001/meetings/output.sgml:705:0: start tag was here
+jade:/usr/share/sgml/docbook/utils-0.6.9/docbook-utils.dsl:5:73:W: cannot generate system identifier for public text "-//James Clark//DTD DSSSL Style Sheet//EN"
+jade:/usr/share/sgml/docbook/utils-0.6.9/docbook-utils.dsl:15:0:E: reference to entity "STYLE-SHEET" for which no system identifier could be generated
+jade:/usr/share/sgml/docbook/utils-0.6.9/docbook-utils.dsl:5:0: entity was defined here
+jade:/usr/share/sgml/docbook/utils-0.6.9/docbook-utils.dsl:15:0:E: DTD did not contain element declaration for document type name
+jade:/usr/share/sgml/docbook/utils-0.6.9/docbook-utils.dsl:13:1:E: notation "DSSSL" for entity "docbook.dsl" undefined
+jade:/usr/share/sgml/docbook/utils-0.6.9/docbook-utils.dsl:17:12:E: element "STYLE-SHEET" undefined
+jade:/usr/share/sgml/docbook/utils-0.6.9/docbook-utils.dsl:19:26:E: there is no attribute "ID"
+jade:/usr/share/sgml/docbook/utils-0.6.9/docbook-utils.dsl:19:38:E: there is no attribute "USE"
+jade:/usr/share/sgml/docbook/utils-0.6.9/docbook-utils.dsl:19:47:E: element "STYLE-SPECIFICATION" undefined
+jade:/usr/share/sgml/docbook/utils-0.6.9/docbook-utils.dsl:20:29:E: element "STYLE-SPECIFICATION-BODY" undefined
+jade:/usr/share/sgml/docbook/utils-0.6.9/docbook-utils.dsl:32:45:E: element "STYLE-SPECIFICATION" undefined
+jade:/usr/share/sgml/docbook/utils-0.6.9/docbook-utils.dsl:33:29:E: element "STYLE-SPECIFICATION-BODY" undefined
+jade:/usr/share/sgml/docbook/utils-0.6.9/docbook-utils.dsl:68:44:E: element "STYLE-SPECIFICATION" undefined
+jade:/usr/share/sgml/docbook/utils-0.6.9/docbook-utils.dsl:69:29:E: element "STYLE-SPECIFICATION-BODY" undefined
+jade:/usr/share/sgml/docbook/utils-0.6.9/docbook-utils.dsl:113:29:E: there is no attribute "ID"
+jade:/usr/share/sgml/docbook/utils-0.6.9/docbook-utils.dsl:113:48:E: there is no attribute "DOCUMENT"
+jade:/usr/share/sgml/docbook/utils-0.6.9/docbook-utils.dsl:113:61:E: element "EXTERNAL-SPECIFICATION" undefined
+jade:/usr/share/sgml/docbook/utils-0.6.9/docbook-utils.dsl:115:13:E: end tag for "EXTERNAL-SPECIFICATION" omitted, but OMITTAG NO was specified
+jade:/usr/share/sgml/docbook/utils-0.6.9/docbook-utils.dsl:113:2: start tag was here
+jade:E: specification document does not have the DSSSL architecture as a base architecture
+jade:E: no style-specification or external-specification with ID "PRINT"
