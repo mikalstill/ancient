@@ -196,8 +196,6 @@ const cepError cepDataWindower::window( const cepMatrix<double> & dataIn,
 	return const_cast< cepMatrix<double> & >(dataIn).getError();
       if(result.getError().isReal())
 	return result.getError();
-      cepDebugPrint(cepToString(element) + ": " + 
-		    cepToString(result.getValue(element, cepDataset::colDate, win)));
 
       // scale the value
       result.setValue(element, cepDataset::colSample, win, 

@@ -41,6 +41,7 @@
 const long CHUNKALLOC = 10;
 
 const long INVALID = -2000000000;
+const int ADJUST = 10000;
 
 cepPresentation::cepPresentation (long width, long height, cepMatrix<double> *ds, string offset):
   m_width(width + 1),
@@ -166,27 +167,27 @@ cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminva
   plot_setfont(graph, (char *) fontfile.c_str(), fontSize);
 
   if(!m_haveMaxima){
-    m_xmaxval = (unsigned int) (m_ds->getMaxValue(cepDataset::colDate) * 10000);
+    m_xmaxval = (unsigned int) (m_ds->getMaxValue(cepDataset::colDate) * ADJUST);
     if(m_ds->getError().isReal()){
       m_ds->getError().display();
     }
 
-    m_xminval = (unsigned int) (m_ds->getMinValue(cepDataset::colDate) * 10000);
+    m_xminval = (unsigned int) (m_ds->getMinValue(cepDataset::colDate) * ADJUST);
     if(m_ds->getError().isReal()){
       m_ds->getError().display();
     }
 
-    m_ymaxval = (unsigned int) (m_ds->getMaxValue(cepDataset::colSample) * 10000);
+    m_ymaxval = (unsigned int) (m_ds->getMaxValue(cepDataset::colSample) * ADJUST);
     if(m_ds->getError().isReal()){
       m_ds->getError().display();
     }
 
-    m_yminval = (unsigned int) (m_ds->getMinValue(cepDataset::colSample) * 10000);
+    m_yminval = (unsigned int) (m_ds->getMinValue(cepDataset::colSample) * ADJUST);
     if(m_ds->getError().isReal()){
       m_ds->getError().display();
     }
 
-    m_emaxval = (unsigned int) (m_ds->getMaxValue(cepDataset::colError) * 10000);
+    m_emaxval = (unsigned int) (m_ds->getMaxValue(cepDataset::colError) * ADJUST);
     if(m_ds->getError().isReal()){
       m_ds->getError().display();
     }
@@ -254,7 +255,7 @@ cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminva
       plot_endline(graph);
     }
 
-    string gridSpacing = "Grid spacing is " + cepToString(((float) yrange) / 10 / 10000, true);
+    string gridSpacing = "Grid spacing is " + cepToString(((float) yrange) / 10 / ADJUST, true);
     plot_settextlocation(graph, graphInset * 2, graphInset);
     plot_writestring(graph, (char *) gridSpacing.c_str());  
   }
@@ -279,19 +280,19 @@ cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminva
 	  break;
 	}
 
-	long convdate = (long) (m_ds->getValue(i, cepDataset::colDate, tno) * 10000);
+	long convdate = (long) (m_ds->getValue(i, cepDataset::colDate, tno) * ADJUST);
 	if(m_ds->getError().isReal()){
 	  m_ds->getError().display();
 	  break;
 	}
 	
-	long convsample = (long) (m_ds->getValue(i, cepDataset::colSample, tno) * 10000);
+	long convsample = (long) (m_ds->getValue(i, cepDataset::colSample, tno) * ADJUST);
 	if(m_ds->getError().isReal()){
 	  m_ds->getError().display();
 	  break;
 	}
 	
-	long converror = (long) (m_ds->getValue(i, cepDataset::colError, tno) * 10000);
+	long converror = (long) (m_ds->getValue(i, cepDataset::colError, tno) * ADJUST);
 	if(m_ds->getError().isReal()){
 	  m_ds->getError().display();
 	  break;
@@ -363,10 +364,10 @@ cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminva
   plot_endline(graph);
 
   if(m_freqDomain){
-    ltext = cepToString((float) m_xminval / 10000);
+    ltext = cepToString((float) m_xminval / ADJUST);
   }
   else{
-    cepDate startDate((float) m_xminval / 10000);
+    cepDate startDate((float) m_xminval / ADJUST);
     ltext = startDate.getShortDate();
   }
 
@@ -380,10 +381,10 @@ cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminva
   plot_endline(graph);
 
   if(m_freqDomain){
-    ltext = cepToString((float) ((m_xmaxval - m_xminval) / 2 + m_xminval) / 10000);
+    ltext = cepToString((float) ((m_xmaxval - m_xminval) / 2 + m_xminval) / ADJUST);
   }
   else{
-    cepDate midDate((float) ((m_xmaxval - m_xminval) / 2 + m_xminval) / 10000);
+    cepDate midDate((float) ((m_xmaxval - m_xminval) / 2 + m_xminval) / ADJUST);
     ltext = midDate.getShortDate();
   }
 
@@ -400,10 +401,10 @@ cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminva
   plot_endline(graph);
 
   if(m_freqDomain){
-    ltext = cepToString((float) m_xmaxval / 10000);
+    ltext = cepToString((float) m_xmaxval / ADJUST);
   }
   else{
-    cepDate endDate((float) m_xmaxval / 10000);
+    cepDate endDate((float) m_xmaxval / ADJUST);
     ltext = endDate.getShortDate();
   }
   
@@ -420,7 +421,7 @@ cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminva
   plot_endline(graph);
   
   plot_settextlocation(graph, textHeight + 10, m_height - graphInset);
-  plot_writestringrot(graph, (char *) cepToString((float) m_yminval / 10000, true).c_str(), 90);
+  plot_writestringrot(graph, (char *) cepToString((float) m_yminval / ADJUST, true).c_str(), 90);
 
   // Maximum value vertical
   plot_setlinestart(graph, textHeight + 10, graphInset);
@@ -430,9 +431,9 @@ cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminva
 
   plot_settextlocation(graph, textHeight + 10,
 		       plot_stringheight(graph, (char *) 
-					 cepToString((float) m_ymaxval / 10000, true).c_str()) + 
+					 cepToString((float) m_ymaxval / ADJUST, true).c_str()) + 
 		       graphInset);
-  plot_writestringrot(graph, (char *) cepToString((float) m_ymaxval / 10000, true).c_str(), 90);
+  plot_writestringrot(graph, (char *) cepToString((float) m_ymaxval / ADJUST, true).c_str(), 90);
   
   ////////////////////////////////////////////////////////////////////////////////
   // Now draw the actual graph
@@ -458,13 +459,13 @@ cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminva
 	break;
       }
       
-      long convdate = (long) (m_ds->getValue(i, cepDataset::colDate, tno) * 10000);
+      long convdate = (long) (m_ds->getValue(i, cepDataset::colDate, tno) * ADJUST);
       if(m_ds->getError().isReal()){
 	m_ds->getError().display();
 	break;
       }
       
-      long convsample = (long) (m_ds->getValue(i, cepDataset::colSample, tno) * 10000);
+      long convsample = (long) (m_ds->getValue(i, cepDataset::colSample, tno) * ADJUST);
       if(m_ds->getError().isReal()){
 	m_ds->getError().display();
 	break;
@@ -541,8 +542,8 @@ cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminva
     cepDebugPrint("Last point: " + cepToString(xrange * m_b1));
     plot_setlinecolor(graph, m_lsColor.red, m_lsColor.green, m_lsColor.blue);
     
-    unsigned int xintercept = (unsigned int) ((yrange - (m_b2 * 10000) + yminval) / horizScale + graphInset);
-    unsigned int lastpoint = (unsigned int) ((yrange - (xrange * m_b1) + yminval - (m_b2 * 10000)) / 
+    unsigned int xintercept = (unsigned int) ((yrange - (m_b2 * ADJUST) + yminval) / horizScale + graphInset);
+    unsigned int lastpoint = (unsigned int) ((yrange - (xrange * m_b1) + yminval - (m_b2 * ADJUST)) / 
 					     horizScale + graphInset);
     cepDebugPrint("Line of best fit: " + cepToString(xintercept) + ", " + cepToString(lastpoint) +
 		  " (" + cepToString(xrange) + ")");
@@ -553,22 +554,19 @@ cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminva
     plot_strokeline(graph);
     plot_endline(graph);
   }
-  else if(m_freqDomain){
+  else if(m_displayWindow != -1){
+    string windowString;
+    windowString = "Showing window: " + cepToString(m_displayWindow + 1) + " of " + 
+      cepToString(m_ds->getNumTables());
+    plot_settextlocation(graph, graphInset * 2, graphInset * 2);
+    plot_writestring(graph, (char *) windowString.c_str()); 
+  }
+  
+  if(m_freqDomain){
     string freqEnergy = "FFT Mean = " + cepToString(m_e, true);
     plot_settextlocation(graph, graphInset * 2, graphInset * 3);
     plot_writestring(graph, (char *) freqEnergy.c_str()); 
   }
-
-  string windowString;
-  if(m_displayWindow == -1){
-    windowString = "Showing all windows";
-  }
-  else{
-    windowString = "Showing window: " + cepToString(m_displayWindow + 1) + " of " + 
-      cepToString(m_ds->getNumTables());
-  }
-  plot_settextlocation(graph, graphInset * 2, graphInset * 2);
-  plot_writestring(graph, (char *) windowString.c_str()); 
 
   cepDebugPrint("Finishing plotting");
 

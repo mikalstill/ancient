@@ -857,8 +857,6 @@ float cepDataset::getEnergy(direction i){
   return m_e[i];
 }
 
-
-
 const double cepDataset::delim = -255.0;
 
 

@@ -108,6 +108,7 @@ public:
   void OnInterpNaturalSpline (wxCommandEvent& event);
   void OnInterpCubicSpline (wxCommandEvent& event);
   void OnInterpDivided (wxCommandEvent& event);
+  void OnInterpLs (wxCommandEvent& event);
 
   // FFT
   void OnFFT (wxCommandEvent& event);
@@ -126,8 +127,8 @@ private:
   void populateMatP(cepMatrix<double> &matP, const double & toDate, const double &fromDate, 
 		    const double &val, cepMatrix<double> &data);
 
-  void processInterp(const int iType, string desc);
-  void processWindow(const cepWindow wType, string desc);
+  void uiProcessWindow(const cepWindow wType, string desc);
+  void uiProcessInterp(const int iType, string desc);
 
   string m_pngCache[3];
   bool m_dirty;

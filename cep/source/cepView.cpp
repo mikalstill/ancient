@@ -66,10 +66,7 @@
 #include "cepDateUi.h"
 #include "cepMatrixIO.h"
 
-#include "cepLs.h"
-#include "cepInterp.h"
-
-#include "cepCfft.h"
+#include "cepApplicator.h"
 
 #include <stdlib.h>
 #include <unistd.h>
@@ -107,6 +104,7 @@ BEGIN_EVENT_TABLE (cepView, wxView)
   EVT_MENU (CEPMENU_INTERP_NATURALSPLINE, cepView::OnInterpNaturalSpline)
   EVT_MENU (CEPMENU_INTERP_CUBICSPLINE, cepView::OnInterpCubicSpline)
   EVT_MENU (CEPMENU_INTERP_DIVIDED, cepView::OnInterpDivided)
+  EVT_MENU (CEPMENU_INTERP_LS, cepView::OnInterpLs)
   EVT_MENU (CEPMENU_FFT, cepView::OnFFT)
   EVT_MENU (CEPMENU_WINDOWNEXT, cepView::OnNextWindow)
   EVT_MENU (CEPMENU_WINDOWPREV, cepView::OnPrevWindow)
@@ -511,216 +509,58 @@ void cepView::OnToggleZ (wxCommandEvent &pevt)
 // Perform a least squares regression on the dataset (in all directions)
 void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
 {
-  cepMatrix <double> residuals[cepDataset::dirUnknown], data[cepDataset::dirUnknown];
-  double b1s[cepDataset::dirUnknown], b2s[cepDataset::dirUnknown];
-
   cepDoc *theDoc = (cepDoc *) GetDocument ();
   cepDataset *theDataset = theDoc->getDataset ();
-  if (theDataset && theDataset->isReady() && theDataset->isWellFormed())
-    {
-      if(theDataset->getMatrix(cepDataset::dirX)->getNumTables() > 1){
-	cepError err("You cannot zoom on a windowed dataset", cepError::sevErrorRecoverable);
-	err.display();
-	canvas->Refresh();
-	return;
-      }
-      
-      // Prompt for processing options
-      cepLsUi lsUi;
-      lsUi.showIsReweight();
-      
-      // User cancelled
-      if(lsUi.getIsReweight() == -1)
-	return;
-
-      // todo_mikal: remove? lsUi.showWhichDir();
-      
-      // For each direction
-      for(int i = 0; i < cepDataset::dirUnknown; i++)
-	{
-	  cepDebugPrint("Reweighting in the " + cepToString(i) + " direction");
-	  
-	  // All directions are currently processed. The lsUi.getWhichDir (dirNames[i]) call can be used
-	  // to make this optional later (where dirNames are: 'x', 'y', 'z')
-	  cepLs thisLs;
-	  
-	  // Reweight if required
-	  if(lsUi.getIsReweight () == -1)
-	    return;
-
-	  if(lsUi.getIsReweight () == 1)
-	    {
-	      thisLs.cepDoVCV (*theDataset->getMatrix ((cepDataset::direction) i));
-	      if(thisLs.getError().isReal() == true)
-		{
-		  thisLs.getError().display();
-		  return;
-		}  
-	      
-	      residuals[i] = thisLs.getResidual ();
-	      data[i] = thisLs.getDataset();
-	      b1s[i] = thisLs.getB1();
-	      b2s[i] = thisLs.getB2();
-	    }
-	  
-	  // Otherwise, don't reweight
-	  else
-	    {
-	      const char *dirStrings[] = {"x (North)", "y (East)", "z (Up"};
-	      lsUi.showIsReadP (dirStrings[i]);
-	      if(lsUi.getIsReadP () == -1)
-		return;
-
-	      if (lsUi.getIsReadP () == 1)
-		{
-		  lsUi.showGetfNameP ();
-		  if (lsUi.getfNameP () != "")
-		    {
-		      cepMatrix<double> matP;
-		      
-		      matP = cepReadMatrix (lsUi.getfNameP ());
-		      thisLs.cepDoVCV (*theDataset->getMatrix ((cepDataset::direction) i), matP);
-		      if(thisLs.getError().isReal() == true)
-			{
-			  thisLs.getError().display();
-			  return;
-			}
-		      residuals[i] = thisLs.getResidual ();
-		      data[i] = thisLs.getDataset();
-		      b1s[i] = thisLs.getB1();
-		      b2s[i] = thisLs.getB2();
-		    }
-		}
-	      else if (lsUi.getIsReadP () == 0)
-		{
-		  cepMatrix<double> matP((theDataset->getMatrix((cepDataset::direction) i))->
-					 getNumRows(),
-					 (theDataset->getMatrix((cepDataset::direction) i))->
-					 getNumRows());
-		  cepLs thisLs;
-		  
-		  // Init P matrix to 1 on diagonal
-		  for(int j = 0; j < matP.getNumRows(); j ++)
-		    {
-		      for(int k = 0; k < matP.getNumCols(); k ++)
-			{
-			  if(j == k)
-			    {
-			      matP.setValue(j,k,1);
-			    }
-			  else
-			    {
-			      matP.setValue(j,k,0);
-			    }
-			}
-		    }
-		  
-		  lsUi.showWeight((theDataset->getMatrix((cepDataset::direction) i))->
-				  getValue(0,0),
-				  (theDataset->getMatrix((cepDataset::direction) i))->
-				  getValue((theDataset->getMatrix((cepDataset::direction) i))->
-					   getNumRows() -1,0),
-				  1.0);
-		  
-		  double toDate = lsUi.getToDate(),
-		         fromDate = lsUi.getFromDate(),
-		         val = lsUi.getWeight();
-		  bool isDoVCV = lsUi.getDoVCV();
-      while(isDoVCV == false)
-      {
-        if((toDate != -1.0) && (fromDate != -1.0) && (val != -1.0))
-        {
-          populateMatP(matP, toDate, fromDate, val, *theDataset->getMatrix((cepDataset::direction) i));
-        }
-        else
-        {
-          //if user hits cancel
-          return;
-        }
-
-        lsUi.showWeight((theDataset->getMatrix((cepDataset::direction) i))->getValue(0,0),
-                        (theDataset->getMatrix((cepDataset::direction) i))->getValue((theDataset->getMatrix((cepDataset::direction) i))->getNumRows() -1,0),
-                         1.0);
-
-        toDate = lsUi.getToDate();
-        fromDate = lsUi.getFromDate();
-        val = lsUi.getWeight();
-        isDoVCV = lsUi.getDoVCV();
-      }
- 
-	    if(lsUi.getDoVCV())
-	    {
-	      thisLs.cepDoVCV(*theDataset->getMatrix((cepDataset::direction) i), matP);
-	      residuals[i] = thisLs.getResidual ();
-	      data[i] = thisLs.getDataset();
-	      b1s[i] = thisLs.getB1();
-	      b2s[i] = thisLs.getB2();
-	    }
-		}
-	    }
-	}
-        
-      //////////////////////////////////////////////////////////////////////////////////////////
-      // Now we can process the results of the LS regression (this includes popping up a new tab)
-      
-      // Actual data
-      {
-	cepDebugPrint("Creating LS data dataset");
-	cepDataset newds(&data[0], &data[1], &data[2],
-			 theDataset->getOffset((cepDataset::direction) 0), 
-			 theDataset->getOffset((cepDataset::direction) 1), 
-			 theDataset->getOffset((cepDataset::direction) 2),
-			 theDataset->getProcHistory() + " : LS VCV", 
-			 theDataset->getHeader((cepDataset::direction) 0), 
-			 theDataset->getHeader((cepDataset::direction) 1), 
-			 theDataset->getHeader((cepDataset::direction) 2),
-			 b1s[0], b1s[1], b1s[2], b2s[0], b2s[1], b2s[2],
-			 true, true, true);
-	
-	char *cfname = strdup("/tmp/cep.XXXXXX");
-	int fd;
-	fd = mkstemp(cfname);
-	close(fd);
-	
-	string newcfname(string(cfname) + "~" + theDataset->getName());
-	newds.write(newcfname.c_str());
-	
-	wxGetApp().m_docManager->CreateDocument(string(newcfname + ".dat1").c_str(), wxDOC_SILENT);
-	free(cfname);
-      }
-      
-      // Residuals
-      {
-	cepDebugPrint("Creating residuals dataset");
-	cepDataset newds(&residuals[0], &residuals[1], &residuals[2], 
-			 theDataset->getOffset((cepDataset::direction) 0), 
-			 theDataset->getOffset((cepDataset::direction) 1), 
-			 theDataset->getOffset((cepDataset::direction) 2),
-			 theDataset->getProcHistory() + " : LS VCV Residuals", 
-			 theDataset->getHeader((cepDataset::direction) 0), 
-			 theDataset->getHeader((cepDataset::direction) 1), 
-			 theDataset->getHeader((cepDataset::direction) 2));
-	
-	char *cfname = strdup("/tmp/cep.XXXXXX");
-	int fd;
-	fd = mkstemp(cfname);
-	close(fd);
-	
-	string newcfname(string(cfname) + "~" + theDataset->getName());
-	newds.write(newcfname.c_str());
-	
-	wxGetApp().m_docManager->CreateDocument(string(newcfname + ".dat1").c_str(), wxDOC_SILENT);
-	free(cfname);
-      }
-      
-      // Actually force the graphs to redraw
+  if (theDataset && theDataset->isReady() && theDataset->isWellFormed()){
+    // Prompt for processing options
+    cepLsUi lsUi;
+    lsUi.showIsReweight();
+    
+    // User cancelled
+    if(lsUi.getIsReweight() == -1){
       canvas->Refresh();
+      return;
     }
-  else
+    
+    // Reweight if required
+    if(lsUi.getIsReweight () == -1){
+      canvas->Refresh();
+      return;
+    }
+    
+    cepDataset normal;
+    cepDataset residual;
+    //    processLsVCV(theDataset, lsUi.getIsReweight(), normal, residual);
+
+    return;
+
     {
-      cepError("You cannot perform that operation on this dataset at this time", 
-	       cepError::sevInformational).display();
+      char *cfname = strdup("/tmp/cep.XXXXXX");
+      int fd;
+      fd = mkstemp(cfname);
+      close(fd);
+      
+      string newcfname(string(cfname) + "~" + theDataset->getName());
+      normal.write(newcfname.c_str());
+      
+      wxGetApp().m_docManager->CreateDocument(string(newcfname + ".dat1").c_str(), wxDOC_SILENT);
+      free(cfname);
     }
+
+    {
+      char *cfname = strdup("/tmp/cep.XXXXXX");
+      int fd;
+      fd = mkstemp(cfname);
+      close(fd);
+      
+      string newcfname(string(cfname) + "~" + theDataset->getName());
+      residual.write(newcfname.c_str());
+      
+      wxGetApp().m_docManager->CreateDocument(string(newcfname + ".dat1").c_str(), wxDOC_SILENT);
+      free(cfname);
+    }
+  }
+  canvas->Refresh();
 }
 
 void cepView::populateMatP(cepMatrix<double> &matP, const double &toDate, const double &fromDate, 
@@ -745,86 +585,75 @@ void cepView::populateMatP(cepMatrix<double> &matP, const double &toDate, const 
 // Perform a least squares regression on the dataset (in all directions)
 void cepView::OnLeastSquaresRW (wxCommandEvent &pevt)
 {
-  cepLsUi lsUi;
-  cepLs thisLs;
-  const char *dirStrings[] = {"x (North)", "y (East)", "z (Up)"};
-
   cepDoc *theDoc = (cepDoc *) GetDocument ();
   cepDataset *theDataset = theDoc->getDataset ();
-  if (theDataset && theDataset->isReady() && theDataset->isWellFormed())
-  {
-    if(theDataset->getMatrix(cepDataset::dirX)->getNumTables() > 1){
-      cepError err("You cannot zoom on a windowed dataset", cepError::sevErrorRecoverable);
-      err.display();
-      canvas->Refresh();
-      return;
-    }
-
-    lsUi.showWhichDir();
-
-    // For each direction
-    for(int i = 0; i < cepDataset::dirUnknown; i++)
-    {
-      lsUi.showIsReadP (dirStrings[i]);
-      
-      if (lsUi.getIsReadP () == 1)
-        {
-          lsUi.showGetfNameP ();
-          if (lsUi.getfNameP () != "")
-	    {
-	      cepMatrix<double> matP;
-	      
-	      matP = cepReadMatrix (lsUi.getfNameP ());
-	      thisLs.cepDoRW (*theDataset->getMatrix ((cepDataset::direction) i), matP);
-	      //getdata matrix and residual matrix here!!!!!
-	      if(thisLs.getError().isReal() == true)
-		{
-		  thisLs.getError().display();
-		  return;
-		}
-	    }
-        }
-      else
-        {
-          wxMessageBox("The random walk functionality has not been implemented at this time.",
-		       "Sorry", wxOK);
-        }
-    }
+  if (theDataset && theDataset->isReady() && theDataset->isWellFormed()){
+    processLsRW(theDataset);
   }
+  canvas->Refresh();
 }
 
 void cepView::OnWindowBlackman (wxCommandEvent& event)
 {
-  processWindow(cepDataWindower::WINDOW_BLACKMAN, "Blackman Window");
+  uiProcessWindow(cepDataWindower::WINDOW_BLACKMAN, "Blackman Window");
 }
 
 void cepView::OnWindowChebyshev (wxCommandEvent& event)
 {
-  processWindow(cepDataWindower::WINDOW_CHEBYSHEV, "Chebyshev Window");
+  uiProcessWindow(cepDataWindower::WINDOW_CHEBYSHEV, "Chebyshev Window");
 }
 
 void cepView::OnWindowHamming (wxCommandEvent& event)
 {
-  processWindow(cepDataWindower::WINDOW_HAMMING, "Hamming Window");
+  uiProcessWindow(cepDataWindower::WINDOW_HAMMING, "Hamming Window");
 
 }
 
 void cepView::OnWindowHanning (wxCommandEvent& event)
 {
-  processWindow(cepDataWindower::WINDOW_HANNING, "Hanning Window");
+  uiProcessWindow(cepDataWindower::WINDOW_HANNING, "Hanning Window");
 
 }
 
 void cepView::OnWindowRect (wxCommandEvent& event)
 {
-  processWindow(cepDataWindower::WINDOW_RECTANGULAR, "Rect Window");
+  uiProcessWindow(cepDataWindower::WINDOW_RECTANGULAR, "Rect Window");
 }
 
-void
-cepView::processWindow(const cepWindow wType, string desc)
-{
-  cepMatrix<double> windowed[cepDataset::dirUnknown];
+void cepView::uiProcessInterp(const int iType, string desc){
+  cepInterpUi interpUi;
+  
+  cepDoc *theDoc = (cepDoc *) GetDocument ();
+  cepDataset *theDataset = theDoc->getDataset ();
+  if (theDataset && theDataset->isReady() && theDataset->isWellFormed()){
+    interpUi.showSampleRate(1);
+    cepDebugPrint(string("Interp sample rate: ") + cepToString(interpUi.getSampleRate()));
+    if(interpUi.getSampleRate() == -1){
+      canvas->Refresh();
+      return;
+    }
 
+    char *cfname = strdup("/tmp/cep.XXXXXX");
+    int fd;
+    fd = mkstemp(cfname);
+    close(fd);
+    
+    string newcfname(string(cfname) + "~" + theDataset->getName());
+    cepError err = processInterp(theDataset, iType, desc, interpUi.getSampleRate(), newcfname);
+    if(err.isReal()){
+      err.display();
+      canvas->Refresh();
+      return;
+    }
+
+    wxGetApp().m_docManager->CreateDocument(string(newcfname + ".dat1").c_str(), wxDOC_SILENT);
+    free(cfname);
+    
+    canvas->Refresh();
+  }
+}
+
+void cepView::uiProcessWindow(const cepWindow wType, string desc){
   cepDoc *theDoc = (cepDoc *) GetDocument ();
   cepDataset *theDataset = theDoc->getDataset ();
   if (theDataset && theDataset->isReady() && theDataset->isWellFormed()){
@@ -867,51 +696,21 @@ cepView::processWindow(const cepWindow wType, string desc)
             }
         }
     }
-    
-    cepDebugPrint("Set window type");
-    cepDataWindower::setWindowType(wType , windowUi.getSize(), windowUi.getOverlap() );
-    
-    // Now actually window
-    for(int i = 0; i < cepDataset::dirUnknown; i++)
-    {
-      cepDebugPrint("Window: " + cepToString(i));
-      cepError werr = cepDataWindower::window(*theDoc->getDataset()->
-					      getMatrix((cepDataset::direction) i),
-					      windowed[i]);
-      if(werr.isReal()){
-        werr.display();
-	canvas->Refresh();
-        return;
-      }
-      
-      cepDebugPrint("Number of rows: " + cepToString(windowed[i].getNumRows() - 1));
-      if(windowed[i].getValue(windowed[i].getNumRows() - 1, 0, 3) == 0.0){
-	cepError err("Bad value at the end of the window", cepError::sevInformational);
-	err.display();
-	canvas->Refresh();
-	return;
-      }
-    }
-    
-    // Now we can process the results
-    cepDebugPrint("Display results");
-    cepDataset newds(&windowed[0], &windowed[1], &windowed[2], 
-		     theDataset->getOffset((cepDataset::direction) 0), 
-		     theDataset->getOffset((cepDataset::direction) 1), 
-		     theDataset->getOffset((cepDataset::direction) 2),
-		     theDataset->getProcHistory() + " : " + desc, 
-		     theDataset->getHeader((cepDataset::direction) 0), 
-		     theDataset->getHeader((cepDataset::direction) 1), 
-		     theDataset->getHeader((cepDataset::direction) 2));
-    
+
     char *cfname = strdup("/tmp/cep.XXXXXX");
     int fd;
     fd = mkstemp(cfname);
     close(fd);
     
     string newcfname(string(cfname) + "~" + theDataset->getName());
-    newds.write(newcfname.c_str());
-    
+    cepError err = processWindow(theDataset, wType, desc, windowUi.getSize(), windowUi.getOverlap(),
+				 newcfname);
+    if(err.isReal()){
+      err.display();
+      canvas->Refresh();
+      return;
+    }
+
     wxGetApp().m_docManager->CreateDocument(string(newcfname + ".dat1").c_str(), wxDOC_SILENT);
     free(cfname);
     
@@ -921,245 +720,92 @@ cepView::processWindow(const cepWindow wType, string desc)
 }
 
 void cepView::OnInterpNearest (wxCommandEvent& event)
-{
-  processInterp(NEAREST_INTERP, "NN Interp");
+{    
+  uiProcessInterp(NEAREST_INTERP, "NN Interp");
 }
 
 void cepView::OnInterpLinear (wxCommandEvent& event)
 {
-  processInterp(LINEAR_INTERP, "Lin Interp");
+  uiProcessInterp(LINEAR_INTERP, "Lin Interp");
+}
+
+void cepView::OnInterpLs (wxCommandEvent& event)
+{
+  cepDoc *theDoc = (cepDoc *) GetDocument ();
+  cepDataset *theDataset = theDoc->getDataset ();
+  if (theDataset && theDataset->isReady() && theDataset->isWellFormed()){
+    cepInterpUi interpUi;
+    
+    if(!theDataset->getHaveLs(cepDataset::dirX)){
+      cepError err("Please perform a least squares regression first", cepError::sevInformational);
+      err.display();
+      canvas->Refresh();
+      return;
+    }
+    
+    interpUi.showSampleRate(1);
+    cepDebugPrint(string("Interp sample rate: ") + cepToString(interpUi.getSampleRate()));
+    if(interpUi.getSampleRate() == -1){
+      canvas->Refresh();
+      return;
+    }
+    
+    char *cfname = strdup("/tmp/cep.XXXXXX");
+    int fd;
+    fd = mkstemp(cfname);
+    close(fd);
+    
+    string newcfname(string(cfname) + "~" + theDataset->getName());
+    cepError err = processInterpLs(theDataset, interpUi.getSampleRate(), newcfname);
+    if(err.isReal()){
+      err.display();
+      canvas->Refresh();
+      return;
+    }
+    
+    wxGetApp().m_docManager->CreateDocument(string(newcfname + ".dat1").c_str(), wxDOC_SILENT);
+    free(cfname);
+  }
+  canvas->Refresh();
 }
 
 void cepView::OnInterpNaturalSpline (wxCommandEvent& event)
 {
-  processInterp(NATURAL_SPLINE_INTERP, "NS Interp");
+  uiProcessInterp(NATURAL_SPLINE_INTERP, "NS Interp");
 }
 
 void cepView::OnInterpCubicSpline (wxCommandEvent& event)
 {
-  processInterp(CUBIC_SPLINE_INTERP, "CS Interp");
+  uiProcessInterp(CUBIC_SPLINE_INTERP, "CS Interp");
 }
 
 void cepView::OnInterpDivided (wxCommandEvent& event)
 {
-  processInterp(DIVIDED_INTERP, "Div Interp");
-}
-
-void
-cepView::processInterp(const int iType, string desc)
-{
-  cepInterpUi interpUi;
-  cepMatrix<double> interped[cepDataset::dirUnknown];
-
-  cepDoc *theDoc = (cepDoc *) GetDocument ();
-  cepDataset *theDataset = theDoc->getDataset ();
-  if (theDataset && theDataset->isReady() && theDataset->isWellFormed()){
-    interpUi.showSampleRate(1);
-    cepDebugPrint(string("Interp sample rate: ") + cepToString(interpUi.getSampleRate()));
-    if(interpUi.getSampleRate() == -1){
-      return;
-    }
-    
-    for(int i = 0; i < cepDataset::dirUnknown; i++)
-      {
-	cepInterp myInterp;
-	interped[i] = myInterp.doInterp(*theDoc->getDataset ()->getMatrix((cepDataset::direction) i), 
-					interpUi.getSampleRate(), 
-					iType);
-      }
-    
-    // Now we can process the results
-    cepDataset newds(&interped[0], &interped[1], &interped[2], 
-		   theDataset->getOffset((cepDataset::direction) 0), 
-		     theDataset->getOffset((cepDataset::direction) 1), 
-		     theDataset->getOffset((cepDataset::direction) 2),
-		     theDataset->getProcHistory() + " : " + desc, 
-		     theDataset->getHeader((cepDataset::direction) 0), 
-		     theDataset->getHeader((cepDataset::direction) 1), 
-		     theDataset->getHeader((cepDataset::direction) 2));
-    
-    char *cfname = strdup("/tmp/cep.XXXXXX");
-    int fd;
-    fd = mkstemp(cfname);
-    close(fd);
-    
-    string newcfname(string(cfname) + "~" + theDataset->getName());
-    newds.write(newcfname.c_str());
-    
-    wxGetApp().m_docManager->CreateDocument(string(newcfname + ".dat1").c_str(), wxDOC_SILENT);
-    free(cfname);
-    
-    // Actually force the graphs to redraw
-    canvas->Refresh();
-  }
+  uiProcessInterp(DIVIDED_INTERP, "Div Interp");
 }
 
 void cepView::OnFFT (wxCommandEvent& event)
 {
-  cepMatrix<double> ffted[cepDataset::dirUnknown];
-  float energies[cepDataset::dirUnknown];
-    
   cepDoc *theDoc = (cepDoc *) GetDocument ();
   cepDataset *theDataset = theDoc->getDataset ();
   if (theDataset && theDataset->isReady() && theDataset->isWellFormed()){
-    for(int i = 0; i < cepDataset::dirUnknown; i++)
-      {
-	cepDebugPrint("Performing FFT in " + cepToString(i) + " direction");
-
-	// Determine how many items we are going to perform an FFT on
-	// It has to be a power of two
-	cepDebugPrint("Dataset contains " + 
-		      cepToString(theDataset->getMatrix((cepDataset::direction) i)->getNumRows()) +
-		      " elements");
-	int fftScale = theDataset->getMatrix((cepDataset::direction) i)->getNumRows();
-	for (int k = 0;; ++k)
-	  {
-	    // The size is already a power of two
-	    if ((1 << k) == fftScale)
-	      break;
-
-	    // It is not a power of two
-	    if (k == 14 || (1 << k) > fftScale){
-	      // Always go low for now...
-	      fftScale = 1 << (k - 1);
-	      break;
-	    }
-	  }
-
-	if((theDataset->getMatrix((cepDataset::direction) i)->getNumRows() - fftScale) > (fftScale / 2)){
-	  cepDebugPrint("Dataset padded");
-	  fftScale *= 2;
-	}
-
-	cepDebugPrint("FFT applied to " + cepToString(fftScale) + " elements");
-
-	// We need to copy add the data across into complex land...
-	cepMatrix<ComplexDble> input(fftScale,
-				     theDataset->getMatrix((cepDataset::direction) i)->getNumCols(),
-				     theDataset->getMatrix((cepDataset::direction) i)->getNumTables());
-	
-	for(int table = 0;
-	    table < theDataset->getMatrix((cepDataset::direction) i)->getNumTables(); table++){
-	  for(int row = 0; row < fftScale; row++){
-	    for(int col = 0; 
-		col < theDataset->getMatrix((cepDataset::direction) i)->getNumCols(); col++){
-	      // If this entry exists
-	      if(row < theDataset->getMatrix((cepDataset::direction) i)->getNumRows()){
-		input.setValue(row, col, table, theDataset->getMatrix((cepDataset::direction) i)->
-			       getValue(row, col, table));
-		
-		if(theDataset->getMatrix((cepDataset::direction) i)->getError().isReal()){
-		  cepDebugPrint("FFT data conversion, extract from dataset");
-		  theDataset->getMatrix((cepDataset::direction) i)->getError().display();
-		  canvas->Refresh();
-		  return;
-		}
-	      }
-	      else{
-		input.setValue(row, col, table, 0.0);
-	      }
-
-	      if(input.getError().isReal()){
-		cepDebugPrint("FFT data conversion, push to input");
-		input.getError().display();
-		canvas->Refresh();
-		return;
-	      }
-	    }
-	  }
-	}
-
-	// Make a new matrix to put this into
-	ffted[i] = cepMatrix<double> ((fftScale / 2) - 1, 
-				      theDataset->getMatrix((cepDataset::direction) i)->getNumCols(),
-				      theDataset->getMatrix((cepDataset::direction) i)->getNumTables());
-	if(theDataset->getMatrix((cepDataset::direction) i)->getError().isReal()){
-	  cepDebugPrint("Error determining size of FFT output");
-	  theDataset->getMatrix((cepDataset::direction) i)->getError().display();
-	  canvas->Refresh();
-	  return;
-	}
-
-	// Do the FFT on each table
-	for(int table = 0; 
-	    table < theDataset->getMatrix((cepDataset::direction) i)->getNumTables(); table++){
-	  // Setup the FFT
-	  cepCfft<ComplexDble> myFFT(fftScale);
-	  if(myFFT.getError().isReal()){
-	    cepDebugPrint("Error from FFT initialization function");
-	    myFFT.getError().display();
-	    canvas->Refresh();
-	    return;
-	  }
-	  
-	  // Perform the FFT
-	  cepMatrix<ComplexDble> output = myFFT.matrixFft(input, 1);
-	  if(myFFT.getError().isReal()){
-	    cepDebugPrint("Error from FFT calculation function");
-	    myFFT.getError().display();
-	    canvas->Refresh();
-	    return;
-	  }
-	  
-	  // Now we need to get the data back to what we want
-	  cepDebugPrint("The output matrix is " + cepToString(output.getNumRows()) + " x " +
-			cepToString(output.getNumCols()));
-	  for(int row = 0; row < output.getNumRows(); row++){
-	    for(int col = 0; col < output.getNumCols(); col++){
-	      cepDebugPrint("Getting output: row = " + cepToString(row) + " col = " +
-			    cepToString(col));
-	      
-	      // The first row of the FFT output is treated separately...
-	      if((row == 0) && (col == 1) && (table == 0)){
-		energies[i] = real(output.getValue(row, col, table));
-	      }
-	      else{
-		ffted[i].setValue(row - 1, col, table, real(output.getValue(row, col, table)));
-		if(output.getError().isReal()){
-		  cepDebugPrint("FFT data conversion, get output");
-		  output.getError().display();
-		  canvas->Refresh();
-		  return;
-		}
-		
-		if(ffted[i].getError().isReal()){
-		  cepDebugPrint("FFT data conversion, push to new dataset");
-		  ffted[i].getError().display();
-		  canvas->Refresh();
-		  return;
-		}
-	      }
-	    }
-	  }
-	}
-      }
-    
-    // Now we can process the results
-    cepDataset newds(&ffted[0], &ffted[1], &ffted[2], 
-		   theDataset->getOffset((cepDataset::direction) 0), 
-		     theDataset->getOffset((cepDataset::direction) 1), 
-		     theDataset->getOffset((cepDataset::direction) 2),
-		     theDataset->getProcHistory() + " : FFT", 
-		     theDataset->getHeader((cepDataset::direction) 0), 
-		     theDataset->getHeader((cepDataset::direction) 1), 
-		     theDataset->getHeader((cepDataset::direction) 2));
-    newds.setFreqDomain(true);
-    newds.setFreqEnergies(energies[0], energies[1], energies[2]);
-    
     char *cfname = strdup("/tmp/cep.XXXXXX");
     int fd;
     fd = mkstemp(cfname);
     close(fd);
     
     string newcfname(string(cfname) + "~" + theDataset->getName());
-    newds.write(newcfname.c_str());
-    
+    cepError err = processFFT(theDataset, newcfname);
+    if(err.isReal()){
+      err.display();
+      canvas->Refresh();
+      return;
+    }
+
     wxGetApp().m_docManager->CreateDocument(string(newcfname + ".dat1").c_str(), wxDOC_SILENT);
     free(cfname);
-    
-    // Actually force the graphs to redraw
-    canvas->Refresh();
   }
+  canvas->Refresh();
 }
 
 void cepView::OnSelectFont (wxCommandEvent& event)
@@ -1258,9 +904,10 @@ void cepView::OnPrevWindow(wxCommandEvent& event)
     if(m_currentWindow > 0){
       m_currentWindow--;
       m_dirty = true;
-      canvas->Refresh();
     }
   }
+
+  canvas->Refresh();
 }
 
 void cepView::OnNextWindow(wxCommandEvent& event)
@@ -1271,7 +918,8 @@ void cepView::OnNextWindow(wxCommandEvent& event)
     if(m_currentWindow < theDataset->getMatrix(cepDataset::dirX)->getNumTables()){
       m_currentWindow++;
       m_dirty = true;
-      canvas->Refresh();
     }
   }
+
+  canvas->Refresh();
 }

@@ -503,6 +503,9 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
       interp_submenu->Append (CEPMENU_INTERP_DIVIDED, "Newton Divided Difference",
 			      "Newton Divided Difference interpolation", FALSE);
       
+      interp_submenu->Append (CEPMENU_INTERP_LS, "Least Squares",
+			      "Least Squares interpolation", FALSE);
+      
       maths_menu->Append (CEPMENU_INTERP, "Interpolation", interp_submenu,
 			  "Dataset interpolation");
 

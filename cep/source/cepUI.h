@@ -156,8 +156,10 @@ GetMainFrame (void);
 #define CEPMENU_FONTSIZE11 58
 #define CEPMENU_FONTSIZE12 59
 #define CEPMENU_FONTSIZE14 60
-#define CEPBTN_FREQ_SUBMIT 61
-#define CEPBTN_FREQ_CANCEL 62
+#define CEPMENU_INTERP_LS 61
+#define CEPBTN_FREQ_SUBMIT 62
+#define CEPBTN_FREQ_CANCEL 63
+
 extern bool singleWindowMode;     
 
 #endif

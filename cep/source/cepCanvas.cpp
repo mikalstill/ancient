@@ -152,7 +152,7 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
 	startDate = start.getDay() + " " + start.getShortMonthName() + " " + start.getYear();
       }
       else{
-	startDate = cepToString(startExtracted, true) + " Hz";
+	startDate = cepToString(startExtracted, true) + " C/D";
       }
 
       ((cepFrame *) wxGetApp().GetTopWindow())->SetStatusText(startDate.c_str(), 2);
@@ -174,7 +174,7 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
 	sel = string(startDate + " to " + endDate);
       }
       else{
-	sel = cepToString(startExtracted, true) + " Hz to " + cepToString(endExtracted, true) + " Hz";
+	sel = cepToString(startExtracted, true) + " C/D to " + cepToString(endExtracted, true) + " C/D";
       }
 
       ((cepFrame *) wxGetApp().GetTopWindow())->SetStatusText(sel.c_str(), 2);
@@ -305,7 +305,7 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
 	cepToString(yextracted, true);
     }
     else{
-      hover = cepToString(xextracted, true) + " Hz reading " +
+      hover = cepToString(xextracted, true) + " C/D reading " +
 	cepToString(yextracted, true);
     }
 
