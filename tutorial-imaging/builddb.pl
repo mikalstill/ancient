@@ -9,7 +9,9 @@ while(<STDIN>){
     if(/(.*)%([^ \t]*)%(.*)/){
 	print $1;
 	@args = split(/:/, $2);
-	print `$args[0] < $args[1]`;
+	if($args[0] ne "todo"){
+	    print `$args[0] < $args[1]`;
+	}
 	print "$3";
     }
     else{
