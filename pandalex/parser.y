@@ -291,17 +291,28 @@ int yyerror(char *s){
   fprintf(stderr, "  be fixed for the next release...\n\n");
   fprintf(stderr, "version = %s\n", VERSION);
 
-  //  fprintf(stderr, "last token = \"%s\" (%d) or %d\n", yylval.sval.data, yylval.sval.len, yylval.intVal);
-  fprintf(stderr, "Last token matched was:\n  ");
-  for(i = 0; i < ((yylval.sval.len == -1) ? strlen(yylval.sval.data) : yylval.sval.len); i++){
-    if(yylval.sval.data[i] == '\n') fprintf(stderr, " \\n " );
-    else if(yylval.sval.data[i] == '\t') fprintf(stderr, " \\t ");
-    else if(yylval.sval.data[i] == '\r') fprintf(stderr, " \\r ");
-    else if(yylval.sval.data[i] == ' ') fprintf(stderr, " sp ");
-    else if(isprint(yylval.sval.data[i])) fprintf(stderr, "%c", yylval.sval.data[i]);
-    else fprintf(stderr, " \\%d ", (unsigned char) yylval.sval.data[i]);
+  // This only works if the matched token was a SVAL, which is all of the except for
+  // INT. If the last token was an INT, then a segmentation fault occured before I made
+  // this pretty...
+  fprintf(stderr, "yychar = %d (INT is %d)\n", yychar, INT);
+
+  fprintf(stderr, "Last token matched was: ");
+  if(yychar == INT){
+    printf("%d\n", yylval.intVal);
+  }
+  else{
+    printf("  \"");
+    for(i = 0; i < ((yylval.sval.len == -1) ? strlen(yylval.sval.data) : yylval.sval.len); 
+	i++){
+      if(yylval.sval.data[i] == '\n') fprintf(stderr, " \\n " );
+      else if(yylval.sval.data[i] == '\t') fprintf(stderr, " \\t ");
+      else if(yylval.sval.data[i] == '\r') fprintf(stderr, " \\r ");
+      else if(yylval.sval.data[i] == ' ') fprintf(stderr, " sp ");
+      else if(isprint(yylval.sval.data[i])) fprintf(stderr, "%c", yylval.sval.data[i]);
+      else fprintf(stderr, " \\%d ", (unsigned char) yylval.sval.data[i]);
     }
-  fprintf(stderr, "\"\n");
+    fprintf(stderr, "\"\n");
+  }
 
   fprintf(stderr, "\n---------------------------------------------------------------\n");
 
