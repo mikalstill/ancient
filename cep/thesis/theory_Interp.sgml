@@ -62,7 +62,7 @@
   <sect3><title>Nearest Neighbour Interpolation</title>
   <para>
     Nearest neighbour interpolation is the simplest method provided. This method
-    simply sets the value of any new point to the value of the nearest point on the
+    sets the value of any new point to the value of the nearest point on the
     original dataset.  The advantage of this is that any added points will be of
     the same approximate value as nearby points. There are a number of disadvantages
     with nearest neighbour approximation.  Firstly, any new points will not follow
@@ -74,7 +74,7 @@
 
   <sect3><title>Linear Interpolation</title>
   <para>
-    Linear interpolation is widely used as it is simple yet
+    Linear interpolation is widely used as it is simple, yet
     generally produces better results than nearest neighbour.  In this interpolation method,
     each new point is placed on a line between the two adjacent points.
     The Equation for adding a new point is:
@@ -85,9 +85,9 @@
   </equation>
 
   <para>
-    Linear interpolation has several advantages.  Firstly each added point has a
+    Linear interpolation has several advantages.  Firstly, each added point has a
     value that is approximately the same as nearby value thus obtaining values significantly out of range
-    are very rare. Secondly the added point will follow any local
+    are very rare. Secondly, the added point will follow any local
     linear trends between the two points. The disadvantages of linear interpolation stem from the interpolation method only working
     with the two adjacent points. If the line between these two points does not follow
     the overall trend of the data then loss of accuracy occurs.
@@ -161,7 +161,8 @@
 
   <sect3><title>Natural Spline Interpolation</title>
   <para>
-    Natural splines are a type of cubic spline, originating in ancient times when drafts-men and builders
+    Natural splines are a type of cubic spline, originating in ancient  times, that is before the birth of Christ, when 
+    drafts-men and builders
     would create a smooth curve by pegging a flexible piece of wood between a number of points.
     As with all cubic spline implementations, the interpolation is achieved by inserting a cubic between
     each two adjacent points. Equalising the derivatives has the effect of making the resulting

@@ -19,8 +19,8 @@
       this could
       not be used. A second attempt was made using a window generated in the frequency domain, using code based on the original 
       1947 paper
-      by Dolph. This algorithm only supported odd window sizes, and the implementation of the IFFT library contained in the 
-      <command>GDMS</command> required that its window size be  2<superscript>n</superscript>.
+      by Dolph. This algorithm, however, only supported odd window sizes, and the implementation of the IFFT library contained in the 
+      <command>GDMS</command> required that its window size be  2<superscript>n</superscript> and thus this algorithm had to be discarded.
       The final algorithm that was implemented is based on FORTRAN code published in 1977 by
       IEEE Acoustics, Speech, and Signal Processing Society,
     </para>
@@ -49,11 +49,11 @@
     of Chebyshev, the most expensive calculation involves two cosine and four multiplication operations. Since the size of the 
     windows used
     tend to be small this is a relatively insignificant overhead. Dolph-Chebyshev is a little different, as this window is
-    calculated in the Fourier domain, the transformed into the time domain via an IFFT it is computationally more expensive. 
+    calculated in the Fourier domain, then transformed into the time domain via an IFFT it is computationally more expensive. 
     In order to support the flexibility of the windowing
     subsystem, this algorithm implements its own IFFT. Due to the small size of the window used, however, this cost is minimal. In
     fact, it is more than offset by the increase in flexibility and confidence in the integrity of the algorithm.
-    In order to address performance concerns and to speed up the process as a whole, the number of calculations performed in this 
+    To address performance concerns and to speed up the process as a whole, the number of calculations performed in this 
     subsystem has
     been carefully considered and recalculation of the coefficients is only performed when it is unavoidable.
    </para>
@@ -65,10 +65,10 @@
  <para>
    The set of algorithms supplied in this release is by no means exhaustive. There are some notable absences, such as the Kaiser
    window, which would be a valuable addition to the <command>GDMS</command>. Due to the flexible design of this
-   subsystem, addition of another algorithm can be achieved at minimal expense and is encouraged.
+   subsystem, the addition of another algorithm can be achieved at minimal expense and is encouraged.
    Another avenue which might be explored with regard to enhancements would be the simplification and optimisation of the
-   Dolph-Chebyshev algorithm. This was a port of a FORTRAN function and was implemented faithfully with maintenance of
-   data integrity a primary concern. This algorithm uses an inverse Fourier transform internally and for windows of significant
+   Dolph-Chebyshev algorithm. This was a port of a FORTRAN function and was implemented faithfully as maintenance of
+   data integrity the primary concern. This algorithm uses an inverse Fourier transform internally and for windows of significant
    size this could prove to be expensive. Optimisation of this might prove to be beneficial if window sizes are becoming large.
  </para>
 

@@ -23,7 +23,7 @@
   
   <equation>
     <title>Square Wave</title>
-    <execute><cmd>img</cmd><args>square.bmp</args></execute>
+    <execute><cmd>eqimg</cmd><args>square.bmp</args></execute>
   </equation>
 	
   for all odd harmonics. Where <command>f</command> is the fundamental frequency.
@@ -47,7 +47,7 @@
 
 <para>  
   The above transforms are not, however, available for all sequences <command>x</command>(<command>n</command>). This is due to the
-  fact that the basic Fourier transform is not reliable for signal sampled at discrete time 
+  fact that the basic Fourier transform is not reliable for signals sampled at discrete time 
   interval as it is designed for use with with continuous signals (Lepple 2000). In addition, this set of equations is not guaranteed
   to converge for all  <command>x</command>(<command>n</command>). To remedy this, the Discrete Fourier transform (DFT) is often
   used, thus enabling the transformation of a discrete signal and guaranteeing convergence. This is achieved restricting the 
@@ -184,7 +184,6 @@
 
 <sect2><title>Conclusion</title>
   <para>
-    This sectioned has provided a brief discussion on frequency domain analysis, including the theory and and some applications. 
     Frequency domain analysis is a very useful tool for time series analysis. It enables us, for instance to see information not 
     easily detectable in the time domain. Frequency trends and noise can also be identified in the data. This includes the 
     detection of Random Walk though periodicity, and white noise that are represented as frequency spikes. It addition, we have seen 

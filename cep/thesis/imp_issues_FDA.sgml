@@ -39,7 +39,7 @@
   <sect3><title>Implementation</title>
      <para>
        The FFT class could not be integrated without modifications. Firstly, there was an issue with the sign of the Fourier 
-       transform. This refers to the FFT theory section of this document where the standard Fourier formulae were discussed (SEE FD THEORY). 
+       transform. This refers to the FFT theory section of this document where the standard Fourier formulae were discussed. 
        The original FFT algorithm operated contrary to this standard and it produced incorrect results. Specifically, the algorithm
        implemented used the opposite signs for forward and inverse transforms. To overcome this problem, the algorithm needed to be
        modified such that it return the conjugate of what it originally computed, thereby producing the correct results. This problem 
@@ -48,12 +48,12 @@
     </para>
 
     <para>
-      Another problem integration problem occurred because of the way in which the original template class deals with data 
+      Another integration problem occurred because of the way in which the original template class deals with data 
       structures. Firstly, the class computes FFTs on and returns an array of data, where as <command>GDMS</command> uses matrices
       to pass data from class to class and thus it needed to be modified to accept this data type. Another change that was required
       was that the FFT library needed to modified to calculate a frequency scale in order to enable PSD plots to be graphed. 
       To calculate this scale, the FFT class first determine the sampling rate of the data. This is achieved by examining the distances
-      between consecutive sample dates, sampling rate is simply being the distance between two dates multiplied by the number of days in a year.
+      between consecutive sample dates, the sampling rate simply being the distance between them multiplied by the number of days in a year.
       This implementation, however, assumes that the data is regular and in fact, functionality in the FFT class has been 
       implemented to prevent the transformation of irregular data. The period used for the sample rate calculation is one day. 
       The frequency is then calculated by taking the inverse of the sample rate and is measured in cycles/day.

@@ -3,8 +3,8 @@
 <para>
   The GDMS packages offers a suite of time series analysis tools intended for the processing of data from various geodetic sources.
   The package was designed and implemented to be as flexible and platform independent as possible given the time constraints
-  under which the group was working. We aimed to provide a package which would complement and enhance currently available analysis
-  tools. This involved providing time domain analysis, frequency domain analysis, windowing and interpolation functionality.
+  under which the group were working. We aimed to provide a package which would complement and enhance currently available analysis
+  tools. This involved providing both time and frequency domain analysis, windowing and interpolation functionality.
   The loose object oriented design provides the <command>GDMS</command> with a great deal of flexibility and extensibility. The 
   documentation provides both users and developers with an understanding of how the system was constructed facilitating any
   changes that may be desired.
@@ -16,13 +16,14 @@
   started with a broad requirements description, which were refined as much as possible in the early stages of the project, however, 
   many were undiscovered until much later in the development process, leading to the delay in completion of many of the mathematical
   modules due to their complexity. In order for the application to be considered <emphasis>useful</emphasis>, it was essential to
-  implement as much as possible and as the deadline drew near, we assessed and implemented the most important functionality for the
+  implement as much functionality as possible yet as the deadline drew near, we were required to assess and implemented the most 
+  important functionality for the
   application. This was largely a role that Professor Peter Morgan played, being the key consultant in project.
   
 </para>
 
 <para>
-  A number of valuable lessons have been learned from the <command>GDMS</command> development process, not all of which relate directly
+  A number of valuable lessons have been learnt from the <command>GDMS</command> development process, not all of which relate directly
   to application development itself. That which we consider to be the most critical lesson here, is planning. As previously mentioned,
    the original requirements were broad and did not cover many of the finer details required. It was during our initial requirements
    definition process, that we should have sought to discover as much as possible about exactly what was involved
@@ -30,15 +31,15 @@
    considered at least enough to proceed, yet perhaps not quite enough to foresee these finer specification details.
    A more comprehensive requirements definition phase in this project would quite likely have reduced the number of
    problems that arose later, with missing or incorrect functionality.
-   Programming in a Linux envrionment, for the duration of the project, has also provided us with an opportuniy to expand our knowledge
+   Programming in a Linux environment, for the duration of the project, has also provided us with an opportunity to expand our knowledge
    base. We have also furthered our experience in C++ object orient design. Furthermore, our knowledge of geodetic data 
-   analysis and processing has benifited, not only in terms of the theory and processes involved, but also the background, 
+   analysis and processing has benefited, not only in terms of the theory and processes involved, but also the background, 
    applications and its significance to geodetic community.
 </para>
 
 <para>
   From the very beginning, the <command>GDMS</command> was always intended to be an evolving system and it was not our goal to provide
-  a definitive time series analysis package. What we have porvided, however, is both a fully functional system that complements and
+  a definitive time series analysis package. What we have provided, however, is both a fully functional system that complements and
   expands upon existing data analysis application, as well as one which can be further built upon. The project has also
   served to enhance our knowledge of system software design and implementation. In addition, we have gained valuable experience in the
   area of time series analysis. As we have achieved our stated objectives, we feel that the project has been a success.

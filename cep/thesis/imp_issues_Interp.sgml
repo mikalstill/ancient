@@ -16,7 +16,7 @@
     <para>
       At the start of this project we were given the requirement that the package
       support a number of different interpolation algorithms. There are hundreds,
-      if not thousands of different interpolation algorithms available, each with
+      if not thousands, of different interpolation algorithms available, each with
       their own strengths and weaknesses. As it was not possible to implement them all we needed to pick a set of algorithms
       that would work with discrete datasets and provide sufficient results with given dataset. 
       In order to narrow the complexity of our task, we chose to implement the interpolation methods
@@ -24,7 +24,7 @@
     </para>
     <para>
       Nearest neighbour and linear interpolation are the two basic interpolation
-      methods included in the package.  They were included as a fail safe in
+      methods included in the package.  They were included in
       case the more elaborate methods failed on a particular dataset.
     </para>
     <para>
@@ -210,7 +210,7 @@ end for
     Newton divided differences builds a table of divided differences and
     then uses this table to generate a polynomial representation of the data.
     To increase the accuracy of the results, this implementation also
-    tracks the error of the equation and limits the error to get the best
+    tracks the error of the equation limits them to achieve best
     results. Error limitation is calculated by limiting the order of the divided
     difference table when the error term starts growing.
   </para>
