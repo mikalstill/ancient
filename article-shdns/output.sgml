@@ -14,11 +14,11 @@ Michael has a web site at http://www.stillhq.com.
 
 <sect1><title>Introduction</title>
 <para>
-This article is about two things. The main focus of the article is to discuss how to write useful UDP servers in a common scripting language such as bash. The other, more minor, focus of the article is to give a brief tutorial on the differences between disconnected and connected sockets.
+This conference paper is about two things. The main focus of the paper is to discuss how to write useful UDP servers in a common scripting language such as bash. The other, more minor, focus of the paper is to give a brief tutorial on the differences between disconnected and connected sockets.
 </para>
 
 <para>
-In this article I assume that you have a working knowledge of both bash scripting and C programming. If you don't then hopefully you'll still get something out of the article, but you might have to skip bits which are too technical.
+In this paper I assume that you have a working knowledge of both bash scripting and C programming. If you don't then hopefully you'll still get something out of the paper, but you might have to skip bits which are too technical.
 </para>
 </sect1>
 
@@ -59,7 +59,7 @@ UDP is unreliable, which means it does none of this for you. It is the programme
 </para>
 
 <para>
-So why would you ever use UDP? This reliability in TCP comes at a price. That price is performance. Before a TCP connection is established, the following protocol sequence occurs.
+So why would you ever use UDP? This reliability in TCP comes at a price. That price is performance. Before a TCP connection is established, the following protocol sequence occurs:
 </para>
 
 <graphic format="eps" fileref="gen-tcp-handshake.eps">
@@ -83,7 +83,7 @@ It should be noted that RFC 1034 <quote>Domain names &mdash; Concepts and Facili
 </sidebar>
 
 <para>
-See the further reading section at the end of the this article for recommendations of places to read more about UDP, IP, and DNS.
+See the further reading section at the end of the this paper for recommendations of places to read more about UDP, IP, and DNS.
 </para>
 
 <sect2><title>Disconnected sockets</title>
@@ -92,7 +92,10 @@ By default when a UDP socket is created, it is disconnected. What's a disconnect
 </para>
 
 <programlisting>
-int recvfrom(int s, void *buf, size_t len, int flags, struct sockaddr *from, socklen_t *fromlen);
+int recvfrom(int s, void *buf, 
+             size_t len, int flags, 
+             struct sockaddr *from, 
+             socklen_t *fromlen);
 </programlisting>
 
 <para>
@@ -100,7 +103,12 @@ The <emphasis>struct sockaddr</emphasis> argument in this function call is popul
 </para>
 
 <programlisting>
-int sendto(int s, const void *msg, size_t len, int flags, const struct sockaddr *to, socklen_t tolen);
+int sendto(int s, 
+           const void *msg, 
+           size_t len, 
+           int flags, 
+           const struct sockaddr *to, 
+           socklen_t tolen);
 </programlisting>
 
 <para>
@@ -235,7 +243,7 @@ There are a couple of things worth noting here. Firstly, the UDP server can hand
 
 <sect2><title>Disconnected sockets and scripting</title>
 <para>
-This article is really about writing useful UDP servers using scripting languages &mdash; specifically <emphasis>bash</emphasis>. In this instance, the disconnected nature of these default UDP sockets causes great pain. This is because there is no trivial way in bash to call <emphasis>recvfrom</emphasis> and <emphasis>sendto</emphasis>. Shell scripts want to be able to use the standard <emphasis>read</emphasis> and <emphasis>write</emphasis> calls, because these languages are intended for file and pipe input output, as opposed to socket traffic.
+This paper is really about writing useful UDP servers using scripting languages &mdash; specifically <emphasis>bash</emphasis>. In this instance, the disconnected nature of these default UDP sockets causes great pain. This is because there is no trivial way in bash to call <emphasis>recvfrom</emphasis> and <emphasis>sendto</emphasis>. Shell scripts want to be able to use the standard <emphasis>read</emphasis> and <emphasis>write</emphasis> calls, because these languages are intended for file and pipe input output, as opposed to socket traffic.
 </para>
 
 <para>
@@ -252,12 +260,12 @@ Many developers write network servers which are intended to be run by <command>i
 </para>
 
 <para>
-Please bear in mind that <command>inetd</command> and <command>xinetd</command> are very configurable, and this is only a general description. There is a brief discussion on how to configure <command>inetd</command> and <command>xinetd</command> later in this article. You should refer to the relevant documentation for more information.
+Please bear in mind that <command>inetd</command> and <command>xinetd</command> are very configurable, and this is only a general description. There is a brief discussion on how to configure <command>inetd</command> and <command>xinetd</command> later in this paper. You should refer to the relevant documentation for more information.
 </para>
 </sidebar>
 
 <para>
-This is a particularly useful example, because our shell scripts are eventually going to run from <command>inetd</command>, so having an understanding of how it works is very useful...
+This is a particularly useful example, because our shell scripts are eventually going to run from <command>inetd</command>, so having an understanding of how it works is opportune.
 </para>
 
 <programlisting>
@@ -478,7 +486,7 @@ I wont include an example of what this program looks like when it runs, because 
 
 <sect2><title>Back to our simple inetd server</title>
 <para>
-You'll recall that a couple of examples ago I showed you the code for a simple <command>inetd</command> server. This example below expands on that so it uses a connected socket. This example will behave just like the hard coded echo server in the first and third examples in this article (except that the server debugging output doesn't happen any more).
+You'll recall that a couple of examples ago I showed you the code for a simple <command>inetd</command> server. This example below expands on that so it uses a connected socket. This example will behave just like the hard coded echo server in the first and third examples in this paper (except that the server debugging output doesn't happen any more).
 </para>
 
 <programlisting>
@@ -587,7 +595,7 @@ The two standard inetd implementations that most people use are called <command>
 </para>
 
 <para>
-It seems logical to me to include a patch to make <command>inetd</command> behave in the manner that I would like it to. After all, if our goal is as noble as implementing a DNS server in shell script, then surely the operating system should be modified to accommodate us?
+It seems logical to me to include a patch to make <command>inetd</command> behave in the manner that I would like it to. After all, if our goal is as noble as implementing a server in shell script, then surely the operating system should be modified to accommodate us?
 </para>
 
 <sect3><title>inetd patch</title>
@@ -715,7 +723,7 @@ You should also note that on Red Hat systems, services are often configured with
 
 <sect1><title>shdns</title>
 <para>
-This article wouldn't be complete without an example of a UDP shell script to run from <command>inetd</command> or <command>xinetd</command>. Something non-trivial is required here, so I present for your enjoyment <command>shdns</command>, a DNS server implemented in bash shell script.
+This paper wouldn't be complete without an example of a UDP shell script to run from <command>inetd</command> or <command>xinetd</command>. Something non-trivial is required here, so I present for your enjoyment <command>shdns</command>, a DNS server implemented in bash shell script.
 </para>
 
 <sect2><title>The code</title>
@@ -1147,7 +1155,7 @@ You also need a <command>usleep</command> on your path. I couldn't find a Debian
 
 <sect1><title>Further reading</title>
 <para>
-The following is a list of reading I found useful whilst working on this article. If you're interested in this topic area and want to learn more, then starting with this list might be helpful.
+The following is a list of reading I found useful whilst working on this paper. If you're interested in this topic area and want to learn more, then starting with this list might be helpful.
 </para>
 
 <itemizedlist>

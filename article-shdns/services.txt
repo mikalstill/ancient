@@ -1,1 +1,1 @@
-myecho		1234/udp			# Simple echo example for LJ article
+myecho		1234/udp			# Simple echo example for LCA 2004 paper
