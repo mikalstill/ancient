@@ -280,6 +280,9 @@ template < class T > cepMatrix < ComplexDble > cepCfft <
 
   ComplexDble arrayToFft[arraySize];
   cepMatrix < ComplexDble > ffteedMatrix (numRows, numCols, numTables);	//matrix contain to store processed values
+  if (ffteedMatrix.getError().isReal())
+  	ffteedMatrix.getError();
+
 
   if (dir == 1)			//Forward,  calculate scale
     {
@@ -353,9 +356,8 @@ template < class T > cepMatrix < ComplexDble > cepCfft <
 	      //populate ffteedMatrix with magnitude
 	      if (col == 1)	//if we are looking at a data value
 		//calculate the magnitude
-		tempValue =
-		  pow (real (arrayToFft[row]),
-		       2) + pow (imag (arrayToFft[row]), 2);
+		tempValue = pow (real (arrayToFft[row]),2) + pow (imag (arrayToFft[row]), 2);
+		//tempValue = arrayToFft[row]; //raw complex FFT results
 	      else		//we are looking at the error or the last coloumn
 		//just copy the old value into the new matrix.
 		tempValue = matrix.getValue (row, col, table);
