@@ -1,0 +1,293 @@
+<!--these sections will sit under sect1 - Implementation Issues-->
+
+<sect2><title>Interpolation</title>
+
+  <sect3><title>Introduction</title>
+  <para>
+    Within GDMS several different interpolation algorithms have been implemented.
+    These methods include nearest neighbour, linear, natural spline, cubic spline,
+    and Newton divided differences interpolation.  These methods were build to
+    remove gaps in the dataset without damaging the original integrity
+    of the data.
+  </para>
+  </sect3> <!--Introduction-->
+
+  <sect3><title>Research</title>
+    <para>
+      At the start of this project we were given the requirement that the package
+      support a number of different interpolation algorithms. There are hundreds,
+      if not thousands, of different interpolation algorithms available, each with
+      their own strengths and weaknesses. As it was not possible to implement them all we needed to pick a set of algorithms
+      that would work with discrete datasets and provide sufficient results with given dataset. 
+      In order to narrow the complexity of our task, we chose to implement the interpolation methods
+      available within MATLAB as it is a commercial package designed to work with a large range of datasets.
+    </para>
+    <para>
+      Nearest neighbour and linear interpolation are the two basic interpolation
+      methods included in the package.  They were included in
+      case the more elaborate methods failed on a particular dataset.
+    </para>
+    <para>
+      Spline interpolation is very popular method as the smooth curve it produces
+      is usually aesthetically pleasing. Many different types of spline are available,
+      although most are unsuitable for this type of data analysis. B splines and their derivatives, for example, are undesirable
+      as the resulting dataset may not pass through the initial set of points.
+      Cubic splines were chosen because the resulting curve is always guaranteed to pass through each point in the
+      original datasets.  
+    </para>
+    
+    <para>  
+      As cubic spline are known to be inaccurate near the end points
+      two different types of splines have been included.  The first is natural splines which tend
+      to be too straight near to the end points. Conversely, the other cubic spline implementation trends
+      too curved near the end points.  On large data sets (i.e. more than 1000 points), however, both method should converge to the
+      same result.
+    </para>
+    <para>
+      Newton divided difference interpolation uses a divided difference table to provide
+      a polynomial estimate of a dataset.  Divided difference can produce extremely
+      accurate results when approximating curves derived from a polynomial.
+    </para>
+  </sect3> <!--research-->
+
+  <sect3><title>Implementation</title>
+    <para>
+      The interpolation methods for this program were implemented within a class
+      called <command>cepInterp</command> and share a common accessor method, <command>doInterp</command>. The required
+      information require to be passed to <command>doInterp</command> is the original dataset, the sample rate and
+      the type of interpolation. <command>DoInterp</command> then converts the given data set to Julian days and generates
+      a new time scale before calling the individual interpolation methods.
+    </para>
+  <sect4><title>Nearest Neighbour Interpolation</title>
+    <para>
+      New points added to the dataset are set equal to the nearest point in the original dataset.
+    </para>
+    <para>
+      The algorithm used for nearest neighbour is:
+    </para>
+<programlisting>
+Imports:
+   Input Dataset: Original set of points
+   Output Dataset: New dataset containing only the time locations of points
+Exports:
+   Output Dataset: Now full of data
+
+For each point in the new dataset
+   if within the bounds of original time line
+      if a point exists in the input dataset at same time
+         Output dataset point = input dataset point
+      else
+         set point equal to nearest point
+      end inner if statement
+   else
+      generate extrapolation error and exit function
+   end outer if statement
+end for
+</programlisting>
+  </sect4>
+  <sect4><title>Linear Interpolation</title>
+  <para>
+    The new that points added to the dataset in this method are positioned on straight lines directly between the
+    nearest two points.
+  </para>
+  <para>
+    The algorithm for this is:
+  </para>
+<programlisting>
+Imports:
+   Input: Original set of points
+   Output: New dataset containing only the time locations of points
+Exports:
+   Output: Now full of data
+
+For each point in the new dataset(i)
+   if within the bound of original time line
+      if a point exists in the input dataset at same time
+         Output dataset point = input dataset point
+      else
+         Output(i,value) = (input(pos+1,value)-input(pos,value)/
+                           (input(pos+1,time)-input(pos,time)
+      end inner if
+   else
+      generate extrapolation error and exit function
+   end out if
+end for
+</programlisting>
+  </sect4>
+  <sect4><title>Natural Spline Interpolation</title>
+  <para>
+    This method determines the value of new points by running a natural spline through
+    the dataset.  Adjacent points are joined by cubics and the the first
+    and second derivatives of adjacent cubics are matched to get a smooth
+    curve.
+  </para>
+  <para>
+    The algorithm for this is:
+  </para>
+<programlisting>
+Imports:
+   Input: Original set of points (obs, 4)
+   Output: New dataset containing only the time
+           locations of points (newobs, 4)
+Exports:
+   Output: Now full of data
+
+let n = size(input) -1
+
+// Have to Fit equation y = a(x-x<subscript>0</subscript>)<superscript>3</superscript>+b(x-x<subscript>0</subscript>)<superscript>2</superscript>+c(x-x<subscript>0</subscript>)+d
+
+create arrays of length n for a,b,c and d
+
+create array of length n called h // for holding differences
+for i = 0 to n-1
+  h(i) = input(i+1,date)-input(i,date)
+  d(i) = input(i,value)
+end for
+
+// Create array to hold second derivatives
+create an array of length n + 1 called S
+
+Set the first and last values of S equal to 0
+// initialise the middle value of S
+For i = 1 to n - 1
+  S(i) = 6*((input(i+1,value)-input(i,value))/h(i) -
+            (input(i,value)-input(i-1,value))/h(i-1))
+end for
+
+// create matrix for transitional values
+create a n-1 by n-1 matrix called t
+
+// initialise t
+// Starting from all values = zero
+//first row of t
+t(0,0) = 2*(h(0)+h(1))
+t(0,1) = h(1)
+//middle of t
+For i = 1 to n -3
+  h(i,i-1) = h(i)
+  h(i,i) = 2*(h(i)+h(i+1)
+  h(i,i+1) = h(i+1)
+end for
+t(n-2,n-3) = h(n-2)
+t(n-2,n-2) = 2*(h(n-2)+h(n-1))
+
+Augment t with the middle n-1 rows and then row reduce
+this gives correct value for the middle n-1 values of s
+
+// get values of a,b,c
+For i = 0 to n-1
+  a(i) = (S(i+1) - S(i))/(6*h(i))
+  b(i) = S(i)/2
+  c(i) = (input(i+1,value)-input(i,value))/h(i) -
+         (2*h(i)*S(i)+h(i)*S(i+1))/6
+end for
+
+// fill output dataset
+For each point in output(i)
+   if within the bound of original time line
+      if a point exists in the input dataset at same time
+         Output dataset point = input dataset point
+      else
+         Output(i,value) = a(i)*(output(i,date)-input(pos,date))^3 +
+                           b(i)*(output(i,date)-input(pos,date))^2 +
+                           c(i)*(output(i,date)-input(pos,date)) +
+                           d(i)
+      end inner if
+   else
+      generate extrapolation error and exit function
+   end out if
+end for
+</programlisting>
+  <para>
+    <command>Optimization note</command>: To increase the speed and
+    efficiency of this algorithm the <command>n-1</command> by <command>n-1</command> tridiagonal matrix <command>t</command>
+    has been represented by a <command>n-1</command> by 3 dimensional matrix in the program. In addition,
+    some commands have been grouped differently for similar reasons.
+  </para>
+  </sect4>
+  <sect4><title>Divided difference Interpolation</title>
+  <para>
+    Newton divided differences builds a table of divided differences and
+    then uses this table to generate a polynomial representation of the data.
+    To increase the accuracy of the results, this implementation also
+    tracks the error of the equation limits them to achieve best
+    results. Error limitation is calculated by limiting the order of the divided
+    difference table when the error term starts growing.
+  </para>
+  <para>
+      The algorithm used for Newton divided differences is:
+  </para>
+  <programlisting>
+Imports:
+   Input: Original set of points (obs, 4)
+   Output: New dataset containing only the time
+           locations of points (newobs, 4)
+Exports:
+   Output: Now full of data
+
+n = size(input)-1
+
+//construct first level of difference table
+for i = 0 to n-1
+  diff(0,i) = (input(i+1,value)-input(i,value))/
+              (input(i+1,date)-input(i,date))
+end for
+
+// calculate first error term
+errormod = (input(1,date)-input(0,date))/2
+errorstart = input(1,date)+input(0,date))/2
+error(0) = errormod*diff(0,0)
+order = 1;
+
+//Construct rest of divided differences table
+For i = 2 to n
+  For j = 0 to n-i
+    diff(i-1,j) = (diff(i-2,j+1)-diff(i-2,j))/
+                  (input(j+i,date)-input(j,date))
+  end for
+
+  errormod = errormod * (errorstart-input(i-1,date))
+  error(i-1) = errorMod * diff(i-1,0)
+  if error (i-1) > error (i-2)
+    exit build table for loop
+  end if
+
+  order = order+1
+end for
+
+For each point in output(i)
+   if within the bound of original time line
+      if a point exists in the input dataset at same time
+         Output dataset point = input dataset point
+      else
+         Output(i,value) = input(pos,value)
+         mod = 1
+         for j = 0 to order -1
+          mod = mod * (output(i,date)-input(pos,date))
+          Output(i,value) = Output(i,value) + mod*diff(j)
+         end for
+      end inner if
+   else
+      generate extrapolation error and exit function
+   end out if
+end for
+  </programlisting>
+  </sect4>
+  </sect3> <!--Implementation-->
+
+  <sect3><title>Future Enhancements</title>
+    <para>
+      In hindsight implementing the Matlab set of methods was not an
+      optimal choice, as the interpolation method that they used were too
+      susceptible to very high frequency noise.  To overcome this problem we
+      would recommend the implementation of a number of new, noise resistant,
+      interpolation methods.
+      Noise resistant interpolation will include methods that work on weighted
+      averaging of local points, and least squares based methods.  By integrating
+      these method you will get results that will more accurately represent the
+      dataset as a whole.
+    </para>
+  </sect3> <!--Future Enahncements-->
+
+</sect2> <!--Interp-->
+
