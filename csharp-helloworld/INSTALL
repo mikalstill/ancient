@@ -1,0 +1,17 @@
+To compile this, you execute the mono C# compiler:
+
+mcs hello.cs
+
+Which should give us a file named hello.exe -- it's interesting to note that because this file is in IL, it can be run on Windows as well.
+
+Now you can just run the exe:
+
+csharp-helloworld# ./hello.exe 
+Hello world
+
+Which implicitly executes mono because my Linux environment has setup a new binary executable type within the kernel. If you Linux box has this turned off, then you can just do what is happening under the hood:
+
+csharp-helloworld# mono hello.exe 
+Hello world
+
+Aint that cool? 
