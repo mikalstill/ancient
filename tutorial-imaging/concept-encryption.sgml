@@ -1,6 +1,6 @@
 <sect1><title>Encrypting images</title>
 <para>
-DES in Electronic Code Book (ECB) mode is a particularly poor choice of cryptography for image files. This is because ECB mode implements a lookup table between the unencrypted value and the encrypted value. This results in a known input value turning into the same output value over and over. This can have some interesting bluring effects, but wont obscure the image contents. An example will help this make more sense -- figure 1 is the logo for the company I am currently working for. I took this image, and ran it through some DES ECB code and produced figure 2.
+DES in Electronic Code Book (ECB) mode is a particularly poor choice of cryptography for image files. This is because ECB mode implements a lookup table between the unencrypted value and the encrypted value. This results in a known input value turning into the same output value over and over. This can have some interesting bluring effects, but wont obscure the image contents. An example will help this make more sense -- the first figure is the logo for the company I am currently working for. I took this image, and ran it through some DES ECB code and produced the second figure.
 </para>
 
 <figure><title>The TOWER corporate logo</title>
