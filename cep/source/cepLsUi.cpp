@@ -353,7 +353,7 @@ void cepLsUi::showWeight(double startDate, double endDate, double val)
       //test if start date is > end date
       if(fromDate->getDecimalDate() > toDate->getDecimalDate())
       {
-        cepError("Error. Weighting value is invalid", cepError::sevWarning).display();
+        cepError("Error. Invalid date entered", cepError::sevWarning).display();
         isValid = false;
         weight = new cepLsWeight(m_fromDay, m_fromMonth, m_fromYear,
                                  m_toDay, m_toMonth, m_toYear,
@@ -365,7 +365,7 @@ void cepLsUi::showWeight(double startDate, double endDate, double val)
       for(size_t i = 0; i < m_val.Length(); i ++)
       {
         if((cepIsNumeric(m_val.GetChar(i)) == false) ||
-          (atof(m_val.c_str()) <= 0))
+          (atof(m_val.c_str()) < 0))
         {
           cepError("Error. Weighting value is invalid", cepError::sevWarning).display();
           isValid = false;

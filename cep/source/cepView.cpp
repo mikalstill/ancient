@@ -609,7 +609,7 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
 		  bool isDoVCV = lsUi.getDoVCV();
       while(isDoVCV == false)
       {
-        if((toDate != -1.0) || (fromDate != -1.0) || (val != -1.0))
+        if((toDate != -1.0) && (fromDate != -1.0) && (val != -1.0))
         {
           populateMatP(matP, toDate, fromDate, val, *theDataset->getMatrix((cepDataset::direction) i));
         }
