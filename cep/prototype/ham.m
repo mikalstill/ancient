@@ -10,5 +10,5 @@ function [value,weight] = ham(data,startWindow,winSize)
 %   value: the hamming value
 %   weight: the weight of the value within the set
 
-weight = 0.54 - 0.46*cos(2*pi*((data(1)-startWindow)/(winSize));
+weight = 0.54 - 0.46*cos(2*pi*((data(1)-startWindow)/(winSize)));
 value  = data(2) * weight;

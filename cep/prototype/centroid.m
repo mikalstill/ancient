@@ -52,7 +52,7 @@ for winNum=1:numWindows
     
 end
 
-% delete filled rows
+% delete empty rows
 
 arraySize = length(tempArray(1,:));
 j = 1;

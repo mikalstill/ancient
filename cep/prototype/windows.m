@@ -24,12 +24,12 @@ overlapWinSize = winSize * (1-overlap);
 value = (((lastdate - firstdate)*(1+2*overlap))/winSize);
 numWindows = ceil(value)
 if (overlap ~= 0)
-  numWindows = numWindows - 1
+  numWindows = numWindows - 1;
 end
 
 %Divide into windows
 nextFirstRecord = 1;
-startWindow = data(1,1) - winSize;
+startWindow = data(1,1) - overlapWinSize;
 for i=1:numWindows-1
     % point array counter to start of window
     j = nextFirstRecord;
@@ -37,7 +37,7 @@ for i=1:numWindows-1
     % save array reference to start of window
     startWindow = startWindow + overlapWinSize;
     % populate first half of window
-    while data(1,j) < startWindow+overlapWinSize
+    while data(1,j) < startWindow + overlapWinSize;
         for k=1:3
             windowArray(k,i,j-(currentFirstRecord-1)) = data(k,j);
         end
@@ -61,7 +61,7 @@ end
 j = nextFirstRecord;
 currentFirstRecord = nextFirstRecord;
 startWindow = startWindow + winSize;
-while j < numSamples
+while j <= numSamples
     for k=1:3
         windowArray(k,numWindows,j-(currentFirstRecord-1)) = data(k,j);
     end
