@@ -1,6 +1,9 @@
 TITLE: Windowing Algorithms (Blake)
 
-<li>several different algorithms have been provided
+<table>
+<tr>
+<td>
+<li>Several different algorithms have been provided
   <ul>
   <li>Rectangular
   <li>Hanning
@@ -9,4 +12,10 @@ TITLE: Windowing Algorithms (Blake)
   <li>Dolph-Chebyshev
   </ul>
 <li>prudent selection can attenuate the FD ripples
-<img src="/notes/presentations/content/windows.png" alt="various windowing algorithms">
+</td>
+<td>
+<img src="/notes/presentations/content/windows.png" alt="various windowing algorithms"
+align=right border=0>
+</td>
+</tr>
+</table>
