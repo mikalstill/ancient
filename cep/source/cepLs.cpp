@@ -265,6 +265,7 @@ const cepMatrix<double> cepLs::reweightVCV()
   if((tempResidual.getNumRows() % 2) == 0)
   {
     median = tempResidual.getNumRows()/2;
+  
     if(median %2 == 0)
     {
       lowerQ = (tempResidual.getValue(median/2 - 1,0) + tempResidual.getValue((median/2),0))/2;
@@ -272,23 +273,23 @@ const cepMatrix<double> cepLs::reweightVCV()
     }
     else
     {
-      lowerQ = tempResidual.getValue((int)ceil(median/2),0);      
-      upperQ = tempResidual.getValue((int)ceil(median/2) + median,0);
+      lowerQ = tempResidual.getValue(median/2,0);      
+      upperQ = tempResidual.getValue(median/2 + median,0);
     }
   }
   else
   {
-    median = (int)ceil((double)tempResidual.getNumRows()/2);
+    median = tempResidual.getNumRows()/2;
 
     if(median %2 == 0)
     {
-      lowerQ = (tempResidual.getValue(median/2 - 1,0) + tempResidual.getValue((median/2),0))/2;
-      upperQ = (tempResidual.getValue((median/2) - 2 + median,0) + tempResidual.getValue((median/2) - 1 + median,0))/2;
-        }
+      lowerQ = tempResidual.getValue(median/2,0);
+      upperQ = tempResidual.getValue((median/2) + median,0);
+    }
     else
     {
-      lowerQ = tempResidual.getValue((int)ceil(median/2),0);
-      upperQ = tempResidual.getValue((int)ceil(median/2) + median - 1,0);
+      lowerQ = (tempResidual.getValue(median/2,0) + tempResidual.getValue(median/2 +1,0))/2;
+      upperQ = (tempResidual.getValue(median/2 + median,0) + tempResidual.getValue(median/2 + 1 + median,0))/2;
     }
   }  
 
