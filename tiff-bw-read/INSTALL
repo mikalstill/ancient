@@ -1,0 +1,7 @@
+Follow these simple steps to install:
+
+  ./configure
+  make
+  make install (do this step as root)
+
+Have fun!
