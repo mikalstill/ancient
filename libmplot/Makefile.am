@@ -7,7 +7,7 @@ libmplot_la_LIBADD = $(FREETYPE_LIBS)
 
 include_HEADERS = libmplot.h
 
-sample_SOURCES = example.c
+sample_SOURCES = example.c pngread.c inflateraster.c
 sample_LDADD = -lmplot -L.libs
 graph_SOURCES = exgraph.c
 graph_LDADD = -lmplot -L.libs

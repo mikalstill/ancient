@@ -3,6 +3,7 @@ AC_INIT(libmplot.h)
 AC_CONFIG_AUX_DIR(config)
 AC_REVISION
 AM_INIT_AUTOMAKE(libmplot, 0.5)
+AM_CONFIG_HEADER(config.h)
 AM_MAINTAINER_MODE
 
 dnl Libtool
@@ -12,7 +13,6 @@ AC_LIBTOOL_DLOPEN
 dnl Checks for programs.
 AC_PROG_CC
 AC_PROG_INSTALL
-AC_PROG_RANLIB
 AC_PROG_LIBTOOL
 
 dnl Checks for libraries.

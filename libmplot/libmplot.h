@@ -1,6 +1,10 @@
 // Libplot, a simple C library to draw graphs into rasters. Many of the drawing
 // commands here are modelled on those available in PDF...
 
+#if defined HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #if defined HAVE_LIBFREETYPE
 #include <ft2build.h>
 #include FT_FREETYPE_H
@@ -71,7 +75,6 @@ typedef struct plot_internal_state
 plot_state;
 
 plot_state *plot_newplot (unsigned int, unsigned int);
-char *plot_getraster (plot_state * state);
 
 // Primitive operations
 void plot_setlinestart (plot_state *, unsigned int, unsigned int);
@@ -100,7 +103,7 @@ void plot_setfontcolor (plot_state *, int, int, int);
 void plot_settextlocation (plot_state *, unsigned int, unsigned int);
 void plot_gettextlocation (plot_state *, unsigned int *, unsigned int *);
 
-// Text opeations
+// Text operations
 int plot_writestring(plot_state *state, char *string);
 int plot_writestringrot(plot_state *state, char *string, float angle);
 unsigned int plot_stringwidth(plot_state *state, char *string);
@@ -110,6 +113,12 @@ unsigned int plot_stringheight(plot_state *state, char *string);
 void plot_rectangle (plot_state *, unsigned int, unsigned int, 
 		     unsigned int, unsigned int);
 void plot_circle (plot_state *, unsigned int, unsigned int, unsigned int);
+
+// Raster operations
+char *plot_getraster (plot_state * state);
+void plot_overlayraster(plot_state * state, char *raster,
+			unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2, 
+			unsigned int rx, unsigned int ry);
 
 // Internal methods
 unsigned int plot_min (unsigned int one, unsigned int two);

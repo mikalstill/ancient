@@ -20,22 +20,42 @@
 #include <png.h>
 #include <libmplot.h>
 
+char *readimage(char *filename, unsigned long *width, unsigned long *height, 
+		      int *bitdepth, int *channels);
+
+char *inflateraster(char *input, unsigned long width, unsigned long height, 
+                    int bitdepth, int targetbitdepth, 
+                    int channels, int targetchannels);
+
 int
 main (int argc, char *argv[])
 {
   FILE *image;
   unsigned int i;
+  unsigned long gnux, gnuy;
   png_uint_32 rowbytes;
   png_structp png;
   png_infop info;
   png_bytepp row_pointers = NULL;
   plot_state *graph;
-  char *raster;
+  char *raster, *gnu, *newgnu;
+  int gnubitdepth, gnuchannels;
 
   if((graph = plot_newplot(300, 200)) == NULL){
     fprintf(stderr, "Could not allocate a new plot\n");
     exit(1);
   }
+
+  // Get another raster to use for testing
+  if((gnu = readimage("gnu.png", &gnux, &gnuy, &gnubitdepth, &gnuchannels)) == -1){
+    fprintf(stderr, "Cannot read the gnu.png test image\n");
+    exit(42);
+  }
+  if((newgnu = inflateraster(gnu, gnux, gnuy, gnubitdepth, 8, gnuchannels, 3)) == -1){
+    fprintf(stderr, "Cannot inflate the raster of the gnu image\n");
+    exit(42);
+  }
+  plot_overlayraster(graph, newgnu, 10, 10, 90, 90, gnux, gnuy);
 
   // A red line from 10, 10 to 20, 10
   plot_setlinecolor(graph, 255, 0, 0);

@@ -23,6 +23,10 @@
 
 #include <libmplot.h>
 
+#if defined HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 /******************************************************************************
 DOCBOOK START
 
@@ -1584,4 +1588,17 @@ plot_paintglyph (plot_state * state, char character, int dopaint, int countdirec
   fprintf (stderr, "Freetype not found at compile time\n");
   return -1;
 #endif
+}
+
+// todo_mikal: document
+void plot_overlayraster(plot_state * state, char *raster,
+			unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2, 
+			unsigned int rx, unsigned int ry){
+  unsigned int x, y;
+  plot_pixel *pixels = (plot_pixel *) raster;
+
+  for(x = x1; x < plot_min(x2, state->x); x++)
+    for(y = y1; y < plot_min(y2, state->y); y++){
+      state->raster[y * state->x + x] = pixels[y * rx + x];
+    }
 }
