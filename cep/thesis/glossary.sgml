@@ -1,0 +1,15 @@
+<sect1><title>Glossary</title> 
+
+<!--TODO:- ENSURE GLOSSARY IS IN ALPHABETICAL ORDER!-->
+
+<para><itemizedlist>
+
+<listitem><para> GPS:- Global Positioning System</para></listitem>
+    
+<listitem><para> SLR:- Satellite Laser Ranging </para></listitem>
+
+<listitem><para> VLBI:- Very Long Base Line interferometry </para></listitem>
+
+</itemizedlist></para>
+
+</sect1> <!--End Glossary-->
