@@ -7,7 +7,7 @@
 <title>About the author</title>
 <para>
 Michael's student number is 964076. He can be contacted at mikal@stillhq.com. Copyright (c) Michael Still 2002. This submission is
-<postexecute><cmd>striptext.pl</cmd><output>temp.txt</output><args>-c</args></postexecute>
+<postexecute><cmd>striptext</cmd><output>temp.txt</output><args>-c</args></postexecute>
 <postexecute><cmd>wc -w</cmd><input>temp.txt</input></postexecute>
 words, not including the code snippets.
 </para>
@@ -16,22 +16,31 @@ words, not including the code snippets.
 <sect1>
 <title>Abstract</title>
 <para>
+<quote>
+By enabling the integration of services and resources within and across enterprises, the Grid promises to deliver new ways of doing business and practicing science, powered by on-demand access to computing, seamless access to data, and dynamic outsourcing to service providers. The Grid also both places new demands on network infrastructures and expands the notion of infrastructure to new domains. In this talk, I analyze Grid infrastructure requirements and approaches that may be taken to realizing those requirements. I illustrate the discussion with reference to significant contemporary infrastructure efforts, including TeraGrid, I-WIRE, iVDGL, the Globus Toolkit, and the Open Grid Services Architecture.
+</quote>
+</para>
 
+<para>
+Grid computing is the name given by computer scientists to large, loosly affiliated cooperative computing networks. The term <quote>grid</quote> is used in the sense of the electricity grid -- it is implied that the user doesn't really care where the computing resources, so long as they are provided in a timely and accurate manner.
 </para>
 </sect1>
 
 <sect1><title>The meeting</title>
 <para>
-Held at the National Institute of Engineering and Information Sciences, ANU
-8 July 2002, 2pm to 3pm
+The talk was held at the National Institute of Engineering and Information Sciences, ANU on 8 July 2002, between 2pm and 3pm. The speaker was Ian Foster, from the Mathematics and Computer Science Division of Argonne National Laboratory, Illinois, USA. He is one of the developers of the Globus project, which is discried below.
 </para>
 </sect1>
 
+<sect1><title>The globus project</title>
+<para>
+<quote>The Globus Project is developing fundamental technologies needed to build computational grids.  Grids are persistent environments that enable software applications to integrate instruments, displays, computational and information resources that are managed by diverse organizations in widespread locations.</quote> -- http://www.globus.org
+</para>
+</sect1>
 
+<sect1><title>Stuff</title>
+<para>
 The grid and open grid services architecture
-Ian Foster
-Mathematics and Computer Science Division
-... (see website)
 
 www.globus.org
 
@@ -134,7 +143,8 @@ www.gridforum.org
 
 "The Grid: blueprint for a new computing infrastructure", editted by Ian Foster and Carl Kesselman
 
-
+</para>
+</sect1>
 
 
 <sect1><title>Response to the talk</title>
