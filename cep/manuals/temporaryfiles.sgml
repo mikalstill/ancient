@@ -1,15 +1,16 @@
 <chapter><title>Temporary files</title>
 <sect1><title>Introduction</title>
 <para>
-<command>GDMS</command> needs to be able to store information in temporary files to operate correctly. The only form 
-of information currently stored in temporary files is the PNG graphs, which are used in the user interface. This is 
-done so that the graphs do not have to be regenerated every time they are drawn, and to avoid having to cache the 
-images in memory, which could result in a large amount of memory being used to infrequently used data.
+<command>GDMS</command> needs to be able to store information in temporary files to operate correctly. The only form
+of information currently stored in temporary files, relates to the PNG graphs which are used in the user interface. This is
+done to avoid the graphs having to be regenerated each time they are drawn. This technique also serves to avoid 
+having images cached in memory, which could result in a large amount of memory being used for data that is not 
+frequenclty accessed.
 </para>
 
 <para>
-<command>GDMS</command> will determine when the files in the temporary graph cache are out of date automatically, 
-and when this is the case will regenerate the graph as required.
+The <command>GDMS</command> determines when the files in the temporary graph cache are out of date. When this occurs, 
+the graphs are regenerated as required.
 </para>
 </sect1>
 
@@ -21,7 +22,7 @@ Temporary files are stored by default in <emphasis>/tmp</emphasis>.
 <execute><cmd>todo</cmd><input>Make this configurable</input></execute>
 
 <para>
-The files have randomly generated names which match the regular expression <emphasis>cep.*$</emphasis>. Examples of 
+The files have randomly generated names which match the regular expression <emphasis>cep.*$</emphasis>. Examples of
 valid temporary filenames are:
 </para>
 
@@ -44,25 +45,26 @@ cep.zbOzJ3
 </programlisting>
 
 <para>
-These files can take a fair bit of disc space. The example files above took a total of 808 kilobytes.
+These files can amount to a non-trivial amount of space on disk. The example files totalled 808 kilobytes.
 </para>
 </sect1>
 
 <sect1><title>Cleanup of temporary files</title>
 <para>
-<command>GDMS</command> will automatically cleanup temporary files as required. In reality, this means that temporary 
-files from previous runs are deleted when the<command>GDMS</command> starts up. Note that only the GUI implementation 
-cleans the <emphasis>/tmp</emphasis> directory, <command>GDMS web</command> does not perform this operation
-  <footnote><para>This is because <command>GDMS web</command> does not create it's temporary files in this manner. 
-  Refer to the <command>GDMS web</command> documentation for further detail on this.</para></footnote>.
+The <command>GDMS</command> will automatically cleanup temporary files as required. In reality, this means that temporary
+files from previous executions are deleted when the<command>GDMS</command> is run. Note that only the GUI implementation
+cleans the <emphasis>/tmp</emphasis> directory. The <command>GDMS web</command> does not perform this operation as it
+does not create it's temporary files in this manner. For further information refer to the <command>GDMS web</command> 
+documentaiton.
 </para>
 
 <execute><cmd>todo</cmd><input>Multiple copies at once?</input></execute>
 
 <para>
-One side effect of this cleanup methodology is that you cannot have multiple copies of <command>GDMS</command> 
-running at once, as the newest version will clean up the previous version's caches. Then again, the other instances 
-will regenerate their caches as required...
+One draw back of this approach to temporary file clean up, is that it is not possible to have more than one instance
+of the <command>GDMS</command> ruunning at one time, as the newest version of the program will clean up the cache of
+the previous version's caches. Even though each instance of the program will regenerate their cache as required, this 
+would be counter productive.
 </para>
 </sect1>
 </chapter>

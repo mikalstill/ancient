@@ -1,10 +1,83 @@
 <chapter><title>Quick Reference</title>
 
-<sect1><title>Foo</title>
-<para>
-Ba Ba Black sheep have you any wool, yes sir yes sir 3 bags full..
-But you can't have it because in case you haven't noticed, there's a drought on.
-</para>
+<sect1><title>Opening a data set</title>
+  <para>
+    Ba Ba Black sheep have you any wool, yes sir yes sir 3 bags full..
+    But you can't have it because in case you haven't noticed, there's a drought on.
+  </para>
 </sect1>
 
+<sect1><title>Saving a data set</title>
+  <para>
+    Ba Ba Black sheep have you any wool, yes sir yes sir 3 bags full..
+    But you can't have it because in case you haven't noticed, there's a drought on.
+  </para>
+</sect1>
+
+<sect1><title>Printing a data set</title>
+  <para>
+    Ba Ba Black sheep have you any wool, yes sir yes sir 3 bags full..
+    But you can't have it because in case you haven't noticed, there's a drought on.
+  </para>
+</sect1>
+
+<sect1><title>Configuring the User Interface</title>
+  <para>
+    The look and feel of the user interface can be configured to suit individual users. This includes graph colours
+    and some other stuff that I can't think right now because I am simply too tired.
+  </para>
+
+  <sect2><title>Configuring graphing preferences</title>
+    <para>
+    </para>
+  </sect2> <!--Configuring graphing preferences-->
+
+</sect1> <!--Configuring the User Interface-->
+
+<sect1><title>Data Analysis</title>
+
+  <sect2><title>Time Domain Analysis</title>
+  <para>
+    Ba Ba Black sheep have you any wool, yes sir yes sir 3 bags full..
+    But you can't have it because in case you haven't noticed, there's a drought on.
+  </para>
+
+  <sect3><title>Least Squeares Regression</title>
+  <para>
+  </para>
+  </sect3> <!--ls regress-->
+  </sect2> <!--time domain-->
+
+  <sect2><title>Interpolation</title>
+    <para>
+    	Select the Maths menu, follow interpolation and select the type of interpolation algorithm to use. </para>
+    <sect3><title>Linear Interpolation</title>
+      <para>
+      </para>
+    </sect3> <!--linear interp-->
+
+    <sect3><title>Divided differences</title>
+      <para>
+      </para>
+    </sect3> <!--divided diffs-->
+  </sect2> <!--interp-->
+
+  <sect2><title>Windowing data</title>
+    <para>
+    	Select the Maths menu, follow windowing and select the type of windowing algorithm to use.
+    </para>
+
+  </sect2> <!--window-->
+
+
+  <sect2><title>Frequency Domain Analysis</title>
+    <para>
+      Select the Maths menu, select Fast Fourier Transform or PSD plot. Note, before successfully carrying out
+      operations in the frequency domain, the data must be interpolated and windowed.
+    </para>
+  </sect2> <!--Frequency Domain Analysis-->
+
+</sect1> <!-- data analysis -->
+
 </chapter>
+
