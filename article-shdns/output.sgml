@@ -897,7 +897,8 @@ process(){
   logger "shdns $$ Packet id: $id"
 
   # Flags: 2 bytes
-  temp=`cat $1 | cut -b $inset |  od -Ad -c | head -1 | cut -f 2 -d " "`; inset=$(( $inset + 1 ))
+  temp=`cat $1 | cut -b $inset |  od -Ad -c | head -1 | cut -f 2 -d " "`
+    inset=$(( $inset + 1 ))
   testbit $temp 128; qr=$?
   testbit $temp 8; op=$?
   testbit $temp 4; aa=$?
