@@ -168,6 +168,77 @@ Effectively, the only datatype which trivsql is aware of is char *. Internally, 
 Information about the number of columns is stored in the tdb key <emphasis>trivsql_</emphasis><command>tablename</command><emphasis>_numcols</emphasis>. The name of each column is stored in the <emphasis>trivsql_</emphasis><command>tablename</command><emphasis>_col</emphasis><command>colcount</command> key. A count of the total number of rows added to this table is stored in the <emphasis>trivsql_</emphasis><command>tablename</command><emphasis>_numrows</emphasis> key. The value of this final key is never decremented, which means that every row can always be uniquely identified by it's row number.
   <footnote><para>This will be convenient when I bother to implement primary key values as columns, because I can recycle the row number</para></footnote>
 </para>
+
+<para>
+An example of the effect of a simple CREATE TABLE command will assist with the illustration at this point. The command
+</para>
+
+<programlisting>
+CREATE TABLE foo (cola, colb, colc);
+</programlisting>
+
+<para>
+Is executed on a clean database. <command>tdbtool</command>, the standard way of inspecting the contents of a tdb
+  <footnote><para><command>tdbtool</command> is distrubuted with the tdb code, including with Samba</para></footnote>
+displays the following output when queried for all the keys in the database...
+</para>
+
+<programlisting>
+[mikal@localhost trivsql]# tdbtool foodb.tdb 
+tdb> dump
+
+key 17 bytes
+trivsql_foo_col1
+data 5 bytes
+[000] 63 6F 6C 62 00                                    colb 
+
+key 20 bytes
+trivsql_foo_numrows
+data 2 bytes
+[000] 30 00                                             0 
+
+key 17 bytes
+trivsql_foo_col2
+data 5 bytes
+[000] 63 6F 6C 63 00                                    colc 
+
+key 20 bytes
+trivsql_foo_numcols
+data 2 bytes
+[000] 33 00                                             3 
+
+key 17 bytes
+trivsql_foo_col0
+data 5 bytes
+[000] 63 6F 6C 61 00                                    cola 
+tdb> quit
+[mikal@localhost trivsql]# 
+</programlisting>
+
+<para>
+It can therefore be seen that trivsql can determine all the information it needs from these few keys -- whether a table exists, the name of the table, the number of rows in the table, the number of columns in the table, and the name of those columns.
+</para>
+</sect3>
+
+<sect3><title>Inserting data into the table</title>
+<para>
+Once you have a table, the next operation that a user is going to be interested in is placing data into that table. This subsection will only discuss the INSERT operation, because UPDATE is merely a special case of an INSERT for a row which already exists.
+</para>
+
+<para>
+When the user requests that a row be inserted into a table, there are a number of steps that trivsql goes through. These are:
+
+<orderedlist>
+<listitem><para>Determining if the named table exists: lookup if <emphasis>trivsql_</emphasis><command>tablename</command><emphasis>_numrows</emphasis> exists</para></listitem>
+
+<listitem><para>Determining what row number to insert at: this is the value returned by the existance check for <emphasis>trivsql_</emphasis><command>tablename</command><emphasis>_numrows</emphasis></para></listitem>
+
+<listitem><para>Insert the information
+  <footnote><para>Duplicated information is allowed in a table --  in other words, you can have two identical rows if you really want</para></footnote></para></listitem>
+</orderedlist>
+
+As you can see, there really isn't much to it.
+</para>
 </sect3>
 
 </sect2>
