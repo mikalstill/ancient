@@ -84,7 +84,7 @@ DOCBOOK END
 #include "cepErrorHandler.h"
 #include "cepConfiguration.h"
 
-/** An error handler that makes us of the wxWindows UI toolkit
+/** An error handler that makes use of the wxWindows UI toolkit
   *@author Blake Swadling
   */
 
