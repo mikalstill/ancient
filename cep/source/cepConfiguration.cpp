@@ -16,21 +16,40 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "cepCore.h"
 #include "cepConfiguration.h"
 #include <stdlib.h>
 #include <sstream>
 
+cepConfiguration *cepConfiguration::config = 0;
+  
 cepConfiguration::cepConfiguration (const string & filename)
 {
   path.assign (filename);
   // disard any error here. If we try to display it we get a segfault
-  load (path);
+  
+  cepError err = load (path);
+  if( err.isReal() ) {
+    load ( getDefaultConfigPath() );
+  }
 
 }
 
 cepConfiguration::~cepConfiguration ()
 {
+  delete( (cepConfiguration *)config );
+}
+
+
+void cepConfiguration::initialise(  const string & filename )
+{
+  config = new cepConfiguration( filename );
+}
+
+cepConfiguration & cepConfiguration::getInstance() {
+  if( config == NULL ) {
+    config = new cepConfiguration( getDefaultConfigPath());
+  }
+  return *config;
 }
 
 /**
@@ -49,7 +68,7 @@ cepError cepConfiguration::load (const string & filename)
   {
     err =
       cepError ("failed to open config file" + filename,
-                cepError::sevErrorFatal);
+                cepError::sevDebug);
   }
   else
   {
@@ -151,7 +170,7 @@ cepError cepConfiguration::parseConfigEntry (const string & entry,
   if (!success)
   {
     return cepError ("failed to parse config value " + entry,
-                     cepError::sevWarning);
+                     cepError::sevDebug);
   }
   return cepError ();
 }
@@ -253,4 +272,25 @@ cepError cepConfiguration::setValue (const string & valkey, const bool & value)
   map[valkey] = (value ? string ("true") : string ("false"));
   cout << "<set(bool)> : setting " << valkey << " to " << map[valkey] << endl;
   return save (path);
+}
+
+const string & cepConfiguration::getDefaultConfigPath()
+{
+
+  ostringstream result;
+  // Open our configuration
+  char *homedir = getenv ("HOME");
+
+  /*
+   * if $HOME is not defined we need to locate this somewhere.
+   * cwd is as good as any place
+   */
+  if (homedir != NULL)
+  {
+    result << homedir << "/";
+  }
+
+  result << ".cep";
+  
+  return result.str();
 }
