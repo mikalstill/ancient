@@ -1,10 +1,10 @@
 TITLE: Interpolation (Nick)
 
-<li>Interpolation types
-  <ul>
+<font color="000000" size=4 face="Lucida,Verdana,Helvetica,Arial">
+<li>No single type of interpolation provides accurate results for every concievable dataset
+<li>Multiple types of interpolation provided
   <li>Nearest neighbour
-  <li>Linear interpolation
-  <li>Cubic splines
-  <li>Divided differences
-  <li>Linear least squares
+  <ul>
+    <li> New points set equal to the nearest adjacent point
   </ul>
+  <img src="interp-NN.png">

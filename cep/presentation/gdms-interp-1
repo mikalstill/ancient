@@ -1,9 +1,11 @@
 TITLE: Interpolation (Nick)
-
+<table>
+<tr>
+<td>
+<font color="000000" size=4 face="Lucida,Verdana,Helvetica,Arial">
 <li>What is interpolation?
   <ul>
-  <li>Guessing the values of missing points
-  <li>Picture
+  <li>Guessing the value of missing data
   </ul>
 
 <li>Why interpolate?
@@ -11,3 +13,6 @@ TITLE: Interpolation (Nick)
   <li>Want to see effects of adding missing features
   <li>Regular dataset required for Fourier transform
   </ul>
+</td>
+</tr>
+</table>

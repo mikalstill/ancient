@@ -1,0 +1,10 @@
+TITLE: Interpolation (Nick)
+
+<font color="000000" size=4 face="Lucida,Verdana,Helvetica,Arial">
+  <li>Cubic splines
+  <ul>
+    <li>Draws a cubic between between adjacent points
+    <li>Adjacent splines have matching first and second derivites
+    <li>Gives a smooth curve
+  </ul>
+  <img src="interp-spline.png">

@@ -1,0 +1,17 @@
+TITLE: Interpolation (Nick)
+
+<li>Non-linear timeline problem
+  <ul>
+  <li>Sample time provided in decimal years
+  <li>1 day in a normal year = 0.0027397
+  <li>1 day in a leap year = 0.0027322
+  </ul>
+
+<li>Solution convert to truncated Julian days format
+  <ul>
+  <li>Integer day counting system
+  <li>Julian days: starts 1 January 4713 BC
+  <li>To get higher precision we started 1 January 1902
+  <li>Converted to Julian days for interpolation
+  <li>COnverted back to view data
+  </ul>
