@@ -85,7 +85,13 @@
           *********************************************************/
 // completely implemented
 pdf       : header { pandalex_callback(pandalex_event_entireheader, $1.data); } 
-            object linear objects xref trailer endcrap
+            object linear endpart endcrap
+          ;
+
+// Acrobat Distiller 4.0 for Windows needs this
+// completely implemented
+endpart   : objects xref trailer endpart
+          |
           ;
 
 // completely implemented

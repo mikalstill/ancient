@@ -99,7 +99,7 @@ exit(42);
                             return TRAILER;
                                                                              }
 
-<INITIAL>\/[#a-zA-Z\-_0-9\.\+,]+ { debuglex(yytext, yyleng, "name");
+<INITIAL>\/[@:=#a-zA-Z\-_0-9\.\+,]+ { debuglex(yytext, yyleng, "name");
                             yylval.sval.data = (char *) returnStr(yytext + 1, yyleng);
                             yylval.sval.len = yyleng - 1;
                             return NAME;
@@ -197,12 +197,17 @@ exit(42);
                             yylval.sval.data = (char *) returnStr(yytext, yyleng);
                             yylval.sval.len = yyleng;
 
-                            if(strcmp(yytext, "endstream") == 0){
-                            debuglex(yytext, yyleng, "string (at the end of a stream)");
-                              BEGIN(INITIAL);
-                              return ENDSTREAM;
+                            {
+                              int i;
+                              for(i = 0; i < yyleng - 8; i++){
+                                if(strcmp(yytext + i, "endstream") == 0){
+                                  debuglex(yytext, yyleng, "string (at stream end)");
+                                  BEGIN(INITIAL);
+                                  return ENDSTREAM;
+                                  }
+                                }
                               }
-                            else debuglex(yytext, yyleng, "string");
+                            debuglex(yytext, yyleng, "string");
 
                             return STRING; 
                                                                              }
