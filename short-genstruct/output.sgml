@@ -7,7 +7,7 @@
 <title>About the author</title>
 <para>
 Michael's student number is 964076. He can be contacted at mikal@stillhq.com. Copyright (c) Michael Still 2002. This submission is
-    953
+   1205
 words, not including the code snippets.
 </para>
 </sect1>
@@ -15,19 +15,19 @@ words, not including the code snippets.
 <sect1>
 <title>Abstract</title>
 <para>
-
+This paper discusses <command>genstruct</command> a structure serialization methodology for C and C++ development. It has been developed by Dr Andrew Tridgell, who currently works for Quantum. <command>genstruct</command> is extremely powerful, and the ability to serialize in memory data structures has some interesting side effects -- for instance the ability to upgrade code bases without incurring a service outage.
 </para>
 </sect1>
 
 <sect1><title>The meeting</title>
 <para>
-<command>genstruct</command> is a C based data dumping package which Andrew Tridgell discussed at the June 2002 Canberra Linux User's Group meeting on 27 June 2002. It finds it's roots in the perl <command>Data::Dumper</command> nad java string marshalling methodologies, and is an extremely powerful tool for development. Dr Tridgell orginally developed <command>genstruct</command> for the <command>Samba</command> project. In this paper I discuss points Dr Tridgell raised in his talk in further detail.
+<command>genstruct</command> is a C based data dumping package which Andrew Tridgell discussed at the June 2002 Canberra Linux User's Group meeting on 27 June 2002. It finds it's roots in the perl <command>Data::Dumper</command> and Java string marshaling methodologies, and is an extremely powerful tool for development. Dr Tridgell originally developed <command>genstruct</command> for the <command>Samba</command> project. In this paper I discuss points Dr Tridgell raised in his talk in further detail.
 </para>
 </sect1>
 
 <sect1><title>What is genstruct?</title>
 <para>
-As previosuly mentioned, <command>genstruct</command> is very similar in some respects to the perl <command>Data::Dumper</command>. It is therefore useful to provide a brief introduction to that functionality before moving onto <command>genstruct</command>.
+As previously mentioned, <command>genstruct</command> is very similar in some respects to the perl <command>Data::Dumper</command>. It is therefore useful to provide a brief introduction to that functionality before moving onto <command>genstruct</command>.
 </para>
 
 <sect2><title>Perl's Data::Dumper in a nutshell</title>
@@ -137,7 +137,7 @@ s = gen_dump(pinfo_test1, (char *) &amp;t, 0);
 </programlisting>
 
 <para>
-In this code, we define a structure, fill it with data, and then use the <command>gen_dump</command> function to create a string representation of that structure. The arguements to <command>gen_dump</command> are:
+In this code, we define a structure, fill it with data, and then use the <command>gen_dump</command> function to create a string representation of that structure. The arguments to <command>gen_dump</command> are:
 
 <programlisting>
 char *gen_dump(const struct parse_struct *pinfo, 
@@ -147,13 +147,14 @@ char *gen_dump(const struct parse_struct *pinfo,
 
 <itemizedlist>
 <listitem><para><emphasis>const struct parse_struct *pinfo</emphasis>: is generated at compile time by <command>genstruct</command>, and is located in the output to that command.</para></listitem>
-<listitem><para><emphasis>const char *data</emphasis>: is the data to dump to the string representation (simply cast your structure to a char * before passing it</para></listitem>
+<listitem><para><emphasis>const char *data</emphasis>: is the data to dump to the string representation (simply cast your structure to a char * before passing it.</para></listitem>
 <listitem><para><emphasis>unsigned indent</emphasis>: is the starting indent for ease of recursive calling. Set it to zero.</para></listitem>
+<listitem><para><command>Returns</command>: a string representation of the structure.</para></listitem>
 </itemizedlist>
 </para>
 
 <para>
-The most interesting thing here is the <emphasis>pinfo</emphasis> structure which is the first arguement to this <command>gen_dump</command> function. The <emphasis>pinfo_test1</emphasis> in this example looks like:
+The most interesting thing here is the <emphasis>pinfo</emphasis> structure which is the first argument to this <command>gen_dump</command> function. The <emphasis>pinfo_test1</emphasis> in this example looks like:
 </para>
 
 <programlisting>
@@ -230,8 +231,38 @@ This string representation can then be stored for later use.
 
 <sect1><title>The other side of the equation</title>
 <para>
-The only reason you would use a package such as <command>Data::Dumper</command> or <command>genstruct</command> is so that you can read the information back in later. This is done with the <command>eval</command> function in perl. <command>genstruct</command>'s equivalent is ...
+The only reason you would use a package such as <command>Data::Dumper</command> or <command>genstruct</command> is so that you can read the information back in later. This is done with the <command>eval</command> function in perl. <command>genstruct</command>'s equivalent is <command>gen_parse</command>, which takes your string representation and recreates the data structures as stored. The arguments to <command>gen_parse</command> are:
+
+<programlisting>
+int gen_parse(const struct parse_struct *pinfo, 
+              char *data, 
+              const char *str0);
+</programlisting>
+
+<itemizedlist>
+<listitem><para><emphasis>const struct parse_struct *pinfo</emphasis>: is the same parse structure that was used in the <command>gen_dump</command> call.</para></listitem>
+<listitem><para><emphasis>char *data</emphasis>: is a pointer to the location that the structure should be created at. This memory should already have been allocated (for the main structure).</para></listitem>
+<listitem><para><emphasis>const char *str0</emphasis>: the string representation to use.</para></listitem>
+<listitem><para><command>Returns</command>: non zero if there was an error.</para></listitem>
+</itemizedlist>
+
+A sample usage is:
 </para>
+
+<programlisting>
+char *s;
+struct test1 t1, t2;
+
+// ... we need to populate t1 with data here ...
+
+s = gen_dump(pinfo_test1, (char *) &amp;t1, 0);
+memset(&amp;t2, 0, sizeof(t2));
+
+if(gen_parse(pinfo_test1, (char *) &amp;t2, s) != 0){
+  printf("Parse failed!\n");
+  exit(1);
+  }
+</programlisting>
 </sect1>
 
 <sect1><title>Additional features</title>
@@ -239,25 +270,26 @@ The only reason you would use a package such as <command>Data::Dumper</command> 
 <command>genstruct</command> also has the following additional features:
 
 <itemizedlist>
-<listitem><para>It is </para></listitem>
-<listitem><para>  </para></listitem>
+<listitem><para>It is smart enough to neatly handle the addition and removal of members of the structure.</para></listitem>
+<listitem><para>The output is presented in a human readable form, which might make editing of the contents of a structure easier.</para></listitem>
 </itemizedlist>
 </para>
 </sect1>
 
 <sect1><title>Limitations</title>
 <para>
+<command>genstruct</command> doesn't currently handle structures which contain file handles properly. The file handle itself (which is just an int) will be recovered, but the state of the file handle will not be restored.
 </para>
 </sect1>
 
 <sect1><title>Uses</title>
 <para>
-There are several reasons that developers will be interested in <command>genstruct</command>. The main one is that it is a very convenient way of storing information between instances of a program -- for instance you could save information about the session that the user had just completed on program exit (for instance the size of the main window and the last five documents opened) into a structure, and then generate a string representation of this structure to save to a file. On startup, you can read the string back into the structure, and go from there. This was the original reason that the code was developed for the Samba project
-  <footnote><para>The Samba team needs to store a large amount of information about user connections. This ranges from the name of all logged on users, to the locks on files that those users currently hold. At the moment this information is stored in a series of (key, value) <command>tdb</command> databases (<command>tdb</command> is outside the scope of this paper. A brief summary is that it is a very powerful gdbm like (key, value) pair database which supports concurrent access and locking. It has also had a SQL implementation built on top of it, although the Samba team doesn't use this), with several keys for each user's information. It is now possible to simply save a string representation of a structure describing the user, and recover that structure each time it is needed.</para></footnote>
+There are several reasons that developers will be interested in <command>genstruct</command>. The main one is that it is a very convenient way of storing information between instances of a program -- for instance you could save information about the session that the user had just completed on program exit (for instance the size of the main window and the last five documents opened) into a structure, and then generate a string representation of this structure to save to a file. On start up, you can read the string back into the structure, and go from there. This was the original reason that the code was developed for the Samba project
+  <footnote><para>The Samba team needs to store a large amount of information about user connections. This ranges from the name of all logged on users, to the locks on files that those users currently hold. At the moment this information is stored in a series of (key, value) <command>TDB</command> databases (<command>TDB</command> is outside the scope of this paper. A brief summary is that it is a very powerful GDBM like (key, value) pair database which supports concurrent access and locking. It has also had a SQL implementation built on top of it, although the Samba team doesn't use this), with several keys for each user's information. It is now possible to simply save a string representation of a structure describing the user, and recover that structure each time it is needed.</para></footnote>
 </para>
 
 <para>
-Interestingly, <command>genstruct</command> has other uses. For instance, if you have a long run server process such as Samba, then it is possible that you might want to change some of the internal data structures whilst the program is running -- for instance if its the middle of the night and you only want to be backing up files, then you could save the normal structures to a string, and then reload them into a different set of structures which is optimised for large file reads. This would rely on <command>genstructs</command> ability to provide default values for keys which didn't exist when the string was created. Dr Tridgell expressed this as a major advantage of <command>genstruct</command> for the Samba team.
+Interestingly, <command>genstruct</command> has other uses. For instance, if you have a long run server process such as Samba, then it is possible that you might want to change some of the internal data structures whilst the program is running -- for instance if its the middle of the night and you only want to be backing up files, then you could save the normal structures to a string, and then reload them into a different set of structures which is optimized for large file reads. This would rely on <command>genstruct</command>'s ability to provide default values for keys which didn't exist when the string was created. Dr Tridgell expressed this as a major advantage of <command>genstruct</command> for the Samba team.
 </para>
 </sect1>
 
@@ -275,7 +307,7 @@ Both <command>Data::Dumper</command> and <command>genstruct</command> can do muc
 
 <sect1><title>Response to the talk</title>
 <para>
-
+Dr Tridgell is obviously a very talented software engineer, and his enthusiasm is contagious. He is also very obviously experienced at talking to audiences (he gives a very large number of conference presentations), and he normally speaks off the cuff.
 </para>
 </sect1>
 </article>
