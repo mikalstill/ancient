@@ -1,0 +1,87 @@
+<HTML>
+<HEAD>
+<TITLE>class cepDataset</TITLE>
+
+<META NAME="Generator" CONTENT="KDOC ">
+</HEAD>
+<BODY bgcolor="#ffffff" text="#000000" link="#0000ff" vlink="#000099" alink= "#ffffff">
+<TABLE WIDTH="100%" BORDER="0">
+<TR>
+<TD>
+	<TABLE BORDER="0">
+		<TR><TD valign="top" align="left" cellspacing="10">
+		<h1>class cepDataset</h1>
+		</TD>
+		<TD valign="top" align="right" colspan="1"></TD></TR>
+	</TABLE>
+	<HR>
+	<TABLE BORDER="0">
+		<TR><TH>Definition</TH><TD><code>#include &lt;<A HREF="gdms___cepDataset_h.html">gdms/cepDataset.h</A>&gt;</code></TD></TR>
+<TR><TH><A HREF="full-list-cepDataset.html">List of all Methods</A></TH></TR>
+	</TABLE>
+	</TD>
+<TD align="right"><TABLE BORDER="0"><TR><TD><small><A HREF="index-long.html">Annotated List</A></small></TD></TR>
+<TR><TD><small><A HREF="header-list.html">Files</A></small></TD></TR>
+<TR><TD><small><A HREF="all-globals.html">Globals</A></small></TD></TR>
+<TR><TD><small><A HREF="hier.html">Hierarchy</A></small></TD></TR>
+<TR><TD><small><A HREF="index.html">Index</A></small></TD></TR>
+</TABLE></TD></TR></TABLE>
+<h4>Public Types</h4><ul><LI>enum <A HREF="#ref1">direction</A> {    dirX = 0,
+    dirY,
+    dirZ
+  }
+</LI>
+</ul><h4>Public Methods</h4><ul><LI>&nbsp;<b><A HREF="#ref2">cepDataset</A></b> (const string & filename) 
+</LI>
+<LI>&nbsp;<b><A HREF="#ref3">cepDataset</A></b> (const string & filename, const <A HREF="#cepDatasetProgressCB">cepDatasetProgressCB</A> callback) 
+</LI>
+<LI>&nbsp;<b><A HREF="#ref4">cepDataset</A></b> (vector < <A HREF="#cep_datacol">cep_datacol</A> > windowVector, int numWindows) 
+</LI>
+<LI>&nbsp;<b><A HREF="#ref5">cepDataset</A></b> (double value, double weight) 
+</LI>
+<LI><A HREF="cepDataset.html">cepDataset</A> &nbsp;<b><A HREF="#ref6">doWindow</A></b> (<A HREF="cepDataset.html#direction">cepDataset::direction</A> dir, double winSize,
+                       double overlap) 
+</LI>
+<LI><A HREF="cepDataset.html">cepDataset</A> &nbsp;<b><A HREF="#ref7">doHam</A></b> (double datRow[3], double startWindow, double winSize) 
+</LI>
+<LI><A HREF="cepError.html">cepError</A> &nbsp;<b><A HREF="#ref8">munch</A></b> () 
+</LI>
+<LI>vector < cep_datarow > &&nbsp;<b><A HREF="#ref9">getDataPtr</A></b> (direction) 
+</LI>
+</ul><h4>Private Members</h4><ul><LI>string <b><A HREF="#ref10">m_filename</A></b></LI>
+<LI>cepDatasetProgressCB <b><A HREF="#ref11">m_progress</A></b></LI>
+<LI>vector < cep_datarow > <b><A HREF="#ref12">m_datax</A></b></LI>
+<LI>vector < cep_datarow > <b><A HREF="#ref13">m_datay</A></b></LI>
+<LI>vector < cep_datarow > <b><A HREF="#ref14">m_dataz</A></b></LI>
+<LI>vector < cep_datacol > <b><A HREF="#ref15">m_windowVector</A></b></LI>
+<LI>int <b><A HREF="#ref16">m_numWindows</A></b></LI>
+<LI>double <b><A HREF="#ref17">m_hamValue</A></b></LI>
+<LI>double <b><A HREF="#ref18">m_hamWeight</A></b></LI>
+</ul><HR><H2><A NAME="longdesc">Detailed Description</A></H2><A NAME="direction"></A><A NAME="ref1"></A><table width="100%"><tr bgcolor="#eeeeee"><td>enum <strong>direction</strong> {    dirX = 0,
+    dirY,
+    dirZ
+  }
+</td><td align="right"><h3><strong>direction</strong></h3></td></tr></table><p></p><A NAME="cepDataset"></A><A NAME="ref2"></A><table width="100%"><tr bgcolor="#eeeeee"><td>&nbsp;<strong>cepDataset</strong> (const string & filename)
+<br></td><td align="right"><h3><strong>cepDataset</strong></h3></td></tr></table><p></p><A NAME="cepDataset"></A><A NAME="ref3"></A><table width="100%"><tr bgcolor="#eeeeee"><td>&nbsp;<strong>cepDataset</strong> (const string & filename, const <A HREF="#cepDatasetProgressCB">cepDatasetProgressCB</A> callback)
+<br></td><td align="right"><h3><strong>cepDataset</strong></h3></td></tr></table><p></p><A NAME="cepDataset"></A><A NAME="ref4"></A><table width="100%"><tr bgcolor="#eeeeee"><td>&nbsp;<strong>cepDataset</strong> (vector < <A HREF="#cep_datacol">cep_datacol</A> > windowVector, int numWindows)
+<br></td><td align="right"><h3><strong>cepDataset</strong></h3></td></tr></table><p></p><A NAME="cepDataset"></A><A NAME="ref5"></A><table width="100%"><tr bgcolor="#eeeeee"><td>&nbsp;<strong>cepDataset</strong> (double value, double weight)
+<br></td><td align="right"><h3><strong>cepDataset</strong></h3></td></tr></table><p></p><A NAME="doWindow"></A><A NAME="ref6"></A><table width="100%"><tr bgcolor="#eeeeee"><td><A HREF="cepDataset.html">cepDataset</A> &nbsp;<strong>doWindow</strong> (<A HREF="cepDataset.html#direction">cepDataset::direction</A> dir, double winSize,
+                       double overlap)
+<br></td><td align="right"><h3><strong>doWindow</strong></h3></td></tr></table><p></p><A NAME="doHam"></A><A NAME="ref7"></A><table width="100%"><tr bgcolor="#eeeeee"><td><A HREF="cepDataset.html">cepDataset</A> &nbsp;<strong>doHam</strong> (double datRow[3], double startWindow, double winSize)
+<br></td><td align="right"><h3><strong>doHam</strong></h3></td></tr></table><p></p><A NAME="munch"></A><A NAME="ref8"></A><table width="100%"><tr bgcolor="#eeeeee"><td><A HREF="cepError.html">cepError</A> &nbsp;<strong>munch</strong> ()
+<br></td><td align="right"><h3><strong>munch</strong></h3></td></tr></table><p></p><A NAME="getDataPtr"></A><A NAME="ref9"></A><table width="100%"><tr bgcolor="#eeeeee"><td>vector < cep_datarow > &&nbsp;<strong>getDataPtr</strong> (direction)
+<br></td><td align="right"><h3><strong>getDataPtr</strong></h3></td></tr></table><p></p><A NAME="m_filename"></A><A NAME="ref10"></A><table width="100%"><tr bgcolor="#eeeeee"><td>string  <strong>m_filename</strong>
+</td><td align="right"><h3><strong>m_filename</strong></h3></td></tr></table><p> <small>[private]</small></p><A NAME="m_progress"></A><A NAME="ref11"></A><table width="100%"><tr bgcolor="#eeeeee"><td><A HREF="#cepDatasetProgressCB">cepDatasetProgressCB</A>  <strong>m_progress</strong>
+</td><td align="right"><h3><strong>m_progress</strong></h3></td></tr></table><p> <small>[private]</small></p><A NAME="m_datax"></A><A NAME="ref12"></A><table width="100%"><tr bgcolor="#eeeeee"><td>vector < cep_datarow >  <strong>m_datax</strong>
+</td><td align="right"><h3><strong>m_datax</strong></h3></td></tr></table><p> <small>[private]</small></p><A NAME="m_datay"></A><A NAME="ref13"></A><table width="100%"><tr bgcolor="#eeeeee"><td>vector < cep_datarow >  <strong>m_datay</strong>
+</td><td align="right"><h3><strong>m_datay</strong></h3></td></tr></table><p> <small>[private]</small></p><A NAME="m_dataz"></A><A NAME="ref14"></A><table width="100%"><tr bgcolor="#eeeeee"><td>vector < cep_datarow >  <strong>m_dataz</strong>
+</td><td align="right"><h3><strong>m_dataz</strong></h3></td></tr></table><p> <small>[private]</small></p><A NAME="m_windowVector"></A><A NAME="ref15"></A><table width="100%"><tr bgcolor="#eeeeee"><td>vector < <A HREF="#cep_datacol">cep_datacol</A> >  <strong>m_windowVector</strong>
+</td><td align="right"><h3><strong>m_windowVector</strong></h3></td></tr></table><p> <small>[private]</small></p><A NAME="m_numWindows"></A><A NAME="ref16"></A><table width="100%"><tr bgcolor="#eeeeee"><td>int  <strong>m_numWindows</strong>
+</td><td align="right"><h3><strong>m_numWindows</strong></h3></td></tr></table><p> <small>[private]</small></p><A NAME="m_hamValue"></A><A NAME="ref17"></A><table width="100%"><tr bgcolor="#eeeeee"><td>double  <strong>m_hamValue</strong>
+</td><td align="right"><h3><strong>m_hamValue</strong></h3></td></tr></table><p> <small>[private]</small></p><A NAME="m_hamWeight"></A><A NAME="ref18"></A><table width="100%"><tr bgcolor="#eeeeee"><td>double  <strong>m_hamWeight</strong>
+</td><td align="right"><h3><strong>m_hamWeight</strong></h3></td></tr></table><p> <small>[private]</small></p><HR>
+	<table>
+	<tr><td><small>Generated by: pob on trillian on Sat Aug 10 17:26:42 2002, using kdoc 2.0a53.</small></td></tr>
+	</table>
+</BODY>
+</HTML>

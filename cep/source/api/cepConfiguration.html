@@ -1,0 +1,226 @@
+<HTML>
+<HEAD>
+<TITLE>class cepConfiguration</TITLE>
+
+<META NAME="Generator" CONTENT="KDOC ">
+</HEAD>
+<BODY bgcolor="#ffffff" text="#000000" link="#0000ff" vlink="#000099" alink= "#ffffff">
+<TABLE WIDTH="100%" BORDER="0">
+<TR>
+<TD>
+	<TABLE BORDER="0">
+		<TR><TD valign="top" align="left" cellspacing="10">
+		<h1>class cepConfiguration</h1>
+		</TD>
+		<TD valign="top" align="right" colspan="1">A drop in replacement for the original cepConfiguration. <small><A HREF="#longdesc">More...</A></small></TD></TR>
+	</TABLE>
+	<HR>
+	<TABLE BORDER="0">
+		<TR><TH>Definition</TH><TD><code>#include &lt;<A HREF="gdms___cepConfiguration_h.html">gdms/cepConfiguration.h</A>&gt;</code></TD></TR>
+<TR><TH><A HREF="full-list-cepConfiguration.html">List of all Methods</A></TH></TR>
+	</TABLE>
+	</TD>
+<TD align="right"><TABLE BORDER="0"><TR><TD><small><A HREF="index-long.html">Annotated List</A></small></TD></TR>
+<TR><TD><small><A HREF="header-list.html">Files</A></small></TD></TR>
+<TR><TD><small><A HREF="all-globals.html">Globals</A></small></TD></TR>
+<TR><TD><small><A HREF="hier.html">Hierarchy</A></small></TD></TR>
+<TR><TD><small><A HREF="index.html">Index</A></small></TD></TR>
+</TABLE></TD></TR></TABLE>
+<h4>Public Methods</h4><ul><LI>&nbsp;<b><A HREF="#ref1">~cepConfiguration</A></b> () 
+</LI>
+<LI><A HREF="cepError.html">cepError</A> &nbsp;<b><A HREF="#ref4">getValue</A></b> (const string & valkey, const string & defval, string & outval) 
+</LI>
+<LI><A HREF="cepError.html">cepError</A> &nbsp;<b><A HREF="#ref5">getValue</A></b> (const string & valkey, const bool & defval, bool & outval) 
+</LI>
+<LI><A HREF="cepError.html">cepError</A> &nbsp;<b><A HREF="#ref6">getValue</A></b> (const string & valkey, const int &defval, int &outval) 
+</LI>
+<LI><A HREF="cepError.html">cepError</A> &nbsp;<b><A HREF="#ref7">setValue</A></b> (const string & valkey, const string & value) 
+</LI>
+<LI><A HREF="cepError.html">cepError</A> &nbsp;<b><A HREF="#ref8">setValue</A></b> (const string & valkey, const int &value) 
+</LI>
+<LI><A HREF="cepError.html">cepError</A> &nbsp;<b><A HREF="#ref9">setValue</A></b> (const string & valkey, const bool & value) 
+</LI>
+</ul><h4>Public Static Methods</h4><ul><LI>static  void &nbsp;<b><A HREF="#ref2">initialise</A></b> (  const string & filename ) 
+</LI>
+<LI>static  <A HREF="cepConfiguration.html">cepConfiguration</A> & &nbsp;<b><A HREF="#ref3">getInstance</A></b> () 
+</LI>
+</ul><h4>Protected Methods</h4><ul><LI>&nbsp;<b><A HREF="#ref10">cepConfiguration</A></b> (const string & filename) 
+</LI>
+</ul><h4>Private Types</h4><ul><LI>typedef map  <A HREF="#ref12">< string, string, less < string > >map_t</A>
+</LI>
+</ul><h4>Private Methods</h4><ul><LI><A HREF="cepError.html">cepError</A> &nbsp;<b><A HREF="#ref15">load</A></b> (const string & filename) 
+</LI>
+<LI><A HREF="cepError.html">cepError</A> &nbsp;<b><A HREF="#ref16">save</A></b> (const string & filename) 
+</LI>
+<LI><A HREF="cepError.html">cepError</A> &nbsp;<b><A HREF="#ref17">readConfig</A></b> ( ifstream & in) 
+</LI>
+<LI><A HREF="cepError.html">cepError</A> &nbsp;<b><A HREF="#ref18">parseConfigEntry</A></b> (const string & entry, pair < string,
+                             string > &data) 
+</LI>
+<LI><A HREF="cepError.html">cepError</A> &nbsp;<b><A HREF="#ref19">writeConfig</A></b> (ofstream & out) 
+</LI>
+</ul><h4>Private Static Methods</h4><ul><LI>static  const string & &nbsp;<b><A HREF="#ref20">getDefaultConfigPath</A></b> () 
+</LI>
+</ul><h4>Private Members</h4><ul><LI>static cepConfiguration *<b><A HREF="#ref11">config</A></b></LI>
+<LI>map_t <b><A HREF="#ref13">map</A></b></LI>
+<LI>string <b><A HREF="#ref14">path</A></b></LI>
+</ul><HR><H2><A NAME="longdesc">Detailed Description</A></H2><p>A drop in replacement for the original cepConfiguration.
+This implements a whiteboard pattern.
+</p>
+<A NAME="~cepConfiguration"></A><A NAME="ref1"></A><table width="100%"><tr bgcolor="#eeeeee"><td>&nbsp;<strong>~cepConfiguration</strong> ()
+<br></td><td align="right"><h3><strong>~cepConfiguration</strong></h3></td></tr></table><p></p><A NAME="initialise"></A><A NAME="ref2"></A><table width="100%"><tr bgcolor="#eeeeee"><td> void &nbsp;<strong>initialise</strong> (  const string & filename )
+<br></td><td align="right"><h3><strong>initialise</strong></h3></td></tr></table><p> <small>[static]</small></p><p> Makes a new config using a config file called <code>filename</code>
+</p>
+<p><b>Parameters</b>:<TABLE BORDER="0" CELLPADDING="5">
+<TR><TD align="left" valign="top"><i>filename</i></TD><TD align="left" valign="top">the name of the file to use for persistance
+   </TD></TR>
+</TABLE></P>
+<A NAME="getInstance"></A><A NAME="ref3"></A><table width="100%"><tr bgcolor="#eeeeee"><td> <A HREF="cepConfiguration.html">cepConfiguration</A> & &nbsp;<strong>getInstance</strong> ()
+<br></td><td align="right"><h3><strong>getInstance</strong></h3></td></tr></table><p> <small>[static]</small></p><p> Gets a reference to the configuration.
+</p>
+<p><b>Returns</b>: a reference to the current configuration
+   </p>
+<A NAME="getValue"></A><A NAME="ref4"></A><table width="100%"><tr bgcolor="#eeeeee"><td><A HREF="cepError.html">cepError</A> &nbsp;<strong>getValue</strong> (const string & valkey, const string & defval, string & outval)
+<br></td><td align="right"><h3><strong>getValue</strong></h3></td></tr></table><p></p><p> Get the value for a given configuration item. If the key does not exist
+ then the deafult value is returned
+</p>
+<p><b>Parameters</b>:<TABLE BORDER="0" CELLPADDING="5">
+<TR><TD align="left" valign="top"><i>valkey</i></TD><TD align="left" valign="top">The key to lookup
+</TD></TR>
+<TR><TD align="left" valign="top"><i>defval</i></TD><TD align="left" valign="top">The default value
+</TD></TR>
+<TR><TD align="left" valign="top"><i>outval</i></TD><TD align="left" valign="top">This is set by the method.
+</TD></TR>
+</TABLE></P>
+<p><b>See also</b>: <A HREF="cepError.html">cepError</A></p>
+<A NAME="getValue"></A><A NAME="ref5"></A><table width="100%"><tr bgcolor="#eeeeee"><td><A HREF="cepError.html">cepError</A> &nbsp;<strong>getValue</strong> (const string & valkey, const bool & defval, bool & outval)
+<br></td><td align="right"><h3><strong>getValue</strong></h3></td></tr></table><p></p><p> Get the value for a given configuration item. If the key does not exist
+ then the deafult value is returned
+</p>
+<p><b>Parameters</b>:<TABLE BORDER="0" CELLPADDING="5">
+<TR><TD align="left" valign="top"><i>valkey</i></TD><TD align="left" valign="top">The key to lookup
+</TD></TR>
+<TR><TD align="left" valign="top"><i>defval</i></TD><TD align="left" valign="top">The default value
+</TD></TR>
+<TR><TD align="left" valign="top"><i>outval</i></TD><TD align="left" valign="top">This is set by the method.
+</TD></TR>
+</TABLE></P>
+<p><b>See also</b>: <A HREF="cepError.html">cepError</A></p>
+<A NAME="getValue"></A><A NAME="ref6"></A><table width="100%"><tr bgcolor="#eeeeee"><td><A HREF="cepError.html">cepError</A> &nbsp;<strong>getValue</strong> (const string & valkey, const int &defval, int &outval)
+<br></td><td align="right"><h3><strong>getValue</strong></h3></td></tr></table><p></p><p> Get the value for a given configuration item. If the key does not exist
+ then the deafult value is returned
+</p>
+<p><b>Parameters</b>:<TABLE BORDER="0" CELLPADDING="5">
+<TR><TD align="left" valign="top"><i>valkey</i></TD><TD align="left" valign="top">The key to lookup
+</TD></TR>
+<TR><TD align="left" valign="top"><i>defval</i></TD><TD align="left" valign="top">The default value
+</TD></TR>
+<TR><TD align="left" valign="top"><i>outval</i></TD><TD align="left" valign="top">This is set by the method.
+</TD></TR>
+</TABLE></P>
+<p><b>See also</b>: <A HREF="cepError.html">cepError</A></p>
+<A NAME="setValue"></A><A NAME="ref7"></A><table width="100%"><tr bgcolor="#eeeeee"><td><A HREF="cepError.html">cepError</A> &nbsp;<strong>setValue</strong> (const string & valkey, const string & value)
+<br></td><td align="right"><h3><strong>setValue</strong></h3></td></tr></table><p></p><p> Set the value for a given configuration item. If the key does not exist
+ then it is created
+</p>
+<p><b>Parameters</b>:<TABLE BORDER="0" CELLPADDING="5">
+<TR><TD align="left" valign="top"><i>valkey</i></TD><TD align="left" valign="top">The key to lookup
+</TD></TR>
+<TR><TD align="left" valign="top"><i>value</i></TD><TD align="left" valign="top">The value to set
+</TD></TR>
+</TABLE></P>
+<p><b>See also</b>: <A HREF="cepError.html">cepError</A></p>
+<A NAME="setValue"></A><A NAME="ref8"></A><table width="100%"><tr bgcolor="#eeeeee"><td><A HREF="cepError.html">cepError</A> &nbsp;<strong>setValue</strong> (const string & valkey, const int &value)
+<br></td><td align="right"><h3><strong>setValue</strong></h3></td></tr></table><p></p><p> Set the value for a given configuration item. If the key does not exist
+ then it is created
+</p>
+<p><b>Parameters</b>:<TABLE BORDER="0" CELLPADDING="5">
+<TR><TD align="left" valign="top"><i>valkey</i></TD><TD align="left" valign="top">The key to lookup
+</TD></TR>
+<TR><TD align="left" valign="top"><i>value</i></TD><TD align="left" valign="top">The value to set
+</TD></TR>
+</TABLE></P>
+<p><b>See also</b>: <A HREF="cepError.html">cepError</A></p>
+<A NAME="setValue"></A><A NAME="ref9"></A><table width="100%"><tr bgcolor="#eeeeee"><td><A HREF="cepError.html">cepError</A> &nbsp;<strong>setValue</strong> (const string & valkey, const bool & value)
+<br></td><td align="right"><h3><strong>setValue</strong></h3></td></tr></table><p></p><p> Set the value for a given configuration item. If the key does not exist
+ then it is created
+</p>
+<p><b>Parameters</b>:<TABLE BORDER="0" CELLPADDING="5">
+<TR><TD align="left" valign="top"><i>valkey</i></TD><TD align="left" valign="top">The key to lookup
+</TD></TR>
+<TR><TD align="left" valign="top"><i>value</i></TD><TD align="left" valign="top">The value to set
+</TD></TR>
+</TABLE></P>
+<p><b>See also</b>: <A HREF="cepError.html">cepError</A></p>
+<A NAME="cepConfiguration"></A><A NAME="ref10"></A><table width="100%"><tr bgcolor="#eeeeee"><td>&nbsp;<strong>cepConfiguration</strong> (const string & filename)
+<br></td><td align="right"><h3><strong>cepConfiguration</strong></h3></td></tr></table><p> <small>[protected]</small></p><p> Constructor. this is protected to ensure that there can be only one.
+</p>
+<p><b>Parameters</b>:<TABLE BORDER="0" CELLPADDING="5">
+<TR><TD align="left" valign="top"><i>filename</i></TD><TD align="left" valign="top">the canonical path to the config file
+   </TD></TR>
+</TABLE></P>
+<A NAME="config"></A><A NAME="ref11"></A><table width="100%"><tr bgcolor="#eeeeee"><td>static <A HREF="cepConfiguration.html">cepConfiguration</A> * <strong>config</strong>
+</td><td align="right"><h3><strong>config</strong></h3></td></tr></table><p> <small>[private]</small></p><A NAME="%3C%20string,%20string,%20less%20%3C%20string%20%3E%20%3Emap_t"></A><A NAME="ref12"></A><table width="100%"><tr bgcolor="#eeeeee"><td>typedef map  <strong>< string, string, less < string > >map_t</strong></td><td align="right"><h3><strong>< string, string, less < string > >map_t</strong></h3></td></tr></table><p> <small>[private]</small></p><A NAME="map"></A><A NAME="ref13"></A><table width="100%"><tr bgcolor="#eeeeee"><td>map_t  <strong>map</strong>
+</td><td align="right"><h3><strong>map</strong></h3></td></tr></table><p> <small>[private]</small></p><A NAME="path"></A><A NAME="ref14"></A><table width="100%"><tr bgcolor="#eeeeee"><td>string  <strong>path</strong>
+</td><td align="right"><h3><strong>path</strong></h3></td></tr></table><p> <small>[private]</small></p><A NAME="load"></A><A NAME="ref15"></A><table width="100%"><tr bgcolor="#eeeeee"><td><A HREF="cepError.html">cepError</A> &nbsp;<strong>load</strong> (const string & filename)
+<br></td><td align="right"><h3><strong>load</strong></h3></td></tr></table><p> <small>[private]</small></p><p> Load the data from the config file
+</p>
+<p><b>Parameters</b>:<TABLE BORDER="0" CELLPADDING="5">
+<TR><TD align="left" valign="top"><i>filename</i></TD><TD align="left" valign="top">the canonical path to the config file
+</TD></TR>
+</TABLE></P>
+<p><b>Returns</b>: the cepError. use cepError::isReal() to see if an error occurred.
+</p>
+<p><b>See also</b>: <A HREF="cepError.html">cepError</A></p>
+<A NAME="save"></A><A NAME="ref16"></A><table width="100%"><tr bgcolor="#eeeeee"><td><A HREF="cepError.html">cepError</A> &nbsp;<strong>save</strong> (const string & filename)
+<br></td><td align="right"><h3><strong>save</strong></h3></td></tr></table><p> <small>[private]</small></p><p> Load the data from the config file
+</p>
+<p><b>Parameters</b>:<TABLE BORDER="0" CELLPADDING="5">
+<TR><TD align="left" valign="top"><i>filename</i></TD><TD align="left" valign="top">the canonical path to the config file
+</TD></TR>
+</TABLE></P>
+<p><b>Returns</b>: the cepError. use cepError::isReal() to see if an error occurred.
+</p>
+<p><b>See also</b>: <A HREF="cepError.html">cepError</A></p>
+<A NAME="readConfig"></A><A NAME="ref17"></A><table width="100%"><tr bgcolor="#eeeeee"><td><A HREF="cepError.html">cepError</A> &nbsp;<strong>readConfig</strong> ( ifstream & in)
+<br></td><td align="right"><h3><strong>readConfig</strong></h3></td></tr></table><p> <small>[private]</small></p><p> Reads the config data from the input stream
+</p>
+<p><b>Parameters</b>:<TABLE BORDER="0" CELLPADDING="5">
+<TR><TD align="left" valign="top"><i>in</i></TD><TD align="left" valign="top">the input stream from which to read
+</TD></TR>
+</TABLE></P>
+<p><b>Returns</b>: the cepError. use cepError::isReal() to see if an error occurred.
+</p>
+<p><b>See also</b>: <A HREF="cepError.html">cepError</A></p>
+<A NAME="parseConfigEntry"></A><A NAME="ref18"></A><table width="100%"><tr bgcolor="#eeeeee"><td><A HREF="cepError.html">cepError</A> &nbsp;<strong>parseConfigEntry</strong> (const string & entry, pair < string,
+                             string > &data)
+<br></td><td align="right"><h3><strong>parseConfigEntry</strong></h3></td></tr></table><p> <small>[private]</small></p><p> Parses a single entry fromt he config file
+</p>
+<p><b>Parameters</b>:<TABLE BORDER="0" CELLPADDING="5">
+<TR><TD align="left" valign="top"><i>entry</i></TD><TD align="left" valign="top">the line fromt he file to parse
+</TD></TR>
+<TR><TD align="left" valign="top"><i>data</i></TD><TD align="left" valign="top">the data extracte. this is populated by the method.
+</TD></TR>
+</TABLE></P>
+<p><b>Returns</b>: the cepError. use cepError::isReal() to see if an error occurred.
+   </p>
+<A NAME="writeConfig"></A><A NAME="ref19"></A><table width="100%"><tr bgcolor="#eeeeee"><td><A HREF="cepError.html">cepError</A> &nbsp;<strong>writeConfig</strong> (ofstream & out)
+<br></td><td align="right"><h3><strong>writeConfig</strong></h3></td></tr></table><p> <small>[private]</small></p><p> Writes the config data to the output stream
+</p>
+<p><b>Parameters</b>:<TABLE BORDER="0" CELLPADDING="5">
+<TR><TD align="left" valign="top"><i>out</i></TD><TD align="left" valign="top">the output stream to write to
+</TD></TR>
+</TABLE></P>
+<p><b>Returns</b>: the cepError. use cepError::isReal() to see if an error occurred.
+</p>
+<p><b>See also</b>: <A HREF="cepError.html">cepError</A></p>
+<A NAME="getDefaultConfigPath"></A><A NAME="ref20"></A><table width="100%"><tr bgcolor="#eeeeee"><td> const string & &nbsp;<strong>getDefaultConfigPath</strong> ()
+<br></td><td align="right"><h3><strong>getDefaultConfigPath</strong></h3></td></tr></table><p> <small>[private static]</small></p><p> Builds the path to the config file. this checks to see if the environment
+ variable HOME is set. if so, then the path points to it, otherwise it is
+ pointed at the current working directory
+</p>
+<p><b>Returns</b>: the path to the config file
+   </p>
+<HR><UL><LI><i>Version</i>: $Revision: 1.1 $
+  </LI><LI><i>Author</i>: Blake Swadling
+</LI><LI><i>Generated</i>: pob on trillian on Sat Aug 10 17:26:42 2002, using kdoc 2.0a53.</LI></UL></BODY></HTML>

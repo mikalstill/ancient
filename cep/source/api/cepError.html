@@ -1,0 +1,162 @@
+<HTML>
+<HEAD>
+<TITLE>class cepError</TITLE>
+
+<META NAME="Generator" CONTENT="KDOC ">
+</HEAD>
+<BODY bgcolor="#ffffff" text="#000000" link="#0000ff" vlink="#000099" alink= "#ffffff">
+<TABLE WIDTH="100%" BORDER="0">
+<TR>
+<TD>
+	<TABLE BORDER="0">
+		<TR><TD valign="top" align="left" cellspacing="10">
+		<h1>class cepError</h1>
+		</TD>
+		<TD valign="top" align="right" colspan="1">
+   Imp for the CEP date
+   Copyright (C) Michael Still                    2002
+ <small><A HREF="#longdesc">More...</A></small></TD></TR>
+	</TABLE>
+	<HR>
+	<TABLE BORDER="0">
+		<TR><TH>Definition</TH><TD><code>#include &lt;<A HREF="gdms___cepError_h.html">gdms/cepError.h</A>&gt;</code></TD></TR>
+<TR><TH><A HREF="full-list-cepError.html">List of all Methods</A></TH></TR>
+	</TABLE>
+	</TD>
+<TD align="right"><TABLE BORDER="0"><TR><TD><small><A HREF="index-long.html">Annotated List</A></small></TD></TR>
+<TR><TD><small><A HREF="header-list.html">Files</A></small></TD></TR>
+<TR><TD><small><A HREF="all-globals.html">Globals</A></small></TD></TR>
+<TR><TD><small><A HREF="hier.html">Hierarchy</A></small></TD></TR>
+<TR><TD><small><A HREF="index.html">Index</A></small></TD></TR>
+</TABLE></TD></TR></TABLE>
+<h4>Public Types</h4><ul><LI>enum <A HREF="#ref1">severity</A> {    sevOk = 0,
+    sevDebug,
+    sevInformational,
+    sevWarning,
+    sevErrorRecoverable,
+    sevErrorFatal,
+    sevMax
+  }
+</LI>
+</ul><h4>Public Methods</h4><ul><LI>&nbsp;<b><A HREF="#ref2">cepError</A></b> () 
+</LI>
+<LI>&nbsp;<b><A HREF="#ref3">cepError</A></b> (const string & msg) 
+</LI>
+<LI>&nbsp;<b><A HREF="#ref4">cepError</A></b> (const string & msg, severity level) 
+</LI>
+<LI>&nbsp;<b><A HREF="#ref6">~cepError</A></b> () 
+</LI>
+<LI>bool &nbsp;<b><A HREF="#ref7">isReal</A></b> () 
+</LI>
+<LI>void &nbsp;<b><A HREF="#ref8">clear</A></b> () 
+</LI>
+<LI>void &nbsp;<b><A HREF="#ref9">log</A></b> () 
+</LI>
+<LI>void &nbsp;<b><A HREF="#ref10">display</A></b> () 
+</LI>
+<LI>string & &nbsp;<b><A HREF="#ref11">getMessage</A></b> () 
+</LI>
+<LI>int &nbsp;<b><A HREF="#ref12">getSeverity</A></b> () 
+</LI>
+</ul><h4>Public Static Methods</h4><ul><LI>static  void &nbsp;<b><A HREF="#ref5">setErrorHandler</A></b> ( class <A HREF="cepErrorHandler.html">cepErrorHandler</A>& h ) 
+</LI>
+</ul><h4>Private Members</h4><ul><LI>static bool <b><A HREF="#ref13">handlerInstalled</A></b></LI>
+<LI>static class cepErrorHandler *<b><A HREF="#ref14">handler</A></b></LI>
+<LI>string <b><A HREF="#ref15">message</A></b></LI>
+<LI>severity <b><A HREF="#ref16">level</A></b></LI>
+<LI>bool <b><A HREF="#ref17">actioned</A></b></LI>
+</ul><HR><H2><A NAME="longdesc">Detailed Description</A></H2><p>
+   Imp for the CEP date
+   Copyright (C) Michael Still                    2002
+</p>
+<p>   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+</p>
+<p>   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+</p>
+<p>   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+****************************************************************************</p>
+<A NAME="severity"></A><A NAME="ref1"></A><table width="100%"><tr bgcolor="#eeeeee"><td>enum <strong>severity</strong> {    sevOk = 0,
+    sevDebug,
+    sevInformational,
+    sevWarning,
+    sevErrorRecoverable,
+    sevErrorFatal,
+    sevMax
+  }
+</td><td align="right"><h3><strong>severity</strong></h3></td></tr></table><p></p><A NAME="cepError"></A><A NAME="ref2"></A><table width="100%"><tr bgcolor="#eeeeee"><td>&nbsp;<strong>cepError</strong> ()
+<br></td><td align="right"><h3><strong>cepError</strong></h3></td></tr></table><p></p><A NAME="cepError"></A><A NAME="ref3"></A><table width="100%"><tr bgcolor="#eeeeee"><td>&nbsp;<strong>cepError</strong> (const string & msg)
+<br></td><td align="right"><h3><strong>cepError</strong></h3></td></tr></table><p></p><p> Constructor. Creates a new instance of <code>cepError</code>
+</p>
+<p><b>Parameters</b>:<TABLE BORDER="0" CELLPADDING="5">
+<TR><TD align="left" valign="top"><i>msg</i></TD><TD align="left" valign="top">a description of the cause of the error
+   </TD></TR>
+</TABLE></P>
+<A NAME="cepError"></A><A NAME="ref4"></A><table width="100%"><tr bgcolor="#eeeeee"><td>&nbsp;<strong>cepError</strong> (const string & msg, severity level)
+<br></td><td align="right"><h3><strong>cepError</strong></h3></td></tr></table><p></p><p> Constructor. Creates a new instance of <code>cepError</code>
+</p>
+<p><b>Parameters</b>:<TABLE BORDER="0" CELLPADDING="5">
+<TR><TD align="left" valign="top"><i>msg</i></TD><TD align="left" valign="top">a description of the cause of the error
+</TD></TR>
+<TR><TD align="left" valign="top"><i>level</i></TD><TD align="left" valign="top">the severity of the error
+   </TD></TR>
+</TABLE></P>
+<A NAME="setErrorHandler"></A><A NAME="ref5"></A><table width="100%"><tr bgcolor="#eeeeee"><td> void &nbsp;<strong>setErrorHandler</strong> ( class <A HREF="cepErrorHandler.html">cepErrorHandler</A>& h )
+<br></td><td align="right"><h3><strong>setErrorHandler</strong></h3></td></tr></table><p> <small>[static]</small></p><p>
+ Adds a global <code>cepErrorHandler</code> which will be used to display and log errors.
+ If no error handler is installed then display and log are not performed
+</p>
+<p><b>Parameters</b>:<TABLE BORDER="0" CELLPADDING="5">
+<TR><TD align="left" valign="top"><i>h</i></TD><TD align="left" valign="top">the error handler to be used by all <code>cepErrors</code>
+   </TD></TR>
+</TABLE></P>
+<A NAME="~cepError"></A><A NAME="ref6"></A><table width="100%"><tr bgcolor="#eeeeee"><td>&nbsp;<strong>~cepError</strong> ()
+<br></td><td align="right"><h3><strong>~cepError</strong></h3></td></tr></table><p></p><p> Destructor. if this is called and the error has not been actioned then the error
+ is logged. Note that if no error handler is installed, failure to action will
+ not be detected
+   </p>
+<A NAME="isReal"></A><A NAME="ref7"></A><table width="100%"><tr bgcolor="#eeeeee"><td>bool &nbsp;<strong>isReal</strong> ()
+<br></td><td align="right"><h3><strong>isReal</strong></h3></td></tr></table><p></p><p> Check the status of the <code>cepError</code>
+</p>
+<p><b>Returns</b>: false if the severity is sevOk, true otherwise.
+   </p>
+<A NAME="clear"></A><A NAME="ref8"></A><table width="100%"><tr bgcolor="#eeeeee"><td>void &nbsp;<strong>clear</strong> ()
+<br></td><td align="right"><h3><strong>clear</strong></h3></td></tr></table><p></p><p> Clears the <code>cepError</code> by setting severity to sevOk
+ and removing the current message
+   </p>
+<A NAME="log"></A><A NAME="ref9"></A><table width="100%"><tr bgcolor="#eeeeee"><td>void &nbsp;<strong>log</strong> ()
+<br></td><td align="right"><h3><strong>log</strong></h3></td></tr></table><p></p><p> Logs the <code>cepError</code> via the currently installed error handler.
+ If there is no error handler installed hen no action is taken
+   </p>
+<A NAME="display"></A><A NAME="ref10"></A><table width="100%"><tr bgcolor="#eeeeee"><td>void &nbsp;<strong>display</strong> ()
+<br></td><td align="right"><h3><strong>display</strong></h3></td></tr></table><p></p><p> Displays the <code>cepError</code> via the currently installed error handler.
+ If there is no error handler installed hen no action is taken
+   </p>
+<A NAME="getMessage"></A><A NAME="ref11"></A><table width="100%"><tr bgcolor="#eeeeee"><td>string & &nbsp;<strong>getMessage</strong> ()
+<br></td><td align="right"><h3><strong>getMessage</strong></h3></td></tr></table><p></p><p> Queries the description of the current <code>cepError</code>
+</p>
+<p><b>Returns</b>: a description of the current <code>cepError</code>
+   </p>
+<A NAME="getSeverity"></A><A NAME="ref12"></A><table width="100%"><tr bgcolor="#eeeeee"><td>int &nbsp;<strong>getSeverity</strong> ()
+<br></td><td align="right"><h3><strong>getSeverity</strong></h3></td></tr></table><p></p><p> Queries the severity of the current <code>cepError</code>
+</p>
+<p><b>Returns</b>: the severity of the current <code>cepError</code>
+   </p>
+<A NAME="handlerInstalled"></A><A NAME="ref13"></A><table width="100%"><tr bgcolor="#eeeeee"><td>static bool  <strong>handlerInstalled</strong>
+</td><td align="right"><h3><strong>handlerInstalled</strong></h3></td></tr></table><p> <small>[private]</small></p><A NAME="handler"></A><A NAME="ref14"></A><table width="100%"><tr bgcolor="#eeeeee"><td>static class <A HREF="cepErrorHandler.html">cepErrorHandler</A> * <strong>handler</strong>
+</td><td align="right"><h3><strong>handler</strong></h3></td></tr></table><p> <small>[private]</small></p><A NAME="message"></A><A NAME="ref15"></A><table width="100%"><tr bgcolor="#eeeeee"><td>string  <strong>message</strong>
+</td><td align="right"><h3><strong>message</strong></h3></td></tr></table><p> <small>[private]</small></p><A NAME="level"></A><A NAME="ref16"></A><table width="100%"><tr bgcolor="#eeeeee"><td>severity  <strong>level</strong>
+</td><td align="right"><h3><strong>level</strong></h3></td></tr></table><p> <small>[private]</small></p><A NAME="actioned"></A><A NAME="ref17"></A><table width="100%"><tr bgcolor="#eeeeee"><td>bool  <strong>actioned</strong>
+</td><td align="right"><h3><strong>actioned</strong></h3></td></tr></table><p> <small>[private]</small></p><HR>
+	<table>
+	<tr><td><small>Generated by: pob on trillian on Sat Aug 10 17:26:42 2002, using kdoc 2.0a53.</small></td></tr>
+	</table>
+</BODY>
+</HTML>
