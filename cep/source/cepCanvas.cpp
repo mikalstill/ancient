@@ -101,8 +101,11 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
   wxClientDC dc (this);
   PrepareDC (dc);
 
+  // This sets the device context so that our drawing causes an inversion, lines are drawn with black,
+  // and polygons are filled with black.
   dc.SetLogicalFunction(wxINVERT);
   dc.SetPen (*wxBLACK_PEN);
+  dc.SetBrush(*wxBLACK_BRUSH);
   wxPoint pt (event.GetLogicalPosition (dc));
 
   string msg("Mouse location: " + cepToString(pt.x) + ", " + cepToString(pt.y));
@@ -113,8 +116,11 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
   
   // Is the mouse down?
   if(event.LeftIsDown()){
+    int top, bottom, width;
+    graphPlacement(m_selDir, top, bottom, width);
+    
     if(m_selectXStart == -1){
-      m_selectXStart = pt.x;
+      m_selectXStart = m_selectXPrevious = pt.x;
       m_selDir = selDir;
       m_selDirString = dirName;
 
@@ -122,12 +128,35 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
 
       string sel = string(m_selDirString + " " + cepToString(m_selectXStart));
       ((cepFrame *) wxGetApp().GetTopWindow())->SetStatusText(sel.c_str(), 2);
+
+      dc.DrawLine(m_selectXStart, top, m_selectXStart, bottom);
+      cepDebugPrint("Highlight: " + cepToString(m_selectXStart));
     }
     else{
       m_selectXEnd = pt.x;
       string sel = string(m_selDirString + " " + cepToString(m_selectXStart) + 
 			  " to " + m_selDirString + " " + cepToString(m_selectXEnd));
       ((cepFrame *) wxGetApp().GetTopWindow())->SetStatusText(sel.c_str(), 2);
+
+      // Draw the highlight
+      if((m_selectXPrevious + 1) == m_selectXEnd){
+	dc.DrawLine(m_selectXPrevious + 1, top, m_selectXPrevious + 1, bottom);
+      }
+      if((m_selectXPrevious + 1) < m_selectXEnd){
+	for(int i = m_selectXPrevious; i < m_selectXEnd; i++)
+	  dc.DrawLine(i + 1, top, i + 1, bottom);
+	
+	// todo_mikal: This rectangle call was refusing to work for me...
+	// dc.DrawRectangle(m_selectXPrevious + 1, top, 1, bottom - top);
+      }
+      else if(m_selectXPrevious > m_selectXEnd){
+	// todo_mikal: check this is perfect
+	for(int i = m_selectXEnd; i < m_selectXPrevious; i++)
+	  dc.DrawLine(i, top, i + 1, bottom);
+
+	// todo_mikal: I should use a rectangle here as well
+      }
+      m_selectXPrevious = m_selectXEnd;
     }
   }
   else if(m_selectXStart != -1){
@@ -139,6 +168,9 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
 			cepToString(selectXStart) + " to " + m_selDirString + " " + 
 			cepToString(m_selectXEnd)).c_str());
     ((cepFrame *) wxGetApp().GetTopWindow())->SetStatusText("", 2);
+
+    // Force a redraw of the canvas
+    Refresh();
   }
 }
 

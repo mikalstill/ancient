@@ -60,7 +60,7 @@ public:
     
     wxButton m_button;
   cepConfiguration *m_config;
-  int m_selectXStart, m_selectXEnd;
+  int m_selectXStart, m_selectXPrevious, m_selectXEnd;
   cepDataset::direction m_selDir;
   string m_selDirString;
 };

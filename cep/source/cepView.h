@@ -99,13 +99,12 @@ private:
   void drawPresentation(cepDataset *ds, cepDataset::direction dir, int top,
 			wxDC *dc, int presWidth, int presHeight);
 
-  string m_pngCache[3]; 
+  string m_pngCache[3];
   bool m_dirty;
   bool m_plotfailed;
   cepLsDisplay m_displayLs;
   cepConfiguration *m_config;
   cepErrorHandler *errHandler;
-  wxRect m_graphs[3];
 };
 
 
