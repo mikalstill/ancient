@@ -8,6 +8,8 @@
 #include <fcntl.h>
 #include "fileutil.h"
 
+int undeleting = 1;
+
 void travdir(int, char *, long long, int, int, int);
 
 int main(int argc, char *argv[]){
@@ -25,7 +27,7 @@ int main(int argc, char *argv[]){
   }
 
   // Map the input file into memory
-  if ((fd = open (argv[1], O_RDONLY)) < 0)
+  if ((fd = open (argv[1], O_RDWR)) < 0)
     {
       fprintf (stderr, "Could not open the data file\n");
       exit (43);
@@ -37,7 +39,7 @@ int main(int argc, char *argv[]){
   }
 
   if ((file =
-       (char *) mmap (NULL, sb.st_size, PROT_READ, MAP_SHARED, fd, 0)) == -1)
+       (char *) mmap (NULL, sb.st_size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0)) == -1)
     {
       fprintf (stderr, "Could not mmap data file\n");
       exit (43);
@@ -156,11 +158,11 @@ int main(int argc, char *argv[]){
   printf("\n\n");
 
   // Skip the FATs for now...
-  filep = (resseccnt + numfats * fatsz16) * bytespersec;
+  filep = (resseccnt + (numfats * fatsz16)) * bytespersec;
   //filep = (resseccnt + 1) * bytespersec + (numfats & fatsz16);
   
   printf("Root directory starts at:\n");
-  printf("(%d + %d * %d) * %d\n", resseccnt, numfats, fatsz16, bytespersec);
+  printf("(%d + (%d * %d)) * %d\n", resseccnt, numfats, fatsz16, bytespersec);
   printf(" = %d\n", filep);
   travdir(0, file, filep, filep + (rootentcnt * 32), secperclu, bytespersec);
   
@@ -172,6 +174,10 @@ int main(int argc, char *argv[]){
 
 void travdir(int indent, char *file, long long filep, int firstdata, int secperclu, int bytespersec){
   int count, icount, isdir, newfilepl, newfileph;
+  char filename[12];
+  long long dirEntStart;
+
+  filename[11] = '\0';
 
   for(icount = 0; icount < indent; icount++) printf("  ");
   printf("[ Directory entries from %d ]\n", filep);
@@ -184,14 +190,15 @@ void travdir(int indent, char *file, long long filep, int firstdata, int secperc
       break;
 
     for(icount = 0; icount < indent; icount++) printf("  ");
-    printf("Name: \"");
+    printf("Inset: %d\n", filep);
+    dirEntStart = filep;
+
+    for(icount = 0; icount < indent; icount++) printf("  ");
     for(count = 0; count < 11; count++){
-      if(isprint(file[filep]))
-	printf("%c", file[filep]);
-      else printf(".");
+      filename[count] = file[filep];
       filep++;
     }
-    printf("\"\n");
+    printf("Name: \"%s\"\n", filename);
     
     isdir = 0;
     {
@@ -212,7 +219,7 @@ void travdir(int indent, char *file, long long filep, int firstdata, int secperc
       }
       if(attrs & 0x20) printf("archive ");
       if((attrs & 0x01) && (attrs & 0x02) && (attrs & 0x04) && (attrs & 0x08))
-	printf("longfilename");
+	printf("= longfilename");
     }
     printf("\n");
     
@@ -236,16 +243,27 @@ void travdir(int indent, char *file, long long filep, int firstdata, int secperc
     newfilepl = fileutil_displayshort(file, "Starting cluster low word: ", &filep); printf("\n");
     for(icount = 0; icount < indent; icount++) printf("  ");
     fileutil_displayinteger(file, "File size (bytes): ", &filep); printf("\n");
+
+    if(undeleting && (filename[0] == (char) 0xE5)){
+      // The file has been deleted, and we are undeleting. We need to guess the old first
+      // character of the filename, so we always use 'D' at the moment.
+      for(icount = 0; icount < indent; icount++) printf("  ");
+      printf("Undeleted file\n");
+      file[dirEntStart] = (char) 'D';
+    }
     printf("\n");
 
-    if(isdir){
+    if(isdir && (strcmp(filename, ".          ") != 0) &&
+       (strcmp(filename, "..         ") != 0)){
       for(icount = 0; icount < indent + 1; icount++) printf("  ");
       printf("[ Descending into data cluster %d ] \n\n", ((newfileph << 16) + newfilepl));
       
-      //      travdir(indent + 1, file, 
-	      //((resseccnt + numfats * fatsz16) * bytespersec) // to the start of the root directory
-      //	      (((newfileph << 16) + newfilepl) * secperclu * bytespersec)+ firstdata, 
-      //	      firstdata, secperclu, bytespersec);
+      travdir(indent + 1, file, 
+      	      (((newfileph << 16) + newfilepl - 2) * bytespersec * secperclu) + firstdata, 
+      	      firstdata, secperclu, bytespersec);
+
+      for(icount = 0; icount < indent + 1; icount++) printf("  ");
+      printf("[ Returned ]\n\n");
     }
   }
 }

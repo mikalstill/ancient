@@ -1,0 +1,1 @@
+Fastidious is a simple FAT parser which can be used to undelete files which have been marked as deleted. It was written to learn more about the way a FAT filesystem is laid out on disc, and to try and rescue some digital camera pictures. I never did manage to rescue the pictures however. Note that Fastidious has only been tested on FAT16 filesystems.
