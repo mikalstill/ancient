@@ -4,7 +4,7 @@
 
 <sect1><title>About the author</title>
 <para>
-Michael has been working in the image processing field for several years, including a couple of years managing and developing large image databases for an Australian government department. He currently works for TOWER Software, who manufacture a world leading EDMS and Records Management package named TRIM. Michael is also the developer of Panda, an open source PDF generation API, as well as being the maintainer of the comp.text.pdf USENET frequently asked questions document.
+Michael has been working in the image processing field for several years, including a couple of years managing and developing large image databases for an Australian government department. He currently works for TOWER Software, who manufacture a world leading EDMS and Records Management package named TRIM. Michael is also the developer of Panda, an open source PDF generation API, as well as a bunch of other Open Source code.
 </para>
 
 <para>
@@ -18,10 +18,7 @@ This article is about two things. The main focus of the article is to discuss ho
 </para>
 
 <para>
-
-...Assumed C, bash knowledge...
-
-TODO
+In this article I assume that you have a working knowledge of both bash scripting and C programming. If you don't then hopefully you'll still get something out of the article, but you might have to skip bits which are too technical.
 </para>
 </sect1>
 
@@ -50,7 +47,7 @@ It strikes me as logical to start this article with an extremely brief introduct
 </para>
 
 <para>
-Both UDP and TCP sit onto of the Internet protocol, which handles all the plumbing of actually getting the data out of the back of the client machine to the server. This is where the similarity ends. UDP is the <emphasis>User Datagram Protocol</emphasis>, and is unreliable. On the other hand, TCP is the <emphasis>Transmission Control Protocol</emphasis>, and is reliable.
+Both UDP and TCP sit on top of the Internet protocol, which handles all the plumbing of actually getting the data out of the back of the client machine to the server. This is where the similarity ends. UDP is the <emphasis>User Datagram Protocol</emphasis>, and is unreliable. On the other hand, TCP is the <emphasis>Transmission Control Protocol</emphasis>, and is reliable.
 </para>
 
 <para>
@@ -95,7 +92,7 @@ TODO
 
 <sect2><title>Disconnected sockets</title>
 <para>
-By default when a UDP socket is created, it is disconnected. What's a disconnected socket? The short answer is that it isn't associated with a given remote machine. This means that each time we fetch data from the socket we have to use the <emphasis>recvfrom</emphasis>(2) function call:
+By default when a UDP socket is created, it is disconnected. What's a disconnected socket? The short answer is that it isn't associated with any given remote machine. This means that each time we fetch data from the socket we have to use the <emphasis>recvfrom</emphasis>(2) function call:
 </para>
 
 <programlisting>
@@ -239,7 +236,7 @@ There are a couple of things worth noting here. Firstly, the UDP server can hand
 
 <sect2><title>Disconnected sockets and scripting</title>
 <para>
-This article is really about writing useful UDP servers using scripting languages &mdash; specifically <emphasis>bash</emphasis>. In this instance, the disconnected nature of these default UDP sockets causes great pain. This is because there is no trivial way in bash to call <emphasis>recvfrom</emphasis> and <emphasis>sendto</emphasis>. Shell scripts really want to be able to use the standard <emphasis>read</emphasis> and <emphasis>write</emphasis> calls, because they are really intended for file and pipe input output, as opposed to socket traffic.
+This article is really about writing useful UDP servers using scripting languages &mdash; specifically <emphasis>bash</emphasis>. In this instance, the disconnected nature of these default UDP sockets causes great pain. This is because there is no trivial way in bash to call <emphasis>recvfrom</emphasis> and <emphasis>sendto</emphasis>. Shell scripts really want to be able to use the standard <emphasis>read</emphasis> and <emphasis>write</emphasis> calls, because these languages are really intended for file and pipe input output, as opposed to socket traffic.
 </para>
 
 <para>
@@ -248,7 +245,7 @@ We can demonstrate this by writing a very simple, and probably quite impractical
 
 <sidebar><title>What is inetd?</title>
 <para>
-<command>inetd</command>, and it's fairly common <command>xinetd</command> alternative are super daemons. Their role in the networking food chain is as a way of running programs to process network traffic as demand requires. For example, for many <command>rsync</command> servers operate from <command>inetd</command>. What this means is that <command>inetd</command> runs in the background as a daemon waiting for connections from clients to the <command>rsync</command> port. It then starts a new copy of <command>rsync</command> for each of these connections, and <command>rsync</command> processes the traffic (and perhaps responds).
+<command>inetd</command>, and it's fairly common <command>xinetd</command> alternative are super daemons. Their role in the networking food chain is as a way of running programs to process network traffic as demand requires. For example, many <command>rsync</command> servers operate from <command>inetd</command>. What this means is that <command>inetd</command> runs in the background as a daemon waiting for connections from clients to the <command>rsync</command> port. It then starts a new copy of <command>rsync</command> for each of these connections, and <command>rsync</command> processes the traffic (and perhaps responds).
 </para>
 
 <para>
@@ -364,7 +361,7 @@ This of course doesn't work because the socket is disconnected, so <command>cat<
 
 <sect2><title>Connected sockets</title>
 <para>
-The answer to our need to use <emphasis>read</emphasis> and <emphasis>write</emphasis> for our shell scripts which use <command>inetd</command> is a connected socket. A connected socket is simply a socket which has had the <emphasis>connect</emphasis>(2) function called upon it.
+The answer to our need to use <emphasis>read</emphasis> and <emphasis>write</emphasis> for our shell scripts is a connected socket. A connected socket is simply a socket which has had the <emphasis>connect</emphasis>(2) function called upon it.
 </para>
 
 <para>
@@ -571,7 +568,6 @@ The package which contains <command>inetd</command> as run on Debian is called <
 </para>
 
 <programlisting>
-Only in netkit-base-0.16-hacked: MCONFIG
 diff -ur netkit-base-0.16/inetd/inetd.c netkit-base-0.16-hacked/inetd/inetd.c
 --- netkit-base-0.16/inetd/inetd.c    Wed Nov 24 06:31:53 1999
 +++ netkit-base-0.16-hacked/inetd/inetd.c    Thu Jan 23 13:42:59 2003
@@ -608,6 +604,47 @@ diff -ur netkit-base-0.16/inetd/inetd.c netkit-base-0.16-hacked/inetd/inetd.c
              dup2(0, 1);
 </programlisting>
 <para><emphasis>Code: netkit.patch</emphasis></para>
+
+<para>
+A simple example of how to configure <command>inetd</command> to handle our UDP echo server is shown below &mdash; the configuration file this line is added to is /etc/inetd.conf. It should be noted that <emphasis>myecho</emphasis> is the name of a service I had to add to /etc/services because <command>inetd</command> insists on all services being listed there...
+</para>
+
+<programlisting>
+# An example UDP echo server
+myecho    dgram   udp     nowait    root    /bin/cat cat -
+</programlisting>
+
+<para>
+This service has the following characteristics:
+</para>
+
+<itemizedlist>
+<listitem><para>The service name is <emphasis>myecho</emphasis>. The listing in /etc/services is:</para>
+<programlisting>
+myecho		1234/udp			# Simple echo example for LJ article
+</programlisting>
+
+<sidebar><title>Why not echo?</title>
+<para>
+Note that we can't use the name <emphasis>echo</emphasis> for our service because of a couple of reasons: it is already defined in /etc/services; it is an internal service which <command>inetd</command> already offers using the normal port number; and we wanted to define a different port number for the service, without b reaking things which might use the old /etc/services entry.
+</para>
+</sidebar>
+</listitem>
+
+<listitem><para>The socket type is <emphasis>dgram</emphasis>, which is short for datagram, the type of packet that the UDP protocol uses.</para></listitem>
+
+<listitem><para>The protocol is UDP.</para></listitem>
+
+<listitem><para><emphasis>nowait</emphasis> is used to indicate that one server should be started per packet, instead of waiting for the previous server to exit. This arguement should always be nowait for TCP servers.</para></listitem>
+
+<listitem><para>The server runs as root.</para></listitem>
+
+<listitem><para>The server is located at /bin/cat</para></listitem>
+
+<listitem><para>The server should be started with these arguements. Note that the name of the executable is always the first arguement. Checkout <emphasis>execve</emphasis>(2) for more details.</para></listitem>
+</itemizedlist>
+
+
 </sect3>
 
 <sect3><title>xinetd patch</title>
