@@ -41,8 +41,13 @@
  &lt;/para&gt;
  
  &lt;para&gt;
- &lt;command&gt;void showSampleRate()&lt;/command&gt;
+ &lt;command&gt;void showSampleRate(double val)&lt;/command&gt;
  Shows the interpolation GUI.
+ 
+ &lt;para&gt;&lt;itemizedlist&gt;
+ &lt;listitem&gt;&lt;para&gt;val:- the default value of the sample rate. This is usually 1/2 the distance
+ between first two points in the dataset&lt;/para&gt;&lt;/listitem&gt;
+ &lt;/itemizedlist&gt;&lt;/para&gt;
  &lt;/para&gt;
  
  &lt;para&gt;

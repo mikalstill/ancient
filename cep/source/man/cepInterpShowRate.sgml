@@ -27,7 +27,9 @@
 <synopsis>
  The follwing is an example of how to create this object.
  
- cepInterpShowRate sr;
+ cepInterpShowRate sr(val);
+ 
+ where val is the default sample rate.
  
 
 </synopsis>
