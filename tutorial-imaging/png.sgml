@@ -1,12 +1,20 @@
 <chapter id="chap-png"><title>PNG</title>
+<para><quote>
+A Turbo-Studly Image Format with Lossless Compression
+(Not Related to Papua New Guinea, the Pawnee National Grassland,
+the Professional Numismatists Guild or the ``Pack 'N' Go'' format)
+</quote> -- libpng.org</para>
+
 <para>
-PNG is my favorite image format after TIFF. It is well conceived, well implemented, and very powerful. It also has some interesting features, mainly aimed at Internet use, which TIFF lacks. It is also usable in modern web browsers
+PNG
+  <footnote><para>Short for Portable Network Graphics.</para></footnote>
+is my favorite image format after TIFF. It is well conceived, well implemented, and very powerful. It also has some interesting features, mainly aimed at Internet use, which TIFF lacks. It is also usable in modern web browsers
   <footnote><para>For instance Netscape 4 and Internet Explorer 4 and later.</para></footnote>
 , unlike TIFF. PNG is also much simpler in many respects than TIFF.
 </para>
 
 <para>
-This chapter will focus on the libpng library.
+This chapter will focus on the libpng library. This isn't really a limitation, as the people behind libpng are also the people who write the PNG specification, so you're pretty safe in assuming that if it's useful and PNG does it, then libpng implements it.
 </para>
 
 <sect1><title>Introduction</title>

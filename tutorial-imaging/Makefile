@@ -1,8 +1,8 @@
 tutorial: output.sgml output.ps
-	./wordcount.pl output.sgml | wc -w
+	striptext.pl output.sgml | wc -w
 
-output.sgml: tutorial.sgml tiff.sgml introduction.sgml concepts.sgml theory.sgml png.sgml builddb.pl code2db.pl text2db.pl
-	./builddb.pl < tutorial.sgml > output.sgml
+output.sgml: tutorial.sgml tiff.sgml introduction.sgml concepts.sgml theory.sgml png.sgml
+	builddb.pl < tutorial.sgml > output.sgml
 
 output.ps: output.sgml
 	db2ps output.sgml
