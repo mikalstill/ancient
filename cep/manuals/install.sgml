@@ -2,8 +2,7 @@
 <sect1><title>Dependancies</title>
   <para>
     There are several dependencies that the user needs to be aware of whilst installing GDMS from source. These are
-    wxWindows, mplot, pcre, and freetype. Each of these dependancies, and their version at the time that this manual
-    was produced are documented below.
+    wxWindows, mplot, pcre, and freetype. All of the dependencies are provided in the contrib directory.
   </para>
 
   <para>
