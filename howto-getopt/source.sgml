@@ -1,0 +1,284 @@
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
+<article>
+<title>JPEG to MPEG conversion howto</title>
+
+<sect1>
+<title>Abstract</title>
+<para>
+Recently, I went to a conference and was keen enough to setup a webcam. Now I have 27,000 JPEG images, which I want to turn into a simple MPEG movie. This document details the process I went through to make this happen...
+</para>
+
+<para>
+This was all done on a pretty vanilla Redhat 7.1 box, for those who care about such things.
+</para>
+</sect1>
+
+<sect1><title>MPEG tools</title>
+<para>
+The project I found which did the conversion is called MJPEG tools. The URL for this project is http://mjpeg.sourceforge.net. There were lots of dependancies, which we should talk about first...
+</para>
+</sect1>
+
+<sect1><title>Dependancies</title>
+<sect2><title>libavifile</title>
+<para>
+This library can be found at http://avifile.sourceforge.net. It is needed by MJPEG tools to be able to handle AVI files. The version I used was 0.7-0.7.15. It follows the standard autotools install process:
+</para>
+
+<programlisting>
+./configure
+make
+make install
+</programlisting>
+</sect2>
+
+<sect2><title>libsdl</title>
+<para>
+<quote>
+Simple DirectMedia Layer is a cross-platform multimedia library designed to provide fast access to the graphics framebuffer and audio device. It is used by MPEG playback software, emulators, and many popular games, including the award winning Linux port of "Civilization: Call To Power." Simple DirectMedia Layer supports Linux, Win32, BeOS, MacOS, Solaris, IRIX, and FreeBSD.
+</quote>
+-- http://www.libsdl.org/index.php
+</para>
+
+<para>
+libsdl can be found at http://www.libsdl.org, and is needed for some of the MJPEG playback routines. I used version 1.2.4. Again, installing is done by simply:
+</para>
+
+<programlisting>
+./configure
+make
+make install
+</programlisting>
+</sect2>
+
+<sect2><title>nasm</title>
+<para>
+NASM is an assembler, and the authors are none to modest. The web page is http://sourceforge.net/projects/nasm and to quote from that page:
+</para>
+
+<para>
+<quote>
+This is NASM - the famous Netwide Assembler. Back at SourceForge and in intensive development!
+</quote>
+</para>
+
+<para>
+It can't be that famous, I've never heard of it before.
+</para>
+
+<para>
+An explaination of where NASM came from can be found in the documentation:
+</para>
+
+<blockquote><attribution>http://home.attbi.com/~fbkotler/nasmdoc1.html#section-1.1</attribution>
+<para>
+The Netwide Assembler grew out of an idea on comp.lang.asm.x86 (or possibly alt.lang.asm - I forget which), which was essentially that there didn't seem to be a good free x86-series assembler around, and that maybe someone ought to write one.
+</para>
+
+<itemizedlist>
+<listitem><para>
+a86 is good, but not free, and in particular you don't get any 32-bit capability until you pay. It's DOS only, too.
+</para></listitem>
+
+<listitem><para>
+gas is free, and ports over DOS and Unix, but it's not very good, since it's designed to be a back end to gcc, which always feeds it correct code. So its error checking is minimal. Also, its syntax is horrible, from the point of view of anyone trying to actually write anything in it. Plus you can't write 16-bit code in it (properly).
+</para></listitem>
+
+<listitem><para>
+as86 is Minix- and Linux-specific, and (my version at least) doesn't seem to have much (or any) documentation.
+</para></listitem>
+
+<listitem><para>
+MASM isn't very good, and it's expensive, and it runs only under DOS.
+</para></listitem>
+
+<listitem><para>
+TASM is better, but still strives for MASM compatibility, which means millions of directives and tons of red tape. And its syntax is essentially MASM's, with the contradictions and quirks that entails (although it sorts out some of those by means of Ideal mode). It's expensive too. And it's DOS-only.
+</para></listitem>
+</itemizedlist>
+
+<para>
+So here, for your coding pleasure, is NASM. At present it's still in prototype stage - we don't promise that it can outperform any of these assemblers. But please, please send us bug reports, fixes, helpful information, and anything else you can get your hands on (and thanks to the many people who've done this already! You all know who you are), and we'll improve it out of all recognition. Again.
+</para>
+</blockquote>
+
+<para>
+Install it by doing the autotools thing once more. Note that the make install step is broken, and that I had to do this to get it to install:
+</para>
+
+<programlisting>
+mkdir bin
+mkdir man
+mkdir man/man1
+make install
+cp bin/nasm /usr/local/bin/
+cp man/man1/n* /usr/local/man/man1/
+</programlisting>
+</sect2>
+
+<sect2><title>jpeg-mmx</title>
+<para>
+We'll also need the MJPEG people's MMX JPEG library. I am not sure how this differs from the standard JPEG library, which also seems to be an option here... I downloaded version 0.1.4, and did the autotools thing.
+</para>
+
+<para>
+For some reason they have disabled make install. I did:
+</para>
+
+<programlisting>
+[root@localhost jpeg-mmx-0.1.4]# make install
+Make install has been disabled
+If you really want to install libjpeg-mmx, please use make install_real
+[root@localhost jpeg-mmx-0.1.4]# make install_real 
+/usr/bin/install -c -m 644 jconfig.h /usr/local/include/jconfig.h
+/usr/bin/install -c -m 644 ./jpeglib.h /usr/local/include/jpeglib.h
+/usr/bin/install -c -m 644 ./jmorecfg.h /usr/local/include/jmorecfg.h
+/usr/bin/install -c -m 644 ./jerror.h /usr/local/include/jerror.h
+/usr/bin/install -c -m 644 ./jinclude.h /usr/local/include/jinclude.h
+/usr/bin/install -c -m 644 libjpeg-mmx.a /usr/local/lib/libjpeg-mmx.a
+[root@localhost jpeg-mmx-0.1.4]# 
+</programlisting>
+
+<para>
+And annoyingly, I also had to manually copy a file:
+</para>
+
+<programlisting>
+cp jpegint.h /usr/local/include/
+</programlisting>
+</sect2>
+
+<sect2><title>movtar</title>
+<para>
+movtar is actaully written by the MJPEG people. You can download it from http://download.sourceforge.net/mjpeg/. I used the 1.3.0 release. The install was auttooled once more. I am sure by now I don't have to explain how to do that...
+</para>
+</sect2>
+
+<sect2><title>Compiling MJPEG tools itself</title>
+<para>
+I downloaded version 1.6.0 from the sourceforge website. Yet again, the install process was:
+</para>
+
+<para>
+This wouldn't make out of the box:
+</para>
+
+<programlisting>
+g++ -g -O2 -o .libs/divxdec divxdec.o lav_common.o -Wl,-rpath -Wl,/usr/local/lib  -L/root/mjpegtools-1.6.0/utils -lmjpegutils -L/usr/local/lib /usr/local/lib/libaviplay.so -lz -L/usr/X11R6/lib -lSM -lICE -lXxf86dga -lXxf86vm -lXi -lXft -lXv -lXext -lX11 -lpthread -lnsl -ldl -lm ./.libs/liblavfile.so -L/usr/lib /usr/lib/libglib.so -lmovtar -L/root/mjpegtools-1.6.0/../jpeg-mmx-0.1.4 ./.libs/liblavplay.so ./.libs/liblavjpeg.so -ljpeg-mmx -Wl,--rpath -Wl,/usr/local/lib
+./.libs/liblavplay.so: undefined reference to `SDL_Quit'
+./.libs/liblavplay.so: undefined reference to `SDL_WM_SetCaption'
+./.libs/liblavplay.so: undefined reference to `SDL_CreateYUVOverlay'
+./.libs/liblavplay.so: undefined reference to `SDL_LockYUVOverlay'
+./.libs/liblavplay.so: undefined reference to `SDL_EventState'
+./.libs/liblavplay.so: undefined reference to `SDL_UnlockSurface'
+./.libs/liblavplay.so: undefined reference to `SDL_LockSurface'
+./.libs/liblavplay.so: undefined reference to `SDL_DisplayYUVOverlay'
+./.libs/liblavplay.so: undefined reference to `SDL_UpdateRect'
+./.libs/liblavplay.so: undefined reference to `SDL_Init'
+./.libs/liblavplay.so: undefined reference to `SDL_GetError'
+./.libs/liblavplay.so: undefined reference to `SDL_UnlockYUVOverlay'
+./.libs/liblavplay.so: undefined reference to `SDL_FreeYUVOverlay'
+./.libs/liblavplay.so: undefined reference to `SDL_SetVideoMode'
+collect2: ld returned 1 exit status
+</programlisting>
+
+<para>
+Until I had applied the following patch:
+</para>
+
+<execute><cmd>code2db</cmd><input>patch</input></execute>
+
+<para>
+Then we can go ahead and make the project:
+</para>
+
+<programlisting>
+./configure
+make
+make install
+</programlisting>
+
+<para>
+For those who are interested, my build configuration at the end of the configure script looked like:
+</para>
+
+<programlisting>
+ MJPEG tools 1.6.0 build configuration :
+
+    - X86 Optimizations:
+      - MMX/3DNow!/SSE enabled      : true
+      - cmov support enabled        : true
+   ***********************************************************************
+   * NOTE:                                                               *
+   *   The resultant binaries will ***NOT*** run on a K6 or Pentium CPU  *
+   ***********************************************************************
+    - video4linux recording/playback: true
+    - software MJPEG playback       : true
+    - movtar playback/recording     : true
+    - Quicktime playback/recording  : false
+    - AVI MJPEG playback/recording  : true (always)
+    - libDV (digital video) support : false  
+    - AVIFILE divx encoding support : true
+    - Gtk+ support for glav         : true
+    - glibc support for >2GB files  : true
+</programlisting>
+</sect2>
+</sect1>
+
+<sect1><title>Encoding the JPEGS into the MPEG</title>
+<para>
+Finally, we can use MJPEG tools to convert the JPEGs into a MPEG stream.
+</para>
+
+<para>
+<quote>
+You can use jpeg2yuv to create a yuv stream from separate JPEG images. This stream is sent to stdout, so that it can either be saved into a file, encoded directly to a mpeg video using mpeg2enc or used for anything else.
+</quote>
+</para>
+
+<para>
+<quote>
+Saving an yuv stream can be done like this:
+<command>jpeg2yuv -f 25 -j image%05d.jpg > result.yuv</command>
+</quote>
+</para>
+
+<para>
+<quote>
+Creates the file result.yuv containing the yuv video data with 25 FPS. The -f option is used to set the frame rate. Note that image%05d.jpg means that the jpeg files are named image00000.jpg, image00001.jpg and so on. (05 means five digits, 04 means four digits, etc.)
+</quote>
+</para>
+
+<para>
+<quote>
+If you want to encode a mpeg video directly from jpeg images without saving a separate video file type:
+<command>jpeg2yuv -f 25 -j image%05d.jpg | mpeg2enc -o mpegfile.m1v</command>
+</quote> -- https://sourceforge.net/docman/display_doc.php?docid=3456&amp;group_id=5776#Images
+</para>
+
+<para>
+Note that this documentation is wrong, and you also need to include an interlacing option...
+</para>
+
+<programlisting>
+jpeg2yuv -f 25 -j frame-%05d.jpg -I p | mpeg2enc -o mpegfile.m1v
+</programlisting>
+
+<para>
+The frames also have to count from 00000 in this example. I used the following little script to convert to the required naming format:
+</para>
+
+<programlisting>
+count=0
+for item in `find . -type f`
+do 
+  mv $item frame-`printf "%05d" $count`.jpg
+  count=$(( $count + 1 ))
+done
+</programlisting>
+
+<para>
+Note that the conversion is also quite slow, I walked away and came back later.
+</para>
+</sect1>
+</article>
