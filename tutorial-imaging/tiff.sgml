@@ -1,6 +1,6 @@
 <chapter id="chap-tiff"><title>TIFF</title>
 <para>
-<qoute>With great power comes great responsibility</quote> -- Spiderman
+<quote>With great power comes great responsibility</quote> -- Spiderman
 </para>
 
 <para>
@@ -202,6 +202,7 @@ Sign is implemented using two's complement notation. New field types may be adde
 <para>
 Discussing the many different possible field entries is out of the scope of this document. Refer to tiff.h and the TIFF specification for more information.
 </para>
+</sect2>
 
 <sect2><title>So where's the image data?</title>
 <para>
@@ -351,7 +352,6 @@ The other big thing to bear in mind is fillorder (whether the first bit in the b
 This code works by first opening the image and checking that it is one that we can handle. It then reads in all the strip for the image, and appends them together in one large memory block. If required, it also flips bits until the photometric interpretation the one we handle, and deals with having to swap bits if the fillorder is wrong. Finally, our sample outputs the image as a series of lines composed of hex values. Remember that each of the values represents 8 pixels in the actual image.
 </para>
 </sect2>
-</sect1>
 
 <sect2><title>Compression algorithms in libtiff</title>	
 <para>
@@ -540,6 +540,7 @@ The example which I am most familiar with is PDF documents. In PDF files, you ca
 <para>If you need more information about hooking the file input and output functions within libtiff than this chapter allows, then have a look at the images.c file in Panda, my PDF library. The web pages for Panda can be found at http://www.stillhq.com
   <footnote><para>http://www.stillhq.com/cgi-bin/getpage?area=panda&lt;page=index.htm to be exact.</para></footnote>
 .
+</para>
 </sidebar>
 
 <para>libtiff allows you to replace the file input and output functions in the library with your own. This is done with the TIFFClientOpen() method. Here's an example (please note this code wont compile, and is just to describe the main concepts:</para>

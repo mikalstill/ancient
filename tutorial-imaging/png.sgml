@@ -13,7 +13,7 @@ This chapter will focus on the libpng library.
 <para>
 ...
 
-A bunch of the examples in this chapter are based on the pngitools code I wrote a while ago, which I have updated as part of writing this chapter.
+A bunch of the examples in this chapter are based on the pngtools code I wrote a while ago, which I have updated as part of writing this chapter.
 </para>
 
 <sidebar><title>Refer to the TIFF chapter</title>
@@ -49,8 +49,24 @@ Much of the discussion in this chapter will make a whole bunch more sense if you
 
 <sect1><title>Opening a PNG file</title>
 <para>
-...
+The first step to learning how to use libpng is probably to understand how to open a PNG file and get some data out of it. Below is a minimal example of how to open a PNG file, not including actually reading the image data...
 </para>
+
+<execute><cmd>code2db.pl</cmd><input>~mikal/opensource/png-open/read-infrastructure.c</input></execute>
+
+<para>
+In this example, we do everything we need to open a PNG image, without actually reading the image data. The steps to getting to the image data are:
+</para>
+
+<itemizedlist>
+<listitem><para>Open the file ready for reading. For this we just use the c standard library's <command>FILE *</command>, unlike the libtiff examples, in which we used a <command>TIFF *</command>
+  <footnote><para>In reality, the libtiff could just use the <command>FILE *</command> method internally, although they don't always, as shown by the tiffclient examples in the TIFF chapter.</para></footnote>
+. I'm not aware of whether we can fake out a <command>FILE *</command> if we wanted to pull a PNG out of something other than a file, one day when I have infinite free time I really should look more into this.</para></listitem>
+
+<listitem><para>Another thing we need to do which libtiff does for us and libpng doesn't is check that the file really is a PNG file. We do this with the <command>png_check_sig</command>() call. This expects the first 8 bytes of the file to be handed to it, which is what the <command>fread</command>() function call gets for us.</para></listitem>
+
+<listitem><para></para></listitem>
+</itemizedlist>
 </sect1>
 
 <sect1><title>PNG tags</title>
@@ -64,6 +80,28 @@ The <command>pnginfo</command> command implemented here is modelled on the <comm
 </para>
 
 <execute><cmd>code2db.pl</cmd><input>~mikal/opensource/pngtools/pnginfo.c</input></execute>
+</sect1>
+
+<sect1><title>Man pages</title>
+<para>
+To be honest, the libtiff man pages are much better than the documentation which comes with libpng. libpng has one main man page, which is included for ease of reference below.
+</para>
+
+<sect2><title>libpng</title>
+<para>
+...
+</para>
+
+<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/png/man/libpng.3</input><args>-s 3</args></execute>
+</sect2>
+
+<sect2><title>libpng.txt</title>
+<para>
+...
+</para>
+
+<execute><cmd>text2db.pl</cmd><input>source/png/man/libpng.txt</input></execute>
+</sect2>
 </sect1>
 
 <sect1><title>Conclusion</title>
