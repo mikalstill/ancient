@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?xml-stylesheet type="text/xsl" href="C:\Documents and Settings\Administrator\My Documents\Articles\1 - Templates\dw-document-html-2.1.xsl"?>
@@ -196,7 +197,7 @@ deathstar:/home/mikal# identify -format "%wx%h" sample.png
 640x480
 </code>
 
-
+<p>Here, <i>%w</i> means image width, and <i>%h</i> means image height. Checkout the <i>identify</i> man page for more information on the formatting characters which can be used with the option.</p>
 
 
 
@@ -233,14 +234,15 @@ convert -rotate 90 input.jpg output.jpg
 <img src="portarthur-rot.jpg" width="480" height="640" alt="A picture of Port Arthur"/>
 </figure>
 
-<p>Note that the arguement to the -rotate option is the number of degrees of the right to rotate the image.</p>
+<p>Note that the arguement to the -rotate option is the number of degrees of the right to rotate the image. If you want to rotate to the left, then use a negative number.</p>
 
 
 
 
 
+<heading refname="" type="major" toc="yes" name="" alttoc="">Changing the format of an image</heading>
 
-
+<p>The <i>convert</i> imagemagick command is also capable of converting the formation of the image files. This includes converting between image formats, such as converting a JPEG image to PNG, but it also includes converting from color to grayscale, dithering, and similar operations.</p>
 
 
 
@@ -249,18 +251,62 @@ convert -rotate 90 input.jpg output.jpg
 
 <heading refname="" type="major" toc="yes" name="" alttoc="">Adding textual annotations to an image</heading>
 
+<todo>
+<p>Say something</p>
 
 
 
 
 
 
+<heading refname="" type="major" toc="yes" name="" alttoc="">Other, more artistic, conversions</heading>
 
+<p><i>convert</i> also implements a series of quite artistic conversions. I will briefly demonstrate them here. The input image I will use for the demonstrations is:</p>
+
+<figure>	
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure xxx. Uluru at sunset</heading>
+<img src="uluru.jpg" width="640" height="480" alt="Uluru"/>
+</figure>
+
+
+
+
+
+<heading refname="" type="minor" toc="no" name="" alttoc="">Charcoal</heading>
+
+<todo>
+<p>Charcoal</p>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing xxx. Applying a charcoal effect</heading>
+<code type="section">
+convert -charcoal 2 input.jpg output.jpg
+</code>
+
+<figure>	
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure xxx. Uluru at sunset after a charcoal effect is applied</heading>
+<img src="charcoal.jpg" width="640" height="480" alt="Uluru after a charcoal effect"/>
+</figure>
+
+<p>Increasing the magnitude of the arguement to the charcoal option increases the amount of "charcoal" applied to the image, but also makes the generation of the image much slower. Here's an example with a little more charcoal.</p>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing xxx. Applying a higher level charcoal effect.</heading>
+<code type="section">
+convert -charcoal 10 input.jpg output.jpg
+</code>
+
+<figure>	
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure xxx. Uluru at sunset more charcoal effect is applied</heading>
+<img src="charcoal-medium.jpg" width="640" height="480" alt="Uluru after more charcoal effect"/>
+</figure>
+
+<todo>
+<p>Charcoal intense.</p>
 
 
 <heading refname="" type="major" toc="yes" name="" alttoc="">Multiple commands in one imagemagick invocation</heading>
 
-
+<todo>
+<p>Say something</p>
 
 
 
@@ -269,7 +315,8 @@ convert -rotate 90 input.jpg output.jpg
 
 <heading refname="" type="major" toc="yes" name="" alttoc="">PDF generation</heading>
 
-
+<todo>
+<p>Whilst imagemagick supports PDF generation, it is not wonderful.</p>
 
 
 

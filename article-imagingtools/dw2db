@@ -1,7 +1,9 @@
 #!/usr/bin/perl
 
 use strict;
+my($sectlevel, $subst);
 
+$sectlevel = 0;
 while(<>){
   s/<\?xml version[^>]*>/<!DOCTYPE article PUBLIC "-\/\/OASIS\/\/DTD DocBook V4.1\/\/EN">/;
   s/<\?xml[^>]*>//;
@@ -22,8 +24,8 @@ while(<>){
   s/<\/bio>/<\/para>\n<\/authorblurb>\n<\/author>\n<\/articleinfo/;
 
   s/<date[^>]*>//;
-  s/<abstract[^>]*>/<abstract>\n<para>/;
-  s/<\/abstract>/<\/para>\n<\/abstract>/;
+  s/<abstract[^>]*>/<abstract>\n<para><emphasis>/;
+  s/<\/abstract>/<\/emphasis><\/para>\n<\/abstract>/;
   s/<column-info[^>]*>//;
   s/<docbody>//;
   s/<\/docbody>//;
@@ -43,8 +45,26 @@ while(<>){
   s/<code[^>]*>/<programlisting>/;
   s/<\/code>/<\/programlisting>/;
 
-  s/<heading refname="" type="major"[^>]*>/<sect1><title>/;
-  s/<heading refname="" type="minor"[^>]*>/<sect2><title>/;
+  if(/<heading refname="" type="major"[^>]*>/){
+    $subst = "";
+    while($sectlevel > 0){
+      $subst = "$subst</sect$sectlevel>\n";
+      $sectlevel--;
+    }
+    s/<heading refname="" type="major"[^>]*>/$subst<sect1><title>/;
+    $sectlevel++;
+  }
+
+  if(/<heading refname="" type="minor"[^>]*>/){
+    $subst = "";
+    while($sectlevel > 1){
+      $subst = "$subst</sect$sectlevel>\n";
+      $sectlevel--;
+    }
+    s/<heading refname="" type="minor"[^>]*>/$subst<sect2><title>/;
+    $sectlevel++;
+  }
+
   s/<heading refname="" type="sidebar"[^>]*>/<title>/;
   s/<\/heading>/<\/title>/;
 
@@ -59,9 +79,31 @@ while(<>){
   s/<a href[^>]*>//g;
   s/<\/a>//g;
 
-  s/<resourcelist>/<sect1><title>Resources<\/title>/;
-  s/<\/resourcelist>/<\/sect1>/;
+  if(/<resourcelist>/){
+    $subst = "";
+    while($sectlevel > 0){
+      $subst = "$subst</sect$sectlevel>\n";
+      $sectlevel--;
+    }
+    s/<resourcelist>/$subst<sect1><title>Resources<\/title>/;
+    $sectlevel++;
+  }
+
+  if(/<\/resourcelist>/){
+    $subst = "";
+    while($sectlevel > 0){
+      $subst = "$subst</sect$sectlevel>\n";
+      $sectlevel--;
+    }
+    s/<\/resourcelist>/$subst/;
+  }
   print $_;
 }
 
 
+$subst = "";
+while($sectlevel > 0){
+  $subst = "$subst</sect$sectlevel>\n";
+  $sectlevel--;
+}
+print "$subst";
