@@ -1,0 +1,3 @@
+No sensible person would use waitfs. It inserts arbitary waits between file open and
+read operations, and is therefore useful for testing mcachefs. It has no other reason
+for being.
