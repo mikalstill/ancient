@@ -148,7 +148,9 @@
     the observation values are evenly distributed then the expected Random Walk values are 
     </para>    
 
-    <table frame='all'><title>Table Of Random Walk Values</title>
+    <table frame='all' shortentry='0' toCEntry='0' >
+    <title>Table Of Random Walk Values</title>
+    <TITLEABBREV>Table of Random Walk Values</TITLEABBREV>
     <tgroup cols='5' align='left' colsep='1' rowsep='1'>
     <thead>
       <row>
