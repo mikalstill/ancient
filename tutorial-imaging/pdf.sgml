@@ -234,6 +234,8 @@ ClibPDF was my first introduction to PDF generation APIs. It is available from h
 Note that ClibPDF is not free software. The license is included below for your reference:
 </para>
 
+<execute><cmd>todo</cmd><input>These images don't seem to work</input></execute>
+
 <figure>
 <title>ClibPDF license, page 1</title>
 <graphic format="EPS" fileref="clibpdf-license.eps.0">
@@ -278,22 +280,72 @@ Note that ClibPDF is not free software. The license is included below for your r
 <title>ClibPDF license, page 9</title>
 <graphic format="EPS" fileref="clibpdf-license.eps.8">
 </figure>
+
+<para>
+To summarise the license, this quote from the ClibPDF README page sums it up:
+</para>
+
+<programlisting>
+This package is released under:
+FastIO ClibPDF Software License 1.30, January 27, 2000.
+
+ClibPDF and Premium ClibPDF are not public-domain or free software.
+</programlisting>
+
+<para>
+This almost certainly limits what you can do with the library, and means that using the library will cost you money.
+</para>
 </sect2>
 
 <sect2><title>Installation</title>
 <para>
-<execute><cmd>todo</cmd><input>Content</input></execute>
+The first step to installing ClibPDF is to download the source from http://www.fastio.com. At the time of writing the source download is on the front page, about half way down. I can't guarantee that this wont have changed by the time you come to download the library, but then again the page hasn't changed in several years now, so it doesn't strike me a likely.
 </para>
 
 <sect3><title>Unix</title>
 <para>
-<execute><cmd>todo</cmd><input>Content</input></execute>
+ClibPDF does not use configure scripts. The first step of the installation is to therefore copy your operating system's Makefile over the top of the sample Makefile. The various distributed Makefiles are:
+</para>
+
+<itemizedlist>
+<listitem><para>Makefile.AIX42</para></listitem>
+<listitem><para>Makefile.BSDI</para></listitem>
+<listitem><para>Makefile.Cygwin</para></listitem>
+<listitem><para>Makefile.FreeBSD</para></listitem>
+<listitem><para>Makefile.HPUX</para></listitem>
+<listitem><para>Makefile.irix62gcc</para></listitem>
+<listitem><para>Makefile.MacOSX</para></listitem>
+<listitem><para>Makefile.NetBSD</para></listitem>
+<listitem><para>Makefile.NEXTSTEP</para></listitem>
+<listitem><para>Makefile.SolarisGCC</para></listitem>
+<listitem><para>Makefile.SolarisSunCC</para></listitem>
+<listitem><para>Makefile.SunOS5x</para></listitem>
+</itemizedlist>
+
+<para>
+If your operating system isn't listed in the available Makefiles, you'll need to copy the closest one and then edit it until the compile works.
+</para>
+
+<para>
+Once you have copied your Makefile to the file named <emphasis>Makefile</emphasis>, then follow these steps to install ClibPDF...
+</para>
+
+<itemizedlist>
+<listitem><para>make</para></listitem>
+<listitem><para>make lib</para></listitem>
+<listitem><para>make install</para></listitem>
+</itemizedlist>
+
+<para>
+You might need to edit parts of the Makefile to make the install work properly for your system.
 </para>
 </sect3>
 
 <sect3><title>win32</title>
 <para>
-<execute><cmd>todo</cmd><input>Content</input></execute>
+ClibPDF doesn't support win32 directly. It is however written in ANSI C, so a port shouldn't be very hard at all.
+
+<execute><cmd>todo</cmd><input>Port ClibPDF</input></execute>
 </para>
 </sect3>
 </sect2>
@@ -354,7 +406,62 @@ Note that ClibPDF is not free software. The license is included below for your r
 </sect1>
 
 
+<sect1><title>Summary of the differences between PDF libraries</title>
+<para>
+It seems useful to provide a summary of the differences we have learnt about the various PDF libraries which are available as we worked through this chapter.
+</para>
 
+<table frame='all'><title>Differences between the PDF libraries</title>
+<tgroup cols='4' align='left' colsep='1' rowsep='1'>
+<thead>
+<row>
+  <entry>Feature</entry>
+  <entry>ClibPDF</entry>
+  <entry>PDFlib</entry>
+  <entry>Panda</entry>
+  <entry>Adobe</entry>
+</row>
+</thead>
+<tbody>
+
+<row>
+<entry>License</entry>
+<entry>FastIO license. Not opensource / free software / public domain</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row>
+
+<row>
+<entry>Cost</entry>
+<entry>$1,000 USD+</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row>
+
+
+<row>
+<entry>Free for non commercial use?</entry>
+<entry>Yes, with conditions</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row>
+
+
+<row>
+<entry>DeleteMe</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row>
+
+
+
+</tbody>
+</table>
 
 
 <sect1><title>Conclusion</title>
