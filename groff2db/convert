@@ -348,6 +348,7 @@ while(<INPUT>){
 	print closeallstates();
 	endpara();
 	listend();
+	endpara();
 	
 	while($sectionstate > $firstsectnum){
 	    print "</sect$sectionstate>\n";
