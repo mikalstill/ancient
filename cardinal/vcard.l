@@ -50,7 +50,9 @@ extern int parsemode;
 [Cc][Ll][Aa][Ss][Ss]                       { printf("*%d, class* ", parsemode); return(parsemode == 1 ? CLASS : STRING); }
 [Kk][Ee][Yy]                               { printf("*%d, key* ", parsemode); return(parsemode == 1 ? KEY : STRING); }
 
-[a-zA-Z0-9 ;\.=\-/\/@]+                    { printf("*%d, string = %s* ", parsemode, yytext); return STRING; }
+[Xx]-[Cc][Uu][Ss][Tt][Oo][Mm][0-9]         { printf("*%d, custome key* ", parsemode); return(parsemode == 1 ? CUSTOM : STRING); }
+
+[a-zA-Z0-9 ;\.=\-/\/@\(\)\"]+             { printf("*%d, string = %s* ", parsemode, yytext); return STRING; }
 
 [ \t\r\n]                                  { printf("*%d, whitespace* ", parsemode); }
 .                                          { printf("*anything = %c* ", yytext[0]); return yytext[0]; }

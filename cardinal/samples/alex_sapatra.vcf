@@ -1,0 +1,12 @@
+BEGIN:vCard
+VERSION:2.1
+FN:Alex Satrapa
+N:Satrapa;Alex
+ADD:1 Hall Street;Lyneham;Canberra;ACT;2602;Australia
+TEL;WORK:(02) 6257 7111
+TEL;CELL:(04) 0770 5332
+EMAIL;INTERNET:alex@topic.com.au
+TITLE:Software Engineer
+ORG:TSA Consulting Group
+X-CUSTOM1:ICQ: 5691434
+END:vCard
