@@ -2,6 +2,7 @@
 /* 
  *   UI for the CEP program
  *   Copyright (C) Michael Still                    2002
+ *   Copyright (C) Kristy Van Der Vlist             2002
  *
  *   Based on a demo which originally had this notice:
  *  
@@ -120,6 +121,13 @@ GetMainFrame (void);
 #define CEPMENU_INTERP_CUBICSPLINE 27
 #define CEPMENU_INTERP_DIVIDED 28
 #define CEPMENU_INTERP 29
+
+//for cepLs UI
+#define CEPBTN_DIR_SUBMIT 30
+#define CEPBTN_DIR_CANCEL 31
+
+#define CEPBTN_READ_SUBMIT 32
+#define CEPBTN_READ_CANCEL 33
 
 extern bool singleWindowMode;
 
