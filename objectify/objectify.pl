@@ -2,7 +2,7 @@
 
 use strict;
 my($incomment, $origline, $code, $possfunction, $arg, %pointers, $key, $class,
-   %creates, %family, %suppress, $temp);
+   %creates, %parents, %suppress, $temp);
 
 $incomment = 0;
 $code = "";
@@ -49,9 +49,12 @@ $code =~ s/[ \t]+/ /g;
 # We now go through each line in the code, looking for functions...
 foreach $possfunction (split(/;/, $code)){
     $_ = $possfunction;
+    my($processed, $rval, $fval, $aval);
+ 
+    $processed = 0;
     if(!(/INTERNAL/) && 
-       (/([a-zA-Z0-9_\*]+) ([a-zA-Z0-9_\*]+) \(([^\(\)]+)\)/)){
-	my($rval, $fval, $aval) = ($1, $2, $3);
+       (/([a-zA-Z0-9_\*]+) ([a-zA-Z0-9_\*]+) \(([^\(\)]*)\)/)){
+	($rval, $fval, $aval) = ($1, $2, $3);
 	$_ = $aval;
 	s/ //g;
 	foreach $arg (split(/,/)){
@@ -61,6 +64,7 @@ foreach $possfunction (split(/;/, $code)){
 	    if(($arg ne "char*") && ($arg ne "int*") && ($arg ne "void*") && 
 	       (/\*$/)){
 		$pointers{$arg} = $pointers{$arg}."$rval!$fval!$aval;";
+		$processed = 1;
 	    }
 	}
 
@@ -69,8 +73,19 @@ foreach $possfunction (split(/;/, $code)){
 	$_ = "$rval$fval";
 	if(($rval ne "char") && ($rval ne "void") && ($rval ne "int") &&
 	   (/.*\*.*/)){
-	    $creates{$fval} = $creates{$fval}."$rval;";
+	    $creates{$rval} = $creates{$rval}."$fval;";
 	}
+    }
+    else{
+	$processed = 1;
+    }
+
+    if($processed == 0){
+	my($libname);
+	$libname = $fval;
+	$libname =~ s/_.*$//;
+	$libname =~ s/\*//;
+	$pointers{$libname} = $pointers{$libname}."$rval!$fval!$aval;";
     }
 }
 
@@ -89,9 +104,9 @@ foreach $key (keys %pointers){
 	    $aval =~ s/$class[ \t\*]+[, ]*//;
 	    
 	    # We only support one parent at the moment
-	    if(($creates{$fval} ne "") && ($family{$rval} eq "") &&
+	    if(($creates{$fval} ne "") && ($parents{$rval} eq "") &&
 	       ($suppress{$rval} eq "")){
-		$family{$rval} = $family{$rval}."$class";
+		$parents{$rval} = $parents{$rval}."$class";
 	    }
 	}
     }
@@ -106,20 +121,22 @@ foreach $key (keys %pointers){
 	print "class C$class\n{\n";
 	print "public:\n";
 
-	# The constructor needs to take the reference to the parent
-	print "  C$class($class *passed_ptr";
-	if($family{$class} ne ""){
-	    print ", $family{$class}* passed_$family{$class}) :\n";
-	    print "    m_$family{$class}(passed_$family{$class})\n";
-	    print "    { m_ptr = passed_ptr; }\n";
-	}
-	else{
-	    print ")\n";
-	    print "    { m_ptr = passed_ptr; }\n";
+	if($creates{$class} ne ""){
+	    # The constructor needs to take the reference to the parent
+	    print "  C$class($class *passed_ptr";
+	    if($parents{$class} ne ""){
+		print ", $parents{$class}* passed_$parents{$class}) :\n";
+		print "    m_$parents{$class}(passed_$parents{$class})\n";
+		print "    { m_ptr = passed_ptr; }\n";
+	    }
+	    else{
+		print ")\n";
+		print "    { m_ptr = passed_ptr; }\n";
+	    }
+
+	    print "  ~C$class() { panda_xfree(m_ptr); }\n\n";
 	}
 
-	print "  ~C$class() { panda_xfree(m_ptr); }\n\n";
-	
 	# We need to output all the functions which use one of these pointers
 	my($rval, $fval, $aval, $origargs, @argsarray);
 	@argsarray = split(/;/, $pointers{$key});
@@ -130,8 +147,8 @@ foreach $key (keys %pointers){
 
 	    # Do we have a child relationship because of this function?
 	    $aval =~ s/$class[ \t\*]+[, ]*//;
-	    if($family{$class} ne ""){
-		$temp = $family{$class};
+	    if($parents{$class} ne ""){
+		$temp = $parents{$class};
 		$aval =~ s/$temp[ \t\*]+[, ]*//;
 	    }
 
@@ -139,14 +156,14 @@ foreach $key (keys %pointers){
 	    my($skip);
 	    $skip = 0;
 	    foreach $temp (split(/[ ,]/, $aval)){
-		if($family{$temp} eq "$class"){
+		if($parents{$temp} eq "$class"){
 		    $skip = 1;
 		}
 	    }
 
 	    if($skip == 0){
 		$_ = $fval;
-		s/[^*]*_//;
+		s/[^_*]*_//;
 		print "  $rval $_ (";
 
 		my($argcount);
@@ -169,9 +186,9 @@ foreach $key (keys %pointers){
 		$origargs =~ s/$class *\*/m_ptr/g;
 
 		# How about a parent pointer?
-		if($family{$class} ne ""){
-		    $origargs =~ s/$family{$class} \*/$family{$class}/;
-		    $origargs =~ s/$family{$class}/m_$family{$class}/;
+		if($parents{$class} ne ""){
+		    $origargs =~ s/$parents{$class} \*/$parents{$class}/;
+		    $origargs =~ s/$parents{$class}/m_$parents{$class}/;
 		}
 
 		$fval =~ s/^\*//;
@@ -183,12 +200,14 @@ foreach $key (keys %pointers){
 	    }
 	}
 	
-	print "\n";
-	print "private:\n";
-	print "  $key m_ptr;\n";
-	
-	if($family{$class} ne ""){
-	    print "  $family{$class}* m_$family{$class};\n";
+	if($creates{$class} ne ""){
+	    print "\n";
+	    print "private:\n";
+	    print "  $key m_ptr;\n";
+	}
+
+	if($parents{$class} ne ""){
+	    print "  $parents{$class}* m_$parents{$class};\n";
 	}
 	
 	print "};\n\n";
