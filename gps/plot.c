@@ -20,15 +20,36 @@
 #include <png.h>
 #include <libmplot.h>
 
-// The speed range is considered to be 0 - 150 kmh
 int rconv(long speed){
-  // The top half of the speed range are reds
-  return 105 + speed;
+  if(speed < 5) return 0;
+  if(speed < 15) return 20;
+  if(speed < 25) return 40;
+  if(speed < 35) return 60;
+  if(speed < 45) return 80;
+  if(speed < 55) return 100;
+  if(speed < 65) return 120;
+  if(speed < 75) return 140;
+  if(speed < 85) return 160;
+  if(speed < 95) return 180;
+  if(speed < 105) return 200;
+  if(speed < 115) return 220;
+  return 240;
 }
 
 int bconv(long speed){
-  // The bottom half are blues
-  return 255 - speed;
+  if(speed < 5) return 240;
+  if(speed < 15) return 220;
+  if(speed < 25) return 200;
+  if(speed < 35) return 180;
+  if(speed < 45) return 160;
+  if(speed < 55) return 140;
+  if(speed < 65) return 120;
+  if(speed < 75) return 100;
+  if(speed < 85) return 80;
+  if(speed < 95) return 60;
+  if(speed < 105) return 40;
+  if(speed < 115) return 20;
+  return 0;
 }
 
 
@@ -62,8 +83,8 @@ main (int argc, char *argv[])
 
     // If we're at warp speed, then don't believe the point
     if((datapts == 0) || 
-       ((abs(x - mapptx[datapts - 1]) < 15) &&
-	(abs(y - mappty[datapts - 1]) < 15))){
+       ((abs(x - mapptx[datapts - 1]) < 20) &&
+	(abs(y - mappty[datapts - 1]) < 20))){
       mapptx[datapts] = x;
       mappty[datapts] = y;
       speeds[datapts] = s;
