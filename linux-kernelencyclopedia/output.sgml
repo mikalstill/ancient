@@ -96,7 +96,27 @@ Current maintainer of the <emphasis>APM</emphasis> code for the Linux <emphasis>
 ...
 </para>
 
+<sect1><title>Dave Jones</title>
+<sect2><title>Definition</title>
+<para>
+Linux <emphasis>kernel</emphasis> <emphasis>hacker</emphasis> working for <emphasis>Suse</emphasis> based in the UK. Contributions include various <emphasis>kernel</emphasis> hacks, as well as <emphasis>x86info</emphasis>.
+</para>
+</sect2>
 
+<sect2><title>References</title>
+<itemizedlist>
+<listitem><para>Homepage: http://www.codemonkey.org.uk/</para></listitem>
+<listitem><para>Blog: http://diary.codemonkey.org.uk/</para></listitem>
+</itemizedlist>
+</sect2>
+
+<sect2><title>Entry history</title>
+<itemizedlist>
+<listitem><para>Entry created: Tue Mar 18 19:57:55 EST 2003</para></listitem>
+<listitem><para>Entry owner: <emphasis>Michael Still</emphasis> (mikal@stillhq.com)</para></listitem>
+<listitem><para>Status: Unfinalized</para></listitem>
+</itemizedlist>
+</sect1>
 </chapter><chapter id="chapter-e"><title>e</title>
 <para>
 ...
@@ -114,7 +134,43 @@ Current maintainer of the <emphasis>APM</emphasis> code for the Linux <emphasis>
 ...
 </para>
 
+<sect1><title>WORD</title>
+<sect2><title>Acronym definition</title>
+<para>
+...
+</para>
 
+<sect2><title>Definition</title>
+<para>
+...
+</para>
+</sect2>
+
+<sect2><title>Implementation source files</title>
+<itemizedlist>
+<listitem><para>...</para></listitem>
+</itemizedlist>
+</sect2>
+
+<sect2><title>References</title>
+<itemizedlist>
+<listitem><para>...</para></listitem>
+</itemizedlist>
+</sect2>
+
+<sect2><title>See also</title>
+<itemizedlist>
+<listitem><para><emphasis>...</emphasis></para></listitem>
+</itemizedlist>
+</sect2>
+
+<sect2><title>Entry history</title>
+<itemizedlist>
+<listitem><para>Entry created: </para></listitem>
+<listitem><para>Entry owner: <emphasis>Michael Still</emphasis> (mikal@stillhq.com)</para></listitem>
+<listitem><para>Status: Unfinalized</para></listitem>
+</itemizedlist>
+</sect1>
 </chapter><chapter id="chapter-h"><title>h</title>
 <para>
 ...
@@ -132,7 +188,20 @@ Current maintainer of the <emphasis>APM</emphasis> code for the Linux <emphasis>
 ...
 </para>
 
+<sect1><title>Jones, Dave</title>
+<sect2><title>See</title>
+<itemizedlist>
+<listitem><para><emphasis>Dave Jones</emphasis></para></listitem>
+</itemizedlist>
+</sect2>
 
+<sect2><title>Entry history</title>
+<itemizedlist>
+<listitem><para>Entry created: Tue Mar 18 19:57:55 EST 2003</para></listitem>
+<listitem><para>Entry owner: <emphasis>Michael Still</emphasis> (mikal@stillhq.com)</para></listitem>
+<listitem><para>Status: Finalized</para></listitem>
+</itemizedlist>
+</sect1>
 </chapter><chapter id="chapter-k"><title>k</title>
 <para>
 ...
@@ -144,13 +213,70 @@ Current maintainer of the <emphasis>APM</emphasis> code for the Linux <emphasis>
 ...
 </para>
 
+<sect1><title>WORD</title>
+<sect2><title>Acronym definition</title>
+<para>
+...
+</para>
 
+<sect2><title>Definition</title>
+<para>
+...
+</para>
+</sect2>
+
+<sect2><title>Implementation source files</title>
+<itemizedlist>
+<listitem><para>...</para></listitem>
+</itemizedlist>
+</sect2>
+
+<sect2><title>References</title>
+<itemizedlist>
+<listitem><para>...</para></listitem>
+</itemizedlist>
+</sect2>
+
+<sect2><title>See also</title>
+<itemizedlist>
+<listitem><para><emphasis>...</emphasis></para></listitem>
+</itemizedlist>
+</sect2>
+
+<sect2><title>Entry history</title>
+<itemizedlist>
+<listitem><para>Entry created: </para></listitem>
+<listitem><para>Entry owner: <emphasis>Michael Still</emphasis> (mikal@stillhq.com)</para></listitem>
+<listitem><para>Status: Unfinalized</para></listitem>
+</itemizedlist>
+</sect1>
 </chapter><chapter id="chapter-m"><title>m</title>
 <para>
 ...
 </para>
 
-<sect1><title>Michael Still</title>
+<sect1><title>Martin Pool</title>
+
+<sect2><title>Definition</title>
+<para>
+Martin is a member of the <emphasis>Ozlabs</emphasis> team based in Canberra, Australia. As such, he is a former employee of <emphasis>LinuxCare</emphasis>, <emphasis>VA</emphasis>, and currently works for <emphasis>HP</emphasis>. His development work includes <emphasis>Samba</emphasis>, <emphasis>rsync</emphasis>, <emphasis>rproxy</emphasis>, <emphasis>distcc</emphasis>, <emphasis>PikiPiki</emphasis>, <emphasis>n4</emphasis>, <emphasis>snapfs</emphasis>, <emphasis>newuserfs</emphasis>, <emphasis>Apache</emphasis> and <emphasis>Keyring for PalmOS</emphasis>.
+</para>
+</sect2>
+
+<sect2><title>References</title>
+<itemizedlist>
+<listitem><para>Homepage: http://sourcefrog.net/mbp/</para></listitem>
+<listitem><para>Blog: http://www.advogato.org/person/mbp/</para></listitem>
+</itemizedlist>
+</sect2>
+
+<sect2><title>Entry history</title>
+<itemizedlist>
+<listitem><para>Entry created: Tue Mar 18 19:48:52 EST 2003</para></listitem>
+<listitem><para>Entry owner: <emphasis>Michael Still</emphasis> (mikal@stillhq.com)</para></listitem>
+<listitem><para>Status: Unfinalized</para></listitem>
+</itemizedlist>
+</sect1><sect1><title>Michael Still</title>
 <sect2><title>Definition</title>
 <para>
 Some guy who made a bunch of entries in this document.
@@ -167,6 +293,42 @@ Some guy who made a bunch of entries in this document.
 <sect2><title>Entry history</title>
 <itemizedlist>
 <listitem><para>Entry created: Tue Mar 18 19:29:39 EST 2003</para></listitem>
+<listitem><para>Entry owner: <emphasis>Michael Still</emphasis> (mikal@stillhq.com)</para></listitem>
+<listitem><para>Status: Unfinalized</para></listitem>
+</itemizedlist>
+</sect1><sect1><title>MSR</title>
+<sect2><title>Acronym definition</title>
+<para>
+Model Specific Register
+</para>
+
+<sect2><title>Definition</title>
+<para>
+...
+</para>
+</sect2>
+
+<sect2><title>Implementation source files</title>
+<itemizedlist>
+<listitem><para>...</para></listitem>
+</itemizedlist>
+</sect2>
+
+<sect2><title>References</title>
+<itemizedlist>
+<listitem><para>...</para></listitem>
+</itemizedlist>
+</sect2>
+
+<sect2><title>See also</title>
+<itemizedlist>
+<listitem><para><emphasis>...</emphasis></para></listitem>
+</itemizedlist>
+</sect2>
+
+<sect2><title>Entry history</title>
+<itemizedlist>
+<listitem><para>Entry created: Tue Mar 18 20:48:32 EST 2003</para></listitem>
 <listitem><para>Entry owner: <emphasis>Michael Still</emphasis> (mikal@stillhq.com)</para></listitem>
 <listitem><para>Status: Unfinalized</para></listitem>
 </itemizedlist>
@@ -220,6 +382,19 @@ Originally the Australian division of <emphasis>LinuxCare</emphasis> and based i
 <listitem><para>Entry owner: <emphasis>Michael Still</emphasis> (mikal@stillhq.com)</para></listitem>
 <listitem><para>Status: Finalized</para></listitem>
 </itemizedlist>
+</sect1><sect1><title>Pool, Martin</title>
+<sect2><title>See</title>
+<itemizedlist>
+<listitem><para><emphasis>Martin Pool</emphasis></para></listitem>
+</itemizedlist>
+</sect2>
+
+<sect2><title>Entry history</title>
+<itemizedlist>
+<listitem><para>Entry created: Tue Mar 18 19:48:52 EST 2003</para></listitem>
+<listitem><para>Entry owner: <emphasis>Michael Still</emphasis> (mikal@stillhq.com)</para></listitem>
+<listitem><para>Status: Finalized</para></listitem>
+</itemizedlist>
 </sect1>
 </chapter><chapter id="chapter-q"><title>q</title>
 <para>
@@ -260,7 +435,7 @@ Stephen appeared on the Linux scene with his contribution of <emphasis>APM</emph
 
 <sect2><title>References</title>
 <itemizedlist>
-<listitem><para>...</para></listitem>
+<listitem><para>Homepage: http://www.canb.auug.org.au/~sfr/</para></listitem>
 </itemizedlist>
 </sect2>
 
@@ -313,7 +488,90 @@ Stephen appeared on the Linux scene with his contribution of <emphasis>APM</emph
 ...
 </para>
 
+<sect1><title>x86info</title>
+<sect2><title>Definition</title>
+<para>
+x86info is an application maintained by <emphasis>Dave Jones</emphasis> to identify <emphasis>CPU</emphasis>s fitted to a system.
+</para>
 
+<para>
+To quote the README file...
+</para>
+
+<programlisting>
+Somewhere in the mists of time, there was a program by Phil Karn (KA9Q)
+called <emphasis>cpuid</emphasis>, which identified CPU. It didn't get updated very often,
+and quickly got out of date. It also didn't do much more than just
+simple decoding.
+
+x86info was written to succeed Phils work. Initially, it borrowed some bits
+from his code, but the last remnants are now long gone. Additional functionality
+has been added, such as support for <emphasis>SMP</emphasis>, and building on non-Linux platforms.
+
+For problems specific to the <emphasis>Cygwin</emphasis>/<emphasis>Win32</emphasis> port, contact
+Matthew Gregan &lt;mgregan@jade.co.nz&gt;.
+
+
+Features:
+ - <emphasis>SMP</emphasis> support.
+ - Recognition of all <emphasis>Intel</emphasis>/<emphasis>AMD</emphasis>/<emphasis>IDT</emphasis>/<emphasis>Cyrix</emphasis>/<emphasis>VIA</emphasis> <emphasis>CPU</emphasis>s.
+ - Parsing of model specific <emphasis>registers</emphasis>.
+ - Approximation of current <emphasis>CPU</emphasis> MHz.
+
+
+Caveats:
+*  For usage of the <emphasis>MSR</emphasis> / <emphasis>SMP</emphasis> functions, x86info needs the
+   x86 cpuid driver provided with the Linux <emphasis>kernel</emphasis> 2.2.18 / 2.4.0,
+   and the appropriate nodes in /dev
+
+   To set up these devices, do the following..
+
+        mkdir /dev/cpu
+        for i in 0 1 2 3 4 5 6 7
+        do
+                mkdir /dev/cpu/$i ; cd /dev/cpu/$i
+                mknod cpuid c 203 $i
+                mknod msr c 202 $i
+        done
+
+*  If you are using the <emphasis>cpuid</emphasis> / <emphasis>msr</emphasis> drivers built as modules
+   as opposed to built into the kernel, then you should ensure
+   the following is in your /etc/modules.conf
+
+        alias <emphasis>char-major-202</emphasis> <emphasis>msr</emphasis>  
+        alias <emphasis>char-major-203</emphasis> <emphasis>cpuid</emphasis>
+
+*  To build under <emphasis>Win32</emphasis>/<emphasis>Cygwin</emphasis>, uncomment the second line
+   in the Makefile, otherwise some files will fail to build.
+
+*  Usage under <emphasis>Win32</emphasis> is somewhat limited at present:
+        - no support for reading <emphasis>MSR</emphasis>s (anyone want to write a driver?)
+
+*  <emphasis>FreeBSD</emphasis> / <emphasis>OpenBSD</emphasis> / <emphasis>NetBSD</emphasis> also have the same limitations.
+
+Info on the command line switches can be found in the man page.
+</programlisting>
+</sect2>
+
+<sect2><title>References</title>
+<itemizedlist>
+<listitem><para>Homepage: http://www.codemonkey.org.uk</para></listitem>
+</itemizedlist>
+</sect2>
+
+<sect2><title>See also</title>
+<itemizedlist>
+<listitem><para><emphasis>cpuid</emphasis></para></listitem>
+</itemizedlist>
+</sect2>
+
+<sect2><title>Entry history</title>
+<itemizedlist>
+<listitem><para>Entry created: Tue Mar 18 20:02:15 EST 2003</para></listitem>
+<listitem><para>Entry owner: <emphasis>Michael Still</emphasis> (mikal@stillhq.com)</para></listitem>
+<listitem><para>Status: Unfinalized</para></listitem>
+</itemizedlist>
+</sect1>
 </chapter><chapter id="chapter-y"><title>y</title>
 <para>
 ...

@@ -1,0 +1,37 @@
+<sect1><title>MSR</title>
+<sect2><title>Acronym definition</title>
+<para>
+Model Specific Register
+</para>
+
+<sect2><title>Definition</title>
+<para>
+...
+</para>
+</sect2>
+
+<sect2><title>Implementation source files</title>
+<itemizedlist>
+<listitem><para>...</para></listitem>
+</itemizedlist>
+</sect2>
+
+<sect2><title>References</title>
+<itemizedlist>
+<listitem><para>...</para></listitem>
+</itemizedlist>
+</sect2>
+
+<sect2><title>See also</title>
+<itemizedlist>
+<listitem><para><emphasis>...</emphasis></para></listitem>
+</itemizedlist>
+</sect2>
+
+<sect2><title>Entry history</title>
+<itemizedlist>
+<listitem><para>Entry created: Tue Mar 18 20:48:32 EST 2003</para></listitem>
+<listitem><para>Entry owner: <emphasis>Michael Still</emphasis> (mikal@stillhq.com)</para></listitem>
+<listitem><para>Status: Unfinalized</para></listitem>
+</itemizedlist>
+</sect1>
