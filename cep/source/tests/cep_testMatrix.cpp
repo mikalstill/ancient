@@ -37,11 +37,14 @@
  *     void tearDown( void ) { ... }
  *
  * @author <your name here>
- * @version $Revision: 1.11 $ $Date: 2002-09-18 07:32:54 $
+ * @version $Revision: 1.12 $ $Date: 2002-10-01 06:19:53 $
  *
  * Revision History
  *
  * $Log: not supported by cvs2svn $
+ * Revision 1.11  2002/09/18 07:32:54  u983118
+ * cleaned some stuff up
+ *
  * Revision 1.10  2002/09/09 13:22:52  u983118
  * added updated tests for constructr/destructor and some of the changed fuction defintions for set/get value fuctions
  *
@@ -283,7 +286,7 @@ protected:
     }
   }
   
-  /** Tests == operator  returns true*/
+  /** Tests == and != operators  returns true*/
   void testEqu1 ()
   {
     int rows = 3, cols = 3;
@@ -303,7 +306,8 @@ protected:
     }
     
     CPPUNIT_ASSERT_MESSAGE( "A should be equal to B",A==B );
-
+    CPPUNIT_ASSERT_MESSAGE( "A should be equal to B",!(A!=B));
+    
   }
  
   /** Tests == operator  returns false*/ 
@@ -326,6 +330,7 @@ protected:
     }
     
     CPPUNIT_ASSERT_MESSAGE( "A should not be equal to B", !(A==B));
+    CPPUNIT_ASSERT_MESSAGE( "A should not be equal to B", A!=B);
 
   }
   
