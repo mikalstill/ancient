@@ -23,22 +23,6 @@
 // NEVER DO A cepError::display() IN THIS FILE...
 ///////////////////////////////////////////////////////////////////////////////
 
-/******************************************************************************
-DOCBOOK START
-
-FUNCTION cepConfiguration
-PURPOSE store user definable configuration information
-
-SYNOPSIS START
-cepConfiguration::cepConfiguration(string& persistFile);
-
-SYNOPSIS END
-
-DESCRIPTION This class stores user definable configuration information such as the size of the main window on startup. It is implemented using <command>trivsql</command>, a trivial SQL implementation from Michael Still (mikal@stillhq.com).
-
-DOCBOOK END
-******************************************************************************/
-
 cepConfiguration::cepConfiguration(const string& filename)
 {
   // todo_mikal: trivsql should be changed to fix this

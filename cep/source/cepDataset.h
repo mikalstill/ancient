@@ -23,8 +23,6 @@
 
 #include <vector>
 
-
-
 class cepError;
 
 typedef void (*cepDatasetProgressCB) (int plane, long lineno);
