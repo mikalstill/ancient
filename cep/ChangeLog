@@ -15,3 +15,8 @@
 
 2002-05-01 Michael Still mikal@stillhq.com
 	Added cepWindows to build process and fixed compile errors
+
+2002-05-04 Daniel Fernandez daniel.fernandez@ise.canberra.edu.au
+	Fixed some todos in cepWindows.cpp and began implementation of 
+	vector for using data and arrow of windows.
+
