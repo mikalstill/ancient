@@ -47,7 +47,9 @@
 #include "g10defs.h"
 #include "hkp.h"
 
-
+/** A list of all the command line options supported and their possible single
+    letter shortcuts. This is used to build the information for the ARG_PARSE
+    command line parser. See the next block after this one... */
 enum cmd_and_opt_values { aNull = 0,
     oArmor	  = 'a',
     aDetachedSign = 'b',
@@ -200,7 +202,8 @@ enum cmd_and_opt_values { aNull = 0,
     oEmuMDEncodeBug,
 aTest };
 
-
+/** This is used by the ARG_PARSE stuff in the main() function to parse
+    arguements passed to GPG on the command line interface */
 static ARGPARSE_OPTS opts[] = {
 
     { 300, NULL, 0, N_("@Commands:\n ") },
@@ -388,7 +391,10 @@ static ARGPARSE_OPTS opts[] = {
     { oEmuMDEncodeBug,	"emulate-md-encode-bug", 0, "@"},
 {0} };
 
+/** End of the stuff relating to ARG_PARSE */
 
+/** The presence of these global variables concerns me. It seems that these 
+    make the code a lot easier to break by new programmers. */
 
 int g10_errors_seen = 0;
 
@@ -397,12 +403,18 @@ static int maybe_setuid = 1;
 
 static char *build_list( const char *text,
 			 const char *(*mapf)(int), int (*chkf)(int) );
-static void set_cmd( enum cmd_and_opt_values *ret_cmd,
+void set_cmd( enum cmd_and_opt_values *ret_cmd,
 			enum cmd_and_opt_values new_cmd );
 static void print_hex( byte *p, size_t n );
 static void print_mds( const char *fname, int algo );
 static void add_notation_data( const char *string );
 static int  check_policy_url( const char *s );
+
+int   init_gpg(void);
+void  init_secmem_build(void);
+void  init_options(char *, char *, char *, char *);
+void  init_keyring(enum cmd_and_opt_values cmd, int argc, STRLIST sec_nrings, 
+		   int default_keyring, STRLIST nrings);
 
 const char *
 strusage( int level )
@@ -543,8 +555,7 @@ set_debug(void)
 
 }
 
-
-static void
+void
 set_cmd( enum cmd_and_opt_values *ret_cmd, enum cmd_and_opt_values new_cmd )
 {
     enum cmd_and_opt_values cmd = *ret_cmd;
@@ -572,7 +583,14 @@ set_cmd( enum cmd_and_opt_values *ret_cmd, enum cmd_and_opt_values new_cmd )
 /** This function has been added by Mikal in order to implement the API
     functionality for GPG */
 
-int init_api(){
+void init_api(){
+  init_gpg();
+  init_secmem_build();
+}
+
+int init_gpg(){
+    int may_coredump;
+
     /** trap_unaligned does some stuff on some Linux Alpha machines */
     trap_unaligned();
 
@@ -613,14 +631,127 @@ int init_api(){
     /** International support using the GNU gettext library */
     i18n_init();
 
+    /** A whole bunch of option stuff -- these are the default processing
+        options that both the UI and the API use */
+    opt.command_fd = -1; /* no command fd */
+    opt.compress = -1; /* defaults to standard compress level */
+    /* note: if you change these lines, look at oOpenPGP */
+    opt.def_cipher_algo = 0;
+    opt.def_digest_algo = 0;
+    opt.def_compress_algo = 2;
+    opt.s2k_mode = 3; /* iterated+salted */
+    opt.s2k_digest_algo = DIGEST_ALGO_SHA1;
+    opt.s2k_cipher_algo = CIPHER_ALGO_CAST5;
+    opt.completes_needed = 1;
+    opt.marginals_needed = 3;
+    opt.max_cert_depth = 5;
+    opt.pgp2_workarounds = 1;
+    opt.auto_key_retrieve = 1;
+  #ifdef __MINGW32__
+    opt.homedir = read_w32_registry_string( NULL, "Software\\GNU\\GnuPG", "HomeDir" );
+  #else
+    opt.homedir = getenv("GNUPGHOME");
+  #endif
+    if( !opt.homedir || !*opt.homedir ) {
+	opt.homedir = GNUPG_HOMEDIR;
+    }
+
     return may_coredump;
 }
 
+void init_secmem_build(){
+    /* initialize the secure memory. */
+    secmem_init( 16384 );
 
+    /** The secmem_init routine either drops the suid bit of the application,
+	or returns an error. We can there gaurantee that we are no longer
+	suid */
+    maybe_setuid = 0;
+    /* Okay, we are now working under our real uid */
+}
 
+void init_options(char *def_cipher_string, char *def_digest_string, 
+		  char *s2k_cipher_string, char *s2k_digest_string){
+      /** At the start of main() we disabled secure memory warnings. Now we
+	turn them back on */
+    secmem_set_flags( secmem_get_flags() & ~2 ); /* resume warnings */
+
+    
+    set_debug();
+    g10_opt_homedir = opt.homedir;
+
+    /* must do this after dropping setuid, because string_to...
+     * may try to load an module */
+    if( def_cipher_string ) {
+	opt.def_cipher_algo = string_to_cipher_algo(def_cipher_string);
+	m_free(def_cipher_string); def_cipher_string = NULL;
+	if( check_cipher_algo(opt.def_cipher_algo) )
+	    log_error(_("selected cipher algorithm is invalid\n"));
+    }
+    if( def_digest_string ) {
+	opt.def_digest_algo = string_to_digest_algo(def_digest_string);
+	m_free(def_digest_string); def_digest_string = NULL;
+	if( check_digest_algo(opt.def_digest_algo) )
+	    log_error(_("selected digest algorithm is invalid\n"));
+    }
+    if( s2k_cipher_string ) {
+	opt.s2k_cipher_algo = string_to_cipher_algo(s2k_cipher_string);
+	m_free(s2k_cipher_string); s2k_cipher_string = NULL;
+	if( check_cipher_algo(opt.s2k_cipher_algo) )
+	    log_error(_("selected cipher algorithm is invalid\n"));
+    }
+    if( s2k_digest_string ) {
+	opt.s2k_digest_algo = string_to_digest_algo(s2k_digest_string);
+	m_free(s2k_digest_string); s2k_digest_string = NULL;
+	if( check_digest_algo(opt.s2k_digest_algo) )
+	    log_error(_("selected digest algorithm is invalid\n"));
+    }
+    if( opt.set_policy_url ) {
+	if( check_policy_url( opt.set_policy_url ) )
+	    log_error(_("the given policy URL is invalid\n"));
+    }
+    if( opt.def_compress_algo < 1 || opt.def_compress_algo > 2 )
+	log_error(_("compress algorithm must be in range %d..%d\n"), 1, 2);
+    if( opt.completes_needed < 1 )
+	log_error(_("completes-needed must be greater than 0\n"));
+    if( opt.marginals_needed < 2 )
+	log_error(_("marginals-needed must be greater than 1\n"));
+    if( opt.max_cert_depth < 1 || opt.max_cert_depth > 255 )
+	log_error(_("max-cert-depth must be in range 1 to 255\n"));
+    switch( opt.s2k_mode ) {
+      case 0:
+	log_info(_("NOTE: simple S2K mode (0) is strongly discouraged\n"));
+	break;
+      case 1: case 3: break;
+      default:
+	log_error(_("invalid S2K mode; must be 0, 1 or 3\n"));
+    }
+}
+
+void init_keyring(enum cmd_and_opt_values cmd, int argc, STRLIST sec_nrings, 
+		  int default_keyring, STRLIST nrings){
+  STRLIST    sl;
+
+    /* add the keyrings, but not for some special commands and
+     * not in case of "-kvv userid keyring" */
+    if( cmd != aDeArmor && cmd != aEnArmor
+	&& !(cmd == aKMode && argc == 2 ) ) {
+
+	if( !sec_nrings && default_keyring )  /* add default secret rings */
+	    add_keyblock_resource("secring.gpg", 0, 1);
+	for(sl = sec_nrings; sl; sl = sl->next )
+	    add_keyblock_resource( sl->d, 0, 1 );
+	if( !nrings && default_keyring )  /* add default ring */
+	    add_keyblock_resource("pubring.gpg", 0, 0);
+	for(sl = nrings; sl; sl = sl->next )
+	    add_keyblock_resource( sl->d, 0, 0 );
+    }
+    FREE_STRLIST(nrings);
+    FREE_STRLIST(sec_nrings);
+}
 
 int
-main( int argc, char **argv )
+ui_main( int argc, char **argv )
 {
   /** This variable is used by the gpg init code that used to be in main(),
       but is now here */
@@ -659,38 +790,20 @@ main( int argc, char **argv )
   #endif
 
     /** This is the main function for the gpg user interface */
-    may_coredump = init_api();
+    may_coredump = init_gpg();
 
-    /** A whole bunch of option stuff */
-    opt.command_fd = -1; /* no command fd */
-    opt.compress = -1; /* defaults to standard compress level */
-    /* note: if you change these lines, look at oOpenPGP */
-    opt.def_cipher_algo = 0;
-    opt.def_digest_algo = 0;
-    opt.def_compress_algo = 2;
-    opt.s2k_mode = 3; /* iterated+salted */
-    opt.s2k_digest_algo = DIGEST_ALGO_SHA1;
-    opt.s2k_cipher_algo = CIPHER_ALGO_CAST5;
-    opt.completes_needed = 1;
-    opt.marginals_needed = 3;
-    opt.max_cert_depth = 5;
-    opt.pgp2_workarounds = 1;
-    opt.auto_key_retrieve = 1;
-  #ifdef __MINGW32__
-    opt.homedir = read_w32_registry_string( NULL, "Software\\GNU\\GnuPG", "HomeDir" );
-  #else
-    opt.homedir = getenv("GNUPGHOME");
-  #endif
-    if( !opt.homedir || !*opt.homedir ) {
-	opt.homedir = GNUPG_HOMEDIR;
-    }
-
+    /** Save the arguements we were handed, and build something for the
+	ARGPARSE command to use. ARGPARSE is a replacement for getopt().
+        We repeatedly call arg_parse until we have run out of possible
+        arguements to parse. r_opt is the option that has been returned
+        to us */
     /* check whether we have a config file on the commandline */
     orig_argc = argc;
     orig_argv = argv;
     pargs.argc = &argc;
     pargs.argv = &argv;
     pargs.flags= 1|(1<<6);  /* do not remove the args, ignore version */
+
     while( arg_parse( &pargs, opts) ) {
 	if( pargs.r_opt == oDebug || pargs.r_opt == oDebugAll )
 	    parse_debug++;
@@ -725,14 +838,18 @@ main( int argc, char **argv )
 	init_shm_coprocessing(requested_shm_size, 1 );
     }
   #endif
-    /* initialize the secure memory. */
-    secmem_init( 16384 );
-    maybe_setuid = 0;
-    /* Okay, we are now working under our real uid */
+
+    /** End of the command line arguement parsing code */
+
+    /** Some code has been moved from here so that the API functionality can 
+	be worked on */
+    init_secmem_build();
 
     if( default_config )
 	configname = make_filename(opt.homedir, "options", NULL );
 
+    /** Go through the whole option parsing thing again, but this time as
+	something that is not suid */
     argc = orig_argc;
     argv = orig_argv;
     pargs.argc = &argc;
@@ -760,6 +877,7 @@ main( int argc, char **argv )
 	default_config = 0;
     }
 
+    /** Parse the options file */
     while( optfile_parse( configfp, configname, &configlineno,
 						&pargs, opts) ) {
 	switch( pargs.r_opt ) {
@@ -985,15 +1103,24 @@ main( int argc, char **argv )
 	  default : pargs.err = configfp? 1:2; break;
 	}
     }
+
+    /** If we opened a config file, then we should clean up after ourselves */
     if( configfp ) {
 	fclose( configfp );
 	configfp = NULL;
 	m_free(configname); configname = NULL;
 	goto next_pass;
     }
+
+    /** And free up some memory */
     m_free( configname ); configname = NULL;
+
+    /** If we experienced errors, then we should exit */
     if( log_get_errorcount(0) )
 	g10_exit(2);
+
+    /** Huh? Why introduce the greeting variable here??? Otherwise, just
+        print a greeting message */
     if( nogreeting )
 	greeting = 0;
 
@@ -1002,6 +1129,9 @@ main( int argc, char **argv )
 			strusage(11), strusage(13), strusage(14) );
 	fprintf(stderr, "%s\n", strusage(15) );
     }
+
+    /* If this is a development version, then do some stuff we wouldn't
+       otherwise do */
   #ifdef IS_DEVELOPMENT_VERSION
     if( !opt.batch ) {
 	log_info("NOTE: THIS IS A DEVELOPMENT VERSION!\n");
@@ -1010,10 +1140,12 @@ main( int argc, char **argv )
     }
   #endif
 
+    /** If we are allowed to, we should warn about our inability to disable
+	core dumping */
     if( may_coredump && !opt.quiet )
 	log_info(_("WARNING: program may create a core file!\n"));
 
-
+    /** I am not sure what --no-literal and --set-filesize do */
     if (opt.no_literal) {
 	log_info(_("NOTE: %s is not for normal use!\n"), "--no-literal");
 	if (opt.textmode)
@@ -1028,60 +1160,9 @@ main( int argc, char **argv )
     if( opt.batch )
 	tty_batchmode( 1 );
 
-    /** At the start of main() we disabled secure memory warnings. Now we
-	turn them back on */
-    secmem_set_flags( secmem_get_flags() & ~2 ); /* resume warnings */
-
-    set_debug();
-    g10_opt_homedir = opt.homedir;
-
-    /* must do this after dropping setuid, because string_to...
-     * may try to load an module */
-    if( def_cipher_string ) {
-	opt.def_cipher_algo = string_to_cipher_algo(def_cipher_string);
-	m_free(def_cipher_string); def_cipher_string = NULL;
-	if( check_cipher_algo(opt.def_cipher_algo) )
-	    log_error(_("selected cipher algorithm is invalid\n"));
-    }
-    if( def_digest_string ) {
-	opt.def_digest_algo = string_to_digest_algo(def_digest_string);
-	m_free(def_digest_string); def_digest_string = NULL;
-	if( check_digest_algo(opt.def_digest_algo) )
-	    log_error(_("selected digest algorithm is invalid\n"));
-    }
-    if( s2k_cipher_string ) {
-	opt.s2k_cipher_algo = string_to_cipher_algo(s2k_cipher_string);
-	m_free(s2k_cipher_string); s2k_cipher_string = NULL;
-	if( check_cipher_algo(opt.s2k_cipher_algo) )
-	    log_error(_("selected cipher algorithm is invalid\n"));
-    }
-    if( s2k_digest_string ) {
-	opt.s2k_digest_algo = string_to_digest_algo(s2k_digest_string);
-	m_free(s2k_digest_string); s2k_digest_string = NULL;
-	if( check_digest_algo(opt.s2k_digest_algo) )
-	    log_error(_("selected digest algorithm is invalid\n"));
-    }
-    if( opt.set_policy_url ) {
-	if( check_policy_url( opt.set_policy_url ) )
-	    log_error(_("the given policy URL is invalid\n"));
-    }
-    if( opt.def_compress_algo < 1 || opt.def_compress_algo > 2 )
-	log_error(_("compress algorithm must be in range %d..%d\n"), 1, 2);
-    if( opt.completes_needed < 1 )
-	log_error(_("completes-needed must be greater than 0\n"));
-    if( opt.marginals_needed < 2 )
-	log_error(_("marginals-needed must be greater than 1\n"));
-    if( opt.max_cert_depth < 1 || opt.max_cert_depth > 255 )
-	log_error(_("max-cert-depth must be in range 1 to 255\n"));
-    switch( opt.s2k_mode ) {
-      case 0:
-	log_info(_("NOTE: simple S2K mode (0) is strongly discouraged\n"));
-	break;
-      case 1: case 3: break;
-      default:
-	log_error(_("invalid S2K mode; must be 0, 1 or 3\n"));
-    }
-
+    /** Some more moved code */
+    init_options(def_cipher_string, def_digest_string, s2k_cipher_string,
+		 s2k_digest_string);
 
     if( log_get_errorcount(0) )
 	g10_exit(2);
@@ -1120,23 +1201,8 @@ main( int argc, char **argv )
     if( opt.verbose > 1 )
 	set_packet_list_mode(1);
 
-    /* add the keyrings, but not for some special commands and
-     * not in case of "-kvv userid keyring" */
-    if( cmd != aDeArmor && cmd != aEnArmor
-	&& !(cmd == aKMode && argc == 2 ) ) {
-
-	if( !sec_nrings && default_keyring )  /* add default secret rings */
-	    add_keyblock_resource("secring.gpg", 0, 1);
-	for(sl = sec_nrings; sl; sl = sl->next )
-	    add_keyblock_resource( sl->d, 0, 1 );
-	if( !nrings && default_keyring )  /* add default ring */
-	    add_keyblock_resource("pubring.gpg", 0, 0);
-	for(sl = nrings; sl; sl = sl->next )
-	    add_keyblock_resource( sl->d, 0, 0 );
-    }
-    FREE_STRLIST(nrings);
-    FREE_STRLIST(sec_nrings);
-
+    /** Moved this code as well */
+    init_keyring(cmd, argc, sec_nrings, default_keyring, nrings);
 
     if( pwfd != -1 )  /* read the passphrase now. */
 	read_passphrase_from_fd( pwfd );

@@ -138,7 +138,7 @@ PROGRAMS =  $(bin_PROGRAMS)
 DEFS = @DEFS@ -I. -I$(srcdir) -I..
 CPPFLAGS = @CPPFLAGS@
 LIBS = @LIBS@
-gpg_OBJECTS =  g10.o build-packet.o compress.o free-packet.o getkey.o \
+gpg_OBJECTS =  build-packet.o compress.o free-packet.o getkey.o \
 delkey.o pkclist.o skclist.o ringedit.o kbnode.o mainproc.o armor.o \
 mdfilter.o textfilter.o cipher.o misc.o openfile.o keyid.o trustdb.o \
 tdbdump.o tdbio.o hkp.o parse-packet.o passphrase.o pubkey-enc.o \
@@ -149,7 +149,7 @@ gpg_LDADD = $(LDADD)
 gpg_DEPENDENCIES =  ../cipher/libcipher.a ../mpi/libmpi.a \
 ../util/libutil.a
 gpg_LDFLAGS = 
-CFLAGS = @CFLAGS@
+CFLAGS = @CFLAGS@ -ggdb
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
@@ -218,9 +218,10 @@ distclean-compile:
 
 maintainer-clean-compile:
 
-gpg: $(gpg_OBJECTS) $(gpg_DEPENDENCIES)
+gpg: $(gpg_OBJECTS) g10.o $(gpg_DEPENDENCIES) main.c
 	@rm -f gpg
-	$(LINK) $(gpg_LDFLAGS) $(gpg_OBJECTS) $(gpg_LDADD) $(LIBS)
+	gcc -c main.c -o main.o
+	$(LINK) $(gpg_LDFLAGS) main.o $(gpg_OBJECTS) g10.o $(gpg_LDADD) $(LIBS)
 
 tags: TAGS
 
@@ -592,3 +593,8 @@ install-data-local:
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
+
+# Dodgy stuff added by Mikal to get the API up and running
+api:	gpg
+	ar rs libgpg.a `ls *.o | grep -v main.o` ../cipher/*.o ../mpi/*.o ../util/*.o 
+	gcc -ggdb api.c -L. -lgpg -o api -lz -ldl -lgdbm
