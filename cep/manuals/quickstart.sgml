@@ -1,9 +1,37 @@
 <chapter><title>Quick start guide</title>
 
 <sect1><title>Foo</title>
+  <para>
+    Follow the instructions in the installation section of this user manual and then at a shell prompt, type
+</para>
+<programlisting>
+./gdms
+</programlisting>
 <para>
-Ba Ba Black sheep have you any wool, yes sir yes sir 3 bags full..
-But you can't have it because in case you haven't noticed, there's a drought on.
+  To open a data set, select <command>File</command> - <command>Open</command>. Browse to the location in which the
+  data sets to be opened resides and then click <command>Open</command>.
+</para>
+
+<para>
+  Now that a dataset has been loaded, use the <command>Maths</command> menu to carry out data processing. For further details of specific
+  options here, please refer to the quick reference guide. 
+</para>
+<para>
+  To close the data set currently in focus, select
+  <command>File</command> - <command>Close.</command>.
+</para>
+<para>
+  To exit the program, simply select <command>File</command> -
+  <command>Exit</command>. 
+</para>
+<para>
+  To save the data set after processing, select <command>File</command> -
+  <command>Save</command>. Choose the desired location and click <command>OK</command>.
+</para>
+<para>
+  To save under a
+  different file name, select <command>File</command> - <command>Save As</command>. Enter a file name and once again,
+  choose a location and click <command>OK</command>.
 </para>
 </sect1>
 

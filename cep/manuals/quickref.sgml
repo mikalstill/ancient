@@ -23,18 +23,15 @@
 
 <sect1><title>Configuring the User Interface</title>
   <para>
-    The look and feel of the user interface can be configured to suit individual users. This includes graph colours
-    and some other stuff that I can't think right now because I am simply too tired.
+    The look and feel of the user interface can be configured to suit individual users. Please refer to the configuration
+    chapter for full details on this feature.
   </para>
-
-  <sect2><title>Configuring graphing preferences</title>
-    <para>
-    </para>
-  </sect2> <!--Configuring graphing preferences-->
-
 </sect1> <!--Configuring the User Interface-->
 
 <sect1><title>Data Analysis</title>
+  <para>
+    The following items are all found in the Maths menu.
+  </para>
 
   <sect2><title>Time Domain Analysis</title>
   <para>
@@ -42,31 +39,24 @@
     But you can't have it because in case you haven't noticed, there's a drought on.
   </para>
 
-  <sect3><title>Least Squeares Regression</title>
+  <sect3><title>Least Squeares</title>
   <para>
+    The available options in the least squares menu are Variance Co-variance and Random Walk.
   </para>
   </sect3> <!--ls regress-->
   </sect2> <!--time domain-->
 
   <sect2><title>Interpolation</title>
     <para>
-    	Select the Maths menu, follow interpolation and select the type of interpolation algorithm to use. </para>
-    <sect3><title>Linear Interpolation</title>
-      <para>
-      </para>
-    </sect3> <!--linear interp-->
-
-    <sect3><title>Divided differences</title>
-      <para>
-      </para>
-    </sect3> <!--divided diffs-->
+       The available options in the Interpolation menu are Nearest neighbour, linear interpolation, natural spline,
+       cubic spline and divided differences.
+    </para>
   </sect2> <!--interp-->
 
   <sect2><title>Windowing data</title>
     <para>
-    	Select the Maths menu, follow windowing and select the type of windowing algorithm to use.
+      The available options in the Windowing menu are Blackman, Chebychev, Hamming, Hanning and rectangular.
     </para>
-
   </sect2> <!--window-->
 
 
