@@ -6,23 +6,32 @@
    <subtitle>Color</subtitle>
    <author company="TOWER Software Engineering" email="mikal@stillhq.com" jobtitle="Senior Software Engineer" name="Michael Still">Michael has been working in the image processing field for several years, including a couple of years managing and dveloping large image databases for an Australian government department. He currently works for TOWER Software, who manufacture a world leading EDMS and Records Management package named TRIM. Michael is also the developer of Panda, an open source PDF generation API, as well as being the maintainer of the comp.text.pdf USENET frequently asked questions document. You can contact Michael at <a href="mailto:mikal@stillhq.com">mikal@stillhq.com</a>.</author>
 
-   <date month="February" year="2002"></date>
+   <date month="April" year="2002"></date>
    <zone name="linux"></zone>
    <pdf url="ftp://www6.software.ibm.com/software/developer/library/[xxx.pdf]" size="xxKB"></pdf>
    <zip url="ftp://www6.software.ibm.com/software/developer/library/xxx.zip"></zip>
 
    <meta name="KEYWORDS" content="tiff libtiff image imaging raster bitmap color colour" />	
-   <meta name="LASTUPDATE" content="20020211 MBS"/>
+   <meta name="LASTUPDATE" content="20020425 MBS"/>
 
    <relatedlist>
    <a href="">[Link 1 to related content]</a>
    <a href="">[Link 2 to related content]</a>
    </relatedlist>			
 		
-<!-- ENTER ARTICLE ABSTRACT BELOW.  REMOVE ANY BLANKS OR CARRIAGE RETURN CHARACTERS WITHIN THE TEXT.  KEEP THE ABSTRACT SHORT (NO MORE THAN SEVEN LINES ON THE HTML PAGE).  THESE RESTRICTIONS ARE REQUIRED FOR THE "EMAIL IT!" FUNCTION. -->	
-   <abstract>[Enter the article abstract here.  No paragraph tag is needed.  The 'abstract' should be short -- no more than seven lines on the HTML page -- so it will fit in the email it! pop-up window.]</abstract>
+   <abstract>TIFF is an extremely common, but quite complex raster image format.
+ Libtiff is a standard implementation of the TIFF specification, which is free a
+nd works on many operating systems. This article discusses some of the pitfalls 
+of TIFF, and guides the reader through use of the libtiff library. This article 
+provides examples on how to use libtiff for your grayscale and color imaging needs.
+</abstract>
 
-<p>[Start article text here]</p>
+<sidebar>
+<heading refname="" type="sidebar" toc="no">Did you read the previous article?</heading>
+<p>This article is a follow up to my previous article on black and white graphics programming with libtiff. This article covers grayscale and color imaging, but it assumes that you have read and understood the code from the black and white article. It might be helpful to refer to that article before going too far here.</p>
+</sidebar>
+
+<p>
 
 <!--MAJOR HEADING: CODE HEADING TAG WITH TYPE="MAJOR".  ENTER A REFERENCE NAME TO BE USED AS AN INLINE LINK IN THE TOC.  USE ALT= ATTRIBUTE IF YOU WANT THE TOC TEXT TO BE DIFFERENT FROM THE HEADING.   PRECEDE ALL MAJOR HEADINGS WITH A PARAGRAPH TAG-->
 <p><heading refname="h1" type="major" toc="yes">[Major heading 1]</heading>	
@@ -98,13 +107,6 @@ Use the space key to indent lines.]
 </figure>
 
 <p>[Refer to figure using the reference name (refname) assigned to the figure, as follows: <a href="#figure1">Figure 1</a>. ]</p>
-
-<!-- SIDEBAR WITH HEADING:  PLACE HEADING INSIDE SIDEBAR TAG WITH TYPE="SIDEBAR".  DO NOT SURROUND SIDEBAR WITH PARAGRAPH TAGS.  THE TOC ATTRIBUTE DETERMINES IF THIS HEADING IS INCLUDED IN THE TOC.   DEFAULT IS TOC="NO".   IF NEEDED, YOU CAN ADJUST THE WIDTH OF THE SIDEBAR USING THE WIDTH= ATTRIBUTE OF THE SIDEBAR TAG.  SPECIFY A PERCENTAGE.-->
-<sidebar>
-<heading refname="" type="sidebar" toc="no">[Sidebar heading]</heading>
-[Insert the text for the sidebar here.  The default for the sidebar is width="30%".  To widen the sidebar, code the width attribute on the sidebar tag (specify a percentage).
-<p>Start using paragraph tags with the second paragraph of the sidebar.]</p>
-</sidebar>
 
 <!-- THIRD-LEVEL HEADING:  PRECEDE ALL THIRD-LEVEL HEADINGS WITH A PARAGRAPH TAG.  FOLLOW THE HEADING WITH A BREAK TAG.-->
 <p><b>[Third-level heading]</b><br />
