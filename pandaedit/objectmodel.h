@@ -139,8 +139,8 @@ public:
   objectlist (string input, pdf* thePDF);
   object operator[] (unsigned int i);
   unsigned int size ();
-  void push_back(const objectreference &ref);
-  void push_back(const object &obj);
+  void push_back(const objectreference &ref, pdf* thePDF);
+  void push_back(const object &obj, pdf* thePDF);
   void push_back(const string objs, pdf* thePDF);
 
 private:

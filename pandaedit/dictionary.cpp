@@ -146,7 +146,7 @@ dictionary::getValue (string dname, pdf &thePDF, objectlist & objs)
 
 	switch(m_items[i].getType()){
 	case dictitem::diTypeObjectReference:
-	  objs.push_back(m_items[i].getObjectReferenceValue());
+	  objs.push_back(m_items[i].getObjectReferenceValue(), &thePDF);
 	  break;
 	  
 	case dictitem::diTypeString:

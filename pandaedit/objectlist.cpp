@@ -19,10 +19,16 @@ object
 objectlist::operator[] (unsigned int i)
 {
   // todo_mikal: this is a hack
-  object
-  foo (-1, -1);
+  object foo (-1, -1);
   object & obj = foo;
-  m_pdf->findObject (m_objects[i].number, m_objects[i].generation, obj);
+  
+  if(m_pdf){
+    m_pdf->findObject (m_objects[i].number, m_objects[i].generation, obj);
+  }
+  else{
+    debug(dlError, "Object list references to a non existant PDF");
+  }
+
   return obj;
 }
 
@@ -33,14 +39,17 @@ objectlist::size ()
 }
 
 void
-objectlist::push_back(const objectreference& ref)
+objectlist::push_back(const objectreference& ref, pdf *thePDF)
 {
+  m_pdf = thePDF;
   m_objects.push_back(ref);
 }
 
 void
-objectlist::push_back(const object &obj)
+objectlist::push_back(const object &obj, pdf* thePDF)
 {
+  m_pdf = thePDF;
+
   objectreference temp;
   temp.number = ((object) obj).getNumber();
   temp.generation = ((object) obj).getGeneration();
