@@ -1,14 +1,14 @@
 #!/usr/local/bin/perl
 
 use strict;
-my($incomment, $origline, $code, $possfunction, $arg, %pointers, $key, $class,
+my($incomment, $origline, $code, $possfunction, $arg, %pointers, $class,
    %creates, %parents, %suppress, $temp);
 
 $incomment = 0;
 $code = "";
 
 while(<STDIN>){
-    if(/[ \t]*SUPPRESS\((.*)\)/){
+    if((!/^#define/) && (/[ \t]*SUPPRESS\((.*)\)/)){
 	$suppress{$1} = "yes";
     }
     
@@ -22,9 +22,7 @@ while(<STDIN>){
     s/^.*\*\///;
 
     # We want the newlines to stay for cpp directives
-    if(/\#/){
-    }
-    else{
+    if(!/\#/){
 	chomp;
     }
 
@@ -74,6 +72,7 @@ foreach $possfunction (split(/;/, $code)){
 	$_ = "$rval$fval";
 	if(($rval ne "char") && ($rval ne "void") && ($rval ne "int") &&
 	   (/.*\*.*/)){
+	    print STDERR "Adding creates $rval for $fval\n";
 	    $creates{$rval} = $creates{$rval}."$fval;";
 	}
     }
@@ -90,22 +89,20 @@ foreach $possfunction (split(/;/, $code)){
     }
 }
 
-# Determine the parent relationships between clases
-foreach $key (keys %pointers){
-    $class = $key;
-
+# Determine the parent relationships between classes
+foreach $class (keys %pointers){
     if($suppress{$class} eq ""){
 	# We need to output all the functions which use one of these pointers
 	my($rval, $fval, $aval, @argsarray);
-	@argsarray = split(/;/, $pointers{$key});
+	@argsarray = split(/;/, $pointers{$class});
 
 	while($argsarray[0] ne ""){
 	    ($rval, $fval, $aval) = split(/!/, shift @argsarray);
 	    $aval =~ s/$class[ \t\*]+[, ]*//;
+	    $fval =~ s/\*//;
 	    
 	    # We only support one parent at the moment
-	    if(($creates{$fval} ne "") && ($parents{$rval} eq "") &&
-	       ($suppress{$rval} eq "")){
+	    if(($creates{$rval} ne "") && ($parents{$rval} eq "") && ($suppress{$rval} eq "")){
 		$parents{$rval} = $parents{$rval}."$class";
 	    }
 	}
@@ -113,9 +110,7 @@ foreach $key (keys %pointers){
 }
 
 # We now know the commonly passed pointers
-foreach $key (keys %pointers){
-    $class = $key;
-
+foreach $class (keys %pointers){
     if($suppress{$class} eq ""){
 	print "class C$class\n{\n";
 	print "public:\n";
@@ -138,7 +133,7 @@ foreach $key (keys %pointers){
 
 	# We need to output all the functions which use one of these pointers
 	my($rval, $fval, $aval, $origargs, @argsarray);
-	@argsarray = split(/;/, $pointers{$key});
+	@argsarray = split(/;/, $pointers{$class});
 
 	while($argsarray[0] ne ""){
 	    ($rval, $fval, $aval) = split(/!/, shift @argsarray);
@@ -216,7 +211,7 @@ foreach $key (keys %pointers){
 	if($creates{$class} ne ""){
 	    print "\n";
 	    print "private:\n";
-	    print "  $key *m_ptr;\n";
+	    print "  $class *m_ptr;\n";
 	}
 
 	if($parents{$class} ne ""){
