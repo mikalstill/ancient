@@ -2,42 +2,40 @@
 
 <sect1><title>Testing</title>
 
-  <sect2><title>Unit Testing</title>
 
-    <sect3><title>Introduction</title>
-      <!-- TODO - reference this properly and fill in the blanks -->
-      <para>From the outset it was decided that a testing regime was require to support debugging of subsytems and validation of
-      mathematical routines. The basic requirements for the testing infrastructure were:
-      <itemizedlist>
-      <listitem><para>Standardised testing for all developers</para></listitem>
-      <listitem><para>Automation to allow test execution with no user input</para></listitem>
-      <listitem><para>Simple test implementetion so as to minimise load placed on developers</para></listitem>
-      <listitem><para>The code must be released under the <command>GPL</command></para></listitem>
-      </itemizedlist>
-      </para>
-    </sect3>
+  <sect2><title>Introduction</title>
+    <!-- TODO - reference this properly and fill in the blanks -->
+    <para>From the outset it was decided that a testing regime was require to support debugging of subsytems and validation of
+    mathematical routines. The basic requirements for the testing infrastructure were:
+    <itemizedlist>
+    <listitem><para>Standardised testing for all developers</para></listitem>
+    <listitem><para>Automation to allow test execution with no user input</para></listitem>
+    <listitem><para>Simple test implementetion so as to minimise load placed on developers</para></listitem>
+    <listitem><para>The code must be released under the <command>GPL</command></para></listitem>
+    </itemizedlist>
+    </para>
+  </sect3>
 
-    <sect3><title>Implementation</title>
-      <para>Unit testing, as adopted by the extreme programming community, was chosen as the ideal framework to support our system.
-      A number of different libraries were examined as possible canidates and <command>CPPUnit</command> was selected as the most
-      appropriate.
-      </para>
-      <para>
-      Testing has been used extensively to support the validation of the mathematical subsystem. There are currently 84 tests spread across
-      the 10 mathematical modules.
-      </para>
-    </sect3> <!--Introduction-->
+  <sect2><title>Implementation</title>
+    <para>Unit testing, as adopted by the extreme programming community, was chosen as the ideal framework to support our system.
+    A number of different libraries were examined as possible canidates and <command>CPPUnit</command> was selected as the most
+    appropriate.
+    </para>
+    <para>
+    Testing has been used extensively to support the validation of the mathematical subsystem. There are currently 84 tests spread across
+    the 10 mathematical modules.
+    </para>
+  </sect2> <!--Introduction-->
 
-    <sect3><title>User Interface Testing</title>
-      <para>
-      The user interface is exhaustively tested across all datasets. The tests are generated automatically and seek to locate datasets with
-      peculiarities that might cause failure of the plotting library. There are currently 1131 tests dedicated to exercising this body of
-      code.
-      </para>
-    </sect3> <!--Introduction-->
+  <sect2><title>User Interface Testing</title>
+    <para>
+    The user interface is exhaustively tested across all datasets. The tests are generated automatically and seek to locate datasets with
+    peculiarities that might cause failure of the plotting library. There are currently 1131 tests dedicated to exercising this body of
+    code.
+    </para>
+  </sect2> <!--Introduction-->
 
 
-  </sect2> <!--UI Testing-->
   <sect2><title>Conclusion</title>
     <para>
     The testing framework proved invaluable in the process of bug isolation and resolution and resolution. An additional benefit has been
