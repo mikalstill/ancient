@@ -6,6 +6,7 @@
   #include <stdarg.h>
 
   #define YYMAXDEPTH 50000
+  #define YYERROR_VERBOSE 1
 
   int    binaryMode;
 
@@ -170,7 +171,15 @@ int pandalex_parse(){
 }
 
 int yyerror(char *s){
-  fprintf(stderr, "Error is %s\n", s);
+  fprintf(stderr, "\n---------------------------------------------------------------\n");
+  fprintf(stderr, "PandaLex parser error (%s):\n", s);
+  fprintf(stderr, "  Please send this error text, along with a copy of your PDF\n");
+  fprintf(stderr, "  document (if possible) to mikal@stillhq.com, so that this can\n");
+  fprintf(stderr, "  be fixed for the next release...\n\n");
+  fprintf(stderr, "version = 0.4\n");
+  fprintf(stderr, "last token = \"%s\" (%d)\n", yylval.textVal, yylval.intVal);
+  fprintf(stderr, "\n---------------------------------------------------------------\n");
+
   exit(42);
 }
 

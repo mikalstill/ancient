@@ -82,439 +82,199 @@ exit(42);
 }
 %}
 
-// Initial is the default starting state
 %x BINARY
 %%
 
-\%PDF-[0-9]+\.[0-9]+    { debuglex(yytext, -1, "version", binaryMode);
-
-                          if(binaryMode == 0){
+<INITIAL>\%PDF-[0-9]+\.[0-9]+    { debuglex(yytext, -1, "version", binaryMode);
                             yylval.textVal = (char *) returnStr(yytext, -1);
                             return VERSION;
-                            }
-                          else{
-                            yylval.sval.data = 
-                              (char *) returnStr(yytext, yyleng);
-                            yylval.sval.len = yyleng;
-                            return ANYTHING;                  
-                            }
                                                                              }
 
-[ \t\r\n]+              { debuglex(yytext, -1, "whitespace", binaryMode);
-                          if(binaryMode == 1){
-                            yylval.sval.data = 
-                              (char *) returnStr(yytext, -1);
-                            yylval.sval.len = yyleng;
-                            return ANYTHING;
-                          }
+<INITIAL>[ \t\r\n]+              { debuglex(yytext, -1, "whitespace", binaryMode);
                                                                           }
 
-xref                    { debuglex(yytext, -1, "xref", binaryMode);
-
-                          if(binaryMode == 0){
+<INITIAL>xref                    { debuglex(yytext, -1, "xref", binaryMode);
                             yylval.textVal = (char *) 
                               returnStr(yytext + 1, -1);
                             return XREF;
-                            }
-                          else{
-                            yylval.sval.data = 
-                              (char *) returnStr(yytext, yyleng);
-                            yylval.sval.len = yyleng;
-                            return ANYTHING;
-                            }
                                                                              }
 
-trailer                 { debuglex(yytext, -1, "trailer", binaryMode);
-
-                          if(binaryMode == 0){
+<INITIAL>trailer                 { debuglex(yytext, -1, "trailer", binaryMode);
                             yylval.textVal = 
                               (char *) returnStr(yytext + 1, -1);
                             return TRAILER;
-                            }
-                          else{
-                            yylval.sval.data =
-                              (char *) returnStr(yytext, yyleng);
-                            yylval.sval.len = yyleng;
-                            return ANYTHING;
-                            }
                                                                              }
 
-\/[#a-zA-Z\-_0-9\.\+,]+ { debuglex(yytext, -1, "name", binaryMode);
-
-                          if(binaryMode == 0){
+<INITIAL>\/[#a-zA-Z\-_0-9\.\+,]+ { debuglex(yytext, -1, "name", binaryMode);
                             yylval.textVal = 
                               (char *) returnStr(yytext + 1, -1);
                             return NAME;
-                            }
-                          else{
-                            yylval.sval.data =
-                              (char *) returnStr(yytext, yyleng);
-                            yylval.sval.len = yyleng;
-                            return ANYTHING;
-                            }
                                                                              }
 
-\<\<\/[#a-zA-Z\-_0-9\.\+]+ { debuglex(yytext, -1, "dbllt-name", binaryMode);
-
-                          if(binaryMode == 0){
+<INITIAL>\<\<\/[#a-zA-Z\-_0-9\.\+]+ { debuglex(yytext, -1, "dbllt-name", binaryMode);
                             yyless(2);
                             return DBLLT;
-                            }
-                          else{
-                            yylval.sval.data =
-                              (char *) returnStr(yytext, yyleng);
-                            yylval.sval.len = yyleng;
-                            return ANYTHING;
-                            }
                                                                              }
 
-\/[#a-zA-Z\-_0-9\.\+]+\>\>     { debuglex(yytext, -1, "name-dblgt", binaryMode);
-
-                          if(binaryMode == 0){
+<INITIAL>\/[#a-zA-Z\-_0-9\.\+]+\>\>     { debuglex(yytext, -1, "name-dblgt", binaryMode);
                             yyless(yyleng - 2);
                             yylval.textVal = 
                               (char *) returnStr(yytext + 1, -1);
                             return NAME;
-                            }
-                          else{
-                            yylval.sval.data =
-                              (char *) returnStr(yytext, yyleng);
-                            yylval.sval.len = yyleng;
-                            return ANYTHING;
-                            }
 }
 
                         /* --- stuff required for objects ---               */
-R                       { debuglex(yytext, -1, "object reference", binaryMode);
-
-                          if(binaryMode == 0){
+<INITIAL>R                       { debuglex(yytext, -1, "object reference", binaryMode);
                             yylval.textVal = 
                               (char *) returnStr(yytext, -1);
                             return OBJREF; 
-                            }
-                          else{
-                            yylval.sval.data = 
-                              (char *) returnStr(yytext, yyleng);
-                            yylval.sval.len = yyleng;
-                            return ANYTHING;
-                            }
                                                                              }
-R\>\>                       { debuglex(yytext, -1, "object-reference-dblgt", binaryMode);
 
-                          if(binaryMode == 0){
+<INITIAL>R\>\>                       { debuglex(yytext, -1, "object-reference-dblgt", binaryMode);
                             yyless(yyleng - 2);
                             yylval.textVal = 
                               (char *) returnStr(yytext, -1);
                             return OBJREF; 
-                            }
-                          else{
-                            yylval.sval.data = 
-                              (char *) returnStr(yytext, yyleng);
-                            yylval.sval.len = yyleng;
-                            return ANYTHING;
-                            }
                                                                              }
 
-obj                     { debuglex(yytext, -1, "obj", binaryMode);
+<INITIAL>R\/                       { debuglex(yytext, -1, "object-reference-namestart", binaryMode);
+                            yyless(yyleng - 1);
+                            yylval.textVal = 
+                              (char *) returnStr(yytext, -1);
+                            return OBJREF; 
+                                                                             }
 
-                          if(binaryMode == 0){
+<INITIAL>obj                     { debuglex(yytext, -1, "obj", binaryMode);
                             yylval.textVal = 
                               (char *) returnStr(yytext, -1);
                             return OBJ; 
-                            }
-                          else{
-                            yylval.sval.data = 
-                              (char *) returnStr(yytext, yyleng);
-                            yylval.sval.len = yyleng;
-                            return ANYTHING;
-                            }
                                                                              }
 
-endobj                  { debuglex(yytext, -1, "endobj", binaryMode);
-
-                          if(binaryMode == 0){
+<INITIAL>endobj                  { debuglex(yytext, -1, "endobj", binaryMode);
                             yylval.textVal = 
                               (char *) returnStr(yytext, -1);
                             return ENDOBJ; 
-                            }
-                          else{
-                            yylval.sval.data = 
-                              (char *) returnStr(yytext, yyleng);
-                            yylval.sval.len = yyleng;
-                            return ANYTHING;
-                            }
                                                                              }
 
-stream                  { debuglex(yytext, -1, "stream", binaryMode);
-                          BEGIN(BINARY)
+<INITIAL>stream                  { debuglex(yytext, -1, "stream", binaryMode);
+                          BEGIN(BINARY); binaryMode = 1;
                           return STREAM;                                     }
 
-endstream               { debuglex(yytext, -1, "endstream", 0);
-                          binaryMode = 0;
-                          return ENDSTREAM;                                  }
-
-[+-]?[0-9]+             { debuglex(yytext, -1, "integer", binaryMode);
-
-                          if(binaryMode == 0){
+<INITIAL>[+-]?[0-9]+             { debuglex(yytext, -1, "integer", binaryMode);
                             yylval.intVal = atoi(yytext);
                             return INT; 
-                            }
-                          else{
-                            yylval.sval.data = 
-                              (char *) returnStr(yytext, yyleng);
-                            yylval.sval.len = yyleng;
-                            return ANYTHING;
-                            }
                                                                              }
 
-[+-]?[0-9]+\>\>             { debuglex(yytext, -1, "integer-dblgt", binaryMode);
-
-                          if(binaryMode == 0){
+<INITIAL>[+-]?[0-9]+\>\>             { debuglex(yytext, -1, "integer-dblgt", binaryMode);
                             yyless(yyleng - 2);
                             yylval.intVal = atoi(yytext);
                             return INT; 
-                            }
-                          else{
-                            yylval.sval.data = 
-                              (char *) returnStr(yytext, yyleng);
-                            yylval.sval.len = yyleng;
-                            return ANYTHING;
-                            }
                                                                              }
 
 
-[+-]?[0-9]+\.[0-9]+     { debuglex(yytext, -1, "floating point", binaryMode);
-
-                          if(binaryMode == 0){
+<INITIAL>[+-]?[0-9]+\.[0-9]+     { debuglex(yytext, -1, "floating point", binaryMode);
                             yylval.textVal = 
                               (char *) returnStr(yytext, yyleng); 
                             return FP; 
-                            }
-                          else{
-                            yylval.sval.data = 
-                              (char *) returnStr(yytext, yyleng);
-                            yylval.sval.len = yyleng;
-                            return ANYTHING;
-                            }
                                                                              }
 
-[+-]?[0-9]+\.[0-9]+\>\>     { debuglex(yytext, -1, "floating point", binaryMode);
-
-                          if(binaryMode == 0){
+<INITIAL>[+-]?[0-9]+\.[0-9]+\>\>     { debuglex(yytext, -1, "floating point", binaryMode);
                             yyless(yyleng - 2);
                             yylval.textVal = 
                               (char *) returnStr(yytext, yyleng); 
                             return FP; 
-                            }
-                          else{
-                            yylval.sval.data = 
-                              (char *) returnStr(yytext, yyleng);
-                            yylval.sval.len = yyleng;
-                            return ANYTHING;
-                            }
                                                                              }
 
-\<\<                    { debuglex(yytext, -1, "<<", binaryMode);
-
-                          if(binaryMode == 0){
+<INITIAL>\<\<                    { debuglex(yytext, -1, "<<", binaryMode);
                             return DBLLT; 
-                            }
-                          else{
-                            yylval.sval.data = 
-                              (char *) returnStr(yytext, yyleng);
-                            yylval.sval.len = yyleng;
-                            return ANYTHING;
-                            }
                                                                              }
 
-\>\>                    { debuglex(yytext, -1, ">>", binaryMode);
-
-                          if(binaryMode == 0){
+<INITIAL>\>\>                    { debuglex(yytext, -1, ">>", binaryMode);
                             return DBLGT; 
-                            }
-                          else{
-                            yylval.sval.data = 
-                              (char *) returnStr(yytext, yyleng);
-                            yylval.sval.len = yyleng;
-                            return ANYTHING;
-                            }
                                                                              }
 
-\>\>\>\>                    { debuglex(yytext, -1, ">>>>", binaryMode);
-
-                          if(binaryMode == 0){
+<INITIAL>\>\>\>\>                    { debuglex(yytext, -1, ">>>>", binaryMode);
                             yyless(yyleng - 2);
                             return DBLGT; 
-                            }
-                          else{
-                            yylval.sval.data = 
-                              (char *) returnStr(yytext, yyleng);
-                            yylval.sval.len = yyleng;
-                            return ANYTHING;
-                            }
                                                                              }
 
 
-([#a-zA-Z0-9\.:'+\-!_]+[a-zA-Z0-9\.:'+\-!_\\\/]*)+ { 
+<INITIAL,BINARY>([#a-zA-Z0-9\.:'+\-!_]+[a-zA-Z0-9\.:'+\-!_\\]*)+ { 
                           debuglex(yytext, -1, "string", binaryMode);
-
-                          if(binaryMode == 0){
                             yylval.textVal = 
-                              (char *) returnStr(yytext, yyleng); 
-                            return STRING; 
-                            }
-                          else{
-                            yylval.sval.data = 
                               (char *) returnStr(yytext, yyleng);
-                            yylval.sval.len = yyleng;
-                            return ANYTHING;
-                            }
+
+                            if(strcmp(yytext, "endstream") == 0){
+                              BEGIN(INITIAL);
+                              return ENDSTREAM;
+                              }
+
+                            return STRING; 
                                                                              }
 
-[\[\(\<][#<>a-zA-Z0-9\.\ :'+\-_\\\(\)]+[\>\)\]] {
+<INITIAL,BINARY>[\[\(\<][#<>a-zA-Z0-9\.\ :'+\-_\\\(\)]+[\>\)\]] {
                           debuglex(yytext, -1, "bracketted string", binaryMode);
-
-                          if(binaryMode == 0){
                             yylval.textVal = 
                               (char *) returnStr(yytext, yyleng); 
                             return STRING; 
-                            }
-                          else{
-                            yylval.sval.data = 
-                              (char *) returnStr(yytext, yyleng);
-                            yylval.sval.len = yyleng;
-                            return ANYTHING;
-                            }
                                                                              }
 
-\(.*\) {
+<INITIAL,BINARY>\(.*\) {
                           debuglex(yytext, -1, "bracketted string 2", binaryMode);
-
-                          if(binaryMode == 0){
                             yylval.textVal = 
                               (char *) returnStr(yytext, yyleng); 
                             return STRING; 
-                            }
-                          else{
-                            yylval.sval.data = 
-                              (char *) returnStr(yytext, yyleng);
-                            yylval.sval.len = yyleng;
-                            return ANYTHING;
-                            }
                                                                              }
 
-([#a-zA-Z0-9\.:'+\-!_]+[a-zA-Z0-9\.:'+\-!_\\\/]*)+\>\> { 
+<INITIAL,BINARY>([#a-zA-Z0-9\.:'+\-!_]+[a-zA-Z0-9\.:'+\-!_\\\/]*)+\>\> { 
                           debuglex(yytext, -1, "string-dblgt", binaryMode);
-
-                          if(binaryMode == 0){
                             yyless(yyleng - 2);
                             yylval.textVal = 
                               (char *) returnStr(yytext, yyleng); 
                             return STRING; 
-                            }
-                          else{
-                            yylval.sval.data = 
-                              (char *) returnStr(yytext, yyleng);
-                            yylval.sval.len = yyleng;
-                            return ANYTHING;
-                            }
                                                                              }
 
-[\[\(][#<>a-zA-Z0-9\.\ :'+\-_\\\(\)]+[\)\]]\>\> {
+<INITIAL,BINARY>[\[\(][#<>a-zA-Z0-9\.\ :'+\-_\\\(\)]+[\)\]]\>\> {
                           debuglex(yytext, -1, "bracketted-string-dblgt", binaryMode);
-
-                          if(binaryMode == 0){
                             yyless(yyleng - 2);
                             yylval.textVal = 
                               (char *) returnStr(yytext, yyleng); 
                             return STRING; 
-                            }
-                          else{
-                            yylval.sval.data = 
-                              (char *) returnStr(yytext, yyleng);
-                            yylval.sval.len = yyleng;
-                            return ANYTHING;
-                            }
                                                                              }
 
-\(.*\)\>\> {
+<INITIAL,BINARY>\(.*\)\>\> {
                           debuglex(yytext, -1, "bracketted-string-2-dblgt", binaryMode);
-
-                          if(binaryMode == 0){
                             yyless(yyleng - 2);
                             yylval.textVal = 
                               (char *) returnStr(yytext, yyleng); 
                             return STRING; 
-                            }
-                          else{
-                            yylval.sval.data = 
-                              (char *) returnStr(yytext, yyleng);
-                            yylval.sval.len = yyleng;
-                            return ANYTHING;
-                            }
                                                                              }
 
                         /* --- Array handling ---                           */
 
-\[                      { debuglex(yytext, -1, "[", binaryMode);
-
-                          if(binaryMode == 0){
+<INITIAL>\[                      { debuglex(yytext, -1, "[", binaryMode);
                             yylval.textVal = 
                               (char *) returnStr(yytext, yyleng); 
                             return ARRAY; 
-                            }
-                          else{
-                            yylval.sval.data = 
-                              (char *) returnStr(yytext, yyleng);
-                            yylval.sval.len = yyleng;
-                            return ANYTHING;
-                            }
                                                                              }
 
-\]                      { debuglex(yytext, -1, "]", binaryMode);
-
-                          if(binaryMode == 0){
+<INITIAL>\]                      { debuglex(yytext, -1, "]", binaryMode);
                             yylval.textVal = 
                               (char *) returnStr(yytext, yyleng); 
                             return ENDARRAY; 
-                            }
-                          else{
-                            yylval.sval.data = 
-                              (char *) returnStr(yytext, yyleng);
-                            yylval.sval.len = yyleng;
-                            return ANYTHING;
-                            }
                                                                              }
 
-\]\>\>                      { debuglex(yytext, -1, "]", binaryMode);
-
-                          if(binaryMode == 0){
+<INITIAL>\]\>\>                      { debuglex(yytext, -1, "]", binaryMode);
                             yyless(yyleng - 2);
                             yylval.textVal = 
                               (char *) returnStr(yytext, yyleng); 
                             return ENDARRAY; 
-                            }
-                          else{
-                            yylval.sval.data = 
-                              (char *) returnStr(yytext, yyleng);
-                            yylval.sval.len = yyleng;
-                            return ANYTHING;
-                            }
                                                                              }
 
                         /* --- Stuff needed for the xref and trailer ---    */
 
-\%\%EOF                 { debuglex(yytext, -1, "end of file", binaryMode);
-
-                          if(binaryMode == 0){
+<INITIAL>\%\%EOF                 { debuglex(yytext, -1, "end of file", binaryMode);
                             return PDFEOF; 
-                            }
-                          else{
-                            yylval.sval.data = 
-                              (char *) returnStr(yytext, yyleng);
-                            yylval.sval.len = yyleng;
-                            return ANYTHING;
-                            }
                                                                              }
 
                         /* --- Stuff used to match binary streams --- 
@@ -523,29 +283,18 @@ endstream               { debuglex(yytext, -1, "endstream", 0);
                                used to deal with the massive
                                streams that images can create              */
 
-([^a-zA-Z0-9+\-_\/\t\ \r\n()\\\[\]]+[a-df-zA-DF-Z0-9\[\]\/\\_\t\(\)+\-\[\]]*)+ { 
-                          debuglex(yytext, yyleng, "run of wierd characters",
+<BINARY>[^end]+           { debuglex(yytext, yyleng, "binary mode",
                             binaryMode);
                           yylval.sval.data = (char *) 
                             returnStr(yytext, yyleng);
                           yylval.sval.len = yyleng;
-debuglex(yylval.sval.data, yyleng, "check of run of wierd characters", binaryMode);
                           return ANYTHING;
                                                                              }
 
-.                       { debuglex(yytext, -1, "the catch all", binaryMode);
-
-                          if(binaryMode == 0){
+.                       { debuglex("!", -1, "the catch all", binaryMode);
                             yylval.textVal =
                               (char *) returnStr(yytext, yyleng);
                             return ANYTHING; 
-                            }
-                          else{
-                            yylval.sval.data = 
-                              (char *) returnStr(yytext, yyleng);
-                            yylval.sval.len = yyleng;
-                            return ANYTHING;
-                            }
                                                                              }
 
 %%
