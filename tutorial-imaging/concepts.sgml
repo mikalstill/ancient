@@ -8,10 +8,6 @@ These terms are presented in alphabetical order. Some of them might seem a bit o
 </para>
 
 <execute><cmd>insertall.sh</cmd><args>concept-.*.sgml</args></execute>
-
-<sect1><title>Further reading</title>
-<para>
-...
-</para>
+<execute><cmd>nextedition</cmd><input>References</input></execute>
 </sect1>
 </chapter>
