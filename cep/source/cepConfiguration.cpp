@@ -170,8 +170,10 @@ cepError cepConfiguration::setValue(const string& valkey,
     
   case TRIVSQL_NOSUCHTABLE:
     cepDebugPrint("Recovering from no such table error");
-    cepDebugPrint("CREATE TABLE cepConfig (version);");
-    rs = trivsql_execute(m_dbState, "CREATE TABLE cepConfig (version);");
+    cepDebugPrint(table);
+    tmp = strdup(table.c_str());
+    rs = trivsql_execute(m_dbState, tmp);
+    free(tmp);
     if(rs == NULL){
       return cepError("NULL recordset returned by CREATE TABLE cepConfig",
 		      cepError::sevErrorRecoverable);
