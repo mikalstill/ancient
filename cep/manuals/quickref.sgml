@@ -2,23 +2,81 @@
 
 <sect1><title>Opening a data set</title>
   <para>
-    Ba Ba Black sheep have you any wool, yes sir yes sir 3 bags full..
-    But you can't have it because in case you haven't noticed, there's a drought on.
+    When the application is first run, you are presented with a skeleton window with File and Help menus. To open a
+    data set, simply open the <command>File</command> menu and select open, as shown below.
   </para>
+
+  <figure><title>View of the <command>GDMS</command> when first opened.</title>
+    <execute><cmd>img</cmd><args>gdmsFirstOpen.png</args></execute>
+  </figure>
+
+  <para>
+    While a data set is being loaded, a progress window appears.
+  </para>
+
+  <figure><title>Progress window.</title>
+    <execute><cmd>img</cmd><args>gdmsProgess.png</args></execute>
+  </figure>
+
+  <para>
+    Once the data set has been loaded, the application looks like:
+  </para>
+
+  <figure><title>A loaded data set. (mb_BUR1_GPS.DAT</title>
+    <execute><cmd>img</cmd><args>gdmsData.png</args></execute>
+  </figure>
+
 </sect1>
 
 <sect1><title>Saving a data set</title>
   <para>
-    Ba Ba Black sheep have you any wool, yes sir yes sir 3 bags full..
-    But you can't have it because in case you haven't noticed, there's a drought on.
+     To save a data set after processing, select <command>File</command> -
+     <command>Save</command>. The following window appears.
+  </para>
+
+   <figure><title>Save window.</title>
+     <execute><cmd>img</cmd><args>gdmsSaveAs.png</args></execute>
+   </figure>
+
+  <para>
+     Choose the desired location and file name and click <command>OK</command>.
   </para>
 </sect1>
 
-<sect1><title>Printing a data set</title>
+<sect1><title>Printing</title>
   <para>
-    Ba Ba Black sheep have you any wool, yes sir yes sir 3 bags full..
-    But you can't have it because in case you haven't noticed, there's a drought on.
+    The <command>GDMS</command> offers standardard printing capabilities, including preview.
+    To Print a data set, select <command>File</command> -
+     <command>Print</command>. The following window appears.
   </para>
+
+  <figure><title>Print window.</title>
+     <execute><cmd>img</cmd><args>gdmsPrint.png</args></execute>
+  </figure>
+
+  <para>
+    If not printing to file, the printer might need to be setup first. This is discussed in the
+    next section.
+  </para>
+
+  <sect2><title>Print Setup</title>
+    <para>
+      The following figure shows the p[rinter setup window. To access printer setup, select,
+      <command>File</command> - <command>Printer Setup</command>.
+    </para>
+
+    <figure><title>Printer Setup window.</title>
+      <execute><cmd>img</cmd><args>gdmsPrintSetup.png</args></execute>
+    </figure>
+
+  </sect2>
+
+  <sect2><title>Print Preview</title>
+    <para>
+      To preview the print job, select <command>File</command> - <command>Print Preiview</command>.
+    </para>
+  </sect2>
+
 </sect1>
 
 <sect1><title>Configuring the User Interface</title>
@@ -26,12 +84,17 @@
     The look and feel of the user interface can be configured to suit individual users. Please refer to the configuration
     chapter for full details on this feature.
   </para>
-</sect1> <!--Configuring the User Interface-->
+</sect1>
 
 <sect1><title>Data Analysis</title>
   <para>
-    The following items are all found in the Maths menu.
+    The following items are all found in the Maths menu. The menu is shown below.
   </para>
+
+  <figure><title>Maths menu.</title>
+     <execute><cmd>img</cmd><args>gdmsMaths</args></execute>
+   </figure>
+
 
   <sect2><title>Time Domain Analysis</title>
   <para>
@@ -39,25 +102,25 @@
     But you can't have it because in case you haven't noticed, there's a drought on.
   </para>
 
-  <sect3><title>Least Squeares</title>
-  <para>
-    The available options in the least squares menu are Variance Co-variance and Random Walk.
-  </para>
-  </sect3> <!--ls regress-->
-  </sect2> <!--time domain-->
+    <sect3><title>Least Squeares</title>
+      <para>
+        The available options in the least squares menu are Variance Co-variance and Random Walk.
+      </para>
+    </sect3> 
+  </sect2>
 
   <sect2><title>Interpolation</title>
     <para>
        The available options in the Interpolation menu are Nearest neighbour, linear interpolation, natural spline,
        cubic spline and divided differences.
     </para>
-  </sect2> <!--interp-->
+  </sect2>
 
   <sect2><title>Windowing data</title>
     <para>
       The available options in the Windowing menu are Blackman, Chebychev, Hamming, Hanning and rectangular.
     </para>
-  </sect2> <!--window-->
+  </sect2>
 
 
   <sect2><title>Frequency Domain Analysis</title>
@@ -65,9 +128,9 @@
       Select the Maths menu, select Fast Fourier Transform or PSD plot. Note, before successfully carrying out
       operations in the frequency domain, the data must be interpolated and windowed.
     </para>
-  </sect2> <!--Frequency Domain Analysis-->
+  </sect2>
 
-</sect1> <!-- data analysis -->
+</sect1>
 
 </chapter>
 
