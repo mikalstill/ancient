@@ -39,7 +39,7 @@ TODO
 <chapter><title>Implementation rationale</title>
 <sect1><title>Presentation of the user interface</title>
 <para>
-In accordance with Internet user interface design best practise, the GDMS Internet interface presents a fully configurable user interface. This is implemented by providing extension tags to those which are available in the standard HTML specification (Raggett, Le Hors, &amp; Jacobs 1999).
+In accordance with Internet user interface design best practise, the GDMS Internet interface presents a fully configurable user interface. This is implemented by providing extension tags the those which are available in the standard HTML specification (Raggett, Le Hors, &amp; Jacobs 1999).
 </para>
 
 <para>
@@ -49,7 +49,7 @@ The GDMS Internet interface follows the recommendations of the most recent HTML 
 
 <sect1><title>Selection of an image format for graph display</title>
 <para>
-Much though was expended on which image format to use for the plots displayed in the GDMS Internet interface. There are advantages and disadvantages to all the formats available at the time of writing this document. The following formats were considered for the GDMS Internet interface:
+Much thought was expended on which image format to use for the plots displayed in the GDMS Internet interface. There are advantages and disadvantages to all the formats available at the time of writing this document. The following formats were considered for the GDMS Internet interface:
 </para>
 
 <sect2><title>TIFF</title>
@@ -63,7 +63,7 @@ The main advantage of the TIFF image format is that it is extemely mature. It ha
 </para>
 
 <para>
-However, some of these very advantages lead to the disadvantages that the TIFF format suffers from. Because the content of the file is so loosely specified, it is quite hard to write an application which can correctly decode all possible TIFF format images. This has resulted in their being only a few high quality TIFF viewing applications being available. The relative difficultly of implementing a TIFF decoder has also resulted in the web browser support for TIFF images being very poor (Bither 2002).
+However, some of these very advantages lead to the disadvantages that the TIFF format suffers from. Because the content of the file is so loosely specified, it is quite hard to write an application which can correctly decode all possible TIFF format images. This has resulted in there being only a few high quality TIFF viewing applications being available. The relative difficultly of implementing a TIFF decoder has also resulted in the web browser support for TIFF images being very poor (Bither 2002).
 </para>
 
 <para>
@@ -73,9 +73,59 @@ TIFF is therefore an inappropriate image format for use for the GDMS Internet in
 
 <sect2><title>GIF</title>
 <para>
-The Graphics Interchange Format (GIF) was codeveloped by CompuServe Inc. and Unisys Corporation in the early 1990s. GIF is dependant on LZW compression , which is now having it's patent enforced by Unisys (Anonymous 2002).
+The Graphics Interchange Format (GIF) was co-developed by CompuServe Inc. and Unisys Corporation in the late 1980s and early 1990s. GIF is dependant on LZW compression (CompuServe 1990), which is now having it's patent enforced by Unisys (Anonymous 2002). The GIF format itself is quite limited, with a maximum palette size of 255 entries -- in order words 255 distinct colours are available in each image.
+</para>
+
+<para>
+Vendors are also dropping support for the GIF format because of the expense of licensing the Unisys LZW patent, for example, the Open Source <emphasis>libgif</emphasis> is no longer supported for the creation of GIF images (Raymond, 1998).
+</para>
+
+<para>
+Despite all of these largely political issues, the GIF format is still well supported in all web browser versions, which would make it an ideal candidate for the GDMS Internet interface if it wasn't for the unavailability of a stable and reliable compression library.
 </para>
 </sect2>
+
+<sect2><title>JPEG</title>
+<para>
+JPEG is an interesting image format because whilst the JPEG compression codec has been standardized by ISO, the actual on disc format commonly called JPEG is not part of the ISO standard. The file format commonly called JPEG is actually JPEG JFIF -- created by the Independant JPEG Group (Lilly 1996).
+</para>
+
+<para>
+The JPEG support in web browsers is now excellent, with support becoming much more common after 1996 (Lilly 1996). The biggest factor stopping the use of JPEG within the GDMS Internet interface is that the compression codec is lossy.
+</para>
+
+<sect3><title>Loss</title>
+<para>
+The JPEG compression algorithm is lossy -- in other words, the act of compressing the image results in image data being thrown away. This has the effect of noticably reducing the clarity of the images -- a characteristic which is especially noticable with images which contain text at smaller point sizes. Use of such text is a feature of the GDMS graphing subsystem.
+</para>
+
+<para>
+For example, JPEG compressing the following image results in the following output image:
+</para>
+
+<figure><title>A picture before we compressed it</title>
+<graphic format="eps" fileref="gen-tiff-figure4.eps">
+</figure>
+
+<figure><title>A picture after it has been recompressed 200 times</title>
+<graphic format="eps" fileref="gen-tiff-figure6.eps">
+</figure>
+
+<para>
+The effects are much worse with an image which contains text at small point sizes:
+</para>
+
+<figure><title>The sample text before we compressed it</title>
+<graphic format="eps" fileref="gen-tiff-figure5.eps">
+</figure>
+
+<figure><title>The text after it has been recompressed 200 times</title>
+<graphic format="eps" fileref="gen-tiff-figure7.eps">
+</figure>
+
+</sect3>
+</sect2>
+
 
 </sect1>
 
@@ -526,9 +576,24 @@ Bither, B., [Last accessed] November 2002,
 [Online] Available: http://www.atalasoft.com/png.asp
 </para>
 <para>
+CompuServe, 1990,
+<emphasis>Graphics Interchange Format: Version 89a</emphasis>
+[Online] http://www.w3.org/Graphics/GIF/spec-gif89a.txt
+</para>
+<para>
+Lilly, C., 13 February 1996 [Last updated: 18 July 2001],
+<emphasis>JPEG JFIF</emphasis>,
+[Online] http://www.w3.org/Graphics/JPEG/
+</para>
+<para>
 Raggett, D., Le Hors, A., Jacobs, I., 24 December 1999 [last update], 
 <emphasis>HTML 4.01 Specification</emphasis>, 
 [Online] Available: http://www.w3.org/TR/html4/
+</para>
+<para>
+Raymond, E. S., 8 July 1998,
+<emphasis>The GIFLIB home page</emphasis>,
+[Online] http://tuxedo.org/~esr/giflib/
 </para>
 <para>
 Warmerdam, F. and Welles, M., 24 January 2002 [last update],

@@ -39,7 +39,7 @@ TODO
 <chapter><title>Implementation rationale</title>
 <sect1><title>Presentation of the user interface</title>
 <para>
-In accordance with Internet user interface design best practise, the GDMS Internet interface presents a fully configurable user interface. This is implemented by providing extension tags to those which are available in the standard HTML specification (Raggett, Le Hors, &amp; Jacobs 1999).
+In accordance with Internet user interface design best practise, the GDMS Internet interface presents a fully configurable user interface. This is implemented by providing extension tags the those which are available in the standard HTML specification (Raggett, Le Hors, &amp; Jacobs 1999).
 </para>
 
 <para>
