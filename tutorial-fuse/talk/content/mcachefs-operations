@@ -4,7 +4,7 @@ TITLE: The fuse_operations structure from mcachefs
 <li>That previous fuse_operations structure was taken from mcachefs
 <li>Which implements every possible operation
 <li>You don't have to implement them all
-<li>Either leave the unwanted ones undefined, or set the to null
+<li>Either leave the unwanted ones undefined, or set them to null
 <li>As we did for addfs:
 
 <pre>

@@ -55,9 +55,7 @@ content/fuse-operation-write
 content/fuse-operation-statfs
 content/fuse-operation-release
 content/fuse-operation-fsync
-content/fuse-registeringthefs
 content/fuse-threadingmodel
-content/fuse-daemonising
 content/fuse-loadhandling
 content/fuse-mounting
 content/fuse-unmounting
