@@ -2,6 +2,13 @@
 
 
 Rounded image corners
+ - Whipped up the rounded images in the GIMP
+ - Then do:
+
+# composite -gravity NorthWest rounded-nw.png lake.jpg lake-1.png
+# composite -gravity NorthEast rounded-ne.png lake-1.png lake-2.png
+# composite -gravity SouthEast rounded-se.png lake-2.png lake-3.png
+# composite -gravity SouthWest rounded-sw.png lake-3.png lake-4.png
 
 Frames (-frame -mattecolor)
 
