@@ -55,12 +55,8 @@
 #include "view.h"
 
 IMPLEMENT_DYNAMIC_CLASS (cepDatasetView, wxView)
-// For drawing lines in a canvas
-     float xpos = -1;
-     float ypos = -1;
-
 BEGIN_EVENT_TABLE (cepDatasetView, wxView)
-EVT_MENU (DOODLE_CUT, cepDatasetView::OnCut) END_EVENT_TABLE ()
+END_EVENT_TABLE ()
 // What to do when a view is created. Creates actual
 // windows for displaying the view.
      bool
@@ -89,15 +85,6 @@ cepDatasetView::OnDraw (wxDC * dc)
 {
   dc->SetFont (*wxNORMAL_FONT);
   dc->SetPen (*wxBLACK_PEN);
-
-  wxNode *node =
-    ((cepDatasetDoc *) GetDocument ())->GetDoodleSegments ().First ();
-  while (node)
-    {
-      DoodleSegment *seg = (DoodleSegment *) node->Data ();
-      seg->Draw (dc);
-      node = node->Next ();
-    }
 }
 
 void
@@ -150,16 +137,6 @@ cepDatasetView::OnClose (bool deleteWindow)
   return TRUE;
 }
 
-void
-cepDatasetView::OnCut (wxCommandEvent & WXUNUSED (event))
-{
-  cepDatasetDoc *doc = (cepDatasetDoc *) GetDocument ();
-  doc->GetCommandProcessor ()->
-    Submit (new
-	    DrawingCommand ((const wxString) "Cut Last Segment", DOODLE_CUT,
-			    doc, (DoodleSegment *) NULL));
-}
-
 /*
  * Window implementations
  */
@@ -189,53 +166,10 @@ MyCanvas::OnMouseEvent (wxMouseEvent & event)
   if (!view)
     return;
 
-  static DoodleSegment *currentSegment = (DoodleSegment *) NULL;
-
   wxClientDC dc (this);
   PrepareDC (dc);
-
   dc.SetPen (*wxBLACK_PEN);
-
   wxPoint pt (event.GetLogicalPosition (dc));
-
-  if (currentSegment && event.LeftUp ())
-    {
-      if (currentSegment->lines.Number () == 0)
-	{
-	  delete currentSegment;
-	  currentSegment = (DoodleSegment *) NULL;
-	}
-      else
-	{
-	  // We've got a valid segment on mouse left up, so store it.
-	  cepDatasetDoc *doc = (cepDatasetDoc *) view->GetDocument ();
-
-	  doc->GetCommandProcessor ()->
-	    Submit (new
-		    DrawingCommand ("Add Segment", DOODLE_ADD, doc,
-				    currentSegment));
-
-	  view->GetDocument ()->Modify (TRUE);
-	  currentSegment = (DoodleSegment *) NULL;
-	}
-    }
-
-  if (xpos > -1 && ypos > -1 && event.Dragging ())
-    {
-      if (!currentSegment)
-	currentSegment = new DoodleSegment;
-
-      DoodleLine *newLine = new DoodleLine;
-      newLine->x1 = (long) xpos;
-      newLine->y1 = (long) ypos;
-      newLine->x2 = pt.x;
-      newLine->y2 = pt.y;
-      currentSegment->lines.Append (newLine);
-
-      dc.DrawLine ((long) xpos, (long) ypos, pt.x, pt.y);
-    }
-  xpos = pt.x;
-  ypos = pt.y;
 }
 
 // Define a constructor for my text subwindow
