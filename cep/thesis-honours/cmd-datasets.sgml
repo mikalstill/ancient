@@ -16,7 +16,7 @@ The dataset directory is configured with the following configuration file entry:
 </para>
 
 <programlisting>
-# This line defines where the datsets are stored
+# This line defines where the datasets are stored
 $datasets = "/home/httpd/gdms-datasets/";
 </programlisting>
 
@@ -25,7 +25,7 @@ There are also several configuration options which alter the appearance of the l
 </para>
 
 <itemizedlist>
-<listitem><para><emphasis>selectstart</emphasis>: this is used for any output which should appear at the begining of the list. This could include HTML tags for the creation of the required list markup (for example tables).</para></listitem>
+<listitem><para><emphasis>selectstart</emphasis>: this is used for any output which should appear at the beginning of the list. This could include HTML tags for the creation of the required list markup (for example tables).</para></listitem>
 <listitem><para><emphasis>selectentry</emphasis>: this configuration item is used for each entry in the list. The special text <command>%s</command> is replaced by the HTML for the entry itself.</para></listitem>
 <listitem><para><emphasis>selectend</emphasis>: this is used for any HTML required to finalize the list.</para></listitem>
 </itemizedlist>

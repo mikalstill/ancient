@@ -5,7 +5,7 @@ A variety of implementation techniques were considered for the GDMS Internet int
 
 <sect2><title>PHP: Hypertext Preprocessor</title>
 <para>
-There is some evidence that the name originally stood for <emphasis>Personal Home Page tools</emphasis> (Lerdorf 1995). PHP is an in page scripting language which was originally developed by Rasmus Lerdorf (Lerdorf 1995). It is now maintained and extended by a online team of developers lead by Rasmus Lerdorf (AIMS Group, 2002).
+There is some evidence that the name originally stood for <emphasis>Personal Home Page tools</emphasis> (Lerdorf 1995). PHP is an in page scripting language which was originally developed by Rasmus Lerdorf (Lerdorf 1995). It is now maintained and extended by a on line team of developers lead by Rasmus Lerdorf (AIMS Group, 2002).
 </para>
 
 <para>
@@ -28,21 +28,21 @@ In this example, the tag starting with ?php is the script element. The output of
 </para>
 
 <para>
-The main advantage of in-page scripting is that the source code of the application is very tightly tied to the HTML presentation of the application's user interface. This means that when a user is editting a page, it is apparent what the given code does at the time that the page is created.
+The main advantage of in-page scripting is that the source code of the application is very tightly tied to the HTML presentation of the application's user interface. This means that when a user is editing a page, it is apparent what the given code does at the time that the page is created.
 </para>
 
 <para>
-The main disadvantage of such as system is that it requires that the users who are editting the HTML appearance of an application must also understand the scripting language in which the application is implemented. This means that graphics designers and layout consultants require further training. The application is no longer a <emphasis>black box</emphasis> in which the HTML designer can simply be a user. A second drawback is that the inclusion of the scripting within the HTML pages is that it clutters the HTML representation of the user interface, making it much harder to read. This problem is compounded by poor in-page scripting support in many HTML editors, including Mozilla. These editors discard tags they don't comprehend at the time of editting the page, and this unfortunately includes tags such as PHP.
+The main disadvantage of such as system is that it requires that the users who are editing the HTML appearance of an application must also understand the scripting language in which the application is implemented. This means that graphics designers and layout consultants require further training. The application is no longer a <emphasis>black box</emphasis> in which the HTML designer can simply be a user. A second drawback is that the inclusion of the scripting within the HTML pages is that it clutters the HTML representation of the user interface, making it much harder to read. This problem is compounded by poor in-page scripting support in many HTML editors, including Mozilla. These editors discard tags they don't comprehend at the time of editing the page, and this unfortunately includes tags such as PHP.
 </para>
 
 <para>
-Developing the GDMS Internet interface in PHP would nessesitate the users of the application running web servers with PHP modules installed (PHP Documentation Group, 2002). This is a extra level of configuration for systems administrators for little additional benefit.
+Developing the GDMS Internet interface in PHP would necessitate the users of the application running web servers with PHP modules installed (PHP Documentation Group, 2002). This is a extra level of configuration for systems administrators for little additional benefit.
 </para>
 </sect2>
 
 <sect2><title>Active Server Pages</title>
 <para>
-Active Server Pages (ASP) is Microsoft's equivalent of PHP. Discussion of this alternative is delibverately brief, because ASP effectively has all the advantages and disadvantages of PHP, with the additional constraint that it only operates of Microsoft web server products running on Microsoft Operating Systems. This is not an acceptible constraint for the main target user of the application -- the University of Canberra Survey Laboratory, who are not heavy users of Microsoft products.
+Active Server Pages (ASP) is Microsoft's equivalent of PHP. Discussion of this alternative is deliberately brief, because ASP effectively has all the advantages and disadvantages of PHP, with the additional constraint that it only operates of Microsoft web server products running on Microsoft Operating Systems. This is not an acceptable constraint for the main target user of the application -- the University of Canberra Survey Laboratory, who are not heavy users of Microsoft products.
 </para>
 </sect2>
 

@@ -1,6 +1,6 @@
 <sect2><title>dataset</title>
 <para>
-This tag will display the name of the currently open dataset, if one is open. This might possibly be a descriptive string is processing has occured on the dataset.
+This tag will display the name of the currently open dataset, if one is open. This might possibly be a descriptive string is processing has occurred on the dataset.
 </para>
 
 <para>

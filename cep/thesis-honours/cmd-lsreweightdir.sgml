@@ -1,6 +1,6 @@
 <sect2><title>lsreweightdir</title>
 <para>
-This tag converts to the direction in which the user is being prompted for a Least Squares reweighting matrix.
+This tag converts to the direction in which the user is being prompted for a Least Squares re weighting matrix.
 </para>
 
 <para>
