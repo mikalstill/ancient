@@ -1,0 +1,8 @@
+TITLE: What is FUSE?
+
+<ul>
+<li>A kernel module and user space library
+<li>Allows for the implementation of filesystems in userspace
+<li>Available from http://sf.net/projects/avf/
+<li>Particularly useful for custom filesystems
+</ul>

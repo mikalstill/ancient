@@ -1,0 +1,10 @@
+TITLE: Why would you want a custom filesystem
+
+<ul>
+<li>I first encountered FUSE because I wanted a custom filesystem
+<li>In my case I wanted something which would make it easy to generate test data
+<li>A lot of my imaging code needs lots of input to regression test
+<li>These are essentially the same image over and over again, with compression options changed
+<li>I don't really want to store the same image several thousand times if I can avoid it
+<li>These images are relatively inexpensive to create
+</ul>
