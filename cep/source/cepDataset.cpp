@@ -264,6 +264,13 @@ cepError cepDataset::read (const string& filename)
   		      " values do not represent the same time period",
   		      cepError::sevErrorRecoverable);
     }
+
+  if(m_data[0]->getError().isReal())
+    return m_data[0]->getError();
+  if(m_data[1]->getError().isReal())
+    return m_data[1]->getError();
+  if(m_data[2]->getError().isReal())
+    return m_data[2]->getError();
   
   m_ready = true;
   m_wellformed = true;
