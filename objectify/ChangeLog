@@ -1,1 +1,2 @@
-
+20020821	Michael Still	mikal@stillhq.com
+		Fixed a bug where methods were included in the "parent" class, as well as "child" classes...
