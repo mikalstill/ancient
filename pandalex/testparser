@@ -18,15 +18,17 @@ do
   echo $item
   ./lexer < $item > /dev/null
 
-  if [ $? -gt 1 ]
+  result=$?
+
+  if [ $result -gt 1 ]
   then
     # This failed
-    echo "$?: $item" >> testparse-out/$timestamp.fail
+    echo "$result: $item" >> testparse-out/$timestamp.fail
   elif [ -e core ]
   then
     echo "CORE: $item" >> testparse-out/$timestamp.fail
     rm -f core
   else
-    echo "$?: $item" >> testparse-out/$timestamp.ok
+    echo "$result: $item" >> testparse-out/$timestamp.ok
   fi
 done
