@@ -5,15 +5,17 @@
 #   - The name of the source file
 
 use strict;
-my($suppress);
+my($suppress, $filename);
 
 $suppress = 0;
+$filename = $ARGV[1];
+$filename =~ s/^.*\///;
 
 print STDERR "code2db: $ARGV[0] $ARGV[1] $ARGV[2]\n";
 
 # Make C code safe for display in docbook
 if($ARGV[1] ne ""){
-    print "<sect$ARGV[0]><title>Code: $ARGV[1]</title>\n";
+    print "<sect$ARGV[0]><title>Code: $filename</title>\n";
 }
 print "<programlisting>\n";
 

@@ -1,0 +1,19 @@
+#!/usr/bin/perl
+
+use strict;
+my($filename);
+
+print STDERR "Img args: $ARGV[0] $ARGV[1]\n";
+$filename = "gen-".$ARGV[0];
+$filename =~ s/.[a-zA-Z]+$/.$ARGV[1]/;
+
+print STDERR "Converting $ARGV[0] -> $filename\n";
+#if($ARGV[0] eq $filename){
+#    # We can resuse the input file, because we need to downsample...
+#    $filename =~ s/.[a-zA-Z]+$/-ds.$ARGV[1]/;
+#}
+
+print STDERR "Executing convert $ARGV[0] $filename\n";
+`convert $ARGV[0] $filename`;
+print "<graphic format=\"$ARGV[1]\" fileref=\"$filename\">\n";
+

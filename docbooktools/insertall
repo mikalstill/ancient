@@ -2,6 +2,11 @@
 
 rm -f insertall-$$.tmp 2> /dev/null
 
+# $1 is the command to execute
+# $2 is the directory to look in
+# $3 is the regular expression to search by
+# $4 is the arguements to the command
+
 echo "insertall: Searching $2 for $3" >> /dev/stderr
 for item in `ls $2 | egrep "$3" | egrep -v "~$"`
 do
