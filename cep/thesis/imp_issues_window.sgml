@@ -91,7 +91,6 @@
     data integrity a primary concern. This algorithm uses an inverse fourier transform internally and for windows of significant
     size this could prove to be expensive. Optimisation of this might prove to be benficial if window sizes are becoming large.
   </para>
-  </sect3>
 
   </sect3> <!--Future Enahncements-->
 
