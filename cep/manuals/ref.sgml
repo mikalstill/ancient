@@ -132,7 +132,7 @@
             <command>NO</command> is selected here, a data range may be specified before
             continuing with the VCV analysis by pressing Do VCV. Selecting <command>YES</command>
             to load a matrix for a file will result in a prompt request on the file's location.
-            Once a matrix is chosen, the analysis will again provide both the  least squares
+            Once a matrix is chosen, the analysis will again provide both the least squares
             and residual datasets.
           </para>
         </sect5>
