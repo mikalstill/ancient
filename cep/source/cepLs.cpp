@@ -35,7 +35,7 @@ const cepLs & cepLs::cepDoVCV(cepMatrix<double> &data, cepMatrix<double> &matP)
   matA = makeA(data);
   matL = makeL(data);
 
-  sanityCheck(matA, matP, matL);
+  sanityCheck(matA, matP);
   
   Atrans = matA;
   Atrans.transpose();
@@ -72,7 +72,7 @@ const cepLs & cepLs::cepDoRW(cepMatrix<double> &data, cepMatrix<double> &matP)
   matA = makeA(data);
   matL = makeL(data);
 
-  sanityCheck(matA, matP, matL);
+  sanityCheck(matA, matP);
   
   Atrans = matA;
   Atrans.transpose();
@@ -92,9 +92,9 @@ const cepLs & cepLs::cepDoRW(cepMatrix<double> &data, cepMatrix<double> &matP)
   return *this;
 }
 
-double cepLs::getResidual(int row, int col)
+const cepMatrix<double> &cepLs::getResidual()
 {
-  return residual.getValue(row, col);
+  return residual;
 }
 
 double cepLs::getB1()
@@ -245,7 +245,7 @@ const cepMatrix<double> cepLs::inverse(cepMatrix<double> &mat)
   return ans;
 }
 
-void cepLs::sanityCheck( cepMatrix<double> &matA, cepMatrix<double> &matP, cepMatrix<double> &matL)
+void cepLs::sanityCheck( cepMatrix<double> &matA, cepMatrix<double> &matP)
 {
   //matP must be obs x obs 
   if((matP.getNumCols() != matP.getNumRows()) && (matP.getNumCols() != matA.getNumRows()))
@@ -256,8 +256,8 @@ void cepLs::sanityCheck( cepMatrix<double> &matA, cepMatrix<double> &matP, cepMa
 
 void cepLs::calcResiduals(cepMatrix<double> &matA, cepMatrix<double> &matL)
 {
-  //calc rediuals= A*X + L
+  //calc rediuals= A*X - L
   residual = matA;
   residual *= matX;
-  residual += matL;
+  residual -= matL;
 }
