@@ -1,18 +1,17 @@
-TITLE: Least squares (Kristy)
+TITLE: Types of Least Squares Regression Analysis 
 
-<li>Occilation of residuals problem
+<li>Variance Co-variance
 
-<BR><BR>
+<ul>
+  <li>The least squares line is calculated using the VCV weighting matrix specified by the user 
 
-<li>The residuals are used to re-calulate a weighting matrix.
-<li>Once the residuals become stable then the best regression model has been calculated
-<li>I some cases, the residuals occilated and never became stable 
-Domain
+  <br>
 
-<BR><BR>
+  <li>STR_1 GPS North least squares regression model
+ 
+  PUT GRAPH OF LEAST SQUARES LINE WITH NO AUTOMATIC RE-WEIGHTING HERE
 
-<li>Solution
-  <ul>
-  <li>Pre-multiply the residual matrix with the weighting matrix<br>
-  <li>Remove any residual that has a value of zero<br>
-  </ul.
+  <li> ST_1 GPS North residuals
+
+  PUT GRAPH OF LEAST SQUARES RESIDUALS WITH NO AUTOMATIC RE-WEIGHTING HERE
+<ul> 
