@@ -1,6 +1,6 @@
 <chapter id="meetings-week1"><title>Semester One, Week One Meetings</title>
 <para>
-As the first week of the project, this week was devoted to finding an acceptible project, and starting to develop the written report which is due next week.
+As the first week of the project, this week was devoted to finding an acceptable project, and starting to develop the written report which is due next week.
 </para>
 
 <sect1><title>Tuesday 26 February 2002</title>
@@ -8,7 +8,7 @@ As the first week of the project, this week was devoted to finding an acceptible
 This meeting discussed the following issues:
 <orderedlist>
 <listitem><para>Consideration of the available projects and the pros and cons</para></listitem>
-<listitem><para>Requirements for the project in accordance with the persuit of honours for a number of the group members</para></listitem>
+<listitem><para>Requirements for the project in accordance with the pursuit of Honors for a number of the group members</para></listitem>
 <listitem><para>Whether the group should be split into a series of smaller groups</para></listitem>
 </orderedlist>
 </para>
@@ -43,10 +43,10 @@ The following action items were identified:
 <para>
 This was a meeting held between Associate Professor Peter Morgan and the project group. This meeting discussed the following issues:
 <orderedlist>
-<listitem><para>The requirements of the GPS data anaylsis project</para></listitem>
+<listitem><para>The requirements of the GPS data analysis project</para></listitem>
 <listitem><para>The prototyping phase and some of Associate Professor Morgan's expectations of the design and development process</para></listitem>
 <listitem><para>Issues which should be discussed in the initial report</para></listitem>
-<listitem><para>Requirements for studying honours and the fact that several members of the group are currently in the process of enrolling in the honours program</para></listitem>
+<listitem><para>Requirements for studying Honors and the fact that several members of the group are currently in the process of enrolling in the Honors program</para></listitem>
 <listitem><para>Further research to be undertaken</para></listitem>
 </orderedlist>
 </para>
@@ -85,7 +85,7 @@ This meeting was called to develop the first draft of the initial report.
 <orderedlist>
 <listitem><para>Developed a description of the problem</para></listitem>
 <listitem><para>Identified a variety of risks in the project and assigned varying probabilities to them -- the higher the risk, the more effort the group needs to put into eliminating it</para></listitem>
-<listitem><para>Our implementation approach, which is based on a series of phases of implementation: prototyping; initial implementation; output development; a graphical user interface; core extensions; non core extensions; and honours extensions</para></listitem>
+<listitem><para>Our implementation approach, which is based on a series of phases of implementation: prototyping; initial implementation; output development; a graphical user interface; core extensions; non core extensions; and Honours extensions</para></listitem>
 <listitem><para>The testing requirements for the project</para></listitem>
 </orderedlist>
 </para>
@@ -110,7 +110,7 @@ In attendance at the meeting
 The following action items were identified:
 <orderedlist>
 <listitem><para>Michael to finalize the contributions of the group and send a draft of the report to the various group members by email</para></listitem>
-<listitem><para>The group to meet with Associate Professor Morgan on Mnday to finalize initial report</para></listitem>
+<listitem><para>The group to meet with Associate Professor Morgan on Monday to finalize initial report</para></listitem>
 </orderedlist>
 </para>
 </sect2>

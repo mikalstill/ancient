@@ -54,7 +54,7 @@ No new action items this meeting.
 <para>
 This meeting ran from 11.00am to xx pm.
 <orderedlist>
-<listitem><para>Discussions involved the project's fourier fuinctionality requirements. </para></listitem>
+<listitem><para>Discussions involved the project's Fourier functionality requirements. </para></listitem>
 <listitem><para>Tutorial type format where Peter briefly outlined the principals behind PWelch PSD plots.</para></listitem>
 </orderedlist>
 </para>
@@ -76,7 +76,7 @@ In attendance at the meeting
 <para>
 The following action items were identified:
 <orderedlist>
-<listitem><para>Nick needed to modify some of the existing CEP matlab code to cater for the additional requriements</para></listitem>
+<listitem><para>Nick needed to modify some of the existing CEP MATLAB code to cater for the additional requirements</para></listitem>
 </orderedlist>
 </para>
 </sect2>
@@ -137,9 +137,9 @@ This meeting ran from 2:30pm to 6:00pm.
 <orderedlist>
 <listitem><para>Informal discussion of the state of play</para></listitem>
 <listitem><para>Continued discussion of Matrix class requirements.</para></listitem>
-<listitem><para>Discussion on the state of the wxWindows UI and further pootential 
-possibilities given the discovery of some wxWindows feaures.</para></listitem>
-<listitem><para>Discussion about whether or not the Windowing should in fact be a part od 
+<listitem><para>Discussion on the state of the wxWindows UI and further potential 
+possibilities given the discovery of some wxWindows features.</para></listitem>
+<listitem><para>Discussion about whether or not the Windowing should in fact be a part of 
 cepDataset</para></listitem>
 
 </orderedlist>
@@ -225,13 +225,13 @@ The following action items were identified:
 
 </para>
 
-<sect1><title>Teusday 11 June 2002</title>
+<sect1><title>Tuesday 11 June 2002</title>
 <para>
 This meeting ran from 5:30pm to 7:00pm, with Associate Prof. Peter Morgan.
 <orderedlist>
-<listitem><para>Informal discussion on various topcis.</para></listitem>
-<listitem><para>Disucssion of UI requirements and expectaitons for both prototype and final product.</para></listitem>
-<listitem><para>Discussion of Honours extensions for final product - none for prototype.</para></listitem>
+<listitem><para>Informal discussion on various topics.</para></listitem>
+<listitem><para>Discussion of UI requirements and expectations for both prototype and final product.</para></listitem>
+<listitem><para>Discussion of Honors extensions for final product - none for prototype.</para></listitem>
 <listitem><para>Discussion of how individual efforts will be identified at the projects completion.</para></listitem>
 </orderedlist>
 </para>
@@ -258,8 +258,8 @@ In attendance at the meeting
 <para>
 No specific action items were identified, however, the following issues were clarified somewhat:
 <orderedlist>
-<listitem><para>Honours extensions in the prototype are not necessary.</para></listitem>
-<listitem><para>Honours extensions were more clear defined (outlined below).</para></listitem>
+<listitem><para> extensions in the prototype are not necessary.</para></listitem>
+<listitem><para> extensions were more clear defined (outlined below).</para></listitem>
 <listitem><para></para></listitem>
 
 </orderedlist>
@@ -274,13 +274,13 @@ This meeting ran from 6:00pm to -.
 <orderedlist>
 <listitem><para>Informal discussion on where people are at.</para></listitem>
 <listitem><para>Further prototyping work carried out.</para></listitem>
-<listitem><para>Discussion of the MIT FFTW libray with regards to linking it with CEP and required data structures for FFTW.</para></listitem>
-<listitem><para>Discussion on ways in which to test modeuls with and without the UI.</para></listitem>
+<listitem><para>Discussion of the MIT FFTW library with regards to linking it with CEP and required data structures for FFTW.</para></listitem>
+<listitem><para>Discussion on ways in which to test modules with and without the UI.</para></listitem>
 </orderedlist>
 </para>
 
 <para>
-<emphasis>This was essentially tio adavance the state of the prototype along with discussion of the aforementioned topics</emphasis>
+<emphasis>This was essentially to advance the state of the prototype along with discussion of the aforementioned topics</emphasis>
 </para>
 
 <para>
@@ -314,7 +314,7 @@ The following action items were identified:
 
 </para>
 
-<sect1><title>Teusday 9 June 2002</title>
+<sect1><title>Tuesday 9 June 2002</title>
 <para>
 This meeting ran from 1:30pm to 4:30pm.
 <orderedlist>
@@ -402,7 +402,7 @@ The following action items were identified:
 </chapter>
 <chapter id="meetings-week1"><title>Semester One, Week One Meetings</title>
 <para>
-As the first week of the project, this week was devoted to finding an acceptible project, and starting to develop the written report which is due next week.
+As the first week of the project, this week was devoted to finding an acceptable project, and starting to develop the written report which is due next week.
 </para>
 
 <sect1><title>Tuesday 26 February 2002</title>
@@ -410,7 +410,7 @@ As the first week of the project, this week was devoted to finding an acceptible
 This meeting discussed the following issues:
 <orderedlist>
 <listitem><para>Consideration of the available projects and the pros and cons</para></listitem>
-<listitem><para>Requirements for the project in accordance with the persuit of honours for a number of the group members</para></listitem>
+<listitem><para>Requirements for the project in accordance with the pursuit of Honors for a number of the group members</para></listitem>
 <listitem><para>Whether the group should be split into a series of smaller groups</para></listitem>
 </orderedlist>
 </para>
@@ -445,10 +445,10 @@ The following action items were identified:
 <para>
 This was a meeting held between Associate Professor Peter Morgan and the project group. This meeting discussed the following issues:
 <orderedlist>
-<listitem><para>The requirements of the GPS data anaylsis project</para></listitem>
+<listitem><para>The requirements of the GPS data analysis project</para></listitem>
 <listitem><para>The prototyping phase and some of Associate Professor Morgan's expectations of the design and development process</para></listitem>
 <listitem><para>Issues which should be discussed in the initial report</para></listitem>
-<listitem><para>Requirements for studying honours and the fact that several members of the group are currently in the process of enrolling in the honours program</para></listitem>
+<listitem><para>Requirements for studying Honors and the fact that several members of the group are currently in the process of enrolling in the Honors program</para></listitem>
 <listitem><para>Further research to be undertaken</para></listitem>
 </orderedlist>
 </para>
@@ -487,7 +487,7 @@ This meeting was called to develop the first draft of the initial report.
 <orderedlist>
 <listitem><para>Developed a description of the problem</para></listitem>
 <listitem><para>Identified a variety of risks in the project and assigned varying probabilities to them -- the higher the risk, the more effort the group needs to put into eliminating it</para></listitem>
-<listitem><para>Our implementation approach, which is based on a series of phases of implementation: prototyping; initial implementation; output development; a graphical user interface; core extensions; non core extensions; and honours extensions</para></listitem>
+<listitem><para>Our implementation approach, which is based on a series of phases of implementation: prototyping; initial implementation; output development; a graphical user interface; core extensions; non core extensions; and Honors extensions</para></listitem>
 <listitem><para>The testing requirements for the project</para></listitem>
 </orderedlist>
 </para>
@@ -512,7 +512,7 @@ In attendance at the meeting
 The following action items were identified:
 <orderedlist>
 <listitem><para>Michael to finalize the contributions of the group and send a draft of the report to the various group members by email</para></listitem>
-<listitem><para>The group to meet with Associate Professor Morgan on Mnday to finalize initial report</para></listitem>
+<listitem><para>The group to meet with Associate Professor Morgan on Monday to finalize initial report</para></listitem>
 </orderedlist>
 </para>
 </sect2>
@@ -528,13 +528,13 @@ The following action items were identified:
 <para>
 This meeting ran from 17.30 to 21.30
 <orderedlist>
-<listitem><para>The group continued desgin work on the poster presentation.</para></listitem>
+<listitem><para>The group continued design work on the poster presentation.</para></listitem>
 
 </orderedlist>
 </para>
 
 <para>
-<emphasis>The objective of the meeting was to finalise a draft poster fo the presentation.</emphasis>
+<emphasis>The objective of the meeting was to finalise a draft poster for the presentation.</emphasis>
 </para>
 
 <para>
@@ -563,13 +563,13 @@ changes for printing on Friday.</para></listitem>
 <para>
 This meeting ran from 17.30 to 21.30
 <orderedlist>
-<listitem><para>The group continued desgin work on the poster presentation.</para></listitem>
+<listitem><para>The group continued design work on the poster presentation.</para></listitem>
 
 </orderedlist>
 </para>
 
 <para>
-<emphasis>The objective of the meeting was to make final changes to the draft poster fo the presentation.</emphasis>
+<emphasis>The objective of the meeting was to make final changes to the draft poster for the presentation.</emphasis>
 </para>
 
 <para>
@@ -587,7 +587,7 @@ In attendance at the meeting
 The following action items were identified:
 <orderedlist>
 <listitem><para>Daniel was to organise printing of a final poster.</para></listitem>
-<listitem><para>The group was to conduct reasearch into what would be most effective on the proposed
+<listitem><para>The group was to conduct research into what would be most effective on the proposed
 brochure to accompany the poster..</para></listitem>
 <listitem><para>A meeting was organised for Sunday 28th to work on the brochure.</para></listitem>
 </orderedlist>
@@ -599,7 +599,7 @@ brochure to accompany the poster..</para></listitem>
 <para>
 This meeting ran from 11.00 to 2.30
 <orderedlist>
-<listitem><para>The group continued desgin work on the brochure for the poster presentation.</para></listitem>
+<listitem><para>The group continued design work on the brochure for the poster presentation.</para></listitem>
 
 </orderedlist>
 </para>
@@ -622,7 +622,7 @@ In attendance at the meeting
 <para>
 The following action items were identified:
 <orderedlist>
-<listitem><para>Layout and gramatical changes were to be made and changes made by group members
+<listitem><para>Layout and grammatical changes were to be made and changes made by group members
 emailed to one another for review and confirmation.</para></listitem>
 </orderedlist>
 </para>
@@ -635,7 +635,7 @@ emailed to one another for review and confirmation.</para></listitem>
 
 </para>
 
-<sect1><title>Teusday 6th August</title>
+<sect1><title>Tuesday 6th August</title>
 <para>
 This meeting ran from 17.30 to 19.00
 <orderedlist>
@@ -682,7 +682,7 @@ This meeting ran from 17.00 to
 </para>
 
 <para>
-<emphasis>This was an informal meeting to discuss issues relating to testing, coding format, prioritisation. The objective of the meeting was mainly to 
+<emphasis>This was an informal meeting to discuss issues relating to testing, coding format, prioritising. The objective of the meeting was mainly to 
 ensure that people were familiar with where the project is in terms of schedule etc.</emphasis>
 </para>
 
@@ -715,7 +715,7 @@ No action items were identified.
 <para>
 This meeting ran from 4pm to xx pm, with Associate Professor Peter Morgan.
 <orderedlist>
-<listitem><para>Critque of the initial report draft</para></listitem>
+<listitem><para>Critique of the initial report draft</para></listitem>
 <listitem><para>Information about the mathematics required for the project and some of the scientific issues</para></listitem>
 
 </orderedlist>
@@ -826,7 +826,7 @@ This meeting ran from 2pm to 10pm, with an hour break in the middle.
 </para>
 
 <para>
-<emphasis>This meeting made significant progress on the prototype. This included the initial interpolation code for matlab, as well as many other features. The basis for the C++ final prodocut was also laid down in this meeting.</emphasis>
+<emphasis>This meeting made significant progress on the prototype. This included the initial interpolation code for MATLAB, as well as many other features. The basis for the C++ final product was also laid down in this meeting.</emphasis>
 </para>
 
 <para>
@@ -871,7 +871,7 @@ This meeting ran from 4pm to 6pm.
 </para>
 
 <para>
-<emphasis>It was noted that the prototype is progressing well. The final product has had some skeltal work implemented, but is forming a good basis for continueing work.</emphasis>
+<emphasis>It was noted that the prototype is progressing well. The final product has had some skeletal work implemented, but is forming a good basis for continuing work.</emphasis>
 </para>
 
 <para>

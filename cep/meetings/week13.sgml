@@ -7,7 +7,7 @@
 <para>
 This meeting ran from 11.00am to xx pm.
 <orderedlist>
-<listitem><para>Discussions involved the project's fourier fuinctionality requirements. </para></listitem>
+<listitem><para>Discussions involved the project's Fourier functionality requirements. </para></listitem>
 <listitem><para>Tutorial type format where Peter briefly outlined the principles behind PWelch PSD plots.</para></listitem>
 </orderedlist>
 </para>
@@ -29,7 +29,7 @@ In attendance at the meeting
 <para>
 The following action items were identified:
 <orderedlist>
-<listitem><para>Nick needed to modify some of the existing CEP matlab code to cater for the additional requriements</para></listitem>
+<listitem><para>Nick needed to modify some of the existing CEP MATLAB code to cater for the additional requirements</para></listitem>
 </orderedlist>
 </para>
 </sect2>

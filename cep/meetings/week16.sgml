@@ -3,13 +3,13 @@
 
 </para>
 
-<sect1><title>Teusday 11 June 2002</title>
+<sect1><title>Tuesday 11 June 2002</title>
 <para>
 This meeting ran from 5:30pm to 7:00pm, with Associate Prof. Peter Morgan.
 <orderedlist>
-<listitem><para>Informal discussion on various topcis.</para></listitem>
-<listitem><para>Disucssion of UI requirements and expectaitons for both prototype and final product.</para></listitem>
-<listitem><para>Discussion of Honours extensions for final product - none for prototype.</para></listitem>
+<listitem><para>Informal discussion on various topics.</para></listitem>
+<listitem><para>Discussion of UI requirements and expectations for both prototype and final product.</para></listitem>
+<listitem><para>Discussion of Honors extensions for final product - none for prototype.</para></listitem>
 <listitem><para>Discussion of how individual efforts will be identified at the projects completion.</para></listitem>
 </orderedlist>
 </para>
@@ -36,8 +36,8 @@ In attendance at the meeting
 <para>
 No specific action items were identified, however, the following issues were clarified somewhat:
 <orderedlist>
-<listitem><para>Honours extensions in the prototype are not necessary.</para></listitem>
-<listitem><para>Honours extensions were more clear defined (outlined below).</para></listitem>
+<listitem><para>Honors extensions in the prototype are not necessary.</para></listitem>
+<listitem><para>Honors extensions were more clear defined (outlined below).</para></listitem>
 <listitem><para></para></listitem>
 
 </orderedlist>
@@ -52,13 +52,13 @@ This meeting ran from 6:00pm to -.
 <orderedlist>
 <listitem><para>Informal discussion on where people are at.</para></listitem>
 <listitem><para>Further prototyping work carried out.</para></listitem>
-<listitem><para>Discussion of the MIT FFTW libray with regards to linking it with CEP and required data structures for FFTW.</para></listitem>
-<listitem><para>Discussion on ways in which to test modeuls with and without the UI.</para></listitem>
+<listitem><para>Discussion of the MIT FFTW library with regards to linking it with CEP and required data structures for FFTW.</para></listitem>
+<listitem><para>Discussion on ways in which to test modules with and without the UI.</para></listitem>
 </orderedlist>
 </para>
 
 <para>
-<emphasis>This was essentially tio adavance the state of the prototype along with discussion of the aforementioned topics</emphasis>
+<emphasis>This was essentially to advance the state of the prototype along with discussion of the aforementioned topics</emphasis>
 </para>
 
 <para>

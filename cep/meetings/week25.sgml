@@ -10,23 +10,23 @@ This meeting ran from 17.00 to
 <listitem><para>Meeting Chair</para></listitem>
 <listitem><para>Rules for orderly meetings</para></listitem>
 <listitem><para>Demonstration of prototype in its current state.</para></listitem>
-<listitem><para></para>Prototype help, documentation and comments matlab files.</listitem>
+<listitem><para></para>Prototype help, documentation and comments MATLAB files.</listitem>
 <listitem><para>Discussion of horizontal scaling of graphs in C++ implementation.</para></listitem>
-<listitem><para>Demonstration of user interface in its current state - loads, graphs, zooms, some gui tools such as
-colour chagnge.</para></listitem>
+<listitem><para>Demonstration of user interface in its current state - loads, graphs, zooms, some GUI tools such as
+colour change.</para></listitem>
 <listitem>Testing - cppunit from sourceforge - for unit testing, testing algorithms etc..<para></para></listitem>
 <listitem><para>Bug resolution, tracking </para></listitem>
 <listitem><para>Discussion of module completed and not yet used; also uncompleted modules.</para></listitem>
 <listitem><para>Development priorities</para></listitem>
 <listitem><para>Group update from all as to what stage everybody is at with what tasks.</para></listitem>
-<listitem><para>Disucssion of coding styles which will be adhered to by all memebers.</para></listitem>
-<listitem><para>Review of blackbox design</para></listitem>
+<listitem><para>Discussion of coding styles which will be adhered to by all members.</para></listitem>
+<listitem><para>Review of black-box design</para></listitem>
 <listitem><para>Operating system issues - will it work? etc..</para></listitem>
 </orderedlist>
 </para>
 
 <para>
-<emphasis>This was an informal meeting to discuss issues relating to testing, coding format, prioritisation. The objective of the meeting was mainly to 
+<emphasis>This was an informal meeting to discuss issues relating to testing, coding format, prioritising. The objective of the meeting was mainly to 
 ensure that people were familiar with where the project is in terms of schedule etc.</emphasis>
 </para>
 
@@ -46,11 +46,11 @@ In attendance at the meeting
 <para>
 <orderedlist>
 <listitem><para>Meeting Chair - Daniel by vote.</para></listitem>
-<listitem><para>Rules for orderly meetings - One person speak at one time; agenda prestablished.</para></listitem>
-<listitem><para>Nick to refine protoype - looking at comments, help and documentation.</para></listitem>
+<listitem><para>Rules for orderly meetings - One person speak at one time; agenda established before the meeting.</para></listitem>
+<listitem><para>Nick to refine prototype - looking at comments, help and documentation.</para></listitem>
 <listitem><para>Information to be sought from Peter relating to scaling requirements on graphs..</para></listitem>
 <listitem><para>Bug resolution, tracking - bugs directory to be created in CVS repository.</para></listitem>
-<listitem><para>Bugs to be reported to list with backtrace and warnings etc....</para></listitem>
+<listitem><para>Bugs to be reported to list with back-trace and warnings etc....</para></listitem>
 </orderedlist>
 </para>
 
@@ -63,12 +63,12 @@ In attendance at the meeting
 This meeting ran from 17.00 to 
 <orderedlist>
 <listitem><para>Informal meeting - review of state of play</para></listitem>
-<listitem><para>continued blackbox review</para></listitem>
+<listitem><para>continued black-box review</para></listitem>
 </orderedlist>
 </para>
 
 <para>
-<emphasis>This was an informal meeting to discuss state of project - in particular, continuation of blackbox review.</emphasis>
+<emphasis>This was an informal meeting to discuss state of project - in particular, continuation of black-box review.</emphasis>
 </para>
 
 <para>
