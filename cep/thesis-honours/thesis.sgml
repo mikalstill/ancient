@@ -1,0 +1,28 @@
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
+<book><bookinfo>
+<title>Geodetic Data Modelling System: Honours Thesis</title>
+<subtitle>An online interface</subtitle>
+<authorgroup>
+
+<author>
+  <firstname>Michael</firstname>
+  <surname>Still</surname>
+  <affiliation><jobtitle>964076</jobtitle></affiliation>
+</author>
+</authorgroup>
+
+<abstract><title>Abstract</title>
+<para>
+TODO
+</para>
+</abstract>
+</bookinfo>
+
+<chapter id="ch01"><title> Introduction </title>
+<sect1><title>Introduction</title>
+<para>
+...
+</para>
+</sect1>
+</chapter>
+</book>
