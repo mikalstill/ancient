@@ -352,31 +352,80 @@ cepError cepDataset::read(const string & filename)
         files[i].close();
     }
 
-    // Are the files over the same period??
-    if (((m_data[0]->getValue(0, 0) != m_data[1]->getValue(0, 0))
-         || (m_data[1]->getValue(0, 0) != m_data[2]->getValue(0, 0)))
-        ||
-        ((m_data[0]->getValue(m_data[0]->getNumRows() - 1, 0) !=
-          m_data[1]->getValue(m_data[0]->getNumRows() - 1, 0))
-         || (m_data[1]->getValue(m_data[0]->getNumRows() - 1, 0) !=
-             m_data[2]->getValue(m_data[0]->getNumRows() - 1, 0)))) {
-        m_ready = true;
-        cepDebugPrint("Date North [first]=" + cepToString(m_data[0]->getValue(0, 0)));
-        cepDebugPrint("Date East  [first]=" + cepToString(m_data[1]->getValue(0, 0)));
-        cepDebugPrint("Date Up    [first]=" + cepToString(m_data[2]->getValue(0, 0)));
-        cepDebugPrint("Date North [last]=" +  cepToString(m_data[0]->getValue(m_data[0]->getNumRows()-1, 0)));
-        cepDebugPrint("Date East  [last]=" + cepToString(m_data[1]->getValue(m_data[1]->getNumRows()-1, 0)));
-        cepDebugPrint("Date Up    [last]=" + cepToString(m_data[2]->getValue(m_data[2]->getNumRows()-1, 0)));
-        return cepError("The data set " + m_filename + " values do not represent the same time period",
-                        cepError::sevErrorRecoverable);
-    }
+    // Are the files over the same period?
+    cepDebugPrint("Check the value ranges in the dataset");
+    for(int tno = 0; tno < m_data[0]->getNumTables(); tno++){
+      cepDebugPrint("Integrity check on table " + cepToString(tno));
 
+      // Do the start values for the table match?
+      if(m_data[0]->getValue(0, 0, tno) != m_data[1]->getValue(0, 0, tno)){
+	if (m_data[0]->getError().isReal())
+	  return m_data[0]->getError();
+	if (m_data[1]->getError().isReal())
+	  return m_data[1]->getError();
+	if (m_data[2]->getError().isReal())
+	  return m_data[2]->getError();
+	
+	return cepError("The start date for the North (" + cepToString(m_data[0]->getValue(0, 0, tno)) + 
+			") and East (" + cepToString(m_data[1]->getValue(0, 0, tno)) + 
+			") directions differ for table " + cepToString(tno), 
+			cepError::sevErrorRecoverable);
+      }
+      if(m_data[0]->getValue(0, 0, tno) != m_data[2]->getValue(0, 0, tno)){
+	if (m_data[0]->getError().isReal())
+	  return m_data[0]->getError();
+	if (m_data[1]->getError().isReal())
+	  return m_data[1]->getError();
+	if (m_data[2]->getError().isReal())
+	  return m_data[2]->getError();
+	
+	return cepError("The start date for the North (" + cepToString(m_data[0]->getValue(0, 0, tno)) + 
+			") and Up (" + cepToString(m_data[2]->getValue(0, 0, tno)) + 
+			") directions differ for table " + cepToString(tno), 
+			cepError::sevErrorRecoverable);
+      }
+
+      // What about the end values?
+      if(m_data[0]->getValue(m_data[0]->getNumRows() - 1, 0, tno) != 
+	 m_data[1]->getValue(m_data[1]->getNumRows() - 1, 0, tno)){
+	if (m_data[0]->getError().isReal())
+	  return m_data[0]->getError();
+	if (m_data[1]->getError().isReal())
+	  return m_data[1]->getError();
+	if (m_data[2]->getError().isReal())
+	  return m_data[2]->getError();
+	
+	return cepError("The final date for the North (" + 
+			cepToString(m_data[0]->getValue(m_data[0]->getNumRows() - 1, 0, tno)) + 
+			") and East (" + 
+			cepToString(m_data[1]->getValue(m_data[1]->getNumRows() - 1, 0, tno)) + 
+			") directions differ for table " + cepToString(tno), 
+			cepError::sevErrorRecoverable);
+      }
+      if(m_data[0]->getValue(m_data[0]->getNumRows() - 1, 0, tno) != 
+	 m_data[2]->getValue(m_data[2]->getNumRows() - 1, 0, tno)){
+	if (m_data[0]->getError().isReal())
+	  return m_data[0]->getError();
+	if (m_data[1]->getError().isReal())
+	  return m_data[1]->getError();
+	if (m_data[2]->getError().isReal())
+	  return m_data[2]->getError();
+
+	return cepError("The final date for the North (" + 
+			cepToString(m_data[0]->getValue(m_data[0]->getNumRows() - 1, 0, tno)) + 
+			") and Up (" + 
+			cepToString(m_data[2]->getValue(m_data[0]->getNumRows() - 1, 0, tno)) + 
+			") directions differ for table " + cepToString(tno), 
+			cepError::sevErrorRecoverable);
+      }
+    }
+      
     if (m_data[0]->getError().isReal())
-        return m_data[0]->getError();
+      return m_data[0]->getError();
     if (m_data[1]->getError().isReal())
-        return m_data[1]->getError();
+      return m_data[1]->getError();
     if (m_data[2]->getError().isReal())
-        return m_data[2]->getError();
+      return m_data[2]->getError();
 
     m_ready = true;
     m_wellformed = true;
