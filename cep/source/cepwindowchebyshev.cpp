@@ -23,7 +23,9 @@
 
 cepWindowChebyshev::cepWindowChebyshev( int size ) : cepWindowAlg( size ) {
   // set a default attenuation of 0.6
+  cout << "cheb<init>" << endl;
   setAttenuation( 0.60 );
+  initCoeffs();
 }
 
 
@@ -36,26 +38,22 @@ void cepWindowChebyshev::setAttenuation(double att) {
   A = att;
 }
 
+void cepWindowChebyshev::initCoeffs()
+{
+  // TODO BS - fix this.. it will leak, but it avoids the segfault
+  if( coeffs != NULL ) delete coeffs;
+  coeffs = generateCoeffs( getSize() );
+}
+
 
 double cepWindowChebyshev::getValue( int offset )
-{
+{ 
   return calcValue( offset );
 }
 
-void cepWindowChebyshev::preCalc()
-{
-    // beta calulation
-    gamma = pow(10,(-A/20));
-    beta = cosh(1/(size-1) * acosh(1/gamma));
-}
-
 double cepWindowChebyshev::calcValue( int n ) {
-  if( size == 1 ) {
-    return 1;
-  } else {
-      double x = beta*cos(PI*n/size);
-      return computeCheb(x,size-1);
-  }
+  cout << "error: why is this being called?" << endl;
+  
 }
 
 double cepWindowChebyshev::computeCheb( double value, long order )
@@ -67,40 +65,120 @@ double cepWindowChebyshev::computeCheb( double value, long order )
   }
 }
 
-const cepMatrix<double> & cepWindowChebyshev::getCoeffs() {
-  double *p = new double[size];
-  for( int k=0;k<size;k++) {
-    p[k] = calcValue(k);
-  }
-  int M = (size+1)/2;
+// method: generateDolphChebyshev
+//
+// arguments:
+//  VectorFloat& output: (output) the window function
+//  const VectorFloat& params: (input) window function parameters
+//  long num_points: (input) number of points in the window
+//
+// return: a boolean value indicating status
+//
+// this method generates a Dolph-Chebyshev window function:
+//
+//  w(n) = { G/(2M+1) * [1/gamma +
+//         {             2 * sum Cheb(beta*k*PI/(2M+1)) *
+//         {             cos(2*n*k*PI/(2M+1))]                  n <= |M|
+//         { 0                                                  elsewhere
+//
+//  there are a couple of important auxiliary equations:
+//
+//   alpha_s = (2*M * 2.285 * (double)dw + 16.4) / 2.056
+//
+//  where dw is the transition bandwidth in normalized frequency.
+//  using alpha_s, we compute gamma and beta (needed above):
+//
+//   gamma = 10 ** (-alpha_s / 20.0)
+//   beta = cosh((1/2M) * acosh(1/gamma))
+//
+// a good reference for this window can be found at:
+//
+//  S.K. Mitra, Digital Signal Processing,
+//  McGraw-Hill, Boston, Massachusetts, USA, 2001, pp. 456.
+//
+// there are two parameters allowed for this window:
+//
+//  params(0): G, the gain of the window
+//  params(1): dw, the normalized transition bandwidth
+//
+// for an odd number of points, the window is defined as above.
+// for an even number of points, an interpolation technique is used.
+//
+cepMatrix<double> *cepWindowChebyshev::generateCoeffs( int size ) {
 
-  // this does not compile as yet .. how do i use fft libs?
-//  double *w = real(ifft(p));  // will be of size M
-  // simply so it compiles
-  double *w = NULL;
-  
-  if( coeffs == NULL ) {
-    // for debugging
-    cout << "cheb<getCoeffs> coeffs is null" << endl;
-  } else {
-    cout << "cheb<getCoeffs> coeffs rows:" << coeffs->getNumRows() << "cols:" << coeffs->getNumCols();
-  }
+  cout << "cheb<genCoeffs>" << endl;
+  // compute some constants related to the length of the window
+  //
+  long N = size;
+  long Nm1 = N - 1;
+  long Nm2 = Nm1 - 1;
+  double scale = (double)Nm2 / (double)Nm1;
 
-  // take the ifft values and make the window. we need to amke sym data from asym values
-  // the resulting window is constructed as follows
-  //     p[M-1], .. p[1],1,p[1], .. p[M-1]
+  // compute the half-window length
+  //
+  long M = (N - 1) / 2;
 
-  if( w != NULL ) {
-    for( int i=1; i<M; ++i ) {
-      w[i] = p[M-i]/p[0];
-      w[size-i]=p[M-i]/p[0];
+  // create output space
+  //
+  cepMatrix<double> *output_a = new cepMatrix<double>(size,1);
+
+  // in this approach, the constant represents the transition bandwidth.
+  // the window length is supplied by the user. we compute the appropriate
+  // constants to satisfy this relationship.
+  //
+  double gamma = pow(10.0, -A / 20);
+  double gamma_inv = 1.0 / gamma;
+
+  // from gamma and M, we compute beta
+  //
+  double beta = cosh(acosh(gamma_inv) / (double)(2*M));
+
+  // case 1: an odd number of points
+  //
+  if ( (N%2)!=0x00) {
+    for (long n = -M; n <= M; n++) {
+
+      // compute the inner summation
+      //
+      double sum = 0;
+      for (long k = 1; k < M; k++) {
+        double arg1 = (double)k * PI / (double)(N);
+        double arg2 = 2.0 * n * arg1;
+        double val = computeCheb(beta * cos(arg1), k);
+        sum += val * cos(arg2);
+      }
+
+      // save the output value
+      //
+      output_a->setValue(n + M,0, ( 1.0 / (double)(N) * (gamma_inv + 2 * sum)));
     }
-    w[M-1] = 1.0;
   }
-  return *(new cepMatrix<double>());
-  
+
+  // case 2: an even number of points
+  //  use a resampling strategy
+  //
+  else {
+    for (long n = 0; n < N; n++) {
+      double scaled_index = -M + scale * n;
+
+      // compute the inner summation
+      //
+      double sum = 0;
+      for (long k = 1; k < M; k++) {
+        double arg1 = (double)k * PI / (double)(Nm1);
+        double arg2 = 2 * scaled_index * arg1;
+        double val = computeCheb(beta * cos(arg1), k);
+        sum += val * cos(arg2);
+      }
+
+      // save the output value
+      //
+      output_a->setValue(n,0, (1.0 / (double)(Nm1) * (gamma_inv + 2 * sum)));
+    }
+  }
+
+  // exit gracefully
+  //
+  return output_a;
 }
-
-
-
 

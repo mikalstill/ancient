@@ -74,7 +74,7 @@ public:
   /** queries the current coefficients
    * @return an N*1 matrix of the current coefficients
    */  
-  const cepMatrix<double> & getCoeffs();
+  const cepMatrix<double> getCoeffs();
 
   
 protected:
@@ -96,7 +96,7 @@ protected:
    * @param size the desired window size
    * @return an N*1 matrix of the current coefficients
    */
-  const cepMatrix<double> & generateCoeffs( int size );
+  cepMatrix<double> *generateCoeffs( int size );
 
   /** generates a coefficient at a specific offset into the coefficient matrix
    * override this to genetate specific coefficient sets

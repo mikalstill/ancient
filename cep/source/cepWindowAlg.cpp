@@ -27,6 +27,7 @@ const double cepWindowAlg::PI = 2*asin(1.0);
 cepWindowAlg::cepWindowAlg( int s )
 {
   size = s;
+  coeffs = NULL;
 }
 
 cepWindowAlg::~cepWindowAlg() {
@@ -40,37 +41,36 @@ int cepWindowAlg::getSize() {
 void cepWindowAlg::initCoeffs()
 {
   // TODO BS - fix this.. it will leak, but it avoids the segfault
-  // if( coeffs != NULL ) delete coeffs;
-  coeffs = & const_cast<cepMatrix<double>&>(generateCoeffs( getSize() ));
+  if( coeffs != NULL ) delete coeffs;
+  coeffs = generateCoeffs( getSize() );
 }
 
 
 
 
-const cepMatrix<double> & cepWindowAlg::getCoeffs()
+const cepMatrix<double> cepWindowAlg::getCoeffs()
 {
 
   if( coeffs == NULL ) {
-    cepMatrix<double> *foo = new cepMatrix<double>(0,0);
-    return *foo;
+    coeffs = new cepMatrix<double>(0,0);
+    cout << "windowAlg<getCoeffs> making default coefficient array of size (0,0)" << endl;
   }
   return *coeffs;
 }
 
 
-const cepMatrix<double> & cepWindowAlg::generateCoeffs( int size ) {
+cepMatrix<double> *cepWindowAlg::generateCoeffs( int size ) {
   cepMatrix<double> *foo = new cepMatrix<double>(size, 1);
   for( int i=0; i<size; i++ ) {
     
     double val = getValue( i );
     if( isnan( val ) ) {
       delete foo;
-      foo = new cepMatrix<double>(0,0);
-      return *foo;
+      return new cepMatrix<double>(0,0);
     }
     
     foo->setValue(i,0,val );
   }
-  return *foo;
+  return foo;
 }
 

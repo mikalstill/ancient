@@ -58,6 +58,7 @@ DOCBOOK END
   * @author Blake Swadling
   */
 
+
 class cepWindowChebyshev : public cepWindowAlg  {
 public:
   cepWindowChebyshev( int size );  
@@ -66,16 +67,16 @@ public:
    * att the stop band attenuation in the corresponding fourier transform (dB)
    */
   void setAttenuation( double att );
+  
+protected:
   /**
    * overload this as we need a specialised mechanism to make the coeffs
    */
-  const cepMatrix<double> & getCoeffs();
-  
-protected:
+  cepMatrix<double> *generateCoeffs( int size );
   double getValue( int offset );
   double calcValue( int n );
   double computeCheb( double value, long order );
-  void preCalc();
+  void initCoeffs();
 
   double beta;
   double gamma;
