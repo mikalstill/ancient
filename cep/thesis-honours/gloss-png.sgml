@@ -1,0 +1,8 @@
+<glossentry id="png"><glossterm>PNG</glossterm>
+<acronym>PNG</acronym>
+<glossdef>
+<para>
+Portable Network Graphics (PNG) was initially developed because of the patent problems with the GIF format described earlier in this section. The PNG format has since grown well past the feature set provided by GIF, and now rivals TIFF for completeness (Randers-Pehrson 1999).
+</para>
+</glossdef>
+</glossentry>

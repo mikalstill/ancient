@@ -1,0 +1,8 @@
+<glossentry id="asp"><glossterm>ASP</glossterm>
+<acronym>ASP</acronym>
+<glossdef>
+<para>
+ASP stands for Active Server Pages. ASP is Microsoft's server side scripting language. Server side scripting languages embed program elements into the HTML pages, which are executed and then removed before the page is returned to the web browser.
+</para>
+</glossdef>
+</glossentry>

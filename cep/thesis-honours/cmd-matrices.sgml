@@ -1,0 +1,13 @@
+<sect2><title>matrices</title>
+<para>
+This tag will output the HTML that represents the list of reweighting matrices which are available. Note that matrices must end in the extension .mat to be listed.
+</para>
+
+<para>
+An example usage is:
+</para>
+
+<programlisting>
+&amp;{matrices};
+</programlisting>
+</sect2>

@@ -1,0 +1,8 @@
+<glossentry id="php"><glossterm>PHP</glossterm>
+<acronym>PHP</acronym>
+<glossdef>
+<para>
+PHP, which stands for <quote>PHP: Hypertext Processor</quote> (AIMS Group, 2002), is an Open Source server side scripting language. Server side scripting languages embed program elements into the HTML pages, which are executed and then removed before the page is returned to the web browser.
+</para>
+</glossdef>
+</glossentry>

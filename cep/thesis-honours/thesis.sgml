@@ -13,10 +13,19 @@
 
 <abstract><title>Abstract</title>
 <para>
-TODO
+This document discusses the GDMS Internet interface. This interface allows remote access to the vast majoirty of the functionality available in the X Windows version of GDMS. The interface was developed in Perl, and uses the Common Gateway Interface (CGI) offered by most modern web servers to interact with the web browser.
 </para>
 </abstract>
 </bookinfo>
+
+<glossary><title>Glossary</title>
+<para>
+The following acronyms are used throughout this document.
+</para>
+
+<execute><cmd>insertall</cmd><args>builddb . "gloss-(.*).sgml"</args></execute>
+
+</glossary>
 
 <chapter id="ch01"><title>Introduction</title>
 <sect1><title>Motivation</title>
@@ -83,7 +92,7 @@ The following page greets users when they start the GDMS Internet interface.
 
 <chapter><title>References</title>
 <sect1><title>References</title>
-<execute><cmd>insertall</cmd><args>builddb . "ref-*"</args></execute>
+<execute><cmd>insertall</cmd><args>builddb . "ref-.*"</args></execute>
 </sect1>
 </chapter>
 
@@ -98,7 +107,7 @@ The following page greets users when they start the GDMS Internet interface.
 This appendix documents the various tags which are implemented by the GDMS Internet interface in addition to the standard HTML tags normally available. All of these tags are within the scripting namespace provided by HTML 4.01 (Raggett, Le Hors, &amp; Jacobs 1999).
 </para>
 
-<execute><cmd>insertall</cmd><args>builddb . "cmd-*"</args></execute>
+<execute><cmd>insertall</cmd><args>builddb . "cmd-.*"</args></execute>
 </sect1>
 </appendix>
 

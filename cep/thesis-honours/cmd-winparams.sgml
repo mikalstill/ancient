@@ -1,0 +1,13 @@
+<sect2><title>winparams</title>
+<para>
+This tag will output the HTML form required for the entry of windowing processing parameters. The user will then select "Ok" on this web form, windowing operation will occur.
+</para>
+
+<para>
+An example usage is:
+</para>
+
+<programlisting>
+&amp;{winparams};
+</programlisting>
+</sect2>

@@ -1,0 +1,17 @@
+<sect2><title>lsselect</title>
+<para>
+This tag will output the HTML form required for the selection of the Least Squares output. This is because each Least Squares operation produces two datasets, the data (with a Least Squares line and indication of the effect of reweighting), and the residuals dataset.
+</para>
+
+<para>
+Note that if the user wants to open both datasets, then they can use the <quote>Open in new window</quote> or equivalent functionality in their web browser.
+</para>
+
+<para>
+An example usage is:
+</para>
+
+<programlisting>
+&amp;{lsselect};
+</programlisting>
+</sect2>

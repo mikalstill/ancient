@@ -1,0 +1,8 @@
+<glossentry id="lzw"><glossterm>LZW compression</glossterm>
+<acronym>LZW</acronym>
+<glossdef>
+<para>
+GIF is dependant upon LZW compression (CompuServe 1990), a compression aglorithm which is named after it's developers Lempel, Ziv, and Welch (Nelson 1998).
+</para>
+</glossdef>
+</glossentry>

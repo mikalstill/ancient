@@ -13,10 +13,103 @@
 
 <abstract><title>Abstract</title>
 <para>
-TODO
+This document discusses the GDMS Internet interface. This interface allows remote access to the vast majoirty of the functionality available in the X Windows version of GDMS. The interface was developed in Perl, and uses the Common Gateway Interface (CGI) offered by most modern web servers to interact with the web browser.
 </para>
 </abstract>
 </bookinfo>
+
+<glossary><title>Glossary</title>
+<para>
+The following acronyms are used throughout this document.
+</para>
+
+<glossentry id="asp"><glossterm>ASP</glossterm>
+<acronym>ASP</acronym>
+<glossdef>
+<para>
+ASP stands for Active Server Pages. ASP is Microsoft's server side scripting language. Server side scripting languages embed program elements into the HTML pages, which are executed and then removed before the page is returned to the web browser.
+</para>
+</glossdef>
+</glossentry><glossentry id="cgi"><glossterm>CGI</glossterm>
+<acronym>CGI</acronym>
+<glossdef>
+<para>
+CGI, or Common Gateway Interface, is a standard which defines methods by which web servers and server side executables may communicate. The main method of communication is the passing of the URL rpovided to the script as an environment variable (National Center for Supercomputing Applications 1996).
+</para>
+</glossdef>
+</glossentry><glossentry id="gdms"><glossterm>GDMS</glossterm>
+<acronym>GDMS</acronym>
+<glossdef>
+<para>
+GDMS, the Geodetic Data Modelling System, is the name given the the undergraduate portion of my final year project. This is an X Windows based modelling package for geodetic data, and includes least squares, interpolation, windowing and fast fourier transformation functionality.
+</para>
+</glossdef>
+</glossentry><glossentry id="gif"><glossterm>GIF</glossterm>
+<acronym>GIF</acronym>
+<glossdef>
+<para>
+The Graphics Interchange Format (GIF) was co-developed by CompuServe Inc. and Unisys Corporation in the late 1980s and early 1990s. GIF is dependant on LZW compression (CompuServe 1990), which is now having it's patent enforced by Unisys (Anonymous 2002). The GIF format itself is quite limited, with a maximum palette size of 255 entries -- in order words 255 distinct colours are available in each image.
+</para>
+</glossdef>
+</glossentry><glossentry id="html"><glossterm>HTML</glossterm>
+<acronym>HTML</acronym>
+<glossdef>
+<para>
+HyperText Markup Language is the <emphasis>lingua franca</emphasis> of the web. It is a content markup language based on SGML (World Wide Web Consortium 2002).
+</para>
+</glossdef>
+</glossentry><glossentry id="jfif"><glossterm>JFIF</glossterm>
+<acronym>JFIF</acronym>
+<glossdef>
+<para>
+The file format commonly called JPEG is actually JPEG JFIF (JPEG File Interchange Format) -- created by the Independant JPEG Group (Lilly 1996).
+</para>
+</glossdef>
+</glossentry><glossentry id="jpeg"><glossterm>JPEG</glossterm>
+<acronym>JPEG</acronym>
+<glossdef>
+<para>
+JPEG stands for Joint Picture Expert Group, which is a group of the International Standards Organization. This group devised the JPEG compression format, which is used in the JFIF file format.
+</para>
+</glossdef>
+</glossentry><glossentry id="lzw"><glossterm>LZW compression</glossterm>
+<acronym>LZW</acronym>
+<glossdef>
+<para>
+GIF is dependant upon LZW compression (CompuServe 1990), a compression aglorithm which is named after it's developers Lempel, Ziv, and Welch (Nelson 1998).
+</para>
+</glossdef>
+</glossentry><glossentry id="php"><glossterm>PHP</glossterm>
+<acronym>PHP</acronym>
+<glossdef>
+<para>
+PHP, which stands for <quote>PHP: Hypertext Processor</quote> (AIMS Group, 2002), is an Open Source server side scripting language. Server side scripting languages embed program elements into the HTML pages, which are executed and then removed before the page is returned to the web browser.
+</para>
+</glossdef>
+</glossentry><glossentry id="png"><glossterm>PNG</glossterm>
+<acronym>PNG</acronym>
+<glossdef>
+<para>
+Portable Network Graphics (PNG) was initially developed because of the patent problems with the GIF format described earlier in this section. The PNG format has since grown well past the feature set provided by GIF, and now rivals TIFF for completeness (Randers-Pehrson 1999).
+</para>
+</glossdef>
+</glossentry><glossentry id="tiff"><glossterm>TIFF</glossterm>
+<acronym>TIFF</acronym>
+<glossdef>
+<para>
+TIFF (Tagged Image File Format) is a raster (bitmap) image format which was originally produced by Aldus and Microsoft. Aldus was later acquired by Adobe, who manage the TIFF specification to this day. At the time of writing, the current version of the TIFF specification is TIFF version 6.0 (Adobe 1992).
+</para>
+</glossdef>
+</glossentry><glossentry id="url"><glossterm>URL</glossterm>
+<acronym>URL</acronym>
+<glossdef>
+<para>
+A Uniform Resource Locator is the <quote>address</quote> of a web page.
+</para>
+</glossdef>
+</glossentry>
+
+</glossary>
 
 <chapter id="ch01"><title>Introduction</title>
 <sect1><title>Motivation</title>
@@ -129,8 +222,7 @@ Much thought was expended on which image format to use for the plots displayed i
 
 <sect2><title>TIFF</title>
 <para>
-TIFF (Tagged Image File Format) is a raster (bitmap) image format which was originally produced by Aldus and Microsoft. Aldus was later acquired by Adobe, who manage the 
-TIFF specification to this day. At the time of writing, the current version of the TIFF specification is TIFF version 6.0 (Adobe 1992).
+TIFF (Tagged Image File Format) is a raster (bitmap) image format which was originally produced by Aldus and Microsoft. Aldus was later acquired by Adobe, who manage the TIFF specification to this day. At the time of writing, the current version of the TIFF specification is TIFF version 6.0 (Adobe 1992).
 </para>
 
 <para>
@@ -291,6 +383,16 @@ Lilly, C., 13 February 1996 [Last updated: 18 July 2001],
 [Online] http://www.w3.org/Graphics/JPEG/
 </para>
 <para>
+National Center for Supercomputing Applications, 8 March 1996,
+<emphasis>The Common Gateway Interface</emphasis>,
+[Online] http://hoohoo.ncsa.uiuc.edu/cgi/overview.html
+</para>
+<para>
+Nelson, M., 1989,
+<emphasis>Dr. Dobb's Journal October, 1989: LZW Data Compression</emphasis>,
+[Online] http://dogma.net/markn/articles/lzw/lzw.htm
+</para>
+<para>
 Perl Mongers, 1999,
 <emphasis>Perl History</emphasis>,
 [Online] http://www.perl.org/press/history.html
@@ -317,6 +419,11 @@ Raymond, E. S., 8 July 1998,
 Roelofs, G., 2002,
 <emphasis>libpng</emphasis>,
 [Online] http://www.libpng.org/pub/png/libpng.html
+</para>
+<para>
+World Wide Web Consortium (w3c), 12 December 2002,
+<emphasis>HyperText Markup Language (HTML) Home Page</emphasis>,
+[Online] http://www.w3.org/MarkUp/
 </para>
 <para>
 Warmerdam, F. and Welles, M., 24 January 2002 [last update],
@@ -456,6 +563,49 @@ An example usage is:
 &amp;{lsparams};
 </programlisting>
 </sect2>
+<sect2><title>lsreweightdir</title>
+<para>
+This tag converts to the direction in which the user is being prompted for a Least Squares reweighting matrix.
+</para>
+
+<para>
+An example usage is:
+</para>
+
+<programlisting>
+&amp;{lsreweightdir};
+</programlisting>
+</sect2>
+<sect2><title>lsselect</title>
+<para>
+This tag will output the HTML form required for the selection of the Least Squares output. This is because each Least Squares operation produces two datasets, the data (with a Least Squares line and indication of the effect of reweighting), and the residuals dataset.
+</para>
+
+<para>
+Note that if the user wants to open both datasets, then they can use the <quote>Open in new window</quote> or equivalent functionality in their web browser.
+</para>
+
+<para>
+An example usage is:
+</para>
+
+<programlisting>
+&amp;{lsselect};
+</programlisting>
+</sect2>
+<sect2><title>matrices</title>
+<para>
+This tag will output the HTML that represents the list of reweighting matrices which are available. Note that matrices must end in the extension .mat to be listed.
+</para>
+
+<para>
+An example usage is:
+</para>
+
+<programlisting>
+&amp;{matrices};
+</programlisting>
+</sect2>
 <sect2><title>motd</title>
 <para>
 This tag will display a welcome message to the user -- the Message Of The Day (MOTD). This can be used to inform users of new datasets now being available, planned system outages, and other such informational messages.
@@ -565,7 +715,30 @@ print STDERR "GDMSweb $$: Dataset is permanent\n" if($result-&gt;param('intype')
 print STDERR "GDMSweb $$: Dataset is temporary\n" if($result-&gt;param('intype') ne "");
  
 if($command eq "lsprocess"){
+    $temp = "$rooturl?dataset=".$result-&gt;param('dataset')."-ls".$result-&gt;param('reweight');
 
+    # If we are using manual reweighting, then we need to get more information
+    if($result-&gt;param('reweight') ne "auto"){
+	$temp = $temp."&amp;command=lsreweight";
+    }
+    else{
+	$temp = $temp."&amp;command=lsselect&amp;data=".$result-&gt;param('dataset')."-ls".
+	$result-&gt;param('reweight')."-data&amp;residuals=".$result-&gt;param('dataset')."-ls".
+	$result-&gt;param('reweight')."-residuals";
+	
+	# Do the processing here
+	performLs("auto");
+    }
+
+    if($result-&gt;param('desc') ne ""){
+	$temp = $temp."&amp;desc=".$result-&gt;param('desc');
+    }
+    $temp = $temp."&amp;intype=temp";
+
+    # And now bounce of to the real page
+    print STDERR "GDMSweb $$: Redirecting after LS to: $temp\n";
+    print $result-&gt;redirect($temp);
+    exit;
 }
 elsif($command eq "windowprocess"){
     $temp = "$rooturl?dataset=".$result-&gt;param('dataset')."-win".$result-&gt;param('wtype').
@@ -709,6 +882,12 @@ sub processTemplate(@args){
 		    $line = $pre.generateForm("lsprocess", $result-&gt;param('dataset'), 
 					      "$templates/lsparams.html").$post;
 		}
+		elsif($cmd eq "lsselect"){
+		    $line = $pre."&lt;a href=\"$rooturl?dataset=".$result-&gt;param('data').
+			"&amp;command=plot&amp;intype=temp\"&gt;Data&lt;/a&gt;&lt;br&gt;".
+			"&lt;a href=\"$rooturl?dataset=".$result-&gt;param('residuals').
+			"&amp;command=plot&amp;intype=temp\"&gt;Residuals&lt;/a&gt;".$post;
+		}
 		elsif($cmd eq "winparams"){
 		    # Output a HTML form for the parameters of a LS regression
 		    $line = $pre.generateForm("windowprocess", $result-&gt;param('dataset'), 
@@ -847,9 +1026,11 @@ sub generateForm(@args){
 
 # Create a dataset in the temp location which is the output of a LS regression
 sub performLs(){
+    my($lsargs) = @_;
     my($unique);
     local *COMMANDS;
 
+    print STDERR "GDMSweb $$: Performing LS regression\n";
     $unique = "$$-".time()."-".rand();
     open COMMANDS, "&gt; $tmpdir/gdms-$unique.cmd" or 
 	die "Could not open temporary file $tmpdir/gdms-$unique.cmd\n";
@@ -862,11 +1043,14 @@ sub performLs(){
 	print COMMANDS "open $tmpdir/".$result-&gt;param('dataset')."\n";
     }
     
-    print COMMANDS "ls \n";
+    print COMMANDS "ls $lsargs $tmpdir/".$result-&gt;param('dataset')."-ls".
+	$result-&gt;param('reweight')."-data $tmpdir/".$result-&gt;param('dataset')."-ls".
+	$result-&gt;param('reweight')."-residuals\n";
     close COMMANDS;
     
     # Execute the gdms main program with this command script
     `$gdms -b $tmpdir/gdms-$unique.cmd`;
+    print STDERR "GDMSweb $$: GDMS return code is $?\n";
 }
 
 # Create a dataset in the temp location which is the output of a windowing
@@ -874,6 +1058,7 @@ sub performWindow(){
     my($unique);
     local *COMMANDS;
 
+    print STDERR "GDMSweb $$: Performing window operation\n";
     $unique = "$$-".time()."-".rand();
     open COMMANDS, "&gt; $tmpdir/gdms-$unique.cmd" or 
 	die "Could not open temporary file $tmpdir/gdms-$unique.cmd\n";
@@ -901,6 +1086,7 @@ sub performInterpolation(){
     my($unique);
     local *COMMANDS;
 
+    print STDERR "GDMSweb $$: Performing interpolation\n";
     $unique = "$$-".time()."-".rand();
     open COMMANDS, "&gt; $tmpdir/gdms-$unique.cmd" or 
 	die "Could not open temporary file $tmpdir/gdms-$unique.cmd\n";
@@ -928,6 +1114,7 @@ sub performFFT(){
     my($unique);
     local *COMMANDS;
 
+    print STDERR "GDMSweb $$: Performing FFT\n";
     $unique = "$$-".time()."-".rand();
     open COMMANDS, "&gt; $tmpdir/gdms-$unique.cmd" or 
 	die "Could not open temporary file $tmpdir/gdms-$unique.cmd\n";
@@ -981,6 +1168,9 @@ $templates = "/home/httpd/gdms-templates/";
 
 # This line defines where the datsets are stored
 $datasets = "/home/httpd/gdms-datasets/";
+
+# This line defined where the matrices for LS reweighting are stored
+$matrices = "/home/httpd/gdms-matrices/";
 
 ###############################################################################
 # HTML configuration

@@ -1,0 +1,8 @@
+<glossentry id="tiff"><glossterm>TIFF</glossterm>
+<acronym>TIFF</acronym>
+<glossdef>
+<para>
+TIFF (Tagged Image File Format) is a raster (bitmap) image format which was originally produced by Aldus and Microsoft. Aldus was later acquired by Adobe, who manage the TIFF specification to this day. At the time of writing, the current version of the TIFF specification is TIFF version 6.0 (Adobe 1992).
+</para>
+</glossdef>
+</glossentry>

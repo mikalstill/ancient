@@ -1,0 +1,8 @@
+<glossentry id="gif"><glossterm>GIF</glossterm>
+<acronym>GIF</acronym>
+<glossdef>
+<para>
+The Graphics Interchange Format (GIF) was co-developed by CompuServe Inc. and Unisys Corporation in the late 1980s and early 1990s. GIF is dependant on LZW compression (CompuServe 1990), which is now having it's patent enforced by Unisys (Anonymous 2002). The GIF format itself is quite limited, with a maximum palette size of 255 entries -- in order words 255 distinct colours are available in each image.
+</para>
+</glossdef>
+</glossentry>

@@ -1,0 +1,8 @@
+<glossentry id="cgi"><glossterm>CGI</glossterm>
+<acronym>CGI</acronym>
+<glossdef>
+<para>
+CGI, or Common Gateway Interface, is a standard which defines methods by which web servers and server side executables may communicate. The main method of communication is the passing of the URL rpovided to the script as an environment variable (National Center for Supercomputing Applications 1996).
+</para>
+</glossdef>
+</glossentry>

@@ -1,0 +1,8 @@
+<glossentry id="html"><glossterm>HTML</glossterm>
+<acronym>HTML</acronym>
+<glossdef>
+<para>
+HyperText Markup Language is the <emphasis>lingua franca</emphasis> of the web. It is a content markup language based on SGML (World Wide Web Consortium 2002).
+</para>
+</glossdef>
+</glossentry>
