@@ -48,7 +48,7 @@ const cepError cepWindowChebyshev::setTransitionBandwidth(double tbw) {
   return cepError();
 }
 
-double cepWindowChebyshev::getTransitionBandwidth() {
+const double cepWindowChebyshev::getTransitionBandwidth() {
   return df;
 }
 
