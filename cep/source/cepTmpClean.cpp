@@ -18,6 +18,8 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
+#include "cepTmpClean.h"
+
 cepTmpClean::cepTmpClean(string path, string pattern):
   m_path(path), m_pattern(pattern)
 {
@@ -31,32 +33,36 @@ cepError cepTmpClean::execute(int& deleted, bool doDelete)
   // Find directory
   struct stat sb;
   if(lstat(m_path.c_str(), &sb) < 0)
-    return cepError("stat() error for temporary path \"" + path + "\"",
-		    cepError::sevErrrorRecoverable);
-
-  if(S_ISDIR(statbuf.st_mode) == 0)
+    return cepError("stat() error for temporary path \"" + m_path + "\"",
+		    cepError::sevErrorRecoverable);
+  
+  if(S_ISDIR(sb.st_mode) == 0)
     return cepError("Temporary path does not point to a directory: \"" + 
-	            path + "\"",
-  	            cepError::sevErrorRecoverable);
+	            m_path + "\"", cepError::sevErrorRecoverable);
 
   // Open the directory
   DIR *dp;
   struct dirent *dirp;
   
-  if((dp = opendir(path.c_str()) == NULL)
-    return cepError("Temporary path \"" + path + "\" is not a directory. This is possibly a permissions error.",
-	    	    cepError::sebvErrorRecoverable);
+  if((dp = opendir(m_path.c_str())) == NULL)
+    return cepError("Temporary path \"" + m_path + 
+		    "\" is not a directory. This is possibly a permissions error.",
+	    	    cepError::sevErrorRecoverable);
 
-  while((dirp = readdir(dp))) != NULL){
+  while((dirp = readdir(dp)) != NULL){
     // We skip the . and .. entries
-    if((strcmp(dirp->name, ".") == 0) ||
-       (strcmp(dirp->name, "..") == 0)) continue;
+    if((strcmp(dirp->d_name, ".") == 0) ||
+       (strcmp(dirp->d_name, "..") == 0)) continue;
 
     // This is a posisble deletion candidate
-    cepDebugPrint("Possible deletion candidate: " + path + "/" + string(dirp->name));
+    cepDebugPrint("Possible deletion candidate: " + m_path + "/" + 
+		  string(dirp->d_name));
   }
 
   // Cleanup
   if(closedir(dp) < 0)
-    cepError("Could not close the directory pointer", cepError::sevErrorRecoverable);
+    cepError("Could not close the directory pointer", 
+	     cepError::sevErrorRecoverable);
+
+  return cepError();
 }

@@ -25,6 +25,7 @@
 #include <stdio.h>
 #include <exception>
 #include <sys/types.h>
+#include <sys/wait.h>
 #include <unistd.h>
 #include <signal.h>
 
@@ -445,11 +446,21 @@ void cpt_mb_STPT_GPS_a_yes_e_yes_x_no_y_no_z_no_c (){runUI("mb_STPT_GPS -a yes -
 
   // The testing function
   void runUI(string cmdline){
-    int childPid;	
+    int childPid, numRetries = 0;
+
+retry:
     switch(childPid = fork())
     {
       case -1:
-        CPPUNIT_ASSERT_MESSAGE("fork failed", false);
+        if(numRetries < 5){
+	  fprintf(stderr, "*");
+	  fflush(stderr);
+	  numRetries++;
+	  sleep(60);
+	  goto retry;
+          }
+        else
+	  CPPUNIT_ASSERT_MESSAGE("Fork attempt repeatedly failed", false);
         break;
 
       case 0:
@@ -461,6 +472,7 @@ void cpt_mb_STPT_GPS_a_yes_e_yes_x_no_y_no_z_no_c (){runUI("mb_STPT_GPS -a yes -
       default:
         int result = system(string("../ui -d ../../datasets/" + cmdline).c_str());
         kill(childPid, 9);
+	waitpid(childPid, NULL, 0);
         //printf("Result is %d signalled %s (%d)\n", WEXITSTATUS(result),
         //       WIFSIGNALED(result) ? "true" : "false",
         //       WTERMSIG(result));

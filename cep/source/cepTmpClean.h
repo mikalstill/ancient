@@ -22,6 +22,13 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <dirent.h>
+
+#include "cepCore.h"
+
 #ifndef CEP_TMPCLEAN_HEADER
 #define CEP_TMPCLEAN_HEADER
 
@@ -31,7 +38,7 @@ class cepTmpClean
 {
 public:
   cepTmpClean(string path, string pattern);
-  cepError execute(int& deleted);
+  cepError execute(int& deleted, bool doDelete);
 
 private:
   string m_path, m_pattern;
