@@ -135,13 +135,35 @@ Later in this article I will discuss some of the techniques I have used to parse
 <para>
 The intention is not to implement the full SQL specification at this time. Currently, <command>trivsql</command> supports the CREATE TABLE command; the SELECT command; and the INSERT command. By the time this paper is presented at AUUG, the UPDATE command will also be implemented.
 </para>
-
-<sect2><title>Examples of use</title>
-<para>
-The final paper will discuss how to use <command>trivsql</command>, and will include examples...
-</para>
-</sect2>
 </sect1>
+
+<sect1><title>Interface to trivsql</title>
+<para>
+
+</para>
+</sect1>
+
+
+
+
+
+
+
+
+
+<sect1><title>An example usage</title>
+<para>
+<command>trivsql</command> is really easy to use. The code snippet below is from the <command>trivsql</command> distribution. It simply reads commands from standard input, and executes them with <command>trivsql</command>. If the command returned a recordset (which is how all data is returned to the caller), then the recordset is displayed.
+</para>
+
+<execute><cmd>code2db</cmd><input>~mikal/opensource/trivsql/example.c</input></execute>
+</sect1>
+
+
+
+
+
+
 
 <sect1><title>Genstruct as an alternative</title>
 <para>
@@ -172,7 +194,18 @@ However, the disadvantages of this solution are:
 </orderedlist>
 </sect1>
 
+
+
+
+
+
+
+
 <sect1><title>Code listings</title>
+<para>
+All the code included here is available for download from http://www.stillhq.com.
+</para>
+
 <sect2><title>SQL lexer</title>
 <para>
 The lexer for my SQL implementation is:
