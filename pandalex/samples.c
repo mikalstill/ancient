@@ -1,4 +1,4 @@
-/* A sample application using pandalex -- this is pdfinfo */
+/* A sample application using pandalex -- this is pdfdump */
 
 #include <stdarg.h>
 #include <stdio.h>
@@ -6,38 +6,38 @@
 #include "samples.h"
 #include "lexinterface.h"
 
-pdfinfo_dictint_list *dictint_list;
+pdfdump_dictint_list *dictint_list;
 
 // Some demo code for how to use PandaLex
 int main(int argc, char *argv[]){
   pandalex_init();
 
   // Setup the callbacks
-  pandalex_setupcallback(pandalex_event_begindocument, pdfinfo_begindocument);
+  pandalex_setupcallback(pandalex_event_begindocument, pdfdump_begindocument);
 
-  pandalex_setupcallback(pandalex_event_specver, pdfinfo_specversion);
-  pandalex_setupcallback(pandalex_event_entireheader, pdfinfo_entireheader);
-  pandalex_setupcallback(pandalex_event_objstart, pdfinfo_objstart);
+  pandalex_setupcallback(pandalex_event_specver, pdfdump_specversion);
+  pandalex_setupcallback(pandalex_event_entireheader, pdfdump_entireheader);
+  pandalex_setupcallback(pandalex_event_objstart, pdfdump_objstart);
 
   pandalex_setupcallback(pandalex_event_dictitem_string, 
-			 pdfinfo_dictitem_string);
+			 pdfdump_dictitem_string);
   pandalex_setupcallback(pandalex_event_dictitem_name,
-			 pdfinfo_dictitem_name);
+			 pdfdump_dictitem_name);
   pandalex_setupcallback(pandalex_event_dictitem_array,
-			 pdfinfo_dictitem_array);
+			 pdfdump_dictitem_array);
   pandalex_setupcallback(pandalex_event_dictitem_object,
-			 pdfinfo_dictitem_object);
+			 pdfdump_dictitem_object);
   pandalex_setupcallback(pandalex_event_dictitem_dict,
-			 pdfinfo_dictitem_dict);
+			 pdfdump_dictitem_dict);
   pandalex_setupcallback(pandalex_event_dictitem_int,
-			 pdfinfo_dictitem_int);
+			 pdfdump_dictitem_int);
 
-  pandalex_setupcallback(pandalex_event_stream, pdfinfo_stream);
-  pandalex_setupcallback(pandalex_event_dictint, pdfinfo_dictint);
+  pandalex_setupcallback(pandalex_event_stream, pdfdump_stream);
+  pandalex_setupcallback(pandalex_event_dictint, pdfdump_dictint);
   
   // Initialise the dictint_list structure;
-  if((dictint_list = (pdfinfo_dictint_list *)
-      malloc(sizeof(pdfinfo_dictint_list))) == NULL){
+  if((dictint_list = (pdfdump_dictint_list *)
+      malloc(sizeof(pdfdump_dictint_list))) == NULL){
     fprintf(stderr, "Could not initialise the dictint list\n");
     exit(42);
   }
@@ -53,15 +53,15 @@ int main(int argc, char *argv[]){
 char *pandalex_xsnprintf(char *, ...);
 
 // Arguement is the name of the file as a char *
-void pdfinfo_begindocument(int event, va_list argptr){
+void pdfdump_begindocument(int event, va_list argptr){
   printf("Information for document\n\n");
 }
 
-void pdfinfo_specversion(int event, va_list argptr){
+void pdfdump_specversion(int event, va_list argptr){
   printf("Specification version is: %s\n", (char *) va_arg(argptr, char *));
 }
 
-void pdfinfo_entireheader(int event, va_list argptr){
+void pdfdump_entireheader(int event, va_list argptr){
   int    i;
   char   *textMatch = (char *) va_arg(argptr, char *);
 
@@ -75,7 +75,7 @@ void pdfinfo_entireheader(int event, va_list argptr){
   printf("\n");
 }
 
-void pdfinfo_objstart(int event, va_list argptr){
+void pdfdump_objstart(int event, va_list argptr){
   int generation, number;
 
   number = va_arg(argptr, int);
@@ -85,27 +85,27 @@ void pdfinfo_objstart(int event, va_list argptr){
 	 number, generation);
 }
 
-void pdfinfo_dictitem_string(int event, va_list argptr){
+void pdfdump_dictitem_string(int event, va_list argptr){
   printf("Dictionary string\n");
 }
 
-void pdfinfo_dictitem_name(int event, va_list argptr){
+void pdfdump_dictitem_name(int event, va_list argptr){
   printf("Dictionary name\n");
 }
 
-void pdfinfo_dictitem_array(int event, va_list argptr){
+void pdfdump_dictitem_array(int event, va_list argptr){
   printf("Dictionary array\n");
 }
 
-void pdfinfo_dictitem_object(int event, va_list argptr){
+void pdfdump_dictitem_object(int event, va_list argptr){
   printf("Dictionary object\n");
 }
 
-void pdfinfo_dictitem_dict(int event, va_list argptr){
+void pdfdump_dictitem_dict(int event, va_list argptr){
   printf("Dictionary dict\n");
 }
 
-void pdfinfo_dictitem_int(int event, va_list argptr){
+void pdfdump_dictitem_int(int event, va_list argptr){
   int value;
   char *name;
 
@@ -115,13 +115,13 @@ void pdfinfo_dictitem_int(int event, va_list argptr){
   printf("  [Integer] %s = %d\n", name, value);
 }
 
-void pdfinfo_stream(int event, va_list argptr){
+void pdfdump_stream(int event, va_list argptr){
   char *filter;
   int length;
   char *lengthObj;
   char *streamData;
   int streamDataLen;
-  pdfinfo_dictint_list  *now;
+  pdfdump_dictint_list  *now;
   int found;
 
   filter = va_arg(argptr, char *);
@@ -142,7 +142,7 @@ void pdfinfo_stream(int event, va_list argptr){
     while((now->next != NULL) && (found == 0)){
       if(strcmp(lengthObj, now->value) == 0){
 	// Yes -- do something
-	pdfinfo_procstream(filter, now->number, streamData, streamDataLen);
+	pdfdump_procstream(filter, now->number, streamData, streamDataLen);
 	found = 1;
       }
 
@@ -152,8 +152,8 @@ void pdfinfo_stream(int event, va_list argptr){
     // No -- save info and wait
     if(found == 0){
       // now is already the end of the list
-      if((now->next = (pdfinfo_dictint_list *)
-	  malloc(sizeof(pdfinfo_dictint_list))) == NULL){
+      if((now->next = (pdfdump_dictint_list *)
+	  malloc(sizeof(pdfdump_dictint_list))) == NULL){
 	fprintf(stderr, "Could not add to list of waiting streams\n");
 	exit(42);
       }
@@ -183,7 +183,7 @@ void pdfinfo_stream(int event, va_list argptr){
   default:
     if(length > 0){
       // We do -- do something
-      pdfinfo_procstream(filter, length, streamData, streamDataLen);
+      pdfdump_procstream(filter, length, streamData, streamDataLen);
     }
     else{
       fprintf(stderr, "Stream with length having undefined meaning %d\n",
@@ -193,11 +193,11 @@ void pdfinfo_stream(int event, va_list argptr){
   }
 }
 
-void pdfinfo_dictint(int event, va_list argptr){
+void pdfdump_dictint(int event, va_list argptr){
   int found;
   int objnum, objgen, value;
   char *objref;
-  pdfinfo_dictint_list *now;
+  pdfdump_dictint_list *now;
 
   // Get the passed information
   objnum = va_arg(argptr, int);
@@ -222,7 +222,7 @@ void pdfinfo_dictint(int event, va_list argptr){
   while((now->next != NULL) && (found == 0)){
     if(strcmp(objref, now->value) == 0){
       // Yes -- do something
-      pdfinfo_procstream(now->filter, value, now->stream, now->streamlen);
+      pdfdump_procstream(now->filter, value, now->stream, now->streamlen);
       found = 1;
     }
 
@@ -232,8 +232,8 @@ void pdfinfo_dictint(int event, va_list argptr){
   // No -- save data and wait
   if(found == 0){
     // now is already the end of the list
-    if((now->next = (pdfinfo_dictint_list *)
-	malloc(sizeof(pdfinfo_dictint_list))) == NULL){
+    if((now->next = (pdfdump_dictint_list *)
+	malloc(sizeof(pdfdump_dictint_list))) == NULL){
       fprintf(stderr, "Could not add to list of waiting streams\n");
       exit(42);
     }
@@ -247,7 +247,7 @@ void pdfinfo_dictint(int event, va_list argptr){
   }
 }
 
-void pdfinfo_procstream(char *filter, int length, char *data, int dataLen){
+void pdfdump_procstream(char *filter, int length, char *data, int dataLen){
   char *uncompressed, *dataPtr, *linhintdesc[17];
   uLong srcLen, dstLen = 512;
   int result, i, linhintlens[17], number, count;
