@@ -723,6 +723,8 @@ int main(int argc, char *argv[])
   char *key, *val;
   int keylen;
 
+  printf("mcachefs 0.1 starting up...\n");
+
   cfg = config_open("mcachefs");
   if(!cfg)
     {
