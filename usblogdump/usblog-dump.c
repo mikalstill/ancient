@@ -621,7 +621,7 @@ usb_urb_controltransfer (char *file, long long *filep)
   urb_printf ("  bRequest: 0x%02x", req);
   if(stdreq == 1)
     {
-      
+      urb_printf(" [standard]");
     }
   urb_printf("\n");
 
@@ -636,7 +636,7 @@ usb_urb_controltransfer (char *file, long long *filep)
     }
   else if(ifaceval == 1)
     {
-      urb_printf(" [interface %d]", idx & 0xFF);
+      urb_printf(" [interface %d]", (idx & 0xFF00) >> 8);
     }
   urb_printf("\n");
 
