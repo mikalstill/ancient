@@ -12,7 +12,7 @@ $thisslide = $result->param('slide') + 1;
 $maxslide = `cat $path/$area/pictures/jpegs | wc -l | tr -d " "`;
 
 if($result->param('delay') eq ""){
-    $delay = 2;
+    $delay = 180;
 }
 else{
     $delay = $result->param('delay');
