@@ -26,10 +26,27 @@
     throughout the test.
     </para>
     <para>
-    The tests have a couple of special methods which designed to support test independence. The first is setUp(),
-    which is executed immediately prior to running each test, and the second is tearDown() which is run immediately
+    Additionally, the tests have a couple of special methods which designed to support test independence. The first is setUp(),
+    which is executed immediately preceding each test, and the second is tearDown() which is run following
     after each test. These allow the developers to setup dependencies for each test and to deallocate resources that
     the test required.
+    </para>
+    <para>
+    JUnit makes extensive use of the refelection API to locate test methods. Methods are deemed to be tests if their name
+    begins with the word &quot;test&quot;, they take no paramteres and if their return type is void. Due to limmitations in the C++
+    language, there is no reflection API as such, thus ruling out reflection as an alternative. Consequently CPPUnit
+    requires the user to register tests with the TestCaller via static a static method. The Test class is then registered
+    with the TestRunner and all registered tests are run. CPPUnit provides a number of macros which ease this registration
+    process.
+    </para>
+    <para>Errors and failures in CPPUnit are reported via a number of macros. These macros provide the ability to test
+    for equality and truth and allow the user to supply meaningful error messages easing the debugging process. Failures,
+    with the exception of segmentation violations, do not cause the tests to exit. If a failure occurs the current test
+    reports the error and retuns, allowing the test suite to continue.
+    </para>
+    <para>
+    Early in the developement of the project, a template was developed to provide a simple means by which developers could
+    start their testing. a sample test, based on this template follows.
     <programlisting>
     namespace {
     class Test : public CppUnit::TestFixture {

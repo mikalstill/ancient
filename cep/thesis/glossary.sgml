@@ -1,6 +1,11 @@
 <!--TODO:- ENSURE GLOSSARY IS IN ALPHABETICAL ORDER!-->
 <glossary><title>Glossary of Terms</title>
 
+    <glossentry><glossterm>API</glossterm>
+      <glossdef><para>
+        Application Programmers Interface.
+        </para></glossdef>
+    </glossentry>
 
     <glossentry><glossterm>CPPUnit</glossterm>
       <glossdef><para>
