@@ -71,7 +71,8 @@ plot_newplot (unsigned int x, unsigned int y)
   state->y = y;
 
   // Line attributes
-  state->linewidth = 1;
+  state->linewidthx = 1;
+  state->linewidthy = 1;
   state->linecap = 0;
   state->linejoin = 0;
   state->linedash = 0;
@@ -846,8 +847,6 @@ DOCBOOK END
 int plot_writestring(plot_state *state, char *string){
   int count, len;
 
-  printf("WRITE STRING\n");
-
   len = strlen(string);
   for(count = 0; count < len; count++){
     if(plot_paintglyph(state, string[count], LIBPLOT_TRUE) == -1)
@@ -908,8 +907,6 @@ unsigned int plot_stringwidth(plot_state *state, char *string){
   int count, len, retval;
   unsigned int width = 0;
 
-  printf("STRING WIDTH\n");
-
   len = strlen(string);
   for(count = 0; count < len; count++){
     if((retval = plot_paintglyph(state, string[count], LIBPLOT_FALSE)) == -1)
@@ -961,8 +958,6 @@ plot_loadglyph(plot_state *state, char character)
 #if defined HAVE_LIBFREETYPE
   FT_UInt index;
 
-  printf("Load glyph %c\n", character);
-
   if(state->ft == NULL){
     fprintf(stderr, "Initialization of Freetype failed\n");
     return -1;
@@ -982,6 +977,8 @@ plot_loadglyph(plot_state *state, char character)
     return -1;
   }
 
+  return 0;
+
 #else
     fprintf(stderr, "Freetype not found at compile time\n");
     return -1;
@@ -997,8 +994,6 @@ plot_paintglyph(plot_state *state, char character, int dopaint)
   int bmx, bmy;
   unsigned long p;
 
-  printf("Paint glyph %c at %d, %d\n", character, state->textx, state->texty);
-
   if(state->ft == NULL){
     fprintf(stderr, "Initialization of Freetype failed\n");
     return -1;
@@ -1012,7 +1007,7 @@ plot_paintglyph(plot_state *state, char character, int dopaint)
   // Setup and paint the character
   if(plot_loadglyph(state, character) != -1){
     if(dopaint == LIBPLOT_TRUE){
-      p = state->texty * state->y + state->textx;
+      p = state->texty * state->x + state->textx;
       p += state->face->glyph->bitmap_left;
       p -= state->face->glyph->bitmap_top * state->x;
       
