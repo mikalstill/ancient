@@ -1,2 +1,4 @@
  - I have left the PDF field, as I would like there to be one for the article
  - Related content?
+ - xview on linux has some problems with viewing a whole bunch of tiff images in general... I am working on fixing this and submitting patches.
+ - It is hard to write the articles without having any idea of what they will look like when finished. Can I have some hints about the generation environment, or failing that, could I have a copy of the sample output sent to me?

@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- REMOVE ALL TEMPLATE COMMENTS FROM THE FILE BEFORE PUBLISHING; SAMPLE TEXT IS IN BRACKETS-->
-
-<!-- CHANGE ATTRIBUTES BELOW TO "NO" TO REMOVE RATINGS AREA OR TABLE OF CONTENTS-->
 <article ratings="auto" toc="auto">
 
-<!-- IF THIS IS PART OF A SERIES, ENTER SERIES TITLE BELOW.   OTHERWISE, REMOVE THIS TAG.  DO NOT END TEXT WITH A COLON;  THE STYLESHEET HANDLES THIS-->
    <seriestitle>[Optional series title]</seriestitle>
    <papertitle>TIFF imaging with libtiff</papertitle>
-   <subtitle>[Enter required paper subtitle here]</subtitle>
+   <subtitle>Black and white</subtitle>
    <author company="TOWER Software Engineering" email="mikal@stillhq.com" jobtitle="Senior Software Engineer" name="Michael Still">Michael has been working in the image processing field for several years, including a couple of years managing and dveloping large image databases for an Australian government department. He currently works for TOWER Software, who manufacture a world leading EDMS and Records Management package named TRIM. Michael is also the developer of Panda, an open source PDF generation API, as well as being the maintainer of the comp.text.pdf USENET frequently asked questions document. You can contact Michael at <a href="mailto:mikal@stillhq.com">mikal@stillhq.com</a>.</author>
 
    <date month="February" year="2002"></date>
@@ -15,7 +11,7 @@
    <pdf url="ftp://www6.software.ibm.com/software/developer/library/[xxx.pdf]" size="xxKB"></pdf>
    <zip url="ftp://www6.software.ibm.com/software/developer/library/xxx.zip"></zip>
 
-   <meta name="KEYWORDS" content="tiff libtiff image imaging raster bitmap" />	
+   <meta name="KEYWORDS" content="tiff libtiff image imaging raster bitmap black white" />	
    <meta name="LASTUPDATE" content="20020211 MBS"/>
         
    <relatedlist>
@@ -23,8 +19,7 @@
    <a href="">[Link 2 to related content]</a>
    </relatedlist>			
 		
-<!-- ENTER ARTICLE ABSTRACT BELOW.  REMOVE ANY BLANKS OR CARRIAGE RETURN CHARACTERS WITHIN THE TEXT.  KEEP THE ABSTRACT SHORT (NO MORE THAN SEVEN LINES ON THE HTML PAGE).  THESE RESTRICTIONS ARE REQUIRED FOR THE "EMAIL IT!" FUNCTION. -->	
-   <abstract>TIFF is an extremely common, but quite complex raster image format. Libtiff is a standard implementation of the TIFF specification, which is free and works on many operating systems. This article discusses some of the pitfalls of TIFF, and guides the reader through use of the libtiff library.</abstract>
+   <abstract>TIFF is an extremely common, but quite complex raster image format. Libtiff is a standard implementation of the TIFF specification, which is free and works on many operating systems. This article discusses some of the pitfalls of TIFF, and guides the reader through use of the libtiff library. This article provides examples on how to use libtiff for your black and white imaging needs.</abstract>
 
 <p>TIFF (Tagged Image File Format) is a raster image format which was originally produced by <a href="http://www.adobe.com">Adobe</a>. Raster image formats are those which store the picture as a bitmap describing the state of pixels, as opposed to recording the length and locations of primatives such as lines and curves. Libtiff is one of the standard implementations of the TIFF specification, and is in wide use today because of its speed, power and easy source availability.</p>
 
@@ -78,7 +73,6 @@ int main(int argc, char *argv[]){
   // Define an image
   char buffer[25 * 144] = { /* boring hex omitted */ };
   TIFF *image;
-  int count;
 
   // Open the TIFF file
   if((image = TIFFOpen("output.tif", "w")) == NULL){
@@ -114,20 +108,57 @@ int main(int argc, char *argv[]){
 
 <sidebar>
 <heading refname="" type="sidebar" toc="no">Problems with xview</heading>
-Xview is part of the xloadimage package, which comes with X windows.
-<p>Start using paragraph tags with the second paragraph of the sidebar.]</p>
+Xview is part of the xloadimage package written by Jim Frost, which comes with X windows.
+<p>It's a good example of how hard it can be to handle TIFF images well. I am currently working on a patch to submit to Jim which will resolve this problem. If you have trouble viewing the output of the sample code, then try using some other program, like the gimp.</p>
 </sidebar>
 
+<p>The sample code shows the basics of using the libtiff API. The following interesting points should be noted...</p>
 
+<ul>
+<li>The buffers presented to and returned from libtiff each contain 8 pixels in a single byte. This means that you have to be able to extract the pixels you are interested in. The masks, and the right and left shift operators come in handy here.
+<li>The TIFFOpen function is very similar to the fopen function we are all familiar with.
+<li>We need to set the value for quite a few fields before we can start writing the image out. These fields give libtiff information about the size and shape of the image, as well as the way that data will be compresed within the image. These fields need to be set before you can start handing image data to libtiff.
+<li>TIFFWriteEncodedStrip is the function call which actually inserts the image into the file. This call inserts uncompressed image data into the file. This means that libtiff will compress the image data for you before writing it to the file. If you have already compressed data, then have a look at the TIFFWriteRawStrip instead.
+<li>Finally, we close the file with TIFFClose.
+</ul>
 
+<sidebar>
+<heading refname="" type="sidebar" toc="no">More information about the libtiff function calls</heading>
+If you need more information about any of the libtiff function calls mentioned in this article, then checkout the extensive man pages which come with the library. Remember that case is important with man pages, so you need to get the case in the function names right -- it's TIFFOpen, not tiffopen.
+</sidebar>
 
-<!-- FIGURE WITH HEADING:  PLACE HEADING INSIDE FIGURE TAG WITH TYPE="FIGURE".  DO NOT SURROUND FIGURE WITH PARAGRAPH TAGS.  THE TOC ATTRIBUTE DETERMINES IF THIS HEADING IS INCLUDED IN THE TOC.   DEFAULT IS TOC="NO".   ALWAYS CODE THE ALT= ATTRIBUTE FOR A FIGURE.  ALWAYS CODE CORRECT HEIGHT AND WIDTH FOR FIGURE-->
+<p>In case you're curious, <a href="#figure1">here is a copy of the picture</a> (I've had to cheat and turn it into a JPEG, because most web browsers don't support TIFF)...</p>
+
 <figure>
-<heading refname="figure1" type="figure" toc="no">[Figure x.   Caption for sample figure]</heading>
-<img src="xxx.jpg" width="500" height="200" alt="[Sample figure; code correct height and width"/>
+<heading refname="write-figure" type="figure" toc="no">Figure 1. The Sydney Harbour Bridge, by Michael Still</heading>
+<img src="figure1.jpg" width="200" height="144" alt="Sydney Harbour Bridge, 200 x 144"/>
 </figure>
 
-<p>[Refer to figure using the reference name (refname) assigned to the figure, as follows: <a href="#figure1">Figure 1</a>. ]</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <!-- THIRD-LEVEL HEADING:  PRECEDE ALL THIRD-LEVEL HEADINGS WITH A PARAGRAPH TAG.  FOLLOW THE HEADING WITH A BREAK TAG.-->
 <p><b>[Third-level heading]</b><br />
@@ -139,12 +170,18 @@ In this article I have shown you how to write and read some simple black and whi
 
 
 
-<!-- RESOURCE LIST WITH HEADINGS:  PLACE HEADINGS INSIDE RESOURCELIST TAG WITH TYPE="RESOURCELIST".  DO NOT SURROUND LIST WITH PARAGRAPH TAGS, BUT USE PARAGRAPH TAGS AROUND RESOURCELIST HEADINGS.-->
 <resourcelist>
 <ul>
 <li>The <a href="http://www.libtiff.org">libtiff</a> website is a good place to download the libtiff source. It is also quite likely there is a binary package for your choosen operating system.</li>
 <li>If all else fails, then the <a href="http://partners.adobe.com/asn/developer/pdfs/tn/TIFF6.pdf">Adobe TIFF specification</a> can be useful.</li>
+<li>The <a href="http://gopher.std.com/homepages/jimf/xloadimage.html">xloadimage</a> web page might be of interest.
 </ul>
+
+
+
+
+
+
 <p><heading refname="" type="resourcelist" toc="no">[Sample resource list heading]</heading></p>
 <ul>
 <li>[First resource item and link with a heading]</li>
