@@ -16,8 +16,7 @@ parser.lo parser.o : parser.c /usr/include/stdio.h /usr/include/features.h \
   /usr/include/getopt.h /usr/include/string.h /usr/include/bits/string.h \
   /usr/include/bits/string2.h /usr/include/sys/mman.h \
   /usr/include/bits/mman.h /usr/include/sys/stat.h \
-  /usr/include/bits/stat.h /usr/include/sys/time.h trivsql_spinlock.h \
-  tdb.h
+  /usr/include/bits/stat.h /usr/include/sys/time.h trivsql_spinlock.h
 parser.c :
 /usr/include/stdio.h :
 /usr/include/features.h :
@@ -63,4 +62,3 @@ trivsql_tdb.h :
 /usr/include/bits/stat.h :
 /usr/include/sys/time.h :
 trivsql_spinlock.h :
-tdb.h :
