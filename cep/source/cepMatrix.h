@@ -330,12 +330,6 @@ cepMatrix<T>::cepMatrix (int rows, int cols)
     
     cepError("Error! Could not allocate memory for Matrix", cepError::sevErrorRecoverable).display();
   }
-
-  for(int i = 0; i < m_numRows; i ++){
-    for(int j = 0; j < m_numCols; j ++){
-      m_matrix[(i * m_numCols) + j] = (T)NULL;
-    }
-  }
 }
 
 template <class T>
@@ -370,17 +364,6 @@ cepMatrix<T>::cepMatrix (int rows, int cols, int tab)
       #endif
 
       cepError("Error! Could not allocate memory for Matrix", cepError::sevErrorRecoverable).display();
-    }
-  }
-
-  for (int i = 0; i < m_numTables; i++)
-  {
-    for (int j = 0; j < m_numRows; j++)
-    {
-      for(int k = 0; k < m_numCols; k ++)
-      {
-        m_tables[i][(j * m_numCols) + k] = (T)NULL;
-      }
     }
   }
 }
@@ -821,10 +804,6 @@ const cepMatrix<T>& cepMatrix<T>::resize(int newRows)
       m_matrix[i] = tempMatrix[i];
     }
 
-    for(int i = (m_numRows * m_numCols); i < (newRows * m_numCols); i ++)
-    {
-      m_matrix[i] = (T)NULL;
-    }
     m_numRows = newRows;
   }
   else
