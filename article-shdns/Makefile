@@ -17,4 +17,5 @@ clean:
 
 lj: output.sgml
 	./format.pl < source.sgml | sed -e 's/&lt;/</g' -e 's/&gt;/>/g' -e 's/&mdash;/--/g' > lj.txt
+	./fixup.sh
 	wc -w *.txt sidebar-*

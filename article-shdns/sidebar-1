@@ -1,5 +1,5 @@
 DNS and UDP
 -----------
 
-It should be noted that RFC 1034 "Domain names &mdash; Concepts and Facilities" does specify that TCP can also be used for DNS. In fact, because UDP packets are limited to 512 bytes, TCP has to be used for zone transfers. However, RFC 1035 "Domain Names &mdash; Implementation and Specification"does recommend that normal queries occur via UDP. 
+It should be noted that RFC 1034 "Domain names -- Concepts and Facilities" does specify that TCP can also be used for DNS. In fact, because UDP packets are limited to 512 bytes, TCP has to be used for zone transfers. However, RFC 1035 "Domain Names -- Implementation and Specification"does recommend that normal queries occur via UDP. 
 

@@ -1,9 +1,9 @@
 What is inetd?
 --------------
 
-&lt;b&gt;inetd&lt;/b&gt;, and it's fairly common &lt;b&gt;xinetd&lt;/b&gt; alternative are super daemons. Their role in the networking food chain is as a way of running programs to process network traffic as demand requires. For example, many &lt;b&gt;rsync&lt;/b&gt; servers operate from &lt;b&gt;inetd&lt;/b&gt;. What this means is that &lt;b&gt;inetd&lt;/b&gt; runs in the background as a daemon waiting for connections from clients to the &lt;b&gt;rsync&lt;/b&gt; port. It then starts a new copy of &lt;b&gt;rsync&lt;/b&gt; for each of these connections, and &lt;b&gt;rsync&lt;/b&gt; processes the traffic (and perhaps responds). 
+<b>inetd</b>, and it's fairly common <b>xinetd</b> alternative are super daemons. Their role in the networking food chain is as a way of running programs to process network traffic as demand requires. For example, many <b>rsync</b> servers operate from <b>inetd</b>. What this means is that <b>inetd</b> runs in the background as a daemon waiting for connections from clients to the <b>rsync</b> port. It then starts a new copy of <b>rsync</b> for each of these connections, and <b>rsync</b> processes the traffic (and perhaps responds). 
 
-Many developers write network servers which are intended to be run by &lt;b&gt;inetd&lt;/b&gt; because it simplifies development of the application. &lt;b&gt;inetd&lt;/b&gt; handles most of the plumbing for the application. 
+Many developers write network servers which are intended to be run by <b>inetd</b> because it simplifies development of the application. <b>inetd</b> handles most of the plumbing for the application. 
 
-Please bear in mind that &lt;b&gt;inetd&lt;/b&gt; and &lt;b&gt;xinetd&lt;/b&gt; are very configurable, and this is only a general description. There is a brief discussion on how to configure &lt;b&gt;inetd&lt;/b&gt; and &lt;b&gt;xinetd&lt;/b&gt; later in this article. You should refer to the relevant documentation for more information. 
+Please bear in mind that <b>inetd</b> and <b>xinetd</b> are very configurable, and this is only a general description. There is a brief discussion on how to configure <b>inetd</b> and <b>xinetd</b> later in this article. You should refer to the relevant documentation for more information. 
 
