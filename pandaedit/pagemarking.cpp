@@ -372,71 +372,6 @@ pdfRender::render_h ()
   m_hasLine = true;
 }
 
-// Line to
-void
-pdfRender::render_l ()
-{
-  unsigned int x, y;
-
-  // Pop our arguements (reverse order)
-  y = m_height - atoi (m_arguements.top ().c_str ());
-  m_arguements.pop ();
-  x = atoi (m_arguements.top ().c_str ());
-  m_arguements.pop ();
-
-  if (m_mode != rmGraphics)
-    {
-      debug(dlTrace, "Not in graphics mode");
-      return;
-    }
-
-#if defined HAVE_LIBMPLOT
-  debug(dlTrace, string("Adding line segment: ") + toString(x) +
-	string(" ") + toString(y));
-  plot_addlinesegment (m_plot, x, y);
-  plot_addlinesegment (m_select, x, y);
-#else
-  debug(dlError, "Libmplot not found at configure time. Graphics functionality"
-	" is therefore not available");
-#endif
-  m_hasLine = true;
-}
-
-// Move graphics cursor to a given location
-void
-pdfRender::render_m ()
-{
-  unsigned int x, y;
-
-  // Pop our arguements (reverse order)
-  y = m_height - atoi (m_arguements.top ().c_str ());
-  m_arguements.pop ();
-  x = atoi (m_arguements.top ().c_str ());
-  m_arguements.pop ();
-
-  if (m_mode != rmGraphics)
-    {
-      debug(dlTrace, "Not in graphics mode");
-      return;
-    }
-
-#if defined HAVE_LIBMPLOT
-  if (m_hasLine){
-    plot_endline (m_plot);
-    plot_endline (m_select);
-  }
-
-  debug(dlTrace, string("Setting line start: ") + toString(x) +
-	string(" ") + toString(y));
-  plot_setlinestart (m_plot, x, y);
-  plot_setlinestart (m_select, x, y);
-#else
-  debug(dlError, "Libmplot not found at configure time. Graphics functionality"
-	" is therefore not available");
-#endif
-  m_hasLine = true;
-}
-
 // Save graphics state
 void
 pdfRender::render_q ()
@@ -551,20 +486,6 @@ pdfRender::render_RG ()
 #endif
   m_hasLine = true;
 }
-
-void
-pdfRender::render_S ()
-{
-#if defined HAVE_LIBMPLOT
-  debug(dlTrace, "Stroking line");
-  plot_strokeline (m_plot);
-  plot_strokeline (m_select);
-#else
-  debug(dlError, "Libmplot not found at configure time. Graphics functionality"
-	" is therefore not available");
-#endif
-}
-
 
 // Move text position
 void

@@ -420,6 +420,18 @@ object::getCommandStream(int index)
   return cmd;
 }
 
+vector<wxPoint>
+object::getCommand(int index, commandType & type)
+{
+  vector<wxPoint> none;
+
+  if(index >= m_commands.size())
+    return none;
+
+  type = (commandType) m_commands[index].type;
+  return m_commands[index].controlPoints;
+}
+
 int
 object::getCommandId(int index)
 {

@@ -69,7 +69,6 @@ pdfRender::render ()
   for(int cmdcnt = 0; cmdcnt < m_doc->getPage(m_pageno).getCommandCount();
       cmdcnt++)
     {
-      string cmd = m_doc->getPage(m_pageno).getCommandStream(cmdcnt);
       if(m_select)
 	{
 	  int cmdid = m_doc->getPage(m_pageno).getCommandId(cmdcnt);
@@ -85,8 +84,40 @@ pdfRender::render ()
 		"raster");
 	}
 
-      // TODO mikal: new way of drawing here
-      //      processCommandString((char *) cmd.c_str(), cmd.length());
+      // Paint the object
+      object::commandType type;
+      vector<wxPoint> controlPoints = m_doc->getPage(m_pageno).
+	getCommand(cmdcnt, type);
+      if(controlPoints.size() > 0)
+	{
+	  switch(type)
+	    {
+	    case object::cLine:
+	      if(controlPoints.size() > 1)
+		{
+		  plot_setlinestart(m_plot, controlPoints[0].x,
+				    controlPoints[0].y);
+		  plot_setlinestart(m_select, controlPoints[0].x,
+				    controlPoints[0].y);
+		  
+		  for(unsigned int i = 1; i < controlPoints.size(); i++)
+		    {
+		      plot_addlinesegment(m_plot, controlPoints[i].x,
+					  controlPoints[i].y);
+		      plot_addlinesegment(m_select, controlPoints[i].x,
+					  controlPoints[i].y);
+		    }
+		  plot_strokeline(m_plot);
+		  plot_strokeline(m_select);
+		  plot_endline(m_plot);
+		  plot_endline(m_select);
+		}
+	      break;
+
+	    default:
+	      debug(dlError, "Unknown drawing command");
+	    }
+	}
     }
   return true;
 }
