@@ -74,9 +74,6 @@ if($command eq "lsprocess"){
 	performLs("auto");
     }
 
-    if($result->param('desc') ne ""){
-	$temp = $temp."&desc=".$result->param('desc');
-    }
     $temp = $temp."&intype=temp";
 
     # And now bounce of to the real page
@@ -96,9 +93,6 @@ elsif($command eq "lsprocesstwo"){
     # Do the processing here
     performLs($result->param('lsargs'));
 
-    if($result->param('desc') ne ""){
-	$temp = $temp."&desc=".$result->param('desc');
-    }
     $temp = $temp."&intype=temp";
 
     # And now bounce of to the real page
@@ -109,9 +103,6 @@ elsif($command eq "lsprocesstwo"){
 elsif($command eq "windowprocess"){
     $temp = "$rooturl?dataset=".$result->param('dataset')."-win".
 	$result->param('wtype')."&command=plot";
-    if($result->param('desc') ne ""){
-	$temp = $temp."&desc=".$result->param('desc');
-    }
     $temp = $temp."&intype=temp";
 
     # Do the processing here
@@ -125,9 +116,7 @@ elsif($command eq "windowprocess"){
 elsif($command eq "interpprocess"){
     $temp = "$rooturl?dataset=".$result->param('dataset')."-interp".
 	$result->param('itype')."&command=plot";
-    if($result->param('desc') ne ""){
-	$temp = $temp."&desc=".$result->param('desc');
-    }
+
     $temp = $temp."&intype=temp";
 
     # Do the processing here
@@ -141,9 +130,7 @@ elsif($command eq "interpprocess"){
 elsif($command eq "fftprocess"){
     $temp = "$rooturl?dataset=".$result->param('dataset').
 	"-fft&command=plot";
-    if($result->param('desc') ne ""){
-	$temp = $temp."&desc=".$result->param('desc');
-    }
+
     $temp = $temp."&intype=temp";
 
     # Do the processing here
@@ -200,12 +187,18 @@ sub processTemplate(@args){
 		}
 		elsif($cmd eq "dataset"){
 		    # The name of the current dataset
-		    if($result->param('desc') eq ""){
-			$line = $pre.$result->param('dataset').$post;
+		    if($result->param('intype') ne "temp"){
+			open TEMP, ("head -1 $datasets/".$result->param('dataset').".dat1 |");
 		    }
 		    else{
-			$line = $pre.$result->param('desc').$post;
+			open TEMP, ("head -1 $tmpdir/".$result->param('dataset').".dat1 |");
 		    }
+		    
+		    while(<TEMP>){
+			chomp;
+			$line = $pre.$_.$post;
+		    }
+		    close TEMP;
 		}
 		elsif($cmd eq "datasets"){
 		    # List the datasets in the dataset directory

@@ -406,7 +406,6 @@ There is some scope for future improvement of the <command>GDMS Internet interfa
 <listitem><para>Allowing zooming on the dataset graphs in the same manner that the <command>GDMS</command> X Windows application allows.</para></listitem>
 <listitem><para>Caching of processed datasets where it makes sense. Graphs are already cached.</para></listitem>
 <listitem><para>Implementation of features as they are added to the <command>GDMS</command> X Windows application.</para></listitem>
-<listitem><para>Better title display for the datasets. This is not currently implemented, because it either means repeating the dataset parsing code in the <command>GDMS Internet interface</command>, or invoking <command>GDMS</command> much more than would otherwise occur.</para></listitem>
 </itemizedlist>
 
 <para>
@@ -955,12 +954,25 @@ sub processTemplate(@args){
         }
         elsif($cmd eq "dataset"){
             # The name of the current dataset
-            if($result-&gt;param('desc') eq ""){
-            $line = $pre.$result-&gt;param('dataset').$post;
+            if($result-&gt;param('intype') ne "temp"){
+            open TEMP, ("head -1 $datasets/".$result-&gt;param('dataset').".dat1 |");
             }
             else{
-            $line = $pre.$result-&gt;param('desc').$post;
+            open TEMP, ("head -1 $tmpdir/".$result-&gt;param('dataset').".dat1 |");
             }
+            
+            while(&lt;TEMP&gt;){
+            chomp;
+            $line = $pre.$_.$post;
+            }
+            close TEMP;
+
+#            if($result-&gt;param('desc') eq ""){
+#            $line = $pre.$result-&gt;param('dataset').$post;
+#            }
+#            else{
+#            $line = $pre.$result-&gt;param('desc').$post;
+#            }
         }
         elsif($cmd eq "datasets"){
             # List the datasets in the dataset directory
