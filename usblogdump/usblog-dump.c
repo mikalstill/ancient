@@ -14,6 +14,8 @@ int usb_urb_header(char *file, long long *filep);
 void usb_urb_controltransfer(char *file, long long *filep);
 void usb_urb_hcd(char *file, long long *filep);
 void usb_urb_listentry(char *file, long long *filep);
+void usb_interface_info(char *file, long long *filep);
+void usb_pipe_info(char *file, long long *filep);
 
 int main(int argc, char *argv[]){
   int fd, npackets, otag, urbCount, function, psize, tsrelative, temp;
@@ -65,14 +67,11 @@ int main(int argc, char *argv[]){
     // Get the object tag (a MFCism) -- it tells us if there is an object name coming up
     otag = fileutil_getushort(file, &filep); printf("\n");
     if(otag == 0xFFFF){
-      printf("\t\t\t\t(%d) AT %d\n", otag, filep);
       fileutil_getushort(file, &filep);
       fileutil_displaystring(file, "SnoopyPro URB object name: ", &filep); printf("\n");
     }
 
-    printf("\t\t\t\tAT %d\n", filep);
     printf("Sequence: %u\n", fileutil_getuinteger(file, &filep));
-    printf("\t\t\t\tAT %d\n", filep);
 
     temp = fileutil_getushort(file, &filep);
     printf("Function: %s (0x%04x)\n", functname(temp), temp);
@@ -100,6 +99,16 @@ int main(int argc, char *argv[]){
 
     // Do something with the function
     switch(function){
+    case 0:
+      printf("Skipped usb configuration description pointer\n");
+      filep += 4;
+      printf("Skipped usb configuration handle pointer\n");
+      filep += 4;
+      usb_interface_info(file, &filep);
+      
+      printf("AT %d\n", filep);
+      break;
+
     case 8:
       psize = fileutil_displayuinteger(file, "Transfer size: ", &filep); printf("\n");
       fileutil_displaynumber(file, "Some number I don't understand: ", &filep); printf("\n");
@@ -221,4 +230,31 @@ void usb_urb_listentry(char *file, long long *filep)
   printf("\n");
 
   *filep = count;
+}
+
+void usb_interface_info(char *file, long long *filep)
+{
+  long long count = *filep;
+
+  fileutil_displaybyteblock(file, "Interface number: ", 1, &count); printf("\n");
+  fileutil_displaybyteblock(file, "Alternate setting: ", 1, &count); printf("\n");
+
+  fileutil_displaybyteblock(file, "Class: ", 1, &count); printf("\n");
+  fileutil_displaybyteblock(file, "Subclass: ", 1, &count); printf("\n");
+  fileutil_displaybyteblock(file, "Protocol: ", 1, &count); printf("\n");
+  fileutil_displaybyteblock(file, "Reserved: ", 1, &count); printf("\n");
+
+  printf("Skipping usb interface handler pointer\n");
+  count += 4;
+
+  printf("\t\t\t\t\t\t\t\t\tAT %d\n", count);
+  fileutil_displayuinteger(file, "Number of pipes: ", &count); printf("\n");
+
+  // POssibly a second, depending on if the box was OSR2 compatible
+  usb_pipe_info(file, &count);
+  *filep = count;
+}
+
+void usb_pipe_info(char *input, long long *filep){
+  // TODO
 }
