@@ -1,25 +1,26 @@
 <!--these sections will sit under sect1 - Implementation Issues-->
 
-<sect1><title>CepMatrix and Template Classes</title>
+<sect2><title>CepMatrix and Template Classes</title>
 
-  <sect2><title>Introduction</title>
+  <sect3><title>Introduction</title>
   <para>At a very early stage in the design of the <command>GDMS</command> it became clear some sort of matrix object would be
   required capable of fulfilling following requirements:-
-  
-  <para><itemizedlist>
+  </para>
+<itemizedlist>
     <listitem><para>Storage of a given data set and the results of any transformation preformed on it</para></listitem>
     <listitem><para>Capability of preforming matrix operations including addition, subtraction,  with either another
     matrix or by a scalar value, division and transposition. In addition, support for a whole host of other operations was required
     in order to preform all the functionality of this system</para></listitem>
     <listitem><para>Support for both two and three dimensional matrices.</para></listitem>
-  </itemizedlist></para>
+  </itemizedlist>
   
+  <para>
   The matrix object itself had to be fast, flexible and reliable as it lies a the heart of the <command>GDMS</command>.
   In order to meet these requirements, therefore, the <command>cepMatrix</command> class template was created.
   </para>
-  </sect2> <!--Introduction-->
+  </sect3> <!--Introduction-->
 
-  <sect2><title>Storage of data sets</title>
+  <sect3><title>Storage of data sets</title>
   
   <para>The first problem encountered in creating the <command>cepMatrix</command> was the need to support multiple
   data types. This was due to the fact that while the original data sets themselves as well as the transformations in the time domain
@@ -31,29 +32,37 @@
   <command>complex</command>. 
   </para>
   
-  </sect2><!--Storage of data sets-->
+  </sect3><!--Storage of data sets-->
   
-  <sect2><title>cepMatrix operations<title>
+  <sect3><title>cepMatrix operations</title>
   
   <para>Another key requirement of <command>cepMatrix</command> was the ability to carry out a whole range of matrix operations such
   as , addition, subtraction, division and transposition. Much of this functionality was achieved by the use of  
   operator overloading. The method of operation overloading is another feature of C++ that allows the
   simplification of function calls, especially when relating to mathematical operations. For example, in order to add 
-  matrices <command>A</command> and <command>B<command> together and save the results in <command>A</command> without operator
+  matrices <command>A</command> and <command>B</command> together and save the results in <command>A</command> without operator
   overloading may look something like this:- 
+  </para>
   
-  (!!!!HOW DO I DO CODE BLOCKS????)
+  
+  <programlisting>
   copy(A, multiply(A,B));
+  </programlisting>
   
+  <para>
   Conversely, if the += operator were overloaded the problem would simplify to
+  </para>
   
-  (!!!!HOW DO I DO CODE BLOCKS????)
+ <programlisting>
   A += B;
+ </programlisting>  
   
+  <para>
   which is much easier to understand and actually removes a function call. In <command>cepMatrix</command> the following operations
   are overloaded:-
+</para>
   
-  <para><itemizedlist>
+  <itemizedlist>
     <listitem><para>A += B :- adds matrix B to matrix A and stores the result in matrix A</para></listitem>
     <listitem><para>A -= B :- subtracts matrix B from matrix A and stores the result in matrix A</para></listitem>
     <listitem><para>A *= B :- multiplies matrix A by matrix B and stores the result in matrix A</para></listitem>
@@ -62,18 +71,20 @@
     <listitem><para>A = B  :- copies matrix B to matrix A</para></listitem>
     <listitem><para>A == B :- returns true if matrix A is equal to matrix B</para></listitem>
     <listitem><para>A != B :- returns true is matrix A is not equal to matrix B</para></listitem>
-  </itemizedlist></para>
-  </para>
+  </itemizedlist>
   
-  <para>The <command>cepMatrix</command> Class Template also supports other operations required for ease of use inside the
+  
+  <para>
+  The <command>cepMatrix</command> Class Template also supports other operations required for ease of use inside the
   <command>GDMS</command> application. This includes an operation to query the matrix and determine if it is a strictly diagonal
   matrix or not and operations to get the maximum and minimum values of a given column in a matrix. There is also an operation resize
   a matrix by adding a given number of rows to it. In addition, there are several get and set accesor methods provided for acess
   individual elements of a given matrix.
+  </para>
  
-  </sect2><!--cepMatrix operations-->
+  </sect3><!--cepMatrix operations-->
   
-  <sect2><title>Two Dimensional and Three Dimensional Matrices</title>
+  <sect3><title>Two Dimensional and Three Dimensional Matrices</title>
   
   <para>A third, key requirement of the <command>cepMatrix</command> Template Class was support for both two and three dimensional
   matrices. This is due to the fact that when data is windowed it requires a new matrix for each frame that it creates. It was
@@ -101,6 +112,7 @@
   is the three dimensional member variable it would mean that an extra memory reference would be incurred each time a matrix element
   is accessed. Consequently, some matrix operations would take almost twice as long to complete.   
   </para>
+  </sect3>
   
   
   
@@ -114,5 +126,5 @@
   container.</para>
   </sect3> <!--Future Enahncements-->
 
-</sect1> <!--Template Classes-->
+</sect2> <!--Template Classes-->
 

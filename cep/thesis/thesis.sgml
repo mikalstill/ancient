@@ -1,12 +1,15 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
 <book><bookinfo>
-<title>GDMS: Thesis</title>
+<title>Geodetic Date Modelling System: Thesis</title>
 <execute><cmd>builddb</cmd><input>authorgroup.sgml</input></execute>
 </bookinfo>
 
-
-
- <execute><cmd>builddb</cmd><input>glossary.sgml</input></execute>
+<chapter><title>Acknowledgments</title>
+ <execute><cmd>builddb</cmd><input>acknowledgments.sgml</input></execute>
+</chapter> 
+<chapter><title>Acknowledgments</title> 
+ <execute><cmd>builddb</cmd><input>abstract.sgml</input></execute>
+</chapter> 
 
 <chapter><title> Theory </title>
   <execute><cmd>builddb</cmd><input>theory_intro.sgml</input></execute>
@@ -27,6 +30,7 @@
     <execute><cmd>builddb</cmd><input>imp_issues_Interp.sgml</input></execute>
     <execute><cmd>builddb</cmd><input>imp_issues_window.sgml</input></execute>
     <execute><cmd>builddb</cmd><input>imp_issues_FDA.sgml</input></execute>
+    <execute><cmd>builddb</cmd><input>imp_Templates.sgml</input></execute>
     <execute><cmd>builddb</cmd><input>imp_issues_UI.sgml</input></execute>
   </sect1>
 
@@ -39,6 +43,8 @@
 <chapter><title>Conclusion</title>
   <execute><cmd>builddb</cmd><input>conclusion.sgml</input></execute>
 </chapter>
+
+ <execute><cmd>builddb</cmd><input>glossary.sgml</input></execute>
 
 <chapter><title>References</title>
   <execute><cmd>builddb</cmd><input>references.sgml</input></execute>
