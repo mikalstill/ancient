@@ -174,8 +174,7 @@ in that all commands are parsed based on only one line, and no recursion within 
 
   <sect3><title>Implementation</title>
   <para>
-       - How was it done?
-       - Speed/ Optimisations
+As mentioned earlier in this section, the graphical user interface to <command>GDMS</command> was implemented using the wxWindows windowing toolkit. The batch user interface was developed using a hand coded parser written in c++. This has maximised the amount of design flexibility enjoyed by the development team, whilst minimizing the amount of unnessary code development.
   </para>      
   </sect3> <!--Implementation-->
   
@@ -197,7 +196,6 @@ A significant portion of the <command>GDMS</command> user interface development 
         <itemizedlist>
           <listitem><para>Facilitating the implementation of the batch interface to the application.</para></listitem>
           <listitem><para>Allowing ease of comparison of the dataset before and after the application of the mathematical operation</para></listitem>
-          <listitem><para>And TODO SOMETHING ELSE HERE.</para></listitem>
         </itemizedlist>
     </para>
   </listitem>
@@ -216,10 +214,10 @@ Whilst the user interface for <command>GDMS</command> is fully functional, there
 
 <itemizedlist>
 <listitem><para><emphasis>Online help</emphasis>: the application does not currently provide any help in the user interface. wxWindows supports the display of HTML files within windows, which would an efficient and standard method for the implementation of online help within the application.</para></listitem>
-<listitem><para>TODO</para></listitem>
-<listitem><para>TODO</para></listitem>
-<listitem><para>TODO</para></listitem>
-<listitem><para>TODO</para></listitem>
+<listitem><para><emphasis>Greater resiliance to errors</emphasis>: if an error is discovered, the application currently abandons all further processing on that dataset. This should be improved in the future, so that a failure will not stop all calculations.</para></listitem>
+<listitem><para><emphasis>Greater flexibility in the batch user interface</emphasis>: further research into what other commands should be implemented needs to be undertaken</para></listitem>
+<listitem><para><emphasis>The ability to determine the value of the nearest datapoint by hovering over it</emphasis>: this is required because it is hard to accurately hover over a datapoint with a mouse.</para></listitem>
+<listitem><para><emphasis>The ability to edit out points from the dataset</emphasis>: this should be integrated withe accurate hover functionality.</para></listitem>
 </itemizedlist>
 </sect3> <!--Future Enahncements-->
 

@@ -1,373 +1,101 @@
 %!PS-Adobe-3.0 EPSF-3.0
-%%Creator: (ImageMagick)
-%%Title: (gen-time-residual.eps)
-%%CreationDate: (Mon Nov 25 00:09:55 2002)
-%%BoundingBox: 0 0 120 28
+%%BoundingBox: 0 0 58 11
+%%HiResBoundingBox: 0.000000 0.000000 57.900000 11.000000
+%.............................................
+%%Creator: AFPL Ghostscript 704 (epswrite)
+%%CreationDate: 2002/11/25 12:14:54
 %%DocumentData: Clean7Bit
-%%LanguageLevel: 1
-%%Pages: 1
+%%LanguageLevel: 2
 %%EndComments
-
-%%BeginDefaults
-%%EndDefaults
-
 %%BeginProlog
-%
-% Display a color image.  The image is displayed in color on
-% Postscript viewers or printers that support color, otherwise
-% it is displayed as grayscale.
-%
-/DirectClassPacket
-{
-  %
-  % Get a DirectClass packet.
-  %
-  % Parameters:
-  %   red.
-  %   green.
-  %   blue.
-  %   length: number of pixels minus one of this color (optional).
-  %
-  currentfile color_packet readhexstring pop pop
-  compression 0 eq
-  {
-    /number_pixels 3 def
-  }
-  {
-    currentfile byte readhexstring pop 0 get
-    /number_pixels exch 1 add 3 mul def
-  } ifelse
-  0 3 number_pixels 1 sub
-  {
-    pixels exch color_packet putinterval
-  } for
-  pixels 0 number_pixels getinterval
-} bind def
-
-/DirectClassImage
-{
-  %
-  % Display a DirectClass image.
-  %
-  systemdict /colorimage known
-  {
-    columns rows 8
-    [
-      columns 0 0
-      rows neg 0 rows
-    ]
-    { DirectClassPacket } false 3 colorimage
-  }
-  {
-    %
-    % No colorimage operator;  convert to grayscale.
-    %
-    columns rows 8
-    [
-      columns 0 0
-      rows neg 0 rows
-    ]
-    { GrayDirectClassPacket } image
-  } ifelse
-} bind def
-
-/GrayDirectClassPacket
-{
-  %
-  % Get a DirectClass packet;  convert to grayscale.
-  %
-  % Parameters:
-  %   red
-  %   green
-  %   blue
-  %   length: number of pixels minus one of this color (optional).
-  %
-  currentfile color_packet readhexstring pop pop
-  color_packet 0 get 0.299 mul
-  color_packet 1 get 0.587 mul add
-  color_packet 2 get 0.114 mul add
-  cvi
-  /gray_packet exch def
-  compression 0 eq
-  {
-    /number_pixels 1 def
-  }
-  {
-    currentfile byte readhexstring pop 0 get
-    /number_pixels exch 1 add def
-  } ifelse
-  0 1 number_pixels 1 sub
-  {
-    pixels exch gray_packet put
-  } for
-  pixels 0 number_pixels getinterval
-} bind def
-
-/GrayPseudoClassPacket
-{
-  %
-  % Get a PseudoClass packet;  convert to grayscale.
-  %
-  % Parameters:
-  %   index: index into the colormap.
-  %   length: number of pixels minus one of this color (optional).
-  %
-  currentfile byte readhexstring pop 0 get
-  /offset exch 3 mul def
-  /color_packet colormap offset 3 getinterval def
-  color_packet 0 get 0.299 mul
-  color_packet 1 get 0.587 mul add
-  color_packet 2 get 0.114 mul add
-  cvi
-  /gray_packet exch def
-  compression 0 eq
-  {
-    /number_pixels 1 def
-  }
-  {
-    currentfile byte readhexstring pop 0 get
-    /number_pixels exch 1 add def
-  } ifelse
-  0 1 number_pixels 1 sub
-  {
-    pixels exch gray_packet put
-  } for
-  pixels 0 number_pixels getinterval
-} bind def
-
-/PseudoClassPacket
-{
-  %
-  % Get a PseudoClass packet.
-  %
-  % Parameters:
-  %   index: index into the colormap.
-  %   length: number of pixels minus one of this color (optional).
-  %
-  currentfile byte readhexstring pop 0 get
-  /offset exch 3 mul def
-  /color_packet colormap offset 3 getinterval def
-  compression 0 eq
-  {
-    /number_pixels 3 def
-  }
-  {
-    currentfile byte readhexstring pop 0 get
-    /number_pixels exch 1 add 3 mul def
-  } ifelse
-  0 3 number_pixels 1 sub
-  {
-    pixels exch color_packet putinterval
-  } for
-  pixels 0 number_pixels getinterval
-} bind def
-
-/PseudoClassImage
-{
-  %
-  % Display a PseudoClass image.
-  %
-  % Parameters:
-  %   class: 0-PseudoClass or 1-Grayscale.
-  %
-  currentfile buffer readline pop
-  token pop /class exch def pop
-  class 0 gt
-  {
-    currentfile buffer readline pop
-    token pop /depth exch def pop
-    /grays columns 8 add depth sub depth mul 8 idiv string def
-    columns rows depth
-    [
-      columns 0 0
-      rows neg 0 rows
-    ]
-    { currentfile grays readhexstring pop } image
-  }
-  {
-    %
-    % Parameters:
-    %   colors: number of colors in the colormap.
-    %   colormap: red, green, blue color packets.
-    %
-    currentfile buffer readline pop
-    token pop /colors exch def pop
-    /colors colors 3 mul def
-    /colormap colors string def
-    currentfile colormap readhexstring pop pop
-    systemdict /colorimage known
-    {
-      columns rows 8
-      [
-        columns 0 0
-        rows neg 0 rows
-      ]
-      { PseudoClassPacket } false 3 colorimage
-    }
-    {
-      %
-      % No colorimage operator;  convert to grayscale.
-      %
-      columns rows 8
-      [
-        columns 0 0
-        rows neg 0 rows
-      ]
-      { GrayPseudoClassPacket } image
-    } ifelse
-  } ifelse
-} bind def
-
-/DisplayImage
-{
-  %
-  % Display a DirectClass or PseudoClass image.
-  %
-  % Parameters:
-  %   x & y translation.
-  %   x & y scale.
-  %   label pointsize.
-  %   image label.
-  %   image columns & rows.
-  %   class: 0-DirectClass or 1-PseudoClass.
-  %   compression: 0-none or 1-RunlengthEncoded.
-  %   hex color packets.
-  %
-  gsave
-  /buffer 512 string def
-  /byte 1 string def
-  /color_packet 3 string def
-  /pixels 768 string def
-
-  currentfile buffer readline pop
-  token pop /x exch def
-  token pop /y exch def pop
-  x y translate
-  currentfile buffer readline pop
-  token pop /x exch def
-  token pop /y exch def pop
-  currentfile buffer readline pop
-  token pop /pointsize exch def pop
-  /Times-Roman findfont pointsize scalefont setfont
-  x y scale
-  currentfile buffer readline pop
-  token pop /columns exch def
-  token pop /rows exch def pop
-  currentfile buffer readline pop
-  token pop /class exch def pop
-  currentfile buffer readline pop
-  token pop /compression exch def pop
-  class 0 gt { PseudoClassImage } { DirectClassImage } ifelse
-  grestore
-} bind def
+% This copyright applies to everything between here and the %%EndProlog:
+% Copyright (C) 2001 artofcode LLC, Benicia, CA.  All rights reserved.
+%%BeginResource: procset GS_epswrite_2_0_1001
+/GS_epswrite_2_0_1001 80 dict dup begin
+/PageSize 2 array def/setpagesize{ PageSize aload pop 3 index eq exch
+4 index eq and{ pop pop pop}{ PageSize dup  1
+5 -1 roll put 0 4 -1 roll put dup where{ exch get exec}
+{ pop/setpagedevice where
+{ pop 1 dict dup /PageSize PageSize put setpagedevice}
+{ /setpage where{ pop PageSize aload pop pageparams 3 {exch pop} repeat
+setpage}if}ifelse}ifelse}ifelse} bind def
+/!{bind def}bind def/#{load def}!/N/counttomark #
+/rG{3{3 -1 roll 255 div}repeat setrgbcolor}!/G{255 div setgray}!/K{0 G}!
+/r6{dup 3 -1 roll rG}!/r5{dup 3 1 roll rG}!/r3{dup rG}!
+/w/setlinewidth #/J/setlinecap #
+/j/setlinejoin #/M/setmiterlimit #/d/setdash #/i/setflat #
+/m/moveto #/l/lineto #/c/rcurveto #
+/p{N 2 idiv{N -2 roll rlineto}repeat}!
+/P{N 0 gt{N -2 roll moveto p}if}!
+/h{p closepath}!/H{P closepath}!
+/lx{0 rlineto}!/ly{0 exch rlineto}!/v{0 0 6 2 roll c}!/y{2 copy c}!
+/re{4 -2 roll m exch dup lx exch ly neg lx h}!
+/^{3 index neg 3 index neg}!
+/f{P fill}!/f*{P eofill}!/s{H stroke}!/S{P stroke}!
+/q/gsave #/Q/grestore #/rf{re fill}!
+/Y{P clip newpath}!/Y*{P eoclip newpath}!/rY{re Y}!
+/|={pop exch 4 1 roll 3 array astore cvx exch 1 index def exec}!
+/|{exch string readstring |=}!
+/+{dup type/nametype eq{2 index 7 add -3 bitshift 2 index mul}if}!
+/@/currentfile #/${+ @ |}!
+/B{{2 copy string{readstring pop}aload pop 4 array astore cvx
+3 1 roll}repeat pop pop true}!
+/Ix{[1 0 0 1 11 -2 roll exch neg exch neg]exch}!
+/,{true exch Ix imagemask}!/If{false exch Ix imagemask}!/I{exch Ix image}!
+/Ic{exch Ix false 3 colorimage}!
+/F{/Columns counttomark 3 add -2 roll/Rows exch/K -1/BlackIs1 true>>
+/CCITTFaxDecode filter}!/FX{<</EndOfBlock false F}!
+/X{/ASCII85Decode filter}!/@X{@ X}!/&2{2 index 2 index}!
+/@F{@ &2<<F}!/@C{@X &2 FX}!
+/$X{+ @X |}!/&4{4 index 4 index}!/$F{+ @ &4<<F |}!/$C{+ @X &4 FX |}!
+/IC{3 1 roll 10 dict begin 1{/ImageType/Interpolate/Decode/DataSource
+/ImageMatrix/BitsPerComponent/Height/Width}{exch def}forall
+currentdict end image}!
+end readonly def
+%%EndResource
+/pagesave null def
 %%EndProlog
-%%Page:  1 1
-%%PageBoundingBox: 0 0 120 28
-userdict begin
-DisplayImage
-0 0
-120 28
-12.000000
-120 28
-1
-1
-1
-8
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffff555500009999ffffffff77772222bbbbffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffffffffffffffff6666ffffffffffff777700006666ffffaa
-aa00008888ffffffffffffffffffffffffffffffffffffffffffffffffffffffffcccc44
-4411119999ffffffffffffffffffffffff555500009999ffffffff77772222bbbbffffff
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff6666ffffff
-ffffff777700006666ffffaaaa00008888ffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffcccc444411119999ffffffffffffffffffffffffbbbb0000ffffff
-ffffff7777ccccffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffff88880000ffffffffffffffff33339999ffff99999999ffffffffffffffffff
-ffffffffffffff7777ffffffffffffffffffffffffffff66667777ffffffffffffffffff
-ffffffffffbbbb0000ffffffffffff7777ccccffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffffffffffff88880000ffffffffffffffff33339999ffff99
-999999ffffffffffffffffffffffffffffffff7777ffffffffffffffffffffffffffff66
-667777ffffffffffffffffffffffffffffffff0000eeeeffffeeee8888ffffffffffffff
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffeeee88880000ddddff
-ffffffffff99993333cccc7777ffffffffffffffffffffffffffffffffffff0000ffffff
-ffffffffffffffffffffff2222aaaaffffffffffffffffffffffffffffffff0000eeeeff
-ffeeee8888ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffeeee88880000ddddffffffffffff99993333cccc7777ffffffffffffffffffffff
-ffffffffffffff0000ffffffffffffffffffffffffffff2222aaaaffffffffffffffffff
-ffffffffffffff2222bbbbffff7777eeeeffffffffffffffff4444000000000000000000
-007777ffffffffffffffffffffffff7777eeee3333bbbbffffffffffffeeee11117777ff
-ffffffffffffffffffffffffffffffffffffff0000ffffffffffffffffffffffffcccc00
-00ffffffffffffffffffffffffffffffffffff2222bbbbffff7777eeeeffffffffffffff
-ff4444000000000000000000007777ffffffffffffffffffffffff7777eeee3333bbbbff
-ffffffffffeeee11117777ffffffffffffffffffffffffffffffffffffffff0000ffffff
-ffffffffffffffffffcccc0000ffffffffffffffffffffffffffffffffffff44449999cc
-ccbbbbffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffbbbb9999ffff55557777ffffffffffffeeee22226666ffffffffffffffffffffffffff
-ff0000000000000000000000007777ffffffffffff88885555ffffffffffffffffffffff
-ffffffffffffff44449999ccccbbbbffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffffbbbb9999ffff55557777ffffffffffffeeee22226666ff
-ffffffffffffffffffffffffff0000000000000000000000007777ffffffffffff888855
-55ffffffffffffffffffffffffffffffffffff777777778888ffffffffffffffffffffff
-ff4444000000000000000000007777ffffffffffffffffffff44440000000000006666ff
-ffffffffff6666bbbb1111eeeeffffffffffffffffffffffffffffffffffff0000ffffff
-ffffffffffffffffff55558888ffffffffffffeeeeffffffffffffffffffff7777777788
-88ffffffffffffffffffffffff4444000000000000000000007777ffffffffffffffffff
-ff44440000000000006666ffffffffffff6666bbbb1111eeeeffffffffffffffffffffff
-ffffffffffffff0000ffffffffffffffffffffffff55558888ffffffffffffeeeeffffff
-ffffffffffffff99992222eeeeffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffff99999999ffffffff99994444ffffffff7777eeeeffff333399
-99ffffffffffffffffffffffffffffffffffff0000ffffffffffffffffffffffff0000cc
-ccffffffffeeee9999ffffffffffffffffffff99992222eeeeffffffffffffffffffffff
-ffffffffffffffffffffffffffffffffffffffffffffff99999999ffffffff99994444ff
-ffffff7777eeeeffff33339999ffffffffffffffffffffffffffffffffffff0000ffffff
-ffffffffffffffffff0000ccccffffffffeeee9999ffffffffffffffffffffbbbb8888ff
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcccc11
-11ccccffffeeee77770000afaf66660000bbbbdddd55552222ccccffffffffffffffffff
-ffffffffffffff0000ffffffffffffffffffff777700000000000033332222ccccffffff
-ffffffffffffffbbbb8888ffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffcccc1111ccccffffeeee77770000afaf66660000bbbbdddd555522
-22ccccffffffffffffffffffffffffffffffff0000ffffffffffffffffffff7777000000
-00000033332222ccccffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-ffffffffffffffffffffffffff
-end
+%%Page: 1 1
+%%BeginPageSetup
+GS_epswrite_2_0_1001 begin
+/pagesave save store 100 dict begin
+0.1 0.1 scale
+%%EndPageSetup
+gsave mark
+K
+0 0 0 0 rf
+Q q
+0 0 6120 0 0 7920 ^ Y
+8 28 80 80 /5V
+$C
+,lQ3hhq`Lk^JB?/+\-XDs)7kMh(Q8:hnJc%?Z4hOF`5!t^V8N2hOi\DrOTbW2u__"hf&@0rOUm8
+hn;7crP*i_J+lYB#T,r82*;bP(b"k~>
+,
+K
+217 30 81 80 /1H
+$C
+4q5ReB^j(q#!oqW&2:3jY?1VXXfq-dpK-b\D?%(HpYX]^h-[Gaq^)nZs)6e;h-[YjhmL.%s)7kD
+h-[Yjhq$Ufs)7kDojbbO[=<[AhZ!Aa~>
+,
+298 30 84 78 /6A
+$C
+/d;ShfD'A?'LO$sJ>&hTWkWGThQ?M"\(dsc^=lWbIaY^[9)ZKX<rJk5\(aOR['AK<m9e<6[nh@R
+k^j<:henX+]!nU38\X"bds\f%riPG!h'W#ADr-tcf(TZCE.\EVcl.^JA&&~>
+,
+507 30 72 78 /1L
+$C
+2@E`A_<cnum_KNDq?OAHn&*mu^O*]`^O+hprO;,8IK+`mn,)SNn)&WPIf'-ArqlHIpYY]EhWaG6
+3A(bI~>
+,
+119 47 70 30 /6G
+$C
+4q.JjGJV&ooAIsphu~>
+,
+412 30 71 64 /1R
+$C
+,(opqs8W-!s8W-!c[k&is,fVIs8W-!s8W-!s82~>
+,
+cleartomark end end pagesave restore showpage
 %%PageTrailer
 %%Trailer
-%%EOF
+%%Pages: 1
