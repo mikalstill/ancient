@@ -1,0 +1,18 @@
+TITLE: Least squares (Kristy)
+
+<li>Occilation of residuals problem
+
+<BR><BR>
+
+<li>The residuals are used to re-calulate a weighting matrix.
+<li>Once the residuals become stable then the best regression model has been calculated
+<li>I some cases, the residuals occilated and never became stable 
+Domain
+
+<BR><BR>
+
+<li>Solution
+  <ul>
+  <li>Pre-multiply the residual matrix with the weighting matrix<br>
+  <li>Remove any residual that has a value of zero<br>
+  </ul.
