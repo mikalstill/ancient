@@ -3,7 +3,7 @@
 .\" <http://shell.ipoline.com/~elmert/comp/docbook2X/> 
 .\" Please send any bug reports, improvements, comments, patches, 
 .\" etc. to Steve Cheng <steve@ggi-project.org>.
-.TH "cepMatrix" "3" "13 November 2002" "" ""
+.TH "cepMatrix" "3" "26 November 2002" "" ""
 .SH NAME
 cepMatrix \- Provides a matrix class template data container for all mathematical operations.
 .SH SYNOPSIS
@@ -15,7 +15,7 @@ cepMatrix \- Provides a matrix class template data container for all mathematica
  cepMatrix<T> matrix()
  
  Declaring a 2D matrix:-
- cepMatrix<T> matrix(int rows, int cols)
+ cepMatrix<T> matrix(const int & rows, const int & cols)
  
  <para><itemizedlist>
  <listitem><para>rows:- the number of rows in the matrix</para></listitem>
@@ -24,7 +24,7 @@ cepMatrix \- Provides a matrix class template data container for all mathematica
  
  
  Declaring a 3D matrix:-
- cepMatrix<T> matrix(int rows, int cols, int tabs)
+ cepMatrix<T> matrix(const int & rows, const int & cols, const int & tabs)
  
  <para><itemizedlist>
  <listitem><para>rows:- the number of rows in the matrix</para></listitem>
@@ -99,21 +99,21 @@ This fuction returns true if the matrix is diagonal, else false is returned.
 This function can not be used with 3D matricies.
 </para>
 <para>
-<command>const T getMaxValue(int col)</command>
+<command>const T getMaxValue(const int & col)</command>
 Returns the largest value in a given  coloum.
 <para><itemizedlist>
 <listitem><para>col:- the coloum to be queried</para></listitem>
 </itemizedlist></para>
 </para>
 <para>
-<command>const T getMinValue(int col)</command>
+<command>const T getMinValue(const int & col)</command>
 Returns the smallest value in a given coloum
 <para><itemizedlist>
 <listitem><para>col:- the coloum to be queried</para></listitem>
 </itemizedlist></para>
 </para>
 <para>
-<command>const cepMatrix<T> & resize(int newRows)</command>
+<command>const cepMatrix<T> & resize(const int & newRows)</command>
 Returns the current matrix which is resized by newRows number of rows. This
 function can only make the number of rows in the matrix larger and can not be
 used on 3D matricies
@@ -122,7 +122,7 @@ used on 3D matricies
 </itemizedlist></para>
 </para>
 <para> 
-<command>const T& getValue (int row, int col)</command>
+<command>const T & getValue (const int & row, const int & col)</command>
 Returns the value of the matrix the specified point.
 This function can not be used with 3D matricies.
 <para><itemizedlist>
@@ -131,7 +131,7 @@ This function can not be used with 3D matricies.
 </itemizedlist></para>
 </para>
 <para> 
-<command>void setValue (const int row, const int col, const T & value)</command>
+<command>void setValue (const int & row, const int & col, const T & value)</command>
 Sets the value of the matrix at the specified point
 This function can not be used with 3D matricies.
 <para><itemizedlist>
@@ -141,7 +141,7 @@ This function can not be used with 3D matricies.
 </itemizedlist></para>
 </para>
 <para>
-<command>const cepMatrix<T> & resize(int newRows)</command>
+<command>const cepMatrix<T> & resize(int & newRows)</command>
 Returns the current matrix which is resized by newRows number of rows. This function
 can only make the number of rows in the matrix larger.
 <para><itemizedlist>
@@ -149,15 +149,15 @@ can only make the number of rows in the matrix larger.
 </itemizedlist></para>
 </para>
 <para> 
-<command>const int getNumRows ()</command>
+<command>const int & getNumRows ()</command>
 Gets the number of rows in the matrix.
 </para>
 <para> 
-<command>const int getNumCols ()</command>
+<command>const int & getNumCols ()</command>
 Gets the number of colums in the matrix.
 </para>
 <para> 
-<command>const T& getValue (int row, int col, int tab)/command>
+<command>const T& getValue (const int & row, const int & col, const int & tab)/command>
 Gets the value of a 3D matrix at a specfied point
 This function can not be used with 2D matricies.
 <para><itemizedlist>
@@ -167,7 +167,7 @@ This function can not be used with 2D matricies.
 </itemizedlist></para>
 </para>
 <para> 
-<command>void setValue (const int row, const int col, const int tab, const T & value)</command>
+<command>void setValue (const int & row, const int & col, const int & tab, const T & value)</command>
 Sets the value of the 3D matrix at the specified point.
 This function can not be used with 2D matricies.
 <para><itemizedlist>
@@ -178,9 +178,13 @@ This function can not be used with 2D matricies.
 </itemizedlist></para>
 </para>
 <para> 
-<command>const int getNumTables()</command>
+<command>const int & getNumTables()</command>
 Gets the number of tables in the matrix.
 This function can not be used with 2D matricies.
+</para>
+<para>
+<command>const bool is3D()</command>
+Returns true if the matrix is a 3D matrix, else returns false.
 </para>
 <para>
 <command>cepError getError()</command>

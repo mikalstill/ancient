@@ -27,12 +27,18 @@
 <synopsis>
  The follwing is an example of how to create this object.
  
- cepLsWeight dr(fromDate, toDate, val);
+ cepLsWeight dr(fromDay, fromMonth, fromYear,
+ toDay, toMonth, toYear,
+ val);
  
  &lt;para&gt;&lt;itemizedlist&gt;
- &lt;listitem&gt;&lt;para&gt;fromDate:- is a cepDate that contains the the defaut start date&lt;/para&gt;&lt;/listitem&gt;
- &lt;listitem&gt;&lt;para&gt;toDate:- is a cepDate that contains the the defaut finish date&lt;/para&gt;&lt;/listitem&gt;
- &lt;listitem&gt;&lt;para&gt;val:- is a double that contains the the defaut weight for the given points&lt;/para&gt;&lt;/listitem&gt;
+ &lt;listitem&gt;&lt;para&gt;fromDay:- is a wxString that contains the start day&lt;/para&gt;&lt;/listitem&gt;
+ &lt;listitem&gt;&lt;para&gt;fromMonth:- is a wxString that contains the start month&lt;/para&gt;&lt;/listitem&gt;
+ &lt;listitem&gt;&lt;para&gt;fromYear:- is a wxString that contains the start year&lt;/para&gt;&lt;/listitem&gt;
+ &lt;listitem&gt;&lt;para&gt;toDay:- is a wxString that contains the finish day&lt;/para&gt;&lt;/listitem&gt;
+ &lt;listitem&gt;&lt;para&gt;toMonth:- is a wxString that contains the finish month&lt;/para&gt;&lt;/listitem&gt;
+ &lt;listitem&gt;&lt;para&gt;toYear:- is a wxString that contains the finish year&lt;/para&gt;&lt;/listitem&gt;
+ &lt;listitem&gt;&lt;para&gt;val:- is a wxString that contains the default weighting value&lt;/para&gt;&lt;/listitem&gt;
  &lt;/itemizedlist&gt;&lt;/para&gt;
  
 
@@ -47,25 +53,42 @@
  &lt;/para&gt;
  
  &lt;para&gt;
- &lt;command&gt;double getFromDate()&lt;/command&gt;
- Returns the defined start date as a decimal date. If a value of -1 is returned
- the specified date was invalid. If -2 is returned this action was canceled
+ &lt;command&gt;const wxString &amp; getFromDay()&lt;/command&gt;
+ Returns the start day selected. If -1 is returned this action was canceled.
  &lt;/para&gt;
  
  &lt;para&gt;
- &lt;command&gt;double getToDate()&lt;/command&gt;
- Returns the defined finished date as a decimal date. If a value of -1 is returned
- the specified date was invalid. If -2 is returned this action was canceled
+ &lt;command&gt;const wxString &amp; getFromMonth()&lt;/command&gt;
+ Returns the start month selected. If -1 is returned this action was canceled.
  &lt;/para&gt;
  
  &lt;para&gt;
- &lt;command&gt;double getWeight()&lt;/command&gt;
- Returns the defined weighting value. If a value of NAN is returned the entered
- weighting value was invalid. If -2 is returned this action was canceled
+ &lt;command&gt;const wxString &amp; getFromYear()&lt;/command&gt;
+ Returns the start year selected. If -1 is returned this action was canceled.
  &lt;/para&gt;
  
  &lt;para&gt;
- &lt;command&gt;bool getDoVCV()&lt;/command&gt;
+ &lt;command&gt;const wxString &amp; getToDay()&lt;/command&gt;
+ Returns the finish day selected. If -1 is returned this action was canceled.
+ &lt;/para&gt;
+ 
+ &lt;para&gt;
+ &lt;command&gt;const wxString &amp; getToMonth()&lt;/command&gt;
+ Returns the finish month selected. If -1 is returned this action was canceled.
+ &lt;/para&gt;
+ 
+ &lt;para&gt;
+ &lt;command&gt;const wxString &amp; getToYear()&lt;/command&gt;
+ Returns the weight selected. If -1 is returned this action was canceled.
+ &lt;/para&gt;
+ 
+ &lt;para&gt;
+ &lt;command&gt;const wxString &amp; getWeight()&lt;/command&gt;
+ Returns the start day is selected. If -1 is returned this action was canceled.
+ &lt;/para&gt;
+ 
+ &lt;para&gt;
+ &lt;command&gt;const bool &amp; getDoVCV()&lt;/command&gt;
  Returns true if the VCV least squares transformation is to be prefomed now.
  
 </para>

@@ -27,9 +27,12 @@
 <synopsis>
  The follwing is an example of how to create this object.
  
- cepInterpShowRate sr(val);
+ cepInterpShowRate sr(val, units);
  
- where val is the default sample rate.
+ &lt;para&gt;&lt;itemizedlist&gt;
+ &lt;listitem&gt;&lt;para&gt;val:- the default sample rate&lt;/para&gt;&lt;/listitem&gt;
+ &lt;listitem&gt;&lt;para&gt;units:- the units, must be one of 1 (years), 12 (months) or 365.25 (days)&lt;/para&gt;&lt;/listitem&gt;
+ &lt;/itemizedlist&gt;&lt;/para&gt;
  
 
 </synopsis>
@@ -45,16 +48,15 @@
  &lt;para&gt;
  &lt;command&gt;double getSample()&lt;/command&gt;
  Returns the specified sample rate. If a value of -1 is returned this operation
- has been canceled. If -2 is returned the value entered was invalid.
+ has been canceled.
  &lt;/para&gt;
  
- &lt;para&gt;units getUnits()&lt;/command&gt;
- Returns the units selected as an enumated type. Units can be one of:-
+ &lt;para&gt;units getSampleUnits()&lt;/command&gt;
+ Returns the units selected. Units can be one of:-
  &lt;para&gt;&lt;itemizedlist&gt;
- &lt;listitem&gt;&lt;para&gt;Years&lt;/para&gt;&lt;/listitem&gt;
- &lt;listitem&gt;&lt;para&gt;Days&lt;/para&gt;&lt;/listitem&gt;
- &lt;listitem&gt;&lt;para&gt;Hours&lt;/para&gt;&lt;/listitem&gt;
- &lt;listitem&gt;&lt;para&gt;Unknowen&lt;/para&gt;&lt;/listitem&gt;
+ &lt;listitem&gt;&lt;para&gt;1 (years)&lt;/para&gt;&lt;/listitem&gt;
+ &lt;listitem&gt;&lt;para&gt;12 (months)&lt;/para&gt;&lt;/listitem&gt;
+ &lt;listitem&gt;&lt;para&gt;365.25 (days)&lt;/para&gt;&lt;/listitem&gt;
  &lt;/itemizedlist&gt;&lt;/para&gt;
  
 </para>

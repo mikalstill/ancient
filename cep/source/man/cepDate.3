@@ -3,7 +3,7 @@
 .\" <http://shell.ipoline.com/~elmert/comp/docbook2X/> 
 .\" Please send any bug reports, improvements, comments, patches, 
 .\" etc. to Steve Cheng <steve@ggi-project.org>.
-.TH "cepDate" "3" "13 November 2002" "" ""
+.TH "cepDate" "3" "26 November 2002" "" ""
 .SH NAME
 cepDate \- Converts a decimal date in the format of YYYY.DDDD, where YYYY is a four
 .SH SYNOPSIS
@@ -74,6 +74,10 @@ returns date in long date date in the format of DD MMMMMM YY
 <command>const string getDecimalDate()</command>
 returns the date as a decimal date in the form YYYY.DDDD. A return value of -1 indicates
 an error because the date entered was invalid.
+</para>
+<para>
+2 new methods added yearsToJulian and julianToYears. Both take and return doubles
+and have no relation to the member variables of this object.
 </para>
 .SH "VERSION"
 .PP

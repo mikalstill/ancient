@@ -3,7 +3,7 @@
 .\" <http://shell.ipoline.com/~elmert/comp/docbook2X/> 
 .\" Please send any bug reports, improvements, comments, patches, 
 .\" etc. to Steve Cheng <steve@ggi-project.org>.
-.TH "cepLsWeight" "3" "13 November 2002" "" ""
+.TH "cepLsWeight" "3" "26 November 2002" "" ""
 .SH NAME
 cepLsWeight \- Displays the \&"Weight Data\&" dialog box for the user interface
 .SH SYNOPSIS
@@ -11,12 +11,18 @@ cepLsWeight \- Displays the \&"Weight Data\&" dialog box for the user interface
 .nf
  The follwing is an example of how to create this object.
  
- cepLsWeight dr(fromDate, toDate, val);
+ cepLsWeight dr(fromDay, fromMonth, fromYear,
+ toDay, toMonth, toYear,
+ val);
  
  <para><itemizedlist>
- <listitem><para>fromDate:- is a cepDate that contains the the defaut start date</para></listitem>
- <listitem><para>toDate:- is a cepDate that contains the the defaut finish date</para></listitem>
- <listitem><para>val:- is a double that contains the the defaut weight for the given points</para></listitem>
+ <listitem><para>fromDay:- is a wxString that contains the start day</para></listitem>
+ <listitem><para>fromMonth:- is a wxString that contains the start month</para></listitem>
+ <listitem><para>fromYear:- is a wxString that contains the start year</para></listitem>
+ <listitem><para>toDay:- is a wxString that contains the finish day</para></listitem>
+ <listitem><para>toMonth:- is a wxString that contains the finish month</para></listitem>
+ <listitem><para>toYear:- is a wxString that contains the finish year</para></listitem>
+ <listitem><para>val:- is a wxString that contains the default weighting value</para></listitem>
  </itemizedlist></para>
  
 .fi
@@ -26,22 +32,35 @@ An implementation of the <command>cepLsWeight</command> class
 which displays a custom wxWindows dialog box.
 </para>
 <para>
-<command>double getFromDate()</command>
-Returns the defined start date as a decimal date. If a value of -1 is returned
-the specified date was invalid. If -2 is returned this action was canceled
+<command>const wxString & getFromDay()</command>
+Returns the start day selected. If -1 is returned this action was canceled.
 </para>
 <para>
-<command>double getToDate()</command>
-Returns the defined finished date as a decimal date. If a value of -1 is returned
-the specified date was invalid. If -2 is returned this action was canceled
+<command>const wxString & getFromMonth()</command>
+Returns the start month selected. If -1 is returned this action was canceled.
 </para>
 <para>
-<command>double getWeight()</command>
-Returns the defined weighting value. If a value of NAN is returned the entered
-weighting value was invalid. If -2 is returned this action was canceled
+<command>const wxString & getFromYear()</command>
+Returns the start year selected. If -1 is returned this action was canceled.
 </para>
 <para>
-<command>bool getDoVCV()</command>
+<command>const wxString & getToDay()</command>
+Returns the finish day selected. If -1 is returned this action was canceled.
+</para>
+<para>
+<command>const wxString & getToMonth()</command>
+Returns the finish month selected. If -1 is returned this action was canceled.
+</para>
+<para>
+<command>const wxString & getToYear()</command>
+Returns the weight selected. If -1 is returned this action was canceled.
+</para>
+<para>
+<command>const wxString & getWeight()</command>
+Returns the start day is selected. If -1 is returned this action was canceled.
+</para>
+<para>
+<command>const bool & getDoVCV()</command>
 Returns true if the VCV least squares transformation is to be prefomed now.
 .SH "VERSION"
 .PP

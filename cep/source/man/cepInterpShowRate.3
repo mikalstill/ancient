@@ -3,7 +3,7 @@
 .\" <http://shell.ipoline.com/~elmert/comp/docbook2X/> 
 .\" Please send any bug reports, improvements, comments, patches, 
 .\" etc. to Steve Cheng <steve@ggi-project.org>.
-.TH "cepInterpShowRate" "3" "13 November 2002" "" ""
+.TH "cepInterpShowRate" "3" "26 November 2002" "" ""
 .SH NAME
 cepInterpShowRate \- Displays the \&"Specify Sample Rate\&" dialog box for the Interpolation user interface
 .SH SYNOPSIS
@@ -11,9 +11,12 @@ cepInterpShowRate \- Displays the \&"Specify Sample Rate\&" dialog box for the I
 .nf
  The follwing is an example of how to create this object.
  
- cepInterpShowRate sr(val);
+ cepInterpShowRate sr(val, units);
  
- where val is the default sample rate.
+ <para><itemizedlist>
+ <listitem><para>val:- the default sample rate</para></listitem>
+ <listitem><para>units:- the units, must be one of 1 (years), 12 (months) or 365.25 (days)</para></listitem>
+ </itemizedlist></para>
  
 .fi
 .SH "DESCRIPTION"
@@ -24,15 +27,14 @@ which displays a custom wxWindows dialog box.
 <para>
 <command>double getSample()</command>
 Returns the specified sample rate. If a value of -1 is returned this operation
-has been canceled. If -2 is returned the value entered was invalid.
+has been canceled.
 </para>
-<para>units getUnits()</command>
-Returns the units selected as an enumated type. Units can be one of:-
+<para>units getSampleUnits()</command>
+Returns the units selected. Units can be one of:-
 <para><itemizedlist>
-<listitem><para>Years</para></listitem>
-<listitem><para>Days</para></listitem>
-<listitem><para>Hours</para></listitem>
-<listitem><para>Unknowen</para></listitem>
+<listitem><para>1 (years)</para></listitem>
+<listitem><para>12 (months)</para></listitem>
+<listitem><para>365.25 (days)</para></listitem>
 </itemizedlist></para>
 .SH "VERSION"
 .PP

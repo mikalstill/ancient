@@ -27,7 +27,7 @@
 <synopsis>
  The follwing is an example of how to create this object.
  
- cepDateRange dr(fromDate, toDate);
+ cepDateRange dr(toDate, fromDate);
  
  &lt;para&gt;&lt;itemizedlist&gt;
  &lt;listitem&gt;&lt;para&gt;fromDate:- is a cepDate that contains the the defaut start date&lt;/para&gt;&lt;/listitem&gt;

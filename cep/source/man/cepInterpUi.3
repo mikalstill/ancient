@@ -3,7 +3,7 @@
 .\" <http://shell.ipoline.com/~elmert/comp/docbook2X/> 
 .\" Please send any bug reports, improvements, comments, patches, 
 .\" etc. to Steve Cheng <steve@ggi-project.org>.
-.TH "cepInterpUi" "3" "13 November 2002" "" ""
+.TH "cepInterpUi" "3" "26 November 2002" "" ""
 .SH NAME
 cepInterpUi \- Displays Interpolationh user interface
 .SH SYNOPSIS
@@ -23,25 +23,14 @@ which displays the interpolation GUI.
 <command>void showSampleRate(double val)</command>
 Shows the interpolation GUI.
 <para><itemizedlist>
-<listitem><para>val:- the default value of the sample rate. This is usually 1/2 the distance
-between first two points in the dataset</para></listitem>
+<listitem><para>val:- the default value of the sample rate. This is usually one (1)</para></listitem>
 </itemizedlist></para>
 </para>
 <para>
-<command> double getSampleRate()</command>
+<command>double getSampleRate()</command>
 Gets the sample rate selected by the user. If a value of -1 is returned this operation
-has been canceled. If -2 is returned the value entered was invalid.
+has been canceled.
 </para>
-<para>
-<command> cepInterpShowRate::units getUnits()</command>
-Returns the units selected by the user. This fuction will return an enumerated type
-which is one of:-
-<para><itemizedlist>
-<listitem><para>Years</para></listitem>
-<listitem><para>Days</para></listitem>
-<listitem><para>Hours</para></listitem>
-<listitem><para>Unknowen</para></listitem>
-</itemizedlist></para>
 .SH "VERSION"
 .PP
 This documentation was generated for the \fBGeodetic Data Manipulation System\fR 0.1 by \fBautodocbook\fR (http://www.stillhq.com).

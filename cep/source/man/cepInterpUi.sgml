@@ -45,27 +45,16 @@
  Shows the interpolation GUI.
  
  &lt;para&gt;&lt;itemizedlist&gt;
- &lt;listitem&gt;&lt;para&gt;val:- the default value of the sample rate. This is usually 1/2 the distance
- between first two points in the dataset&lt;/para&gt;&lt;/listitem&gt;
+ &lt;listitem&gt;&lt;para&gt;val:- the default value of the sample rate. This is usually one (1)&lt;/para&gt;&lt;/listitem&gt;
  &lt;/itemizedlist&gt;&lt;/para&gt;
  &lt;/para&gt;
  
  &lt;para&gt;
- &lt;command&gt; double getSampleRate()&lt;/command&gt;
+ &lt;command&gt;double getSampleRate()&lt;/command&gt;
  Gets the sample rate selected by the user. If a value of -1 is returned this operation
- has been canceled. If -2 is returned the value entered was invalid.
+ has been canceled.
  &lt;/para&gt;
  
- &lt;para&gt;
- &lt;command&gt; cepInterpShowRate::units getUnits()&lt;/command&gt;
- Returns the units selected by the user. This fuction will return an enumerated type
- which is one of:-
- &lt;para&gt;&lt;itemizedlist&gt;
- &lt;listitem&gt;&lt;para&gt;Years&lt;/para&gt;&lt;/listitem&gt;
- &lt;listitem&gt;&lt;para&gt;Days&lt;/para&gt;&lt;/listitem&gt;
- &lt;listitem&gt;&lt;para&gt;Hours&lt;/para&gt;&lt;/listitem&gt;
- &lt;listitem&gt;&lt;para&gt;Unknowen&lt;/para&gt;&lt;/listitem&gt;
- &lt;/itemizedlist&gt;&lt;/para&gt;
  
 </para>
 </refsect1>

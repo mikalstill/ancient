@@ -82,6 +82,12 @@
  &lt;command&gt;complexArray&lt;/command&gt; The array of type complex containing the data to be FFT'd.
  &lt;/para&gt;
  
+ &lt;para&gt;
+ &lt;command&gt;FFTobject.getError();&lt;/command&gt;
+ Returns m_error which holds the error state from cepMatrix. Is the error.IsReal() the
+ processing must stop.
+ &lt;/para&gt;
+ 
 </para>
 </refsect1>
 

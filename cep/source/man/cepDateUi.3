@@ -3,7 +3,7 @@
 .\" <http://shell.ipoline.com/~elmert/comp/docbook2X/> 
 .\" Please send any bug reports, improvements, comments, patches, 
 .\" etc. to Steve Cheng <steve@ggi-project.org>.
-.TH "cepDateUi" "3" "13 November 2002" "" ""
+.TH "cepDateUi" "3" "26 November 2002" "" ""
 .SH NAME
 cepDateUi \- Displays the Date user interface
 .SH SYNOPSIS
@@ -20,8 +20,12 @@ An implementation of the <command>cepDateUi</command> which displays the
 date range GUI.
 </para>
 <para>
-<command>void showDateRange()</command>
-Show the "Select Date Range" dialog box
+<command>void showDateRange(cepDate toDate, cepDate fromDate)</command>
+Show the "Select Date Range" dialog box.
+<para><itemizedlist>
+<listitem><para>fromDate:- is a cepDate that contains the the defaut start date</para></listitem>
+<listitem><para>toDate:- is a cepDate that contains the the defaut finish date</para></listitem>
+</itemizedlist></para>
 </para>
 <para>
 <command>double getFromDate()</command>

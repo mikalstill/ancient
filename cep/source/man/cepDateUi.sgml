@@ -41,8 +41,14 @@
  &lt;/para&gt;
  
  &lt;para&gt;
- &lt;command&gt;void showDateRange()&lt;/command&gt;
- Show the "Select Date Range" dialog box
+ &lt;command&gt;void showDateRange(cepDate toDate, cepDate fromDate)&lt;/command&gt;
+ Show the "Select Date Range" dialog box.
+ 
+ &lt;para&gt;&lt;itemizedlist&gt;
+ &lt;listitem&gt;&lt;para&gt;fromDate:- is a cepDate that contains the the defaut start date&lt;/para&gt;&lt;/listitem&gt;
+ &lt;listitem&gt;&lt;para&gt;toDate:- is a cepDate that contains the the defaut finish date&lt;/para&gt;&lt;/listitem&gt;
+ &lt;/itemizedlist&gt;&lt;/para&gt;
+ 
  &lt;/para&gt;
  
  &lt;para&gt;

@@ -3,7 +3,7 @@
 .\" <http://shell.ipoline.com/~elmert/comp/docbook2X/> 
 .\" Please send any bug reports, improvements, comments, patches, 
 .\" etc. to Steve Cheng <steve@ggi-project.org>.
-.TH "cepCfft" "3" "13 November 2002" "" ""
+.TH "cepCfft" "3" "26 November 2002" "" ""
 .SH NAME
 cepCfft \- Computes forward and inverse fft on a 2 or 3D Matrix or an array.
 .SH SYNOPSIS
@@ -58,6 +58,11 @@ The array of type complex containing the data to be FFT'd.
 <command>FFTobject.ifft(complexArray);</command>
 Computes an inverse FFT on the array passed. The results are written to the same array.
 <command>complexArray</command> The array of type complex containing the data to be FFT'd.
+</para>
+<para>
+<command>FFTobject.getError();</command>
+Returns m_error which holds the error state from cepMatrix. Is the error.IsReal() the
+processing must stop.
 </para>
 .SH "VERSION"
 .PP

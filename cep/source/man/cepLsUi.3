@@ -3,7 +3,7 @@
 .\" <http://shell.ipoline.com/~elmert/comp/docbook2X/> 
 .\" Please send any bug reports, improvements, comments, patches, 
 .\" etc. to Steve Cheng <steve@ggi-project.org>.
-.TH "cepLsUi" "3" "13 November 2002" "" ""
+.TH "cepLsUi" "3" "26 November 2002" "" ""
 .SH NAME
 cepLsUi \- Displays the Least Squares user interface
 .SH SYNOPSIS
@@ -37,7 +37,7 @@ Shows the choose file dialog box.
 </para>
 <para>
 <para>
-<command>int getIsReweight()</command>
+<command>const int & getIsReweight()</command>
 Get the value returned from the dialog box. Returns 1 for yes, 0 for no or -1
 for cancel.
 </para>
@@ -50,39 +50,39 @@ Shows the "Weight Data" dialog box.
 <listitem><para>val:- is a double that contains the the defaut weight for the given points</para></listitem>
 </itemizedlist></para>
 </para>
-<command>bool getWhichDir(char dir)</command>
+<command>const bool getWhichDir(char dir)</command>
 Returns true if the given direction is selected, otherwise false is returned.
 <para><itemizedlist>
 <listitem><para>dir:-The data direction. Must be one of x, y or z</para></listitem>
 </itemizedlist></para>
 </para>
 <para>
-<command>int getIsReadP()</command>
+<command>const int & getIsReadP()</command>
 Get the value returned from the dialog box. Returns 1 for yes, 0 for no or -1
 for cancel.
 </para>
 <para>
-<command>string getfNameP()</command>
+<command>const string & getfNameP()</command>
 Returns the full path of the file selected for opening. If getFilename() returns
 "" the user has canceled this operation.
 </para>
 <para>
-<command>double getFromDate()</command>
+<command>const double getFromDate()</command>
 Returns the defined start date as a decimal date. If a value of -1 is returned
-the specified date was invalid. If -2 is returned this action was canceled
+the action was canceled.
 </para>
 <para>
-<command>double getToDate()</command>
-Returns the defined finished date as a decimal date. If a value of -1 is returned
-the specified date was invalid. If -2 is returned this action was canceled
+<command>const double getToDate()</command>
+Returns the defined finished date as a decimal date.  If a value of -1 is returned
+the action was canceled.
 </para>
 <para>
-<command>double getWeight()</command>
-Returns the defined weighting value. If a value of NAN is returned the entered
-weighting value was invalid. If -2 is returned this action was canceled
+<command>const double getWeight()</command>
+Returns the defined weighting value.  If a value of -1 is returned
+the action was canceled.
 </para>
 <para>
-<command>bool getDoVCV()</command>
+<command>const bool & getDoVCV()</command>
 Returns true if the VCV least squares transformation is to be prefomed now.
 .SH "VERSION"
 .PP

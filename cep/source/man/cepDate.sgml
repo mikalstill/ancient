@@ -103,6 +103,11 @@
  an error because the date entered was invalid.
  &lt;/para&gt;
  
+ &lt;para&gt;
+ 2 new methods added yearsToJulian and julianToYears. Both take and return doubles
+ and have no relation to the member variables of this object.
+ &lt;/para&gt;
+ 
 </para>
 </refsect1>
 
