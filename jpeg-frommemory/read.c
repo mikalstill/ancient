@@ -6,6 +6,16 @@
 #include <jpeglib.h>
 #include <tiffio.h>
 
+typedef struct {
+  struct jpeg_source_mgr pub;   /* public fields */
+
+  FILE * infile;                /* source stream */
+  JOCTET * buffer;              /* start of buffer */
+  boolean start_of_file;        /* have we gotten any data yet? */
+} my_source_mgr;
+
+typedef my_source_mgr * my_src_ptr;
+
 int main(int argc, char *argv[])
 {
   struct jpeg_decompress_struct cinfo;
@@ -15,13 +25,31 @@ int main(int argc, char *argv[])
   JSAMPARRAY buffer;
 
   TIFF *output;
+  
+  int fd;
+  char *file;
+  struct stat sb;
 
-  /* Open a JPEG file and grab the contents */
-  if ((infile = fopen("input.jpg", "rb")) == NULL) {
-    fprintf(stderr, "Cannot open input image\n");
-    exit(1);
+  /* Map the input file into memory */
+  if ((fd = open ("input.jpg", O_RDONLY)) < 0)
+    {
+      perror("Could not open file");
+      exit (43);
+    }
+
+  if(fstat(fd, &sb) < 0){
+    perror("Could not stat file");
+    exit(43);
   }
 
+  if ((file =
+       (char *) mmap (NULL, sb.st_size, PROT_READ, MAP_SHARED, fd, 0)) == -1)
+    {
+      perror("Could not mmap file");
+      exit (43);
+    }
+
+  /* Do JPEG things */
   cinfo.err = jpeg_std_error(&jerr);
   jpeg_create_decompress(&cinfo);
   jpeg_stdio_src(&cinfo, infile);
@@ -64,7 +92,7 @@ int main(int argc, char *argv[])
   TIFFSetField(output, TIFFTAG_BITSPERSAMPLE, 8);
   TIFFSetField(output, TIFFTAG_SAMPLESPERPIXEL, cinfo.output_components);
 
-  // Actually write the image
+  /* Actually write the image */
   if(TIFFWriteEncodedStrip(output, 0, img, 
 			   cinfo.output_width * cinfo.output_height * 
 			   cinfo.output_components) == 0){
@@ -78,4 +106,12 @@ int main(int argc, char *argv[])
   fclose(infile);
 
   TIFFClose(output);
+
+  /* Now clean up */
+  if(munmap(file, sb.st_size) < 0){
+    perror("Could not unmap memory");
+    exit(43);
+  }
+
+  close(fd);
 }
