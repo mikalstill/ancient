@@ -2,7 +2,7 @@
 #
 # Code common to gmat.driver, gmat.troff, and possibly other gmat filters
 #
-# $Id: gmat.pl,v 1.1.1.1 2002-07-15 21:33:31 root Exp $
+# $Id: gmat.pl,v 1.2 2002-07-18 20:57:52 mikal Exp $
 #
 #
 ######################################################################
@@ -13,9 +13,12 @@ sub initialize {
 
     $WHOAMI = $ENV{"USER"} || $ENV{"LOGNAME"} || "user";
     $PID    = $$;
-    
+
+    print STDERR "Checking for config in $ORATOOLSRC\n";
     $gmat = &parsecfg($ORATOOLSRC);
+    print STDERR "Checking for config in $ENV{HOME}/.oratoolsrc\n";
     $gmat = &parsecfg("$ENV{HOME}/.oratoolsrc", $gmat);
+    print STDERR "Checking for config in ./.oratoolsrc\n";
     $gmat = &parsecfg("./.oratoolsrc", $gmat);
 
     $QUIET   = &cfg($gmat, $PROGNAME, 'quiet');

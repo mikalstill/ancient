@@ -2,14 +2,14 @@
 #
 # Reports a chapter name given a page number
 #
-# $Id: bookpage,v 1.1.1.1 2002-07-15 21:33:31 root Exp $
+# $Id: bookpage,v 1.2 2002-07-18 20:57:44 mikal Exp $
 #
 #
 
 use vars qw($PROGNAME $VERSION);
 
 $BASEVERS   = "0.1";
-$RCS_ID     = '$Id: bookpage,v 1.1.1.1 2002-07-15 21:33:31 root Exp $';  # '
+$RCS_ID     = '$Id: bookpage,v 1.2 2002-07-18 20:57:44 mikal Exp $';  # '
 ($PROGNAME  = $RCS_ID) =~ s/^.Id: (\S+) .*$/$1/;
 ($PATCHLEVEL= $RCS_ID) =~ s/^.Id: \S+ \d+\.(\d+) .*$/$1/;
 $VERSION    = "$BASEVERS patchlevel $PATCHLEVEL";
@@ -21,7 +21,7 @@ $EXECDIR    = $1 if $0 =~ /^(.*)\/[^\/]+$/;
 if ($ENV{"ORALIBDIR"}) {
     push (@INC, $ENV{"ORALIBDIR"});
 } else {
-    push (@INC, "/usr/local/share/gmat/lib");
+    push (@INC, "/home/mikal/opensource/gmat/gmat/lib");
 }
 
 require 'parsecfg5.pl';

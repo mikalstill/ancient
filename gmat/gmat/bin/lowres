@@ -2,21 +2,21 @@
 #
 # Make lowres EPS file from hires EPS file.
 #
-# $Id: lowres,v 1.1.1.1 2002-07-15 21:33:31 root Exp $
+# $Id: lowres,v 1.2 2002-07-18 20:57:45 mikal Exp $
 #
 #
 
 use vars qw($PROGNAME $VERSION);
 
 $BASEVERS   = "0.1";
-$RCS_ID     = '$Id: lowres,v 1.1.1.1 2002-07-15 21:33:31 root Exp $';  # '
+$RCS_ID     = '$Id: lowres,v 1.2 2002-07-18 20:57:45 mikal Exp $';  # '
 ($PROGNAME  = $RCS_ID) =~ s/^.Id: (\S+) .*$/$1/;
 ($PATCHLEVEL= $RCS_ID) =~ s/^.Id: \S+ \d+\.(\d+) .*$/$1/;
 $VERSION    = "$BASEVERS patchlevel $PATCHLEVEL";
 
 ######################################################################
 
-$ORALIBDIR = $ENV{"ORALIBDIR"} || "/usr/local/share/gmat/lib";
+$ORALIBDIR = $ENV{"ORALIBDIR"} || "/home/mikal/opensource/gmat/gmat/lib";
 push (@INC, $ORALIBDIR);
 
 $ORATOOLSRC = $ENV{'ORATOOLSRC'} || "$ORALIBDIR/oratoolsrc";

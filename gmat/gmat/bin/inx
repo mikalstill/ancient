@@ -2,7 +2,7 @@
 #
 # Process the troff index files and build a troff index
 #
-# $Id: inx,v 1.1.1.1 2002-07-15 21:33:31 root Exp $
+# $Id: inx,v 1.2 2002-07-18 20:57:44 mikal Exp $
 #
 #
 # Types of index entry we process:
@@ -62,7 +62,7 @@
 use vars qw($PROGNAME $VERSION);
 
 $BASEVERS   = "0.1";
-$RCS_ID     = '$Id: inx,v 1.1.1.1 2002-07-15 21:33:31 root Exp $';  # '
+$RCS_ID     = '$Id: inx,v 1.2 2002-07-18 20:57:44 mikal Exp $';  # '
 ($PROGNAME  = $RCS_ID) =~ s/^.Id: (\S+) .*$/$1/;
 ($PATCHLEVEL= $RCS_ID) =~ s/^.Id: \S+ \d+\.(\d+) .*$/$1/;
 $VERSION    = "$BASEVERS patchlevel $PATCHLEVEL";
@@ -93,7 +93,7 @@ if ($DEBUG) {
     $INXSORT = "inxsort";
 }
 
-$ORALIBDIR = $ENV{"ORALIBDIR"} || "/usr/local/share/gmat/lib";
+$ORALIBDIR = $ENV{"ORALIBDIR"} || "/home/mikal/opensource/gmat/gmat/lib";
 push(@INC, $ORALIBDIR);
 
 $ORATOOLSRC = $ENV{'ORATOOLSRC'} || "$ORALIBDIR/oratoolsrc";
@@ -258,7 +258,7 @@ if (%USERFILES) {
 #  Find out what preamble file to use. If there is an inxfile entry
 #  in BOOKFILES, use that; else if there is an inx.preamble in the
 #  current directory, use that; else use the default (currently
-#  /usr/local/share/gmat/lib/inx.preamble).
+#  /home/mikal/opensource/gmat/gmat/lib/inx.preamble).
 
 $bookfiles = &parsecfg('BOOKFILES');
 $inxfile = &cfg($bookfiles, 'inx', 'inxfile');
@@ -267,7 +267,7 @@ if (!$inxfile) {
 	$inxfile = "./inx.preamble";
     }
     else {
-	$inxfile = "/usr/local/share/gmat/lib/inx.preamble";
+	$inxfile = "/home/mikal/opensource/gmat/gmat/lib/inx.preamble";
     }
 }
 

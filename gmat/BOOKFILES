@@ -1,6 +1,6 @@
 # bookfiles
-# This configuration file was created by ./gmat/bin/gmat.troff
-# on Tue Jul 16 06:40:04 CST 2002 by mikal.
+# This configuration file was created by /home/mikal/opensource/gmat/gmat/bin/gmat.troff
+# on Tue Jul 16 08:34:44 EST 2002 by root.
 #
 book_title = The Complete FreeBSD
 doctype    = book public "-//ORA//DTD ORA Production DTD//EN"
