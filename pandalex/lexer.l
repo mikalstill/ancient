@@ -137,7 +137,7 @@ trailer                 { debuglex(yytext, -1, "trailer", binaryMode);
                             }
                                                                              }
 
-\/[#a-zA-Z\-_0-9\.\+]+     { debuglex(yytext, -1, "name", binaryMode);
+\/[#a-zA-Z\-_0-9\.\+,]+ { debuglex(yytext, -1, "name", binaryMode);
 
                           if(binaryMode == 0){
                             yylval.textVal = 
@@ -368,7 +368,7 @@ endstream               { debuglex(yytext, -1, "endstream", 0);
                             }
                                                                              }
 
-[\[\(][#<>a-zA-Z0-9\.\ :'+\-_\\\(\)]+[\)\]] {
+[\[\(\<][#<>a-zA-Z0-9\.\ :'+\-_\\\(\)]+[\>\)\]] {
                           debuglex(yytext, -1, "bracketted string", binaryMode);
 
                           if(binaryMode == 0){
