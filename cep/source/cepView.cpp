@@ -745,7 +745,11 @@ cepView::processWindow(const cepWindow wType, string desc)
             err = windowUi.show();
         }
           
-        if( windowUi.cancelled() ) return;
+        if( windowUi.cancelled() ){
+	  canvas->Refresh();
+	  return;
+	}
+
         if( err.isReal() ) {
             err.display();
         } else {
@@ -760,6 +764,7 @@ cepView::processWindow(const cepWindow wType, string desc)
             cepError err = cepWindowChebyshev::setTransitionBandwidth( bw );
             if( err.isReal() ) {
                 err.display();
+		canvas->Refresh();
                 return;
             }
         }
@@ -777,6 +782,7 @@ cepView::processWindow(const cepWindow wType, string desc)
 					      windowed[i]);
       if(werr.isReal()){
         werr.display();
+	canvas->Refresh();
         return;
       }
     }
@@ -892,7 +898,7 @@ void cepView::OnFFT (wxCommandEvent& event)
     for(int i = 0; i < cepDataset::dirUnknown; i++)
       {
 	// We need to copy add the data across into complex land...
-	//	cepMatrix<ComplexDble> input = *theDataset->getMatrix((cepDataset::direction) i);
+	cepMatrix<ComplexDble> input;
 	
 
 
