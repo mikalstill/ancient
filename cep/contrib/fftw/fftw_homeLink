@@ -6,8 +6,8 @@
   </head>
   <body>
       <p><center>
-                The file fftw-2.1.3.tar.gz has been extracted to cvs001/fftw/fftw-2.1.3...around 4.7MB. <BR>
-                The file itself is around 1.1MB<BR>
+            The file fftw-2.1.3.tar.gz is cvs001/fftw/fftw-2.1.3...around 1.1MB. <BR>
+     	    It contains the entire fftw package<BR>
       </center></p>
       <p><center>
                 get the online docco via <a href="http://www.fftw.org/"> FFTW home page</a>
