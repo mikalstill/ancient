@@ -1,0 +1,501 @@
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
+<book><bookinfo>
+<title>Geodetic Data Modeling System: User Manual</title>
+<authorgroup>
+
+<author>
+  <firstname>Daniel</firstname>
+  <surname>Fernandez</surname>
+  <affiliation><jobtitle>991672</jobtitle></affiliation>
+</author>
+
+<author>
+  <firstname>Michael</firstname>
+  <surname>Still</surname>
+  <affiliation><jobtitle>964076</jobtitle></affiliation>
+</author>
+
+<author>
+  <firstname>Blake</firstname>
+  <surname>Swadling</surname>
+  <affiliation><jobtitle>982087</jobtitle></affiliation>
+</author>
+
+<author>
+  <firstname>Kristy</firstname>
+  <surname>Van Der Vlist</surname>
+  <affiliation><jobtitle>983118</jobtitle></affiliation>
+</author>
+
+<author>
+  <firstname>Nick</firstname>
+  <surname>Wheatstone</surname>
+  <affiliation><jobtitle>983131</jobtitle></affiliation>
+</author>
+
+</authorgroup>
+</bookinfo>
+
+<chapter><title>Quick start guide</title>
+
+<sect1><title>Getting Started</title>
+  <para>
+    Follow the instructions in the installation section of this user manual and then at a shell prompt type the following:
+</para>
+<programlisting>
+[user@localhost /home/user]$ gdms
+</programlisting>
+<para>
+  To open a data set, select <command>File</command> - <command>Open</command>. Browse to the location of the desired
+  data set and then click <command>Open</command>.
+</para>
+
+<para>
+  After the data set has been loaded, use the <command>Maths</command> menu to carry out data processing. For further
+  details of specific options, please refer to the chapter titled 'Using GDMS'.
+</para>
+
+<para>
+  To close the data set currently in focus, select <command>File</command> - <command>Close.</command>.
+</para>
+
+<para>
+  To exit the program, select <command>File</command> -  <command>Exit</command>. 
+</para>
+
+<para>
+  To save the data set after processing, select <command>File</command> - <command>Save</command>.
+  Choose the desired location and click <command>OK</command>.
+</para>
+
+<para>
+  To save under a different file name, select <command>File</command> - <command>Save As</command>.
+  Choose a location, enter the filename and click <command>OK</command>.
+</para>
+
+<para>
+  For further details on these features and the other <command>GDMS</command> functionality, please refer
+  to the section titled 'Using GDMS'.
+</para>
+</sect1>
+
+</chapter>
+<chapter><title>Installing GDMS</title>
+<sect1><title>Dependencies</title>
+  <para>
+    There are several dependencies that the user needs to be aware of when installing GDMS from source. These are
+    wxWindows, mplot, pcre, and freetype. All of the dependencies are provided in the contrib directory.
+  </para>
+
+  <para>
+    <emphasis>
+      Please note that for some of the dependencies, having a later version installed might not be sufficient.
+      This depends on how many interface changes have been imposed by that dependency author. Because the actual source
+      of these dependencies is outside the control of the GDMS team, this might make installation of later versions harder.
+      The versions which have been tested with GDMS are included in the contrib/ directory of the GDMS
+      distribution.
+    </emphasis>
+  </para>
+  
+   
+</sect1>
+
+<sect1><title>Installing</title>
+  <para>
+    The installation process for the <command>GDMS</command> is as follows:
+    <itemizedlist>
+      <listitem><para>Change to the source directory</para></listitem>
+      <listitem><para>Type the following commands:
+        <programlisting>
+          ./configure
+          make
+          make install
+        </programlisting>
+        This will install the application to the default path, the prefix for which is currently
+        <programlisting>/usr/local/</programlisting>. If your path is not set to search this location
+        the this need to be done. Check the documentation for your specific operating system for
+        more information on how to do this.
+      </para></listitem>
+    </itemizedlist>
+  </para>
+
+</sect1>
+
+
+</chapter>
+
+<chapter><title>Running the GDMS</title>
+
+<sect1><title>Running the <command>GDMS</command> with the GUI</title>
+  <para>
+    The <command>GDMS</command> can be invoked in a number of ways. The first and most obvious, is to invoke the
+    Graphical User Interface. To run it in this mode, open a console and type
+  </para>
+  <programlisting>
+  [user@localhost /home/user]$ gdms
+  </programlisting>
+  <para>
+  The application is loaded and the user is presented with a window. For further information on specific functionality,
+  see the quick reference guide.
+  </para>
+
+</sect1>
+<sect1><title>Running the <command>GDMS</command> with arguments</title>
+  <para>
+    The <command>GDMS</command> also possesses the ability to accept command line arguments. For example, a file name
+    can be specified as an argument, avoiding having to open the file through the user interface once it has been invoked. 
+    Once again the GUI is invoked and can be used in the normal manner, the difference being that data sets provided as
+    arguments are already loaded.
+  </para>
+  <para>
+    Command line arguments which are accepted are:
+    <itemizedlist>
+    <listitem><para><programlisting>-b &lt;filename&gt;</programlisting>:
+        the batch file name. This is only available on the batch file interface</para></listitem>
+    <listitem><para><programlisting>-d &lt;filename&gt;</programlisting>:
+        opens a specified dataset</para></listitem>
+    <listitem><para><programlisting>-e &lt;yes|no&gt;</programlisting>:
+        sets the visibility of error messages</para></listitem>
+    <listitem><para><programlisting>-x &lt;yes|no&gt;</programlisting>:
+        sets the visibility of the North plot</para></listitem>
+    <listitem><para><programlisting>-y &lt;yes|no&gt;</programlisting>: sets the visibility of the East plot</para></listitem>
+    <listitem><para><programlisting>-z &lt;yes|no&gt;</programlisting>: sets the visibility of the Vertical plot</para></listitem>
+    </itemizedlist>
+  </para>
+</sect1>
+
+
+<sect1><title>Batch Processing</title>
+  <para>
+  As the title suggests, the <command>GDMS</command> allows batch processing. This enables a batch of tasks to be carried
+  out, thus avoiding individual processing of data sets. The way this is done is by specifying a batch file name as an
+  argument to the <command>GDMS</command> command. The batch file contains the commands that will be run by the <command>GDMS</command>.
+  </para>
+</sect1>
+
+
+</chapter>
+<chapter><title>User Interface Configuration</title>
+
+<sect1><title>Configuring the Interface</title>
+<para>
+  The user interface can be customised to suit user preferences. This includes the 
+  ability to changes the colours of the axes, graphs, error bars and grid. As well 
+  as the type and colour of the font used to display text on the graphs.
+</para>
+<sect2><title>Changing UI colours</title>
+<para>
+  The customising the user interface is done through the <command>view</command> menu. 
+  The colours of the various view elements are changed by selecting the property from
+  within the view menu. A pop-up window the allows the user to select colours either from
+  the supplied palette, or by mix their own colours. Colours can also be added to a 
+  personalised palette, useful for quick selection.
+</para>
+</sect2>
+
+<sect2><title>Font configuration</title>
+<para>
+  The font type is also changed from the <command>view</command> menu. Any standard true type font can
+  be used. The colour and size of the graph font is also configurable.
+</para>
+</sect2>
+
+<sect2><title>Show/hide Directions</title>
+<para>
+  The default is to display all three direction of the dataset. The user can however toggle
+  directions on and off to give more screen real estate to graphs of interest. This is
+  done through the <command>view</command> menu, by checking or un-checking the appropriate 
+  directions.
+</para>
+</sect2>
+
+<sect2><title>Show/hide error bars </title>
+<para>
+  <command>GDMS</command> has the ability to show error bars. To turn error bars on or
+  off check the Show error bars item in the <command>view</command> menu.
+</para
+</sect2>
+
+<sect2><title>Show/hide the grid</title>
+<para>
+  The default is to have the grid enabled. To disable the grid, simply check the Show grid item in
+  the <command>view</command> menu.
+</para>
+</sect2>
+
+
+</sect1>
+
+</chapter>
+<chapter><title>Using GDMS</title>
+
+<sect1><title>Introduction</title>
+<para>
+  This section aims to provide a reference for the functionality of the <command>GDMS</command>.
+  The main functionality of this package is provided through the following menus.
+</para>
+</sect1>
+
+<sect1><title>File Menu</title>
+
+  <sect2><title>Opening a data set</title>
+    <para>
+      When the application is first run, you are presented with a blank window with File
+      and Help menus. To open a data set, open the <command>File</command> menu and select
+      <command>Open</command>. This can also be done by using the keyboard shortcut
+      <command>CTRL-O</command>.
+    </para>
+
+    <figure><title>The <command>GDMS</command> when first opened.</title>
+      <graphic format="eps" fileref="gen-gdmsFirstOpen.eps">
+    </figure>
+
+    <para>
+      While a data set is being loaded, a progress window appears.
+    </para>
+
+     <figure><title>Progress bar.</title>
+      <graphic format="eps" fileref="gen-gdmsProgress.eps">
+    </figure>
+
+
+    <para>
+      Once the data set has been loaded, the application looks like:
+    </para>
+
+     <figure><title>Loaded dataset.</title>
+      <graphic format="eps" fileref="gen-gdmsData.eps">
+    </figure>
+
+
+  </sect2>
+
+  <sect2><title>Closing a dataset</title>
+    <para>
+      To close a dataset, select <command>File</command> - <command>Close</command>. Note that
+      this will not terminate the application. To do do this, see <command>Exit</command> below.
+    </para>
+  </sect2>
+
+  <sect2><title>Saving a data set</title>
+    <para>
+       To save a data set after processing, select <command>File</command> -
+       <command>Save</command>. The following window appears.
+    </para>
+
+    <figure><title>Save As window.</title>
+      <graphic format="eps" fileref="gen-gdmsSaveAs.eps">
+    </figure>
+
+    <para>
+       Choose the desired location and file name and click <command>OK</command>.
+    </para>
+  </sect2>
+
+  <sect2><title>Exit</title>
+  <para>
+   To exit the application, select <command>File</command> -> <command>Exit</command> or
+   use the keyboard shortcut, <command>CTRL-Q</command>.
+  </para>
+  </sect2>
+
+</sect1> <!--file menu -->
+
+<sect1><title>Edit menu</title>
+  <para>
+     This functionality has not been included in this release. The Edit menu exists for future
+     enhancements such as Undo, Redo and Delete.  The undo functionality however, is inherit
+     due to the way <command>GDMS</command> creates a new dataset after every mathematical
+     operation.
+  </para>
+</sect1>
+
+<sect1><title>View menu</title>
+  <para>
+    The <command>View Menu</command>can be used to configure the  look and feel of the user
+    interface to suit individual users. Please refer to the User Interface Configuration
+    chapter for full details on these features.
+  </para>
+</sect1>
+
+<sect1><title>Maths</title>
+  <para>
+    The data processing functionality provided by the <command>GDMS</command> is provided in
+    the <command>Maths</command> menu. All mathematical operations on a data set result in at
+    least one additional dataset being created. This enables easy reference to both the original
+    and processed data for comparison. Furthermore, any dataset that can be viewed within the
+    application can be saved for future reference.
+  </para>
+
+
+  <sect2><title>Time Domain Analysis</title>
+
+    <sect3><title>Least Squares</title>
+      <para>
+        The only time domain modelling currently available is Least Squares regression. This
+        can be accessed by selecting <command>Maths</command> - <command>Least Squares</command>.
+        The available options in the least squares menu are <command>Variance
+        Co-variance</command> and <command>Random Walk</command>.
+      </para>
+      <sect4><title>Variance Co-variance</title>
+        <sect5><title>Automatic Re-weighting</title>
+          <para>
+            When this option is presented, you are given the option of using the automatic
+            re-weighting feature. If you choose to use automatic re-weighting then
+            our algorithms will weight out any outliers in the dataset, then output a
+            least squares regression. The regression outputs two new data sets; the first shows
+            the dataset with the least squares regression line with the weighted points
+            rendered in a different colour. The second dataset loaded is the residuals, also with
+            weighted out data points displayed in a different colour.
+          </para>
+        </sect5>
+
+        <sect5><title>Manual Re-weighting</title>
+          <para>
+            If <command>NO</command> is selected when prompted for automatic re-weighting,
+            the option is given to load a weighting matrix from file for each direction. If
+            <command>NO</command> is selected here, a data range may be specified before
+            continuing with the VCV analysis by pressing Do VCV. Selecting <command>YES</command>
+            to load a matrix for a file will result in a prompt request on the file's location.
+            Once a matrix is chosen, the analysis will again provide both the least squares
+            and residual datasets.
+          </para>
+        </sect5>
+      </sect4>
+
+      <sect4><title>Random Walk</title>
+        <para>
+          Random walk functionality has not yet been activated in the <command>GDMS</command> engine. This is mostly implemented, however
+          no agreement has yet been reached with regard to the exact format that this function will take.
+        </para>
+      </sect4>
+    </sect3> <!-- LS -->
+  </sect2> <!-- TDA -->
+
+  <sect2><title>Interpolation</title>
+    <para>
+       The available options in the Interpolation menu are <command>Nearest Neighbour</command>, <command>Linear Interpolation</command>,
+       <command>Natural Spline</command>, <command>Cubic Spline</command> and <command>Divided Differences</command>. To carry out
+       interpolation, select the <command>Maths</command> menu followed by the <command>Interpolation</command> menu and from here
+       select the desired method. Enter the required sample rate when prompted and click <command>OK</command> to proceed or
+       <command>CANCEL</command> to return to the main window.
+    </para>
+  </sect2> <!-- interp -->
+
+  <sect2><title>Windowing data</title>
+    <para>
+      The available options in the Windowing menu are <command>Rectangular</command>, <command>Hanning</command>,
+      <command>Hamming</command>, <command>Blackman</command> and <command>Dolph-Chebyshev</command>. To window
+      data, go to the <command>Maths</command> menu followed by the <command>Windowing</command> menu and from here select
+      the desired method. Each method prompts for a window size and an overlap. The window size must be number satisfying
+      <programlisting>size=2<superscript>n</superscript></programlisting> and the standard overlap is 50% of the window size.
+      In addition, <command>Dolph-Chebyshev</command> prompts for the Normalised Transition Bandwidth, the values for which are
+      restricted to the range 0.0 - 0.5. In application these numbers must be restricted to the range 0.02 -0.499 to avoid division
+      by zero. Enter the information and click <command>OK</command> to proceed.
+    </para>
+
+    <sect3><title>Window selection</title>
+      <para>
+        When windowing is carried out on a dataset, all windows are displayed. For flexibility, the <command>GDMS</command>
+        allows individual windows to be displayed. To do this, open the <command>goto</command> menu and navigate through
+        the windows as desired.
+      </para>
+    </sect3>
+
+  </sect2> <!-- windowing -->
+
+
+  <sect2><title>Frequency Domain Analysis</title>
+    <para>
+      Select the Maths menu, select Fast Fourier Transform which will generate a PSD plot. Note, before successfully carrying out
+      operations in the frequency domain, the data must be interpolated. The Failure to do so will
+      result in an error message from the <command>GDMS</command>. The error message gives the first three dates
+      in the dataset that caused the failure.
+    </para>
+  </sect2> <!-- FDA -->
+
+</sect1>
+
+<sect1><title>Help Menu</title>
+  <para>
+    In this release the Help menu contains only an About box. This is an area for future expansion.
+  </para>
+</sect1>
+
+</chapter>
+
+
+
+
+<chapter><title>Temporary files</title>
+<sect1><title>Introduction</title>
+<para>
+<command>GDMS</command> needs to be able to store information in temporary files to operate 
+correctly. The information currently stored in temporary files are the graphs used in the 
+user interface, and active datasets. This is done to avoid the graphs having to be 
+regenerated each time they are drawn. This technique also serves to avoid having images 
+cached in memory, which could result in a large amount of memory being used for data that
+is not frequently accessed.
+</para>
+
+<para>
+The <command>GDMS</command> determines when the files in the temporary graph cache are out of date. When this occurs,
+the graphs are regenerated as required.
+</para>
+</sect1>
+
+<sect1><title>Location of temporary files</title>
+<para>
+Temporary files are stored by default in <emphasis>/tmp</emphasis>.
+</para>
+
+<para>
+The files have randomly generated names which match the regular expression <emphasis>cep.*$</emphasis>. Examples of
+valid temporary filenames are:
+</para>
+
+<programlisting>
+cep.5tgSBw
+cep.7v2DRn
+cep.AxSGaC
+cep.d4j1at
+cep.dinwwj
+cep.eu4OqI
+cep.HDxyXc
+cep.I6U6DO
+cep.k2Wweg
+cep.pDpvqC
+cep.qcRKds
+cep.sBiOhb
+cep.VqHGbW
+cep.YoTRdk
+cep.zbOzJ3
+</programlisting>
+
+<para>
+These files can amount to a non-trivial amount of space on disk. The example files
+totalled 808 kilobytes.
+</para>
+</sect1>
+
+<sect1><title>Cleanup of temporary files</title>
+<para>
+The <command>GDMS</command> will automatically cleanup temporary files as required. In
+practise, this means that temporary files from previous sessions are deleted when
+the<command>GDMS</command> is run. Note that only the GUI implementation cleans the
+<emphasis>/tmp</emphasis> directory. The <command>GDMS web</command> does not perform
+this operation as it does not create it's temporary files in this manner. For further
+information refer to the <command>GDMS web</command> documentation.
+</para>
+
+<para>
+One limitation which this approach imposes is that is that it restricts the number of
+concurrent sessions to one on any single machine. The problem is that starting a new
+session will result in an attempt to clean any files generated by other sessions. The
+caches are only used during processing and are discarded, however the race condition
+exists and could cause problems.
+</para>
+</sect1>
+</chapter>
+
+</book>

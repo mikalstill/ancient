@@ -71,6 +71,27 @@ The following page greets users when they start the GDMS Internet interface.
 </sect1>
 </chapter>
 
+
+
+<chapter><title>Conclusion</title>
+<para>
+...
+</para>
+</chapter>
+
+
+
+<chapter><title>References</title>
+<sect1><title>References</title>
+<execute><cmd>insertall</cmd><args>builddb . "ref-*"</args></execute>
+</sect1>
+</chapter>
+
+
+
+
+
+
 <chapter><title>Appendix One: GDMS Internet interface scripting elements</title>
 <sect1><title>Introduction</title>
 <para>
@@ -85,7 +106,13 @@ This appendix documents the various tags which are implemented by the GDMS Inter
 <execute><cmd>code2db</cmd><input>~mikal/opensource-unstable/cep/source/web/gdms.pl</input></execute>
 </chapter>
 
-<chapter><title>Appendix Three: A sample configuration file</title>
+<chapter><title>Appendix Three: Installation</title>
+<para>
+...
+</para>
+</chapter>
+
+<chapter><title>Appendix Four: A sample configuration file</title>
 <para>
 This appendix details a sample configuration file for the GDMS Internet interface. This file should be stored in the same directory as the GDMS CGI script. It should also be noted that the <quote>.cep</quote> configuration file that would normally reside in a user's home directory should also be in the same directory as the GDMS CGI script.
 </para>
@@ -99,12 +126,6 @@ The same gdms.config file is as follows:
 </para>
 
 <execute><cmd>code2db</cmd><input>/home/httpd/cgi-bin/gdms.config</input></execute>
-</chapter>
-
-<chapter><title>Appendix Four: References</title>
-<sect1><title>References</title>
-<execute><cmd>insertall</cmd><args>builddb . "ref-*"</args></execute>
-</sect1>
 </chapter>
 </book>
 
