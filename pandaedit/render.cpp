@@ -3,6 +3,8 @@
 #include <unistd.h>
 
 #include "render.h"
+#include "decompressor.h"
+#include "lzw.h"
 #include "utility.h"
 #include "stringArray.h"
 #include "configuration.h"
@@ -56,16 +58,43 @@ bool pdfRender::render()
   }
 
   // Read the stream and action any commands
-  unsigned int inset = 0;
-  char *stream = m_contents.getStream();
+  char *stream;
+  unsigned long inset, length;
+  bool needStreamClean(false);
+
+  // Sometimes the stream is compressed, if it is, then we
+  // decompress it here
+  string filter;
+  if(m_contents.getDict().getValue("Filter", filter)){
+    printf("DEBUG: The stream is filtered with filter %s\n", filter.c_str());
+    decompressor *mydec = NULL;
+
+    if(filter == "LZWDecode"){
+      mydec = new lzw();
+    }
+
+    if(mydec != NULL){
+      stream = mydec->decompress(m_contents.getStream(), m_contents.getStreamLength(), length);
+      delete mydec;
+      needStreamClean = true;
+    }
+    else{
+      printf("DEBUG: Unknown compression scheme %s\n", filter.c_str());
+      length = 0;
+    }
+  }
+  else{
+    stream = m_contents.getStream();
+    length = m_contents.getStreamLength();
+  }
 
   printf("DEBUG: Process page stream\n");
-
   // todo_mikal: this might be too slow because of the accessor
   string line;
-  while(inset < m_contents.getStreamLength())
+  inset = 0;
+  while(inset < length)
     {
-      if(stream[inset] != '\n'){
+      if((stream[inset] != '\n') && (stream[inset] != '\r')){
 	line += stream[inset];
       }
       else{
@@ -78,6 +107,8 @@ bool pdfRender::render()
       inset ++;
     }
   
+  if(needStreamClean)
+    delete[] stream;
   return true;
 }
 
@@ -115,6 +146,8 @@ void pdfRender::processLine(string line)
       else if("B*" == tokens[i]) command_Bstar();
       else if("BT" == tokens[i]) command_BT();
       else if("c" == tokens[i]) command_c();
+      else if("cm" == tokens[i]) command_cm();
+      else if("Do" == tokens[i]) command_Do();
       else if("ET" == tokens[i]) command_ET();
       else if("f" == tokens[i]) command_f();
       else if("f*" == tokens[i]) command_fstar();
@@ -232,6 +265,50 @@ void pdfRender::command_c()
 	 x1, y1, x2, y2, x3, y3);
   plot_addcubiccurvesegment(m_plot, x1, y1, x2, y2, x3, y3);
   m_hasLine = true;
+}
+
+// Set the graphics matrix
+void pdfRender::command_cm()
+{
+  float vals[6];
+
+  printf("DEBUG: cm\n");
+  for(int i = 0; i < 6; i++){
+    vals[5 - i] = atof(m_arguements.top().c_str());
+    m_arguements.pop();
+  }
+
+  m_graphicsMatrix.setValues(vals);
+}
+
+void pdfRender::command_Do()
+{
+  string arg;
+  printf("DEBUG: Do\n");
+
+  // The arguement is the name of a resource entry
+  arg = m_arguements.top();
+  m_arguements.pop();
+
+  dictionary resdict;
+  if(!m_page.getDict().getValue("Resources", resdict)){
+    printf("DEBUG: Resource dictionary not found\n");
+    return;
+  }
+
+  dictionary xobj;
+  if(!resdict.getValue("XObject", xobj)){
+    printf("DEBUG: Resource dictionary not found\n");
+    return;
+  }
+
+  object image(-1, -1);
+  if(!xobj.getValue(arg.substr(1, arg.length() - 1), m_pdf, image)){
+    printf("DEBUG: Named resource does not exist\n");
+    return;
+  }
+
+  printf("DEBUG: We should do something with this now...\n");
 }
 
 // Exit text mode

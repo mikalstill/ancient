@@ -45,44 +45,50 @@ int main(int argc, char *argv[]){
   ////////////////////////////////////////////////////////////////////////
   // Now we can attempt to render the first page of the document
   // todo_mikal: this is a hack
-  object foo(-1, -1);
-
-  // Find the catalog -- I could probably miss this step, but it seems like
-  // a good idea for now...
-  object& catalog = foo;
-  if(!thePDF->findObject(dictitem::diTypeName, "Type", "Catalog", catalog)){
-    fprintf(stderr, "Bad PDF: No catalog\n");
-    exit(1);
-  }
-
-  // Now find the pages object as refered to by the catalog
-  if(!catalog.hasDictItem(dictitem::diTypeObjectReference, "Pages")){
-    fprintf(stderr, "Bad PDF: No pages object refered to in catalog\n");
-    exit(1);
-  }
-  object& pages = foo;
-  if(!catalog.getDict().getValue("Pages", *thePDF, pages)){
-    fprintf(stderr, "Bad PDF: Could not get pages object, but the catalog references it!\n");
-    exit(1);
-  }
-
-  // Now find all the page objects referenced in the pages object
-  string kids;
-  if(!pages.getDict().getValue("Kids", kids)){
-    fprintf(stderr, "Bad PDF: No pages found in PDF\n");
-    exit(1);
-  }
-
-  // Find the pages, and then display just the first page
-  objectlist pagelist(kids, *thePDF);
-  for(unsigned int i = 0; i < pagelist.size(); i++){
-    pdfRender renPage(*thePDF, pagelist[i], i);
-    if(!renPage.render()){
-      fprintf(stderr, "Page render failed\n");
+  try{
+    object foo(-1, -1);
+    
+    // Find the catalog -- I could probably miss this step, but it seems like
+    // a good idea for now...
+    object& catalog = foo;
+    if(!thePDF->findObject(dictitem::diTypeName, "Type", "Catalog", catalog)){
+      fprintf(stderr, "Bad PDF: No catalog\n");
       exit(1);
     }
-    printf("DEBUG: PNG filename is %s\n",
-	   renPage.getPNGfile().c_str());
+    
+    // Now find the pages object as refered to by the catalog
+    if(!catalog.hasDictItem(dictitem::diTypeObjectReference, "Pages")){
+      fprintf(stderr, "Bad PDF: No pages object refered to in catalog\n");
+      exit(1);
+    }
+    object& pages = foo;
+    if(!catalog.getDict().getValue("Pages", *thePDF, pages)){
+      fprintf(stderr, "Bad PDF: Could not get pages object, but the catalog references it!\n");
+      exit(1);
+    }
+    
+    // Now find all the page objects referenced in the pages object
+    string kids;
+    if(!pages.getDict().getValue("Kids", kids)){
+      fprintf(stderr, "Bad PDF: No pages found in PDF\n");
+      exit(1);
+    }
+    
+    // Find the pages, and then display just the first page
+    objectlist pagelist(kids, *thePDF);
+    for(unsigned int i = 0; i < pagelist.size(); i++){
+      pdfRender renPage(*thePDF, pagelist[i], i);
+      if(!renPage.render()){
+	fprintf(stderr, "Page render failed\n");
+	exit(1);
+      }
+      printf("DEBUG: PNG filename is %s\n",
+	     renPage.getPNGfile().c_str());
+    }
+  }
+  catch(...){
+    fprintf(stderr, "Exception caught\n");
+    exit(40);
   }
 
   return 0;

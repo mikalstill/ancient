@@ -110,3 +110,16 @@ abs (int a)
     return -a;
   return a;
 }
+
+bool
+isPowerOfTwo (int test)
+{
+  unsigned int val = 1;
+
+  while(val < 32768){
+    if(test == val) return true;
+    val = val << 1;
+  }
+
+  return false;
+}

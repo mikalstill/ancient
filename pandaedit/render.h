@@ -26,6 +26,8 @@ class pdfRender{
   void command_Bstar();
   void command_BT();
   void command_c();
+  void command_cm();
+  void command_Do();
   void command_ET();
   void command_f();
   void command_fstar();
@@ -58,7 +60,7 @@ class pdfRender{
 
   object m_page, m_contents;
   rmMode m_mode;
-  matrix m_textMatrix;
+  matrix m_textMatrix, m_graphicsMatrix;
   stack<string> m_arguements;
   bool m_invalid;
   pdf m_pdf;
