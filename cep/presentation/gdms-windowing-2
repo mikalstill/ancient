@@ -1,0 +1,11 @@
+TITLE: Windowing Algorithms (Blake)
+
+<li>several different algorithms have been provided
+  <ul>
+  <li>Rectangular
+  <li>Hanning
+  <li>Hamming
+  <li>Blackman
+  <li>Dolph-Chebyshev
+  </ul>
+<li>prudent selection can attenuate the FD ripples
