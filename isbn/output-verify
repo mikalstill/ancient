@@ -1,0 +1,5 @@
+Enter the digits of the ISBN code, one per line.
+A line with just a . will end this program
+
+The ISBN code entered is: 0 5 5 0 1 0 2 0 6 10 
+Checksum: OK

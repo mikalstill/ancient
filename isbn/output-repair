@@ -1,0 +1,14 @@
+Working modulus 11
+
+Enter the digits of the ISBN code, one per line.
+Use a ? to mark the number which is missing...
+A line with just a . will end this program
+
+The ISBN code entered is: 0 5 5 ? 1 0 2 0 6 10 
+
+Sum before modulus = 198
+Sum after modulus = 0
+Value of missing element, including coefficient = 0
+Coefficient of missing element = 4
+Multiplicative inverse of this coefficient = 3
+Unknown element = 0
