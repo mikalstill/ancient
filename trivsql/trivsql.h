@@ -41,6 +41,7 @@ int *trivsql_parsecols(char *, char *, int *);
 int trivsql_findcol(char *, char *, char *);
 void trivsql_displayrs(trivsql_recordset *, char *, char *);
 void trivsql_addrow(trivsql_recordset *, char *, int, int *);
+char *trivsql_getallcolumns(char *);
 
 void *trivsql_xmalloc(size_t);
 void trivsql_dbwrite(trivsql_state *, char *, char *);

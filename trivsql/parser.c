@@ -722,7 +722,7 @@ case 8:
     break;}
 case 9:
 #line 34 "parser.y"
-{ yyval = trivsql_xsnprintf("%s", yyvsp[0]); ;
+{ yyval = trivsql_xsnprintf("*"); ;
     break;}
 case 10:
 #line 37 "parser.y"
@@ -1075,11 +1075,19 @@ void trivsql_doinsert(char *tname, char *cols, char *vals){
 trivsql_recordset *trivsql_doselect(char *tname, char *cols){
   int *colNumbers;
   int row, rowCount, numCols, addMe, sac1, sac2;
-  char *t, *u, *sa1, *sa2;
+  char *t, *u, *sa1, *sa2, *localCols;
   trivsql_recordset *rrs;
 
+  printf("Cols is %s\n", cols);
+
+  // If the columns list is '*', substitute a list of all the columns
+  if(strcmp(cols, "*") == 0)
+    localCols = trivsql_getallcolumns(tname);
+  else
+    localCols = cols;
+
   // Get ready for columns
-  if((colNumbers = trivsql_parsecols(tname, cols, &numCols)) == NULL){
+  if((colNumbers = trivsql_parsecols(tname, localCols, &numCols)) == NULL){
     return;
   }
 
@@ -1092,8 +1100,8 @@ trivsql_recordset *trivsql_doselect(char *tname, char *cols){
   if(gState->selector != NULL){
     sa1 = gState->selArgOne;
     sa2 = gState->selArgTwo;
-    sac1 = trivsql_findcol(tname, cols, sa1);
-    sac2 = trivsql_findcol(tname, cols, sa2);
+    sac1 = trivsql_findcol(tname, localCols, sa1);
+    sac2 = trivsql_findcol(tname, localCols, sa2);
   }
 
   // Build the recordset
@@ -1128,7 +1136,6 @@ trivsql_recordset *trivsql_doselect(char *tname, char *cols){
     if(addMe == SELTRUE)
       trivsql_addrow(rrs, tname, row, colNumbers);
   }
-
   return rrs;
 }
 
@@ -1319,7 +1326,7 @@ int trivsql_findcol(char *tname, char *cols, char *col){
 
 void trivsql_displayrs(trivsql_recordset *rs, char *tname, char *cols){
   int i, col;
-  char *t, *u, *c;
+  char *t, *u, *c, *localCols, *tempCols;
   trivsql_row *theRow;
   trivsql_col *theCol;
 
@@ -1330,31 +1337,45 @@ void trivsql_displayrs(trivsql_recordset *rs, char *tname, char *cols){
   }
   printf("\n|");
 
-  // Determine that the named columns exist
-  col = 0;
-  c = strtok(cols, ";");
-  while(c != NULL){
-    i = 0;
-    while(1){
-      t = trivsql_xsnprintf("trivsql_%s_col%d", tname, i);
-      u = trivsql_dbread(gState, t);
+  // If the columns list is '*', substitute a list of all the columns
+  if(strcmp(cols, "*") == 0)
+    localCols = trivsql_getallcolumns(tname);
+  else{
+    localCols = cols;
+    tempCols = trivsql_xsnprintf("%s", cols);
 
-      if(u == NULL){
-	trivsql_xfree(t);
-	fprintf(stderr, "%s is an unknown column\n", c);
-	return;
-      }
-      else if(strcmp(u, c) == 0){
+    // Determine that the named columns exist (unless we know they do)
+    col = 0;
+    c = strtok(tempCols, ";");
+    while(c != NULL){
+      i = 0;
+      while(1){
+	t = trivsql_xsnprintf("trivsql_%s_col%d", tname, i);
+	u = trivsql_dbread(gState, t);
+	
+	if(u == NULL){
+	  trivsql_xfree(t);
+	  fprintf(stderr, "%s is an unknown column\n", c);
+	  return;
+	}
+	else if(strcmp(u, c) == 0){
+	  trivsql_xfree(t);
+	  trivsql_xfree(u);
+	  break;
+	}
+	
 	trivsql_xfree(t);
 	trivsql_xfree(u);
-	break;
+	i++;
       }
 
-      trivsql_xfree(t);
-      trivsql_xfree(u);
-      i++;
+    c = strtok(NULL, ";");
     }
+  }
 
+  // Print out the column names
+  c = strtok(localCols, ";");
+  while(c != NULL){
     printf(" %-12s |", c);
     c = strtok(NULL, ";");
   }
@@ -1437,3 +1458,35 @@ void trivsql_addrow(trivsql_recordset *rs, char *tname, int row, int *cols){
     trivsql_xfree(t);
   }
 }
+
+char *trivsql_getallcolumns(char *tname)
+{
+  char *t, *u, *retVal, *retVal2;
+  int i, maxCols;
+
+  t = trivsql_xsnprintf("trivsql_%s_numcols", tname);
+  u = trivsql_dbread(gState, t);
+  maxCols = atoi(u);
+  trivsql_xfree(t);
+  trivsql_xfree(u);
+
+  retVal = trivsql_xsnprintf("");
+
+  for(i = 0; i < maxCols; i++){
+      t = trivsql_xsnprintf("trivsql_%s_col%d", tname, i);
+      u = trivsql_dbread(gState, t);
+
+      if(strcmp(retVal, "") != 0)
+	retVal2 = trivsql_xsnprintf("%s;%s", retVal, u);
+      else
+	retVal2 = trivsql_xsnprintf("%s", u);
+
+      trivsql_xfree(t);
+      trivsql_xfree(u);
+      trivsql_xfree(retVal);
+      retVal = retVal2;
+  }
+
+  return retVal;
+} 
+

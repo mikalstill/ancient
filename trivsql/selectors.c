@@ -9,7 +9,7 @@ int trivsql_selequal(char *arg1, char *arg2){
 // todo: implement %'s
 int trivsql_sellike(char *arg1, char *arg2){
   int front = 0, back = 0, ret;
-  char *sel;
+  char *sel, *str;
 
   sel = strdup(arg2);
 
@@ -23,11 +23,16 @@ int trivsql_sellike(char *arg1, char *arg2){
     sel[strlen(sel) - 1] = '\0';
   }
 
-  printf("%d %d\n", front, back);
+  printf("%d %d (%s)\n", front, back, sel);
 
-  if(strstr(arg1, sel) != NULL) ret = SELTRUE;
-  ret = SELFALSE;
+  if((str = strstr(arg1, sel)) != NULL){
+    if((front == 1) && (str == arg1))
+      ret = SELFALSE;
+    else
+      ret = SELTRUE;
+  }
+  else ret = SELFALSE;
 
-  trivsql_xfree(sel);
+  //trivsql_xfree(sel);
   return ret;
 }
