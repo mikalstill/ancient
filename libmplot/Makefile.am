@@ -1,11 +1,8 @@
-lib_LTLIBRARIES = libtrivsql.la
+lib_LTLIBRARIES = libplot.la
 noinst_PROGRAMS = sample
 
-libtrivsql_la_SOURCES = parser.y lexer.l tdb.c spinlock.c selectors.c interface.c internal.c
-
-include_HEADERS = trivsql.h trivsql_tdb.h trivsql_spinlock.h
+libplot_la_SOURCES = libplot.c
+include_HEADERS = libplot.h
 
 sample_SOURCES = example.c
-sample_LDADD = -ltrivsql -L.libs
-
-YFLAGS = -d
+sample_LDADD = -lplot -L.libs
