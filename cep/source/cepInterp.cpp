@@ -46,12 +46,13 @@ cepMatrix<double> cepInterp::doInterp(cepMatrix<double> & input, double sampleRa
 
 
 	/* build new timescale*/
-	cepMatrix<double> timeScale(numSamples,3);
+	cepMatrix<double> timeScale(numSamples,4);
 	timeScale.setValue(0,0,input.getValue(0,0));
 	for (int i = 1; i < numSamples; i++)
 	{
 		timeScale.setValue(i,0,timeScale.getValue(i-1,0)+sampleRate);
 		timeScale.setValue(i,2, 0.0);
+		timeScale.setValue(i,3, 0.0);
 	}
 
 
@@ -244,6 +245,92 @@ cepMatrix<double> cepInterp::doInterp(cepMatrix<double> & input,
 cepMatrix<double> cepInterp::cubicSplineInterp(cepMatrix<double> & input,
 												cepMatrix<double> & timeScale)
 {
+	int i;
+	int newSize = timeScale.getNumRows();
+	int oldSize = input.getNumRows();
+	int n = oldSize - 1;
+
+	// a cubic spline describes a line by drawing a cubic between each 2
+	// adjacent points and then matching the first and second derivatives of
+	// the cubics
+	// a, b, c and d are set of parameters for each of these cubics such that
+	// a(x-n)^3+b(x-n)^2+c(x-n) + d = line approximation between 2 points
+	cepMatrix<double> a(n,1);
+	cepMatrix<double> b(n,1);
+	cepMatrix<double> c(n,1);
+	cepMatrix<double> d(n,1);
+
+	// h describes the disance accross intervals
+	// h[i] = (x[i+1] - x[i]) - set later in loop
+	cepMatrix<double> h(n,1);
+
+	// S describes the second derivatives (too complex to describe here)
+	cepMatrix<double> s(n+1,1);
+
+	// t is a temporary cooefficent matrix used for intermediate calculations
+	// uses a n-1 by 3 matrix to simulate a n-1 by n-1 tridiagonal matrix.
+	cepMatrix<double> t(n-1,3);
+
+	for (i = 0; i < n; i++)
+	{
+		// d is set to the height value at the start of each interval
+		d.setValue(i,0,input.getValue(i,1));
+		h.setValue(i,0,input.getValue(i+1,0)-input.getValue(i,0));
+	}
+
+
+	// set initial coefficent matrix and place temp values in the
+	// middle n-1 values of s
+
+	// initialise first row
+	t.setValue(0,1, 3*h.getValue(0,0)+2*h.getValue(1,0));
+	t.setValue(0,2, h.getValue(1,0));
+	s.setValue(1,0, 6.0*((input.getValue(2,1)-input.getValue(1,1))/h.getValue(1,0) -
+										 (input.getValue(1,1)-input.getValue(0,1))/h.getValue(0,0)));
+	// initialise middle rows
+	for (i = 2; i < n-1; i++)
+	{
+		t.setValue(i-1,0, h.getValue(i-1,0));
+		t.setValue(i-1,1, 2.0*(h.getValue(i-1,0)+h.getValue(i,0)));
+		t.setValue(i-1,2, h.getValue(i,0));
+		s.setValue(i,0, 6.0*((input.getValue(i+1,1)-input.getValue(i,1))/h.getValue(i,0) -
+											 (input.getValue(i,1)-input.getValue(i-1,1))/h.getValue(i-1,0)));
+	}
+	// initialise last row
+		t.setValue(n-2,0, h.getValue(n-2,0));
+		t.setValue(n-2,1, 3*h.getValue(n-2,0)+2*h.getValue(n-1,0));
+		s.setValue(n-1,0, 6.0*((input.getValue(n,1)-input.getValue(n-1,1))/h.getValue(n-1,0) -
+											 (input.getValue(n-1,1)-input.getValue(n-2,1))/h.getValue(n-2,0)));
+
+	// because of the spline type the second derivatives
+	// of the end points are set equal to the adjacent points
+	s.setValue(0,0, s.getValue(1,0));
+	s.setValue(n,0, s.getValue(n-1,0));
+
+	// augment t with s then row reduce
+	rowReduce(t,s,n);
+
+	// use values of s to calculate a, b and c
+	calc_abc(a,b,c,s,h,input,n);
+
+	// use a,b,c and d to interpolate the data to the new timescale
+	int position = 0;
+	for (i = 0; i < newSize; i++)
+	{
+		if (inBounds(input, timeScale, position, i, newSize, oldSize))
+		{
+			timeScale.setValue(i,1,
+								a.getValue(position,0)*pow((timeScale.getValue(i,0)-input.getValue(position,0)),3.0)+
+								b.getValue(position,0)*pow((timeScale.getValue(i,0)-input.getValue(position,0)),2.0)+
+								c.getValue(position,0)*(timeScale.getValue(i,0)-input.getValue(position,0))+
+								d.getValue(position,0));
+		}
+		else
+		{
+		  // give error once I know how
+			return timeScale;
+		}
+	}
 	return timeScale;
 }
 
@@ -268,15 +355,12 @@ cepMatrix<double> cepInterp::dividedInterp(cepMatrix<double> & input,
 
 	// calculate first colum of divided differences table
 
-  cout << "Divided difference table\n";
 	diffs.push_back(new cepMatrix<double>(oldSize-1,1));
 	for (j = 0; j <= oldSize - 1; j++)
 	{
 		diffs[0]->setValue(j,0, (input.getValue(j+1,1)-input.getValue(j,1))/
 							(input.getValue(j+1,0) - input.getValue(j,0)));
-    cout << diffs[0]->getValue(j,0) << " ";
 	}
-  cout << '\n';
 	// calculate error approximation for first value
 	errorPos = (input.getValue(0,0)+input.getValue(1,0))*0.5;
 	errorMod = (errorPos-input.getValue(0,0));
@@ -295,9 +379,7 @@ cepMatrix<double> cepInterp::dividedInterp(cepMatrix<double> & input,
 			diffs[i-1]->setValue(j,0, (diffs[i-2]->getValue(j+1,0)-diffs[i-2]->getValue(j,0))/
 								(input.getValue(j+i,0) - input.getValue(j,0)));
       sum += diffs[i-1]->getValue(j,0);
-      cout << diffs[i-1]->getValue(j,0) << " ";
 		}
-    cout << '\n';
 
 		// calculate error for order i-2 divided difference table
 		errorMod = errorMod * (errorPos - input.getValue(i-1,0));
@@ -308,15 +390,12 @@ cepMatrix<double> cepInterp::dividedInterp(cepMatrix<double> & input,
 		{
 			// trigger exit from for loop
 			i = oldSize + 2;
-      cout  << "Sum: " << sum << '\n';
 		}
 	}
-  cout << '\n';
 
 	if (i > oldSize) // if divided difference table loop exited early
 	{
 		order = order - 1; // decrease order of approx by 2
-    cout << "order: " << order << '\n';
 	}
 
 	int position = 0; // position on old timeline (input)
