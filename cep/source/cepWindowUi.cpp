@@ -31,7 +31,7 @@ BEGIN_EVENT_TABLE (cepWindowBandwidth, wxDialog)
 END_EVENT_TABLE ()
                           
 cepWindowBandwidth::cepWindowBandwidth( bool getBandwidth ):
-  wxDialog((wxDialog *) NULL, -1, "Specify Transition Bandwidth", wxPoint(120,120), wxSize(250, 120))
+  wxDialog((wxDialog *) NULL, -1, "Specify Transition Bandwidth", wxPoint(120,120), wxSize(250, 142))
 {
   ostringstream currentSize;
   currentSize << cepDataWindower::getSize();
@@ -40,36 +40,39 @@ cepWindowBandwidth::cepWindowBandwidth( bool getBandwidth ):
   ostringstream currentBW;
   currentBW << cepWindowChebyshev::getTransitionBandwidth();
 
-  int step = 0;
-  int inputY = 47;
+  int step = 22;
+  int inputY = 35;
   if( getBandwidth ) {
-    step = 22;
-    SetSize(250, 120+(2*step));
+    SetSize(250,175);
   }
   
   // panel and frame
-  m_panel = new wxPanel(this, -1, wxPoint(120,120), wxSize(250,120+(2*step)));
-  m_statBox = new wxStaticBox(m_panel, -1, "", wxPoint(25, 35), wxSize(200, 40+(2*step)));
+  // the size of these depends on whther we are requesting transition bandwidth
+  m_panel = new wxPanel(this, -1, wxPoint(120,120), wxSize(250,(getBandwidth?120+step:120)));
+  int boxHeight =  getBandwidth?110:65;
+  m_statBox = new wxStaticBox(m_panel, -1, "", wxPoint(25, inputY-15), wxSize(200, boxHeight));
 
   // the text labels
-  m_statText1 = new wxStaticText(m_panel, -1, "Please specify the Normalised Transition", wxPoint(5,5), wxSize(240, 20), wxALIGN_CENTRE);
-  m_statText2 = new wxStaticText(m_panel, -1, "Bandwidth for Dolph-Chebyshev", wxPoint(5,19), wxSize(240, 20), wxALIGN_CENTRE);
+  m_statText1 = new wxStaticText(m_panel, -1, "Please specify the Window Parameters", wxPoint(5,5), wxSize(240, 20), wxALIGN_CENTRE);
 
-  m_statText3 = new wxStaticText(m_panel, -1, "Size:", wxPoint(35,48), wxSize(70, 20), wxALIGN_LEFT);
+  m_statText3 = new wxStaticText(m_panel, -1, "Size:", wxPoint(35,inputY), wxSize(70, 20), wxALIGN_LEFT);
   m_tbBandwidth = new wxTextCtrl(m_panel, -1, currentSize.str().c_str(), wxPoint(100, inputY), wxSize(115, 20));
 
-  m_statText3 = new wxStaticText(m_panel, -1, "Overlap:", wxPoint(35,68), wxSize(70, 20), wxALIGN_LEFT);
+  m_statText3 = new wxStaticText(m_panel, -1, "Overlap:", wxPoint(35,inputY+step), wxSize(70, 20), wxALIGN_LEFT);
   m_tbBandwidth = new wxTextCtrl(m_panel, -1, currentOverlap.str().c_str(), wxPoint(100, inputY+step), wxSize(115, 20));
 
+  // only display
   if( getBandwidth ) {
-     m_statText3 = new wxStaticText(m_panel, -1, "NTB:", wxPoint(35,88), wxSize(70, 20), wxALIGN_LEFT);
-     m_tbBandwidth = new wxTextCtrl(m_panel, -1, currentBW.str().c_str(), wxPoint(100, inputY+(2*step)), wxSize(115, 20));
+     m_statText2 = new wxStaticText(m_panel, -1, "Normalised Transition Bandwidth", wxPoint(5,inputY+(2*step)), wxSize(240, 20), wxALIGN_CENTRE);
+     m_statText3 = new wxStaticText(m_panel, -1, "NTB:", wxPoint(35,inputY+(3*step)), wxSize(70, 20), wxALIGN_LEFT);
+     m_tbBandwidth = new wxTextCtrl(m_panel, -1, currentBW.str().c_str(), wxPoint(100, inputY+(3*step)), wxSize(115, 20));
   }
  
   // the buttons
-  m_bSubmit = new wxButton(m_panel, CEPBTN_ATT_SUBMIT, "Ok", wxPoint(25,80+(2*step)));
+  int buttonHeight = 30;
+  m_bSubmit = new wxButton(m_panel, CEPBTN_ATT_SUBMIT, "Ok", wxPoint(25,boxHeight+buttonHeight));
   m_bSubmit->SetDefault();
-  m_bCancel = new wxButton(m_panel, CEPBTN_ATT_CANCEL, "Cancel", wxPoint(145,80+(2*step)));
+  m_bCancel = new wxButton(m_panel, CEPBTN_ATT_CANCEL, "Cancel", wxPoint(145,boxHeight+buttonHeight));
 
   Center();
   ShowModal();

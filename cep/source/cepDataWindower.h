@@ -58,40 +58,47 @@ DOCBOOK END
 #include "cepMatrix.h"
 #include "cepWindowAlg.h"
 
+class Window {
+public:
+  Window( int id );
+  bool operator== (const Window &w) const;
+  const int id() const;
+  
+private:
+  int myID;
+};
 
 class cepDataWindower {
 public:
-  enum windowType
-       { WINDOW_RECTANGULAR=0,
-         WINDOW_HAMMING,
-         WINDOW_BLACKMAN,
-         WINDOW_CHEBYSHEV,
-         WINDOW_UNDEFINED};
-
-  cepDataWindower();
-  cepDataWindower( const windowType type, const int size, const int overlap );
-  ~cepDataWindower();
-
-  const cepError setWindowType( const windowType type, const int size, const int overlap );
+  static const cepError setWindowType( const Window &type, const int size, const int overlap );
   
   // att is the side lobe attenuation as required for dolph-chebyshev
-  const cepError setChebBandwidth( double dw );
+  static const cepError setChebBandwidth( double dw );
 
   // windowedData is in/out param. numRows is the number of windows, numCols is the windows size
   // and the tird dimension is 2 (date and value)
-  const cepError window( const cepMatrix<double> & dataIn, cepMatrix<double> & windowedData );
+  static const cepError window( const cepMatrix<double> & dataIn, cepMatrix<double> & windowedData );
 
   static const int getSize();
   static const int getOverlap();
 
+  static const Window WINDOW_RECTANGULAR;
+  static const Window WINDOW_HAMMING;
+  static const Window WINDOW_BLACKMAN;
+  static const Window WINDOW_CHEBYSHEV;
+  static const Window WINDOW_UNDEFINED;
+
 protected:
-  cepWindowAlg *windowAlg;
+  cepDataWindower();
+  ~cepDataWindower();
+  
+  static cepWindowAlg *windowAlg;
   static int size;
   static int overlap;
-  windowType algType;
-
-  int countWindows( int samples, int winSize, int overlap );
+  static Window algType;
+  static int countWindows( int samples, int winSize, int overlap );
   
 };
+
 
 #endif

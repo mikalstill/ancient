@@ -62,6 +62,7 @@
 #include "cepInterpUi.h"
 #include "cepWindowUi.h"
 #include "cepwindowchebyshev.h"
+#include "cepDataWindower.h"
 
 #include "cepDate.h"
 #include "cepDateUi.h"
@@ -696,6 +697,8 @@ void cepView::OnWindowBlackman (wxCommandEvent& event)
     else if( windowUi.getOverlap()==-1 ) cepError("Error. overlap must be a positive integer", cepError::sevWarning).display();
     else ok = true;
   } while( !ok  );
+
+  cepDataWindower::setWindowType( cepDataWindower::WINDOW_BLACKMAN, windowUi.getSize(), windowUi.getOverlap() );
 }
 
 void cepView::OnWindowChebyshev (wxCommandEvent& event)
@@ -705,7 +708,7 @@ void cepView::OnWindowChebyshev (wxCommandEvent& event)
 
   do
   {
-    windowUi.show();
+    windowUi.showBandwidth();
     if( isnan( windowUi.getBandwidth()) ) cepError("Error. transition bandwidth must be a number", cepError::sevWarning).display();
     else if( windowUi.getSize()==-1 ) cepError("Error. size must be a positive integer", cepError::sevWarning).display();
     else if( windowUi.getOverlap()==-1 ) cepError("Error. overlap must be a positive integer", cepError::sevWarning).display();
@@ -719,8 +722,7 @@ void cepView::OnWindowChebyshev (wxCommandEvent& event)
       err.display();
       return;
     }
-    
-    cout << "value accepted" << endl;
+  cepDataWindower::setWindowType( cepDataWindower::WINDOW_CHEBYSHEV, windowUi.getSize(), windowUi.getOverlap() );
   }
 }
 
@@ -737,6 +739,8 @@ void cepView::OnWindowHamming (wxCommandEvent& event)
     else ok = true;
   } while( !ok  );
 
+  cepDataWindower::setWindowType( cepDataWindower::WINDOW_HAMMING, windowUi.getSize(), windowUi.getOverlap() );
+
 }
 
 void cepView::OnWindowRect (wxCommandEvent& event)
@@ -751,6 +755,7 @@ void cepView::OnWindowRect (wxCommandEvent& event)
     else if( windowUi.getOverlap()==-1 ) cepError("Error. overlap must be a positive integer", cepError::sevWarning).display();
     else ok = true;
   } while( !ok  );
+  cepDataWindower::setWindowType( cepDataWindower::WINDOW_RECTANGULAR, windowUi.getSize(), windowUi.getOverlap() );
 
 }
 

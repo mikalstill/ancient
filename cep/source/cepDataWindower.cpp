@@ -26,19 +26,21 @@
 
 
 
+Window::Window( int id ) {
+  myID = id;
+}
+bool Window::operator== (const Window &w) const {
+  return (w.id() == myID);
+}
+const int Window::id() const {
+  return myID;
+}
+
+
 cepDataWindower::cepDataWindower() {
   windowAlg = NULL;
   algType = WINDOW_UNDEFINED;
 }
-
-
-
-cepDataWindower::cepDataWindower( const windowType t, const int s, const int ol ){
-  windowAlg = NULL;     // initialise in case the user supplies a bogus algorithm
-  algType = WINDOW_UNDEFINED;
-  setWindowType( t, s, ol );
-}
-
 
 
 cepDataWindower::~cepDataWindower(){
@@ -56,35 +58,29 @@ const cepError cepDataWindower::setChebBandwidth( double dw ) {
 
 
 
-const cepError cepDataWindower::setWindowType( const windowType type, const int sz, const int ol ) {
+const cepError cepDataWindower::setWindowType( const Window &type, const int sz, const int ol ) {
   
   algType = type;
   size = sz;
   overlap=ol;
   
-  switch( type ) {
-    
-    case WINDOW_RECTANGULAR:
+  if( type == WINDOW_RECTANGULAR ) {
       delete windowAlg;
       windowAlg = new cepWindowRect( size );
-      break;
       
-    case WINDOW_HAMMING:
+  } else if( type == WINDOW_HAMMING ) {
       delete windowAlg;
       windowAlg = new cepWindowHamming( size );
-      break;
 
-    case WINDOW_BLACKMAN:
+  } else if( type == WINDOW_BLACKMAN ) {
       delete windowAlg;
       windowAlg = new cepWindowBlackman( size );
-      break;
 
-    case WINDOW_CHEBYSHEV:
+  } else if( type == WINDOW_CHEBYSHEV ) {
       delete windowAlg;
       windowAlg = new cepWindowChebyshev( size );
-      break;
       
-    default:
+  } else {
       // leave the current settings alone and return an error
       algType = WINDOW_UNDEFINED;
       return cepError("unknown windowing algorithm. Set type failed", cepError::sevWarning);
@@ -161,5 +157,14 @@ const cepError cepDataWindower::window( const cepMatrix<double> & dataIn,
   return cepError();
 }
 
+const Window cepDataWindower::WINDOW_RECTANGULAR(1);
+const Window cepDataWindower::WINDOW_HAMMING(2);
+const Window cepDataWindower::WINDOW_BLACKMAN(3);
+const Window cepDataWindower::WINDOW_CHEBYSHEV(4);
+const Window cepDataWindower::WINDOW_UNDEFINED(5);
+
 int cepDataWindower::size = 0;
 int cepDataWindower::overlap = 0;
+cepWindowAlg* cepDataWindower::windowAlg = 0;
+Window cepDataWindower::algType = WINDOW_UNDEFINED;
+
