@@ -118,7 +118,7 @@ sub process($){
 	    elsif($cmd eq "todo"){
 		print $OUTPTR "<figure>\n";
 		print $OUTPTR "<title>$input</title>\n";
-		print $OUTPTR `img todo.png eps`;
+		print $OUTPTR `eqimg todo.png eps`;
 		print $OUTPTR "</figure>\n";
 	    }
 	    elsif($cmd eq "nextedition"){
