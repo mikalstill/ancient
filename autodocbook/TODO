@@ -1,1 +1,5 @@
   * Find the see also's from the header files
+  * Convert the SGML into the named formats so that this can be put into
+	Makefiles
+  * A Makefile for the project (just an install?)
+  * Freetype: not all of the documentation format is correctly reverse engineered just yet -- for instance chapters and sections.

@@ -4,77 +4,58 @@
 # documentation files... It was orginally written for the Panda project
 # http://www.stillhq.com/cgi-bin/getpage?area=panda&page=index.htm
 
+# It has now been extended to read the inline comment format used for Freetype
+# as well
+
+# $docbook is a state indicator:
+#      0 -- no state currently defined
+#      1 -- inside a DOCBOOK formatted comment
+#      2 -- inside a <Section> formatted comment
+#      3 -- inside a <Struct> formatted comment
+#      4 -- inside a <Function> formatted comment
+#      5 -- inside a <Enum> formatted comment
+#      6 -- inside a <Constant> formatted comment
+
+# The Freetype stuff has the concept of subitems, which means that some things
+# cannot be processed until the end of the file is reached. Waiting stores the
+# names of the elements which are waiting until the end of the file, and
+# subitems stores the elements which will be needed at that time.
+
 # This code is (c) Michael Still 2001 and is released under the terms of the
 # GNU GPL
 
 use strict;
 my($CFILE, $filename, $docbook, $blockmode, $blockstring, $blockkey, %myhash);
-my($key, $value, $tempString, $OUTPUTFILE);
+my($key, $value, $tempString, $OUTPUTFILE, $docbooktoman, @sgmls, $sgmlcount);
+my($i, $outputfilename, $outputtargets, $templine, %subitems, %waiting);
 
-$filename=shift();
+# Do some initialisation stuff -- the command line stuff should be changed to
+# use getopt sometime soon...
+$filename = shift();
+$outputtargets = shift();
+$docbook = 0;
+$sgmlcount = 0;
+
 print "Opening $filename and finding all the documentation comments within it\n";
+print "  ";
 
 # Run through every line the the file
 open CFILE, "< $filename";
 while(<CFILE>){
   # The docbook start and stop tags are treated as special cases
   if(/DOCBOOK START/){
-    print ".";
     $docbook = 1;
     }
   elsif(/DOCBOOK END/){
     print "\b+";
     $docbook = 0;
 
-    open OUTPUTFILE, "> man/$myhash{FUNCTION}.sgml" or die "Could not open man/$myhash{FUNCTION}.sgml";
-
-    # Dump the hash for this piece of documentation...
-    # We should know that there is a key named FUNCTION which is the name of the docbook output
-    print OUTPUTFILE `cat man/docbook/head.sgml`;
-    print OUTPUTFILE "<refentry id=\"$myhash{FUNCTION}\">\n";
-    print OUTPUTFILE "<refmeta>\n";
-    print OUTPUTFILE "<refentrytitle>$myhash{FUNCTION}</refentrytitle>\n";
-    print OUTPUTFILE "<manvolnum>3</manvolnum>\n";
-    print OUTPUTFILE "</refmeta>\n\n";
-
-    print OUTPUTFILE "<refnamediv>\n";
-    print OUTPUTFILE "<refname>$myhash{FUNCTION}</refname>\n";
-    print OUTPUTFILE "<refpurpose>$myhash{PURPOSE}</refpurpose>\n";
-    print OUTPUTFILE "</refnamediv>\n\n";
-
-    print OUTPUTFILE "<refsynopsisdiv>\n";
-    print OUTPUTFILE "<synopsis>\n";
-#    $tempString = $myhash{SYNOPSIS};
-#    s/$myhash{FUNCTION}/<command>$myhash{FUNCTION}<\/command>/g;
-    print OUTPUTFILE "$myhash{SYNOPSIS}\n";
-    print OUTPUTFILE "</synopsis>\n";
-    print OUTPUTFILE "</refsynopsisdiv>\n\n";
-
-    print OUTPUTFILE "<refsect1>\n";
-    print OUTPUTFILE "<title>DESCRIPTION</title>\n";
-    print OUTPUTFILE "<para>$myhash{DESCRIPTION}</para>\n";
-    print OUTPUTFILE "</refsect1>\n\n";
-
-    print OUTPUTFILE "<refsect1>\n";
-    print OUTPUTFILE "<title>RETURNS</title>\n";
-    print OUTPUTFILE "<para>$myhash{RETURNS}</para>\n";
-    print OUTPUTFILE "</refsect1>\n\n";
-
-    print OUTPUTFILE "<refsect1>\n";
-    print OUTPUTFILE "<title>EXAMPLE</title>\n";
-    print OUTPUTFILE "<para>$myhash{EXAMPLE}</para>\n";
-    print OUTPUTFILE "</refsect1>\n\n";
-
-    if($myhash{SEEALSO} ne ""){
-      print OUTPUTFILE "<refsect1>\n";
-      print OUTPUTFILE "<title>SEE ALSO</title>\n";
-      print OUTPUTFILE "<para>$myhash{SEEALSO}</para>\n";
-      print OUTPUTFILE "</refsect1>\n\n";
-      }
-
-    print OUTPUTFILE `cat man/docbook/foot.sgml`;    
-
-    close OUTPUTFILE;
+    finalise(0, %myhash);
+    
+    # Clean up myhash
+    while(($key, $value) = each %myhash){
+	delete $myhash{$key};
+        } 
     }
   elsif((/([A-Z]*)[ \t]*(.*)[ \t]*/) && ($docbook == 1)){
     if($blockmode == 0){
@@ -103,7 +84,361 @@ while(<CFILE>){
   elsif($docbook == 1){
     print $_;
     }
+
+  ##################################################################
+  # Handle Freetype style markup
+  elsif(/\/\*[ \t]*<section>.*/i){
+      if($docbook ne 0){
+	  setblockkey("DONE", "");
+	  finalise(0, %myhash);
+	  cleanup();
+      }
+
+      $docbook = 2;
+      setblockkey("FUNCTION", "");
+  }
+  elsif((/\/\*[ \t]*<title>.*/i) && ($docbook == 2)){
+      setblockkey("PURPOSE", "");
+  }
+  elsif((/\/\*[ \t]*<abstract>.*/i) && ($docbook == 2)){
+      setblockkey("SYNOPSIS", "");
+  }
+  elsif((/\/\*[ \t]*<description>.*/i) && ($docbook > 1)){
+      setblockkey("DESCRIPTION", "");
+  }
+  elsif((/\/\*[ \t]*<order>.*/i) && ($docbook == 2)){
+      setblockkey("SUBITEMS", "");
+  }
+  elsif(/\/\*[ \t]*<struct>.*/i){
+      if($docbook ne 0){
+	  setblockkey("DONE", "");
+	  finalise(0, %myhash);
+	  cleanup();
+      }
+
+      $docbook = 3;
+      setblockkey("FUNCTION", "");
+  }
+  elsif((/\/\*[ \t]*<fields>.*/i) && (($docbook == 3) || ($docbook == 5))){
+      setblockkey("SYNOPSIS", "");
+  }
+  elsif(/\/\*[ \t]*<function>.*/i){
+      if($docbook ne 0){
+	  setblockkey("DONE", "");
+	  finalise(0, %myhash);
+	  cleanup();
+      }
+
+      $docbook = 4;
+      setblockkey("FUNCTION", "");
+  }
+  elsif((/\/\*[ \t]*<input>.*/i) && ($docbook == 4)){
+      setblockkey("DESCRIPTION", "Input");
+  }
+  elsif((/\/\*[ \t]*<return>.*/i) && ($docbook == 4)){
+      setblockkey("RETURNS", "");
+  }
+  elsif((/\/\*[ \t]*<inout>.*/i) && ($docbook == 4)){
+      setblockkey("DESCRIPTION", "Input / Output");
+  }
+  elsif(/\/\*[ \t]*<note>.*/i){
+      setblockkey("DESCRIPTION", "Notes");
+  }
+  elsif(/\/\*[ \t]*<enum>.*/i){
+      if($docbook ne 0){
+	  setblockkey("DONE", "");
+	  finalise(0, %myhash);
+	  cleanup();
+      }
+
+      $docbook = 5;
+      setblockkey("FUNCTION", "");
+  }
+  elsif((/\/\*[ \t]*<output>.*/i) && ($docbook == 4)){
+      setblockkey("DESCRIPTION", "Output");
+  }
+  elsif(/\/\*[ \t]*<type>.*/i){
+      setblockkey("DESCRIPTION", "");
+  }
+  elsif(/\/\*[ \t]*<constant>.*/i){
+      if($docbook ne 0){
+	  setblockkey("DONE", "");
+	  finalise(0, %myhash);
+	  cleanup();
+      }
+
+      $docbook = 6;
+      setblockkey("FUNCTION", "");
+  }
+  elsif(/\/\*[ \t]*<macro>.*/i){
+      setblockkey("DESCRIPTION", "");
+  }
+  elsif(/\/\*[ \t]*<.*>/){
+      print "\n\n*** Undefined tag $_ ***\n\n";
+  }
+  elsif($docbook gt 1){
+      s/\/\*[ \t]/ /;
+      s/\*\///;
+      s/[ \t]+/ /;
+      chomp;
+      s/^ +//;
+      s/ +$//;
+      s/ +:: +/ :: /;
+      s/\/\*+//;
+      $templine = $_;
+
+      if(/.*::.*/){
+	  $templine = "</para><para>$templine";
+      }
+
+      if(length $templine ne 0){
+	  if($blockstring ne ""){
+	      if($blockkey ne "SUBITEMS"){
+		  $blockstring = "$blockstring $templine ";
+	      }
+	      else{
+		  $blockstring = "$blockstring,$templine";
+	      }
+	  }
+	  else{
+	      $blockstring = $templine;
+	  }
+      }
+      else{
+	  # Deal with paragraphs
+      }
+  }
+}
+
+# Deal with the final one for the document
+if($docbook ne 0){
+    setblockkey("DONE", "");
+    finalise(0, %myhash);
+    cleanup();
+}
+
+# Process the elements with subitems
+print "\n\nNow processing those pages with subitems:";
+
+while(($key, $value) = each %waiting){
+    print "\n  $key".$subitems{"$key-FUNCTION"}."\n    ";
+
+    # Rebuild the hash table we would have had for this element
+    $myhash{FUNCTION} = $subitems{"$key-FUNCTION"};
+    $myhash{PURPOSE} = $subitems{"$key-PURPOSE"};
+    $myhash{DESCRIPTION} = $subitems{"$key-DESCRIPTION"};
+    $myhash{SYNOPSIS} = $subitems{"$key-SYNOPSIS"};
+    $myhash{SUBITEMS} = $subitems{"$key-SUBITEMS"};
+    $myhash{RETURNS} = $subitems{"$key-RETURNS"};
+    $myhash{EXAMPLE} = $subitems{"$key-EXAMPLE"};
+    $myhash{SEEALSO} = $subitems{"$key-SEEALSO"};
+
+    setblockkey("DONE", "");
+    finalise(1, %myhash);
+    cleanup();
+}
+
+# Do some output conversion
+if($outputtargets ne ""){
+  print "\n\nNow converting the generated SGML into the requested formats\n";
+  
+  # What formats do we support? Perhaps just use strings which we can append
+  # to docbook2... to come up with a command to execute
+
+  $docbooktoman=`which docbook2man`;
+  chomp($docbooktoman);
+
+  if($docbooktoman ne ""){
+    print "  docbook2man found at $docbooktoman\n";
+
+    for($i = 0; $i < $sgmlcount; $i++){
+      $outputfilename=`echo "$sgmls[$i]" | sed 's/sgml/man/'`;
+      chomp($outputfilename);
+
+      print "    Output file: $sgmls[$i] --> $outputfilename\n";
+      `$docbooktoman $sgmls[$i] 2> /dev/null`;
+      
+      print "Done.\n";
+    }
+  }
+  else{
+    print "  docbook2man missing\n";
+  }
+}
+else{
+  print "\n\nNo output conversion requested\n";
   }
 
+print "\n";
 
-print "\n\n";
+exit;
+
+###############################################################################
+# This function call is used to finalise docbook generation in the Freetype
+# stuff
+
+sub finalise(){
+    my($isEOF) = @_;
+    my($OUTPUTFILE);
+
+    # Store the data that we might need later
+    while(($key, $value) = each %myhash){
+	$subitems{"$myhash{FUNCTION}-$key"} = $value;
+    }
+
+    # If there are sub items and this is not the end of the input file, then
+    # just record that we are waiting for this one...
+    if(($myhash{SUBITEMS} ne "") && ($isEOF == 0)){
+	print "-";
+	$waiting{$myhash{FUNCTION}} = $myhash{FUNCTION};
+	return;
+    }
+    else{
+	print "+";
+    }
+
+    # Open the output file or flag an error
+    open OUTPUTFILE, "> man/$myhash{FUNCTION}.sgml" or die "Could not open man/$myhash{FUNCTION}.sgml";
+
+    # Dump the hash for this piece of documentation...
+    # We should know that there is a key named FUNCTION which is the name of the docbook output
+    print OUTPUTFILE `cat man/docbook/head.sgml`;
+    print OUTPUTFILE "<refentry id=\"$myhash{FUNCTION}\">\n";
+    print OUTPUTFILE "<refmeta>\n";
+    print OUTPUTFILE "<refentrytitle>$myhash{FUNCTION}</refentrytitle>\n";
+    print OUTPUTFILE "<manvolnum>3</manvolnum>\n";
+    print OUTPUTFILE "</refmeta>\n\n";
+
+    print OUTPUTFILE "<refnamediv>\n";
+    print OUTPUTFILE "<refname>$myhash{FUNCTION}</refname>\n";
+    
+    if($myhash{PURPOSE} ne ""){
+	print OUTPUTFILE "<refpurpose>$myhash{PURPOSE}</refpurpose>\n";
+    }
+
+    print OUTPUTFILE "</refnamediv>\n\n";
+
+    if($myhash{SYNOPSIS} ne ""){
+	print OUTPUTFILE "<refsynopsisdiv>\n";
+	print OUTPUTFILE "<synopsis>\n";
+	print OUTPUTFILE "$myhash{SYNOPSIS}\n";
+	print OUTPUTFILE "</synopsis>\n";
+	print OUTPUTFILE "</refsynopsisdiv>\n\n";
+    }
+    
+    if($myhash{DESCRIPTION} ne ""){
+	print OUTPUTFILE "<refsect1>\n";
+	print OUTPUTFILE "<title>DESCRIPTION</title>\n";
+	print OUTPUTFILE "<para>$myhash{DESCRIPTION}</para>\n";
+	print OUTPUTFILE "</refsect1>\n\n";
+    }
+
+    if($myhash{SUBITEMS} ne ""){
+	foreach $key (split(/,/, $myhash{SUBITEMS})){
+	    print OUTPUTFILE "<refsect1>\n";
+	    print OUTPUTFILE "<title>$key</title>\n";
+
+	    if($subitems{"$key-PURPOSE"} ne ""){
+		print OUTPUTFILE "<para><command>Purpose:</command></para><para>\n";
+		print OUTPUTFILE $subitems{"$key-PURPOSE"};
+		print OUTPUTFILE "</para>\n";
+	    }
+
+	    if($subitems{"$key-DESCRIPTION"} ne ""){
+		print OUTPUTFILE "<para><command>Description:</command></para><para>\n";
+		print OUTPUTFILE $subitems{"$key-DESCRIPTION"};
+		print OUTPUTFILE "</para>\n";
+		print "*";
+	    }
+	    else{
+		print "!";
+		print OUTPUTFILE "<para>Content missing for this item</para>\n";
+	    }
+
+	    if($subitems{"$key-SYNOPSIS"} ne ""){
+		print OUTPUTFILE "<para><command>Synopsis:</command></para><para>\n";
+		print OUTPUTFILE $subitems{"$key-SYNOPSIS"};
+		print OUTPUTFILE "</para>\n";
+	    }
+
+	    if($subitems{"$key-RETURNS"} ne ""){
+		print OUTPUTFILE "<para><command>Returns:</command></para><para>\n";
+		print OUTPUTFILE $subitems{"$key-RETURNS"};
+		print OUTPUTFILE "</para>\n";
+	    }
+
+	    if($subitems{"$key-EXAMPLE"} ne ""){
+		print OUTPUTFILE "<para><command>Example:</command></para><para>\n";
+		print OUTPUTFILE $subitems{"$key-EXAMPLE"};
+		print OUTPUTFILE "</para>\n";
+	    }
+		
+	    if($subitems{"$key-SEEALSO"} ne ""){
+		print OUTPUTFILE "<para><command>See also:</command></para><para>\n";
+		print OUTPUTFILE $subitems{"$key-SEEALSO"};
+		print OUTPUTFILE "</para>\n";
+	    }
+
+	    print OUTPUTFILE "</refsect1>\n\n";
+	}
+    }
+
+    if($myhash{RETURNS} ne ""){
+	print OUTPUTFILE "<refsect1>\n";
+	print OUTPUTFILE "<title>RETURNS</title>\n";
+	print OUTPUTFILE "<para>$myhash{RETURNS}</para>\n";
+	print OUTPUTFILE "</refsect1>\n\n";
+    }
+
+    if($myhash{EXAMPLE} ne ""){
+	print OUTPUTFILE "<refsect1>\n";
+	print OUTPUTFILE "<title>EXAMPLE</title>\n";
+	print OUTPUTFILE "<para>$myhash{EXAMPLE}</para>\n";
+	print OUTPUTFILE "</refsect1>\n\n";
+    }
+
+    if($myhash{SEEALSO} ne ""){
+	print OUTPUTFILE "<refsect1>\n";
+	print OUTPUTFILE "<title>SEE ALSO</title>\n";
+	print OUTPUTFILE "<para>$myhash{SEEALSO}</para>\n";
+	print OUTPUTFILE "</refsect1>\n\n";
+    }
+
+    print OUTPUTFILE `cat man/docbook/foot.sgml`;    
+    close OUTPUTFILE;
+
+    @sgmls[$sgmlcount] = "man/$myhash{FUNCTION}.sgml";
+    $sgmlcount++;
+}
+
+sub cleanup{
+    my($key, $value);
+
+    while(($key, $value) = each %myhash){
+	delete $myhash{$key};
+    }
+}
+
+sub setblockkey{
+    my($newkey, $subhead) = @_;
+
+    # If this is currently the key (already)
+    if($blockkey ne $newkey){
+	$myhash{$blockkey} = "$myhash{$blockkey}$blockstring";
+	$blockstring = "$myhash{$newkey}";
+
+	# Set the new key
+	$blockkey = $newkey;
+    }
+
+    if($blockstring ne ""){
+	$blockstring = "$blockstring </para><para>";
+    }
+
+    # If this is a subheading, then deal with that as well
+    if($subhead ne ""){
+	$blockstring = "$blockstring<command>$subhead:</command>";
+    }
+}
+
+
