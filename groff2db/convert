@@ -317,13 +317,13 @@ while(<INPUT>){
 	while($sectionstate < ($1 - 2)){
 	    $sectionstate++;
 	    if($firstsect == 0){
-		print "<sect$sectionstate>\n";
+		print "<sect$sectionstate>";
 	    }
 	}
 	
 	$sectionstate++;
 	if($firstsect == 0){
-	    print "<sect$sectionstate>\n";
+	    print "<sect$sectionstate>";
 	}
 	
 	$_ = $2;
@@ -356,7 +356,7 @@ while(<INPUT>){
 	}
 	
 	$sectionstate++;
-	print "<sect$sectionstate>\n";
+	print "<sect$sectionstate>";
 	
 	$_ = $1;
 	s/\"//g;
