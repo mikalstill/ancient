@@ -1,11 +1,21 @@
-#!/bin/bash
+#!/usr/bin/perl
 
-for item in `ls | grep -v COPYING`
-do
-  if [ -e $item/STABLE ]
-  then
-    echo "$item is stable"
-  else
-    echo "$item is unstable"
-  fi
-done
+use strict;
+use File::stat;
+
+my($LIST, $sb);
+
+open LIST, "ls |";
+while(<LIST>){
+    chomp;
+    
+    $sb = stat($_);
+    printf "mtime %s: ", scalar localtime $sb->mtime;
+    
+    if(-e "$_/STABLE"){
+	print "$_ is stable\n";
+    }
+    else{
+	print "$_ is unstable\n";
+	}
+}

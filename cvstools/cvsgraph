@@ -1,17 +1,17 @@
-#!/usr/local/bin/perl
+#!/usr/bin/perl
 
 use strict;
-my($HISTORY, $filename, $date, %dateline, $day, $adate, @dates,
+my($HISTORY, $filename, $date, %dateline, $day, $adate,
    $author, %cols, $newcolnum, @today, @html, $event, $file, $user, $i,
    $table, %authorcolor, @colors, $newauthnum, %heading, $color, $temp,
-   $revision, $lines, $state, %authorcommits, $nowmonth, $prevmonth,
-   @monthnames, $headerhtml, $loghtml, $nowyear, $comment);
+   $revision, $lines, $state, %authorcommits, $nowmonth, $prevmonth, $prevyear,
+   @monthnames, $headerhtml, $loghtml, $nowyear, $comment, $OUTPUT, $INDEX);
 
 open HISTORY, "< logout";
 
 # We need some colors for authors -- I only bother to define 10 here
 $colors[0] = "FF9900";
-$colors[1]  = "FFFF00";
+$colors[1] = "FFFF00";
 $colors[2] = "33FF33";
 $colors[3] = "66CCCC";
 $colors[4] = "6666CC";
@@ -101,17 +101,18 @@ while(<HISTORY>){
 }
 
 ##############################################################################
-# Draw the graph
+# Draw the graph - I now do a graph per month
 $newcolnum = 0;
 $newauthnum = 0;
 $table = "";
 $prevmonth = "";
+$prevyear = "";
 
-print "<html><head></head><body>\n";
+open INDEX, "> cvsreport.html";
+print INDEX "<html><head></head><body><table>";
 
 # For each date
-@dates = sort keys %dateline;
-foreach $adate (@dates){
+foreach $adate (sort keys %dateline){
     for($i = 0; $i < $newcolnum; $i++){
 	$html[$i] = "";
     }
@@ -124,28 +125,18 @@ foreach $adate (@dates){
     $nowyear = $1;
     if($nowmonth ne $prevmonth){
 	if($prevmonth ne ""){
-	    $table = $table . "<tr><td>&nbsp;</td></tr><tr><td><b>$monthnames[$prevmonth] $1</b></td>\n";
-	    
-	    # The funky header thingie
-	    $headerhtml = "";
-	    for($i = 0; $i < $newcolnum; $i++){
-		$temp = $heading{$i};
-		$temp =~ s/[\/\.]/_/g;
-		$temp =~ s/\r*\n*$//;
-		if(! -e "colheader-$temp.jpg"){
-		    print STDERR "Generating column header colheader-$temp.jpg\n";
-		    `convert -font helvetica -pointsize 10 -draw "text 1,10 $heading{$i}" -rotate -90 blank.jpg colheader-$temp.jpg`;
-		}
-		$headerhtml = $headerhtml . 
-		    "<td><img src=\"colheader-$temp.jpg\"></td>\n";
-	    }
-	    
-	    $table = $table . $headerhtml . $loghtml;
+	    output();
+            close OUTPUT;
+	    $table = "";
 	}
 	$loghtml = "";
 	$prevmonth = $nowmonth;
+	$prevyear = $nowyear;
 	$newcolnum = 0;
 	%cols = ();
+
+	open OUTPUT, "> cvsreport-$nowyear$nowmonth.html";
+	print OUTPUT "<html><head></head><body>\n";
     }
 
     @today = split(/;/, $dateline{$adate});
@@ -217,48 +208,81 @@ foreach $adate (@dates){
     $loghtml = $loghtml . "<tr><td valign=\"top\">$adate</td>@html</tr>\n\n";
 }
 
-# And the left over month
-if($prevmonth ne ""){
-    $table = $table . "<tr><td>&nbsp;</td></tr><tr><td><b>$monthnames[$prevmonth] $nowyear</b></td>\n";
-    
-    # The funky header thingie
-    $headerhtml = "";
-    for($i = 0; $i < $newcolnum; $i++){
-	$temp = $heading{$i};
-	$temp =~ s/[\/\.]/_/g;
-	$temp =~ s/\r*\n*$//;
-	if(! -e "colheader-$temp.jpg"){
-	    print STDERR "Generating column header colheader-$temp.jpg\n";
-	    `convert -font helvetica -pointsize 10 -draw "text 1,10 $heading{$i}" -rotate -90 blank.jpg colheader-$temp.jpg`;
+output();
+
+
+# Finish up the index page
+print INDEX "<tr><td>&nbsp;</td>";
+while(($user, $color) = each %authorcolor){
+    print INDEX "<td bgcolor=\"$color\">";
+    print INDEX `grep $user authors | sed 's/^$user://'`;
+    print INDEX "</td>"
+}
+print INDEX "</tr>\n";
+
+
+
+print INDEX "</table>";
+close INDEX;
+close OUTPUT;
+
+
+
+
+
+
+
+sub output(){
+    if($prevmonth ne ""){
+	$table = $table . "<tr><td>&nbsp;</td></tr><tr><td><b>$monthnames[$prevmonth] $nowyear</b></td>\n";
+	
+	# The funky header thingie
+	$headerhtml = "";
+	for($i = 0; $i < $newcolnum; $i++){
+	    $temp = $heading{$i};
+	    $temp =~ s/[\/\.]/_/g;
+	    $temp =~ s/\r*\n*$//;
+	    if(! -e "colheader-$temp.jpg"){
+		print STDERR "Generating column header colheader-$temp.jpg\n";
+		`convert -font helvetica -pointsize 10 -draw "text 1,10 $heading{$i}" -rotate -90 blank.jpg colheader-$temp.jpg`;
+	    }
+	    $headerhtml = $headerhtml . 
+		"<td><img src=\"colheader-$temp.jpg\"></td>\n";
 	}
-	$headerhtml = $headerhtml . 
-	    "<td><img src=\"colheader-$temp.jpg\"></td>\n";
+	
+	$table = $table . $headerhtml . $loghtml;
     }
     
-    $table = $table . $headerhtml . $loghtml;
+    print INDEX "<tr><td><a href=\"cvsreport-$prevyear$prevmonth.html\">";
+    print INDEX "$monthnames[$prevmonth] $prevyear</a></td>";
+    while(($user, $color) = each %authorcolor){
+	print INDEX "<td bgcolor=\"$color\">$authorcommits{$user}</td>";
+    }
+    print INDEX "</tr>\n";
+    
+    print OUTPUT "<table cellspacing=0 cellpadding=0>\n";
+    print OUTPUT "$table</table>\n";
+    print OUTPUT "<BR><HR><BR>Authors: \n";
+    print OUTPUT "<table><tr>\n";
+    
+    print STDERR "Author summary\n";
+    while(($user, $color) = each %authorcolor){
+	print OUTPUT "<td bgcolor=\"$color\">$user: ";
+	print STDERR "User \"$user\"\n";
+	print OUTPUT `grep $user authors | sed 's/^$user://'`;
+	print OUTPUT " ($authorcommits{$user})";
+	$authorcommits{$user} = 0;
+	print OUTPUT "</td>";
+    }
+    
+    print OUTPUT "</tr></table>\n";
+    print OUTPUT "<BR>Key: \n";
+    print OUTPUT "<table><tr><td><img src=\"/cep/icon-insert.gif\">: Initial import of a file</td>\n";
+    print OUTPUT "<td><img src=\"/cep/icon-delete.gif\">: File deleted from repository</td>\n";
+    print OUTPUT "<td><img src=\"/cep/icon-minor.gif\">: Minor code change (less than 100 lines)</td>\n";
+    print OUTPUT "<td><img src=\"/cep/icon-major.gif\">: Major code change (more than 100 lines)</td>\n";
+    print OUTPUT "</tr></table>";
+    
+    print OUTPUT "<BR><BR>END OF REPORT\n";
+    print OUTPUT "</body>\n";
 }
-
-print "<table cellspacing=0 cellpadding=0>\n";
-print "$table</table>\n";
-print "<BR><HR><BR>Authors: \n";
-print "<table><tr>\n";
-
-print STDERR "Author summary\n";
-while(($user, $color) = each %authorcolor){
-    print "<td bgcolor=\"$color\">$user: ";
-    print STDERR "User \"$user\"\n";
-    print `grep $user authors | sed 's/^$user://'`;
-    print " ($authorcommits{$user})";
-    print "</td>";
-}
-
-print "</tr></table>\n";
-print "<BR>Key: \n";
-print "<table><tr><td><img src=\"/cep/icon-insert.gif\">: Initial import of a file</td>\n";
-print "<td><img src=\"/cep/icon-delete.gif\">: File deleted from repository</td>\n";
-print "<td><img src=\"/cep/icon-minor.gif\">: Minor code change (less than 100 lines)</td>\n";
-print "<td><img src=\"/cep/icon-major.gif\">: Major code change (more than 100 lines)</td>\n";
-print "</tr></table>";
-
-print "<BR><BR>END OF REPORT\n";
-print "</body>\n";
