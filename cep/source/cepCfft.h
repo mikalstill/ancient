@@ -74,6 +74,7 @@ DOCBOOK END
 #include <stdio.h>
 #include <complex.h>
 #include "cepMatrix.h"
+#include "dmalloc.h"
 
 typedef complex <double> ComplexDble;
 
@@ -252,38 +253,46 @@ template < class CPLX > cepMatrix<ComplexDble>
   ComplexDble arrayToFft[arraySize];
   cepMatrix<ComplexDble> ffteedMatrix( numRows, numCols, numTables); //matrix contain to store processed values
 
-//calculate the frequency scale and place it in the return matrix
-  cout << endl
-       << "There are " << numRows << " rows; "
-       << numCols << " cols; " << numTables
-       << " tables." << endl;
-  cout << "Calculating frequency scale.." << endl;
+  //calculate the frequency scale and place it in the return matrix
+  //cout << endl
+    //   << "cepCfft: matrix has " << numRows << " rows; "
+    //   << numCols << " cols; " << numTables
+    //   << " tables." << endl;
+  //cout << "cepCfft: Calculating frequency scale.." << endl;
   //char junk;
-  for (table=0; table < numTables; table++)
+  if (dir == 1)
   {
-    //size of dataset = numRows
-    int halfSetSize = (int)(numRows*0.5);
-    double sampleRate = ( real( matrix.getValue(0,0,0) )  
-                        - real (matrix.getValue(0,1,0) ) )*SECSINYEAR;
-    double freq = 1/sampleRate;
-    
-    cout << "Setting fft matrix scale values ..." << endl;
-    cout << "todo Daniel - something wrong with scaling!!!" << endl;
-    for(row=0; row< halfSetSize; row++)
+    for (table=0; table < numTables; table++)
     {
+      //size of dataset = numRows
+      int halfSetSize = (int)(numRows*0.5);
+      double sampleRate = ( real( matrix.getValue(0,0,0) )  
+                          - real (matrix.getValue(0,1,0) ) )*SECSINYEAR;
+      double freq = 1/sampleRate;
+    
+      //cout << "cepCfft: Setting fft matrix scale values ..." << endl;
+      //cout << "cepCfft: todo Daniel - something wrong with scaling!!!???" << endl;
+      for(row=0; row< halfSetSize; row++)
+      {
     	ffteedMatrix.setValue(row,FIRSTCOLUMN,table, (freq*row)/numRows);
 	//cout << ffteedMatrix.getValue(row,FIRSTCOLUMN, table) << endl;
+      }
     }
-  }
-  //cout << "key and enter to continue.." <<endl;
+  }//end if
+
+  //cout << "cepCfft: key and enter to continue.." <<endl;
   //cin >> junk;
-  cout << endl;
-  cout << "Populating array to be fft'd .." << endl;
+  //cout << endl;
+  //if (dir ==1)
+  //  cout << "cepCfft: Populating array to be fft'd .." << endl;
+  //else 
+  // cout << "cepCfft: Populating array to be inverse fft'd .." << endl;
+    
   //populate the array to send to fft module.
   //start at 1st column as we do not want to fft this.
   for (table = 0; table < numTables; table++)
   {
-      
+
     for (col = 1; col < numCols; col++)
     {//while there are still columns
         for (row = 0; row < numRows; row++)
@@ -292,50 +301,70 @@ template < class CPLX > cepMatrix<ComplexDble>
     	    {
 	        checks[count] = real( matrix.getValue(count,col-1,table) );
 	    }
-	    if ( (checks[0] - checks[1]) != (checks[1] - checks[2]) )
-	        ;//todo daniel: throw an error values not equidistant.
-            else
+	    //only wnat to check continuous index on forward transform
+	    if (dir ==1)
 	    {
-	        arrayToFft[row]= matrix.getValue(row,col,table);;  //populate the arry to be fft'd            
-		//cout << row << " - " << arrayToFft[row] << endl;
-	    }
+	      if ( (checks[0] - checks[1]) != (checks[1] - checks[2]) )
+	        ;//todo daniel: throw an error values not equidistant.
+            }
+	    
+	    //populate the arry to be fft'd            
+            arrayToFft[row]= matrix.getValue(row,col,table);
+	    
+	    //cout << row << " - " << arrayToFft[row] << endl;
+	    
         }//end for row
     }//end for col 
-    //cout << "key and enter to continue.." <<endl;
+ 
+    //cout << "cepCfft: key and enter to continue.." <<endl;
     //cin >> junk;
 
     /*********************************compute the fft.************************************/
 
-    cout << endl;
+    //cout << endl;
+
     if (dir == 1)
     {
-        cout << "Performing forward fft on Matrix " << endl;
+        cout << "cepCfft: Performing forward fft on Matrix ***********************" << endl;
         fft(arrayToFft);
+	for (int k =0; k < arraySize; k++)
+	 arrayToFft[k] = conj(arrayToFft[k]);//to reverse the sign on the imag numbers
     }
     else //(dir == 0)
     {
-        cout << "Performing Inverse fft on Matrix: " << endl;
+        cout << "cepCfft: Performing Inverse fft on Matrix: **********************" << endl;
+	for (int k =0; k < arraySize; k++)
+	  arrayToFft[k] = conj(arrayToFft[k]);//to reverse the sign on the imag numbers
         ifft(arrayToFft);
     }
    
     //place the processed values into the marix.
-    cout << "Outputting the results for column ";
+    //cout << "cepCfft: Placing processed values into matrix..." << endl;
     for (col =1; col < numCols; col ++)
     {
-        cout << col << endl;
+
+        //cout << col << endl;
+
         for (row = 0; row < numRows; row++)
 	{
-             ffteedMatrix.setValue(row,col,table,arrayToFft[row]);
-             //cout << "Value for (r,c,t) - (" << row << "," << col << "," << table
+	   //if (dir==1)
+	    // arrayToFft[row] = conj(arrayToFft[row]);//to reverse the sign on the imag numbers
+             ffteedMatrix.setValue(row,col,table,arrayToFft[row]);//
+	     
+             //cout << "cepCfft: Value for (r,c,t) - (" << row << "," << col << "," << table
 	     //<< " .. " << ffteedMatrix.getValue(row,col,table)
 	     //<< endl;
+
          }//
-	 cout << endl;
+
+	 //cout << endl;
+
     } //for col
     
   }//end for table
   
-  cout << " Returning ffteedMatirx " << endl;
+  //cout << "cepCfft:  Returning ffteedMatirx " << endl;
+
   return ffteedMatrix;
 }//end method
 
