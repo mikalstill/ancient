@@ -1,4 +1,4 @@
-short: output.sgml output.ps
+short: output.sgml output.ps output.html
 	striptext -c < output.sgml | wc -w
 
 output.sgml: source.sgml
@@ -15,3 +15,6 @@ output.pdf: output.ps
 
 output.txt: output.sgml
 	docbook2txt output.sgml
+
+output.html: output.sgml
+	docbook2html --nochunks output.sgml

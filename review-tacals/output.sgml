@@ -1,6 +1,6 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
 <article>
-<title>Tuning and Customizing a Linux System Apress 2002</title>
+<title>Tuning and Customizing a Linux System by Daniel L. Morril. Apress 2002 (ISBN 1-893115-27-5)</title>
 <subtitle>Reviewed by Michael Still &lt;mikal@stillhq.com&gt;</subtitle>
 
 <para>
@@ -16,11 +16,7 @@ The book then goes on to talk about three distributions in detail: Red Hat Linux
 </para>
 
 <para>
-As a long time Red Hat user, the chapter on Red Hat 7.3 contains very few surprises, and didn't contain any glaring inaccuracies which would cause me to wince. It also covered all the things which I would expect a new user to be told -- for instance how Red Hat goes about deciding what makes it into a given release, how to find packages, and how to install packages once you have found them. It also covers some basic configuration tasks, such as adding your own run level scripts. If you are a Red Hat power user, then there is nothing new to you here.
-</para>
-
-<para>
-TODO: was this just the man page?
+As a long time Red Hat user, the chapter on Red Hat 7.3 contains very few surprises, and didn't contain any glaring inaccuracies which would cause me to wince. It also covered all the things which I would expect a new user to be told -- for instance how Red Hat goes about deciding what makes it into a given release, how to find packages, and how to install packages once you have found them. It also covers some basic configuration tasks, such as adding your own run level scripts. If you are a Red Hat power user, then there is nothing new to you here. You should also note that the book does assume that you've already managed to install the system, and don't need to be told how to do things like change directory at a shell prompt.
 </para>
 
 <para>
@@ -36,6 +32,10 @@ The next hundred or so pages of the book cover how to install several software p
 </para>
 
 <para>
-In summary, this is the wrong book to go out and buy if you're expecting to be told how to install a Linux system from scratch. It is also the wrong book to buy if you're a power user looking for high end configuration and optimization tips. On the other hand, 
+Daniel L. Morril then finishes up <emphasis>Tuning and Customizing a Linux System</emphasis> with three case studies: how to build a desktop Linux machine; how to build a software development machine (although it doesn't match my personal beliefs about what a development machine should look like); and how to build a network firewalling machine. All of these case studies are based on Red Hat 7.3, and are little more than lists of what software you should install if you want to play MPEG movies, surf the Internet, or a variety of other common tasks. As an example, two pages are devoted to instructions on what software to install to be able to play those MPEG movies. There is also discussion of required hardware for the named task &mdash; for example installing network cards in your firewall machine. The reality is that a user is probably better off consulting a HOWTO for this sort of information.
+</para>
+
+<para>
+In summary, this is the wrong book to go out and buy if you're expecting to be told how to install a Linux system from scratch. It is also the wrong book to buy if you're a power user looking for high end configuration and optimization tips. On the other hand, if you're new to Linux, and want some hints on how to actually use your new Linux machine once you have managed to install it, then this book is for you. It's also an acceptable reference for what packages to install to perform common tasks.
 </para>
 </article>
