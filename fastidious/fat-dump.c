@@ -11,9 +11,9 @@
 void travdir(int, char *, long long, int, int, int);
 
 int main(int argc, char *argv[]){
-  int fd, count, bytespersec, secperclu, resseccnt, numfats, rootentcnt, totsec16, 
-    fatsz16, rootdirsec, fatsz, totsec, totsec32, datasec, fattype, hidseccnt,
-    fatcount, chainsize;
+  int fd, count, bytespersec, secperclu, resseccnt, numfats, rootentcnt, 
+    totsec16, fatsz16, rootdirsec, fatsz, totsec, totsec32, datasec, fattype, 
+    hidseccnt, fatcount, chainsize;
   long clucnt, lowclucnt, thisclu;
   char *file;
   long long filep;
@@ -54,8 +54,12 @@ int main(int argc, char *argv[]){
   printf("\n");
 
   printf("Formatting system (normally MSWIN4.1): \"");
-  for(count = 0; count < 8; count++)
-    printf("%c", file[filep++]);
+  for(count = 0; count < 8; count++){
+    if(isprint(file[filep]))
+      printf("%c", file[filep]);
+    else printf(".");
+    filep++;
+  }
   printf("\"\n");
   
   bytespersec = fileutil_displayshort(file, "Bytes per sector: ", &filep); printf("\n");
@@ -122,13 +126,21 @@ int main(int argc, char *argv[]){
     fileutil_displayinteger(file, "Volume ID: ", &filep); printf("\n");
 
     printf("Volume label: \"");
-    for(count = 0; count < 11; count++)
-      printf("%c", file[filep++]);
+    for(count = 0; count < 11; count++){
+      if(isprint(file[filep]))
+	printf("%c", file[filep]);
+      else printf(".");
+      filep++;
+    }
     printf("\"\n");
 
     printf("File system type (descriptive): \"");
-    for(count = 0; count < 8; count++)
-      printf("%c", file[filep++]);
+    for(count = 0; count < 8; count++){
+      if(isprint(file[filep]))
+	printf("%c", file[filep]);
+      else printf(".");
+      filep++;
+    }
     printf("\"\n");
     break;
 
@@ -147,7 +159,9 @@ int main(int argc, char *argv[]){
   filep = (resseccnt + numfats * fatsz16) * bytespersec;
   //filep = (resseccnt + 1) * bytespersec + (numfats & fatsz16);
   
-  printf("Root directory starts at: %d\n", filep);
+  printf("Root directory starts at:\n");
+  printf("(%d + %d * %d) * %d\n", resseccnt, numfats, fatsz16, bytespersec);
+  printf(" = %d\n", filep);
   travdir(0, file, filep, filep + (rootentcnt * 32), secperclu, bytespersec);
   
   // It's polite to cleanup
@@ -165,13 +179,18 @@ void travdir(int indent, char *file, long long filep, int firstdata, int secperc
   printf("[ First data sector is %d ] \n\n", firstdata);
 
   while(1){
+    // The first byte of a directory name can have special meanings...
     if(file[filep] == 0)
       break;
 
     for(icount = 0; icount < indent; icount++) printf("  ");
     printf("Name: \"");
-    for(count = 0; count < 11; count++)
-      printf("%c", file[filep++]);
+    for(count = 0; count < 11; count++){
+      if(isprint(file[filep]))
+	printf("%c", file[filep]);
+      else printf(".");
+      filep++;
+    }
     printf("\"\n");
     
     isdir = 0;
@@ -223,10 +242,10 @@ void travdir(int indent, char *file, long long filep, int firstdata, int secperc
       for(icount = 0; icount < indent + 1; icount++) printf("  ");
       printf("[ Descending into data cluster %d ] \n\n", ((newfileph << 16) + newfilepl));
       
-      travdir(indent + 1, file, 
+      //      travdir(indent + 1, file, 
 	      //((resseccnt + numfats * fatsz16) * bytespersec) // to the start of the root directory
-	      (((newfileph << 16) + newfilepl) * secperclu * bytespersec)+ firstdata, 
-	      firstdata, secperclu, bytespersec);
+      //	      (((newfileph << 16) + newfilepl) * secperclu * bytespersec)+ firstdata, 
+      //	      firstdata, secperclu, bytespersec);
     }
   }
 }
