@@ -32,6 +32,7 @@ typedef struct trivsql_internal_rs
   trivsql_row *rows;
 } trivsql_recordset;
 
+// Internal functions
 trivsql_state *trivsql_init(char *);
 void trivsql_docreate(char *, char *);
 void trivsql_doinsert(char *, char *, char *);
