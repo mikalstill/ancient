@@ -1,0 +1,3 @@
+__libc_start_main(0x08048344, 1, 0xbffffc84, 0x08048370, 0x080483d0 <unfinished ...>
+malloc(42)                                                                      = 0x080495e0
++++ exited (status 224) +++

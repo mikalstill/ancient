@@ -1,0 +1,10 @@
+__libc_start_main(0x080483d4, 1, 0xbffffc84, 0x08048460, 0x080484c0 <unfinished ...>
+fgets("Mikal\n", 255, 0x4014cc20)                                                          = 0xbffffb30
+strcmp("Mikal\n", "Mikal\n")                                                               = 0
+printf("Hi!\n")                                                                            = 4
+fgets("Andrew\n", 255, 0x4014cc20)                                                         = 0xbffffb30
+strcmp("Andrew\n", "Mikal\n")                                                              = -12
+printf("Hello %s\n", "Andrew\n")                                                           = 14
+fgets("Andrew\n", 255, 0x4014cc20)                                                         = NULL
+printf("Bye\n")                                                                            = 4
++++ exited (status 4) +++

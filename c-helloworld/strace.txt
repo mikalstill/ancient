@@ -1,0 +1,30 @@
+execve("./hello", ["./hello"], [/* 23 vars */]) = 0
+uname({sys="Linux", node="deathstar", ...}) = 0
+brk(0)                                  = 0x80496a4
+old_mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x40015000
+open("/etc/ld.so.preload", O_RDONLY)    = -1 ENOENT (No such file or directory)
+open("/etc/ld.so.cache", O_RDONLY)      = 3
+fstat64(3, {st_mode=S_IFREG|0644, st_size=57840, ...}) = 0
+old_mmap(NULL, 57840, PROT_READ, MAP_PRIVATE, 3, 0) = 0x40016000
+close(3)                                = 0
+open("/lib/libc.so.6", O_RDONLY)        = 3
+read(3, "\177ELF\1\1\1\0\0\0\0\0\0\0\0\0\3\0\3\0\1\0\0\0\200^\1"..., 512) = 512
+fstat64(3, {st_mode=S_IFREG|0755, st_size=1230832, ...}) = 0
+old_mmap(NULL, 1236260, PROT_READ|PROT_EXEC, MAP_PRIVATE, 3, 0) = 0x40025000
+old_mmap(0x4014c000, 20480, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED, 3, 0x127000) = 0x4014c000
+old_mmap(0x40151000, 7460, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x40151000
+close(3)                                = 0
+munmap(0x40016000, 57840)               = 0
+fstat64(0, {st_mode=S_IFCHR|0620, st_rdev=makedev(136, 5), ...}) = 0
+old_mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x40016000
+read(0, "Mikal\n", 1024)                = 6
+fstat64(1, {st_mode=S_IFCHR|0620, st_rdev=makedev(136, 5), ...}) = 0
+old_mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x40017000
+write(1, "Hi!\n", 4)                    = 4
+read(0, "Andrew\n", 1024)               = 7
+write(1, "Hello Andrew\n", 13)          = 13
+write(1, "\n", 1)                       = 1
+read(0, "", 1024)                       = 0
+write(1, "Bye\n", 4)                    = 4
+munmap(0x40017000, 4096)                = 0
+exit_group(4)                           = ?
