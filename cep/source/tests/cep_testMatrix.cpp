@@ -37,11 +37,14 @@
  *     void tearDown( void ) { ... }
  *
  * @author <your name here>
- * @version $Revision: 1.6 $ $Date: 2002-08-18 03:12:46 $
+ * @version $Revision: 1.7 $ $Date: 2002-08-24 01:51:02 $
  *
  * Revision History
  *
  * $Log: not supported by cvs2svn $
+ * Revision 1.6  2002/08/18 03:12:46  u983118
+ * reworked tests for cepMatrix and cepLs
+ *
  * Revision 1.5  2002/08/12 10:08:44  u983118
  * fixed probs with previous revision
  *
@@ -385,3 +388,5 @@ protected:
 CPPUNIT_TEST_SUITE_REGISTRATION( Test );
 
 } // end namespace
+
+

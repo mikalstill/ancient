@@ -37,11 +37,14 @@
  *     void tearDown( void ) { ... }
  *
  * @author <your name here>
- * @version $Revision: 1.4 $ $Date: 2002-08-18 03:12:47 $
+ * @version $Revision: 1.5 $ $Date: 2002-08-24 01:51:02 $
  *
  * Revision History
  *
  * $Log: not supported by cvs2svn $
+ * Revision 1.4  2002/08/18 03:12:47  u983118
+ * reworked tests for cepMatrix and cepLs
+ *
  * Revision 1.3  2002/08/12 10:04:39  u983118
  * *** empty log message ***
  *
@@ -73,8 +76,11 @@ public:
     
     /* REGISTER YOUR TEST HERE */
     suiteOfTests->addTest(
-      new CppUnit::TestCaller<Test>( "testLs", &Test::testLs ) );
-              
+      new CppUnit::TestCaller<Test>( "testLsVCV", &Test::testLsVCV ) );
+    
+    suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "testLsRW", &Test::testLsRW ) );
+                  
     return suiteOfTests;
   }
 
@@ -85,62 +91,145 @@ protected:
    */
 
   /** Tests Ls */
-  void testLs()
+  void testLsVCV()
   {
-    cepMatrix<double> A(4,2), P(4,4), L(4,1);
+    cepMatrix<double> data(3,5), P(5,5);
     cepLs ans;
     
-    //define the A matrix
-    A.setValue(0,0,2.1);
-    A.setValue(1,0,3.7);
-    A.setValue(2,0,0.5);
-    A.setValue(3,0,1.3);
+    //define the data matrix
+    //taken from the mb_PMAC_GPS.dat1
+    data.setValue(0,0,2000.1589);
+    data.setValue(0,1,2000.1626);
+    data.setValue(0,2,2000.1653);
+    data.setValue(0,3,2000.1680);
+    data.setValue(0,4,2000.1708);
     
-    A.setValue(0,1,1.0);
-    A.setValue(1,1,1.0);
-    A.setValue(2,1,1.0);
-    A.setValue(3,1,1.0);
+    data.setValue(1,0,-1.6239);
+    data.setValue(1,1,-1.6259);
+    data.setValue(1,2,-1.6255);
+    data.setValue(1,3,-1.6234);
+    data.setValue(1,4,-1.6242);
+    
+    data.setValue(2,0,0.0012);
+    data.setValue(2,1,0.0014);
+    data.setValue(2,2,0.0015);
+    data.setValue(2,3,0.0015);
+    data.setValue(2,4,0.0015);
     
     //define P matrix
     P.setValue(0,0,1);
     P.setValue(1,0,0);
     P.setValue(2,0,0);
     P.setValue(3,0,0);
+    P.setValue(4,0,0);
     
     P.setValue(0,1,0);
     P.setValue(1,1,1);
     P.setValue(2,1,0);
     P.setValue(3,1,0);
+    P.setValue(4,1,0);
     
     P.setValue(0,2,0);
     P.setValue(1,2,0);
     P.setValue(2,2,1);
     P.setValue(3,2,0);
+    P.setValue(4,2,0);
     
     P.setValue(0,3,0);
     P.setValue(1,3,0);
     P.setValue(2,3,0);
     P.setValue(3,3,1);
+    P.setValue(4,3,0);
     
-    //define L matrix
+    P.setValue(0,4,0);
+    P.setValue(1,4,0);
+    P.setValue(2,4,0);
+    P.setValue(3,4,0);
+    P.setValue(4,4,1);
     
-    L.setValue(0,0,0.5);
-    L.setValue(1,0,0.1);
-    L.setValue(2,0,1.2);
-    L.setValue(3,0,3.1);
-    
-    ans.cepDoVCV(A, P, L);
+    ans.cepDoVCV(data, P);
     
     //tests for B1 and B2
-    CPPUNIT_ASSERT_DOUBLES_EQUAL( -0.582142857, ans.getB1(), 0.0000001 );
-    CPPUNIT_ASSERT_DOUBLES_EQUAL( 2.331071492, ans.getB2(), 0.0000001 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL( 0.05241276, ans.getB1(), 0.00000001 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL( -1.624906007, ans.getB2(), 0.000000001 );
     
     //tests for residuals 
-    CPPUNIT_ASSERT_DOUBLES_EQUAL( 1.608571429, ans.getResidual(0,0), 0.0000001 );
-    CPPUNIT_ASSERT_DOUBLES_EQUAL( 0.277142857, ans.getResidual(1,0), 0.0000001 ); 
-    CPPUNIT_ASSERT_DOUBLES_EQUAL( 3.24, ans.getResidual(2,0), 0.0000001 );
-    CPPUNIT_ASSERT_DOUBLES_EQUAL( 4.674285714, ans.getResidual(3,0), 0.0000001 );
-  }  
+    CPPUNIT_ASSERT_DOUBLES_EQUAL( -3.248806007, ans.getResidual(0,0), 0.000000001 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL( -3.25061208,  ans.getResidual(1,0), 0.000000001 ); 
+    CPPUNIT_ASSERT_DOUBLES_EQUAL( -3.250070566, ans.getResidual(2,0), 0.000000001 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL( -3.247829051, ans.getResidual(3,0), 0.000000001 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL( -3.248482296, ans.getResidual(4,0), 0.000000001 );
+  }
+  
+  void testLsRW()
+  {
+    cepMatrix<double> data(3,5), P(5,5);
+    cepLs ans;
+    
+    //define the data matrix
+    //taken from the mb_PMAC_GPS.dat1
+    data.setValue(0,0,2000.1589);
+    data.setValue(0,1,2000.1626);
+    data.setValue(0,2,2000.1653);
+    data.setValue(0,3,2000.1680);
+    data.setValue(0,4,2000.1708);
+    
+    data.setValue(1,0,-1.6239);
+    data.setValue(1,1,-1.6259);
+    data.setValue(1,2,-1.6255);
+    data.setValue(1,3,-1.6234);
+    data.setValue(1,4,-1.6242);
+    
+    data.setValue(2,0,0.0012);
+    data.setValue(2,1,0.0014);
+    data.setValue(2,2,0.0015);
+    data.setValue(2,3,0.0015);
+    data.setValue(2,4,0.0015);
+    
+    //define P matrix
+    P.setValue(0,0,1);
+    P.setValue(1,0,0);
+    P.setValue(2,0,0);
+    P.setValue(3,0,0);
+    P.setValue(4,0,0);
+    
+    P.setValue(0,1,0);
+    P.setValue(1,1,1);
+    P.setValue(2,1,0);
+    P.setValue(3,1,0);
+    P.setValue(4,1,0);
+    
+    P.setValue(0,2,0);
+    P.setValue(1,2,0);
+    P.setValue(2,2,1);
+    P.setValue(3,2,0);
+    P.setValue(4,2,0);
+    
+    P.setValue(0,3,0);
+    P.setValue(1,3,0);
+    P.setValue(2,3,0);
+    P.setValue(3,3,1);
+    P.setValue(4,3,0);
+    
+    P.setValue(0,4,0);
+    P.setValue(1,4,0);
+    P.setValue(2,4,0);
+    P.setValue(3,4,0);
+    P.setValue(4,4,1);
+    
+    ans.cepDoRW(data, P);
+        
+    //tests for B1 and B2
+    CPPUNIT_ASSERT_DOUBLES_EQUAL( 0.05241276, ans.getB1(), 0.00000001 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL( -1.624906007, ans.getB2(), 0.000000001 );
+    
+    //tests for residuals 
+    CPPUNIT_ASSERT_DOUBLES_EQUAL( -3.248806007, ans.getResidual(0,0), 0.000000001 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL( -3.25061208,  ans.getResidual(1,0), 0.000000001 ); 
+    CPPUNIT_ASSERT_DOUBLES_EQUAL( -3.250070566, ans.getResidual(2,0), 0.000000001 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL( -3.247829051, ans.getResidual(3,0), 0.000000001 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL( -3.248482296, ans.getResidual(4,0), 0.000000001 );
+  }    
 }; // end Test
 
  /**
