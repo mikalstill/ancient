@@ -67,6 +67,7 @@ dnl Checks for typedefs, structures, and compiler characteristics.
 
 dnl Stupid defines to keep wx happy
 AC_DEFINE(__WXGTK__)
+AC_DEFINE(_GNU_SOURCE)
 
 AC_OUTPUT(Makefile)
 
