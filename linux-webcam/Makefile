@@ -1,7 +1,4 @@
-all: webcam module
+KERNELDIR = /usr/src/linux-2.4.19
+CFLAGS = -D__KERNEL__ -DMODULE -I$(KERNELDIR)/include -O -Wall
 
-webcam: webcam.c
-	gcc webcam.c -o webcam
-
-module: webcamframe.c
-	gcc -c webcamframe.c
+all: webcamframe.o
