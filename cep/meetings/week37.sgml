@@ -1,0 +1,96 @@
+<chapter id="meetings-week37"><title>Semester Two, Week 16</title>
+<para>
+
+</para>
+
+<sect1><title>Tuesday 5th November</title>
+<para>
+This meeting ran from 5.30 to 8:30
+<orderedlist>
+<listitem><para>Project status</para></listitem>
+<listitem><para>Documentation</para></listitem>
+<listitem><para>Debugging</para></listitem>
+<listitem><para>Integration</para></listitem>
+<listitem><para>Critical items remaining</listitem>
+<listitem><para>Honours extensions</listitem>
+<listitem><para>Grade and assesment briefing</listitem>
+</orderedlist>
+</para>
+
+<para>
+<emphasis>This was an informal meeting to discuss the state of the project. Of
+particular concern were issues relating to the critical items left to complete. Also discussed were
+concerns relating to assessment, Honours extensions and their influence on the project as a whole.
+</emphasis>
+</para>
+
+<para>
+In attendance at the meeting
+<orderedlist>
+<listitem><para>Daniel</para></listitem>
+<listitem><para>Michael</para></listitem>
+<listitem><para>Kristy</para></listitem>
+<listitem><para>Nick</para></listitem>
+<listitem><para>Blake</para></listitem>
+<listitem><para>Peter Morgan></listitem>
+</orderedlist>
+</para>
+
+<sect2><title>Action items</title>
+
+<para>
+The following Critical Items items were identified:
+<orderedlist>
+<listitem><para>zoom</para></listitem>
+<listitem><para>Least Squares</para></listitem>
+<listitem><para>Windowing</para></listitem>
+<listitem><para>FFT/PSD</para></listitem>
+<listitem><para>Interpolation</para></listitem>
+<listitem><para>Saving</para></listitem>
+<listitem><para>User Interface</para></listitem>
+</orderedlist>
+</para>
+
+</sect2>
+</sect1>
+
+<sect1><title>Sunday 10th November</title>
+<para>
+This meeting ran from 14.00 to 17.00
+<orderedlist>
+<listitem><para>Project status</para></listitem>
+<listitem><para>Integration</para></listitem>
+<listitem><para>Critical item progress</listitem>
+<listitem><para>FFT/PSD</listitem>
+<listitem><para>LS Re-weighting</listitem>
+</orderedlist>
+</para>
+
+<para>
+<emphasis>This was an informal meeting to discuss the state of the project. Work was continued on
+critical items.
+</emphasis>
+</para>
+
+<para>
+In attendance at the meeting
+<orderedlist>
+<listitem><para>Daniel</para></listitem>
+<listitem><para>Michael</para></listitem>
+<listitem><para>Kristy</para></listitem>
+<listitem><para>Nick</para></listitem>
+</orderedlist>
+</para>
+
+<sect2><title>Action items</title>
+
+<para>
+<orderedlist>
+<listitem><para>Padding and Crop of non power of 2 FFT sizes to be handled in interp.</para></listitem>
+</orderedlist>
+</para>
+
+</sect2>
+</sect1>
+
+</chapter>
