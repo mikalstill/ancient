@@ -1,1 +1,2 @@
-README tiff-bw-write
+This is an example of how to write a black and white image with libtiff. Have a look at the tiff chapter in the imaging tutorial for information about how it works...
+
