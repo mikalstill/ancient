@@ -1,4 +1,4 @@
-bin_PROGRAMS = pandascript
-pandascript_SOURCES = lexer.c lexer.tab.c
-pandascript_LDADD = -lfl -lpanda
+AM_YFLAGS = -d
 
+bin_PROGRAMS = pandascript
+pandascript_SOURCES = parser.y lexer.l

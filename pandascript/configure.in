@@ -3,12 +3,14 @@ AC_INIT(lexer.l)
 AC_CONFIG_AUX_DIR(config)
 AM_CONFIG_HEADER
 AC_REVISION
-AM_INIT_AUTOMAKE(panda, 0.3)
+AM_INIT_AUTOMAKE(pandascript, 0.3)
 AM_MAINTAINER_MODE
 
 dnl Checks for programs.
 AC_PROG_CC
 AC_PROG_INSTALL
+AM_PROG_LEX
+AC_PROG_YACC
 
 dnl Checks for libraries.
 dnl The syntax is library name, function, action if found, action if not found
@@ -45,11 +47,5 @@ dnl Checks for typedefs, structures, and compiler characteristics.
 
 dnl Checks for library functions.
 AC_FUNC_VPRINTF
-AC_FUNC_SNPRINTF
-
 
 AC_OUTPUT(Makefile)
-
-
-
-
