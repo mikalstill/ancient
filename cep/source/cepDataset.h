@@ -24,7 +24,11 @@
 
 #include <vector>
 #include <string>
+#include <fstream>
 #include "cepMatrix.h"
+#include "cepError.h"
+#include "cepUtility.h"
+
 
 class cepError;
 

@@ -19,7 +19,9 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#include "cepCore.h"
+//#include "cepCore.h"
+
+#include "cepDataset.h"
 
 cepDataset::cepDataset (const string & filename):
   m_filename (filename),
@@ -42,7 +44,6 @@ cepError cepDataset::munch ()
   // it would be crap to read two of the three files, and _then_ report
   // an error...
   fstream files[3];
-  long lines[3];
 
   files[0].open (string (m_filename + ".dat1").c_str (), ios::in);
   files[1].open (string (m_filename + ".dat2").c_str (), ios::in);
@@ -64,9 +65,7 @@ cepError cepDataset::munch ()
 
   if (errString != "")
   {
-    return
-      cepError("File IO error for this dataset. Could not open the file(s):" +
-       errString + ".");
+    return cepError("File IO error for this dataset. Could not open the file(s):" + errString + ".");
   }
 
   // Read the file
@@ -75,28 +74,31 @@ cepError cepDataset::munch ()
     if (m_progress)
       m_progress (i + 1, 0);
 
-    // Skip the first three lines -- it seems that fstream has no equivalent
-    // of fgets(), which will mind the newlines for me...
     char c = 0, prevc = '\n';
-
-    lines[i] = 0;
     string thisLine ("");
 
+    cep_datarow lastRow;
+    lastRow.date = -1;
+    lastRow.sample = -1;
+    lastRow.error = -1;
+
     while (!files[i].eof ())
-    {
-      cep_datarow lastRow;
-      lastRow.date = -1;
-      lastRow.sample = -1;
-      lastRow.error = -1;
-      
+    {   
       files[i].read (&c, 1);
 
-      // We skip the first three lines of the file
-      if ((lines[i] > 3) && (c != 'r') && (c != '\n'))
+      //if the first non blank char in the line is a char then skip the whole line
+      if((prevc == '\n') && ((c < 48) || (c > 57)) && (cepIsBlank(c) == false))
       {
-        if (cepIsBlank (c))
+        while(c != '\n')
         {
-          if (!cepIsBlank (prevc))
+          files[i].read(&c,1);
+        }
+      }
+      else
+      {
+        if(cepIsBlank(c) == true)
+        {
+          if(cepIsBlank(prevc) != true)
           {
             thisLine += " ";
           }
@@ -106,76 +108,59 @@ cepError cepDataset::munch ()
           thisLine += c;
         }
       }
-
-      if (c == '\n')
+      if ((c == '\n') && (thisLine != ""))
       {
-        lines[i]++;
+        cep_datarow row;
+        char * line = strdup(thisLine.c_str());
 
-        if ((lines[i] > 4) && (thisLine.length() > 5))
+        row.date = atof(strtok(line, " "));
+        row.sample = atof(strtok(NULL, " "));
+        row.error = atof(strtok(NULL, " "));
+
+        if((isnan(row.date) == 0) && (isnan(row.sample) == 0) && (isnan(row.error) == 0))
         {
-          // Put the data into the dataset data thingies
-          // todo_mikal: is there a more c++ way to tokenize a string?
-          cep_datarow row;
-          char *line;
-          char *value;
-
-          line = strdup (thisLine.c_str ());
-          row.date = atof ((value = strtok (line, " ")) != NULL ? value : "-1");
-          row.sample =
-            atof ((value = strtok (NULL, " ")) != NULL ? value : "-1");
-          row.error =
-            atof ((value = strtok (NULL, " ")) != NULL ? value : "-1");
-          if (line != NULL)
-            free (line);
-
           if(lastRow.date == -1)
           {
-            getData ((cepDataset::direction) i).push_back (row);
+            getData((cepDataset::direction) i).push_back(row);
             lastRow = row;
           }
           else
           {
-            if(row.date == lastRow.date)
+            if(row.date < lastRow.date)
             {
-              return cepError("The file " + m_filename + " contains repeated values for date " + cepToString(row.date));
+              #ifdef debug
+                cout << "not in date order" << endl;
+              #endif
+              return cepError("dataset: " + m_filename + " is not in date order!", cepError::sevErrorRecoverable);
             }
             else
             {
-              if(row.date < lastRow.date)
+              if(row.date == lastRow.date)
               {
-                return cepError("The file " + m_filename + " is not in date order");
+                #ifdef debug
+                  cout << "is repeat values" << endl;
+                #endif
+                return cepError("dataset: " + m_filename + " contains repeated values!",cepError::sevErrorRecoverable);
               }
               else
               {
-                if((isnan(row.date) == 0) && (isnan(row.sample) == 0) && (isnan(row.error) == 0))
-                {
-                  getData ((cepDataset::direction) i).push_back (row);
-                  lastRow = row;
-                }
+                getData((cepDataset::direction) i).push_back(row);
+                lastRow = row;
               }
             }
-          }  
-
-          thisLine = "";
+          }
         }
         else
-          cepDebugPrint ("Dataset line from " + m_filename + "[" +
-                         cepToString (i) + "] skipped...");
-
-        if (m_progress)
-          m_progress (i + 1, lines[i]);
+        {
+          #ifdef debug
+            cout << "nan value found";
+          #endif
+        }  
+      thisLine = "";
       }
-
       prevc = c;
     }
-  }
-
-  // Are the files over the same period??
-  if (((m_datax.front().date != m_datay.front().date) || (m_datay.front().date != m_dataz.front().date)) || ((m_datax.back().date != m_datay.back().date) || (m_datay.back().date != m_dataz.back().date)))
-  {
-    return cepError("The data set values do not represent the same time period");
-  }
-
+  }    
   m_ready = true;
   return cepError ();
 }
@@ -204,7 +189,7 @@ vector < cep_datarow > &cepDataset::getData (direction dir)
 cepMatrix < double > cepDataset::getMatrix(direction dir)
 {
   vector < cep_datarow > vec = getData(dir);
-  cepMatrix < double > mat(vec.size(), 3);
+  cepMatrix < double > mat((signed)vec.size(), 3);
 
   for(int i = 0; i < (signed)vec.size(); i ++)
   {
@@ -212,7 +197,6 @@ cepMatrix < double > cepDataset::getMatrix(direction dir)
     mat.setValue(i, 1, vec[i].sample);
     mat.setValue(i, 2, vec[i].error);
   }
-  
   return mat;
 }
 bool cepDataset::isReady()
