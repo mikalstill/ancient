@@ -1,0 +1,26 @@
+<sect1><title>DTE</title>
+<sect2><title>Acronym definition</title>
+<para>
+Data Terminal Equipment
+</para>
+</sect2>
+
+<sect2><title>Definition</title>
+<para>
+This is the <emphasis>RS323</emphasis> serial standard term for a computer or terminal. The standard envisaged that a DTE would be used to communicate with a <emphasis>DCE</emphasis>.
+</para>
+</sect2>
+
+<sect2><title>References</title>
+<itemizedlist>
+<listitem><para>A RS323 tutorial: http://www.camiresearch.com/Data_Com_Basics/RS232_standard.html</para></listitem>
+</itemizedlist>
+</sect2>
+
+<sect2><title>Entry history</title>
+<itemizedlist>
+<listitem><para>Entry created: Wed Mar 26 19:53:44 EST 2003</para></listitem>
+<listitem><para>Entry owner: <emphasis>Michael Still</emphasis> (mikal@stillhq.com)</para></listitem>
+<listitem><para>Status: Finalized</para></listitem>
+</itemizedlist>
+</sect1>
