@@ -20,6 +20,8 @@
 
 #ifndef CEP_UTILITY_HEADER
 #define CEP_UTILITY_HEADER
+#include <string>
+using namespace std;
 
 // String methods
 string cepToString (int number);
