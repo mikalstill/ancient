@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# $1 is the new name
+rm output.sgml.out output.sgml.errs
+for item in `ls output*`
+do
+  mv $item `echo $item | sed "s/output/$1/"`
+  cvs add `echo $item | sed "s/output/$1/"`
+done
