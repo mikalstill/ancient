@@ -16,6 +16,11 @@ while(<LIST>){
 	print "$_ is stable\n";
     }
     else{
-	print "$_ is unstable\n";
+	print "$_ is unstable";
+
+	if(-e "$_/ABOUT"){
+	    print " (but is released to the web)";
 	}
+	print "\n";
+    }
 }
