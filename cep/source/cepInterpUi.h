@@ -44,7 +44,8 @@ PURPOSE Displays the "Specify Sample Rate" dialog box for the Interpolation user
 SYNOPSIS START
 The follwing is an example of how to create this object.
 
-cepInterpShowRate sr;
+cepInterpShowRate sr(val);
+
 
 SYNOPSIS END
 
@@ -87,7 +88,7 @@ public:
   };
   
   //show the "Specify Sample Rate" dialog box
-  cepInterpShowRate();
+  cepInterpShowRate(double val);
 
   //returns the sample rate specified
   double getSample();
@@ -167,7 +168,7 @@ public:
   cepInterpUi();
 
   //shows the "get sample rate" dialog box
-  void showSampleRate();
+  void showSampleRate(double val);
 
   //returns the specified sample rate
   double getSampleRate();

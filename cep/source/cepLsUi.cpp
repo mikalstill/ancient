@@ -152,12 +152,6 @@ void cepLsWeight::dlgWeightOnGo(wxCommandEvent& WXUNUSED(event))
   m_toDate = cepDate(atoi(m_cbToDay->GetValue().c_str()), m_cbToMonth->GetValue().c_str(), atoi(m_tbToYear->GetValue().c_str())).getDecimalDate();
   m_fromDate = cepDate(atoi(m_cbFromDay->GetValue().c_str()), m_cbFromMonth->GetValue().c_str(), atoi(m_tbFromYear->GetValue().c_str())).getDecimalDate();
 
-  cout << endl << "#####ON GO#######" << endl;
-  cout << "###########VALUE " << m_go << endl;
-  cout << "###########VALUE " << m_val << endl;
-  cout << "########fromDate " << m_fromDate << endl;
-  cout << "########toDate " << m_toDate << endl;
-
   EndModal(2);
   Destroy();
 }
@@ -167,11 +161,6 @@ void cepLsWeight::dlgWeightOnOK(wxCommandEvent& WXUNUSED(event))
   
   m_toDate = cepDate(atoi(m_cbToDay->GetValue().c_str()), m_cbToMonth->GetValue().c_str(), atoi(m_tbToYear->GetValue().c_str())).getDecimalDate();
   m_fromDate = cepDate(atoi(m_cbFromDay->GetValue().c_str()), m_cbFromMonth->GetValue().c_str(), atoi(m_tbFromYear->GetValue().c_str())).getDecimalDate();
-
-  cout << endl << "#####ON OK#######" << endl;
-  cout << "###########VALUE " << m_val << endl;
-  cout << "########fromDate " << m_fromDate << endl;
-  cout << "########toDate " << m_toDate << endl;
 
   EndModal(0);
   Destroy();

@@ -25,7 +25,7 @@ BEGIN_EVENT_TABLE (cepInterpShowRate, wxDialog)
   EVT_CLOSE( cepInterpShowRate::dlgRateOnQuit)
 END_EVENT_TABLE ()
                           
-cepInterpShowRate::cepInterpShowRate():
+cepInterpShowRate::cepInterpShowRate(double val):
   wxDialog((wxDialog *) NULL, -1, "Specify Sample Rate", wxPoint(120,120), wxSize(200, 200))
 {
   m_panel = new wxPanel(this, -1, wxPoint(120,120), wxSize(200,200));
@@ -111,9 +111,9 @@ void cepInterpShowRate::dlgRateOnOK(wxCommandEvent& WXUNUSED(event))
 
 cepInterpUi::cepInterpUi() {}
 
-void cepInterpUi::showSampleRate()
+void cepInterpUi::showSampleRate(double val)
 {
-  cepInterpShowRate sr;
+  cepInterpShowRate sr(val);
 
   m_sampleUnits = sr.getUnits();
   m_sampleRate = sr.getSample();

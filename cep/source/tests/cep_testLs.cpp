@@ -38,11 +38,15 @@
  *     void tearDown( void ) { ... }
  *
  * @author <your name here>
- * @version $Revision: 1.12 $ $Date: 2002-11-11 06:14:14 $
+ * @version $Revision: 1.13 $ $Date: 2002-11-12 04:00:45 $
  *
  * Revision History
  *
  * $Log: not supported by cvs2svn $
+ * Revision 1.12  2002/11/11 06:14:14  u983118
+ * fixed some ui stuff..
+ * found more bugs in cepLs
+ *
  * Revision 1.11  2002/11/10 23:43:28  u983118
  * added tests for new fuctionality
  *
@@ -314,7 +318,7 @@ protected:
     //test for Colours
     CPPUNIT_ASSERT_DOUBLES_EQUAL(  1.0, residual.getValue(0,3), 0.01 );
     CPPUNIT_ASSERT_DOUBLES_EQUAL(  1.0, residual.getValue(1,3), 0.01 ); 
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(  1.0, residual.getValue(2,3), 0.01 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(  2.0, residual.getValue(2,3), 0.01 );
     CPPUNIT_ASSERT_DOUBLES_EQUAL(  1.0, residual.getValue(3,3), 0.01 );
     CPPUNIT_ASSERT_DOUBLES_EQUAL(  1.0, residual.getValue(4,3), 0.01 );    
   }
