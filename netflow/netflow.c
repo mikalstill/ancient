@@ -21,7 +21,7 @@ int
 main (int argc, char **argv)
 {
   int i;
-  char *dev = "eth0";
+  char *dev = "eth1";
   char errbuf[PCAP_ERRBUF_SIZE];
   char *time;
   pcap_t *descr;

