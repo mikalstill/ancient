@@ -80,7 +80,8 @@ private:
   objectlist m_contents;
   rmMode m_mode;
   matrix m_textMatrix, m_textLineMatrix, m_graphicsMatrix;
-    stack < string > m_arguements;
+  stack < string > m_arguements;
+  stack < string > m_graphicsStates;
   bool m_hasLine;
   int m_pageno;
 
@@ -105,7 +106,7 @@ private:
   color m_lineColor;
   color m_fillColor;
 
-  vector<wxPoint> m_controlPoints;
+  vector<cmdControlPoint> m_controlPoints;
   unsigned char *m_raster;
   float m_xscale, m_yscale;
 

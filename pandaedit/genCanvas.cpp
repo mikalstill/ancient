@@ -60,6 +60,10 @@
 #include "configuration.h"
 #include "idmangle.h"
 
+#include "linetool.h"
+
+extern int gUniqueSelection;
+
 #define CONTROLSIZE 3
 #define GRIDSPACING 10
 
@@ -97,9 +101,6 @@ genCanvas::OnDraw (wxDC & dc)
 void
 genCanvas::OnMouseEvent (wxMouseEvent & event)
 {
-  ((wxFrame *) wxGetApp ().GetTopWindow ())->
-    SetStatusText ("Mouse event", 0);
-
   wxClientDC dc (this);
   PrepareDC (dc);
   wxPoint pt (event.GetLogicalPosition (dc));
@@ -171,18 +172,18 @@ genCanvas::OnMouseEvent (wxMouseEvent & event)
   // Are we trying to select a control point?
   else if((m_editTarget != -1) && event.LeftIsDown() && event.ShiftDown())
     {
-      long distance = (((m_controlPoints[0].x - pt.x) *
-			(m_controlPoints[0].x - pt.x)) + 
-		       ((m_controlPoints[0].y - pt.y) *
-			(m_controlPoints[0].y - pt.y)));
+      long distance = (((m_controlPoints[0].pt.x - pt.x) *
+			(m_controlPoints[0].pt.x - pt.x)) + 
+		       ((m_controlPoints[0].pt.y - pt.y) *
+			(m_controlPoints[0].pt.y - pt.y)));
       int selpt = 0;
 
       for(unsigned int i = 1; i < m_controlPoints.size(); i++)
 	{
-	  long newdist = (((m_controlPoints[i].x - pt.x) *
-			   (m_controlPoints[i].x - pt.x)) + 
-			  ((m_controlPoints[i].y - pt.y) *
-			   (m_controlPoints[i].y - pt.y)));
+	  long newdist = (((m_controlPoints[i].pt.x - pt.x) *
+			   (m_controlPoints[i].pt.x - pt.x)) + 
+			  ((m_controlPoints[i].pt.y - pt.y) *
+			   (m_controlPoints[i].pt.y - pt.y)));
 	  if(newdist < distance)
 	    {
 	      distance = newdist;
@@ -199,10 +200,10 @@ genCanvas::OnMouseEvent (wxMouseEvent & event)
 	  
 	  for(int up = -CONTROLSIZE; up < CONTROLSIZE + 1; up++)
 	    {
-	      dc.DrawLine(wxPoint(m_controlPoints[selpt].x - CONTROLSIZE,
-				  m_controlPoints[selpt].y + up),
-			  wxPoint(m_controlPoints[selpt].x + CONTROLSIZE,
-				  m_controlPoints[selpt].y + up));
+	      dc.DrawLine(wxPoint(m_controlPoints[selpt].pt.x - CONTROLSIZE,
+				  m_controlPoints[selpt].pt.y + up),
+			  wxPoint(m_controlPoints[selpt].pt.x + CONTROLSIZE,
+				  m_controlPoints[selpt].pt.y + up));
 	    }
 	}
     }
@@ -236,10 +237,13 @@ genCanvas::OnMouseEvent (wxMouseEvent & event)
       if(m_controlPoints.size() == 0)
 	dc.DrawPoint(pt);
       else{
-	dc.DrawLine(m_controlPoints[m_controlPoints.size() - 1], pt);
+	dc.DrawLine(m_controlPoints[m_controlPoints.size() - 1].pt, pt);
       }
 
-      m_controlPoints.push_back(pt);
+      cmdControlPoint line;
+      line.pt = pt;
+      line.modifier = ltmNone;
+      m_controlPoints.push_back(line);
     }
 }
 
@@ -280,6 +284,7 @@ genCanvas::endTool()
 	  cmd.fillg = 0;
 	  cmd.fillb = 0;
 	  cmd.rast = NULL;
+	  cmd.unique = gUniqueSelection++;
 
 	  ((pdfView *) m_view)->appendCommand(cmd);
 	}
@@ -307,13 +312,13 @@ genCanvas::showControlPoints(wxClientDC & dc, bool onlyMostRecent)
       i < m_controlPoints.size(); i++)
     {
       // TODO mikal: make nicer?
-      dc.DrawLine(wxPoint(m_controlPoints[i].x - CONTROLSIZE,
-			  m_controlPoints[i].y - CONTROLSIZE),
-		  wxPoint(m_controlPoints[i].x + CONTROLSIZE,
-			  m_controlPoints[i].y + CONTROLSIZE));
-      dc.DrawLine(wxPoint(m_controlPoints[i].x - CONTROLSIZE,
-			  m_controlPoints[i].y + CONTROLSIZE),
-		  wxPoint(m_controlPoints[i].x + CONTROLSIZE,
-			  m_controlPoints[i].y - CONTROLSIZE));
+      dc.DrawLine(wxPoint(m_controlPoints[i].pt.x - CONTROLSIZE,
+			  m_controlPoints[i].pt.y - CONTROLSIZE),
+		  wxPoint(m_controlPoints[i].pt.x + CONTROLSIZE,
+			  m_controlPoints[i].pt.y + CONTROLSIZE));
+      dc.DrawLine(wxPoint(m_controlPoints[i].pt.x - CONTROLSIZE,
+			  m_controlPoints[i].pt.y + CONTROLSIZE),
+		  wxPoint(m_controlPoints[i].pt.x + CONTROLSIZE,
+			  m_controlPoints[i].pt.y - CONTROLSIZE));
     }
 }

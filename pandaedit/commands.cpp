@@ -10,6 +10,8 @@
 #include "raster.h"
 #include "verbosity.h"
 
+#include "linetool.h"
+
 char *inflateraster(char *input, unsigned long width, unsigned long height, 
                     int bitdepth, int targetbitdepth, 
                     int channels, int targetchannels);
@@ -19,24 +21,28 @@ char *inflateraster(char *input, unsigned long width, unsigned long height,
 void
 pdfRender::command_b ()
 {
+  debug(dlError, "Need to implement b");
   m_commandString += "b\n";
 }
 
 void
 pdfRender::command_B ()
 {
+  debug(dlError, "Need to implement B");
   m_commandString += "B\n";
 }
 
 void
 pdfRender::command_bstar ()
 {
+  debug(dlError, "Need to implement b*");
   m_commandString += "b*\n";
 }
 
 void
 pdfRender::command_Bstar ()
 {
+  debug(dlError, "Need to implement B*");
   m_commandString += "B*\n";
 }
 
@@ -44,11 +50,13 @@ pdfRender::command_Bstar ()
 void
 pdfRender::command_BT ()
 {
+  debug(dlError, "Need to implement BT");
   //  if (m_mode != rmText)
   //  appendCommand();
   m_commandString = "BT\n";
 }
 
+// tweaked
 void
 pdfRender::command_c ()
 {
@@ -68,12 +76,18 @@ pdfRender::command_c ()
   x1 = atoi (m_arguements.top ().c_str ());
   m_arguements.pop ();
 
-  m_commandString += toString(x1) + string(" ") +
-    toString(y1) + string(" ") +
-    toString(x2) + string(" ") +
-    toString(y2) + string(" ") +
-    toString(x3) + string(" ") +
-    toString(y3) + string(" c\n");
+  if (m_mode != rmGraphics)
+    {
+      debug(dlTrace, "Not in graphics mode");
+      return;
+    }
+
+  cmdControlPoint curved;
+  curved.pt = translateGraphicsPoint(wxPoint(x1, y1));
+  curved.cpt.push_back(translateGraphicsPoint(wxPoint(x2, y2)));
+  curved.cpt.push_back(translateGraphicsPoint(wxPoint(x3, y3)));
+  curved.modifier = ltmBezier;
+  m_controlPoints.push_back(curved);
 }
 
 // tweaked
@@ -261,8 +275,14 @@ pdfRender::command_Do ()
     }
   
   // TODO mikal: this will not place the image in the right spot
-  m_controlPoints.push_back(wxPoint(0, 0));
-  m_controlPoints.push_back(wxPoint(rast.getWidth(), rast.getHeight()));
+  cmdControlPoint foo;
+
+  foo.pt = wxPoint(0, 0);
+  m_controlPoints.push_back(foo);
+
+  foo.pt = wxPoint(rast.getWidth(), rast.getHeight());
+  m_controlPoints.push_back(foo);
+
   appendCommand(object::cImage);
   m_raster = NULL;
 }
@@ -271,6 +291,7 @@ pdfRender::command_Do ()
 void
 pdfRender::command_ET ()
 {
+  debug(dlError, "Need to implement ET");
   m_commandString += "ET\n";
   //  appendCommand();
   m_commandString = "";
@@ -281,6 +302,7 @@ pdfRender::command_ET ()
 void
 pdfRender::command_f ()
 {
+  debug(dlError, "Need to implement f");
   m_commandString += "f\n";
 }
 
@@ -288,6 +310,7 @@ pdfRender::command_f ()
 void
 pdfRender::command_fstar ()
 {
+  debug(dlError, "Need to implement f*");
   m_commandString += "f*\n";
 }
 
@@ -295,6 +318,7 @@ pdfRender::command_fstar ()
 void
 pdfRender::command_F ()
 {
+  debug(dlError, "Need to implement F");
   m_commandString += "F\n";
 }
 
@@ -302,6 +326,7 @@ pdfRender::command_F ()
 void
 pdfRender::command_g ()
 {
+  debug(dlError, "Need to implement g");
   float g;
   g = atof (m_arguements.top ().c_str ());
   m_commandString += toString(g) + string(" g\n");
@@ -311,6 +336,7 @@ pdfRender::command_g ()
 void
 pdfRender::command_G ()
 {
+  debug(dlError, "Need to implement G");
   float g;
   g = atof (m_arguements.top ().c_str ());
   m_commandString += toString(g) + string(" G\n");
@@ -337,7 +363,10 @@ pdfRender::command_l ()
   x = atoi (m_arguements.top ().c_str ());
   m_arguements.pop ();
 
-  m_controlPoints.push_back(translateGraphicsPoint(wxPoint(x, m_height - y)));
+  cmdControlPoint straight;
+  straight.pt = translateGraphicsPoint(wxPoint(x, m_height - y));
+  straight.modifier = ltmNone;
+  m_controlPoints.push_back(straight);
 }
 
 // Move graphics cursor to a given location
@@ -360,32 +389,31 @@ pdfRender::command_m ()
   x = atoi (m_arguements.top ().c_str ());
   m_arguements.pop ();
 
-  m_controlPoints.push_back(translateGraphicsPoint(wxPoint(x, m_height - y)));
+  cmdControlPoint mv;
+  mv.pt = translateGraphicsPoint(wxPoint(x, m_height - y));
+  mv.modifier = 0;
+  m_controlPoints.push_back(mv);
 }
 
 // Save graphics state
 void
 pdfRender::command_q ()
 {
-  //  appendCommand();
-  m_commandString = "q\n";
+  appendCommand(object::cSaveState);
 }
 
 // Restore graphics state
 void
 pdfRender::command_Q ()
 {
-  m_commandString += "Q\n";
-
-  //  appendCommand();
-  m_commandString = "";
-  m_controlString = "";
+  appendCommand(object::cRestoreState);
 }
 
 // A rectangle
 void
 pdfRender::command_re ()
 {
+  debug(dlError, "Need to implement re");
   unsigned int left, top, right, bottom;
 
   // Pop our arguements (reverse order)
@@ -521,6 +549,8 @@ pdfRender::command_sc ()
 void
 pdfRender::command_Td ()
 {
+  debug(dlError, "Need to implement Td");
+
   float x, y;
 
   y = atof (m_arguements.top ().c_str ());
@@ -536,12 +566,16 @@ pdfRender::command_Td ()
 void
 pdfRender::command_TD ()
 {
+  debug(dlError, "Need to implement TD");
+
   m_commandString += "TD\n";
 }
 
 void
 pdfRender::command_Tf ()
 {
+  debug(dlError, "Need to implement Tf");
+
   string fontName, fontSize;
 
   // Pop our arguements (reverse order)
@@ -557,6 +591,8 @@ pdfRender::command_Tf ()
 void
 pdfRender::command_Tj ()
 {
+  debug(dlError, "Need to implement Tj");
+
   m_commandString += "Tj\n";
 }
 
@@ -564,6 +600,8 @@ pdfRender::command_Tj ()
 void
 pdfRender::command_TL ()
 {
+  debug(dlError, "Need to implement TL");
+
   m_commandString += "TL\n";
 }
 
@@ -571,6 +609,8 @@ pdfRender::command_TL ()
 void
 pdfRender::command_Tm ()
 {
+  debug(dlError, "Need to implement Tm");
+
   float vals[6];
 
   for (int i = 0; i < 6; i++)
@@ -590,12 +630,16 @@ pdfRender::command_Tm ()
 void
 pdfRender::command_Tr ()
 {
+  debug(dlError, "Need to implement Tr");
+
   m_commandString += "Tr\n";
 }
 
 void
 pdfRender::command_v ()
 {
+  debug(dlError, "Need to implement v");
+
   unsigned int x1, y1, x2, y2;
 
   // Pop our arguements (reverse order)
@@ -617,6 +661,8 @@ pdfRender::command_v ()
 void
 pdfRender::command_w ()
 {
+  debug(dlError, "Need to implement w");
+
   int w;
 
   // Pop arguement
@@ -629,6 +675,8 @@ pdfRender::command_w ()
 void
 pdfRender::command_y ()
 {
+  debug(dlError, "Need to implement y");
+
   unsigned int x1, y1, x2, y2;
 
   // Pop our arguements (reverse order)

@@ -35,8 +35,16 @@ enum
 
 typedef struct
 {
+  wxPoint pt;
+  vector<wxPoint> cpt;
+  int modifier;
+} 
+cmdControlPoint;
+
+typedef struct
+{
   int unique;
-  vector<wxPoint> controlPoints;
+  vector<cmdControlPoint> controlPoints;
   int liner, lineg, lineb;
   int fillr, fillg, fillb;
   unsigned char *rast;
@@ -135,7 +143,9 @@ public:
 
    enum commandType{
      cLine = 0,
-     cImage
+     cImage,
+     cSaveState,
+     cRestoreState
    };
 
   object operator= (const object & other);
@@ -159,14 +169,14 @@ public:
 
   void appendCommand(command cmd);
   void rewriteCommand(int index, commandType type, 
-		      vector<wxPoint> controlPoints);
+		      vector<cmdControlPoint> controlPoints);
   void clearCommands();
   void executeCommand(int index, panda_page *pg);
 
   unsigned int getCommandCount();
   void getCommandLineColor(int index, int& r, int& g, int &b);
   void getCommandFillColor(int index, int& r, int& g, int &b);
-  vector<wxPoint> getCommandPoints(int index, commandType & type);
+  vector<cmdControlPoint> getCommandPoints(int index, commandType & type);
   int getCommandId(int index);
   unsigned char *getCommandRaster(int index);
   bool getLastCommand(command& cmd);
@@ -224,7 +234,12 @@ public:
   void setSpecVer (float version);
   void addObject (object& theObject);
   void appendPage (object& thePage);
+
   void appendCommand (objectreference page, command cmd);
+  void rewriteCommand(objectreference page, int index, 
+		      object::commandType type, 
+		      vector<cmdControlPoint> controlPoints);
+  void clearCommands(objectreference page);
 
   bool findObject (int number, int generation, int &inset);
   bool findObject (int number, int generation, object & obj);

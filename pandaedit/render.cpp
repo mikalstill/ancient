@@ -112,44 +112,55 @@ pdfRender::render ()
       // Paint the object
       debug(dlTrace, "Paint object");
       object::commandType type;
-      vector<wxPoint> controlPoints = page.getCommandPoints(cmdcnt, type);
+      vector<cmdControlPoint> controlPoints = 
+	page.getCommandPoints(cmdcnt, type);
+
       if(controlPoints.size() > 0)
 	{
+	  char *plotState;
+
+	  // HINT: implement something for your new command here...
 	  switch(type)
 	    {
 	    case object::cLine:
+	      debug(dlTrace, "Object is a line");
 	      if(controlPoints.size() > 1)
 		{
 		  plot_setlinestart(m_plot, 
-				    (unsigned int) (controlPoints[0].x * 
+				    (unsigned int) (controlPoints[0].pt.x * 
 						    m_xscale),
-				    (unsigned int) (controlPoints[0].y * 
+				    (unsigned int) (controlPoints[0].pt.y * 
 						    m_yscale));
 		  plot_setlinestart(m_select, 
-				    (unsigned int) (controlPoints[0].x * 
+				    (unsigned int) (controlPoints[0].pt.x * 
 						    m_xscale),
-				    (unsigned int) (controlPoints[0].y * 
+				    (unsigned int) (controlPoints[0].pt.y * 
 						    m_yscale));
 		  debug(dlTrace, string("Line start: ") + 
-			toString(controlPoints[0].x) + string(", ") +
-			toString(controlPoints[0].y));
+			toString(controlPoints[0].pt.x) + string(", ") +
+			toString(controlPoints[0].pt.y));
 
 		  for(unsigned int i = 1; i < controlPoints.size(); i++)
 		    {
 		      plot_addlinesegment(m_plot, 
-					  (unsigned int) (controlPoints[i].x *
-							  m_xscale),
-					  (unsigned int) (controlPoints[i].y *
-							  m_yscale));
+					  (unsigned int) 
+					  (controlPoints[i].pt.x *
+					   m_xscale),
+					  (unsigned int) 
+					  (controlPoints[i].pt.y *
+					   m_yscale));
 		      plot_addlinesegment(m_select, 
-					  (unsigned int) (controlPoints[i].x *
-							  m_xscale),
-					  (unsigned int) (controlPoints[i].y *
-							  m_yscale));
+					  (unsigned int) 
+					  (controlPoints[i].pt.x *
+					   m_xscale),
+					  (unsigned int) 
+					  (controlPoints[i].pt.y *
+					   m_yscale));
 		      debug(dlTrace, string("Line segment: ") + 
-			toString(controlPoints[0].x) + string(", ") +
-			toString(controlPoints[0].y));
+			toString(controlPoints[0].pt.x) + string(", ") +
+			toString(controlPoints[0].pt.y));
 		    }
+
 		  debug(dlTrace, "Start stroking");
 		  plot_strokeline(m_plot);
 		  plot_strokeline(m_select);
@@ -161,6 +172,7 @@ pdfRender::render ()
 	      break;
 
 	    case object::cImage:
+	      debug(dlTrace, "Object is an image");
 	      if(controlPoints.size() != 2)
 		{
 		  debug(dlError, 
@@ -168,13 +180,30 @@ pdfRender::render ()
 		}
 	      else
 		{
-		  plot_overlayraster(m_plot, 
-				     (char *) page.getCommandRaster(cmdcnt), 
-				     controlPoints[0].x, controlPoints[0].y,
-				     controlPoints[1].x, controlPoints[1].y,
-				     controlPoints[1].x, controlPoints[1].y,
-				     0);
+		  if(page.getCommandRaster(cmdcnt) != NULL)
+		    plot_overlayraster(m_plot, 
+				       (char *) page.getCommandRaster(cmdcnt), 
+				       controlPoints[0].pt.x, 
+				       controlPoints[0].pt.y,
+				       controlPoints[1].pt.x, 
+				       controlPoints[1].pt.y,
+				       controlPoints[1].pt.x, 
+				       controlPoints[1].pt.y,
+				       0);
+		  else
+		    debug(dlTrace, "Image had a NULL raster");
 		}
+	      break;
+
+	    case object::cSaveState:
+	      plotState = plot_persiststate(m_plot);
+	      m_graphicsStates.push(plotState);
+	      free(plotState);
+	      break;
+
+	    case object::cRestoreState:
+	      plot_applystate(m_plot, (char *) m_graphicsStates.top().c_str());
+	      m_graphicsStates.pop();
 	      break;
 
 	    default:
@@ -589,8 +618,11 @@ pdfRender::appendCommand(object::commandType type)
 	goto newcommand;
       if(cmd.type != type)
 	goto newcommand;
-      if(cmd.controlPoints[cmd.controlPoints.size() - 1] != 
-	 m_controlPoints[0])
+
+      // TODO mikal: this line needs to be brought up to speed with the
+      // new cmdControlPoint structure...
+      if(cmd.controlPoints[cmd.controlPoints.size() - 1].pt != 
+	 m_controlPoints[0].pt)
 	goto newcommand;
 
       if(cmd.liner != m_lineColor.r)
@@ -640,6 +672,8 @@ pdfRender::appendCommand(object::commandType type)
   newcmd.rast = m_raster;
 
   // Ask the document to append the command
+  debug(dlTrace, string("Appending a command with the unique id ") +
+	toString(newcmd.unique));
   m_doc->appendCommand(m_pageno, newcmd);
   m_controlPoints.clear();
 }

@@ -284,7 +284,7 @@ pdfDoc::appendCommand(int pageNum, command cmd)
 
 void
 pdfDoc::rewriteCommand(int pageNum, int index, object::commandType type, 
-		      vector<wxPoint> points)
+		      vector<cmdControlPoint> points)
 {
   while(pageNum >= m_pages.size())
     {
@@ -292,15 +292,30 @@ pdfDoc::rewriteCommand(int pageNum, int index, object::commandType type,
       appendPage();
     }
 
-  object pobj(objNumNoSuch, objNumNoSuch);
-  object& page = pobj;
-  if(m_pages.item(pageNum, page))
-    page.rewriteCommand(index, type, points);
-  else
-    debug(dlError, "Could not rewrite command on non existant page");
+  objectreference objref;
+  if(!m_pages.item(pageNum, objref))
+    return;
+
+  m_pdf->rewriteCommand(objref, index, type, points);
 }
 
-vector<wxPoint>
+void
+pdfDoc::clearCommands(int pageNum)
+{
+  while(pageNum >= m_pages.size())
+    {
+      debug(dlError, "Rewriting a command on a non existant page?");
+      appendPage();
+    }
+
+  objectreference objref;
+  if(!m_pages.item(pageNum, objref))
+    return;
+
+  m_pdf->clearCommands(objref);
+}
+
+vector<cmdControlPoint>
 pdfDoc::getCommand(int pageNum, int index, object::commandType & type)
 {
   while(pageNum >= m_pages.size())
@@ -316,7 +331,7 @@ pdfDoc::getCommand(int pageNum, int index, object::commandType & type)
   else
     {
       debug(dlError, "Could not get a command from a non-existant page");
-      vector<wxPoint> empty;
+      vector<cmdControlPoint> empty;
       return empty;
     }
 }

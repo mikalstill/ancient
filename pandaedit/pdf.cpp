@@ -206,3 +206,24 @@ pdf::appendCommand(objectreference obj, command cmd)
 
   m_objects[inset].appendCommand(cmd);
 }
+
+void
+pdf::rewriteCommand(objectreference obj,  int index, object::commandType type, 
+		      vector<cmdControlPoint> controlPoints)
+{
+  int inset;
+  if(!findObject(obj.number, obj.generation, inset))
+    return;
+
+  m_objects[inset].rewriteCommand(index, type, controlPoints);
+}
+
+void
+pdf::clearCommands(objectreference obj)
+{
+  int inset;
+  if(!findObject(obj.number, obj.generation, inset))
+    return;
+
+  m_objects[inset].clearCommands();
+}

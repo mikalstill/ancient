@@ -59,7 +59,7 @@ private:
   DECLARE_EVENT_TABLE () 
 
   wxFrame *m_frame;
-  vector<wxPoint> m_controlPoints;
+  vector<cmdControlPoint> m_controlPoints;
   int m_height;
   bool m_editting;
   int m_editTarget;

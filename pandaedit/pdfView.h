@@ -80,8 +80,8 @@ public:
   void setHeight(int height);
   void appendCommand(command cmd);
   void rewriteCommand(int index, object::commandType type, 
-		      vector<wxPoint> points);
-  vector<wxPoint> getCommand(int index, object::commandType & type);
+		      vector<cmdControlPoint> points);
+  vector<cmdControlPoint> getCommand(int index, object::commandType & type);
   char *getSelectRaster();
   void setHoverTarget(int target);
 

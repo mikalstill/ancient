@@ -21,13 +21,10 @@ m_changed(true),
 m_height(-1),
 m_readonly(false)
 {
-  debug(dlTrace, "---Construct new object---");
 }
 
 object::object (const object & other)
 {
-  debug(dlTrace, "---Copy object---");
-
   m_number = other.m_number;
   m_generation = other.m_generation;
   m_dictionary = other.m_dictionary;
@@ -69,8 +66,6 @@ object::~object ()
 object
 object::operator= (const object & other)
 {
-  debug(dlTrace, "---Assign object---");
-  
   m_number = other.m_number;
   m_generation = other.m_generation;
   m_dictionary = other.m_dictionary;
@@ -427,7 +422,7 @@ object::clearCommands()
 // TODO mikal: this should let us change the colour as well...
 void
 object::rewriteCommand(int index, commandType cType, 
-		       vector<wxPoint> controlPoints)
+		       vector<cmdControlPoint> controlPoints)
 {
   if(m_readonly)
     {
@@ -494,17 +489,22 @@ object::executeCommand(int index, panda_page *pg)
 	  panda_setfillcolor(pg, m_commands[index].fillr, 
 			     m_commands[index].fillg,
 			     m_commands[index].fillb);
-	  panda_setlinestart(pg, m_commands[index].controlPoints[index].x,
-			     m_commands[index].controlPoints[0].y);
+	  panda_setlinestart(pg, m_commands[index].controlPoints[index].pt.x,
+			     m_commands[index].controlPoints[0].pt.y);
 	  for(unsigned int i = 1; i < m_commands[index].controlPoints.size();
 	      i++)
 	    {
-	      panda_addlinesegment(pg, m_commands[index].controlPoints[i].x,
-				   m_commands[index].controlPoints[i].y);
+	      panda_addlinesegment(pg, m_commands[index].controlPoints[i].pt.x,
+				   m_commands[index].controlPoints[i].pt.y);
 	    }
 	  panda_strokeline(pg);
 	  panda_endline(pg);
 	}
+      break;
+
+    case cSaveState:
+    case cRestoreState:
+      debug(dlError, "Implement state with panda");
       break;
 
     default:
@@ -514,10 +514,10 @@ object::executeCommand(int index, panda_page *pg)
   return;
 }
 
-vector<wxPoint>
+vector<cmdControlPoint>
 object::getCommandPoints(int index, commandType & type)
 {
-  vector<wxPoint> none;
+  vector<cmdControlPoint> none;
 
   if(index >= m_commands.size())
     {

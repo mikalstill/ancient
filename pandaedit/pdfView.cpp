@@ -458,7 +458,7 @@ pdfView::appendCommand(command cmd)
 
 void
 pdfView::rewriteCommand(int index, object::commandType type, 
-			vector<wxPoint> points)
+			vector<cmdControlPoint> points)
 {
   pdfDoc *theDoc = (pdfDoc *) GetDocument ();
   if(!theDoc->isReady()){
@@ -470,12 +470,12 @@ pdfView::rewriteCommand(int index, object::commandType type,
   theDoc->rewriteCommand(m_page, index, type, points);
 }
 
-vector<wxPoint>
+vector<cmdControlPoint>
 pdfView::getCommand(int index, object::commandType & type)
 {
   pdfDoc *theDoc = (pdfDoc *) GetDocument ();
   if(!theDoc->isReady()){
-    vector<wxPoint> none;
+    vector<cmdControlPoint> none;
     debug(dlTrace, 
 	  "Drawing command lookup ignored because PDF document not ready");
     return none;
@@ -651,22 +651,14 @@ pdfView::OnForceRefresh (wxCommandEvent & event)
 void
 pdfView::OnForceReparse (wxCommandEvent & event)
 {
-  pdfDoc *theDoc = (pdfDoc *) GetDocument ();
-  if(!theDoc){
-    debug(dlTrace, "No document");
-    return;
-  }
-
+    pdfDoc *theDoc = (pdfDoc *) GetDocument ();
   if(!theDoc->isReady()){
-    debug(dlTrace, "Reparse ignored because PDF document not ready");
+    debug(dlTrace, 
+	  "Drawing command addition ignored because PDF document not ready");
     return;
   }
 
-  object pobj(objNumNoSuch, objNumNoSuch);
-  object& page = pobj;
-  if(!theDoc->getPage(m_page, page))
-    return;
-  page.clearCommands();
+  theDoc->clearCommands(m_page);
 
   m_dirty = true;
   canvas->Refresh();

@@ -108,36 +108,7 @@ pdfRender::render_BT ()
 void
 pdfRender::render_c ()
 {
-  unsigned int x1, y1, x2, y2, x3, y3;
 
-  // Pop our arguements (reverse order)
-  y3 = m_height - atoi (m_arguements.top ().c_str ());
-  m_arguements.pop ();
-  x3 = atoi (m_arguements.top ().c_str ());
-  m_arguements.pop ();
-  y2 = m_height - atoi (m_arguements.top ().c_str ());
-  m_arguements.pop ();
-  x2 = atoi (m_arguements.top ().c_str ());
-  m_arguements.pop ();
-  y1 = m_height - atoi (m_arguements.top ().c_str ());
-  m_arguements.pop ();
-  x1 = atoi (m_arguements.top ().c_str ());
-  m_arguements.pop ();
-
-  if (m_mode != rmGraphics)
-    {
-      debug(dlTrace, "Not in graphics mode");
-      return;
-    }
-
-#if defined HAVE_LIBMPLOT
-  plot_addcubiccurvesegment (m_plot, x1, y1, x2, y2, x3, y3);
-  plot_addcubiccurvesegment (m_select, x1, y1, x2, y2, x3, y3);
-#else
-  debug(dlError, "Libmplot not found at configure time. Graphics functionality"
-	" is therefore not available");
-#endif
-  m_hasLine = true;
 }
 
 // Set the graphics matrix
