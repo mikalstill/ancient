@@ -353,175 +353,184 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
 
 //  m_dirty = true;
 
-//   lsUi.showIsReweight();
+  lsUi.showIsReweight();
 
-//   if(lsUi.getIsReweight() != -1)
-//   {
-//     lsUi.showWhichDir();
+  if(lsUi.getIsReweight() != -1)
+  {
+    lsUi.showWhichDir();
 
-//     if(lsUi.getWhichDir('x') == true)
-//     {
-//       if(lsUi.getIsReweight() == 1)
-//       {
-//         lsX.cepDoVCV(*m_x);
-//         residuals = lsX.getResidual();
+    if(lsUi.getWhichDir('x') == true)
+    {
+      if(lsUi.getIsReweight() == 1)
+      {
+        lsX.cepDoVCV(*m_x);
+        residuals = lsX.getResidual();
         
-//         cout << "equation of the line is " << endl;
-//         cout << "y=" << lsX.getB1() << "x+" << lsX.getB2() << endl;
-//         cout << "residuals are: " << endl;
-//         for(int i = 0; i < residuals.getNumRows(); i++){
-//           cout << residuals.getValue(i,0) << " ";
-//         }
-//         cout << endl;
+        cout << "equation of the line is " << endl;
+        cout << "y=" << lsX.getB1() << "x+" << lsX.getB2() << endl;
+        cout << "residuals are: " << endl;
+        for(int i = 0; i < residuals.getNumRows(); i++){
+          cout << residuals.getValue(i,0) << " ";
+        }
+        cout << endl;
         
-//       }
-//       else
-//       {
-//         lsUi.showIsReadP("x (North)");
+      }
+      else
+      {
+        lsUi.showIsReadP("x (North)");
 
-//         if(lsUi.getIsReadP() == 1)
-//         {
-//           lsUi.showGetfNameP();
-//           if(lsUi.getfNameP() != "")
-//           {
-//             cout << "x selected: no rewight" << endl;
-//             cout << "file read is: " << lsUi.getfNameP() << endl;
-//             matP = data.getP(lsUi.getfNameP());
-//             for(int i = 0; i < matP.getNumRows(); i++){
-//               for(int j = 0; j < matP.getNumCols(); j++){
-//                 cout << matP.getValue(i,j) << " ";
-//               }
-//               cout << endl;
-//             }
-//             lsX.cepDoVCV(*m_x, matP);
-//             residuals = lsX.getResidual();
+        if(lsUi.getIsReadP() == 1)
+        {
+          lsUi.showGetfNameP();
 
-//             cout << "equation of the line is " << endl;
-//             cout << "y=" << lsX.getB1() << "x+" << lsX.getB2() << endl;
-//             cout << "residuals are: " << endl;
-//             for(int i = 0; i < residuals.getNumRows(); i++){
-//               cout << residuals.getValue(i,0) << " ";
-//             }
-//             cout << endl;
-//           }   
-//         }
-//         else
-//         {
-//           cout << "re-weight graph thingie goes here " << endl;
-//         }
-//       }
-//     }
+          if(lsUi.getfNameP() != "")
+          {
+            cout << "x selected: no rewight" << endl;
+            cout << "file read is: " << lsUi.getfNameP() << endl;
+            matP = data.getP(lsUi.getfNameP());
+            for(int i = 0; i < matP.getNumRows(); i++){
+              for(int j = 0; j < matP.getNumCols(); j++){
+                cout << matP.getValue(i,j) << " ";
+              }
+              cout << endl;
+            }
+            lsX.cepDoVCV(*m_x, matP);
+            residuals = lsX.getResidual();
 
-//     if(lsUi.getWhichDir('y') == true)
-//     {
-//       if(lsUi.getIsReweight() == 1)
-//       {
-//         lsY.cepDoVCV(*m_y);
-//         residuals = lsY.getResidual();
+            cout << "equation of the line is " << endl;
+            cout << "y=" << lsX.getB1() << "x+" << lsX.getB2() << endl;
+            cout << "residuals are: " << endl;
+            for(int i = 0; i < residuals.getNumRows(); i++){
+              cout << residuals.getValue(i,0) << " ";
+            }
+            cout << endl;
+          }   
+        }
+        else
+        {
+          if(lsUi.getIsReadP() == 0)
+          {
+            cout << "re-weight graph thingie goes here " << endl;
+          }
+        }
+      }
+    }
 
-//         cout << "equation of the line is " << endl;
-//         cout << "y=" << lsY.getB1() << "x+" << lsY.getB2() << endl;
-//         cout << "residuals are: " << endl;
-//         for(int i = 0; i < residuals.getNumRows(); i++){
-//           cout << residuals.getValue(i,0) << " ";
-//         }
-//         cout << endl;
+    if(lsUi.getWhichDir('y') == true)
+    {
+      if(lsUi.getIsReweight() == 1)
+      {
+        lsY.cepDoVCV(*m_y);
+        residuals = lsY.getResidual();
 
-//       }
-//       else
-//       {
-//         lsUi.showIsReadP("y (East)");
+        cout << "equation of the line is " << endl;
+        cout << "y=" << lsY.getB1() << "x+" << lsY.getB2() << endl;
+        cout << "residuals are: " << endl;
+        for(int i = 0; i < residuals.getNumRows(); i++){
+          cout << residuals.getValue(i,0) << " ";
+        }
+        cout << endl;
 
-//         if(lsUi.getIsReadP() == 1)
-//         {
-//           lsUi.showGetfNameP();
+      }
+      else
+      {
+        lsUi.showIsReadP("y (East)");
 
-//           if(lsUi.getfNameP() != "")
-//           {
-//             cout << "y selected: no rewight" << endl;
-//             cout << "file read is: " << lsUi.getfNameP() << endl;
-//             matP = data.getP(lsUi.getfNameP());
-//             for(int i = 0; i < matP.getNumRows(); i++){
-//               for(int j = 0; j < matP.getNumCols(); j++){
-//                 cout << matP.getValue(i,j) << " ";
-//               }
-//               cout << endl;
-//             }
-//             lsY.cepDoVCV(*m_y, matP);
-//             residuals = lsY.getResidual();
+        if(lsUi.getIsReadP() == 1)
+        {
+          lsUi.showGetfNameP();
 
-//             cout << "equation of the line is " << endl;
-//             cout << "y=" << lsY.getB1() << "x+" << lsY.getB2() << endl;
-//             cout << "residuals are: " << endl;
-//             for(int i = 0; i < residuals.getNumRows(); i++){
-//               cout << residuals.getValue(i,0) << " ";
-//             }
-//             cout << endl;
-//           }
-//         }
-//         else
-//         {
-//           cout << "re-weight graph thingie goes here " << endl;
-//         }
-//       }
-//     }
+          if(lsUi.getfNameP() != "")
+          {
+            cout << "y selected: no rewight" << endl;
+            cout << "file read is: " << lsUi.getfNameP() << endl;
+            matP = data.getP(lsUi.getfNameP());
+            for(int i = 0; i < matP.getNumRows(); i++){
+              for(int j = 0; j < matP.getNumCols(); j++){
+                cout << matP.getValue(i,j) << " ";
+              }
+              cout << endl;
+            }
+            lsY.cepDoVCV(*m_y, matP);
+            residuals = lsY.getResidual();
 
-//     if(lsUi.getWhichDir('z') == true)
-//     {
-//       if(lsUi.getIsReweight() == 1)
-//       {
-//         lsZ.cepDoVCV(*m_z);
-//         residuals = lsZ.getResidual();
+            cout << "equation of the line is " << endl;
+            cout << "y=" << lsY.getB1() << "x+" << lsY.getB2() << endl;
+            cout << "residuals are: " << endl;
+            for(int i = 0; i < residuals.getNumRows(); i++){
+              cout << residuals.getValue(i,0) << " ";
+            }
+            cout << endl;
+          }
+        }
+        else
+        {
+          if(lsUi.getIsReadP() == 0)
+          {
+            cout << "re-weight graph thingie goes here " << endl;
+          }
+        }
+      }
+    }
 
-//         cout << "equation of the line is " << endl;
-//         cout << "y=" << lsZ.getB1() << "x+" << lsZ.getB2() << endl;
-//         cout << "residuals are: " << endl;
-//         for(int i = 0; i < residuals.getNumRows(); i++){
-//           cout << residuals.getValue(i,0) << " ";
-//         }
-//         cout << endl;
+    if(lsUi.getWhichDir('z') == true)
+    {
+      if(lsUi.getIsReweight() == 1)
+      {
+        lsZ.cepDoVCV(*m_z);
+        residuals = lsZ.getResidual();
 
-//       }
-//       else
-//       {
-//         lsUi.showIsReadP("z (Up)");
+        cout << "equation of the line is " << endl;
+        cout << "y=" << lsZ.getB1() << "x+" << lsZ.getB2() << endl;
+        cout << "residuals are: " << endl;
+        for(int i = 0; i < residuals.getNumRows(); i++){
+          cout << residuals.getValue(i,0) << " ";
+        }
+        cout << endl;
 
-//         if(lsUi.getIsReadP() == 1)
-//         {
-//           lsUi.showGetfNameP();
+      }
+      else
+      {
+        lsUi.showIsReadP("z (Up)");
 
-//           if(lsUi.getfNameP() != "")
-//           {
-//             cout << "x selected: no rewight" << endl;
-//             cout << "file read is: " << lsUi.getfNameP() << endl;
-//             matP = data.getP(lsUi.getfNameP());
-//             for(int i = 0; i < matP.getNumRows(); i++){
-//               for(int j = 0; j < matP.getNumCols(); j++){
-//                 cout << matP.getValue(i,j) << " ";
-//               }
-//               cout << endl;
-//             }
-//             lsZ.cepDoVCV(*m_z, matP);
-//             residuals = lsZ.getResidual();
+        if(lsUi.getIsReadP() == 1)
+        {
+          lsUi.showGetfNameP();
 
-//             cout << "equation of the line is " << endl;
-//             cout << "y=" << lsZ.getB1() << "x+" << lsZ.getB2() << endl;
-//             cout << "residuals are: " << endl;
-//             for(int i = 0; i < residuals.getNumRows(); i++){
-//               cout << residuals.getValue(i,0) << " ";
-//             }
-//             cout << endl;
-//           }
-//         }
-//         else
-//         {
-//           cout << "re-weight graph thingie goes here " << endl;
-//         }
-//       }
-//     }
-//   }
-//  canvas->Refresh();
+          if(lsUi.getfNameP() != "")
+          {
+            cout << "x selected: no rewight" << endl;
+            cout << "file read is: " << lsUi.getfNameP() << endl;
+            matP = data.getP(lsUi.getfNameP());
+            for(int i = 0; i < matP.getNumRows(); i++){
+              for(int j = 0; j < matP.getNumCols(); j++){
+                cout << matP.getValue(i,j) << " ";
+              }
+              cout << endl;
+            }
+            lsZ.cepDoVCV(*m_z, matP);
+            residuals = lsZ.getResidual();
 
+            cout << "equation of the line is " << endl;
+            cout << "y=" << lsZ.getB1() << "x+" << lsZ.getB2() << endl;
+            cout << "residuals are: " << endl;
+            for(int i = 0; i < residuals.getNumRows(); i++){
+              cout << residuals.getValue(i,0) << " ";
+            }
+            cout << endl;
+          }
+        }
+        else
+        {
+          if(lsUi.getIsReadP() == 0)
+          {
+            cout << "re-weight graph thingie goes here " << endl;
+          }
+        }
+      }
+    }
+  }
+  canvas->Refresh();
 }
 
 void cepView::LeastSquaresVCV(cepMatrix<double> *mat, string direction)
