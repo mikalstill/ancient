@@ -105,11 +105,11 @@
   sine wave with its corresponding PSD plot.
 
   <figure><title>50 kHz sin wave</title>
-      <execute><cmd>img</cmd><args>50HzSin.gif</args></execute>
+      <execute><cmd>img</cmd><args>50HzSin.bmp</args></execute>
   </figure>
 
   <figure><title>PSD plot of a 50 kHz sin wave</title>
-      <execute><cmd>img</cmd><args>fft50HzSin.gif</args></execute>
+      <execute><cmd>img</cmd><args>fft50HzSin.bmp</args></execute>
   </figure>
 
   In the above figures, we see a pure sin wave with a frequency of 50Hz. This is confirmed in the PSD plot, where we see
