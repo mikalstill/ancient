@@ -7,7 +7,61 @@ Reviewed by Michael Still <mikal@stillhq.com>
 
    Reviewed by Michael Still <mikal@stillhq.com>
 
-   ...
+   I've been using CVS for quite some time now, but because of
+   the way I work, and the sort of projects I work on, there are
+   some features I have simply never had to use, or didn't even
+   know existed. TODO
 
-   Essential CVS discusses why you would use CVS, how to install
-   it,
+   The structure of Essential CVS is logical. Essential CVS
+   discusses what CVS is, why you would use it (including it's
+   uses for systems administrators), and then immediately
+   presents a quick start guide. The quickstart guide takes the
+   form of a cook book of the common operations you would perform
+   in every day CVS use: importing projects; checking in and out
+   files; commiting changes; updating your sandbox; and so on.
+
+   Essential CVS then moves onto chapters which cover some of the
+   specifics. For example, chapter two discusses every day use of
+   CVS, in a little more detail than the quickstart. As I read
+   the book from cover to cover, this felt a little strange, as
+   there was repeated content quite frequently. Then again, it is
+   obvious that this part of the book is built as a reference, in
+   which case repeating information makes the book much more user
+   friendly.
+
+   The quickstart chapter presents enough information for you to
+   walk away and start using CVS. The later, more specific,
+   chapters, then provide the information you need to solve more
+   specific questions as you encounter then. The book takes
+   detail and accuracy seriously, for example in several places
+   it mentions that comments in the CVS source code imply that a
+   given feature may change in the future, and user caution
+   should be shown.
+
+   Essential CVS also provides a large volume of command
+   reference information, listing the command line parameters to
+   the various CVS tools, and their use. Based on a brief perusal
+   of the cvs manpage, this is probably a good thing, as I found
+   the format of the command reference within Essential CVS to be
+   much more readable than the man page.
+
+   As the majority of Essential CVS is a reference book, it live
+   and dies by the quality of it's index. The difficult question
+   as a reviewer is how to test an index? You could judge it on
+   size, but that would only tell you that a lot of words were in
+   the index. If those words are not relevant, then the index is
+   still of little use. I chose instead of think of four or five
+   things which I thought I might need with CVS, and then used
+   the index to pull out the relevant information. Thus, if I
+   could find the things I thought I needed in the index, then
+   the index passes my simple test.
+
+   Essential CVS met all of my index tests. For all of the things
+   I looked up in the index, which ranged from information on how
+   to commit binary files sensibly to CVS, to how to access a
+   repository remotely via SSH, how to configure build scripts as
+   a commit requirement, the index took me ot the relevant
+   information to within a page or two. Thus, I am happy to
+   declare Essential CVS to be a useful reference book.
+
+   Jennifer is also an Australian, which is always a good thing.
