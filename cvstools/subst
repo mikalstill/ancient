@@ -4,7 +4,7 @@ use strict;
 
 while(<STDIN>){
   while(/(.*)%(.+)%(.*)/){
-    print STDERR "Found: $2, replacing with $ENV{$2}\n";
+#    print STDERR "Found: $2, replacing with $ENV{$2}\n";
     $_ = "$1" . $ENV{$2} . "$3\n";
     }
 

@@ -6,7 +6,7 @@
   int parsemode;
 %}
 
-%token BEGIN VCARD END LINEFOLD
+%token VBEGIN VCARD VEND LINEFOLD
 %token ENCODING
 %token FN N NICKNAME PHOTO BDAY
 %token ADR LABEL TEL EMAIL MAILER
@@ -20,15 +20,16 @@
 
 %%
 
-vcard    : startstuff BEGIN ':' VCARD { printf("\nvcard header\n"); }
+vcard    : startstuff VBEGIN ':' VCARD { printf("\nvcard header\n"); }
              cardlines
-             END ':' VCARD { printf("\nvcard footer\n"); }
+             VEND ':' VCARD { printf("\nvcard footer\n"); }
          ;
 
 startstuff
          : STRING startstuff
          | ':' startstuff
          | LINEFOLD startstuff
+         | ANYTHING startstuff
          | 
          ;
 

@@ -52,7 +52,7 @@ sub process($){
 	elsif((/(.*)<$exblock>(.*)<\/$exblock>(.*)/) && ($suppress == 0)){
 	    print $OUTPTR $1;
 	    $cmd = $2;
-	    
+
 	    $_ = $cmd;
 	    if(/<input>/){
 		$input = $cmd;
@@ -62,7 +62,7 @@ sub process($){
 	    else{
 		$input = "";
 	    }
-	    
+
 	    if(/<output>/){
 		$output = $cmd;
 		$output =~ s/.*<output>//;
@@ -71,7 +71,7 @@ sub process($){
 	    else{
 		$output = "";
 	    }
-	    
+
 	    if(/<args>/){
 		$arg = $cmd;
 		$arg =~ s/.*<args>//;
@@ -80,11 +80,12 @@ sub process($){
 	    else{
 		$arg = "";
 	    }
-	    
+
 	    $cmd =~ s/.*<cmd>//;
 	    $cmd =~ s/<\/cmd>.*//;
-	    
-	    if(($cmd ne "todo") && ($cmd ne "nextedition")){
+
+	    if(($cmd ne "todo") && ($cmd ne "nextedition")
+	      && ($cmd ne "cat")){
 		if($arg ne ""){
 		    $cmdstr = "$cmd $arg $ARGV[0]";
 		}
@@ -121,6 +122,10 @@ sub process($){
 		print $OUTPTR "</figure>\n";
 	    }
 	    elsif($cmd eq "nextedition"){
+	    }
+	    elsif($cmd eq "cat"){
+	      $output=`cat $input`;
+	      print $OUTPTR "$output";
 	    }
 
 	    print $OUTPTR "$3";

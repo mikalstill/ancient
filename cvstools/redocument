@@ -1,0 +1,10 @@
+#!/bin/bash
+
+files="ABOUT README ChangeLog INSTALL AUTHORS NEWS"
+
+for file in $files
+do
+  xemacs $file
+  cvs add $file
+done
+

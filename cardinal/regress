@@ -1,11 +1,31 @@
-#!/bin/sh
+#!/bin/bash
+
+fail=0
+pass=0
 
 for item in `find samples -type f | grep -v CVS`
 do
   echo "---------------------------"
   echo $item
+  echo "---------------------------"
+
   ./vcard < $item
+  if [ "%$?%" != "%0%" ]
+  then
+    fail=$(( $fail + 1 ))
+    faillist="$faillist$item "
+  else
+    pass=$(( $pass + 1 ))
+  fi
+
   echo ""
   echo ""
   echo ""
 done
+
+echo "---------------------------"
+echo SUMMARY
+echo "---------------------------"
+echo "Pass: $pass"
+echo "Fail: $fail ($faillist)"
+echo ""

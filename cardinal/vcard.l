@@ -8,9 +8,9 @@ extern int parsemode;
 
 \r?\n[ \t]                                 { printf("*%d, fold* ", parsemode); return LINEFOLD; }
 
-[Bb][Ee][Gg][Ii][Nn]                       { printf("*%d, begin* ", parsemode); return(parsemode == 1 ? BEGIN : STRING); }
+[Bb][Ee][Gg][Ii][Nn]                       { printf("*%d, begin* ", parsemode); return(parsemode == 1 ? VBEGIN : STRING); }
 [Vv][Cc][Aa][Rr][Dd]                       { printf("*%d, vcard* ", parsemode); return(parsemode == 1 ? VCARD : STRING); }
-[Ee][Nn][Dd]                               { printf("*%d, end* ", parsemode); return(parsemode == 1 ? END : STRING); }
+[Ee][Nn][Dd]                               { printf("*%d, end* ", parsemode); return(parsemode == 1 ? VEND : STRING); }
 
 [Ee][Nn][Cc][Oo][Dd][Ii][Nn][Gg]           { printf("*%d, encoding* ", parsemode); return(parsemode == 1 ? ENCODING : STRING); }
   
@@ -52,7 +52,7 @@ extern int parsemode;
 
 [Xx]-[Cc][Uu][Ss][Tt][Oo][Mm][0-9]         { printf("*%d, custome key* ", parsemode); return(parsemode == 1 ? CUSTOM : STRING); }
 
-[a-zA-Z0-9;\.=\-/\/@\(\)\"]+[^:\r\n]*             { printf("*%d, string = %s* ", parsemode, yytext); return STRING; }
+#[a-zA-Z0-9;\.=\-/\/@\(\)\"]+[^:\r\n]*      { printf("*%d, string = %s* ", parsemode, yytext); return STRING; }
 
 [ \t\r\n]                                  { printf("*%d, whitespace* ", parsemode); }
 .                                          { printf("*anything = %c* ", yytext[0]); return yytext[0]; }

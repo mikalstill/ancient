@@ -2,14 +2,14 @@
 
 files="ABOUT README ChangeLog INSTALL AUTHORS NEWS"
 
-for item in `ls . | grep $1 | grep -v COPYING | grep -v Copyright | egrep -v ".sh$" | egrep -v "~$" | grep -v TODO | grep -v cvs001 | grep -v screensaver`
+for item in `ls . | egrep "$1" | grep -v COPYING | grep -v Copyright | egrep -v ".sh$" | egrep -v "~$" | grep -v TODO | grep -v cvs001 | grep -v screensaver`
 do
   for file in $files
   do
     if [ ! -e $item/$file ]
     then
 	echo "$file $item" > $item/$file
-	emacs $item/$file
+	$EDITOR $item/$file
 	cd $item
 	cvs add $file
 	cd ..
