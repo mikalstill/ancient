@@ -11,7 +11,7 @@
 
   <sect2><title>Opening a data set</title>
     <para>
-      When the application is first run, you are presented with a blank window with File 
+      When the application is first run, you are presented with a blank window with File
       and Help menus. To open a data set, open the <command>File</command> menu and select
       <command>Open</command>. This can also be done by using the keyboard shortcut
       <command>CTRL-O</command>.
@@ -76,16 +76,16 @@
   <para>
      This functionality has not been included in this release. The Edit menu exists for future
      enhancements such as Undo, Redo and Delete.  The undo functionality however, is inherit
-     due to the way <command>GDMS</command> creates a new dataset after every mathematical 
+     due to the way <command>GDMS</command> creates a new dataset after every mathematical
      operation.
   </para>
 </sect1>
 
 <sect1><title>View menu</title>
   <para>
-    The look and feel of the user interface can be configured to suit individual users using
-    the <command>View Menu</command>. Please refer to the User Interface Configuration chapter
-    for full details on these features.
+    The <command>View Menu</command>can be used to configure the  look and feel of the user
+    interface to suit individual users. Please refer to the User Interface Configuration
+    chapter for full details on these features.
   </para>
 </sect1>
 
@@ -93,23 +93,19 @@
   <para>
     The data processing functionality provided by the <command>GDMS</command> is provided in
     the <command>Maths</command> menu. All mathematical operations on a data set result in at
-    least one additional dataset being created. This enables easy reference to both the original 
-    and processed data for comparison. Furthermore, any dataset that can be viewed within the 
+    least one additional dataset being created. This enables easy reference to both the original
+    and processed data for comparison. Furthermore, any dataset that can be viewed within the
     application can be saved for future reference.
   </para>
-
-     <figure><title>Maths menu</title>
-      <execute><cmd>img</cmd><args>gdmsMaths.png</args></execute>
-    </figure>
 
 
   <sect2><title>Time Domain Analysis</title>
 
     <sect3><title>Least Squeares</title>
       <para>
-        The only time domain modelling currently available is Least Squares regression. This 
-        can be accessed by selecting <command>Maths</command> - <command>Least Squares</command>. 
-        The available options in the least squares menu are <command>Variance 
+        The only time domain modelling currently available is Least Squares regression. This
+        can be accessed by selecting <command>Maths</command> - <command>Least Squares</command>.
+        The available options in the least squares menu are <command>Variance
         Co-variance</command> and <command>Random Walk</command>.
       </para>
       <sect4><title>Variance Co-variance</title>
