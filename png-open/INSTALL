@@ -1,0 +1,8 @@
+To install, follow these simple steps:
+
+  ./configure
+  make
+
+And as root:
+
+  make install
