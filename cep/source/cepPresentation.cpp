@@ -41,7 +41,8 @@ const long CHUNKALLOC = 10;
 
 const long INVALID = -2000000000;
 
-cepPresentation::cepPresentation (long width, long height, cepMatrix<double> *ds, double b1, double b2):
+cepPresentation::cepPresentation (long width, long height, cepMatrix<double> *ds, double b1, double b2,
+				  bool haveLs):
   m_width(width + 1),
   m_height(height),
   m_xTitle("Undefined Axis Title"),
@@ -56,7 +57,8 @@ cepPresentation::cepPresentation (long width, long height, cepMatrix<double> *ds
   m_ds(ds),
   m_haveMaxima(false),
   m_b1(b1),
-  m_b2(b2)
+  m_b2(b2),
+  m_haveLs(haveLs)
 {
   m_axesColor.red = 0;
   m_axesColor.green = 0;
@@ -306,6 +308,13 @@ cepPresentation::createBitmap (float& scale, long& minval)
     plot_closeline(graph);
     plot_strokeline(graph);
     plot_endline(graph);
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // The least squares line (if any) is on top of _everything_ else
+  cepDebugPrint("Plotting LS line of best fit");
+  if(m_haveLs){
+    
   }
 
   cepDebugPrint("Finishing plotting");

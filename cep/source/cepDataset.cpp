@@ -35,6 +35,7 @@ cepDataset::cepDataset ():
     m_offsetFloat[i] = 0.0;
     m_b1[i] = -1.0;
     m_b2[i] = -1.0;
+    m_haveLs[i] = false;
   }
 
   m_progress = NULL;
@@ -52,6 +53,7 @@ cepDataset::cepDataset (cepDatasetProgressCB callback):
     m_offsetFloat[i] = 0.0;
     m_b1[i] = -1.0;
     m_b2[i] = -1.0;
+    m_haveLs[i] = false;
   }
 
   m_progress = callback;
@@ -61,7 +63,8 @@ cepDataset::cepDataset (cepMatrix<double> *data0, cepMatrix<double> *data1, cepM
 			string offset0, string offset1, string offset2, string procHistory, 
 			string header0, string header1, string header2,
 			double b1_0, double b1_1, double b1_2,
-			double b2_0, double b2_1, double b2_2):
+			double b2_0, double b2_1, double b2_2,
+			bool haveLs0, bool haveLs1, bool haveLs2):
   m_filename(""),
   m_procHistory(procHistory),
   m_ready(true),
@@ -89,6 +92,10 @@ cepDataset::cepDataset (cepMatrix<double> *data0, cepMatrix<double> *data1, cepM
   m_b2[0] = b2_0;
   m_b2[1] = b2_1;
   m_b2[2] = b2_2;
+
+  m_haveLs[0] = haveLs0;
+  m_haveLs[1] = haveLs1;
+  m_haveLs[2] = haveLs2;
 }
 
 cepError cepDataset::read (const string& filename)
@@ -526,7 +533,8 @@ cepDataset cepDataset::filter(float low, float high)
 		    m_procHistory + ": Zoomed",
 		    m_header[0], m_header[1], m_header[2],
 		    m_b1[0], m_b1[1], m_b1[2],
-		    m_b2[0], m_b2[1], m_b2[2]);
+		    m_b2[0], m_b2[1], m_b2[2],
+		    m_haveLs[0], m_haveLs[1], m_haveLs[2]);
 }
 
 // The display name of the dataset
@@ -565,4 +573,10 @@ double cepDataset::getB1(direction i)
 double cepDataset::getB2(direction i)
 {
   return m_b2[i];
+}
+
+// Do we have a LS line?
+bool cepDataset::getHaveLs(direction i)
+{
+  return m_haveLs[i];
 }

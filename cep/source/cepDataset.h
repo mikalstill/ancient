@@ -79,7 +79,8 @@ public:
 	      string offset0, string offset1, string offset2, string procHistory,
 	      string header0, string header1, string header2,
 	      double b1_0, double b1_1, double b1_2,
-	      double b2_0, double b2_1, double b1_2);
+	      double b2_0, double b2_1, double b1_2,
+	      bool haveLs0, bool haveLs1, bool haveLs2);
 
   // Actually process the file
   cepError read(const string& filename);
@@ -102,6 +103,7 @@ public:
   string getProcHistory();
   string getOffset(direction i);
   string getHeader(direction i);
+  bool getHaveLs(direction i);
 
 private:
   string applyOffset(direction i, string value);
@@ -120,6 +122,7 @@ private:
 
   double m_b1[dirUnknown];
   double m_b2[dirUnknown];
+  bool m_haveLs[dirUnknown];
 };
 
 #endif

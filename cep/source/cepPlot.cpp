@@ -23,13 +23,14 @@
 #include "cepPlot.h"
 
 cepPlot::cepPlot(cepDataset *theDataset, cepDataset::direction dir, string cfname, long x, long y,
-		 float& scale, long& minval):
+		 float& scale, long& minval, bool haveLs):
   m_plotfailed(false)
 {
   cepConfiguration *config;
   config = (cepConfiguration *) &cepConfiguration::getInstance();
   cepDebugPrint("New presentation: " + cepToString(x) + " x " + cepToString(y));
-  cepPresentation pres (x, y, theDataset->getMatrix(dir), theDataset->getB1(dir), theDataset->getB2(dir));
+  cepPresentation pres (x, y, theDataset->getMatrix(dir), theDataset->getB1(dir), theDataset->getB2(dir),
+			haveLs);
   
   cepError err;
   int red = 0, green = 0, blue = 0;

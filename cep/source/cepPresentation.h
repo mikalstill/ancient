@@ -32,7 +32,7 @@ class cepError;
 class cepPresentation
 {
 public:
-  cepPresentation (long width, long height, cepMatrix<double> *ds, double b1, double b2);
+  cepPresentation (long width, long height, cepMatrix<double> *ds, double b1, double b2, bool haveLs);
 
   void xAxisTitle (const string & title);
   void yAxisTitle (const string & title);
@@ -79,6 +79,7 @@ private:
 
   double m_b1;
   double m_b2;
+  bool m_haveLs;
 };
 
 #endif

@@ -27,7 +27,8 @@
 class cepPlot{
  public:
   cepPlot(cepDataset *theDataset, cepDataset::direction dir, 
-	  string cfname, long x, long y, float& scale, long& minval);
+	  string cfname, long x, long y, float& scale, long& minval,
+	  bool haveLs);
 
   bool getFailed();
 
