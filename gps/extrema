@@ -1,0 +1,20 @@
+#!/usr/bin/perl
+
+use strict;
+my($minx, $maxx, $miny, $maxy);
+
+$maxx = 0;
+$maxy = 0;
+$minx = 99999999999;
+$miny = 99999999999;
+
+while(<STDIN>){
+  /(.*) (.*) (.*)/;
+
+  if($1 < $miny){$miny = $1;}
+  if($1 > $maxy){$maxy = $1;}
+  if($2 < $minx){$minx = $2;}
+  if($2 > $maxx){$maxx = $2;}
+}
+
+print "./plot -x $minx -X $maxx -y $miny -Y $maxy\n"

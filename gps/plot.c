@@ -19,6 +19,7 @@
 #include <stdio.h>
 #include <png.h>
 #include <libmplot.h>
+#include <unistd.h>
 
 int rconv(long speed){
   if(speed < 5) return 0;
@@ -52,6 +53,10 @@ int bconv(long speed){
   return 0;
 }
 
+void usage(){
+  printf ("Try: -x <minx> -y <miny> -X <maxx> -Y <maxy> -w <mapwidth> -h <mapheight>\n");
+  exit (0);
+}
 
 int
 main (int argc, char *argv[])
@@ -66,50 +71,106 @@ main (int argc, char *argv[])
   plot_state *graph;
   char *raster;
 
-  unsigned long mapptx[100000];
-  unsigned long mappty[100000];
-  unsigned long speeds[100000];
-  unsigned long minx = 596115, maxx = 597072, miny = 140587, maxy = 141115, rangex = 957, rangey = 528;
-  unsigned long x, y, prevx = 0, prevy = 0, s;
+  unsigned long minx = 0, maxx = 0, miny = 0, maxy = 0, 
+    mapx = 0, mapy = 0, x, y, prevx = 0, prevy = 0, s;
   int datapts = 0;
   char line[1000];
-  int speed;
+  int speed, optchar;
+  float scalex, scaley;
 
-  if((graph = plot_newplot(rangex, rangey)) == NULL){
+  // Command line options
+  while ((optchar = getopt (argc, argv, "x:y:X:Y:w:h:")) != -1){
+    switch (optchar){
+    case 'x':
+      minx = atol(optarg);
+      break;
+
+    case 'y':
+      miny = atol(optarg);
+      break;
+      
+    case 'X':
+      maxx = atol(optarg);
+      break;
+
+    case 'Y':
+      maxy = atol(optarg);
+      break;
+      
+    case 'w':
+      mapx = atol(optarg);
+      break;
+
+    case 'h':
+      mapy = atol(optarg);
+      break;
+
+    default:
+    case '?':
+      usage();
+      break;
+    }
+  }
+  
+  if(minx == 0) usage();
+  if(miny == 0) usage();
+  if(maxx == 0) usage();
+  if(maxy == 0) usage();
+  if(mapx == 0) usage();
+  if(mapy == 0) usage();
+
+  // Determine scale
+  minx -= 5000;
+  maxx += 5000;
+  miny -= 5000;
+  maxy += 5000;
+  scalex = (maxx - minx) / mapx;
+  scaley = (maxy - miny) / mapy;
+  scalex += 7;
+  scaley += 7;
+  printf("Scaling: %f and %f\n", scalex, scaley);
+
+  if((graph = plot_newplot(mapx, mapy)) == NULL){
     fprintf(stderr, "Could not allocate a new plot\n");
     exit(1);
   }
 
   // Read the data points from stdin
   while(fgets(&line, 1000, stdin) != NULL){
-    y = atol(strtok(line, " ")) / 250;
-    x = atol(strtok(NULL, " ")) / 250;
+    y = atol(strtok(line, " "));
+    x = atol(strtok(NULL, " "));
     s = atol(strtok(NULL, " ")) / 100000;
     
     if((x == prevx) && (y == prevy)) continue;
     
-    if(prevx != 0){
-      if(abs(x - prevx) > 20) continue;
-      if(abs(y - prevy) > 20) continue;
+    // Mapping stopped things isn't very interesting
+    if(s == 0){
+      continue;
+    }
+
+    // A gap in the data
+    if((prevx != 0) && ((abs(x - prevx) > 500) ||
+			(abs(y - prevy) > 500))){
+      prevx = x;
+      prevy = y;
+      continue;
     }
 
     if(datapts == 0){
-      printf("S[%d %d] ", x - minx, y - miny);
       plot_setlinecolor(graph, rconv(s), 0, bconv(s));
-      plot_setlinestart(graph, x - minx, y - miny);
+      plot_setlinestart(graph, (x - minx) / scalex, (y - miny) / scaley);
     }
     else if((rconv(s) == rconv(speed)) && 
 	    ((bconv(s) == bconv(speed)))){
-      printf("[%d %d] ", x - minx, y - miny);
-      plot_addlinesegment(graph, x - minx, y - miny);
+      plot_addlinesegment(graph, (x - minx) / scalex, (y - miny) / scaley);
     }
     else{
-      printf("C[%d %d] ", x - minx, y - miny);
       plot_strokeline(graph);
       plot_endline(graph);
       plot_setlinecolor(graph, rconv(s), 0, bconv(s));
-      plot_setlinestart(graph, prevx - minx, prevy - miny);
-      plot_addlinesegment(graph, x - minx, y - miny);
+      plot_setlinestart(graph, (prevx - minx) / scalex, 
+			(prevy - miny) / scaley);
+      plot_addlinesegment(graph, (x - minx) / scalex, (y - miny) / scaley);
     }
     
     speed = s;
@@ -121,7 +182,6 @@ main (int argc, char *argv[])
   
   plot_strokeline(graph);
   plot_endline(graph);
-  printf("\n\n");
 
   raster = plot_getraster(graph);
 
@@ -156,19 +216,19 @@ main (int argc, char *argv[])
   // Define important stuff about the image
   info->channels = 3;
   info->pixel_depth = 24;
-  png_set_IHDR (png, info, rangex, rangey, 8, PNG_COLOR_TYPE_RGB,
+  png_set_IHDR (png, info, mapx, mapy, 8, PNG_COLOR_TYPE_RGB,
                 PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT,
                 PNG_FILTER_TYPE_DEFAULT);
   png_write_info (png, info);
 
   // Write the image out
-  if((row_pointers = malloc (rangey * sizeof (png_bytep))) == NULL){
+  if((row_pointers = malloc (mapy * sizeof (png_bytep))) == NULL){
     fprintf(stderr, "Could not allocate memory\n");
     exit(42);
   }
 
-  for(i = 0; i < rangey; i++){
-    row_pointers[i] = raster + (i * rangex * 3);
+  for(i = 0; i < mapy; i++){
+    row_pointers[i] = raster + (i * mapx * 3);
   }
 
   png_write_image (png, row_pointers);

@@ -37,7 +37,7 @@ while(<STDIN>)
 
     if($9 eq "0") { print "invalid"; }
     elsif($9 eq "1") { print "gps"; }
-    elsif($9 eq "2") { print "differential gps"; }
+    elsif($9 eq "2") { print "diffgps"; }
     else { print "unknown"; }
     print " fix to $10 SVs with $11 horizontal dilution altitude $12 $13\n";
   } 

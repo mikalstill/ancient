@@ -2,7 +2,7 @@
 
 while(<STDIN>){
   s/^.* at //;
-  s/ gps fix.*\(/ /;
+  s/ [a-z]*gps fix.*\(/ /;
   s/ kmh\).*//;
   s/ S//;
   s/ E//;
