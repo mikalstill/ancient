@@ -73,6 +73,8 @@
 
 #include <stdlib.h>
 #include <unistd.h>
+#include <math.h>
+#include <iomanip.h>
 
 #include <wx/colour.h>
 #include <wx/colordlg.h>
@@ -368,7 +370,7 @@ void cepView::OnToggleZ (wxCommandEvent &pevt)
 // Perform a least squares regression on the dataset (in all directions)
 void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
 {
-  cepMatrix <double> residuals, matP;
+  cepMatrix <double> residuals, data;
   cepDate toDate(1999.9987), fromDate(1999.0014);
 
   cepDateUi date;
@@ -408,20 +410,32 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
             if(thisLs.getError().isReal() == true)
             {
               thisLs.getError().display();
-              goto END;
+              return;
             }  
             residuals = thisLs.getResidual ();
-		        cepDebugPrint("Resolved LS regression");
+	          data = thisLs.getDataset();
 
-		        cout << "equation of the line is " << endl;
-		        cout << "y=" << thisLs.getB1 () << "x+" << thisLs.getB2 () << endl;
-		        cout << "residuals are: " << endl;
-		        for (int i = 0; i < residuals.getNumRows (); i++)
-			      {
-			        cout << residuals.getValue (i, 0) << " ";
-		  	    }
-		        cout << endl;
-		      
+	          cout << "equation of the line is " << endl;
+	          cout << "y=" << thisLs.getB1 () << "x+" << thisLs.getB2 () << endl;
+	          cout << "residuals are: " << endl;
+	          for (int j = 0; j < residuals.getNumRows (); j++)
+		        {
+              for(int k = 0; k < residuals.getNumCols(); k++)
+              {
+                cout << residuals.getValue (j, k) << " ";
+		          }
+	            cout << endl;
+            }
+
+            cout << "data is: " << endl;
+	          for (int j = 0; j < data.getNumRows (); j++)
+		        {
+              for(int k = 0; k < data.getNumCols(); k++)
+              {
+                cout << data.getValue (j, k) << " ";
+		          }
+	            cout << endl;
+            }
 		      }
 		      else
 		      {
@@ -434,43 +448,170 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
 			        {
 			          cout << "x selected: no rewight" << endl;
 			          cout << "file read is: " << lsUi.getfNameP () << endl;
-			          matP = cepReadMatrix (lsUi.getfNameP ());
-			          for (int i = 0; i < matP.getNumRows (); i++)
+                cepMatrix<double> matP;
+                
+                matP = cepReadMatrix (lsUi.getfNameP ());
+			          for (int j = 0; j < matP.getNumRows (); j++)
 				        {
-				          for (int j = 0; j < matP.getNumCols (); j++)
+				          for (int k = 0; k < matP.getNumCols (); k++)
 				          {
-				            cout << matP.getValue (i, j) << " ";
+				            cout << matP.getValue (j, k) << " ";
 				          }
 				          cout << endl;
 				        }
+                
 			          thisLs.cepDoVCV (*theDataset->getMatrix (cepDataset::dirX), matP);
                 if(thisLs.getError().isReal() == true)
                 {
+                  cout << "got Error";
                   thisLs.getError().display();
-                  goto END;
+                  return;
                 }
                 residuals = thisLs.getResidual ();
-			      
+			          data = thisLs.getDataset();
+                
 			          cout << "equation of the line is " << endl;
 			          cout << "y=" << thisLs.getB1 () << "x+" << thisLs.getB2 () << endl;
 			          cout << "residuals are: " << endl;
-			          for (int i = 0; i < residuals.getNumRows (); i++)
+			          /*for (int j = 0; j < residuals.getNumRows (); j++)
 				        {
-				          cout << residuals.getValue (i, 0) << " ";
-				        }
-			          cout << endl;
+                  for(int k = 0; k < residuals.getNumCols(); k++)
+                  {
+                    cout << residuals.getValue (j, k) << " ";
+				          }
+			            cout << endl;
+                }
+
+                cout << "data is: " << endl;
+			          for (int j = 0; j < data.getNumRows (); j++)
+				        {
+                  for(int k = 0; k < data.getNumCols(); k++)
+                  {
+                    cout << data.getValue (j, k) << " ";
+				          }
+			            cout << endl;
+                }
+                */
 			        }
+           
 			      }
 		        else
 			      {
 			        if (lsUi.getIsReadP () == 0)
 			        {
-			          cout << "re-weight graph thingie goes here " << endl;
+                cepMatrix<double> matP((theDataset->getMatrix((cepDataset::direction) i))->getNumRows(),
+                                       (theDataset->getMatrix((cepDataset::direction) i))->getNumRows());
+
+                cout << "mat P dimesions " << matP.getNumRows() << " " << matP.getNumCols() << endl;
+                cepLs thisLs;
+                //init P matrix to 1 on diagonal
+                for(int j = 0; j < matP.getNumRows(); j ++)
+                {
+                  for(int k = 0; k < matP.getNumCols(); k ++)
+                  {
+                    if(j == k)
+                    {
+                      matP.setValue(j,k,1);
+                    }
+                    else
+                    {
+                      matP.setValue(j,k,0);
+                    }
+                  }
+                }
+                cout << "re-weight graph thingie goes here " << endl;
                 lsUi.showWeight(2002.0014, 2003.4041, 1.0);
-                cout << "fromDate " << lsUi.getFromDate() << endl;
-                cout << "toDate " << lsUi.getToDate() << endl;
-                cout << "vaule " << lsUi.getWeight() << endl;
-                cout << "Reweight?? " << lsUi.getDoVCV() << endl;
+                double toDate = lsUi.getToDate(),
+                       fromDate = lsUi.getFromDate(),
+                       val = lsUi.getWeight();
+                bool isDoVCV = lsUi.getDoVCV();
+
+                cout << endl << "#########FIRST GO" << endl;
+                cout << "fromDate " << setprecision(10)<< fromDate << endl;
+                cout << "toDate " << setprecision(10) << toDate << endl;
+                cout << "vaule " << setprecision(10) << val << endl;
+                cout << "Reweight?? " << isDoVCV << endl;
+
+                while((isDoVCV == false) &&
+                      ((fromDate != -2) && (toDate != -2) && (val != -2)))
+                {
+                  cout << "in loop" << endl;
+                  if((fromDate != -1) && (toDate != -1))
+                  {
+                    if(fromDate <= toDate)
+                    {
+                      if(!isnan(val))
+                      {
+                        populateMatP(matP, toDate, fromDate, val, *theDataset->getMatrix((cepDataset::direction) i));
+                        cout << endl << "#######Pmatrix is now########" << endl;
+                        for(int j = 0; j < matP.getNumRows(); j ++)
+                        {
+                          for(int k = 0; k < matP.getNumCols(); k ++)
+                          {
+                            cout << matP.getValue(j,k) << " ";
+                          }
+                          cout << endl;
+                        }
+                      }
+                      else
+                      {
+                        cepError("Weighting value must be a number", cepError::sevWarning).display();
+                      }
+                    }
+                    else
+                    {
+                      cepError("Start date is after finish date", cepError::sevWarning).display();
+                    }
+                  }
+                  cout << "here " << endl;
+
+                  lsUi.showWeight(2002.0014, 2003.4041, 1.0);
+                  cout << "showing new box........." << endl;
+                  
+                  toDate = lsUi.getToDate();
+                  fromDate = lsUi.getFromDate();
+                  val = lsUi.getWeight();
+                  isDoVCV = lsUi.getDoVCV();
+
+                  cout << endl << "#########IN LOOP" << endl;
+                  cout << "fromDate " << setprecision(10)<< fromDate << endl;
+                  cout << "toDate " << setprecision(10) << toDate << endl;
+                  cout << "vaule " << setprecision(10) << val << endl;
+                  cout << "Reweight?? " << isDoVCV << endl;
+
+                }
+
+                cout << "FINISHED LOOP" << endl;
+                if(isDoVCV == true)
+                {
+                  thisLs.cepDoVCV(*theDataset->getMatrix((cepDataset::direction) i), matP);
+                  residuals = thisLs.getResidual ();
+  			          data = thisLs.getDataset();
+
+  			          cout << "equation of the line is " << endl;
+  			          cout << "y=" << thisLs.getB1 () << "x+" << thisLs.getB2 () << endl;
+  			          cout << "residuals are: " << endl;
+
+                  for (int j = 0; j < residuals.getNumRows (); j++)
+  				        {
+                    for(int k = 0; k < residuals.getNumCols(); k++)
+                    {
+                      cout << residuals.getValue (j, k) << " ";
+  				          }
+  			            cout << endl;
+                  }
+
+                  cout << "data is: " << endl;
+  			          for (int j = 0; j < data.getNumRows (); j++)
+  				        {
+                    for(int k = 0; k < data.getNumCols(); k++)
+                    {
+                      cout << data.getValue (j, k) << " ";
+  				          }
+  			            cout << endl;
+                  }
+
+                }
 			        }
 			      }
 		      }
@@ -479,14 +620,31 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
 		    {
 		      cepDebugPrint("User did not request a LS regression in this direction");
 		    }
-	    }
+	    }  
 	  }
-      // Actually force the graphs to redraw
-      canvas->Refresh();
+    // Actually force the graphs to redraw
+    canvas->Refresh();
   }
-END: cout << "";
 }
 
+void cepView::populateMatP(cepMatrix<double> &matP, const double &toDate, const double &fromDate, const double &val, cepMatrix<double> &data)
+{
+  cout << "#######IN POPULATE MATRIX" << endl;
+  cout << "fromDate " << setprecision(10)<< fromDate << endl;
+  cout << "toDate " << setprecision(10) << toDate << endl;
+  cout << "vaule " << setprecision(10) << val << endl;
+
+  for(int i = 0; i < matP.getNumRows(); i++)
+  {
+    cout << endl << "Date is: " << setprecision(10) << data.getValue(i, 0) << endl;
+    if((data.getValue(i, 0) >= fromDate) && (data.getValue(i,0) <= toDate))
+    {
+      cout << "value at " << i << " is" << endl;
+      matP.setValue(i,i, val);
+    }
+  }
+  
+}
 // Perform a least squares regression on the dataset (in all directions)
 void cepView::OnLeastSquaresRW (wxCommandEvent &pevt)
 {
