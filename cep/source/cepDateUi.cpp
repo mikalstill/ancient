@@ -18,7 +18,7 @@
 */
 
 #include "cepDateUi.h"
-  
+
 BEGIN_EVENT_TABLE (cepDateRange, wxDialog)
   EVT_BUTTON(CEPBTN_ATT_SUBMIT, cepDateRange::dlgDateOnOK)
   EVT_BUTTON(CEPBTN_ATT_CANCEL, cepDateRange::dlgDateOnQuit)
@@ -36,8 +36,8 @@ cepDateRange::cepDateRange(cepDate toDate, cepDate fromDate):
   m_statText2 = new wxStaticText(m_panel, -1, "for the new data set:", wxPoint(5,19), wxSize(290, 20), wxALIGN_CENTRE);
 
   m_statText3 = new wxStaticText(m_panel, -1, "From:", wxPoint(25,60), wxSize(30, 20), wxALIGN_LEFT);
-  m_cbFromDay = new wxComboBox(m_panel, -1, "", wxPoint(60, 60), wxSize(43, 20), 31, DAYS, wxCB_READONLY);
-  m_cbFromMonth = new wxComboBox(m_panel, -1, "", wxPoint(108, 60), wxSize(100, 20), 12, MONTHS, wxCB_READONLY);
+  m_cbFromDay = new wxComboBox(m_panel, -1, "", wxPoint(60, 60), wxSize(43, 20), 31, DATE_DAYS, wxCB_READONLY);
+  m_cbFromMonth = new wxComboBox(m_panel, -1, "", wxPoint(108, 60), wxSize(100, 20), 12, DATE_MONTHS, wxCB_READONLY);
   m_tbFromYear = new wxTextCtrl(m_panel, - 1, "2000", wxPoint(213, 60), wxSize(60, 20));
 
   m_cbFromDay->SetValue(fromDate.getDay().c_str());
@@ -45,8 +45,8 @@ cepDateRange::cepDateRange(cepDate toDate, cepDate fromDate):
   m_tbFromYear->SetValue(fromDate.getYear().c_str());
   
   m_statText4 = new wxStaticText(m_panel, -1, "To:", wxPoint(25,100), wxSize(30, 20), wxALIGN_LEFT);
-  m_cbToDay = new wxComboBox(m_panel, -1, "", wxPoint(60, 100), wxSize(43, 20), 31, DAYS, wxCB_READONLY);
-  m_cbToMonth = new wxComboBox(m_panel, -1, "", wxPoint(108, 100), wxSize(100, 20), 12, MONTHS, wxCB_READONLY);
+  m_cbToDay = new wxComboBox(m_panel, -1, "", wxPoint(60, 100), wxSize(43, 20), 31, DATE_DAYS, wxCB_READONLY);
+  m_cbToMonth = new wxComboBox(m_panel, -1, "", wxPoint(108, 100), wxSize(100, 20), 12, DATE_MONTHS, wxCB_READONLY);
   m_tbToYear = new wxTextCtrl(m_panel, - 1, "2000", wxPoint(213, 100), wxSize(60, 20));
 
   m_cbToDay->SetValue(toDate.getDay().c_str());
