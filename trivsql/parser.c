@@ -22,6 +22,9 @@
 
   #define YYERROR_VERBOSE 1
 
+  #undef YY_INPUT
+  #define YY_INPUT(b, r, ms) (r = trivsql_gettext(b, ms);)
+
   trivsql_state *gState;
 #ifndef YYSTYPE
 #define YYSTYPE int
@@ -92,8 +95,8 @@ static const short yyrhs[] = {    21,
 
 #if YYDEBUG != 0
 static const short yyrline[] = { 0,
-    16,    16,    16,    17,    20,    24,    28,    32,    33,    36,
-    37,    40,    41,    42,    45,    46
+    19,    19,    19,    20,    23,    27,    31,    35,    36,    39,
+    40,    43,    44,    45,    48,    49
 };
 #endif
 
@@ -704,51 +707,51 @@ yyreduce:
   switch (yyn) {
 
 case 5:
-#line 21 "parser.y"
+#line 24 "parser.y"
 { trivsql_docreate(yyvsp[-4], yyvsp[-2]); ;
     break;}
 case 6:
-#line 25 "parser.y"
+#line 28 "parser.y"
 { trivsql_doinsert(yyvsp[-8], yyvsp[-6], yyvsp[-2]); ;
     break;}
 case 7:
-#line 29 "parser.y"
+#line 32 "parser.y"
 { trivsql_recordset *rs; trivsql_displayrs(rs = trivsql_doselect(yyvsp[-2], yyvsp[-4]), yyvsp[-2], yyvsp[-4]); /*trivsql_xfree(rs);*/ ;
     break;}
 case 8:
-#line 32 "parser.y"
+#line 35 "parser.y"
 { yyval = trivsql_xsnprintf("%s", yyvsp[0]); ;
     break;}
 case 9:
-#line 33 "parser.y"
+#line 36 "parser.y"
 { yyval = trivsql_xsnprintf("*"); ;
     break;}
 case 10:
-#line 36 "parser.y"
+#line 39 "parser.y"
 { yyval = trivsql_xsnprintf("%s;%s", yyvsp[-2], yyvsp[0]); ;
     break;}
 case 11:
-#line 37 "parser.y"
+#line 40 "parser.y"
 { yyval = trivsql_xsnprintf("%s", yyvsp[0]); ;
     break;}
 case 12:
-#line 40 "parser.y"
+#line 43 "parser.y"
 { gState->selector = trivsql_selequal; gState->selArgOne = yyvsp[-2]; gState->selArgTwo = yyvsp[0] ;
     break;}
 case 13:
-#line 41 "parser.y"
+#line 44 "parser.y"
 { gState->selector = trivsql_sellike; gState->selArgOne = yyvsp[-2]; gState->selArgTwo = yyvsp[0] ;
     break;}
 case 14:
-#line 42 "parser.y"
+#line 45 "parser.y"
 { gState->selector = NULL ;
     break;}
 case 15:
-#line 45 "parser.y"
+#line 48 "parser.y"
 { yyval = yyvsp[0] ;
     break;}
 case 16:
-#line 46 "parser.y"
+#line 49 "parser.y"
 { yyval = yyvsp[-1] ;
     break;}
 }
@@ -973,7 +976,7 @@ yyerrhandle:
     }
   return 1;
 }
-#line 49 "parser.y"
+#line 52 "parser.y"
 
 
 int yyerror(char *s){

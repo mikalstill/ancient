@@ -501,3 +501,8 @@ char *trivsql_getallcolumns(char *tname)
 
   return retVal;
 } 
+
+int trivsql_min(int a, int b){
+  if(a > b) return b;
+  return a;
+}

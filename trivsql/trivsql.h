@@ -50,6 +50,7 @@ char *trivsql_dbread(trivsql_state *, char *);
 char *trivsql_xsnprintf(char *, ...);
 void trivsql_xfree(void *);
 void *trivsql_xrealloc(void *, size_t);
+int trivsql_min(int, int);
 
 // Selectors
 int trivsql_selequal(char *, char *);
