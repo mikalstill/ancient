@@ -1,9 +1,9 @@
 <sect1><title>Introduction</title>
 
 <para>
-  Documentaion is of signifiant importance in any project, particularly with those that are not confined to a finite scope.
+  Documentation is of significant importance in any project, particularly with those that are not confined to a finite scope.
    The <command>GDMS</command> is one such project. In a time series analysis system, there are an enormous number of 
-    possible features. In a finite devlopment period such as this project, a careful balance must be drawn between the functionality 
+    possible features. In a finite development period such as this project, a careful balance must be drawn between the functionality 
     and the documentation. We needed to maximise our coding time whilst still providing sufficient documentation to both meet 
     the requirements and include all of the necessary information that be required by any future developers and users. 
     This led to our decision to use a number of tools to assist with the documentation.
@@ -14,7 +14,7 @@
 <sect1><title>Docbook</title>
 
 <para>
- Docbook is system for writing documents using SGML or XML. It facilitates documment structure and is well suited for writing books or 
+ Docbook is system for writing documents using SGML or XML. It facilitates documents structure and is well suited for writing books or 
  papers of this kind. Unlike formal word processors, docbook greatly reduces the time spent on standardising the format of a document by
  ensuring title fonts are consistent in type and size, tables, equations and figures are listed, along with the insertion of a table of 
  contents. In addition, document layout, justification and other such features are dealt with 
@@ -50,7 +50,7 @@
     &lt;execute&gt;&lt;cmd&gt;builddb&lt;/cmd&gt;&lt;input&gt;Introduction.sgml&lt;/input&gt;&lt;/execute&gt;
     &lt;execute&gt;&lt;cmd&gt;builddb&lt;/cmd&gt;&lt;input&gt;Theory.sgml&lt;/input&gt;&lt;/execute&gt;
   &lt;/chapter&gt;
-  &lt;chapter id="ch02"&gt;&lt;title&gt; Chapter 2 - Implemetation&lt;/title&gt;
+  &lt;chapter id="ch02"&gt;&lt;title&gt; Chapter 2 - Implementation&lt;/title&gt;
     &lt;execute&gt;&lt;cmd&gt;builddb&lt;/cmd&gt;&lt;input&gt;Implementation.sgml&lt;/input&gt;&lt;/execute&gt;
     &lt;execute&gt;&lt;cmd&gt;builddb&lt;/cmd&gt;&lt;input&gt;Conclusion.sgml&lt;/input&gt;&lt;/execute&gt;
   &lt;/chapter&gt;
@@ -70,12 +70,12 @@
                 This is advantageous in case where text is repeated, much like the re-use concept in 
 		programming.</para></listitem>
 <listitem><para>Formatting and layout issues are dealt with by docbook.</para></listitem>
-<listitem><para>The layout conforms to a general standard adheared to by a large majority of publishers.</para></listitem>
+<listitem><para>The layout conforms to a general standard adhered to by a large majority of publishers.</para></listitem>
 <listitem><para>Table of Contents and indexing of equations and figures are dealt with automatically by docbook.</para></listitem>
 </itemizedlist>
 
 <para>
-  Our use of docbook, however, was not altogether seemless. We found version inconsistencies in different
+  Our use of docbook, however, was not altogether seamless. We found version inconsistencies in different
   Linux distributions. Once we updated all of the development machines to use the same version of docbook, we ran into
   further trouble. It would seem that different distributions are not consistent when it came to building the
   documentation. An example of this, is that on some of the machines, although the docbook scripts would build the
@@ -91,7 +91,7 @@
 
 <sect2><title>Autodocbook</title>
 <para>
- Autodocbook is tool employed for the documentation of source code. It is a simple perl script designed to parse
+ Autodocbook is tool employed for the documentation of source code. It is a simple Perl script designed to parse
   C or C++ source files extracting comment blocks within specific tags and turning them into docbook sgml files.
   These can then be used to create  man pages, info pages and HTML documentation. This again serves to
   minimise the need to make changes in several places, for example, if comments need to be changed for a specific
