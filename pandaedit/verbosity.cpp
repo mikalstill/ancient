@@ -1,8 +1,8 @@
 #include "pandaedit.h"
 #include "verbosity.h"
 
+#include <iostream>
 #include <fstream>
-
 using namespace std;
 
 int gVerboseLevel;
