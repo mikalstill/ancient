@@ -29,12 +29,6 @@ void dictitem::setValue(int integer)
   m_int = integer;
 }
 
-bool dictitem::isNamed(string dname)
-{
-  printf("DEBUG: Test %s against %s\n", dname.c_str(), m_name.c_str());
-  return m_name == dname;
-}
-
 dictitem::diType dictitem::getType()
 {
   return m_type;

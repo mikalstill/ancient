@@ -24,7 +24,6 @@ class dictitem{
   void setValue(int num, int gen);
   void setValue(int integer);
 
-  bool isNamed(string dname);
   diType getType();
   string getName();
 
@@ -62,6 +61,8 @@ class object{
   object();
   object(int number, int generation);
 
+  object& operator=(object& other);
+
   void addStream(char *stream, unsigned int streamLength);
   void addDictionary(dictionary dict);
 
@@ -71,6 +72,8 @@ class object{
   dictionary& getDict();
   int getNumber();
   int getGeneration();
+  char *getStream();
+  unsigned int getStreamLength();
 
  private:
   int m_number;
@@ -91,7 +94,7 @@ class objectlist
 {
  public:
   objectlist(string input, pdf& thePDF);
-  object& operator[](unsigned int i);
+  object operator[](unsigned int i);
   unsigned int size();
 
  private:

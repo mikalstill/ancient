@@ -1,5 +1,7 @@
 // Implementation of the PDF object
 
+#include <stdio.h>
+
 #include "objectmodel.h"
 
 pdf::pdf(string filename):
@@ -18,15 +20,18 @@ void pdf::addObject(object theObject)
 
 bool pdf::findObject(int number, int generation, object& obj)
 {
+  printf("DEBUG: Finding object %d %d\n", number, generation);
   for(unsigned int i = 0; i < m_objects.size(); i++)
     {
       if((m_objects[i].getNumber() == number) && 
 	 (m_objects[i].getGeneration() == generation)){
 	 obj = m_objects[i];
+	 printf("DEBUG: Found\n");
 	 return true;
       }
     }
 
+  printf("DEBUG: Not found\n");
   return false;
 }
 

@@ -8,10 +8,12 @@
 objectlist::objectlist(string input, pdf& thePDF):
   m_pdf(thePDF)
 {
-  stringArray tokens(input, " ");
+  stringArray tokens(input.substr(1, input.length() - 2), " ");
   unsigned int inset = 0;
   objectreference ref;
 
+  printf("DEBUG: Started constructing object list from %s\n", 
+	 input.substr(1, input.length() - 2).c_str());
   while(1){
     if(!isPositiveInteger(tokens[inset])) return;
     if(!isPositiveInteger(tokens[inset + 1])) return;
@@ -24,9 +26,11 @@ objectlist::objectlist(string input, pdf& thePDF):
     printf("DEBUG: List referenced object %d %d\n", ref.number, ref.generation);
     m_objects.push_back(ref);
   }
+
+  printf("DEBUG: Built a %d item list\n", m_objects.size());
 }
 
-object& objectlist::operator[](unsigned int i)
+object objectlist::operator[](unsigned int i)
 {
   // todo_mikal: this is a hack
   object foo;
