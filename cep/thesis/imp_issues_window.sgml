@@ -38,15 +38,28 @@
   <para>
        The actual algorithms implemented are as follows
     <itemizedlist>
-        <listitem><para>Hanning:  w(i) = 0.50 - 0.50*cos( 2*PI*i/(size-1) );</para></listitem>
-        <listitem><para>Hamming:  w(i) = 0.54 - 0.46*cos( 2*PI*i/(size-1) );</para></listitem>
-        <listitem><para>Blackman: w(i) = 0.42 - 0.5*cos( 2*PI*val ) + 0.08*cos(4*PI* i/(size-1));</para></listitem>
-        <listitem><para>Dolph-Chebychev: This is implemeted as the inverse DFT of the Chebyshev polynomial evaluated at N equally
-           spaced frequencies on the unit circle. The equation for the nth order Chebyshev equation calculated at x is</para>
-           <para>
-           cheb(n,x) = cos(n*acos(x(ind)))
-        </para></listitem>  
-        <listitem><para>etc..</para></listitem>  
+        <listitem>
+          <para><command>Hanning</command>: w(i) = 0.50 - 0.50*cos( 2*&pgr;*i/(size-1) );</para>
+        </listitem>
+        <listitem>
+          <para><command>Hamming</command>:  w(i) = 0.54 - 0.46*cos( 2*&pgr;*i/(size-1) );</para>
+        </listitem>
+        <listitem>
+          <para><command>Blackman</command>: w(i) = 0.42 - 0.5*cos( 2*&pgr;*val ) + 0.08*cos(4*&pgr;* i/(size-1));</para>
+        </listitem>
+        <listitem>
+          <para>
+            <command>Dolph-Chebychev</command>: This is implemeted as the inverse DFT of the Chebyshev
+            polynomial evaluated at N equally spaced frequencies on the unit circle. The equation for the nth
+            order Chebyshev equation calculated at x is
+          </para>
+          <para>
+            cheb(n,x) = cos(n*acos(x(ind)))
+          </para>
+        </listitem>  
+        <listitem>
+          <para>etc..</para>
+        </listitem>  
      </itemizedlist>
    </para>
 
