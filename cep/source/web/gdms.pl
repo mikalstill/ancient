@@ -49,7 +49,30 @@ print STDERR "GDMSweb $$: Dataset is permanent\n" if($result->param('intype') eq
 print STDERR "GDMSweb $$: Dataset is temporary\n" if($result->param('intype') ne "");
  
 if($command eq "lsprocess"){
+    $temp = "$rooturl?dataset=".$result->param('dataset')."-ls".$result->param('reweight');
 
+    # If we are using manual reweighting, then we need to get more information
+    if($result->param('reweight') ne "auto"){
+	$temp = $temp."&command=lsreweight";
+    }
+    else{
+	$temp = $temp."&command=lsselect&data=".$result->param('dataset')."-ls".
+	$result->param('reweight')."-data&residuals=".$result->param('dataset')."-ls".
+	$result->param('reweight')."-residuals";
+	
+	# Do the processing here
+	performLs("auto");
+    }
+
+    if($result->param('desc') ne ""){
+	$temp = $temp."&desc=".$result->param('desc');
+    }
+    $temp = $temp."&intype=temp";
+
+    # And now bounce of to the real page
+    print STDERR "GDMSweb $$: Redirecting after LS to: $temp\n";
+    print $result->redirect($temp);
+    exit;
 }
 elsif($command eq "windowprocess"){
     $temp = "$rooturl?dataset=".$result->param('dataset')."-win".$result->param('wtype').
@@ -193,6 +216,12 @@ sub processTemplate(@args){
 		    $line = $pre.generateForm("lsprocess", $result->param('dataset'), 
 					      "$templates/lsparams.html").$post;
 		}
+		elsif($cmd eq "lsselect"){
+		    $line = $pre."<a href=\"$rooturl?dataset=".$result->param('data').
+			"&command=plot&intype=temp\">Data</a><br>".
+			"<a href=\"$rooturl?dataset=".$result->param('residuals').
+			"&command=plot&intype=temp\">Residuals</a>".$post;
+		}
 		elsif($cmd eq "winparams"){
 		    # Output a HTML form for the parameters of a LS regression
 		    $line = $pre.generateForm("windowprocess", $result->param('dataset'), 
@@ -331,9 +360,11 @@ sub generateForm(@args){
 
 # Create a dataset in the temp location which is the output of a LS regression
 sub performLs(){
+    my($lsargs) = @_;
     my($unique);
     local *COMMANDS;
 
+    print STDERR "GDMSweb $$: Performing LS regression\n";
     $unique = "$$-".time()."-".rand();
     open COMMANDS, "> $tmpdir/gdms-$unique.cmd" or 
 	die "Could not open temporary file $tmpdir/gdms-$unique.cmd\n";
@@ -346,11 +377,14 @@ sub performLs(){
 	print COMMANDS "open $tmpdir/".$result->param('dataset')."\n";
     }
     
-    print COMMANDS "ls \n";
+    print COMMANDS "ls $lsargs $tmpdir/".$result->param('dataset')."-ls".
+	$result->param('reweight')."-data $tmpdir/".$result->param('dataset')."-ls".
+	$result->param('reweight')."-residuals\n";
     close COMMANDS;
     
     # Execute the gdms main program with this command script
     `$gdms -b $tmpdir/gdms-$unique.cmd`;
+    print STDERR "GDMSweb $$: GDMS return code is $?\n";
 }
 
 # Create a dataset in the temp location which is the output of a windowing
@@ -358,6 +392,7 @@ sub performWindow(){
     my($unique);
     local *COMMANDS;
 
+    print STDERR "GDMSweb $$: Performing window operation\n";
     $unique = "$$-".time()."-".rand();
     open COMMANDS, "> $tmpdir/gdms-$unique.cmd" or 
 	die "Could not open temporary file $tmpdir/gdms-$unique.cmd\n";
@@ -385,6 +420,7 @@ sub performInterpolation(){
     my($unique);
     local *COMMANDS;
 
+    print STDERR "GDMSweb $$: Performing interpolation\n";
     $unique = "$$-".time()."-".rand();
     open COMMANDS, "> $tmpdir/gdms-$unique.cmd" or 
 	die "Could not open temporary file $tmpdir/gdms-$unique.cmd\n";
@@ -412,6 +448,7 @@ sub performFFT(){
     my($unique);
     local *COMMANDS;
 
+    print STDERR "GDMSweb $$: Performing FFT\n";
     $unique = "$$-".time()."-".rand();
     open COMMANDS, "> $tmpdir/gdms-$unique.cmd" or 
 	die "Could not open temporary file $tmpdir/gdms-$unique.cmd\n";
