@@ -18,6 +18,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 
 #include <libplot.h>
 
@@ -373,7 +374,7 @@ plot_strokeline (plot_state * state)
   // todo: support for non straight lines
   plot_lineseg *current;
   unsigned int x1, y1, c, d;
-  unsigned int rise, run;
+  int rise, run, startx, starty;
   float newy;
   int prevy;
 
@@ -406,14 +407,17 @@ plot_strokeline (plot_state * state)
 	}
       else
 	{
-	  rise = current->y - y1;
-	  run = current->x - x1;
+	  startx = plot_min(x1, current->x);
+	  starty = startx == x1 ? y1 : current->y;
+	  rise = starty == y1 ? (current->y - y1) : (y1 - current->y);
+	  run = startx == x1 ? (current->x - x1) : (x1 - current->x);
 
-	  for (c = plot_min (x1, current->x);
-	       c < plot_max (x1, current->x) + 1; c++)
+	  printf("... Between x = %d and %d, rise %d, run %d\n",
+		 startx, plot_max (x1, current->x), rise, run);
+	  for (c = startx; c < plot_max (x1, current->x) + 1; c++)
 	    {
 	      prevy = (int) newy;
-	      newy = ((float) rise / run) * c;
+	      newy = ((float) rise / run) * (c - startx) + starty;
 
 	      if(c == plot_min (x1, current->x))
 		prevy = (int) newy;
@@ -425,6 +429,7 @@ plot_strokeline (plot_state * state)
 		}
 	      }
 
+	      printf("... %d, %d\n", c, (int) newy);
 	      state->raster[state->x * ((int) newy) + c] = state->linecolor;
 	    }
 	}
@@ -433,6 +438,7 @@ plot_strokeline (plot_state * state)
       y1 = current->y;
       current = current->next;
     }
+  printf("\n");
 }
 
 void
@@ -587,11 +593,26 @@ plot_rectanglerot (plot_state * state, unsigned int x1, unsigned int y1,
   fprintf (stderr, "todo\n");
 }
 
+#define pi 3.1415
+
 void
 plot_circle (plot_state * state, unsigned int x, unsigned int y, 
 	     unsigned int r)
 {
+  float angle;
 
+  // todo: this could be more efficient
+  // todo: this should be proportional to the radius
+  plot_setlinestart(state, x + (int) (r * sin(angle)), 
+		    y + (int) (r * cos(angle)));
+
+  for(angle = 0.01; angle < 2 * pi; angle += 0.01){
+    plot_addlinesegment(state, x + (int) (r * sin(angle)), 
+			y + (int) (r * cos(angle)));
+  }
+
+  plot_strokeline(state);
+  plot_endline(state);
 }
 
 ///////////////////

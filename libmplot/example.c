@@ -60,11 +60,31 @@ main (int argc, char *argv[])
   plot_strokeline(graph);
   plot_endline(graph);
 
+  plot_setlinecolor(graph, 255, 0, 0);
   plot_setlinestart(graph, 30, 30);
   plot_addlinesegment(graph, 50, 40);
   plot_strokeline(graph);
   plot_endline(graph);
 
+  plot_setlinestart(graph, 30, 30);
+  plot_addlinesegment(graph, 25, 25);
+  plot_strokeline(graph);
+  plot_endline(graph);
+
+  plot_setlinestart(graph, 98, 100);
+  plot_addlinesegment(graph, 102, 100);
+  plot_strokeline(graph);
+  plot_endline(graph);
+  plot_setlinestart(graph, 100, 98);
+  plot_addlinesegment(graph, 100, 102);
+  plot_strokeline(graph);
+  plot_endline(graph);
+  
+  plot_setlinecolor(graph, 0, 0, 0);
+  plot_circle(graph, 100, 100, 50);
+  plot_strokeline(graph);
+  plot_endline(graph);
+  
   raster = plot_getraster(graph);
 
   if((image = fopen("output.png", "wb")) == NULL){
