@@ -146,7 +146,7 @@ montage -geometry 80x80+5+5 -tile 2x3 waterfall-* montage.jpg
 
 <heading refname="" type="major" toc="yes" name="" alttoc="">Animated images</heading>
 
-<p>As mentioned in <a href="TODOURL">TODOTITLE</a>, ImageMagick easily copes with file formats which can store more than one image. When you think about it, one of the most interesting uses of such a format is animations. For example, animated GIFs are just a series of GIFs which are displayed at 25 frames per second or so.</p>
+<p>As mentioned in <a href="TODOURL">TODOTITLE</a>, ImageMagick easily copes with file formats which can store more than one image. When you think about it, one of the most interesting uses of such a format is animations. For example, animated GIFs are just a series of GIF images which are displayed at 25 frames per second or so.</p>
 
 <p>ImageMagick does quite well at handling these multiple image formats, including the animated ones. For example, consider a scenario in which we have several images which are the frames of an animation. These might have been produced in your favourite graphics editor, or generated in some other way which is outside the scope of this article. For these various animation examples, we'll use some simple TIFF images which I produced programmatically.</p>
 
@@ -165,7 +165,78 @@ montage -geometry 80x80+5+5 -tile 2x3 waterfall-* montage.jpg
 <img src="sequence.jpg" width="TODO" height="TODO" alt="A few of the images from the animation"/>
 </figure>
 
-<p>How do we convert these many image files into an animated single image? 
+<p>How do we convert these many image files into an animated single image? Well, if the destination file for the convert command is one which supports multiple images in one file, then all will be well.</p>
+
+<sidebar>
+<heading refname="" type="sidebar" toc="no" name="" alttoc="">Not all file formats which support more than one image in a file are animations</heading>
+<p>While trying not to make this description too confused, it should be noted that not all file formats which support more than one image per file are animations. TIFF and PDF for instance both support multiple images, but they are more like pages than frames in an animation.</p>
+
+<p>The same technique as described here, if applied to one of these file formats will do the right thing and produce a multi-page document.</p>
+</sidebar>
+
+<p>Here's an example:</p>
+
+<p>
+<code type="inline">
+convert output-* ani.gif
+</code>
+</p>
+
+<p>Which gives us this silly little animation:</p>
+
+<figure>        
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure TODO. Our animation</heading>
+<img src="ani.gif" width="TODO" height="TODO" alt="An animated gif"/>
+</figure>
+
+<p>Using the <i>-combine</i> command line arguement to <b>convert</b> will have the same effect as the example above, while being a little bit more explicit. Using the <i>-loop</i> command line arguement will add the Netscape looping extensions to your GIF animations, which will be handy for creating those annoying never ending advertisements for your website.</p>
+
+
+
+
+
+
+
+<heading refname="" type="major" toc="yes" name="" alttoc="">Extracting sub images</heading>
+
+<p>Now that we've got this image file which is made up of lots of frames, let's now explore how to extract frames from the file. <b>convert</b> lets you sepcify a sub image with the following syntax:</p>
+
+<p>
+<code type="inline">
+convert ani.gif[42] frame42.gif
+</code>
+</p>
+
+<p>You might need to use quotes around the input image and frame number specification to stop your shell from trying to interpret the frame specification as some sort of shell construct. This will vary based on the shell that you're using at the time.</p>
+
+<p>Being able to extract sub images is actually a really useful feature. For example, it makes it really easy to extract single frames from all those home movies that you have floating around, assuming that you have the right delegate installed for the image format that you're trying to extract the frames from.</p>
+
+<sidebar>
+<heading refname="" type="sidebar" toc="no" name="" alttoc="">Delegates</heading>
+<p>ImageMagick needs help reading and writing from all of those image formats which it supports. These various formats are supported by ImageMagick using things called delegates. Delegates are simply other packages which support a particular image format. For instance, the TIFF support in ImageMagick is done with the libtiff library discussed in some of my other IBM DeveloperWorks articles. This means that if libtiff is not installed on your system, then you'll get an error message.</p>
+
+<p>An example of the sort of error message you'll see is what happens to me when I try to extract a frame from a MPEG compressed movie:</p>
+
+<p>
+<code type="inline">
+mikal@challenger:~/watchme$ convert kids.mpg[4] output.jpg
+sh: line 1: mpeg2decode: command not found
+convert: Delegate failed `"mpeg2decode" -q -b "%i" -f -r -o3 "%u%%d"'.
+convert: missing an image filename `output.jpg'.
+mikal@challenger:~/watchme$ 
+</code>
+</p>
+
+<p>Here it's telling me that I need to install a package which provides the mpeg2decode command line utility. Not all delegates are command line packages though, this error message could have easily specified the name of a library.</p>
+</sidebar>
+
+
+
+
+
+
+
+
 
 
 

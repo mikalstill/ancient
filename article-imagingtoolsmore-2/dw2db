@@ -45,34 +45,34 @@ while(<>){
   s/<\/b>/<\/command>/g;
 
   s/<figure>//;
-  s/<heading refname=""[^>]*>.*<\/heading>//;
+  s/<heading .*type="figure"[^>]*>.*<\/heading>//;
   s/<\/figure>//;
   s/<img src="([^"]*)"[^>]*>/<execute><cmd>img<\/cmd><args>$1<\/args><\/execute>/;
 
   s/<code[^>]*>/<programlisting>/;
   s/<\/code>/<\/programlisting>/;
 
-  if(/<heading refname="" type="major"[^>]*>/){
+  if(/<heading .* type="major"[^>]*>/){
     $subst = "";
     while($sectlevel > 0){
       $subst = "$subst</sect$sectlevel>\n";
       $sectlevel--;
     }
-    s/<heading refname="" type="major"[^>]*>/$subst<sect1><title>/;
+    s/<heading .* type="major"[^>]*>/$subst<sect1><title>/;
     $sectlevel++;
   }
 
-  if(/<heading refname="" type="minor"[^>]*>/){
+  if(/<heading .* type="minor"[^>]*>/){
     $subst = "";
     while($sectlevel > 1){
       $subst = "$subst</sect$sectlevel>\n";
       $sectlevel--;
     }
-    s/<heading refname="" type="minor"[^>]*>/$subst<sect2><title>/;
+    s/<heading .* type="minor"[^>]*>/$subst<sect2><title>/;
     $sectlevel++;
   }
 
-  s/<heading refname="" type="sidebar"[^>]*>/<title>/;
+  s/<heading .* type="sidebar"[^>]*>/<title>/;
   s/<\/heading>/<\/title>/;
 
   s/<p>/<para>/g;
