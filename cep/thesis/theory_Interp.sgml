@@ -71,7 +71,12 @@
     generally produces better results than nearest neighbour.  To do nearest neighbour
     interpolation each new point is placed on a line between the two adjacent points.
     The Equation for adding a new point is:
+  </para>
+  <para>
     where:
+  </para>
+  <para>
+    
   </para>
   </sect3>
   <para>
