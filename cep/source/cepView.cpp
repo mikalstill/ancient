@@ -58,8 +58,14 @@
 #include "cepPresentation.h"
 #include "cepPlot.h"
 #include "cepLsUi.h"
+#include "cepInterpUi.h"
+#include "cepWindowUi.h"
+
 #include "cepMatrixIO.h"
+
 #include "cepLs.h"
+#include "cepInterp.h"
+
 
 #include <stdlib.h>
 #include <unistd.h>
@@ -353,98 +359,94 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
   cepDoc *theDoc = (cepDoc *) GetDocument ();
   cepDataset *theDataset = theDoc->getDataset ();
   if (theDataset && theDataset->isReady() && theDataset->isWellFormed())
-    {
-      // Force a redraw of the graphs later
-      m_dirty = true;
+  {
+    // Force a redraw of the graphs later
+    m_dirty = true;
       
-      cepLsUi lsUi;
-      lsUi.showIsReweight();
-      if(lsUi.getIsReweight() != -1)
-	{
-	  lsUi.showWhichDir();
+    cepLsUi lsUi;
+    lsUi.showIsReweight();
+    if(lsUi.getIsReweight() != -1)
+	  {
+	    lsUi.showWhichDir();
 	  
-	  for(int i = 0; i < cepDataset::dirUnknown; i++)
+	    for(int i = 0; i < cepDataset::dirUnknown; i++)
 	    {
 	      cepDebugPrint("Reweighting in the " + cepToString(i) + " direction");
 
-	      // todo_kristy: This would be much nicer if getWhichDir took a cepDataset::direction 
-	      // instead of a string
 	      const char dirNames[] = {'x', 'y', 'z'};
 	      if (lsUi.getWhichDir (dirNames[i]) == true)
-		{
-		  cepDebugPrint("User selected to reweight in this direction");
-
-		  cepLs thisLs;
-		  if (lsUi.getIsReweight () == 1)
 		    {
-		      thisLs.cepDoVCV (*theDataset->getMatrix ((cepDataset::direction) i));
-		      residuals = thisLs.getResidual ();
-		      cepDebugPrint("Resolved LS regression");
+		      cepDebugPrint("User selected to reweight in this direction");
 
-		      cout << "equation of the line is " << endl;
-		      cout << "y=" << thisLs.getB1 () << "x+" << thisLs.getB2 () << endl;
-		      cout << "residuals are: " << endl;
-		      for (int i = 0; i < residuals.getNumRows (); i++)
-			{
-			  cout << residuals.getValue (i, 0) << " ";
-			}
-		      cout << endl;
+		      cepLs thisLs;
+
+          if (lsUi.getIsReweight () == 1)
+		      {
+		        thisLs.cepDoVCV (*theDataset->getMatrix ((cepDataset::direction) i));
+		        residuals = thisLs.getResidual ();
+		        cepDebugPrint("Resolved LS regression");
+
+		        cout << "equation of the line is " << endl;
+		        cout << "y=" << thisLs.getB1 () << "x+" << thisLs.getB2 () << endl;
+		        cout << "residuals are: " << endl;
+		        for (int i = 0; i < residuals.getNumRows (); i++)
+			      {
+			        cout << residuals.getValue (i, 0) << " ";
+		  	    }
+		        cout << endl;
 		      
-		    }
-		  else
-		    {
-		      // todo_kristy: an enumeration here as well?
-		      const char *dirStrings[] = {"x (North)", "y (East)", "z (Up"};
-		      lsUi.showIsReadP (dirStrings[i]);
-		      if (lsUi.getIsReadP () == 1)
-			{
-			  lsUi.showGetfNameP ();
-			  if (lsUi.getfNameP () != "")
-			    {
-			      cout << "x selected: no rewight" << endl;
-			      cout << "file read is: " << lsUi.getfNameP () << endl;
-			      matP = cepReadMatrix (lsUi.getfNameP ());
-			      for (int i = 0; i < matP.getNumRows (); i++)
-				{
-				  for (int j = 0; j < matP.getNumCols (); j++)
-				    {
-				      cout << matP.getValue (i, j) << " ";
-				    }
-				  cout << endl;
-				}
-			      thisLs.cepDoVCV (*theDataset->getMatrix (cepDataset::dirX),
-					       matP);
-			      residuals = thisLs.getResidual ();
-			      
-			      cout << "equation of the line is " << endl;
-			      cout << "y=" << thisLs.getB1 () << "x+" << thisLs.getB2 () << endl;
-			      cout << "residuals are: " << endl;
-			      for (int i = 0; i < residuals.getNumRows (); i++)
-				{
-				  cout << residuals.getValue (i, 0) << " ";
-				}
-			      cout << endl;
-			    }
-			}
+		      }
 		      else
-			{
-			  if (lsUi.getIsReadP () == 0)
-			    {
-			      cout << "re-weight graph thingie goes here " << endl;
-			    }
-			}
+		      {
+		        const char *dirStrings[] = {"x (North)", "y (East)", "z (Up"};
+		        lsUi.showIsReadP (dirStrings[i]);
+		        if (lsUi.getIsReadP () == 1)
+			      {
+			        lsUi.showGetfNameP ();
+			        if (lsUi.getfNameP () != "")
+			        {
+			          cout << "x selected: no rewight" << endl;
+			          cout << "file read is: " << lsUi.getfNameP () << endl;
+			          matP = cepReadMatrix (lsUi.getfNameP ());
+			          for (int i = 0; i < matP.getNumRows (); i++)
+				        {
+				          for (int j = 0; j < matP.getNumCols (); j++)
+				          {
+				            cout << matP.getValue (i, j) << " ";
+				          }
+				          cout << endl;
+				        }
+			          thisLs.cepDoVCV (*theDataset->getMatrix (cepDataset::dirX), matP);
+			          residuals = thisLs.getResidual ();
+			      
+			          cout << "equation of the line is " << endl;
+			          cout << "y=" << thisLs.getB1 () << "x+" << thisLs.getB2 () << endl;
+			          cout << "residuals are: " << endl;
+			          for (int i = 0; i < residuals.getNumRows (); i++)
+				        {
+				          cout << residuals.getValue (i, 0) << " ";
+				        }
+			          cout << endl;
+			        }
+			      }
+		        else
+			      {
+			        if (lsUi.getIsReadP () == 0)
+			        {
+			          cout << "re-weight graph thingie goes here " << endl;
+			        }
+			      }
+		      }
 		    }
-		}
 	      else
-		{
-		  cepDebugPrint("User did not request a LS regression in this direction");
-		}
+		    {
+		      cepDebugPrint("User did not request a LS regression in this direction");
+		    }
 	    }
-	}
-
+	  }
       // Actually force the graphs to redraw
       canvas->Refresh();
-    }
+  }
 }
 
 // Perform a least squares regression on the dataset (in all directions)
@@ -490,7 +492,21 @@ void cepView::OnWindowBlackman (wxCommandEvent& event)
 {}
 
 void cepView::OnWindowChebyshev (wxCommandEvent& event)
-{}
+{
+  cepWindowUi windowUi;
+
+  windowUi.showAttenuation();
+
+  while(windowUi.getAttenuation() == -2)
+  {
+    cepError("Error. Attenuation must be a number", cepError::sevWarning).display();
+    windowUi.showAttenuation();
+  }
+
+  if(windowUi.getAttenuation()!= -1){
+    cout << "call Chebyshev" << endl;
+  }
+}
 
 void cepView::OnWindowHamming (wxCommandEvent& event)
 {}
@@ -499,16 +515,86 @@ void cepView::OnWindowRect (wxCommandEvent& event)
 {}
 
 void cepView::OnInterpNearest (wxCommandEvent& event)
-{}
+{
+  cepInterpUi interpUi;
+
+  interpUi.showSampleRate();
+
+  while(interpUi.getSampleRate() == -2)
+  {
+    cepError("Error. Sample rate must be a number", cepError::sevWarning).display();
+    interpUi.showSampleRate();
+  }
+
+  if(interpUi.getSampleRate()!= -1){
+    cout << "call Nearst Neighbour" << endl;
+  }
+}
 
 void cepView::OnInterpLinear (wxCommandEvent& event)
-{}
+{
+  cepInterpUi interpUi;
+
+  interpUi.showSampleRate();
+
+  while(interpUi.getSampleRate() == -2)
+  {
+    cepError("Error. Sample rate must be a number", cepError::sevWarning).display();
+    interpUi.showSampleRate();
+  }
+
+  if(interpUi.getSampleRate()!= -1){
+    cout << "call LInerar" << endl;
+  }
+}
 
 void cepView::OnInterpNaturalSpline (wxCommandEvent& event)
-{}
+{
+  cepInterpUi interpUi;
+
+  interpUi.showSampleRate();
+
+  while(interpUi.getSampleRate() == -2)
+  {
+    cepError("Error. Sample rate must be a number", cepError::sevWarning).display();
+    interpUi.showSampleRate();
+  }
+
+  if(interpUi.getSampleRate()!= -1){
+    cout << "call natural spline" << endl;
+  }
+}
 
 void cepView::OnInterpCubicSpline (wxCommandEvent& event)
-{}
+{
+    cepInterpUi interpUi;
+
+  interpUi.showSampleRate();
+
+  while(interpUi.getSampleRate() == -2)
+  {
+    cepError("Error. Sample rate must be a number", cepError::sevWarning).display();
+    interpUi.showSampleRate();
+  }
+
+  if(interpUi.getSampleRate()!= -1){
+    cout << "call cubic spline" << endl;
+  }
+}
 
 void cepView::OnInterpDivided (wxCommandEvent& event)
-{}
+{
+    cepInterpUi interpUi;
+
+  interpUi.showSampleRate();
+
+  while(interpUi.getSampleRate() == -2)
+  {
+    cepError("Error. Sample rate must be a number", cepError::sevWarning).display();
+    interpUi.showSampleRate();
+  }
+
+  if(interpUi.getSampleRate()!= -1){
+    cout << "call Newton Divided differences" << endl;
+  }
+}
