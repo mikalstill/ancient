@@ -4,6 +4,12 @@
 
 #include <stdio.h>
 
+int rebound(int u){
+  while(u < 0) u += 26;
+  while(u >= 26) u -= 26;
+  return u;
+}
+
 int main(int argc, char *argv[]){
   int *cipher, *plain;
   int cipherlen = 2, ciphercount = 0, freq[26], count, fmost, fnext, u, v;
@@ -66,9 +72,7 @@ int main(int argc, char *argv[]){
   printf("         = 15 / %d\n", (fnext - fmost));
   u = 15 / (fnext - fmost);
   printf("         = %d\n", u);
-  
-  while(u < 0) u += 26;
-  while(u >= 26) u -= 26;
+  u = rebound(u);
   printf("         = %d\n\n", u);
   
   /////////////////////////////////////////
@@ -76,9 +80,7 @@ int main(int argc, char *argv[]){
   printf("       v = %d - %d * %d\n", 'E' - 'A', fmost, u);
   v = ('E' - 'A') - (fmost * u);
   printf("         = %d\n", v);
-  
-  while(v < 0) v += 26;
-  while(v >= 26) v -= 26;
+  u = rebound(u);
   printf("         = %d\n\n", v);
     
   /////////////////////////////////////////
@@ -103,8 +105,7 @@ int main(int argc, char *argv[]){
 
   for(count = 0; count < ciphercount; count++){
     int now = u * cipher[count] + v;
-    while(now < 0) now += 26;
-    while(now >= 26) now -= 26;
+    u = rebound(u);
     plain[count] = now;
     printf("%02d ", now);
   }
