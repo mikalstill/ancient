@@ -236,7 +236,7 @@ exit(42);
                             return STRING; 
                                                                              }
 
-<INITIAL,BINARY>([#a-zA-Z0-9\.:'+\-!_]+[a-zA-Z0-9\.:'+\-!_\\\/]*)+\>\> { 
+<INITIAL,BINARY>([#a-zA-Z0-9\.:'+\-!_]+[a-zA-Z0-9\.:'+\-!_\\]*)+\>\> { 
                           debuglex(yytext, yyleng, "string-dblgt");
                             yyless(yyleng - 2);
                             yylval.sval.data = (char *) returnStr(yytext, yyleng);

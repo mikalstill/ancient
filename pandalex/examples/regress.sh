@@ -31,7 +31,7 @@ while [ $count -lt $highest ]
 do
   if [ -d $path/$pcount ]
   then
-    time.gnu -v -o /tmp/$$ ./example $path/$pcount/data.pdf > /dev/null 2> /dev/null
+    time.gnu -v -o /tmp/$$ ./example $path/$pcount/data.pdf > /dev/null 2> /tmp/$$.err
     retval=$?
   
     if [ $retval == 139 ]
@@ -46,7 +46,13 @@ do
       segfault=$(( $segfault + 1 ))
     elif [ $retval == 42 ]
     then
-      echo "$1	Parse error" >> $path/$pcount/data.pandalex
+      if [ `grep "stack overflow" /tmp/$$.err | wc -l | tr -d " "` -gt 0 ]
+      then
+	echo "$1	Stack overflow" >> $path/$pcount/data.pandalex
+      else
+        echo "$1	Parse error" >> $path/$pcount/data.pandalex
+      fi
+
       parse=$(( $parse + 1 ))
     elif [ $retval == 0 ]
     then
