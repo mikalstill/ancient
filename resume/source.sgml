@@ -1,6 +1,6 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
 <article>
-<title>Resume for Michael Still</title>
+<title>Resume</title>
 
 <articleinfo>
 <authorgroup>
@@ -11,7 +11,7 @@
 </authorgroup>
 </articleinfo>
 
-<sect1><title>Contact details</title>
+<sect1><title>Personal details</title>
 <para>
 I am a resident of Canberra, Australia. I also hold Australian citizenship.
 </para>
@@ -23,11 +23,11 @@ I may be contacted at:
 <programlisting>
 	email		mikal@stillhq.com
 	phone		+61414 382 568
-	postal		12 Bushby Close, Gordon, ACT, 2906, Australia
+	postal		33 Fred lane Cres, Gordon, ACT, 2906, Australia
 </programlisting>
 </sect1>
 
-<sect1><title>Formal educational qualifications</title>
+<sect1><title>Academic qualifications</title>
 <para>
 I possess a Higher School Certificate (year 12) from Canberra Grammar School, in which I was rated in the top 10% of the state for almost all of my subjects, and was in the top 10% of the state overall.
 </para>
@@ -35,13 +35,9 @@ I possess a Higher School Certificate (year 12) from Canberra Grammar School, in
 <para>
 I also hold a Bachelor of Computer Engineering (BEng) from University of Canberra, with first class honours. I started this degree in 1996, and completed it in 2003, having studied part time for the majority of the degree.
 </para>
-
-<para>
-I am also studying toward a Law degree part time at University of Canberra. This study has been mainly undertaken part time while working full time.
-</para>
 </sect1>
 
-<sect1><title>Industry training</title>
+<sect1><title>Industrial qualifications</title>
 <para>
 I have been trained in the following fields (this does not include on the job training and experience):
 
@@ -77,7 +73,7 @@ I am committed to the concept of open source development, and am currently worki
 
 <sect1><title>Internet community</title>
 <para>
-I am the author of the comp.text.pdf USENET frequently asked questions document.
+I have previously been the author of the comp.text.pdf USENET frequently asked questions document.
 </para>
 </sect1>
 
@@ -231,15 +227,17 @@ I have given the following technical presentations:
 <listitem><para>May 2002: Canberra Linux User's Group, <emphasis>Building an 802.11b access point with linux</emphasis></para></listitem>
 <listitem><para>August 2002: Australian National University Guest Lecture COMP3410, <emphasis>Electronic Document Management with TRIM</emphasis></para></listitem>
 <listitem><para>September 2002: Australian Unix User's Group Annual Conference, <emphasis>Graphics programming tutorial</emphasis> (cancelled due to lack of enrollments)</para></listitem>
+<listitem><para>September 2002: Australian Unix User's Group Annual Conference, Session Chair, Linux Kernel track</para></listitem>
 <listitem><para>October 2002: Canberra Linux User's Group, <emphasis>Using the autotools for your application</emphasis></para></listitem>
 <listitem><para>November 2002: Australian Unix User's Group, Canberra Chapter Technical Symposium, <emphasis>Fixing whats wrong with bind: shdns</emphasis></para></listitem>
 
 <listitem><para>April 2003: Canberra Linux User's Group, <emphasis>The PandaEdit PDF editor</emphasis></para></listitem>
 <listitem><para>May 2003: Australian Unix User's Group, Canberra Chapter Technical Symposium, <emphasis>Open Source inservice for ACT secondary school teachers</emphasis></para></listitem>
+<listitem><para>September 2003: Australian Unix User's Group Annual Conference, Session Chair, WWW track</para></listitem>
 </itemizedlist>
 </sect1>
 
-<sect1><title>Articles</title>
+<sect1><title>Publications</title>
 <para>
 I have had the following articles and papers published:
 </para>
@@ -258,6 +256,12 @@ I have had the following articles and papers published:
 <listitem><para>July 2003: IBM Developer Works, <emphasis>Graphics from the command line: Flip, size, rotate, and more with ImageMagick</emphasis> (this item was subsequently linked to and discussed on Slashdot, Linux Weekly News, Linux Today, LinuxDevices.com, Linux.com / OSDN, linux.box.sk, and many other sites)</para></listitem>
 
 <listitem><para>August 2003: Linmagau, <emphasis>JPEG to MPEG conversion howto</emphasis></para></listitem>
+
+<listitem><para>October 2003: Australian Unix User's Group Newsletter (AUUGN), <emphasis>Google Hacks (book review)</emphasis></para></listitem>
+
+<listitem><para>October 2003: Australian Unix User's Group Newsletter (AUUGN), <emphasis>Checking C Programs with Lint (book review)</emphasis></para></listitem>
+
+<listitem><para>October 2003: Australian Unix User's Group Newsletter (AUUGN), <emphasis>Essential CVS (book review)</emphasis></para></listitem>
 
 </itemizedlist>
 </sect1>
@@ -348,7 +352,7 @@ February 1998 to June 1998 and August 1997 to November 1997.
 </para>
 
 <itemizedlist>
-<listitem><para>System administrator for Windows NT servers</para></listitem>
+<listitem><para>Systems administrator for Windows NT servers</para></listitem>
 <listitem><para>Support of Windows 3.11, 95 and NT desktop clients</para></listitem>
 <listitem><para>Manage Cisco and Cabletron network hardware</para></listitem>
 </itemizedlist>

@@ -3,7 +3,7 @@ POSTDATE: %pubdate%
 POSTER: mikal@stillhq.com
 POSTERNAME: Mikal
 BEGIN CONTENT
-<a href="/cgi-bin/cvsweb/%project%/">%description%</a>
+%description%: <a href="/cgi-bin/cvsweb/%project%/">cvsweb</a> <a href="/extracted/%project%/">extracted</a> <a href="/extracted/%project%.tgz">tarball of CVS latest</a>.
 
 <BR>
 <HR>

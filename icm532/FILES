@@ -1,0 +1,25 @@
+This is a short description of the files in this module:
+
+For each of the insertion and run dumps from SnoopyPro, there are three versions of the file:
+ - the original data (*.usblog)
+ - an XML rendition of the data (.xml)
+ - a cleaned up version of the XML with time specific information removed
+     (-fixed.xml)
+
+There are currently three insertion and run dumps:
+
+  ICM532-insertandrun-001-fixed.xml.gz
+  ICM532-insertandrun-001.usblog.gz
+  ICM532-insertandrun-001.xml.gz
+
+  ICM532-insertandrun-002-fixed.xml.gz
+  ICM532-insertandrun-002.usblog.gz
+  ICM532-insertandrun-002.xml.gz
+
+  ICM532-insertandrun-003-fixed.xml.gz
+  ICM532-insertandrun-003.usblog.gz
+  ICM532-insertandrun-003.xml.gz
+
+I have also extracted a couple of the isochronous transfers in XML form for further analysis:
+
+  isoch-001.xml

@@ -226,7 +226,7 @@ pdfRender::render ()
 
 			case ltmJump:
 			  // TODO mikal: what about unstroked lines?
-			  debug(dlTrace, "Start stroking");
+			  debug(dlTrace, "Start stroking jump");
 			  plot_strokeline(m_plot);
 			  plot_strokeline(m_select);
 			  debug(dlTrace, "Finish stroking");
@@ -264,18 +264,18 @@ pdfRender::render ()
 		}
 	      else
 		{
-		  if(page.getCommandRaster(cmdcnt) != NULL)
-		    plot_overlayraster(m_plot, 
-				       (char *) page.getCommandRaster(cmdcnt), 
-				       controlPoints[0].pt.x, 
-				       controlPoints[0].pt.y,
-				       controlPoints[1].pt.x, 
-				       controlPoints[1].pt.y,
-				       controlPoints[1].pt.x, 
-				       controlPoints[1].pt.y,
-				       0);
-		  else
-		    debug(dlTrace, "Image had a NULL raster");
+		  //		  if(page.getCommandRaster(cmdcnt) != NULL)
+		    //		    plot_overlayraster(m_plot, 
+		    //	       (char *) page.getCommandRaster(cmdcnt), 
+		    //	       controlPoints[0].pt.x, 
+		    //	       controlPoints[0].pt.y,
+		    //	       controlPoints[1].pt.x, 
+		    //	       controlPoints[1].pt.y,
+		    //	       controlPoints[1].pt.x, 
+		    //	       controlPoints[1].pt.y,
+		    //	       0);
+		  //else
+		  //debug(dlTrace, "Image had a NULL raster");
 		}
 	      break;
 

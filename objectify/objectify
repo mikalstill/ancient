@@ -5,7 +5,7 @@
 
 use strict;
 my($incomment, $origline, $code, $possfunction, $arg, %pointers, $class,
-   %creates, %parents, %suppress, %fsuppress, $temp, $methodid, $SUBST);
+   %creates, %parents, %suppress, %fsuppress, $temp, $methodid, $SUBST, $DOCO);
 
 $incomment = 0;
 $code = "";
@@ -33,6 +33,7 @@ print "set -x\n\n";
 print "echo \"\" > /tmp/\$\$-objectify_tokens\n";
 print "echo \"\" > /tmp/\$\$-objectify_tokenlexs\n";
 print "echo \"\" > /tmp/\$\$-objectify_grammar\n\n";
+print "echo \"\" > /tmp/\$\$-objectify_documentation\n\n";
 }
 else{
   print STDERR "Usage: objectify [c++ | idl | cmd] < input > output\n";
@@ -253,6 +254,17 @@ public:\n";
 	  print   ">> /tmp/\$\$-objectify_tokenlexs\n";
 	  print "echo -n \"$fval: $fupval \" >> /tmp/\$\$-objectify_grammar\n";
 	  print "echo -n \"$fval commands | \" >> /tmp/\$\$-objectify_commands\n";
+
+	  # Also extract the synopsis from the generated documentation and put it
+	  # somewhere safe
+	  print "echo \"Function: $fval\" >> /tmp/\$\$-objectify_documentation\n";
+	  open DOCO, "< man/$fval.sgml";
+	  while(<DOCO>){
+	    if(/<refpurpose>(.*)<\/refpurpose>/){
+	      print "echo \"Purpose: $1\" >> /tmp/\$\$-objectify_documentation\n";
+	    }
+	  }
+	  close DOCO;
 	}
 	
 	# Do we have a child relationship because of this function?
@@ -318,6 +330,7 @@ public:\n";
 	    }
 
 	    print "echo -n \"$argtype \" >> /tmp/\$\$-objectify_grammar\n";
+	    print "echo \"Arguement: $argtype\" >> /tmp/\$\$-objectify_documentation\n";
 	  }
 
 	  # Feed in the passed args
@@ -467,6 +480,10 @@ elsif($ARGV[0] eq "cmd"){
   print "  /tmp/\$\$-SuBsT /tmp/\$\$ < \$file > \$outfile\n";
   print "done\n";
   print "\n";
+
+  print "# Generate the SGML documentation\n";
+  print "# ...TODO...\n\n";
+
   print "# End of file\n";
 }
 

@@ -11,6 +11,8 @@ echo "" > /tmp/$$-objectify_tokens
 echo "" > /tmp/$$-objectify_tokenlexs
 echo "" > /tmp/$$-objectify_grammar
 
+echo "" > /tmp/$$-objectify_documentation
+
 # panda_object class suppressed
 # double class suppressed
 # panda_fontmetric class suppressed
@@ -28,15 +30,19 @@ echo "%token <textVal> PANDA_OPEN" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_open PANDA_OPEN >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_open: PANDA_OPEN " >> /tmp/$$-objectify_grammar
 echo -n "panda_open commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_open" >> /tmp/$$-objectify_documentation
+echo "Purpose: open a PDF document" >> /tmp/$$-objectify_documentation
 echo -n "QUOTESTR " >> /tmp/$$-objectify_grammar
+echo "Arguement: QUOTESTR" >> /tmp/$$-objectify_documentation
 echo -n "QUOTESTR " >> /tmp/$$-objectify_grammar
+echo "Arguement: QUOTESTR" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo -n "m_panda_pdf = " >> /tmp/$$-objectify_grammar
 echo "panda_open( \$2, \$3);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_open executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_open executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -45,25 +51,39 @@ echo "%token <textVal> PANDA_TEXTANNOTATION" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_textannotation PANDA_TEXTANNOTATION >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_textannotation: PANDA_TEXTANNOTATION " >> /tmp/$$-objectify_grammar
 echo -n "panda_textannotation commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_textannotation" >> /tmp/$$-objectify_documentation
+echo "Purpose: draw a text annotation which looks like a sticky note onto a page" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "QUOTESTR " >> /tmp/$$-objectify_grammar
+echo "Arguement: QUOTESTR" >> /tmp/$$-objectify_documentation
 echo -n "QUOTESTR " >> /tmp/$$-objectify_grammar
+echo "Arguement: QUOTESTR" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "FLOAT " >> /tmp/$$-objectify_grammar
+echo "Arguement: FLOAT" >> /tmp/$$-objectify_documentation
 echo -n "FLOAT " >> /tmp/$$-objectify_grammar
+echo "Arguement: FLOAT" >> /tmp/$$-objectify_documentation
 echo -n "FLOAT " >> /tmp/$$-objectify_grammar
+echo "Arguement: FLOAT" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_page" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_textannotation(m_panda_pdf, m_panda_page, \$2, \$3, \$4, \$5, \$6, \$7, \$8, \$9, \$10, \$11, \$12, \$13);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_textannotation executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_textannotation executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -71,23 +91,35 @@ echo "%token <textVal> PANDA_FREETEXTANNOTATION" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_freetextannotation PANDA_FREETEXTANNOTATION >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_freetextannotation: PANDA_FREETEXTANNOTATION " >> /tmp/$$-objectify_grammar
 echo -n "panda_freetextannotation commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_freetextannotation" >> /tmp/$$-objectify_documentation
+echo "Purpose: draw a text annotation which doesn't look like a sticky note onto a page" >> /tmp/$$-objectify_documentation
 echo -n "QUOTESTR " >> /tmp/$$-objectify_grammar
+echo "Arguement: QUOTESTR" >> /tmp/$$-objectify_documentation
 echo -n "QUOTESTR " >> /tmp/$$-objectify_grammar
+echo "Arguement: QUOTESTR" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "FLOAT " >> /tmp/$$-objectify_grammar
+echo "Arguement: FLOAT" >> /tmp/$$-objectify_documentation
 echo -n "FLOAT " >> /tmp/$$-objectify_grammar
+echo "Arguement: FLOAT" >> /tmp/$$-objectify_documentation
 echo -n "FLOAT " >> /tmp/$$-objectify_grammar
+echo "Arguement: FLOAT" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_page" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_freetextannotation(m_panda_pdf, m_panda_page, \$2, \$3, \$4, \$5, \$6, \$7, \$8, \$9, \$10, \$11);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_freetextannotation executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_freetextannotation executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -95,27 +127,42 @@ echo "%token <textVal> PANDA_LINEANNOTATION" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_lineannotation PANDA_LINEANNOTATION >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_lineannotation: PANDA_LINEANNOTATION " >> /tmp/$$-objectify_grammar
 echo -n "panda_lineannotation commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_lineannotation" >> /tmp/$$-objectify_documentation
 echo -n "QUOTESTR " >> /tmp/$$-objectify_grammar
+echo "Arguement: QUOTESTR" >> /tmp/$$-objectify_documentation
 echo -n "QUOTESTR " >> /tmp/$$-objectify_grammar
+echo "Arguement: QUOTESTR" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "FLOAT " >> /tmp/$$-objectify_grammar
+echo "Arguement: FLOAT" >> /tmp/$$-objectify_documentation
 echo -n "FLOAT " >> /tmp/$$-objectify_grammar
+echo "Arguement: FLOAT" >> /tmp/$$-objectify_documentation
 echo -n "FLOAT " >> /tmp/$$-objectify_grammar
+echo "Arguement: FLOAT" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_page" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_lineannotation(m_panda_pdf, m_panda_page, \$2, \$3, \$4, \$5, \$6, \$7, \$8, \$9, \$10, \$11, \$12, \$13, \$14, \$15);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_lineannotation executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_lineannotation executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -123,15 +170,26 @@ echo "%token <textVal> PANDA_INSERTANNOTATION" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_insertannotation PANDA_INSERTANNOTATION >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_insertannotation: PANDA_INSERTANNOTATION " >> /tmp/$$-objectify_grammar
 echo -n "panda_insertannotation commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_insertannotation" >> /tmp/$$-objectify_documentation
+echo "Purpose: actually insert an annotation" >> /tmp/$$-objectify_documentation
 echo -n "QUOTESTR " >> /tmp/$$-objectify_grammar
+echo "Arguement: QUOTESTR" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "FLOAT " >> /tmp/$$-objectify_grammar
+echo "Arguement: FLOAT" >> /tmp/$$-objectify_documentation
 echo -n "FLOAT " >> /tmp/$$-objectify_grammar
+echo "Arguement: FLOAT" >> /tmp/$$-objectify_documentation
 echo -n "FLOAT " >> /tmp/$$-objectify_grammar
+echo "Arguement: FLOAT" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_page" >> /tmp/$$-objectify_grammar
@@ -139,7 +197,7 @@ echo "	// Parent pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo -n "m_panda_object = " >> /tmp/$$-objectify_grammar
 echo "panda_insertannotation(m_panda_pdf, m_panda_page, \$2, \$3, \$4, \$5, \$6, \$7, \$8, \$9, \$10);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_insertannotation executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_insertannotation executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -147,15 +205,19 @@ echo "%token <textVal> PANDA_SETLINESTART" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_setlinestart PANDA_SETLINESTART >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_setlinestart: PANDA_SETLINESTART " >> /tmp/$$-objectify_grammar
 echo -n "panda_setlinestart commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_setlinestart" >> /tmp/$$-objectify_documentation
+echo "Purpose: sets the starting point of a curve" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_page" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_setlinestart(m_panda_page, \$2, \$3);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_setlinestart executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_setlinestart executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -163,15 +225,19 @@ echo "%token <textVal> PANDA_ADDLINESEGMENT" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_addlinesegment PANDA_ADDLINESEGMENT >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_addlinesegment: PANDA_ADDLINESEGMENT " >> /tmp/$$-objectify_grammar
 echo -n "panda_addlinesegment commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_addlinesegment" >> /tmp/$$-objectify_documentation
+echo "Purpose: add a straight segment to the line shape we are drawing" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_page" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_addlinesegment(m_panda_page, \$2, \$3);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_addlinesegment executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_addlinesegment executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -179,19 +245,27 @@ echo "%token <textVal> PANDA_ADDCUBICCURVESEGMENT" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_addcubiccurvesegment PANDA_ADDCUBICCURVESEGMENT >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_addcubiccurvesegment: PANDA_ADDCUBICCURVESEGMENT " >> /tmp/$$-objectify_grammar
 echo -n "panda_addcubiccurvesegment commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_addcubiccurvesegment" >> /tmp/$$-objectify_documentation
+echo "Purpose: add a curved segment to the line shape we are drawing" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_page" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_addcubiccurvesegment(m_panda_page, \$2, \$3, \$4, \$5, \$6, \$7);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_addcubiccurvesegment executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_addcubiccurvesegment executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -199,17 +273,23 @@ echo "%token <textVal> PANDA_ADDQUADRATICCURVESEGMENTONE" >> /tmp/$$-objectify_t
 printf "%-30s { return %-30s; }\n" panda_addquadraticcurvesegmentone PANDA_ADDQUADRATICCURVESEGMENTONE >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_addquadraticcurvesegmentone: PANDA_ADDQUADRATICCURVESEGMENTONE " >> /tmp/$$-objectify_grammar
 echo -n "panda_addquadraticcurvesegmentone commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_addquadraticcurvesegmentone" >> /tmp/$$-objectify_documentation
+echo "Purpose: add a curved segment to the line shape that we are drawing" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_page" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_addquadraticcurvesegmentone(m_panda_page, \$2, \$3, \$4, \$5);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_addquadraticcurvesegmentone executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_addquadraticcurvesegmentone executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -217,17 +297,23 @@ echo "%token <textVal> PANDA_ADDQUADRATICCURVESEGMENTTWO" >> /tmp/$$-objectify_t
 printf "%-30s { return %-30s; }\n" panda_addquadraticcurvesegmenttwo PANDA_ADDQUADRATICCURVESEGMENTTWO >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_addquadraticcurvesegmenttwo: PANDA_ADDQUADRATICCURVESEGMENTTWO " >> /tmp/$$-objectify_grammar
 echo -n "panda_addquadraticcurvesegmenttwo commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_addquadraticcurvesegmenttwo" >> /tmp/$$-objectify_documentation
+echo "Purpose: add a curved segment to the line shape that we are drawing" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_page" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_addquadraticcurvesegmenttwo(m_panda_page, \$2, \$3, \$4, \$5);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_addquadraticcurvesegmenttwo executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_addquadraticcurvesegmenttwo executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -235,13 +321,15 @@ echo "%token <textVal> PANDA_CLOSELINE" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_closeline PANDA_CLOSELINE >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_closeline: PANDA_CLOSELINE " >> /tmp/$$-objectify_grammar
 echo -n "panda_closeline commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_closeline" >> /tmp/$$-objectify_documentation
+echo "Purpose: close off the line shape we are drawing" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_page" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_closeline(m_panda_page);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_closeline executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_closeline executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -249,17 +337,23 @@ echo "%token <textVal> PANDA_RECTANGLE" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_rectangle PANDA_RECTANGLE >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_rectangle: PANDA_RECTANGLE " >> /tmp/$$-objectify_grammar
 echo -n "panda_rectangle commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_rectangle" >> /tmp/$$-objectify_documentation
+echo "Purpose: draw a rectangle" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_page" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_rectangle(m_panda_page, \$2, \$3, \$4, \$5);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_rectangle executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_rectangle executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -267,13 +361,15 @@ echo "%token <textVal> PANDA_ENDLINE" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_endline PANDA_ENDLINE >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_endline: PANDA_ENDLINE " >> /tmp/$$-objectify_grammar
 echo -n "panda_endline commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_endline" >> /tmp/$$-objectify_documentation
+echo "Purpose: finalise the current line shape" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_page" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_endline(m_panda_page);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_endline executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_endline executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -281,13 +377,15 @@ echo "%token <textVal> PANDA_STROKELINE" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_strokeline PANDA_STROKELINE >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_strokeline: PANDA_STROKELINE " >> /tmp/$$-objectify_grammar
 echo -n "panda_strokeline commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_strokeline" >> /tmp/$$-objectify_documentation
+echo "Purpose: stroke the line shape we have just drawn" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_page" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_strokeline(m_panda_page);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_strokeline executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_strokeline executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -295,13 +393,15 @@ echo "%token <textVal> PANDA_FILLLINE" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_fillline PANDA_FILLLINE >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_fillline: PANDA_FILLLINE " >> /tmp/$$-objectify_grammar
 echo -n "panda_fillline commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_fillline" >> /tmp/$$-objectify_documentation
+echo "Purpose: fill the closed shape we just drew" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_page" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_fillline(m_panda_page);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_fillline executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_fillline executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -309,14 +409,17 @@ echo "%token <textVal> PANDA_SETLINEWIDTH" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_setlinewidth PANDA_SETLINEWIDTH >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_setlinewidth: PANDA_SETLINEWIDTH " >> /tmp/$$-objectify_grammar
 echo -n "panda_setlinewidth commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_setlinewidth" >> /tmp/$$-objectify_documentation
+echo "Purpose: sets the width of the line that we are drawing" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_page" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_setlinewidth(m_panda_page, \$2);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_setlinewidth executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_setlinewidth executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -324,14 +427,17 @@ echo "%token <textVal> PANDA_SETLINECAP" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_setlinecap PANDA_SETLINECAP >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_setlinecap: PANDA_SETLINECAP " >> /tmp/$$-objectify_grammar
 echo -n "panda_setlinecap commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_setlinecap" >> /tmp/$$-objectify_documentation
+echo "Purpose: sets the line cap for the lines we are drawing now" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_page" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_setlinecap(m_panda_page, \$2);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_setlinecap executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_setlinecap executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -339,14 +445,17 @@ echo "%token <textVal> PANDA_SETLINEJOIN" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_setlinejoin PANDA_SETLINEJOIN >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_setlinejoin: PANDA_SETLINEJOIN " >> /tmp/$$-objectify_grammar
 echo -n "panda_setlinejoin commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_setlinejoin" >> /tmp/$$-objectify_documentation
+echo "Purpose: is used to set the line join style" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_page" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_setlinejoin(m_panda_page, \$2);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_setlinejoin executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_setlinejoin executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -354,16 +463,20 @@ echo "%token <textVal> PANDA_SETLINEDASH" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_setlinedash PANDA_SETLINEDASH >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_setlinedash: PANDA_SETLINEDASH " >> /tmp/$$-objectify_grammar
 echo -n "panda_setlinedash commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_setlinedash" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_page" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_setlinedash(m_panda_page, \$2, \$3, \$4);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_setlinedash executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_setlinedash executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -371,16 +484,21 @@ echo "%token <textVal> PANDA_SETFILLCOLOR" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_setfillcolor PANDA_SETFILLCOLOR >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_setfillcolor: PANDA_SETFILLCOLOR " >> /tmp/$$-objectify_grammar
 echo -n "panda_setfillcolor commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_setfillcolor" >> /tmp/$$-objectify_documentation
+echo "Purpose: set the color to fill a close shape with" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_page" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_setfillcolor(m_panda_page, \$2, \$3, \$4);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_setfillcolor executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_setfillcolor executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -388,16 +506,21 @@ echo "%token <textVal> PANDA_SETLINECOLOR" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_setlinecolor PANDA_SETLINECOLOR >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_setlinecolor: PANDA_SETLINECOLOR " >> /tmp/$$-objectify_grammar
 echo -n "panda_setlinecolor commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_setlinecolor" >> /tmp/$$-objectify_documentation
+echo "Purpose: change the color of the line drawn" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_page" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_setlinecolor(m_panda_page, \$2, \$3, \$4);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_setlinecolor executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_setlinecolor executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -405,19 +528,27 @@ echo "%token <textVal> PANDA_IMAGEBOX" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_imagebox PANDA_IMAGEBOX >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_imagebox: PANDA_IMAGEBOX " >> /tmp/$$-objectify_grammar
 echo -n "panda_imagebox commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_imagebox" >> /tmp/$$-objectify_documentation
+echo "Purpose: insert an image into the PDF document at the specified location" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "QUOTESTR " >> /tmp/$$-objectify_grammar
+echo "Arguement: QUOTESTR" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_page" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_imagebox(m_panda_pdf, m_panda_page, \$2, \$3, \$4, \$5, \$6, \$7);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_imagebox executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_imagebox executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -425,20 +556,29 @@ echo "%token <textVal> PANDA_IMAGEBOXROT" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_imageboxrot PANDA_IMAGEBOXROT >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_imageboxrot: PANDA_IMAGEBOXROT " >> /tmp/$$-objectify_grammar
 echo -n "panda_imageboxrot commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_imageboxrot" >> /tmp/$$-objectify_documentation
+echo "Purpose: insert an image into the PDF document at the specified location" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "FLOAT " >> /tmp/$$-objectify_grammar
+echo "Arguement: FLOAT" >> /tmp/$$-objectify_documentation
 echo -n "QUOTESTR " >> /tmp/$$-objectify_grammar
+echo "Arguement: QUOTESTR" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_page" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_imageboxrot(m_panda_pdf, m_panda_page, \$2, \$3, \$4, \$5, \$6, \$7, \$8);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_imageboxrot executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_imageboxrot executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -446,18 +586,25 @@ echo "%token <textVal> PANDA_TEXTBOX" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_textbox PANDA_TEXTBOX >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_textbox: PANDA_TEXTBOX " >> /tmp/$$-objectify_grammar
 echo -n "panda_textbox commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_textbox" >> /tmp/$$-objectify_documentation
+echo "Purpose: display some text on the PDF page specified" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "QUOTESTR " >> /tmp/$$-objectify_grammar
+echo "Arguement: QUOTESTR" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_page" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_textbox(m_panda_pdf, m_panda_page, \$2, \$3, \$4, \$5, \$6);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_textbox executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_textbox executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -465,19 +612,27 @@ echo "%token <textVal> PANDA_TEXTBOXROT" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_textboxrot PANDA_TEXTBOXROT >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_textboxrot: PANDA_TEXTBOXROT " >> /tmp/$$-objectify_grammar
 echo -n "panda_textboxrot commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_textboxrot" >> /tmp/$$-objectify_documentation
+echo "Purpose: display some text at a jaunty angle on the PDF page specified" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "FLOAT " >> /tmp/$$-objectify_grammar
+echo "Arguement: FLOAT" >> /tmp/$$-objectify_documentation
 echo -n "QUOTESTR " >> /tmp/$$-objectify_grammar
+echo "Arguement: QUOTESTR" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_page" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_textboxrot(m_panda_pdf, m_panda_page, \$2, \$3, \$4, \$5, \$6, \$7);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_textboxrot executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_textboxrot executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -485,21 +640,30 @@ echo "%token <textVal> PANDA_TEXTBOXROTALIGN" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_textboxrotalign PANDA_TEXTBOXROTALIGN >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_textboxrotalign: PANDA_TEXTBOXROTALIGN " >> /tmp/$$-objectify_grammar
 echo -n "panda_textboxrotalign commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_textboxrotalign" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "FLOAT " >> /tmp/$$-objectify_grammar
+echo "Arguement: FLOAT" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo -n "QUOTESTR " >> /tmp/$$-objectify_grammar
+echo "Arguement: QUOTESTR" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_page" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_textboxrotalign(m_panda_pdf, m_panda_page, \$2, \$3, \$4, \$5, \$6, \$7, \$8, \$9);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_textboxrotalign executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_textboxrotalign executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -507,14 +671,17 @@ echo "%token <textVal> PANDA_PAGEDURATION" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_pageduration PANDA_PAGEDURATION >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_pageduration: PANDA_PAGEDURATION " >> /tmp/$$-objectify_grammar
 echo -n "panda_pageduration commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_pageduration" >> /tmp/$$-objectify_documentation
+echo "Purpose: specify the maximum number of seconds that a page should be displayed by the viewer before moving on" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_page" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_pageduration(m_panda_pdf, m_panda_page, \$2);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_pageduration executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_pageduration executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -522,14 +689,17 @@ echo "%token <textVal> PANDA_TRANSDURATION" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_transduration PANDA_TRANSDURATION >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_transduration: PANDA_TRANSDURATION " >> /tmp/$$-objectify_grammar
 echo -n "panda_transduration commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_transduration" >> /tmp/$$-objectify_documentation
+echo "Purpose: specify the number of seconds that a page transition effect should take to occur" >> /tmp/$$-objectify_documentation
 echo -n "FLOAT " >> /tmp/$$-objectify_grammar
+echo "Arguement: FLOAT" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_page" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_transduration(m_panda_pdf, m_panda_page, \$2);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_transduration executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_transduration executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -537,14 +707,17 @@ echo "%token <textVal> PANDA_TRANSSTYLE" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_transstyle PANDA_TRANSSTYLE >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_transstyle: PANDA_TRANSSTYLE " >> /tmp/$$-objectify_grammar
 echo -n "panda_transstyle commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_transstyle" >> /tmp/$$-objectify_documentation
+echo "Purpose: specify the type of page change transition that should occur" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_page" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_transstyle(m_panda_pdf, m_panda_page, \$2);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_transstyle executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_transstyle executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -553,14 +726,17 @@ echo "%token <textVal> PANDA_SETAUTHOR" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_setauthor PANDA_SETAUTHOR >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_setauthor: PANDA_SETAUTHOR " >> /tmp/$$-objectify_grammar
 echo -n "panda_setauthor commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_setauthor" >> /tmp/$$-objectify_documentation
+echo "Purpose: set the author string for the PDF document" >> /tmp/$$-objectify_documentation
 echo -n "QUOTESTR " >> /tmp/$$-objectify_grammar
+echo "Arguement: QUOTESTR" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_setauthor(m_panda_pdf, \$2);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_setauthor executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_setauthor executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -568,14 +744,17 @@ echo "%token <textVal> PANDA_SETCREATOR" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_setcreator PANDA_SETCREATOR >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_setcreator: PANDA_SETCREATOR " >> /tmp/$$-objectify_grammar
 echo -n "panda_setcreator commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_setcreator" >> /tmp/$$-objectify_documentation
+echo "Purpose: set the creator string for the PDF document" >> /tmp/$$-objectify_documentation
 echo -n "QUOTESTR " >> /tmp/$$-objectify_grammar
+echo "Arguement: QUOTESTR" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_setcreator(m_panda_pdf, \$2);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_setcreator executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_setcreator executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -583,14 +762,17 @@ echo "%token <textVal> PANDA_SETTITLE" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_settitle PANDA_SETTITLE >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_settitle: PANDA_SETTITLE " >> /tmp/$$-objectify_grammar
 echo -n "panda_settitle commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_settitle" >> /tmp/$$-objectify_documentation
+echo "Purpose: set the title string for the PDF document" >> /tmp/$$-objectify_documentation
 echo -n "QUOTESTR " >> /tmp/$$-objectify_grammar
+echo "Arguement: QUOTESTR" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_settitle(m_panda_pdf, \$2);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_settitle executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_settitle executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -598,14 +780,17 @@ echo "%token <textVal> PANDA_SETSUBJECT" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_setsubject PANDA_SETSUBJECT >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_setsubject: PANDA_SETSUBJECT " >> /tmp/$$-objectify_grammar
 echo -n "panda_setsubject commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_setsubject" >> /tmp/$$-objectify_documentation
+echo "Purpose: set the subject string for the PDF document" >> /tmp/$$-objectify_documentation
 echo -n "QUOTESTR " >> /tmp/$$-objectify_grammar
+echo "Arguement: QUOTESTR" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_setsubject(m_panda_pdf, \$2);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_setsubject executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_setsubject executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -613,14 +798,17 @@ echo "%token <textVal> PANDA_SETKEYWORDS" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_setkeywords PANDA_SETKEYWORDS >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_setkeywords: PANDA_SETKEYWORDS " >> /tmp/$$-objectify_grammar
 echo -n "panda_setkeywords commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_setkeywords" >> /tmp/$$-objectify_documentation
+echo "Purpose: set the keywords string for the PDF document" >> /tmp/$$-objectify_documentation
 echo -n "QUOTESTR " >> /tmp/$$-objectify_grammar
+echo "Arguement: QUOTESTR" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_setkeywords(m_panda_pdf, \$2);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_setkeywords executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_setkeywords executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -628,14 +816,17 @@ echo "%token <textVal> PANDA_SETFONTSIZE" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_setfontsize PANDA_SETFONTSIZE >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_setfontsize: PANDA_SETFONTSIZE " >> /tmp/$$-objectify_grammar
 echo -n "panda_setfontsize commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_setfontsize" >> /tmp/$$-objectify_documentation
+echo "Purpose: set the current font size" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_setfontsize(m_panda_pdf, \$2);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_setfontsize executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_setfontsize executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -643,14 +834,17 @@ echo "%token <textVal> PANDA_SETFONTMODE" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_setfontmode PANDA_SETFONTMODE >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_setfontmode: PANDA_SETFONTMODE " >> /tmp/$$-objectify_grammar
 echo -n "panda_setfontmode commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_setfontmode" >> /tmp/$$-objectify_documentation
+echo "Purpose: set the current font mode" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_setfontmode(m_panda_pdf, \$2);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_setfontmode executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_setfontmode executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -658,14 +852,17 @@ echo "%token <textVal> PANDA_SETCHARACTERSPACING" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_setcharacterspacing PANDA_SETCHARACTERSPACING >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_setcharacterspacing: PANDA_SETCHARACTERSPACING " >> /tmp/$$-objectify_grammar
 echo -n "panda_setcharacterspacing commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_setcharacterspacing" >> /tmp/$$-objectify_documentation
+echo "Purpose: set the space between characters" >> /tmp/$$-objectify_documentation
 echo -n "FLOAT " >> /tmp/$$-objectify_grammar
+echo "Arguement: FLOAT" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_setcharacterspacing(m_panda_pdf, \$2);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_setcharacterspacing executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_setcharacterspacing executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -673,14 +870,17 @@ echo "%token <textVal> PANDA_SETWORDSPACING" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_setwordspacing PANDA_SETWORDSPACING >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_setwordspacing: PANDA_SETWORDSPACING " >> /tmp/$$-objectify_grammar
 echo -n "panda_setwordspacing commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_setwordspacing" >> /tmp/$$-objectify_documentation
+echo "Purpose: set the space between words" >> /tmp/$$-objectify_documentation
 echo -n "FLOAT " >> /tmp/$$-objectify_grammar
+echo "Arguement: FLOAT" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_setwordspacing(m_panda_pdf, \$2);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_setwordspacing executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_setwordspacing executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -688,14 +888,17 @@ echo "%token <textVal> PANDA_SETHORIZONTALSCALING" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_sethorizontalscaling PANDA_SETHORIZONTALSCALING >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_sethorizontalscaling: PANDA_SETHORIZONTALSCALING " >> /tmp/$$-objectify_grammar
 echo -n "panda_sethorizontalscaling commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_sethorizontalscaling" >> /tmp/$$-objectify_documentation
+echo "Purpose: set the horizontal scaling of text" >> /tmp/$$-objectify_documentation
 echo -n "FLOAT " >> /tmp/$$-objectify_grammar
+echo "Arguement: FLOAT" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_sethorizontalscaling(m_panda_pdf, \$2);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_sethorizontalscaling executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_sethorizontalscaling executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -703,14 +906,17 @@ echo "%token <textVal> PANDA_SETLEADING" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_setleading PANDA_SETLEADING >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_setleading: PANDA_SETLEADING " >> /tmp/$$-objectify_grammar
 echo -n "panda_setleading commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_setleading" >> /tmp/$$-objectify_documentation
+echo "Purpose: set the amount of space between lines of text" >> /tmp/$$-objectify_documentation
 echo -n "FLOAT " >> /tmp/$$-objectify_grammar
+echo "Arguement: FLOAT" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_setleading(m_panda_pdf, \$2);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_setleading executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_setleading executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -718,13 +924,15 @@ echo "%token <textVal> PANDA_CLOSE" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_close PANDA_CLOSE >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_close: PANDA_CLOSE " >> /tmp/$$-objectify_grammar
 echo -n "panda_close commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_close" >> /tmp/$$-objectify_documentation
+echo "Purpose: write a PDF document out to disk" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_close(m_panda_pdf);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_close executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_close executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -732,7 +940,10 @@ echo "%token <textVal> PANDA_NEWPAGE" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_newpage PANDA_NEWPAGE >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_newpage: PANDA_NEWPAGE " >> /tmp/$$-objectify_grammar
 echo -n "panda_newpage commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_newpage" >> /tmp/$$-objectify_documentation
+echo "Purpose: create a new page in the PDF" >> /tmp/$$-objectify_documentation
 echo -n "QUOTESTR " >> /tmp/$$-objectify_grammar
+echo "Arguement: QUOTESTR" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_pdf" >> /tmp/$$-objectify_grammar
@@ -740,7 +951,7 @@ echo "	// Parent pointer is panda" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo -n "m_panda_page = " >> /tmp/$$-objectify_grammar
 echo "panda_newpage(m_panda_pdf, \$2);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_newpage executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_newpage executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -748,7 +959,10 @@ echo "%token <textVal> PANDA_NEWTEMPLATE" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_newtemplate PANDA_NEWTEMPLATE >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_newtemplate: PANDA_NEWTEMPLATE " >> /tmp/$$-objectify_grammar
 echo -n "panda_newtemplate commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_newtemplate" >> /tmp/$$-objectify_documentation
+echo "Purpose: create a template page in the PDF" >> /tmp/$$-objectify_documentation
 echo -n "QUOTESTR " >> /tmp/$$-objectify_grammar
+echo "Arguement: QUOTESTR" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_pdf" >> /tmp/$$-objectify_grammar
@@ -756,7 +970,7 @@ echo "	// Parent pointer is panda" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo -n "m_panda_page = " >> /tmp/$$-objectify_grammar
 echo "panda_newtemplate(m_panda_pdf, \$2);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_newtemplate executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_newtemplate executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -764,14 +978,17 @@ echo "%token <textVal> PANDA_HIDETOOLBAR" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_hidetoolbar PANDA_HIDETOOLBAR >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_hidetoolbar: PANDA_HIDETOOLBAR " >> /tmp/$$-objectify_grammar
 echo -n "panda_hidetoolbar commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_hidetoolbar" >> /tmp/$$-objectify_documentation
+echo "Purpose: ask the viewer to hide it's tool bar when this PDF is displayed" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_hidetoolbar(m_panda_pdf, \$2);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_hidetoolbar executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_hidetoolbar executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -779,14 +996,17 @@ echo "%token <textVal> PANDA_HIDEMENUBAR" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_hidemenubar PANDA_HIDEMENUBAR >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_hidemenubar: PANDA_HIDEMENUBAR " >> /tmp/$$-objectify_grammar
 echo -n "panda_hidemenubar commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_hidemenubar" >> /tmp/$$-objectify_documentation
+echo "Purpose: ask the viewer to hide it's menu bar when this PDF is displayed" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_hidemenubar(m_panda_pdf, \$2);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_hidemenubar executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_hidemenubar executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -794,14 +1014,17 @@ echo "%token <textVal> PANDA_HIDEWINDOWUI" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_hidewindowui PANDA_HIDEWINDOWUI >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_hidewindowui: PANDA_HIDEWINDOWUI " >> /tmp/$$-objectify_grammar
 echo -n "panda_hidewindowui commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_hidewindowui" >> /tmp/$$-objectify_documentation
+echo "Purpose: ask the viewer to hide it's display window user interface when this PDF is displayed" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_hidewindowui(m_panda_pdf, \$2);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_hidewindowui executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_hidewindowui executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -809,14 +1032,17 @@ echo "%token <textVal> PANDA_FITWINDOW" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_fitwindow PANDA_FITWINDOW >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_fitwindow: PANDA_FITWINDOW " >> /tmp/$$-objectify_grammar
 echo -n "panda_fitwindow commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_fitwindow" >> /tmp/$$-objectify_documentation
+echo "Purpose: ask the viewer to fit the viewer window to the first page of the PDF document when it is opened" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_fitwindow(m_panda_pdf, \$2);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_fitwindow executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_fitwindow executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -824,14 +1050,17 @@ echo "%token <textVal> PANDA_CENTERWINDOW" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_centerwindow PANDA_CENTERWINDOW >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_centerwindow: PANDA_CENTERWINDOW " >> /tmp/$$-objectify_grammar
 echo -n "panda_centerwindow commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_centerwindow" >> /tmp/$$-objectify_documentation
+echo "Purpose: ask the viewer to center the document's window on the screen when the PDF is displayed" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_centerwindow(m_panda_pdf, \$2);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_centerwindow executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_centerwindow executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -839,14 +1068,16 @@ echo "%token <textVal> PANDA_NFSPAGEMODE" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_nfspagemode PANDA_NFSPAGEMODE >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_nfspagemode: PANDA_NFSPAGEMODE " >> /tmp/$$-objectify_grammar
 echo -n "panda_nfspagemode commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_nfspagemode" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_nfspagemode(m_panda_pdf, \$2);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_nfspagemode executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_nfspagemode executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -854,14 +1085,17 @@ echo "%token <textVal> PANDA_FULLSCREEN" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_fullscreen PANDA_FULLSCREEN >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_fullscreen: PANDA_FULLSCREEN " >> /tmp/$$-objectify_grammar
 echo -n "panda_fullscreen commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_fullscreen" >> /tmp/$$-objectify_documentation
+echo "Purpose: ask the viewer to display the PDF document in fullscreen mode" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_fullscreen(m_panda_pdf, \$2);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_fullscreen executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_fullscreen executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -869,14 +1103,17 @@ echo "%token <textVal> PANDA_TEXTDIRECTION" >> /tmp/$$-objectify_tokens
 printf "%-30s { return %-30s; }\n" panda_textdirection PANDA_TEXTDIRECTION >> /tmp/$$-objectify_tokenlexs
 echo -n "panda_textdirection: PANDA_TEXTDIRECTION " >> /tmp/$$-objectify_grammar
 echo -n "panda_textdirection commands | " >> /tmp/$$-objectify_commands
+echo "Function: panda_textdirection" >> /tmp/$$-objectify_documentation
+echo "Purpose: specify the direction that the text flows within the document" >> /tmp/$$-objectify_documentation
 echo -n "INTEGER " >> /tmp/$$-objectify_grammar
+echo "Arguement: INTEGER" >> /tmp/$$-objectify_documentation
 echo "" >> /tmp/$$-objectify_grammar
 echo "{" >> /tmp/$$-objectify_grammar
 echo "	// Class pointer is panda_pdf" >> /tmp/$$-objectify_grammar
 echo "	// Parent pointer is panda" >> /tmp/$$-objectify_grammar
 echo -n "	" >> /tmp/$$-objectify_grammar
 echo "panda_textdirection(m_panda_pdf, \$2);" >> /tmp/$$-objectify_grammar
-echo "printf(\"100 panda_textdirection executed\n\");" >> /tmp/$$-objectify_grammar
+echo "	printf(\"100 panda_textdirection executed\n\");" >> /tmp/$$-objectify_grammar
 echo "}" >> /tmp/$$-objectify_grammar
 echo "" >> /tmp/$$-objectify_grammar
 
@@ -921,4 +1158,5 @@ do
   /tmp/$$-SuBsT /tmp/$$ < $file > $outfile
 done
 
+# Generate the SGML documentation
 # End of file

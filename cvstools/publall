@@ -29,6 +29,7 @@ for item in `find ~mikal/opensource -follow -type f -name ABOUT -print | sed -e 
 do
   if [ ! -e $item/PRIVATE ]
   then
+    item=`echo $item | sed 's/\/home\/mikal\/opensource\///'`
     echo "<li><a href=\"#$item\">"`echo $item | sed 's/\/home\/mikal\/opensource\///'`"</a>" >> /tmp/$$
   fi
 done

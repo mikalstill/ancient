@@ -4,6 +4,7 @@ files="ABOUT README ChangeLog INSTALL AUTHORS NEWS"
 
 for file in $files
 do
+  touch $file
   xemacs $file
   cvs add $file
 done

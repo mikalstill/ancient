@@ -60,7 +60,7 @@ void
 netmon ()
 {
   int i;
-  char *dev = "eth0";
+  char *dev = "eth1";
   char errbuf[PCAP_ERRBUF_SIZE];
   char *time;
   pcap_t *descr;
@@ -90,23 +90,26 @@ netmon ()
   printf ("Listening on %s\n", dev);
   while (1)
     {
+      printf("W");
       packet = pcap_next (descr, &hdr);
-
       if (packet == NULL)
 	{
 	  printf ("Didn't grab packet\n");
 	  exit (1);
 	}
+      printf(".");
 
-      if (seconds + 10 < hdr.ts.tv_sec)
+      if (seconds + 1 < hdr.ts.tv_sec)
 	{
 	  printf("--------------------------------------------------------\n");
 	  for (i = 0; i < TABLESIZE; i++)
 	    if (connections[i].kbps != 0)
 	      {
+		int divisor = 1;
+
 		printf
 		  ("%02x:%02x:%02x:%02x:%02x:%02x --> "
-		   "%02x:%02x:%02x:%02x:%02x:%02x (%d bytes, %d packets)\n",
+		   "%02x:%02x:%02x:%02x:%02x:%02x ", 
 		   (unsigned char) connections[i].source[0],
 		   (unsigned char) connections[i].source[1],
 		   (unsigned char) connections[i].source[2],
@@ -118,8 +121,26 @@ netmon ()
 		   (unsigned char) connections[i].destination[2],
 		   (unsigned char) connections[i].destination[3],
 		   (unsigned char) connections[i].destination[4],
-		   (unsigned char) connections[i].destination[5],
-		   connections[i].kbps, connections[i].packets);
+		   (unsigned char) connections[i].destination[5]);
+
+		while(connections[i].kbps > divisor * 1024){
+		  divisor *= 1024;
+		  printf("D");
+		}
+		divisor /= 1024;
+		printf("(%d ", connections[i].kbps / divisor);
+		switch(divisor)
+		  {
+		  case 1: printf("b"); break;
+		  case 1024: printf("k"); break;
+		  case 1048576: printf("m"); break;
+		  case 1073741824: printf("g"); break;
+		  default: printf("?"); break;
+		  }
+
+		printf(", %d packets)\n",
+		       connections[i].packets);
+
 		connections[i].kbps = 0;
 		connections[i].packets = 0;
 	      }
@@ -158,5 +179,6 @@ netmon ()
 	}
 
     done:
+      printf("@");
     }
 }
