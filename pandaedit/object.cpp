@@ -171,7 +171,7 @@ object::hasDictItem (dictitem::diType type, string dname)
     {
       if (item.getType () == type)
 	{
-	  debug(dlTrace, "Found");
+	  debug(dlTrace, "Found in object::hasDictItem");
 	  return true;
 	}
       else
@@ -415,3 +415,22 @@ object::appendCommand(string commandString)
 }
 
 // todo_mikal: finish changed
+
+unsigned int
+object::getCommandCount()
+{
+  return m_commands.size();
+}
+
+string
+object::getCommandStream()
+{
+  string rval;
+
+  for(unsigned int i = 0; i < m_commands.size(); i++)
+    {
+      rval += m_commands[i];
+    }
+
+  return rval;
+}

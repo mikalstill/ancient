@@ -86,7 +86,7 @@ bool genApp::OnInit (void)
   errHandler = new genWxErrorHandler ();
   genError::addErrorHandler (*errHandler);
 
-  gVerboseLevel = 2;
+  gVerboseLevel = 100; // was 2
   gLogLevel = 100;
 
   // Create a document manager

@@ -51,12 +51,12 @@ pdf::findObject (int number, int generation, object & obj)
 	  (m_objects[i].getGeneration () == generation))
 	{
 	  obj = m_objects[i];
-	  debug(dlTrace, "Found");
+	  debug(dlTrace, "Found in pdf::findObject(objectreference)");
 	  return true;
 	}
     }
 
-  debug(dlTrace, "Not found");
+  debug(dlTrace, "Not found in pdf::findObject(objectreference)");
   return false;
 }
 
@@ -70,12 +70,12 @@ pdf::findObject (dictitem::diType type, string dname, string dvalue,
       if (m_objects[i].hasDictItem (type, dname, dvalue))
 	{
 	    obj = m_objects[i];
-	    debug(dlTrace, "Found");
+	    debug(dlTrace, "Found in pdf::findObject(object)");
 	    return true;
 	}
     }
 
-  debug(dlTrace, "Not found");
+  debug(dlTrace, "Not found in pdf::findObject(object)");
   return false;
 }
 
@@ -93,6 +93,7 @@ pdf::getPages ()
 
     // Find the catalog -- I could probably miss this step, but it seems like
     // a good idea for now...
+    debug(dlTrace, "Extracting the catalog");
     object & catalog = foo;
     if (!findObject (dictitem::diTypeName, "Type", "Catalog", catalog))
       {

@@ -48,12 +48,12 @@ dictionary::findItem (string dname, dictitem & item)
       if (m_items[i].getName () == dname)
 	{
 	  item = m_items[i];
-	  debug(dlTrace, "Found");
+	  debug(dlTrace, "Found in dictionary::findItem");
 	  return true;
 	}
     }
 
-  debug(dlTrace, "Not found");
+  debug(dlTrace, "Not found in dictionary::findItem");
   return false;
 }
 
@@ -66,13 +66,13 @@ dictionary::getValue (string dname, pdf & thePDF, object & obj)
     debug(dlTrace, string("Compare with: ") + m_items[i].getName());
     if (m_items[i].getName () == dname)
       {
-	debug(dlTrace, "Found");
+	debug(dlTrace, "Found in dictionary::getValue(object)");
 	return thePDF.findObject (m_items[i].getIntValue (),
 				  m_items[i].getGeneration (), obj);
       }
   }
 
-  debug(dlTrace, "Not found");
+  debug(dlTrace, "Not found in dictionary::getValue(object)");
   return false;
 }
 
@@ -85,13 +85,13 @@ dictionary::getValue (string dname, string & value)
     debug(dlTrace, string("Compare with: ") + m_items[i].getName());
     if (m_items[i].getName () == dname)
       {
-	debug(dlTrace, "Found");
+	debug(dlTrace, "Found in dictionary::getValue(string)");
 	value = m_items[i].getStringValue ();
 	return true;
       }
   }
 
-  debug(dlTrace, "Not found");
+  debug(dlTrace, "Not found in dictionary::getValue(string)");
   return false;
 }
 
@@ -104,13 +104,13 @@ dictionary::getValue (string dname, int &value)
     debug(dlTrace, string("Compare with: ") + m_items[i].getName());
     if (m_items[i].getName () == dname)
       {
-	debug(dlTrace, "Found");
+	debug(dlTrace, "Found in dictionary::getValue(int)");
 	value = m_items[i].getIntValue ();
 	return true;
       }
   }
 
-  debug(dlTrace, "Not found");
+  debug(dlTrace, "Not found in dictionary::getValue(int)");
   return false;
 }
 
@@ -123,13 +123,13 @@ dictionary::getValue (string dname, dictionary & value)
     debug(dlTrace, string("Compare with: ") + m_items[i].getName());
     if (m_items[i].getName () == dname)
       {
-	debug(dlTrace, "Found");
+	debug(dlTrace, "Found in dictionary::getValue(dictionary)");
 	value = m_items[i].getDictionaryValue ();
 	return true;
       }
   }
 
-  debug(dlTrace, "Not found");
+  debug(dlTrace, "Not found in dictionary::getValue(dictionary)");
   return false;
 }
 
@@ -142,7 +142,7 @@ dictionary::getValue (string dname, pdf &thePDF, objectlist & objs)
     debug(dlTrace, string("Compare with: ") + m_items[i].getName());
     if (m_items[i].getName () == dname)
       {
-	debug(dlTrace, "Found");
+	debug(dlTrace, "Found in dictionary::getValue(objectlist)");
 
 	switch(m_items[i].getType()){
 	case dictitem::diTypeObjectReference:
@@ -162,7 +162,7 @@ dictionary::getValue (string dname, pdf &thePDF, objectlist & objs)
       }
   }
 
-  debug(dlTrace, "Not found");
+  debug(dlTrace, "Not found in dictionary::getValue(objectlist)");
   return false;
 }
 

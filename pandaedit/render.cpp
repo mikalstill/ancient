@@ -46,6 +46,17 @@ m_pageno (-1)
 bool
 pdfRender::render ()
 {
+  if((m_page.getCommandCount() == 0) && !parseStream())
+    {
+      return false;
+    }
+
+  processCommandString(m_pages.getCommandStream(), false);
+}
+
+bool
+pdfRender::parseStream ()
+{
   // Find the size of the page and setup a plot
   // todo_mikal: fix this
   debug(dlTrace, "Commence render");
@@ -101,26 +112,7 @@ pdfRender::processContentsObject(const object& contents){
     return false;
   }
 
-  // todo_mikal: this might be too slow because of the accessor
-  string line;
-  inset = 0;
-  m_commandString = "";
-  while (inset < length)
-    {
-      if ((stream[inset] != '\n') && (stream[inset] != '\r'))
-	{
-	  line += stream[inset];
-	}
-      else
-	{
-	  // Process the line
-	  debug(dlTrace, string("Process line \"") + line + string("\""));
-	  processLine (line);
-	  line = "";
-	}
-
-      inset++;
-    }
+  processCommandString(stream, true);
 
   if (needStreamClean)
     delete[]stream;
@@ -128,7 +120,32 @@ pdfRender::processContentsObject(const object& contents){
 }
 
 void
-pdfRender::processLine (string line)
+pdfRender::processCommandString(string commandString, bool parsing)
+{
+  // todo_mikal: this might be too slow because of the accessor
+  string line;
+  unsigned int inset = 0;
+  m_commandString = "";
+  while (inset < commandString.length())
+    {
+      if ((commandString[inset] != '\n') && (commandString[inset] != '\r'))
+	{
+	  line += commandString[inset];
+	}
+      else
+	{
+	  // Process the line
+	  debug(dlTrace, string("Process line \"") + line + string("\""));
+	  processLine (line, parsing);
+	  line = "";
+	}
+
+      inset++;
+    }
+}
+
+void
+pdfRender::processLine (string line, bool parsing)
 {
   if (line.length () < 1)
     {
@@ -171,86 +188,86 @@ pdfRender::processLine (string line)
 	pushArguement (tokens[i]);
 
       else if ("b" == tokens[i])
-	command_b ();
+	parsing ? command_b () : render_b();
       else if ("b*" == tokens[i])
-	command_bstar ();
+	parsing ? command_bstar () : render_bstar();
       else if ("B" == tokens[i])
-	command_B ();
+	parsing ? command_B () : render_B();
       else if ("B*" == tokens[i])
-	command_Bstar ();
+	parsing ? command_Bstar () : render_Bstar();
       else if ("BT" == tokens[i])
-	command_BT ();
+	parsing ? command_BT () : render_BT();
 
       else if ("c" == tokens[i])
-	command_c ();
+	parsing ? command_c () : render_c();
       else if ("cm" == tokens[i])
-	command_cm ();
+	parsing ? command_cm () : render_cm();
 
       else if ("Do" == tokens[i])
-	command_Do ();
+	parsing ? command_Do () : render_Do();
 
       else if ("ET" == tokens[i])
-	command_ET ();
+	parsing ? command_ET () : render_ET();
 
       else if ("f" == tokens[i])
-	command_f ();
+	parsing ? command_f () : render_f();
       else if ("f*" == tokens[i])
-	command_fstar ();
+	parsing ? command_fstar () : render_fstar();
       else if ("F" == tokens[i])
-	command_F ();
+	parsing ? command_F () : render_F();
 
       else if ("g" == tokens[i])
-	command_g ();
+	parsing ? command_g () : render_g();
       else if ("G" == tokens[i])
-	command_G ();
+	parsing ? command_G () : render_G();
 
       else if ("h" == tokens[i])
-	command_h ();
+	parsing ? command_h () : render_h();
 
       else if ("l" == tokens[i])
-	command_l ();
+	parsing ? command_l () : render_l();
 
       else if ("m" == tokens[i])
-	command_m ();
+	parsing ? command_m () : render_m();
 
       else if ("q" == tokens[i])
-	command_q ();
+	parsing ? command_q () : render_q();
       else if ("Q" == tokens[i])
-	command_Q ();
+	parsing ? command_Q () : render_Q();
 
       else if ("re" == tokens[i])
-	command_re ();
+	parsing ? command_re () : render_re();
       else if ("rg" == tokens[i])
-	command_rg ();
+	parsing ? command_rg () : render_rg();
       else if ("RG" == tokens[i])
-	command_RG ();
+	parsing ? command_RG () : render_RG();
 
       else if ("S" == tokens[i])
-	command_S ();
+	parsing ? command_S () : render_S();
 
       else if ("Td" == tokens[i])
-	command_Td ();
+	parsing ? command_Td () : render_Td();
       else if ("TD" == tokens[i])
-	command_TD ();
+	parsing ? command_TD () : render_TD();
       else if ("Tf" == tokens[i])
-	command_Tf ();
+	parsing ? command_Tf () : render_Tf();
       else if ("Tj" == tokens[i])
-	command_Tj ();
+	parsing ? command_Tj () : render_Tj();
       else if ("TL" == tokens[i])
-	command_TL ();
+	parsing ? command_TL () : render_TL();
       else if ("Tm" == tokens[i])
-	command_Tm ();
+	parsing ? command_Tm () : render_Tm();
       else if ("Tr" == tokens[i])
-	command_Tr ();
+	parsing ? command_Tr () : render_Tr();
 
       else if ("v" == tokens[i])
-	command_v ();
+	parsing ? command_v () : render_v();
 
       else if ("w" == tokens[i])
-	command_w ();
+	parsing ? command_w () : render_w();
 
       else if ("y" == tokens[i])
-	command_y ();
+	parsing ? command_y () : render_y();
 
       else
 	debug(dlInformational, string("Dropped token ") + tokens[i]);
@@ -366,5 +383,5 @@ pdfRender::getPNGfile ()
 void
 pdfRender::appendCommand(string commandString)
 {
-  debug(dlTrace, "Implement append command");
+  m_page.appendCommand(commandString);
 }

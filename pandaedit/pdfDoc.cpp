@@ -213,6 +213,34 @@ pdfDoc::appendPage()
       m_pdf = new pdf();
     }
 
+  // We might also not have a catalog
+  object foo(objNumNoSuch, objNumNoSuch);
+  object & catalog = foo;
+  if (!m_pdf->findObject (dictitem::diTypeName, "Type", "Catalog", catalog))
+    {
+      debug(dlTrace, "Adding a new catalog and pages object to the PDF");
+      object newpages(objNumAppended, objNumAppended);
+      {
+	dictitem di(dictitem::diTypeName, "Type", m_pdf);
+	di.setValue("Pages");
+	newpages.getDict().add(di);
+      }
+      m_pdf->addObject(newpages);
+
+      object newcatalog(objNumAppended, objNumAppended);
+      {
+	dictitem di(dictitem::diTypeObjectReference, "Pages", m_pdf);
+	di.setValue(newpages.getNumber(), newpages.getGeneration());
+	newcatalog.getDict().add(di);
+      }
+      {
+	dictitem di(dictitem::diTypeName, "Type", m_pdf);
+	di.setValue("Catalog");
+	newpages.getDict().add(di);
+      }
+      m_pdf->addObject(newcatalog);      
+    }
+
   object newpage(objNumAppended, objNumAppended);
   m_pdf->addObject(newpage);
   m_pages.push_back(newpage, m_pdf);

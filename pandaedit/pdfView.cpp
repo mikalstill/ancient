@@ -183,9 +183,10 @@ pdfView::populatePageFromPDF(pdf *thePDF, string& filename)
     
     // Find the catalog -- I could probably miss this step, but it seems like
     // a good idea for now...
+    debug(dlTrace, "Extracting the catalog");
     object& catalog = foo;
     if(!thePDF->findObject(dictitem::diTypeName, "Type", "Catalog", catalog)){
-      debug(dlError, "Bad PDF: No catalog");
+      debug(dlError, "Bad PDF document: No catalog");
       exit(1);
     }
     

@@ -130,7 +130,9 @@ public:
   unsigned long getStreamLength ();
 
   void appendCommand(string commandString);
-
+  unsigned int getCommandCount();
+  string getCommandStream();
+  
 private:
   char *applyFilter(string filter, char *instream, unsigned long inlength, 
 		    unsigned long& length);

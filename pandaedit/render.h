@@ -13,14 +13,16 @@ class pdfRender
 public:
   pdfRender (pdf & thePDF, object page, object pages, int pageno);
   bool render ();
+  bool parseStream ();
   string getPNGfile ();
 
 private:
   pdfRender (const pdfRender & other);
   
   bool processContentsObject(const object &obj);
-  
-  void processLine (string line);
+  void processCommandString(string commandString, bool parsing);
+
+  void processLine (string line, bool parsing);
   void pushArguement (string arg);
 
   // Commands group up drawing operations, and push them onto the drawing
