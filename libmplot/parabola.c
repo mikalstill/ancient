@@ -18,7 +18,7 @@
 
 #include <stdio.h>
 #include <png.h>
-#include <libplot.h>
+#include <libmplot.h>
 
 int
 main (int argc, char *argv[])
