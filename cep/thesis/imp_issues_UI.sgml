@@ -60,9 +60,9 @@ Sun Microsystems have recently announced that from Solaris 8 onwards, Gnome will
 </figure>
 </sect4>
 
-<sect4><title>Microsoft Windows (MFC)</title>
+<sect4><title>Microsoft Windows</title>
 <para>
-...
+Whilst not a X windows toolkit, Window's MFC toolkit was considered as a development alternative for <command>GDMS</command>. However, the survey lab does not currently contain an Microsoft Windows machines, so this option was not pursued any further.
 </para>
 
 <figure><title>The Windows XP desktop (Microsoft 2002)</title>
@@ -72,15 +72,20 @@ Sun Microsystems have recently announced that from Solaris 8 onwards, Gnome will
 
 <sect4><title>wxWindows</title>
 <para>
-...
+Whilst wxWindows is not a window manager in the same sense as all the other window managers discussed in this section, it has a variety of advantages relevant to <command>GDMS</command>. These include:
 </para>
+
+<itemizedlist>
+<listitem><para><emphasis>The ability to use a variety of windowing toolkits</emphasis>. wxWindows supports GTK and Motif for Unix and Unix-like operating systems. Windows is also supported.</para></listitem>
+<listitem><para><emphasis>Cross platform functionality</emphasis>. This allows <command>GDMS</command> to run on a variety of Unix and Unix-like operating systems.</para></listitem>
+</itemizedlist>
 </sect4>
 
 </sect3>
 
 <sect3><title>Windowing toolkit selection</title>
 <para>
-...
+Based on the factors outlined above, the group selected wxWindows for the user interface implementation of <command>GDMS</command>.
 </para>
 
 <para>
@@ -164,6 +169,10 @@ This grammar defines a language in which a SQL statement can consist of either a
 <para>
 It should also be noted that the sql production is recursive, except for this case which matches the empty line or end of file.
 </para>
+
+<para>
+TODO C++ integration issues
+</para>
 </sect4>
 
 <sect4><title>Hand coded parsers</title>
@@ -200,10 +209,19 @@ Further documentation of the actual functionality available in the <command>GDMS
 </sect3> <!--Integration-->
 
 
-  <sect3><title>Future Enahncements</title>
-  <para>
-  </para>
-  </sect3> <!--Future Enahncements-->
+<sect3><title>Future Enahncements</title>
+<para>
+Whilst the user interface for <command>GDMS</command> is fully functional, there are a variety of improvements which could be made in the future. These include:
+</para>
+
+<itemizedlist>
+<listitem><para><emphasis>Online help</emphasis>: the application does not currently provide any help in the user interface. wxWindows supports the easy display of HTML files within windows, which would be a good technique for implementing online help within the application.</para></listitem>
+<listitem><para>TODO</para></listitem>
+<listitem><para>TODO</para></listitem>
+<listitem><para>TODO</para></listitem>
+<listitem><para>TODO</para></listitem>
+</itemizedlist>
+</sect3> <!--Future Enahncements-->
 
 
 </sect2> <!--UI-->
