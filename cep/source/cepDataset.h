@@ -3,6 +3,7 @@
  *   Imp for the CEP dataset
  *   Copyright (C) Michael Still                    2002
  *   Copyright (C) Daniel Fernandez                 2002
+ *   Copyright (C) Kristy Van Der Vlist             2002
  *   
  *   This program is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -75,11 +76,11 @@ public:
 
   // Filename is the "root filename" e.g. mb_ANKR_GPS
   // I append the .dat1, .dat2 and .dat3 myself...
-  cepDataset (const string & filename);
-  cepDataset (const string & filename, const cepDatasetProgressCB callback);
+  cepDataset ();
+  cepDataset (const cepDatasetProgressCB callback);
 
   // Actually process the file
-  cepError munch ();
+  cepError read(const string& filename);
   bool isReady();
   bool isWellFormed();
 

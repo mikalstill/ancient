@@ -40,6 +40,7 @@
 
 #include "wx/docview.h"
 #include "cepWxErrorHandler.h"
+#include "cepTextErrorHandler.h"
 
 class cepCanvas:public wxScrolledWindow
 {
@@ -123,7 +124,7 @@ private:
   bool m_plotfailed;
   cepLsDisplay m_displayLs;
   cepConfiguration *m_config;
-  cepWxErrorHandler *errHandler;
+  cepErrorHandler *errHandler;
 
   cepMatrix<double> *m_x, *m_y, *m_z;
 };

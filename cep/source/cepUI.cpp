@@ -276,33 +276,41 @@ cepApp::OnInit (void)
     m_docManager->CreateDocument(string(filename + ".dat1").c_str(), 
 				 wxDOC_SILENT);
   }
-
+  
   // This might also be a batch execution (no UI displays)
-  if(batchMode && (batchfile != "")){
-    // We need to turn off the wxWindows error mode and do text errors instead
-    
-    // todo_mikal: I need support for removal here...
-    //cepError::removeErrorHandler  
-    errHandler = new cepErrorHandler();
-    cepError::addErrorHandler( *errHandler );
+  if(batchMode){
+    if(batchfile != ""){
+      // We need to turn off the wxWindows error mode and do text errors 
+      // instead
+      
+      // todo_mikal: I need support for removal here...
+      //cepError::removeErrorHandler  
+      errHandler = new cepTextErrorHandler();
+      cepError::addErrorHandler( *errHandler );
+      
+      fstream commands;
+      commands.open(batchfile.c_str(), ios::in);
+      if(!commands){
+	cepError err("Could not open the batch command file: " +
+		     batchfile, cepError::sevErrorFatal);
+	err.display();
+      }
+      
+      //      while(!commands.eof()){
+      //string foo;
+	//	foo << commands;
+      //}
 
-    fstream commands;
-    commands.open(batchfile, ios::in);
-    if(!commands){
-      cepError err("Could not open the batch command file: " +
-		   batchfile, cepError::sevErrorFatal);
+      cepDebugPrint("Finished processing batch command file");
+      exit(0);
+    }
+    else{
+      cepError err("Could must specify a batch filename\n");
       err.display();
     }
-
-    while(!commands.eof()){
-      commands.
-    }
-
-    cepDebugPrint("Finished processing batch command file",
-		  cepError::sevInformational);
-    exit(0);
   }
-  
+    
+    
   return TRUE;
 }
 

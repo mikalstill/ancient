@@ -3,6 +3,7 @@
  *   Imp for the CEP dataset
  *   Copyright (C) Michael Still                    2002
  *   Copyright (C) Daniel Fernandez                 2002
+ *   Copyright (C) Kristy Van Der Vlist             2002
  *   
  *   This program is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -23,16 +24,16 @@
 
 #include "cepDataset.h"
 
-cepDataset::cepDataset (const string & filename):
-  m_filename (filename),
+cepDataset::cepDataset ():
+  m_filename(""),
   m_ready(false),
   m_wellformed(false)
 {
   m_progress = NULL;
 }
 
-cepDataset::cepDataset (const string & filename, cepDatasetProgressCB callback):
-  m_filename (filename),
+cepDataset::cepDataset (cepDatasetProgressCB callback):
+  m_filename (""),
   m_ready(false),
   m_wellformed(false)
 {
@@ -40,10 +41,12 @@ cepDataset::cepDataset (const string & filename, cepDatasetProgressCB callback):
 }
 
 
-cepError cepDataset::munch ()
+cepError cepDataset::read (const string& filename)
 {
+  m_filename = filename;
+
   // Step One: ensure that all of the files we need are actually there,
-  // it would be crap to read two of the three files, and _then_ report
+  // it would be bad to read two of the three files, and _then_ report
   // an error...
   fstream files[3];
   long numLines;

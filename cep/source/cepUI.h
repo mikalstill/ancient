@@ -39,6 +39,7 @@
 #include <wx/image.h>
 #include "cepCore.h"
 #include "cepWxErrorHandler.h"
+#include "cepTextErrorHandler.h"
 #include "cepEliminateDialog.h"
 
 class wxDocManager;
@@ -84,7 +85,7 @@ public:
 
 protected:
   cepConfiguration *m_config;
-  cepWxErrorHandler *errHandler;
+  cepErrorHandler *errHandler;
 };
 
 extern cepFrame *

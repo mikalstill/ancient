@@ -103,9 +103,9 @@ wxInputStream & cepDoc::LoadObject (wxInputStream & stream)
   wxString filename = GetFilename ();
   string parentFilename = filename.substr (0, filename.length () - 5).c_str ();
 
-  m_dataset = new cepDataset (parentFilename, ds_progressCallback);
+  m_dataset = new cepDataset (ds_progressCallback);
   cepDebugPrint ("Starting to load the dataset now");
-  cepError loadErr = m_dataset->munch ();
+  cepError loadErr = m_dataset->read (parentFilename);
 
   // A load error here will magically cause the view to be abandoned the first
   // time OnDraw() is called. Fear not that it isn't closed here...
