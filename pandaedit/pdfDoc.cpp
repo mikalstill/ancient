@@ -275,6 +275,31 @@ pdfDoc::appendCommand(int pageNum, object::commandType type,
 }
 
 void
+pdfDoc::rewriteCommand(int pageNum, int index, object::commandType type, 
+		      vector<wxPoint> points)
+{
+  while(pageNum >= m_pages.size())
+    {
+      debug(dlError, "Rewriting a command on a non existant page?");
+      appendPage();
+    }
+
+  m_pages[pageNum].rewriteCommand(index, type, points);
+}
+
+vector<wxPoint>
+pdfDoc::getCommand(int pageNum, int index, object::commandType & type)
+{
+  while(pageNum >= m_pages.size())
+    {
+      debug(dlError, "Getting a command from a non existant page?");
+      appendPage();
+    }
+
+  return m_pages[pageNum].getCommand(index, type);
+}
+
+void
 pdfDoc::setHeight(int pageNum, int height)
 {
   while(pageNum >= m_pages.size())

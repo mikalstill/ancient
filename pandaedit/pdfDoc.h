@@ -64,6 +64,10 @@ DECLARE_DYNAMIC_CLASS (pdfDoc)
   string getFilename();
   void appendCommand(int pageNum, object::commandType type, 
 		     vector<wxPoint> points);
+  void rewriteCommand(int pageNum, int index, object::commandType type, 
+		      vector<wxPoint> points);
+  vector<wxPoint> getCommand(int pageNum, int index, 
+			     object::commandType & type);
   void setHeight(int pageNum, int height);
   void appendPage();
 

@@ -438,6 +438,34 @@ pdfView::appendCommand(object::commandType type, vector<wxPoint> points)
 }
 
 void
+pdfView::rewriteCommand(int index, object::commandType type, 
+			vector<wxPoint> points)
+{
+  pdfDoc *theDoc = (pdfDoc *) GetDocument ();
+  if(!theDoc->isReady()){
+    debug(dlTrace, 
+	  "Drawing command modification ignored because PDF document not ready");
+    return;
+  }
+
+  theDoc->rewriteCommand(m_page, index, type, points);
+}
+
+vector<wxPoint>
+pdfView::getCommand(int index, object::commandType & type)
+{
+  pdfDoc *theDoc = (pdfDoc *) GetDocument ();
+  if(!theDoc->isReady()){
+    vector<wxPoint> none;
+    debug(dlTrace, 
+	  "Drawing command lookup ignored because PDF document not ready");
+    return none;
+  }
+
+  return theDoc->getCommand(m_page, index, type);
+}
+
+void
 pdfView::setHeight(int height)
 {
   pdfDoc *theDoc = (pdfDoc *) GetDocument ();

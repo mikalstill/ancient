@@ -71,7 +71,9 @@ genCanvas::genCanvas (wxView * v, wxFrame * frame, const wxPoint & pos,
 		      const wxSize & size, long style):
   wxScrolledWindow (frame, -1, pos, size, style),
   m_view (v),
-  m_frame (frame)
+  m_frame (frame),
+  m_editting(false),
+  m_editTarget(-1)
 {
 }
 
@@ -101,7 +103,8 @@ genCanvas::OnMouseEvent (wxMouseEvent & event)
   if(pt.y > m_height)
     return;
 
-  // Find out if we're over an object
+  // Find out if we're over an object, and process a selection event if there
+  // is one
   string over("");
   char *selRaster;
   if(m_view && ((selRaster = ((pdfView *) m_view)->getSelectRaster()) != NULL))
@@ -113,6 +116,24 @@ genCanvas::OnMouseEvent (wxMouseEvent & event)
 			       selRaster[inset + 2]);
       if(demangled < 16777215)
 	{
+	  // Selection event
+	  if(event.RightIsDown())
+	    {
+	      endTool();
+
+	      // TODO mikal: we don't use the command type here...
+	      object::commandType type;
+	      m_controlPoints = ((pdfView *) m_view)->getCommand(demangled - 1,
+								 type);
+	      debug(dlTrace, string("User selected object ") +
+		    toString(demangled));
+	      debug(dlTrace, string("Number of selected control points: ") +
+		    toString(m_controlPoints.size()));
+	      over += " selection";
+	      m_editting = true;
+	      m_editTarget = demangled - 1;
+	    }
+
 	  over += string(" over object id ") + toString(demangled);
 	  ((pdfView *) m_view)->setHoverTarget(demangled);
 	}
@@ -122,7 +143,6 @@ genCanvas::OnMouseEvent (wxMouseEvent & event)
 
   // If we're snapping to a grid, find the closest grid point, and change to
   // that
-  // TODO mikal: should snap be used for object selection as well?
   configuration *config;
   bool gridSnap;
   config = (configuration *) & configuration::getInstance ();
@@ -147,22 +167,11 @@ genCanvas::OnMouseEvent (wxMouseEvent & event)
  
   // End the current instance of a tool, but not the tool
   if(event.LeftIsDown() && event.ControlDown())
-    {
-      debug(dlTrace, "Tool instance ended, tool still selected");
-      if(m_view)
-	{
-	  ((pdfView *) m_view)->setHeight(m_height);
-	  ((pdfView *) m_view)->appendCommand(object::cLine,
-					      m_controlPoints);
-	  ((pdfView *) m_view)->setDirty();
-	  Refresh();
-	}
-      m_controlPoints.clear();
-    }
+    endTool();
   
   // Continue with the current tool
   else if(event.LeftIsDown())
-  {
+    {
       // This sets the device context so that our drawing causes an inversion, 
       // lines are drawn with black, and polygons are filled with black.
       dc.SetLogicalFunction (wxINVERT);
@@ -191,4 +200,33 @@ genCanvas::setWidth(int width)
 {
   debug(dlTrace, string("Canvas width set to: ") + toString(width));
   m_width = width;
+}
+
+void
+genCanvas::endTool()
+{
+  debug(dlTrace, "Tool instance ended, tool still selected");
+  if(m_controlPoints.size() == 0)
+    return;
+
+  if(m_view)
+    {
+      if(!m_editting)
+	{
+	  ((pdfView *) m_view)->setHeight(m_height);
+	  ((pdfView *) m_view)->appendCommand(object::cLine,
+					      m_controlPoints);
+	}
+      else
+	{
+	  ((pdfView *) m_view)->rewriteCommand(m_editTarget,
+					       object::cLine,
+					       m_controlPoints);
+	  m_editting = false;
+	  m_editTarget = -1;
+	}
+      ((pdfView *) m_view)->setDirty();
+      Refresh();
+    }
+  m_controlPoints.clear();
 }

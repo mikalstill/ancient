@@ -149,10 +149,14 @@ public:
   unsigned long getStreamLength ();
 
   void appendCommand(commandType type, vector<wxPoint> controlPoints);
+  void rewriteCommand(int index, commandType type, 
+		      vector<wxPoint> controlPoints);
+
   unsigned int getCommandCount();
   string getCommandStream(int index);
   vector<wxPoint> getCommand(int index, commandType & type);
   int getCommandId(int index);
+
   void setHeight(int height);
 
 private:

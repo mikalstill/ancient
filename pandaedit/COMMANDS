@@ -1,9 +1,14 @@
 PandaEdit has a variety of different tools. All of these have behaviour which is at least loosely modelled on the Adobe Illustrator behaviour I love so much. This file describes the commands which have been implemented so far.
 
+COMMON COMMANDS
+---------------
+
+Right click while hovering over an object to select that object. This will make the control points appear.
+
 LINE TOOL
 ---------
 
-When I first started using Illustrator, it took me about an hour to work out how to draw a straight line -- a seemingly simple task. It turns out to be a special case of the bezier curve tool. PandaEdit avoids all of this by implementing a line drawing tool (called 'line' in the command list). The following bevaiours are implemented:
+When I first started using Illustrator, it took me about an hour to work out how to draw a straight line -- a seemingly simple task. It turns out to be a special case of the bezier curve tool. PandaEdit avoids all of this by implementing a line drawing tool (called 'line' in the command list). The following behaviours are implemented:
 
  - click with left mouse button: draw a straight line from the previous point to here. If this is the first point, then simply turn on a single pixel.
 

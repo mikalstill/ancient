@@ -1,5 +1,5 @@
 /* 
- *   Canvas for the CEP program
+ *   Canvas PandaEdit
  *   Copyright (C) Michael Still                    2002
  *
  *   Based on a demo which originally had this notice:
@@ -53,11 +53,15 @@ public:
   wxView *m_view;
 
 private:
+  void endTool();
+
   DECLARE_EVENT_TABLE () 
 
   wxFrame *m_frame;
   vector<wxPoint> m_controlPoints;
   int m_height;
+  bool m_editting;
+  int m_editTarget;
 };
 
 #endif

@@ -371,6 +371,18 @@ object::appendCommand(commandType cType, vector<wxPoint> controlPoints)
   m_changed = true;
 }
 
+void
+object::rewriteCommand(int index, commandType cType, 
+		       vector<wxPoint> controlPoints)
+{
+  if(index >= m_commands.size())
+    return;
+
+  m_commands[index].controlPoints = controlPoints;
+  m_commands[index].type = cType;
+  m_changed = true;
+}
+
 unsigned int
 object::getCommandCount()
 {
@@ -426,7 +438,10 @@ object::getCommand(int index, commandType & type)
   vector<wxPoint> none;
 
   if(index >= m_commands.size())
-    return none;
+    {
+      debug(dlTrace, "Request for a command which is out of range");
+      return none;
+    }
 
   type = (commandType) m_commands[index].type;
   return m_commands[index].controlPoints;
