@@ -222,11 +222,18 @@ cepPresentation::createBitmap ()
     yscale = ((float) (m_ymaxval - m_yminval)) / ((float) m_height);
 
     // Draw error bars so they appear under the data points
+    cepDebugPrint("Drawing error bars");
     plot_setlinecolor (graph, m_errorColor.red, m_errorColor.green, 
 		       m_errorColor.blue);
     for (unsigned int i = 0; i < m_data.size (); i++)
       {
 	if (m_data[i] != INVALID){
+	  cepDebugPrint("Error line for point: " +
+			cepToString(i) + " error " + cepToString(m_errors[i]) +
+			" results in vertical range from: "+
+			cepToString(m_data[i] - m_errors[i] - m_yminval) + " to " +
+			cepToString(m_data[i] + m_errors[i] - m_yminval));
+			
 	  plot_setlinestart (graph, i + 10, 
 			     (unsigned int) (m_height - 
 					     (((m_data[i] - m_errors[i]) - 
@@ -242,6 +249,7 @@ cepPresentation::createBitmap ()
       }
 
     // Draw the data points
+    cepDebugPrint("Drawing data points");
     plot_setlinecolor (graph, m_lineColor.red, m_lineColor.green, 
 		       m_lineColor.blue);
     for (unsigned int i = 0; i < m_data.size (); i++)
