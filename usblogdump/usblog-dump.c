@@ -66,6 +66,9 @@ typedef struct usb_internal_allurbs
 
   char *desc;
   char *md5;
+
+  // Information about the URB
+  int endpoint;
 }
 usb_allurbs;
 
@@ -178,8 +181,6 @@ main (int argc, char *argv[])
 	}
 
       temp = fileutil_getuinteger (file, &filep);
-      //printf("URB %d starts at %d within file\n", urbCount, filep);
-      //printf("Sequence: %u\n", temp);
       urbhead[urbCount].number = urbCount;
       urbhead[urbCount].filep = filep;
       urbhead[urbCount].sequence = temp;
@@ -193,7 +194,9 @@ main (int argc, char *argv[])
       urbhead[urbCount].time =
 	fileutil_getuinteger (file, &filep) - tsrelative;
 
-      urb_printf ("Endpoint: %d\n", fileutil_getnumber (file, &filep));
+      urbhead[urbCount].endpoint = fileutil_getnumber (file, &filep);
+      urb_printf ("Endpoint: %d%s\n", urbhead[urbCount].endpoint,
+		  urbhead[urbCount].endpoint == 0 ? " (default)" : "");
       urb_printf ("Pipe handle: 0x%08x\n",
 		  fileutil_getuinteger (file, &filep));
       urb_printf ("Flags: %d\n", fileutil_getuinteger (file, &filep));
@@ -219,6 +222,8 @@ main (int argc, char *argv[])
       switch (function)
 	{
 	case 0x0:
+	  // SELECT_CONFIGURATION
+
 	  // usb_urb_header(file, &filep);
 	  filep += USB_URB_HEADER_LENGTH;
 	  // Skipped usb configuration description pointer
@@ -243,20 +248,27 @@ main (int argc, char *argv[])
 	  break;
 
 	case 0x1:
+	  // SELECT_INTERFACE
+
 	  // TODO mikal: should I decode this?
 	  temp = fileutil_getnumber (file, &filep);
 	  urb_printf ("Interface size: %d\n", temp);
 	  filep += temp;
 	  urb_printf ("\n");
+	  urb_printf ("TODO: implement decoding\n");
 	  break;
 
 	case 0x2:
+	  // ABORT_PIPE
 	case 0x7:
+	  // GET_CURRENT_FRAME_NUMBER
 	case 0xB:
-	  // Do nothing
+	  // GET_DESCRIPTOR_FROM_DEVICE
 	  break;
 
 	case 0x8:
+	  // CONTROL_TRANSFER
+
 	  psize = fileutil_getuinteger (file, &filep);
 	  urb_printf ("Transfer size: %d\n", psize);
 
@@ -280,6 +292,8 @@ main (int argc, char *argv[])
 	  break;
 
 	case 0xA:
+	  // ISOCH_TRANSFER
+
 	  temp = fileutil_getnumber (file, &filep);
 	  urb_printf ("ISOCH transfer length: %d\n", temp);
 	  urb_printf ("ISOCH transfer: ");
@@ -310,17 +324,26 @@ main (int argc, char *argv[])
 	  break;
 
 	case 0x17:
+	  // VENDOR_DEVICE
 	case 0x1B:
+	  // CLASS_INTERFACE
 	case 0x1C:
+	  // CLASS_ENDPOINT
 	case 0x20:
+	  // VENDOR_OTHER
 	case 0x22:
+	  // CLEAR_FEATURE_TO_OTHER
+
 	  if ((temp = fileutil_getinteger (file, &filep)) != 0)
 	    {
 	      urb_printf ("Transfer length: %d\n", temp);
 
 	      // 0 indicates no data present
 	      if (fileutil_getnumber (file, &filep) != 0)
-		filep += temp;
+		{
+		  filep += temp;
+		  urb_printf ("TODO: Implementing decoding\n");
+		}
 	    }
 	  urb_printf ("\n");
 
@@ -330,7 +353,7 @@ main (int argc, char *argv[])
 	  break;
 
 	case 0x1E:
-	  // Do nothing?
+	  // RESET_PIPE
 	  break;
 
 	default:
@@ -352,7 +375,10 @@ main (int argc, char *argv[])
 
       // Finish up if we aborted this URB
       if (urbhead[urbCount].abend == 1)
-	urbCount = npackets + 1;
+	{
+	  urbCount = npackets + 1;
+	  do_suppress = 0;
+	}
 
       // Reset the URB buffer
       urb_buffer = NULL;
@@ -404,12 +430,12 @@ main (int argc, char *argv[])
   // And now we should display the urbs
   for (urbCount = 0; urbCount < npackets; urbCount++)
     {
-      printf ("\n-----------------\nURB %d\n", urbCount);
-      printf ("Number: %d\n", urbhead[urbCount].number);
-      printf ("Offset within dumpfile: %d\n", urbhead[urbCount].filep);
-      printf ("Sequence: %d\n", urbhead[urbCount].sequence);
-      printf ("Relative time: %d\n", urbhead[urbCount].time);
-      printf ("Reallocs: %d\n", urbhead[urbCount].reallocs);
+      printf ("\n"
+	      "---------------------------------------------------------\n"
+	      "URB %d, number %d, offset %d, sequence %d, time %d, allocs %d\n",
+	      urbCount, urbhead[urbCount].number, urbhead[urbCount].filep, 
+	      urbhead[urbCount].sequence, urbhead[urbCount].time, 
+	      urbhead[urbCount].reallocs);
       if (urbhead[urbCount].desc != NULL)
 	{
 	  printf ("MD5 hash: ");
@@ -510,7 +536,8 @@ void
 usb_urb_controltransfer (char *file, long long *filep)
 {
   long long count = *filep;
-  int i;
+  int type, req, val, idx, len;
+  int stdreq = 0, endval = 0, ifaceval = 0;
 
   urb_printf ("URB control transfer:\n");
   // Skipped pipe handle pointer
@@ -529,12 +556,91 @@ usb_urb_controltransfer (char *file, long long *filep)
   // usb_urb_hcd(file, &count);
   count += USB_URB_HCD_LENGTH;
 
-  urb_printf ("Setup packet: ");
-  for (i = 0; i < 8; i++)
+  // Decode a setup packet
+  // TODO: I have just written this, and need to desk check that it is correct
+  urb_printf ("Setup packet:\n");
+  type = (unsigned char) file[count++];
+  req = (unsigned char) file[count++];
+  val = fileutil_getshort(file, &count);
+  idx = fileutil_getshort(file, &count);
+  len = fileutil_getshort(file, &count);
+
+  urb_printf ("  bmRequestType: 0x%02x (", type);
+  if(((type & 0x80) >> 7) == 1)
+    urb_printf("device-to-host ");
+  else
+    urb_printf("host-to-device ");
+  if(len == 0)
+    urb_printf("[ignored] ");
+
+  switch((type & 0x60) >> 5)
     {
-      urb_printf ("0x%02x ", (unsigned char) file[count++]);
+    case 0:
+      urb_printf("standard ");
+      stdreq = 1;
+      break;
+
+    case 1:
+      urb_printf("class ");
+      break;
+      
+    case 2:
+      urb_printf("vendor ");
+      break;
+
+    case 3:
+      urb_printf("reserved ");
+      break;
     }
-  urb_printf ("\n");
+  switch(type & 0x0F)
+    {
+    case 0:
+      urb_printf("device");
+      break;
+
+    case 1:
+      urb_printf("interface");
+      ifaceval = 1;
+      break;
+      
+    case 2:
+      urb_printf("endpoint");
+      endval = 1;
+      break;
+
+    case 3:
+      urb_printf("other");
+      break;
+
+    default:
+      urb_printf("reserved");
+      break;
+    }
+  urb_printf(")\n");
+
+  urb_printf ("  bRequest: 0x%02x", req);
+  if(stdreq == 1)
+    {
+      
+    }
+  urb_printf("\n");
+
+  urb_printf ("  wValue: 0x%04x (%d)\n", val, val);
+
+  urb_printf ("  wIndex: 0x%04x (%d)", idx, idx);
+  if(endval == 1)
+    {
+      urb_printf(" [%s endpoint %d]",
+		 idx & 0x80 == 0x80 ? "in" : "out",
+		 idx & 0x0F);
+    }
+  else if(ifaceval == 1)
+    {
+      urb_printf(" [interface %d]", idx & 0xFF);
+    }
+  urb_printf("\n");
+
+  urb_printf ("  wLength: 0x%04x (%d)\n", len, len);
 
   *filep = count;
 }
