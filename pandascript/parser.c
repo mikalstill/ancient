@@ -53,124 +53,120 @@
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     PANDA_TEXTANNOTATION = 258,
-     PANDA_FREETEXTANNOTATION = 259,
-     PANDA_LINEANNOTATION = 260,
-     PANDA_INSERTANNOTATION = 261,
-     PANDA_SETLINESTART = 262,
-     PANDA_ADDLINESEGMENT = 263,
-     PANDA_ADDCUBICCURVESEGMENT = 264,
-     PANDA_ADDQUADRATICCURVESEGMENTONE = 265,
-     PANDA_ADDQUADRATICCURVESEGMENTTWO = 266,
-     PANDA_CLOSELINE = 267,
-     PANDA_RECTANGLE = 268,
-     PANDA_ENDLINE = 269,
-     PANDA_STROKELINE = 270,
-     PANDA_FILLLINE = 271,
-     PANDA_SETLINEWIDTH = 272,
-     PANDA_SETLINECAP = 273,
-     PANDA_SETLINEJOIN = 274,
-     PANDA_SETLINEDASH = 275,
-     PANDA_SETFILLCOLOR = 276,
-     PANDA_SETLINECOLOR = 277,
-     PANDA_IMAGEBOX = 278,
-     PANDA_IMAGEBOXROT = 279,
-     PANDA_TEXTBOX = 280,
-     PANDA_TEXTBOXROT = 281,
-     PANDA_TEXTBOXROTALIGN = 282,
-     PANDA_PAGEDURATION = 283,
-     PANDA_TRANSDURATION = 284,
-     PANDA_TRANSSTYLE = 285,
-     PANDA_SETAUTHOR = 286,
-     PANDA_SETCREATOR = 287,
-     PANDA_SETTITLE = 288,
-     PANDA_SETSUBJECT = 289,
-     PANDA_SETKEYWORDS = 290,
-     PANDA_CREATEFONT = 291,
-     PANDA_SETFONT = 292,
-     PANDA_SETFONTSIZE = 293,
-     PANDA_SETFONTMODE = 294,
-     PANDA_SETCHARACTERSPACING = 295,
-     PANDA_SETWORDSPACING = 296,
-     PANDA_SETHORIZONTALSCALING = 297,
-     PANDA_SETLEADING = 298,
-     PANDA_GETFONTMETRIC = 299,
-     PANDA_CLOSE = 300,
-     PANDA_NEWPAGE = 301,
-     PANDA_NEWTEMPLATE = 302,
-     PANDA_HIDETOOLBAR = 303,
-     PANDA_HIDEMENUBAR = 304,
-     PANDA_HIDEWINDOWUI = 305,
-     PANDA_FITWINDOW = 306,
-     PANDA_CENTERWINDOW = 307,
-     PANDA_NFSPAGEMODE = 308,
-     PANDA_FULLSCREEN = 309,
-     PANDA_TEXTDIRECTION = 310,
-     FLOAT = 311,
-     QUOTESTR = 312,
-     ANYTHING = 313,
-     IMGTYPE = 314,
-     INTEGER = 315
+     PANDA_OPEN = 258,
+     PANDA_TEXTANNOTATION = 259,
+     PANDA_FREETEXTANNOTATION = 260,
+     PANDA_LINEANNOTATION = 261,
+     PANDA_INSERTANNOTATION = 262,
+     PANDA_SETLINESTART = 263,
+     PANDA_ADDLINESEGMENT = 264,
+     PANDA_ADDCUBICCURVESEGMENT = 265,
+     PANDA_ADDQUADRATICCURVESEGMENTONE = 266,
+     PANDA_ADDQUADRATICCURVESEGMENTTWO = 267,
+     PANDA_CLOSELINE = 268,
+     PANDA_RECTANGLE = 269,
+     PANDA_ENDLINE = 270,
+     PANDA_STROKELINE = 271,
+     PANDA_FILLLINE = 272,
+     PANDA_SETLINEWIDTH = 273,
+     PANDA_SETLINECAP = 274,
+     PANDA_SETLINEJOIN = 275,
+     PANDA_SETLINEDASH = 276,
+     PANDA_SETFILLCOLOR = 277,
+     PANDA_SETLINECOLOR = 278,
+     PANDA_IMAGEBOX = 279,
+     PANDA_IMAGEBOXROT = 280,
+     PANDA_TEXTBOX = 281,
+     PANDA_TEXTBOXROT = 282,
+     PANDA_TEXTBOXROTALIGN = 283,
+     PANDA_PAGEDURATION = 284,
+     PANDA_TRANSDURATION = 285,
+     PANDA_TRANSSTYLE = 286,
+     PANDA_SETAUTHOR = 287,
+     PANDA_SETCREATOR = 288,
+     PANDA_SETTITLE = 289,
+     PANDA_SETSUBJECT = 290,
+     PANDA_SETKEYWORDS = 291,
+     PANDA_SETFONTSIZE = 292,
+     PANDA_SETFONTMODE = 293,
+     PANDA_SETCHARACTERSPACING = 294,
+     PANDA_SETWORDSPACING = 295,
+     PANDA_SETHORIZONTALSCALING = 296,
+     PANDA_SETLEADING = 297,
+     PANDA_CLOSE = 298,
+     PANDA_NEWPAGE = 299,
+     PANDA_NEWTEMPLATE = 300,
+     PANDA_HIDETOOLBAR = 301,
+     PANDA_HIDEMENUBAR = 302,
+     PANDA_HIDEWINDOWUI = 303,
+     PANDA_FITWINDOW = 304,
+     PANDA_CENTERWINDOW = 305,
+     PANDA_NFSPAGEMODE = 306,
+     PANDA_FULLSCREEN = 307,
+     PANDA_TEXTDIRECTION = 308,
+     FLOAT = 309,
+     QUOTESTR = 310,
+     ANYTHING = 311,
+     IMGTYPE = 312,
+     INTEGER = 313
    };
 #endif
-#define PANDA_TEXTANNOTATION 258
-#define PANDA_FREETEXTANNOTATION 259
-#define PANDA_LINEANNOTATION 260
-#define PANDA_INSERTANNOTATION 261
-#define PANDA_SETLINESTART 262
-#define PANDA_ADDLINESEGMENT 263
-#define PANDA_ADDCUBICCURVESEGMENT 264
-#define PANDA_ADDQUADRATICCURVESEGMENTONE 265
-#define PANDA_ADDQUADRATICCURVESEGMENTTWO 266
-#define PANDA_CLOSELINE 267
-#define PANDA_RECTANGLE 268
-#define PANDA_ENDLINE 269
-#define PANDA_STROKELINE 270
-#define PANDA_FILLLINE 271
-#define PANDA_SETLINEWIDTH 272
-#define PANDA_SETLINECAP 273
-#define PANDA_SETLINEJOIN 274
-#define PANDA_SETLINEDASH 275
-#define PANDA_SETFILLCOLOR 276
-#define PANDA_SETLINECOLOR 277
-#define PANDA_IMAGEBOX 278
-#define PANDA_IMAGEBOXROT 279
-#define PANDA_TEXTBOX 280
-#define PANDA_TEXTBOXROT 281
-#define PANDA_TEXTBOXROTALIGN 282
-#define PANDA_PAGEDURATION 283
-#define PANDA_TRANSDURATION 284
-#define PANDA_TRANSSTYLE 285
-#define PANDA_SETAUTHOR 286
-#define PANDA_SETCREATOR 287
-#define PANDA_SETTITLE 288
-#define PANDA_SETSUBJECT 289
-#define PANDA_SETKEYWORDS 290
-#define PANDA_CREATEFONT 291
-#define PANDA_SETFONT 292
-#define PANDA_SETFONTSIZE 293
-#define PANDA_SETFONTMODE 294
-#define PANDA_SETCHARACTERSPACING 295
-#define PANDA_SETWORDSPACING 296
-#define PANDA_SETHORIZONTALSCALING 297
-#define PANDA_SETLEADING 298
-#define PANDA_GETFONTMETRIC 299
-#define PANDA_CLOSE 300
-#define PANDA_NEWPAGE 301
-#define PANDA_NEWTEMPLATE 302
-#define PANDA_HIDETOOLBAR 303
-#define PANDA_HIDEMENUBAR 304
-#define PANDA_HIDEWINDOWUI 305
-#define PANDA_FITWINDOW 306
-#define PANDA_CENTERWINDOW 307
-#define PANDA_NFSPAGEMODE 308
-#define PANDA_FULLSCREEN 309
-#define PANDA_TEXTDIRECTION 310
-#define FLOAT 311
-#define QUOTESTR 312
-#define ANYTHING 313
-#define IMGTYPE 314
-#define INTEGER 315
+#define PANDA_OPEN 258
+#define PANDA_TEXTANNOTATION 259
+#define PANDA_FREETEXTANNOTATION 260
+#define PANDA_LINEANNOTATION 261
+#define PANDA_INSERTANNOTATION 262
+#define PANDA_SETLINESTART 263
+#define PANDA_ADDLINESEGMENT 264
+#define PANDA_ADDCUBICCURVESEGMENT 265
+#define PANDA_ADDQUADRATICCURVESEGMENTONE 266
+#define PANDA_ADDQUADRATICCURVESEGMENTTWO 267
+#define PANDA_CLOSELINE 268
+#define PANDA_RECTANGLE 269
+#define PANDA_ENDLINE 270
+#define PANDA_STROKELINE 271
+#define PANDA_FILLLINE 272
+#define PANDA_SETLINEWIDTH 273
+#define PANDA_SETLINECAP 274
+#define PANDA_SETLINEJOIN 275
+#define PANDA_SETLINEDASH 276
+#define PANDA_SETFILLCOLOR 277
+#define PANDA_SETLINECOLOR 278
+#define PANDA_IMAGEBOX 279
+#define PANDA_IMAGEBOXROT 280
+#define PANDA_TEXTBOX 281
+#define PANDA_TEXTBOXROT 282
+#define PANDA_TEXTBOXROTALIGN 283
+#define PANDA_PAGEDURATION 284
+#define PANDA_TRANSDURATION 285
+#define PANDA_TRANSSTYLE 286
+#define PANDA_SETAUTHOR 287
+#define PANDA_SETCREATOR 288
+#define PANDA_SETTITLE 289
+#define PANDA_SETSUBJECT 290
+#define PANDA_SETKEYWORDS 291
+#define PANDA_SETFONTSIZE 292
+#define PANDA_SETFONTMODE 293
+#define PANDA_SETCHARACTERSPACING 294
+#define PANDA_SETWORDSPACING 295
+#define PANDA_SETHORIZONTALSCALING 296
+#define PANDA_SETLEADING 297
+#define PANDA_CLOSE 298
+#define PANDA_NEWPAGE 299
+#define PANDA_NEWTEMPLATE 300
+#define PANDA_HIDETOOLBAR 301
+#define PANDA_HIDEMENUBAR 302
+#define PANDA_HIDEWINDOWUI 303
+#define PANDA_FITWINDOW 304
+#define PANDA_CENTERWINDOW 305
+#define PANDA_NFSPAGEMODE 306
+#define PANDA_FULLSCREEN 307
+#define PANDA_TEXTDIRECTION 308
+#define FLOAT 309
+#define QUOTESTR 310
+#define ANYTHING 311
+#define IMGTYPE 312
+#define INTEGER 313
 
 
 
@@ -181,17 +177,17 @@
   #include <panda/functions.h>
   #include <panda/constants.h>
 
+  #define YYERROR_VERBOSE 1
+
   // Uncomment this line to run dmalloc for memory checking
   // #include <dmalloc.h>
 
   char *strmcpy(char *);
   char *strmcat(char *, char *);
 
-  panda_fontmetric * m_panda_fontmetric;
-  char * m_char;
-  panda_page * m_panda_page;
-  panda_pdf * m_panda_pdf;
-  panda_object * m_panda_object;
+  panda_page *m_panda_page;
+  panda_pdf *m_panda_pdf;
+  panda_object *m_panda_object;
 
 
 /* Enabling traces.  */
@@ -215,7 +211,7 @@ typedef union YYSTYPE {
   double   fltVal;
 } YYSTYPE;
 /* Line 191 of yacc.c.  */
-#line 219 "parser.c"
+#line 215 "parser.c"
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
 # define YYSTYPE_IS_TRIVIAL 1
@@ -227,7 +223,7 @@ typedef union YYSTYPE {
 
 
 /* Line 214 of yacc.c.  */
-#line 231 "parser.c"
+#line 227 "parser.c"
 
 #if ! defined (yyoverflow) || YYERROR_VERBOSE
 
@@ -324,22 +320,22 @@ union yyalloc
 #endif
 
 /* YYFINAL -- State number of the termination state. */
-#define YYFINAL  155
+#define YYFINAL  150
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   209
+#define YYLAST   255
 
 /* YYNTOKENS -- Number of terminals. */
-#define YYNTOKENS  61
+#define YYNTOKENS  59
 /* YYNNTS -- Number of nonterminals. */
-#define YYNNTS  55
+#define YYNNTS  53
 /* YYNRULES -- Number of rules. */
-#define YYNRULES  108
+#define YYNRULES  104
 /* YYNRULES -- Number of states. */
-#define YYNSTATES  248
+#define YYNSTATES  293
 
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   315
+#define YYMAXUTOK   313
 
 #define YYTRANSLATE(YYX) 						\
   ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
@@ -378,7 +374,7 @@ static const unsigned char yytranslate[] =
       25,    26,    27,    28,    29,    30,    31,    32,    33,    34,
       35,    36,    37,    38,    39,    40,    41,    42,    43,    44,
       45,    46,    47,    48,    49,    50,    51,    52,    53,    54,
-      55,    56,    57,    58,    59,    60
+      55,    56,    57,    58
 };
 
 #if YYDEBUG
@@ -386,74 +382,78 @@ static const unsigned char yytranslate[] =
    YYRHS.  */
 static const unsigned short yyprhs[] =
 {
-       0,     0,     3,     5,     7,     9,    11,    13,    15,    17,
-      19,    21,    23,    25,    27,    29,    31,    33,    35,    37,
-      39,    41,    43,    45,    47,    49,    51,    53,    55,    57,
-      59,    61,    63,    65,    67,    69,    71,    73,    75,    77,
-      79,    81,    83,    85,    87,    89,    91,    93,    95,    97,
-      99,   101,   103,   105,   107,   109,   110,   124,   136,   152,
-     163,   167,   171,   179,   185,   191,   193,   199,   201,   203,
-     205,   208,   211,   214,   219,   224,   229,   237,   246,   253,
-     261,   271,   274,   277,   280,   283,   286,   289,   292,   295,
-     300,   303,   306,   309,   312,   315,   318,   321,   323,   325,
-     328,   331,   334,   337,   340,   343,   346,   349,   352
+       0,     0,     3,     6,     9,    12,    15,    18,    21,    24,
+      27,    30,    33,    36,    39,    42,    45,    48,    51,    54,
+      57,    60,    63,    66,    69,    72,    75,    78,    81,    84,
+      87,    90,    93,    96,    99,   102,   105,   108,   111,   114,
+     117,   120,   123,   126,   129,   132,   135,   138,   141,   144,
+     147,   150,   153,   156,   157,   161,   175,   187,   203,   214,
+     218,   222,   230,   236,   242,   244,   250,   252,   254,   256,
+     259,   262,   265,   270,   275,   280,   288,   297,   304,   312,
+     322,   325,   328,   331,   334,   337,   340,   343,   346,   349,
+     352,   355,   358,   361,   364,   366,   369,   372,   375,   378,
+     381,   384,   387,   390,   393
 };
 
 /* YYRHS -- A `-1'-separated list of the rules' RHS. */
 static const yysigned_char yyrhs[] =
 {
-      62,     0,    -1,    63,    -1,    64,    -1,    65,    -1,    66,
-      -1,    67,    -1,    68,    -1,    69,    -1,    70,    -1,    71,
-      -1,    72,    -1,    73,    -1,    74,    -1,    75,    -1,    76,
-      -1,    77,    -1,    78,    -1,    79,    -1,    80,    -1,    81,
-      -1,    82,    -1,    83,    -1,    84,    -1,    85,    -1,    86,
-      -1,    87,    -1,    88,    -1,    89,    -1,    90,    -1,    91,
-      -1,    92,    -1,    93,    -1,    94,    -1,    95,    -1,    96,
-      -1,    97,    -1,    98,    -1,    99,    -1,   100,    -1,   101,
-      -1,   102,    -1,   103,    -1,   104,    -1,   105,    -1,   106,
-      -1,   107,    -1,   108,    -1,   109,    -1,   110,    -1,   111,
-      -1,   112,    -1,   113,    -1,   114,    -1,   115,    -1,    -1,
-       3,    60,    57,    57,    60,    60,    60,    60,    56,    56,
-      56,    60,    60,    -1,     4,    57,    57,    60,    60,    60,
-      60,    56,    56,    56,    60,    -1,     5,    57,    57,    60,
-      60,    60,    60,    60,    60,    60,    60,    56,    56,    56,
-      60,    -1,     6,    57,    60,    60,    60,    60,    56,    56,
-      56,    60,    -1,     7,    60,    60,    -1,     8,    60,    60,
-      -1,     9,    60,    60,    60,    60,    60,    60,    -1,    10,
-      60,    60,    60,    60,    -1,    11,    60,    60,    60,    60,
-      -1,    12,    -1,    13,    60,    60,    60,    60,    -1,    14,
-      -1,    15,    -1,    16,    -1,    17,    60,    -1,    18,    60,
-      -1,    19,    60,    -1,    20,    60,    60,    60,    -1,    21,
-      60,    60,    60,    -1,    22,    60,    60,    60,    -1,    23,
-      60,    60,    60,    60,    57,    60,    -1,    24,    60,    60,
-      60,    60,    56,    57,    60,    -1,    25,    60,    60,    60,
-      60,    57,    -1,    26,    60,    60,    60,    60,    56,    57,
-      -1,    27,    60,    60,    60,    60,    56,    60,    60,    57,
-      -1,    28,    60,    -1,    29,    56,    -1,    30,    60,    -1,
-      31,    57,    -1,    32,    57,    -1,    33,    57,    -1,    34,
-      57,    -1,    35,    57,    -1,    36,    57,    60,    57,    -1,
-      37,    57,    -1,    38,    60,    -1,    39,    60,    -1,    40,
-      56,    -1,    41,    56,    -1,    42,    56,    -1,    43,    56,
-      -1,    44,    -1,    45,    -1,    46,    57,    -1,    47,    57,
-      -1,    48,    60,    -1,    49,    60,    -1,    50,    60,    -1,
-      51,    60,    -1,    52,    60,    -1,    53,    60,    -1,    54,
-      60,    -1,    55,    60,    -1
+      60,     0,    -1,    61,    60,    -1,    62,    60,    -1,    63,
+      60,    -1,    64,    60,    -1,    65,    60,    -1,    66,    60,
+      -1,    67,    60,    -1,    68,    60,    -1,    69,    60,    -1,
+      70,    60,    -1,    71,    60,    -1,    72,    60,    -1,    73,
+      60,    -1,    74,    60,    -1,    75,    60,    -1,    76,    60,
+      -1,    77,    60,    -1,    78,    60,    -1,    79,    60,    -1,
+      80,    60,    -1,    81,    60,    -1,    82,    60,    -1,    83,
+      60,    -1,    84,    60,    -1,    85,    60,    -1,    86,    60,
+      -1,    87,    60,    -1,    88,    60,    -1,    89,    60,    -1,
+      90,    60,    -1,    91,    60,    -1,    92,    60,    -1,    93,
+      60,    -1,    94,    60,    -1,    95,    60,    -1,    96,    60,
+      -1,    97,    60,    -1,    98,    60,    -1,    99,    60,    -1,
+     100,    60,    -1,   101,    60,    -1,   102,    60,    -1,   103,
+      60,    -1,   104,    60,    -1,   105,    60,    -1,   106,    60,
+      -1,   107,    60,    -1,   108,    60,    -1,   109,    60,    -1,
+     110,    60,    -1,   111,    60,    -1,    -1,     3,    55,    55,
+      -1,     4,    58,    55,    55,    58,    58,    58,    58,    54,
+      54,    54,    58,    58,    -1,     5,    55,    55,    58,    58,
+      58,    58,    54,    54,    54,    58,    -1,     6,    55,    55,
+      58,    58,    58,    58,    58,    58,    58,    58,    54,    54,
+      54,    58,    -1,     7,    55,    58,    58,    58,    58,    54,
+      54,    54,    58,    -1,     8,    58,    58,    -1,     9,    58,
+      58,    -1,    10,    58,    58,    58,    58,    58,    58,    -1,
+      11,    58,    58,    58,    58,    -1,    12,    58,    58,    58,
+      58,    -1,    13,    -1,    14,    58,    58,    58,    58,    -1,
+      15,    -1,    16,    -1,    17,    -1,    18,    58,    -1,    19,
+      58,    -1,    20,    58,    -1,    21,    58,    58,    58,    -1,
+      22,    58,    58,    58,    -1,    23,    58,    58,    58,    -1,
+      24,    58,    58,    58,    58,    55,    58,    -1,    25,    58,
+      58,    58,    58,    54,    55,    58,    -1,    26,    58,    58,
+      58,    58,    55,    -1,    27,    58,    58,    58,    58,    54,
+      55,    -1,    28,    58,    58,    58,    58,    54,    58,    58,
+      55,    -1,    29,    58,    -1,    30,    54,    -1,    31,    58,
+      -1,    32,    55,    -1,    33,    55,    -1,    34,    55,    -1,
+      35,    55,    -1,    36,    55,    -1,    37,    58,    -1,    38,
+      58,    -1,    39,    54,    -1,    40,    54,    -1,    41,    54,
+      -1,    42,    54,    -1,    43,    -1,    44,    55,    -1,    45,
+      55,    -1,    46,    58,    -1,    47,    58,    -1,    48,    58,
+      -1,    49,    58,    -1,    50,    58,    -1,    51,    58,    -1,
+      52,    58,    -1,    53,    58,    -1
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const unsigned short yyrline[] =
 {
-       0,    95,    95,    95,    95,    95,    95,    95,    95,    95,
-      95,    95,    95,    95,    95,    95,    95,    95,    95,    95,
-      95,    95,    95,    95,    95,    95,    95,    95,    95,    95,
-      95,    95,    95,    95,    95,    95,    95,    95,    95,    95,
-      95,    95,    95,    95,    95,    95,    95,    95,    95,    95,
-      95,    95,    95,    95,    95,    95,    99,   106,   113,   120,
-     127,   134,   141,   148,   155,   162,   169,   176,   183,   190,
-     197,   204,   211,   218,   225,   232,   239,   246,   253,   260,
-     267,   274,   281,   288,   295,   301,   307,   313,   319,   325,
-     331,   337,   343,   349,   355,   361,   367,   373,   379,   385,
-     391,   397,   403,   409,   415,   421,   427,   433,   439
+       0,    93,    93,    93,    93,    93,    93,    93,    93,    93,
+      93,    93,    93,    93,    93,    93,    93,    93,    93,    93,
+      93,    93,    93,    93,    93,    93,    93,    93,    93,    93,
+      93,    93,    93,    93,    93,    93,    93,    93,    93,    93,
+      93,    93,    93,    93,    93,    93,    93,    93,    93,    93,
+      93,    93,    93,    93,    97,   104,   112,   120,   128,   136,
+     144,   152,   160,   168,   176,   184,   192,   200,   208,   216,
+     224,   232,   240,   248,   256,   264,   272,   280,   288,   296,
+     304,   312,   320,   328,   336,   344,   352,   360,   368,   376,
+     384,   392,   400,   408,   416,   424,   432,   440,   448,   456,
+     464,   472,   480,   488,   496
 };
 #endif
 
@@ -462,7 +462,7 @@ static const unsigned short yyrline[] =
    First, the terminals, then, starting at YYNTOKENS, nonterminals. */
 static const char *const yytname[] =
 {
-  "$end", "error", "$undefined", "PANDA_TEXTANNOTATION", 
+  "$end", "error", "$undefined", "PANDA_OPEN", "PANDA_TEXTANNOTATION", 
   "PANDA_FREETEXTANNOTATION", "PANDA_LINEANNOTATION", 
   "PANDA_INSERTANNOTATION", "PANDA_SETLINESTART", "PANDA_ADDLINESEGMENT", 
   "PANDA_ADDCUBICCURVESEGMENT", "PANDA_ADDQUADRATICCURVESEGMENTONE", 
@@ -474,15 +474,14 @@ static const char *const yytname[] =
   "PANDA_TEXTBOX", "PANDA_TEXTBOXROT", "PANDA_TEXTBOXROTALIGN", 
   "PANDA_PAGEDURATION", "PANDA_TRANSDURATION", "PANDA_TRANSSTYLE", 
   "PANDA_SETAUTHOR", "PANDA_SETCREATOR", "PANDA_SETTITLE", 
-  "PANDA_SETSUBJECT", "PANDA_SETKEYWORDS", "PANDA_CREATEFONT", 
-  "PANDA_SETFONT", "PANDA_SETFONTSIZE", "PANDA_SETFONTMODE", 
-  "PANDA_SETCHARACTERSPACING", "PANDA_SETWORDSPACING", 
-  "PANDA_SETHORIZONTALSCALING", "PANDA_SETLEADING", "PANDA_GETFONTMETRIC", 
-  "PANDA_CLOSE", "PANDA_NEWPAGE", "PANDA_NEWTEMPLATE", 
+  "PANDA_SETSUBJECT", "PANDA_SETKEYWORDS", "PANDA_SETFONTSIZE", 
+  "PANDA_SETFONTMODE", "PANDA_SETCHARACTERSPACING", 
+  "PANDA_SETWORDSPACING", "PANDA_SETHORIZONTALSCALING", 
+  "PANDA_SETLEADING", "PANDA_CLOSE", "PANDA_NEWPAGE", "PANDA_NEWTEMPLATE", 
   "PANDA_HIDETOOLBAR", "PANDA_HIDEMENUBAR", "PANDA_HIDEWINDOWUI", 
   "PANDA_FITWINDOW", "PANDA_CENTERWINDOW", "PANDA_NFSPAGEMODE", 
   "PANDA_FULLSCREEN", "PANDA_TEXTDIRECTION", "FLOAT", "QUOTESTR", 
-  "ANYTHING", "IMGTYPE", "INTEGER", "$accept", "commands", 
+  "ANYTHING", "IMGTYPE", "INTEGER", "$accept", "commands", "panda_open", 
   "panda_textannotation", "panda_freetextannotation", 
   "panda_lineannotation", "panda_insertannotation", "panda_setlinestart", 
   "panda_addlinesegment", "panda_addcubiccurvesegment", 
@@ -495,11 +494,10 @@ static const char *const yytname[] =
   "panda_textbox", "panda_textboxrot", "panda_textboxrotalign", 
   "panda_pageduration", "panda_transduration", "panda_transstyle", 
   "panda_setauthor", "panda_setcreator", "panda_settitle", 
-  "panda_setsubject", "panda_setkeywords", "panda_createfont", 
-  "panda_setfont", "panda_setfontsize", "panda_setfontmode", 
-  "panda_setcharacterspacing", "panda_setwordspacing", 
-  "panda_sethorizontalscaling", "panda_setleading", "panda_getfontmetric", 
-  "panda_close", "panda_newpage", "panda_newtemplate", 
+  "panda_setsubject", "panda_setkeywords", "panda_setfontsize", 
+  "panda_setfontmode", "panda_setcharacterspacing", 
+  "panda_setwordspacing", "panda_sethorizontalscaling", 
+  "panda_setleading", "panda_close", "panda_newpage", "panda_newtemplate", 
   "panda_hidetoolbar", "panda_hidemenubar", "panda_hidewindowui", 
   "panda_fitwindow", "panda_centerwindow", "panda_nfspagemode", 
   "panda_fullscreen", "panda_textdirection", 0
@@ -516,41 +514,40 @@ static const unsigned short yytoknum[] =
      275,   276,   277,   278,   279,   280,   281,   282,   283,   284,
      285,   286,   287,   288,   289,   290,   291,   292,   293,   294,
      295,   296,   297,   298,   299,   300,   301,   302,   303,   304,
-     305,   306,   307,   308,   309,   310,   311,   312,   313,   314,
-     315
+     305,   306,   307,   308,   309,   310,   311,   312,   313
 };
 # endif
 
 /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const unsigned char yyr1[] =
 {
-       0,    61,    62,    62,    62,    62,    62,    62,    62,    62,
-      62,    62,    62,    62,    62,    62,    62,    62,    62,    62,
-      62,    62,    62,    62,    62,    62,    62,    62,    62,    62,
-      62,    62,    62,    62,    62,    62,    62,    62,    62,    62,
-      62,    62,    62,    62,    62,    62,    62,    62,    62,    62,
-      62,    62,    62,    62,    62,    62,    63,    64,    65,    66,
+       0,    59,    60,    60,    60,    60,    60,    60,    60,    60,
+      60,    60,    60,    60,    60,    60,    60,    60,    60,    60,
+      60,    60,    60,    60,    60,    60,    60,    60,    60,    60,
+      60,    60,    60,    60,    60,    60,    60,    60,    60,    60,
+      60,    60,    60,    60,    60,    60,    60,    60,    60,    60,
+      60,    60,    60,    60,    61,    62,    63,    64,    65,    66,
       67,    68,    69,    70,    71,    72,    73,    74,    75,    76,
       77,    78,    79,    80,    81,    82,    83,    84,    85,    86,
       87,    88,    89,    90,    91,    92,    93,    94,    95,    96,
       97,    98,    99,   100,   101,   102,   103,   104,   105,   106,
-     107,   108,   109,   110,   111,   112,   113,   114,   115
+     107,   108,   109,   110,   111
 };
 
 /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
 static const unsigned char yyr2[] =
 {
-       0,     2,     1,     1,     1,     1,     1,     1,     1,     1,
-       1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-       1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-       1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-       1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-       1,     1,     1,     1,     1,     0,    13,    11,    15,    10,
-       3,     3,     7,     5,     5,     1,     5,     1,     1,     1,
-       2,     2,     2,     4,     4,     4,     7,     8,     6,     7,
-       9,     2,     2,     2,     2,     2,     2,     2,     2,     4,
-       2,     2,     2,     2,     2,     2,     2,     1,     1,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2
+       0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     0,     3,    13,    11,    15,    10,     3,
+       3,     7,     5,     5,     1,     5,     1,     1,     1,     2,
+       2,     2,     4,     4,     4,     7,     8,     6,     7,     9,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     1,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2
 };
 
 /* YYDEFACT[STATE-NAME] -- Default rule to reduce with in state
@@ -558,85 +555,95 @@ static const unsigned char yyr2[] =
    means the default is an error.  */
 static const unsigned char yydefact[] =
 {
-      55,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-      65,     0,    67,    68,    69,     0,     0,     0,     0,     0,
+      53,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,    64,     0,    66,    67,    68,     0,     0,     0,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,    97,    98,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     2,     3,     4,     5,     6,
-       7,     8,     9,    10,    11,    12,    13,    14,    15,    16,
-      17,    18,    19,    20,    21,    22,    23,    24,    25,    26,
-      27,    28,    29,    30,    31,    32,    33,    34,    35,    36,
-      37,    38,    39,    40,    41,    42,    43,    44,    45,    46,
-      47,    48,    49,    50,    51,    52,    53,    54,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,    70,    71,
-      72,     0,     0,     0,     0,     0,     0,     0,     0,    81,
-      82,    83,    84,    85,    86,    87,    88,     0,    90,    91,
-      92,    93,    94,    95,    96,    99,   100,   101,   102,   103,
-     104,   105,   106,   107,   108,     1,     0,     0,     0,     0,
-      60,    61,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,    94,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,    53,    53,    53,    53,    53,    53,    53,
+      53,    53,    53,    53,    53,    53,    53,    53,    53,    53,
+      53,    53,    53,    53,    53,    53,    53,    53,    53,    53,
+      53,    53,    53,    53,    53,    53,    53,    53,    53,    53,
+      53,    53,    53,    53,    53,    53,    53,    53,    53,    53,
+      53,    53,    53,    53,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,    69,    70,    71,     0,     0,
+       0,     0,     0,     0,     0,     0,    80,    81,    82,    83,
+      84,    85,    86,    87,    88,    89,    90,    91,    92,    93,
+      95,    96,    97,    98,    99,   100,   101,   102,   103,   104,
+       1,     2,     3,     4,     5,     6,     7,     8,     9,    10,
+      11,    12,    13,    14,    15,    16,    17,    18,    19,    20,
+      21,    22,    23,    24,    25,    26,    27,    28,    29,    30,
+      31,    32,    33,    34,    35,    36,    37,    38,    39,    40,
+      41,    42,    43,    44,    45,    46,    47,    48,    49,    50,
+      51,    52,    54,     0,     0,     0,     0,    59,    60,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,    73,    74,    75,     0,     0,     0,     0,
-       0,    89,     0,     0,     0,     0,     0,    63,    64,    66,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,    78,     0,     0,     0,     0,     0,     0,    62,
-      76,     0,    79,     0,     0,     0,     0,     0,    77,     0,
-       0,     0,     0,     0,    80,     0,     0,     0,    59,     0,
-      57,     0,     0,     0,    56,     0,     0,    58
+       0,     0,     0,     0,     0,     0,     0,     0,     0,    72,
+      73,    74,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,    62,    63,    65,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,    77,     0,     0,
+       0,     0,     0,     0,    61,    75,     0,    78,     0,     0,
+       0,     0,     0,    76,     0,     0,     0,     0,     0,    79,
+       0,     0,     0,    58,     0,    56,     0,     0,     0,    55,
+       0,     0,    57
 };
 
 /* YYDEFGOTO[NTERM-NUM]. */
 static const yysigned_char yydefgoto[] =
 {
-      -1,    54,    55,    56,    57,    58,    59,    60,    61,    62,
-      63,    64,    65,    66,    67,    68,    69,    70,    71,    72,
-      73,    74,    75,    76,    77,    78,    79,    80,    81,    82,
-      83,    84,    85,    86,    87,    88,    89,    90,    91,    92,
-      93,    94,    95,    96,    97,    98,    99,   100,   101,   102,
-     103,   104,   105,   106,   107
+      -1,    52,    53,    54,    55,    56,    57,    58,    59,    60,
+      61,    62,    63,    64,    65,    66,    67,    68,    69,    70,
+      71,    72,    73,    74,    75,    76,    77,    78,    79,    80,
+      81,    82,    83,    84,    85,    86,    87,    88,    89,    90,
+      91,    92,    93,    94,    95,    96,    97,    98,    99,   100,
+     101,   102,   103
 };
 
 /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
-#define YYPACT_NINF -8
+#define YYPACT_NINF -4
 static const short yypact[] =
 {
-      -3,    -7,    -2,    -1,     0,    -6,     1,     2,     3,     4,
-      -8,     5,    -8,    -8,    -8,     6,     7,     8,     9,    10,
-      11,    12,    13,    14,    15,    16,    17,    22,    19,    23,
-      24,    25,    26,    27,    28,    29,    30,    31,    32,    33,
-      36,    37,    -8,    -8,    38,    39,    34,    40,    41,    42,
-      43,    44,    45,    46,    58,    -8,    -8,    -8,    -8,    -8,
-      -8,    -8,    -8,    -8,    -8,    -8,    -8,    -8,    -8,    -8,
-      -8,    -8,    -8,    -8,    -8,    -8,    -8,    -8,    -8,    -8,
-      -8,    -8,    -8,    -8,    -8,    -8,    -8,    -8,    -8,    -8,
-      -8,    -8,    -8,    -8,    -8,    -8,    -8,    -8,    -8,    -8,
-      -8,    -8,    -8,    -8,    -8,    -8,    -8,    -8,    50,    51,
-      52,    53,    54,    55,    56,    57,    59,    60,    -8,    -8,
-      -8,    61,    62,    63,    64,    65,    66,    67,    68,    -8,
-      -8,    -8,    -8,    -8,    -8,    -8,    -8,    69,    -8,    -8,
-      -8,    -8,    -8,    -8,    -8,    -8,    -8,    -8,    -8,    -8,
-      -8,    -8,    -8,    -8,    -8,    -8,    73,    71,    72,    74,
-      -8,    -8,    75,    76,    77,    78,    79,    80,    81,    82,
-      83,    84,    85,    86,    90,    88,    89,    91,    92,    93,
-      94,    95,    96,    -8,    -8,    -8,    97,    98,    99,   100,
-     101,    -8,   102,   103,   104,   105,   106,    -8,    -8,    -8,
-     110,   112,   113,   115,   116,   109,   114,   117,   119,   118,
-     120,   122,    -8,   124,   123,   125,   126,   127,   128,    -8,
-      -8,   129,    -8,   130,   132,   135,   133,   136,    -8,   137,
-     139,   140,   138,   141,    -8,   143,   142,   144,    -8,   145,
-      -8,   147,   146,   151,    -8,   152,   149,    -8
+      -3,    47,    45,    49,    50,    51,    52,    53,    54,    55,
+      56,    -4,    57,    -4,    -4,    -4,    58,    59,    60,    61,
+      62,    63,    64,    65,    66,    67,    68,    69,    74,    71,
+      75,    76,    77,    78,    79,    80,    81,    82,    83,    86,
+      87,    -4,    88,    89,    84,    90,    91,    92,    93,    94,
+      95,    96,   107,    -3,    -3,    -3,    -3,    -3,    -3,    -3,
+      -3,    -3,    -3,    -3,    -3,    -3,    -3,    -3,    -3,    -3,
+      -3,    -3,    -3,    -3,    -3,    -3,    -3,    -3,    -3,    -3,
+      -3,    -3,    -3,    -3,    -3,    -3,    -3,    -3,    -3,    -3,
+      -3,    -3,    -3,    -3,    -3,    -3,    -3,    -3,    -3,    -3,
+      -3,    -3,    -3,    -3,   100,   101,   102,   103,   104,   105,
+     106,   108,   109,   110,   111,    -4,    -4,    -4,   112,   113,
+     114,   115,   116,   117,   118,   119,    -4,    -4,    -4,    -4,
+      -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,
+      -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,
+      -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,
+      -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,
+      -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,
+      -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,
+      -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,
+      -4,    -4,    -4,   123,   121,   122,   124,    -4,    -4,   125,
+     126,   127,   128,   129,   130,   131,   132,   133,   134,   135,
+     136,   137,   138,   139,   140,   141,   142,   143,   144,    -4,
+      -4,    -4,   145,   146,   147,   148,   149,   150,   151,   152,
+     153,   154,    -4,    -4,    -4,   158,   160,   161,   163,   164,
+     157,   162,   165,   167,   166,   168,   170,    -4,   172,   171,
+     173,   174,   175,   176,    -4,    -4,   177,    -4,   178,   180,
+     183,   181,   184,    -4,   185,   187,   188,   186,   189,    -4,
+     191,   190,   192,    -4,   193,    -4,   195,   194,   199,    -4,
+     200,   197,    -4
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yysigned_char yypgoto[] =
 {
-      -8,    -8,    -8,    -8,    -8,    -8,    -8,    -8,    -8,    -8,
-      -8,    -8,    -8,    -8,    -8,    -8,    -8,    -8,    -8,    -8,
-      -8,    -8,    -8,    -8,    -8,    -8,    -8,    -8,    -8,    -8,
-      -8,    -8,    -8,    -8,    -8,    -8,    -8,    -8,    -8,    -8,
-      -8,    -8,    -8,    -8,    -8,    -8,    -8,    -8,    -8,    -8,
-      -8,    -8,    -8,    -8,    -8
+      -4,    -2,    -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,
+      -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,
+      -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,
+      -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,
+      -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,
+      -4,    -4,    -4
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
@@ -644,29 +651,34 @@ static const yysigned_char yypgoto[] =
    number is the opposite.  If zero, do what YYDEFACT says.
    If YYTABLE_NINF, syntax error.  */
 #define YYTABLE_NINF -1
-static const unsigned char yytable[] =
+static const unsigned short yytable[] =
 {
        1,     2,     3,     4,     5,     6,     7,     8,     9,    10,
       11,    12,    13,    14,    15,    16,    17,    18,    19,    20,
       21,    22,    23,    24,    25,    26,    27,    28,    29,    30,
       31,    32,    33,    34,    35,    36,    37,    38,    39,    40,
       41,    42,    43,    44,    45,    46,    47,    48,    49,    50,
-      51,    52,    53,   108,   112,   109,   110,   111,   155,     0,
-       0,   113,   114,   115,   116,   117,   118,   119,   120,   121,
-     122,   123,   124,   125,   126,   127,   128,   129,   130,   131,
-     132,   133,   134,   135,   136,   137,   138,     0,   141,   142,
-     139,   140,   143,   144,   147,   145,   146,     0,     0,     0,
-     148,   149,   150,   151,   152,   153,   154,   156,   157,   158,
-       0,     0,     0,   159,   160,   161,   162,   163,     0,   164,
-     165,   166,   167,   168,   169,   170,   171,   172,   173,   174,
-     175,   176,   177,     0,   178,   179,   180,   181,   182,   183,
-     184,   185,   186,   187,   188,   189,   190,   191,   192,   193,
-       0,   194,   195,   196,   197,   198,   199,   200,   201,   202,
-     203,   204,   205,   206,   207,   208,   209,   210,   211,   215,
-     212,   213,   214,     0,   216,   218,     0,   217,   219,   221,
-     220,   222,   225,   223,   227,   224,     0,   226,   230,   228,
-     229,   231,   233,   232,   234,   235,   236,     0,   237,   239,
-       0,   238,   240,   243,   241,   242,   244,   245,   246,   247
+      51,   151,   152,   153,   154,   155,   156,   157,   158,   159,
+     160,   161,   162,   163,   164,   165,   166,   167,   168,   169,
+     170,   171,   172,   173,   174,   175,   176,   177,   178,   179,
+     180,   181,   182,   183,   184,   185,   186,   187,   188,   189,
+     190,   191,   192,   193,   194,   195,   196,   197,   198,   199,
+     200,   201,   104,   105,   106,   107,   108,   150,     0,     0,
+     109,   110,   111,   112,   113,   114,   115,   116,   117,   118,
+     119,   120,   121,   122,   123,   124,   125,   126,   127,   128,
+     129,   130,   131,   132,   133,     0,   136,   137,   134,   135,
+     138,   139,   142,   140,   141,     0,     0,     0,   143,   144,
+     145,   146,   147,   148,   149,   202,   203,   204,   205,     0,
+       0,     0,   206,   207,   208,     0,   209,   210,   211,   212,
+     213,   214,   215,   216,   217,   218,   219,   220,   221,   222,
+     223,     0,   224,   225,   226,   227,   228,   229,   230,   231,
+     232,   233,   234,   235,   236,   237,   238,   239,   240,   241,
+     242,   243,   244,   245,   246,   247,   248,   249,   250,   251,
+     252,   253,   254,   255,   256,   260,   257,   258,   259,     0,
+     261,   263,     0,   262,   264,   266,   265,   267,   270,   268,
+     272,   269,     0,   271,   275,   273,   274,   276,   278,   277,
+     279,   280,   281,     0,   282,   284,     0,   283,   285,   288,
+     286,   287,   289,   290,   291,   292
 };
 
 static const yysigned_char yycheck[] =
@@ -676,22 +688,27 @@ static const yysigned_char yycheck[] =
       23,    24,    25,    26,    27,    28,    29,    30,    31,    32,
       33,    34,    35,    36,    37,    38,    39,    40,    41,    42,
       43,    44,    45,    46,    47,    48,    49,    50,    51,    52,
-      53,    54,    55,    60,    60,    57,    57,    57,     0,    -1,
-      -1,    60,    60,    60,    60,    60,    60,    60,    60,    60,
-      60,    60,    60,    60,    60,    60,    60,    60,    56,    60,
-      57,    57,    57,    57,    57,    57,    57,    -1,    56,    56,
-      60,    60,    56,    56,    60,    57,    57,    -1,    -1,    -1,
-      60,    60,    60,    60,    60,    60,    60,    57,    57,    57,
-      -1,    -1,    -1,    60,    60,    60,    60,    60,    -1,    60,
-      60,    60,    60,    60,    60,    60,    60,    60,    60,    60,
-      57,    60,    60,    -1,    60,    60,    60,    60,    60,    60,
-      60,    60,    60,    60,    60,    60,    60,    57,    60,    60,
-      -1,    60,    60,    60,    60,    60,    60,    60,    60,    60,
-      60,    60,    60,    60,    60,    60,    60,    57,    56,    60,
-      57,    56,    56,    -1,    60,    56,    -1,    60,    60,    57,
-      60,    57,    56,    60,    56,    60,    -1,    60,    56,    60,
-      60,    56,    56,    60,    57,    56,    56,    -1,    60,    56,
-      -1,    60,    60,    56,    60,    60,    60,    56,    56,    60
+      53,    53,    54,    55,    56,    57,    58,    59,    60,    61,
+      62,    63,    64,    65,    66,    67,    68,    69,    70,    71,
+      72,    73,    74,    75,    76,    77,    78,    79,    80,    81,
+      82,    83,    84,    85,    86,    87,    88,    89,    90,    91,
+      92,    93,    94,    95,    96,    97,    98,    99,   100,   101,
+     102,   103,    55,    58,    55,    55,    55,     0,    -1,    -1,
+      58,    58,    58,    58,    58,    58,    58,    58,    58,    58,
+      58,    58,    58,    58,    58,    58,    58,    58,    54,    58,
+      55,    55,    55,    55,    55,    -1,    54,    54,    58,    58,
+      54,    54,    58,    55,    55,    -1,    -1,    -1,    58,    58,
+      58,    58,    58,    58,    58,    55,    55,    55,    55,    -1,
+      -1,    -1,    58,    58,    58,    -1,    58,    58,    58,    58,
+      58,    58,    58,    58,    58,    58,    58,    58,    55,    58,
+      58,    -1,    58,    58,    58,    58,    58,    58,    58,    58,
+      58,    58,    58,    58,    58,    58,    58,    58,    58,    58,
+      58,    58,    58,    58,    58,    58,    58,    58,    58,    58,
+      58,    58,    58,    55,    54,    58,    55,    54,    54,    -1,
+      58,    54,    -1,    58,    58,    55,    58,    55,    54,    58,
+      54,    58,    -1,    58,    54,    58,    58,    54,    54,    58,
+      55,    54,    54,    -1,    58,    54,    -1,    58,    58,    54,
+      58,    58,    58,    54,    54,    58
 };
 
 /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
@@ -703,26 +720,31 @@ static const unsigned char yystos[] =
       22,    23,    24,    25,    26,    27,    28,    29,    30,    31,
       32,    33,    34,    35,    36,    37,    38,    39,    40,    41,
       42,    43,    44,    45,    46,    47,    48,    49,    50,    51,
-      52,    53,    54,    55,    62,    63,    64,    65,    66,    67,
+      52,    53,    60,    61,    62,    63,    64,    65,    66,    67,
       68,    69,    70,    71,    72,    73,    74,    75,    76,    77,
       78,    79,    80,    81,    82,    83,    84,    85,    86,    87,
       88,    89,    90,    91,    92,    93,    94,    95,    96,    97,
       98,    99,   100,   101,   102,   103,   104,   105,   106,   107,
-     108,   109,   110,   111,   112,   113,   114,   115,    60,    57,
-      57,    57,    60,    60,    60,    60,    60,    60,    60,    60,
+     108,   109,   110,   111,    55,    58,    55,    55,    55,    58,
+      58,    58,    58,    58,    58,    58,    58,    58,    58,    58,
+      58,    58,    58,    58,    58,    58,    58,    54,    58,    55,
+      55,    55,    55,    55,    58,    58,    54,    54,    54,    54,
+      55,    55,    58,    58,    58,    58,    58,    58,    58,    58,
+       0,    60,    60,    60,    60,    60,    60,    60,    60,    60,
       60,    60,    60,    60,    60,    60,    60,    60,    60,    60,
-      56,    60,    57,    57,    57,    57,    57,    57,    57,    60,
-      60,    56,    56,    56,    56,    57,    57,    60,    60,    60,
-      60,    60,    60,    60,    60,     0,    57,    57,    57,    60,
       60,    60,    60,    60,    60,    60,    60,    60,    60,    60,
-      60,    60,    60,    60,    60,    57,    60,    60,    60,    60,
       60,    60,    60,    60,    60,    60,    60,    60,    60,    60,
-      60,    57,    60,    60,    60,    60,    60,    60,    60,    60,
       60,    60,    60,    60,    60,    60,    60,    60,    60,    60,
-      57,    56,    57,    56,    56,    60,    60,    60,    56,    60,
-      60,    57,    57,    60,    60,    56,    60,    56,    60,    60,
-      56,    56,    60,    56,    57,    56,    56,    60,    60,    56,
-      60,    60,    60,    56,    60,    56,    56,    60
+      60,    60,    55,    55,    55,    55,    58,    58,    58,    58,
+      58,    58,    58,    58,    58,    58,    58,    58,    58,    58,
+      58,    55,    58,    58,    58,    58,    58,    58,    58,    58,
+      58,    58,    58,    58,    58,    58,    58,    58,    58,    58,
+      58,    58,    58,    58,    58,    58,    58,    58,    58,    58,
+      58,    58,    58,    58,    58,    55,    54,    55,    54,    54,
+      58,    58,    58,    54,    58,    58,    55,    55,    58,    58,
+      54,    58,    54,    58,    58,    54,    54,    58,    54,    55,
+      54,    54,    58,    58,    54,    58,    58,    58,    54,    58,
+      54,    54,    58
 };
 
 #if ! defined (YYSIZE_T) && defined (__SIZE_TYPE__)
@@ -1332,455 +1354,512 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-        case 56:
-#line 100 "parser.y"
+        case 54:
+#line 98 "parser.y"
+    {
+	// Class pointer is panda
+	m_panda_pdf = panda_open( yyvsp[-1].textVal, yyvsp[0].textVal);
+printf("100 panda_open executed\n");
+}
+    break;
+
+  case 55:
+#line 105 "parser.y"
     {
 	// Class pointer is panda_page
 	// Parent pointer is panda_pdf
 	panda_textannotation(m_panda_pdf, m_panda_page, yyvsp[-11].intVal, yyvsp[-10].textVal, yyvsp[-9].textVal, yyvsp[-8].intVal, yyvsp[-7].intVal, yyvsp[-6].intVal, yyvsp[-5].intVal, yyvsp[-4].fltVal, yyvsp[-3].fltVal, yyvsp[-2].fltVal, yyvsp[-1].intVal, yyvsp[0].intVal);
+printf("100 panda_textannotation executed\n");
 }
     break;
 
-  case 57:
-#line 107 "parser.y"
+  case 56:
+#line 113 "parser.y"
     {
 	// Class pointer is panda_page
 	// Parent pointer is panda_pdf
 	panda_freetextannotation(m_panda_pdf, m_panda_page, yyvsp[-9].textVal, yyvsp[-8].textVal, yyvsp[-7].intVal, yyvsp[-6].intVal, yyvsp[-5].intVal, yyvsp[-4].intVal, yyvsp[-3].fltVal, yyvsp[-2].fltVal, yyvsp[-1].fltVal, yyvsp[0].intVal);
+printf("100 panda_freetextannotation executed\n");
 }
     break;
 
-  case 58:
-#line 114 "parser.y"
-    {
-	// Class pointer is panda_page
-	// Parent pointer is panda_pdf
-	panda_lineannotation(m_panda_pdf, m_panda_page, yyvsp[-13].textVal, yyvsp[-12].textVal, yyvsp[-11].intVal, yyvsp[-10].intVal, yyvsp[-9].intVal, yyvsp[-8].intVal, yyvsp[-7].intVal, yyvsp[-6].intVal, yyvsp[-5].intVal, yyvsp[-4].intVal, yyvsp[-3].fltVal, yyvsp[-2].fltVal, yyvsp[-1].fltVal, yyvsp[0].intVal);
-}
-    break;
-
-  case 59:
+  case 57:
 #line 121 "parser.y"
     {
 	// Class pointer is panda_page
 	// Parent pointer is panda_pdf
-	m_panda_object = panda_insertannotation(m_panda_pdf, m_panda_page, yyvsp[-8].textVal, yyvsp[-7].intVal, yyvsp[-6].intVal, yyvsp[-5].intVal, yyvsp[-4].intVal, yyvsp[-3].fltVal, yyvsp[-2].fltVal, yyvsp[-1].fltVal, yyvsp[0].intVal);
+	panda_lineannotation(m_panda_pdf, m_panda_page, yyvsp[-13].textVal, yyvsp[-12].textVal, yyvsp[-11].intVal, yyvsp[-10].intVal, yyvsp[-9].intVal, yyvsp[-8].intVal, yyvsp[-7].intVal, yyvsp[-6].intVal, yyvsp[-5].intVal, yyvsp[-4].intVal, yyvsp[-3].fltVal, yyvsp[-2].fltVal, yyvsp[-1].fltVal, yyvsp[0].intVal);
+printf("100 panda_lineannotation executed\n");
 }
     break;
 
-  case 60:
-#line 128 "parser.y"
+  case 58:
+#line 129 "parser.y"
+    {
+	// Class pointer is panda_page
+	// Parent pointer is panda_pdf
+	m_panda_object = panda_insertannotation(m_panda_pdf, m_panda_page, yyvsp[-8].textVal, yyvsp[-7].intVal, yyvsp[-6].intVal, yyvsp[-5].intVal, yyvsp[-4].intVal, yyvsp[-3].fltVal, yyvsp[-2].fltVal, yyvsp[-1].fltVal, yyvsp[0].intVal);
+printf("100 panda_insertannotation executed\n");
+}
+    break;
+
+  case 59:
+#line 137 "parser.y"
     {
 	// Class pointer is panda_page
 	// Parent pointer is panda_pdf
 	panda_setlinestart(m_panda_page, yyvsp[-1].intVal, yyvsp[0].intVal);
+printf("100 panda_setlinestart executed\n");
 }
     break;
 
-  case 61:
-#line 135 "parser.y"
+  case 60:
+#line 145 "parser.y"
     {
 	// Class pointer is panda_page
 	// Parent pointer is panda_pdf
 	panda_addlinesegment(m_panda_page, yyvsp[-1].intVal, yyvsp[0].intVal);
+printf("100 panda_addlinesegment executed\n");
 }
     break;
 
-  case 62:
-#line 142 "parser.y"
+  case 61:
+#line 153 "parser.y"
     {
 	// Class pointer is panda_page
 	// Parent pointer is panda_pdf
 	panda_addcubiccurvesegment(m_panda_page, yyvsp[-5].intVal, yyvsp[-4].intVal, yyvsp[-3].intVal, yyvsp[-2].intVal, yyvsp[-1].intVal, yyvsp[0].intVal);
+printf("100 panda_addcubiccurvesegment executed\n");
 }
     break;
 
-  case 63:
-#line 149 "parser.y"
+  case 62:
+#line 161 "parser.y"
     {
 	// Class pointer is panda_page
 	// Parent pointer is panda_pdf
 	panda_addquadraticcurvesegmentone(m_panda_page, yyvsp[-3].intVal, yyvsp[-2].intVal, yyvsp[-1].intVal, yyvsp[0].intVal);
+printf("100 panda_addquadraticcurvesegmentone executed\n");
 }
     break;
 
-  case 64:
-#line 156 "parser.y"
+  case 63:
+#line 169 "parser.y"
     {
 	// Class pointer is panda_page
 	// Parent pointer is panda_pdf
 	panda_addquadraticcurvesegmenttwo(m_panda_page, yyvsp[-3].intVal, yyvsp[-2].intVal, yyvsp[-1].intVal, yyvsp[0].intVal);
+printf("100 panda_addquadraticcurvesegmenttwo executed\n");
 }
     break;
 
-  case 65:
-#line 163 "parser.y"
-    {
-	// Class pointer is panda_page
-	// Parent pointer is panda_pdf
-	panda_closeline(m_panda_page);
-}
-    break;
-
-  case 66:
-#line 170 "parser.y"
-    {
-	// Class pointer is panda_page
-	// Parent pointer is panda_pdf
-	panda_rectangle(m_panda_page, yyvsp[-3].intVal, yyvsp[-2].intVal, yyvsp[-1].intVal, yyvsp[0].intVal);
-}
-    break;
-
-  case 67:
+  case 64:
 #line 177 "parser.y"
     {
 	// Class pointer is panda_page
 	// Parent pointer is panda_pdf
-	panda_endline(m_panda_page);
+	panda_closeline(m_panda_page);
+printf("100 panda_closeline executed\n");
 }
     break;
 
-  case 68:
-#line 184 "parser.y"
+  case 65:
+#line 185 "parser.y"
+    {
+	// Class pointer is panda_page
+	// Parent pointer is panda_pdf
+	panda_rectangle(m_panda_page, yyvsp[-3].intVal, yyvsp[-2].intVal, yyvsp[-1].intVal, yyvsp[0].intVal);
+printf("100 panda_rectangle executed\n");
+}
+    break;
+
+  case 66:
+#line 193 "parser.y"
+    {
+	// Class pointer is panda_page
+	// Parent pointer is panda_pdf
+	panda_endline(m_panda_page);
+printf("100 panda_endline executed\n");
+}
+    break;
+
+  case 67:
+#line 201 "parser.y"
     {
 	// Class pointer is panda_page
 	// Parent pointer is panda_pdf
 	panda_strokeline(m_panda_page);
+printf("100 panda_strokeline executed\n");
 }
     break;
 
-  case 69:
-#line 191 "parser.y"
+  case 68:
+#line 209 "parser.y"
     {
 	// Class pointer is panda_page
 	// Parent pointer is panda_pdf
 	panda_fillline(m_panda_page);
+printf("100 panda_fillline executed\n");
 }
     break;
 
-  case 70:
-#line 198 "parser.y"
+  case 69:
+#line 217 "parser.y"
     {
 	// Class pointer is panda_page
 	// Parent pointer is panda_pdf
 	panda_setlinewidth(m_panda_page, yyvsp[0].intVal);
+printf("100 panda_setlinewidth executed\n");
 }
     break;
 
-  case 71:
-#line 205 "parser.y"
+  case 70:
+#line 225 "parser.y"
     {
 	// Class pointer is panda_page
 	// Parent pointer is panda_pdf
 	panda_setlinecap(m_panda_page, yyvsp[0].intVal);
+printf("100 panda_setlinecap executed\n");
 }
     break;
 
-  case 72:
-#line 212 "parser.y"
-    {
-	// Class pointer is panda_page
-	// Parent pointer is panda_pdf
-	panda_setlinejoin(m_panda_page, yyvsp[0].intVal);
-}
-    break;
-
-  case 73:
-#line 219 "parser.y"
-    {
-	// Class pointer is panda_page
-	// Parent pointer is panda_pdf
-	panda_setlinedash(m_panda_page, yyvsp[-2].intVal, yyvsp[-1].intVal, yyvsp[0].intVal);
-}
-    break;
-
-  case 74:
-#line 226 "parser.y"
-    {
-	// Class pointer is panda_page
-	// Parent pointer is panda_pdf
-	panda_setfillcolor(m_panda_page, yyvsp[-2].intVal, yyvsp[-1].intVal, yyvsp[0].intVal);
-}
-    break;
-
-  case 75:
+  case 71:
 #line 233 "parser.y"
     {
 	// Class pointer is panda_page
 	// Parent pointer is panda_pdf
-	panda_setlinecolor(m_panda_page, yyvsp[-2].intVal, yyvsp[-1].intVal, yyvsp[0].intVal);
+	panda_setlinejoin(m_panda_page, yyvsp[0].intVal);
+printf("100 panda_setlinejoin executed\n");
 }
     break;
 
-  case 76:
-#line 240 "parser.y"
+  case 72:
+#line 241 "parser.y"
+    {
+	// Class pointer is panda_page
+	// Parent pointer is panda_pdf
+	panda_setlinedash(m_panda_page, yyvsp[-2].intVal, yyvsp[-1].intVal, yyvsp[0].intVal);
+printf("100 panda_setlinedash executed\n");
+}
+    break;
+
+  case 73:
+#line 249 "parser.y"
+    {
+	// Class pointer is panda_page
+	// Parent pointer is panda_pdf
+	panda_setfillcolor(m_panda_page, yyvsp[-2].intVal, yyvsp[-1].intVal, yyvsp[0].intVal);
+printf("100 panda_setfillcolor executed\n");
+}
+    break;
+
+  case 74:
+#line 257 "parser.y"
+    {
+	// Class pointer is panda_page
+	// Parent pointer is panda_pdf
+	panda_setlinecolor(m_panda_page, yyvsp[-2].intVal, yyvsp[-1].intVal, yyvsp[0].intVal);
+printf("100 panda_setlinecolor executed\n");
+}
+    break;
+
+  case 75:
+#line 265 "parser.y"
     {
 	// Class pointer is panda_page
 	// Parent pointer is panda_pdf
 	panda_imagebox(m_panda_pdf, m_panda_page, yyvsp[-5].intVal, yyvsp[-4].intVal, yyvsp[-3].intVal, yyvsp[-2].intVal, yyvsp[-1].textVal, yyvsp[0].intVal);
+printf("100 panda_imagebox executed\n");
 }
     break;
 
-  case 77:
-#line 247 "parser.y"
+  case 76:
+#line 273 "parser.y"
     {
 	// Class pointer is panda_page
 	// Parent pointer is panda_pdf
 	panda_imageboxrot(m_panda_pdf, m_panda_page, yyvsp[-6].intVal, yyvsp[-5].intVal, yyvsp[-4].intVal, yyvsp[-3].intVal, yyvsp[-2].fltVal, yyvsp[-1].textVal, yyvsp[0].intVal);
+printf("100 panda_imageboxrot executed\n");
 }
     break;
 
-  case 78:
-#line 254 "parser.y"
+  case 77:
+#line 281 "parser.y"
     {
 	// Class pointer is panda_page
 	// Parent pointer is panda_pdf
 	panda_textbox(m_panda_pdf, m_panda_page, yyvsp[-4].intVal, yyvsp[-3].intVal, yyvsp[-2].intVal, yyvsp[-1].intVal, yyvsp[0].textVal);
+printf("100 panda_textbox executed\n");
 }
     break;
 
-  case 79:
-#line 261 "parser.y"
-    {
-	// Class pointer is panda_page
-	// Parent pointer is panda_pdf
-	panda_textboxrot(m_panda_pdf, m_panda_page, yyvsp[-5].intVal, yyvsp[-4].intVal, yyvsp[-3].intVal, yyvsp[-2].intVal, yyvsp[-1].fltVal, yyvsp[0].textVal);
-}
-    break;
-
-  case 80:
-#line 268 "parser.y"
-    {
-	// Class pointer is panda_page
-	// Parent pointer is panda_pdf
-	panda_textboxrotalign(m_panda_pdf, m_panda_page, yyvsp[-7].intVal, yyvsp[-6].intVal, yyvsp[-5].intVal, yyvsp[-4].intVal, yyvsp[-3].fltVal, yyvsp[-2].intVal, yyvsp[-1].intVal, yyvsp[0].textVal);
-}
-    break;
-
-  case 81:
-#line 275 "parser.y"
-    {
-	// Class pointer is panda_page
-	// Parent pointer is panda_pdf
-	panda_pageduration(m_panda_pdf, m_panda_page, yyvsp[0].intVal);
-}
-    break;
-
-  case 82:
-#line 282 "parser.y"
-    {
-	// Class pointer is panda_page
-	// Parent pointer is panda_pdf
-	panda_transduration(m_panda_pdf, m_panda_page, yyvsp[0].fltVal);
-}
-    break;
-
-  case 83:
+  case 78:
 #line 289 "parser.y"
     {
 	// Class pointer is panda_page
 	// Parent pointer is panda_pdf
+	panda_textboxrot(m_panda_pdf, m_panda_page, yyvsp[-5].intVal, yyvsp[-4].intVal, yyvsp[-3].intVal, yyvsp[-2].intVal, yyvsp[-1].fltVal, yyvsp[0].textVal);
+printf("100 panda_textboxrot executed\n");
+}
+    break;
+
+  case 79:
+#line 297 "parser.y"
+    {
+	// Class pointer is panda_page
+	// Parent pointer is panda_pdf
+	panda_textboxrotalign(m_panda_pdf, m_panda_page, yyvsp[-7].intVal, yyvsp[-6].intVal, yyvsp[-5].intVal, yyvsp[-4].intVal, yyvsp[-3].fltVal, yyvsp[-2].intVal, yyvsp[-1].intVal, yyvsp[0].textVal);
+printf("100 panda_textboxrotalign executed\n");
+}
+    break;
+
+  case 80:
+#line 305 "parser.y"
+    {
+	// Class pointer is panda_page
+	// Parent pointer is panda_pdf
+	panda_pageduration(m_panda_pdf, m_panda_page, yyvsp[0].intVal);
+printf("100 panda_pageduration executed\n");
+}
+    break;
+
+  case 81:
+#line 313 "parser.y"
+    {
+	// Class pointer is panda_page
+	// Parent pointer is panda_pdf
+	panda_transduration(m_panda_pdf, m_panda_page, yyvsp[0].fltVal);
+printf("100 panda_transduration executed\n");
+}
+    break;
+
+  case 82:
+#line 321 "parser.y"
+    {
+	// Class pointer is panda_page
+	// Parent pointer is panda_pdf
 	panda_transstyle(m_panda_pdf, m_panda_page, yyvsp[0].intVal);
+printf("100 panda_transstyle executed\n");
+}
+    break;
+
+  case 83:
+#line 329 "parser.y"
+    {
+	// Class pointer is panda_pdf
+	// Parent pointer is panda
+	panda_setauthor(m_panda_pdf, yyvsp[0].textVal);
+printf("100 panda_setauthor executed\n");
 }
     break;
 
   case 84:
-#line 296 "parser.y"
+#line 337 "parser.y"
     {
 	// Class pointer is panda_pdf
-	panda_setauthor(m_panda_pdf, yyvsp[0].textVal);
+	// Parent pointer is panda
+	panda_setcreator(m_panda_pdf, yyvsp[0].textVal);
+printf("100 panda_setcreator executed\n");
 }
     break;
 
   case 85:
-#line 302 "parser.y"
+#line 345 "parser.y"
     {
 	// Class pointer is panda_pdf
-	panda_setcreator(m_panda_pdf, yyvsp[0].textVal);
+	// Parent pointer is panda
+	panda_settitle(m_panda_pdf, yyvsp[0].textVal);
+printf("100 panda_settitle executed\n");
 }
     break;
 
   case 86:
-#line 308 "parser.y"
+#line 353 "parser.y"
     {
 	// Class pointer is panda_pdf
-	panda_settitle(m_panda_pdf, yyvsp[0].textVal);
+	// Parent pointer is panda
+	panda_setsubject(m_panda_pdf, yyvsp[0].textVal);
+printf("100 panda_setsubject executed\n");
 }
     break;
 
   case 87:
-#line 314 "parser.y"
+#line 361 "parser.y"
     {
 	// Class pointer is panda_pdf
-	panda_setsubject(m_panda_pdf, yyvsp[0].textVal);
+	// Parent pointer is panda
+	panda_setkeywords(m_panda_pdf, yyvsp[0].textVal);
+printf("100 panda_setkeywords executed\n");
 }
     break;
 
   case 88:
-#line 320 "parser.y"
+#line 369 "parser.y"
     {
 	// Class pointer is panda_pdf
-	panda_setkeywords(m_panda_pdf, yyvsp[0].textVal);
+	// Parent pointer is panda
+	panda_setfontsize(m_panda_pdf, yyvsp[0].intVal);
+printf("100 panda_setfontsize executed\n");
 }
     break;
 
   case 89:
-#line 326 "parser.y"
+#line 377 "parser.y"
     {
 	// Class pointer is panda_pdf
-	m_char = panda_createfont(m_panda_pdf, yyvsp[-2].textVal, yyvsp[-1].intVal, yyvsp[0].textVal);
+	// Parent pointer is panda
+	panda_setfontmode(m_panda_pdf, yyvsp[0].intVal);
+printf("100 panda_setfontmode executed\n");
 }
     break;
 
   case 90:
-#line 332 "parser.y"
+#line 385 "parser.y"
     {
 	// Class pointer is panda_pdf
-	panda_setfont(m_panda_pdf, yyvsp[0].textVal);
+	// Parent pointer is panda
+	panda_setcharacterspacing(m_panda_pdf, yyvsp[0].fltVal);
+printf("100 panda_setcharacterspacing executed\n");
 }
     break;
 
   case 91:
-#line 338 "parser.y"
+#line 393 "parser.y"
     {
 	// Class pointer is panda_pdf
-	panda_setfontsize(m_panda_pdf, yyvsp[0].intVal);
+	// Parent pointer is panda
+	panda_setwordspacing(m_panda_pdf, yyvsp[0].fltVal);
+printf("100 panda_setwordspacing executed\n");
 }
     break;
 
   case 92:
-#line 344 "parser.y"
+#line 401 "parser.y"
     {
 	// Class pointer is panda_pdf
-	panda_setfontmode(m_panda_pdf, yyvsp[0].intVal);
+	// Parent pointer is panda
+	panda_sethorizontalscaling(m_panda_pdf, yyvsp[0].fltVal);
+printf("100 panda_sethorizontalscaling executed\n");
 }
     break;
 
   case 93:
-#line 350 "parser.y"
+#line 409 "parser.y"
     {
 	// Class pointer is panda_pdf
-	panda_setcharacterspacing(m_panda_pdf, yyvsp[0].fltVal);
+	// Parent pointer is panda
+	panda_setleading(m_panda_pdf, yyvsp[0].fltVal);
+printf("100 panda_setleading executed\n");
 }
     break;
 
   case 94:
-#line 356 "parser.y"
+#line 417 "parser.y"
     {
 	// Class pointer is panda_pdf
-	panda_setwordspacing(m_panda_pdf, yyvsp[0].fltVal);
+	// Parent pointer is panda
+	panda_close(m_panda_pdf);
+printf("100 panda_close executed\n");
 }
     break;
 
   case 95:
-#line 362 "parser.y"
+#line 425 "parser.y"
     {
 	// Class pointer is panda_pdf
-	panda_sethorizontalscaling(m_panda_pdf, yyvsp[0].fltVal);
+	// Parent pointer is panda
+	m_panda_page = panda_newpage(m_panda_pdf, yyvsp[0].textVal);
+printf("100 panda_newpage executed\n");
 }
     break;
 
   case 96:
-#line 368 "parser.y"
+#line 433 "parser.y"
     {
 	// Class pointer is panda_pdf
-	panda_setleading(m_panda_pdf, yyvsp[0].fltVal);
+	// Parent pointer is panda
+	m_panda_page = panda_newtemplate(m_panda_pdf, yyvsp[0].textVal);
+printf("100 panda_newtemplate executed\n");
 }
     break;
 
   case 97:
-#line 374 "parser.y"
+#line 441 "parser.y"
     {
 	// Class pointer is panda_pdf
-	m_panda_fontmetric = panda_getfontmetric(m_panda_pdf);
+	// Parent pointer is panda
+	panda_hidetoolbar(m_panda_pdf, yyvsp[0].intVal);
+printf("100 panda_hidetoolbar executed\n");
 }
     break;
 
   case 98:
-#line 380 "parser.y"
+#line 449 "parser.y"
     {
 	// Class pointer is panda_pdf
-	panda_close(m_panda_pdf);
+	// Parent pointer is panda
+	panda_hidemenubar(m_panda_pdf, yyvsp[0].intVal);
+printf("100 panda_hidemenubar executed\n");
 }
     break;
 
   case 99:
-#line 386 "parser.y"
+#line 457 "parser.y"
     {
 	// Class pointer is panda_pdf
-	m_panda_page = panda_newpage(m_panda_pdf, yyvsp[0].textVal);
+	// Parent pointer is panda
+	panda_hidewindowui(m_panda_pdf, yyvsp[0].intVal);
+printf("100 panda_hidewindowui executed\n");
 }
     break;
 
   case 100:
-#line 392 "parser.y"
+#line 465 "parser.y"
     {
 	// Class pointer is panda_pdf
-	m_panda_page = panda_newtemplate(m_panda_pdf, yyvsp[0].textVal);
+	// Parent pointer is panda
+	panda_fitwindow(m_panda_pdf, yyvsp[0].intVal);
+printf("100 panda_fitwindow executed\n");
 }
     break;
 
   case 101:
-#line 398 "parser.y"
+#line 473 "parser.y"
     {
 	// Class pointer is panda_pdf
-	panda_hidetoolbar(m_panda_pdf, yyvsp[0].intVal);
+	// Parent pointer is panda
+	panda_centerwindow(m_panda_pdf, yyvsp[0].intVal);
+printf("100 panda_centerwindow executed\n");
 }
     break;
 
   case 102:
-#line 404 "parser.y"
+#line 481 "parser.y"
     {
 	// Class pointer is panda_pdf
-	panda_hidemenubar(m_panda_pdf, yyvsp[0].intVal);
+	// Parent pointer is panda
+	panda_nfspagemode(m_panda_pdf, yyvsp[0].intVal);
+printf("100 panda_nfspagemode executed\n");
 }
     break;
 
   case 103:
-#line 410 "parser.y"
+#line 489 "parser.y"
     {
 	// Class pointer is panda_pdf
-	panda_hidewindowui(m_panda_pdf, yyvsp[0].intVal);
+	// Parent pointer is panda
+	panda_fullscreen(m_panda_pdf, yyvsp[0].intVal);
+printf("100 panda_fullscreen executed\n");
 }
     break;
 
   case 104:
-#line 416 "parser.y"
+#line 497 "parser.y"
     {
 	// Class pointer is panda_pdf
-	panda_fitwindow(m_panda_pdf, yyvsp[0].intVal);
-}
-    break;
-
-  case 105:
-#line 422 "parser.y"
-    {
-	// Class pointer is panda_pdf
-	panda_centerwindow(m_panda_pdf, yyvsp[0].intVal);
-}
-    break;
-
-  case 106:
-#line 428 "parser.y"
-    {
-	// Class pointer is panda_pdf
-	panda_nfspagemode(m_panda_pdf, yyvsp[0].intVal);
-}
-    break;
-
-  case 107:
-#line 434 "parser.y"
-    {
-	// Class pointer is panda_pdf
-	panda_fullscreen(m_panda_pdf, yyvsp[0].intVal);
-}
-    break;
-
-  case 108:
-#line 440 "parser.y"
-    {
-	// Class pointer is panda_pdf
+	// Parent pointer is panda
 	panda_textdirection(m_panda_pdf, yyvsp[0].intVal);
+printf("100 panda_textdirection executed\n");
 }
     break;
 
@@ -1788,7 +1867,7 @@ yyreduce:
     }
 
 /* Line 999 of yacc.c.  */
-#line 1792 "parser.c"
+#line 1871 "parser.c"
 
   yyvsp -= yylen;
   yyssp -= yylen;
@@ -1982,11 +2061,11 @@ yyreturn:
 }
 
 
-#line 449 "parser.y"
+#line 508 "parser.y"
 
 
 int yyerror(char *s){
-  printf("200 Unknown command. Try help for more command information...\n");
+  printf("200 Unknown command (%s). Try help for more command information...\n", s);
 }
 
 // Buffer overrun safe strcat

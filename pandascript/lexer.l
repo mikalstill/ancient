@@ -11,13 +11,14 @@ char *returnStr(char *);
 
 [ \t\r\n]+
 
-\".*\"                  { // This is a memory leak...
+\"[^\"]*\"              { // This is a memory leak...
                           yylval.textVal = (char *) returnStr(yytext);
                           yylval.textVal = yylval.textVal + 1;
                           yylval.textVal[strlen(yylval.textVal) - 1] = '\0';
                           return QUOTESTR;       }
 
 
+panda_open                     { return PANDA_OPEN                    ; }
 panda_textannotation           { return PANDA_TEXTANNOTATION          ; }
 panda_freetextannotation       { return PANDA_FREETEXTANNOTATION      ; }
 panda_lineannotation           { return PANDA_LINEANNOTATION          ; }
@@ -51,15 +52,12 @@ panda_setcreator               { return PANDA_SETCREATOR              ; }
 panda_settitle                 { return PANDA_SETTITLE                ; }
 panda_setsubject               { return PANDA_SETSUBJECT              ; }
 panda_setkeywords              { return PANDA_SETKEYWORDS             ; }
-panda_createfont               { return PANDA_CREATEFONT              ; }
-panda_setfont                  { return PANDA_SETFONT                 ; }
 panda_setfontsize              { return PANDA_SETFONTSIZE             ; }
 panda_setfontmode              { return PANDA_SETFONTMODE             ; }
 panda_setcharacterspacing      { return PANDA_SETCHARACTERSPACING     ; }
 panda_setwordspacing           { return PANDA_SETWORDSPACING          ; }
 panda_sethorizontalscaling     { return PANDA_SETHORIZONTALSCALING    ; }
 panda_setleading               { return PANDA_SETLEADING              ; }
-panda_getfontmetric            { return PANDA_GETFONTMETRIC           ; }
 panda_close                    { return PANDA_CLOSE                   ; }
 panda_newpage                  { return PANDA_NEWPAGE                 ; }
 panda_newtemplate              { return PANDA_NEWTEMPLATE             ; }

@@ -2,6 +2,8 @@
   #include <panda/functions.h>
   #include <panda/constants.h>
 
+  #define YYERROR_VERBOSE 1
+
   // Uncomment this line to run dmalloc for memory checking
   // #include <dmalloc.h>
 
@@ -47,7 +49,7 @@ stuff     : ANYTHING stuff {}
 %%
 
 int yyerror(char *s){
-  printf("200 Unknown command. Try help for more command information...\n");
+  printf("200 Unknown command (%s). Try help for more command information...\n", s);
 }
 
 // Buffer overrun safe strcat

@@ -11,7 +11,7 @@ char *returnStr(char *);
 
 [ \t\r\n]+
 
-\".*\"                  { // This is a memory leak...
+\"[^\"]*\"              { // This is a memory leak...
                           yylval.textVal = (char *) returnStr(yytext);
                           yylval.textVal = yylval.textVal + 1;
                           yylval.textVal[strlen(yylval.textVal) - 1] = '\0';
