@@ -1,0 +1,48 @@
+<chapter id="meetings-week13"><title>Semester One, Week Thirteen Meetings</title>
+<para>
+...Summary of the week...
+</para>
+
+<sect1><title>Saturday 25 May 2002</title>
+<para>
+This meeting ran from 10.30am to xx pm.
+<orderedlist>
+<listitem><para>Informal discussion, individual work</para></listitem>
+<listitem><para>Discussion about the need for a Matrix class and it's specifications brought 
+about by informal discussions earlier in the week.</para></listitem>
+<listitem><para>It was agreed that we would be using the FFTW package to carry out Fast 
+Fourier Transforms in the C++ implementation of the project.</para></listitem>
+<listitem><para>Further discussion regarding content of the Poster. I.e Format etc...</para></listitem>
+<listitem><para>Prototype discussion: TODO: expand</para></listitem>
+
+</orderedlist>
+</para>
+
+<para>
+<emphasis></emphasis>
+</para>
+
+<para>
+In attendance at the meeting
+<orderedlist>
+<listitem><para>Michael</para></listitem>
+<listitem><para>Daniel</para></listitem>
+<listitem><para>Nick</para></listitem>
+<listitem><para>Blake</para></listitem>
+<listitem><para>Kristy</para></listitem>
+</orderedlist>
+</para>
+
+<sect2><title>Action items</title>
+<para>
+The following action items were identified:
+<orderedlist>
+<listitem><para>Daniel to further explore the FFTW library and it's integration with the 
+project.</para></listitem>
+<listitem><para></para></listitem>
+</orderedlist>
+</para>
+</sect2>
+</sect1>
+
+</chapter>
