@@ -122,7 +122,7 @@ cepMatrix<double> *cepWindowChebyshev::generateCoeffs( int size ) {
 
   // from gamma and M, we compute beta
   //
-  double beta = cosh( (acosh(gamma)/(double)(2*M));
+  double beta = cosh(acosh(gamma)/(double)(2*M));
 
 
   // for debugger visibility
