@@ -2,12 +2,12 @@
 
 use strict;
 
-my($chapname, $chaptitle, $slidename, $slidetitle, $incmode, $suppress,
-   $LIST, $SLIDE, $tablerowcount);
+my($slidename, $slidetitle, $incmode, $suppress, $LIST, $SLIDE, $tablerowcount, @titleelem, $currsect, $newsect);
 
 $incmode = 0;
 $suppress = 0;
-$chapname = "";
+$currsect = -1;
+$newsect = 0;
 
 open LIST, "> slides-list";
 
@@ -15,7 +15,7 @@ open LIST, "> slides-list";
 while(<STDIN>){
     # Be keen to turn include mode off, and slow to turn it on...
     if(/(.*)<\/slideinclude>/ || /(.*)<\/slidetext>/){
-	if($chapname ne ""){
+	if($slidename ne ""){
 	    $_ = makeslidetext($1);
 	    print SLIDE "$_\n";
 	}
@@ -23,7 +23,7 @@ while(<STDIN>){
 	$incmode = 0;
 	print STDERR "Turning include mode off\n";
     }
-    if(($incmode == 1) && ($chapname ne "")){
+    if(($incmode == 1) && ($slidename ne "")){
 	$_ = makeslidetext($_);
 	print SLIDE "$_";
     }
@@ -33,33 +33,38 @@ while(<STDIN>){
 
     # Found a chapter
     if(/.*<chapter .*>/i){
-	$chapname = "";
+	$slidename = "";
+	$currsect = 0;
+	$newsect = 0;
+    }
+
+    if(/.*<sect([0-9])>/i){
+	print STDERR "New section number $1\n";
+	$newsect = $1;
     }
 
     # Found a slide name (a title)
     if((/(.*)<title>(.*)<\/title>.*/i) && ($suppress == 0)){
 	if($1 eq "<figure>"){
+	    print STDERR "Figure title skipped\n";
 	}
-	elsif($chapname eq ""){
-	    $chaptitle = $2;
-	    $chapname = makefile($2);
-	    
-	    close SLIDE;
-	    open SLIDE, "> content/$chapname";
-	    print SLIDE "TITLE: $chaptitle\n\n";
-	    print LIST "content/$chapname\n";
-	    print STDERR "New slide: $chaptitle at content/$chapname\n";
+
+	# Did we go down or up in sect levels?
+	elsif($currsect == -1){
+	    print STDERR "First title element\n";
+	    $titleelem[0] = $2;
+	    openslide();
+	}
+	elsif($newsect > $currsect){
+	    print STDERR "Appending a title element\n";
+	    $titleelem[scalar @titleelem] = $2;
+	    openslide();
 	}
 	else{
-	    $slidetitle = $2;
-	    $slidename = makefile($2);
-	    $slidename =~ s/^$chapname-//;
-	    
-	    close SLIDE;
-	    open SLIDE, "> content/$chapname-$slidename";
-	    print SLIDE "TITLE: $chaptitle -- $slidetitle\n\n";
-	    print LIST "content/$chapname-$slidename\n";
-	    print STDERR "New slide: $chaptitle -- $slidetitle at content/$chapname-$slidename\n";
+	    print STDERR "Rolling back a title element\n";
+	    $#titleelem = $newsect;
+	    $titleelem[$newsect] = $2;
+	    openslide();
 	}
     }
     
@@ -71,28 +76,16 @@ while(<STDIN>){
     # Forcing a page break in a side
     if(/.*<slidebreak>/){
 	print STDERR "Slide page break\n";
-	$_ = $slidename;
-	close SLIDE;
 
-	if(/(.*-cont-)([0-9]+)/){
-	    $slidename = "$1".($2 + 1);
+	# Is the last element of the title already a cont?
+	$_ = $titleelem[$#titleelem];
+	if(/Continued (.*)/){
+	    $titleelem[$#titleelem] = "Continued " . ($1 + 1);
 	}
 	else{
-	    my($hyphen);
-	    if($slidename ne ""){
-		$hyphen = "-";
-	    }
-	    else{
-		$hyphen = "";
-	    }
-
-	    $slidename = "$slidename$hyphen"."cont-2";
+	    $titleelem[$#titleelem + 1] = "Continued 1";
 	}
-
-	print STDERR "New slide name is $slidename\n";
-	open SLIDE, "> content/$chapname-$slidename";
-	print SLIDE "TITLE: $chaptitle -- $slidetitle (continued)\n\n";
-	print LIST "content/$chapname-$slidename\n";
+	openslide();
     }
 
     # We can also suppress titles from being included
@@ -107,6 +100,21 @@ while(<STDIN>){
 }
 
 exit;
+
+sub openslide(){
+    print STDERR "[Old $currsect, New $newsect] Title elements: " . join(", ", @titleelem) . "\n";
+    $currsect = $newsect;
+    
+    # Generate a filename for this slide
+    $slidetitle = join(": ", @titleelem);
+    $slidename = "content/" . join("-", @titleelem);
+    $slidename = makefile($slidename);
+    
+    close SLIDE;
+    open SLIDE, "> $slidename";
+    print SLIDE "TITLE: $slidetitle\n";
+    print LIST "$slidename\n";
+}
 
 sub makefile(){
     my($temp) = @_;
