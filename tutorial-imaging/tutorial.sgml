@@ -5,9 +5,567 @@
 <author><firstname>Michael</firstname><surname>Still</surname></author>
 </authorgroup>
 </bookinfo>
-<chapter id="meetings-week10"><title>Semester One, Week Ten Meetings</title>
+
+<chapter id="chap-introduction"><title>Introduction</title>
 <para>
-This was the first week back after the mid-semester class free period.
+...
+</para>
+
+<sect1>
+<title>About the author</title>
+<para>
+Michael has been working in the image processing field for several years, including a couple of years managing and developing large image databases for an Australian government department. He currently works for TOWER Software, who manufacture a world leading EDMS and Records Management package named TRIM. Michael is also the developer of Panda, an open source PDF generation API, as well as being the maintainer of the comp.text.pdf USENET frequently asked questions document. You can contact Michael at mikal@stillhq.com.
+</para>
+
+<para>
+Michael also has a whole bunch of code (most of which relates to imaging) at his website: http://www.stillhq.com
+</para>
+</sect1>
+
+<sect1><title>Credits</title>
+<para>
+There are many people who need to be thanked when one attempts a project of this size. I would specifically like to thank my wife and son, who put up with me being geeky so very often.
+
+TODO -- picture of Andrew and Catherine
+</para>
+</sect1>
+</chapter>
+
+<chapter id="chap-concepts"><title>Imaging concepts</title>
+<para>
+...
+</para>
+
+<sect1><title>Rasters</title>
+<para>
+...
+</para>
+</sect1>
+
+<sect1><title>If it's not raster, then what is it?</title>
+<para>
+...
+</para>
+</sect1>
+
+<sect1><title>Further reading</title>
+<para>
+...
+</para>
+</sect1>
+
+</chapter>
+
+<chapter id="chap-tiff"><title>TIFF</title>
+<para>
+...
+</para>
+
+<sect1>
+<title>Abstract</title>
+<para>
+TIFF is an extremely common, but quite complex raster image format. Libtiff is a standard implementation of the TIFF specification, which is free and works on many operating systems. This chapter discusses some of the pitfalls of TIFF, and guides the reader through use of the libtiff library. This chapter provides examples on how to use libtiff for your black and white imaging needs.
+</para>
+
+<para>
+TIFF (Tagged Image File Format) is a raster image format which was originally produced by Adobe. Raster image formats are those which store the picture as a bitmap describing the state of pixels, as opposed to recording the length and locations of primatives such as lines and curves. Libtiff is one of the standard implementations of the TIFF specification, and is in wide use today because of its speed, power and easy source availability.
+</para>
+</sect1>
+
+<sect1>
+<title>Coding for TIFF can be hard</title>
+<para>	
+Most file format specifications define some basic rules for the representation of the file. For instance, PNG (a compeditor to TIFF) documents are always big endian. TIFF doesn't mandate things like this though, here is a list of some of the seemingly basic things that it doesn't define:
+
+<orderedlist>
+  <listitem><para>The byte order -- big endian, or little endian</para></listitem>
+  <listitem><para>The fill order of the bit within the image bytes -- most significant bit first, or least significant</para></listitem>
+  <listitem><para>The meaning of a given pixel value for black and white -- is 0 black, or white?</para></listitem>
+  <listitem><para>...and so on</para></listitem>
+</orderedlist>
+</para>
+
+<para>
+This means that creating a TIFF can be very easy, because it is rare to have to do any conversion of the data that you already have. It does mean, on the other hand, that being able to read in random tiffs created by other applications can be very hard -- you have to code for all these possible combinations in order to be reasonably certain of having a reliable product.
+</para>
+	
+<para>
+So how do you write an application which can read in all these different possible permutations of the TIFF format? The most important thing to remember is to <emphasis>never make assumptions about the format of the image data you are reading in</emphasis>.
+</para>
+</sect1>
+
+<sect1>
+<title>Writing TIFF files</title>
+<para>
+The first thing I want to do is show you how to write a TIFF file out. We'll then get onto how to read a TIFF file back into your program.
+</para>
+	
+<sect2>
+<title>Infrastructure for writing</title>
+<para>
+It is traditional for bitmaps to be represented inside your code with an array of chars. This is because on most operating systems, a char maps well to one byte. In the block of code below, we will setup libtiff, and create a simple buffer which contains an image which we can then write out to disc.
+</para>
+
+<programlisting>
+#include &lt;stdio.h&gt;
+#include &lt;tiffio.h&gt;
+
+int
+main (int argc, char *argv[])
+{
+  char buffer[32 * 9];
+}
+</programlisting>
+
+<para>
+The code above is pretty simple. All you need to use libtiff is to include the tiffio.h header file. To compile this, use the command <command>gcc foo.c -o foo -ltiff -lm</command>. The <command>-ltiff</command> is a command which will include the library named libtiff, which needs to be in your library path. Once you have started specifing libraries explicitly, you also need to add <command>-lm</command>, which is the mathematics library. The char buffer that we have defined here is going to be our black and white image, so we should define one of those next...
+</para>
+</sect2>
+
+<sect2>
+<title>Writing the image</title>
+<para>
+To make up for how boring that example was, I am now pleased to present you with possibly the worst picture of the Sydney Harbour Bridge ever drawn. In the example below, the image is already in the image buffer, and all we have to do is save it to the file on disc. The example first opens a tiff image in write mode, and then places the image into that file.
+</para>
+
+<para>
+Please note, that for clarity I have omitted the actual hex for the image, this is available in the download version of this code for those who are interested.
+</para>
+
+<programlisting>
+#include &lt;stdio.h&gt;
+#include &lt;tiffio.h&gt;
+
+int main(int argc, char *argv[]){
+  // Define an image
+  char buffer[25 * 144] = { /* boring hex omitted */ };
+  TIFF *image;
+
+  // Open the TIFF file
+  if((image = TIFFOpen("output.tif", "w")) == NULL){
+    printf("Could not open output.tif for writing\n");
+    exit(42);
+  }
+
+  // We need to set some values for basic tags before we can add any data
+  TIFFSetField(image, TIFFTAG_IMAGEWIDTH, 25 * 8);
+  TIFFSetField(image, TIFFTAG_IMAGELENGTH, 144);
+  TIFFSetField(image, TIFFTAG_BITSPERSAMPLE, 1);
+  TIFFSetField(image, TIFFTAG_SAMPLESPERPIXEL, 1);
+  TIFFSetField(image, TIFFTAG_ROWSPERSTRIP, 144);
+
+  TIFFSetField(image, TIFFTAG_COMPRESSION, COMPRESSION_CCITTFAX4);
+  TIFFSetField(image, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_MINISWHITE);
+  TIFFSetField(image, TIFFTAG_FILLORDER, FILLORDER_MSB2LSB);
+  TIFFSetField(image, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+
+  TIFFSetField(image, TIFFTAG_XRESOLUTION, 150.0);
+  TIFFSetField(image, TIFFTAG_YRESOLUTION, 150.0);
+  TIFFSetField(image, TIFFTAG_RESOLUTIONUNIT, RESUNIT_INCH);
+  
+  // Write the information to the file
+  TIFFWriteEncodedStrip(image, 0, buffer, 25 * 144);
+
+  // Close the file
+  TIFFClose(image);
+}
+</programlisting>
+
+<para>
+There are some interesting things to note in this example. The most interesting of these is that the output image will not display using the xview command on my linux machine. In fact, I couldn't find an example of a group 4 fax compressed black and white image which would display using that program. See the sidebar for more detail.
+</para>
+
+<sidebar>
+<title>Problems with xview</title>
+<para>
+Xview is part of the xloadimage package written by Jim Frost, which comes with X windows.
+</para>
+
+<para>
+It's a good example of how hard it can be to handle TIFF images well. I am currently working on a patch to submit to Jim which will resolve this problem. If you have trouble viewing the output of the sample code, then try using some other program, like the gimp.
+</para>
+</sidebar>
+
+<para>
+The sample code shows the basics of using the libtiff API. The following interesting points should be noted...
+</para>
+
+<orderedlist>
+<listitem><para>The buffers presented to and returned from libtiff each contain 8 pixels in a single byte. This means that you have to be able to extract the pixels you are interested in. The use of masks, and the right and left shift operators come in handy here.</para></listitem>
+
+<listitem><para>The TIFFOpen function is very similar to the fopen function we are all familiar with.</para></listitem>
+
+<listitem><para>We need to set the value for quite a few fields before we can start writing the image out. These fields give libtiff information about the size and shape of the image, as well as the way that data will be compresed within the image. These fields need to be set before you can start handing image data to libtiff. There are many more fields for which a value could be set, I have used close to the bar minimum in this example.</para></listitem>
+
+<listitem><para>TIFFWriteEncodedStrip is the function call which actually inserts the image into the file. This call inserts uncompressed image data into the file. This means that libtiff will compress the image data for you before writing it to the file. If you have already compressed data, then have a look at the TIFFWriteRawStrip instead.</para></listitem>
+
+<listitem><para>Finally, we close the file with TIFFClose.</para></listitem>
+</orderedlist>
+
+<sidebar>
+<title>More information about the libtiff function calls</title>
+<para>
+If you need more information about any of the libtiff function calls mentioned in this chapter, then checkout the extensive man pages which come with the library. Remember that case is important with man pages, so you need to get the case in the function names right -- it's TIFFOpen, not tiffopen.
+</para>
+</sidebar>
+
+<figure>
+<title>The Sydney Harbour Bridge, by Michael Still</title>
+<graphic format="EPS" fileref="tiff-figure1.eps"></graphic>
+</figure>
+</sect2>
+</sect1>
+
+<sect1>
+<title>Reading TIFF files</title>
+<para>
+Reading TIFF files reliably is much harder than writing them. Unfortunately, I don't have enough space in this chapter to discuss all of the important issues. Some of them will need to be left to later chapters. There are also plenty of pages on the web which discuss the issues involved. Some of my favourites are included in the references section at the end of this chapter.
+</para>
+
+<para>
+The issue that complicates reading black and white TIFF images the most is the several different storage schemes which are possible within the TIFF file itself. libtiff doesn't hold your hand much with these schemes, so you have to be able to handle them yourself. The three schemes TIFF supports are single stripped images, stripped images, and tiled images.
+</para>
+
+<orderedlist>
+<listitem><para>A single strip image is as the name suggests -- a special case of a stripped image. In this case, all of the bitmap is stored in one large block. I have experienced reliability issues with images which are single strip on Windows machines. The general recommendation is that no one strip should take more than 8 kilobytes uncompressed which with black and white images limits us to 65,536 pixels in a single strip.</para></listitem>
+
+<listitem><para>A multiple strip image is where horizontal blocks of the image are stored together. More than one stip is joined vertically to make the entire bitmap. Figure 2 shows this concept.</para></listitem>
+
+<listitem><para>A tiled image is like your bathroom wall, it is composed of tiles. This representation is show in Figure 3, and is useful for extremely large images -- this is especially true when you might only want to manipulate a small portion of the image at any one time.</para></listitem>
+</orderedlist>
+
+<figure>
+<title>The Sydney Harbour Bridge, in strips</title>
+<graphic format="EPS" fileref="tiff-figure2.eps"></graphic>
+</figure>
+
+<figure>
+<title>The Sydney Harbour Bridge, in tiles</title>
+<graphic format="EPS" fileref="tiff-figure3.eps"></graphic>
+</figure>
+
+<para>
+Tiled images are comparatively uncommon, so I will focus on stripped images in this chapter. Remember as we go along, that the single stripped case is merely a subset of a multiple strip images.
+</para>
+
+<sect2>
+<title>Infrastructure for reading</title>
+<para>
+The most important thing to remember when reading in TIFF images is to be flexible. The example below has the same basic concepts as the writing example above, with the major difference being that it needs to deal with many possible input images. Apart from stripping and tiling, the most important thing to remember to be flexible about is photometric interpretation. Luckily, with black and white images there are only two photometric interpretations to worry about (with colour and to a certain extent grayscale images there are many more).
+</para>
+
+<para>
+What is photometric interpretation? Well, the representation of the image in the buffer is really a very arbitary thing. I might code my bitmaps so that 0 means black (TIFFTAG_MINISBLACK), whilst you might find black being 1 (TIFFTAG_MINISWHITE) more convenient. TIFF allows both, so our code has to be able to handle both cases. In the example below, I have assumed that the internal buffers need to be in MINISWHITE, so we will convert images which are in MINISBLACK.
+</para>
+
+<para>
+The other big thing to bear in mind is fillorder (whether the first bit in the byte is the highest value, or the lowest). The example below also handles both of these correctly. I have assumed that we want the buffer to have the most significant bit first. TIFF images can be either big endian or little endian, but libtiff handles this for us. Thankfully, libtiff also supports the various compression algorithms without you having to worry about those. These are by far the scariest area of TIFF, so it is still worth your time to use libtiff.
+</para>
+
+<programlisting>
+#include &lt;stdio.h&gt;
+#include &lt;tiffio.h&gt;
+
+int main(int argc, char *argv[]){
+  TIFF *image;
+  uint16 photo, bps, spp, fillorder;
+  uint32 width;
+  tsize_t stripSize;
+  unsigned long imageOffset, result;
+  int stripMax, stripCount;
+  char *buffer, tempbyte;
+  unsigned long bufferSize, count;
+
+  // Open the TIFF image
+  if((image = TIFFOpen(argv[1], "r")) == NULL){
+    fprintf(stderr, "Could not open incoming image\n");
+    exit(42);
+  }
+
+  // Check that it is of a type that we support
+  if((TIFFGetField(image, TIFFTAG_BITSPERSAMPLE, &amp;bps) == 0) || (bps != 1)){
+    fprintf(stderr, "Either undefined or unsupported number of bits per sample\n");
+    exit(42);
+  }
+
+  if((TIFFGetField(image, TIFFTAG_SAMPLESPERPIXEL, &amp;spp) == 0) || (spp != 1)){
+    fprintf(stderr, "Either undefined or unsupported number of samples per pixel\n");
+    exit(42);
+  }
+
+  // Read in the possibly multile strips
+  stripSize = TIFFStripSize (image);
+  stripMax = TIFFNumberOfStrips (image);
+  imageOffset = 0;
+  
+  bufferSize = TIFFNumberOfStrips (image) * stripSize;
+  if((buffer = (char *) malloc(bufferSize)) == NULL){
+    fprintf(stderr, "Could not allocate enough memory for the uncompressed image\n");
+    exit(42);
+  }
+  
+  for (stripCount = 0; stripCount < stripMax; stripCount++){
+    if((result = TIFFReadEncodedStrip (image, stripCount,
+				      buffer + imageOffset,
+				      stripSize)) == -1){
+      fprintf(stderr, "Read error on input strip number %d\n", stripCount);
+      exit(42);
+    }
+
+    imageOffset += result;
+  }
+
+  // Deal with photometric interpretations
+  if(TIFFGetField(image, TIFFTAG_PHOTOMETRIC, &amp;photo) == 0){
+    fprintf(stderr, "Image has an undefined photometric interpretation\n");
+    exit(42);
+  }
+  
+  if(photo != PHOTOMETRIC_MINISWHITE){
+    // Flip bits
+    printf("Fixing the photometric interpretation\n");
+
+    for(count = 0; count < bufferSize; count++)
+      buffer[count] = ~buffer[count];
+  }
+
+  // Deal with fillorder
+  if(TIFFGetField(image, TIFFTAG_FILLORDER, &amp;fillorder) == 0){
+    fprintf(stderr, "Image has an undefined fillorder\n");
+    exit(42);
+  }
+  
+  if(fillorder != FILLORDER_MSB2LSB){
+    // We need to swap bits -- ABCDEFGH becomes HGFEDCBA
+    printf("Fixing the fillorder\n");
+
+    for(count = 0; count &lt; bufferSize; count++){
+      tempbyte = 0;
+      if(buffer[count] & 128) tempbyte += 1;
+      if(buffer[count] & 64) tempbyte += 2;
+      if(buffer[count] & 32) tempbyte += 4;
+      if(buffer[count] & 16) tempbyte += 8;
+      if(buffer[count] & 8) tempbyte += 16;
+      if(buffer[count] & 4) tempbyte += 32;
+      if(buffer[count] & 2) tempbyte += 64;
+      if(buffer[count] & 1) tempbyte += 128;
+      buffer[count] = tempbyte;
+    }
+  }
+     
+  // Do whatever it is we do with the buffer -- we dump it in hex
+  if(TIFFGetField(image, TIFFTAG_IMAGEWIDTH, &amp;width) == 0){
+    fprintf(stderr, "Image does not define its width\n");
+    exit(42);
+  }
+  
+  for(count = 0; count < bufferSize; count++){
+    printf("%02x", (unsigned char) buffer[count]);
+    if((count + 1) % (width / 8) == 0) printf("\n");
+    else printf(" ");
+  }
+
+  TIFFClose(image);
+}
+</programlisting>
+
+<para>
+This code works by first opening the image and checking that it is one that we can handle. It then reads in all the strip for the image, and appends them together in one large memory block. If required, it also flips bits until the photometric interpretation the one we handle, and deals with having to swap bits if the fillorder is wrong. Finally, our sample outputs the image as a series of lines composed of hex values. Remember that each of the values represents 8 pixels in the actual image.
+</para>
+</sect2>
+</sect1>
+
+<sect1>
+<title>Conclusion</title>
+<para>
+In this chapter I have shown you how to write and read some simple black and white images using libtiff. There are of course more issues that can be dealt with to have the perfect code, but being aware of the issues is the first step. Finally, before you leap off and start coding with libtiff, remember to put some thought into what compression algorithm you should be using for your images -- group 4 fax is great for black and white, but what you use for color really depends on your needs.
+</para>
+</sect1>
+
+<sect1><title>First published by IBM DeveloperWorks</title>
+<para>
+First published by IBM developerWorks at http://www.ibm.com/developerworks/.
+</para>
+</sect1>
+
+<sect1><title>Further reading</title>
+<para>
+<orderedlist>
+<listitem><para>The libtiff website (http://www.libtiff.org) is a good place to download the libtiff source. It is also quite likely there is a binary package for your choosen operating system.</para></listitem>
+
+<listitem><para>If all else fails, then the Adobe TIFF Specification (http://partners.adobe.com/asn/developer/pdfs/tn/TIFF6.pdf) can be useful.</para></listitem>
+
+<listitem><para>The xloadimage web page (http://gopher.std.com/homepages/jimf/xloadimage.html) might be of interest.</para></listitem>
+
+<listitem><para>The Cooper Union for the Advancement of Science and Art has some notes (http://www.ee.cooper.edu/courses/course_pages/past_courses/EE458/TIFF/) from a previous course dealing with libtiff online.</para></listitem>
+</orderedlist>
+</para>
+</sect1>
+
+</chapter>
+
+<chapter id="chap-png"><title>PNG</title>
+<para>
+...
+</para>
+
+<sect1><title>Further reading</title>
+<para>
+...
+</para>
+</sect1>
+
+</chapter>
+
+<chapter id="chap-jpeg"><title>JPEG</title>
+<para>
+...
+</para>
+
+<sect1><title>Further reading</title>
+<para>
+...
+</para>
+</sect1>
+
+</chapter>
+
+<chapter id="chap-gif"><title>GIF</title>
+<para>
+...
+</para>
+
+<sect1><title>Further reading</title>
+<para>
+...
+</para>
+</sect1>
+
+</chapter>
+
+<chapter id="chap-svg"><title>SVG</title>
+<para>
+...
+</para>
+
+<sect1><title>Further reading</title>
+<para>
+...
+</para>
+</sect1>
+
+</chapter>
+
+<chapter id="chap-others"><title>Other raster image formats</title>
+<para>
+...
+</para>
+<sect1><title>Further reading</title>
+
+<para>
+...
+</para>
+</sect1>
+
+</chapter>
+
+<chapter id="chap-pdf"><title>PDF</title>
+<para>
+...
+</para>
+
+<sect1><title>ClibPDF</title>
+<para>
+...
+</para>
+</sect1>
+
+<sect1><title>PDFlib</title>
+<para>
+...
+</para>
+</sect1>
+
+<sect1><title>Panda</title>
+<para>
+...
+</para>
+</sect1>
+
+<sect1><title>Adobe products</title>
+<para>
+...
+</para>
+</sect1>
+
+<sect1><title>Further reading</title>
+<para>
+...
+</para>
+</sect1>
+
+</chapter>
+
+<chapter id="chap-random"><title>Random important topics</title>
+<para>
+There are also a few topics which are important enough to be mentioned here, but haven't found their way into the discussions in any other place. They therefore get a chapter of their own here at the end.
+</para>
+
+<sect1><title>Encrypting images can have unexpected effects</title>
+<para>
+DES in Electronic Code Book (ECB) mode is a particularly poor choice of cryptography for image files. This is because ECB mode implements a lookup table between the unencrypted value and the encrypted value...
+
+TODO more
+</para>
+</sect1>
+
+<sect1><title>ImageMagick</title>
+<para>
+...
+</para>
+</sect1>
+
+<sect1><title>Imlib</title>
+<para>
+...
+</para>
+</sect1>
+
+<sect1><title>AA</title>
+<para>
+...
+</para>
+</sect1>
+
+<sect1><title>RasterMaster</title>
+<para>
+...
+</para>
+</sect1>
+
+<sect1><title>FreeType</title>
+<para>
+...
+</para>
+</sect1>
+
+<sect1><title>The GNU autotools</title>
+<para>
+...
+</para>
+</sect1>
+
+<sect1><title>SVGAlib</title>
+<para>
+...
+</para>
+</sect1>
+</chapter>
+
+<chapter id="chap-conclusion"><title>Conclusion</title>
+<para>
+...
 </para>
 </chapter>
+
 </book>
