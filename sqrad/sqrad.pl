@@ -3,32 +3,83 @@
 # Correlate radlast output with squid logs
 
 use strict;
-my($RADIUS, $SQUID, @cols, %ips, %unreg, $temp, $rec, $linecount, 
-   $found, $toomany, $toofew, $justright, %users, @hitrec, $line);
+use Time::Local;
+
+# todo: determine which of these are spare...
+my($RADIUS, $SQUID, @cols, %ips, %unreg, $temp, $rec, @recarray, $linecount, $i, $key, 
+   $found, %users, @hitrec, $line, @hm, @months, $month,
+   %radtime, %raduser);
 
 # Turn off output buffering
 select((select(STDOUT), $| = 1)[0]);
 
+$months[0] = "Jan";
+$months[1] = "Feb";
+$months[2] = "Mar";
+$months[3] = "Apr";
+$months[4] = "May";
+$months[5] = "Jun";
+$months[6] = "Jul";
+$months[7] = "Aug";
+$months[8] = "Sep";
+$months[9] = "Oct";
+$months[10] = "Nov";
+$months[11] = "Dec";
+
 # Read the radius log
+print "Reading radius log:\n";
+$linecount = 0;
 open RADIUS, "< radlast";
 while(<RADIUS>){
     s/[ \t]+/ /g;
+    print STDERR "Radius: $_" if $ARGV[0] eq "-v";
     @cols = split(/ /, $_);
 
-    $ips{$cols[2]} = "$cols[3] $cols[4] $cols[5] $cols[6]~$cols[8]~$cols[0];".$ips{$cols[2]};
+    # Determine which month (as a number) we are talking about here
+    for ($i = 0; $i < @months; $i++) {
+	if ($months[$i] eq $cols[4]) {
+	    $month = $i;
+	    last;
+	}
+    }
+    print STDERR "  Month: $month\n" if $ARGV[0] eq "-v";
+
+    # Convert the radius times into something compatible with squid
+    @hm = split(/:/, $cols[6]);
+    $temp = timelocal(0, $hm[1], $hm[0], $cols[5], $month, 2002);
+    print STDERR "  Initial time ".$cols[5]."-".$month."-2002 ".$cols[6]." Munged time: $temp\n" if $ARGV[0] eq "-v";
+
+    # If we have a user for this IP already, then they must have logged off
+    if($raduser{$cols[2]} ne ""){
+	# Format is ontime~offtime~user
+	$ips{$cols[2]} = $radtime{$cols[2]}."~$temp~".$raduser{$cols[2]}.";".$ips{$cols[2]};
+	print STDERR "  Logged off a user for this IP address\n" if $ARGV[0] eq "-v";
+    }
+
+    # Save this for next time
+    $raduser{$cols[2]} = $cols[0];
+    $radtime{$cols[2]} = $temp;
+
+    $linecount++;
+    if($linecount > 1000){
+	print ".";
+	$linecount = 0;
+    }
 }
-print "Finished reading the radius log\n";
+
+# Add the people who never logged off
+$temp = time();
+foreach $key (keys %radtime){
+    $ips{$cols[2]} = $radtime{$cols[2]}."~$temp~".$raduser{$cols[2]}.";".$ips{$cols[2]};
+}
 
 # Read the squid log
-$toomany = 0;
-$toofew = 0;
-$justright = 0;
+print "\nReading squid log\n";
 $linecount = 0;
 open SQUID, "< access.log";
 while(<SQUID>){
     chomp;
     s/[ \t]+/ /g;
-    $line = $_;
     @cols = split(/ /, $_);
 
     # Lookup the IP in the hash of connected users
@@ -37,40 +88,20 @@ while(<SQUID>){
 	$unreg{$cols[2]}++;
     }
     else{
-#	$line =~ s/^\d+\.\d+/localtime $&/e;
-	@cols = split(/ /, $line);	
-	$temp = "$cols[0] $cols[1] $cols[2] $cols[3]";
-	$temp =~ s/:[^:]*//;
-
 	$found = 0;
-	foreach $rec (split(/;/, $ips{$cols[6]})){
-#	    $found += inrange($rec, $temp);
-	    if($found == 1){
-		@hitrec = split(/~/, $rec);
-	    }
-	    elsif($found == 2){
-		# Exit the loop (for efficiency)
+	foreach $rec (split(/;/, $ips{$cols[2]})){
+	    @recarray = split(/~/, $rec);
+
+	    if(($cols[0] >= $recarray[0]) && ($cols[0] < $recarray[1])){
 		last;
 	    }
-	}
-	
-	if($found == 1){
-	    $users{$hitrec[2]} = "$cols[8] $cols[9];".$users{$hitrec[2]};
-	    $justright++;
-	}
-	elsif($found > 1){
-#	    print "Too many: @cols\n";
-	    $toomany++;
-	}
-	else{
-#	    print "Too few: @cols\n";
-	    $toofew++;
 	}
     }
 
     $linecount++;
-    if($linecount % 1000 == 0){
+    if($linecount > 1000){
 	print ".";
+	$linecount = 0;
     }
 }
 print "\n\n";
@@ -82,39 +113,4 @@ print scalar(keys %ips)." unique IP addresses seen in the radius log\n";
 print "$linecount lines of squid log processed\n";
 
 print scalar(keys %unreg)." unique unregistered IP addresses seen\n";
-print "$toofew squid log entries which didn't match a logged on user\n";
-print "$toomany squid log entries matched more than one user\n";
-print "$justright squid log entries matched just one user\n";
 
-
-#############################################################################
-
-# Is this number in the range specified
-sub inrange(){
-    my($range, $sample) = @_;
-    my(@rcol, @dtime, $startmin, $stopmin, $checkmin);
-
-    @rcol = split(/ /, $range);
-    @dtime = split(/ /, $sample);
-    if("$rcol[0] $rcol[1] $rcol[2]" eq "@dtime[0] $dtime[1] $dtime[2]"){
-	@rcol = split(/~/, $rcol[3]);
-	
-	# Convert the times into minutes
-	@dtime = split(/:/, $rcol[0]);
-	$startmin = $dtime[0] * 60 + $dtime[1];
-	
-	@dtime = split(/:/, $rcol[1]);
-	$stopmin = $dtime[0] * 60 + $dtime[1];
-	
-	@dtime = split(/ /, $sample);
-	@dtime = split(/:/, $dtime[3]);
-	$checkmin = $dtime[0] * 60 + $dtime[1];
-	
-	# Now we can check the range
-	if(($checkmin >= $startmin) && ($checkmin <= $stopmin)){
-	    return 1;
-	}
-    }
-
-    return 0;
-}
