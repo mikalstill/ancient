@@ -32,10 +32,11 @@ then
   exit
 fi
 
-echo " -- Insert into table"
+echo "Insert into table"
 verify "INSERT INTO foo (cola, colb, colc) VALUES ('duck', 'chicken', 'frog');" insert001
 verify "INSERT INTO foo (cola, colb) VALUES ('duck', 'hamster');" insert002
 verify "INSERT INTO foo (cola, colc) VALUES ('banana', 'frog');" insert003
+verify "INSERT INTO banana (cola) VALUES ('chicken');" insert004
 
 if [ "%$1%" = "%insert%" ]
 then

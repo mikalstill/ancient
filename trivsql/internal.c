@@ -61,8 +61,7 @@ void trivsql_doinsert(char *tname, char *cols, char *vals){
       col++;
   
   if(col != numCols){
-    fprintf(stderr, "The number of values does not match the number of columns specified (%d cols, %d vals)\n", 
-	    numCols, col);
+    gState->rs->errno = TRIVSQL_BADVALUES;
     return;
   }
 
@@ -153,6 +152,7 @@ trivsql_xmalloc (size_t size)
 
   if ((buffer = malloc (size)) == NULL)
     {
+      // todo_mikal: improve this
       fprintf(stderr, "trivsql memory allocation error");
       exit(42);
     }
@@ -166,12 +166,12 @@ trivsql_dbwrite (trivsql_state *state, char *key, char *value)
   TDB_DATA dbkey, dbdata;
 
   if (key == NULL){
-    fprintf(stderr, "Cannot store NULL key\n");
+    gState->rs->errno = TRIVSQL_TDBNULLKEY;
     return;
   }
 
   if (value == NULL){
-    fprintf(stderr, "Cannot store NULL data\n");
+    gState->rs->errno = TRIVSQL_TDBNULLDATA;
     return;
   }
 
@@ -183,7 +183,7 @@ trivsql_dbwrite (trivsql_state *state, char *key, char *value)
 
   if (tdb_store (state->db, dbkey, dbdata, TDB_REPLACE) != 0)
     {
-      fprintf(stderr, "Database storage error\n");
+      gState->rs->errno = TRIVSQL_TDBSTOREERROR;
       return;
     }
 }
@@ -194,7 +194,7 @@ trivsql_dbread (trivsql_state *state, char *key)
   TDB_DATA dbkey, dbdata;
 
   if (key == NULL){
-    fprintf(stderr, "Cannot lookup a NULL key\n");
+    gState->rs->errno = TRIVSQL_TDBNULLKEY;
     return NULL;
   }
 
@@ -289,7 +289,7 @@ int *trivsql_parsecols(char *tname, char *cols, int *numCols){
 
       if(u == NULL){
 	trivsql_xfree(t);
-	fprintf(stderr, "%s is an unknown column\n", c);
+	gState->rs->errno = TRIVSQL_NOSUCHCOLUMN;
 	return NULL;
       }
       else if(strcmp(u, c) == 0){
@@ -340,7 +340,7 @@ int trivsql_getrowcount(char *tname){
   u = trivsql_dbread(gState, t);
   
   if(u == NULL){
-    fprintf(stderr, "Table does not exist\n");
+    gState->rs->errno = TRIVSQL_NOSUCHTABLE;
     return -1;
   }
 
