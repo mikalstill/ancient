@@ -1,0 +1,1 @@
+This is an implementation of DNS in bash. To get it running, you'll need to include a line in inetd.conf, or in the directory /etc/xinetd.d/

@@ -57,17 +57,13 @@ twiddlebit(){
   testbit $1 $2
   if [ $? = 1 ]
   then
-    echo "Bit on"
     if [ $3 = 0 ]
     then
-      echo "Turn bit off"
       temp=$(( $temp - $2 ))
     fi
   else 
-    echo "Bit off"
     if [ $3 = 1 ]
     then
-      echo "Turn bit on"
       temp=$(( $temp + $2 ))
     fi
   fi
@@ -109,54 +105,55 @@ readbytebinary(){
 # Parse the input
 ######################
 
+logger "shdns $$ started"
+cat - > /tmp/input-$$
+
 # Identification: 2 bytes
-id=`cat input | cut -b 1,2`
-echo "Packet id: $id"
+id=`cat /tmp/input-$$ | cut -b 1,2`
+logger "shdns $$ Packet id: $id"
 
 # Flags: 2 bytes
-temp=`cat input | cut -b 3 |  od -Ad -c | head -1 | cut -f 2 -d " "`
+temp=`cat /tmp/input-$$ | cut -b 3 |  od -Ad -c | head -1 | cut -f 2 -d " "`
 testbit $temp 128; qr=$?
 testbit $temp 8; op=$?
 testbit $temp 4; aa=$?
 testbit $temp 2; trun=$?
 testbit $temp 1; rd=$?
 
-echo "Query / response: $qr"
-echo "Opcode: $op"
-echo "Authoritative answer: $aa"
-echo "Packet truncated: $trun"
-echo "Recursion desired: $rd"
+logger "shdns $$ Query / response: $qr"
+logger "shdns $$ Opcode: $op"
+logger "shdns $$ Authoritative answer: $aa"
+logger "shdns $$ Packet truncated: $trun"
+logger "shdns $$ Recursion desired: $rd"
 
-readbytebinary "input" 3; temp=$?
+readbytebinary "/tmp/input-$$" 3; temp=$?
 testbit $temp 128; ra=$?
 
-echo "Recursion available: $ra"
-echo ""
+logger "shdns $$ Recursion available: $ra"
 
 # The number of questions is the next two bytes
-readbytebinary "input" 5; topbyte=$?
-readbytebinary "input" 6; botbyte=$?
+readbytebinary "/tmp/input-$$" 5; topbyte=$?
+readbytebinary "/tmp/input-$$" 6; botbyte=$?
 qcount=$(( ($topbyte * 128) + $botbyte ))
-echo "Number of questions: $qcount"
+logger "shdns $$ Number of questions: $qcount"
 
 # The number of answers is the next two bytes
-readbytebinary "input" 7; topbyte=$?
-readbytebinary "input" 8; botbyte=$?
+readbytebinary "/tmp/input-$$" 7; topbyte=$?
+readbytebinary "/tmp/input-$$" 8; botbyte=$?
 acount=$(( ($topbyte * 128) + $botbyte ))
-echo "Number of answers: $acount"
+logger "shdns $$ Number of answers: $acount"
 
 # The number of authority RRs is the next two bytes
-readbytebinary "input" 9; topbyte=$?
-readbytebinary "input" 10; botbyte=$?
+readbytebinary "/tmp/input-$$" 9; topbyte=$?
+readbytebinary "/tmp/input-$$" 10; botbyte=$?
 authcount=$(( ($topbyte * 128) + $botbyte ))
-echo "Number of authorities: $authcount"
+logger "shdns $$ Number of authorities: $authcount"
 
 # The number of additional RRs is the next two bytes
-readbytebinary "input" 11; topbyte=$?
-readbytebinary "input" 12; botbyte=$?
+readbytebinary "/tmp/input-$$" 11; topbyte=$?
+readbytebinary "/tmp/input-$$" 12; botbyte=$?
 addcount=$(( ($topbyte * 128) + $botbyte ))
-echo "Number of additionals: $addcount"
-echo ""
+logger "shdns $$ Number of additionals: $addcount"
 
 ######################
 # For each question
@@ -168,21 +165,19 @@ questioncount=0
 
 while [ $questioncount -lt $qcount ]
 do
-  echo "Question"
-  echo -n "  "
+  logger "shdns $$ Question"
   name=""
 
   while [ $len -gt 0 ]
   do
     # For each portion of the name
-    readbytebinary "input" $inset; len=$?
+    readbytebinary "/tmp/input-$$" $inset; len=$?
     count=0
     inset=$(( $inset + 1 ))
 
     while [ $count -lt $len ]
     do
-      char=`readbyte "input" $inset`
-      echo -n $char
+      char=`readbyte "/tmp/input-$$" $inset`
       name="$name$char"
 
       inset=$(( $inset + 1 ))
@@ -193,30 +188,33 @@ do
     name="$name."
   done
 
-  echo ""
+  logger "shdns $$ Lookup: $name"
+
   # Type of question
-  readbytebinary "input" $inset; type=$?
-  echo -n "  Query type: "
+  readbytebinary "/tmp/input-$$" $inset; type=$?
+  temp="  Query type:"
 
   case $type in
-  1 ) echo "A";;
-  2 ) echo "NS";;
-  5 ) echo "CNAME";;
-  12 ) echo "PTR";;
-  13 ) echo "HINFO";;
-  15 ) echo "MX";;
-  * ) echo "Error: Unknown query type"; exit;;
+  1 ) temp="$temp A";;
+  2 ) temp="$temp NS";;
+  5 ) temp="$temp CNAME";;
+  12 ) temp="$temp PTR";;
+  13 ) temp="$temp HINFO";;
+  15 ) temp="$temp MX";;
+  * ) temp="Error: Unknown query type"; exit;;
   esac
 
+  logger $temp
+
   # The class should always be 1
-  readbytebinary "input" $(( $inset + 1 )); class=$?
-  echo "  Query class: $class"
+  readbytebinary "/tmp/input-$$" $(( $inset + 1 )); class=$?
+  logger "shdns $$ Query class: $class"
 
   # Dodgy bug fix
   name=`echo $name | sed 's/\.\.$//'`
   
   # Lookup the name in the db file
-  grep "$name" lookup | tr -s "\t" | cut -f 2
+  grep "$name" /home/mikal/opensource/shdns/lookup | tr -s "\t" | cut -f 2
 
   questioncount=$(( $questioncount + 1 ))
 done
