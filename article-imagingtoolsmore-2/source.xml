@@ -80,6 +80,113 @@ code.</bio>
 
  <docbody>
 
+<p>This is the third article that IBM DeveloperWorks has published on the ImageMagick suite of command line tools. This article aims to wrap up the loose ends left by the last two articles, and assumes that you have read those articles. It also discusses functionality which builds on that discussed in those articles. I recommend that if you haven't read them yet, now is a good time to check them out. TODOURLSTOOLDARTICLES</p>
+
+
+
+
+
+<heading refname="" type="major" toc="yes" name="" alttoc="">Montages</heading>
+
+<p>One of the cool things you can do with ImageMagick is build montages of images. This has come in handy for the writing of both this article and the previous one in this series. I also find it useful to generate "contact sheets" for images from my digital cameras for instance.</p>
+
+<p>You create montages with ImageMagick using the <b>montage</b> command. Here's a quick example invocation, as well as what it produces:</p>
+
+<p>
+<code type="inline">
+montage waterfall-* montage.jpg
+</code>
+</p>
+
+<p>Produces the picture:</p>
+
+<figure>        
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure TODO. The default montage output</heading>
+<img src="montage-1.jpg" width="TODO" height="TODO" alt="A montage of waterfall pictures"/>
+</figure>
+
+<p>You can exhert more control over the montage than this however. If you use the <i>-geometry</i> parameter, then you can specify the maximum size of the individual images in the montage, as well as the spacing between the images.</p>
+
+<p>
+<code type="inline">
+montage -geometry 80x80+5+5 waterfall-* montage.jpg
+</code>
+</p>
+
+<p>Which specifies that each image should be no more than 80 by 80 pixels, and have a horizontal and vertical spacing of 5 pixels. It gives us:</p>
+
+<figure>        
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure TODO. Geometrized montage output</heading>
+<img src="montage-2.jpg" width="TODO" height="TODO" alt="A montage of waterfall pictures"/>
+</figure>
+
+<p>You can also specify the number of images that appear in a given row. For example:
+</p>
+
+<p>
+<code type="inline">
+montage -geometry 80x80+5+5 -tile 2x3 waterfall-* montage.jpg
+</code>
+</p>
+
+<p>Which specifies that there should be three rows of two images each.</p>
+
+<figure>        
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure TODO. Tiled montage output</heading>
+<img src="montage-3.jpg" width="TODO" height="TODO" alt="A montage of waterfall pictures"/>
+</figure>
+
+<p>There are many other montage options available, including changing the background color and drawing frames around the images. I recommend that you checkout the <b>montage</b> man page for more information.</p>
+
+
+
+
+
+
+
+<heading refname="" type="major" toc="yes" name="" alttoc="">Animated images</heading>
+
+<p>As mentioned in <a href="TODOURL">TODOTITLE</a>, ImageMagick easily copes with file formats which can store more than one image. When you think about it, one of the most interesting uses of such a format is animations. For example, animated GIFs are just a series of GIFs which are displayed at 25 frames per second or so.</p>
+
+<p>ImageMagick does quite well at handling these multiple image formats, including the animated ones. For example, consider a scenario in which we have several images which are the frames of an animation. These might have been produced in your favourite graphics editor, or generated in some other way which is outside the scope of this article. For these various animation examples, we'll use some simple TIFF images which I produced programmatically.</p>
+
+
+<sidebar>
+<heading refname="" type="sidebar" toc="no" name="" alttoc="">Generating animation frames programatically</heading>
+<p>The frames for these animations were generated with <a href="http://www.stillhq.com/extracted/tiff-motion/">some sample code from my website</a>. This sample code uses libtiff. For more information on how to writing imaging code using libtiff, checkout my IBM DeveloperWorks articles on libtiff programming: <a href="http://www-106.ibm.com/developerworks/linux/library/l-libtiff/">graphics programming with libtiff</a> and <a href="http://www-106.ibm.com/developerworks/linux/library/l-libtiff2/">graphics programming with libtiff, part 2</a>.</p> 
+
+<p>The secret to generating your own animations programmatically is to remember that each frame should only be very slightly different from the previous frame. If the frames are too different, then the animation will look jerky and confusing.</p>
+</sidebar>
+
+<p>My program produced a bunch of images named output-&lt;number&gt;.tif, which are just a simple line moving around a rectangle. Here's a couple of snapshots that I put into a single image file using the <b>montage</b> command as described above.</p>
+
+<figure>        
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure TODO. A few frames from the animation</heading>
+<img src="sequence.jpg" width="TODO" height="TODO" alt="A few of the images from the animation"/>
+</figure>
+
+<p>How do we convert these many image files into an animated single image? 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
