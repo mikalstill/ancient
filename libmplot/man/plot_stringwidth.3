@@ -3,13 +3,13 @@
 .\" <http://shell.ipoline.com/~elmert/comp/docbook2X/> 
 .\" Please send any bug reports, improvements, comments, patches, 
 .\" etc. to Steve Cheng <steve@ggi-project.org>.
-.TH "PLOT_STRINGWIDTH" "3" "13 October 2002" "" ""
+.TH "PLOT_STRINGWIDTH" "3" "17 October 2002" "" ""
 .SH NAME
 plot_stringwidth \- determine how many pixels a string will take
 .SH SYNOPSIS
 
 .nf
- #include<libplot.h>
+ #include<libmplot.h>
  unsigned int plot_stringwidth(plot_state *state, char *string);
 .fi
 .SH "DESCRIPTION"
@@ -21,7 +21,7 @@ This function determines how many pixels a string will consume in the current fo
 .SH "EXAMPLE"
 
 .nf
- #include<libplot.h>
+ #include<libmplot.h>
  plot_state *graph;
  char *words[] = {"This", "is", "a", "string", "which", "is", "quite", "long.",
  "It", "demonstrates", "how", "to", "do", "word", "wrap", NULL};

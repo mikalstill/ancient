@@ -3,18 +3,18 @@
 .\" <http://shell.ipoline.com/~elmert/comp/docbook2X/> 
 .\" Please send any bug reports, improvements, comments, patches, 
 .\" etc. to Steve Cheng <steve@ggi-project.org>.
-.TH "PLOT_RECTANGLE" "3" "17 October 2002" "" ""
+.TH "PLOT_SETCIRCLE" "3" "17 October 2002" "" ""
 .SH NAME
-plot_rectangle \- draw a rectangle
+plot_setcircle \- draw a circle
 .SH SYNOPSIS
 
 .nf
  #include<libmplot.h>
- void plot_rectangle plot_rectanglerot (plot_state *state, unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2);
+ void plot_circle (plot_state * state, unsigned int x, unsigned int y, unsigned int r);
 .fi
 .SH "DESCRIPTION"
 .PP
-Draw a rectangle on the plot. x1, y1 is the top left corner, and x2, y2 is the bottom right corner of the rectangle. After this call you can use \fBplot_strokeline\fR and \fBplot_fillline\fR to actaully affect the raster.
+This function draws a circle centered around (x, y), and with a radius of r.
 .SH "RETURNS"
 .PP
 Nothing
@@ -27,7 +27,9 @@ Nothing
  if((graph = plot_newplot(400, 300)) == NULL){
  ... error ...
  }
- plot_rectangle(graph, 10, 10, 20, 30);
+ 
+ plot_circle(graph, 10, 10, 3);
+ plot_strokeline(graph);
 .fi
 .SH "VERSION"
 .PP

@@ -3,13 +3,13 @@
 .\" <http://shell.ipoline.com/~elmert/comp/docbook2X/> 
 .\" Please send any bug reports, improvements, comments, patches, 
 .\" etc. to Steve Cheng <steve@ggi-project.org>.
-.TH "PLOT_WRITESTRINGROT" "3" "13 October 2002" "" ""
+.TH "PLOT_WRITESTRINGROT" "3" "17 October 2002" "" ""
 .SH NAME
 plot_writestringrot \- write a string onto the bitmap, with the text being rotated by the given angle
 .SH SYNOPSIS
 
 .nf
- #include<libplot.h>
+ #include<libmplot.h>
  int plot_writestringrot(plot_state *state, char *string, float angle);
 .fi
 .SH "DESCRIPTION"
@@ -23,7 +23,7 @@ Note that the angle is in degrees.
 .SH "EXAMPLE"
 
 .nf
- #include<libplot.h>
+ #include<libmplot.h>
  plot_state *graph;
  char *words[] = {"This", "is", "a", "string", "which", "is", "quite", "long.",
  "It", "demonstrates", "how", "to", "do", "word", "wrap", NULL};

@@ -12,28 +12,30 @@
 
 <!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
 
-<refentry id="plot_getraster">
+<refentry id="plot_addquadraticcurvesegmenttwo">
 <refmeta>
-<refentrytitle>plot_getraster</refentrytitle>
+<refentrytitle>plot_addquadraticcurvesegmenttwo</refentrytitle>
 <manvolnum>3</manvolnum>
 </refmeta>
 
 <refnamediv>
-<refname>plot_getraster</refname>
-<refpurpose>return a pointer the the raster we have drawn</refpurpose>
+<refname>plot_addquadraticcurvesegmenttwo</refname>
+<refpurpose>add a Bezier with one control point to the polygon we are drawing</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv>
 <synopsis>
  #include&lt;libmplot.h&gt;
- char *plot_getraster(plot_state *state);
+ void plot_addquadraticcurvesegmenttwo (plot_state * state,
+ unsigned int inx1, unsigned int iny1,
+ unsigned int inx2, unsigned int iny2);
 
 </synopsis>
 </refsynopsisdiv>
 
 <refsect1>
 <title>DESCRIPTION</title>
-<para>Returns the graph you have drawn.</para>
+<para>This function adds a Bezier curve between the current pen location and (inx1, iny1) to the current polygon. This curve will have two control points: (inx2, iny2) and (inx1, iny1).</para>
 </refsect1>
 
 <refsect1>
@@ -46,15 +48,15 @@
 <programlisting>
  #include&lt;libmplot.h&gt;
  plot_state *graph;
- char *raster;
  
  if((graph = plot_newplot(400, 300)) == NULL){
  ... error ...
  }
  
- ... drawing commands ...
- 
- raster = plot_getraster(graph);
+ plot_setlinestart(graph, 20, 20);
+ plot_addquadraticcurvesegmenttwo(graph, 20, 120, 40, 40);
+ plot_strokeline(graph);
+ plot_closeline(graph);
 </programlisting>
 </refsect1>
 

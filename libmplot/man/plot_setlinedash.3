@@ -3,18 +3,20 @@
 .\" <http://shell.ipoline.com/~elmert/comp/docbook2X/> 
 .\" Please send any bug reports, improvements, comments, patches, 
 .\" etc. to Steve Cheng <steve@ggi-project.org>.
-.TH "PLOT_RECTANGLE" "3" "17 October 2002" "" ""
+.TH "PLOT_SETLINEDASH" "3" "17 October 2002" "" ""
 .SH NAME
-plot_rectangle \- draw a rectangle
+plot_setlinedash \- sets the dashing pattern used to stroke lines
 .SH SYNOPSIS
 
 .nf
  #include<libmplot.h>
- void plot_rectangle plot_rectanglerot (plot_state *state, unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2);
+ void panda_setlinedash(plot_state *state, int length, char *dash);
 .fi
 .SH "DESCRIPTION"
 .PP
-Draw a rectangle on the plot. x1, y1 is the top left corner, and x2, y2 is the bottom right corner of the rectangle. After this call you can use \fBplot_strokeline\fR and \fBplot_fillline\fR to actaully affect the raster.
+This function takes the length of the dashing pattern (in bytes), and the dashing pattern itself. The dashing pattern is expressed in the form of a char * where a given byte is \\0 if the point is not to be drawn, or \\1 if it is to be drawn. See the example for an example...
+.PP
+This dashing pattern is applied by cycling through the pattern, one step per pixel drawn. This might not have the expected effect for think lines.
 .SH "RETURNS"
 .PP
 Nothing
@@ -27,7 +29,8 @@ Nothing
  if((graph = plot_newplot(400, 300)) == NULL){
  ... error ...
  }
- plot_rectangle(graph, 10, 10, 20, 30);
+ 
+ plot_setlinedash(graph, 4, "\\0\\0\\1\\1");
 .fi
 .SH "VERSION"
 .PP

@@ -12,28 +12,33 @@
 
 <!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
 
-<refentry id="plot_getraster">
+<refentry id="plot_setlinedash">
 <refmeta>
-<refentrytitle>plot_getraster</refentrytitle>
+<refentrytitle>plot_setlinedash</refentrytitle>
 <manvolnum>3</manvolnum>
 </refmeta>
 
 <refnamediv>
-<refname>plot_getraster</refname>
-<refpurpose>return a pointer the the raster we have drawn</refpurpose>
+<refname>plot_setlinedash</refname>
+<refpurpose>sets the dashing pattern used to stroke lines</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv>
 <synopsis>
  #include&lt;libmplot.h&gt;
- char *plot_getraster(plot_state *state);
+ void panda_setlinedash(plot_state *state, int length, char *dash);
 
 </synopsis>
 </refsynopsisdiv>
 
 <refsect1>
 <title>DESCRIPTION</title>
-<para>Returns the graph you have drawn.</para>
+<para> This function takes the length of the dashing pattern (in bytes), and the dashing pattern itself. The dashing pattern is expressed in the form of a char * where a given byte is \0 if the point is not to be drawn, or \1 if it is to be drawn. See the example for an example...
+ </para>
+ 
+ <para>
+ This dashing pattern is applied by cycling through the pattern, one step per pixel drawn. This might not have the expected effect for think lines.
+</para>
 </refsect1>
 
 <refsect1>
@@ -46,15 +51,12 @@
 <programlisting>
  #include&lt;libmplot.h&gt;
  plot_state *graph;
- char *raster;
  
  if((graph = plot_newplot(400, 300)) == NULL){
  ... error ...
  }
  
- ... drawing commands ...
- 
- raster = plot_getraster(graph);
+ plot_setlinedash(graph, 4, "\0\0\1\1");
 </programlisting>
 </refsect1>
 

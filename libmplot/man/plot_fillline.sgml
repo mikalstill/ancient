@@ -12,28 +12,28 @@
 
 <!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
 
-<refentry id="plot_getraster">
+<refentry id="plot_fillline">
 <refmeta>
-<refentrytitle>plot_getraster</refentrytitle>
+<refentrytitle>plot_fillline</refentrytitle>
 <manvolnum>3</manvolnum>
 </refmeta>
 
 <refnamediv>
-<refname>plot_getraster</refname>
-<refpurpose>return a pointer the the raster we have drawn</refpurpose>
+<refname>plot_fillline</refname>
+<refpurpose>fill the current polygon with the current fill color</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv>
 <synopsis>
  #include&lt;libmplot.h&gt;
- char *plot_getraster(plot_state *state);
+ void plot_fillline (plot_state * state);
 
 </synopsis>
 </refsynopsisdiv>
 
 <refsect1>
 <title>DESCRIPTION</title>
-<para>Returns the graph you have drawn.</para>
+<para>This function uses the even odd rule (in two directions) to determine if a point is inside the current polygon, and then based on that decision colors all of the points which are inside the polygon with the current fill color.</para>
 </refsect1>
 
 <refsect1>
@@ -46,15 +46,14 @@
 <programlisting>
  #include&lt;libmplot.h&gt;
  plot_state *graph;
- char *raster;
  
  if((graph = plot_newplot(400, 300)) == NULL){
  ... error ...
  }
  
- ... drawing commands ...
- 
- raster = plot_getraster(graph);
+ ... draw polygon ...
+ plot_fillline(graph);
+ plot_endline(graph);
 </programlisting>
 </refsect1>
 

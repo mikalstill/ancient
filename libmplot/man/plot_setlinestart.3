@@ -3,13 +3,13 @@
 .\" <http://shell.ipoline.com/~elmert/comp/docbook2X/> 
 .\" Please send any bug reports, improvements, comments, patches, 
 .\" etc. to Steve Cheng <steve@ggi-project.org>.
-.TH "PLOT_SETLINESTART" "3" "13 October 2002" "" ""
+.TH "PLOT_SETLINESTART" "3" "17 October 2002" "" ""
 .SH NAME
 plot_setlinestart \- sets the starting point of series of lines and curves
 .SH SYNOPSIS
 
 .nf
- #include<libplot.h>
+ #include<libmplot.h>
  void plot_setlinestart (plot_state *state, unsigned int x, unsigned int y);
 .fi
 .SH "DESCRIPTION"
@@ -21,7 +21,7 @@ Nothing
 .SH "EXAMPLE"
 
 .nf
- #include<libplot.h>
+ #include<libmplot.h>
  plot_state *graph;
  
  if((graph = plot_newplot(400, 300)) == NULL){

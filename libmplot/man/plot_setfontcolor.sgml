@@ -25,7 +25,7 @@
 
 <refsynopsisdiv>
 <synopsis>
- #include&lt;libplot.h&gt;
+ #include&lt;libmplot.h&gt;
  void plot_setfontcolor (plot_state *state, int red, int green, int blue);
 
 </synopsis>
@@ -44,7 +44,7 @@
 <refsect1>
 <title>EXAMPLE</title>
 <programlisting>
- #include&lt;libplot.h&gt;
+ #include&lt;libmplot.h&gt;
  plot_state *graph;
  
  if((graph = plot_newplot(400, 300)) == NULL){

@@ -12,28 +12,28 @@
 
 <!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
 
-<refentry id="plot_getraster">
+<refentry id="plot_setlinewidth">
 <refmeta>
-<refentrytitle>plot_getraster</refentrytitle>
+<refentrytitle>plot_setlinewidth</refentrytitle>
 <manvolnum>3</manvolnum>
 </refmeta>
 
 <refnamediv>
-<refname>plot_getraster</refname>
-<refpurpose>return a pointer the the raster we have drawn</refpurpose>
+<refname>plot_setlinewidth</refname>
+<refpurpose>sets the current width of the line to be drawn</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv>
 <synopsis>
  #include&lt;libmplot.h&gt;
- char *plot_getraster(plot_state *state);
+ void panda_setlinewidth(plot_state *state, int widthx, int widthy);
 
 </synopsis>
 </refsynopsisdiv>
 
 <refsect1>
 <title>DESCRIPTION</title>
-<para>Returns the graph you have drawn.</para>
+<para>This function sets the size of the line (vertically and horizontally) which the polygon will be stroked with. The line drawn is centered around the actual point which is on the polygon.</para>
 </refsect1>
 
 <refsect1>
@@ -46,15 +46,12 @@
 <programlisting>
  #include&lt;libmplot.h&gt;
  plot_state *graph;
- char *raster;
  
  if((graph = plot_newplot(400, 300)) == NULL){
  ... error ...
  }
  
- ... drawing commands ...
- 
- raster = plot_getraster(graph);
+ plot_setlinewidth(graph, 4, 1);
 </programlisting>
 </refsect1>
 

@@ -3,18 +3,20 @@
 .\" <http://shell.ipoline.com/~elmert/comp/docbook2X/> 
 .\" Please send any bug reports, improvements, comments, patches, 
 .\" etc. to Steve Cheng <steve@ggi-project.org>.
-.TH "PLOT_RECTANGLE" "3" "17 October 2002" "" ""
+.TH "PLOT_ADDQUADRATICCURVESEGMENTTWO" "3" "17 October 2002" "" ""
 .SH NAME
-plot_rectangle \- draw a rectangle
+plot_addquadraticcurvesegmenttwo \- add a Bezier with one control point to the polygon we are drawing
 .SH SYNOPSIS
 
 .nf
  #include<libmplot.h>
- void plot_rectangle plot_rectanglerot (plot_state *state, unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2);
+ void plot_addquadraticcurvesegmenttwo (plot_state * state,
+ unsigned int inx1, unsigned int iny1,
+ unsigned int inx2, unsigned int iny2);
 .fi
 .SH "DESCRIPTION"
 .PP
-Draw a rectangle on the plot. x1, y1 is the top left corner, and x2, y2 is the bottom right corner of the rectangle. After this call you can use \fBplot_strokeline\fR and \fBplot_fillline\fR to actaully affect the raster.
+This function adds a Bezier curve between the current pen location and (inx1, iny1) to the current polygon. This curve will have two control points: (inx2, iny2) and (inx1, iny1).
 .SH "RETURNS"
 .PP
 Nothing
@@ -27,7 +29,11 @@ Nothing
  if((graph = plot_newplot(400, 300)) == NULL){
  ... error ...
  }
- plot_rectangle(graph, 10, 10, 20, 30);
+ 
+ plot_setlinestart(graph, 20, 20);
+ plot_addquadraticcurvesegmenttwo(graph, 20, 120, 40, 40);
+ plot_strokeline(graph);
+ plot_closeline(graph);
 .fi
 .SH "VERSION"
 .PP
