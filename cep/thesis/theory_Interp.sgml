@@ -202,6 +202,10 @@
   <para>
     With natural splines solving for <command>S</command> is done by solving:(TODO: Spline equation 6)
   </para>
+  <equation>
+    <title>Solving for S (Gerald and Wheatley, 1999)</title>
+    <execute><cmd>eqimg</cmd><args>interp_S_natural.bmp</args></execute>
+  </equation>
   <para>
     The two end values, <command>S<subscript>0</subscript></command> and <command>S<subscript>n</subscript></command>, are then
     set to zero.
