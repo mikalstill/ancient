@@ -100,6 +100,16 @@ This document is covered by two licenses -- the license for the text of this doc
 </para>
 
 <sect2><title>License for text (OPL)</title>
+<para>
+<command>
+This tutorial is Copyright (c) Michael Still 2002, and is released under the terms of the GNU OPL. Distribution of substantively modified versions of this document is prohibited without the explicit permission of the copyright holder. Distribution of the work or derivative of the work in any standard (paper) book form is prohibited unless prior permission is obtained from the copyright holder.
+</command>
+</para>
+
+<para>
+Please note that portions of this tutorial are <command>not</command> Copyright Michael Still, or are licensed under a license other than the GNU OPL, and are acknowledged as such either below or when relevant within the text of the tutorial.
+</para>
+
 <execute><cmd>text2db.pl</cmd><input>OPL</input><args>-s 3</args></execute>
 </sect2>
 

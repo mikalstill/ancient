@@ -11,7 +11,7 @@
 <execute><cmd>builddb.pl</cmd><input>tiff.sgml</input></execute>
 <execute><cmd>builddb.pl</cmd><input>gif.sgml</input></execute>
 <execute><cmd>builddb.pl</cmd><input>png.sgml</input></execute>
-<execute><cmd>builddb.pl</cmd><input>jpeg.sgml</input></execute>
+<execute><cmd>nextedition</cmd><input>jpeg.sgml</input></execute>
 <execute><cmd>nextedition</cmd><input>svg.sgml</input></execute>
 <execute><cmd>nextedition</cmd><input>Other raster formats</input></execute>
 <execute><cmd>builddb.pl</cmd><input>pdf.sgml</input></execute>
@@ -24,5 +24,5 @@
 <execute><cmd>nextedition</cmd><input>GNU Autotools</input></execute>
 <execute><cmd>nextedition</cmd><input>SVGAlib</input></execute>
 <execute><cmd>nextedition</cmd><input>Resources chapter</input></execute>
-<execute><cmd>builddb.pl</cmd><input>conclusion.sgml</input></execute>
+<execute><cmd>nextedition</cmd><input>conclusion.sgml</input></execute>
 </book>

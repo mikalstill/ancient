@@ -5,8 +5,6 @@ A Turbo-Studly Image Format with Lossless Compression
 the Professional Numismatists Guild or the ``Pack 'N' Go'' format)
 </quote> -- libpng.org</para>
 
-<execute><cmd>todo</cmd><input>Put chunk info in here</input></execute>
-
 <para>
 PNG
   <footnote><para>Short for Portable Network Graphics.</para></footnote>
@@ -21,8 +19,25 @@ This chapter will focus on the libpng library. This isn't really a limitation, a
 
 <sect1><title>Introduction</title>
 <para>
-<execute><cmd>todo</cmd><input>More content here</input></execute>
+PNG happened because of the patent problems with the GIF format described in an earlier chapter of this tutorial. In the words of the official history of PNG:
+</para>
 
+<para>
+<quote>
+... Unisys in 1993 began aggressively pursuing commercial vendors of software-only LZW implementations. CompuServe seems to have been its primary target at first, culminating in an agreement--quietly announced on 28 December 1994, right in the middle of the Christmas holidays--to begin collecting royalties from authors of GIF-supporting software. The spit hit the fan on the Internet the following week; what was then the comp.graphics newsgroup went nuts, to use a technical term. As is the way of Usenet, much ire was directed at CompuServe for making the announcement, and then at Unisys once the details became a little clearer; but mixed in with the noise was the genesis of an informal Internet working group led by Thomas Boutell [2]. Its purpose was not only to design a replacement for the GIF format, but a successor to it: better, smaller, more extensible, and FREE.
+</quote>
+-- http://www.libpng.org/pub/png/pnghist.html
+</para>
+
+<para>
+The PNG has gone from being a simple specification with limitations such as only supporting 8 bit images first announced on comp.graphics, comp.compression and comp.infosystems.www.providers, into a mature and extremely extensible image format.
+</para>
+
+<para>
+Various versions of the PNG specificiation have been published as RFC-2083 and as a W3C Recommendation, which means that supporting the format is a lot easier because it is well defined.
+</para>
+
+<para>
 A bunch of the examples in this chapter are based on the pngtools code I wrote a while ago, which I have updated as part of writing this chapter.
 </para>
 
@@ -35,27 +50,955 @@ Much of the discussion in this chapter will make a whole bunch more sense if you
 
 <sect1><title>Installation</title>
 <para>
-<execute><cmd>todo</cmd><input>More content here</input></execute>
+You can get the latest libpng code from http://www.libpng.org.
 </para>
 
 <sect2><title>Unix</title>
 <para>
-<execute><cmd>todo</cmd><input>More content here</input></execute>
+libpng doesn't have a a configure script. You'll need to follow the steps below to get it to compile:
 </para>
+
+<itemizedlist>
+<listitem><para>cp scripts/makefile.linux Makefile <emphasis>(You'll need to copy the Makefile that matches your architecture and operating system)</emphasis></para></listitem>
+<listitem><para>make</para></listitem>
+<listitem><para>make install</para></listitem>
+</itemizedlist>
 </sect2>
 
 <sect2><title>win32</title>
 <para>
-<execute><cmd>todo</cmd><input>More content here</input></execute>
+There are Makefiles for the win32 platform as well. I haven't verified how well they work however.
 </para>
 </sect2>
 </sect1>
 
 <sect1><title>The PNG on disc format</title>
 <para>
-<execute><cmd>todo</cmd><input>More content here</input></execute>
+It is useful to introduce the PNG file format as one of the first parts of this chapter, as it helps to see the advantages and disadvantages of the PNG format compared with the other formats that we will discuss during this tutorial.
+</para>
+
+<sect2><title>Byte order</title>
+<para>
+If you recall the TIFF format, multi byte values can either be little endian or big endian. This means that the libtiff library must perform byte swapping everytime you read a value which takes more than one byte (which is most of the time). libpng doesn't have these problems, as all multi byte values are in network byte order (big endian).
+</para>
+</sect2>
+
+<sect2><title>File header</title>
+<para>
+All PNG files start with a magic number (as have all the other formats which we have discussed in this tutorial). It looks something like:
+</para>
+
+<table frame='all'><title>PNG on disc: the file header</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<thead>
+<row>
+  <entry>Bytes</entry>
+  <entry>Description</entry>
+</row>
+</thead>
+<tbody>
+
+<row>
+  <entry>0</entry>
+  <entry>Decimal 137 <emphasis>No ASCII equivalent</emphasis></entry>
+</row>
+
+<row>
+  <entry>1</entry>
+  <entry>Decimal 80 <emphasis>P</emphasis></entry>
+</row>
+
+<row>
+  <entry>2</entry>
+  <entry>Decimal 78 <emphasis>N</emphasis></entry>
+</row>
+
+<row>
+  <entry>3</entry>
+  <entry>Decimal 71 <emphasis>G</emphasis></entry>
+</row>
+
+<row>
+  <entry>4</entry>
+  <entry>Decimal 13 <emphasis>Carriage return (\r)</emphasis></entry>
+</row>
+
+<row>
+  <entry>5</entry>
+  <entry>Decimal 10 <emphasis>Newline (\n)</emphasis></entry>
+</row>
+
+<row>
+  <entry>6</entry>
+  <entry>Decimal 26 <emphasis>No ASCII equivalent</emphasis></entry>
+</row>
+
+<row>
+  <entry>7</entry>
+  <entry>Decimal 10 <emphasis>Newline (\n)</emphasis></entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+</sect2>
+
+<sect2><title>Chunk format</title>
+<para>
+Chunks map as a concept to the blocks that the GIF format used. The generic format for a PNG chunk is:
+</para>
+
+<table frame='all'><title>PNG on disc: chunk format</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<thead>
+<row>
+  <entry>Bytes</entry>
+  <entry>Description</entry>
+</row>
+</thead>
+<tbody>
+
+<row>
+  <entry>0 - 3</entry>
+  <entry>Length of the data portion of this chunk (does not include the length field, the type field, or the CRC). The value is unsigned, and zero is a valid length. The maximum value is 2^32 - 1</entry>
+</row>
+
+<row>
+  <entry>4 - 7</entry>
+  <entry>Chunk type. Chunk types normally fall into the upper and lower case ASCII ranges. Software should treat this field as an unsigned value however. Chunk type naming conventions are discussed later in this chapter.</entry>
+</row>
+
+<row>
+  <entry>...</entry>
+  <entry>Chunk data.</entry>
+</row>
+
+<row>
+  <entry>(4 bytes at end of chunk)</entry>
+  <entry>Cyclic Redundancy Check (CRC). The CRC covers the type and data fields, but not the length field. The CRC is always present, even if we have no data.</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+</sect2>
+
+<sect2><title>Chunk naming conventions</title>
+<para>
+The case used in chunk names has special significance. The table below describes the chunk name characters.
+</para>
+
+<table frame='all'><title>PNG on disc: chunk naming conventions</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<thead>
+<row>
+  <entry>Bytes</entry>
+  <entry>Description</entry>
+</row>
+</thead>
+<tbody>
+
+<row>
+  <entry>0</entry>
+  <entry>Uppercase: critical. Lowercase: optional (known as ancillary). If a decoder encounters a critical chunk it does not understand, it will warn the user about possible incorrect decoding of the image.</entry>
+</row>
+
+<row>
+  <entry>1</entry>
+  <entry>Uppercase: public. Lowercase: private. A public chunk is either part of the PNG specification, or is published in the list of PNG public chunk types. Private chunks are developer specific, and should be ignored if not understood.</entry>
+</row>
+
+<row>
+  <entry>2</entry>
+  <entry>Uppercase: PNG 1.2 compliant. Lowercase: reserved for future use. For the time being, you should never see a third character which is lower case.</entry>
+</row>
+
+<row>
+  <entry>3</entry>
+  <entry>Uppercase: unsafe to copy. Lowercase: safe to copy. If the decoder doesn't understand the chunk, then should it be copied into new images? A chunk would be unsafe to copy if it relied on the image data which the decoder might have changed (including some critical chunks). An example of a safe to copy chunk might be a chunk which includes a MP3 sound recording from the time in which the image was encoded. An example of an unsafe to copy chunk might be an MD5 hash on the image data.</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+
+</sect2>
+
+<sect2><title>CRC algorithmn</title>
+<para>
+The exact workings of the CRC algorithm are outside the scope of this tutorial...
+</para>
+
+<execute><cmd>nextedition</cmd><input>Describe</input></execute>
+</sect2>
+
+
+
+
+
+
+
+<sect2><title>The IHDR chunk</title>
+<para>
+This is the image header chunk. This chunk <emphasis>must be first</emphasis> in the PNG file. This chunk contains the following fields:
+</para>
+
+<table frame='all'><title>PNG on disc: IHDR chunk fields</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<thead>
+<row>
+  <entry>Bytes</entry>
+  <entry>Description</entry>
+</row>
+</thead>
+<tbody>
+
+<row>
+  <entry>0 - 3</entry>
+  <entry>Width</entry>
+</row>
+
+<row>
+  <entry>4 - 7</entry>
+  <entry>Height</entry>
+</row>
+
+<row>
+  <entry>8</entry>
+  <entry>Bit depth (not of bits per sample or palette index)</entry>
+</row>
+
+<row>
+  <entry>9</entry>
+  <entry>Color type</entry>
+</row>
+
+<row>
+  <entry>10</entry>
+  <entry>Compression method (method zero is the only method currently defined)</entry>
+</row>
+
+<row>
+  <entry>11</entry>
+  <entry>Filter method (method zero is the only method currently defined)</entry>
+</row>
+
+<row>
+  <entry>12</entry>
+  <entry>Interlace method. The current options are: zero (no interlace) and one (adam7)</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+
+<para>
+There are various values which are valid for the color type field. Each of these types has only certain bite depths allowed.
+</para>
+
+<table frame='all'><title>PNG on disc: IHDR chunk color types</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<thead>
+<row>
+  <entry>Color type: allowed bit depths</entry>
+  <entry>Comments</entry>
+</row>
+</thead>
+<tbody>
+
+<row>
+  <entry>0: 1, 2, 4, 8, 16</entry>
+  <entry>Each pixel is a grayscale sample</entry>
+</row>
+
+<row>
+  <entry>1: not applicable</entry>
+  <entry>Each pixel value is an index into a palette table</entry>
+</row>
+
+<row>
+  <entry>2: 8, 16</entry>
+  <entry>Each pixel has an red, green, and blue value</entry>
+</row>
+
+<row>
+  <entry>3: 1, 2, 4, 8</entry>
+  <entry>Each pixel is a palette index, and a PLTE chunk must appear in the PNG file</entry>
+</row>
+
+<row>
+  <entry>4: 8, 16</entry>
+  <entry>Each pixel is a grayscale sample, followed by an alpha channel</entry>
+</row>
+
+<row>
+  <entry>6: 8, 16</entry>
+  <entry>Each pixel is an red, green, blue, alpha set</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+
+<para>
+For all of these types, the sample depth is the same as the bit depth, except for type three, where the sample depth is always eight bits.
+</para>
+
+<table frame='all'><title>PNG on disc: IHDR chunk</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<tbody>
+
+<row>
+  <entry>Required?</entry>
+  <entry>Critical</entry>
+</row>
+
+<row>
+  <entry>Scope?</entry>
+  <entry>Public</entry>
+</row>
+
+<row>
+  <entry>In reserved name space?</entry>
+  <entry>PNG 1.2 compliant</entry>
+</row>
+
+<row>
+  <entry>Safe to copy?</entry>
+  <entry>Unsafe to copy</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+</sect2>
+
+<sect2><title>The PLTE chunk</title>
+<para>
+This chunks stores the palette information for the image. A palette contains 1 through 256 entries, and each entry consists of a red byte, green byte, and a blue byte. You don't need to have 256 entries in the palette -- the size of the palette is determined by dividing the chunk length by three. A chunk length which is not divisible by three is an error condition.
+</para>
+
+<table frame='all'><title>PNG on disc: PLTE chunk</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<tbody>
+
+<row>
+  <entry>Required?</entry>
+  <entry>Critical</entry>
+</row>
+
+<row>
+  <entry>Scope?</entry>
+  <entry>Public</entry>
+</row>
+
+<row>
+  <entry>In reserved name space?</entry>
+  <entry>PNG 1.2 compliant</entry>
+</row>
+
+<row>
+  <entry>Safe to copy?</entry>
+  <entry>Unsafe to copy</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+</sect2>
+
+<sect2><title>The IDAT chunk</title>
+<para>
+The IDAT chunk contains the actual image data. This data will be the output of the selected compression method, and will need to be uncompressed before it is used.
+</para>
+
+<table frame='all'><title>PNG on disc: IDAT chunk</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<tbody>
+
+<row>
+  <entry>Required?</entry>
+  <entry>Critical</entry>
+</row>
+
+<row>
+  <entry>Scope?</entry>
+  <entry>Public</entry>
+</row>
+
+<row>
+  <entry>In reserved name space?</entry>
+  <entry>PNG 1.2 compliant</entry>
+</row>
+
+<row>
+  <entry>Safe to copy?</entry>
+  <entry>Unsafe to copy</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+</sect2>
+
+<sect2><title>The IEND chunk</title>
+<para>
+The IEND chunk must be the last chunk in the PNG file. It marks the end of the PNG file. The length of the data inside this chunk is zero.
+</para>
+
+<table frame='all'><title>PNG on disc: IEND chunk</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<tbody>
+
+<row>
+  <entry>Required?</entry>
+  <entry>Critical</entry>
+</row>
+
+<row>
+  <entry>Scope?</entry>
+  <entry>Public</entry>
+</row>
+
+<row>
+  <entry>In reserved name space?</entry>
+  <entry>PNG 1.2 compliant</entry>
+</row>
+
+<row>
+  <entry>Safe to copy?</entry>
+  <entry>Unsafe to copy</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+</sect2>
+
+<sect2><title>Ancillary chunks</title>
+<para>
+Each ancillary chunk is only given a brief description below. Refer to the PNG specification for more information...
+</para>
+</sect2>
+
+<sect2><title>The tRNS chunk</title>
+<para>
+Transparency information.
+</para>
+
+<table frame='all'><title>PNG on disc: tRNS chunk</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<tbody>
+
+<row>
+  <entry>Required?</entry>
+  <entry>Ancillary</entry>
+</row>
+
+<row>
+  <entry>Scope?</entry>
+  <entry>Public</entry>
+</row>
+
+<row>
+  <entry>In reserved name space?</entry>
+  <entry>PNG 1.2 compliant</entry>
+</row>
+
+<row>
+  <entry>Safe to copy?</entry>
+  <entry>Unsafe to copy</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+</sect2>
+
+<sect2><title>The gAMA chunk</title>
+<para>
+Image gamma (pixel intensity) information.
+</para>
+
+<table frame='all'><title>PNG on disc: gAMA chunk</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<tbody>
+
+<row>
+  <entry>Required?</entry>
+  <entry>Ancillary</entry>
+</row>
+
+<row>
+  <entry>Scope?</entry>
+  <entry>Public</entry>
+</row>
+
+<row>
+  <entry>In reserved name space?</entry>
+  <entry>PNG 1.2 compliant</entry>
+</row>
+
+<row>
+  <entry>Safe to copy?</entry>
+  <entry>Unsafe to copy</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+</sect2>
+
+<sect2><title>The cHRM chunk</title>
+<para>
+Chromacity information.
+</para>
+
+<table frame='all'><title>PNG on disc: cHRM chunk</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<tbody>
+
+<row>
+  <entry>Required?</entry>
+  <entry>Ancillary</entry>
+</row>
+
+<row>
+  <entry>Scope?</entry>
+  <entry>Public</entry>
+</row>
+
+<row>
+  <entry>In reserved name space?</entry>
+  <entry>PNG 1.2 compliant</entry>
+</row>
+
+<row>
+  <entry>Safe to copy?</entry>
+  <entry>Unsafe to copy</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+</sect2>
+
+<sect2><title>The sRGB chunk</title>
+<para>
+The image data conforms to the ICC RGB color space.
+</para>
+
+<table frame='all'><title>PNG on disc: sRGB chunk</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<tbody>
+
+<row>
+  <entry>Required?</entry>
+  <entry>Ancillary</entry>
+</row>
+
+<row>
+  <entry>Scope?</entry>
+  <entry>Public</entry>
+</row>
+
+<row>
+  <entry>In reserved name space?</entry>
+  <entry>PNG 1.2 compliant</entry>
+</row>
+
+<row>
+  <entry>Safe to copy?</entry>
+  <entry>Unsafe to copy</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+</sect2>
+
+<sect2><title>The iCCP chunk</title>
+<para>
+Contains an embedded ICC profile.
+</para>
+
+<table frame='all'><title>PNG on disc: iCCP chunk</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<tbody>
+
+<row>
+  <entry>Required?</entry>
+  <entry>Ancillary</entry>
+</row>
+
+<row>
+  <entry>Scope?</entry>
+  <entry>Public</entry>
+</row>
+
+<row>
+  <entry>In reserved name space?</entry>
+  <entry>PNG 1.2 compliant</entry>
+</row>
+
+<row>
+  <entry>Safe to copy?</entry>
+  <entry>Unsafe to copy</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+</sect2>
+
+<sect2><title>The iTXt chunk</title>
+<para>
+International textual data.
+</para>
+
+<table frame='all'><title>PNG on disc: iTXt chunk</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<tbody>
+
+<row>
+  <entry>Required?</entry>
+  <entry>Ancillary</entry>
+</row>
+
+<row>
+  <entry>Scope?</entry>
+  <entry>Public</entry>
+</row>
+
+<row>
+  <entry>In reserved name space?</entry>
+  <entry>PNG 1.2 compliant</entry>
+</row>
+
+<row>
+  <entry>Safe to copy?</entry>
+  <entry>Safe to copy</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+</sect2>
+
+<sect2><title>The tEXt chunk</title>
+<para>
+Uncompressed text.
+</para>
+
+<table frame='all'><title>PNG on disc: tEXt chunk</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<tbody>
+
+<row>
+  <entry>Required?</entry>
+  <entry>Ancillary</entry>
+</row>
+
+<row>
+  <entry>Scope?</entry>
+  <entry>Public</entry>
+</row>
+
+<row>
+  <entry>In reserved name space?</entry>
+  <entry>PNG 1.2 compliant</entry>
+</row>
+
+<row>
+  <entry>Safe to copy?</entry>
+  <entry>Safe to copy</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+</sect2>
+
+<sect2><title>The zTXt chunk</title>
+<para>
+Flate compressed text.
+</para>
+
+<table frame='all'><title>PNG on disc: zTXt chunk</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<tbody>
+
+<row>
+  <entry>Required?</entry>
+  <entry>Ancillary</entry>
+</row>
+
+<row>
+  <entry>Scope?</entry>
+  <entry>Public</entry>
+</row>
+
+<row>
+  <entry>In reserved name space?</entry>
+  <entry>PNG 1.2 compliant</entry>
+</row>
+
+<row>
+  <entry>Safe to copy?</entry>
+  <entry>Safe to copy</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+</sect2>
+
+<sect2><title>The bKGD chunk</title>
+<para>
+Background color information.
+</para>
+
+<table frame='all'><title>PNG on disc: bKGD chunk</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<tbody>
+
+<row>
+  <entry>Required?</entry>
+  <entry>Ancillary</entry>
+</row>
+
+<row>
+  <entry>Scope?</entry>
+  <entry>Public</entry>
+</row>
+
+<row>
+  <entry>In reserved name space?</entry>
+  <entry>PNG 1.2 compliant</entry>
+</row>
+
+<row>
+  <entry>Safe to copy?</entry>
+  <entry>Unsafe to copy</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+</sect2>
+
+<sect2><title>The pHYs chunk</title>
+<para>
+Pixel size information.
+</para>
+
+<table frame='all'><title>PNG on disc: pHYs chunk</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<tbody>
+
+<row>
+  <entry>Required?</entry>
+  <entry>Ancillary</entry>
+</row>
+
+<row>
+  <entry>Scope?</entry>
+  <entry>Public</entry>
+</row>
+
+<row>
+  <entry>In reserved name space?</entry>
+  <entry>PNG 1.2 compliant</entry>
+</row>
+
+<row>
+  <entry>Safe to copy?</entry>
+  <entry>Safe to copy</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+</sect2>
+
+<sect2><title>The sBIT chunk</title>
+<para>
+Stores the original number of significant bits.
+</para>
+
+<table frame='all'><title>PNG on disc: sBIT chunk</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<tbody>
+
+<row>
+  <entry>Required?</entry>
+  <entry>Ancillary</entry>
+</row>
+
+<row>
+  <entry>Scope?</entry>
+  <entry>Public</entry>
+</row>
+
+<row>
+  <entry>In reserved name space?</entry>
+  <entry>PNG 1.2 compliant</entry>
+</row>
+
+<row>
+  <entry>Safe to copy?</entry>
+  <entry>Unsafe to copy</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+</sect2>
+
+<sect2><title>The sPLT chunk</title>
+<para>
+Suggested palette.
+</para>
+
+<table frame='all'><title>PNG on disc: sPLT chunk</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<tbody>
+
+<row>
+  <entry>Required?</entry>
+  <entry>Ancillary</entry>
+</row>
+
+<row>
+  <entry>Scope?</entry>
+  <entry>Public</entry>
+</row>
+
+<row>
+  <entry>In reserved name space?</entry>
+  <entry>PNG 1.2 compliant</entry>
+</row>
+
+<row>
+  <entry>Safe to copy?</entry>
+  <entry>Unsafe to copy</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+</sect2>
+
+<sect2><title>The hIST chunk</title>
+<para>
+Palette histogram.
+</para>
+
+<table frame='all'><title>PNG on disc: hIST chunk</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<tbody>
+
+<row>
+  <entry>Required?</entry>
+  <entry>Ancillary</entry>
+</row>
+
+<row>
+  <entry>Scope?</entry>
+  <entry>Public</entry>
+</row>
+
+<row>
+  <entry>In reserved name space?</entry>
+  <entry>PNG 1.2 compliant</entry>
+</row>
+
+<row>
+  <entry>Safe to copy?</entry>
+  <entry>Unsafe to copy</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+</sect2>
+
+<sect2><title>The tIME chunk</title>
+<para>
+Time of last image modification.
+</para>
+
+<table frame='all'><title>PNG on disc: tIME chunk</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<tbody>
+
+<row>
+  <entry>Required?</entry>
+  <entry>Ancillary</entry>
+</row>
+
+<row>
+  <entry>Scope?</entry>
+  <entry>Public</entry>
+</row>
+
+<row>
+  <entry>In reserved name space?</entry>
+  <entry>PNG 1.2 compliant</entry>
+</row>
+
+<row>
+  <entry>Safe to copy?</entry>
+  <entry>Unsafe to copy</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+</sect2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</sect1>
+
+
+
+
+
+
+
+
+
+
+
+
+<sect1><title>PNG should be easier than TIFF</title>
+<para>
+Unlike the TIFF format, which allows the creator of the image files to specify many different image options, PNG imposes rules such as that the images are big endian. Whilst this is less flexible for the creators of PNG files compared with TIFF, it does make it much easier to reliably decode a PNG image.
 </para>
 </sect1>
+
+
+
+
+
+
+
+
+
+
+
 
 <sect1><title>Opening a PNG file</title>
 <para>
@@ -71,27 +1014,76 @@ In this example, we do everything we need to open a PNG image, without actually 
 <itemizedlist>
 <listitem><para>Open the file ready for reading. For this we just use the c standard library's <command>FILE *</command>, unlike the libtiff examples, in which we used a <command>TIFF *</command>
   <footnote><para>In reality, the libtiff could just use the <command>FILE *</command> method internally, although they don't always, as shown by the TIFFClientOpen examples in the TIFF chapter.</para></footnote>
-. I'm not aware of whether we can fake out a <command>FILE *</command> if we wanted to pull a PNG out of something other than a file, one day when I have infinite free time I really should look more into this.</para></listitem>
+</para></listitem>
 
 <listitem><para>Another thing we need to do which libtiff does for us and libpng doesn't is check that the file really is a PNG file. We do this with the <command>png_check_sig</command>() call. This expects the first 8 bytes of the file to be handed to it, which is what the <command>fread</command>() function call gets for us.</para></listitem>
 
-<listitem><para></para></listitem>
+<listitem><para>We then start decompressing the image</para></listitem>
+
+<listitem><para>The info struct gives us access to important information about the image</para></listitem>
+
+<listitem><para>Then we read the IHDR chunk (see above)</para></listitem>
 </itemizedlist>
+
+<execute><cmd>todo</cmd><input>PNG client information reference</input></execute>
 </sect1>
 
-<sect1><title>PNG tags</title>
-<para>
-<execute><cmd>todo</cmd><input>More content here</input></execute>
-</para>
 
-<sect2><title>pnginfo</title>
+
+
+
+
+
+
+
+
+<sect1><title>Example: pnginfo</title>
 <para>
 The <command>pnginfo</command> command implemented here is modeled on the <command>tiffinfo</command>, which was discussed in the TIFF chapter earlier in this tutorial. In fact, the output text is written to be as close to the <command>tiffinfo</command> command as possible.
 </para>
 
 <execute><cmd>code2db.pl</cmd><input>~mikal/opensource/pngtools/pnginfo.c</input></execute>
-</sect2>
 </sect1>
+
+
+
+<sect1><title>Reading a PNG image</title>
+<para>
+This example shows you how to read in the raster data that is embedded into the image file. libpng will also expand paletted raster information for you if you ask nicely...
+</para>
+
+<execute><cmd>code2db.pl</cmd><input>~mikal/opensource/png-open/read.c</input></execute>
+</sect1>
+
+
+
+
+<sect1><title>Writing a PNG image</title>
+<para>
+...
+</para>
+</sect1>
+
+<sect1><title>Writing a paletted image</title>
+<para>
+...
+</para>
+</sect1>
+
+
+<sect1><title>Storing PNG data in places other than files</title>
+<para>
+This example below, much like the TIFFClient examples in the TIFF chapter shows how to use the libpng callbacks to get to image data in places other than files. Note that it wont compile, but it does give you an example of the structure you need...
+</para>
+
+<execute><cmd>code2db.pl</cmd><input>~mikal/opensource/png-client/client.c</input></execute>
+</sect1>
+
+
+
+
+
+
 
 <sect1><title>Man pages</title>
 <para>
@@ -99,15 +1091,7 @@ To be honest, the libtiff man pages are much better than the documentation which
 </para>
 
 <sect2><title>libpng</title>
-<para>
-<execute><cmd>todo</cmd><input>More content here</input></execute>
-</para>
-
-<execute><cmd>todo</cmd><input>source/png/man/libpng.3</input><args>-s 3</args></execute>
-</sect2>
-
-<sect2><title>libpng.txt</title>
-<execute><cmd>text2db.pl</cmd><input>source/png/man/libpng.txt</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/png/man/libpng.3</input><args>-s 3</args></execute>
 </sect2>
 </sect1>
 
