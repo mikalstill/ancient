@@ -1,0 +1,5 @@
+At the moment, only CHM decoding is supported, and it is slightly broken. Simply type
+
+  make
+
+and then run chm-dump <filename>

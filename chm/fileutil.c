@@ -175,12 +175,14 @@ char *fileutil_displayguid(FILE *input, char *format){
 
 // "Encoded integer", used by MS CHM
 int fileutil_displayencinteger(FILE *input, char *format, int *read){
-  int continued = 1, val, accval = 0;
+  int continued = 1, val, accval = 0, readcount = 0;
   unsigned char b;
   printf(format);
 
   printf("(encoded int) ");
   while(continued == 1){
+    readcount++;
+
     b = fgetc(input);
     continued = b >> 7;
     val = b << 1;
@@ -188,9 +190,8 @@ int fileutil_displayencinteger(FILE *input, char *format, int *read){
 
     printf("[%d %d] ", continued, val);
     accval += val;
-
-    *read++;
   }
 
   printf("= %d", accval);
+  *read = readcount;
 }

@@ -97,15 +97,16 @@ int main(int argc, char *argv[]){
     fileutil_displayinteger(input, "Always zero: "); printf("\n");
     fileutil_displayinteger(input, "Previous chunk number: "); printf("\n");
     fileutil_displayinteger(input, "Next chunk number: "); printf("\n");
-
-    printf("Space taken at end of chunk: %d\n", (1 + (1 << density)));
-    offset = chunksize - 4 - (4 * 4) - waste;
+    offset = chunksize - 4 - (4 * 4);
 
     while(offset > 0){
       // Filename
       printf("\n  Remaining chunk length: %d\n", offset);
       length = fileutil_displaybyte(input, "  Name length: "); printf("\n");
       offset--;
+
+      if(length == 0)
+	break;
 
       printf("  Filename: ");
       for(count = 0; count < length; count++){
@@ -114,12 +115,27 @@ int main(int argc, char *argv[]){
       }
       printf("\n");
       
-      read = 0; fileutil_displayencinteger(input, "  Content section: ", &read); printf("\n");
+      fileutil_displayencinteger(input, "  Content section: ", &read); printf("\n");
       offset -= read;
-      read = 0; fileutil_displayencinteger(input, "  Offset: ", &read); printf("\n");
+      fileutil_displayencinteger(input, "  Offset: ", &read); printf("\n");
       offset -= read;
-      read = 0; fileutil_displayencinteger(input, "  Length: ", &read); printf("\n");
+      fileutil_displayencinteger(input, "  Length: ", &read); printf("\n");
       offset -= read;
     }
+
+    // Display the quickrefs
+    for(count = 0; count < (1 + (1 << density)); count++){
+      fileutil_displayinteger(input, "  Quick reference entry: "); printf("\n");
+      offset -= 4;
+    }
+
+    offset -= 2;
+    printf("\n  Skipping %d bytes: ", offset);
+    for(count = 0; count < offset; count++){
+      printf("%02x ", fgetc(input));
+    }
+    printf("\n");
+
+    fileutil_displayshort(input, "  Number of entries in this chunk: "); printf("\n");
   }
 }
