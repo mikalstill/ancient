@@ -89,6 +89,7 @@ main (int argc, char *argv[])
 	default:
 	case '?':
 	  printf ("Unknown command line option...\n");
+	  printf (VERSION "\n");
 	  printf ("Try: %s [-i input] [-r]\n", argv[0]);
 	  exit (0);
 	  break;
@@ -98,6 +99,7 @@ main (int argc, char *argv[])
   if (input_filename == NULL)
     {
       printf ("No input file specified...\n");
+      printf (VERSION "\n");
       printf ("Try: %s [-i input] [-r]\n", argv[0]);
       exit (0);
     }
