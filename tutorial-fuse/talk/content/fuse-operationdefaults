@@ -1,0 +1,14 @@
+TITLE: Why can't FUSE provide default behaviours for a lot of those?
+
+<ul>
+<li>There are a lot of operations there which need to be implemented
+<li>For a writethrough filesystem or my caching filesystem a lot of them just use the existing system call
+<li>Why can't FUSE just provide these for me?
+
+<BR><BR>
+
+<li>FUSE doesn't know where your data is
+<li>The normal syscall might not be appropriate to your filesystem
+<li>How do you tell FUSE to use the default behaviour?
+
+</ul>

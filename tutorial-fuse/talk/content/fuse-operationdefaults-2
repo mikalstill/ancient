@@ -1,0 +1,14 @@
+TITLE: Why can't FUSE provide default behaviours for a lot of those?
+
+<ul>
+<li>We can answer a few of those:
+
+<BR><BR>
+
+<li>Specify the default by passing -1 as the function pointer?
+<li>Specify a path to prepend to the path of the object being accessed
+<li>If the syscall doesn't map to your needs, then you're always going to have to provide it anyway.
+
+%% TODO: Write a patch to implement this...
+
+</ul>
