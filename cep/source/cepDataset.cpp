@@ -107,7 +107,6 @@ cepError cepDataset::read(const string & filename)
     long numLines;
     char c, prevc;
     string thisLine;
-    // BS - added color and initialisation
     double rowdate = 0.0, rowsample = 0.0, rowerror = 0.0, rowcolor = 0.0;
     double lastRowdate = -1,
         lastRowsample = -1, lastRowerror = -1, lastRowcolor = -1;
@@ -173,8 +172,7 @@ cepError cepDataset::read(const string & filename)
                 thisLine += c;
             }
 
-            // End of line?                                    colColorHint
-            // have we read a full line?
+            // End of line?
             if ((c == '\n') && (thisLine.size() > 0 )) {
                 cepDebugPrint("Processing line: '" + thisLine + "'");
 
@@ -290,6 +288,7 @@ cepError cepDataset::read(const string & filename)
 			      m_e[i] = atof(sa[9].c_str());
 			    }
                         }
+
                         // Well, then it must be a processing statement
                         // line
                         else if (i == 0) {
@@ -330,10 +329,20 @@ cepError cepDataset::read(const string & filename)
             }
         } else {
             m_data[i] = new cepMatrix < double >(data[0].size(), 4, data.size());
+
             // for each window
-            for( int wcount = 0; wcount<(int)data.size(); ++wcount ) {
-                // for each window element
-                for( int vcount = 0; vcount<(int)data[0].size(); ++vcount ) {
+            for( int wcount = 0; wcount < (int) data.size(); ++wcount ) {
+	        // Check that the window is the expected size
+	        if(data[wcount].size() != data[0].size()){
+		  return cepError("Window sizes vary on read data. The initial size was " +
+				  cepToString(data[0].size()) + " but window " +
+				  cepToString(wcount) + " has a window size of " +
+				  cepToString(data[wcount].size()),
+				  cepError::sevWarning);
+	        }
+	      
+	        // for each window element
+                for( int vcount = 0; vcount < (int) data[wcount].size(); ++vcount ) {
                     m_data[i]->setValue(vcount, colDate, wcount, data[wcount].Xat(vcount));
                     if (m_data[i]->getError().isReal())
                         return m_data[i]->getError();
