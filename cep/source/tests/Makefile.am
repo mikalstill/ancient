@@ -17,7 +17,7 @@ testls_LDADD = ../cepLs.o
 testdataset_SOURCES = alltests.cpp cep_testDataset.cpp
 testdataset_LDADD = ../cepDataset.o
 
-testpresentation_SOURCES = cep_testPresentation000.cpp cep_testPresentation1000.cpp cep_testPresentation1200.cpp cep_testPresentation1400.cpp cep_testPresentation1600.cpp cep_testPresentation1800.cpp cep_testPresentation2000.cpp cep_testPresentation200.cpp cep_testPresentation2200.cpp cep_testPresentation2400.cpp cep_testPresentation2600.cpp cep_testPresentation2800.cpp cep_testPresentation3000.cpp cep_testPresentation3200.cpp cep_testPresentation3400.cpp cep_testPresentation3600.cpp cep_testPresentation3800.cpp cep_testPresentation4000.cpp cep_testPresentation400.cpp cep_testPresentation4200.cpp cep_testPresentation4400.cpp cep_testPresentation600.cpp cep_testPresentation800.cpp
+testpresentation_SOURCES = alltests.cpp cep_testPresentation000.cpp cep_testPresentation1000.cpp cep_testPresentation1200.cpp cep_testPresentation1400.cpp cep_testPresentation1600.cpp cep_testPresentation1800.cpp cep_testPresentation2000.cpp cep_testPresentation200.cpp cep_testPresentation2200.cpp cep_testPresentation2400.cpp cep_testPresentation2600.cpp cep_testPresentation2800.cpp cep_testPresentation3000.cpp cep_testPresentation3200.cpp cep_testPresentation3400.cpp cep_testPresentation3600.cpp cep_testPresentation3800.cpp cep_testPresentation4000.cpp cep_testPresentation400.cpp cep_testPresentation4200.cpp cep_testPresentation4400.cpp cep_testPresentation600.cpp cep_testPresentation800.cpp
 
 # 2: Above this line, you need to add a line test<name>_SOURCES, which lists
 # your .cpp files, and (if you need it), a line test<name>_LDADD, which lists
