@@ -134,7 +134,6 @@ cepApp::OnInit (void)
                   wxDEFAULT_FRAME_STYLE);
 
   // Give it an icon (this is ignored in MDI mode: uses resources)
-  // todo_mikal: We should have our own icon
 #ifdef __WXMSW__
   frame->SetIcon (wxIcon ("doc"));
 #endif
@@ -178,7 +177,6 @@ cepApp::OnInit (void)
   SetTopWindow (frame);
 
   // We can process command line options here if we want
-  // todo_mikal: make this sexier
   cepDebugPrint("Starting to parse command line options");
   int optchar;
   string filename;
@@ -238,17 +236,6 @@ cepApp::OnInit (void)
   {
     m_error.display ();
     m_error.clear ();
-  }
-
-  // Display tips on startup
-  // todo_mikal: make tips work
-  // todo_mikal: turn off startup tips sometimes
-  // todo_mikal: should the tips be stored in a tdb?
-  if (1)
-  {
-    // wxTipProvider *tipProvider = wxCreateFileTipProvider("tips.txt", 0); 
-    // wxShowTip(windowParent, tipProvider); 
-    // delete tipProvider; 
   }
 
   // Cleanup temp

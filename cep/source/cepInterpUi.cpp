@@ -116,11 +116,11 @@ void cepInterpShowRate::dlgRateOnOK(wxCommandEvent& WXUNUSED(event))
 
 cepInterpUi::cepInterpUi() {}
 
-void cepInterpUi::showSampleRate(double val, string dir)
+void cepInterpUi::showSampleRate(double val)
 {
   bool isValid = false;
   cepInterpShowRate *rate;
-  rate = new cepInterpShowRate(cepToString(val).c_str(), dir.c_str(), 1.0);
+  rate = new cepInterpShowRate(cepToString(val).c_str(), "", 1.0);
 
   m_sampleRate = rate->getSample();
   m_sampleUnits = rate->getSampleUnits();
@@ -144,7 +144,7 @@ void cepInterpUi::showSampleRate(double val, string dir)
           (atof(m_sampleRate.c_str()) <= 0))
       {
         cepError("Error. Sample rate must be a number greater than 0", cepError::sevWarning).display();
-        rate = new cepInterpShowRate(m_sampleRate, dir.c_str(), m_sampleUnits);
+        rate = new cepInterpShowRate(m_sampleRate, "", m_sampleUnits);
         m_sampleRate = rate->getSample();
         m_sampleUnits = rate->getSampleUnits();
         isValid = false;

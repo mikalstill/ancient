@@ -99,7 +99,12 @@ private:
   void drawPresentation(cepDataset *ds, cepDataset::direction dir, int top,
 			wxDC *dc, int presWidth, int presHeight);
 
-  void populateMatP(cepMatrix<double> &matP, const double & toDate, const double &fromDate, const double &val, cepMatrix<double> &data);
+  void populateMatP(cepMatrix<double> &matP, const double & toDate, const double &fromDate, 
+		    const double &val, cepMatrix<double> &data);
+
+  void processInterp(cepMatrix<double> interped[cepDataset::dirUnknown], cepDataset *theDataset, 
+		     string desc);
+
   string m_pngCache[3];
   bool m_dirty;
   bool m_plotfailed;

@@ -80,9 +80,9 @@ class cepDataset {
                 cepMatrix < double >*data2, string offset0,
                 string offset1, string offset2, string procHistory,
                 string header0, string header1, string header2,
-                double b1_0, double b1_1, double b1_2, double b2_0,
-                double b2_1, double b1_2, bool haveLs0, bool haveLs1,
-                bool haveLs2);
+                double b1_0 = 0.0, double b1_1 = 0.0, double b1_2 = 0.0, double b2_0 = 0.0,
+                double b2_1 = 0.0, double b1_2 = 0.0, bool haveLs0 = false, bool haveLs1 = false,
+                bool haveLs2 = false);
 
     // Actually process the file
     cepError read(const string & filename);

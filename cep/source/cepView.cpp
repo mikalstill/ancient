@@ -708,141 +708,74 @@ void cepView::OnWindowRect (wxCommandEvent& event)
 void cepView::OnInterpNearest (wxCommandEvent& event)
 {
   cepInterpUi interpUi;
+  cepMatrix<double> interped[cepDataset::dirUnknown];
 
   cepDoc *theDoc = (cepDoc *) GetDocument ();
   cepDataset *theDataset = theDoc->getDataset ();
-  const char *dirStrings[] = {"x (North)", "y (East)", "z (Up)"};
-
-  for(int i = 0; i < cepDataset::dirUnknown; i++)
-  {
-    interpUi.showSampleRate(fabs(((theDataset->getMatrix((cepDataset::direction) i))->getValue(0,1) +
-                            (theDataset->getMatrix((cepDataset::direction) i))->getValue(1,1))/2.0), dirStrings[i]);
-
+  if (theDataset && theDataset->isReady() && theDataset->isWellFormed()){
+    interpUi.showSampleRate(theDataset->getMatrix(cepDataset::dirX)->getValue(1,0) -
+			    theDataset->getMatrix(cepDataset::dirX)->getValue(0,0));
     cout << "sample Rate returned is " << interpUi.getSampleRate() << endl;
-    //if operation not canceled
-    if(interpUi.getSampleRate()!= -1){
-
-      //dataset = cepInterp.doInterp(current dataset, sample rate, interptype)
-      cout << "call Nearst Neighbour" << endl;
-    }
-    else
-    {
-      //if user canceled in any direction bail out
+    if(interpUi.getSampleRate() == -1){
       return;
     }
+    
+    for(int i = 0; i < cepDataset::dirUnknown; i++)
+      {
+	cepInterp myInterp;
+	interped[i] = myInterp.doInterp(*theDoc->getDataset ()->getMatrix((cepDataset::direction) i), 
+					interpUi.getSampleRate(), 
+					NEAREST_INTERP);
+      }
+    
+    processInterp(&interped[cepDataset::dirUnknown], theDataset, "NN Interp");
   }
 }
 
 void cepView::OnInterpLinear (wxCommandEvent& event)
 {
-  cepInterpUi interpUi;
-
-  cepDoc *theDoc = (cepDoc *) GetDocument ();
-  cepDataset *theDataset = theDoc->getDataset ();
-  const char *dirStrings[] = {"x (North)", "y (East)", "z (Up)"};
-
-  for(int i = 0; i < cepDataset::dirUnknown; i++)
-  {
-    interpUi.showSampleRate(fabs(((theDataset->getMatrix((cepDataset::direction) i))->getValue(0,1) +
-                            (theDataset->getMatrix((cepDataset::direction) i))->getValue(1,1))/2.0), dirStrings[i]);
-
-    cout << "sample Rate returned is " << interpUi.getSampleRate() << endl;
-    //if operation not canceled
-    if(interpUi.getSampleRate()!= -1){
-
-      //dataset = cepInterp.doInterp(current dataset, sample rate, interptype)
-      cout << "call Liner Interp" << endl;
-    }
-    else
-    {
-      //if user canceled in any direction bail out
-      return;
-    }
-  }
 }
 
 void cepView::OnInterpNaturalSpline (wxCommandEvent& event)
 {
-  cepInterpUi interpUi;
-
-  cepDoc *theDoc = (cepDoc *) GetDocument ();
-  cepDataset *theDataset = theDoc->getDataset ();
-  const char *dirStrings[] = {"x (North)", "y (East)", "z (Up)"};
-
-  for(int i = 0; i < cepDataset::dirUnknown; i++)
-  {
-    interpUi.showSampleRate(fabs(((theDataset->getMatrix((cepDataset::direction) i))->getValue(0,1) +
-                            (theDataset->getMatrix((cepDataset::direction) i))->getValue(1,1))/2.0), dirStrings[i]);
-
-    cout << "sample Rate returned is " << interpUi.getSampleRate() << endl;
-    //if operation not canceled
-    if(interpUi.getSampleRate()!= -1){
-
-      //dataset = cepInterp.doInterp(current dataset, sample rate, interptype)
-      cout << "call Natural spline" << endl;
-    }
-    else
-    {
-      //if user canceled in any direction bail out
-      return;
-    }
-  }
 }
 
 void cepView::OnInterpCubicSpline (wxCommandEvent& event)
 {
-  cepInterpUi interpUi;
-
-  cepDoc *theDoc = (cepDoc *) GetDocument ();
-  cepDataset *theDataset = theDoc->getDataset ();
-  const char *dirStrings[] = {"x (North)", "y (East)", "z (Up)"};
-
-  for(int i = 0; i < cepDataset::dirUnknown; i++)
-  {
-    interpUi.showSampleRate(fabs(((theDataset->getMatrix((cepDataset::direction) i))->getValue(0,1) +
-                            (theDataset->getMatrix((cepDataset::direction) i))->getValue(1,1))/2.0), dirStrings[i]);
-
-    cout << "sample Rate returned is " << interpUi.getSampleRate() << endl;
-    //if operation not canceled
-    if(interpUi.getSampleRate()!= -1){
-
-      //dataset = cepInterp.doInterp(current dataset, sample rate, interptype)
-      cout << "call Cubic Spline" << endl;
-    }
-    else
-    {
-      //if user canceled in any direction bail out
-      return;
-    }
-  }
 }
 
 void cepView::OnInterpDivided (wxCommandEvent& event)
 {
-  cepInterpUi interpUi;
+}
 
-  cepDoc *theDoc = (cepDoc *) GetDocument ();
-  cepDataset *theDataset = theDoc->getDataset ();
-  const char *dirStrings[] = {"x (North)", "y (East)", "z (Up)"};
-
-  for(int i = 0; i < cepDataset::dirUnknown; i++)
-  {
-    interpUi.showSampleRate(fabs(((theDataset->getMatrix((cepDataset::direction) i))->getValue(0,1) +
-                            (theDataset->getMatrix((cepDataset::direction) i))->getValue(1,1))/2.0), dirStrings[i]);
-
-    cout << "sample Rate returned is " << interpUi.getSampleRate() << endl;
-    //if operation not canceled
-    if(interpUi.getSampleRate()!= -1){
-
-      //dataset = cepInterp.doInterp(current dataset, sample rate, interptype)
-      cout << "call Divided diffrences" << endl;
-    }
-    else
-    {
-      //if user canceled in any direction bail out
-      return;
-    }
-  }
+void
+cepView::processInterp(cepMatrix<double> interped[cepDataset::dirUnknown], cepDataset *theDataset, 
+		       string desc)
+{
+  // Now we can process the results
+  cepDataset newds(&interped[0], &interped[1], &interped[2], 
+		   theDataset->getOffset((cepDataset::direction) 0), 
+		   theDataset->getOffset((cepDataset::direction) 1), 
+		   theDataset->getOffset((cepDataset::direction) 2),
+		   theDataset->getProcHistory() + " : " + desc, 
+		   theDataset->getHeader((cepDataset::direction) 0), 
+		   theDataset->getHeader((cepDataset::direction) 1), 
+		   theDataset->getHeader((cepDataset::direction) 2));
+  
+  char *cfname = strdup("/tmp/cep.XXXXXX");
+  int fd;
+  fd = mkstemp(cfname);
+  close(fd);
+  
+  string newcfname(string(cfname) + "~" + theDataset->getName());
+  newds.write(newcfname.c_str());
+  
+  wxGetApp().m_docManager->CreateDocument(string(newcfname + ".dat1").c_str(), wxDOC_SILENT);
+  free(cfname);
+  
+  // Actually force the graphs to redraw
+  m_dirty = true;
+  canvas->Refresh();
 }
 
 void cepView::OnSelectFont (wxCommandEvent& event)

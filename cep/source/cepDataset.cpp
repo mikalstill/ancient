@@ -645,7 +645,6 @@ cepDataset cepDataset::filter(float low, float high)
 // The display name of the dataset
 string cepDataset::getName()
 {
-    // todo_mikal: squelch repeated uses of the word Zoomed...
     cepStringArray name(m_filename, "/~");
     return name[name.size() - 1];
 }

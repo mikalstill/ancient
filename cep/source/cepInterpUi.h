@@ -169,7 +169,7 @@ public:
   cepInterpUi();
 
   //shows the "get sample rate" dialog box
-  void showSampleRate(double val, string dir);
+  void showSampleRate(double val);
 
   //returns the specified sample rate
   double getSampleRate();

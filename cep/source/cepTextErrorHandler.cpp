@@ -23,7 +23,6 @@
 
 cepTextErrorHandler::cepTextErrorHandler()
 {
-  // todo_mikal: Should this version use the config stuff as well?
 }
 
 cepTextErrorHandler::~cepTextErrorHandler()
@@ -37,7 +36,6 @@ void cepTextErrorHandler::initConfig()
 void cepTextErrorHandler::displayError( class cepError & err )
 {
   // Log everything for now
-  // todo_mikal improve
   logError( err );
 
   if ( err.getMessage() != "")
