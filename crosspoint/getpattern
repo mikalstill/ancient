@@ -1,0 +1,16 @@
+#!/usr/bin/perl
+
+use strict;
+use CGI;
+my($result, $filename, $font, $size, $letter);
+
+$result = new CGI();
+$filename = "/tmp/$$-".$result->param('letter').".png";
+$font = "/home/httpd/cgi-bin/".$result->param('font');
+$size = $result->param('size');
+$letter = $result->param('letter');
+
+print "Content-Type: image/png\n\n";
+`/home/httpd/cgi-bin/crosspoint $filename $font $size $letter`;
+print `cat $filename`;
+`rm -f $filename`;

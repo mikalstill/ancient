@@ -1,0 +1,29 @@
+This file contains any messages produced by compilers while
+running configure, to aid debugging if configure makes a mistake.
+
+configure:559: checking for a BSD compatible install
+configure:612: checking whether build environment is sane
+configure:669: checking whether make sets ${MAKE}
+configure:715: checking for working aclocal
+configure:728: checking for working autoconf
+configure:741: checking for working automake
+configure:754: checking for working autoheader
+configure:767: checking for working makeinfo
+configure:781: checking whether to enable maintainer-specific portions of Makefiles
+configure:807: checking for gcc
+configure:920: checking whether the C compiler (gcc  ) works
+configure:936: gcc -o conftest    conftest.c  1>&5
+configure:962: checking whether the C compiler (gcc  ) is a cross-compiler
+configure:967: checking whether we are using GNU C
+configure:976: gcc -E conftest.c
+configure:995: checking whether gcc accepts -g
+configure:1038: checking for a BSD compatible install
+configure:1093: checking for atan in -lm
+configure:1112: gcc -o conftest -g -O2   conftest.c -lm   1>&5
+configure:1141: checking for plot_newplot in -lmplot
+configure:1160: gcc -o conftest -g -O2   conftest.c -lmplot  -lm  1>&5
+configure:1189: checking how to run the C preprocessor
+configure:1210: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:1269: checking for ANSI C header files
+configure:1282: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:1349: gcc -o conftest -g -O2   conftest.c -lmplot -lm  1>&5

@@ -1,0 +1,17 @@
+#!/usr/bin/perl
+
+use strict;
+use CGI;
+my($result, $letter);
+
+$result = new CGI();
+print $result->header;
+
+for($letter = 40; $letter < 126; $letter++){
+	{
+		print "<img src=\"/cgi-bin/getpattern?font=".
+		$result->param('font')."&size=".
+		$result->param('size')."&letter=".chr($letter).
+		"&dummy=foo.png\">\n";
+	}
+}

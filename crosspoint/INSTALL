@@ -1,0 +1,5 @@
+Simply type:
+
+./configure
+make
+make install (as root)
