@@ -2,7 +2,7 @@
 #include <tiffio.h>
 
 int main(int argc, char *argv[]){
-  TIFF *image;
+  TIFF *image, *output;
   uint16 photo, bps, spp, fillorder;
   uint32 width, height, *raster;
   tsize_t stripSize;
@@ -11,6 +11,12 @@ int main(int argc, char *argv[]){
   // Open the TIFF image
   if((image = TIFFOpen(argv[1], "r")) == NULL){
     fprintf(stderr, "Could not open incoming image\n");
+    exit(42);
+  }
+
+  // Open the output image
+  if((output = TIFFOpen(argv[2], "w")) == NULL){
+    fprintf(stderr, "Could not open outgoing image\n");
     exit(42);
   }
 
@@ -29,12 +35,21 @@ int main(int argc, char *argv[]){
     exit(42);
   }
 
-  // Dump it to stdout
-  for(c = 0; c < imagesize; c += 2){
-    fprintf(stdout, "%c%c%c%c%c%c  ", TIFFGetR(raster[c]), TIFFGetG(raster[c]),
-            TIFFGetB(raster[c]), TIFFGetR(raster[c + 1]), 
-            TIFFGetG(raster[c + 1]), TIFFGetB(raster[c + 1]));
+  // Recompress it straight away -- set the tags we require
+  TIFFSetField(output, TIFFTAG_IMAGEWIDTH, width);
+  TIFFSetField(output, TIFFTAG_IMAGELENGTH, height);
+  TIFFSetField(output, TIFFTAG_COMPRESSION, COMPRESSION_DEFLATE);
+  TIFFSetField(output, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+  TIFFSetField(output, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_RGB);
+  TIFFSetField(output, TIFFTAG_BITSPERSAMPLE, 8);
+  TIFFSetField(output, TIFFTAG_SAMPLESPERPIXEL, 3);
+
+  // Actually write the image
+  if(TIFFWriteEncodedStrip(output, 0, raster, imagesize * 3) == 0){
+    fprintf(stderr, "Could not read image\n");
+    exit(42);
   }
 
+  TIFFClose(output);
   TIFFClose(image);
 }
