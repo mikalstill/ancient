@@ -7,7 +7,7 @@ TITLE: Operating environment (Mikal)
 <li>GDMS is written to be portable
 <li>wxWindows runs on:
   <ul>
-  <li>X Windows
+  <li>X Windows (GTK and Motif)
   <li>MacOS
   <li>Microsoft Windows
   </ul>
@@ -17,6 +17,10 @@ TITLE: Operating environment (Mikal)
 
 <li>Highly configurable
 <li>Code designed with future extensions in mind
+
+<BR><BR>
+
+<li>All dependancies are well documented and open source
 </font>
 </td>
 <td>
