@@ -80,11 +80,18 @@ open INPUT, "< /tmp/mysqlvi.$$";
 
 $buffer="";
 while(<INPUT>){
+    s/\'+/\'/g;
+    s/\'/\'\'/g;
+    s/\"/\\\"/g;
     $buffer = "$buffer$_";
 }
 chomp $buffer;
 
 # Put the data back
+print "\n*********************************************************\n";
+print "UPDATE $table SET $col = \"$buffer\" WHERE $where\n";
+print "\n*********************************************************\n";
+
 $select = $database->prepare("UPDATE $table SET $col = \"$buffer\" WHERE $where");
 if(!defined($select)){
     print "Could not arrange update";
