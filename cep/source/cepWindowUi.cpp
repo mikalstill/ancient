@@ -18,75 +18,79 @@
 */
 
 #include "cepWindowUi.h"
+#include <bits/nan.h>
   
-BEGIN_EVENT_TABLE (cepWindowAttenuation, wxDialog)
-  EVT_BUTTON(CEPBTN_ATT_SUBMIT, cepWindowAttenuation::dlgAttOnOK)
-  EVT_BUTTON(CEPBTN_ATT_CANCEL, cepWindowAttenuation::dlgAttOnQuit)
-  EVT_CLOSE( cepWindowAttenuation::dlgAttOnQuit)
+BEGIN_EVENT_TABLE (cepWindowBandwidth, wxDialog)
+  EVT_BUTTON(CEPBTN_ATT_SUBMIT, cepWindowBandwidth::dlgBandwidthOnOK)
+  EVT_BUTTON(CEPBTN_ATT_CANCEL, cepWindowBandwidth::dlgBandwidthOnQuit)
+  EVT_CLOSE( cepWindowBandwidth::dlgBandwidthOnQuit)
 END_EVENT_TABLE ()
                           
-cepWindowAttenuation::cepWindowAttenuation():
-  wxDialog((wxDialog *) NULL, -1, "Specify Attenuation", wxPoint(120,120), wxSize(200, 120))
+cepWindowBandwidth::cepWindowBandwidth():
+  wxDialog((wxDialog *) NULL, -1, "Specify Transition Bandwidth", wxPoint(120,120), wxSize(250, 120))
 {
-  m_panel = new wxPanel(this, -1, wxPoint(120,120), wxSize(200,120));
+  // panel and frame
+  m_panel = new wxPanel(this, -1, wxPoint(120,120), wxSize(250,120));
+  m_statBox = new wxStaticBox(m_panel, -1, "", wxPoint(25, 35), wxSize(200, 40));
 
-  m_statBox = new wxStaticBox(m_panel, -1, "", wxPoint(15, 30), wxSize(170, 40));
+  // the text labels
+  m_statText1 = new wxStaticText(m_panel, -1, "Please specify the Normalised Transition", wxPoint(5,5), wxSize(240, 20), wxALIGN_CENTRE);
+  m_statText2 = new wxStaticText(m_panel, -1, "Bandwidth for Dolph-Chebyshev", wxPoint(5,19), wxSize(240, 20), wxALIGN_CENTRE);
+  m_statText3 = new wxStaticText(m_panel, -1, "NTB:", wxPoint(35,48), wxSize(70, 20), wxALIGN_LEFT);
+  m_tbBandwidth = new wxTextCtrl(m_panel, -1, "0.0", wxPoint(100, 47), wxSize(115, 20));
 
-  m_statText1 = new wxStaticText(m_panel, -1, "Please specify the Attenuation", wxPoint(5,5), wxSize(190, 20), wxALIGN_CENTRE);
-  m_statText2 = new wxStaticText(m_panel, -1, "for the Windowed data:", wxPoint(5,19), wxSize(190, 20), wxALIGN_CENTRE);
-
-  m_statText3 = new wxStaticText(m_panel, -1, "Attenuation:", wxPoint(25,40), wxSize(100, 20), wxALIGN_LEFT);
-
-  m_tbAttenuation = new wxTextCtrl(m_panel, -1, "0.0", wxPoint(110, 40), wxSize(60, 20));
-
-  m_bSubmit = new wxButton(m_panel, CEPBTN_ATT_SUBMIT, "Ok", wxPoint(10,80));
-  m_bCancel = new wxButton(m_panel, CEPBTN_ATT_CANCEL, "Cancel", wxPoint(110,80));
+  // the buttons
+  m_bSubmit = new wxButton(m_panel, CEPBTN_ATT_SUBMIT, "Ok", wxPoint(25,80));
+  m_bCancel = new wxButton(m_panel, CEPBTN_ATT_CANCEL, "Cancel", wxPoint(145,80));
 
   Center();
   ShowModal();
 }
 
-double cepWindowAttenuation::getAttenuation()
+double cepWindowBandwidth::getBandwidth()
 {
-  for(size_t i = 0; i < m_attenuation.Length(); i ++)
+  for(size_t i = 0; i < m_bandwidth.Length(); i ++)
   {
-    if(cepIsNumeric(m_attenuation.GetChar(i)) == false)
+    if(cepIsNumeric(m_bandwidth.GetChar(i)) == false)
     {
-      return -2.0;
+      return NAN;
     }
   }
-
-  return (atof(m_attenuation.c_str()));
+  return (atof(m_bandwidth.c_str()));
 }
         
-void cepWindowAttenuation::dlgAttOnQuit(wxCommandEvent& WXUNUSED(event))
+void cepWindowBandwidth::dlgBandwidthOnQuit(wxCommandEvent& WXUNUSED(event))
 {
   //if cancel or quit button pressed 
-  m_attenuation = "-1";
+  m_bandwidth = "-1";
   
   EndModal(1);
   Destroy();
 }
 
-void cepWindowAttenuation::dlgAttOnOK(wxCommandEvent& WXUNUSED(event))
+void cepWindowBandwidth::dlgBandwidthOnOK(wxCommandEvent& WXUNUSED(event))
 {
-  m_attenuation = m_tbAttenuation->GetValue();
+  m_bandwidth = m_tbBandwidth->GetValue();
   
   EndModal(0);
-  Destroy();  
+  Destroy();
 }
 
 cepWindowUi::cepWindowUi() {}
 
-void cepWindowUi::showAttenuation()
+void cepWindowUi::showBandwidth()
 {
-  cepWindowAttenuation wa;
+  cepWindowBandwidth wa;
 
-  m_attenuation = wa.getAttenuation();
+  m_bandwidth = wa.getBandwidth();
 }
 
-double cepWindowUi::getAttenuation()
+double cepWindowUi::getBandwidth()
 {
-  return m_attenuation;
+  return m_bandwidth;
 }
+
+
+const char* cepWindowBandwidth::UNINITIALISED_STR = "-1";
+const int cepWindowBandwidth::UNINITIALISED = atoi(UNINITIALISED_STR);
 

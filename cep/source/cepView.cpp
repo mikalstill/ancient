@@ -60,6 +60,7 @@
 #include "cepLsUi.h"
 #include "cepInterpUi.h"
 #include "cepWindowUi.h"
+#include "cepwindowchebyshev.h"
 
 #include "cepMatrixIO.h"
 
@@ -507,16 +508,22 @@ void cepView::OnWindowChebyshev (wxCommandEvent& event)
 {
   cepWindowUi windowUi;
 
-  windowUi.showAttenuation();
+  windowUi.showBandwidth();
 
-  while(windowUi.getAttenuation() == -2)
+  while( isnan( windowUi.getBandwidth()))
   {
     cepError("Error. Attenuation must be a number", cepError::sevWarning).display();
-    windowUi.showAttenuation();
+    windowUi.showBandwidth();
   }
 
-  if(windowUi.getAttenuation()!= -1){
-    cout << "call Chebyshev" << endl;
+  double bw = windowUi.getBandwidth();
+  if( bw != cepWindowBandwidth::UNINITIALISED ){
+    cepError err = cepWindowChebyshev::setTransitionBandwidth( bw );
+    if( err.isReal() ) {
+      err.display();
+      return;
+    }
+    cout << "value accepted" << endl;
   }
 }
 

@@ -35,14 +35,16 @@ cepWindowChebyshev::~cepWindowChebyshev(){
   if( coeffs != NULL ) delete coeffs;
 }
 
+double cepWindowChebyshev::df = 0.0;
 
 const cepError cepWindowChebyshev::setTransitionBandwidth(double tbw) {
   if( tbw <= 0 ) {
-    return cepError("normalised transition bandwidth must be greater than Zero");
+    return cepError("normalised transition bandwidth must be greater than Zero", cepError::sevWarning);
   } else if (tbw >0.499) {
-    return cepError("normalised transition bandwidth must be less than 0.499");
+    return cepError("normalised transition bandwidth must be less than 0.499", cepError::sevWarning);
   }
   df = tbw;
+  cout << "transistion bandwidth set to " << df << endl;
   return cepError();
 }
 

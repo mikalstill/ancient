@@ -36,63 +36,69 @@
 /******************************************************************************
 DOCBOOK START
 
-FUNCTION cepWindowAttenuation
+FUNCTION cepWindowBandwidth
 
 
-PURPOSE Displays the "Get Attenuation" dialog box for the Windowing user interface
+PURPOSE Displays the "Get Bandwidth" dialog box for the Windowing user interface
 
 SYNOPSIS START
 The follwing is an example of how to create this object.
 
-cepWindowAttenuation wa;
+cepWindowBandwidth wa;
 
 SYNOPSIS END
 
 DESCRIPTION START
 
-An implementation of the <command>cepWindowAttenuation</command> class
+An implementation of the <command>cepWindowBandwidth</command> class
 which displays a custom wxWindows dialog box.
 </para>
 
 <para>
-<command>void showAttenuation()</command>
-Show the "Specify attenuation dialog box"
+<command>void showBandwidth()</command>
+Show the "Specify Bandwidth dialog box"
 </para>
 
 <para>
-<command>double getAttenuation()</command>
-Returns the specified attenuation
+<command>double getBandwidth()</command>
+Returns the specified Bandwidth
 
 DESCRIPTION END
 
 DOCBOOK END
 ******************************************************************************/
 
-class cepWindowAttenuation: public wxDialog
+class cepWindowBandwidth: public wxDialog
 {
 public:
 
-  //Displays the "Set Attenuation" dialog box
-  cepWindowAttenuation();
+  //Displays the "Set Bandwidth" dialog box
+  cepWindowBandwidth();
 
-  //gets the attenuation value
-  double getAttenuation();
+  //gets the Bandwidth value
+  double getBandwidth();
   
   //the on Quit event
-  void dlgAttOnQuit(wxCommandEvent& event);
+  void dlgBandwidthOnQuit(wxCommandEvent& event);
   //the on Ok event
-  void dlgAttOnOK(wxCommandEvent& event);
+  void dlgBandwidthOnOK(wxCommandEvent& event);
+
+private:
+  static const char* UNINITIALISED_STR;
+public:
+  static const int UNINITIALISED;
 
 private:
   //declerations for the elements of the dialog box
   wxPanel *m_panel;
   wxStaticBox *m_statBox;
   wxStaticText *m_statText1, *m_statText2, *m_statText3;
-  wxTextCtrl *m_tbAttenuation;
+  wxTextCtrl *m_tbBandwidth;
   wxButton *m_bSubmit, *m_bCancel;
-  wxString m_attenuation;
+  wxString m_bandwidth;
   
   DECLARE_EVENT_TABLE ()
+
 };
 
 /******************************************************************************
@@ -119,13 +125,13 @@ Windowing GUI.
 
 
 <para>
-<command>void showAttenuation()</command>
-Show the "Specify attenuation" dialog box
+<command>void showBandwidth()</command>
+Show the "Specify Bandwidth" dialog box
 </para>
 
 <para>
-<command>void getAtteunation()</command>
-Returns the specified attenuation
+<command>void getBandwidth()</command>
+Returns the specified Bandwidth
 
 DESCRIPTION END
 
@@ -136,13 +142,13 @@ class cepWindowUi
 public:
   cepWindowUi();
 
-  //shows the "set attenuation dialog box"
-  void showAttenuation();
+  //shows the "set Bandwidth dialog box"
+  void showBandwidth();
 
-  //gets the attenuation value
-  double getAttenuation();
+  //gets the Bandwidth value
+  double getBandwidth();
 private:
-  double m_attenuation;   //the specified attenuation value
+  double m_bandwidth;   //the specified Bandwidth value
 };
 
 

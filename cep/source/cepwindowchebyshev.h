@@ -63,7 +63,7 @@ class cepWindowChebyshev : public cepWindowAlg  {
 public:
   cepWindowChebyshev( int size );  
   ~cepWindowChebyshev();
-  const cepError setTransitionBandwidth(double tbw);
+  static const cepError setTransitionBandwidth(double tbw);
   
 protected:
   /**
@@ -76,7 +76,7 @@ protected:
   
 
 private:
-  double df;
+  static double df;
 
 
 
