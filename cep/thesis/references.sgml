@@ -1,19 +1,27 @@
+<!--Mikals references -->
+
 <sect1><title>References</title>
 
 <para>
-<emphasis>A reference</emphasis>
+Aho, A. V, Sethi, R., Ullman, J.D. 1986, <emphasis>Compilers: Principles, Techniques, and Tools</emphasis>, Addison-Wesley Publishing, Massachusetts.
 </para>
 
 <para>
-<emphasis>A reference</emphasis>
+Connolly, T., Begg, C. 1998, <emphasis>Database Systems: A practical approace to design, implementation, and management</emphasis>, Addison-Wesley Publishing, Massachusetts.
 </para>
 
 <para>
-<emphasis>A reference</emphasis>
+KDE 2002, <emphasis>KDE Home Page</emphasis> [Online] Available: http://www.kde.org
 </para>
 
 <para>
-<emphasis>A reference</emphasis>
+Levine, J.R., Mason, T., Brown, D 1990, <emphasis>lex &amp; yacc</emphasis>, O'Reilly, Farnham.
+</para>
+
+<para>
+Trolltech 2002, <emphasis>Trolltech Home Page</emphasis> [Online] Available: http://www.trolltech.com
 </para>
 
 </sect1>
+
+<!--End of Mikals references -->
