@@ -1,6 +1,7 @@
 <sect2><title>PCRE</title>
 <para>
-<command>PCRE</command> is the Perl Compatible Regular Expressions library. It is used by a number of mlarge Open Source projects including: Python, Apache, Postfix, KDE, Analog, and PHP.
+<command>PCRE</command> is the Perl Compatible Regular Expressions library. It is used by a number of large Open 
+Source projects including: Python, Apache, Postfix, KDE, Analog, and PHP.
 </para>
 
 <sect3><title>Authors</title>

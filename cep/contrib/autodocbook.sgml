@@ -1,13 +1,15 @@
 <sect2><title>autodocbook</title>
 <para>
-<command>Autodocbook</command> is a perl script which parses C and C++ code and header files, and extracts specially formatted comments. These comments are then used to generate Docbook documentation for those code files. It is possible to easily convert this Docbook documentation to many useful formats, including:
+<command>Autodocbook</command> is a perl script which parses C and C++ code and header files, and extracts specially 
+formatted comments. These comments are then used to generate Docbook documentation for those code files. 
+It is possible to easily convert this documentation to many useful formats, including:
 
 <orderedlist>
 <listitem><para>man pages</para></listitem>
 <listitem><para>GNU info pages</para></listitem>
 <listitem><para>HTML</para></listitem>
 <listitem><para>text</para></listitem>
-<listitem><para>... and embed the documentation into other Docbook files</para></listitem>
+<listitem><para>and embed the documentation into other Docbook files</para></listitem>
 </orderedlist>
 </para>
 
@@ -17,7 +19,8 @@ It is not envisaged that people other than developers will need to install <comm
 
 <sect3><title>Authors</title>
 <para>
-<command>Autodocbook</command> was developed some time ago by Michael Still, and is available from http://www.stillhq.com.
+<command>Autodocbook</command> was developed some time ago by Michael Still, and is available 
+from http://www.stillhq.com .
 </para>
 </sect3>
 

@@ -1,6 +1,8 @@
-<sect2><title>segv</title>
+<sect2><title>Segv</title>
 <para>
-<command>segv</command> is a segmentation violation error handler, which is useful for development debugging. It is not envisaged that users of <command>GDMS</command> will need to install this. <command>segv</command> uses ld.so preload operations to catch segmentation violations, and display a backtrace...
+<command>Segv</command> is a segmentation violation error handler, which is useful for development debugging.
+It is not envisaged that users of <command>GDMS</command> will need to install this. <command>Segv</command> uses
+ld.so preload operations to catch segmentation violations, and display a backtrace.
 </para>
 
 <sect3><title>Authors</title>

@@ -1,19 +1,22 @@
 <sect2><title>wxWindows</title>
 <para>
-<command>wxWindows</command> is a UI widget toolkit similar to Qt and the Gnome toolkit. It is cross platform, including:
+<command>wxWindows</command> is a cross platform, UI widget toolkit similar to Qt and the Gnome toolkit.
+It supports the following:
 
 <orderedlist>
-<listitem><para>Support for various unices</para></listitem>
-<listitem><para>Microsoft Windows support</para></listitem>
+<listitem><para>Various Unices</para></listitem>
+<listitem><para>Microsoft Windows</para></listitem>
 <listitem><para>Embedded platforms</para></listitem>
 </orderedlist>
 
-It has been in development for the last ten years, so it is extremely stable.
+It has been in development for the last ten years, and it is extremely stable.
 </para>
 
 <sect3><title>Authors</title>
 <para>
-<command>wxWindows</command> has been written by a team of developers on the Internet. This team is lead by Julian Smart, from the Artificial Intelligence Applications Institute, University of Edinburgh. <command>wxWindows</command> can be downloaded from http://www.wxwindows.org.
+The <command>wxWindows</command> developement team is lead by
+Julian Smart, from the Artificial Intelligence Applications Institute, University of Edinburgh.
+<command>wxWindows</command> can be downloaded from http://www.wxwindows.org.
 </para>
 </sect3>
 
@@ -30,7 +33,8 @@ cp lib/wx/include/gtk-2.2/wx/setup.h /usr/local/include/wx/
 </programlisting>
 
 <para>
-If you have installed <command>libplot</command> on an architecture / operating system combination which supports dynamic libraries, then you will need to run the <command>ldconfig</command> command or equivalent.
+If you have installed <command>wxWindows</command> on an architecture / operating system combination which supports 
+dynamic libraries, then you will need to run the <command>ldconfig</command> command or equivalent.
 </para>
 
 <execute><cmd>todo</cmd><input>Evil ld.so.conf stuff somewhere?</input></execute>

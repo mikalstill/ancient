@@ -1,11 +1,13 @@
 <sect2><title>libmplot</title>
 <para>
-<command>libmplot</command> is a C api which offers plotting functionality. With this library, you can write source code which using drawing primitives such as lines, circles, and so forth, and have the library turn this into a raster.
+<command>libmplot</command> is a C api which offers plotting functionality. With this library, you can write source 
+code which using drawing primitives such as lines, circles, and so forth, and have the library turn this into a raster.
 </para>
 
 <sect3><title>Authors</title>
 <para>
-<command>libmplot</command> is developed by Michael Still, and can be downloaded from http://www.stillhq.com. It was specifically developed for the GDMS project, but is of general use, so is available in the separate library form.
+<command>libmplot</command> is developed by Michael Still, and can be downloaded from http://www.stillhq.com. It was 
+specifically developed for the GDMS project, but is of general use, so is available in the separate library form.
 </para>
 </sect3>
 
@@ -17,15 +19,16 @@ Follow these steps to install <command>libmplot</command>
 <execute><cmd>todo</cmd><input>Is this version number up to date?</input></execute>
 
 <programlisting>
-tar xvzf libmplot_0_3.tgz
-cd libmplot-0.3
+tar xvzf libmplot_0_5_4.tgz
+cd libmplot-0.5.4
 ./configure
 make
 make install
 </programlisting>
 
 <para>
-If you have installed <command>libmplot</command> on an architecture / operating system combination which supports dynamic libraries, then you will need to run the <command>ldconfig</command> command or equivalent.
+If you have installed <command>libmplot</command> on an architecture / operating system combination which supports 
+dynamic libraries, then you will need to run the <command>ldconfig</command> command or equivalent.
 </para>
 
 <execute><cmd>todo</cmd><input>Evil ld.so.conf stuff somewhere?</input></execute>
