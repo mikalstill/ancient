@@ -184,6 +184,7 @@ public:
   cepError (const string & msg);
   cepError (const string & msg, severity level);
   static void addErrorHandler( class cepErrorHandler& h );
+  void removeErrorHandler();
   ~cepError ();
 
   bool isReal ();

@@ -62,6 +62,15 @@ void cepError::addErrorHandler( cepErrorHandler& h )
   }
 }
 
+void cepError::removeErrorHandler()
+{
+  if( m_handlerInstalled )
+  {
+    delete m_handler;
+    m_handlerInstalled = false;
+  }
+}
+
 bool cepError::isReal ()
 {
   m_actioned = true;
