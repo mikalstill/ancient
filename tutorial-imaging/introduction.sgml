@@ -35,7 +35,7 @@ This tutorial discusses code. Almost all of the code discussed is written in C. 
 </para>
 
 <para>
-It should also be noted that the code samples in this tutorial are not optimal. They have been written to be as readable as possible, and not nessesarily the most efficient possible. Please bear this in mind before blindly copying them.
+It should also be noted that the code samples in this tutorial are not optimal. They have been written to be as readable as possible, and not necessarily the most efficient possible. Please bear this in mind before blindly copying them.
 </para>
 </sect2>
 
@@ -54,7 +54,7 @@ For those of you using gcc on a unix (or unix-like) operating system, then the f
 
 <listitem><para>You will almost certainly also need to add the library and include paths for the installed version of the relevant library to the compile command line as well. Directories are added to the library search path using the -L command line option. Include directories are added with the -I option.</para></listitem>
 
-<listitem><para>The makefiles included with the samples in this tutorial a probably a bad place to look for introductory compile examples, as they use automake and autoconf to try to detect where the various required libraries are installed...</para></listitem>
+<listitem><para>The make files included with the samples in this tutorial a probably a bad place to look for introductory compile examples, as they use automake and autoconf to try to detect where the various required libraries are installed...</para></listitem>
 </orderedlist>
 </para>
 </sect2>
@@ -77,18 +77,18 @@ I should also thank the following people:
 
 <itemizedlist>
 <listitem><para>Doug Jackson (doug_jackson@citadel.com.au), for proof reading and getting me interested in this whole topic to start with</para></listitem>
-<listitem><para>Tony Green (greeno@bandcamp.tv), for occassional docbook wrangling</para></listitem>
-<listitem><para>Michael Smith (smith@xml-doc.org), for docbook hints</para></listitem>
+<listitem><para>Tony Green (greeno@bandcamp.tv), for occasional DocBook wrangling</para></listitem>
+<listitem><para>Michael Smith (smith@xml-doc.org), for DocBook hints</para></listitem>
 </itemizedlist>
 </sect1>
 
 <sect1><title>How this document was produced</title>
 <para>
-This tutorial was written in Docbook SGML using xemacs. This was then converted into PDF using the jade SGML tools. Diagrams were developed in a combination of the gimp, Adobe Illustrator, and custom developed code. Diagrams were converted to EPS as required by jade using ImageMagick.
+This tutorial was written in DocBook SGML using xemacs. This was then converted into PDF using the jade SGML tools. Diagrams were developed in a combination of the gimp, Adobe Illustrator, and custom developed code. Diagrams were converted to EPS as required by jade using ImageMagick.
 </para>
 
 <para>
-A series of docbook generation scripts we also used to automate some of the generation of this document. These scripts can be found in my online CVS repository at: http://www.stillhq.com/cgi-bin/cvsweb/docbooktools/
+A series of DocBook generation scripts was also used to automate some of the generation of this document. These scripts can be found in my online CVS repository at: http://www.stillhq.com/cgi-bin/cvsweb/docbooktools/
 </para>
 
 <para>
@@ -109,7 +109,7 @@ This document is covered by two licenses -- the license for the text of this doc
 
 <sect2><title>License for source code (GPL)</title>
 <para>
-<execute><cmd>text2db.pl.none</cmd><input>GPL</input></execute>
+<execute><cmd>text2db.pl</cmd><input>GPL</input></execute>
 </para>
 </sect2>
 
