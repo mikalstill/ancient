@@ -26,9 +26,9 @@
     </equation>
 
     
-    where <command>m</command> is the mean and <command>c</command> is the y-intercept. This is usually due to the fact that there
+    where <command>m</command> is the slope and <command>c</command> is the y-intercept. This is usually due to the fact that there
     are more data points in the system than those required to solve this equation. Linear least squares regression modelling is a 
-    method use to calculate <command>m</command> and <command>c</command>, such that, it is the closest approximation
+    method used to calculate <command>m</command> and <command>c</command>, such that, it is the closest approximation
     <command>y</command> for the given set of observations in the system, also known as a line of best fit. In the analysis of
     geodetic data the line of best fit is given as the solution to the matrix equation
     
@@ -60,7 +60,7 @@
     </para>
     
     <para>When carrying out least squares regression analysis on geodetic data it is common to set the initial apriori estimates of
-    the mean and y-intercept to zero, thereby making all value of <command>L<subscript>c</subscript></command> = 0. By applying
+    the slope and y-intercept to zero, thereby making all value of <command>L<subscript>c</subscript></command> = 0. By applying
     this initial constraint the apriori matrix becomes
     
     <equation>
@@ -82,7 +82,7 @@
     data systems, that is, a decimal number where the numerator corresponds to the year and number of days into the year is denominator.
     For example, the date value 2002.0014 corresponds to the Gregorian calender date of 12:00, 1 January 2002. If 
     x-axis was not constrained, the y-intercept would always be given at <command>x</command> = 0, which corresponds to a date of 
-    4000 BC (about 500 years before the Bronze age)(THIS IS PROBABLY WRONG WHAT IS THE YEAR ZERO), thus 
+    4000 BC (approximately 500 years before the Bronze age), thus 
     rendering this value virtually meaningless. Therefore, the x-axis is constrained by setting 
     <command>x</command> = <command>t - t<subscript>0</subscript></command> where <command>t<subscript>0</subscript></command> 
     is the first time observation in the given system. This has the effect of making the <command>c</command> value more 
@@ -102,7 +102,7 @@
     what is known as a Variance Co-variance (VCV) weighting matrix is employed. 
     </para>
     
-    <para>A VCV weighting matrix is a strictly diagonal matrix, that is <command>P<subscript>ij</subscript></command> = 0 where 
+    <para>A VCV weighting matrix is a strictly diagonal matrix where correlation is not admitted, that is <command>P<subscript>ij</subscript></command> = 0 where 
     <command>i</command> &ne; <command>j</command> which models a standard Gaussian distribution (also known as a bell curve).
     
     <equation>

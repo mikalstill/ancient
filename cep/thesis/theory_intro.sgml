@@ -1,10 +1,10 @@
 <sect1><title>Background</title>
 
 <para>
-Time series analysis is by no means a new concept. Texts on this topic were printed as early as 1924.It was
+Time series analysis is by no means a new concept. Texts on this topic were printed as early as 1924. It was
  when the digital computer appeared that the momentum of this field increased dramatically. The FORTRAN programming
 language enabled complex mathematics to be written on a computer. Many routines and texts appeared around
-this time, with the focus applications being oil and space exploration. Further significant texts emerged from
+this time, with the focus applications being those in the areas of oil and space exploration. Further significant texts emerged from
 Australia in the sixties and seventies on Fourier analysis of time series and its applications.
 </para>
 
@@ -18,13 +18,13 @@ domain. It provides an intuitive, interactive graphical user interface to allow 
 
 <para>
 MIT is an institution with significant influence in the area of time
-series analysis. It is also home to the GAMIT/GLOBK, a suite of programs for the analysis
+series analysis. It is also home to the GAMIT/GLOBK suite of programs for the analysis
 of GPS, VLBI and SLR data. It is worthwhile to take a brief look at the functionality of this suite, 
 paying particular attention to the CVIEW module. Its features include the following:
 
 <orderedlist>
-<listitem><para>Selecting or spanning a region of points for closer inspection (I.e. zooming).</para></listitem>
-<listitem><para>The ability to display with various symbol data that is used in the solution. This commonly involves data that does not
+<listitem><para>Selecting or spanning a region of points for closer inspection (i.e. zooming).</para></listitem>
+<listitem><para>The ability to display with various symbol data that is used in the solution. This also involves data that does not
 correctly fit a particular model and is therefore weighted out of the solution.</para></listitem>
 <listitem><para>The ability to weight and unweight points.</para></listitem>
 <listitem><para>The ability to changes the value of any number of points.</para></listitem>
@@ -54,7 +54,7 @@ correctly fit a particular model and is therefore weighted out of the solution.<
   Before the data can be interpreted, it must be processed. This involves shaping it into a format which can be
   readily understood. Information from data is general more readily extracted from graphical
   forms, enabling for example, trends in the data to be seen. The next step is to be able to take into consideration various
-  circumstances that may arise during monitoring. There may be changes in equipment, malfunctions, bad or whether, or as many cases,
+  circumstances that may arise during monitoring. There may be changes in equipment, malfunctions, bad weather, or as many cases,
   noise in the data. This leads to the need for the removal of noise. In other words, the ability to remove erroneous data points from a given data set.
    In order to extract the relevant information from the data, we need to perform various transformations on the data.
   Some useful techniques commonly used in this process are; Least Squares regression, Fast Fourier

@@ -1,22 +1,21 @@
 <sect1><title>Interpolation</title>
 
 <sect2><title>Introduction</title>
-  <para>One of the problems with the GPS datasets we analyse is missing observations.
-  Missing data points skew data results and prevent transformation into the Fourier
-  domain by means of fast Fourier transform.  Another problem is that the time scale
-  that has been provided for these datasets is not linear.  To overcome these problems
-  our application provides interpolation function that can be used to fill in missing
-  data points.  However the accuracy of any interpolation method will vary depending
-  on the dataset that it is applied to so Six different methods of interpolation have
-  been provided.
+  <para>One problem with the GPS datasets is that there are often gaps in the data.
+  Missing data points skew data results and prevent transformation into the frequency
+  domain. Another problem is that the time scales in GPS data sets
+  are often non-linear.  Interpolation solves these problems by filling the gaps in the data.
+  A large number of interpolation methods exists, all having their advantages and disadvantages for
+  different applications. Disucssed in the following section are six iterpolation methods that have been included in
+  this project.
   </para>
 </sect2> <!--Introduction-->
 
 <sect2><title>Theory</title>
   <para>
-  Theoretically each of the datasets that we analyse should be sampled once a day at
-  exactly twelve o'clock.  However we live in the real world and for reasons such as
-  equipment failure, extreme weather and local politics some samples are missing.
+  Theoretically, each of the datasets that we analyse are sampled once a day at
+  exactly twelve o'clock. This is however, not always possible for reasons such as 
+  such as equipment failure, extreme weather and in some case local politics also play a role.
   </para>
   <para>
   The Fourier transform algorithms available to us require that the dataset be regular.
@@ -55,7 +54,7 @@
 
   <sect3><title>Nearest Neighbour Interpolation</title>
   <para>
-    The simplest interpolation method provided.  Nearest neighbour interpolation
+    The simplest interpolation method provided. Linear interpolation
     simply set the value of any new point to the value of the nearest point on the
     original dataset.  The advantage of this is that any added points will be of
     the same approximate value as nearby points.  There are a number of disadvantages
@@ -90,11 +89,65 @@
   </para>
   </sect3>
 
+   <sect3><title>Cubic Spline Interpolation</title>
+  <para>
+    This is a one of the many implementations of cubic spline interpolation. It has been given the
+    generic name as no name was available for this particular implementation.  The only
+    difference between this interpolation type and a natural spline is the choice of
+    second derivatives used at the end points.  With this implementation the values of the
+    second derivative for the end points are set the same as the second derivatives of the
+    second to end points.  Documented commentary says that this type of spline curves a
+    little bit too much at the ends.
+  </para>
+  <para>
+    The maths used to generate these cubic spline is very similar to producing a natural
+    spline.    To produce a spine for a dataset of n+1 points you have to produce n separate
+    cubics.  Each of these cubic should have each end match up exactly with the
+    points to either side.  And on the same point the two adjacent cubic should
+    have shared first and second derivatives.
+  </para>
+  <para>
+    Each of these cubics can be described by the equation: (TODO: Spline equation 1)
+  </para>
+  <para>
+    Because each of these cubics begins at a any existing point we can say: (TODO: Spline equation 2)
+  </para>
+  <para>
+    Let h<subscript>i</subscript>=(x<subscript>i+1</subscript> - x<subscript>i</subscript>),
+    be the width of the the interval.
+  </para>
+  <para>
+    Also if we make s the set of second derivatives; then through algebraic simplification
+    we can get: (TODO: Spline equations 3,4,5)
+  </para>
+  <para>
+    With natural splines solving for S is done by solving:(TODO: Spline equation 7)
+  </para>
+  <para>
+    The two end values, S<subscript>0</subscript> and S<subscript>n</subscript>, are then
+    set to equal S<subscript>1</subscript> and S<subscript>n</subscript> respectively.
+  </para>
+  <para>
+    A full mathematical derivation can be found in Gerald &amp; Wheatley (1999), page 238.
+  </para>
+  <para>
+    The advantages and disadvantages of this cubic spline interpolation are basically the
+    same as for natural splines. Splines can provide extremely accurate results when the
+    original sample rate is notable greater than the frequency of fluctuation in the data.
+    However if the sample rate is less than half the frequency of change (including signal
+    noise) in the data then the results can be erratic.  Splines also have a problem
+    when it comes to large gaps in the dataset. Because the gap between two points is
+    represented by a cubic, large gaps result in peaks or troughs in the dataset.  The
+    final problem with spline is that the end sections are inaccurate due to arbitrary
+    methods used to assign the derivative of the end points. It is because of this reason
+    that two cubic spline methods have been provided for this application.
+  </para>
+
+
   <sect3><title>Natural Spline Interpolation</title>
   <para>
-    Natural splines are a type of cubic spline.  The idea of cubic splines comes
-    from ancient times when draftsmen and builders would create a smooth curve by pegging a
-    flexible piece of wood between a number of points.  Cubic splines are a method
+    Natural splines are a type of cubic spline, originating from the idea in ancient times when draftsmen and builders 
+    would create a smooth curve by pegging a flexible piece of wood between a number of points. Cubic splines are a method
     of recreating this wooden curve with mathematics.  With all cubic splines the
     interpolation is done by inserting a cubic between each two adjacent points.
     At the linking points these cubics must have the same first and second
@@ -150,59 +203,6 @@
     in peaks or troughs in the dataset.
   </para>
   </sect3>
-  <sect3><title>Cubic Spline Interpolation</title>
-  <para>
-    This is a second implementation of cubic spline interpolation. It has been given the
-    generic name as no name was available for this particular implementation.  The only
-    difference between this interpolation type and a natural spline is the choice of
-    second derivatives used at the end points.  With this implementation the values of the
-    second derivative for the end points are set the same as the second derivatives of the
-    second to end points.  Documented commentary says that this type of spline curves a
-    little bit too much at the ends.
-  </para>
-  <para>
-    The maths used to generate these cubic spline is very similar to producing a natural
-    spline.    To produce a spine for a dataset of n+1 points you have to produce n separate
-    cubics.  Each of these cubic should have each end match up exactly with the
-    points to either side.  And on the same point the two adjacent cubic should
-    have shared first and second derivatives.
-  </para>
-  <para>
-    Each of these cubics can be described by the equation: (TODO: Spline equation 1)
-  </para>
-  <para>
-    Because each of these cubics begins at a any existing point we can say: (TODO: Spline equation 2)
-  </para>
-  <para>
-    Let h<subscript>i</subscript>=(x<subscript>i+1</subscript> - x<subscript>i</subscript>),
-    be the width of the the interval.
-  </para>
-  <para>
-    Also if we make s the set of second derivatives; then through algebraic simplification
-    we can get: (TODO: Spline equations 3,4,5)
-  </para>
-  <para>
-    With natural splines solving for S is done by solving:(TODO: Spline equation 7)
-  </para>
-  <para>
-    The two end values, S<subscript>0</subscript> and S<subscript>n</subscript>, are then
-    set to equal S<subscript>1</subscript> and S<subscript>n</subscript> respectively.
-  </para>
-  <para>
-    A full mathematical derivation can be found in Gerald &amp; Wheatley (1999), page 238.
-  </para>
-  <para>
-    The advantages and disadvantages of this cubic spline interpolation are basically the
-    same as for natural splines. Splines can provide extremely accurate results when the
-    original sample rate is notable greater than the frequency of fluctuation in the data.
-    However if the sample rate is less than half the frequency of change (including signal
-    noise) in the data then the results can be erratic.  Splines also have a problem
-    when it comes to large gaps in the dataset. Because the gap between two points is
-    represented by a cubic, large gaps result in peaks or troughs in the dataset.  The
-    final problem with spline is that the end sections are inaccurate due to arbitrary
-    methods used to assign the derivative of the end points. It is because of this reason
-    that two cubic spline methods have been provided for this application.
-  </para>
 
   </sect3>
   <sect3><title>Newton Divided Difference Interpolation</title>
