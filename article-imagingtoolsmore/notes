@@ -19,3 +19,14 @@ Talk about mogrify (repeat operations on many files)
 
 Animated GIFs?
 
+---------------------
+I have a quick question: you must get a million of these things so I won't be 
+at all offended if you don't have time to repsond.
+
+I could not find anything in your article, or at www.ImageMagick.org, on how 
+to convert, for example, a bunch of tiff files to jpeg files. All the 
+examples are for single files.To be able to convert  several hundred file 
+formats with a single command would be a really useful command line utility.
+
+I tried a buch of things but none of them worked. It must be possible, and 
+maybe I didn't see it on the web page. Any ideas?

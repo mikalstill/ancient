@@ -294,10 +294,25 @@ done
 
 <p>Which which will handle spaces in filenames much more gracefully.</p>
 
+<p>It turns out however that both of these solutions aren't needed with ImageMagick -- we can just use the <b>mogrify</b> command. <b>mogrify</b> is used to convert a sequence of images (although it will work for single images as well).</p>
 
+<p>That code snippet above becomes:</p>
 
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 14. Thumb nailing all the JPEGs in the current directory, with mogrify</heading>
+<code type="section">
+mogrify -sample 25%x25% *.jpg
+</code>
 
+<p><i>Note that this will overwrite the original images with new ones. This is one of the limitations of <b>mogrify</b>, in that it is harder to specify output filenames.</i> The only way to specify an output filename is to change the format of the output image compared with the input image. This will result in a different extension for the new image. For example:</p>
 
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 15. Thumb nailing all the JPEGs in the current directory, with mogrify</heading>
+<code type="section">
+mogrify -format png -sample 25%x25% *.jpg
+</code>
+
+<p>This will create a series of output files with the jpg at the end of the filename has been replaced with a png, with the associated image format change.</p>
+
+<p>All of the conversions previously defined will also work with the <b>mogrify</b> command, so if you don't mind the original images being overwritten then it's a good choice.</p>
 
 </docbody>
 
