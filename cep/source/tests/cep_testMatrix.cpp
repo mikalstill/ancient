@@ -37,11 +37,14 @@
  *     void tearDown( void ) { ... }
  *
  * @author <your name here>
- * @version $Revision: 1.12 $ $Date: 2002-10-01 06:19:53 $
+ * @version $Revision: 1.13 $ $Date: 2002-10-19 03:42:09 $
  *
  * Revision History
  *
  * $Log: not supported by cvs2svn $
+ * Revision 1.12  2002/10/01 06:19:53  u983118
+ * added test for != fuction
+ *
  * Revision 1.11  2002/09/18 07:32:54  u983118
  * cleaned some stuff up
  *
@@ -77,6 +80,113 @@
  */
 
 namespace {
+
+class returnMatrix
+{
+public:
+  returnMatrix() {}
+  
+  cepMatrix<double> mat3Double()
+  {
+    int rows = 2, cols = 2, tables = 3;
+    cepMatrix<double> A(rows, cols, tables);
+    
+    cout << "here" << endl;
+    
+    for(int i = 0; i < rows; i ++)
+    {
+      for(int j = 0; j < cols; j ++)
+      {
+        A.setValue(i,j,0,1.0);
+      }
+    }
+    
+    for(int i = 0; i < rows; i ++)
+    {
+      for(int j = 0; j < cols; j ++)
+      {
+        A.setValue(i,j,1,2.0);
+      }
+    }
+    
+    for(int i = 0; i < rows; i ++)
+    {
+      for(int j = 0; j < cols; j ++)
+      {
+        A.setValue(i,j,2,3.0);
+      }
+    }
+    
+    return A;
+  }
+
+  cepMatrix<char> mat3Char()
+  {
+    int rows = 2, cols = 2, tables = 3;
+   
+    cepMatrix<char> A(rows, cols, tables);
+    
+    for(int i = 0; i < rows; i ++)
+    {
+      for(int j = 0; j < cols; j ++)
+      {
+        A.setValue(i,j,0,'a');
+      }
+    }
+    
+    for(int i = 0; i < rows; i ++)
+    {
+      for(int j = 0; j < cols; j ++)
+      {
+        A.setValue(i,j,1,'b');
+      }
+    }
+    
+    for(int i = 0; i < rows; i ++)
+    {
+      for(int j = 0; j < cols; j ++)
+      {
+        A.setValue(i,j,2,'c');
+      }
+    }
+    
+    return A;
+  }
+  
+  cepMatrix<double> mat2Double()
+  {
+    int rows = 2, cols = 2;
+   
+    cepMatrix<double> A(rows, cols);
+    
+    for(int i = 0; i < rows; i ++)
+    {
+      for(int j = 0; j < cols; j ++)
+      {
+        A.setValue(i,j,1.0);
+      }
+    }
+    return A;
+  }
+
+  cepMatrix<char> mat2Char()
+  {
+    int rows = 2, cols = 2;
+   
+    cepMatrix<char> A(rows, cols);
+    
+    for(int i = 0; i < rows; i ++)
+    {
+      for(int j = 0; j < cols; j ++)
+      {
+        A.setValue(i,j,'a');
+      }
+    }
+    return A;
+  }
+  
+ };
+       
 class Test : public CppUnit::TestFixture {
 
 public:
@@ -139,6 +249,12 @@ public:
     suiteOfTests->addTest(
       new CppUnit::TestCaller<Test>( "testDestrct", &Test::testDestruct ) );
     
+    suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "test2DCopyConstructor", &Test::test2DCopyConstructor ) );
+
+   suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "test3DCopyConstructor", &Test::test3DCopyConstructor ) );
+     
     return suiteOfTests;
   }
 
@@ -559,7 +675,77 @@ protected:
     delete C;
     delete D;
     
-  }   
+  }
+  
+  void test2DCopyConstructor()
+  {
+    returnMatrix ret;
+    cepMatrix<char> matChar;
+    cepMatrix<double> matDouble;
+    
+    matChar = ret.mat2Char();
+    
+    for(int i = 0; i < matChar.getNumRows(); i ++){
+      for(int j = 0; j < matChar.getNumCols(); j ++){
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 'a', matChar.getValue(i,j));
+      }
+    }
+    
+    matDouble = ret.mat2Double();
+    
+    for(int i = 0; i < matDouble.getNumRows(); i ++){
+      for(int j = 0; j < matDouble.getNumCols(); j ++){
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1.0, matDouble.getValue(i,j));
+      }
+    }
+  }
+  
+  void test3DCopyConstructor()
+  {
+    returnMatrix ret;
+    cepMatrix<char> matChar;
+    cepMatrix<double> matDouble;
+    
+    matChar = ret.mat3Char();
+    
+    for(int i = 0; i < matChar.getNumRows(); i ++){
+      for(int j = 0; j < matChar.getNumCols(); j ++){
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 'a', matChar.getValue(i,j,0));
+      }
+    }
+    
+    for(int i = 0; i < matChar.getNumRows(); i ++){
+      for(int j = 0; j < matChar.getNumCols(); j ++){
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 'b', matChar.getValue(i,j,1));
+      }
+    }
+    
+    for(int i = 0; i < matChar.getNumRows(); i ++){
+      for(int j = 0; j < matChar.getNumCols(); j ++){
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 'c', matChar.getValue(i,j,2));
+      }
+    }
+    
+    matDouble = ret.mat3Double();
+    
+    for(int i = 0; i < matDouble.getNumRows(); i ++){
+      for(int j = 0; j < matDouble.getNumCols(); j ++){
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1.0, matDouble.getValue(i,j,0));
+      }
+    }
+    
+    for(int i = 0; i < matDouble.getNumRows(); i ++){
+      for(int j = 0; j < matDouble.getNumCols(); j ++){
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 2.0, matDouble.getValue(i,j,1));
+      }
+    }
+    
+    for(int i = 0; i < matDouble.getNumRows(); i ++){
+      for(int j = 0; j < matDouble.getNumCols(); j ++){
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 3.0, matDouble.getValue(i,j,2));
+      }
+    }
+  }          
 }; // end Test
 
  /**
