@@ -1,296 +1,67 @@
 #!/usr/bin/perl
 
 use strict;
-my($input, $token, $seriestitle, $title, $enclosed, $subenclosed, $commentmode, $sectlevel,
-   $headingtype, $codetype);
 
 while(<>){
-  chomp;
-  s/\r//g;
-  $input = "$input$_ ";
+  s/<\?xml version[^>]*>/<!DOCTYPE article PUBLIC "-\/\/OASIS\/\/DTD DocBook V4.1\/\/EN">/;
+  s/<\?xml[^>]*>//;
+  s/<dw-document[^>]*>//;
+  s/<dw-article[^>]*>/<article>/;
+  s/<\/dw-document>//;
+  s/<\/dw-article>/<\/article>/;
+  s/<id domino[^>]*>//;
+  s/<meta[^>]*>//;
+  s/<zone[^>]*>//;
+
+  s/<seriestitle[^>]*>//;
+  s/<\/seriestitle[^>]*>//;
+
+  s/<author[^>]*>//;
+  s/<\/author[^>]*>//;
+  s/<bio>/<articleinfo>\n<author>\n<authorblurb>\n<para>/;
+  s/<\/bio>/<\/para>\n<\/authorblurb>\n<\/author>\n<\/articleinfo/;
+
+  s/<date[^>]*>//;
+  s/<abstract[^>]*>/<abstract>\n<para>/;
+  s/<\/abstract>/<\/para>\n<\/abstract>/;
+  s/<column-info[^>]*>//;
+  s/<docbody>//;
+  s/<\/docbody>//;
+
+  s/<todo>//g;
+  s/<i>/<emphasis>/g;
+  s/<\/i>/<\/emphasis>/g;
+  s/<b>/<command>/g;
+  s/<\/b>/<\/command>/g;
+
+  s/<figure>//;
+  s/<heading refname="" type="figure"[^>]*>.*<\/heading>//;
+  s/<\/figure>//;
+  s/<img src="([^"]*)"[^>]*>/<execute><cmd>img<\/cmd><args>$1<\/args><\/execute>/;
+
+  s/<heading refname="" type="code" toc="no" name="" alttoc="">.*<\/heading>//;
+  s/<code[^>]*>/<programlisting>/;
+  s/<\/code>/<\/programlisting>/;
+
+  s/<heading refname="" type="major"[^>]*>/<sect1><title>/;
+  s/<heading refname="" type="minor"[^>]*>/<sect2><title>/;
+  s/<heading refname="" type="sidebar"[^>]*>/<title>/;
+  s/<\/heading>/<\/title>/;
+
+  s/<p>/<para>/g;
+  s/<\/p>/<\/para>/g;
+
+  s/<ul>/<itemizedlist>/;
+  s/<\/ul>/<\/itemizedlist>/;
+  s/<li>/<listitem><para>/;
+  s/<\/li>/<\/para><\/listitem>/;
+
+  s/<a href[^>]*>//g;
+  s/<\/a>//g;
+
+  s/<resourcelist>/<sect1><title>Resources<\/title>/;
+  s/<\/resourcelist>/<\/sect1>/;
+  print $_;
 }
 
-$commentmode = 0;
-while(length($input) > 0){
-  if($input =~ /^<([^>]+)>(.*)/){
-    $token = $1;
-    $input = $2;
 
-    if($token =~ /^!--/){
-      # This is a comment, so we can ignore it
-      $commentmode = 1;
-      if($token =~ /--$/){
-	$commentmode = 0;
-      }
-    }
-    elsif($commentmode == 1){
-      if($token =~ /--$/){
-	$commentmode = 0;
-      }
-    }
-    elsif($token =~ /^?xml/){
-      # This is an XML element we don't care about, the schema or something...
-    }
-    elsif(($token =~ /^meta/) 
-	  || ($token =~ /^zone/)){
-      # We don't support meta data tags
-    }
-    elsif(($token =~ /^dw-article/)
-	  || ($token =~ /^id domino/)){
-      # DW specific stuff
-    }
-    elsif($token =~ /^\/dw-article/){
-    }
-    elsif($token =~ /^\/dw-document/){
-    }
-
-    # The title for the series (optional)
-    elsif($token =~ /^seriestitle/){
-      $enclosed = "";
-    }
-    elsif($token =~ /^\/seriestitle/){
-      $seriestitle = $enclosed;
-    }
-
-    # The title for the article
-    elsif($token =~ /^title/){
-      $enclosed = "";
-    }
-    elsif($token =~ /^\/title/){
-      $title = $enclosed;
-    }
-
-    # The subtitle for the article, my reading is that this isn't optional
-    elsif($token =~ /^subtitle/){
-      $enclosed = "";
-    }
-    elsif($token =~ /^\/subtitle/){
-      # Output the title block for the DocBook
-      print "<!DOCTYPE article PUBLIC \"-//OASIS//DTD DocBook V4.1//EN\">\n";
-      print "<article>\n";
-      if($seriestitle ne ""){
-	print "<title>$seriestitle: $title</title>\n";
-      }
-      else{
-	print "<title>$title</title>\n";
-	}
-      print "<subtitle>$enclosed</subtitle>\n";
-    }
-
-    # Author information
-    elsif($token =~ /^author/){
-      print "<sect1><title>About the author</title>\n";
-    }
-    elsif($token =~ /^\/author/){
-      print "</sect1>\n\n";
-    }
-    elsif($token =~ /^bio/){
-      $enclosed = "";
-    }
-    elsif($token =~ /^\/bio/){
-      print "<para>\n$enclosed\n</para>\n";
-    }
-
-    # Pulication date doesn't really matter
-    elsif($token =~ /^date/){
-    }
-
-    # Column info is boring too
-    elsif($token =~ /^column-info/){
-    }
-
-    # Abstract
-    elsif($token =~ /^abstract/){
-      $enclosed = "";
-    }
-    elsif($token =~ /^\/abstract/){
-      print "<sect1><title>Abstract</title>\n<para>\n$enclosed\n</para>\n";
-      print "</sect1>\n";
-    }
-
-    # Document body
-    elsif($token =~ /^docbody/){
-      print "<sect1><title>Article content</title>\n";
-      $sectlevel = 1;
-    }
-    elsif($token =~ /^\/docbody/){
-      while($sectlevel > 0){
-	print "</sect$sectlevel>\n";
-	$sectlevel--;
-      }
-    }
-
-    # Paragraphs
-    elsif($token =~ /^p$/){
-      $enclosed = "";
-    }
-    elsif($token =~ /^\/p$/){
-      print "<para>\n$enclosed\n</para>\n";
-    }
-
-    # Headings
-    elsif($token =~ /^heading.*type=\"sidebar\"/){
-      $enclosed = "";
-      $headingtype = 2;
-    }
-    elsif($token =~ /^heading.*type=\"figure\"/){
-      $enclosed = "";
-      $headingtype = 3;
-    }
-    elsif($token =~ /^heading.*type=\"code\"/){
-      $enclosed = "";
-      $headingtype = 4;
-    }
-    elsif(($token =~ /^heading/)
-	 || ($token =~ /^b$/)){
-      $enclosed = "";
-      $headingtype = 1;
-    }
-    elsif(($token =~ /^\/heading/)
-	  || ($token =~ /^\/b$/)){
-      if($headingtype == 1){
-	$sectlevel++;
-	if($enclosed == 0){
-	  print "<sect$sectlevel><title>$enclosed</title>\n";
-	}
-	else{
-	  print "<command>$enclosed</command>";
-	}
-      }
-      elsif($headingtype == 2){
-	print "<title>$enclosed</title>\n";
-      }
-      elsif($headingtype == 3){
-	# Do nothing with figure titles for now
-      }
-      elsif($headingtype == 4){
-	print "<para><command>$enclosed</command></para>\n";
-      }
-      else{
-	print STDERR "Unknown title type\n";
-      }
-    }
-    elsif($token =~ /^br/){
-      # Ignore, used as part of the third level heading
-      $enclosed = "";
-    }
-
-    # Code
-    elsif($token =~ /^code.*section/){
-      print "\n\n<programlisting>\n";
-      $enclosed = "";
-    }
-    elsif($token =~ /^\/code/){
-      print "$enclosed\n</programlisting>\n\n";
-    }
-
-    # Figures
-    elsif($token =~ /figure/){
-    }
-    elsif($token =~ /\/figure/){
-    }
-    elsif($token =~ /img src=\"([^\"]*)\"/){
-      print "<execute><cmd>img</cmd><args>$1</args></execute>\n";
-    }
-
-    # Sidebars
-    elsif($token =~ /^sidebar/){
-      print "<sidebar>";
-    }
-    elsif($token =~ /^\/sidebar/){
-      print "</sidebar>\n";
-    }
-
-    # Lists
-    elsif($token =~ /^ul/){
-      print "<itemizedlist>\n";
-    }
-    elsif($token =~ /^li/){
-      $enclosed = "";
-    }
-    elsif($token =~ /^\/li/){
-      print "<listitem><para>$enclosed</para></listitem>\n";
-    }
-    elsif($token =~ /^\/ul/){
-      print "</itemizedlist>\n";
-    }
-    elsif($token =~ /^resourcelist/){
-      print "<sect1><title>Resources</title>\n";
-    }
-    elsif($token =~ /^\/resourcelist/){
-      print "</sect1>\n";
-    }
-    elsif($token =~ /^relatedlist/){
-      print "<sect1><title>Related items</title>\n";
-    }
-    elsif($token =~ /^\/relatedlist/){
-      print "</sect1>\n";
-    }
-
-    # Italic
-    elsif($token =~ /^i$/){
-      $enclosed = "$enclosed<emphasis>";
-    }
-    elsif($token =~ /^\/i$/){
-      $enclosed = "$enclosed</emphasis>";
-    }
-
-    # Don't care
-    elsif($token =~ /^a href/){
-    }
-    elsif($token =~ /^\/a$/){
-    }
-
-    else{
-      print STDERR "[Unknown] $token\n";
-    }
-  }
-  elsif($input =~ /^([^<>]*)(<.*)/){
-    $token = $1;
-    $input = $2;
-
-    if($token =~ /^[ \t]*$/){
-      }
-    elsif($commentmode == 1){
-    }
-    else{
-      $enclosed = "$enclosed $token";
-    }
-
-    if($token =~ /-->$/){
-      $commentmode = 0;
-    }
-    if($input eq ""){
-      $enclosed = "$enclosed\r\n";
-    }
-  }
-  elsif($input =~ /^([^>]*>)(.*)/){
-    $token = $1;
-    $input = $2;
-    print STDERR "[$token][$input]\n";
-
-    if($1 =~ /^[ \t]*$/){
-      }
-    elsif($commentmode == 1){
-    }
-    else{
-      $enclosed = $token;
-      print "\t[A $commentmode] $token\n";
-    }
-
-    if($token =~ /-->$/){
-      $commentmode = 0;
-    }
-    if($input eq ""){
-      $enclosed = "$enclosed\r\n";
-    }
-  }
-  elsif($input =~ /^[ \t]*$/){
-    # Don't care about whitespace
-    $input = "";
-  }
-  else{
-    print "\t[B] $input\n";
-    $input = "";
-  }
-}
