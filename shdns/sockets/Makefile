@@ -1,4 +1,4 @@
-all: connected disconnected connexec disconnexec
+all: connected disconnected connexec disconnexec shdnsexec
 
 connected: connected.c
 	gcc connected.c -o connected
@@ -11,3 +11,6 @@ connexec: connexec.c
 
 disconnexec: disconnexec.c
 	gcc disconnexec.c -o disconnexec
+
+shdnsexec: shdnsexec.c
+	gcc shdnsexec.c -o shdnsexec

@@ -69,7 +69,7 @@ int main(int argc, char *argv[]){
       dup2(lfd, 1);
 
       execl("/bin/cat", "cat", NULL);
-      perror("Exec failled");
+      perror("Exec failed");
       exit(42);
       break;
 

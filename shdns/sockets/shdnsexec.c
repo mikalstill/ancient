@@ -1,22 +1,20 @@
-// Disconnected UDP socket example: this example simply waits fro traffic, and the starts
-// a process to deal with the results. One process per packet, one packet per process.
-// This version wont work, because the socket is not connected. In fact, cat is smart enough
-// to warn us about this:
-//
-//           cat: write error: Transport endpoint is not connected
+// Now we just need a test harness for shdns, to verify that _it_ works before making modifications
+// to inetd and xinetd
 
 #include <stdio.h>
 #include <errno.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/socket.h>
-#include <sys/poll.h>
 #include <netinet/in.h>
 
 int main(int argc, char *argv[]){
   int lfd;
   struct sockaddr_in servaddr;
-  struct pollfd pfd;
+  struct sockaddr clientaddr;
+  char buf[1024];
+  size_t len;
+  socklen_t clen;
   
   // We will listen with this file descriptor
   if((lfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0){
@@ -28,25 +26,33 @@ int main(int argc, char *argv[]){
   bzero(&servaddr, sizeof(servaddr));
   servaddr.sin_family = AF_INET;
   servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
-  servaddr.sin_port = htons(1234);
+  servaddr.sin_port = htons(53);
 
   // Bind to the address
   if(bind(lfd, (struct sockaddr *) &servaddr, sizeof(servaddr)) < 0){
     perror("Couldn't bind");
     exit(42);
   }
-
-  // Setup the list of file descriptors we want to wait for events on
-  pfd.fd = lfd;
-  pfd.events = POLLIN | POLLPRI;
   
   // Do stuff
   while(1){
-    if(poll(&pfd, 1, -1) < 0){
-      perror("Waiting for new data failed");
+    // We need to peek at the first part of the packet to determine who to connect to
+    len = 1;
+    printf("Reading...\n");
+    clen = sizeof(clientaddr);
+    if((len = recvfrom(lfd, buf, len, MSG_PEEK, (struct sockaddr *) &clientaddr, 
+		       &clen)) < 0){
+      perror("Socket peek error");
       exit(42);
     }
+    if(len == 0) break;
 
+    // Connect
+    if(connect(lfd, &clientaddr, clen) < 0){
+      perror("Could not connect");
+      exit(42);
+    }
+    
     printf("Data arrived\n");
 
     // Spawn a child to handle this packet
@@ -60,13 +66,14 @@ int main(int argc, char *argv[]){
       dup2(lfd, 0);
       dup2(lfd, 1);
 
-      execl("/bin/cat", "cat", NULL);
+      execl("/home/mikal/opensource-unstable/shdns/shdns-server", "shdns-server", NULL);
       perror("Exec failed");
       exit(42);
       break;
 
     default:
       // Parent process
+      sleep(15);
       break;
     }
   }
