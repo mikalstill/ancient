@@ -81,7 +81,7 @@
   </para>
   <equation>
     <title>Linear Interpolation Between Points</title>
-    <execute><cmd>eqimg</cmd><args>interp_linear1.bmp</args></execute>
+    <execute><cmd>eqimg</cmd><args>interp_linear.bmp</args></execute>
   </equation>
 
   <para>
@@ -109,8 +109,11 @@
     cubics.  Each of these cubic should have each end match up exactly with the
     points to either side.  And on the same point the two adjacent cubic should
     have shared first and second derivatives. Each of these cubics can be described by the equation:
-    (TODO: Spline equation 1)
   </para>
+  <equation>
+    <title>Equation of a cubic (Gerald and Wheatley, 1999)</title>
+    <execute><cmd>eqimg</cmd><args>interp_cubic.bmp</args></execute>
+  </equation>
   <para>
     Because each of these cubics begins at a any existing point we can say:
     <command>d<subscript>i</subscript> = y<subscript>i</subscript></command>
@@ -121,11 +124,19 @@
   </para>
   <para>
     Also if we make <command>S</command> the set of second derivatives; then through algebraic simplification
-    we can get: (TODO: Spline equations 3,4,5)
+    we can get:
   </para>
+  <equation>
+    <title>Equation of a cubic (Gerald and Wheatley, 1999)</title>
+    <execute><cmd>eqimg</cmd><args>interp_spline_abc.bmp</args></execute>
+  </equation>
   <para>
     With cubic splines, solving for <command>S</command> is achieved by solving:(TODO: Spline equation 7)
   </para>
+  <equation>
+    <title>Solving for S (Gerald and Wheatley, 1999)</title>
+    <execute><cmd>eqimg</cmd><args>interp_S_cubic.bmp</args></execute>
+  </equation>
   <para>
     The two end values, <command>S<subscript>0</subscript></command> and <command>S<subscript>n</subscript></command>, are then
     set to equal <command>S<subscript>1</subscript></command> and <command>S<subscript>n</subscript></command> respectively.
