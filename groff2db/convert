@@ -1,0 +1,257 @@
+#!/usr/bin/perl
+
+# The basic concept of this script to to convert troff marked up input into
+# docbook compliant XML.
+
+# Heading state handling needs some love
+
+use strict;
+my($INPUT, $OUTPUT);
+my($parastate, $liststate, $listitemstate, $footnotestate, $sectionstate, $italicstate, $displaystate);
+my($length);
+my($chapters, $chapter, $chaptercount);
+
+$chapters = "introduction.mm concepts.mm evolution.mm quickinstall.mm shareinstall.mm install.mm xsetup.mm postinstall.mm ports.mm problems.mm xtheory.mm unixref.mm starting.mm filesys.mm disks.mm tapes.mm printers.mm desktop.mm building.mm current.mm emulate.mm netintro.mm netsetup.mm isp.mm modems.mm ppp.mm slip.mm dns.mm firewall.mm netdebug.mm nfs.mm netbasics.mm email.mm www.mm fax.mm micronet.mm mobile.mm";
+
+$chaptercount++;
+
+open OUTPUT, "> output.sgml";
+
+# Print out the prelude
+#print OUTPUT "<?xml version='1.0'?>\n";
+#print OUTPUT "<!DOCTYPE book PUBLIC \"-//Norman Walsh//DTD DocBk XML V3.1.4//EN\"\n";
+#print OUTPUT "                         \"http://nwalsh.com/docbook/xml/3.1.4/db3xml.dtd\">\n";
+print OUTPUT "<!DOCTYPE book PUBLIC \"-//OASIS//DTD DocBook V3.1//EN\">\n";
+print OUTPUT "<book><title>Missing title</title>";
+
+# For each chapter we specified
+foreach $chapter (split(/ /, $chapters)){
+    $chaptercount++;
+    print "Processing chapter $chapter ($chaptercount)\n";
+    print OUTPUT "<chapter><title>$chapter</title><para>\n";
+    open INPUT, "< $chapter";
+
+    $liststate = 0;
+    $listitemstate = 0;
+    $parastate = 1;
+    $footnotestate = 0;
+    $sectionstate = 0;
+    $italicstate = 0;
+    $displaystate = 0;
+    
+    # For each line in the file...
+    while(<INPUT>){
+	# We run some little conversion rules to deal with things like italics et al
+	
+	# Footnote thingie we don't use
+	s/\\\*F//g;
+	
+	# Italics
+	$length = length $_;
+	s/\\fI/<emphasis>/g;
+	if($length != length($_)){
+	    $italicstate = 1;
+	}
+	
+	if($italicstate == 1){
+	    s/\\fP[^ \t,.]*/<\/emphasis>/g;
+	}
+	
+	# Prompts
+	s/\\fC([^ \t,.]*)/<command>$1<\/command>/g;
+
+	# Ampersands
+	s/&/&amp;/g;
+	
+	print "$liststate$parastate$footnotestate$sectionstate -- ";
+	
+	# Comments
+	if(/^\.\\\"(.*)/i){
+	    print "Comment: $1 {No mapping to docbook?}\n";
+	}
+	
+	# Display start
+	elsif(/^\.DS(.*)/i){
+	    print "Display start: [Arg $1] {CONVERTED}\n";
+	    endpara($parastate, $OUTPUT);
+	    print OUTPUT "<screen><para>\n";
+	    $displaystate = 1;
+	    $parastate = 1;
+	}
+	
+	# Display end
+	elsif(/^\.DE(.*)/i){
+	    print "Display end: [Arg $1] {CONVERTED}\n";
+	    endpara($parastate, $OUTPUT);	    
+	    if($displaystate == 1){
+		print OUTPUT "</screen><para>\n";
+	    }
+	    $displaystate = 0;
+	    $parastate = 1;
+	}
+	
+	# Footnote start
+	elsif(/^\.FS[ \t]*(.*)/i){
+	    print "Footnote start: [Arg $1] {CONVERTED}\n";
+	    print OUTPUT "<footnote><para>\n";
+	    $parastate = 1;
+	    $footnotestate = 1;
+	}
+	
+	# Footnote end
+	elsif(/^\.FE[ \t]*(.*)/i){
+	    print "Footnote end: [Arg $1] {CONVERTED}\n";
+	    if($footnotestate == 0){
+		print stderr "Footnote end for a non-open footnote!\n";
+	    }
+	    
+	    endpara($parastate, $OUTPUT);
+	    $parastate = 0;
+	    print OUTPUT "</footnote>\n";
+	    $footnotestate = 0;
+	}
+	
+	# Headings
+	elsif(/^\.H([0-7])[ \t]*(.*)/i){
+	    print "Heading: [Level $1, Args $2] {CONVERTED}\n";
+	    endpara($parastate, $OUTPUT);
+	    
+	    if($sectionstate == 1){
+		print OUTPUT "</section>\n";
+	    }
+	    
+	    $_ = $2;
+	    s/\"//g;
+	    
+	    print OUTPUT "<section><title>$_</title>\n";
+	    print OUTPUT "<para>\n";
+	    $parastate = 1;
+	    $sectionstate = 1;
+	}
+	
+	# Headings (Unsupported)
+	elsif(/^\.H([8-9])[ \t]*(.*)/i){
+	    print "Unsupported heading: [Level $1, Args $2] {CONVERTED}\n";
+	    endpara($parastate, $OUTPUT);
+	    $parastate = 0;
+	    print OUTPUT "<section><title>Title???</title>\n";
+	    $sectionstate = 1;
+	}
+	
+	# List start
+	elsif(/^\.LS(.*)/i){
+	    print "List item: [Arg $1] {CONVERTED}\n";
+	    endpara($parastate, $OUTPUT);
+	    $parastate = 0;
+	    print OUTPUT "<itemizedlist>\n";
+	    $liststate = 1;
+	}
+	
+	# List item
+	elsif(/^\.LI(.*)/i){
+	    print "List item: [Arg $1] {CONVERTED}\n";
+	    if($liststate == 0){
+		print stderr "List item for a non-open list!\n";
+	    }
+	    
+	    endpara($parastate, $OUTPUT);
+	    $parastate = 0;
+	    if($listitemstate == 1){
+		print OUTPUT "</listitem>\n";
+	    }
+	    
+	    print OUTPUT "<listitem><para>\n";
+	    $parastate = 1;
+	    $listitemstate = 1;
+	}
+	
+	# List end
+	elsif(/^\.LE(.*)/i){
+	    print "List item: [Arg $1] {CONVERTED}\n";
+	    if($liststate == 0){
+		print stderr "List end for a non-open list!\n";
+	    }
+	    
+	    endpara($parastate, $OUTPUT);
+	    $parastate = 0;
+	    
+	    if($listitemstate == 1){
+		print OUTPUT "</listitem>\n";
+	    }
+	    
+	    print OUTPUT "</itemizedlist>\n";
+	    $liststate = 0;
+	    $listitemstate = 0;
+	}
+	
+	# Unknown tag!
+#    elsif(/^\.Pn[ \t]+(.*)/i){
+#	print "UNKNOWN COMMAND: Pn [Arg $1]\n";
+#    }
+	
+	# Paragraphs
+	elsif(/^\.P[ \t]*([0-9]*)(.*)/i){
+	    print "Paragraph: [Arg $1, Extra $2] {CONVERTED}\n";
+	    endpara($parastate, $OUTPUT);
+	    print OUTPUT "<para>\n";
+	    $parastate = 1;
+	}
+	
+	# Unknown command
+#    elsif(/^\.Sref[ \t]*(.*)/i){
+#	print "UNKNOWN COMMAND: Sref [Arg $1]\n";
+#    }
+	
+	# Table start
+	elsif(/^\.TS[ \t]*(.*)/i){
+	    print "Table start: [Arg $1]\n";
+	}
+	
+	# Table end
+	elsif(/^\.TE/i){
+	    print "Table end\n";
+	}
+	
+	# We don't know anything about this command at all
+	elsif(/^\.(.*)/i){
+	    print stderr "DEFAULT COMMAND FOUND: $1\n";
+	}
+	
+	# A document line?
+	else{
+	    print "Content line\n";
+	    print OUTPUT "\t\t$_";
+	}
+    }
+    
+    endpara($parastate, $OUTPUT);
+    $parastate = 0;
+    
+    if($liststate == 1){
+	print stderr "Not closed list at end of document!\n";
+    }
+    
+    if($footnotestate == 1){
+	print stderr "Not closed footnote at end of document!\n";
+    }
+    
+    if($sectionstate == 1){
+	print stderr "Not closed section at end of document (closed)!\n";
+	print OUTPUT "</section>";
+    }
+    
+    print OUTPUT "</chapter>\n";
+    close INPUT;
+}
+
+print "Processed $chaptercount chapters\n";
+print OUTPUT "</book>\n";
+exit;
+
+sub endpara(){
+    my($ps, $OUTPUT) = @_;
+
+    if($ps == 1){
+	print OUTPUT "</para>\n";
+    }
+}
