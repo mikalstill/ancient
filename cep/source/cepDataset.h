@@ -57,12 +57,19 @@ class cepDataset
 {
 public:
   enum direction
-  {
-    dirX = 0,
-    dirY,
-    dirZ,
-    dirUnknown
-  };
+    {
+      dirX = 0,
+      dirY,
+      dirZ,
+      dirUnknown
+    };
+  
+  enum column
+    {
+      colDate = 0,
+      colSample,
+      colError
+    };
 
   // Filename is the "root filename" e.g. mb_ANKR_GPS
   // I append the .dat1, .dat2 and .dat3 myself...

@@ -84,20 +84,24 @@ cepPresentation::yAxisTitle (const string & title)
 // todo_mikal: should this be part of the matrix class so it is more efficient?
 void cepPresentation::findMaxMinMa()
 {
+  // todo_kristy: I should be able to just ask the matrix for these...
   cepDebugPrint("Finding matrix maxima and minima");
-  for(int i = 0; i < m_ds->getNumRows(); i++){ 
-    if (abs((long) (m_ds->getValue(i, 0) * 10000)) > m_xmaxval)
-      m_xmaxval = abs((long) (m_ds->getValue(i, 0) * 10000));
-    if (-abs((long) (m_ds->getValue(i, 0) * 10000)) < m_xminval)
-      m_xminval = -abs((long) (m_ds->getValue(i, 0) * 10000));
+  for(int i = 0; i < m_ds->getNumRows(); i++){
+    if ((long) (m_ds->getValue(i, cepDataset::colDate) * 10000) > m_xmaxval) 
+      m_xmaxval = (long) (m_ds->getValue(i, cepDataset::colDate) * 10000);
+    if ((long) (m_ds->getValue(i, cepDataset::colDate) * 10000) < m_xminval) 
+      m_xminval = (long) (m_ds->getValue(i, cepDataset::colDate) * 10000);
     
-    if (abs((long) (m_ds->getValue(i, 1) * 10000)) > m_ymaxval)
-      m_ymaxval = abs((long) (m_ds->getValue(i, 1) * 10000));
-    if (-abs((long) (m_ds->getValue(i, 1) * 10000)) < m_yminval)
-      m_yminval = -abs((long) (m_ds->getValue(i, 1) * 10000));
+    if ((long) (m_ds->getValue(i, cepDataset::colSample) * 10000) > m_ymaxval) 
+      m_ymaxval = (long) (m_ds->getValue(i, cepDataset::colSample) * 10000);
+    if ((long) (m_ds->getValue(i, cepDataset::colSample) * 10000) < m_yminval) 
+      m_yminval = (long) (m_ds->getValue(i, cepDataset::colSample) * 10000);
     
-    if (abs((long) (m_ds->getValue(i, 2) * 10000)) > m_emaxval)
-      m_emaxval = abs((long) (m_ds->getValue(i, 2) * 10000));
+    cepDebugPrint("Float version = " + cepToString(m_ds->getValue(i, 2)));
+    cepDebugPrint("Comparing error: " + cepToString((long) (m_ds->getValue(i, 2) * 10000)) +
+		  " at line " + cepToString(i));
+    if ((long) (m_ds->getValue(i, cepDataset::colError) * 10000) > m_emaxval) 
+      m_emaxval = (long) (m_ds->getValue(i, cepDataset::colError) * 10000);
   }
   cepDebugPrint("Found xmax = " + cepToString(m_xmaxval) + " xmin = " + cepToString(m_xminval) + 
 		" ymax = " + cepToString(m_ymaxval) + " ymin = " + cepToString(m_yminval) + 
@@ -174,9 +178,9 @@ cepPresentation::createBitmap ()
     plot_setlinecolor(graph, m_errorColor.red, m_errorColor.green,
 		      m_errorColor.blue);
     for(int i = 0; i < m_ds->getNumRows(); i++){
-      long convdate = (long) (m_ds->getValue(i, 0) * 10000);
-      long convsample = (long) (m_ds->getValue(i, 1) * 10000);
-      long converror = (long) (m_ds->getValue(i, 2) * 10000);
+      long convdate = (long) (m_ds->getValue(i, cepDataset::colDate) * 10000);
+      long convsample = (long) (m_ds->getValue(i, cepDataset::colSample) * 10000);
+      long converror = (long) (m_ds->getValue(i, cepDataset::colError) * 10000);
       unsigned int horiz = (unsigned int) ((xrange - convdate + m_xminval) / xscale + 10);
 
       cepDebugPrint("Plotting " + cepToString(convdate) +  " " + cepToString(convsample) + " " +
@@ -239,8 +243,8 @@ cepPresentation::createBitmap ()
   plot_setlinecolor(graph, m_lineColor.red, m_lineColor.green,
 		    m_lineColor.blue);
   for(int i = 0; i < m_ds->getNumRows(); i++){
-    long convdate = (long) (m_ds->getValue(i, 0) * 10000);
-    long convsample = (long) (m_ds->getValue(i, 1) * 10000);
+    long convdate = (long) (m_ds->getValue(i, cepDataset::colDate) * 10000);
+    long convsample = (long) (m_ds->getValue(i, cepDataset::colSample) * 10000);
     unsigned int xpoint = (unsigned int) ((xrange - convdate + m_xminval) / xscale + 10);
     unsigned int ypoint = (unsigned int) ((yrange - convsample + yminval) / yscale + 10);
     

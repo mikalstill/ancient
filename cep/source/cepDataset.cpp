@@ -200,9 +200,9 @@ cepError cepDataset::read (const string& filename)
     // Copy the vectors into the matrix
     m_data[i] = new cepMatrix<double>(dates.size(), 3);
     for(unsigned int vcount = 0; vcount < dates.size(); vcount++){
-      m_data[i]->setValue(vcount, 0, dates[vcount]);
-      m_data[i]->setValue(vcount, 1, errors[vcount]);
-      m_data[i]->setValue(vcount, 2, samples[vcount]);
+      m_data[i]->setValue(vcount, colDate, dates[vcount]);
+      m_data[i]->setValue(vcount, colSample, samples[vcount]);
+      m_data[i]->setValue(vcount, colError, errors[vcount]);
     }
     
     files[i].close();
@@ -215,7 +215,7 @@ cepError cepDataset::read (const string& filename)
 	    != m_data[1]->getValue(m_data[0]->getNumRows() - 1, 0)) 
 	   || (m_data[1]->getValue(m_data[0]->getNumRows() - 1, 0) 
 	       != m_data[2]->getValue(m_data[0]->getNumRows() - 1, 0)))))
-  {
+    {
       m_ready = true;
       return cepError("The data set " + m_filename + 
   		      " values do not represent the same time period",
