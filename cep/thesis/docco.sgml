@@ -2,11 +2,11 @@
 
 <para>
   Documentaion is of signifiant importance in any project, particularly with those that are not confined to a finite scope.
-   The <command>GDMS</command> is one such project. In time series analysis system , there are an enormous number of 
+   The <command>GDMS</command> is one such project. In a time series analysis system, there are an enormous number of 
     possible features. In a finite session such as this project, a careful balance must be drawn between the functionality 
     and the documentation. We needed to maximise our coding time whilst still providing sufficient documentation to both meet 
     the requirements and include all of the necessary information that might be needed by any future developers and users. 
-    This led to our decision to use dools to assist with the documentation.
+    This led to our decision to use a number of tools to assist with the documentation.
 </para>
 
 </sect1>

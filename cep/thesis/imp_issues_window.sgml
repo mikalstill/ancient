@@ -33,7 +33,7 @@
   <para>
     For all windows, coefficients can be generated for an arbitrary window size. The requirement that the windowed data be
     transformed to the Fourier domain imposes further limitation in that the Fourier libraries we are using will only operate on a
-    data set of size 2<superscript>n</superscript>, 0 &lt; n &lt; &infty;. This restriction has been implemented at the User interface
+    data set of size 2<superscript>n</superscript>, 0 &lt; n &lt; &infin;. This restriction has been implemented at the User interface
     level, maintaining the flexibility of the windowing subsystem.
   </para>
   <para>
