@@ -1,0 +1,30 @@
+This is a list of all available assertions that come standard with cppunit.
+Users can defin their own assertions to test special cases. refer to the
+cppunit cookbook
+
+To make use of these macros you need to include the following files
+#include <cppunit/TestFixture.h>
+#include <cppunit/extensions/HelperMacros.h>
+
+
+Asserts that a specific exception was thrown.
+CPPUNIT_TEST_EXCEPTION(function, exception)
+
+Assertions that a condition is true.
+CPPUNIT_ASSERT(condition)
+
+Assertion with a user specified message.
+CPPUNIT_ASSERT_MESSAGE(message, condition)
+
+Fails with the specified message.
+CPPUNIT_FAIL(message)
+ 
+Asserts that two values are equals.
+CPPUNIT_ASSERT_EQUAL(expected, actual)
+
+Asserts that two values are equals, provides additional message on failure.
+CPPUNIT_ASSERT_EQUAL_MESSAGE(message, expected, actual)
+
+CPPUNIT_ASSERT_DOUBLES_EQUAL(expected, actual, delta)
+Macro for primitive value comparisons.
+
