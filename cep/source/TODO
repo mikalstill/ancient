@@ -2,3 +2,5 @@
 * cepData current returns incorrect display dates (they're off by a couple of days)
 * operator= to convert string to wxString?
 * define a with wx macro for the ui target only, the current way is broken...
+* tooltips
+* documentation as HTML (perhaps in docbook so we can have a printed manual as well)
