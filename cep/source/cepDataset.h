@@ -35,6 +35,9 @@ typedef struct cep_internal_datarow
   float error;
 } cep_datarow;
 
+// This is used for the 'columns' in the windowing algorithm
+typedef vector<cep_datarow> cep_datacol;
+
 class cepDataset
 {
 public:
@@ -42,7 +45,7 @@ public:
   // I append the .dat1, .dat2 and .dat3 myself...
   cepDataset (string filename);
   cepDataset (string filename, cepDatasetProgressCB callback);
-  cepDataset (vector<cep_datarow> windowVector, int numWindows);
+  cepDataset (vector<cep_datacol> windowVector, int numWindows);
   cepDataset (double value, double weight);
 
   // Manipulations 
@@ -66,7 +69,7 @@ private:
   string m_filename;
   cepDatasetProgressCB m_progress;
   vector<cep_datarow> m_datax, m_datay, m_dataz;
-  vector<cep_datarow> m_windowVector; //vector of windowed data
+  vector<cep_datacol> m_windowVector; //vector of windowed data
   int m_numWindows; //number of windows in the windowed data
   double m_hamValue; //single haming value
   double m_hamWeight; //hamming weight
