@@ -140,7 +140,7 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
       m_selDir = selDir;
       m_selDirString = dirName;
 
-      float startExtracted = ((m_selectXStart - 10) * m_scale[selDir] + m_minval[selDir]) / 10000;
+      float startExtracted = ((m_selectXStart - 10) * m_horizScale[selDir] + m_xminval[selDir]) / 10000;
       cepDate start(startExtracted);
       string startDate = start.getDay() + " " + start.getShortMonthName() + " " + start.getYear();
       ((cepFrame *) wxGetApp().GetTopWindow())->SetStatusText(startDate.c_str(), 2);
@@ -150,11 +150,11 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
     else{
       m_selectXEnd = pt.x;
 
-      float startExtracted = ((m_selectXStart - 10) * m_scale[selDir] + m_minval[selDir]) / 10000;
+      float startExtracted = ((m_selectXStart - 10) * m_horizScale[selDir] + m_xminval[selDir]) / 10000;
       cepDate start(startExtracted);
       string startDate = start.getDay() + " " + start.getShortMonthName() + " " + start.getYear();
 
-      float endExtracted = ((m_selectXEnd - 10) * m_scale[selDir] + m_minval[selDir]) / 10000;
+      float endExtracted = ((m_selectXEnd - 10) * m_horizScale[selDir] + m_xminval[selDir]) / 10000;
       cepDate end(endExtracted);
       string endDate = end.getDay() + " " + end.getShortMonthName() + " " + end.getYear();
 
@@ -181,8 +181,8 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
     int selectXStart = m_selectXStart;
     m_selectXStart = -1;
     
-    float startExtracted = ((selectXStart - 10) * m_scale[selDir] + m_minval[selDir]) / 10000;
-    float endExtracted = ((m_selectXEnd - 10) * m_scale[selDir] + m_minval[selDir]) / 10000;
+    float startExtracted = ((selectXStart - 10) * m_horizScale[selDir] + m_xminval[selDir]) / 10000;
+    float endExtracted = ((m_selectXEnd - 10) * m_horizScale[selDir] + m_xminval[selDir]) / 10000;
     if(startExtracted > endExtracted){
       float temp = endExtracted;
       endExtracted = startExtracted;
@@ -268,10 +268,14 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
   }
   else{
     // The left button is not down, so just show the date we are hovering over
-    float extracted = ((pt.x - 10) * m_scale[selDir] + m_minval[selDir]) / 10000;
-    cepDate hoverDate(extracted);
+    float xextracted = ((pt.x - 20) * m_horizScale[selDir] + m_xminval[selDir]) / 10000;
+    cepDate hoverDate(xextracted);
+
+    float yextracted = ((pt.y - 20) * m_vertScale[selDir] + m_yminval[selDir]) / 10000;
+
     string hover = hoverDate.getDay() + " " + hoverDate.getShortMonthName() + " " +
-      hoverDate.getYear() + " (" + cepToString(extracted, true) + ")";
+      hoverDate.getYear() + " (" + cepToString(xextracted, true) + ") reading " +
+      cepToString(yextracted, true);
     ((cepFrame *) wxGetApp().GetTopWindow())->SetStatusText(hover.c_str(), 2);
   }
 }

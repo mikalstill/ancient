@@ -289,8 +289,9 @@ void cepView::drawPresentation(cepDataset *theDataset, cepDataset::direction dir
     close(fd);
 
     cepDebugPrint("Requesting plot: " + cepToString(presWidth) + " x " + cepToString(presHeight));
-    cepPlot plot(theDataset, dir, cfname, presWidth, presHeight, canvas->m_scale[(int) dir],
-		 canvas->m_minval[(int) dir],
+    cepPlot plot(theDataset, dir, cfname, presWidth, presHeight, 
+		 canvas->m_vertScale[(int) dir], canvas->m_horizScale[(int) dir],
+		 canvas->m_xminval[(int) dir], canvas->m_yminval[(int) dir],
 		 theDataset->getHaveLs(dir));
     m_plotfailed = plot.getFailed();
     

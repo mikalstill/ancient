@@ -108,9 +108,9 @@ cepPresentation::createPDF (const string & filename)
 
 #if defined HAVE_LIBPANDA
   cepDebugPrint ("Generating PDF for: " + filename);
-  float dummyscale;
-  long dummyrange;
-  createBitmap (dummyscale, dummyrange);
+  float dummyscale1, dummyscale2;
+  long dummyrange1, dummyrange2;
+  createBitmap (dummyscale1, dummyscale2, dummyrange1, dummyrange2);
 
   // panda_init();
   // panda_pdf doc = panda_open(filename.c_str(), "w");
@@ -124,7 +124,7 @@ cepPresentation::createPDF (const string & filename)
 }
 
 cepError
-cepPresentation::createBitmap (float& scale, long& minval)
+cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminval, long& yminval)
 {
 #if defined HAVE_LIBMPLOT
   plot_state *graph;
@@ -162,7 +162,7 @@ cepPresentation::createBitmap (float& scale, long& minval)
   // How big are the maxima and minima?
   cepDebugPrint("Determine scaling");
   long ymaxval = m_useErrors ? m_ymaxval + m_emaxval : m_ymaxval;
-  long yminval = m_useErrors ? m_yminval - m_emaxval : m_yminval;
+  yminval = m_useErrors ? m_yminval - m_emaxval : m_yminval;
 
   cepDebugPrint("yminval = " + cepToString(yminval) + " ymaxval = " + cepToString(ymaxval));
   cepDebugPrint("xminval = " + cepToString(m_xminval) + " xmaxval = " + cepToString(m_xmaxval));
@@ -184,15 +184,14 @@ cepPresentation::createBitmap (float& scale, long& minval)
   }
 
   const int graphInset = 20;
-  float yscale = (float) yrange / (m_height - graphInset * 2);
-  float xscale = (float) xrange / (m_width - graphInset * 2);
-  scale = xscale;
-  minval = m_xminval;
+  horizScale = (float) yrange / (m_height - graphInset * 2);
+  vertScale = (float) xrange / (m_width - graphInset * 2);
+  xminval = m_xminval;
   
   cepDebugPrint("Dimensions of graph bitmap: " + cepToString(m_width) + " x " +
 		cepToString(m_height));
-  cepDebugPrint("Yscale is: " + cepToString(yscale));
-  cepDebugPrint("Xscale is: " + cepToString(xscale));
+  cepDebugPrint("HorizScale is: " + cepToString(horizScale));
+  cepDebugPrint("VertScale is: " + cepToString(vertScale));
 
   ////////////////////////////////////////////////////////////////////////////////
   // The grid is always at the absolute bottom of the painting stack
@@ -225,35 +224,35 @@ cepPresentation::createBitmap (float& scale, long& minval)
       if(m_ds->getError().isReal())
 	return m_ds->getError();
 
-      unsigned int horiz = (unsigned int) ((convdate - m_xminval) / xscale + graphInset);
+      unsigned int horiz = (unsigned int) ((convdate - m_xminval) / vertScale + graphInset);
 
       // Vertical line
       plot_setlinestart(graph, horiz,
 			(unsigned int) ((yrange - (convsample + converror) + 
-					 yminval) / yscale + graphInset));
+					 yminval) / horizScale + graphInset));
       plot_addlinesegment(graph, horiz,
 			  (unsigned int) ((yrange - (convsample - converror) + yminval) 
-					  / yscale + graphInset));
+					  / horizScale + graphInset));
       plot_strokeline(graph);
       plot_endline(graph);
       
       // Top horizontal line
       plot_setlinestart(graph, horiz - 2, 
 			(unsigned int) ((yrange - (convsample + converror) + yminval)
-					/ yscale + graphInset));
+					/ horizScale + graphInset));
       plot_addlinesegment(graph, horiz + 2, 
 			  (unsigned int) ((yrange - (convsample + converror) + yminval) 
-					  / yscale + graphInset));
+					  / horizScale + graphInset));
       plot_strokeline(graph);
       plot_endline(graph);
       
       // Bottom horizontal line
       plot_setlinestart(graph, horiz - 2, 
 			(unsigned int) ((yrange - (convsample - converror) + yminval)
-					/ yscale + graphInset));
+					/ horizScale + graphInset));
       plot_addlinesegment(graph, horiz + 2, 
 			  (unsigned int) ((yrange - (convsample - converror) + yminval) 
-					  / yscale + graphInset));
+					  / horizScale + graphInset));
       plot_strokeline(graph);
       plot_endline(graph);
     }
@@ -271,9 +270,9 @@ cepPresentation::createBitmap (float& scale, long& minval)
 
   // The horizontal axis
   plot_setlinestart(graph, graphInset, 
-		    (unsigned int) ((yrange - 0 + yminval) / yscale + graphInset));
+		    (unsigned int) ((yrange - 0 + yminval) / horizScale + graphInset));
   plot_addlinesegment(graph, m_width - graphInset, 
-		      (unsigned int) ((yrange - 0 + yminval) / yscale + graphInset));
+		      (unsigned int) ((yrange - 0 + yminval) / horizScale + graphInset));
   plot_strokeline(graph);
   plot_endline(graph);
   
@@ -361,8 +360,8 @@ cepPresentation::createBitmap (float& scale, long& minval)
       if(m_ds->getError().isReal())
 	return m_ds->getError();
 
-    unsigned int xpoint = (unsigned int) ((convdate - m_xminval) / xscale + graphInset);
-    unsigned int ypoint = (unsigned int) ((yrange - convsample + yminval) / yscale + graphInset);
+    unsigned int xpoint = (unsigned int) ((convdate - m_xminval) / vertScale + graphInset);
+    unsigned int ypoint = (unsigned int) ((yrange - convsample + yminval) / horizScale + graphInset);
     
     plot_setlinestart(graph, xpoint - 1, ypoint);
     plot_addlinesegment(graph, xpoint, ypoint - 1);
@@ -396,13 +395,14 @@ cepPresentation::createBitmap (float& scale, long& minval)
 }
 
 cepError
-cepPresentation::createPNG (const string & filename, float& scale, long& range)
+cepPresentation::createPNG (const string & filename, float& horizScale, float& vertScale, 
+			    long& xrange, long& yrange)
 {
 #if defined HAVE_LIBMPLOT
 #if defined HAVE_LIBPNG
   cepDebugPrint ("Generating PNG for: " + filename);
 
-  cepError e = createBitmap(scale, range);
+  cepError e = createBitmap(horizScale, vertScale, xrange, yrange);
   if(e.isReal())
     return e;
 
