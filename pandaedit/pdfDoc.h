@@ -56,6 +56,7 @@ DECLARE_DYNAMIC_CLASS (pdfDoc) public:
   void incrementProgress ();
   bool isReady();
   pdf *getPDF();
+  objectlist& getPages();
   unsigned int getPageCount();
   string getFilename();
 

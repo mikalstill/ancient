@@ -14,8 +14,9 @@ char *inflateraster(char *input, unsigned long width, unsigned long height,
                     int bitdepth, int targetbitdepth, 
                     int channels, int targetchannels);
 
-pdfRender::pdfRender (pdf & thePDF, object page, int pageno):
+pdfRender::pdfRender (pdf & thePDF, object page, object pages, int pageno):
 m_page (page),
+m_pages (pages),
 m_contents (-1, -1),
 m_mode (rmGraphics),
 m_invalid (true),
@@ -40,6 +41,7 @@ m_pageno (pageno)
 // Not yet implemented (private)
 pdfRender::pdfRender (const pdfRender & other):
 m_page (-1, -1),
+m_pages (other.m_pages),
 m_contents (-1, -1),
 m_pdf (""),
 m_hasLine (false),
@@ -56,10 +58,13 @@ pdfRender::render ()
     debug(dlTrace, "Memory leak as render called more than once");
 
   string mediaBox;
-  dictionary dict;
   m_page.getDict ().getValue ("MediaBox", mediaBox);
   if(mediaBox == ""){
-    debug(dlError, "No page size specified");
+    debug(dlTrace, "No page size specified in page object, trying pages object...");
+    m_pages.getDict ().getValue ("MediaBox", mediaBox);
+  }
+  if(mediaBox == ""){
+    debug(dlError, "The document does not specify a page size");
     return false;
   }
 

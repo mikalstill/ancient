@@ -11,7 +11,7 @@
 class pdfRender
 {
 public:
-  pdfRender (pdf & thePDF, object page, int pageno);
+  pdfRender (pdf & thePDF, object page, object pages, int pageno);
   bool render ();
   string getPNGfile ();
 
@@ -60,7 +60,7 @@ private:
     rmGraphics
   };
 
-  object m_page, m_contents;
+  object m_page, m_pages, m_contents;
   rmMode m_mode;
   matrix m_textMatrix, m_graphicsMatrix;
     stack < string > m_arguements;

@@ -167,7 +167,7 @@ pdfView::OnDraw (wxDC * dc)
       if(!catalog.getDict().getValue("Pages", *thePDF, pages)){
 	debug(dlError, "Bad PDF: Could not get pages object, but the catalog references it!");
 	exit(1); 
-      } 
+      }
 
       // Now find all the page objects referenced in the pages object
       string kids;
@@ -178,7 +178,7 @@ pdfView::OnDraw (wxDC * dc)
       
       // Find the pages, and then display the first page
       objectlist pagelist(kids, thePDF);
-      pdfRender renPage(*thePDF, pagelist[m_page], m_page);
+      pdfRender renPage(*thePDF, pagelist[m_page], pages, m_page);
       if(!renPage.render()){
 	debug(dlError, "Page render failed");
 	exit(1);

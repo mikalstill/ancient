@@ -165,6 +165,12 @@ pdfDoc::getFilename()
   return m_filename;
 }
 
+objectlist&
+pdfDoc::getPages()
+{
+  return m_pages;
+}
+
 // A scary global progress handler
 void
 ds_progressCallback ()
