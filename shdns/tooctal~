@@ -1,7 +1,0 @@
-#!/bin/bash
-
-# Take a decimal number and output it's octal
-number=$1
-power=$(( 8 ^ 8 ))
-
-print $power
