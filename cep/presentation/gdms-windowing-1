@@ -1,19 +1,21 @@
 TITLE: What is Windowing (Blake)
 
-<li>truncates an infinte series in the time domain
-<li>disadvantage
+<li>Truncates an infinte series in the time domain
+<li>Disadvantage
   <ul>
-  <li>introduces ripple in the frequency domain
+  <li>Introduces ripple in the frequency domain
   </ul>
-<li>solution:
+<li>Solution:
   <ul>
-  <li>apply a non rectangular filter
-  <li>advantage
+  <li>Apply a non rectangular filter
+  </ul>
+  <ul>
+  <li>Advantage
     <ul>
-    <li>attenuates the ripple
+    <li>Attenuates the ripple
     </ul>
-  <li>disavantage
+  <li>Disavantage
     <ul>
-    <li>broadens the spectral peak
+    <li>Broadens the spectral peak
     </ul>
   </ul>

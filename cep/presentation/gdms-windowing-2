@@ -1,6 +1,6 @@
 TITLE: Windowing Algorithms (Blake)
 
-<table>
+<table width="100%">
 <tr>
 <td>
 <li>Several different algorithms have been provided
@@ -11,10 +11,10 @@ TITLE: Windowing Algorithms (Blake)
   <li>Blackman
   <li>Dolph-Chebyshev
   </ul>
-<li>prudent selection can attenuate the FD ripples
+<li>Prudent selection can attenuate the FD ripples
 </td>
 <td>
-<img src="/notes/presentations/content/windows.png" alt="various windowing algorithms"
+<img src="/notes/presentations/content/windows.png" alt="Various windowing algorithms"
 align=right border=0>
 </td>
 </tr>

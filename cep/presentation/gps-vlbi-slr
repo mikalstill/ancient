@@ -1,28 +1,31 @@
-TITLE: Data acquisition technologies (Blake)
+TITLE: Data Acquisition Technologies (Blake)
 
 <li>GPS (including GLONASS and Galileo)
   <ul>
-  <li>constellation of satellites
-  <li>high sample rate (30sec)
-  <li>susceptible to HF noise
-  <li>integrity issues
+  <li>Constellations of satellites
+  <li>Relatively high sample rate ( 0.03Hz )
+  <li>Susceptible to HF noise and Ionospheric effects
+  <li>Integrity issues
   </ul>
 <li>VLBI
   <ul>
-  <li>~50 radio observatories
-  <li>sub mm accuracy
-  <li>sets inertial frame of reference
-  <li>low sample rate
-  <li>immune to atmospheric effects and HF noise
+  <li>Approx 50 observatories worldwide
+  <li>Sub millimeter accuracy
+  <li>Very high sample rate (GHz range)
+  <li>Immune to HF noise and atmospheric effects
   </ul>
 <li>SLR
   <ul>
-  <li>range to satellites (natural and artifical)
-  <li>used for orbit determination
-  <li>susceptible to atmospheric effects=20
-  <li>sub centimeter accuarcy
+  <li>Range to satellites (natural and artifical)
+  <li>Used for orbit determination
+  <li>Susceptible to atmospheric effects
+  <li>Sub centimeter accuarcy
   </ul>
 
 <BR><BR>
 
-<li>Measure techtonic movement
+<li>All of the above measure
+<ul>
+<li>Tectonic movement
+<li> Climatic signals
+</ul>

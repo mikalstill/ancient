@@ -1,18 +1,18 @@
 TITLE: Testing (Blake)
 
-<li>requirements
+<li>Requirements
   <ul>
-  <li>standardised
-  <li>automated
-  <li>easy to implement
+  <li>Standardised
+  <li>Automated
+  <li>Easy to implement
   </ul>
 <li>Why Unit testing
   <ul>
-  <li>allows easy exercising of algorithms
-  <li>regression tests for future groups
+  <li>Allows easy exercising of algorithms
+  <li>Regression tests for future groups
   </ul>
-<li>How
+<li>How did we do it
   <ul>
-  <li>cppunit
-  <li>...
+  <li>Functionality tested using CPPUnit
+  <li>Mathcad/Matlab
   </ul>
