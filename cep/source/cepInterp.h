@@ -4,10 +4,6 @@
  * Description:- Interpolation toolkit.  Provides various methods of
  * interpolation.
  *
- *   Copyright (C) Daniel Fernandez                 2002
- *   Copyright (C) Michael Still                    2002
- *   Copyright (C) Blake Swadling                   2002
- *   Copyright (C) Kristy Van Der Vlist             2002
  *   Copyright (C) Nick Wheatstone                  2002
  *
  * This program is free software; you can redistribute it and/or modify it

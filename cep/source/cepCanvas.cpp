@@ -1,11 +1,7 @@
 /* 
  *   Canvas for the CEP program
  *
- *   Copyright (C) Daniel Fernandez                 2002
  *   Copyright (C) Michael Still                    2002
- *   Copyright (C) Blake Swadling                   2002
- *   Copyright (C) Kristy Van Der Vlist             2002
- *   Copyright (C) Nick Wheatstone                  2002
  *
  *   Based on a demo which originally had this notice:
  *  

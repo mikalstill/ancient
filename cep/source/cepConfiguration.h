@@ -1,11 +1,8 @@
 /* 
- *   Imp for the CEP dataset
+ *   A class which handles persistance of configuration information
  *
- *   Copyright (C) Daniel Fernandez                 2002
  *   Copyright (C) Michael Still                    2002
  *   Copyright (C) Blake Swadling                   2002
- *   Copyright (C) Kristy Van Der Vlist             2002
- *   Copyright (C) Nick Wheatstone                  2002
  *   
  *   This program is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -117,7 +114,7 @@ using namespace std;
 /**A drop in replacement for the original cepConfiguration.
   *This implements a whiteboard pattern.
   *@author Blake Swadling
-  *@version $Revision: 1.18 $
+  *@version $Revision: 1.19 $
   */
 
 class cepConfiguration
