@@ -3,5 +3,3 @@
 modprobe uhci_hcd
 modprobe usbserial
 modprobe cypress_m8
-sleep 10
-cat /dev/ttyUSBO > new

@@ -42,8 +42,8 @@ main (int argc, char *argv[])
 
   // Read the data points from stdin
   while(fgets(&line, 1000, stdin) != NULL){
-    mapptx[datapts] = atol(strtok(line, " ")) / 100;
-    mappty[datapts] = atol(strtok(NULL, " ")) / 100;
+    mappty[datapts] = atol(strtok(line, " ")) / 250;
+    mapptx[datapts] = atol(strtok(NULL, " ")) / 250;
     speed[datapts] = atol(strtok(NULL, " ")) / 1000;
 
     if(mapptx[datapts] > maxx) maxx = mapptx[datapts];
@@ -71,24 +71,14 @@ main (int argc, char *argv[])
     exit(1);
   }
 
-  plot_setfontcolor(graph, 26, 22, 249);
-  plot_setfont(graph, "n019004l.pfb", 18);
-  plot_settextlocation(graph, mapptx[0] - minx - 5, mappty[0] - miny - 5);
-  plot_writestring(graph, "S");
-
   plot_setlinecolor(graph, 0, 0, 255);
   plot_setlinestart(graph, mapptx[0] - minx, mappty[0] - miny);
-  printf("[%d, %d]", mapptx[0] - minx, mappty[0] - miny);
   for(i = 1; i < datapts; i++){
     plot_addlinesegment(graph, mapptx[i] - minx, mappty[i] - miny);
-    printf("[%d, %d]", mapptx[i] - minx, mappty[i] - miny);
+    printf("%d ", speed[i]);
   }
   plot_strokeline(graph);
   plot_endline(graph);
-
-  plot_settextlocation(graph, mapptx[i - 1] - minx - 5, 
-		       mappty[i - 1] - miny - 5);
-  plot_writestring(graph, "E");
   
   raster = plot_getraster(graph);
 
