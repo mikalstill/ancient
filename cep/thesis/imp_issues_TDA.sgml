@@ -19,7 +19,7 @@
     and all calculations are encapsulated therein. A given solution is essentially reached by solving the Least Squares equation 
     equation 2-7 and a set of residuals are calculated by equation 2-13. Each calculation produces three 
     matrices, <command>X</command> which is the solution to the Least Squares matrix equation and contains the unknown co-efficients 
-    <command>m</command> and <command>c</command> of the line equation (TD THEORY EQU 1). The second matrix indicates whether 
+    <command>m</command> and <command>c</command> of the line equation (see equation 2-1). The second matrix indicates whether 
     or not the given data point was weighted out of the calculations and finally, the matrix of residuals is also produced.
     </para>
 
@@ -43,7 +43,7 @@
     for over all design reasons, no point from data was ever entirely removed from the system but set it to 0 inside the 
     weighting matrix, which achieved the same effect in the data domain. In the residual domain, however, the weighted out points 
     were still being included due to the fact that the calculation of residuals does not require the use of a weighting matrix 
-    (TD EQU 14).  The solution to this problem was to pre-multiply the residuals with the weighting matrix and removing 
+    (see equation 2-13).  The solution to this problem was to pre-multiply the residuals with the weighting matrix and removing 
     any residual equal to zero before calculating the thresholds for determining whether a data point was to be weighted out or not.
     </para>
 

@@ -272,7 +272,7 @@
     
     <para>Because of the slowness of using a weighting matrix that is not diagonal, another method of calculating a weighting
     matrix was sought. This method works entirely in the residual space and ensures that the weighting matrix is always diagonal.
-    In this calculation, a line of best fit is calculated using (see equation 2-7) and the residuals are calculated using (EQUATION 14). 
+    In this calculation, a line of best fit is calculated using equation 2-7 and the residuals are calculated using equation 2-13. 
     The residual matrix is then sorted in ascending order. From there the median and interquartile range can be calculated. The
     threshold of three standard deviations above or below the mean, assuming a standard Gaussian distribution, can be calculated by
     adding 1.5 x the interquartile range to the 75% limit and subtracting 1.5 x the interquartile range from the 25% limit, 

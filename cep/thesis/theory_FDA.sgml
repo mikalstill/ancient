@@ -187,7 +187,7 @@
     This sectioned has provided a brief discussion on frequency domain analysis, including the theory and and some applications. 
     Frequency domain analysis is a very useful tool for time series analysis. It enables us, for instance to see information not 
     easily detectable in the time domain. Frequency trends and noise can also be identified in the data. This includes the 
-    detection of Random Walk thorgh periodicity, and white noise that are represented as freqency spikes. It additon, we have seen 
+    detection of Random Walk though periodicity, and white noise that are represented as frequency spikes. It addition, we have seen 
     that it is also possible to reduce noise by removing certain frequencies that are believed to be noise.  
   </para>
 </sect2> <!--Conclusion-->

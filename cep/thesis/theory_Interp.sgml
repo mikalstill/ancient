@@ -131,7 +131,7 @@
     <execute><cmd>eqimg</cmd><args>interp_spline_abc.bmp</args></execute>
   </equation>
   <para>
-    With cubic splines, solving for <command>S</command> is achieved by solving:(TODO: Spline equation 7)
+    With cubic splines, solving for <command>S</command> is achieved by solving:
   </para>
   <equation>
     <title>Solving for S (Gerald and Wheatley, 1999)</title>
