@@ -2,10 +2,11 @@
 
 function verify (){
     touch testout/$2
-    echo "    - \"$1\""
+    echo -n "    - \"$1\" "
     echo "$1" | ./sample > testout/$2.new
     if [ `diff testout/$2 testout/$2.new | wc -l | tr -d " "` -gt 0 ]
       then
+      echo ""
       echo "    - Results have changed!"
       echo "    - Old:"
       cat testout/$2
@@ -13,7 +14,7 @@ function verify (){
       echo "    - New:"
       cat testout/$2.new
     else
-      echo "    - Repeated results supressed"
+      echo "[Repeated results supressed]"
     fi
     mv testout/$2.new testout/$2
 }

@@ -19,8 +19,6 @@ void trivsql_docreate(char *tname, char *cols)
   char *u;
   int colCount = 0;
 
-  gState->rs->errno = TRIVSQL_FALSE;
-
   t = trivsql_xsnprintf("trivsql_%s_numrows", tname);
   trivsql_dbwrite(gState, t, "0");
   trivsql_xfree(t);
@@ -46,8 +44,6 @@ void trivsql_doinsert(char *tname, char *cols, char *vals){
   char *t, *u, *c;
   int rowCount, i, col, numCols;
   int *colNumbers;
-
-  gState->rs->errno = TRIVSQL_FALSE;
 
   if((rowCount = trivsql_getrowcount(tname)) == -1){
     return;
@@ -109,6 +105,7 @@ void trivsql_doselect(char *tname, char *cols){
   // Populate recordset
   gState->rs->numCols = numCols;
   gState->rs->cols = trivsql_xsnprintf("%s", localCols);
+  gState->rs->errno = TRIVSQL_TRUE;
 
   // Decide what rows on the table match the select condition
   if((rowCount = trivsql_getrowcount(tname)) == -1){
@@ -431,7 +428,7 @@ int trivsql_checktable(char *tname){
  
   if(u == NULL)
     return TRIVSQL_NOSUCHTABLE;
-  return TRIVSQL_TRUE;
+  return TRIVSQL_FALSE;
 }
 
 trivsql_recordset* trivsql_makers(char *tname){
@@ -446,7 +443,7 @@ trivsql_recordset* trivsql_makers(char *tname){
   rrs->numRows = 0;
   rrs->tname = trivsql_xsnprintf("%s", tname);
   rrs->currentRow = rrs->rows;
-  rrs->errno = TRIVSQL_TRUE;
+  rrs->errno = TRIVSQL_FALSE;
   rrs->cols = NULL;
 
   return rrs;
