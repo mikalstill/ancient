@@ -81,7 +81,7 @@ noinst_PROGRAMS = sample
 libtrivsql_la_SOURCES = parser.y lexer.l tdb.c spinlock.c selectors.c interface.c internal.c
 
 sample_SOURCES = example.c
-sample_LDADD = -ltrivsql -L.
+sample_LDADD = -ltrivsql -L.libs
 
 YFLAGS = -d
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4

@@ -1,0 +1,6 @@
+Before the example program will work, you need to install the library. Do this by doing:
+
+./configure
+make
+make install
+ldconfig                         (for linux boxes)
