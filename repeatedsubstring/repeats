@@ -1,0 +1,32 @@
+#!/usr/bin/perl
+
+use strict;
+my($inset, $testinset, $teststring, $length, $matchcount);
+
+$length = 1;
+for($inset = 0; $inset < scalar(@ARGV) - $length + 1; $inset++){
+  $teststring = buildstring($inset, $length);
+  $matchcount = 0;
+
+  for($testinset = $inset; $testinset < scalar(@ARGV) - $length + 1; $testinset++){
+    if($teststring eq buildstring($testinset + 1, $length)){
+      $matchcount++;
+    }
+  }
+
+  $matchcount++;
+  print "$ARGV[$inset] * $matchcount\n";
+  $inset += $matchcount - 1;
+}
+
+sub buildstring(){
+  my($inset, $length) = @_;
+  my($str, $count);
+
+  $str = "";
+  for($count = 0; $count < $length; $count++){
+    $str = "$str$ARGV[$count + $inset]";
+  }
+
+  return $str;
+}
