@@ -21,61 +21,63 @@
 
 #include "cepMatrixIO.h"
 
-cepMatrix <double> cepReadMatrix(const string &filename)
+cepMatrix < double >
+cepReadMatrix (const string & filename)
 {
   fstream file;
   int rows = 0, cols = 0;
   double val = 0.0;
-  
-  file.open(filename.c_str(), ios::in);
 
-  if (!file.is_open())
-  {
-    cepError oor ("Error! Can not open file:" + filename,
-                  cepError::sevErrorFatal);
-    oor.display ();
-  }
+  file.open (filename.c_str (), ios::in);
+
+  if (!file.is_open ())
+    {
+      cepError oor ("Error! Can not open file:" + filename,
+		    cepError::sevErrorFatal);
+      oor.display ();
+    }
 
   file >> rows;
   file >> cols;
 
   // Check the matrix is square
-  if(rows != cols)
-  {
-    cepError oor ("Error! The file: " + filename + " does not contain a square matrix",
-                  cepError::sevErrorFatal);
-    oor.display ();
-  }
-
-  cepMatrix <double> matP(rows, cols);
-
-  for(int i = 0; i < rows; i++)
-  {
-    for(int j = 0; j < cols; j++)
+  if (rows != cols)
     {
-      file >> val;
-
-      // Check to see if we have hit the eof to early
-      if(file.eof())
-      {
-        cepError oor ("Error! File:" + filename + " contain to few values",
-                  cepError::sevErrorFatal);
-        oor.display ();
-      }
-      matP.setValue(i,j,val);
+      cepError oor ("Error! The file: " + filename +
+		    " does not contain a square matrix",
+		    cepError::sevErrorFatal);
+      oor.display ();
     }
-  }
+
+  cepMatrix < double >matP (rows, cols);
+
+  for (int i = 0; i < rows; i++)
+    {
+      for (int j = 0; j < cols; j++)
+	{
+	  file >> val;
+
+	  // Check to see if we have hit the eof to early
+	  if (file.eof ())
+	    {
+	      cepError oor ("Error! File:" + filename +
+			    " contain to few values",
+			    cepError::sevErrorFatal);
+	      oor.display ();
+	    }
+	  matP.setValue (i, j, val);
+	}
+    }
 
   file >> val;
 
   // Check to see there are no more values in the file
-  if(!file.eof())
-  {
-    cepError oor ("Error! File: " + filename + " contains too many values",
-                  cepError::sevErrorFatal);
-    oor.display ();
-  }
-    
+  if (!file.eof ())
+    {
+      cepError oor ("Error! File: " + filename + " contains too many values",
+		    cepError::sevErrorFatal);
+      oor.display ();
+    }
+
   return matP;
 }
-

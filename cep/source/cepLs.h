@@ -15,7 +15,7 @@
   * You should have received a copy of the GNU General Public License along
   * with this program; if not, write to the Free Software Foundation, Inc., 675
   * Mass Ave, Cambridge, MA 02139, USA. 
-*/
+  */
 
 /******************************************************************************
 DOCBOOK START
@@ -113,81 +113,87 @@ DOCBOOK END
 class cepLs
 {
 public:
-  
-  cepLs();
+
+  cepLs ();
 
   //do one iteration of the least squares algoritum
-  const cepLs & cepDoVCV(cepMatrix<double> &data, cepMatrix<double> &matP);
+  const cepLs & cepDoVCV (cepMatrix < double >&data,
+			  cepMatrix < double >&matP);
 
   //iterate least squares algoritum until stable
-  const cepLs & cepDoVCV(cepMatrix<double> &data);
+  const cepLs & cepDoVCV (cepMatrix < double >&data);
 
   //do one iteration of the least squares algoritum
-  const cepLs & cepDoRW(cepMatrix<double> &matA, cepMatrix<double> &matP);
-  
+  const cepLs & cepDoRW (cepMatrix < double >&matA,
+			 cepMatrix < double >&matP);
+
   //get the new residual data matrix   
-  const cepMatrix<double> &getResidual();
+  const cepMatrix < double >&getResidual ();
 
   //get the new dataset matrix
-  const cepMatrix<double> &getDataset();
-  
+  const cepMatrix < double >&getDataset ();
+
   //get the value B1 in the least squares solution y=B1*x +B2  
-  const double getB1();
+  const double getB1 ();
 
   //get the value B2 in the solution y=B1*x +B2  
-  const double getB2();
+  const double getB2 ();
 
   //returns any error that may have occoured
-  cepError getError();
+  cepError getError ();
 private:
 
-  cepMatrix<double> m_residual,       //holds the value of the residuals 
-                    m_matX,           //holds the value of B1, B2
-                    m_residData,
-                    m_dataset;
-                    
+    cepMatrix < double >m_residual,	//holds the value of the residuals 
+    m_matX,			//holds the value of B1, B2
+    m_residData, m_dataset;
+
   cepError m_error;
   //ensure that all values of the matrix A P and L are consistant with the
   //least squares alogrithum.
-  void sanityCheck(cepMatrix<double> &matA, cepMatrix<double> &matP);
-  
+  void sanityCheck (cepMatrix < double >&matA, cepMatrix < double >&matP);
+
   //calculate the residuals of the least squares tranformation
-  void calcResiduals(cepMatrix<double> &matA, cepMatrix<double> &matL );
+  void calcResiduals (cepMatrix < double >&matA, cepMatrix < double >&matL);
 
   //make the intial P matrix
-  const cepMatrix<double> initResiduals(cepMatrix<double> &data);
+  const cepMatrix < double >initResiduals (cepMatrix < double >&data);
 
   //make the intial P matrix
-  const cepMatrix<double> makeP(cepMatrix<double> &data);
+  const cepMatrix < double >makeP (cepMatrix < double >&data);
 
   //make the A matrix
-  const cepMatrix<double> makeA(cepMatrix<double> &data);
+  const cepMatrix < double >makeA (cepMatrix < double >&data);
 
   //make the L matrix
-  const cepMatrix<double> makeL(cepMatrix<double> &data);
+  const cepMatrix < double >makeL (cepMatrix < double >&data);
 
   //calc least square for a VCV matrix
-  void calcVCV(cepMatrix<double> &matA, cepMatrix<double> &matP, cepMatrix<double> &matL);
+  void calcVCV (cepMatrix < double >&matA, cepMatrix < double >&matP,
+		cepMatrix < double >&matL);
 
   //calc least squares for a RW matrix
-  void calcRW(cepMatrix<double> &matA, cepMatrix<double> &matP, cepMatrix<double> &matL);
+  void calcRW (cepMatrix < double >&matA, cepMatrix < double >&matP,
+	       cepMatrix < double >&matL);
 
   //re-caluclates the P weighting matrix
-  void reweightVCV(cepMatrix <double> &matP);
-  
+  void reweightVCV (cepMatrix < double >&matP);
+
   //calculate the matrix inverse
-  const cepMatrix<double> inverse(cepMatrix<double> &mat);
+  const cepMatrix < double >inverse (cepMatrix < double >&mat);
 
   //calculate A*B where B is a diagonal
-  const cepMatrix<double> mulDiag(cepMatrix<double> &matA, cepMatrix<double> &matB);
+  const cepMatrix < double >mulDiag (cepMatrix < double >&matA,
+				     cepMatrix < double >&matB);
 
   //calculates A*B where A is the design matrix in the least squares tranform
-  const cepMatrix<double> Amul(cepMatrix<double> &matA, cepMatrix<double> &matB);
+  const cepMatrix < double >Amul (cepMatrix < double >&matA,
+				  cepMatrix < double >&matB);
 
   //calculates B*A where A is the design matrix in the least squares tranform
-  const cepMatrix<double> mulA(cepMatrix<double> &matA, cepMatrix<double> &matA);
+  const cepMatrix < double >mulA (cepMatrix < double >&matA,
+				  cepMatrix < double >&matA);
 
-  void makeDatasets(cepMatrix<double> &data, cepMatrix<double> &matP);
+  void makeDatasets (cepMatrix < double >&data, cepMatrix < double >&matP);
 };
 
 #endif //end __CEPLS_H

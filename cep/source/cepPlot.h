@@ -24,17 +24,18 @@
 #ifndef CEP_PLOT_HEADER
 #define CEP_PLOT_HEADER
 
-class cepPlot{
- public:
-  cepPlot(cepDataset *theDataset, cepDataset::direction dir, 
-	  string cfname, long x, long y, float& vertScale, float& horizScale, 
-	  long& xminval, long& yminval, long& yrange, bool haveLs,
-	  bool freqDomain, float energy, int windowTarget);
+class cepPlot
+{
+public:
+  cepPlot (cepDataset * theDataset, cepDataset::direction dir,
+	   string cfname, long x, long y, float &vertScale, float &horizScale,
+	   long &xminval, long &yminval, long &yrange, bool haveLs,
+	   bool freqDomain, float energy, int windowTarget);
 
-  bool getFailed();
+  bool getFailed ();
 
- private:
-  bool m_plotfailed;
+private:
+    bool m_plotfailed;
 };
 
 #endif

@@ -70,48 +70,47 @@ DESCRIPTION END
 DOCBOOK END
 ******************************************************************************/
 
-class cepWindowBandwidth: public wxDialog
+class cepWindowBandwidth:public wxDialog
 {
 public:
 
   //Displays the "Set Bandwidth" dialog box
-  cepWindowBandwidth( bool getBandwidth );
+  cepWindowBandwidth (bool getBandwidth);
 
   //gets the Size value
-  int getSize();
+  int getSize ();
   //gets the Overlap value
-  int getOverlap();
+  int getOverlap ();
   //gets the Bandwidth value
-  double getBandwidth();
+  double getBandwidth ();
 
-  
+
   //the on Quit event
-  void dlgBandwidthOnQuit(wxCommandEvent& event);
+  void dlgBandwidthOnQuit (wxCommandEvent & event);
   //the on Ok event
-  void dlgBandwidthOnOK(wxCommandEvent& event);
+  void dlgBandwidthOnOK (wxCommandEvent & event);
 
-  bool cancelled();
+  bool cancelled ();
 
 private:
-  static const char*  UNINITIALISED_STR;
+  static const char *UNINITIALISED_STR;
 public:
-  static const int    UNINITIALISED_INT;
+  static const int UNINITIALISED_INT;
   static const double UNINITIALISED_FLOAT;
 
 private:
   //declerations for the elements of the dialog box
-  wxPanel *m_panel;
+    wxPanel * m_panel;
   wxStaticBox *m_statBox;
-  wxStaticText *m_statText1, *m_statText2, *m_statText3, *m_statText4, *m_statText5;
+  wxStaticText *m_statText1, *m_statText2, *m_statText3, *m_statText4,
+    *m_statText5;
   wxTextCtrl *m_tbSize, *m_tbOverlap, *m_tbBandwidth;
   wxButton *m_bSubmit, *m_bCancel;
   wxString m_size, m_overlap, m_bandwidth;
 
   bool aborted;
-  
-  DECLARE_EVENT_TABLE ()
 
-};
+  DECLARE_EVENT_TABLE ()};
 
 /******************************************************************************
 DOCBOOK START
@@ -152,31 +151,31 @@ DOCBOOK END
 class cepWindowUi
 {
 public:
-  cepWindowUi();
+  cepWindowUi ();
 
   //shows the "set Bandwidth dialog box"
-  cepError showChebyshev();
-  cepError show();
+  cepError showChebyshev ();
+  cepError show ();
 
   //gets the Bandwidth value
-  int getSize();
-  int getOverlap();
-  double getBandwidth();
+  int getSize ();
+  int getOverlap ();
+  double getBandwidth ();
 
-  bool cancelled();
-  cepError checkValues();
-  cepError checkChebValues();
+  bool cancelled ();
+  cepError checkValues ();
+  cepError checkChebValues ();
 
-  
+
 private:
-  int m_size;   //the specified Size value
-  int m_overlap;   //the specified Overlap value
-  double m_bandwidth;   //the specified Bandwidth value
+  int m_size;			//the specified Size value
+  int m_overlap;		//the specified Overlap value
+  double m_bandwidth;		//the specified Bandwidth value
   bool aborted;
 
-  bool check2n( int n );
+  bool check2n (int n);
 };
 
 
-  
+
 #endif //end __CEPWINDOWUI_H

@@ -43,19 +43,20 @@
 class cepView:public wxView
 {
 public:
-  enum cepLsDisplay{
+  enum cepLsDisplay
+  {
     lsDisplayNone = 0,
-      lsDisplayVCV,
-      lsDisplayRW
+    lsDisplayVCV,
+    lsDisplayRW
   };
 
-  wxFrame * frame, * m_parentFrame;
+  wxFrame *frame, *m_parentFrame;
   cepCanvas *canvas;
 
-  cepView();
-  ~cepView();
+    cepView ();
+   ~cepView ();
 
-  void setParentFrame(wxFrame *parentFrame);
+  void setParentFrame (wxFrame * parentFrame);
 
   bool OnCreate (wxDocument * doc, long flags);
   void OnDraw (wxDC * dc);
@@ -64,71 +65,71 @@ public:
 
   void OnCut (wxCommandEvent & event);
 
-  void OnColorAxes  (wxCommandEvent& event);
-  void OnColorLine1  (wxCommandEvent& event);
-  void OnColorLine2  (wxCommandEvent& event);
-  void OnColorLine3  (wxCommandEvent& event);
-  void OnColorRemove  (wxCommandEvent& event);
-  void OnColorAverage  (wxCommandEvent& event);
-  void OnColorError  (wxCommandEvent& event);
-  void OnColorLs  (wxCommandEvent& event);
-  void OnColorFont  (wxCommandEvent& event);
-  void OnColorGrid  (wxCommandEvent& event);
+  void OnColorAxes (wxCommandEvent & event);
+  void OnColorLine1 (wxCommandEvent & event);
+  void OnColorLine2 (wxCommandEvent & event);
+  void OnColorLine3 (wxCommandEvent & event);
+  void OnColorRemove (wxCommandEvent & event);
+  void OnColorAverage (wxCommandEvent & event);
+  void OnColorError (wxCommandEvent & event);
+  void OnColorLs (wxCommandEvent & event);
+  void OnColorFont (wxCommandEvent & event);
+  void OnColorGrid (wxCommandEvent & event);
 
-  void OnSelectFont (wxCommandEvent& event);
-  void OnSelectFontSize6 (wxCommandEvent& event);
-  void OnSelectFontSize8 (wxCommandEvent& event);
-  void OnSelectFontSize9 (wxCommandEvent& event);
-  void OnSelectFontSize10 (wxCommandEvent& event);
-  void OnSelectFontSize11 (wxCommandEvent& event);
-  void OnSelectFontSize12 (wxCommandEvent& event);
-  void OnSelectFontSize14 (wxCommandEvent& event);
+  void OnSelectFont (wxCommandEvent & event);
+  void OnSelectFontSize6 (wxCommandEvent & event);
+  void OnSelectFontSize8 (wxCommandEvent & event);
+  void OnSelectFontSize9 (wxCommandEvent & event);
+  void OnSelectFontSize10 (wxCommandEvent & event);
+  void OnSelectFontSize11 (wxCommandEvent & event);
+  void OnSelectFontSize12 (wxCommandEvent & event);
+  void OnSelectFontSize14 (wxCommandEvent & event);
 
-  void OnToggleX (wxCommandEvent& event);
-  void OnToggleY (wxCommandEvent& event);
-  void OnToggleZ (wxCommandEvent& event);
+  void OnToggleX (wxCommandEvent & event);
+  void OnToggleY (wxCommandEvent & event);
+  void OnToggleZ (wxCommandEvent & event);
 
-  void OnToggleErrors (wxCommandEvent &pevt);
-  void OnToggleGrid (wxCommandEvent &pevt);
+  void OnToggleErrors (wxCommandEvent & pevt);
+  void OnToggleGrid (wxCommandEvent & pevt);
 
   // Least squares
-  void OnLeastSquaresVCV (wxCommandEvent& event);
-  void OnLeastSquaresRW (wxCommandEvent& event);
+  void OnLeastSquaresVCV (wxCommandEvent & event);
+  void OnLeastSquaresRW (wxCommandEvent & event);
 
   // Windowing
-  void OnWindowBlackman (wxCommandEvent& event);
-  void OnWindowChebyshev (wxCommandEvent& event);
-  void OnWindowHamming (wxCommandEvent& event);
-  void OnWindowHanning (wxCommandEvent& event);
-  void OnWindowRect (wxCommandEvent& event);
+  void OnWindowBlackman (wxCommandEvent & event);
+  void OnWindowChebyshev (wxCommandEvent & event);
+  void OnWindowHamming (wxCommandEvent & event);
+  void OnWindowHanning (wxCommandEvent & event);
+  void OnWindowRect (wxCommandEvent & event);
 
   // Interpolation
-  void OnInterpNearest (wxCommandEvent& event);
-  void OnInterpLinear (wxCommandEvent& event);
-  void OnInterpNaturalSpline (wxCommandEvent& event);
-  void OnInterpCubicSpline (wxCommandEvent& event);
-  void OnInterpDivided (wxCommandEvent& event);
-  void OnInterpLs (wxCommandEvent& event);
+  void OnInterpNearest (wxCommandEvent & event);
+  void OnInterpLinear (wxCommandEvent & event);
+  void OnInterpNaturalSpline (wxCommandEvent & event);
+  void OnInterpCubicSpline (wxCommandEvent & event);
+  void OnInterpDivided (wxCommandEvent & event);
+  void OnInterpLs (wxCommandEvent & event);
 
   // FFT
-  void OnFFT (wxCommandEvent& event);
+  void OnFFT (wxCommandEvent & event);
 
   // Window selection
-  void OnNextWindow (wxCommandEvent& event);
-  void OnPrevWindow (wxCommandEvent& event);
+  void OnNextWindow (wxCommandEvent & event);
+  void OnPrevWindow (wxCommandEvent & event);
 
 private:
-  DECLARE_DYNAMIC_CLASS (cepView) 
-  DECLARE_EVENT_TABLE ()
+    DECLARE_DYNAMIC_CLASS (cepView)
+    DECLARE_EVENT_TABLE ()
+    void drawPresentation (cepDataset * ds, cepDataset::direction dir,
+			   int top, wxDC * dc, int presWidth, int presHeight);
 
-  void drawPresentation(cepDataset *ds, cepDataset::direction dir, int top,
-			wxDC *dc, int presWidth, int presHeight);
+  void populateMatP (cepMatrix < double >&matP, const double &toDate,
+		     const double &fromDate, const double &val,
+		     cepMatrix < double >&data);
 
-  void populateMatP(cepMatrix<double> &matP, const double & toDate, const double &fromDate, 
-		    const double &val, cepMatrix<double> &data);
-
-  void uiProcessWindow(const cepWindow wType, string desc);
-  void uiProcessInterp(const int iType, string desc);
+  void uiProcessWindow (const cepWindow wType, string desc);
+  void uiProcessInterp (const int iType, string desc);
 
   string m_pngCache[3];
   bool m_dirty;

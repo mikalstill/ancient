@@ -24,12 +24,13 @@
 #include "cepDataWindower.h"
 #include "cepCfft.h"
 
-cepError processInterp(cepDataset *ds, const int iType, string desc, 
-		       double sampleRate, string newcfname);
-cepError processInterpLs(cepDataset *ds, double sampleRate,
-			 string newcfname);
-cepError processWindow(cepDataset *ds, const cepWindow wType, string desc, 
-		       int size, int overlap, string newcfname);
-cepError processFFT(cepDataset *ds, string newcfname);
-cepError processLsVCV(cepDataset *ds, int isReweight, cepDataset& normal, cepDataset& residual);
-cepError processLsRW(cepDataset *ds);
+cepError processInterp (cepDataset * ds, const int iType, string desc,
+			double sampleRate, string newcfname);
+cepError processInterpLs (cepDataset * ds, double sampleRate,
+			  string newcfname);
+cepError processWindow (cepDataset * ds, const cepWindow wType, string desc,
+			int size, int overlap, string newcfname);
+cepError processFFT (cepDataset * ds, string newcfname);
+cepError processLsVCV (cepDataset * ds, int isReweight, cepDataset & normal,
+		       cepDataset & residual);
+cepError processLsRW (cepDataset * ds);

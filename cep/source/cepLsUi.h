@@ -69,31 +69,30 @@ DESCRIPTION END
 DOCBOOK END
 ******************************************************************************/
 
-class cepLsShowDir: public wxDialog
+class cepLsShowDir:public wxDialog
 {
 public:
 
   //show the choose direction dialog box
-  cepLsShowDir();
+  cepLsShowDir ();
 
   //get the values returned from the dialog box                
-  bool getWhichDir(char dir);
+  bool getWhichDir (char dir);
 
   //the on Quit event
-  void dlgDirOnQuit(wxCommandEvent& event);
+  void dlgDirOnQuit (wxCommandEvent & event);
   //the on Ok event
-  void dlgDirOnOK(wxCommandEvent& event);
+  void dlgDirOnOK (wxCommandEvent & event);
 
 private:
   //declare the indivdual elements that make up the dialog box
-  wxPanel *m_panel;           
-  wxStaticBox *m_statBox;    
+    wxPanel * m_panel;
+  wxStaticBox *m_statBox;
   wxStaticText *m_statText1, *m_statText2, *m_statText3;
   wxCheckBox *m_cbDirX, *m_cbDirY, *m_cbDirZ;
   wxButton *m_bSubmit, *m_bCancel;
 
-  DECLARE_EVENT_TABLE ()
-};
+  DECLARE_EVENT_TABLE ()};
 
 /******************************************************************************
 DOCBOOK START
@@ -172,66 +171,63 @@ DESCRIPTION END
 DOCBOOK END
 ******************************************************************************/
 
-const wxString LS_DAYS[31] = { "01", "02", "03", "04", "05", "06", "07", "08", "09",
-          "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21",
-          "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"
+const wxString LS_DAYS[31] =
+  { "01", "02", "03", "04", "05", "06", "07", "08", "09",
+  "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21",
+  "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"
 };
 
-const wxString LS_MONTHS[12] = { "January", "February", "March", "April", "May",
-          "June", "July", "August", "September", "October",
-          "November", "December"
+const wxString LS_MONTHS[12] =
+  { "January", "February", "March", "April", "May",
+  "June", "July", "August", "September", "October",
+  "November", "December"
 };
 
-class cepLsWeight: public wxDialog
+class cepLsWeight:public wxDialog
 {
 public:
-  cepLsWeight(wxString fromDay, wxString fromMonth, wxString fromYear,
-              wxString toDay, wxString toMonth, wxString toYear,
-              wxString val);
-              
-  //gets values entered
-  const wxString & getToDay();
-  const wxString & getToMonth();
-  const wxString & getToYear();
-  
-  const wxString & getFromDay();
-  const wxString & getFromMonth();
-  const wxString & getFromYear();
+  cepLsWeight (wxString fromDay, wxString fromMonth, wxString fromYear,
+	       wxString toDay, wxString toMonth, wxString toYear,
+	       wxString val);
 
-  const wxString & getWeight();
+  //gets values entered
+  const wxString & getToDay ();
+  const wxString & getToMonth ();
+  const wxString & getToYear ();
+
+  const wxString & getFromDay ();
+  const wxString & getFromMonth ();
+  const wxString & getFromYear ();
+
+  const wxString & getWeight ();
 
   //have we finished weighting?
-  const bool & getDoVCV();
-  
+  const bool & getDoVCV ();
+
   //the on Quit event
-  void dlgWeightOnQuit(wxCommandEvent& event);
+  void dlgWeightOnQuit (wxCommandEvent & event);
   //the on Ok event
-  void dlgWeightOnOK(wxCommandEvent& event);
+  void dlgWeightOnOK (wxCommandEvent & event);
 
   //preform VCV Least Squares transfomation
-  void dlgWeightOnGo(wxCommandEvent& event);
+  void dlgWeightOnGo (wxCommandEvent & event);
 
 private:
   //holds objects for the dialog box
-  wxPanel *m_panel;
+    wxPanel * m_panel;
   wxStaticBox *m_statBox;
-  wxStaticText *m_statText1, *m_statText2, *m_statText3, *m_statText4, *m_statText5;
+  wxStaticText *m_statText1, *m_statText2, *m_statText3, *m_statText4,
+    *m_statText5;
   wxComboBox *m_cbToDay, *m_cbToMonth, *m_cbFromDay, *m_cbFromMonth;
   wxTextCtrl *m_tbToYear, *m_tbFromYear, *m_tbVal;
   wxButton *m_bSubmit, *m_bCancel, *m_bGo;
 
   //holds the selected values
   wxString m_fromDay,
-           m_fromMonth,
-           m_fromYear,
-           m_toDay,
-           m_toMonth,
-           m_toYear,
-           m_val;
-  bool m_go;          //hove we finished re-weighting?
-                                     
-  DECLARE_EVENT_TABLE ()
-};
+    m_fromMonth, m_fromYear, m_toDay, m_toMonth, m_toYear, m_val;
+  bool m_go;			//hove we finished re-weighting?
+
+  DECLARE_EVENT_TABLE ()};
 /******************************************************************************
 DOCBOOK START
 
@@ -340,60 +336,55 @@ DOCBOOK END
 class cepLsUi
 {
 public:
-  cepLsUi();
+  cepLsUi ();
 
   //show the re-weighting dialog box
-  void showIsReweight();
+  void showIsReweight ();
   //show the choose direction dialog box
-  void showWhichDir();
+  void showWhichDir ();
   //show the read from file dialog box
-  void showIsReadP(string dir);
+  void showIsReadP (string dir);
   //show the choose file dialog box
-  void showGetfNameP();
+  void showGetfNameP ();
 
   //shows the weighting dialog box
-  void showWeight(double startDate, double endDate, double val);
+  void showWeight (double startDate, double endDate, double val);
 
   //get values from the re-weight dialog box
-  const int & getIsReweight();
+  const int &getIsReweight ();
 
   //get the value for a given direction returned from
   //the choose diretion dialog box
-  const bool getWhichDir(char dir);
+  const bool getWhichDir (char dir);
 
   //get the value from the read from file dialog box
-  const int & getIsReadP();
+  const int &getIsReadP ();
 
   //get the name of the selected file
-  const string & getfNameP();
+  const string & getfNameP ();
 
   //get the weight value selected
-  const double getWeight();
+  const double getWeight ();
 
   //get the weight date range for the selected values
-  const double getFromDate();
-  const double getToDate();
+  const double getFromDate ();
+  const double getToDate ();
 
   //have we finished re-weighting
-  const bool & getDoVCV();
+  const bool & getDoVCV ();
 private:
-  int m_isReweight;   //holds the value returned from the reweighting dialog box
-  bool m_doDirX,      //was direction X selected?
-       m_doDirY,      //was direction Y selected?
-       m_doDirZ;      //was direction Z selected?
-  int m_isReadP;      //holds the value returned from the read from file dialog box
-  string m_filename;  //holds the file name selected in the read file dialog box
+  int m_isReweight;		//holds the value returned from the reweighting dialog box
+  bool m_doDirX,		//was direction X selected?
+    m_doDirY,			//was direction Y selected?
+    m_doDirZ;			//was direction Z selected?
+  int m_isReadP;		//holds the value returned from the read from file dialog box
+  string m_filename;		//holds the file name selected in the read file dialog box
 
   //holds the values returned from the "Select Weight" dialog box
   wxString m_fromDay,
-           m_fromMonth,
-           m_fromYear,
-           m_toDay,
-           m_toMonth,
-           m_toYear,
-           m_val;
-           
-  bool m_go;          //have we finished weighting the data? 
+    m_fromMonth, m_fromYear, m_toDay, m_toMonth, m_toYear, m_val;
+
+  bool m_go;			//have we finished weighting the data? 
 };
- 
+
 #endif //end __CEPLSUI_H

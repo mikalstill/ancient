@@ -81,37 +81,36 @@ DESCRIPTION END
 
 DOCBOOK END
 ******************************************************************************/
-class cepInterpShowRate: public wxDialog
+class cepInterpShowRate:public wxDialog
 {
 public:
-  
+
   //show the "Specify Sample Rate" dialog box
-  cepInterpShowRate(const wxString & val, const double & units);
+  cepInterpShowRate (const wxString & val, const double &units);
 
   //returns the sample rate specified
-  const wxString & getSample();
+  const wxString & getSample ();
 
-  const double & getSampleUnits();
-  
+  const double &getSampleUnits ();
+
   //the on Quit event
-  void dlgRateOnQuit(wxCommandEvent& event);
+  void dlgRateOnQuit (wxCommandEvent & event);
   //the on Ok event
-  void dlgRateOnOK(wxCommandEvent& event);
+  void dlgRateOnOK (wxCommandEvent & event);
 
 private:
   //declerations for the elements of the dialog box
-  wxPanel *m_panel;
+    wxPanel * m_panel;
   wxStaticBox *m_statBox;
   wxStaticText *m_statText1, *m_statText2, *m_statText3;
   wxRadioButton *m_rbYear, *m_rbDays, *m_rbHours;
   wxTextCtrl *m_tbSample;
   wxButton *m_bSubmit, *m_bCancel;
 
-  wxString m_sampleRate;    //sample 
+  wxString m_sampleRate;	//sample 
   double m_sampleUnits;
-  
-  DECLARE_EVENT_TABLE ()
-};
+
+  DECLARE_EVENT_TABLE ()};
 
 /******************************************************************************
 DOCBOOK START
@@ -157,19 +156,19 @@ DOCBOOK END
 class cepInterpUi
 {
 public:
-  cepInterpUi();
+  cepInterpUi ();
 
   //shows the "get sample rate" dialog box
-  void showSampleRate(double val);
+  void showSampleRate (double val);
 
   //returns the specified sample rate
-  const double getSampleRate();
- 
+  const double getSampleRate ();
+
 private:
-  wxString m_sampleRate;                    //stores the specified sample rate
+    wxString m_sampleRate;	//stores the specified sample rate
   double m_sampleUnits;
 };
 
-  
-  
+
+
 #endif //end __CEPINTERP_H

@@ -55,13 +55,14 @@ DOCBOOK END
   *@author Blake Swadling
   */
 
-class cepWindowBlackman : public cepWindowAlg  {
-public: 
-  cepWindowBlackman( int size );
-  ~cepWindowBlackman();
-  
+class cepWindowBlackman:public cepWindowAlg
+{
+public:
+  cepWindowBlackman (int size);
+   ~cepWindowBlackman ();
+
 protected:
-  double getValue( int offset );
+  double getValue (int offset);
 };
 
 #endif

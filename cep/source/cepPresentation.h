@@ -32,37 +32,41 @@ class cepError;
 class cepPresentation
 {
 public:
-  cepPresentation (long width, long height, cepMatrix<double> *ds, string offset);
+  cepPresentation (long width, long height, cepMatrix < double >*ds,
+		   string offset);
 
   void xAxisTitle (const string & title);
   void yAxisTitle (const string & title);
 
-  void useErrors(bool yesno);
-  void useGrid(bool yesno);
+  void useErrors (bool yesno);
+  void useGrid (bool yesno);
 
-  void setAxesColor(char red, char green, char blue);
-  void setLineColor(int index, char red, char green, char blue);
-  void setRemoveColor(char red, char green, char blue);
-  void setErrorColor(char red, char green, char blue);
-  void setLsColor(char red, char green, char blue);
-  void setGridColor(char red, char green, char blue);
-  void setFontColor(char red, char green, char blue);
+  void setAxesColor (char red, char green, char blue);
+  void setLineColor (int index, char red, char green, char blue);
+  void setRemoveColor (char red, char green, char blue);
+  void setErrorColor (char red, char green, char blue);
+  void setLsColor (char red, char green, char blue);
+  void setGridColor (char red, char green, char blue);
+  void setFontColor (char red, char green, char blue);
 
-  void setLsParams(double b1, double b2);
-  void setFreqParams(float energy);
-  void setDisplayWindow(int number);
+  void setLsParams (double b1, double b2);
+  void setFreqParams (float energy);
+  void setDisplayWindow (int number);
 
   cepError createPDF (const string & filename);
-  cepError createBitmap (float& xscale, float& yscale, long& xminval, long& yminval, long& yrange);
-  cepError createPNG (const string & filename, float& xscale, float& yscale, long& xminval, long& yminval,
-		      long& yrange);
+  cepError createBitmap (float &xscale, float &yscale, long &xminval,
+			 long &yminval, long &yrange);
+  cepError createPNG (const string & filename, float &xscale, float &yscale,
+		      long &xminval, long &yminval, long &yrange);
 
 private:
-  typedef struct{
+  typedef struct
+  {
     char red;
     char green;
     char blue;
-  } color;
+  }
+  color;
 
   long m_width;
   long m_height;
@@ -90,7 +94,7 @@ private:
   bool m_useGrid;
   char *m_raster;
 
-  cepMatrix<double> *m_ds;
+    cepMatrix < double >*m_ds;
   bool m_haveMaxima;
 
   double m_b1;

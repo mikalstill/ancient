@@ -56,52 +56,53 @@ DOCBOOK END
   *@author Blake Swadling
   */
 
-class cepWindowAlg {
+class cepWindowAlg
+{
 public:
   /** constructs a new <code>cepWindowAlg</code>
    * @param size the window size to use
    */
-  cepWindowAlg( int size );
-  
+  cepWindowAlg (int size);
+
   /** default destructor */
-  virtual ~cepWindowAlg();
-  
+    virtual ~ cepWindowAlg ();
+
   /** queries the current window size
    * @return the current window size
    */
-  int getSize();
-  
+  int getSize ();
+
   /** queries the current coefficients
    * @return an N*1 matrix of the current coefficients
-   */  
-  const cepMatrix<double> getCoeffs();
+   */
+  const cepMatrix < double >getCoeffs ();
 
   /** a single global value of PI to be used in the windowing algorithm */
   static const double PI;
-  
+
 protected:
   /** the current window size */
   int size;
-  
-  
+
+
   /** the current coefficient matrix */
-  cepMatrix<double> *coeffs;
+    cepMatrix < double >*coeffs;
 
 
   /** initialises resources. this should be called prior to use
    */
-  void initCoeffs();
+  void initCoeffs ();
 
   /** generates the coefficient matrix. calls upn implementation specific getvalue
    * @param size the desired window size
    * @return an N*1 matrix of the current coefficients
    */
-  virtual cepMatrix<double> *generateCoeffs( int size );
+  virtual cepMatrix < double >*generateCoeffs (int size);
 
   /** generates a coefficient at a specific offset into the coefficient matrix
    * override this to genetate specific coefficient sets
    */
-  virtual double getValue( int offset ) = 0;
+  virtual double getValue (int offset) = 0;
 };
 
 #endif

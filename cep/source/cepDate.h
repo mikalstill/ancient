@@ -126,13 +126,15 @@ DESCRIPTION END
 DOCBOOK END
 ******************************************************************************/
 
-const string MONTH_NAMES[12] = { "January", "February", "March", "April", "May",
-				 "June", "July", "August", "September", "October",
-				 "November", "December"
+const string MONTH_NAMES[12] =
+  { "January", "February", "March", "April", "May",
+  "June", "July", "August", "September", "October",
+  "November", "December"
 };
 
-const string SHORTMONTH_NAMES[12] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", 
-				      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+const string SHORTMONTH_NAMES[12] =
+  { "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 };
 
 const double LEAP_DAY_VAL = 0.002732240437;
@@ -146,31 +148,31 @@ public:
 
   cepDate (const double &decimal);
 
-  cepDate (const int &day, string month, const int &year);
-  
+    cepDate (const int &day, string month, const int &year);
+
   // Returns day of month 01...31
-  const string getDay();
+  const string getDay ();
 
   // Returns month 01...12
-  const string getMonth();
+  const string getMonth ();
 
   // Returns month as a string January...December
-  const string getMonthName();
+  const string getMonthName ();
 
   // Returns month as a string Jan...Dec
-  const string getShortMonthName();
+  const string getShortMonthName ();
 
   // Returns year in format YYYY
-  const string getYear();
+  const string getYear ();
 
   // Returns date in short date format DD/MM/YY
-  const string getShortDate();
+  const string getShortDate ();
 
   // Returns date in long date format DD MMMMMM YY
-  const string getLongDate();
+  const string getLongDate ();
 
   // Returns a decimal date
-  const double getDecimalDate();
+  const double getDecimalDate ();
 
   // --- yearsToJulian ---
   // This Method based on doy2 - fortran code written by Peter Morgan
@@ -186,7 +188,7 @@ public:
   //
   // Import: year: decimal year date as is used by the GDMS project
   // Export: Trunctated Julian day
-  double yearsToJulian(double year);
+  double yearsToJulian (double year);
 
   // -- julianToYears ---
   // Converts truncated Julian days back to decimal years
@@ -195,15 +197,13 @@ public:
   //
   // Import: trunctated julain day
   // Export: decimal year
-  double julianToYears(double julian);
+  double julianToYears (double julian);
 
 private:
-  int m_month,
-    m_day,
-    m_year;
-   double m_decimalDate;
+  int m_month, m_day, m_year;
+  double m_decimalDate;
 
-  bool isLeap();
+  bool isLeap ();
 };
 
 #endif

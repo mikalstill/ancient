@@ -20,18 +20,23 @@
 
 #include "cepWindowRect.h"
 
-cepWindowRect::cepWindowRect( int s ) : cepWindowAlg( s ) {
-  initCoeffs();
+cepWindowRect::cepWindowRect (int s):
+cepWindowAlg (s)
+{
+  initCoeffs ();
 }
 
-cepWindowRect::~cepWindowRect()
+cepWindowRect::~cepWindowRect ()
 {
   // in case we had another type of window previously. coeffs is not used here
-  if( coeffs != NULL ) delete coeffs;
+  if (coeffs != NULL)
+    delete coeffs;
 }
 
 
-double cepWindowRect::getValue( int offset ) {
+double
+cepWindowRect::getValue (int offset)
+{
   // always return a scaling factor of 1
   return 1;
 }

@@ -20,27 +20,31 @@
 
 #include "cepwindowhanning.h"
 
-cepWindowHanning::cepWindowHanning( int size ) : cepWindowAlg( size ) {
-  initCoeffs();
+cepWindowHanning::cepWindowHanning (int size):
+cepWindowAlg (size)
+{
+  initCoeffs ();
 }
 
-cepWindowHanning::~cepWindowHanning()
+cepWindowHanning::~cepWindowHanning ()
 {
-  if( coeffs != NULL ) delete coeffs;
+  if (coeffs != NULL)
+    delete coeffs;
 }
 
 
-double cepWindowHanning::getValue( int offset )
+double
+cepWindowHanning::getValue (int offset)
 {
-  if( size == 1 ) return 1;
-  double val = (double)offset/(size-1);
-  double result = 0.50 - 0.50*cos( 2*PI*val );
+  if (size == 1)
+    return 1;
+  double val = (double) offset / (size - 1);
+  double result = 0.50 - 0.50 * cos (2 * PI * val);
   /*
-  cout << "offset="<< offset
-       << " size="<< size
-       << " val=" << val
-       << " result=" << result << endl;
-  */
+     cout << "offset="<< offset
+     << " size="<< size
+     << " val=" << val
+     << " result=" << result << endl;
+   */
   return result;
 }
-

@@ -15,7 +15,7 @@
   * You should have received a copy of the GNU General Public License along
   * with this program; if not, write to the Free Software Foundation, Inc., 675
   * Mass Ave, Cambridge, MA 02139, USA. 
-*/
+  */
 
 /******************************************************************************
 DOCBOOK START
@@ -57,16 +57,17 @@ DOCBOOK END
 
 #include "cepError.h"
 
-class cepErrorHandler {
+class cepErrorHandler
+{
 public:
-  virtual ~cepErrorHandler();
-  virtual void displayError( class cepError & error ) = 0;
-  virtual void logError( class cepError & error ) = 0;
-   
+  virtual ~ cepErrorHandler ();
+  virtual void displayError (class cepError & error) = 0;
+  virtual void logError (class cepError & error) = 0;
+
 protected:
-  cepErrorHandler();
+    cepErrorHandler ();
 private:
-   
+
 };
 
 #endif // ! __CEP_ERROR_HANDLER_H

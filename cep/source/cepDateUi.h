@@ -77,36 +77,38 @@ DESCRIPTION END
 DOCBOOK END
 ******************************************************************************/
 
-const wxString DATE_DAYS[31] = { "01", "02", "03", "04", "05", "06", "07", "08", "09",
-          "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21",
-          "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"
+const wxString DATE_DAYS[31] =
+  { "01", "02", "03", "04", "05", "06", "07", "08", "09",
+  "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21",
+  "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"
 };
 
-const wxString DATE_MONTHS[12] = { "January", "February", "March", "April", "May",
-          "June", "July", "August", "September", "October",
-          "November", "December"
+const wxString DATE_MONTHS[12] =
+  { "January", "February", "March", "April", "May",
+  "June", "July", "August", "September", "October",
+  "November", "December"
 };
 
 
-class cepDateRange: public wxDialog
+class cepDateRange:public wxDialog
 {
 public:
 
   //Displays the "Select Date Range" dialog box
-  cepDateRange(cepDate toDate, cepDate fromDate);
+  cepDateRange (cepDate toDate, cepDate fromDate);
 
   //gets the date values entered
-  const double & getToDate();
-  const double & getFromDate();
-  
+  const double &getToDate ();
+  const double &getFromDate ();
+
   //the on Quit event
-  void dlgDateOnQuit(wxCommandEvent& event);
+  void dlgDateOnQuit (wxCommandEvent & event);
   //the on Ok event
-  void dlgDateOnOK(wxCommandEvent& event);
+  void dlgDateOnOK (wxCommandEvent & event);
 
 private:
   //declerations for the elements of the dialog box
-  wxPanel *m_panel;
+    wxPanel * m_panel;
   wxStaticBox *m_statBox;
   wxStaticText *m_statText1, *m_statText2, *m_statText3, *m_statText4;
   wxComboBox *m_cbToDay, *m_cbToMonth, *m_cbFromDay, *m_cbFromMonth;
@@ -115,8 +117,7 @@ private:
 
   //the selected dates as decimals
   double m_toDate, m_fromDate;
-  DECLARE_EVENT_TABLE ()
-};
+  DECLARE_EVENT_TABLE ()};
 
 /******************************************************************************
 DOCBOOK START
@@ -171,20 +172,20 @@ DOCBOOK END
 class cepDateUi
 {
 public:
-  cepDateUi();
+  cepDateUi ();
 
   //shows the "Select Date Range" dialog box
-  void showDateRange(cepDate toDate, cepDate fromDate);
+  void showDateRange (cepDate toDate, cepDate fromDate);
 
   //gets the date value as decimals
-  double & getToDate();
-  double & getFromDate();
+  double &getToDate ();
+  double &getFromDate ();
 
 private:
-  double m_toDate,      //the finish date as a decimal
-         m_fromDate;    //the start date as a decimal
+  double m_toDate,		//the finish date as a decimal
+    m_fromDate;			//the start date as a decimal
 };
 
 
-  
+
 #endif

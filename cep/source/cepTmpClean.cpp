@@ -33,83 +33,102 @@
 
 #define OVECCOUNT 30
 
-cepTmpClean::cepTmpClean(string path, string pattern):
-  m_path(path), m_pattern(pattern)
+cepTmpClean::cepTmpClean (string path, string pattern):
+m_path (path), m_pattern (pattern)
 {
-  m_config = (cepConfiguration *)&cepConfiguration::getInstance();
+  m_config = (cepConfiguration *) & cepConfiguration::getInstance ();
 }
 
-cepError cepTmpClean::execute(int& deleted, bool doDelete)
+cepError cepTmpClean::execute (int &deleted, bool doDelete)
 {
   // Go through the contents of the named directory, and delete files
   // which match the pattern
-  
+
 #ifdef HAVE_LIBPCRE
   // Find directory
-  struct stat sb;
-  if(lstat(m_path.c_str(), &sb) < 0)
-    return cepError("stat() error for temporary path \"" + m_path + "\"",
-		    cepError::sevErrorRecoverable);
-  
-  if(S_ISDIR(sb.st_mode) == 0)
-    return cepError("Temporary path does not point to a directory: \"" + 
-	            m_path + "\"", cepError::sevErrorRecoverable);
+  struct stat
+    sb;
+  if (lstat (m_path.c_str (), &sb) < 0)
+    return cepError ("stat() error for temporary path \"" + m_path + "\"",
+		     cepError::sevErrorRecoverable);
+
+  if (S_ISDIR (sb.st_mode) == 0)
+    return cepError ("Temporary path does not point to a directory: \"" +
+		     m_path + "\"", cepError::sevErrorRecoverable);
 
   // Open the directory
-  DIR *dp;
-  struct dirent *dirp;
-  
-  if((dp = opendir(m_path.c_str())) == NULL)
-    return cepError("Temporary path \"" + m_path + 
-		    "\" is not a directory. This is possibly a permissions error.",
-	    	    cepError::sevErrorRecoverable);
+  DIR *
+    dp;
+  struct dirent *
+    dirp;
+
+  if ((dp = opendir (m_path.c_str ())) == NULL)
+    return cepError ("Temporary path \"" + m_path +
+		     "\" is not a directory. This is possibly a permissions error.",
+		     cepError::sevErrorRecoverable);
 
   // Prepare the regular expression
-  pcre *re;
-  const char *error;
-  int erroffset;
-  int ovector[OVECCOUNT];
+  pcre *
+    re;
+  const char *
+    error;
+  int
+    erroffset;
+  int
+    ovector[OVECCOUNT];
 
-  if((re = pcre_compile("cep.*$", 0, &error, &erroffset, NULL)) == NULL){
-    return cepError("Could not compile the tmp cleanup regular expression: " + string(error),
-		    cepError::sevErrorRecoverable);
-  }
-
-  while((dirp = readdir(dp)) != NULL){
-    // We skip the . and .. entries
-    if((strcmp(dirp->d_name, ".") == 0) ||
-       (strcmp(dirp->d_name, "..") == 0)) continue;
-
-    // Did the RE match?
-    if(pcre_exec(re, NULL, dirp->d_name, (int) strlen(dirp->d_name),
-		 0, 0, ovector, OVECCOUNT) > 0){
-      // This is a posisble deletion candidate
-      cepDebugPrint("Possible deletion candidate: " + m_path + "/" + 
-		    string(dirp->d_name));
-
-      deleted++;
-      if(doDelete){
-	bool doPrompt;
-	m_config->getValue ("ui-tmpclean-prompt", false, doPrompt);
-	if(!doPrompt || 
-	   (wxMessageBox(string("The temporary file cleaner has detected an unneeded file named " + 
-				string(m_path + "/" + string(dirp->d_name)) + 
-				" and would like to delete it. Is this ok?").c_str(), 
-			 "Are you sure?", wxYES_NO) == wxYES)){
-	  unlink(string(m_path + "/" + string(dirp->d_name)).c_str());
-	  cepDebugPrint("Removed the file\n");
-	}
-      }
+  if ((re = pcre_compile ("cep.*$", 0, &error, &erroffset, NULL)) == NULL)
+    {
+      return
+	cepError ("Could not compile the tmp cleanup regular expression: " +
+		  string (error), cepError::sevErrorRecoverable);
     }
-  }
+
+  while ((dirp = readdir (dp)) != NULL)
+    {
+      // We skip the . and .. entries
+      if ((strcmp (dirp->d_name, ".") == 0) ||
+	  (strcmp (dirp->d_name, "..") == 0))
+	continue;
+
+      // Did the RE match?
+      if (pcre_exec (re, NULL, dirp->d_name, (int) strlen (dirp->d_name),
+		     0, 0, ovector, OVECCOUNT) > 0)
+	{
+	  // This is a posisble deletion candidate
+	  cepDebugPrint ("Possible deletion candidate: " + m_path + "/" +
+			 string (dirp->d_name));
+
+	  deleted++;
+	  if (doDelete)
+	    {
+	      bool
+		doPrompt;
+	      m_config->getValue ("ui-tmpclean-prompt", false, doPrompt);
+	      if (!doPrompt ||
+		  (wxMessageBox
+		   (string
+		    ("The temporary file cleaner has detected an unneeded file named "
+		     + string (m_path + "/" + string (dirp->d_name)) +
+		     " and would like to delete it. Is this ok?").c_str (),
+		    "Are you sure?", wxYES_NO) == wxYES))
+		{
+		  unlink (string (m_path + "/" + string (dirp->d_name)).
+			  c_str ());
+		  cepDebugPrint ("Removed the file\n");
+		}
+	    }
+	}
+    }
 
   // Cleanup
-  if(closedir(dp) < 0)
-    cepError("Could not close the directory pointer", 
-	     cepError::sevErrorRecoverable);
+  if (closedir (dp) < 0)
+    cepError ("Could not close the directory pointer",
+	      cepError::sevErrorRecoverable);
 
-  return cepError();
+  return cepError ();
 #else
-  return cepError("PCRE was not found at compile time.", cepError::sevErrorRecoverable);
+  return cepError ("PCRE was not found at compile time.",
+		   cepError::sevErrorRecoverable);
 #endif
 }

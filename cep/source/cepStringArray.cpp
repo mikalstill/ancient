@@ -21,36 +21,37 @@
 #include "cepCore.h"
 #include "cepStringArray.h"
 
-cepStringArray::cepStringArray(string input, string delim):
-  m_broken(0, string("")),
-  m_unbroken(input)
+cepStringArray::cepStringArray (string input, string delim):
+m_broken (0, string ("")), m_unbroken (input)
 {
   char *temp, *p;
 
   // Break the string by the delimiter
-  temp = strdup(input.c_str());
-  p = strtok(temp, delim.c_str());
+  temp = strdup (input.c_str ());
+  p = strtok (temp, delim.c_str ());
 
-  while(p != NULL){
-    m_broken.resize(m_broken.size() + 1);
-    m_broken[m_broken.size() - 1] = p;
-    p = strtok(NULL, delim.c_str());
-  }
+  while (p != NULL)
+    {
+      m_broken.resize (m_broken.size () + 1);
+      m_broken[m_broken.size () - 1] = p;
+      p = strtok (NULL, delim.c_str ());
+    }
 
   // Cleanup
-  free(temp);
+  free (temp);
 }
 
-size_t cepStringArray::size()
+size_t cepStringArray::size ()
 {
-  return m_broken.size();
+  return m_broken.size ();
 }
 
 string cepStringArray::operator[](size_t index)
 {
-  if(m_unbroken.length() == 0)
+  if (m_unbroken.length () == 0)
     return "";
-  if(index < m_broken.size())
+  if (index < m_broken.size ())
     return m_broken[index];
-  else return "";
+  else
+    return "";
 }

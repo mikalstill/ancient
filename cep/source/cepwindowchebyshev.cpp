@@ -30,65 +30,93 @@
 
 using namespace std;
 
-cepWindowChebyshev::cepWindowChebyshev( int size ) : cepWindowAlg( size ) {
+cepWindowChebyshev::cepWindowChebyshev (int size):
+cepWindowAlg (size)
+{
   // set a default attenuation of 60dB
-  initCoeffs();
+  initCoeffs ();
 }
 
 
-cepWindowChebyshev::~cepWindowChebyshev(){
-  if( coeffs != NULL ) delete coeffs;
+cepWindowChebyshev::~cepWindowChebyshev ()
+{
+  if (coeffs != NULL)
+    delete coeffs;
 }
 
-double cepWindowChebyshev::df = 0.0;
+double
+  cepWindowChebyshev::df =
+  0.0;
 
-const cepError cepWindowChebyshev::setTransitionBandwidth(double tbw) {
-  cepError err = setBandwidthValue( tbw);
-  saveBandwidthValue();
+const
+  cepError
+cepWindowChebyshev::setTransitionBandwidth (double tbw)
+{
+  cepError err = setBandwidthValue (tbw);
+  saveBandwidthValue ();
   return err;
 }
 
 
-void cepWindowChebyshev::saveBandwidthValue() {
-  cepDebugPrint("chebyshev transition bandwidth is set to "+cepToString(df));
-  cepConfiguration::getInstance().setValue( CONFIG_NAME_CHEB, df);
+void
+cepWindowChebyshev::saveBandwidthValue ()
+{
+  cepDebugPrint ("chebyshev transition bandwidth is set to " +
+		 cepToString (df));
+  cepConfiguration::getInstance ().setValue (CONFIG_NAME_CHEB, df);
 }
 
-const cepError cepWindowChebyshev::setBandwidthValue(double tbw) {
+const cepError
+cepWindowChebyshev::setBandwidthValue (double tbw)
+{
   cepError err;
-  if( tbw < 0.02 ) {
-    cepDebugPrint("rounding chebyshev transition bandwidth to 0.02");
-    err = cepError("rounding chebyshev transition bandwidth to 0.02", cepError::sevWarning);
-    tbw = 0.02;
-  } else if (tbw >0.499) {
-    cepDebugPrint("rounding chebyshev transition bandwidth to 0.499");
-    err = cepError("rounding chebyshev transition bandwidth to 0.02", cepError::sevWarning);
-    tbw = 0.499;
-  }
+  if (tbw < 0.02)
+    {
+      cepDebugPrint ("rounding chebyshev transition bandwidth to 0.02");
+      err =
+	cepError ("rounding chebyshev transition bandwidth to 0.02",
+		  cepError::sevWarning);
+      tbw = 0.02;
+    }
+  else if (tbw > 0.499)
+    {
+      cepDebugPrint ("rounding chebyshev transition bandwidth to 0.499");
+      err =
+	cepError ("rounding chebyshev transition bandwidth to 0.02",
+		  cepError::sevWarning);
+      tbw = 0.499;
+    }
   df = tbw;
   return err;
 }
 
 
-const double cepWindowChebyshev::getTransitionBandwidth() {
+const double
+cepWindowChebyshev::getTransitionBandwidth ()
+{
   return df;
 }
 
-double cepWindowChebyshev::getValue( int offset )
+double
+cepWindowChebyshev::getValue (int offset)
 {
 //  cout << "error: cepWindowChebyshev::getValue() should never be called?" << endl;
   return 0.0;
 }
 
-double cepWindowChebyshev::calcValue( int n ) {
+double
+cepWindowChebyshev::calcValue (int n)
+{
 //  cout << "error: cepWindowChebyshev::calcValue() should never be called?" << endl;
   return 0.0;
 }
 
-typedef struct c {
+typedef struct c
+{
   double real;
   double imag;
-} complex;
+}
+complex;
 
 
 /** This code is a direct port of an algorithm originally written on FORTRAN
@@ -97,68 +125,81 @@ typedef struct c {
  * edited by Digital Signal Processing Committee (IEEE Acoustics,
  * Speech, and Signal Processing Society)
  */
-cepMatrix<double> *cepWindowChebyshev::generateCoeffs( int size ) {
+cepMatrix < double >*
+cepWindowChebyshev::generateCoeffs (int size)
+{
 
 #define PIE 4*atan(1.0)
 #define TWOPI 2.0*PIE
 #define NF size
 #define DF df
-  bool even = (size%2==0);
+  bool even = (size % 2 == 0);
 
-  int XN=NF-1;
-  double C0=cos(PIE*DF);
-  double C1=XN*acosh(1.0/C0);
-  double DP=1.0/(cosh(C1)-1);
-  double X0 = (3-cos(TWOPI*DF))/(1+cos(TWOPI*DF));
+  int XN = NF - 1;
+  double C0 = cos (PIE * DF);
+  double C1 = XN * acosh (1.0 / C0);
+  double DP = 1.0 / (cosh (C1) - 1);
+  double X0 = (3 - cos (TWOPI * DF)) / (1 + cos (TWOPI * DF));
   int N = 0;
-  
-  if( even ) {
-    N=(NF/2);
-  } else {
-    N=(NF+1)/2;
-  }
+
+  if (even)
+    {
+      N = (NF / 2);
+    }
+  else
+    {
+      N = (NF + 1) / 2;
+    }
 
   double FNF = NF;
-  double ALPHA=(X0+1)/2.0;
-  double BETA=(X0-1)/2.0;
-  double C2=XN/2.0;
+  double ALPHA = (X0 + 1) / 2.0;
+  double BETA = (X0 - 1) / 2.0;
+  double C2 = XN / 2.0;
   complex *vals = new complex[NF];
 
-  for( int i=1; i<=NF; ++i ) {
-    double XI = i-1;
-    double F = (double)XI/FNF;
-    double X = ALPHA*cos(TWOPI*F)+BETA;
-    double P = 0.0;
-    bool usedCosh = false;
+  for (int i = 1; i <= NF; ++i)
+    {
+      double XI = i - 1;
+      double F = (double) XI / FNF;
+      double X = ALPHA * cos (TWOPI * F) + BETA;
+      double P = 0.0;
+      bool usedCosh = false;
 
-    if( -1.0 <= X && X <= 1.0 ) {
-      P = DP*cos(C2*acos(X));
+      if (-1.0 <= X && X <= 1.0)
+	{
+	  P = DP * cos (C2 * acos (X));
 //      cout << "  X=" << X << endl;
-      // a hack to see if this will fix it
-      if( isnan( P )) {
-          P = DP*cosh(C2*acosh(X));
-      }
-    } else {
-      P = DP*cosh(C2*acosh(X));
-      usedCosh = true;
+	  // a hack to see if this will fix it
+	  if (isnan (P))
+	    {
+	      P = DP * cosh (C2 * acosh (X));
+	    }
+	}
+      else
+	{
+	  P = DP * cosh (C2 * acosh (X));
+	  usedCosh = true;
 //      cout << "* X=" << X << endl;
-      // a hack to see if this will fix it
-      if( isnan( P )) {
-          P = DP*cos(C2*acos(X));
-      }
-    }
-    complex c;
-    c.real = P;
-    c.imag = 0.0;
-    if( even ) {
-      c.real = P*cos(PIE*F);
-      c.imag = -P*sin(PIE*F);
-      if( i > (NF/2.0+1) ) {
-        c.real *= -1.0;
-        c.imag *= -1.0;
-      }
-    }
-    vals[i-1]=c;
+	  // a hack to see if this will fix it
+	  if (isnan (P))
+	    {
+	      P = DP * cos (C2 * acos (X));
+	    }
+	}
+      complex c;
+      c.real = P;
+      c.imag = 0.0;
+      if (even)
+	{
+	  c.real = P * cos (PIE * F);
+	  c.imag = -P * sin (PIE * F);
+	  if (i > (NF / 2.0 + 1))
+	    {
+	      c.real *= -1.0;
+	      c.imag *= -1.0;
+	    }
+	}
+      vals[i - 1] = c;
 //    if( isnan(c.real) ) {
 //        cout << setprecision( 30 )
 //             << "F is " << F << endl
@@ -177,16 +218,21 @@ cepMatrix<double> *cepWindowChebyshev::generateCoeffs( int size ) {
 //             << "c.imag is NAN" << endl;
 //             EXIT;
 //    }
-  }
+    }
 
-  double TWN = TWOPI/FNF;
-  double *result = new double[(int)N];
-  for( int i=1; i<=N; ++i ) {
-    double XI = i-1.0;
-    double SUM = 0.0;
-    for( int j=1; j<=NF; ++j ) {
-      double XJ=j-1.0;
-      SUM = SUM + vals[j-1].real*cos(TWN*XJ*XI) + vals[j-1].imag*sin(TWN*XJ*XI);
+  double TWN = TWOPI / FNF;
+  double *result = new double[(int) N];
+  for (int i = 1; i <= N; ++i)
+    {
+      double XI = i - 1.0;
+      double SUM = 0.0;
+      for (int j = 1; j <= NF; ++j)
+	{
+	  double XJ = j - 1.0;
+	  SUM =
+	    SUM + vals[j - 1].real * cos (TWN * XJ * XI) + vals[j -
+								1].imag *
+	    sin (TWN * XJ * XI);
 //      if( isnan( SUM ) ) {
 //          cout << "SUM is NAN" << endl
 //               << "TWN*XJ*XI is " << (TWN*XJ*XI) << endl
@@ -195,17 +241,18 @@ cepMatrix<double> *cepWindowChebyshev::generateCoeffs( int size ) {
 //          EXIT;
 //          break;
 //      }
-    }
-    if( SUM < 0 ) SUM = 0;
-    result[i-1]=SUM;
+	}
+      if (SUM < 0)
+	SUM = 0;
+      result[i - 1] = SUM;
 //    if( isnan( SUM ) ) {
 //        break;
 //    }
-  }
+    }
 
   //cout << "iFFT output"<<endl;
   C1 = result[0];
-  
+
 //  if( isnan( C1 ) ) {
 //      cout << "C1 is NAN" << endl;
 //             EXIT;
@@ -217,34 +264,37 @@ cepMatrix<double> *cepWindowChebyshev::generateCoeffs( int size ) {
 //             EXIT;
 //  }
 
-  for( int i=0; i<N; ++i ) {
-    result[i] = result[i]/C1;
+  for (int i = 0; i < N; ++i)
+    {
+      result[i] = result[i] / C1;
 //    if( 0 == C1 ) {
 //      cout << "C1 is 0" << endl;
 //             EXIT;
 //      break;
 //    }
 //    cout << i << " " << result[i] << endl;
-  }
+    }
 
-  cepMatrix<double> *foo = new cepMatrix<double>(size,1);
+  cepMatrix < double >*foo = new cepMatrix < double >(size, 1);
 
   // TODO Blake
   // i think there is an issue here.
   // i still get a small dip in the peak and the coeffs appear not to be symmetrical
-  for( int i=0; i<N; ++i ) {
-    foo->setValue(i,0,result[N-i-1]);
-    if( i>=size-i ) cout << "Error! overlap while populating coeff matrix" << endl;
-    foo->setValue(size-i-1,0,result[N-i-1]);
-  }
+  for (int i = 0; i < N; ++i)
+    {
+      foo->setValue (i, 0, result[N - i - 1]);
+      if (i >= size - i)
+	cout << "Error! overlap while populating coeff matrix" << endl;
+      foo->setValue (size - i - 1, 0, result[N - i - 1]);
+    }
   /*
-  cout << "Resulting coeffs" << endl;
-  for( int i=0; i<foo->getNumRows(); i++ ) {
-    cout << i << " " << foo->getValue(i,0) << endl;
-  }
-  */
+     cout << "Resulting coeffs" << endl;
+     for( int i=0; i<foo->getNumRows(); i++ ) {
+     cout << i << " " << foo->getValue(i,0) << endl;
+     }
+   */
   return foo;
 }
 
-const string cepWindowChebyshev::CONFIG_NAME_CHEB("chebyshev-bandwidth");
-
+const string
+cepWindowChebyshev::CONFIG_NAME_CHEB ("chebyshev-bandwidth");

@@ -22,52 +22,67 @@
 #include <cmath>
 
 /** calculate a single global value of PI */
-const double cepWindowAlg::PI = 4.0*atan(1.0);
+const double
+  cepWindowAlg::PI =
+  4.0 *
+atan (1.0);
 
-cepWindowAlg::cepWindowAlg( int s )
+cepWindowAlg::cepWindowAlg (int s)
 {
   size = s;
   coeffs = NULL;
 }
 
-cepWindowAlg::~cepWindowAlg() {
+cepWindowAlg::~cepWindowAlg ()
+{
 }
 
-int cepWindowAlg::getSize() {
+int
+cepWindowAlg::getSize ()
+{
   return size;
 }
 
 
-void cepWindowAlg::initCoeffs()
+void
+cepWindowAlg::initCoeffs ()
 {
-  if( coeffs != NULL ) delete coeffs;
-  coeffs = generateCoeffs( getSize() );
+  if (coeffs != NULL)
+    delete coeffs;
+  coeffs = generateCoeffs (getSize ());
 }
 
 
-const cepMatrix<double> cepWindowAlg::getCoeffs()
+const cepMatrix < double >
+cepWindowAlg::getCoeffs ()
 {
 
-  if( coeffs == NULL ) {
-    coeffs = generateCoeffs(1);
-    cout << "windowAlg<getCoeffs> making default coefficient array of size 1" << endl;
-  }
+  if (coeffs == NULL)
+    {
+      coeffs = generateCoeffs (1);
+      cout <<
+	"windowAlg<getCoeffs> making default coefficient array of size 1" <<
+	endl;
+    }
   return *coeffs;
 }
 
 
-cepMatrix<double> *cepWindowAlg::generateCoeffs( int size ) {
-  cepMatrix<double> *foo = new cepMatrix<double>(size, 1);
-  for( int i=0; i<size; i++ ) {
-    
-    double val = getValue( i );
-    if( isnan( val ) ) {
-      delete foo;
-      return new cepMatrix<double>(0,0);
+cepMatrix < double >*
+cepWindowAlg::generateCoeffs (int size)
+{
+  cepMatrix < double >*foo = new cepMatrix < double >(size, 1);
+  for (int i = 0; i < size; i++)
+    {
+
+      double val = getValue (i);
+      if (isnan (val))
+	{
+	  delete foo;
+	  return new cepMatrix < double >(0, 0);
+	}
+
+      foo->setValue (i, 0, val);
     }
-    
-    foo->setValue(i,0,val );
-  }
   return foo;
 }
-

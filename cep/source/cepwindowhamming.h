@@ -70,13 +70,14 @@ DOCBOOK END
   *@author Blake Swadling
   */
 
-class cepWindowHamming : public cepWindowAlg  {
-public: 
-  cepWindowHamming( int size );
-  ~cepWindowHamming();
+class cepWindowHamming:public cepWindowAlg
+{
+public:
+  cepWindowHamming (int size);
+   ~cepWindowHamming ();
 
 protected:
-  double getValue( int offset );
+  double getValue (int offset);
 };
 
 #endif

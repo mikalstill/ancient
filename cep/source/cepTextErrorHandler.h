@@ -16,7 +16,7 @@
   * You should have received a copy of the GNU General Public License along
   * with this program; if not, write to the Free Software Foundation, Inc., 675
   * Mass Ave, Cambridge, MA 02139, USA. 
-*/
+  */
 
 /******************************************************************************
 DOCBOOK START
@@ -89,19 +89,20 @@ DOCBOOK END
   *@author Blake Swadling
   */
 
-class cepTextErrorHandler : public cepErrorHandler  {
-public: 
-	cepTextErrorHandler();
-	~cepTextErrorHandler();
+class cepTextErrorHandler:public cepErrorHandler
+{
+public:
+  cepTextErrorHandler ();
+  ~cepTextErrorHandler ();
 
-   void displayError( class cepError & error );
-   void logError( class cepError & error );
+  void displayError (class cepError & error);
+  void logError (class cepError & error);
 
 private:
-  cepConfiguration *config;
-  void initConfig();
-  int getIcon( class cepError err );
+    cepConfiguration * config;
+  void initConfig ();
+  int getIcon (class cepError err);
 
 };
 
-#endif  // ! __CEP_TEXTERRORHANDLER_H
+#endif // ! __CEP_TEXTERRORHANDLER_H

@@ -70,13 +70,14 @@ DOCBOOK END
   *@author Blake Swadling
   */
 
-class cepWindowHanning : public cepWindowAlg  {
-public: 
-  cepWindowHanning( int size );
-  ~cepWindowHanning();
+class cepWindowHanning:public cepWindowAlg
+{
+public:
+  cepWindowHanning (int size);
+   ~cepWindowHanning ();
 
 protected:
-  double getValue( int offset );
+  double getValue (int offset);
 };
 
 #endif

@@ -21,82 +21,86 @@
 #include "cepCore.h"
 #include "cepWxErrorHandler.h"
 
-cepWxErrorHandler::cepWxErrorHandler()
+cepWxErrorHandler::cepWxErrorHandler ()
 {
-  initConfig();
+  initConfig ();
 }
 
-cepWxErrorHandler::~cepWxErrorHandler()
+cepWxErrorHandler::~cepWxErrorHandler ()
 {
 }
 
-void cepWxErrorHandler::initConfig()
+void
+cepWxErrorHandler::initConfig ()
 {
-  config = (cepConfiguration *)&cepConfiguration::getInstance();
+  config = (cepConfiguration *) & cepConfiguration::getInstance ();
 }
 
-void cepWxErrorHandler::displayError( class cepError & err )
+void
+cepWxErrorHandler::displayError (class cepError & err)
 {
 
   // Log everything for now
   // todo_mikal improve
-  logError( err );
+  logError (err);
 
   /*
-  if (gDisplayParams[(int)level].get () == cepTSB::stUndefined)
-  {
-    // Deliberately dropping cepError return value here
-    bool dodisp = false;
+     if (gDisplayParams[(int)level].get () == cepTSB::stUndefined)
+     {
+     // Deliberately dropping cepError return value here
+     bool dodisp = false;
 
-    config->getValue (string ("error-display-") +
-                 cepToString ((int)level), true, dodisp);
+     config->getValue (string ("error-display-") +
+     cepToString ((int)level), true, dodisp);
 
-    gDisplayParams[(int)level].set (dodisp);
-  }
+     gDisplayParams[(int)level].set (dodisp);
+     }
 
-  if (gDisplayParams[(int)level].get () == cepTSB::stFalse)
-    return;
-  */
+     if (gDisplayParams[(int)level].get () == cepTSB::stFalse)
+     return;
+   */
 
-  string msg = err.getMessage();
-  if ( msg != "")
-  {
-    wxMessageBox ( msg.c_str (), err.getTitle().c_str (),
-                  wxOK | wxCENTRE | getIcon( err ));
-    err.doTerminate();
-  }
+  string msg = err.getMessage ();
+  if (msg != "")
+    {
+      wxMessageBox (msg.c_str (), err.getTitle ().c_str (),
+		    wxOK | wxCENTRE | getIcon (err));
+      err.doTerminate ();
+    }
 }
 
-void cepWxErrorHandler::logError( class cepError & err )
+void
+cepWxErrorHandler::logError (class cepError & err)
 {
-  gLog << err.getMessage() << " (" << err.getTitle () << ")" << endl;
+  gLog << err.getMessage () << " (" << err.getTitle () << ")" << endl;
 }
 
-int cepWxErrorHandler::getIcon ( class cepError err )
+int
+cepWxErrorHandler::getIcon (class cepError err)
 {
-  switch (err.getSeverity())
-  {
-  case cepError::sevOk:
-    return 0;
+  switch (err.getSeverity ())
+    {
+    case cepError::sevOk:
+      return 0;
 
-  case cepError::sevDebug:
-    return wxICON_QUESTION;
+    case cepError::sevDebug:
+      return wxICON_QUESTION;
 
-  case cepError::sevInformational:
-    return wxICON_INFORMATION;
+    case cepError::sevInformational:
+      return wxICON_INFORMATION;
 
-  case cepError::sevWarning:
-    return wxICON_EXCLAMATION;
+    case cepError::sevWarning:
+      return wxICON_EXCLAMATION;
 
-  case cepError::sevErrorRecoverable:
-    return wxICON_ERROR;
+    case cepError::sevErrorRecoverable:
+      return wxICON_ERROR;
 
-  case cepError::sevErrorFatal:
-    return wxICON_ERROR;
+    case cepError::sevErrorFatal:
+      return wxICON_ERROR;
 
-  default:
-    return wxICON_QUESTION;
-  }
+    default:
+      return wxICON_QUESTION;
+    }
 
   return 0;
 }

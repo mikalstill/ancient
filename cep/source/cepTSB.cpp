@@ -35,12 +35,14 @@ cepTSB::cepTSB (state inval)
   set (inval);
 }
 
-void cepTSB::set (state inval)
+void
+cepTSB::set (state inval)
 {
   m_val = inval;
 }
 
-void cepTSB::set (bool inval)
+void
+cepTSB::set (bool inval)
 {
   if (inval)
     set (cepTSB::stTrue);

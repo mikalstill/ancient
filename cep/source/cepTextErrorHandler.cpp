@@ -21,36 +21,40 @@
 #include "cepCore.h"
 #include "cepTextErrorHandler.h"
 
-cepTextErrorHandler::cepTextErrorHandler()
+cepTextErrorHandler::cepTextErrorHandler ()
 {
 }
 
-cepTextErrorHandler::~cepTextErrorHandler()
+cepTextErrorHandler::~cepTextErrorHandler ()
 {
 }
 
-void cepTextErrorHandler::initConfig()
+void
+cepTextErrorHandler::initConfig ()
 {
 }
 
-void cepTextErrorHandler::displayError( class cepError & err )
+void
+cepTextErrorHandler::displayError (class cepError & err)
 {
   // Log everything for now
-  logError( err );
+  logError (err);
 
-  if ( err.getMessage() != "")
-  {
-    cerr << err.getTitle() <<": " << err.getMessage() << endl;
-    err.doTerminate();
-  }
+  if (err.getMessage () != "")
+    {
+      cerr << err.getTitle () << ": " << err.getMessage () << endl;
+      err.doTerminate ();
+    }
 }
 
-void cepTextErrorHandler::logError( class cepError & err )
+void
+cepTextErrorHandler::logError (class cepError & err)
 {
-  gLog << err.getMessage() << " (" << err.getTitle () << ")" << endl;
+  gLog << err.getMessage () << " (" << err.getTitle () << ")" << endl;
 }
 
-int cepTextErrorHandler::getIcon ( class cepError err )
+int
+cepTextErrorHandler::getIcon (class cepError err)
 {
   return 0;
 }

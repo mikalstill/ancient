@@ -22,35 +22,41 @@
 #include <stdlib.h>
 #include <sstream>
 
-cepConfiguration *cepConfiguration::config = 0;
-  
+cepConfiguration *
+  cepConfiguration::config =
+  0;
+
 cepConfiguration::cepConfiguration (const string & filename)
 {
   path.assign (filename);
   // discard any error here. If we try to display it we get a segfault
-  
+
   cepError err = load (path);
-  if( err.isReal() ) {
-    load ( getDefaultConfigPath() );
-  }
+  if (err.isReal ())
+    {
+      load (getDefaultConfigPath ());
+    }
 
 }
 
 cepConfiguration::~cepConfiguration ()
 {
-  delete( (cepConfiguration *)config );
+  delete ((cepConfiguration *) config);
 }
 
 
-void cepConfiguration::initialise(  const string & filename )
+void
+cepConfiguration::initialise (const string & filename)
 {
-  config = new cepConfiguration( filename );
+  config = new cepConfiguration (filename);
 }
 
-cepConfiguration & cepConfiguration::getInstance() {
-  if( config == NULL ) {
-    config = new cepConfiguration( getDefaultConfigPath());
-  }
+cepConfiguration & cepConfiguration::getInstance ()
+{
+  if (config == NULL)
+    {
+      config = new cepConfiguration (getDefaultConfigPath ());
+    }
   return *config;
 }
 
@@ -62,20 +68,22 @@ cepConfiguration & cepConfiguration::getInstance() {
  */
 cepError cepConfiguration::load (const string & filename)
 {
-  cepError err;
+  cepError
+    err;
 
-  ifstream cfgFile ((const char *)filename.c_str (), ios::in);
+  ifstream
+  cfgFile ((const char *) filename.c_str (), ios::in);
 
   if (!cfgFile)
-  {
-    err =
-      cepError ("failed to open config file" + filename,
-                cepError::sevDebug);
-  }
+    {
+      err =
+	cepError ("failed to open config file" + filename,
+		  cepError::sevDebug);
+    }
   else
-  {
-    err = readConfig (cfgFile);
-  }
+    {
+      err = readConfig (cfgFile);
+    }
   return err;
 }
 
@@ -87,8 +95,10 @@ cepError cepConfiguration::load (const string & filename)
  */
 cepError cepConfiguration::save (const string & filename)
 {
-  cepError err;
-  ofstream out ((const char *)filename.c_str (), ios::trunc);
+  cepError
+    err;
+  ofstream
+  out ((const char *) filename.c_str (), ios::trunc);
 
   writeConfig (out);
   return err;
@@ -102,29 +112,31 @@ cepError cepConfiguration::save (const string & filename)
  */
 cepError cepConfiguration::readConfig (ifstream & in)
 {
-  cepError err;
+  cepError
+    err;
 
   pair < string, string > data;
   pair < map_t::iterator, bool > p;
 
-  char buf[80];
+  char
+    buf[80];
 
   in.getline (buf, 80);
 
   while (strlen (buf) > 0)
-  {
-    err = parseConfigEntry ((const char *)buf, data);
-    if (!err.isReal ())
     {
-      p = map.insert (data);
-      if (!p.second)
-      {
-        cepDebugPrint("Configuration database duplicate entry " + 
-		      (*(p.first)).first + "->" + (*(p.first)).second);
-      }
+      err = parseConfigEntry ((const char *) buf, data);
+      if (!err.isReal ())
+	{
+	  p = map.insert (data);
+	  if (!p.second)
+	    {
+	      cepDebugPrint ("Configuration database duplicate entry " +
+			     (*(p.first)).first + "->" + (*(p.first)).second);
+	    }
+	}
+      in.getline (buf, 80);
     }
-    in.getline (buf, 80);
-  }
   return err;
 }
 
@@ -137,8 +149,9 @@ cepError cepConfiguration::readConfig (ifstream & in)
  *         If parsing the entry fails then we return a warning only, since we can
  *         easilty resort to default values
  */
-cepError cepConfiguration::parseConfigEntry (const string & entry,
-                                             pair < string, string > &data)
+cepError
+  cepConfiguration::parseConfigEntry (const string & entry,
+				      pair < string, string > &data)
 {
   bool success = true;
   char *tmp = strdup (entry.c_str ());
@@ -147,165 +160,183 @@ cepError cepConfiguration::parseConfigEntry (const string & entry,
   char *ptr = strtok (tmp, "= ");
 
   if (ptr != NULL)
-  {
-    data.first = string (ptr);
-  }
+    {
+      data.first = string (ptr);
+    }
   else
-  {
-    success = false;
-  }
+    {
+      success = false;
+    }
 
   // read the value 
   ptr = strtok (NULL, " ");
   if (ptr != NULL)
-  {
-    data.second = string (ptr);
-  }
+    {
+      data.second = string (ptr);
+    }
   else
-  {
-    success = false;
-  }
+    {
+      success = false;
+    }
 
-  free (tmp);                   // plug the leaks
+  free (tmp);			// plug the leaks
 
   // check for failure
   if (!success)
-  {
-    return cepError ("failed to parse config value " + entry,
-                     cepError::sevDebug);
-  }
+    {
+      return cepError ("failed to parse config value " + entry,
+		       cepError::sevDebug);
+    }
   return cepError ();
 }
 
 cepError cepConfiguration::writeConfig (ofstream & out)
 {
   for (map_t::const_iterator i = map.begin (); i != map.end (); ++i)
-  {
-    out << i->first << "=" << i->second << endl;
-  }
+    {
+      out << i->first << "=" << i->second << endl;
+    }
 
-  return cepError();
-}
-
-cepError cepConfiguration::getValue (const string & valkey,
-                                     const string & defval, string & outval)
-{
-  bool defaulted = false;
-  map_t::const_iterator i = map.find (valkey);
-
-  if (i == map.end ()) outval = defval;
-  else outval = map[valkey];
-
-  cepDebugPrint("Configuration database get <string> : requested " + valkey
-    + " and returned " + outval + (defaulted ? " (default)" : ""));
   return cepError ();
 }
 
-cepError cepConfiguration::getValue (const string & valkey, const bool & defval,
-                                     bool & outval)
+cepError
+  cepConfiguration::getValue (const string & valkey,
+			      const string & defval, string & outval)
 {
   bool defaulted = false;
   map_t::const_iterator i = map.find (valkey);
 
   if (i == map.end ())
-  {
     outval = defval;
-    defaulted = true;
-  }
   else
-  {
-    outval = (map[valkey] == "true");
-  }
-  cepDebugPrint("Configuration database get bool requested " + valkey
-    + " and returned " + (outval ? "true" : "false")
-    + (defaulted ? " (default)" : ""));
+    outval = map[valkey];
+
+  cepDebugPrint ("Configuration database get <string> : requested " + valkey
+		 + " and returned " + outval +
+		 (defaulted ? " (default)" : ""));
   return cepError ();
 }
 
-cepError cepConfiguration::getValue (const string & valkey, const int &defval,
-                                     int &outval)
+cepError
+  cepConfiguration::getValue (const string & valkey, const bool & defval,
+			      bool & outval)
 {
   bool defaulted = false;
   map_t::const_iterator i = map.find (valkey);
 
   if (i == map.end ())
-  {
-    outval = defval;
-    defaulted = true;
-  }
+    {
+      outval = defval;
+      defaulted = true;
+    }
   else
-  {
-    outval = atoi (map[valkey].c_str ());
-  }
-  cepDebugPrint("Configuration database get int requested " + valkey
-    + " and returned " + cepToString(outval) + (defaulted ? " (default)" : ""));
+    {
+      outval = (map[valkey] == "true");
+    }
+  cepDebugPrint ("Configuration database get bool requested " + valkey
+		 + " and returned " + (outval ? "true" : "false")
+		 + (defaulted ? " (default)" : ""));
   return cepError ();
 }
 
-cepError cepConfiguration::getValue (const string & valkey, const double &defval,
-                                     double &outval)
+cepError
+  cepConfiguration::getValue (const string & valkey, const int &defval,
+			      int &outval)
 {
   bool defaulted = false;
   map_t::const_iterator i = map.find (valkey);
 
   if (i == map.end ())
-  {
-    outval = defval;
-    defaulted = true;
-  }
+    {
+      outval = defval;
+      defaulted = true;
+    }
   else
-  {
-    outval = atof (map[valkey].c_str ());
-  }
-  cepDebugPrint("Configuration database get int requested " + valkey
-    + " and returned " + cepToString(outval) + (defaulted ? " (default)" : ""));
+    {
+      outval = atoi (map[valkey].c_str ());
+    }
+  cepDebugPrint ("Configuration database get int requested " + valkey
+		 + " and returned " + cepToString (outval) +
+		 (defaulted ? " (default)" : ""));
   return cepError ();
 }
 
-cepError cepConfiguration::setValue (const string & valkey,
-                                     const string & value)
+cepError
+  cepConfiguration::getValue (const string & valkey, const double &defval,
+			      double &outval)
+{
+  bool defaulted = false;
+  map_t::const_iterator i = map.find (valkey);
+
+  if (i == map.end ())
+    {
+      outval = defval;
+      defaulted = true;
+    }
+  else
+    {
+      outval = atof (map[valkey].c_str ());
+    }
+  cepDebugPrint ("Configuration database get int requested " + valkey
+		 + " and returned " + cepToString (outval) +
+		 (defaulted ? " (default)" : ""));
+  return cepError ();
+}
+
+cepError
+  cepConfiguration::setValue (const string & valkey, const string & value)
 {
   map[valkey] = value;
-  cepDebugPrint("Configuration database set string setting " + valkey + " to " + map[valkey]);
+  cepDebugPrint ("Configuration database set string setting " + valkey +
+		 " to " + map[valkey]);
   return save (path);
 
 }
 
 cepError cepConfiguration::setValue (const string & valkey, const int &value)
 {
-  ostringstream oss;
+  ostringstream
+    oss;
 
   oss << value;
   map[valkey] = oss.str ();
-  cepDebugPrint("Configuration database set int setting " + valkey + " to " + map[valkey]);
+  cepDebugPrint ("Configuration database set int setting " + valkey + " to " +
+		 map[valkey]);
   return save (path);
 
 }
 
-cepError cepConfiguration::setValue (const string & valkey, const double &value)
+cepError
+  cepConfiguration::setValue (const string & valkey, const double &value)
 {
   ostringstream oss;
 
   oss << value;
   map[valkey] = oss.str ();
-  cepDebugPrint("Configuration database set int setting " + valkey + " to " + map[valkey]);
+  cepDebugPrint ("Configuration database set int setting " + valkey + " to " +
+		 map[valkey]);
   return save (path);
 
 }
 
-cepError cepConfiguration::setValue (const string & valkey, const bool & value)
+cepError
+  cepConfiguration::setValue (const string & valkey, const bool & value)
 {
   map[valkey] = (value ? string ("true") : string ("false"));
-  cepDebugPrint("Configuration database set bool setting " + valkey + " to " + map[valkey]);
+  cepDebugPrint ("Configuration database set bool setting " + valkey +
+		 " to " + map[valkey]);
   return save (path);
 }
 
-const string cepConfiguration::getDefaultConfigPath()
+const string
+cepConfiguration::getDefaultConfigPath ()
 {
   char *homedir = getenv ("HOME");
 
   // Default to home dir or CWD
   if (homedir != NULL)
-    return string(string(homedir) + "/.cep");
-  else return string(".cep");
+    return string (string (homedir) + "/.cep");
+  else
+    return string (".cep");
 }

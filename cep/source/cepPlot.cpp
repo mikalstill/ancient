@@ -22,128 +22,162 @@
 #include "cepPresentation.h"
 #include "cepPlot.h"
 
-cepPlot::cepPlot(cepDataset *theDataset, cepDataset::direction dir, string cfname, long x, long y,
-		 float& horizScale, float& vertScale, long& xminval, long& yminval, long& yrange,
-		 bool haveLs, bool freqDomain, float energy, int windowTarget):
-  m_plotfailed(false)
+cepPlot::cepPlot (cepDataset * theDataset, cepDataset::direction dir,
+		  string cfname, long x, long y, float &horizScale,
+		  float &vertScale, long &xminval, long &yminval,
+		  long &yrange, bool haveLs, bool freqDomain, float energy,
+		  int windowTarget):
+m_plotfailed (false)
 {
   cepConfiguration *config;
-  config = (cepConfiguration *) &cepConfiguration::getInstance();
+  config = (cepConfiguration *) & cepConfiguration::getInstance ();
 
-  cepPresentation pres (x, y, theDataset->getMatrix(dir), theDataset->getOffset(dir));
-  if(haveLs)
-    pres.setLsParams(theDataset->getB1(dir), theDataset->getB2(dir));
-  else if(freqDomain)
-    pres.setFreqParams(energy);
+  cepPresentation pres (x, y, theDataset->getMatrix (dir),
+			theDataset->getOffset (dir));
+  if (haveLs)
+    pres.setLsParams (theDataset->getB1 (dir), theDataset->getB2 (dir));
+  else if (freqDomain)
+    pres.setFreqParams (energy);
 
   cepError err;
   int red = 0, green = 0, blue = 0;
   bool toggle;
-  
+
   // Errors
-  err = config->getValue("ui-viewmenu-showerrors", true, toggle);
-  if(err.isReal()) err.display();    
-  pres.useErrors(toggle);
-  
+  err = config->getValue ("ui-viewmenu-showerrors", true, toggle);
+  if (err.isReal ())
+    err.display ();
+  pres.useErrors (toggle);
+
   // Grid
-  err = config->getValue("ui-viewmenu-showgrid", true, toggle);
-  if(err.isReal()) err.display();    
-  pres.useGrid(toggle);
-  
+  err = config->getValue ("ui-viewmenu-showgrid", true, toggle);
+  if (err.isReal ())
+    err.display ();
+  pres.useGrid (toggle);
+
   // Axes
-  err = config->getValue("ui-graph-color-axis-r", 255, red);
-  if(err.isReal()) err.display();
-  err = config->getValue("ui-graph-color-axis-g", 0, green);
-  if(err.isReal()) err.display();
-  err = config->getValue("ui-graph-color-axis-b", 0, blue);
-  if(err.isReal()) err.display();
-  pres.setAxesColor(red, green, blue);
-  
+  err = config->getValue ("ui-graph-color-axis-r", 255, red);
+  if (err.isReal ())
+    err.display ();
+  err = config->getValue ("ui-graph-color-axis-g", 0, green);
+  if (err.isReal ())
+    err.display ();
+  err = config->getValue ("ui-graph-color-axis-b", 0, blue);
+  if (err.isReal ())
+    err.display ();
+  pres.setAxesColor (red, green, blue);
+
   // Plot color 1
-  err = config->getValue("ui-graph-color-line1-r", 0, red);
-  if(err.isReal()) err.display();
-  err = config->getValue("ui-graph-color-line1-g", 255, green);
-  if(err.isReal()) err.display();
-  err = config->getValue("ui-graph-color-line1-b", 0, blue);
-  if(err.isReal()) err.display();
-  pres.setLineColor(0, red, green, blue);
+  err = config->getValue ("ui-graph-color-line1-r", 0, red);
+  if (err.isReal ())
+    err.display ();
+  err = config->getValue ("ui-graph-color-line1-g", 255, green);
+  if (err.isReal ())
+    err.display ();
+  err = config->getValue ("ui-graph-color-line1-b", 0, blue);
+  if (err.isReal ())
+    err.display ();
+  pres.setLineColor (0, red, green, blue);
 
   // Plot color 2
-  err = config->getValue("ui-graph-color-line2-r", 0, red);
-  if(err.isReal()) err.display();
-  err = config->getValue("ui-graph-color-line2-g", 255, green);
-  if(err.isReal()) err.display();
-  err = config->getValue("ui-graph-color-line2-b", 0, blue);
-  if(err.isReal()) err.display();
-  pres.setLineColor(1, red, green, blue);
+  err = config->getValue ("ui-graph-color-line2-r", 0, red);
+  if (err.isReal ())
+    err.display ();
+  err = config->getValue ("ui-graph-color-line2-g", 255, green);
+  if (err.isReal ())
+    err.display ();
+  err = config->getValue ("ui-graph-color-line2-b", 0, blue);
+  if (err.isReal ())
+    err.display ();
+  pres.setLineColor (1, red, green, blue);
 
   // Plot color 3
-  err = config->getValue("ui-graph-color-line3-r", 0, red);
-  if(err.isReal()) err.display();
-  err = config->getValue("ui-graph-color-line3-g", 255, green);
-  if(err.isReal()) err.display();
-  err = config->getValue("ui-graph-color-line3-b", 0, blue);
-  if(err.isReal()) err.display();
-  pres.setLineColor(2, red, green, blue);
+  err = config->getValue ("ui-graph-color-line3-r", 0, red);
+  if (err.isReal ())
+    err.display ();
+  err = config->getValue ("ui-graph-color-line3-g", 255, green);
+  if (err.isReal ())
+    err.display ();
+  err = config->getValue ("ui-graph-color-line3-b", 0, blue);
+  if (err.isReal ())
+    err.display ();
+  pres.setLineColor (2, red, green, blue);
 
   // Plot color for removed points
-  err = config->getValue("ui-graph-color-remove-r", 0, red);
-  if(err.isReal()) err.display();
-  err = config->getValue("ui-graph-color-remove-g", 255, green);
-  if(err.isReal()) err.display();
-  err = config->getValue("ui-graph-color-remove-b", 0, blue);
-  if(err.isReal()) err.display();
-  pres.setRemoveColor(red, green, blue);
+  err = config->getValue ("ui-graph-color-remove-r", 0, red);
+  if (err.isReal ())
+    err.display ();
+  err = config->getValue ("ui-graph-color-remove-g", 255, green);
+  if (err.isReal ())
+    err.display ();
+  err = config->getValue ("ui-graph-color-remove-b", 0, blue);
+  if (err.isReal ())
+    err.display ();
+  pres.setRemoveColor (red, green, blue);
 
   // Error color
-  err = config->getValue("ui-graph-color-error-r", 127, red);
-  if(err.isReal()) err.display();
-  err = config->getValue("ui-graph-color-error-g", 127, green);
-  if(err.isReal()) err.display();
-  err = config->getValue("ui-graph-color-error-b", 127, blue);
-  if(err.isReal()) err.display();
-  pres.setErrorColor(red, green, blue);
+  err = config->getValue ("ui-graph-color-error-r", 127, red);
+  if (err.isReal ())
+    err.display ();
+  err = config->getValue ("ui-graph-color-error-g", 127, green);
+  if (err.isReal ())
+    err.display ();
+  err = config->getValue ("ui-graph-color-error-b", 127, blue);
+  if (err.isReal ())
+    err.display ();
+  pres.setErrorColor (red, green, blue);
 
   // Ls color
-  err = config->getValue("ui-graph-color-ls-r", 127, red);
-  if(err.isReal()) err.display();
-  err = config->getValue("ui-graph-color-ls-g", 127, green);
-  if(err.isReal()) err.display();
-  err = config->getValue("ui-graph-color-ls-b", 127, blue);
-  if(err.isReal()) err.display();
-  pres.setLsColor(red, green, blue);
-  
+  err = config->getValue ("ui-graph-color-ls-r", 127, red);
+  if (err.isReal ())
+    err.display ();
+  err = config->getValue ("ui-graph-color-ls-g", 127, green);
+  if (err.isReal ())
+    err.display ();
+  err = config->getValue ("ui-graph-color-ls-b", 127, blue);
+  if (err.isReal ())
+    err.display ();
+  pres.setLsColor (red, green, blue);
+
   // Font color
-  err = config->getValue("ui-graph-color-font-r", 0, red);
-  if(err.isReal()) err.display();
-  err = config->getValue("ui-graph-color-font-g", 0, green);
-  if(err.isReal()) err.display();
-  err = config->getValue("ui-graph-color-font-b", 0, blue);
-  if(err.isReal()) err.display();
-  pres.setFontColor(red, green, blue);
-  
+  err = config->getValue ("ui-graph-color-font-r", 0, red);
+  if (err.isReal ())
+    err.display ();
+  err = config->getValue ("ui-graph-color-font-g", 0, green);
+  if (err.isReal ())
+    err.display ();
+  err = config->getValue ("ui-graph-color-font-b", 0, blue);
+  if (err.isReal ())
+    err.display ();
+  pres.setFontColor (red, green, blue);
+
   // Grid color
-  err = config->getValue("ui-graph-color-grid-r", 127, red);
-  if(err.isReal()) err.display();
-  err = config->getValue("ui-graph-color-grid-g", 127, green);
-  if(err.isReal()) err.display();
-  err = config->getValue("ui-graph-color-grid-b", 127, blue);
-  if(err.isReal()) err.display();
-  pres.setGridColor(red, green, blue);
-  
+  err = config->getValue ("ui-graph-color-grid-r", 127, red);
+  if (err.isReal ())
+    err.display ();
+  err = config->getValue ("ui-graph-color-grid-g", 127, green);
+  if (err.isReal ())
+    err.display ();
+  err = config->getValue ("ui-graph-color-grid-b", 127, blue);
+  if (err.isReal ())
+    err.display ();
+  pres.setGridColor (red, green, blue);
+
   // Decide which window to draw
-  pres.setDisplayWindow(windowTarget);
+  pres.setDisplayWindow (windowTarget);
 
   // Create the bitmap
-  err = pres.createPNG (cfname, horizScale, vertScale, xminval, yminval, yrange);
-  if (err.isReal ()){
-    err.display ();
-    m_plotfailed = true;
-    return;
-  }
+  err =
+    pres.createPNG (cfname, horizScale, vertScale, xminval, yminval, yrange);
+  if (err.isReal ())
+    {
+      err.display ();
+      m_plotfailed = true;
+      return;
+    }
 }
 
-bool cepPlot::getFailed()
+bool cepPlot::getFailed ()
 {
   return m_plotfailed;
 }

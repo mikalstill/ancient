@@ -22,14 +22,15 @@
 #ifndef CEP_STRINGARRAY_HEADER
 #define CEP_STRINGARRAY_HEADER
 
-class cepStringArray{
- public:
-  cepStringArray(string input, string delim);
-  size_t size();
-  string operator[](size_t index);
+class cepStringArray
+{
+public:
+  cepStringArray (string input, string delim);
+  size_t size ();
+  string operator[] (size_t index);
 
- private:
-  vector<string> m_broken;
+private:
+    vector < string > m_broken;
   string m_unbroken;
 };
 

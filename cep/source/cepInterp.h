@@ -24,7 +24,7 @@ interpolation.
   * You should have received a copy of the GNU General Public License along
   * with this program; if not, write to the Free Software Foundation, Inc., 675
   * Mass Ave, Cambridge, MA 02139, USA.
-*/
+  */
 
 #include <iostream>
 #include <math.h>
@@ -38,7 +38,7 @@ interpolation.
 #define __CEP_INTERP_H
 
 const int NEAREST_INTERP = 1;
-const int LINEAR_INTERP  = 2;
+const int LINEAR_INTERP = 2;
 const int NATURAL_SPLINE_INTERP = 3;
 const int CUBIC_SPLINE_INTERP = 4;
 const int DIVIDED_INTERP = 5;
@@ -62,7 +62,7 @@ class cepInterp
 
 public:
 
-	cepInterp();
+  cepInterp ();
 /*******
 	 doInterp method 1: Interpolates data to a set sample rate
 
@@ -90,8 +90,9 @@ public:
 	  return value: Interpolated cepMatrix.
 DOCBOOK END
 */
-  cepMatrix<double> doInterp(cepMatrix<double> & input, double sampleRate,
-									int interpType, int winSize = 1, double winOverlap = 0.0);
+  cepMatrix < double >doInterp (cepMatrix < double >&input, double sampleRate,
+				int interpType, int winSize =
+				1, double winOverlap = 0.0);
 
 /****
 DOCBOOK START
@@ -118,20 +119,22 @@ DOCBOOK START
 				the second column is the interpolated data points to fit that timescale
 DOCBOOK END
 */
-	cepMatrix<double> doInterp(cepMatrix<double> & input, cepMatrix<double> & timeScale,
-												int interpType);
+    cepMatrix < double >doInterp (cepMatrix < double >&input,
+				  cepMatrix < double >&timeScale,
+				  int interpType);
 
 
- cepMatrix<double> LSinterp(cepMatrix<double> & input, double sampleRate, double m, double c);
+    cepMatrix < double >LSinterp (cepMatrix < double >&input,
+				  double sampleRate, double m, double c);
 
 private:
 
-double delta;
+  double delta;
 
 // Member variable for catching errors
-cepError m_error;
+  cepError m_error;
 
- // internal interpolation implementation methods
+  // internal interpolation implementation methods
 
 /*
 Basic usage for ALL internal interpolation classes:
@@ -149,44 +152,45 @@ Exports:
 
 // Nearest neighbour interpolation
 // Estimates points to be equal to nearest point
-	cepMatrix<double> nearestInterp(cepMatrix<double> & input,
-												cepMatrix<double> & timeScale);
+    cepMatrix < double >nearestInterp (cepMatrix < double >&input,
+				       cepMatrix < double >&timeScale);
 // Linear interpolation
 // Estimates new points as a linear interp of the 2 nearest points
-	cepMatrix<double> linearInterp(cepMatrix<double> & input,
-												cepMatrix<double> & timeScale);
+    cepMatrix < double >linearInterp (cepMatrix < double >&input,
+				      cepMatrix < double >&timeScale);
 // Natural spline interpolation
 // Estimates new points using a natural spline
 // (Natural spline: second derivatives of end points = 0)
-	cepMatrix<double> naturalSplineInterp(cepMatrix<double> & input,
-												cepMatrix<double> & timeScale);
+    cepMatrix < double >naturalSplineInterp (cepMatrix < double >&input,
+					     cepMatrix < double >&timeScale);
 // Cubic spline interpolation
 // Estimates new points using a P spline
 // (P spline: second derivative of end points = second to end points)
-	cepMatrix<double> cubicSplineInterp(cepMatrix<double> & input,
-												cepMatrix<double> & timeScale);
+    cepMatrix < double >cubicSplineInterp (cepMatrix < double >&input,
+					   cepMatrix < double >&timeScale);
 // Divided difference interpolation
 // Estimates new points using newton divided differences
 // (order of divided differences optimized for minimum error)
-	cepMatrix<double> dividedInterp(cepMatrix<double> & input,
-												cepMatrix<double> & timeScale);
+    cepMatrix < double >dividedInterp (cepMatrix < double >&input,
+				       cepMatrix < double >&timeScale);
 
 // Used for keeping fill command within bounds while interpolation
 // (also icrements counter)
-	bool inBounds(cepMatrix<double> & input, cepMatrix<double> & timeScale,
-									 int & position, int & i, int newSize, int oldSize);
+  bool inBounds (cepMatrix < double >&input, cepMatrix < double >&timeScale,
+		 int &position, int &i, int newSize, int oldSize);
 
 // RowReduce: (used in spline interpolation)
 // Row reduces a tridiagonal matrix t augmented by the middle n-1 rows of s
 // to save memory t is stored as a 3 by n-1 matrix
-	void rowReduce(cepMatrix<double> & t, cepMatrix<double> & s, int n);
+  void rowReduce (cepMatrix < double >&t, cepMatrix < double >&s, int n);
 
 // calc_abc: (used in spline interpolation)
 // Calculates the the a, b and c parameter of a spline model (see spline documentation)
 // Imports: s, h, import, n
 // Exports: a, b, c
-	void calc_abc(cepMatrix<double> & a,cepMatrix<double> & b,cepMatrix<double> & c,
-								cepMatrix<double> & s,cepMatrix<double> & h,cepMatrix<double> & input, int n);
+  void calc_abc (cepMatrix < double >&a, cepMatrix < double >&b,
+		 cepMatrix < double >&c, cepMatrix < double >&s,
+		 cepMatrix < double >&h, cepMatrix < double >&input, int n);
 
 // setColour: (used to set different colours to new points)
 // Used at generation time of an interpolated matrix
@@ -194,7 +198,8 @@ Exports:
 //          timeScale (interped matrix to be coloured)
 //          position (current position in input)
 //          i (current position in timeScale)
-  void setColour(cepMatrix<double> & input, cepMatrix<double> & timeScale, int position, int i);
+  void setColour (cepMatrix < double >&input, cepMatrix < double >&timeScale,
+		  int position, int i);
 
 };
 

@@ -20,38 +20,42 @@
 #include "cepCore.h"
 #include "cepConsoleErrorHandler.h"
 
-cepConsoleErrorHandler::cepConsoleErrorHandler()
+cepConsoleErrorHandler::cepConsoleErrorHandler ()
 {
   // init any resources ... we have none
 }
 
-cepConsoleErrorHandler::~cepConsoleErrorHandler()
+cepConsoleErrorHandler::~cepConsoleErrorHandler ()
 {
   // release any resources ... we have none
 }
 
-void cepConsoleErrorHandler::initConfig()
+void
+cepConsoleErrorHandler::initConfig ()
 {
   // do we need to init the config? doublful
 }
 
-void cepConsoleErrorHandler::displayError( class cepError & err )
+void
+cepConsoleErrorHandler::displayError (class cepError & err)
 {
-  if ( err.isReal() )
-  {
-    cerr << err.getTitle() <<": " << err.getMessage() << endl;
-    // we are testing, no termination please !!!!
-    // err.doTerminate();
-  }
+  if (err.isReal ())
+    {
+      cerr << err.getTitle () << ": " << err.getMessage () << endl;
+      // we are testing, no termination please !!!!
+      // err.doTerminate();
+    }
 }
 
-int cepConsoleErrorHandler::getIcon ( class cepError err )
+int
+cepConsoleErrorHandler::getIcon (class cepError err)
 {
   // no icons
   return 0;
 }
 
-void cepConsoleErrorHandler::logError( class cepError & error )
+void
+cepConsoleErrorHandler::logError (class cepError & error)
 {
   // no logging. if you want this use the test error handler
 }

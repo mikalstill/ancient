@@ -58,7 +58,7 @@
 
 IMPLEMENT_DYNAMIC_CLASS (cepDoc, wxDocument)
 // This is needed for the progess callback to get to us
-cepDoc *gProgressDoc;
+     cepDoc *gProgressDoc;
 
 cepDoc::cepDoc (void)
 {
@@ -72,32 +72,41 @@ cepDoc::~cepDoc (void)
   delete m_dataset;
 }
 
-bool cepDoc::OnSaveDocument(const wxString& filename)
+bool cepDoc::OnSaveDocument (const wxString & filename)
 {
-  string newfilename;
+  string
+    newfilename;
 
-  cepDebugPrint("Filename extension: " + filename.substr(filename.length() - 5, filename.length()));
-  if(filename.substr(filename.length() - 5, filename.length()) == ".dat1"){
-    newfilename = filename.substr(0, filename.length() - 5);
-  }
-  else{
-    newfilename = filename;
-  }
-  m_dataset->write(newfilename);
+  cepDebugPrint ("Filename extension: " +
+		 filename.substr (filename.length () - 5,
+				  filename.length ()));
+  if (filename.substr (filename.length () - 5, filename.length ()) == ".dat1")
+    {
+      newfilename = filename.substr (0, filename.length () - 5);
+    }
+  else
+    {
+      newfilename = filename;
+    }
+  m_dataset->write (newfilename);
   return TRUE;
 }
- 
-bool cepDoc::OnOpenDocument(const wxString& filename)
+
+bool cepDoc::OnOpenDocument (const wxString & filename)
 {
   // Actually create the dataset
   m_progressCount = 0;
   m_progress = new wxProgressDialog ("Loading dataset",
-                                     "Please wait while the dataset is loaded");
-  string parentFilename = filename.substr (0, filename.length () - 5).c_str ();
+				     "Please wait while the dataset is loaded");
+  string
+    parentFilename = filename.substr (0, filename.length () - 5).c_str ();
 
   m_dataset = new cepDataset (ds_progressCallback);
   cepDebugPrint ("Starting to load the dataset now");
-  cepError loadErr = m_dataset->read (parentFilename);
+  cepError
+    loadErr =
+    m_dataset->
+    read (parentFilename);
 
   // A load error here will magically cause the view to be abandoned the first
   // time OnDraw() is called. Fear not that it isn't closed here...
@@ -105,7 +114,8 @@ bool cepDoc::OnOpenDocument(const wxString& filename)
     loadErr.display ();
 
   // Cleanup
-  delete m_progress;
+  delete
+    m_progress;
   m_progress = NULL;
   return TRUE;
 }
@@ -117,7 +127,7 @@ cepDoc::incrementProgress ()
   if (m_progressCount > 5000)
     m_progressCount = 0;
 
-  if(m_progressCount % 50 == 0)
+  if (m_progressCount % 50 == 0)
     m_progress->Update (m_progressCount / 50);
 }
 

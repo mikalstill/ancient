@@ -54,45 +54,41 @@ public:
   int OnExit (void);
 
   wxMDIChildFrame *CreateChildFrame (wxDocument * doc, wxView * view,
-                                     bool isCanvas);
+				     bool isCanvas);
 
-  wxDocManager * m_docManager;
+  wxDocManager *m_docManager;
 
 protected:
-  cepConfiguration *m_config;
+    cepConfiguration * m_config;
   cepErrorHandler *errHandler;
   cepError m_error;
 };
 
 DECLARE_APP (cepApp)
-class cepCanvas;
-class cepFrame:public wxDocMDIParentFrame
-{
-DECLARE_CLASS (cepFrame) 
-public:
-  wxMenu * editMenu;
+     class cepCanvas;
+     class cepFrame:public wxDocMDIParentFrame
+     {
+     DECLARE_CLASS (cepFrame) public:
+       wxMenu * editMenu;
 
-  cepFrame (wxDocManager * manager, wxFrame * frame,
-            const wxString & title, const wxPoint & pos,
-            const wxSize & size, long type);
+       cepFrame (wxDocManager * manager, wxFrame * frame,
+		 const wxString & title, const wxPoint & pos,
+		 const wxSize & size, long type);
 
-  void OnAbout (wxCommandEvent & event);
-  void OnTestErrors (wxCommandEvent & event);
+       void OnAbout (wxCommandEvent & event);
+       void OnTestErrors (wxCommandEvent & event);
 
-  void OnOpen (wxCommandEvent &event);
+       void OnOpen (wxCommandEvent & event);
 
-  cepCanvas *CreateCanvas (wxView * view, wxFrame * parent);
-  void OnClose (wxCloseEvent & evt);
+       cepCanvas *CreateCanvas (wxView * view, wxFrame * parent);
+       void OnClose (wxCloseEvent & evt);
 
-  DECLARE_EVENT_TABLE ()
+     DECLARE_EVENT_TABLE () protected:
+         cepConfiguration * m_config;
+       cepErrorHandler *errHandler;
+     };
 
-protected:
-  cepConfiguration *m_config;
-  cepErrorHandler *errHandler;
-};
-
-extern cepFrame *
-GetMainFrame (void);
+     extern cepFrame *GetMainFrame (void);
 
 #define CEPMENU_CUTSEGMENT     1
 #define CEPMENU_ABOUT   2
@@ -160,6 +156,6 @@ GetMainFrame (void);
 #define CEPBTN_FREQ_SUBMIT 62
 #define CEPBTN_FREQ_CANCEL 63
 
-extern bool singleWindowMode;     
+     extern bool singleWindowMode;
 
 #endif

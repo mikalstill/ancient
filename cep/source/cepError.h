@@ -194,28 +194,28 @@ public:
     sevMax
   };
 
-  cepError ();
-  cepError (const string & msg);
-  cepError (const string & msg, severity level);
-  static void addErrorHandler( class cepErrorHandler& h );
-  static void removeErrorHandler();
-  ~cepError ();
+    cepError ();
+    cepError (const string & msg);
+    cepError (const string & msg, severity level);
+  static void addErrorHandler (class cepErrorHandler & h);
+  static void removeErrorHandler ();
+   ~cepError ();
 
-  void init();
-  void setError(const string & msg, severity level);
+  void init ();
+  void setError (const string & msg, severity level);
   bool isReal ();
   void clear ();
   void log ();
   void display ();
-  void doTerminate();
+  void doTerminate ();
 
   // BS - remove these when we get the friend thing for cepErrorHandler sorted
-  string & getMessage();
-  int getSeverity();
-  string getTitle();
-  
+    string & getMessage ();
+  int getSeverity ();
+  string getTitle ();
+
 private:
-  
+
   static bool m_handlerInstalled;
   static class cepErrorHandler *m_handler;
 

@@ -53,107 +53,112 @@ DOCBOOK END
 
 typedef void (*cepDatasetProgressCB) (int plane, long lineno);
 
-class cepDataset {
-  public:
-    enum direction {
-        dirX = 0,
-        dirY,
-        dirZ,
-        dirUnknown
-    };
+class cepDataset
+{
+public:
+  enum direction
+  {
+    dirX = 0,
+    dirY,
+    dirZ,
+    dirUnknown
+  };
 
-    enum column {
-        colDate = 0,
-        colSample,
-        colError,
-        colColourHint
-    };
+  enum column
+  {
+    colDate = 0,
+    colSample,
+    colError,
+    colColourHint
+  };
 
-    // Filename is the "root filename" e.g. mb_ANKR_GPS
-    // I append the .dat1, .dat2 and .dat3 myself...
-     cepDataset();
-     cepDataset(const cepDatasetProgressCB callback);
+  // Filename is the "root filename" e.g. mb_ANKR_GPS
+  // I append the .dat1, .dat2 and .dat3 myself...
+    cepDataset ();
+    cepDataset (const cepDatasetProgressCB callback);
 
-     cepDataset(cepMatrix < double >*data0, cepMatrix < double >*data1,
-                cepMatrix < double >*data2, string offset0,
-                string offset1, string offset2, string procHistory,
-                string header0, string header1, string header2,
-                double b1_0 = 0.0, double b1_1 = 0.0, double b1_2 = 0.0, double b2_0 = 0.0,
-                double b2_1 = 0.0, double b1_2 = 0.0, bool haveLs0 = false, bool haveLs1 = false,
-                bool haveLs2 = false);
+    cepDataset (cepMatrix < double >*data0, cepMatrix < double >*data1,
+		cepMatrix < double >*data2, string offset0,
+		string offset1, string offset2, string procHistory,
+		string header0, string header1, string header2,
+		double b1_0 = 0.0, double b1_1 = 0.0, double b1_2 =
+		0.0, double b2_0 = 0.0, double b2_1 = 0.0, double b1_2 =
+		0.0, bool haveLs0 = false, bool haveLs1 =
+		false, bool haveLs2 = false);
 
-    // Actually process the file
-    cepError read(const string & filename);
-    cepError write(const string & filename);
-    bool isReady();
-    bool isWellFormed();
+  // Actually process the file
+  cepError read (const string & filename);
+  cepError write (const string & filename);
+  bool isReady ();
+  bool isWellFormed ();
 
-    // Accessor methods
-     cepMatrix < double >*getMatrix(direction dir);
-    double getB1(direction dir);
-    double getB2(direction dir);
+  // Accessor methods
+    cepMatrix < double >*getMatrix (direction dir);
+  double getB1 (direction dir);
+  double getB2 (direction dir);
 
-    // Return a filtered dataset
-    cepDataset filter(float low, float high);
+  // Return a filtered dataset
+  cepDataset filter (float low, float high);
 
-    // Return a dataset with some values replaced
-    cepDataset replace(float low, float high, float sample);
+  // Return a dataset with some values replaced
+  cepDataset replace (float low, float high, float sample);
 
-    // Put methods
-    void setFreqDomain(bool isFreq);
-    void setFreqEnergies(float e1, float e2, float e3);
+  // Put methods
+  void setFreqDomain (bool isFreq);
+  void setFreqEnergies (float e1, float e2, float e3);
 
-    // Utility methods
-    direction getDirectionFromName(string name);
-    string getRootFilename();
-    string getName();
-    string getProcHistory();
-    string getOffset(direction i);
-    string getHeader(direction i);
-    bool getHaveLs(direction i);
-    bool isFreqDomain();
-    float getEnergy(direction i);
+  // Utility methods
+  direction getDirectionFromName (string name);
+  string getRootFilename ();
+  string getName ();
+  string getProcHistory ();
+  string getOffset (direction i);
+  string getHeader (direction i);
+  bool getHaveLs (direction i);
+  bool isFreqDomain ();
+  float getEnergy (direction i);
 
-  private:
-    string applyOffset(direction i, string value);
-    string reverseOffset(direction i, string value);
+private:
+    string applyOffset (direction i, string value);
+  string reverseOffset (direction i, string value);
 
-    string m_filename;
-    string m_header[dirUnknown];
-    string m_offset[dirUnknown];
-    string m_procHistory;
-    float m_offsetFloat[dirUnknown];
+  string m_filename;
+  string m_header[dirUnknown];
+  string m_offset[dirUnknown];
+  string m_procHistory;
+  float m_offsetFloat[dirUnknown];
 
-    cepDatasetProgressCB m_progress;
-     cepMatrix < double >*m_data[dirUnknown];
-    bool m_ready;
-    bool m_wellformed;
-    bool m_frequencyData;
+  cepDatasetProgressCB m_progress;
+    cepMatrix < double >*m_data[dirUnknown];
+  bool m_ready;
+  bool m_wellformed;
+  bool m_frequencyData;
 
-    double m_b1[dirUnknown];
-    double m_b2[dirUnknown];
-    bool m_haveLs[dirUnknown];
+  double m_b1[dirUnknown];
+  double m_b2[dirUnknown];
+  bool m_haveLs[dirUnknown];
 
-    float m_e[dirUnknown];
+  float m_e[dirUnknown];
 
-    static const double delim;
+  static const double delim;
 };
 
 
-class cepVector4D {
-  public:
-    cepVector4D();
-    void push_back(double xval, double yval, double zval, double cval);
-    int size();
-    double Xat(int &index);
-    double Yat(int &index);
-    double Zat(int &index);
-    double Cat(int &index);
-  protected:
-     vector < double >x;
-     vector < double >y;
-     vector < double >z;
-     vector < double >c;
+class cepVector4D
+{
+public:
+  cepVector4D ();
+  void push_back (double xval, double yval, double zval, double cval);
+  int size ();
+  double Xat (int &index);
+  double Yat (int &index);
+  double Zat (int &index);
+  double Cat (int &index);
+protected:
+    vector < double >x;
+    vector < double >y;
+    vector < double >z;
+    vector < double >c;
 };
 
 #endif

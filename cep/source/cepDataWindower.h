@@ -58,35 +58,39 @@ DOCBOOK END
 #include "cepMatrix.h"
 #include "cepWindowAlg.h"
 
-class cepWindow {
+class cepWindow
+{
 public:
-  cepWindow( int id, const char* name );
-  bool operator== (const cepWindow &w) const;
-  bool operator!= (const cepWindow &w) const;
-  const int id() const;
-  const char* toString() const;
-  
+  cepWindow (int id, const char *name);
+  bool operator== (const cepWindow & w) const;
+  bool operator!= (const cepWindow & w) const;
+  const int id () const;
+  const char *toString () const;
+
 private:
   int myID;
   const char *str;
 };
 
-class cepDataWindower {
+class cepDataWindower
+{
 public:
-  static const cepError setWindowType( const cepWindow &type, const int size, const int overlap );
-  
+  static const cepError setWindowType (const cepWindow & type, const int size,
+				       const int overlap);
+
   // att is the side lobe attenuation as required for dolph-chebyshev
-  static const cepError setChebBandwidth( double dw );
+  static const cepError setChebBandwidth (double dw);
 
   // windowedData is in/out param. numRows is the number of windows, numCols is the windows size
   // and the tird dimension is 2 (date and value)
-  static const cepError window( const cepMatrix<double> & dataIn, cepMatrix<double> & windowedData );
+  static const cepError window (const cepMatrix < double >&dataIn,
+				cepMatrix < double >&windowedData);
 
-  static void init();
+  static void init ();
 
-  static const int getSize();
-  static const int getOverlap();
-  static const cepWindow lookupWindow( int id );
+  static const int getSize ();
+  static const int getOverlap ();
+  static const cepWindow lookupWindow (int id);
 
   static const cepWindow WINDOW_RECTANGULAR;
   static const cepWindow WINDOW_HAMMING;
@@ -94,22 +98,22 @@ public:
   static const cepWindow WINDOW_BLACKMAN;
   static const cepWindow WINDOW_CHEBYSHEV;
   static const cepWindow WINDOW_UNDEFINED;
-  
+
   static const string CONFIG_NAME_TYPE;
   static const string CONFIG_NAME_SIZE;
   static const string CONFIG_NAME_OVERLAP;
- 
-  static int countWindows( int samples, int winSize, int overlap );
+
+  static int countWindows (int samples, int winSize, int overlap);
 
 protected:
-  cepDataWindower();
-  ~cepDataWindower();
-  
+    cepDataWindower ();
+   ~cepDataWindower ();
+
   static cepWindowAlg *windowAlg;
   static int size;
   static int overlap;
   static cepWindow algType;
-  
+
 };
 
 

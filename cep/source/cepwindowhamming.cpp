@@ -20,27 +20,31 @@
 
 #include "cepwindowhamming.h"
 
-cepWindowHamming::cepWindowHamming( int size ) : cepWindowAlg( size ) {
-  initCoeffs();
+cepWindowHamming::cepWindowHamming (int size):
+cepWindowAlg (size)
+{
+  initCoeffs ();
 }
 
-cepWindowHamming::~cepWindowHamming()
+cepWindowHamming::~cepWindowHamming ()
 {
-  if( coeffs != NULL ) delete coeffs;
+  if (coeffs != NULL)
+    delete coeffs;
 }
 
 
-double cepWindowHamming::getValue( int offset )
+double
+cepWindowHamming::getValue (int offset)
 {
-  if( size == 1 ) return 1;
-  double val = (double)offset/(size-1);
-  double result = 0.54 - 0.46*cos( 2*PI*val );
+  if (size == 1)
+    return 1;
+  double val = (double) offset / (size - 1);
+  double result = 0.54 - 0.46 * cos (2 * PI * val);
   /*
-  cout << "offset="<< offset
-       << " size="<< size
-       << " val=" << val
-       << " result=" << result << endl;
-  */
+     cout << "offset="<< offset
+     << " size="<< size
+     << " val=" << val
+     << " result=" << result << endl;
+   */
   return result;
 }
-

@@ -71,11 +71,11 @@ DOCBOOK END
 class cepTmpClean
 {
 public:
-  cepTmpClean(string path, string pattern);
-  cepError execute(int& deleted, bool doDelete);
+  cepTmpClean (string path, string pattern);
+  cepError execute (int &deleted, bool doDelete);
 
 private:
-  string m_path, m_pattern;
+    string m_path, m_pattern;
   cepConfiguration *m_config;
 };
 

@@ -30,6 +30,6 @@
 #include "cepError.h"
 
 // Reads a LS P weighting matrix from a file
-cepMatrix <double> cepReadMatrix(const string& filename);
+cepMatrix < double >cepReadMatrix (const string & filename);
 
 #endif

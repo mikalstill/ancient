@@ -20,18 +20,21 @@
 
 #include "cepwindowblackman.h"
 
-cepWindowBlackman::cepWindowBlackman( int size ) : cepWindowAlg( size ) {
-  initCoeffs();
-}
-
-cepWindowBlackman::~cepWindowBlackman()
+cepWindowBlackman::cepWindowBlackman (int size):
+cepWindowAlg (size)
 {
-  if( coeffs != NULL ) delete coeffs;
+  initCoeffs ();
 }
 
-double cepWindowBlackman::getValue( int offset )
+cepWindowBlackman::~cepWindowBlackman ()
 {
-  double val = (double)offset/(size-1);
-  return 0.42 - 0.5*cos( 2*PI*val ) + 0.08*cos(4*PI*val);
+  if (coeffs != NULL)
+    delete coeffs;
 }
 
+double
+cepWindowBlackman::getValue (int offset)
+{
+  double val = (double) offset / (size - 1);
+  return 0.42 - 0.5 * cos (2 * PI * val) + 0.08 * cos (4 * PI * val);
+}

@@ -37,7 +37,7 @@ string cepToUpper (string in);
 
 // Evaluation methods
 bool cepIsBlank (char chr);
-bool cepIsNumeric(char chr);
+bool cepIsNumeric (char chr);
 
 // Mathematical methods
 int cepMax (int a, int b);

@@ -68,13 +68,14 @@ DOCBOOK END
   *@author Blake Swadling
   */
 
-class cepWindowRect : public cepWindowAlg  {  
+class cepWindowRect:public cepWindowAlg
+{
 public:
-  cepWindowRect( int size );
-  ~cepWindowRect();
-  
+  cepWindowRect (int size);
+   ~cepWindowRect ();
+
 protected:
-  double getValue( int offset );
+  double getValue (int offset);
 };
 
 #endif

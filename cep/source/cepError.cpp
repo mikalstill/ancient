@@ -43,8 +43,10 @@ cepError::cepError (const string & msg, cepError::severity level)
   m_actioned = false;
 }
 
-bool cepError::m_handlerInstalled=false;
-cepErrorHandler * cepError::m_handler = NULL;
+bool cepError::m_handlerInstalled = false;
+cepErrorHandler *
+  cepError::m_handler =
+  NULL;
 
 cepError::~cepError ()
 {
@@ -52,41 +54,45 @@ cepError::~cepError ()
     cepDebugPrint ("cepError was not actioned: " + m_message);
 }
 
-void cepError::addErrorHandler( cepErrorHandler& h )
+void
+cepError::addErrorHandler (cepErrorHandler & h)
 {
-  if( !m_handlerInstalled )
-  {
-    m_handler = &h;
-    m_handlerInstalled = true;
-  }
+  if (!m_handlerInstalled)
+    {
+      m_handler = &h;
+      m_handlerInstalled = true;
+    }
 }
 
-void cepError::init()
+void
+cepError::init ()
 {
-  if((m_message != "") && (m_actioned == false))
-  {
-    cepDebugPrint ("cepError was not actioned: " + m_message);
-  }
-    
+  if ((m_message != "") && (m_actioned == false))
+    {
+      cepDebugPrint ("cepError was not actioned: " + m_message);
+    }
+
   m_actioned = false;
   m_level = cepError::sevOk;
   m_message = "";
 }
 
-void cepError::setError(const string & msg, cepError::severity level)
+void
+cepError::setError (const string & msg, cepError::severity level)
 {
   m_message = msg;
   m_level = level;
   m_actioned = false;
 }
 
-void cepError::removeErrorHandler()
+void
+cepError::removeErrorHandler ()
 {
-  if( m_handlerInstalled )
-  {
-    delete m_handler;
-    m_handlerInstalled = false;
-  }
+  if (m_handlerInstalled)
+    {
+      delete m_handler;
+      m_handlerInstalled = false;
+    }
 }
 
 bool cepError::isReal ()
@@ -95,68 +101,75 @@ bool cepError::isReal ()
   return m_message != "";
 }
 
-void cepError::clear ()
+void
+cepError::clear ()
 {
   m_actioned = true;
   m_message = "";
 }
 
-void cepError::log ()
+void
+cepError::log ()
 {
-  if(m_handler != NULL)
-    m_handler->logError( *this );
+  if (m_handler != NULL)
+    m_handler->logError (*this);
   m_actioned = true;
 }
 
-void cepError::display ()
+void
+cepError::display ()
 {
-  if( m_handler != NULL ) {
-    if( isReal() ) {
-      m_handler->displayError( *this );
-      }
+  if (m_handler != NULL)
+    {
+      if (isReal ())
+	{
+	  m_handler->displayError (*this);
+	}
     }
   m_actioned = true;
 }
 
-int cepError::getSeverity()
+int
+cepError::getSeverity ()
 {
   return m_level;
 }
 
-string & cepError::getMessage()
+string & cepError::getMessage ()
 {
   return m_message;
 }
 
-string cepError::getTitle()
+string cepError::getTitle ()
 {
-  switch (getSeverity())
-  {
-  case sevOk:
-    return "Ok";
+  switch (getSeverity ())
+    {
+    case sevOk:
+      return "Ok";
 
-  case sevDebug:
-    return "Debug";
+    case sevDebug:
+      return "Debug";
 
-  case sevInformational:
-    return "Informational";
+    case sevInformational:
+      return "Informational";
 
-  case sevWarning:
-    return "Warning";
+    case sevWarning:
+      return "Warning";
 
-  case sevErrorRecoverable:
-    return "Recoverable Error";
+    case sevErrorRecoverable:
+      return "Recoverable Error";
 
-  case sevErrorFatal:
-    return "Fatal error";
+    case sevErrorFatal:
+      return "Fatal error";
 
-  default:
-    return "UNKNOWN ERROR LEVEL";
-  }
+    default:
+      return "UNKNOWN ERROR LEVEL";
+    }
 }
 
-void cepError::doTerminate()
+void
+cepError::doTerminate ()
 {
-  if(m_level == sevErrorFatal)
-    exit(-1);
+  if (m_level == sevErrorFatal)
+    exit (-1);
 }

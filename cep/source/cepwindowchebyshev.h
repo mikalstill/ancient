@@ -75,28 +75,29 @@ DOCBOOK END
   */
 
 
-class cepWindowChebyshev : public cepWindowAlg  {
+class cepWindowChebyshev:public cepWindowAlg
+{
 public:
-  cepWindowChebyshev( int size );  
-  ~cepWindowChebyshev();
-  
-  static const cepError setTransitionBandwidth(double tbw);
-  static const double getTransitionBandwidth();
-  
-  static const cepError setBandwidthValue(double tbw);
-  static void saveBandwidthValue();
+  cepWindowChebyshev (int size);
+   ~cepWindowChebyshev ();
+
+  static const cepError setTransitionBandwidth (double tbw);
+  static const double getTransitionBandwidth ();
+
+  static const cepError setBandwidthValue (double tbw);
+  static void saveBandwidthValue ();
 
   static const string CONFIG_NAME_CHEB;
-  
+
 protected:
   /**
    * overload this as we need a specialised mechanism to make the coeffs
    */
-  cepMatrix<double> *generateCoeffs( int size );
-  double getValue( int offset );
-  double calcValue( int n );
+    cepMatrix < double >*generateCoeffs (int size);
+  double getValue (int offset);
+  double calcValue (int n);
 
-  
+
 
 private:
   static double df;
