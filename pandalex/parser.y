@@ -35,6 +35,7 @@
     if(size > 0){
       memcpy(buffer, file + gInset, size);
       gInset += size;
+      debuglex(buffer, size, "get text from file");
     }
     
     return size;
@@ -161,7 +162,7 @@ objref    : INT INT OBJREF { if(($$.data = (char *) malloc((pandalex_intlen($1) 
           ;
 
 // completely implemented
-stream    : STREAM binary ENDSTREAM { pandalex_callback(pandalex_event_stream, $2.data, $2.len); /*free($2.data);*/ }
+stream    : STREAM binary ENDSTREAM { pandalex_callback(pandalex_event_stream, $2.data, $2.len); free($2.data); }
           |
           ;
 
@@ -266,13 +267,27 @@ int pandalex_endparse(){
 }
 
 int yyerror(char *s){
+  int i;
+
   fprintf(stderr, "\n---------------------------------------------------------------\n");
   fprintf(stderr, "PandaLex parser error (%s):\n", s);
   fprintf(stderr, "  Please send this error text, along with a copy of your PDF\n");
   fprintf(stderr, "  document (if possible) to mikal@stillhq.com, so that this can\n");
   fprintf(stderr, "  be fixed for the next release...\n\n");
   fprintf(stderr, "version = %s\n", VERSION);
+
   //  fprintf(stderr, "last token = \"%s\" (%d) or %d\n", yylval.sval.data, yylval.sval.len, yylval.intVal);
+  fprintf(stderr, "Last token matched was:\n  ");
+  for(i = 0; i < ((yylval.sval.len == -1) ? strlen(yylval.sval.data) : yylval.sval.len); i++){
+    if(yylval.sval.data[i] == '\n') fprintf(stderr, " \\n " );
+    else if(yylval.sval.data[i] == '\t') fprintf(stderr, " \\t ");
+    else if(yylval.sval.data[i] == '\r') fprintf(stderr, " \\r ");
+    else if(yylval.sval.data[i] == ' ') fprintf(stderr, " sp ");
+    else if(isprint(yylval.sval.data[i])) fprintf(stderr, "%c", yylval.sval.data[i]);
+    else fprintf(stderr, " \\%d ", (unsigned char) yylval.sval.data[i]);
+    }
+  fprintf(stderr, "\"\n");
+
   fprintf(stderr, "\n---------------------------------------------------------------\n");
 
   exit(42);
