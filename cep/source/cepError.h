@@ -42,7 +42,8 @@ public:
 
   bool isReal ();
   void display ();
-
+  string getTitle();
+  
 private:
     string m_msg;
   severity m_level;

@@ -19,6 +19,24 @@
 
 #include "core.h"
 
+#ifdef __WXGTK__
+// For compilers that support precompilation, includes "wx/wx.h".
+#include "wx/wxprec.h"
+
+#ifdef __BORLANDC__
+#pragma hdrstop
+#endif
+
+#ifndef WX_PRECOMP
+#include "wx/wx.h"
+#endif
+#include "wx/txtstrm.h"
+
+#if !wxUSE_DOC_VIEW_ARCHITECTURE
+#error You must set wxUSE_DOC_VIEW_ARCHITECTURE to 1 in setup.h!
+#endif
+#endif
+
 cepError::cepError ():
 m_msg (), m_level (cepError::sevOk), m_actioned (true)
 {
@@ -58,46 +76,46 @@ cepError::display ()
   if (!gOptions.errorDisplay[m_level])
     return;
 
-  // todo_mikal: integrate with UI
   if (m_msg != "")
     {
-      switch (m_level)
-	{
-	case sevOk:
-	  return;
-	  break;
-
-	case sevDebug:
-	  cout << "Debug: ";
-	  break;
-
-	case sevInformational:
-	  cout << "Informational: ";
-	  break;
-
-	case sevWarning:
-	  cout << "Warning: ";
-	  break;
-
-	case sevErrorRecoverable:
-	  cout << "Recoverable Error: ";
-	  break;
-
-	case sevErrorFatal:
-	  cout << "Fatal error: ";
-	  break;
-
-	default:
-	  cout << "UNKNOWN ERROR LEVEL: ";
-	  break;
-	}
-
-      cout << m_msg << endl;
+#ifdef __WXGTK__
+      wxMessageBox(getTitle().c_str(), m_msg.c_str());
+#else
+      cout << getTitle() << ": " << m_msg << endl;
+#endif
     }
   else
     {
+      // This presents a smaller danger of an infinite loop
       cepError dbg ("Display requested on empty cepError",
 		    cepError::sevDebug);
       dbg.display ();
+    }
+}
+
+string cepError::getTitle()
+{
+  switch (m_level)
+    {
+    case sevOk:
+      return "Ok";
+
+    case sevDebug:
+      return "Debug";
+      
+    case sevInformational:
+      return "Informational";
+      
+    case sevWarning:
+      return "Warning";
+      
+    case sevErrorRecoverable:
+      return "Recoverable Error";
+      
+    case sevErrorFatal:
+      return "Fatal error";
+      
+    default:
+      return "UNKNOWN ERROR LEVEL";
     }
 }
