@@ -34,7 +34,13 @@ In attendance at the meeting
 
 <sect2><title>Action items</title>
 <para>
-No new action items this meeting.
+The following action items were identified:
+<orderedlist>
+<listitem><para>Kristy would start implementing the Matrix class</para></listitem>
+<listitem><para>Action Item 2</para></listitem>
+<listitem><para></para></listitem>
+
+</orderedlist>
 </para>
 </sect2>
 </sect1>
