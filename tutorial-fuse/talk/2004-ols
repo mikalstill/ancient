@@ -57,6 +57,10 @@ content/fuse-operation-statfs
 content/fuse-operation-release
 content/fuse-operation-fsync
 content/fuse-threadingmodel
+content/fuse-performancemetrics
+content/fuse-kernelcompiles
+content/fuse-bonnie++
+content/fuse-dbench
 content/fuse-loadhandling
 content/fuse-mounting
 content/fuse-unmounting

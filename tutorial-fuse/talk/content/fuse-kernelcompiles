@@ -1,0 +1,36 @@
+TITLE: Performance: kernel compiles
+
+<ul>
+<li>The ultimate performance metric?
+
+<BR><BR>
+
+<ul><pre>
+make clean
+make mrproper
+make allyesconfig
+time make
+</pre></ul>
+
+<BR><BR>
+
+<b>Straight ext3:</b><br>
+<ul><pre>
+1145.69user 70.27system 20:33.32elapsed 98%CPU (0avgtext+0avgdata 0maxresident)k
+1146.23user 69.63system 20:39.99elapsed 98%CPU (0avgtext+0avgdata 0maxresident)k
+1145.61user 69.97system 20:34.23elapsed 98%CPU (0avgtext+0avgdata 0maxresident)k
+1145.90user 70.19system 20:35.62elapsed 98%CPU (0avgtext+0avgdata 0maxresident)k
+1146.22user 69.99system 20:39.80elapsed 98%CPU (0avgtext+0avgdata 0maxresident)k
+</pre></ul>
+
+<BR><BR>
+
+<b>Userspace write through to ext3:</b><br>
+<ul><pre>
+1151.70user 78.65system 22:07.49elapsed 92%CPU (0avgtext+0avgdata 0maxresident)k
+1151.59user 78.30system 22:13.22elapsed 92%CPU (0avgtext+0avgdata 0maxresident)k
+1151.40user 78.46system 22:17.37elapsed 91%CPU (0avgtext+0avgdata 0maxresident)k
+1151.48user 78.88system 22:13.04elapsed 92%CPU (0avgtext+0avgdata 0maxresident)k
+1150.97user 78.53system 22:18.70elapsed 91%CPU (0avgtext+0avgdata 0maxresident)k
+</pre></ul>
+</ul>

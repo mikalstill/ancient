@@ -1,0 +1,12 @@
+TITLE: Performace metrics
+
+<ul>
+<li>How does FUSE compare with traditional filesystems?
+<li>All of the following metrics are based on this scheme:
+
+<ul>
+<li>Perform an operation on a ext3 filesystem
+<li>Perform the same operation on a simple write through filesystem which points straight at the ext3 filesystem used above
+<li>Compare
+</ul>
+</ul>

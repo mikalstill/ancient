@@ -1,0 +1,7 @@
+TITLE: bonnie++
+
+<ul>
+<pre>
+bonnie++ -d /tmp/benchmarks/ -u root
+</pre>
+</ul>
