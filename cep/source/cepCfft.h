@@ -133,8 +133,7 @@ public:
     return N;
   }
 
-  cepMatrix < ComplexDble > matrixFft (cepMatrix < ComplexDble > &matrix,
-				       int dir);
+  cepMatrix < double > matrixFft (cepMatrix < double > &matrix, int dir);
 
   // used to fill in last half of complex spectrum of real signal
   // when the first half is already there.
@@ -261,8 +260,8 @@ template < class T > void cepCfft < T >::hermitian (T * buf)
  *        : direction of the transform - 1 = forward, 0 = inverse.
    returns the fft'd data in the matrix whic was originally passed.
  */
-template < class T > cepMatrix < ComplexDble > cepCfft <
-  T >::matrixFft (cepMatrix < ComplexDble > &matrix, int dir)
+template < class T > cepMatrix < double > cepCfft <
+  T >::matrixFft (cepMatrix < double > &matrix, int dir)
 {
   int numRows = matrix.getNumRows ();
   int numCols = matrix.getNumCols ();
@@ -279,7 +278,7 @@ template < class T > cepMatrix < ComplexDble > cepCfft <
   double checks[NUMCHECKS];
 
   ComplexDble arrayToFft[arraySize];
-  cepMatrix < ComplexDble > ffteedMatrix (numRows, numCols, numTables);	//matrix contain to store processed values
+  cepMatrix < double > ffteedMatrix (numRows, numCols, numTables);	//matrix contain to store processed values
 
   if (dir == 1)			//Forward,  calculate scale
     {
@@ -287,10 +286,8 @@ template < class T > cepMatrix < ComplexDble > cepCfft <
 	{
 	  //size of dataset = numRows
 	  int halfSetSize = (int) (numRows * 0.5);
-	  double sampleRate = abs ((real (matrix.getValue (0, 0, 0))
-				    -
-				    real (matrix.getValue (1, 0, 0)))) *
-	    DAYSINYEAR;
+	  double sampleRate = abs ( matrix.getValue (0, 0, 0) - 
+                                    matrix.getValue (1, 0, 0) ) * DAYSINYEAR;
 	  double freq = 1 / sampleRate;
 
 	  //the first half of the scale
@@ -317,7 +314,7 @@ template < class T > cepMatrix < ComplexDble > cepCfft <
 	{
 	  for (count = 0; count < NUMCHECKS; count++)
 	    {
-	      checks[count] = real (matrix.getValue (count, col - 1, table));
+	      checks[count] = matrix.getValue (count, col - 1, table);
 	    }
 	  //only want to check continuous index on forward transform
 	  if (dir == 1)
@@ -344,8 +341,8 @@ template < class T > cepMatrix < ComplexDble > cepCfft <
 	ifft (arrayToFft);
 
       //place the processed values into the marix.
-      ComplexDble tempValue = 0.0;
-      //double tempValue = 0.0;
+      //ComplexDble tempValue = 0.0;
+      double tempValue = 0.0;
       for (col = 1; col < numCols; col++)
 	{
 	  for (row = 0; row < numRows; row++)
@@ -353,10 +350,9 @@ template < class T > cepMatrix < ComplexDble > cepCfft <
 	      //populate ffteedMatrix with magnitude
 	      if (col == 1)	//if we are looking at a data value
 		//calculate the magnitude
-		tempValue =
-		  pow (real (arrayToFft[row]),
-		       2) + pow (imag (arrayToFft[row]), 2);
-	      else		//we are looking at the error or the last coloumn
+		tempValue = pow (real (arrayToFft[row]), 2) + 
+                            pow (imag (arrayToFft[row]), 2);
+	      else //we are looking at the error or the last coloumn
 		//just copy the old value into the new matrix.
 		tempValue = matrix.getValue (row, col, table);
 
