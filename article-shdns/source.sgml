@@ -2,6 +2,18 @@
 <article>
 <title>UDP shell scripts with inetd</title>
 
+<sect1><title>About the author</title>
+<para>
+Michael has been working in the image processing field for several years, including a couple of years managing and developing large image databases for an Austra
+lian government department. He currently works for TOWER Software, who manufacture a world leading EDMS and Records Management package named TRIM. Michael is als
+o the developer of Panda, an open source PDF generation API, as well as being the maintainer of the comp.text.pdf USENET frequently asked questions document.
+</para>
+
+<para>
+Michael has a website at http://www.stillhq.com.
+</para>
+</sect1>
+
 <sect1><title>Introduction</title>
 <para>
 ...
