@@ -29,4 +29,4 @@ while(<STDIN>){
 }
 
 print "</programlisting>\n";
-print "<para><emphasis>Code: $ARGV[0]</emphasis></para>\n";
+print "<para><emphasis>Code: $ARGV[1]</emphasis></para>\n";

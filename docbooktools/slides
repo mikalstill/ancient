@@ -3,7 +3,7 @@
 use strict;
 
 my($chapname, $chaptitle, $slidename, $slidetitle, $incmode, $suppress,
-   $LIST, $SLIDE);
+   $LIST, $SLIDE, $tablerowcount);
 
 $incmode = 0;
 $suppress = 0;
@@ -45,9 +45,10 @@ while(<STDIN>){
 	    $chapname = makefile($2);
 	    
 	    close SLIDE;
-	    open SLIDE, "> slide/$chapname";
+	    open SLIDE, "> content/$chapname";
 	    print SLIDE "TITLE: $chaptitle\n\n";
-	    print LIST "slide/$chapname\n";
+	    print LIST "content/$chapname\n";
+	    print STDERR "New slide: $chaptitle at content/$chapname\n";
 	}
 	else{
 	    $slidetitle = $2;
@@ -55,9 +56,10 @@ while(<STDIN>){
 	    $slidename =~ s/^$chapname-//;
 	    
 	    close SLIDE;
-	    open SLIDE, "> slide/$chapname-$slidename";
+	    open SLIDE, "> content/$chapname-$slidename";
 	    print SLIDE "TITLE: $chaptitle -- $slidetitle\n\n";
-	    print LIST "slide/$chapname-$slidename\n";
+	    print LIST "content/$chapname-$slidename\n";
+	    print STDERR "New slide: $chaptitle -- $slidetitle at content/$chapname-$slidename\n";
 	}
     }
     
@@ -88,9 +90,9 @@ while(<STDIN>){
 	}
 
 	print STDERR "New slide name is $slidename\n";
-	open SLIDE, "> slide/$chapname-$slidename";
+	open SLIDE, "> content/$chapname-$slidename";
 	print SLIDE "TITLE: $chaptitle -- $slidetitle (continued)\n\n";
-	print LIST "slide/$chapname-$slidename\n";
+	print LIST "content/$chapname-$slidename\n";
     }
 
     # We can also suppress titles from being included
@@ -113,25 +115,89 @@ sub makefile(){
     $temp =~ s/[ \t]/-/g;
     $temp =~ s/://g;
     $temp =~ s/the-//g;
+    $temp =~ s/\?//g;
+    $temp =~ s/'//g;
     return $temp;
 }
 
 sub makeslidetext(){
     my($temp) = @_;
+    my($linelen);
 
-    print STDERR "IN: $temp";
+    # Convert tables to HTML
+    $linelen = -42;
+    
+    $_ = $temp;
+    if(/.*<row>/){
+	if($tablerowcount == 1){
+	    $temp =~ s/<row>/<tr bgcolor=BBBBBB>/;
+	    $tablerowcount = 0;
+	}
+	else{
+	    $temp =~ s/<row>/<tr>/;
+	    $tablerowcount = 1;
+	}
+    }
+
+    $temp =~ s/<\/row>/<\/tr>/g;
+
+    $temp =~ s/<entry>/<td>/g;
+    $temp =~ s/<\/entry>/<\/td>/g;
+    $temp =~ s/<thead>//g;
+    $temp =~ s/<\/thead>//g;
+    $temp =~ s/<tbody>//g;
+    $temp =~ s/<\/tbody>//g;
+    $temp =~ s/<tgroup[^>]*>//g;
+    $temp =~ s/<\/tgroup>//g;
+#    $temp =~ s/<table[^>]*><title>(.*)<\/title>/<title>$1<\/title><br><table>/g;
+    $_ = $temp;
+    if(/.*<table>/){
+	$tablerowcount = 1;
+    }
+    $temp =~ s/<table[^>]*><title>(.*)<\/title>/<table>/g;
+
+    # Deal with quotes
+    $temp =~ s/<quote>/<i>/g;
+    $temp =~ s/<\/quote>/<\/i>/g;
+
+    # Deal with images
+    $temp =~ s/<figure>/<br><br><div align=\"center\">/g;
+    $temp =~ s/<title>/<b>/g;
+    $temp =~ s/<\/title>/<\/b>/g;
+    $temp =~ s/<graphic format.*fileref=\"/<br><img src=\"\/notes\/presentations\/content\//g;
+    $temp =~ s/<\/figure>/<\/div><BR><BR>/g;
+
+    # Footnotes
+    $temp =~ s/<footnote><para>/<i>(/g;
+    $temp =~ s/<\/para><\/footnote>/)<\/i>/g;
+
+    # Listitems
+    $temp =~ s/<orderedlist>//g;
+    $temp =~ s/<\/orderedlist>//g;
+    $temp =~ s/<itemizedlist>//g;
+    $temp =~ s/<\/itemizedlist>//g;
+    $temp =~ s/<listitem><para>/<li>/g;
+    $temp =~ s/<\/para><\/listitem>//g;
+
+    # Source code
+    $temp =~ s/<programlisting>/<pre>/g;
+    $temp =~ s/<\/programlisting>/<\/pre>/g;
+
+    # Emphasis / command
+    $temp =~ s/<emphasis>/<i>/g;
+    $temp =~ s/<\/emphasis>/<\/i>/g;
+    $temp =~ s/<command>/<i><b>/g;
+    $temp =~ s/<\/command>/<\/b><\/i>/g;
+
+    # Sections
+    $temp =~ s/<sect[^>]*>/<BR><BR>/g;
+    $temp =~ s/<\/sect[^>]*>//g;
+
+    # Other stuff
     $temp =~ s/<slidetext>//g;
     $temp =~ s/<\/slidetext>//g;
     $temp =~ s/<para>/<BR><BR>/g;
     $temp =~ s/<\/para>//g;
-    $temp =~ s/<quote>/<i>/g;
-    $temp =~ s/<\/quote>/<\/i>/g;
-    $temp =~ s/<figure>/<br><br><div align=\"center\">/g;
-    $temp =~ s/<title>/<b>/g;
-    $temp =~ s/<\/title>/<\/b>/g;
-    $temp =~ s/<graphic format.*fileref=\"/<br><img src=\"\/notes\/presentations\/slide\//g;
-    $temp =~ s/<\/figure>/<\/div><BR><BR>/g;
-    print STDERR "OUT: $temp";
 
     return $temp;
 }
