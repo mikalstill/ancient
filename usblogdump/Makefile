@@ -1,7 +1,7 @@
 all:	usblog-dump
 
 usblog-dump:	usblog-dump.o fileutil.o winlang.h md5.o
-	gcc -ggdb -o usblog-dump usblog-dump.o fileutil.o md5.o
+	gcc -ggdb -o usblogdump usblog-dump.o fileutil.o md5.o
 
 usblog-dump.o: usblog-dump.c
 	gcc -c -ggdb usblog-dump.c -o usblog-dump.o

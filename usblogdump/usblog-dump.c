@@ -17,6 +17,8 @@
 #include "md5-global.h"
 #include "md5.h"
 
+#define VERSION " (Version 0.2)"
+
 char *functname (unsigned int function);
 
 // URB things
@@ -51,6 +53,7 @@ typedef struct usb_internal_allurbs
 
   int rptlen;
   int rpttimes;
+  int abend;
 
   char *desc;
   char *md5;
@@ -74,25 +77,25 @@ main (int argc, char *argv[])
   while ((optchar = getopt (argc, argv, "i:r")) != -1)
     {
       switch (optchar)
-        {
+	{
 	case 'r':
 	  do_suppress = 1;
 	  break;
 
-        case 'i':
-          input_filename = (char *) strdup (optarg);
-          break;
+	case 'i':
+	  input_filename = (char *) strdup (optarg);
+	  break;
 
-        default:
-        case '?':
-          printf ("Unknown command line option...\n");
-          printf ("Try: %s [-i input] [-r]\n", argv[0]);
-          exit (0);
-          break;
-        }
+	default:
+	case '?':
+	  printf ("Unknown command line option...\n");
+	  printf ("Try: %s [-i input] [-r]\n", argv[0]);
+	  exit (0);
+	  break;
+	}
     }
 
-  if(input_filename == NULL)
+  if (input_filename == NULL)
     {
       printf ("No input file specified...\n");
       printf ("Try: %s [-i input] [-r]\n", argv[0]);
@@ -149,6 +152,8 @@ main (int argc, char *argv[])
   seq = -1;
   for (urbCount = 0; urbCount < npackets; urbCount++)
     {
+      urbhead[urbCount].abend = 0;
+
       // Get the object tag (a MFCism) -- it tells us if there is an object 
       // name coming up
       otag = fileutil_getushort (file, &filep);
@@ -311,7 +316,10 @@ main (int argc, char *argv[])
 	  break;
 
 	default:
-	  urb_printf ("***Unknown function***\n");
+	  urb_printf ("\n*** Unknown function ***\n\n");
+	  urb_printf ("Aborting further decoding. Please report this to\n");
+	  urb_printf ("Michael Still (mikal@stillhq.com)\n");
+	  urbhead[urbCount].abend = 1;
 	}
 
       urbhead[urbCount].desc = urb_buffer;
@@ -324,6 +332,10 @@ main (int argc, char *argv[])
       urbhead[urbCount].rptlen = 0;
       urbhead[urbCount].rpttimes = 0;
 
+      // Finish up if we aborted this URB
+      if (urbhead[urbCount].abend == 1)
+	urbCount = npackets + 1;
+
       // Reset the URB buffer
       urb_buffer = NULL;
       urb_buffer_inset = 0;
@@ -332,7 +344,7 @@ main (int argc, char *argv[])
     }
 
   // Correlate
-  if(do_suppress == 1)
+  if (do_suppress == 1)
     {
       printf ("\nCorrelating the URBs:\n");
       corrstep = 0;
@@ -353,15 +365,14 @@ main (int argc, char *argv[])
 		      testinset = npackets + 100;
 		    }
 		}
-	      
+
 	      if (matchcount > 1)
 		{
-		  printf("  Found a match at URB %d of length %d which "
-			 "repeats %d times\n",
-			 inset, length, matchcount);
+		  printf ("  Found a match at URB %d of length %d which "
+			  "repeats %d times\n", inset, length, matchcount);
 		  urbhead[inset + length - 1].rptlen = length;
 		  urbhead[inset + length - 1].rpttimes = matchcount;
-		  for (temp = inset + length; 
+		  for (temp = inset + length;
 		       temp < matchcount * length + inset; temp++)
 		    {
 		      urbhead[temp].deleted = 1;
@@ -371,7 +382,7 @@ main (int argc, char *argv[])
 	    }
 	}
     }
-      
+
   // And now we should display the urbs
   for (urbCount = 0; urbCount < npackets; urbCount++)
     {
@@ -381,14 +392,16 @@ main (int argc, char *argv[])
       printf ("Sequence: %d\n", urbhead[urbCount].sequence);
       printf ("Relative time: %d\n", urbhead[urbCount].time);
       printf ("Reallocs: %d\n", urbhead[urbCount].reallocs);
-      printf ("MD5 hash: ");
-      for (temp = 0; temp < 16; temp++)
+      if (urbhead[urbCount].desc != NULL)
 	{
-	  printf ("%02x ", (unsigned char) urbhead[urbCount].md5[temp]);
+	  printf ("MD5 hash: ");
+	  for (temp = 0; temp < 16; temp++)
+	    {
+	      printf ("%02x ", (unsigned char) urbhead[urbCount].md5[temp]);
+	    }
+	  printf ("\n\n");
+	  printf ("%s", urbhead[urbCount].desc);
 	}
-      printf ("\n\n");
-
-      printf ("%s", urbhead[urbCount].desc);
 
       if (urbhead[urbCount].rptlen != 0)
 	{
@@ -397,6 +410,9 @@ main (int argc, char *argv[])
 	  urbCount +=
 	    urbhead[urbCount].rptlen * (urbhead[urbCount].rpttimes - 1);
 	}
+
+      if (urbhead[urbCount].abend != 0)
+	urbCount = npackets + 1;
     }
 
   // It's polite to cleanup
