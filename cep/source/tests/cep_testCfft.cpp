@@ -1,5 +1,5 @@
 /***************************************************************************
- * Testing Framework for cepMatrix
+ * Testing Framework for cepCfft
  *
  * (c) Daniel Fernandez, Blake Swadling 2002 ..
  *   ( or whoever simply removes this comment and steals it for themselves )
@@ -131,6 +131,7 @@ namespace
 	    }
 	}
 
+      cepMatrix < ComplexDble > myComplexMatrix(numRows,numCols);
       cfft < ComplexDble > FFT (512);
       FFT.matrixFft (myMatrix, 1);
       
