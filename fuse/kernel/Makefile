@@ -8,7 +8,7 @@ majver = 2.6
 
 DISTFILES = Makefile.in dev.c dir.c file.c inode.c util.c fuse_i.h
 
-fusemoduledir = /lib/modules/2.6.2/kernel/fs/fuse
+fusemoduledir = /lib/modules/2.6.4/kernel/fs/fuse
 
 ifeq ($(majver), 2.4)
 fusemodule := fuse.o
@@ -44,7 +44,7 @@ ifeq ($(majver), 2.4)
 CC = gcc
 LD = ld
 CFLAGS = -O2 -Wall -Wstrict-prototypes -fno-strict-aliasing -pipe
-CPPFLAGS = -I/usr/src/linux-2.6.2-build/include -I../include -D__KERNEL__ -DMODULE -D_LOOSE_KERNEL_NAMES -DFUSE_VERSION=\"1.1-pre2\"
+CPPFLAGS = -I/usr/src/linux-2.6.4-cset-20040311_0309-build/include -I../include -D__KERNEL__ -DMODULE -D_LOOSE_KERNEL_NAMES -DFUSE_VERSION=\"1.1-pre2\"
 
 fuse_objs = dev.o dir.o file.o inode.o util.o
 
@@ -74,7 +74,7 @@ obj-m := fuse.o
 fuse-objs := dev.o dir.o file.o inode.o util.o
 
 all-spec:
-	$(MAKE) -C /usr/src/linux-2.6.2-build SUBDIRS=$(PWD) modules
+	$(MAKE) -C /usr/src/linux-2.6.4-cset-20040311_0309-build SUBDIRS=$(PWD) modules
 endif
 
 

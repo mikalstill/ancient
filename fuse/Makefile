@@ -40,9 +40,9 @@ pkgincludedir = $(includedir)/fuse
 
 top_builddir = .
 
-ACLOCAL = aclocal-1.4
+ACLOCAL = /home/opensource/fuse/missing aclocal-1.4
 AUTOCONF = autoconf
-AUTOMAKE = automake-1.4
+AUTOMAKE = /home/opensource/fuse/missing automake-1.4
 AUTOHEADER = autoheader
 
 INSTALL = /usr/bin/install -c
@@ -68,8 +68,8 @@ MAKEINFO = makeinfo
 PACKAGE = fuse
 RANLIB = ranlib
 VERSION = 1.1-pre2
-kernelsrc = /usr/src/linux-2.6.2-build
-kmoduledir = /lib/modules/2.6.2
+kernelsrc = /usr/src/linux-2.6.4-cset-20040311_0309-build
+kmoduledir = /lib/modules/2.6.4
 majver = 2.6
 subdirs = include patch kernel lib util example contrib
 
