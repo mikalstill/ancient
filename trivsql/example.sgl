@@ -1,0 +1,5 @@
+CREATE TABLE newtable (cola, colb, colc);
+SELECT * FROM newtable;
+INSERT INTO newtable (cola, colc) VALUES ('123', 'banana');
+SELECT * FROM newtable;
+SELECT * FROM newtable WHERE cola = '123';
