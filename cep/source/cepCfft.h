@@ -74,7 +74,7 @@ DOCBOOK END
 #include <stdio.h>
 #include <complex.h>
 #include "cepMatrix.h"
-#include "dmalloc.h"
+//#include "dmalloc.h"
 
 typedef complex <double> ComplexDble;
 

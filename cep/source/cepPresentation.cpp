@@ -148,6 +148,15 @@ cepPresentation::createBitmap (float& scale, long& minval)
     return cepError("Could not initialise a new plot", 
 		    cepError::sevErrorRecoverable);
 
+  // Draw a box around the graph
+  plot_setlinestart(graph, 0, 0);
+  plot_addlinesegment(graph, 0, m_height - 1);
+  plot_addlinesegment(graph, m_width - 2, m_height - 1);
+  plot_addlinesegment(graph, m_width - 2, 0);
+  plot_closeline(graph);
+  plot_strokeline(graph);
+  plot_endline(graph);
+
   // How big are the maxima and minima?
   long ymaxval = m_useErrors ? m_ymaxval + m_emaxval : m_ymaxval;
   long yminval = m_useErrors ? m_yminval - m_emaxval : m_yminval;
@@ -231,18 +240,21 @@ cepPresentation::createBitmap (float& scale, long& minval)
   plot_strokeline(graph);
   plot_endline(graph);
 
-  // In the zoomed view, there might not be an x axis...
-  //  if((m_currentView == viewCentered) || 
-  //     ((m_currentView == viewZoomed) && (ymaxval > 0) && (yminval < 0))){
-  plot_setlinestart(graph, 10, (unsigned int) 
-		    ((yrange - 0 + yminval) / yscale + 10));
-  plot_addlinesegment(graph, m_width - 10, (unsigned int) 
-		      ((yrange - 0 + yminval) / yscale + 10));
+  // The horizontal axis
+  plot_setlinestart(graph, 10, 
+		    (unsigned int) ((yrange - 0 + yminval) / yscale + 10));
+  plot_addlinesegment(graph, m_width - 10, 
+		      (unsigned int) ((yrange - 0 + yminval) / yscale + 10));
   plot_strokeline(graph);
   plot_endline(graph);
-  //  }
-  //  else cepDebugPrint("Skipping x axis");
   
+  // The scale also belongs over the errors, but below the graph line
+  plot_setfontcolor(graph, 26, 22, 249);
+  plot_setfont(graph, "n022003l.pfb", 9);
+  plot_settextlocation(graph, 20,
+		       (unsigned int) ((yrange - 0 + yminval) / yscale + 10));
+  plot_writestring(graph, (char *) m_yTitle.c_str());  
+
   // Now draw the actual graph
   plot_setlinecolor(graph, m_lineColor.red, m_lineColor.green,
 		    m_lineColor.blue);
@@ -260,14 +272,6 @@ cepPresentation::createBitmap (float& scale, long& minval)
     plot_strokeline(graph);
     plot_endline(graph);
   }
-
-  // Now put the text annotations onto the bitmap
-  plot_setfontcolor(graph, 26, 22, 249);
-  // todo_mikal: check for existance
-  //  plot_setfont(graph, "n019004l.pfb", 12);
-  plot_setfont(graph, "/usr/share/fonts/default/Type1/n021004l.pfb", 20);
-  plot_settextlocation(graph, 20, 70);
-  plot_writestring(graph, (char *) m_yTitle.c_str());
 
   // Get the raster (in case we use it later)
   m_raster = plot_getraster (graph);
