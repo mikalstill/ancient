@@ -288,17 +288,21 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
 		       "The color of the average line on the graph", FALSE);
   }
 
-  wxMenu *help_menu = new wxMenu;
+  wxMenu *dev_menu = (wxMenu *) NULL;
+  dev_menu->Append (CEPMENU_TESTERRORS, "Test error handling",
+		    "This will test that the UI is handling errors correctly",
+		    FALSE);
 
+  wxMenu *help_menu = new wxMenu;
   help_menu->Append (CEPMENU_ABOUT, "&About");
 
   wxMenuBar *menu_bar = new wxMenuBar;
-
   menu_bar->Append (file_menu, "&File");
   if (isCanvas){
     menu_bar->Append (edit_menu, "&Edit");
     menu_bar->Append (view_menu, "View");
   }
+  menu_bar->Append (dev_menu, "Developers");
   menu_bar->Append (help_menu, "&Help");
 
   // Associate the menu bar with the frame
@@ -314,6 +318,7 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
 IMPLEMENT_CLASS (cepFrame, wxDocMDIParentFrame)
 BEGIN_EVENT_TABLE (cepFrame, wxDocMDIParentFrame)
   EVT_MENU (CEPMENU_ABOUT, cepFrame::OnAbout)
+  EVT_MENU (CEPMENU_TESTERRORS, cepFrame::OnTestErrors)
 EVT_CLOSE (cepFrame::OnClose)
 END_EVENT_TABLE ()
 
@@ -345,6 +350,17 @@ cepFrame::OnAbout (wxCommandEvent & WXUNUSED (event))
   wxMessageBox
     ((const wxString &)msg.str ().c_str (),
      "About Geodetic Data Modelling System");
+}
+
+void
+cepFrame::OnTestErrors (wxCommandEvent & WXUNUSED (event))
+{
+  if(wxMessageBox("Are you sure you want to do this? It should cause the user interface to exit, loosing all of your work...", "Are you sure?", wxYES_NO) == wxYES){
+    for(int i = 0; i < cepError::sevMax; i++){
+      cepError e("Testing 123", (cepError::severity) i);
+      e.display();
+    }
+  }
 }
 
 // Creates a canvas. Called from view.cpp when a new drawing

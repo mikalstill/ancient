@@ -120,3 +120,9 @@ string cepError::getTitle()
     return "UNKNOWN ERROR LEVEL";
   }
 }
+
+void cepError::doTerminate()
+{
+  if(m_level == sevErrorFatal)
+    exit(-1);
+}

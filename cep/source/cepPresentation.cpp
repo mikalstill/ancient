@@ -221,14 +221,18 @@ cepPresentation::createBitmap ()
 	    if (!linestarted)
 	      {
 		plot_setlinestart (graph, i + 10, 
-				   (unsigned int) (m_height - 
-				   ((m_data[i] - m_yminval) / yscale)));
+				      (unsigned int) (m_height - 
+						      ((m_data[i] - m_yminval) 
+						       / yscale)));
+		cepDebugPrint("Erroneous data point in graph (starting point of zoomed view). plot_setlinestart called with out of bounds arguements. The data point being graphed is " + cepItoa(m_data[i]) + " which results in the following calculation: " + cepItoa(m_height) + " - ((" + cepItoa(m_data[i]) + " - " + cepItoa(m_yminval) + ") / " + cepFtoa(yscale) + ")).");
 		linestarted = true;
 	      }
 	    else{
 	      plot_addlinesegment (graph, i + 10, 
 				   (unsigned int) (m_height - 
-				   ((m_data[i] - m_yminval) / yscale)));
+						   ((m_data[i] - m_yminval) 
+						    / yscale)));
+	      cepDebugPrint("Erroneous data point in graph (continuing point of zoomed view). plot_addlinesegment called with out of bounds arguements. The data point being graphed is " + cepItoa(m_data[i]) + " which results in the following calculation: " + cepItoa(m_height) + " - ((" + cepItoa(m_data[i]) + " - " + cepItoa(m_yminval) + ") / " + cepFtoa(yscale) + ")) = " + cepItoa((unsigned int) (m_height - ((m_data[i] - m_yminval) / yscale))));
 	    }
 	  }
       }    

@@ -63,6 +63,7 @@ void cepWxErrorHandler::displayError( class cepError & err )
   {
     wxMessageBox ( msg.c_str (), err.getTitle().c_str (),
                   wxOK | wxCENTRE | getIcon( err ));
+    err.doTerminate();
   }
 }
 

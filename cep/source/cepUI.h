@@ -75,6 +75,7 @@ public:
             const wxSize & size, long type);
 
   void OnAbout (wxCommandEvent & event);
+  void OnTestErrors (wxCommandEvent & event);
 
   cepCanvas *CreateCanvas (wxView * view, wxFrame * parent);
   void OnClose (wxCloseEvent & evt);
@@ -98,6 +99,7 @@ GetMainFrame (void);
 #define CEPMENU_ELIMINATEOUTLIERS 7
 #define CEPMENU_VIEWCENTERED 8
 #define CEPMENU_VIEWZOOMED 9
+#define CEPMENU_TESTERRORS 10
 
 extern bool singleWindowMode;
 

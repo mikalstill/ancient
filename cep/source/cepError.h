@@ -190,6 +190,7 @@ public:
   void clear ();
   void log ();
   void display ();
+  void doTerminate();
 
   // BS - remove these when we get the friend thing for cepErrorHandler sorted
   string & getMessage();
