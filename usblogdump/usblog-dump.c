@@ -1,3 +1,8 @@
+// Dump a Snoopy Pro logfile to stdout, including possible repeated URB 
+// suppression. Copyright (C) Michael Still 2003, released under the terms 
+// of the GNU GPL. If you find an URB marked "UNKNOWN", please email me 
+// the Snoopy Pro log, and the URB number of the problem URB.
+
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
@@ -59,20 +64,43 @@ int
 main (int argc, char *argv[])
 {
   int fd, npackets, otag, urbCount, function, psize, tsrelative, temp, temp2,
-    numifaces, seq, length, inset, testinset, corrstep, matchcount;
-  char *file;
+    numifaces, seq, length, inset, testinset, corrstep, matchcount, optchar,
+    do_suppress = 0;
+  char *file, *input_filename = NULL;
   long long filep;
   struct stat sb;
   usb_allurbs *urbhead;
 
-  if (argc < 2)
+  while ((optchar = getopt (argc, argv, "i:r")) != -1)
     {
-      fprintf (stderr, "Usage: %s <input>\n", argv[0]);
-      exit (43);
+      switch (optchar)
+        {
+	case 'r':
+	  do_suppress = 1;
+	  break;
+
+        case 'i':
+          input_filename = (char *) strdup (optarg);
+          break;
+
+        default:
+        case '?':
+          printf ("Unknown command line option...\n");
+          printf ("Try: %s [-i input] [-r]\n", argv[0]);
+          exit (0);
+          break;
+        }
+    }
+
+  if(input_filename == NULL)
+    {
+      printf ("No input file specified...\n");
+      printf ("Try: %s [-i input] [-r]\n", argv[0]);
+      exit (0);
     }
 
   // Map the input file into memory
-  if ((fd = open (argv[1], O_RDWR)) < 0)
+  if ((fd = open (input_filename, O_RDWR)) < 0)
     {
       fprintf (stderr, "Could not open the data file\n");
       exit (43);
@@ -121,7 +149,8 @@ main (int argc, char *argv[])
   seq = -1;
   for (urbCount = 0; urbCount < npackets; urbCount++)
     {
-      // Get the object tag (a MFCism) -- it tells us if there is an object name coming up
+      // Get the object tag (a MFCism) -- it tells us if there is an object 
+      // name coming up
       otag = fileutil_getushort (file, &filep);
       if (otag == 0xFFFF)
 	{
@@ -285,7 +314,6 @@ main (int argc, char *argv[])
 	  urb_printf ("***Unknown function***\n");
 	}
 
-      // Now output the URB, and the recycle the block of memory we built last time...
       urbhead[urbCount].desc = urb_buffer;
       if (urb_buffer != NULL)
 	{
@@ -304,48 +332,47 @@ main (int argc, char *argv[])
     }
 
   // Correlate
-  printf ("\nCorrelating the URBs:\n");
-  corrstep = 0;
-  for (length = (int) (npackets / 2); length != 0; length--)
+  if(do_suppress == 1)
     {
-      for (inset = 0; inset < npackets - length + 1; inset++)
+      printf ("\nCorrelating the URBs:\n");
+      corrstep = 0;
+      for (length = (int) (npackets / 2); length != 0; length--)
 	{
-	  matchcount = 1;
-	  for (testinset = inset + length; testinset < npackets - length;
-	       testinset += length)
+	  for (inset = 0; inset < npackets - length + 1; inset++)
 	    {
-	      if (hashcmp (urbhead, inset, testinset, length) == 0)
+	      matchcount = 1;
+	      for (testinset = inset + length; testinset < npackets - length;
+		   testinset += length)
 		{
-		  matchcount++;
+		  if (hashcmp (urbhead, inset, testinset, length) == 0)
+		    {
+		      matchcount++;
+		    }
+		  else
+		    {
+		      testinset = npackets + 100;
+		    }
 		}
-	      else
+	      
+	      if (matchcount > 1)
 		{
-		  testinset = npackets + 100;
+		  printf("  Found a match at URB %d of length %d which "
+			 "repeats %d times\n",
+			 inset, length, matchcount);
+		  urbhead[inset + length - 1].rptlen = length;
+		  urbhead[inset + length - 1].rpttimes = matchcount;
+		  for (temp = inset + length; 
+		       temp < matchcount * length + inset; temp++)
+		    {
+		      urbhead[temp].deleted = 1;
+		    }
+		  inset += matchcount * length;
 		}
-	    }
-
-	  if (matchcount > 1)
-	    {
-	      printf
-		("Found a match at URB %d of length %d which repeats %d times\n",
-		 inset, length, matchcount);
-	      printf ("Deleting: ");
-	      urbhead[inset + length - 1].rptlen = length;
-	      urbhead[inset + length - 1].rpttimes = matchcount;
-	      for (temp = inset + length; temp < matchcount * length + inset;
-		   temp++)
-		{
-		  printf ("%d ", temp);
-		  urbhead[temp].deleted = 1;
-		}
-	      printf ("\n");
-	      inset += matchcount * length;
 	    }
 	}
     }
-
+      
   // And now we should display the urbs
-  printf ("\n\n\n\n");
   for (urbCount = 0; urbCount < npackets; urbCount++)
     {
       printf ("\n-----------------\nURB %d\n", urbCount);
@@ -442,11 +469,11 @@ usb_urb_controltransfer (char *file, long long *filep)
   urb_printf ("Transfer flags: %d\n", fileutil_getinteger (file, &count));
   urb_printf ("Transfer buffer length: %d\n",
 	      fileutil_getinteger (file, &count));
-  // Skipped transfer buffer pointer\n");
+  // Skipped transfer buffer pointer
   count += 4;
-  // Skipped transfer buffer MDL pointer\n");
+  // Skipped transfer buffer MDL pointer
   count += 4;
-  // Skipped next URB pointer\n");
+  // Skipped next URB pointer
   count += 4;
   urb_printf ("\n");
 
@@ -469,9 +496,9 @@ usb_urb_hcd (char *file, long long *filep)
   long long count = *filep;
 
   urb_printf ("URB hcd:\n");
-  // Skipped HCD endpoint pointer\n");
+  // Skipped HCD endpoint pointer
   count += 4;
-  // Skipped HCD IRP pointer\n");
+  // Skipped HCD IRP pointer
   count += 4;
   urb_printf ("\n");
 
@@ -480,9 +507,9 @@ usb_urb_hcd (char *file, long long *filep)
   urb_printf ("HCD list entry 2:\n");
   usb_urb_listentry (file, &count);
 
-  // Skipped HCD current IO flush pointer\n");
+  // Skipped HCD current IO flush pointer
   count += 4;
-  // Skipped HCD extension pointer\n");
+  // Skipped HCD extension pointer
   count += 4;
   urb_printf ("\n");
 
@@ -494,9 +521,9 @@ usb_urb_listentry (char *file, long long *filep)
 {
   long long count = *filep;
 
-  // Skipped forward pointer\n");
+  // Skipped forward pointer
   count += 4;
-  // Skipped backward pointer\n");
+  // Skipped backward pointer
   count += 4;
   urb_printf ("\n");
 
