@@ -30,35 +30,50 @@ public:
   cepLs();
   ~cepLs();
 
-  const cepLs & cepDoLeastSquares(cepMatrix &, cepMatrix &, cepMatrix &);
   //do one iteration of the least squares algoritum
-  
+  const cepLs & cepDoVCV(cepMatrix<double> &data, cepMatrix<double> &matP);
+
+  //do one iteration of the least squares algoritum
+  const cepLs & cepDoRW(cepMatrix<double> &matA, cepMatrix<double> &matP);
+
+  //get the value of the residual at pos (x,y)    
   double getResidual(int, int);
-  //get the value of the residual at pos (x,y)
+  
+  //get the value B1 in the least squares solution y=B1*x +B2  
   double getB1();
-  //get the value B1 in the least squares solution y=B1*x +B2   
+
+  //get the value B2 in the solution y=B1*x +B2  
   double getB2();
-  //get the value B2 in the solution y=B1*x +B2
   
 private:
 
-  cepMatrix residual;       //holds the value of the residuals 
-  cepMatrix matX;  //holds the value of B1, B2
+  cepMatrix<double> residual;       //holds the value of the residuals 
+  cepMatrix<double> matX;           //holds the value of B1, B2
 
-  void sanityCheck(cepMatrix &, cepMatrix &, cepMatrix &);
   //ensure that all values of the matrix A P and L are consistant with the
   //least squares alogrithum.
+  void sanityCheck(cepMatrix<double> &matA, cepMatrix<double> &matP, cepMatrix<double> &matL);
   
-  void calcResiduals(cepMatrix &, cepMatrix & );
   //calculate the residuals of the least squares tranformation
-  const cepMatrix inverse(cepMatrix &);
+  void calcResiduals(cepMatrix<double> &matA, cepMatrix<double> &matL );
+
+  //make the A matrix
+  const cepMatrix<double> makeA(cepMatrix<double> &data);
+
+  //make the L matrix
+  const cepMatrix<double> makeL(cepMatrix<double> &data);
+
   //calculate the matrix inverse
-  const cepMatrix mulDiag(cepMatrix &, cepMatrix &);
+  const cepMatrix<double> inverse(cepMatrix<double> &mat);
+
   //calculate A*B where B is a diagonal
-  const cepMatrix Amul(cepMatrix &, cepMatrix &);
+  const cepMatrix<double> mulDiag(cepMatrix<double> &matA, cepMatrix<double> &matB);
+
   //calculates A*B where A is the design matrix in the least squares tranform
-  const cepMatrix mulA(cepMatrix &, cepMatrix &);
+  const cepMatrix<double> Amul(cepMatrix<double> &matA, cepMatrix<double> &matB);
+
   //calculates B*A where A is the design matrix in the least squares tranform
+  const cepMatrix<double> mulA(cepMatrix<double> &matA, cepMatrix<double> &matA);
 };
 
 

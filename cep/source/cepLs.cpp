@@ -27,24 +27,57 @@ cepLs::~cepLs()
 {
 }
 
-const cepLs & cepLs::cepDoLeastSquares(cepMatrix &matA, cepMatrix &matP, cepMatrix &matL)
+const cepLs & cepLs::cepDoVCV(cepMatrix<double> &data, cepMatrix<double> &matP)
 {
 
-  cepMatrix Atrans;
-  cepMatrix AtransP, AtPInv;
+  cepMatrix<double> matA, matL, Atrans, AtransP, AtPInv;
+
+  matA = makeA(data);
+  matL = makeL(data);
+
+  sanityCheck(matA, matP, matL);
   
   Atrans = matA;
   Atrans.transpose();
   
-  sanityCheck(matA, matP, matL);
-  
   //if matrix is diagonal
-  if(matP.isDiagonal() == true){
+  if(matP.isDiagonal() == true)
+  {
     AtransP = mulDiag(Atrans, matP);
   }
-  else{
-    AtransP = Amul(Atrans, matP);
+  else
+  {
+    cout << "Error, matP is not a VCV matrix";
+    exit(1);
   }
+
+  //caluclate (A^TPA)^-1
+  AtPInv = mulA(AtransP, matA);
+  AtPInv = inverse(AtPInv);
+
+  //calcualte A^TPL
+  AtransP *= matL;  
+  AtPInv *= AtransP;
+
+  matX = AtPInv;
+  calcResiduals(matA, matL);
+
+  return *this;
+}
+
+const cepLs & cepLs::cepDoRW(cepMatrix<double> &data, cepMatrix<double> &matP)
+{
+
+  cepMatrix<double> matA, matL, Atrans, AtransP, AtPInv;
+
+  matA = makeA(data);
+  matL = makeL(data);
+
+  sanityCheck(matA, matP, matL);
+  
+  Atrans = matA;
+  Atrans.transpose();
+  AtransP = Amul(Atrans, matP);
 
   //caluclate (A^TPA)^-1
   AtPInv = mulA(AtransP, matA);
@@ -55,7 +88,6 @@ const cepLs & cepLs::cepDoLeastSquares(cepMatrix &matA, cepMatrix &matP, cepMatr
   AtPInv *= AtransP;
 
   matX = AtPInv;
-
   calcResiduals(matA, matL);
 
   return *this;
@@ -76,14 +108,42 @@ double cepLs::getB2()
   return matX.getValue(1,0);
 }
 
-const cepMatrix cepLs::Amul(cepMatrix &matA, cepMatrix &matB)
+const cepMatrix<double> cepLs::makeA(cepMatrix<double> &data)
 {
-  cepMatrix ans(matA.getNumRows(), matB.getNumCols());
-
-  for(int i = 0; i < ans.getNumCols(); i ++ ){
-    for(int j = 0; j < ans.getNumRows(); j ++ ){
-      ans.setValue(i, j, 0);
+    cepMatrix<double> matA(data.getNumCols(), 2);
+    double scalar = data.getValue(0,0);   //holds the value that A matrix is to be
+                                          //scaled by.
+    
+    for(int i = 0; i < matA.getNumRows(); i++)
+    {
+        matA.setValue(i,0, data.getValue(0,i) - scalar);
+        matA.setValue(i,1,1);
     }
+
+    return matA;
+}
+
+const cepMatrix<double> cepLs::makeL(cepMatrix<double> &data)
+{
+    cepMatrix<double> matL(data.getNumCols(), 1);
+   
+    for(int i = 0; i < matL.getNumRows(); i++)
+    {
+        matL.setValue(i,0, data.getValue(1,i));
+    }
+
+    return matL;
+}
+
+
+const cepMatrix<double> cepLs::Amul(cepMatrix<double> &matA, cepMatrix<double> &matB)
+{
+  cepMatrix<double> ans(matA.getNumRows(), matB.getNumCols());
+
+  for(int i = 0; i < ans.getNumRows(); i ++ ){
+    for(int j = 0; j < ans.getNumCols(); j ++ ){
+      ans.setValue(i, j, 0);
+    }                        
   }
       
   if(matA.getNumCols() != matB.getNumRows()){
@@ -98,16 +158,16 @@ const cepMatrix cepLs::Amul(cepMatrix &matA, cepMatrix &matB)
       ans.setValue(1, i, (ans.getValue(1, i) + matB.getValue(i,j)));
     }
   }    
-  
+
   return ans;
 }
 
-const cepMatrix cepLs::mulA(cepMatrix &matA, cepMatrix &matB)
+const cepMatrix<double> cepLs::mulA(cepMatrix<double> &matA, cepMatrix<double> &matB)
 {
-  cepMatrix ans(matA.getNumRows(), matB.getNumCols());
+  cepMatrix<double> ans(matA.getNumRows(), matB.getNumCols());
 
-  for(int i = 0; i < ans.getNumCols(); i ++ ){
-    for(int j = 0; j < ans.getNumRows(); j ++ ){
+  for(int i = 0; i < ans.getNumRows(); i ++ ){
+    for(int j = 0; j < ans.getNumCols(); j ++ ){
       ans.setValue(i, j, 0);
     }
   }
@@ -128,9 +188,9 @@ const cepMatrix cepLs::mulA(cepMatrix &matA, cepMatrix &matB)
   return ans;
 }
 
-const cepMatrix cepLs::mulDiag(cepMatrix &matA, cepMatrix &matB)
+const cepMatrix<double> cepLs::mulDiag(cepMatrix<double> &matA, cepMatrix<double> &matB)
 {
-  cepMatrix ans(matA.getNumRows(), matB.getNumCols());
+  cepMatrix<double> ans(matA.getNumRows(), matB.getNumCols());
   
   if(matA.getNumCols() != matB.getNumRows()){
     cout << "matrix sizes wrong\n";
@@ -147,9 +207,9 @@ const cepMatrix cepLs::mulDiag(cepMatrix &matA, cepMatrix &matB)
   return ans;
 }
 
-const cepMatrix cepLs::inverse(cepMatrix &mat)
+const cepMatrix<double> cepLs::inverse(cepMatrix<double> &mat)
 {
-  cepMatrix ans(mat.getNumRows(), mat.getNumCols());
+  cepMatrix<double> ans(mat.getNumRows(), mat.getNumCols());
   ans = mat;
 
   double mul;
@@ -176,7 +236,7 @@ const cepMatrix cepLs::inverse(cepMatrix &mat)
   return ans;
 }
 
-void cepLs::sanityCheck( cepMatrix &matA, cepMatrix &matP, cepMatrix &matL)
+void cepLs::sanityCheck( cepMatrix<double> &matA, cepMatrix<double> &matP, cepMatrix<double> &matL)
 {
   //matA must be obs x 2
   if( matP.getNumCols() != matP.getNumRows() ){
@@ -205,7 +265,7 @@ void cepLs::sanityCheck( cepMatrix &matA, cepMatrix &matP, cepMatrix &matL)
   }
 }
 
-void cepLs::calcResiduals(cepMatrix &matA, cepMatrix &matL)
+void cepLs::calcResiduals(cepMatrix<double> &matA, cepMatrix<double> &matL)
 {
   //calc rediuals= A*X + L
   residual = matA;
