@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
 # groff2db pre 0.2 2. Copyright (c) Michael Still 2001 (mikal@stillhq.com)
-# Released under the terms of the GNU GPL. Please submit all patches to mikal@stillhq.com
+# Released under the terms of the GNU GPL. Please submit all patches to mik al@stillhq.com
 # Initially developed for Greg Lehey's "The Complete FreeBSD"... Many thanks for his
 # sponsorship and support of this project.
 
@@ -14,9 +14,7 @@
 
 # Underway
 # --------
-#  - Newlines in displays
 #  - Table conversion
-#  - Emphasis etc in displays
 
 # Todo
 # ----
@@ -152,7 +150,6 @@ foreach $chapter (split(/ /, $chapters)){
 		    $waitstate = 0;
 		}
 	    }
-#	    print "  [Conditional was $condlinecount lines]\n";
 	}
 
 	# Ampersands
@@ -289,7 +286,11 @@ foreach $chapter (split(/ /, $chapters)){
 
 	# Figure headings
 	elsif(/^\.Figure-heading [\"]*([^\"]*)[\"]*/i){
-	    print OUTPUT "<figure><title>$1</title><graphic format=\"JPEG\" fileref=\"images/missing.jpg\"></graphic></figure>\n";
+	    print OUTPUT "<figure>";
+	    if($1 ne ""){
+		print OUTPUT "<title>$1</title>";
+		}
+	    print OUTPUT "<graphic format=\"JPEG\" fileref=\"images/missing.jpg\"></graphic></figure>\n";
 	}
 
 	# Filenames
@@ -314,14 +315,17 @@ foreach $chapter (split(/ /, $chapters)){
 	    
 	    while($sectionstate < ($1 - 2)){
 		$sectionstate++;
-		print OUTPUT "<sect$sectionstate><title></title>\n";
+		print OUTPUT "<sect$sectionstate>\n";
 	    }
 	    $sectionstate++;
 	    print OUTPUT "<sect$sectionstate>\n";
 	    
 	    $_ = $2;
 	    s/\"//g;
-	    print OUTPUT "<title>$_</title>\n";
+
+	    if($_ ne ""){
+		print OUTPUT "<title>$_</title>\n";
+	    }
             startpara();
 	}
 	
@@ -329,7 +333,7 @@ foreach $chapter (split(/ /, $chapters)){
 	elsif(/^\.H([8-9])[ \t]*(.*)/i){
 	    print OUTPUT closeallstates();
 	    endpara();
-	    print OUTPUT "<sect1><title>Title???</title>\n";
+	    print OUTPUT "<sect1><title>UNSUPPRTED SECTION LEVEL</title>\n";
 	    $sectionstate = 1;
 	}
 
@@ -451,7 +455,7 @@ foreach $chapter (split(/ /, $chapters)){
 
 	# Pictures
 	elsif(/^\.PIC [\"]*([^\"]*)[\"]*/i){
-	    print OUTPUT "<figure><title></title><graphic format=\"PS\" fileref=\"$1\"></graphic></figure>\n";
+	    print OUTPUT "<figure><graphic format=\"PS\" fileref=\"$1\"></graphic></figure>\n";
 	}
 
 	# Quotes
@@ -493,25 +497,24 @@ foreach $chapter (split(/ /, $chapters)){
 
 	# Table title
 	elsif(/^\.TB[ \t]*[\"]*([^\"]*)[\"]*/i){
-	    print OUTPUT "<table frame='all'><title>$1</title>\n";
-	    print "Table title\n";
+	    print OUTPUT "<table frame='all'>";
+	    if($1 ne "" ){
+		print OUTPUT "<title>$1</title>\n";
+	    }
 	    $tablestate = 1;
 	}
 
 	# Table start
 	elsif(/^\.TS[ \t]*(.*)/i){
-	    print "Table start\n";
 	}
 
 	# Table heading
 	elsif(/^\.TH(.*)/i){
-	    print "Table heading\n";
 	    $tablestate = 2;
 	}
 	
 	# Table end
 	elsif(/^\.TE/i){
-	    print "Table end\n";
 	    print OUTPUT "</tbody></tgroup></table>\n";
 	    $tablestate = 0;
 	}
@@ -522,8 +525,11 @@ foreach $chapter (split(/ /, $chapters)){
 
 	# Chapters
 	elsif(/^\.Chapter[ \t]([^ \t]*)[ \t]\"(.*)\"/){
-	    print OUTPUT "<chapter><title>$2</title>\n";
-	    print OUTPUT "<sect1><title></title>\n";
+	    print OUTPUT "<chapter>";
+	    if($2 new ""){
+		print OUTPUT "<title>$2</title>\n";
+	    }
+	    print OUTPUT "<sect1>\n";
             startpara();
 	    $sectionstate = 1;
 	    }
@@ -553,14 +559,15 @@ foreach $chapter (split(/ /, $chapters)){
 		while($temp =~ /<entry>/g){ $tablecolcount++ }
 
 		print OUTPUT "<tgroup cols='$tablecolcount' align='left' colsep='1' rowsep='1'><tbody>\n";
-		print "Moved to table state 3\n";
 		$tablestate = 3;
 	    }
 
 	    if($tablestate > 1){
 		print OUTPUT "<row><entry>";
 	    }
-	    print OUTPUT "$_";
+	    s/[ \t\n]+$//;
+	    # chomp;
+	    print OUTPUT "$_\n";
 	    if($tablestate > 1){
 		print OUTPUT "</entry></row>\n";
 	    }
