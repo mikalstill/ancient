@@ -79,7 +79,7 @@ namespace
     void test2dFFTcos ()
     {
       const double REALTOL = 0.0001;
-      const double IMAGTOL = 1;      
+      const double IMAGTOL = 0.0001;
       int numTables = 1;
       int numRows = 256;
       int numCols = 2;
@@ -87,23 +87,20 @@ namespace
       string prefftfile = "cosarray";
       string postfftfile = "fftarraycos";
       //char junk;
-      cepMatrix < ComplexDble >myMatrix (numRows, numCols, numTables);
+      cepMatrix < ComplexDble > myMatrix (numRows, numCols, numTables);
 
       // populate column 1 myMatrix with indexes
-      cout << "test: Populating myMatrix ..." << endl;
-           
-	  for (int row = 0; row < numRows; row++)
-	    {
-	      myMatrix.setValue (row, 0, 0,cosIndex);
-	      cosIndex++;
-	      //cout << myMatrix.getValue(row,0,0) << "  ";
-	    }
+      for (int row = 0; row < numRows; row++)
+	{
+	  myMatrix.setValue (row, 0, 0, cosIndex);
+	  cosIndex++;
+	  //cout << myMatrix.getValue(row,0,0) << "  ";
+	}
 
       cosIndex = 0;
 
       //populate myMatrix with cos values
-      cout << "test: Testing COS ************************" << endl;
-      cout << "test: Populating myMatrix with cosvalues..." << endl << endl;
+      cout << endl << "test: Testing COS ************************" << endl;
       for (int col = 1; col < numCols; col++)
 	{
 	  for (int row = 0; row < numRows; row++)
@@ -112,109 +109,116 @@ namespace
 	      //cout << cosIndex << " -> " << myMatrix.getValue(row,col,0)  << endl;
 	      cosIndex++;
 	    }
-	    //cout << endl << endl;
+	  //cout << endl << endl;
 	}
 
-       cfft < ComplexDble > FFT (256);
-      
-       myMatrix = FFT.matrixFft (myMatrix, 1);
+      cfft < ComplexDble > FFT (256);
+
+      myMatrix = FFT.matrixFft (myMatrix, 1);
       //cout << "test: MAtrix returned ok ..outputing fowrad FFT results..." << endl;
-      
+
       //test matrix contents with file
 
-      ifstream infile(postfftfile.c_str(), ios::in);
-      if (!infile.is_open())
-      {
-        cerr << "Could not open " << postfftfile << endl;
-	exit (1);
-      }
-      
+      ifstream infile (postfftfile.c_str (), ios::in);
+      if (!infile.is_open ())
+	{
+	  cerr << "Could not open " << postfftfile << endl;
+	  exit (1);
+	}
+
       ComplexDble fftarraycos[numRows];
-      int arrayCount =0;
-       while (!infile.eof())
-       {
-         infile >> fftarraycos[arrayCount];
-	 arrayCount++;
-       }
-       cout << "finished COS read **************************" << endl;
-       infile.close();
-      cout << "testing forward FFT results..." << endl;       
-      double realResult=0;
-      double imagResult=0;
+      int arrayCount = 0;
+      while (!infile.eof ())
+	{
+	  infile >> fftarraycos[arrayCount];
+	  arrayCount++;
+	}
+      cout << "finished COS read **************************" << endl;
+      infile.close ();
+      cout << "Forward FFT results for COS..." << endl;
+      double realResult = 0;
+      double imagResult = 0;
       for (int t = 0; t < numTables; t++)
-      {
-        for (int c =1; c < numCols; c ++)
-        {
-          for (int r = 0; r < numRows; r++)
-	  {
-	     realResult = abs( real( fftarraycos[r] ) - real( myMatrix.getValue(r,c,t) ) );
-	     imagResult = abs (imag( fftarraycos[r] ) - imag( myMatrix.getValue(r,c,t) ) );
-	     //cout << real( fftarraycos[r] ) << " - " << real( myMatrix.getValue(r,c,t));
-	     //cout << "  realResult = " << realResult << endl;
-	     //cout << imag( fftarraycos[r] ) << " - " << imag( myMatrix.getValue(r,c,t));
-     	     //cout << "  imagResult = " << imagResult << endl;
-             CPPUNIT_ASSERT(realResult < REALTOL  );
-             CPPUNIT_ASSERT(imagResult < IMAGTOL  );
-	     
-	     //cout << "test: Value for (r,c,t) - (" << r << "," << c << "," << t
-	     //<< " .. " << myMatrix.getValue(r,c,t)
-	     //<< endl;
-          }//for r
-	 
-	 //cout << endl;
-        } //for c
-      }//end for t
+	{
+	  for (int c = 1; c < numCols; c++)
+	    {
+	      for (int r = 0; r < numRows; r++)
+		{
+		  realResult =
+		    abs (real (fftarraycos[r]) -
+			 real (myMatrix.getValue (r, c, t)));
+		  imagResult =
+		    abs (imag (fftarraycos[r]) -
+			 imag (myMatrix.getValue (r, c, t)));
+		  //cout << real( fftarraycos[r] ) << " - " << real( myMatrix.getValue(r,c,t));
+		  //cout << "  realResult = " << realResult << endl;
+		  //cout << imag( fftarraycos[r] ) << " - " << imag( myMatrix.getValue(r,c,t));
+		  //cout << "  imagResult = " << imagResult << endl;
+		  cout << "COS test: Row index: " << r << " - Scale value: " 
+		       << real(myMatrix.getValue(r,0,t)) 
+		       << " - Value (" << r << "," << c << "," << t << "): "
+		       << myMatrix.getValue(r,c,t) 
+		       << endl; 
+		  CPPUNIT_ASSERT (realResult < REALTOL);
+		  CPPUNIT_ASSERT (imagResult < IMAGTOL);
 
-     //test inverse fft
-     myMatrix = FFT.matrixFft (myMatrix, 0);
+		}		//for r
+
+	      //cout << endl;
+	    }			//for c
+	}			//end for t
+
+      //test inverse fft
+      myMatrix = FFT.matrixFft (myMatrix, 0);
 
       //test matrix contents with file
 
-      ifstream infile1(prefftfile.c_str(), ios::in);
-      if (!infile1.is_open())
-      {
-        cerr << "Could not open " << prefftfile << endl;
-	exit (1);
-      }
-      
+      ifstream infile1 (prefftfile.c_str (), ios::in);
+      if (!infile1.is_open ())
+	{
+	  cerr << "Could not open " << prefftfile << endl;
+	  exit (1);
+	}
+
       double prefftarray[numRows];
-      arrayCount =0;
-       while (!infile1.eof())
-       {
-         infile1 >> prefftarray[arrayCount];
-	 arrayCount++;
-       }
-       cout << "finished COS read **************************" << endl;
-       infile1.close();
-       
-      cout << "testing inverse FFT results..." << endl;
+      arrayCount = 0;
+      while (!infile1.eof ())
+	{
+	  infile1 >> prefftarray[arrayCount];
+	  arrayCount++;
+	}
+      cout << "finished COS read **************************" << endl;
+      infile1.close ();
+
+      cout << "testing inverse cos FFT results..." << endl;
       for (int t = 0; t < numTables; t++)
-      {
-        for (int c =1; c < numCols; c ++)
-        {
-          for (int r = 0; r < numRows; r++)
-	  {
-	     realResult = abs ( prefftarray[r] - real(myMatrix.getValue(r,c,t) ) );
-             CPPUNIT_ASSERT(realResult < REALTOL );
-	     
-	     //cout << "test: Value for (r,c,t) - (" << r << "," << c << "," << t
-	     //<< " .. " << myMatrix.getValue(r,c,t)
-	     //<< endl;
-          }//for r
-	 
-	 cout << endl;
-        } //for c
-      }//end for t
+	{
+	  for (int c = 1; c < numCols; c++)
+	    {
+	      for (int r = 0; r < numRows; r++)
+		{
+		  realResult =
+		    abs (prefftarray[r] - real (myMatrix.getValue (r, c, t)));
+		  CPPUNIT_ASSERT (realResult < REALTOL);
 
-  
+		  //cout << "test: Value for (r,c,t) - (" << r << "," << c << "," << t
+		  //<< " .. " << myMatrix.getValue(r,c,t)
+		  //<< endl;
+		}		//for r
 
-      
-}// end 2dfftcos
- 
-     void test2dFFTsin ()
+	      cout << endl;
+	    }			//for c
+	}			//end for t
+
+
+
+
+    }				// end 2dfftcos
+
+    void test2dFFTsin ()
     {
       const double REALTOL = 0.0001;
-      const double IMAGTOL = 1;      
+      const double IMAGTOL = 0.0001;
       int numTables = 1;
       int numRows = 256;
       int numCols = 2;
@@ -222,18 +226,16 @@ namespace
       string prefftfile = "sinarray";
       string postfftfile = "fftarraysin";
       //char junk;
-      cepMatrix < ComplexDble >myMatrix (numRows, numCols, numTables);
+      cepMatrix < ComplexDble > myMatrix (numRows, numCols, numTables);
 
       // populate column 1 myMatrix with indexes
-      cout << "test: Testing SIN ************************" << endl;
-      cout << "test: Populating myMatrix ..." << endl;
-           
-	  for (int row = 0; row < numRows; row++)
-	    {
-	      myMatrix.setValue (row, 0, 0,sinIndex);
-	      sinIndex++;
-	      //cout << myMatrix.getValue(row,0,0) << "  ";
-	    }
+      cout << endl << "test: Testing SIN ************************" << endl;
+      for (int row = 0; row < numRows; row++)
+	{
+	  myMatrix.setValue (row, 0, 0, sinIndex);
+	  sinIndex++;
+	  //cout << myMatrix.getValue(row,0,0) << "  ";
+	}
 
       sinIndex = 0;
 
@@ -247,112 +249,116 @@ namespace
 	      //cout << cosIndex << " -> " << myMatrix.getValue(row,col,0)  << endl;
 	      sinIndex++;
 	    }
-	    //cout << endl << endl;
+	  //cout << endl << endl;
 	}
 
-       cfft < ComplexDble > FFT (256);
-      
-       myMatrix = FFT.matrixFft (myMatrix, 1);
-      //cout << "test: MAtrix returned ok ..outputing fowrad FFT results..." << endl;
-      
-      //test matrix contents with file
+      cfft < ComplexDble > FFT (256);
 
-      ifstream infile(postfftfile.c_str(), ios::in);
-      if (!infile.is_open())
-      {
-        cerr << "Could not open " << postfftfile << endl;
-	exit (1);
-      }
-      
+      myMatrix = FFT.matrixFft (myMatrix, 1);
+
+      /**********************test matrix contents with file*******************/
+      ifstream infile (postfftfile.c_str (), ios::in);
+      if (!infile.is_open ())
+	{
+	  cerr << "Could not open " << postfftfile << endl;
+	  exit (1);
+	}
+
       ComplexDble fftarraysin[numRows];
-      int arrayCount =0;
-       while (!infile.eof())
-       {
-         infile >> fftarraysin[arrayCount];
-	 arrayCount++;
-       }
-       cout << "finished SIN read *******************************8" << endl;
-       infile.close();
-      cout << "testing forward FFT results..." << endl;       
-      double realResult=0;
-      double imagResult=0;
+      int arrayCount = 0;
+      while (!infile.eof ())
+	{
+	  infile >> fftarraysin[arrayCount];
+	  arrayCount++;
+	}
+      cout << "finished SIN read *******************************" << endl;
+      infile.close ();
+      cout << "Forward FFT results for SIN..." << endl;
+      double realResult = 0;
+      double imagResult = 0;
       for (int t = 0; t < numTables; t++)
-      {
-        for (int c =1; c < numCols; c ++)
-        {
-          for (int r = 0; r < numRows; r++)
-	  {
-	     realResult = abs( real( fftarraysin[r] ) - real( myMatrix.getValue(r,c,t) ) );
-	     imagResult = abs (imag( fftarraysin[r] ) - imag( myMatrix.getValue(r,c,t) ) );
-	     //cout << real( fftarraysin[r] ) << " - " << real( myMatrix.getValue(r,c,t));
-	     //cout << "  realResult = " << realResult << endl;
-	     //cout << imag( fftarraysin[r] ) << " - " << imag( myMatrix.getValue(r,c,t));
-     	     //cout << "  imagResult = " << imagResult << endl;
-	     //cout << "test: Value for (r,c,t) - (" << r << "," << c << "," << t
-	     //<< " .. " << myMatrix.getValue(r,c,t)
-	     //<< endl;	
-             CPPUNIT_ASSERT(realResult < REALTOL  );
-             CPPUNIT_ASSERT(imagResult < IMAGTOL  );
-	     
-	     
-          }//for r
-	 
-	 //cout << endl;
-        } //for c
-      }//end for t
+	{
+	  for (int c = 1; c < numCols; c++)
+	    {
+	      for (int r = 0; r < numRows; r++)
+		{
+		  realResult =
+		    abs (real (fftarraysin[r]) -
+			 real (myMatrix.getValue (r, c, t)));
+		  imagResult =
+		    abs (imag (fftarraysin[r]) -
+			 imag (myMatrix.getValue (r, c, t)));
+		  //cout << real( fftarraysin[r] ) << " - " << real( myMatrix.getValue(r,c,t));
+		  //cout << "  realResult = " << realResult << endl;
+		  //cout << imag( fftarraysin[r] ) << " - " << imag( myMatrix.getValue(r,c,t));
+		  //cout << "  imagResult = " << imagResult << endl;
+		  cout << "SIN test: Row index: " << r << " - Scale value: " 
+		       << real(myMatrix.getValue(r,0,t)) 
+		       << " - Value (" << r << "," << c << "," << t << "): "
+		       << myMatrix.getValue(r,c,t) 
+		       << endl; 
+		  CPPUNIT_ASSERT (realResult < REALTOL); //test the real components
+		  CPPUNIT_ASSERT (imagResult < IMAGTOL); //test the imaginary components
 
-     //test inverse fft
-     myMatrix = FFT.matrixFft (myMatrix, 0);
+
+		}		//for r
+
+	      //cout << endl;
+	    }			//for c
+	}			//end for t
+
+      //test inverse fft
+      myMatrix = FFT.matrixFft (myMatrix, 0);
 
       //test matrix contents with file
 
-      ifstream infile1(prefftfile.c_str(), ios::in);
-      if (!infile1.is_open())
-      {
-        cerr << "Could not open " << prefftfile << endl;
-	exit (1);
-      }
-      
+      ifstream infile1 (prefftfile.c_str (), ios::in);
+      if (!infile1.is_open ())
+	{
+	  cerr << "Could not open " << prefftfile << endl;
+	  exit (1);
+	}
+
       double prefftarray[numRows];
-      arrayCount =0;
-       while (!infile1.eof())
-       {
-         infile1 >> prefftarray[arrayCount];
-	 arrayCount++;
-       }
-       cout << "finished SIN read ***************************" << endl;
-       infile1.close();
-       
+      arrayCount = 0;
+      while (!infile1.eof ())
+	{
+	  infile1 >> prefftarray[arrayCount];
+	  arrayCount++;
+	}
+      cout << "finished SIN read ***************************" << endl;
+      infile1.close ();
+
       cout << "testing inverse FFT results..." << endl;
       for (int t = 0; t < numTables; t++)
-      {
-        for (int c =1; c < numCols; c ++)
-        {
-          for (int r = 0; r < numRows; r++)
-	  {
-	     realResult = abs ( prefftarray[r] - real(myMatrix.getValue(r,c,t) ) );
-             CPPUNIT_ASSERT(realResult < REALTOL );
-	     
-	     //out << "test: Value for (r,c,t) - (" << r << "," << c << "," << t
-	     //<< " .. " << myMatrix.getValue(r,c,t)
-	     //<< endl;
-          }//for r
-	 
-	 //cout << endl;
-        } //for c
-      }//end for t
+	{
+	  for (int c = 1; c < numCols; c++)
+	    {
+	      for (int r = 0; r < numRows; r++)
+		{
+		  realResult =
+		    abs (prefftarray[r] - real (myMatrix.getValue (r, c, t)));
+		  CPPUNIT_ASSERT (realResult < REALTOL);
+		  cout << "SIN test: Value for (r,c,t) - (" << r << "," << c << "," << t
+		  << " .. " << myMatrix.getValue(r,c,t)
+		  << endl;
+		}		//for r
 
-  
+	      //cout << endl;
+	    }			//for c
+	}			//end for t
 
-      
-}// end 2dfftsin
 
- 
- 
-    private:
+
+
+    }				// end 2dfftsin
+
+
+
+  private:
 //    void test2dFwd(cepMatrix <ComplexDble> matrix);
 //    void test2dInverse(cepMatrix <ComplexDble> matrix);
-    
+
 
   };				// end Test
 
@@ -363,4 +369,4 @@ namespace
   */
   CPPUNIT_TEST_SUITE_REGISTRATION (Test);
 
-}// end namespace
+}				// end namespace
