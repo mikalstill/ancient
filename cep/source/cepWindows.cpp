@@ -1,5 +1,5 @@
 /*
- These methods will be placed into cepDataset .....soon.
+ These methods have been placed into cepDataset .....
 */
 
 cepDataset
@@ -35,31 +35,31 @@ cepDataset::doWindow (double winSize, double overlap) //todo_daniel: once vector
 	* overlap - amount of overlap between each window
 
 	Exports:
-	* windowArray: Array of windowed data (3 X numWindows X largestWindow) todo_daniel: maybe vector here too!
+	* windowData: Vector of windowed data (numWindows X 3 X largestWindow)
 	* numWindows: The number of seperate windows that were populated with data
 	*/
 
-	int numSamples; //number of smaples in the vector
-	int nextFirstRecord; //start of next window
+	int numSamples; 				//number of smaples in the vector
+	int nextFirstRecord; 		//start of next window
 	int currentFirstRecord; //start of current window
-	int numWindows; //the total number  of windows required
-	int dataVectorRow; //vector counter
-	int col, row; //loop counters
-	double firstDate; //the first dat in the the data
-	double lastDate; //the last date in the data
-	double overlapWinSize; //
-	cep_datarow windowRow;
+	int numWindows; 				//the total number  of windows required
+	int dataVectorRow;	 		//vector counter
+	int col, row; 					//loop counters
+	double firstDate;				//the first dat in the the data
+	double lastDate;				//the last date in the data
+	double overlapWinSize; 
 	vector<cep_datarow> windowData;//this is windowsArray
 	vector<cep_datarow> dataCopy//need a copy of dataCopy
-	
+
+	//preserving the original data vector
 	dataCopy = m_data;
 	
   // get timescale of data set 
   numSamples = dataCopy.size() 
   firstdate = dataCopy.pop_first(); //data(1,1);//todo_daniel: vector not defined yet..correct notation needed
   lastdate = dataCopy.pop_back() //[numSamples][0];
-	//todo_daniel: these pops could cause a problems since they're REMOVING the elements.
-	
+	windowData.resize(numSamples);
+
   // For optimizing speed slightly 
   overlapWinSize = winSize * (1-overlap);
 
