@@ -5,9 +5,9 @@ tag=`date "+%Y%m%d-%H%M"`
 
 for usblog in `ls *.usblog`
 do
-  ../usblogdump -i $usblog > output/$usblog-$tag-full
+  ../usblogdump/usblog-dump -i $usblog > output/$usblog-$tag-full
   cvs add output/$usblog-$tag-full > /dev/null
-  ../usblogdump -i $usblog -r > output/$usblog-$tag-norep
+  ../usblogdump/usblog-dump -i $usblog -r > output/$usblog-$tag-norep
   cvs add output/$usblog-$tag-norep > /dev/null
 
   if [ -e previous ]
