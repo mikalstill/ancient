@@ -1541,7 +1541,7 @@ fi
 
 # Define the identity of the package.
  PACKAGE=pandascript
- VERSION=0.3
+ VERSION=0.5
 
 
 cat >>confdefs.h <<_ACEOF
@@ -3340,9 +3340,9 @@ fi
 
 
 
-echo "$as_me:$LINENO: checking for pdfopen in -lpanda" >&5
-echo $ECHO_N "checking for pdfopen in -lpanda... $ECHO_C" >&6
-if test "${ac_cv_lib_panda_pdfopen+set}" = set; then
+echo "$as_me:$LINENO: checking for panda_open in -lpanda" >&5
+echo $ECHO_N "checking for panda_open in -lpanda... $ECHO_C" >&6
+if test "${ac_cv_lib_panda_panda_open+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
   ac_check_lib_save_LIBS=$LIBS
@@ -3361,11 +3361,11 @@ extern "C"
 #endif
 /* We use char because int might match the return type of a gcc2
    builtin and then its argument prototype would still apply.  */
-char pdfopen ();
+char panda_open ();
 int
 main ()
 {
-pdfopen ();
+panda_open ();
   ;
   return 0;
 }
@@ -3382,19 +3382,19 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
-  ac_cv_lib_panda_pdfopen=yes
+  ac_cv_lib_panda_panda_open=yes
 else
   echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
 
-ac_cv_lib_panda_pdfopen=no
+ac_cv_lib_panda_panda_open=no
 fi
 rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
 LIBS=$ac_check_lib_save_LIBS
 fi
-echo "$as_me:$LINENO: result: $ac_cv_lib_panda_pdfopen" >&5
-echo "${ECHO_T}$ac_cv_lib_panda_pdfopen" >&6
-if test $ac_cv_lib_panda_pdfopen = yes; then
+echo "$as_me:$LINENO: result: $ac_cv_lib_panda_panda_open" >&5
+echo "${ECHO_T}$ac_cv_lib_panda_panda_open" >&6
+if test $ac_cv_lib_panda_panda_open = yes; then
   cat >>confdefs.h <<_ACEOF
 #define HAVE_LIBPANDA 1
 _ACEOF
@@ -5351,3 +5351,4 @@ if test "$no_create" != yes; then
   # would make configure fail if this is the last instruction.
   $ac_cs_success || { (exit 1); exit 1; }
 fi
+

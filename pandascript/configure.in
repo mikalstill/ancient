@@ -3,7 +3,7 @@ AC_INIT(lexer.l)
 AC_CONFIG_AUX_DIR(config)
 AM_CONFIG_HEADER
 AC_REVISION
-AM_INIT_AUTOMAKE(pandascript, 0.3)
+AM_INIT_AUTOMAKE(pandascript, 0.5)
 AM_MAINTAINER_MODE
 
 dnl Checks for programs.
@@ -31,7 +31,7 @@ dnl -ljpeg:
 AC_CHECK_LIB(jpeg, jpeg_std_error)
 
 dnl -lpanda:
-AC_CHECK_LIB(panda, pdfopen)
+AC_CHECK_LIB(panda, panda_open)
 
 dnl -lfl:
 AC_CHECK_LIB(fl, yywrap)

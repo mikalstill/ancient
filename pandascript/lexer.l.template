@@ -1,0 +1,38 @@
+%{
+#include "parser.h"
+#include <panda/constants.h>
+#include <panda/functions.h>
+
+char *returnStr(char *);
+
+%}
+
+%%
+
+[ \t\r\n]+
+
+\".*\"                  { // This is a memory leak...
+                          yylval.textVal = (char *) returnStr(yytext);
+                          yylval.textVal = yylval.textVal + 1;
+                          yylval.textVal[strlen(yylval.textVal) - 1] = '\0';
+                          return QUOTESTR;       }
+
+%objectify_tokenlexs%
+
+[0-9]+\.[0-9]+          { yylval.fltVal = atof(yytext);
+                          return FLOAT;          }
+
+[0-9]+                  { yylval.intVal = atoi(yytext);
+                          return INTEGER;            }
+
+%%
+
+char *returnStr(char *yytext){
+  char *lval;
+
+  if((lval = malloc(sizeof(char) * strlen(yytext) + 1)) == NULL)
+    error("Could not make space for lexer return.");
+  strncpy(lval, yytext, strlen(yytext) + 1);
+
+  return lval;
+}

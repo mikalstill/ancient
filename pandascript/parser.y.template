@@ -1,0 +1,94 @@
+%{
+  #include <panda/functions.h>
+  #include <panda/constants.h>
+
+  // Uncomment this line to run dmalloc for memory checking
+  // #include <dmalloc.h>
+
+  char *strmcpy(char *);
+  char *strmcat(char *, char *);
+
+%objectify_pointers%
+%}
+
+          /* Define the possible yylval values */
+%union {
+  int      intVal;
+  char     *textVal;
+  double   fltVal;
+}
+
+%objectify_tokens%
+
+%token <fltVal> FLOAT
+
+%token <textVal> QUOTESTR
+%token <textVal> ANYTHING
+
+%token <intVal> IMGTYPE
+%token <intVal> INTEGER
+
+%%
+
+          /*********************************************************
+            It would appear that $$ already includes the vale of $1,
+	    so we only need to append the value of $2, $3, $4 et al
+          *********************************************************/
+
+commands  : %objectify_commands%
+          ;
+
+%objectify_grammar%
+
+stuff     : ANYTHING stuff {}
+          |
+          ;
+
+%%
+
+int yyerror(char *s){
+  printf("200 Unknown command. Try help for more command information...\n");
+}
+
+// Buffer overrun safe strcat
+char *strmcat(char *dest, char *append){
+  char *new;
+
+  // What length do we need?
+  if((new = (char *) realloc(dest, sizeof(char) * 
+			     (strlen(dest) + strlen(append) + 2))) == NULL){
+    fprintf(stderr, "Could not realloc enough space\n");
+    exit(42);
+  }
+
+  strcat(new, append);
+
+#if defined DEBUG
+  printf("New length of string is %d\n", strlen(new));
+#endif
+
+  return new;
+}
+
+// Buffer overrun safe strcpy
+char *strmcpy(char *data){
+  char *new;
+
+  // What length do we need?
+  if((new = (char *) malloc(sizeof(char) * (strlen(data) + 1))) == NULL){
+    fprintf(stderr, "Could not malloc enough space\n");
+    exit(42);
+  }
+
+  strcpy(new, data);
+
+  return new;
+}
+
+// The main routine for the engine
+int main(int argc, char *argv[]){
+  panda_init();
+  yyparse();
+
+  return 0;
+}
