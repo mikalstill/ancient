@@ -2,6 +2,7 @@
 #include <stdarg.h>
 
 extern trivsql_state *gState;
+const char *trivsql_version = VERSION;
 
 trivsql_state *trivsql_init(char *filename){
   trivsql_state *state;
