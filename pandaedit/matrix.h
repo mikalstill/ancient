@@ -10,6 +10,8 @@ public:
   matrix ();
 
   matrix operator*(const matrix& other);
+  bool operator==(const matrix& other);
+  bool operator!=(const matrix& other);
 
   void setIdentity ();
   void setValues (float vals[6]);
@@ -21,6 +23,7 @@ public:
   float getAngle ();
 
   void dumpMatrix ();
+  float getRawItem(int x, int y);
 
 private:
   vector<float> getRowVector(int row);

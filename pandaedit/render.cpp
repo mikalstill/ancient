@@ -11,6 +11,8 @@
 #include "verbosity.h"
 #include "idmangle.h"
 
+#include "linetool.h"
+
 #define SELECTWIDTH 10
 
 extern int gUniqueSelection;
@@ -26,6 +28,9 @@ m_xscale (xscale),
 m_yscale (yscale),
 m_raster (NULL)
 {
+  m_graphicsMatrix.setIdentity();
+  m_textMatrix.setIdentity();
+  m_textLineMatrix.setIdentity();
 }
 
 bool
@@ -65,6 +70,12 @@ pdfRender::render ()
       return false;
 #endif
     }
+
+  // There is an initial command state which we grab now
+  char *plotState;
+  plotState = plot_persiststate(m_plot);
+  m_graphicsStates.push(plotState);
+  free(plotState);
 
   // If we don't have any preparsed commands, then we need to hit the document
   // and find the drawing commands. This puts them into the page command array
@@ -112,14 +123,40 @@ pdfRender::render ()
       page.getCommandFillColor(cmdcnt, r, g, b);
       plot_setfillcolor(m_plot, r, g, b);
 
+      // Set the CTM
+      matrix ctm;
+      page.getCommandCTM(cmdcnt, ctm);
+      
+      debug(dlTrace, string("Setting CTM to ") +
+	    toString(ctm.getRawItem(0, 0)) + string(" ") +
+	    toString(ctm.getRawItem(1, 1)) + string(" ") +
+	    toString(ctm.getRawItem(0, 1)) + string(" ") +
+	    toString(ctm.getRawItem(1, 1)) + string(" ") +
+	    toString(ctm.getRawItem(0, 2)) + string(" ") +
+	    toString(ctm.getRawItem(1, 2)));
+
+      plot_setctm(m_plot, 
+		  ctm.getRawItem(0, 0), ctm.getRawItem(1, 1),
+		  ctm.getRawItem(0, 1), ctm.getRawItem(1, 1),
+		  ctm.getRawItem(0, 2), ctm.getRawItem(1, 2));
+      plot_setctm(m_select, 
+		  ctm.getRawItem(0, 0), ctm.getRawItem(1, 1),
+		  ctm.getRawItem(0, 1), ctm.getRawItem(1, 1),
+		  ctm.getRawItem(0, 2), ctm.getRawItem(1, 2));
+
       // Paint the object
       debug(dlTrace, "Paint object");
       object::commandType type;
       vector<cmdControlPoint> controlPoints = 
 	page.getCommandPoints(cmdcnt, type);
+      
+#define SCALEDPT(in, mem) \
+      (unsigned int) (controlPoints[in].mem.x * m_xscale), \
+      (unsigned int) (controlPoints[in].mem.y * m_yscale)
 
       if(controlPoints.size() > 0)
 	{
+	  debug(dlTrace, "The object contains control points");
 	  char *plotState;
 
 	  // HINT: implement something for your new command here...
@@ -129,16 +166,8 @@ pdfRender::render ()
 	      debug(dlTrace, "Object is a line");
 	      if(controlPoints.size() > 1)
 		{
-		  plot_setlinestart(m_plot, 
-				    (unsigned int) (controlPoints[0].pt.x * 
-						    m_xscale),
-				    (unsigned int) (controlPoints[0].pt.y * 
-						    m_yscale));
-		  plot_setlinestart(m_select, 
-				    (unsigned int) (controlPoints[0].pt.x * 
-						    m_xscale),
-				    (unsigned int) (controlPoints[0].pt.y * 
-						    m_yscale));
+		  plot_setlinestart(m_plot, SCALEDPT(0, pt));
+		  plot_setlinestart(m_select, SCALEDPT(0, pt));
 		  debug(dlTrace, string("Line start: ") + 
 			toString(controlPoints[0].pt.x) + string(", ") +
 			toString(controlPoints[0].pt.y) + 
@@ -147,27 +176,75 @@ pdfRender::render ()
 
 		  for(unsigned int i = 1; i < controlPoints.size(); i++)
 		    {
-		      plot_addlinesegment(m_plot, 
-					  (unsigned int) 
-					  (controlPoints[i].pt.x *
-					   m_xscale),
-					  (unsigned int) 
-					  (controlPoints[i].pt.y *
-					   m_yscale));
-		      plot_addlinesegment(m_select, 
-					  (unsigned int) 
-					  (controlPoints[i].pt.x *
-					   m_xscale),
-					  (unsigned int) 
-					  (controlPoints[i].pt.y *
-					   m_yscale));
 		      debug(dlTrace, string("Line segment: ") + 
-			toString(controlPoints[0].pt.x) + string(", ") +
-			toString(controlPoints[0].pt.y) + 
+			toString(controlPoints[i].pt.x) + string(", ") +
+			toString(controlPoints[i].pt.y) + 
 			string(" modifier: ") + 
-			toString(controlPoints[0].modifier));
+			toString(controlPoints[i].modifier));
+
+		      switch(controlPoints[i].modifier)
+			{
+			case ltmNone:
+			  plot_addlinesegment(m_plot, SCALEDPT(i, pt));
+			  plot_addlinesegment(m_select, SCALEDPT(i, pt));
+			  break;
+
+			case ltmBezier:
+			  // TODO mikal: bad assumption as to number of
+			  // control points...
+			  plot_addcubiccurvesegment(m_plot, 
+						    SCALEDPT(i, pt),
+						    SCALEDPT(i, cpt[0]),
+						    SCALEDPT(i, cpt[1]));
+			  plot_addcubiccurvesegment(m_select, 
+						    SCALEDPT(i, pt),
+						    SCALEDPT(i, cpt[0]),
+						    SCALEDPT(i, cpt[1]));
+			  break;
+
+			case ltmHalfBezierOne:
+			  // TODO mikal: bad assumption as to number of
+			  // control points...
+			  plot_addquadraticcurvesegmentone(m_plot, 
+							   SCALEDPT(i, pt),
+							   SCALEDPT(i, cpt[0]));
+			  plot_addquadraticcurvesegmentone(m_select, 
+							   SCALEDPT(i, pt),
+							   SCALEDPT(i, cpt[0]));
+			  break;
+
+			case ltmHalfBezierTwo:
+			  // TODO mikal: bad assumption as to number of
+			  // control points...
+			  plot_addquadraticcurvesegmenttwo(m_plot, 
+							   SCALEDPT(i, pt),
+							   SCALEDPT(i, cpt[0]));
+			  plot_addquadraticcurvesegmenttwo(m_select, 
+							   SCALEDPT(i, pt),
+							   SCALEDPT(i, cpt[0]));
+			  break;
+
+			case ltmJump:
+			  // TODO mikal: what about unstroked lines?
+			  debug(dlTrace, "Start stroking");
+			  plot_strokeline(m_plot);
+			  plot_strokeline(m_select);
+			  debug(dlTrace, "Finish stroking");
+			  plot_endline(m_plot);
+			  plot_endline(m_select);
+			  debug(dlTrace, "Clean up");
+
+			  plot_setlinestart(m_plot, SCALEDPT(i, pt));
+			  plot_setlinestart(m_select, SCALEDPT(i, pt));
+			  break;
+
+			default:
+			  debug(dlError, "Unknown line modifier");
+			  break;
+			}
 		    }
 
+		  // TODO mikal: what about unstroked lines?
 		  debug(dlTrace, "Start stroking");
 		  plot_strokeline(m_plot);
 		  plot_strokeline(m_select);
@@ -203,14 +280,23 @@ pdfRender::render ()
 	      break;
 
 	    case object::cSaveState:
+	      debug(dlTrace, "Object is a state save");
 	      plotState = plot_persiststate(m_plot);
 	      m_graphicsStates.push(plotState);
 	      free(plotState);
 	      break;
 
 	    case object::cRestoreState:
-	      plot_applystate(m_plot, (char *) m_graphicsStates.top().c_str());
-	      m_graphicsStates.pop();
+	      debug(dlTrace, "Object is a state restore");
+	      if(m_graphicsStates.size() > 0)
+		{
+		  plot_applystate(m_plot, 
+				  (char *) m_graphicsStates.top().c_str());
+		  m_graphicsStates.pop();
+		}
+	      else{
+		debug(dlTrace, "No state to apply");
+	      }
 	      break;
 
 	    default:
@@ -219,6 +305,7 @@ pdfRender::render ()
 	}
     }
 
+  debug(dlTrace, "Finished painting");
   return true;
 }
 
@@ -467,12 +554,12 @@ pdfRender::processLine (string line)
 	command_y ();
 
       else
-	debug(dlInformational, string("Dropped token ") + tokens[i]);
+	debug(dlError, string("Dropped token ") + tokens[i]);
     }
   if (sargMode)
     {
       debug(dlTrace, string("String mode never ended on line. Line so far: ") +
-	      sarg);
+	    sarg);
     }
 }
 
@@ -646,6 +733,9 @@ pdfRender::appendCommand(object::commandType type)
       if(cmd.fillb != m_fillColor.b)
 	goto newcommand;
 
+      if(cmd.ctm != m_graphicsMatrix)
+	goto newcommand;
+
       // After all that, we can now append the command to the previous top
       // of the stack... We ask the document to make the change, because doing
       // it ourselves is considered bad form...
@@ -677,6 +767,7 @@ pdfRender::appendCommand(object::commandType type)
   newcmd.fillg = m_fillColor.g;
   newcmd.fillb = m_fillColor.b;
   newcmd.rast = m_raster;
+  newcmd.ctm = m_graphicsMatrix;
 
   // Ask the document to append the command
   debug(dlTrace, string("Appending a command with the unique id ") +

@@ -469,6 +469,14 @@ object::getCommandFillColor(int index, int &r, int &g, int& b)
   b = m_commands[index].fillb;
 }
 
+void object::getCommandCTM(int index, matrix &ctm)
+{
+  if(index >= m_commands.size())
+    return;
+
+  ctm = m_commands[index].ctm;
+}
+
 void
 object::executeCommand(int index, panda_page *pg)
 {

@@ -26,6 +26,21 @@ matrix matrix::operator*(const matrix& other)
   return retval;
 }
 
+bool matrix::operator==(const matrix& other)
+{
+  for(int x = 0; x < 3; x++)
+    for(int y = 0; y < 3; y++)
+      if(m_matrix[x][y] != other.m_matrix[x][y])
+	return false;
+
+  return true;
+}
+
+bool matrix::operator!=(const matrix& other)
+{
+  return !operator==(other);
+}
+
 vector<float> matrix::getRowVector(int row)
 {
   vector<float> retval;
@@ -142,4 +157,10 @@ matrix::dumpMatrix ()
 	  debug(dlTrace, toString(m_matrix[i][j]));
 	}
     }
+}
+
+float
+matrix::getRawItem(int x, int y)
+{
+  return m_matrix[x][y];
 }

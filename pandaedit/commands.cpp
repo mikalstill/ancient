@@ -46,14 +46,13 @@ pdfRender::command_Bstar ()
   m_commandString += "B*\n";
 }
 
+// tweaked
 // Enter text mode
 void
 pdfRender::command_BT ()
 {
-  debug(dlError, "Need to implement BT");
-  //  if (m_mode != rmText)
-  //  appendCommand();
-  m_commandString = "BT\n";
+  m_textMatrix.setIdentity();
+  m_textLineMatrix.setIdentity();
 }
 
 // tweaked
@@ -83,11 +82,17 @@ pdfRender::command_c ()
     }
 
   cmdControlPoint curved;
-  curved.pt = translateGraphicsPoint(wxPoint(x1, y1));
-  curved.cpt.push_back(translateGraphicsPoint(wxPoint(x2, y2)));
-  curved.cpt.push_back(translateGraphicsPoint(wxPoint(x3, y3)));
+  curved.pt = translateGraphicsPoint(wxPoint(x1, m_height - y1));
+  curved.cpt.push_back(translateGraphicsPoint(wxPoint(x2, m_height - y2)));
+  curved.cpt.push_back(translateGraphicsPoint(wxPoint(x3, m_height - y3)));
   curved.modifier = ltmBezier;
   m_controlPoints.push_back(curved);
+  debug(dlTrace, string("Added bezier curve point: ") +
+	toString(curved.pt.x) + string(", ") + toString(curved.pt.y) +
+	string(" CP1 ") + 
+	toString(curved.cpt[0].x) + string(", ") + toString(curved.cpt[0].y) +
+	string(" CP2 ") + 
+	toString(curved.cpt[1].x) + string(", ") + toString(curved.cpt[1].y));
 }
 
 // tweaked
@@ -287,15 +292,12 @@ pdfRender::command_Do ()
   m_raster = NULL;
 }
 
+// tweaked
 // Exit text mode
 void
 pdfRender::command_ET ()
 {
-  debug(dlError, "Need to implement ET");
-  m_commandString += "ET\n";
-  //  appendCommand();
-  m_commandString = "";
-  m_controlString = "";
+  // Effectively a NOOP, simply discards the textMatrix and textLineMatrix
 }
 
 // Fill using non zero winding
@@ -347,7 +349,12 @@ pdfRender::command_G ()
 void
 pdfRender::command_h ()
 {
-  m_controlPoints.push_back(m_controlPoints[0]);
+  cmdControlPoint h;
+  h.pt = m_subpath.top();
+  m_subpath.pop();
+  h.modifier = ltmNone;
+
+  m_controlPoints.push_back(h);
 }
 
 // tweaked
@@ -369,19 +376,13 @@ pdfRender::command_l ()
   m_controlPoints.push_back(straight);
 }
 
-// Move graphics cursor to a given location
+// Move graphics cursor to a given location -- this can happen in the middle of
+// a line!
 // tweaked
 void
 pdfRender::command_m ()
 {
   unsigned int x, y;
-
-  // It is assumed that this is the start of a new command
-  if(m_controlPoints.size() != 0)
-    {
-      debug(dlError, "Move command in the middle of drawing");
-      m_controlPoints.clear();
-    }
 
   // Pop our arguements (reverse order)
   y = atoi (m_arguements.top ().c_str ());
@@ -391,8 +392,13 @@ pdfRender::command_m ()
 
   cmdControlPoint mv;
   mv.pt = translateGraphicsPoint(wxPoint(x, m_height - y));
-  mv.modifier = 0;
+  if(m_controlPoints.size() == 0)
+    mv.modifier = 0;
+  else
+    mv.modifier = ltmJump;
   m_controlPoints.push_back(mv);
+
+  m_subpath.push(mv.pt);
 }
 
 // Save graphics state
@@ -409,27 +415,42 @@ pdfRender::command_Q ()
   appendCommand(object::cRestoreState);
 }
 
+// tweaked
 // A rectangle
 void
 pdfRender::command_re ()
 {
-  debug(dlError, "Need to implement re");
-  unsigned int left, top, right, bottom;
+  unsigned int x, y, w, h;
 
   // Pop our arguements (reverse order)
-  bottom = atoi (m_arguements.top ().c_str ());
+  h = atoi (m_arguements.top ().c_str ());
   m_arguements.pop ();
-  right = atoi (m_arguements.top ().c_str ());
+  w = atoi (m_arguements.top ().c_str ());
   m_arguements.pop ();
-  top = atoi (m_arguements.top ().c_str ());
+  y = atoi (m_arguements.top ().c_str ());
   m_arguements.pop ();
-  left = atoi (m_arguements.top ().c_str ());
+  x = atoi (m_arguements.top ().c_str ());
   m_arguements.pop ();
 
-  m_commandString += toString(left) + string(" ") +
-    toString(top) + string(" ") +
-    toString(right) + string(" ") +
-    toString(bottom) + string(" re\n");
+  // This is implemented in terms of other commands, as specified in the PDF
+  // specification...
+  m_arguements.push(toString(y));
+  m_arguements.push(toString(x));
+  command_m();
+
+  m_arguements.push(toString(y));
+  m_arguements.push(toString(x + w));
+  command_l();
+
+  m_arguements.push(toString(y + h));
+  m_arguements.push(toString(x + w));
+  command_l();
+
+  m_arguements.push(toString(y + h));
+  m_arguements.push(toString(x));
+  command_l();
+
+  command_h();
 }
 
 // tweaked
@@ -479,6 +500,8 @@ pdfRender::command_S ()
 {
   // This ends the current instance of the line tool
   appendCommand(object::cLine);
+  while(m_subpath.size() > 0)
+    m_subpath.pop();
 }
 
 // tweaked
@@ -605,12 +628,11 @@ pdfRender::command_TL ()
   m_commandString += "TL\n";
 }
 
+// tweaked
 // Set the text matrix
 void
 pdfRender::command_Tm ()
 {
-  debug(dlError, "Need to implement Tm");
-
   float vals[6];
 
   for (int i = 0; i < 6; i++)
@@ -619,12 +641,7 @@ pdfRender::command_Tm ()
       m_arguements.pop ();
     }
 
-  m_commandString += toString(vals[0]) + string(" ") +
-    toString(vals[1]) + string(" ") +
-    toString(vals[2]) + string(" ") +
-    toString(vals[3]) + string(" ") +
-    toString(vals[4]) + string(" ") +
-    toString(vals[5]) + string(" Tm\n");
+  m_graphicsMatrix.setValues (vals);
 }
 
 void
@@ -635,11 +652,10 @@ pdfRender::command_Tr ()
   m_commandString += "Tr\n";
 }
 
+// tweaked
 void
 pdfRender::command_v ()
 {
-  debug(dlError, "Need to implement v");
-
   unsigned int x1, y1, x2, y2;
 
   // Pop our arguements (reverse order)
@@ -652,10 +668,21 @@ pdfRender::command_v ()
   x1 = atoi (m_arguements.top ().c_str ());
   m_arguements.pop ();
 
-  m_commandString += toString(x1) + string(" ") +
-    toString(y1) + string(" ") +
-    toString(x2) + string(" ") +
-    toString(y2) + string(" v\n");
+  if (m_mode != rmGraphics)
+    {
+      debug(dlTrace, "Not in graphics mode");
+      return;
+    }
+
+  cmdControlPoint curved;
+  curved.pt = translateGraphicsPoint(wxPoint(x1, m_height - y1));
+  curved.cpt.push_back(translateGraphicsPoint(wxPoint(x2, m_height - y2)));
+  curved.modifier = ltmHalfBezierOne;
+  m_controlPoints.push_back(curved);
+  debug(dlTrace, string("Added half bezier one curve point: ") +
+	toString(curved.pt.x) + string(", ") + toString(curved.pt.y) +
+	string(" CP ") + 
+	toString(curved.cpt[0].x) + string(", ") + toString(curved.cpt[0].y));
 }
 
 void
@@ -672,11 +699,10 @@ pdfRender::command_w ()
   m_commandString += toString(w) + string(" w\n");
 }
 
+// tweaked
 void
 pdfRender::command_y ()
 {
-  debug(dlError, "Need to implement y");
-
   unsigned int x1, y1, x2, y2;
 
   // Pop our arguements (reverse order)
@@ -689,8 +715,19 @@ pdfRender::command_y ()
   x1 = atoi (m_arguements.top ().c_str ());
   m_arguements.pop ();
 
-  m_commandString += toString(x1) + string(" ") +
-    toString(y1) + string(" ") +
-    toString(x2) + string(" ") +
-    toString(y2) + string(" y\n");
+  if (m_mode != rmGraphics)
+    {
+      debug(dlTrace, "Not in graphics mode");
+      return;
+    }
+
+  cmdControlPoint curved;
+  curved.pt = translateGraphicsPoint(wxPoint(x1, m_height - y1));
+  curved.cpt.push_back(translateGraphicsPoint(wxPoint(x2, m_height - y2)));
+  curved.modifier = ltmHalfBezierTwo;
+  m_controlPoints.push_back(curved);
+  debug(dlTrace, string("Added half bezier two curve point: ") +
+	toString(curved.pt.x) + string(", ") + toString(curved.pt.y) +
+	string(" CP ") + 
+	toString(curved.cpt[0].x) + string(", ") + toString(curved.cpt[0].y));
 }

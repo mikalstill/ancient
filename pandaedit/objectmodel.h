@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <string>
+#include "matrix.h"
 
 using namespace std;
 
@@ -48,6 +49,7 @@ typedef struct
   int liner, lineg, lineb;
   int fillr, fillg, fillb;
   unsigned char *rast;
+  matrix ctm;
 
   // I don't seem to be able to use object::commandType here, as it gets all
   // circular in it's confusion
@@ -176,6 +178,8 @@ public:
   unsigned int getCommandCount();
   void getCommandLineColor(int index, int& r, int& g, int &b);
   void getCommandFillColor(int index, int& r, int& g, int &b);
+  void getCommandCTM(int index, matrix &ctm);
+
   vector<cmdControlPoint> getCommandPoints(int index, commandType & type);
   int getCommandId(int index);
   unsigned char *getCommandRaster(int index);

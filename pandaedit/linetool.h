@@ -5,7 +5,10 @@
 
 enum lineToolModifiers{
   ltmNone = 0,
-  ltmBezier
+  ltmBezier,
+  ltmHalfBezierOne,
+  ltmHalfBezierTwo,
+  ltmJump
 };
 
 #endif
