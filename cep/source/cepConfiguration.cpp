@@ -1,3 +1,4 @@
+
 /***************************************************************************
                           cepconfiguration.cpp  -  description
                              -------------------
@@ -20,21 +21,22 @@
 #include <stdlib.h>
 #include <sstream>
 
-cepConfiguration::cepConfiguration(const string & filename)
+cepConfiguration::cepConfiguration (const string & filename)
 {
-  path.assign( filename );
-  cepError error = load( path );
+  path.assign (filename);
+  cepError error = load (path);
+
   // check the status of the load
   // if it fails terminate with an error message
-  if( error.isReal() ) {
-    error.display();
+  if (error.isReal ())
+  {
+    error.display ();
   }
 }
 
-
-cepConfiguration::~cepConfiguration() {
+cepConfiguration::~cepConfiguration ()
+{
 }
-
 
 /**
  * Loads configuration data from the specified config file.
@@ -42,18 +44,24 @@ cepConfiguration::~cepConfiguration() {
  * @param filename the name of the file holding configuration data
  * @return the resulting error. check error.isReal() to see if an error was generated
  */
-cepError cepConfiguration::load( const string & filename ) {
+cepError cepConfiguration::load (const string & filename)
+{
   cepError err;
-  
-  ifstream cfgFile( (const char *)filename.c_str(), ios::in );
-  if( !cfgFile ) {
-    err = cepError( "failed to open config file"+filename, cepError::sevErrorFatal );
-  } else {
-    err = readConfig( cfgFile );
+
+  ifstream cfgFile ((const char *)filename.c_str (), ios::in);
+
+  if (!cfgFile)
+  {
+    err =
+      cepError ("failed to open config file" + filename,
+                cepError::sevErrorFatal);
+  }
+  else
+  {
+    err = readConfig (cfgFile);
   }
   return err;
 }
-
 
 /**
  * Saves configuration data to the specified config file.
@@ -61,13 +69,14 @@ cepError cepConfiguration::load( const string & filename ) {
  * @param filename the name of the file to write the configuration data to
  * @return the resulting error. check error.isReal() to see if an error was generated
  */
-cepError cepConfiguration::save( const string & filename ) {
+cepError cepConfiguration::save (const string & filename)
+{
   cepError err;
-  ofstream out( (const char *)filename.c_str(), ios::trunc );
-  writeConfig( out );
+  ofstream out ((const char *)filename.c_str (), ios::trunc);
+
+  writeConfig (out);
   return err;
 }
-
 
 /**
  * reads the configuration data from an input stream.
@@ -75,28 +84,33 @@ cepError cepConfiguration::save( const string & filename ) {
  * @param in the input stream to read the data from
  * @return the resulting error. check error.isReal() to see if an error was generated
  */
-cepError cepConfiguration::readConfig( ifstream & in ) {
+cepError cepConfiguration::readConfig (ifstream & in)
+{
   cepError err;
-  pair< string, string > data;
-  pair< map_t::iterator, bool > p;
+
+  pair < string, string > data;
+  pair < map_t::iterator, bool > p;
 
   char buf[80];
-  in.getline( buf, 80 );
 
-  while( strlen(buf) > 0 ) {
-    err = parseConfigEntry( (const char *)buf, data );
-    if( !err.isReal() ) {
-      p = map.insert( data );
-      if( !p.second ) {
-        printf("duplicate entry %s->%s\n",
-            (*(p.first)).first.c_str(), (*(p.first)).second.c_str());
+  in.getline (buf, 80);
+
+  while (strlen (buf) > 0)
+  {
+    err = parseConfigEntry ((const char *)buf, data);
+    if (!err.isReal ())
+    {
+      p = map.insert (data);
+      if (!p.second)
+      {
+        cout << "duplicate entry " << (*(p.first)).
+          first << "->" << (*(p.first)).second << endl;
       }
     }
-    in.getline( buf, 80 );    
+    in.getline (buf, 80);
   }
-  return err;  
+  return err;
 }
-
 
 /**
  * parses a single configuration entry
@@ -107,109 +121,141 @@ cepError cepConfiguration::readConfig( ifstream & in ) {
  *         If parsing the entry fails then we return a warning only, since we can
  *         easilty resort to default values
  */
-cepError cepConfiguration::parseConfigEntry( const string & entry,
-                                              pair< string,string >& data ) {
-  bool success = TRUE;
-  char *tmp = strdup( entry.c_str() );
-  
+cepError cepConfiguration::parseConfigEntry (const string & entry,
+                                             pair < string, string > &data)
+{
+  bool success = true;
+  char *tmp = strdup (entry.c_str ());
+
   // read the key
-  char *ptr = strtok( tmp, "= " );
-  if( ptr != NULL ) {
-    data.first = string( ptr );
-  } else {
-    success = FALSE;
+  char *ptr = strtok (tmp, "= ");
+
+  if (ptr != NULL)
+  {
+    data.first = string (ptr);
+  }
+  else
+  {
+    success = false;
   }
 
-  // read the value  
-  ptr = strtok( NULL, " " );
-  if( ptr != NULL ) {
-    data.second = string( ptr );
-  } else {
-    success = FALSE;
+  // read the value 
+  ptr = strtok (NULL, " ");
+  if (ptr != NULL)
+  {
+    data.second = string (ptr);
+  }
+  else
+  {
+    success = false;
   }
 
-  free( tmp );    // plug the leaks
+  free (tmp);                   // plug the leaks
 
   // check for failure
-  if( !success ) {
-    return cepError("failed to parse config value "+entry, cepError::sevWarning);
+  if (!success)
+  {
+    return cepError ("failed to parse config value " + entry,
+                     cepError::sevWarning);
   }
-  return cepError();
+  return cepError ();
 }
 
-
-cepError cepConfiguration::writeConfig( ofstream & out ) {
+cepError cepConfiguration::writeConfig (ofstream & out)
+{
   cepError err;
-  for(map_t::const_iterator i = map.begin(); i!=map.end(); ++i ) {
+
+  for (map_t::const_iterator i = map.begin (); i != map.end (); ++i)
+  {
     out << i->first << "=" << i->second << endl;
   }
-    
+
   return err;
 }
 
-cepError cepConfiguration::getValue( const string & valkey, const string & defval, string & outval ) {
-  map_t::const_iterator i = map.find( valkey );
+cepError cepConfiguration::getValue (const string & valkey,
+                                     const string & defval, string & outval)
+{
+  map_t::const_iterator i = map.find (valkey);
   bool defaulted = false;
-  if( i == map.end() ) {
+
+  if (i == map.end ())
+  {
     outval = defval;
-  } else {
-    outval = map[ valkey ];
+  }
+  else
+  {
+    outval = map[valkey];
   }
   cout << "<get<string> : requested " << valkey
-       << " and returned " << outval
-       << (defaulted?" (default)":"") << endl;
-  return cepError();
+    << " and returned " << outval << (defaulted ? " (default)" : "") << endl;
+  return cepError ();
 }
 
-cepError cepConfiguration::getValue( const string & valkey, const bool & defval, bool & outval ) {
-  map_t::const_iterator i = map.find( valkey );
+cepError cepConfiguration::getValue (const string & valkey, const bool & defval,
+                                     bool & outval)
+{
+  map_t::const_iterator i = map.find (valkey);
   bool defaulted = false;
-  if( i == map.end() ) {
+
+  if (i == map.end ())
+  {
     outval = defval;
     defaulted = true;
-  } else {
-    outval = (map[ valkey ] == "true");
+  }
+  else
+  {
+    outval = (map[valkey] == "true");
   }
   cout << "<get(bool)> : requested " << valkey
-       << " and returned " << (outval?"true":"false")
-       << (defaulted?" (default)":"") << endl;
-  return cepError();
+    << " and returned " << (outval ? "true" : "false")
+    << (defaulted ? " (default)" : "") << endl;
+  return cepError ();
 }
 
-cepError cepConfiguration::getValue( const string & valkey, const int &defval, int &outval ) {
-  map_t::const_iterator i = map.find( valkey );
+cepError cepConfiguration::getValue (const string & valkey, const int &defval,
+                                     int &outval)
+{
+  map_t::const_iterator i = map.find (valkey);
   bool defaulted = false;
-  if( i == map.end() ) {
+
+  if (i == map.end ())
+  {
     outval = defval;
     defaulted = true;
-  } else {
-    outval = atoi(map[ valkey ].c_str());
+  }
+  else
+  {
+    outval = atoi (map[valkey].c_str ());
   }
   cout << "<get(int)> : requested " << valkey
-       << " and returned " << outval
-       << (defaulted?" (default)":"") << endl;
-  return cepError();
+    << " and returned " << outval << (defaulted ? " (default)" : "") << endl;
+  return cepError ();
 }
 
-cepError cepConfiguration::setValue( const string & valkey, const string & value ) {
-  map[ valkey ] = value;
-  cout << "<set(string)> : setting " << valkey << " to " << map[ valkey ] << endl;
-  return save( path );
+cepError cepConfiguration::setValue (const string & valkey,
+                                     const string & value)
+{
+  map[valkey] = value;
+  cout << "<set(string)> : setting " << valkey << " to " << map[valkey] << endl;
+  return save (path);
 
 }
 
-cepError cepConfiguration::setValue( const string & valkey, const int &value ) {
+cepError cepConfiguration::setValue (const string & valkey, const int &value)
+{
   ostringstream oss;
+
   oss << value;
-  map[ valkey ] = oss.str();
-  cout << "<set(int)> : setting " << valkey << " to " << map[ valkey ] << endl;
-  return save( path );
+  map[valkey] = oss.str ();
+  cout << "<set(int)> : setting " << valkey << " to " << map[valkey] << endl;
+  return save (path);
 
 }
 
-cepError cepConfiguration::setValue( const string & valkey, const bool & value ) {
-  map[ valkey ] = (value ? string("true") : string("false"));
-  cout << "<set(bool)> : setting " << valkey << " to " << map[ valkey ] << endl;
-  return save( path );
+cepError cepConfiguration::setValue (const string & valkey, const bool & value)
+{
+  map[valkey] = (value ? string ("true") : string ("false"));
+  cout << "<set(bool)> : setting " << valkey << " to " << map[valkey] << endl;
+  return save (path);
 }
-

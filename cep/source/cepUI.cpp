@@ -1,3 +1,4 @@
+
 /* 
    UI for the CEP program, replaces the cepMain.cpp file
    Copyright (C) Michael Still                    2002
@@ -52,6 +53,7 @@
 #include "cepUI.h"
 #include "cepDoc.h"
 #include "cepView.h"
+#include <wx/image.h>
 
 #include <stdlib.h>
 #include <sstream>
@@ -69,34 +71,32 @@ IMPLEMENT_APP (cepApp) cepApp::cepApp (void)
   gLog.open ("cep.log", ios::out);
 
   // Open our configuration
-  char *
-    homedir =
-    getenv ("HOME");
-  string
-  config ("");
+  char *homedir = getenv ("HOME");
+
+  string config ("");
 
   if (homedir == NULL)
-    {
-      cepError
+  {
+    cepError
       error
-	("Unable to determine your home directory. Defaulting to the current working directory",
-	 cepError::sevInformational);
-      m_error = error;
-      error.clear ();
-    }
+      ("Unable to determine your home directory. Defaulting to the current working directory",
+       cepError::sevInformational);
+    m_error = error;
+    error.clear ();
+  }
   else
-    {
-      config = string (homedir);
-      config += "/";
-    }
+  {
+    config = string (homedir);
+    config += "/";
+  }
 
   config += ".cep";
   gConfiguration = new cepConfiguration (config);
 
   if (!m_error.isReal ())
-    {
-      cepDebugPrint ("Configuration database is located at: " + config);
-    }
+  {
+    cepDebugPrint ("Configuration database is located at: " + config);
+  }
 }
 
 bool cepApp::OnInit (void)
@@ -105,10 +105,10 @@ bool cepApp::OnInit (void)
   m_docManager = new wxDocManager;
 
   // Create a template relating drawing documents to their views
-  (void) new
-  wxDocTemplate ((wxDocManager *) m_docManager, "Dataset", "*.dat1",
-		 "", "dat1", "Dataset", "Dataset View",
-		 CLASSINFO (cepDoc), CLASSINFO (cepView));
+  (void)new
+    wxDocTemplate ((wxDocManager *) m_docManager, "Dataset", "*.dat1",
+                   "", "dat1", "Dataset", "Dataset View",
+                   CLASSINFO (cepDoc), CLASSINFO (cepView));
 
   // Initialise bitmap handlers (we need these for the presentation layer)
 #if wxUSE_LIBPNG
@@ -136,19 +136,18 @@ bool cepApp::OnInit (void)
 #endif
 
   // Create the main frame window
-  int
-    windowx,
-    windowy;
+  int windowx, windowy;
+
   gConfiguration->getValue ("mainwindowsizex", 1000, windowx);
   gConfiguration->getValue ("mainwindowsizey", 700, windowy);
   cepDebugPrint ("Main frame size is " + cepItoa (windowx) + " by " +
-		 cepItoa (windowy));
+                 cepItoa (windowy));
 
   frame =
     new cepFrame ((wxDocManager *) m_docManager, (wxFrame *) NULL,
-		  (const wxString) "Geodetic Data Modelling System",
-		  wxPoint (0, 0), wxSize (windowx, windowy),
-		  wxDEFAULT_FRAME_STYLE);
+                  (const wxString)"Geodetic Data Modelling System",
+                  wxPoint (0, 0), wxSize (windowx, windowy),
+                  wxDEFAULT_FRAME_STYLE);
 
   // Give it an icon (this is ignored in MDI mode: uses resources)
   // todo_mikal: We should have our own icon
@@ -160,13 +159,8 @@ bool cepApp::OnInit (void)
 #endif
 
   // Make a menubar
-  wxMenu *
-    file_menu =
-    new
-    wxMenu;
-  wxMenu *
-    edit_menu = (wxMenu *)
-    NULL;
+  wxMenu *file_menu = new wxMenu;
+  wxMenu *edit_menu = (wxMenu *) NULL;
 
   // This is magic, the shortcut keys just work from the menu name...
   file_menu->Append (wxID_OPEN, "&Open...\tCtrl-O");
@@ -176,16 +170,11 @@ bool cepApp::OnInit (void)
   // A nice touch: a history of files visited. Use this menu.
   m_docManager->FileHistoryUseMenu (file_menu);
 
-  wxMenu *
-    help_menu =
-    new
-    wxMenu;
+  wxMenu *help_menu = new wxMenu;
+
   help_menu->Append (DOCVIEW_ABOUT, "&About\tF1");
 
-  wxMenuBar *
-    menu_bar =
-    new
-    wxMenuBar;
+  wxMenuBar *menu_bar = new wxMenuBar;
 
   menu_bar->Append (file_menu, "&File");
   if (edit_menu)
@@ -202,29 +191,29 @@ bool cepApp::OnInit (void)
 
   // Are there old errors?
   if (m_error.isReal ())
-    {
-      m_error.display ();
-      m_error.clear ();
-    }
+  {
+    m_error.display ();
+    m_error.clear ();
+  }
 
   // Display tips on startup
   // todo_mikal: make tips work
   // todo_mikal: turn off startup tips sometimes
   // todo_mikal: should the tips be stored in a tdb?
   if (1)
-    {
-      //      wxTipProvider *tipProvider = wxCreateFileTipProvider("tips.txt", 0); 
-      //      wxShowTip(windowParent, tipProvider); 
-      //      delete tipProvider; 
-    }
+  {
+    // wxTipProvider *tipProvider = wxCreateFileTipProvider("tips.txt", 0); 
+    // wxShowTip(windowParent, tipProvider); 
+    // delete tipProvider; 
+  }
 
   return TRUE;
 }
 
-int
-cepApp::OnExit (void)
+int cepApp::OnExit (void)
 {
   delete m_docManager;
+
   return 0;
 }
 
@@ -233,14 +222,14 @@ cepApp::OnExit (void)
  * Called from view.cpp, when a view is created.
  */
 
-wxMDIChildFrame *
-cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
+wxMDIChildFrame *cepApp::CreateChildFrame (wxDocument * doc, wxView * view,
+                                           bool isCanvas)
 {
   // Make a child frame
   wxDocMDIChildFrame *subframe =
     new wxDocMDIChildFrame (doc, view, GetMainFrame (), -1, "Child Frame",
-			    wxPoint (10, 10), wxSize (300, 300),
-			    wxDEFAULT_FRAME_STYLE);
+                            wxPoint (10, 10), wxSize (300, 300),
+                            wxDEFAULT_FRAME_STYLE);
 
 #ifdef __WXMSW__
   subframe->SetIcon (wxString (isCanvas ? "chart" : "notepad"));
@@ -259,12 +248,12 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
   file_menu->Append (wxID_SAVEAS, "Save &As...");
 
   if (isCanvas)
-    {
-      file_menu->AppendSeparator ();
-      file_menu->Append (wxID_PRINT, "&Print...");
-      file_menu->Append (wxID_PRINT_SETUP, "Print &Setup...");
-      file_menu->Append (wxID_PREVIEW, "Print Pre&view");
-    }
+  {
+    file_menu->AppendSeparator ();
+    file_menu->Append (wxID_PRINT, "&Print...");
+    file_menu->Append (wxID_PRINT_SETUP, "Print &Setup...");
+    file_menu->Append (wxID_PREVIEW, "Print Pre&view");
+  }
 
   file_menu->AppendSeparator ();
   file_menu->Append (wxID_EXIT, "E&xit");
@@ -272,17 +261,18 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
   wxMenu *edit_menu = (wxMenu *) NULL;
 
   if (isCanvas)
-    {
-      edit_menu = new wxMenu;
-      edit_menu->Append (wxID_UNDO, "&Undo");
-      edit_menu->Append (wxID_REDO, "&Redo");
-      edit_menu->AppendSeparator ();
-      edit_menu->Append (DOCVIEW_CUT, "&Cut last segment");
+  {
+    edit_menu = new wxMenu;
+    edit_menu->Append (wxID_UNDO, "&Undo");
+    edit_menu->Append (wxID_REDO, "&Redo");
+    edit_menu->AppendSeparator ();
+    edit_menu->Append (DOCVIEW_CUT, "&Cut last segment");
 
-      doc->GetCommandProcessor ()->SetEditMenu (edit_menu);
-    }
+    doc->GetCommandProcessor ()->SetEditMenu (edit_menu);
+  }
 
   wxMenu *help_menu = new wxMenu;
+
   help_menu->Append (DOCVIEW_ABOUT, "&About");
 
   wxMenuBar *menu_bar = new wxMenuBar;
@@ -310,10 +300,10 @@ wxDocMDIParentFrame (manager, frame, -1, title, pos, size, type, "myFrame")
 
 // Display the about box the for application. This is a modal dialog, which
 // is displayed over the rest of the user interface
-void
-cepFrame::OnAbout (wxCommandEvent & WXUNUSED (event))
+void cepFrame::OnAbout (wxCommandEvent & WXUNUSED (event))
 {
   ostringstream msg;
+
   msg << "Geodetic Data Modelling System\n\n";
   msg << "A GPS, VLBI and SLR dataset manipulation tool by\n";
   msg << "    Daniel Fernandez\n";
@@ -323,17 +313,18 @@ cepFrame::OnAbout (wxCommandEvent & WXUNUSED (event))
   msg << "    Kristy Van Der Vlist\n\n";
   msg << "Portions copyright: Julian Smart julian.smart@ukonline.co.uk\n\n";
   msg << "Released under the terms of the GNU GPL";
-  
+
   wxMessageBox
-    ( (const wxString &)msg.str().c_str(), "About Geodetic Data Modelling System");
+    ((const wxString &)msg.str ().c_str (),
+     "About Geodetic Data Modelling System");
 }
 
 // Creates a canvas. Called from view.cpp when a new drawing
 // view is created.
-cepCanvas *
-cepFrame::CreateCanvas (wxView * view, wxFrame * parent)
+cepCanvas *cepFrame::CreateCanvas (wxView * view, wxFrame * parent)
 {
   int width, height;
+
   parent->GetClientSize (&width, &height);
 
   // Non-retained canvas
@@ -347,39 +338,39 @@ cepFrame::CreateCanvas (wxView * view, wxFrame * parent)
   return canvas;
 }
 
-cepFrame *
-GetMainFrame (void)
+cepFrame *GetMainFrame (void)
 {
   return frame;
 }
 
 // Capture the window close event, so we can save config info about the window
 // todo_mikal: not called on close of application...
-void
-cepFrame::OnClose (wxCloseEvent & evt)
+void cepFrame::OnClose (wxCloseEvent & evt)
 {
   // Save the window size to the configuration database
   int width, height;
+
   GetSize (&width, &height);
 
   cepError err;
+
   // todo_mikal: better key name?
   err = gConfiguration->setValue ("mainwindowsizex", width);
   if (err.isReal ())
+  {
+    err.display ();
+    err.clear ();
+  }
+  else
+  {
+    // todo_mikal: better key name?
+    err = gConfiguration->setValue ("mainwindowsizey", height);
+    if (err.isReal ())
     {
       err.display ();
       err.clear ();
     }
-  else
-    {
-      // todo_mikal: better key name?
-      err = gConfiguration->setValue ("mainwindowsizey", height);
-      if (err.isReal ())
-	{
-	  err.display ();
-	  err.clear ();
-	}
-    }
+  }
 
   // Close the window
   cepDebugPrint ("Finished with the UI");

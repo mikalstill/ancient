@@ -1,3 +1,4 @@
+
 /* 
    UI for the CEP program
    Copyright (C) Michael Still                    2002
@@ -57,7 +58,7 @@
 
 IMPLEMENT_DYNAMIC_CLASS (cepDoc, wxDocument)
 // This is needed for the progess callback to get to us
-     cepDoc *gProgressDoc;
+cepDoc *gProgressDoc;
 
 cepDoc::cepDoc (void)
 {
@@ -91,26 +92,18 @@ istream & cepDoc::LoadObject (istream & stream)
 wxInputStream & cepDoc::LoadObject (wxInputStream & stream)
 #endif
 {
-  //wxDocument::LoadObject (stream);
+  // wxDocument::LoadObject (stream);
 
   // Actually create the dataset
   m_progressCount = 0;
   m_progress = new wxProgressDialog ("Loading dataset",
-				     "Please wait while the dataset is loaded");
+                                     "Please wait while the dataset is loaded");
 
-  wxString
-    filename =
-    GetFilename ();
-  string
-    parentFilename =
-    filename.
-    substr (0, filename.length () - 5).
-    c_str ();
+  wxString filename = GetFilename ();
+  string parentFilename = filename.substr (0, filename.length () - 5).c_str ();
+
   m_dataset = new cepDataset (parentFilename, ds_progressCallback);
-  cepError
-    loadErr =
-    m_dataset->
-    munch ();
+  cepError loadErr = m_dataset->munch ();
 
   // todo_mikal: we should handle this error better
   if (loadErr.isReal ())
@@ -123,15 +116,14 @@ wxInputStream & cepDoc::LoadObject (wxInputStream & stream)
   // TODO_Mikal: Handle error condition better
 
   // Cleanup
-  delete
-    m_progress;
+  delete m_progress;
+
   m_progress = NULL;
 
   return stream;
 }
 
-void
-cepDoc::incrementProgress ()
+void cepDoc::incrementProgress ()
 {
   // todo_mikal: 10,000 readings is a lot, do we want to do better?
   m_progressCount++;
@@ -142,15 +134,13 @@ cepDoc::incrementProgress ()
     m_progress->Update (m_progressCount / 100);
 }
 
-cepDataset *
-cepDoc::getDataset ()
+cepDataset *cepDoc::getDataset ()
 {
   return m_dataset;
 }
 
 // A scary global progress handler
-void
-ds_progressCallback (int plane, long line)
+void ds_progressCallback (int plane, long line)
 {
   gProgressDoc->incrementProgress ();
 }

@@ -1,3 +1,4 @@
+
 /* 
    Imp for the CEP tristate boolean
    Copyright (C) Michael Still                    2002

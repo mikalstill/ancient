@@ -1,3 +1,4 @@
+
 /* 
    Utility methods for CEP
    Copyright (C) Michael Still                    2002

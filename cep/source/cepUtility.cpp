@@ -1,3 +1,4 @@
+
 /* 
    Ulitity functions for CEP
    Copyright (C) Michael Still                    2002
@@ -20,8 +21,7 @@
 #include "cepCore.h"
 #include <stdio.h>
 
-string
-cepItoa (int number)
+string cepItoa (int number)
 {
   char buffer[10];
 
@@ -29,8 +29,7 @@ cepItoa (int number)
   return string (buffer);
 }
 
-string
-cepLtoa (long number)
+string cepLtoa (long number)
 {
   char buffer[10];
 
@@ -38,8 +37,7 @@ cepLtoa (long number)
   return string (buffer);
 }
 
-string
-cepDtoa (double number)
+string cepDtoa (double number)
 {
   char buffer[10];
 
@@ -47,8 +45,7 @@ cepDtoa (double number)
   return string (buffer);
 }
 
-string
-cepFtoa (float number)
+string cepFtoa (float number)
 {
   char buffer[10];
 
@@ -56,8 +53,7 @@ cepFtoa (float number)
   return string (buffer);
 }
 
-bool
-cepIsBlank (char c)
+bool cepIsBlank (char c)
 {
   if (c == ' ')
     return true;

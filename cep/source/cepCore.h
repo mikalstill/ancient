@@ -1,3 +1,4 @@
+
 /* 
    The header we include everywhere to get access to interesting classes
    Copyright (C) Michael Still                    2002
@@ -34,7 +35,8 @@
 #include <vector>
 #include <math.h>
 
-#include <wx/image.h>
+// !removed - not everyone need access tpo the wondowing toolkit!
+// #include <wx/image.h>
 
 #include "cepTSB.h"
 #include "cepError.h"

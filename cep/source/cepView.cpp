@@ -1,3 +1,4 @@
+
 /* 
    UI for the CEP program
    Copyright (C) Michael Still                    2002
@@ -53,12 +54,13 @@
 #include "cepUI.h"
 #include "cepDoc.h"
 #include "cepView.h"
+#include <wx/image.h>
 
 IMPLEMENT_DYNAMIC_CLASS (cepView, wxView)
 BEGIN_EVENT_TABLE (cepView, wxView) END_EVENT_TABLE ()
 // What to do when a view is created. Creates actual
 // windows for displaying the view.
-  bool cepView::OnCreate (wxDocument * doc, long WXUNUSED (flags))
+bool cepView::OnCreate (wxDocument * doc, long WXUNUSED (flags))
 {
   frame = wxGetApp ().CreateChildFrame (doc, this, TRUE);
   frame->SetTitle ("cepView");
@@ -67,9 +69,8 @@ BEGIN_EVENT_TABLE (cepView, wxView) END_EVENT_TABLE ()
 
 #ifdef __X__
   // X seems to require a forced resize
-  int
-    x,
-    y;
+  int x, y;
+
   frame->GetSize (&x, &y);
   frame->SetSize (-1, -1, x, y);
 #endif
@@ -82,29 +83,28 @@ BEGIN_EVENT_TABLE (cepView, wxView) END_EVENT_TABLE ()
 
 // Sneakily gets used for default print/preview
 // as well as drawing on the screen.
-void
-cepView::OnDraw (wxDC * dc)
+void cepView::OnDraw (wxDC * dc)
 {
   dc->SetFont (*wxNORMAL_FONT);
   dc->SetPen (*wxBLACK_PEN);
 
   cepDebugPrint ("Drawing the image, png is type " +
-		 cepItoa (wxBITMAP_TYPE_PNG));
+                 cepItoa (wxBITMAP_TYPE_PNG));
 
   wxImage theImage ("256x256.png", wxBITMAP_TYPE_PNG);
   wxBitmap theBitmap (theImage.ConvertToBitmap ());
+
   dc->DrawBitmap (theBitmap, 30, 150);
 
   cepDoc *theDoc = (cepDoc *) GetDocument ();
   cepDataset *theDataset = theDoc->getDataset ();
 
   // Iterate the points in the x direction of the dataset
-  //  cepPresentation myPres;
-  //  mypres.addDataPoint(1, 
+  // cepPresentation myPres;
+  // mypres.addDataPoint(1, 
 }
 
-void
-cepView::OnUpdate (wxView * WXUNUSED (sender), wxObject * WXUNUSED (hint))
+void cepView::OnUpdate (wxView * WXUNUSED (sender), wxObject * WXUNUSED (hint))
 {
   if (canvas)
     canvas->Refresh ();
@@ -131,17 +131,17 @@ bool cepView::OnClose (bool deleteWindow)
   if (!GetDocument ()->Close ())
     return FALSE;
 
-  // Clear the canvas in  case we're in single-window mode,
+  // Clear the canvas in case we're in single-window mode,
   // and the canvas stays.
   cepDebugPrint ("Clean up the canvas");
 
   // The following line was causing a segv
-  //  canvas->Clear ();
+  // canvas->Clear ();
   canvas->view = (wxView *) NULL;
   canvas = (cepCanvas *) NULL;
 
-  wxString
-  s (wxTheApp->GetAppName ());
+  wxString s (wxTheApp->GetAppName ());
+
   if (frame)
     frame->SetTitle (s);
 
@@ -151,11 +151,11 @@ bool cepView::OnClose (bool deleteWindow)
 
   cepDebugPrint ("Close the window");
   if (deleteWindow)
-    {
-      delete
-	frame;
-      return TRUE;
-    }
+  {
+    delete frame;
+
+    return TRUE;
+  }
   return TRUE;
 }
 
@@ -173,17 +173,17 @@ wxScrolledWindow (frame, -1, pos, size, style)
 
   // Is this where we create new controls?
   wxPoint pos, size;
+
   pos.x = 100;
   pos.y = 42;
   size.x = -1;
   size.y = -1;
 
-  //  m_button = new wxButton(v, -1, "This is a button", pos, size, 
+  // m_button = new wxButton(v, -1, "This is a button", pos, size, 
 }
 
 // Define the repainting behaviour
-void
-cepCanvas::OnDraw (wxDC & dc)
+void cepCanvas::OnDraw (wxDC & dc)
 {
   if (view)
     view->OnDraw (&dc);
@@ -191,13 +191,13 @@ cepCanvas::OnDraw (wxDC & dc)
 
 // This implements a tiny doodling program. Drag the mouse using
 // the left button.
-void
-cepCanvas::OnMouseEvent (wxMouseEvent & event)
+void cepCanvas::OnMouseEvent (wxMouseEvent & event)
 {
   if (!view)
     return;
 
   wxClientDC dc (this);
+
   PrepareDC (dc);
   dc.SetPen (*wxBLACK_PEN);
   wxPoint pt (event.GetLogicalPosition (dc));

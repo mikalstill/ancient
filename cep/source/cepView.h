@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     04/01/98
-// RCS-ID:      $Id: cepView.h,v 1.7 2002-08-05 12:10:56 u982087 Exp $
+// RCS-ID:      $Id: cepView.h,v 1.8 2002-08-05 13:06:23 u982087 Exp $
 // Copyright:   (c) Julian Smart and Markus Holzem
 // Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////
@@ -24,7 +24,7 @@ public:
   wxView * view;
 
   cepCanvas (wxView * v, wxFrame * frame, const wxPoint & pos,
-	     const wxSize & size, long style);
+             const wxSize & size, long style);
   virtual void OnDraw (wxDC & dc);
   void OnMouseEvent (wxMouseEvent & event);
 

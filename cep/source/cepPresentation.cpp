@@ -1,3 +1,4 @@
+
 /* 
    Imp for the CEP data presentation
    Copyright (C) Michael Still                    2002
@@ -23,8 +24,9 @@
 // Having big numbers is more efficient, but wastes more RAM
 const long CHUNKALLOC = 10;
 
-cepPresentation::cepPresentation (long width, long height):
-m_dataValid (1, bool (false))
+cepPresentation::cepPresentation (long width, long height):m_dataValid (1,
+                                                                        bool
+                                                                        (false))
 {
   m_width = width;
   m_height = height;
@@ -34,107 +36,98 @@ m_dataValid (1, bool (false))
   m_yUnit = -1;
 }
 
-void
-cepPresentation::xAxisTitle (const string & title)
+void cepPresentation::xAxisTitle (const string & title)
 {
   m_xTitle = title;
 }
 
-void
-cepPresentation::yAxisTitle (const string & title)
+void cepPresentation::yAxisTitle (const string & title)
 {
   m_yTitle = title;
 }
 
-void
-cepPresentation::xAxisScale (int units)
+void cepPresentation::xAxisScale (int units)
 {
   m_xUnit = units;
 }
 
-void
-cepPresentation::yAxisScale (int units)
+void cepPresentation::yAxisScale (int units)
 {
   m_yUnit = units;
 }
 
-void
-cepPresentation::addDataPoint (long x, long y)
+void cepPresentation::addDataPoint (long x, long y)
 {
   // Values
   if (x >= (long)m_data.size ())
-    {
-      m_data.resize (x + CHUNKALLOC);
-      cepDebugPrint ("Resize presentation data to " +
-		     cepLtoa (x + CHUNKALLOC));
-    }
+  {
+    m_data.resize (x + CHUNKALLOC);
+    cepDebugPrint ("Resize presentation data to " + cepLtoa (x + CHUNKALLOC));
+  }
   m_data[x] = y;
   cepDebugPrint ("Added (" + cepLtoa (x) + ", " + cepLtoa (y) + ")");
 
   // Validity
   if (x >= (long)m_dataValid.size ())
-    {
-      m_dataValid.resize (x + CHUNKALLOC, bool (false));
-    }
+  {
+    m_dataValid.resize (x + CHUNKALLOC, bool (false));
+  }
   m_dataValid[x] = true;
   cepDebugPrint ("Made valid " + cepLtoa (x));
 }
 
 // There are some output formats which need interpolation, but not all of them
 // for those, we have this somewhat dodgy method...
-void
-cepPresentation::interpolate ()
+void cepPresentation::interpolate ()
 {
-  long prevX=0, prevY=0;
+  long prevX = 0, prevY = 0;
   bool prevValid (false);
 
   // todo_mikal: for now we just dump the data points back out again
   for (size_t i = 0; i < m_data.size (); i++)
+  {
+    if (m_dataValid[i])
     {
-      if (m_dataValid[i])
-	{
-	  if (prevValid)
-	    {
-	      cepDebugPrint ("Iterpolate the line from (" +
-			     cepLtoa (prevX) + ", " + cepLtoa (prevY)
-			     + ") to (" + cepLtoa (i) + ", " +
-			     cepLtoa (m_data[i]) + ")");
+      if (prevValid)
+      {
+        cepDebugPrint ("Iterpolate the line from (" +
+                       cepLtoa (prevX) + ", " + cepLtoa (prevY)
+                       + ") to (" + cepLtoa (i) + ", " +
+                       cepLtoa (m_data[i]) + ")");
 
-	      // This pixel toggling is based on the premise that the function
-	      // for a given straight line can be defined by y = mx + b...
-	      //
-	      // I assume that b is 0, because the 'origin' of this line
-	      // segment will be the first point at the start of the line.
-	      // Therefore, the function for the line is something along the
-	      // lines of:
+        // This pixel toggling is based on the premise that the function
+        // for a given straight line can be defined by y = mx + b...
+        // 
+        // I assume that b is 0, because the 'origin' of this line
+        // segment will be the first point at the start of the line.
+        // Therefore, the function for the line is something along the
+        // lines of:
 
-	      double m = ((double) (m_data[i] - prevY) /
-			  (double) (i - prevX));
-	      for (long x = 1; x < (long)(i - prevX); x++)
-		{
-		  long y = prevY + (long) (m * x);
+        double m = ((double)(m_data[i] - prevY) / (double)(i - prevX));
 
-		  cepDebugPrint ("Interpolation added the point (" +
-				 cepLtoa (x + prevX) + ", " + cepLtoa (y) +
-				 "). The gradient is " + cepDtoa (m));
-		}
-	    }
+        for (long x = 1; x < (long)(i - prevX); x++)
+        {
+          long y = prevY + (long)(m * x);
 
-	  prevX = i;
-	  prevY = m_data[i];
-	  prevValid = true;
-	}
+          cepDebugPrint ("Interpolation added the point (" +
+                         cepLtoa (x + prevX) + ", " + cepLtoa (y) +
+                         "). The gradient is " + cepDtoa (m));
+        }
+      }
+
+      prevX = i;
+      prevY = m_data[i];
+      prevValid = true;
     }
+  }
 }
 
-cepError
-cepPresentation::createPDF (const string & filename)
+cepError cepPresentation::createPDF (const string & filename)
 {
   return cepError ();
 }
 
-cepError
-cepPresentation::createBitmap (const string & filename)
+cepError cepPresentation::createBitmap (const string & filename)
 {
   interpolate ();
   return cepError ();

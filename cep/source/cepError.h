@@ -1,3 +1,4 @@
+
 /* 
    Imp for the CEP error
    Copyright (C) Michael Still                    2002
@@ -187,7 +188,7 @@ public:
   int getIcon ();
 
 private:
-  string m_msg;
+    string m_msg;
   severity m_level;
   bool m_actioned;
 };

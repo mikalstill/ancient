@@ -1,3 +1,4 @@
+
 /* 
    Imp for the CEP dataset
    Copyright (C) Michael Still                    2002
@@ -76,7 +77,7 @@ public:
 
   // Manipulations 
   cepDataset doWindow (cepDataset::direction dir, double winSize,
-		       double overlap);
+                       double overlap);
   cepDataset doHam (double datRow[3], double startWindow, double winSize);
 
   // Actually process the file
@@ -90,10 +91,10 @@ private:
     string m_filename;
   cepDatasetProgressCB m_progress;
     vector < cep_datarow > m_datax, m_datay, m_dataz;
-    vector < cep_datacol > m_windowVector;	//vector of windowed data
-  int m_numWindows;		//number of windows in the windowed data
-  double m_hamValue;		//single haming value
-  double m_hamWeight;		//hamming weight
+    vector < cep_datacol > m_windowVector;      // vector of windowed data
+  int m_numWindows;             // number of windows in the windowed data
+  double m_hamValue;            // single haming value
+  double m_hamWeight;           // hamming weight
 };
 
 #endif

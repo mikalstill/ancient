@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     04/01/98
-// RCS-ID:      $Id: cepDoc.h,v 1.5 2002-08-05 12:10:55 u982087 Exp $
+// RCS-ID:      $Id: cepDoc.h,v 1.6 2002-08-05 13:06:22 u982087 Exp $
 // Copyright:   (c) Julian Smart and Markus Holzem
 // Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////

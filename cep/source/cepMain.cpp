@@ -1,3 +1,4 @@
+
 /* 
    Main entry point for the application
    Copyright (C) Michael Still                    2002
@@ -22,21 +23,22 @@
 
 void ds_progressCallback (int plane, long line);
 
-int
-main (int argc, char *argv[])
+int main (int argc, char *argv[])
 {
   cepError ce;
 
   cepDataset myds ("../datasets/mb_ANKR_GPS", ds_progressCallback);
+
   ce = myds.munch ();
   if (ce.isReal ())
-    {
-      ce.display ();
-      exit (42);
-    }
+  {
+    ce.display ();
+    exit (42);
+  }
 
   // Test presentation
   cepPresentation myPres;
+
   myPres.addDataPoint (1, 42);
   myPres.addDataPoint (3, 45);
   myPres.addDataPoint (4, 46);
@@ -44,12 +46,12 @@ main (int argc, char *argv[])
 
   // Test date
   cepDate myDate (2002.712329);
+
   // todo_mikal: this gives the wrong answer - -should be 17 sept 2002
   cout << myDate.toString () << endl;
 }
 
-void
-ds_progressCallback (int plane, long line)
+void ds_progressCallback (int plane, long line)
 {
-  //cout << "Dataset munch progress: " << plane << ": " << line << endl;
+  // cout << "Dataset munch progress: " << plane << ": " << line << endl;
 }
