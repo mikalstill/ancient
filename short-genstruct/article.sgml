@@ -1,40 +1,3 @@
-<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
-<article>
-<title>An introduction to genstruct</title>
-   <subtitle>A final year project discussion paper (number two)</subtitle>
-
-<articleinfo>
-<authorgroup>
-<author>
-  <firstname>Michael</firstname>
-  <surname>Still</surname>
-  <affiliation><jobtitle>964076</jobtitle></affiliation>
-</author>
-</authorgroup>
-</articleinfo>
-
-<sect1>
-<title>About the author</title>
-<para>
-Michael's student number is 964076. He can be contacted at mikal@stillhq.com. Copyright (c) Michael Still 2002. This submission is
-   1132
-words, not including the code snippets.
-</para>
-</sect1>
-
-<sect1>
-<title>Abstract</title>
-<para>
-This paper discusses <command>genstruct</command> a structure serialization methodology for C and C++ development. It has been developed by Dr Andrew Tridgell, who currently works for Quantum. <command>genstruct</command> is extremely powerful, and the ability to serialize in memory data structures has some interesting side effects -- for instance the ability to upgrade code bases without incurring a service outage.
-</para>
-</sect1>
-
-<sect1><title>The meeting</title>
-<para>
-<command>genstruct</command> is a C based data dumping package which Dr Andrew Tridgell discussed at the June 2002 Canberra Linux User's Group meeting on 27 June 2002. It finds it's roots in the perl <command>Data::Dumper</command> and Java string marshaling methodologies, and is an extremely powerful tool for development. Dr Tridgell originally developed <command>genstruct</command> for the <command>Samba</command> project. In this paper I discuss points Dr Tridgell raised in his talk in further detail.
-</para>
-</sect1>
-
 <sect1><title>What is genstruct?</title>
 <para>
 As previously mentioned, <command>genstruct</command> is very similar in some respects to the perl <command>Data::Dumper</command>. It is therefore useful to provide a brief introduction to that functionality before moving onto <command>genstruct</command>.
@@ -45,12 +8,15 @@ As previously mentioned, <command>genstruct</command> is very similar in some re
 Perl's <command>Data::Dumper</command> is quite simple to use:
 </para>
 
+<execute><cmd>code2db</cmd><input>datadumper.pl > tmp.pp</input></execute>
+<execute><cmd>unix2dos</cmd><input>tmp.pp</input></execute>
 
 <para>
 Which produces...
 </para>
 
 <programlisting>
+<execute><cmd>./datadumper.pl</cmd></execute>
 </programlisting>
 </sect2>
 
@@ -59,40 +25,7 @@ Which produces...
 <command>genstruct</command> is a perl program which is run at compile time. It parses the c header files for the program you want to use <command>genstruct</command> with, using tags that you have to embed into the header file. For example, the sample which comes with <command>genstruct</command> is as follows:
 </para>
 
-<programlisting>
-GENSTRUCT enum fruit {APPLE, ORANGE=2, PEAR,
-		      RASBERRY, PEACH};
-
-GENSTRUCT
-struct test2 
-{
-	int x1;
-	char *foo;
-	char fstring[20]; _NULLTERM
-	int dlen;
-	char *dfoo; _LEN(dlen)
-	enum fruit fvalue;
-	struct test2 *next;
-};
-
-GENSTRUCT struct test1 {
-	char foo[100];
-	char *foo2[20];
-	int xlen;
-	int *iarray; _LEN(xlen);
-	unsigned slen;
-	char **strings; _LEN(slen);
-	char *s2[5];
-	double d1, d2, d3;
-	struct test2 *test2;
-	int alen;
-	struct test2 *test2_array; _LEN(alen);
-	struct test2 *test2_fixed[2];
-	int plen;
-	struct test2 **test2_parray; _LEN(plen)
-};
-</programlisting>
-<para><emphasis>Code: article.sgml</emphasis></para>
+<execute><cmd>code2db</cmd><input>~mikal/external/cvs.samba.org/junkcode/genstruct/test.h</input></execute>
 
 <para>
 In this example you can see that structures which should have <command>genstruct</command> enabled have the <command>GENSTRUCT</command> attribute associated with them, you are therefore not required to have all of the data structures in your code exportable. <command>GENSTRUCT</command> is merely an empty #define, which the <command>genstruct</command> header file parser can search for.
@@ -267,16 +200,3 @@ There are several reasons that developers will be interested in <command>genstru
 Interestingly, <command>genstruct</command> has other uses. For instance, if you have a long run server process such as Samba, then it is possible that you might want to change some of the internal data structures whilst the program is running. An example is when its the middle of the night and you only want to be backing up files, then you could save the normal structures to a string, and then reload them into a different set of structures which is optimized for large file reads. This would rely on <command>genstruct</command>'s ability to provide default values for keys which didn't exist when the string was created. Dr Tridgell expressed this as a major advantage of <command>genstruct</command> for the Samba team.
 </para>
 </sect1>
-
-<sect1><title>Obtaining genstruct</title>
-<para>
-<command>genstruct</command> can be downloaded from Dr Tridgell's website at http://junkcode.samba.org
-</para>
-</sect1>
-
-<sect1><title>Response to the talk</title>
-<para>
-Dr Tridgell is obviously a very talented software engineer, and his enthusiasm is contagious. He is also very obviously experienced at talking to audiences (he gives a very large number of conference presentations), and he normally speaks off the cuff.
-</para>
-</sect1>
-</article>
