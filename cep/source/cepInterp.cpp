@@ -47,7 +47,7 @@ cepMatrix<double> cepInterp::doInterp(cepMatrix<double> & input, double sampleRa
 {
 	/* winLength is the length of a window minus overlap on start edge*/
 	int winLength = (int)(winSize * (1-winOverlap));
-  
+
   // convert the starting matrix to the Julian timeScale
   cepMatrix<double> julianInput(input);
   for (int i = 0; i < julianInput.getNumRows(); i++)
@@ -773,6 +773,78 @@ cepMatrix<double> cepInterp::dividedInterp(cepMatrix<double> & input,
 		delete diffs[k];
 	return timeScale;
 }
+
+cepMatrix<double> cepInterp::LSinterp(cepMatrix<double> & input, double sampleRate, double m, double c)
+{
+  int inputLength = input.getNumRows();
+
+  cepMatrix<double> julianInput(input);
+  for (int i = 0; i < inputLength; i++)
+  {
+    julianInput.setValue(i,0, yearsToJulian(julianInput.getValue(i,0)));
+  }
+
+  int newLength = (int)((julianInput.getValue(inputLength,0) - julianInput.getValue(0,0))/sampleRate);
+
+  cepMatrix<double> timeScale(newLength,4);
+  timeScale.setValue(0,0, julianInput.getValue(0,0));
+  timeScale.setValue(0,1, 0.0);
+  timeScale.setValue(0,2, 0.0);
+  timeScale.setValue(0,3, 1.0);
+  for (int i = 1; i < newLength; i++)
+  {
+    timeScale.setValue(i,0, timeScale.getValue(i-1,0)+sampleRate);
+    timeScale.setValue(i,1, 0.0);
+    timeScale.setValue(i,2, 0.0);
+    timeScale.setValue(i,3, 1.0);
+  }
+
+  int position = 0;
+	for (int i = 0; i < newLength; i++)
+	{
+		if (inBounds(julianInput, timeScale, position, i, newLength, inputLength))
+		{
+      if ((timeScale.getValue(i,0) > julianInput.getValue(position,0) - delta)&&
+          (timeScale.getValue(i,0) < julianInput.getValue(position,0) + delta))
+      {
+        CHECK_ERROR(timeScale);
+        CHECK_ERROR(julianInput);
+        timeScale.setValue(i,1, julianInput.getValue(position,1));
+        CHECK_ERROR(timeScale);
+        CHECK_ERROR(julianInput);
+        timeScale.setValue(i,3, 0.0);
+        CHECK_ERROR(timeScale);
+      }
+      else if ((timeScale.getValue(i,0) > julianInput.getValue(position+1,0) - delta)&&
+               (timeScale.getValue(i,0) < julianInput.getValue(position+1,0) + delta))
+      {
+        CHECK_ERROR(timeScale);
+        CHECK_ERROR(julianInput);
+        timeScale.setValue(i,1, julianInput.getValue(position+1,1));
+        CHECK_ERROR(timeScale);
+        CHECK_ERROR(julianInput);
+        timeScale.setValue(i,3, 0.0);
+        CHECK_ERROR(timeScale);
+      }
+      else
+      {
+        CHECK_ERROR(timeScale);
+        CHECK_ERROR(julianInput);
+			  timeScale.setValue(i,1,m*(timeScale.getValue(i,0)-julianInput.getValue(0,0))+c);
+        CHECK_ERROR(timeScale);
+        CHECK_ERROR(julianInput);
+        timeScale.setValue(i,3, 1.0);
+      }
+		}
+		else
+		{
+			return timeScale;
+		}
+  }
+  return timeScale;
+}
+
+
 
 bool cepInterp::inBounds(cepMatrix<double> & input, cepMatrix<double> & timeScale,
 								 int & position, int & i, int newSize, int oldSize)

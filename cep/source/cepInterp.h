@@ -121,6 +121,8 @@ DOCBOOK END
 												int interpType);
 
 
+ cepMatrix<double> LSinterp(cepMatrix<double> & input, double sampleRate, double m, double c);
+
 private:
 
 double delta;
