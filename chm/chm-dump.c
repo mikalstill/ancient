@@ -6,12 +6,23 @@
 #include <fcntl.h>
 #include "fileutil.h"
 
+typedef struct chmdump_internal_filelist
+{
+  char *name;
+  int cs;
+  int offset;
+  int length;
+
+  struct chmdump_internal_filelist *next;
+} chmdump_filelist;
+
 int main(int argc, char *argv[]){
   int fd;
-  char *file;
-  int count, maxchunk, chunksize, waste, read, density;
-  long long offset, length, filep;
+  char *file, chunktype[4], filename[1024];
+  int count, maxchunk, chunksize, waste, read, density, chunkhits, chunkent, thischunk;
+  long long offset, length, filep, chunkp;
   struct stat sb;
+  chmdump_filelist *fl, *flcurrent;
 
   if(argc < 2){
     fprintf(stderr, "Usage: %s <input>\n", argv[0]);
@@ -38,6 +49,14 @@ int main(int argc, char *argv[]){
     }
   filep = 0;
 
+  // Setup the filelist
+  if((fl = (chmdump_filelist *) malloc(sizeof(chmdump_filelist))) == NULL){
+    fprintf(stderr, "Could not allocate space for file list\n");
+    exit(43);
+  }
+  fl->next = NULL;
+  flcurrent = fl;
+
   /////////////////////////////////////////////////////////////////////////////
   // File header
   /////////////////////////////////////////////////////////////////////////////
@@ -57,8 +76,9 @@ int main(int argc, char *argv[]){
 
   offset = fileutil_displaylong(file, "Section start offset: ", &filep); printf("\n");
   length = fileutil_displaylong(file, "Section length: ", &filep); printf("\n");
-
+  
   // We need to be able to jump over some unwanted bytes here
+  // fileutil_displaylong(file, "Offset to content section 0: ", &filep); printf("\n"); // v2 lacks this
   offset -= 4 + (4 * 4) + 4 + (16 * 2) + (8 * 2);
   printf("Skipping %d bytes: ", offset);
   for(count = 0; count < offset; count++){
@@ -106,61 +126,140 @@ int main(int argc, char *argv[]){
   /////////////////////////////////////////////////////////////////////////////
   // Chunks
   /////////////////////////////////////////////////////////////////////////////
-  for(count = 0; count < maxchunk; count++){
-    printf("\nChunk %d\n", count);
+  for(thischunk = 0; thischunk < maxchunk; thischunk++){
+    chunkp = filep;
+
+    printf("\nChunk %d\n", thischunk);
     printf("Magic bytes: ");
-    for(count = 0; count < 4; count++)
+    for(count = 0; count < 4; count++){
+      chunktype[count] = file[filep];
       printf("%c", file[filep++]);
+    }
     printf("\n");
-    
+    chunktype[count] = '\0';
+
     waste = fileutil_displayinteger(file, "Wasted (or quickref) chunk space: ", &filep); printf("\n");
-    fileutil_displayinteger(file, "Always zero: ", &filep); printf("\n");
-    fileutil_displayinteger(file, "Previous chunk number: ", &filep); printf("\n");
-    fileutil_displayinteger(file, "Next chunk number: ", &filep); printf("\n");
-    offset = chunksize - 4 - (4 * 4);
 
-    while(offset > 0){
-      // Filename
-      printf("\n  Remaining chunk length: %d\n", offset);
-      length = fileutil_displaybyte(file, "  Name length: ", &filep); printf("\n");
-      offset--;
-
-      if(length == 0)
-	break;
-
-      printf("  Filename: ");
-      for(count = 0; count < length; count++){
-	printf("%c", file[filep++]);
-	offset--;
-      }
-      printf("\n");
+    // Listing chunks
+    if(strcmp("PMGL", chunktype) == 0){
+      fileutil_displayinteger(file, "Always zero: ", &filep); printf("\n");
+      fileutil_displayinteger(file, "Previous chunk number: ", &filep); printf("\n");
+      fileutil_displayinteger(file, "Next chunk number: ", &filep); printf("\n");
       
-      fileutil_displayencinteger(file, "  Content section: ", &read, &filep); printf("\n");
-      offset -= read;
-      fileutil_displayencinteger(file, "  Offset: ", &read, &filep); printf("\n");
-      offset -= read;
-      fileutil_displayencinteger(file, "  Length: ", &read, &filep); printf("\n");
-      offset -= read;
-    }
+      // For each of the hits
+      chunkp += chunksize - 2;
+      chunkhits = fileutil_displayshort(file, "Number of entries in chunk: ", &chunkp); printf("\n");
+      for(chunkent = 0; chunkent < chunkhits; chunkent++){
+	printf("  Chunk entry %d\n", chunkent + 1);
 
-    // Display the quickrefs
-    for(count = 0; count < (1 + (1 << density)); count++){
-      fileutil_displayinteger(file, "  Quick reference entry: ", &filep); printf("\n");
-      offset -= 4;
-    }
+	length = fileutil_displaybyte(file, "  Name length: ", &filep); printf("\n");	
+	printf("  Filename: ");
+	for(count = 0; count < length; count++){
+	  if(count < 1023){
+	    filename[count] = file[filep];
+	  }
+	  printf("%c", file[filep++]);
+	}
+	printf("\n");
+	filename[count] = '\0';
+	
+	// We need to store information about this file
+	if((flcurrent->next = (chmdump_filelist *) malloc(sizeof(chmdump_filelist))) == NULL){
+	  fprintf(stderr, "Could not append to file list\n");
+	  exit(43);
+	}
 
-    offset -= 2;
-    printf("\n  Skipping %d bytes: ", offset);
-    for(count = 0; count < offset; count++){
-      printf("%02x ", file[filep++]);
+	flcurrent->next->next = NULL;
+	flcurrent->name = (char *) strdup(filename);
+	flcurrent->cs = fileutil_displayencinteger(file, "  Content section: ", &read, &filep); printf("\n");
+	flcurrent->offset = fileutil_displayencinteger(file, "  Offset: ", &read, &filep); printf("\n");
+	flcurrent->length = fileutil_displayencinteger(file, "  Length: ", &read, &filep); printf("\n");
+	flcurrent = flcurrent->next;
+	printf("\n");
+      }
+      
+      // Display the quickrefs
+      printf("  ...Skipping %d bytes...\n", (chunkp - 2 - (1 + (1 << density)) * 4) - filep);
+      filep = chunkp - 2 - (1 + (1 << density)) * 4;
+      for(count = 0; count < (1 + (1 << density)); count++){
+	fileutil_displayinteger(file, "  Quick reference entry: ", &filep); printf("\n");
+      }
+      
+      fileutil_displayshort(file, "  Number of entries in this chunk: ", &filep); printf("\n");
     }
-    printf("\n");
+    else if(strcmp("PMGI", chunktype) == 0){
+      chunkp += chunksize - waste;
+      while(filep < chunkp){
+	length = fileutil_displaybyte(file, "  Name length: ", &filep); printf("\n");	
+	printf("  Name: ");
+	for(count = 0; count < length; count++)
+	  printf("%c", file[filep++]);
+	printf("\n");
+	
+	fileutil_displayencinteger(file, "  Content section: ", &read, &filep); printf("\n");
+	printf("\n");
+      }
 
-    fileutil_displayshort(file, "  Number of entries in this chunk: ", &filep); printf("\n");
+      printf("  ...Skipping %d bytes...\n", waste);
+      filep += waste;
+    }
+    else{
+      printf("Unknown chunk type %s\n", chunktype);
+      return 1;
+    }
   }
+  printf("\n");
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Content section 0
+  /////////////////////////////////////////////////////////////////////////////
+  chunkp = filep;
+
+  printf("Start byte for content section 0: %d\n", chunkp);
+  // Go through and extract all the files in this section
+  flcurrent = fl;
+  while(flcurrent->next != NULL){
+    if(flcurrent->cs == 0){
+      printf("%s [start %d, end %d]\n", flcurrent->name, 
+	     flcurrent->offset, flcurrent->offset + flcurrent->length);
+
+      if(flcurrent->length > 0){
+	filep = chunkp + flcurrent->offset;
+	printf("  File\n");
+	printf("  Start byte for this file: %d\n", filep);
+	if(fileutil_displayshort(file, "  Length of section in words: ", &filep) != 0){
+	  printf("\n");
+	  maxchunk = fileutil_displayshort(file, "  Number of entries in section: ", &filep); printf("\n\n");
+	  
+	  // Get those names
+	  for(count = 0; count < maxchunk; count++){
+	    printf("  Name %d\n", count);
+	    fileutil_displayshort(file, "    Length of name in words: ", &filep); printf("\n");
+	    fileutil_displayunicodestring(file, "    Name: ", &filep); printf("\n");
+	    printf("\n");
+	  }
+	}
+	else{
+	  printf("\n  Skipping zero length file\n");
+	}
+
+	printf("\n");
+      }
+      else{
+	printf("  Directory\n\n");
+      }
+    }
+
+    flcurrent = flcurrent->next;
+  }
+
+
+
+
 
 
   // It's polite to cleanup
   munmap(file, sb.st_size);
   close(fd);
+  return 0;
 }

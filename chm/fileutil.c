@@ -57,6 +57,24 @@ void fileutil_displaystring(char *input, char *format, long long *filep){
   *filep = count;
 }
 
+// Display a unicode string (slightly broken, it assumes double byte)
+void fileutil_displayunicodestring(char *input, char *format, long long *filep){
+  int i, read, readlocal;
+  long long count = *filep;
+
+  printf(format);
+  while(input[count] != '\0'){
+    printf("%c", input[count++], input[count]);
+    count++;
+  }
+
+  // Skip over the NULL short at the end
+  count += 2;
+  printf(" [%d bytes]", count - *filep);
+
+  *filep = count;
+}
+
 // Display an 8 byte long
 long fileutil_displaylong(char *input, char *format, long long *filep){
   mint64 mylong;
@@ -209,4 +227,5 @@ int fileutil_displayencinteger(char *input, char *format, int *read, long long *
   printf("= %d", accval);
   *read = readcount;
   *filep = count;
+  return accval;
 }

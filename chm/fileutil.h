@@ -8,6 +8,7 @@ void fileutil_insertinteger(FILE *, int);
 void fileutil_insertshort(FILE *, int);
 
 void fileutil_displaystring(char *, char *, long long *);
+void fileutil_displayunicodestring(char *, char *, long long *);
 long fileutil_displaylong(char *, char *, long long *);
 int fileutil_displayinteger(char *, char *, long long *);
 int fileutil_displayshort(char *, char *, long long *);
