@@ -12,3 +12,6 @@ output.pdf: output.ps
 
 clean:
 	rm output* gen-* *~
+
+lj: output.sgml
+	./format.pl < output.sgml > lj.txt

@@ -92,8 +92,7 @@ By default when a UDP socket is created, it is disconnected. What's a disconnect
 </para>
 
 <programlisting>
-int recvfrom(int s, void *buf, size_t len, int flags, 
-             struct sockaddr *from, socklen_t *fromlen);
+int recvfrom(int s, void *buf, size_t len, int flags, struct sockaddr *from, socklen_t *fromlen);
 </programlisting>
 
 <para>
@@ -101,8 +100,7 @@ The <emphasis>struct sockaddr</emphasis> arguement in this function call is popu
 </para>
 
 <programlisting>
-int sendto(int s, const void *msg, size_t len, int flags, 
-           const struct sockaddr *to, socklen_t tolen);
+int sendto(int s, const void *msg, size_t len, int flags, const struct sockaddr *to, socklen_t tolen);
 </programlisting>
 
 <para>
@@ -758,18 +756,6 @@ dumpbit(){
   return $temp
 }
 
-# The state of the whole byte: (byte)
-#dumpbyte(){
-#  dumpbit $1 128
-#  dumpbit $? 64
-#  dumpbit $? 32
-#  dumpbit $? 16
-#  dumpbit $? 8
-#  dumpbit $? 4
-#  dumpbit $? 2
-#  dumpbit $? 1
-#}
-
 # Is a given bit on? (byte, poweroftwo)
 testbit(){
   return `dumpbit $1 $2`
@@ -892,9 +878,9 @@ process(){
   inset=$2
 
   # Identification: 2 bytes
-  readbytebinary "$1" $inset; idtopbyte=$?;
+  readbytebinary "$1" $inset; idtopbyte=$?
     inset=$(( $inset + 1 ))
-  readbytebinary "$1" $inset; idbotbyte=$?; 
+  readbytebinary "$1" $inset; idbotbyte=$? 
     inset=$(( $inset + 1 ))
   logger "shdns $$ Packet id portions: $idtopbyte $idbotbyte"
   id=$(( ($idtopbyte * 128) + $idbotbyte ))
@@ -914,42 +900,42 @@ process(){
   logger "shdns $$ Packet truncated: $trun"
   logger "shdns $$ Recursion desired: $rd"
 
-  readbytebinary "$1" $inset; temp=$?; 
+  readbytebinary "$1" $inset; temp=$?
     inset=$(( $inset + 1 ))
   testbit $temp 128; ra=$?
   
   logger "shdns $$ Recursion available: $ra"
   
   # The number of questions is the next two bytes
-  readbytebinary "$1" $inset; topbyte=$?; 
+  readbytebinary "$1" $inset; topbyte=$?
     inset=$(( $inset + 1 ))
-  readbytebinary "$1" $inset; botbyte=$?; 
+  readbytebinary "$1" $inset; botbyte=$?
     inset=$(( $inset + 1 ))
   qcount=$(( ($topbyte * 128) + $botbyte ))
   logger "shdns $$ Number of questions: $qcount"
   
   # The number of answers is the next two bytes
-  readbytebinary "$1" $inset; topbyte=$?; 
+  readbytebinary "$1" $inset; topbyte=$?
     inset=$(( $inset + 1 ))
-  readbytebinary "$1" $inset; botbyte=$?; 
+  readbytebinary "$1" $inset; botbyte=$?
     inset=$(( $inset + 1 ))
   acount=$(( ($topbyte * 128) + $botbyte ))
   logger "shdns $$ Number of answers: $acount"
   
   # The number of authority RRs is the next two 
   # bytes
-  readbytebinary "$1" $inset; topbyte=$?; 
+  readbytebinary "$1" $inset; topbyte=$?
     inset=$(( $inset + 1 ))
-  readbytebinary "$1" $inset; botbyte=$?; 
+  readbytebinary "$1" $inset; botbyte=$?
     inset=$(( $inset + 1 ))
   authcount=$(( ($topbyte * 128) + $botbyte ))
   logger "shdns $$ Number of authorities: $authcount"
   
   # The number of additional RRs is the next two 
   # bytes
-  readbytebinary "$1" $inset; topbyte=$?; 
+  readbytebinary "$1" $inset; topbyte=$?
     inset=$(( $inset + 1 ))
-  readbytebinary "$1" $inset; botbyte=$?; 
+  readbytebinary "$1" $inset; botbyte=$?
     inset=$(( $inset + 1 ))
   addcount=$(( ($topbyte * 128) + $botbyte ))
   logger "shdns $$ Number of additionals: $addcount"
@@ -1003,7 +989,7 @@ process(){
     # The class should always be 1 -- assume it's 
     # all in the last byte as well
     inset=$(( $inset + 1 ))
-    readbytebinary "$1" $inset; class=$?; 
+    readbytebinary "$1" $inset; class=$?
       inset=$(( $inset + 1 ))
     logger "shdns $$ Query class: $class"
   

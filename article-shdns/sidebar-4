@@ -1,0 +1,5 @@
+Why not echo?
+-------------
+
+Note that we can't use the name &lt;i&gt;echo&lt;/i&gt; for our service because of a couple of reasons: it is already defined in /etc/services; it is an internal service which &lt;b&gt;inetd&lt;/b&gt; already offers using the normal port number; and we wanted to define a different port number for the service, without b reaking things which might use the old /etc/services entry. 
+
