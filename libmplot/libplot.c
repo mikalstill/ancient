@@ -21,7 +21,7 @@
 #include <math.h>
 #include <stdlib.h>
 
-#include <libplot.h>
+#include <libmplot.h>
 
 /******************************************************************************
 DOCBOOK START
@@ -30,16 +30,16 @@ FUNCTION plot_newplot
 PURPOSE creates a blank plot ready for drawing
 
 SYNOPSIS START
-#include&lt;libplot.h&gt;
+#include&lt;libmplot.h&gt;
 plot_state *plot_newplot (unsigned int x, unsigned int y);
 SYNOPSIS END
 
 DESCRIPTION This function is the first call which should be called for a plot. It creates a blank canvas, ready for drawing.
 
-RETURNS A plot state pointer, which is used by most of the other <command>libplot</command> functions.
+RETURNS A plot state pointer, which is used by most of the other <command>libmplot</command> functions.
 
 EXAMPLE START
-#include&lt;libplot.h&gt;
+#include&lt;libmplot.h&gt;
 plot_state *graph;
 
 if((graph = plot_newplot(400, 300)) == NULL){
@@ -116,7 +116,7 @@ FUNCTION plot_getraster
 PURPOSE return a pointer the the raster we have drawn
 
 SYNOPSIS START
-#include&lt;libplot.h&gt;
+#include&lt;libmplot.h&gt;
 char *plot_getraster(plot_state *state);
 SYNOPSIS END
 
@@ -125,7 +125,7 @@ DESCRIPTION Returns the graph you have drawn.
 RETURNS Nothing
 
 EXAMPLE START
-#include&lt;libplot.h&gt;
+#include&lt;libmplot.h&gt;
 plot_state *graph;
 char *raster;
 
@@ -154,7 +154,7 @@ FUNCTION plot_setlinestart
 PURPOSE sets the starting point of series of lines and curves
 
 SYNOPSIS START
-#include&lt;libplot.h&gt;
+#include&lt;libmplot.h&gt;
 void plot_setlinestart (plot_state *state, unsigned int x, unsigned int y);
 SYNOPSIS END
 
@@ -163,7 +163,7 @@ DESCRIPTION Set the starting point for the sequence of curves and lines that it 
 RETURNS Nothing
 
 EXAMPLE START
-#include&lt;libplot.h&gt;
+#include&lt;libmplot.h&gt;
 plot_state *graph;
 
 if((graph = plot_newplot(400, 300)) == NULL){
@@ -200,7 +200,7 @@ FUNCTION plot_addlinesegment
 PURPOSE add a straight line segment to the polygon
 
 SYNOPSIS START
-#include&lt;libplot.h&gt;
+#include&lt;libmplot.h&gt;
 void plot_addlinesegment (plot_state *state, unsigned int x, unsigned int y);
 SYNOPSIS END
 
@@ -209,7 +209,7 @@ DESCRIPTION This function adds a straight line segment to the polygon currently 
 RETURNS Nothing
 
 EXAMPLE START
-#include&lt;libplot.h&gt;
+#include&lt;libmplot.h&gt;
 plot_state *graph;
 
 if((graph = plot_newplot(400, 300)) == NULL){
@@ -303,7 +303,7 @@ FUNCTION plot_closeline
 PURPOSE return to the start of this polygon
 
 SYNOPSIS START
-#include&lt;libplot.h&gt;
+#include&lt;libmplot.h&gt;
 void plot_closeline(plot_state *state);
 SYNOPSIS END
 
@@ -312,7 +312,7 @@ DESCRIPTION This function draws a straight line segment between the current pen 
 RETURNS Nothing
 
 EXAMPLE START
-#include&lt;libplot.h&gt;
+#include&lt;libmplot.h&gt;
 plot_state *graph;
 
 if((graph = plot_newplot(400, 300)) == NULL){
@@ -341,7 +341,7 @@ FUNCTION plot_endline
 PURPOSE free the resources consumed by the polygon just drawn
 
 SYNOPSIS START
-#include&lt;libplot.h&gt;
+#include&lt;libmplot.h&gt;
 void plot_endline (plot_state *state);
 SYNOPSIS END
 
@@ -350,7 +350,7 @@ DESCRIPTION It is very important that you use this function to free resources be
 RETURNS Nothing
 
 EXAMPLE START
-#include&lt;libplot.h&gt;
+#include&lt;libmplot.h&gt;
 plot_state *graph;
 
 if((graph = plot_newplot(400, 300)) == NULL){
@@ -399,7 +399,7 @@ FUNCTION plot_strokeline
 PURPOSE draw the outline specified by the current polygon
 
 SYNOPSIS START
-#include&lt;libplot.h&gt;
+#include&lt;libmplot.h&gt;
 void plot_strokeline(plot_state *state);
 SYNOPSIS END
 
@@ -408,7 +408,7 @@ DESCRIPTION
 RETURNS Nothing
 
 EXAMPLE START
-#include&lt;libplot.h&gt;
+#include&lt;libmplot.h&gt;
 plot_state *graph;
 
 if((graph = plot_newplot(400, 300)) == NULL){
@@ -532,38 +532,58 @@ void
 plot_fillline (plot_state * state)
 {
   plot_state *tempstate;
-  int intersects, prev = 0;
-  unsigned int row, col;
+  int intersects;
+  unsigned int row, col, lcol;
 
   // Build a temporary copy of just that polygon
   tempstate = plot_newplot(state->x, state->y);
   tempstate->line = state->line;
   plot_strokeline(tempstate);
   
-  // For each row
-  for(row = 0; row < state->x ; row++)
+  // For every point in the raster
+  for(row = 0; row < state->y ; row++)
     {
-      intersects = 0;
-      for(col = 0; col < state->y; col++)
+      for(col = 0; col < state->x; col++)
 	{
-	  if((tempstate->raster[row * state->x + col].r + 
-	      tempstate->raster[row * state->x + col].g + 
-	      tempstate->raster[row * state->x + col].b) != 765)
+	  intersects = 0;
+	  if(tempstate->raster[row * state->x + col].r != 0)
 	    {
-	      if(prev == 0)
-		intersects++;
-	      prev++;
+	      for(lcol = col + 1; lcol < state->x; lcol++)
+		{
+		  if(tempstate->raster[row * state->x + lcol].r == 0)
+		    {
+		      if(col > 0)
+			{
+			  if(tempstate->raster[row * state->x + lcol - 1].r != 0)
+			    intersects++;
+			}
+		      else
+			intersects++;
+		    }
+		}
+	      
+	      if(intersects % 2 == 1)
+		{
+		  intersects = 0;
+		  for(lcol = col -1; lcol != -1; lcol--){
+		    if(tempstate->raster[row * state->x + lcol].r == 0)
+		      {
+			if(col > 0)
+			  {
+			    if(tempstate->raster[row * state->x + lcol - 1].r != 0)
+			      intersects++;
+			  }
+			else
+			  intersects++;
+		      }
+		  }
+		  
+		  if(intersects % 2 == 1)
+		    {
+		      plot_drawpointactual(state, state->fillcolor, col, row);
+		    }
+		}
 	    }
-	  else
-	    {
-	      if(prev > 2)
-		intersects++;
-	      prev = 0;
-	    }
-
-	  if((prev == 0) && (intersects % 2 == 1)){
-	    plot_drawpointactual(state, state->fillcolor, col, row);
-	  }
 	}
     }
 }
@@ -601,7 +621,7 @@ FUNCTION plot_setfillcolor
 PURPOSE sets the colour that the finished polygon will be filled with
 
 SYNOPSIS START
-#include&lt;libplot.h&gt;
+#include&lt;libmplot.h&gt;
 void plot_setfillcolor (plot_state *state, int red, int green, int blue);
 SYNOPSIS END
 
@@ -610,7 +630,7 @@ DESCRIPTION Set the colour to fill the polygon with when the <command>plot_filll
 RETURNS Nothing
 
 EXAMPLE START
-#include&lt;libplot.h&gt;
+#include&lt;libmplot.h&gt;
 plot_state *graph;
 
 if((graph = plot_newplot(400, 300)) == NULL){
@@ -638,7 +658,7 @@ FUNCTION plot_setlinecolor
 PURPOSE sets the colour that the finished polygon will be stroked with
 
 SYNOPSIS START
-#include&lt;libplot.h&gt;
+#include&lt;libmplot.h&gt;
 void plot_setlinecolor (plot_state *state, int red, int green, int blue);
 SYNOPSIS END
 
@@ -647,7 +667,7 @@ DESCRIPTION Set the colour to draw the polygon with when the <command>plot_strok
 RETURNS Nothing
 
 EXAMPLE START
-#include&lt;libplot.h&gt;
+#include&lt;libmplot.h&gt;
 plot_state *graph;
 
 if((graph = plot_newplot(400, 300)) == NULL){
@@ -675,7 +695,7 @@ FUNCTION plot_setfontcolor
 PURPOSE sets the colour that text will be drawn with
 
 SYNOPSIS START
-#include&lt;libplot.h&gt;
+#include&lt;libmplot.h&gt;
 void plot_setfontcolor (plot_state *state, int red, int green, int blue);
 SYNOPSIS END
 
@@ -684,7 +704,7 @@ DESCRIPTION Set the colour to draw the text with
 RETURNS Nothing
 
 EXAMPLE START
-#include&lt;libplot.h&gt;
+#include&lt;libmplot.h&gt;
 plot_state *graph;
 
 if((graph = plot_newplot(400, 300)) == NULL){
@@ -712,7 +732,7 @@ FUNCTION plot_rectangle
 PURPOSE draw a rectangle
 
 SYNOPSIS START
-#include&lt;libplot.h&gt;
+#include&lt;libmplot.h&gt;
 void plot_rectangle plot_rectanglerot (plot_state *state, unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2);
 SYNOPSIS END
 
@@ -721,7 +741,7 @@ DESCRIPTION Draw a rectangle on the plot. x1, y1 is the top left corner, and x2,
 RETURNS Nothing
 
 EXAMPLE START
-#include&lt;libplot.h&gt;
+#include&lt;libmplot.h&gt;
 plot_state *graph;
 
 if((graph = plot_newplot(400, 300)) == NULL){
@@ -782,7 +802,7 @@ FUNCTION plot_setfont
 PURPOSE sets the starting point of a curve
 
 SYNOPSIS START
-#include&lt;libplot.h&gt;
+#include&lt;libmplot.h&gt;
 void panda_setfont (plot_state *state, char *fontpath, int size);
 SYNOPSIS END
 
@@ -791,7 +811,7 @@ DESCRIPTION Set the font and size to use to text drawing operations. The <comman
 RETURNS Nothing
 
 EXAMPLE START
-#include&lt;libplot.h&gt;
+#include&lt;libmplot.h&gt;
 plot_state *graph;
 
 if((graph = plot_newplot(400, 300)) == NULL){
@@ -849,7 +869,7 @@ FUNCTION plot_settextlocation
 PURPOSE sets the cursor location for text drawing
 
 SYNOPSIS START
-#include&lt;libplot.h&gt;
+#include&lt;libmplot.h&gt;
 void panda_setlinestart (plot_state *state, unsigned int x, unsigned int y);
 SYNOPSIS END
 
@@ -858,7 +878,7 @@ DESCRIPTION Set the cursor location for text drawing.
 RETURNS Nothing
 
 EXAMPLE START
-#include&lt;libplot.h&gt;
+#include&lt;libmplot.h&gt;
 plot_state *graph;
 
 if((graph = plot_newplot(400, 300)) == NULL){
@@ -885,7 +905,7 @@ FUNCTION plot_settextlocation
 PURPOSE sets the cursor location for text drawing
 
 SYNOPSIS START
-#include&lt;libplot.h&gt;
+#include&lt;libmplot.h&gt;
 void panda_getlinestart (plot_state *state, unsigned int *x, unsigned int *y);
 SYNOPSIS END
 
@@ -894,7 +914,7 @@ DESCRIPTION Get the cursor location for text drawing.
 RETURNS Nothing
 
 EXAMPLE START
-#include&lt;libplot.h&gt;
+#include&lt;libmplot.h&gt;
 plot_state *graph;
 int x, y;
 
@@ -926,7 +946,7 @@ FUNCTION plot_writestring
 PURPOSE write a string onto the bitmap
 
 SYNOPSIS START
-#include&lt;libplot.h&gt;
+#include&lt;libmplot.h&gt;
 int plot_writestring(plot_state *state, char *string);
 SYNOPSIS END
 
@@ -935,7 +955,7 @@ DESCRIPTION This function writes a string onto the specified bitmap. Note that t
 RETURNS 0 on success, -1 otherwise
 
 EXAMPLE START
-#include&lt;libplot.h&gt;
+#include&lt;libmplot.h&gt;
 plot_state *graph;
 char *words[] = {"This", "is", "a", "string", "which", "is", "quite", "long.",
 		 "It", "demonstrates", "how", "to", "do", "word", "wrap", NULL};
@@ -979,7 +999,7 @@ FUNCTION plot_writestringrot
 PURPOSE write a string onto the bitmap, with the text being rotated by the given angle
 
 SYNOPSIS START
-#include&lt;libplot.h&gt;
+#include&lt;libmplot.h&gt;
 int plot_writestringrot(plot_state *state, char *string, float angle);
 SYNOPSIS END
 
@@ -994,7 +1014,7 @@ DESCRIPTION END
 RETURNS 0 on success, -1 otherwise
 
 EXAMPLE START
-#include&lt;libplot.h&gt;
+#include&lt;libmplot.h&gt;
 plot_state *graph;
 char *words[] = {"This", "is", "a", "string", "which", "is", "quite", "long.",
 		 "It", "demonstrates", "how", "to", "do", "word", "wrap", NULL};
@@ -1055,7 +1075,7 @@ plot_writestringrot (plot_state * state, char *string, float angle)
   len = strlen (string);
   for (count = 0; count < len; count++)
     {
-      if (plot_paintglyph (state, string[count], LIBPLOT_TRUE) == -1)
+      if (plot_paintglyph (state, string[count], LIBMPLOT_TRUE) == -1)
 	return -1;
     }
 
@@ -1069,7 +1089,7 @@ FUNCTION plot_stringwidth
 PURPOSE determine how many pixels a string will take
 
 SYNOPSIS START
-#include&lt;libplot.h&gt;
+#include&lt;libmplot.h&gt;
 unsigned int plot_stringwidth(plot_state *state, char *string);
 SYNOPSIS END
 
@@ -1078,7 +1098,7 @@ DESCRIPTION This function determines how many pixels a string will consume in th
 RETURNS 0 on success, -1 otherwise
 
 EXAMPLE START
-#include&lt;libplot.h&gt;
+#include&lt;libmplot.h&gt;
 plot_state *graph;
 char *words[] = {"This", "is", "a", "string", "which", "is", "quite", "long.",
 		 "It", "demonstrates", "how", "to", "do", "word", "wrap", NULL};
@@ -1119,7 +1139,7 @@ plot_stringwidth (plot_state * state, char *string)
   for (count = 0; count < len; count++)
     {
       if ((retval =
-	   plot_paintglyph (state, string[count], LIBPLOT_FALSE)) == -1)
+	   plot_paintglyph (state, string[count], LIBMPLOT_FALSE)) == -1)
 	return -1;
       width += retval;
     }
@@ -1223,7 +1243,7 @@ plot_paintglyph (plot_state * state, char character, int dopaint)
   // Setup and paint the character
   if (plot_loadglyph (state, character) != -1)
     {
-      if (dopaint == LIBPLOT_TRUE)
+      if (dopaint == LIBMPLOT_TRUE)
 	{
 	  p = state->texty * state->x + state->textx;
 	  p += state->face->glyph->bitmap_left;

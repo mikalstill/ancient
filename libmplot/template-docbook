@@ -5,7 +5,7 @@ FUNCTION plot_setlinestart
 PURPOSE sets the starting point of a curve
 
 SYNOPSIS START
-#include&lt;libplot.h&gt;
+#include&lt;libmplot.h&gt;
 void panda_setlinestart (panda_page * target, int x, int y);
 SYNOPSIS END
 
@@ -14,7 +14,7 @@ DESCRIPTION Set the starting point for the sequence of curves and lines that it 
 RETURNS Nothing
 
 EXAMPLE START
-#include&lt;libplot.h&gt;
+#include&lt;libmplot.h&gt;
 plot_state *graph;
 
 if((graph = plot_newplot(400, 300)) == NULL){

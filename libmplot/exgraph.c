@@ -18,7 +18,7 @@
 
 #include <stdio.h>
 #include <png.h>
-#include <libplot.h>
+#include <libmplot.h>
 
 char *words[] = {"This", "is", "a", "string", "which", "is", "quite", "long.",
 		 "It", "demonstrates", "how", "to", "do", "word", "wrap", NULL};
