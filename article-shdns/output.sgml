@@ -685,7 +685,7 @@ TODO
 #!/bin/bash
 
 logger "shdns $$ Started listening"
-/home/mikal/opensource-unstable/shdns/shdns /tmp/shdns-$$ &amp;
+/home/mikal/opensource/shdns/shdns /tmp/shdns-$$ &amp;
 cat - &gt; /tmp/shdns-$$
 logger "shdns $$ Waiting for processor to end"
 wait
@@ -793,21 +793,21 @@ readbytebinary(){
   local temp
 
   spinfor $1 $2 1000
-  temp=`cat $1 | cut -b $2 | od -Ad -c | head -1 | tr -s " " | cut -f 2 -d " "`
-  if [ `echo $temp | cut -b 1` = "\\" ]
-  then
-    case `echo $temp | cut -b 2` in
-    0 ) temp="0";;
-    a ) temp="7";;
-    b ) temp="8";;
-    t ) temp="9";;
-    n ) temp="10";;
-    v ) temp="11";;
-    f ) temp="12";;
-    \\ ) temp="92";;
-    * ) echo "Error: Unknown escape binary sequence"; exit;;
-    esac
-  fi
+  temp=`cat $1 | cut -b $2 | od -Ad -t u1 | head -1 | tr -s " " | cut -f 2 -d " "`
+#  if [ `echo $temp | cut -b 1` = "\\" ]
+#  then
+#    case `echo $temp | cut -b 2` in
+#    0 ) temp="0";;
+#    a ) temp="7";;
+#    b ) temp="8";;
+#    t ) temp="9";;
+#    n ) temp="10";;
+#    v ) temp="11";;
+#    f ) temp="12";;
+#    \\ ) temp="92";;
+#    * ) echo "Error: Unknown escape binary sequence"; exit;;
+#    esac
+#  fi
   
   return $temp
 }
@@ -838,8 +838,25 @@ writebinarybyte(){
 
 # Output the byte which is represented by a decimal number
 tobyte(){
+  local octal
+  local quotient
+  local remainder
+
   # Echo only takes octal numbers, so we convert
-  echo -n -e \\$1
+  quotient=$1
+  if [ $quotient -eq 0 ]
+  then
+    octal="0"
+  fi
+
+  while [ $quotient -ne 0 ]
+  do
+    remainder=$(( $quotient % 8 ))
+    octal="$remainder$octal"
+    quotient=$(( $quotient / 8 ))
+  done
+
+  echo -n -e \\$octal
 }
 
 ###############################################################################
@@ -849,7 +866,10 @@ process(){
   inset=$2
 
   # Identification: 2 bytes
-  id=`readstring $1 $inset 2`; inset=$(( $inset + 2 ))
+  readbytebinary "$1" $inset; idtopbyte=$?; inset=$(( $inset + 1 ))
+  readbytebinary "$1" $inset; idbotbyte=$?; inset=$(( $inset + 1 ))
+  logger "shdns $$ Packet id portions: $idtopbyte $idbotbyte"
+  id=$(( ($idtopbyte * 128) + $idbotbyte ))
   logger "shdns $$ Packet id: $id"
 
   # Flags: 2 bytes
@@ -919,10 +939,11 @@ process(){
       namelength=$(( $namelength + $len + 1 ))
       readbytebinary "$1" $inset; len=$?
     done
-    inset=$(( $inset + 2 ))
+    inset=$(( $inset + 1 ))
     logger "shdns $$ Lookup: $name"
   
-    # Type of question
+    # Type of question -- assume we only want the last byte for now...
+    inset=$(( $inset + 1 ))
     readbytebinary "$1" $inset; type=$?
     error="none"
     temp="shdns $$ Determine the query type"
@@ -936,10 +957,11 @@ process(){
     * ) temp="Error: Unknown query type"; error="yes";;
     esac
   
-    logger "$temp ($error)"
+    logger "$temp (error = $error)"
     inset=$(( $inset + 1 ))  
 
-    # The class should always be 1
+    # The class should always be 1 -- assume it's all in the last byte as well
+    inset=$(( $inset + 1 ))
     readbytebinary "$1" $inset; class=$?; inset=$(( $inset + 1 ))
     logger "shdns $$ Query class: $class"
   
@@ -949,57 +971,65 @@ process(){
       name=`echo $name | sed 's/\.$//'`
     
       # Lookup the name in the db file
-      result=`grep "$name" /home/mikal/opensource-unstable/shdns/lookup | tr -s "\t" | cut -f 2`
+      result=`grep "$name" /home/mikal/opensource/shdns/lookup | tr -s "\t" | cut -f 2`
       logger "shdns $$ Result: $result"
 
       #########################################################
       # Now we need to build a response to the query
 
       # The id number we were handed gets handed straight back
-      echo -n "$id"
+      tobyte $idtopbyte &gt; /tmp/shdns-response-$$
+      tobyte $idbotbyte &gt;&gt; /tmp/shdns-response-$$
 
       # Flag this packet as being a reply (we currently never claim to be authoritive)
-      twiddlebit 0 128 1
-      tobyte $?
-#      tobyte 0
+      tobyte 128 &gt;&gt; /tmp/shdns-response-$$
+      tobyte 0 &gt;&gt; /tmp/shdns-response-$$
 
       # Number of questions (we have to return the question we are answering)
-      tobyte 0
-      tobyte 1
+      tobyte 0 &gt;&gt; /tmp/shdns-response-$$
+      tobyte 1 &gt;&gt; /tmp/shdns-response-$$
  
       # Number of answers
-      tobyte 0
-      tobyte 1
+      tobyte 0 &gt;&gt; /tmp/shdns-response-$$
+      tobyte 1 &gt;&gt; /tmp/shdns-response-$$
 
       # Number of authorities
-      tobyte 0
-      tobyte 0
+      tobyte 0 &gt;&gt; /tmp/shdns-response-$$
+      tobyte 0 &gt;&gt; /tmp/shdns-response-$$
 
       # Number of additionals
-      tobyte 0
-      tobyte 0
+      tobyte 0 &gt;&gt; /tmp/shdns-response-$$
+      tobyte 0 &gt;&gt; /tmp/shdns-response-$$
 
       # It's easy to return the question, we just copy it...
-      echo -n `readstring $1 $questionstart $(( $inset - $questionstart - 2 ))`
-      tobyte 0
+      echo -n `readstring $1 $questionstart $namelength` &gt;&gt; /tmp/shdns-response-$$
+      tobyte 0 &gt;&gt; /tmp/shdns-response-$$
+      tobyte 0 &gt;&gt; /tmp/shdns-response-$$
+      tobyte $type &gt;&gt; /tmp/shdns-response-$$
+      tobyte 0 &gt;&gt; /tmp/shdns-response-$$
+      tobyte $class &gt;&gt; /tmp/shdns-response-$$
+
+      # The domain name we are answering for in this answer
+      echo -n `readstring $1 $questionstart $namelength` &gt;&gt; /tmp/shdns-response-$$
+      tobyte 0 &gt;&gt; /tmp/shdns-response-$$
 
       # The type is the same as in the question
-      tobyte 0
-      tobyte $type
+      tobyte 0 &gt;&gt; /tmp/shdns-response-$$
+      tobyte $type &gt;&gt; /tmp/shdns-response-$$
 
-      # The class is one
-      tobyte 0
-      tobyte 1
+      # The class is the same as well
+      tobyte 0 &gt;&gt; /tmp/shdns-response-$$
+      tobyte $class &gt;&gt; /tmp/shdns-response-$$
 
       # The time to live is always low, because we are dodgy
-      tobyte 4
-      tobyte 4
-      tobyte 4
-      tobyte 4
+      tobyte 0 &gt;&gt; /tmp/shdns-response-$$
+      tobyte 0 &gt;&gt; /tmp/shdns-response-$$
+      tobyte 0 &gt;&gt; /tmp/shdns-response-$$
+      tobyte 4 &gt;&gt; /tmp/shdns-response-$$
 
       # The length of the returned data is always an IP (32 bits)
-      tobyte 0
-      tobyte 4
+      tobyte 0 &gt;&gt; /tmp/shdns-response-$$
+      tobyte 4 &gt;&gt; /tmp/shdns-response-$$
 
       # And now the answer as a number
       # For the result in the answer, we are going to need this in a binary form of decimal
@@ -1007,12 +1037,14 @@ process(){
       do
         temp=`echo $result | cut -f 1 -d "."`
         result=`echo $result | sed 's/^[0-9]*\.*//'`
-        tobyte $temp
+        tobyte $temp &gt;&gt; /tmp/shdns-response-$$
         logger "shdns $$ Processing result segment: $temp ($result)"
       done
 
       # We need to return an authority as well...
 
+      # And now we can send the result (done this way to make sure it is all in one packet)
+      cat /tmp/shdns-response-$$
       logger "shdns $$ Finished extracting result"
     else
       # Work out the erroneous type
@@ -1035,7 +1067,7 @@ offset=1
   process $1 $offset
   offset=$?
   logger "shdns $$ Ended at $offset"
-#  killall -9 cat
+  killall -9 cat
 #done
 
 exit

@@ -1,4 +1,4 @@
-short: output.sgml output.ps output.pdf output.html
+short: output.sgml output.ps output.pdf
 	striptext -c < output.sgml | wc -w
 
 output.sgml: source.sgml
@@ -11,4 +11,4 @@ output.pdf: output.ps
 	ps2pdf output.ps
 
 clean:
-	rm output*
+	rm output* gen-* *~

@@ -10,7 +10,7 @@
 %DVIPSWebPage: (www.radicaleye.com)
 %DVIPSCommandLine: dvips -q output.dvi -o output.ps
 %DVIPSParameters: dpi=600, compressed
-%DVIPSSource:  TeX output 2003.03.17:1252
+%DVIPSSource:  TeX output 2003.03.22:1135
 %%BeginProcSet: texc.pro
 %!
 /TeXDict 300 dict def TeXDict begin/N{def}def/B{bind def}N/S{exch}N/X{S
@@ -1005,7 +1005,7 @@ SDict begin [ /View [/XYZ H.V] /Dest (19) cvn H.B /DEST pdfmark end
 %!PS-Adobe-3.0 EPSF-3.0
 %%Creator: (ImageMagick)
 %%Title: (gen-tcp-handshake.eps)
-%%CreationDate: (Mon Mar 17 12:52:42 2003)
+%%CreationDate: (Sat Mar 22 11:35:52 2003)
 %%BoundingBox: 0 0 191 155
 %%HiResBoundingBox: 0 0 191 155
 %%DocumentData: Clean7Bit
@@ -5477,10 +5477,10 @@ SDict begin 9.9 H.A end
 SDict begin [ /View [/XYZ H.V] /Dest (183) cvn H.B /DEST pdfmark end
  197 1587 a 81 x Fd(#!/bin/bash)197
 1832 y(logger)44 b("shdns)g($$)g(Started)g(listening")197
-1914 y(/home/mikal/opensource-unstable/shdns/s)o(hdns)39
-b(/tmp/shdns-$$)j(&)197 1996 y(cat)i(-)h Fc(>)g Fd(/tmp/shdns-$$)197
-2079 y(logger)f("shdns)g($$)g(Waiting)g(for)g(processor)f(to)i(end")197
-2161 y(wait)197 2243 y(logger)f("shdns)g($$)g(Stopped)g(listening")197
+1914 y(/home/mikal/opensource/shdns/shdns)39 b(/tmp/shdns-$$)k(&)197
+1996 y(cat)h(-)h Fc(>)g Fd(/tmp/shdns-$$)197 2079 y(logger)f("shdns)g
+($$)g(Waiting)g(for)g(processor)f(to)i(end")197 2161
+y(wait)197 2243 y(logger)f("shdns)g($$)g(Stopped)g(listening")197
 2338 y
 SDict begin H.S end
  197 2338 a 197 2338 a
@@ -5577,17 +5577,20 @@ Black 197 89 a Fd(})197 253 y(#)45 b(Turn)f(on)g(a)h(given)f(bit)g(in)h
 4281 y(#)g(Read)f(a)g(single)g(binary)g(byte)g(as)h(decimal)e(from)i(a)
 f(file:)g(\(filename,)f(bytenumber\))197 4363 y(readbytebinary\(\){)287
 4445 y(local)h(temp)287 4610 y(spinfor)f($1)i($2)f(1000)287
-4692 y(temp=`cat)f($1)h(|)h(cut)f(-b)h($2)f(|)h(od)g(-Ad)f(-c)g(|)h
-(head)f(-1)h(|)f(tr)h(-s)f(")h(")g(|)f(cut)h(-f)f(2)h(-d)f(")h("`)287
-4774 y(if)f([)h(`echo)f($temp)g(|)g(cut)h(-b)f(1`)h(=)f("\\\\")h(])287
-4856 y(then)376 4938 y(case)f(`echo)g($temp)g(|)h(cut)f(-b)h(2`)f(in)
-376 5021 y(0)h(\))g(temp="0";;)376 5103 y(a)g(\))g(temp="7";;)376
-5185 y(b)g(\))g(temp="8";;)376 5267 y(t)g(\))g(temp="9";;)376
-5349 y(n)g(\))g(temp="10";;)376 5432 y(v)g(\))g(temp="11";;)376
-5514 y(f)g(\))g(temp="12";;)376 5596 y(\\\\)g(\))f(temp="92";;)376
-5678 y(*)h(\))g(echo)f("Error:)f(Unknown)h(escape)g(binary)g
-(sequence";)f(exit;;)376 5760 y(esac)287 5843 y(fi)p
-Black 3462 5999 a Ff(12)p Black eop end
+4692 y(temp=`cat)f($1)h(|)h(cut)f(-b)h($2)f(|)h(od)g(-Ad)f(-t)g(u1)h(|)
+g(head)f(-1)g(|)h(tr)f(-s)h(")g(")f(|)h(cut)f(-f)h(2)f(-d)h(")g("`)197
+4774 y(#)90 b(if)44 b([)h(`echo)f($temp)g(|)g(cut)h(-b)f(1`)h(=)f
+("\\\\")g(])197 4856 y(#)90 b(then)197 4938 y(#)179 b(case)44
+b(`echo)g($temp)g(|)h(cut)f(-b)h(2`)f(in)197 5021 y(#)179
+b(0)45 b(\))f(temp="0";;)197 5103 y(#)179 b(a)45 b(\))f(temp="7";;)197
+5185 y(#)179 b(b)45 b(\))f(temp="8";;)197 5267 y(#)179
+b(t)45 b(\))f(temp="9";;)197 5349 y(#)179 b(n)45 b(\))f(temp="10";;)197
+5432 y(#)179 b(v)45 b(\))f(temp="11";;)197 5514 y(#)179
+b(f)45 b(\))f(temp="12";;)197 5596 y(#)179 b(\\\\)45
+b(\))f(temp="92";;)197 5678 y(#)179 b(*)45 b(\))f(echo)h("Error:)e
+(Unknown)h(escape)g(binary)g(sequence";)f(exit;;)197
+5760 y(#)179 b(esac)197 5843 y(#)90 b(fi)p Black 3462
+5999 a Ff(12)p Black eop end
 %%Page: 13 13
 TeXDict begin 13 12 bop -600 -600 a
 SDict begin /product where{pop product(Distiller)search{pop pop pop
@@ -5619,38 +5622,32 @@ Black 287 171 a Fd(return)43 b($temp)197 253 y(})197
 (4)287 2062 y(writebinarybit)d($?)j(2)287 2144 y(writebinarybit)d($?)j
 (1)197 2226 y(})197 2390 y(#)g(Output)e(the)i(byte)f(which)g(is)g
 (represented)f(by)i(a)g(decimal)e(number)197 2473 y(tobyte\(\){)287
-2555 y(#)h(Echo)g(only)h(takes)f(octal)g(numbers,)f(so)i(we)f(convert)
-287 2637 y(echo)g(-n)g(-e)h(\\\\$1)197 2719 y(})197 2884
-y(#######################################)o(######)o(######)o(######)o
-(######)o(######)o(######)o(####)197 3048 y(process\(\){)287
-3130 y(logger)e("shdns)h($$)h(Started)e(parsing)h($1)h(at)f($2")287
-3212 y(inset=$2)287 3377 y(#)g(Identification:)f(2)h(bytes)287
-3459 y(id=`readstring)e($1)j($inset)e(2`;)i(inset=$\(\()e($inset)h(+)h
-(2)f(\)\))287 3541 y(logger)f("shdns)h($$)h(Packet)f(id:)g($id")287
-3706 y(#)g(Flags:)g(2)h(bytes)287 3788 y(temp=`cat)e($1)h(|)h(cut)f(-b)
-h($inset)f(|)89 b(od)45 b(-Ad)f(-c)h(|)f(head)g(-1)h(|)g(cut)f(-f)g(2)h
-(-d)g(")f("`;)h(inset=$\(\()e($inset)h(+)g(1)h(\)\))287
-3870 y(testbit)e($temp)h(128;)g(qr=$?)287 3952 y(testbit)f($temp)h(8;)h
-(op=$?)287 4034 y(testbit)e($temp)h(4;)h(aa=$?)287 4116
-y(testbit)e($temp)h(2;)h(trun=$?)287 4199 y(testbit)e($temp)h(1;)h
-(rd=$?)287 4363 y(logger)e("shdns)h($$)h(Query)f(/)g(response:)g($qr")
-287 4445 y(logger)f("shdns)h($$)h(Opcode:)e($op")287
-4527 y(logger)g("shdns)h($$)h(Authoritative)d(answer:)i($aa")287
-4610 y(logger)f("shdns)h($$)h(Packet)f(truncated:)f($trun")287
-4692 y(logger)g("shdns)h($$)h(Recursion)e(desired:)h($rd")287
-4856 y(readbytebinary)e("$1")i($inset;)g(temp=$?;)f(inset=$\(\()h
-($inset)g(+)g(1)h(\)\))287 4938 y(testbit)e($temp)h(128;)g(ra=$?)287
-5103 y(logger)f("shdns)h($$)h(Recursion)e(available:)g($ra")287
-5267 y(#)h(The)h(number)e(of)i(questions)e(is)i(the)f(next)g(two)h
-(bytes)287 5349 y(readbytebinary)d("$1")i($inset;)g(topbyte=$?;)f
-(inset=$\(\()g($inset)h(+)h(1)f(\)\))287 5432 y(readbytebinary)e("$1")i
-($inset;)g(botbyte=$?;)f(inset=$\(\()g($inset)h(+)h(1)f(\)\))287
-5514 y(qcount=$\(\()f(\($topbyte)g(*)i(128\))f(+)h($botbyte)e(\)\))287
-5596 y(logger)g("shdns)h($$)h(Number)f(of)g(questions:)f($qcount")287
-5760 y(#)h(The)h(number)e(of)i(answers)f(is)g(the)g(next)h(two)f(bytes)
-287 5843 y(readbytebinary)e("$1")i($inset;)g(topbyte=$?;)f(inset=$\(\()
-g($inset)h(+)h(1)f(\)\))p Black 3462 5999 a Ff(13)p Black
-eop end
+2555 y(local)h(octal)287 2637 y(local)g(quotient)287
+2719 y(local)g(remainder)287 2884 y(#)g(Echo)g(only)h(takes)f(octal)g
+(numbers,)f(so)i(we)f(convert)287 2966 y(quotient=$1)287
+3048 y(if)g([)h($quotient)e(-eq)h(0)h(])287 3130 y(then)376
+3212 y(octal="0")287 3295 y(fi)287 3459 y(while)f([)g($quotient)g(-ne)g
+(0)h(])287 3541 y(do)376 3623 y(remainder=$\(\()e($quotient)g(\045)i(8)
+g(\)\))376 3706 y(octal="$remainder$octal")376 3788 y(quotient=$\(\()e
+($quotient)g(/)i(8)g(\)\))287 3870 y(done)287 4034 y(echo)f(-n)g(-e)h
+(\\\\$octal)197 4116 y(})197 4281 y
+(#######################################)o(######)o(######)o(######)o
+(######)o(######)o(######)o(####)197 4445 y(process\(\){)287
+4527 y(logger)e("shdns)h($$)h(Started)e(parsing)h($1)h(at)f($2")287
+4610 y(inset=$2)287 4774 y(#)g(Identification:)f(2)h(bytes)287
+4856 y(readbytebinary)e("$1")i($inset;)g(idtopbyte=$?;)f(inset=$\(\()g
+($inset)h(+)g(1)h(\)\))287 4938 y(readbytebinary)d("$1")i($inset;)g
+(idbotbyte=$?;)f(inset=$\(\()g($inset)h(+)g(1)h(\)\))287
+5021 y(logger)e("shdns)h($$)h(Packet)f(id)g(portions:)f($idtopbyte)h
+($idbotbyte")287 5103 y(id=$\(\()f(\($idtopbyte)g(*)i(128\))f(+)h
+($idbotbyte)e(\)\))287 5185 y(logger)g("shdns)h($$)h(Packet)f(id:)g
+($id")287 5349 y(#)g(Flags:)g(2)h(bytes)287 5432 y(temp=`cat)e($1)h(|)h
+(cut)f(-b)h($inset)f(|)89 b(od)45 b(-Ad)f(-c)h(|)f(head)g(-1)h(|)g(cut)
+f(-f)g(2)h(-d)g(")f("`;)h(inset=$\(\()e($inset)h(+)g(1)h(\)\))287
+5514 y(testbit)e($temp)h(128;)g(qr=$?)287 5596 y(testbit)f($temp)h(8;)h
+(op=$?)287 5678 y(testbit)e($temp)h(4;)h(aa=$?)287 5760
+y(testbit)e($temp)h(2;)h(trun=$?)287 5843 y(testbit)e($temp)h(1;)h
+(rd=$?)p Black 3462 5999 a Ff(13)p Black eop end
 %%Page: 14 14
 TeXDict begin 14 13 bop -600 -600 a
 SDict begin /product where{pop product(Distiller)search{pop pop pop
@@ -5668,58 +5665,60 @@ SDict begin [ /View [/XYZ H.V] /Dest (page.14) cvn H.B /DEST pdfmark
 end
  197 -102
 a Black 2584 -132 a Ff(UDP)20 b(shell)h(scripts)f(with)g(inetd)p
-Black 287 89 a Fd(readbytebinary)42 b("$1")i($inset;)g(botbyte=$?;)f
-(inset=$\(\()g($inset)h(+)h(1)f(\)\))287 171 y(acount=$\(\()f
-(\($topbyte)g(*)i(128\))f(+)h($botbyte)e(\)\))287 253
-y(logger)g("shdns)h($$)h(Number)f(of)g(answers:)g($acount")287
-418 y(#)g(The)h(number)e(of)i(authority)e(RRs)i(is)f(the)g(next)h(two)f
-(bytes)287 500 y(readbytebinary)e("$1")i($inset;)g(topbyte=$?;)f
-(inset=$\(\()g($inset)h(+)h(1)f(\)\))287 582 y(readbytebinary)e("$1")i
+Black 287 171 a Fd(logger)43 b("shdns)h($$)h(Query)f(/)g(response:)g
+($qr")287 253 y(logger)f("shdns)h($$)h(Opcode:)e($op")287
+336 y(logger)g("shdns)h($$)h(Authoritative)d(answer:)i($aa")287
+418 y(logger)f("shdns)h($$)h(Packet)f(truncated:)f($trun")287
+500 y(logger)g("shdns)h($$)h(Recursion)e(desired:)h($rd")287
+664 y(readbytebinary)e("$1")i($inset;)g(temp=$?;)f(inset=$\(\()h
+($inset)g(+)g(1)h(\)\))287 747 y(testbit)e($temp)h(128;)g(ra=$?)287
+911 y(logger)f("shdns)h($$)h(Recursion)e(available:)g($ra")287
+1075 y(#)h(The)h(number)e(of)i(questions)e(is)i(the)f(next)g(two)h
+(bytes)287 1158 y(readbytebinary)d("$1")i($inset;)g(topbyte=$?;)f
+(inset=$\(\()g($inset)h(+)h(1)f(\)\))287 1240 y(readbytebinary)e("$1")i
 ($inset;)g(botbyte=$?;)f(inset=$\(\()g($inset)h(+)h(1)f(\)\))287
-664 y(authcount=$\(\()e(\($topbyte)i(*)g(128\))g(+)h($botbyte)f(\)\))
-287 747 y(logger)f("shdns)h($$)h(Number)f(of)g(authorities:)f
-($authcount")287 911 y(#)h(The)h(number)e(of)i(additional)e(RRs)h(is)h
-(the)f(next)g(two)h(bytes)287 993 y(readbytebinary)d("$1")i($inset;)g
+1322 y(qcount=$\(\()f(\($topbyte)g(*)i(128\))f(+)h($botbyte)e(\)\))287
+1404 y(logger)g("shdns)h($$)h(Number)f(of)g(questions:)f($qcount")287
+1569 y(#)h(The)h(number)e(of)i(answers)f(is)g(the)g(next)h(two)f(bytes)
+287 1651 y(readbytebinary)e("$1")i($inset;)g(topbyte=$?;)f(inset=$\(\()
+g($inset)h(+)h(1)f(\)\))287 1733 y(readbytebinary)e("$1")i($inset;)g
+(botbyte=$?;)f(inset=$\(\()g($inset)h(+)h(1)f(\)\))287
+1815 y(acount=$\(\()f(\($topbyte)g(*)i(128\))f(+)h($botbyte)e(\)\))287
+1897 y(logger)g("shdns)h($$)h(Number)f(of)g(answers:)g($acount")287
+2062 y(#)g(The)h(number)e(of)i(authority)e(RRs)i(is)f(the)g(next)h(two)
+f(bytes)287 2144 y(readbytebinary)e("$1")i($inset;)g(topbyte=$?;)f
+(inset=$\(\()g($inset)h(+)h(1)f(\)\))287 2226 y(readbytebinary)e("$1")i
+($inset;)g(botbyte=$?;)f(inset=$\(\()g($inset)h(+)h(1)f(\)\))287
+2308 y(authcount=$\(\()e(\($topbyte)i(*)g(128\))g(+)h($botbyte)f(\)\))
+287 2390 y(logger)f("shdns)h($$)h(Number)f(of)g(authorities:)f
+($authcount")287 2555 y(#)h(The)h(number)e(of)i(additional)e(RRs)h(is)h
+(the)f(next)g(two)h(bytes)287 2637 y(readbytebinary)d("$1")i($inset;)g
 (topbyte=$?;)f(inset=$\(\()g($inset)h(+)h(1)f(\)\))287
-1075 y(readbytebinary)e("$1")i($inset;)g(botbyte=$?;)f(inset=$\(\()g
-($inset)h(+)h(1)f(\)\))287 1158 y(addcount=$\(\()e(\($topbyte)i(*)g
-(128\))h(+)f($botbyte)g(\)\))287 1240 y(logger)f("shdns)h($$)h(Number)f
-(of)g(additionals:)f($addcount")287 1404 y(######################)287
-1486 y(#)h(For)h(each)f(question)287 1569 y(######################)287
-1733 y(len=42)287 1815 y(questioncount=0)287 1979 y(while)g([)g
-($questioncount)f(-lt)h($qcount)g(])287 2062 y(do)376
-2144 y(questionstart=$inset)376 2226 y(logger)g("shdns)g($$)g
-(Question")376 2308 y(name="")376 2473 y(namelength=0)376
-2555 y(readbytebinary)f("$1")h($inset;)g(len=$?)376 2637
-y(while)g([)h($len)f(-gt)g(0)h(])376 2719 y(do)466 2801
-y(inset=$\(\()e($inset)h(+)h(1)f(\)\))466 2884 y
+2719 y(readbytebinary)e("$1")i($inset;)g(botbyte=$?;)f(inset=$\(\()g
+($inset)h(+)h(1)f(\)\))287 2801 y(addcount=$\(\()e(\($topbyte)i(*)g
+(128\))h(+)f($botbyte)g(\)\))287 2884 y(logger)f("shdns)h($$)h(Number)f
+(of)g(additionals:)f($addcount")287 3048 y(######################)287
+3130 y(#)h(For)h(each)f(question)287 3212 y(######################)287
+3377 y(len=42)287 3459 y(questioncount=0)287 3623 y(while)g([)g
+($questioncount)f(-lt)h($qcount)g(])287 3706 y(do)376
+3788 y(questionstart=$inset)376 3870 y(logger)g("shdns)g($$)g
+(Question")376 3952 y(name="")376 4116 y(namelength=0)376
+4199 y(readbytebinary)f("$1")h($inset;)g(len=$?)376 4281
+y(while)g([)h($len)f(-gt)g(0)h(])376 4363 y(do)466 4445
+y(inset=$\(\()e($inset)h(+)h(1)f(\)\))466 4527 y
 (name="$name"`readstring)d("$1")j($inset)g($len`".")466
-2966 y(inset=$\(\()f($inset)h(+)h($len)f(\)\))466 3130
+4610 y(inset=$\(\()f($inset)h(+)h($len)f(\)\))466 4774
 y(namelength=$\(\()e($namelength)h(+)i($len)f(+)h(1)g(\)\))466
-3212 y(readbytebinary)d("$1")j($inset;)e(len=$?)376 3295
-y(done)376 3377 y(inset=$\(\()h($inset)f(+)i(2)g(\)\))376
-3459 y(logger)f("shdns)g($$)g(Lookup:)g($name")376 3623
-y(#)h(Type)f(of)h(question)376 3706 y(readbytebinary)e("$1")h($inset;)g
-(type=$?)376 3788 y(error="none")376 3870 y(temp="shdns)f($$)i
-(Determine)e(the)h(query)g(type")376 3952 y(case)g($type)g(in)376
-4034 y(1)h(\))g(temp="$temp)e(A";;)376 4116 y(2)i(\))g(temp="$temp)e
-(NS";;)376 4199 y(5)i(\))g(temp="$temp)e(CNAME";;)376
-4281 y(12)i(\))f(temp="$temp)f(PTR";;)376 4363 y(13)i(\))f(temp="$temp)
-f(HINFO";;)376 4445 y(15)i(\))f(temp="$temp)f(MX";;)376
-4527 y(*)i(\))g(temp="Error:)d(Unknown)i(query)g(type";)g
-(error="yes";;)376 4610 y(esac)376 4774 y(logger)g("$temp)g
-(\($error\)")376 4856 y(inset=$\(\()g($inset)f(+)i(1)g(\)\))376
-5021 y(#)g(The)f(class)g(should)g(always)g(be)g(1)376
-5103 y(readbytebinary)f("$1")h($inset;)g(class=$?;)f(inset=$\(\()g
-($inset)h(+)h(1)f(\)\))376 5185 y(logger)g("shdns)g($$)g(Query)g
-(class:)g($class")376 5349 y(if)h([)f("\045$error\045")g(=)g
-("\045none\045")g(])376 5432 y(then)466 5514 y(#)h(Dodgy)f(bug)g(fix)
-466 5596 y(name=`echo)f($name)h(|)h(sed)f('s/\\.$//'`)466
-5760 y(#)h(Lookup)e(the)i(name)f(in)g(the)h(db)f(file)466
-5843 y(result=`grep)f("$name")g
-(/home/mikal/opensource-unstable/shdns/look)o(up)c(|)45
-b(tr)f(-s)h("\\t")f(|)g(cut)h(-f)f(2`)p Black 3462 5999
-a Ff(14)p Black eop end
+4856 y(readbytebinary)d("$1")j($inset;)e(len=$?)376 4938
+y(done)376 5021 y(inset=$\(\()h($inset)f(+)i(1)g(\)\))376
+5103 y(logger)f("shdns)g($$)g(Lookup:)g($name")376 5267
+y(#)h(Type)f(of)h(question)e(--)i(assume)e(we)i(only)f(want)g(the)h
+(last)f(byte)g(for)g(now...)376 5349 y(inset=$\(\()g($inset)f(+)i(1)g
+(\)\))376 5432 y(readbytebinary)e("$1")h($inset;)g(type=$?)376
+5514 y(error="none")376 5596 y(temp="shdns)f($$)i(Determine)e(the)h
+(query)g(type")376 5678 y(case)g($type)g(in)376 5760
+y(1)h(\))g(temp="$temp)e(A";;)376 5843 y(2)i(\))g(temp="$temp)e(NS";;)p
+Black 3462 5999 a Ff(14)p Black eop end
 %%Page: 15 15
 TeXDict begin 15 14 bop -600 -600 a
 SDict begin /product where{pop product(Distiller)search{pop pop pop
@@ -5737,48 +5736,63 @@ SDict begin [ /View [/XYZ H.V] /Dest (page.15) cvn H.B /DEST pdfmark
 end
  197 -102
 a Black 2584 -132 a Ff(UDP)20 b(shell)h(scripts)f(with)g(inetd)p
-Black 466 89 a Fd(logger)44 b("shdns)g($$)g(Result:)g($result")466
-253 y(#######################################)o(######)o(######)o
-(######)466 336 y(#)h(Now)f(we)g(need)h(to)f(build)g(a)h(response)e(to)
-i(the)f(query)466 500 y(#)h(The)f(id)g(number)g(we)h(were)f(handed)g
-(gets)g(handed)g(straight)f(back)466 582 y(echo)h(-n)h("$id")466
-747 y(#)g(Flag)f(this)g(packet)g(as)g(being)g(a)h(reply)f(\(we)g
-(currently)g(never)g(claim)g(to)g(be)h(authoritive\))466
-829 y(twiddlebit)e(0)i(128)f(1)466 911 y(tobyte)g($?)197
-993 y(#)269 b(tobyte)44 b(0)466 1158 y(#)h(Number)e(of)i(questions)e
+Black 376 89 a Fd(5)45 b(\))g(temp="$temp)e(CNAME";;)376
+171 y(12)i(\))f(temp="$temp)f(PTR";;)376 253 y(13)i(\))f(temp="$temp)f
+(HINFO";;)376 336 y(15)i(\))f(temp="$temp)f(MX";;)376
+418 y(*)i(\))g(temp="Error:)d(Unknown)i(query)g(type";)g(error="yes";;)
+376 500 y(esac)376 664 y(logger)g("$temp)g(\(error)g(=)g($error\)")376
+747 y(inset=$\(\()g($inset)f(+)i(1)g(\)\))376 911 y(#)g(The)f(class)g
+(should)g(always)g(be)g(1)h(--)g(assume)e(it's)i(all)f(in)g(the)h(last)
+f(byte)g(as)h(well)376 993 y(inset=$\(\()f($inset)f(+)i(1)g(\)\))376
+1075 y(readbytebinary)e("$1")h($inset;)g(class=$?;)f(inset=$\(\()g
+($inset)h(+)h(1)f(\)\))376 1158 y(logger)g("shdns)g($$)g(Query)g
+(class:)g($class")376 1322 y(if)h([)f("\045$error\045")g(=)g
+("\045none\045")g(])376 1404 y(then)466 1486 y(#)h(Dodgy)f(bug)g(fix)
+466 1569 y(name=`echo)f($name)h(|)h(sed)f('s/\\.$//'`)466
+1733 y(#)h(Lookup)e(the)i(name)f(in)g(the)h(db)f(file)466
+1815 y(result=`grep)f("$name")g(/home/mikal/opensource/shdns/lookup)c
+(|)45 b(tr)g(-s)f("\\t")g(|)h(cut)f(-f)h(2`)466 1897
+y(logger)f("shdns)g($$)g(Result:)g($result")466 2062
+y(#######################################)o(######)o(######)o(######)
+466 2144 y(#)h(Now)f(we)g(need)h(to)f(build)g(a)h(response)e(to)i(the)f
+(query)466 2308 y(#)h(The)f(id)g(number)g(we)h(were)f(handed)g(gets)g
+(handed)g(straight)f(back)466 2390 y(tobyte)h($idtopbyte)f
+Fc(>)i Fd(/tmp/shdns-response-$$)466 2473 y(tobyte)f($idbotbyte)f
+Fc(>>)h Fd(/tmp/shdns-response-$$)466 2637 y(#)h(Flag)f(this)g(packet)g
+(as)g(being)g(a)h(reply)f(\(we)g(currently)g(never)g(claim)g(to)g(be)h
+(authoritive\))466 2719 y(tobyte)f(128)g Fc(>>)g Fd
+(/tmp/shdns-response-$$)466 2801 y(tobyte)g(0)g Fc(>>)h
+Fd(/tmp/shdns-response-$$)466 2966 y(#)g(Number)e(of)i(questions)e
 (\(we)i(have)f(to)g(return)g(the)g(question)g(we)g(are)h(answering\))
-466 1240 y(tobyte)f(0)466 1322 y(tobyte)g(1)466 1486
-y(#)h(Number)e(of)i(answers)466 1569 y(tobyte)f(0)466
-1651 y(tobyte)g(1)466 1815 y(#)h(Number)e(of)i(authorities)466
-1897 y(tobyte)f(0)466 1979 y(tobyte)g(0)466 2144 y(#)h(Number)e(of)i
-(additionals)466 2226 y(tobyte)f(0)466 2308 y(tobyte)g(0)466
-2473 y(#)h(It's)f(easy)g(to)g(return)g(the)h(question,)e(we)h(just)h
-(copy)f(it...)466 2555 y(echo)g(-n)h(`readstring)e($1)h($questionstart)
-f($\(\()h($inset)g(-)g($questionstart)f(-)i(2)f(\)\)`)466
-2637 y(tobyte)g(0)466 2801 y(#)h(The)f(type)g(is)h(the)f(same)g(as)h
-(in)f(the)g(question)466 2884 y(tobyte)g(0)466 2966 y(tobyte)g($type)
-466 3130 y(#)h(The)f(class)g(is)g(one)466 3212 y(tobyte)g(0)466
-3295 y(tobyte)g(1)466 3459 y(#)h(The)f(time)g(to)h(live)f(is)g(always)g
-(low,)g(because)g(we)g(are)h(dodgy)466 3541 y(tobyte)f(4)466
-3623 y(tobyte)g(4)466 3706 y(tobyte)g(4)466 3788 y(tobyte)g(4)466
-3952 y(#)h(The)f(length)g(of)g(the)h(returned)e(data)h(is)h(always)f
-(an)g(IP)h(\(32)f(bits\))466 4034 y(tobyte)g(0)466 4116
-y(tobyte)g(4)466 4281 y(#)h(And)f(now)g(the)h(answer)e(as)i(a)g(number)
-466 4363 y(#)g(For)f(the)g(result)g(in)h(the)f(answer,)g(we)g(are)g
-(going)g(to)h(need)f(this)g(in)h(a)f(binary)g(form)g(of)h(decimal)466
-4445 y(while)f([)h("\045$result\045")e(!=)h("\045\045")g(])466
-4527 y(do)556 4610 y(temp=`echo)f($result)g(|)i(cut)f(-f)h(1)g(-d)f
-("."`)556 4692 y(result=`echo)e($result)i(|)h(sed)f('s/^[0-9]*\\.*//'`)
-556 4774 y(tobyte)f($temp)556 4856 y(logger)g("shdns)h($$)h(Processing)
-e(result)h(segment:)f($temp)h(\($result\)")466 4938 y(done)466
-5103 y(#)h(We)f(need)g(to)h(return)f(an)g(authority)f(as)i(well...)466
-5267 y(logger)f("shdns)g($$)g(Finished)g(extracting)f(result")376
-5349 y(else)466 5432 y(#)i(Work)f(out)g(the)g(erroneous)g(type)466
-5514 y(logger)g("shdns)g($$)g(Erroneous)f(type)i(was)f($type)g
-(\("`dumpbyte)f($type`"\)")376 5596 y(fi)376 5760 y(logger)h("shdns)g
-($$)g(Finished)g(processing)f(question")376 5843 y(questioncount=$\(\()
-f($questioncount)h(+)h(1)h(\)\))p Black 3462 5999 a Ff(15)p
-Black eop end
+466 3048 y(tobyte)f(0)g Fc(>>)h Fd(/tmp/shdns-response-$$)466
+3130 y(tobyte)f(1)g Fc(>>)h Fd(/tmp/shdns-response-$$)466
+3295 y(#)g(Number)e(of)i(answers)466 3377 y(tobyte)f(0)g
+Fc(>>)h Fd(/tmp/shdns-response-$$)466 3459 y(tobyte)f(1)g
+Fc(>>)h Fd(/tmp/shdns-response-$$)466 3623 y(#)g(Number)e(of)i
+(authorities)466 3706 y(tobyte)f(0)g Fc(>>)h Fd(/tmp/shdns-response-$$)
+466 3788 y(tobyte)f(0)g Fc(>>)h Fd(/tmp/shdns-response-$$)466
+3952 y(#)g(Number)e(of)i(additionals)466 4034 y(tobyte)f(0)g
+Fc(>>)h Fd(/tmp/shdns-response-$$)466 4116 y(tobyte)f(0)g
+Fc(>>)h Fd(/tmp/shdns-response-$$)466 4281 y(#)g(It's)f(easy)g(to)g
+(return)g(the)h(question,)e(we)h(just)h(copy)f(it...)466
+4363 y(echo)g(-n)h(`readstring)e($1)h($questionstart)f($namelength`)f
+Fc(>>)j Fd(/tmp/shdns-response-$$)466 4445 y(tobyte)f(0)g
+Fc(>>)h Fd(/tmp/shdns-response-$$)466 4527 y(tobyte)f(0)g
+Fc(>>)h Fd(/tmp/shdns-response-$$)466 4610 y(tobyte)f($type)g
+Fc(>>)g Fd(/tmp/shdns-response-$$)466 4692 y(tobyte)g(0)g
+Fc(>>)h Fd(/tmp/shdns-response-$$)466 4774 y(tobyte)f($class)g
+Fc(>>)g Fd(/tmp/shdns-response-$$)466 4938 y(#)h(The)f(domain)g(name)g
+(we)g(are)h(answering)e(for)h(in)h(this)f(answer)466
+5021 y(echo)g(-n)h(`readstring)e($1)h($questionstart)f($namelength`)f
+Fc(>>)j Fd(/tmp/shdns-response-$$)466 5103 y(tobyte)f(0)g
+Fc(>>)h Fd(/tmp/shdns-response-$$)466 5267 y(#)g(The)f(type)g(is)h(the)
+f(same)g(as)h(in)f(the)g(question)466 5349 y(tobyte)g(0)g
+Fc(>>)h Fd(/tmp/shdns-response-$$)466 5432 y(tobyte)f($type)g
+Fc(>>)g Fd(/tmp/shdns-response-$$)466 5596 y(#)h(The)f(class)g(is)g
+(the)h(same)f(as)g(well)466 5678 y(tobyte)g(0)g Fc(>>)h
+Fd(/tmp/shdns-response-$$)466 5760 y(tobyte)f($class)g
+Fc(>>)g Fd(/tmp/shdns-response-$$)p Black 3462 5999 a
+Ff(15)p Black eop end
 %%Page: 16 16
 TeXDict begin 16 15 bop -600 -600 a
 SDict begin /product where{pop product(Distiller)search{pop pop pop
@@ -5796,62 +5810,88 @@ SDict begin [ /View [/XYZ H.V] /Dest (page.16) cvn H.B /DEST pdfmark
 end
  197 -102
 a Black 2584 -132 a Ff(UDP)20 b(shell)h(scripts)f(with)g(inetd)p
-Black 287 89 a Fd(done)287 253 y(return)43 b($inset`twiddlebit)f(0)j
-(128)f(1`)197 336 y(})197 500 y
-(#######################################)o(######)o(######)o(######)o
-(######)o(######)o(######)o(####)197 664 y(offset=1)197
-747 y(#while)g([)g(1)h(-ne)f(0)h(])197 829 y(#do)287
-911 y(spinfor)e($1)i($offset)287 993 y(process)e($1)i($offset)287
-1075 y(offset=$?)287 1158 y(logger)e("shdns)h($$)h(Ended)f(at)g
-($offset")197 1240 y(#)90 b(killall)43 b(-9)i(cat)197
-1322 y(#done)197 1486 y(exit)197 1571 y
+Black 466 89 a Fd(#)45 b(The)f(time)g(to)h(live)f(is)g(always)g(low,)g
+(because)g(we)g(are)h(dodgy)466 171 y(tobyte)f(0)g Fc(>>)h
+Fd(/tmp/shdns-response-$$)466 253 y(tobyte)f(0)g Fc(>>)h
+Fd(/tmp/shdns-response-$$)466 336 y(tobyte)f(0)g Fc(>>)h
+Fd(/tmp/shdns-response-$$)466 418 y(tobyte)f(4)g Fc(>>)h
+Fd(/tmp/shdns-response-$$)466 582 y(#)g(The)f(length)g(of)g(the)h
+(returned)e(data)h(is)h(always)f(an)g(IP)h(\(32)f(bits\))466
+664 y(tobyte)g(0)g Fc(>>)h Fd(/tmp/shdns-response-$$)466
+747 y(tobyte)f(4)g Fc(>>)h Fd(/tmp/shdns-response-$$)466
+911 y(#)g(And)f(now)g(the)h(answer)e(as)i(a)g(number)466
+993 y(#)g(For)f(the)g(result)g(in)h(the)f(answer,)g(we)g(are)g(going)g
+(to)h(need)f(this)g(in)h(a)f(binary)g(form)g(of)h(decimal)466
+1075 y(while)f([)h("\045$result\045")e(!=)h("\045\045")g(])466
+1158 y(do)556 1240 y(temp=`echo)f($result)g(|)i(cut)f(-f)h(1)g(-d)f
+("."`)556 1322 y(result=`echo)e($result)i(|)h(sed)f('s/^[0-9]*\\.*//'`)
+556 1404 y(tobyte)f($temp)h Fc(>>)h Fd(/tmp/shdns-response-$$)556
+1486 y(logger)e("shdns)h($$)h(Processing)e(result)h(segment:)f($temp)h
+(\($result\)")466 1569 y(done)466 1733 y(#)h(We)f(need)g(to)h(return)f
+(an)g(authority)f(as)i(well...)466 1897 y(#)g(And)f(now)g(we)h(can)f
+(send)g(the)h(result)e(\(done)h(this)h(way)f(to)g(make)h(sure)f(it)g
+(is)h(all)f(in)h(one)f(packet\))466 1979 y(cat)g
+(/tmp/shdns-response-$$)466 2062 y(logger)g("shdns)g($$)g(Finished)g
+(extracting)f(result")376 2144 y(else)466 2226 y(#)i(Work)f(out)g(the)g
+(erroneous)g(type)466 2308 y(logger)g("shdns)g($$)g(Erroneous)f(type)i
+(was)f($type)g(\("`dumpbyte)f($type`"\)")376 2390 y(fi)376
+2555 y(logger)h("shdns)g($$)g(Finished)g(processing)f(question")376
+2637 y(questioncount=$\(\()f($questioncount)h(+)h(1)h(\)\))287
+2719 y(done)287 2884 y(return)e($inset`twiddlebit)f(0)j(128)f(1`)197
+2966 y(})197 3130 y(#######################################)o(######)o
+(######)o(######)o(######)o(######)o(######)o(####)197
+3295 y(offset=1)197 3377 y(#while)g([)g(1)h(-ne)f(0)h(])197
+3459 y(#do)287 3541 y(spinfor)e($1)i($offset)287 3623
+y(process)e($1)i($offset)287 3706 y(offset=$?)287 3788
+y(logger)e("shdns)h($$)h(Ended)f(at)g($offset")287 3870
+y(killall)f(-9)i(cat)197 3952 y(#done)197 4116 y(exit)197
+4201 y
 SDict begin H.S end
- 197 1571 a 197
-1571 a
+ 197 4201 a 197 4201 a
 SDict begin 11 H.A end
- 197 1571 a 197 1571 a
+ 197 4201 a 197 4201 a
 SDict begin [ /View [/XYZ H.V] /Dest (188) cvn H.B /DEST pdfmark end
- 197 1571 a 197 1571 a
-SDict begin H.S end
  197
-1571 a 197 1571 a
+4201 a 197 4201 a
+SDict begin H.S end
+ 197 4201 a 197 4201 a
 SDict begin 11 H.A end
- 197 1571 a 197 1571 a
+ 197 4201 a 197
+4201 a
 SDict begin [ /View [/XYZ H.V] /Dest (189) cvn H.B /DEST pdfmark end
- 197 1571 a 90
-x Ff(Code:)21 b(shdns)197 1703 y
+ 197 4201 a 90 x Ff(Code:)21 b(shdns)197 4333 y
 SDict begin H.S end
- 197 1703 a 197 1703
-a
+
+197 4333 a 197 4333 a
 SDict begin 11 H.A end
- 197 1703 a 197 1703 a
+ 197 4333 a 197 4333 a
 SDict begin [ /View [/XYZ H.V] /Dest (190) cvn H.B /DEST pdfmark end
- 197 1703 a 276 x Fe(4.2.)27 b(Does)h(it)g(w)n
-(ork?)197 2030 y
+ 197 4333
+a 276 x Fe(4.2.)27 b(Does)h(it)g(w)n(ork?)197 4660 y
 SDict begin H.S end
- 197 2030 a 197 2030 a
+
+197 4660 a 197 4660 a
 SDict begin 11 H.A end
- 197 2030 a 197
-2030 a
+ 197 4660 a 197 4660 a
 SDict begin [ /View [/XYZ H.V] /Dest (192) cvn H.B /DEST pdfmark end
- 197 2030 a 90 x Fg(T)o(ODO)197 2247 y
+ 197 4660
+a 90 x Fg(T)o(ODO)197 4877 y
 SDict begin H.S end
- 197 2247
-a 197 2247 a
+ 197 4877 a 197 4877 a
 SDict begin 11 H.A end
- 197 2247 a 197 2247 a
+ 197
+4877 a 197 4877 a
 SDict begin [ /View [/XYZ H.V] /Dest (193) cvn H.B /DEST pdfmark end
- 197 2247 a 285 x Fi(5.)j(Getting)e
-(the)i(code)f(fr)n(om)h(this)f(ar)r(tic)n(le)197 2612
-y
+ 197 4877 a 286 x Fi(5.)j(Getting)e(the)i(code)f(fr)n
+(om)h(this)f(ar)r(tic)n(le)197 5242 y
 SDict begin H.S end
- 197 2612 a 197 2612 a
+ 197 5242 a 197
+5242 a
 SDict begin 11 H.A end
- 197 2612 a 197 2612 a
+ 197 5242 a 197 5242 a
 SDict begin [ /View [/XYZ H.V] /Dest (195) cvn H.B /DEST pdfmark end
- 197 2612
-a 67 x Fg(T)o(ODO)p Black 3462 5999 a Ff(16)p Black eop
-end
+ 197 5242 a 67 x Fg(T)o(ODO)p
+Black 3462 5999 a Ff(16)p Black eop end
 %%Trailer
 
 userdict /end-hook known{end-hook}if
