@@ -2,6 +2,11 @@
 
 #include <stdarg.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 enum{
   pandalex_event_begindocument = 0,
     pandalex_event_specver,
@@ -57,3 +62,7 @@ char *pandalex_xsnprintf(char *, ...);
 void pandalex_error(char *);
 
 void pandalex_xfree(void *);
+
+#ifdef __cplusplus
+}
+#endif
