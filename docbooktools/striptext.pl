@@ -1,13 +1,12 @@
 #!/usr/bin/perl
 
 use strict;
-my($INPUT, $stripcode, $codemode);
+my($stripcode, $codemode);
 
 $stripcode = 1;
 $codemode = 0;
 
-open INPUT, "< $ARGV[0]";
-while(<INPUT>){
+while(<STDIN>){
     if($stripcode == 1){
 	s/.*<programlisting>.*<\/programlisting>//g;
 	if(/<programlisting>.*/){
