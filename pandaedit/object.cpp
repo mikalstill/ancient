@@ -441,6 +441,7 @@ object::executeCommand(int index, panda_page *pg)
   if(index >= m_commands.size())
     return;
 
+  // HINT: You'll need to add a hook for a new command to here...
   switch(m_commands[index].type)
     {
     case cLine:

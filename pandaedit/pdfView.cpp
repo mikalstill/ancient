@@ -230,25 +230,19 @@ pdfView::populatePageFromPDF(pdfDoc* theDoc, string& filename)
 {
   try{
     object pages(objNumNoSuch, objNumNoSuch);
-    if(!theDoc->getPagesObject(pages))
+    if(theDoc->getPagesObject(pages))
       {
-	debug(dlError, "Could not populate, as there is no pages object");
-	return false;
+	// Now find all the page objects referenced in the pages object
+	string kids;
+	if(pages.getDict().getValue("Kids", kids)){
+	  // Find the pages, and then display the relevant page
+	  objectlist pagelist(kids, theDoc->getPDF());
+	  if(kids.size() < m_page){
+	    debug(dlError, "Request for a page which doesn't exist");
+	    return false;
+	  }
+	}
       }
-    
-    // Now find all the page objects referenced in the pages object
-    string kids;
-    if(!pages.getDict().getValue("Kids", kids)){
-      debug(dlTrace, "Bad PDF: No pages found in PDF");
-      return false;
-    }
-    
-    // Find the pages, and then display the relevant page
-    objectlist pagelist(kids, theDoc->getPDF());
-    if(kids.size() < m_page){
-      debug(dlError, "Request for a page which doesn't exist");
-      return false;
-    }
 
     // Create a render, including scaling it...
     configuration *config;

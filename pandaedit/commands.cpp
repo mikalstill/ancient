@@ -346,9 +346,7 @@ pdfRender::command_m ()
   if(m_controlPoints.size() != 0)
     {
       debug(dlError, "Move command in the middle of drawing");
-      // TODO mikal: a possibly silly assumption that the old command was a
-      // line
-      appendCommand(object::cLine);
+      m_controlPoints.clear();
     }
 
   // Pop our arguements (reverse order)

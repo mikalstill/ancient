@@ -163,6 +163,9 @@ pdfDoc::OnNewDocument ()
   m_pdf = NULL;
   m_ready = true;
 
+  // And make the first page
+  appendPage();
+
   return TRUE;
 }
 
