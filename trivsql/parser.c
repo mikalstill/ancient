@@ -35,7 +35,7 @@
 
 
 
-#define	YYFINAL		36
+#define	YYFINAL		40
 #define	YYFLAG		-32768
 #define	YYNTBASE	17
 
@@ -73,22 +73,25 @@ static const char yytranslate[] = {     0,
 
 #if YYDEBUG != 0
 static const short yyprhs[] = {     0,
-     0,     2,     4,     6,    14,    25,    31,    35,    41,    43
+     0,     3,     6,     9,    10,    18,    30,    36,    40,    46,
+    48,    52
 };
 
 static const short yyrhs[] = {    18,
-     0,    19,     0,    20,     0,     3,     4,    10,    11,    21,
-    12,    13,     0,     5,     7,    10,    11,    21,    12,     6,
-    11,    21,    12,     0,     8,    14,     9,    10,    13,     0,
-    10,    15,    21,     0,    16,    10,    16,    15,    21,     0,
-    10,     0,    16,    10,    16,     0
+    17,     0,    19,    17,     0,    20,    17,     0,     0,     3,
+     4,    10,    11,    21,    12,    13,     0,     5,     7,    10,
+    11,    21,    12,     6,    11,    21,    12,    13,     0,     8,
+    14,     9,    10,    13,     0,    10,    15,    21,     0,    16,
+    10,    16,    15,    21,     0,    10,     0,    16,    10,    16,
+     0,     0
 };
 
 #endif
 
 #if YYDEBUG != 0
 static const short yyrline[] = { 0,
-    17,    17,    17,    20,    24,    28,    32,    34,    36,    38
+    17,    17,    17,    18,    21,    25,    29,    33,    35,    37,
+    39,    41
 };
 #endif
 
@@ -102,49 +105,53 @@ static const char * const yytname[] = {   "$","error","$undefined.","CREATE",
 #endif
 
 static const short yyr1[] = {     0,
-    17,    17,    17,    18,    19,    20,    21,    21,    21,    21
+    17,    17,    17,    17,    18,    19,    20,    21,    21,    21,
+    21,    21
 };
 
 static const short yyr2[] = {     0,
-     1,     1,     1,     7,    10,     5,     3,     5,     1,     3
+     2,     2,     2,     0,     7,    11,     5,     3,     5,     1,
+     3,     0
 };
 
-static const short yydefact[] = {     0,
-     0,     0,     0,     1,     2,     3,     0,     0,     0,     0,
-     0,     0,     0,     0,     0,     9,     0,     0,     0,     6,
-     0,     0,     0,     0,     7,    10,     4,     0,     0,     0,
-     8,     0,     5,     0,     0,     0
+static const short yydefact[] = {     4,
+     0,     0,     0,     4,     4,     4,     0,     0,     0,     1,
+     2,     3,     0,     0,     0,    12,    12,     0,    10,     0,
+     0,     0,     7,    12,     0,     0,     0,     8,    11,     5,
+     0,    12,    12,     9,     0,     0,     6,     0,     0,     0
 };
 
-static const short yydefgoto[] = {    34,
-     4,     5,     6,    18
+static const short yydefgoto[] = {    10,
+     4,     5,     6,    21
 };
 
-static const short yypact[] = {    -2,
-     0,     2,    -9,-32768,-32768,-32768,     1,     3,     5,    -1,
-     6,     8,    -8,    -8,     7,    -3,     9,    10,    11,-32768,
-    -8,    12,    13,    15,-32768,    14,-32768,    16,    -8,    -8,
--32768,    18,-32768,    24,    25,-32768
+static const short yypact[] = {     9,
+    -3,    -5,    -9,     9,     9,     9,    -4,     1,     4,-32768,
+-32768,-32768,     7,     8,    10,    -6,    -6,    11,     6,    12,
+    13,    14,-32768,    -6,    15,    16,    17,-32768,    18,-32768,
+    19,    -6,    -6,-32768,    20,    21,-32768,    27,    28,-32768
 };
 
-static const short yypgoto[] = {-32768,
--32768,-32768,-32768,   -14
+static const short yypgoto[] = {     3,
+-32768,-32768,-32768,   -17
 };
 
 
-#define	YYLAST		30
+#define	YYLAST		34
 
 
-static const short yytable[] = {    19,
-     1,    16,     2,     7,     9,     3,    25,    17,     8,    13,
-    10,    21,    11,    12,    31,    32,    14,    15,    22,    20,
-    28,    23,    24,    35,    36,    27,    30,    26,    29,    33
+static const short yytable[] = {    22,
+     7,     8,    38,    19,     9,    13,    28,    11,    12,    20,
+    14,     1,    15,     2,    34,    35,     3,    16,    17,    18,
+    24,    25,    31,    23,    26,    27,    39,    40,    30,    33,
+    29,    36,    32,    37
 };
 
-static const short yycheck[] = {    14,
-     3,    10,     5,     4,    14,     8,    21,    16,     7,    11,
-    10,    15,    10,     9,    29,    30,    11,    10,    10,    13,
-     6,    12,    12,     0,     0,    13,    11,    16,    15,    12
+static const short yycheck[] = {    17,
+     4,     7,     0,    10,    14,    10,    24,     5,     6,    16,
+    10,     3,     9,     5,    32,    33,     8,    11,    11,    10,
+    15,    10,     6,    13,    12,    12,     0,     0,    13,    11,
+    16,    12,    15,    13
 };
 /* -*-C-*-  Note some compilers choke on comments on `#line' lines.  */
 #line 3 "/usr/lib/bison.simple"
@@ -689,32 +696,32 @@ yyreduce:
 
   switch (yyn) {
 
-case 4:
-#line 21 "parser.y"
+case 5:
+#line 22 "parser.y"
 { trivsql_docreate(yyvsp[-4], yyvsp[-2]); ;
     break;}
-case 5:
-#line 25 "parser.y"
-{ trivsql_doinsert(yyvsp[-7], yyvsp[-5], yyvsp[-2]); ;
-    break;}
 case 6:
-#line 29 "parser.y"
-{ trivsql_rs *rs; trivsql_doselect(gState, -1, NULL, (char *) yyvsp[-1], -1, NULL, rs); ;
+#line 26 "parser.y"
+{ trivsql_doinsert(yyvsp[-8], yyvsp[-6], yyvsp[-2]); ;
     break;}
 case 7:
-#line 33 "parser.y"
-{ yyval = trivsql_xsnprintf("%s;%s", yyvsp[-2], yyvsp[0]); ;
+#line 30 "parser.y"
+{ trivsql_rs *rs; trivsql_doselect(gState, -1, NULL, (char *) yyvsp[-1], -1, NULL, rs); ;
     break;}
 case 8:
-#line 35 "parser.y"
-{ yyval = trivsql_xsnprintf("%s;%s", yyvsp[-3], yyvsp[0]); ;
+#line 34 "parser.y"
+{ yyval = trivsql_xsnprintf("%s;%s", yyvsp[-2], yyvsp[0]); ;
     break;}
 case 9:
-#line 37 "parser.y"
-{ yyval = trivsql_xsnprintf("%s", yyvsp[0]); ;
+#line 36 "parser.y"
+{ yyval = trivsql_xsnprintf("%s;%s", yyvsp[-3], yyvsp[0]); ;
     break;}
 case 10:
-#line 39 "parser.y"
+#line 38 "parser.y"
+{ yyval = trivsql_xsnprintf("%s", yyvsp[0]); ;
+    break;}
+case 11:
+#line 40 "parser.y"
 { yyval = trivsql_xsnprintf("%s", yyvsp[-1]); ;
     break;}
 }
@@ -939,7 +946,7 @@ yyerrhandle:
     }
   return 1;
 }
-#line 42 "parser.y"
+#line 44 "parser.y"
 
 
 int yyerror(char *s){
@@ -997,28 +1004,72 @@ void trivsql_docreate(char *tname, char *cols)
 void trivsql_doinsert(char *tname, char *cols, char *vals){
   char *t;
   char *u;
-  char *col;
-  int rownum;
-  int colnum;
-  int colCount;
+  char *c;
+  int rowNumber;
+  int *colNumbers;
+  int i;
+  int col;
+  int numCols;
 
+  // Determine if the table exists, and if so how many rows it has
   t = trivsql_xsnprintf("trivsql_%s_numrows", tname);
   u = trivsql_dbread(gState, t);
-  rownum = atoi(u);
-  trivsql_xfree(t);
-  trivsql_xfree(u);
-
-  col = strtok(cols, ";");
-  while(col != NULL){
-    printf("[%s]\n", col);
-
-    t = trivsql_xsnprintf("trivsql_%s_col%d", tname, colCount);
-    trivsql_dbwrite(gState, t, col);
-    trivsql_xfree(t);
-
-    colCount++;
-    u = strtok(NULL, ";");
+  
+  if(u == NULL){
+    fprintf(stderr, "Table does not exist\n");
+    return;
   }
+  rowNumber = atoi(u);
+  trivsql_xfree(u);
+  trivsql_xfree(t);
+  
+  // How many columns do we have?
+  for(i = 0, numCols = 0; i < strlen(cols); i++)
+    if(cols[i] == ';')
+      numCols++;
+  
+  colNumbers = trivsql_xmalloc(sizeof(int) * numCols);
+  
+  // Determine that the named columns exist
+  col = 0;
+  c = strtok(cols, ";");
+  while(c != NULL){
+    i = 0;
+    while(1){
+      t = trivsql_xsnprintf("trivsql_%s_col%d", tname, i);
+      u = trivsql_dbread(gState, t);
+
+      if(u == NULL){
+	trivsql_xfree(t);
+	fprintf(stderr, "%s is an unknown column\n", c);
+	return;
+      }
+      else if(strcmp(u, c) == 0){
+	trivsql_xfree(t);
+	trivsql_xfree(u);
+	break;
+      }
+
+      trivsql_xfree(t);
+      trivsql_xfree(u);
+      i++;
+    }
+
+    colNumbers[col] = i;
+    c = strtok(NULL, ";");
+    col++;
+  }
+
+  // How we have the right number of values?
+  for(i = 0, col = 0; i < strlen(vals); i++)
+    if(vals[i] == ';')
+      col++;
+  
+  if(col != numCols){
+    fprintf(stderr, "The number of values does not match the number of columns specified (%d cols, %d vals)\n", numCols, col);
+    return;
+  }
+
   
 }
 

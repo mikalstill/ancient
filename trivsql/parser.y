@@ -14,15 +14,16 @@
 
 %%
 
-sql      : create | insert | sel
+sql      : create sql | insert sql | sel sql
+         |
          ;
 
 create   : CREATE TABLE STRING '(' colvalspec ')' ';' 
 { trivsql_docreate($3, $5); } 
          ;
 
-insert   : INSERT INTO STRING '(' colvalspec ')' VALUES '(' colvalspec ')'
-{ trivsql_doinsert($3, $5, $8); }
+insert   : INSERT INTO STRING '(' colvalspec ')' VALUES '(' colvalspec ')' ';'
+{ trivsql_doinsert($3, $5, $9); }
          ;
 
 sel      : SELECT '*' FROM STRING ';' 
@@ -37,6 +38,7 @@ colvalspec : STRING ',' colvalspec
 { $$ = trivsql_xsnprintf("%s", $1); }
          | '\'' STRING '\''
 { $$ = trivsql_xsnprintf("%s", $2); }
+         |
          ;
 
 %%
@@ -96,28 +98,72 @@ void trivsql_docreate(char *tname, char *cols)
 void trivsql_doinsert(char *tname, char *cols, char *vals){
   char *t;
   char *u;
-  char *col;
-  int rownum;
-  int colnum;
-  int colCount;
+  char *c;
+  int rowNumber;
+  int *colNumbers;
+  int i;
+  int col;
+  int numCols;
 
+  // Determine if the table exists, and if so how many rows it has
   t = trivsql_xsnprintf("trivsql_%s_numrows", tname);
   u = trivsql_dbread(gState, t);
-  rownum = atoi(u);
-  trivsql_xfree(t);
-  trivsql_xfree(u);
-
-  col = strtok(cols, ";");
-  while(col != NULL){
-    printf("[%s]\n", col);
-
-    t = trivsql_xsnprintf("trivsql_%s_col%d", tname, colCount);
-    trivsql_dbwrite(gState, t, col);
-    trivsql_xfree(t);
-
-    colCount++;
-    u = strtok(NULL, ";");
+  
+  if(u == NULL){
+    fprintf(stderr, "Table does not exist\n");
+    return;
   }
+  rowNumber = atoi(u);
+  trivsql_xfree(u);
+  trivsql_xfree(t);
+  
+  // How many columns do we have?
+  for(i = 0, numCols = 0; i < strlen(cols); i++)
+    if(cols[i] == ';')
+      numCols++;
+  
+  colNumbers = trivsql_xmalloc(sizeof(int) * numCols);
+  
+  // Determine that the named columns exist
+  col = 0;
+  c = strtok(cols, ";");
+  while(c != NULL){
+    i = 0;
+    while(1){
+      t = trivsql_xsnprintf("trivsql_%s_col%d", tname, i);
+      u = trivsql_dbread(gState, t);
+
+      if(u == NULL){
+	trivsql_xfree(t);
+	fprintf(stderr, "%s is an unknown column\n", c);
+	return;
+      }
+      else if(strcmp(u, c) == 0){
+	trivsql_xfree(t);
+	trivsql_xfree(u);
+	break;
+      }
+
+      trivsql_xfree(t);
+      trivsql_xfree(u);
+      i++;
+    }
+
+    colNumbers[col] = i;
+    c = strtok(NULL, ";");
+    col++;
+  }
+
+  // How we have the right number of values?
+  for(i = 0, col = 0; i < strlen(vals); i++)
+    if(vals[i] == ';')
+      col++;
+  
+  if(col != numCols){
+    fprintf(stderr, "The number of values does not match the number of columns specified (%d cols, %d vals)\n", numCols, col);
+    return;
+  }
+
   
 }
 

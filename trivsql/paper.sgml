@@ -233,6 +233,8 @@ When the user requests that a row be inserted into a table, there are a number o
 
 <listitem><para>Determining what row number to insert at: this is the value returned by the existance check for <emphasis>trivsql_</emphasis><command>tablename</command><emphasis>_numrows</emphasis></para></listitem>
 
+<listitem><para>Determining that the requested columns actually exist, and if so what column numbers they are</para></listitem>
+
 <listitem><para>Insert the information
   <footnote><para>Duplicated information is allowed in a table --  in other words, you can have two identical rows if you really want</para></footnote></para></listitem>
 </orderedlist>
