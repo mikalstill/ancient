@@ -54,6 +54,7 @@ cepDateRange::cepDateRange(cepDate toDate, cepDate fromDate):
   m_tbToYear->SetValue(toDate.getYear().c_str());
   
   m_bSubmit = new wxButton(m_panel, CEPBTN_RATE_SUBMIT, "Ok", wxPoint(60,160));
+  m_bSubmit->SetDefault();
   m_bCancel = new wxButton(m_panel, CEPBTN_RATE_CANCEL, "Cancel", wxPoint(170,160));
 
   Center();

@@ -432,7 +432,6 @@ const cepMatrix<double> cepLs::reweightVCV(cepMatrix<double> &matP)
     }
   }
 
-
   //sort residuals in ascending order
   for(int i = 0; i < tempResidual.getNumRows(); i ++){
     if(numSwap == 0)
@@ -544,6 +543,9 @@ const cepMatrix<double> cepLs::reweightVCV(cepMatrix<double> &matP)
   per25 = lowerQ - ((upperQ-lowerQ) * 1.5);
   per75 = upperQ + ((upperQ-lowerQ) * 1.5);
 
+  cout << endl << "######################" << endl;
+  cout << "per25 " << per25 << endl;
+  cout << "per75" << per75 << endl;
   //create new P matrix
   for(int i = 0; i < newP.getNumRows(); i ++)
   {

@@ -44,6 +44,7 @@ cepInterpShowRate::cepInterpShowRate():
   m_rbHours = new wxRadioButton(m_panel, -1, "Days", wxPoint(25, 115));
 
   m_bSubmit = new wxButton(m_panel, CEPBTN_RATE_SUBMIT, "Ok", wxPoint(10,160));
+  m_bSubmit->SetDefault();
   m_bCancel = new wxButton(m_panel, CEPBTN_RATE_CANCEL, "Cancel", wxPoint(110,160));
 
   Center();

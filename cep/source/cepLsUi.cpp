@@ -43,6 +43,7 @@ cepLsShowDir::cepLsShowDir():
   m_cbDirZ = new wxCheckBox(m_panel, -1, "Direction: z (Up)", wxPoint(25, 115));
 
   m_bSubmit = new wxButton(m_panel, CEPBTN_DIR_SUBMIT, "Ok", wxPoint(10,160));
+  m_bSubmit->SetDefault();
   m_bCancel = new wxButton(m_panel, CEPBTN_DIR_CANCEL, "Cancel", wxPoint(110,160));
 
   Center();
@@ -124,6 +125,7 @@ cepLsWeight::cepLsWeight(double &startDate, double &endDate, double val):
   m_tbVal = new wxTextCtrl(m_panel, -1, cepToString(val).c_str(), wxPoint(65, 110), wxSize(50,20));
 
   m_bSubmit = new wxButton(m_panel, CEPBTN_WEIGHT_SUBMIT, "Ok", wxPoint(15,160));
+  m_bSubmit->SetDefault();
   m_bCancel = new wxButton(m_panel, CEPBTN_WEIGHT_CANCEL, "Cancel", wxPoint(110,160));
   m_bGo = new wxButton(m_panel, CEPBTN_WEIGHT_GO, "Do VCV", wxPoint(205, 160));
 

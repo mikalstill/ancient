@@ -38,11 +38,14 @@
  *     void tearDown( void ) { ... }
  *
  * @author <your name here>
- * @version $Revision: 1.11 $ $Date: 2002-11-10 23:43:28 $
+ * @version $Revision: 1.12 $ $Date: 2002-11-11 06:14:14 $
  *
  * Revision History
  *
  * $Log: not supported by cvs2svn $
+ * Revision 1.11  2002/11/10 23:43:28  u983118
+ * added tests for new fuctionality
+ *
  * Revision 1.10  2002/11/03 02:52:05  u983118
  * added tests for error stuff
  *
@@ -263,8 +266,23 @@ protected:
     CPPUNIT_ASSERT_DOUBLES_EQUAL( 1.5, ans.getB1(), 0.01 );
     CPPUNIT_ASSERT_DOUBLES_EQUAL( 0.5, ans.getB2(), 0.01 );
     
-        
+    cout << endl << "y=" << ans.getB1() <<"x + " << ans.getB2() << endl;
     
+    cout << endl << "data" << endl;      
+    //test for new data matrix
+    for(int i = 0; i < newData.getNumRows(); i ++){
+      for(int j = 0; j < newData.getNumCols(); j++){
+        cout << newData.getValue(i,j) << " ";
+      }
+      cout << endl;
+    }
+    
+    for(int i = 0; i < residual.getNumRows(); i ++){
+      for(int j = 0; j < residual.getNumCols(); j++){
+        cout << residual.getValue(i,j) << " ";
+      }
+      cout << endl;
+    }
    //test for new data matrix
     for(int i = 0; i < newData.getNumRows(); i ++){
       for(int j = 0; j < 3; j++){
@@ -296,7 +314,7 @@ protected:
     //test for Colours
     CPPUNIT_ASSERT_DOUBLES_EQUAL(  1.0, residual.getValue(0,3), 0.01 );
     CPPUNIT_ASSERT_DOUBLES_EQUAL(  1.0, residual.getValue(1,3), 0.01 ); 
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(  2.0, residual.getValue(2,3), 0.01 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(  1.0, residual.getValue(2,3), 0.01 );
     CPPUNIT_ASSERT_DOUBLES_EQUAL(  1.0, residual.getValue(3,3), 0.01 );
     CPPUNIT_ASSERT_DOUBLES_EQUAL(  1.0, residual.getValue(4,3), 0.01 );    
   }
