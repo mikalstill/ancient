@@ -10,6 +10,26 @@ namespace pdfdb
 		[STAThread]
 		static void Main(string[] args)
 		{
+			// We use regular expressions to match URLs to the names of the Producers
+			Hashtable urls = new Hashtable();
+			Hashtable urlregexps = new Hashtable();
+
+			Console.WriteLine("Load in the producer regexps");
+			StreamReader re = new StreamReader(args[0] + "/producers.txt");
+			try
+			{
+				while( re.Peek() != -1 )
+				{
+					string line = re.ReadLine();
+					string[] tokens = Regex.Split(line, ":[ \t]+");
+					urlregexps[tokens[0]] = tokens[1];
+				}
+			}
+			catch(Exception e)
+			{
+				Console.WriteLine("Could not read producer regexps");
+			}
+
 			// We store the great big list of things we've found here
 			string all = "";
 			SortedList producer = new SortedList();
@@ -19,6 +39,7 @@ namespace pdfdb
 			SortedList version = new SortedList();
 			SortedList pdfpage = new SortedList();
 			SortedList pdfmeta = new SortedList();
+			SortedList pagecount = new SortedList();
 
 			int docs = 0;
 			int exceptions = 0;
@@ -34,6 +55,7 @@ namespace pdfdb
 				Match m = Regex.Match(dirs[i], "[0-9][0-9][0-9][0-9][0-9][0-9]");
 				if( m.Success )
 				{
+					Console.Write(".");
 					StreamReader input = new StreamReader(args[0] + "/" + m.ToString() + "/data.info");
 					docs++;
 					all += ";" + m.ToString();
@@ -67,6 +89,16 @@ namespace pdfdb
 									case "PDF version":
 										version[tokens[1]] += ";" + m.ToString();
 										break;
+	
+									case "Pages":
+										// Page counts are broken into classes of hundreds, with the 0-100 class
+										// further broken up into classes of size 10
+										int pc = Int32.Parse(tokens[1]);
+										int lower = 0;
+										if( pc < 100 ) lower = ((pc - pc % 10) / 10) * 10;
+										else lower = ((pc - pc % 100) / 100) * 100;
+										pagecount[lower] += ";" + m.ToString() + "," + tokens[1];
+										break;
 
 									default:
 										pdfmeta[m.ToString()] += "<b>" + tokens[0] + ":</b> " + tokens[1] + "<br>";
@@ -86,8 +118,10 @@ namespace pdfdb
 					}
 				}
 			}
+			Console.WriteLine("");
 
 			// Dump out the indices list
+			Console.WriteLine("Writing the main index page");
 			StreamWriter output = new StreamWriter(args[0] + "/db.html");
 			output.WriteLine("<html><head><title>Mikal's PDF database</title></head><body>");
 			output.WriteLine("<b><a href=\"http://www.stillhq.com\">Stillhq.com</a> PDF Database: Index</b><BR><BR>");
@@ -95,19 +129,23 @@ namespace pdfdb
 			output.WriteLine("All the PDF documents in this database are sorted in a variety of ways. ");
 			output.WriteLine("Click on a number to see a page about the PDF with that id number.");
 			output.WriteLine("There are currently {0} PDF documents in the database. ", docs);
-			output.WriteLine("Please send email to <a href=\"mailto:mikal@stillhq.com\">mikal@stillhq.com</a> ");
-			output.WriteLine("if you would like to donate sample PDFs");
+			output.WriteLine("<BR><BR><i>Update: Please note that the name of each producer is now a link back to ");
+			output.WriteLine("their respective websites. I have also introduced a <a href=\"faq.html\">frequently asked questions page</a>.</i> ");
+			output.WriteLine("This FAQ page also discusses how to mount the PDF database as a drive on your windows machine, which is a very convenient way of downloading the entire database.");
+			output.WriteLine("<BR><BR>Please send email to <a href=\"mailto:mikal@stillhq.com\">mikal@stillhq.com</a> ");
+			output.WriteLine("if you would like to donate sample PDFs. ");
 			output.WriteLine("</td></tr></table></div><br><br>");
 			output.WriteLine("Navigation: <a href=\"#producer\">Producer</a> ");
 			output.WriteLine("<a href=\"#tagging\">Tagging</a> ");
 			output.WriteLine("<a href=\"#encryption\">Encryption</a> ");
 			output.WriteLine("<a href=\"#linearization\">Linearization</a> ");
 			output.WriteLine("<a href=\"#version\">Version</a> ");
+			output.WriteLine("<a href=\"#pagecount\">Length</a> ");
 			output.WriteLine("<a href=\"#all\">All</a> ");
 			output.WriteLine("<BR><BR>");
 
 			int ht;
-			for(ht = 0; ht < 5; ht++)
+			for(ht = 0; ht < 6; ht++)
 			{
 				SortedList target = producer;
 				string catname = "";
@@ -143,8 +181,15 @@ namespace pdfdb
 						catname = "Specification verion";
 						output.WriteLine("<table><tr><td bgcolor=\"#CCCCCC\"><b><a name=version>By PDF specification version</b></td></tr></table>");
 						break;
+
+					case 5:
+						target = pagecount;
+						catname = "Document length";
+						output.WriteLine("<table><tr><td bgcolor=\"#CCCCCC\"><b><a name=pagecount>By document length</b></td></tr></table>");
+						break;
 				}
 
+				Console.Write("{0}: ", catname);
 				output.WriteLine("<ul>");
 				foreach(object key in target.Keys)
 				{
@@ -154,7 +199,42 @@ namespace pdfdb
 					}
 					else
 					{
-						output.Write("<p><b>{0}:</b> ", key.ToString());
+						// Producers now get URLs (only in the main index page for now)
+						if( target == producer )
+						{
+							// Lookup the URL for the producer
+							string url = "";
+							if( urls.Contains(key) )
+							{
+								Console.WriteLine("Found");
+							}
+							else
+							{
+								foreach(object ukey in urlregexps.Keys)
+								{
+									Match umatch = Regex.Match(key.ToString(), ukey.ToString());
+									if( umatch.Success )
+									{
+										url = urlregexps[ukey].ToString();
+										urls[key] = url;
+										break;
+									}
+								}
+							}
+
+							if( url != "" ) output.Write("<p><b><a href=\"{1}\">{0}</a>:</b> ", key.ToString(), url);
+							else output.Write("<p><b>{0}:</b> ", key.ToString());
+
+						}
+						else if( target == pagecount )
+						{
+							int upper = Int32.Parse(key.ToString());
+							if( upper < 100 ) upper += 10;
+							else upper += 100;
+							output.Write("<p><b>{0} to {1}:</b> ", key.ToString(), upper);
+						}
+						else
+							output.Write("<p><b>{0}:</b> ", key.ToString());
 					}
 
 					string[] docids = Regex.Split(target[key].ToString(), ";");
@@ -162,20 +242,39 @@ namespace pdfdb
 					{
 						if( docids[i].Length > 0 )
 						{
+							Console.Write(".");
+							string[] reallen = Regex.Split(docids[i], ",");
+							string doclen = "";
+							if( reallen.Length > 1 )
+							{
+								docids[i] = reallen[0];
+								doclen = reallen[1];
+							}
+
 							if( catname == "" )
 							{
 								catname = "None specified";
 							}
 
-							pdfpage[docids[i]] += "<b>" + catname + ":</b> " + key.ToString();
+							pdfpage[docids[i]] += "<b>" + catname + ":</b> ";
+							if( doclen != "" )
+								pdfpage[docids[i]] += doclen;
+							else
+								pdfpage[docids[i]] += key.ToString();
+
 							pdfpage[docids[i]] += " [";
 							if( (i > 0) && (docids[i - 1].Length > 0) )
 								pdfpage[docids[i]] += "<a href=\"../" + docids[i - 1] + "/info.html\">Previous</a>";
 							else
 								pdfpage[docids[i]] += "No previous document";
 							pdfpage[docids[i]] += "] [";
+
+							// The next link needs the same fixup for the docid
 							if( (i < docids.Length - 1) && (docids[i + 1].Length > 0) )
-								pdfpage[docids[i]] += "<a href=\"../" + docids[i + 1] + "/info.html\">Next</a>";
+							{
+								string[] nextdi = Regex.Split(docids[i + 1], ",");
+								pdfpage[docids[i]] += "<a href=\"../" + nextdi[0] + "/info.html\">Next</a>";
+							}
 							else
 								pdfpage[docids[i]] += "No next document";
 							pdfpage[docids[i]] += "]<br>";
@@ -186,6 +285,7 @@ namespace pdfdb
 					output.WriteLine("</p>");				
 				}
 				output.WriteLine("</ul>");
+				Console.WriteLine("");
 			}
 
 			// And finally list all documents
@@ -258,36 +358,56 @@ output.WriteLine("<ul>");
 					output.WriteLine("</pre>");
 				}
 
+				// Do we have a notes field?
+				string notes = "";
+				try
+				{
+					StreamReader notesreader = new StreamReader(args[0] + "/" + key.ToString() + "/data.notes");
+					while( notesreader.Peek() != -1 )
+						notes += notesreader.ReadLine() + "\n";
+				}
+				catch(Exception e)
+				{
+					notes = "";
+				}
+				if( notes != "" )
+				{
+					notes = Regex.Replace(notes, "<", "&lt;");
+					notes = Regex.Replace(notes, ">", "&gt;");
+					notes = Regex.Replace(notes, "@", " [at] ");
+					output.WriteLine("</ul><table><tr><td bgcolor=\"#CCCCCC\"><b>Notes</b></td></tr></table><ul>");
+					output.WriteLine("<pre>");
+					output.WriteLine(notes);
+					output.WriteLine("</pre>");
+				}
+
 				// The user can download the pdf
 				output.WriteLine("</ul><table><tr><td bgcolor=\"#CCCCCC\"><b>Download</b></td></tr></table><ul>");
-				output.WriteLine("Click <a href=\"data.pdf\">here</a> to download this PDF");
+				output.WriteLine("Click <a href=\"data.pdf\">here</a> to download this PDF.");
 
 				// And then some thumbnails
 				output.WriteLine("</ul><table><tr><td bgcolor=\"#CCCCCC\"><b>Thumbnails</b></td></tr></table><ul>");
-				output.WriteLine("<table border=\"1\"><tr>");
+				
 				string[] file = Directory.GetFiles(args[0] + "/" + key.ToString());
 				int j;
 				int tcount = 0;
+				bool tfound = false;
 				for(j = 0; j < file.Length; j++)
 				{
 					Match n = Regex.Match(file[j], "cgspage-(.*).png");
 					if( n.Success )
 					{
-						output.WriteLine("<td><img src=\"{0}\"></td>", n.ToString());
+						output.WriteLine("<img src=\"{0}\" alt=\"Thumbnail page {0}\" border=1>", n.ToString(), tcount + 1);
 						tcount++;
-					}
-
-					if( (tcount + 1) % 5 == 0 )
-					{
-						output.WriteLine("</tr><tr>");
+						tfound = true;
 					}
 				}
-				if( tcount == 0 )
+				if( !tfound )
 				{
-					output.WriteLine("<td>Ghostscript failed to extract thumbnail images</td>");
+					output.WriteLine("<table border=1><tr><td>Ghostscript failed to extract thumbnail images</td></tr></table>");
 				}
 
-				output.WriteLine("</tr></table></ul>");
+				output.WriteLine("</ul>");
 				output.WriteLine("<HR><BR><BR>PDF database administered by ");
 				output.WriteLine("<a href=\"mailto:mikal@stillhq.com\">mikal@stillhq.com</a><br>");
 				output.WriteLine("Database Copyright (c) Michael Still 2003. PDFs Copyright their various authors.");
