@@ -1,0 +1,48 @@
+#!/bin/bash
+
+set -x
+project="objectify"
+
+# This script makes the world nice-looking for the world.
+cvs up
+cvs commit
+
+# Name of the release?
+echo -n "Release name (e.g) $project-0.4.1: "
+read relname
+
+echo -n "Tag this release (y/n)? "
+read tag
+
+if [ $tag = "y" ]
+then
+  echo -n "CVS tag name (e.g) $project-release-041: "
+  read tagname
+  cvs tag -b $tagname
+fi
+
+# Get a clean copy of the source
+rm -rf temp
+mkdir temp
+cd temp
+export CVSROOT="/home/httpd/html/cvs"
+cvs co $project
+cd $project
+
+# How much space do we use?
+echo "------------------------------------------------------------------------"
+echo "Release takes" `du -sk` "kbytes"
+
+# Now we can start packaging the various versions
+cd ..
+
+mkdir $relname
+
+# Windows is simply everything
+cp -R $project/* $relname/
+
+# Compress them all
+tar czf `echo $relname | sed 's/-/_/g' | sed 's/\./_/g'`.tgz $relname
+
+# Sign them all
+gpg --detach-sign --armour --output `echo $relname | sed 's/-/_/g' | sed 's/\./_/g'`.sig `echo $relname | sed 's/-/_/g' | sed 's/\./_/g'`.tgz
