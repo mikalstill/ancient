@@ -300,6 +300,9 @@ int yyerror(char *s){
   if(yychar == INT){
     printf("%d\n", yylval.intVal);
   }
+  else if(yychar < 0){
+    printf("N/A\n");
+  }
   else{
     printf("  \"");
     for(i = 0; i < ((yylval.sval.len == -1) ? strlen(yylval.sval.data) : yylval.sval.len); 
