@@ -17,136 +17,92 @@ function f = cep_callback( object )
 %       none.
 %
 
-
-
-
 % ==============================================================
 switch( object )
 case 'Exit'
     close;
 case 'Load'
-    filename = get_filename;
+    loadFiles;
+case 'Refresh'
+    refreshPlots;
 end
 
 
 
 % ==============================================================
-%                gets the filenmame from the user
+% loads the files that the user has specified
 % ==============================================================
-function name = get_filename
+function foo = loadFiles
+%
+% function loadFiles
 %
 %
 %
-screen_size = get(0,'ScreenSize');
-
-load_width=screen_size(3)/4;
-load_height=screen_size(4)/4;
-load_pos = [ (screen_size(3)-load_width)/2, (screen_size(4)-load_height)/2, load_width, load_height ];
-load_handle = figure('Units','pixels','Color',[0.8 0.8 0.8],'Position',load_pos,'Tag','Select a File');
-set(load_handle, 'WindowStyle', 'modal' );
-% set(load_handle,'MenuBar','none');
-
-sites = get_files;
-dirs = get_dirs;
-
-space = 10;
-dirbox_pos = [ space, space, load_width/2-space, load_height-(2*space) ];
-dirbox_handle = uicontrol('Parent',load_handle,'Units','pixels','BackgroundColor',[1.0 1.0 1.0],'Position',dirbox_pos,'String',dirs,'Style','listbox','Tag','Filebox','Value',1,'UserData',dirs);
-
-filebox_pos = [ load_width/2+space/2, space, load_width/2-space, load_height-(2*space) ];
-filebox_handle = uicontrol('Parent',load_handle,'Units','pixels','BackgroundColor',[1.0 1.0 1.0],'Position',filebox_pos,'String',sites,'Style','listbox','Tag','Dirbox','Value',1,'UserData',sites);
-
-% return something
-name='blah';
-
-
-
-% ==============================================================
-%                gets a listing of the current directory
-% ==============================================================
-function files = get_files
-% function list = get_files
 %
-% gets a listing for the current working directory.
 %
-% this code is based on the 'tsview' from MIT.
-%
-% INPUTS:
-%       cwd - the directory to get the listing of
-% OUTPUTS
-%       list - the directory listing
-% PRE:
-%       none
-% POST:
-%       none
-%
+[name,path] = uigetfile('*.*');
+filename = strcat(path,name);
+l = length(filename);
+filename = filename(1:l-1);
+datfi1e1 = strcat(filename,'1');
+datfile2 = strcat(filename,'2');
+datfile3 = strcat(filename,'3');
 
-% get the directory listing
-listing = dir;
+[dataN,sizeN,header1N,header2N,header3N] = loadfile(datfi1e1);
+[dataE,sizeE,header1E,header2E,header3E] = loadfile(datfile2);
+[dataU,sizeU,header1U,header2U,header3U] = loadfile(datfile3);
 
-names = {listing.name};
-% get all file names with mb_ in the first three characters
-names = names(strncmp(names,'mb_',3));
-% Now sort the names
-names = sort(names)';
+updatePlot('North', dataN(1,:), dataN(2,:), dataN(3,:));
+updatePlot('East', dataE(1,:), dataE(2,:), dataE(3,:));
+updatePlot('Up', dataU(1,:),dataU(2,:), dataU(3,:));
 
-% Reduce the names further by getting only the site names
-list = [];
-for i = 1:length(names)
-	tname = cell2struct(names(i),'name');
-	if findstr(tname.name,'.dat1')
-		st = tname.name;
-		list = [list;st(4:11)];
-	end
-end
-files=list;
+foo = 0;
 
 
 
 % ==============================================================
-%                gets a listing of the current directory
+% updates the graphs
 % ==============================================================
-function dirs = get_dirs
-% function list = get_dirs
+function foo = updatePlot( direction, date, data, error )
 %
-% gets a listing of directories only for the current working
-% directory.
 %
-% this code is based on the 'tsview' from MIT.
 %
-% INPUTS:
-%       cwd - the directory to get the listing of
-% OUTPUTS
-%       list - the directory listing
-% PRE:
-%       none
-% POST:
-%       none
 %
 
-% get the directory listing
-listing = dir;
+handle = findobj(gcf, 'Tag',strcat('Axis',direction));
 
-% Isolate the directories
-j=0; dirlist=[];
-for i = 1:length(listing)
-    if listing(i).isdir
-        dirlist = [dirlist;listing(i)];
+axes(handle); 
+
+hold on;
+
+if nargin == 4
+    handle = findobj(gcf, 'Tag',strcat('ErrBar'));
+    checked = get( handle, 'Value');
+    if( checked == 1 )
+        errorbar(date, data, error, 'b');
     end
 end
+ph = plot(date,data,'m');    
+PlotTitle = sprintf('Data %s',direction);
+title(PlotTitle);
+hold off;
 
-%get their names
-names = { dirlist.name };
-list = [];
-%for i = 1:length(names)
-%    tname = cell2struct(names(i),'name');
-%    st = tname.name;
-%    % TODO... require a fixed size filename to keep name length consistency
-%    list = [list;st];
-%end
+foo = 0;
 
-tname = cell2struct(names(3),'name');
-st = tname.name;
-list = [st];
 
-dirs=list;
+
+% ==============================================================
+% updates the graphs
+% ==============================================================
+function foo = refreshPlots()
+%
+%
+%
+%
+
+handle = findobj(gcf, 'Tag',strcat('AxisNorth'));
+
+
+end
+
+
