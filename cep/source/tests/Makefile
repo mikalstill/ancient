@@ -128,6 +128,6 @@ presentation: runner $(PRESENTATION)
 	$(LXX) $(LXXFLAGS) -o test$@ $(PRESENTATION) $(RUNNER) $(OBJS) $(OBJS_PRESENTATION) $(LXXLIBS)
 
 ###########################################################
-# Builds the lest squares specific tests
+# Builds the least squares specific tests
 ls: runner $(LS)
 	$(LXX) $(LXXFLAGS) -o test$@ $(LS) $(RUNNER) $(OBJS) $(OBJS_LS) $(LXXLIBS)
