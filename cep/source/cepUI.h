@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     04/01/98
-// RCS-ID:      $Id: cepUI.h,v 1.5 2002-06-03 19:51:28 u964076 Exp $
+// RCS-ID:      $Id: cepUI.h,v 1.6 2002-06-03 20:11:21 u964076 Exp $
 // Copyright:   (c) Julian Smart and Markus Holzem
 // Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////
@@ -53,7 +53,7 @@ DECLARE_APP (cepApp)
      
      void OnAbout (wxCommandEvent & event);
      cepCanvas *CreateCanvas (wxView * view, wxFrame * parent);
-     void OnCloseWindow(wxCloseEvent& evt);
+     void OnClose(wxCloseEvent& evt);
      
      DECLARE_EVENT_TABLE ()
 };

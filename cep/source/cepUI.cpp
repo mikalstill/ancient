@@ -259,6 +259,7 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
 IMPLEMENT_CLASS (cepFrame, wxDocMDIParentFrame) 
 BEGIN_EVENT_TABLE (cepFrame, wxDocMDIParentFrame) 
 EVT_MENU (DOCVIEW_ABOUT, cepFrame::OnAbout) 
+EVT_CLOSE(cepFrame::OnClose)
 END_EVENT_TABLE ()
 
 cepFrame::cepFrame (wxDocManager * manager, wxFrame * frame, 
@@ -306,7 +307,7 @@ GetMainFrame (void)
 
 // Capture the window close event, so we can save config info about the window
 // todo_mikal: not called on close of application...
-void cepFrame::OnCloseWindow(wxCloseEvent& evt)
+void cepFrame::OnClose(wxCloseEvent& evt)
 {
   // Save the window size to the configuration database
   int width, height;
@@ -326,6 +327,6 @@ void cepFrame::OnCloseWindow(wxCloseEvent& evt)
     }
   }
 
-  // And actually close
-  wxDocMDIParentFrame::OnCloseWindow(evt);
+  // Close the window
+  wxFrame::OnCloseWindow(evt);
 }
