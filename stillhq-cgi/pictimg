@@ -1,0 +1,221 @@
+#!/usr/bin/perl
+
+# This script is used to help me categorise the various pictures we now
+# have in our image database. The interface is based on assigning the image to
+# a series of categories, which are used to create the filename published
+# on the website (for the benefit of Google image search)
+
+use strict;
+use CGI;
+
+my($result, $DIRS, $dir, $pic, $filenames, $defkeywords, $deftarget, %meta,
+  $META, %target, $temp, $pictarget, $picrotate, $pickeywords, $rowalt);
+$result = new CGI();
+
+$dir = $result->param('dir');
+$pic = $result->param('pic');
+$defkeywords = $result->param('keywords');
+$deftarget = $result->param('target');
+
+if($dir eq ""){
+  print $result->header;
+  print "<table width=\"100%\"><tr bgcolor=\"#CCCCCC\"><td>Description</td><td width=\"5%\">Publ</td><td width=\"5%\">Meta data</td><td width=\"5%\">Dir meta data</td></tr>";
+
+  # Get a list of the image directories available...
+  open DIRS, "ls /data/pictures | grep 200 |";
+  while(<DIRS>){
+    chomp;
+    $dir = $_;
+
+    print "<tr";
+    if($rowalt == 1){
+      $rowalt = 0;
+      print " bgcolor=\"#CCCCCC\"";
+    }
+    else{
+      $rowalt = 1;
+      }
+    print "><td>";
+    print "<a href=\"/cgi-bin/pictdb?dir=$dir\">$dir</a> (";
+    print `ls /data/pictures/$dir | grep -i "cDSC" | wc -l | tr -d " "`;
+    print " pictures)</td>";
+
+    if(-f "/data/pictures/$dir/PUBLISHED"){
+      print "<td><img src=\"/common/tick.png\"></td>";
+    }
+    else{
+      print "<td>&nbsp;</td>";
+    }
+
+    if(-f "/data/pictures/$dir/META"){
+      print "<td><img src=\"/common/tick.png\"></td>";
+    }
+    else{
+      print "<td>&nbsp;</td>";
+    }
+
+    if((-f "/data/pictures/$dir/META-ANDREW") ||
+      (-f "/data/pictures/$dir/META-DIARY") ||
+      (-f "/data/pictures/$dir/META-EVENTS") ||
+      (-f "/data/pictures/$dir/META-MATTHEW") ||
+      (-f "/data/pictures/$dir/META-PLACEHOLDER")){
+      print "<td><img src=\"/common/tick.png\"></td>";
+    }
+    else{
+      print "<td>&nbsp;</td>";
+    }
+
+    print "</td></tr>";
+  }
+
+  print "</table>";
+}
+else{
+  # We are looking at a specific directory...
+  if($pic eq ""){
+    print $result->header;
+    print "<a href=\"/cgi-bin/pictdb\">Go back to the full list</a><BR>\n";
+
+    # Load the existing metadata
+    if(-f "/data/pictures/$dir/META"){
+      open META, "< /data/pictures/$dir/META";
+      print "Loading existing meta data [";
+
+      while(<META>){
+	if(/([^\t]*)\t([^\t]*)\t(.*)/){
+	  $meta{$1} = "$2\t$3";
+	  $target{$2} = $target{$2}."$1:";
+	  print ".";
+	}
+	else{
+	  print "*";
+	  }
+      }
+      print "]<br><hr>\n";
+
+      foreach $temp (keys %target){
+	if($temp eq ""){
+	  print "Images not published:<BR>";
+	  }
+	else{
+	  print "Images published in $temp:<BR>";
+	  }
+
+	foreach $temp (split(/:/, $target{$temp})){
+	  print "<a href=\"#$temp\"><img src=\"/cgi-bin/pictimg?dir=$dir&pic=t$temp\"></a>";
+	}
+
+	print "<BR><BR>";
+      }
+    }
+
+    # We can do things for all images as well
+    print "<table width=\"100%\"><tr><td>&nbsp;</td><td>\n";
+    print $result->start_form(-action=>"/cgi-bin/pictdb");
+    print <<EOF;
+<hr>Apply this to all these images:<BR><BR>
+
+Publish: <input type="radio" name="target" value="andrew">Andrew
+<input type="radio" name="target" value="diary">Diary
+<input type="radio" name="target" value="events">Events
+<input type="radio" name="target" value="matthew">Matthew
+<input type="radio" name="target" value="">None<BR>
+EOF
+
+    print $result->input({-type=>'hidden', -name=>'dir', -value=>"$dir"});
+    print $result->input({-type=>'text', -name=>'keywords', -size=>"100"});
+    print "<div align=center>";
+    print $result->submit(-value=>" Apply this default ", -name=>"commit");
+    print "</div>";
+    print $result->end_form;
+    print "<hr></td></tr>";
+
+    # We show a thumb nail for each of the images, and prompt for information
+    print $result->start_form(-action=>"/cgi-bin/auth/pictdb-commit");
+    $filenames = "";
+    open DIRS, "ls /data/pictures/$dir | egrep \"^t\" |";
+    while(<DIRS>){
+      chomp;
+      s/^t//;
+      $pic = $_;
+      $filenames = "$filenames;$pic";
+
+      print <<EOF;
+<tr><td valign=top><a name="$pic"><a href="/cgi-bin/pictimg?dir=$dir&pic=t$pic&zoom=1"><img src="/cgi-bin/pictimg?dir=$dir&pic=t$pic"></a></td><td>
+<i>Directory: $dir
+Filename: $pic</i><BR><BR>
+
+Publish:
+EOF
+
+      $_ = $meta{$pic};
+      /([^\t]*)\t([^\t]*)\t(.*)/;
+      $pictarget = $1;
+      $picrotate = $2;
+      $pickeywords = $3;
+      if($pictarget eq ""){
+	$pictarget = $deftarget;
+      }
+      if($pickeywords eq ""){
+	$pickeywords = $defkeywords;
+      }
+
+      print "<input type=\"radio\" name=\"$pic-target\" value=\"andrew\"";
+      if($pictarget eq "andrew"){
+	print " checked=\"checked\"";
+      }
+      print ">Andrew";
+
+      print "<input type=\"radio\" name=\"$pic-target\" value=\"diary\"";
+      if($pictarget eq "diary"){
+	print " checked=\"checked\"";
+      }
+      print ">Diary";
+
+      print "<input type=\"radio\" name=\"$pic-target\" value=\"events\"";
+      if($pictarget eq "events"){
+	print " checked=\"checked\"";
+      }
+      print ">Events";
+
+      print "<input type=\"radio\" name=\"$pic-target\" value=\"matthew\"";
+      if($pictarget eq "matthew"){
+	print " checked=\"checked\"";
+      }
+      print ">Matthew";
+
+      print <<EOF;
+<input type="radio" name="$pic-target" value="">None<BR>
+
+Rotate: 
+EOF
+
+      print "<input type=\"radio\" name=\"$pic-rotate\" value=\"left\"";
+      if($picrotate eq "left"){
+	print " checked=\"checked\"";
+      }
+      print ">Left";
+
+      print "<input type=\"radio\" name=\"$pic-rotate\" value=\"right\"";
+      if($picrotate eq "right"){
+	print " checked=\"checked\"";
+      }
+      print ">Right";
+      print "<input type=\"radio\" name=\"$pic-rotate\" value=\"\">None";
+
+      # Keywords
+      print "<input type=\"text\" name=\"$pic-keywords\" size=\"100\" value=\"$pickeywords\">";
+      print "<BR><HR><BR></td></tr>";
+    }
+    print "</table>\n";
+    print $result->input({-type=>'hidden', -name=>'files', -value=>"$filenames"
+			 });
+    print $result->input({-type=>'hidden', -name=>'dir', -value=>"$dir"});
+    print "<div align=center>";
+    print $result->submit(-value=>" Are you sure? ", -name=>"commit"
+			 );
+    print "</div>";
+    print $result->end_form;
+
+  }
+}

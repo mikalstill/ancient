@@ -1,4 +1,4 @@
-#!/usr/local/bin/perl
+#!/usr/bin/perl
 
 use strict;
 use CGI;
@@ -7,7 +7,7 @@ my($result, $path, $area, $thisslide, $maxslide, $filename, $delay);
 
 $result = new CGI();
 #$path = "/home/httpd/html";
-$path = "/home/s/stillhq/public_html/"
+$path = "/home/s/stillhq/public_html/";
 $area = $result->param('area');
 $thisslide = $result->param('slide') + 1;
 $maxslide = `cat $path/$area/pictures/jpegs | wc -l | tr -d " "`;
@@ -25,8 +25,8 @@ print "<html><head><title>Slide show: $area: $thisslide</title>\n";
 if($thisslide < $maxslide){
     $filename = `head -$thisslide $path/$area/pictures/jpegs | tail -1`;
     print "<meta http-equiv=\"refresh\" content=\"$delay;URL=/cgi-bin/slideshow?area=$area&slide=$thisslide&delay=$delay\">\n";
-    print "</head><body><img src=\"/$area/pictures/$filename\">\n";
-    print "<BR>/$area/pictures/$filename\n";
+    print "</head><body><div align=center><img src=\"/$area/pictures/$filename\"></div>\n";
+#    print "<BR>/$area/pictures/$filename\n";
 }
 else{
     print "</head><body>End of show";

@@ -1,0 +1,44 @@
+#!/usr/bin/perl
+
+use strict;
+use CGI;
+my($result, $path, $search, $SEARCH, $count, $pic);
+
+$path = "/home/httpd/html/";
+$result = new CGI();
+$search = $result->param('search');
+
+print $result->header;
+print $result->start_form(-action=>"/cgi-bin/pictsearch");
+print "Enter your search term:<BR>";
+print $result->input({-type=>'text', -name=>'search', -value=>"$search"});
+print $result->submit(-value=>" Search ", -name=>"commit");
+print $result->end_form;
+
+if($search ne ""){
+  print "<BR><HR><BR>Search results:<BR>";
+  print "<table><tr>";
+  $count = 0;
+
+  open SEARCH, "find $path -type f -name \"*$search*jpg\" -print |";
+  while(<SEARCH>){
+    s/$path//;
+    s/(.*)\//$1\/.thumb_/;
+    chomp;
+
+    $pic = $_;
+    s/.thumb_//;
+
+    print "<td><div align=center><a href=\"/$_".
+      "\"><img src=\"/$pic".
+	"\"></a></div></td>";
+
+    $count++;
+    if($count > 5){
+      print "</tr><tr>";
+      $count = 0;
+    }
+  }
+
+  print "</tr></table><br>Search complete";
+}

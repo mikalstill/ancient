@@ -65,7 +65,7 @@ for($colorA = 0; $colorA < 16; $colorA += 2){
 	    for($colorD = 0; $colorD < 16; $colorD += 2){
 		print "<td bgcolor=\"";
 		printf "$format", printHex($colorA), printHex($colorB), printHex($colorC), printHex($colorD);
-		print "\">&nbsp;";
+		print "\">".printHex($colorA), printHex($colorB), printHex($colorC), printHex($colorD);
 		print "</font></td>\n";
 	    }
 	    print "</tr>\n";

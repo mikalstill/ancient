@@ -1,16 +1,18 @@
 #!/usr/bin/perl
 
-# This program takes the kernel source for 2.5.44 and webifies it
+# This program takes the kernel source and webifies it
 use strict;
 use CGI;
 use DBI;
 
-my($result, $mode, $page, $line, $annot, $word);
+my($result, $mode, $page, $line, $annot, $word, $path);
 my($database, $select, @data);
 my($CFILES, $HTMLFILE);
 my($inputfullfile, $inputfile, $directory, $outfile);
-my($bodyfound, $line, $count, $srcdir, $dir, $icon);
-my($filehash, $ano, $cmd);
+my($bodyfound, $line, $count, $srcdir, $icon);
+my($filehash, $ano, $cmd, $subdir);
+
+$path = "/usr/src/";
 
 $result = new CGI();
 $mode = $result->param('mode');
@@ -18,30 +20,43 @@ $page = $result->param('page');
 $line = $result->param('line');
 $annot = $result->param('annot');
 $word = $result->param('word');
-$dir = $result->param('dir');
+$srcdir = $result->param('src');
+$subdir = $result->param('sub');
 
 print $result->header;
 print $result->start_html(-title=>"lin-annot");
 
+# If we don't have a source directory, then prompt with the available options
+if($srcdir eq ""){
+  print "No codebase specified. Please select:<BR><BR><ul>";
+  open CFILES, "ls $path |";
+  while(<CFILES>){
+    chomp;
+
+    if(/^linux-.*/){
+      if(-d "$path/$_"){
+	print "<li><a href=\"/cgi-bin/lin-annot?src=$_\">$_</a>";
+      }
+    }
+  }
+  exit;
+}
+
+# Otherwise, we have a source directory
 $database = DBI->connect("DBI:mysql:database=linux:host=localhost", "root", "vodka4me", { PrintError => 0 });
-$srcdir = "/usr/src/linux-2.5.44";
 
 if(!defined($database)){
     print "Database connection failed" . DBI->errstr;
     exit;
 }
 
-if($dir ne ""){
-    $srcdir = $dir;
-}
-
 if($mode eq ""){
-    print "<H1>Source code from $srcdir</H1><BR>\n";
+    print "<H1>Source code from $srcdir$subdir/</H1><BR>\n";
 
     print "<table bgcolor=\"BBBBBB\" width=\"100%\"><tr>\n";
     $count = 0;
 
-    open CFILES, "ls -F $srcdir |";
+    open CFILES, "ls -F $path/$srcdir/$subdir |";
     while(<CFILES>){
 	chomp;
 	
@@ -61,7 +76,7 @@ if($mode eq ""){
        	if(substr($inputfullfile, length($inputfullfile) - 1, length($inputfullfile)) eq "/"){
 	    # Directory
 	    $inputfullfile =~ s/\/$//;
-	    print "<td width=\"20%\"><BR><a href=\"/cgi-bin/lin-annot?dir=$srcdir/$inputfullfile\">";
+	    print "<td width=\"20%\"><BR><a href=\"/cgi-bin/lin-annot?src=$srcdir&sub=$subdir/$inputfullfile\">";
 	    print "<center><img src=\"/mikalicons/folder.jpg\"><BR><BR><B>$inputfullfile</b></center></a><BR></td>\n";
 	}
 	else{
@@ -78,10 +93,8 @@ if($mode eq ""){
 	    }
 
 	    $inputfullfile =~ s/[\*\/]$//;
-	    print "<td width=\"20%\"><BR><a href=\"/cgi-bin/lin-annot?mode=display&page=";
-	    $_ = $srcdir;
-	    s/\/usr\/src\/linux-2.5.44//;
-	    print "$_/$inputfullfile\"><center><img src=\"/mikalicons/$icon\"><BR><BR><b>$inputfullfile</b></center></a><BR></td>\n";
+	    print "<td width=\"20%\"><BR><a href=\"/cgi-bin/lin-annot?src=$srcdir&mode=display&sub=$subdir&page=";
+	    print "$inputfullfile\"><center><img src=\"/mikalicons/$icon\"><BR><BR><b>$inputfullfile</b></center></a><BR></td>\n";
 	}
 
 	$count++;
@@ -90,7 +103,7 @@ if($mode eq ""){
     print "</tr></table>\n";
 }
 elsif($mode eq "display"){
-    dostuff($srcdir, $page);
+    dostuff($srcdir, $page, 1);
 }
 elsif($mode eq "addannot"){
     print "Adding an annotation for $page: $line\n<BR><BR>\n";
@@ -107,7 +120,7 @@ elsif($mode eq "addannot"){
 	$database->disconnect();
 	exit;
     }
-    
+
     # Results?
     $select->execute() or die "Could not execute select" . $select->errstr;
     if($select->rows > 0){
@@ -126,7 +139,7 @@ elsif($mode eq "insert"){
     s/\'/\'\'/g;
     $annot = $_;
 
-    $filehash = `/usr/bin/md5sum /usr/src/linux-2.5.44/$page | cut -f 1 -d " "`;
+    $filehash = `/usr/bin/md5sum $path/$srcdir/$subdir/$page | cut -f 1 -d " "`;
     $select = $database->prepare("INSERT INTO annotations (file, line, annot, md5) VALUES ('$page', $line, '$annot', '$filehash')");
     if(!defined($select)){
 	print "Could not arrange select";
@@ -135,7 +148,7 @@ elsif($mode eq "insert"){
     }
     
     $select->execute() or die "Could not execute select" . $select->errstr;
-    print "<I>File hash (md5sum /usr/src/linux-2.5.44/$page): $filehash<BR>Defined the annotation</i><br>\n";
+    print "<I>File hash (md5sum $path/$srcdir/$subdir/$page): $filehash<BR>Defined the annotation</i><br>\n";
 
     if($word ne ""){
 	$select = $database->prepare("INSERT INTO words (word, file, line) VALUES ('$word', '$page', $line)");
@@ -149,7 +162,7 @@ elsif($mode eq "insert"){
 	print "<I>Defined the word</i><br>\n";
     }
 
-    dostuff($srcdir, $page);
+    dostuff($srcdir, $page, 1);
 }
 elsif($mode eq "edit"){
     $ano = $result->param("ano");
@@ -167,7 +180,7 @@ elsif($mode eq "edit"){
     if($select->rows > 0){
 	@data = $select->fetchrow_array();
 
-	$filehash = `/usr/bin/md5sum /usr/src/linux-2.5.44/$data[1] | cut -f 1 -d " "`;
+	$filehash = `/usr/bin/md5sum $path/$srcdir/$subdir/$data[1] | cut -f 1 -d " "`;
 	if($filehash eq ""){
 	    print "Could not generate a hash";
 	    exit;
@@ -197,7 +210,7 @@ elsif($mode eq "edit"){
 
     print "<i>Annotation modified</i><BR>\n";
     # todo_mikal: there is a bug in how do stuff deals with the redraw. I am not sure why.
-    dostuff($srcdir, $data[1]);
+    dostuff($srcdir, $data[1], 1);
 }
 
 print $result->end_html;
@@ -206,12 +219,19 @@ exit;
 ######################################################################################################################################
 
 sub dostuff(){
-    my($srcdir, $filename) = @_;
-    my($word, $textline, %hotwords, $rawword, $file, %annotations);
+    my($srcdir, $filename, $doMarkup) = @_;
+    my($word, $textline, %hotwords, $rawword, $file, %annotations, %anos);
+
+    if($doMarkup == 0){
+      print "[code2html refused to markup input file]<BR>";
+    }
+    else{
+      print "[Marking up file with code2html]<BR>";
+      }
 
     $file = "$filename";
     $file =~ s/\/\//\//g;
-    $filehash = `/usr/bin/md5sum /usr/src/linux-2.5.44/$page | cut -f 1 -d " "`;
+    $filehash = `/usr/bin/md5sum $path/$srcdir/$subdir/$page | cut -f 1 -d " "`;
 
     ###############################################
     # Build a list of all hot words
@@ -221,29 +241,38 @@ sub dostuff(){
 	$database->disconnect();
 	exit;
     }
-    
+
     $select->execute() or die "Could not execute select" . $select->errstr;
     if($select->rows > 0){
 	while(@data = $select->fetchrow_array()){
-	    $hotwords{$data[0]} = "/cgi-bin/lin-annot?mode=display&dir=$srcdir&page=$data[1]#line-$data[2]";
+	    $hotwords{$data[0]} = "/cgi-bin/lin-annot?src=$srcdir&mode=display&page=$data[1]#line-$data[2]";
 	}
     }
 
     ###############################################
     # Annotations
-    $select = $database->prepare("SELECT line, annot FROM annotations WHERE file = '$file' AND md5 = '$filehash'");
+    print STDERR "SELECT line, annot, ano FROM annotations WHERE file = '$file' AND md5 = '$filehash'";
+    $select = $database->prepare("SELECT line, annot, ano FROM annotations WHERE file = '$file' AND md5 = '$filehash'");
     if(!defined($select)){
 	print "Could not arrange select";
 	$database->disconnect();
 	exit;
     }
-    
+
     $select->execute() or die "Could not execute select" . $select->errstr;
     if($select->rows > 0){
+      print STDERR "Found annotations against this version\n";
+
+      # Don't display the "there are x annotations" message if we are going
+      # through here again after a failed markup...
+      if($doMarkup == 1){
 	print "There are " . $select->rows . " annotations against this file<BR>\n";
+      }
 
 	while(@data = $select->fetchrow_array()){
+	    print STDERR "Loaded annotation: \"$data[0]\", \"$data[1]\", \"$data[2]\"\n";
 	    $annotations{$data[0]} = $data[1];
+	    $anos{$data[0]} = $data[2];
 	}
     }
 
@@ -253,51 +282,58 @@ sub dostuff(){
 	$database->disconnect();
 	exit;
     }
-    
+
     $select->execute() or die "Could not execute select" . $select->errstr;
     if($select->rows > 0){
+      print STDERR "Found annotations against another version\n";
+
+      # Again, don't tell people twice
+      if($doMarkup == 1){
 	print "There are " . $select->rows . " annotations against other versions of this file<BR>\n";
+      }
 
 	while(@data = $select->fetchrow_array()){
-	    if($annotations{$data[0]} eq ""){
+	    if($anos{$data[0]} eq ""){
+		print STDERR "Loaded old annotation: \"$data[0]\", \"$data[1]\", \"$data[2]\"\n";
 		$annotations{$data[0]} = "OLD~" . $data[1];
+		$anos{$data[0]} = $data[2];
 	    }
 	}
-    }    
-
-    print "<BR>";
+    }
 
     ###############################################
     # Now we go through and post process this to add the links for comments
-    print STDERR "code2html \"$srcdir/$file\"\n";
-    open HTMLFILE, "/usr/local/bin/code2html \"$srcdir/$file\" 2> /dev/null |" or die "Couldn't open";
-
     $bodyfound = 0;
+    if($doMarkup == 1){
+	print STDERR "code2html \"$path/$srcdir/$subdir/$file\"\n";
+	open HTMLFILE, "code2html \"$path/$srcdir/$subdir/$file\" 2> /dev/null |" or die "Couldn't open";
+    }
+    else{
+	print "<html><body><pre>";
+	open HTMLFILE, "cat $path/$srcdir/$subdir/$file | sed -e 's/</\\&lt;/g' -e 's/>/\\&gt;/g' |" or die "Couldn't open";
+	$bodyfound = 1;
+    }
+
     $line = 1;
     while(<HTMLFILE>){
 	chomp;
 
 	if($bodyfound == 1){
-	    print "<a name=\"line-$line\"><a href=\"/cgi-bin/lin-annot?mode=addannot&dir=$srcdir&page=$file&line=$line\"><img src=\"/linux/linplus.gif\"></a>&nbsp;";
+	    print "<a name=\"line-$line\"><a href=\"/cgi-bin/lin-annot?src=$srcdir&mode=addannot&page=$file&line=$line\"><img src=\"/linux/linplus.gif\"></a>&nbsp;";
 
 	    # todo_mikal: linux space convention
-	    s/\t/    /g;
-	    foreach $word (split(/ /)){
-		if($hotwords{$word} ne ""){
-		    print "<a href=\"$hotwords{$word}\">$word</a> ";
-		}
-		else{
-		    print "$word ";
-		}
-	    }
+	    s/\t/       /g;
+	    markwords($_, %hotwords);
 
 	    if($annotations{$line} ne ""){
 		if($annotations{$line} =~ /OLD~(.*)/){
-		     print "<table width=\"60%\"><tr><td width=\"20%\" bgcolor=\"BB4444\">";
-		     print "<a href=\"/cgi-bin/lin-annot?mode=edit&ano=$data[2]&cmd=import\">Import</a><br>";
-		     print "<a href=\"/cgi-bin/lin-annot?mode=edit&ano=$data[2]&cmd=delete\">Delete</a><br>";
-		     print "<td bgcolor=\"BB4444\"><i><b>This annotation comes from a different version of this source file. There are several operations you can perform on this annotation...</b></i><BR><BR>";
-		     print "$1</td></tr></table></div>";
+		    print "<div align=right>";
+		    print "<table width=\"60%\"><tr><td width=\"20%\" bgcolor=\"BB4444\">";
+		    print "<a href=\"/cgi-bin/lin-annot?src=$srcdir&mode=edit&ano=".$anos{$line}."&cmd=import\">Import</a><br>";
+		    print "<a href=\"/cgi-bin/lin-annot?src=$srcdir&mode=edit&ano=".$anos{$line}."&cmd=delete\">Delete</a><br>";
+		    print "<td bgcolor=\"BB4444\"><i><b>This annotation comes from a different version of this source file. There are several operations you can perform on this annotation...</b></i><BR><BR>";
+		    print "$1</td></tr>";
+		    print "</table></div>";
 		}
 		else
 		{
@@ -309,7 +345,7 @@ sub dostuff(){
 	    print "\n";
 	}
 	else{
-	    print "$_";
+	    print "<pre>$_</pre>\n";
 	}
 
 	if(/<body/){
@@ -329,6 +365,39 @@ sub dostuff(){
 
     # If we didn't see many lines, then things didn't work out...
     if($line < 2){
-	print "Markup of this file failed: \"$srcdir/$file\"";
+	dostuff($srcdir, $filename, 0);
+    }
+
+    if($doMarkup == 0){
+	print "</pre></body></html>";
+    }
+}
+
+# Provide syntax highlighting for words known to the annotation system
+sub markwords(){
+    my($line, %hotwords) = @_;
+    my($trailer);
+
+    # Loop through the line forever (almost)
+    while($line ne ""){
+	# Pull tags off the front
+	if($line =~ /(^<[^>]*>)(.*)/){
+	    print $1;
+	    $line = $2;
+	}
+	elsif($line =~ /^([^<]*)(.*)/){
+	    if($hotwords{$1} ne ""){
+		print "<a href=\"$hotwords{$1}\">$1</a>";
+	    }
+	    else{
+		print "$1";
+	    }
+
+	    $line = $2;
+	}
+	else{
+	    print $line;
+	    $line = "";
+	}
     }
 }

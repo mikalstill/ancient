@@ -37,19 +37,21 @@ $path = "/home/s/stillhq/public_html/";
 $hostname = `hostname`;
 
 $area = $result->param('area');
+if($area eq ""){
+  $area = "main";
+}
 $page = $result->param('page');
+$page =~ s/\.\.//g;
+if($page eq ""){
+  $page = "index.htm";
+}
+
 $archive = $result->param('archive');
 $editmode = $result->param('editmode');
 $item = $result->param('item');
 
 # Output the standard HTML prelude, which includes stuff like the page title
 print $result->header;
-
-# If there are no arguements, then output an error message
-if(($area eq "") || ($page eq "")){
-  error("$path", "The address that was passed as input was malformed");
-  exit;
-  }
 
 # What if there was no archive arguement?
 if($archive eq ""){
@@ -83,7 +85,7 @@ if($titleElement eq ""){
 print $result->start_html(
 			  -title=>"$titleElement",
 			  -bgcolor=>"#CCCCCC",
-			  -link=>"#FF9966",
+#			  -link=>"#FF9966",
 			  -background=>"/common/copper02.jpg"
 #			  -script=>"function doMoveBrowser(form) {parent.location.href = form.list.options[getSelectedValue()].value;}\nfunction getSelectedValue() {return document.quickmenu.list.selectedIndex;}"
 			  );
@@ -194,6 +196,7 @@ sub dumpfile{
 # Display an error message to the user
 sub error{
   my($path, $message) = @_;
+  my($email);
 
   dumpfile("$path/common/stdnews-start");
   print "Error!";
@@ -202,6 +205,12 @@ sub error{
   print "</b><BR><BR>\n";
   print "Please contact <a href=\"mailto:mikal\@stillhq.com\">mikal\@stillhq.com</a> and let him know the URL you were trying to access (normally at the top of the page), and what link you clicked on to get here (if there was one).\n";
   dumpfile("$path/common/stdnews-end");
+
+  # Send an email informing Mikal of the error
+  $email = "An error occured on stillhq.com: ".$result->self_url."\n\n".
+    "The message was:\n".$message."\n\n\n";
+  `echo "$email" | mail -s "Stillhq.com error" mikal`;
+
   print $result->end_html;
 }
 
@@ -210,7 +219,7 @@ sub error{
 sub newsitemdisplay{
     my($path, $filename, $newsroot, $dateit) = @_;
     my($NEWSITEM, $temp); 
-    
+
     if($editmode == 1){
 	print $result->start_form(-action=>"/cgi-bin/auth/editnews");
 
@@ -220,10 +229,10 @@ sub newsitemdisplay{
     }
 
     open NEWSITEM, $filename;
-    
+
     # Output the news starter
     dumpfile("$path/$newsroot-start");
-    
+
     # Output the given news item
     while(<NEWSITEM>){
 	if(/^TITLE:[ \t]*(.*)/){

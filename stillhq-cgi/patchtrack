@@ -2,79 +2,195 @@
 
 use strict;
 use CGI;
-my($result, $LIST, $COMMENT, $path, $dir, $line, @sb, %colors, $state, $count);
+my($result, $LIST, $COMMENT, $path, $dir, $line, @sb, %colors, $state, $count, $patch, $anchor, %outstanding, $displayed);
 
 $result = new CGI();
 print $result->header;
 
-$path = "/home/httpd/html/";
+#$path = "/home/httpd/html/";
+$path = "/home/s/stillhq/public_html/";
 $dir = $result->param('dir');
+$dir =~ s/\.\.//g;
+$dir =~ s/\/$//;
 
-$colors{"Unknown"} = "yellow";    # Unknown state
-$colors{"Tweaking"} = "orange";   # Bounced for tweaks
-$colors{"Rejected"} = "red";      # Someone said no
-$colors{"Accepted"} = "green";    # Pushed into the code base
-$colors{"Trivial"} = "blue";      # Trivial patch monkey is managing
-$colors{"Maintainer"} = "purple"; # Maintainer has accepted
-$colors{"Obsolete"} = "";         # Patch has been replaced with a newer one
-$colors{"Waiting"} = "4444FF";    # Waiting for someone to comment
+if($dir =~ /linux\/patches/){
+  # Ok
+}
+else{
+  print "Disallowed: $dir";
+  exit;
+}
 
-print "Mikal's patch tracker. This page tracks the current status of the patches I have submitted to the linux kernel. It's really for my own reference, but if you want to peruse, then so be it...<BR><BR>\n";
+$colors{"Unknown"} = "yellow";      # Unknown state
+$colors{"Obsolete"} = "";
+$colors{"Ready"} = "6699CC";
+$outstanding{"Ready"} = "yes";
+$colors{"Included"} = "CC33CC";
+$colors{"Included Tweaking"} = "FF9900";
+$outstanding{"Included Tweaking"} = "yes";
+$colors{"Rejected"} = "red";
 
+$colors{"LKML Waiting"} = "000066";
+$colors{"LKML Tweaking"} = "FF6600";
+$outstanding{"LKML Tweaking"} = "yes";
+$colors{"LKML Accepted"} = "006600";
+
+$colors{"LJML Waiting"} = "000099";
+$colors{"LJML Tweaking"} = "FF9900";
+$outstanding{"LJML Tweaking"} = "yes";
+$colors{"LJML Accepted"} = "009900";
+
+$colors{"Trivial Waiting"} = "0000CC";
+$outstanding{"Trivial Waiting"} = "yes";
+$colors{"Trivial Tweaking"} = "FFCC00";
+$outstanding{"Trivial Tweaking"} = "yes";
+$colors{"Trivial Accepted"} = "00CC00";
+
+$colors{"Maintainer Waiting"} = "0000FF";
+$outstanding{"Maintainer Waiting"} = "yes";
+$colors{"Maintainer Tweaking"} = "FFFF00";
+$outstanding{"Maintainer Tweaking"} = "yes";
+$colors{"Maintainer Accepted"} = "00FF00";
+
+print "This page tracks the current status of the patches I have submitted to the linux kernel. It's really for my own reference, but if you want to peruse, then so be it... You can also ";
+
+if($result->param('outstanding') ne ""){
+    print "<a href=\"/cgi-bin/patchtrack?dir=".$result->param('dir')."\">see all patches</a>";
+}
+else{
+    print "<a href=\"/cgi-bin/patchtrack?outstanding=1&dir=".$result->param('dir')."\">see only outstanding patches</a>";
+}
+print ".<BR><BR>\n";
+
+print "<table><tr><td>&nbsp</td><td>Waiting</td><td>Tweaking</td><td>Accepted</td></tr>\n";
+print "<tr><td>LKML</td><td bgcolor=\"".$colors{"LKML Waiting"}."\">".getCount("LKML Waiting")."</td><td bgcolor=\"".$colors{"LKML Tweaking"}."\">".getCount("LKML Tweaking")."</td><td bgcolor=\"".$colors{"LKML Accepted"}."\">".getCount("LKML Accepted")."</td></tr>\n";
+print "<tr><td>LJML</td><td bgcolor=\"".$colors{"LJML Waiting"}."\">".getCount("LJML Waiting")."</td><td bgcolor=\"".$colors{"LJML Tweaking"}."\">".getCount("LJML Tweaking")."</td><td bgcolor=\"".$colors{"LJML Accepted"}."\">".getCount("LJML Accepted")."</td></tr>\n";
+print "<tr><td>Trivial</td><td bgcolor=\"".$colors{"Trivial Waiting"}."\">".getCount("Trivial Waiting")."</td><td bgcolor=\"".$colors{"Trivial Tweaking"}."\">".getCount("Trivial Tweaking")."</td><td bgcolor=\"".$colors{"Trivial Accepted"}."\">".getCount("Trivial Accepted")."</td></tr>\n";
+print "<tr><td>Maintainer</td><td bgcolor=\"".$colors{"Maintainer Waiting"}."\">".getCount("Maintainer Waiting")."</td><td bgcolor=\"".$colors{"Maintainer Tweaking"}."\">".getCount("Maintainer Tweaking")."</td><td bgcolor=\"".$colors{"Maintainer Accepted"}."\">".getCount("Maintainer Accepted")."</td></tr>\n";
+print "</table><BR><BR>\n";
+print "<table><tr><td>Obsolete</td><td>Rejected</td><td>Ready</td><td>Included</td><td>Unknown</td></tr>\n";
+print "<tr><td bgcolor=\"".$colors{"Obsolete"}."\">".getCount("Obsolete").
+    "<td bgcolor=\"".$colors{"Rejected"}."\">".getCount("Rejected").
+    "<td bgcolor=\"".$colors{"Ready"}."\">".getCount("Ready").
+    "<td bgcolor=\"".$colors{"Included"}."\">".getCount("Included").
+    "<td bgcolor=\"".$colors{"Unknown"}."\">&nbsp</td></tr>\n";
+print "</table><BR><BR>\n";
+
+#####################
 print "<table>";
 print "<tr><td><b>Patch</b></td><td><b>Modified Date</b></td><td><b>Status</b></td><td><b>Comments</b></td></tr>";
 $line = 1;
 $count = 0;
-open LIST, "ls $path/$dir | grep -v state | grep -v comments |";
+$displayed = 0;
+open LIST, "find $path/$dir -type f 2> /dev/null | sort | grep -v state | grep -v comments | grep -v mail | grep -v backup | grep -v desc|";
 while(<LIST>){
     chomp;
+    s/$path\/$dir\///;
     $count++;
 
     # The name of the patch
-    print "<tr";
-    if($line == 1){
-	print " bgcolor=\"CCCCCC\"";
-	$line = 0;
-	}
-    else{
-	$line++;
-    }
-    print "><td><a href=\"/$dir/$_\">$_</a></td>";
-    
-    # The creation date of the patch
-    @sb = stat("$path/$dir/$_");
-    print "<td>".localtime($sb[9])."</td>";
+    $anchor = "$_";
+    $patch = "$dir/$_";
+    $anchor =~ s/[0-9]*\.[0-9]*\.[0-9]*\///;
 
-    # Status of the patch
-    if(! -f "$path/$dir/$_-state"){
-	print "<td bgcolor=\"".$colors{"Unknown"}."\">Unknown</td>";
+    # Get the state of the patch
+    if(! -f "$path/$patch-state"){
+	$state = "Unknown";
     }
     else{
-	$state=`cat $path/$dir/$_-state`;
+	$state=`cat $path/$patch-state`;
 	chomp $state;
-	print "<td bgcolor=\"".$colors{$state}."\">$state</td>";
     }
 
-    if(! -f "$path/$dir/$_-comments"){
-	print "<td></td>";
-    }
-    else{
-	print "<td>";
-	open COMMENT, "< $path/$dir/$_-comments";
-	while(<COMMENT>){
-	    s/</&lt;/g;
-	    s/>/&gt;/g;
-	    s/@/ [at] /g;
-	    s/From:(.*)/<i>From:$1<\/i><BR>/g;
-	    s/^[ \t]*$/<BR><BR>/g;
-	    print $_;
+    if(($result->param('outstanding') eq "") ||
+       ($outstanding{$state} ne "")){
+	$displayed++;
+
+	# The name of the patch
+	print "<tr";
+	if($line == 1){
+	    print " bgcolor=\"CCCCCC\"";
+	    $line = 0;
 	}
-	print "</td>";
+	else{
+	    $line++;
+	}
+	
+	print "><td><a name=\"$anchor\"><a href=\"/$patch\">$_</a>";
+	
+	# A short description (if available)
+	if(-f "$path/$patch-desc"){
+	    print "<BR>(";
+	    open COMMENT, "< $path/$patch-desc";
+	    while(<COMMENT>){
+		chomp;
+		print $_;
+	    }
+	    print ")";
+	    close COMMENT;
+	}
+	
+	# We also list the files which the patch changes as bullet points
+	print "<UL>";
+	open COMMENT, "grep -- --- $path/$patch | cut -f 1 | sed -e 's/linux[^\\/]*\\///' -e 's/ *--- *//' |";
+	while(<COMMENT>){
+	    chomp;
+	    print "<LI>$_\n";
+	}
 	close COMMENT;
+	print "</UL></td>";
+	
+	# The creation date of the patch, and the number of lines in the patch
+	@sb = stat("$path/$patch");
+	print "<td>".localtime($sb[9])."<BR><BR>".
+	    `cat "$path/$patch" | wc -l | tr -d " "`.
+	    " lines</td>";
+	
+	# Status of the patch
+	print "<td bgcolor=\"".$colors{$state}."\">$state</td>";
+	
+	if(! -f "$path/$patch-comments"){
+	    print "<td></td>";
+	}
+	else{
+	    if(`cat $path/$patch-comments | wc -l | tr -d " "` > 6){
+		print "<td><a href=\"/$patch-comments\">Comments</a></td>\n";
+	    }
+	    else{
+		print "<td>";
+		open COMMENT, "< $path/$patch-comments";
+		while(<COMMENT>){
+		    s/</&lt;/g;
+		    s/>/&gt;/g;
+		    
+		    if(/^[ \t]*&gt;(.*)/){
+			$_ = "<BR><i>$1</i>";
+		    }
+		    
+		    s/@/ [at] /g;
+		    s/From:(.*)/<i>From:$1<\/i><BR>/g;
+		    s/^[ \t]*$/<BR><BR>/g;
+		    s/&lt;pre&gt;/<pre>/g;
+		    s/&lt;\/pre&gt;/<\/pre>/g;
+		    print $_;
+		}
+		print "<BR><BR></td>";
+		close COMMENT;
+	    }
+	}
+	
+	print "</tr>\n";
     }
-
-    print "</tr>\n";
 }
 print "</table>";
 
-print "<BR><BR>($count patches)<BR><BR>";
+print "<BR><BR>($count patches, $displayed displayed)<BR><BR>";
+print "<HR><BR><BR>This page is generated by <a href=\"http://www.stillhq.com/cgi-bin/getpage?area=patchtrack&page=index.htm\">patchtrack</a>. Patchtrack is copyright Michael Still (mikal\@stillhq.com) 2002, and is released under the terms of the GNU GPL.";
+
+exit;
+##################################
+
+sub getCount(){
+    my($find) = @_;
+    return `find $path/$dir -type f -name "*-state" -exec grep "$find" {} \\; | wc -l`;
+}

@@ -1,0 +1,31 @@
+#!/usr/bin/perl
+
+use strict;
+use CGI;
+my($result, $path, $FIND, $word, %words);
+
+$path = "/home/httpd/html/";
+$result = new CGI();
+
+print $result->header;
+open FIND, "find $path -type f -name \"*.jpg\" -print | grep pictures |";
+while(<FIND>){
+  s/^.*\///;
+  s/-dsc.*$//i;
+  s/-cdsc.*$//i;
+  s/^cdsc[0-9]*.jpg$//i;
+  s/^p[0-9]*.jpg$//i;
+  s/^cdsc_img_[0-9]*.jpg$//i;
+  chomp;
+
+  foreach $word (split(/_/, $_)){
+    $words{$word} = "yes";
+  }
+}
+close FIND;
+
+foreach $word (sort keys %words){
+  print "<a href=\"/cgi-bin/pictsearch?search=$word\">$word</a><br>";
+}
+
+print $result->footer;

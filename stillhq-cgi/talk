@@ -3,12 +3,12 @@
 use strict;
 use CGI;
 
-my($result, $path, $area, $talk, $thisslide, $maxslide, $filename, $count, $nextslide, $prevtitle);
+my($result, $path, $area, $talk, $thisslide, $maxslide, $filename, $count, $prevtitle);
 
 $result = new CGI();
-#$path = "/home/httpd/html";
+$path = "/home/httpd/html";
 #$path = "/var/www/html";
-$path = "/home/s/stillhq/public_html/";
+#$path = "/home/s/stillhq/public_html/";
 
 $area = $result->param('area');
 $talk = $result->param('talk');
@@ -19,7 +19,6 @@ $maxslide = `cat $path/$area/presentations/$talk | wc -l | tr -d " "` + 1;
 if($thisslide eq ""){
     $thisslide = 0;
 }
-$nextslide = $thisslide + 1;
 
 print "Content-type: text/html\n\n";
 print "<html><head><title>Slide show: $talk: $thisslide</title>\n";
@@ -35,8 +34,12 @@ else{
     }
 print "&nbsp;&nbsp;&nbsp;\n\n";
 
+if($thisslide > 1){
+    print "<a href=\"/cgi-bin/talk?area=$area&talk=$talk&slide=".($thisslide - 1)."\">Previous</a>\n\n";
+    print "&nbsp;&nbsp;&nbsp;\n\n";
+}
 if($thisslide < $maxslide + 1){
-    print "<a href=\"/cgi-bin/talk?area=$area&talk=$talk&slide=$nextslide\">Next</a>\n\n";
+    print "<a href=\"/cgi-bin/talk?area=$area&talk=$talk&slide=".($thisslide + 1)."\">Next</a>\n\n";
 }
 print "</div><BR><BR>\n\n";
 print "<center>\n";
