@@ -1,7 +1,7 @@
 <sect1><title>Interpolation</title>
 
 <sect2><title>Introduction</title>
-  <para>One problem with the GPS datasets is that there are often gaps in the data, which
+  <para>One problem with GPS datasets is that there are often gaps in the data, which
     may skew data results and prevent transformation into the frequency
     domain. Another problem is that the time scales in GPS data sets
     are often non-linear.  Interpolation solves these problems by filling the gaps in the data.
@@ -31,7 +31,7 @@
   </para>
   <para>
   This irregular sampling rate has been compounded by having the datasets stored on a
-  non-linear time scale.  The data that we have been provided has been sampled regularly
+  non-linear time scale.  The data that we have been provided has been sampled 
   once a day at noon as timed by an atomic clock, thereby allowing an accurate sample rate.
   The sample date/time, however, has then been stored in decimal year format to eight significant
   figures, and this creates a problem.  During a regular
@@ -61,24 +61,29 @@
 
   <sect3><title>Nearest Neighbour Interpolation</title>
   <para>
-    Nearest neighbour interpolation is the simplest interpolation method provided. This method
+    Nearest neighbour interpolation is the simplest method provided. This method
     simply sets the value of any new point to the value of the nearest point on the
     original dataset.  The advantage of this is that any added points will be of
     the same approximate value as nearby points. There are a number of disadvantages
     with nearest neighbour approximation.  Firstly, any new points will not follow
     any linear or frequency trends in the data, which could lead to inaccuracy of
     models both in the time and frequency domains. In addition, if new points lie close to
-    outliers then the points generated risk being very inaccurate.
+    outliers then the points generated can be very inaccurate.
   </para>
   </sect3>
 
   <sect3><title>Linear Interpolation</title>
   <para>
     Linear interpolation is widely used as it is simple yet
-    generally produces better results than nearest neighbour.  In this interpolation method, 
+    generally produces better results than nearest neighbour.  In this interpolation method,
     each new point is placed on a line between the two adjacent points.
-    The Equation for adding a new point is: (TODO:ADD LINEAR INTERP EQUATION 1)
+    The Equation for adding a new point is:
   </para>
+  <equation>
+    <title>Linear Interpolation Between Points</title>
+    <execute><cmd>eqimg</cmd><args>interp_linear1.bmp</args></execute>
+  </equation>
+
   <para>
     Linear interpolation has several advantages.  Firstly each added point has a
     value that is approximately the same as nearby value thus obtaining values significantly out of range
@@ -97,18 +102,17 @@
     difference between this method and a natural spline is the choice of
     second derivatives used at the end points. With this implementation the values of the
     second derivative for the end points are set the same as the second derivatives of the
-    second to end points.  Documented commentary says that this type of spline curves a
-    little bit too much at the ends.
+    second to end points.
   </para>
   <para>
-    To produce a spine for a dataset of <command>n+1</command> points you have to produce n separate
+    To produce a spine for a dataset of <command>n+1</command> points you have to produce <command>n</command> separate
     cubics.  Each of these cubic should have each end match up exactly with the
     points to either side.  And on the same point the two adjacent cubic should
     have shared first and second derivatives. Each of these cubics can be described by the equation:
     (TODO: Spline equation 1)
   </para>
   <para>
-    Because each of these cubics begins at a any existing point we can say: 
+    Because each of these cubics begins at a any existing point we can say:
     <command>d<subscript>i</subscript> = y<subscript>i</subscript></command>
   </para>
   <para>
@@ -116,15 +120,15 @@
     x<subscript>i</subscript>)</command>, is the width of the the interval.
   </para>
   <para>
-    Also if we make s the set of second derivatives; then through algebraic simplification
+    Also if we make <command>S</command> the set of second derivatives; then through algebraic simplification
     we can get: (TODO: Spline equations 3,4,5)
   </para>
   <para>
-    With cubic splines, solving for S is achieved by solving:(TODO: Spline equation 7)
+    With cubic splines, solving for <command>S</command> is achieved by solving:(TODO: Spline equation 7)
   </para>
   <para>
-    The two end values, S<subscript>0</subscript> and S<subscript>n</subscript>, are then
-    set to equal S<subscript>1</subscript> and S<subscript>n</subscript> respectively.
+    The two end values, <command>S<subscript>0</subscript></command> and <command>S<subscript>n</subscript></command>, are then
+    set to equal <command>S<subscript>1</subscript></command> and <command>S<subscript>n</subscript></command> respectively.
   </para>
   <para>
     A full mathematical derivation can be found in Gerald &amp; Wheatley (1999), page 238.
@@ -146,9 +150,9 @@
 
   <sect3><title>Natural Spline Interpolation</title>
   <para>
-    Natural splines are a type of cubic spline, originating from the idea in ancient times when draftsmen and builders 
-    would create a smooth curve by pegging a flexible piece of wood between a number of points. 
-    As with all cubic spline implemetations, the interpolation is achieved by inserting a cubic between 
+    Natural splines are a type of cubic spline, originating in ancient times when draftsmen and builders
+    would create a smooth curve by pegging a flexible piece of wood between a number of points.
+    As with all cubic spline implemetations, the interpolation is achieved by inserting a cubic between
     each two adjacent points. Equalizing the derivatives has the effect of making the resulting
     interpolation appear smooth and visually pleasing.  For this reason splines
     are often used in graphics.
@@ -171,7 +175,8 @@
     Each of these cubics can be described by the equation: (TODO: Spline equation 1)
   </para>
   <para>
-    Because each of these cubics begins at a point we can say: (TODO: Spline equation 2)
+    Because each of these cubics begins at a point we can say:
+    <command>d<subscript>i</subscript> = y<subscript>i</subscript></command>
   </para>
   <para>
     Where <command>
@@ -180,27 +185,18 @@
     is the width of the the interval.
   </para>
   <para>
-    Also if we make s the set of second derivatives; then through algebraic simplification
+    Also if we make <command>S</command> the set of second derivatives; then through algebraic simplification
     we can get: (TODO: Spline equations 3,4,5)
   </para>
   <para>
-    With natural splines solving for S is done by solving:(TODO: Spline equation 6)
+    With natural splines solving for <command>S</command> is done by solving:(TODO: Spline equation 6)
   </para>
   <para>
-    The two end values, S<subscript>0</subscript> and S<subscript>n</subscript>, are then
+    The two end values, <command>S<subscript>0</subscript></command> and <command>S<subscript>n</subscript><command>, are then
     set to zero.
   </para>
   <para>
     A full mathematical derivation can be found in Gerald &amp; Wheatley (1999), page 238.
-  </para>
-  <para>
-    Because of the smooth nature of the interpolation curve produced; splines can provide
-    extremely accurate results when the original sample rate is notable greater than
-    the frequency of fluctuation in the data.  However if the sample rate is less than half the
-    frequency of change (including signal noise) in the data then the results can be
-    erratic.  Splines also have a problem when it comes to large gaps in the dataset.
-    Because the gap between two points is represented by a cubic, large gaps result
-    in peaks or troughs in the dataset.
   </para>
   </sect3>
 
@@ -253,7 +249,7 @@
 <sect2><title>Conclusion</title>
   <para>
     Interpolation methods provide a useful toolkit that can be used to remove defects
-    within the dataset.  Interpolation methods can be used to fill holes in the time 
+    within the dataset.  Interpolation methods can be used to fill holes in the time
     series allowing fourier transforms to be applied to a larger section of the data.
     Due to an unforseen amount of high frequency noise however some more noise resistant
     interpolation methods need to be added before the the results are optimal.
