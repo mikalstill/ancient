@@ -1,0 +1,13 @@
+TITLE: VFS directory file operations -&gt; FUSE
+
+<BR><BR>
+
+<div align=center>
+<table border=0 width=90%>
+<tr><td width=33%>VFS</td><td width=33%>FUSE</td><td width=33%>Comments</td></tr>
+<tr bgcolor="CCCCCC"><td>read</td><td></td><td></td></tr>
+<tr>                 <td>readdir</td><td></td><td></td></tr>
+<tr bgcolor="CCCCCC"><td>open</td><td>getdir</td><td></td></tr>
+<tr>                 <td>release</td><td></td><td></td></tr>
+</table>
+</div>

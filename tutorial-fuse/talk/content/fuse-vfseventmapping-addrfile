@@ -6,8 +6,8 @@ TITLE: VFS address space file operations -&gt; FUSE
 <table border=0 width=90%>
 <tr><td width=33%>VFS</td><td width=33%>FUSE</td><td width=33%>Comments</td></tr>
 <tr bgcolor="CCCCCC"><td>readpage</td><td>read</td><td></td></tr>
-<tr><td></td><td>writepage</td><td>write</td></tr>
+<tr>                 <td>writepage</td><td>write</td><td></td></tr>
 <tr bgcolor="CCCCCC"><td>preparewrite</td><td></td><td></td></tr>
-<tr><td></td><td>commitwrite</td><td>write</td></tr>
+<tr>                 <td>commitwrite</td><td>write</td><td></td></tr>
 </table>
 </div>
