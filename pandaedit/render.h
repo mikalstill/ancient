@@ -62,7 +62,7 @@ private:
   void command_w ();
   void command_y ();
 
-  void appendCommand();
+  void appendCommand(object::commandType type);
 
   enum rmMode
   {
@@ -82,6 +82,9 @@ private:
   plot_state *m_plot, *m_select;
   unsigned int m_width, m_height;
 
+  vector<wxPoint> m_controlPoints;
+
+  // TODO mikal: these are obsolete and should be removed
   string m_commandString, m_controlString;
 };
 

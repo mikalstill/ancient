@@ -152,23 +152,6 @@ genCanvas::OnMouseEvent (wxMouseEvent & event)
 	((pdfView *) m_view)->setHoverTarget(-1);
     }
 
-  // If we're snapping to a grid, find the closest grid point, and change to
-  // that
-  configuration *config;
-  bool gridSnap;
-  config = (configuration *) & configuration::getInstance ();
-  config->getValue("pref-snaptogrid", false, gridSnap);
-  if(gridSnap){
-    int xmod, ymod;
-    xmod = pt.x % GRIDSPACING;
-    ymod = pt.y % GRIDSPACING;
-
-    if(xmod > 5) pt.x += (GRIDSPACING - xmod);
-    else pt.x -= xmod;
-    if(ymod > 5) pt.y += (GRIDSPACING - ymod);
-    else pt.y -= ymod;
-  }
-
   // Tell the world what is happening
   string msg = toString(pt.x) + string(", ") + toString(pt.y) + 
     string(" of ") + toString(m_width) + string(", ") + toString(m_height) +
@@ -179,10 +162,66 @@ genCanvas::OnMouseEvent (wxMouseEvent & event)
   // End the current instance of a tool, but not the tool
   if(event.LeftIsDown() && event.ControlDown())
     endTool();
-  
+
+  // Are we trying to select a control point?
+  else if((m_editTarget != -1) && event.LeftIsDown() && event.ShiftDown())
+    {
+      long distance = (((m_controlPoints[0].x - pt.x) *
+			(m_controlPoints[0].x - pt.x)) + 
+		       ((m_controlPoints[0].y - pt.y) *
+			(m_controlPoints[0].y - pt.y)));
+      int selpt = 0;
+
+      for(unsigned int i = 1; i < m_controlPoints.size(); i++)
+	{
+	  long newdist = (((m_controlPoints[i].x - pt.x) *
+			   (m_controlPoints[i].x - pt.x)) + 
+			  ((m_controlPoints[i].y - pt.y) *
+			   (m_controlPoints[i].y - pt.y)));
+	  if(newdist < distance)
+	    {
+	      distance = newdist;
+	      selpt = i;
+	    }
+	}
+
+      if(distance < 25)
+	{
+	  // TODO mikal: make this selection hilight a little more obvious
+	  dc.SetLogicalFunction (wxINVERT);
+	  dc.SetPen (*wxBLACK_PEN);
+	  dc.SetBrush (*wxBLACK_BRUSH);
+	  
+	  for(int up = -CONTROLSIZE; up < CONTROLSIZE + 1; up++)
+	    {
+	      dc.DrawLine(wxPoint(m_controlPoints[selpt].x - CONTROLSIZE,
+				  m_controlPoints[selpt].y + up),
+			  wxPoint(m_controlPoints[selpt].x + CONTROLSIZE,
+				  m_controlPoints[selpt].y + up));
+	    }
+	}
+    }
+
   // Continue with the current tool
   else if(event.LeftIsDown())
     {
+      // If we're snapping to a grid, find the closest grid point, and change
+      // to that
+      configuration *config;
+      bool gridSnap;
+      config = (configuration *) & configuration::getInstance ();
+      config->getValue("pref-snaptogrid", false, gridSnap);
+      if(gridSnap){
+	int xmod, ymod;
+	xmod = pt.x % GRIDSPACING;
+	ymod = pt.y % GRIDSPACING;
+	
+	if(xmod > 5) pt.x += (GRIDSPACING - xmod);
+	else pt.x -= xmod;
+	if(ymod > 5) pt.y += (GRIDSPACING - ymod);
+	else pt.y -= ymod;
+      }
+
       // This sets the device context so that our drawing causes an inversion, 
       // lines are drawn with black, and polygons are filled with black.
       dc.SetLogicalFunction (wxINVERT);

@@ -44,8 +44,8 @@ pdfRender::command_Bstar ()
 void
 pdfRender::command_BT ()
 {
-  if (m_mode != rmText)
-    appendCommand();
+  //  if (m_mode != rmText)
+  //  appendCommand();
   m_commandString = "BT\n";
 }
 
@@ -103,7 +103,7 @@ pdfRender::command_Do ()
   arg = m_arguements.top ();
   m_arguements.pop ();
 
-  appendCommand();
+  //  appendCommand();
   m_commandString = arg + string(" Do\n");
 }
 
@@ -112,7 +112,7 @@ void
 pdfRender::command_ET ()
 {
   m_commandString += "ET\n";
-  appendCommand();
+  //  appendCommand();
   m_commandString = "";
   m_controlString = "";
 }
@@ -156,13 +156,15 @@ pdfRender::command_G ()
   m_commandString += toString(g) + string(" G\n");
 }
 
+// tweaked
 // Close line
 void
 pdfRender::command_h ()
 {
-  m_commandString += "h\n";
+  m_controlPoints.push_back(m_controlPoints[0]);
 }
 
+// tweaked
 // Line to
 void
 pdfRender::command_l ()
@@ -175,14 +177,24 @@ pdfRender::command_l ()
   x = atoi (m_arguements.top ().c_str ());
   m_arguements.pop ();
 
-  m_commandString += toString(x) + string(" ") + toString(y) + string(" l\n");
+  m_controlPoints.push_back(wxPoint(x, m_height - y));
 }
 
 // Move graphics cursor to a given location
+// tweaked
 void
 pdfRender::command_m ()
 {
   unsigned int x, y;
+
+  // It is assumed that this is the start of a new command
+  if(m_controlPoints.size() != 0)
+    {
+      debug(dlError, "Move command in the middle of drawing");
+      // TODO mikal: a possibly silly assumption that the old command was a
+      // line
+      appendCommand(object::cLine);
+    }
 
   // Pop our arguements (reverse order)
   y = atoi (m_arguements.top ().c_str ());
@@ -190,14 +202,14 @@ pdfRender::command_m ()
   x = atoi (m_arguements.top ().c_str ());
   m_arguements.pop ();
 
-  m_commandString += toString(x) + string(" ") + toString(y) + string(" m\n");
+  m_controlPoints.push_back(wxPoint(x, m_height - y));
 }
 
 // Save graphics state
 void
 pdfRender::command_q ()
 {
-  appendCommand();
+  //  appendCommand();
   m_commandString = "q\n";
 }
 
@@ -207,7 +219,7 @@ pdfRender::command_Q ()
 {
   m_commandString += "Q\n";
 
-  appendCommand();
+  //  appendCommand();
   m_commandString = "";
   m_controlString = "";
 }
@@ -272,10 +284,12 @@ pdfRender::command_RG ()
     toString(b) + string(" RG\n");
 }
 
+// tweaked
 void
 pdfRender::command_S ()
 {
-  m_commandString += "S\n";
+  // This ends the current instance of the line tool
+  appendCommand(object::cLine);
 }
 
 

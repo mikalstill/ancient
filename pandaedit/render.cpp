@@ -205,7 +205,7 @@ pdfRender::processCommandString(char *commandString, unsigned int length)
   if(m_commandString != "")
     {
       debug(dlTrace, "Appending command fragment");
-      appendCommand();
+      //      appendCommand();
       m_commandString = "";
       m_controlString = "";
     }
@@ -479,8 +479,8 @@ pdfRender::getPNGfile ()
 }
 
 void
-pdfRender::appendCommand()
+pdfRender::appendCommand(object::commandType type)
 {
-  // TODO mikal: implement append
-  //m_doc->getPage(m_pageno).appendCommand(m_commandString, m_controlString);
+  m_doc->getPage(m_pageno).appendCommand(type, m_controlPoints);
+  m_controlPoints.clear();
 }
