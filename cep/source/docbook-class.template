@@ -9,11 +9,12 @@ FUNCTION cepConfiguration
 PURPOSE store user definable configuration information
 
 SYNOPSIS START
-cepConfiguration::cepConfiguration(string& persistFile);
+cepConfiguration::cepConfiguration(string&amp; persistFile);
 
 SYNOPSIS END
 
 DESCRIPTION START
+<para>
 This class stores user definable configuration information such as the size of the main window on startup. It is implemented using <command>trivsql</command>, a trivial SQL implementation from Michael Still (mikal@stillhq.com).
 </para>
 
