@@ -76,9 +76,12 @@ public:
 
   const cepError window( const cepMatrix<double> & dataIn, cepMatrix<double> & windowedData );
 
-private:
+protected:
   cepWindowAlg *windowAlg;
   int overlap;
+
+  int countWindows( int samples, int winSize, int overlap );
+  
 };
 
 #endif

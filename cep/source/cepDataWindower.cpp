@@ -79,13 +79,21 @@ const cepError cepDataWindower::setWindowType( const windowType type, const int 
 
 
 
-const cepError cepDataWindower::setWindowGeom( const int s, const int ol ) {
+const cepError cepDataWindower::setWindowGeom( const int sz, const int ovrlap ) {
   if( windowAlg == NULL ) {
     return cepError( "Window algorithm is not defined. Set geometry failed", cepError::sevWarning);
   }
-  windowAlg->setSize( s );
-  overlap = ol;
+  windowAlg->setSize( sz );
+  overlap = ovrlap;
   return cepError();
+}
+
+
+
+int cepDataWindower::countWindows( int samples, int winSize, int overlap )
+{
+  if( overlap == 0 ) return (int)((double)samples/winSize);
+  return (int)((double)(samples-winSize)/(winSize - overlap) + 1);
 }
 
 
@@ -100,36 +108,41 @@ const cepError cepDataWindower::window( const cepMatrix<double> & dataIn,
   if( windowAlg == NULL ) {
     return cepError( "Window algorithm is not defined. Windowing failed" );
   }
+  int numSamples = const_cast<cepMatrix<double>&>(dataIn).getNumRows();
+  int numWindows = countWindows( numSamples, windowAlg->getSize(), overlap );
+  int increment = windowAlg->getSize() - overlap;
 
-  // need to cast away constness for this assignment
-  int lastWinPtr = const_cast< cepMatrix<double>& >(dataIn).getNumRows() - windowAlg->getSize();
+  // sanity checks
+  if( windowAlg->getSize() > numSamples ) {
+    return cepError("invalid window size specified. size must not be greater than the sample size");
+  } else if( const_cast<cepMatrix<double>&>(dataIn).getNumCols() < 2 ) {
+    return cepError("insufficient data to proceed. require at least 2 cols: date and sample");
+  } else if( increment <= 0 ) {
+    return cepError("invalid overlap specified. overlap must be less than the window size");
+  }
+
+
+  cepMatrix<double> coeffs = windowAlg->getCoeffs();                // scaling factors
+  cepMatrix<double> result( numWindows, windowAlg->getSize(), 2 );  // result. numwindows x windowSize x 2
   
-  // returns an N*1 matrix of scaling factors
-  cepMatrix<double> coeffs = windowAlg->getCoeffs();
-  
-  for( int winPtr = 0; winPtr < lastWinPtr; winPtr += (windowAlg->getSize()-overlap) ) {
-    cepMatrix<double> currWin( windowAlg->getSize(), 2 );
-    
-    for( int i=0; i<windowAlg->getSize(); i++ ) {
+  for( int win = 0; win < numWindows; ++win ) {
+    for( int element = 0; element < windowAlg->getSize(); ++element ) {
+
       // sanity check
-      if( winPtr + i > const_cast< cepMatrix<double>& >(dataIn).getNumRows() ) {
-        return cepError("Exceeded the bounds of the matrix");
+      int ptr = (win*increment)+element;
+      if( ptr > numSamples ) {
+        return cepError("Exceeded the bounds of the matrix when accessing row"+ptr);
       }
       
       // copy the date directly & scale the value
-      currWin.setValue(i, 0,
-              const_cast< cepMatrix<double>& >(dataIn).getValue( winPtr+i, 0 ));
-      currWin.setValue(i, 1,
-              const_cast< cepMatrix<double>& >(dataIn).getValue( winPtr+i, 1 )*coeffs.getValue(i,0));
+      result.setValue(win, element, 0,
+              const_cast< cepMatrix<double>& >(dataIn).getValue( ptr, 0 ));
+      result.setValue(win, element, 1,
+              const_cast< cepMatrix<double>& >(dataIn).getValue( ptr, 1 )*coeffs.getValue(element,0));
     }
-
-    // TODO BS - how are we to store this?  waiting for 3D MAtrix
-    // for now return a single window !! this must be rectified
-    windowedData = currWin;
-
   }
 
+  windowedData = result;
+
   return cepError();
-  
-  
 }
