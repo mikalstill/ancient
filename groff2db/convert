@@ -23,6 +23,11 @@
 #  - <title></title> et al
 #  - ensure no blank lines at the end of program listings...
 
+# Unread email
+# ------------
+#  - em2
+#  - em4
+
 use strict;
 my($INPUT, $OUTPUT, $PREPROC, $outputstyle);
 my($parastate, $liststate, $listitemstate, $footnotestate, $sectionstate, $tablestate, $stylestate, $displaystate, $waitstate, $quotestate, $pausedlist, $tablestate, $tablecolcount, $tablebracestate);
@@ -523,7 +528,7 @@ foreach $chapter (split(/ /, $chapters)){
 	    $sectionstate = 1;
 	    }
 
-	elsif(/^\.X[ \t]\"*([^ \",]*)[ \t,]*([^, \"]*)\"*/i){
+	elsif(/^\.X[ \t]\"*([^ \",]*)[ \t,]*([^,\"]*)\"*/i){
 	    print OUTPUT "<indexterm><primary>$1</primary>";
 	    if($2 ne ""){
 		print OUTPUT "<secondary>$2</secondary>";
