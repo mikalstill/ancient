@@ -1,1 +1,2 @@
-An example of writing a colour file using libtiff
+A simple (and not totally correct) example of how to copy an input tiff to an output tiff in code. A good starting point if you want to perform programmatic manipulation of a raster.
+

@@ -1,3 +1,5 @@
-This is an example of how to write a color image with libtiff. Have a look at the tiff chapter in the imaging tutorial for information about how it works...
+A simple (and not totally correct) example of how to copy an input tiff to an output tiff in code. A good starting point if you want to perform programmatic manipulation of a raster.
+
+
 
 
