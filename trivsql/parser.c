@@ -1010,7 +1010,7 @@ void trivsql_doinsert(char *tname, char *cols, char *vals){
   }
   
   // Get ready for columns
-  if((colNumbers = trivsql_parsecols(tname, cols)) == NULL){
+  if((colNumbers = trivsql_parsecols(tname, cols, &numCols)) == NULL){
     return;
   }
 
@@ -1020,7 +1020,8 @@ void trivsql_doinsert(char *tname, char *cols, char *vals){
       col++;
   
   if(col != numCols){
-    fprintf(stderr, "The number of values does not match the number of columns specified (%d cols, %d vals)\n", numCols, col);
+    fprintf(stderr, "The number of values does not match the number of columns specified (%d cols, %d vals)\n", 
+	    numCols, col);
     return;
   }
 
@@ -1046,12 +1047,12 @@ void trivsql_doinsert(char *tname, char *cols, char *vals){
 
 trivsql_recordset *trivsql_doselect(char *tname, char *cols){
   int *colNumbers;
-  int row, rowCount;
+  int row, rowCount, numCols;
   char *t, *u;
   trivsql_recordset *rrs;
 
   // Get ready for columns
-  if((colNumbers = trivsql_parsecols(tname, cols)) == NULL){
+  if((colNumbers = trivsql_parsecols(tname, cols, &numCols)) == NULL){
     return;
   }
 
@@ -1061,7 +1062,8 @@ trivsql_recordset *trivsql_doselect(char *tname, char *cols){
   }
 
   rrs = trivsql_xmalloc(sizeof(trivsql_recordset));
-  rrs->numCols = sizeof(colNumbers) / sizeof(int);
+  rrs->numCols = sizeof(colNumbers) / sizeof(int *);
+  printf("numCols set to %d\n", rrs->numCols);
   rrs->rows = trivsql_xmalloc(sizeof(trivsql_row));
   rrs->rows->next = NULL;
   rrs->rows->cols = NULL;
@@ -1196,20 +1198,19 @@ trivsql_xrealloc (void *memory, size_t size)
   return buffer;
 }
 
-int *trivsql_parsecols(char *tname, char *cols){
-  int i, col, c, numCols;
+int *trivsql_parsecols(char *tname, char *cols, int *numCols){
+  int i, col, c;
   int *colNumbers = NULL;
   char *t, *u, *coltmp;
 
   // How many columns do we have?
-  for(i = 0, numCols = 0; i < strlen(cols); i++)
+  for(i = 0, *numCols = 0; i < strlen(cols); i++)
     if(cols[i] == ';')
-      numCols++;
+      *numCols++;
 
-  // Copy the cols string
   coltmp = trivsql_xsnprintf("%s", cols);
-  
-  colNumbers = trivsql_xmalloc(sizeof(int) * numCols);
+  *numCols++;
+  colNumbers = trivsql_xmalloc(sizeof(int) * *numCols);
   
   // Determine that the named columns exist
   col = 0;
@@ -1241,6 +1242,7 @@ int *trivsql_parsecols(char *tname, char *cols){
     col++;
   }
 
+  printf("numCols should be %d, %d\n", *numCols, col);
   return colNumbers;
 }
 
@@ -1251,7 +1253,7 @@ void trivsql_displayrs(trivsql_recordset *rs, char *tname, char *cols){
   trivsql_col *theCol;
 
   // Print the header line
-  printf("Select returned %d rows\n\n", rs->numRows);
+  printf("Select returned %d rows of %d columns\n\n", rs->numRows, rs->numCols);
   for(i = 0; i < rs->numCols; i++){
     printf("===============");
   }
@@ -1353,6 +1355,7 @@ void trivsql_addrow(trivsql_recordset *rs, char *tname, int row, int *cols){
   theCol = theRow->cols;
 
   // Get the row
+  printf("Num col is %d\n", rs->numCols);
   for(colCount = 0; colCount < rs->numCols; colCount++){
     printf("Grab col (of %d)\n", rs->numCols);
 

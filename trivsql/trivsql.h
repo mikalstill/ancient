@@ -30,7 +30,7 @@ void trivsql_docreate(char *, char *);
 void trivsql_doinsert(char *, char *, char *);
 trivsql_recordset *trivsql_doselect(char *, char *);
 
-int *trivsql_parsecols(char *, char *);
+int *trivsql_parsecols(char *, char *, int *);
 void trivsql_displayrs(trivsql_recordset *, char *, char *);
 void trivsql_addrow(trivsql_recordset *, char *, int, int *);
 
