@@ -27,6 +27,7 @@ make install
 %doc CHANGELOG
 %doc COPYING
 %doc TODO
+%doc main.c
 /usr/local/lib/libpanda.a
 /usr/local/man/man3/checkinfo.3
 /usr/local/man/man3/initpanda.3
