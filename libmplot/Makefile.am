@@ -1,5 +1,5 @@
 lib_LTLIBRARIES = libmplot.la
-noinst_PROGRAMS = sample graph parabola fill
+noinst_PROGRAMS = sample graph parabola fill text
 
 libmplot_la_SOURCES = libplot.c
 libmplot_la_CFLAGS = $(FREETYPE_CFLAGS)
@@ -15,3 +15,5 @@ parabola_SOURCES = parabola.c
 parabola_LDADD = -lmplot -L.libs
 fill_SOURCES = fill.c
 fill_LDADD = -lmplot -L.libs
+text_SOURCES = text.c
+text_LDADD = -lmplot -L.libs

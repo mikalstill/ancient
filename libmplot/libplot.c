@@ -1309,10 +1309,10 @@ plot_writestringrot (plot_state * state, char *string, float angle)
       // Convert the angle to radians
       safeangle = safeangle * pi / 180;
 
-      matrix.xx = (FT_Fixed) (cos (safeangle) * 0x10000);
+      matrix.xx = (FT_Fixed) ( cos (safeangle) * 0x10000);
       matrix.xy = (FT_Fixed) (-sin (safeangle) * 0x10000);
-      matrix.yx = (FT_Fixed) (sin (safeangle) * 0x10000);
-      matrix.yy = (FT_Fixed) (cos (safeangle) * 0x10000);
+      matrix.yx = (FT_Fixed) ( sin (safeangle) * 0x10000);
+      matrix.yy = (FT_Fixed) ( cos (safeangle) * 0x10000);
 
       FT_Set_Transform (state->face, &matrix, 0);
     }
@@ -1523,7 +1523,7 @@ plot_paintglyph (plot_state * state, char character, int dopaint)
 
 	  // Increment pen position
 	  state->textx += state->face->glyph->advance.x >> 6;
-	  state->texty += state->face->glyph->advance.y >> 6;
+	  state->texty -= state->face->glyph->advance.y >> 6;
 	}
       else
 	{
