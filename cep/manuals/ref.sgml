@@ -17,18 +17,27 @@
       This can also be achieved by using the keyboard shortcut <command>CTRL-O</command>.
     </para>
 
-    <execute><cmd>todo</cmd><input>Show first opened with file open</input></execute>
+     <figure><title>The <command>GDMS</command> when first opened.</title>
+      <execute><cmd>img</cmd><args>gdmsFirstOpen.png</args></execute>
+    </figure>
+
     <para>
       While a data set is being loaded, a progress window appears.
     </para>
 
-    <execute><cmd>todo</cmd><input>Show progress bar</input></execute>
+     <figure><title>Progress bar.</title>
+      <execute><cmd>img</cmd><args>gdmsProgress.png</args></execute>
+    </figure>
+
 
     <para>
       Once the data set has been loaded, the application looks like:
     </para>
 
-    <execute><cmd>todo</cmd><input>Show loaded data set</input></execute>
+     <figure><title>Loaded dataset.</title>
+      <execute><cmd>img</cmd><args>gdmsData.png</args></execute>
+    </figure>
+
 
   </sect2>
 
@@ -45,7 +54,9 @@
        <command>Save</command>. The following window appears.
     </para>
     
-    <execute><cmd>todo</cmd><input>Show save as window</input></execute>
+    <figure><title>Save As window.</title>
+      <execute><cmd>img</cmd><args>gdmsSaveAs.png</args></execute>
+    </figure>
     
     <para>
        Choose the desired location and file name and click <command>OK</command>.
@@ -59,7 +70,9 @@
        <command>Print</command>. The following window appears.
     </para>
 
-    <execute><cmd>todo</cmd><input>Show print window</input></execute>
+    <figure><title>Print window.</title>
+      <execute><cmd>img</cmd><args>gdmsPrint.png</args></execute>
+    </figure>
 
     <para>
       If not printing to file, the printer might need to be setup first. This is discussed in the
@@ -72,7 +85,10 @@
       <command>File</command> - <command>Printer Setup</command>.
     </para>
 
-    <execute><cmd>todo</cmd><input>Show printer set up window</input></execute>
+    <figure><title>Printer Setup window.</title>
+      <execute><cmd>img</cmd><args>gdmsPrintSetup.png</args></execute>
+    </figure>
+
   </sect2>
 
   <sect2><title>Print Preview</title>
@@ -113,7 +129,10 @@
     can be saved and printed.  TODO!!!printed yes??
   </para>
 
-  <execute><cmd>todo</cmd><input>Show maths window</input></execute>
+     <figure><title>Maths menu</title>
+      <execute><cmd>img</cmd><args>gdmsMaths.png</args></execute>
+    </figure>
+
 
   <sect2><title>Time Domain Analysis</title>
     <para>
