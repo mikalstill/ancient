@@ -17,14 +17,17 @@
 #include "md5-global.h"
 #include "md5.h"
 
-#define VERSION "(Version 0.2)"
+#define VERSION "(Version 0.3)"
 void usage(char *name)
 {
   printf (VERSION "\n\n");
   printf ("Try: %s [-i input] [-r] [-v]\n\n", name);
   printf ("\t-i <name>: The name of the input usblog file\n");
   printf ("\t-l:        Output Linux kernel equivalent descriptions\n");
-  printf ("\t-r:        Suppressed repeated URB sequences\n");
+  printf ("\t-m:        Show MD5 hashes of URB descriptions\n");
+  printf ("\t             (Only useful if you're debugging -r)\n");
+  printf ("\t-r:        Suppress repeated URB sequences\n");
+  printf ("\t-R:        -r, and show the match debugging information\n");
   printf ("\t-v:        Verbose debugging output\n");
   printf ("\n");
 }
@@ -78,20 +81,20 @@ usb_allurbs;
 // Used for correlation
 int hashcmp (usb_allurbs * head, int inset, int testinset, int length);
 
-int do_linux = 0;
+int do_linux = 0, do_showhash = 0;
 
 int
 main (int argc, char *argv[])
 {
   int fd, npackets, otag, urbCount, function, psize, tsrelative, temp, temp2,
     numifaces, seq, length, inset, testinset, corrstep, matchcount, optchar,
-    do_suppress = 0, do_verbose = 0;
+    do_suppress = 0, do_showmatch = 0, do_verbose = 0;
   char *file, *input_filename = NULL;
   long long filep;
   struct stat sb;
   usb_allurbs *urbhead;
 
-  while ((optchar = getopt (argc, argv, "i:lrv")) != -1)
+  while ((optchar = getopt (argc, argv, "i:lmrRv")) != -1)
     {
       switch (optchar)
 	{
@@ -99,6 +102,12 @@ main (int argc, char *argv[])
 	  do_linux = 1;
 	  break;
 
+	case 'm':
+	  do_showhash = 1;
+	  break;
+
+	case 'R':
+	  do_showmatch = 1;
 	case 'r':
 	  do_suppress = 1;
 	  break;
@@ -162,7 +171,9 @@ main (int argc, char *argv[])
       printf ("Timestamp is relative\n");
     }
   printf ("\n");
-  printf ("Grabbing the URBs\n");
+
+  if(do_showmatch == 1)
+    printf ("Grabbing the URBs\n");
 
   // Setup the URB head
   if ((urbhead =
@@ -216,7 +227,9 @@ main (int argc, char *argv[])
 
       urb_printf ("Length: %d\n", fileutil_getuinteger (file, &filep));
       urb_printf ("Direction: %s\n",
-		  0 == fileutil_getinteger (file, &filep) ? "to" : "from");
+		  0 == fileutil_getinteger (file, &filep) ? 
+		  "host-to-device" : 
+		  "device-to-host");
 
       // The sequence number and timestamp are repeated for some reason...
       fileutil_getuinteger (file, &filep);
@@ -400,7 +413,8 @@ main (int argc, char *argv[])
   // Correlate
   if (do_suppress == 1)
     {
-      printf ("\nCorrelating the URBs:\n");
+      if(do_showmatch == 1)
+	printf ("\nCorrelating the URBs:\n");
       corrstep = 0;
       for (length = (int) (npackets / 2); length != 0; length--)
 	{
@@ -422,8 +436,12 @@ main (int argc, char *argv[])
 
 	      if (matchcount > 1)
 		{
-		  printf ("  Found a match at URB %d of length %d which "
-			  "repeats %d times\n", inset, length, matchcount);
+		  if(do_showmatch == 1)
+		    {
+		      printf ("  Found a match at URB %d of length %d which "
+			      "repeats %d times\n", inset, length, matchcount);
+		    }
+		  
 		  urbhead[inset + length - 1].rptlen = length;
 		  urbhead[inset + length - 1].rpttimes = matchcount;
 		  for (temp = inset + length;
@@ -451,13 +469,17 @@ main (int argc, char *argv[])
 
       if (urbhead[urbCount].desc != NULL)
 	{
-	  printf ("MD5 hash: ");
-	  for (temp = 0; temp < 16; temp++)
+	  if(do_showhash == 1)
 	    {
-	      printf ("%02x ", (unsigned char) urbhead[urbCount].md5[temp]);
+	      printf ("MD5 hash: ");
+	      for (temp = 0; temp < 16; temp++)
+		{
+		  printf ("%02x ", 
+			  (unsigned char) urbhead[urbCount].md5[temp]);
+		}
+	      printf ("\n");
 	    }
-	  printf ("\n\n");
-	  printf ("%s", urbhead[urbCount].desc);
+	  printf ("\n%s", urbhead[urbCount].desc);
 	}
 
       if (urbhead[urbCount].rptlen != 0)
