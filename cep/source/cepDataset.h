@@ -53,17 +53,6 @@ DOCBOOK END
 
 typedef void (*cepDatasetProgressCB) (int plane, long lineno);
 
-typedef struct cep_internal_datarow
-{
-  double date;
-  double sample;
-  double error;
-}
-cep_datarow;
-
-// This is used for the 'columns' in the windowing algorithm
-typedef vector < cep_datarow > cep_datacol;
-
 class cepDataset
 {
 public:
@@ -87,11 +76,10 @@ public:
   bool isWellFormed();
 
   // Accessor methods
-  vector < cep_datarow > &getData (direction dir);
-  cepMatrix <double> *getMatrix(direction dir);
+  cepMatrix <double> * getMatrix(direction dir);
 
   // Reads a LS P weighting matrix from a file
-  cepMatrix <double> getP(const string& filename);
+  //  cepMatrix <double> getP(const string& filename);
   
   // Utility methods
   direction getDirectionFromName(string name);
@@ -106,7 +94,7 @@ private:
   float m_offsetFloat;
 
   cepDatasetProgressCB m_progress;
-  vector < cep_datarow > m_datax, m_datay, m_dataz;
+  cepMatrix<double> *m_data[dirUnknown];
   bool m_ready;
   bool m_wellformed;
 };

@@ -17,3 +17,5 @@
 * greater use of initializers
 * resolve todos
 * rationalize debugging output
+
+* is it possible to use a vector inside a template?

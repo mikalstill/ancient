@@ -32,7 +32,7 @@ class cepError;
 class cepPresentation
 {
 public:
-  cepPresentation (long width, long height, vector < cep_datarow > &ds);
+  cepPresentation (long width, long height, cepMatrix<double> *ds);
 
   void xAxisTitle (const string & title);
   void yAxisTitle (const string & title);
@@ -76,7 +76,7 @@ private:
   bool m_useErrors;
   char *m_raster;
 
-  vector < cep_datarow > &m_ds;
+  cepMatrix<double> *m_ds;
   bool m_haveMaxima;
 };
 

@@ -71,10 +71,9 @@ END_EVENT_TABLE ()
 cepCanvas::cepCanvas (wxView * v, wxFrame * frame, const wxPoint & pos, 
 		      const wxSize & size, long style):
   wxScrolledWindow (frame, -1, pos, size, style),
+  m_view(v),
   m_selectXStart(-1)
 {
-  view = v;
-
   // Is this where we create new controls?
   wxPoint pos, size;
 
@@ -90,8 +89,8 @@ cepCanvas::cepCanvas (wxView * v, wxFrame * frame, const wxPoint & pos,
 void
 cepCanvas::OnDraw (wxDC & dc)
 {
-  if (view)
-    view->OnDraw (&dc);
+  if (m_view)
+    m_view->OnDraw (&dc);
 }
 
 // Process mouse events, these can include mouse moves, and clicks
@@ -168,6 +167,20 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
 			cepToString(selectXStart) + " to " + m_selDirString + " " + 
 			cepToString(m_selectXEnd)).c_str());
     ((cepFrame *) wxGetApp().GetTopWindow())->SetStatusText("", 2);
+
+    // Extract the dataset
+    cepDoc *theDoc = (cepDoc *) m_view->GetDocument ();
+    cepDataset *theDataset = theDoc->getDataset ();
+    
+    // We can only handle this event if we are ready
+    if (theDataset && theDataset->isReady()){
+      // todo_mikal: more code here
+    }
+    else{
+      cepError notReady("The dataset is not ready for that action to be performed",
+			cepError::sevWarning);
+      notReady.display();
+    }
 
     // Force a redraw of the canvas
     Refresh();

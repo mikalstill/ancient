@@ -53,7 +53,8 @@ cepError cepDataset::read (const string& filename)
   long numLines;
   char c, prevc;
   string thisLine;
-  cep_datarow row, lastRow;
+  double rowdate, rowsample, rowerror;
+  double lastRowdate, lastRowsample, lastRowerror;
   
   files[0].open (string (m_filename + ".dat1").c_str (), ios::in);
   files[1].open (string (m_filename + ".dat2").c_str (), ios::in);
@@ -88,14 +89,18 @@ cepError cepDataset::read (const string& filename)
     if (m_progress)
       m_progress (i + 1, 0);
 
+    vector<double> dates;
+    vector<double> samples;
+    vector<double> errors;
+
     c = 0;
     prevc = '\n';
     thisLine = "";
     numLines = 1;
     
-    lastRow.date = -1;
-    lastRow.sample = -1;
-    lastRow.error = -1;
+    lastRowdate = -1;
+    lastRowsample = -1;
+    lastRowerror = -1;
     cepDebugPrint("File read initialization complete");
 
     while (!files[i].eof ())
@@ -129,18 +134,23 @@ cepError cepDataset::read (const string& filename)
 		
 		// Break the line into it's columns, I prefer this to the strtok method we used to use...
 		cepStringArray sa(thisLine, " ");
-		row.date = atof(sa[0].c_str());
-		row.sample = atof(applyOffset(sa[1]).c_str()) - m_offsetFloat;
-		row.error = atof(sa[2].c_str());
+		rowdate = atof(sa[0].c_str());
+		rowsample = atof(applyOffset(sa[1]).c_str()) - m_offsetFloat;
+		rowerror = atof(sa[2].c_str());
 		
-		if(lastRow.date == -1)
+		if(lastRowdate == -1)
 		  {
-		    getData((cepDataset::direction) i).push_back(row);
-		    lastRow = row;
+		    dates.push_back(rowdate);
+		    samples.push_back(rowsample);
+		    errors.push_back(rowerror);
+		    
+		    lastRowdate = rowdate;
+		    lastRowsample = rowsample;
+		    lastRowerror = rowerror;
 		  }
 		else
 		  {
-		    if(row.date < lastRow.date)
+		    if(rowdate < lastRowdate)
 		      {
 			m_ready = true;
 			return cepError("dataset: " + m_filename + ".dat" + 
@@ -149,7 +159,7 @@ cepError cepDataset::read (const string& filename)
 		      }
 		    else
 		      {
-			if(row.date == lastRow.date)
+			if(rowdate == lastRowdate)
 			  {
 			    m_ready = true;
 			    return cepError("dataset: " + m_filename + ".dat" + 
@@ -158,8 +168,13 @@ cepError cepDataset::read (const string& filename)
 			  }
 			else
 			  {
-			    getData((cepDataset::direction) i).push_back(row);
-			    lastRow = row;
+			    dates.push_back(rowdate);
+			    samples.push_back(rowsample);
+			    errors.push_back(rowerror);
+			    
+			    lastRowdate = rowdate;
+			    lastRowsample = rowsample;
+			    lastRowerror = rowerror;
 			  }
 		      }
 		  }
@@ -181,18 +196,30 @@ cepError cepDataset::read (const string& filename)
 	  }
 	prevc = c;
       }
+
+    // Copy the vectors into the matrix
+    m_data[i] = new cepMatrix<double>(dates.size(), 3);
+    for(unsigned int vcount = 0; vcount < dates.size(); vcount++){
+      m_data[i]->setValue(vcount, 0, dates[vcount]);
+      m_data[i]->setValue(vcount, 1, errors[vcount]);
+      m_data[i]->setValue(vcount, 2, samples[vcount]);
+    }
+    
     files[i].close();
   }
-  cepDebugPrint("Finished reading all of the dataset files");
   
   // Are the files over the same period??
-  if (((m_datax.front().date != m_datay.front().date) || (m_datay.front().date != m_dataz.front().date)) 
-      || ((m_datax.back().date != m_datay.back().date) || (m_datay.back().date != m_dataz.back().date)))
-    {
+  if (((m_data[0]->getValue(0, 0) != m_data[1]->getValue(0, 0)) 
+       || (m_data[1]->getValue(0, 0) != m_data[2]->getValue(0, 0)) 
+       || ((m_data[0]->getValue(m_data[0]->getNumRows() - 1, 0) 
+	    != m_data[1]->getValue(m_data[0]->getNumRows() - 1, 0)) 
+	   || (m_data[1]->getValue(m_data[0]->getNumRows() - 1, 0) 
+	       != m_data[2]->getValue(m_data[0]->getNumRows() - 1, 0)))))
+  {
       m_ready = true;
       return cepError("The data set " + m_filename + 
-		      " values do not represent the same time period",
-		      cepError::sevErrorRecoverable);
+  		      " values do not represent the same time period",
+  		      cepError::sevErrorRecoverable);
     }
   
   m_ready = true;
@@ -202,147 +229,75 @@ cepError cepDataset::read (const string& filename)
 
 cepError cepDataset::write (const string& filename)
 {
-  m_filename = filename;
+  return cepError();
+}
 
-  fstream files[3];
-  string thisLine;
-  cep_datarow row;
+cepMatrix<double> *cepDataset::getMatrix (direction dir)
+{
+  return m_data[dir];
+}
+
+// todo_mikal: this is not the right place
+// cepMatrix <double> cepDataset::getP(const string &filename)
+// {
+//   fstream file;
+//   int rows = 0, cols = 0;
+//   double val = 0.0;
   
-  files[0].open (string (m_filename + ".dat1").c_str (), ios::out);
-  files[1].open (string (m_filename + ".dat2").c_str (), ios::out);
-  files[2].open (string (m_filename + ".dat3").c_str (), ios::out);
-  cepDebugPrint("Opened the dataset files");
+//   file.open(filename.c_str(), ios::in);
 
-  // Check they opened ok
-  string errString;
+//   if (!file.is_open())
+//   {
+//     cepError oor ("Error! Can not open file:" + filename,
+//                   cepError::sevErrorFatal);
+//     oor.display ();
+//   }
 
-  for (int i = 0; i < 3; i++)
-  {
-    // File is NULL if it couldn't be opened
-    if (!files[i].is_open())
-    {
-      if (errString != "")
-        errString += ";";
-      errString += " " + m_filename + ".dat" + cepToString (i + 1);
-    }
-  }
+//   file >> rows;
+//   file >> cols;
 
-  if (errString != "")
-  {
-    m_ready = true;
-    return cepError("File IO error for this dataset. Could not open the file(s):" + 
-		    errString + ".");
-  }
-  cepDebugPrint("All dataset files exist");
+//   //check the matrix is square
+//   if(rows != cols)
+//   {
+//     cepError oor ("Error! The file: " + filename + " does not contain a square matrix",
+//                   cepError::sevErrorFatal);
+//     oor.display ();
+//   }
 
-  // Write the files
-  for (int i = 0; i < 3; i++)
-  {
-    if (m_progress)
-      m_progress (i + 1, 0);
+//   // todo_mikal: matrix
+//   //  cepMatrix <double> matP(rows, cols);
 
-    files[i] << m_header[i];
-    files[i].close();
-  }
+//   for(int i = 0; i < rows; i++)
+//   {
+//     for(int j = 0; j < cols; j++)
+//     {
+//       file >> val;
 
-  cepDebugPrint("Finished writing all of the dataset files");
-  return cepError ();
-}
+//       //check to see if we have hit the eof to early
+//       if(file.eof())
+//       {
+//         cepError oor ("Error! File:" + filename + " contain to few values",
+//                   cepError::sevErrorFatal);
+//         oor.display ();
+//       }
+//       // todo_mikal: matrix
+//       //      matP.setValue(i,j,val);
+//     }
+//   }
 
-vector < cep_datarow > &cepDataset::getData (direction dir)
-{
-  switch (dir)
-  {
-  case dirX:
-    return m_datax;
+//   file >> val;
 
-  case dirY:
-    return m_datay;
-
-  case dirZ:
-    return m_dataz;
-
-  default:
-    cepError oor ("The data direction requested was out of range",
-                  cepError::sevErrorFatal);
-    oor.display ();
-  }
-  return m_datax;
-}
-
-// This needs to return a pointer so that the view class can have a NULL
-// until the dataset has finished parsing...
-cepMatrix < double > *cepDataset::getMatrix(direction dir)
-{
-  vector < cep_datarow > vec = getData(dir);
-  cepMatrix < double > *mat = new cepMatrix<double>((signed) vec.size(), 3);
-
-  for(int i = 0; i < (signed)vec.size(); i ++)
-  {
-    mat->setValue(i, 0, vec[i].date);
-    mat->setValue(i, 1, vec[i].sample);
-    mat->setValue(i, 2, vec[i].error);
-  }
-  return mat;
-}
-
-cepMatrix <double> cepDataset::getP(const string &filename)
-{
-  fstream file;
-  int rows = 0, cols = 0;
-  double val = 0.0;
-  
-  file.open(filename.c_str(), ios::in);
-
-  if (!file.is_open())
-  {
-    cepError oor ("Error! Can not open file:" + filename,
-                  cepError::sevErrorFatal);
-    oor.display ();
-  }
-
-  file >> rows;
-  file >> cols;
-
-  //check the matrix is square
-  if(rows != cols)
-  {
-    cepError oor ("Error! The file: " + filename + " does not contain a square matrix",
-                  cepError::sevErrorFatal);
-    oor.display ();
-  }
-
-  cepMatrix <double> matP(rows, cols);
-
-  for(int i = 0; i < rows; i++)
-  {
-    for(int j = 0; j < cols; j++)
-    {
-      file >> val;
-
-      //check to see if we have hit the eof to early
-      if(file.eof())
-      {
-        cepError oor ("Error! File:" + filename + " contain to few values",
-                  cepError::sevErrorFatal);
-        oor.display ();
-      }
-      matP.setValue(i,j,val);
-    }
-  }
-
-  file >> val;
-
-  //check to see there are no more values in the file
-  if(!file.eof())
-  {
-    cepError oor ("Error! File: " + filename + " contains too many values",
-                  cepError::sevErrorFatal);
-    oor.display ();
-  }
+//   //check to see there are no more values in the file
+//   if(!file.eof())
+//   {
+//     cepError oor ("Error! File: " + filename + " contains too many values",
+//                   cepError::sevErrorFatal);
+//     oor.display ();
+//   }
     
-  return matP;
-}
+//   //  return matP;
+// }
+
 bool cepDataset::isReady()
 {
   return m_ready;

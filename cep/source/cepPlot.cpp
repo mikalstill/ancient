@@ -27,7 +27,7 @@ cepPlot::cepPlot(cepDataset *theDataset, cepDataset::direction dir, string cfnam
 {
   cepConfiguration *config;
   config = (cepConfiguration *) &cepConfiguration::getInstance();
-  cepPresentation pres (x, y, theDataset->getData(dir));
+  cepPresentation pres (x, y, theDataset->getMatrix(dir));
   
   cepError err;
   int red = 0, green = 0, blue = 0;

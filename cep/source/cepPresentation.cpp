@@ -40,7 +40,7 @@ const long CHUNKALLOC = 10;
 
 const long INVALID = -2000000000;
 
-cepPresentation::cepPresentation (long width, long height, vector < cep_datarow > & ds):
+cepPresentation::cepPresentation (long width, long height, cepMatrix<double> *ds):
   m_width(width + 1),
   m_height(height),
   m_xTitle("Undefined Axis Title"),
@@ -80,18 +80,29 @@ cepPresentation::yAxisTitle (const string & title)
   m_yTitle = title;
 }
 
+// Find the maxima and minima in the matrix I am looking at
+// todo_mikal: should this be part of the matrix class so it is more efficient?
 void cepPresentation::findMaxMinMa()
 {
-  for(size_t i = 0; i < m_ds.size(); i++){ 
-    if ((long) (m_ds[i].date * 10000) > m_xmaxval) m_xmaxval = (long) (m_ds[i].date * 10000);
-    if ((long) (m_ds[i].date * 10000) < m_xminval) m_xminval = (long) (m_ds[i].date * 10000);
-
-    if ((long) (m_ds[i].sample * 10000) > m_ymaxval) m_ymaxval = (long) (m_ds[i].sample * 10000);
-    if ((long) (m_ds[i].sample * 10000) < m_yminval) m_yminval = (long) (m_ds[i].sample * 10000);
-
-    if ((long) (m_ds[i].error * 10000) > m_emaxval) m_emaxval = (long) (m_ds[i].error * 10000);
+  cepDebugPrint("Finding matrix maxima and minima");
+  for(int i = 0; i < m_ds->getNumRows(); i++){ 
+    if (abs((long) (m_ds->getValue(i, 0) * 10000)) > m_xmaxval)
+      m_xmaxval = abs((long) (m_ds->getValue(i, 0) * 10000));
+    if (-abs((long) (m_ds->getValue(i, 0) * 10000)) < m_xminval)
+      m_xminval = -abs((long) (m_ds->getValue(i, 0) * 10000));
+    
+    if (abs((long) (m_ds->getValue(i, 1) * 10000)) > m_ymaxval)
+      m_ymaxval = abs((long) (m_ds->getValue(i, 1) * 10000));
+    if (-abs((long) (m_ds->getValue(i, 1) * 10000)) < m_yminval)
+      m_yminval = -abs((long) (m_ds->getValue(i, 1) * 10000));
+    
+    if (abs((long) (m_ds->getValue(i, 2) * 10000)) > m_emaxval)
+      m_emaxval = abs((long) (m_ds->getValue(i, 2) * 10000));
   }
-
+  cepDebugPrint("Found xmax = " + cepToString(m_xmaxval) + " xmin = " + cepToString(m_xminval) + 
+		" ymax = " + cepToString(m_ymaxval) + " ymin = " + cepToString(m_yminval) + 
+		" emax = " + cepToString(m_emaxval));
+  
   m_haveMaxima = true;
 }
 
@@ -142,6 +153,13 @@ cepPresentation::createBitmap ()
   long yrange = ymaxval - yminval;
   long xrange = m_xmaxval - m_xminval;
 
+  // I had this bug once
+  if(yminval > ymaxval){
+    cepError err("Impossible maxima and minima in vertical direction: max = " + cepToString(ymaxval) +
+	     " min = " + cepToString(yminval), cepError::sevErrorFatal);
+    err.display();
+  }
+
   float yscale = (float) yrange / (m_height - 20);
   float xscale = (float) xrange / (m_width - 20);
 
@@ -155,13 +173,14 @@ cepPresentation::createBitmap ()
     cepDebugPrint("Displaying errors");
     plot_setlinecolor(graph, m_errorColor.red, m_errorColor.green,
 		      m_errorColor.blue);
-    for(unsigned int i = 0; i < m_ds.size(); i++){
-      long convdate = (long) (m_ds[i].date * 10000);
-      long convsample = (long) (m_ds[i].sample * 10000);
-      long converror = (long) (m_ds[i].error * 10000);
+    for(int i = 0; i < m_ds->getNumRows(); i++){
+      long convdate = (long) (m_ds->getValue(i, 0) * 10000);
+      long convsample = (long) (m_ds->getValue(i, 1) * 10000);
+      long converror = (long) (m_ds->getValue(i, 2) * 10000);
       unsigned int horiz = (unsigned int) ((xrange - convdate + m_xminval) / xscale + 10);
 
-      cepDebugPrint("Horizontal point = " + cepToString(horiz) + ", " + cepToString(m_ds[i].date));
+      cepDebugPrint("Plotting " + cepToString(convdate) +  " " + cepToString(convsample) + " " +
+		    cepToString(converror));
 
       // Vertical line
       plot_setlinestart(graph, horiz,
@@ -193,7 +212,7 @@ cepPresentation::createBitmap ()
       plot_strokeline(graph);
       plot_endline(graph);
     }
-  }
+   }
 
   // Draw the axes. We want the graph to be over this, but the error lines to
   // be underneath
@@ -219,9 +238,9 @@ cepPresentation::createBitmap ()
   // Now draw the actual graph
   plot_setlinecolor(graph, m_lineColor.red, m_lineColor.green,
 		    m_lineColor.blue);
-  for(unsigned int i = 0; i < m_ds.size(); i++){
-    long convdate = (long) (m_ds[i].date * 10000);
-    long convsample = (long) (m_ds[i].sample * 10000);
+  for(int i = 0; i < m_ds->getNumRows(); i++){
+    long convdate = (long) (m_ds->getValue(i, 0) * 10000);
+    long convsample = (long) (m_ds->getValue(i, 1) * 10000);
     unsigned int xpoint = (unsigned int) ((xrange - convdate + m_xminval) / xscale + 10);
     unsigned int ypoint = (unsigned int) ((yrange - convsample + yminval) / yscale + 10);
     

@@ -53,8 +53,7 @@ public:
   cepDataset::direction determineGraph(int y, string& name);
   cepError cepCanvas::graphPlacement(cepDataset::direction dir, int& top, int& bottom, int& width);
 
-  wxView * view;
-  
+  wxView * m_view;
  private:
   DECLARE_EVENT_TABLE ()
     

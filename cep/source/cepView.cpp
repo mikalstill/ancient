@@ -209,7 +209,7 @@ bool cepView::OnClose (bool deleteWindow)
 
   // todo: The following line was causing a segv
   // canvas->Clear ();
-  canvas->view = (wxView *) NULL;
+  canvas->m_view = (wxView *) NULL;
   canvas = (cepCanvas *) NULL;
 
   wxString
@@ -249,11 +249,6 @@ void cepView::drawPresentation(cepDataset *theDataset, cepDataset::direction dir
     int fd;
     fd = mkstemp(cfname);
     close(fd);
-    cepDebugPrint ("Temporary file for image is " + string(cfname));
-    cepDebugPrint ("There are " +
-		   cepToString (theDataset->getData (dir).size ()) +
-		   " data points to add");
-
     cepPlot plot(theDataset, dir, cfname, presWidth, presHeight);
     m_plotfailed = plot.getFailed();
     
