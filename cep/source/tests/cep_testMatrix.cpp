@@ -37,11 +37,14 @@
  *     void tearDown( void ) { ... }
  *
  * @author <your name here>
- * @version $Revision: 1.19 $ $Date: 2002-11-03 02:52:05 $
+ * @version $Revision: 1.20 $ $Date: 2002-11-13 06:19:02 $
  *
  * Revision History
  *
  * $Log: not supported by cvs2svn $
+ * Revision 1.19  2002/11/03 02:52:05  u983118
+ * added tests for error stuff
+ *
  * Revision 1.18  2002/10/27 03:21:08  u983118
  * added tests for get min and get max fuctions
  *
@@ -280,6 +283,12 @@ public:
 
    suiteOfTests->addTest(
       new CppUnit::TestCaller<Test>( "testResizeSmaller", &Test::testResizeSmaller ) );
+
+   suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "testIs3D", &Test::testIs3D ) );
+
+   suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "testCallForward", &Test::testCallForward ) );
 
   
     return suiteOfTests;
@@ -1002,7 +1011,38 @@ protected:
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", string("Can not make a matrix smaller"), actual.getError().getMessage());    
   }
   
-
+  void testIs3D()
+  {
+    int rows = 6, cols = 3, tables = 3;
+    
+    cepMatrix<double> mat3D(rows, cols, tables), mat2D(rows,cols);
+    
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "this is a 3d matrix", true, mat3D.is3D());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "this is not a 3d matrix", false, mat2D.is3D());    
+  } 
+  
+  //tests to ensure that you can use the 3D get/set methods on 2D matricies
+  void testCallForward()
+  {
+    int rows = 3, cols = 3;
+    
+    cepMatrix<int> mat2D(rows,cols);
+    
+    for(int i = 0; i < mat2D.getNumRows(); i++){
+      for(int j = 0; j < mat2D.getNumCols(); j ++){
+        mat2D.setValue(i,j, 0, rows*cols);
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( mat2D.getError().getMessage(), false, mat2D.getError().isReal());
+      }
+    }
+    
+    for(int i = 0; i < mat2D.getNumRows(); i++){
+      for(int j = 0; j < mat2D.getNumCols(); j ++){
+        CPPUNIT_ASSERT_EQUAL_MESSAGE("wrong value", rows*cols, mat2D.getValue(i,j, 0));
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( mat2D.getError().getMessage(), false, mat2D.getError().isReal());
+      }
+    }
+  }
+  
 }; // end Test
 
  /**
