@@ -72,8 +72,6 @@
 #include <wx/colour.h>
 #include <wx/colordlg.h>
 
-extern object gNoSuchObject;
-
 IMPLEMENT_DYNAMIC_CLASS (pdfView, wxView)
   BEGIN_EVENT_TABLE (pdfView, wxView)
   EVT_MENU (GENMENU_SAVEPAGESTREAM, pdfView::OnSavePageStream)
@@ -542,8 +540,12 @@ pdfView::OnSavePageStream (wxCommandEvent & event)
 
     // Find all the contents objects
     objectlist contents;
-    theDoc->getPage(m_page).getDict().getValue("Contents", *(theDoc->getPDF()),
-					      contents);
+    object pobj(objNumNoSuch, objNumNoSuch);
+  object& page = pobj;
+    if(!theDoc->getPage(m_page, page))
+      return;
+    
+    page.getDict().getValue("Contents", *(theDoc->getPDF()), contents);
     
     debug(dlTrace, string("Commence stream parsing for a ") + 
 	  toString(contents.size()) + string(" object stream"));
@@ -564,7 +566,14 @@ pdfView::OnSavePageStream (wxCommandEvent & event)
       char *stream;
       unsigned long length;
       
-      stream = ((object &) contents[i]).getStream (length);
+      object cont(objNumNoSuch, objNumNoSuch);
+      if(!contents.item(i, cont))
+	{
+	  debug(dlError, "Could not extract contents entry");
+	  return;
+	}
+
+      stream = cont.getStream (length);
       if(le == leUnknown)
 	{
 	  for(unsigned int j = 0; j < length; j++)
@@ -608,8 +617,8 @@ pdfView::OnSavePageStream (wxCommandEvent & event)
 	    pageFile << "Line endings automatically converted" << leString;
 	  }
 
-	pageFile << leString << "(Object " << contents[i].getNumber()
-		 << " " << contents[i].getGeneration() << ")"
+	pageFile << leString << "(Object " << cont.getNumber()
+		 << " " << cont.getGeneration() << ")"
 		 << leString << leString;
 	for(unsigned int j = 0; j < length; j++)
 	  pageFile << stream[j];
@@ -653,7 +662,11 @@ pdfView::OnForceReparse (wxCommandEvent & event)
     return;
   }
 
-  theDoc->getPage(m_page).clearCommands();
+  object pobj(objNumNoSuch, objNumNoSuch);
+  object& page = pobj;
+  if(!theDoc->getPage(m_page, page))
+    return;
+  page.clearCommands();
 
   m_dirty = true;
   canvas->Refresh();

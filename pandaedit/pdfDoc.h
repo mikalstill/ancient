@@ -70,7 +70,7 @@ DECLARE_DYNAMIC_CLASS (pdfDoc)
   void setHeight(int pageNum, int height);
   void appendPage();
 
-  object& getPage(int pageno);
+  bool getPage(int pageno, object& outobj);
   bool getPageSize(int pageno, string& mediaBox);
   bool getPageSize(int pageno, unsigned int& x, unsigned int& y);
   bool getPagesObject(object& obj);

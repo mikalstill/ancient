@@ -66,7 +66,12 @@ pdfRender::render ()
 
   // If we don't have any preparsed commands, then we need to hit the document
   // and find the drawing commands. This puts them into the page command array
-  if(m_doc->getPage(m_pageno).getCommandCount() == 0)
+  object pobj(objNumNoSuch, objNumNoSuch);
+  object& page = pobj;
+  if(!m_doc->getPage(m_pageno, page))
+    return false;
+
+  if(page.getCommandCount() == 0)
     {
       // Stopped checking the error return here, as no drawing commands now
       // results in just an empty PNG file
@@ -74,14 +79,16 @@ pdfRender::render ()
     }
 
   // Now we need to process each of the elements in the command array
+  page = pobj;
+  if(!m_doc->getPage(m_pageno, page))
+    return false;
   debug(dlTrace, "Commence rendering the preprocessed commands");
-  for(int cmdcnt = 0; cmdcnt < m_doc->getPage(m_pageno).getCommandCount();
-      cmdcnt++)
+  for(int cmdcnt = 0; cmdcnt < page.getCommandCount(); cmdcnt++)
     {
       if(m_select)
 	{
 	  debug(dlTrace, "Set up selection hinting for object");
-	  int cmdid = m_doc->getPage(m_pageno).getCommandId(cmdcnt);
+	  int cmdid = page.getCommandId(cmdcnt);
 	  unsigned char c1, c2, c3;
 	  mangle(cmdid, c1, c2, c3);
 
@@ -97,16 +104,15 @@ pdfRender::render ()
       // Set the colours for the object
       debug(dlTrace, "Set object colours");
       int r, g, b;
-      m_doc->getPage(m_pageno).getCommandLineColor(cmdcnt, r, g, b);
+      page.getCommandLineColor(cmdcnt, r, g, b);
       plot_setlinecolor(m_plot, r, g, b);
-      m_doc->getPage(m_pageno).getCommandFillColor(cmdcnt, r, g, b);
+      page.getCommandFillColor(cmdcnt, r, g, b);
       plot_setfillcolor(m_plot, r, g, b);
 
       // Paint the object
       debug(dlTrace, "Paint object");
       object::commandType type;
-      vector<wxPoint> controlPoints = m_doc->getPage(m_pageno).
-	getCommandPoints(cmdcnt, type);
+      vector<wxPoint> controlPoints = page.getCommandPoints(cmdcnt, type);
       if(controlPoints.size() > 0)
 	{
 	  switch(type)
@@ -163,8 +169,7 @@ pdfRender::render ()
 	      else
 		{
 		  plot_overlayraster(m_plot, 
-				     (char *) m_doc->getPage(m_pageno).
-				     getCommandRaster(cmdcnt), 
+				     (char *) page.getCommandRaster(cmdcnt), 
 				     controlPoints[0].x, controlPoints[0].y,
 				     controlPoints[1].x, controlPoints[1].y,
 				     controlPoints[1].x, controlPoints[1].y,
@@ -177,6 +182,7 @@ pdfRender::render ()
 	    }
 	}
     }
+
   return true;
 }
 
@@ -184,19 +190,24 @@ bool
 pdfRender::parseStream ()
 {
   // Find all the contents objects
-  m_doc->getPage(m_pageno).getDict().getValue("Contents", *(m_doc->getPDF()),
-					      m_contents);
-
+  object pobj(objNumNoSuch, objNumNoSuch);
+  object& page = pobj;
+  if(!m_doc->getPage(m_pageno, page))
+    return false;
+  
+  page.getDict().getValue("Contents", *(m_doc->getPDF()), m_contents);
   debug(dlTrace, string("Commence stream parsing for a ") + 
 	toString(m_contents.size()) + string(" object stream"));
   for(unsigned int i = 0; i < m_contents.size(); i++){
-    if(!processContentsObject(m_contents[i]))
+    object contents(objNumNoSuch, objNumNoSuch);
+    if(m_contents.item(i, contents) && !processContentsObject(contents))
       {
 	debug(dlError, "Processing of a command stream failed");
 	return false;
       }
   }
 
+  debug(dlTrace, "Finished parsing");
   return true;
 }
 
@@ -563,7 +574,12 @@ pdfRender::appendCommand(object::commandType type)
 
   // Determine if this command is an append target
   command cmd;
-  if(m_doc->getPage(m_pageno).getLastCommand(cmd))
+  object pobj(objNumNoSuch, objNumNoSuch);
+  object& page = pobj;
+  if(!m_doc->getPage(m_pageno, page))
+    return;
+
+  if(page.getLastCommand(cmd))
     {
       // Only supported for line commands
       if(cmd.type == object::cLine)
@@ -592,17 +608,17 @@ pdfRender::appendCommand(object::commandType type)
 	goto newcommand;
 
       // After all that, we can now append the command to the previous top
-      // of the stack...
+      // of the stack... We ask the document to make the change, because doing
+      // it ourselves is considered bad form...
       debug(dlTrace, "Joining command");
       debug(dlTrace, string("Length before: ") + 
 	    toString(cmd.controlPoints.size()));
 
       for(unsigned int i = 1; i < m_controlPoints.size(); i++)
 	cmd.controlPoints.push_back(m_controlPoints[i]);
-      m_doc->getPage(m_pageno).
-	rewriteCommand(m_doc->getPage(m_pageno).getCommandCount() - 1,
-		       (object::commandType) cmd.type, cmd.controlPoints);
-
+      m_doc->rewriteCommand(m_pageno, page.getCommandCount() - 1,
+			    (object::commandType) cmd.type, cmd.controlPoints);
+      
       debug(dlTrace, string("Length after: ") + 
 	    toString(cmd.controlPoints.size()));
       m_controlPoints.clear();
@@ -623,7 +639,8 @@ pdfRender::appendCommand(object::commandType type)
   newcmd.fillb = m_fillColor.b;
   newcmd.rast = m_raster;
 
-  m_doc->getPage(m_pageno).appendCommand(newcmd);
+  // Ask the document to append the command
+  m_doc->appendCommand(m_pageno, newcmd);
   m_controlPoints.clear();
 }
 

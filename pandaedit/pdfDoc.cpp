@@ -61,8 +61,6 @@
 #include "dlgPageSize.h"
 #include "configuration.h"
 
-extern object gNoSuchObject;
-
 IMPLEMENT_DYNAMIC_CLASS (pdfDoc, wxDocument)
 
 // This is needed for the progess callback to get to us
@@ -128,10 +126,19 @@ pdfDoc::OnSaveDocument (const wxString & filename)
 
       // Push the drawing commands into the pages stream (skip the Panda
       // creator functions, but use Panda to keep track of bytes etc)
-      for(int cmdcnt = 0; cmdcnt < m_pages[count].getCommandCount(); cmdcnt++)
+      object pobj(objNumNoSuch, objNumNoSuch);
+  object& page = pobj;
+      if(m_pages.item(count, page))
 	{
-	  debug(dlTrace, "Executing page command");
-	  m_pages[count].executeCommand(cmdcnt, pg);
+	  for(int cmdcnt = 0; cmdcnt < page.getCommandCount(); cmdcnt++)
+	    {
+	      debug(dlTrace, "Executing page command");
+	      page.executeCommand(cmdcnt, pg);
+	    }
+	}
+      else
+	{
+	  debug(dlError, "Could not extract page to execute");
 	}
       debug(dlTrace, "Finished saving page");
     }
@@ -268,7 +275,11 @@ pdfDoc::appendCommand(int pageNum, command cmd)
   while(pageNum >= m_pages.size())
     appendPage();
 
-  m_pages[pageNum].appendCommand(cmd);
+  objectreference objref;
+  if(!m_pages.item(pageNum, objref))
+    return;
+
+  m_pdf->appendCommand(objref, cmd);
 }
 
 void
@@ -281,7 +292,12 @@ pdfDoc::rewriteCommand(int pageNum, int index, object::commandType type,
       appendPage();
     }
 
-  m_pages[pageNum].rewriteCommand(index, type, points);
+  object pobj(objNumNoSuch, objNumNoSuch);
+  object& page = pobj;
+  if(m_pages.item(pageNum, page))
+    page.rewriteCommand(index, type, points);
+  else
+    debug(dlError, "Could not rewrite command on non existant page");
 }
 
 vector<wxPoint>
@@ -293,7 +309,16 @@ pdfDoc::getCommand(int pageNum, int index, object::commandType & type)
       appendPage();
     }
 
-  return m_pages[pageNum].getCommandPoints(index, type);
+  object pobj(objNumNoSuch, objNumNoSuch);
+  object& page = pobj;
+  if(m_pages.item(pageNum, page))
+    return page.getCommandPoints(index, type);
+  else
+    {
+      debug(dlError, "Could not get a command from a non-existant page");
+      vector<wxPoint> empty;
+      return empty;
+    }
 }
 
 void
@@ -302,7 +327,12 @@ pdfDoc::setHeight(int pageNum, int height)
   while(pageNum >= m_pages.size())
     appendPage();
 
-  m_pages[pageNum].setHeight(height);
+  object pobj(objNumNoSuch, objNumNoSuch);
+  object& page = pobj;
+  if(m_pages.item(pageNum, page))
+    page.setHeight(height);
+  else
+    debug(dlError, "Could not set page height of non existant page");
 }
 
 void
@@ -371,7 +401,8 @@ pdfDoc::appendPage()
     newpage.getDict().add(di);
   }
   {
-    object & pages = gNoSuchObject;
+    object tempobject(objNumNoSuch, objNumNoSuch);
+    object & pages = tempobject;
     if(!getPagesObject(pages)){
       debug(dlError, "Could not find pages object");
       return;
@@ -403,21 +434,35 @@ ds_progressCallback ()
   gProgressDoc->incrementProgress ();
 }
 
-object&
-pdfDoc::getPage(int pageno)
+bool
+pdfDoc::getPage(int pageno, object& outobj)
 {
-  return m_pages[pageno];
+  object pobj(objNumNoSuch, objNumNoSuch);
+  object& page = pobj;
+  if(m_pages.item(pageno, page))
+    {
+      return m_pages.item(pageno, outobj);
+    }
+
+  debug(dlError, "getPage is returning a non existant page");
+  return false;
 }
 
 bool
 pdfDoc::getPageSize(int pageno, string& mediaBox)
 {
-  getPage(pageno).getDict ().getValue ("MediaBox", mediaBox);
+  object pobj(objNumNoSuch, objNumNoSuch);
+  object& page = pobj;
+  if(!getPage(pageno, page))
+    return false;
+
+  page.getDict ().getValue ("MediaBox", mediaBox);
   if(mediaBox == ""){
     debug(dlTrace, 
 	  "No page size specified in page object, trying pages object...");
-    object& pages = gNoSuchObject;
-    if(!getPagesObject(gNoSuchObject))
+    object tempobject(objNumNoSuch, objNumNoSuch);
+    object& pages = tempobject;
+    if(!getPagesObject(pages))
       return false;
     pages.getDict ().getValue ("MediaBox", mediaBox);
   }

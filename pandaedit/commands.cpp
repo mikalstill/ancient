@@ -163,7 +163,12 @@ pdfRender::command_Do ()
   m_arguements.pop ();
 
   dictionary resdict;
-  if (!m_doc->getPage(m_pageno).getDict ().getValue ("Resources", resdict))
+  object pobj(objNumNoSuch, objNumNoSuch);
+  object& page = pobj;
+  if(!m_doc->getPage(m_pageno, page))
+    return;
+
+  if (!page.getDict ().getValue ("Resources", resdict))
     {
       debug(dlError, "Resource dictionary not found");
       return;

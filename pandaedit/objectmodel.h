@@ -172,6 +172,7 @@ public:
   bool getLastCommand(command& cmd);
 
   void setHeight(int height);
+  void setReadOnly();
 
 private:
   char *applyFilter(string filter, char *instream, unsigned long inlength, 
@@ -188,6 +189,7 @@ private:
   vector<command> m_commands;
   bool m_changed;
   int m_height;
+  bool m_readonly;
 
   dictionary m_dictionary;
 };
@@ -197,11 +199,16 @@ class objectlist
 public:
   objectlist ();
   objectlist (string input, pdf* thePDF);
-  object& operator[] (unsigned int i);
+
+  bool item (unsigned int i, object &object);
+  bool item (unsigned int i, objectreference &objref);
+
   unsigned int size ();
+
   void push_back(const objectreference &ref, pdf* thePDF);
   void push_back(const object &obj, pdf* thePDF);
   void push_back(const string objs, pdf* thePDF);
+
   string getString();
 
 private:
@@ -217,10 +224,12 @@ public:
   void setSpecVer (float version);
   void addObject (object& theObject);
   void appendPage (object& thePage);
+  void appendCommand (objectreference page, command cmd);
 
+  bool findObject (int number, int generation, int &inset);
+  bool findObject (int number, int generation, object & obj);
   bool findObject (dictitem::diType type, string dname, string dvalue,
 		   object & obj);
-  bool findObject (int number, int generation, object & obj);
 
   vector < object > &getObjects ();
   string getFilename();

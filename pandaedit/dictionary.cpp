@@ -123,7 +123,8 @@ dictionary::getValue (string dname, pdf &thePDF, objectlist & objs)
 	  break;
 	  
 	default:
-	  debug(dlError, "Cannot convert type to an objectlist");
+	  debug(dlError, string("Cannot convert type ") + 
+		toString(m_items[i].getType()) + string(" to an objectlist"));
 	  return false;
 	}
 	

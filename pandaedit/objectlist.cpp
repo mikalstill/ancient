@@ -5,8 +5,6 @@
 #include "utility.h"
 #include "verbosity.h"
 
-extern object gNoSuchObject;
-
 objectlist::objectlist ():
   m_pdf(NULL)
 {
@@ -17,28 +15,37 @@ objectlist::objectlist (string input, pdf* thePDF)
   push_back(input, thePDF);
 }
 
-object&
-objectlist::operator[] (unsigned int i)
+bool
+objectlist::item (unsigned int i, objectreference& outref)
 {
   debug(dlTrace, string("Objectlist item ") + toString(i) + 
 	string(" lookup from a ") + 
 	toString(m_objects.size()) + 
 	string(" item list"));
-  object & obj = gNoSuchObject;
   
   if((i >= size()) || (i < 0)){
     debug(dlTrace, "Request for non existant object");
-    return obj;
+    return false;
   }
+  
+  outref = m_objects[i];
+  return true;
+}
+
+bool
+objectlist::item (unsigned int i, object& outobj)
+{
+  objectreference oref;
+  if(!item(i, oref))
+    return false;
 
   if(m_pdf){
-    m_pdf->findObject (m_objects[i].number, m_objects[i].generation, obj);
-  }
-  else{
-    debug(dlError, "Object list references to a non existant PDF");
+    return m_pdf->findObject (m_objects[i].number, m_objects[i].generation, 
+			      outobj);
   }
 
-  return obj;
+  debug(dlError, "Object list references to a non existant PDF");
+  return false;
 }
 
 unsigned int
@@ -147,9 +154,15 @@ objectlist::push_back(const string input, pdf *thePDF)
 
 	objectlist pages(subkids, thePDF);
 	for(unsigned int p = 0; p < pages.size(); p++){
-	  ref.number = pages[p].getNumber();
-	  ref.generation = pages[p].getGeneration();
-	  m_objects.push_back(ref);
+	  object temp(objNumNoSuch, objNumNoSuch);
+	  if(pages.item(p, temp)){
+	    ref.number = temp.getNumber();
+	    ref.generation = temp.getGeneration();
+	    m_objects.push_back(ref);
+	  }
+	  else{
+	    debug(dlError, "Could not extract a page");
+	  }
 	}
 
 	debug(dlTrace, string("Recursion found ") + toString(pages.size()) +

@@ -3,8 +3,6 @@
 #include "verbosity.h"
 #include "utility.h"
 
-object gNoSuchObject(objNumNoSuch, objNumNoSuch);
-
 pdf::pdf ():
   m_filename(""),
   m_previousEnd(objNumNoSuch, objNumNoSuch),
@@ -43,21 +41,35 @@ pdf::addObject (object& theObject)
 }
 
 bool
-pdf::findObject (int number, int generation, object & obj)
+pdf::findObject (int number, int generation, int& inset)
 {
   for (unsigned int i = 0; i < m_objects.size (); i++)
     {
       if ((m_objects[i].getNumber () == number) &&
 	  (m_objects[i].getGeneration () == generation))
 	{
-	  obj = m_objects[i];
-	  debug(dlTrace, "Found in pdf::findObject(objectreference)");
+	  inset = i;
 	  return true;
 	}
     }
 
-  debug(dlTrace, "Not found in pdf::findObject(objectreference)");
+  debug(dlTrace, "Not found in pdf::findObject(int)");
+  inset = -1;
   return false;
+}
+
+bool
+pdf::findObject (int number, int generation, object & obj)
+{
+  int i;
+  if(!findObject(number, generation, i))
+    return false;
+  
+  obj = m_objects[i];
+  obj.setReadOnly();
+  
+  debug(dlTrace, "Found in pdf::findObject(objectreference)");
+  return true;
 }
 
 bool
@@ -92,7 +104,8 @@ pdf::getCatalogObject(object& catalog)
 bool
 pdf::getPagesObject(object& pages)
 {
-  object& catalog = gNoSuchObject;
+  object tempobject(objNumNoSuch, objNumNoSuch);
+  object& catalog = tempobject;
   if(!getCatalogObject(catalog))
     {
       debug(dlError, "Couldn't find catalog object");
@@ -114,7 +127,8 @@ pdf::getPages ()
 {
   try
   {
-    object& pages = gNoSuchObject;
+    object tempobject(objNumNoSuch, objNumNoSuch);
+    object& pages = tempobject;
     if(!getPagesObject(pages))
       return objectlist();
     
@@ -153,7 +167,8 @@ void
 pdf::appendPage(object& thePage)
 {
   debug(dlTrace, "PDF appending page");
-  object & pages = gNoSuchObject;
+  object tempobject(objNumNoSuch, objNumNoSuch);
+  object & pages = tempobject;
   if(!getPagesObject(pages)){
     debug(dlError, "Cannot append to non-existant pages object");
     return;
@@ -180,4 +195,14 @@ pdf::appendPage(object& thePage)
 
   debug(dlTrace, string("PDF append finished. There are now ") +
 	toString(kids.size()) + string(" pages"));
+}
+
+void
+pdf::appendCommand(objectreference obj, command cmd)
+{
+  int inset;
+  if(!findObject(obj.number, obj.generation, inset))
+    return;
+
+  m_objects[inset].appendCommand(cmd);
 }
