@@ -3,6 +3,7 @@ TITLE: Windowing Algorithms (Blake)
 <table width="100%">
 <tr>
 <td>
+<font color="000000" size=4 face="Lucida,Verdana,Helvetica,Arial">
 <li>Several different algorithms have been provided
   <ul>
   <li>Rectangular
@@ -12,6 +13,7 @@ TITLE: Windowing Algorithms (Blake)
   <li>Dolph-Chebyshev
   </ul>
 <li>Prudent selection can attenuate the FD ripples
+</font>
 </td>
 <td>
 <img src="/notes/presentations/content/windows.png" alt="Various windowing algorithms"
@@ -19,3 +21,9 @@ align=right border=0>
 </td>
 </tr>
 </table>
+
+<BR><BR>
+
+<div align=center>
+<img src="/notes/presentations/content/gdms-window.png">
+</div>

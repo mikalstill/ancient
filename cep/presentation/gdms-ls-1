@@ -9,9 +9,15 @@ TITLE: Types of Least Squares Regression Analysis
 
   <li>STR_1 GPS North least squares regression model
  
-  PUT GRAPH OF LEAST SQUARES LINE WITH NO AUTOMATIC RE-WEIGHTING HERE
+<BR><BR>
+<div align="right">
+<img src="/notes/presentations/content/gdms-lsvcv-noauto.png">
+</div>
 
   <li> ST_1 GPS North residuals
 
-  PUT GRAPH OF LEAST SQUARES RESIDUALS WITH NO AUTOMATIC RE-WEIGHTING HERE
+<BR><BR>
+<div align="right">
+<img src="/notes/presentations/content/gdms-residuals.png">
+</div>
 <ul> 

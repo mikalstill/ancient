@@ -1,6 +1,6 @@
 TITLE: What is Windowing (Blake)
 
-<li>Truncates an infinte series in the time domain
+<li>Truncates an infinite series in the time domain
 <li>Disadvantage
   <ul>
   <li>Introduces ripple in the frequency domain
@@ -14,7 +14,7 @@ TITLE: What is Windowing (Blake)
     <ul>
     <li>Attenuates the ripple
     </ul>
-  <li>Disavantage
+  <li>Disadvantage
     <ul>
     <li>Broadens the spectral peak
     </ul>

@@ -10,13 +10,14 @@ In this presentation we will discuss:
   <ul>
   <li>Alternatives
   <li>Prototype
-  <li>Operating environment
   <li>Least squares implementation
   <li>Interpolation implementation
   <li>Data windowing implementation
   <li>Fast Fourier Transforms implementation
   <li>Testing infrastructure
+  <li>Design philosophy
   <li>User interface
+  <li>Operating environment
   <li>Command line interface
   <li>Batch processing interface
   </ul>

@@ -6,4 +6,8 @@ TITLE: Interpolation (Nick)
     <li>Uses a divided difference table to build a polynomial estimation
     <li>Limits order of polynomial to get optimal results
   </ul>
+
+<BR><BR>
+<div align=center>
   <img src="/notes/presentations/content/interp-DD.png">
+</div>

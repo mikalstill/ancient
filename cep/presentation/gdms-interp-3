@@ -3,8 +3,15 @@ TITLE: Interpolation (Nick)
 <font color="000000" size=4 face="Lucida,Verdana,Helvetica,Arial">
 <li>No single type of interpolation provides accurate results for every concievable dataset
 <li>Multiple types of interpolation provided
+
+<BR><BR>
+
   <li>Nearest neighbour
   <ul>
     <li> New points set equal to the nearest adjacent point
   </ul>
+
+<BR><BR>
+<div align="center">
   <img src="/notes/presentations/content/interp-NN.png">
+</div>
