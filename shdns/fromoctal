@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Take an octal number and output it's decimal version
+octal=$1
+length=`echo $octal | wc -c | tr -d " "`
+power=1
+
+while [ $length -gt 2 ]
+do
+  power=$(( $power * 8 ))
+  length=$(( $length - 1 ))
+done
+
+decimal=0
+while [ "%$octal%" != "%%" ]
+do
+  digit=`echo $octal | cut -b 1`
+  echo -n "Octal = $octal, Digit = $digit, Power = $power, Value = "
+
+  value=$(( $digit * $power ))
+  echo $value
+  
+  decimal=$(( $decimal + value ))
+  power=$(( $power / 8 ))
+  octal=`echo $octal | sed 's/^.//'`
+done
+
+echo ""
+echo "Result = $decimal"

@@ -367,7 +367,7 @@ offset=1
   process $1 $offset
   offset=$?
   logger "shdns $$ Ended at $offset"
-#  killall -9 cat
+  killall -9 cat
 #done
 
 exit
