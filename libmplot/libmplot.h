@@ -50,6 +50,9 @@ typedef struct plot_internal_state
   unsigned int y;
   unsigned long maxptr;
 
+  // Needed for line fills
+  struct plot_internal_state *tempstate;
+
   // Line attributes
   plot_lineseg *line;
 

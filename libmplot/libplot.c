@@ -730,14 +730,21 @@ DOCBOOK END
 void
 plot_fillline (plot_state * state)
 {
-  plot_state *tempstate;
   int intersects;
   unsigned int row, col, lcol;
 
   // Build a temporary copy of just that polygon
-  tempstate = plot_newplot(state->x, state->y);
-  tempstate->line = state->line;
-  plot_strokeline(tempstate);
+  if(state->tempstate == NULL)
+    state->tempstate = plot_newplot(state->x, state->y);
+  else
+    {
+      memset (state->tempstate->raster, 255, 
+	      sizeof (plot_pixel) * state->tempstate->x * state->tempstate->y);
+      plot_endline(state->tempstate);
+    }
+
+  state->tempstate->line = state->line;
+  plot_strokeline(state->tempstate);
   
   // For every point in the raster
   for(row = 0; row < state->y ; row++)
@@ -746,15 +753,15 @@ plot_fillline (plot_state * state)
 	{
 	  // The first direction is forwards
 	  intersects = 0;
-	  if(tempstate->raster[row * state->x + col].r != 0)
+	  if(state->tempstate->raster[row * state->x + col].r != 0)
 	    {
 	      for(lcol = col + 1; lcol < state->x; lcol++)
 		{
-		  if(tempstate->raster[row * state->x + lcol].r == 0)
+		  if(state->tempstate->raster[row * state->x + lcol].r == 0)
 		    {
 		      if(col > 0)
 			{
-			  if(tempstate->raster[row * state->x + lcol - 1].r != 0)
+			  if(state->tempstate->raster[row * state->x + lcol - 1].r != 0)
 			    intersects++;
 			}
 		      else
@@ -767,11 +774,11 @@ plot_fillline (plot_state * state)
 		{
 		  intersects = 0;
 		  for(lcol = col -1; lcol != -1; lcol--){
-		    if(tempstate->raster[row * state->x + lcol].r == 0)
+		    if(state->tempstate->raster[row * state->x + lcol].r == 0)
 		      {
 			if(col > 0)
 			  {
-			    if(tempstate->raster[row * state->x + lcol - 1].r != 0)
+			    if(state->tempstate->raster[row * state->x + lcol - 1].r != 0)
 			      intersects++;
 			  }
 			else
@@ -787,9 +794,6 @@ plot_fillline (plot_state * state)
 	    }
 	}
     }
-
-  // Clean up the tempstate
-  plot_closeplot(tempstate);
 }
 
 /******************************************************************************
