@@ -39,105 +39,105 @@ void decode_connector(unsigned int type)
 	if (type == CONN_UNKNOWN)
 		return;
 
-	printf("Connector type: ");
+	output(msg_format, "Connector type: ");
 	switch (type) {
 	case CONN_SOCKET_3:
-		printf("%s", conn_socket_3);
+		output(msg_cpuconn, conn_socket_3);
 		break;
 
 	case CONN_SOCKET_4:
-		printf("%s", conn_socket_4);
+		output(msg_cpuconn, conn_socket_4);
 		break;
 
 	case CONN_SOCKET_5:
-		printf("%s", conn_socket_5);
+		output(msg_cpuconn, conn_socket_5);
 		break;
 
 	case CONN_SOCKET_7:
-		printf("%s", conn_socket_7);
+		output(msg_cpuconn, conn_socket_7);
 		break;
 
 	case CONN_SOCKET_370:
-		printf("%s", conn_socket_370);
+		output(msg_cpuconn, conn_socket_370);
 		break;
 
 	case CONN_SOCKET_370_FCPGA:
-		printf("%s", conn_socket_370FCPGA);
+		output(msg_cpuconn, conn_socket_370FCPGA);
 		break;
 
 	case CONN_SOCKET_5_7:
-		printf("%s", conn_socket_5_7);
+		output(msg_cpuconn, conn_socket_5_7);
 		break;
 
 	case CONN_SUPER_SOCKET_7:
-		printf("%s", conn_super_socket_7);
+		output(msg_cpuconn, conn_super_socket_7);
 		break;
 
 	case CONN_SLOT_A:
-		printf("%s", conn_slot_a);
+		output(msg_cpuconn, conn_slot_a);
 		break;
 
 	case CONN_SOCKET_A:
-		printf("%s", conn_socket_a);
+		output(msg_cpuconn, conn_socket_a);
 		break;
 
 	case CONN_SOCKET_A_OR_SLOT_A:
-		printf("%s", conn_socketA_or_slotA);
+		output(msg_cpuconn, conn_socketA_or_slotA);
 		break;
 
 	case CONN_SOCKET_754:
-		printf("%s", conn_socket_754);
+		output(msg_cpuconn, conn_socket_754);
 		break;
 
 	case CONN_SOCKET_57B:
-		printf("%s", conn_socket_57b);
+		output(msg_cpuconn, conn_socket_57b);
 		break;
 
 	case CONN_MOBILE_7:
-		printf("%s", conn_mobile_7);
+		output(msg_cpuconn, conn_mobile_7);
 		break;
 
 	case CONN_SOCKET_8:
-		printf("%s", conn_socket_8);
+		output(msg_cpuconn, conn_socket_8);
 		break;
 
 	case CONN_SLOT_1:
-		printf("%s", conn_slot_1);
+		output(msg_cpuconn, conn_slot_1);
 		break;
 
 	case CONN_SOCKET_423:
-		printf("%s", conn_socket_423);
+		output(msg_cpuconn, conn_socket_423);
 		break;
 
 	case CONN_SOCKET_478:
-		printf("%s", conn_socket_478);
+		output(msg_cpuconn, conn_socket_478);
 		break;
 
 	case CONN_MMC:
-		printf("%s", conn_MMC);
+		output(msg_cpuconn, conn_MMC);
 		break;
 
 	case CONN_MMC2:
-		printf("%s", conn_MMC2);
+		output(msg_cpuconn, conn_MMC2);
 		break;
 
 	case CONN_SLOT_2:
-		printf("%s", conn_slot_2);
+		output(msg_cpuconn, conn_slot_2);
 		break;
 
 	case CONN_BGA474:
-		printf("%s", conn_BGA474);
+		output(msg_cpuconn, conn_BGA474);
 		break;
 
 	case CONN_BGA:
-		printf("%s", conn_BGA);
+		output(msg_cpuconn, conn_BGA);
 		break;
 
 	default:
-		printf("unknown");
+		output(msg_cpuconn, "unknown");
 		break;
 	}
 
-	printf("\n\n");
+	output(msg_format, "\n\n");
 
 }

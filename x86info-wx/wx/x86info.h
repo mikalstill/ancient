@@ -108,6 +108,7 @@ extern int show_connector;
 extern int show_eblcr;
 extern int show_flags;
 extern int verbose;
+extern int callback;
 extern int show_msr;
 extern int show_mtrr;
 extern int show_registers;
@@ -120,5 +121,42 @@ extern int silent;
 extern int user_is_root;
 
 #define X86_FEATURE_MTRR	1<<12
+
+// Message levels which can be passed on to callers
+enum
+  {
+    msg_format = 0,// A formatting message, no newline, not passed to callback
+    msg_error,     // An error message
+    msg_warning,   // A warning message
+    msg_accumulate,// Build up a string, and then flush it with an empty output
+
+    msg_author,
+    msg_usage,
+
+    msg_nocpuid,
+    msg_needroot,
+    msg_numcpu,
+    msg_mptable,
+    msg_badcpucount,
+    msg_begincpu,
+    msg_smpup,
+    msg_cpuconn,
+    msg_feature,
+    msg_featureamd,
+    msg_featurecentaur,
+    msg_featuretransmeta,
+    msg_featurecyrix,
+    msg_featureintel,
+    msg_cpuname,
+    msg_vendor,
+    msg_dumpregs,
+    msg_url,
+    msg_notsc,
+    msg_cpuspeed,
+    msg_standalone,
+    msg_msr,
+    msg_mtrr
+  };
+void output(int level, char *format, ...);
 
 #endif /* _X86INFO_H */

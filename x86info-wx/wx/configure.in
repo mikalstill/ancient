@@ -18,7 +18,7 @@ dnl  Mass Ave, Cambridge, MA 02139, USA.
 dnl Process this file with autoconf to produce a configure script.
 AC_INIT(ui.cpp)
 AC_CONFIG_AUX_DIR(config)
-AM_INIT_AUTOMAKE(x86info-wx, 0.1)
+AM_INIT_AUTOMAKE(x86info, 1.11)
 AM_MAINTAINER_MODE
 
 dnl Checks for programs.

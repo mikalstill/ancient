@@ -23,7 +23,7 @@ bool MyApp::OnInit(void)
 {
   wxImage::AddHandler(new wxPNGHandler);
 
-  frame = new MyFrame((wxFrame *) NULL, "wxPNGBitmap Demo", wxPoint(0, 0), wxSize(300, 300));
+  frame = new MyFrame((wxFrame *) NULL, "x86info", wxPoint(0, 0), wxSize(300, 300));
   frame->CreateStatusBar(2);
 
   // Make a menubar
@@ -31,7 +31,7 @@ bool MyApp::OnInit(void)
   wxMenu *help_menu = new wxMenu;
 
   file_menu->Append(UI_QUIT, "E&xit",                "Quit program");
-  help_menu->Append(UI_ABOUT, "&About",              "About PNG demo");
+  help_menu->Append(UI_ABOUT, "&About",              "About");
 
   wxMenuBar *menu_bar = new wxMenuBar;
 
@@ -67,8 +67,8 @@ void MyFrame::OnQuit(wxCommandEvent& WXUNUSED(event))
 
 void MyFrame::OnAbout(wxCommandEvent& WXUNUSED(event))
 {
-    (void)wxMessageBox("PNG demo\nJulian Smart (c) 1998",
-            "About PNG Demo", wxOK);
+  (void)wxMessageBox("TODO",
+            "About x86info", wxOK);
 }
 
 BEGIN_EVENT_TABLE(MyCanvas, wxScrolledWindow)

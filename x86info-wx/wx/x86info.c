@@ -1,5 +1,5 @@
 /*
- *  $Id: x86info.c,v 1.1.1.1 2003-04-06 07:40:29 root Exp $
+ *  $Id: x86info.c,v 1.2 2003-04-13 21:11:55 root Exp $
  *  This file is part of x86info.
  *  (C) 2001 Dave Jones.
  *
@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdarg.h>
 #include <unistd.h>
 
 #ifndef linux
@@ -27,10 +28,15 @@
 
 #include "x86info.h"
 
+typedef void (*emitFunct) (int, char *);
+emitFunct emit = NULL;
+char *accumString = NULL;
+
 int show_msr=0;
 int show_registers=0;
 int show_flags=0;
 int verbose=0;
+int callback=0;
 int show_eblcr=0;
 int show_cacheinfo=0;
 int show_bluesmoke=0;
@@ -50,7 +56,7 @@ unsigned int nrCPUs=1, nrSMPCPUs;
 
 void usage (char *programname)
 {
-	printf ("Usage: %s [<switches>]\n\
+	output (msg_usage, "Usage: %s [<switches>]\n\
 -a,   --all\n\
 -c,   --cacheinfo\n\
       --connector\n\
@@ -63,8 +69,8 @@ void usage (char *programname)
       --mtrr\n\
 -r,   --registers\n\
 -s,   --show-bluesmoke\n\
--u,   --urls\n\
-\n", programname);
+-u,   --urls\n", 
+		programname);
 	exit (0);
 }
 
@@ -140,7 +146,7 @@ static void parse_command_line (int argc, char **argv)
 }
 
 
-int main (int argc, char **argv)
+int x86info (int argc, char **argv)
 {
 	unsigned int i;
 	struct cpudata cpu;
@@ -148,13 +154,16 @@ int main (int argc, char **argv)
 	memset (&cpu, 0, sizeof(struct cpudata));
 	parse_command_line(argc, argv);
 	if (!silent) {
-		printf ("x86info v1.11.  Dave Jones 2001, 2002\n");
-		printf ("Feedback to <davej@suse.de>.\n\n");
+		output (msg_author, "x86info v1.11.  Dave Jones 2001, 2002");
+		output (msg_author, "Feedback to <davej@suse.de>.");
+		output (msg_author, "wxWindows front end by Michael Still 2003");
+		output (msg_author, "Feedback to <mikal@stillhq.com>.");
+		output (msg_format, "\n");
 	}
 
 	if ((HaveCPUID())==0) {
-		printf ("No CPUID instruction available.\n");
-		printf ("No further information available for this CPU.\n");
+		output (msg_nocpuid, "No CPUID instruction available.");
+		output (msg_nocpuid, "No further information available for this CPU.");
 		return(0);
 	}
 
@@ -162,7 +171,7 @@ int main (int argc, char **argv)
 		user_is_root=0;
 
 	if (need_root && !user_is_root)
-		printf ("Need to be root to use specified options.\n");
+		output (msg_needroot, "Need to be root to use specified options.");
 
 #if defined __WIN32__
 	{
@@ -182,19 +191,16 @@ int main (int argc, char **argv)
 #endif /* __WIN32__ */
 
 	if (!silent) {
-		printf ("Found %u CPU", nrCPUs);
-		if (nrCPUs > 1)
-			printf ("s");
+		output (msg_numcpu, "Found %u CPU%s.", nrCPUs, nrCPUs > 1 ? "s" : "");
 
 		/* Check mptable if present. This way we get number of CPUs
 		   on SMP systems that have booted UP kernels. */
 		if (user_is_root) {
 			issmp (&nrSMPCPUs, 0);
 			if (nrSMPCPUs > nrCPUs) {
-				printf (", but found %d CPUs in MPTable.", nrSMPCPUs);
+				output (msg_mptable, "Found %d CPUs in MPTable.", nrSMPCPUs);
 			}
 		}
-		printf ("\n");
 	}
 
 	/*
@@ -202,7 +208,7 @@ int main (int argc, char **argv)
 	 * 65535 (some arbitrary large number)
 	 */
 	if ((nrCPUs < 1) || (nrCPUs > 65535)) {
-		printf("CPU count is bogus: defaulting to 1 CPU.\n");
+		output (msg_badcpucount, "CPU count is bogus: defaulting to 1 CPU.");
 		nrCPUs = 1;
 	}
 
@@ -213,7 +219,7 @@ int main (int argc, char **argv)
 		cpu.number = i;
 
 		if (!silent && nrCPUs!=1)
-			printf ("CPU #%u\n", i+1);
+			output (msg_begincpu, "CPU #%u", i+1);
 
 		identify (&cpu);
 		show_info (&cpu);
@@ -228,9 +234,67 @@ int main (int argc, char **argv)
 	}
 
 	if (nrCPUs > 1 && used_UP==1 && (!silent)) {
-		printf ("\nWARNING: Detected SMP, but unable to access cpuid driver.\n");
-		printf ("Used single CPU routines. Results inaccurate.\n");
+		output (msg_smpup, "WARNING: Detected SMP, but unable to access cpuid driver.");
+		output (msg_smpup, "Used single CPU routines. Results inaccurate.");
 	}
 
 	return (0);
+}
+
+// TODO Mikal: fix indentation
+/* Controls all output from the detection routines, so that it can be redirected to the GUI */
+void output(int level, char *format, ...)
+{
+  char *out;
+  char ostr[1024];
+  va_list argPtr;
+
+  if(strcmp(format, "") == 0)
+    {
+      out = accumString;
+    }
+  else
+    {
+      // Deliberate truncation of string if it is too long
+      va_start (argPtr, format);
+      vsnprintf (ostr, 1024, format, argPtr);
+      
+      // If this is an accumulate, the put it into the global string
+      if(level == msg_accumulate){
+	int alen = 0;
+	if(accumString != NULL)
+	  alen = strlen(accumString);
+
+	if((accumString = realloc(accumString, alen + strlen(ostr) + 1)) == NULL){
+	  printf("Memory allocation error\n");
+	  exit(1);
+	}
+	
+	strcpy(accumString + strlen(accumString), ostr);
+	return;
+      }
+
+      out = ostr;
+    }
+
+  // Now decide how to output the string
+  if(emit != NULL)
+    emit(level, out);
+  else if(level == msg_error)
+    fprintf(stderr, "<ERR>%s</ERR>\n", out);
+  else if(level != msg_format)
+    printf("<%d>%s</%d>\n", level, out, level);
+  else
+    printf("<FMT>%s</FMT>", out);
+
+  if(strcmp(format, "") == 0){
+    free(accumString);
+    accumString = NULL;
+  }
+}
+
+/* Setup emit as required */
+void setEmit()
+{
+  callback = 1; 
 }

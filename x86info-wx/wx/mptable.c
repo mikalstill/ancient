@@ -24,7 +24,7 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
- *	  $Id: mptable.c,v 1.1.1.1 2003-04-06 07:40:29 root Exp $
+ *	  $Id: mptable.c,v 1.2 2003-04-13 21:11:55 root Exp $
  */
 
 #define MP_SIG				  0x5f504d5f	  /* _MP_ */
@@ -38,6 +38,7 @@
 #include <sys/types.h>
 
 #include "mptable.h"
+#include "x86info.h"
 
 #ifdef linux
 typedef unsigned int vm_offset_t;
@@ -150,14 +151,14 @@ int	verbose;
 int issmp(int *numcpu, int verb)
 {
 	vm_offset_t paddr;
-	mpfps_t mpfps;
+	mpfps_t mpfps; 
 	int where;
 	int defaultConfig;
 
 	verbose=verb;
 	/* open physical memory for access to MP structures */
 	if ((pfd = open("/dev/mem", O_RDONLY)) < 0) {
-		fprintf(stderr, "issmp(): /dev/mem: %s\n", strerror(errno));
+		output(msg_error, "issmp(): /dev/mem: %s\n", strerror(errno));
 		return -1;
 	}
 
@@ -307,7 +308,7 @@ static int MPConfigTableHeader(void* pap)
 	int count, c;
 
 	if (pap == 0) {
-		printf("MP Configuration Table Header MISSING!\n");
+		output(msg_warning, "MP Configuration Table Header MISSING!\n");
 		return SMP_NO;
 	}
 
@@ -332,14 +333,14 @@ static int MPConfigTableHeader(void* pap)
 
 	/* process all the CPUs */
 	if (verbose)
-		printf("MP Table:\n#\tAPIC ID\tVersion\tState\t\tFamily\tModel\tStep\tFlags\n");
+		output(msg_format, "MP Table:\n#\tAPIC ID\tVersion\tState\t\tFamily\tModel\tStep\tFlags\n");
 	for (t = totalSize, c = count; c; c--) {
 		if (readType() == 0)
 			processorEntry();
 		totalSize -= basetableEntryTypes[ 0 ].length;
 	}
 	if (verbose)
-		printf ("\n");
+		output (msg_format, "\n");
 	
 	return SMP_YES;
 }
@@ -389,19 +390,20 @@ static void processorEntry(void)
 
 	if(verbose)
 	{
-		printf("#\t%2d", entry.apicID);
-		printf("\t 0x%2x", entry.apicVersion);
+		output(msg_accumulate, "#\t%2d", entry.apicID);
+		output(msg_accumulate, "\t 0x%2x", entry.apicVersion);
 		
-		printf("\t %s, %s",
+		output(msg_accumulate, "\t %s, %s",
 				(entry.cpuFlags & PROCENTRY_FLAG_BP) ? "BSP" : "AP",
 				(entry.cpuFlags & PROCENTRY_FLAG_EN) ? "usable" : "unusable");
 		
-		printf("\t %ld\t %ld\t %ld",
+		output(msg_accumulate, "\t %ld\t %ld\t %ld",
 				(entry.cpuSignature >> 8) & 0x0f,
 				(entry.cpuSignature >> 4) & 0x0f,
 				entry.cpuSignature & 0x0f);
 		
-		printf("\t 0x%04lx\n", entry.featureFlags);
+		output(msg_accumulate, "\t 0x%04lx", entry.featureFlags);
+		output(msg_mptable, "");
 	}
 }
 
@@ -411,7 +413,7 @@ int main()
 	int	numcpu, smp;
 
 	smp=issmp(&numcpu, 1);
-	printf("SMP: %d\nCPU: %d\n", smp, numcpu);
+	output(msg_standalone, "SMP: %d\nCPU: %d\n", smp, numcpu);
 	return 0;
 }
 #endif

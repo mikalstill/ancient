@@ -1,5 +1,5 @@
 /*
- *  $Id: features.c,v 1.1.1.1 2003-04-06 07:40:29 root Exp $
+ *  $Id: features.c,v 1.2 2003-04-13 21:11:55 root Exp $
  *  This file is part of x86info
  *  (C) 2001 Dave Jones.
  *
@@ -89,49 +89,51 @@ void decode_feature_flags (struct cpudata *cpu)
 	if (show_flags == 0)
 		return;
 
-	printf ("Feature flags:\n");
+	output (msg_format, "Feature flags:\n");
 	for (i = 0; i < 32; i++)
 		if (cpu->flags & (1 << i)) {
-			if (verbose) {
-				printf ("\t%s\n", generic_cap_flags_desc[i]);
+			if (verbose || callback) {
+				output (msg_feature, "\t%s", generic_cap_flags_desc[i]);
 			} else {
-				printf (" %s", generic_cap_flags[i]);
+				output (msg_format, " %s", generic_cap_flags[i]);
 			}
 		}
 
-	printf ("\n");
+	output (msg_format, "\n");
 
 	/* Vendor specific extensions. */
 	switch (cpu->vendor) {
 
 		case VENDOR_AMD:
-			printf ("Extended feature flags:\n");
+			output (msg_format, "Extended feature flags:\n");
 			for (i = 0; i < 32; i++) {
 				if (cpu->eflags & (1 << i) && amd_cap_flags[i])
-					printf (" %s", amd_cap_flags[i]);
+					output(msg_featureamd, "\t%s", amd_cap_flags[i]);
 			}
 			break;
 
 		case VENDOR_CENTAUR:
-			printf ("Extended feature flags:\n");
+			output (msg_format, "Extended feature flags:\n");
 			for (i = 0; i < 32; i++) {
 				if (cpu->eflags & (1 << i) && centaur_cap_flags[i])
-					printf (" %s", centaur_cap_flags[i]);
+					output (msg_featurecentaur, "\t%s", centaur_cap_flags[i]);
 			}
 			break;
 
 		case VENDOR_TRANSMETA:
-			printf ("Extended feature flags:\n");
+			output (msg_format, "Extended feature flags:\n");
 			for (i = 0; i < 32; i++) {
 				if (cpu->eflags & (1 << i) && transmeta_cap_flags[i])
-					printf (" %s", transmeta_cap_flags[i]);
+					output (msg_featuretransmeta, "\t%s", transmeta_cap_flags[i]);
 			}
 			break;
 
 		case VENDOR_CYRIX:
+		        // msg_featurecyrix
 			break;
 
 		case VENDOR_INTEL:
+	                // msg_featureintel
 			break;
 
 		default:
@@ -139,5 +141,5 @@ void decode_feature_flags (struct cpudata *cpu)
 			break;
 	}
 
-	printf ("\n");
+	output (msg_format, "\n");
 }

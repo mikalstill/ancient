@@ -1,5 +1,5 @@
 /*
- *  $Id: identify.c,v 1.1 2003-04-13 18:21:44 root Exp $
+ *  $Id: identify.c,v 1.2 2003-04-13 21:11:55 root Exp $
  *  This file is part of x86info.
  *  (C) 2001 Dave Jones.
  *
@@ -43,7 +43,7 @@ void identify(struct cpudata *cpu)
 		Identify_RiSE(cpu);
 		break;
 	default:
-		printf("Unknown vendor\n");
+		output(msg_vendor, "Unknown vendor");
 		return;
 	}
 }
@@ -56,9 +56,9 @@ static void dumpregs (int cpunum, unsigned int begin, unsigned int end)
 	/* Dump all the CPUID results in raw hex */
 	for (i=begin; i<=end; i++) {
 		cpuid (cpunum, i, &eax, &ebx, &ecx, &edx);
-		printf ("eax in: 0x%08x, eax = %08lx ebx = %08lx ecx = %08lx edx = %08lx\n", i, eax, ebx, ecx, edx);
+		output (msg_dumpregs, "eax in: 0x%08x, eax = %08lx ebx = %08lx ecx = %08lx edx = %08lx", i, eax, ebx, ecx, edx);
 	}
-	printf ("\n");
+	output (msg_format, "\n");
 }
 
 void show_info(struct cpudata *cpu)
@@ -106,12 +106,12 @@ void show_info(struct cpudata *cpu)
 
 	if (show_urls) {
 		if (cpu->datasheet_url != NULL)
-			printf ("Datasheet: %s\n", cpu->datasheet_url);
+			output (msg_url, "Datasheet: %s", cpu->datasheet_url);
 
 		if (cpu->errata_url != NULL)
-			printf ("Errata: %s\n", cpu->errata_url);
+			output (msg_url, "Errata: %s", cpu->errata_url);
 
-		printf ("\n");
+		output (msg_format, "\n");
 	}
 
 	if (!user_is_root)

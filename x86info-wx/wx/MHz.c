@@ -1,5 +1,5 @@
 /*
- *  $Id: MHz.c,v 1.1.1.1 2003-04-06 07:40:29 root Exp $
+ *  $Id: MHz.c,v 1.2 2003-04-13 21:11:55 root Exp $
  *  This file is part of x86info.
  *  (C) 2001 Dave Jones.
  *
@@ -51,7 +51,7 @@ void estimate_MHz(int cpunum)
 	/* Make sure we have a TSC (and hence RDTSC) */
 	cpuid (cpunum, 1, &eax, &ebx, &ecx, &edx);
 	if ((edx & (1<<4))==0) {
-		printf ("No TSC, MHz calculation cannot be performed.\n");
+		output (msg_notsc, "No TSC, MHz calculation cannot be performed.");
 		return;
 	}
 
@@ -85,7 +85,7 @@ void estimate_MHz(int cpunum)
 		(tvstop.tv_usec-tvstart.tv_usec);
 #endif /* __WIN32__ */
 
-	printf("%.2f MHz processor (estimate).\n\n",
+	output(msg_cpuspeed, "%.2f MHz processor (estimate).",
 		(float)(cycles[1]-cycles[0])/(microseconds/freq));
 }
 
