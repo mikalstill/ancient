@@ -45,10 +45,7 @@ cepDate::popDayOfYear ()
   if (m_dayOfYear == -1)
     {
       m_dayOfYear = m_yearDays * (m_decimal - m_year);
-
-      cepError dbg (cepDtoa (m_decimal) + " converts to " + cepItoa (m_dayOfYear) +
-		    " days", cepError::sevDebug);
-      dbg.display ();
+      cepDebugPrint (cepDtoa (m_decimal) + " converts to " + cepItoa (m_dayOfYear) + " days");
     }
 }
 
@@ -64,9 +61,8 @@ cepDate::popDaysInYear ()
       m_yearDays = ((m_year % 100 == 0) && (m_year % 400 == 0)) ||
 	((m_year % 100 != 0) && (m_year % 4 == 0)) ? 366 : 365;
 
-      cepError dbg (cepDtoa (m_decimal) + " converts to " + cepItoa (m_yearDays) +
-		    " days in the year", cepError::sevDebug);
-      dbg.display ();
+      cepDebugPrint (cepDtoa (m_decimal) + " converts to " + 
+		     cepItoa (m_yearDays) + " days in the year");
 
       if (m_yearDays == 366)
 	m_leap = true;
@@ -80,9 +76,8 @@ cepDate::popYear ()
     {
       m_year = (int) m_decimal;
 
-      cepError dbg (cepDtoa (m_decimal) + " converts to " + cepItoa (m_year) +
-		    " year", cepError::sevDebug);
-      dbg.display ();
+      cepDebugPrint (cepDtoa (m_decimal) + " converts to " + cepItoa (m_year) +
+		     " year");
     }
 }
 
@@ -110,11 +105,8 @@ cepDate::popMonthAndDay ()
       m_day = dayOfYear;
       m_month = i;
 
-      {
-	cepError dbg (cepDtoa (m_decimal) + " converts to " + cepItoa (m_day) +
-		      " " + cMonthNames[m_month], cepError::sevDebug);
-	dbg.display ();
-      }
+      cepDebugPrint (cepDtoa (m_decimal) + " converts to " + cepItoa (m_day) +
+		     " " + cMonthNames[m_month]);
     }
 }
 

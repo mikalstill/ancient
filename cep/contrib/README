@@ -11,3 +11,7 @@ segv: A segmentation fault handler useful to developers
 trivsql: A simple embeddable SQL database which is used to store configuration information
 
 wxWindows: The windowing API we are using
+
+Some packages have _not_ been used in this project. They are:
+
+gnuplot: Dispite the name, it is _not_ covered by the GNU GPL. It therefore cannot be used for this project, as we are aiming at GPL'ing all our output...

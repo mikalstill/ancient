@@ -91,9 +91,17 @@ cepView::OnDraw (wxDC * dc)
 
   cepDebugPrint("Drawing the image, png is type " + 
 		cepItoa(wxBITMAP_TYPE_PNG));
+
   wxImage theImage("256x256.png", wxBITMAP_TYPE_PNG);
   wxBitmap theBitmap(theImage.ConvertToBitmap());
   dc->DrawBitmap(theBitmap, 30, 150);
+
+  cepDoc *theDoc = (cepDoc *) GetDocument();
+  cepDataset *theDataset = theDoc->getDataset();
+  
+  // Iterate the points in the x direction of the dataset
+  //  cepPresentation myPres;
+  //  mypres.addDataPoint(1, 
 }
 
 void

@@ -87,18 +87,8 @@ IMPLEMENT_APP (cepApp) cepApp::cepApp (void)
   gConfiguration = new cepConfiguration(config);
 
   if(!m_error.isReal()){
-    cepError dbg("Configuration database is located at: " + config,
-  		 cepError::sevDebug);
-    m_error = dbg;
-    dbg.clear();
+    cepDebugPrint("Configuration database is located at: " + config);
   }
-  
-  // Define some simple default options for the handling of cepErrors
-  //  gOptions.errorDisplay[cepError::sevDebug] = false;
-  //  gOptions.errorDisplay[cepError::sevInformational] = true;
-  //  gOptions.errorDisplay[cepError::sevWarning] = true;
-  //  gOptions.errorDisplay[cepError::sevErrorRecoverable] = true;
-  //  gOptions.errorDisplay[cepError::sevErrorFatal] = true;
 }
 
 bool

@@ -65,16 +65,10 @@ cepPresentation::addDataPoint (long x, long y)
   if (x >= m_data.size ())
     {
       m_data.resize (x + CHUNKALLOC);
-      cepError dbg ("Resize presentation data to " + cepLtoa (x + CHUNKALLOC),
-		    cepError::sevDebug);
-      dbg.display ();
+      cepDebugPrint ("Resize presentation data to " + cepLtoa (x + CHUNKALLOC));
     }
   m_data[x] = y;
-  {
-    cepError dbg ("Added (" + cepLtoa (x) + ", " + cepLtoa (y) + ")",
-		  cepError::sevDebug);
-    dbg.display ();
-  }
+  cepDebugPrint ("Added (" + cepLtoa (x) + ", " + cepLtoa (y) + ")");
 
   // Validity
   if (x >= m_dataValid.size ())
@@ -82,10 +76,7 @@ cepPresentation::addDataPoint (long x, long y)
       m_dataValid.resize (x + CHUNKALLOC, bool (false));
     }
   m_dataValid[x] = true;
-  {
-    cepError dbg ("Made valid " + cepLtoa (x), cepError::sevDebug);
-    dbg.display ();
-  }
+  cepDebugPrint ("Made valid " + cepLtoa (x));
 }
 
 // There are some output formats which need interpolation, but not all of them
@@ -103,15 +94,11 @@ cepPresentation::interpolate ()
 	{
 	  if (prevValid)
 	    {
-	      {
-		cepError dbg ("Iterpolate the line from (" +
-			      cepLtoa (prevX) + ", " + cepLtoa (prevY)
-			      + ") to (" +
-			      cepLtoa (i) + ", " + cepLtoa (m_data[i]) + ")",
-			      cepError::sevDebug);
-		dbg.display ();
-	      }
-
+	      cepDebugPrint ("Iterpolate the line from (" +
+			     cepLtoa (prevX) + ", " + cepLtoa (prevY)
+			     + ") to (" + cepLtoa (i) + ", " + 
+			     cepLtoa (m_data[i]) + ")");
+	      
 	      // This pixel toggling is based on the premise that the function
 	      // for a given straight line can be defined by y = mx + b...
 	      //
@@ -125,15 +112,13 @@ cepPresentation::interpolate ()
 	      for (long x = 1; x < i - prevX; x++)
 		{
 		  long y = prevY + (long) (m * x);
-
-		  cepError dbg ("Interpolation added the point (" +
-				cepLtoa (x + prevX) + ", " + cepLtoa (y) +
-				"). The gradient is " + cepDtoa (m),
-				cepError::sevDebug);
-		  dbg.display ();
+		  
+		  cepDebugPrint ("Interpolation added the point (" +
+				 cepLtoa (x + prevX) + ", " + cepLtoa (y) +
+				 "). The gradient is " + cepDtoa (m));
 		}
 	    }
-
+	  
 	  prevX = i;
 	  prevY = m_data[i];
 	  prevValid = true;

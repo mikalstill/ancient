@@ -96,12 +96,7 @@ cepDataset::munch ()
       if (m_progress)
 	m_progress (i + 1, 0);
       else
-	{
-	  cepError
-	    dbg ("No progress handler defined for cepDataset",
-		 cepError::sevInformational);
-	  dbg.display ();
-	}
+	cepDebugPrint ("No progress handler defined for cepDataset");
 
       // Skip the first three lines -- it seems that fstream has no equivalent
       // of fgets(), which will mind the newlines for me...
@@ -136,13 +131,9 @@ cepDataset::munch ()
 	      if (lines[i] > 3)
 		{
 		  // We process this line
-		  {
-		    cepError
-		      dbg ("Dataset line from " + m_filename + "[" +
-			   cepItoa (i) + "]: " + thisLine, cepError::sevDebug);
-		    dbg.display ();
-		  }
-
+		  cepDebugPrint ("Dataset line from " + m_filename + "[" +
+				 cepItoa (i) + "]: " + thisLine);
+		  
 		  // Put the data into the dataset data thingies
 		  // todo_mikal: is there a more c++ way to tokenize a string?
 		  cep_datarow row;
@@ -164,23 +155,16 @@ cepDataset::munch ()
 
 		  getDataPtr((cepDataset::direction) i).push_back (row);
 
-		  {
-		    cepError
-		      dbg ("Dataset line parsed to [" +
-			   cepFtoa (row.date) + ", " + cepFtoa (row.sample) +
-			   ", " + cepFtoa (row.error) + "]", cepError::sevDebug);
-		    dbg.display ();
-		  }
-
+		  cepDebugPrint ("Dataset line parsed to [" +
+				 cepFtoa (row.date) + ", " + 
+				 cepFtoa (row.sample) +
+				 ", " + cepFtoa (row.error) + "]");
+		  
 		  thisLine = "";
 		}
 	      else
-		{
-		  cepError
-		    dbg ("Dataset line from " + m_filename + "[" +
-			 cepItoa (i) + "] skipped...", cepError::sevDebug);
-		  dbg.display ();
-		}
+		cepDebugPrint ("Dataset line from " + m_filename + "[" +
+			       cepItoa (i) + "] skipped...");
 
 	      if (m_progress)
 		m_progress (i + 1, lines[i]);

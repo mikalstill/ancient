@@ -25,6 +25,24 @@
 
 class cepError;
 
+/******************************************************************************
+DOCBOOK START
+
+FUNCTION cepDatasetProgressCB
+PURPOSE report progress on dataset parsing to the calling method
+
+SYNOPSIS START
+typedef void (*cepDatasetProgressCB) (int plane, long lineno);
+SYNOPSIS END
+
+DESCRIPTION START
+This type is used to define a callback function which will be called whenever a line has been read from the dataset files. <command>plane</command> will the plane that the line belongs to (for example: x, y, and z) and <command>lineno</command> is the line number for the current dataset file.
+DESCRIPTION END
+
+SEEALSO cepDataset
+DOCBOOK END
+******************************************************************************/
+
 typedef void (*cepDatasetProgressCB) (int plane, long lineno);
 
 typedef struct cep_internal_datarow

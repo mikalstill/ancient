@@ -132,6 +132,11 @@ void cepDoc::incrementProgress()
     m_progress->Update(m_progressCount / 100);
 }
 
+cepDataset *cepDoc::getDataset()
+{
+  return m_dataset;
+}
+
 // A scary global progress handler
 void
 ds_progressCallback (int plane, long line)

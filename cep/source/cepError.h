@@ -34,13 +34,14 @@ DESCRIPTION START
 <command>cepDebugPrint</command> creates a cepError of debug severity and immediately displays it -- this will normally result in the debug message being logged. The macro also pack into the message the name of the source file which called <command>cepDebugPrint</command>, and the line number that the call occurred at, for ease of debugging.
 DESCRIPTION END
 
+SEEALSO cepDebug
 DOCBOOK END
 ******************************************************************************/
 
 // This prints out some debugging information which is useful, use it instead
 // of:
-// cepError dbg("Some text", cepError::sevDebug);
-// dbg.display();
+// cepError cepDebugPrint("Some text", cepError::sevDebug);
+// cepDebugPrint.display();
 
 ///////////////////////////////////////////////////////////////////////////////
 // THIS CANNOT DO A DISPLAY, AS THE CONFIG DB CODE USES THIS TO LOG DB PROBLEMS
@@ -49,9 +50,9 @@ DOCBOOK END
 
 #define cepDebugPrint(errmsg) \
   { \
-    cepError newnamedbg(string(errmsg) + string(" at ") + string(__FILE__) + \
+    cepError newname_cepDebugPrint(string("") + string(errmsg) + string(" at ") + string(__FILE__) + \
 			string(":") + cepItoa(__LINE__), cepError::sevDebug); \
-    newnamedbg.log(); \
+    newname_cepDebugPrint.log(); \
   }
 
 /******************************************************************************
@@ -154,6 +155,7 @@ Return the title which should be used in the display of this <command>cepError</
 Return the icon identifier which should be used with the <command>cepError</command>.
 DESCRIPTION END
 
+SEEALSO cepDebugPrint cepConfiguration
 DOCBOOK END
 ******************************************************************************/
 

@@ -57,11 +57,7 @@ m_msg (msg), m_level (level), m_actioned (false)
 cepError::~cepError ()
 {
   if (!m_actioned)
-    {
-      cepError dbg ("cepError was not actioned: " + m_msg,
-		    cepError::sevDebug);
-      dbg.display ();
-    }
+    cepDebugPrint ("cepError was not actioned: " + m_msg);
 }
 
 bool cepError::isReal ()
@@ -115,12 +111,8 @@ cepError::display ()
 #endif
     }
   else
-    {
-      // This presents a smaller danger of an infinite loop
-      cepError dbg ("Display requested on empty cepError",
-		    cepError::sevDebug);
-      dbg.display ();
-    }
+    // This presents a smaller danger of an infinite loop
+    cepDebugPrint ("Display requested on empty cepError");
 }
 
 string cepError::getTitle()

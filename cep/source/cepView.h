@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     04/01/98
-// RCS-ID:      $Id: cepView.h,v 1.5 2002-06-03 19:51:29 u964076 Exp $
+// RCS-ID:      $Id: cepView.h,v 1.6 2002-06-10 19:49:48 u964076 Exp $
 // Copyright:   (c) Julian Smart and Markus Holzem
 // Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////
@@ -20,44 +20,45 @@
 
 class cepCanvas:public wxScrolledWindow
 {
-public:
+ public:
   wxView * view;
-
+  
   cepCanvas (wxView * v, wxFrame * frame, const wxPoint & pos,
-	    const wxSize & size, long style);
+	     const wxSize & size, long style);
   virtual void OnDraw (wxDC & dc);
   void OnMouseEvent (wxMouseEvent & event);
-
-private:
+  
+ private:
   DECLARE_EVENT_TABLE ()
 
-    wxButton m_button;
+  wxButton m_button;
 };
 
 class cepView:public wxView
 {
-public:
+ public:
   wxFrame * frame;
   cepCanvas *canvas;
 
-    cepView ()
-  {
-    canvas = (cepCanvas *) NULL;
-    frame = (wxFrame *) NULL;
-  }
-   ~cepView ()
-  {
-  }
-
+  cepView ()
+    {
+      canvas = (cepCanvas *) NULL;
+      frame = (wxFrame *) NULL;
+    }
+  
+  ~cepView ()
+    {
+    }
+  
   bool OnCreate (wxDocument * doc, long flags);
   void OnDraw (wxDC * dc);
   void OnUpdate (wxView * sender, wxObject * hint = (wxObject *) NULL);
   bool OnClose (bool deleteWindow = TRUE);
-
+  
   void OnCut (wxCommandEvent & event);
-
-private:
-DECLARE_DYNAMIC_CLASS (cepView) 
-DECLARE_EVENT_TABLE ()
+  
+ private:
+  DECLARE_DYNAMIC_CLASS (cepView) 
+  DECLARE_EVENT_TABLE ()
 };
 #endif

@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     04/01/98
-// RCS-ID:      $Id: cepDoc.h,v 1.2 2002-06-02 10:53:15 u964076 Exp $
+// RCS-ID:      $Id: cepDoc.h,v 1.3 2002-06-10 19:49:47 u964076 Exp $
 // Copyright:   (c) Julian Smart and Markus Holzem
 // Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////
@@ -22,25 +22,27 @@
 
 class cepDoc:public wxDocument
 {
-DECLARE_DYNAMIC_CLASS (cepDoc) private:
-public:
- cepDoc (void);
- ~cepDoc (void);
- 
-#if wxUSE_STD_IOSTREAM
- ostream & SaveObject (ostream & text_stream);
- istream & LoadObject (istream & text_stream);
-#else
- wxOutputStream & SaveObject (wxOutputStream & stream);
- wxInputStream & LoadObject (wxInputStream & stream);
-#endif
+  DECLARE_DYNAMIC_CLASS (cepDoc) 
 
- void incrementProgress();
- 
+ public:
+  cepDoc (void);
+  ~cepDoc (void);
+  
+#if wxUSE_STD_IOSTREAM
+  ostream & SaveObject (ostream & text_stream);
+  istream & LoadObject (istream & text_stream);
+#else
+  wxOutputStream & SaveObject (wxOutputStream & stream);
+  wxInputStream & LoadObject (wxInputStream & stream);
+#endif
+  
+  void incrementProgress();
+  cepDataset *getDataset();
+  
  private:
- cepDataset *m_dataset;
- wxProgressDialog *m_progress;
- int m_progressCount;
+  cepDataset *m_dataset;
+  wxProgressDialog *m_progress;
+  int m_progressCount;
 };
 #endif
 
