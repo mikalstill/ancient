@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <zlib.h>
 #include "samples.h"
-#include "lexinterface.h"
+#include "pandalexinterface.h"
 
 enum{
   pdfdump_dump = 0,

@@ -8,9 +8,10 @@
 #include <unistd.h>
 #include <fcntl.h>
   
-#include "lexinterface.h"
+#include <pandalexinterface.h>
+#include <pandalex.h>
+
 #include "samples.h"
-#include "pandalex.h"
   
 #include <stdarg.h>
 #include <stdlib.h>
