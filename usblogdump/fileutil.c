@@ -37,31 +37,32 @@ void fileutil_insertshort(FILE *output, int value){
 
 // Display a C++ serialized string
 void fileutil_displaystring(char *input, char *format, long long *filep){
-  int i, j, read, readlocal;
+  char *temp;
+  printf(format, -1);
+  temp = fileutil_getstring(input, filep);
+  printf("%s", temp);
+  if(temp != NULL)
+    free(temp);
+}
+
+// Return a C++ serialized string
+char *fileutil_getstring(char *input, long long *filep){
   long long count = *filep;
+  char *retval;
+  int i;
 
   // Determine the length of the file -- this matches C++ CString serialization
-  // STD C i = fileutil_displaybyte(input, "  Length might be a byte: ", &count); printf("\n");
-
-  // Tweak needed for MFC serialization, untested for std C
-  // STD C if(i != 0){
-  // STD C   count--;
-
-  //if(i == 0xFF){
-  i = fileutil_displayshort(input, "  Length might be a short: ", &count); printf("\n");
+  i = fileutil_getshort(input, &count);
   if(i == 0xFFFF){
-    i = fileutil_displayinteger(input, "  Length might be an integer: ", &count); 
-    printf("\n");
+    i = fileutil_getinteger(input, &count); 
   }
-  //}
-  // STD C }
   
-  printf(format, i);
-  for(j = i; j != 0; j--){
-    printf("%c", input[count++]);
-  }
-
-  *filep = count;
+  if((retval = (char *) malloc((i + 1) * sizeof(char))) == NULL)
+    return retval;
+  memcpy(retval, (char *) (input + count), i);
+  retval[i + 1] = 0;
+  *filep = count + i;
+  return retval;
 }
 
 // Display a C++ serialized number
@@ -70,12 +71,9 @@ int fileutil_displaynumber(char *input, char *format, long long *filep){
   long long count = *filep;
 
   // Determine the length -- this matches C++ CArchive serialization
-  i = fileutil_displayshort(input, "  Value might be a short: ", &count);
-  printf("\n");
+  i = fileutil_getshort(input, &count);
   if(i == 0xFFFF){
-    i = fileutil_displayinteger(input, "  Value might be an integer: ", 
-				&count);
-    printf("\n");
+    i = fileutil_getinteger(input, &count);
     printf(format);
     printf("%d", i);
   }
@@ -105,11 +103,9 @@ unsigned int fileutil_getunumber(char *input, long long *filep){
   long long count = *filep;
 
   // Determine the length -- this matches C++ CArchive serialization
-  i = fileutil_displayshort(input, "  Value might be a short: ", &count);
-  printf("\n");
+  i = fileutil_getshort(input, &count);
   if(i == 0xFFFF){
-    i = fileutil_displayinteger(input, "  Value might be an integer: ", 
-				&count);
+    i = fileutil_getinteger(input, &count);
   }
 
   *filep = count;
@@ -211,15 +207,22 @@ unsigned int fileutil_getuinteger(char *input, long long *filep){
 
 // Display a short, 2 bytes
 int fileutil_displayshort(char *input, char *format, long long *filep){
+  int i;
+
+  printf(format);
+  i = fileutil_getshort(input, filep);
+  printf("(short) %d [2 bytes]", i);
+  return i;
+}
+
+// Get a short, 2 bytes
+int fileutil_getshort(char *input, long long *filep){
   mint32 myint;
 
   myint.i = 0;
-  printf(format);
   myint.c[0] = input[*filep]; 
   myint.c[1] = input[*filep + 1]; 
   *filep += 2;
-
-  printf("(short) %d [2 bytes]", myint.i);
   return myint.i;
 }
 

@@ -10,9 +10,14 @@
 
 char *functname(unsigned int function);
 
-int usb_urb_header(char *file, long long *filep);
+void usb_urb_header(char *file, long long *filep);
+#define USB_URB_HEADER_LENGTH 16
+
 void usb_urb_controltransfer(char *file, long long *filep);
+
 void usb_urb_hcd(char *file, long long *filep);
+#define USB_URB_HCD_LENGTH 32
+
 void usb_urb_listentry(char *file, long long *filep);
 void usb_interface_info(char *file, long long *filep);
 void usb_pipe_info(char *file, long long *filep);
@@ -49,16 +54,17 @@ int main(int argc, char *argv[]){
     }
   filep = 0;
 
-  // Details of the dump
-  npackets = fileutil_displaynumber(file, "Number of packets: ", &filep); printf("\n");
-  printf("%d URB pointers skipped\n", npackets);
+  // Details of the dump, skip over the URB pointers
+  npackets = fileutil_getnumber(file, &filep);
+  printf("Number of packets: %d\n", npackets);
   filep += npackets * 4;
-
   tsrelative = fileutil_getunumber(file, &filep);
   printf("Plugin timestamp: %d\n", tsrelative);
   
-  fileutil_displayunumber(file, "Timestamp is relative (1 == true): ", &filep); printf("\n");
-  printf("\n");
+  temp = fileutil_getunumber(file, &filep);
+  if(temp == 1){
+    printf("Timestamp is relative\n");
+  }
 
   // Details of the URB
   for(urbCount = 0; urbCount < npackets; urbCount++){
@@ -69,7 +75,7 @@ int main(int argc, char *argv[]){
     otag = fileutil_getushort(file, &filep); printf("\n");
     if(otag == 0xFFFF){
       fileutil_getushort(file, &filep);
-      fileutil_displaystring(file, "SnoopyPro URB object name: ", &filep); printf("\n");
+      fileutil_getstring(file, &filep);
     }
 
     printf("Sequence: %u\n", fileutil_getuinteger(file, &filep));
@@ -77,9 +83,7 @@ int main(int argc, char *argv[]){
     function = fileutil_getushort(file, &filep);
     printf("Function: %s (0x%04x)\n", functname(function), function);
     printf("Time relative to start of dump: %d\n", fileutil_getuinteger(file, &filep) - tsrelative);
-
-    fileutil_displaynumber(file, "Endpoint: ", &filep); printf("\n");
-
+    printf("Endpoint: %d\n", fileutil_getnumber(file, &filep));
     printf("Pipe handle: 0x%08x\n", fileutil_getuinteger(file, &filep));
 
     fileutil_displayuinteger(file, "Flags: ", &filep); printf("\n");
@@ -89,8 +93,10 @@ int main(int argc, char *argv[]){
     
     fileutil_displayuinteger(file, "Length: ", &filep); printf("\n");
     fileutil_displayinteger(file, "Direction (0 to, 1 from): ", &filep); printf("\n");
-    fileutil_displayuinteger(file, "Sequence number: ", &filep); printf("\n");
-    fileutil_displayuinteger(file, "Timestamp: ", &filep); printf("\n");
+
+    // The sequence number and timestamp are repeated for some reason...
+    fileutil_getuinteger(file, &filep);
+    fileutil_getuinteger(file, &filep);
     printf("\n");
 
     usb_urb_header(file, &filep);
@@ -101,13 +107,12 @@ int main(int argc, char *argv[]){
     // Do something with the function
     switch(function){
     case 0:
-      usb_urb_header(file, &filep);
-
-      printf("Skipped usb configuration description pointer\n");
+      // usb_urb_header(file, &filep);
+      filep += USB_URB_HEADER_LENGTH;
+      // Skipped usb configuration description pointer
       filep += 4;
-      printf("Skipped usb configuration handle pointer\n");
+      // Skipped usb configuration handle pointer
       filep += 4;
-      printf("\n");
 
       usb_interface_info(file, &filep);
       printf("\n");
@@ -139,10 +144,11 @@ int main(int argc, char *argv[]){
 	printf("\n");
 	fileutil_displaybyteblock(file, "Transfer: ", psize, &filep); printf("\n");
       }
-      printf("\n\n");
+      printf("\n");
 
       // And now read the control transfer header
-      usb_urb_header(file, &filep);
+      // usb_urb_header(file, &filep);
+      filep += USB_URB_HEADER_LENGTH;
       usb_urb_controltransfer(file, &filep);
       break;
 
@@ -172,7 +178,8 @@ int main(int argc, char *argv[]){
       }
       printf("\n\n");
       
-      usb_urb_header(file, &filep);
+      // usb_urb_header(file, &filep);
+      filep += USB_URB_HEADER_LENGTH;
       usb_urb_controltransfer(file, &filep);
       break;
 
@@ -224,22 +231,23 @@ char *functname(unsigned int function)
     }
 }
 
-int usb_urb_header(char *file, long long *filep)
+void usb_urb_header(char *file, long long *filep)
 {
   long long count = *filep;
-  int function;
 
   printf("URB header:\n");
   fileutil_displayushort(file, "Length: ", &count); printf("\n");
-  function = fileutil_displayushort(file, "Function: ", &count); printf("\n");
+
+  // Function has already been displayed
+  fileutil_getushort(file, &count);
+
   fileutil_displayuinteger(file, "Status: ", &count); printf("\n");
-  printf("Skipped device handle pointer\n");
+  // Skipped device handle pointer
   count += 4;
   fileutil_displayuinteger(file, "Flags: ", &count); printf("\n");
   printf("\n");
 
   *filep = count;
-  return function;
 }
 
 void usb_urb_controltransfer(char *file, long long *filep)
@@ -247,19 +255,21 @@ void usb_urb_controltransfer(char *file, long long *filep)
   long long count = *filep;
 
   printf("URB control transfer:\n");
-  printf("Skipped pipe handle pointer\n");
+  // Skipped pipe handle pointer
   count += 4;
   fileutil_displayinteger(file, "Transfer flags: ", &count); printf("\n");
   fileutil_displayinteger(file, "Transfer buffer length: ", &count); printf("\n");
-  printf("Skipped transfer buffer pointer\n");
+  // Skipped transfer buffer pointer\n");
   count += 4;
-  printf("Skipped transfer buffer MDL pointer\n");
+  // Skipped transfer buffer MDL pointer\n");
   count += 4;
-  printf("Skipped next URB pointer\n");
+  // Skipped next URB pointer\n");
   count += 4;
   printf("\n");
 
-  usb_urb_hcd(file, &count);
+  // usb_urb_hcd(file, &count);
+  count += USB_URB_HCD_LENGTH;
+
   fileutil_displaybyteblock(file, "Setup packet: ", 8, &count);
   printf("\n");
 
@@ -271,9 +281,9 @@ void usb_urb_hcd(char *file, long long *filep)
   long long count = *filep;
 
   printf("URB hcd:\n");
-  printf("Skipped HCD endpoint pointer\n");
+  // Skipped HCD endpoint pointer\n");
   count += 4;
-  printf("Skipped HCD IRP pointer\n");
+  // Skipped HCD IRP pointer\n");
   count += 4;
   printf("\n");
   
@@ -282,9 +292,9 @@ void usb_urb_hcd(char *file, long long *filep)
   printf("HCD list entry 2:\n");
   usb_urb_listentry(file, &count);
 
-  printf("Skipped HCD current IO flush pointer\n");
+  // Skipped HCD current IO flush pointer\n");
   count += 4;
-  printf("Skipped HCD extension pointer\n");
+  // Skipped HCD extension pointer\n");
   count += 4;
   printf("\n");
 
@@ -295,9 +305,9 @@ void usb_urb_listentry(char *file, long long *filep)
 {
   long long count = *filep;
 
-  printf("Skipped forward pointer\n");
+  // Skipped forward pointer\n");
   count += 4;
-  printf("Skipped backward pointer\n");
+  // Skipped backward pointer\n");
   count += 4;
   printf("\n");
 
@@ -335,9 +345,8 @@ void usb_pipe_info(char *file, long long *filep){
   fileutil_displaybyteblock(file, "End point address: ", 1, &count); printf("\n");
   fileutil_displaybyteblock(file, "Interval: ", 1, &count); printf("\n");
   fileutil_displayinteger(file, "USB pipe type: ", &count); printf("\n");
-  printf("Skipped pipe handle\n");
+  // Skipped pipe handle\n");
   count += 4;
-  //fileutil_displaybyteblock(file, "USB pipe handle: ", 4, &count); printf("\n");
   fileutil_displayuinteger(file, "Maximum transfer size: ", &count); printf("\n");
   fileutil_displayuinteger(file, "Pipe flags: ", &count); printf("\n");
 
