@@ -104,6 +104,7 @@ pdfRender::processContentsObject(const object& contents){
   // todo_mikal: this might be too slow because of the accessor
   string line;
   inset = 0;
+  m_commandString = "";
   while (inset < length)
     {
       if ((stream[inset] != '\n') && (stream[inset] != '\r'))
@@ -360,4 +361,10 @@ pdfRender::getPNGfile ()
   fclose (image);
 
   return tempName;
+}
+
+void
+render::appendCommand(string commandString)
+{
+  debug(dlTrace, "Implement append command");
 }

@@ -95,6 +95,8 @@ private:
   void render_w ();
   void render_y ();
 
+  void appendCommand(string commandString);
+
   enum rmMode
   {
     rmUndefined = 0,
@@ -114,6 +116,8 @@ private:
 
   plot_state *m_plot;
   unsigned int m_width, m_height;
+
+  string m_commandString;
 };
 
 #endif
