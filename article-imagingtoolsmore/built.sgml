@@ -47,7 +47,7 @@ Fill in or leave blank for production to fill in.-->
 
 <para>Last year I wrote an article for IBM DeveloperWorks about image manipulations on the command line using ImageMagick. The article was quite well received, and since then I have fielded many email questions on ImageMagick. This article expands on the techniques discussed in that previous article, as well as answering as many of those questions as I can. If this is the first ImageMagick article from IBM DeveloperWorks that you've found, you would do well to have a look at this first article as well.</para>
 
-<para>This article takes the form of discussing specific problems as examples, but the concepts should be applicable to other problem spaces as well.</para>
+<para>This article takes the form of discussing specific problems as examples, but the concepts should be applicable to other problem spaces as well. This is the same approach as taken in the previous article. The techniques discussed here also work in combination with those we've discussed previously.</para>
 
 <para>It should be noted that there are many ways to do the things discussed in this article. I will only discuss the methods I use, and know work for me. That doesn't mean the other tools out there are broken, it just means that I'm happy with what I am using now.</para>
 
@@ -78,9 +78,7 @@ Fill in or leave blank for production to fill in.-->
 <execute><cmd>img</cmd><args>rounded-ne-xview.png</args></execute>
 
 
-<para>The actual corner image will become more clear when we superimpose it upon an image, so let's get on with that.</para>
-
-<para>I have a thumbnail which I made earlier of the view from the shore of one of Canberra's lakes. Without the rounded corners, the thumbnail looks like this:</para>
+<para>The actual corner image will become more clear when we superimpose it upon an image, so let's get on with that. I have a thumbnail which I made earlier of the view from the shore of one of Canberra's lakes. Without the rounded corners, the thumbnail looks like this:</para>
 
 
 <execute><cmd>img</cmd><args>lake.png</args></execute>
@@ -192,7 +190,7 @@ convert -bordercolor red -border 5x5 flower.png flower-border.png
 convert -list color
 </programlisting>
 
-<para>I will give in a little, and list for you some of the more commonly used colors of the 683 available: aquamarine, azure, beige, bisque, black, blue, brown, burlywood, chartreuse, chocolate, coral, cornsilk, cyan, firebrick, gainsboro, gold, goldenrod, green, honeydew, ivory, khaki, lavender, linen, magenta, maroon, moccasin, navy, orange, orchid, peru, pink, plum, purple, red, salmon, seashell, sienna, snow, tan, thistle, tomato, turquoise, violet, wheat and yellow.</para>
+<para>Here's a list of some of the more commonly used colors of the 683 available: aquamarine, azure, beige, bisque, black, blue, brown, burlywood, chartreuse, chocolate, coral, cornsilk, cyan, firebrick, gainsboro, gold, goldenrod, green, honeydew, ivory, khaki, lavender, linen, magenta, maroon, moccasin, navy, orange, orchid, peru, pink, plum, purple, red, salmon, seashell, sienna, snow, tan, thistle, tomato, turquoise, violet, wheat and yellow.</para>
 
 <para>You can also of course specify your own colors by using any of the following formats, where R represents the red value, G the green, B the blue, and A the alpha (transparency) value:</para>
 
