@@ -36,11 +36,26 @@ SYNOPSIS END
 DESCRIPTION START
 <!-- description goes here -->
 <para>description</para>
+A Hamming window. The coefficients are generated according to the followng equation
 
 <para> <!-- per function descriptions -->
-<command>cepConfiguration.initialise(const string&amp; filename);</command>
-initialises the configuration.<command>filename</command> defines the location
-of the configuration file. If the file does not exist it will be created
+<command>cepWindowHamming( int size )</command>
+Makes a new cepWindowHamming of a specific size.
+</para>
+
+<para> <!-- per function descriptions -->
+<command>cepWindowHamming( int size )</command>
+Makes a new cepWindowHamming of a specific size.
+</para>
+
+<para> <!-- per function descriptions -->
+<command>getValue( int offset )</command>
+gets the coefficient at a specified offset from the front of the window. This
+will calculated according to the following equation.
+If the window size is 1 then the coefficient will be 1, otherwise
+<command>double result = 0.54 - 0.46*cos( 2*PI* offset/(size-1) );<command>
+</para>
+
 DESCRIPTION END
 
 DOCBOOK END

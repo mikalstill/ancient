@@ -20,12 +20,13 @@
 
 #include "cepWindowRect.h"
 
-cepWindowRect::cepWindowRect( int size ) : cepWindowAlg( size ) {
+cepWindowRect::cepWindowRect( int s ) : cepWindowAlg( s ) {
   initCoeffs();
 }
 
 cepWindowRect::~cepWindowRect()
 {
+  // in case we had another type of window previously. coeffs is not used here
   if( coeffs != NULL ) delete coeffs;
 }
 

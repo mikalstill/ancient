@@ -699,25 +699,32 @@ cepView::processWindow(const cepWindow wType, string desc)
     cepDebugPrint("Prompt for Window information");
     bool ok = false;
     do
-      {
-	windowUi.show();
-	if( windowUi.cancelled() ) return;
-	if( windowUi.checkValues().isReal() ) {
-	  windowUi.checkValues().display();
-	} else {
-	  ok = true;
-	}
-      } while( !ok  );
+    {
+        cepError err;
+        if(wType == cepDataWindower::WINDOW_CHEBYSHEV) {        
+            err = windowUi.showChebyshev();
+        } else {
+            err = windowUi.show();
+        }
+          
+        if( windowUi.cancelled() ) return;
+        if( err.isReal() ) {
+            err.display();
+        } else {
+            ok = true;
+        }
+    } while( !ok  );
     
     if(wType == cepDataWindower::WINDOW_CHEBYSHEV){
-      double bw = windowUi.getBandwidth();
-      if( bw != cepWindowBandwidth::UNINITIALISED_FLOAT ){
-	cepError err = cepWindowChebyshev::setTransitionBandwidth( bw );
-	if( err.isReal() ) {
-	  err.display();
-	  return;
-	}
-      }
+        double bw = windowUi.getBandwidth();
+        // this should never occur as this is only set if we abort
+        if( bw != cepWindowBandwidth::UNINITIALISED_FLOAT ){
+            cepError err = cepWindowChebyshev::setTransitionBandwidth( bw );
+            if( err.isReal() ) {
+                err.display();
+                return;
+            }
+        }
     }
     
     cepDebugPrint("Set window type");
@@ -725,15 +732,20 @@ cepView::processWindow(const cepWindow wType, string desc)
     
     // Now actually window
     for(int i = 0; i < cepDataset::dirUnknown; i++)
-      {
-	cepDebugPrint("Window: " + cepToString(i));
-	cepError werr = cepDataWindower::window(*theDoc->getDataset ()->getMatrix((cepDataset::direction) i),
-						windowed[i]);
-	if(werr.isReal()){
-	  werr.display();
-	  return;
-	}
+    {
+      cepDebugPrint("Window: " + cepToString(i));
+      cout << "window size:" << endl
+           << "rows: " << theDoc->getDataset()->getMatrix((cepDataset::direction) i)->getNumRows() << endl
+           << "cols: " << theDoc->getDataset()->getMatrix((cepDataset::direction) i)->getNumCols() << endl
+           << "tabs: " << theDoc->getDataset()->getMatrix((cepDataset::direction) i)->getNumTables() << endl;
+           
+      cepError werr = cepDataWindower::window(*theDoc->getDataset()->getMatrix((cepDataset::direction) i),
+                                                windowed[i]);
+      if(werr.isReal()){
+        werr.display();
+        return;
       }
+    }
     
     // Now we can process the results
     cepDebugPrint("Display results");

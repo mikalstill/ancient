@@ -22,14 +22,16 @@
 DOCBOOK START
 
 FUNCTION <!-- class name -->
-cepConfiguration
+cepWindowRect
 
 PURPOSE <!-- use cases -->
-provides storage of name/value pairs
+generates the coefficient array representing a rectangular window of a specified size
 
-SYNOPSIS START
-<!-- how to instantiate one? -->
-cepConfiguration::getInstance();
+SYNOPSIS START <!-- how to get one -->
+This is utilised by cepDataWindower and need not be instantiated directly.
+
+to instantiate a rectangular window
+cepWindowRect( int size );
 
 SYNOPSIS END
 
@@ -38,9 +40,20 @@ DESCRIPTION START
 <para>description</para>
 
 <para> <!-- per function descriptions -->
-<command>cepConfiguration.initialise(const string&amp; filename);</command>
-initialises the configuration.<command>filename</command> defines the location
-of the configuration file. If the file does not exist it will be created
+<command>cepWindowRect( int size )</command>
+Makes a new cepWindowRect of a specific size.
+</para>
+
+<para> <!-- per function descriptions -->
+<command>cepWindowRect( int size )</command>
+Makes a new cepWindowRect of a specific size.
+</para>
+
+<para> <!-- per function descriptions -->
+<command>getValue( int offset )</command>
+gets the coefficient at a specified offset from the front of the window. This will always be 1.
+</para>
+
 DESCRIPTION END
 
 DOCBOOK END

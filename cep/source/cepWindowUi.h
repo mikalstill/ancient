@@ -155,8 +155,8 @@ public:
   cepWindowUi();
 
   //shows the "set Bandwidth dialog box"
-  void showBandwidth();
-  void show();
+  cepError showChebyshev();
+  cepError show();
 
   //gets the Bandwidth value
   int getSize();

@@ -164,7 +164,7 @@ const double cepWindowBandwidth::UNINITIALISED_FLOAT = 1.602e-19;
 
 cepWindowUi::cepWindowUi() {}
 
-void cepWindowUi::showBandwidth()
+cepError cepWindowUi::showChebyshev()
 {
   cepWindowBandwidth wa( true );
 
@@ -172,17 +172,20 @@ void cepWindowUi::showBandwidth()
   m_overlap = wa.getOverlap();
   m_bandwidth = wa.getBandwidth();
   aborted = wa.cancelled();
+  return checkChebValues();
   
 }
 
 
-void cepWindowUi::show()
+cepError cepWindowUi::show()
 {
   cepWindowBandwidth wa( false );
 
   m_size = wa.getSize();
   m_overlap = wa.getOverlap();
   aborted = wa.cancelled();
+  return checkValues();
+
 }
   
 int cepWindowUi::getSize()
@@ -213,5 +216,6 @@ cepError cepWindowUi::checkValues()
 cepError cepWindowUi::checkChebValues()
 {
   if( m_bandwidth < 0 || m_bandwidth > 0.5 ) return cepError("invalid transition bandwidth value");
+  if( isnan( m_bandwidth ) ) return cepError("bandwidth is not a number!");
   return cepError();
 }

@@ -147,7 +147,7 @@ public:
   cepMatrix < ComplexDble > matrixFft (cepMatrix < ComplexDble > &matrix,
 				       int dir);
 
-  cepError cepCfft<T>::getError();
+  cepError getError();
   
   // used to fill in last half of complex spectrum of real signal
   // when the first half is already there.
