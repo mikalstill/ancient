@@ -4,10 +4,10 @@
 <para>
   The GDMS packages offers a suite of time series analysis tools intended for the processing of data from various sources.
   The package was designed and implemented to be as flexible and as platform independent as possible given the time constraints
-  under which the group working. We aimed to provide a package which would enhance on other currently availabl analysis
-  tools. This involved providing time domain anlysis, frequency domain analysis and of course along with those, windowing and interpolation functionality.
-  The loose object oriented design provides GDMS with a good deal  in the way of extensibiility. The extensive documentation
-  will provide both users and developers in the future with an understanind of exactly how the system was constructed facilitating
+  under which the group working. We aimed to provide a package which would enhance on other currently available analysis
+  tools. This involved providing time domain analysis, frequency domain analysis and of course along with those, windowing and interpolation functionality.
+  The loose object oriented design provides GDMS with a good deal  in the way of extensibility. The extensive documentation
+  will provide both users and developers in the future with an understanding of exactly how the system was constructed facilitating
   changes that may be desired.
 </para>
 </sect2>
@@ -15,31 +15,31 @@
 <sect2><title>Did we succeed? - heading left for proofing only</title>
 <para>
   The measure of the success of a project is contributed to by a number of factors. Perhaps the first and foremost concern
-  in a software application is whether or not it actually works. This is of courase the most obvious measure of success to a user using the applicaiton.
+  in a software application is whether or not it actually works. This is of course the most obvious measure of success to a user using the application.
   Having made this point, another one of significance is whether or not the application achieves was it was intended to achieve.
-  In the case of GDMS, we started with a broad reuirements description. Based on these requirements, a project proposal was written. TODO: attach?
+  In the case of GDMS, we started with a broad requirements description. Based on these requirements, a project proposal was written. TODO: attach?
   This proposal outlined our intentions for the GDMS package.
 </para>
 
 <para>
   Throughout the course of the project some requirements were deemed unnecessary, however, overall, the
   requirements of the system grew compared to what we expected, in terms of fundamental requirements of the system.
-  In many case, this were functionality deemed essential inorder to provide a system that was considered <emphasis>useful</emphasis>.
-  In some case, these features were the finer detail of the broader requirements which we did not conconsider.
-  As the dealine drew near, we needed to assess in orderof priority, which fucntionality was essentail and which wasn't.
-  This was largely a role that Associciate Professor Peter Morgan played, he being the key stakeholder in GDMS.
+  In many case, this were functionality deemed essential in order to provide a system that was considered <emphasis>useful</emphasis>.
+  In some case, these features were the finer detail of the broader requirements which we did not consider.
+  As the deadline drew near, we needed to assess in order of priority, which functionality was essential and which wasn't.
+  This was largely a role that Associate Professor Peter Morgan played, he being the key stakeholder in GDMS.
 </para>
 
 <para>
   Having finally implemented a working system, with functionality such that the system was considered <emphasis>useful</emphasis>,
-  we succeeded. A critical point here, is that this system from the very begining, was alsways to be an evolving
+  we succeeded. A critical point here, is that this system from the very beginning, was always to be an evolving
   one. Future project teams are expected to further enhance the functionality we have provided. Therefore, in terms of
-  enahncing features of already available packages, we believe again, that we have succeeded. We have set up a
+  enhancing features of already available packages, we believe again, that we have succeeded. We have set up a
   platform upon which others can build, whilst providing something now. This is not to say that
   this is the definitive application for time series analysis, as that is clearly not the case. In fact, we do not
-  consider this in itself, to be achievable in the time with which we had to complete this application. Time series analyis
+  consider this in itself, to be achievable in the time with which we had to complete this application. Time series analysis
   is a growing field of its own, and it would not be wise to expect to fill this area in a short finite session.
-  We have hopwever, succeeded in providing a package which enhances on some functionality of other applications, and
+  We have however, succeeded in providing a package which enhances on some functionality of other applications, and
   can be further enhanced in the future.
 </para>
 </sect2>
@@ -53,24 +53,54 @@ Kind of covered above
 
 <sect2><title>What did we learn? - heading left for proofing only </title>
 <para>
-  A number of valuable lessons have been learnt from the GDMS development process, not all of which relate directly
+  A number of valuable lessons have been learned from the GDMS development process, not all of which relate directly
   to application development. That which we consider to be the most critical lesson here, is planning. As previously mentioned,
-   the orininal requirements were broad and did not cover many of the finer details required. It was during our initial requirements
+   the original requirements were broad and did not cover many of the finer details required. It was during our initial requirements
    definition process, that we should have sought to discover as much as possible about exactly what was involved
-   with various features in the braod specification. Our mathematical body of knowledge before the project began, was
-   considered at leats enough to proceed, yet perhaps not quite enough to foresee these finer specification details.
-
+   with various features in the broad specification. Our mathematical body of knowledge before the project began, was
+   considered at least enough to proceed, yet perhaps not quite enough to foresee these finer specification details.
+   A more comprehensive requirements definition phases in this project would quite likely have reduced the number of
+   problems we had later, with missing or in correct functionality. Having said this, the development of GDMS can be likened
+   to a prototyping methodology. It was necessary to consult continuously with Associate Professor Peter Morgan, to ensure
+   that project was meeting his requirements.
 </para>
-
-</sect2>
-
-<sect2><title>Still TODO:</title>
 <para>
-<itemizedlist>
-   <listitem><para>Summarise lessons</para></listitem>
-  <listitem><para>Summarise future enhancements</para></listitem>
-</itemizedlist>
+   This consultation was necessary and relevant for all aspects of the system. It is difficult to assign more importance
+   to the mathematical functionality or the user interfce, as they are both critical here. Of course, the mathematical
+   functionality must be correct for the system to be correct. The user interface however, is the vehicle with which we deliver
+   feedback and output to the user. The manner in which the UI displays this ouput is critical here. It is important that the user
+   of a system be able to relate to it. It would be counter productive for us to develop an application which varied
+   signifantly from a standard form. Users of applications such as this one, will be largely made up of people who have been
+   using similar tools for a considerable time. An application with a very different look and feel, is not likely
+   to be adopted as a useful tool.
 </para>
+
+<para>
+   Having now completed the first pass of this application's development, we can all say with confidence that our
+   knowledge in a number of areas has increased significantly. The first is of course the aforemntioned planning.
+   Even though all of us have been involved with software development of various kinds in the past, this has highlighted
+   the critical importance of the requirements definition process. Having been programming in a Linux envrionment
+   for the duration of the project, this too has been an error of exapnsion for our knowledge. This extends of course
+   to the programming language itself, C++, various libraries such as that used for the user interface, and many more
+   aspects of development. Furthermore, our knowledge of data analysis and processing has benifited here. Not only
+   in terms of the theory and processes involved, but also the background, applications and vast significance of the analysis and
+   processing of data in order to obtain information.
+</para>
+
 </sect2>
+
+<sect2><title>Summarise Lessons - heading left for proofing only </title>
+<para>Covered above.</para>
+<para>Humpty dumpty sat on a wall, </para>
+<para>Humpty dumpty had a great fall, </para>
+<para>So the lesson is, that dumb old hum,pty dumpty shouldn't have been sitting there in the first place. </para>
+</sect2>
+
+
+<sect2><title>Summarise future enhancements - heading left for proofing only </title>
+<para></para>
+</sect2>
+
 </sect1> <!--Conclusion-->
+
 

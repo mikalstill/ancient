@@ -22,7 +22,7 @@
      
      <para>
       Another candidate that was discovered after testing had already commenced with teh FFTW library. This was a complex template
-       class to compute FFTs written in C++ [Arndt 2002]. This was considered as suitable choice as it was simple compared to FFTW, and also suited our
+       class to compute FFTs written in C++ (Arndt, 2002). This was considered as suitable choice as it was simple compared to FFTW, and also suited our
        loose object oriented design - TODO: does this line work?. During the testing of the complex template FFT class, there was no
        evidence to suggest that it would be too slow compared to FFTW. We therefore decided to integrate it into the project.
     </para>
