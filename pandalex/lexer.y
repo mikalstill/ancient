@@ -41,11 +41,11 @@ pdf       : header {
             objects xref trailer
           ;
 
-header    :  VERSION { 
+header    : VERSION { 
 	            pandalex_callback(gpandalex_callback_specver, 
 				      gpandalex_callback_type_string, $1); }
-             binary { 
-                    strmcat($$, $3); }
+            binary { 
+                    $$ = $3; }
           ;
 
 objects   : object objects
@@ -55,7 +55,11 @@ objects   : object objects
 object    : INT INT OBJ { 
                     pandalex_callback(gpandalex_callback_objstart, 
 				      gpandalex_callback_type_object, 
-				      $1, $2); } 
+				      $1, $2); 
+#if defined DEBUG
+  fprintf(stderr, "object %d %d\n", $1, $2);
+#endif
+                         } 
             DBLLT dict DBLGT stream ENDOBJ {}
           ;
 
@@ -68,13 +72,14 @@ dict      : NAME STRING dict {
 				      gpandalex_callback_type_string, 
 				      $1, $2); }
           | NAME ARRAY arrayvals ENDARRAY dict { 
-	            pandalex_callback(gpandalex_callback_dictitem_array, 
+	    // This one needs work...
+                    pandalex_callback(gpandalex_callback_dictitem_array, 
 				      gpandalex_callback_type_string, 
 				      $1, $2); }
-          | NAME OBJREF dict { 
-                    pandalex_callback(gpandalex_callback_dictitem_object, 
-				      gpandalex_callback_type_string, 
-				      $1, $2); }
+          | NAME objref dict { }
+	    // pandalex_callback(gpandalex_callback_dictitem_object, 
+	    //		      gpandalex_callback_type_string, 
+	    //	      $1, $2); }
           | NAME DBLLT dict DBLGT dict { 
                     pandalex_callback(gpandalex_callback_dictitem_dict, 
 				      gpandalex_callback_type_string, 
@@ -86,34 +91,37 @@ dict      : NAME STRING dict {
           |
           ;
 
-arrayvals : OBJREF arrayvals {}
+arrayvals : objref arrayvals {}
           | INT arrayvals {}
           |
           ;
 
-stream    : STREAM { binaryMode = 1; } binary { binaryMode  } DBLLT dict DBLGT stream ENDOBJ {}
+objref    : INT INT OBJREF {}
+          ;
+
+stream    : { binaryMode = 1; } binary ENDSTREAM {}
           ;
 
 dict      : NAME STRING dict {}
           | NAME NAME dict {}
           | NAME ARRAY arrayvals ENDARRAY dict {}
-          | NAME OBJREF dict {}
+          | NAME objref dict {}
           | NAME DBLLT dict DBLGT dict {}
           | NAME INT dict {}
           |
           ;
 
-arrayvals : OBJREF arrayvals {}
+arrayvals : objref arrayvals {}
           | INT arrayvals {}
           |
           ;
 
-stream    : STREAM { binaryMode = 1; } binary { binaryMode = 0; } ENDSTREAM 
+stream    : STREAM { binaryMode = 1; } binary ENDSTREAM 
           |
           ;
 
-binary    : ANYTHING binary { strmcat($$, $2); }
-          | { strmcpy($$, ""); }
+binary    : ANYTHING { printf("Last thing was an anything\n"); } binary {}
+          | {}
           ;
 
 xref      : STRING INT INT xrefitems {}
@@ -174,16 +182,18 @@ int yyerror(char *s){
 char *strmcat(char *dest, char *append){
   char *new;
 
+#if defined DEBUG
+  printf("Length of string is %d (%s)\n", strlen(new), append);
+#endif
+
   // What length do we need?
   if((new = (char *) realloc(dest, sizeof(char) * 
-			     (strlen(dest) + strlen(append) + 2))) == NULL){
+    (strlen(dest) + strlen(append) + 2))) == NULL){
     fprintf(stderr, "Could not realloc enough space\n");
     exit(42);
   }
-
-  strcpy(new, dest);
+  
   strcat(new, append);
-
   return new;
 }
 
