@@ -4,7 +4,7 @@
 # 1: If it is a new test subset, add it's name here (starting with test). Note
 # that you _do_not_ have to add targets here, especially if you only want them
 # as part of huge.
-noinst_PROGRAMS = testall testwindows testmatrix testconfig testls testdataset testnumeric testfft testdate 
+noinst_PROGRAMS = testall testwindows testmatrix testconfig testls testdataset testnumeric testfft testdate testinterp
 #testinterp
 EXTRA_PROGRAMS = testallhuge
 
@@ -28,8 +28,8 @@ testfft_SOURCES = alltests.cpp cep_testCfft.cpp
 testdate_SOURCES = alltests.cpp cep_testDate.cpp
 testdate_LDADD = ../cepDate.o
 
-#testinterp_SOURCES = alltests.cpp cep_testInterp.cpp
-#testinterp_LDADD = ../cepInterp.o
+testinterp_SOURCES = alltests.cpp cep_testInterp.cpp
+testinterp_LDADD = ../cepInterp.o
 
 # 2: Above this line, you need to add a line test<name>_SOURCES, which lists
 # your .cpp files, and (if you need it), a line test<name>_LDADD, which lists
@@ -38,14 +38,12 @@ testdate_LDADD = ../cepDate.o
 # 3: Add the .cpp files here, and add a variable if you used objects from the
 # source directory. Sometimes, if it is heaps of tests which you only want to
 # run very occassionally, it might belong in (4) instead...
-testall_SOURCES = alltests.cpp cep_testWindows.cpp cep_testMatrix.cpp cep_testConfig.cpp cep_testLs.cpp cep_testDataset.cpp cep_testNumeric.cpp cep_testCfft.cpp cep_testDate.cpp 
-#cep_testInterp.cpp
+testall_SOURCES = alltests.cpp cep_testWindows.cpp cep_testMatrix.cpp cep_testConfig.cpp cep_testLs.cpp cep_testDataset.cpp cep_testNumeric.cpp cep_testCfft.cpp cep_testDate.cpp cep_testInterp.cpp
 
-testall_LDADD = $(testwindows_LDADD) $(testls_LDADD) $(testdataset_LDADD) $(testdate_LDADD) 
-#$(testinterp_LDADD)
+testall_LDADD = $(testwindows_LDADD) $(testls_LDADD) $(testdataset_LDADD) $(testdate_LDADD) $(testinterp_LDADD)
 
 # 4: A special target for really long winded tests
-testallhuge_SOURCES = alltests.cpp cep_testPresentation000.cpp cep_testPresentation1000.cpp cep_testPresentation200.cpp cep_testPresentation400.cpp cep_testPresentation600.cpp cep_testPresentation800.cpp 
+testallhuge_SOURCES = alltests.cpp cep_testPresentation000.cpp cep_testPresentation1000.cpp cep_testPresentation200.cpp cep_testPresentation400.cpp cep_testPresentation600.cpp cep_testPresentation800.cpp
 
 
 # These get built into everything
