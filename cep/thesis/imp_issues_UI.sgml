@@ -252,7 +252,7 @@ there are a variety of improvements which could be made in the future. These inc
   future release. Revision of this code was attempted late in the process, but due to time constraints and an
   uncooperative plotting library this was abandoned.</para></listitem>
 <listitem>
-  <para><emphasis>Analysis of plotting precision</emphasis>: currently the resision of the graphs is such that
+  <para><emphasis>Analysis of plotting precision</emphasis>: currently the presision of the graphs is such that
   using high sampling frequencies can cause the graphs to lose precision. Analysis of the plotting functions
   needs to be considered to minimise this</para></listitem>
 </itemizedlist>
