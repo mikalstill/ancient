@@ -591,7 +591,7 @@ The example which I am most familiar with is PDF documents. In PDF files, you ca
 
 <sect1><title>Storing more than one image inside a TIFF</title>
 <para>
-A common request is to be able to store more than one image inside a sigle TIFF file. This is done with directories, which is why they're described at the start of this chapter.
+A common request is to be able to store more than one image inside a sigle TIFF file. This is done with multiple directories, which is one of the reasons they're described at the start of this chapter.
 </para>
 
 <para>
@@ -600,7 +600,9 @@ A common request is to be able to store more than one image inside a sigle TIFF 
 .</emphasis>
 </para>
 
+<para>
 
+</para>
 
 </sect1>
 
