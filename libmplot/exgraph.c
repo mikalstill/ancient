@@ -32,7 +32,7 @@ main (int argc, char *argv[])
   plot_state *graph;
   char *raster;
   float angle;
-  int x;
+  int x, count;
 
   if((graph = plot_newplot(400, 200)) == NULL){
     fprintf(stderr, "Could not allocate a new plot\n");
@@ -74,12 +74,16 @@ main (int argc, char *argv[])
   plot_endline(graph);
 
   // Write out some text
-  plot_setfontcolor(graph, 89, 87, 204);
-  plot_setfont(graph, "/usr/share/fonts/default/Type1/n021004l.pfb", 30);
+  plot_setfontcolor(graph, 26, 22, 249);
+  plot_setfont(graph, "/usr/share/fonts/default/Type1/n021004l.pfb", 5);
   plot_settextlocation(graph, 20, 30);
-  plot_paintglyph(graph, 'M');
-  plot_gettextlocation(graph, &textx, &texty);
-  printf("M caused %d, %d text cursor movement\n", textx - 20, texty - 30);
+  for(count = 0; count < 26; count++){
+    plot_paintglyph(graph, 'a' + count);
+    plot_gettextlocation(graph, &textx, &texty);
+    if(textx > 180){
+      plot_settextlocation(graph, 20, texty + 40);
+    }
+  }
 
   // Write out the PNG file
   raster = plot_getraster(graph);

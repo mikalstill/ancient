@@ -724,11 +724,14 @@ plot_loadglyph(plot_state *state, char character)
 #endif
 }
 
+#define sfgb state->face->glyph->bitmap
+
 int
 plot_paintglyph(plot_state *state, char character)
 {
 #if defined HAVE_LIBFREETYPE
   int bmx, bmy;
+  unsigned long p;
 
   if(state->ft == NULL){
     fprintf(stderr, "Initialization of Freetype failed\n");
@@ -742,15 +745,24 @@ plot_paintglyph(plot_state *state, char character)
 
   // Setup the character
   if(plot_loadglyph(state, character) != -1){
+    p = state->texty * state->y + state->textx;
+    p += state->face->glyph->bitmap_left;
+    p -= state->face->glyph->bitmap_top * state->y;
 
-    //    my_draw_bitmap( &slot->bitmap,
-    //		    slot->bitmap_left,
-    //		    my_target_height - slot->bitmap_top );
+    for(bmy = 0; bmy < sfgb.rows; bmy++){
+      for(bmx = 0; bmx < sfgb.width; bmx++){
+	if(sfgb.buffer[bmy * sfgb.width + bmx] != 0){
+	  state->raster[p + bmx].r = ~sfgb.buffer[bmy * sfgb.width + bmx] * state->fontcolor.r / 
+	    ~sfgb.buffer[bmy * sfgb.width + bmx];
+	  state->raster[p + bmx].g = ~sfgb.buffer[bmy * sfgb.width + bmx] * state->fontcolor.g / 
+	    ~sfgb.buffer[bmy * sfgb.width + bmx];
+	  state->raster[p + bmx].b = ~sfgb.buffer[bmy * sfgb.width + bmx] * state->fontcolor.b / 
+	    ~sfgb.buffer[bmy * sfgb.width + bmx];
+	}
+      }
+      p += state->y;
+    }
 
-    printf("Bitmap dimensions: %d x %d\n", 
-	   (state->face->glyph->bitmap_right - state->face->glyph->bitmap_left),
-	   (state->face->glyph->bitmap_bottom - state->face->glyph->bitmap_top));
-    
     // Increment pen position 
     state->textx += state->face->glyph->advance.x >> 6;
     state->texty += state->face->glyph->advance.y >> 6;
