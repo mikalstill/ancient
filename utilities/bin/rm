@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# Getopt doesn't support -rf... I need to find out what _I_ am doing wrong
+# next time I am within 100km of an Internet connection...
+
+now=`date "+%Y%m%d"`
+echo "Deleted files are hidden in /usr/local/rm/$now"
+
+result=0
+while [ $result -lt 1 ]
+do
+  getopts "dfirRv" arg 
+  result=$?
+
+  if [ $result -lt 1 ]
+  then
+    shift
+  fi
+done
+
+mkdir -p /usr/local/rm/$now
+for item in "$*"
+do
+  dest=$item
+  count=1
+
+  if [ -e $item ]
+  then
+    if [ -e /usr/local/rm/$now/$item ]
+    then
+	dest="$item".`printf "%03d" $count`
+	count=$(( $count + 1 ))
+    fi
+    
+    while [ -e /usr/local/rm/$now/$dest ]
+    do
+	dest="$item".`printf "%03d" $count`
+	count=$(( $count + 1 ))
+    done
+
+    # This isn't going to work for absolute paths
+    mv -- $item /usr/local/rm/$now/$dest 2> /dev/null
+  fi
+done
