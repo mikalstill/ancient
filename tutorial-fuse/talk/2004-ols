@@ -18,6 +18,7 @@ content/linux-fpstructs
 content/fuse-fuse_operations
 content/fuse-eventcallbacks
 content/demo-mcachefs-readonly
+content/fuse-vfseventmapping
 content/fuse-whatcallbackwhen
 content/demo-mcachefs-readwrite
 content/fuse-nullcallbacks
