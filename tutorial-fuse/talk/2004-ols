@@ -55,17 +55,12 @@ content/fuse-operation-write
 content/fuse-operation-statfs
 content/fuse-operation-release
 content/fuse-operation-fsync
-content/demo-mcachefs-readwrite
-content/fuse-nullcallbacks
-content/demo-mcachefs-metadata
 content/fuse-registeringthefs
 content/fuse-threadingmodel
 content/fuse-daemonising
 content/fuse-loadhandling
 content/fuse-mounting
 content/fuse-unmounting
-content/fuse-speedtesting
 content/fuse-largefilesupport
-content/demo-fuse-fifo
 content/fuse-supportinguserspacelibrary
 content/questions-end
