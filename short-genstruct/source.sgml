@@ -56,8 +56,37 @@ I believe it is possible to have the variable names persist, but haven't worked 
 <execute><cmd>code2db.pl</cmd><input>~mikal/cvs.samba.org/junkcode/genstruct/test.h</input></execute>
 
 <para>
-In this example you can see that structures which should have <command>genstruct</command> enabled have the <command>GENSTRUCT</command> attribute associated with them. <command>GENSTRUCT</command> is merely an empty #define, which the <command>genstruct</command> header file parser can search for.
+In this example you can see that structures which should have <command>genstruct</command> enabled have the <command>GENSTRUCT</command> attribute associated with them, you are therefore not required to have all of the data structures in your code exportable. <command>GENSTRUCT</command> is merely an empty #define, which the <command>genstruct</command> header file parser can search for.
+</para>
 
+<para>
+To create a string representation of a data structure, simply:
+</para>
+
+<programlisting>
+char *s;
+struct test1 t;
+
+// ... we need to populate t with data here ...
+
+s = gen_dump(pinfo_test1, (char *) &amp;t, 0);
+</programlisting>
+
+<para>
+In this code, we define a structure, fill it with data, and then use the <command>gen_dump</command> function to create a string representation of that structure. The arguements to <command>gen_dump</command> are:
+
+<programlisting>
+char *gen_dump(const struct parse_struct *pinfo, 
+               const char *data, 
+               unsigned indent);
+</programlisting>
+
+<itemizedlist>
+<listitem><para><emphasis>const struct parse_struct *pinfo</emphasis>: is generated at compile time by <command>genstruct</command>, and is located in the output to that command.</para></listitem>
+<listitem><para><emphasis>const char *data</emphasis>: is the data to dump to the string representation (simply cast your structure to a char * before passing it</para></listitem>
+<listitem><para><emphasis>unsigned indent</emphasis>: is the starting indent for ease of recursive calling. Set it to zero.</para></listitem>
+</itemizedlist>
+</para>
 </sect2>
 </sect1>
 
@@ -71,6 +100,7 @@ The only reason you would use a package such as <command>Data::Dumper</command> 
 <para>
 Both <command>Data::Dumper</command> and <command>genstruct</command> can do much more interesting data structures that those I have used in the examples in this document, but the examples here were deliberately kept simple to aid in the reader's ease of comprehension. For instance, both are capable for following linked lists, and producing human readable text descriptions of them.
 </para>
+</sect1>
 
 <sect1><title>Response to the talk</title>
 <para>
