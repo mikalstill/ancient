@@ -162,14 +162,20 @@ const wxString LS_MONTHS[12] = { "January", "February", "March", "April", "May",
 class cepLsWeight: public wxDialog
 {
 public:
-  cepLsWeight(double &startDate, double &endDate, double val);
+  cepLsWeight(wxString fromDay, wxString fromMonth, wxString fromYear,
+              wxString toDay, wxString toMonth, wxString toYear,
+              wxString val);
+              
+  //gets values entered
+  wxString getToDay();
+  wxString getToMonth();
+  wxString getToYear();
+  
+  wxString getFromDay();
+  wxString getFromMonth();
+  wxString getFromYear();
 
-  //get the weighting value for the date range entered
-  double getWeight();
-
-  //gets the specified date range
-  double getFromDate();
-  double getToDate();
+  wxString getWeight();
 
   //have we finished weighting?
   bool getDoVCV();
@@ -191,9 +197,13 @@ private:
   wxTextCtrl *m_tbToYear, *m_tbFromYear, *m_tbVal;
   wxButton *m_bSubmit, *m_bCancel, *m_bGo;
 
-  wxString m_val;     //holds the weighting value
-  double m_fromDate;  //holds the start date
-  double m_toDate;    //holds the end date
+  wxString m_fromDay,
+           m_fromMonth,
+           m_fromYear,
+           m_toDay,
+           m_toMonth,
+           m_toYear,
+           m_val;
   bool m_go;          //hove we finished re-weighting?
                                      
   DECLARE_EVENT_TABLE ()
@@ -349,9 +359,15 @@ private:
        m_doDirZ;      //was direction Z selected?
   int m_isReadP;      //holds the value returned from the read from file dialog box
   string m_filename;  //holds the file name selected in the read file dialog box
-  double m_weight,    //holds the weight value the user selected
-         m_fromDate,  //holds the start date
-         m_toDate;    //holds the end date
+
+  wxString m_fromDay,
+           m_fromMonth,
+           m_fromYear,
+           m_toDay,
+           m_toMonth,
+           m_toYear,
+           m_val;
+           
   bool m_go;          //have we finished weighting the data? 
 };
  

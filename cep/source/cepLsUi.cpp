@@ -90,10 +90,11 @@ BEGIN_EVENT_TABLE (cepLsWeight, wxDialog)
   EVT_CLOSE( cepLsWeight::dlgWeightOnQuit)
 END_EVENT_TABLE ()
 
-cepLsWeight::cepLsWeight(double &startDate, double &endDate, double val):
+cepLsWeight::cepLsWeight(wxString fromDay, wxString fromMonth, wxString fromYear,
+                         wxString toDay, wxString toMonth, wxString toYear,
+                         wxString val):
   wxDialog((wxDialog *) NULL, -1, "Weight Data", wxPoint(120,120), wxSize(300, 200))
 {
-  cepDate fromDate(startDate), toDate(endDate);
   m_go = false;
   
   m_panel = new wxPanel(this, -1, wxPoint(120,200), wxSize(300,200));
@@ -108,21 +109,21 @@ cepLsWeight::cepLsWeight(double &startDate, double &endDate, double val):
   m_cbFromMonth = new wxComboBox(m_panel, -1, "", wxPoint(113, 50), wxSize(100, 20), 12, LS_MONTHS, wxCB_READONLY);
   m_tbFromYear = new wxTextCtrl(m_panel, - 1, "2000", wxPoint(218, 50), wxSize(60, 20));
   
-  m_cbFromDay->SetValue(fromDate.getDay().c_str());
-  m_cbFromMonth->SetValue(fromDate.getMonthName().c_str());
-  m_tbFromYear->SetValue(fromDate.getYear().c_str());
+  m_cbFromDay->SetValue(fromDay);
+  m_cbFromMonth->SetValue(fromMonth);
+  m_tbFromYear->SetValue(fromYear);
 
   m_statText4 = new wxStaticText(m_panel, -1, "To:", wxPoint(25,80), wxSize(30, 20), wxALIGN_LEFT);
   m_cbToDay = new wxComboBox(m_panel, -1, "", wxPoint(65, 80), wxSize(43, 20), 31, LS_DAYS, wxCB_READONLY);
   m_cbToMonth = new wxComboBox(m_panel, -1, "", wxPoint(113, 80), wxSize(100, 20), 12, LS_MONTHS, wxCB_READONLY);
   m_tbToYear = new wxTextCtrl(m_panel, - 1, "2000", wxPoint(218, 80), wxSize(60, 20));
 
-  m_cbToDay->SetValue(toDate.getDay().c_str());
-  m_cbToMonth->SetValue(toDate.getMonthName().c_str());
-  m_tbToYear->SetValue(toDate.getYear().c_str());
+  m_cbToDay->SetValue(toDay);
+  m_cbToMonth->SetValue(toMonth);
+  m_tbToYear->SetValue(toYear);
 
   m_statText5 = new wxStaticText(m_panel, -1, "Value: ", wxPoint(25, 110), wxSize(35,20), wxALIGN_LEFT);
-  m_tbVal = new wxTextCtrl(m_panel, -1, cepToString(val).c_str(), wxPoint(65, 110), wxSize(50,20));
+  m_tbVal = new wxTextCtrl(m_panel, -1, val, wxPoint(65, 110), wxSize(50,20));
 
   m_bSubmit = new wxButton(m_panel, CEPBTN_WEIGHT_SUBMIT, "Ok", wxPoint(15,160));
   m_bSubmit->SetDefault();
@@ -135,9 +136,7 @@ cepLsWeight::cepLsWeight(double &startDate, double &endDate, double val):
 
 void cepLsWeight::dlgWeightOnQuit(wxCommandEvent& WXUNUSED(event))
 {
-  m_val = "-2.0";
-  m_toDate = -2.0;
-  m_fromDate = -2.0;
+  m_fromDay = m_fromMonth = m_fromYear = m_toDay = m_toMonth = m_toYear = m_val = "-1";
   
   EndModal(1);
   Destroy();
@@ -149,8 +148,13 @@ void cepLsWeight::dlgWeightOnGo(wxCommandEvent& WXUNUSED(event))
 
   m_val = m_tbVal->GetValue();
 
-  m_toDate = cepDate(atoi(m_cbToDay->GetValue().c_str()), m_cbToMonth->GetValue().c_str(), atoi(m_tbToYear->GetValue().c_str())).getDecimalDate();
-  m_fromDate = cepDate(atoi(m_cbFromDay->GetValue().c_str()), m_cbFromMonth->GetValue().c_str(), atoi(m_tbFromYear->GetValue().c_str())).getDecimalDate();
+  m_fromDay = m_cbFromDay->GetValue();
+  m_fromMonth = m_cbFromMonth->GetValue();
+  m_fromYear = m_tbFromYear->GetValue();
+
+  m_toDay = m_cbToDay->GetValue();
+  m_toMonth = m_cbToMonth->GetValue();
+  m_toYear = m_tbToYear->GetValue().c_str();
 
   EndModal(2);
   Destroy();
@@ -158,36 +162,52 @@ void cepLsWeight::dlgWeightOnGo(wxCommandEvent& WXUNUSED(event))
 void cepLsWeight::dlgWeightOnOK(wxCommandEvent& WXUNUSED(event))
 {
   m_val = m_tbVal->GetValue();
-  
-  m_toDate = cepDate(atoi(m_cbToDay->GetValue().c_str()), m_cbToMonth->GetValue().c_str(), atoi(m_tbToYear->GetValue().c_str())).getDecimalDate();
-  m_fromDate = cepDate(atoi(m_cbFromDay->GetValue().c_str()), m_cbFromMonth->GetValue().c_str(), atoi(m_tbFromYear->GetValue().c_str())).getDecimalDate();
 
+  m_fromDay = m_cbFromDay->GetValue();
+  m_fromMonth = m_cbFromMonth->GetValue();
+  m_fromYear = m_tbFromYear->GetValue();
+
+  m_toDay = m_cbToDay->GetValue();
+  m_toMonth = m_cbToMonth->GetValue();
+  m_toYear = m_tbToYear->GetValue().c_str();
+  
   EndModal(0);
   Destroy();
 }
 
-double cepLsWeight::getWeight()
+wxString cepLsWeight::getWeight()
 {
-  for(size_t i = 0; i < m_val.Length(); i ++)
-  {
-    if(cepIsNumeric(m_val.GetChar(i)) == false)
-    {
-      return NAN;
-    }
-  }
-  return (atof(m_val.c_str()));
+  return m_val;
 }
 
-double cepLsWeight::getFromDate()
+wxString cepLsWeight::getToDay()
 {
-
-  return m_fromDate;
+  return m_toDay;
 }
 
-double cepLsWeight::getToDate()
+wxString cepLsWeight::getToMonth()
 {
+  return m_toMonth;
+}
 
-  return m_toDate;
+wxString cepLsWeight::getToYear()
+{
+  return m_toYear;
+}
+
+wxString cepLsWeight::getFromDay()
+{
+  return m_fromDay;
+}
+
+wxString cepLsWeight::getFromMonth()
+{
+  return m_fromMonth;
+}
+
+wxString cepLsWeight::getFromYear()
+{
+  return m_fromYear;
 }
 
 bool cepLsWeight::getDoVCV()
@@ -278,12 +298,89 @@ void cepLsUi::showGetfNameP()
 
 void cepLsUi::showWeight(double startDate, double endDate, double val)
 {
-  cepLsWeight weight(startDate, endDate, val);
+  cepLsWeight *weight;
+  bool isValid = false;
+  cepDate *fromDate,
+          *toDate;
 
-  m_weight = weight.getWeight();
-  m_toDate = weight.getToDate();
-  m_fromDate = weight.getFromDate();
-  m_go = weight.getDoVCV();
+  cout << "is valid init: " << isValid << endl;  
+  fromDate = new cepDate(startDate);
+  toDate = new cepDate(endDate);
+          
+  weight = new cepLsWeight(fromDate->getDay().c_str(), fromDate->getMonthName().c_str(), fromDate->getYear().c_str(),
+                           toDate->getDay().c_str(), toDate->getMonthName().c_str(), toDate->getYear().c_str(),
+                           cepToString(val).c_str());
+
+  while(isValid == false)
+  {
+    isValid = true;
+
+    cout << "to day is: " << weight->getToDay() << endl;
+    cout << "is valid: " << isValid << endl;
+    cout << "from date " << m_fromDay << " " << m_fromMonth << " " << m_fromYear << endl;
+    cout << "to date " << m_toDay << " " << m_toMonth << " " << m_toYear << endl;
+      
+    if(weight->getToDay() == "-1")
+    {
+      cout << endl << "hit cancel" << endl;
+      cout << "is valid: " << isValid << endl;
+      m_fromDay = "-1.0";
+      m_toDay = "-1.0";
+      m_val = "-1.0";
+    }                          
+    else
+    {
+      cout << "in else" << endl;
+      m_fromDay = weight->getFromDay();
+      m_fromMonth = weight->getFromMonth();
+      m_fromYear = weight->getFromYear();
+      m_toDay = weight->getToDay();
+      m_toMonth = weight->getToMonth();
+      m_toYear = weight->getToYear();
+      m_val = weight->getWeight();
+      m_go = weight->getDoVCV();
+      
+      fromDate = new cepDate(atoi(m_fromDay.c_str()), m_fromMonth.c_str(), atoi(m_fromYear.c_str()));
+      toDate = new cepDate(atoi(m_toDay.c_str()), m_toMonth.c_str(), atoi(m_toYear.c_str()));
+
+      //test for invalid dates
+      if((fromDate->getDecimalDate() == -1) || (toDate->getDecimalDate() == -1))
+      {
+        isValid = false;
+        weight = new cepLsWeight(m_fromDay, m_fromMonth, m_fromYear,
+                                 m_toDay, m_toMonth, m_toYear,
+                                 m_val);
+        continue;
+      }
+
+      //test if start date is > end date
+      if(fromDate->getDecimalDate() > toDate->getDecimalDate())
+      {
+        cepError("Error. Weighting value is invalid", cepError::sevWarning).display();
+        isValid = false;
+        weight = new cepLsWeight(m_fromDay, m_fromMonth, m_fromYear,
+                                 m_toDay, m_toMonth, m_toYear,
+                                 m_val);
+        continue;
+      }
+
+      //test for invalid weighting value     
+      for(size_t i = 0; i < m_val.Length(); i ++)
+      {
+        if((cepIsNumeric(m_val.GetChar(i)) == false) ||
+          (atof(m_val.c_str()) <= 0))
+        {
+          cepError("Error. Weighting value is invalid", cepError::sevWarning).display();
+          isValid = false;
+          weight = new cepLsWeight(m_fromDay, m_fromMonth, m_fromYear,
+                                   m_toDay, m_toMonth, m_toYear,
+                                   m_val);
+          break;
+        }
+      }
+    }
+  }
+
   
 }
 int cepLsUi::getIsReweight()
@@ -319,17 +416,32 @@ string cepLsUi::getfNameP()
 
 double cepLsUi::getWeight()
 {
-  return m_weight;
+  if(m_val = "-1")
+  {
+    return -1.0;
+  }
+
+  return atof(m_val.c_str());
 }
 
 double cepLsUi::getFromDate()
 {
-  return m_fromDate;
+  if(m_fromDay = "-1")
+  {
+    return -1.0;
+  }            
+  
+  return cepDate(atoi(m_fromDay.c_str()), m_fromMonth.c_str(), atoi(m_fromYear.c_str())).getDecimalDate();
 }
 
 double cepLsUi::getToDate()
 {
-  return m_toDate;
+  if(m_toDay = "-1")
+  {
+    return -1.0;
+  }
+  
+  return cepDate(atoi(m_toDay.c_str()), m_toMonth.c_str(), atoi(m_toYear.c_str())).getDecimalDate();
 }
 
 bool cepLsUi::getDoVCV()
