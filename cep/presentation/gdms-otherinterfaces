@@ -7,6 +7,7 @@ TITLE: Other interfaces
 <li>Command line
 <li>Batch processing
 
+<ul>
 <pre>
 open /home/httpd/gdms-datasets/mb_AUCK_GPS
 window blackman 128 64 /tmp/newds
@@ -15,3 +16,4 @@ fft /tmp/newds2
 open /tmp/newds2
 plot y /home/httpd/html/gdms-plots/mb_AUCK_GPS-y.png
 </pre>
+</ul>

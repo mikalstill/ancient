@@ -6,7 +6,7 @@ TITLE: Time Domain Analysis
 
 <li>Allows the user to see the general data trend
 <li>Enables the detection and removal of erroneous data
-such as white nose and Random Walk.
+such as white nose and Random Walk
 <li>Also allows analysis in the Residual 
 Domain
 

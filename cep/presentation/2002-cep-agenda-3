@@ -10,10 +10,10 @@ In this presentation we will discuss:
   <ul>
   <li>Alternatives
   <li>Prototype
-  <li>Least squares implementation
-  <li>Interpolation implementation
-  <li>Data windowing implementation
-  <li>Fast Fourier Transforms implementation
+  <li>Time Domain
+  <li>Interpolation 
+  <li>Data windowing 
+  <li>Frequency Domain
   <li>Testing infrastructure
   <li>Design philosophy
   <li>User interface
