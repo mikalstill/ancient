@@ -164,7 +164,10 @@ The most important thing to remember when reading in TIFF images is to be flexib
 
 <p>The other big thing to bear in mind is fillorder (whether the first bit in the byte is the highest value, or the lowest). The example below also handles both of these correctly. I have assumed that we want the buffer to have the most significant bit first. TIFF images can be either big endian or little endian, but libtiff handles this for us. Thankfully, libtiff also supports the various compression algorithms without you having to worry about those. These are by far the scariest area of TIFF, so it is still worth your time to use libtiff.</p>
 
+<code type="section">
+<heading refname="read-code" type="code" toc="no">The reading code</heading>
 
+</code>
 
 
 

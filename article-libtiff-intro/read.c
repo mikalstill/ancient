@@ -3,6 +3,7 @@
 int main(int argc, char *argv[]){
   TIFF *image, *output;
   uint16 photo, bps, spp, fillorder;
+  uint32 width;
   tsize_t stripSize;
   unsigned long imageOffset, result;
   int stripMax, stripCount;
@@ -56,6 +57,8 @@ int main(int argc, char *argv[]){
   
   if(photo != PHOTOMETRIC_MINISWHITE){
     // Flip bits
+    printf("Fixing the photometric interpretation\n");
+
     for(count = 0; count < bufferSize; count++)
       buffer[count] = ~buffer[count];
   }
@@ -68,21 +71,33 @@ int main(int argc, char *argv[]){
   
   if(fillorder != FILLORDER_MSB2LSB){
     // We need to swap bits -- ABCDEFGH becomes HGFEDCBA
+    printf("Fixing the fillorder\n");
+
     for(count = 0; count < bufferSize; count++){
       tempbyte = 0;
-      if(buffer[count] & 128 == 128) tempbyte += 1;
-      if(buffer[count] & 64 == 64) tempbyte += 2;
-      if(buffer[count] & 32 == 32) tempbyte += 4;
-      if(buffer[count] & 16 == 16) tempbyte += 8;
-      if(buffer[count] & 8 == 8) tempbyte += 16;
-      if(buffer[count] & 4 == 4) tempbyte += 32;
-      if(buffer[count] & 2 == 2) tempbyte += 64;
-      if(buffer[count] & 1 == 1) tempbyte += 128;
+      if(buffer[count] & 128) tempbyte += 1;
+      if(buffer[count] & 64) tempbyte += 2;
+      if(buffer[count] & 32) tempbyte += 4;
+      if(buffer[count] & 16) tempbyte += 8;
+      if(buffer[count] & 8) tempbyte += 16;
+      if(buffer[count] & 4) tempbyte += 32;
+      if(buffer[count] & 2) tempbyte += 64;
+      if(buffer[count] & 1) tempbyte += 128;
       buffer[count] = tempbyte;
     }
   }
      
-  // Do whatever it is we do with the buffer
+  // Do whatever it is we do with the buffer -- we dump it in hex
+  if(TIFFGetField(image, TIFFTAG_IMAGEWIDTH, &width) == 0){
+    fprintf(stderr, "Image does not define its width\n");
+    exit(42);
+  }
+  
+  for(count = 0; count < bufferSize; count++){
+    printf("%02x", (unsigned char) buffer[count]);
+    if((count + 1) % (width / 8) == 0) printf("\n");
+    else printf(" ");
+  }
 
   TIFFClose(image);
 }
