@@ -248,6 +248,7 @@ cepDataset::direction cepDataset::getDirectionFromName(string name)
 {
   string lname = cepToLower(name);
 
+  cepDebugPrint("Getting direction: " + lname);
   if(name == "x")
     return dirX;
   if(name == "y")

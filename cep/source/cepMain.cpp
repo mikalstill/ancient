@@ -56,8 +56,6 @@ int main(int argc, char *argv[])
 
   // This might also be a batch execution (no UI displays)
   if(batchfile != ""){
-    // We need to turn off the wxWindows error mode and do text errors 
-    // instead 
     fstream commands;
     commands.open(batchfile.c_str(), ios::in);
     if(!commands){
@@ -77,19 +75,23 @@ int main(int argc, char *argv[])
 	cepStringArray sa(line, " "); 
 	
 	if(sa[0] == "open"){
-	  ds.read(sa[1]);
+	  err = ds.read(sa[1]);
+	  if(err.isReal()){
+	    err.display();
+	  }
 	  cout << "Dataset " << sa[1] << " read" << endl;
 	}
 	else if(sa[0] == "plot"){
 	  cepDebugPrint("Started plotting");
-	  cepPlot plot(&ds, cepDataset::dirX, sa[2], 300);
+	  cepPlot plot(&ds, ds.getDirectionFromName(sa[1]), sa[2], 300);
 	  cepDebugPrint("Finished plotting");
 	  if(plot.getFailed()){
 	    cerr << "Plotting failed" << endl;
 	  }
 	}
 	else{
-	  cerr << "Command not found: " << sa[0] << endl;
+	  cepDebugPrint("Command not found");
+	  cerr << "Command not found" << endl;
 	}
 	
 	// Clear the line, so we can start again...
@@ -104,7 +106,7 @@ int main(int argc, char *argv[])
     return FALSE;
   }
   else{
-    cepError err("Could must specify a batch filename\n");
+    cepError err("You must specify a batch filename\n");
     err.display();
   }
 }

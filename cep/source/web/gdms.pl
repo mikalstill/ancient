@@ -26,7 +26,7 @@ use CGI;
 my($result, $command, $TEMP);
 
 # Variables set by the config file
-my($templates, $datasets, $commandentry, $discommandentry, $selectstart, $selectentry, $selectend, $plotcache, $tmpdir, $rooturl, $gdms);
+my($templates, $datasets, $commandentry, $discommandentry, $selectstart, $selectentry, $selectend, $plotcache, $tmpdir, $rooturl, $ploturl, $gdms);
 
 # Setup the CGI module
 $result = new CGI();
@@ -93,12 +93,16 @@ sub processTemplate(){
 		    print STDERR "Getting datasets from $datasets\n";
 		    open TEMP, "find $datasets -type f -name \"*.dat1\" |";
 		    while(<TEMP>){
+			my($linecount);
 			$tempfile = $_;
 			$tempfile =~ s/$datasets\/*//;
 			$tempfile =~ s/.dat1\n$//;
 
+			$linecount = `cat $datasets/$tempfile.dat1 | wc -l`;
 			$temptotal = $temptotal.
-			    substHTML($selectentry, "<a href=\"$rooturl?command=main&dataset=$tempfile\">$tempfile<\/a>");
+			    substHTML($selectentry, 
+				      "<a href=\"$rooturl?command=main&dataset=$tempfile\">$tempfile<\/a> ".
+				      "($linecount lines)");
 		    }
 		    close TEMP;
 
@@ -110,13 +114,15 @@ sub processTemplate(){
 		}
 		elsif($cmd eq "xplot"){
 		    # A plot in the X direction
-		    generateAndLink("x");
+		    $line = $pre.generateAndLink("x").$post;
 		}
 		elsif($cmd eq "yplot"){
 		    # A plot in the Y direction
+		    $line = $pre.generateAndLink("y").$post;
 		}
 		elsif($cmd eq "zplot"){
 		    # A plot in the Z direction
+		    $line = $pre.generateAndLink("z").$post;
 		}
 	    }
 	}
@@ -147,7 +153,13 @@ sub getCommands(){
 	$output = $output.substHTML($commandentry, "<a href=\"$rooturl?command=main\">Close<\/a>");
 
 	# Plotting
-	$output = $output.substHTML($commandentry, "<a href=\"$rooturl?command=plot&dataset=".$result->param('dataset')."\">Plot</a>");
+	if($result->param('command') eq "plot"){
+	    $output = $output.substHTML($discommandentry, "Plot");
+	}
+	else{
+	    $output = $output.substHTML($commandentry, "<a href=\"$rooturl?command=plot&dataset=".
+					$result->param('dataset')."\">Plot</a>");
+	}
     }
 
     return $output;
@@ -167,24 +179,26 @@ sub substHTML(){
 # the HTML needed to link to that image
 sub generateAndLink(){
     my($dir) = @_;
-    my($file);
+    my($file, $unique);
     local *COMMANDS;
 
     # Generate the filename
+    $unique = "$$-".time()."-".rand();
     $file = "$plotcache/".$result->param('dataset')."-$dir.png";
 
     if(! -f $file){
 	# We need to generate the image
-	print STDERR "Plot cache miss for ".$result->param('dataset')." (x)\n";
-	open COMMANDS, "> $tmpdir/gdms-$$.cmd" or 
-	    die "Could not open temporary file $tmpdir/gdms-$$.cmd\n";
+	print STDERR "Plot cache miss for ".$result->param('dataset')." ($dir)\n";
+	open COMMANDS, "> $tmpdir/gdms-$unique.cmd" or 
+	    die "Could not open temporary file $tmpdir/gdms-$unique.cmd\n";
 	print COMMANDS "open $datasets/".$result->param('dataset')."\n";
-	print COMMANDS "plot x $file\n";
+	print COMMANDS "plot $dir $file\n";
 	close COMMANDS;
 
 	# Execute the gdms main program with this command script
-	`$gdms -b $tmpdir/gdms-$$.cmd` or 
-	    die "GDMS execution error for: $gdms -b $tmpdir/gdms-$$.cmd";
+	`$gdms -b $tmpdir/gdms-$unique.cmd` or 
+	    die "GDMS execution error for: $gdms -b $tmpdir/gdms-$unique.cmd";
+	print STDERR "Return code as $?\n";
     }
     
     # Now link to that image
