@@ -1066,13 +1066,6 @@ Wrinting a PNG file is <emphasis>very</emphasis> to reading the PNG file. The ex
 <execute><cmd>code2db.pl</cmd><input>~mikal/opensource/png-write/write.c</input></execute>
 </sect1>
 
-<sect1><title>Writing a paletted image</title>
-<para>
-...
-</para>
-</sect1>
-
-
 <sect1><title>Storing PNG data in places other than files</title>
 <para>
 This example below, much like the TIFFClient examples in the TIFF chapter shows how to use the libpng callbacks to get to image data in places other than files. Note that it wont compile, but it does give you an example of the structure you need...
@@ -1099,13 +1092,20 @@ To be honest, the libtiff man pages are much better than the documentation which
 
 <sect1><title>Conclusion</title>
 <para>
-<execute><cmd>todo</cmd><input>More content here</input></execute>
+This chapter hasn't been as complete as the TIFF chapter, for which I apologise. I have shown you all the important things about the PNG format though -- the layout of the images on disc, how to open and read an image, how to write an image, how to use the client callbacks to save data in places other than files, and I have included the libpng documentation.
 </para>
 </sect1>
 
 <sect1><title>Further reading</title>
 <para>
-<execute><cmd>todo</cmd><input>More content here</input></execute>
+<itemizedlist>
+<listitem><para>http://www.libpng.org/pub/png/png.html: The libpng homepage.</para><listitem>
+<listitem><para>http://www.libpng.org/pub/png/pngintro.html: An introduction to PNG features.</para><listitem>
+<listitem><para>http://www.libpng.org/pub/png/pngfaq.html: The PNG FAQ.</para><listitem>
+<listitem><para>http://www.libpng.org/pub/png/pnghist.html: A history of PNG.</para><listitem>
+<listitem><para>http://www.libpng.org/pub/png/spec/: Version 1.2 of the PNG specification.</para><listitem>
+<listitem><para>http://www.libpng.org/pub/png/libpng.html: libpng download page</para><listitem>
+</itemizedlist>
 </para>
 </sect1>
 
