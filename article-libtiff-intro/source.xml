@@ -67,6 +67,8 @@ main (int argc, char *argv[])
 <p><heading refname="write" type="minor" toc="yes">Writing the image</heading>
 To make up for how boring that example was, I am now pleased to present you with possibly the worst picture of the Sydney Harbour Bridge ever drawn. In the example below, the image is already in the image buffer, and all we have to do is save it to the file on disc. The example first opens a tiff image in write mode, and then places the image into that file.</p>
 
+<p>Please note, that for clarity I have omitted the actual hex for the image, this is available in the download version of this code for those who are interested.</p>
+
 <code type="section">
 <heading refname="write-code" type="code" toc="no">The writing code</heading>
 #include <stdio.h>
@@ -106,10 +108,15 @@ int main(int argc, char *argv[]){
   // Close the file
   TIFFClose(image);
 }
-
 </code>
 
+<p>There are some interesting things to note in this example. The most interesting of these is that the output image will not display using the xview command on my linux machine. In fact, I couldn't find an example of a group 4 fax compressed black and white image which would display using that program. See the sidebar for more detail.</p>
 
+<sidebar>
+<heading refname="" type="sidebar" toc="no">Problems with xview</heading>
+Xview is part of the xloadimage package, which comes with X windows.
+<p>Start using paragraph tags with the second paragraph of the sidebar.]</p>
+</sidebar>
 
 
 
@@ -121,13 +128,6 @@ int main(int argc, char *argv[]){
 </figure>
 
 <p>[Refer to figure using the reference name (refname) assigned to the figure, as follows: <a href="#figure1">Figure 1</a>. ]</p>
-
-<!-- SIDEBAR WITH HEADING:  PLACE HEADING INSIDE SIDEBAR TAG WITH TYPE="SIDEBAR".  DO NOT SURROUND SIDEBAR WITH PARAGRAPH TAGS.  THE TOC ATTRIBUTE DETERMINES IF THIS HEADING IS INCLUDED IN THE TOC.   DEFAULT IS TOC="NO".   IF NEEDED, YOU CAN ADJUST THE WIDTH OF THE SIDEBAR USING THE WIDTH= ATTRIBUTE OF THE SIDEBAR TAG.  SPECIFY A PERCENTAGE.-->
-<sidebar>
-<heading refname="" type="sidebar" toc="no">[Sidebar heading]</heading>
-[Insert the text for the sidebar here.  The default for the sidebar is width="30%".  To widen the sidebar, code the width attribute on the sidebar tag (specify a percentage).
-<p>Start using paragraph tags with the second paragraph of the sidebar.]</p>
-</sidebar>
 
 <!-- THIRD-LEVEL HEADING:  PRECEDE ALL THIRD-LEVEL HEADINGS WITH A PARAGRAPH TAG.  FOLLOW THE HEADING WITH A BREAK TAG.-->
 <p><b>[Third-level heading]</b><br />
