@@ -26,7 +26,7 @@
 <refsynopsisdiv>
 <synopsis>
  #include&lt;libplot.h&gt;
- void plot_addlinesegment (plot_state *state, int x, int y);
+ void plot_addlinesegment (plot_state *state, unsigned int x, unsigned int y);
 
 </synopsis>
 </refsynopsisdiv>

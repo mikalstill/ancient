@@ -1,0 +1,14 @@
+{
+  '' => '',
+  'refentry:PLOT_NEWPLOT' => 'plot_newplot(3)',
+  'refentry:PLOT_GETRASTER' => 'plot_getraster(3)',
+  'refentry:PLOT_SETFILLCOLOR' => 'plot_setfillcolor(3)',
+  'refentry:PLOT_CLOSELINE' => 'plot_closeline(3)',
+  'refentry:PLOT_STROKELINE' => 'plot_strokeline(3)',
+  'refentry:PLOT_ADDLINESEGMENT' => 'plot_addlinesegment(3)',
+  'refentry:PLOT_SETLINESTART' => 'plot_setlinestart(3)',
+  'refentry:PLOT_SETLINECOLOR' => 'plot_setlinecolor(3)',
+  'refentry:PLOT_ENDLINE' => 'plot_endline(3)',
+  'refentry:PLOT_RECTANGLE' => 'plot_rectangle(3)',
+  '' => ''
+}
