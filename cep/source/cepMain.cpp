@@ -83,10 +83,11 @@ int main(int argc, char *argv[])
 	}
 	else if(sa[0] == "plot"){
 	  float dummyscale1, dummyscale2;
-	  long dummyrange1, dummyrange2;
+	  long dummyminval1, dummyminval2;
+	  long dummyrange;
 	  cepDebugPrint("Started plotting");
 	  cepPlot plot(&ds, ds.getDirectionFromName(sa[1]), sa[2], 700, 300, 
-		       dummyscale1, dummyscale2, dummyrange1, dummyrange2, false);
+		       dummyscale1, dummyscale2, dummyminval1, dummyminval2, dummyrange, false);
 	  cepDebugPrint("Finished plotting");
 	  if(plot.getFailed()){
 	    cerr << "Plotting failed" << endl;

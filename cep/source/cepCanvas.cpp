@@ -271,7 +271,7 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
     float xextracted = ((pt.x - 20) * m_horizScale[selDir] + m_xminval[selDir]) / 10000;
     cepDate hoverDate(xextracted);
 
-    float yextracted = ((pt.y - 20) * m_vertScale[selDir] + m_yminval[selDir]) / 10000;
+    float yextracted = m_yrange[selDir] + m_yminval[selDir] - ((float) (pt.y - 20) * m_vertScale[selDir]);
 
     string hover = hoverDate.getDay() + " " + hoverDate.getShortMonthName() + " " +
       hoverDate.getYear() + " (" + cepToString(xextracted, true) + ") reading " +

@@ -292,7 +292,7 @@ void cepView::drawPresentation(cepDataset *theDataset, cepDataset::direction dir
     cepPlot plot(theDataset, dir, cfname, presWidth, presHeight, 
 		 canvas->m_vertScale[(int) dir], canvas->m_horizScale[(int) dir],
 		 canvas->m_xminval[(int) dir], canvas->m_yminval[(int) dir],
-		 theDataset->getHaveLs(dir));
+		 canvas->m_yrange[(int) dir], theDataset->getHaveLs(dir));
     m_plotfailed = plot.getFailed();
     
     m_pngCache[(int) dir] = string(cfname);

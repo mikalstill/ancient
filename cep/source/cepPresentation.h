@@ -47,8 +47,9 @@ public:
   void setFontColor(char red, char green, char blue);
 
   cepError createPDF (const string & filename);
-  cepError createBitmap (float& xscale, float& yscale, long& xrange, long& yrange);
-  cepError createPNG (const string & filename, float& xscale, float& yscale, long& xminval, long& yminval);
+  cepError createBitmap (float& xscale, float& yscale, long& xminval, long& yminval, long& yrange);
+  cepError createPNG (const string & filename, float& xscale, float& yscale, long& xminval, long& yminval,
+		      long& yrange);
 
 private:
   typedef struct{

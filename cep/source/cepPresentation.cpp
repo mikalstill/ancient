@@ -109,8 +109,9 @@ cepPresentation::createPDF (const string & filename)
 #if defined HAVE_LIBPANDA
   cepDebugPrint ("Generating PDF for: " + filename);
   float dummyscale1, dummyscale2;
-  long dummyrange1, dummyrange2;
-  createBitmap (dummyscale1, dummyscale2, dummyrange1, dummyrange2);
+  long dummyminval1, dummyminval2;
+  long dummyrange;
+  createBitmap (dummyscale1, dummyscale2, dummyminval1, dummyminval2, dummyrange);
 
   // panda_init();
   // panda_pdf doc = panda_open(filename.c_str(), "w");
@@ -124,7 +125,8 @@ cepPresentation::createPDF (const string & filename)
 }
 
 cepError
-cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminval, long& yminval)
+cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminval, long& yminval,
+			       long& yrange)
 {
 #if defined HAVE_LIBMPLOT
   plot_state *graph;
@@ -168,7 +170,7 @@ cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminva
   cepDebugPrint("xminval = " + cepToString(m_xminval) + " xmaxval = " + cepToString(m_xmaxval));
 
   // Determine the vertical scaling factor
-  long yrange = ymaxval - yminval;
+  yrange = ymaxval - yminval;
   long xrange = m_xmaxval - m_xminval;
 
   // I had this bug once
@@ -396,13 +398,13 @@ cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminva
 
 cepError
 cepPresentation::createPNG (const string & filename, float& horizScale, float& vertScale, 
-			    long& xrange, long& yrange)
+			    long& xminval, long& yminval, long& yrange)
 {
 #if defined HAVE_LIBMPLOT
 #if defined HAVE_LIBPNG
   cepDebugPrint ("Generating PNG for: " + filename);
 
-  cepError e = createBitmap(horizScale, vertScale, xrange, yrange);
+  cepError e = createBitmap(horizScale, vertScale, xminval, yminval, yrange);
   if(e.isReal())
     return e;
 

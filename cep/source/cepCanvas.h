@@ -85,6 +85,7 @@ public:
   float m_horizScale[cepDataset::dirUnknown];
   long m_xminval[cepDataset::dirUnknown];
   long m_yminval[cepDataset::dirUnknown];
+  long m_yrange[cepDataset::dirUnknown];
 
  private:
   DECLARE_EVENT_TABLE ()
