@@ -20,6 +20,18 @@
 #include <png.h>
 #include <libmplot.h>
 
+// The speed range is considered to be 0 - 150 kmh
+int rconv(long speed){
+  // The top half of the speed range are reds
+  return 105 + speed;
+}
+
+int bconv(long speed){
+  // The bottom half are blues
+  return 255 - speed;
+}
+
+
 int
 main (int argc, char *argv[])
 {
@@ -33,25 +45,36 @@ main (int argc, char *argv[])
   plot_state *graph;
   char *raster;
 
-  unsigned long mapptx[10000];
-  unsigned long mappty[10000];
-  unsigned long speed[10000];
+  unsigned long mapptx[100000];
+  unsigned long mappty[100000];
+  unsigned long speeds[100000];
   unsigned long minx = -1, maxx = 0, miny = -1, maxy = 0, rangex, rangey;
+  unsigned long x, y, s;
   int datapts = 0;
   char line[1000];
+  int speed;
 
   // Read the data points from stdin
   while(fgets(&line, 1000, stdin) != NULL){
-    mappty[datapts] = atol(strtok(line, " ")) / 250;
-    mapptx[datapts] = atol(strtok(NULL, " ")) / 250;
-    speed[datapts] = atol(strtok(NULL, " ")) / 1000;
+    y = atol(strtok(line, " ")) / 250;
+    x = atol(strtok(NULL, " ")) / 250;
+    s = atol(strtok(NULL, " ")) / 100000;
 
-    if(mapptx[datapts] > maxx) maxx = mapptx[datapts];
-    if(mapptx[datapts] < minx) minx = mapptx[datapts];
-    if(mappty[datapts] > maxy) maxy = mappty[datapts];
-    if(mappty[datapts] < miny) miny = mappty[datapts];
+    // If we're at warp speed, then don't believe the point
+    if((datapts == 0) || 
+       ((abs(x - mapptx[datapts - 1]) < 15) &&
+	(abs(y - mappty[datapts - 1]) < 15))){
+      mapptx[datapts] = x;
+      mappty[datapts] = y;
+      speeds[datapts] = s;
+
+      if(mapptx[datapts] > maxx) maxx = mapptx[datapts];
+      if(mapptx[datapts] < minx) minx = mapptx[datapts];
+      if(mappty[datapts] > maxy) maxy = mappty[datapts];
+      if(mappty[datapts] < miny) miny = mappty[datapts];
     
-    datapts++;
+      datapts++;
+    }
   }
 
   rangex = maxx - minx;
@@ -63,6 +86,11 @@ main (int argc, char *argv[])
 
   rangex += 20;
   rangey += 20;
+
+  printf("  %d pixels\n", rangex * rangey);
+  printf("  150 kmh = %d %d %d\n", rconv(150), 0, bconv(150));
+  printf("    0 kmh = %d %d %d\n", rconv(0), 0, bconv(0));
+
   minx -= 10;
   miny -= 10;
 
@@ -71,11 +99,22 @@ main (int argc, char *argv[])
     exit(1);
   }
 
-  plot_setlinecolor(graph, 0, 0, 255);
+  plot_setlinecolor(graph, rconv(speeds[i]), 0, bconv(speeds[i]));
   plot_setlinestart(graph, mapptx[0] - minx, mappty[0] - miny);
+  speed = speeds[1];
+
   for(i = 1; i < datapts; i++){
-    plot_addlinesegment(graph, mapptx[i] - minx, mappty[i] - miny);
-    printf("%d ", speed[i]);
+    if(speeds[i] == speed)
+      plot_addlinesegment(graph, mapptx[i] - minx, mappty[i] - miny);
+    else{
+      plot_strokeline(graph);
+      plot_endline(graph);
+      plot_setlinecolor(graph, rconv(speeds[i]), 0, bconv(speeds[i]));
+      plot_setlinestart(graph, mapptx[i - 1] - minx, mappty[i - 1] - miny);
+      plot_addlinesegment(graph, mapptx[i] - minx, mappty[i] - miny);
+    }
+
+    speed = speeds[i];
   }
   plot_strokeline(graph);
   plot_endline(graph);
