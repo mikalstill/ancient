@@ -95,7 +95,7 @@ foreach $chapter (split(/ /, $chapters)){
 	# GT
 	s/>/&gt;/g;
 
-	# Mu (micro) doesn't work with db2ps
+	# Mu (micro) doesn't work with db2ps (jade)
 	s/µ/&mu;/g;
 
 	# Footnote thingie we don't use
@@ -106,9 +106,6 @@ foreach $chapter (split(/ /, $chapters)){
 	    $temp = processstyles($_);
 	    $_ = $temp;	
 	}
-
-	# Prompts
-	s/\\fC([^ \t,.]*)/<command>$1<\/command>/g;
 
 	##############################################################
 	# Comments
@@ -355,52 +352,38 @@ sub startpara(){
 
 sub processstyles(){
     my($line) = @_;
-    my($newline, $word, $retStr, $count);
+    my($newline, $word, $retStr);
     
     $newline = "";
 
     foreach $word (split(/ /, $line)){
 	$_ = $word;
 	if(/^(.*)\\fB(.*)/){
-	    if($1 eq ""){
-		$word = "<command>$2";
-	    }
-	    else{
-		$word = "$1<command>$2";
-	    }
+	    $word = closeallstates() . "$1<command>$2";
 	    $stylestate = "$stylestate" . "B";
 	}
 	
 	$_ = $word;
 	if(/^(.*)\\fI(.*)/){
-	    if($1 eq ""){
-		$word = "<emphasis>$2";
-	    }
-	    else{
-		$word = "$1<emphasis>$2";
-	    }
+	    $word = "$1<emphasis>$2";
 	    $stylestate = "$stylestate" . "I";
 	}
 
 	$_ = $word;
+	if(/^(.*)\\fC(.*)/){
+	    $word = closeallstates() . "$1<command>$2";
+	    $stylestate = "$stylestate" . "c";
+	}
+
+	$_ = $word;
 	if(/^(.*)\\f\(CW(.*)/){
-	    if($1 eq ""){
-		$word = "<emphasis>$2";
-	    }
-	    else{
-		$word = "$1<emphasis>$2";
-	    }
+	    $word = "$1<emphasis>$2";
 	    $stylestate = "$stylestate" . "W";
 	}
 
 	$_ = $word;
 	if(/^(.*)\\f\(CB(.*)/){
-	    if($1 eq ""){
-		$word = "<command>$2";
-	    }
-	    else{
-		$word = "$1<command>$2";
-	    }
+	    $word = closeallstates() . "$1<command>$2";
 	    $stylestate = "$stylestate" . "b";
 	}
 
@@ -409,17 +392,7 @@ sub processstyles(){
 	    dblog("{$stylestate}");
 
 	    if($2 eq "R"){
-		for($count = length($stylestate) - 1; $count > -1; $count--){
-		    $retStr = closestate(substr($stylestate, $count, 1));
-	       
-		    if($1 eq ""){
-			$word = "$retStr$3";
-		    }
-		    else{
-			$word = "$1$retStr$3";
-		    }
-		}
-		$stylestate = "";
+		$word = "$1" . closeallstates() . "$3";
 	    }
 	    else{
 		$retStr = closestate(substr($stylestate, length($stylestate) - 1, 1));
@@ -438,6 +411,19 @@ sub processstyles(){
     return $newline;
 }
 
+sub closeallstates(){
+    my($retStr, $count);
+
+    $retStr = "";
+    for($count = length($stylestate) - 1; $count > -1; $count--){
+	$retStr = $retStr . 
+	    closestate(substr($stylestate, $count, 1));
+    }
+    
+    $stylestate = "";
+    return $retStr;
+}
+
 sub closestate(){
     my($state) = @_;
 
@@ -452,6 +438,9 @@ sub closestate(){
     }
     elsif($state eq "W"){
 	return "<\/emphasis>";
+    }
+    elsif($state eq "c"){
+	return "<\/command>";
     }
     else{
 	return "";
