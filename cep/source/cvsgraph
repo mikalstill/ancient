@@ -3,7 +3,8 @@
 use strict;
 my($HISTORY, $filename, $date, %dateline, $day, $adate, @dates,
    $author, %cols, $newcolnum, @today, @html, $event, $file, $user, $i,
-   $table, %authorcolor, @colors, $newauthnum, %heading, $color, $temp);
+   $table, %authorcolor, @colors, $newauthnum, %heading, $color, $temp,
+   $revision, $lines);
 
 open HISTORY, "< logout";
 
@@ -25,11 +26,33 @@ while(<HISTORY>){
 	$filename = $1;
 	chomp $filename;
     }
-    elsif(/^date: ([0-9\/]+).*author: (.*);.*;/){
+    elsif(/^date: ([0-9\/]+).*author: (.*);(.*);(.*)$/){
 	$date = $1;
 	$author = $2;
+	$_ = $4;
+
+	if(/.*lines: \+(.*) -(.*)/){
+	    $lines = int($1) + int($2);
+	    if($lines > 100){
+		$lines = "*";
+	    }
+	    else{
+		$lines = ".";
+	    }
+	}
+	elsif($revision eq "1.1"){
+	    $lines = "I";
+	    $revision = "";
+	    }
+	else{
+	    $lines = "&nbsp;";
+	}
+
 	$date =~ s/\///g;
-	$dateline{$date} = $dateline{$date} . "$filename!$author;";
+	$dateline{$date} = $dateline{$date} . "$filename!$author!$lines;";
+    }
+    elsif(/^revision (.*)/){
+	$revision = $1;
     }
 }
 
@@ -48,10 +71,15 @@ foreach $adate (@dates) {
     @today = split(/;/, $dateline{$adate});
     foreach $event (@today){
 	$_ = $event;
-	/(.*)!(.*)/;
+	/(.*)!(.*)!(.*)/;
 	$file = $1;
 	$user = $2;
+	$lines = $3;
 	
+	if($lines eq ""){
+	    $lines = "&nbsp;";
+	}
+
 	# Do we need a new cell number?
 	if($cols{$file} eq ""){
 	    $cols{$file} = $newcolnum;
@@ -72,11 +100,11 @@ foreach $adate (@dates) {
 
 	if($html[$cols{$file}] eq ""){
 	    $html[$cols{$file}] = 
-		"<tr><td bgcolor=\"$authorcolor{$user}\">&nbsp;</td></tr>";
+		"<tr><td bgcolor=\"$authorcolor{$user}\">$lines</td></tr>";
 	}
 	else{
-	    $html[$cols{$file}] = $html[$cols{$file}] . 
-		"<tr><td bgcolor=\"$authorcolor{$user}\">&nbsp;</td></tr>";
+	    $html[$cols{$file}] = "<tr><td bgcolor=\"$authorcolor{$user}\">$lines</td></tr>" .
+		$html[$cols{$file}];
 	}
     }
 
@@ -92,7 +120,7 @@ foreach $adate (@dates) {
 print "<table cellspacing=0 cellpadding=0><tr><td></td>";
 for($i = 0; $i < $newcolnum; $i++){
     $temp = $heading{$i};
-    $temp =~ s/\//_/g;
+    $temp =~ s/[\/\.]/_/g;
     if(! -e "colheader-$temp.jpg"){
 	`convert -font helvetica -pointsize 10 -draw "text 1,10 $heading{$i}" -rotate -90 blank.jpg colheader-$temp.jpg`;
     }
@@ -110,3 +138,10 @@ while(($user, $color) = each %authorcolor){
 }
 
 print "</tr></table>";
+print "<BR>Key: ";
+print "<table><tr><td>I: Initial import of a file</td>";
+print "<td>.: Minor code change (less than 100 lines)</td>";
+print "<td>*: Major code change (more than 100 lines)</td>";
+print "</tr></table>";
+
+print "<BR><BR>END OF REPORT";
