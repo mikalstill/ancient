@@ -71,6 +71,7 @@
 #include "cepLs.h"
 #include "cepInterp.h"
 
+#include "cepCfft.h"
 
 #include <stdlib.h>
 #include <unistd.h>
@@ -784,7 +785,42 @@ cepView::processInterp(const int iType, string desc)
 
 void cepView::OnFFT (wxCommandEvent& event)
 {
-  
+  cepMatrix<double> ffted[cepDataset::dirUnknown];
+
+  cepDoc *theDoc = (cepDoc *) GetDocument ();
+  cepDataset *theDataset = theDoc->getDataset ();
+  if (theDataset && theDataset->isReady() && theDataset->isWellFormed()){
+    for(int i = 0; i < cepDataset::dirUnknown; i++)
+      {
+	//	cepCfft<double> myFFT(theDataset->getMatrix((cepDataset::direction) i)->getNumRows());
+	//	ffted[i] = myFFT.matrixFft(*theDataset->getMatrix((cepDataset::direction) i), 1);
+      }
+    
+    // Now we can process the results
+    cepDataset newds(&ffted[0], &ffted[1], &ffted[2], 
+		   theDataset->getOffset((cepDataset::direction) 0), 
+		     theDataset->getOffset((cepDataset::direction) 1), 
+		     theDataset->getOffset((cepDataset::direction) 2),
+		     theDataset->getProcHistory() + " : FFT", 
+		     theDataset->getHeader((cepDataset::direction) 0), 
+		     theDataset->getHeader((cepDataset::direction) 1), 
+		     theDataset->getHeader((cepDataset::direction) 2));
+    
+    char *cfname = strdup("/tmp/cep.XXXXXX");
+    int fd;
+    fd = mkstemp(cfname);
+    close(fd);
+    
+    string newcfname(string(cfname) + "~" + theDataset->getName());
+    newds.write(newcfname.c_str());
+    
+    wxGetApp().m_docManager->CreateDocument(string(newcfname + ".dat1").c_str(), wxDOC_SILENT);
+    free(cfname);
+    
+    // Actually force the graphs to redraw
+    m_dirty = true;
+    canvas->Refresh();
+  }
 }
 
 void cepView::OnSelectFont (wxCommandEvent& event)
