@@ -48,18 +48,6 @@ as defined in cfft.h.
 The first paragraph above could serve as a reasonable
 'link descriptor'.
 
-DOCBOOK END
-******************************************************************************/
-
-#if !defined( _CFFT_H_INC__ )
-#define _CFFT_H_INC__ 1
-#include <math.h>               // for sin and cos
-#include <stdio.h>
-#include "cepMatrix.h"
-
-typedef complex <double> ComplexDble;
-
-/*
  * This is a general-purpose C++ complex FFT transform class.
  * it is defined as a template over a complex type. For instance,
  * if using gnu gcc, the complex type is
@@ -74,11 +62,10 @@ typedef complex <double> ComplexDble;
  *	CPLX operator *( CPLX , double )
  *  CPLX conj(CPLX const &);		[conjugate]
  *  ComPlex::operator @ (CPLX , CPLX )	[ where @ = * + - ]
- */
 
-/*
+
  * This class is used as follows:
- */
+
  // #include <complex.h> // WATCOM
  // #include <complext.h> // Gnu CC
  // typedef complex<double> Complex; //Gnu CC
@@ -94,7 +81,7 @@ typedef complex <double> ComplexDble;
  // FFT256.ifft( Array ); // reverse transform.
  // 
 
-/*
+
  * because this is a template class, it can be used on any
  * type with complex semantics. I originally created this class
  * for use with a 'fractional 24-bit' complex type, to study
@@ -109,7 +96,21 @@ typedef complex <double> ComplexDble;
  * The errors are
  *   - out of memory
  *   - size not a power of two.
- */
+ *
+
+
+DOCBOOK END
+******************************************************************************/
+
+#if !defined( _CFFT_H_INC__ )
+#define _CFFT_H_INC__ 1
+#include <math.h>               // for sin and cos
+#include <stdio.h>
+#include <complex.h>
+#include "cepMatrix.h"
+
+typedef complex <double> ComplexDble;
+
 template < class CPLX > class cfft
 {
   int N, log2N;                 // these define size of FFT buffer
@@ -140,7 +141,7 @@ public:
     return N;
   }
 
-  cepMatrix<ComplexDble> matrixFft(cepMatrix<ComplexDble> & matrix, int dir);
+  cepMatrix<ComplexDble> matrixFft(cepMatrix<double> & matrix, int dir);
 
   // used to fill in last half of complex spectrum of real signal
   // when the first half is already there.
@@ -271,16 +272,16 @@ template < class CPLX > cepMatrix<ComplexDble>
   int numRows = matrix.getNumRows();
   int numCols = matrix.getNumCols();
   int numTables = matrix.getNumTables();
-  int rowCount = 0, colCount = 0;
+  //int rowCount = 0, colCount = 0;
   int arraySize = numRows;
   int col, row, table,count;
-  int checkValues1, checkValues2;
+  //int checkValues1, checkValues2;
   
   const int FIRSTCOLUMN = 0;
-  const int FIRSTROW = 0;
+  //const int FIRSTROW = 0;
   const int NUMCHECKS = 3;
   const double SECSINYEAR = 31557600; //365.25*24*3600 - days*hours*minutes(in seconds)
-  int checks[NUMCHECKS];
+  double checks[NUMCHECKS];
 
   ComplexDble arrayToFft[arraySize];
   cepMatrix<ComplexDble> ffteedMatrix( numRows, numCols, numTables); //matrix contain to store processed values
@@ -322,16 +323,16 @@ template < class CPLX > cepMatrix<ComplexDble>
 
     /*********************************compute the fft.************************************/
  
-    if (dir == FORWARD)
+    if (dir == 1)
     {
         cout << "Performing forward fft on Matrix: Table " << table
-	     << "Column  " << rCol << "\n";
+	     << "Column  " << col << "\n";
         fft(arrayToFft);
     }
-    else //(dir == REVERSE)
+    else //(dir == 0)
     {
         cout << "Performing Inverse fft on Matrix: Table " << table
-	     << "Column " << rCol << "\n";
+	     << "Column " << col << "\n";
         ifft(arrayToFft);
     }
    
