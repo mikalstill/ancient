@@ -44,6 +44,11 @@ Fill in or leave blank for production to fill in.-->
 
 <p>It should be noted that there are many ways to do the things discussed in this article. I will only discuss the methods I use, and know work for me. That doesn't mean the other tools out there are broken, it just means that I'm happy with what I am using now.</p>
 
+
+
+
+
+
 <heading refname="" type="major" toc="yes" name="" alttoc="">Curving corners</heading>
 <p>If you have a look at MacOS X, and many websites, the pictures have quite nice curved corners. How do you achieve this effect with ImageMagick? Well, we're going to have to show some enginuity in producing this effect by using the <b>composite</b> command.</p>
 
@@ -81,11 +86,22 @@ Fill in or leave blank for production to fill in.-->
 composite -gravity NorthEast rounded-ne.png lake.png lake-1.png
 </code>
 
-<p>This gives us the following image:</p>
+<p>Here, the gravity arguement defines where on the image to put the superimposed image -- in our case the rounded corner. This particular command gives us the following image:</p>
 
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 4. Lake Burley Griffin with one rounded corner</heading>
 <img src="lake-1.png" width="144" height="192" alt="A lake view"/>
 </figure>
+
+<sidebar>
+<heading refname="" type="sidebar" toc="no" name="" alttoc="">Gravity</heading>
+<p>The gravity arguement specifies where on the background image the superimposed image is placed. The possible gravities, and their effects are:</p> 
+
+<heading refname="" type="figure" toc="no" name="" alttoc="">Gravity directions</heading>
+<img src="gravity2.png" width="261" height="205" alt="Gravity directions"/>
+
+<p>For example, SouthWest will force the superimposed image to the bottom left hand corner of the background image.</p>
+</figure>
+</sidebar>
 
 <p>So let's do the rest of the corners...</p>
 
@@ -103,7 +119,153 @@ composite -gravity SouthWest rounded-sw.png lake-3.png lake-4.png
 <img src="lake-4.png" width="144" height="192" alt="A lake view"/>
 </figure>
 
-<p>Which looks kinda cool in my humble opinion.</p>
+<p>Which looks kinda cool in my humble opinion. You should also take note that there is no reason for these corner images to be rounded. If you're interested in angled corners or such, then they're equally possible -- just change the corner images in a bitmap editor.</p>
+
+<p>If you want to use my rounded corners, a URL is listed in the resources section at the end of this article.</p>
+
+
+
+<heading refname="" type="major" toc="yes" name="" alttoc="">Putting frames around images</heading>
+<p>Another thing which several readers asked about was how to add frames to images. Again, this is relatively easy to do with ImageMagick.</p>
+
+<heading refname="" type="minor" toc="yes" name="" alttoc="">A raised or lowered border</heading>
+
+<p>The first type of frame I will show you is a raised or lowered border. This effect works by tweaking the colors at the edge of an image to give the impression that it is either raised above the surrounding surface, or pushed below it. For the effect, you need to specify a size, with the horizontal size first, and then the vertical size. These sizes must obey the rule that twice the size specified must be less than or equal to the dimention of the image in that direction. For example, you can't specify a frame size verically that is more than half the vertical size of the image.</p>
+
+<p>To create a raised border, use the <i>-raise</i> command line arguement. For example, to create a 5 pixel by 5 pixel border, we execute:</p>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 3. Creating a raised border</heading>
+<code type="section">
+convert -raise 5x5 tree.png tree-raised.png
+</code>
+
+<p>Which gives us the finished image:</p>
+
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 6. An image with a raised border</heading>
+<img src="tree-raised.png" width="320" height="240" alt="Some trees by a bay with a raised border"/>
+</figure>
+
+<p>To create a lowered border, just use the <i>+raise</i> command line arguement instead. For example:</p>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 4. Creating a lowered border</heading>
+<code type="section">
+convert +raise 5x5 tree.png tree-lowered.png
+</code>
+
+<p>Which gives a slightly different finished image:</p>
+
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 6. An image with a raised border</heading>
+<img src="tree-lowered.png" width="320" height="240" alt="Some trees by a bay with a lowered border"/>
+</figure>
+
+
+
+
+<heading refname="" type="minor" toc="yes" name="" alttoc="">A simple colored border</heading>
+
+<p>If you're after something a little more simple, you might be interested in a border of just a solid color. ImageMagick can do this for you as well.</p>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 5. Creating a simple solid red border</heading>
+<code type="section">
+convert -bordercolor red -border 5x5 flower.png flower-border.png
+</code>
+
+<p>Which creates:</p>
+
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 7. An image with a red border</heading>
+<img src="flower-border.png" width="320" height="240" alt="Some flowers with a red border"/>
+</figure>
+
+<p>What border colors can we specify on the command line? Well, the list is simply too long to put into this article. To get a copy of the list, execute this command:</p>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 6. Generate a list of colors usable in borders</heading>
+<code type="section">
+convert -list color
+</code>
+
+<p>I will give in a little, and list for you some of the more commonly used colors of the 683 available: aquamarine, azure, beige, bisque, black, blue, brown, burlywood, chartreuse, chocolate, coral, cornsilk, cyan, firebrick, gainsboro, gold, goldenrod, green, honeydew, ivory, khaki, lavender, linen, magenta, maroon, moccasin, navy, orange, orchid, peru, pink, plum, purple, red, salmon, seashell, sienna, snow, tan, thistle, tomato, turquoise, violet, wheat and yellow.</p>
+
+<p>You can also of course specify your own colors by using any of the following formats, where R represents the red value, G the green, B the blue, and A the alpha (transparency) value:</p>
+
+<ul>
+<li>#RGB - (R,G,B are hex numbers, 4 bits each)
+<li>#RRGGBB - (8 bits each)
+<li>#RRRGGGBBB - (12 bits each)
+<li>#RRRRGGGGBBBB - (16 bits each)
+<li>#RGBA - (4 bits each)
+<li>#RRGGBBAA - (8 bits each)
+<li>#RRRGGGBBBAAA - (12 bits each)
+<li>#RRRRGGGGBBBBAAAA - (16 bits each)
+<li>rgb(r,g,b) - (r,g,b are decimal numbers)
+<li>rgba(r,g,b,a) - (r,g,b,a are decimal numbers)
+</ul>
+
+<heading refname="" type="minor" toc="yes" name="" alttoc="">Building a more complicated frame</heading>
+
+<p>Next let's build a slightly more complicated frame, using the <i>-frame</i> command line arguement. First we'll add a simple frame which is identical (except for the color) to the border we built in the previous example.</p>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 7. Creating a simple solid red border</heading>
+<code type="section">
+convert -mattecolor black -frame 5x5 beach.png beach-frame.png
+</code>
+
+<p>The arguments are <i>-mattcolor</i> and <i>-frame</i> instead of <i>-bordercolor</i> and <i>-border</i>, but the rest is the same as with the border command.</p>
+
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 8. A simple black border</heading>
+<img src="beach-frame.png" width="320" height="240" alt="A picture of the beach with a simple black frame"/>
+</figure>
+
+<p>Now we can add some extra complexity by adding some gray shading similar to what the <i>-raise</i> command gave us.</p>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 8. A simple black border with some gray around the edges</heading>
+<code type="section">
+convert -mattecolor black -frame 5x5+2 beach.png beach-frame2.png
+</code>
+
+<p>Which is getting there:</p>
+
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 9. The same picture, but with some more decoration</heading>
+<img src="beach-frame2.png" width="320" height="240" alt="A picture of the each with a slighlty more complicated border"/>
+</figure>
+
+<p>Finally, we can add some more decoration, to get the final effect I want...</p>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 9. A fully decorated frame</heading>
+<code type="section">
+convert -mattecolor black -frame 5x5+2+2 beach.png beach-frame3.png
+</code>
+
+<p>Which finally gives us:</p>
+
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 10. A finished frame</heading>
+<img src="beach-frame3.png" width="320" height="240" alt="A picture of the beach with a finished frame"/>
+</figure>
+
+<p>If you're looking at ways to make nice frames for your images, then I recommend that you spend a few moments playing with the arguements to the <i>-frame</i> command. For example, here's some interesting frames for a picture of a rock at King's Canyon, in Australia.</p>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 10. An interesting frame mark 1</heading>
+<code type="section">
+convert -mattecolor gray -frame 25x25+0+25 rock.png rock-frame1.png
+</code>
+
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 11. An interesting frame</heading>
+<img src="rock-frame1.png" width="320" height="240" alt="A rock picture with a frame"/>
+</figure>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 11. An interesting frame mark 2</heading>
+<code type="section">
+convert -mattecolor gray -frame 25x25+25+0 rock.png rock-frame2.png
+</code>
+
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 12. Another interesting frame</heading>
+<img src="rock-frame2.png" width="320" height="240" alt="A rock picture with a frame"/>
+</figure>
+
+
+
+
+
+
 
 </docbody>
 

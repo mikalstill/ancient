@@ -1,19 +1,79 @@
+* The image size hints in the source a wrong, as they don't take into account the size of the frames
+* The listing and figure numbers need checking
+* Spell checking
 
 
 
-Rounded image corners
- - Whipped up the rounded images in the GIMP
- - Then do:
 
-# composite -gravity NorthWest rounded-nw.png lake.jpg lake-1.png
-# composite -gravity NorthEast rounded-ne.png lake-1.png lake-2.png
-# composite -gravity SouthEast rounded-se.png lake-2.png lake-3.png
-# composite -gravity SouthWest rounded-sw.png lake-3.png lake-4.png
 
-Frames (-frame -mattecolor)
 
-Straight line edge effects (e.g. http://www.zeldman.com/i/2003/headers/publicationsheader.gif)
+
+
+
+
+
+
+
 
 Talk about mogrify (repeat operations on many files)
 
 Animated GIFs?
+
+
+
+
+In this article you have the following example:
+for img in `ls *.jpg`
+do
+  convert -sample 25%x25% $img thumb-$img
+done
+
+You can better write it in this way:
+for img in *.jpg
+do
+  convert -sample 25%x25% "$img" thumb-"$img"
+done
+
+Using `ls` and not using dblquotes will produce bad results when files have 
+a bit strange names (ie. spaces in them).
+
+Anyway, really nice article. Thank you.
+
+
+
+
+
+As sholden pointed out in response to your article 
+(http://lwn.net/Articles/40353/) you should never use `ls *.jpg`. ("A 
+useless use of ls, and a way to get an unnecessary "argument list" to 
+long error, and *strange* behaviour if there's a directory which matches 
+*.jpg.")
+
+Instead, just write:
+
+for img in *.jpg
+do
+    |convert -sample 25%x25% $img thumb-$img|
+done
+
+If possible, please update the article so others can avoid this mistake too.
+
+
+
+
+
+I have some photos which are sometimes landscape and sometimes portrait.
+
+I am just wondering if convert has an option to scale an image and to keep the 
+width/height ratio like
+
+convert -scale 850 inimage outimage
+
+would scale every image to a widht of 850 pixels, except that I would like to 
+specify also a maximum height, e.g. 600 pixels. So for a landscape image 
+convert would probably do an 850x550 image and for a portrait an 400x600. 
+
+
+
+
+
