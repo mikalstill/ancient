@@ -39,9 +39,7 @@ dictionary::findItem (string dname, dictitem & item)
 	toString(m_items.size()) + string(" item dictionary"));
   for (unsigned int i = 0; i < m_items.size (); i++)
     {
-      debug(dlTrace, string("Checking against the name ") +
-	      m_items[i].getName ());
-
+      debug(dlTrace, string("Compare with: ") + m_items[i].getName ());
       if (m_items[i].getName () == dname)
 	{
 	  item = m_items[i];
@@ -58,13 +56,17 @@ bool
 dictionary::getValue (string dname, pdf & thePDF, object & obj)
 {
   debug(dlTrace, string("Get object named ") + dname + string(" from dictionary "));
-  for (unsigned int i = 0; i < m_items.size (); i++)
+  for (unsigned int i = 0; i < m_items.size (); i++){
+    debug(dlTrace, string("Compare with: ") + m_items[i].getName());
     if (m_items[i].getName () == dname)
       {
+	debug(dlTrace, "Found");
 	return thePDF.findObject (m_items[i].getIntValue (),
 				  m_items[i].getGeneration (), obj);
       }
+  }
 
+  debug(dlTrace, "Not found");
   return false;
 }
 
@@ -72,13 +74,17 @@ bool
 dictionary::getValue (string dname, string & value)
 {
   debug(dlTrace, string("Get string named ") + dname + string(" from dictionary"));
-  for (unsigned int i = 0; i < m_items.size (); i++)
+  for (unsigned int i = 0; i < m_items.size (); i++){
+    debug(dlTrace, string("Compare with: ") + m_items[i].getName());
     if (m_items[i].getName () == dname)
       {
+	debug(dlTrace, "Found");
 	value = m_items[i].getStringValue ();
 	return true;
       }
+  }
 
+  debug(dlTrace, "Not found");
   return false;
 }
 
@@ -86,27 +92,36 @@ bool
 dictionary::getValue (string dname, int &value)
 {
   debug(dlTrace, string("Get int named ") + dname + string(" from dictionary"));
-  for (unsigned int i = 0; i < m_items.size (); i++)
+  for (unsigned int i = 0; i < m_items.size (); i++){
+    debug(dlTrace, string("Compare with: ") + m_items[i].getName());
     if (m_items[i].getName () == dname)
       {
+	debug(dlTrace, "Found");
 	value = m_items[i].getIntValue ();
 	return true;
       }
+  }
 
+  debug(dlTrace, "Not found");
   return false;
 }
 
 bool
 dictionary::getValue (string dname, dictionary & value)
 {
-  debug(dlTrace, string("Get subdictionary named ") + dname + string(" from dictionary"));
-  for (unsigned int i = 0; i < m_items.size (); i++)
+  debug(dlTrace, string("Get subdictionary named ") + dname + 
+	string(" from dictionary"));
+  for (unsigned int i = 0; i < m_items.size (); i++){
+    debug(dlTrace, string("Compare with: ") + m_items[i].getName());
     if (m_items[i].getName () == dname)
       {
+	debug(dlTrace, "Found");
 	value = m_items[i].getDictionaryValue ();
 	return true;
       }
+  }
 
+  debug(dlTrace, "Not found");
   return false;
 }
 

@@ -56,13 +56,23 @@ pdfRender::render ()
     debug(dlTrace, "Memory leak as render called more than once");
 
   string mediaBox;
+  dictionary dict;
   m_page.getDict ().getValue ("MediaBox", mediaBox);
-  stringArray boxArgs (mediaBox.substr (1, mediaBox.length () - 2), " ");
+  if(mediaBox == ""){
+    debug(dlError, "No page size specified");
+    return false;
+  }
 
+  stringArray boxArgs (mediaBox.substr (1, mediaBox.length () - 2), " ");
   m_width = atoi (boxArgs[2].c_str ());
   m_height = atoi (boxArgs[3].c_str ());
   debug(dlTrace, string("Page size is ") + toString(m_width) + string(" by ") +
 	toString(m_height));
+  if((m_width == 0) || (m_height == 0)){
+    debug(dlError, "Invalid page size");
+    return false;
+  }
+
   if ((m_plot = plot_newplot (m_width, m_height)) == NULL)
     {
       debug(dlError, "Failed to initialize new page plot");

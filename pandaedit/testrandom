@@ -1,0 +1,6 @@
+#!/bin/bash
+
+rm -f testvictim.pdf
+ln -s `./selectrand.sh` testvictim.pdf
+./pandaedit testvictim.pdf&
+gv testvictim.pdf &

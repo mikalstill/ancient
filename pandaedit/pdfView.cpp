@@ -137,6 +137,11 @@ pdfView::OnDraw (wxDC * dc)
     frame->SetTitle(theDoc->getFilename().c_str());
   }
   
+  // Show the number of the page we are currenly on
+  ((wxFrame *) wxGetApp ().GetTopWindow ())->
+    SetStatusText (string(string("Displaying page ") +
+		   (toString (m_page + 1))).c_str (), 1);
+
   string& filename = m_renders[m_page];
   debug(dlTrace, string("Page render cache names \"") + filename + string("\""));
   if(filename == ""){

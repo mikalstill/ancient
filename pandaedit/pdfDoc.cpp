@@ -98,7 +98,8 @@ pdfDoc::OnOpenDocument (const wxString & filename)
     {
       ((wxFrame *) wxGetApp ().GetTopWindow ())->
 	SetStatusText ("PDF document parsed", 0);
-
+      debug(dlTrace, "Parser finished");
+      
       // Determine how many pages the PDF contains
       objectlist pages = m_pdf->getPages ();
       m_pages = pages;
@@ -106,8 +107,7 @@ pdfDoc::OnOpenDocument (const wxString & filename)
 	{
 	  ((wxFrame *) wxGetApp ().GetTopWindow ())->
 	    SetStatusText (string
-			   ("PDF document contains " +
-			    toString (m_pages.size ()) + " pages").c_str (), 0);
+			   (toString (m_pages.size ()) + " pages").c_str (), 0);
 	  m_ready = true;
 	}
       else
