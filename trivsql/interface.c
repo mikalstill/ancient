@@ -9,6 +9,8 @@ trivsql_state *trivsql_opendb(char *path){
 }
 
 trivsql_recordset *trivsql_execute(trivsql_state *state, char *sql){
+  printf("[Executing %s]\n", sql);
+
   trivsql_xfree(gTrivData);
   gTrivData = trivsql_xsnprintf("%s", sql);
   gTrivInset = 0;
@@ -18,6 +20,8 @@ trivsql_recordset *trivsql_execute(trivsql_state *state, char *sql){
 
 int trivsql_gettext(char *buffer, int maxlen){
   int size;
+
+  printf("[Starting read]\n");
 
   // Determine the maximum size to return
   size = trivsql_min(maxlen, strlen(gTrivData) - gTrivInset);

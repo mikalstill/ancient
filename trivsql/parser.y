@@ -4,9 +4,6 @@
 
   #define YYERROR_VERBOSE 1
 
-  #undef YY_INPUT
-  #define YY_INPUT(b, r, ms) (r = trivsql_gettext(b, ms);)
-
   trivsql_state *gState;
 %}
 
