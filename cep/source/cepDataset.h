@@ -22,6 +22,7 @@
 #define CEP_DATASET_HEADER
 
 #include <vector>
+#include <string>
 
 class cepError;
 
@@ -68,27 +69,28 @@ public:
 
   // Filename is the "root filename" e.g. mb_ANKR_GPS
   // I append the .dat1, .dat2 and .dat3 myself...
-  cepDataset (const string& filename);
-  cepDataset (const string& filename, const cepDatasetProgressCB callback);
-  cepDataset (vector < cep_datacol > windowVector, int numWindows);
-  cepDataset (double value, double weight);
+    cepDataset (const string & filename);
+    cepDataset (const string & filename, const cepDatasetProgressCB callback);
+    cepDataset (vector < cep_datacol > windowVector, int numWindows);
+    cepDataset (double value, double weight);
 
   // Manipulations 
-  cepDataset doWindow (cepDataset::direction dir, double winSize, 
+  cepDataset doWindow (cepDataset::direction dir, double winSize,
 		       double overlap);
   cepDataset doHam (double datRow[3], double startWindow, double winSize);
-  
+
   // Actually process the file
   cepError munch ();
-  
+
   // Accessor methods
-  vector < cep_datarow > &getDataPtr (direction);
-  
- private:
-  string m_filename;
+  // Blake - returns null if the get fails
+    vector < cep_datarow > &getDataPtr (direction);
+
+private:
+    string m_filename;
   cepDatasetProgressCB m_progress;
-  vector < cep_datarow > m_datax, m_datay, m_dataz;
-  vector < cep_datacol > m_windowVector;	//vector of windowed data
+    vector < cep_datarow > m_datax, m_datay, m_dataz;
+    vector < cep_datacol > m_windowVector;	//vector of windowed data
   int m_numWindows;		//number of windows in the windowed data
   double m_hamValue;		//single haming value
   double m_hamWeight;		//hamming weight

@@ -1,25 +1,25 @@
 #include <iostream.h>
 #include <math.h>
 #include <stdlib.h>
-
-#include  "cepMatrix.h"
-
-class cepLs
+ typedef struct cepMatrix 
 {
-public:
-  
-  cepLs();
-  ~cepLs();
+  double *matrix;
+   int numRows;
+   int numCols;
+ }
+blah;
+class cepLs 
+{
+public:cepLs ();
+  ~cepLs ();
+  void cepDoLeastSquares ();
+private:cepMatrix matA, matP, matL;
+  void sanityCheck (cepMatrix & matA, cepMatrix & matP, cepMatrix & matL);
+  bool isDiagonal (cepMatrix & mat);
+  cepMatrix inverse (cepMatrix & mat);
+  cepMatrix transpose (cepMatrix & mat);
+  cepMatrix mulDiag (cepMatrix & matA, cepMatrix & matB);
+  cepMatrix mul (double *row, int rowElements, cepMatrix & mat);
+};
 
-  const cepMatrix cepDoLeastSquares(cepMatrix &, cepMatrix &, cepMatrix &); 
-  
-private:
 
-  void sanityCheck(cepMatrix &, cepMatrix &, cepMatrix &);
-  bool isDiagonal(cepMatrix &mat);
-  
-  const cepMatrix inverse(cepMatrix &);
-  const cepMatrix mulDiag(cepMatrix &, cepMatrix &);
-  const cepMatrix Amul(cepMatrix &, cepMatrix &);
-  const cepMatrix mulA(cepMatrix &, cepMatrix &);
-};

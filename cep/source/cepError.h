@@ -174,18 +174,18 @@ public:
     sevMax
   };
 
-  cepError ();
-  cepError (const string& msg);
-  cepError (const string& msg, severity level);
-  ~cepError ();
-  
+    cepError ();
+    cepError (const string & msg);
+    cepError (const string & msg, severity level);
+   ~cepError ();
+
   bool isReal ();
-  void clear();
-  void log();
+  void clear ();
+  void log ();
   void display ();
-  string getTitle();
-  int getIcon();
-  
+  string getTitle ();
+  int getIcon ();
+
 private:
   string m_msg;
   severity m_level;

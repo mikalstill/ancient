@@ -26,12 +26,12 @@ const string cMonthNames[12] =
 };
 
 cepDate::cepDate (double decimal):
-m_day (-1),
-m_year (-1),
 m_yearDays (-1),
+m_year (-1),
 m_dayOfYear (-1),
-m_month (-1),
-m_leap (false)
+m_leap (false),
+m_day (-1),
+m_month (-1)
 {
   m_decimal = decimal;
 }
@@ -44,8 +44,9 @@ cepDate::popDayOfYear ()
 
   if (m_dayOfYear == -1)
     {
-      m_dayOfYear = m_yearDays * (m_decimal - m_year);
-      cepDebugPrint (cepDtoa (m_decimal) + " converts to " + cepItoa (m_dayOfYear) + " days");
+      m_dayOfYear = (int)(m_yearDays * (m_decimal - m_year));
+      cepDebugPrint (cepDtoa (m_decimal) + " converts to " +
+		     cepItoa (m_dayOfYear) + " days");
     }
 }
 
@@ -61,7 +62,7 @@ cepDate::popDaysInYear ()
       m_yearDays = ((m_year % 100 == 0) && (m_year % 400 == 0)) ||
 	((m_year % 100 != 0) && (m_year % 4 == 0)) ? 366 : 365;
 
-      cepDebugPrint (cepDtoa (m_decimal) + " converts to " + 
+      cepDebugPrint (cepDtoa (m_decimal) + " converts to " +
 		     cepItoa (m_yearDays) + " days in the year");
 
       if (m_yearDays == 366)
@@ -76,8 +77,8 @@ cepDate::popYear ()
     {
       m_year = (int) m_decimal;
 
-      cepDebugPrint (cepDtoa (m_decimal) + " converts to " + cepItoa (m_year) +
-		     " year");
+      cepDebugPrint (cepDtoa (m_decimal) + " converts to " +
+		     cepItoa (m_year) + " year");
     }
 }
 
@@ -110,7 +111,8 @@ cepDate::popMonthAndDay ()
     }
 }
 
-string cepDate::toString ()
+string
+cepDate::toString ()
 {
   popMonthAndDay ();
   popYear ();

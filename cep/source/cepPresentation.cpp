@@ -35,13 +35,13 @@ m_dataValid (1, bool (false))
 }
 
 void
-cepPresentation::xAxisTitle (const string& title)
+cepPresentation::xAxisTitle (const string & title)
 {
   m_xTitle = title;
 }
 
 void
-cepPresentation::yAxisTitle (const string& title)
+cepPresentation::yAxisTitle (const string & title)
 {
   m_yTitle = title;
 }
@@ -62,16 +62,17 @@ void
 cepPresentation::addDataPoint (long x, long y)
 {
   // Values
-  if (x >= m_data.size ())
+  if (x >= (long)m_data.size ())
     {
       m_data.resize (x + CHUNKALLOC);
-      cepDebugPrint ("Resize presentation data to " + cepLtoa (x + CHUNKALLOC));
+      cepDebugPrint ("Resize presentation data to " +
+		     cepLtoa (x + CHUNKALLOC));
     }
   m_data[x] = y;
   cepDebugPrint ("Added (" + cepLtoa (x) + ", " + cepLtoa (y) + ")");
 
   // Validity
-  if (x >= m_dataValid.size ())
+  if (x >= (long)m_dataValid.size ())
     {
       m_dataValid.resize (x + CHUNKALLOC, bool (false));
     }
@@ -84,7 +85,7 @@ cepPresentation::addDataPoint (long x, long y)
 void
 cepPresentation::interpolate ()
 {
-  long prevX, prevY;
+  long prevX=0, prevY=0;
   bool prevValid (false);
 
   // todo_mikal: for now we just dump the data points back out again
@@ -96,9 +97,9 @@ cepPresentation::interpolate ()
 	    {
 	      cepDebugPrint ("Iterpolate the line from (" +
 			     cepLtoa (prevX) + ", " + cepLtoa (prevY)
-			     + ") to (" + cepLtoa (i) + ", " + 
+			     + ") to (" + cepLtoa (i) + ", " +
 			     cepLtoa (m_data[i]) + ")");
-	      
+
 	      // This pixel toggling is based on the premise that the function
 	      // for a given straight line can be defined by y = mx + b...
 	      //
@@ -109,16 +110,16 @@ cepPresentation::interpolate ()
 
 	      double m = ((double) (m_data[i] - prevY) /
 			  (double) (i - prevX));
-	      for (long x = 1; x < i - prevX; x++)
+	      for (long x = 1; x < (long)(i - prevX); x++)
 		{
 		  long y = prevY + (long) (m * x);
-		  
+
 		  cepDebugPrint ("Interpolation added the point (" +
 				 cepLtoa (x + prevX) + ", " + cepLtoa (y) +
 				 "). The gradient is " + cepDtoa (m));
 		}
 	    }
-	  
+
 	  prevX = i;
 	  prevY = m_data[i];
 	  prevValid = true;
@@ -126,12 +127,14 @@ cepPresentation::interpolate ()
     }
 }
 
-cepError cepPresentation::createPDF (const string& filename)
+cepError
+cepPresentation::createPDF (const string & filename)
 {
   return cepError ();
 }
 
-cepError cepPresentation::createBitmap (const string& filename)
+cepError
+cepPresentation::createBitmap (const string & filename)
 {
   interpolate ();
   return cepError ();

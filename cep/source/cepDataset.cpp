@@ -20,13 +20,14 @@
 
 #include "cepCore.h"
 
-cepDataset::cepDataset (const string& filename):
+cepDataset::cepDataset (const string & filename):
 m_filename (filename)
 {
   m_progress = NULL;
 }
 
-cepDataset::cepDataset (const string& filename, cepDatasetProgressCB callback):
+cepDataset::cepDataset (const string & filename,
+			cepDatasetProgressCB callback):
 m_filename (filename)
 {
   m_progress = callback;
@@ -56,21 +57,23 @@ cepDataset::cepDataset (double value, double weight)
 }
 
 
-cepError
-cepDataset::munch ()
+cepError cepDataset::munch ()
 {
   // Step One: ensure that all of the files we need are actually there,
   // it would be crap to read two of the three files, and _then_ report
   // an error...
-  fstream files[3];
-  long lines[3];
+  fstream
+    files[3];
+  long
+    lines[3];
 
   files[0].open (string (m_filename + ".dat1").c_str (), ios::in);
   files[1].open (string (m_filename + ".dat2").c_str (), ios::in);
   files[2].open (string (m_filename + ".dat3").c_str (), ios::in);
 
   // Check they opened ok
-  string errString;
+  string
+    errString;
   for (int i = 0; i < 3; i++)
     {
       // File is NULL if it couldn't be opened
@@ -100,9 +103,14 @@ cepDataset::munch ()
 
       // Skip the first three lines -- it seems that fstream has no equivalent
       // of fgets(), which will mind the newlines for me...
-      char c = 0, prevc = '\n';
+      char
+	c =
+	0,
+	prevc =
+	'\n';
       lines[i] = 0;
-      string thisLine ("");
+      string
+      thisLine ("");
 
       while (!files[i].eof ())
 	{
@@ -133,12 +141,15 @@ cepDataset::munch ()
 		  // We process this line
 		  cepDebugPrint ("Dataset line from " + m_filename + "[" +
 				 cepItoa (i) + "]: " + thisLine);
-		  
+
 		  // Put the data into the dataset data thingies
 		  // todo_mikal: is there a more c++ way to tokenize a string?
-		  cep_datarow row;
-		  char *line;
-		  char *value;
+		  cep_datarow
+		    row;
+		  char *
+		    line;
+		  char *
+		    value;
 
 		  line = strdup (thisLine.c_str ());
 		  row.date =
@@ -153,13 +164,13 @@ cepDataset::munch ()
 		  if (line != NULL)
 		    free (line);
 
-		  getDataPtr((cepDataset::direction) i).push_back (row);
+		  getDataPtr ((cepDataset::direction) i).push_back (row);
 
 		  cepDebugPrint ("Dataset line parsed to [" +
-				 cepFtoa (row.date) + ", " + 
+				 cepFtoa (row.date) + ", " +
 				 cepFtoa (row.sample) +
 				 ", " + cepFtoa (row.error) + "]");
-		  
+
 		  thisLine = "";
 		}
 	      else
@@ -180,8 +191,8 @@ cepDataset::munch ()
       return
 	cepError
 	("The number of lines read from the data files were not equal (" +
-	 cepItoa (lines[0]) + ", " + cepItoa (lines[1]) + ", " + cepItoa (lines[2]) +
-	 ").");
+	 cepItoa (lines[0]) + ", " + cepItoa (lines[1]) + ", " +
+	 cepItoa (lines[2]) + ").");
     }
 
   // No error
@@ -216,7 +227,8 @@ cepDataset
 
 //todo_daniel: once vector exists..fix this..wont need param data.
 cepDataset
-cepDataset::doWindow (cepDataset::direction dir, double winSize, double overlap)
+  cepDataset::doWindow (cepDataset::direction dir, double winSize,
+			double overlap)
 {
 
   /*Groups data into square windows with a pre-defined width. 
@@ -248,7 +260,7 @@ cepDataset::doWindow (cepDataset::direction dir, double winSize, double overlap)
 
   // Work out number of windows
   // todo_mikal: clean up this line (compile warnings)
-  numWindows = ceil (((lastDate - firstDate) * (1 + 2 * overlap)) / winSize);	//round up to nearest integer
+  numWindows = (int)ceil (((lastDate - firstDate) * (1 + 2 * overlap)) / winSize);	//round up to nearest integer
   if (overlap != 0)
     {
       numWindows -= 1;		//todo:daniel - may not need this line.
@@ -306,11 +318,11 @@ cepDataset::doWindow (cepDataset::direction dir, double winSize, double overlap)
   dataVectorRow = nextFirstRecord;
   currentFirstRecord = nextFirstRecord;
   startWindow = startWindow + winSize;
-  while (dataVectorRow < datPointer.size ())
+  while (dataVectorRow < (int)datPointer.size ())
     {
       //place the date, sample and error for the predefined direciton into windowData
       windowData[numWindows][dataVectorRow - currentFirstRecord] =
-	datPointer[dataVectorRow];
+	       datPointer[dataVectorRow];
       dataVectorRow += 1;	// increment vector row counter
     }				//end while
 
@@ -318,25 +330,23 @@ cepDataset::doWindow (cepDataset::direction dir, double winSize, double overlap)
   return cepDataset (windowData, numWindows);
 }				//end doWindow
 
+// Blake 04/08/2002 : added NULL return value for default case
 vector < cep_datarow > &cepDataset::getDataPtr (direction dir)
 {
   switch (dir)
     {
     case dirX:
       return m_datax;
-      break;
 
     case dirY:
       return m_datay;
-      break;
 
     case dirZ:
       return m_dataz;
-      break;
 
     default:
-      cepError oor("The data direction requested was out of range", cepError::sevErrorFatal);
-      oor.display();
-      break;
+      cepError oor ("The data direction requested was out of range",
+		    cepError::sevErrorFatal);
+      oor.display ();
     }
 }

@@ -1,56 +1,60 @@
+
+#include "cepDataset.h"
+
 /*
  These methods have been placed into cepDataset .....
 */
 
-cepDataset
-  cepDataset::doHam (double datRow[3], double startWindow, double winSize)
+cepDataset cepDataset::doHam (double datRow[3], double startWindow, double winSize)
 {
-  /*      Imports:
-     * datRow: a data row from the standard array of data [date,value,error]
-     * startWindow: the date of the start of the hamming window
-     * winSize: the size (in decimal years) of the window
+  /* Imports:
+   * datRow: a data row from the standard array of data [date,value,error]
+   * startWindow: the date of the start of the hamming window
+   * winSize: the size (in decimal years) of the window
 
      Exports:
-     * hamValue: the hamming value
-     * hamWeight: the weight of the value within the set
+   * hamValue: the hamming value
+   * hamWeight: the weight of the value within the set
    */
   double hamWeight = 0;
   double hamValue = 0;
 
   hamWeight = 0.54 - 0.46 * cos (2 * pi * ((datRow[0] - startWindow) / (winSize));	//todo:daniel ask nick why 0.54 and .46...shouldn't be hard coded here.
-				 hamValue = datRow[1] * weight;
-				 cepDataset ham =
-				 new cepDataset (hamValue, hamWeight);
-				 return ham;
-				 //totdo:daniel- need to ensure a constructor to deal with this returning business above.
-				 }	//end doHam
+  hamValue = datRow[1] * weight;
+  cepDataset ham = new cepDataset (hamValue, hamWeight);
+  
+	return ham;
+	//totdo:daniel- need to ensure a constructor to deal with this returning business above.
+}	//end doHam
 
-				 void	//this will be a method in cepDataset -- will need to include math.h -- will most likely have a return type.
-				 cepDataset::doWindow (double winSize, double overlap)	//todo_daniel: once vector exists..fix this..wont need param data.
-				 {
-				 /*
-				    Groups data into square windows with a pre-defined width. 
-				    Imports: 
-				    * winSize - size of each window (deciaml years)
-				    * overlap - amount of overlap between each window
+void	//this will be a method in cepDataset -- will need to include math.h -- will most likely have a return type.
+cepDataset::doWindow (double winSize, double overlap)	//todo_daniel: once vector exists..fix this..wont need param data.
+{
+  /* Groups data into square windows with a pre-defined width. 
+	   Imports: 
+	* winSize - size of each window (deciaml years)
+	* overlap - amount of overlap between each window
 
-				    Exports:
-				    * windowData: Vector of windowed data (numWindows X 3 X largestWindow)
-				    * numWindows: The number of seperate windows that were populated with data
-				  */
+	  Exports:
+	* windowData: Vector of windowed data (numWindows X 3 X largestWindow)
+	* numWindows: The number of seperate windows that were populated with data
+	*/
 
-				 int numSamples;	//number of smaples in the vector
-				 int nextFirstRecord;	//start of next window
-				 int currentFirstRecord;	//start of current window
-				 int numWindows;	//the total number  of windows required
-				 int dataVectorRow;	//vector counter
-				 int col, row;	//loop counters
-				 double firstDate;	//the first dat in the the data
-				 double lastDate;	//the last date in the data
-				 double overlapWinSize; vector < cep_datarow > windowData;	//this is windowsArray
-				 vector < cep_datarow > dataCopy	//need a copy of dataCopy
-				 //preserving the original data vector
-				 dataCopy = m_data;
+	int numSamples;          //number of smaples in the vector
+	int nextFirstRecord;     //start of next window
+	int currentFirstRecord;  //start of current window
+	int numWindows;          //the total number  of windows required
+	int dataVectorRow;       //vector counter
+	int col, row;            //loop counters
+	double firstDate;        //the first dat in the the data
+	double lastDate;         //the last date in the data
+	double overlapWinSize;
+	vector < cep_datarow > windowData; //this is windowsArray
+	vector < cep_datarow > dataCopy; //need a copy of dataCopy
+         
+	//preserving the original data vector
+	dataCopy = m_data;
+         
 				 // get timescale of data set 
 				 numSamples = dataCopy.size ()firstdate = dataCopy.pop_first ();	//data(1,1);//todo_daniel: vector not defined yet..correct notation needed
 				 lastdate = dataCopy.pop_back ()	//[numSamples][0];

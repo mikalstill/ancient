@@ -20,33 +20,37 @@
 #include "cepCore.h"
 #include "cepTSB.h"
 
-cepTSB::cepTSB()
+cepTSB::cepTSB ()
 {
-  set(cepTSB::stUndefined);
+  set (cepTSB::stUndefined);
 }
 
-cepTSB::cepTSB(bool inval)
+cepTSB::cepTSB (bool inval)
 {
-  set(inval);
+  set (inval);
 }
 
-cepTSB::cepTSB(state inval)
+cepTSB::cepTSB (state inval)
 {
-  set(inval);
+  set (inval);
 }
 
-void cepTSB::set(state inval)
+void
+cepTSB::set (state inval)
 {
   m_val = inval;
 }
 
-void cepTSB::set(bool inval)
+void
+cepTSB::set (bool inval)
 {
-  if(inval) set(cepTSB::stTrue);
-  else set(cepTSB::stFalse);
+  if (inval)
+    set (cepTSB::stTrue);
+  else
+    set (cepTSB::stFalse);
 }
 
-cepTSB::state cepTSB::get()
+cepTSB::state cepTSB::get ()
 {
   return m_val;
 }

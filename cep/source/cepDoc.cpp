@@ -56,9 +56,8 @@
 #include "cepView.h"
 
 IMPLEMENT_DYNAMIC_CLASS (cepDoc, wxDocument)
-
 // This is needed for the progess callback to get to us
-cepDoc *gProgressDoc;
+     cepDoc *gProgressDoc;
 
 cepDoc::cepDoc (void)
 {
@@ -96,43 +95,55 @@ wxInputStream & cepDoc::LoadObject (wxInputStream & stream)
 
   // Actually create the dataset
   m_progressCount = 0;
-  m_progress = new wxProgressDialog("Loading dataset", 
-				    "Please wait while the dataset is loaded");
+  m_progress = new wxProgressDialog ("Loading dataset",
+				     "Please wait while the dataset is loaded");
 
-  wxString filename = GetFilename();
-  string parentFilename = filename.substr(0, filename.length() - 5).c_str();
-  m_dataset = new cepDataset(parentFilename, ds_progressCallback);
-  cepError loadErr = m_dataset->munch();
+  wxString
+    filename =
+    GetFilename ();
+  string
+    parentFilename =
+    filename.
+    substr (0, filename.length () - 5).
+    c_str ();
+  m_dataset = new cepDataset (parentFilename, ds_progressCallback);
+  cepError
+    loadErr =
+    m_dataset->
+    munch ();
 
   // todo_mikal: we should handle this error better
-  if(loadErr.isReal())
-    loadErr.display();
+  if (loadErr.isReal ())
+    loadErr.display ();
 
   // We need to change the filename which is displayed in the tab
   // todo_mikal: for display should be strip off the leading part of the path?
-  SetTitle(parentFilename.c_str());
+  SetTitle (parentFilename.c_str ());
 
   // TODO_Mikal: Handle error condition better
 
   // Cleanup
-  delete m_progress;
+  delete
+    m_progress;
   m_progress = NULL;
 
   return stream;
 }
 
-void cepDoc::incrementProgress()
+void
+cepDoc::incrementProgress ()
 {
   // todo_mikal: 10,000 readings is a lot, do we want to do better?
   m_progressCount++;
-  if(m_progressCount > 10000)
+  if (m_progressCount > 10000)
     m_progressCount = 0;
 
-  if(m_progressCount % 100 == 0)
-    m_progress->Update(m_progressCount / 100);
+  if (m_progressCount % 100 == 0)
+    m_progress->Update (m_progressCount / 100);
 }
 
-cepDataset *cepDoc::getDataset()
+cepDataset *
+cepDoc::getDataset ()
 {
   return m_dataset;
 }
@@ -141,5 +152,5 @@ cepDataset *cepDoc::getDataset()
 void
 ds_progressCallback (int plane, long line)
 {
-  gProgressDoc->incrementProgress();
+  gProgressDoc->incrementProgress ();
 }

@@ -44,13 +44,17 @@ m_msg (), m_level (cepError::sevOk), m_actioned (true)
 {
 }
 
-cepError::cepError (const string& msg):
-m_msg (msg), m_level (cepError::sevErrorFatal), m_actioned (false)
+cepError::cepError (const string & msg):
+m_msg (msg),
+m_level (cepError::sevErrorFatal),
+m_actioned (false)
 {
 }
 
-cepError::cepError (const string& msg, cepError::severity level):
-m_msg (msg), m_level (level), m_actioned (false)
+cepError::cepError (const string & msg, cepError::severity level):
+m_msg (msg),
+m_level (level),
+m_actioned (false)
 {
 }
 
@@ -60,7 +64,8 @@ cepError::~cepError ()
     cepDebugPrint ("cepError was not actioned: " + m_msg);
 }
 
-bool cepError::isReal ()
+bool
+cepError::isReal ()
 {
   m_actioned = true;
   return m_msg != "";
@@ -74,7 +79,7 @@ cepError::clear ()
 }
 
 void
-cepError::log()
+cepError::log ()
 {
   gLog << m_msg << " (severity " << m_level << ")" << endl;
   m_actioned = true;
@@ -87,27 +92,27 @@ cepError::display ()
 
   // Log everything for now
   // todo_mikal improve
-  log();
+  log ();
 
-  if(gDisplayParams[(int) m_level].get() == cepTSB::stUndefined)
+  if (gDisplayParams[(int) m_level].get () == cepTSB::stUndefined)
     {
       // Deliberately dropping cepError return value here
       bool dodisp;
-      gConfiguration->getValue(string("cepErrordisplaylevel") + 
-			       cepItoa((int) m_level), true, dodisp);
-      gDisplayParams[(int) m_level].set(dodisp);
+      gConfiguration->getValue (string ("cepErrordisplaylevel") +
+				cepItoa ((int) m_level), true, dodisp);
+      gDisplayParams[(int) m_level].set (dodisp);
     }
 
-  if(gDisplayParams[(int) m_level].get() == cepTSB::stFalse)
+  if (gDisplayParams[(int) m_level].get () == cepTSB::stFalse)
     return;
 
   if (m_msg != "")
     {
 #ifdef __WXGTK__
-      wxMessageBox(m_msg.c_str(), getTitle().c_str(), 
-		   wxOK | wxCENTRE | getIcon());
+      wxMessageBox (m_msg.c_str (), getTitle ().c_str (),
+		    wxOK | wxCENTRE | getIcon ());
 #else
-      cout << getTitle() << ": " << m_msg << endl;
+      cout << getTitle () << ": " << m_msg << endl;
 #endif
     }
   else
@@ -115,7 +120,8 @@ cepError::display ()
     cepDebugPrint ("Display requested on empty cepError");
 }
 
-string cepError::getTitle()
+string
+cepError::getTitle ()
 {
   switch (m_level)
     {
@@ -124,25 +130,26 @@ string cepError::getTitle()
 
     case sevDebug:
       return "Debug";
-      
+
     case sevInformational:
       return "Informational";
-      
+
     case sevWarning:
       return "Warning";
-      
+
     case sevErrorRecoverable:
       return "Recoverable Error";
-      
+
     case sevErrorFatal:
       return "Fatal error";
-      
+
     default:
       return "UNKNOWN ERROR LEVEL";
     }
 }
 
-int cepError::getIcon()
+int
+cepError::getIcon ()
 {
 #ifdef __WXGTK__
   switch (m_level)
@@ -152,23 +159,23 @@ int cepError::getIcon()
 
     case sevDebug:
       return wxICON_QUESTION;
-      
+
     case sevInformational:
       return wxICON_INFORMATION;
-      
+
     case sevWarning:
       return wxICON_EXCLAMATION;
-      
+
     case sevErrorRecoverable:
       return wxICON_ERROR;
-      
+
     case sevErrorFatal:
       return wxICON_ERROR;
-      
+
     default:
       return wxICON_QUESTION;
     }
 #endif
 
   return 0;
-  }
+}

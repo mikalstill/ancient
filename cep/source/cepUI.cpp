@@ -54,6 +54,7 @@
 #include "cepView.h"
 
 #include <stdlib.h>
+#include <sstream>
 
 cepFrame *frame = (cepFrame *) NULL;
 
@@ -68,79 +69,87 @@ IMPLEMENT_APP (cepApp) cepApp::cepApp (void)
   gLog.open ("cep.log", ios::out);
 
   // Open our configuration
-  char *homedir = getenv("HOME");
-  string config("");
+  char *
+    homedir =
+    getenv ("HOME");
+  string
+  config ("");
 
-  if(homedir == NULL)
+  if (homedir == NULL)
     {
-      cepError error("Unable to determine your home directory. Defaulting to the current working directory", cepError::sevInformational);
+      cepError
+      error
+	("Unable to determine your home directory. Defaulting to the current working directory",
+	 cepError::sevInformational);
       m_error = error;
-      error.clear();
+      error.clear ();
     }
   else
     {
-      config = string(homedir);
+      config = string (homedir);
       config += "/";
     }
 
   config += ".cep";
-  gConfiguration = new cepConfiguration(config);
+  gConfiguration = new cepConfiguration (config);
 
-  if(!m_error.isReal()){
-    cepDebugPrint("Configuration database is located at: " + config);
-  }
+  if (!m_error.isReal ())
+    {
+      cepDebugPrint ("Configuration database is located at: " + config);
+    }
 }
 
-bool
-cepApp::OnInit (void)
+bool cepApp::OnInit (void)
 {
   // Create a document manager
   m_docManager = new wxDocManager;
 
   // Create a template relating drawing documents to their views
-  (void) new wxDocTemplate ((wxDocManager *) m_docManager, "Dataset", "*.dat1",
-			    "", "dat1", "Dataset", "Dataset View",
-			    CLASSINFO (cepDoc),
-			    CLASSINFO (cepView));
+  (void) new
+  wxDocTemplate ((wxDocManager *) m_docManager, "Dataset", "*.dat1",
+		 "", "dat1", "Dataset", "Dataset View",
+		 CLASSINFO (cepDoc), CLASSINFO (cepView));
 
   // Initialise bitmap handlers (we need these for the presentation layer)
 #if wxUSE_LIBPNG
-  wxImage::AddHandler( new wxPNGHandler );
+  wxImage::AddHandler (new wxPNGHandler);
 #endif
 
 #if wxUSE_LIBJPEG
-  wxImage::AddHandler( new wxJPEGHandler );
+  wxImage::AddHandler (new wxJPEGHandler);
 #endif
 
 #if wxUSE_LIBTIFF
-  wxImage::AddHandler( new wxTIFFHandler );
+  wxImage::AddHandler (new wxTIFFHandler);
 #endif
 
 #if wxUSE_GIF
-  wxImage::AddHandler( new wxGIFHandler );
+  wxImage::AddHandler (new wxGIFHandler);
 #endif
 
 #if wxUSE_PCX
-  wxImage::AddHandler( new wxPCXHandler );
+  wxImage::AddHandler (new wxPCXHandler);
 #endif
 
 #if wxUSE_PNM
-  wxImage::AddHandler( new wxPNMHandler );
+  wxImage::AddHandler (new wxPNMHandler);
 #endif
 
   // Create the main frame window
-  int windowx, windowy;
-  gConfiguration->getValue("mainwindowsizex", 1000, windowx);
-  gConfiguration->getValue("mainwindowsizey", 700, windowy);
-  cepDebugPrint("Main frame size is " + cepItoa(windowx) + " by " +
-		cepItoa(windowy));
+  int
+    windowx,
+    windowy;
+  gConfiguration->getValue ("mainwindowsizex", 1000, windowx);
+  gConfiguration->getValue ("mainwindowsizey", 700, windowy);
+  cepDebugPrint ("Main frame size is " + cepItoa (windowx) + " by " +
+		 cepItoa (windowy));
 
   frame =
     new cepFrame ((wxDocManager *) m_docManager, (wxFrame *) NULL,
-		  (const wxString) "Techtonic Information Transform System", 
+		  (const wxString) "Geodetic Data Modelling System",
 		  wxPoint (0, 0), wxSize (windowx, windowy),
 		  wxDEFAULT_FRAME_STYLE);
-  
+
   // Give it an icon (this is ignored in MDI mode: uses resources)
   // todo_mikal: We should have our own icon
 #ifdef __WXMSW__
@@ -151,8 +160,13 @@ cepApp::OnInit (void)
 #endif
 
   // Make a menubar
-  wxMenu *file_menu = new wxMenu;
-  wxMenu *edit_menu = (wxMenu *) NULL;
+  wxMenu *
+    file_menu =
+    new
+    wxMenu;
+  wxMenu *
+    edit_menu = (wxMenu *)
+    NULL;
 
   // This is magic, the shortcut keys just work from the menu name...
   file_menu->Append (wxID_OPEN, "&Open...\tCtrl-O");
@@ -162,10 +176,16 @@ cepApp::OnInit (void)
   // A nice touch: a history of files visited. Use this menu.
   m_docManager->FileHistoryUseMenu (file_menu);
 
-  wxMenu *help_menu = new wxMenu;
+  wxMenu *
+    help_menu =
+    new
+    wxMenu;
   help_menu->Append (DOCVIEW_ABOUT, "&About\tF1");
 
-  wxMenuBar *menu_bar = new wxMenuBar;
+  wxMenuBar *
+    menu_bar =
+    new
+    wxMenuBar;
 
   menu_bar->Append (file_menu, "&File");
   if (edit_menu)
@@ -181,17 +201,18 @@ cepApp::OnInit (void)
   SetTopWindow (frame);
 
   // Are there old errors?
-  if(m_error.isReal()){
-    m_error.display();
-    m_error.clear();
-  }
+  if (m_error.isReal ())
+    {
+      m_error.display ();
+      m_error.clear ();
+    }
 
   // Display tips on startup
   // todo_mikal: make tips work
   // todo_mikal: turn off startup tips sometimes
   // todo_mikal: should the tips be stored in a tdb?
-  if ( 1 ) 
-    { 
+  if (1)
+    {
       //      wxTipProvider *tipProvider = wxCreateFileTipProvider("tips.txt", 0); 
       //      wxShowTip(windowParent, tipProvider); 
       //      delete tipProvider; 
@@ -281,16 +302,8 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
  * This is the top-level window of the application.
  */
 
-IMPLEMENT_CLASS (cepFrame, wxDocMDIParentFrame) 
-BEGIN_EVENT_TABLE (cepFrame, wxDocMDIParentFrame) 
-EVT_MENU (DOCVIEW_ABOUT, cepFrame::OnAbout) 
-EVT_CLOSE(cepFrame::OnClose)
-END_EVENT_TABLE ()
-
-cepFrame::cepFrame (wxDocManager * manager, wxFrame * frame, 
-		    const wxString & title, const wxPoint & pos, 
-		    const wxSize & size, long type):
-  wxDocMDIParentFrame (manager, frame, -1, title, pos, size, type, "myFrame")
+IMPLEMENT_CLASS (cepFrame, wxDocMDIParentFrame) BEGIN_EVENT_TABLE (cepFrame, wxDocMDIParentFrame) EVT_MENU (DOCVIEW_ABOUT, cepFrame::OnAbout) EVT_CLOSE (cepFrame::OnClose) END_EVENT_TABLE ()cepFrame::cepFrame (wxDocManager * manager, wxFrame * frame, const wxString & title, const wxPoint & pos, const wxSize & size, long type):
+wxDocMDIParentFrame (manager, frame, -1, title, pos, size, type, "myFrame")
 {
   editMenu = (wxMenu *) NULL;
 }
@@ -300,9 +313,19 @@ cepFrame::cepFrame (wxDocManager * manager, wxFrame * frame,
 void
 cepFrame::OnAbout (wxCommandEvent & WXUNUSED (event))
 {
+  ostringstream msg;
+  msg << "Geodetic Data Modelling System\n\n";
+  msg << "A GPS, VLBI and SLR dataset manipulation tool by\n";
+  msg << "    Daniel Fernandez\n";
+  msg << "    Michael Still\n";
+  msg << "    Blake Swadling\n";
+  msg << "    Nick Wheatstone\n";
+  msg << "    Kristy Van Der Vlist\n\n";
+  msg << "Portions copyright: Julian Smart julian.smart@ukonline.co.uk\n\n";
+  msg << "Released under the terms of the GNU GPL";
+  
   wxMessageBox
-    ("Techtonic Information Transform System\n\nA GPS, VLBI and SLR dataset manipulation tool by\n\tMichael Still\n\tDaniel Fernandez\n\tBlake Swadling\n\tNick Wheatstone\n\tand Kristy Van Der Vlist\n\nPortions copyright: Julian Smart julian.smart@ukonline.co.uk\n\nReleased under the terms of the GNU GPL",
-     "About Techtonic Information Transform System");
+    ( (const wxString &)msg.str().c_str(), "About Geodetic Data Modelling System");
 }
 
 // Creates a canvas. Called from view.cpp when a new drawing
@@ -332,30 +355,34 @@ GetMainFrame (void)
 
 // Capture the window close event, so we can save config info about the window
 // todo_mikal: not called on close of application...
-void cepFrame::OnClose(wxCloseEvent& evt)
+void
+cepFrame::OnClose (wxCloseEvent & evt)
 {
   // Save the window size to the configuration database
   int width, height;
-  GetSize(&width, &height);
+  GetSize (&width, &height);
 
   cepError err;
   // todo_mikal: better key name?
-  err = gConfiguration->setValue("mainwindowsizex", width);
-  if(err.isReal()){
-    err.display();
-    err.clear();
-  }
-  else{
-    // todo_mikal: better key name?
-    err = gConfiguration->setValue("mainwindowsizey", height);
-    if(err.isReal()){
-      err.display();
-      err.clear();
+  err = gConfiguration->setValue ("mainwindowsizex", width);
+  if (err.isReal ())
+    {
+      err.display ();
+      err.clear ();
     }
-  }
+  else
+    {
+      // todo_mikal: better key name?
+      err = gConfiguration->setValue ("mainwindowsizey", height);
+      if (err.isReal ())
+	{
+	  err.display ();
+	  err.clear ();
+	}
+    }
 
   // Close the window
-  cepDebugPrint("Finished with the UI");
-  wxFrame::OnCloseWindow(evt);
-  cepDebugPrint("Finished cleaning up the main frame");
+  cepDebugPrint ("Finished with the UI");
+  wxFrame::OnCloseWindow (evt);
+  cepDebugPrint ("Finished cleaning up the main frame");
 }

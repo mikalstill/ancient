@@ -55,22 +55,21 @@
 #include "cepView.h"
 
 IMPLEMENT_DYNAMIC_CLASS (cepView, wxView)
-BEGIN_EVENT_TABLE (cepView, wxView)
-END_EVENT_TABLE ()
-
+BEGIN_EVENT_TABLE (cepView, wxView) END_EVENT_TABLE ()
 // What to do when a view is created. Creates actual
 // windows for displaying the view.
-bool
-cepView::OnCreate (wxDocument * doc, long WXUNUSED (flags))
+  bool cepView::OnCreate (wxDocument * doc, long WXUNUSED (flags))
 {
   frame = wxGetApp ().CreateChildFrame (doc, this, TRUE);
   frame->SetTitle ("cepView");
-  
+
   canvas = GetMainFrame ()->CreateCanvas (this, frame);
 
 #ifdef __X__
   // X seems to require a forced resize
-  int x, y;
+  int
+    x,
+    y;
   frame->GetSize (&x, &y);
   frame->SetSize (-1, -1, x, y);
 #endif
@@ -89,16 +88,16 @@ cepView::OnDraw (wxDC * dc)
   dc->SetFont (*wxNORMAL_FONT);
   dc->SetPen (*wxBLACK_PEN);
 
-  cepDebugPrint("Drawing the image, png is type " + 
-		cepItoa(wxBITMAP_TYPE_PNG));
+  cepDebugPrint ("Drawing the image, png is type " +
+		 cepItoa (wxBITMAP_TYPE_PNG));
 
-  wxImage theImage("256x256.png", wxBITMAP_TYPE_PNG);
-  wxBitmap theBitmap(theImage.ConvertToBitmap());
-  dc->DrawBitmap(theBitmap, 30, 150);
+  wxImage theImage ("256x256.png", wxBITMAP_TYPE_PNG);
+  wxBitmap theBitmap (theImage.ConvertToBitmap ());
+  dc->DrawBitmap (theBitmap, 30, 150);
 
-  cepDoc *theDoc = (cepDoc *) GetDocument();
-  cepDataset *theDataset = theDoc->getDataset();
-  
+  cepDoc *theDoc = (cepDoc *) GetDocument ();
+  cepDataset *theDataset = theDoc->getDataset ();
+
   // Iterate the points in the x direction of the dataset
   //  cepPresentation myPres;
   //  mypres.addDataPoint(1, 
@@ -126,23 +125,23 @@ cepView::OnUpdate (wxView * WXUNUSED (sender), wxObject * WXUNUSED (hint))
 }
 
 // Clean up windows used for displaying the view.
-bool
-cepView::OnClose (bool deleteWindow)
+bool cepView::OnClose (bool deleteWindow)
 {
-  cepDebugPrint("Close called for a cepView");
+  cepDebugPrint ("Close called for a cepView");
   if (!GetDocument ()->Close ())
     return FALSE;
 
   // Clear the canvas in  case we're in single-window mode,
   // and the canvas stays.
-  cepDebugPrint("Clean up the canvas");
-  
+  cepDebugPrint ("Clean up the canvas");
+
   // The following line was causing a segv
   //  canvas->Clear ();
   canvas->view = (wxView *) NULL;
   canvas = (cepCanvas *) NULL;
 
-  wxString s (wxTheApp->GetAppName ());
+  wxString
+  s (wxTheApp->GetAppName ());
   if (frame)
     frame->SetTitle (s);
 
@@ -150,10 +149,11 @@ cepView::OnClose (bool deleteWindow)
 
   Activate (FALSE);
 
-  cepDebugPrint("Close the window");
+  cepDebugPrint ("Close the window");
   if (deleteWindow)
     {
-      delete frame;
+      delete
+	frame;
       return TRUE;
     }
   return TRUE;
@@ -164,13 +164,10 @@ cepView::OnClose (bool deleteWindow)
  */
 
 BEGIN_EVENT_TABLE (cepCanvas, wxScrolledWindow)
-EVT_MOUSE_EVENTS (cepCanvas::OnMouseEvent) 
-END_EVENT_TABLE ()
-
+EVT_MOUSE_EVENTS (cepCanvas::OnMouseEvent) END_EVENT_TABLE ()
 // Define a constructor for my canvas
-cepCanvas::cepCanvas (wxView * v, wxFrame * frame, const wxPoint & pos, 
-		      const wxSize & size, long style):
-  wxScrolledWindow (frame, -1, pos, size, style)
+cepCanvas::cepCanvas (wxView * v, wxFrame * frame, const wxPoint & pos, const wxSize & size, long style):
+wxScrolledWindow (frame, -1, pos, size, style)
 {
   view = v;
 

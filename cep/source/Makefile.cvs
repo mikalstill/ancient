@@ -1,6 +1,9 @@
 # Revision History
 # 
 #  $Log: not supported by cvs2svn $
+#  Revision 1.4  2002/07/20 12:06:08  u964076
+#  Mikal: Hacked CVS Makefile to work on my box
+#
 #  Revision 1.3  2002/07/14 11:48:49  u982087
 #  corrected a syntax error in the test for ltmain.sh
 #
@@ -23,6 +26,7 @@ all:
 	   ln -s `locate ltmain.sh | grep libtool | head -1` config/ltmain.sh > /dev/null 2>&1; \
 	fi
 	@echo "*** Retrieving configure tests needed by configure.in"
+	@rm -f aclocal.m4
 	@aclocal
 	@echo "*** Building Makefile templates (step one)"
 	@automake --add-missing

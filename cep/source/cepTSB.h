@@ -22,7 +22,7 @@
 
 class cepTSB
 {
- public:
+public:
   enum state
   {
     stTrue = 0,
@@ -30,18 +30,18 @@ class cepTSB
     stUndefined
   };
 
-  cepTSB(state inval);
-  cepTSB(bool inval);
-  cepTSB();
+    cepTSB (state inval);
+    cepTSB (bool inval);
+    cepTSB ();
 
-  state get();
-  void set(state inval);
-  void set(bool inval);
+  state get ();
+  void set (state inval);
+  void set (bool inval);
 
   // todo_mikal: operators
 
- private:
-  state m_val;
+private:
+    state m_val;
 };
 
 #endif

@@ -34,7 +34,7 @@ cepLtoa (long number)
 {
   char buffer[10];
 
-  snprintf (buffer, 10, "%d", number);
+  snprintf (buffer, 10, "%ld", number);
   return string (buffer);
 }
 
