@@ -27,7 +27,7 @@
  * Tests the framework which has been set up to window the incoming data
  *
  * @author Blake Swadling
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 
 namespace {
@@ -35,8 +35,10 @@ namespace {
 class MyDataWindower : public cepDataWindower {
 public:
   MyDataWindower() : cepDataWindower() {}
-  MyDataWindower( const cepDataWindower::windowType type, int size, int overlap )
-      : cepDataWindower( type, size, overlap ) {}
+  MyDataWindower( const cepWindow type, int size, int overlap )
+      : cepDataWindower() {
+        setWindowType( type, size, overlap );
+      }
   int countWindows( int samples, int winSize, int overlap ) {
     return cepDataWindower::countWindows( samples, winSize, overlap );
   }
@@ -79,11 +81,17 @@ protected:
     cepMatrix<double> result;
     windower->window( makeData( size ), result );
 
-    CPPUNIT_ASSERT_MESSAGE( "incorrect row count",  result.getNumRows() != size );
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "incorrect row count",  size, result.getNumRows() );
     
     for( int i=0; i<result.getNumRows(); ++i ) {
-      CPPUNIT_ASSERT_EQUAL_MESSAGE( "invalid scale value",  result.getValue(0, i, 0), (double)i );
-      CPPUNIT_ASSERT_EQUAL_MESSAGE( "invalid data value",  result.getValue(0, i, 1),  (double)1 );
+
+      cout << "scale=" << result.getValue(i, 0, 0)
+           << "   value=" << result.getValue(i, 1, 0)
+           << "   color=" << result.getValue(i, 2, 0)
+           << endl;
+           
+      CPPUNIT_ASSERT_EQUAL_MESSAGE( "invalid scale value", (double)i, result.getValue(i, 0, 0) );
+      CPPUNIT_ASSERT_EQUAL_MESSAGE( "invalid data value", (double)1, result.getValue(i, 1, 0) );
     }
     
   }
@@ -101,8 +109,8 @@ protected:
     windower->window( makeData( size ), result );
 
     ofstream f("hamming.txt", ios::trunc);
-    for( int i=0; i<result.getNumCols(); ++i ) {
-      f << result.getValue(0, i, 0) << ' ' << result.getValue(0, i, 1) << endl;
+    for( int i=0; i<result.getNumRows(); ++i ) {
+      f << result.getValue(i, 0, 0) << ' ' << result.getValue(i, 1, 0) << endl;
     }
     f.close();
 
@@ -122,8 +130,8 @@ protected:
     windower->window( makeData( size ), result );
 
     ofstream f("blackman.txt", ios::trunc);
-    for( int i=0; i<result.getNumCols(); ++i ) {
-      f << result.getValue(0, i, 0) << ' ' << result.getValue(0, i, 1) << endl;
+    for( int i=0; i<result.getNumRows(); ++i ) {
+      f << result.getValue(i, 0, 0) << ' ' << result.getValue(i, 1, 0) << endl;
     }
     f.close();
 
@@ -137,7 +145,7 @@ protected:
    */
   void testChebyshev ()
   {
-    cout << "testing chebyshev ... " << endl;
+//    cout << "testing chebyshev ... " << endl;
     int size = 99;
     windower->setWindowType( cepDataWindower::WINDOW_CHEBYSHEV, size, 0 );
     cepMatrix<double> result;
@@ -148,8 +156,8 @@ protected:
     } 
 
     ofstream f("chebyshev.txt", ios::trunc);
-    for( int i=0; i<result.getNumCols(); ++i ) {
-      f << result.getValue(0, i, 0) << ' ' << result.getValue(0, i, 1) << endl;
+    for( int i=0; i<result.getNumRows(); ++i ) {
+      f << result.getValue(i, 0, 0) << ' ' << result.getValue(i, 1, 0) << endl;
     }
     f.close();
 
@@ -157,7 +165,7 @@ protected:
 
   void testChebyshev2 ()
   {
-    cout << "testing chebyshev ... " << endl;
+//    cout << "testing chebyshev ... " << endl;
     int size = 100;
     windower->setWindowType( cepDataWindower::WINDOW_CHEBYSHEV, size, 0 );
     cepMatrix<double> result;
@@ -170,7 +178,7 @@ protected:
     ofstream f("chebyshev.txt", ios::app);
     f << endl << endl;
     for( int i=0; i<result.getNumCols(); ++i ) {
-      f << result.getValue(0, i, 0) << ' ' << result.getValue(0, i, 1) << endl;
+      f << result.getValue(i, 0, 0) << ' ' << result.getValue(i, 1, 0) << endl;
     }
     f.close();
 
@@ -182,6 +190,7 @@ private:
 
   // makes a data set with linear scale (1->n) and data of all 1's
   const cepMatrix<double> & makeData( int size ) {
+    
     cepMatrix<double> *data = new cepMatrix<double>( size, 2 );
     
     for( int i=0; i<size; ++i ) {
