@@ -1,0 +1,12 @@
+This is the source code which produces the pixelated sample image for the introduction to the tutorial.
+
+It can be built using the following steps:
+
+	./configure
+	make
+
+Then run it by typing
+
+	./pixel -i <input file> -o <output file> -x <start x> -y <end x> -w <width of enlarged section> -l <length of large section>
+
+Please note that this code is Copyright (C) Michael Still 2002, and is covered by the terms of the GNU GPL version 2.
