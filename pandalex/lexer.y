@@ -74,7 +74,7 @@ object    : INT INT OBJ {
           ;
 
 dictionary: DBLLT dict DBLGT {}
-          | INT { pandalex_callback(gpandalex_callback_dictint, $2); }
+          | INT { pandalex_callback(gpandalex_callback_dictint, $1); }
           | ARRAY dict ENDARRAY {}
           |
           ;
