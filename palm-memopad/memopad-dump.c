@@ -1,20 +1,21 @@
 #include <stdio.h>
+#include "memopad.h"
 
-void displayString(FILE *, char *);
-int displayInteger(FILE *, char *);
-int displayShort(FILE *, char *);
-
-typedef union memopad_internal_mint32{
-  int i;
-  char c[3];
-} mint32;
+void memopad_displaystring(FILE *, char *);
+int memopad_displayinteger(FILE *, char *);
+int memopad_displayshort(FILE *, char *);
 
 int main(int argc, char *argv[]){
-  FILE *output;
+  FILE *input;
   int c, i, fcnt;
 
-  if((output = fopen("memopad.sample", "r")) == NULL){
-    fprintf(stderr, "Could not open memopad.sample\n");
+  if(argc < 2){
+    fprintf(stderr, "Usage: %s <input>\n", argv[0]);
+    exit(43);
+  }
+
+  if((input = fopen(argv[1], "r")) == NULL){
+    fprintf(stderr, "Could not open %s\n", argv[1]);
     exit(42);
   }
 
@@ -23,87 +24,87 @@ int main(int argc, char *argv[]){
   /////////////////////////////////////////////////////////////////////////////
 
   printf("Magic number: 0x%x 0x%x 0x%x 0x%x\n", 
-	 fgetc(output), fgetc(output), fgetc(output), fgetc(output));
-  displayString(output, "File path [%d chars]: ");
-  displayString(output, "Custom show header [%d chars]: ");
-  displayInteger(output, "Next free category id: ");
-  i = displayInteger(output, "Number of categories minus one: ");
+	 fgetc(input), fgetc(input), fgetc(input), fgetc(input));
+  memopad_displaystring(input, "File path [%d chars]: ");
+  memopad_displaystring(input, "Custom show header [%d chars]: ");
+  memopad_displayinteger(input, "Next free category id: ");
+  i = memopad_displayinteger(input, "Number of categories minus one: ");
   
   for(; i != 0; i--){
     printf("Category\n");
-    displayInteger(output, "  Index: ");
-    displayInteger(output, "  Id: ");
-    displayInteger(output, "  Dirty: ");
-    displayString(output, "  Long name [%d chars]: ");
-    displayString(output, "  Short name [%d chars]: ");
+    memopad_displayinteger(input, "  Index: ");
+    memopad_displayinteger(input, "  Id: ");
+    memopad_displayinteger(input, "  Dirty: ");
+    memopad_displaystring(input, "  Long name [%d chars]: ");
+    memopad_displaystring(input, "  Short name [%d chars]: ");
   }
 
-  displayInteger(output, "Schema resource id: ");
-  displayInteger(output, "Schema fields per row: ");
-  displayInteger(output, "Schema record id position: ");
-  displayInteger(output, "Schema record status position: ");
-  displayInteger(output, "Schema record placement position: ");
-  fcnt = i = displayShort(output, "Schema field count: ");
+  memopad_displayinteger(input, "Schema resource id: ");
+  memopad_displayinteger(input, "Schema fields per row: ");
+  memopad_displayinteger(input, "Schema record id position: ");
+  memopad_displayinteger(input, "Schema record status position: ");
+  memopad_displayinteger(input, "Schema record placement position: ");
+  fcnt = i = memopad_displayshort(input, "Schema field count: ");
 
   printf("Schema fields\n");  
   for(; i != 0; i--){
-    displayShort(output, "  Item: ");
+    memopad_displayshort(input, "  Item: ");
   }
 
-  i = displayInteger(output, "Record count * field count: ");
+  i = memopad_displayinteger(input, "Record count * field count: ");
   i /= fcnt;
 
   for(; i != 0; i--){
     printf("Memopad entry\n");
-    displayInteger(output, "  Recordid field type: ");
-    displayInteger(output, "  Recordid: ");
-    displayInteger(output, "  Status field type: ");
-    displayInteger(output, "  Status: ");
-    displayInteger(output, "  Position field type: ");
-    displayInteger(output, "  Position: ");
-    displayInteger(output, "  Memo text field type: ");
-    displayInteger(output, "    [Pad]: ");
-    displayString(output, "  Memo text [%d chars]:\n");
-    displayInteger(output, "  Private field type: ");
-    displayInteger(output, "  Private (1 = True): ");
-    displayInteger(output, "  Category field type: ");
-    displayInteger(output, "  Category: ");
+    memopad_displayinteger(input, "  Recordid field type: ");
+    memopad_displayinteger(input, "  Recordid: ");
+    memopad_displayinteger(input, "  Status field type: ");
+    memopad_displayinteger(input, "  Status: ");
+    memopad_displayinteger(input, "  Position field type: ");
+    memopad_displayinteger(input, "  Position: ");
+    memopad_displayinteger(input, "  Memo text field type: ");
+    memopad_displayinteger(input, "    [Pad]: ");
+    memopad_displaystring(input, "  Memo text [%d chars]:\n");
+    memopad_displayinteger(input, "  Private field type: ");
+    memopad_displayinteger(input, "  Private (1 = True): ");
+    memopad_displayinteger(input, "  Category field type: ");
+    memopad_displayinteger(input, "  Category: ");
   }
 }
 
-void displayString(FILE *output, char *format){
+void memopad_displaystring(FILE *input, char *format){
   int i;
 
-  i = fgetc(output);
+  i = fgetc(input);
   printf(format, i);
   for(; i != 0; i--){
-    printf("%c", fgetc(output));
+    printf("%c", fgetc(input));
   }
   printf("\n");
 }
 
-int displayInteger(FILE *output, char *format){
+int memopad_displayinteger(FILE *input, char *format){
   mint32 myint;
 
   myint.i = 0;
   printf(format);
-  myint.c[0] = fgetc(output);
-  myint.c[1] = fgetc(output);
-  myint.c[2] = fgetc(output);
-  myint.c[3] = fgetc(output);
+  myint.c[0] = fgetc(input);
+  myint.c[1] = fgetc(input);
+  myint.c[2] = fgetc(input);
+  myint.c[3] = fgetc(input);
 
-  printf("%d\n", myint.i);
+  printf("(int) %d\n", myint.i);
   return myint.i;
 }
 
-int displayShort(FILE *output, char *format){
+int memopad_displayshort(FILE *input, char *format){
   mint32 myint;
 
   myint.i = 0;
   printf(format);
-  myint.c[0] = fgetc(output);
-  myint.c[1] = fgetc(output);
+  myint.c[0] = fgetc(input);
+  myint.c[1] = fgetc(input);
 
-  printf("%d\n", myint.i);
+  printf("(short) %d\n", myint.i);
   return myint.i;
 }
