@@ -89,6 +89,12 @@ Computes an inverse FFT on the array passed. The results are written to the same
 <command>complexArray</command> The array of type complex containing the data to be FFT'd.
 </para>
 
+<para>
+<command>FFTobject.getError();</command>
+Returns m_error which holds the error state from cepMatrix. Is the error.IsReal() the
+processing must stop.
+</para>
+
 DESCRIPTION END
 
 DOCBOOK END
@@ -275,12 +281,6 @@ template < class T > void cepCfft < T >::hermitian (T * buf)
     }
 }
 
-/*
- *
- */
-//template < class T > int cepCfft < T >::canFft(cepMatrix<ComplexDble> & matrix)
-//{
-//}
 
 template <class T>
 cepError cepCfft<T>::getError()
@@ -302,7 +302,7 @@ template < class T > cepMatrix < ComplexDble > cepCfft <
   int numCols = matrix.getNumCols ();
   int numTables = matrix.getNumTables ();
   int arraySize = numRows;
-  int col, row, table, count;
+  int col, row, table;
 
   const int FIRSTCOLUMN = 0;
   const int NUMCHECKS = 3;
@@ -342,16 +342,9 @@ template < class T > cepMatrix < ComplexDble > cepCfft <
   //start at 1st column as we do not want to fft this.
   for (table = 0; table < numTables; table++)
     {
-
       col = 1;
-      int checkIndex=0;
       for (row = 0; row < numRows-3; row++)
-      //row =0;
-      
 	{
-	   //checkIndex = row;
-	   count =0;     
-
 	   checks[0] = real (matrix.getValue (row, col - 1, table));
 		 checkMatrixError(matrix);
 	   checks[1] = real (matrix.getValue (row+1, col - 1, table));
@@ -369,15 +362,13 @@ template < class T > cepMatrix < ComplexDble > cepCfft <
 				+ " Value3: " + cepToString(checks[2]),
 		  cepError::sevErrorRecoverable);
 		  m_error.log();
+		  //stdio for testing for irregular data
 		  //cout << "Oops..Samples not equidistant!" << endl;
 	        }//if
 	      }//if dir ==1
-
-	  //populate the arry to be fft'd            
-	  //arrayToFft[row] = matrix.getValue (row, col, table);
-	  //  checkMatrixError(matrix);
-
 	}			//end for row
+ 
+        //populate the arry to be fft'd            
 	for (row=0; row<numRows; row++){
 	    arrayToFft[row] = matrix.getValue (row, col, table);
 	   checkMatrixError(matrix);
@@ -386,8 +377,6 @@ template < class T > cepMatrix < ComplexDble > cepCfft <
       //}//end for col 
 
     /*********************************compute the fft.************************************/
-
-      //cout << endl;
 
       if (dir == 1) //FFT
       {
@@ -442,14 +431,9 @@ template < class T > cepMatrix < ComplexDble > cepCfft <
 	      checkMatrixError(ffteedMatrix);
 	    }			//for row
 	}			//for col
-	
-	
       }
-
-
     }				//end for table
-
-  return ffteedMatrix;
+    return ffteedMatrix;
 }				//end method
 
 
