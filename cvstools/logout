@@ -1,0 +1,4464 @@
+? source/.deps
+? source/config.log
+? source/config.cache
+? source/config.status
+? source/ui
+? source/cep.log
+? reports/poster-systemspec.sgml
+
+RCS file: /cvs/cvs001/prototype/Changelog,v
+Working file: prototype/Changelog
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/07/14 00:20:54;  author: u982087;  state: Exp;
+Built from revision history. Requires formatting when time permits
+=============================================================================
+
+RCS file: /cvs/cvs001/prototype/centroid.m,v
+Working file: prototype/centroid.m
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/06/01 06:20:57;  author: u983131;  state: Exp;  lines: +1 -1
+centroid.m - code completed
+fourier.m - code completed
+interpolate - modified to gain ability to fill final window with extrapolated values
+cep_find.m - find duplicate date records with a file
+cep_findRepeats.m - incomplete - resolves repeat date enteries within a file
+short_time_transform.m tranforms a single window of data.
+----------------------------
+revision 1.1
+date: 2002/04/20 15:06:55;  author: u983131;  state: Exp;
+Added the Matlab file so far:
+  loadfile.m  - load MIT data files - working
+  windows.m   - windows the data - working
+  centroid    - finds weighted centroid of windows - working
+  ham         - used by centroid to create hamming windows - working
+  interpolate - interpolates a set of points to get an even time interval - under construction
+=============================================================================
+
+RCS file: /cvs/cvs001/prototype/cep_callback.m,v
+Working file: prototype/cep_callback.m
+head: 1.3
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 3;	selected revisions: 3
+description:
+----------------------------
+revision 1.3
+date: 2002/06/13 10:38:29;  author: u982087;  state: Exp;  lines: +45 -89
+Implemented file loading using Nick's loadfile routine.
+Added error bars
+----------------------------
+revision 1.2
+date: 2002/05/19 08:18:45;  author: u982087;  state: Exp;  lines: +134 -0
+Cleaned up interface and began implementing a file browser to allow searching for data files.
+----------------------------
+revision 1.1
+date: 2002/05/13 13:55:30;  author: u982087;  state: Exp;
+Minor changes to the gui and addition of the callback file. It is envisaged
+that callback be the authoratative source of all callback functions to
+keep them centralised and thus easy to track down
+=============================================================================
+
+RCS file: /cvs/cvs001/prototype/cep_evenWindows.m,v
+Working file: prototype/cep_evenWindows.m
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/06/13 10:39:14;  author: u983131;  state: Exp;
+cep_evenWindows.m - generates windows with a set number of samples
+cep_pwelchAverage.m - averages a bunch of psd's to get a pwelch
+fftWin.m - dose ffts and get psds from a set regular data windows
+weightWindows.m - reweight a bunch of windows using a bunch of technequies
+=============================================================================
+
+RCS file: /cvs/cvs001/prototype/cep_find.m,v
+Working file: prototype/cep_find.m
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/06/01 06:20:58;  author: u983131;  state: Exp;
+centroid.m - code completed
+fourier.m - code completed
+interpolate - modified to gain ability to fill final window with extrapolated values
+cep_find.m - find duplicate date records with a file
+cep_findRepeats.m - incomplete - resolves repeat date enteries within a file
+short_time_transform.m tranforms a single window of data.
+=============================================================================
+
+RCS file: /cvs/cvs001/prototype/cep_findRepeats.m,v
+Working file: prototype/cep_findRepeats.m
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/06/13 10:33:19;  author: u983131;  state: Exp;  lines: +1 -1
+centroid.m - minor changes
+cep_find.m - probably shouldn't be here (obsolete test code)
+cep_findRepeats - finds repeated date points in a data set
+cep_pwelch - takes a data set and performs a complete pwelch
+cep_resolveRepeats - resolves repeated date points in a data set
+fourier.m - minor changes
+interpolate.m - added functionality to produce an exact number of windows
+loadfile.m - minor changes
+shortTimeTransform.m - minor changes
+windows.m - minor changes
+----------------------------
+revision 1.1
+date: 2002/06/01 06:20:58;  author: u983131;  state: Exp;
+centroid.m - code completed
+fourier.m - code completed
+interpolate - modified to gain ability to fill final window with extrapolated values
+cep_find.m - find duplicate date records with a file
+cep_findRepeats.m - incomplete - resolves repeat date enteries within a file
+short_time_transform.m tranforms a single window of data.
+=============================================================================
+
+RCS file: /cvs/cvs001/prototype/cep_gui.m,v
+Working file: prototype/cep_gui.m
+head: 1.4
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 4;	selected revisions: 4
+description:
+----------------------------
+revision 1.4
+date: 2002/06/13 10:36:49;  author: u982087;  state: Exp;  lines: +22 -4
+Added stuff to the interface
+----------------------------
+revision 1.3
+date: 2002/05/19 08:18:45;  author: u982087;  state: Exp;  lines: +12 -11
+Cleaned up interface and began implementing a file browser to allow searching for data files.
+----------------------------
+revision 1.2
+date: 2002/05/13 13:55:30;  author: u982087;  state: Exp;  lines: +61 -11
+Minor changes to the gui and addition of the callback file. It is envisaged
+that callback be the authoratative source of all callback functions to
+keep them centralised and thus easy to track down
+----------------------------
+revision 1.1
+date: 2002/05/07 06:23:56;  author: u982087;  state: Exp;
+created ... test code only
+=============================================================================
+
+RCS file: /cvs/cvs001/prototype/cep_lsline.m,v
+Working file: prototype/cep_lsline.m
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/05/04 08:51:00;  author: u982087;  state: Exp;
+Added preliminary gui prototypes. linear regression, and plotting funtions
+=============================================================================
+
+RCS file: /cvs/cvs001/prototype/cep_lstest.m,v
+Working file: prototype/cep_lstest.m
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/05/04 08:51:01;  author: u982087;  state: Exp;
+Added preliminary gui prototypes. linear regression, and plotting funtions
+=============================================================================
+
+RCS file: /cvs/cvs001/prototype/cep_plot3.m,v
+Working file: prototype/cep_plot3.m
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/05/04 08:51:01;  author: u982087;  state: Exp;
+Added preliminary gui prototypes. linear regression, and plotting funtions
+=============================================================================
+
+RCS file: /cvs/cvs001/prototype/cep_pwelch.m,v
+Working file: prototype/cep_pwelch.m
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/06/13 10:33:19;  author: u983131;  state: Exp;  lines: +35 -12
+centroid.m - minor changes
+cep_find.m - probably shouldn't be here (obsolete test code)
+cep_findRepeats - finds repeated date points in a data set
+cep_pwelch - takes a data set and performs a complete pwelch
+cep_resolveRepeats - resolves repeated date points in a data set
+fourier.m - minor changes
+interpolate.m - added functionality to produce an exact number of windows
+loadfile.m - minor changes
+shortTimeTransform.m - minor changes
+windows.m - minor changes
+----------------------------
+revision 1.1
+date: 2002/06/01 06:20:58;  author: u983131;  state: Exp;
+centroid.m - code completed
+fourier.m - code completed
+interpolate - modified to gain ability to fill final window with extrapolated values
+cep_find.m - find duplicate date records with a file
+cep_findRepeats.m - incomplete - resolves repeat date enteries within a file
+short_time_transform.m tranforms a single window of data.
+=============================================================================
+
+RCS file: /cvs/cvs001/prototype/cep_pwelchAverage.m,v
+Working file: prototype/cep_pwelchAverage.m
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/06/13 10:39:14;  author: u983131;  state: Exp;
+cep_evenWindows.m - generates windows with a set number of samples
+cep_pwelchAverage.m - averages a bunch of psd's to get a pwelch
+fftWin.m - dose ffts and get psds from a set regular data windows
+weightWindows.m - reweight a bunch of windows using a bunch of technequies
+=============================================================================
+
+RCS file: /cvs/cvs001/prototype/cep_resolveRepeats.m,v
+Working file: prototype/cep_resolveRepeats.m
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/06/13 10:33:19;  author: u983131;  state: Exp;  lines: +115 -1
+centroid.m - minor changes
+cep_find.m - probably shouldn't be here (obsolete test code)
+cep_findRepeats - finds repeated date points in a data set
+cep_pwelch - takes a data set and performs a complete pwelch
+cep_resolveRepeats - resolves repeated date points in a data set
+fourier.m - minor changes
+interpolate.m - added functionality to produce an exact number of windows
+loadfile.m - minor changes
+shortTimeTransform.m - minor changes
+windows.m - minor changes
+----------------------------
+revision 1.1
+date: 2002/06/01 06:20:58;  author: u983131;  state: Exp;
+centroid.m - code completed
+fourier.m - code completed
+interpolate - modified to gain ability to fill final window with extrapolated values
+cep_find.m - find duplicate date records with a file
+cep_findRepeats.m - incomplete - resolves repeat date enteries within a file
+short_time_transform.m tranforms a single window of data.
+=============================================================================
+
+RCS file: /cvs/cvs001/prototype/cep_runtest.m,v
+Working file: prototype/cep_runtest.m
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/05/04 08:51:01;  author: u982087;  state: Exp;
+Added preliminary gui prototypes. linear regression, and plotting funtions
+=============================================================================
+
+RCS file: /cvs/cvs001/prototype/fftWin.m,v
+Working file: prototype/fftWin.m
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/06/13 10:39:14;  author: u983131;  state: Exp;
+cep_evenWindows.m - generates windows with a set number of samples
+cep_pwelchAverage.m - averages a bunch of psd's to get a pwelch
+fftWin.m - dose ffts and get psds from a set regular data windows
+weightWindows.m - reweight a bunch of windows using a bunch of technequies
+=============================================================================
+
+RCS file: /cvs/cvs001/prototype/fourier.m,v
+Working file: prototype/fourier.m
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/06/01 06:20:58;  author: u983131;  state: Exp;  lines: +3 -1
+centroid.m - code completed
+fourier.m - code completed
+interpolate - modified to gain ability to fill final window with extrapolated values
+cep_find.m - find duplicate date records with a file
+cep_findRepeats.m - incomplete - resolves repeat date enteries within a file
+short_time_transform.m tranforms a single window of data.
+----------------------------
+revision 1.1
+date: 2002/04/20 15:06:55;  author: u983131;  state: Exp;
+Added the Matlab file so far:
+  loadfile.m  - load MIT data files - working
+  windows.m   - windows the data - working
+  centroid    - finds weighted centroid of windows - working
+  ham         - used by centroid to create hamming windows - working
+  interpolate - interpolates a set of points to get an even time interval - under construction
+=============================================================================
+
+RCS file: /cvs/cvs001/prototype/ham.m,v
+Working file: prototype/ham.m
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/06/01 06:20:58;  author: u983131;  state: Exp;  lines: +1 -1
+centroid.m - code completed
+fourier.m - code completed
+interpolate - modified to gain ability to fill final window with extrapolated values
+cep_find.m - find duplicate date records with a file
+cep_findRepeats.m - incomplete - resolves repeat date enteries within a file
+short_time_transform.m tranforms a single window of data.
+----------------------------
+revision 1.1
+date: 2002/04/20 15:06:55;  author: u983131;  state: Exp;
+Added the Matlab file so far:
+  loadfile.m  - load MIT data files - working
+  windows.m   - windows the data - working
+  centroid    - finds weighted centroid of windows - working
+  ham         - used by centroid to create hamming windows - working
+  interpolate - interpolates a set of points to get an even time interval - under construction
+=============================================================================
+
+RCS file: /cvs/cvs001/prototype/interpolate.m,v
+Working file: prototype/interpolate.m
+head: 1.3
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 3;	selected revisions: 3
+description:
+----------------------------
+revision 1.3
+date: 2002/06/13 10:33:19;  author: u983131;  state: Exp;  lines: +3 -2
+centroid.m - minor changes
+cep_find.m - probably shouldn't be here (obsolete test code)
+cep_findRepeats - finds repeated date points in a data set
+cep_pwelch - takes a data set and performs a complete pwelch
+cep_resolveRepeats - resolves repeated date points in a data set
+fourier.m - minor changes
+interpolate.m - added functionality to produce an exact number of windows
+loadfile.m - minor changes
+shortTimeTransform.m - minor changes
+windows.m - minor changes
+----------------------------
+revision 1.2
+date: 2002/06/01 06:20:58;  author: u983131;  state: Exp;  lines: +37 -6
+centroid.m - code completed
+fourier.m - code completed
+interpolate - modified to gain ability to fill final window with extrapolated values
+cep_find.m - find duplicate date records with a file
+cep_findRepeats.m - incomplete - resolves repeat date enteries within a file
+short_time_transform.m tranforms a single window of data.
+----------------------------
+revision 1.1
+date: 2002/04/20 15:06:55;  author: u983131;  state: Exp;
+Added the Matlab file so far:
+  loadfile.m  - load MIT data files - working
+  windows.m   - windows the data - working
+  centroid    - finds weighted centroid of windows - working
+  ham         - used by centroid to create hamming windows - working
+  interpolate - interpolates a set of points to get an even time interval - under construction
+=============================================================================
+
+RCS file: /cvs/cvs001/prototype/loadfile.m,v
+Working file: prototype/loadfile.m
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/04/20 15:06:55;  author: u983131;  state: Exp;
+Added the Matlab file so far:
+  loadfile.m  - load MIT data files - working
+  windows.m   - windows the data - working
+  centroid    - finds weighted centroid of windows - working
+  ham         - used by centroid to create hamming windows - working
+  interpolate - interpolates a set of points to get an even time interval - under construction
+=============================================================================
+
+RCS file: /cvs/cvs001/prototype/shortTimeTransform.m,v
+Working file: prototype/shortTimeTransform.m
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/06/01 06:20:58;  author: u983131;  state: Exp;
+centroid.m - code completed
+fourier.m - code completed
+interpolate - modified to gain ability to fill final window with extrapolated values
+cep_find.m - find duplicate date records with a file
+cep_findRepeats.m - incomplete - resolves repeat date enteries within a file
+short_time_transform.m tranforms a single window of data.
+=============================================================================
+
+RCS file: /cvs/cvs001/prototype/weightWindows.m,v
+Working file: prototype/weightWindows.m
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/06/13 10:39:15;  author: u983131;  state: Exp;
+cep_evenWindows.m - generates windows with a set number of samples
+cep_pwelchAverage.m - averages a bunch of psd's to get a pwelch
+fftWin.m - dose ffts and get psds from a set regular data windows
+weightWindows.m - reweight a bunch of windows using a bunch of technequies
+=============================================================================
+
+RCS file: /cvs/cvs001/prototype/windows.m,v
+Working file: prototype/windows.m
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/06/01 06:20:58;  author: u983131;  state: Exp;  lines: +4 -4
+centroid.m - code completed
+fourier.m - code completed
+interpolate - modified to gain ability to fill final window with extrapolated values
+cep_find.m - find duplicate date records with a file
+cep_findRepeats.m - incomplete - resolves repeat date enteries within a file
+short_time_transform.m tranforms a single window of data.
+----------------------------
+revision 1.1
+date: 2002/04/20 15:06:56;  author: u983131;  state: Exp;
+Added the Matlab file so far:
+  loadfile.m  - load MIT data files - working
+  windows.m   - windows the data - working
+  centroid    - finds weighted centroid of windows - working
+  ham         - used by centroid to create hamming windows - working
+  interpolate - interpolates a set of points to get an even time interval - under construction
+=============================================================================
+
+RCS file: /cvs/cvs001/source/256x256.png,v
+Working file: source/256x256.png
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/06/09 23:55:24;  author: u964076;  state: Exp;
+Mikal: Got image display working on the dataset tab. The next step is to get tabs onto the dataset tab...
+=============================================================================
+
+RCS file: /cvs/cvs001/source/AUTHORS,v
+Working file: source/AUTHORS
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/07/14 06:28:21;  author: u982087;  state: Exp;  lines: +1 -1
+Added myself to the hall of fame
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:03;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/COPYING,v
+Working file: source/COPYING
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:04;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/ChangeLog,v
+Working file: source/ChangeLog
+head: 1.8
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 8;	selected revisions: 8
+description:
+----------------------------
+revision 1.8
+date: 2002/07/14 12:09:28;  author: u982087;  state: Exp;  lines: +3 -0
+Updated
+----------------------------
+revision 1.7
+date: 2002/06/09 23:55:25;  author: u964076;  state: Exp;  lines: +6 -0
+Mikal: Got image display working on the dataset tab. The next step is to get tabs onto the dataset tab...
+----------------------------
+revision 1.6
+date: 2002/06/07 21:42:12;  author: u964076;  state: Exp;  lines: +3 -0
+Mikal: Configuration stuff is getting closer, but isn't perfect yet...
+----------------------------
+revision 1.5
+date: 2002/06/06 00:02:00;  author: u964076;  state: Exp;  lines: +3 -0
+Mikal: Configuration DB
+----------------------------
+revision 1.4
+date: 2002/06/03 19:51:27;  author: u964076;  state: Exp;  lines: +9 -0
+Mikal: Const fixes, config changes, and ui improvements
+----------------------------
+revision 1.3
+date: 2002/06/02 08:03:13;  author: u964076;  state: Exp;  lines: +3 -0
+Mikal: More wxWindows support for cepError
+----------------------------
+revision 1.2
+date: 2002/05/29 02:47:57;  author: u964076;  state: Exp;  lines: +9 -0
+Mikal: Hacked the about box
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:04;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/DEVHINTS,v
+Working file: source/DEVHINTS
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/07/14 11:55:56;  author: u982087;  state: Exp;  lines: +6 -3
+Updated build procedure
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:04;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/INSTALL,v
+Working file: source/INSTALL
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/06/06 00:02:00;  author: u964076;  state: Exp;  lines: +15 -0
+Mikal: Configuration DB
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:04;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/Attic/Makefile,v
+Working file: source/Makefile
+head: 1.16
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 16;	selected revisions: 16
+description:
+----------------------------
+revision 1.16
+date: 2002/07/14 11:23:15;  author: u982087;  state: dead;  lines: +0 -0
+This should never have been here. build the damn thing locally
+----------------------------
+revision 1.15
+date: 2002/07/11 20:31:12;  author: u964076;  state: Exp;  lines: +6 -4
+Mikal: Fixed compile warning in cepMatrix, included it in the build
+----------------------------
+revision 1.14
+date: 2002/06/09 04:38:38;  author: u964076;  state: Exp;  lines: +4 -4
+Mikal: Introduced a tristate boolean class
+----------------------------
+revision 1.13
+date: 2002/06/06 22:05:50;  author: u964076;  state: Exp;  lines: +2 -2
+Mikal: Doesn't work, I'm not sure why, but I'm looking into it...
+----------------------------
+revision 1.12
+date: 2002/06/06 00:02:00;  author: u964076;  state: Exp;  lines: +2 -2
+Mikal: Configuration DB
+----------------------------
+revision 1.11
+date: 2002/06/03 19:51:27;  author: u964076;  state: Exp;  lines: +9 -18
+Mikal: Const fixes, config changes, and ui improvements
+----------------------------
+revision 1.10
+date: 2002/06/02 20:29:58;  author: u964076;  state: Exp;  lines: +0 -1
+Mikal: Renamed a whole bunch of UI classes to something more healpful
+----------------------------
+revision 1.9
+date: 2002/06/02 08:03:14;  author: u964076;  state: Exp;  lines: +1 -0
+Mikal: More wxWindows support for cepError
+----------------------------
+revision 1.8
+date: 2002/06/02 07:25:46;  author: u964076;  state: Exp;  lines: +3 -2
+Mikal: Big ugly change to resolve namespace conflict with wxWindows
+----------------------------
+revision 1.7
+date: 2002/06/02 07:13:23;  author: u964076;  state: Exp;  lines: +3 -3
+Mikal: Found the method called for the open menu event. Played with it so that it is starting to look like the real thing...
+----------------------------
+revision 1.6
+date: 2002/06/02 06:32:21;  author: u964076;  state: Exp;  lines: +6 -6
+Mikal: Compile now works again
+----------------------------
+revision 1.5
+date: 2002/06/02 06:29:13;  author: u964076;  state: Exp;  lines: +3 -3
+Mikal: Renamed the doc and view classes
+----------------------------
+revision 1.4
+date: 2002/05/29 02:27:58;  author: u964076;  state: Exp;  lines: +16 -6
+Mikal: Imported shamelessly stolen sample code from wx windows... This will hopefully become the basis for our user interface. Also modified the autotools stuff so that it all compiles cleanly. Some users might need to install wx windows before ui will build for them...
+----------------------------
+revision 1.3
+date: 2002/05/04 03:20:26;  author: u964076;  state: Exp;  lines: +3 -4
+Mikal: Code changes for the dataset storage
+----------------------------
+revision 1.2
+date: 2002/04/30 23:58:09;  author: u964076;  state: Exp;  lines: +27 -50
+Mikal: Added cepWindows to build process
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:04;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/Makefile.am,v
+Working file: source/Makefile.am
+head: 1.9
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 9;	selected revisions: 9
+description:
+----------------------------
+revision 1.9
+date: 2002/07/11 20:31:12;  author: u964076;  state: Exp;  lines: +1 -1
+Mikal: Fixed compile warning in cepMatrix, included it in the build
+----------------------------
+revision 1.8
+date: 2002/06/09 04:38:38;  author: u964076;  state: Exp;  lines: +1 -1
+Mikal: Introduced a tristate boolean class
+----------------------------
+revision 1.7
+date: 2002/06/03 19:51:27;  author: u964076;  state: Exp;  lines: +3 -3
+Mikal: Const fixes, config changes, and ui improvements
+----------------------------
+revision 1.6
+date: 2002/06/02 07:25:46;  author: u964076;  state: Exp;  lines: +1 -1
+Mikal: Big ugly change to resolve namespace conflict with wxWindows
+----------------------------
+revision 1.5
+date: 2002/06/02 06:32:21;  author: u964076;  state: Exp;  lines: +1 -1
+Mikal: Compile now works again
+----------------------------
+revision 1.4
+date: 2002/05/29 02:27:58;  author: u964076;  state: Exp;  lines: +2 -1
+Mikal: Imported shamelessly stolen sample code from wx windows... This will hopefully become the basis for our user interface. Also modified the autotools stuff so that it all compiles cleanly. Some users might need to install wx windows before ui will build for them...
+----------------------------
+revision 1.3
+date: 2002/05/04 03:20:26;  author: u964076;  state: Exp;  lines: +1 -1
+Mikal: Code changes for the dataset storage
+----------------------------
+revision 1.2
+date: 2002/04/30 23:58:09;  author: u964076;  state: Exp;  lines: +1 -1
+Mikal: Added cepWindows to build process
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:04;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/Makefile.cvs,v
+Working file: source/Makefile.cvs
+head: 1.3
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 3;	selected revisions: 3
+description:
+----------------------------
+revision 1.3
+date: 2002/07/14 11:48:49;  author: u982087;  state: Exp;  lines: +6 -3
+corrected a syntax error in the test for ltmain.sh
+----------------------------
+revision 1.2
+date: 2002/07/14 11:38:26;  author: u982087;  state: Exp;  lines: +9 -10
+Fixed a bug in the code which copied ltmain.sh
+----------------------------
+revision 1.1
+date: 2002/07/14 11:27:21;  author: u982087;  state: Exp;
+Added to resolve non-portability of included scripts
+run gmake -f Makefile.cvs to build scripts
+=============================================================================
+
+RCS file: /cvs/cvs001/source/Attic/Makefile.in,v
+Working file: source/Makefile.in
+head: 1.12
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 12;	selected revisions: 12
+description:
+----------------------------
+revision 1.12
+date: 2002/07/14 11:54:23;  author: u982087;  state: dead;  lines: +0 -0
+This file should never have been here. it is generated dynamically by automake
+----------------------------
+revision 1.11
+date: 2002/07/11 20:31:12;  author: u964076;  state: Exp;  lines: +6 -4
+Mikal: Fixed compile warning in cepMatrix, included it in the build
+----------------------------
+revision 1.10
+date: 2002/06/09 04:38:38;  author: u964076;  state: Exp;  lines: +4 -4
+Mikal: Introduced a tristate boolean class
+----------------------------
+revision 1.9
+date: 2002/06/03 19:51:27;  author: u964076;  state: Exp;  lines: +9 -18
+Mikal: Const fixes, config changes, and ui improvements
+----------------------------
+revision 1.8
+date: 2002/06/02 20:29:58;  author: u964076;  state: Exp;  lines: +0 -1
+Mikal: Renamed a whole bunch of UI classes to something more healpful
+----------------------------
+revision 1.7
+date: 2002/06/02 08:03:14;  author: u964076;  state: Exp;  lines: +1 -0
+Mikal: More wxWindows support for cepError
+----------------------------
+revision 1.6
+date: 2002/06/02 07:25:46;  author: u964076;  state: Exp;  lines: +3 -2
+Mikal: Big ugly change to resolve namespace conflict with wxWindows
+----------------------------
+revision 1.5
+date: 2002/06/02 06:32:21;  author: u964076;  state: Exp;  lines: +5 -5
+Mikal: Compile now works again
+----------------------------
+revision 1.4
+date: 2002/05/29 02:27:58;  author: u964076;  state: Exp;  lines: +14 -4
+Mikal: Imported shamelessly stolen sample code from wx windows... This will hopefully become the basis for our user interface. Also modified the autotools stuff so that it all compiles cleanly. Some users might need to install wx windows before ui will build for them...
+----------------------------
+revision 1.3
+date: 2002/05/04 03:20:26;  author: u964076;  state: Exp;  lines: +3 -4
+Mikal: Code changes for the dataset storage
+----------------------------
+revision 1.2
+date: 2002/04/30 23:58:09;  author: u964076;  state: Exp;  lines: +24 -47
+Mikal: Added cepWindows to build process
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:05;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/NEWS,v
+Working file: source/NEWS
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:05;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/README,v
+Working file: source/README
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:05;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/TESTING,v
+Working file: source/TESTING
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/06/06 22:05:50;  author: u964076;  state: Exp;
+Mikal: Doesn't work, I'm not sure why, but I'm looking into it...
+=============================================================================
+
+RCS file: /cvs/cvs001/source/TODO,v
+Working file: source/TODO
+head: 1.6
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 6;	selected revisions: 6
+description:
+----------------------------
+revision 1.6
+date: 2002/06/06 00:02:00;  author: u964076;  state: Exp;  lines: +1 -0
+Mikal: Configuration DB
+----------------------------
+revision 1.5
+date: 2002/06/02 10:13:02;  author: u964076;  state: Exp;  lines: +2 -0
+Mikal: Renamed doc.h and view.h. Also added the file which will contain the startup tool tips...
+----------------------------
+revision 1.4
+date: 2002/06/02 08:03:14;  author: u964076;  state: Exp;  lines: +1 -0
+Mikal: More wxWindows support for cepError
+----------------------------
+revision 1.3
+date: 2002/06/02 07:55:06;  author: u964076;  state: Exp;  lines: +1 -0
+Mikal: cepError can now display a dialog box within the UI if the UI exists...
+----------------------------
+revision 1.2
+date: 2002/04/30 23:54:42;  author: u964076;  state: Exp;  lines: +1 -0
+Mikal: Updated changelog
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:05;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/Attic/aclocal.m4,v
+Working file: source/aclocal.m4
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/07/14 12:16:36;  author: u982087;  state: dead;  lines: +0 -0
+This should never have been here. it is generated by aclocal
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:05;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/Attic/authors,v
+Working file: source/authors
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/07/14 10:19:12;  author: u982087;  state: dead;  lines: +0 -0
+windows fucked up the commit. damn case insensitivity
+----------------------------
+revision 1.1
+date: 2002/07/06 15:05:40;  author: u982087;  state: Exp;
+revised mikals original
+had to re-add the file (probably due to bogus timestamps on a fat32 filesystem)
+=============================================================================
+
+RCS file: /cvs/cvs001/source/blank.jpg,v
+Working file: source/blank.jpg
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/05/29 00:07:24;  author: u964076;  state: Exp;
+Mikal: A simple script to generate a commit history against the CVS tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/cepConfiguration.cpp,v
+Working file: source/cepConfiguration.cpp
+head: 1.8
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 8;	selected revisions: 8
+description:
+----------------------------
+revision 1.8
+date: 2002/07/14 12:38:32;  author: u982087;  state: Exp;  lines: +1 -1
+renamed core.h to cepCore.h
+----------------------------
+revision 1.7
+date: 2002/06/09 06:21:34;  author: u964076;  state: Exp;  lines: +0 -16
+Mikal: Docbook comment for cepConfiguration
+----------------------------
+revision 1.6
+date: 2002/06/07 21:50:07;  author: u964076;  state: Exp;  lines: +4 -2
+Mikal: Config database works!
+----------------------------
+revision 1.5
+date: 2002/06/07 21:42:12;  author: u964076;  state: Exp;  lines: +44 -44
+Mikal: Configuration stuff is getting closer, but isn't perfect yet...
+----------------------------
+revision 1.4
+date: 2002/06/06 22:05:50;  author: u964076;  state: Exp;  lines: +125 -10
+Mikal: Doesn't work, I'm not sure why, but I'm looking into it...
+----------------------------
+revision 1.3
+date: 2002/06/06 01:44:17;  author: u964076;  state: Exp;  lines: +45 -5
+Mikal: Config saves with the ui don't work yet, but they're getting closer...
+----------------------------
+revision 1.2
+date: 2002/06/06 00:02:01;  author: u964076;  state: Exp;  lines: +11 -4
+Mikal: Configuration DB
+----------------------------
+revision 1.1
+date: 2002/06/03 19:51:27;  author: u964076;  state: Exp;
+Mikal: Const fixes, config changes, and ui improvements
+=============================================================================
+
+RCS file: /cvs/cvs001/source/cepConfiguration.h,v
+Working file: source/cepConfiguration.h
+head: 1.6
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 6;	selected revisions: 6
+description:
+----------------------------
+revision 1.6
+date: 2002/06/09 23:55:25;  author: u964076;  state: Exp;  lines: +7 -2
+Mikal: Got image display working on the dataset tab. The next step is to get tabs onto the dataset tab...
+----------------------------
+revision 1.5
+date: 2002/06/09 06:21:34;  author: u964076;  state: Exp;  lines: +53 -0
+Mikal: Docbook comment for cepConfiguration
+----------------------------
+revision 1.4
+date: 2002/06/06 22:05:50;  author: u964076;  state: Exp;  lines: +4 -1
+Mikal: Doesn't work, I'm not sure why, but I'm looking into it...
+----------------------------
+revision 1.3
+date: 2002/06/06 01:44:17;  author: u964076;  state: Exp;  lines: +1 -0
+Mikal: Config saves with the ui don't work yet, but they're getting closer...
+----------------------------
+revision 1.2
+date: 2002/06/06 00:02:01;  author: u964076;  state: Exp;  lines: +8 -3
+Mikal: Configuration DB
+----------------------------
+revision 1.1
+date: 2002/06/03 19:51:28;  author: u964076;  state: Exp;
+Mikal: Const fixes, config changes, and ui improvements
+=============================================================================
+
+RCS file: /cvs/cvs001/source/cepCore.h,v
+Working file: source/cepCore.h
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/07/14 12:38:32;  author: u982087;  state: Exp;
+renamed core.h to cepCore.h
+=============================================================================
+
+RCS file: /cvs/cvs001/source/cepDataset.cpp,v
+Working file: source/cepDataset.cpp
+head: 1.17
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 17;	selected revisions: 17
+description:
+----------------------------
+revision 1.17
+date: 2002/07/14 12:38:32;  author: u982087;  state: Exp;  lines: +1 -1
+renamed core.h to cepCore.h
+----------------------------
+revision 1.16
+date: 2002/06/10 19:49:47;  author: u964076;  state: Exp;  lines: +11 -27
+Mikal: Removed all occurances of cepError dbg, more work on UI. Also added wxwindows docs to the repository
+----------------------------
+revision 1.15
+date: 2002/06/03 19:51:28;  author: u964076;  state: Exp;  lines: +2 -2
+Mikal: Const fixes, config changes, and ui improvements
+----------------------------
+revision 1.14
+date: 2002/06/02 07:25:46;  author: u964076;  state: Exp;  lines: +8 -8
+Mikal: Big ugly change to resolve namespace conflict with wxWindows
+----------------------------
+revision 1.13
+date: 2002/05/29 00:07:24;  author: u964076;  state: Exp;  lines: +12 -9
+Mikal: A simple script to generate a commit history against the CVS tree
+----------------------------
+revision 1.12
+date: 2002/05/28 10:08:47;  author: u964076;  state: Exp;  lines: +129 -130
+Mikal: Fixed indentation
+----------------------------
+revision 1.11
+date: 2002/05/28 10:06:56;  author: u964076;  state: Exp;  lines: +22 -24
+Mikal: cepDataset now compiles
+----------------------------
+revision 1.10
+date: 2002/05/26 21:10:07;  author: u964076;  state: Exp;  lines: +22 -19
+Mikal: Compile error fixes
+----------------------------
+revision 1.9
+date: 2002/05/23 05:36:32;  author: u964076;  state: Exp;  lines: +11 -12
+Mikal: Fixed some of the compile errors in cepDataset.cpp. Unsure of how to go about making a reference for datPointer... We might have to resort to a pointer here.
+----------------------------
+revision 1.8
+date: 2002/05/20 11:44:45;  author: u991672;  state: Exp;  lines: +191 -169
+
+continued implementing fixes for change in vector data structure
+----------------------------
+revision 1.7
+date: 2002/05/19 07:28:01;  author: u991672;  state: Exp;  lines: +54 -55
+
+
+Change the vector data structure
+----------------------------
+revision 1.6
+date: 2002/05/13 09:21:43;  author: u991672;  state: Exp;  lines: +132 -1
+
+placed the cepWIndows code into cepDataset after making some final changes.
+----------------------------
+revision 1.5
+date: 2002/05/07 06:24:13;  author: u991672;  state: Exp;  lines: +31 -0
+
+	added private members for the doWindow and doHam methods
+----------------------------
+revision 1.4
+date: 2002/05/04 04:28:45;  author: u964076;  state: Exp;  lines: +19 -8
+Mikal: Dataset parsing works for x direction
+----------------------------
+revision 1.3
+date: 2002/05/04 03:47:32;  author: u964076;  state: Exp;  lines: +4 -6
+Mikal: New dataset code
+----------------------------
+revision 1.2
+date: 2002/05/04 03:20:26;  author: u964076;  state: Exp;  lines: +27 -2
+Mikal: Code changes for the dataset storage
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:05;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/cepDataset.h,v
+Working file: source/cepDataset.h
+head: 1.12
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 12;	selected revisions: 12
+description:
+----------------------------
+revision 1.12
+date: 2002/06/10 19:49:47;  author: u964076;  state: Exp;  lines: +18 -0
+Mikal: Removed all occurances of cepError dbg, more work on UI. Also added wxwindows docs to the repository
+----------------------------
+revision 1.11
+date: 2002/06/09 06:21:34;  author: u964076;  state: Exp;  lines: +0 -2
+Mikal: Docbook comment for cepConfiguration
+----------------------------
+revision 1.10
+date: 2002/06/03 19:51:28;  author: u964076;  state: Exp;  lines: +11 -13
+Mikal: Const fixes, config changes, and ui improvements
+----------------------------
+revision 1.9
+date: 2002/05/29 02:27:58;  author: u964076;  state: Exp;  lines: +1 -0
+Mikal: Imported shamelessly stolen sample code from wx windows... This will hopefully become the basis for our user interface. Also modified the autotools stuff so that it all compiles cleanly. Some users might need to install wx windows before ui will build for them...
+----------------------------
+revision 1.8
+date: 2002/05/29 00:07:24;  author: u964076;  state: Exp;  lines: +9 -8
+Mikal: A simple script to generate a commit history against the CVS tree
+----------------------------
+revision 1.7
+date: 2002/05/28 10:08:47;  author: u964076;  state: Exp;  lines: +14 -13
+Mikal: Fixed indentation
+----------------------------
+revision 1.6
+date: 2002/05/28 10:06:56;  author: u964076;  state: Exp;  lines: +5 -2
+Mikal: cepDataset now compiles
+----------------------------
+revision 1.5
+date: 2002/05/26 21:10:07;  author: u964076;  state: Exp;  lines: +11 -7
+Mikal: Compile error fixes
+----------------------------
+revision 1.4
+date: 2002/05/19 07:28:01;  author: u991672;  state: Exp;  lines: +18 -8
+
+
+Change the vector data structure
+----------------------------
+revision 1.3
+date: 2002/05/07 06:24:13;  author: u991672;  state: Exp;  lines: +5 -0
+
+	added private members for the doWindow and doHam methods
+----------------------------
+revision 1.2
+date: 2002/05/04 03:20:26;  author: u964076;  state: Exp;  lines: +16 -2
+Mikal: Code changes for the dataset storage
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:06;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/cepDate.cpp,v
+Working file: source/cepDate.cpp
+head: 1.5
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 5;	selected revisions: 5
+description:
+----------------------------
+revision 1.5
+date: 2002/07/14 12:38:32;  author: u982087;  state: Exp;  lines: +1 -1
+renamed core.h to cepCore.h
+----------------------------
+revision 1.4
+date: 2002/06/10 19:49:47;  author: u964076;  state: Exp;  lines: +7 -15
+Mikal: Removed all occurances of cepError dbg, more work on UI. Also added wxwindows docs to the repository
+----------------------------
+revision 1.3
+date: 2002/06/02 07:25:46;  author: u964076;  state: Exp;  lines: +6 -6
+Mikal: Big ugly change to resolve namespace conflict with wxWindows
+----------------------------
+revision 1.2
+date: 2002/05/28 10:08:47;  author: u964076;  state: Exp;  lines: +1 -2
+Mikal: Fixed indentation
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:06;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/cepDate.h,v
+Working file: source/cepDate.h
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:06;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/cepDoc.cpp,v
+Working file: source/cepDoc.cpp
+head: 1.7
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 7;	selected revisions: 7
+description:
+----------------------------
+revision 1.7
+date: 2002/07/14 12:38:32;  author: u982087;  state: Exp;  lines: +1 -1
+renamed core.h to cepCore.h
+----------------------------
+revision 1.6
+date: 2002/06/10 19:49:47;  author: u964076;  state: Exp;  lines: +5 -0
+Mikal: Removed all occurances of cepError dbg, more work on UI. Also added wxwindows docs to the repository
+----------------------------
+revision 1.5
+date: 2002/06/02 11:07:33;  author: u964076;  state: Exp;  lines: +8 -5
+Mikal: The UI now opens and munch()es the right fileset...
+----------------------------
+revision 1.4
+date: 2002/06/02 10:53:15;  author: u964076;  state: Exp;  lines: +41 -4
+Mikal: Progress dialog when you open a dataset
+----------------------------
+revision 1.3
+date: 2002/06/02 08:09:07;  author: u964076;  state: Exp;  lines: +3 -1
+Mikal: cepError message boxes now display properly
+----------------------------
+revision 1.2
+date: 2002/06/02 07:13:23;  author: u964076;  state: Exp;  lines: +13 -8
+Mikal: Found the method called for the open menu event. Played with it so that it is starting to look like the real thing...
+----------------------------
+revision 1.1
+date: 2002/06/02 06:30:32;  author: u964076;  state: Exp;
+Mikal: doc -> cepDoc; view -> cepView
+=============================================================================
+
+RCS file: /cvs/cvs001/source/cepDoc.h,v
+Working file: source/cepDoc.h
+head: 1.4
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 4;	selected revisions: 4
+description:
+----------------------------
+revision 1.4
+date: 2002/07/14 12:38:32;  author: u982087;  state: Exp;  lines: +2 -2
+renamed core.h to cepCore.h
+----------------------------
+revision 1.3
+date: 2002/06/10 19:49:47;  author: u964076;  state: Exp;  lines: +18 -16
+Mikal: Removed all occurances of cepError dbg, more work on UI. Also added wxwindows docs to the repository
+----------------------------
+revision 1.2
+date: 2002/06/02 10:53:15;  author: u964076;  state: Exp;  lines: +20 -9
+Mikal: Progress dialog when you open a dataset
+----------------------------
+revision 1.1
+date: 2002/06/02 10:13:02;  author: u964076;  state: Exp;
+Mikal: Renamed doc.h and view.h. Also added the file which will contain the startup tool tips...
+=============================================================================
+
+RCS file: /cvs/cvs001/source/cepError.cpp,v
+Working file: source/cepError.cpp
+head: 1.13
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 13;	selected revisions: 13
+description:
+----------------------------
+revision 1.13
+date: 2002/07/14 12:38:32;  author: u982087;  state: Exp;  lines: +1 -1
+renamed core.h to cepCore.h
+----------------------------
+revision 1.12
+date: 2002/06/10 19:49:47;  author: u964076;  state: Exp;  lines: +3 -11
+Mikal: Removed all occurances of cepError dbg, more work on UI. Also added wxwindows docs to the repository
+----------------------------
+revision 1.11
+date: 2002/06/09 05:07:59;  author: u964076;  state: Exp;  lines: +3 -3
+Mikal: Error reporting bug fixed -- it wasn't remembering whether to display a dialog box across instances of a class
+----------------------------
+revision 1.10
+date: 2002/06/09 04:38:38;  author: u964076;  state: Exp;  lines: +9 -6
+Mikal: Introduced a tristate boolean class
+----------------------------
+revision 1.9
+date: 2002/06/07 21:42:13;  author: u964076;  state: Exp;  lines: +8 -1
+Mikal: Configuration stuff is getting closer, but isn't perfect yet...
+----------------------------
+revision 1.8
+date: 2002/06/06 22:05:50;  author: u964076;  state: Exp;  lines: +3 -1
+Mikal: Doesn't work, I'm not sure why, but I'm looking into it...
+----------------------------
+revision 1.7
+date: 2002/06/06 01:44:17;  author: u964076;  state: Exp;  lines: +4 -0
+Mikal: Config saves with the ui don't work yet, but they're getting closer...
+----------------------------
+revision 1.6
+date: 2002/06/03 19:51:28;  author: u964076;  state: Exp;  lines: +16 -3
+Mikal: Const fixes, config changes, and ui improvements
+----------------------------
+revision 1.5
+date: 2002/06/02 09:56:19;  author: u964076;  state: Exp;  lines: +33 -1
+Mikal: Startup tips and icons in cepErrors
+----------------------------
+revision 1.4
+date: 2002/06/02 08:09:07;  author: u964076;  state: Exp;  lines: +1 -1
+Mikal: cepError message boxes now display properly
+----------------------------
+revision 1.3
+date: 2002/06/02 07:55:06;  author: u964076;  state: Exp;  lines: +51 -33
+Mikal: cepError can now display a dialog box within the UI if the UI exists...
+----------------------------
+revision 1.2
+date: 2002/05/28 10:08:47;  author: u964076;  state: Exp;  lines: +1 -2
+Mikal: Fixed indentation
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:06;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/cepError.h,v
+Working file: source/cepError.h
+head: 1.10
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 10;	selected revisions: 10
+description:
+----------------------------
+revision 1.10
+date: 2002/06/10 19:49:47;  author: u964076;  state: Exp;  lines: +6 -4
+Mikal: Removed all occurances of cepError dbg, more work on UI. Also added wxwindows docs to the repository
+----------------------------
+revision 1.9
+date: 2002/06/10 00:09:21;  author: u964076;  state: Exp;  lines: +1 -1
+Mikal: Fixed a doco error, added a readme to the contrib directory
+----------------------------
+revision 1.8
+date: 2002/06/09 23:55:25;  author: u964076;  state: Exp;  lines: +125 -5
+Mikal: Got image display working on the dataset tab. The next step is to get tabs onto the dataset tab...
+----------------------------
+revision 1.7
+date: 2002/06/09 05:07:59;  author: u964076;  state: Exp;  lines: +0 -1
+Mikal: Error reporting bug fixed -- it wasn't remembering whether to display a dialog box across instances of a class
+----------------------------
+revision 1.6
+date: 2002/06/09 04:38:39;  author: u964076;  state: Exp;  lines: +1 -0
+Mikal: Introduced a tristate boolean class
+----------------------------
+revision 1.5
+date: 2002/06/07 21:42:13;  author: u964076;  state: Exp;  lines: +18 -0
+Mikal: Configuration stuff is getting closer, but isn't perfect yet...
+----------------------------
+revision 1.4
+date: 2002/06/03 19:51:28;  author: u964076;  state: Exp;  lines: +4 -3
+Mikal: Const fixes, config changes, and ui improvements
+----------------------------
+revision 1.3
+date: 2002/06/02 09:56:19;  author: u964076;  state: Exp;  lines: +1 -0
+Mikal: Startup tips and icons in cepErrors
+----------------------------
+revision 1.2
+date: 2002/06/02 07:55:06;  author: u964076;  state: Exp;  lines: +2 -1
+Mikal: cepError can now display a dialog box within the UI if the UI exists...
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:06;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/cepLs.cpp,v
+Working file: source/cepLs.cpp
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/06/02 05:37:39;  author: u983118;  state: Exp;
+Added cepLs.cpp cepLs.h - this stuff is to do the linear least squares regression on the data. I still need to fix some stuff to do with optimizing matrix multiplications. I also need to intergrate it with cepDataset stuff.
+=============================================================================
+
+RCS file: /cvs/cvs001/source/cepLs.h,v
+Working file: source/cepLs.h
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/06/03 19:51:28;  author: u964076;  state: Exp;  lines: +0 -3
+Mikal: Const fixes, config changes, and ui improvements
+----------------------------
+revision 1.1
+date: 2002/06/02 05:37:39;  author: u983118;  state: Exp;
+Added cepLs.cpp cepLs.h - this stuff is to do the linear least squares regression on the data. I still need to fix some stuff to do with optimizing matrix multiplications. I also need to intergrate it with cepDataset stuff.
+=============================================================================
+
+RCS file: /cvs/cvs001/source/cepMain.cpp,v
+Working file: source/cepMain.cpp
+head: 1.4
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 4;	selected revisions: 4
+description:
+----------------------------
+revision 1.4
+date: 2002/07/14 12:38:32;  author: u982087;  state: Exp;  lines: +1 -1
+renamed core.h to cepCore.h
+----------------------------
+revision 1.3
+date: 2002/06/03 19:51:28;  author: u964076;  state: Exp;  lines: +0 -7
+Mikal: Const fixes, config changes, and ui improvements
+----------------------------
+revision 1.2
+date: 2002/06/02 10:53:15;  author: u964076;  state: Exp;  lines: +1 -1
+Mikal: Progress dialog when you open a dataset
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:06;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/cepMatrix.cpp,v
+Working file: source/cepMatrix.cpp
+head: 1.3
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 3;	selected revisions: 3
+description:
+----------------------------
+revision 1.3
+date: 2002/07/11 20:31:12;  author: u964076;  state: Exp;  lines: +1 -1
+Mikal: Fixed compile warning in cepMatrix, included it in the build
+----------------------------
+revision 1.2
+date: 2002/06/20 09:07:43;  author: u983118;  state: Exp;  lines: +3 -2
+2002-06-20 kristy
+	In cepMatrix.cpp fixed compatiblity issue between visual studios g++ now compiles.
+----------------------------
+revision 1.1
+date: 2002/06/13 10:29:32;  author: u983118;  state: Exp;
+2002-06-13 Kristy added cepMatrix.cpp cepMatrix.h.
+   the only thing that still needs to be done is inverses
+=============================================================================
+
+RCS file: /cvs/cvs001/source/cepMatrix.h,v
+Working file: source/cepMatrix.h
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/06/13 10:29:32;  author: u983118;  state: Exp;
+2002-06-13 Kristy added cepMatrix.cpp cepMatrix.h.
+   the only thing that still needs to be done is inverses
+=============================================================================
+
+RCS file: /cvs/cvs001/source/cepPresentation.cpp,v
+Working file: source/cepPresentation.cpp
+head: 1.6
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 6;	selected revisions: 6
+description:
+----------------------------
+revision 1.6
+date: 2002/07/14 12:38:32;  author: u982087;  state: Exp;  lines: +1 -1
+renamed core.h to cepCore.h
+----------------------------
+revision 1.5
+date: 2002/06/10 19:49:47;  author: u964076;  state: Exp;  lines: +13 -28
+Mikal: Removed all occurances of cepError dbg, more work on UI. Also added wxwindows docs to the repository
+----------------------------
+revision 1.4
+date: 2002/06/03 19:51:28;  author: u964076;  state: Exp;  lines: +4 -4
+Mikal: Const fixes, config changes, and ui improvements
+----------------------------
+revision 1.3
+date: 2002/06/02 07:25:46;  author: u964076;  state: Exp;  lines: +7 -7
+Mikal: Big ugly change to resolve namespace conflict with wxWindows
+----------------------------
+revision 1.2
+date: 2002/05/28 10:08:47;  author: u964076;  state: Exp;  lines: +2 -4
+Mikal: Fixed indentation
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:07;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/cepPresentation.h,v
+Working file: source/cepPresentation.h
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/06/03 19:51:28;  author: u964076;  state: Exp;  lines: +6 -6
+Mikal: Const fixes, config changes, and ui improvements
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:07;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/cepTSB.cpp,v
+Working file: source/cepTSB.cpp
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/07/14 12:38:33;  author: u982087;  state: Exp;  lines: +1 -1
+renamed core.h to cepCore.h
+----------------------------
+revision 1.1
+date: 2002/06/09 04:38:39;  author: u964076;  state: Exp;
+Mikal: Introduced a tristate boolean class
+=============================================================================
+
+RCS file: /cvs/cvs001/source/cepTSB.h,v
+Working file: source/cepTSB.h
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/06/09 04:38:39;  author: u964076;  state: Exp;
+Mikal: Introduced a tristate boolean class
+=============================================================================
+
+RCS file: /cvs/cvs001/source/cepUI.cpp,v
+Working file: source/cepUI.cpp
+head: 1.22
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 22;	selected revisions: 22
+description:
+----------------------------
+revision 1.22
+date: 2002/07/14 12:38:33;  author: u982087;  state: Exp;  lines: +1 -1
+renamed core.h to cepCore.h
+----------------------------
+revision 1.21
+date: 2002/06/10 19:49:48;  author: u964076;  state: Exp;  lines: +1 -11
+Mikal: Removed all occurances of cepError dbg, more work on UI. Also added wxwindows docs to the repository
+----------------------------
+revision 1.20
+date: 2002/06/09 23:55:25;  author: u964076;  state: Exp;  lines: +25 -0
+Mikal: Got image display working on the dataset tab. The next step is to get tabs onto the dataset tab...
+----------------------------
+revision 1.19
+date: 2002/06/09 05:53:22;  author: u964076;  state: Exp;  lines: +2 -2
+Mikal: Dealing with segmentation viotations if you've opened a dataset
+----------------------------
+revision 1.18
+date: 2002/06/09 05:07:59;  author: u964076;  state: Exp;  lines: +2 -0
+Mikal: Error reporting bug fixed -- it wasn't remembering whether to display a dialog box across instances of a class
+----------------------------
+revision 1.17
+date: 2002/06/07 21:42:13;  author: u964076;  state: Exp;  lines: +7 -1
+Mikal: Configuration stuff is getting closer, but isn't perfect yet...
+----------------------------
+revision 1.16
+date: 2002/06/06 01:44:17;  author: u964076;  state: Exp;  lines: +8 -2
+Mikal: Config saves with the ui don't work yet, but they're getting closer...
+----------------------------
+revision 1.15
+date: 2002/06/03 20:11:21;  author: u964076;  state: Exp;  lines: +4 -3
+Mikal: Catching the window close event so we can save the current size of the window into the configuration database...
+----------------------------
+revision 1.14
+date: 2002/06/03 19:51:28;  author: u964076;  state: Exp;  lines: +72 -11
+Mikal: Const fixes, config changes, and ui improvements
+----------------------------
+revision 1.13
+date: 2002/06/02 20:41:57;  author: u964076;  state: Exp;  lines: +15 -5
+Mikal: Building up to putting some controls on the new tab
+----------------------------
+revision 1.12
+date: 2002/06/02 20:29:58;  author: u964076;  state: Exp;  lines: +14 -14
+Mikal: Renamed a whole bunch of UI classes to something more healpful
+----------------------------
+revision 1.11
+date: 2002/06/02 10:53:15;  author: u964076;  state: Exp;  lines: +6 -6
+Mikal: Progress dialog when you open a dataset
+----------------------------
+revision 1.10
+date: 2002/06/02 09:56:19;  author: u964076;  state: Exp;  lines: +15 -3
+Mikal: Startup tips and icons in cepErrors
+----------------------------
+revision 1.9
+date: 2002/06/02 08:09:07;  author: u964076;  state: Exp;  lines: +7 -0
+Mikal: cepError message boxes now display properly
+----------------------------
+revision 1.8
+date: 2002/06/02 07:25:47;  author: u964076;  state: Exp;  lines: +4 -1
+Mikal: Big ugly change to resolve namespace conflict with wxWindows
+----------------------------
+revision 1.7
+date: 2002/06/02 06:29:13;  author: u964076;  state: Exp;  lines: +3 -3
+Mikal: Renamed the doc and view classes
+----------------------------
+revision 1.6
+date: 2002/05/29 04:48:26;  author: u964076;  state: Exp;  lines: +1 -1
+Mikal: Removing unneeded bits from the wx sample
+----------------------------
+revision 1.5
+date: 2002/05/29 04:42:08;  author: u964076;  state: Exp;  lines: +1 -1
+Mikal: Copyright statement fixes
+----------------------------
+revision 1.4
+date: 2002/05/29 03:13:09;  author: u964076;  state: Exp;  lines: +10 -17
+Mikal: Continued conversion of UI code to match something closer to what we need...
+----------------------------
+revision 1.3
+date: 2002/05/29 02:56:12;  author: u964076;  state: Exp;  lines: +97 -86
+Mikal: Yay GNU indent
+----------------------------
+revision 1.2
+date: 2002/05/29 02:47:58;  author: u964076;  state: Exp;  lines: +33 -24
+Mikal: Hacked the about box
+----------------------------
+revision 1.1
+date: 2002/05/29 02:27:58;  author: u964076;  state: Exp;
+Mikal: Imported shamelessly stolen sample code from wx windows... This will hopefully become the basis for our user interface. Also modified the autotools stuff so that it all compiles cleanly. Some users might need to install wx windows before ui will build for them...
+=============================================================================
+
+RCS file: /cvs/cvs001/source/cepUI.h,v
+Working file: source/cepUI.h
+head: 1.7
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 7;	selected revisions: 7
+description:
+----------------------------
+revision 1.7
+date: 2002/07/14 12:38:32;  author: u982087;  state: Exp;  lines: +2 -2
+renamed core.h to cepCore.h
+----------------------------
+revision 1.6
+date: 2002/06/03 20:11:21;  author: u964076;  state: Exp;  lines: +2 -2
+Mikal: Catching the window close event so we can save the current size of the window into the configuration database...
+----------------------------
+revision 1.5
+date: 2002/06/03 19:51:28;  author: u964076;  state: Exp;  lines: +20 -14
+Mikal: Const fixes, config changes, and ui improvements
+----------------------------
+revision 1.4
+date: 2002/06/02 20:29:58;  author: u964076;  state: Exp;  lines: +10 -10
+Mikal: Renamed a whole bunch of UI classes to something more healpful
+----------------------------
+revision 1.3
+date: 2002/06/02 10:53:15;  author: u964076;  state: Exp;  lines: +3 -3
+Mikal: Progress dialog when you open a dataset
+----------------------------
+revision 1.2
+date: 2002/05/29 02:56:12;  author: u964076;  state: Exp;  lines: +26 -27
+Mikal: Yay GNU indent
+----------------------------
+revision 1.1
+date: 2002/05/29 02:27:58;  author: u964076;  state: Exp;
+Mikal: Imported shamelessly stolen sample code from wx windows... This will hopefully become the basis for our user interface. Also modified the autotools stuff so that it all compiles cleanly. Some users might need to install wx windows before ui will build for them...
+=============================================================================
+
+RCS file: /cvs/cvs001/source/cepUtility.cpp,v
+Working file: source/cepUtility.cpp
+head: 1.5
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 5;	selected revisions: 5
+description:
+----------------------------
+revision 1.5
+date: 2002/07/14 12:38:33;  author: u982087;  state: Exp;  lines: +1 -1
+renamed core.h to cepCore.h
+----------------------------
+revision 1.4
+date: 2002/06/02 07:25:47;  author: u964076;  state: Exp;  lines: +5 -5
+Mikal: Big ugly change to resolve namespace conflict with wxWindows
+----------------------------
+revision 1.3
+date: 2002/05/04 04:28:45;  author: u964076;  state: Exp;  lines: +9 -0
+Mikal: Dataset parsing works for x direction
+----------------------------
+revision 1.2
+date: 2002/05/04 03:47:32;  author: u964076;  state: Exp;  lines: +4 -0
+Mikal: New dataset code
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:07;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/cepUtility.h,v
+Working file: source/cepUtility.h
+head: 1.3
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 3;	selected revisions: 3
+description:
+----------------------------
+revision 1.3
+date: 2002/06/02 07:25:47;  author: u964076;  state: Exp;  lines: +5 -5
+Mikal: Big ugly change to resolve namespace conflict with wxWindows
+----------------------------
+revision 1.2
+date: 2002/05/04 04:28:45;  author: u964076;  state: Exp;  lines: +1 -0
+Mikal: Dataset parsing works for x direction
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:07;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/cepView.cpp,v
+Working file: source/cepView.cpp
+head: 1.8
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 8;	selected revisions: 8
+description:
+----------------------------
+revision 1.8
+date: 2002/06/10 19:49:48;  author: u964076;  state: Exp;  lines: +8 -0
+Mikal: Removed all occurances of cepError dbg, more work on UI. Also added wxwindows docs to the repository
+----------------------------
+revision 1.7
+date: 2002/06/09 23:55:25;  author: u964076;  state: Exp;  lines: +12 -3
+Mikal: Got image display working on the dataset tab. The next step is to get tabs onto the dataset tab...
+----------------------------
+revision 1.6
+date: 2002/06/09 06:03:36;  author: u964076;  state: Exp;  lines: +6 -1
+Mikal: Fixed segv
+----------------------------
+revision 1.5
+date: 2002/06/03 19:51:28;  author: u964076;  state: Exp;  lines: +9 -0
+Mikal: Const fixes, config changes, and ui improvements
+----------------------------
+revision 1.4
+date: 2002/06/02 20:41:58;  author: u964076;  state: Exp;  lines: +6 -11
+Mikal: Building up to putting some controls on the new tab
+----------------------------
+revision 1.3
+date: 2002/06/02 20:29:58;  author: u964076;  state: Exp;  lines: +6 -6
+Mikal: Renamed a whole bunch of UI classes to something more healpful
+----------------------------
+revision 1.2
+date: 2002/06/02 10:53:16;  author: u964076;  state: Exp;  lines: +2 -2
+Mikal: Progress dialog when you open a dataset
+----------------------------
+revision 1.1
+date: 2002/06/02 06:30:33;  author: u964076;  state: Exp;
+Mikal: doc -> cepDoc; view -> cepView
+=============================================================================
+
+RCS file: /cvs/cvs001/source/cepView.h,v
+Working file: source/cepView.h
+head: 1.6
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 6;	selected revisions: 6
+description:
+----------------------------
+revision 1.6
+date: 2002/06/10 19:49:48;  author: u964076;  state: Exp;  lines: +23 -22
+Mikal: Removed all occurances of cepError dbg, more work on UI. Also added wxwindows docs to the repository
+----------------------------
+revision 1.5
+date: 2002/06/03 19:51:29;  author: u964076;  state: Exp;  lines: +2 -0
+Mikal: Const fixes, config changes, and ui improvements
+----------------------------
+revision 1.4
+date: 2002/06/02 20:41:58;  author: u964076;  state: Exp;  lines: +5 -11
+Mikal: Building up to putting some controls on the new tab
+----------------------------
+revision 1.3
+date: 2002/06/02 20:29:58;  author: u964076;  state: Exp;  lines: +5 -5
+Mikal: Renamed a whole bunch of UI classes to something more healpful
+----------------------------
+revision 1.2
+date: 2002/06/02 10:53:16;  author: u964076;  state: Exp;  lines: +2 -2
+Mikal: Progress dialog when you open a dataset
+----------------------------
+revision 1.1
+date: 2002/06/02 10:13:02;  author: u964076;  state: Exp;
+Mikal: Renamed doc.h and view.h. Also added the file which will contain the startup tool tips...
+=============================================================================
+
+RCS file: /cvs/cvs001/source/cepWindows.cpp,v
+Working file: source/cepWindows.cpp
+head: 1.10
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 10;	selected revisions: 10
+description:
+----------------------------
+revision 1.10
+date: 2002/05/28 10:08:47;  author: u964076;  state: Exp;  lines: +112 -115
+Mikal: Fixed indentation
+----------------------------
+revision 1.9
+date: 2002/05/13 09:21:42;  author: u991672;  state: Exp;  lines: +15 -15
+
+placed the cepWIndows code into cepDataset after making some final changes.
+----------------------------
+revision 1.8
+date: 2002/05/07 06:29:56;  author: u991672;  state: Exp;  lines: +1 -1
+
+	Fixed variable name
+----------------------------
+revision 1.7
+date: 2002/05/07 06:24:13;  author: u991672;  state: Exp;  lines: +10 -15
+
+	added private members for the doWindow and doHam methods
+----------------------------
+revision 1.6
+date: 2002/05/07 02:16:39;  author: u991672;  state: Exp;  lines: +48 -43
+
+Fixed implementation of vectors in both windows and ham
+----------------------------
+revision 1.5
+date: 2002/05/06 12:34:49;  author: u991672;  state: Exp;  lines: +18 -6
+
+
+Continued addressing todos.
+Changed implementation of vector to suite definition.
+Vector implementation still incomplete.
+Daniel.
+----------------------------
+revision 1.4
+date: 2002/05/04 04:26:07;  author: u991672;  state: Exp;  lines: +34 -36
+
+Tidied up previous edits.
+Fixed indeces in array/vector references in loops and else where
+Began implemenation of vector for data and window array.
+Began implementation of return type for mulitple return paramater to be done
+in the form of return cepDataset populated with relavent information.
+This implementation is incomplete.
+Daniel
+----------------------------
+revision 1.3
+date: 2002/05/01 04:10:53;  author: u991672;  state: Exp;  lines: +88 -60
+
+
+cepWindows now contains both the window and hammingmethods.
+Still incomplete and not ready for building.
+----------------------------
+revision 1.2
+date: 2002/04/30 23:58:09;  author: u964076;  state: Exp;  lines: +1 -0
+Mikal: Added cepWindows to build process
+----------------------------
+revision 1.1
+date: 2002/04/29 08:07:26;  author: u991672;  state: Exp;
+*** empty log message ***
+=============================================================================
+
+RCS file: /cvs/cvs001/source/Attic/config.cache,v
+Working file: source/config.cache
+head: 1.6
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 6;	selected revisions: 6
+description:
+----------------------------
+revision 1.6
+date: 2002/06/02 06:34:10;  author: u964076;  state: dead;  lines: +0 -0
+Mikal: These files should never have been in the repository
+----------------------------
+revision 1.5
+date: 2002/06/02 06:29:13;  author: u964076;  state: Exp;  lines: +5 -5
+Mikal: Renamed the doc and view classes
+----------------------------
+revision 1.4
+date: 2002/06/02 05:37:39;  author: u983118;  state: Exp;  lines: +5 -5
+Added cepLs.cpp cepLs.h - this stuff is to do the linear least squares regression on the data. I still need to fix some stuff to do with optimizing matrix multiplications. I also need to intergrate it with cepDataset stuff.
+----------------------------
+revision 1.3
+date: 2002/05/29 02:27:58;  author: u964076;  state: Exp;  lines: +7 -0
+Mikal: Imported shamelessly stolen sample code from wx windows... This will hopefully become the basis for our user interface. Also modified the autotools stuff so that it all compiles cleanly. Some users might need to install wx windows before ui will build for them...
+----------------------------
+revision 1.2
+date: 2002/04/30 23:58:09;  author: u964076;  state: Exp;  lines: +5 -5
+Mikal: Added cepWindows to build process
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:07;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/Attic/config.log,v
+Working file: source/config.log
+head: 1.6
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 6;	selected revisions: 6
+description:
+----------------------------
+revision 1.6
+date: 2002/06/02 06:34:10;  author: u964076;  state: dead;  lines: +0 -0
+Mikal: These files should never have been in the repository
+----------------------------
+revision 1.5
+date: 2002/06/02 06:29:13;  author: u964076;  state: Exp;  lines: +3 -3
+Mikal: Renamed the doc and view classes
+----------------------------
+revision 1.4
+date: 2002/06/02 05:37:39;  author: u983118;  state: Exp;  lines: +1 -2
+Added cepLs.cpp cepLs.h - this stuff is to do the linear least squares regression on the data. I still need to fix some stuff to do with optimizing matrix multiplications. I also need to intergrate it with cepDataset stuff.
+----------------------------
+revision 1.3
+date: 2002/05/29 02:27:58;  author: u964076;  state: Exp;  lines: +8 -2
+Mikal: Imported shamelessly stolen sample code from wx windows... This will hopefully become the basis for our user interface. Also modified the autotools stuff so that it all compiles cleanly. Some users might need to install wx windows before ui will build for them...
+----------------------------
+revision 1.2
+date: 2002/04/30 23:58:09;  author: u964076;  state: Exp;  lines: +19 -17
+Mikal: Added cepWindows to build process
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:08;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/Attic/config.status,v
+Working file: source/config.status
+head: 1.6
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 6;	selected revisions: 6
+description:
+----------------------------
+revision 1.6
+date: 2002/06/02 06:34:11;  author: u964076;  state: dead;  lines: +0 -0
+Mikal: These files should never have been in the repository
+----------------------------
+revision 1.5
+date: 2002/06/02 06:29:13;  author: u964076;  state: Exp;  lines: +5 -5
+Mikal: Renamed the doc and view classes
+----------------------------
+revision 1.4
+date: 2002/06/02 05:37:39;  author: u983118;  state: Exp;  lines: +1 -1
+Added cepLs.cpp cepLs.h - this stuff is to do the linear least squares regression on the data. I still need to fix some stuff to do with optimizing matrix multiplications. I also need to intergrate it with cepDataset stuff.
+----------------------------
+revision 1.3
+date: 2002/05/29 02:27:58;  author: u964076;  state: Exp;  lines: +2 -2
+Mikal: Imported shamelessly stolen sample code from wx windows... This will hopefully become the basis for our user interface. Also modified the autotools stuff so that it all compiles cleanly. Some users might need to install wx windows before ui will build for them...
+----------------------------
+revision 1.2
+date: 2002/04/30 23:58:09;  author: u964076;  state: Exp;  lines: +4 -4
+Mikal: Added cepWindows to build process
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:08;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/Attic/configure,v
+Working file: source/configure
+head: 1.8
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 8;	selected revisions: 8
+description:
+----------------------------
+revision 1.8
+date: 2002/07/14 12:04:37;  author: u982087;  state: dead;  lines: +0 -0
+This should never have been here. this is dynamically generated by autoconf
+----------------------------
+revision 1.7
+date: 2002/07/11 20:31:12;  author: u964076;  state: Exp;  lines: +68 -119
+Mikal: Fixed compile warning in cepMatrix, included it in the build
+----------------------------
+revision 1.6
+date: 2002/06/13 10:02:51;  author: u991672;  state: Exp;  lines: +163 -65
+added fftw to configure.in and reran autoconf
+----------------------------
+revision 1.5
+date: 2002/06/06 22:05:50;  author: u964076;  state: Exp;  lines: +86 -38
+Mikal: Doesn't work, I'm not sure why, but I'm looking into it...
+----------------------------
+revision 1.4
+date: 2002/06/06 00:02:01;  author: u964076;  state: Exp;  lines: +110 -14
+Mikal: Configuration DB
+----------------------------
+revision 1.3
+date: 2002/05/29 02:27:58;  author: u964076;  state: Exp;  lines: +258 -14
+Mikal: Imported shamelessly stolen sample code from wx windows... This will hopefully become the basis for our user interface. Also modified the autotools stuff so that it all compiles cleanly. Some users might need to install wx windows before ui will build for them...
+----------------------------
+revision 1.2
+date: 2002/04/30 23:58:10;  author: u964076;  state: Exp;  lines: +41 -92
+Mikal: Added cepWindows to build process
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:08;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/configure.in,v
+Working file: source/configure.in
+head: 1.9
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 9;	selected revisions: 9
+description:
+----------------------------
+revision 1.9
+date: 2002/07/14 13:55:27;  author: u982087;  state: Exp;  lines: +2 -1
+Abbreviated the CPPFLAGS being exported. Are we going to be multithreaded
+and are we going to be generating shared libs?
+----------------------------
+revision 1.8
+date: 2002/07/14 13:45:46;  author: u982087;  state: Exp;  lines: +3 -1
+Added flags so that developers can see the warnigns that are currently being ignored
+----------------------------
+revision 1.7
+date: 2002/07/14 13:38:38;  author: u982087;  state: Exp;  lines: +30 -5
+added checks to force developers to handle their warnings
+----------------------------
+revision 1.6
+date: 2002/07/14 10:28:46;  author: u982087;  state: Exp;  lines: +1 -0
+added gnu source define
+----------------------------
+revision 1.5
+date: 2002/06/13 10:02:51;  author: u991672;  state: Exp;  lines: +2 -0
+added fftw to configure.in and reran autoconf
+----------------------------
+revision 1.4
+date: 2002/06/06 22:05:51;  author: u964076;  state: Exp;  lines: +3 -0
+Mikal: Doesn't work, I'm not sure why, but I'm looking into it...
+----------------------------
+revision 1.3
+date: 2002/06/06 00:02:01;  author: u964076;  state: Exp;  lines: +6 -0
+Mikal: Configuration DB
+----------------------------
+revision 1.2
+date: 2002/05/29 02:27:59;  author: u964076;  state: Exp;  lines: +17 -1
+Mikal: Imported shamelessly stolen sample code from wx windows... This will hopefully become the basis for our user interface. Also modified the autotools stuff so that it all compiles cleanly. Some users might need to install wx windows before ui will build for them...
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:08;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/Attic/core.h,v
+Working file: source/core.h
+head: 1.9
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 9;	selected revisions: 9
+description:
+----------------------------
+revision 1.9
+date: 2002/07/14 12:38:03;  author: u982087;  state: dead;  lines: +0 -0
+renamed to cepCore.h
+----------------------------
+revision 1.8
+date: 2002/06/09 23:55:25;  author: u964076;  state: Exp;  lines: +2 -0
+Mikal: Got image display working on the dataset tab. The next step is to get tabs onto the dataset tab...
+----------------------------
+revision 1.7
+date: 2002/06/09 05:07:59;  author: u964076;  state: Exp;  lines: +1 -0
+Mikal: Error reporting bug fixed -- it wasn't remembering whether to display a dialog box across instances of a class
+----------------------------
+revision 1.6
+date: 2002/06/09 04:38:39;  author: u964076;  state: Exp;  lines: +1 -0
+Mikal: Introduced a tristate boolean class
+----------------------------
+revision 1.5
+date: 2002/06/06 01:44:17;  author: u964076;  state: Exp;  lines: +1 -0
+Mikal: Config saves with the ui don't work yet, but they're getting closer...
+----------------------------
+revision 1.4
+date: 2002/06/03 19:51:29;  author: u964076;  state: Exp;  lines: +3 -8
+Mikal: Const fixes, config changes, and ui improvements
+----------------------------
+revision 1.3
+date: 2002/05/29 02:27:59;  author: u964076;  state: Exp;  lines: +1 -0
+Mikal: Imported shamelessly stolen sample code from wx windows... This will hopefully become the basis for our user interface. Also modified the autotools stuff so that it all compiles cleanly. Some users might need to install wx windows before ui will build for them...
+----------------------------
+revision 1.2
+date: 2002/05/06 12:34:49;  author: u991672;  state: Exp;  lines: +1 -0
+
+
+Continued addressing todos.
+Changed implementation of vector to suite definition.
+Vector implementation still incomplete.
+Daniel.
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:09;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/cvsgraph,v
+Working file: source/cvsgraph
+head: 1.6
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 6;	selected revisions: 6
+description:
+----------------------------
+revision 1.6
+date: 2002/06/03 19:51:29;  author: u964076;  state: Exp;  lines: +77 -14
+Mikal: Const fixes, config changes, and ui improvements
+----------------------------
+revision 1.5
+date: 2002/06/02 06:41:40;  author: u964076;  state: Exp;  lines: +8 -2
+Mikal: Improved CVS activity graphing
+----------------------------
+revision 1.4
+date: 2002/05/30 20:54:49;  author: u964076;  state: Exp;  lines: +43 -8
+Mikal: Improved CVS reporting
+----------------------------
+revision 1.3
+date: 2002/05/29 04:30:01;  author: u964076;  state: Exp;  lines: +11 -8
+Mikal: CVS graphing gets better, and a little script to rename classes
+----------------------------
+revision 1.2
+date: 2002/05/29 00:42:30;  author: u964076;  state: Exp;  lines: +15 -19
+Mikal: Tweaks to the graph script
+----------------------------
+revision 1.1
+date: 2002/05/29 00:07:25;  author: u964076;  state: Exp;
+Mikal: A simple script to generate a commit history against the CVS tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/Attic/doc.cpp,v
+Working file: source/doc.cpp
+head: 1.8
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 8;	selected revisions: 8
+description:
+----------------------------
+revision 1.8
+date: 2002/06/02 06:30:33;  author: u964076;  state: dead;  lines: +0 -0
+Mikal: doc -> cepDoc; view -> cepView
+----------------------------
+revision 1.7
+date: 2002/06/02 06:29:13;  author: u964076;  state: Exp;  lines: +7 -7
+Mikal: Renamed the doc and view classes
+----------------------------
+revision 1.6
+date: 2002/05/29 05:00:53;  author: u964076;  state: Exp;  lines: +4 -316
+Mikal: Continued hacking the UI
+----------------------------
+revision 1.5
+date: 2002/05/29 04:48:26;  author: u964076;  state: Exp;  lines: +0 -49
+Mikal: Removing unneeded bits from the wx sample
+----------------------------
+revision 1.4
+date: 2002/05/29 04:42:08;  author: u964076;  state: Exp;  lines: +32 -10
+Mikal: Copyright statement fixes
+----------------------------
+revision 1.3
+date: 2002/05/29 03:13:09;  author: u964076;  state: Exp;  lines: +9 -9
+Mikal: Continued conversion of UI code to match something closer to what we need...
+----------------------------
+revision 1.2
+date: 2002/05/29 02:56:12;  author: u964076;  state: Exp;  lines: +254 -199
+Mikal: Yay GNU indent
+----------------------------
+revision 1.1
+date: 2002/05/29 02:27:59;  author: u964076;  state: Exp;
+Mikal: Imported shamelessly stolen sample code from wx windows... This will hopefully become the basis for our user interface. Also modified the autotools stuff so that it all compiles cleanly. Some users might need to install wx windows before ui will build for them...
+=============================================================================
+
+RCS file: /cvs/cvs001/source/Attic/doc.h,v
+Working file: source/doc.h
+head: 1.7
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 7;	selected revisions: 7
+description:
+----------------------------
+revision 1.7
+date: 2002/06/02 10:13:02;  author: u964076;  state: dead;  lines: +1 -1
+Mikal: Renamed doc.h and view.h. Also added the file which will contain the startup tool tips...
+----------------------------
+revision 1.6
+date: 2002/06/02 06:29:13;  author: u964076;  state: Exp;  lines: +5 -5
+Mikal: Renamed the doc and view classes
+----------------------------
+revision 1.5
+date: 2002/05/29 05:00:53;  author: u964076;  state: Exp;  lines: +1 -57
+Mikal: Continued hacking the UI
+----------------------------
+revision 1.4
+date: 2002/05/29 04:48:26;  author: u964076;  state: Exp;  lines: +1 -24
+Mikal: Removing unneeded bits from the wx sample
+----------------------------
+revision 1.3
+date: 2002/05/29 03:13:09;  author: u964076;  state: Exp;  lines: +7 -7
+Mikal: Continued conversion of UI code to match something closer to what we need...
+----------------------------
+revision 1.2
+date: 2002/05/29 02:56:12;  author: u964076;  state: Exp;  lines: +52 -46
+Mikal: Yay GNU indent
+----------------------------
+revision 1.1
+date: 2002/05/29 02:27:59;  author: u964076;  state: Exp;
+Mikal: Imported shamelessly stolen sample code from wx windows... This will hopefully become the basis for our user interface. Also modified the autotools stuff so that it all compiles cleanly. Some users might need to install wx windows before ui will build for them...
+=============================================================================
+
+RCS file: /cvs/cvs001/source/docbook-class.template,v
+Working file: source/docbook-class.template
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/06/09 06:26:24;  author: u964076;  state: Exp;
+Mikal: Started on man pages for the various classes
+=============================================================================
+
+RCS file: /cvs/cvs001/source/Attic/libtool,v
+Working file: source/libtool
+head: 1.6
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 6;	selected revisions: 6
+description:
+----------------------------
+revision 1.6
+date: 2002/07/14 12:07:19;  author: u982087;  state: dead;  lines: +0 -0
+This should never have been here. this is automagically created by configure
+----------------------------
+revision 1.5
+date: 2002/06/02 07:13:23;  author: u964076;  state: Exp;  lines: +5 -5
+Mikal: Found the method called for the open menu event. Played with it so that it is starting to look like the real thing...
+----------------------------
+revision 1.4
+date: 2002/06/02 06:29:13;  author: u964076;  state: Exp;  lines: +4 -4
+Mikal: Renamed the doc and view classes
+----------------------------
+revision 1.3
+date: 2002/06/02 05:37:39;  author: u983118;  state: Exp;  lines: +1 -1
+Added cepLs.cpp cepLs.h - this stuff is to do the linear least squares regression on the data. I still need to fix some stuff to do with optimizing matrix multiplications. I also need to intergrate it with cepDataset stuff.
+----------------------------
+revision 1.2
+date: 2002/04/30 23:58:10;  author: u964076;  state: Exp;  lines: +5 -5
+Mikal: Added cepWindows to build process
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:09;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/makedoc.sh,v
+Working file: source/makedoc.sh
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/06/10 19:49:48;  author: u964076;  state: Exp;  lines: +9 -0
+Mikal: Removed all occurances of cepError dbg, more work on UI. Also added wxwindows docs to the repository
+----------------------------
+revision 1.1
+date: 2002/06/10 00:09:21;  author: u964076;  state: Exp;
+Mikal: Fixed a doco error, added a readme to the contrib directory
+=============================================================================
+
+RCS file: /cvs/cvs001/source/renameclass.sh,v
+Working file: source/renameclass.sh
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/05/29 04:30:01;  author: u964076;  state: Exp;
+Mikal: CVS graphing gets better, and a little script to rename classes
+=============================================================================
+
+RCS file: /cvs/cvs001/source/tips.txt,v
+Working file: source/tips.txt
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/06/02 10:13:02;  author: u964076;  state: Exp;
+Mikal: Renamed doc.h and view.h. Also added the file which will contain the startup tool tips...
+=============================================================================
+
+RCS file: /cvs/cvs001/source/Attic/view.cpp,v
+Working file: source/view.cpp
+head: 1.8
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 8;	selected revisions: 8
+description:
+----------------------------
+revision 1.8
+date: 2002/06/02 06:30:33;  author: u964076;  state: dead;  lines: +0 -0
+Mikal: doc -> cepDoc; view -> cepView
+----------------------------
+revision 1.7
+date: 2002/06/02 06:29:14;  author: u964076;  state: Exp;  lines: +7 -7
+Mikal: Renamed the doc and view classes
+----------------------------
+revision 1.6
+date: 2002/05/29 05:00:53;  author: u964076;  state: Exp;  lines: +1 -67
+Mikal: Continued hacking the UI
+----------------------------
+revision 1.5
+date: 2002/05/29 04:48:26;  author: u964076;  state: Exp;  lines: +0 -53
+Mikal: Removing unneeded bits from the wx sample
+----------------------------
+revision 1.4
+date: 2002/05/29 04:42:08;  author: u964076;  state: Exp;  lines: +32 -10
+Mikal: Copyright statement fixes
+----------------------------
+revision 1.3
+date: 2002/05/29 03:13:09;  author: u964076;  state: Exp;  lines: +13 -13
+Mikal: Continued conversion of UI code to match something closer to what we need...
+----------------------------
+revision 1.2
+date: 2002/05/29 02:56:12;  author: u964076;  state: Exp;  lines: +127 -114
+Mikal: Yay GNU indent
+----------------------------
+revision 1.1
+date: 2002/05/29 02:27:59;  author: u964076;  state: Exp;
+Mikal: Imported shamelessly stolen sample code from wx windows... This will hopefully become the basis for our user interface. Also modified the autotools stuff so that it all compiles cleanly. Some users might need to install wx windows before ui will build for them...
+=============================================================================
+
+RCS file: /cvs/cvs001/source/Attic/view.h,v
+Working file: source/view.h
+head: 1.6
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 6;	selected revisions: 6
+description:
+----------------------------
+revision 1.6
+date: 2002/06/02 10:13:03;  author: u964076;  state: dead;  lines: +1 -1
+Mikal: Renamed doc.h and view.h. Also added the file which will contain the startup tool tips...
+----------------------------
+revision 1.5
+date: 2002/06/02 06:29:14;  author: u964076;  state: Exp;  lines: +5 -5
+Mikal: Renamed the doc and view classes
+----------------------------
+revision 1.4
+date: 2002/05/29 04:48:26;  author: u964076;  state: Exp;  lines: +1 -25
+Mikal: Removing unneeded bits from the wx sample
+----------------------------
+revision 1.3
+date: 2002/05/29 03:13:09;  author: u964076;  state: Exp;  lines: +5 -5
+Mikal: Continued conversion of UI code to match something closer to what we need...
+----------------------------
+revision 1.2
+date: 2002/05/29 02:56:13;  author: u964076;  state: Exp;  lines: +53 -43
+Mikal: Yay GNU indent
+----------------------------
+revision 1.1
+date: 2002/05/29 02:27:59;  author: u964076;  state: Exp;
+Mikal: Imported shamelessly stolen sample code from wx windows... This will hopefully become the basis for our user interface. Also modified the autotools stuff so that it all compiles cleanly. Some users might need to install wx windows before ui will build for them...
+=============================================================================
+
+RCS file: /cvs/cvs001/source/config/Attic/config.guess,v
+Working file: source/config/config.guess
+head: 1.3
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 3;	selected revisions: 3
+description:
+----------------------------
+revision 1.3
+date: 2002/07/14 11:20:07;  author: u982087;  state: dead;  lines: +0 -0
+Removed to resolve non portability problems.
+run make -f Makefile.cvs do rebuild with files which are compatible with the local version of libtool
+----------------------------
+revision 1.2
+date: 2002/07/14 10:36:20;  author: u982087;  state: Exp;  lines: +485 -289
+updated
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:10;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/config/Attic/config.sub,v
+Working file: source/config/config.sub
+head: 1.3
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 3;	selected revisions: 3
+description:
+----------------------------
+revision 1.3
+date: 2002/07/14 11:20:07;  author: u982087;  state: dead;  lines: +0 -0
+Removed to resolve non portability problems.
+run make -f Makefile.cvs do rebuild with files which are compatible with the local version of libtool
+----------------------------
+revision 1.2
+date: 2002/07/14 10:36:20;  author: u982087;  state: Exp;  lines: +268 -89
+updated
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:10;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/config/Attic/depcomp,v
+Working file: source/config/depcomp
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/07/14 11:20:08;  author: u982087;  state: dead;  lines: +0 -0
+Removed to resolve non portability problems.
+run make -f Makefile.cvs do rebuild with files which are compatible with the local version of libtool
+----------------------------
+revision 1.1
+date: 2002/07/14 06:19:09;  author: u982087;  state: Exp;
+added to resolve unsatisfied dependencies
+=============================================================================
+
+RCS file: /cvs/cvs001/source/config/Attic/install-sh,v
+Working file: source/config/install-sh
+head: 1.3
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 3;	selected revisions: 3
+description:
+----------------------------
+revision 1.3
+date: 2002/07/14 11:20:08;  author: u982087;  state: dead;  lines: +0 -0
+Removed to resolve non portability problems.
+run make -f Makefile.cvs do rebuild with files which are compatible with the local version of libtool
+----------------------------
+revision 1.2
+date: 2002/07/14 10:36:20;  author: u982087;  state: Exp;  lines: +17 -17
+updated
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:10;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/config/Attic/ltconfig,v
+Working file: source/config/ltconfig
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/07/14 12:11:29;  author: u982087;  state: dead;  lines: +0 -0
+removed. this is now dynamically located
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:10;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/config/Attic/ltmain.sh,v
+Working file: source/config/ltmain.sh
+head: 1.3
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 3;	selected revisions: 3
+description:
+----------------------------
+revision 1.3
+date: 2002/07/14 11:21:59;  author: u982087;  state: dead;  lines: +0 -0
+Removed. please get your copy locally. Makefile.cvs will try to locate it for you
+however this may or may not succeed. if it fails then you should locate it using locate
+locate ltmain.sh. look for one that is in a libtool directory somewhere
+----------------------------
+revision 1.2
+date: 2002/07/14 10:36:20;  author: u982087;  state: Exp;  lines: +1852 -805
+updated
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:11;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/config/Attic/missing,v
+Working file: source/config/missing
+head: 1.3
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 3;	selected revisions: 3
+description:
+----------------------------
+revision 1.3
+date: 2002/07/14 11:20:08;  author: u982087;  state: dead;  lines: +0 -0
+Removed to resolve non portability problems.
+run make -f Makefile.cvs do rebuild with files which are compatible with the local version of libtool
+----------------------------
+revision 1.2
+date: 2002/07/14 10:36:21;  author: u982087;  state: Exp;  lines: +156 -10
+updated
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:11;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/config/Attic/mkinstalldirs,v
+Working file: source/config/mkinstalldirs
+head: 1.3
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 3;	selected revisions: 3
+description:
+----------------------------
+revision 1.3
+date: 2002/07/14 11:20:08;  author: u982087;  state: dead;  lines: +1 -1
+Removed to resolve non portability problems.
+run make -f Makefile.cvs do rebuild with files which are compatible with the local version of libtool
+----------------------------
+revision 1.2
+date: 2002/07/14 10:36:21;  author: u982087;  state: Exp;  lines: +67 -6
+updated
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:11;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/man/docbook/foot.sgml,v
+Working file: source/man/docbook/foot.sgml
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/06/09 06:26:24;  author: u964076;  state: Exp;
+Mikal: Started on man pages for the various classes
+=============================================================================
+
+RCS file: /cvs/cvs001/source/man/docbook/head.sgml,v
+Working file: source/man/docbook/head.sgml
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/07/06 13:16:52;  author: u982087;  state: Exp;  lines: +1 -1
+
+bbleCVS: ----------------------------------------------------------------------
+----------------------------
+revision 1.1
+date: 2002/06/09 06:26:24;  author: u964076;  state: Exp;
+Mikal: Started on man pages for the various classes
+=============================================================================
+
+RCS file: /cvs/cvs001/source/old/cepMatrix.cpp,v
+Working file: source/old/cepMatrix.cpp
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:12;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/old/cepMatrix.h,v
+Working file: source/old/cepMatrix.h
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:12;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/old/cepMatrixImp.cpp,v
+Working file: source/old/cepMatrixImp.cpp
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:12;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/old/cepMatrixImp.h,v
+Working file: source/old/cepMatrixImp.h
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:12;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/old/cepMatrixImp.sgml,v
+Working file: source/old/cepMatrixImp.sgml
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:12;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/old/cepRecordset.cpp,v
+Working file: source/old/cepRecordset.cpp
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:12;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/old/cepRecordset.h,v
+Working file: source/old/cepRecordset.h
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:13;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/old/cepVector.cpp,v
+Working file: source/old/cepVector.cpp
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:13;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/old/cepVector.h,v
+Working file: source/old/cepVector.h
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:13;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/old/main.cpp,v
+Working file: source/old/main.cpp
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:13;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/reports/001-initial.sgml,v
+Working file: reports/001-initial.sgml
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:02;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/reports/buildreport.sh,v
+Working file: reports/buildreport.sh
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:02;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/reports/cepProposal.ps,v
+Working file: reports/cepProposal.ps
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/05/04 07:03:24;  author: u982087;  state: Exp;
+Added documentation from the project proposal. Included tree diagram from peter and the Gannt chart
+=============================================================================
+
+RCS file: /cvs/cvs001/reports/cepProposal.sgml,v
+Working file: reports/cepProposal.sgml
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/05/04 07:03:24;  author: u982087;  state: Exp;
+Added documentation from the project proposal. Included tree diagram from peter and the Gannt chart
+=============================================================================
+
+RCS file: /cvs/cvs001/reports/output.errs,v
+Working file: reports/output.errs
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:02;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/reports/output.pdf,v
+Working file: reports/output.pdf
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:02;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/reports/output.ps,v
+Working file: reports/output.ps
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:02;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/reports/output.sgml,v
+Working file: reports/output.sgml
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:03;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/reports/peter_flow.ps,v
+Working file: reports/peter_flow.ps
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/05/04 07:03:24;  author: u982087;  state: Exp;
+Added documentation from the project proposal. Included tree diagram from peter and the Gannt chart
+=============================================================================
+
+RCS file: /cvs/cvs001/reports/poster_blake.sxw,v
+Working file: reports/poster_blake.sxw
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/07/20 00:50:42;  author: u982087;  state: Exp;
+Initial revision. Preliminary info for poster presentation
+This is a gzip file containing xml files and images.
+leave as is and open with the open office writer for editing
+=============================================================================
+
+RCS file: /cvs/cvs001/reports/proposalGant.pdf,v
+Working file: reports/proposalGant.pdf
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/05/04 07:03:25;  author: u982087;  state: Exp;
+Added documentation from the project proposal. Included tree diagram from peter and the Gannt chart
+=============================================================================
+
+RCS file: /cvs/cvs001/reports/reports-footer.sgml,v
+Working file: reports/reports-footer.sgml
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:03;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/reports/reports-header.sgml,v
+Working file: reports/reports-header.sgml
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:03;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/reports/template.sgml,v
+Working file: reports/template.sgml
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:03;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/reports/uml-1.dia,v
+Working file: reports/uml-1.dia
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/06/12 13:33:00;  author: u982087;  state: Exp;  lines: +7 -9
+Filled out details of the preliminary design (uml-1)
+Added the proposed structure of the simulatar (uml-2)
+----------------------------
+revision 1.1
+date: 2002/06/03 11:49:02;  author: u982087;  state: Exp;
+hybrid UML digram from early duscussions
+=============================================================================
+
+RCS file: /cvs/cvs001/reports/uml-2.dia,v
+Working file: reports/uml-2.dia
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/06/12 13:33:00;  author: u982087;  state: Exp;
+Filled out details of the preliminary design (uml-1)
+Added the proposed structure of the simulatar (uml-2)
+=============================================================================
+
+RCS file: /cvs/cvs001/meetings/buildreport.sh,v
+Working file: meetings/buildreport.sh
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:00;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/meetings/meetings-footer.sgml,v
+Working file: meetings/meetings-footer.sgml
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:00;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/meetings/meetings-header.sgml,v
+Working file: meetings/meetings-header.sgml
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:00;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/meetings/output.errs,v
+Working file: meetings/output.errs
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/05/04 00:27:53;  author: u964076;  state: Exp;  lines: +0 -2
+Mikal: New meeting minutes, and regenerated the report
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:00;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/meetings/output.pdf,v
+Working file: meetings/output.pdf
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/05/04 00:27:53;  author: u964076;  state: Exp;  lines: +698 -208
+Mikal: New meeting minutes, and regenerated the report
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:00;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/meetings/output.ps,v
+Working file: meetings/output.ps
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/05/04 00:27:54;  author: u964076;  state: Exp;  lines: +868 -117
+Mikal: New meeting minutes, and regenerated the report
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:01;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/meetings/output.sgml,v
+Working file: meetings/output.sgml
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/05/04 00:27:54;  author: u964076;  state: Exp;  lines: +192 -5
+Mikal: New meeting minutes, and regenerated the report
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:01;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/meetings/week1.sgml,v
+Working file: meetings/week1.sgml
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:01;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/meetings/week10.sgml,v
+Working file: meetings/week10.sgml
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/06/09 06:06:10;  author: u964076;  state: Exp;  lines: +1 -1
+Mikal: Bug fix on my grammar
+----------------------------
+revision 1.1
+date: 2002/05/04 00:27:54;  author: u964076;  state: Exp;
+Mikal: New meeting minutes, and regenerated the report
+=============================================================================
+
+RCS file: /cvs/cvs001/meetings/week13.sgml,v
+Working file: meetings/week13.sgml
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/06/13 09:06:53;  author: u991672;  state: Exp;  lines: +81 -48
+updated week 13 meeteing minutes
+daniel.
+CV: --------------------------------------------------------------------
+----------------------------
+revision 1.1
+date: 2002/06/09 06:05:10;  author: u991672;  state: Exp;
+
+added meeting minutes for weeks 13, 14, 15.
+=============================================================================
+
+RCS file: /cvs/cvs001/meetings/week14.sgml,v
+Working file: meetings/week14.sgml
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/06/13 01:28:46;  author: u991672;  state: Exp;  lines: +7 -1
+more meeting sminutes updated and added.
+Daniel
+----------------------------
+revision 1.1
+date: 2002/06/09 06:05:10;  author: u991672;  state: Exp;
+
+added meeting minutes for weeks 13, 14, 15.
+=============================================================================
+
+RCS file: /cvs/cvs001/meetings/week15.sgml,v
+Working file: meetings/week15.sgml
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/06/09 06:05:11;  author: u991672;  state: Exp;
+
+added meeting minutes for weeks 13, 14, 15.
+=============================================================================
+
+RCS file: /cvs/cvs001/meetings/week16.sgml,v
+Working file: meetings/week16.sgml
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/06/13 01:28:46;  author: u991672;  state: Exp;
+more meeting sminutes updated and added.
+Daniel
+=============================================================================
+
+RCS file: /cvs/cvs001/meetings/week17.sgml,v
+Working file: meetings/week17.sgml
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/06/13 01:28:46;  author: u991672;  state: Exp;
+more meeting sminutes updated and added.
+Daniel
+=============================================================================
+
+RCS file: /cvs/cvs001/meetings/week18.sgml,v
+Working file: meetings/week18.sgml
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/06/13 01:28:46;  author: u991672;  state: Exp;
+more meeting sminutes updated and added.
+Daniel
+=============================================================================
+
+RCS file: /cvs/cvs001/meetings/week2.sgml,v
+Working file: meetings/week2.sgml
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/05/04 00:27:54;  author: u964076;  state: Exp;  lines: +1 -1
+Mikal: New meeting minutes, and regenerated the report
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:01;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/meetings/week3.sgml,v
+Working file: meetings/week3.sgml
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/05/04 00:27:54;  author: u964076;  state: Exp;  lines: +1 -2
+Mikal: New meeting minutes, and regenerated the report
+----------------------------
+revision 1.1
+date: 2002/04/30 23:53:53;  author: u964076;  state: Exp;
+Mikal: New meeting reports, including place holders for the missing reports
+=============================================================================
+
+RCS file: /cvs/cvs001/meetings/week4.sgml,v
+Working file: meetings/week4.sgml
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/05/04 00:27:54;  author: u964076;  state: Exp;  lines: +1 -2
+Mikal: New meeting minutes, and regenerated the report
+----------------------------
+revision 1.1
+date: 2002/04/30 23:53:53;  author: u964076;  state: Exp;
+Mikal: New meeting reports, including place holders for the missing reports
+=============================================================================
+
+RCS file: /cvs/cvs001/meetings/week5.sgml,v
+Working file: meetings/week5.sgml
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/05/04 00:27:54;  author: u964076;  state: Exp;  lines: +1 -2
+Mikal: New meeting minutes, and regenerated the report
+----------------------------
+revision 1.1
+date: 2002/04/30 23:53:54;  author: u964076;  state: Exp;
+Mikal: New meeting reports, including place holders for the missing reports
+=============================================================================
+
+RCS file: /cvs/cvs001/meetings/week6.sgml,v
+Working file: meetings/week6.sgml
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/05/04 00:27:55;  author: u964076;  state: Exp;  lines: +1 -2
+Mikal: New meeting minutes, and regenerated the report
+----------------------------
+revision 1.1
+date: 2002/04/30 23:53:54;  author: u964076;  state: Exp;
+Mikal: New meeting reports, including place holders for the missing reports
+=============================================================================
+
+RCS file: /cvs/cvs001/meetings/week7.sgml,v
+Working file: meetings/week7.sgml
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/05/04 00:27:55;  author: u964076;  state: Exp;  lines: +1 -2
+Mikal: New meeting minutes, and regenerated the report
+----------------------------
+revision 1.1
+date: 2002/04/30 23:53:54;  author: u964076;  state: Exp;
+Mikal: New meeting reports, including place holders for the missing reports
+=============================================================================
+
+RCS file: /cvs/cvs001/meetings/week8.sgml,v
+Working file: meetings/week8.sgml
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/05/04 00:27:55;  author: u964076;  state: Exp;  lines: +35 -4
+Mikal: New meeting minutes, and regenerated the report
+----------------------------
+revision 1.1
+date: 2002/04/30 23:53:55;  author: u964076;  state: Exp;
+Mikal: New meeting reports, including place holders for the missing reports
+=============================================================================
+
+RCS file: /cvs/cvs001/meetings/week9.sgml,v
+Working file: meetings/week9.sgml
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/05/04 00:27:55;  author: u964076;  state: Exp;  lines: +1 -1
+Mikal: New meeting minutes, and regenerated the report
+----------------------------
+revision 1.1
+date: 2002/04/30 23:53:55;  author: u964076;  state: Exp;
+Mikal: New meeting reports, including place holders for the missing reports
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/README,v
+Working file: contrib/README
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/06/10 19:49:37;  author: u964076;  state: Exp;  lines: +4 -0
+Mikal: Removed all occurances of cepError dbg, more work on UI. Also added wxwindows docs to the repository
+----------------------------
+revision 1.1
+date: 2002/06/10 00:09:21;  author: u964076;  state: Exp;
+Mikal: Fixed a doco error, added a readme to the contrib directory
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/panda_0_5.tgz,v
+Working file: contrib/panda_0_5.tgz
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/04/20 14:51:09;  author: u964076;  state: Exp;
+Mikal: Contrib panda code
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/Attic/trivsql_0_1.tgz,v
+Working file: contrib/trivsql_0_1.tgz
+head: 1.3
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 3;	selected revisions: 3
+description:
+----------------------------
+revision 1.3
+date: 2002/06/06 00:25:08;  author: u964076;  state: dead;  lines: +0 -0
+Mikal: New version of trivsql
+----------------------------
+revision 1.2
+date: 2002/06/06 00:01:59;  author: u964076;  state: Exp;  lines: +859 -826
+Mikal: Configuration DB
+----------------------------
+revision 1.1
+date: 2002/06/05 06:26:58;  author: u964076;  state: Exp;
+Mikal: Trivsql
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/Attic/trivsql_0_2.tgz,v
+Working file: contrib/trivsql_0_2.tgz
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/06/06 01:31:23;  author: u964076;  state: dead;  lines: +0 -0
+Mikal: Upgraded trivsql
+----------------------------
+revision 1.1
+date: 2002/06/06 00:25:09;  author: u964076;  state: Exp;
+Mikal: New version of trivsql
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/Attic/trivsql_0_3.tgz,v
+Working file: contrib/trivsql_0_3.tgz
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/06/06 02:41:57;  author: u964076;  state: dead;  lines: +0 -0
+Mikal: Updated trivsql
+----------------------------
+revision 1.1
+date: 2002/06/06 01:31:24;  author: u964076;  state: Exp;
+Mikal: Upgraded trivsql
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/Attic/trivsql_0_3_1.tgz,v
+Working file: contrib/trivsql_0_3_1.tgz
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/06/06 20:55:38;  author: u964076;  state: dead;  lines: +0 -0
+Mikal: Trivsql update
+----------------------------
+revision 1.1
+date: 2002/06/06 02:41:57;  author: u964076;  state: Exp;
+Mikal: Updated trivsql
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/Attic/trivsql_0_3_2.tgz,v
+Working file: contrib/trivsql_0_3_2.tgz
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/06/07 21:16:53;  author: u964076;  state: dead;  lines: +0 -0
+Mikal: Updating trivsql
+----------------------------
+revision 1.1
+date: 2002/06/06 20:55:38;  author: u964076;  state: Exp;
+Mikal: Trivsql update
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/Attic/trivsql_0_3_4.tgz,v
+Working file: contrib/trivsql_0_3_4.tgz
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/07/02 07:03:51;  author: u964076;  state: dead;  lines: +0 -0
+Mikal: New version of trivsql
+----------------------------
+revision 1.1
+date: 2002/06/07 21:16:54;  author: u964076;  state: Exp;
+Mikal: Updating trivsql
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/Attic/trivsql_0_4.tgz,v
+Working file: contrib/trivsql_0_4.tgz
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/07/20 11:33:14;  author: u964076;  state: dead;  lines: +0 -0
+Mikal: Bug fix for trivsql
+----------------------------
+revision 1.1
+date: 2002/07/02 07:03:52;  author: u964076;  state: Exp;
+Mikal: New version of trivsql
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/trivsql_0_4_1.tgz,v
+Working file: contrib/trivsql_0_4_1.tgz
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/07/20 11:33:15;  author: u964076;  state: Exp;
+Mikal: Bug fix for trivsql
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/autodocbook/AUTHORS,v
+Working file: contrib/autodocbook/AUTHORS
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/06/10 00:05:14;  author: u964076;  state: Exp;
+Mikal: Autodocbook
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/autodocbook/CONTRIBUTORS,v
+Working file: contrib/autodocbook/CONTRIBUTORS
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/06/10 00:05:14;  author: u964076;  state: Exp;
+Mikal: Autodocbook
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/autodocbook/COPYING,v
+Working file: contrib/autodocbook/COPYING
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/06/10 00:05:14;  author: u964076;  state: Exp;
+Mikal: Autodocbook
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/autodocbook/ChangeLog,v
+Working file: contrib/autodocbook/ChangeLog
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/06/10 00:05:14;  author: u964076;  state: Exp;
+Mikal: Autodocbook
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/autodocbook/INSTALL,v
+Working file: contrib/autodocbook/INSTALL
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/06/10 00:05:15;  author: u964076;  state: Exp;
+Mikal: Autodocbook
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/autodocbook/README,v
+Working file: contrib/autodocbook/README
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/06/10 00:05:15;  author: u964076;  state: Exp;
+Mikal: Autodocbook
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/autodocbook/TODO,v
+Working file: contrib/autodocbook/TODO
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/06/10 00:05:15;  author: u964076;  state: Exp;
+Mikal: Autodocbook
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/autodocbook/autodocbook,v
+Working file: contrib/autodocbook/autodocbook
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/06/10 00:05:15;  author: u964076;  state: Exp;
+Mikal: Autodocbook
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/fftw/Attic/fft_homeLink,v
+Working file: contrib/fftw/fft_homeLink
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/05/13 11:09:01;  author: u991672;  state: dead;  lines: +0 -0
+*** empty log message ***
+----------------------------
+revision 1.1
+date: 2002/05/13 11:00:14;  author: u991672;  state: Exp;
+*** empty log message ***
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/fftw/fftw-paper-icassp.pdf,v
+Working file: contrib/fftw/fftw-paper-icassp.pdf
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/05/13 11:00:15;  author: u991672;  state: Exp;
+*** empty log message ***
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/fftw/fftw-paper.pdf,v
+Working file: contrib/fftw/fftw-paper.pdf
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/05/13 11:00:15;  author: u991672;  state: Exp;
+*** empty log message ***
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/fftw/fftw_homeLink,v
+Working file: contrib/fftw/fftw_homeLink
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/05/13 11:10:44;  author: u991672;  state: Exp;
+*** empty log message ***
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/fftw/fftwdoc.html,v
+Working file: contrib/fftw/fftwdoc.html
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/05/13 11:00:14;  author: u991672;  state: Exp;
+*** empty log message ***
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/fftw/fftw-2.1.3/fftw-2.1.3.tar.gz,v
+Working file: contrib/fftw/fftw-2.1.3/fftw-2.1.3.tar.gz
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/05/13 10:32:28;  author: u991672;  state: Exp;
+*** empty log message ***
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/segv/INSTALL,v
+Working file: contrib/segv/INSTALL
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/06/09 05:48:53;  author: u964076;  state: Exp;  lines: +1 -1
+Mikal: Segv handler compile
+----------------------------
+revision 1.1
+date: 2002/06/09 05:28:22;  author: u964076;  state: Exp;
+Mikal: Description of the code
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/segv/Makefile,v
+Working file: contrib/segv/Makefile
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/06/09 05:26:42;  author: u964076;  state: Exp;
+Mikal: Segv handler scripts from tridge@samba.org
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/segv/backtrace,v
+Working file: contrib/segv/backtrace
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/06/09 05:26:42;  author: u964076;  state: Exp;
+Mikal: Segv handler scripts from tridge@samba.org
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/segv/segv_handler.c,v
+Working file: contrib/segv/segv_handler.c
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/06/09 05:26:42;  author: u964076;  state: Exp;
+Mikal: Segv handler scripts from tridge@samba.org
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/segv/segv_handler.o,v
+Working file: contrib/segv/segv_handler.o
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/06/09 05:48:53;  author: u964076;  state: Exp;
+Mikal: Segv handler compile
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/segv/segv_handler.so,v
+Working file: contrib/segv/segv_handler.so
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/06/09 05:48:53;  author: u964076;  state: Exp;
+Mikal: Segv handler compile
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/segv/testprog,v
+Working file: contrib/segv/testprog
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/06/09 05:48:53;  author: u964076;  state: Exp;
+Mikal: Segv handler compile
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/segv/testprog.c,v
+Working file: contrib/segv/testprog.c
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/06/09 05:26:42;  author: u964076;  state: Exp;
+Mikal: Segv handler scripts from tridge@samba.org
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/unit++/cppunit-1.8.0.tar.gz,v
+Working file: contrib/unit++/cppunit-1.8.0.tar.gz
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/07/11 15:25:23;  author: u982087;  state: Exp;
+Some nice testing tools. read the docs, they are good
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/unit++/cppunit-docs-1.8.0.tar.gz,v
+Working file: contrib/unit++/cppunit-docs-1.8.0.tar.gz
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/07/11 15:25:25;  author: u982087;  state: Exp;
+Some nice testing tools. read the docs, they are good
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/unit++/Attic/footest.tgz,v
+Working file: contrib/unit++/footest.tgz
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/07/11 15:23:39;  author: u982087;  state: dead;  lines: +0 -0
+these were simply crap
+----------------------------
+revision 1.1
+date: 2002/07/10 15:45:19;  author: u982087;  state: Exp;
+A sample test class to demonstrate the use of unit testing
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/unit++/test_templates.tar.gz,v
+Working file: contrib/unit++/test_templates.tar.gz
+head: 1.5
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 5;	selected revisions: 5
+description:
+----------------------------
+revision 1.5
+date: 2002/07/13 12:54:29;  author: u982087;  state: Exp;  lines: +9 -7
+Changed options in build to include definition of _GNU_SOURCE and use all errors (Wall)
+----------------------------
+revision 1.4
+date: 2002/07/13 12:46:34;  author: u982087;  state: Exp;  lines: +7 -7
+Added revision history tag and revised username substitution
+----------------------------
+revision 1.3
+date: 2002/07/13 02:06:51;  author: u982087;  state: Exp;  lines: +7 -8
+build now retains symbols for debugging
+----------------------------
+revision 1.2
+date: 2002/07/13 01:49:11;  author: u982087;  state: Exp;  lines: +8 -6
+build scripts updated
+----------------------------
+revision 1.1
+date: 2002/07/13 01:38:49;  author: u982087;  state: Exp;
+templates and build scripts added
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/unit++/Attic/unit++-1.2.html.tgz,v
+Working file: contrib/unit++/unit++-1.2.html.tgz
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/07/11 15:23:41;  author: u982087;  state: dead;  lines: +0 -0
+these were simply crap
+----------------------------
+revision 1.1
+date: 2002/07/10 12:07:37;  author: u982087;  state: Exp;
+Added to repository. These are the unit testing framework as discussed at meetings
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/unit++/Attic/unit++-1.2.tgz,v
+Working file: contrib/unit++/unit++-1.2.tgz
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/07/11 15:23:42;  author: u982087;  state: dead;  lines: +0 -0
+these were simply crap
+----------------------------
+revision 1.1
+date: 2002/07/10 12:07:37;  author: u982087;  state: Exp;
+Added to repository. These are the unit testing framework as discussed at meetings
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/wxwindows/wxGTK-2.2.9.tar.bz2,v
+Working file: contrib/wxwindows/wxGTK-2.2.9.tar.bz2
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/05/28 11:12:29;  author: u964076;  state: Exp;
+Mikal: UI library
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/wxwindows/wxGTK-samples-2.2.9.tar.bz2,v
+Working file: contrib/wxwindows/wxGTK-samples-2.2.9.tar.bz2
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/05/28 11:12:38;  author: u964076;  state: Exp;
+Mikal: UI library
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/wxwindows/docs/pdf/dialoged.pdf,v
+Working file: contrib/wxwindows/docs/pdf/dialoged.pdf
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/06/10 19:49:38;  author: u964076;  state: Exp;
+Mikal: Removed all occurances of cepError dbg, more work on UI. Also added wxwindows docs to the repository
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/wxwindows/docs/pdf/tex2rtf.pdf,v
+Working file: contrib/wxwindows/docs/pdf/tex2rtf.pdf
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/06/10 19:49:38;  author: u964076;  state: Exp;
+Mikal: Removed all occurances of cepError dbg, more work on UI. Also added wxwindows docs to the repository
+=============================================================================
+
+RCS file: /cvs/cvs001/contrib/wxwindows/docs/pdf/wx.pdf,v
+Working file: contrib/wxwindows/docs/pdf/wx.pdf
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/06/10 19:49:39;  author: u964076;  state: Exp;
+Mikal: Removed all occurances of cepError dbg, more work on UI. Also added wxwindows docs to the repository
+=============================================================================

@@ -1,0 +1,18 @@
+#!/bin/bash
+
+pwd=`pwd`
+
+for item in `ls`
+do
+  if [ -d $item ]
+  then
+    if [ ! -f $item/COPYING ]
+    then
+      cp COPYING $item/
+      cd $item
+      cvs add $item
+    fi
+  fi
+
+  cd $pwd
+done

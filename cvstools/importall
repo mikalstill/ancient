@@ -1,0 +1,22 @@
+#!/bin/bash
+
+pwd=`pwd`
+set -x
+
+for item in `stable | grep uncvsed | tr -s " " | cut -f 2 -d " "`
+do
+  echo -n "CVS $item? "
+  read foo
+  if [ "%$foo%" == "%y%" ]
+  then
+    cd $item
+    make clean
+    cvs import -m "Mikal: Initial import" $item initial mikal
+    cd $pwd
+    cvs co $item
+    cd $item
+    redocument $item
+    cvs commit -m "Mikal: Documented"
+    cd $pwd
+  fi
+done

@@ -19,7 +19,10 @@ else{
 while(<SEARCH>){
     @line = split(/:/, $_);
 
-    print "<a href=\"/cgi-bin/lin-annot?mode=display&page=";
+    # /cgi-bin/lin-annot?src=linux-2.6.0-test4-bk5&mode=display&page=/include/linux/mm.h#line-548
+    print "<a href=\"/cgi-bin/lin-annot?src=";
+    print `pwd | sed 's/.usr.src.//'`;
+    print "&mode=display&page=";
     print substr($line[0], 1, length($line[0]));
     print "#line-$line[1]\">$line[0]</a>: ";
     print "$line[2]<BR>\n";

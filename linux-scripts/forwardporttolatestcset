@@ -1,0 +1,64 @@
+#!/bin/bash
+
+pwd=`pwd`
+
+# Make sure we have the latest cset
+getlatestcset
+echo ""
+
+echo "---------------------" >> rejected
+
+for patchfilename in `find /home/httpd/html/linux/patches/ -type f -name "*-state" -exec grep --with-filename "LKML Waiting" {} \; | sed -e 's/:.*//' -e 's/-state//'`
+do
+  echo "Patch file: $patchfilename"
+  patch=`echo $patchfilename | sed 's/^.*\///'`
+  echo "Patch: $patch"
+
+  if [ `echo $patch | egrep -- "-f[0-9][0-9][0-9]$" | wc -l | tr -d " "` -gt 0 ]
+  then
+    oldforwardcount=`echo $patch | sed 's/.*-f//'`
+    fpatchbasename=`echo $patch | sed 's/-f[0-9][0-9][0-9]$//'`
+    echo "Old forward count: $oldforwardcount"
+    forwardcount=$(( $oldforwardcount + 1 ))
+  else
+    fpatchbasename=$patch
+    forwardcount=1
+  fi
+
+  echo "Forward patch base name: $fpatchbasename"
+  echo "Forward patch counter: $forwardcount"
+  fpatch="$fpatchbasename-f"`printf %03d $forwardcount`
+  echo "Forward patch name: $fpatch"
+
+  # Boring setup over, fork the codebase
+  forklatestcset $fpatch
+
+  # Go there
+  cd `cat latest`-$fpatch
+  patch -p 1 < $patchfilename > /tmp/patchout
+  cd $pwd
+
+  breakcount=0;
+  breakcount=$(( $breakcount + `cat /tmp/patchout | grep FAILED | wc -l | tr -d " "` ))
+  breakcount=$(( $breakcount + `cat /tmp/patchout | grep "Skipping patch" | wc -l | tr -d " "` ))
+
+  if [ $breakcount -gt 0 ]
+  then
+    echo "$patchfilename: "`cat latest`-$fpatch >> rejected
+    echo "Old patch didn't apply"
+  else
+    makepatch `cat latest` `cat latest`-$fpatch `cat latest | sed 's/linux-//'` $fpatch patches
+    echo "Obsolete" > $patchfilename-state
+    echo "From: Michael Still <mikal@stillhq.com>" >> $patchfilename-comments
+    echo "Automatically forward ported to "`cat latest`"-$fpatch" >> $patchfilename-comments
+
+    echo -n "Delete the patch working folder? (y/n): "
+    read del
+    if [ "%$del%" == "%y%" ]
+    then
+      rm -rf `cat latest`-$fpatch
+    fi
+  fi
+ 
+  echo ""
+done

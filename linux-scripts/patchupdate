@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# Update the state of the named patch
+loc=`find /home/httpd/html/linux/patches -name "$1" -print`
+echo "Location: $loc"
+echo "State: "`cat $loc-state`
+
+echo -n "New state: "
+read state
+
+comment=""
+echo "Enter comment. A line containing just a . will end"
+read line
+while [ "%$line%" != "%.%" ]
+do
+  if [ "%$comment%" != "%%" ]
+  then
+    comment=`printf "%s\n%s" "$comment" "$line"`
+  else
+    comment=$line
+  fi
+
+  read line
+done
+
+echo "Updating"
+echo "$state" > $loc-state
+
+if [ "%$comment%" != "%%" ]
+then
+  echo "Commiting comment"
+  if [ -e $loc-comments ]
+  then
+    echo "" >> $loc-comments
+  fi
+  echo "$comment" >> $loc-comments
+fi
+echo "Done"

@@ -2,6 +2,8 @@
 
 set -x
 
+# $1 is the name of the lilo kernel image
+
 attempt(){
     logger mkkernel `pwd`: attempting $1
     make $1
@@ -16,11 +18,41 @@ die(){
     fi
 }
 
+if [ "%$1%" == "%%" ]
+then
+  echo "You didn't specify a kernel image name"
+  exit 1
+fi
+
 logger mkkernel `pwd`: starting
-attempt clean
-attempt mrproper
-attempt xconfig
+logger mkkernel `pwd`: dirty status "("$2")"
+
+if [ "%$2%" == "%dirty%" ]
+then
+  echo "Skipping kernel reconfiguration"
+else
+  attempt clean
+  attempt mrproper
+  attempt xconfig
+  attempt dep
+fi
+
 attempt ""
+attempt modules
 attempt modules_install
-cp arch/i386/boot/bzImage /boot/vmlinuz-2.5.59
+attempt bzImage
+
+cp arch/i386/boot/bzImage /boot/vmlinuz-$1
+
+if [ `grep "label=$1" /etc/lilo.conf | wc -l | tr -d " "` -lt 1 ]
+then
+  echo "Tweaking lilo config"
+  cp /etc/lilo.conf /etc/lilo.conf.bck
+  echo "" >> /etc/lilo.conf
+  echo "image=/boot/vmlinuz-$1" >> /etc/lilo.conf
+  echo "        label=$1" >> /etc/lilo.conf
+  echo "        read-only" >> /etc/lilo.conf
+fi
+
 /sbin/lilo
+echo "Installed $1"

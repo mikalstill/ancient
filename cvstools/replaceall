@@ -1,0 +1,8 @@
+#!/bin/bash
+
+for item in `find . -type f -print`
+do
+  echo "Searching and replacing in $item"
+  cat $item | sed "s/$1/$2/g" > /tmp/$$
+  mv -f /tmp/$$ $item
+done
