@@ -1,3 +1,11 @@
+Release 0.4 -> Release 0.5
+
+2002-03-09 Michael Still mikal@stillhq.com
+	Fixed a bug in the header event which stopped the extra header info from being passed through.
+
+2002-03-10 Michael Still mikal@stillhq.com
+	'pdfinfo' as a command name is taken by a utility in the xpdf distribution... I have changed the name of the sample application to pdfdump.
+
 Release 0.1 -> Release 0.4
 
 2002-03-07 Michael Still mikal@stillhq.com

@@ -39,6 +39,7 @@
 %type <sval> objref
 
 %type <intVal> dictionary
+%type <intVal> subdictionary
 
 %%
 
@@ -86,11 +87,13 @@ dictionary: DBLLT dict DBLGT { $$ = -1; }
           | { $$ = -1; }
           ;
 
+subdictionary: DBLLT dict DBLGT { $$ = -1 };
+
 dict      : NAME STRING { pandalex_callback(pandalex_event_dictitem_string, $1, $2); } dict
           | NAME NAME { pandalex_callback(pandalex_event_dictitem_name, $1, $2); } dict
           | NAME ARRAY arrayvals ENDARRAY { pandalex_callback(pandalex_event_dictitem_array, $1, $2); } dict
           | NAME objref { pandalex_callback(pandalex_event_dictitem_object, $1, $2); } dict
-          | NAME dictionary { pandalex_callback(pandalex_event_dictitem_dict, $1, $2); } dict
+          | NAME subdictionary { pandalex_callback(pandalex_event_dictitem_dict, $1, $2); } dict
           | NAME INT { pandalex_callback(pandalex_event_dictitem_int, $1, $2); } dict
           | NAME FP {} dict
           | 

@@ -12,6 +12,7 @@ enum{
     pandalex_event_dictitem_array,
     pandalex_event_dictitem_object,
     pandalex_event_dictitem_dict,
+    pandalex_event_dictitem_dictend,
     pandalex_event_dictitem_int,
     pandalex_event_stream,
     pandalex_event_dictint,

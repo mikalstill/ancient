@@ -8,6 +8,7 @@ void pdfdump_dictitem_name(int, va_list);
 void pdfdump_dictitem_array(int, va_list);
 void pdfdump_dictitem_object(int, va_list);
 void pdfdump_dictitem_dict(int, va_list);
+void pdfdump_dictitem_dictend(int, va_list);
 void pdfdump_dictitem_int(int, va_list);
 
 void pdfdump_stream(int, va_list);

@@ -6,11 +6,24 @@
 #include "samples.h"
 #include "lexinterface.h"
 
+enum{
+  pdfdump_dump = 0,
+    pdfdump_meta
+    };
+int pdfdump_application;
+
 pdfdump_dictint_list *dictint_list;
 
 // Some demo code for how to use PandaLex
 int main(int argc, char *argv[]){
   pandalex_init();
+
+  // Parse the command line to find out what we are doing today -- this needs more thought
+  if(strcmp(argv[0], "pdfmeta") == 0){
+    pdfdump_application = pdfdump_meta;
+  }
+  else
+    pdfdump_application = pdfdump_dump;
 
   // Setup the callbacks
   pandalex_setupcallback(pandalex_event_begindocument, pdfdump_begindocument);
@@ -19,18 +32,13 @@ int main(int argc, char *argv[]){
   pandalex_setupcallback(pandalex_event_entireheader, pdfdump_entireheader);
   pandalex_setupcallback(pandalex_event_objstart, pdfdump_objstart);
 
-  pandalex_setupcallback(pandalex_event_dictitem_string, 
-			 pdfdump_dictitem_string);
-  pandalex_setupcallback(pandalex_event_dictitem_name,
-			 pdfdump_dictitem_name);
-  pandalex_setupcallback(pandalex_event_dictitem_array,
-			 pdfdump_dictitem_array);
-  pandalex_setupcallback(pandalex_event_dictitem_object,
-			 pdfdump_dictitem_object);
-  pandalex_setupcallback(pandalex_event_dictitem_dict,
-			 pdfdump_dictitem_dict);
-  pandalex_setupcallback(pandalex_event_dictitem_int,
-			 pdfdump_dictitem_int);
+  pandalex_setupcallback(pandalex_event_dictitem_string, pdfdump_dictitem_string);
+  pandalex_setupcallback(pandalex_event_dictitem_name, pdfdump_dictitem_name);
+  pandalex_setupcallback(pandalex_event_dictitem_array, pdfdump_dictitem_array);
+  pandalex_setupcallback(pandalex_event_dictitem_object, pdfdump_dictitem_object);
+  pandalex_setupcallback(pandalex_event_dictitem_dict, pdfdump_dictitem_dict);
+  pandalex_setupcallback(pandalex_event_dictitem_dictend, pdfdump_dictitem_dictend);
+  pandalex_setupcallback(pandalex_event_dictitem_int, pdfdump_dictitem_int);
 
   pandalex_setupcallback(pandalex_event_stream, pdfdump_stream);
   pandalex_setupcallback(pandalex_event_dictint, pdfdump_dictint);
@@ -54,7 +62,10 @@ char *pandalex_xsnprintf(char *, ...);
 
 // Arguement is the name of the file as a char *
 void pdfdump_begindocument(int event, va_list argptr){
-  printf("Information for document\n\n");
+  char *filename;
+
+  filename = va_arg(argptr, char *);
+  printf("Information for document: \"%s\"\n\n", filename);
 }
 
 void pdfdump_specversion(int event, va_list argptr){
@@ -102,7 +113,11 @@ void pdfdump_dictitem_object(int event, va_list argptr){
 }
 
 void pdfdump_dictitem_dict(int event, va_list argptr){
-  printf("Dictionary dict\n");
+  printf("Subdictionary starts\n");
+}
+
+void pdfdump_dictitem_dictend(int event, va_list argptr){
+  printf("Subdictionary starts\n");
 }
 
 void pdfdump_dictitem_int(int event, va_list argptr){
