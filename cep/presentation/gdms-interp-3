@@ -7,4 +7,4 @@ TITLE: Interpolation (Nick)
   <ul>
     <li> New points set equal to the nearest adjacent point
   </ul>
-  <img src="interp-NN.png">
+  <img src="/notes/presentations/content/interp-NN.png">

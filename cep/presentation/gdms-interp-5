@@ -7,4 +7,4 @@ TITLE: Interpolation (Nick)
     <li>Adjacent splines have matching first and second derivites
     <li>Gives a smooth curve
   </ul>
-  <img src="interp-spline.png">
+  <img src="/notes/presentations/content/interp-spline.png">
