@@ -101,19 +101,19 @@ namespace
 
     void test2dFwdFft ()
     {
-      //int numTables = 0;
+      int numTables = 0;
       int numRows = 512;
       int numCols = 2;
       int sinIndex = 0;
 
-      cepMatrix < double >myMatrix (numRows, numCols);
+      cepMatrix < double >myMatrix (numRows, numCols, numTables);
 
       // populate column 1 myMatrix with indexes
-      for (int col = 0; col < 1; col++)
+      for (int col = 0; col < numCols; col++)
 	{
 	  for (int row = 0; row < numRows; row++)
 	    {
-	      myMatrix.setValue (row, col, sinIndex);
+	      myMatrix.setValue (row, col, 0,sinIndex);
 	      sinIndex++;
 	    }
 	}
@@ -125,15 +125,22 @@ namespace
 	{
 	  for (int row = 0; row < numRows; row++)
 	    {
-
-	      myMatrix.setValue (row, col, sin (sinIndex));
+	      myMatrix.setValue (row, col, 0, sin (sinIndex));
 	      sinIndex++;
 	    }
 	}
 
-      cepMatrix < ComplexDble > myComplexMatrix(numRows,numCols);
+      //cfft<ComplexDble> FFT (512); //nbuild operator object
       cfft < ComplexDble > FFT (512);
+      
+      //ComplexDble Array[512];
+      cepMatrix < ComplexDble > myComplexMatrix(numRows,numCols,numTables);
+
+      //....
+      //FFT.fft (Array);
+      //FFT.ifft (Array);
       FFT.matrixFft (myMatrix, 1);
+
       
       CPPUNIT_ASSERT_EQUAL_MESSAGE( "Poo bear", 1, 1);
     }// 

@@ -1,6 +1,5 @@
 
 /*************************************************************************
- DOCBOOK START 
  *cepCfft.h.
  * Template class to be used with GDMS for computing fast fourier transforms.
  * Originally called cfft.h or cplxfft.h taken from FXT (c) by Joerg Arndt,
@@ -24,80 +23,47 @@
 
  * Original code: Copyright (c) by Joerg Arndt
  * Modifications: Copyright (C) Daniel Fernandez 2002
+ */
+/******************************************************************************
+DOCBOOK START
 
-todo: daniel - below might serve as docco..
+FUNCTION <!-- class name -->
+cepCfft
 
- I have a C++ template class for doing FFTs using
- a 'Complex' class. It was actually done for research
- into rounding effects with an integer FFT. So, you
- can define a 'frac24complex' for instance (24-bit
- fractional complex #'s) and apply the fft to that class
- instead of a 'standard' complex class.
- 
- So, it's fairly canonical and general. It uses a
- technique I have frequently used, where the 'twiddle'
- factors are stored in a precomputed bit-reversed table.
- exp[0], exp[pi*i/2], exp[pi*i/4], exp[3*pi*i/4], exp[pi*i/8] ...
- 
+PURPOSE <!-- use cases -->
+computes forward and inverse fft  
 
-It contains reasonable
-self-documentation and has been tested under VC++4 with
-a 'complex' class meeting only the minimum requirements
-as defined in cfft.h.
+SYNOPSIS START
+<!-- how to instantiate one? -->
+#include <complex.h>
+#include <math.h>
+#include <cepCfft.h>
+typedef complex<double> Complex; //Gnu CC
+...
+cfft<Complex> FFT256( 256 ); // build an operator object
+// The constructor builds tables and places them
+//in the object.
+Complex Array[256]; 
+cepMatrix <Complex> myMatrix(rows,cols);//for matrix fft
+ ...
+FFT256.fft( Array ); // forward transform
+FFT256.ifft( Array ); // reverse transform.
 
-The first paragraph above could serve as a reasonable
-'link descriptor'.
+todo: Daniel - update matrix docco here..
+SYNOPSIS END
 
- * This is a general-purpose C++ complex FFT transform class.
- * it is defined as a template over a complex type. For instance,
- * if using gnu gcc, the complex type is
- *			complex<double>    // include <complext.h> first
- * And you declare the cfft class as
- *          cfft<complex<double>>
- *
- * The underlying CPLX type requires:
- *  CPLX()
- *  operator = , CPLX(CPLX const&)
- *	CPLX(double,double)	[used on cos/sin]
- *	CPLX operator *( CPLX , double )
- *  CPLX conj(CPLX const &);		[conjugate]
- *  ComPlex::operator @ (CPLX , CPLX )	[ where @ = * + - ]
+DESCRIPTION START
+<!-- description goes here -->
+<para>This class can be used in 2 ways..The first is as originally intended. The is: computing an FFT on an array of data. The
+second is spceific to GDMS. The FFT is computed on a matrix of data, with the results returned in a complex matrix. The FFT can be
+in either direction as specified in the function call.</para>
 
-
- * This class is used as follows:
-
- // #include <complex.h> // WATCOM
- // #include <complext.h> // Gnu CC
- // typedef complex<double> Complex; //Gnu CC
- // #include <math.h>
- // #include <cfft.h>
- // ...
- // cfft<Complex> FFT256( 256 ); // build an operator object
- // // The constructor builds tables and places them
- // // in the object.
- // Complex Array[256];
- // ...
- // FFT256.fft( Array ); // forward transform
- // FFT256.ifft( Array ); // reverse transform.
- // 
-
-
- * because this is a template class, it can be used on any
- * type with complex semantics. I originally created this class
- * for use with a 'fractional 24-bit' complex type, to study
- * rounding errors in DSP operations. If you look, you will find
- * ways to control the scaling within passes as well as in the
- * final pass. These are default parameters in the constructor.
- * There is no point in doing this in double-prec math,
- * but it makes a big difference in integer math.
- *
- * One final note: On error, the class throws a 'char const*' which
- * is an error message. This can only happen during construction.
- * The errors are
- *   - out of memory
- *   - size not a power of two.
- *
-
+<para> <!-- per function descriptions -->
+<command>FFT.matrixFft (myMatrix, direction);</command>
+Computes the FFT on the matrix.
+<command>myMatrix</command> The matrix containing the data to be fft'd
+<command>direction</command>. int direction. 1 for forward 0 for inverse.
+DESCRIPTION END
 
 DOCBOOK END
 ******************************************************************************/
@@ -291,7 +257,7 @@ template < class CPLX > cepMatrix<ComplexDble>
   {
     //size of dataset = numRows
     int halfSetSize = (int)(numRows*0.5);
-    double sampleRate = ( matrix.getValue(0,0,0)  - matrix.getValue(0,0,1) )*SECSINYEAR;
+    double sampleRate = ( matrix.getValue(0,0,0)  - matrix.getValue(0,1,0) )*SECSINYEAR;
     double freq = 1/sampleRate;
     
     for(row=0; row< halfSetSize; row++)
@@ -312,7 +278,7 @@ template < class CPLX > cepMatrix<ComplexDble>
         {
 	    for (count = 0; count < NUMCHECKS; count++)
     	    {
-	        checks[count] = matrix.getValue(count,col);
+	        checks[count] = matrix.getValue(count,col,table);
 	    }
 	    if ( (checks[0] - checks[1]) != (checks[1] - checks[2]) )
 	        ;//todo daniel: throw an error values not equidistant.
@@ -342,7 +308,7 @@ template < class CPLX > cepMatrix<ComplexDble>
         for (row = 0; row < numRows; row++)
 	{
              ffteedMatrix.setValue(row,col,table,arrayToFft[row]);
-             cout << ffteedMatrix.getValue(table,row,col);
+             cout << ffteedMatrix.getValue(row,col,table);
          }//
     } //for col
     
