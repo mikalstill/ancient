@@ -143,11 +143,11 @@ objref    : INT INT OBJREF { if(($$ = (char *) malloc((intlen($1) + intlen($2) +
 			                       }
           ;
 
-stream    : STREAM { binaryMode = 1; } binary ENDSTREAM { printf("filter = %s, length = %d, lengthObj = %s\n", streamFilter, streamLength, streamLengthObjRef); pandalex_callback(gpandalex_callback_stream, streamFilter, streamLength, streamLengthObjRef, $3); free($3); }
+stream    : STREAM { binaryMode = 1; } binary ENDSTREAM { printf("filter = %s, length = %d, lengthObj = %s\n", streamFilter, streamLength, streamLengthObjRef); pandalex_callback(gpandalex_callback_stream, streamFilter, streamLength, streamLengthObjRef, $3.data, $3.len); free($3); }
           |
           ;
 
-binary    : ANYTHING binary { debuglex($1.data, $1.len, "ANYTHING in lexer.y", 0); $$.data = strmcat($1.data, $1.len, $2.data, $2.len); $$.len = $1.len + $2.len; free($2); }
+binary    : ANYTHING binary { $$.data = strmcat($1.data, $1.len, $2.data, $2.len); $$.len = $1.len + $2.len; free($2); }
           | { $$.data = strmcpy("", -1); $$.len=0; }
           ;
 
@@ -215,6 +215,10 @@ char *strmcat(char *dest, int destLen, char *append, int appendLen){
   char *new;
   int count, len;
 
+  printf("strmcat was passed %d, %d:\n", destLen, appendLen);
+  debuglex(dest, destLen, "first arg", 0);
+  debuglex(append, appendLen, "second arg", 0);
+
   // What length do we need?
   if((new = (char *) malloc(sizeof(char) * 
 			    (((destLen == -1) ? strlen(dest) : destLen) + 
@@ -227,7 +231,7 @@ char *strmcat(char *dest, int destLen, char *append, int appendLen){
   if((destLen == -1) && (appendLen == -1))
     sprintf(new, "%s%s", dest, append);
   else{
-    // We need to copy characters the hard way
+    // We need to copy characters the hard way -- change this to a memcpy
     count = 0;
 
     for(len = 0; len < ((destLen == -1) ? strlen(dest) : destLen); len++){

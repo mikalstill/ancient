@@ -60,6 +60,7 @@ void pandalex_sample_stream(int event, va_list argptr){
   int length;
   char *lengthObj;
   char *streamData;
+  int streamDataLen;
   pandalex_sample_dictint_list  *now;
   int found;
 
@@ -67,6 +68,7 @@ void pandalex_sample_stream(int event, va_list argptr){
   length = (int) va_arg(argptr, char *);
   lengthObj = va_arg(argptr, char *);
   streamData = va_arg(argptr, char *);
+  streamDataLen = va_arg(argptr, int);
 
   printf("Do something with the stream object\n");
 
@@ -80,7 +82,7 @@ void pandalex_sample_stream(int event, va_list argptr){
     while((now->next != NULL) && (found == 0)){
       if(strcmp(lengthObj, now->value) == 0){
 	// Yes -- do something
-	pandalex_sample_procstream(filter, now->number, streamData);
+	pandalex_sample_procstream(filter, now->number, streamData, streamDataLen);
 	found = 1;
       }
 
@@ -104,6 +106,8 @@ void pandalex_sample_stream(int event, va_list argptr){
       now->stream = (char *) strmcpy(streamData + 2, -1);
       now->stream[strlen(now->stream) - 1] = '\0';
 
+      now->streamlen = streamDataLen;
+
       now->waiting = 1;
       now = now->next;
       now->next = NULL;
@@ -119,7 +123,7 @@ void pandalex_sample_stream(int event, va_list argptr){
   default:
     if(length > 0){
       // We do -- do something
-      pandalex_sample_procstream(filter, length, streamData);
+      pandalex_sample_procstream(filter, length, streamData, streamDataLen);
     }
     else{
       fprintf(stderr, "Stream with length having undefined meaning %d\n",
@@ -158,7 +162,7 @@ void pandalex_sample_dictint(int event, va_list argptr){
   while((now->next != NULL) && (found == 0)){
     if(strcmp(objref, now->value) == 0){
       // Yes -- do something
-      pandalex_sample_procstream(now->filter, value, now->stream);
+      pandalex_sample_procstream(now->filter, value, now->stream, now->streamlen);
       found = 1;
     }
 
@@ -183,12 +187,15 @@ void pandalex_sample_dictint(int event, va_list argptr){
   }
 }
 
-void pandalex_sample_procstream(char *filter, int length, char *data){
+void pandalex_sample_procstream(char *filter, int length, char *data, int dataLen){
   char *uncompressed;
   uLong srcLen, dstLen;
   int result;
 
   printf("Do something with the stream filter = %s, length = %d\n", filter, length);
+  printf("-----------------------------------------------------------------------\n");
+  debuglex(data, dataLen, "raw stream contents", 0);
+  printf("-----------------------------------------------------------------------\n");
 
   // Check length
   if(length < 1){
@@ -211,7 +218,7 @@ void pandalex_sample_procstream(char *filter, int length, char *data){
       exit(42);
     }
 
-    srcLen = strlen(data) - 1;
+    srcLen = dataLen - 1;
     dstLen = length;
 
     if((result = uncompress(uncompressed, &dstLen, data, srcLen)) != Z_OK){
@@ -223,16 +230,16 @@ void pandalex_sample_procstream(char *filter, int length, char *data){
 	break;
 
       case Z_BUF_ERROR:
-	fprintf(stderr, "not enough space if destination buffer\n");
+	fprintf(stderr, "not enough space in destination buffer\n");
 	break;
 
       case Z_DATA_ERROR:
 	fprintf(stderr, "corrupt input data\n");
-
-	debuglex(data, length, "Flate compression failure", 0);
-        fprintf(stderr, "\n\nsrcLen is %d\n", srcLen);
 	break;
       }
+
+      debuglex(data, length, "Flate compression failure", 0);
+      fprintf(stderr, "\n\nsrcLen is %d\n", srcLen);
 
       exit(46);
     }

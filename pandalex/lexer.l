@@ -27,7 +27,9 @@ char *returnStr(char *, int);
 
 [ \t\r\n]+              { debuglex(yytext, -1, "whitespace", binaryMode);
                           if(binaryMode == 1){
-                            yylval.textVal = (char *) returnStr(yytext, -1);
+                            yylval.sval.data = 
+                              (char *) returnStr(yytext, -1);
+                            yylval.sval.len = yyleng;
                             return ANYTHING;
                           }                                                  }
 
@@ -40,7 +42,7 @@ xref                    { debuglex(yytext, -1, "xref", binaryMode);
                             }
                           else{
                             yylval.sval.data = 
-                              (char *) returnStr(yytext + 1, yyleng);
+                              (char *) returnStr(yytext, yyleng);
                             yylval.sval.len = yyleng;
                             return ANYTHING;
                             }
@@ -55,7 +57,7 @@ trailer                 { debuglex(yytext, -1, "trailer", binaryMode);
                             }
                           else{
                             yylval.sval.data =
-                              (char *) returnStr(yytext + 1, yyleng);
+                              (char *) returnStr(yytext, yyleng);
                             yylval.sval.len = yyleng;
                             return ANYTHING;
                             }
@@ -70,7 +72,7 @@ trailer                 { debuglex(yytext, -1, "trailer", binaryMode);
                             }
                           else{
                             yylval.sval.data =
-                              (char *) returnStr(yytext + 1, yyleng);
+                              (char *) returnStr(yytext, yyleng);
                             yylval.sval.len = yyleng;
                             return ANYTHING;
                             }
@@ -276,7 +278,7 @@ endstream               { debuglex(yytext, -1, "endstream", 0);
                           yylval.sval.data = (char *) 
                             returnStr(yytext, yyleng);
                           yylval.sval.len = yyleng;
-
+debuglex(yylval.sval.data, yyleng, "check of run of wierd characters", binaryMode);
                           return ANYTHING;
                                                                              }
 
@@ -310,7 +312,7 @@ void debuglex(char *text, int len, char *desc, int binMode){
     else if(text[i] == '\r') printf(" \\r ");
     else if(text[i] == ' ') printf(" sp ");
     else if(isprint(text[i])) printf("%c", text[i]);
-    else printf(" \\%d ", text[i]);
+    else printf(" \\%d ", (unsigned char) text[i]);
     }
 
   printf("\"\n");
@@ -322,13 +324,13 @@ char *returnStr(char *yytext, int len){
 
   #if defined DEBUG
      if(binaryMode == 0) printf("Calling returnStr on %s\n", yytext);
-     printf("yytext was %d characters long\n", strlen(yytext));
+     printf("strlen(yytext) = %d, len = %d\n", strlen(yytext), len);
   #endif
 
   if((lval = malloc(sizeof(char) * 
     ((len == -1) ? strlen(yytext) : len) + 1)) == NULL)
     error("Could not make space for lexer return.");
-  strncpy(lval, yytext, strlen(yytext) + 1);
+  memcpy(lval, yytext, ((len == -1) ? strlen(yytext) : len) + 1);
 
   return lval;
 }
