@@ -7,13 +7,17 @@ export pubdate=`date "+%d %B %Y"`
 
 for item in `find . -follow -type f -name ABOUT -print | sed -e 's/^\.\///' -e 's/\/ABOUT//' | sort -r`
 do
-  echo $item
-  export project=$item
-  export description=`cat $item/ABOUT`
+  # If the item is not marked private
+  if [ ! -e $item/PRIVATE ]
+  then
+    echo $item
+    export project=$item
+    export description=`cat $item/ABOUT`
 
-  subst < cvstools/template > /tmp/$$
-  mv /tmp/$$ /home/httpd/html/news/opensource/`printf "%06d" $count`
-  count=$(( $count + 1 ))
+    subst < cvstools/template > /tmp/$$
+    mv /tmp/$$ /home/httpd/html/news/opensource/`printf "%06d" $count`
+    count=$(( $count + 1 ))
+  fi
 done
 
 export project="Summary"
@@ -23,7 +27,10 @@ subst < cvstools/template2 > /tmp/$$
 
 for item in `find . -follow -type f -name ABOUT -print | sed -e 's/^\.\///' -e 's/\/ABOUT//' | sort`
 do
-  echo "<li><a href=\"#$item\">$item</a>" >> /tmp/$$
+  if [ ! -e $item/PRIVATE ]
+  then
+    echo "<li><a href=\"#$item\">$item</a>" >> /tmp/$$
+  fi
 done
 
 mv /tmp/$$ /home/httpd/html/news/opensource/`printf "%06d" $count`

@@ -1,19 +1,27 @@
 #!/usr/bin/perl
 
 use strict;
-my($filename);
+my($filename, $id, $x, $y, $size);
 
 print STDERR "Img args: $ARGV[0] $ARGV[1]\n";
 $filename = "gen-".$ARGV[0];
 $filename =~ s/.[a-zA-Z]+$/.$ARGV[1]/;
 
-print STDERR "Converting $ARGV[0] -> $filename\n";
-#if($ARGV[0] eq $filename){
-#    # We can resuse the input file, because we need to downsample...
-#    $filename =~ s/.[a-zA-Z]+$/-ds.$ARGV[1]/;
-#}
+# Determine the current size of the image
+$id=`identify $ARGV[0] | tr -s " " | cut -f 3 -d " "`;
+$_ = $id;
+/([0-9]+)x([0-9]+)+.*/;
+$x = $1;
+$y = $2;
+print STDERR "Image id: $id\n";
+print STDERR "Dimensions: $x, $y\n";
+#$x /= 2;
+#$y /= 2;
+print STDERR "New dimensions: $x, $y\n";
 
-print STDERR "Executing convert $ARGV[0] $filename\n";
-`convert $ARGV[0] $filename`;
+print STDERR "Converting $ARGV[0] -> $filename\n";
+$size = "$x"."x"."$y";
+print STDERR "Executing convert -sample $size $ARGV[0] $filename\n";
+`convert -sample $size $ARGV[0] $filename`;
 print "<graphic format=\"$ARGV[1]\" fileref=\"$filename\">\n";
 

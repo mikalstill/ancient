@@ -4,7 +4,7 @@ use strict;
 my($HISTORY, $filename, $date, %dateline, $day, $adate,
    $author, %cols, $newcolnum, @today, @html, $event, $file, $user, $i,
    $table, %authorcolor, @colors, $newauthnum, %heading, $color, $temp,
-   $revision, $lines, $state, %authorcommits, $nowmonth, $prevmonth, $prevyear,
+   $revision, $lines, $state, %authorcommits, %tauthorcommits, $nowmonth, $prevmonth, $prevyear,
    @monthnames, $headerhtml, $loghtml, $nowyear, $comment, $OUTPUT, $INDEX);
 
 open HISTORY, "< logout";
@@ -176,11 +176,13 @@ foreach $adate (sort keys %dateline){
 	if($authorcolor{$user} eq ""){
 	    $authorcolor{$user} = $colors[$newauthnum];
 	    $authorcommits{$user} = 0;
+	    $tauthorcommits{$user} = 0;
 	    $newauthnum++;
 	}
 
 	# Increment the count of commits for this author
 	$authorcommits{$user}++;
+	$tauthorcommits{$user}++;
 
 	# This could be cleaned up... Build the cell
 	if($html[$cols{$file}] eq "&nbsp;"){
@@ -212,6 +214,12 @@ output();
 
 
 # Finish up the index page
+print INDEX "</tr><td>&nbsp</td>";
+while(($user, $color) = each %authorcolor){
+    print INDEX "<td bgcolor=\"$color\"><b>$tauthorcommits{$user}</b></td>";
+}
+print INDEX "</tr>";
+
 print INDEX "<tr><td>&nbsp;</td>";
 while(($user, $color) = each %authorcolor){
     print INDEX "<td bgcolor=\"$color\">";
@@ -219,8 +227,6 @@ while(($user, $color) = each %authorcolor){
     print INDEX "</td>"
 }
 print INDEX "</tr>\n";
-
-
 
 print INDEX "</table>";
 close INDEX;
@@ -286,3 +292,4 @@ sub output(){
     print OUTPUT "<BR><BR>END OF REPORT\n";
     print OUTPUT "</body>\n";
 }
+

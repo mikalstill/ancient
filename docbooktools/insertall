@@ -1,18 +1,23 @@
-#!/bin/bash
+#!/usr/bin/perl
 
-rm -f insertall-$$.tmp 2> /dev/null
+# $ARGV[0] is the command to execute
+# $ARGV[1] is the directory to look in
+# $ARGV[2] is the regular expression to search by
+# $ARGV[3] is the arguements to the command
 
-# $1 is the command to execute
-# $2 is the directory to look in
-# $3 is the regular expression to search by
-# $4 is the arguements to the command
+use strict;
+my($LIST, $commands);
 
-echo "insertall: Searching $2 for $3" >> /dev/stderr
-for item in `ls $2 | egrep "$3" | egrep -v "~$"`
-do
-  echo "insertall: Found $item" >> /dev/stderr
-  echo "<execute><cmd>$1</cmd><args>$4</args><input>$2/$item</input></execute>" >> insertall-$$.tmp
-done
+$commands = "";
+print STDERR "insertall: Searching $ARGV[1] for $ARGV[2]\n";
+open (LIST, "ls $ARGV[1] |");
+while(<LIST>){
+    chomp;
+    print STDERR "insertall: Found $_\n";
+    if(/$ARGV[2]/){
+	    $commands = $commands."<execute><cmd>$ARGV[0]</cmd><args>$ARGV[3]</args><input>$ARGV[1]/$_</input></execute>\n";
+	    print STDERR "insertall: Including\n";
+	}
+}
 
-builddb < insertall-$$.tmp
-rm insertall-$$.tmp
+print `echo "$commands" | builddb`; 
