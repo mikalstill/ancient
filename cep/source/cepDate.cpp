@@ -191,10 +191,9 @@ const string cepDate::getMonth()
   string month;
 
   // Zero pad if nessisary
-  if( m_month < 10)
+  if( m_month < 9)
   {
-    month = "0";
-    month += cepToString(m_month+1);
+    month = (m_month<9?"0":"") + cepToString(m_month+1);
   }
   else
   {
@@ -234,10 +233,9 @@ const string cepDate::getShortDate()
     day = cepToString(m_day);
   }
 
-  if( m_month < 10)
+  if( m_month < 9)
   {
-    month = "0";
-    month += cepToString(m_month+1);
+    month = (m_month<9?"0":"") + cepToString(m_month+1);
   }
   else
   {
@@ -262,7 +260,7 @@ const string cepDate::getLongDate()
     day = cepToString(m_day);
   }
 
-  return(day + " " + MONTH_NAMES[m_month] + " " + cepToString(m_year));
+  return(day + " " + (m_month<9?"0":"") + MONTH_NAMES[m_month] + " " + cepToString(m_year));
 }
 
 const double cepDate::getDecimalDate()
