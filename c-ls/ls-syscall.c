@@ -10,6 +10,11 @@
 #include <sys/stat.h>
 #include <errno.h>
 
+#ifndef __NR_printk
+#define __NR_printk 17
+#endif
+
+_syscall1 (long, printk, char *, filename);
 _syscall3(int, getdents, uint, fd, struct dirent *, dirp, uint, count);
 
 int main(int argc, char *argv[])
@@ -26,15 +31,18 @@ int main(int argc, char *argv[])
 /*     exit(42); */
 /*   } */
 
+  printk("c-ls: open\n");
   fd = open(".", O_RDONLY|O_NONBLOCK|O_LARGEFILE|O_DIRECTORY);
   printf("Open returned the file descriptor %d\n", fd);
 
+  printk("c-ls: fstat64\n");
   if(fstat64(fd, &sb) < 0){
     perror("fstat64 failed: ");
     exit(42);
   }
 
   // This should be fcntl64...
+  printk("c-ls: fcntl\n");
   if(fcntl(fd, F_SETFD, FD_CLOEXEC) < 0){
     perror("fcntl64 failed: ");
     exit(42);
@@ -45,6 +53,7 @@ int main(int argc, char *argv[])
 /*   } */
 
   // Should be getdents64
+  printk("c-ls: getdents\n");
   while((dec = getdents(fd, (struct dirent *) &dea, 4096)) > 0){
     off = 0;
     while(off < dec){
@@ -52,8 +61,11 @@ int main(int argc, char *argv[])
       printf("%s\n", dp->d_name - 1);
       off += dp->d_reclen;
     }
+
+    printk("c-ls: getdents\n");
   }
 
 /*   closedir(d); */
+  printk("c-ls: close\n");
   close(fd);
 }
