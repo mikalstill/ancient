@@ -9,10 +9,6 @@
 #include <config.h>
 #endif
 
-#ifdef HAVE_LIBDMALLOC
-#include <dmalloc.h>
-#endif
-
 #ifdef __cplusplus
 extern "C"
 {

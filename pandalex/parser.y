@@ -200,6 +200,10 @@ void pandalex_init(){
 }
 
 void pandalex_setupcallback(int callback, pandalex_callback_type functoid){
+#if defined DEBUG
+  printf("Defining a callback\n");
+#endif
+
   pandalex_callbacks[callback] = functoid;
 }
 
@@ -208,6 +212,10 @@ void pandalex_setupcallback(int callback, pandalex_callback_type functoid){
 void pandalex_callback(int event, ...){
   va_list argptr;
 
+#if defined DEBUG
+  printf("Attempting to call callback\n");
+#endif
+
   // Start accessing the arguements from the end
   va_start(argptr, event);
   
@@ -215,6 +223,9 @@ void pandalex_callback(int event, ...){
   if(pandalex_callbacks[event] != NULL){
     pandalex_callbacks[event] (event, argptr);
   }
+#if defined DEBUG
+  else printf("No callback defined\n");
+#endif
   
   // Stop with the arguements
   va_end(argptr);
@@ -260,7 +271,7 @@ int yyerror(char *s){
   fprintf(stderr, "  Please send this error text, along with a copy of your PDF\n");
   fprintf(stderr, "  document (if possible) to mikal@stillhq.com, so that this can\n");
   fprintf(stderr, "  be fixed for the next release...\n\n");
-  fprintf(stderr, "version = 0.4\n");
+  fprintf(stderr, "version = %s\n", VERSION);
   fprintf(stderr, "last token = \"%s\" (%d) or %d\n", yylval.sval.data, yylval.sval.len, yylval.intVal);
   fprintf(stderr, "\n---------------------------------------------------------------\n");
 
