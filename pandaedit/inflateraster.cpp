@@ -2,10 +2,6 @@
 #include <stdio.h>
 #include <math.h>
 
-#include <string>
-#include "verbosity.h"
-#include "utility.h"
-
 // Inflate a raster to a given pixel sample size
 char *inflateraster(char *input, unsigned long width, unsigned long height, 
 		    int bitdepth, int targetbitdepth, 
@@ -15,18 +11,9 @@ char *inflateraster(char *input, unsigned long width, unsigned long height,
   int bytedepth, targetbytedepth;
   unsigned int inset, outset;
 
-  debug(dlTrace, string("Inflating raster: ") + toString((long) width) + 
-	string(" x ") + toString((long) height) + string(" bitdepth from ") +
-	toString(bitdepth) + string(" to ") + toString(targetbitdepth) +
-	string(" channels from ") + toString(channels) + string(" to ") +
-	toString(targetchannels));
-
   // Why are we here?
-  if((channels == targetchannels) && (bitdepth == targetbitdepth)){
-    debug(dlTrace, "Inflate raster resulted in NOOP");
-    // todo_mikal: this might cause a seg fault because of the double free
+  if((channels == targetchannels) && (bitdepth == targetbitdepth))
     return input;
-  }
 
   // Calculate the byte depth
   bytedepth = bitdepth / 8;
@@ -39,9 +26,8 @@ char *inflateraster(char *input, unsigned long width, unsigned long height,
     targetbytedepth++;
 
   // Build the output raster
-  if((output = (char *) malloc(width * height * targetchannels * targetbytedepth)) 
-     == NULL){
-    debug(dlError, "Failed to allocate enough memory for output raster");
+  if((output = (char *) malloc(width * height * targetchannels * targetbytedepth)) == NULL){
+    fprintf(stderr, "Failed to allocate enough memory for output raster\n");
     return (char *) -1;
   }
 
@@ -50,8 +36,11 @@ char *inflateraster(char *input, unsigned long width, unsigned long height,
     // Determine how much each sample has to be scaled by to get to the new bitdepth
     scalefactor = (float) pow(2.0, (double) targetbitdepth)  / 
       (float) pow(2.0, (double) bitdepth);
-    debug(dlTrace, string("Scaling factor is ") + toString(scalefactor));
-    debug(dlTrace, string("Byte depth is ") + toString(bytedepth));
+    printf("Scaling factor is %f - %f / %f = %f\n", 
+	   (float) pow(2.0, (double) targetbitdepth),
+	   (float) pow(2.0, (double) bitdepth), 
+	   (float) pow(2.0, (double) bitdepth), 
+	   scalefactor);
     
     // Work through the input pixels, and turn them into output pixels
     outset = 0;
@@ -64,10 +53,9 @@ char *inflateraster(char *input, unsigned long width, unsigned long height,
   
   // Are we the number of channels?
   // todo_mikal: we can't do both of these changes in one pass at the moment...
-  else if(channels != targetchannels){
-    debug(dlTrace, string("Expanding from ") + toString(channels) + 
-	  string(" channels to ") + toString(targetchannels) + string(" channels"));
-    debug(dlTrace, string("Target byte depth is: ") + toString(targetbytedepth));
+  if(channels != targetchannels){
+    printf("Expanding from %d channels to %d channels\n", channels, targetchannels);
+    printf("Target byte depth is %d bytes\n", targetbytedepth);
 
     // Work through the input pixels, and turn them into output pixels
     outset = 0;

@@ -361,13 +361,19 @@ pdfRender::command_Do ()
   unsigned long length;
   raster rast (image);
   stream = image.getStream (rast, needStreamClean, length);
+  debug(dlTrace, string("Stream returned from object is ") + 
+	toString((long) length) + string(" bytes"));
 
   // todo_mikal: I'm not sure what I was thinking when I put this here. Cleanup
-  rast.setData (stream);
+  //rast.setData (stream);
 
-  // Exapnd the raster to the bit depth of the output raster
+  // Expand the raster to the bit depth of the output raster
   char *newstream2;
   // todo_mikal: remove hard coding
+  //for(unsigned int i = 0; i < rast.getWidth() * rast.getHeight(); i++){
+  //  if(stream[i] == 1) stream[i] = 255;
+  //}
+
   newstream2 = inflateraster(stream, rast.getWidth(), rast.getHeight(), 
 			     8, 8, 1, 3);
   if((int) newstream2 == -1){
@@ -376,37 +382,10 @@ pdfRender::command_Do ()
     return;
     }
 
-  ///////////////////////////////////////
-  // Temporarily write it out to a file as well so that I can visually inspect it...
-  // Open the TIFF file
-  TIFF *tempimage;
-  if((tempimage = TIFFOpen("output3.tif", "w")) == NULL){
-    printf("Could not open output.tif for writing\n");
-    exit(42);
-  }
-
-  // We need to set some values for basic tags before we can add any data
-  TIFFSetField(tempimage, TIFFTAG_IMAGEWIDTH, rast.getWidth());
-  TIFFSetField(tempimage, TIFFTAG_IMAGELENGTH, rast.getHeight());
-  TIFFSetField(tempimage, TIFFTAG_BITSPERSAMPLE, 8);
-  TIFFSetField(tempimage, TIFFTAG_SAMPLESPERPIXEL, 3 );
-  TIFFSetField(tempimage, TIFFTAG_ROWSPERSTRIP, rast.getHeight());
-
-  TIFFSetField(tempimage, TIFFTAG_COMPRESSION, COMPRESSION_NONE);
-  TIFFSetField(tempimage, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_RGB);
-  TIFFSetField(tempimage, TIFFTAG_FILLORDER, FILLORDER_MSB2LSB);
-  TIFFSetField(tempimage, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
-
-  TIFFSetField(tempimage, TIFFTAG_XRESOLUTION, 300.0);
-  TIFFSetField(tempimage, TIFFTAG_YRESOLUTION, 300.0);
-  TIFFSetField(tempimage, TIFFTAG_RESOLUTIONUNIT, RESUNIT_INCH);
-
-  TIFFWriteEncodedStrip(tempimage, 0, newstream2, length * 3);
-  TIFFClose(tempimage);
-
   plot_overlayraster(m_plot, newstream2, 0, 0, m_width, m_height, 
-		     rast.getWidth(), rast.getHeight());
-  free(stream);
+		     rast.getWidth(), rast.getHeight(), 1);
+  if(needStreamClean)
+    free(stream);
   free(newstream2);
 }
 
