@@ -52,7 +52,7 @@ DOCBOOK END
 #define cepDebugPrint(errmsg) \
   { \
     cepError newname_cepDebugPrint(string("") + string(errmsg) + string(" at ") + string(__FILE__) + \
-			string(":") + cepItoa(__LINE__), cepError::sevDebug); \
+			string(":") + cepToString(__LINE__), cepError::sevDebug); \
     newname_cepDebugPrint.log(); \
   }
 

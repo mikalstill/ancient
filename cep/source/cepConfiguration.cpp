@@ -238,7 +238,7 @@ cepError cepConfiguration::getValue (const string & valkey, const int &defval,
     outval = atoi (map[valkey].c_str ());
   }
   cepDebugPrint("Configuration database get int requested " + valkey
-    + " and returned " + cepItoa(outval) + (defaulted ? " (default)" : ""));
+    + " and returned " + cepToString(outval) + (defaulted ? " (default)" : ""));
   return cepError ();
 }
 

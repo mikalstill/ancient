@@ -86,7 +86,7 @@ cepDataset::munch ()
     {
       if (errString != "")
         errString += ";";
-      errString += " " + m_filename + ".dat" + cepItoa (i + 1);
+      errString += " " + m_filename + ".dat" + cepToString (i + 1);
     }
   }
 
@@ -141,7 +141,7 @@ cepDataset::munch ()
         {
           // We process this line
           cepDebugPrint ("Dataset line from " + m_filename + "[" +
-                         cepItoa (i) + "]: " + thisLine);
+                         cepToString (i) + "]: " + thisLine);
 
           // Put the data into the dataset data thingies
           // todo_mikal: is there a more c++ way to tokenize a string?
@@ -161,15 +161,15 @@ cepDataset::munch ()
           getData ((cepDataset::direction) i).push_back (row);
 
           cepDebugPrint ("Dataset line parsed to [" +
-                         cepFtoa (row.date) + ", " +
-                         cepFtoa (row.sample) +
-                         ", " + cepFtoa (row.error) + "]");
+                         cepToString (row.date) + ", " +
+                         cepToString (row.sample) +
+                         ", " + cepToString (row.error) + "]");
 
           thisLine = "";
         }
         else
           cepDebugPrint ("Dataset line from " + m_filename + "[" +
-                         cepItoa (i) + "] skipped...");
+                         cepToString (i) + "] skipped...");
 
         if (m_progress)
           m_progress (i + 1, lines[i]);
@@ -185,8 +185,8 @@ cepDataset::munch ()
     return
       cepError
       ("The number of lines read from the data files were not equal (" +
-       cepItoa (lines[0]) + ", " + cepItoa (lines[1]) + ", " +
-       cepItoa (lines[2]) + ").");
+       cepToString (lines[0]) + ", " + cepToString (lines[1]) + ", " +
+       cepToString (lines[2]) + ").");
   }
 
   m_ready = true;

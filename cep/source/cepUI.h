@@ -100,6 +100,9 @@ GetMainFrame (void);
 #define CEPMENU_VIEWCENTERED 8
 #define CEPMENU_VIEWZOOMED 9
 #define CEPMENU_TESTERRORS 10
+#define CEPMENU_SHOWX 11
+#define CEPMENU_SHOWY 12
+#define CEPMENU_SHOWZ 13
 
 extern bool singleWindowMode;
 

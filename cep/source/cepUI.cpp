@@ -118,8 +118,8 @@ cepApp::OnInit (void)
   int windowx, windowy;
   config->getValue ("ui-mainwindow-size-x", 1000, windowx);
   config->getValue ("ui-mainwindow-size-y", 700, windowy);
-  cepDebugPrint ("Main frame size is " + cepItoa (windowx) + " by " +
-                 cepItoa (windowy));
+  cepDebugPrint ("Main frame size is " + cepToString (windowx) + " by " +
+                 cepToString (windowy));
 
   frame =
     new cepFrame ((wxDocManager *) m_docManager, (wxFrame *) NULL,
@@ -275,6 +275,20 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
 		       "Zoom in on the interesting elements in the graph",
 		       TRUE);
     view_menu->Check(CEPMENU_VIEWZOOMED, false);    
+
+    view_menu->AppendSeparator();
+
+    view_menu->Append(CEPMENU_SHOWX, "Show X",
+		     "Show the X direction graph", TRUE);
+    view_menu->Check(CEPMENU_SHOWX, true);
+
+    view_menu->Append(CEPMENU_SHOWY, "Show Y",
+		     "Show the Y direction graph", TRUE);
+    view_menu->Check(CEPMENU_SHOWY, true);
+
+    view_menu->Append(CEPMENU_SHOWZ, "Show Z",
+		     "Show the Z direction graph", TRUE);
+    view_menu->Check(CEPMENU_SHOWZ, true);
 
     view_menu->AppendSeparator();
 

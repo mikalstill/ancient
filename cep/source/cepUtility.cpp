@@ -22,7 +22,7 @@
 #include <stdio.h>
 
 string
-cepItoa (int number)
+cepToString (int number)
 {
   char buffer[10];
 
@@ -31,7 +31,7 @@ cepItoa (int number)
 }
 
 string
-cepLtoa (long number)
+cepToString (long number)
 {
   /* 
    * BS - check the buffer size is sufficient to hold a long
@@ -45,7 +45,7 @@ cepLtoa (long number)
 }
 
 string
-cepDtoa (double number)
+cepToString (double number)
 {
   /* 
    * BS - check buffer again. I am pretty sure that doubles
@@ -59,12 +59,37 @@ cepDtoa (double number)
 }
 
 string
-cepFtoa (float number)
+cepToString (float number)
 {
   char buffer[10];
 
   snprintf (buffer, 10, "%f", number);
   return string (buffer);
+}
+
+string
+cepToString (bool val)
+{
+  if(val) return "true";
+  return "false";
+}
+
+string
+cepToString (char val)
+{
+  char buffer[10];
+
+  snprintf (buffer, 10, "%d", val);
+  return string(buffer);
+}
+
+string
+cepToString (size_t val)
+{
+  char buffer[10];
+
+  snprintf (buffer, 10, "%d", val);
+  return string(buffer);
 }
 
 bool

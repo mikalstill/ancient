@@ -60,8 +60,6 @@
 #include <wx/colour.h>
 #include <wx/colordlg.h>
 
-#define PRESHEIGHT 200
-
 IMPLEMENT_DYNAMIC_CLASS (cepView, wxView)
 BEGIN_EVENT_TABLE (cepView, wxView) 
   EVT_MENU (CEPMENU_AVERAGE, cepView::OnToggleAverage)
@@ -71,6 +69,9 @@ BEGIN_EVENT_TABLE (cepView, wxView)
   EVT_MENU (CEPMENU_ELIMINATEOUTLIERS, cepView::OnEliminateOutliers)
   EVT_MENU (CEPMENU_VIEWCENTERED, cepView::OnViewCentered)
   EVT_MENU (CEPMENU_VIEWZOOMED, cepView::OnViewZoomed)
+  EVT_MENU (CEPMENU_SHOWX, cepView::OnToggleX)
+  EVT_MENU (CEPMENU_SHOWY, cepView::OnToggleY)
+  EVT_MENU (CEPMENU_SHOWZ, cepView::OnToggleZ)
 END_EVENT_TABLE ()
   
 cepView::cepView ():
@@ -108,6 +109,9 @@ cepView::~cepView ()
   Activate (TRUE);
 
   m_showAverages = false;
+  m_showX = true;
+  m_showY = true;
+  m_showZ = true;
   m_dirty = true;
 
   return TRUE;
@@ -126,10 +130,36 @@ cepView::OnDraw (wxDC * dc)
 
   if (theDataset && theDataset->isReady())
   {
-    cepDebugPrint ("Dataset valid, so displaying");
-    drawPresentation(theDataset, cepDataset::dirX, 0, dc);
-    drawPresentation(theDataset, cepDataset::dirY, PRESHEIGHT + 10, dc);
-    drawPresentation(theDataset, cepDataset::dirZ, (PRESHEIGHT + 10) * 2, dc);
+    int width, height, gCount = 0;
+    frame->GetSize (&width, &height);
+    
+    if(m_showX) gCount++;
+    if(m_showY) gCount++;
+    if(m_showZ) gCount++;
+
+    if(gCount > 0){
+      int presHeight = height / gCount - 10;
+      int presDrop = 0;
+      
+      cepDebugPrint ("Dataset valid, so displaying");
+      if(m_showX){
+	drawPresentation(theDataset, cepDataset::dirX, presDrop, dc, 
+			 presHeight);
+	presDrop += presHeight + 10;
+      }
+
+      if(m_showY){
+	drawPresentation(theDataset, cepDataset::dirY, presDrop, dc, 
+			 presHeight);
+	presDrop += presHeight + 10;
+      }
+      
+      if(m_showZ){
+	drawPresentation(theDataset, cepDataset::dirZ, presDrop, dc, 
+			 presHeight);
+	presDrop += presHeight + 10;
+      }
+    }
     m_dirty = false;
   }
   else
@@ -196,7 +226,7 @@ bool cepView::OnClose (bool deleteWindow)
   return TRUE;
 }
 
-void cepView::drawPresentation(cepDataset *theDataset, cepDataset::direction dir, int top, wxDC *dc)
+void cepView::drawPresentation(cepDataset *theDataset, cepDataset::direction dir, int top, wxDC *dc, int presHeight)
 {
   // Being marked dirty makes us regenerate the images
   if(m_dirty && (m_pngCache[(int) dir] != "")){
@@ -207,14 +237,14 @@ void cepView::drawPresentation(cepDataset *theDataset, cepDataset::direction dir
   // We cache images so we go faster
   if(m_pngCache[(int) dir] == ""){
     cepPresentation pres (theDataset->getData (dir).size () + 20,
-			  PRESHEIGHT);
+			  presHeight);
     char *cfname = strdup("/tmp/cep.XXXXXX");;
     int fd;
     fd = mkstemp(cfname);
     close(fd);
     cepDebugPrint ("Temporary file for image is " + string(cfname));
     cepDebugPrint ("There are " +
-                   cepItoa (theDataset->getData (dir).size ()) +
+                   cepToString (theDataset->getData (dir).size ()) +
                    " data points to add");
 
     for (unsigned int i = 0; i < theDataset->getData (dir).size (); i++)
@@ -223,7 +253,7 @@ void cepView::drawPresentation(cepDataset *theDataset, cepDataset::direction dir
                            (long)(theDataset->getData (dir)[i].
                                   sample * 10000));
       cepDebugPrint ("Data point: " +
-                     cepLtoa ((long)
+                     cepToString ((long)
                               (theDataset->getData (dir)[i].
                                sample * 10000)));
     }
@@ -370,6 +400,39 @@ void cepView::OnViewZoomed(wxCommandEvent& event)
       m_dirty = true;
     }
   }
+}
+
+void cepView::OnToggleX (wxCommandEvent &pevt)
+{
+  m_showX = pevt.IsChecked();
+  m_dirty = true;
+
+  // todo_mikal: this doesn't work at the moment...
+  // Force a repaint of the window
+  wxPaintEvent evt(0);
+  wxPostEvent(frame, evt);
+}
+
+void cepView::OnToggleY (wxCommandEvent &pevt)
+{
+  m_showY = pevt.IsChecked();
+  m_dirty = true;
+
+  // todo_mikal: this doesn't work at the moment...
+  // Force a repaint of the window
+  wxPaintEvent evt(0);
+  wxPostEvent(frame, evt);
+}
+
+void cepView::OnToggleZ (wxCommandEvent &pevt)
+{
+  m_showZ = pevt.IsChecked();
+  m_dirty = true;
+
+  // todo_mikal: this doesn't work at the moment...
+  // Force a repaint of the window
+  wxPaintEvent evt(0);
+  wxPostEvent(frame, evt);
 }
 
 /*

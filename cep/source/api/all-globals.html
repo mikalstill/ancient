@@ -42,13 +42,13 @@
 </LI>
 </ul>
 <h3>gdms/cepUtility.h</h3><ul>
-<LI>string &nbsp;<b><A HREF="#ref1147">cepItoa</A></b> (int number) 
+<LI>string &nbsp;<b><A HREF="#ref1147">cepToString</A></b> (int number) 
 </LI>
-<LI>string &nbsp;<b>cepLtoa</b> (long number) 
+<LI>string &nbsp;<b>cepToString</b> (long number) 
 </LI>
-<LI>string &nbsp;<b>cepDtoa</b> (double number) 
+<LI>string &nbsp;<b>cepToString</b> (double number) 
 </LI>
-<LI>string &nbsp;<b>cepFtoa</b> (float number) 
+<LI>string &nbsp;<b>cepToString</b> (float number) 
 </LI>
 <LI>bool &nbsp;<b>cepIsBlank</b> (char chr) 
 </LI>
@@ -74,8 +74,8 @@ DOCBOOK END
 ****************************************************************************</p>
 <A NAME="cep_internal_datarow"></A><A NAME="ref1137"></A><table width="100%"><tr bgcolor="#eeeeee"><td>typedef struct <strong>cep_internal_datarow</strong></td><td align="right"><h3><strong>cep_internal_datarow</strong></h3></td></tr></table><p></p><p><small><code>#include &lt;<A HREF="gdms___cepDataset_h.html">gdms/cepDataset.h</A>&gt;</code></small></p><A NAME="cep_datacol"></A><A NAME="ref1138"></A><table width="100%"><tr bgcolor="#eeeeee"><td>typedef vector < cep_datarow >  <strong>cep_datacol</strong></td><td align="right"><h3><strong>cep_datacol</strong></h3></td></tr></table><p></p><p><small><code>#include &lt;<A HREF="gdms___cepDataset_h.html">gdms/cepDataset.h</A>&gt;</code></small></p><A NAME="ds_progressCallback"></A><A NAME="ref1156"></A><table width="100%"><tr bgcolor="#eeeeee"><td>void &nbsp;<strong>ds_progressCallback</strong> (int plane, long line)
 <br></td><td align="right"><h3><strong>ds_progressCallback</strong></h3></td></tr></table><p></p><p><small><code>#include &lt;<A HREF="gdms___cepDoc_h.html">gdms/cepDoc.h</A>&gt;</code></small></p><A NAME="GetMainFrame"></A><A NAME="ref1145"></A><table width="100%"><tr bgcolor="#eeeeee"><td>extern <A HREF="cepFrame.html">cepFrame</A> *&nbsp;<strong>GetMainFrame</strong> (void)
-<br></td><td align="right"><h3><strong>GetMainFrame</strong></h3></td></tr></table><p></p><p><small><code>#include &lt;<A HREF="gdms___cepUI_h.html">gdms/cepUI.h</A>&gt;</code></small></p><A NAME="cepItoa"></A><A NAME="ref1147"></A><table width="100%"><tr bgcolor="#eeeeee"><td>string &nbsp;<strong>cepItoa</strong> (int number)
-<br></td><td align="right"><h3><strong>cepItoa</strong></h3></td></tr></table><p></p><p><small><code>#include &lt;<A HREF="gdms___cepUtility_h.html">gdms/cepUtility.h</A>&gt;</code></small></p><p>
+<br></td><td align="right"><h3><strong>GetMainFrame</strong></h3></td></tr></table><p></p><p><small><code>#include &lt;<A HREF="gdms___cepUI_h.html">gdms/cepUI.h</A>&gt;</code></small></p><A NAME="cepToString"></A><A NAME="ref1147"></A><table width="100%"><tr bgcolor="#eeeeee"><td>string &nbsp;<strong>cepToString</strong> (int number)
+<br></td><td align="right"><h3><strong>cepToString</strong></h3></td></tr></table><p></p><p><small><code>#include &lt;<A HREF="gdms___cepUtility_h.html">gdms/cepUtility.h</A>&gt;</code></small></p><p>
    Utility methods for CEP
    Copyright (C) Michael Still                    2002
 </p>
@@ -93,10 +93,10 @@ DOCBOOK END
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ****************************************************************************</p>
-<A NAME="cepLtoa"></A><A NAME="ref1148"></A><table width="100%"><tr bgcolor="#eeeeee"><td>string &nbsp;<strong>cepLtoa</strong> (long number)
-<br></td><td align="right"><h3><strong>cepLtoa</strong></h3></td></tr></table><p></p><p><small><code>#include &lt;<A HREF="gdms___cepUtility_h.html">gdms/cepUtility.h</A>&gt;</code></small></p><A NAME="cepDtoa"></A><A NAME="ref1149"></A><table width="100%"><tr bgcolor="#eeeeee"><td>string &nbsp;<strong>cepDtoa</strong> (double number)
-<br></td><td align="right"><h3><strong>cepDtoa</strong></h3></td></tr></table><p></p><p><small><code>#include &lt;<A HREF="gdms___cepUtility_h.html">gdms/cepUtility.h</A>&gt;</code></small></p><A NAME="cepFtoa"></A><A NAME="ref1150"></A><table width="100%"><tr bgcolor="#eeeeee"><td>string &nbsp;<strong>cepFtoa</strong> (float number)
-<br></td><td align="right"><h3><strong>cepFtoa</strong></h3></td></tr></table><p></p><p><small><code>#include &lt;<A HREF="gdms___cepUtility_h.html">gdms/cepUtility.h</A>&gt;</code></small></p><A NAME="cepIsBlank"></A><A NAME="ref1151"></A><table width="100%"><tr bgcolor="#eeeeee"><td>bool &nbsp;<strong>cepIsBlank</strong> (char chr)
+<A NAME="cepToString"></A><A NAME="ref1148"></A><table width="100%"><tr bgcolor="#eeeeee"><td>string &nbsp;<strong>cepToString</strong> (long number)
+<br></td><td align="right"><h3><strong>cepToString</strong></h3></td></tr></table><p></p><p><small><code>#include &lt;<A HREF="gdms___cepUtility_h.html">gdms/cepUtility.h</A>&gt;</code></small></p><A NAME="cepToString"></A><A NAME="ref1149"></A><table width="100%"><tr bgcolor="#eeeeee"><td>string &nbsp;<strong>cepToString</strong> (double number)
+<br></td><td align="right"><h3><strong>cepToString</strong></h3></td></tr></table><p></p><p><small><code>#include &lt;<A HREF="gdms___cepUtility_h.html">gdms/cepUtility.h</A>&gt;</code></small></p><A NAME="cepToString"></A><A NAME="ref1150"></A><table width="100%"><tr bgcolor="#eeeeee"><td>string &nbsp;<strong>cepToString</strong> (float number)
+<br></td><td align="right"><h3><strong>cepToString</strong></h3></td></tr></table><p></p><p><small><code>#include &lt;<A HREF="gdms___cepUtility_h.html">gdms/cepUtility.h</A>&gt;</code></small></p><A NAME="cepIsBlank"></A><A NAME="ref1151"></A><table width="100%"><tr bgcolor="#eeeeee"><td>bool &nbsp;<strong>cepIsBlank</strong> (char chr)
 <br></td><td align="right"><h3><strong>cepIsBlank</strong></h3></td></tr></table><p></p><p><small><code>#include &lt;<A HREF="gdms___cepUtility_h.html">gdms/cepUtility.h</A>&gt;</code></small></p><HR>
 	<table>
 	<tr><td><small>Generated by: pob on trillian on Sat Aug 10 17:26:42 2002, using kdoc 2.0a53.</small></td></tr>

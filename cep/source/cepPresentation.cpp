@@ -79,8 +79,8 @@ cepPresentation::yAxisTitle (const string & title)
 
 cepError cepPresentation::addDataPoint (long x, long y)
 {
-  cepDebugPrint ("Current data vector size is: " + cepItoa (m_data.size ()));
-  cepDebugPrint ("Added (" + cepLtoa (x) + ", " + cepLtoa (y) + ")");
+  cepDebugPrint ("Current data vector size is: " + cepToString (m_data.size ()));
+  cepDebugPrint ("Added (" + cepToString (x) + ", " + cepToString (y) + ")");
 
   // Values
   if ((unsigned int) x >= m_data.size ())
@@ -93,7 +93,7 @@ cepError cepPresentation::addDataPoint (long x, long y)
 	m_data[i] = INVALID;
 
       cepDebugPrint ("Resize presentation data to " + 
-		     cepLtoa (x + CHUNKALLOC));
+		     cepToString (x + CHUNKALLOC));
     }
     catch (...)
     {
@@ -147,11 +147,12 @@ cepPresentation::createBitmap ()
 #if defined HAVE_LIBPLOT
   plot_state *graph;
 
-  cepDebugPrint ("Generating bitmap. Dimensions: " + cepItoa (m_width) +
-                 " by " + cepItoa (m_height) + ". X value range: " +
-                 cepItoa (m_xminval) + " to " + cepItoa (m_xmaxval) +
-                 ". Y value range: " + cepItoa (m_yminval) + " to " +
-                 cepItoa (m_ymaxval) + ".");
+  cepDebugPrint ("Generating bitmap. Dimensions: " + cepToString (m_width) +
+                 " by " + cepToString (m_height) + ". X value range: " +
+                 cepToString (m_xminval) + " to " + cepToString (m_xmaxval) +
+                 ". Y value range: " + cepToString (m_yminval) + " to " +
+                 cepToString (m_ymaxval) + ". Show average is " + 
+		 cepToString (m_useAverage));
 
   if ((graph = plot_newplot (m_width, m_height)) == NULL)
   {
@@ -224,7 +225,7 @@ cepPresentation::createBitmap ()
 				      (unsigned int) (m_height - 
 						      ((m_data[i] - m_yminval) 
 						       / yscale)));
-		cepDebugPrint("Zoomed graph point. The data point being graphed is " + cepItoa(m_data[i]) + " which results in the following calculation: " + cepItoa(m_height) + " - ((" + cepItoa(m_data[i]) + " - " + cepItoa(m_yminval) + ") / " + cepFtoa(yscale) + ")).");
+		cepDebugPrint("Zoomed graph point. The data point being graphed is " + cepToString(m_data[i]) + " which results in the following calculation: " + cepToString(m_height) + " - ((" + cepToString(m_data[i]) + " - " + cepToString(m_yminval) + ") / " + cepToString(yscale) + ")).");
 		linestarted = true;
 	      }
 	    else{
@@ -232,7 +233,7 @@ cepPresentation::createBitmap ()
 				   (unsigned int) (m_height - 
 						   ((m_data[i] - m_yminval) 
 						    / yscale)));
-	      cepDebugPrint("Zoomed graph point. The data point being graphed is " + cepItoa(m_data[i]) + " which results in the following calculation: " + cepItoa(m_height) + " - ((" + cepItoa(m_data[i]) + " - " + cepItoa(m_yminval) + ") / " + cepFtoa(yscale) + ")) = " + cepItoa((unsigned int) (m_height - ((m_data[i] - m_yminval) / yscale))));
+	      cepDebugPrint("Zoomed graph point. The data point being graphed is " + cepToString(m_data[i]) + " which results in the following calculation: " + cepToString(m_height) + " - ((" + cepToString(m_data[i]) + " - " + cepToString(m_yminval) + ") / " + cepToString(yscale) + ")) = " + cepToString((unsigned int) (m_height - ((m_data[i] - m_yminval) / yscale))));
 	    }
 	  }
       }    
@@ -243,8 +244,8 @@ cepPresentation::createBitmap ()
     err.display();
   }
     
-  cepDebugPrint ("Midpoint is " + cepItoa (midpoint));
-  cepDebugPrint ("Yscale is " + cepFtoa (yscale));
+  cepDebugPrint ("Midpoint is " + cepToString (midpoint));
+  cepDebugPrint ("Yscale is " + cepToString (yscale));
   
   if (!linestarted)
     return cepError ("No datapoints defined", cepError::sevErrorRecoverable);
@@ -254,7 +255,9 @@ cepPresentation::createBitmap ()
 
   // Draw the average if required
   if(m_useAverage){
-    cepDebugPrint("Drawing average line");
+    cepDebugPrint("Drawing average line: " + cepToString(m_averageColor.red) +
+		  ", " + cepToString(m_averageColor.green) + 
+		  ", " + cepToString(m_averageColor.blue));
     plot_setlinecolor(graph, m_averageColor.red, m_averageColor.green,
 		      m_averageColor.blue);
     plot_setlinestart(graph, 10, 
@@ -374,7 +377,7 @@ void cepPresentation::recalculateAverage()
   }
 
   m_average = temp / m_data.size();
-  cepDebugPrint("Average for presentation is " + cepLtoa(m_average));
+  cepDebugPrint("Average for presentation is " + cepToString(m_average));
 }
 
 long cepPresentation::getAverage()

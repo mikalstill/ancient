@@ -80,16 +80,19 @@ public:
   void OnEliminateOutliers (wxCommandEvent& event);
   void OnViewCentered (wxCommandEvent& event);
   void OnViewZoomed (wxCommandEvent& event);
+  void OnToggleX (wxCommandEvent& event);
+  void OnToggleY (wxCommandEvent& event);
+  void OnToggleZ (wxCommandEvent& event);
 
 private:
   DECLARE_DYNAMIC_CLASS (cepView) 
   DECLARE_EVENT_TABLE ()
 
   void drawPresentation(cepDataset *ds, cepDataset::direction dir, int top,
-			wxDC *dc);
+			wxDC *dc, int presHeight);
 
   string m_pngCache[3]; 
-  bool m_showAverages;
+  bool m_showAverages, m_showX, m_showY, m_showZ;
   bool m_dirty;
   cepConfiguration *m_config;
   cepWxErrorHandler *errHandler;

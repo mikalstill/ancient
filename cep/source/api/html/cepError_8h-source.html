@@ -58,7 +58,7 @@
 00052 <font class="comment">#define cepDebugPrint(errmsg) \</font>
 00053   { \
 00054     <a class="code" href="classcepError.html">cepError</a> newname_cepDebugPrint(string(<font class="stringliteral">""</font>) + string(errmsg) + string(<font class="stringliteral">" at "</font>) + string(__FILE__) + \
-00055             string(<font class="stringliteral">":"</font>) + cepItoa(__LINE__), cepError::sevDebug); \
+00055             string(<font class="stringliteral">":"</font>) + cepToString(__LINE__), cepError::sevDebug); \
 00056     newname_cepDebugPrint.<a class="code" href="classcepError.html#a6">log</a>(); \
 00057   }
 00058 

@@ -49,7 +49,7 @@ void cepWxErrorHandler::displayError( class cepError & err )
     bool dodisp = false;
 
     config->getValue (string ("error-display-") +
-                 cepItoa ((int)level), true, dodisp);
+                 cepToString ((int)level), true, dodisp);
 
     gDisplayParams[(int)level].set (dodisp);
   }
