@@ -22,8 +22,8 @@ main (int argc, char *argv[])
 
   // Write some text to the page
   panda_setfont (demo, panda_createfont (demo, "Times-Roman", 1,
-					 "MacRomanEncoding"));
-  panda_textbox (demo, currPage, 600, 10, 700, 300, "Hello world");
+  					 "MacRomanEncoding"));
+  panda_textbox (demo, currPage, 10, 10, 200, 200, "Hello world");
 
   // Finished all the demoing, close the PDF document
   panda_close (demo);
