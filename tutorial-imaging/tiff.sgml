@@ -252,7 +252,7 @@ The first thing I want to do is show you how to write a TIFF file out. We'll the
 It is traditional for bitmaps to be represented inside your code with an array of chars. This is because on most operating systems, a char maps well to one byte. In the block of code below, we will setup libtiff, and create a simple buffer which contains an image which we can then write out to disc.
 </para>
 
-%code2db.pl:source/tiff/bw-write/write-infrastructure.c%
+%code2db.pl:~mikal/opensource/tiff-bw-write/write-infrastructure.c%
 
 <para>
 The code above is pretty simple. All you need to use libtiff is to include the tiffio.h header file. The char buffer that we have defined here is going to be our black and white image, so we should define one of those next...
@@ -269,7 +269,7 @@ To make up for how boring that example was, I am now pleased to present you with
 Please note, that for clarity I have omitted the actual hex for the image, this is available in the download version of this code for those who are interested.
 </para>
 
-%code2db.pl:source/tiff/bw-write/write-nohex.c%
+%code2db.pl:~mikal/opensource/tiff-bw-write/write-nohex.c%
 
 <para>
 There are some interesting things to note in this example. The most interesting of these is that the output image will not display using the xview command on my linux machine. In fact, I couldn't find an example of a group 4 fax compressed black and white image which would display using that program. See the sidebar for more detail.
@@ -358,7 +358,7 @@ What is photometric interpretation? Well, the representation of the image in the
 The other big thing to bear in mind is fillorder (whether the first bit in the byte is the highest value, or the lowest). The example below also handles both of these correctly. I have assumed that we want the buffer to have the most significant bit first. TIFF images can be either big endian or little endian, but libtiff handles this for us. Thankfully, libtiff also supports the various compression algorithms without you having to worry about those. These are by far the scariest area of TIFF, so it is still worth your time to use libtiff.
 </para>
 
-%code2db.pl:source/tiff/bw-read/read.c%
+%code2db.pl:~mikal/opensource/tiff-bw-read/read.c%
 
 <para>
 This code works by first opening the image and checking that it is one that we can handle. It then reads in all the strip for the image, and appends them together in one large memory block. If required, it also flips bits until the photometric interpretation the one we handle, and deals with having to swap bits if the fillorder is wrong. Finally, our sample outputs the image as a series of lines composed of hex values. Remember that each of the values represents 8 pixels in the actual image.
@@ -455,7 +455,7 @@ The code for the repeated compression example is at the end of this chapter.
 It time to show you how to write a color image to disc. Remember that this is a simple example, which can be elaborated on greatly.
 </para>
 
-%code2db.pl:source/tiff/color-write/write.c%
+%code2db.pl:~mikal/opensource/tiff-color-write/write.c%
 
 <para>You can see from this code some of the things that we have discussed in theory. The image has three samples per pixel, each of eight bits. This means that the image is a 24 bit RGB image. If this was a black and white or grayscale image, then this value would be one. The tag PHOTOMETRIC_RGB says that the image data is stored within the strips themselves (as opposed to being paletted) -- more about this in a second.</para>
 
@@ -534,7 +534,7 @@ Now all we have to do is work out how to read other people's color and grayscale
 
 <para>There are a couple of odd things about this function -- it defines (0, 0) to be in a different location from all the other code that we have been writing. In all the previous code we have written, the (0, 0) point has been in the top left of the image. This call defines (0, 0) to be in the bottom left. The other limitation to be aware of is that not all valid values for bits per sample are supported. If you find these quirks unacceptable, then remember that you can still use TIFFReadEncodedStrip() in the same manner that we did for the black and white images in the previous chapter...</para>
 
-%code2db.pl:source/tiff/color-read/read.c%
+%code2db.pl:~mikal/opensource/tiff-color-read/read.c%
 </sect1>
 
 
@@ -558,7 +558,7 @@ The example which I am most familiar with is PDF documents. In PDF files, you ca
 <para>libtiff allows you to replace the file input and output functions in the library with your own. This is done with the TIFFClientOpen() method. Here's an example (please note this code wont compile, and is just to describe the main concepts:</para>
 
 %todo:make_this_example_better%
-%code2db.pl:source/tiff/client/client.c%
+%code2db.pl:~mikal/opensource/tiff-client/client.c%
 </sect1>
 
 
@@ -579,7 +579,7 @@ A common request is to be able to store more than one image inside a sigle TIFF 
 Anyway, now that I've nagged you, putting mutliple images into one TIFF file is really easy, just call the <command>TIFFWriteDirectory</command>(), which writes out the current image so you can move onto the next one. The following sample program is an example of this...
 </para>
 
-%code2db.pl:source/tiff/directories/create.c%
+%code2db.pl:~mikal/opensource/tiff-directories/create.c%
 %todo:README%
 
 <figure>
@@ -600,7 +600,7 @@ We should also probably know how to get to these images once we have more than o
 %todo:convert_will_create_multiple_files%
 %todo:more!%
 
-%code2db.pl:source/tiff/directories/read.c%
+%code2db.pl:~mikal/opensource/tiff-directories/read.c%
 %todo:README%
 </sect1>
 
@@ -611,7 +611,7 @@ We should also probably know how to get to these images once we have more than o
 In the introduction to this tutorial I promised that I would include the code to draw the demonstration that raster images are made up of pixels. Well, this example is that code.
 </para>
 
-%code2db.pl:source/tiff/pixels/pixel.c%
+%code2db.pl:~mikal/opensource/tiff-pixels/pixel.c%
 </sect1>
 
 <sect1><title>Example: Converting a color image to grayscale</title>
@@ -620,7 +620,7 @@ In one of the previous chapters I also promised to provide the source code for t
 </para>
 
 <sect2><title>A broken algorithm</title>
-%code2db.pl:source/tiff/grayscale/gray-wrong.c%
+%code2db.pl:~mikal/opensource/tiff-grayscale/gray-wrong.c%
 </sect2>
 
 <para>
@@ -633,7 +633,7 @@ Which produces:
 </figure>
 
 <sect2><title>A sensible algorithm</title>
-%code2db.pl:source/tiff/grayscale/gray-good.c%
+%code2db.pl:~mikal/opensource/tiff-grayscale/gray-good.c%
 </sect2>
 
 <para>
@@ -654,8 +654,8 @@ Now, just to justify that the second algorithm is better, have a look at the sha
 Earlier in this chapter I promised that I would include the code for the repeated compression loss example, so here it is. The example is made up of a simple (and quite ugly) shell script, and a c program to actually compress the images...
 </para>
 
-%code2db.pl:source/tiff/recompress/recompress.sh%
-%code2db.pl:source/tiff/recompress/recompress.c%
+%code2db.pl:~mikal/opensource/tiff-recompress/recompress.sh%
+%code2db.pl:~mikal/opensource/tiff-recompress/recompress.c%
 </sect1>
 
 <sect1><title>Conclusion</title>
