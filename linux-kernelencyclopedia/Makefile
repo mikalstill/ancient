@@ -11,4 +11,4 @@ output.pdf: output.ps
 	ps2pdf output.ps
 
 clean:
-	rm output*
+	touch output.foo foo~; rm output* *~

@@ -1,4 +1,4 @@
-<chapter><title>%LETTER%</title>
+<chapter id="chapter-%LETTER%"><title>%LETTER%</title>
 <para>
 ...
 </para>

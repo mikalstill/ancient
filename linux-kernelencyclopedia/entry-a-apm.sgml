@@ -1,0 +1,44 @@
+<sect1><title>APM</title>
+<sect2><title>Acronym definition</title>
+<para>
+Advanced Power Management
+</para>
+
+<sect2><title>Definition</title>
+<para>
+Advanced Power Management is 
+</para>
+
+<para>
+The code was originally contributed by <emphasis>Stephen Rothwell</emphasis> having been funded by <emphasis>NEC</emphasis> Australia. It is currently maintained by <emphasis>Avery Pennarun</emphasis>, having also been maintained by <emphasis>Rik Faith</emphasis> in the past. The code is licensed under the terms of the GNU GPL version 2 or later. It  first appeared in <emphasis>kernel</emphasis> <emphasis>kernel 1.3.46</emphasis>.
+</para>
+</sect2>
+
+<sect2><title>Implementation source files</title>
+<itemizedlist>
+<listitem><para>arch/i386/kernel.apm.c</para></listitem>
+<listitem><para>include/linux/apm_bios.h</para></listitem>
+</itemizedlist>
+</sect2>
+
+<sect2><title>References</title>
+<itemizedlist>
+<listitem><para>APM version 1 specification: ftp://ftp.intel.com/pub/IAL/software_specs/apmv11.doc</para></listitem>
+<listitem><para>APM version 2 specification: http://www.microsoft.com/hwdev/busbios/amp_12.htm</para></listitem>
+<listitem><para>Homepage: http://worldvisions.ca/~apenwarr/apmd/</para></listitem>
+</itemizedlist>
+</sect2>
+
+<sect2><title>See also</title>
+<itemizedlist>
+<listitem><para><emphasis>ACPI</emphasis></para></listitem>
+</itemizedlist>
+</sect2>
+
+<sect2><title>Entry history</title>
+<itemizedlist>
+<listitem><para>Entry created: Tue Mar 18 10:43:00 EST 2003</para></listitem>
+<listitem><para>Entry owner: <emphasis>Michael Still</emphasis> (mikal@stillhq.com)</para></listitem>
+<listitem><para>Status: Unfinalized</para></listitem>
+</itemizedlist>
+</sect1>
