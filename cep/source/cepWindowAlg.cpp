@@ -22,7 +22,7 @@
 #include <cmath>
 
 /** calculate a single global value of PI */
-const double cepWindowAlg::PI = 2*asin(1.0);
+const double cepWindowAlg::PI = 2.0*asin(1.0);
 
 cepWindowAlg::cepWindowAlg( int s )
 {
@@ -40,20 +40,17 @@ int cepWindowAlg::getSize() {
 
 void cepWindowAlg::initCoeffs()
 {
-  // TODO BS - fix this.. it will leak, but it avoids the segfault
   if( coeffs != NULL ) delete coeffs;
   coeffs = generateCoeffs( getSize() );
 }
-
-
 
 
 const cepMatrix<double> cepWindowAlg::getCoeffs()
 {
 
   if( coeffs == NULL ) {
-    coeffs = new cepMatrix<double>(0,0);
-    cout << "windowAlg<getCoeffs> making default coefficient array of size (0,0)" << endl;
+    coeffs = generateCoeffs(1);
+    cout << "windowAlg<getCoeffs> making default coefficient array of size 1" << endl;
   }
   return *coeffs;
 }

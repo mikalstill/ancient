@@ -76,13 +76,13 @@ public:
    */  
   const cepMatrix<double> getCoeffs();
 
+  /** a single global value of PI to be used in the windowing algorithm */
+  static const double PI;
   
 protected:
   /** the current window size */
   int size;
   
-  /** a single global value of PI to be used in the windowing algorithm */
-  static const double PI;
   
   /** the current coefficient matrix */
   cepMatrix<double> *coeffs;
@@ -96,7 +96,7 @@ protected:
    * @param size the desired window size
    * @return an N*1 matrix of the current coefficients
    */
-  cepMatrix<double> *generateCoeffs( int size );
+  virtual cepMatrix<double> *generateCoeffs( int size );
 
   /** generates a coefficient at a specific offset into the coefficient matrix
    * override this to genetate specific coefficient sets

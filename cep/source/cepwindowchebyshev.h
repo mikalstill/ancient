@@ -63,8 +63,8 @@ class cepWindowChebyshev : public cepWindowAlg  {
 public:
   cepWindowChebyshev( int size );  
   ~cepWindowChebyshev();
-  /** sets the fourier domain stop band attenuation
-   * att the stop band attenuation in the corresponding fourier transform (dB)
+  /** sets the fourier domain side lobe attenuation
+   * @param att the side lobe attenuation in the corresponding fourier transform (dB)
    */
   void setAttenuation( double att );
   
@@ -76,13 +76,13 @@ protected:
   double getValue( int offset );
   double calcValue( int n );
   double computeCheb( double value, long order );
-  void initCoeffs();
 
   double beta;
   double gamma;
+  
 
 private:
-  double A;
+  double dw;
 
 
 

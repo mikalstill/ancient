@@ -22,9 +22,8 @@
 #include <math.h>
 
 cepWindowChebyshev::cepWindowChebyshev( int size ) : cepWindowAlg( size ) {
-  // set a default attenuation of 0.6
-  cout << "cheb<init>" << endl;
-  setAttenuation( 0.60 );
+  // set a default attenuation of 60dB
+  setAttenuation( 0.5 );
   initCoeffs();
 }
 
@@ -35,16 +34,8 @@ cepWindowChebyshev::~cepWindowChebyshev(){
 
 
 void cepWindowChebyshev::setAttenuation(double att) {
-  A = att;
+  dw = att;
 }
-
-void cepWindowChebyshev::initCoeffs()
-{
-  // TODO BS - fix this.. it will leak, but it avoids the segfault
-  if( coeffs != NULL ) delete coeffs;
-  coeffs = generateCoeffs( getSize() );
-}
-
 
 double cepWindowChebyshev::getValue( int offset )
 { 
@@ -53,15 +44,15 @@ double cepWindowChebyshev::getValue( int offset )
 
 double cepWindowChebyshev::calcValue( int n ) {
   cout << "error: why is this being called?" << endl;
-  
+  return 0.0;
 }
 
 double cepWindowChebyshev::computeCheb( double value, long order )
 {
   if( value <= 1 ) {
-    return cos(order*acos(value));
+    return cos((double)order*acos(value));
   } else {
-    return cosh(order*acosh(value));
+    return cosh((double)order*acosh(value));
   }
 }
 
@@ -106,13 +97,12 @@ double cepWindowChebyshev::computeCheb( double value, long order )
 //
 cepMatrix<double> *cepWindowChebyshev::generateCoeffs( int size ) {
 
-  cout << "cheb<genCoeffs>" << endl;
   // compute some constants related to the length of the window
   //
   long N = size;
   long Nm1 = N - 1;
   long Nm2 = Nm1 - 1;
-  double scale = (double)Nm2 / (double)Nm1;
+  double scale = (double)Nm2/Nm1;
 
   // compute the half-window length
   //
@@ -126,31 +116,38 @@ cepMatrix<double> *cepWindowChebyshev::generateCoeffs( int size ) {
   // the window length is supplied by the user. we compute the appropriate
   // constants to satisfy this relationship.
   //
-  double gamma = pow(10.0, -A / 20);
+  double A = (2*M * 2.285 * dw + 16.4) / 2.056;
+  double gamma = pow(10.0, -A/20.0);
   double gamma_inv = 1.0 / gamma;
 
   // from gamma and M, we compute beta
   //
-  double beta = cosh(acosh(gamma_inv) / (double)(2*M));
+  double beta = cosh( (acosh(gamma)/(double)(2*M));
 
+
+  // for debugger visibility
+  double arg1 = 0.0;
+  double arg2 = 0.0;
+  double val = 0.0;
+  double sum = 0.0;
+  
   // case 1: an odd number of points
   //
-  if ( (N%2)!=0x00) {
-    for (long n = -M; n <= M; n++) {
-
+  if ( (N%2)!= 0) {
+    for (int n = -M; n <= M; n++) {
+      sum = 0.0;
       // compute the inner summation
       //
-      double sum = 0;
-      for (long k = 1; k < M; k++) {
-        double arg1 = (double)k * PI / (double)(N);
-        double arg2 = 2.0 * n * arg1;
-        double val = computeCheb(beta * cos(arg1), k);
-        sum += val * cos(arg2);
+      for (int k = 1; k < M; k++) {
+        arg1 = beta*(double)k * PI / (double)(N);
+        arg2 = (2*N*(double)k * PI) / (M+1);
+        val = computeCheb( arg1*cos(arg2), k);
+        sum += val;
       }
 
       // save the output value
       //
-      output_a->setValue(n + M,0, ( 1.0 / (double)(N) * (gamma_inv + 2 * sum)));
+      output_a->setValue( n+M, 0, ( (1.0/N)*(gamma_inv + 2*sum)));
     }
   }
 
