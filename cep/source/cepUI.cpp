@@ -271,11 +271,13 @@ cepApp::OnInit (void)
   cepTmpClean cleaner("/tmp", "cep*");
   int deleted;
   cepError ce;
-  ce = cleaner.execute(deleted, false);
+  ce = cleaner.execute(deleted, true);
 
   if(ce.isReal()){
     ce.display();
   }
+
+  cepDebugPrint("Cleaned up " + cepToString(deleted) + " temporary items from previous runs");
 
   // Open the dataset as requested
   if(filename != ""){

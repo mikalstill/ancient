@@ -20,7 +20,14 @@
 
 #include "cepTmpClean.h"
 
-#ifdef HAVE_PCRE
+// For compilers that support precompilation, includes "wx/wx.h".
+#include "wx/wxprec.h"
+
+#ifndef WX_PRECOMP
+#include "wx/wx.h"
+#endif
+
+#ifdef HAVE_LIBPCRE
 #include <pcre.h>
 #endif
 
@@ -36,7 +43,7 @@ cepError cepTmpClean::execute(int& deleted, bool doDelete)
   // Go through the contents of the named directory, and delete files
   // which match the pattern
   
-#ifdef HAVE_PCRE
+#ifdef HAVE_LIBPCRE
   // Find directory
   struct stat sb;
   if(lstat(m_path.c_str(), &sb) < 0)
@@ -63,7 +70,7 @@ cepError cepTmpClean::execute(int& deleted, bool doDelete)
   int ovector[OVECCOUNT];
 
   if((re = pcre_compile("cep.*$", 0, &error, &erroffset, NULL)) == NULL){
-    return cepError("Could not compile the tmp cleanup regular expression: " + error,
+    return cepError("Could not compile the tmp cleanup regular expression: " + string(error),
 		    cepError::sevErrorRecoverable);
   }
 
@@ -78,6 +85,15 @@ cepError cepTmpClean::execute(int& deleted, bool doDelete)
       // This is a posisble deletion candidate
       cepDebugPrint("Possible deletion candidate: " + m_path + "/" + 
 		    string(dirp->d_name));
+
+      deleted++;
+      if(doDelete && (wxMessageBox(string("The temporary file cleaner has detected an unneeded file named " + 
+					  string(m_path + "/" + string(dirp->d_name)) + 
+					  " and would like to delete it. Is this ok?").c_str(), 
+				   "Are you sure?", wxYES_NO) == wxYES)){
+	unlink(string(m_path + "/" + string(dirp->d_name)).c_str());
+	cepDebugPrint("Removed the file\n");
+      }
     }
   }
 
