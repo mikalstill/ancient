@@ -1,0 +1,9 @@
+/root/.ssh ssh
+/home/mikal/opensource opensource
+/home/mikal/external external
+/home/mikal/private private
+/home/mikal/tower tower
+/usr/src src
+/var/www httpd
+/usr/local/var var
+/etc etc/deathstar-521txv-001
