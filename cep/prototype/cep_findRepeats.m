@@ -11,7 +11,7 @@ function [found,list] = cep_findRepeats(dateList)
 %   found: The number of repeated values found
 %   list: list of the array indices of the repeated values
 
-found = 0
+found = 0;
 for i=1:length(dateList)-1
     if ((dateList(i)-dateList(i+1)) >= 0);
         found = found + 1;
