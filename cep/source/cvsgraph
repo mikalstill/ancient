@@ -1,34 +1,28 @@
 #!/usr/local/bin/perl
 
 use strict;
-my($HISTORY, $workdir, $filename, $date, %dateline, $day, $adate, @dates,
+my($HISTORY, $filename, $date, %dateline, $day, $adate, @dates,
    $author, %cols, $newcolnum, @today, @html, $event, $file, $user, $i,
    $table, %authorcolor, @colors, $newauthnum, %heading, $color);
 
 open HISTORY, "< logout";
 
-$workdir = `pwd`;
-chomp $workdir;
-$workdir =~ s/.*\///;
-
 # We need some colors for authors -- I only bother to define 10 here
-$colors[0] = "FF0000";
-$colors[1] = "00FF00";
-$colors[2] = "0000FF";
-$colors[3] = "6633FF";
-$colors[4] = "00FF66";
-$colors[5] = "0099FF";
-$colors[6] = "3300FF";
-$colors[7] = "FF9900";
-$colors[8] = "FFCC99";
-$colors[9] = "000000";
+$colors[0] = "CC3399";
+$colors[1] = "9900FF";
+$colors[2] = "666699";
+$colors[3] = "6699FF";
+$colors[4] = "00FFCC";
+$colors[5] = "66FF99";
+$colors[6] = "33CC33";
+$colors[7] = "99CC33";
+$colors[8] = "663300";
+$colors[9] = "FF6666";
 
 # Hoon through the CVS history
 while(<HISTORY>){
-    if(/^RCS file: (.*)/){
+    if(/^Working file: (.*)/){
 	$filename = $1;
-	$filename =~ s/.*$workdir\///;
-	$filename =~ s/,v$//;
 	chomp $filename;
     }
     elsif(/^date: ([0-9\/]+).*author: (.*);.*;/){
@@ -107,7 +101,9 @@ print "<BR><HR><BR>Authors: ";
 print "<table>";
 
 while(($user, $color) = each %authorcolor){
-    print "<tr><td bgcolor=\"$color\">$user</td></tr>";
+    print "<tr><td bgcolor=\"$color\">$user: ";
+    print `grep $user authors | sed 's/^$user://'`;
+    print "</td></tr>";
 }
 
 print "</table>";
