@@ -1,0 +1,32 @@
+#!/usr/bin/perl
+
+use strict;
+
+my($depth, $i);
+
+$depth = $ARGV[0];
+while(<>){
+  if(/menu "(.*)"/){
+    pad();
+    print "$1\n";
+    $depth++;
+  }
+  elsif(/endmenu/){
+    $depth--;
+  }
+  elsif(/config (.*)/){
+    pad();
+    print "$1\n";
+  }
+  elsif(/source "(.*)"/){
+    pad();
+    print "[$1]\n";
+    `dumpconfigtree $depth < $1`;
+  }
+}
+
+sub pad{
+  for($i = 0; $i < $depth; $i++){
+    print "  ";
+  }
+}

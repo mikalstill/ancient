@@ -6,7 +6,15 @@ set -x
 
 attempt(){
     logger mkkernel `pwd`: attempting $1
-    make $1
+
+    if [ "%$DISTCC_HOSTS%" == "%%" ]
+    then
+      jarg=""
+    else
+      jarg="-j 7 CC=distcc"
+    fi
+
+    make $jarg $1
     die $?
 }
 
@@ -33,7 +41,7 @@ then
 else
   attempt clean
   attempt mrproper
-  attempt xconfig
+  attempt menuconfig
   attempt dep
 fi
 
@@ -56,3 +64,27 @@ fi
 
 /sbin/lilo
 echo "Installed $1"
+
+if [ -d /data/staging/kernel ]
+then
+  if [ -d /data/staging/kernel/$1 ]
+  then
+    rm -rf /data/staging/kernel/$1
+  fi
+
+  mkdir /data/staging/kernel/$1
+  echo "" >> /data/staging/kernel/$1/lilo.conf
+  echo "image=/boot/vmlinuz-$1" >> /data/staging/kernel/$1/lilo.conf
+  echo "        label=$1" >> /data/staging/kernel/$1/lilo.conf
+  echo "        read-only" >> /data/staging/kernel/$1/lilo.conf
+
+  cp /boot/vmlinuz-$1 /data/staging/kernel/$1/
+
+  kver=`echo $1 | sed 's/-.*//'`
+  if [ -d /data/staging/kernel/$1/$kver ]
+  then
+    rm -rf /data/staging/kernel/$1/$kver
+  fi
+  cp -R /lib/modules/$kver /data/staging/kernel/$1/
+fi
+

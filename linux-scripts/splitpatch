@@ -5,7 +5,7 @@
 #  $2 -- The second arguement can be the starting count
 
 use strict;
-my($OUT, $count, $filename);
+my($OUT, $STATE, $count, $filename);
 
 if($ARGV[0] eq ""){
   print "Usage: cat patch | splitpatch <name of patches> <optional starting count>\n";
@@ -26,6 +26,8 @@ while(<STDIN>){
     # Leaky
     $filename = `printf $ARGV[0]-%03d $count`;
     open OUT, "> $filename";
+    open STATE, "> $filename-state";
+    print STATE "Ready\n";
     print "$filename\n";
   }
 

@@ -1,5 +1,17 @@
 #!/bin/bash
 
+if [ "%$1%" == "%%" ]
+then
+  echo "Usage: $0 <target dir> <state tag to look for>"
+  exit 1
+fi
+
+if [ "%$2%" == "%%" ]
+then
+  echo "Usage: $0 <target dir> <state tag to look for>"
+  exit 1
+fi
+
 pwd=`pwd`
 
 # Make sure we have the latest cset
@@ -8,7 +20,7 @@ echo ""
 
 echo "---------------------" >> rejected
 
-for patchfilename in `find /home/httpd/html/linux/patches/ -type f -name "*-state" -exec grep --with-filename "LKML Waiting" {} \; | sed -e 's/:.*//' -e 's/-state//'`
+for patchfilename in `find /home/httpd/html/linux/$1/ -type f -name "*-state" -exec grep --with-filename "$2" {} \; | sed -e 's/:.*//' -e 's/-state//'`
 do
   echo "Patch file: $patchfilename"
   patch=`echo $patchfilename | sed 's/^.*\///'`
@@ -47,7 +59,7 @@ do
     echo "$patchfilename: "`cat latest`-$fpatch >> rejected
     echo "Old patch didn't apply"
   else
-    makepatch `cat latest` `cat latest`-$fpatch `cat latest | sed 's/linux-//'` $fpatch patches
+    makepatch `cat latest` `cat latest`-$fpatch `cat latest | sed 's/linux-//'` $fpatch $1
     echo "Obsolete" > $patchfilename-state
     echo "From: Michael Still <mikal@stillhq.com>" >> $patchfilename-comments
     echo "Automatically forward ported to "`cat latest`"-$fpatch" >> $patchfilename-comments

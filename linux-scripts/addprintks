@@ -48,7 +48,7 @@ while(<INPUT>){
     if(/^[ \t]*\/\*/){$match[5] = 1;}
     else{$match[5] = 0;}
 
-    if(/return[^a-zA-Z_].*\(/){$match[6] = 1;}
+    if(/return [^a-zA-Z_].*\(/){$match[6] = 1;}
     else{$match[6] = 0;}
 
     ####################

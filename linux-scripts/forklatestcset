@@ -1,4 +1,5 @@
 #!/bin/bash
 
-cp -R `cat latest` `cat latest`-$1
+# -R vs -al
+cp -al `cat latest` `cat latest`-$1
 echo `cat latest`-$1

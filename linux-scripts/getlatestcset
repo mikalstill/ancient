@@ -27,12 +27,21 @@ then
 fi
 
 # Get the kernel base if we need it
+echo "Checking for linux-$base"
 if [ ! -d linux-$base ]
 then
   wget -c http://www.kernel.org/pub/linux/kernel/v2.6/linux-$base.tar.bz2
   tar --bzip2 -xf linux-$base.tar.bz2
 fi
 
+echo "Checking for linux-$base"
+if [ ! -d linux-$base ]
+then
+  wget -c http://www.kernel.org/pub/linux/kernel/v2.6/testing/linux-$base.tar.bz2
+  tar --bzip2 -xf linux-$base.tar.bz2
+fi
+
+echo "Checking for linux-$base"
 if [ ! -d linux-$base ]
 then
   echo "Failed to get the base"

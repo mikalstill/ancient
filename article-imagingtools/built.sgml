@@ -1,0 +1,587 @@
+
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
+
+
+
+
+<!-- SKILL LEVEL 
+If known, specify the (skill) level, 1 to 5 -->
+<article>
+
+
+
+<!-- Fill in or leave blank for production to fill in.  -->
+
+
+
+
+
+<title>Graphics from the command line</title>
+<subtitle></subtitle>
+<!--  End TITLE -->
+
+<!-- Ignore these lines. -->
+<!-- <forumurl url=""/> -->
+<!-- <zip url=""/> -->
+<!-- <pdf size="" url=""/> -->
+
+
+<articleinfo>
+<author>
+<authorblurb>
+<para>Michael has been working in the image processing field for several years, including a couple of years managing and developing large image databases for an Australian government department. He currently works for TOWER Software, who manufacture a world leading EDMS and Records Management package named TRIM. Michael is also the developer of Panda, an open source PDF generation API, as well as a bunch of other Open Source code.</para>
+</authorblurb>
+</author>
+</articleinfo
+<!--  End AUTHOR -->
+
+<!-- DATE INFO
+Fill in or leave blank for production to fill in.-->
+
+
+<abstract>
+<para><emphasis>This article discusses commonly used image manipulations using command line tools, mainly from the imagemagick suite.</emphasis></para>
+</abstract>
+
+
+
+
+<para>In previous articles, we've discussed imaging coding using libtiff. This article has a different focus, it discusses how to perform image manipulation using command line tools. This is something I do personally quite often, especially since I have picked up a couple of digital cameras, and now have to manage a library of several thousand happy snaps. It's an especially attractive option when you only want to perform a manipulation once or twice, and don't mind if it takes a little longer than it absolutely has to.</para>
+
+<para>This article takes the form of discussing specific problems as examples, but the concepts should be applicable to other problem spaces as well.</para>
+
+<para>It should be noted that there are many ways to do the things discussed in this article. I will only discuss the methods I use, and know work for me. That doesn't mean the other tools out there are broken, it just means that I'm happy with what I am using now.</para>
+
+<para>Most of the command line tools discussed in this article are part of the excellent imagemagick suite, which is available from www.imagemagick.org for free.</para>
+
+<sidebar>
+<title>How imagemagick works</title>
+<para>Imagemagick is implemented as a wrapper around a bunch of different imaging libraries, including libtiff and libpng. In imagemagick terminology, these are called delegates. This is own of the reasons that imagemagick is not as fast as a custom application would be, it has to be written in a generic manner which can deal with the different ways that these libraries represent image data.</para>
+</sidebar>
+
+<sect1><title>Generating thumb nails</title>
+<para>The first thing I needed to do with my picture collection was to generate thumb nails. I also wanted to reduce the size of the images for the web site version, as many people don't really want to see a 1920 by 1440 picture of my sons.</para>
+
+<para>The tool I use to do this is called <emphasis>convert</emphasis>, which is part of the imagemagick suite. <emphasis>Convert</emphasis> is really cool. It doesn't just do image resizing. It also anti aliases, averages a set of images, blurs, converts between image formats, crops, despeckles, dithers, draw borders, flips, joins, re-samples, resizes, and much more. Checkout the man page for more information on it's various command line options. Many of the more visually interesting effects offered by <emphasis>convert</emphasis> are also discussed later in this article.</para>
+
+<para>Let's assume I want to make a thumbnail of this rather nice image of a rose:</para>
+
+	
+
+<execute><cmd>img</cmd><args>rose.jpg</args></execute>
+
+
+<para>To resize the image with convert, just use the -sample command line option. For example, let's say that I want thumb nails to be 80x40 pixels. The command line would be:</para>
+
+
+<programlisting>
+convert -sample 80x40 input.jpg output.jpg
+</programlisting>
+
+<para>This produces a thumbnail which looks like:</para>
+
+	
+
+<execute><cmd>img</cmd><args>convert-sample-8040.jpg</args></execute>
+
+
+<para>Imagemagick will automatically respect the ratio created by the two sides of the image when it is resizing. This means that the aspect ratio of the new image will be the same as that of the previous image. In the example above, this means that the resized image is actually 53 by 40, instead of the requested 80 by 40.  Another way of specifying the size of the output image is to use percentages. This can be convenient if you're not sure of the size of the input image, or if you're not concerned with having the new image be an exact size. An example of how to use percentages is:</para>
+
+
+<programlisting>
+convert -sample 25%x25% input.jpg output.jpg
+</programlisting>
+
+<para>Now we have a thumbnail which looks like:</para>
+
+	
+
+<execute><cmd>img</cmd><args>convert-sample-25pct.jpg</args></execute>
+
+
+<para>This can be used on the command line to generate thumb nails for images within a directory. Whilst this article isn't about shell scripting, I'll quickly show you an example of how to generate a thumbnail of each JPEG in the current directory.</para>
+
+
+<programlisting>
+for img in `ls *.jpg`
+do
+  convert -sample 25%x25% $img thumb-$img
+done
+</programlisting>
+
+<para>This will produce a series of thumb nails 25% the size of the real image, with a filename which is the name of the JPEG file with a <emphasis>thumb-</emphasis> prepended.</para>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</sect1>
+<sect1><title>Getting information about an image file</title>
+
+<para>Another example of something which people commonly need to do is to determine the dimensions of an image file. This might be in order to determine how big to make the thumbnail from the previous example, or any other reason you can think of.</para>
+
+<para>Many imaging libraries come with excellent tools for this sort of purpose. For example, libtiff ships with <emphasis>tiffinfo</emphasis>, which display the following sort of information about TIFF files:</para>
+
+
+<programlisting>
+deathstar:/home/mikal# tiffinfo output.tif
+TIFF Directory at offset 0x146
+  Image Width: 352 Image Length: 288
+  Bits/Sample: 8
+  Compression Scheme: Deflate
+  Photometric Interpretation: RGB color
+  Samples/Pixel: 3
+  Planar Configuration: single image plane
+</programlisting>
+
+<para>This isn't an exhaustive example of how to use <emphasis>tiffinfo</emphasis>, but you can see that it returns useful information such as the size of the image, the pixel depth (a combination of the number of bits per sample, and the number of samples per pixel), and the compression scheme used.</para>
+
+<para>Similarly, there is a <emphasis>pnginfo</emphasis> command which returns similar information for PNG files:</para>
+
+
+<programlisting>
+deathstar:/home/mikal# pnginfo sample.png 
+sample.png...
+  Image Width: 640 Image Length: 480
+  Bitdepth (Bits/Sample): 8
+  Channels (Samples/Pixel): 3
+  Pixel depth (Pixel Depth): 24
+  Colour Type (Photometric Interpretation): RGB 
+  Image filter: Single row per byte filter 
+  Interlacing: No interlacing 
+  Compression Scheme: Deflate method 8, 32k window
+  Resolution: 0, 0 (unit unknown)
+  FillOrder: msb-to-lsb
+  Byte Order: Network (Big Endian)
+  Number of text strings: 0 of 0
+</programlisting>
+
+<sidebar>
+<title>pnginfo?</title>
+<para>I had been a user of libtiff for quite some time when I started using PNG. At the time, there was no <emphasis>tiffinfo</emphasis> equivalent for PNG files, which is why I wrote <emphasis>pnginfo</emphasis>. <emphasis>pnginfo</emphasis> can be downloaded from the URL at the end of this article.</para> 
+</sidebar>
+
+<para>I am not aware of equivalent individual tools for other formats such as BMP, GIF and JPEG. However, here imagemagick comes to the rescue once more, this time with a tool called <emphasis>identify</emphasis>.</para>
+
+
+<programlisting>
+deathstar:/home/mikal# identify -verbose sample.png 
+Image: sample.png
+  Format: PNG (Portable Network Graphics)
+  Geometry: 640x480
+  Class: DirectClass
+  Type: true color
+  Depth: 8 bits-per-pixel component
+  Colors: 142360
+  Filesize: 555.6k
+  Interlace: None
+  Background Color: grey100
+  Border Color: #DFDFDF
+  Matte Color: grey74
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Zip
+  signature: 361fe70ae623ef6f1fca44e0d29d157c2d701039fcf0f8625862925d881e13a4
+  Tainted: False
+  User Time: 0.190u
+  Elapsed Time: 0:01
+</programlisting>
+
+<para>You can see from this example that <emphasis>identify</emphasis> displays a bunch of useful information about the image file, for example the size of the image in pixels, the color depth of the image, and the image format.</para>
+
+<para><emphasis>identify</emphasis> also has a -format command line flag which allows you to specify that only the information you want be output. For example, if we were only interested in the image dimensions, the you might use a command like shown in this example:</para>
+
+
+<programlisting>
+deathstar:/home/mikal# identify -format "%wx%h" sample.png 
+640x480
+</programlisting>
+
+<para>Here, <emphasis>%w</emphasis> means image width, and <emphasis>%h</emphasis> means image height. Checkout the <emphasis>identify</emphasis> man page for more information on the formatting characters which can be used with the option.</para>
+
+
+
+
+
+
+
+
+
+
+</sect1>
+<sect1><title>Rotating images</title>
+
+<para>Another commonly needed image manipulation is the rotation of images. For example, many of the photos I take with my digital cameras are rotated ninety degrees, as they are taken as portrait pictures. My camera doesn't rotate these for me, so I have a script which does it for me once I have downloaded the images from the camera.<para>
+
+<para>For example, this is a photo taken on a trip I made to Port Arthur in Tasmania recently:</para>
+
+	
+
+<execute><cmd>img</cmd><args>portarthur.jpg</args></execute>
+
+
+<para>To rotate this picture, we again turn to the <emphasis>convert</emphasis> command from imagemagick. The command line to use is:</para>
+
+
+
+<programlisting>
+convert -rotate 90 input.jpg output.jpg
+</programlisting>
+
+<para>This produces an image which looks like:</para>
+
+	
+
+<execute><cmd>img</cmd><args>portarthur-rot.jpg</args></execute>
+
+
+<para>Note that the argument to the -rotate option is the number of degrees of the right to rotate the image. If you want to rotate to the left, then use a negative number.</para>
+
+
+
+
+
+</sect1>
+<sect1><title>Changing the format of an image</title>
+
+<para>The <emphasis>convert</emphasis> imagemagick command is also capable of converting the formation of the image files. This includes converting between image formats, such as converting a JPEG image to PNG, but it also includes converting from color to gray scale, dithering, and similar operations.</para>
+
+<para><emphasis>convert</emphasis> knows what image format the input and output are based on the file extensions given on the command line. Therefore, to convert a JPEG to a PNG, use a command line like the following:</para>
+
+
+<programlisting>
+convert input.jpg output.png
+</programlisting>
+
+<para>Imagemagick supports 89 image formats at the time of writing this article. Checkout the imagemagick web site for more information.</para>
+
+
+
+
+
+
+
+
+
+
+</sect1>
+<sect1><title>Adding textual annotations to an image</title>
+
+<para>Sometimes you need to add textual annotations to an image. For example, imagine that your company had a standard business card image, and needed to put each employee's details onto the card before sending it to the printer. Another example generating presentation certificates for users of your web site, for instance when they pass an online course.</para>
+
+	
+
+<execute><cmd>img</cmd><args>floriade.jpg</args></execute>
+
+
+
+<programlisting>
+convert -font helvetica -fill white -pointsize 36 \
+-draw 'text 10,50 "Floriade 2002, Canberra, Australia"' \
+floriade.jpg comment.jpg
+</programlisting>
+
+	
+
+<execute><cmd>img</cmd><args>comment.jpg</args></execute>
+
+
+<para>This is by far the most complex <emphasis>convert</emphasis> command line we have seen so far in the article, so I will take some time to explain it bit by bit.</para>
+
+<para><emphasis>-font helvetica</emphasis>: sets the font for the annotation to helvetica. It is possible here to specify a path to a font file as well. For example, this example badges the image so it can't be reused by other web sites without permission, but does so using a font which is in a non-standard location...</para>
+
+
+<programlisting>
+convert -font fonts/1900805.ttf -fill white -pointsize 36 \
+-draw 'text 10,475 "stillhq.com"' \
+floriade.jpg stillhq.jpg
+</programlisting>
+
+	
+
+<execute><cmd>img</cmd><args>stillhq.jpg</args></execute>
+
+
+<para><emphasis>-fill white</emphasis>: fill the letters with white, instead of the standard black.</para>
+
+<para><emphasis>-pointsize 36</emphasis>: the size of the letters, in points. There are 72 points to an inch.</para>
+
+<para><emphasis>-draw 'text 10,50 "..."'</emphasis>: a set of drawing commands, in this case move to the position 10, 50 and then draw the text in the double quotes. The single quotes are used because the double quotes are needed within the drawing command if more than one word is to be drawn, and you cannot have double quotes within double quotes.</para>
+
+
+
+
+
+
+
+
+
+
+
+</sect1>
+<sect1><title>Other, more artistic, conversions</title>
+
+<para><emphasis>convert</emphasis> also implements a series of quite artistic conversions. I'll only demonstrate some of the more visually interesting ones here, if you're interested in stuff like this, then you should checkout the imagemagick man page and web site for more information. The input image I will use for the demonstrations is:</para>
+
+	
+
+<execute><cmd>img</cmd><args>uluru.jpg</args></execute>
+
+
+<para>This photo of Uluru, formerly known as Ayer's Rock, was taken at sunset.</para>
+
+
+
+
+
+
+
+
+
+
+<sect2><title>Charcoal</title>
+
+<para>The charcoal effect simulates a charcoal artist's impression of the scene represented by the picture.</para>
+
+
+<programlisting>
+convert -charcoal 2 input.jpg output.jpg
+</programlisting>
+
+	
+
+<execute><cmd>img</cmd><args>charcoal.jpg</args></execute>
+
+
+<para>Increasing the magnitude of the argument to the charcoal option increases the amount of "charcoal" applied to the image, but also makes the generation of the image much slower. Here's an example with a little more charcoal.</para>
+
+
+<programlisting>
+convert -charcoal 10 input.jpg output.jpg
+</programlisting>
+
+	
+
+<execute><cmd>img</cmd><args>charcoal-medium.jpg</args></execute>
+
+
+
+<programlisting>
+convert -charcoal 200 input.jpg output.jpg
+</programlisting>
+
+	
+
+<execute><cmd>img</cmd><args>charcoal-intense.jpg</args></execute>
+
+
+<para>An intensity of 200 was used to produce the image above.</para>
+
+
+
+
+
+
+
+
+
+
+
+</sect2>
+<sect2><title>Colorize</title>
+
+<para>Colorizing is the process of blending the color of each pixel with a specified color. The argument to the effect is the color to blend with. This can either be specified as a percentage (which will be used for each of red, green, and blue), or as three percentages. It is also possible to provide either one of three actual values.</para>
+
+<sidebar>
+<title>Specifying three values</title>
+<para>To specify three values, one for each of the red, green and blue samples, use an argument of the form <emphasis>red/green/blue</emphasis>, for example, 10/20/30 would mean red has a value of 10, green a value of 20, and blue a value of 30. You can also use percentages within this construct.</para>
+</sidebar>
+
+
+<programlisting>
+convert -colourize 255 input.jpg output.jpg
+</programlisting>
+
+	
+
+<execute><cmd>img</cmd><args>colorize.jpg</args></execute>
+
+
+
+
+
+
+
+</sect2>
+<sect2><title>Implode</title>
+
+<para>The implode effect simulates the center of you image being sucked into a virtual black hole. The argument is the amount of implosion effect you desire.</para>
+
+
+<programlisting>
+convert -implode 4 input.jpg output.jpg
+</programlisting>
+
+	
+
+<execute><cmd>img</cmd><args>implode.jpg</args></execute>
+
+
+
+
+
+
+
+
+
+
+</sect2>
+<sect2><title>Solarize</title>
+
+<para>Solarizing is an effect that occurs when a negative is exposed to light part of the way through the photographic development process. Here, the input argument is the intensity above which to apply the effect, either specified as an absolute value, or as a percentage of the maximum possible value for the pixel. If a pixel is above the threshold, then it is negated.</para>
+
+<sidebar>
+<title>The solarize argument</title>
+<para>The imagemagick documentation states that the argument to solarize is always a percentage. This is not strictly true. If the argument has a percentage sign at the end of it, then it will be treated as a percentage. Otherwise, it is treated as a literal value.</para>
+</sidebar>
+
+
+<programlisting>
+convert -solarize 42 input.jpg output.jpg
+</programlisting>
+
+	
+
+<execute><cmd>img</cmd><args>solarize.jpg</args></execute>
+
+
+
+
+
+
+
+
+
+</sect2>
+<sect2><title>Spread</title>
+
+<para>Spread moves pixels by a random amount within the image. The argument is the size of the area around the pixel from which to select the new location. It therefore specifies how closely the output resembles the input.</para>
+
+
+<programlisting>
+convert -spread 5 input.jpg output.jpg
+</programlisting>
+
+	
+
+<execute><cmd>img</cmd><args>spread.jpg</args></execute>
+
+
+
+
+
+
+
+
+
+
+
+
+</sect2>
+</sect1>
+<sect1><title>Multiple commands in one imagemagick invocation</title>
+
+<para>I should also take the time to mention that it's possible to chain imagemagick commands. We have in fact already seen an example of this with the annotation examples. It is possible however to chain any of the imagemagick commands mentioned in this article. For example, perhaps we would like to make a thumbnail of an image, and then apply a spread to it. Once the spread has occurred, then we'll apply the charcoal effect.</para>
+
+
+<programlisting>
+convert -sample 25%x25% -spread 4 \
+-charcoal 4 input.jpg output.jpg
+</programlisting>
+
+<para>This produces:</para>
+
+	
+
+<execute><cmd>img</cmd><args>chained.jpg</args></execute>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</sect1>
+<sect1><title>Things to note about image manipulation</title>
+
+<para>There are some things you should remember about image manipulation before you rush out and start modifying every image you own. Firstly, you should give some thought to what image format you are going to use long term, before you end up with many images in a format that you later regret. This is made especially easy, as you can use <emphasis>convert</emphasis> to change the format of the images, as discussed earlier in this article.</para>
+
+<para>JPEG compression is great for large images such as photos. However, the compression is normally lossy (in that image data is thrown away as part of the compression process). This makes JPEG very poor for compressing text which needs to remain readable. The other thing to bear in mind is that the loss is accumulative.</para>
+
+<para>PNG is normally a good choice for color images where you don't want accumulating loss to effect the quality of the image after a series of manipulations.</para>
+
+<para>See my previous DeveloperWorks article on color imaging with libtiff for more information on this topic, the URL is in the resources section at the end of this article.</para>
+
+<para>Also, you should remember that most of the manipulations shown in this article are one way. For example, once you've shrunk and image, that image data is gone. If you blow up the image again later, then the output will be quite pixelated. For example, let's take a picture, make a thumbnail, and then expand the image again. To save some space, I'll just include the before and after images here, and skip the intervening thumbnail.</para>
+
+	
+
+<execute><cmd>img</cmd><args>waterfall.jpg</args></execute>
+
+
+
+<programlisting>
+convert -sample 10% -sample 1000% input.jpg output.jpg
+</programlisting>
+
+<para>This produces an image which looks like:</para>
+
+	
+
+<execute><cmd>img</cmd><args>blocky.jpg</args></execute>
+
+
+<para>I think you would have to agree, it's quite hard to see the waterfall in the finished picture, although unfocusing your eyes seems to help.</para>
+
+
+
+
+
+
+
+
+</sect1>
+<sect1><title>Conclusion</title>
+
+<para>In this article we've discussed some of the interesting things which imagemagick can do with your command line imaging needs. Hopefully I have provided somewhat of a cook book of imaging options which you'll find of use later. Remember however that generic command line imaging tools are not the answer to every problem. Sometimes you'll need a custom piece of code, in order to meet the requirements of the system.</para>
+
+
+
+
+
+

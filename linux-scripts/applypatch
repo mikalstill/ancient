@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# Apply a patch of a tree
+# $1 kernel version
+# $2 patch file
+
+if [ ! -d linux-$1 ]
+then
+  if [ ! -f /data/linux/kernel.org/linux-$1.tar.bz2 ]
+  then
+    echo "Need kernel source $1"
+    exit 1
+  fi
+
+  tar --bzip -xvf /data/linux/kernel.org/linux-$1.tar.bz2
+  if [ ! -d linux-$1 ]
+  then
+    echo "Could not extract kernel source $1"
+    exit 2
+  fi
+fi
+
+cp -R linux-$1 linux-$1-$2
+cd linux-$1-$2
+patch -p1 < ../$2
+if [ $? -ne 0 ]
+then
+  echo "Patch failed to apply"
+  exit 3
+fi
+
+exit 0
