@@ -43,7 +43,7 @@ This means that creating a TIFF can be very easy, because it is rare to have to 
 </para>
 	
 <para>
-So how do you write an application which can read in all these different possible permutations of the TIFF format? The most important thing to remember is to <i>never make assumptions about the format of the image data you are reading in</i>.
+So how do you write an application which can read in all these different possible permutations of the TIFF format? The most important thing to remember is to <emphasis>never make assumptions about the format of the image data you are reading in</emphasis>.
 </para>
 </sect1>
 
@@ -60,8 +60,8 @@ It is traditional for bitmaps to be represented inside your code with an array o
 </para>
 
 <programlisting>
-#include <stdio.h>
-#include <tiffio.h>
+#include &lt;stdio.h&gt;
+#include &lt;tiffio.h&gt;
 
 int
 main (int argc, char *argv[])
@@ -71,7 +71,7 @@ main (int argc, char *argv[])
 </programlisting>
 
 <para>
-The code above is pretty simple. All you need to use libtiff is to include the tiffio.h header file. To compile this, use the command <code type="inline">gcc foo.c -o foo -ltiff -lm</code>. The <code type="inline">-ltiff</code> is a command which will include the library named libtiff, which needs to be in your library path. Once you have started specifing libraries explicitly, you also need to add <code type="inline">-lm</code>, which is the mathematics library. The char buffer that we have defined here is going to be our black and white image, so we should define one of those next...
+The code above is pretty simple. All you need to use libtiff is to include the tiffio.h header file. To compile this, use the command <command>gcc foo.c -o foo -ltiff -lm</command>. The <command>-ltiff</command> is a command which will include the library named libtiff, which needs to be in your library path. Once you have started specifing libraries explicitly, you also need to add <command>-lm</command>, which is the mathematics library. The char buffer that we have defined here is going to be our black and white image, so we should define one of those next...
 </para>
 </sect2>
 
@@ -86,8 +86,8 @@ Please note, that for clarity I have omitted the actual hex for the image, this 
 </para>
 
 <programlisting>
-#include <stdio.h>
-#include <tiffio.h>
+#include &lt;stdio.h&gt;
+#include &lt;tiffio.h&gt;
 
 int main(int argc, char *argv[]){
   // Define an image
@@ -129,9 +129,13 @@ There are some interesting things to note in this example. The most interesting 
 </para>
 
 <sidebar>
-<heading refname="" type="sidebar" toc="no">Problems with xview</heading>
+<title>Problems with xview</title>
+<para>
 Xview is part of the xloadimage package written by Jim Frost, which comes with X windows.
+</para>
+
 <para>It's a good example of how hard it can be to handle TIFF images well. I am currently working on a patch to submit to Jim which will resolve this problem. If you have trouble viewing the output of the sample code, then try using some other program, like the gimp.</para>
+</para>
 </sidebar>
 
 <para>
@@ -143,19 +147,22 @@ The sample code shows the basics of using the libtiff API. The following interes
 
 <listitem><para>The TIFFOpen function is very similar to the fopen function we are all familiar with.</para></listitem>
 
-<listitem><para>We need to set the value for quite a few fields before we can start writing the image out. These fields give libtiff information about the size and shape of the image, as well as the way that data will be compresed within the image. These fields need to be set before you can start handing image data to libtiff. There are many more fields for which a value could be set, I have used close to the bar minimum in this example.
+<listitem><para>We need to set the value for quite a few fields before we can start writing the image out. These fields give libtiff information about the size and shape of the image, as well as the way that data will be compresed within the image. These fields need to be set before you can start handing image data to libtiff. There are many more fields for which a value could be set, I have used close to the bar minimum in this example.</para></listitem>
+
 <listitem><para>TIFFWriteEncodedStrip is the function call which actually inserts the image into the file. This call inserts uncompressed image data into the file. This means that libtiff will compress the image data for you before writing it to the file. If you have already compressed data, then have a look at the TIFFWriteRawStrip instead.</para></listitem>
 
 <listitem><para>Finally, we close the file with TIFFClose.</para></listitem>
 </orderedlist>
 
 <sidebar>
-<heading refname="" type="sidebar" toc="no">More information about the libtiff function calls</heading>
+<title>More information about the libtiff function calls</title>
+<para>
 If you need more information about any of the libtiff function calls mentioned in this article, then checkout the extensive man pages which come with the library. Remember that case is important with man pages, so you need to get the case in the function names right -- it's TIFFOpen, not tiffopen.
+</para>
 </sidebar>
 
 <para>
-In case you're curious, <a href="#figure1">here is a copy of the picture</a> (I've had to cheat and turn it into a JPEG, because most web browsers don't support TIFF)...
+In case you're curious, here is a copy of the picture (I've had to cheat and turn it into a JPEG, because most web browsers don't support TIFF)...
 </para>
 
 <figure>
@@ -178,8 +185,9 @@ The issue that complicates reading black and white TIFF images the most is the s
 <orderedlist>
 <listitem><para>A single strip image is as the name suggests -- a special case of a stripped image. In this case, all of the bitmap is stored in one large block. I have experienced reliability issues with images which are single strip on Windows machines. The general recommendation is that no one strip should take more than 8 kilobytes uncompressed which with black and white images limits us to 65,536 pixels in a single strip.</para></listitem>
 
-<listitem><para>A multiple strip image is where horizontal blocks of the image are stored together. More than one stip is joined vertically to make the entire bitmap. <a href="#figure2">Figure 2</a> shows this concept.
-<listitem><para>A tiled image is like your bathroom wall, it is composed of tiles. This representation is show in <a href="#figure3">Figure 3</a>, and is useful for extremely large images -- this is especially true when you might only want to manipulate a small portion of the image at any one time.</para></listitem>
+<listitem><para>A multiple strip image is where horizontal blocks of the image are stored together. More than one stip is joined vertically to make the entire bitmap. Figure 2 shows this concept.</para></listitem>
+
+<listitem><para>A tiled image is like your bathroom wall, it is composed of tiles. This representation is show in Figure 3, and is useful for extremely large images -- this is especially true when you might only want to manipulate a small portion of the image at any one time.</para></listitem>
 </orderedlist>
 
 <figure>
@@ -211,8 +219,8 @@ The other big thing to bear in mind is fillorder (whether the first bit in the b
 </para>
 
 <programlisting>
-#include <stdio.h>
-#include <tiffio.h>
+#include &lt;stdio.h&gt;
+#include &lt;tiffio.h&gt;
 
 int main(int argc, char *argv[]){
   TIFF *image;
@@ -287,7 +295,7 @@ int main(int argc, char *argv[]){
     // We need to swap bits -- ABCDEFGH becomes HGFEDCBA
     printf("Fixing the fillorder\n");
 
-    for(count = 0; count < bufferSize; count++){
+    for(count = 0; count &lt; bufferSize; count++){
       tempbyte = 0;
       if(buffer[count] & 128) tempbyte += 1;
       if(buffer[count] & 64) tempbyte += 2;
@@ -341,7 +349,7 @@ In this article I have shown you how to write and read some simple black and whi
 <listitem><para>The <a href="http://gopher.std.com/homepages/jimf/xloadimage.html">xloadimage</a> web page might be of interest.</para></listitem>
 
 <listitem><para>The Cooper Union for the Advancement of Science and Art has some <a href="http://www.ee.cooper.edu/courses/course_pages/past_courses/EE458/TIFF/">notes</a> from a previous course dealing with libtiff online.</para></listitem>
-</orderlist>
+</orderedlist>
 </para>
 </sect1>
 
