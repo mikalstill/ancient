@@ -37,11 +37,14 @@
  *     void tearDown( void ) { ... }
  *
  * @author <your name here>
- * @version $Revision: 1.5 $ $Date: 2002-11-12 22:30:08 $
+ * @version $Revision: 1.6 $ $Date: 2002-11-13 00:30:38 $
  *
  * Revision History
  *
  * $Log: not supported by cvs2svn $
+ * Revision 1.5  2002/11/12 22:30:08  u983131
+ * Added a new test for divided differences
+ *
  * Revision 1.4  2002/11/11 04:55:47  u983131
  * cepInterp - now has fully working and validated natural splines
  * also changed makefile to reinclude it in the build
@@ -102,6 +105,8 @@ public:
       new CppUnit::TestCaller<Test>( "Natural spline test 4",	&Test::testNatSpline4 ) );
     suiteOfTests->addTest(
       new CppUnit::TestCaller<Test>( "Divided difference test 1",	&Test::testDivDiff1 ) );
+    suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "Divided difference test 2",	&Test::testDivDiff2 ) );
 
 
     return suiteOfTests;
@@ -545,18 +550,18 @@ protected:
 		// generate linear interp
 		finish1 = interpolate.doInterp(start, 1, DIVIDED_INTERP);
 
-		for (int i=0; i<finish1.getNumRows(); i++)
+/*		for (int i=0; i<finish1.getNumRows(); i++)
 		{
 			for (int j=0; j<finish1.getNumCols(); j++)
 				cout << finish1.getValue(i,j) << " ";
 			cout << '\n';
-		}
+		}*/
 
-/*    for( int i=0; i<2*rows-1; i++ )
+    for( int i=0; i<2*rows-1; i++ )
       for( int j=0; j<cols-1; j++ )
         CPPUNIT_ASSERT_EQUAL_MESSAGE( "values not equal",
-				               finish2.getValue(i,j), finish1.getValue(i,j));
-*/
+				               (double)i, finish1.getValue(i,j));
+
 
   }
 
@@ -571,23 +576,30 @@ protected:
 
     start.setValue( 0, 0, 0.0 );
     start.setValue( 0, 1, 4.0 );
-    start.setValue( 2, 0, 0.0 );
-    start.setValue( 2, 1, 0.0 );
-    start.setValue( 5, 0, 0.0 );
+    start.setValue( 1, 0, 2.0 );
+    start.setValue( 1, 1, 0.0 );
+    start.setValue( 2, 0, 5.0 );
+    start.setValue( 2, 1, 4.0 );
+    start.setValue( 3, 0, 7.0 );
+    start.setValue( 3, 1, 4.0 );
+    start.setValue( 4, 0, 9.0 );
+    start.setValue( 4, 1, 0.0 );
+    start.setValue( 5, 0, 11.0 );
     start.setValue( 5, 1, 4.0 );
-    start.setValue( 7, 0, 0.0 );
-    start.setValue( 7, 1, 4.0 );
-    start.setValue( 9, 0, 0.0 );
-    start.setValue( 9, 1, 0.0 );
-    start.setValue( 11, 0, 0.0 );
-    start.setValue( 11, 1, 4.0 );
-    start.setValue( 13, 0, 0.0 );
-    start.setValue( 13, 1, 4.0 );
-    start.setValue( 15, 0, 0.0 );
-    start.setValue( 15, 1, 0.0 );
-    start.setValue( 17, 0, 0.0 );
-    start.setValue( 17, 1, 4.0 );
+    start.setValue( 6, 0, 13.0 );
+    start.setValue( 6, 1, 4.0 );
+    start.setValue( 7, 0, 15.0 );
+    start.setValue( 7, 1, 0.0 );
+    start.setValue( 8, 0, 17.0 );
+    start.setValue( 8, 1, 4.0 );
 
+    cout << "Start Value\n";
+    for (int i=0; i<rows; i++)
+    {
+      cout << start.getValue(i,0) << " "
+           << start.getValue(i,1) << '\n';
+    }
+    cout << '\n';
 
 		// populate matrix with expected values
 		for (int i=0; i<2*rows-1; i++)
@@ -611,7 +623,6 @@ protected:
         CPPUNIT_ASSERT_EQUAL_MESSAGE( "values not equal",
 				               finish2.getValue(i,j), finish1.getValue(i,j));
 */
-
   }
 
 
