@@ -43,7 +43,7 @@ cepInterp::cepInterp()
 }
 
 cepMatrix<double> cepInterp::doInterp(cepMatrix<double> & input, double sampleRate,
-												int interpType, int winSize = 1, double winOverlap = 0.0)
+												int interpType, int winSize, double winOverlap)
 {
 	/* winLength is the length of a window minus overlap on start edge*/
 	int winLength = (int)(winSize * (1-winOverlap));
