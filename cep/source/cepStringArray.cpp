@@ -22,7 +22,8 @@
 #include "cepStringArray.h"
 
 cepStringArray::cepStringArray(string input, string delim):
-  m_broken(0, string(""))
+  m_broken(0, string("")),
+  m_unbroken(input)
 {
   char *temp, *p;
 
@@ -49,5 +50,8 @@ size_t cepStringArray::size()
 
 string cepStringArray::operator[](size_t index)
 {
-  return m_broken[index];
+  cepDebugPrint("Request for element " + cepToString(index) + " from string " + m_unbroken);
+  if(index < m_broken.size())
+    return m_broken[index];
+  else return "";
 }

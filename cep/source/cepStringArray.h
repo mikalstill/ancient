@@ -30,6 +30,7 @@ class cepStringArray{
 
  private:
   vector<string> m_broken;
+  string m_unbroken;
 };
 
 #endif

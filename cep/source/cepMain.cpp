@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
       char c;
       commands.read(&c, 1);
       
-      if(c == '\n'){
+      if((c == '\n') && (line.length() > 0)){
 	cepStringArray sa(line, " "); 
 	
 	if(sa[0] == "open"){
@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
 	  }
 	}
 	else{
-	  cepDebugPrint("Command not found");
+	  cepDebugPrint("Command not found: " + sa[0]);
 	  cerr << "Command not found" << endl;
 	}
 	
