@@ -42,6 +42,8 @@ print "  ";
 # Run through every line the the file
 open CFILE, "< $filename";
 while(<CFILE>){
+  chomp;
+
   # Deal with special docbook characters
   s/<!--.*-->//g;
   s/&/&amp;/g;
@@ -63,7 +65,7 @@ while(<CFILE>){
 	delete $myhash{$key};
         } 
     }
-  elsif((/([A-Z]*)[ \t]*(.*)[ \t]*/) && ($docbook == 1)){
+  elsif((/([A-Z]*)[ \t]*([^\r]+)[ \t]*/) && ($docbook == 1)){
       if($blockmode == 0){
 	  if($2 eq "START"){
 	      # We are entering block mode
