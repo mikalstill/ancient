@@ -8,11 +8,13 @@
   Michael Still 12 July 2000
 *****************************************************************************/
 
+#include <stdio.h>
+
 int main(int argc, char *argv[]){
   FILE    *input;
   int     c;
 
-  input = fopen(input, "r");
+  input = fopen(argv[1], "r");
 
   while((c = fgetc(input)) != EOF){
     switch(c){
@@ -24,6 +26,7 @@ int main(int argc, char *argv[]){
       printf("%c", c);
       break;
     }
-
-    printf("[EOF]\n\n");
   }
+
+  printf("[EOF]\n\n");
+}
