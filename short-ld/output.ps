@@ -2,7 +2,7 @@
 %%Creator: dvipsk 5.86 p1.5d Copyright 1996-2001 ASCII Corp.(www-ptex@ascii.co.jp)
 %%based on dvipsk 5.86 Copyright 1999 Radical Eye Software (www.radicaleye.com)
 %%Title: output.dvi
-%%Pages: 6
+%%Pages: 8
 %%PageOrder: Ascend
 %%BoundingBox: 0 0 596 842
 %%DocumentFonts: Helvetica-Bold Palatino-Bold Palatino-Roman
@@ -11,7 +11,7 @@
 %DVIPSWebPage: (www.radicaleye.com)
 %DVIPSCommandLine: dvips -q output.dvi -o output.ps
 %DVIPSParameters: dpi=600, compressed
-%DVIPSSource:  TeX output 2002.07.07:1832
+%DVIPSSource:  TeX output 2002.07.07:2013
 %%BeginProcSet: texc.pro
 %!
 /TeXDict 300 dict def TeXDict begin/N{def}def/B{bind def}N/S{exch}N/X{S
@@ -337,7 +337,7 @@ ED01FF9238007FC0EE1FF0EE07FCEE01FEA2EE07FCEE1FF0EE7FC0923801FF00ED07FCED
 TeXBase1Encoding ReEncodeFont} 71 74.7198 /Courier rf
 /Fc 135[ 42 60 42 46 28 32 32 2[ 37 46 65 23 37 1[ 23
 42 42 23 32 42 34 38 37 9[ 78 60 8[ 78 46 8[ 55 8[ 21
-3[ 42 42 42 42 3[ 25 21 46[{ TeXBase1Encoding ReEncodeFont} 33
+1[ 42 42 42 42 42 42 3[ 25 21 46[{ TeXBase1Encoding ReEncodeFont} 35
 83.022 /Palatino-Italic rf /Fd 134[ 56 4[ 33 1[ 39 1[ 61
 61 2[ 28 3[ 61 2[ 56 61 56 1[ 56 1[ 56 7[ 95 4[ 73 1[ 67
 78 2[ 61 6[ 67 73 2[ 73 1[ 61 15[ 28 28 46[{
@@ -472,92 +472,99 @@ b(Andr) o(ew) g(wanted) h(to) h(be) e(able) h(to) g(use) h(iso) f
 (images) h(instead) e(of) i(having) 596 3590 y(to) g(have) g(a) g
 (physical) g(CD) h(ROM) f(drive) g(attached) f(to) i(the) f(machine.) h
 (His) f(code) g(to) h(implement) 596 3682 y(this) 21
-b(looks) h(like:) p Fb 596 3847 a(/*) 685 3929 y(a) 45
+b(looks) h(like:) p Fb 596 3847 a(/*) 685 4011 y(a) 45
 b(quick) f(hack) g(to) g(allow) g(ISO) h(images) f(to) g(be) h(used) f
-(as) g(a) h(cdrom) f(device) g(in) g(vmware.) 685 4011
+(as) g(a) h(cdrom) f(device) g(in) g(vmware.) 685 4176
 y(Waht) g(we) h(do) f(is) h(hook) f(open\(\)) g(and) g(ioctl\(\)) g
 (then) g(for) g(ioctl\(\)) g(calls) g(on) g(any) h(file) f(end-) 596
-4093 y(ing) g(in) g(".iso") g(we) 685 4176 y(return) g(enough) g
+4258 y(ing) g(in) g(".iso") g(we) 685 4422 y(return) g(enough) g
 (garbage) f(for) i(vmware) f(to) g(think) g(it) h(has) f(a) h(real) f
-(cdrom) g(device) 685 4340 y(To) h(install) e(build) h(fakecd.so) g
+(cdrom) g(device) 685 4751 y(To) h(install) e(build) h(fakecd.so) g
 (then) g(add) g(it) h(to) f(/etc/ld.so) n(.preload) 685
-4422 y(In) h(vmware) e(set) i(your) f(cdrom) g(device) g(to) g
+4915 y(In) h(vmware) e(set) i(your) f(cdrom) g(device) g(to) g
 (whatever) g(iso) g(image) g(you) g(like.) g(It) 685
-4504 y(_must_) g(have) g(the) g(extension) g(".iso") 685
-4669 y(currenty) g(only) g(supports) f(1) i(faked) f(cdrom) g(drive) 685
-4833 y(tridge@lin) n(uxcare.com,) f(October) h(2000) 596
-4915 y(*/) 596 5080 y(#includ) n(e) p Fa 45 w(<) p Fb(stdio.h) p
-Fa(>) p Fb 596 5162 a(#includ) n(e) p Fa 45 w(<) p Fb(pwd.h) p
-Fa(>) p Black Fc 3642 5577 a(3) p Black 90 rotate dyy
-eop
+5080 y(_must_) g(have) g(the) g(extension) g(".iso") p
+Black Fc 3642 5577 a(3) p Black 90 rotate dyy eop
 %%Page: 4 4
 4 3 bop Black 0 TeXcolorgray Black Fc 197 67 a(Linux) 21
-b(ld) f(hacking) g(howto) p Black Fb 596 579 a(#includ) n(e) p
-Fa 45 w(<) p Fb(errno.h) p Fa(>) p Fb 596 661 a(#includ) n(e) p
-Fa 45 w(<) p Fb(sys/type) n(s.h) p Fa(>) p Fb 596 743
-a(#includ) n(e) p Fa 45 w(<) p Fb(dlfcn.h) p Fa(>) p
-Fb 596 825 a(#includ) n(e) p Fa 45 w(<) p Fb(linux/cd) n(rom.h) p
-Fa(>) p Fb 596 990 a(static) 43 b(int) i(iso_fd) e(=) i(-1;) 596
-1154 y(int) f(open\(con) n(st) h(char) f(*filename,) f(int) i(flags,) e
-(mode_t) h(mode\)) 596 1236 y({) 596 1319 y(int) g(ret;) 596
-1401 y(static) f(int) i(\(*realo) n(pen\)\(const) f(char) g(*,) g(int) h
-(,) f(mode_t) g(\);) 596 1565 y(if) g(\(!realope) n(n\)) h({) 596
-1647 y(realope) n(n) g(=) g(dlsym\(\() n(void) g(*\)-1,) f("open"\)) n
-(;) 596 1730 y(}) 596 1894 y(ret) g(=) h(realop) n(en\(filename,) e
-(flags,) h(mode\);) 596 2058 y(if) g(\(ret) g(!=) h(-1) f(&&) h
+b(ld) f(hacking) g(howto) p Black Fb 685 743 a(currenty) 44
+b(only) g(supports) f(1) i(faked) f(cdrom) g(drive) 685
+1072 y(tridge@lin) n(uxcare.com,) f(October) h(2000) 596
+1236 y(*/) 596 1565 y(#includ) n(e) p Fa 45 w(<) p Fb(stdio.h) p
+Fa(>) p Fb 596 1730 a(#includ) n(e) p Fa 45 w(<) p Fb(pwd.h) p
+Fa(>) p Fb 596 1894 a(#includ) n(e) p Fa 45 w(<) p Fb(errno.h) p
+Fa(>) p Fb 596 2058 a(#includ) n(e) p Fa 45 w(<) p Fb(sys/type) n(s.h) p
+Fa(>) p Fb 596 2223 a(#includ) n(e) p Fa 45 w(<) p Fb(dlfcn.h) p
+Fa(>) p Fb 596 2387 a(#includ) n(e) p Fa 45 w(<) p Fb(linux/cd) n
+(rom.h) p Fa(>) p Fb 596 2716 a(static) f(int) i(iso_fd) e(=) i(-1;) 596
+3045 y(int) f(open\(con) n(st) h(char) f(*filename,) f(int) i(flags,) e
+(mode_t) h(mode\)) 596 3209 y({) 596 3373 y(int) g(ret;) 596
+3538 y(static) f(int) i(\(*realo) n(pen\)\(const) f(char) g(*,) g(int) h
+(,) f(mode_t) g(\);) 596 3867 y(if) g(\(!realope) n(n\)) h({) 596
+4031 y(realope) n(n) g(=) g(dlsym\(\() n(void) g(*\)-1,) f("open"\)) n
+(;) 596 4195 y(}) 596 4524 y(ret) g(=) h(realop) n(en\(filename,) e
+(flags,) h(mode\);) 596 4853 y(if) g(\(ret) g(!=) h(-1) f(&&) h
 (strcmp\() n(filename+str) n(len\(filename) n(\)-4,) g(".iso"\)) e(==) i
-(0\)) f({) 596 2141 y(iso_fd) f(=) i(ret;) 596 2223 y(}) f(else) g(if) h
-(\(ret) f(==) g(iso_fd\)) g({) 596 2305 y(iso_fd) f(=) i(-1;) 596
-2387 y(}) 596 2552 y(return) e(ret;) 596 2634 y(}) 596
-2798 y(int) h(ioctl\(in) n(t) h(d,) g(int) f(request,) f(void) i
-(*arg\)) 596 2880 y({) 596 2962 y(static) e(int) i(\(*reali) n
-(octl\)\(int) f(,) g(int) h(,) f(void) h(*\);) 596 3127
-y(if) f(\(!realioc) n(tl\)) h({) 596 3209 y(realioc) n(tl) g(=) f
-(dlsym\(\(void) f(*\)-1,) h("ioctl"\);) 596 3291 y(}) 596
-3456 y(if) g(\(d) h(!=) f(iso_fd\)) g({) 596 3538 y(return) f
-(realioctl\(d) n(,) i(request,) f(arg\);) 596 3620 y(}) 596
-3867 y(switch) f(\(request\)) h({) 596 4031 y(case) g(CDROMVO) n
-(LREAD:) 596 4113 y(case) g(CDROMVO) n(LCTRL:) g({) 596
-4195 y(struct) f(cdrom_volct) n(rl) i(*v) f(=) h(arg;) 596
-4278 y(memset\() n(v,) g(0,) f(sizeof\(*v\)\)) n(;) 596
-4360 y(return) f(0;) 596 4442 y(}) 596 4606 y(case) h(CDROM_S) n
-(ET_OPTIONS:) 596 4688 y(case) g(CDROM_C) n(LEAR_OPTIONS) n(:) 596
-4771 y(return) f(CDC_LOCK;) 596 4935 y(case) h(CDROMRE) n(ADTOCHDR:) g
-({) 596 5017 y(struct) f(cdrom_tochd) n(r) i(*v) g(=) f(arg;) 596
-5099 y(v-) p Fa(>) p Fb(cdt) n(h_trk0) g(=) h(1;) p Black
-Fc 197 5577 a(4) p Black 90 rotate dyy eop
+(0\)) f({) 596 5017 y(iso_fd) f(=) i(ret;) p Black Fc
+197 5577 a(4) p Black 90 rotate dyy eop
 %%Page: 5 5
 5 4 bop Black 0 TeXcolorgray Black Fc 2891 67 a(Linux) 21
-b(ld) g(hacking) e(howto) p Black Fb 596 579 a(v-) p
-Fa(>) p Fb(cdt) n(h_trk1) 44 b(=) h(1;) 596 661 y(return) e(0;) 596
-743 y(}) 596 908 y(case) h(CDROMRE) n(ADTOCENTRY:) f({) 596
-990 y(struct) g(cdrom_tocen) n(try) i(*v) f(=) h(arg;) 596
-1072 y(v-) p Fa(>) p Fb(cdt) n(e_track=1;) 596 1154 y(v-) p
-Fa(>) p Fb(cdt) n(e_adr=1;) 596 1236 y(v-) p Fa(>) p
-Fb(cdt) n(e_ctrl=4;) 596 1319 y(v-) p Fa(>) p Fb(cdt) n(e_format=2;) 596
-1401 y(v-) p Fa(>) p Fb(cdt) n(e_addr.lba=0) n(;) 596
-1483 y(v-) p Fa(>) p Fb(cdt) n(e_datamode=0) n(;) 596
-1565 y(return) e(0;) 596 1647 y(}) 596 1812 y(case) h(CDROMSU) n
-(BCHNL:) 596 1894 y(case) g(CDROMMU) n(LTISESSION:) 596
-1976 y(case) g(CDROM_D) n(RIVE_STATUS:) 596 2058 y(case) g(CDROM_L) n
-(OCKDOOR:) 596 2141 y(case) g(CDROM_M) n(EDIA_CHANGED) n(:) 596
-2223 y(return) f(0;) 596 2305 y(default) n(:) 596 2387
-y(/*) h(fprintf\(s) n(tderr,"fakec) n(d:) h(Unknown) f(ioctl) g
-(0x\045x\\n") n(,) h(request\);) e(*/) 596 2469 y(break;) 596
-2552 y(}) 596 2716 y(/*) h(fall) g(through) g(to) g(other) g(ioctls) g
-(*/) 596 2798 y(return) f(realioctl\(i) n(so_fd,) h(request,) g(arg\);)
-596 2880 y(}) 596 3045 y(int) g(close\(in) n(t) h(fd\)) 596
-3127 y({) 596 3209 y(static) e(int) i(\(*realc) n(lose\)\(int) f(\);)
-596 3373 y(if) g(\(!realclo) n(se\)) h({) 596 3456 y(realclo) n(se) g
-(=) f(dlsym\(\(void) f(*\)-1,) h("close"\);) 596 3538
-y(}) 596 3620 y(if) g(\(fd) g(==) h(iso_fd\)) e({) 596
-3702 y(iso_fd) g(=) i(-1;) 596 3784 y(}) 596 3867 y(return) e
-(realclose\(f) n(d\);) 596 3949 y(}) p Fc 596 4123 a(Code:) 20
-b(/home/) n(mikal/external/cvs.sam) n(ba.or) o(g/fakecd/) n(fakecd.c) p
-Black 3642 5577 a(5) p Black 90 rotate dyy eop
+b(ld) g(hacking) e(howto) p Black Fb 596 579 a(}) 44
+b(else) g(if) h(\(ret) f(==) g(iso_fd\)) g({) 596 743
+y(iso_fd) f(=) i(-1;) 596 908 y(}) 596 1236 y(return) e(ret;) 596
+1401 y(}) 596 1730 y(int) h(ioctl\(in) n(t) h(d,) g(int) f(request,) f
+(void) i(*arg\)) 596 1894 y({) 596 2058 y(static) e(int) i(\(*reali) n
+(octl\)\(int) f(,) g(int) h(,) f(void) h(*\);) 596 2387
+y(if) f(\(!realioc) n(tl\)) h({) 596 2552 y(realioc) n(tl) g(=) f
+(dlsym\(\(void) f(*\)-1,) h("ioctl"\);) 596 2716 y(}) 596
+3045 y(if) g(\(d) h(!=) f(iso_fd\)) g({) 596 3209 y(return) f
+(realioctl\(d) n(,) i(request,) f(arg\);) 596 3373 y(}) 596
+3867 y(switch) f(\(request\)) h({) 596 4195 y(case) g(CDROMVO) n
+(LREAD:) 596 4360 y(case) g(CDROMVO) n(LCTRL:) g({) 596
+4524 y(struct) f(cdrom_volct) n(rl) i(*v) f(=) h(arg;) 596
+4688 y(memset\() n(v,) g(0,) f(sizeof\(*v\)\)) n(;) 596
+4853 y(return) f(0;) 596 5017 y(}) p Black Fc 3642 5577
+a(5) p Black 90 rotate dyy eop
 %%Page: 6 6
 6 5 bop Black 0 TeXcolorgray Black Fc 197 67 a(Linux) 21
-b(ld) f(hacking) g(howto) p Black Black 197 5577 a(6) p
+b(ld) f(hacking) g(howto) p Black Fb 596 743 a(case) 44
+b(CDROM_S) n(ET_OPTIONS:) 596 908 y(case) g(CDROM_C) n(LEAR_OPTIONS) n
+(:) 596 1072 y(return) f(CDC_LOCK;) 596 1401 y(case) h(CDROMRE) n
+(ADTOCHDR:) g({) 596 1565 y(struct) f(cdrom_tochd) n(r) i(*v) g(=) f
+(arg;) 596 1730 y(v-) p Fa(>) p Fb(cdt) n(h_trk0) g(=) h(1;) 596
+1894 y(v-) p Fa(>) p Fb(cdt) n(h_trk1) f(=) h(1;) 596
+2058 y(return) e(0;) 596 2223 y(}) 596 2552 y(case) h(CDROMRE) n
+(ADTOCENTRY:) f({) 596 2716 y(struct) g(cdrom_tocen) n(try) i(*v) f(=) h
+(arg;) 596 2880 y(v-) p Fa(>) p Fb(cdt) n(e_track=1;) 596
+3045 y(v-) p Fa(>) p Fb(cdt) n(e_adr=1;) 596 3209 y(v-) p
+Fa(>) p Fb(cdt) n(e_ctrl=4;) 596 3373 y(v-) p Fa(>) p
+Fb(cdt) n(e_format=2;) 596 3538 y(v-) p Fa(>) p Fb(cdt) n(e_addr.lba=0)
+n(;) 596 3702 y(v-) p Fa(>) p Fb(cdt) n(e_datamode=0) n(;) 596
+3867 y(return) e(0;) 596 4031 y(}) 596 4360 y(case) h(CDROMSU) n
+(BCHNL:) 596 4524 y(case) g(CDROMMU) n(LTISESSION:) 596
+4688 y(case) g(CDROM_D) n(RIVE_STATUS:) 596 4853 y(case) g(CDROM_L) n
+(OCKDOOR:) 596 5017 y(case) g(CDROM_M) n(EDIA_CHANGED) n(:) p
+Black Fc 197 5577 a(6) p Black 90 rotate dyy eop
+%%Page: 7 7
+7 6 bop Black 0 TeXcolorgray Black Fc 2891 67 a(Linux) 21
+b(ld) g(hacking) e(howto) p Black Fb 596 579 a(return) 43
+b(0;) 596 743 y(default) n(:) 596 908 y(/*) h(fprintf\(s) n
+(tderr,"fakec) n(d:) h(Unknown) f(ioctl) g(0x\045x\\n") n(,) h
+(request\);) e(*/) 596 1072 y(break;) 596 1236 y(}) 596
+1565 y(/*) h(fall) g(through) g(to) g(other) g(ioctls) g(*/) 596
+1730 y(return) f(realioctl\(i) n(so_fd,) h(request,) g(arg\);) 596
+1894 y(}) 596 2223 y(int) g(close\(in) n(t) h(fd\)) 596
+2387 y({) 596 2552 y(static) e(int) i(\(*realc) n(lose\)\(int) f(\);)
+596 2880 y(if) g(\(!realclo) n(se\)) h({) 596 3045 y(realclo) n(se) g
+(=) f(dlsym\(\(void) f(*\)-1,) h("close"\);) 596 3209
+y(}) 596 3373 y(if) g(\(fd) g(==) h(iso_fd\)) e({) 596
+3538 y(iso_fd) g(=) i(-1;) 596 3702 y(}) 596 3867 y(return) e
+(realclose\(f) n(d\);) 596 4031 y(}) p Fc 596 4205 a(Code:) 20
+b(/home/) n(mikal/external/cvs.sam) n(ba.or) o(g/fakecd/) n(fakecd.c) p
+Black 3642 5577 a(7) p Black 90 rotate dyy eop
+%%Page: 8 8
+8 7 bop Black 0 TeXcolorgray Black Fc 197 67 a(Linux) 21
+b(ld) f(hacking) g(howto) p Black Black 197 5577 a(8) p
 Black 90 rotate dyy eop
 %%Trailer
 end
