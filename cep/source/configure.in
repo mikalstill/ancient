@@ -1,6 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_INIT(cepError.cpp)
 AC_CONFIG_AUX_DIR(config)
+AC_CANONICAL_SYSTEM
 AM_INIT_AUTOMAKE(cep, 0.1)
 AM_MAINTAINER_MODE
 
@@ -69,7 +70,7 @@ AC_DEFINE(__WXGTK__)
 
 dnl Stu[id code to ensure that dvelopers do not ignore warnings
 AC_DEFINE(_GNU_SOURCE)
-case "$host" in
+case "${host}" in
   *-*-openbsd*)
     CFLAGS="$CFLAGS -pthread"
     CPPFLAGS="$CPPFLAGS -D_REENTRANT"
@@ -86,9 +87,9 @@ case "$host" in
     echo "Setting Solaris compilation options";;
   *-*-linux*)
     dnl Assume that this sucker will be multi threaded. Are we going to be generating shared libs
-    dnl be nice, don't file on warnings but inform the developers concerned
-    dnl CPPFLAGS="$CPPFLAGS -fPIC -DPIC -D_REENTRANT -Wall -Werror"
-    CPPFLAGS="$CPPFLAGS -D_REENTRANT -Wall"
+    dnl be nice, don't fail on warnings but inform the developers concerned
+    INCLUDES="-I/usr/local/lib/wx/include/gtk-2.2"
+    CPPFLAGS="$INCLUDES $CPPFLAGS -D_REENTRANT -fPIC -DPIC -Wall -pedantic"
     echo "Setting Linux compilation options";;
   *-*-aix*)
     CPPFLAGS="$CPPFLAGS -D_THREAD_SAFE"
@@ -98,6 +99,7 @@ case "$host" in
     LDFLAGS="$LDFLAGS -L/usr/lib32"
     echo "Setting Irix compilation options";;
   *)
+  echo "Unknown host type $host"
   echo "This project may not compile on this system. Good luck :-)";;
 esac
 
