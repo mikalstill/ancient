@@ -63,6 +63,7 @@
 IMPLEMENT_DYNAMIC_CLASS (cepView, wxView)
 BEGIN_EVENT_TABLE (cepView, wxView) 
   EVT_MENU (CEPMENU_AVERAGE, cepView::OnToggleAverage)
+  EVT_MENU (CEPMENU_ERRORS, cepView::OnToggleErrors)
   EVT_MENU (CEPMENU_COLORAXES, cepView::OnColorAxes)
   EVT_MENU (CEPMENU_COLORLINE, cepView::OnColorLine)
   EVT_MENU (CEPMENU_COLORAVERAGE, cepView::OnColorAverage)
@@ -76,6 +77,7 @@ BEGIN_EVENT_TABLE (cepView, wxView)
 END_EVENT_TABLE ()
   
 cepView::cepView ():
+  m_plotfailed(false),
   m_currentView(cepPresentation::viewCentered)
 {
   canvas = (cepCanvas *) NULL;
@@ -110,6 +112,7 @@ cepView::~cepView ()
   Activate (TRUE);
 
   m_showAverages = false;
+  m_showErrors = true;
   m_showX = true;
   m_showY = true;
   m_showZ = true;
@@ -229,6 +232,10 @@ bool cepView::OnClose (bool deleteWindow)
 
 void cepView::drawPresentation(cepDataset *theDataset, cepDataset::direction dir, int top, wxDC *dc, int presHeight)
 {
+  // If plotting has failed before, then it will fail now...
+  if(m_plotfailed && !m_dirty)
+    return;
+
   // Being marked dirty makes us regenerate the images
   if(m_dirty && (m_pngCache[(int) dir] != "")){
     unlink(m_pngCache[(int) dir].c_str());
@@ -262,7 +269,8 @@ void cepView::drawPresentation(cepDataset *theDataset, cepDataset::direction dir
     }
 
     pres.useAverage(m_showAverages);
-    
+    pres.useErrors(m_showErrors);
+
     cepError err;
     int red = 0, green = 0, blue = 0;
 
@@ -300,7 +308,11 @@ void cepView::drawPresentation(cepDataset *theDataset, cepDataset::direction dir
 
     pres.setView(m_currentView);
     err = pres.createPNG (cfname);
-    if (err.isReal ()) err.display ();
+    if (err.isReal ()){
+      err.display ();
+      m_plotfailed = true;
+      return;
+    }
 
     m_pngCache[(int) dir] = string(cfname);
   }
@@ -320,6 +332,17 @@ void cepView::drawPresentation(cepDataset *theDataset, cepDataset::direction dir
 void cepView::OnToggleAverage (wxCommandEvent &pevt)
 {
   m_showAverages = pevt.IsChecked();
+  m_dirty = true;
+
+  // todo_mikal: this doesn't work at the moment...
+  // Force a repaint of the window
+  wxPaintEvent evt(0);
+  wxPostEvent(frame, evt);
+}
+
+void cepView::OnToggleErrors (wxCommandEvent &pevt)
+{
+  m_showErrors = pevt.IsChecked();
   m_dirty = true;
 
   // todo_mikal: this doesn't work at the moment...

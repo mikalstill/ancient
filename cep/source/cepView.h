@@ -74,6 +74,7 @@ public:
   void OnCut (wxCommandEvent & event);
 
   void OnToggleAverage (wxCommandEvent& event);
+  void OnToggleErrors (wxCommandEvent& event);
   void OnColorAxes  (wxCommandEvent& event);
   void OnColorLine  (wxCommandEvent& event);
   void OnColorAverage  (wxCommandEvent& event);
@@ -93,8 +94,9 @@ private:
 			wxDC *dc, int presHeight);
 
   string m_pngCache[3]; 
-  bool m_showAverages, m_showX, m_showY, m_showZ;
+  bool m_showAverages, m_showErrors, m_showX, m_showY, m_showZ;
   bool m_dirty;
+  bool m_plotfailed;
   cepConfiguration *m_config;
   cepWxErrorHandler *errHandler;
   cepPresentation::view m_currentView;

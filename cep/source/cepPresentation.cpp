@@ -48,8 +48,10 @@ cepPresentation::cepPresentation (long width, long height):
   m_xmaxval(-2000000000),
   m_yminval(2000000000),
   m_ymaxval(-2000000000),
+  m_emaxval(-2000000000),
   m_useAverage(false),
   m_data (1, long (INVALID)),
+  m_useErrors(true),
   m_errors (1, long(0)),
   m_raster(NULL)
 {
@@ -119,10 +121,13 @@ cepError cepPresentation::addDataPoint (long x, long y, long error)
   if (x < m_xminval)
     m_xminval = x;
 
-  if ((y + error) > m_ymaxval)
-    m_ymaxval = y + error;
-  if ((y - error) < m_yminval)
-    m_yminval = y - error;
+  if (y > m_ymaxval)
+    m_ymaxval = y;
+  if (y < m_yminval)
+    m_yminval = y;
+
+  if (error > m_emaxval)
+    m_emaxval = error;
 
   return cepError ();
 }
@@ -156,175 +161,109 @@ cepPresentation::createBitmap ()
 #if defined HAVE_LIBPLOT
   plot_state *graph;
 
-  cepDebugPrint ("Generating bitmap. Dimensions: " + cepToString (m_width) +
-                 " by " + cepToString (m_height) + ". X value range: " +
-                 cepToString (m_xminval) + " to " + cepToString (m_xmaxval) +
-                 ". Y value range: " + cepToString (m_yminval) + " to " +
-                 cepToString (m_ymaxval) + ". Show average is " + 
-		 cepToString (m_useAverage));
-
   if ((graph = plot_newplot (m_width, m_height)) == NULL)
-  {
-    fprintf (stderr, "Could not allocate a new plot\n");
-    exit (1);
+    return cepError("Could not initialise a new plot", 
+		    cepError::sevErrorRecoverable);
+
+  // How big are the maxima and minima?
+  long ymaxval = m_useErrors ? m_ymaxval + m_emaxval : m_ymaxval;
+  long yminval = m_useErrors ? m_yminval - m_emaxval : m_yminval;
+
+  // Correct for a centered view
+  if(m_currentView == viewCentered){
+    if(ymaxval > yminval) yminval = -ymaxval;
+    else ymaxval = -yminval;
   }
 
-  unsigned int midpoint = 0;
-  float yscale = 0.0;
-  cepError err;
-  bool linestarted (false);
+  // Determine the vertical scaling factor
+  long yrange = ymaxval - yminval;
+  long yscale = yrange / (m_height - 20);
 
-  switch(m_currentView){
-  case viewCentered:
-    cepDebugPrint("Centered graph view");
-    midpoint = m_height / 2;
-    yscale = cepMax (m_ymaxval, cepAbs (m_yminval)) / (midpoint - 10);
+  // If we are using errors, then we draw these underneath
+  if(m_useErrors){
+    plot_setlinecolor(graph, m_errorColor.red, m_errorColor.green,
+		      m_errorColor.blue);
+    for(unsigned int i = 0; i < m_data.size(); i++){
+      if(m_data[i] != INVALID){
+	// Vertical line
+	plot_setlinestart(graph, i + 10, 
+			  (yrange - (m_data[i] + m_errors[i]) + yminval)
+			  / yscale + 10);
+	plot_addlinesegment(graph, i + 10, 
+			    (yrange - (m_data[i] - m_errors[i]) + yminval) 
+			    / yscale + 10);
+	plot_strokeline(graph);
+	plot_endline(graph);
 
-    // Draw some axes for this view
-    cepDebugPrint("This view type needs axes");
-    plot_setlinecolor (graph, m_axesColor.red, m_axesColor.green, 
-		       m_axesColor.blue);
-    plot_setlinestart (graph, 10, 10);
-    plot_addlinesegment (graph, 10, m_height - 10);
-    plot_strokeline (graph);
-    plot_endline (graph);
-    
-    plot_setlinestart (graph, 10, midpoint);
-    plot_addlinesegment (graph, m_width - 10, midpoint);
-    plot_strokeline (graph);
-    plot_endline (graph);
+	// Top horizontal line
+	plot_setlinestart(graph, i + 8, 
+			  (yrange - (m_data[i] + m_errors[i]) + yminval)
+			  / yscale + 10);
+	plot_addlinesegment(graph, i + 12, 
+			    (yrange - (m_data[i] + m_errors[i]) + yminval) 
+			    / yscale + 10);
+	plot_strokeline(graph);
+	plot_endline(graph);
 
-    // Draw data points
-    plot_setlinecolor (graph, m_lineColor.red, m_lineColor.green, 
-		       m_lineColor.blue);
-    for (unsigned int i = 0; i < m_data.size (); i++)
-      {
-	if (m_data[i] != INVALID)
-	  {
-	    if (!linestarted)
-	      {
-		plot_setlinestart (graph, i + 10, 
-				   (unsigned int) (midpoint - 
-						   (m_data[i] / yscale)));
-		linestarted = true;
-	      }
-	    else
-	      plot_addlinesegment (graph, i + 10, 
-				   (unsigned int) (midpoint - 
-						   (m_data[i] / yscale)));
-	  }
+	// Bottom horizontal line
+	plot_setlinestart(graph, i + 8, 
+			  (yrange - (m_data[i] - m_errors[i]) + yminval)
+			  / yscale + 10);
+	plot_addlinesegment(graph, i + 12, 
+			    (yrange - (m_data[i] - m_errors[i]) + yminval) 
+			    / yscale + 10);
+	plot_strokeline(graph);
+	plot_endline(graph);
       }
-    break;
-
-  case viewZoomed:
-    cepDebugPrint("Zoomed graph view");
-    midpoint = 0;
-    yscale = ((float) (m_ymaxval - m_yminval)) / ((float) m_height);
-
-    // Draw error bars so they appear under the data points
-    cepDebugPrint("Drawing error bars");
-    plot_setlinecolor (graph, m_errorColor.red, m_errorColor.green, 
-		       m_errorColor.blue);
-    for (unsigned int i = 0; i < m_data.size (); i++)
-      {
-	if (m_data[i] != INVALID){
-	  cepDebugPrint("Error line for point: " +
-			cepToString(i) + " error " + cepToString(m_errors[i]) +
-			" results in vertical range from: "+
-			cepToString(m_data[i] - m_errors[i] - m_yminval) + " to " +
-			cepToString(m_data[i] + m_errors[i] - m_yminval));
-			
-	  plot_setlinestart (graph, i + 10, 
-			     (unsigned int) (m_height - 
-					     (((m_data[i] - m_errors[i]) - 
-					       m_yminval) / yscale)));
-	  plot_addlinesegment (graph, i + 10, 
-			     (unsigned int) (m_height - 
-					     (((m_data[i] + m_errors[i]) - 
-					       m_yminval) / yscale)));
-
-	  plot_strokeline(graph);
-	  plot_endline(graph);
-	}
-      }
-
-    // Draw the data points
-    cepDebugPrint("Drawing data points");
-    plot_setlinecolor (graph, m_lineColor.red, m_lineColor.green, 
-		       m_lineColor.blue);
-    for (unsigned int i = 0; i < m_data.size (); i++)
-      {
-	if (m_data[i] != INVALID)
-	  {
-	    if (!linestarted)
-	      {
-		plot_setlinestart (graph, i + 10, 
-				      (unsigned int) (m_height - 
-						      ((m_data[i] - m_yminval) 
-						       / yscale)));
-		cepDebugPrint("Zoomed graph point. The data point being graphed is " + 
-			      cepToString(m_data[i]) + 
-			      " which results in the following calculation: " + 
-			      cepToString(m_height) + " - ((" + 
-			      cepToString(m_data[i]) + " - " + 
-			      cepToString(m_yminval) + ") / " + 
-			      cepToString(yscale) + ")).");
-		linestarted = true;
-	      }
-	    else{
-	      plot_addlinesegment (graph, i + 10, 
-				   (unsigned int) (m_height - 
-						   ((m_data[i] - m_yminval) 
-						    / yscale)));
-	      cepDebugPrint("Zoomed graph point. The data point being graphed is " + 
-			    cepToString(m_data[i]) + 
-			    " which results in the following calculation: " + 
-			    cepToString(m_height) + " - ((" + 
-			    cepToString(m_data[i]) + " - " + 
-			    cepToString(m_yminval) + ") / " + 
-			    cepToString(yscale) + ")) = " + 
-			    cepToString((unsigned int) (m_height - ((m_data[i] - 
-								     m_yminval) / 
-								    yscale))));
-	    }
-	  }
-      }    
-    break;
-
-  default:
-    err = cepError("No such view", cepError::sevErrorFatal);
-    err.display();
+    }
   }
-    
-  cepDebugPrint ("Midpoint is " + cepToString (midpoint));
-  cepDebugPrint ("Yscale is " + cepToString (yscale));
-  
-  if (!linestarted)
-    return cepError ("No datapoints defined", cepError::sevErrorRecoverable);
 
-  plot_strokeline (graph);
-  plot_endline (graph);
+  // Draw the axes. We want the graph to be over this, but the error lines to
+  // be underneath
+  plot_setlinecolor(graph, m_axesColor.red, m_axesColor.green,
+		    m_axesColor.blue);
+  plot_setlinestart(graph, 9, 0);
+  plot_addlinesegment(graph, 9, m_height);
+  plot_strokeline(graph);
+  plot_endline(graph);
 
-  // Draw the average if required
-  if(m_useAverage){
-    cepDebugPrint("Drawing average line: " + cepToString(m_averageColor.red) +
-		  ", " + cepToString(m_averageColor.green) + 
-		  ", " + cepToString(m_averageColor.blue));
-    plot_setlinecolor(graph, m_averageColor.red, m_averageColor.green,
-		      m_averageColor.blue);
-    plot_setlinestart(graph, 10, 
-		      (unsigned int) (midpoint - (m_average / yscale)));
-    plot_addlinesegment(graph, m_width, 
-			(unsigned int) (midpoint - (m_average / yscale)));
+  plot_setlinestart(graph, 10, (yrange - 0 + yminval) / yscale + 10);
+  // todo: this width might be wrong
+  plot_addlinesegment(graph, m_width - 10, 
+		      (yrange - 0 + yminval) / yscale + 10);
+  plot_strokeline(graph);
+  plot_endline(graph);
+
+  // Now draw the actual graph
+  plot_setlinecolor(graph, m_lineColor.red, m_lineColor.green,
+		    m_lineColor.blue);
+  bool linestarted(false);
+  for(unsigned int i = 0; i < m_data.size(); i++){
+    if(m_data[i] != INVALID){
+      if(!linestarted){
+	plot_setlinestart(graph, i + 10, (yrange - m_data[i] + yminval) 
+			  / yscale + 10);
+	linestarted = true;
+      }
+      else
+	plot_addlinesegment(graph, i + 10, (yrange - m_data[i] + yminval) 
+			    / yscale + 10);
+    }
+  }
+
+  if(linestarted){
     plot_strokeline(graph);
     plot_endline(graph);
   }
+  else
+    return cepError("No points to graph", cepError::sevErrorRecoverable);
 
   // Get the raster (in case we use it later)
   m_raster = plot_getraster (graph);
   return cepError ();
 #else
-  return cepError ("Libplot was not installed at configuration time");
+  return cepError ("Libplot was not installed at configuration time",
+		   cepError::sevErrorRecoverable);
 #endif
 }
 
@@ -334,7 +273,10 @@ cepPresentation::createPNG (const string & filename)
 #if defined HAVE_LIBPLOT
 #if defined HAVE_LIBPNG
   cepDebugPrint ("Generating PNG for: " + filename);
-  createBitmap ();
+
+  cepError e = createBitmap();
+  if(e.isReal())
+    return e;
 
   // Write out the PNG file
   FILE *image;
@@ -407,10 +349,12 @@ cepPresentation::createPNG (const string & filename)
 
   return cepError ();
 #else
-  return cepError ("Libpng was missing at configure time");
+  return cepError ("Libpng was missing at configure time",
+		   cepError::sevErrorRecoverable);
 #endif
 #else
-  return cepError ("Libplot was missing at configure time");
+  return cepError ("Libplot was missing at configure time",
+		   cepError::sevErrorRecoverable);
 #endif
 }
 
@@ -418,6 +362,11 @@ void cepPresentation::useAverage(bool yesno)
 {
   m_useAverage = yesno;
   recalculateAverage();
+}
+
+void cepPresentation::useErrors(bool yesno)
+{
+  m_useErrors = yesno;
 }
 
 void cepPresentation::recalculateAverage()

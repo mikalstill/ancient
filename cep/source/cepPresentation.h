@@ -43,6 +43,7 @@ public:
   cepError addDataPoint (long x, long y, long error = 0);
 
   void useAverage(bool yesno);
+  void useErrors(bool yesno);
   void recalculateAverage();
   long getAverage();
 
@@ -75,6 +76,8 @@ private:
   long m_yminval;
   long m_ymaxval;
 
+  long m_emaxval;
+
   color m_axesColor;
   color m_lineColor;
   color m_averageColor;
@@ -86,6 +89,8 @@ private:
   view m_currentView;
 
   vector < long > m_data;
+
+  bool m_useErrors;
   vector < long > m_errors;
   char *m_raster;
 };

@@ -253,11 +253,19 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
 
     ///////////////////////////////////////////////////////////////////////////
     // The view menu
+    // todo: these should get their initial state from the cepPresentation
+    // class
     view_menu = new wxMenu(wxMENU_TEAROFF);
     view_menu->Append (CEPMENU_AVERAGE, "Show averages",
 		       "Toggle whether the average value is shown on graphs",
 		       TRUE);
     view_menu->Check(CEPMENU_AVERAGE, false);
+
+    view_menu->Append (CEPMENU_ERRORS, "Show error bars",
+		       "Toggle whether the error bars are shown on graphs",
+		       TRUE);
+    view_menu->Check(CEPMENU_ERRORS, true);
+
 
     view_menu->Append (CEPMENU_ELIMINATEOUTLIERS, "Eliminate outlying samples",
 		       "Removes samples which are outside a given tolerance",
