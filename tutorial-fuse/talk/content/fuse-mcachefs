@@ -1,0 +1,16 @@
+TITLE: mcachefs
+
+<ul>
+<li>The example I'm going to talk about during this tutorial is mcachefs
+<li>A relatively simple caching filesystem based on FUSE
+<li>You tell it:
+
+<ul>
+<li>what locally mounted directory is the target
+<li>where to put cached copies of files from that target
+<li>where to mount the cache filesystem
+</ul>
+
+<li>Provides cached access to slow remotely mounted filesystems
+<li>For example NFS over a 11mbit network connection
+</ul>

@@ -1,0 +1,9 @@
+TITLE: That problem is solved with a custom filesystem
+
+<ul>
+<li>Store the image once
+<li>For each open operation on the custom filesystem, create the testing image
+<li>Put the testing image in /tmp, and remember where you put it
+<li>Map read operations to the file in /tmp
+<li>On close, remove the file from /tmp
+</ul>
