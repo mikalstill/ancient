@@ -1,6 +1,13 @@
 // Libplot, a simple C library to draw graphs into rasters. Many of the drawing
 // commands here are modelled on those available in PDF...
 
+typedef struct plot_internal_lineseg
+{
+  unsigned int x;
+  unsigned int y;
+  struct plot_internal_lineseg *next;
+} plot_lineseg;
+
 typedef struct plot_internal_state
 {
   void *raster;
@@ -8,6 +15,8 @@ typedef struct plot_internal_state
   unsigned int y;
 
   // Line attributes
+  plot_lineseg line;
+  
   int linewidth;
   int linecap;
   int linejoin;
