@@ -76,7 +76,8 @@ BEGIN_EVENT_TABLE (cepView, wxView)
   EVT_MENU (CEPMENU_SHOWX, cepView::OnToggleX)
   EVT_MENU (CEPMENU_SHOWY, cepView::OnToggleY)
   EVT_MENU (CEPMENU_SHOWZ, cepView::OnToggleZ)
-  EVT_MENU (CEPMENU_LS, cepView::OnLeastSquaresVCV)
+  EVT_MENU (CEPMENU_LS_VCV, cepView::OnLeastSquaresVCV)
+  EVT_MENU (CEPMENU_LS_RW, cepView::OnLeastSquaresRW)
 END_EVENT_TABLE ()
   
 cepView::cepView ():
@@ -594,6 +595,45 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
 }
 
 void cepView::LeastSquaresVCV(cepMatrix<double> *mat, string direction)
+{
+  // Do we have any data?
+  if(mat == NULL){
+    cepError err("Cannot perform least squares regression on the " + 
+		 direction + "matrix, because it is empty",
+		 cepError::sevErrorRecoverable);
+    err.display();
+    return;
+  }
+
+  // Build a temporary matrix P matrix
+  // todo_mikal: Build a UI
+  cepMatrix<double> pmatrix(mat->getNumRows(), mat->getNumRows());
+
+  // Do the LS
+  cepLs myLs;
+  myLs.cepDoVCV(*mat, pmatrix);
+}
+
+// Perform a least squares regression on the dataset (in all directions)
+void cepView::OnLeastSquaresRW (wxCommandEvent &pevt)
+{
+  m_dirty = true;
+
+  LeastSquaresVCV(m_x, "x");
+  LeastSquaresVCV(m_y, "y");
+  LeastSquaresVCV(m_z, "z");
+
+  m_displayLs = lsDisplayVCV;
+  cepError err;
+  err = m_config->setValue("ui-mathmenu-displayls", (int) m_displayLs);
+  if(err.isReal()){
+    err.display();
+  }
+
+  canvas->Refresh();
+}
+
+void cepView::LeastSquaresRW(cepMatrix<double> *mat, string direction)
 {
   // Do we have any data?
   if(mat == NULL){

@@ -322,6 +322,7 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
   wxMenu *edit_menu = (wxMenu *) NULL;
   wxMenu *view_menu = (wxMenu *) NULL;
   wxMenu *maths_menu = (wxMenu *) NULL;
+  wxMenu *ls_submenu = (wxMenu *) NULL;
   wxMenu *dev_menu = (wxMenu *) NULL;
   
   if (isCanvas)
@@ -445,9 +446,18 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
       // The maths menu
       maths_menu = new wxMenu(wxMENU_TEAROFF);
       
-      maths_menu->Append (CEPMENU_LS, "Least squares",
-			 "Perform a least squares regression on the dataset",
+
+      ls_submenu = new wxMenu(wxMENU_TEAROFF);
+      ls_submenu->Append (CEPMENU_LS_VCV, "Variance Co-variance",
+			 "Perform a VCV least squares regression",
 			 FALSE);
+
+      ls_submenu->Append (CEPMENU_LS_RW, "Random Walk",
+      			  "Perform a RW least squares regression",
+      			  FALSE);
+      
+      maths_menu->Append (CEPMENU_LS, "Least squares", ls_submenu,
+			  "Least squares regression options");
     }
   
   /////////////////////////////////////////////////////////////////////////////
