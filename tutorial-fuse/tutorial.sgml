@@ -1,0 +1,131 @@
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
+<book>
+
+<bookinfo>
+<title>OLS 2004: Userspace filesystems using FUSE</title>
+<authorgroup>
+<author><firstname>Michael</firstname><surname>Still</surname></author>
+</authorgroup>
+</bookinfo>
+
+<chapter><title>Introduction</title>
+<para>
+<emphasis>This is a draft version of this document. It is by no means complete. Please don't redistribute this version of the document, wait for the final one to come out first. If you have suggestions on how to improve the tutorial, please mail them to me at mikal@stillhq.com</emphasis>
+</para>
+
+<para>
+This tutorial covers FUSE, a userspace library and kernel module which facilitates the implementation of Linux filesystems in userspace. FUSE can be found at http://sourceforge.net/projects/avf/, and first came to my attention because of an article from LWN at http://lwn.net/Articles/68104/.
+</para>
+
+<sect1><title>Why would you want custom filesystems?</title>
+<para>
+When you think about it, filesystems are an incredibly useful thing, and there are many reasons to write small filesystems to perform specific tasks. I first encountered FUSE when I had a need for something to cache the result of reads over a slow NFS network. For example, the university which I am studying at has labs full of machines which use NFS for read only storage of dependancies for student projects. It isn't practical to copy all of these files to the local machines until they are needed, as the machines have limited storage. A caching filesystem solves this problem by only storing the files which are actually used locally.
+</para>
+
+<para>
+There are other obvious examples. I do a lot of image programming, and one of things that I have in my collection of test images is a set of every possible TIFF image (within certain limits). This lets me test my code exhaustively before putting it into production. Now, it's easy to generate those test images are required from one or two source images, but that would mean having much more complicated test clients. A custom filesystem lets me instead have those images generated on demand when I am testing. While this makes the testing process slower, it is worth it for not having to store many gigabytes of test images.
+</para>
+</sect1>
+
+<sect1><title>Why in userspace?</title>
+<para>
+So, why would you put these custom filesystems into user space? Well, kernel programming is a lot harder to debug, and doesn't feel natural for a lot of application developers. Userspace code on the other hand has access to all the standard debugging tools which most programmers are familiar with.
+</para>
+
+<para>
+Additionally, there is a lot of userspace support code to do almost anything you could want to put into your filesystem. In my example of a filesystem which generates test images, all of the image processing code exists in userspace already. If I was to write such a filesystem in kernel space, then I would also have to come up with the image processing code as well. It also seems wrong headed to do lots of image processing code in the kernel -- the kernel should be short and sweet.
+</para>
+</sect1>
+
+<sect1><title>Its a useful learning tool for students</title>
+<para>
+Because a userspace filesystem is not running in the kernel, it makes it a little less scary when a bug happens in your filesystem -- the machine wont nessesarily stop.
+</para>
+</sect1>
+</chapter>
+
+<chapter><title>A first glance at the FUSE implementation</title>
+<para>
+TODO
+</para>
+
+<sect1><title>The kernel module</title>
+<para>
+On startup, the file /proc/fs/fuse/dev is registered. This is then used for communication between the userspace worker process and the kernel module which hooks FUSE into the VFS layer of the kernel.
+</para>
+</sect1>
+
+<sect1><title>The user space library</title>
+<para>
+TODO
+</para>
+
+<sect2><title>The fuse_operations structure</title>
+<para>
+As with many modules within the kernel itself, the operations which can be performed on your userspace filesystem are handed to FUSE using a structure containing a list of function pointers. Here's a sample:
+</para>
+
+<programlisting>
+static struct fuse_operations mcachefs_oper = {
+    .getattr    = mcachefs_getattr,
+    .readlink   = mcachefs_readlink,
+    .getdir     = mcachefs_getdir,
+    .mknod      = mcachefs_mknod,
+    .mkdir      = mcachefs_mkdir,
+    .symlink    = mcachefs_symlink,
+    .unlink     = mcachefs_unlink,
+    .rmdir      = mcachefs_rmdir,
+    .rename     = mcachefs_rename,
+    .link       = mcachefs_link,
+    .chmod      = mcachefs_chmod,
+    .chown      = mcachefs_chown,
+    .truncate   = mcachefs_truncate,
+    .utime      = mcachefs_utime,
+    .open       = mcachefs_open,
+    .read       = mcachefs_read,
+    .write      = mcachefs_write,
+    .statfs     = mcachefs_statfs,
+    .release    = mcachefs_release,
+    .fsync      = mcachefs_fsync   
+};
+</programlisting>
+
+<para>
+When the userspace program which implements your filesystem starts up, it passes this structure to the FUSE library with the <emphasis>fuse_main</emphasis>() function call. The call I used for the <emphasis>fuse_operations</emphasis> structure above was:
+</para>
+
+<programlisting>
+fuse_main(argc, argv, &amp;mcachefs_oper);
+</programlisting>
+
+<para>
+<emphasis>fuse_main</emphasis>() performs some command line arguement parsing (hence the argc and argv arguements), and then starts processing requests for the filesystem. <emphasis>fuse_main </emphasis>() doesn't return until the userspace filesystem is unmounted.
+</para>
+</sect2>
+</sect1>
+</chapter>
+
+<chapter><title>A first pass at a FUSE filesystem</title>
+<para>
+The example which we will follow through for this tutorial is my caching userspace filesystem. When I originally wrote the filesystem, it took the <command>open</command>() call for a file, checked for existance in the cache, and if the file didn't exist in the cache copied it across the network to the cache. All subsequent requests go to the cache, so if the file doesn't exist when <command>open</command>()ed, the cache wouldn't be populated, and subsequent operations on the file would fail as well.
+</para>
+
+<para>
+The advantage of this is that cache management can be done in userspace with a find command, on the proviso that there is no one accessing the cache while the maintence is being performed. It is also a relatively simple filesystem to implement and understand. The disadvantages are that none of the metadata is cached, and the <command>open</command>() operation is <emphasis>very</emphasis> slow to complete. Imagine copying a two gigabyte file over the network before the <command>open</command>() completes.
+</para>
+
+<execute><cmd>code2db</cmd><input>mcachefs-01/mcachefs.c</input></execute>
+</chapter>
+
+
+<appendix><title>config.[ch] as used in examples</title>
+<para>
+Several of the examples refer to a file named config.c or config.h, which are reproduced here.
+</para>
+
+<execute><cmd>code2db</cmd><input>mcachefs-01/config.h</input></execute>
+
+<execute><cmd>code2db</cmd><input>mcachefs-01/config.c</input></execute>
+</appendix>
+
+</book>
