@@ -1,0 +1,140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type">
+<title>paramdef</title>
+<link rel="stylesheet" href="defguide.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.41">
+<link rel="home" href="docbook.html" title="DocBook">
+<link rel="up" href="ref-elements.html" title="DocBook Element Reference">
+<link rel="previous" href="para.html" title="para">
+<link rel="next" href="parameter.html" title="parameter">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">paramdef</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="para.html">Prev</a> </td>
+<th width="60%" align="center">DocBook Element Reference</th>
+<td width="20%" align="right"> <a href="parameter.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<p class="alpha-version">This is an <a href="co01.html"><em>alpha</em> version</a> of this book.</p>
+<div class="refentry">
+<h1 class="title">
+<a name="paramdef.element"></a>paramdef</h1>
+<div class="refnamediv">
+<a name="id3083508"></a><h2>Name</h2>paramdef &#x2014; Information about a function parameter in a programming language</div>
+<div class="refsynopsisdiv">
+<a name="id3083242"></a><h2><h1 class="title">
+<a name="id3083242"></a>Synopsis</h1></h2>
+<h3><span class="bold"><b>Mixed Content Model</b></span></h3>
+<pre class="synopsis">paramdef ::=
+(#PCDATA|<a href="replaceable.html"><tt>replaceable</tt></a>|<a href="parameter.html"><tt>parameter</tt></a>|<a href="funcparams.html"><tt>funcparams</tt></a>)*</pre>
+<h3><span class="bold"><b>Attributes</b></span></h3>
+<p><a href="ref-elements.html#common.attributes"><span class="common.attributes">Common attributes</span></a></p>
+</div>
+<div class="refsect1">
+<a name="id3084306"></a><h2>Description</h2>
+<p>
+In the syntax summary for a function in a programming language,
+<a href="paramdef.html"><tt>ParamDef</tt></a> provides the description of a parameter to the
+function.  Typically, this includes the data type of the parameter
+and its name.  For parameters that are pointers to functions, it also
+includes a summary of the nested parameters.
+</p>
+<p>
+Within the <a href="paramdef.html"><tt>ParamDef</tt></a>, the parameter name is identified with 
+<a href="parameter.html"><tt>Parameter</tt></a>, and the rest of the content is assumed to be the
+data type.
+</p>
+<p>
+In the following definition, <i><tt>str</tt></i> is the name of the 
+parameter and char * is its type:
+<pre class="screen">
+
+&lt;paramdef&gt;char *&lt;parameter&gt;str&lt;/parameter&gt;&lt;/paramdef&gt;
+
+</pre>
+</p>
+<p>
+Sometimes a data type requires punctuation on both sides of the
+parameter.  For example, the <i><tt>a</tt></i> parameter in this
+definition is an array of 
+char *:
+<pre class="screen">
+
+&lt;paramdef&gt;char *&lt;parameter&gt;a&lt;/parameter&gt;[]&lt;/paramdef&gt;
+
+</pre>
+</p>
+<div class="refsect2">
+<a name="id3084376"></a><h3>Processing expectations</h3>
+<p>
+Formatted inline. For a complete description of the processing expectations,
+see <a href="funcsynopsis.html"><tt>FuncSynopsis</tt></a>.
+</p>
+</div>
+<div class="refsect2">
+<a name="id3084391"></a><h3>Parents</h3>
+<p>These elements contain paramdef:
+<span class="simplelist"><a href="funcprototype.html"><tt>funcprototype</tt></a></span>.</p>
+</div>
+<div class="refsect2">
+<a name="id3083025"></a><h3>Children</h3>
+<p>The following elements occur in paramdef:
+<span class="simplelist"><a href="funcparams.html"><tt>funcparams</tt></a>, <a href="parameter.html"><tt>parameter</tt></a>, <a href="replaceable.html"><tt>replaceable</tt></a></span>.</p>
+</div>
+</div>
+<div class="refsect1">
+<a name="id3083071"></a><h2>See Also</h2>
+<p>
+<span class="simplelist"><a href="funcdef.html"><tt>funcdef</tt></a>, <a href="funcparams.html"><tt>funcparams</tt></a>, <a href="funcprototype.html"><tt>funcprototype</tt></a>, <a href="funcsynopsisinfo.html"><tt>funcsynopsisinfo</tt></a>, <a href="function.html"><tt>function</tt></a>, <a href="parameter.html"><tt>parameter</tt></a>, <a href="returnvalue.html"><tt>returnvalue</tt></a>, <a href="varargs.html"><tt>varargs</tt></a>, <a href="void.html"><tt>void</tt></a></span>.
+</p>
+</div>
+<div class="refsect1">
+<a name="id3083164"></a><h2>Examples</h2>
+<div class="informalexample" id="id3083171">
+<a name="id3083171"></a><pre class="programlisting">&lt;!DOCTYPE funcsynopsis PUBLIC &quot;-//OASIS//DTD DocBook XML V4.1.2//EN&quot;
+          &quot;http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd&quot;&gt;
+&lt;funcsynopsis&gt;
+&lt;funcprototype&gt;
+  &lt;funcdef&gt;int &lt;function&gt;max&lt;/function&gt;&lt;/funcdef&gt;
+  &lt;paramdef&gt;int &lt;parameter&gt;int1&lt;/parameter&gt;&lt;/paramdef&gt;
+  &lt;paramdef&gt;int &lt;parameter&gt;int2&lt;/parameter&gt;&lt;/paramdef&gt;
+&lt;/funcprototype&gt;
+&lt;/funcsynopsis&gt;</pre>
+</div><div class="example-output"><div class="funcsynopsis" id="id3084403">
+<a name="id3084403"></a><p><code><code class="funcdef">int <b class="fsfunc">max</b></code>(<var class="pdparam">int1</var>, <var class="pdparam">int2</var>);<br>int <var class="pdparam">int1</var>;<br>int <var class="pdparam">int2</var>;</code></p>
+</div></div><p>For additional examples, see also
+<span class="simplelist"><a href="funcdef.html"><tt>funcdef</tt></a>, <a href="funcsynopsis.html"><tt>funcsynopsis</tt></a></span>
+.</p>
+</div>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="para.html">Prev</a> </td>
+<td width="20%" align="center"><a href="docbook.html">Home</a></td>
+<td width="40%" align="right"> <a href="parameter.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">para </td>
+<td width="20%" align="center"><a href="ref-elements.html">Up</a></td>
+<td width="40%" align="right"> parameter</td>
+</tr>
+</table>
+</div>
+<p>
+<a href="dbcpyright.html">Copyright</a> © 1999, 2000, 2001 <a href="http://www.oreilly.com/">O'Reilly &amp; Associates, Inc.</a>
+</p>
+</body>
+</html>

@@ -1,0 +1,9 @@
+Hints for developers:
+
+Adding a file to the project:
+ - Create the files -- each class tends to get it's on .cpp and .h
+ - Add the file to the list of SOURCES in Makefile.am
+ - Run automake
+ - Run autoconf
+ - ./configure
+ - make

@@ -1,0 +1,455 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type">
+<title>Glossary</title>
+<link rel="stylesheet" href="defguide.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.41">
+<link rel="home" href="docbook.html" title="DocBook">
+<link rel="up" href="docbook.html" title="DocBook">
+<link rel="previous" href="aph.html" title="Appendix H. GNU Free Documentation License">
+<link rel="next" href="ix01.html" title="Index">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">Glossary</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="aph.html">Prev</a> </td>
+<th width="60%" align="center"> </th>
+<td width="20%" align="right"> <a href="ix01.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<p class="alpha-version">This is an <a href="co01.html"><em>alpha</em> version</a> of this book.</p>
+<div id="glossary" class="glossary">
+<div class="titlepage"><div><h2 class="title">
+<a name="glossary"></a>Glossary</h2></div></div>
+<dl>
+<dt><a name="gloss-attribute">attribute</a></dt>
+<dd>
+<p>
+<a class="indexterm" name="id3601276"></a>
+<a class="indexterm" name="id3601283"></a>
+
+Attributes augment the element on which they appear; they also
+provide additional information about the element.
+</p>
+<p>
+<a class="indexterm" name="id3601298"></a>
+
+Attributes appear as name-value pairs in the element's start-tag.
+For example, to assign the value <tt>hostname</tt> to the
+<tt>Role</tt> attribute of <a href="systemitem.html"><tt>SystemItem</tt></a>,
+you would use the mark up:
+<tt>&lt;systemitem role=&quot;hostname&quot;&gt;</tt>.
+</p>
+</dd>
+<dt><a name="gloss-callout">callout</a></dt>
+<dd><p>
+<a class="indexterm" name="id3601207"></a>
+A pointer, verbal or graphical or both, to a 
+<span class="emphasis"><i>component</i></span> of an illustration 
+or a text object.</p></dd>
+<dt><a name="gloss-cooked">cooked</a></dt>
+<dd>
+<p>
+<a class="indexterm" name="id3601889"></a>
+<a class="indexterm" name="id3601895"></a>
+
+&#x2018;Cooked&#x2019; data, as distinct from &#x2018;raw,&#x2019; is a collection
+of elements and character data that's ready for presentation. The processor
+is not expected to rearrange, select, or suppress any of the elements, but
+simply present them as specified.
+</p>
+<p>See Also Raw.</p>
+</dd>
+<dt><a name="gloss-dtd">document type declaration (DTD)</a></dt>
+<dd><p>
+<a class="indexterm" name="id3601948"></a>
+<a class="indexterm" name="id3601954"></a>
+
+A set of declarations that defines the names of the elements 
+and their attributes, and that specifies rules for their combination
+or sequence.
+</p></dd>
+<dt><a name="gloss-dsssl">DSSSL</a></dt>
+<dd><p>
+<a class="indexterm" name="id3602137"></a>
+<a class="indexterm" name="id3602142"></a>
+
+Document Style Semantics and Specification Language
+(ISO/IEC 10179:1996). An international standard stylesheet language
+for SGML/XML documents.
+</p></dd>
+<dt><a name="gloss-element">element</a></dt>
+<dd><p>
+<a class="indexterm" name="id3602195"></a>
+<a class="indexterm" name="id3602200"></a>
+<a class="indexterm" name="id3602210"></a>
+<a class="indexterm" name="id3602216"></a>
+
+Elements define the hierarchical structure of a document.
+Most elements have start and end tags and contain some part of the
+document content. Empty elements have only a start tag and have no content. 
+</p></dd>
+<dt><a name="gloss-entity">entity</a></dt>
+<dd><p>
+<a class="indexterm" name="id3602250"></a>
+<a class="indexterm" name="id3602255"></a>
+
+A name assigned (by means of a declaration) to some chunk of 
+data so it can be referred to by that name; the data can be 
+of various kinds (a special character or a chapter or a set of
+declarations in a DTD, for instance), and the way in which it is referred 
+to depends on the type of data and where it is being referenced: 
+SGML has parameter, general, external, internal, and data entities.</p></dd>
+<dt><a name="gloss-excl">exclusion</a></dt>
+<dd>
+<p>
+<a class="indexterm" name="id3602296"></a>
+<a class="indexterm" name="id3602301"></a>
+<a class="indexterm" name="id3602311"></a>
+
+An exclusion is used in a DTD to indicate that, within the element on 
+which the exclusion occurs, the excluded elements are not valid anywhere
+within the content of the element.
+</p>
+<p>
+<a class="indexterm" name="id3602332"></a>
+<a class="indexterm" name="id3602342"></a>
+
+For example, in DocBook, <a href="footnote.html"><tt>Footnote</tt></a> excludes <a href="footnote.html"><tt>Footnote</tt></a>.
+This means that footnotes cannot nest, even though <a href="footnote.html"><tt>Footnote</tt></a>
+contains <a href="para.html"><tt>Para</tt></a>, and <a href="footnote.html"><tt>Footnote</tt></a> occurs in the proper
+content model of <a href="para.html"><tt>Para</tt></a>.
+</p>
+<p>
+See <a href="ch01.html#s-ms" title="1.4.2.1. Marked sections">Section 1.4.2.1</a>.</p>
+</dd>
+<dt><a name="gloss-extentity">external entity</a></dt>
+<dd><p>
+<a class="indexterm" name="id3602409"></a>
+<a class="indexterm" name="id3602415"></a>
+<a class="indexterm" name="id3602424"></a>
+<a class="indexterm" name="id3602434"></a>
+
+An external entity is a general entity that refers to another
+document. External entities are often used to incorporate 
+parsable text documents, like legal notices or chapters, into larger
+units, like chapters or books.</p></dd>
+<dt><a name="gloss-extsub">external subset</a></dt>
+<dd><p>
+<a class="indexterm" name="id3602468"></a>
+<a class="indexterm" name="id3602474"></a>
+<a class="indexterm" name="id3602484"></a>
+<a class="indexterm" name="id3602494"></a>
+<a class="indexterm" name="id3602504"></a>
+
+
+Element, attribute, and other declarations that compose
+(part of) a document type definition that are stored in an
+external entity, and referenced from a document's document type
+declaration using a public or system identifier.</p></dd>
+<dt><a name="gloss-float">float</a></dt>
+<dd><p>
+<a class="indexterm" name="id3602538"></a>
+<a class="indexterm" name="id3602544"></a>
+
+Text objects like sidebars, figures, tables, and graphics are said
+to float when their actual place in the document is not fixed. For presentation
+on a printed page, for instance, a graphic may float to the top of the next page if it
+is too tall to fit on the page in which it actually falls, in the sequence of words and the sequence of
+other like objects in a document.</p></dd>
+<dt><a name="gloss-fpi">formal public identifier</a></dt>
+<dd><p>
+<a class="indexterm" name="id3602580"></a>
+<a class="indexterm" name="id3602586"></a>
+A public identifier that conforms to the specification of formal
+public identifers in ISO 8879.</p></dd>
+<dt><a name="gloss-fosi">FOSI</a></dt>
+<dd><p>
+
+<a class="indexterm" name="id3602622"></a>
+
+Formatting Output Specification Instance, an SGML document that 
+specifies the appearance or presentation of another SGML document in 
+accordance 
+with the Output Specification DTD defined by MIL-STD-28001C.</p></dd>
+<dt><a name="gloss-gentity">general entity</a></dt>
+<dd><p>
+<a class="indexterm" name="id3602667"></a>
+<a class="indexterm" name="id3602673"></a>
+<a class="indexterm" name="id3602683"></a>
+<a class="indexterm" name="id3602689"></a>
+
+An entity referenced by a name that starts with an 
+ampersand (&amp;) and ends with a semicolon. Most of the
+time general entities are used in SGML documents, not in the DTD. 
+There are two types, external and internal entities, and they 
+refer either to special characters or to text objects 
+like commonly repeated phrases or names or chapters.</p></dd>
+<dt><a name="gloss-gi">GI</a></dt>
+<dd><p>
+<a class="indexterm" name="id3602730"></a>
+<a class="indexterm" name="id3602736"></a>
+<a class="indexterm" name="id3602742"></a>
+<a class="indexterm" name="id3602748"></a>
+<a class="indexterm" name="id3602757"></a>
+
+Generic identifier, proper term for the actual name of an element;
+<tt>Para</tt> is the generic identifier of the <a href="para.html"><tt>para</tt></a> element.</p></dd>
+<dt><a name="gloss-incl">inclusion</a></dt>
+<dd>
+<p>
+<a class="indexterm" name="id3602799"></a>
+<a class="indexterm" name="id3602805"></a>
+<a class="indexterm" name="id3602815"></a>
+<a class="indexterm" name="id3602824"></a>
+
+An inclusion is used in a DTD to indicate that, within the element on 
+which the inclusion occurs, the included elements are valid anywhere
+within the content of the element.
+</p>
+<p>
+For example, in DocBook, <a href="chapter.html"><tt>Chapter</tt></a> includes <a href="indexterm.html"><tt>IndexTerm</tt></a>.
+This means that <a href="indexterm.html"><tt>IndexTerm</tt></a>s can occur anywhere inside chapters,
+even inside elements that do not have <a href="indexterm.html"><tt>IndexTerm</tt></a>s in their
+proper content models.
+</p>
+<p>
+See <a href="ch01.html#s-ms" title="1.4.2.1. Marked sections">Section 1.4.2.1</a>.
+</p>
+</dd>
+<dt><a name="gloss-intentity">internal entity</a></dt>
+<dd><p>
+<a class="indexterm" name="id3602895"></a>
+<a class="indexterm" name="id3602901"></a>
+<a class="indexterm" name="id3602910"></a>
+
+A general entity that references a piece of text (including
+its markup and even other internal entities), usually as a
+keyboard shortcut.</p></dd>
+<dt><a name="gloss-intsub">internal subset</a></dt>
+<dd><p>
+<a class="indexterm" name="id3602943"></a>
+<a class="indexterm" name="id3602948"></a>
+<a class="indexterm" name="id3602958"></a>
+
+Element, attribute, and other declarations that compose
+(part of) a document type definition that are stored in a document,
+within the document type declaration.
+</p></dd>
+<dt><a name="gloss-metainfo">meta-information</a></dt>
+<dd><p>
+<a class="indexterm" name="id3602992"></a>
+<a class="indexterm" name="id3602997"></a>
+
+Meta-information is information about a document, such as the 
+specification of its author or its date of composition, as opposed 
+to the content of a document itself.</p></dd>
+<dt><a name="gloss-pentity">parameter entity</a></dt>
+<dd><p>
+<a class="indexterm" name="id3603030"></a>
+<a class="indexterm" name="id3603036"></a>
+<a class="indexterm" name="id3603050"></a>
+<a class="indexterm" name="id3603060"></a>
+
+An entity usually referenced in the DTD by a name that 
+starts with a percent sign (%) and ends with a semicolon. 
+In DocBook, parameter entities are mainly used to facilitate 
+customization of the DTD, but they can also be used to control
+marked sections of a document.</p></dd>
+<dt><a name="gloss-pi">processing instruction</a></dt>
+<dd>
+<p>
+<a class="indexterm" name="id3603103"></a>
+
+An essentially arbitrary string preceded by a question mark and
+delimited by angle brackets that is intended to convey
+information to an application that processes an SGML instance.
+For example, the processing instruction <tt>&lt;?linebreak&gt;</tt>
+might cause the formatter to introduce a line break at the position where
+the processing instruction occurs.
+</p>
+<p>
+<a class="indexterm" name="id3603128"></a>
+<a class="indexterm" name="id3603138"></a>
+
+In XML documents, processing instructions should have the form:
+<pre class="screen">
+&lt;?<i><tt>pitarget</tt></i> param1=&quot;value1&quot; param2=&quot;value2&quot;?&gt;
+</pre>
+</p>
+<p>
+The <i><tt>pitarget</tt></i> should be a name that the processing application
+will recognize. Additional information in the PI should be added using
+&#x2018;attribute syntax.&#x2019;
+</p>
+</dd>
+<dt><a name="gloss-pubid">public identifier</a></dt>
+<dd><p>
+<a class="indexterm" name="id3603198"></a>
+<a class="indexterm" name="id3603204"></a>
+<a class="indexterm" name="id3603214"></a>
+<a class="indexterm" name="id3603224"></a>
+<a class="indexterm" name="id3603234"></a>
+
+An abstract identifier for an SGML or XML document, DTD, or 
+external entity.</p></dd>
+<dt><a name="gloss-raw">raw</a></dt>
+<dd>
+<p>
+<a class="indexterm" name="id3603276"></a>
+<a class="indexterm" name="id3603282"></a>
+<a class="indexterm" name="id3603291"></a>
+<a class="indexterm" name="id3603300"></a>
+
+&#x2018;Raw&#x2019; data is just a collection of elements, with no additional
+punctation or information about presentation. To continue the cooking
+metaphor, raw data is just a set of ingredients. It's up to the processor
+to select appropriate elements, arrange them for display, and add
+required presentational information.
+</p>
+<p>See Also Cooked.</p>
+</dd>
+<dt><a name="gloss-sgml">SGML</a></dt>
+<dd><p>
+<a class="indexterm" name="id3603343"></a>
+<a class="indexterm" name="id3603348"></a>
+
+Standard Generalized Markup Language, an international standard (ISO 8879) that specifies 
+the rules for the creation of platform-independent markup languages for electronic texts.
+</p></dd>
+<dt><a name="gloss-stylesheet">stylesheet</a></dt>
+<dd><p>
+<a class="indexterm" name="id3603385"></a>
+<a class="indexterm" name="id3603391"></a>
+
+A file that specifies the presentation or appearance of a document;
+there are several standards for such stylesheets, including
+CSS, FOSIs, DSSSL, and, most recently, XSL. Vendors often have proprietary
+stylesheet formats as well.
+</p></dd>
+<dt><a name="gloss-sysid">system identifier</a></dt>
+<dd>
+<p>
+<a class="indexterm" name="id3603440"></a>
+<a class="indexterm" name="id3603450"></a>
+
+In SGML, a local, system-dependent identifier for a document,
+DTD, or external entity. Usually a filename on the local system.</p>
+<p>
+<a class="indexterm" name="id3603474"></a>
+<a class="indexterm" name="id3603484"></a>
+<a class="indexterm" name="id3603494"></a>
+
+In XML, a system identifer is required to be a URI.
+</p>
+</dd>
+<dt><a name="gloss-tag">tag</a></dt>
+<dd><p>
+<a class="indexterm" name="id3603532"></a>
+<a class="indexterm" name="id3603538"></a>
+<a class="indexterm" name="id3603547"></a>
+<a class="indexterm" name="id3603557"></a>
+
+An SGML element name enclosed in angle brackets
+(&lt;&gt;), used to mark up the semantics or structure of a
+document. <tt>&lt;Para&gt;</tt> is a tag in DocBook
+used to mark the beginning of a paragraph.</p></dd>
+<dt><a name="gloss-uri">URI</a></dt>
+<dd>
+<p>
+<a class="indexterm" name="id3603602"></a>
+<a class="indexterm" name="id3603607"></a>
+<a class="indexterm" name="id3603613"></a>
+<a class="indexterm" name="id3603619"></a>
+
+Uniform Resource Identifier, the W3C's codification of the name and 
+address syntax of present and future objects on the Internet. In its most basic 
+form, a URI consists of a scheme name (such as file, http, ftp, news, mailto, 
+gopher) followed by a colon, followed by a path whose nature is determined 
+by the scheme that precedes it (see RFC 1630). 
+</p>
+<p>
+<a class="indexterm" name="id3603652"></a>
+<a class="indexterm" name="id3603657"></a>
+
+URI is the umbrella term for URNs, URLs, and all other Uniform Resource
+Identifiers.
+</p>
+</dd>
+<dt><a name="gloss-url">URL</a></dt>
+<dd><p>Uniform Resource Locator, a name and address for an existing object
+accessible over the Internet. <tt>http://www.docbook.org</tt>
+is an example of a URL (see RFC 1738).</p></dd>
+<dt><a name="gloss-urn">URN</a></dt>
+<dd><p>Uniform Resource Name, the result of an evolving attempt to
+define a name and address syntax for <span class="emphasis"><i>persistent</i></span>
+objects accessible over the Internet; <tt>urn:foo:a123,456</tt>
+is a legal URN consisting of three colon-separated fields: 
+<tt>urn</tt> 
+followed by a namespace identifier, followed by a namespace specifier
+(see RFC 1737 and RFC 2141 for details).</p></dd>
+<dt><a name="gloss-w3c">W3C</a></dt>
+<dd><p>
+<a class="indexterm" name="id3603783"></a>
+<a class="indexterm" name="id3603789"></a>
+
+The World Wide Web Consortium (<a href="http://www.w3.org/" target="_top">http://www.w3.org/</a>).</p></dd>
+<dt><a name="gloss-wrapper">wrapper</a></dt>
+<dd><p>
+<a class="indexterm" name="id3603823"></a>
+<a class="indexterm" name="id3603828"></a>
+<a class="indexterm" name="id3603838"></a>
+
+Some elements, such as <a href="chapter.html"><tt>Chapter</tt></a>, have important semantic
+significance.  Other elements serve no obvious purpose except to contain
+a number of other elements. For example, <a href="bookinfo.html"><tt>BookInfo</tt></a> has no
+important semantics; it merely serves as a container for the meta-information
+about a book.  Elements that are just containers are sometimes called
+&#x2018;wrappers.&#x2019; 
+</p></dd>
+<dt><a name="gloss-xml">XML</a></dt>
+<dd><p>
+<a class="indexterm" name="id3603887"></a>
+<a class="indexterm" name="id3603892"></a>
+<a class="indexterm" name="id3603902"></a>
+
+The <a href="http://www.w3.org/TR/REC-xml" target="_top">Extensible Markup Language</a>, a subset of SGML 
+designed specifically for use over the Web.</p></dd>
+<dt><a name="gloss-xsl">XSL</a></dt>
+<dd><p>
+<a class="indexterm" name="id3603944"></a>
+<a class="indexterm" name="id3603950"></a>
+XML Style Language, an evolving language for stylesheets 
+to be attached to XML documents. The stylesheet is itself an XML
+document.</p></dd>
+</dl>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="aph.html">Prev</a> </td>
+<td width="20%" align="center"><a href="docbook.html">Home</a></td>
+<td width="40%" align="right"> <a href="ix01.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">Appendix H. GNU Free Documentation License </td>
+<td width="20%" align="center"><a href="docbook.html">Up</a></td>
+<td width="40%" align="right"> Index</td>
+</tr>
+</table>
+</div>
+<p>
+<a href="dbcpyright.html">Copyright</a> © 1999, 2000, 2001 <a href="http://www.oreilly.com/">O'Reilly &amp; Associates, Inc.</a>
+</p>
+</body>
+</html>

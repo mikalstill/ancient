@@ -1,0 +1,3357 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type">
+<title>Chapter 2. Creating DocBook Documents</title>
+<link rel="stylesheet" href="defguide.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.41">
+<link rel="home" href="docbook.html" title="DocBook">
+<link rel="up" href="part1.html" title="Part I. Introduction">
+<link rel="previous" href="ch01.html" title="Chapter 1. Getting Startedwith SGML/XML">
+<link rel="next" href="ch03.html" title="Chapter 3. Parsing DocBook Documents">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">Chapter 2. Creating DocBook Documents</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="ch01.html">Prev</a> </td>
+<th width="60%" align="center">Part I. Introduction</th>
+<td width="20%" align="right"> <a href="ch03.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<p class="alpha-version">This is an <a href="co01.html"><em>alpha</em> version</a> of this book.</p>
+<div class="chapter">
+<div class="titlepage">
+<div><h2 class="title">
+<a name="ch-create"></a>Chapter 2. Creating DocBook Documents</h2></div>
+<div><p class="releaseinfo">$Revision: 1.1 $</p></div>
+<div><p class="pubdate">$Date: 2002-04-20 14:42:31 $</p></div>
+</div>
+<div class="toc">
+<p><b>Table of Contents</b></p>
+<dl>
+<dt>2.1. <a href="ch02.html#ch02-makesgml">Making an SGML Document</a>
+</dt>
+<dt>2.2. <a href="ch02.html#ch02-makexml">Making an XML Document</a>
+</dt>
+<dt>2.3. <a href="ch02.html#s-pid-sid-catalogs">Public Identifiers, System Identifiers, and Catalog Files</a>
+</dt>
+<dt>2.4. <a href="ch02.html#ch02-physdiv">Physical Divisions: Breaking a Document into Physical Chunks</a>
+</dt>
+<dt>2.5. <a href="ch02.html#ch02-logdiv">Logical Divisions: The Categories of Elements in DocBook</a>
+</dt>
+<dt>2.6. <a href="ch02.html#ch02-makebook">Making a DocBook Book</a>
+</dt>
+<dt>2.7. <a href="ch02.html#ch02-makechap">Making a Chapter</a>
+</dt>
+<dt>2.8. <a href="ch02.html#making-article">Making an Article</a>
+</dt>
+<dt>2.9. <a href="ch02.html#making-refentry">Making a Reference Page</a>
+</dt>
+<dt>2.10. <a href="ch02.html#ch02-makefrontback">Making Front- and Backmatter</a>
+</dt>
+</dl>
+</div>
+<p>
+<a class="indexterm" name="DocBookDocch02"></a>
+<a class="indexterm" name="documentsDocBookch02"></a>This chapter explains in concrete, practical terms how to
+make DocBook documents. It's an overview of all the kinds of markup
+that are possible in DocBook documents. It explains how to create
+several kinds of DocBook documents: books, sets of books, chapters,
+articles, and reference manual entries. The idea is to give you enough
+basic information to actually start writing. The information here is
+intentionally skeletal; you can find &#x201C;the details&#x201D; in the
+reference section of this book.
+</p>
+<p>
+Before we can examine DocBook markup, we have to take a look at what
+an SGML or XML system requires.
+</p>
+<div class="sect1">
+<a name="ch02-makesgml"></a><div class="titlepage"><div><h2 class="title" style="clear: both">
+<a name="ch02-makesgml"></a>2.1. Making an SGML Document</h2></div></div>
+<p>
+<a class="indexterm" name="id2815155"></a>
+
+<a class="indexterm" name="id2815165"></a>
+SGML requires that your document have a specific prologue. The
+following sections describe the features of the prologue.
+</p>
+<div class="sect2">
+<a name="id2815180"></a><div class="titlepage"><div><h3 class="title">
+<a name="id2815180"></a>2.1.1. An SGML Declaration</h3></div></div>
+<p>
+<a class="indexterm" name="id2818801"></a>
+<a class="indexterm" name="id2818812"></a>
+
+SGML documents begin with an optional SGML Declaration. The
+declaration can precede the document instance, but generally it is
+stored in a separate file that is associated with the DTD. The
+SGML Declaration is a grab bag of SGML defaults. DocBook includes
+an SGML Declaration that is appropriate for most DocBook documents,
+so we won't go into a lot of detail here about the SGML Declaration.
+</p>
+<p>
+<a class="indexterm" name="id2818860"></a>
+<a class="indexterm" name="id2819025"></a>
+<a class="indexterm" name="id2819038"></a>
+<a class="indexterm" name="id2819048"></a>
+<a class="indexterm" name="id2819058"></a>
+<a class="indexterm" name="id2819067"></a>
+
+In brief, the SGML Declaration describes, among other things, what
+characters are markup delimiters (the default is angle brackets), what
+characters can compose tag and attribute names (usually the
+alphabetical and numeric characters plus the dash and the period),
+what characters can legally occur within your document, how long
+SGML &#x201C;names&#x201D; and &#x201C;numbers&#x201D; can be, what sort
+of minimizations (abbreviation of markup) are allowed, and so
+on. Changing the SGML Declaration is rarely necessary, and because
+many tools only partially support changes to the declaration, changing
+it is best avoided, if possible.
+</p>
+<p>
+<a class="indexterm" name="id2819105"></a>
+
+Wayne Wholer has written an excellent tutorial on the SGML
+Declaration; if you're interested in more details, see <a href="http://www.oasis-open.org/cover/wlw11.html" target="_top">http://www.oasis-open.org/cover/wlw11.html</a>.
+</p>
+</div>
+<div class="sect2">
+<a name="id2819127"></a><div class="titlepage"><div><h3 class="title">
+<a name="id2819127"></a>2.1.2. A Document Type Declaration</h3></div></div>
+<p>
+<a class="indexterm" name="id2819136"></a>
+<a class="indexterm" name="id2819146"></a>
+<a class="indexterm" name="id2819157"></a>
+<a class="indexterm" name="id2819167"></a>
+
+All SGML documents must begin with a document type declaration. This
+identifies the DTD that will be used by the document and what the
+root element of the document will be. A typical doctype declaration
+for a DocBook document looks like this:
+</p>
+<pre class="screen">&lt;!DOCTYPE book PUBLIC &quot;-//OASIS//DTD DocBook V3.1//EN&quot;&gt;</pre>
+<p>
+<a class="indexterm" name="id2819203"></a>
+<a class="indexterm" name="id2819213"></a>
+This declaration indicates that the <i>root element</i>,
+which is the first element in the hierarchical structure of the
+document, will be <tt>&lt;book&gt;</tt> and that
+the DTD used will be the one identified by the public identifier
+<tt>-//OASIS//DTD DocBook V3.1//EN</tt>. See <a href="ch02.html#ch.create.pubids" title="2.3.1. Public Identifiers">Section 2.3.1</a>&#x201D; later in this chapter.
+</p>
+</div>
+<div class="sect2">
+<a name="id2819257"></a><div class="titlepage"><div><h3 class="title">
+<a name="id2819257"></a>2.1.3. An Internal Subset</h3></div></div>
+<p>
+<a class="indexterm" name="id2819267"></a>
+
+It's also possible to provide additional declarations in a document
+by placing them in the document type declaration:</p>
+<pre class="screen">&lt;!DOCTYPE book PUBLIC &quot;-//OASIS//DTD DocBook V3.1//EN&quot; [
+&lt;!ENTITY nwalsh &quot;Norman Walsh&quot;&gt;
+&lt;!ENTITY chap1 SYSTEM &quot;chap1.sgm&quot;&gt;
+&lt;!ENTITY chap2 SYSTEM &quot;chap2.sgm&quot;&gt;
+]&gt;</pre>
+<p>
+<a class="indexterm" name="id2819291"></a>
+<a class="indexterm" name="id2819301"></a>
+<a class="indexterm" name="id2819311"></a>
+
+These declarations form what is known as the
+<i>internal subset</i>. The declarations stored in the
+file referenced by the public or system identifier in the 
+<tt>DOCTYPE</tt> declaration is called the <i>external
+subset</i> and it is technically optional.
+It is legal to put the DTD in the internal
+subset and to have no external subset, but for a DTD as large
+as DocBook that wouldn't make much sense.
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">
+<a name="id2819349"></a>Note</h3>
+<p>
+<a class="indexterm" name="id2819355"></a>
+The internal subset is parsed <span class="emphasis"><i>first</i></span>
+and, if multiple declarations for an entity occur, the first
+declaration is used.  Declarations in the internal subset
+override declarations in the external subset.</p>
+</div>
+</div>
+<div class="sect2">
+<a name="id2819375"></a><div class="titlepage"><div><h3 class="title">
+<a name="id2819375"></a>2.1.4. The Document (or Root) Element</h3></div></div>
+<p>
+<a class="indexterm" name="id2819386"></a>
+<a class="indexterm" name="id2819396"></a>
+
+Although comments and processing instructions may occur between the
+document type declaration and the root element, the root element usually
+immediately follows the document type declaration:</p>
+<pre class="screen">&lt;!DOCTYPE book PUBLIC &quot;-//OASIS//DTD DocBook V3.1//EN&quot; [
+&lt;!ENTITY nwalsh &quot;Norman Walsh&quot;&gt;
+&lt;!ENTITY chap1 SYSTEM &quot;chap1.sgm&quot;&gt;
+&lt;!ENTITY chap2 SYSTEM &quot;chap2.sgm&quot;&gt;
+]&gt;
+&lt;book&gt;
+&amp;chap1;
+&amp;chap2;
+&lt;/book&gt;</pre>
+<p>You cannot place the root element of
+the document in an external entity.</p>
+</div>
+<div class="sect2">
+<a name="ch02-typexml"></a><div class="titlepage"><div><h3 class="title">
+<a name="ch02-typexml"></a>2.1.5. Typing an SGML Document</h3></div></div>
+<p>
+<a class="indexterm" name="id2819442"></a>
+<a class="indexterm" name="id2819448"></a>
+<a class="indexterm" name="id2819454"></a>
+<a class="indexterm" name="id2819464"></a>
+
+If you are entering SGML using a text editor such as
+Emacs or vi, there are a few things to
+keep in mind.<sup>[<a name="id2819488" href="#ftn.id2819488">7</a>]</sup>
+Using a structured text editor designed for SGML hides most of these
+issues.
+</p>
+<div class="itemizedlist"><ul>
+<li>
+<p>
+<a class="indexterm" name="id2819518"></a>
+<a class="indexterm" name="id2819528"></a>
+<a class="indexterm" name="id2819538"></a>
+<a class="indexterm" name="id2819548"></a>
+
+DocBook element and attribute names are not case-sensitive.  There's
+no difference between <tt>&lt;Para&gt;</tt> and <tt>&lt;pArA&gt;</tt>.  Entity names are case-sensitive, however.
+</p>
+<p>
+<a class="indexterm" name="id2819579"></a>
+
+<a class="indexterm" name="id2819593"></a>
+<a class="indexterm" name="id2819607"></a>
+If you are interested in future XML compatibility, input all
+element and attribute names strictly in lowercase.
+</p>
+</li>
+<li>
+<p>
+<a class="indexterm" name="id2819631"></a>
+<a class="indexterm" name="id2819646"></a>
+<a class="indexterm" name="id2819660"></a>
+<a class="indexterm" name="id2819675"></a>
+<a class="indexterm" name="id2819688"></a>
+<a class="indexterm" name="id2819694"></a>
+
+If attribute values contain spaces or punctuation characters, you must
+quote them. You are not required to quote attribute values if they
+consist of a single word or number, although it is not wrong to do so.
+</p>
+<p>
+<a class="indexterm" name="id2819709"></a>
+<a class="indexterm" name="id2819715"></a>
+<a class="indexterm" name="id2819721"></a>
+When quoting attribute values, you can use either a straight single
+quote ('), or a straight double quote (&quot;).  Don't use the
+&#x201C;curly&#x201D; quotes (&#x201C; and &#x201D;) in your editing tool.
+</p>
+<p>
+<a class="indexterm" name="id2819734"></a>
+If you are interested in future XML compatibility, always
+quote all attribute values.
+</p>
+</li>
+<li>
+<p>
+
+<a class="indexterm" name="id2819757"></a>
+<a class="indexterm" name="id2819771"></a>
+<a class="indexterm" name="id2819785"></a>
+<a class="indexterm" name="id2819795"></a>
+<a class="indexterm" name="id2819804"></a>
+Several forms of markup minimization are allowed, including empty
+tags. Instead of typing the entire end tag for an element, you can
+type simply <tt>&lt;/&gt;</tt>. For example:
+</p>
+<pre class="screen">
+
+&lt;para&gt;
+This is &lt;emphasis&gt;important&lt;/&gt;: never stick the tines of a fork
+in an electrical outlet.
+&lt;/para&gt;
+
+</pre>
+<p>
+You can use this technique for any and every tag, but it will make
+your documents very hard to understand and difficult to debug if you 
+introduce errors.  It is best to use this technique
+only for inline elements containing a short string of text.
+</p>
+<p>
+<a class="indexterm" name="id2819842"></a>
+<a class="indexterm" name="id2819852"></a>
+Empty start tags are also possible, but may be even more confusing.
+For the record, if you encounter an empty start tag, the SGML parser uses
+the element that ended last:
+</p>
+<pre class="screen">
+
+&lt;para&gt;
+This is &lt;emphasis&gt;important&lt;/emphasis&gt;.  So is &lt;&gt;this&lt;/para&gt;.
+&lt;/para&gt;
+
+</pre>
+<p>
+Both &#x201C;important&#x201D; and &#x201C;this&#x201D; are emphasized.
+</p>
+<p>
+<a class="indexterm" name="id2819893"></a>
+<a class="indexterm" name="id2819908"></a>
+If you are interested in future XML compatibility, don't use any
+of these tricks.
+</p>
+</li>
+<li>
+<p>
+The null end tag (net) minimization feature allows constructions like this:
+</p>
+<pre class="screen">
+
+&lt;para&gt;
+This is &lt;emphasis/important/: never stick the tines of a fork
+in an electrical outlet.
+&lt;/para&gt;
+
+</pre>
+<p>
+<a class="indexterm" name="id2819950"></a>
+If, instead of ending a start tag with <tt>&gt;</tt>, you end
+it with a slash, then the next occurrence of a slash ends the element.
+</p>
+<p>
+<a class="indexterm" name="id2819970"></a>
+<a class="indexterm" name="id2819984"></a>
+<a class="indexterm" name="id2819999"></a>
+
+If you are interested in future XML compatibility, don't use
+net tag minimization either.
+</p>
+</li>
+</ul></div>
+<p>
+If you are willing to modify both the declaration and the DTD, even more
+dramatic minimizations are possible, including completely omitted tags
+and &#x201C;shortcut&#x201D; markup.
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">
+<a name="id2820037"></a>Removing Minimizations</h3>
+<p>
+<a class="indexterm" name="id2820046"></a>
+<a class="indexterm" name="id2820060"></a>
+
+Although we've made a point of reminding you about which of these
+minimization features are not valid in XML, that's not really a
+sufficient reason to avoid using them.  (The fact that many of the
+minimization features can lead to confusing, difficult-to-author
+documents might be.)
+</p>
+<p>
+<a class="indexterm" name="id2820083"></a>
+<a class="indexterm" name="id2820098"></a>
+<a class="indexterm" name="id2820112"></a>
+If you want to convert one of these documents to XML at some point
+in the future, you can run it through a program like
+<b>sgmlnorm</b>, which will remove all the minimizations and
+insert the correct, verbose markup.  The <b>sgmlnorm</b> program
+is part of the <a href="http://www.jclark.com/" target="_top">SP and Jade
+distributions</a>, which are on <a href="appe.html" title="Appendix E. What's on theCD-ROM?">the
+CD-ROM</a>.
+</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<a name="ch02-makexml"></a><div class="titlepage"><div><h2 class="title" style="clear: both">
+<a name="ch02-makexml"></a>2.2. Making an XML Document</h2></div></div>
+<p>
+<a class="indexterm" name="id2820176"></a>
+<a class="indexterm" name="id2820186"></a>
+<a class="indexterm" name="id2820200"></a>
+
+In order to create DocBook documents in XML, you'll need an XML
+version of DocBook. We've included one on the CD, but it hasn't
+been officially adopted by the OASIS DocBook Technical Committee yet.
+If you're interested in the technical details, <a href="appb.html" title="Appendix B. DocBook and XML">Appendix B</a>, describes the specific differences between
+SGML and XML versions of DocBook.
+</p>
+<p>
+<a class="indexterm" name="id2820255"></a>
+
+XML, like SGML, requires a specific prologue in your document.
+The following sections describe the features of the XML prologue.
+</p>
+<div class="sect2">
+<a name="id2820280"></a><div class="titlepage"><div><h3 class="title">
+<a name="id2820280"></a>2.2.1. An XML Declaration</h3></div></div>
+<p>
+<a class="indexterm" name="id2820294"></a>
+<a class="indexterm" name="id2820304"></a>
+<a class="indexterm" name="id2820314"></a>
+XML documents should begin with an XML declaration. Unlike the
+SGML declaration, which is a grab bag of features, the XML
+declaration identifies a few simple aspects of the document:</p>
+<pre class="screen">&lt;?xml version=&quot;1.0&quot; standalone=&quot;no&quot;?&gt;</pre>
+<p>Identifying the version of XML ensures that future changes to
+the XML specification will not alter the semantics of this
+document. The standalone declaration simply makes explicit the fact
+that this document cannot &#x201C;stand alone,&#x201D; and that it
+relies on an external DTD. The complete details of the XML
+declaration are described in the <a href="http://www.w3.org/TR/REC-xml" target="_top">XML specification</a>.
+</p>
+</div>
+<div class="sect2">
+<a name="id2820387"></a><div class="titlepage"><div><h3 class="title">
+<a name="id2820387"></a>2.2.2. A Document Type Declaration</h3></div></div>
+<p>
+<a class="indexterm" name="id2820397"></a>
+<a class="indexterm" name="id2820412"></a>
+<a class="indexterm" name="id2820422"></a>
+<a class="indexterm" name="id2820432"></a>
+Strictly speaking, XML documents don't require a
+DTD. Realistically, DocBook XML documents will have one.
+</p>
+<p>
+<a class="indexterm" name="id2820464"></a>
+<a class="indexterm" name="id2820474"></a>
+The document type declaration identifies the DTD that will be used
+by the document and what the root element of the document will be. A
+typical doctype declaration for a DocBook document looks like
+this:
+</p>
+<pre class="screen">&lt;?xml version='1.0'?&gt;
+&lt;!DOCTYPE book PUBLIC &quot;-//Norman Walsh//DTD DocBk XML V3.1.4//EN&quot;
+                         &quot;http://nwalsh.com/docbook/xml/3.1.4/db3xml.dtd&quot;&gt;
+</pre>
+<p>
+<a class="indexterm" name="id2820503"></a>
+<a class="indexterm" name="id2820509"></a>
+<a class="indexterm" name="id2820519"></a>
+This declaration indicates that the root element will be <tt>&lt;book&gt;</tt> and that the DTD used will be the
+one indentified by the public identifier <tt>-//Norman Walsh//DTD
+DocBk XML V3.1.4//EN</tt>. External declarations in XML must
+include a system identifier (the public identifier is optional). In
+this example, the DTD is stored on a web server.
+</p>
+<p>
+<a class="indexterm" name="id2820561"></a>
+System identifiers in XML must be URIs. Many
+systems may accept filenames and interpret them locally as
+<tt>file:</tt> URLs, but it's always
+correct to fully qualify them.
+</p>
+</div>
+<div class="sect2">
+<a name="id2820592"></a><div class="titlepage"><div><h3 class="title">
+<a name="id2820592"></a>2.2.3. An Internal Subset</h3></div></div>
+<p>
+<a class="indexterm" name="id2820603"></a>
+<a class="indexterm" name="id2820617"></a>
+<a class="indexterm" name="id2820627"></a>
+<a class="indexterm" name="id2820638"></a>
+It's also possible to provide additional declarations in a document by
+placing them in the document type declaration:
+</p>
+<pre class="screen">&lt;?xml version='1.0'?&gt;
+&lt;!DOCTYPE book PUBLIC &quot;-//Norman Walsh//DTD DocBk XML V3.1.4/EN&quot;
+                         &quot;http://nwalsh.com/docbook/xml/3.1.4/db3xml.dtd&quot; [
+&lt;!ENTITY nwalsh &quot;Norman Walsh&quot;&gt;
+&lt;!ENTITY chap1 SYSTEM &quot;chap1.sgm&quot;&gt;
+&lt;!ENTITY chap2 SYSTEM &quot;chap2.sgm&quot;&gt;
+]&gt;</pre>
+<p>
+These declarations form what is known as the internal subset. The
+declarations stored in the file referenced by the public or system
+identifier in the <tt>DOCTYPE</tt> declaration is called the
+external subset, which is technically optional.  It is legal to put
+the DTD in the internal subset and to have no external subset, but
+for a DTD as large as DocBook, that would make very little sense.
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">
+<a name="id2820687"></a>Note</h3>
+<p>
+<a class="indexterm" name="id2820694"></a>
+
+The internal subset is parsed <span class="emphasis"><i>first</i></span> in XML and,
+if multiple declarations for an entity occur, the first declaration is used.
+Declarations in the internal subset override declarations in the external
+subset.</p>
+</div>
+</div>
+<div class="sect2">
+<a name="id2820723"></a><div class="titlepage"><div><h3 class="title">
+<a name="id2820723"></a>2.2.4. The Document (or Root) Element</h3></div></div>
+<p>
+<a class="indexterm" name="id2820734"></a>
+<a class="indexterm" name="id2820739"></a>
+Although comments and processing instructions may occur between the
+document type declaration and the root element, the root element usually
+immediately follows the document type declaration:</p>
+<pre class="screen">&lt;?xml version='1.0'?&gt;
+&lt;!DOCTYPE book PUBLIC &quot;-//Norman Walsh//DTD DocBk XML V3.1.4//EN&quot;
+                         &quot;http://nwalsh.com/docbook/xml/3.1.4/db3xml.dtd&quot; [
+&lt;!ENTITY nwalsh &quot;Norman Walsh&quot;&gt;
+&lt;!ENTITY chap1 SYSTEM &quot;chap1.sgm&quot;&gt;
+&lt;!ENTITY chap2 SYSTEM &quot;chap2.sgm&quot;&gt;
+]&gt;
+&lt;book&gt;...&lt;/book&gt;</pre>
+<p>The important point is that the root element must be physically
+present immediately
+after the document type declaration. You cannot place the root element of
+the document in an external entity.</p>
+</div>
+<div class="sect2">
+<a name="id2820772"></a><div class="titlepage"><div><h3 class="title">
+<a name="id2820772"></a>2.2.5. Typing an XML Document</h3></div></div>
+<p>
+<a class="indexterm" name="id2820785"></a>
+
+If you are entering SGML using a text editor such as Emacs
+or vi, there are a few things to keep in mind.
+Using a structured text editor designed for
+XML hides most of these issues.
+</p>
+<div class="itemizedlist"><ul>
+<li><p>
+<a class="indexterm" name="id2820820"></a>
+<a class="indexterm" name="id2820829"></a>
+<a class="indexterm" name="id2820839"></a>
+
+In XML, all markup is case-sensitive.  In the XML version of DocBook,
+you must always type all element,
+attribute, and entity names in lowercase.
+</p></li>
+<li>
+<p>
+You are required to quote all attribute values in XML.
+</p>
+<p>
+<a class="indexterm" name="id2820876"></a>
+
+When quoting attribute values, you can use either a straight single
+quote ('), or a straight double quote (&quot;).  Don't use the
+&#x201C;curly&#x201D; quotes (&#x201C; and &#x201D;) in your editing tool.
+</p>
+</li>
+<li><p>
+<a class="indexterm" name="id2820898"></a>
+
+Empty elements in XML are marked with a distinctive syntax:
+<tt>&lt;xref/&gt;</tt>.
+</p></li>
+<li>
+<a name="id2820919"></a><a class="indexterm" name="id2820922"></a><p>Processing instructions in XML begin and end with a question mark:
+<tt>&lt;?pitarget data?&gt;</tt>.
+</p>
+</li>
+<li>
+<p>
+<a class="indexterm" name="id2820952"></a>
+
+XML was designed to be served, received, and processed over the
+Web. Two of its most important design principles are ease of
+implementation and interoperability with both SGML and HTML.
+</p>
+<p>
+<a class="indexterm" name="id2820982"></a>
+
+<a class="indexterm" name="id2820997"></a>
+<a class="indexterm" name="id2821010"></a>
+<a class="indexterm" name="id2821022"></a>
+
+The markup minimization features in SGML documents make it more
+difficult to process, and harder to write a parser to interpret it; these
+minimization features also run counter to the XML design principles
+named above. As a result, XML does not support them.
+</p>
+<p>
+Luckily, a good authoring environment can offer all of the features of
+markup minimization without interfering with the interoperability of
+documents.  And because XML tools are easier to write, it's likely
+that good, inexpensive XML authoring environments will be available
+eventually.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect2">
+<a name="id2821076"></a><div class="titlepage"><div><h3 class="title">
+<a name="id2821076"></a>2.2.6. XML and SGML Markup Considerations in This Book</h3></div></div>
+<p>
+<a class="indexterm" name="id2821093"></a>
+
+Conceptually, almost everything in this book applies equally to SGML
+and XML.  But because DocBook V3.1 is an SGML DTD, we naturally
+tend to use SGML conventions in our writing.  If you're primarily
+interested in XML, there are just a few small details to keep in
+mind.
+</p>
+<div class="itemizedlist"><ul>
+<li><p>
+<a class="indexterm" name="id2821143"></a>
+<a class="indexterm" name="id2821153"></a>
+<a class="indexterm" name="id2821163"></a>
+XML is case-sensitive, while the SGML version of DocBook is
+not. In this book, we've chosen to present the element names using
+mixed case (<a href="book.html"><tt>Book</tt></a>, <a href="indexterm.html"><tt>indexterm</tt></a>,
+<a href="xref.html"><tt>XRef</tt></a>, and so on), but in the DocBook XML DTD,
+all element, attribute, and entity names are strictly
+lowercase.</p></li>
+<li><p>
+<a class="indexterm" name="id2821214"></a>
+<a class="indexterm" name="id2821224"></a>
+Empty element start tags in XML are marked with a distinctive
+syntax: <tt>&lt;xref/&gt;</tt>.  In SGML, the trailing slash
+is not present, so some of our examples need slight revisions to be
+valid XML elements.
+</p></li>
+<li><p>
+<a class="indexterm" name="id2821262"></a>
+<a class="indexterm" name="id2821268"></a>
+<a class="indexterm" name="id2821278"></a>
+
+Processing instructions in XML begin and end with a question
+mark: <tt>&lt;?pitarget data?&gt;</tt>.  In SGML, the
+trailing question mark is not present, so some of our examples need
+slight revisions to be valid XML elements.
+</p></li>
+<li><p>
+<a class="indexterm" name="id2821316"></a>
+<a class="indexterm" name="id2821330"></a>
+<a class="indexterm" name="id2821339"></a>
+Generally we use public identifiers in examples, but whenever system
+identifiers are used, don't forget that XML system identifiers must
+be Uniform Resource Indicators (URIs), in which
+SGML system identifiers are usually simple filenames.
+</p></li>
+</ul></div>
+<p>
+For a more detailed discussion of DocBook and XML, see
+<a href="appb.html" title="Appendix B. DocBook and XML">Appendix B</a>.
+</p>
+</div>
+</div>
+<div class="sect1">
+<a name="s-pid-sid-catalogs"></a><div class="titlepage"><div><h2 class="title" style="clear: both">
+<a name="s-pid-sid-catalogs"></a>2.3. Public Identifiers, System Identifiers, and Catalog Files</h2></div></div>
+<p>
+<a class="indexterm" name="id2821406"></a>
+<a class="indexterm" name="id2821416"></a>
+
+When a DTD or other external file is referenced from a document, the
+reference can be specified in three ways: using a <i>public
+identifier</i>, a <i>system identifier</i>, or
+both. In XML, the system identifier is <span class="emphasis"><i>generally</i></span> 
+required and the public identifier is optional. In SGML, neither is 
+required, but at least one must be present.<sup>[<a name="id2821456" href="#ftn.id2821456">8</a>]</sup>
+</p>
+<p>
+<a class="indexterm" name="id2821475"></a>
+A public identifier is a globally unique, abstract
+name, such as the following, which is the official public identifier
+for DocBook V3.1:
+<pre class="screen">-//OASIS//DTD DocBook V3.1//EN</pre>
+</p>
+<p>
+<a class="indexterm" name="id2821500"></a>
+<a class="indexterm" name="id2821510"></a>
+<a class="indexterm" name="id2821520"></a>
+<a class="indexterm" name="id2821530"></a>
+<a class="indexterm" name="id2821539"></a>
+<a class="indexterm" name="id2821548"></a>
+The introduction of XML has added some small complications to system
+identifiers.  In SGML, a system identifier generally points to a
+single, local version of a file using local system conventions. In
+XML, it must point with a Uniform Resource Indicator
+(URI). The most common URI
+today is the Uniform Resource Locator (URL), which
+is familiar to anyone who browses the Web.  URLs
+are a lot like SGML system identifiers, because they generally point
+to a single version of a file on a particular machine.  In the future,
+Uniform Resource Names (URN), another form of
+URI, will allow XML system identifiers to have
+the abstract characteristics of public identifiers.
+</p>
+<p>
+<a class="indexterm" name="id2821618"></a>
+<a class="indexterm" name="id2821632"></a>
+
+The following filename is an example of an SGML system identifier:
+<pre class="screen">/usr/local/sgml/docbook/3.1/docbook.dtd
+</pre>
+An equivalent XML system identifier might be:
+<pre class="screen">file:///usr/local/sgml/docbook/3.1/docbook.dtd
+</pre>
+</p>
+<p>
+The advantage of using the public identifier is that it makes your
+documents more portable. For any system on which DocBook is installed,
+the public identifier will resolve to the appropriate local version of
+the DTD (if public identifiers can be resolved at all).
+</p>
+<p>
+Public identifiers have two disadvantages:
+<div class="itemizedlist"><ul>
+<li><p>Because XML does not require them, and because system
+identifiers are required, developing XML tools may not provide
+adequate support for public identifiers. To work with these systems
+you must use system identifiers.</p></li>
+<li>
+<p>
+<a class="indexterm" name="id2821714"></a>
+<a class="indexterm" name="id2821724"></a>
+
+Public identifiers aren't magical. They're simply a method of
+indirection. For them to work, there must be a resolution mechanism
+for public identifiers. Luckily, several years ago, SGML Open (now
+<a href="http://www.oasis-open.org/" target="_top">OASIS</a>)
+described a standard mechanism for mapping public identifiers to
+system identifers using catalog files.</p>
+<p>
+See <a href="http://www.oasis-open.org/html/a401.htm" target="_top">OASIS
+Technical Resolution 9401:1997 (Amendment 2 to TR
+9401).</a>
+</p>
+</li>
+</ul></div>
+</p>
+<div class="sect2">
+<a name="ch.create.pubids"></a><div class="titlepage"><div><h3 class="title">
+<a name="ch.create.pubids"></a>2.3.1. Public Identifiers</h3></div></div>
+<p>
+<a class="indexterm" name="id2821790"></a>
+An important characteristic of public identifiers is that they are
+<span class="emphasis"><i>globally unique</i></span>. Referring to a document with a
+public identifier should mean that the identifier will resolve to the
+same actual document on any system even though the location of that
+document on each system may vary.  As a rule, you should never reuse
+public identifiers, and a published revision should have a new public
+identifier. Not following these rules defeats one purpose of the
+public identifier.
+</p>
+<p>
+<a class="indexterm" name="id2821817"></a>
+A public identifier can be any string of upper- and lowercase letters,
+digits, any of the following symbols: &#x201C;'&#x201D;,
+&#x201C;(&#x201C;, &#x201C;)&#x201D;, &#x201C;+&#x201D;, &#x201C;,&#x201D;,
+&#x201C;-&#x201D;, &#x201C;.&#x201D;, &#x201C;/&#x201D;, &#x201C;:&#x201D;,
+&#x201C;=&#x201D;, &#x201C;?&#x201D;, and white space, including line
+breaks.
+</p>
+<div class="sect3">
+<a name="id2821828"></a><div class="titlepage"><div><h4 class="title">
+<a name="id2821828"></a>2.3.1.1. Formal public identifiers</h4></div></div>
+<p>
+<a class="indexterm" name="id2821843"></a>
+<a class="indexterm" name="id2821853"></a>
+<a class="indexterm" name="id2821862"></a>
+Most public identifiers conform to the ISO 8879
+standard that defines <i>formal public
+identifiers</i>. Formal public identifiers, frequently referred
+to as FPI, have a prescribed format that can ensure
+uniqueness:<sup>[<a name="id2821887" href="#ftn.id2821887">9</a>]</sup>
+</p>
+<pre class="screen"><i><tt>prefix</tt></i>//<i><tt>owner-identifier</tt></i>//<i><tt>
+text-class</tt></i> <i><tt>text-description</tt></i>//<i><tt>
+language</tt></i>//<i><tt>display-version</tt></i></pre>
+<p>
+Here are descriptions of the identifiers in this string:
+<div class="variablelist"><dl>
+<dt>
+<a name="id2821935"></a><span class="term"><i><tt>prefix</tt></i></span>
+</dt>
+<dd>
+<p>
+<a class="indexterm" name="id2821951"></a>
+<a class="indexterm" name="id2821960"></a>
+<a class="indexterm" name="id2821965"></a>
+<a class="indexterm" name="id2821970"></a>
+The <i><tt>prefix</tt></i> is either a
+&#x201C;<tt>+</tt>&#x201D; or a &#x201C;<tt>-</tt>&#x201D;
+Registered public identifiers begin with
+&#x201C;<tt>+</tt>&#x201D;; unregistered identifiers begin
+with &#x201C;<tt>-</tt>&#x201D;.</p>
+<p>
+(ISO standards sometimes use a third form beginning
+with <tt>ISO</tt> and the standard number, but this form is
+only available to ISO.)
+</p>
+<p>
+<a class="indexterm" name="id2822026"></a>
+
+The purpose of registration is to guarantee a unique owner-identifier.
+There are few authorities with the power to issue registered public
+identifiers, so in practice unregistered identifiers are more common.
+</p>
+<p>
+<a class="indexterm" name="id2822049"></a>
+<a class="indexterm" name="id2822059"></a>
+<a class="indexterm" name="id2822070"></a>
+<a class="indexterm" name="id2822076"></a>
+
+The <a href="http://www.gca.org/" target="_top">Graphics Communication
+Association</a> (GCA) can assign registered
+public identifiers.  They do this by issuing the applicant a unique
+string and declaring the format of the owner identifier. For example,
+the Davenport Group was issued the string &#x201C;A00002&#x201D; and
+could have published DocBook using an FPI of the
+following form:
+<pre class="screen">
++//ISO/IEC 9070/RA::A00002//<i><tt>...</tt></i>
+</pre>
+</p>
+<p>
+<a class="indexterm" name="id2822116"></a>
+Another way to use a registered public identifier is to use the format
+reserved for internet domain names.  For example, O'Reilly can issue
+documents using an FPI of the following form:
+<pre class="screen">
++//IDN oreilly.com//<i><tt>...</tt></i>
+</pre>
+</p>
+<p>
+As of DocBook V3.1, the OASIS Technical Committee
+responsible for DocBook has elected to use the unregistered owner
+identifier, <tt>OASIS</tt>, thus its prefix is
+<tt>-</tt>.
+<pre class="screen">
+-//OASIS//<i><tt>...</tt></i>
+</pre>
+</p>
+</dd>
+<dt>
+<a name="id2822169"></a><span class="term"><i><tt>owner-identifier</tt></i></span>
+</dt>
+<dd>
+<p>
+<a class="indexterm" name="id2822184"></a>
+Identifies the person or organization that owns the identifier.
+Registration guarantees a unique owner identifier. Short of
+registration, some effort should be made to ensure that the owner
+identifier is globally unique. A company name, for example, is a
+reasonable choice as are Internet domain names. It's also not uncommon
+to see the names of individuals used as the owner-identifier, although
+clearly this may introduce collisions over time.
+</p>
+<p>
+<a class="indexterm" name="id2822208"></a>
+
+The owner-identifier for DocBook V3.1 is
+<tt>OASIS</tt>.  Earlier versions used the owner-identifier
+<tt>Davenport</tt>.
+</p>
+</dd>
+<dt>
+<a name="id2822231"></a><span class="term"><i><tt>text-class</tt></i></span>
+</dt>
+<dd>
+<p>
+<a class="indexterm" name="id2822247"></a>
+<a class="indexterm" name="id2822256"></a>
+<a class="indexterm" name="id2822262"></a>
+<a class="indexterm" name="id2822271"></a>
+<a class="indexterm" name="id2818874"></a>
+<a class="indexterm" name="id2818880"></a>
+
+The text class identifies the kind of document that is
+associated with this public identifier. Common text classes
+are
+  <div class="variablelist"><dl>
+<dt>
+<a name="id2818892"></a><span class="term">DOCUMENT</span>
+</dt>
+<dd><p>An SGML or XML document.</p></dd>
+<dt>
+<a name="id2818917"></a><span class="term">DTD</span>
+</dt>
+<dd><p>A DTD or part of a DTD.</p></dd>
+<dt>
+<a name="id2818942"></a><span class="term">ELEMENTS</span>
+</dt>
+<dd><p>A collection of element declarations.</p></dd>
+<dt>
+<a name="id2818960"></a><span class="term">ENTITIES</span>
+</dt>
+<dd><p>A collection of entity declarations.</p></dd>
+<dt>
+<a name="id2818978"></a><span class="term">NONSGML</span>
+</dt>
+<dd><p>Data that is not in SGML or XML.</p></dd>
+</dl></div>
+</p>
+<p>
+DocBook is a DTD, thus its text class is DTD.
+</p>
+</dd>
+<dt>
+<a name="id2819016"></a><span class="term"><i><tt>text-description</tt></i></span>
+</dt>
+<dd>
+<p>
+<a class="indexterm" name="id2822588"></a>
+<a class="indexterm" name="id2822597"></a>
+
+This field provides a description of the document. The text description is
+free-form, but cannot include the string //.
+</p>
+<p>
+The text description of DocBook is <tt>DocBook V3.1</tt>.
+</p>
+<p>
+<a class="indexterm" name="id2822623"></a>
+<a class="indexterm" name="id2822629"></a>
+In the uncommon case of unavailable public texts
+(FPIs for proprietary DTDs, for example), there
+are a few other options available (technically in front of or in place
+of the text description), but they're rarely used.
+<sup>[<a name="id2822650" href="#ftn.id2822650">10</a>]</sup>
+</p>
+</dd>
+<dt>
+<a name="id2822670"></a><span class="term"><i><tt>language</tt></i></span>
+</dt>
+<dd>
+<p>
+<a class="indexterm" name="id2822685"></a>
+<a class="indexterm" name="id2822695"></a>
+
+Indicates the language in which the document is written. It is
+recommended that the ISO standard two-letter
+language codes be used if possible.
+</p>
+<p>
+DocBook is an English-language DTD, thus its language is
+<tt>EN</tt>.
+</p>
+</dd>
+<dt>
+<a name="id2822728"></a><span class="term"><i><tt>display-version</tt></i></span>
+</dt>
+<dd>
+<p>
+<a class="indexterm" name="id2822743"></a>
+
+This field, which is not frequently used, distinguishes between
+public texts that are the same except for the display device or system
+to which they apply.
+</p>
+<p>
+<a class="indexterm" name="id2822756"></a>
+
+For example, the FPI for the ISO
+Latin 1 character set is:
+<pre class="screen">-//ISO 8879-1986//ENTITIES Added Latin 1//EN</pre>
+</p>
+<p>
+A reasonable FPI for an XML version of this
+character set is:
+<pre class="screen">-//ISO 8879-1986//ENTITIES Added Latin 1//EN//XML</pre>
+</p>
+</dd>
+</dl></div>
+</p>
+</div>
+</div>
+<div class="sect2">
+<a name="id2822805"></a><div class="titlepage"><div><h3 class="title">
+<a name="id2822805"></a>2.3.2. System Identifiers</h3></div></div>
+<p>
+<a class="indexterm" name="id2822816"></a>
+<a class="indexterm" name="id2822822"></a>
+System identifiers are usually filenames on the local system. In
+SGML, there's no constraint on what they can be. Anything that your
+SGML processing system recognizes is allowed. In XML, system
+identifiers must be URIs (Uniform Resource
+Identifiers).
+</p>
+<p>
+The use of URIs as system identifiers introduces
+the possibility that a system identifier can be a
+URN. This allows the system identifier to benefit
+from the same global uniqueness benefit as the public identifier. It
+seems likely that XML system identifiers will eventually move in
+this direction.
+</p>
+</div>
+<div class="sect2">
+<a name="s-catalog-files"></a><div class="titlepage"><div><h3 class="title">
+<a name="s-catalog-files"></a>2.3.3. Catalog Files</h3></div></div>
+<p>
+<a class="indexterm" name="id2822891"></a>
+
+<i>Catalog files</i> are the standard mechanism for
+resolving public identifiers into system identifiers. Some resolution
+mechanism is necessary because DocBook refers to its component modules
+with public identifiers, and those must be mapped to actual files on
+the system before any piece of software can actually load them.
+</p>
+<p>
+<a class="indexterm" name="id2822916"></a>
+<a class="indexterm" name="id2822926"></a>
+
+The catalog file format was defined in 1994 by SGML Open (now
+OASIS). The formal specification is contained in
+OASIS Technical Resolution 9401:1997.
+</p>
+<p>
+Informally, a catalog is a text file that contains a number of
+keyword/value pairs. The most frequently used keywords are
+<tt>PUBLIC</tt>, <tt>SYSTEM</tt>,
+<tt>SGMLDECL</tt>, <tt>DTDDECL</tt>,
+<tt>CATALOG</tt>, <tt>OVERRIDE</tt>,
+<tt>DELEGATE</tt>, and <tt>DOCTYPE</tt>.
+</p>
+<div class="variablelist"><dl>
+<dt>
+<a name="id2822994"></a><span class="term"><tt>PUBLIC</tt></span>
+</dt>
+<dd>
+<p>
+<a class="indexterm" name="id2823008"></a>
+
+The <tt>PUBLIC</tt> keyword maps public identifiers to
+system identifiers:</p>
+<pre class="screen">
+PUBLIC &quot;-//OASIS//DTD DocBook V3.1//EN&quot; &quot;docbook/3.1/docbook.dtd&quot;
+</pre>
+</dd>
+<dt>
+<a name="id2823027"></a><span class="term"><tt>SYSTEM</tt></span>
+</dt>
+<dd>
+<p>
+<a class="indexterm" name="id2823041"></a>
+
+The <tt>SYSTEM</tt> keyword maps system identifiers to
+system identifiers:</p>
+<pre class="screen">
+SYSTEM &quot;http://nwalsh.com/docbook/xml/1.3/db3xml.dtd&quot;
+    &quot;docbook/xml/1.3/db3xml.dtd&quot;
+</pre>
+</dd>
+<dt>
+<a name="id2823061"></a><span class="term"><tt>SGMLDECL</tt></span>
+</dt>
+<dd>
+<p>
+<a class="indexterm" name="id2823074"></a>
+
+The <tt>SGMLDECL</tt> keyword identifies the system
+identifier of the SGML Declaration that should be used:</p>
+<pre class="screen">
+SGMLDECL &quot;docbook/3.1/docbook.dcl&quot;
+</pre>
+</dd>
+<dt>
+<a name="id2823098"></a><span class="term"><tt>DTDDECL</tt></span>
+</dt>
+<dd>
+<p>
+<a class="indexterm" name="id2823111"></a>
+
+Like <tt>SGMLDECL</tt>, <tt>DTDDECL</tt>
+identifies the SGML Declaration that should be
+used. <tt>DTDDECL</tt> associates a declaration with a
+particular public identifier for a DTD:
+</p>
+<pre class="screen">DTDDECL &quot;-//OASIS//DTD DocBook V3.1//EN&quot; &quot;docbook/3.1/docbook.dcl&quot;
+</pre>
+<p>Unfortunately, it is not supported by the free tools that are
+available. The practical benefit of <tt>DTDDECL</tt> can
+usually be achieved, albeit in a slightly cumbersome way, with
+multiple catalog files.
+</p>
+</dd>
+<dt>
+<a name="id2823160"></a><span class="term"><tt>CATALOG</tt></span>
+</dt>
+<dd>
+<p>
+<a class="indexterm" name="id2823173"></a>
+
+The <tt>CATALOG</tt> keyword allows one catalog to
+include the content of another.  This can make maintenance somewhat
+easier and allows a system to directly use the catalog files included
+in DTD distributions. For example, the DocBook distribution includes
+a catalog file. Rather than copying each of the declarations in that
+catalog into your system catalog, you can simply include the contents
+of the DocBook catalog:
+</p>
+<pre class="screen">CATALOG &quot;docbook/3.1/catalog&quot;</pre>
+</dd>
+<dt>
+<a name="id2823202"></a><span class="term"><tt>OVERRIDE</tt></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2823216"></a>
+
+The <tt>OVERRIDE</tt> keyword indicates whether or not
+public identifiers override system identifiers. If a given declaration
+includes both a system identifer and a public identifier, most systems
+attempt to process the document referenced by the system identifier,
+and consequently ignore the public identifier. Specifying
+<pre class="screen">OVERRIDE YES</pre> in the catalog informs the processing
+system that resolution should be attempted first with the public
+identifier.</p></dd>
+<dt>
+<a name="id2823241"></a><span class="term"><tt>DELEGATE</tt></span>
+</dt>
+<dd>
+<p>
+<a class="indexterm" name="id2823254"></a>
+
+The <tt>DELEGATE</tt> keyword allows you to specify
+that some set of public identifiers should be resolved by another
+catalog. Unlike the <tt>CATALOG</tt> keyword, which loads
+the referenced catalog, <tt>DELEGATE</tt> does nothing until
+an attempt is made to resolve a public identifier.</p>
+<p>The
+<tt>DELEGATE</tt> entry specifies a partial public
+identifier and an alternate catalog:
+<pre class="screen">DELEGATE &quot;-//OASIS&quot; &quot;/usr/sgml/oasis/catalog&quot;</pre>
+</p>
+<p>
+<a class="indexterm" name="id2823295"></a>
+<a class="indexterm" name="id2823302"></a>
+
+Partial public identifers are simply initial substring
+matches. Given the preceding entry, if an attempt is made to match any
+public identifier that begins with the string
+<tt>-//OASIS</tt>, the alternate catalog
+<tt>/usr/sgml/oasis/catalog</tt> will be used instead
+of the current catalog.
+</p>
+</dd>
+<dt>
+<a name="id2823328"></a><span class="term"><tt>DOCTYPE</tt></span>
+</dt>
+<dd>
+<p>
+<a class="indexterm" name="id2823342"></a>
+<a class="indexterm" name="id2823348"></a>
+<a class="indexterm" name="id2823358"></a>
+
+The <tt>DOCTYPE</tt> keyword allows you to specify a default
+system identifier.  If an SGML document begins with a
+<tt>DOCTYPE</tt> declaration that specifies neither a public
+identifier nor a system identifier (or is missing a
+<tt>DOCTYPE</tt> declaration altogether), the
+<tt>DOCTYPE</tt> declaration may provide a default:
+</p>
+<pre class="screen">
+DOCTYPE BOOK n:/share/sgml/docbook/3.1/docbook.dtd
+</pre>
+</dd>
+</dl></div>
+<p>
+<a class="indexterm" name="id2823405"></a>
+A small fragment of an actual catalog file is shown in <a href="ch02.html#ex-catalog" title="Example 2.0. A Sample Catalog">Example 2.0</a>.
+</p>
+<div class="example">
+<p>
+<a name="ex-catalog"></a><b>Example 2.0. A Sample Catalog</b>
+</p>
+<div class="programlistingco"><pre class="programlisting">
+-- Comments are delimited by pairs of double-hyphens,
+   as in SGML and XML comments. --
+
+OVERRIDE YES
+
+SGMLDECL &quot;n:/share/sgml/docbook/3.1/docbook.dcl&quot;
+
+DOCTYPE  BOOK  n:/share/sgml/docbook/3.1/docbook.dtd
+
+PUBLIC &quot;-//OASIS//DTD DocBook V3.1//EN&quot; 
+  n:/share/sgml/docbook/3.1/docbook.dtd
+
+SYSTEM &quot;http://nwalsh.com/docbook/xml/1.3/db3xml.dtd&quot;
+  n:/share/sgml/Norman_Walsh/db3xml/db3xml.dtd
+</pre></div>
+</div>
+<div class="calloutlist">
+<a name="id2823536"></a><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a name="id2823540"></a><img src="figures/100dpi/callouts/1.png" alt="1" border="0">
+</td>
+<td valign="top" align="left"><p>
+<a class="indexterm" name="id2823546"></a>
+Catalog files may also include comments.
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a name="id2823559"></a><img src="figures/100dpi/callouts/2.png" alt="2" border="0">
+</td>
+<td valign="top" align="left"><p>
+This catalog specifies that public identifiers should be used in favor
+of system identifiers, if both are present.
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a name="id2823573"></a><img src="figures/100dpi/callouts/3.png" alt="3" border="0">
+</td>
+<td valign="top" align="left"><p>
+The default declaration specified by this catalog is the DocBook 
+declaration.
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a name="id2823585"></a><img src="figures/100dpi/callouts/4.png" alt="4" border="0">
+</td>
+<td valign="top" align="left"><p>
+Given an explicit (or implied) SGML <tt>DOCTYPE</tt> of
+<pre class="screen">
+
+&lt;!DOCTYPE BOOK SYSTEM&gt;
+
+</pre>
+use <tt>n:/share/sgml/docbook/3.1/docbook.dtd</tt> as the default
+system identifier.  Note that this can only apply to SGML documents
+because the DOCTYPE declaration above is not a valid XML element.
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a name="id2823624"></a><img src="figures/100dpi/callouts/5.png" alt="5" border="0">
+</td>
+<td valign="top" align="left"><p>
+Map the OASIS public identifer to the local copy of
+the DocBook V3.1 DTD.
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a name="id2823648"></a><img src="figures/100dpi/callouts/6.png" alt="6" border="0">
+</td>
+<td valign="top" align="left"><p>
+Map a system identifer for the XML version of DocBook to a local
+version.
+</p></td>
+</tr>
+</table>
+</div>
+<p>A few notes:</p>
+<div class="itemizedlist"><ul>
+<li><p>It's not uncommon to have several catalog files. See below,
+<a href="ch02.html#s-loc-cat" title="2.3.3.1. Locating catalog files">Section 2.3.3.1</a>&#x201D;.</p></li>
+<li><p>
+<a class="indexterm" name="id2823690"></a>
+<a class="indexterm" name="id2823700"></a>
+<a class="indexterm" name="id2823710"></a>
+
+Like attributes on elements you can quote, the public
+identifier and system identifier are surrounded by either single or double
+quotes.</p></li>
+<li><p>
+<a class="indexterm" name="id2823729"></a>
+<a class="indexterm" name="id2823739"></a>
+
+White space in the catalog file is generally
+irrelevant. You can use spaces, tabs, or new lines between keywords
+and their arguments.</p></li>
+<li><p>
+<a class="indexterm" name="id2823758"></a>
+
+When a relative system identifier is used, it is
+considered to be relative to the location of the catalog file, not the
+document being processed.</p></li>
+</ul></div>
+<div class="sect3">
+<a name="s-loc-cat"></a><div class="titlepage"><div><h4 class="title">
+<a name="s-loc-cat"></a>2.3.3.1. Locating catalog files</h4></div></div>
+<p>
+<a class="indexterm" name="id2823785"></a>
+<a class="indexterm" name="id2823794"></a>
+<a class="indexterm" name="id2823800"></a>
+
+Catalog files go a long way towards making documents more portable by
+introducing a level of indirection. A problem still remains, however:
+how does a processor locate the appropriate catalog file(s)?
+OASIS outlines a complete interchange packaging
+scheme, but for most applications the answer is simply that the
+processor looks for a file called <tt>catalog</tt> or
+<tt>CATALOG</tt>.
+</p>
+<p>
+<a class="indexterm" name="id2823833"></a>
+
+Some applications allow you to specify a list of directories that
+should be examined for catalog files. Other tools allow you to specify
+the actual files.
+</p>
+<p>
+Note that even if a list of directories or catalog files is provided,
+applications may still load catalog files that occur in directories in
+which other documents are found. For example, SP
+and Jade always load the catalog file that occurs in the directory in
+which a DTD or document resides, even if that directory is not on
+the catalog file list.
+</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<a name="ch02-physdiv"></a><div class="titlepage"><div><h2 class="title" style="clear: both">
+<a name="ch02-physdiv"></a>2.4. Physical Divisions: Breaking a Document into Physical Chunks</h2></div></div>
+<p>
+<a class="indexterm" name="id2823881"></a>
+<a class="indexterm" name="id2823891"></a>
+The rest of this chapter describes how you can break documents into
+logical chunks, such as books, chapters, sections, and so on. Before
+we begin, and while the subject of the internal subset is fresh in
+your mind, let's take a quick look at how to break documents into
+separate physical chunks.
+</p>
+<p>
+Actually, we've already told you how to do it. If you recall, in the
+preceding sections we had declarations of the form:
+<pre class="screen">&lt;!ENTITY <i><tt>name</tt></i> SYSTEM &quot;<i><tt>filename</tt></i>&quot;&gt;
+</pre>
+<a class="indexterm" name="id2823925"></a>
+
+If you refer to the entity <i><tt>name</tt></i> in your
+document after this declaration, the system will insert the contents
+of the file <i><tt>filename</tt></i> into your document at that
+point.  So, if you've got a book that consists of three chapters and
+two appendixes, you might create a file called
+<tt>book.sgm</tt>, which looks like this:
+</p>
+<pre class="screen">&lt;!DOCTYPE book PUBLIC &quot;-//OASIS//DTD DocBook V3.1//EN&quot; [
+&lt;!ENTITY chap1 SYSTEM &quot;chap1.sgm&quot;&gt;
+&lt;!ENTITY chap2 SYSTEM &quot;chap2.sgm&quot;&gt;
+&lt;!ENTITY chap3 SYSTEM &quot;chap3.sgm&quot;&gt;
+&lt;!ENTITY appa SYSTEM &quot;appa.sgm&quot;&gt;
+&lt;!ENTITY appb SYSTEM &quot;appb.sgm&quot;&gt;
+]&gt;
+&lt;book&gt;&lt;title&gt;My First Book&lt;/title&gt;
+&amp;chap1;
+&amp;chap2;
+&amp;chap3;
+&amp;appa;
+&amp;appb;
+&lt;/book&gt;
+</pre>
+<p>
+<a class="indexterm" name="id2823967"></a>
+<a class="indexterm" name="id2823977"></a>
+
+You can then write the chapters and appendixes conveniently in
+separate files.  Note that these files do not and must not have
+document type declarations.
+</p>
+<p>
+For example, Chapter 1 might begin like this:
+</p>
+<pre class="screen">
+
+&lt;chapter id=&quot;ch1&quot;&gt;&lt;title&gt;My First Chapter&lt;/title&gt;
+&lt;para&gt;My first paragraph.&lt;/para&gt;
+...
+
+</pre>
+<p>
+But it should not begin with its own document type declaration:
+</p>
+<pre class="screen">
+
+&lt;!DOCTYPE chapter PUBLIC &quot;-//OASIS//DTD DocBook V3.1//EN&quot;&gt;
+&lt;chapter id=&quot;ch1&quot;&gt;&lt;title&gt;My First Chapter&lt;/title&gt;
+&lt;para&gt;My first paragraph.&lt;/para&gt;
+...
+
+</pre>
+</div>
+<div class="sect1">
+<a name="ch02-logdiv"></a><div class="titlepage"><div><h2 class="title" style="clear: both">
+<a name="ch02-logdiv"></a>2.5. Logical Divisions: The Categories of Elements in DocBook</h2></div></div>
+<p>
+<a class="indexterm" name="id2824035"></a>
+<a class="indexterm" name="id2824045"></a>
+
+DocBook elements can be divided broadly into these categories:
+<table class="simplelist" border="0" summary="Simple list">
+<tr><td>Sets</td></tr>
+<tr><td>Books</td></tr>
+<tr><td>Divisions, which divide books into parts</td></tr>
+<tr><td>Components, which divide books or divisions into chapters</td></tr>
+<tr><td>Sections, which subdivide components</td></tr>
+<tr><td>Meta-information elements</td></tr>
+<tr><td>Block elements</td></tr>
+<tr><td>Inline elements</td></tr>
+</table>
+</p>
+<p>
+In the rest of this section, we'll describe briefly the elements that
+make up these categories.  This section is designed to give you an
+overview. It is not an exhaustive list of every element in DocBook.
+</p>
+<p>
+For more information about any specific element and the elements that
+it may contain, consult the reference page for the element in
+question.
+</p>
+<div class="sect2">
+<a name="id2824115"></a><div class="titlepage"><div><h3 class="title">
+<a name="id2824115"></a>2.5.1. Sets</h3></div></div>
+<p>
+<a class="indexterm" name="id2824125"></a>
+
+A <a href="set.html"><tt>Set</tt></a> contains two or more
+<a href="book.html"><tt>Book</tt></a>s.  It's the hierarchical top of DocBook. You
+use the <a href="set.html"><tt>Set</tt></a> tag, for example, for a series of books
+on a single subject that you want to access and maintain as a single
+unit, such as the manuals for an airplane engine or the documentation
+for a programming language.
+</p>
+</div>
+<div class="sect2">
+<a name="id2824151"></a><div class="titlepage"><div><h3 class="title">
+<a name="id2824151"></a>2.5.2. Books</h3></div></div>
+<p>
+<a class="indexterm" name="id2824161"></a>
+<a class="indexterm" name="id2824175"></a>
+A <a href="book.html"><tt>Book</tt></a> is probably the most common top-level
+element in a document. The DocBook definition of a book is very loose
+and general. Given the variety of books authored with DocBook and the
+number of different conventions for book organization used in
+countries around the world, attempting to impose a strict ordering of
+elements can make the content model extremely complex.  But DocBook
+gives you free reign.  It's very reasonable to use a local <a href="ch05.html" title="Chapter 5. Customizing DocBook">customization layer</a> to impose a more
+strict ordering for your applications.
+</p>
+<p>
+<a href="book.html"><tt>Book</tt></a>s consist of a mixture of the following elements:
+</p>
+<div class="variablelist"><dl>
+<dt>
+<a name="id2824220"></a><span class="term">Dedication</span>
+</dt>
+<dd><p>
+<a href="dedication.html"><tt>Dedication</tt></a> pages almost always occur at the front of
+a book.
+<a class="indexterm" name="id2824236"></a>
+
+</p></dd>
+<dt>
+<a name="id2824246"></a><span class="term">Navigational Components</span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2824258"></a>
+<a class="indexterm" name="id2824264"></a>
+<a class="indexterm" name="id2824274"></a>
+<a class="indexterm" name="id2824280"></a>
+<a class="indexterm" name="id2824285"></a>
+<a class="indexterm" name="id2824294"></a>
+<a class="indexterm" name="id2824299"></a>
+There are a few component-level elements designed for
+navigation: <a href="toc.html"><tt>ToC</tt></a>, for Tables of Contents;
+<a href="lot.html"><tt>LoT</tt></a>, for Lists of Titles (for lists of figures,
+tables, examples, and so on); and <a href="index.html"><tt>Index</tt></a>, for
+indexes.</p></dd>
+<dt>
+<a name="id2824327"></a><span class="term">Divisions</span>
+</dt>
+<dd>
+<p>
+<a class="indexterm" name="id2824339"></a>
+<a class="indexterm" name="id2824348"></a>
+<a class="indexterm" name="id2824354"></a>
+<a class="indexterm" name="id2824360"></a>
+<a class="indexterm" name="id2824366"></a>
+
+Divisions are the first hierarchical level below <a href="book.html"><tt>Book</tt></a>.
+They contain <a href="part.html"><tt>Part</tt></a>s and <a href="reference.html"><tt>Reference</tt></a>s.
+<a href="part.html"><tt>Part</tt></a>s, in turn, contain components.
+<a href="reference.html"><tt>Reference</tt></a>s contain <a href="refentry.html"><tt>RefEntry</tt></a>s.  These are
+discussed more thoroughly in <a href="ch02.html#making-refentry" title="2.9. Making a Reference Page">Section 2.9</a>&#x201D;.
+</p>
+<p>
+Books can contain components directly and are not required to contain
+divisions.
+</p>
+</dd>
+<dt>
+<a name="id2824415"></a><span class="term">Components</span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2824427"></a>
+
+These are the chapter-like elements of a <a href="book.html"><tt>Book</tt></a>.
+</p></dd>
+</dl></div>
+</div>
+<div class="sect2">
+<a name="id2824447"></a><div class="titlepage"><div><h3 class="title">
+<a name="id2824447"></a>2.5.3. Components</h3></div></div>
+<p>
+<a class="indexterm" name="id2824458"></a>
+<a class="indexterm" name="id2824467"></a>
+
+<a class="indexterm" name="id2824473"></a>
+<a class="indexterm" name="id2824479"></a>
+<a class="indexterm" name="id2824484"></a>
+<a class="indexterm" name="id2824490"></a>
+<a class="indexterm" name="id2824496"></a>
+<a class="indexterm" name="id2824502"></a>
+<a class="indexterm" name="id2824507"></a>
+<a class="indexterm" name="id2824513"></a>
+Components are the chapter-like elements of a <a href="book.html"><tt>Book</tt></a> or
+<a href="part.html"><tt>Part</tt></a>: <a href="preface.html"><tt>Preface</tt></a>,
+<a href="chapter.html"><tt>Chapter</tt></a>, <a href="appendix.html"><tt>Appendix</tt></a>,
+<a href="glossary.html"><tt>Glossary</tt></a>, and
+<a href="bibliography.html"><tt>Bibliography</tt></a>. <a href="article.html"><tt>Article</tt></a>s can also
+occur at the component level. We describe <a href="article.html"><tt>Article</tt></a>s
+in more detail in the section titled <a href="ch02.html#making-article" title="2.8. Making an Article">Section 2.8</a>&#x201D;.  Components generally
+contain block elements and/or sections, and some can contain
+navigational components and <a href="refentry.html"><tt>RefEntry</tt></a>s.
+</p>
+</div>
+<div class="sect2">
+<a name="id2824579"></a><div class="titlepage"><div><h3 class="title">
+<a name="id2824579"></a>2.5.4. Sections</h3></div></div>
+<p>
+<a class="indexterm" name="id2824590"></a>
+<a class="indexterm" name="id2824600"></a>
+<a class="indexterm" name="id2824605"></a>
+
+There are several flavors of sectioning elements in DocBook:</p>
+<div class="variablelist"><dl>
+<dt>
+<a name="id2824621"></a><span class="term"><a href="sect1.html"><tt>Sect1</tt></a>&#x2026;<a href="sect5.html"><tt>Sect5</tt></a> elements</span>
+</dt>
+<dd><p>The <a href="sect1.html"><tt>Sect1</tt></a>&#x2026;<a href="sect5.html"><tt>Sect5</tt></a>
+elements are the most common sectioning elements. They can occur in
+most component-level elements. These numbered section elements must be
+properly nested (<a href="sect2.html"><tt>Sect2</tt></a>s can only occur inside
+<a href="sect1.html"><tt>Sect1</tt></a>s, <a href="sect3.html"><tt>Sect3</tt></a>s can only occur inside
+<a href="sect2.html"><tt>Sect2</tt></a>s, and so on).  There are five levels of numbered
+sections.</p></dd>
+<dt>
+<a name="id2824673"></a><span class="term"><a href="section.html"><tt>Section</tt></a> element</span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2824688"></a>
+
+The <a href="section.html"><tt>Section</tt></a> element, introduced in DocBook V3.1, is
+an alternative to numbered sections.  <a href="section.html"><tt>Section</tt></a>s are
+recursive, meaning that you can nest them to any depth desired.
+</p></dd>
+<dt>
+<a name="id2824708"></a><span class="term"><a href="simplesect.html"><tt>SimpleSect</tt></a> element</span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2824724"></a>
+
+In addition to numbered sections, there's the
+<a href="simplesect.html"><tt>SimpleSect</tt></a> element.  It is a terminal section that
+can occur at any level, but it cannot have any other sectioning
+element nested within it.</p></dd>
+<dt>
+<a name="id2824740"></a><span class="term"><a href="bridgehead.html"><tt>BridgeHead</tt></a></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2824754"></a>
+
+A <a href="bridgehead.html"><tt>BridgeHead</tt></a> provides a section title without
+any containing section.</p></dd>
+<dt>
+<a name="id2824768"></a><span class="term"><a href="refsect1.html"><tt>RefSect1</tt></a>&#x2026;<a href="refsect3.html"><tt>RefSect3</tt></a> elements</span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2824787"></a>
+These elements, which occur only in <a href="refentry.html"><tt>RefEntry</tt></a>s, are
+analogous to the numbered section elements in components.  There are
+only three levels of numbered section elements in a
+<a href="refentry.html"><tt>RefEntry</tt></a>.</p></dd>
+<dt>
+<a name="id2824807"></a><span class="term"><a href="glossdiv.html"><tt>GlossDiv</tt></a>, <a href="bibliodiv.html"><tt>BiblioDiv</tt></a>, and 
+<a href="indexdiv.html"><tt>IndexDiv</tt></a></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2824829"></a>
+<a class="indexterm" name="id2824835"></a>
+
+<a class="indexterm" name="id2824841"></a>
+<a class="indexterm" name="id2824846"></a>
+<a class="indexterm" name="id2824852"></a>
+
+<a href="glossary.html"><tt>Glossary</tt></a>s, <a href="bibliography.html"><tt>Bibliography</tt></a>s,
+and <a href="index.html"><tt>Index</tt></a>es can be broken into top-level
+divisions, but not sections.  Unlike sections, these elements do not
+nest.</p></dd>
+</dl></div>
+</div>
+<div class="sect2">
+<a name="id2824877"></a><div class="titlepage"><div><h3 class="title">
+<a name="id2824877"></a>2.5.5. Meta-Information</h3></div></div>
+<p>
+<a class="indexterm" name="id2824886"></a>
+<a class="indexterm" name="id2824897"></a>
+All of the elements at the section level and above include a wrapper
+for meta-information about the content.  See, for example,
+<a href="bookinfo.html"><tt>BookInfo</tt></a>.
+</p>
+<p>
+<a class="indexterm" name="id2824917"></a>
+<a class="indexterm" name="id2824923"></a>
+<a class="indexterm" name="id2824929"></a>
+<a class="indexterm" name="id2824934"></a>
+<a class="indexterm" name="id2824940"></a>
+<a class="indexterm" name="id2824950"></a>
+The meta-information wrapper is designed to contain bibliographic
+information about the content (<a href="author.html"><tt>Author</tt></a>, <a href="title.html"><tt>Title</tt></a>,
+<a href="publisher.html"><tt>Publisher</tt></a>, and so on) as well as other meta-information
+such as revision histories, keyword sets, and index terms.
+</p>
+</div>
+<div class="sect2">
+<a name="id2824978"></a><div class="titlepage"><div><h3 class="title">
+<a name="id2824978"></a>2.5.6. Block Elements</h3></div></div>
+<p>
+<a class="indexterm" name="id2824989"></a>
+<a class="indexterm" name="id2824994"></a>
+<a class="indexterm" name="id2825004"></a>
+<a class="indexterm" name="id2825010"></a>
+<a class="indexterm" name="id2825016"></a>
+<a class="indexterm" name="id2825021"></a>
+<a class="indexterm" name="id2825027"></a>
+<a class="indexterm" name="id2825032"></a>
+<a class="indexterm" name="id2825038"></a>
+
+The block elements occur immediately below the component and
+sectioning elements. These are the (roughly) paragraph-level elements
+in DocBook. They can be divided into a number of categories: lists,
+admonitions, line-specific environments, synopses of several sorts,
+tables, figures, examples, and a dozen or more miscellaneous elements.
+</p>
+<div class="sidebar">
+<a name="id2825051"></a><p class="title"><b>Block vs. Inline Elements</b></p>
+<p>
+<a class="indexterm" name="id2825060"></a>
+<a class="indexterm" name="id2825070"></a>
+
+At the paragraph-level, it's convenient to divide elements into two
+classes, <i>block</i> and <i>inline</i>.
+From a structural point of view, this distinction is based loosely on
+their relative size, but it's easiest to describe the difference in
+terms of their presentation.
+</p>
+<p>
+<a class="indexterm" name="id2825097"></a>
+<a class="indexterm" name="id2825103"></a>
+<a class="indexterm" name="id2825108"></a>
+Block elements are usually presented with a paragraph (or larger)
+break before and after them.  Most can contain other block elements,
+and many can contain character data and inline elements. Paragraphs,
+lists, sidebars, tables, and block quotations are all common examples
+of block elements.
+</p>
+<p>
+<a class="indexterm" name="id2825124"></a>
+<a class="indexterm" name="id2825134"></a>
+<a class="indexterm" name="id2825144"></a>
+<a class="indexterm" name="id2825149"></a>
+<a class="indexterm" name="id2825155"></a>
+<a class="indexterm" name="id2825160"></a>
+<a class="indexterm" name="id2825166"></a>
+<a class="indexterm" name="id2825172"></a>
+Inline elements are generally represented without any obvious breaks.
+The most common distinguishing mark of inline elements is a font
+change, but inline elements may present no visual distinction at all.
+Inline elements contain character data and possibly other inline
+elements, but they never contain block elements.  Inline elements are
+used to mark up data such as cross references, filenames, commands,
+options, subscripts and superscripts, and glossary terms.
+</p>
+</div>
+<div class="sect3">
+<a name="id2825193"></a><div class="titlepage"><div><h4 class="title">
+<a name="id2825193"></a>2.5.6.1. Lists</h4></div></div>
+<p>
+<a class="indexterm" name="id2825202"></a>
+<a class="indexterm" name="id2825211"></a>
+
+There are seven list elements in DocBook:</p>
+<div class="variablelist"><dl>
+<dt>
+<a name="id2825227"></a><span class="term"><a href="calloutlist.html"><tt>CalloutList</tt></a></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2825241"></a>
+<a class="indexterm" name="id2825247"></a>
+
+A list of <a href="callout.html"><tt>CallOut</tt></a>s and their descriptions.
+<a href="callout.html"><tt>CallOut</tt></a>s are
+marks, frequently numbered and  typically on a graphic or verbatim environment,
+that are described in a <a href="calloutlist.html"><tt>CalloutList</tt></a>, outside the element
+in which they occur.</p></dd>
+<dt>
+<a name="id2825272"></a><span class="term"><a href="glosslist.html"><tt>GlossList</tt></a></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2825285"></a>
+
+A list of glossary terms and their definitions.</p></dd>
+<dt>
+<a name="id2825295"></a><span class="term"><a href="itemizedlist.html"><tt>ItemizedList</tt></a></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2825309"></a>
+
+An unordered (bulleted) list. There are attributes to control
+the marks used.</p></dd>
+<dt>
+<a name="id2825319"></a><span class="term"><a href="orderedlist.html"><tt>OrderedList</tt></a></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2825333"></a>
+
+A numbered list. There are attributes to control the type of
+enumeration.</p></dd>
+<dt>
+<a name="id2825343"></a><span class="term"><a href="segmentedlist.html"><tt>SegmentedList</tt></a></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2825356"></a>
+
+A repeating set of named items. For example, a list of states
+and their capitals might be represented as a
+<a href="segmentedlist.html"><tt>SegmentedList</tt></a>.</p></dd>
+<dt>
+<a name="id2825372"></a><span class="term"><a href="simplelist.html"><tt>SimpleList</tt></a></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2825386"></a>
+
+An unadorned list of items. <a href="simplelist.html"><tt>SimpleList</tt></a>s can
+be inline or arranged in columns.</p></dd>
+<dt>
+<a name="id2825400"></a><span class="term"><a href="variablelist.html"><tt>VariableList</tt></a></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2825414"></a>
+
+A list of terms and definitions or descriptions. (This list of
+list types is a <a href="variablelist.html"><tt>VariableList</tt></a>.)</p></dd>
+</dl></div>
+</div>
+<div class="sect3">
+<a name="id2825430"></a><div class="titlepage"><div><h4 class="title">
+<a name="id2825430"></a>2.5.6.2. Admonitions</h4></div></div>
+<p>
+<a class="indexterm" name="id2825439"></a>
+<a class="indexterm" name="id2825449"></a>
+<a class="indexterm" name="id2825455"></a>
+<a class="indexterm" name="id2825460"></a>
+<a class="indexterm" name="id2825466"></a>
+<a class="indexterm" name="id2825472"></a>
+
+There are five types of admonitions in DocBook:
+<a href="caution.html"><tt>Caution</tt></a>, <a href="important.html"><tt>Important</tt></a>,
+<a href="note.html"><tt>Note</tt></a>, <a href="tip.html"><tt>Tip</tt></a>, and
+<a href="warning.html"><tt>Warning</tt></a>.
+</p>
+<p>
+All of the admonitions have the same structure: an optional <tt>
+Title</tt> followed by paragraph-level elements. The DocBook
+DTD does not impose any specific semantics on the individual
+admonitions. For example, DocBook does not mandate that
+<a href="warning.html"><tt>Warning</tt></a>s be reserved for cases where bodily harm
+can result.
+</p>
+</div>
+<div class="sect3">
+<a name="id2825522"></a><div class="titlepage"><div><h4 class="title">
+<a name="id2825522"></a>2.5.6.3. Line-specific environments</h4></div></div>
+<p>
+<a class="indexterm" name="id2825532"></a>
+<a class="indexterm" name="id2825537"></a>
+<a class="indexterm" name="id2825547"></a>
+
+These environments preserve whitespace and line breaks in the source
+text. DocBook does not provide the equivalent of HTML's
+<tt>BR</tt> tag, so there's no way to interject a line break
+into normal running text.
+</p>
+<div class="variablelist"><dl>
+<dt>
+<a name="id2825570"></a><span class="term"><a href="address.html"><tt>Address</tt></a></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2825585"></a>
+
+The <a href="address.html"><tt>Address</tt></a> element is intended for postal
+addresses.  In addition to being line-specific, <a href="address.html"><tt>Address</tt></a>
+contains additional elements suitable for marking up names and
+addresses.</p></dd>
+<dt>
+<a name="id2825605"></a><span class="term"><a href="literallayout.html"><tt>LiteralLayout</tt></a></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2825620"></a>
+
+A <a href="literallayout.html"><tt>LiteralLayout</tt></a> does not have any semantic
+association beyond the preservation of whitespace and line breaks.  In
+particular, while <a href="programlisting.html"><tt>ProgramListing</tt></a> and
+<a href="screen.html"><tt>Screen</tt></a> are frequently presented in a fixed-width
+font, a change of fonts is not necessarily implied by <tt>LiteralLayout
+</tt>.</p></dd>
+<dt>
+<a name="id2825650"></a><span class="term"><a href="programlisting.html"><tt>ProgramListing</tt></a></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2825665"></a>
+<a class="indexterm" name="id2825671"></a>
+
+A <a href="programlisting.html"><tt>ProgramListing</tt></a> is a verbatim environment, usually
+presented in Courier or some other fixed-width font, for program
+sources, code fragments, and similar listings.</p></dd>
+<dt>
+<a name="id2825692"></a><span class="term"><a href="screen.html"><tt>Screen</tt></a></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2825707"></a>
+<a class="indexterm" name="id2825712"></a>
+
+A <a href="screen.html"><tt>Screen</tt></a> is a verbatim or literal environment
+for text screen-captures, other fragments of an
+ASCII display, and similar things. <tt>
+Screen</tt> is also a frequent catch-all for any verbatim
+text.</p></dd>
+<dt>
+<a name="id2825737"></a><span class="term"><a href="screenshot.html"><tt>ScreenShot</tt></a></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2825752"></a>
+
+<a href="screenshot.html"><tt>ScreenShot</tt></a> is actually a wrapper for a
+<a href="graphic.html"><tt>Graphic</tt></a> intended for screen shots of a
+GUI for example.</p></dd>
+<dt>
+<a name="id2825774"></a><span class="term"><a href="synopsis.html"><tt>Synopsis</tt></a></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2825789"></a>
+
+A <a href="synopsis.html"><tt>Synopsis</tt></a> is a verbatim environment for command
+and function synopsis.</p></dd>
+</dl></div>
+</div>
+<div class="sect3">
+<a name="id2825805"></a><div class="titlepage"><div><h4 class="title">
+<a name="id2825805"></a>2.5.6.4. Examples, figures, and tables</h4></div></div>
+<p>
+<a class="indexterm" name="id2825815"></a>
+<a class="indexterm" name="id2825825"></a>
+<a class="indexterm" name="id2825831"></a>
+<a class="indexterm" name="id2825836"></a>
+<a class="indexterm" name="id2825842"></a>
+<a class="indexterm" name="id2825848"></a>
+<a class="indexterm" name="id2825854"></a>
+<a class="indexterm" name="id2825859"></a>
+<a class="indexterm" name="id2825865"></a>
+
+Examples, Figures, and Tables are common block-level elements:
+<a href="example.html"><tt>Example</tt></a>, <a href="informalexample.html"><tt>InformalExample</tt></a>,
+<a href="figure.html"><tt>Figure</tt></a>, <a href="informalfigure.html"><tt>InformalFigure</tt></a>,
+<a href="table.html"><tt>Table</tt></a>, and <a href="informaltable.html"><tt>InformalTable</tt></a>.
+</p>
+<p>
+<a class="indexterm" name="id2825902"></a>
+
+The distinction between formal and informal elements is that formal
+elements have titles while informal ones do not. The
+<a href="informalfigure.html"><tt>InformalFigure</tt></a> element was introduced in DocBook
+V3.1. In prior versions of DocBook, you could only
+achieve the effect of an informal figure by placing its content,
+unwrapped, at the location where the informal figure was desired.
+</p>
+</div>
+<div class="sect3">
+<a name="id2825928"></a><div class="titlepage"><div><h4 class="title">
+<a name="id2825928"></a>2.5.6.5. Paragraphs</h4></div></div>
+<p>
+<a class="indexterm" name="id2825937"></a>
+
+There are three paragraph elements: <a href="para.html"><tt>Para</tt></a>, <tt>
+SimPara</tt> (simple paragraphs may not contain other block-level
+elements), and <a href="formalpara.html"><tt>FormalPara</tt></a> (formal paragraphs have
+titles).
+</p>
+</div>
+<div class="sect3">
+<a name="id2825960"></a><div class="titlepage"><div><h4 class="title">
+<a name="id2825960"></a>2.5.6.6. Equations</h4></div></div>
+<p>
+<a class="indexterm" name="id2825968"></a>
+<a class="indexterm" name="id2825974"></a>
+<a class="indexterm" name="id2825984"></a>
+There are two block-equation elements, <a href="equation.html"><tt>Equation</tt></a> and
+<a href="informalequation.html"><tt>InformalEquation</tt></a> (for inline equations, use
+<a href="inlineequation.html"><tt>InlineEquation</tt></a>).
+</p>
+<p>
+Informal equations don't have titles. For reasons of
+backward-compatibility, <a href="equation.html"><tt>Equation</tt></a>s are not required
+to have titles. However, it may be more difficult for some stylesheet
+languages to properly enumerate <a href="equation.html"><tt>Equation</tt></a>s if they
+lack titles.
+</p>
+</div>
+<div class="sect3">
+<a name="id2826022"></a><div class="titlepage"><div><h4 class="title">
+<a name="id2826022"></a>2.5.6.7. Graphics</h4></div></div>
+<p>
+<a class="indexterm" name="id2826031"></a>
+<a class="indexterm" name="id2826037"></a>
+<a class="indexterm" name="id2826042"></a>
+<a class="indexterm" name="id2826048"></a>
+<a class="indexterm" name="id2826058"></a>
+
+Graphics occur most frequently in <a href="figure.html"><tt>Figure</tt></a>s and
+<a href="screenshot.html"><tt>ScreenShot</tt></a>s, but they can also occur without a
+wrapper. DocBook considers a <a href="graphic.html"><tt>Graphic</tt></a> a block
+element, even if it appears to occur inline. For graphics that you
+want to be represented inline, use <a href="inlinegraphic.html"><tt>InlineGraphic</tt></a>.
+</p>
+<p>
+<a class="indexterm" name="id2826088"></a>
+<a class="indexterm" name="id2826094"></a>
+
+DocBook V3.1 introduced a new element to contain
+graphics and other media types: <a href="mediaobject.html"><tt>MediaObject</tt></a> and its inline
+cousin, <a href="inlinemediaobject.html"><tt>InlineMediaObject</tt></a>. These elements may contain
+video, audio, image, and text data. A single media object can contain
+several alternative forms from which the presentation system can
+select the most appropriate object.
+</p>
+</div>
+<div class="sect3">
+<a name="id2826120"></a><div class="titlepage"><div><h4 class="title">
+<a name="id2826120"></a>2.5.6.8. Questions and answers</h4></div></div>
+<p>
+<a class="indexterm" name="id2826129"></a>
+<a class="indexterm" name="id2826135"></a>
+<a class="indexterm" name="id2826140"></a>
+<a class="indexterm" name="id2826146"></a>
+<a class="indexterm" name="id2826152"></a>
+
+DocBook V3.1 introduced the <a href="qandaset.html"><tt>QandASet</tt></a>
+element, which is suitable for FAQs (Frequently
+Asked Questions) and other similar collections of
+<a href="question.html"><tt>Question</tt></a>s and <a href="answer.html"><tt>Answer</tt></a>s.
+</p>
+</div>
+<div class="sect3">
+<a name="id2826182"></a><div class="titlepage"><div><h4 class="title">
+<a name="id2826182"></a>2.5.6.9. Miscellaneous block elements</h4></div></div>
+<p>
+The following block elements are also available:
+</p>
+<div class="variablelist"><dl>
+<dt>
+<a name="id2826197"></a><span class="term"><a href="blockquote.html"><tt>BlockQuote</tt></a></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2826211"></a>
+<a class="indexterm" name="id2826217"></a>
+
+A block quotation.  Block quotations may have
+<a href="attribution.html"><tt>Attribution</tt></a>s.</p></dd>
+<dt>
+<a name="id2826229"></a><span class="term"><a href="cmdsynopsis.html"><tt>CmdSynopsis</tt></a></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2826243"></a>
+<a class="indexterm" name="id2826248"></a>
+<a class="indexterm" name="id2826254"></a>
+<a class="indexterm" name="id2826264"></a>
+
+An environment for marking up all the parameters and options of a command.
+</p></dd>
+<dt>
+<a name="id2826274"></a><span class="term"><a href="epigraph.html"><tt>Epigraph</tt></a></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2826287"></a>
+
+A short introduction, typically a quotation, at the beginning of a document.
+<a href="epigraph.html"><tt>Epigraph</tt></a>s may have <a href="attribution.html"><tt>Attribution</tt></a>s.
+</p></dd>
+<dt>
+<a name="id2826304"></a><span class="term"><a href="funcsynopsis.html"><tt>FuncSynopsis</tt></a></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2826318"></a>
+<a class="indexterm" name="id2826324"></a>
+
+An environment for marking up the return value and arguments of a function.
+</p></dd>
+<dt>
+<a name="id2826333"></a><span class="term"><a href="highlights.html"><tt>Highlights</tt></a></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2826346"></a>
+
+A summary of the main points discussed in a book component (chapter,
+section, and so on).
+</p></dd>
+<dt>
+<a name="id2826356"></a><span class="term"><a href="msgset.html"><tt>MsgSet</tt></a></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2826369"></a>
+
+A set of related error messages.</p></dd>
+<dt>
+<a name="id2826382"></a><span class="term"><a href="procedure.html"><tt>Procedure</tt></a></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2826395"></a>
+<a class="indexterm" name="id2826401"></a>
+<a class="indexterm" name="id2826406"></a>
+
+A procedure.  Procedures contain <a href="step.html"><tt>Step</tt></a>s, which
+may contain <tt>SubStep</tt>s.</p></dd>
+<dt>
+<a name="id2826423"></a><span class="term"><a href="sidebar.html"><tt>Sidebar</tt></a></span>
+</dt>
+<dd><p>A sidebar.</p></dd>
+</dl></div>
+</div>
+</div>
+<div class="sect2">
+<a name="id2826442"></a><div class="titlepage"><div><h3 class="title">
+<a name="id2826442"></a>2.5.7. Inline Elements</h3></div></div>
+<p>
+<a class="indexterm" name="id2826451"></a>
+<a class="indexterm" name="id2826456"></a>
+
+Users of DocBook are provided with a surfeit of inline elements.
+Inline elements are used to mark up running text.  In published
+documents, inline elements often cause a font change or other small
+change, but they do not cause line or paragraph breaks.
+</p>
+<p>
+In practice, writers generally settle on the tagging of inline elements that
+suits their time and subject matter. This may be a large number of
+elements or only a handful. What is important is that you choose to mark up
+not every possible item, but only those for which distinctive tagging will
+be useful in the production of the finished document for the readers who
+will search through it.
+</p>
+<p>
+The following comprehensive list may be a useful tool for the process
+of narrowing down the elements that you will choose to mark up; it is
+not intended to overwhelm you by its sheer length. For convenience,
+we've divided the inlines into several subcategories.
+</p>
+<p>
+The classification used here is not meant to be authoritative, only
+helpful in providing a feel for the nature of the inlines.  Several
+elements appear in more than one category, and arguments could be made
+to support the placement of additional elements in other categories or
+entirely new categories.
+</p>
+<div class="sect3">
+<a name="id2826502"></a><div class="titlepage"><div><h4 class="title">
+<a name="id2826502"></a>2.5.7.1. Traditional publishing inlines</h4></div></div>
+<p>
+<a class="indexterm" name="id2826512"></a>
+<a class="indexterm" name="id2826518"></a>
+
+These inlines identify things that commonly occur in general writing:
+</p>
+<div class="variablelist"><dl>
+<dt>
+<a name="id2826530"></a><span class="term"><a href="abbrev.html"><tt>Abbrev</tt></a></span>
+</dt>
+<dd><p>An abbreviation, especially one followed by a period.
+<a class="indexterm" name="id2826545"></a>
+</p></dd>
+<dt>
+<a name="id2826553"></a><span class="term"><a href="acronym.html"><tt>Acronym</tt></a></span>
+</dt>
+<dd><p>An often pronounceable word made from the initial (or selected) letters of a name or phrase.
+<a class="indexterm" name="id2826568"></a>
+</p></dd>
+<dt>
+<a name="id2826576"></a><span class="term"><a href="emphasis.html"><tt>Emphasis</tt></a></span>
+</dt>
+<dd><p>Emphasized text.<a class="indexterm" name="id2826592"></a>
+</p></dd>
+<dt>
+<a name="id2826600"></a><span class="term"><a href="footnote.html"><tt>Footnote</tt></a></span>
+</dt>
+<dd><p>A footnote.  The location of the <a href="footnote.html"><tt>Footnote</tt></a>
+element identifies the location of the first reference to the
+footnote. Additional references to the same footnote can be inserted with
+<a href="footnoteref.html"><tt>FootnoteRef</tt></a>.
+<a class="indexterm" name="id2826624"></a>
+<a class="indexterm" name="id2826638"></a>
+</p></dd>
+<dt>
+<a name="id2826646"></a><span class="term"><a href="phrase.html"><tt>Phrase</tt></a></span>
+</dt>
+<dd><p>A span of text.<a class="indexterm" name="id2826660"></a>
+</p></dd>
+<dt>
+<a name="id2826668"></a><span class="term"><a href="quote.html"><tt>Quote</tt></a></span>
+</dt>
+<dd><p>An inline quotation.<a class="indexterm" name="id2826682"></a>
+</p></dd>
+<dt>
+<a name="id2826689"></a><span class="term"><a href="trademark.html"><tt>Trademark</tt></a></span>
+</dt>
+<dd><p>A trademark.<a class="indexterm" name="id2826705"></a>
+</p></dd>
+</dl></div>
+</div>
+<div class="sect3">
+<a name="id2826715"></a><div class="titlepage"><div><h4 class="title">
+<a name="id2826715"></a>2.5.7.2. Cross references</h4></div></div>
+<p>
+<a class="indexterm" name="id2826725"></a>
+<a class="indexterm" name="id2826731"></a>
+<a class="indexterm" name="id2826737"></a>
+<a class="indexterm" name="id2826743"></a>
+
+The cross reference inlines identify both explicit cross references,
+such as <a href="link.html"><tt>Link</tt></a>, and implicit cross references like
+<a href="glossterm.html"><tt>GlossTerm</tt></a>. You can make the most of the implicit
+references explicit with a <tt>LinkEnd</tt>
+attribute.
+</p>
+<div class="variablelist"><dl>
+<dt>
+<a name="id2826772"></a><span class="term"><a href="anchor.html"><tt>Anchor</tt></a></span>
+</dt>
+<dd><p>A spot in the document.<a class="indexterm" name="id2826786"></a>
+</p></dd>
+<dt>
+<a name="id2826795"></a><span class="term"><a href="citation.html"><tt>Citation</tt></a></span>
+</dt>
+<dd><p>An inline bibliographic reference to another published work.<a class="indexterm" name="id2826809"></a>
+</p></dd>
+<dt>
+<a name="id2826816"></a><span class="term"><a href="citerefentry.html"><tt>CiteRefEntry</tt></a></span>
+</dt>
+<dd><p>A citation to a reference page.<a class="indexterm" name="id2826833"></a>
+</p></dd>
+<dt>
+<a name="id2826841"></a><span class="term"><a href="citetitle.html"><tt>CiteTitle</tt></a></span>
+</dt>
+<dd><p>The title of a cited work.<a class="indexterm" name="id2826874"></a>
+</p></dd>
+<dt>
+<a name="id2826858"></a><span class="term"><a href="firstterm.html"><tt>FirstTerm</tt></a></span>
+</dt>
+<dd><p>The first occurrence of a term.<a class="indexterm" name="id2826881"></a>
+</p></dd>
+<dt>
+<a name="id2826889"></a><span class="term"><a href="glossterm.html"><tt>GlossTerm</tt></a></span>
+</dt>
+<dd><p>A glossary term.<a class="indexterm" name="id2826902"></a>
+</p></dd>
+<dt>
+<a name="id2826910"></a><span class="term"><a href="link.html"><tt>Link</tt></a></span>
+</dt>
+<dd><p>A hypertext link.<a class="indexterm" name="id2826925"></a>
+</p></dd>
+<dt>
+<a name="id2826933"></a><span class="term"><a href="olink.html"><tt>OLink</tt></a></span>
+</dt>
+<dd><p>A link that addresses its target indirectly, through an entity.<a class="indexterm" name="id2826968"></a>
+</p></dd>
+<dt>
+<a name="id2826950"></a><span class="term"><a href="ulink.html"><tt>ULink</tt></a></span>
+</dt>
+<dd><p>A link that addresses its target by means of a URL (Uniform Resource Locator).<a class="indexterm" name="id2826977"></a>
+</p></dd>
+<dt>
+<a name="id2826984"></a><span class="term"><a href="xref.html"><tt>XRef</tt></a></span>
+</dt>
+<dd><p>A cross reference to another part of the document.<a class="indexterm" name="id2826999"></a>
+</p></dd>
+</dl></div>
+</div>
+<div class="sect3">
+<a name="id2827009"></a><div class="titlepage"><div><h4 class="title">
+<a name="id2827009"></a>2.5.7.3. Markup</h4></div></div>
+<p>
+<a class="indexterm" name="id2827020"></a>
+
+These inlines are used to mark up text for special presentation:
+</p>
+<div class="variablelist"><dl>
+<dt>
+<a name="id2827035"></a><span class="term"><a href="foreignphrase.html"><tt>ForeignPhrase</tt></a></span>
+</dt>
+<dd><p>A word or phrase in a language other than the primary language of the document.<a class="indexterm" name="id2827050"></a>
+</p></dd>
+<dt>
+<a name="id2827057"></a><span class="term"><a href="wordasword.html"><tt>WordAsWord</tt></a></span>
+</dt>
+<dd><p>A word meant specifically as a word and not representing anything else.<a class="indexterm" name="id2827078"></a>
+</p></dd>
+<dt>
+<a name="id2827086"></a><span class="term"><a href="computeroutput.html"><tt>ComputerOutput</tt></a></span>
+</dt>
+<dd><p>Data, generally text, displayed or presented by a computer.<a class="indexterm" name="id2827100"></a>
+</p></dd>
+<dt>
+<a name="id2827108"></a><span class="term"><a href="literal.html"><tt>Literal</tt></a></span>
+</dt>
+<dd><p>Inline text that is some literal value.<a class="indexterm" name="id2827124"></a>
+</p></dd>
+<dt>
+<a name="id2827132"></a><span class="term"><a href="markup.html"><tt>Markup</tt></a></span>
+</dt>
+<dd><p>A string of formatting markup in text that is to be represented literally.<a class="indexterm" name="id2827146"></a>
+</p></dd>
+<dt>
+<a name="id2827153"></a><span class="term"><a href="prompt.html"><tt>Prompt</tt></a></span>
+</dt>
+<dd><p>A character or string indicating the start of an input field in a  computer display.<a class="indexterm" name="id2827177"></a>
+</p></dd>
+<dt>
+<a name="id2827184"></a><span class="term"><a href="replaceable.html"><tt>Replaceable</tt></a></span>
+</dt>
+<dd><p>Content that may or must be replaced by the user.<a class="indexterm" name="id2827200"></a>
+</p></dd>
+<dt>
+<a name="id2827207"></a><span class="term"><a href="sgmltag.html"><tt>SGMLTag</tt></a></span>
+</dt>
+<dd><p>A component of SGML markup.<a class="indexterm" name="id2827223"></a>
+</p></dd>
+<dt>
+<a name="id2827230"></a><span class="term"><a href="userinput.html"><tt>UserInput</tt></a></span>
+</dt>
+<dd><p>Data entered by the user.<a class="indexterm" name="id2827263"></a>
+</p></dd>
+</dl></div>
+</div>
+<div class="sect3">
+<a name="id2827251"></a><div class="titlepage"><div><h4 class="title">
+<a name="id2827251"></a>2.5.7.4. Mathematics</h4></div></div>
+<p>
+<a class="indexterm" name="id2827269"></a>
+<a class="indexterm" name="id2827278"></a>
+<a class="indexterm" name="id2827284"></a>
+<a class="indexterm" name="id2827290"></a>
+<a class="indexterm" name="id2827296"></a>
+DocBook does not define a complete set of elements for representing
+equations.  No one has ever pressed the DocBook maintainers to add
+this functionality, and the prevailing opinion is that incorporating
+<a href="http://www.w3.org/TR/REC-MathML/" target="_top">MathML</a> using a
+mechanism like <a href="http://www.w3.org/TR/REC-xml-names/" target="_top">namespaces</a> is probably
+the best long-term solution.
+</p>
+<div class="variablelist"><dl>
+<dt>
+<a name="id2827326"></a><span class="term"><a href="inlineequation.html"><tt>InlineEquation</tt></a></span>
+</dt>
+<dd><p>A mathematical equation or expression occurring inline.<a class="indexterm" name="id2827340"></a>
+</p></dd>
+<dt>
+<a name="id2827348"></a><span class="term"><a href="subscript.html"><tt>Subscript</tt></a></span>
+</dt>
+<dd><p>A subscript (as in H<sub>2</sub>O, the molecular formula for water).<a class="indexterm" name="id2827361"></a>
+</p></dd>
+<dt>
+<a name="id2827369"></a><span class="term"><a href="superscript.html"><tt>Superscript</tt></a></span>
+</dt>
+<dd><p>A superscript (as in x<sup>2</sup>, the mathematical notation for x multiplied by itself).<a class="indexterm" name="id2827388"></a>
+</p></dd>
+</dl></div>
+</div>
+<div class="sect3">
+<a name="id2827399"></a><div class="titlepage"><div><h4 class="title">
+<a name="id2827399"></a>2.5.7.5. User interfaces</h4></div></div>
+<p>
+These elements describe aspects of a user interface:
+<a class="indexterm" name="id2827415"></a>
+<a class="indexterm" name="id2827422"></a>
+
+</p>
+<div class="variablelist"><dl>
+<dt>
+<a name="id2827438"></a><span class="term"><a href="accel.html"><tt>Accel</tt></a></span>
+</dt>
+<dd><p>A graphical user interface (GUI) keyboard shortcut.<a class="indexterm" name="id2827452"></a>
+</p></dd>
+<dt>
+<a name="id2827461"></a><span class="term"><a href="guibutton.html"><tt>GUIButton</tt></a></span>
+</dt>
+<dd><p>The text on a button in a GUI.<a class="indexterm" name="id2827474"></a>
+</p></dd>
+<dt>
+<a name="id2827482"></a><span class="term"><a href="guiicon.html"><tt>GUIIcon</tt></a></span>
+</dt>
+<dd><p>Graphic and/or text appearing as a icon in a GUI.<a class="indexterm" name="id2827498"></a>
+</p></dd>
+<dt>
+<a name="id2827507"></a><span class="term"><a href="guilabel.html"><tt>GUILabel</tt></a></span>
+</dt>
+<dd><p>The text of a label in a GUI.</p></dd>
+<dt>
+<a name="id2827541"></a><span class="term"><a href="guimenu.html"><tt>GUIMenu</tt></a></span>
+</dt>
+<dd><p>The name of a menu in a GUI.<a class="indexterm" name="id2827532"></a>
+</p></dd>
+<dt>
+<a name="id2827550"></a><span class="term"><a href="guimenuitem.html"><tt>GUIMenuItem</tt></a></span>
+</dt>
+<dd><p>The name of a terminal menu item in a GUI.<a class="indexterm" name="id2827564"></a>
+</p></dd>
+<dt>
+<a name="id2827572"></a><span class="term"><a href="guisubmenu.html"><tt>GUISubmenu</tt></a></span>
+</dt>
+<dd><p>The name of a submenu in a GUI.<a class="indexterm" name="id2827588"></a>
+</p></dd>
+<dt>
+<a name="id2827596"></a><span class="term"><a href="keycap.html"><tt>KeyCap</tt></a></span>
+</dt>
+<dd><p>The text printed on a key on a keyboard.<a class="indexterm" name="id2827628"></a>
+</p></dd>
+<dt>
+<a name="id2827615"></a><span class="term"><a href="keycode.html"><tt>KeyCode</tt></a></span>
+</dt>
+<dd><p>The internal, frequently numeric, identifier for a key on a keyboard.<a class="indexterm" name="id2827639"></a>
+</p></dd>
+<dt>
+<a name="id2827646"></a><span class="term"><a href="keycombo.html"><tt>KeyCombo</tt></a></span>
+</dt>
+<dd><p>A combination of input actions.<a class="indexterm" name="id2827659"></a>
+</p></dd>
+<dt>
+<a name="id2827667"></a><span class="term"><a href="keysym.html"><tt>KeySym</tt></a></span>
+</dt>
+<dd><p>The symbolic name of a key on a keyboard.<a class="indexterm" name="id2827683"></a>
+</p></dd>
+<dt>
+<a name="id2827691"></a><span class="term"><a href="menuchoice.html"><tt>MenuChoice</tt></a></span>
+</dt>
+<dd><p>A selection or series of selections from a menu.<a class="indexterm" name="id2827725"></a>
+</p></dd>
+<dt>
+<a name="id2827709"></a><span class="term"><a href="mousebutton.html"><tt>MouseButton</tt></a></span>
+</dt>
+<dd><p>The conventional name of a mouse button.<a class="indexterm" name="id2827733"></a>
+</p></dd>
+<dt>
+<a name="id2827741"></a><span class="term"><a href="shortcut.html"><tt>Shortcut</tt></a></span>
+</dt>
+<dd><p>A key combination for an action that is also accessible through a menu.<a class="indexterm" name="id2827757"></a>
+</p></dd>
+</dl></div>
+</div>
+<div class="sect3">
+<a name="id2827767"></a><div class="titlepage"><div><h4 class="title">
+<a name="id2827767"></a>2.5.7.6. Programming languages and constructs</h4></div></div>
+<p>
+<a class="indexterm" name="id2827779"></a>
+<a class="indexterm" name="id2827786"></a>
+<a class="indexterm" name="id2827792"></a>
+<a class="indexterm" name="id2827803"></a>
+<a class="indexterm" name="id2827814"></a>
+
+Many of the technical inlines in DocBook are related to programming.
+</p>
+<div class="variablelist"><dl>
+<dt>
+<a name="id2827830"></a><span class="term"><a href="action.html"><tt>Action</tt></a></span>
+</dt>
+<dd><p>A response to a user event.<a class="indexterm" name="id2827843"></a>
+</p></dd>
+<dt>
+<a name="id2827851"></a><span class="term"><a href="classname.html"><tt>ClassName</tt></a></span>
+</dt>
+<dd><p>The name of a class, in the object-oriented programming sense.<a class="indexterm" name="id2827865"></a>
+</p></dd>
+<dt>
+<a name="id2827873"></a><span class="term"><a href="constant.html"><tt>Constant</tt></a></span>
+</dt>
+<dd><p>A programming or system constant.<a class="indexterm" name="id2827890"></a>
+</p></dd>
+<dt>
+<a name="id2827898"></a><span class="term"><a href="errorcode.html"><tt>ErrorCode</tt></a></span>
+</dt>
+<dd><p>An error code.<a class="indexterm" name="id2827930"></a>
+</p></dd>
+<dt>
+<a name="id2827916"></a><span class="term"><a href="errorname.html"><tt>ErrorName</tt></a></span>
+</dt>
+<dd><p>An error message.<a class="indexterm" name="id2827938"></a>
+</p></dd>
+<dt>
+<a name="id2827946"></a><span class="term"><a href="errortype.html"><tt>ErrorType</tt></a></span>
+</dt>
+<dd><p>The classification of an error message.<a class="indexterm" name="id2827960"></a>
+</p></dd>
+<dt>
+<a name="id2827968"></a><span class="term"><a href="function.html"><tt>Function</tt></a></span>
+</dt>
+<dd><p>The name of a function or subroutine, as in a programming language.<a class="indexterm" name="id2827985"></a>
+</p></dd>
+<dt>
+<a name="id2827992"></a><span class="term"><a href="interface.html"><tt>Interface</tt></a></span>
+</dt>
+<dd><p>An element of a GUI.<a class="indexterm" name="id2828025"></a>
+</p></dd>
+<dt>
+<a name="id2828012"></a><span class="term"><tt>InterfaceDefinition</tt></span>
+</dt>
+<dd><p>The name of a formal specification of a GUI.<a class="indexterm" name="id2828035"></a>
+</p></dd>
+<dt>
+<a name="id2828042"></a><span class="term"><a href="literal.html"><tt>Literal</tt></a></span>
+</dt>
+<dd><p>Inline text that is some literal value.<a class="indexterm" name="id2828055"></a>
+</p></dd>
+<dt>
+<a name="id2828063"></a><span class="term"><a href="msgtext.html"><tt>MsgText</tt></a></span>
+</dt>
+<dd><p>The actual text of a message component in a message set.<a class="indexterm" name="id2828077"></a>
+</p></dd>
+<dt>
+<a name="id2828085"></a><span class="term"><a href="parameter.html"><tt>Parameter</tt></a></span>
+</dt>
+<dd><p>A value or a symbolic reference to a value.<a class="indexterm" name="id2828119"></a>
+</p></dd>
+<dt>
+<a name="id2828102"></a><span class="term"><a href="property.html"><tt>Property</tt></a></span>
+</dt>
+<dd><p>A unit of data associated with some part of a computer system.<a class="indexterm" name="id2828127"></a>
+</p></dd>
+<dt>
+<a name="id2828135"></a><span class="term"><a href="replaceable.html"><tt>Replaceable</tt></a></span>
+</dt>
+<dd><p>Content that may or must be replaced by the user.<a class="indexterm" name="id2828149"></a>
+</p></dd>
+<dt>
+<a name="id2828157"></a><span class="term"><a href="returnvalue.html"><tt>ReturnValue</tt></a></span>
+</dt>
+<dd><p>The value returned by a function.<a class="indexterm" name="id2828171"></a>
+</p></dd>
+<dt>
+<a name="id2828178"></a><span class="term"><a href="structfield.html"><tt>StructField</tt></a></span>
+</dt>
+<dd><p>A field in a structure (in the programming language sense).<a class="indexterm" name="id2828213"></a>
+</p></dd>
+<dt>
+<a name="id2828195"></a><span class="term"><a href="structname.html"><tt>StructName</tt></a></span>
+</dt>
+<dd><p>The name of a structure (in the programming language sense).<a class="indexterm" name="id2828222"></a>
+</p></dd>
+<dt>
+<a name="id2828229"></a><span class="term"><a href="symbol.html"><tt>Symbol</tt></a></span>
+</dt>
+<dd><p>A name that is replaced by a value before processing.<a class="indexterm" name="id2828244"></a>
+</p></dd>
+<dt>
+<a name="id2828251"></a><span class="term"><a href="token.html"><tt>Token</tt></a></span>
+</dt>
+<dd><p>A unit of information.<a class="indexterm" name="id2828267"></a>
+</p></dd>
+<dt>
+<a name="id2828275"></a><span class="term"><a href="type.html"><tt>Type</tt></a></span>
+</dt>
+<dd><p>The classification of a value.<a class="indexterm" name="id2828308"></a>
+</p></dd>
+<dt>
+<a name="id2828293"></a><span class="term"><a href="varname.html"><tt>VarName</tt></a></span>
+</dt>
+<dd><p>The name of a variable.<a class="indexterm" name="id2828316"></a>
+</p></dd>
+</dl></div>
+</div>
+<div class="sect3">
+<a name="id2828326"></a><div class="titlepage"><div><h4 class="title">
+<a name="id2828326"></a>2.5.7.7. Operating systems</h4></div></div>
+<p>
+<a class="indexterm" name="id2828335"></a>
+
+These inlines identify parts of an operating system, or an
+operating environment:
+</p>
+<div class="variablelist"><dl>
+<dt>
+<a name="id2828351"></a><span class="term"><a href="application.html"><tt>Application</tt></a></span>
+</dt>
+<dd><p>The name of a software program.<a class="indexterm" name="id2828366"></a>
+</p></dd>
+<dt>
+<a name="id2828373"></a><span class="term"><a href="command.html"><tt>Command</tt></a></span>
+</dt>
+<dd><p>The name of an executable program or other software command.<a class="indexterm" name="id2828406"></a>
+</p></dd>
+<dt>
+<a name="id2828395"></a><span class="term"><a href="envar.html"><tt>EnVar</tt></a></span>
+</dt>
+<dd><p>A software environment variable.<a class="indexterm" name="id2828415"></a>
+</p></dd>
+<dt>
+<a name="id2828423"></a><span class="term"><a href="filename.html"><tt>Filename</tt></a></span>
+</dt>
+<dd><p>The name of a file.<a class="indexterm" name="id2828436"></a>
+</p></dd>
+<dt>
+<a name="id2828444"></a><span class="term"><a href="medialabel.html"><tt>MediaLabel</tt></a></span>
+</dt>
+<dd><p>A name that identifies the physical medium on which some information resides.<a class="indexterm" name="id2828461"></a>
+</p></dd>
+<dt>
+<a name="id2828469"></a><span class="term"><a href="msgtext.html"><tt>MsgText</tt></a></span>
+</dt>
+<dd><p>The actual text of a message component in a message set.<a class="indexterm" name="id2828486"></a>
+</p></dd>
+<dt>
+<a name="id2828493"></a><span class="term"><a href="option.html"><tt>Option</tt></a></span>
+</dt>
+<dd><p>An option for a software command.<a class="indexterm" name="id2828510"></a>
+</p></dd>
+<dt>
+<a name="id2828517"></a><span class="term"><a href="parameter.html"><tt>Parameter</tt></a></span>
+</dt>
+<dd><p>A value or a symbolic reference to a value.<a class="indexterm" name="id2828532"></a>
+</p></dd>
+<dt>
+<a name="id2828540"></a><span class="term"><a href="prompt.html"><tt>Prompt</tt></a></span>
+</dt>
+<dd><p>A character or string indicating the start of an input field in a  computer display.<a class="indexterm" name="id2828555"></a>
+</p></dd>
+<dt>
+<a name="id2828562"></a><span class="term"><a href="systemitem.html"><tt>SystemItem</tt></a></span>
+</dt>
+<dd><p>A system-related item or term.<a class="indexterm" name="id2828594"></a>
+</p></dd>
+</dl></div>
+</div>
+<div class="sect3">
+<a name="id2828578"></a><div class="titlepage"><div><h4 class="title">
+<a name="id2828578"></a>2.5.7.8. General purpose</h4></div></div>
+<p>
+<a class="indexterm" name="id2828586"></a>
+<a class="indexterm" name="id2828605"></a>
+
+There are also a number of general-purpose technical inlines.
+</p>
+<div class="variablelist"><dl>
+<dt>
+<a name="id2828621"></a><span class="term"><a href="application.html"><tt>Application</tt></a></span>
+</dt>
+<dd><p>The name of a software program.<a class="indexterm" name="id2828634"></a>
+</p></dd>
+<dt>
+<a name="id2828642"></a><span class="term"><a href="database.html"><tt>Database</tt></a></span>
+</dt>
+<dd><p>The name of a database, or part of a database.<a class="indexterm" name="id2828656"></a>
+</p></dd>
+<dt>
+<a name="id2828665"></a><span class="term"><a href="email.html"><tt>Email</tt></a></span>
+</dt>
+<dd><p>An email address.<a class="indexterm" name="id2828678"></a>
+</p></dd>
+<dt>
+<a name="id2828687"></a><span class="term"><a href="filename.html"><tt>Filename</tt></a></span>
+</dt>
+<dd><p>The name of a file.<a class="indexterm" name="id2828702"></a>
+</p></dd>
+<dt>
+<a name="id2828711"></a><span class="term"><a href="hardware.html"><tt>Hardware</tt></a></span>
+</dt>
+<dd><p>A physical part of a computer system.<a class="indexterm" name="id2828739"></a>
+</p></dd>
+<dt>
+<a name="id2828722"></a><span class="term"><a href="inlinegraphic.html"><tt>InlineGraphic</tt></a></span>
+</dt>
+<dd><p>An object containing or pointing to graphical data that will be rendered inline.<a class="indexterm" name="id2828751"></a>
+</p></dd>
+<dt>
+<a name="id2828760"></a><span class="term"><a href="literal.html"><tt>Literal</tt></a></span>
+</dt>
+<dd><p>Inline text that is some literal value.<a class="indexterm" name="id2828772"></a>
+</p></dd>
+<dt>
+<a name="id2828781"></a><span class="term"><a href="medialabel.html"><tt>MediaLabel</tt></a></span>
+</dt>
+<dd><p>A name that identifies the physical medium on which some information resides.<a class="indexterm" name="id2828796"></a>
+</p></dd>
+<dt>
+<a name="id2828805"></a><span class="term"><a href="option.html"><tt>Option</tt></a></span>
+</dt>
+<dd><p>An option for a software command.<a class="indexterm" name="id2828818"></a>
+</p></dd>
+<dt>
+<a name="id2828826"></a><span class="term"><a href="optional.html"><tt>Optional</tt></a></span>
+</dt>
+<dd><p>Optional information.<a class="indexterm" name="id2828842"></a>
+</p></dd>
+<dt>
+<a name="id2828851"></a><span class="term"><a href="replaceable.html"><tt>Replaceable</tt></a></span>
+</dt>
+<dd><p>Content that may or must be replaced by the user.<a class="indexterm" name="id2828865"></a>
+</p></dd>
+<dt>
+<a name="id2828873"></a><span class="term"><a href="symbol.html"><tt>Symbol</tt></a></span>
+</dt>
+<dd><p>A name that is replaced by a value before processing.<a class="indexterm" name="id2828888"></a>
+</p></dd>
+<dt>
+<a name="id2828896"></a><span class="term"><a href="token.html"><tt>Token</tt></a></span>
+</dt>
+<dd><p>A unit of information.<a class="indexterm" name="id2828910"></a>
+</p></dd>
+<dt>
+<a name="id2828919"></a><span class="term"><a href="type.html"><tt>Type</tt></a></span>
+</dt>
+<dd><p>The classification of a value.<a class="indexterm" name="id2828933"></a>
+</p></dd>
+</dl></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<a name="ch02-makebook"></a><div class="titlepage"><div><h2 class="title" style="clear: both">
+<a name="ch02-makebook"></a>2.6. Making a DocBook Book</h2></div></div>
+<p>
+<a class="indexterm" name="id2828954"></a>
+<a class="indexterm" name="id2828963"></a>
+<a class="indexterm" name="id2828973"></a>
+
+A typical <a href="book.html"><tt>Book</tt></a>, in English at least, consists of 
+some meta-information in a <a href="bookinfo.html"><tt>BookInfo</tt></a>
+(<a href="title.html"><tt>Title</tt></a>, <a href="author.html"><tt>Author</tt></a>,
+<a href="copyright.html"><tt>Copyright</tt></a>, and so on), one or more <tt>
+Preface</tt>s, several <a href="chapter.html"><tt>Chapter</tt></a>s, and perhaps a
+few <a href="appendix.html"><tt>Appendix</tt></a>es. A <a href="book.html"><tt>Book</tt></a> may also
+contain <a href="bibliography.html"><tt>Bibliography</tt></a>s,
+<a href="glossary.html"><tt>Glossary</tt></a>s, <a href="index.html"><tt>Index</tt></a>es and a
+<a href="colophon.html"><tt>Colophon</tt></a>.
+</p>
+<p>
+<a href="ch02.html#ex-typicalbook" title="Example 2.1. A Typical Book">Example 2.1</a> shows the structure of a typical book.
+Additional content is required where the ellipses occur.
+<a class="indexterm" name="id2829054"></a>
+
+</p>
+<div class="example">
+<p>
+<a name="ex-typicalbook"></a><b>Example 2.1. A Typical Book</b>
+</p>
+<pre class="programlisting">&lt;!DOCTYPE book PUBLIC &quot;-//OASIS//DTD DocBook V3.1//EN&quot;&gt;
+&lt;book&gt;
+&lt;bookinfo&gt;
+  &lt;title&gt;My First Book&lt;/title&gt;
+  &lt;author&gt;&lt;firstname&gt;Jane&lt;/firstname&gt;&lt;surname&gt;Doe&lt;/surname&gt;&lt;/author&gt;
+  &lt;copyright&gt;&lt;year&gt;1998&lt;/year&gt;&lt;holder&gt;Jane Doe&lt;/holder&gt;&lt;/copyright&gt;
+&lt;/bookinfo&gt;
+&lt;preface&gt;&lt;title&gt;Foreword&lt;/title&gt; ... &lt;/preface&gt;
+&lt;chapter&gt; ... &lt;/chapter&gt;
+&lt;chapter&gt; ... &lt;/chapter&gt;
+&lt;chapter&gt; ... &lt;/chapter&gt;
+&lt;appendix&gt; ... &lt;/appendix&gt;
+&lt;appendix&gt; ... &lt;/appendix&gt;
+&lt;index&gt; ... &lt;/index&gt;
+&lt;/book&gt;</pre>
+</div>
+</div>
+<div class="sect1">
+<a name="ch02-makechap"></a><div class="titlepage"><div><h2 class="title" style="clear: both">
+<a name="ch02-makechap"></a>2.7. Making a Chapter</h2></div></div>
+<p>
+<a class="indexterm" name="id2829106"></a>
+<a class="indexterm" name="id2829116"></a>
+<a class="indexterm" name="id2829126"></a>
+
+<a href="chapter.html"><tt>Chapter</tt></a>s, <a href="preface.html"><tt>Preface</tt></a>s, and
+<a href="appendix.html"><tt>Appendix</tt></a>es all have a similar structure. They
+consist of a <a href="title.html"><tt>Title</tt></a>, possibly some additional
+meta-information, and any number of block-level elements followed by
+any number of top-level sections. Each section may in turn contain any
+number of block-level elements followed by any number from the next
+section level, as shown in <a href="ch02.html#ex-typicalchap" title="Example 2.2. A Typical Chapter">Example 2.2</a>.
+</p>
+<div class="example">
+<p>
+<a name="ex-typicalchap"></a><b>Example 2.2. A Typical Chapter</b>
+</p>
+<pre class="programlisting">&lt;!DOCTYPE chapter PUBLIC &quot;-//OASIS//DTD DocBook V3.1//EN&quot;&gt;
+&lt;chapter&gt;&lt;title&gt;My Chapter&lt;/title&gt;
+&lt;para&gt; ... &lt;/para&gt;
+&lt;sect1&gt;&lt;title&gt;First Section&lt;/title&gt;
+&lt;para&gt; ... &lt;/para&gt;
+&lt;example&gt; ... &lt;/example&gt;
+&lt;/sect1&gt;
+&lt;/chapter&gt;
+</pre>
+</div>
+</div>
+<div class="sect1">
+<a name="making-article"></a><div class="titlepage"><div><h2 class="title" style="clear: both">
+<a name="making-article"></a>2.8. Making an Article</h2></div></div>
+<p>
+<a class="indexterm" name="id2829205"></a>
+<a class="indexterm" name="id2829215"></a>
+<a class="indexterm" name="id2829225"></a>
+<a class="indexterm" name="id2829235"></a>
+<a class="indexterm" name="id2829240"></a>
+
+For documents smaller than a book, such as: journal articles, white
+papers, or technical notes, <a href="article.html"><tt>Article</tt></a> is frequently
+the most logical starting point. The body of an
+<a href="article.html"><tt>Article</tt></a> is essentially the same as the body of a
+<a href="chapter.html"><tt>Chapter</tt></a> or any other component-level element, as
+shown in <a href="ch02.html#ex-typicalart" title="Example 2.3. A Typical Article">Example 2.3</a>
+</p>
+<p>
+<a href="article.html"><tt>Article</tt></a>s may include
+<a href="appendix.html"><tt>Appendix</tt></a>es, <a href="bibliography.html"><tt>Bibliography</tt></a>s,
+<a href="index.html"><tt>Index</tt></a>es and <a href="glossary.html"><tt>Glossary</tt></a>s.
+</p>
+<div class="example">
+<p>
+<a name="ex-typicalart"></a><b>Example 2.3. A Typical Article</b>
+</p>
+<pre class="programlisting">&lt;!DOCTYPE article PUBLIC &quot;-//OASIS//DTD DocBook V3.1//EN&quot;&gt;
+&lt;article&gt;
+&lt;artheader&gt;
+  &lt;title&gt;My Article&lt;/title&gt;
+  &lt;author&gt;&lt;honorific&gt;Dr&lt;/honorific&gt;&lt;firstname&gt;Emilio&lt;/firstname&gt;
+          &lt;surname&gt;Lizardo&lt;/surname&gt;&lt;/author&gt;
+&lt;/artheader&gt;
+&lt;para&gt; ... &lt;/para&gt;
+&lt;sect1&gt;&lt;title&gt;On the Possibility of Going Home&lt;/title&gt;
+&lt;para&gt; ... &lt;/para&gt;
+&lt;/sect1&gt;
+&lt;bibliography&gt; ... &lt;/bibliography&gt;
+&lt;/article&gt;
+</pre>
+</div>
+</div>
+<div class="sect1">
+<a name="making-refentry"></a><div class="titlepage"><div><h2 class="title" style="clear: both">
+<a name="making-refentry"></a>2.9. Making a Reference Page</h2></div></div>
+<p>
+<a class="indexterm" name="id2829337"></a>
+<a class="indexterm" name="id2829347"></a>
+<a class="indexterm" name="id2829353"></a>
+<a class="indexterm" name="id2829363"></a>
+
+The reference page or manual page in DocBook was inspired by, and in
+fact designed to reproduce, the common UNIX &#x201C;manpage&#x201D;
+concept. (We use the word &quot;page&quot; loosely here to mean a document of
+variable length containing reference material on a specific topic.)
+DocBook is rich in markup tailored for such documents, which often
+vary greatly in content, however well-structured they may be. To
+reflect both the structure and the variability of such texts, DocBook
+specifies that reference pages have a strict sequence of parts, even
+though several of them are actually optional.
+</p>
+<p>
+<a class="indexterm" name="id2829388"></a>
+<a class="indexterm" name="id2829398"></a>
+<a class="indexterm" name="id2829404"></a>
+
+Of the following sequence of elements that may appear in a <a href="refentry.html"><tt>RefEntry</tt></a>, only two are obligatory: <a href="refnamediv.html"><tt>RefNameDiv</tt></a> and <a href="refsect1.html"><tt>RefSect1</tt></a>.
+<div class="variablelist"><dl>
+<dt>
+<a name="id2829435"></a><span class="term"><tt>DocInfo</tt></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2829452"></a>
+<a class="indexterm" name="id2829462"></a>
+
+The <tt>DocInfo</tt> element contains
+meta-information about the reference page (which should not be
+confused with <a href="refmeta.html"><tt>RefMeta</tt></a>, which it
+precedes). It marks up information about the author of the document,
+or the product to which it pertains, or the document's revision
+history, or other such information.</p></dd>
+<dt>
+<a name="id2829496"></a><span class="term"><a href="refmeta.html"><tt>RefMeta</tt></a></span>
+</dt>
+<dd>
+<p>
+<a class="indexterm" name="id2829512"></a>
+<a class="indexterm" name="id2829518"></a>
+<a class="indexterm" name="id2829528"></a>
+<a class="indexterm" name="id2829534"></a>
+<a class="indexterm" name="id2829539"></a>
+<a class="indexterm" name="id2829549"></a>
+
+<a href="refmeta.html"><tt>RefMeta</tt></a> contains a title for
+the reference page (which may be inferred if the
+<a href="refmeta.html"><tt>RefMeta</tt></a> element is not present) and an indication
+of the volume number in which this reference page occurs. The
+<a href="manvolnum.html"><tt>ManVolNum</tt></a> is a very UNIX-centric concept.  In
+traditional UNIX documentation, the subject of a reference page is
+typically identified by name and volume number; this allows you to
+distinguish between the <b>uname</b> command,
+&#x2018;uname(1)&#x2019; in volume 1 of the documentation and the
+<tt>uname</tt> function, &#x2018;uname(3)&#x2019; in
+volume 3.
+</p>
+<p>
+<a class="indexterm" name="id2829606"></a>
+<a class="indexterm" name="id2829612"></a>
+
+Additional information of this sort such as conformance or
+vendor information specific to the particular environment you are
+working in, may be stored in <a href="refmiscinfo.html"><tt>RefMiscInfo</tt></a>.
+</p>
+</dd>
+<dt>
+<a name="id2829629"></a><span class="term"><a href="refnamediv.html"><tt>RefNameDiv</tt></a></span>
+</dt>
+<dd>
+<p>
+<a class="indexterm" name="id2829646"></a>
+<a class="indexterm" name="id2829652"></a>
+<a class="indexterm" name="id2829658"></a>
+<a class="indexterm" name="id2829664"></a>
+<a class="indexterm" name="id2829669"></a>
+<a class="indexterm" name="id2829675"></a>
+<a class="indexterm" name="id2829681"></a>
+
+The first obligatory element is <a href="refnamediv.html"><tt>RefNameDiv</tt></a>, which is a wrapper for
+information about whatever you're documenting, rather than the
+document itself. It can begin with a <a href="refdescriptor.html"><tt>RefDescriptor</tt></a> if several items are being
+documented as a group and the group has a name. The <a href="refnamediv.html"><tt>RefNameDiv</tt></a> must contain at least one
+<a href="refname.html"><tt>RefName</tt></a>, that is, the name of
+whatever you're documenting, and a single short statement that sums up
+the use or function of the item(s) at a glance: their <a href="refpurpose.html"><tt>RefPurpose</tt></a>. Also available is the <a href="refclass.html"><tt>RefClass</tt></a>, intended to detail the
+operating system configurations that the software element in question
+supports.
+</p>
+<p>
+<a class="indexterm" name="id2829746"></a>
+<a class="indexterm" name="id2829756"></a>
+
+If no <a href="refentrytitle.html"><tt>RefEntryTitle</tt></a> is given in the
+<a href="refmeta.html"><tt>RefMeta</tt></a>, the title of the reference page is the
+<a href="refdescriptor.html"><tt>RefDescriptor</tt></a>, if present, or the first
+<a href="refname.html"><tt>RefName</tt></a>.
+</p>
+</dd>
+<dt>
+<a name="id2829784"></a><span class="term"><a href="refsynopsisdiv.html"><tt>RefSynopsisDiv</tt></a></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2829802"></a>
+<a class="indexterm" name="id2829807"></a>
+<a class="indexterm" name="id2829817"></a>
+<a class="indexterm" name="id2829827"></a>
+<a class="indexterm" name="id2829837"></a>
+
+A <a href="refsynopsisdiv.html"><tt>RefSynopsisDiv</tt></a> is intended
+to provide a quick synopsis of the topic covered by the reference
+page. For commands, this is generally a syntax summary of the command,
+and for functions, the function prototype, but other options are
+possible. A <a href="title.html"><tt>Title</tt></a> is allowed, but
+not required, presumably because the application that processes
+reference pages will generate the appropriate title if it is not
+given. In traditional UNIX documentation, its title is always
+&#x201C;Synopsis&#x201D;.
+</p></dd>
+<dt>
+<a name="id2829872"></a><span class="term"><a href="refsect1.html"><tt>RefSect1</tt></a>&#x2026;<a href="refsect3.html"><tt>RefSect3</tt></a></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2829891"></a>
+<a class="indexterm" name="id2829901"></a>
+
+Within <a href="refentry.html"><tt>RefEntry</tt></a>s, there are only three levels
+of sectioning elements: <a href="refsect1.html"><tt>RefSect1</tt></a>,
+<a href="refsect2.html"><tt>RefSect2</tt></a>, and <a href="refsect3.html"><tt>RefSect3</tt></a>.</p></dd>
+</dl></div>
+</p>
+<p>
+<a href="ch02.html#ex-samprefpage" title="Example 2.4. A Sample Reference Page">Example 2.4</a> shows the beginning of a <a href="refentry.html"><tt>RefEntry</tt></a> that illustrates one possible
+reference page:
+<a class="indexterm" name="id2829950"></a>
+</p>
+<div class="example">
+<p>
+<a name="ex-samprefpage"></a><b>Example 2.4. A Sample Reference Page</b>
+</p>
+<pre class="programlisting">
+
+&lt;refentry id=&quot;printf&quot;&gt;
+
+&lt;refmeta&gt;
+&lt;refentrytitle&gt;printf&lt;/refentrytitle&gt;
+&lt;manvolnum&gt;3S&lt;/manvolnum&gt;
+&lt;/refmeta&gt;
+
+&lt;refnamediv&gt;
+&lt;refname&gt;printf&lt;/refname&gt;
+&lt;refname&gt;fprintf&lt;/refname&gt;
+&lt;refname&gt;sprintf&lt;/refname&gt;
+&lt;refpurpose&gt;print formatted output&lt;/refpurpose&gt;
+&lt;/refnamediv&gt;
+
+&lt;refsynopsisdiv&gt;
+
+&lt;funcsynopsis&gt;
+&lt;funcsynopsisinfo&gt;
+#include &amp;lt;stdio.h&amp;gt;
+&lt;/funcsynopsisinfo&gt;
+&lt;funcprototype&gt;
+  &lt;funcdef&gt;int &lt;function&gt;printf&lt;/function&gt;&lt;/funcdef&gt;
+  &lt;paramdef&gt;const char *&lt;parameter&gt;format&lt;/parameter&gt;&lt;/paramdef&gt;
+  &lt;paramdef&gt;...&lt;/paramdef&gt;
+&lt;/funcprototype&gt;
+
+&lt;funcprototype&gt;
+  &lt;funcdef&gt;int &lt;function&gt;fprintf&lt;/function&gt;&lt;/funcdef&gt;
+  &lt;paramdef&gt;FILE *&lt;parameter&gt;strm&lt;/parameter&gt;&lt;/paramdef&gt;
+  &lt;paramdef&gt;const char *&lt;parameter&gt;format&lt;/parameter&gt;&lt;/paramdef&gt;
+  &lt;paramdef&gt;...&lt;/paramdef&gt;
+&lt;/funcprototype&gt;
+
+&lt;funcprototype&gt;
+  &lt;funcdef&gt;int &lt;function&gt;sprintf&lt;/function&gt;&lt;/funcdef&gt;
+  &lt;paramdef&gt;char *&lt;parameter&gt;s&lt;/parameter&gt;&lt;/paramdef&gt;
+  &lt;paramdef&gt;const char *&lt;parameter&gt;format&lt;/parameter&gt;&lt;/paramdef&gt;
+  &lt;paramdef&gt;...&lt;/paramdef&gt;
+&lt;/funcprototype&gt;
+&lt;/funcsynopsis&gt;
+
+&lt;/refsynopsisdiv&gt;
+
+&lt;refsect1&gt;&lt;title&gt;Description&lt;/title&gt;
+&lt;para&gt;
+&lt;indexterm&gt;&lt;primary&gt;functions&lt;/primary&gt;
+  &lt;secondary&gt;printf&lt;/secondary&gt;&lt;/indexterm&gt;
+&lt;indexterm&gt;&lt;primary&gt;printing function&lt;/primary&gt;&lt;/indexterm&gt;
+
+&lt;function&gt;printf&lt;/function&gt; places output on the standard
+output stream stdout.
+&amp;hellip;
+&lt;/para&gt;
+
+</pre>
+</div>
+</div>
+<div class="sect1">
+<a name="ch02-makefrontback"></a><div class="titlepage"><div><h2 class="title" style="clear: both">
+<a name="ch02-makefrontback"></a>2.10. Making Front- and Backmatter</h2></div></div>
+<p>
+<a class="indexterm" name="id2829997"></a>
+<a class="indexterm" name="id2830002"></a>
+<a class="indexterm" name="id2830058"></a>
+<a class="indexterm" name="id2830066"></a>
+<a class="indexterm" name="id2830076"></a>
+
+DocBook contains markup for the usual variety of front- and backmatter
+necessary for books and articles: indexes, glossaries, bibliographies,
+and tables of contents. In many cases, these components are generated
+automatically, at least in part, from your document by an external
+processor, but you can create them by hand, and in either case, store
+them in DocBook.
+</p>
+<p>
+<a class="indexterm" name="id2830098"></a>
+
+Some forms of backmatter, like indexes and glossaries, usually require
+additional markup <span class="emphasis"><i>in the document</i></span> to make
+generation by an application possible.  Bibliographies are usually
+composed by hand like the rest of your text, unless you are
+automatically selecting bibliographic entries out of some larger
+database.  Our principal concern here is to acquaint you with the kind
+of markup you need to include in your documents if you want to
+construct these components.
+</p>
+<p>
+Frontmatter, like the table of contents, is almost always generated
+automatically from the text of a document by the processing
+application. If you need information about how to mark up a table of
+contents in DocBook, please consult the reference page for
+<a href="toc.html"><tt>ToC</tt></a>.
+</p>
+<div class="sect2">
+<a name="id2830134"></a><div class="titlepage"><div><h3 class="title">
+<a name="id2830134"></a>2.10.1. Making an Index</h3></div></div>
+<p>
+<a class="indexterm" name="id2830144"></a>
+In some highly-structured documents such as reference manuals, you can
+automate the whole process of generating an index successfully without
+altering or adding to the original source. You can design a processing
+application to select the information and compile it into an adequate
+index. But this is rare.
+</p>
+<p>
+In most cases&#x2014;and even in the case of some reference
+manuals&#x2014;a useful index still requires human intervention to mark
+occurrences of words or concepts that will appear in the text of the
+index.
+</p>
+<div class="sect3">
+<a name="id2830168"></a><div class="titlepage"><div><h4 class="title">
+<a name="id2830168"></a>2.10.1.1. Marking index terms</h4></div></div>
+<p>
+<a class="indexterm" name="id2830177"></a>
+<a class="indexterm" name="id2830183"></a>
+
+Docbook distinguishes two kinds of index markers: those that are
+singular and result in a single page entry in the index itself, and
+those that are multiple and refer to a range of pages.
+</p>
+<p>You put a singular index marker where the subject it refers to
+actually occurs in your text:
+<pre class="screen">
+&lt;para&gt;
+The tiger&lt;indexterm&gt;
+&lt;primary&gt;Big Cats&lt;/primary&gt;
+&lt;secondary&gt;Tigers&lt;/secondary&gt;&lt;/indexterm&gt;
+is a very large cat indeed.
+&lt;/para&gt;
+</pre> 
+<a class="indexterm" name="id2830205"></a>
+<a class="indexterm" name="id2830211"></a>
+<a class="indexterm" name="id2830217"></a>
+This index term has two levels, <a href="primary.html"><tt>primary</tt></a> and
+<a href="secondary.html"><tt>secondary</tt></a>.  They correspond to an increasing amount
+of indented text in the resultant index. DocBook allows for three
+levels of index terms, with the third labeled
+<a href="tertiary.html"><tt>tertiary</tt></a>.
+</p>
+<p>
+<a class="indexterm" name="id2830243"></a>
+<a class="indexterm" name="id2830249"></a>
+
+There are two ways that you can index a range of text. The first is to
+put index marks at both the beginning and end of the discussion.  The
+mark at the beginning asserts that it is the start of a range, and the
+mark at the end refers back to the beginning. In this way, the
+processing application can determine what range of text is
+indexed. Here's the previous tiger example recast as starting and
+ending index terms:
+</p>
+<pre class="screen">
+&lt;para&gt;
+The tiger&lt;indexterm id=&quot;tiger-desc&quot; class=&quot;startofrange&quot;&gt;
+&lt;primary&gt;Big Cats&lt;/primary&gt;
+&lt;secondary&gt;Tigers&lt;/secondary&gt;&lt;/indexterm&gt;
+is a very large cat indeed&#x2026;
+&lt;/para&gt;
+&#x22EE;
+&lt;para&gt;
+So much for tigers&lt;indexterm startref=&quot;tiger-desc&quot; class=&quot;endofrange&quot;&gt;. Let's talk about
+leopards.  
+&lt;/para&gt;
+</pre>
+<p>
+<a class="indexterm" name="id2830276"></a>
+<a class="indexterm" name="id2830287"></a>
+
+Note that the mark at the start of the range identifies itself as the
+start of a range with the <tt>Class</tt>
+attribute, and provides an <tt>ID</tt>.
+The mark at the end of the range points back to the start.
+</p>
+<p>
+<a class="indexterm" name="id2830327"></a>
+<a class="indexterm" name="id2830336"></a>
+
+Another way to mark up a range of text is to specify that the entire
+content of an element, such as a chapter or section, is the complete
+range.  In this case, all you need is for the index term to point to
+the <tt>ID</tt> of the element that
+contains the content in question. The <tt>Zone</tt> attribute of <a href="indexterm.html"><tt>indexterm</tt></a>
+provides this functionality.
+</p>
+<p>
+One of the interesting features of this method is that the actual
+index marks do not have to occur anywhere near the text being
+indexed. It is possible to collect all of them together, for example,
+in one file, but it is not invalid to have the index marker occur near
+the element it indexes.
+</p>
+<p>
+Suppose the discussion of tigers in your document comprises a
+whole text object (like a <a href="sect1.html"><tt>Sect1</tt></a>
+or a <a href="chapter.html"><tt>Chapter</tt></a>) with an
+<tt>ID</tt> value of 
+<tt>tiger-desc</tt>. You can put the following
+tag anywhere in your document to index that range of text:
+<pre class="screen">
+&lt;indexterm zone=&quot;tiger-desc&quot;&gt;
+&lt;primary&gt;Big Cats&lt;/primary&gt;
+&lt;secondary&gt;Tigers&lt;/secondary&gt;&lt;/indexterm&gt;
+</pre> 
+</p>
+<p>
+<a class="indexterm" name="id2830411"></a>
+DocBook also contains markup for index hits that point to other index
+hits (of the same type such as &quot;See Cats, big&quot; or &quot;See also
+Lions&quot;). See the reference pages for <a href="see.html"><tt>See</tt></a> and
+<a href="seealso.html"><tt>SeeAlso</tt></a>.
+</p>
+</div>
+<div class="sect3">
+<a name="id2830430"></a><div class="titlepage"><div><h4 class="title">
+<a name="id2830430"></a>2.10.1.2. Printing an index</h4></div></div>
+<p>
+<a class="indexterm" name="id2830439"></a>
+
+After you have added the appropriate markup to your document, an
+external application can use this information to build an index. The
+resulting index must have information about the page numbers on which
+the concepts appear. It's usually the document formatter that builds
+the index.  In this case, it may never be instantiated in DocBook.
+</p>
+<p>
+<a class="indexterm" name="id2830460"></a>
+
+However, there are applications that can produce an index marked up in
+DocBook.  The following example includes some one- and two-level
+<a href="indexentry.html"><tt>IndexEntry</tt></a> elements (which
+correspond to the primary and secondary levels in the
+<a href="indexterm.html"><tt>indexterm</tt></a>s themselves) that begin with the letter D:
+<pre class="screen">
+&lt;!DOCTYPE index PUBLIC &quot;-//OASIS//DTD DocBook V3.1//EN&quot;&gt;
+&lt;index&gt;&lt;title&gt;Index&lt;/title&gt;
+&lt;indexdiv&gt;&lt;title&gt;D&lt;/title&gt;
+&lt;indexentry&gt;
+  &lt;primaryie&gt;database (bibliographic), 253, 255&lt;/primaryie&gt;
+     &lt;secondaryie&gt;structure, 255&lt;/secondaryie&gt;
+     &lt;secondaryie&gt;tools, 259&lt;/secondaryie&gt;
+&lt;/indexentry&gt;
+&lt;indexentry&gt;
+  &lt;primaryie&gt;dates (language specific), 179&lt;/primaryie&gt;
+&lt;/indexentry&gt;
+&lt;indexentry&gt;
+  &lt;primaryie&gt;DC fonts, &lt;emphasis&gt;172&lt;/emphasis&gt;, 177&lt;/primaryie&gt;
+     &lt;secondaryie&gt;Math fonts, 177&lt;/secondaryie&gt;
+&lt;/indexentry&gt;
+&lt;/indexdiv&gt;
+&lt;/index&gt;
+</pre> 
+</p>
+</div>
+</div>
+<div class="sect2">
+<a name="id2830492"></a><div class="titlepage"><div><h3 class="title">
+<a name="id2830492"></a>2.10.2. Making a Glossary</h3></div></div>
+<p>
+<a class="indexterm" name="id2830512"></a>
+
+<a href="glossary.html"><tt>Glossary</tt></a>s, like <a href="bibliography.html"><tt>Bibliography</tt></a>s, are often
+constructed by hand.  However, some applications are capable of
+building a skeletal index from glossary term markup in the document.
+If all of your terms are defined in some glossary database, it may
+even be possible to construct the complete glossary automatically.
+</p>
+<p>
+<a class="indexterm" name="id2830540"></a>
+<a class="indexterm" name="id2830549"></a>
+<a class="indexterm" name="id2830555"></a>
+<a class="indexterm" name="id2830565"></a>
+<a class="indexterm" name="id2830575"></a>
+
+To enable automatic glossary generation, or simply automatic linking
+from glossary terms in the text to glossary entries, you must add
+markup to your documents.  In the text, you markup a term for
+compilation later with the inline <a href="glossterm.html"><tt>GlossTerm</tt></a>
+tag. This tag can have a <tt>LinkEnd</tt>
+attribute whose value is the ID of the actual entry in the
+glossary.<sup>[<a name="id2830596" href="#ftn.id2830596">11</a>]</sup>
+</p>
+<p>
+For instance, if you have this markup in your document:
+</p>
+<pre class="screen">
+&lt;glossterm linkend=&quot;xml&quot;&gt;Extensible Markup Language&lt;/glossterm&gt; is a new standard&#x2026; 
+</pre>
+<p>
+<a class="indexterm" name="id2830629"></a>
+
+your glossary might look like this:
+</p>
+<pre class="screen">
+&lt;!DOCTYPE glossary PUBLIC &quot;-//OASIS//DTD DocBook V3.1//EN&quot;&gt;
+&lt;glossary&gt;&lt;title&gt;Example Glossary&lt;/title&gt;
+&#x22EE;
+&lt;glossdiv&gt;&lt;title&gt;E&lt;/title&gt;
+
+&lt;glossentry id=&quot;xml&quot;&gt;&lt;glossterm&gt;Extensible Markup Language&lt;/glossterm&gt;
+  &lt;acronym&gt;XML&lt;/acronym&gt;
+&lt;glossdef&gt;
+  &lt;para&gt;Some reasonable definition here.&lt;/para&gt;
+  &lt;glossseealso otherterm=&quot;sgml&quot;&gt;
+&lt;/glossdef&gt;
+&lt;/glossentry&gt;
+
+&lt;/glossdiv&gt;
+</pre>
+<p>
+Note that the <a href="glossterm.html"><tt>GlossTerm</tt></a> tag
+reappears in the glossary to mark up the term and distinguish it from
+its definition within the <tt>
+GlossEntry</tt>. The <tt>ID</tt> that
+the <tt> GlossEntry</tt> referenced in the
+text is the ID of the <a href="glossentry.html"><tt>GlossEntry</tt></a> in the <a href="glossary.html"><tt>Glossary</tt></a>
+itself. You can use the link between source and glossary to create a
+link in the online form of your document, as we have done with the
+online form of the glossary in this book.
+</p>
+</div>
+<div class="sect2">
+<a name="id2830705"></a><div class="titlepage"><div><h3 class="title">
+<a name="id2830705"></a>2.10.3. Making a Bibliography</h3></div></div>
+<p>
+<a class="indexterm" name="id2830714"></a>
+<a class="indexterm" name="id2830720"></a>
+<a class="indexterm" name="id2830730"></a>
+<a class="indexterm" name="id2830740"></a>
+
+There are two ways to set up a bibliography in DocBook: you can have
+the data <span class="emphasis"><i>raw</i></span> or
+<span class="emphasis"><i>cooked</i></span>. Here's an example of a raw
+bibliographical item, wrapped in the <a href="biblioentry.html"><tt>Biblioentry</tt></a> element:
+</p>
+<pre class="screen">
+&lt;biblioentry xreflabel=&quot;Kites75&quot;&gt;
+  &lt;authorgroup&gt;
+    &lt;author&gt;&lt;firstname&gt;Andrea&lt;/firstname&gt;&lt;surname&gt;Bahadur&lt;/surname&gt;&lt;/author&gt;
+    &lt;author&gt;&lt;firstname&gt;Mark&lt;/&gt;&lt;surname&gt;Shwarek&lt;/&gt;&lt;/author&gt;
+  &lt;/authorgroup&gt;
+  &lt;copyright&gt;&lt;year&gt;1974&lt;/year&gt;&lt;year&gt;1975&lt;/year&gt;
+     &lt;holder&gt;Product Development International Holding N. V.&lt;/holder&gt;
+     &lt;/copyright&gt;
+  &lt;isbn&gt;0-88459-021-6&lt;/isbn&gt;    
+  &lt;publisher&gt;
+    &lt;publishername&gt;Plenary Publications International, Inc.&lt;/publishername&gt;
+  &lt;/publisher&gt;
+  &lt;title&gt;Kites&lt;/title&gt;
+  &lt;subtitle&gt;Ancient Craft to Modern Sport&lt;/subtitle&gt;
+  &lt;pagenums&gt;988-999&lt;/pagenums&gt;
+  &lt;seriesinfo&gt;
+    &lt;title&gt;The Family Creative Workshop&lt;/title&gt;
+    &lt;seriesvolnums&gt;1-22&lt;/seriesvolnums&gt;
+    &lt;editor&gt;
+      &lt;firstname&gt;Allen&lt;/firstname&gt;
+      &lt;othername role=middle&gt;Davenport&lt;/othername&gt;
+      &lt;surname&gt;Bragdon&lt;/surname&gt;
+      &lt;contrib&gt;Editor in Chief&lt;/contrib&gt;
+    &lt;/editor&gt;
+  &lt;/seriesinfo&gt;
+&lt;/biblioentry&gt;
+</pre>
+<p>
+The &#x201C;raw&#x201D; data in a <a href="biblioentry.html"><tt>Biblioentry</tt></a> is comprehensive to a
+fault&#x2014;there are enough fields to suit a host of different
+bibliographical styles, and that is the point. An abundance of data
+requires processing applications to select, punctuate, order, and
+format the bibliographical data, and it is unlikely that all the
+information provided will actually be output.
+</p>
+<p>
+<a class="indexterm" name="id2830807"></a>
+
+All the &#x201C;cooked&#x201D; data in a <a href="bibliomixed.html"><tt>Bibliomixed</tt></a> entry in a bibliography, on the
+other hand, is intended to be presented to the reader in the form and
+sequence in which it is provided. It even includes punctuation between
+the fields of data:
+</p>
+<pre class="screen">
+&lt;bibliomixed&gt;
+  &lt;bibliomset relation=article&gt;
+    &lt;surname&gt;Walsh&lt;/surname&gt;, &lt;firstname&gt;Norman&lt;/firstname&gt;.
+    &lt;title role=article&gt;Introduction to Cascading Style Sheets&lt;/title&gt;.
+  &lt;/bibliomset&gt;
+  &lt;bibliomset relation=journal&gt;
+    &lt;title&gt;The World Wide Web Journal&lt;/title&gt; 
+    &lt;volumenum&gt;2&lt;/volumenum&gt;&lt;issuenum&gt;1&lt;/issuenum&gt;.
+    &lt;publishername&gt;O'Reilly &amp; Associates, Inc.&lt;/publishername&gt; and
+    &lt;corpname&gt;The World Wide Web Consortium&lt;/corpname&gt;.
+    &lt;pubdate&gt;Winter, 1996&lt;/pubdate&gt;&lt;/bibliomset&gt;.
+&lt;/bibliomixed&gt;
+</pre>
+<p>
+Clearly, these two ways of marking up bibliographical entries are
+suited to different circumstances.  You should use one or the other
+for your bibliography, not both. Strictly speaking, mingling the raw
+and the cooked may be &#x201C;kosher&#x201D; as far as the DTD is
+concerned, but it will almost certainly cause problems for most
+processing applications.
+<a class="indexterm" name="id2830857"></a>
+<a class="indexterm" name="id2830856"></a>
+
+</p>
+</div>
+</div>
+<div class="footnotes">
+<br><hr width="100" align="left">
+<div class="footnote"><p>
+Many of these things are influenced by the SGML declaration in use.
+For the purpose of this discussion, we assume you are using the
+standard DocBook declaration.
+</p></div>
+<div class="footnote"><p>
+This is not absolutely true. SGML allows for the possibility that
+the reference could be implied by the application, but this is very
+rarely the case.
+</p></div>
+<div class="footnote"><p>
+Essentially, it can ensure that two different owners won't
+accidentally tread on each other.  Nothing can prevent a given owner
+from reusing public identifiers, except maybe common sense.
+</p></div>
+<div class="footnote"><p>
+See Appendix A of <a href="bi01.html#maler96" title="[maler96]">[maler96]</a>, for more details.
+</p></div>
+<div class="footnote"><p>
+Some sophisticated formatters might even be able to establish the link
+simply by examining the content of the terms and the glossary. In that
+case, the author is not required to make explicit links.
+</p></div>
+</div>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="ch01.html">Prev</a> </td>
+<td width="20%" align="center"><a href="docbook.html">Home</a></td>
+<td width="40%" align="right"> <a href="ch03.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">Chapter 1. Getting Startedwith SGML/XML </td>
+<td width="20%" align="center"><a href="part1.html">Up</a></td>
+<td width="40%" align="right"> Chapter 3. Parsing DocBook Documents</td>
+</tr>
+</table>
+</div>
+<p>
+<a href="dbcpyright.html">Copyright</a> © 1999, 2000, 2001 <a href="http://www.oreilly.com/">O'Reilly &amp; Associates, Inc.</a>
+</p>
+</body>
+</html>

@@ -1,0 +1,82 @@
++++++++++++++++++++++++++++++++++TSVIEW V0.1+++++++++++++++++++++++++++++++++++++
+Simon McClusky and Tom Herring.
+
+Tsview is a matlab script for plotting and editing time series. Tsview displays
+the 3 componets of site position (NEU) along with a list time series found in
+the current directory available for viewing and editing, and GUI buttons for 
+manipulating the time series.
+
+The input data format for tsview are multibase files created by the kf program
+multibase. Multibase must be run using the -year flag, with NO -max_sig options
+selected.
+
+To use tsview: 
+(1) Open a matlab session on you workstation. Start the matlab session in the 
+directory containing the mb_* files you want to edit. [ matlab ]
+(2) In the matlab shell opened in step 1, set the path to the tsview 
+program. [ Example: addpath /home/simon/matlab ]
+(3) Now start the tsview GUI. [ tsview ] The tsview GUI should open and 
+display a list of sites available for editing in a column on the left side of 
+the GUI.
+(4) Select a site from the site list using the left mouse button and click the Load 
+button with the left mouse button. The N, E, and U time series should be loaded and 
+plotted in the 3 panels on the right hand side of the GUI.
+(5) Now you are free to manipulate the time series as desired. Below is a summary 
+of what each of the GUI buttons do.
+
+  Load - Load or reload the time series of site highlighted in the site list box.
+
+  Append - Append data to the current plot. Use this feature to plot the complete 
+           time series of a site offset by an earthquake and renamed in GLOBK. 
+
+  Detrend - Display the time series with a first order polynomial (rate) removed
+            The WRMS, NRMS, number of observations, Rate, and size of jumps at any 
+            marked breaks will be displayed for each component of the time series 
+            at the top of each panel. This information is also printed to the matlab 
+            shell.
+ 
+  Edit - Using the left mouse button you can choose a single point in the time 
+         series to be marked for removal. Using the right mouse button you can 
+         select multiple points for removal. Note selecting a point to edit out 
+         in any of the 3 (N,E,U) panels means it will be marked for removal in all 
+         3 panels. Points selected will be marked with an X. Selecting the detrend 
+         button recomputes statistics, and replots the data with the selected 
+         points removed.
+
+  Block Edit - This feature allows you to select a region of points to be marked for
+               editing. Click and hold down the left mouse button, while draging the 
+               mouse over the region of points you would like removed from the plot.
+               Releasing the left mouse button will select the points enclosed 
+               within the rectangular region you scribe. As with the edit button,
+               selecting points to edit out in any of the 3 (N,E,U) panels means they 
+               will be marked for removal in all 3 panels. Points selected will 
+               be marked with an X. Selecting the detrend button recomputes 
+               statistics, and replots the data with the selected points removed.
+
+  Break - This button allows you to select one (left button) or more (right button)
+          places to break the time series. After placeing the breaks at the 
+          locations you want, pressing the detrend button will cause the time
+          series, rate, break jumps, and statistics to be recalculated and 
+          displayed on the GUI and on the matlab shell. The breaks are displayed 
+          on the same line as the time series statistics and rate.
+
+  Zoom - The zoom button allows you to zoom in or out on a single panel. Zoom in 
+         by clicking the zoom button, then clicking with the left mouse button on 
+         the region of the time series you would like to zoom in on. Clicking with 
+         the right mouse button will zoom out.
+
+  Span - This button allows you to display a descrete span of the time series. 
+         Click the span button, then click and hold down the left mouse button at 
+         the left side of the segment of data you would like to span, drag the 
+         mouse to the right side of the segment of data required, and release the 
+         button, the span selected will now be plotted. Note all 3 panels will 
+         display the same span of data. You can now use and of the edit, or break
+         buttons as you could on the entire span. Clicking detrend will apply any 
+         changes you make on the spaned section, then replot the entire time series 
+         again.
+
+  Save - Clicking the Save button will save in a file called output.file any of
+         the changes you made to the timeseries (edits or breaks) in the globk .eq 
+         file format, using the rename command to documet what changes you made to
+         the time sereis. 
+  

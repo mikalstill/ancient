@@ -1,0 +1,12 @@
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V3.1//EN">
+<book><bookinfo>
+<title>Computer Engineering Project: Project Report</title>
+<authorgroup>
+<author><firstname>Michael</firstname><surname>Still (964076)</surname></author>
+<author><firstname>Daniel</firstname><surname>Fernandez (991672)</surname></author>
+<author><firstname>Blake</firstname><surname>Swadling (982087)</surname></author>
+<author><firstname>Nick</firstname><surname>Wheatstone (983131)</surname></author>
+<author><firstname>Kristy</firstname><surname>Van Der Vlist (983118)</surname></author>
+</authorgroup>
+<pubdate>%date%</pubdate>
+</bookinfo>

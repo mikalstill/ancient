@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type">
+<title>confgroup</title>
+<link rel="stylesheet" href="defguide.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.41">
+<link rel="home" href="docbook.html" title="DocBook">
+<link rel="up" href="ref-elements.html" title="DocBook Element Reference">
+<link rel="previous" href="confdates.html" title="confdates">
+<link rel="next" href="confnum.html" title="confnum">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">confgroup</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="confdates.html">Prev</a> </td>
+<th width="60%" align="center">DocBook Element Reference</th>
+<td width="20%" align="right"> <a href="confnum.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<p class="alpha-version">This is an <a href="co01.html"><em>alpha</em> version</a> of this book.</p>
+<div class="refentry">
+<h1 class="title">
+<a name="confgroup.element"></a>confgroup</h1>
+<div class="refnamediv">
+<a name="id2920625"></a><h2>Name</h2>confgroup &#x2014; A wrapper for document meta-information about a conference</div>
+<div class="refsynopsisdiv">
+<a name="id2919108"></a><h2><h1 class="title">
+<a name="id2919108"></a>Synopsis</h1></h2>
+<h3><span class="bold"><b>Content Model</b></span></h3>
+<pre class="synopsis">confgroup ::=
+((<a href="confdates.html"><tt>confdates</tt></a>|<a href="conftitle.html"><tt>conftitle</tt></a>|<a href="confnum.html"><tt>confnum</tt></a>|<a href="address.html"><tt>address</tt></a>|<a href="confsponsor.html"><tt>confsponsor</tt></a>)*)</pre>
+<h3><span class="bold"><b>Attributes</b></span></h3>
+<p><a href="ref-elements.html#common.attributes"><span class="common.attributes">Common attributes</span></a></p>
+<h3><span class="bold"><b>Parameter Entities</b></span></h3>
+<p>The following parameter entities contain confgroup:</p>
+<table border="1" width="100%" summary="Attributes">
+<tr><td colspan="3" align="left"><span class="bold"><b>Parameter Entities</b></span></td></tr>
+<tr>
+<td><a href="pe-mix.html#bibliocomponent.mix.parament"><tt>%bibliocomponent.mix;</tt></a></td>
+<td> </td>
+<td> </td>
+</tr>
+</table>
+</div>
+<div class="refsect1">
+<a name="id2917550"></a><h2>Description</h2>
+<p>
+If a document, for example an <a href="article.html"><tt>Article</tt></a>, is written in
+connection with a conference, the elements in this wrapper are
+used to hold information about the conference: titles, sponsors,
+addresses, dates, etc.
+</p>
+<div class="refsect2">
+<a name="id2919214"></a><h3>Processing Expectations</h3>
+<p>
+May be formatted inline or as a displayed block, depending on context. Sometimes suppressed.
+</p>
+</div>
+<div class="refsect2">
+<a name="id2911554"></a><h3>Parents</h3>
+<p>These elements contain confgroup:
+<span class="simplelist"><a href="appendixinfo.html"><tt>appendixinfo</tt></a>, <a href="articleinfo.html"><tt>articleinfo</tt></a>, <a href="biblioentry.html"><tt>biblioentry</tt></a>, <a href="bibliographyinfo.html"><tt>bibliographyinfo</tt></a>, <a href="bibliomixed.html"><tt>bibliomixed</tt></a>, <a href="bibliomset.html"><tt>bibliomset</tt></a>, <a href="biblioset.html"><tt>biblioset</tt></a>, <a href="bookinfo.html"><tt>bookinfo</tt></a>, <a href="chapterinfo.html"><tt>chapterinfo</tt></a>, <a href="glossaryinfo.html"><tt>glossaryinfo</tt></a>, <a href="indexinfo.html"><tt>indexinfo</tt></a>, <a href="objectinfo.html"><tt>objectinfo</tt></a>, <a href="partinfo.html"><tt>partinfo</tt></a>, <a href="prefaceinfo.html"><tt>prefaceinfo</tt></a>, <a href="refentryinfo.html"><tt>refentryinfo</tt></a>, <a href="referenceinfo.html"><tt>referenceinfo</tt></a>, <a href="refsect1info.html"><tt>refsect1info</tt></a>, <a href="refsect2info.html"><tt>refsect2info</tt></a>, <a href="refsect3info.html"><tt>refsect3info</tt></a>, <a href="refsynopsisdivinfo.html"><tt>refsynopsisdivinfo</tt></a>, <a href="sect1info.html"><tt>sect1info</tt></a>, <a href="sect2info.html"><tt>sect2info</tt></a>, <a href="sect3info.html"><tt>sect3info</tt></a>, <a href="sect4info.html"><tt>sect4info</tt></a>, <a href="sect5info.html"><tt>sect5info</tt></a>, <a href="sectioninfo.html"><tt>sectioninfo</tt></a>, <a href="setindexinfo.html"><tt>setindexinfo</tt></a>, <a href="setinfo.html"><tt>setinfo</tt></a>, <a href="sidebarinfo.html"><tt>sidebarinfo</tt></a></span>.</p>
+</div>
+<div class="refsect2">
+<a name="id2911153"></a><h3>Children</h3>
+<p>The following elements occur in confgroup:
+<span class="simplelist"><a href="address.html"><tt>address</tt></a>, <a href="confdates.html"><tt>confdates</tt></a>, <a href="confnum.html"><tt>confnum</tt></a>, <a href="confsponsor.html"><tt>confsponsor</tt></a>, <a href="conftitle.html"><tt>conftitle</tt></a></span>.</p>
+</div>
+</div>
+<div class="refsect1">
+<a name="id2911148"></a><h2>See Also</h2>
+<p>
+<span class="simplelist"><a href="confdates.html"><tt>confdates</tt></a>, <a href="confnum.html"><tt>confnum</tt></a>, <a href="confsponsor.html"><tt>confsponsor</tt></a>, <a href="conftitle.html"><tt>conftitle</tt></a>, <a href="contractnum.html"><tt>contractnum</tt></a>, <a href="contractsponsor.html"><tt>contractsponsor</tt></a></span>.
+</p>
+</div>
+<div class="refsect1">
+<a name="id2911384"></a><h2>Examples</h2>
+<div class="informalexample" id="id2911392">
+<a name="id2911392"></a><pre class="programlisting">&lt;!DOCTYPE confgroup PUBLIC &quot;-//OASIS//DTD DocBook XML V4.1.2//EN&quot;
+          &quot;http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd&quot;&gt;
+&lt;confgroup&gt;
+&lt;confdates&gt;April, 1998&lt;/confdates&gt;
+&lt;conftitle&gt;The World Wide Web Conference&lt;/conftitle&gt;
+&lt;confnum&gt;7&lt;/confnum&gt;
+&lt;address&gt;Brisbane, Australia&lt;/address&gt;
+&lt;confsponsor&gt;World Wide Web Conference Committee (W3C3)&lt;/confsponsor&gt;
+&lt;/confgroup&gt;</pre>
+</div>
+</div>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="confdates.html">Prev</a> </td>
+<td width="20%" align="center"><a href="docbook.html">Home</a></td>
+<td width="40%" align="right"> <a href="confnum.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">confdates </td>
+<td width="20%" align="center"><a href="ref-elements.html">Up</a></td>
+<td width="40%" align="right"> confnum</td>
+</tr>
+</table>
+</div>
+<p>
+<a href="dbcpyright.html">Copyright</a> © 1999, 2000, 2001 <a href="http://www.oreilly.com/">O'Reilly &amp; Associates, Inc.</a>
+</p>
+</body>
+</html>

@@ -1,0 +1,826 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type">
+<title>%*.attrib; Parameter Entities</title>
+<link rel="stylesheet" href="defguide.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.41">
+<link rel="home" href="docbook.html" title="DocBook">
+<link rel="up" href="ref-paraments.html" title="DocBook Parameter Entity Reference">
+<link rel="previous" href="pe-attlist.html" title="%*.attlist; Parameter Entities">
+<link rel="next" href="pe-attval.html" title="%*.attval; Parameter Entities">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">%*.attrib; Parameter Entities</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="pe-attlist.html">Prev</a> </td>
+<th width="60%" align="center">DocBook Parameter Entity Reference</th>
+<td width="20%" align="right"> <a href="pe-attval.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<p class="alpha-version">This is an <a href="co01.html"><em>alpha</em> version</a> of this book.</p>
+<div class="refentry">
+<h1 class="title">
+<a name="pe-attrib"></a><tt>%*.attrib;</tt> Parameter Entities</h1>
+<div class="refnamediv">
+<a name="id3259138"></a><h2>Name</h2>
+<tt>%*.attrib;</tt> Parameter Entities &#x2014; Define attributes on selected elements
+</div>
+<div class="refsynopsisdiv">
+<a name="id3259159"></a><h2><h1 class="title">
+<a name="id3259159"></a>Synopsis</h1></h2>
+<p>
+These entities parameterize the attribute declarations on
+selected elements.
+</p>
+</div>
+<div class="refsect1">
+<a name="id3259171"></a><h2>Description</h2>
+<p>
+Each of the following sections describes an individual parameter entity.
+</p>
+<div class="refsect2">
+<a name="common.table.attribs.parament"></a><h3>%common.table.attribs;</h3>
+<p><b>Parameter entity content:</b></p>
+<pre class="synopsis">label		CDATA		#IMPLIED
+	id		ID		#IMPLIED
+	lang		CDATA		#IMPLIED
+	remap		CDATA		#IMPLIED
+	xreflabel	CDATA		#IMPLIED
+	revisionflag	(changed
+			|added
+			|deleted
+			|off)		#IMPLIED
+	arch		CDATA		#IMPLIED
+        condition	CDATA		#IMPLIED
+	conformance	NMTOKENS	#IMPLIED
+	os		CDATA		#IMPLIED
+	revision	CDATA		#IMPLIED
+        security	CDATA		#IMPLIED
+	userlevel	CDATA		#IMPLIED
+	vendor		CDATA		#IMPLIED
+	
+	
+	role		CDATA		#IMPLIED</pre>
+<p><b><span class="bold"><b>%common.table.attribs; appears in:</b></span></b></p>
+<table border="0" width="100%" summary="Attributes"><tr>
+<td><a href="informaltable.html"><tt>informaltable</tt></a></td>
+<td> </td>
+<td> </td>
+</tr></table>
+</div>
+<div class="refsect2">
+<a name="condition.attrib.parament"></a><h3>%condition.attrib;</h3>
+<p><b>Parameter entity content:</b></p>
+<table border="1" width="100%" summary="Attributes">
+<tr>
+<td><p><span class="bold"><b>Name</b></span></p></td>
+<td><p><span class="bold"><b>Type</b></span></p></td>
+<td><p><span class="bold"><b>Default</b></span></p></td>
+</tr>
+<tr>
+<td align="left" valign="top">condition</td>
+<td align="left" valign="top">CDATA</td>
+<td align="left" valign="top"><span class="emphasis"><i>None</i></span></td>
+</tr>
+</table>
+</div>
+<div class="refsect2">
+<a name="graphics.attrib.parament"></a><h3>%graphics.attrib;</h3>
+<p><b>Parameter entity content:</b></p>
+<table border="1" width="100%" summary="Attributes">
+<tr>
+<td><p><span class="bold"><b>Name</b></span></p></td>
+<td><p><span class="bold"><b>Type</b></span></p></td>
+<td><p><span class="bold"><b>Default</b></span></p></td>
+</tr>
+<tr>
+<td align="left" valign="top">entityref</td>
+<td align="left" valign="top">ENTITY</td>
+<td align="left" valign="top"><span class="emphasis"><i>None</i></span></td>
+</tr>
+<tr>
+<td align="left" valign="top">fileref</td>
+<td align="left" valign="top">CDATA</td>
+<td align="left" valign="top"><span class="emphasis"><i>None</i></span></td>
+</tr>
+<tr>
+<td align="left" valign="top">format</td>
+<td align="left" valign="top">
+<p><span class="emphasis"><i>Enumerated:</i></span></p>
+<table class="simplelist" border="0" summary="Simple list">
+<tr><td>BMP</td></tr>
+<tr><td>CGM-CHAR</td></tr>
+<tr><td>CGM-BINARY</td></tr>
+<tr><td>CGM-CLEAR</td></tr>
+<tr><td>DITROFF</td></tr>
+<tr><td>DVI</td></tr>
+<tr><td>EPS</td></tr>
+<tr><td>EQN</td></tr>
+<tr><td>FAX</td></tr>
+<tr><td>GIF</td></tr>
+<tr><td>GIF87a</td></tr>
+<tr><td>GIF89a</td></tr>
+<tr><td>JPG</td></tr>
+<tr><td>JPEG</td></tr>
+<tr><td>IGES</td></tr>
+<tr><td>PCX</td></tr>
+<tr><td>PIC</td></tr>
+<tr><td>PNG</td></tr>
+<tr><td>PS</td></tr>
+<tr><td>SGML</td></tr>
+<tr><td>TBL</td></tr>
+<tr><td>TEX</td></tr>
+<tr><td>TIFF</td></tr>
+<tr><td>WMF</td></tr>
+<tr><td>WPG</td></tr>
+<tr><td>linespecific</td></tr>
+</table>
+</td>
+<td align="left" valign="top"><span class="emphasis"><i>None</i></span></td>
+</tr>
+<tr>
+<td align="left" valign="top">srccredit</td>
+<td align="left" valign="top">CDATA</td>
+<td align="left" valign="top"><span class="emphasis"><i>None</i></span></td>
+</tr>
+<tr>
+<td align="left" valign="top">width</td>
+<td align="left" valign="top">CDATA</td>
+<td align="left" valign="top"><span class="emphasis"><i>None</i></span></td>
+</tr>
+<tr>
+<td align="left" valign="top">depth</td>
+<td align="left" valign="top">CDATA</td>
+<td align="left" valign="top"><span class="emphasis"><i>None</i></span></td>
+</tr>
+<tr>
+<td align="left" valign="top">align</td>
+<td align="left" valign="top">
+<p><span class="emphasis"><i>Enumerated:</i></span></p>
+<table class="simplelist" border="0" summary="Simple list">
+<tr><td>left</td></tr>
+<tr><td>right</td></tr>
+<tr><td>center</td></tr>
+</table>
+</td>
+<td align="left" valign="top"><span class="emphasis"><i>None</i></span></td>
+</tr>
+<tr>
+<td align="left" valign="top">scale</td>
+<td align="left" valign="top">CDATA</td>
+<td align="left" valign="top"><span class="emphasis"><i>None</i></span></td>
+</tr>
+<tr>
+<td align="left" valign="top">scalefit</td>
+<td align="left" valign="top">CDATA</td>
+<td align="left" valign="top"><span class="emphasis"><i>None</i></span></td>
+</tr>
+</table>
+<p><b><span class="bold"><b>%graphics.attrib; appears in:</b></span></b></p>
+<table border="0" width="100%" summary="Attributes"><tr>
+<td><a href="graphic.html"><tt>graphic</tt></a></td>
+<td><a href="inlinegraphic.html"><tt>inlinegraphic</tt></a></td>
+<td> </td>
+</tr></table>
+</div>
+<div class="refsect2">
+<a name="keyaction.attrib.parament"></a><h3>%keyaction.attrib;</h3>
+<p><b>Parameter entity content:</b></p>
+<table border="1" width="100%" summary="Attributes">
+<tr>
+<td><p><span class="bold"><b>Name</b></span></p></td>
+<td><p><span class="bold"><b>Type</b></span></p></td>
+<td><p><span class="bold"><b>Default</b></span></p></td>
+</tr>
+<tr>
+<td align="left" valign="top">action</td>
+<td align="left" valign="top">
+<p><span class="emphasis"><i>Enumerated:</i></span></p>
+<table class="simplelist" border="0" summary="Simple list">
+<tr><td>click</td></tr>
+<tr><td>double-click</td></tr>
+<tr><td>press</td></tr>
+<tr><td>seq</td></tr>
+<tr><td>simul</td></tr>
+<tr><td>other</td></tr>
+</table>
+</td>
+<td align="left" valign="top"><span class="emphasis"><i>None</i></span></td>
+</tr>
+<tr>
+<td align="left" valign="top">otheraction</td>
+<td align="left" valign="top">CDATA</td>
+<td align="left" valign="top"><span class="emphasis"><i>None</i></span></td>
+</tr>
+</table>
+<p><b><span class="bold"><b>%keyaction.attrib; appears in:</b></span></b></p>
+<table border="0" width="100%" summary="Attributes"><tr>
+<td><a href="keycombo.html"><tt>keycombo</tt></a></td>
+<td><a href="shortcut.html"><tt>shortcut</tt></a></td>
+<td> </td>
+</tr></table>
+</div>
+<div class="refsect2">
+<a name="label.attrib.parament"></a><h3>%label.attrib;</h3>
+<p><b>Parameter entity content:</b></p>
+<table border="1" width="100%" summary="Attributes">
+<tr>
+<td><p><span class="bold"><b>Name</b></span></p></td>
+<td><p><span class="bold"><b>Type</b></span></p></td>
+<td><p><span class="bold"><b>Default</b></span></p></td>
+</tr>
+<tr>
+<td align="left" valign="top">label</td>
+<td align="left" valign="top">CDATA</td>
+<td align="left" valign="top"><span class="emphasis"><i>None</i></span></td>
+</tr>
+</table>
+<p><b><span class="bold"><b>%label.attrib; appears in:</b></span></b></p>
+<table border="0" width="100%" summary="Attributes">
+<tr>
+<td><a href="appendix.html"><tt>appendix</tt></a></td>
+<td><a href="area.html"><tt>area</tt></a></td>
+<td><a href="areaset.html"><tt>areaset</tt></a></td>
+</tr>
+<tr>
+<td><a href="book.html"><tt>book</tt></a></td>
+<td><a href="chapter.html"><tt>chapter</tt></a></td>
+<td><a href="cmdsynopsis.html"><tt>cmdsynopsis</tt></a></td>
+</tr>
+<tr>
+<td><a href="co.html"><tt>co</tt></a></td>
+<td><a href="equation.html"><tt>equation</tt></a></td>
+<td><a href="example.html"><tt>example</tt></a></td>
+</tr>
+<tr>
+<td><a href="figure.html"><tt>figure</tt></a></td>
+<td><a href="footnote.html"><tt>footnote</tt></a></td>
+<td><a href="footnoteref.html"><tt>footnoteref</tt></a></td>
+</tr>
+<tr>
+<td><a href="funcsynopsis.html"><tt>funcsynopsis</tt></a></td>
+<td><a href="informalfigure.html"><tt>informalfigure</tt></a></td>
+<td><a href="lot.html"><tt>lot</tt></a></td>
+</tr>
+<tr>
+<td><a href="part.html"><tt>part</tt></a></td>
+<td><a href="partintro.html"><tt>partintro</tt></a></td>
+<td><a href="reference.html"><tt>reference</tt></a></td>
+</tr>
+<tr>
+<td><a href="sect1.html"><tt>sect1</tt></a></td>
+<td><a href="sect2.html"><tt>sect2</tt></a></td>
+<td><a href="sect3.html"><tt>sect3</tt></a></td>
+</tr>
+<tr>
+<td><a href="sect4.html"><tt>sect4</tt></a></td>
+<td><a href="sect5.html"><tt>sect5</tt></a></td>
+<td><a href="section.html"><tt>section</tt></a></td>
+</tr>
+<tr>
+<td><a href="synopsis.html"><tt>synopsis</tt></a></td>
+<td><a href="tocback.html"><tt>tocback</tt></a></td>
+<td><a href="tocchap.html"><tt>tocchap</tt></a></td>
+</tr>
+<tr>
+<td><a href="tocfront.html"><tt>tocfront</tt></a></td>
+<td> </td>
+<td> </td>
+</tr>
+</table>
+</div>
+<div class="refsect2">
+<a name="linespecific.attrib.parament"></a><h3>%linespecific.attrib;</h3>
+<p><b>Parameter entity content:</b></p>
+<table border="1" width="100%" summary="Attributes">
+<tr>
+<td><p><span class="bold"><b>Name</b></span></p></td>
+<td><p><span class="bold"><b>Type</b></span></p></td>
+<td><p><span class="bold"><b>Default</b></span></p></td>
+</tr>
+<tr>
+<td align="left" valign="top">format</td>
+<td align="left" valign="top">
+<p><span class="emphasis"><i>Enumerated notation:</i></span></p>
+<table class="simplelist" border="0" summary="Simple list"><tr><td>linespecific</td></tr></table>
+</td>
+<td align="left" valign="top">'linespecific'</td>
+</tr>
+<tr>
+<td align="left" valign="top">linenumbering</td>
+<td align="left" valign="top">
+<p><span class="emphasis"><i>Enumerated:</i></span></p>
+<table class="simplelist" border="0" summary="Simple list">
+<tr><td>numbered</td></tr>
+<tr><td>unnumbered</td></tr>
+</table>
+</td>
+<td align="left" valign="top"><span class="emphasis"><i>None</i></span></td>
+</tr>
+</table>
+<p><b><span class="bold"><b>%linespecific.attrib; appears in:</b></span></b></p>
+<table border="0" width="100%" summary="Attributes">
+<tr>
+<td><a href="address.html"><tt>address</tt></a></td>
+<td><a href="classsynopsisinfo.html"><tt>classsynopsisinfo</tt></a></td>
+<td><a href="funcsynopsisinfo.html"><tt>funcsynopsisinfo</tt></a></td>
+</tr>
+<tr>
+<td><a href="literallayout.html"><tt>literallayout</tt></a></td>
+<td><a href="programlisting.html"><tt>programlisting</tt></a></td>
+<td><a href="screen.html"><tt>screen</tt></a></td>
+</tr>
+<tr>
+<td><a href="synopsis.html"><tt>synopsis</tt></a></td>
+<td> </td>
+<td> </td>
+</tr>
+</table>
+</div>
+<div class="refsect2">
+<a name="linkend.attrib.parament"></a><h3>%linkend.attrib;</h3>
+<p><b>Parameter entity content:</b></p>
+<table border="1" width="100%" summary="Attributes">
+<tr>
+<td><p><span class="bold"><b>Name</b></span></p></td>
+<td><p><span class="bold"><b>Type</b></span></p></td>
+<td><p><span class="bold"><b>Default</b></span></p></td>
+</tr>
+<tr>
+<td align="left" valign="top">linkend</td>
+<td align="left" valign="top">IDREF</td>
+<td align="left" valign="top"><span class="emphasis"><i>None</i></span></td>
+</tr>
+</table>
+<p><b><span class="bold"><b>%linkend.attrib; appears in:</b></span></b></p>
+<table border="0" width="100%" summary="Attributes">
+<tr>
+<td><a href="firstterm.html"><tt>firstterm</tt></a></td>
+<td><a href="glossterm.html"><tt>glossterm</tt></a></td>
+<td><a href="lotentry.html"><tt>lotentry</tt></a></td>
+</tr>
+<tr>
+<td><a href="seeie.html"><tt>seeie</tt></a></td>
+<td><a href="tocback.html"><tt>tocback</tt></a></td>
+<td><a href="tocentry.html"><tt>tocentry</tt></a></td>
+</tr>
+<tr>
+<td><a href="tocfront.html"><tt>tocfront</tt></a></td>
+<td> </td>
+<td> </td>
+</tr>
+</table>
+</div>
+<div class="refsect2">
+<a name="linkendreq.attrib.parament"></a><h3>%linkendreq.attrib;</h3>
+<p><b>Parameter entity content:</b></p>
+<table border="1" width="100%" summary="Attributes">
+<tr>
+<td><p><span class="bold"><b>Name</b></span></p></td>
+<td><p><span class="bold"><b>Type</b></span></p></td>
+<td><p><span class="bold"><b>Default</b></span></p></td>
+</tr>
+<tr>
+<td align="left" valign="top">linkend</td>
+<td align="left" valign="top">IDREF</td>
+<td align="left" valign="top"><span class="emphasis"><i>Required</i></span></td>
+</tr>
+</table>
+<p><b><span class="bold"><b>%linkendreq.attrib; appears in:</b></span></b></p>
+<table border="0" width="100%" summary="Attributes">
+<tr>
+<td><a href="footnoteref.html"><tt>footnoteref</tt></a></td>
+<td><a href="link.html"><tt>link</tt></a></td>
+<td><a href="synopfragmentref.html"><tt>synopfragmentref</tt></a></td>
+</tr>
+<tr>
+<td><a href="xref.html"><tt>xref</tt></a></td>
+<td> </td>
+<td> </td>
+</tr>
+</table>
+</div>
+<div class="refsect2">
+<a name="linkends.attrib.parament"></a><h3>%linkends.attrib;</h3>
+<p><b>Parameter entity content:</b></p>
+<table border="1" width="100%" summary="Attributes">
+<tr>
+<td><p><span class="bold"><b>Name</b></span></p></td>
+<td><p><span class="bold"><b>Type</b></span></p></td>
+<td><p><span class="bold"><b>Default</b></span></p></td>
+</tr>
+<tr>
+<td align="left" valign="top">linkends</td>
+<td align="left" valign="top">IDREFS</td>
+<td align="left" valign="top"><span class="emphasis"><i>None</i></span></td>
+</tr>
+</table>
+<p><b><span class="bold"><b>%linkends.attrib; appears in:</b></span></b></p>
+<table border="0" width="100%" summary="Attributes">
+<tr>
+<td><a href="area.html"><tt>area</tt></a></td>
+<td><a href="co.html"><tt>co</tt></a></td>
+<td><a href="primaryie.html"><tt>primaryie</tt></a></td>
+</tr>
+<tr>
+<td><a href="secondaryie.html"><tt>secondaryie</tt></a></td>
+<td><a href="seealsoie.html"><tt>seealsoie</tt></a></td>
+<td><a href="tertiaryie.html"><tt>tertiaryie</tt></a></td>
+</tr>
+</table>
+</div>
+<div class="refsect2">
+<a name="mark.attrib.parament"></a><h3>%mark.attrib;</h3>
+<p><b>Parameter entity content:</b></p>
+<table border="1" width="100%" summary="Attributes">
+<tr>
+<td><p><span class="bold"><b>Name</b></span></p></td>
+<td><p><span class="bold"><b>Type</b></span></p></td>
+<td><p><span class="bold"><b>Default</b></span></p></td>
+</tr>
+<tr>
+<td align="left" valign="top">mark</td>
+<td align="left" valign="top">CDATA</td>
+<td align="left" valign="top"><span class="emphasis"><i>None</i></span></td>
+</tr>
+</table>
+<p><b><span class="bold"><b>%mark.attrib; appears in:</b></span></b></p>
+<table border="0" width="100%" summary="Attributes"><tr>
+<td><a href="itemizedlist.html"><tt>itemizedlist</tt></a></td>
+<td> </td>
+<td> </td>
+</tr></table>
+</div>
+<div class="refsect2">
+<a name="moreinfo.attrib.parament"></a><h3>%moreinfo.attrib;</h3>
+<p><b>Parameter entity content:</b></p>
+<table border="1" width="100%" summary="Attributes">
+<tr>
+<td><p><span class="bold"><b>Name</b></span></p></td>
+<td><p><span class="bold"><b>Type</b></span></p></td>
+<td><p><span class="bold"><b>Default</b></span></p></td>
+</tr>
+<tr>
+<td align="left" valign="top">moreinfo</td>
+<td align="left" valign="top">
+<p><span class="emphasis"><i>Enumerated:</i></span></p>
+<table class="simplelist" border="0" summary="Simple list">
+<tr><td>refentry</td></tr>
+<tr><td>none</td></tr>
+</table>
+</td>
+<td align="left" valign="top">'none'</td>
+</tr>
+</table>
+<p><b><span class="bold"><b>%moreinfo.attrib; appears in:</b></span></b></p>
+<table border="0" width="100%" summary="Attributes">
+<tr>
+<td><a href="action.html"><tt>action</tt></a></td>
+<td><a href="application.html"><tt>application</tt></a></td>
+<td><a href="command.html"><tt>command</tt></a></td>
+</tr>
+<tr>
+<td><a href="computeroutput.html"><tt>computeroutput</tt></a></td>
+<td><a href="database.html"><tt>database</tt></a></td>
+<td><a href="errorcode.html"><tt>errorcode</tt></a></td>
+</tr>
+<tr>
+<td><a href="filename.html"><tt>filename</tt></a></td>
+<td><a href="function.html"><tt>function</tt></a></td>
+<td><a href="guibutton.html"><tt>guibutton</tt></a></td>
+</tr>
+<tr>
+<td><a href="guiicon.html"><tt>guiicon</tt></a></td>
+<td><a href="guilabel.html"><tt>guilabel</tt></a></td>
+<td><a href="guimenu.html"><tt>guimenu</tt></a></td>
+</tr>
+<tr>
+<td><a href="guimenuitem.html"><tt>guimenuitem</tt></a></td>
+<td><a href="guisubmenu.html"><tt>guisubmenu</tt></a></td>
+<td><a href="hardware.html"><tt>hardware</tt></a></td>
+</tr>
+<tr>
+<td><a href="interface.html"><tt>interface</tt></a></td>
+<td><a href="keycap.html"><tt>keycap</tt></a></td>
+<td><a href="keycombo.html"><tt>keycombo</tt></a></td>
+</tr>
+<tr>
+<td><a href="literal.html"><tt>literal</tt></a></td>
+<td><a href="menuchoice.html"><tt>menuchoice</tt></a></td>
+<td><a href="mousebutton.html"><tt>mousebutton</tt></a></td>
+</tr>
+<tr>
+<td><a href="parameter.html"><tt>parameter</tt></a></td>
+<td><a href="prompt.html"><tt>prompt</tt></a></td>
+<td><a href="property.html"><tt>property</tt></a></td>
+</tr>
+<tr>
+<td><a href="shortcut.html"><tt>shortcut</tt></a></td>
+<td><a href="systemitem.html"><tt>systemitem</tt></a></td>
+<td><a href="userinput.html"><tt>userinput</tt></a></td>
+</tr>
+</table>
+</div>
+<div class="refsect2">
+<a name="objectdata.attrib.parament"></a><h3>%objectdata.attrib;</h3>
+<p><b>Parameter entity content:</b></p>
+<table border="1" width="100%" summary="Attributes">
+<tr>
+<td><p><span class="bold"><b>Name</b></span></p></td>
+<td><p><span class="bold"><b>Type</b></span></p></td>
+<td><p><span class="bold"><b>Default</b></span></p></td>
+</tr>
+<tr>
+<td align="left" valign="top">entityref</td>
+<td align="left" valign="top">ENTITY</td>
+<td align="left" valign="top"><span class="emphasis"><i>None</i></span></td>
+</tr>
+<tr>
+<td align="left" valign="top">fileref</td>
+<td align="left" valign="top">CDATA</td>
+<td align="left" valign="top"><span class="emphasis"><i>None</i></span></td>
+</tr>
+<tr>
+<td align="left" valign="top">format</td>
+<td align="left" valign="top">
+<p><span class="emphasis"><i>Enumerated:</i></span></p>
+<table class="simplelist" border="0" summary="Simple list">
+<tr><td>BMP</td></tr>
+<tr><td>CGM-CHAR</td></tr>
+<tr><td>CGM-BINARY</td></tr>
+<tr><td>CGM-CLEAR</td></tr>
+<tr><td>DITROFF</td></tr>
+<tr><td>DVI</td></tr>
+<tr><td>EPS</td></tr>
+<tr><td>EQN</td></tr>
+<tr><td>FAX</td></tr>
+<tr><td>GIF</td></tr>
+<tr><td>GIF87a</td></tr>
+<tr><td>GIF89a</td></tr>
+<tr><td>JPG</td></tr>
+<tr><td>JPEG</td></tr>
+<tr><td>IGES</td></tr>
+<tr><td>PCX</td></tr>
+<tr><td>PIC</td></tr>
+<tr><td>PNG</td></tr>
+<tr><td>PS</td></tr>
+<tr><td>SGML</td></tr>
+<tr><td>TBL</td></tr>
+<tr><td>TEX</td></tr>
+<tr><td>TIFF</td></tr>
+<tr><td>WMF</td></tr>
+<tr><td>WPG</td></tr>
+<tr><td>linespecific</td></tr>
+</table>
+</td>
+<td align="left" valign="top"><span class="emphasis"><i>None</i></span></td>
+</tr>
+<tr>
+<td align="left" valign="top">srccredit</td>
+<td align="left" valign="top">CDATA</td>
+<td align="left" valign="top"><span class="emphasis"><i>None</i></span></td>
+</tr>
+</table>
+<p><b><span class="bold"><b>%objectdata.attrib; appears in:</b></span></b></p>
+<table border="0" width="100%" summary="Attributes"><tr>
+<td><a href="audiodata.html"><tt>audiodata</tt></a></td>
+<td><a href="imagedata.html"><tt>imagedata</tt></a></td>
+<td><a href="videodata.html"><tt>videodata</tt></a></td>
+</tr></table>
+</div>
+<div class="refsect2">
+<a name="pagenum.attrib.parament"></a><h3>%pagenum.attrib;</h3>
+<p><b>Parameter entity content:</b></p>
+<table border="1" width="100%" summary="Attributes">
+<tr>
+<td><p><span class="bold"><b>Name</b></span></p></td>
+<td><p><span class="bold"><b>Type</b></span></p></td>
+<td><p><span class="bold"><b>Default</b></span></p></td>
+</tr>
+<tr>
+<td align="left" valign="top">pagenum</td>
+<td align="left" valign="top">CDATA</td>
+<td align="left" valign="top"><span class="emphasis"><i>None</i></span></td>
+</tr>
+</table>
+<p><b><span class="bold"><b>%pagenum.attrib; appears in:</b></span></b></p>
+<table border="0" width="100%" summary="Attributes">
+<tr>
+<td><a href="anchor.html"><tt>anchor</tt></a></td>
+<td><a href="beginpage.html"><tt>beginpage</tt></a></td>
+<td><a href="indexterm.html"><tt>indexterm</tt></a></td>
+</tr>
+<tr>
+<td><a href="lotentry.html"><tt>lotentry</tt></a></td>
+<td><a href="title.html"><tt>title</tt></a></td>
+<td><a href="toc.html"><tt>toc</tt></a></td>
+</tr>
+<tr>
+<td><a href="tocback.html"><tt>tocback</tt></a></td>
+<td><a href="tocentry.html"><tt>tocentry</tt></a></td>
+<td><a href="tocfront.html"><tt>tocfront</tt></a></td>
+</tr>
+</table>
+</div>
+<div class="refsect2">
+<a name="required-IDREF-to-constraintdef-ID.parament"></a><h3>%required-IDREF-to-constraintdef-ID;</h3>
+<p><b>Parameter entity content:</b></p>
+<pre class="synopsis">linkend IDREF #REQUIRED</pre>
+<p><b><span class="bold"><b>%required-IDREF-to-constraintdef-ID; appears in:</b></span></b></p>
+<table border="0" width="100%" summary="Attributes"><tr>
+<td><a href="constraint.html"><tt>constraint</tt></a></td>
+<td> </td>
+<td> </td>
+</tr></table>
+</div>
+<div class="refsect2">
+<a name="required-IDREF-to-production-ID.parament"></a><h3>%required-IDREF-to-production-ID;</h3>
+<p><b>Parameter entity content:</b></p>
+<pre class="synopsis">linkend IDREF #REQUIRED</pre>
+<p><b><span class="bold"><b>%required-IDREF-to-production-ID; appears in:</b></span></b></p>
+<table border="0" width="100%" summary="Attributes"><tr>
+<td><a href="productionrecap.html"><tt>productionrecap</tt></a></td>
+<td> </td>
+<td> </td>
+</tr></table>
+</div>
+<div class="refsect2">
+<a name="required-XLink-to-production-ID.parament"></a><h3>%required-XLink-to-production-ID;</h3>
+<p><b>Parameter entity content:</b></p>
+<pre class="synopsis">def CDATA #REQUIRED</pre>
+<p><b><span class="bold"><b>%required-XLink-to-production-ID; appears in:</b></span></b></p>
+<table border="0" width="100%" summary="Attributes"><tr>
+<td><a href="nonterminal.html"><tt>nonterminal</tt></a></td>
+<td> </td>
+<td> </td>
+</tr></table>
+</div>
+<div class="refsect2">
+<a name="role.attrib.parament"></a><h3>%role.attrib;</h3>
+<p><b>Parameter entity content:</b></p>
+<table border="1" width="100%" summary="Attributes">
+<tr>
+<td><p><span class="bold"><b>Name</b></span></p></td>
+<td><p><span class="bold"><b>Type</b></span></p></td>
+<td><p><span class="bold"><b>Default</b></span></p></td>
+</tr>
+<tr>
+<td align="left" valign="top">role</td>
+<td align="left" valign="top">CDATA</td>
+<td align="left" valign="top"><span class="emphasis"><i>None</i></span></td>
+</tr>
+</table>
+<p><b><span class="bold"><b>%role.attrib; appears in:</b></span></b></p>
+<table border="0" width="100%" summary="Attributes">
+<tr>
+<td><a href="constraint.html"><tt>constraint</tt></a></td>
+<td><a href="constraintdef.html"><tt>constraintdef</tt></a></td>
+<td><a href="lhs.html"><tt>lhs</tt></a></td>
+</tr>
+<tr>
+<td><a href="nonterminal.html"><tt>nonterminal</tt></a></td>
+<td><a href="production.html"><tt>production</tt></a></td>
+<td><a href="productionrecap.html"><tt>productionrecap</tt></a></td>
+</tr>
+<tr>
+<td><a href="productionset.html"><tt>productionset</tt></a></td>
+<td><a href="rhs.html"><tt>rhs</tt></a></td>
+<td> </td>
+</tr>
+</table>
+</div>
+<div class="refsect2">
+<a name="security.attrib.parament"></a><h3>%security.attrib;</h3>
+<p><b>Parameter entity content:</b></p>
+<table border="1" width="100%" summary="Attributes">
+<tr>
+<td><p><span class="bold"><b>Name</b></span></p></td>
+<td><p><span class="bold"><b>Type</b></span></p></td>
+<td><p><span class="bold"><b>Default</b></span></p></td>
+</tr>
+<tr>
+<td align="left" valign="top">security</td>
+<td align="left" valign="top">CDATA</td>
+<td align="left" valign="top"><span class="emphasis"><i>None</i></span></td>
+</tr>
+</table>
+</div>
+<div class="refsect2">
+<a name="status.attrib.parament"></a><h3>%status.attrib;</h3>
+<p><b>Parameter entity content:</b></p>
+<table border="1" width="100%" summary="Attributes">
+<tr>
+<td><p><span class="bold"><b>Name</b></span></p></td>
+<td><p><span class="bold"><b>Type</b></span></p></td>
+<td><p><span class="bold"><b>Default</b></span></p></td>
+</tr>
+<tr>
+<td align="left" valign="top">status</td>
+<td align="left" valign="top">CDATA</td>
+<td align="left" valign="top"><span class="emphasis"><i>None</i></span></td>
+</tr>
+</table>
+<p><b><span class="bold"><b>%status.attrib; appears in:</b></span></b></p>
+<table border="0" width="100%" summary="Attributes">
+<tr>
+<td><a href="appendix.html"><tt>appendix</tt></a></td>
+<td><a href="article.html"><tt>article</tt></a></td>
+<td><a href="bibliodiv.html"><tt>bibliodiv</tt></a></td>
+</tr>
+<tr>
+<td><a href="bibliography.html"><tt>bibliography</tt></a></td>
+<td><a href="book.html"><tt>book</tt></a></td>
+<td><a href="chapter.html"><tt>chapter</tt></a></td>
+</tr>
+<tr>
+<td><a href="colophon.html"><tt>colophon</tt></a></td>
+<td><a href="dedication.html"><tt>dedication</tt></a></td>
+<td><a href="glossary.html"><tt>glossary</tt></a></td>
+</tr>
+<tr>
+<td><a href="glossdiv.html"><tt>glossdiv</tt></a></td>
+<td><a href="part.html"><tt>part</tt></a></td>
+<td><a href="preface.html"><tt>preface</tt></a></td>
+</tr>
+<tr>
+<td><a href="refentry.html"><tt>refentry</tt></a></td>
+<td><a href="reference.html"><tt>reference</tt></a></td>
+<td><a href="refsect1.html"><tt>refsect1</tt></a></td>
+</tr>
+<tr>
+<td><a href="refsect2.html"><tt>refsect2</tt></a></td>
+<td><a href="refsect3.html"><tt>refsect3</tt></a></td>
+<td><a href="sect1.html"><tt>sect1</tt></a></td>
+</tr>
+<tr>
+<td><a href="sect2.html"><tt>sect2</tt></a></td>
+<td><a href="sect3.html"><tt>sect3</tt></a></td>
+<td><a href="sect4.html"><tt>sect4</tt></a></td>
+</tr>
+<tr>
+<td><a href="sect5.html"><tt>sect5</tt></a></td>
+<td><a href="section.html"><tt>section</tt></a></td>
+<td><a href="set.html"><tt>set</tt></a></td>
+</tr>
+</table>
+</div>
+<div class="refsect2">
+<a name="width.attrib.parament"></a><h3>%width.attrib;</h3>
+<p><b>Parameter entity content:</b></p>
+<table border="1" width="100%" summary="Attributes">
+<tr>
+<td><p><span class="bold"><b>Name</b></span></p></td>
+<td><p><span class="bold"><b>Type</b></span></p></td>
+<td><p><span class="bold"><b>Default</b></span></p></td>
+</tr>
+<tr>
+<td align="left" valign="top">width</td>
+<td align="left" valign="top">CDATA</td>
+<td align="left" valign="top"><span class="emphasis"><i>None</i></span></td>
+</tr>
+</table>
+<p><b><span class="bold"><b>%width.attrib; appears in:</b></span></b></p>
+<table border="0" width="100%" summary="Attributes">
+<tr>
+<td><a href="example.html"><tt>example</tt></a></td>
+<td><a href="informalexample.html"><tt>informalexample</tt></a></td>
+<td><a href="literallayout.html"><tt>literallayout</tt></a></td>
+</tr>
+<tr>
+<td><a href="programlisting.html"><tt>programlisting</tt></a></td>
+<td><a href="screen.html"><tt>screen</tt></a></td>
+<td> </td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="pe-attlist.html">Prev</a> </td>
+<td width="20%" align="center"><a href="docbook.html">Home</a></td>
+<td width="40%" align="right"> <a href="pe-attval.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">%*.attlist; Parameter Entities </td>
+<td width="20%" align="center"><a href="ref-paraments.html">Up</a></td>
+<td width="40%" align="right"> %*.attval; Parameter Entities</td>
+</tr>
+</table>
+</div>
+<p>
+<a href="dbcpyright.html">Copyright</a> © 1999, 2000, 2001 <a href="http://www.oreilly.com/">O'Reilly &amp; Associates, Inc.</a>
+</p>
+</body>
+</html>

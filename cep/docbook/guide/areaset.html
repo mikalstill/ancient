@@ -1,0 +1,184 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type">
+<title>areaset</title>
+<link rel="stylesheet" href="defguide.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.41">
+<link rel="home" href="docbook.html" title="DocBook">
+<link rel="up" href="ref-elements.html" title="DocBook Element Reference">
+<link rel="previous" href="area.html" title="area">
+<link rel="next" href="areaspec.html" title="areaspec">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">areaset</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="area.html">Prev</a> </td>
+<th width="60%" align="center">DocBook Element Reference</th>
+<td width="20%" align="right"> <a href="areaspec.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<p class="alpha-version">This is an <a href="co01.html"><em>alpha</em> version</a> of this book.</p>
+<div class="refentry">
+<h1 class="title">
+<a name="areaset.element"></a>areaset</h1>
+<div class="refnamediv">
+<a name="id2868448"></a><h2>Name</h2>areaset &#x2014; A set of related areas in a graphic or code example</div>
+<div class="refsynopsisdiv">
+<a name="id2867877"></a><h2><h1 class="title">
+<a name="id2867877"></a>Synopsis</h1></h2>
+<h3><span class="bold"><b>Content Model</b></span></h3>
+<pre class="synopsis">areaset ::=
+(<a href="area.html"><tt>area</tt></a>+)</pre>
+<h3><span class="bold"><b>Attributes</b></span></h3>
+<p><a href="ref-elements.html#common.attributes"><span class="common.attributes">Common attributes</span></a></p>
+<table border="1" width="100%" summary="Attributes">
+<tr>
+<td><p><span class="bold"><b>Name</b></span></p></td>
+<td><p><span class="bold"><b>Type</b></span></p></td>
+<td><p><span class="bold"><b>Default</b></span></p></td>
+</tr>
+<tr>
+<td align="left" valign="top">label</td>
+<td align="left" valign="top">CDATA</td>
+<td align="left" valign="top"><span class="emphasis"><i>None</i></span></td>
+</tr>
+<tr>
+<td align="left" valign="top">units</td>
+<td align="left" valign="top">
+<p>
+<span class="emphasis"><i>Enumeration:</i></span>
+</p>
+<table class="simplelist" border="0" summary="Simple list">
+<tr><td>calspair</td></tr>
+<tr><td>linecolumn</td></tr>
+<tr><td>linecolumnpair</td></tr>
+<tr><td>linerange</td></tr>
+<tr><td>other</td></tr>
+</table>
+</td>
+<td align="left" valign="top"><span class="emphasis"><i>None</i></span></td>
+</tr>
+<tr>
+<td align="left" valign="top">otherunits</td>
+<td align="left" valign="top">NMTOKEN</td>
+<td align="left" valign="top"><span class="emphasis"><i>None</i></span></td>
+</tr>
+<tr>
+<td align="left" valign="top">coords</td>
+<td align="left" valign="top">CDATA</td>
+<td align="left" valign="top"><span class="emphasis"><i>Required</i></span></td>
+</tr>
+</table>
+</div>
+<div class="refsect1">
+<a name="id2852092"></a><h2>Description</h2>
+<p>
+An <a href="areaset.html"><tt>AreaSet</tt></a> contains one or more <a href="area.html"><tt>Area</tt></a>s.  These
+areas are bound in a set in order to associate them with a single
+<a href="callout.html"><tt>Callout</tt></a> description.  See <a href="area.html"><tt>Area</tt></a> for a more
+complete description of the areas.
+</p>
+<p>
+For a complete description of callouts, see <a href="callout.html"><tt>Callout</tt></a>.
+</p>
+<div class="refsect2">
+<a name="id2868492"></a><h3>Processing expectations</h3>
+<p>
+Suppressed.
+</p>
+</div>
+<div class="refsect2">
+<a name="id2868509"></a><h3>
+<img src="figures/rev_5.0.png" alt="[5.0]" align="absbottom"> Future Changes</h3>
+<p>
+<a class="indexterm" name="id2868522"></a>
+The <tt>Coords</tt> attribute will
+be removed in DocBook V5.0.
+</p>
+</div>
+<div class="refsect2">
+<a name="id2868662"></a><h3>Parents</h3>
+<p>These elements contain areaset:
+<span class="simplelist"><a href="areaspec.html"><tt>areaspec</tt></a></span>.</p>
+</div>
+<div class="refsect2">
+<a name="id2868714"></a><h3>Children</h3>
+<p>The following elements occur in areaset:
+<span class="simplelist"><a href="area.html"><tt>area</tt></a></span>.</p>
+</div>
+</div>
+<div class="refsect1">
+<a name="id2868749"></a><h2>Attributes</h2>
+<div class="variablelist"><dl>
+<dt>
+<a name="id2868760"></a><span class="term">coords</span>
+</dt>
+<dd><p>
+<tt>Coords</tt> provides the coordinates of the
+<a href="areaset.html"><tt>AreaSet</tt></a>. The coordinates should be interpreted using the
+<tt>Units</tt> (or <tt>OtherUnits</tt>)
+specified. <span class="emphasis"><i>This attribute is erroneous since the enclosed
+<a href="area.html"><tt>Area</tt></a>s must also provide <tt>Coords</tt>.
+It will go away in DocBook 4.0.</i></span>
+</p></dd>
+<dt>
+<a name="id2868832"></a><span class="term">label</span>
+</dt>
+<dd><p>
+<tt>Label</tt> specifies an identifying number or string
+that may be used in presentation.
+</p></dd>
+<dt>
+<a name="id2868860"></a><span class="term">otherunits</span>
+</dt>
+<dd><p>
+If none of the <tt>Units</tt> are applicable, set
+<tt>Units</tt> to <tt>Other</tt> and set 
+<tt>OtherUnits</tt> to some application-specific
+description of the desired units.
+</p></dd>
+<dt>
+<a name="id2868773"></a><span class="term">units</span>
+</dt>
+<dd><p>
+<tt>Units</tt> indicate how
+<tt>Coords</tt> are to be interpreted.
+</p></dd>
+</dl></div>
+</div>
+<div class="refsect1">
+<a name="id2868573"></a><h2>Examples</h2>
+<p>For examples, see
+<span class="simplelist"><a href="graphicco.html"><tt>graphicco</tt></a>, <a href="mediaobjectco.html"><tt>mediaobjectco</tt></a>, <a href="programlistingco.html"><tt>programlistingco</tt></a></span>
+.</p>
+</div>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="area.html">Prev</a> </td>
+<td width="20%" align="center"><a href="docbook.html">Home</a></td>
+<td width="40%" align="right"> <a href="areaspec.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">area </td>
+<td width="20%" align="center"><a href="ref-elements.html">Up</a></td>
+<td width="40%" align="right"> areaspec</td>
+</tr>
+</table>
+</div>
+<p>
+<a href="dbcpyright.html">Copyright</a> © 1999, 2000, 2001 <a href="http://www.oreilly.com/">O'Reilly &amp; Associates, Inc.</a>
+</p>
+</body>
+</html>

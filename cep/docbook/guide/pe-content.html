@@ -1,0 +1,262 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type">
+<title>DocBook Content Parameter Entities</title>
+<link rel="stylesheet" href="defguide.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.41">
+<link rel="home" href="docbook.html" title="DocBook">
+<link rel="up" href="ref-paraments.html" title="DocBook Parameter Entity Reference">
+<link rel="previous" href="pe-common-attrib.html" title="Common Attribute Parameter Entities">
+<link rel="next" href="pe-dbmodules.html" title="%db*; Parameter Entities">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">DocBook Content Parameter Entities</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="pe-common-attrib.html">Prev</a> </td>
+<th width="60%" align="center">DocBook Parameter Entity Reference</th>
+<td width="20%" align="right"> <a href="pe-dbmodules.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<p class="alpha-version">This is an <a href="co01.html"><em>alpha</em> version</a> of this book.</p>
+<div class="refentry">
+<h1 class="title">
+<a name="pe-content"></a>DocBook Content Parameter Entities</h1>
+<div class="refnamediv">
+<a name="id3259297"></a><h2>Name</h2>DocBook Content Parameter Entities &#x2014; Specify content of selected elements
+</div>
+<div class="refsynopsisdiv">
+<a name="id3259310"></a><h2><h1 class="title">
+<a name="id3259310"></a>Synopsis</h1></h2>
+<p>
+These parameter entities control the content of selected elements.
+</p>
+</div>
+<div class="refsect1">
+<a name="id3259324"></a><h2>Description</h2>
+<p>
+The content model of several elements in DocBook are controlled by
+parameter entities.
+</p>
+<p>The following sections identify all of the module parameter entities
+in DocBook.
+</p>
+<div class="refsect2">
+<a name="bookcomponent.content.parament"></a><h3>%bookcomponent.content;</h3>
+<p><b>Parameter entity content:</b></p>
+<pre class="synopsis">((calloutlist|glosslist|itemizedlist|orderedlist|segmentedlist
+		|simplelist|variablelist 		|caution|important|note|tip|warning 
+		|literallayout|programlisting|programlistingco|screen
+		|screenco|screenshot 	|synopsis|cmdsynopsis|funcsynopsis
+                 |classsynopsis|fieldsynopsis
+                 |constructorsynopsis
+                 |destructorsynopsis
+                 |methodsynopsis  
+		|formalpara|para|simpara 		|address|blockquote
+                |graphic|graphicco|mediaobject|mediaobjectco
+                |informalequation
+		|informalexample
+                |informalfigure
+                |informaltable 
+		|equation|example|figure|table 		|msgset|procedure|sidebar|qandaset
+                 |productionset|constraintdef
+                 
+		|anchor|bridgehead|remark|highlights
+				|abstract|authorblurb|epigraph
+		
+		|indexterm         |beginpage
+                
+		)+, 
+	(sect1*|(refentry )*|simplesect*|section*))
+	| (sect1+|(refentry )+|simplesect+|section</pre>
+<p><b><span class="bold"><b>%bookcomponent.content; appears in:</b></span></b></p>
+<table border="0" width="100%" summary="Attributes">
+<tr>
+<td><a href="appendix.html"><tt>appendix</tt></a></td>
+<td><a href="article.html"><tt>article</tt></a></td>
+<td><a href="chapter.html"><tt>chapter</tt></a></td>
+</tr>
+<tr>
+<td><a href="partintro.html"><tt>partintro</tt></a></td>
+<td><a href="preface.html"><tt>preface</tt></a></td>
+<td> </td>
+</tr>
+</table>
+</div>
+<div class="refsect2">
+<a name="bookcomponent.title.content.parament"></a><h3>%bookcomponent.title.content;</h3>
+<p><b>Parameter entity content:</b></p>
+<pre class="synopsis">title, subtitle?, titleabbrev</pre>
+<p><b><span class="bold"><b>%bookcomponent.title.content; appears in:</b></span></b></p>
+<table border="0" width="100%" summary="Attributes">
+<tr>
+<td><a href="appendix.html"><tt>appendix</tt></a></td>
+<td><a href="bibliography.html"><tt>bibliography</tt></a></td>
+<td><a href="chapter.html"><tt>chapter</tt></a></td>
+</tr>
+<tr>
+<td><a href="glossary.html"><tt>glossary</tt></a></td>
+<td><a href="index.html"><tt>index</tt></a></td>
+<td><a href="lot.html"><tt>lot</tt></a></td>
+</tr>
+<tr>
+<td><a href="part.html"><tt>part</tt></a></td>
+<td><a href="preface.html"><tt>preface</tt></a></td>
+<td><a href="reference.html"><tt>reference</tt></a></td>
+</tr>
+<tr>
+<td><a href="setindex.html"><tt>setindex</tt></a></td>
+<td><a href="toc.html"><tt>toc</tt></a></td>
+<td> </td>
+</tr>
+</table>
+</div>
+<div class="refsect2">
+<a name="div.title.content.parament"></a><h3>%div.title.content;</h3>
+<p><b>Parameter entity content:</b></p>
+<pre class="synopsis">title, subtitle?, titleabbrev</pre>
+<p><b><span class="bold"><b>%div.title.content; appears in:</b></span></b></p>
+<table border="0" width="100%" summary="Attributes">
+<tr>
+<td><a href="article.html"><tt>article</tt></a></td>
+<td><a href="book.html"><tt>book</tt></a></td>
+<td><a href="partintro.html"><tt>partintro</tt></a></td>
+</tr>
+<tr>
+<td><a href="set.html"><tt>set</tt></a></td>
+<td> </td>
+<td> </td>
+</tr>
+</table>
+</div>
+<div class="refsect2">
+<a name="equation.content.parament"></a><h3>%equation.content;</h3>
+<p><b>Parameter entity content:</b></p>
+<pre class="synopsis">(alt?, (graphic+|mediaobject</pre>
+<p><b><span class="bold"><b>%equation.content; appears in:</b></span></b></p>
+<table border="0" width="100%" summary="Attributes"><tr>
+<td><a href="equation.html"><tt>equation</tt></a></td>
+<td><a href="informalequation.html"><tt>informalequation</tt></a></td>
+<td> </td>
+</tr></table>
+</div>
+<div class="refsect2">
+<a name="formalobject.title.content.parament"></a><h3>%formalobject.title.content;</h3>
+<p><b>Parameter entity content:</b></p>
+<pre class="synopsis">title, titleabbrev</pre>
+<p><b><span class="bold"><b>%formalobject.title.content; appears in:</b></span></b></p>
+<table border="0" width="100%" summary="Attributes">
+<tr>
+<td><a href="calloutlist.html"><tt>calloutlist</tt></a></td>
+<td><a href="equation.html"><tt>equation</tt></a></td>
+<td><a href="example.html"><tt>example</tt></a></td>
+</tr>
+<tr>
+<td><a href="figure.html"><tt>figure</tt></a></td>
+<td><a href="itemizedlist.html"><tt>itemizedlist</tt></a></td>
+<td><a href="msgset.html"><tt>msgset</tt></a></td>
+</tr>
+<tr>
+<td><a href="orderedlist.html"><tt>orderedlist</tt></a></td>
+<td><a href="procedure.html"><tt>procedure</tt></a></td>
+<td><a href="productionset.html"><tt>productionset</tt></a></td>
+</tr>
+<tr>
+<td><a href="qandadiv.html"><tt>qandadiv</tt></a></td>
+<td><a href="qandaset.html"><tt>qandaset</tt></a></td>
+<td><a href="segmentedlist.html"><tt>segmentedlist</tt></a></td>
+</tr>
+<tr>
+<td><a href="sidebar.html"><tt>sidebar</tt></a></td>
+<td><a href="variablelist.html"><tt>variablelist</tt></a></td>
+<td> </td>
+</tr>
+</table>
+</div>
+<div class="refsect2">
+<a name="inlineequation.content.parament"></a><h3>%inlineequation.content;</h3>
+<p><b>Parameter entity content:</b></p>
+<pre class="synopsis">(alt?, (graphic+|inlinemediaobject</pre>
+<p><b><span class="bold"><b>%inlineequation.content; appears in:</b></span></b></p>
+<table border="0" width="100%" summary="Attributes"><tr>
+<td><a href="inlineequation.html"><tt>inlineequation</tt></a></td>
+<td> </td>
+<td> </td>
+</tr></table>
+</div>
+<div class="refsect2">
+<a name="refsect.title.content.parament"></a><h3>%refsect.title.content;</h3>
+<p><b>Parameter entity content:</b></p>
+<pre class="synopsis">title, subtitle?, titleabbrev</pre>
+<p><b><span class="bold"><b>%refsect.title.content; appears in:</b></span></b></p>
+<table border="0" width="100%" summary="Attributes">
+<tr>
+<td><a href="refsect1.html"><tt>refsect1</tt></a></td>
+<td><a href="refsect2.html"><tt>refsect2</tt></a></td>
+<td><a href="refsect3.html"><tt>refsect3</tt></a></td>
+</tr>
+<tr>
+<td><a href="refsynopsisdiv.html"><tt>refsynopsisdiv</tt></a></td>
+<td> </td>
+<td> </td>
+</tr>
+</table>
+</div>
+<div class="refsect2">
+<a name="sect.title.content.parament"></a><h3>%sect.title.content;</h3>
+<p><b>Parameter entity content:</b></p>
+<pre class="synopsis">title, subtitle?, titleabbrev</pre>
+<p><b><span class="bold"><b>%sect.title.content; appears in:</b></span></b></p>
+<table border="0" width="100%" summary="Attributes">
+<tr>
+<td><a href="bibliodiv.html"><tt>bibliodiv</tt></a></td>
+<td><a href="colophon.html"><tt>colophon</tt></a></td>
+<td><a href="dedication.html"><tt>dedication</tt></a></td>
+</tr>
+<tr>
+<td><a href="glossdiv.html"><tt>glossdiv</tt></a></td>
+<td><a href="indexdiv.html"><tt>indexdiv</tt></a></td>
+<td><a href="sect1.html"><tt>sect1</tt></a></td>
+</tr>
+<tr>
+<td><a href="sect2.html"><tt>sect2</tt></a></td>
+<td><a href="sect3.html"><tt>sect3</tt></a></td>
+<td><a href="sect4.html"><tt>sect4</tt></a></td>
+</tr>
+<tr>
+<td><a href="sect5.html"><tt>sect5</tt></a></td>
+<td><a href="section.html"><tt>section</tt></a></td>
+<td><a href="simplesect.html"><tt>simplesect</tt></a></td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="pe-common-attrib.html">Prev</a> </td>
+<td width="20%" align="center"><a href="docbook.html">Home</a></td>
+<td width="40%" align="right"> <a href="pe-dbmodules.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">Common Attribute Parameter Entities </td>
+<td width="20%" align="center"><a href="ref-paraments.html">Up</a></td>
+<td width="40%" align="right"> %db*; Parameter Entities</td>
+</tr>
+</table>
+</div>
+<p>
+<a href="dbcpyright.html">Copyright</a> © 1999, 2000, 2001 <a href="http://www.oreilly.com/">O'Reilly &amp; Associates, Inc.</a>
+</p>
+</body>
+</html>

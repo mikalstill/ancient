@@ -1,0 +1,154 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type">
+<title>methodparam</title>
+<link rel="stylesheet" href="defguide.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.41">
+<link rel="home" href="docbook.html" title="DocBook">
+<link rel="up" href="ref-elements.html" title="DocBook Element Reference">
+<link rel="previous" href="methodname.html" title="methodname">
+<link rel="next" href="methodsynopsis.html" title="methodsynopsis">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">methodparam</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="methodname.html">Prev</a> </td>
+<th width="60%" align="center">DocBook Element Reference</th>
+<td width="20%" align="right"> <a href="methodsynopsis.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<p class="alpha-version">This is an <a href="co01.html"><em>alpha</em> version</a> of this book.</p>
+<div class="refentry">
+<h1 class="title">
+<a name="methodparam.element"></a><img src="figures/rev_4.0.png" alt="[4.0]" align="absbottom">methodparam</h1>
+<div class="refnamediv">
+<a name="id3053544"></a><h2>Name</h2>methodparam &#x2014; Parameters to a method</div>
+<div class="refsynopsisdiv">
+<a name="id3053553"></a><h2><h1 class="title">
+<a name="id3053553"></a>Synopsis</h1></h2>
+<h3><span class="bold"><b>Content Model</b></span></h3>
+<pre class="synopsis">methodparam ::=
+(<a href="modifier.html"><tt>modifier</tt></a>*,<a href="type.html"><tt>type</tt></a>?,
+ ((<a href="parameter.html"><tt>parameter</tt></a>,<a href="initializer.html"><tt>initializer</tt></a>?)|
+  <a href="funcparams.html"><tt>funcparams</tt></a>),
+ <a href="modifier.html"><tt>modifier</tt></a>*)</pre>
+<h3><span class="bold"><b>Attributes</b></span></h3>
+<p><a href="ref-elements.html#common.attributes"><span class="common.attributes">Common attributes</span></a></p>
+<table border="1" width="100%" summary="Attributes">
+<tr>
+<td><p><span class="bold"><b>Name</b></span></p></td>
+<td><p><span class="bold"><b>Type</b></span></p></td>
+<td><p><span class="bold"><b>Default</b></span></p></td>
+</tr>
+<tr>
+<td align="left" valign="top">rep</td>
+<td align="left" valign="top">
+<p>
+<span class="emphasis"><i>Enumeration:</i></span>
+</p>
+<table class="simplelist" border="0" summary="Simple list">
+<tr><td>norepeat</td></tr>
+<tr><td>repeat</td></tr>
+</table>
+</td>
+<td align="left" valign="top">&quot;norepeat&quot;</td>
+</tr>
+<tr>
+<td align="left" valign="top">choice</td>
+<td align="left" valign="top">
+<p>
+<span class="emphasis"><i>Enumeration:</i></span>
+</p>
+<table class="simplelist" border="0" summary="Simple list">
+<tr><td>opt</td></tr>
+<tr><td>plain</td></tr>
+<tr><td>req</td></tr>
+</table>
+</td>
+<td align="left" valign="top">&quot;req&quot;</td>
+</tr>
+</table>
+</div>
+<div class="refsect1">
+<a name="id3046534"></a><h2>Description</h2>
+<p>
+In the syntax summary of a <a href="constructorsynopsis.html"><tt>ConstructorSynopsis</tt></a>,
+<a href="destructorsynopsis.html"><tt>DestructorSynopsis</tt></a>, or
+<a href="methodsynopsis.html"><tt>MethodSynopsis</tt></a>,
+<a href="methodparam.html"><tt>MethodParam</tt></a> provides the description of a parameter to the
+method.  Typically, this includes the data type of the parameter
+and its name, but may also include an initial value and other modifiers.
+</p>
+<div class="refsect2">
+<a name="id3046561"></a><h3>Processing expectations</h3>
+<p>
+Formatted inline. For a complete description of the processing expectations,
+see <a href="classsynopsis.html"><tt>ClassSynopsis</tt></a>.
+</p>
+</div>
+<div class="refsect2">
+<a name="id3046262"></a><h3>Parents</h3>
+<p>These elements contain methodparam:
+<span class="simplelist"><a href="constructorsynopsis.html"><tt>constructorsynopsis</tt></a>, <a href="destructorsynopsis.html"><tt>destructorsynopsis</tt></a>, <a href="methodsynopsis.html"><tt>methodsynopsis</tt></a></span>.</p>
+</div>
+<div class="refsect2">
+<a name="id3046428"></a><h3>Children</h3>
+<p>The following elements occur in methodparam:
+<span class="simplelist"><a href="funcparams.html"><tt>funcparams</tt></a>, <a href="initializer.html"><tt>initializer</tt></a>, <a href="modifier.html"><tt>modifier</tt></a>, <a href="parameter.html"><tt>parameter</tt></a>, <a href="type.html"><tt>type</tt></a></span>.</p>
+</div>
+</div>
+<div class="refsect1">
+<a name="id3001381"></a><h2>Attributes</h2>
+<div class="variablelist"><dl>
+<dt>
+<a name="id3046368"></a><span class="term">choice</span>
+</dt>
+<dd><p>
+<img src="figures/rev_4.0.png" alt="[4.0]" align="absbottom">
+<tt>Choice</tt> indicates whether the
+<a href="methodparam.html"><tt>MethodParam</tt></a>
+is required (<tt>Req</tt> or <tt>Plain</tt>) or
+optional (<tt>Opt</tt>). Arguments identified as
+<tt>Plain</tt> are required, but are shown without additional
+decoration.</p></dd>
+<dt>
+<a name="id3046616"></a><span class="term">rep</span>
+</dt>
+<dd><p>
+<img src="figures/rev_4.0.png" alt="[4.0]" align="absbottom">
+A <tt>Rep</tt> value of
+<tt>Repeat</tt> indicates that the
+<a href="methodparam.html"><tt>MethodParam</tt></a> is reapeatable.
+</p></dd>
+</dl></div>
+</div>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="methodname.html">Prev</a> </td>
+<td width="20%" align="center"><a href="docbook.html">Home</a></td>
+<td width="40%" align="right"> <a href="methodsynopsis.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">methodname </td>
+<td width="20%" align="center"><a href="ref-elements.html">Up</a></td>
+<td width="40%" align="right"> methodsynopsis</td>
+</tr>
+</table>
+</div>
+<p>
+<a href="dbcpyright.html">Copyright</a> © 1999, 2000, 2001 <a href="http://www.oreilly.com/">O'Reilly &amp; Associates, Inc.</a>
+</p>
+</body>
+</html>

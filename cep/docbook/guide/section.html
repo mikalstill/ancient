@@ -1,0 +1,241 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type">
+<title>section</title>
+<link rel="stylesheet" href="defguide.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.41">
+<link rel="home" href="docbook.html" title="DocBook">
+<link rel="up" href="ref-elements.html" title="DocBook Element Reference">
+<link rel="previous" href="sect5info.html" title="sect5info">
+<link rel="next" href="sectioninfo.html" title="sectioninfo">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">section</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="sect5info.html">Prev</a> </td>
+<th width="60%" align="center">DocBook Element Reference</th>
+<td width="20%" align="right"> <a href="sectioninfo.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<p class="alpha-version">This is an <a href="co01.html"><em>alpha</em> version</a> of this book.</p>
+<div class="refentry">
+<h1 class="title">
+<a name="section.element"></a>section</h1>
+<div class="refnamediv">
+<a name="id3168090"></a><h2>Name</h2>section &#x2014; A recursive section</div>
+<div class="refsynopsisdiv">
+<a name="id3171027"></a><h2><h1 class="title">
+<a name="id3171027"></a>Synopsis</h1></h2>
+<h3><span class="bold"><b>Content Model</b></span></h3>
+<pre class="synopsis">section ::=
+(<a href="sectioninfo.html"><tt>sectioninfo</tt></a>?,
+ (<a href="title.html"><tt>title</tt></a>,<a href="subtitle.html"><tt>subtitle</tt></a>?,<a href="titleabbrev.html"><tt>titleabbrev</tt></a>?),
+ (<a href="toc.html"><tt>toc</tt></a>|<a href="lot.html"><tt>lot</tt></a>|<a href="index.html"><tt>index</tt></a>|<a href="glossary.html"><tt>glossary</tt></a>|<a href="bibliography.html"><tt>bibliography</tt></a>)*,
+ (((<a href="calloutlist.html"><tt>calloutlist</tt></a>|<a href="glosslist.html"><tt>glosslist</tt></a>|<a href="itemizedlist.html"><tt>itemizedlist</tt></a>|<a href="orderedlist.html"><tt>orderedlist</tt></a>|<a href="segmentedlist.html"><tt>segmentedlist</tt></a>|
+    <a href="simplelist.html"><tt>simplelist</tt></a>|<a href="variablelist.html"><tt>variablelist</tt></a>|<a href="caution.html"><tt>caution</tt></a>|<a href="important.html"><tt>important</tt></a>|<a href="note.html"><tt>note</tt></a>|<a href="tip.html"><tt>tip</tt></a>|<a href="warning.html"><tt>warning</tt></a>|
+    <a href="literallayout.html"><tt>literallayout</tt></a>|<a href="programlisting.html"><tt>programlisting</tt></a>|<a href="programlistingco.html"><tt>programlistingco</tt></a>|<a href="screen.html"><tt>screen</tt></a>|<a href="screenco.html"><tt>screenco</tt></a>|
+    <a href="screenshot.html"><tt>screenshot</tt></a>|<a href="synopsis.html"><tt>synopsis</tt></a>|<a href="cmdsynopsis.html"><tt>cmdsynopsis</tt></a>|<a href="funcsynopsis.html"><tt>funcsynopsis</tt></a>|<a href="classsynopsis.html"><tt>classsynopsis</tt></a>|
+    <a href="fieldsynopsis.html"><tt>fieldsynopsis</tt></a>|<a href="constructorsynopsis.html"><tt>constructorsynopsis</tt></a>|<a href="destructorsynopsis.html"><tt>destructorsynopsis</tt></a>|
+    <a href="methodsynopsis.html"><tt>methodsynopsis</tt></a>|<a href="formalpara.html"><tt>formalpara</tt></a>|<a href="para.html"><tt>para</tt></a>|<a href="simpara.html"><tt>simpara</tt></a>|<a href="address.html"><tt>address</tt></a>|<a href="blockquote.html"><tt>blockquote</tt></a>|
+    <a href="graphic.html"><tt>graphic</tt></a>|<a href="graphicco.html"><tt>graphicco</tt></a>|<a href="mediaobject.html"><tt>mediaobject</tt></a>|<a href="mediaobjectco.html"><tt>mediaobjectco</tt></a>|<a href="informalequation.html"><tt>informalequation</tt></a>|
+    <a href="informalexample.html"><tt>informalexample</tt></a>|<a href="informalfigure.html"><tt>informalfigure</tt></a>|<a href="informaltable.html"><tt>informaltable</tt></a>|<a href="equation.html"><tt>equation</tt></a>|<a href="example.html"><tt>example</tt></a>|
+    <a href="figure.html"><tt>figure</tt></a>|<a href="table.html"><tt>table</tt></a>|<a href="msgset.html"><tt>msgset</tt></a>|<a href="procedure.html"><tt>procedure</tt></a>|<a href="sidebar.html"><tt>sidebar</tt></a>|<a href="qandaset.html"><tt>qandaset</tt></a>|<a href="productionset.html"><tt>productionset</tt></a>|
+    <a href="constraintdef.html"><tt>constraintdef</tt></a>|<a href="anchor.html"><tt>anchor</tt></a>|<a href="bridgehead.html"><tt>bridgehead</tt></a>|<a href="remark.html"><tt>remark</tt></a>|<a href="highlights.html"><tt>highlights</tt></a>|<a href="abstract.html"><tt>abstract</tt></a>|
+    <a href="authorblurb.html"><tt>authorblurb</tt></a>|<a href="epigraph.html"><tt>epigraph</tt></a>|<a href="indexterm.html"><tt>indexterm</tt></a>|<a href="beginpage.html"><tt>beginpage</tt></a>)+,
+   ((<a href="refentry.html"><tt>refentry</tt></a>)*|
+    <a href="section.html"><tt>section</tt></a>*))|
+  (<a href="refentry.html"><tt>refentry</tt></a>)+|
+  <a href="section.html"><tt>section</tt></a>+),
+ (<a href="toc.html"><tt>toc</tt></a>|<a href="lot.html"><tt>lot</tt></a>|<a href="index.html"><tt>index</tt></a>|<a href="glossary.html"><tt>glossary</tt></a>|<a href="bibliography.html"><tt>bibliography</tt></a>)*)</pre>
+<h3><span class="bold"><b>Attributes</b></span></h3>
+<p><a href="ref-elements.html#common.attributes"><span class="common.attributes">Common attributes</span></a></p>
+<table border="1" width="100%" summary="Attributes">
+<tr>
+<td><p><span class="bold"><b>Name</b></span></p></td>
+<td><p><span class="bold"><b>Type</b></span></p></td>
+<td><p><span class="bold"><b>Default</b></span></p></td>
+</tr>
+<tr>
+<td align="left" valign="top">label</td>
+<td align="left" valign="top">CDATA</td>
+<td align="left" valign="top"><span class="emphasis"><i>None</i></span></td>
+</tr>
+<tr>
+<td align="left" valign="top">status</td>
+<td align="left" valign="top">CDATA</td>
+<td align="left" valign="top"><span class="emphasis"><i>None</i></span></td>
+</tr>
+</table>
+<h3><span class="bold"><b>Parameter Entities</b></span></h3>
+<p>The following parameter entities contain section:</p>
+<table border="1" width="100%" summary="Attributes">
+<tr><td colspan="3" align="left"><span class="bold"><b>Parameter Entities</b></span></td></tr>
+<tr>
+<td><a href="pe-content.html#bookcomponent.content.parament"><tt>%bookcomponent.content;</tt></a></td>
+<td> </td>
+<td> </td>
+</tr>
+</table>
+</div>
+<div class="refsect1">
+<a name="id3169634"></a><h2>Description</h2>
+<p>
+<a href="section.html"><tt>Section</tt></a> is one of the top-level sectioning elements in
+a component. There are three types of sectioning elements in
+DocBook:
+</p>
+<div class="itemizedlist"><ul>
+<li><p>
+Explicitly numbered sections, <a href="sect1.html"><tt>Sect1</tt></a>&#x2026;<a href="sect5.html"><tt>Sect5</tt></a>,
+which must be properly nested and can only be five levels deep.
+</p></li>
+<li><p>
+Recursive <a href="section.html"><tt>Section</tt></a>s, which are an alternative to the numbered
+sections and have unbounded depth.
+</p></li>
+<li><p>
+<a href="simplesect.html"><tt>SimpleSect</tt></a>s, which are terminal.  <a href="simplesect.html"><tt>SimpleSect</tt></a>s can
+occur as the &#x201C;leaf&#x201D; sections in either recursive sections or any
+of the numbered sections, or directly in components.
+</p></li>
+</ul></div>
+<p>
+<a href="section.html"><tt>Section</tt></a>s may be more convenient than numbered
+sections in some authoring environments because they can be
+moved around in the document hierarchy without renaming.
+</p>
+<p>
+None of the sectioning elements is allowed to &#x201C;float&#x201D; in
+a component. You can place paragraphs and other block elements
+before a section, but you cannot place anything after it.
+</p>
+<div class="refsect2">
+<a name="id3170560"></a><h3>Processing expectations</h3>
+<p>
+Formatted as a displayed block. Sometimes sections are numbered.
+</p>
+<p>
+Use of deeply nested <a href="section.html"><tt>Section</tt></a>s may cause problems
+in some processing systems.
+</p>
+</div>
+<div class="refsect2">
+<a name="id3170683"></a><h3>Parents</h3>
+<p>These elements contain section:
+<span class="simplelist"><a href="appendix.html"><tt>appendix</tt></a>, <a href="article.html"><tt>article</tt></a>, <a href="chapter.html"><tt>chapter</tt></a>, <a href="partintro.html"><tt>partintro</tt></a>, <a href="preface.html"><tt>preface</tt></a>, <a href="section.html"><tt>section</tt></a></span>.</p>
+</div>
+<div class="refsect2">
+<a name="id3172522"></a><h3>Children</h3>
+<p>The following elements occur in section:
+<span class="simplelist"><a href="abstract.html"><tt>abstract</tt></a>, <a href="address.html"><tt>address</tt></a>, <a href="anchor.html"><tt>anchor</tt></a>, <a href="authorblurb.html"><tt>authorblurb</tt></a>, <a href="beginpage.html"><tt>beginpage</tt></a>, <a href="bibliography.html"><tt>bibliography</tt></a>, <a href="blockquote.html"><tt>blockquote</tt></a>, <a href="bridgehead.html"><tt>bridgehead</tt></a>, <a href="calloutlist.html"><tt>calloutlist</tt></a>, <a href="caution.html"><tt>caution</tt></a>, <a href="classsynopsis.html"><tt>classsynopsis</tt></a>, <a href="cmdsynopsis.html"><tt>cmdsynopsis</tt></a>, <a href="constraintdef.html"><tt>constraintdef</tt></a>, <a href="constructorsynopsis.html"><tt>constructorsynopsis</tt></a>, <a href="destructorsynopsis.html"><tt>destructorsynopsis</tt></a>, <a href="epigraph.html"><tt>epigraph</tt></a>, <a href="equation.html"><tt>equation</tt></a>, <a href="example.html"><tt>example</tt></a>, <a href="fieldsynopsis.html"><tt>fieldsynopsis</tt></a>, <a href="figure.html"><tt>figure</tt></a>, <a href="formalpara.html"><tt>formalpara</tt></a>, <a href="funcsynopsis.html"><tt>funcsynopsis</tt></a>, <a href="glossary.html"><tt>glossary</tt></a>, <a href="glosslist.html"><tt>glosslist</tt></a>, <a href="graphic.html"><tt>graphic</tt></a>, <a href="graphicco.html"><tt>graphicco</tt></a>, <a href="highlights.html"><tt>highlights</tt></a>, <a href="important.html"><tt>important</tt></a>, <a href="index.html"><tt>index</tt></a>, <a href="indexterm.html"><tt>indexterm</tt></a>, <a href="informalequation.html"><tt>informalequation</tt></a>, <a href="informalexample.html"><tt>informalexample</tt></a>, <a href="informalfigure.html"><tt>informalfigure</tt></a>, <a href="informaltable.html"><tt>informaltable</tt></a>, <a href="itemizedlist.html"><tt>itemizedlist</tt></a>, <a href="literallayout.html"><tt>literallayout</tt></a>, <a href="lot.html"><tt>lot</tt></a>, <a href="mediaobject.html"><tt>mediaobject</tt></a>, <a href="mediaobjectco.html"><tt>mediaobjectco</tt></a>, <a href="methodsynopsis.html"><tt>methodsynopsis</tt></a>, <a href="msgset.html"><tt>msgset</tt></a>, <a href="note.html"><tt>note</tt></a>, <a href="orderedlist.html"><tt>orderedlist</tt></a>, <a href="para.html"><tt>para</tt></a>, <a href="procedure.html"><tt>procedure</tt></a>, <a href="productionset.html"><tt>productionset</tt></a>, <a href="programlisting.html"><tt>programlisting</tt></a>, <a href="programlistingco.html"><tt>programlistingco</tt></a>, <a href="qandaset.html"><tt>qandaset</tt></a>, <a href="refentry.html"><tt>refentry</tt></a>, <a href="remark.html"><tt>remark</tt></a>, <a href="screen.html"><tt>screen</tt></a>, <a href="screenco.html"><tt>screenco</tt></a>, <a href="screenshot.html"><tt>screenshot</tt></a>, <a href="section.html"><tt>section</tt></a>, <a href="sectioninfo.html"><tt>sectioninfo</tt></a>, <a href="segmentedlist.html"><tt>segmentedlist</tt></a>, <a href="sidebar.html"><tt>sidebar</tt></a>, <a href="simpara.html"><tt>simpara</tt></a>, <a href="simplelist.html"><tt>simplelist</tt></a>, <a href="subtitle.html"><tt>subtitle</tt></a>, <a href="synopsis.html"><tt>synopsis</tt></a>, <a href="table.html"><tt>table</tt></a>, <a href="tip.html"><tt>tip</tt></a>, <a href="title.html"><tt>title</tt></a>, <a href="titleabbrev.html"><tt>titleabbrev</tt></a>, <a href="toc.html"><tt>toc</tt></a>, <a href="variablelist.html"><tt>variablelist</tt></a>, <a href="warning.html"><tt>warning</tt></a></span>.</p>
+</div>
+</div>
+<div class="refsect1">
+<a name="id3172083"></a><h2>Attributes</h2>
+<div class="variablelist"><dl>
+<dt>
+<a name="id3172092"></a><span class="term">label</span>
+</dt>
+<dd>
+<p>
+<tt>Label</tt> specifies an identifying string for presentation purposes.
+</p>
+<p>
+Generally, an explicit <tt>Label</tt> attribute is
+used only if the processing system is incapable of generating the label
+automatically. If present, the <tt>Label</tt> 
+is normative; it will used even
+if the processing system is capable of automatic labelling.
+</p>
+</dd>
+<dt>
+<a name="id3172144"></a><span class="term">status</span>
+</dt>
+<dd>
+<p>
+<tt>Status</tt> identifies the editorial or publication 
+status of the <a href="section.html"><tt>Section</tt></a>.
+</p>
+<p>
+Publication status might be used to control formatting (for example,
+printing a &#x2018;draft&#x2019; watermark on drafts) or processing (perhaps
+a document with a status of &#x2018;final&#x2019; should not include any
+components that are not final).
+</p>
+</dd>
+</dl></div>
+</div>
+<div class="refsect1">
+<a name="id3170584"></a><h2>See Also</h2>
+<p>
+<span class="simplelist"><a href="bridgehead.html"><tt>bridgehead</tt></a>, <a href="sect1.html"><tt>sect1</tt></a>, <a href="sect2.html"><tt>sect2</tt></a>, <a href="sect3.html"><tt>sect3</tt></a>, <a href="sect4.html"><tt>sect4</tt></a>, <a href="sect5.html"><tt>sect5</tt></a>, <a href="simplesect.html"><tt>simplesect</tt></a></span>.
+</p>
+</div>
+<div class="refsect1">
+<a name="id3171791"></a><h2>Examples</h2>
+<div class="informalexample" id="id3171646">
+<a name="id3171646"></a><pre class="programlisting">&lt;!DOCTYPE chapter PUBLIC &quot;-//OASIS//DTD DocBook XML V4.1.2//EN&quot;
+          &quot;http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd&quot;&gt;
+&lt;chapter&gt;&lt;title&gt;Test Chapter&lt;/title&gt;
+&lt;para&gt;This chapter uses recursive sections.&lt;/para&gt;
+&lt;section&gt;
+&lt;sectioninfo&gt;
+&lt;abstract&gt;&lt;para&gt;A trivial example of recursive sections.&lt;/para&gt;
+&lt;/abstract&gt;
+&lt;/sectioninfo&gt;
+&lt;title&gt;Like a Sect1&lt;/title&gt;
+&lt;subtitle&gt;Or How I Learned to Let Go of Enumeration
+and Love to Recurse&lt;/subtitle&gt;
+&lt;para&gt;This section is like a Sect1.&lt;/para&gt;
+&lt;section&gt;&lt;title&gt;Like a Sect2&lt;/title&gt;
+&lt;para&gt;This section is like a Sect2.&lt;/para&gt;
+&lt;section&gt;&lt;title&gt;Like a Sect3&lt;/title&gt;
+&lt;para&gt;This section is like a Sect3.&lt;/para&gt;
+&lt;section&gt;&lt;title&gt;Like a Sect4&lt;/title&gt;
+&lt;para&gt;This section is like a Sect4.&lt;/para&gt;
+&lt;section&gt;&lt;title&gt;Like a Sect5&lt;/title&gt;
+&lt;para&gt;This section is like a Sect5.&lt;/para&gt;
+&lt;section&gt;&lt;title&gt;Would be like a Sect6&lt;/title&gt;
+&lt;para&gt;This section would be like a Sect6, if there was one.&lt;/para&gt;
+&lt;section&gt;&lt;title&gt;Would be like a Sect7&lt;/title&gt;
+&lt;para&gt;This section would be like a Sect7, if there was one.&lt;/para&gt;
+&lt;/section&gt;
+&lt;/section&gt;
+&lt;/section&gt;
+&lt;/section&gt;
+&lt;/section&gt;
+&lt;/section&gt;
+&lt;/section&gt;
+&lt;/chapter&gt;</pre>
+</div>
+</div>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="sect5info.html">Prev</a> </td>
+<td width="20%" align="center"><a href="docbook.html">Home</a></td>
+<td width="40%" align="right"> <a href="sectioninfo.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">sect5info </td>
+<td width="20%" align="center"><a href="ref-elements.html">Up</a></td>
+<td width="40%" align="right"> sectioninfo</td>
+</tr>
+</table>
+</div>
+<p>
+<a href="dbcpyright.html">Copyright</a> © 1999, 2000, 2001 <a href="http://www.oreilly.com/">O'Reilly &amp; Associates, Inc.</a>
+</p>
+</body>
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type">
+<title>funcsynopsis</title>
+<link rel="stylesheet" href="defguide.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.41">
+<link rel="home" href="docbook.html" title="DocBook">
+<link rel="up" href="ref-elements.html" title="DocBook Element Reference">
+<link rel="previous" href="funcprototype.html" title="funcprototype">
+<link rel="next" href="funcsynopsisinfo.html" title="funcsynopsisinfo">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">funcsynopsis</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="funcprototype.html">Prev</a> </td>
+<th width="60%" align="center">DocBook Element Reference</th>
+<td width="20%" align="right"> <a href="funcsynopsisinfo.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<p class="alpha-version">This is an <a href="co01.html"><em>alpha</em> version</a> of this book.</p>
+<div class="refentry">
+<h1 class="title">
+<a name="funcsynopsis.element"></a>funcsynopsis</h1>
+<div class="refnamediv">
+<a name="id2932435"></a><h2>Name</h2>funcsynopsis &#x2014; The syntax summary for a function definition</div>
+<div class="refsynopsisdiv">
+<a name="id2960492"></a><h2><h1 class="title">
+<a name="id2960492"></a>Synopsis</h1></h2>
+<h3><span class="bold"><b>Content Model</b></span></h3>
+<pre class="synopsis">funcsynopsis ::=
+((<a href="funcsynopsisinfo.html"><tt>funcsynopsisinfo</tt></a>|<a href="funcprototype.html"><tt>funcprototype</tt></a>)+)</pre>
+<h3><span class="bold"><b>Attributes</b></span></h3>
+<p><a href="ref-elements.html#common.attributes"><span class="common.attributes">Common attributes</span></a></p>
+<table border="1" width="100%" summary="Attributes">
+<tr>
+<td><p><span class="bold"><b>Name</b></span></p></td>
+<td><p><span class="bold"><b>Type</b></span></p></td>
+<td><p><span class="bold"><b>Default</b></span></p></td>
+</tr>
+<tr>
+<td align="left" valign="top">label</td>
+<td align="left" valign="top">CDATA</td>
+<td align="left" valign="top"><span class="emphasis"><i>None</i></span></td>
+</tr>
+</table>
+<h3><span class="bold"><b>Parameter Entities</b></span></h3>
+<p>The following parameter entities contain funcsynopsis:</p>
+<table border="1" width="100%" summary="Attributes">
+<tr><td colspan="3" align="left"><span class="bold"><b>Parameter Entities</b></span></td></tr>
+<tr>
+<td><a href="pe-mix.html#admon.mix.parament"><tt>%admon.mix;</tt></a></td>
+<td><a href="pe-content.html#bookcomponent.content.parament"><tt>%bookcomponent.content;</tt></a></td>
+<td><a href="pe-mix.html#component.mix.parament"><tt>%component.mix;</tt></a></td>
+</tr>
+<tr>
+<td><a href="pe-mix.html#divcomponent.mix.parament"><tt>%divcomponent.mix;</tt></a></td>
+<td><a href="pe-mix.html#example.mix.parament"><tt>%example.mix;</tt></a></td>
+<td><a href="pe-mix.html#figure.mix.parament"><tt>%figure.mix;</tt></a></td>
+</tr>
+<tr>
+<td><a href="pe-mix.html#footnote.mix.parament"><tt>%footnote.mix;</tt></a></td>
+<td><a href="pe-mix.html#glossdef.mix.parament"><tt>%glossdef.mix;</tt></a></td>
+<td><a href="pe-mix.html#indexdivcomponent.mix.parament"><tt>%indexdivcomponent.mix;</tt></a></td>
+</tr>
+<tr>
+<td><a href="pe-mix.html#para.char.mix.parament"><tt>%para.char.mix;</tt></a></td>
+<td><a href="pe-mix.html#qandaset.mix.parament"><tt>%qandaset.mix;</tt></a></td>
+<td><a href="pe-mix.html#refcomponent.mix.parament"><tt>%refcomponent.mix;</tt></a></td>
+</tr>
+<tr>
+<td><a href="pe-mix.html#revdescription.mix.parament"><tt>%revdescription.mix;</tt></a></td>
+<td><a href="pe-mix.html#sidebar.mix.parament"><tt>%sidebar.mix;</tt></a></td>
+<td><a href="pe-class.html#synop.class.parament"><tt>%synop.class;</tt></a></td>
+</tr>
+<tr>
+<td><a href="pe-cals.html#tbl.entry.mdl.parament"><tt>%tbl.entry.mdl;</tt></a></td>
+<td> </td>
+<td> </td>
+</tr>
+</table>
+</div>
+<div class="refsect1">
+<a name="id2957702"></a><h2>Description</h2>
+<p>
+A <a href="funcsynopsis.html"><tt>FuncSynopsis</tt></a> contains the syntax summary of a function prototype
+or a set of function prototypes.  The content model of this element
+was designed specifically to capture the semantics of most C-language
+function prototypes (for use in UNIX reference pages).
+</p>
+<p>
+This is one of the few places where DocBook attempts to model as well
+as describe.  Using <a href="funcsynopsis.html"><tt>FuncSynopsis</tt></a> for languages that are
+unrelated to C may prove difficult.
+</p>
+<div class="refsect2">
+<a name="id2967274"></a><h3>Processing expectations</h3>
+<p>
+For the most part, the processing application is expected to
+generate all of the parenthesis, semicolons, commas,
+and so on. required in the rendered synopsis.  The exception to this
+rule is that the spacing and other punctuation inside a
+parameter that is a pointer to a function must be provided in
+the source markup.
+</p>
+<p>
+With sufficient author cooperation, it should be possible to markup
+a function synopsis with enough clarity so that a processing system can
+generate either K&amp;R-style or ANSI-style renderings.
+</p>
+<div class="refsect3">
+<a name="id2967306"></a><h4>A Note on the Use of <a href="varargs.html"><tt>VarArgs</tt></a>
+</h4>
+<p>
+The content model of <a href="funcprototype.html"><tt>FuncPrototype</tt></a> is such that you
+cannot use <a href="varargs.html"><tt>VarArgs</tt></a> in a function prototype in which the
+first few parameters to the function are given explicitly before
+the variable arguments (generally rendered as an ellipsis).
+</p>
+<p>
+In other words, the following synopsis cannot be rendered with
+<a href="varargs.html"><tt>VarArgs</tt></a>:
+
+<pre class="synopsis">
+int printf(char *format, ...)
+</pre>
+</p>
+<p>
+Instead, you can enclose the ellipsis in a final <a href="parameter.html"><tt>Parameter</tt></a>,
+like this:
+
+<pre class="screen">
+
+&lt;funcsynopsis&gt;
+&lt;funcprototype&gt;&lt;funcdef&gt;int &lt;function&gt;printf&lt;/function&gt;&lt;/funcdef&gt;
+&lt;paramdef&gt;
+  &lt;parameter&gt;char *format&lt;/parameter&gt;
+  &lt;parameter&gt;...&lt;/parameter&gt;
+&lt;/paramdef&gt;
+&lt;/funcprototype&gt;
+&lt;/funcsynopsis&gt;
+
+</pre>
+</p>
+</div>
+</div>
+<div class="refsect2">
+<a name="id2968863"></a><h3>
+<img src="figures/rev_4.0.png" alt="[4.0]" align="absbottom"> Future Changes</h3>
+<p>
+<a class="indexterm" name="id2968876"></a>
+In DocBook V4.0, the content model fragment beginning with
+<a href="funcdef.html"><tt>FuncDef</tt></a> will be removed from the content
+model of <a href="funcsynopsis.html"><tt>FuncSynopsis</tt></a>.  Instead
+<a href="funcsynopsis.html"><tt>FuncSynopsis</tt></a> will become a mixture of
+<a href="funcsynopsisinfo.html"><tt>FuncSynopsisInfo</tt></a>s and <a href="funcprototype.html"><tt>FuncPrototype</tt></a>s.
+</p>
+</div>
+<div class="refsect2">
+<a name="id2968917"></a><h3>Future Changes</h3>
+<p>
+Future versions of DocBook may provide additional environments for
+describing the syntax summaries of functions in other programming
+languages.
+</p>
+</div>
+<div class="refsect2">
+<a name="id2969571"></a><h3>Parents</h3>
+<p>These elements contain funcsynopsis:
+<span class="simplelist"><a href="answer.html"><tt>answer</tt></a>, <a href="appendix.html"><tt>appendix</tt></a>, <a href="application.html"><tt>application</tt></a>, <a href="article.html"><tt>article</tt></a>, <a href="attribution.html"><tt>attribution</tt></a>, <a href="bibliodiv.html"><tt>bibliodiv</tt></a>, <a href="bibliography.html"><tt>bibliography</tt></a>, <a href="bibliomisc.html"><tt>bibliomisc</tt></a>, <a href="blockquote.html"><tt>blockquote</tt></a>, <a href="callout.html"><tt>callout</tt></a>, <a href="caution.html"><tt>caution</tt></a>, <a href="chapter.html"><tt>chapter</tt></a>, <a href="citation.html"><tt>citation</tt></a>, <a href="citetitle.html"><tt>citetitle</tt></a>, <a href="constraintdef.html"><tt>constraintdef</tt></a>, <a href="emphasis.html"><tt>emphasis</tt></a>, <a href="entry.html"><tt>entry</tt></a>, <a href="example.html"><tt>example</tt></a>, <a href="figure.html"><tt>figure</tt></a>, <a href="footnote.html"><tt>footnote</tt></a>, <a href="foreignphrase.html"><tt>foreignphrase</tt></a>, <a href="glossary.html"><tt>glossary</tt></a>, <a href="glossdef.html"><tt>glossdef</tt></a>, <a href="glossdiv.html"><tt>glossdiv</tt></a>, <a href="glosssee.html"><tt>glosssee</tt></a>, <a href="glossseealso.html"><tt>glossseealso</tt></a>, <a href="glossterm.html"><tt>glossterm</tt></a>, <a href="important.html"><tt>important</tt></a>, <a href="index.html"><tt>index</tt></a>, <a href="indexdiv.html"><tt>indexdiv</tt></a>, <a href="informalexample.html"><tt>informalexample</tt></a>, <a href="informalfigure.html"><tt>informalfigure</tt></a>, <a href="lineannotation.html"><tt>lineannotation</tt></a>, <a href="link.html"><tt>link</tt></a>, <a href="listitem.html"><tt>listitem</tt></a>, <a href="literallayout.html"><tt>literallayout</tt></a>, <a href="lotentry.html"><tt>lotentry</tt></a>, <a href="member.html"><tt>member</tt></a>, <a href="msgaud.html"><tt>msgaud</tt></a>, <a href="msgexplan.html"><tt>msgexplan</tt></a>, <a href="msgtext.html"><tt>msgtext</tt></a>, <a href="note.html"><tt>note</tt></a>, <a href="olink.html"><tt>olink</tt></a>, <a href="para.html"><tt>para</tt></a>, <a href="partintro.html"><tt>partintro</tt></a>, <a href="phrase.html"><tt>phrase</tt></a>, <a href="preface.html"><tt>preface</tt></a>, <a href="procedure.html"><tt>procedure</tt></a>, <a href="productname.html"><tt>productname</tt></a>, <a href="programlisting.html"><tt>programlisting</tt></a>, <a href="qandadiv.html"><tt>qandadiv</tt></a>, <a href="qandaset.html"><tt>qandaset</tt></a>, <a href="question.html"><tt>question</tt></a>, <a href="quote.html"><tt>quote</tt></a>, <a href="refentrytitle.html"><tt>refentrytitle</tt></a>, <a href="refsect1.html"><tt>refsect1</tt></a>, <a href="refsect2.html"><tt>refsect2</tt></a>, <a href="refsect3.html"><tt>refsect3</tt></a>, <a href="refsynopsisdiv.html"><tt>refsynopsisdiv</tt></a>, <a href="remark.html"><tt>remark</tt></a>, <a href="revdescription.html"><tt>revdescription</tt></a>, <a href="screen.html"><tt>screen</tt></a>, <a href="screeninfo.html"><tt>screeninfo</tt></a>, <a href="sect1.html"><tt>sect1</tt></a>, <a href="sect2.html"><tt>sect2</tt></a>, <a href="sect3.html"><tt>sect3</tt></a>, <a href="sect4.html"><tt>sect4</tt></a>, <a href="sect5.html"><tt>sect5</tt></a>, <a href="section.html"><tt>section</tt></a>, <a href="seg.html"><tt>seg</tt></a>, <a href="setindex.html"><tt>setindex</tt></a>, <a href="sidebar.html"><tt>sidebar</tt></a>, <a href="simpara.html"><tt>simpara</tt></a>, <a href="simplesect.html"><tt>simplesect</tt></a>, <a href="step.html"><tt>step</tt></a>, <a href="synopsis.html"><tt>synopsis</tt></a>, <a href="term.html"><tt>term</tt></a>, <a href="tip.html"><tt>tip</tt></a>, <a href="tocback.html"><tt>tocback</tt></a>, <a href="tocentry.html"><tt>tocentry</tt></a>, <a href="tocfront.html"><tt>tocfront</tt></a>, <a href="ulink.html"><tt>ulink</tt></a>, <a href="warning.html"><tt>warning</tt></a></span>.</p>
+</div>
+<div class="refsect2">
+<a name="id2970578"></a><h3>Children</h3>
+<p>The following elements occur in funcsynopsis:
+<span class="simplelist"><a href="funcprototype.html"><tt>funcprototype</tt></a>, <a href="funcsynopsisinfo.html"><tt>funcsynopsisinfo</tt></a></span>.</p>
+</div>
+</div>
+<div class="refsect1">
+<a name="id2970604"></a><h2>Attributes</h2>
+<div class="variablelist"><dl>
+<dt>
+<a name="id2970615"></a><span class="term">label</span>
+</dt>
+<dd><p>
+<tt>Label</tt> specifies an identifying number or string
+that may be used in presentation.
+</p></dd>
+</dl></div>
+</div>
+<div class="refsect1">
+<a name="id2970648"></a><h2>See Also</h2>
+<p>
+<span class="simplelist"><a href="cmdsynopsis.html"><tt>cmdsynopsis</tt></a>, <a href="synopsis.html"><tt>synopsis</tt></a></span>.
+</p>
+</div>
+<div class="refsect1">
+<a name="id2970718"></a><h2>Examples</h2>
+<p>
+The function <tt>max</tt> returns the larger of two integers:
+</p>
+<div class="informalexample" id="id2970034">
+<a name="id2970034"></a><pre class="programlisting">&lt;!DOCTYPE funcsynopsis PUBLIC &quot;-//OASIS//DTD DocBook XML V4.1.2//EN&quot;
+          &quot;http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd&quot;&gt;
+&lt;funcsynopsis&gt;
+&lt;funcprototype&gt;
+  &lt;funcdef&gt;int &lt;function&gt;max&lt;/function&gt;&lt;/funcdef&gt;
+  &lt;paramdef&gt;int &lt;parameter&gt;int1&lt;/parameter&gt;&lt;/paramdef&gt;
+  &lt;paramdef&gt;int &lt;parameter&gt;int2&lt;/parameter&gt;&lt;/paramdef&gt;
+&lt;/funcprototype&gt;
+&lt;/funcsynopsis&gt;</pre>
+</div><div class="example-output"><div class="funcsynopsis" id="id2969153">
+<a name="id2969153"></a><p><code><code class="funcdef">int <b class="fsfunc">max</b></code>(<var class="pdparam">int1</var>, <var class="pdparam">int2</var>);<br>int <var class="pdparam">int1</var>;<br>int <var class="pdparam">int2</var>;</code></p>
+</div></div><p>
+One can imagine a more flexible <tt>max</tt> function that takes
+any number of integer arguments and returns the largest integer in 
+the list:
+</p>
+<div class="informalexample" id="id2969211">
+<a name="id2969211"></a><pre class="programlisting">&lt;!DOCTYPE funcsynopsis PUBLIC &quot;-//OASIS//DTD DocBook XML V4.1.2//EN&quot;
+          &quot;http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd&quot;&gt;
+&lt;funcsynopsis&gt;
+&lt;funcsynopsisinfo&gt;
+#include &amp;lt;varargs.h&amp;gt;
+&lt;/funcsynopsisinfo&gt;
+&lt;funcprototype&gt;
+  &lt;funcdef&gt;int &lt;function&gt;max&lt;/function&gt;&lt;/funcdef&gt;
+  &lt;varargs/&gt;
+&lt;/funcprototype&gt;
+&lt;/funcsynopsis&gt;</pre>
+</div><div class="example-output"><div class="funcsynopsis" id="id2970048">
+<a name="id2970048"></a><pre class="funcsynopsisinfo">
+#include &lt;varargs.h&gt;
+</pre>
+<p><code><code class="funcdef">int <b class="fsfunc">max</b></code>(...);</code></p>
+</div></div><p>
+The <tt>rand</tt> function takes no arguments and returns a 
+pseudorandom integer between 0 and 2<sup>31</sup>-1:
+</p>
+<div class="informalexample" id="id2970103">
+<a name="id2970103"></a><pre class="programlisting">&lt;!DOCTYPE funcsynopsis PUBLIC &quot;-//OASIS//DTD DocBook XML V4.1.2//EN&quot;
+          &quot;http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd&quot;&gt;
+&lt;funcsynopsis&gt;
+&lt;funcprototype&gt;
+&lt;funcdef&gt;int &lt;function&gt;rand&lt;/function&gt;&lt;/funcdef&gt;
+  &lt;void/&gt;
+&lt;/funcprototype&gt;
+&lt;/funcsynopsis&gt;</pre>
+</div><div class="example-output"><div class="funcsynopsis" id="id2969261">
+<a name="id2969261"></a><p><code><code class="funcdef">int <b class="fsfunc">rand</b></code>();</code></p>
+</div></div><p>
+The <tt>qsort</tt> function takes several arguments, including
+a pointer to a function (the function that should perform the
+comparison between two elements in order to sort them).
+</p>
+<div class="informalexample" id="id2969306">
+<a name="id2969306"></a><pre class="programlisting">&lt;!DOCTYPE funcsynopsis PUBLIC &quot;-//OASIS//DTD DocBook XML V4.1.2//EN&quot;
+          &quot;http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd&quot;&gt;
+&lt;funcsynopsis&gt;
+&lt;funcprototype&gt;
+  &lt;funcdef&gt;void &lt;function&gt;qsort&lt;/function&gt;&lt;/funcdef&gt;
+    &lt;paramdef&gt;void *&lt;parameter&gt;dataptr&lt;/parameter&gt;[]&lt;/paramdef&gt;
+    &lt;paramdef&gt;int &lt;parameter&gt;left&lt;/parameter&gt;&lt;/paramdef&gt;
+    &lt;paramdef&gt;int &lt;parameter&gt;right&lt;/parameter&gt;&lt;/paramdef&gt;
+    &lt;paramdef&gt;int &lt;parameter&gt;(* comp)&lt;/parameter&gt;
+      &lt;funcparams&gt;void *, void *&lt;/funcparams&gt;&lt;/paramdef&gt;
+&lt;/funcprototype&gt;
+&lt;/funcsynopsis&gt;</pre>
+</div><div class="example-output"><div class="funcsynopsis" id="id2969305">
+<a name="id2969305"></a><p><code><code class="funcdef">void <b class="fsfunc">qsort</b></code>(<var class="pdparam">dataptr</var>, <var class="pdparam">left</var>, <var class="pdparam">right</var>, <var class="pdparam">(* comp)</var>);<br>void *<var class="pdparam">dataptr</var>[];<br>int <var class="pdparam">left</var>;<br>int <var class="pdparam">right</var>;<br>int <var class="pdparam">(* comp)</var>
+      (void *, void *);</code></p>
+</div></div><p>For additional examples, see also
+<span class="simplelist"><a href="funcdef.html"><tt>funcdef</tt></a>, <a href="paramdef.html"><tt>paramdef</tt></a>, <a href="varargs.html"><tt>varargs</tt></a></span>
+.</p>
+</div>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="funcprototype.html">Prev</a> </td>
+<td width="20%" align="center"><a href="docbook.html">Home</a></td>
+<td width="40%" align="right"> <a href="funcsynopsisinfo.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">funcprototype </td>
+<td width="20%" align="center"><a href="ref-elements.html">Up</a></td>
+<td width="40%" align="right"> funcsynopsisinfo</td>
+</tr>
+</table>
+</div>
+<p>
+<a href="dbcpyright.html">Copyright</a> © 1999, 2000, 2001 <a href="http://www.oreilly.com/">O'Reilly &amp; Associates, Inc.</a>
+</p>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type">
+<title>tfoot</title>
+<link rel="stylesheet" href="defguide.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.41">
+<link rel="home" href="docbook.html" title="DocBook">
+<link rel="up" href="ref-elements.html" title="DocBook Element Reference">
+<link rel="previous" href="textobject.html" title="textobject">
+<link rel="next" href="tgroup.html" title="tgroup">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">tfoot</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="textobject.html">Prev</a> </td>
+<th width="60%" align="center">DocBook Element Reference</th>
+<td width="20%" align="right"> <a href="tgroup.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<p class="alpha-version">This is an <a href="co01.html"><em>alpha</em> version</a> of this book.</p>
+<div class="refentry">
+<h1 class="title">
+<a name="tfoot.element"></a>tfoot</h1>
+<div class="refnamediv">
+<a name="id3221855"></a><h2>Name</h2>tfoot &#x2014; A table footer consisting of one or more rows</div>
+<div class="refsynopsisdiv">
+<a name="id3221610"></a><h2><h1 class="title">
+<a name="id3221610"></a>Synopsis</h1></h2>
+<h3><span class="bold"><b>Content Model</b></span></h3>
+<pre class="synopsis">tfoot ::=
+(<a href="colspec.html"><tt>colspec</tt></a>*,<a href="row.html"><tt>row</tt></a>+)</pre>
+<h3><span class="bold"><b>Attributes</b></span></h3>
+<p><a href="ref-elements.html#common.attributes"><span class="common.attributes">Common attributes</span></a></p>
+<table border="1" width="100%" summary="Attributes">
+<tr>
+<td><p><span class="bold"><b>Name</b></span></p></td>
+<td><p><span class="bold"><b>Type</b></span></p></td>
+<td><p><span class="bold"><b>Default</b></span></p></td>
+</tr>
+<tr>
+<td align="left" valign="top">valign</td>
+<td align="left" valign="top">
+<p>
+<span class="emphasis"><i>Enumeration:</i></span>
+</p>
+<table class="simplelist" border="0" summary="Simple list">
+<tr><td>bottom</td></tr>
+<tr><td>middle</td></tr>
+<tr><td>top</td></tr>
+</table>
+</td>
+<td align="left" valign="top"><span class="emphasis"><i>None</i></span></td>
+</tr>
+</table>
+<h3><span class="bold"><b>Parameter Entities</b></span></h3>
+<p>The following parameter entities contain tfoot:</p>
+<table border="1" width="100%" summary="Attributes">
+<tr><td colspan="3" align="left"><span class="bold"><b>Parameter Entities</b></span></td></tr>
+<tr>
+<td><a href="pe-cals.html#tbl.tgroup.mdl.parament"><tt>%tbl.tgroup.mdl;</tt></a></td>
+<td> </td>
+<td> </td>
+</tr>
+</table>
+</div>
+<div class="refsect1">
+<a name="id3220485"></a><h2>Description</h2>
+<p>
+The <a href="tfoot.html"><tt>TFoot</tt></a> wrapper identifies the <a href="row.html"><tt>Row</tt></a>s of a
+table that form the foot of the table, as distinct from the header
+(<a href="thead.html"><tt>THead</tt></a>) and body (<a href="tbody.html"><tt>TBody</tt></a>) rows.
+</p>
+<p>
+Footer rows are always rendered at the end of the table, despite thier
+logical placement near the beginning.
+</p>
+<div class="refsect2">
+<a name="dbreproc.tfoot"></a><h3>Processing expectations</h3>
+<p>
+This element is expected to obey the semantics
+of the <a href="appd.html#calsdtd"><i>CALS Table Model
+Document Type Definition</i></a>, as specified by <i>
+<a href="http://www.oasis-open.org/html/a502.htm" target="_top">OASIS
+Technical Memorandum TM 9502:1995</a>
+</i>.
+ Footer rows are often presented in an alternate typographic
+style, such as boldface.
+</p>
+<p>
+In paged media, if a table spans across multiple pages, footer
+rows are printed on the bottom of each page.
+</p>
+<p>
+In our experience, relatively few formatters handle footer rows
+correctly.
+</p>
+</div>
+<div class="refsect2">
+<a name="id3222379"></a><h3>Parents</h3>
+<p>These elements contain tfoot:
+<span class="simplelist"><a href="tgroup.html"><tt>tgroup</tt></a></span>.</p>
+</div>
+<div class="refsect2">
+<a name="id3222010"></a><h3>Children</h3>
+<p>The following elements occur in tfoot:
+<span class="simplelist"><a href="colspec.html"><tt>colspec</tt></a>, <a href="row.html"><tt>row</tt></a></span>.</p>
+</div>
+</div>
+<div class="refsect1">
+<a name="id3221818"></a><h2>Attributes</h2>
+<div class="variablelist"><dl>
+<dt>
+<a name="id3221864"></a><span class="term">valign</span>
+</dt>
+<dd><p>
+<tt>VAlign</tt> specifies the vertical alignment
+of text (and other elements) within the cells of this <a href="tfoot.html"><tt>TFoot</tt></a>.
+</p></dd>
+</dl></div>
+</div>
+<div class="refsect1">
+<a name="id3217503"></a><h2>See Also</h2>
+<p>
+<span class="simplelist"><a href="colspec.html"><tt>colspec</tt></a>, <a href="entry.html"><tt>entry</tt></a>, <a href="entrytbl.html"><tt>entrytbl</tt></a>, <a href="informaltable.html"><tt>informaltable</tt></a>, <a href="row.html"><tt>row</tt></a>, <a href="spanspec.html"><tt>spanspec</tt></a>, <a href="table.html"><tt>table</tt></a>, <a href="tbody.html"><tt>tbody</tt></a>, <a href="tgroup.html"><tt>tgroup</tt></a>, <a href="thead.html"><tt>thead</tt></a></span>.
+</p>
+</div>
+<div class="refsect1">
+<a name="id3226037"></a><h2>Examples</h2>
+<p>For examples, see
+<span class="simplelist"><a href="table.html"><tt>table</tt></a></span>
+.</p>
+</div>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="textobject.html">Prev</a> </td>
+<td width="20%" align="center"><a href="docbook.html">Home</a></td>
+<td width="40%" align="right"> <a href="tgroup.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">textobject </td>
+<td width="20%" align="center"><a href="ref-elements.html">Up</a></td>
+<td width="40%" align="right"> tgroup</td>
+</tr>
+</table>
+</div>
+<p>
+<a href="dbcpyright.html">Copyright</a> © 1999, 2000, 2001 <a href="http://www.oreilly.com/">O'Reilly &amp; Associates, Inc.</a>
+</p>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type">
+<title>revision</title>
+<link rel="stylesheet" href="defguide.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.41">
+<link rel="home" href="docbook.html" title="DocBook">
+<link rel="up" href="ref-elements.html" title="DocBook Element Reference">
+<link rel="previous" href="revhistory.html" title="revhistory">
+<link rel="next" href="revnumber.html" title="revnumber">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">revision</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="revhistory.html">Prev</a> </td>
+<th width="60%" align="center">DocBook Element Reference</th>
+<td width="20%" align="right"> <a href="revnumber.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<p class="alpha-version">This is an <a href="co01.html"><em>alpha</em> version</a> of this book.</p>
+<div class="refentry">
+<h1 class="title">
+<a name="revision.element"></a>revision</h1>
+<div class="refnamediv">
+<a name="id3147141"></a><h2>Name</h2>revision &#x2014; An entry describing a single revision in the history of the revisions to a document</div>
+<div class="refsynopsisdiv">
+<a name="id3146333"></a><h2><h1 class="title">
+<a name="id3146333"></a>Synopsis</h1></h2>
+<h3><span class="bold"><b>Content Model</b></span></h3>
+<pre class="synopsis">revision ::=
+(<a href="revnumber.html"><tt>revnumber</tt></a>,<a href="date.html"><tt>date</tt></a>,<a href="authorinitials.html"><tt>authorinitials</tt></a>*,
+ (<a href="revremark.html"><tt>revremark</tt></a>|<a href="revdescription.html"><tt>revdescription</tt></a>)?)</pre>
+<h3><span class="bold"><b>Attributes</b></span></h3>
+<p><a href="ref-elements.html#common.attributes"><span class="common.attributes">Common attributes</span></a></p>
+</div>
+<div class="refsect1">
+<a name="id3147270"></a><h2>Description</h2>
+<p>
+<a href="revision.html"><tt>Revision</tt></a> contains information about a single revision to
+a document.  Revisions are identified by a number and a date. They may
+also include the initials of the author, and additional remarks.
+</p>
+<div class="refsect2">
+<a name="id3147285"></a><h3>Processing expectations</h3>
+<p>
+<a href="revision.html"><tt>Revision</tt></a>s are often presented in a list or table. In a
+tabular presentation, each revision most likely forms a row in
+the table.
+</p>
+</div>
+<div class="refsect2">
+<a name="id3147317"></a><h3>Parents</h3>
+<p>These elements contain revision:
+<span class="simplelist"><a href="revhistory.html"><tt>revhistory</tt></a></span>.</p>
+</div>
+<div class="refsect2">
+<a name="id3147006"></a><h3>Children</h3>
+<p>The following elements occur in revision:
+<span class="simplelist"><a href="authorinitials.html"><tt>authorinitials</tt></a>, <a href="date.html"><tt>date</tt></a>, <a href="revdescription.html"><tt>revdescription</tt></a>, <a href="revnumber.html"><tt>revnumber</tt></a>, <a href="revremark.html"><tt>revremark</tt></a></span>.</p>
+</div>
+</div>
+<div class="refsect1">
+<a name="id3146233"></a><h2>Examples</h2>
+<p>For examples, see
+<span class="simplelist"><a href="article.html"><tt>article</tt></a>, <a href="revhistory.html"><tt>revhistory</tt></a></span>
+.</p>
+</div>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="revhistory.html">Prev</a> </td>
+<td width="20%" align="center"><a href="docbook.html">Home</a></td>
+<td width="40%" align="right"> <a href="revnumber.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">revhistory </td>
+<td width="20%" align="center"><a href="ref-elements.html">Up</a></td>
+<td width="40%" align="right"> revnumber</td>
+</tr>
+</table>
+</div>
+<p>
+<a href="dbcpyright.html">Copyright</a> © 1999, 2000, 2001 <a href="http://www.oreilly.com/">O'Reilly &amp; Associates, Inc.</a>
+</p>
+</body>
+</html>

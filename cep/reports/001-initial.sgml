@@ -1,0 +1,121 @@
+<chapter><title>Computer Engineering Project Proposal</title> 
+<sect1><title>Introduction and Description</title> 
+<para> 
+This proposal outlines our intention to develop a package for use in the analysis of GPS <footnote><para>Global Positioning System</para></footnote>, VLBI <footnote><para>Very Long Baseline Interferometry</para></footnote> and SLR <footnote><para>Satellite Laser Ranging</para></footnote> data on tectonic
+movement. The data is extensive, covering around ten years of measurements from stations around the globe. The
+GPS, VLBI, and SLR data have various anomalies due to their different vulnerabilies to conditions, such delay due to the
+ionosphere, temperature, and other considerations including projected stellite orbits.
+</para>
+<para>
+In an attempt to overcome these,
+we need to perform various transformations on the data, and compare these results. It is intended to
+do this by taking the two input data sets, in a defined format, and through analysis in both the time and frequency
+domains, merge the data sets into a new data set, making use of those parts of the GPS, VLBI and SLR data which contain
+the least noise. Some of the techniques employed during this data processing wil include, Fast Fourier Transforms (FFT),
+Gaussian filter, Gaybor transforms (specgrams) and Power Spectral Density plots (PSD).
+</para>
+<para>
+The group will be faced with numerous challanges throughout the course of this project, including that of technology
+resources. The amount of data we will be dealing with, has the potential to push available computer resources near
+their limits. For this reason, efficiency of the package will be of critical concern. Other challenges are discussed in the section labelled risks below.
+</para>
+<para>
+This project is in part a research project, due to the uncertainties of achieving clear results, even with the package
+functioning correctly, and therefore contains a good deal of risk. However, much of the prossessing has been done
+before, providing us with the opportunity of having a reasonably well defined starting point.
+</para>
+</sect1> 
+ 
+<sect1><title>Risks</title> 
+<para> 
+<itemizedlist> 
+<listitem><para>Failure to determine and correctly implement a satisfactory mathematical process (medium, serious repercussions)</para></listitem> 
+<listitem><para>Data produced could appear to be correct, however, is in fact wrong (high)</para></listitem> 
+<listitem><para>Complications associated with potential implementation of mathematical routines in unfamiliar languages such as FORTRAN (medium)</para></listitem> 
+<listitem><para>The completed product not being flexible enough (medium)</para></listitem> 
+<listitem><para>Failure to achieve deadlines (low)</para></listitem> 
+<listitem><para>Staff risks such as the illness or death of a team member at a critical stage (low)</para></listitem> 
+<listitem><para>University of Canberra might be unable to provide the level of support that the group requires (medium)</para></listitem> 
+<listitem><para>Other risks not yet identified (undefined)</para></listitem> 
+</itemizedlist> 
+</para> 
+</sect1> 
+ 
+<sect1><title>Implementation approach</title> 
+<para> 
+Bearing in mind the risks which have been identified so far, it is proposed that the following implementation strategy be undertaken. 
+</para> 
+ 
+<sect2><title>Prototype</title> 
+<para> 
+It is proposed that the group use current Matlab functionality to perform the required data transformations, thus providing a visual representation of the merged data set via the Matlab plotting functions.
+</para> 
+</sect2> 
+ 
+<sect2><title>Initial implementation</title> 
+<para> 
+In this phase we will develop the basic mathematical functions to perform the required tasks. This will take the form of a small executable which parses data giving output in a format conducive to easy verification (possibly comma delimited text). 
+</para> 
+</sect2> 
+ 
+<sect2><title>Output routines</title> 
+<para> 
+The next phase of the system development is the implementation of the output routines for the system. It is our intention to make these routines flexible so that new output routines can be added as required. In addition, these output routines will be capable of being executed manually so that the output can be inspected and validated using a separate package if required. 
+</para> 
+</sect2> 
+ 
+<sect2><title>Graphical user interface</title> 
+<para> 
+During this phase an interactive environment where users can import a data set from a file shall be implemented. Consequently, the desired transforms and operations on the data can then be selected from a range of predefined options. This should provide the user with a visual representation of the results of that operation. The fundamental interface options should be: 
+<itemizedlist> 
+<listitem><para>Open / import dataset</para></listitem> 
+<listitem><para>Save plot</para></listitem> 
+<listitem><para>Print output</para></listitem> 
+</itemizedlist> 
+</para> 
+</sect2> 
+ 
+<sect2><title>Core extensions</title> 
+<para> 
+These are extensions which are not absolutely required for the product to be functional, but are highly desirable: 
+<itemizedlist> 
+<listitem><para>Graphical user interface improvements</para></listitem> 
+<listitem><para>Three dimensional visualization of the output of the mathematical engine</para></listitem> 
+<listitem><para>Other extensions as identified during development</para></listitem> 
+</itemizedlist> 
+</para> 
+</sect2> 
+ 
+<sect2><title>Non core extensions</title> 
+<para> 
+These are extensions which would be nice, but are of a lower priority: 
+<itemizedlist> 
+<listitem><para>Scripting engine for the mathematical subsystem</para></listitem> 
+<listitem><para>The ability to save a selected transform and apply it to other data sets within the graphical user interface</para></listitem> 
+<listitem><para>The ability to interact with the sample output within the user interface</para></listitem> 
+<listitem><para>Other extensions as identified during development</para></listitem> 
+</itemizedlist> 
+</para> 
+</sect2> 
+ 
+<sect2><title>Honors extensions</title> 
+<para> 
+The honors extensions for Michael Still, Kristy Van Der Vlist and Nick Wheatstone have not been defined at this stage. The group is well aware of the need to identify these logical extensions, which will be undertaken in the next few weeks. 
+</para> 
+</sect2> 
+</sect1> 
+ 
+<sect1><title>Testing infrastructure</title> 
+<para> 
+It is important to the success of the project that a well defined testing framework is implemented from the earliest stages of development. Regression testing against previous output should occur regularly, with any changes explained and documented. An established testing infrastructure for the project will also be large advantage to subsequent projects which might wish to utilize the software this project will develop. 
+</para> 
+</sect1> 
+ 
+<sect1><title>Conclusion</title> 
+<para> 
+In this report we have explored the problem which we have selected, identified major sources of risk and considered an implementation approach. During subsequent phases of the project we will design the deliverables, clarify the risks and further examine possible implementation approaches. 
+</para> 
+</sect1> 
+</chapter> 
+ 
+ 

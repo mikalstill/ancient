@@ -1,0 +1,174 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type">
+<title>graphicco</title>
+<link rel="stylesheet" href="defguide.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.41">
+<link rel="home" href="docbook.html" title="DocBook">
+<link rel="up" href="ref-elements.html" title="DocBook Element Reference">
+<link rel="previous" href="graphic.html" title="graphic">
+<link rel="next" href="group.html" title="group">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">graphicco</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="graphic.html">Prev</a> </td>
+<th width="60%" align="center">DocBook Element Reference</th>
+<td width="20%" align="right"> <a href="group.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<p class="alpha-version">This is an <a href="co01.html"><em>alpha</em> version</a> of this book.</p>
+<div class="refentry">
+<h1 class="title">
+<a name="graphicco.element"></a>graphicco</h1>
+<div class="refnamediv">
+<a name="id2986291"></a><h2>Name</h2>graphicco &#x2014; A graphic that contains callout areas</div>
+<div class="refsynopsisdiv">
+<a name="id2978477"></a><h2><h1 class="title">
+<a name="id2978477"></a>Synopsis</h1></h2>
+<h3><span class="bold"><b>Content Model</b></span></h3>
+<pre class="synopsis">graphicco ::=
+(<a href="areaspec.html"><tt>areaspec</tt></a>,<a href="graphic.html"><tt>graphic</tt></a>,<a href="calloutlist.html"><tt>calloutlist</tt></a>*)</pre>
+<h3><span class="bold"><b>Attributes</b></span></h3>
+<p><a href="ref-elements.html#common.attributes"><span class="common.attributes">Common attributes</span></a></p>
+<h3><span class="bold"><b>Parameter Entities</b></span></h3>
+<p>The following parameter entities contain graphicco:</p>
+<table border="1" width="100%" summary="Attributes">
+<tr><td colspan="3" align="left"><span class="bold"><b>Parameter Entities</b></span></td></tr>
+<tr>
+<td><a href="pe-mix.html#admon.mix.parament"><tt>%admon.mix;</tt></a></td>
+<td><a href="pe-content.html#bookcomponent.content.parament"><tt>%bookcomponent.content;</tt></a></td>
+<td><a href="pe-mix.html#component.mix.parament"><tt>%component.mix;</tt></a></td>
+</tr>
+<tr>
+<td><a href="pe-mix.html#divcomponent.mix.parament"><tt>%divcomponent.mix;</tt></a></td>
+<td><a href="pe-mix.html#example.mix.parament"><tt>%example.mix;</tt></a></td>
+<td><a href="pe-mix.html#figure.mix.parament"><tt>%figure.mix;</tt></a></td>
+</tr>
+<tr>
+<td><a href="pe-mix.html#footnote.mix.parament"><tt>%footnote.mix;</tt></a></td>
+<td><a href="pe-mix.html#glossdef.mix.parament"><tt>%glossdef.mix;</tt></a></td>
+<td><a href="pe-mix.html#indexdivcomponent.mix.parament"><tt>%indexdivcomponent.mix;</tt></a></td>
+</tr>
+<tr>
+<td><a href="pe-class.html#informal.class.parament"><tt>%informal.class;</tt></a></td>
+<td><a href="pe-mix.html#para.mix.parament"><tt>%para.mix;</tt></a></td>
+<td><a href="pe-mix.html#qandaset.mix.parament"><tt>%qandaset.mix;</tt></a></td>
+</tr>
+<tr>
+<td><a href="pe-mix.html#refcomponent.mix.parament"><tt>%refcomponent.mix;</tt></a></td>
+<td><a href="pe-mix.html#revdescription.mix.parament"><tt>%revdescription.mix;</tt></a></td>
+<td><a href="pe-mix.html#sidebar.mix.parament"><tt>%sidebar.mix;</tt></a></td>
+</tr>
+</table>
+</div>
+<div class="refsect1">
+<a name="id2981664"></a><h2>Description</h2>
+<p>
+<a href="callout.html"><tt>Callout</tt></a>s, such as numbered bullets, are an annotation mechanism.  In an
+online system, these bullets are frequently &#x201C;hot,&#x201D; and clicking on
+them sends you to the corresponding annotation.
+</p>
+<p>
+A <a href="graphicco.html"><tt>GraphicCO</tt></a> is a wrapper around an <a href="areaspec.html"><tt>AreaSpec</tt></a> and
+a <a href="graphic.html"><tt>Graphic</tt></a>.  An <a href="areaspec.html"><tt>AreaSpec</tt></a> identifies the locations
+(coordinates)
+on the <a href="graphic.html"><tt>Graphic</tt></a> in which the callouts occur.
+The <a href="graphicco.html"><tt>GraphicCO</tt></a> may also contain the list of annotations in
+a <a href="calloutlist.html"><tt>CalloutList</tt></a>, although the <a href="calloutlist.html"><tt>CalloutList</tt></a> may also
+occur outside of the wrapper, elsewhere in the document.
+</p>
+<div class="refsect2">
+<a name="id2986310"></a><h3>Processing expectations</h3>
+<p>
+Formatted as a displayed block.
+</p>
+<p>
+The mandatory processing expectations of a <a href="graphicco.html"><tt>GraphicCO</tt></a> are
+minimal: a system is expected to render the graphic, if possible, and the
+callout list, if present.
+</p>
+<p>
+In online environments, the processing system may be able to instantiate
+the linking relationships between the callout marks on the graphic and
+the annotations.  For example, an HTML presentation system might use the
+coordinate information to construct a client-side image map.
+Some processing systems may even be able to go a step further and generate
+the callout marks automatically from the coordinate information.
+But this level of sophistication is not mandatory.
+</p>
+</div>
+<div class="refsect2">
+<a name="id2986352"></a><h3>
+<img src="figures/rev_5.0.png" alt="[5.0]" align="absbottom"> Future Changes</h3>
+<p>
+<a class="indexterm" name="id2986366"></a>
+In DocBook V5.0, <a href="graphicco.html"><tt>GraphicCO</tt></a> will be discarded. In its
+place, use <a href="mediaobjectco.html"><tt>MediaObjectCO</tt></a>.
+</p>
+</div>
+<div class="refsect2">
+<a name="id2987748"></a><h3>Parents</h3>
+<p>These elements contain graphicco:
+<span class="simplelist"><a href="answer.html"><tt>answer</tt></a>, <a href="appendix.html"><tt>appendix</tt></a>, <a href="article.html"><tt>article</tt></a>, <a href="bibliodiv.html"><tt>bibliodiv</tt></a>, <a href="bibliography.html"><tt>bibliography</tt></a>, <a href="blockquote.html"><tt>blockquote</tt></a>, <a href="callout.html"><tt>callout</tt></a>, <a href="caution.html"><tt>caution</tt></a>, <a href="chapter.html"><tt>chapter</tt></a>, <a href="constraintdef.html"><tt>constraintdef</tt></a>, <a href="example.html"><tt>example</tt></a>, <a href="figure.html"><tt>figure</tt></a>, <a href="footnote.html"><tt>footnote</tt></a>, <a href="glossary.html"><tt>glossary</tt></a>, <a href="glossdef.html"><tt>glossdef</tt></a>, <a href="glossdiv.html"><tt>glossdiv</tt></a>, <a href="important.html"><tt>important</tt></a>, <a href="index.html"><tt>index</tt></a>, <a href="indexdiv.html"><tt>indexdiv</tt></a>, <a href="informalexample.html"><tt>informalexample</tt></a>, <a href="informalfigure.html"><tt>informalfigure</tt></a>, <a href="listitem.html"><tt>listitem</tt></a>, <a href="msgexplan.html"><tt>msgexplan</tt></a>, <a href="msgtext.html"><tt>msgtext</tt></a>, <a href="note.html"><tt>note</tt></a>, <a href="para.html"><tt>para</tt></a>, <a href="partintro.html"><tt>partintro</tt></a>, <a href="preface.html"><tt>preface</tt></a>, <a href="procedure.html"><tt>procedure</tt></a>, <a href="qandadiv.html"><tt>qandadiv</tt></a>, <a href="qandaset.html"><tt>qandaset</tt></a>, <a href="question.html"><tt>question</tt></a>, <a href="refsect1.html"><tt>refsect1</tt></a>, <a href="refsect2.html"><tt>refsect2</tt></a>, <a href="refsect3.html"><tt>refsect3</tt></a>, <a href="refsynopsisdiv.html"><tt>refsynopsisdiv</tt></a>, <a href="revdescription.html"><tt>revdescription</tt></a>, <a href="screenshot.html"><tt>screenshot</tt></a>, <a href="sect1.html"><tt>sect1</tt></a>, <a href="sect2.html"><tt>sect2</tt></a>, <a href="sect3.html"><tt>sect3</tt></a>, <a href="sect4.html"><tt>sect4</tt></a>, <a href="sect5.html"><tt>sect5</tt></a>, <a href="section.html"><tt>section</tt></a>, <a href="setindex.html"><tt>setindex</tt></a>, <a href="sidebar.html"><tt>sidebar</tt></a>, <a href="simplesect.html"><tt>simplesect</tt></a>, <a href="step.html"><tt>step</tt></a>, <a href="tip.html"><tt>tip</tt></a>, <a href="warning.html"><tt>warning</tt></a></span>.</p>
+</div>
+<div class="refsect2">
+<a name="id2986505"></a><h3>Children</h3>
+<p>The following elements occur in graphicco:
+<span class="simplelist"><a href="areaspec.html"><tt>areaspec</tt></a>, <a href="calloutlist.html"><tt>calloutlist</tt></a>, <a href="graphic.html"><tt>graphic</tt></a></span>.</p>
+</div>
+</div>
+<div class="refsect1">
+<a name="id2986552"></a><h2>See Also</h2>
+<p>
+<span class="simplelist"><a href="areaspec.html"><tt>areaspec</tt></a>, <a href="calloutlist.html"><tt>calloutlist</tt></a>, <a href="co.html"><tt>co</tt></a>, <a href="imageobjectco.html"><tt>imageobjectco</tt></a>, <a href="mediaobjectco.html"><tt>mediaobjectco</tt></a>, <a href="programlistingco.html"><tt>programlistingco</tt></a>, <a href="screenco.html"><tt>screenco</tt></a></span>.
+</p>
+</div>
+<div class="refsect1">
+<a name="id2986635"></a><h2>Examples</h2>
+<div class="informalexample" id="id2986643">
+<a name="id2986643"></a><pre class="programlisting">&lt;!DOCTYPE graphicco PUBLIC &quot;-//OASIS//DTD DocBook XML V4.1.2//EN&quot;
+          &quot;http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd&quot;&gt;
+&lt;graphicco&gt;
+&lt;areaspec units=&quot;calspair&quot;&gt;
+  &lt;areaset id=&quot;oneway&quot; coords=&quot;&quot;&gt;
+    &lt;area id=&quot;oneway1&quot; coords=&quot;300 400&quot;/&gt;
+    &lt;area id=&quot;oneway2&quot; coords=&quot;325 340&quot;/&gt;
+  &lt;/areaset&gt;
+  &lt;area id=&quot;myhouse&quot; coords=&quot;425 590&quot;/&gt;
+&lt;/areaspec&gt;
+&lt;!-- This is not a real URL! --&gt;
+&lt;graphic fileref=&quot;http://maps.example.com/EARTH?USA?MA?AMHERST&quot;/&gt;
+&lt;/graphicco&gt;</pre>
+</div>
+</div>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="graphic.html">Prev</a> </td>
+<td width="20%" align="center"><a href="docbook.html">Home</a></td>
+<td width="40%" align="right"> <a href="group.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">graphic </td>
+<td width="20%" align="center"><a href="ref-elements.html">Up</a></td>
+<td width="40%" align="right"> group</td>
+</tr>
+</table>
+</div>
+<p>
+<a href="dbcpyright.html">Copyright</a> © 1999, 2000, 2001 <a href="http://www.oreilly.com/">O'Reilly &amp; Associates, Inc.</a>
+</p>
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type">
+<title>synopfragment</title>
+<link rel="stylesheet" href="defguide.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.41">
+<link rel="home" href="docbook.html" title="DocBook">
+<link rel="up" href="ref-elements.html" title="DocBook Element Reference">
+<link rel="previous" href="symbol.html" title="symbol">
+<link rel="next" href="synopfragmentref.html" title="synopfragmentref">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">synopfragment</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="symbol.html">Prev</a> </td>
+<th width="60%" align="center">DocBook Element Reference</th>
+<td width="20%" align="right"> <a href="synopfragmentref.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<p class="alpha-version">This is an <a href="co01.html"><em>alpha</em> version</a> of this book.</p>
+<div class="refentry">
+<h1 class="title">
+<a name="synopfragment.element"></a>synopfragment</h1>
+<div class="refnamediv">
+<a name="id3210859"></a><h2>Name</h2>synopfragment &#x2014; A portion of a <a href="cmdsynopsis.html"><tt>CmdSynopsis</tt></a> broken out from the main body of the synopsis</div>
+<div class="refsynopsisdiv">
+<a name="id3209211"></a><h2><h1 class="title">
+<a name="id3209211"></a>Synopsis</h1></h2>
+<h3><span class="bold"><b>Content Model</b></span></h3>
+<pre class="synopsis">synopfragment ::=
+((<a href="arg.html"><tt>arg</tt></a>|<a href="group.html"><tt>group</tt></a>)+)</pre>
+<h3><span class="bold"><b>Attributes</b></span></h3>
+<p><a href="ref-elements.html#common.attributes"><span class="common.attributes">Common attributes</span></a></p>
+</div>
+<div class="refsect1">
+<a name="id3212819"></a><h2>Description</h2>
+<p>
+A complex <a href="cmdsynopsis.html"><tt>CmdSynopsis</tt></a> can be made more manageable
+with <a href="synopfragment.html"><tt>SynopFragment</tt></a>s.  Rather than attempting to
+present the entire synopsis in one large
+piece, parts of the synopsis can be extracted out and presented
+elsewhere. These extracted pieces are placed in <a href="synopfragment.html"><tt>SynopFragment</tt></a>s
+at the end of the <a href="cmdsynopsis.html"><tt>CmdSynopsis</tt></a>.
+</p>
+<p>
+At the point in which each piece was extracted, insert a
+<a href="synopfragmentref.html"><tt>SynopFragmentRef</tt></a> that points to the fragment. The
+content of the reference element will be presented inline.
+</p>
+<div class="refsect2">
+<a name="id3197876"></a><h3>Processing expectations</h3>
+<p>
+Formatted as a displayed block. 
+</p>
+<p>
+The presentation system is responsible for generating text that
+makes the reader aware of the link. This can be done with
+numbered bullets, or any other appropriate mechanism. Whatever
+mark is generated for the reference must also be generated for
+the fragment.
+</p>
+<p>
+Online systems have additional flexibility. They may generate
+hot links between the references and the fragments, for example,
+or place the fragments in pop-up windows.
+</p>
+</div>
+<div class="refsect2">
+<a name="id3197915"></a><h3>Parents</h3>
+<p>These elements contain synopfragment:
+<span class="simplelist"><a href="cmdsynopsis.html"><tt>cmdsynopsis</tt></a></span>.</p>
+</div>
+<div class="refsect2">
+<a name="id3197796"></a><h3>Children</h3>
+<p>The following elements occur in synopfragment:
+<span class="simplelist"><a href="arg.html"><tt>arg</tt></a>, <a href="group.html"><tt>group</tt></a></span>.</p>
+</div>
+</div>
+<div class="refsect1">
+<a name="id3209060"></a><h2>See Also</h2>
+<p>
+<span class="simplelist"><a href="arg.html"><tt>arg</tt></a>, <a href="cmdsynopsis.html"><tt>cmdsynopsis</tt></a>, <a href="group.html"><tt>group</tt></a>, <a href="refsynopsisdiv.html"><tt>refsynopsisdiv</tt></a>, <a href="sbr.html"><tt>sbr</tt></a>, <a href="synopfragmentref.html"><tt>synopfragmentref</tt></a></span>.
+</p>
+</div>
+<div class="refsect1">
+<a name="id3209130"></a><h2>Examples</h2>
+<div class="informalexample" id="id3209137">
+<a name="id3209137"></a><pre class="programlisting">&lt;!DOCTYPE cmdsynopsis PUBLIC &quot;-//OASIS//DTD DocBook XML V4.1.2//EN&quot;
+          &quot;http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd&quot;&gt;
+&lt;cmdsynopsis&gt;
+  &lt;command&gt;cccp&lt;/command&gt;
+  &lt;arg&gt;-$&lt;/arg&gt;
+  &lt;arg&gt;-C&lt;/arg&gt;
+  &lt;arg rep='repeat'&gt;-D&lt;replaceable&gt;name&lt;/replaceable&gt;
+       &lt;arg&gt;=&lt;replaceable&gt;definition&lt;/replaceable&gt;&lt;/arg&gt;&lt;/arg&gt;
+  &lt;arg&gt;-dD&lt;/arg&gt;
+  &lt;arg&gt;-dM&lt;/arg&gt;
+  &lt;sbr/&gt;
+  &lt;arg rep='repeat'&gt;-I &lt;replaceable&gt;directory&lt;/replaceable&gt;&lt;/arg&gt;
+  &lt;arg&gt;-H&lt;/arg&gt;
+  &lt;arg&gt;-I-&lt;/arg&gt;
+  &lt;arg rep='repeat'&gt;-imacros &lt;replaceable&gt;file&lt;/replaceable&gt;&lt;/arg&gt;
+  &lt;sbr/&gt;
+  &lt;arg rep='repeat'&gt;-include &lt;replaceable&gt;file&lt;/replaceable&gt;&lt;/arg&gt;
+  &lt;group&gt;
+    &lt;synopfragmentref linkend=&quot;langs&quot;&gt;languages&lt;/synopfragmentref&gt;
+  &lt;/group&gt;
+  &lt;arg&gt;-lint&lt;/arg&gt;
+  &lt;sbr/&gt;
+  &lt;group&gt;
+    &lt;arg&gt;-M&lt;/arg&gt;
+    &lt;arg&gt;-MD&lt;/arg&gt;
+    &lt;arg&gt;-MM&lt;/arg&gt;
+    &lt;arg&gt;-MMD&lt;/arg&gt;
+  &lt;/group&gt;
+  &lt;arg&gt;-nostdinc&lt;/arg&gt;
+  &lt;arg&gt;-P&lt;/arg&gt;
+  &lt;arg&gt;-pedantic&lt;/arg&gt;
+  &lt;sbr/&gt;
+  &lt;arg&gt;-pedantic-errors&lt;/arg&gt;
+  &lt;arg&gt;-trigraphs&lt;/arg&gt;
+  &lt;arg&gt;-U&lt;replaceable&gt;name&lt;/replaceable&gt;&lt;/arg&gt;
+  &lt;sbr/&gt;
+  &lt;arg&gt;-undef&lt;/arg&gt;
+  &lt;arg choice=&quot;plain&quot;&gt;&lt;synopfragmentref linkend=&quot;warn&quot;&gt;warnings
+    &lt;/synopfragmentref&gt;&lt;/arg&gt;
+  &lt;group choice='req'&gt;
+    &lt;arg&gt;&lt;replaceable&gt;infile&lt;/replaceable&gt;&lt;/arg&gt;
+    &lt;arg&gt;-&lt;/arg&gt;
+  &lt;/group&gt;
+  &lt;group choice='req'&gt;
+    &lt;arg&gt;&lt;replaceable&gt;outfile&lt;/replaceable&gt;&lt;/arg&gt;
+    &lt;arg&gt;-&lt;/arg&gt;
+  &lt;/group&gt;
+
+  &lt;synopfragment id=&quot;langs&quot;&gt;
+    &lt;group choice=&quot;plain&quot;&gt;
+      &lt;arg&gt;-lang-c&lt;/arg&gt;
+      &lt;arg&gt;-lang-c++&lt;/arg&gt;
+      &lt;arg&gt;-lang-objc&lt;/arg&gt;
+    &lt;/group&gt;
+  &lt;/synopfragment&gt;
+
+  &lt;synopfragment id=&quot;warn&quot;&gt;
+    &lt;arg&gt;-Wtrigraphs&lt;/arg&gt;
+    &lt;arg&gt;-Wcomment&lt;/arg&gt;
+    &lt;arg&gt;-Wall&lt;/arg&gt;
+    &lt;arg&gt;-Wtraditional&lt;/arg&gt;
+  &lt;/synopfragment&gt;
+
+&lt;/cmdsynopsis&gt;</pre>
+</div><div class="example-output"><div class="cmdsynopsis" id="id3197830">
+<a name="id3197830"></a><tt>cccp</tt>  [-$] [-C] [-D<i><tt>name</tt></i>
+        [=<i><tt>definition</tt></i>]...] [-dD] [-dM]<br> [-I <i><tt>directory</tt></i>...] [-H] [-I-] [-imacros <i><tt>file</tt></i>...]<br> [-include <i><tt>file</tt></i>...] [<i><a href="#langs">(1)</a></i>] [-lint]<br> [-M | -MD | -MM | -MMD] [-nostdinc] [-P] [-pedantic]<br> [-pedantic-errors] [-trigraphs] [-U<i><tt>name</tt></i>]<br> [-undef]  <i><a href="#warn">(2)</a></i>  {<i><tt>infile</tt></i> | -} {<i><tt>outfile</tt></i> | -}<p>
+<a name="#langs">(1)</a>  -lang-c | -lang-c++ | -lang-objc </p>
+<p>
+<a name="#warn">(2)</a> [-Wtrigraphs] [-Wcomment] [-Wall] [-Wtraditional]</p>
+</div></div><p>For additional examples, see also
+<span class="simplelist"><a href="cmdsynopsis.html"><tt>cmdsynopsis</tt></a></span>
+.</p>
+</div>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="symbol.html">Prev</a> </td>
+<td width="20%" align="center"><a href="docbook.html">Home</a></td>
+<td width="40%" align="right"> <a href="synopfragmentref.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">symbol </td>
+<td width="20%" align="center"><a href="ref-elements.html">Up</a></td>
+<td width="40%" align="right"> synopfragmentref</td>
+</tr>
+</table>
+</div>
+<p>
+<a href="dbcpyright.html">Copyright</a> © 1999, 2000, 2001 <a href="http://www.oreilly.com/">O'Reilly &amp; Associates, Inc.</a>
+</p>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type">
+<title>co</title>
+<link rel="stylesheet" href="defguide.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.41">
+<link rel="home" href="docbook.html" title="DocBook">
+<link rel="up" href="ref-elements.html" title="DocBook Element Reference">
+<link rel="previous" href="cmdsynopsis.html" title="cmdsynopsis">
+<link rel="next" href="collab.html" title="collab">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">co</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="cmdsynopsis.html">Prev</a> </td>
+<th width="60%" align="center">DocBook Element Reference</th>
+<td width="20%" align="right"> <a href="collab.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<p class="alpha-version">This is an <a href="co01.html"><em>alpha</em> version</a> of this book.</p>
+<div class="refentry">
+<h1 class="title">
+<a name="co.element"></a>co</h1>
+<div class="refnamediv">
+<a name="id2914579"></a><h2>Name</h2>co &#x2014; The location of a callout embedded in text</div>
+<div class="refsynopsisdiv">
+<a name="id2914742"></a><h2><h1 class="title">
+<a name="id2914742"></a>Synopsis</h1></h2>
+<h3><span class="bold"><b>Content Model</b></span></h3>
+<pre class="synopsis">co ::=
+EMPTY</pre>
+<h3><span class="bold"><b>Attributes</b></span></h3>
+<p><a href="ref-elements.html#common.attributes"><span class="common.attributes">Common attributes</span></a></p>
+<table border="1" width="100%" summary="Attributes">
+<tr>
+<td><p><span class="bold"><b>Name</b></span></p></td>
+<td><p><span class="bold"><b>Type</b></span></p></td>
+<td><p><span class="bold"><b>Default</b></span></p></td>
+</tr>
+<tr>
+<td align="left" valign="top">label</td>
+<td align="left" valign="top">CDATA</td>
+<td align="left" valign="top"><span class="emphasis"><i>None</i></span></td>
+</tr>
+<tr>
+<td align="left" valign="top">linkends</td>
+<td align="left" valign="top">IDREFS</td>
+<td align="left" valign="top"><span class="emphasis"><i>None</i></span></td>
+</tr>
+</table>
+</div>
+<div class="refsect1">
+<a name="id2913066"></a><h2>Description</h2>
+<p>
+A <a href="co.html"><tt>CO</tt></a> identifies (by its location) a point of
+reference for a callout.  See <a href="callout.html"><tt>Callout</tt></a>.
+</p>
+<div class="refsect2">
+<a name="id2914811"></a><h3>Processing expectations</h3>
+<p>
+Formatted inline. This element provides data for processing, but
+is not expected to be rendered directly.
+</p>
+</div>
+<div class="refsect2">
+<a name="id2899534"></a><h3>Parents</h3>
+<p>These elements contain co:
+<span class="simplelist"><a href="literallayout.html"><tt>literallayout</tt></a>, <a href="programlisting.html"><tt>programlisting</tt></a>, <a href="screen.html"><tt>screen</tt></a>, <a href="synopsis.html"><tt>synopsis</tt></a></span>.</p>
+</div>
+</div>
+<div class="refsect1">
+<a name="id2899518"></a><h2>Attributes</h2>
+<div class="variablelist"><dl>
+<dt>
+<a name="id2899528"></a><span class="term">label</span>
+</dt>
+<dd><p>
+<tt>Label</tt> specifies an identifying number or string
+that may be used in presentation.
+</p></dd>
+<dt>
+<a name="id2899433"></a><span class="term">linkends</span>
+</dt>
+<dd><p>
+<tt>Linkends</tt> points to the <a href="callout.html"><tt>Callout</tt></a>(s) which refer
+to this <a href="co.html"><tt>CO</tt></a>. (This provides bidirectional linking, which
+may be useful in online presentation, for example.)
+</p></dd>
+</dl></div>
+</div>
+<div class="refsect1">
+<a name="id2914823"></a><h2>See Also</h2>
+<p>
+<span class="simplelist"><a href="areaspec.html"><tt>areaspec</tt></a>, <a href="calloutlist.html"><tt>calloutlist</tt></a>, <a href="graphicco.html"><tt>graphicco</tt></a>, <a href="imageobjectco.html"><tt>imageobjectco</tt></a>, <a href="mediaobjectco.html"><tt>mediaobjectco</tt></a>, <a href="programlistingco.html"><tt>programlistingco</tt></a>, <a href="screenco.html"><tt>screenco</tt></a></span>.
+</p>
+</div>
+<div class="refsect1">
+<a name="id2914986"></a><h2>Examples</h2>
+<p>For examples, see
+<span class="simplelist"><a href="screenco.html"><tt>screenco</tt></a></span>
+.</p>
+</div>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="cmdsynopsis.html">Prev</a> </td>
+<td width="20%" align="center"><a href="docbook.html">Home</a></td>
+<td width="40%" align="right"> <a href="collab.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">cmdsynopsis </td>
+<td width="20%" align="center"><a href="ref-elements.html">Up</a></td>
+<td width="40%" align="right"> collab</td>
+</tr>
+</table>
+</div>
+<p>
+<a href="dbcpyright.html">Copyright</a> © 1999, 2000, 2001 <a href="http://www.oreilly.com/">O'Reilly &amp; Associates, Inc.</a>
+</p>
+</body>
+</html>

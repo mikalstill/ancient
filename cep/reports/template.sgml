@@ -1,0 +1,10 @@
+<!-- Reports are built as articles because that means that they convert -->
+<!-- into a book really easily later...                                 -->
+<!--                                                                    -->
+
+<article>
+<sect1>
+<para>
+</para>
+</sect1>
+</article>

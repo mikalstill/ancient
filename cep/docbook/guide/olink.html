@@ -1,0 +1,301 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type">
+<title>olink</title>
+<link rel="stylesheet" href="defguide.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.41">
+<link rel="home" href="docbook.html" title="DocBook">
+<link rel="up" href="ref-elements.html" title="DocBook Element Reference">
+<link rel="previous" href="objectinfo.html" title="objectinfo">
+<link rel="next" href="ooclass.html" title="ooclass">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">olink</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="objectinfo.html">Prev</a> </td>
+<th width="60%" align="center">DocBook Element Reference</th>
+<td width="20%" align="right"> <a href="ooclass.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<p class="alpha-version">This is an <a href="co01.html"><em>alpha</em> version</a> of this book.</p>
+<div class="refentry">
+<h1 class="title">
+<a name="olink.element"></a>olink</h1>
+<div class="refnamediv">
+<a name="id3065576"></a><h2>Name</h2>olink &#x2014; A link that addresses its target indirectly, through an entity</div>
+<div class="refsynopsisdiv">
+<a name="id3065605"></a><h2><h1 class="title">
+<a name="id3065605"></a>Synopsis</h1></h2>
+<h3><span class="bold"><b>Mixed Content Model</b></span></h3>
+<pre class="synopsis">olink ::=
+(#PCDATA|<a href="footnoteref.html"><tt>footnoteref</tt></a>|<a href="xref.html"><tt>xref</tt></a>|<a href="abbrev.html"><tt>abbrev</tt></a>|<a href="acronym.html"><tt>acronym</tt></a>|<a href="citation.html"><tt>citation</tt></a>|<a href="citerefentry.html"><tt>citerefentry</tt></a>|
+ <a href="citetitle.html"><tt>citetitle</tt></a>|<a href="emphasis.html"><tt>emphasis</tt></a>|<a href="firstterm.html"><tt>firstterm</tt></a>|<a href="foreignphrase.html"><tt>foreignphrase</tt></a>|<a href="glossterm.html"><tt>glossterm</tt></a>|<a href="footnote.html"><tt>footnote</tt></a>|
+ <a href="phrase.html"><tt>phrase</tt></a>|<a href="quote.html"><tt>quote</tt></a>|<a href="trademark.html"><tt>trademark</tt></a>|<a href="wordasword.html"><tt>wordasword</tt></a>|<a href="link.html"><tt>link</tt></a>|<a href="olink.html"><tt>olink</tt></a>|<a href="ulink.html"><tt>ulink</tt></a>|<a href="action.html"><tt>action</tt></a>|
+ <a href="application.html"><tt>application</tt></a>|<a href="classname.html"><tt>classname</tt></a>|<a href="methodname.html"><tt>methodname</tt></a>|<a href="interfacename.html"><tt>interfacename</tt></a>|<a href="exceptionname.html"><tt>exceptionname</tt></a>|
+ <a href="ooclass.html"><tt>ooclass</tt></a>|<a href="oointerface.html"><tt>oointerface</tt></a>|<a href="ooexception.html"><tt>ooexception</tt></a>|<a href="command.html"><tt>command</tt></a>|<a href="computeroutput.html"><tt>computeroutput</tt></a>|<a href="database.html"><tt>database</tt></a>|
+ <a href="email.html"><tt>email</tt></a>|<a href="envar.html"><tt>envar</tt></a>|<a href="errorcode.html"><tt>errorcode</tt></a>|<a href="errorname.html"><tt>errorname</tt></a>|<a href="errortype.html"><tt>errortype</tt></a>|<a href="filename.html"><tt>filename</tt></a>|<a href="function.html"><tt>function</tt></a>|
+ <a href="guibutton.html"><tt>guibutton</tt></a>|<a href="guiicon.html"><tt>guiicon</tt></a>|<a href="guilabel.html"><tt>guilabel</tt></a>|<a href="guimenu.html"><tt>guimenu</tt></a>|<a href="guimenuitem.html"><tt>guimenuitem</tt></a>|<a href="guisubmenu.html"><tt>guisubmenu</tt></a>|
+ <a href="hardware.html"><tt>hardware</tt></a>|<a href="interface.html"><tt>interface</tt></a>|<a href="keycap.html"><tt>keycap</tt></a>|<a href="keycode.html"><tt>keycode</tt></a>|<a href="keycombo.html"><tt>keycombo</tt></a>|<a href="keysym.html"><tt>keysym</tt></a>|<a href="literal.html"><tt>literal</tt></a>|
+ <a href="constant.html"><tt>constant</tt></a>|<a href="markup.html"><tt>markup</tt></a>|<a href="medialabel.html"><tt>medialabel</tt></a>|<a href="menuchoice.html"><tt>menuchoice</tt></a>|<a href="mousebutton.html"><tt>mousebutton</tt></a>|<a href="option.html"><tt>option</tt></a>|
+ <a href="optional.html"><tt>optional</tt></a>|<a href="parameter.html"><tt>parameter</tt></a>|<a href="prompt.html"><tt>prompt</tt></a>|<a href="property.html"><tt>property</tt></a>|<a href="replaceable.html"><tt>replaceable</tt></a>|<a href="returnvalue.html"><tt>returnvalue</tt></a>|
+ <a href="sgmltag.html"><tt>sgmltag</tt></a>|<a href="structfield.html"><tt>structfield</tt></a>|<a href="structname.html"><tt>structname</tt></a>|<a href="symbol.html"><tt>symbol</tt></a>|<a href="systemitem.html"><tt>systemitem</tt></a>|<a href="token.html"><tt>token</tt></a>|<a href="type.html"><tt>type</tt></a>|
+ <a href="userinput.html"><tt>userinput</tt></a>|<a href="varname.html"><tt>varname</tt></a>|<a href="nonterminal.html"><tt>nonterminal</tt></a>|<a href="anchor.html"><tt>anchor</tt></a>|<a href="author.html"><tt>author</tt></a>|<a href="authorinitials.html"><tt>authorinitials</tt></a>|
+ <a href="corpauthor.html"><tt>corpauthor</tt></a>|<a href="modespec.html"><tt>modespec</tt></a>|<a href="othercredit.html"><tt>othercredit</tt></a>|<a href="productname.html"><tt>productname</tt></a>|<a href="productnumber.html"><tt>productnumber</tt></a>|
+ <a href="revhistory.html"><tt>revhistory</tt></a>|<a href="remark.html"><tt>remark</tt></a>|<a href="subscript.html"><tt>subscript</tt></a>|<a href="superscript.html"><tt>superscript</tt></a>|<a href="inlinegraphic.html"><tt>inlinegraphic</tt></a>|
+ <a href="inlinemediaobject.html"><tt>inlinemediaobject</tt></a>|<a href="inlineequation.html"><tt>inlineequation</tt></a>|<a href="synopsis.html"><tt>synopsis</tt></a>|<a href="cmdsynopsis.html"><tt>cmdsynopsis</tt></a>|
+ <a href="funcsynopsis.html"><tt>funcsynopsis</tt></a>|<a href="classsynopsis.html"><tt>classsynopsis</tt></a>|<a href="fieldsynopsis.html"><tt>fieldsynopsis</tt></a>|<a href="constructorsynopsis.html"><tt>constructorsynopsis</tt></a>|
+ <a href="destructorsynopsis.html"><tt>destructorsynopsis</tt></a>|<a href="methodsynopsis.html"><tt>methodsynopsis</tt></a>|<a href="indexterm.html"><tt>indexterm</tt></a>|<a href="beginpage.html"><tt>beginpage</tt></a>)*</pre>
+<h3><span class="bold"><b>Attributes</b></span></h3>
+<p><a href="ref-elements.html#common.attributes"><span class="common.attributes">Common attributes</span></a></p>
+<table border="1" width="100%" summary="Attributes">
+<tr>
+<td><p><span class="bold"><b>Name</b></span></p></td>
+<td><p><span class="bold"><b>Type</b></span></p></td>
+<td><p><span class="bold"><b>Default</b></span></p></td>
+</tr>
+<tr>
+<td align="left" valign="top">type</td>
+<td align="left" valign="top">CDATA</td>
+<td align="left" valign="top"><span class="emphasis"><i>None</i></span></td>
+</tr>
+<tr>
+<td align="left" valign="top">linkmode</td>
+<td align="left" valign="top">IDREF</td>
+<td align="left" valign="top"><span class="emphasis"><i>None</i></span></td>
+</tr>
+<tr>
+<td align="left" valign="top">targetdocent</td>
+<td align="left" valign="top">ENTITY</td>
+<td align="left" valign="top"><span class="emphasis"><i>None</i></span></td>
+</tr>
+<tr>
+<td align="left" valign="top">localinfo</td>
+<td align="left" valign="top">CDATA</td>
+<td align="left" valign="top"><span class="emphasis"><i>None</i></span></td>
+</tr>
+</table>
+<h3><span class="bold"><b>Parameter Entities</b></span></h3>
+<p>The following parameter entities contain olink:</p>
+<table border="1" width="100%" summary="Attributes">
+<tr><td colspan="3" align="left"><span class="bold"><b>Parameter Entities</b></span></td></tr>
+<tr>
+<td><a href="pe-mix.html#cptr.char.mix.parament"><tt>%cptr.char.mix;</tt></a></td>
+<td><a href="pe-mix.html#docinfo.char.mix.parament"><tt>%docinfo.char.mix;</tt></a></td>
+<td><a href="pe-mix.html#indexdivcomponent.mix.parament"><tt>%indexdivcomponent.mix;</tt></a></td>
+</tr>
+<tr>
+<td><a href="pe-class.html#link.char.class.parament"><tt>%link.char.class;</tt></a></td>
+<td><a href="pe-mix.html#ndxterm.char.mix.parament"><tt>%ndxterm.char.mix;</tt></a></td>
+<td><a href="pe-mix.html#para.char.mix.parament"><tt>%para.char.mix;</tt></a></td>
+</tr>
+<tr>
+<td><a href="pe-mix.html#refinline.char.mix.parament"><tt>%refinline.char.mix;</tt></a></td>
+<td><a href="pe-cals.html#tbl.entry.mdl.parament"><tt>%tbl.entry.mdl;</tt></a></td>
+<td><a href="pe-mix.html#title.char.mix.parament"><tt>%title.char.mix;</tt></a></td>
+</tr>
+<tr>
+<td><a href="pe-mix.html#word.char.mix.parament"><tt>%word.char.mix;</tt></a></td>
+<td> </td>
+<td> </td>
+</tr>
+</table>
+</div>
+<div class="refsect1">
+<a name="id3065549"></a><h2>Description</h2>
+<p>
+Unlike <a href="link.html"><tt>Link</tt></a> and <a href="ulink.html"><tt>ULink</tt></a>, the semantics of
+<a href="olink.html"><tt>OLink</tt></a> are application-specific.  <a href="olink.html"><tt>OLink</tt></a> provides
+a mechanism for establishing links across documents, where 
+ID/IDREF linking is not possible and <a href="ulink.html"><tt>ULink</tt></a> is inappropriate.
+</p>
+<p>
+In general terms, the strategy employed by <a href="olink.html"><tt>OLink</tt></a> is to
+point to the target document via an 
+<a href="ch01.html#s-egenent" title="1.4.1.2. External general entities">external general entity</a>, and point
+into that document in some application-specific way.
+</p>
+<div class="refsect2">
+<a name="id3070066"></a><h3>Processing expectations</h3>
+<p>
+Formatted inline.
+</p>
+<p>
+<a href="olink.html"><tt>OLink</tt></a> points to its target primarily with the 
+<tt>TargetDocEnt</tt> attribute.
+<tt>TargetDocEnt</tt> must be the name of an
+entity (previously declared in the DTD or in the <i>document
+subset</i>).
+</p>
+<p>
+Because <tt>TargetDocEnt</tt> is an entity attribute,
+the entity used as its value must be declared with a notation.
+Because the target is usually another SGML or XML document, the
+notation <tt>SGML</tt> is most often used:
+
+<pre class="screen">
+
+&lt;!ENTITY myotherdoc SYSTEM &quot;myotherdoc.sgm&quot; NDATA SGML&gt;
+
+</pre>
+</p>
+<p>
+The semantics of the link are controlled by three other attributes:
+<tt>LinkMode</tt>,
+<tt>LocalInfo</tt>, and
+<tt>Type</tt>.
+The <tt>LinkMode</tt>
+attribute points to a <a href="modespec.html"><tt>ModeSpec</tt></a>.  The content of
+<a href="modespec.html"><tt>ModeSpec</tt></a> describes the semantic of the link in an entirely
+application-specific way.  
+</p>
+<p>
+The values of 
+<tt>LocalInfo</tt> and
+<tt>Type</tt> may also influence the application.
+For example, if the <a href="modespec.html"><tt>ModeSpec</tt></a> describes some sort of query, 
+<tt>LocalInfo</tt> might hold the query text
+(allowing multiple <a href="olink.html"><tt>OLink</tt></a>s to use the same <a href="modespec.html"><tt>ModeSpec</tt></a>
+to achieve different queries with the same query engine).
+</p>
+<p>
+Linking elements must not be nested within other linking
+elements (including themselves). Because DocBook is harmonizing
+towards XML, this restriction cannot easily be enforced by the DTD. The
+processing of nested linking elements is undefined.
+</p>
+</div>
+<div class="refsect2">
+<a name="id3070095"></a><h3>
+<img src="figures/rev_4.0.png" alt="[4.0]" align="absbottom"> Future Changes</h3>
+<p>
+
+The <tt>InterfaceDefinition</tt>
+element will be discarded in DocBook V4.0. It will no longer be available
+in the content model of this element.
+
+</p>
+</div>
+<div class="refsect2">
+<a name="id3067342"></a><h3>Parents</h3>
+<p>These elements contain olink:
+<span class="simplelist"><a href="abbrev.html"><tt>abbrev</tt></a>, <a href="ackno.html"><tt>ackno</tt></a>, <a href="acronym.html"><tt>acronym</tt></a>, <a href="application.html"><tt>application</tt></a>, <a href="artpagenums.html"><tt>artpagenums</tt></a>, <a href="attribution.html"><tt>attribution</tt></a>, <a href="authorinitials.html"><tt>authorinitials</tt></a>, <a href="bibliomisc.html"><tt>bibliomisc</tt></a>, <a href="bridgehead.html"><tt>bridgehead</tt></a>, <a href="citation.html"><tt>citation</tt></a>, <a href="citetitle.html"><tt>citetitle</tt></a>, <a href="city.html"><tt>city</tt></a>, <a href="classsynopsisinfo.html"><tt>classsynopsisinfo</tt></a>, <a href="collabname.html"><tt>collabname</tt></a>, <a href="command.html"><tt>command</tt></a>, <a href="computeroutput.html"><tt>computeroutput</tt></a>, <a href="confdates.html"><tt>confdates</tt></a>, <a href="confnum.html"><tt>confnum</tt></a>, <a href="confsponsor.html"><tt>confsponsor</tt></a>, <a href="conftitle.html"><tt>conftitle</tt></a>, <a href="contractnum.html"><tt>contractnum</tt></a>, <a href="contractsponsor.html"><tt>contractsponsor</tt></a>, <a href="contrib.html"><tt>contrib</tt></a>, <a href="corpauthor.html"><tt>corpauthor</tt></a>, <a href="corpname.html"><tt>corpname</tt></a>, <a href="country.html"><tt>country</tt></a>, <a href="date.html"><tt>date</tt></a>, <a href="edition.html"><tt>edition</tt></a>, <a href="email.html"><tt>email</tt></a>, <a href="emphasis.html"><tt>emphasis</tt></a>, <a href="entry.html"><tt>entry</tt></a>, <a href="fax.html"><tt>fax</tt></a>, <a href="figure.html"><tt>figure</tt></a>, <a href="firstname.html"><tt>firstname</tt></a>, <a href="firstterm.html"><tt>firstterm</tt></a>, <a href="foreignphrase.html"><tt>foreignphrase</tt></a>, <a href="funcparams.html"><tt>funcparams</tt></a>, <a href="funcsynopsisinfo.html"><tt>funcsynopsisinfo</tt></a>, <a href="function.html"><tt>function</tt></a>, <a href="glosssee.html"><tt>glosssee</tt></a>, <a href="glossseealso.html"><tt>glossseealso</tt></a>, <a href="glossterm.html"><tt>glossterm</tt></a>, <a href="holder.html"><tt>holder</tt></a>, <a href="honorific.html"><tt>honorific</tt></a>, <a href="indexdiv.html"><tt>indexdiv</tt></a>, <a href="informalfigure.html"><tt>informalfigure</tt></a>, <a href="invpartnumber.html"><tt>invpartnumber</tt></a>, <a href="isbn.html"><tt>isbn</tt></a>, <a href="issn.html"><tt>issn</tt></a>, <a href="issuenum.html"><tt>issuenum</tt></a>, <a href="jobtitle.html"><tt>jobtitle</tt></a>, <a href="label.html"><tt>label</tt></a>, <a href="lineage.html"><tt>lineage</tt></a>, <a href="lineannotation.html"><tt>lineannotation</tt></a>, <a href="link.html"><tt>link</tt></a>, <a href="literal.html"><tt>literal</tt></a>, <a href="literallayout.html"><tt>literallayout</tt></a>, <a href="lotentry.html"><tt>lotentry</tt></a>, <a href="manvolnum.html"><tt>manvolnum</tt></a>, <a href="member.html"><tt>member</tt></a>, <a href="modespec.html"><tt>modespec</tt></a>, <a href="msgaud.html"><tt>msgaud</tt></a>, <a href="olink.html"><tt>olink</tt></a>, <a href="optional.html"><tt>optional</tt></a>, <a href="orgdiv.html"><tt>orgdiv</tt></a>, <a href="orgname.html"><tt>orgname</tt></a>, <a href="otheraddr.html"><tt>otheraddr</tt></a>, <a href="othername.html"><tt>othername</tt></a>, <a href="pagenums.html"><tt>pagenums</tt></a>, <a href="para.html"><tt>para</tt></a>, <a href="phone.html"><tt>phone</tt></a>, <a href="phrase.html"><tt>phrase</tt></a>, <a href="pob.html"><tt>pob</tt></a>, <a href="postcode.html"><tt>postcode</tt></a>, <a href="primary.html"><tt>primary</tt></a>, <a href="primaryie.html"><tt>primaryie</tt></a>, <a href="productname.html"><tt>productname</tt></a>, <a href="productnumber.html"><tt>productnumber</tt></a>, <a href="programlisting.html"><tt>programlisting</tt></a>, <a href="pubdate.html"><tt>pubdate</tt></a>, <a href="publishername.html"><tt>publishername</tt></a>, <a href="pubsnumber.html"><tt>pubsnumber</tt></a>, <a href="quote.html"><tt>quote</tt></a>, <a href="refentry.html"><tt>refentry</tt></a>, <a href="refentrytitle.html"><tt>refentrytitle</tt></a>, <a href="refmiscinfo.html"><tt>refmiscinfo</tt></a>, <a href="refnamediv.html"><tt>refnamediv</tt></a>, <a href="refpurpose.html"><tt>refpurpose</tt></a>, <a href="releaseinfo.html"><tt>releaseinfo</tt></a>, <a href="remark.html"><tt>remark</tt></a>, <a href="replaceable.html"><tt>replaceable</tt></a>, <a href="revnumber.html"><tt>revnumber</tt></a>, <a href="revremark.html"><tt>revremark</tt></a>, <a href="screen.html"><tt>screen</tt></a>, <a href="screeninfo.html"><tt>screeninfo</tt></a>, <a href="secondary.html"><tt>secondary</tt></a>, <a href="secondaryie.html"><tt>secondaryie</tt></a>, <a href="see.html"><tt>see</tt></a>, <a href="seealso.html"><tt>seealso</tt></a>, <a href="seealsoie.html"><tt>seealsoie</tt></a>, <a href="seeie.html"><tt>seeie</tt></a>, <a href="seg.html"><tt>seg</tt></a>, <a href="segtitle.html"><tt>segtitle</tt></a>, <a href="seriesvolnums.html"><tt>seriesvolnums</tt></a>, <a href="shortaffil.html"><tt>shortaffil</tt></a>, <a href="simpara.html"><tt>simpara</tt></a>, <a href="state.html"><tt>state</tt></a>, <a href="street.html"><tt>street</tt></a>, <a href="subscript.html"><tt>subscript</tt></a>, <a href="subtitle.html"><tt>subtitle</tt></a>, <a href="superscript.html"><tt>superscript</tt></a>, <a href="surname.html"><tt>surname</tt></a>, <a href="synopsis.html"><tt>synopsis</tt></a>, <a href="term.html"><tt>term</tt></a>, <a href="tertiary.html"><tt>tertiary</tt></a>, <a href="tertiaryie.html"><tt>tertiaryie</tt></a>, <a href="title.html"><tt>title</tt></a>, <a href="titleabbrev.html"><tt>titleabbrev</tt></a>, <a href="tocback.html"><tt>tocback</tt></a>, <a href="tocentry.html"><tt>tocentry</tt></a>, <a href="tocfront.html"><tt>tocfront</tt></a>, <a href="trademark.html"><tt>trademark</tt></a>, <a href="ulink.html"><tt>ulink</tt></a>, <a href="userinput.html"><tt>userinput</tt></a>, <a href="volumenum.html"><tt>volumenum</tt></a>, <a href="wordasword.html"><tt>wordasword</tt></a>, <a href="year.html"><tt>year</tt></a></span>.</p>
+</div>
+<div class="refsect2">
+<a name="id3067266"></a><h3>Children</h3>
+<p>The following elements occur in olink:
+<span class="simplelist"><a href="abbrev.html"><tt>abbrev</tt></a>, <a href="acronym.html"><tt>acronym</tt></a>, <a href="action.html"><tt>action</tt></a>, <a href="anchor.html"><tt>anchor</tt></a>, <a href="application.html"><tt>application</tt></a>, <a href="author.html"><tt>author</tt></a>, <a href="authorinitials.html"><tt>authorinitials</tt></a>, <a href="beginpage.html"><tt>beginpage</tt></a>, <a href="citation.html"><tt>citation</tt></a>, <a href="citerefentry.html"><tt>citerefentry</tt></a>, <a href="citetitle.html"><tt>citetitle</tt></a>, <a href="classname.html"><tt>classname</tt></a>, <a href="classsynopsis.html"><tt>classsynopsis</tt></a>, <a href="cmdsynopsis.html"><tt>cmdsynopsis</tt></a>, <a href="command.html"><tt>command</tt></a>, <a href="computeroutput.html"><tt>computeroutput</tt></a>, <a href="constant.html"><tt>constant</tt></a>, <a href="constructorsynopsis.html"><tt>constructorsynopsis</tt></a>, <a href="corpauthor.html"><tt>corpauthor</tt></a>, <a href="database.html"><tt>database</tt></a>, <a href="destructorsynopsis.html"><tt>destructorsynopsis</tt></a>, <a href="email.html"><tt>email</tt></a>, <a href="emphasis.html"><tt>emphasis</tt></a>, <a href="envar.html"><tt>envar</tt></a>, <a href="errorcode.html"><tt>errorcode</tt></a>, <a href="errorname.html"><tt>errorname</tt></a>, <a href="errortype.html"><tt>errortype</tt></a>, <a href="exceptionname.html"><tt>exceptionname</tt></a>, <a href="fieldsynopsis.html"><tt>fieldsynopsis</tt></a>, <a href="filename.html"><tt>filename</tt></a>, <a href="firstterm.html"><tt>firstterm</tt></a>, <a href="footnote.html"><tt>footnote</tt></a>, <a href="footnoteref.html"><tt>footnoteref</tt></a>, <a href="foreignphrase.html"><tt>foreignphrase</tt></a>, <a href="funcsynopsis.html"><tt>funcsynopsis</tt></a>, <a href="function.html"><tt>function</tt></a>, <a href="glossterm.html"><tt>glossterm</tt></a>, <a href="guibutton.html"><tt>guibutton</tt></a>, <a href="guiicon.html"><tt>guiicon</tt></a>, <a href="guilabel.html"><tt>guilabel</tt></a>, <a href="guimenu.html"><tt>guimenu</tt></a>, <a href="guimenuitem.html"><tt>guimenuitem</tt></a>, <a href="guisubmenu.html"><tt>guisubmenu</tt></a>, <a href="hardware.html"><tt>hardware</tt></a>, <a href="indexterm.html"><tt>indexterm</tt></a>, <a href="inlineequation.html"><tt>inlineequation</tt></a>, <a href="inlinegraphic.html"><tt>inlinegraphic</tt></a>, <a href="inlinemediaobject.html"><tt>inlinemediaobject</tt></a>, <a href="interface.html"><tt>interface</tt></a>, <a href="interfacename.html"><tt>interfacename</tt></a>, <a href="keycap.html"><tt>keycap</tt></a>, <a href="keycode.html"><tt>keycode</tt></a>, <a href="keycombo.html"><tt>keycombo</tt></a>, <a href="keysym.html"><tt>keysym</tt></a>, <a href="link.html"><tt>link</tt></a>, <a href="literal.html"><tt>literal</tt></a>, <a href="markup.html"><tt>markup</tt></a>, <a href="medialabel.html"><tt>medialabel</tt></a>, <a href="menuchoice.html"><tt>menuchoice</tt></a>, <a href="methodname.html"><tt>methodname</tt></a>, <a href="methodsynopsis.html"><tt>methodsynopsis</tt></a>, <a href="modespec.html"><tt>modespec</tt></a>, <a href="mousebutton.html"><tt>mousebutton</tt></a>, <a href="nonterminal.html"><tt>nonterminal</tt></a>, <a href="olink.html"><tt>olink</tt></a>, <a href="ooclass.html"><tt>ooclass</tt></a>, <a href="ooexception.html"><tt>ooexception</tt></a>, <a href="oointerface.html"><tt>oointerface</tt></a>, <a href="option.html"><tt>option</tt></a>, <a href="optional.html"><tt>optional</tt></a>, <a href="othercredit.html"><tt>othercredit</tt></a>, <a href="parameter.html"><tt>parameter</tt></a>, <a href="phrase.html"><tt>phrase</tt></a>, <a href="productname.html"><tt>productname</tt></a>, <a href="productnumber.html"><tt>productnumber</tt></a>, <a href="prompt.html"><tt>prompt</tt></a>, <a href="property.html"><tt>property</tt></a>, <a href="quote.html"><tt>quote</tt></a>, <a href="remark.html"><tt>remark</tt></a>, <a href="replaceable.html"><tt>replaceable</tt></a>, <a href="returnvalue.html"><tt>returnvalue</tt></a>, <a href="revhistory.html"><tt>revhistory</tt></a>, <a href="sgmltag.html"><tt>sgmltag</tt></a>, <a href="structfield.html"><tt>structfield</tt></a>, <a href="structname.html"><tt>structname</tt></a>, <a href="subscript.html"><tt>subscript</tt></a>, <a href="superscript.html"><tt>superscript</tt></a>, <a href="symbol.html"><tt>symbol</tt></a>, <a href="synopsis.html"><tt>synopsis</tt></a>, <a href="systemitem.html"><tt>systemitem</tt></a>, <a href="token.html"><tt>token</tt></a>, <a href="trademark.html"><tt>trademark</tt></a>, <a href="type.html"><tt>type</tt></a>, <a href="ulink.html"><tt>ulink</tt></a>, <a href="userinput.html"><tt>userinput</tt></a>, <a href="varname.html"><tt>varname</tt></a>, <a href="wordasword.html"><tt>wordasword</tt></a>, <a href="xref.html"><tt>xref</tt></a></span>.</p>
+</div>
+</div>
+<div class="refsect1">
+<a name="id3070085"></a><h2>Attributes</h2>
+<div class="variablelist"><dl>
+<dt>
+<a name="id3067173"></a><span class="term">linkmode</span>
+</dt>
+<dd><p>
+<tt>LinkMode</tt> points to the <a href="modespec.html"><tt>ModeSpec</tt></a> 
+which provides additional application-specific information for resolving this
+<a href="olink.html"><tt>OLink</tt></a>.
+</p></dd>
+<dt>
+<a name="id3073210"></a><span class="term">localinfo</span>
+</dt>
+<dd><p>
+<tt>LocalInfo</tt> hold additional information
+that may be used with the <a href="modespec.html"><tt>ModeSpec</tt></a>
+(pointed to by <tt>LinkMode</tt>) by the application 
+when resolving this <a href="olink.html"><tt>OLink</tt></a>.
+</p></dd>
+<dt>
+<a name="id3073254"></a><span class="term">targetdocent</span>
+</dt>
+<dd><p>
+<tt>TargetDocEnt</tt> specifies the name of an entity 
+that is to be used as part of the <a href="olink.html"><tt>OLink</tt></a>. Exactly how the 
+link is resolved is application dependent and may be influenced by the
+<tt>MoreInfo</tt> and 
+<tt>LocalInfo</tt> attributes.
+</p></dd>
+<dt>
+<a name="id3073309"></a><span class="term">type</span>
+</dt>
+<dd><p>
+<tt>Type</tt> is available for application-specific
+customization of the linking behavior.
+</p></dd>
+</dl></div>
+</div>
+<div class="refsect1">
+<a name="id3073238"></a><h2>See Also</h2>
+<p>
+<span class="simplelist"><a href="anchor.html"><tt>anchor</tt></a>, <a href="link.html"><tt>link</tt></a>, <a href="ulink.html"><tt>ulink</tt></a>, <a href="xref.html"><tt>xref</tt></a></span>.
+</p>
+</div>
+<div class="refsect1">
+<a name="id3071262"></a><h2>Examples</h2>
+<p>
+In this example, we see how an <a href="olink.html"><tt>OLink</tt></a> might be used for
+searching.  Here the <a href="modespec.html"><tt>ModeSpec</tt></a> describes the search query
+(in a fictitious and entirely concocted syntax): &#x201C;look in the titles
+of sections and return links using the title as the text of the link&#x201D;.
+When the user selects the link, the application is expected to perform
+the query and then might display the list of titles as a pop-up window
+in the user interface.
+</p>
+<div class="informalexample" id="id3070813">
+<a name="id3070813"></a><pre class="programlisting">
+&lt;!DOCTYPE chapter PUBLIC &quot;-//OASIS//DTD DocBook XML V4.1.2//EN&quot;
+                  &quot;http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd&quot; [
+&lt;!ENTITY refbook SYSTEM &quot;refbook.sgm&quot; CDATA SGML&gt;
+]&gt;
+&lt;chapter&gt;
+&lt;chapterinfo&gt;
+  &lt;modespec id=&quot;s1query&quot;&gt;query in sect*, title return link text title&lt;/modespec&gt;
+&lt;/chapterinfo&gt;
+&lt;title&gt;Printing&lt;/title&gt;
+
+&lt;para&gt;
+Blah, blah, blah.
+&lt;/para&gt;
+
+&lt;sect1&gt;&lt;title&gt;See Also&lt;/title&gt;
+&lt;para&gt;
+For more information &lt;olink targetdocent=&quot;refbook&quot; linkmode=&quot;s1query&quot;
+localinfo=&quot;print or printing&quot;&gt;about printing&lt;/olink&gt;, consult
+the &lt;ulink url=&quot;refbook.sgm&quot;&gt;reference manual&lt;/ulink&gt;.
+&lt;/para&gt;
+&lt;/sect1&gt;
+
+&lt;/chapter&gt;</pre>
+</div>
+</div>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="objectinfo.html">Prev</a> </td>
+<td width="20%" align="center"><a href="docbook.html">Home</a></td>
+<td width="40%" align="right"> <a href="ooclass.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">objectinfo </td>
+<td width="20%" align="center"><a href="ref-elements.html">Up</a></td>
+<td width="40%" align="right"> ooclass</td>
+</tr>
+</table>
+</div>
+<p>
+<a href="dbcpyright.html">Copyright</a> © 1999, 2000, 2001 <a href="http://www.oreilly.com/">O'Reilly &amp; Associates, Inc.</a>
+</p>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type">
+<title>subjectset</title>
+<link rel="stylesheet" href="defguide.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.41">
+<link rel="home" href="docbook.html" title="DocBook">
+<link rel="up" href="ref-elements.html" title="DocBook Element Reference">
+<link rel="previous" href="subject.html" title="subject">
+<link rel="next" href="subjectterm.html" title="subjectterm">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">subjectset</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="subject.html">Prev</a> </td>
+<th width="60%" align="center">DocBook Element Reference</th>
+<td width="20%" align="right"> <a href="subjectterm.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<p class="alpha-version">This is an <a href="co01.html"><em>alpha</em> version</a> of this book.</p>
+<div class="refentry">
+<h1 class="title">
+<a name="subjectset.element"></a>subjectset</h1>
+<div class="refnamediv">
+<a name="id3203032"></a><h2>Name</h2>subjectset &#x2014; A set of terms describing the subject matter of a document</div>
+<div class="refsynopsisdiv">
+<a name="id3203409"></a><h2><h1 class="title">
+<a name="id3203409"></a>Synopsis</h1></h2>
+<h3><span class="bold"><b>Content Model</b></span></h3>
+<pre class="synopsis">subjectset ::=
+(<a href="subject.html"><tt>subject</tt></a>+)</pre>
+<h3><span class="bold"><b>Attributes</b></span></h3>
+<p><a href="ref-elements.html#common.attributes"><span class="common.attributes">Common attributes</span></a></p>
+<table border="1" width="100%" summary="Attributes">
+<tr>
+<td><p><span class="bold"><b>Name</b></span></p></td>
+<td><p><span class="bold"><b>Type</b></span></p></td>
+<td><p><span class="bold"><b>Default</b></span></p></td>
+</tr>
+<tr>
+<td align="left" valign="top">scheme</td>
+<td align="left" valign="top">NMTOKEN</td>
+<td align="left" valign="top"><span class="emphasis"><i>None</i></span></td>
+</tr>
+</table>
+</div>
+<div class="refsect1">
+<a name="id3203404"></a><h2>Description</h2>
+<p>
+A <a href="subjectset.html"><tt>SubjectSet</tt></a> is a container for a set of
+<a href="subject.html"><tt>Subject</tt></a>s.  All of the <a href="subject.html"><tt>Subject</tt></a>s within a
+<a href="subjectset.html"><tt>SubjectSet</tt></a> should come from the <span class="emphasis"><i>same</i></span>
+controlled vocabulary.
+</p>
+<p>
+A document can be described using terms from more than one controlled
+vocabulary.  In order to do this, you should use the
+<tt>Scheme</tt> attribute to distinguish between
+controlled vocabularies.
+</p>
+<div class="refsect2">
+<a name="id3203049"></a><h3>Processing expectations</h3>
+<p>
+May be formatted inline or as a displayed block, depending on context. Subjects are rarely displayed to a reader. Usually, they
+are reserved for searching and retrieval purposes.
+</p>
+<p>DocBook does not specify a relationship between <a href="subjectset.html"><tt>SubjectSet</tt></a>s
+in different parts of a document or between a <a href="subjectset.html"><tt>SubjectSet</tt></a> and
+the <a href="subjectset.html"><tt>SubjectSet</tt></a>s of enclosing parts of the document.
+</p>
+</div>
+<div class="refsect2">
+<a name="id3203372"></a><h3>Parents</h3>
+<p>These elements contain subjectset:
+<span class="simplelist"><a href="appendixinfo.html"><tt>appendixinfo</tt></a>, <a href="articleinfo.html"><tt>articleinfo</tt></a>, <a href="bibliographyinfo.html"><tt>bibliographyinfo</tt></a>, <a href="bookinfo.html"><tt>bookinfo</tt></a>, <a href="chapterinfo.html"><tt>chapterinfo</tt></a>, <a href="glossaryinfo.html"><tt>glossaryinfo</tt></a>, <a href="indexinfo.html"><tt>indexinfo</tt></a>, <a href="objectinfo.html"><tt>objectinfo</tt></a>, <a href="partinfo.html"><tt>partinfo</tt></a>, <a href="prefaceinfo.html"><tt>prefaceinfo</tt></a>, <a href="refentryinfo.html"><tt>refentryinfo</tt></a>, <a href="referenceinfo.html"><tt>referenceinfo</tt></a>, <a href="refsect1info.html"><tt>refsect1info</tt></a>, <a href="refsect2info.html"><tt>refsect2info</tt></a>, <a href="refsect3info.html"><tt>refsect3info</tt></a>, <a href="refsynopsisdivinfo.html"><tt>refsynopsisdivinfo</tt></a>, <a href="sect1info.html"><tt>sect1info</tt></a>, <a href="sect2info.html"><tt>sect2info</tt></a>, <a href="sect3info.html"><tt>sect3info</tt></a>, <a href="sect4info.html"><tt>sect4info</tt></a>, <a href="sect5info.html"><tt>sect5info</tt></a>, <a href="sectioninfo.html"><tt>sectioninfo</tt></a>, <a href="setindexinfo.html"><tt>setindexinfo</tt></a>, <a href="setinfo.html"><tt>setinfo</tt></a>, <a href="sidebarinfo.html"><tt>sidebarinfo</tt></a></span>.</p>
+</div>
+<div class="refsect2">
+<a name="id3203229"></a><h3>Children</h3>
+<p>The following elements occur in subjectset:
+<span class="simplelist"><a href="subject.html"><tt>subject</tt></a></span>.</p>
+</div>
+</div>
+<div class="refsect1">
+<a name="id3203264"></a><h2>Attributes</h2>
+<div class="variablelist"><dl>
+<dt>
+<a name="id3203276"></a><span class="term">scheme</span>
+</dt>
+<dd><p>
+<tt>Scheme</tt> identifies the controlled vocabulary 
+used by this <a href="subjectset.html"><tt>SubjectSet</tt></a>'s terms.
+</p></dd>
+</dl></div>
+</div>
+<div class="refsect1">
+<a name="id3203138"></a><h2>See Also</h2>
+<p>
+<span class="simplelist"><a href="keyword.html"><tt>keyword</tt></a>, <a href="keywordset.html"><tt>keywordset</tt></a>, <a href="subject.html"><tt>subject</tt></a>, <a href="subjectterm.html"><tt>subjectterm</tt></a></span>.
+</p>
+</div>
+<div class="refsect1">
+<a name="id3205126"></a><h2>Examples</h2>
+<div class="informalexample" id="id3205134">
+<a name="id3205134"></a><pre class="programlisting">&lt;!DOCTYPE subjectset PUBLIC &quot;-//OASIS//DTD DocBook XML V4.1.2//EN&quot;
+          &quot;http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd&quot;&gt;
+&lt;subjectset scheme=&quot;libraryofcongress&quot;&gt;
+&lt;subject&gt;
+  &lt;subjectterm&gt;Electronic Publishing&lt;/subjectterm&gt;
+&lt;/subject&gt;
+&lt;subject&gt;
+  &lt;subjectterm&gt;SGML (Computer program language)&lt;/subjectterm&gt;
+&lt;/subject&gt;
+&lt;/subjectset&gt;</pre>
+</div>
+</div>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="subject.html">Prev</a> </td>
+<td width="20%" align="center"><a href="docbook.html">Home</a></td>
+<td width="40%" align="right"> <a href="subjectterm.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">subject </td>
+<td width="20%" align="center"><a href="ref-elements.html">Up</a></td>
+<td width="40%" align="right"> subjectterm</td>
+</tr>
+</table>
+</div>
+<p>
+<a href="dbcpyright.html">Copyright</a> © 1999, 2000, 2001 <a href="http://www.oreilly.com/">O'Reilly &amp; Associates, Inc.</a>
+</p>
+</body>
+</html>

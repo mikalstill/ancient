@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type">
+<title>imageobjectco</title>
+<link rel="stylesheet" href="defguide.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.41">
+<link rel="home" href="docbook.html" title="DocBook">
+<link rel="up" href="ref-elements.html" title="DocBook Element Reference">
+<link rel="previous" href="imageobject.html" title="imageobject">
+<link rel="next" href="important.html" title="important">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">imageobjectco</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="imageobject.html">Prev</a> </td>
+<th width="60%" align="center">DocBook Element Reference</th>
+<td width="20%" align="right"> <a href="important.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<p class="alpha-version">This is an <a href="co01.html"><em>alpha</em> version</a> of this book.</p>
+<div class="refentry">
+<h1 class="title">
+<a name="imageobjectco.element"></a>imageobjectco</h1>
+<div class="refnamediv">
+<a name="id3000987"></a><h2>Name</h2>imageobjectco &#x2014; A wrapper for an image object with callouts</div>
+<div class="refsynopsisdiv">
+<a name="id3000997"></a><h2><h1 class="title">
+<a name="id3000997"></a>Synopsis</h1></h2>
+<h3><span class="bold"><b>Content Model</b></span></h3>
+<pre class="synopsis">imageobjectco ::=
+(<a href="areaspec.html"><tt>areaspec</tt></a>,<a href="imageobject.html"><tt>imageobject</tt></a>,<a href="calloutlist.html"><tt>calloutlist</tt></a>*)</pre>
+<h3><span class="bold"><b>Attributes</b></span></h3>
+<p><a href="ref-elements.html#common.attributes"><span class="common.attributes">Common attributes</span></a></p>
+</div>
+<div class="refsect1">
+<a name="id3000718"></a><h2>Description</h2>
+<p>
+<a href="callout.html"><tt>Callout</tt></a>s, such as numbered bullets, are an annotation mechanism.  In an
+online system, these bullets are frequently &#x201C;hot,&#x201D; and clicking on
+them navigates to the corresponding annotation.
+</p>
+<p>
+A <a href="imageobjectco.html"><tt>ImageObjectCO</tt></a> is a wrapper around an <a href="areaspec.html"><tt>AreaSpec</tt></a> and
+an <a href="imageobject.html"><tt>ImageObject</tt></a>.  An <a href="areaspec.html"><tt>AreaSpec</tt></a> identifies the locations
+(coordinates)
+on the image where the <a href="callout.html"><tt>Callout</tt></a>s occur.
+The <a href="imageobjectco.html"><tt>ImageObjectCO</tt></a> may also contain the list of annotations in
+a <a href="calloutlist.html"><tt>CalloutList</tt></a>, although the <a href="calloutlist.html"><tt>CalloutList</tt></a> may also
+occur outside of the wrapper, elsewhere in the document.
+</p>
+<div class="refsect2">
+<a name="id2999947"></a><h3>Processing expectations</h3>
+<p>
+Formatted as a displayed block. It may not be rendered at all, depending on its placement
+within the <a href="mediaobject.html"><tt>MediaObject</tt></a> that contains it and
+the constraints on the publishing system.  For a more detailed description
+of the semantics involved, see <a href="mediaobject.html"><tt>MediaObject</tt></a>.
+</p>
+<p>
+The mandatory processing expectations of a <a href="imageobjectco.html"><tt>ImageObjectCO</tt></a> are
+minimal: a system is expected to render the image, if possible, and the
+callout list, if present.
+</p>
+<p>
+In online environments, the processing system may be able to instantiate
+the linking relationships between the callout marks on the image and
+the annotations.  For example, an HTML presentation system might use the
+coordinate information to construct a client-side image map.
+Some processing systems may even be able to go a step further and generate
+the callout marks automatically from the coordinate information.
+But this level of sophistication is not mandatory.
+</p>
+</div>
+<div class="refsect2">
+<a name="id2999811"></a><h3>
+<img src="figures/rev_5.0.png" alt="[5.0]" align="absbottom"> Future Changes</h3>
+<p>
+<a class="indexterm" name="id2999823"></a>
+In DocBook V5.0, <a href="imageobjectco.html"><tt>ImageObjectCO</tt></a> will be discarded. In its
+place, use <a href="mediaobjectco.html"><tt>MediaObjectCO</tt></a>.
+</p>
+</div>
+<div class="refsect2">
+<a name="id2999689"></a><h3>Parents</h3>
+<p>These elements contain imageobjectco:
+<span class="simplelist"><a href="mediaobjectco.html"><tt>mediaobjectco</tt></a></span>.</p>
+</div>
+<div class="refsect2">
+<a name="id2999715"></a><h3>Children</h3>
+<p>The following elements occur in imageobjectco:
+<span class="simplelist"><a href="areaspec.html"><tt>areaspec</tt></a>, <a href="calloutlist.html"><tt>calloutlist</tt></a>, <a href="imageobject.html"><tt>imageobject</tt></a></span>.</p>
+</div>
+</div>
+<div class="refsect1">
+<a name="id3000046"></a><h2>See Also</h2>
+<p>
+<span class="simplelist"><a href="areaspec.html"><tt>areaspec</tt></a>, <a href="calloutlist.html"><tt>calloutlist</tt></a>, <a href="co.html"><tt>co</tt></a>, <a href="graphicco.html"><tt>graphicco</tt></a>, <a href="mediaobjectco.html"><tt>mediaobjectco</tt></a>, <a href="programlistingco.html"><tt>programlistingco</tt></a>, <a href="screenco.html"><tt>screenco</tt></a></span>.
+</p>
+</div>
+<div class="refsect1">
+<a name="id2997383"></a><h2>Examples</h2>
+<p>For examples, see
+<span class="simplelist"><a href="mediaobjectco.html"><tt>mediaobjectco</tt></a></span>
+.</p>
+</div>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="imageobject.html">Prev</a> </td>
+<td width="20%" align="center"><a href="docbook.html">Home</a></td>
+<td width="40%" align="right"> <a href="important.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">imageobject </td>
+<td width="20%" align="center"><a href="ref-elements.html">Up</a></td>
+<td width="40%" align="right"> important</td>
+</tr>
+</table>
+</div>
+<p>
+<a href="dbcpyright.html">Copyright</a> © 1999, 2000, 2001 <a href="http://www.oreilly.com/">O'Reilly &amp; Associates, Inc.</a>
+</p>
+</body>
+</html>

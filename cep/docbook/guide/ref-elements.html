@@ -1,0 +1,1657 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type">
+<title>DocBook Element Reference</title>
+<link rel="stylesheet" href="defguide.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.41">
+<link rel="home" href="docbook.html" title="DocBook">
+<link rel="up" href="part2.html" title="Part II. Reference">
+<link rel="previous" href="part2.html" title="Part II. Reference">
+<link rel="next" href="abbrev.html" title="abbrev">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">DocBook Element Reference</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="part2.html">Prev</a> </td>
+<th width="60%" align="center">Part II. Reference</th>
+<td width="20%" align="right"> <a href="abbrev.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<p class="alpha-version">This is an <a href="co01.html"><em>alpha</em> version</a> of this book.</p>
+<div class="reference">
+<a name="ref-element"></a><div class="titlepage">
+<div><h1 class="title">
+<a name="ref-element"></a>DocBook Element Reference</h1></div>
+<hr>
+</div>
+<div class="partintro">
+<div></div>
+<p>
+<a class="indexterm" name="elementsref"></a>This reference describes every element in the DocBook
+DTD.</p>
+<p>In DocBook V3.1, introduced in February, 1999, the following
+elements were added to DocBook:
+<span class="simplelist"><a href="answer.html"><tt>answer</tt></a>, <a href="audiodata.html"><tt>audiodata</tt></a>, <a href="audioobject.html"><tt>audioobject</tt></a>, <a href="caption.html"><tt>caption</tt></a>, <a href="colophon.html"><tt>colophon</tt></a>, <a href="constant.html"><tt>constant</tt></a>, <a href="imagedata.html"><tt>imagedata</tt></a>, <a href="imageobject.html"><tt>imageobject</tt></a>, <a href="imageobjectco.html"><tt>imageobjectco</tt></a>, <a href="informalfigure.html"><tt>informalfigure</tt></a>, <a href="inlinemediaobject.html"><tt>inlinemediaobject</tt></a>, <a href="mediaobject.html"><tt>mediaobject</tt></a>, <a href="mediaobjectco.html"><tt>mediaobjectco</tt></a>, <a href="objectinfo.html"><tt>objectinfo</tt></a>, <a href="qandadiv.html"><tt>qandadiv</tt></a>, <a href="qandaentry.html"><tt>qandaentry</tt></a>, <a href="qandaset.html"><tt>qandaset</tt></a>, <a href="question.html"><tt>question</tt></a>, <a href="section.html"><tt>section</tt></a>, <a href="sectioninfo.html"><tt>sectioninfo</tt></a>, <a href="textobject.html"><tt>textobject</tt></a>, <a href="varname.html"><tt>varname</tt></a>, <a href="videodata.html"><tt>videodata</tt></a>, <a href="videoobject.html"><tt>videoobject</tt></a></span>.</p>
+<p>DocBook V4.0, introduced in January, 2001, the following elements
+were added:
+<span class="simplelist"><a href="appendixinfo.html"><tt>appendixinfo</tt></a>, <a href="articleinfo.html"><tt>articleinfo</tt></a>, <a href="bibliographyinfo.html"><tt>bibliographyinfo</tt></a>, <a href="chapterinfo.html"><tt>chapterinfo</tt></a>, <a href="classsynopsis.html"><tt>classsynopsis</tt></a>, <a href="classsynopsisinfo.html"><tt>classsynopsisinfo</tt></a>, <a href="constructorsynopsis.html"><tt>constructorsynopsis</tt></a>, <a href="destructorsynopsis.html"><tt>destructorsynopsis</tt></a>, <a href="exceptionname.html"><tt>exceptionname</tt></a>, <a href="fieldsynopsis.html"><tt>fieldsynopsis</tt></a>, <a href="glossaryinfo.html"><tt>glossaryinfo</tt></a>, <a href="indexinfo.html"><tt>indexinfo</tt></a>, <a href="initializer.html"><tt>initializer</tt></a>, <a href="interfacename.html"><tt>interfacename</tt></a>, <a href="methodname.html"><tt>methodname</tt></a>, <a href="methodparam.html"><tt>methodparam</tt></a>, <a href="methodsynopsis.html"><tt>methodsynopsis</tt></a>, <a href="modifier.html"><tt>modifier</tt></a>, <a href="ooclass.html"><tt>ooclass</tt></a>, <a href="ooexception.html"><tt>ooexception</tt></a>, <a href="oointerface.html"><tt>oointerface</tt></a>, <a href="partinfo.html"><tt>partinfo</tt></a>, <a href="prefaceinfo.html"><tt>prefaceinfo</tt></a>, <a href="refentryinfo.html"><tt>refentryinfo</tt></a>, <a href="referenceinfo.html"><tt>referenceinfo</tt></a>, <a href="remark.html"><tt>remark</tt></a>, <a href="revdescription.html"><tt>revdescription</tt></a>, <a href="setindexinfo.html"><tt>setindexinfo</tt></a>, <a href="sidebarinfo.html"><tt>sidebarinfo</tt></a>, <a href="simplemsgentry.html"><tt>simplemsgentry</tt></a></span>.</p>
+<p>The following additional changes were made in DocBook V4.0:
+<tt>artheader</tt> was renamed <a href="articleinfo.html"><tt>articleinfo</tt></a>;
+<tt>comment</tt> was renamed <a href="remark.html"><tt>remark</tt></a>;
+<tt>docinfo</tt> was broken into a set of other info elements;
+and <tt>bookbiblio</tt>, <tt>interfacedefinition</tt>,
+and <tt>seriesinfo</tt> were removed.</p>
+<div class="sect1">
+<a name="id2848643"></a><div class="titlepage"><div><h2 class="title" style="clear: both">
+<a name="id2848643"></a>1. Organization of Reference Pages</h2></div></div>
+<p>The description of each element in this reference is divided into the
+following sections:</p>
+<div class="variablelist"><dl>
+<dt>
+<a name="id2848660"></a><span class="term">Synopsis</span>
+</dt>
+<dd>
+<p>
+<a class="indexterm" name="id2848672"></a>
+<a class="indexterm" name="id2848686"></a>
+<a class="indexterm" name="id2848696"></a>
+
+Provides a quick synopsis of the element. The content of the synopsis
+table varies according to the nature of the element described, but may include
+any or all of the following sections:</p>
+<div class="variablelist"><dl>
+<dt>
+<a name="id2848714"></a><span class="term">Content Model or Declared Content</span>
+</dt>
+<dd><p>Describes the content model of the element in SGML/XML DTD terms. See <a href="ref-elements.html#s2-cmintro" title="1.1. Understanding Content Models">Section 1.1</a>.&#x201D;</p></dd>
+<dt>
+<a name="id2848754"></a><span class="term">Inclusions</span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2848765"></a>
+
+Lists &#x201C;inclusions.&#x201D;  Inclusions are an SGML feature.
+Included elements can appear anywhere inside the element
+that includes them, even in places that aren't ordinarily
+valid.  For example, <a href="chapter.html"><tt>Chapter</tt></a> includes <a href="indexterm.html"><tt>IndexTerm</tt></a>.
+This means that within a <a href="chapter.html"><tt>Chapter</tt></a>, <a href="indexterm.html"><tt>IndexTerm</tt></a> can
+appear inside <a href="emphasis.html"><tt>Emphasis</tt></a>, for instance, even though the
+content model of <a href="emphasis.html"><tt>Emphasis</tt></a> does not explicitly allow
+<a href="indexterm.html"><tt>IndexTerm</tt></a>s.
+</p></dd>
+<dt>
+<a name="id2848821"></a><span class="term">Exclusions</span>
+</dt>
+<dd>
+<p>
+<a class="indexterm" name="id2848833"></a>
+<a class="indexterm" name="id2848843"></a>
+<a class="indexterm" name="id2848853"></a>
+Lists &#x201C;exclusions.&#x201D; Exclusions are an SGML feature.
+Excluded elements cannot appear anywhere inside the element that
+excludes them, even in places that are ordinarily valid.  For
+example, <a href="footnote.html"><tt>Footnote</tt></a> excludes <a href="footnote.html"><tt>Footnote</tt></a>. This
+means that a <a href="footnote.html"><tt>Footnote</tt></a> cannot appear inside a
+<a href="para.html"><tt>Para</tt></a> inside a <a href="footnote.html"><tt>Footnote</tt></a>, even though
+<a href="footnote.html"><tt>Footnote</tt></a> appears in the content model of <a href="para.html"><tt>Para</tt></a>.
+</p>
+<a class="indexterm" name="id2848905"></a><p>Lists elements that are excluded from appearing at any level below
+the element described.</p>
+</dd>
+<dt>
+<a name="id2848927"></a><span class="term">Attributes</span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2848939"></a>
+
+Provides a synopsis of the attributes on the element. For brevity, common
+attributes are described only once, <a href="#">in this
+introduction</a>.</p></dd>
+<dt>
+<a name="id2848965"></a><span class="term">Tag Minimization</span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2848976"></a>
+<a class="indexterm" name="id2848986"></a>
+<a class="indexterm" name="id2848996"></a>
+<a class="indexterm" name="id2849006"></a>
+<a class="indexterm" name="id2849016"></a>
+
+Indicates if start- or end-tags may be omitted.  Tag omission is
+dependent on both the DTD and your SGML declaration.  If a tag is described
+as ommissable here, it is ommissible if your declaration allows tag 
+omission.  The standard DocBook declaration does not.
+</p></dd>
+<dt>
+<a name="id2849046"></a><span class="term">Parameter Entities</span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2849058"></a>
+
+Lists the parameter entities in which the element described appears.
+Parameter entities are important when you are <a href="ch05.html" title="Chapter 5. Customizing DocBook">
+customizing the DTD</a>.</p></dd>
+</dl></div>
+</dd>
+<dt>
+<a name="id2849088"></a><span class="term">Description</span>
+</dt>
+<dd>
+<p>
+<a class="indexterm" name="id2849100"></a>
+<a class="indexterm" name="id2849110"></a>
+
+Describes the semantics of the element in detail.</p>
+<div class="variablelist"><dl>
+<dt>
+<a name="id2849122"></a><span class="term">Processing expectations</span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2849134"></a>
+<a class="indexterm" name="id2849144"></a>
+Summarizes specific formatting expectations of the element. Many
+processing expectations are influenced by attribute values. Be sure to
+consult the
+description of element attributes as well.
+</p></dd>
+<dt>
+<a name="id2849165"></a><span class="term">Future changes</span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2849177"></a>
+<a class="indexterm" name="id2849187"></a>
+<a class="indexterm" name="id2849193"></a>
+
+Identifies changes that are scheduled for future versions of the
+DTD. These changes are highlighted because they involve some 
+backward-incompatability that may make currently valid DocBook documents
+no longer valid under the new version.
+</p></dd>
+</dl></div>
+</dd>
+<dt>
+<a name="id2849222"></a><span class="term">Attributes</span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2849234"></a>
+
+Describes the semantics of each attribute in detail.</p></dd>
+<dt>
+<a name="id2849248"></a><span class="term">See Also</span>
+</dt>
+<dd><p>Lists similar or related elements.
+<a class="indexterm" name="id2849260"></a>
+</p></dd>
+<dt>
+<a name="id2849274"></a><span class="term">Examples</span>
+</dt>
+<dd>
+<p>
+<a class="indexterm" name="id2849286"></a>
+Provides examples of proper usage for the
+element. Generally, the smallest example required to reasonably
+demonstrate the element is used. In many cases, a formatted
+version of the example is also shown.
+</p>
+<p>
+All of the examples printed in the book use the SGML version of
+DocBook.  The <a href="appe.html" title="Appendix E. What's on theCD-ROM?">CD-ROM</a> includes the full
+text of all of the examples.
+</p>
+<p>Formatted examples are indicated using a vertical bar.</p>
+</dd>
+</dl></div>
+<div class="sect2">
+<a name="s2-cmintro"></a><div class="titlepage"><div><h3 class="title">
+<a name="s2-cmintro"></a>1.1. Understanding Content Models</h3></div></div>
+<p>
+<a class="indexterm" name="id2849343"></a>
+
+Each element synopsis begins with a concise description of the
+elements it can contain.  This description is in DTD
+&#x201C;content model&#x201D; syntax, with all parameter entities
+expanded.
+</p>
+<p>
+Content models are the way that DTDs describe the name, number,
+and order of other elements that may be used inside an element.
+The primary feature of content model syntax is that it is concise,
+but this conciseness comes at the cost of legibility until you
+are familiar with the syntax.
+</p>
+<p>
+<a class="indexterm" name="id2849378"></a>
+<a class="indexterm" name="id2849388"></a>
+<a class="indexterm" name="id2849398"></a>
+<a class="indexterm" name="id2849408"></a>
+<a class="indexterm" name="id2849414"></a>
+
+There are six components to content model syntax: <i>element
+names</i>, <i>keywords</i>,
+<i>repetitions</i>, <i>sequences</i>,
+<i>alternatives</i>, and
+<i>groups</i>.
+</p>
+<div class="variablelist"><dl>
+<dt>
+<a name="id2849455"></a><span class="term">Element names</span>
+</dt>
+<dd>
+<p>
+<a class="indexterm" name="id2849466"></a>
+
+An element name in a content model indicates that an element of that
+type may (or must) occur at that position.
+</p>
+<p>
+<a class="indexterm" name="id2849482"></a>
+A content model of <tt>Para</tt> indicates
+that the element must contain a single paragraph.
+</p>
+</dd>
+<dt>
+<a name="id2849495"></a><span class="term">Keywords</span>
+</dt>
+<dd>
+<p>
+<a class="indexterm" name="id2849506"></a>
+<a class="indexterm" name="id2849511"></a>
+There are two keywords that occur in the content models of DocBook
+elements: <tt>EMPTY</tt>, and <tt>#PCDATA</tt>.
+</p>
+<p>A content model that consists of the single keyword <tt>EMPTY</tt>
+identifes an element as an empty element.  Empty elements are not allowed
+to have any content.  In order for the word &#x201C;EMPTY&#x201D; to have
+this special meaning, it must be the first and only word in the content
+model.  The word &#x201C;EMPTY&#x201D; at any other place is treated as
+an element name.
+</p>
+<p>
+<a class="indexterm" name="id2849552"></a>
+<a class="indexterm" name="id2849558"></a>
+<a class="indexterm" name="id2849568"></a>
+The <tt>#PCDATA</tt> keyword indicates that text may
+occur at that position.  The text may consist of entity references and
+any characters that are legal in the document character set.  For XML
+documents, the document character set is always Unicode. In SGML the
+declaration can identify character sets and ranges that are allowed.
+DocBook SGML documents use the ISO Latin 1 character set.
+</p>
+</dd>
+<dt>
+<a name="id2849612"></a><span class="term">Repetitions</span>
+</dt>
+<dd>
+<p>
+<a class="indexterm" name="id2849623"></a>
+
+An unadorned element name indicates that an element must occur exactly
+once at that position. A content model can also specify that an element
+may occur zero or more times, one or more times, or exactly zero or one
+time.  This is accomplished by following the element name with one of
+the following characters: <tt>*</tt> for zero or more times,
+<tt>+</tt> for one or more times, or <tt>?</tt> for exactly
+zero or one times.
+</p>
+<p>
+A content model of <tt>Para+</tt> indicates
+that the element must contain at least one paragraph and may contain
+many.
+</p>
+</dd>
+<dt>
+<a name="id2849661"></a><span class="term">Sequences</span>
+</dt>
+<dd>
+<p>
+<a class="indexterm" name="id2849672"></a>
+If element names in a content model are separated by commas,
+then they must occur in sequence.
+</p>
+<p>
+A content model of <tt>Title, Para</tt> indicates
+that the element must contain a single title followed by a single paragraph.
+</p>
+</dd>
+<dt>
+<a name="id2849697"></a><span class="term">Alternatives</span>
+</dt>
+<dd>
+<p>
+<a class="indexterm" name="id2849708"></a>
+If element names in a content model are separated by vertical bars (|),
+then they are alternatives.  These are sometimes called &#x201C;or
+groups&#x201D; because they require the selection of one or another element.
+</p>
+<p>
+A content model of <tt>Phrase | Para</tt> indicates
+that the element must contain either a single phrase or a single paragraph.
+</p>
+<p>
+
+<a class="indexterm" name="id2849732"></a>
+<a class="indexterm" name="id2849738"></a>
+
+In SGML, there is another connector: the ampersand (&amp;). The
+ampersand is a kind of combination of alternative and sequence,
+which means that all of the elements must occur, but they can occur
+in any order.  DocBook does not have any content models that use
+the ampersand connector.  XML does not allow it.
+</p>
+</dd>
+<dt>
+<a name="id2849765"></a><span class="term">Groups</span>
+</dt>
+<dd>
+<p>
+<a class="indexterm" name="id2849776"></a>
+
+Finally, parentheses may be used around part of a content model.  A group
+formed this way can have repetition indicators and may occur as part of
+a sequence.
+</p>
+<p>
+A content model of <tt>(Literal | Replaceable)+</tt>
+indicates that either <a href="literal.html"><tt>Literal</tt></a> or <a href="replaceable.html"><tt>Replaceable</tt></a>
+must occur and they can be repeated (and mixed) any number of times.
+</p>
+</dd>
+</dl></div>
+<div class="sect3">
+<a name="id2849810"></a><div class="titlepage"><div><h4 class="title">
+<a name="id2849810"></a>1.1.1. Content models and validity</h4></div></div>
+<p>
+<a class="indexterm" name="id2849820"></a>
+<a class="indexterm" name="id2849830"></a>
+
+A parser uses the content models to determine if a given document is valid.
+In order for a document to be valid, the content of every element in the
+document must &#x201C;match&#x201D; the content model for that element.
+</p>
+<p>
+In practical terms, match means that it must be possible to expand the
+content model until it exactly matches the sequence of elements in the
+document.
+</p>
+<p>
+For example, consider the content model of the <a href="epigraph.html"><tt>Epigraph</tt></a> element:
+<tt>Attribution?, (FormalPara | Para | SimPara)+</tt>.
+This indicates that the following document fragment is valid:
+<a class="indexterm" name="id2849870"></a>
+
+<pre class="screen">
+
+&lt;epigraph&gt;
+&lt;para&gt;Some text&lt;/para&gt;
+&lt;/epigraph&gt;
+
+</pre>
+</p>
+<p>
+It is valid because the following expansion of the content model exactly
+matches the actual content: choose zero occurances of
+<a href="attribution.html"><tt>Attribution</tt></a>, choose the alternative <a href="para.html"><tt>Para</tt></a> from
+the group, and choose to let the &#x201C;+&#x201D; match once.
+</p>
+<p>
+By the same token, this example is not valid because there is no 
+expansion of the content model that can match it:
+<pre class="screen">
+
+&lt;epigraph&gt;
+&lt;para&gt;Some text&lt;/para&gt;
+&lt;attribution&gt;John Doe&lt;/attribution&gt;
+&lt;/epigraph&gt;
+
+</pre>
+</p>
+<p>
+<a class="indexterm" name="id2849919"></a>
+
+There is one additional restriction on the matching ability of the
+parser: it is not allowed to &#x201C;look ahead.&#x201D;  This means that
+there are many useful content models that are ambiguous.
+</p>
+</div>
+<div class="sect3">
+<a name="id2849934"></a><div class="titlepage"><div><h4 class="title">
+<a name="id2849934"></a>1.1.2. Ambiguity</h4></div></div>
+<p>
+Ambiguity is not allowed. The parser must always be able to choose 
+exactly what to match based upon the next input token. 
+Consider the
+following content model:
+<tt>Meta*, Title?, Meta*</tt>.
+</p>
+<p>
+The intent is clear: to allow some meta-information and a single,
+optional <a href="title.html"><tt>Title</tt></a>.  But this content model is ambiguous
+for the following reason: if the document content begins with a
+<tt>Meta</tt> element, it is impossible to tell if it matches
+the <tt>Meta</tt> before the <a href="title.html"><tt>Title</tt></a> or after
+without looking ahead.
+</p>
+<p>
+Ambiguous content models are detected by the parser when it reads the
+DTD. It is not sufficient that your document simply be unambiguous;
+it must not be possible to construct any ambiguous document.
+</p>
+</div>
+<div class="sect3">
+<a name="id2849990"></a><div class="titlepage"><div><h4 class="title">
+<a name="id2849990"></a>1.1.3. #PCDATA and repetition</h4></div></div>
+<p>
+<a class="indexterm" name="id2849999"></a>
+<a class="indexterm" name="id2850009"></a>
+
+The <tt>#PCDATA</tt> keyword can always match the empty string.  This
+makes it impossible to force an element that may contain
+characters not to be empty. In other words, the following content
+model <span class="emphasis"><i>does not</i></span> guarantee that the element is not
+empty: <tt>(#PCDATA)+</tt>.
+</p>
+<p>
+<a class="indexterm" name="id2850037"></a>
+
+In XML, the <tt>#PCDATA</tt> keyword is only allowed in optional, repeatable
+&#x201C;or groups&#x201D;, and it must be the first member of the
+group.
+</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<a name="common.attributes"></a><div class="titlepage"><div><h2 class="title" style="clear: both">
+<a name="common.attributes"></a>2. Common Attributes</h2></div></div>
+<p>
+<a class="indexterm" name="id2850084"></a>
+<a class="indexterm" name="id2850094"></a>
+
+The following attributes occur on all elements. They are summarized
+here once for brevity and to make the additional attributes that occur on
+many elements stand out.</p>
+<div class="informaltable" id="id2850104">
+<a name="id2850104"></a><table width="100%" border="1">
+<colgroup>
+<col>
+<col>
+<col>
+</colgroup>
+<thead><tr>
+<th><p>Name</p></th>
+<th>Type</th>
+<th>Default</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><tt>Arch</tt></td>
+<td>CDATA</td>
+<td><span class="emphasis"><i>None</i></span></td>
+</tr>
+<tr>
+<td><tt>Condition</tt></td>
+<td>CDATA</td>
+<td><span class="emphasis"><i>None</i></span></td>
+</tr>
+<tr>
+<td><tt>Conformance</tt></td>
+<td>NMTOKENS</td>
+<td><span class="emphasis"><i>None</i></span></td>
+</tr>
+<tr>
+<td><tt>ID</tt></td>
+<td>ID</td>
+<td><p>
+<span class="emphasis"><i>None/Required</i></span><sup>[<a name="id2850265" href="#ftn.id2850265">a</a>]</sup>
+</p></td>
+</tr>
+<tr>
+<td><tt>Lang</tt></td>
+<td>CDATA</td>
+<td><span class="emphasis"><i>None</i></span></td>
+</tr>
+<tr>
+<td><tt>OS</tt></td>
+<td>CDATA</td>
+<td><span class="emphasis"><i>None</i></span></td>
+</tr>
+<tr>
+<td><tt>Remap</tt></td>
+<td>CDATA</td>
+<td><span class="emphasis"><i>None</i></span></td>
+</tr>
+<tr>
+<td><tt>Role</tt></td>
+<td>CDATA</td>
+<td><span class="emphasis"><i>None</i></span></td>
+</tr>
+<tr>
+<td><tt>Revision</tt></td>
+<td>CDATA</td>
+<td><span class="emphasis"><i>None</i></span></td>
+</tr>
+<tr>
+<td><tt>RevisionFlag</tt></td>
+<td><table class="simplelist" border="0" summary="Simple list">
+<tr><td><span class="emphasis"><i>Enumerated:</i></span></td></tr>
+<tr><td>Changed</td></tr>
+<tr><td>Added</td></tr>
+<tr><td>Deleted</td></tr>
+<tr><td>Off</td></tr>
+</table></td>
+<td><span class="emphasis"><i>None</i></span></td>
+</tr>
+<tr>
+<td><tt>Security</tt></td>
+<td>CDATA</td>
+<td><span class="emphasis"><i>None</i></span></td>
+</tr>
+<tr>
+<td><tt>UserLevel</tt></td>
+<td>CDATA</td>
+<td><span class="emphasis"><i>None</i></span></td>
+</tr>
+<tr>
+<td><tt>Vendor</tt></td>
+<td>CDATA</td>
+<td><span class="emphasis"><i>None</i></span></td>
+</tr>
+<tr>
+<td><tt>XrefLabel</tt></td>
+<td>CDATA</td>
+<td><span class="emphasis"><i>None</i></span></td>
+</tr>
+</tbody>
+<tbody class="footnotes"><tr><td colspan="3"><div class="footnote"><p>On a
+few elements, the <tt>ID</tt> is required,
+but on most it is not.</p></div></td></tr></tbody>
+</table>
+</div>
+<div class="variablelist"><dl>
+<dt>
+<a name="id2850529"></a><span class="term"><tt>Arch</tt></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2850545"></a>
+<a class="indexterm" name="id2850551"></a>
+<a class="indexterm" name="id2850561"></a>
+<a class="indexterm" name="id2850567"></a>
+
+<tt>Arch</tt> designates the
+computer or chip architecture to which the element applies.</p></dd>
+<dt>
+<a name="id2850585"></a><span class="term"><tt>Condition</tt></span>
+</dt>
+<dd>
+<p>
+<img src="figures/rev_4.0.png" alt="[4.0]" align="absbottom">
+<a class="indexterm" name="id2850599"></a>
+
+<tt>Condition</tt> is a general-purpose
+effectivity attribute with no specified semantics. Many DocBook users
+observed that in order to add an effectivity condition that was unique
+to their environment required &#x2018;abusing&#x2019; the semantics of
+one of the existing attributes, or adding their own, making their
+customization <a href="ch05.html#s-notdocbook" title="5.2. If You Change DocBook, It's Not DocBook Anymore!">an extension rather than a
+subset</a>.</p>
+<p>The <tt>Condition</tt> attribute
+provides a standard place for application-specific effectivity.</p>
+</dd>
+<dt>
+<a name="id2850649"></a><span class="term"><tt>Conformance</tt></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2850665"></a>
+
+<tt>Conformance</tt> indicates
+standards conformance characteristics of the item contained in the
+element. These characteristics are application-specific.  DocBook
+provides no defaults.</p></dd>
+<dt>
+<a name="id2850684"></a><span class="term"><tt>ID</tt></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2850700"></a>
+
+<tt>ID</tt> is an identifying string
+for the element.  It must be unique at least within the document and
+must begin with a letter.</p></dd>
+<dt>
+<a name="id2850718"></a><span class="term"><tt>Lang</tt></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2850734"></a>
+<a class="indexterm" name="id2850740"></a>
+<a class="indexterm" name="id2850745"></a>
+<a class="indexterm" name="id2850755"></a>
+<a class="indexterm" name="id2850765"></a>
+
+<tt>Lang</tt> should be a language
+code drawn from ISO 639 (perhaps extended with a
+country code drawn from ISO 3166, as
+<tt>en-US</tt>).  Use it when you need to signal your
+application to change hyphenation and other display
+characteristics.</p></dd>
+<dt>
+<a name="id2850801"></a><span class="term"><tt>OS</tt></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2850818"></a>
+<a class="indexterm" name="id2850823"></a>
+
+<tt>OS</tt> indicates the operating
+system to which the element is applicable.
+</p></dd>
+<dt>
+<a name="id2850845"></a><span class="term"><tt>Remap</tt></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2850861"></a>
+<a class="indexterm" name="id2850866"></a>
+
+<tt>Remap</tt> contains an element
+name or similar semantic identifier assigned to the content in a
+previous markup scheme.</p></dd>
+<dt>
+<a name="id2850889"></a><span class="term"><tt>Role</tt></span>
+</dt>
+<dd>
+<p>
+<a class="indexterm" name="id2850905"></a>
+<a class="indexterm" name="id2850910"></a>
+<a class="indexterm" name="id2850921"></a>
+
+<tt>Role</tt> contains a string used
+to classify or subclassify an element.</p>
+<p>While Role is a common attribute in the sense that it occurs on
+almost all elements, it is not part of either of the common attributes
+parameter entities (<a href="pe-common-attrib.html#common.attrib.parament"><tt>%common.attrib;</tt></a> or <a href="pe-common-attrib.html#idreq.common.attrib.parament"><tt>%idreq.common.attrib;</tt></a>).  It is
+parameterized differently because it is useful to be able to subclass
+<tt>Role</tt> independently on different
+elements.</p>
+</dd>
+<dt>
+<a name="id2850972"></a><span class="term"><tt>Revision</tt></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2850988"></a>
+
+<tt>Revision</tt> indicates the
+editorial revision to which the element belongs.
+</p></dd>
+<dt>
+<a name="id2851005"></a><span class="term"><tt>RevisionFlag</tt></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2851022"></a>
+<a class="indexterm" name="id2851028"></a>
+
+<tt>RevisionFlag</tt> indicates the
+revision status of element; the default is that the element hasn't
+been revised.  <tt>RevisionFlag</tt> is
+intended only for simple revision management: to track the entire
+history of a document use a proper revision control system.  Use
+<tt>RevisionFlag</tt> for indicating
+changes from one version to the next, no more.</p></dd>
+<dt>
+<a name="id2851068"></a><span class="term"><tt>Security</tt></span>
+</dt>
+<dd><p>
+<img src="figures/rev_4.0.png" alt="[4.0]" align="absbottom">
+<a class="indexterm" name="id2851082"></a>
+
+<tt>Security</tt> identifies something about
+the security level associated with the element to which it applies.
+</p></dd>
+<dt>
+<a name="id2851104"></a><span class="term"><tt>UserLevel</tt></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2851120"></a>
+<a class="indexterm" name="id2851126"></a>
+
+<tt>UserLevel</tt> indicates the
+level of user experience to which element applies.
+</p></dd>
+<dt>
+<a name="id2851143"></a><span class="term"><tt>Vendor</tt></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2851159"></a>
+<a class="indexterm" name="id2851165"></a>
+
+<tt>Vendor</tt> indicates the
+computer vendor to which the element applies.</p></dd>
+<dt>
+<a name="id2851182"></a><span class="term"><tt>XrefLabel</tt></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2851198"></a>
+<a class="indexterm" name="id2851203"></a>
+<tt>XrefLabel</tt> holds text to be
+used when a cross reference (<a href="xref.html"><tt>XRef</tt></a>) is made to the
+element.</p></dd>
+</dl></div>
+</div>
+<div class="sect1">
+<a name="id2851230"></a><div class="titlepage"><div><h2 class="title" style="clear: both">
+<a name="id2851230"></a>3. Attribute Types</h2></div></div>
+<p>
+<a class="indexterm" name="id2851241"></a>
+<a class="indexterm" name="id2851247"></a>
+
+SGML offers a small selection of attribute types. (XML
+offers a subset of these.) For convenience, a brief description of
+each of these types is provided here:</p>
+<div class="variablelist"><dl>
+<dt>
+<a name="AT.CDATA"></a><span class="term"><tt>CDATA</tt></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2851292"></a>
+<a class="indexterm" name="id2851302"></a>
+<a class="indexterm" name="id2851308"></a>
+
+A string of characters.</p></dd>
+<dt>
+<a name="AT.NUMBER"></a><span class="term"><tt>NUMBER</tt></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2851339"></a>
+<a class="indexterm" name="id2851345"></a>
+<a class="indexterm" name="id2851351"></a>
+
+A number.  Numbers must begin with a hyphen or digit and can include
+the decimal point.</p></dd>
+<dt>
+<a name="AT.NMTOKEN"></a><span class="term"><tt>NMTOKEN</tt></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2851383"></a>
+<a class="indexterm" name="id2851389"></a>
+<a class="indexterm" name="id2851399"></a>
+<a class="indexterm" name="id2851408"></a>
+
+
+A sequence of name characters (letters, digits, hyphens, and
+periods).  This differs from a <tt>CDATA</tt> attribute because it cannot
+contain spaces, punctuation, or other non-name characters.</p></dd>
+<dt>
+<a name="AT.NMTOKENS"></a><span class="term"><tt>NMTOKENS</tt></span>
+</dt>
+<dd><p>A sequence of one or more space-delimited <tt>NMTOKEN</tt> values.</p></dd>
+<dt>
+<a name="AT.NUTOKEN"></a><span class="term"><tt>NUTOKEN</tt></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2851485"></a>
+<a class="indexterm" name="id2851491"></a>
+<a class="indexterm" name="id2851500"></a>
+
+A sequence of number characters (digits, hyphens, and periods).
+This differs from a <tt>NUMBER</tt>
+field because it is not required to begin with a digit or a
+hyphen.</p></dd>
+<dt>
+<a name="AT.ENTITY"></a><span class="term"><tt>ENTITY</tt></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2851541"></a>
+
+An entity name.  The value of an <tt>ENTITY</tt> attribute must be the name of
+a declared entity.</p></dd>
+<dt>
+<a name="AT.NAME"></a><span class="term"><tt>NAME</tt></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2851579"></a>
+<a class="indexterm" name="id2851585"></a>
+<a class="indexterm" name="id2851595"></a>
+<a class="indexterm" name="id2851600"></a>
+
+A name.  A name must begin with a letter and can consist of
+letters, digits, hyphens, and periods.</p></dd>
+<dt>
+<a name="AT.NAMES"></a><span class="term"><tt>NAMES</tt></span>
+</dt>
+<dd><p>A sequence of one or more space-delimited <tt>NAME</tt> values.</p></dd>
+<dt>
+<a name="AT.ID"></a><span class="term"><tt>ID</tt></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2851666"></a>
+<a class="indexterm" name="id2851670"></a>
+
+An ID.  IDs are names that
+must be globally unique within the document.  The <tt>ID</tt> attribute declares the
+ID.</p></dd>
+<dt>
+<a name="AT.IDREF"></a><span class="term"><tt>IDREF</tt></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2851726"></a>
+
+An single ID.  IDs are
+names that must be globally unique within the document. The value of
+an <tt>IDREF</tt> attribute must be
+the name of an <tt>ID</tt> attribute
+defined in the document.</p></dd>
+<dt>
+<a name="AT.IDREFS"></a><span class="term"><tt>IDREFS</tt></span>
+</dt>
+<dd><p>
+<a class="indexterm" name="id2851778"></a>
+
+A sequence of one or more space-delimited <tt>ID</tt> values.
+<a class="indexterm" name="id2851801"></a>
+</p></dd>
+</dl></div>
+</div>
+<div class="toc">
+<p><b>Table of Contents</b></p>
+<dl>
+<dt>
+<a href="abbrev.html">abbrev</a> - An abbreviation, especially one followed by a period</dt>
+<dt>
+<a href="abstract.html">abstract</a> - A summary</dt>
+<dt>
+<a href="accel.html">accel</a> - A graphical user interface (GUI) keyboard shortcut</dt>
+<dt>
+<a href="ackno.html">ackno</a> - Acknowledgements in an Article</dt>
+<dt>
+<a href="acronym.html">acronym</a> - An often pronounceable word made from the initial (or selected) letters of a name or phrase</dt>
+<dt>
+<a href="action.html">action</a> - A response to a user event</dt>
+<dt>
+<a href="address.html">address</a> - A real-world address, generally a postal address</dt>
+<dt>
+<a href="affiliation.html">affiliation</a> - The institutional affiliation of an individual</dt>
+<dt>
+<a href="alt.html">alt</a> - Text representation for a graphical element</dt>
+<dt>
+<a href="anchor.html">anchor</a> - A spot in the document</dt>
+<dt>
+<a href="answer.html">answer</a> - An answer to a question posed in a QandASet</dt>
+<dt>
+<a href="appendix.html">appendix</a> - An appendix in a Book or Article</dt>
+<dt>
+<a href="appendixinfo.html">appendixinfo</a><img src="figures/rev_4.0.png" alt="[4.0]" align="absbottom"> - Meta-information for an Appendix</dt>
+<dt>
+<a href="application.html">application</a> - The name of a software program</dt>
+<dt>
+<a href="area.html">area</a> - A region defined for a Callout in a graphic or code example</dt>
+<dt>
+<a href="areaset.html">areaset</a> - A set of related areas in a graphic or code example</dt>
+<dt>
+<a href="areaspec.html">areaspec</a> - A collection of regions in a graphic or code example</dt>
+<dt>
+<a href="arg.html">arg</a> - An argument in a CmdSynopsis</dt>
+<dt>
+<a href="article.html">article</a> - An article</dt>
+<dt>
+<a href="articleinfo.html">articleinfo</a><img src="figures/rev_4.0.png" alt="[4.0]" align="absbottom"> - Meta-information for an Article</dt>
+<dt>
+<a href="artpagenums.html">artpagenums</a> - The page numbers of an article as published</dt>
+<dt>
+<a href="attribution.html">attribution</a> - The source of a block quote or epigraph</dt>
+<dt>
+<a href="audiodata.html">audiodata</a> - Pointer to external audio data</dt>
+<dt>
+<a href="audioobject.html">audioobject</a> - A wrapper for audio data and its associated meta-information</dt>
+<dt>
+<a href="author.html">author</a> - The name of an individual author</dt>
+<dt>
+<a href="authorblurb.html">authorblurb</a> - A short description or note about an author</dt>
+<dt>
+<a href="authorgroup.html">authorgroup</a> - Wrapper for author information when a document has multiple authors or collabarators</dt>
+<dt>
+<a href="authorinitials.html">authorinitials</a> - The initials or other short identifier for an author</dt>
+<dt>
+<a href="beginpage.html">beginpage</a> - The location of a page break in a print version of the document</dt>
+<dt>
+<a href="bibliodiv.html">bibliodiv</a> - A section of a Bibliography</dt>
+<dt>
+<a href="biblioentry.html">biblioentry</a> - An entry in a Bibliography</dt>
+<dt>
+<a href="bibliography.html">bibliography</a> - A bibliography</dt>
+<dt>
+<a href="bibliographyinfo.html">bibliographyinfo</a><img src="figures/rev_4.0.png" alt="[4.0]" align="absbottom"> - Meta-information for a Bibliography</dt>
+<dt>
+<a href="bibliomisc.html">bibliomisc</a> - Untyped bibliographic information</dt>
+<dt>
+<a href="bibliomixed.html">bibliomixed</a> - An entry in a Bibliography</dt>
+<dt>
+<a href="bibliomset.html">bibliomset</a> - A cooked container for related bibliographic information</dt>
+<dt>
+<a href="biblioset.html">biblioset</a> - A raw container for related bibliographic information</dt>
+<dt>
+<a href="blockquote.html">blockquote</a> - A quotation set off from the main text</dt>
+<dt>
+<a href="book.html">book</a> - A book</dt>
+<dt>
+<a href="bookinfo.html">bookinfo</a> - Meta-information for a Book</dt>
+<dt>
+<a href="bridgehead.html">bridgehead</a> - A free-floating heading</dt>
+<dt>
+<a href="callout.html">callout</a> - A &#x201C;called out&#x201D; description of a marked Area</dt>
+<dt>
+<a href="calloutlist.html">calloutlist</a> - A list of Callouts</dt>
+<dt>
+<a href="caption.html">caption</a> - A caption</dt>
+<dt>
+<a href="caution.html">caution</a> - A note of caution</dt>
+<dt>
+<a href="chapter.html">chapter</a> - A chapter, as of a book</dt>
+<dt>
+<a href="chapterinfo.html">chapterinfo</a><img src="figures/rev_4.0.png" alt="[4.0]" align="absbottom"> - Meta-information for a Chapter</dt>
+<dt>
+<a href="citation.html">citation</a> - An inline bibliographic reference to another published work</dt>
+<dt>
+<a href="citerefentry.html">citerefentry</a> - A citation to a reference page</dt>
+<dt>
+<a href="citetitle.html">citetitle</a> - The title of a cited work</dt>
+<dt>
+<a href="city.html">city</a> - The name of a city in an address</dt>
+<dt>
+<a href="classname.html">classname</a> - The name of a class, in the object-oriented programming sense</dt>
+<dt>
+<a href="classsynopsis.html">classsynopsis</a><img src="figures/rev_4.0.png" alt="[4.0]" align="absbottom"> - The syntax summary for a class definition</dt>
+<dt>
+<a href="classsynopsisinfo.html">classsynopsisinfo</a><img src="figures/rev_4.0.png" alt="[4.0]" align="absbottom"> - Information supplementing the contents of a ClassSynopsis</dt>
+<dt>
+<a href="cmdsynopsis.html">cmdsynopsis</a> - A syntax summary for a software command</dt>
+<dt>
+<a href="co.html">co</a> - The location of a callout embedded in text</dt>
+<dt>
+<a href="collab.html">collab</a> - Identifies a collaborator</dt>
+<dt>
+<a href="collabname.html">collabname</a> - The name of a collaborator</dt>
+<dt>
+<a href="colophon.html">colophon</a> - Text at the back of a book describing facts about its production</dt>
+<dt>
+<a href="colspec.html">colspec</a> - Specifications for a column in a table</dt>
+<dt>
+<a href="command.html">command</a> - The name of an executable program or other software command</dt>
+<dt>
+<a href="computeroutput.html">computeroutput</a> - Data, generally text, displayed or presented by a computer</dt>
+<dt>
+<a href="confdates.html">confdates</a> - The dates of a conference for which a document was written</dt>
+<dt>
+<a href="confgroup.html">confgroup</a> - A wrapper for document meta-information about a conference</dt>
+<dt>
+<a href="confnum.html">confnum</a> - An identifier, frequently numerical, associated with a conference for which a document was written</dt>
+<dt>
+<a href="confsponsor.html">confsponsor</a> - The sponsor of a conference for which a document was written</dt>
+<dt>
+<a href="conftitle.html">conftitle</a> - The title of a conference for which a document was written</dt>
+<dt>
+<a href="constant.html">constant</a> - A programming or system constant</dt>
+<dt>
+<a href="constraint.html">constraint</a><img src="figures/rev_ebnf.png" alt="[EBNF]" align="absbottom"> - A constraint in an EBNF production</dt>
+<dt>
+<a href="constraintdef.html">constraintdef</a><img src="figures/rev_ebnf.png" alt="[EBNF]" align="absbottom"> - The definition of a constraint in an EBNF production</dt>
+<dt>
+<a href="constructorsynopsis.html">constructorsynopsis</a><img src="figures/rev_4.0.png" alt="[4.0]" align="absbottom"> - A syntax summary for a constructor</dt>
+<dt>
+<a href="contractnum.html">contractnum</a> - The contract number of a document</dt>
+<dt>
+<a href="contractsponsor.html">contractsponsor</a> - The sponsor of a contract</dt>
+<dt>
+<a href="contrib.html">contrib</a> - A summary of the contributions made to a document by a credited source</dt>
+<dt>
+<a href="copyright.html">copyright</a> - Copyright information about a document</dt>
+<dt>
+<a href="corpauthor.html">corpauthor</a> - A corporate author, as opposed to an individual</dt>
+<dt>
+<a href="corpname.html">corpname</a> - The name of a corporation</dt>
+<dt>
+<a href="country.html">country</a> - The name of a country</dt>
+<dt>
+<a href="database.html">database</a> - The name of a database, or part of a database</dt>
+<dt>
+<a href="date.html">date</a> - The date of publication or revision of a document</dt>
+<dt>
+<a href="dedication.html">dedication</a> - A wrapper for the dedication section of a book</dt>
+<dt>
+<a href="destructorsynopsis.html">destructorsynopsis</a><img src="figures/rev_4.0.png" alt="[4.0]" align="absbottom"> - A syntax summary for a destructor</dt>
+<dt>
+<a href="edition.html">edition</a> - The name or number of an edition of a document</dt>
+<dt>
+<a href="editor.html">editor</a> - The name of the editor of a document</dt>
+<dt>
+<a href="email.html">email</a> - An email address</dt>
+<dt>
+<a href="emphasis.html">emphasis</a> - Emphasized text</dt>
+<dt>
+<a href="entry.html">entry</a> - A cell in a table</dt>
+<dt>
+<a href="entrytbl.html">entrytbl</a> - A subtable appearing in place of an Entry in a table</dt>
+<dt>
+<a href="envar.html">envar</a> - A software environment variable</dt>
+<dt>
+<a href="epigraph.html">epigraph</a> - A short inscription at the beginning of a document or component</dt>
+<dt>
+<a href="equation.html">equation</a> - A displayed mathematical equation</dt>
+<dt>
+<a href="errorcode.html">errorcode</a> - An error code</dt>
+<dt>
+<a href="errorname.html">errorname</a> - An error message</dt>
+<dt>
+<a href="errortype.html">errortype</a> - The classification of an error message</dt>
+<dt>
+<a href="example.html">example</a> - A formal example, with a title</dt>
+<dt>
+<a href="exceptionname.html">exceptionname</a><img src="figures/rev_4.0.png" alt="[4.0]" align="absbottom"> - The name of an exception</dt>
+<dt>
+<a href="fax.html">fax</a> - A fax number</dt>
+<dt>
+<a href="fieldsynopsis.html">fieldsynopsis</a><img src="figures/rev_4.0.png" alt="[4.0]" align="absbottom"> - The name of a field in a class definition</dt>
+<dt>
+<a href="figure.html">figure</a> - A formal figure, generally an illustration, with a title</dt>
+<dt>
+<a href="filename.html">filename</a> - The name of a file</dt>
+<dt>
+<a href="firstname.html">firstname</a> - The first name of a person</dt>
+<dt>
+<a href="firstterm.html">firstterm</a> - The first occurrence of a term</dt>
+<dt>
+<a href="footnote.html">footnote</a> - A footnote</dt>
+<dt>
+<a href="footnoteref.html">footnoteref</a> - A cross reference to a footnote (a footnote mark)</dt>
+<dt>
+<a href="foreignphrase.html">foreignphrase</a> - A word or phrase in a language other than the primary language of the document</dt>
+<dt>
+<a href="formalpara.html">formalpara</a> - A paragraph with a title</dt>
+<dt>
+<a href="funcdef.html">funcdef</a> - A function (subroutine) name and its return type</dt>
+<dt>
+<a href="funcparams.html">funcparams</a> - Parameters for a function referenced through a function pointer in a synopsis</dt>
+<dt>
+<a href="funcprototype.html">funcprototype</a> - The prototype of a function</dt>
+<dt>
+<a href="funcsynopsis.html">funcsynopsis</a> - The syntax summary for a function definition</dt>
+<dt>
+<a href="funcsynopsisinfo.html">funcsynopsisinfo</a> - Information supplementing the FuncDefs of a FuncSynopsis</dt>
+<dt>
+<a href="function.html">function</a> - The name of a function or subroutine, as in a programming language</dt>
+<dt>
+<a href="glossary.html">glossary</a> - A glossary</dt>
+<dt>
+<a href="glossaryinfo.html">glossaryinfo</a><img src="figures/rev_4.0.png" alt="[4.0]" align="absbottom"> - Meta-information for a Glossary</dt>
+<dt>
+<a href="glossdef.html">glossdef</a> - A definition in a GlossEntry</dt>
+<dt>
+<a href="glossdiv.html">glossdiv</a> - A division in a Glossary</dt>
+<dt>
+<a href="glossentry.html">glossentry</a> - An entry in a Glossary or GlossList</dt>
+<dt>
+<a href="glosslist.html">glosslist</a> - A wrapper for a set of GlossEntrys</dt>
+<dt>
+<a href="glosssee.html">glosssee</a> - A cross-reference from one GlossEntry to another</dt>
+<dt>
+<a href="glossseealso.html">glossseealso</a> - A cross-reference from one GlossEntry to another</dt>
+<dt>
+<a href="glossterm.html">glossterm</a> - A glossary term</dt>
+<dt>
+<a href="graphic.html">graphic</a> - A displayed graphical object (not an inline)</dt>
+<dt>
+<a href="graphicco.html">graphicco</a> - A graphic that contains callout areas</dt>
+<dt>
+<a href="group.html">group</a> - A group of elements in a CmdSynopsis</dt>
+<dt>
+<a href="guibutton.html">guibutton</a> - The text on a button in a GUI</dt>
+<dt>
+<a href="guiicon.html">guiicon</a> - Graphic and/or text appearing as a icon in a GUI</dt>
+<dt>
+<a href="guilabel.html">guilabel</a> - The text of a label in a GUI</dt>
+<dt>
+<a href="guimenu.html">guimenu</a> - The name of a menu in a GUI</dt>
+<dt>
+<a href="guimenuitem.html">guimenuitem</a> - The name of a terminal menu item in a GUI</dt>
+<dt>
+<a href="guisubmenu.html">guisubmenu</a> - The name of a submenu in a GUI</dt>
+<dt>
+<a href="hardware.html">hardware</a> - A physical part of a computer system</dt>
+<dt>
+<a href="highlights.html">highlights</a> - A summary of the main points of the discussed component</dt>
+<dt>
+<a href="holder.html">holder</a> - The name of the individual or organization that holds a copyright</dt>
+<dt>
+<a href="honorific.html">honorific</a> - The title of a person</dt>
+<dt>
+<a href="html-form.html">html:form</a><img src="figures/rev_htmlforms.png" alt="[HTML Forms]" align="absbottom"> - An HTML form</dt>
+<dt>
+<a href="imagedata.html">imagedata</a> - Pointer to external image data</dt>
+<dt>
+<a href="imageobject.html">imageobject</a> - A wrapper for image data and its associated meta-information</dt>
+<dt>
+<a href="imageobjectco.html">imageobjectco</a> - A wrapper for an image object with callouts</dt>
+<dt>
+<a href="important.html">important</a> - An admonition set off from the text</dt>
+<dt>
+<a href="index.html">index</a> - An index</dt>
+<dt>
+<a href="indexdiv.html">indexdiv</a> - A division in an index</dt>
+<dt>
+<a href="indexentry.html">indexentry</a> - An entry in an index</dt>
+<dt>
+<a href="indexinfo.html">indexinfo</a><img src="figures/rev_4.0.png" alt="[4.0]" align="absbottom"> - Meta-information for an Index</dt>
+<dt>
+<a href="indexterm.html">indexterm</a> - A wrapper for terms to be indexed</dt>
+<dt>
+<a href="informalequation.html">informalequation</a> - A displayed mathematical equation without a title</dt>
+<dt>
+<a href="informalexample.html">informalexample</a> - A displayed example without a title</dt>
+<dt>
+<a href="informalfigure.html">informalfigure</a> - A untitled figure</dt>
+<dt>
+<a href="informaltable.html">informaltable</a> - A table without a title</dt>
+<dt>
+<a href="initializer.html">initializer</a><img src="figures/rev_4.0.png" alt="[4.0]" align="absbottom"> - The initializer for a FieldSynopsis</dt>
+<dt>
+<a href="inlineequation.html">inlineequation</a> - A mathematical equation or expression occurring inline</dt>
+<dt>
+<a href="inlinegraphic.html">inlinegraphic</a> - An object containing or pointing to graphical data that will be rendered inline</dt>
+<dt>
+<a href="inlinemediaobject.html">inlinemediaobject</a> - An inline media object (video, audio, image, and so on)</dt>
+<dt>
+<a href="interface.html">interface</a> - An element of a GUI</dt>
+<dt>
+<a href="interfacename.html">interfacename</a><img src="figures/rev_4.0.png" alt="[4.0]" align="absbottom"> - The name of an interface</dt>
+<dt>
+<a href="invpartnumber.html">invpartnumber</a> - An inventory part number</dt>
+<dt>
+<a href="isbn.html">isbn</a> - The International Standard Book Number of a document</dt>
+<dt>
+<a href="issn.html">issn</a> - The International Standard Serial Number of a periodical</dt>
+<dt>
+<a href="issuenum.html">issuenum</a> - The number of an issue of a journal</dt>
+<dt>
+<a href="itemizedlist.html">itemizedlist</a> - A list in which each entry is marked with a bullet or other dingbat</dt>
+<dt>
+<a href="itermset.html">itermset</a> - A set of index terms in the meta-information of a document</dt>
+<dt>
+<a href="jobtitle.html">jobtitle</a> - The title of an individual in an organization</dt>
+<dt>
+<a href="keycap.html">keycap</a> - The text printed on a key on a keyboard</dt>
+<dt>
+<a href="keycode.html">keycode</a> - The internal, frequently numeric, identifier for a key on a keyboard</dt>
+<dt>
+<a href="keycombo.html">keycombo</a> - A combination of input actions</dt>
+<dt>
+<a href="keysym.html">keysym</a> - The symbolic name of a key on a keyboard</dt>
+<dt>
+<a href="keyword.html">keyword</a> - One of a set of keywords describing the content of a document</dt>
+<dt>
+<a href="keywordset.html">keywordset</a> - A set of keywords describing the content of a document</dt>
+<dt>
+<a href="label.html">label</a> - A label on a Question or Answer</dt>
+<dt>
+<a href="legalnotice.html">legalnotice</a> - A statement of legal obligations or requirements</dt>
+<dt>
+<a href="lhs.html">lhs</a><img src="figures/rev_ebnf.png" alt="[EBNF]" align="absbottom"> - The left-hand side of an EBNF production</dt>
+<dt>
+<a href="lineage.html">lineage</a> - The portion of a person's name indicating a relationship to ancestors</dt>
+<dt>
+<a href="lineannotation.html">lineannotation</a> - A comment on a line in a verbatim listing</dt>
+<dt>
+<a href="link.html">link</a> - A hypertext link</dt>
+<dt>
+<a href="listitem.html">listitem</a> - A wrapper for the elements of a list item</dt>
+<dt>
+<a href="literal.html">literal</a> - Inline text that is some literal value</dt>
+<dt>
+<a href="literallayout.html">literallayout</a> - A block of text in which line breaks and white space are to be reproduced faithfully</dt>
+<dt>
+<a href="lot.html">lot</a> - A list of the titles of formal objects (as tables or figures) in a document</dt>
+<dt>
+<a href="lotentry.html">lotentry</a> - An entry in a list of titles</dt>
+<dt>
+<a href="manvolnum.html">manvolnum</a> - A reference volume number</dt>
+<dt>
+<a href="markup.html">markup</a> - A string of formatting markup in text that is to be represented literally</dt>
+<dt>
+<a href="mml-math.html">mml:math</a><img src="figures/rev_mathml.png" alt="[MathML]" align="absbottom"> - A MathML equation</dt>
+<dt>
+<a href="medialabel.html">medialabel</a> - A name that identifies the physical medium on which some information resides</dt>
+<dt>
+<a href="mediaobject.html">mediaobject</a> - A displayed media object (video, audio, image, etc.)</dt>
+<dt>
+<a href="mediaobjectco.html">mediaobjectco</a> - A media object that contains callouts</dt>
+<dt>
+<a href="member.html">member</a> - An element of a simple list</dt>
+<dt>
+<a href="menuchoice.html">menuchoice</a> - A selection or series of selections from a menu</dt>
+<dt>
+<a href="methodname.html">methodname</a><img src="figures/rev_4.0.png" alt="[4.0]" align="absbottom"> - The name of a method</dt>
+<dt>
+<a href="methodparam.html">methodparam</a><img src="figures/rev_4.0.png" alt="[4.0]" align="absbottom"> - Parameters to a method</dt>
+<dt>
+<a href="methodsynopsis.html">methodsynopsis</a><img src="figures/rev_4.0.png" alt="[4.0]" align="absbottom"> - A syntax summary for a method</dt>
+<dt>
+<a href="modespec.html">modespec</a> - Application-specific information necessary for the completion of an OLink</dt>
+<dt>
+<a href="modifier.html">modifier</a><img src="figures/rev_4.0.png" alt="[4.0]" align="absbottom"> - Modifiers in a synopsis</dt>
+<dt>
+<a href="mousebutton.html">mousebutton</a> - The conventional name of a mouse button</dt>
+<dt>
+<a href="msg.html">msg</a> - A message in a message set</dt>
+<dt>
+<a href="msgaud.html">msgaud</a> - The audience to which a message in a message set is relevant</dt>
+<dt>
+<a href="msgentry.html">msgentry</a> - A wrapper for an entry in a message set</dt>
+<dt>
+<a href="msgexplan.html">msgexplan</a> - Explanatory material relating to a message in a message set</dt>
+<dt>
+<a href="msginfo.html">msginfo</a> - Information about a message in a message set</dt>
+<dt>
+<a href="msglevel.html">msglevel</a> - The level of importance or severity of a message in a message set</dt>
+<dt>
+<a href="msgmain.html">msgmain</a> - The primary component of a message in a message set </dt>
+<dt>
+<a href="msgorig.html">msgorig</a> - The origin of a message in a message set</dt>
+<dt>
+<a href="msgrel.html">msgrel</a> - A related component of a message in a message set</dt>
+<dt>
+<a href="msgset.html">msgset</a> - A detailed set of messages, usually error messages</dt>
+<dt>
+<a href="msgsub.html">msgsub</a> - A subcomponent of a message in a message set</dt>
+<dt>
+<a href="msgtext.html">msgtext</a> - The actual text of a message component in a message set</dt>
+<dt>
+<a href="nonterminal.html">nonterminal</a><img src="figures/rev_ebnf.png" alt="[EBNF]" align="absbottom"> - A non-terminal in an EBNF production</dt>
+<dt>
+<a href="note.html">note</a> - A message set off from the text</dt>
+<dt>
+<a href="objectinfo.html">objectinfo</a> - Meta-information for an object</dt>
+<dt>
+<a href="olink.html">olink</a> - A link that addresses its target indirectly, through an entity</dt>
+<dt>
+<a href="ooclass.html">ooclass</a><img src="figures/rev_4.0.png" alt="[4.0]" align="absbottom"> - A class in an object-oriented programming language</dt>
+<dt>
+<a href="ooexception.html">ooexception</a><img src="figures/rev_4.0.png" alt="[4.0]" align="absbottom"> - An exception in an object-oriented programming language</dt>
+<dt>
+<a href="oointerface.html">oointerface</a><img src="figures/rev_4.0.png" alt="[4.0]" align="absbottom"> - An interface in an object-oriented programming language</dt>
+<dt>
+<a href="option.html">option</a> - An option for a software command</dt>
+<dt>
+<a href="optional.html">optional</a> - Optional information</dt>
+<dt>
+<a href="orderedlist.html">orderedlist</a> - A list in which each entry is marked with a sequentially incremented label</dt>
+<dt>
+<a href="orgdiv.html">orgdiv</a> - A division of an organization</dt>
+<dt>
+<a href="orgname.html">orgname</a> - The name of an organization other than a corporation </dt>
+<dt>
+<a href="otheraddr.html">otheraddr</a> - Uncategorized information in address</dt>
+<dt>
+<a href="othercredit.html">othercredit</a> - A person or entity, other than an author or editor, credited in a document</dt>
+<dt>
+<a href="othername.html">othername</a> - A component of a persons name that is not a first name, surname, or lineage</dt>
+<dt>
+<a href="pagenums.html">pagenums</a> - The numbers of the pages in a book, for use in a bibliographic entry</dt>
+<dt>
+<a href="para.html">para</a> - A paragraph</dt>
+<dt>
+<a href="paramdef.html">paramdef</a> - Information about a function parameter in a programming language</dt>
+<dt>
+<a href="parameter.html">parameter</a> - A value or a symbolic reference to a value</dt>
+<dt>
+<a href="part.html">part</a> - A division in a book</dt>
+<dt>
+<a href="partinfo.html">partinfo</a><img src="figures/rev_4.0.png" alt="[4.0]" align="absbottom"> - Meta-information for a Part</dt>
+<dt>
+<a href="partintro.html">partintro</a> - An introduction to the contents of a part</dt>
+<dt>
+<a href="phone.html">phone</a> - A telephone number</dt>
+<dt>
+<a href="phrase.html">phrase</a> - A span of text</dt>
+<dt>
+<a href="pob.html">pob</a> - A post office box in an address</dt>
+<dt>
+<a href="postcode.html">postcode</a> - A postal code in an address</dt>
+<dt>
+<a href="preface.html">preface</a> - Introductory matter preceding the first chapter of a book</dt>
+<dt>
+<a href="prefaceinfo.html">prefaceinfo</a><img src="figures/rev_4.0.png" alt="[4.0]" align="absbottom"> - Meta-information for a Preface</dt>
+<dt>
+<a href="primary.html">primary</a> - The primary word or phrase under which an index term should be sorted</dt>
+<dt>
+<a href="primaryie.html">primaryie</a> - A primary term in an index entry, not in the text</dt>
+<dt>
+<a href="printhistory.html">printhistory</a> - The printing history of a document</dt>
+<dt>
+<a href="procedure.html">procedure</a> - A list of operations to be performed in a well-defined sequence</dt>
+<dt>
+<a href="production.html">production</a><img src="figures/rev_ebnf.png" alt="[EBNF]" align="absbottom"> - A production in a set of EBNF productions</dt>
+<dt>
+<a href="productionrecap.html">productionrecap</a><img src="figures/rev_ebnf.png" alt="[EBNF]" align="absbottom"> - A cross-reference to an EBNF production</dt>
+<dt>
+<a href="productionset.html">productionset</a><img src="figures/rev_ebnf.png" alt="[EBNF]" align="absbottom"> - A set of EBNF productions</dt>
+<dt>
+<a href="productname.html">productname</a> - The formal name of a product</dt>
+<dt>
+<a href="productnumber.html">productnumber</a> - A number assigned to a product</dt>
+<dt>
+<a href="programlisting.html">programlisting</a> - A literal listing of all or part of a program</dt>
+<dt>
+<a href="programlistingco.html">programlistingco</a> - A program listing with associated areas used in callouts</dt>
+<dt>
+<a href="prompt.html">prompt</a> - A character or string indicating the start of an input field in a  computer display</dt>
+<dt>
+<a href="property.html">property</a> - A unit of data associated with some part of a computer system</dt>
+<dt>
+<a href="pubdate.html">pubdate</a> - The date of publication of a document</dt>
+<dt>
+<a href="publisher.html">publisher</a> - The publisher of a document</dt>
+<dt>
+<a href="publishername.html">publishername</a> - The name of the publisher of a document</dt>
+<dt>
+<a href="pubsnumber.html">pubsnumber</a> - A number assigned to a publication other than an ISBN or ISSN or inventory part number</dt>
+<dt>
+<a href="qandadiv.html">qandadiv</a> - A titled division in a QandASet</dt>
+<dt>
+<a href="qandaentry.html">qandaentry</a> - A question/answer set within a QandASet</dt>
+<dt>
+<a href="qandaset.html">qandaset</a> - A question-and-answer set</dt>
+<dt>
+<a href="question.html">question</a> - A question in a QandASet</dt>
+<dt>
+<a href="quote.html">quote</a> - An inline quotation</dt>
+<dt>
+<a href="refclass.html">refclass</a> - The scope or other indication of applicability of a reference entry</dt>
+<dt>
+<a href="refdescriptor.html">refdescriptor</a> - A description of the topic of a reference page</dt>
+<dt>
+<a href="refentry.html">refentry</a> - A reference page (originally a UNIX man-style reference page)</dt>
+<dt>
+<a href="refentryinfo.html">refentryinfo</a><img src="figures/rev_4.0.png" alt="[4.0]" align="absbottom"> - Meta-information for a Refentry</dt>
+<dt>
+<a href="refentrytitle.html">refentrytitle</a> - The title of a reference page</dt>
+<dt>
+<a href="reference.html">reference</a> - A collection of reference entries</dt>
+<dt>
+<a href="referenceinfo.html">referenceinfo</a><img src="figures/rev_4.0.png" alt="[4.0]" align="absbottom"> - Meta-information for a Reference</dt>
+<dt>
+<a href="refmeta.html">refmeta</a> - Meta-information for a reference entry</dt>
+<dt>
+<a href="refmiscinfo.html">refmiscinfo</a> - Meta-information for a reference entry other than the title and volume number</dt>
+<dt>
+<a href="refname.html">refname</a> - The name of (one of) the subject(s) of a reference page</dt>
+<dt>
+<a href="refnamediv.html">refnamediv</a> - The name, purpose, and classification of a reference page</dt>
+<dt>
+<a href="refpurpose.html">refpurpose</a> - A short (one sentence) synopsis of the topic of a reference page</dt>
+<dt>
+<a href="refsect1.html">refsect1</a> - A major subsection of a reference entry</dt>
+<dt>
+<a href="refsect1info.html">refsect1info</a> - Meta-information for a RefSect1</dt>
+<dt>
+<a href="refsect2.html">refsect2</a> - A subsection of a RefSect1</dt>
+<dt>
+<a href="refsect2info.html">refsect2info</a> - Meta-information for a RefSect2</dt>
+<dt>
+<a href="refsect3.html">refsect3</a> - A subsection of a RefSect2</dt>
+<dt>
+<a href="refsect3info.html">refsect3info</a> - Meta-information for a RefSect3</dt>
+<dt>
+<a href="refsynopsisdiv.html">refsynopsisdiv</a> - A syntactic synopsis of the subject of the reference page</dt>
+<dt>
+<a href="refsynopsisdivinfo.html">refsynopsisdivinfo</a> - Meta-information for a RefSynopsisDiv</dt>
+<dt>
+<a href="releaseinfo.html">releaseinfo</a> - Information about a particular release of a document</dt>
+<dt>
+<a href="remark.html">remark</a><img src="figures/rev_4.0.png" alt="[4.0]" align="absbottom"> - A remark (or comment) intended for presentation in a draft manuscript</dt>
+<dt>
+<a href="replaceable.html">replaceable</a> - Content that may or must be replaced by the user</dt>
+<dt>
+<a href="returnvalue.html">returnvalue</a> - The value returned by a function</dt>
+<dt>
+<a href="revdescription.html">revdescription</a><img src="figures/rev_4.0.png" alt="[4.0]" align="absbottom"> - A extended description of a revision to a document</dt>
+<dt>
+<a href="revhistory.html">revhistory</a> - A history of the revisions to a document</dt>
+<dt>
+<a href="revision.html">revision</a> - An entry describing a single revision in the history of the revisions to a document</dt>
+<dt>
+<a href="revnumber.html">revnumber</a> - A document revision number</dt>
+<dt>
+<a href="revremark.html">revremark</a> - A description of a revision to a document</dt>
+<dt>
+<a href="rhs.html">rhs</a><img src="figures/rev_ebnf.png" alt="[EBNF]" align="absbottom"> - The right-hand side of an EBNF production</dt>
+<dt>
+<a href="row.html">row</a> - A row in a table</dt>
+<dt>
+<a href="sbr.html">sbr</a> - An explicit line break in a command synopsis</dt>
+<dt>
+<a href="screen.html">screen</a> - Text that a user sees or might see on a computer screen</dt>
+<dt>
+<a href="screenco.html">screenco</a> - A screen with associated areas used in callouts</dt>
+<dt>
+<a href="screeninfo.html">screeninfo</a> - Information about how a screen shot was produced</dt>
+<dt>
+<a href="screenshot.html">screenshot</a> - A representation of what the user sees or might see on a computer screen</dt>
+<dt>
+<a href="secondary.html">secondary</a> - A secondary word or phrase in an index term</dt>
+<dt>
+<a href="secondaryie.html">secondaryie</a> - A secondary term in an index entry, rather than in the text</dt>
+<dt>
+<a href="sect1.html">sect1</a> - A top-level section of document</dt>
+<dt>
+<a href="sect1info.html">sect1info</a> - Meta-information for a Sect1</dt>
+<dt>
+<a href="sect2.html">sect2</a> - A subsection within a Sect1</dt>
+<dt>
+<a href="sect2info.html">sect2info</a> - Meta-information for a Sect2</dt>
+<dt>
+<a href="sect3.html">sect3</a> - A subsection within a Sect2</dt>
+<dt>
+<a href="sect3info.html">sect3info</a> - Meta-information for a Sect3</dt>
+<dt>
+<a href="sect4.html">sect4</a> - A subsection within a Sect3</dt>
+<dt>
+<a href="sect4info.html">sect4info</a> - Meta-information for a Sect4</dt>
+<dt>
+<a href="sect5.html">sect5</a> - A subsection within a Sect4</dt>
+<dt>
+<a href="sect5info.html">sect5info</a> - Meta-information for a Sect5</dt>
+<dt>
+<a href="section.html">section</a> - A recursive section</dt>
+<dt>
+<a href="sectioninfo.html">sectioninfo</a> - Meta-information for a recursive section</dt>
+<dt>
+<a href="see.html">see</a> - Part of an index term directing the reader instead to another entry in the index</dt>
+<dt>
+<a href="seealso.html">seealso</a> - Part of an index term directing the reader also to another entry in the index</dt>
+<dt>
+<a href="seealsoie.html">seealsoie</a> - A See also entry in an index, rather than in the text</dt>
+<dt>
+<a href="seeie.html">seeie</a> - A See entry in an index, rather than in the text</dt>
+<dt>
+<a href="seg.html">seg</a> - An element of a list item in a segmented list</dt>
+<dt>
+<a href="seglistitem.html">seglistitem</a> - A list item in a segmented list</dt>
+<dt>
+<a href="segmentedlist.html">segmentedlist</a> - A segmented list, a list of sets of elements</dt>
+<dt>
+<a href="segtitle.html">segtitle</a> - The title of an element of a list item in a segmented list</dt>
+<dt>
+<a href="seriesvolnums.html">seriesvolnums</a> - Numbers of the volumes in a series of books</dt>
+<dt>
+<a href="set.html">set</a> - A collection of books</dt>
+<dt>
+<a href="setindex.html">setindex</a> - An index to a set of books</dt>
+<dt>
+<a href="setindexinfo.html">setindexinfo</a><img src="figures/rev_4.0.png" alt="[4.0]" align="absbottom"> - Meta-information for a SetIndex</dt>
+<dt>
+<a href="setinfo.html">setinfo</a> - Meta-information for a Set</dt>
+<dt>
+<a href="sgmltag.html">sgmltag</a> - A component of SGML markup</dt>
+<dt>
+<a href="shortaffil.html">shortaffil</a> - A brief description of an affiliation</dt>
+<dt>
+<a href="shortcut.html">shortcut</a> - A key combination for an action that is also accessible through a menu</dt>
+<dt>
+<a href="sidebar.html">sidebar</a> - A portion of a document that is isolated from the main narrative flow</dt>
+<dt>
+<a href="sidebarinfo.html">sidebarinfo</a><img src="figures/rev_4.0.png" alt="[4.0]" align="absbottom"> - Meta-information for a Sidebar</dt>
+<dt>
+<a href="simpara.html">simpara</a> - A paragraph that contains only text and inline markup, no block elements</dt>
+<dt>
+<a href="simplelist.html">simplelist</a> - An undecorated list of single words or short phrases</dt>
+<dt>
+<a href="simplemsgentry.html">simplemsgentry</a><img src="figures/rev_4.0.png" alt="[4.0]" align="absbottom"> - A wrapper for a simpler entry in a message set</dt>
+<dt>
+<a href="simplesect.html">simplesect</a> - A section of a document with no subdivisions</dt>
+<dt>
+<a href="spanspec.html">spanspec</a> - Formatting information for a spanned column in a table</dt>
+<dt>
+<a href="state.html">state</a> - A state or province in an address</dt>
+<dt>
+<a href="step.html">step</a> - A unit of action in a procedure</dt>
+<dt>
+<a href="street.html">street</a> - A street address in an address</dt>
+<dt>
+<a href="structfield.html">structfield</a> - A field in a structure (in the programming language sense)</dt>
+<dt>
+<a href="structname.html">structname</a> - The name of a structure (in the programming language sense)</dt>
+<dt>
+<a href="subject.html">subject</a> - One of a group of terms describing the subject matter of a document</dt>
+<dt>
+<a href="subjectset.html">subjectset</a> - A set of terms describing the subject matter of a document</dt>
+<dt>
+<a href="subjectterm.html">subjectterm</a> - A term in a group of terms describing the subject matter of a document</dt>
+<dt>
+<a href="subscript.html">subscript</a> - A subscript (as in H2O, the molecular formula for water).</dt>
+<dt>
+<a href="substeps.html">substeps</a> - A wrapper for steps that occur within steps in a procedure</dt>
+<dt>
+<a href="subtitle.html">subtitle</a> - The subtitle of a document</dt>
+<dt>
+<a href="superscript.html">superscript</a> - A superscript (as in x2, the mathematical notation for x multiplied by itself).</dt>
+<dt>
+<a href="surname.html">surname</a> - A family name; in western cultures the last name</dt>
+<dt>
+<a href="svg-svg.html">svg:svg</a><img src="figures/rev_svg.png" alt="[SVG]" align="absbottom"> - An SVG graphic</dt>
+<dt>
+<a href="symbol.html">symbol</a> - A name that is replaced by a value before processing</dt>
+<dt>
+<a href="synopfragment.html">synopfragment</a> - A portion of a CmdSynopsis broken out from the main body of the synopsis</dt>
+<dt>
+<a href="synopfragmentref.html">synopfragmentref</a> - A reference to a fragment of a command synopsis</dt>
+<dt>
+<a href="synopsis.html">synopsis</a> - A general-purpose element for representing the syntax of commands or functions</dt>
+<dt>
+<a href="systemitem.html">systemitem</a> - A system-related item or term</dt>
+<dt>
+<a href="table.html">table</a> - A formal table in a document</dt>
+<dt>
+<a href="tbody.html">tbody</a> - A wrapper for the rows of a table or informal table</dt>
+<dt>
+<a href="term.html">term</a> - The word or phrase being defined or described in a variable list</dt>
+<dt>
+<a href="tertiary.html">tertiary</a> - A tertiary word or phrase in an index term</dt>
+<dt>
+<a href="tertiaryie.html">tertiaryie</a> - A tertiary term in an index entry, rather than in the text</dt>
+<dt>
+<a href="textobject.html">textobject</a> - A wrapper for a text description of an object and its associated meta-information</dt>
+<dt>
+<a href="tfoot.html">tfoot</a> - A table footer consisting of one or more rows</dt>
+<dt>
+<a href="tgroup.html">tgroup</a> - A wrapper for the main content of a table, or part of a table</dt>
+<dt>
+<a href="thead.html">thead</a> - A table header consisting of one or more rows</dt>
+<dt>
+<a href="tip.html">tip</a> - A suggestion to the user, set off from the text</dt>
+<dt>
+<a href="title.html">title</a> - The text of the title of a section of a document or of a formal block-level element</dt>
+<dt>
+<a href="titleabbrev.html">titleabbrev</a> - The abbreviation of a Title</dt>
+<dt>
+<a href="toc.html">toc</a> - A table of contents</dt>
+<dt>
+<a href="tocback.html">tocback</a> - An entry in a table of contents for a back matter component</dt>
+<dt>
+<a href="tocchap.html">tocchap</a> - An entry in a table of contents for a component in the body of a document</dt>
+<dt>
+<a href="tocentry.html">tocentry</a> - A component title in a table of contents</dt>
+<dt>
+<a href="tocfront.html">tocfront</a> - An entry in a table of contents for a front matter component</dt>
+<dt>
+<a href="toclevel1.html">toclevel1</a> - A top-level entry within a table of contents entry for a chapter-like component</dt>
+<dt>
+<a href="toclevel2.html">toclevel2</a> - A second-level entry within a table of contents entry for a chapter-like component</dt>
+<dt>
+<a href="toclevel3.html">toclevel3</a> - A third-level entry within a table of contents entry for a chapter-like component</dt>
+<dt>
+<a href="toclevel4.html">toclevel4</a> - A fourth-level entry within a table of contents entry for a chapter-like component</dt>
+<dt>
+<a href="toclevel5.html">toclevel5</a> - A fifth-level entry within a table of contents entry for a chapter-like component</dt>
+<dt>
+<a href="tocpart.html">tocpart</a> - An entry in a table of contents for a part of a book</dt>
+<dt>
+<a href="token.html">token</a> - A unit of information</dt>
+<dt>
+<a href="trademark.html">trademark</a> - A trademark</dt>
+<dt>
+<a href="type.html">type</a> - The classification of a value</dt>
+<dt>
+<a href="ulink.html">ulink</a> - A link that addresses its target by means of a URL (Uniform Resource Locator)</dt>
+<dt>
+<a href="userinput.html">userinput</a> - Data entered by the user</dt>
+<dt>
+<a href="varargs.html">varargs</a> - An empty element in a function synopsis indicating a variable number of arguments</dt>
+<dt>
+<a href="variablelist.html">variablelist</a> - A list in which each entry is composed of a set of one or more terms and an associated description</dt>
+<dt>
+<a href="varlistentry.html">varlistentry</a> - A wrapper for a set of terms and the associated description in a variable list</dt>
+<dt>
+<a href="varname.html">varname</a> - The name of a variable</dt>
+<dt>
+<a href="videodata.html">videodata</a> - Pointer to external video data</dt>
+<dt>
+<a href="videoobject.html">videoobject</a> - A wrapper for video data and its associated meta-information</dt>
+<dt>
+<a href="void.html">void</a> - An empty element in a function synopsis indicating that the function in question takes no arguments</dt>
+<dt>
+<a href="volumenum.html">volumenum</a> - The volume number of a document in a set (as of books in a set or articles in a journal)</dt>
+<dt>
+<a href="warning.html">warning</a> - An admonition set off from the text</dt>
+<dt>
+<a href="wordasword.html">wordasword</a> - A word meant specifically as a word and not representing anything else</dt>
+<dt>
+<a href="xref.html">xref</a> - A cross reference to another part of the document</dt>
+<dt>
+<a href="year.html">year</a> - The year of publication of a document</dt>
+</dl>
+</div>
+</div>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="part2.html">Prev</a> </td>
+<td width="20%" align="center"><a href="docbook.html">Home</a></td>
+<td width="40%" align="right"> <a href="abbrev.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">Part II. Reference </td>
+<td width="20%" align="center"><a href="part2.html">Up</a></td>
+<td width="40%" align="right"> abbrev</td>
+</tr>
+</table>
+</div>
+<p>
+<a href="dbcpyright.html">Copyright</a> © 1999, 2000, 2001 <a href="http://www.oreilly.com/">O'Reilly &amp; Associates, Inc.</a>
+</p>
+</body>
+</html>

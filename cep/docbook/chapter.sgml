@@ -1,0 +1,14 @@
+<chapter id="meaningful-id"><title>Chapter title</title>
+<para>
+...
+</para>
+
+<sect1><title>A subsection</title>
+<para>
+...onwards to sect9...
+</para>
+</sect1>
+
+<para>
+</para>
+</chapter>
