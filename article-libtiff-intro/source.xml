@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- REMOVE ALL TEMPLATE COMMENTS FROM THE FILE BEFORE PUBLISHING; SAMPLE TEXT IS IN BRACKETS-->
+
+<!-- CHANGE ATTRIBUTES BELOW TO "NO" TO REMOVE RATINGS AREA OR TABLE OF CONTENTS-->
+<article ratings="auto" toc="auto">
+
+<!-- IF THIS IS PART OF A SERIES, ENTER SERIES TITLE BELOW.   OTHERWISE, REMOVE THIS TAG.  DO NOT END TEXT WITH A COLON;  THE STYLESHEET HANDLES THIS-->
+   <seriestitle>[Optional series title]</seriestitle>
+   <papertitle>[Enter required paper title here]</papertitle>
+   <subtitle>[Enter required paper subtitle here]</subtitle>
+<!-- AT A MINIMUM, PROVIDE AUTHOR NAME AND JOB TITLE.  IF AVAILABLE, CODE COMPANY AND EMAIL ATTRIBUTES.  IF AUTHOR PIC EXISTS, FILL IN SRC= ATTRIBUTE ON IMG TAG; DELETE IMG TAG IF NO AUTHOR PIC EXISTS.  CREATE AN AUTHOR TAG FOR EACH AUTHOR-->
+   <author company="" email="" jobtitle="[Job title (initial cap only)]" name="[Author name]"><img border="0" src="http://www-106.ibm.com/developerworks/i/[author.jpg]" height="80" width="64"/>[Biographical text about author goes here; remove the text between the author tags if no biographical information exists.  Paragraph tags are needed only if there is a second paragraph.]  You can contact [author] at <a href="mailto:userid@us.ibm.com">userid@us.ibm.com</a>.</author>
+<!-- PUT CORRECT MONTH/YEAR HERE -->
+   <date month="July" year="2001"></date>
+<!-- ENTER CORRECT ZONE HERE.  REPEAT TAG FOR MORE THAN ONE ZONE-->
+   <zone name="linux"></zone>
+<!-- ENTER URL AND SIZE ATTRIBUTES BELOW IF PDF EXISTS; OTHERWISE, REMOVE TAG-->
+   <pdf url="ftp://www6.software.ibm.com/software/developer/library/[xxx.pdf]" size="xxKB"></pdf>
+<!-- ENTER URL ATTRIBUTE BELOW IF ZIP FILE EXISTS; OTHERWISE, REMOVE TAG-->
+   <zip url="ftp://www6.software.ibm.com/software/developer/library/xxx.zip"></zip>
+<!-- ENTER URL ATTRIBUTE BELOW IF THERE IS A DISCUSSION FORUM FOR THIS ARTICLE; OTHERWISE, REMOVE TAG.  FILL IN THE ZONE NAME, xxx_df.nsf, AND THE FORUM NUMBER:  THE LAST xx IN THE PATH.  SPECIAL CHARACTERS (%nn) ARE USED IN THE PATH BELOW SO THE XML WILL VALIDATE.-->	
+   <forumurl url="http://www-105.ibm.com/developerworks/[xxx_df.nsf/AllViewTemplate%3FOpenForm%26RestrictToCategory%3Dxx]"></forumurl>
+<!-- ENTER THE UNIQUE KEYWORDS FOR THIS ARTICLE BELOW.  THE STYLESHEET WILL GENERATE THE APPROPRIATE META ABSTRACT AND DESCRIPTION TAGS FOR THIS ARTICLE.-->
+   <meta name="KEYWORDS" content="[unique keywords]" />	
+<!-- ENTER DATE CREATED AND INITIALS OF FORMATTER BELOW -->	
+   <meta name="LASTUPDATE" content="[2001MMDD initials]"/>
+
+        
+<!-- ENTER ONE OR MORE "RELATED CONTENT" ITEMS BELOW.   REMOVE THIS SECTION IF THERE ARE NO RELATED CONTENT ITEMS-->	
+   <relatedlist>
+   <a href="">[Link 1 to related content]</a>
+   <a href="">[Link 2 to related content]</a>
+   </relatedlist>			
+		
+<!-- ENTER ARTICLE ABSTRACT BELOW.  REMOVE ANY BLANKS OR CARRIAGE RETURN CHARACTERS WITHIN THE TEXT.  KEEP THE ABSTRACT SHORT (NO MORE THAN SEVEN LINES ON THE HTML PAGE).  THESE RESTRICTIONS ARE REQUIRED FOR THE "EMAIL IT!" FUNCTION. -->	
+   <abstract>[Enter the article abstract here.  No paragraph tag is needed.  The 'abstract' should be short -- no more than seven lines on the HTML page -- so it will fit in the email it! pop-up window.]</abstract>
+
+<p>[Start article text here]</p>
+
+<!--MAJOR HEADING: CODE HEADING TAG WITH TYPE="MAJOR".  ENTER A REFERENCE NAME TO BE USED AS AN INLINE LINK IN THE TOC.  USE ALT= ATTRIBUTE IF YOU WANT THE TOC TEXT TO BE DIFFERENT FROM THE HEADING.   PRECEDE ALL MAJOR HEADINGS WITH A PARAGRAPH TAG-->
+<p><heading refname="h1" type="major" toc="yes">[Major heading 1]</heading>	
+[Insert paragraph text here and end the paragraph with an end paragraph tag.]</p>
+	
+<p>[Next paragraph goes here]</p>
+
+<!--MINOR HEADING: CODE HEADING TAG WITH TYPE="MINOR".  ENTER A REFERENCE NAME TO BE USED AS AN INLINE LINK IN THE TOC.  USE ALT= ATTRIBUTE IF YOU WANT THE TOC TEXT TO BE DIFFERENT FROM THE HEADING.  TO REMOVE THIS HEADING FROM THE TOC, CODE TOC="NO".   PRECEDE ALL MINOR HEADINGS WITH A PARAGRAPH TAG-->
+<p><heading refname="h2" type="minor" toc="yes">[Minor heading 1]</heading>
+[Insert paragraph text here and end the paragraph with an end paragraph tag.  To include inline code in a paragraph, surround the code snippet with a
+code tag that has the attribute: type="inline".  This is an <code type="inline">inline code snippet</code> .
+</p>
+
+<!-- CODE SECTION WITH HEADING:  PLACE HEADING INSIDE CODE TAG WITH TYPE="CODE".  DO NOT SURROUND CODE SECTION WITH PARAGRAPH TAGS.  THE TOC ATTRIBUTE DETERMINES IF THIS HEADING IS INCLUDED IN THE TOC.   DEFAULT IS TOC="NO".-->
+<code type="section">
+<heading refname="code1" type="code" toc="no">[Caption for sample code section or code listing]</heading>
+[Code goes here.  &lt;pre&gt; tags will be added automatically.
+
+Use the b tag to surround <b>bolded code</b>.
+
+To specify colors, use the class attribute on the b tag:
+        code &lt;b class="red"&gt; for <b class="red">red</b>.
+        code &lt;b class="green"&gt; for <b class="green">green</b>.
+        code &lt;b class="blue"&gt; for <b class="blue">blue</b>.
+
+Use the space key to indent lines.]
+</code>
+
+<p>[Next paragraph goes here]</p>
+
+<!-- CODE SECTION WITHOUT HEADING:  DO NOT SURROUND CODE SECTION WITH PARAGRAPH TAGS.  THE TOC ATTRIBUTE DETERMINES IF THIS HEADING IS INCLUDED IN THE TOC.   DEFAULT IS TOC="NO".-->
+<code type="section">
+[This code example does not have a code heading]
+</code>
+
+<p><heading refname="h3" type="major" toc="yes">[Major heading 2]</heading>
+[Insert paragraph text here and end with an end paragraph tag.]</p>
+
+<p>[Temporarily, to code a table you must code the table and pass it through the XML processor using CDATA tags.  Use the sample table below.]</p>
+
+<b>[Sample table title]</b>
+<htmlinsert><![CDATA[
+
+<table width="100%" cellspacing="0" cellpadding="3" border="1">
+<tr valign="top">
+<td><b>Heading A</b></td>
+<td><b>Heading B</b></td>
+<td><b>Heading C</b></td>
+</tr>
+<tr valign="top">
+<td>Content A1</td>
+<td>Content B1</td>
+<td>Content C1</td>
+</tr>
+<tr valign="top">
+<td>Content A2</td>
+<td>Content B2</td>
+<td>Content C2</td>
+</tr>
+<tr valign="top">
+<td>Content A3</td>
+<td>Content B3</td>
+<td>Content C3</td>
+</tr>
+</table>
+
+]]></htmlinsert>
+
+<!-- FIGURE WITH HEADING:  PLACE HEADING INSIDE FIGURE TAG WITH TYPE="FIGURE".  DO NOT SURROUND FIGURE WITH PARAGRAPH TAGS.  THE TOC ATTRIBUTE DETERMINES IF THIS HEADING IS INCLUDED IN THE TOC.   DEFAULT IS TOC="NO".   ALWAYS CODE THE ALT= ATTRIBUTE FOR A FIGURE.  ALWAYS CODE CORRECT HEIGHT AND WIDTH FOR FIGURE-->
+<figure>
+<heading refname="figure1" type="figure" toc="no">[Figure x.   Caption for sample figure]</heading>
+<img src="xxx.jpg" width="500" height="200" alt="[Sample figure; code correct height and width"/>
+</figure>
+
+<p>[Refer to figure using the reference name (refname) assigned to the figure, as follows: <a href="#figure1">Figure 1</a>. ]</p>
+
+<!-- SIDEBAR WITH HEADING:  PLACE HEADING INSIDE SIDEBAR TAG WITH TYPE="SIDEBAR".  DO NOT SURROUND SIDEBAR WITH PARAGRAPH TAGS.  THE TOC ATTRIBUTE DETERMINES IF THIS HEADING IS INCLUDED IN THE TOC.   DEFAULT IS TOC="NO".   IF NEEDED, YOU CAN ADJUST THE WIDTH OF THE SIDEBAR USING THE WIDTH= ATTRIBUTE OF THE SIDEBAR TAG.  SPECIFY A PERCENTAGE.-->
+<sidebar>
+<heading refname="" type="sidebar" toc="no">[Sidebar heading]</heading>
+[Insert the text for the sidebar here.  The default for the sidebar is width="30%".  To widen the sidebar, code the width attribute on the sidebar tag (specify a percentage).
+<p>Start using paragraph tags with the second paragraph of the sidebar.]</p>
+</sidebar>
+
+<!-- THIRD-LEVEL HEADING:  PRECEDE ALL THIRD-LEVEL HEADINGS WITH A PARAGRAPH TAG.  FOLLOW THE HEADING WITH A BREAK TAG.-->
+<p><b>[Third-level heading]</b><br />
+[The third-level heading above is created using bold tags and is followed by a break tag to separate it from the paragraph text.]</p>
+
+<p>[Next paragraph goes here with unordered list.  If you end the paragraph tag before the list, you get a space separating the text from the list.]</p>
+<ul>
+<li>[List item one]</li>
+<li>[List item two]</li>
+<li>[List item three]</li>
+</ul>
+
+<!-- RESOURCE LIST WITH HEADINGS:  PLACE HEADINGS INSIDE RESOURCELIST TAG WITH TYPE="RESOURCELIST".  DO NOT SURROUND LIST WITH PARAGRAPH TAGS, BUT USE PARAGRAPH TAGS AROUND RESOURCELIST HEADINGS.-->
+<resourcelist>
+<ul>
+<li>[First resource item and link without a heading]</li>
+<li>[Second resource item and link without a heading]</li>
+</ul>
+<p><heading refname="" type="resourcelist" toc="no">[Sample resource list heading]</heading></p>
+<ul>
+<li>[First resource item and link with a heading]</li>
+<li>[Second resource item and link with a heading]</li>
+</ul>
+</resourcelist>
+
+<!-- IF AN ATTRIBUTION IS REQUIRED, USE AN APPROPRIATE ONE BELOW OR ENTER NEW TEXT-->
+<!--   JavaWorld ATTRIBUTION :  REMOVE COMMENTS TO USE OR REMOVE TAGS BELOW -->
+<!--<attribution>Reprinted with permission from  <a href="http://www.javaworld.com/?IBMDev">JavaWorld</a> magazine. Copyright Web Publishing Inc., an IDG Communications company.  Register for <a href="http://www.javaworld.com/javaworld/common/jw-subscribe.html?IBMDev">editorial e-mail</a> alerts.</attribution>-->
+
+<!--   LinuxWorld ATTRIBUTION :  REMOVE COMMENTS TO USE OR REMOVE TAGS BELOW -->
+<!--<attribution>Reprinted with permission from <a href="http://www.linuxworld.com?IBMDev">LinuxWorld</a> magazine. Copyright Web Publishing Inc., an IDG Communications company. <a href="http://www.linuxworld.com/linuxworld/common/lw-subscribe.html?IBMDev">Register for editorial e-mail</a>.</attribution>-->
+	
+<!-- ENDS ARTICLE -->
+</article>

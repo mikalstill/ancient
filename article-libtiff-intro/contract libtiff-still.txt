@@ -1,0 +1,41 @@
+1/24/02
+
+developerWorks assignment for: Michael Still
+
+Mailing Address: 12 Bushby Close, Gordon, ACT 2906 Australia
+Phone: +61414382568
+Fax: N/A
+Email: mikal@stillhq.com
+
+Make checks payable to: Michael Still
+
+1) The article:
+Intended zone: Linux Zone
+Assigning editor: Tom Young, 1-510-704-4450, youngt01@us.ibm.com
+Assignment working title: Graphics programming with libtiff
+Assignment description (provided by author): Libtiff is the standard tiff processing library for various operating systems, including Linux and Windows. It is open source. The article would be a "how-to", presenting how to best use the library, and some of the hidden tips and tricks. Libtiff is commonly used by many open source developers who want to add image support to their applications, unfortunately tiff is a complex format which can be hard for beginners to implement well. This article would attempt to cover some of these problems.
+Target length: 1,500-2,000 words
+Manuscript due date: Feb. 11, 2002
+Special notes: 
+
+2) IBM will pay you US$1,000 after delivery, acceptance, and final approval of the article.
+
+3) You hereby grant IBM a perpetual, irrevocable, worldwide, paid-up, license to use, perform, publish, reproduce and prepare derivative works of the article in any form.  This license is exclusive for the first 30 days from our initial publication, and non-exclusive thereafter, provided that any publication of the work by the author or any other licensee of the author must include the notice "First published by IBM developerWorks at http://www.ibm.com/developerworks/."
+
+4) You are an independent contractor, not an employee of IBM.
+
+5) IBM may terminate this Agreement, with or without cause, on 7 days written notice. In such event, IBM will pay you a pro-rata portion of  the payment above, based on your actual work performed to that time.
+
+6) IBM does not wish to receive, and the article will not contain, any information that is considered confidential to you or any third party.
+
+7) This agreement does not grant you any rights in any of IBM's patents, copyrights, trademarks, trade names or service marks.
+
+8) In the event of a default in the performance of this agreement, each of us will only be liable to the other for any actual damages up to the total dollar value of funds to be paid by IBM under this agreement. Neither of us will be liable for any lost profits, lost savings, incidental or other consequential damages, even if advised of their possibility. Neither of us will bring a claim more than two (2) years after the claim arose.
+
+9) We reserve the right to reject any article that, in our reasonable opinion, is not of appropriate quality for publication. If we do so, we may either 1) request that you rewrite the article or 2) terminate this agreement and pay you 20% of the agreed upon fee as full payment for the article. 
+
+10) This agreement represents the entire agreement between us and supersedes all prior agreements on the subject. It can only be modified by a signed writing and cannot be assigned to others. Failure by either of us to insist on strict performance does not prevent us from doing so at later time.
+
+11) The laws of the State of New York govern this agreement.
+
+Please indicate your acceptance of this Agreement by forwarding an e-mail message to Tom Young, Linux Zone Editor, at youngt01@us.ibm.com, indicating your acceptance.

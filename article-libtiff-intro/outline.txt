@@ -1,0 +1,12 @@
+Outline for the article:
+
+ - Introduction: what is tiff, what is libtiff, Adobe's involvement
+
+ - Focus on black and white, the principles are the same for colour
+    - A later article?
+
+ - The easy part: writing a tiff file out
+    - Making a bitmap
+
+ - The hard part: reading a tiff file in
+    - Strips, tiles, options options options

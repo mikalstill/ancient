@@ -1,0 +1,273 @@
+From ljbanks@us.ibm.com Fri Jan 25 11:23:06 2002
+Date: Thu, 24 Jan 2002 11:47:55 -0500
+From: Jennette Banks <ljbanks@us.ibm.com>
+To: mikal@stillhq.com
+Subject: response to submission
+
+Dear Michael,
+
+Many thanks for your interest in our site, and thank you for your
+submission. I have forwarded your idea to our Linux zone editor for review.
+If you do not hear from him within the next two weeks, please contact me.
+
+Again, thank you for your readership and interest in developerWorks.
+
+Sincerely,
+
+L. Jennette Banks
+developerWorks production editor
+Need it? Get it. developerWorks
+http://www-106.ibm.com/developerWorks
+
+From youngt01@us.ibm.com Fri Jan 25 11:23:06 2002
+Date: Thu, 24 Jan 2002 13:48:18 -0500
+From: Thomas E Young <youngt01@us.ibm.com>
+To: mikal@stillhq.com
+Subject: Libtiff article proposal
+
+Michael,
+
+Thanks very much for the proposal. You pitched it as a tutorial, but I'm
+not clear whether you want to actually submit it in our tutorial format or
+just write it as a regular article with a tutorial sort of flavor. I like
+the topic, but I don't believe it warrants full tutorial treatment (and it
+would be quite a bit more work on your part to format it). Please let me
+know if you would be interested in submitting this as a regular article.
+
+Second, where are you located? Unfortunately, we can't pay writers who live
+in certain areas of the world, so it would help to know this up front.
+
+Thanks, and I'm looking forward to hearing from you.
+
+-Tom
+
+---------------------------------------------
+Thomas E. Young
+Editor, Linux zone
+IBM developerWorks
+(510) 704-4450
+youngt01@us.ibm.com
+
+From youngt01@us.ibm.com Fri Jan 25 11:23:06 2002
+Date: Thu, 24 Jan 2002 17:40:19 -0500
+From: Thomas E Young <youngt01@us.ibm.com>
+To: Michael Still <mikal@stillhq.com>
+Subject: Re: Libtiff article proposal
+
+
+Mikal,
+
+Okay, great! Our usual article length is 1500-2000 words, and I pay
+US$1,000 for articles of this type. If that sounds satisfactory, please let
+me know when you think you can file it. I'll then send you a contract and
+our article template and you'll be off.
+
+-Tom
+
+---------------------------------------------
+Thomas E. Young
+Editor, Linux zone
+IBM developerWorks
+(510) 704-4450
+youngt01@us.ibm.com
+
+
+Michael Still <mikal@stillhq.com> on 01/24/2002 04:07:44 PM
+
+To:   Thomas E Young/San Francisco/Contr/IBM@IBMUS
+cc:
+Subject:  Re: Libtiff article proposal
+
+
+
+On Thu, 24 Jan 2002, Thomas E Young wrote:
+
+Thomas,
+
+thanks for your quick response
+
+> Thanks very much for the proposal. You pitched it as a tutorial, but I'm
+> not clear whether you want to actually submit it in our tutorial format
+or
+> just write it as a regular article with a tutorial sort of flavor. I like
+> the topic, but I don't believe it warrants full tutorial treatment (and
+it
+> would be quite a bit more work on your part to format it). Please let me
+> know if you would be interested in submitting this as a regular article.
+
+My initial feeling was for a how-to kind of article, which is what you are
+describing here. I have seen articles on the site which follow a similar
+pattern to that I had in mind (for instance the introduction to Palm
+development articles).
+
+I guess what I am saying is that an article is what I was originally
+intending, and therefore fine with me.
+
+> Second, where are you located? Unfortunately, we can't pay writers who
+live
+> in certain areas of the world, so it would help to know this up front.
+
+I am located in Canberra, Australia.
+
+Let me know your thoughts,
+Mikal
+
+--
+
+Michael Still (mikal@stillhq.com)
+
+
+
+
+From youngt01@us.ibm.com Fri Jan 25 11:23:06 2002
+Date: Thu, 24 Jan 2002 17:21:19 -0700
+From: Thomas E Young <youngt01@us.ibm.com>
+To: Michael Still <mikal@stillhq.com>
+Subject: Re: Libtiff article proposal
+
+
+Okay, I've attached the template and a contract with a delivery date of
+Feb. 11. Please don't feel the need to keep me abreast of your progress,
+but if you think you're going to miss the deadline, please let me know as
+early as possible. Of course, if you would like any advise along the way,
+just ask. As far as editorial support, I read every article and almost
+invariably send them back to writers with comments and questions that need
+to be addressed. It's an iterative process.
+
+Some general guidelines up front:
+
+-Writing an outline ahead of time almost always improves things. It keeps
+your thoughts together and makes the article flow more smoothly.
+-Convey the necessary information, but don't be afraid to keep it personal.
+Use first person if it's called for, and tell readers what you think ("I
+researched graphics libraries extensively and consider libtiff the best
+around," etc.)
+-If a screen shot or illustration can demonstrate your point better than
+words, please use it.
+-Please don't forget to include a list of online resources (you'll see
+where they go at the bottom of the template). They can be web sites, books,
+community pages, etc. -- pretty much anything a reader might find useful in
+trying to learn more about libtiff. The resources should be annotated with
+descriptions of what they are (see most any developerWorks article for an
+example).
+
+Good luck, and I'm glad to be working with you!
+
+-Tom
+
+
+(See attached file: article template.xml)(See attached file: contract
+libtiff-still.txt)
+
+---------------------------------------------
+Thomas E. Young
+Editor, Linux zone
+IBM developerWorks
+(510) 704-4450
+youngt01@us.ibm.com
+
+
+Michael Still <mikal@stillhq.com> on 01/24/2002 05:38:12 PM
+
+To:   Thomas E Young/San Francisco/Contr/IBM@IBMUS
+cc:
+Subject:  Re: Libtiff article proposal
+
+
+
+On Thu, 24 Jan 2002, Thomas E Young wrote:
+
+Cool. I would think that it will take two or so weeks from when I get the
+article template... I can keep you informed of my progress if you would
+like.
+
+My other question is how much editorial support is provided? I haven't
+written an article like this before, so it would be good to get feedback
+as to how to improve me style et cetera for future articles...
+
+Cheers,
+Mikal
+
+> Okay, great! Our usual article length is 1500-2000 words, and I pay
+> US$1,000 for articles of this type. If that sounds satisfactory, please
+let
+> me know when you think you can file it. I'll then send you a contract and
+> our article template and you'll be off.
+>
+> -Tom
+>
+> ---------------------------------------------
+> Thomas E. Young
+> Editor, Linux zone
+> IBM developerWorks
+> (510) 704-4450
+> youngt01@us.ibm.com
+>
+>
+> Michael Still <mikal@stillhq.com> on 01/24/2002 04:07:44 PM
+>
+> To:   Thomas E Young/San Francisco/Contr/IBM@IBMUS
+> cc:
+> Subject:  Re: Libtiff article proposal
+>
+>
+>
+> On Thu, 24 Jan 2002, Thomas E Young wrote:
+>
+> Thomas,
+>
+> thanks for your quick response
+>
+> > Thanks very much for the proposal. You pitched it as a tutorial, but
+I'm
+> > not clear whether you want to actually submit it in our tutorial format
+> or
+> > just write it as a regular article with a tutorial sort of flavor. I
+like
+> > the topic, but I don't believe it warrants full tutorial treatment (and
+> it
+> > would be quite a bit more work on your part to format it). Please let
+me
+> > know if you would be interested in submitting this as a regular
+article.
+>
+> My initial feeling was for a how-to kind of article, which is what you
+are
+> describing here. I have seen articles on the site which follow a similar
+> pattern to that I had in mind (for instance the introduction to Palm
+> development articles).
+>
+> I guess what I am saying is that an article is what I was originally
+> intending, and therefore fine with me.
+>
+> > Second, where are you located? Unfortunately, we can't pay writers who
+> live
+> > in certain areas of the world, so it would help to know this up front.
+>
+> I am located in Canberra, Australia.
+>
+> Let me know your thoughts,
+> Mikal
+>
+> --
+>
+> Michael Still (mikal@stillhq.com)
+>
+>
+>
+>
+
+--
+
+Michael Still (mikal@stillhq.com)
+
+
+
+    [ Part 2, Application/OCTET-STREAM (Name: "article template.xml")  ]
+    [ 13KB. ]
+    [ Unable to print this part. ]
+
+
+    [ Part 3, Text/PLAIN (Name: "contract libtiff-still.txt")  60 lines. ]
+    [ Unable to print this part. ]
+
