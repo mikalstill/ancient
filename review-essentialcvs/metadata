@@ -1,0 +1,8 @@
+# This file defines metadata about the book under review. It follows sh syntax
+export TITLE="Essential CVS"
+export AUTHOR="Jennifer Vesperman"
+export PUBLISHER="O'Reilly"
+export ISBN="0-596-00459-1"
+export YEAR="2003"
+export LENGTH="322 pages"
+export USRRP="$39.95"

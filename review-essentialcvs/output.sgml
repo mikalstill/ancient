@@ -1,0 +1,37 @@
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
+<article>
+<title><trademark>Google</trademark> Hacks: 100 Industrial-Strength Tips and Tools by Tara Calishain and Rael Dornfest. O'Reilly 2003 (ISBN 0-596-00447-8)</title>
+<subtitle>Reviewed by Michael Still &lt;mikal@stillhq.com&gt;</subtitle>
+
+<para>
+<emphasis>Did you know that there is a maximum of ten words in a <trademark>Google</trademark> search, or that repeating a word results in different search results? What about the fact that some search types are antisocial, and wont work with other search types? How about the fact that the order of your keywords affects the results that are returned? Neither did I, and I use <trademark>Google</trademark> nearly every day.</emphasis>
+</para>
+
+<para>
+I should probably start this review by letting you know that I don't believe that <emphasis><trademark>Google</trademark> Hacks</emphasis> is not a book aimed at developers. It lists 100 interesting things you can do with <trademark>Google</trademark>, in a quite accessible manner. That's not to say there is no code in <emphasis><trademark>Google</trademark> Hacks</emphasis> &mdash; on the contrary, there are regular examples in Perl of how to parse saved <trademark>Google</trademark> output, and use the <trademark>Google</trademark> API &mdash; it is more that these examples are presented as utilities to use as is, and are not the topic of discussion in their own right. I would be comfortable with handing this book to a school child who needed to know how to use <trademark>Google</trademark> effectively. Especially if they had used the Internet before and know what a browser, and a URL are.
+</para>
+
+<para>
+Then again, this doesn't mean that <emphasis><trademark>Google</trademark> Hacks</emphasis> is simplistic. It still describes how to alter URLs, how to search using the <trademark>Google</trademark> special syntaxes, and so forth. <emphasis><trademark>Google</trademark> Hacks</emphasis> even describes topics such as how to search date ranges (you can specify any Julian date range to <trademark>Google</trademark>, although it must be an integer).
+</para>
+
+<para>
+The <trademark>Google</trademark> API is a quite useful part of the <trademark>Google</trademark> offerings. The <trademark>Google</trademark> API is offered by via a SOAP interface, which makes it relatively easy to access for most programmers. <emphasis><trademark>Google</trademark> Hacks</emphasis> describes how to reference the <trademark>Google</trademark> API in a variety of programming languages, and then goes on to show a series of example applications written in Perl.
+</para>
+
+<para>
+<emphasis><trademark>Google</trademark> Hacks</emphasis> also has a fun side. There is a section describing <trademark>Google</trademark> poetry, and <trademark>Google</trademark> art. The basic process of <trademark>Google</trademark> art is to post a message to a Usenet group (preferably one of the test groups) which contains keywords contrived in such a manner that a picture is displayed when a specific search is executed in <trademark>Google</trademark> Groups. The colour of each pixel results from the automatic keyword hi-lighting which occurs in <trademark>Google</trademark> Groups search results. Your picture is somewhat limited however, in that <trademark>Google</trademark> searches only support ten keywords, and therefore you can only have ten colours in your picture. The resolution supported by the text interface is also somewhat limited.
+</para>
+
+<para>
+Some of the hacks described in <emphasis><trademark>Google</trademark> Hacks</emphasis> are also quite non-hackish. For example, there is a whole section on how to build a useful website that Googlebot will find attractive to index. There is also discussion on possible formulations for the <trademark>PageRank</trademark> algorithm, as well as how to maximize <trademark>Google</trademark>'s <trademark>PageRank</trademark> for your site.
+</para>
+
+<para>
+Because each hack is meant to stand on it's own in this <quote>reference mode</quote> of use, there is a lot of repeated information. For example, many of the hacks describe how there is no access to a particular piece of functionality from the <trademark>Google</trademark> API, and that screen scraping in an automated manner is a breach of the <trademark>Google</trademark> terms of service. Similarly, the same prelude to setup the <trademark>Google</trademark> API is repeated in many of the examples of the API's use. Having read <emphasis><trademark>Google</trademark> Hacks</emphasis> from cover to cover, this repetition was really starting to get on my nerves by the end of the book.
+</para>
+
+<para>
+In conclusion, once you bear in mind that <emphasis><trademark>Google</trademark> Hacks</emphasis> is not aimed at developers, its a good read. It also makes an excellent reference for those who regularly use <trademark>Google</trademark>, or are interested in learning more. The book is written in a manner which makes the vast majority of the content available to technical novices, whilst still discussing technical issues which really matter.
+</para>
+</article>

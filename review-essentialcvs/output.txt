@@ -1,0 +1,84 @@
+
+Google(TM) Hacks: 100 Industrial-Strength Tips and Tools by Tara
+Calishain and Rael Dornfest. O'Reilly 2003 (ISBN 0-596-00447-8)
+
+Reviewed by Michael Still <mikal@stillhq.com>
+     _________________________________________________________
+
+   Reviewed by Michael Still <mikal@stillhq.com>
+
+   Did you know that there is a maximum of ten words in a
+   Google(TM) search, or that repeating a word results in
+   different search results? What about the fact that some search
+   types are antisocial, and wont work with other search types?
+   How about the fact that the order of your keywords affects the
+   results that are returned? Neither did I, and I use Google(TM)
+   nearly every day.
+
+   I should probably start this review by letting you know that I
+   don't believe that Google(TM) Hacks is not a book aimed at
+   developers. It lists 100 interesting things you can do with
+   Google(TM), in a quite accessible manner. That's not to say
+   there is no code in Google(TM) Hacks -- on the contrary, there
+   are regular examples in Perl of how to parse saved Google(TM)
+   output, and use the Google(TM) API -- it is more that these
+   examples are presented as utilities to use as is, and are not
+   the topic of discussion in their own right. I would be
+   comfortable with handing this book to a school child who
+   needed to know how to use Google(TM) effectively. Especially
+   if they had used the Internet before and know what a browser,
+   and a URL are.
+
+   Then again, this doesn't mean that Google(TM) Hacks is
+   simplistic. It still describes how to alter URLs, how to
+   search using the Google(TM) special syntaxes, and so forth.
+   Google(TM) Hacks even describes topics such as how to search
+   date ranges (you can specify any Julian date range to
+   Google(TM), although it must be an integer).
+
+   The Google(TM) API is a quite useful part of the Google(TM)
+   offerings. The Google(TM) API is offered by via a SOAP
+   interface, which makes it relatively easy to access for most
+   programmers. Google(TM) Hacks describes how to reference the
+   Google(TM) API in a variety of programming languages, and then
+   goes on to show a series of example applications written in
+   Perl.
+
+   Google(TM) Hacks also has a fun side. There is a section
+   describing Google(TM) poetry, and Google(TM) art. The basic
+   process of Google(TM) art is to post a message to a Usenet
+   group (preferably one of the test groups) which contains
+   keywords contrived in such a manner that a picture is
+   displayed when a specific search is executed in Google(TM)
+   Groups. The colour of each pixel results from the automatic
+   keyword hi-lighting which occurs in Google(TM) Groups search
+   results. Your picture is somewhat limited however, in that
+   Google(TM) searches only support ten keywords, and therefore
+   you can only have ten colours in your picture. The resolution
+   supported by the text interface is also somewhat limited.
+
+   Some of the hacks described in Google(TM) Hacks are also quite
+   non-hackish. For example, there is a whole section on how to
+   build a useful website that Googlebot will find attractive to
+   index. There is also discussion on possible formulations for
+   the PageRank(TM) algorithm, as well as how to maximize
+   Google(TM)'s PageRank(TM) for your site.
+
+   Because each hack is meant to stand on it's own in this
+   "reference mode" of use, there is a lot of repeated
+   information. For example, many of the hacks describe how there
+   is no access to a particular piece of functionality from the
+   Google(TM) API, and that screen scraping in an automated
+   manner is a breach of the Google(TM) terms of service.
+   Similarly, the same prelude to setup the Google(TM) API is
+   repeated in many of the examples of the API's use. Having read
+   Google(TM) Hacks from cover to cover, this repetition was
+   really starting to get on my nerves by the end of the book.
+
+   In conclusion, once you bear in mind that Google(TM) Hacks is
+   not aimed at developers, its a good read. It also makes an
+   excellent reference for those who regularly use Google(TM), or
+   are interested in learning more. The book is written in a
+   manner which makes the vast majority of the content available
+   to technical novices, whilst still discussing technical issues
+   which really matter.
