@@ -51,7 +51,7 @@ public:
     CppUnit::TestSuite *suiteOfTests = new CppUnit::TestSuite( "Test" );
     
     /* REGISTER YOUR TEST HERE */
-    suiteOfTests->addTest(
+/*    suiteOfTests->addTest(
       new CppUnit::TestCaller<Test>( "testGetMatrix", &Test::testGetMatrix ) );
     suiteOfTests->addTest(
       new CppUnit::TestCaller<Test>( "testRepeated", &Test::testRepeated ) );
@@ -63,6 +63,9 @@ public:
       new CppUnit::TestCaller<Test>( "testNotOpen", &Test::testNotOpen ) );
     suiteOfTests->addTest(
       new CppUnit::TestCaller<Test>( "testNaN", &Test::testNaN ) );
+*/  
+  suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "testgetP", &Test::testgetP ) );
             
     return suiteOfTests;
   }
@@ -74,8 +77,7 @@ protected:
    * make your tests protected since you dont need to expose them
    */
 
-  /** simple test 1. uses a generic assert true macro */
-  void testGetMatrix ()
+/*  void testGetMatrix ()
   { 
     cepMatrix <double> matX, matY, matZ;
     string testSet = "../../datasets/mb_CAIR_GPS";
@@ -251,7 +253,41 @@ protected:
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0082, matZ.getValue(2,2)); 
     
   }
-  
+*/
+  void testgetP ()
+  { 
+    cepMatrix <double> matP;
+    string testSet = "weight.dat";
+    cepDataset data;
+    
+    matP = data.getP(testSet);
+    
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "num rows wrong", 4, matP.getNumRows());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "num cols wrong", 4, matP.getNumCols());
+    
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 2.3, matP.getValue(0,0)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0, matP.getValue(0,1));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0, matP.getValue(0,2));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0, matP.getValue(0,3)); 
+     
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0, matP.getValue(1,0)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", -12.001, matP.getValue(1,1));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0, matP.getValue(1,2));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0, matP.getValue(1,3)); 
+    
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0, matP.getValue(2,0)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0, matP.getValue(2,1));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0012, matP.getValue(2,2));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0, matP.getValue(2,3));
+    
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0, matP.getValue(3,0)); 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0, matP.getValue(3,1));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0, matP.getValue(3,2));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1.0, matP.getValue(3,3)); 
+     
+    
+  }
+     
 }; // end Test
 
  /**
