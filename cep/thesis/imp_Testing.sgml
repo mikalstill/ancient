@@ -14,7 +14,7 @@
     <listitem><para>The code must be released under the <command>GPL</command></para></listitem>
     </itemizedlist>
     </para>
-  </sect3>
+  </sect2>
 
   <sect2><title>Implementation</title>
     <para>Unit testing, as adopted by the extreme programming community, was chosen as the ideal framework to support our system.
