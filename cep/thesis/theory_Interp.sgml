@@ -108,8 +108,8 @@
     (TODO: Spline equation 1)
   </para>
   <para>
-    Because each of these cubics begins at a any existing point we can say: <command>d<subscript>i
-    </subscript> = y<subscript>i</subscript>
+    Because each of these cubics begins at a any existing point we can say: 
+    <command>d<subscript>i</subscript> = y<subscript>i</subscript></command>
   </para>
   <para>
     where <command>h<subscript>i</subscript>=(x<subscript>i+1</subscript> -
