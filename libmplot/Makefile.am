@@ -1,7 +1,7 @@
 lib_LTLIBRARIES = libmplot.la
 noinst_PROGRAMS = sample graph parabola fill text
 
-libmplot_la_SOURCES = libplot.c
+libmplot_la_SOURCES = libplot.c persist.c
 libmplot_la_CFLAGS = $(FREETYPE_CFLAGS)
 libmplot_la_LIBADD = $(FREETYPE_LIBS)
 

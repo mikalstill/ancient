@@ -70,6 +70,9 @@ typedef struct plot_internal_state
 #if defined HAVE_LIBFREETYPE
   FT_Library *ft;
   FT_Face face;
+
+  char *fontpath;
+  int fontsize;
 #endif
 }
 plot_state;
@@ -121,6 +124,10 @@ void plot_overlayraster(plot_state * state, char *raster,
 			unsigned int x2, unsigned int y2, 
 			unsigned int rx, unsigned int ry,
 			int debug);
+
+// Persistance of state methods
+char *plot_persiststate(plot_state * state);
+void plot_applystate(plot_state * state, char *pstr);
 
 // Internal methods
 unsigned int plot_min (unsigned int one, unsigned int two);

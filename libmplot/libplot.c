@@ -106,6 +106,13 @@ plot_newplot (unsigned int x, unsigned int y)
 #endif
     state->ft = NULL;
 
+  state->fontpath = NULL;
+  state->fontsize = 0;
+
+  state->textx = 0;
+  state->texty = 0;
+  state->penx = 0;
+  state->peny = 0;
   return state;
 }
 
@@ -1110,6 +1117,11 @@ plot_setfont (plot_state * state, char *font, int charsize)
   fprintf (stderr, "Freetype not found at compile time\n");
   return -5;
 #endif
+
+  if(state->fontpath != NULL)
+    free(state->fontpath);
+  state->fontpath = strdup(font);
+  state->fontsize = charsize;
 
   return 0;
 }
