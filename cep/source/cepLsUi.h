@@ -30,6 +30,7 @@
 #include <wx/checkbox.h>
 #include <wx/statbox.h>
 #include <wx/stattext.h>
+#include <wx/textctrl.h>
 
 #include "cepUI.h"
 
@@ -92,7 +93,28 @@ private:
   DECLARE_EVENT_TABLE ()
 };
 
+class cepLsWeight: public wxDialog
+{
+public:
+  cepLsWeight(double &startDate, double &endDate, double val);
+  double getWeight();
 
+  //the on Quit event
+  void dlgWeightOnQuit(wxCommandEvent& event);
+  //the on Ok event
+  void dlgWeightOnOK(wxCommandEvent& event);
+
+private:
+  wxPanel *m_panel;
+  wxStaticBox *m_statBox;
+  wxStaticText *m_statText1, *m_statText2, *m_statText3, *m_statText4, *m_statText5;
+  wxTextCtrl *m_tbWeight;
+  wxButton *m_bSubmit, *m_bCancel;
+
+  wxString m_val;
+  
+  DECLARE_EVENT_TABLE ()
+};
 /******************************************************************************
 DOCBOOK START
 
@@ -178,6 +200,8 @@ public:
   //show the choose file dialog box
   void showGetfNameP();
 
+  void showWeight(double startDate, double endDate, double val);
+
   //get values from the re-weight dialog box
   int getIsReweight();
   //get the value for a given direction returned from
@@ -187,6 +211,8 @@ public:
   int getIsReadP();
   //get the name of the selected file
   string getfNameP();
+  //get the weight value selected
+  double getWeight();
 
 private:
   int m_isReweight;   //holds the value returned from the reweighting dialog box
@@ -195,6 +221,7 @@ private:
        m_doDirZ;      //was direction Z selected?
   int m_isReadP;      //holds the value returned from the read from file dialog box
   string m_filename;  //holds the file name selected in the read file dialog box
+  double m_weight;    //holds the weight value the user selected
 };
 
   

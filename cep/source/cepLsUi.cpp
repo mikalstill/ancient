@@ -81,6 +81,62 @@ bool cepLsShowDir::getWhichDir(char dir)
   }
 }
 
+BEGIN_EVENT_TABLE (cepLsWeight, wxDialog)
+  EVT_BUTTON(CEPBTN_WEIGHT_SUBMIT, cepLsWeight::dlgWeightOnOK)
+  EVT_BUTTON(CEPBTN_WEIGHT_CANCEL, cepLsWeight::dlgWeightOnQuit)
+  EVT_CLOSE( cepLsWeight::dlgWeightOnQuit)
+END_EVENT_TABLE ()
+
+cepLsWeight::cepLsWeight(double &startDate, double &endDate, double val):
+  wxDialog((wxDialog *) NULL, -1, "Weight Data", wxPoint(120,120), wxSize(200, 200))
+{
+  m_panel = new wxPanel(this, -1, wxPoint(120,120), wxSize(200,200));
+
+  m_statBox = new wxStaticBox(m_panel, -1, "", wxPoint(15, 35), wxSize(170, 100));
+
+  m_statText1 = new wxStaticText(m_panel, -1, "Please enter the weighting value", wxPoint(5,5), wxSize(190, 20), wxALIGN_CENTRE);
+  m_statText2 = new wxStaticText(m_panel, -1, "for the dates", wxPoint(5,19), wxSize(190, 20), wxALIGN_CENTRE);
+  m_statText3 = new wxStaticText(m_panel, -1, "from: " + wxString(cepToString(startDate).c_str()), wxPoint(20,50), wxSize(190, 20), wxALIGN_LEFT);
+  m_statText4 = new wxStaticText(m_panel, -1, "to: " + wxString(cepToString(endDate).c_str()), wxPoint(20,65), wxSize(190, 20), wxALIGN_LEFT);
+
+  m_statText5 = new wxStaticText(m_panel, -1, "Value: ", wxPoint(20, 90), wxSize(50, 20), wxALIGN_LEFT);
+  m_tbWeight = new wxTextCtrl(m_panel, -1, cepToString(val).c_str(), wxPoint(80, 90), wxSize(60, 20));
+  m_bSubmit = new wxButton(m_panel, CEPBTN_WEIGHT_SUBMIT, "Ok", wxPoint(10,160));
+  m_bCancel = new wxButton(m_panel, CEPBTN_WEIGHT_CANCEL, "Cancel", wxPoint(110,160));
+
+  Center();
+  ShowModal();
+}
+
+void cepLsWeight::dlgWeightOnQuit(wxCommandEvent& WXUNUSED(event))
+{
+  m_val = "-1000";
+  
+  EndModal(1);
+  Destroy();
+}
+
+void cepLsWeight::dlgWeightOnOK(wxCommandEvent& WXUNUSED(event))
+{
+  m_val = m_tbWeight->GetValue();
+  
+  EndModal(0);
+  Destroy();
+}
+
+double cepLsWeight::getWeight(){
+
+  for(size_t i = 0; i < m_val.Length(); i ++)
+  {
+    if(cepIsNumeric(m_val.GetChar(i)) == false)
+    {
+      return -1001.0;
+    }
+  }
+
+  return (atof(m_val.c_str()));
+}
+
 cepLsUi::cepLsUi() {}
 
 void cepLsUi::showIsReweight()
@@ -170,6 +226,12 @@ void cepLsUi::showGetfNameP()
   //m_filename = sf.getFilename();
 }
 
+void cepLsUi::showWeight(double startDate, double endDate, double val)
+{
+  cepLsWeight weight(startDate, endDate, val);
+
+  m_weight = weight.getWeight();
+}
 int cepLsUi::getIsReweight()
 {
   return m_isReweight;
@@ -202,3 +264,7 @@ string cepLsUi::getfNameP()
   return m_filename;
 }
 
+double cepLsUi::getWeight()
+{
+  return m_weight;
+}
