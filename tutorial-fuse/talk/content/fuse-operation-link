@@ -1,0 +1,8 @@
+TITLE: link
+
+<ul><pre>
+static int mcachefs_link(const char *from, const char *to)
+{
+<b>...</b>
+}
+</pre></ul>

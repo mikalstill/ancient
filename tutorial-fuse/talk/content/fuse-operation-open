@@ -1,0 +1,12 @@
+TITLE: open
+
+<ul><pre>
+static int mcachefs_open(const char *path, int flags)
+{
+<b>...</b>
+}
+</pre>
+
+<li>Basically an existance and permissions check
+<li><i>Does not return a file handle</i>
+</ul>

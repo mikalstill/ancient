@@ -1,1 +1,6 @@
 TITLE: Unmounting your filesystem
+
+<ul>
+<li>Do this in the normal way
+<li>The userspace program for that filesystem will then terminate
+</ul>

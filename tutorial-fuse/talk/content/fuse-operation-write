@@ -1,0 +1,9 @@
+TITLE: write
+
+<ul><pre>
+static int mcachefs_write(const char *path, const char *buf, size_t size,
+                     off_t offset)
+{
+<b>...</b>
+}
+</pre></ul>

@@ -1,5 +1,8 @@
 TITLE: mkdir
 
-<ul>
-
-</ul>
+<ul><pre>
+static int mcachefs_mkdir(const char *path, mode_t mode)
+{
+<b>...</b>
+}
+</pre></ul>

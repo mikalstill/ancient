@@ -1,0 +1,12 @@
+TITLE: fsync
+
+<ul><pre>
+static int mcachefs_fsync(const char *path, int isdatasync)
+{
+    /* Just a stub.  This method is optional and can safely be left
+       unimplemented */
+    (void) path;
+    (void) isdatasync;
+    return 0;
+}
+</pre></ul>

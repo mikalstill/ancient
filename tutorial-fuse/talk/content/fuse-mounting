@@ -2,7 +2,7 @@ TITLE: Mounting your filesystem
 
 <ul>
 <li>Run your userspace filesystem and pass through where to mount to
-<li>
-
-
+<li>There are issues with doing it this way (mtab locking)
+<li>Work is happening on integrating with mount
+<li>It's not there yet...
 </ul>

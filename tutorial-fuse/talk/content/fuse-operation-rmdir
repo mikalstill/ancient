@@ -1,0 +1,8 @@
+TITLE: rmdir
+
+<ul><pre>
+static int mcachefs_rmdir(const char *path)
+{
+<b>...</b>
+}
+</pre></ul>

@@ -38,6 +38,7 @@ content/fuse-operation-getattr-1
 content/fuse-operation-getattr-2
 content/fuse-operation-readlink
 content/fuse-operation-getdir-1
+content/fuse-operation-getdir-2
 content/fuse-operation-mknod
 content/fuse-operation-mkdir
 content/fuse-operation-symlink

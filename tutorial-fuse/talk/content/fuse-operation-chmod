@@ -1,0 +1,8 @@
+TITLE: chmod
+
+<ul><pre>
+static int mcachefs_chmod(const char *path, mode_t mode)
+{
+<b>...</b>
+}
+</pre></ul>

@@ -1,0 +1,19 @@
+TITLE: statfs
+
+<ul><pre>
+static int mcachefs_statfs(struct fuse_statfs *fst)
+{
+    struct statfs st;
+    int rv = statfs("/",&amp;st);
+
+    if(!rv) {
+    	fst-&gt;block_size  = st.f_bsize;
+    	fst-&gt;blocks      = st.f_blocks;
+    	fst-&gt;blocks_free = st.f_bavail;
+    	fst-&gt;files       = st.f_files;
+    	fst-&gt;files_free  = st.f_ffree;
+    	fst-&gt;namelen     = st.f_namelen;
+    }
+    return rv;
+}
+</pre></ul>

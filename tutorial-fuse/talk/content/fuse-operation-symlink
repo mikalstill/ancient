@@ -1,0 +1,8 @@
+TITLE: symlink
+
+<ul><pre>
+static int mcachefs_symlink(const char *from, const char *to)
+{
+<b>...</b>
+}
+</pre></ul>

@@ -1,0 +1,8 @@
+TITLE: unlink
+
+<ul><pre>
+static int mcachefs_unlink(const char *path)
+{
+<b>...</b>
+}
+</pre></ul>

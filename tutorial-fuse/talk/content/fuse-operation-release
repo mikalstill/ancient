@@ -1,0 +1,12 @@
+TITLE: release
+
+<ul><pre>
+static int mcachefs_release(const char *path, int flags)
+{
+    /* Just a stub.  This method is optional and can safely be left
+       unimplemented */
+    (void) path;
+    (void) flags;
+    return 0;
+}
+</pre></ul>

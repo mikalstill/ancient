@@ -1,0 +1,8 @@
+TITLE: rename
+
+<ul><pre>
+static int mcachefs_rename(const char *from, const char *to)
+{
+<b>...</b>
+}
+</pre></ul>

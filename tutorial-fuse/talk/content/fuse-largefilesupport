@@ -1,1 +1,7 @@
 TITLE: Large file support
+
+<ul>
+<li>FUSE 1.1 currently truncates files at 2GB
+<li>Miklos was working on a patch for this
+<li>I'm not sure if it made it into the recently released 1.2
+</ul>

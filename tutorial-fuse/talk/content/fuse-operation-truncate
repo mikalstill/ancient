@@ -1,0 +1,11 @@
+TITLE: truncate
+
+<ul><pre>
+static int mcachefs_truncate(const char *path, off_t size)
+{
+<b>...</b>
+}
+</pre>
+
+<li>Remember -- people can truncate things bigger!
+</ul>
