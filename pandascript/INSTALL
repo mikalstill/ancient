@@ -1,0 +1,7 @@
+Welcome to pandascript. To install, try the following:
+
+  ./configure
+  make
+  make install
+
+demo.sh contains some demo code, and have a look at the man pages for more details...
