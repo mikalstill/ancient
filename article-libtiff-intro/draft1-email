@@ -1,0 +1,58 @@
+From mikal@stillhq.com Mon Jan 28 22:35:20 2002
+Date: Mon, 28 Jan 2002 22:35:02 +1100 (EST)
+From: Michael Still <mikal@stillhq.com>
+To: Thomas E Young <youngt01@us.ibm.com>
+Subject: First draft of my libtiff article
+
+
+Mr Young,
+
+please find attached the first draft of my libtiff article. I would much
+appreciate your feedback as to whether you think I am on the right track
+or not.
+
+I have the following comments to make as well:
+ - I have had to cut down the original scope of the article to fit it into
+   the word limit. The article still runs over at about 2,500 words to my
+   count. This article only discusses black and white images in the
+   simplest sense -- more could be discussed on this issue, and color
+   really deserves at least one article of it's own.
+
+ - To this end I have retained the series tag in the XML for the article,
+   because it is probably worth considering if this article should be one
+   of a series in order to better cover the issues involved.
+
+ - I have retained the PDF and ZIP tags, because I would much appreciate
+   there being a PDF version of the article online. I have a series of
+   files for the zip file which I have just included in the tarball
+   attachment to this mail for now.
+
+ - Should the related content list be populated with anything at this
+   time?
+
+ - Xview (which comes with most linux distros) has trouble viewing the
+   output of the writing example. The gimp does a much better job. In
+   fact, I had trouble finding a black and white image which xview
+   would view correctly. I am looking into a patch for xview to make
+   it work properly, but this will take more time (perhaps a couple
+   more days). There is a sidebar about this which I will populate
+   when I have more details.
+
+ - How should I encode an em dash (--)?
+
+ - I would appreciate some feedback about what the article will look like
+   once formatted. Is is possible to send me a PDF version from your
+   converter? I know what other articles on the site look like, but I want
+   to make sure that the article flows nicely and paragraphs et cetera
+   aren't too big.
+
+Thanks for your feedback,
+Mikal
+
+-- 
+
+Michael Still (mikal@stillhq.com)     UMT+11hrs
+
+    [ Part 2, ""  Application/OCTET-STREAM (Name: "draft1.tgz")  25KB. ]
+    [ Unable to print this part. ]
+
