@@ -111,30 +111,30 @@ namespace
       // populate column 1 myMatrix with indexes
       cout << "Populating myMatrix ..." << endl;
            
-      for (int col = 0; col < numCols; col++)
-	{
+//      for (int col = 0; col < numCols; col++)
+//	{
 	  for (int row = 0; row < numRows; row++)
 	    {
-	      myMatrix.setValue (row, col, 0,sinIndex);
+	      myMatrix.setValue (row, 0, 0,sinIndex);
 	      sinIndex++;
-	      cout << myMatrix.getValue(row,col,0) << "  ";
+	      cout << myMatrix.getValue(row,0,0) << "  ";
 	    }
-	    cout << endl;
-	}
+	    cout << endl << endl;
+//	}
 
       sinIndex = 0;
 
       //populate myMatrix with sin values
-      cout << "Populating myMatrix with sinvalues..." << endl;
+      cout << "Populating myMatrix with sinvalues..." << endl << endl;
       for (int col = 1; col < numCols; col++)
 	{
 	  for (int row = 0; row < numRows; row++)
 	    {
 	      myMatrix.setValue (row, col, 0, sin (sinIndex));
+	      cout << sinIndex << " -> " << myMatrix.getValue(row,col,0)  << "  ";
 	      sinIndex++;
-     	      cout << myMatrix.getValue(row,col,0)  << "  ";
 	    }
-	    cout << endl;
+	    cout << endl << endl;
 	}
 
       //cfft<ComplexDble> FFT (256); //nbuild operator object

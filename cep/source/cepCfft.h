@@ -253,6 +253,9 @@ template < class CPLX > cepMatrix<ComplexDble>
   cepMatrix<ComplexDble> ffteedMatrix( numRows, numCols, numTables); //matrix contain to store processed values
 
 //calculate the frequency scale and place it in the return matrix
+
+  cout << "Calculating frequency scale.." << endl;
+  char junk;
   for (table=0; table < numTables; table++)
   {
     //size of dataset = numRows
@@ -260,13 +263,17 @@ template < class CPLX > cepMatrix<ComplexDble>
     double sampleRate = ( matrix.getValue(0,0,0)  - matrix.getValue(0,1,0) )*SECSINYEAR;
     double freq = 1/sampleRate;
     
+    cout << "Setting fft matrix scale values ..." << endl;
     for(row=0; row< halfSetSize; row++)
     {
-    	ffteedMatrix.setValue(table,row,FIRSTCOLUMN, (freq*row)/numRows);
+    	ffteedMatrix.setValue(row,FIRSTCOLUMN,table, (freq*row)/numRows);
+	cout << ffteedMatrix.getValue(row,FIRSTCOLUMN, table) << endl;
     }
-	
   }
 
+  cin >> junk;
+  cout << endl;
+  cout << "Populating array to be fft'd .." << endl;
   //populate the array to send to fft module.
   //start at 1st column as we do not want to fft this.
   for (table = 0; table < numTables; table++)
@@ -274,25 +281,30 @@ template < class CPLX > cepMatrix<ComplexDble>
       
     for (col = 1; col < numCols; col++)
     {//while there are still columns
-        for (row = 0; row < numRows-1; row++)
+        for (row = 0; row < numRows; row++)
         {
 	    for (count = 0; count < NUMCHECKS; count++)
     	    {
-	        checks[count] = matrix.getValue(count,col,table);
+	        checks[count] = matrix.getValue(count,col-1,table);
 	    }
 	    if ( (checks[0] - checks[1]) != (checks[1] - checks[2]) )
 	        ;//todo daniel: throw an error values not equidistant.
             else
-	        arrayToFft[row]=checks[0];  //populate the arry to be fft'd
+	    {
+	        arrayToFft[row]= matrix.getValue(row,col,table);;  //populate the arry to be fft'd            
+		cout << row << " - " << arrayToFft[row] << endl;
+	    }
         }//end for row
     }//end for col 
+    cin >> junk;
 
     /*********************************compute the fft.************************************/
- 
+
+    cout << endl;
     if (dir == 1)
     {
         cout << "Performing forward fft on Matrix: Table " << table
-	     << "Column  " << col << "\n";
+	     << "  Column  " << col << "\n";
         fft(arrayToFft);
     }
     else //(dir == 0)
@@ -303,17 +315,22 @@ template < class CPLX > cepMatrix<ComplexDble>
     }
    
     //place the processed values into the marix.
-    for (col =0; col < numCols; col ++)
+    cout << "Outputting the results ... " << endl;
+    for (col =1; col < numCols; col ++)
     {
         for (row = 0; row < numRows; row++)
 	{
              ffteedMatrix.setValue(row,col,table,arrayToFft[row]);
-             cout << ffteedMatrix.getValue(row,col,table);
+             cout << "Value for (r,c,t) - (" << row << "," << col << "," << table
+	     << " .. " << ffteedMatrix.getValue(row,col,table)
+	     << endl;
          }//
+	 cout << endl;
     } //for col
     
   }//end for table
   
+  cout << " Returning ffteedMatirx " << endl;
   return ffteedMatrix;
 }//end method
 

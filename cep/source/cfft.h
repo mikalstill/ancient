@@ -51,7 +51,6 @@ The first paragraph above could serve as a reasonable
 #if !defined( _CFFT_H_INC__ )
 #define _CFFT_H_INC__ 1
 #include <math.h>               // for sin and cos
-#include "../cepMatrix.h"
 
 /*
  * This is a general-purpose C++ complex FFT transform class.
@@ -242,13 +241,6 @@ template < class CPLX > void cfft < CPLX >::hermitian (CPLX * buf)
     --i;
     ++j;
   }
-}
-
-
-
-template < class CPLX > void cfft < CPLX >::matrixFft (CPLX * buf, int iflag)
-{
-
 }
 
 
