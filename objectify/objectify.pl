@@ -60,6 +60,7 @@ foreach $possfunction (split(/;/, $code)){
 	    $_ = $arg;
 	    if(($arg ne "char*") && ($arg ne "int*") && ($arg ne "void*") && 
 	       (/\*$/)){
+		print STDERR "Expanding pointers for $arg from \"$pointers{$arg}\" to include \"$rval;$fval;$aval;\"\n";
 		$pointers{$arg} = $pointers{$arg}."$rval;$fval;$aval;";
 	    }
 	}
@@ -151,7 +152,7 @@ foreach $key (keys %pointers){
 
 	    if($skip == 0){
 		$_ = $fval;
-		s/.*_//;
+		s/[^*]*_//;
 		print "  $rval $_ (";
 
 		my($argcount);
