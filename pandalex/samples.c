@@ -76,8 +76,13 @@ void pdfinfo_entireheader(int event, va_list argptr){
 }
 
 void pdfinfo_objstart(int event, va_list argptr){
-  printf("Object started - generation %d of number %d\n",
-	 va_arg(argptr, int), va_arg(argptr, int));
+  int generation, number;
+
+  number = va_arg(argptr, int);
+  generation = va_arg(argptr, int);
+
+  printf("Object %d started (generation %d)\n",
+	 number, generation);
 }
 
 void pdfinfo_dictitem_string(int event, va_list argptr){
@@ -101,7 +106,13 @@ void pdfinfo_dictitem_dict(int event, va_list argptr){
 }
 
 void pdfinfo_dictitem_int(int event, va_list argptr){
-  printf("Dictionary int\n");
+  int value;
+  char *name;
+
+  name = va_arg(argptr, char *);
+  value = va_arg(argptr, int);
+
+  printf("  [Integer] %s = %d\n", name, value);
 }
 
 void pdfinfo_stream(int event, va_list argptr){

@@ -43,14 +43,16 @@
 %%
 
           /*********************************************************
-            It would appear that $$ already includes the vale of $1,
+            It would appear that $$ already includes the value of $1,
 	    so we only need to append the value of $2, $3, $4 et al
           *********************************************************/
+// completely implemented
 pdf       : { pandalex_callback(pandalex_event_begindocument, ""); } 
             header { pandalex_callback(pandalex_event_entireheader, $2); } 
             object linear objects xref trailer endcrap
           ;
 
+// completely implemented
 header    : VERSION { pandalex_callback(pandalex_event_specver, $1); }
             binary { $$.data = pandalex_strmcat($1.data, $1.len, $3.data, $3.len); $$.len = $1.len + $3.len + 1; }
           ;
@@ -65,6 +67,7 @@ endcrap   : binary { }
           |
           ;
 
+// completely implemented
 objects   : object objects
           | 
           ;
