@@ -37,11 +37,14 @@
  *     void tearDown( void ) { ... }
  *
  * @author <your name here>
- * @version $Revision: 1.2 $ $Date: 2002-10-22 06:06:37 $
+ * @version $Revision: 1.3 $ $Date: 2002-11-10 04:49:46 $
  *
  * Revision History
  *
  * $Log: not supported by cvs2svn $
+ * Revision 1.2  2002/10/22 06:06:37  u983131
+ * Linear interp now through testing an ready to be integrated into the GUI
+ *
  * Revision 1.11  2002/09/23 07:32:54  u983131
  *
  *
@@ -76,6 +79,18 @@ public:
       new CppUnit::TestCaller<Test>( "Basic linear test", &Test::testLinear ) );
     suiteOfTests->addTest(
       new CppUnit::TestCaller<Test>( "Equal sample rate test", &Test::testSampleRate ) );
+    suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "Window division test", &Test::testWindow ) );
+    suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "Window overlap test", &Test::testOverlap ) );
+    suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "Nearest neighbour test", &Test::testNearestNeighbour ) );
+    suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "Natural spline test 1", &Test::testNatSpline1 ) );
+    suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "Natural spline test 2", &Test::testNatSpline2 ) );
+    suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "Natural spline test 3", &Test::testNatSpline3 ) );
 
 
     return suiteOfTests;
@@ -112,7 +127,6 @@ protected:
 
 		// generate linear interp
 		interpolate.doInterp(start, finish1, LINEAR_INTERP);
-
     for( int i=0; i<2*rows-1; i++ )
       for( int j=0; j<cols-1; j++ )
         CPPUNIT_ASSERT_EQUAL_MESSAGE( "values not equal",
@@ -121,12 +135,12 @@ protected:
 
   }
 
-  /** Same as linear test but final timescale is also generated */
+	/** Tests that the interp engine can build its own timescale */
   void testSampleRate()
   {
     int rows = 3, cols = 3;
     cepMatrix<double> start( rows, cols );
-    cepMatrix<double> finish1( 2 * rows, 2 * cols );
+    cepMatrix<double> finish1( 2 * rows -1, cols );
     cepMatrix<double> finish2( 2 * rows -1 , cols );
 		cepInterp interpolate;
 
@@ -144,13 +158,13 @@ protected:
 
 		// generate linear interp
 		finish1 = interpolate.doInterp(start, 1, LINEAR_INTERP);
-
-		for (int i=0; i<finish1.getNumRows(); i++)
-		{
-			for (int j=0; j<finish1.getNumCols(); j++)
-				cout << finish1.getValue(i,j);
-			cout << '\n';
-		}
+//		cout << "Back here\n";
+//		for (int i=0; i<finish1.getNumRows(); i++)
+//		{
+//			for (int j=0; j<finish1.getNumCols(); j++)
+//				cout << finish1.getValue(i,j);
+//			cout << '\n';
+//		}
 
     for( int i=0; i<2*rows-1; i++ )
       for( int j=0; j<cols-1; j++ )
@@ -159,6 +173,235 @@ protected:
 
 
   }
+
+  /** Tests the code for scaling the dataset length to fit a window size */
+  void testWindow()
+  {
+    int rows = 3, cols = 3;
+    cepMatrix<double> start( rows, cols );
+
+    cepMatrix<double> finish2( 4 , cols );
+		cepInterp interpolate;
+
+    for( int i=0; i<rows; i++ )
+      for( int j=0; j<cols; j++ )
+        start.setValue( i, j, (double)i * 2 );
+
+
+		int sampleRate = 1;
+		int winSize = 4;
+		// generate linear interp
+    cepMatrix<double> finish1(interpolate.doInterp(start, sampleRate, LINEAR_INTERP, winSize));
+
+//		for (int i=0; i<finish1.getNumRows(); i++)
+//		{
+//			for (int j=0; j<finish1.getNumCols(); j++)
+//				cout << finish1.getValue(i,j);
+//			cout << '\n';
+//		}
+
+		CPPUNIT_ASSERT_EQUAL_MESSAGE( "Sizes not equal",
+				               finish2.getNumRows(), finish1.getNumRows());
+
+
+  }
+  /** Tests the code for scaling the dataset length to fit a window size */
+  void testOverlap()
+  {
+    int rows = 4, cols = 3;
+    cepMatrix<double> start( rows, cols );
+    cepMatrix<double> finish2( 6 , cols );
+		cepInterp interpolate;
+
+    for( int i=0; i<rows; i++ )
+      for( int j=0; j<cols; j++ )
+        start.setValue( i, j, (double)i * 2 );
+
+
+		int sampleRate = 1;
+		int winSize = 4;
+		double overlap = 0.5;
+		// generate linear interp
+    cepMatrix<double> finish1(interpolate.doInterp(start, sampleRate, LINEAR_INTERP, winSize, overlap));
+
+//		for (int i=0; i<finish1.getNumRows(); i++)
+//		{
+//			for (int j=0; j<finish1.getNumCols(); j++)
+//				cout << finish1.getValue(i,j);
+//			cout << '\n';
+//		}
+
+		CPPUNIT_ASSERT_EQUAL_MESSAGE( "Sizes not equal",
+				               finish2.getNumRows(), finish1.getNumRows());
+
+
+  }
+
+  /** Tests nearest neighbour interp */
+  void testNearestNeighbour ()
+  {
+		int rows = 2, cols = 3;
+		int expectedRows = 4;
+    cepMatrix<double> start( rows, cols );
+    cepMatrix<double> finish1( expectedRows, cols );
+    cepMatrix<double> finish2( expectedRows, cols );
+		cepInterp interpolate;
+
+		start.setValue( 0, 0, 0.0 );
+		start.setValue( 0, 1, 0.0 );
+		start.setValue( 1, 0, 3.0 );
+		start.setValue( 1, 1, 3.0 );
+
+
+		// populate matrix with expected values
+		finish2.setValue(0,0, 0.0);
+		finish2.setValue(0,1, 0.0);
+		finish2.setValue(1,0, 1.0);
+		finish2.setValue(1,1, 0.0);
+		finish2.setValue(2,0, 2.0);
+		finish2.setValue(2,1, 3.0);
+		finish2.setValue(3,0, 3.0);
+		finish2.setValue(3,1, 3.0);
+
+		// generate linear interp
+		finish1 = interpolate.doInterp(start, 1.0, NEAREST_INTERP);
+
+
+//		for (int i=0; i<finish1.getNumRows(); i++)
+//		{
+//			for (int j=0; j<finish1.getNumCols(); j++)
+//				cout << finish1.getValue(i,j);
+//			cout << '\n';
+//		}
+
+    for( int i=0; i<2*rows-1; i++ )
+      for( int j=0; j<cols-1; j++ )
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "values not equal",
+				               finish2.getValue(i,j), finish1.getValue(i,j));
+  }
+
+	/** Tests that a natural spline interpolation back onto the sample */
+	/* points get the same value as was started with*/
+  void testNatSpline1()
+  {
+    int rows = 6, cols = 3;
+    cepMatrix<double> start( rows, cols );
+    cepMatrix<double> finish1( rows , cols );
+		cepInterp interpolate;
+
+    for( int i=0; i<rows; i++ )
+      for( int j=0; j<cols; j++ )
+        start.setValue( i, j, (double)i );
+
+		// generate linear interp
+		finish1 = interpolate.doInterp(start, 1, NATURAL_SPLINE_INTERP);
+
+/*		for (int i=0; i<finish1.getNumRows(); i++)
+		{
+			for (int j=0; j<finish1.getNumCols(); j++)
+				cout << finish1.getValue(i,j);
+			cout << '\n';
+		}
+			cout << '\n';*/
+
+
+/*		for (int i=0; i<start.getNumRows(); i++)
+		{
+			for (int j=0; j<start.getNumCols(); j++)
+				cout << start.getValue(i,j);
+			cout << '\n';
+		}*/
+
+    for( int i=0; i<rows; i++ )
+      for( int j=0; j<cols-1; j++ )
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "values not equal",
+				               start.getValue(i,j), finish1.getValue(i,j));
+
+
+  }
+
+  void testNatSpline2()
+  {
+    int rows = 6, cols = 3;
+    cepMatrix<double> start( rows, cols );
+    cepMatrix<double> finish1( 2* rows -1 , cols );
+    cepMatrix<double> finish2( 2* rows -1 , cols );
+		cepInterp interpolate;
+
+    for( int i=0; i<rows; i++ )
+      for( int j=0; j<cols; j++ )
+        start.setValue( i, j, (double)i*2.0 );
+
+    for( int i=0; i<2*rows-1; i++ )
+      for( int j=0; j<cols; j++ )
+        finish2.setValue( i, j, (double)i );
+
+
+		// generate linear interp
+		finish1 = interpolate.doInterp(start, 1, NATURAL_SPLINE_INTERP);
+
+/*		for (int i=0; i<finish1.getNumRows(); i++)
+		{
+			for (int j=0; j<finish1.getNumCols(); j++)
+				cout << finish1.getValue(i,j) << " ";
+			cout << '\n';
+		}
+			cout << '\n';*/
+
+    for( int i=0; i<11; i+=2 )
+      for( int j=0; j<cols-1; j++ )
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "values not equal",
+				               finish2.getValue(i,j), finish1.getValue(i,j));
+
+
+  }
+
+  void testNatSpline3()
+  {
+    int rows = 6, cols = 3;
+    cepMatrix<double> start( rows, cols );
+    cepMatrix<double> finish1( 2* rows -1 , cols );
+    cepMatrix<double> finish2( 2* rows -1 , cols );
+		cepInterp interpolate;
+
+    start.setValue( 0, 0, 0.0 );
+    start.setValue( 0, 1, 0.0 );
+    start.setValue( 1, 0, 2.0 );
+    start.setValue( 1, 1, 2.0 );
+    start.setValue( 2, 0, 4.0 );
+    start.setValue( 2, 1, 4.0 );
+    start.setValue( 3, 0, 6.0 );
+    start.setValue( 3, 1, 0.0 );
+    start.setValue( 4, 0, 8.0 );
+    start.setValue( 4, 1, 2.0 );
+    start.setValue( 5, 0, 10.0);
+    start.setValue( 5, 1, 4.0 );
+
+    for( int i=0; i<2*rows-1; i++ )
+      for( int j=0; j<cols; j++ )
+        finish2.setValue( i, j, (double)i );
+
+
+		// generate linear interp
+		finish1 = interpolate.doInterp(start, 1, NATURAL_SPLINE_INTERP);
+
+		for (int i=0; i<finish1.getNumRows(); i++)
+		{
+			for (int j=0; j<finish1.getNumCols(); j++)
+				cout << finish1.getValue(i,j) << " ";
+			cout << '\n';
+		}
+			cout << '\n';
+
+//    for( int i=0; i<11; i+=2 )
+//      for( int j=0; j<cols-1; j++ )
+//        CPPUNIT_ASSERT_EQUAL_MESSAGE( "values not equal",
+//				               finish2.getValue(i,j), finish1.getValue(i,j));
+
+
+  }
+
+
 
 }; // end test
 

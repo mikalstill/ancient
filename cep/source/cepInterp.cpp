@@ -54,16 +54,14 @@ cepMatrix<double> cepInterp::doInterp(cepMatrix<double> & input, double sampleRa
 		timeScale.setValue(i,2, 0.0);
 	}
 
-	cout << "Generate timescale\n";
 
-	for (int i=0; i < timeScale.getNumRows(); i++)
+/*	for (int i=0; i < timeScale.getNumRows(); i++)
 	{
 		for (int j=0; j < timeScale.getNumCols(); j++)
 			cout << timeScale.getValue(i,j);
 		cout << '\n';
 	}
-	cout << "Blah\n";
-
+*/
 	/* do interpolation and return results */
 	return doInterp(input,timeScale,interpType);
 }
@@ -71,7 +69,6 @@ cepMatrix<double> cepInterp::doInterp(cepMatrix<double> & input, double sampleRa
 cepMatrix<double> cepInterp::doInterp(cepMatrix<double> & input,
                                  cepMatrix<double> & timeScale,int interpType)
 {
-	cout << "Select interp\n";
 	switch(interpType)
 	{
 		case NEAREST_INTERP:
@@ -125,7 +122,6 @@ cepMatrix<double> cepInterp::doInterp(cepMatrix<double> & input,
 	cepMatrix<double> cepInterp::linearInterp(cepMatrix<double> & input,
 												cepMatrix<double> & timeScale)
 {
-	cout << "Linear interp\n";
 	int newSize = timeScale.getNumRows();
 	int oldSize = input.getNumRows();
 
@@ -137,7 +133,6 @@ cepMatrix<double> cepInterp::doInterp(cepMatrix<double> & input,
 	{
 		if (inBounds(input, timeScale, position, i, newSize, oldSize))
 		{
-			cout << "i:" << i << "pos:" << position << '\n';
 			distDate = input.getValue(position+1,0)-input.getValue(position,0);
 			distValue = input.getValue(position+1,1)-input.getValue(position,1);
 			timeScale.setValue(i,1,input.getValue(position,1)+distValue/distDate*
@@ -149,12 +144,6 @@ cepMatrix<double> cepInterp::doInterp(cepMatrix<double> & input,
 		}
 	}
 
-	for (int i = 0; i < timeScale.getNumRows(); i++)
-	{
-		for (int j = 0; j < timeScale.getNumCols(); j++)
-			cout << timeScale.getValue(i,j) << " ";
-		cout << '\n';
-	}
 
 	return timeScale;
 
@@ -233,10 +222,8 @@ cepMatrix<double> cepInterp::doInterp(cepMatrix<double> & input,
 	int position = 0;
 	for (i = 0; i < newSize; i++)
 	{
-		cout << "Am here \n";
 		if (inBounds(input, timeScale, position, i, newSize, oldSize))
 		{
-			cout << "i:" << i << " pos:" << position << "\n";
 			timeScale.setValue(i,1,
 								a.getValue(position,0)*pow((timeScale.getValue(i,0)-input.getValue(position,0)),3.0)+
 								b.getValue(position,0)*pow((timeScale.getValue(i,0)-input.getValue(position,0)),2.0)+
@@ -393,18 +380,18 @@ void cepInterp::rowReduce(cepMatrix<double> & t, cepMatrix<double> & s, int n)
 		// row divided by first element
 		t.setValue(i-1,2, t.getValue(i-1,2)/t.getValue(i-1,1));
 		s.setValue(i,0, s.getValue(i,0)/t.getValue(i-1,1));
-		t.setValue(i-1,1, 0.0);
+		t.setValue(i-1,1, 1.0);
 
 		// subtractraction to eliminate first value in next row
-		t.setValue(i,1, t.getValue(i,1)-t.getValue(i-1,2)*t.getValue(i,0));
-		s.setValue(i+1,0, s.getValue(i+1,0)- s.getValue(i,0)*t.getValue(i,0));
+		t.setValue(i,1, t.getValue(i,1) - t.getValue(i-1,2)*t.getValue(i,0));
+		s.setValue(i+1,0, s.getValue(i+1,0) - s.getValue(i,0)*t.getValue(i,0));
 		t.setValue(i,0, 0.0);
 	}
   // for last row
 	// row divided by first element
 	t.setValue(n-2,2, t.getValue(n-2,2)/t.getValue(n-2,1));
 	s.setValue(n-1,0, s.getValue(n-1,0)/t.getValue(n-2,1));
-	t.setValue(n-2,1, 0.0);
+	t.setValue(n-2,1, 1.0);
 
 	// Work back up the matrix zeroing right most values in t
 	for (i = n-1; i > 1; i--)
