@@ -24,39 +24,43 @@ other=0
 
 path="/home/httpd/html/pdfdb"
 pcount=`printf "%06d" $count`
+highest=`cat $path/highest`
 
-while [ -d $path/$pcount ]
+while [ $count -lt $highest ]
 do
-  time.gnu -v -o /tmp/$$ ./example $path/$pcount/data.pdf > /dev/null 2> /dev/null
-  retval=$?
+  if [ -d $path/$pcount ]
+  then
+    time.gnu -v -o /tmp/$$ ./example $path/$pcount/data.pdf > /dev/null 2> /dev/null
+    retval=$?
   
-  if [ $retval == 139 ]
-  then
-    # Bash just uses this
-    echo "$1	Segmentation fault" >> $path/$pcount/data.pandalex
-    segfault=$(( $segfault + 1 ))
-  elif [ $retval == 11 ]
-  then
-    # The time command changes it to this (see signal(7))
-    echo "$1	Segmentation fault" >> $path/$pcount/data.pandalex
-    segfault=$(( $segfault + 1 ))
-  elif [ $retval == 42 ]
-  then
-    echo "$1	Parse error" >> $path/$pcount/data.pandalex
-    parse=$(( $parse + 1 ))
-  elif [ $retval == 0 ]
-  then
-    echo "$1	Ok" >> $path/$pcount/data.pandalex
-    ok=$(( $ok + 1 ))
-  else
-    echo "$1	Other ($retval)" >> $path/$pcount/data.pandalex
-    other=$(( $other + 1 ))
+    if [ $retval == 139 ]
+    then
+      # Bash just uses this
+      echo "$1	Segmentation fault" >> $path/$pcount/data.pandalex
+      segfault=$(( $segfault + 1 ))
+    elif [ $retval == 11 ]
+    then
+      # The time command changes it to this (see signal(7))
+      echo "$1	Segmentation fault" >> $path/$pcount/data.pandalex
+      segfault=$(( $segfault + 1 ))
+    elif [ $retval == 42 ]
+    then
+      echo "$1	Parse error" >> $path/$pcount/data.pandalex
+      parse=$(( $parse + 1 ))
+    elif [ $retval == 0 ]
+    then
+      echo "$1	Ok" >> $path/$pcount/data.pandalex
+      ok=$(( $ok + 1 ))
+    else
+      echo "$1	Other ($retval)" >> $path/$pcount/data.pandalex
+      other=$(( $other + 1 ))
+    fi
+
+    cat /tmp/$$ >> $path/$pcount/data.pandalex
+    echo "------------------------------------------" >> $path/$pcount/data.pandalex
+    echo "$count: seg = $segfault, parse = $parse, other = $other, ok = $ok"
   fi
 
-  cat /tmp/$$ >> $path/$pcount/data.pandalex
-  echo "------------------------------------------" >> $path/$pcount/data.pandalex
-
-  echo "$count: sf = $segfault, pf = $parse, of = $other, ok = $ok"
   count=$(( $count + 1 ))
   pcount=`printf "%06d" $count`
 done
