@@ -79,9 +79,8 @@ protected:
   { 
     cepMatrix <double> matX, matY, matZ;
     string testSet = "../../datasets/mb_CAIR_GPS";
-    cepDataset data(testSet);
-    
-    data.munch();
+    cepDataset data;
+    data.read(testSet);
     
     matX = data.getMatrix(cepDataset::dirX);
     
@@ -148,11 +147,10 @@ protected:
   void testRepeated()
   {
     string testSet = "../../datasets/mb_ANKR_GPS";
-    cepDataset data(testSet);
+    cepDataset data;
     cepError blah;
     string expected("dataset: ../../datasets/mb_ANKR_GPS.dat1 contains repeated values! At line 918");
-
-    blah = data.munch();
+    blah = data.read(testSet);
     
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "Failed to detect repeated values", expected, blah.getMessage());
   }
@@ -160,11 +158,10 @@ protected:
   void testOrder()
   {
     string testSet = "mb_ORDER_GPS";
-    cepDataset data(testSet);
+    cepDataset data;
     cepError blah;
     string expected("dataset: mb_ORDER_GPS.dat2 is not in date order! At line 5");
-
-    blah = data.munch();
+    blah = data.read(testSet);
     
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "Failed to detect values out of date order", expected, blah.getMessage());
   }
@@ -172,11 +169,10 @@ protected:
   void testPeriod()
   {
     string testSet = "mb_PERIOD_GPS";
-    cepDataset data(testSet);
+    cepDataset data;
     cepError blah;
     string expected("The data set mb_PERIOD_GPS values do not represent the same time period");
-
-    blah = data.munch();
+    blah = data.read(testSet);
     
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "Failed to detect that the datasets don't cover the same period", expected, blah.getMessage());
   }
@@ -184,11 +180,10 @@ protected:
   void testNotOpen()
   {
     string testSet = "mb_BLAH_GPS";
-    cepDataset data(testSet);
+    cepDataset data;
     cepError blah;
     string expected("File IO error for this dataset. Could not open the file(s): mb_BLAH_GPS.dat1; mb_BLAH_GPS.dat2; mb_BLAH_GPS.dat3.");
-
-    blah = data.munch();
+    blah = data.read(testSet);
     
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "Failed to detect files that couldn't be opened", expected, blah.getMessage());
   }
@@ -197,9 +192,9 @@ protected:
   { 
     cepMatrix <double> matX, matY, matZ;
     string testSet = "mb_NAN_GPS";
-    cepDataset data(testSet);
+    cepDataset data;
     
-    data.munch();
+    data.read(testSet);
     
     matX = data.getMatrix(cepDataset::dirX);
     

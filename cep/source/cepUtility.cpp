@@ -1,6 +1,6 @@
 
 /* 
- *   Ulitity functions for CEP
+ *   Utility functions for CEP
  *   Copyright (C) Michael Still                    2002
  *   
  *   This program is free software; you can redistribute it and/or modify
@@ -116,18 +116,20 @@ bool cepIsNumeric(char c)
   //
   // Became:
 
-  if(((c < '0') || (c > '9')))
+  if(isdigit(c))
+    {
+      return true;
+    }
+  if(c == '.')
+    {
+      return true;
+    }
+  if(c == '-')
     {
     return true;
-  }
-  if(c == '.'){
-    return true;
-  }
-  if(c == '-'){
-    return true;
-  }
-
-  return !cepIsBlank(c);
+    }
+  
+  return false;
 }
 
 int

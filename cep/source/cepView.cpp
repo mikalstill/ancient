@@ -54,6 +54,9 @@
 #include "cepUI.h"
 #include "cepDoc.h"
 #include "cepView.h"
+#include "cepPresentation.h"
+#include "cepPlot.h"
+
 #include "cepLs.h"
 
 #include <stdlib.h>
@@ -302,87 +305,18 @@ void cepView::drawPresentation(cepDataset *theDataset, cepDataset::direction dir
 
   // We cache images so we go faster
   if(m_pngCache[(int) dir] == ""){
-    cepPresentation pres (theDataset->getData (dir).size () + 20,
-			  presHeight);
     char *cfname = strdup("/tmp/cep.XXXXXX");;
     int fd;
     fd = mkstemp(cfname);
     close(fd);
     cepDebugPrint ("Temporary file for image is " + string(cfname));
     cepDebugPrint ("There are " +
-                   cepToString (theDataset->getData (dir).size ()) +
-                   " data points to add");
+		   cepToString (theDataset->getData (dir).size ()) +
+		   " data points to add");
 
-    for (unsigned int i = 0; i < theDataset->getData (dir).size (); i++)
-    {
-      pres.addDataPoint (i,
-			 (long)(theDataset->getData (dir)[i].
-				sample * 10000),
-			 (long)(theDataset->getData (dir)[i].
-				error * 10000));
-      cepDebugPrint ("Data point: " +
-                     cepToString ((long)
-                              (theDataset->getData (dir)[i].
-                               sample * 10000)));
-    }
-
-    cepError err;
-    int red = 0, green = 0, blue = 0;
-    bool toggle;
+    cepPlot plot(theDataset, dir, cfname, presHeight);
+    m_plotfailed = plot.getFailed();
     
-    err = m_config->getValue("ui-viewmenu-showaverages", false, toggle);
-    if(err.isReal()) err.display();
-    pres.useAverage(toggle);
-
-    err = m_config->getValue("ui-viewmenu-showerrors", true, toggle);
-    if(err.isReal()) err.display();    
-    pres.useErrors(toggle);
-
-    err = m_config->getValue("ui-graph-color-axis-r", 255, red);
-    if(err.isReal()) err.display();
-    err = m_config->getValue("ui-graph-color-axis-g", 0, green);
-    if(err.isReal()) err.display();
-    err = m_config->getValue("ui-graph-color-axis-b", 0, blue);
-    if(err.isReal()) err.display();
-    pres.setAxesColor(red, green, blue);
-
-    err = m_config->getValue("ui-graph-color-line-r", 0, red);
-    if(err.isReal()) err.display();
-    err = m_config->getValue("ui-graph-color-line-g", 255, green);
-    if(err.isReal()) err.display();
-    err = m_config->getValue("ui-graph-color-line-b", 0, blue);
-    if(err.isReal()) err.display();
-    pres.setLineColor(red, green, blue);
-
-    err = m_config->getValue("ui-graph-color-average-r", 0, red);
-    if(err.isReal()) err.display();
-    err = m_config->getValue("ui-graph-color-average-g", 0, green);
-    if(err.isReal()) err.display();
-    err = m_config->getValue("ui-graph-color-average-b", 255, blue);
-    if(err.isReal()) err.display();
-    pres.setAverageColor(red, green, blue);
-
-    err = m_config->getValue("ui-graph-color-error-r", 127, red);
-    if(err.isReal()) err.display();
-    err = m_config->getValue("ui-graph-color-error-g", 127, green);
-    if(err.isReal()) err.display();
-    err = m_config->getValue("ui-graph-color-error-b", 127, blue);
-    if(err.isReal()) err.display();
-    pres.setErrorColor(red, green, blue);
-
-    int currentView;
-    err = m_config->getValue("ui-viewmenu-currentview", 
-			     (int) cepPresentation::viewCentered, currentView);
-    if(err.isReal()) err.display();
-    pres.setView((cepPresentation::view) currentView);
-
-    err = pres.createPNG (cfname);
-    if (err.isReal ()){
-      err.display ();
-      m_plotfailed = true;
-      return;
-    }
-
     m_pngCache[(int) dir] = string(cfname);
   }
   

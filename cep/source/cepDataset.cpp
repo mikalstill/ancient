@@ -52,10 +52,11 @@ cepError cepDataset::read (const string& filename)
   string thisLine;
   cep_datarow row, lastRow;
   char * line;
-    
+  
   files[0].open (string (m_filename + ".dat1").c_str (), ios::in);
   files[1].open (string (m_filename + ".dat2").c_str (), ios::in);
   files[2].open (string (m_filename + ".dat3").c_str (), ios::in);
+  cepDebugPrint("Opened the dataset files");
 
   // Check they opened ok
   string errString;
@@ -77,6 +78,7 @@ cepError cepDataset::read (const string& filename)
     return cepError("File IO error for this dataset. Could not open the file(s):" + 
 		    errString + ".");
   }
+  cepDebugPrint("All dataset files exist");
 
   // Read the file
   for (int i = 0; i < 3; i++)
@@ -92,18 +94,26 @@ cepError cepDataset::read (const string& filename)
     lastRow.date = -1;
     lastRow.sample = -1;
     lastRow.error = -1;
+    cepDebugPrint("File read initialization complete");
 
     while (!files[i].eof ())
     {   
       files[i].read (&c, 1);
 
       // If the line contains non-numbers then ignore the whole line
-      if(!cepIsNumeric(c))
+      if(!cepIsNumeric(c) && !cepIsBlank(c))
       {
+	string igLine("");
+	igLine += c;
+	cepDebugPrint("Ignore mode because: (" + cepToString(c) + ") numeric = " + cepToString(cepIsNumeric(c)));
+
         while((c != '\n') && (!files[i].eof()))
         {
           files[i].read(&c,1);
+	  igLine += c;
         }
+
+	cepDebugPrint("Ignoring line: " + igLine);
         thisLine = "";
         numLines++;
       }
@@ -126,6 +136,7 @@ cepError cepDataset::read (const string& filename)
       // End of line?
       if ((c == '\n') && (thisLine != ""))
       {
+	cepDebugPrint("Processing line: " + thisLine);
         numLines ++;
         line = strdup(thisLine.c_str());
 
@@ -169,6 +180,7 @@ cepError cepDataset::read (const string& filename)
     }
     files[i].close();
   }
+  cepDebugPrint("Finished reading all of the dataset files");
 
   // Are the files over the same period??
   if (((m_datax.front().date != m_datay.front().date) || (m_datay.front().date != m_dataz.front().date)) 

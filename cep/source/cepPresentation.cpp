@@ -19,6 +19,7 @@
 */
 
 #include "cepCore.h"
+#include "cepPresentation.h"
 
 #if defined HAVE_LIBPLOT
 #include <libplot.h>

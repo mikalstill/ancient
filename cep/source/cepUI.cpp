@@ -34,6 +34,8 @@
 
 #define GLOBALS_HERE
 #include "cepCore.h"
+#include "cepPresentation.h"
+#include "cepStringArray.h"
 #include <unistd.h>
 
 // For compilers that support precompilation, includes "wx/wx.h".
@@ -219,10 +221,34 @@ cepApp::OnInit (void)
 	err.display();
       }
       
-      //      while(!commands.eof()){
-      //string foo;
-	//	foo << commands;
-      //}
+      string line;
+      cepDataset ds;
+
+      while(!commands.eof()){
+	char c;
+	commands.read(&c, 1);
+
+	if(c == '\n'){
+	  cepStringArray sa(line, " "); 
+	  
+	  if(sa[0] == "open"){
+	    ds.read(sa[1]);
+	    cout << "Dataset " << sa[1] << " read" << endl;
+	  }
+	  else if(sa[0] == "plot"){
+	    
+	  }
+	  else{
+	    cerr << "Command not found: " << sa[0] << endl;
+	  }
+
+	  // Clear the line, so we can start again...
+	  line = "";
+	}
+	else{
+	  line += c;
+	}
+      }
 
       cepDebugPrint("Finished processing batch command file");
       exit(0);

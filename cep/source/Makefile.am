@@ -6,4 +6,5 @@ ui_SOURCES = cepConfiguration.cpp cepDataset.cpp cepDate.cpp cepDoc.cpp \
              cepWindowRect.cpp cepDataWindower.cpp \
              cepwindowhamming.cpp cepwindowblackman.cpp \
              cepwindowchebyshev.cpp \
-             cepTmpClean.cpp cepTextErrorHandler.cpp
+             cepTmpClean.cpp cepTextErrorHandler.cpp \
+             cepStringArray.cpp cepPlot.cpp
