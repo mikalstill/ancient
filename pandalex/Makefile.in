@@ -92,6 +92,9 @@ AM_YFLAGS = -d
 
 SUBDIRS = . examples
 
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = pandalex.pc
+
 lib_LTLIBRARIES = libpandalex.la
 libpandalex_la_SOURCES = parser.y lexer.l
 
@@ -118,6 +121,8 @@ COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CF
 LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
+DATA =  $(pkgconfig_DATA)
+
 HEADERS =  $(pandalexinclude_HEADERS)
 
 DIST_COMMON =  README ./stamp-h.in AUTHORS COPYING ChangeLog INSTALL \
@@ -253,6 +258,25 @@ libpandalex.la: $(libpandalex_la_OBJECTS) $(libpandalex_la_DEPENDENCIES)
 	else :; fi
 parser.h: parser.c
 
+
+install-pkgconfigDATA: $(pkgconfig_DATA)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(pkgconfigdir)
+	@list='$(pkgconfig_DATA)'; for p in $$list; do \
+	  if test -f $(srcdir)/$$p; then \
+	    echo " $(INSTALL_DATA) $(srcdir)/$$p $(DESTDIR)$(pkgconfigdir)/$$p"; \
+	    $(INSTALL_DATA) $(srcdir)/$$p $(DESTDIR)$(pkgconfigdir)/$$p; \
+	  else if test -f $$p; then \
+	    echo " $(INSTALL_DATA) $$p $(DESTDIR)$(pkgconfigdir)/$$p"; \
+	    $(INSTALL_DATA) $$p $(DESTDIR)$(pkgconfigdir)/$$p; \
+	  fi; fi; \
+	done
+
+uninstall-pkgconfigDATA:
+	@$(NORMAL_UNINSTALL)
+	list='$(pkgconfig_DATA)'; for p in $$list; do \
+	  rm -f $(DESTDIR)$(pkgconfigdir)/$$p; \
+	done
 
 install-pandalexincludeHEADERS: $(pandalexinclude_HEADERS)
 	@$(NORMAL_INSTALL)
@@ -467,21 +491,23 @@ all-recursive-am: config.h
 install-exec-am: install-libLTLIBRARIES
 install-exec: install-exec-recursive
 
-install-data-am: install-pandalexincludeHEADERS
+install-data-am: install-pkgconfigDATA install-pandalexincludeHEADERS
 install-data: install-data-recursive
 
 install-am: all-am
 	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
 install: install-recursive
-uninstall-am: uninstall-libLTLIBRARIES uninstall-pandalexincludeHEADERS
+uninstall-am: uninstall-libLTLIBRARIES uninstall-pkgconfigDATA \
+		uninstall-pandalexincludeHEADERS
 uninstall: uninstall-recursive
-all-am: Makefile $(LTLIBRARIES) $(HEADERS) config.h
+all-am: Makefile $(LTLIBRARIES) $(DATA) $(HEADERS) config.h
 all-redirect: all-recursive-am
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) AM_INSTALL_PROGRAM_FLAGS=-s install
 installdirs: installdirs-recursive
 installdirs-am:
-	$(mkinstalldirs)  $(DESTDIR)$(libdir) $(DESTDIR)$(pandalexincludedir)
+	$(mkinstalldirs)  $(DESTDIR)$(libdir) $(DESTDIR)$(pkgconfigdir) \
+		$(DESTDIR)$(pandalexincludedir)
 
 
 mostlyclean-generic:
@@ -530,9 +556,9 @@ clean-libLTLIBRARIES maintainer-clean-libLTLIBRARIES \
 uninstall-libLTLIBRARIES install-libLTLIBRARIES mostlyclean-compile \
 distclean-compile clean-compile maintainer-clean-compile \
 mostlyclean-libtool distclean-libtool clean-libtool \
-maintainer-clean-libtool uninstall-pandalexincludeHEADERS \
-install-pandalexincludeHEADERS install-data-recursive \
-uninstall-data-recursive install-exec-recursive \
+maintainer-clean-libtool uninstall-pkgconfigDATA install-pkgconfigDATA \
+uninstall-pandalexincludeHEADERS install-pandalexincludeHEADERS \
+install-data-recursive uninstall-data-recursive install-exec-recursive \
 uninstall-exec-recursive installdirs-recursive uninstalldirs-recursive \
 all-recursive check-recursive installcheck-recursive info-recursive \
 dvi-recursive mostlyclean-recursive distclean-recursive clean-recursive \
