@@ -726,13 +726,8 @@ In this chapter we will discuss the Tagged Image File Format, which is one of th
 <sect1>
 <title>Introduction</title>
 <para>
-TIFF (Tagged Image File Format) is a raster image format which was originally produced by Aldus and Microsoft. Aldus was later acquired by Adobe, who manage the TIFF specification to this day. At the time of writing of this chapter, the current version of the TIFF specification is TIFF version 6.0. The TIFF specification can be downloaded from http://partners.adobe.com/asn/developer/pdfs/tn/TIFF6.pdf. The TIFF technical notes at  
+TIFF (Tagged Image File Format) is a raster image format which was originally produced by Aldus and Microsoft. Aldus was later acquired by Adobe, who manage the TIFF specification to this day. At the time of writing of this chapter, the current version of the TIFF specification is TIFF version 6.0. The TIFF specification can be downloaded from http://partners.adobe.com/asn/developer/pdfs/tn/TIFF6.pdf. The TIFF technical notes at http://partners.adobe.com/asn/developer/technotes/main.html
 </para>
-
-<figure>
-<title>tiff_tech_notes_location</title>
-<graphic format="EPS" fileref="todo.eps"></graphic>
-</figure>
 
 <para>Libtiff is a standard implementation of the TIFF specification, which is free and works on many operating systems. All of the examples in this chapter refer to libtiff.
 </para>
@@ -870,11 +865,8 @@ It is useful for use to know something about how TIFF images are laid out on dis
 
 <row>
 <entry>0 - 1</entry>
-<entry>Tag that identifies the entry. Have a look at <figure>
-<title>tags</title>
-<graphic format="EPS" fileref="todo.eps"></graphic>
-</figure>
-</entry></row>
+<entry>Tag that identifies the entry. Have a look at tiff.h</entry>
+</row>
 
 <row>
 <entry>2 - 3</entry>
@@ -930,15 +922,7 @@ Sign is implemented using two's complement notation. New field types may be adde
 
 <sect2><title>Possible field entries</title>
 <para>
-Discussing the many different possible field entries is out of the scope of this document. 
-<figure>
-<title>tiff.h</title>
-<graphic format="EPS" fileref="todo.eps"></graphic>
-</figure>
- <figure>
-<title>refer_to_spec</title>
-<graphic format="EPS" fileref="todo.eps"></graphic>
-</figure>
+Discussing the many different possible field entries is out of the scope of this document. Refer to tiff.h and the TIFF specification for more information.
 </para>
 
 <sect2><title>So where's the image data?</title>
@@ -1799,10 +1783,6 @@ usage (char *cmd, int exitamt)
 }
 </programlisting>
 <para><emphasis>Code: /home/mikal/opensource/tiff-directories/create.c</emphasis></para>
-<figure>
-<title>README</title>
-<graphic format="EPS" fileref="todo.eps"></graphic>
-</figure>
 
 <figure>
 <title>Four pictures of my son Andrew</title>
@@ -1974,10 +1954,6 @@ usage (char *cmd, int exitamt)
 }
 </programlisting>
 <para><emphasis>Code: /home/mikal/opensource/tiff-directories/read.c</emphasis></para>
-<figure>
-<title>README</title>
-<graphic format="EPS" fileref="todo.eps"></graphic>
-</figure>
 </sect1>
 
 
