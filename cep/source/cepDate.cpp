@@ -118,11 +118,9 @@ cepDate::cepDate(const int &day, string month, const int &year)
         {
           denom *= LEAP_DAY_VAL;
           denom += (double)LEAP_DAY_VAL/2;
-          cout << "before ugly conversion " << denom << endl;
-          
-          denom  = ((int)(denom * 10000 + 0.5))/10000.0;
-           cout << "#######denom is " << denom << endl;
-          
+
+          //round to 4 dp
+          denom  = ((int)(denom * 10000 + 0.5))/10000.0;          
           m_decimalDate = m_year + denom;
           m_day ++;
         }
@@ -130,11 +128,8 @@ cepDate::cepDate(const int &day, string month, const int &year)
         {
           denom *= DAY_VAL;
           denom += (double)DAY_VAL/2;
-          cout << "before ugly conversion " << denom << endl;
           //rounding to 4 dp
           denom  = ((int)(denom * 10000 + 0.5))/10000.0;
-
-          
           m_decimalDate = m_year + denom;
           //add an offset to the decimal date to avoid possible rounding errors
           m_day ++;

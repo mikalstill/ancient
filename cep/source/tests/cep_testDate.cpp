@@ -97,8 +97,6 @@ protected:
     
     CPPUNIT_ASSERT_DOUBLES_EQUAL( expected, date1.getDecimalDate(), 0.00001);     
     
-    cout << "month is " << date1.getMonth() << endl;
-    cout << "day is " << date1.getDay() << endl;
     CPPUNIT_ASSERT_MESSAGE ("wrong Year", year == date1.getYear());
     CPPUNIT_ASSERT_MESSAGE ("wrong Month", month == date1.getMonth());
     CPPUNIT_ASSERT_MESSAGE ("wrong Day", day == date1.getDay());
@@ -180,14 +178,13 @@ protected:
   /** date test 4. Tests a simple date */  
   void dateTest4 ()
   { 
-    cepDate date(1999.4480);
+    cepDate date(1999.4479);
     string year("1999"), 
            month("06"), 
            day("13"), 
            shortDate("13/06/1999"), 
            longDate("13 June 1999");
     
-    cout << "long date is " << date.getLongDate() << endl;
     CPPUNIT_ASSERT_MESSAGE ("wrong Year", year == date.getYear());
     CPPUNIT_ASSERT_MESSAGE ("wrong Month", month == date.getMonth());
     CPPUNIT_ASSERT_MESSAGE ("wrong Day", day == date.getDay());
@@ -195,7 +192,7 @@ protected:
     CPPUNIT_ASSERT_MESSAGE ("wrong Long Date", longDate == date.getLongDate());
 
     cepDate date1(13, "Jun", 1999);
-    double expected = 1999.4480;
+    double expected = 1999.4479;
     
     CPPUNIT_ASSERT_DOUBLES_EQUAL( expected, date1.getDecimalDate(), 0.0001);     
 
@@ -221,7 +218,6 @@ protected:
            shortDate("29/02/2000"), 
            longDate("29 February 2000");
     
-    cout << "day is " << date.getDay();    
     CPPUNIT_ASSERT_MESSAGE ("wrong Year", year == date.getYear());
     CPPUNIT_ASSERT_MESSAGE ("wrong Month", month == date.getMonth());
     CPPUNIT_ASSERT_MESSAGE ("wrong Day", day == date.getDay());
@@ -238,8 +234,8 @@ protected:
     CPPUNIT_ASSERT_MESSAGE ("wrong Day", day == date1.getDay());
     CPPUNIT_ASSERT_MESSAGE ("wrong Short date1", shortDate == date1.getShortDate());
     CPPUNIT_ASSERT_MESSAGE ("wrong Long date1", longDate == date1.getLongDate());
-
-    cepDate date2(29, "February", 2000);
+    
+     cepDate date2(29, "February", 2000);
     
     CPPUNIT_ASSERT_DOUBLES_EQUAL( expected, date2.getDecimalDate(), 0.0001); 
     
@@ -316,8 +312,6 @@ protected:
     
     cepDate date1(01, "Mar", 1999);
     double expected = 1999.1630;
-   cout << "########decimal date is : " << date1.getDecimalDate() << endl;
-    
  
     CPPUNIT_ASSERT_DOUBLES_EQUAL( expected, date1.getDecimalDate(), 0.0001);     
     
