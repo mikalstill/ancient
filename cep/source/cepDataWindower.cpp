@@ -82,13 +82,6 @@ const cepError cepDataWindower::setWindowType( const windowType type, const int 
       windowAlg = new cepWindowChebyshev( size );
       break;
       
-    case WINDOW_TRIANGULAR:    
-    case WINDOW_HANNING:
-    case WINDOW_KEISER:
-    case WINDOW_TAYLOR:
-      algType = WINDOW_UNDEFINED;
-      return cepError("This type is not yet implemented. Set type failed", cepError::sevWarning);
-      
     default:
       // leave the current settings alone and return an error
       algType = WINDOW_UNDEFINED;
@@ -134,9 +127,9 @@ const cepError cepDataWindower::window( const cepMatrix<double> & dataIn,
 
 
   cepMatrix<double> coeffs = windowAlg->getCoeffs();                // scaling factors
-  cepMatrix<double> result( numWindows, windowAlg->getSize(), 2 );  // result. numwindows x windowSize x 2
+  cepMatrix<double> result( numWindows, windowAlg->getSize(), 3 );  // result. numwindows x windowSize x 2
   
-  for( int win = 0; win < numWindows; ++win ) {
+  for( int win = 0, color=0; win < numWindows; ++win, color=(color++)%3 ) {
     for( int element = 0; element < windowAlg->getSize(); ++element ) {
 
       // sanity check
@@ -149,6 +142,7 @@ const cepError cepDataWindower::window( const cepMatrix<double> & dataIn,
       // 0 is date, 1 is value
       result.setValue(win, element, 0, const_cast< cepMatrix<double>& >(dataIn).getValue( ptr, 0 ));
       result.setValue(win, element, 1, const_cast< cepMatrix<double>& >(dataIn).getValue( ptr, 1 )*coeffs.getValue(element,0));
+      result.setValue(win, element, 0, const_cast< cepMatrix<double>& >(dataIn).getValue( ptr, 2 ));
     }
   }
 

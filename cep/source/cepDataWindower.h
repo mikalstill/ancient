@@ -63,12 +63,8 @@ class cepDataWindower {
 public:
   enum windowType
        { WINDOW_RECTANGULAR=0,
-         WINDOW_TRIANGULAR,
          WINDOW_HAMMING,
          WINDOW_BLACKMAN,
-         WINDOW_HANNING,
-         WINDOW_KEISER,
-         WINDOW_TAYLOR,
          WINDOW_CHEBYSHEV,
          WINDOW_UNDEFINED};
 

@@ -75,10 +75,15 @@ class cepWindowBandwidth: public wxDialog
 public:
 
   //Displays the "Set Bandwidth" dialog box
-  cepWindowBandwidth();
+  cepWindowBandwidth( bool getBandwidth );
 
+  //gets the Size value
+  double getSize();
+  //gets the Overlap value
+  double getOverlap();
   //gets the Bandwidth value
   double getBandwidth();
+
   
   //the on Quit event
   void dlgBandwidthOnQuit(wxCommandEvent& event);
@@ -97,6 +102,8 @@ private:
   wxStaticText *m_statText1, *m_statText2, *m_statText3;
   wxTextCtrl *m_tbBandwidth;
   wxButton *m_bSubmit, *m_bCancel;
+  wxString m_size;
+  wxString m_overlap;
   wxString m_bandwidth;
   
   DECLARE_EVENT_TABLE ()
@@ -146,10 +153,13 @@ public:
 
   //shows the "set Bandwidth dialog box"
   void showBandwidth();
+  void show();
 
   //gets the Bandwidth value
   double getBandwidth();
 private:
+  double m_size;   //the specified Size value
+  double m_overlap;   //the specified Overlap value
   double m_bandwidth;   //the specified Bandwidth value
 };
 
