@@ -11,12 +11,17 @@ void pandalex_sample_dictitem_int(int, va_list);
 
 void pandalex_sample_stream(int, va_list);
 void pandalex_sample_dictint(int, va_list);
+void pandalex_sample_procstream(char *, int, char *);
 
 // This data type is needed for pandalex_sample_stream and 
 // pandalex_sample_dictint
 typedef struct ipandalex_sample_dictint_list{
-  int value;
+  char *value;
   int waiting;
+  int number;
+
   char *stream;
+  char *filter;
+
   struct ipandalex_sample_dictint_list  *next; 
 } pandalex_sample_dictint_list;
