@@ -1,0 +1,39 @@
+# This dialog is used for page zooming
+DIALOG
+
+# The width of the dialog -- you have to tweak this until it is right
+WIDTH		330
+
+# Left margin
+XINSET		5
+
+# Top margin
+YINSET		5
+
+# Horiztonal spacing
+XSPACING	10
+
+# Vertical spacing
+YSPACING	10
+
+#################################
+# Now for the dialog itself
+BEGIN
+
+TITLE	Page size
+TEXT	290	What size should the PDF's pages be?		LEFT
+NEWLINE
+
+# TODO mikal: drop down with common sizes...
+
+TEXT	50	Width						RIGHT
+EDIT	50	user-pagesize-widthdefault			500
+TEXT	20	pt						LEFT
+TEXT	50	Height						RIGHT
+EDIT	50	user-pagesize-heightdefault			500
+TEXT	20	pt						LEFT
+NEWLINE
+
+OKCANCEL
+
+END

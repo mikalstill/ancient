@@ -63,6 +63,7 @@ void
   // passing scheme for the caller to find out what values were set
   configuration *config;
   config = (configuration *) & configuration::getInstance ();
+  string confstr;
 
 %SAVE%
 

@@ -152,7 +152,11 @@ pdfDoc::OnNewDocument ()
 {
   debug(dlTrace, "New document");
   dlgPageSize psize;
-  psize.getSize(m_width, m_height);
+  
+  configuration *config;
+  config = (configuration *) & configuration::getInstance ();
+  config->getValue("user-pagesize-widthdefault", 500, m_width);
+  config->getValue("user-pagesize-heightdefault", 500, m_height);
 
   m_filename = string("New PDF document ") + toString(gNewDocumentCount);
   gNewDocumentCount++;

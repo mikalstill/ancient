@@ -40,6 +40,8 @@ while(<INPUT>){
 	"config->getValue(\"$arg2\", \"$arg3\", confstr);\n".
 	  "m_edit$editcount = new wxTextCtrl (m_panel, -1, confstr.c_str(),".
 	    "wxPoint ($x, $y), wxSize ($arg, 30));\n";
+      $ENV{'SAVE'} = $ENV{'SAVE'}.
+	"config->setValue(\"$arg2\", (string) m_edit$editcount->GetValue());\n";
       $editcount++;
       $x += $arg + $xspacing;
     }
