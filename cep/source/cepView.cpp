@@ -393,161 +393,155 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
       // Prompt for processing options
       cepLsUi lsUi;
       lsUi.showIsReweight();
-      if(lsUi.getIsReweight() != -1)
+      
+      // User cancelled
+      if(lsUi.getIsReweight() == -1)
+	return;
+
+      // todo_mikal: remove? lsUi.showWhichDir();
+      
+      // For each direction
+      for(int i = 0; i < cepDataset::dirUnknown; i++)
 	{
-	  // todo_mikal: remove? lsUi.showWhichDir();
+	  cepDebugPrint("Reweighting in the " + cepToString(i) + " direction");
 	  
-	  // For each direction
-	  for(int i = 0; i < cepDataset::dirUnknown; i++)
+	  // All directions are currently processed. The lsUi.getWhichDir (dirNames[i]) call can be used
+	  // to make this optional later (where dirNames are: 'x', 'y', 'z')
+	  cepLs thisLs;
+	  
+	  // Reweight if required
+	  if(lsUi.getIsReweight () == -1)
+	    return;
+
+	  if(lsUi.getIsReweight () == 1)
 	    {
-	      cepDebugPrint("Reweighting in the " + cepToString(i) + " direction");
-	      
-	      // If this direction is being processed
-	      const char dirNames[] = {'x', 'y', 'z'};
-	      if(true) // todo_mikal: remove? if (lsUi.getWhichDir (dirNames[i]) == true)
+	      thisLs.cepDoVCV (*theDataset->getMatrix ((cepDataset::direction) i));
+	      if(thisLs.getError().isReal() == true)
 		{
-		  cepDebugPrint("User selected to reweight in this direction");
-		  cepLs thisLs;
-		  
-		  // Reweight if required
-		  if (lsUi.getIsReweight () == 1)
+		  thisLs.getError().display();
+		  return;
+		}  
+	      
+	      residuals[i] = thisLs.getResidual ();
+	      data[i] = thisLs.getDataset();
+	      b1s[i] = thisLs.getB1();
+	      b2s[i] = thisLs.getB2();
+	    }
+	  
+	  // Otherwise, don't reweight
+	  else
+	    {
+	      const char *dirStrings[] = {"x (North)", "y (East)", "z (Up"};
+	      lsUi.showIsReadP (dirStrings[i]);
+	      if(lsUi.getIsReadP () == -1)
+		return;
+
+	      if (lsUi.getIsReadP () == 1)
+		{
+		  lsUi.showGetfNameP ();
+		  if (lsUi.getfNameP () != "")
 		    {
-		      thisLs.cepDoVCV (*theDataset->getMatrix ((cepDataset::direction) i));
+		      cepMatrix<double> matP;
+		      
+		      matP = cepReadMatrix (lsUi.getfNameP ());
+		      thisLs.cepDoVCV (*theDataset->getMatrix ((cepDataset::direction) i), matP);
 		      if(thisLs.getError().isReal() == true)
 			{
 			  thisLs.getError().display();
 			  return;
-			}  
-
+			}
 		      residuals[i] = thisLs.getResidual ();
 		      data[i] = thisLs.getDataset();
 		      b1s[i] = thisLs.getB1();
 		      b2s[i] = thisLs.getB2();
 		    }
-
-		  // Otherwise, don't reweight
-		  else
+		}
+	      else if (lsUi.getIsReadP () == 0)
+		{
+		  cepMatrix<double> matP((theDataset->getMatrix((cepDataset::direction) i))->
+					 getNumRows(),
+					 (theDataset->getMatrix((cepDataset::direction) i))->
+					 getNumRows());
+		  cepLs thisLs;
+		  
+		  // Init P matrix to 1 on diagonal
+		  for(int j = 0; j < matP.getNumRows(); j ++)
 		    {
-		      const char *dirStrings[] = {"x (North)", "y (East)", "z (Up"};
-		      lsUi.showIsReadP (dirStrings[i]);
-		      if (lsUi.getIsReadP () == 1)
+		      for(int k = 0; k < matP.getNumCols(); k ++)
 			{
-			  lsUi.showGetfNameP ();
-			  if (lsUi.getfNameP () != "")
+			  if(j == k)
 			    {
-			      cepMatrix<double> matP;
-			      
-			      matP = cepReadMatrix (lsUi.getfNameP ());
-			      thisLs.cepDoVCV (*theDataset->getMatrix ((cepDataset::direction) i), matP);
-			      if(thisLs.getError().isReal() == true)
-				{
-				  thisLs.getError().display();
-				  return;
-				}
- 			      residuals[i] = thisLs.getResidual ();
- 			      data[i] = thisLs.getDataset();
-			      b1s[i] = thisLs.getB1();
-			      b2s[i] = thisLs.getB2();
+			      matP.setValue(j,k,1);
 			    }
-			  
-			}
-		      else
-			{
-			  if (lsUi.getIsReadP () == 0)
+			  else
 			    {
-			      cepMatrix<double> matP((theDataset->getMatrix((cepDataset::direction) i))->
-						     getNumRows(),
-						     (theDataset->getMatrix((cepDataset::direction) i))->
-						     getNumRows());
-			      cepLs thisLs;
-
-			      // Init P matrix to 1 on diagonal
-			      for(int j = 0; j < matP.getNumRows(); j ++)
-				{
-				  for(int k = 0; k < matP.getNumCols(); k ++)
-				    {
-				      if(j == k)
-					{
-					  matP.setValue(j,k,1);
-					}
-				      else
-					{
-					  matP.setValue(j,k,0);
-					}
-				    }
-				}
-
-			      lsUi.showWeight((theDataset->getMatrix((cepDataset::direction) i))->
-					      getValue(0,0),
-					      (theDataset->getMatrix((cepDataset::direction) i))->
-					      getValue((theDataset->getMatrix((cepDataset::direction) i))->
-						       getNumRows() -1,0),
-					      1.0);
-			      
-			      double toDate = lsUi.getToDate(),
-				fromDate = lsUi.getFromDate(),
-				val = lsUi.getWeight();
-			      bool isDoVCV = lsUi.getDoVCV();
-			      
-			      while((isDoVCV == false) &&
-				    ((fromDate != -2) && (toDate != -2) && (val != -2)))
-				{
-				  if((fromDate != -1) && (toDate != -1))
-				    {
-				      if(fromDate <= toDate)
-					{
-					  if(!isnan(val))
-					    {
-					      populateMatP(matP, toDate, fromDate, val, 
-							   *theDataset->getMatrix((cepDataset::direction) i));
-					    }
-					  else
-					    {
-					      cepError("Weighting value must be a number", 
-						       cepError::sevWarning).display();
-					      return;
-					    }
-					}
-				      else
-					{
-					  cepError("Start date is after finish date", 
-						   cepError::sevWarning).display();
-					  return;
-					}
-				    }
-				  
-				  lsUi.showWeight((theDataset->getMatrix((cepDataset::direction) i))->
-						  getValue(0,0),
-						  (theDataset->getMatrix((cepDataset::direction) i))->
-						  getValue((theDataset->getMatrix((cepDataset::direction) i))->
-							   getNumRows() -1,0),
-						  1.0);
-				  
-				  toDate = lsUi.getToDate();
-				  fromDate = lsUi.getFromDate();
-				  val = lsUi.getWeight();
-				  isDoVCV = lsUi.getDoVCV(); 
-				}			    
-  
-			      if(isDoVCV == true)
-				{
-				  thisLs.cepDoVCV(*theDataset->getMatrix((cepDataset::direction) i), matP);
-				  residuals[i] = thisLs.getResidual ();
-  			          data[i] = thisLs.getDataset();
-				  b1s[i] = thisLs.getB1();
-				  b2s[i] = thisLs.getB2();
-				}
+			      matP.setValue(j,k,0);
 			    }
 			}
 		    }
+		  
+		  lsUi.showWeight((theDataset->getMatrix((cepDataset::direction) i))->
+				  getValue(0,0),
+				  (theDataset->getMatrix((cepDataset::direction) i))->
+				  getValue((theDataset->getMatrix((cepDataset::direction) i))->
+					   getNumRows() -1,0),
+				  1.0);
+		  
+		  double toDate = lsUi.getToDate(),
+		    fromDate = lsUi.getFromDate(),
+		    val = lsUi.getWeight();
+		  
+		  while(!lsUi.getDoVCV() &&
+			((fromDate != -2) && (toDate != -2) && (val != -2)))
+		    {
+		      if((fromDate != -1) && (toDate != -1))
+			{
+			  if(fromDate <= toDate)
+			    {
+			      if(!isnan(val))
+				{
+				  populateMatP(matP, toDate, fromDate, val, 
+					       *theDataset->getMatrix((cepDataset::direction) i));
+				}
+			      else
+				{
+				  cepError("Weighting value must be a number", 
+					   cepError::sevWarning).display();
+				  return;
+				}
+			    }
+			  else
+			    {
+			      cepError("Start date is after finish date", 
+				       cepError::sevWarning).display();
+			      return;
+			    }
+			}
+		      
+		      lsUi.showWeight((theDataset->getMatrix((cepDataset::direction) i))->
+				      getValue(0,0),
+				      (theDataset->getMatrix((cepDataset::direction) i))->
+				      getValue((theDataset->getMatrix((cepDataset::direction) i))->
+					       getNumRows() -1,0),
+				      1.0);
+		      
+		      toDate = lsUi.getToDate();
+		      fromDate = lsUi.getFromDate();
+		      val = lsUi.getWeight();
+		    }			    
+		  
+		  if(lsUi.getDoVCV())
+		    {
+		      thisLs.cepDoVCV(*theDataset->getMatrix((cepDataset::direction) i), matP);
+		      residuals[i] = thisLs.getResidual ();
+		      data[i] = thisLs.getDataset();
+		      b1s[i] = thisLs.getB1();
+		      b2s[i] = thisLs.getB2();
+		    }
 		}
-	      else
-		{
-		  cepDebugPrint("User did not request a LS regression in this direction");
-		}
-	    }  
+	    }
 	}
-
+  
       // Now we can process the results of the LS regression (this includes popping up a new tab)
       cepDataset newds(&residuals[0], &residuals[1], &residuals[2], 
 		       theDataset->getOffset((cepDataset::direction) 0), 
@@ -559,8 +553,7 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
 		       theDataset->getHeader((cepDataset::direction) 2),
 		       b1s[0], b1s[1], b1s[2], b2s[0], b2s[1], b2s[2],
 		       true, true, true);
-
-
+      
       char *cfname = strdup("/tmp/cep.XXXXXX");
       int fd;
       fd = mkstemp(cfname);
@@ -575,6 +568,11 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
       // Actually force the graphs to redraw
       m_dirty = true;
       canvas->Refresh();
+    }
+  else
+    {
+      cepError("You cannot perform that operation on this dataset at this time", 
+	       cepError::sevInformational).display();
     }
 }
 
