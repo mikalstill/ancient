@@ -37,7 +37,11 @@
 	Added private members to cepDataset.h.
 	Added constructor to cepDataset.cpp to deal with window and 
 	hamming return paramaters.
-	
+
+2002-05-13 Daniel Fernandez daniel.fernandez@ise.canberra.edu.au
+	Added resize functionality to vector in cepWindows.cpp
+	Addressed more todos in order add cepWindows.cpp code to cepDataset.cpp
+	Added cepWindows.cpp code to cepDataset.cpp	
 	
 	
 
