@@ -199,6 +199,8 @@ object::getStream (bool & needsStreamClean, unsigned long &length)
   string filter;
   char *stream;
 
+  // todo_mikal: filters can appear as arrays of filters in the order they
+  // were applied
   if (getDict ().getValue ("Filter", filter))
     {
       debug(dlTrace, string("The stream is filtered with filter ") +
@@ -250,6 +252,8 @@ object::getStream (raster & rast, bool & needsStreamClean,
   char *stream;
   debug(dlTrace, "Raster decompression started");
 
+  // todo_mikal: filters can appear as arrays of filters in the order they
+  // were applied
   if (getDict ().getValue ("Filter", filter))
     {
       debug(dlTrace, string("The stream is filtered with filter ") +
@@ -267,6 +271,7 @@ object::getStream (raster & rast, bool & needsStreamClean,
 	  ((fax *) mydec)->setLength(rast.getHeight());
 	  ((fax *) mydec)->setK(rast.getK());
 	}
+
 
       if (mydec != NULL)
 	{

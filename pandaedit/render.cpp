@@ -90,7 +90,12 @@ pdfRender::render ()
   bool needStreamClean (false);
 
   stream = m_contents.getStream (needStreamClean, length);
-  debug(dlTrace, "Process page stream");
+  debug(dlTrace, string("Process page stream of length ") + toString((long) length));
+  if((stream == NULL) || (length == 0)){
+    debug(dlError, "Invalid page description stream");
+    return false;
+  }
+
   // todo_mikal: this might be too slow because of the accessor
   string line;
   inset = 0;
