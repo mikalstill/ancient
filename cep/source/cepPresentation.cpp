@@ -146,6 +146,7 @@ cepPresentation::createBitmap (float& scale, long& minval)
     return cepError("Could not initialise a new plot", 
 		    cepError::sevErrorRecoverable);
 
+  ////////////////////////////////////////////////////////////////////////////////
   // Draw a box around the graph
   plot_setlinestart(graph, 0, 0);
   plot_addlinesegment(graph, 0, m_height - 1);
@@ -155,6 +156,7 @@ cepPresentation::createBitmap (float& scale, long& minval)
   plot_strokeline(graph);
   plot_endline(graph);
 
+  ////////////////////////////////////////////////////////////////////////////////
   // How big are the maxima and minima?
   long ymaxval = m_useErrors ? m_ymaxval + m_emaxval : m_ymaxval;
   long yminval = m_useErrors ? m_yminval - m_emaxval : m_yminval;
@@ -173,8 +175,9 @@ cepPresentation::createBitmap (float& scale, long& minval)
     err.display();
   }
 
-  float yscale = (float) yrange / (m_height - 20);
-  float xscale = (float) xrange / (m_width - 20);
+  const int graphInset = 20;
+  float yscale = (float) yrange / (m_height - graphInset * 2);
+  float xscale = (float) xrange / (m_width - graphInset * 2);
   scale = xscale;
   minval = m_xminval;
   
@@ -183,6 +186,7 @@ cepPresentation::createBitmap (float& scale, long& minval)
   cepDebugPrint("Yscale is: " + cepToString(yscale));
   cepDebugPrint("Xscale is: " + cepToString(xscale));
 
+  ////////////////////////////////////////////////////////////////////////////////
   // If we are using errors, then we draw these underneath
   if(m_useErrors){
     cepDebugPrint("Displaying errors");
@@ -192,35 +196,35 @@ cepPresentation::createBitmap (float& scale, long& minval)
       long convdate = (long) (m_ds->getValue(i, cepDataset::colDate) * 10000);
       long convsample = (long) (m_ds->getValue(i, cepDataset::colSample) * 10000);
       long converror = (long) (m_ds->getValue(i, cepDataset::colError) * 10000);
-      unsigned int horiz = (unsigned int) ((convdate - m_xminval) / xscale + 10);
+      unsigned int horiz = (unsigned int) ((convdate - m_xminval) / xscale + graphInset);
 
       // Vertical line
       plot_setlinestart(graph, horiz,
 			(unsigned int) ((yrange - (convsample + converror) + 
-					 yminval) / yscale + 10));
+					 yminval) / yscale + graphInset));
       plot_addlinesegment(graph, horiz,
 			  (unsigned int) ((yrange - (convsample - converror) + yminval) 
-					  / yscale + 10));
+					  / yscale + graphInset));
       plot_strokeline(graph);
       plot_endline(graph);
       
       // Top horizontal line
       plot_setlinestart(graph, horiz - 2, 
 			(unsigned int) ((yrange - (convsample + converror) + yminval)
-					/ yscale + 10));
+					/ yscale + graphInset));
       plot_addlinesegment(graph, horiz + 2, 
 			  (unsigned int) ((yrange - (convsample + converror) + yminval) 
-					  / yscale + 10));
+					  / yscale + graphInset));
       plot_strokeline(graph);
       plot_endline(graph);
       
       // Bottom horizontal line
       plot_setlinestart(graph, horiz - 2, 
 			(unsigned int) ((yrange - (convsample - converror) + yminval)
-					/ yscale + 10));
+					/ yscale + graphInset));
       plot_addlinesegment(graph, horiz + 2, 
 			  (unsigned int) ((yrange - (convsample - converror) + yminval) 
-					  / yscale + 10));
+					  / yscale + graphInset));
       plot_strokeline(graph);
       plot_endline(graph);
     }
@@ -231,44 +235,51 @@ cepPresentation::createBitmap (float& scale, long& minval)
   cepDebugPrint("Plotting axes");
   plot_setlinecolor(graph, m_axesColor.red, m_axesColor.green,
 		    m_axesColor.blue);
-  plot_setlinestart(graph, 9, 0);
-  plot_addlinesegment(graph, 9, m_height);
+  plot_setlinestart(graph, graphInset - 1, 0);
+  plot_addlinesegment(graph, graphInset - 1, m_height);
   plot_strokeline(graph);
   plot_endline(graph);
 
   // The horizontal axis
-  plot_setlinestart(graph, 10, 
-		    (unsigned int) ((yrange - 0 + yminval) / yscale + 10));
-  plot_addlinesegment(graph, m_width - 10, 
-		      (unsigned int) ((yrange - 0 + yminval) / yscale + 10));
+  plot_setlinestart(graph, graphInset, 
+		    (unsigned int) ((yrange - 0 + yminval) / yscale + graphInset));
+  plot_addlinesegment(graph, m_width - graphInset, 
+		      (unsigned int) ((yrange - 0 + yminval) / yscale + graphInset));
   plot_strokeline(graph);
   plot_endline(graph);
   
+  ////////////////////////////////////////////////////////////////////////////////
   // The scale also belongs over the errors, but below the graph line
   plot_setfontcolor(graph, 26, 22, 249);
   plot_setfont(graph, "n022003l.pfb", 12);
 
-  // Minimum value
+  // Minimum value horizontal
+  const int textHeight = 5;
   cepDate startDate((float) m_xminval / 10000);
-  plot_settextlocation(graph, 10, 
-		       (unsigned int) ((yrange - 0 + yminval) / yscale + 10));
+  plot_settextlocation(graph, graphInset, m_height - textHeight);
   plot_writestring(graph, (char *) startDate.getShortDate().c_str());  
   
-  // Midpoint value
+  // Midpoint value horizontal
   cepDate midDate((float) ((m_xmaxval - m_xminval) / 2 + m_xminval) / 10000);
   plot_settextlocation(graph, 
 		       (m_width / 2) - 
 		       (plot_stringwidth(graph, (char *) midDate.getShortDate().c_str())/ 2), 
-		       (unsigned int) ((yrange - 0 + yminval) / yscale + 10));
+		       m_height - textHeight);
   plot_writestring(graph, (char *) midDate.getShortDate().c_str());
 
-  // Maximum value
+  // Maximum value horizontal
   cepDate endDate((float) m_xmaxval / 10000);
   plot_settextlocation(graph, m_width - 
-		       plot_stringwidth(graph, (char *) endDate.getShortDate().c_str()) - 5, 
-		       (unsigned int) ((yrange - 0 + yminval) / yscale + 10));
+		       plot_stringwidth(graph, (char *) endDate.getShortDate().c_str()) - graphInset, 
+		       m_height - textHeight);
   plot_writestring(graph, (char *) endDate.getShortDate().c_str());
 
+  // Minimum value vertical
+  plot_settextlocation(graph, textHeight + 2, m_height - graphInset);
+  plot_writestringrot(graph, "Foo", 30);
+
+  
+  ////////////////////////////////////////////////////////////////////////////////
   // Now draw the actual graph
   cepDebugPrint("Plotting graph");
   plot_setlinecolor(graph, m_lineColor.red, m_lineColor.green,
@@ -276,8 +287,8 @@ cepPresentation::createBitmap (float& scale, long& minval)
   for(int i = 0; i < m_ds->getNumRows(); i++){
     long convdate = (long) (m_ds->getValue(i, cepDataset::colDate) * 10000);
     long convsample = (long) (m_ds->getValue(i, cepDataset::colSample) * 10000);
-    unsigned int xpoint = (unsigned int) ((convdate - m_xminval) / xscale + 10);
-    unsigned int ypoint = (unsigned int) ((yrange - convsample + yminval) / yscale + 10);
+    unsigned int xpoint = (unsigned int) ((convdate - m_xminval) / xscale + graphInset);
+    unsigned int ypoint = (unsigned int) ((yrange - convsample + yminval) / yscale + graphInset);
     
     plot_setlinestart(graph, xpoint - 1, ypoint);
     plot_addlinesegment(graph, xpoint, ypoint - 1);
@@ -290,6 +301,7 @@ cepPresentation::createBitmap (float& scale, long& minval)
 
   cepDebugPrint("Finishing plotting");
 
+  ////////////////////////////////////////////////////////////////////////////////
   // Get the raster (in case we use it later)
   m_raster = plot_getraster (graph);
   return cepError ();
