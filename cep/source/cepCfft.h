@@ -180,7 +180,7 @@ template < class T >
   else
     w = NULL;
   if (bitrev == NULL || ((k > 0) && w == NULL))
-    cepError("Error, FFT ou tof memory", cepError::sevErrorRecoverable);
+    cepError("Error, FFT out of memory", cepError::sevErrorRecoverable);
     //throw "cepCfft: out of memory";
   // 
   // do bit-rev table
@@ -260,36 +260,27 @@ template < class T > void cepCfft < T >::hermitian (T * buf)
    returns the fft'd data in the matrix whic was originally passed.
  */
 template < class T > cepMatrix<ComplexDble>
-                        cepCfft < T >::matrixFft(cepMatrix<ComplexDble> & matrix, int dir)
+                        cepCfft < T >::matrixFft(cepMatrix<ComplexDble> & matrix, int dir, )
 {
   int numRows = matrix.getNumRows();
   int numCols = matrix.getNumCols();
   int numTables = matrix.getNumTables();
-  //int rowCount = 0, colCount = 0;
   int arraySize = numRows;
   int col, row, table,count;
-  //int checkValues1, checkValues2;
   
   const int FIRSTCOLUMN = 0;
-  //const int FIRSTROW = 0;
   const int NUMCHECKS = 3;
   const double DAYSINYEAR = 365.25; 
   //const double HOURSINYEAR = 8766; //365.25*24 - days*hours
   //const double SECSINYEAR = 31557600; //365.25*24*3600 - days*hours*minutes(in seconds)
+
   double checks[NUMCHECKS];
 
   ComplexDble arrayToFft[arraySize];
   cepMatrix<ComplexDble> ffteedMatrix( numRows, numCols, numTables); //matrix contain to store processed values
 
-  //calculate the frequency scale and place it in the return matrix
-  //cout << endl
-    //   << "cepcepCfft: matrix has " << numRows << " rows; "
-    //   << numCols << " cols; " << numTables
-    //   << " tables." << endl;
-  if (dir == 1)
+  if (dir == 1) //forward calculate scale
   {
-    cout << "cepcepCfft: Calculating frequency scale......" << endl;
-    cout << "cepcepCfft: Currently using DAYSINYEAR......." << endl;
     for (table=0; table < numTables; table++)
     {
       //size of dataset = numRows
@@ -321,7 +312,7 @@ template < class T > cepMatrix<ComplexDble>
     	    {
 	        checks[count] = real( matrix.getValue(count,col-1,table) );
 	    }
-	    //only wnat to check continuous index on forward transform
+	    //only want to check continuous index on forward transform
 	    if (dir ==1)
 	    {
 	      if ( (checks[0] - checks[1]) != (checks[1] - checks[2]) )
@@ -331,8 +322,6 @@ template < class T > cepMatrix<ComplexDble>
 	    
 	    //populate the arry to be fft'd            
             arrayToFft[row]= matrix.getValue(row,col,table);
-	    
-	    //cout << row << " - " << arrayToFft[row] << endl;
 	    
         }//end for row
     }//end for col 
@@ -350,23 +339,24 @@ template < class T > cepMatrix<ComplexDble>
     for (col =1; col < numCols; col ++)
     {
        for (row = 0; row < numRows; row++)
-	  ffteedMatrix.setValue(row,col,table,arrayToFft[row]);//
+          //populate ffteedMatrix with magnitude
+	  ffteedMatrix.setValue( row, col, table, pow(real(arrayToFft[row]),2) + pow(imag(arrayToFft[row]),2) );//
     } //for col
    
   }//end for table
   
-  //cout << "cepCfft:  Returning ffteedMatirx " << endl;
+  
 
   return ffteedMatrix;
 }//end method
 
 
-/*
+/****************************************************************************************
  * cepCfft::fft_func(buf,1) performs a forward fft on the data in the buffer specified.
  * cepCfft::fft_func(buf,0) performs an inverse fft on the data in the buffer specified.
  * note: reversed iflag - ie reversed sign..we want fft to have negative sign and
  * inverse fft to have positive. Daniel Fernandez
- */
+ ****************************************************************************************/
 template < class T > void cepCfft < T >::fft_func (T * buf, int iflag)
 {
   int i, j, k;
