@@ -1,0 +1,248 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<HTML
+><HEAD
+><TITLE
+>Canberra Technical Symposium</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.77+"></HEAD
+><BODY
+CLASS="ARTICLE"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="ARTICLE"
+><DIV
+CLASS="TITLEPAGE"
+><H1
+CLASS="TITLE"
+><A
+NAME="AEN1"
+></A
+>Canberra Technical Symposium</H1
+><DIV
+CLASS="AUTHORGROUP"
+><A
+NAME="AEN5"
+></A
+><H4
+CLASS="AUTHOR"
+><A
+NAME="AEN6"
+>Martin Schwenke</A
+></H4
+><DIV
+CLASS="AFFILIATION"
+><SPAN
+CLASS="JOBTITLE"
+>Canberra AUUG President<BR></SPAN
+></DIV
+><H4
+CLASS="AUTHOR"
+><A
+NAME="AEN11"
+>Michael Still</A
+></H4
+><DIV
+CLASS="AFFILIATION"
+><SPAN
+CLASS="JOBTITLE"
+>Canberra AUUG Secretary<BR></SPAN
+></DIV
+></DIV
+><HR
+WIDTH="75%"
+ALIGN="CENTER"
+COLOR="#000000"
+SIZE="1"></DIV
+><DIV
+CLASS="TOC"
+><DL
+><DT
+><B
+>Table of Contents</B
+></DT
+><DT
+><A
+HREF="#AEN16"
+>About the Canberra AUUG chapter</A
+></DT
+><DT
+><A
+HREF="#AEN21"
+>30 November 2002: Interoperability</A
+></DT
+><DT
+><A
+HREF="#AEN65"
+>Student presenter award</A
+></DT
+></DL
+></DIV
+><FONT
+COLOR="RED"
+>30 November 2002</FONT
+><DIV
+CLASS="SECT1"
+><H2
+CLASS="SECT1"
+><A
+NAME="AEN16"
+></A
+>About the Canberra AUUG chapter</H2
+><P
+>Canberra has been the proud owner of a AUUG chapter for many years now. This chapter has effectively been in recess for the last few of those years however. The technical symposium held on 30 November 2002 was seen as an opportunity to revive the chapter, and therefore an AGM was held beforehand.</P
+><P
+>Tthe members present elected Martin Schwenke (president@canb.auug.org.au) President of CAUUG. Bob Edwards was elected Treasurer (treasurer@canb.auug.org.au), and Michael Still was elected Secretary (secretary@canb.auug.org.au). The term for these elections are until the next AGM, which will be in approximately November 2003.</P
+><P
+>The chapter is currently holding monthly meetings in conjunction with a local Unix User's Group (UUNITE) on every second Thursday of the month at the IBM Building in Barton. These meetings commence at 6pm.</P
+></DIV
+><DIV
+CLASS="SECT1"
+><HR><H2
+CLASS="SECT1"
+><A
+NAME="AEN21"
+></A
+>30 November 2002: Interoperability</H2
+><P
+>The 30 November technical symposium focused on operating system interoperability. The technical symposium did introduce the concept of a <SPAN
+CLASS="QUOTE"
+>"snippet"</SPAN
+> talk, which was unrelated to the theme of the symposium, but of general interest.</P
+><P
+>The programme for the technical symposium was as follows:</P
+><P
+></P
+><UL
+><LI
+><P
+><I
+CLASS="EMPHASIS"
+>Andrew Tridgell</I
+>: Semantic differences between Windows and Unix systems</P
+></LI
+><LI
+><P
+><I
+CLASS="EMPHASIS"
+>Bob Edwards</I
+>: Experiences at DCS, ANU, running Linux on the desktop after 3 years in a Solaris environment</P
+></LI
+><LI
+><P
+><I
+CLASS="EMPHASIS"
+>Andrew Bartlett</I
+>: A look at Windows Authentication</P
+></LI
+><LI
+><P
+><I
+CLASS="EMPHASIS"
+>Michael Still</I
+>: Implementing a DNS server with shell <I
+CLASS="EMPHASIS"
+>(snippet)</I
+></P
+></LI
+><LI
+><P
+><I
+CLASS="EMPHASIS"
+>Brad Hards</I
+>: Zeroconf Networking <I
+CLASS="EMPHASIS"
+>(snippet)</I
+></P
+></LI
+></UL
+><DIV
+CLASS="SECT2"
+><HR><H3
+CLASS="SECT2"
+><A
+NAME="AEN44"
+></A
+>Andrew Tridgell: Semantic differences between Windows and Unix systems</H3
+><P
+>...</P
+></DIV
+><DIV
+CLASS="SECT2"
+><HR><H3
+CLASS="SECT2"
+><A
+NAME="AEN47"
+></A
+>Bob Edwards: Experiences at DCS, ANU, running Linux on the desktop after 3 years in a Solaris environment</H3
+><P
+>...</P
+></DIV
+><DIV
+CLASS="SECT2"
+><HR><H3
+CLASS="SECT2"
+><A
+NAME="AEN50"
+></A
+>Andrew Bartlett: A look at Windows Authentication</H3
+><P
+>...</P
+></DIV
+><DIV
+CLASS="SECT2"
+><HR><H3
+CLASS="SECT2"
+><A
+NAME="AEN53"
+></A
+>Michael Still: Implementing a DNS server with shell (snippet)</H3
+><P
+>I gave a talk on implementing a Domain Name System (DNS) server in bash script. This script runs from inetd, and aims to be the slowest, least secure, and hardest to configure DNS server on the market today. At the time of the talk, the server could parse DNS requests, but could not respond. It has since been determined that this is because of the use of disconnected UDP sockets in both <B
+CLASS="COMMAND"
+>inetd</B
+> and <B
+CLASS="COMMAND"
+>xinetd</B
+>.</P
+><P
+>There's a special irony in patching your <B
+CLASS="COMMAND"
+>inetd</B
+> daemon so that you can run the least efficient DNS server ever written.</P
+><P
+>The slides for this talk can be downloaded from: http://www.stillhq.com/cgi-bin/talk?area=notes&#38;talk=2002-fixingbind</P
+></DIV
+><DIV
+CLASS="SECT2"
+><HR><H3
+CLASS="SECT2"
+><A
+NAME="AEN61"
+></A
+>Brad Hards: Zeroconf Networking (snippet)</H3
+><P
+>Brad gave a talk on zero configuration IP, which is a set of protocols which allows machines to be arbitarily connected to a physical network, and then these machines configure their own network settings. This is based on </P
+><P
+>The slides for this talk can be downloaded from: http://zeroconf.sourceforge.net/cauug-dec2002/html/index.html</P
+></DIV
+></DIV
+><DIV
+CLASS="SECT1"
+><HR><H2
+CLASS="SECT1"
+><A
+NAME="AEN65"
+></A
+>Student presenter award</H2
+><P
+>free membership for andrew...</P
+></DIV
+></DIV
+></BODY
+></HTML
+>

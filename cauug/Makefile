@@ -1,6 +1,7 @@
 .SUFFIXES : .sgml .ps .pdf .txt .html
 
 all: clean agenda
+	striptext < output.sgml | wc -w
 
 agenda: output.sgml output.ps output.pdf output.txt output.html
 

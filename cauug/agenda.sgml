@@ -1,6 +1,6 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
 <article><title>CAUUG committee meeting</title>
-<subtitle>9 January 2002</subtitle>
+<subtitle>13 February 2002</subtitle>
 
 <para>
 <emphasis>This agenda is available on line at <ulink url="http://www.stillhq.com/cgi-bin/cvsweb/cauug"><citetitle>http://www.stillhq.com/cgi-bin/cvsweb/cauug</citetitle></ulink> and when complete will be published at <ulink url="http://www.canb.auug.org.au"><citetitle>http://www.canb.auug.org.au</citetitle></ulink>... The items on this agenda are in no particular order.</emphasis>
@@ -8,286 +8,91 @@
 
 <sect1><title>In attendance</title>
 <itemizedlist>
-<listitem><para>Stephen Rothwell</para></listitem>
 <listitem><para>Martin Schwenke</para></listitem>
 <listitem><para>Bob Edwards</para></listitem>
 <listitem><para>Michael Still</para></listitem>
+<listitem><para>Steve Jenkin</para></listitem>
+<listitem><para>Ben Elliston</para></listitem>
 </itemizedlist>
 
 <para>
-The meeting ran from 16:45 to 17:51.
+The meeting ran from 16:56 to 17:55.
 </para>
 </sect1>
 
 <sect1><title>Previous meeting minutes</title>
 <itemizedlist>
-<listitem><para>Are the AGM minutes now finished?</para></listitem>
+<listitem><para>Are the January minutes now finished?</para></listitem>
 </itemizedlist>
 
 <para>
-Accepted as accurate. These cannot be ratified until the next AGM.
+This item was discussed at this meeting, and is listed here so it isn't forgotten during the next committee meeting...
 </para>
-
-<itemizedlist>
-<listitem><para>Are the December 2002 committee meeting minutes finished?</para></listitem>
-</itemizedlist>
-
-<para>
-Ratified.
-</para>
-</sect1>
-
-<sect1><title>CAUUG website</title>
-<para>
-The Canberra AUUG website is available at <ulink url="http://www.canb.auug.org.au"><citetitle>http://www.canb.auug.org.au</citetitle></ulink>.
-</para>
-
-<para>
-Steven Rothwell can arrange access. An email requesting access for Martin and Michael was sent, and Stephen responded that policy documentation needed to be signed by both Martin and Michael. This has now been completed, and access granted. An update to the website can now be undertaken.
-</para>
-
-<itemizedlist>
-<listitem><para>Does Martin now have access?</para></listitem>
-</itemizedlist>
-
-<para>
-Tested and works.
-</para>
-
-<itemizedlist>
-<listitem><para>Does Michael now have access?</para></listitem>
-</itemizedlist>
-
-<para>
-Should work, untested.
-</para>
-
-<itemizedlist>
-<listitem><para>Volunteers to bring it up to date and keep it maintained?</para></listitem>
-</itemizedlist>
-
-<para>
-Big bang change suggested. Martin volunteers. Michael will help.
-</para>
-
-<itemizedlist>
-<listitem><para>Should all meeting minutes et cetera be on the site?</para></listitem>
-</itemizedlist>
-
-<para>
-All meeting minutes will be made available on the website except for those whose commercial in confidence nature makes this impossible.
-</para>
-
-<sect2><title>Action items</title>
-<itemizedlist>
-<listitem><para>Michael to test his website access (due February 2003)</para></listitem>
-<listitem><para>Martin and Michael to work on new website design (report February 2003)</para></listitem>
-</itemizedlist>
-</sect2>
 </sect1>
 
 <sect1><title>Co-opting other committee members</title>
-<itemizedlist>
-<listitem><para>Draft email developed. Is everyone happy with it?</para></listitem>
-</itemizedlist>
-
-<programlisting>
-Hello,
-
-At the CAUUG AGM on 30 November 2002, the members present elected Martin 
-Schwenke (president@canb.auug.org.au) President of CAUUG. Bob Edwards 
-was elected Treasurer (treasurer@canb.auug.org.au, and Michael Still was 
-elected Secretary (secretary@canb.auug.org.au. The term for these 
-elections are until the next AGM, which will be in approximately November
-2003.
-
-The committee believes that a reasonable goal for the coming year is to:
- - host four technical symposiums (the first one having been held on 
-   30 November 2002)
- - and promote the use of Open Source and Unix based solutions within 
-   local government
-
-The new committee feels that there are good reasons to co opt more people
-onto the committee for the 2002-2003 period, in order to ease the 
-workload associated with pursuing our goals for the year.
-
-We are also especially interested in people who feel that they have 
-specific skills or contacts which will assist in the pursuit of this 
-agenda.
-
-Therefore, the CAUUG committee invites expressions of interest in being 
-co opted onto the CAUUG committee for the period 2002-2003. The committee
-can be contacted by email at committee@canb.auug.org.au.
-
-Thanks for your time,
-Michael Still
-Secretary, CAUUG
-</programlisting>
-
 <para>
-Send this. Consider Steve cooped. There is a helpers mailing list as well which should be advertised in the email.
-</para>
-
-<itemizedlist>
-<listitem><para>Review of AUUG chapter procedures, do we want to assist David Purdue?</para></listitem>
-</itemizedlist>
-
-<para>
-We should ask to be kept informed.
+An email has been sent requesting expressions of interest for co-opt positions.
 </para>
 
 <sect2><title>Action items</title>
 <itemizedlist>
-<listitem><para>Michael to send co opt email (send in January 2003)</para></listitem>
-<listitem><para>Michael to request that David Purdue keep CAUUG informed (January 2003)</para></listitem>
-<listitem><para>Michael to collate responses (report February 2003)</para></listitem>
+<listitem><para>Michael to collate responses (report March 2003)</para></listitem>
 </itemizedlist>
 </sect2>
 </sect1>
 
 <sect1><title>Finances</title>
-<itemizedlist>
-<listitem><para>How much does CAUUG have in the bank?</para></listitem>
-</itemizedlist>
-
 <para>
-Unknown at this point. This is still being investigated.
-</para>
-
-<itemizedlist>
-<listitem><para>How much did we earn from the 30 November 2002 seminar?</para></listitem>
-</itemizedlist>
-
-<para>
-$290
-</para>
-
-<itemizedlist>
-<listitem><para>Has this money been forwarded to AUUG national?</para></listitem>
-</itemizedlist>
-
-<para>
-No.
-</para>
-
-<itemizedlist>
-<listitem><para>Has Bob Edwards been reimbursed for expenditure on 30 November 2002?</para></listitem>
-</itemizedlist>
-
-<para>
-Yes, and Stephen Rothwell should get some money for the monthly UUnite meetings expenses (drinks and chips).
+CAUUG finances were discussed at the meeting. The money from the old committee has been located and a cheque written. Bob in still chasing signatures for the cheque however. Stephen Rothwell has been reimbursed for meeting expenses.
 </para>
 
 <sect2><title>Action items</title>
 <itemizedlist>
-<listitem><para>Bob to bank symposium earnings (due February 2003)</para></listitem>
-<listitem><para>Bob to reimburse Stephen Rothwell (due February 2003)</para></listitem>
-<listitem><para>Bob to continuing investigating previous bank accounts (report February 2003)</para></listitem>
-<listitem><para>Bob to setup GNU cash account for CAUUG (as soon as possible)</para></listitem>
+<listitem><para>Bob to bank symposium earnings (due March 2003)</para></listitem>
+<listitem><para>Bob to continuing investigating previous bank accounts (report March 2003)</para></listitem>
 </itemizedlist>
 </sect2>
 </sect1>
 
 <sect1><title>Open Source advocacy</title>
-<itemizedlist>
-<listitem><para>What is Martin's position as an employee of IBM?</para></listitem>
-</itemizedlist>
-
 <para>
-Still being clarified.
-</para>
-
-<itemizedlist>
-<listitem><para>Outcome of Steven Jenkin's meeting with the ACT Treasurer?</para></listitem>
-</itemizedlist>
-
-<para>
-Currently on pause as Ted Quinlan's adviser is away. Should we appoint Steve our official government liaison?
-</para>
-
-<itemizedlist>
-<listitem><para>What is the next step?</para></listitem>
-</itemizedlist>
-
-<para>
-Steve Jenkin was unable to attend this committee meeting. The committee agreed to wait until he is available to make a report before taking further action on this item.
+Martin is available for advocacy on a case by case approval basis. He will receive IBM media training in the near future.
 </para>
 
 <para>
-Bob is pursuing open source advocacy within the ACT education system. The next step there is to run a couple of half day workshops for teachers. Install / config, and programming (scripting and stuff).
+Steve Jenkin reported on his Open Source and Unix advocacy progress. <emphasis>Steve can hopefully add some content here...</emphasis>
 </para>
 
 <para>
-We should also get into contact with Tom Worthington...
+Michael reported that he has had some contact with Jason Ives, Kate Lundy's IT advisor. The committee should consider approaching Kate for an appearance at some future event which is mutually convenient.
 </para>
 
 <sect2><title>Action items</title>
 <itemizedlist>
-<listitem><para>Martin to determine his position (report February 2003)</para></listitem>
-<listitem><para>Steve Jenkin to report at next meeting (report February 2003)</para></listitem>
-<listitem><para>Bob to sound out Tom Worthington (report February 2003)</para></listitem>
 <listitem><para>Bob to determine next step with ACT education system (as soon as possible)</para></listitem>
 </itemizedlist>
 </sect2>
 </sect1>
 
 <sect1><title>Technical symposium</title>
-<itemizedlist>
-<listitem><para>Target date: 1 March 2003</para></listitem>
-<listitem><para>(Then 31 May 2003)</para></listitem>
-<listitem><para>Theme: Unix and open source in government</para></listitem>
-</itemizedlist>
-
-<sect2><title>Things we could improve?</title>
-<itemizedlist>
-<listitem><para>More help for Bob</para></listitem>
-<listitem><para>Develop some sort of time line for what needs to be done when</para></listitem>
-<listitem><para>Call for papers</para></listitem>
-<listitem><para>Need another student speaker</para></listitem>
-<listitem><para>Survey form for attendees</para></listitem>
-<listitem><para>Ask people why they didn't attend (after the next one?)</para></listitem>
-<listitem><para>Better advertising</para></listitem>
-<listitem><para>Access issues (now fixed?)</para></listitem>
-<listitem><para>Make a survey form available to attendees next time</para></listitem>
-</itemizedlist>
-</sect2>
-
-<sect2><title>Things we did right?</title>
-<itemizedlist>
-<listitem><para>Talk quality</para></listitem>
-<listitem><para>Good munchies</para></listitem>
-</itemizedlist>
-</sect2>
-
-<sect2><title>Action items</title>
-<itemizedlist>
-<listitem><para>Bob and Martin to finalize call for papers (due January 2003)</para></listitem>
-<listitem><para>Bob to send out call for papers (due January 2003)</para></listitem>
-</itemizedlist>
-</sect2>
+<para>
+A great deal of discussion on the responses to the call for papers occured. There was also some discussion of what form an advert for the event should take in the IT section of <emphasis>The Canberra Times</emphasis>.
+</para>
 </sect1>
 
 <sect1><title>AUUGN</title>
-<para>
-There was some discussion of the current state of AUUGN, and the lack of CAUUG contact details in the most recent issue.
+<para>Michael has informed the AUUGN editor of CAUUG's contact details.
 </para>
 
-<sect2><title>Action items</title>
-<itemizedlist>
-<listitem><para>Michael to inform AUUGN editor of contact details (due February 2003)</para></listitem>
-<listitem><para>Michael and Martin to provide article detailing the technical symposium (due February 2003)</para></listitem>
-<listitem><para>Bob to advertise technical symposium within AUUGN (due February 2003)</para></listitem>
-</itemizedlist>
-</sect2>
+<para>
+It was decided that articles describing the previous technical symposia should be delayed because the up coming AUUGN publication date is after the technical symposium.
+</para>
 </sect1>
 
 <sect1><title>Next meeting</title>
-<itemizedlist>
-<listitem><para>When is the next meeting? <emphasis>The second Thursday in February 2003 is the 13th</emphasis></para></listitem>
-</itemizedlist>
-
 <para>
-Agreed
+When is the next meeting? <emphasis>The second Thursday in March 2003 is the 13th</emphasis>
 </para>
 </sect1>
 
