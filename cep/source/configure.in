@@ -85,9 +85,10 @@ case "$host" in
     LDFLAGS="$LDFLAGS -mimpure-text"
     echo "Setting Solaris compilation options";;
   *-*-linux*)
-    CPPFLAGS="$CPPFLAGS -fPIC -DPIC -D_REENTRANT -Wall"
+    dnl Assume that this sucker will be multi threaded. Are we going to be generating shared libs
     dnl be nice, don't file on warnings but inform the developers concerned
     dnl CPPFLAGS="$CPPFLAGS -fPIC -DPIC -D_REENTRANT -Wall -Werror"
+    CPPFLAGS="$CPPFLAGS -D_REENTRANT -Wall"
     echo "Setting Linux compilation options";;
   *-*-aix*)
     CPPFLAGS="$CPPFLAGS -D_THREAD_SAFE"
