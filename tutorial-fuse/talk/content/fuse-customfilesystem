@@ -1,4 +1,4 @@
-TITLE: Why would you want a custom filesystem
+TITLE: Why would you want a custom filesystem?
 
 <ul>
 <li>I first encountered FUSE because I wanted a custom filesystem

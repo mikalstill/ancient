@@ -1,0 +1,34 @@
+TITLE: fuse_operations
+
+<ul>
+<li>FUSE uses the concept of structures of function pointers in the same manner as the kernel
+<li>The structure used by FUSE is called <i>fuse_operations</i> and encompasses all of the events which can occur on your userspace filesystem
+<li>Here's the one from mcachefs:
+
+<BR><BR>
+
+<ul><pre>
+static struct fuse_operations mcachefs_oper = {
+    .getattr    = mcachefs_getattr,
+    .readlink   = mcachefs_readlink,
+    .getdir     = mcachefs_getdir,
+    .mknod      = mcachefs_mknod,
+    .mkdir      = mcachefs_mkdir,
+    .symlink    = mcachefs_symlink,
+    .unlink     = mcachefs_unlink,
+    .rmdir      = mcachefs_rmdir,
+    .rename     = mcachefs_rename,
+    .link       = mcachefs_link,
+    .chmod      = mcachefs_chmod,
+    .chown      = mcachefs_chown,
+    .truncate   = mcachefs_truncate,
+    .utime      = mcachefs_utime,
+    .open       = mcachefs_open,
+    .read       = mcachefs_read,
+    .write      = mcachefs_write,
+    .statfs     = mcachefs_statfs,
+    .release    = mcachefs_release,
+    .fsync      = mcachefs_fsync  
+};
+</pre></ul>
+</ul>

@@ -1,0 +1,25 @@
+TITLE: Structures of function pointers
+
+<ul>
+<li>One common implementation technique in the Linux kernel is to pass structures containing function pointers around
+<li>This makes it a lot easier to implement pluggable code such as modules
+<li>For example when you register a new USB driver, you pass the kernel a structure listing the functions to call for common events
+<li>The kernel then calls the relevant function when that event occurs
+
+<BR><BR>
+
+<ul><pre>
+static struct usb_driver ov511_driver = {
+        .owner =        THIS_MODULE,
+        .name =         "ov511",
+        .id_table =     device_table,
+        .probe =        ov51x_probe,
+        .disconnect =   ov51x_disconnect
+};
+</pre></ul>
+
+<BR><BR>
+
+<li><i>probe</i> is called for device insert (to determine if this is an OV511)
+<li><i>disconnect</i> is used for device removal
+</ul>

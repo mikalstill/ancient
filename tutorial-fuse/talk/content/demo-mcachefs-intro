@@ -1,0 +1,11 @@
+TITLE: A quick mcachefs demo
+
+<ul>
+<li>Let's have a quick demo of mcachefs to see what I'm talking about
+<li>To be able to demo it, we're going to need a slow filesystem to talk to
+<BR><BR>
+<li>Introducing yet another custom filesystem -- waitfs
+<li>Performs the file operation you request, after an arbitary wait
+<li>It's not a good simulation of a latent network, because it doesn't account for the size of the transfer
+<li>It's good enough for our demo though
+</ul>
