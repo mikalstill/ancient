@@ -39,13 +39,12 @@ DOCBOOK START
 FUNCTION cepInterpShowRate
 
 
-PURPOSE Displays the "Specify Sample Rate" dialog box for the Interpolation user interface
+PURPOSE Displays the "Show Sample Rate" dialog box for the Interpolation user interface
 
 SYNOPSIS START
 The follwing is an example of how to create this object.
 
-cepInterpShowRate sr(val);
-
+cepInterpShowRate sr;
 
 SYNOPSIS END
 
@@ -57,8 +56,7 @@ which displays a custom wxWindows dialog box.
 
 <para>
 <command>double getSample()</command>
-Returns the specified sample rate. If a value of -1 is returned this operation
-has been canceled. If -2 is returned the value entered was invalid.
+Returns the specified sample rate
 </para>
 
 <para>units getUnits()</command>
@@ -87,8 +85,8 @@ public:
     unknowen
   };
   
-  //show the "Specify Sample Rate" dialog box
-  cepInterpShowRate(double val);
+  //show the "select sample rate" dialog box
+  cepInterpShowRate();
 
   //returns the sample rate specified
   double getSample();
@@ -143,8 +141,7 @@ Shows the interpolation GUI.
 
 <para>
 <command> double getSampleRate()</command>
-Gets the sample rate selected by the user. If a value of -1 is returned this operation
-has been canceled. If -2 is returned the value entered was invalid.
+Gets the sample rate selected by the user.
 </para>
 
 <para>
@@ -168,7 +165,7 @@ public:
   cepInterpUi();
 
   //shows the "get sample rate" dialog box
-  void showSampleRate(double val);
+  void showSampleRate();
 
   //returns the specified sample rate
   double getSampleRate();

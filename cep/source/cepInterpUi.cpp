@@ -25,7 +25,7 @@ BEGIN_EVENT_TABLE (cepInterpShowRate, wxDialog)
   EVT_CLOSE( cepInterpShowRate::dlgRateOnQuit)
 END_EVENT_TABLE ()
                           
-cepInterpShowRate::cepInterpShowRate(double val):
+cepInterpShowRate::cepInterpShowRate():
   wxDialog((wxDialog *) NULL, -1, "Specify Sample Rate", wxPoint(120,120), wxSize(200, 200))
 {
   m_panel = new wxPanel(this, -1, wxPoint(120,120), wxSize(200,200));
@@ -44,7 +44,6 @@ cepInterpShowRate::cepInterpShowRate(double val):
   m_rbHours = new wxRadioButton(m_panel, -1, "Days", wxPoint(25, 115));
 
   m_bSubmit = new wxButton(m_panel, CEPBTN_RATE_SUBMIT, "Ok", wxPoint(10,160));
-  m_bSubmit->SetDefault();
   m_bCancel = new wxButton(m_panel, CEPBTN_RATE_CANCEL, "Cancel", wxPoint(110,160));
 
   Center();
@@ -111,9 +110,9 @@ void cepInterpShowRate::dlgRateOnOK(wxCommandEvent& WXUNUSED(event))
 
 cepInterpUi::cepInterpUi() {}
 
-void cepInterpUi::showSampleRate(double val)
+void cepInterpUi::showSampleRate()
 {
-  cepInterpShowRate sr(val);
+  cepInterpShowRate sr;
 
   m_sampleUnits = sr.getUnits();
   m_sampleRate = sr.getSample();
