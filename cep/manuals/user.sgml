@@ -1,6 +1,6 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
 <book><bookinfo>
-<title>GDMS: User manual</title>
+<title>Geodetic Data Modeling System: User Manual</title>
 <execute><cmd>builddb</cmd><input>authorgroup.sgml</input></execute>
 </bookinfo>
 
