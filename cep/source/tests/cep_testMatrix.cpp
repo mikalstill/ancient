@@ -37,11 +37,14 @@
  *     void tearDown( void ) { ... }
  *
  * @author <your name here>
- * @version $Revision: 1.17 $ $Date: 2002-10-22 06:16:51 $
+ * @version $Revision: 1.18 $ $Date: 2002-10-27 03:21:08 $
  *
  * Revision History
  *
  * $Log: not supported by cvs2svn $
+ * Revision 1.17  2002/10/22 06:16:51  u983118
+ * modified tests for new cepMatrix stuff
+ *
  * Revision 1.16  2002/10/22 06:04:56  u983118
  * added new tests for resize matrix
  *
@@ -247,7 +250,13 @@ public:
     
     suiteOfTests->addTest(
       new CppUnit::TestCaller<Test>( "testTranspose", &Test::testTranspose ) );
-    
+
+   suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "testMax", &Test::testMax ) );
+
+   suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "testMin", &Test::testMin ) );
+     
     suiteOfTests->addTest(
       new CppUnit::TestCaller<Test>( "test3D", &Test::test3D ) );
 
@@ -268,7 +277,7 @@ public:
 
    suiteOfTests->addTest(
       new CppUnit::TestCaller<Test>( "testResizeSmaller", &Test::testResizeSmaller ) );
-    
+   
     return suiteOfTests;
   }
 
@@ -536,6 +545,65 @@ protected:
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 4.0, A.getValue(1,1));
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 6.0, A.getValue(1,2));
   } 
+
+  void testMax()
+  {
+    cepMatrix<double> data(5,3);
+    
+    //define the data matrix
+    //taken from the mb_PMAC_GPS.dat1
+    data.setValue(0,0,2000.1589);
+    data.setValue(1,0,2000.1626);
+    data.setValue(2,0,2000.1653);
+    data.setValue(3,0,2000.1680);
+    data.setValue(4,0,2000.1708);
+    
+    data.setValue(0,1,-1.6239);
+    data.setValue(1,1,-1.6259);
+    data.setValue(2,1,-1.6255);
+    data.setValue(3,1,-1.6234);
+    data.setValue(4,1,-1.6242);
+    
+    data.setValue(0,2,0.0012);
+    data.setValue(1,2,0.0014);
+    data.setValue(2,2,0.0015);
+    data.setValue(3,2,0.0015);
+    data.setValue(4,2,0.0015);
+    
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 2000.1708, data.getMaxValue(0));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", -1.6234, data.getMaxValue(1));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0015, data.getMaxValue(2));
+  }
+  
+  void testMin()
+  {
+    cepMatrix<double> data(5,3);
+    
+    //define the data matrix
+    //taken from the mb_PMAC_GPS.dat1
+    data.setValue(0,0,2000.1589);
+    data.setValue(1,0,2000.1626);
+    data.setValue(2,0,2000.1653);
+    data.setValue(3,0,2000.1680);
+    data.setValue(4,0,2000.1708);
+    
+    data.setValue(0,1,-1.6239);
+    data.setValue(1,1,-1.6259);
+    data.setValue(2,1,-1.6255);
+    data.setValue(3,1,-1.6234);
+    data.setValue(4,1,-1.6242);
+    
+    data.setValue(0,2,0.0012);
+    data.setValue(1,2,0.0014);
+    data.setValue(2,2,0.0015);
+    data.setValue(3,2,0.0015);
+    data.setValue(4,2,0.0015);
+    
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 2000.1589, data.getMinValue(0));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", -1.6259, data.getMinValue(1));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0012, data.getMinValue(2));
+  }                            
+
   void test3D()
   {
      
@@ -805,7 +873,8 @@ protected:
     
     cout << endl << "this test is doing the right thing and bailing out" << endl;    
     actual.resize(newRows);
-  }                 
+  }
+  
 }; // end Test
 
  /**
