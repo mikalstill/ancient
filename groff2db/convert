@@ -9,18 +9,6 @@
 # docbook compliant XML. This script is somewhat Greg specific at the moment, but I would
 # love to make it more generalised over time...
 
-# Screen is not entirely appropriate for display mapping
-# There are some section references which need to be manually fixed (search for "Section reference" in the SGML
-
-# Underway
-# --------
-#  - Table conversion
-
-# Unread email
-# ------------
-#  - em2
-#  - em4
-
 use strict;
 my($INPUT, $OUTPUT, $PREPROC, $outputstyle);
 my($parastate, $liststate, $listitemstate, $footnotestate, $sectionstate, $tablestate, $stylestate, $displaystate, $waitstate, $quotestate, $pausedlist, $tablestate, $tablecolcount, $tablebracestate);
