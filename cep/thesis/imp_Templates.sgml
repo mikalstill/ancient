@@ -3,8 +3,8 @@
 <sect2><title>CepMatrix and Template Classes</title>
 
   <sect3><title>Introduction</title>
-  <para>At a very early stage in the design of the <command>GDMS</command> it became clear some sort of matrix object would be
-  required capable of fulfilling following requirements:-
+  <para>At a very early stage in the design of the <command>GDMS</command> it became clear that some form of matrix object would be
+  required, capable of fulfilling following requirements:-
   </para>
 <itemizedlist>
     <listitem><para>Storage of a given data set and the results of any transformation preformed on it</para></listitem>
@@ -24,9 +24,9 @@
   
   <para>The first problem encountered in creating the <command>cepMatrix</command> was the need to support multiple
   data types. This was due to the fact that while the original data sets themselves as well as the transformations in the time domain
-  were all of type <command>double</command> once a transformation into the frequency domain was conducted the data became of type
+  were all of type <command>double</command>, once a transformation into the frequency domain was conducted the data became of type
   <command>complex</command>. This problem was overcome, however, by using one of the most powerful C++ functions, namely Template 
-  Classes. A Template Class works by creating a class which works with an unspecified data type. The data type of the object itself
+  Classes. A Template Class works by creating a class which is unrestricted by data type. The data type of the object itself
   is only specified when the object is instantiated, thereby allowing the same segment of code inside the Template Class to
   work with multiple types of data such as <command>int</command>, <command>float</command>, <command>double</command> and 
   <command>complex</command>. 
@@ -37,7 +37,7 @@
   <sect3><title>cepMatrix operations</title>
   
   <para>Another key requirement of <command>cepMatrix</command> was the ability to carry out a whole range of matrix operations such
-  as , addition, subtraction, division and transposition. Much of this functionality was achieved by the use of  
+  as addition, subtraction, division and transposition. Much of this functionality was achieved by the use of  
   operator overloading. The method of operation overloading is another feature of C++ that allows the
   simplification of function calls, especially when relating to mathematical operations. For example, in order to add 
   matrices <command>A</command> and <command>B</command> together and save the results in <command>A</command> without operator
@@ -75,11 +75,11 @@
   
   
   <para>
-  The <command>cepMatrix</command> Class Template also supports other operations required for ease of use inside the
+  The <command>cepMatrix</command> Class Template also supports other operations built to facilitate implemnetation inside the
   <command>GDMS</command> application. This includes an operation to query the matrix and determine if it is a strictly diagonal
-  matrix or not and operations to get the maximum and minimum values of a given column in a matrix. There is also an operation resize
-  a matrix by adding a given number of rows to it. In addition, there are several get and set accesor methods provided for acess
-  individual elements of a given matrix.
+  matrix or not and operations to get the maximum and minimum values of a given column in a matrix. There is also an operation
+  to resize a matrix by adding a given number of rows to it. In addition, there are several get and set accesor methods provided 
+  for acess individual elements of a given matrix.
   </para>
  
   </sect3><!--cepMatrix operations-->
@@ -87,17 +87,17 @@
   <sect3><title>Two Dimensional and Three Dimensional Matrices</title>
   
   <para>A third, key requirement of the <command>cepMatrix</command> Template Class was support for both two and three dimensional
-  matrices. This is due to the fact that when data is windowed it requires a new matrix for each frame that it creates. It was
+  matrices. This is due to the fact that when data is windowed it requires a new matrix for each frame that is returned. It was
   decided that the most optimal way to deal with this problem was to keep all the data inside one <command>cepMatrix</command>
-  object rather than having to use another container such as an array or vector, thus being able to pass data to and from other
+  object rather than having to use another container such as an array or vector, thus enabling the passing of data between
   objects in a uniform way and simplifying function calls required to access the given data. 
   </para>
   
   <para>
   Due to the fact that it was not strictly necessary to add any extra functionality and time constraints, three dimensional 
-  matrices are implemented purely as storage devices. As such, there is limited support for inside this object, that is, 
-  they can be created, accessed and copied but they can not be used in any other matrix operations such as multiplication, 
-  addition, subtraction and division.
+  matrices are implemented purely as storage devices. As such, there is limited support for these matricies 
+  inside this object, that is, they can be created, accessed and copied but they can not be used in any other matrix operations 
+  such as multiplication, addition, subtraction and division.
   </para>
     
   <para>Two dimensional and three dimensional matrices are stored as arrays and are treated as separate member variables within the 

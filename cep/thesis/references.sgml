@@ -5,28 +5,31 @@
 <sect1><title>References</title>
 
 <para>
-Aho, A. V, Sethi, R., Ullman, J.D. 1986, <emphasis>Compilers: Principles, Techniques, and Tools</emphasis>, Addison-Wesley Publishing, Massachusetts.
+Aho, A. V, Sethi, R., Ullman, J.D. 1986, <emphasis>Compilers: Principles, Techniques, and Tools</emphasis>, 
+Addison-Wesley Publishing, Massachusetts.
 </para>
 
 <para>
-Arndt, J. 2002, <emphasis>cplxfft.h, Complex Fast Fourier Transform Template Class (Part of FXT)</emphasis> [Online] Available: http://www.jjj.de/fxt/
+Arndt, J. 2002, <emphasis>cplxfft.h, Complex Fast Fourier Transform Template Class (Part of FXT)</emphasis> [Online] 
+Available: http://www.jjj.de/fxt/
+TODO: WHEN WAS THE WEBSITE COPYRIGHTED OR LAST UPDATED. WHEN WAS IT ACCESSED?
 </para>
 
 <para>
-Bellanger, M., 1984,
-<emphasis>Digital Processing of Signals</emphasis>,
-John Wiley and Sons
+Bellanger, M., 1984, <emphasis>Digital Processing of Signals</emphasis>, John Wiley and Sons
+TODO: WHERE WAS THIS THIS BOOK PUBLISHED??
 </para>
 
 <para>
-Carezia, A., 18-Jun-2002 [last update],
+Carezia, A., 18 June 2002 [last update],
 <emphasis>Dolph-Chebyshev Window</emphasis>,
 [online], Octave Sources, Available: http://www.octave.org/octave-lists/archive/octave-sources.2002/msg00019.html,
 Jul-2002.
 </para>
 
 <para>
-Chapman, M 2002, <emphasis>Window managers for X</emphasis> [Online] Available: http://www.plig.org/xwinman/cde.html
+Chapman, M., 2002, <emphasis>Window managers for X</emphasis> [Online] Available: http://www.plig.org/xwinman/cde.html
+TODO: WHEN WAS THE WEBSITE COPYRIGHTED OR LAST UPDATED. WHEN WAS IT ACCESSED?
 </para>
 
 <para>
@@ -34,12 +37,14 @@ Connolly, T., Begg, C. 1998, <emphasis>Database Systems: A practical approace to
 </para>
 
 <para>
-Cppunit Project, 11-Apr-2002 [last update],
+Cppunit Project, 11 April 2002 [last update],
 <emphasis>CPP Unit, Unit Testing Library</emphasis>,
 [online], Sourceforge.net, Available: http://cppunit.sourceforge.net,
 May-2002.
 </para>
 
+<para>Deitel, H.M., Deitel, P.J., 1998, <emphasis>C++: How to Program</emphasis>, Prentice-Hall, New Jersey.</para>
+ 
 <para>
 Flannery, B., Press, W., Teulosky, S., Vettering, W., 1988,
 <emphasis>Numerical Recipes in C</emphasis>,
@@ -60,37 +65,44 @@ Addison-Wesley, New York.
 
 <para>
 Gnome 2002 <emphasis>Gnome: Computing made easy</emphasis> [Online] Available: http://www.gnome.org
+TODO: WHEN WAS THE WEBSITE COPYRIGHTED OR LAST UPDATED. WHEN WAS IT ACCESSED?
+
 </para>
 
 <para>
 GTK 2002 <emphasis>GTK+ FAQ</emphasis> [Online] Available: http://www.gtk.org/faq/
+TODO: WHEN WAS THE WEBSITE COPYRIGHTED OR LAST UPDATED. WHEN WAS IT ACCESSED?
 </para>
 
 <para>
-Institute for Information and Signal Processing, 30-Mar-2002 [last update],
-<emphasis>ISIP Software Documenation</emphasis>,
+Holzner S., 2001, <emphasis>C++ Black Book</emphasis>, The Coriolis Group, Scottsdale. 
+</para>
+
+<para>
+Institute for Information and Signal Processing, 30 March 2002 [last update],
+<emphasis>ISIP Software Documenation<emphasis>,
 [Online], Mississippi State University,
 Available: http://www.isip.msstate.edu/projects/speech/software/documentation/class/algo/Window/,
 Jun 2002.
 </para>
 
 <para>
-Interstellar Research, 01-Aug-2001 [last update],
+Interstellar Research, 1 August 2001 [last update],
 <emphasis>Daqarta: FFT Windowing</emphasis>,
 [Online], Daqarta.com, Available: http://www.daqarta.com/ww00wndo.htm,
 Nov-2002.
 </para>
 
 <para>
-Jeffries, R.E., 14-Jan-2002 [last update],
+Jeffereis, R.E., 14 January 2002 [last update],
 <emphasis>XProgramming.com, an extreme programming resource</emphasis>,
-[Online] Jeffries, R.E., Available: http://www.xprogramming.com,
+[Online] Jeffereis, R.E., Available: http://www.xprogramming.com,
 May-2002.
 
 </para>
 
 <para>
-JUnit Project, 01-Aug-2001 [last update],
+Junit Project, 1 August 2002 [last update],
 <emphasis>JUnit, Testing Resources for Extreme Programming</emphasis>,
 [Online], objectmentor.com, Available: http://www.junit.org/,
 May-2002.
@@ -98,10 +110,15 @@ May-2002.
 
 <para>
 KDE 2002, <emphasis>KDE Home Page</emphasis> [Online] Available: http://www.kde.org
+TODO: WHEN WAS THE WEBSITE COPYRIGHTED OR LAST UPDATED. WHEN WAS IT ACCESSED?
 </para>
 
 <para>
-Levine, J.R., Mason, T., Brown, D 1990, <emphasis>lex &amp; yacc</emphasis>, O'Reilly, Farnham.
+Lay, D.C., 1997, <emphasis>Linear Algerbra and its Applications (2nd edition)</emphasis>, Addison Wesley Longman Inc., Massachusetts
+</para>
+  
+<para>
+Levine, J.R., Mason, T., Brown, D., 1990, <emphasis>lex &amp; yacc</emphasis>, O'Reilly, Farnham.
 </para>
 
 <para>
@@ -110,19 +127,27 @@ Lynch, P., 1996,
 [Online] Availale: http://www.maths.tcd.ie/~plynch/Publications/Dolph.pdf,
 Jul-2002.
 
+TODO: WHEN WAS THE WEBSITE COPYRIGHTED OR LAST UPDATED. 
+
+</para>
+
+<para>
+Mathews, J.H., Fink, K.D., 1999, <emphasis>Numerical Methods Using MATLAB (3rd edition)</emphasis>, Prentice Hall, New Jersey.
 </para>
 
 <para>
 Microsoft 2002 <emphasis>Windows XP screenshot</emphasis> [Online] Available: http://www.microsoft.com/presspass/newsroom/winxp/images/img016.jpg
+TODO: WHEN WAS THE WEBSITE COPYRIGHTED OR LAST UPDATED. WHEN WAS IT ACCESSED?
 </para>
 
 <para>
-Rabiner L.R, Schafer R.W, 1978, <emphasis>Digital Processing of Speech Signals</emphasis>, Prentice Hall.
+Rabiner L.R, Schafer R.W., 1978, <emphasis>Digital Processing of Speech Signals</emphasis>, Prentice Hall.
+TODO: WHERE WAS THIS BOOK PUBLISHED??
 </para>
 
 <para>
-Royster, D., 15 Feburary 2000 [last updated], <emphasis>Box Plots and Box & Whiskers Plots</emphasis> Hp., [Online], University of
-North Carolina at Charlotte, Avalible: http://www.math.uncc.edu/~droyster/courses/spring00/maed3103/Box_Plots.htm, 13 July 2002.
+Royster, D., 15 Feburary 2000 [last updated], <emphasis>Box Plots and Box & Whiskers Plots</emphasis> [Online], University of
+North Carolina at Charlotte, Avalible: http://www.math.uncc.edu/~droyster/courses/spring00/maed3103/Box_Plots.htm, July 2002.
 </para>
 
 <para>
@@ -135,21 +160,25 @@ Addison-Wesley, New York.
 Sun Microsystems 2002, <emphasis>GNOME 2.0 Desktop for the
 <trademark>Solaris</trademark>
  Operating Environment </emphasis> [Online] Available: http://wwws.sun.com/software/star/gnome/
+TODO: WHEN WAS THE WEBSITE COPYRIGHTED OR LAST UPDATED. WHEN WAS IT ACCESSED?
+
 </para>
 
 <para>
 Trolltech 2002, <emphasis>Trolltech Home Page</emphasis> [Online] Available: http://www.trolltech.com
+TODO: WHEN WAS THE WEBSITE COPYRIGHTED OR LAST UPDATED. WHEN WAS IT ACCESSED?
+
 </para>
 
 <para>
-Unit++ Project, 04-May-2002 [last update],
+Unit++ Project, 4 May 2002 [last update],
 <emphasis>The Unit++ Testing Framework</emphasis>,
 [online], Sourceforge.net, Available: http://unitpp.sourceforge.net,
 May-2002.
 </para>
 
 <para>
-Wittke, J., Mon, 29 Oct 2001 17:30 [last updated], <emphasis>Electron Microprobe Notes - Statistics</emphasis>, Hp, [Online],
+Wittke, J., 29 October 2001 [last updated], <emphasis>Electron Microprobe Notes - Statistics</emphasis> [Online],
 Northern Arizona University, Avalible: http://jan.ucc.nau.edu/~wittke/Microprobe/Statistics.html, 12 November 2002.
 </para>
 

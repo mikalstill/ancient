@@ -20,7 +20,11 @@
     One of the major problems in discrete signal analysis is that these systems are almost always inconsistent, that is, 
     there is no exact solution to the equation of the line 
     
-    EQUATION 1
+    <equation>
+      <title>Equation of the Line</title>
+      <execute><cmd>img</cmd><args>fTD-equ1.gif</args></execute>
+    </equation>
+
     
     where <command>m</command> is the median and <command>c</command> is the y-intercept. This is usually due to the fact that there
     are more data points in the system than those required to solve this equation. Linear least squares regression modelling is a 
@@ -28,22 +32,30 @@
     <command>y</command> for the given set of observations in the system, also known as a line of best fit. In the analysis of
     geodetic data the line of best fit is given as the solution to the matrix equation
     
-    EQUATION 2
+    <equation>
+      <title>Linear Least Squares Regression Equation 1a</title>
+      <execute><cmd>img</cmd><args>fTD-equ2.gif</args></execute>
+    </equation>
     
     where <command>X</command> is the corrections to the apriori estimates
     
-    
-    EQUATION 3
+    TODO: NEED TO MAKE CORRECT X MATRIX!
     
     and <command>n</command> is the number of observations in the system. The <command>A</command> matrix is the know as the design
     matrix
     
-    EQUATION 4
+    <equation>
+      <title>Design Matrix</title>
+      <execute><cmd>img</cmd><args>fTD-equ4.gif</args></execute>
+    </equation>
     
     <command>P</command> is the <command>n</command> x <command>n</command> weighting matrix and <command>L</command> is the apriori
     matrix 
     
-    EQUATION 5 
+    <equation>
+      <title>Apriori Matrix 1a</title>
+      <execute><cmd>img</cmd><args>fTD-equ5.gif</args></execute>
+    </equation>
     
     </para>
     
@@ -51,11 +63,18 @@
     the mean and y-intercept to zero, thereby setting all value of <command>L<subscript>c</subscript></command> to zero. By applying
     this initial constraint the apriori matrix becomes
     
-    EQUATION 6
+    <equation>
+      <title>Apriori Matrix 1b</title>
+      <execute><cmd>img</cmd><args>fTD-equ6.gif</args></execute>
+    </equation>
     
     and hence Equation 2 becomes
     
-    EQUATION 7
+    <equation>
+      <title>Linear Least Squares Regression Equation 1b</title>
+      <execute><cmd>img</cmd><args>fTD-equ7.gif</args></execute>
+    </equation>
+
     </para>
         
     <para>Another common constraint use in this type of analysis is to set y-intercept <command>c</command> at the point of the
@@ -64,12 +83,10 @@
     For example, the date value 2002.0014 corresponds to the Gregorian calender date of 12:00, 1 January 2002. If 
     x-axis was not constrained, the y intercept would always be given at <command>x</command> = 0, which corresponds to a date of 
     4000 BC (about 500 years before the Bronze age)(THIS IS PROBABLY WRONG WHAT IS THE YEAR ZERO), thus 
-    rendering any value calculated as a y-intercept virtually meaningless. Therefore, the x-axis is constrained by the equation            
-    
-    EQUATION 8
-    
-    where <command>t<subscript>0</subscript></command> is the first observation time in the given system. This has the effect of
-    making the <command>c</command> value more meaningful and simplifying any graph of this data. 
+    rendering any value calculated as a y-intercept virtually meaningless. Therefore, the x-axis is constrained by setting 
+    <command>x</command> = <command>t - t<subscript>0</subscript></command> where <command>t<subscript>0</subscript></command> 
+    is the first observation time in the given system. This has the effect of making the <command>c</command> value more 
+    meaningful and simplifying any graph of this data. 
     </para>
   </sect3><!--Linear Least Squares Regression Modeling-->
   
@@ -81,15 +98,12 @@
     manner. In order to do this what is known as a Variance Co-variance (VCV) weighting matrix is employed. 
     </para>
     
-    <para>A VCV weighting matrix is a strictly diagonal matrix, that is 
-    
-    EQUATION 9
-    
-    which models a standard Gaussian distribution (also known as a bell curve) (FIGURE GAUSSIAN DISTRIBUTION). This method works by
-    pre-multiplying the observation values with a number that represents its "correctness" (see EQUATION 2). Therefore the 
-    weighting value specified on the diagonal of the VCV matrix should be a percentage value ranging from one to zero, whereby a 
-    value of one one would mean that that given data point fully participates in the calculation and a value of zero indicates that
-    the data point was erroneous and is discarded. 
+    <para>A VCV weighting matrix is a strictly diagonal matrix, that is <command>P<subscript>ij</subscript></command> = 0 where 
+    <command>i</command> &ne; <command>j</command> which models a standard Gaussian distribution (also known as a bell curve) 
+    (FIGURE GAUSSIAN DISTRIBUTION). This method works by pre-multiplying the observation values with a number that represents its 
+    "correctness" (see EQUATION 2). Therefore the weighting value specified on the diagonal of the VCV matrix should be a 
+    percentage value ranging from one to zero, whereby a value of one one would mean that that given data point fully participates 
+    in the calculation and a value of zero indicates that the data point was erroneous and is discarded. 
     </para>
     
     <para>Due to the nature of method of weighting data values, great care must be taken so that the linear regression model
@@ -112,15 +126,49 @@
     systems that span at least six years, or more optimally 10 years and data sets of this length have not become available until
     now. If it is assumed  
     
-    EQUATION 10
+    <equation>
+      <title>Standard Gaussian Distribution</title>
+      <execute><cmd>img</cmd><args>fTD-equ10.gif</args></execute>
+    </equation>
     
     that is, the observation values are evenly distributed then the expected Random Walk values are 
     
-    EQUATION 11
+    <table frame='all'><title>Table Of Random Walk Values</title>
+    <tgroup cols='5' align='left' colsep='1' rowsep='1'>
+    <colspec colname='c1'/>
+    <colspec colname='c2'/>
+    <colspec colname='c3'/>
+    <colspec colname='c4'/>
+    <colspec colname='c5'/>
+    <thead>
+      <row>
+        <entry>Time</entry>
+        <entry>1</entry>
+        <entry>2</entry>
+        <entry>...</entry>
+        <entry>n</entry>
+      </row>
+    </thead>
+  <tbody>
+    <row>
+      <entry><command>RW</command></entry>
+      <entry>R<subscript>1</subscript></entry>
+      <entry>R<subscript>1</subscript> + R<subscript>2</subscript></entry>
+      <entry>...</entry>
+      <entry>R<subscript>1</subscript> + R<subscript>2</subscript> + ... + R<subscript>n</subscript></entry>
+    </row>
+  </tbody>
+  </tgroup>
+  </table>
+
+
     
     and thus the weighting matrix is
     
-    EQUATION 12
+    <equation>
+      <title>Random Walk Weighting Matrix</title>
+      <execute><cmd>img</cmd><args>fTD-equ12.gif</args></execute>
+    </equation>
     
     It is anticipated that using such a weighting matrix should allow any underlying random walk trend to be seen. At this time,
     however, this is some debate as to which equation should be use in order to determine the random walk co-efficients and thus the
@@ -134,64 +182,67 @@
     distance between the observed value and the least squares regression line of best fit. The residual vectors are therefore
     calculated by the matrix equation
     
-    EQUATION 13
+    <equation>
+      <title>Residual Equation</title>
+      <execute><cmd>img</cmd><args>fTD-equ13.gif</args></execute>
+    </equation>
     
     Where <command>L</command> is specified by Equation 1.5. If the same constraint is applied to the apriori matrix as was used in
     the linear least squares model, that is, it is assumed that or initial model has a gradient and y-intercept of 0, the residual
     equation becomes
     
-    EQUATION 14
+    <equation>
+      <title>Constrained Residual Equation</title>
+      <execute><cmd>img</cmd><args>fTD-equ14.gif</args></execute>
+    </equation>
     
     </para>
     
     <para>At the very least, the residual matrix shows how well the regression line approximates the given system, that is the 
     smaller the values of V the better the fit. In addition, if the residuals are transformed into the Frequency Domain via a Fast
-    Fourier Transform, an optimal model would give a totally flat frequency response. Another property of residuals is that
-    
-    EQUATION 15
-    
-    this is a very useful property for testing the validity of any residual calculation.
+    Fourier Transform, an optimal model would give a totally flat frequency response. Another property of residuals is that the sum
+    of the residuals should always be equal to this is a very useful property for testing the validity of any residual calculation.
     </para>
     
     <para>Calculating residuals are essential for determining any weighting model that should be applied in any VCV weighting model.
     As it has been seen calculating an optimal VCV weighting model relies heavily on the determination of the standard deviation
     of system according to a Gaussian distribution. One method doing this is to calculate the new weighting matrix as
     
-    EQUATION 16
+    <equation>
+      <title>Weighting Matrix Equation 1a</title>
+      <execute><cmd>img</cmd><args>fTD-equ16.gif</args></execute>
+    </equation>
     
     where <command>N</command> is given by
     
-    EQUATION 17
+    <equation>
+      <title>Weighting Matrix Equation 1b</title>
+      <execute><cmd>img</cmd><args>fTD-equ17.gif</args></execute>
+    </equation>
     
     This method, however, leads to the new weighting matrix (PUT IN SIGMA HERE!!!) that is not strictly diagonal. This is
-    non-optimal as it computationally much slower to calculate. For example, if the following matrix multiplication was to be computed
-    
-    EQUATION 18
-    
-    where <command>A</command> was a <command>observations</command> x <command>2</command> matrix and <command>P</command> was a
-    <command>observations</command> x <command>observations</command> weighting matrix. If our weighting matrix was strictly
-    diagonal then then it would take
-    
-    EQUATION 19
-    
-    operations to compute Equation 1.18. Conversely, if <command>P</command> was a non-diagonal matrix then it would take 
-    
-    EQUATION 20
-    
-    operations to compute the same equation (MAYBE GIVE SOME FIGURES IN SECONDS).
-    
+    non-optimal as it computationally much slower to calculate. For example, if the matrix equation
+    <command>A<superscript>T</superscript>P</command>  
+    where <command>A</command> was a <command>N</command> x 2 matrix and <command>P</command> was a
+    <command>N</command> x <command>N</command> weighting matrix. If our weighting matrix was strictly
+    diagonal then then it would take  2 x <command>N</command> multiplication operations to compute. 
+    Conversely, if <command>P</command> was a non-diagonal matrix then it would take 2 x
+    <command>N</command><superscript>2</superscript>  operations to compute the same equation (MAYBE GIVE SOME FIGURES IN SECONDS).  
     </para>
     
     <para>Considering the slowness of using a weighting matrix that is not diagonal, another method of calculating a weighting
     matrix was sought. This method works entirely in the residual space and ensures that the weighting matrix is always diagonal.
-    In this calculation a line of best fit is calculated using Equation 1.7 and the residuals are calculated using Equation 1.14. The
-    residual matrix is then sorted in ascending order. From there the median and interquartile range can be calculated. The
-    threshold for two standard deviations above or below the mean, assuming a standard Gaussian distribution can be calculated as
+    In this calculation a line of best fit is calculated using (EQUATION 7) and the residuals are calculated using (EQUATION 14). 
+    The residual matrix is then sorted in ascending order. From there the median and interquartile range can be calculated. The
+    threshold for three standard deviations above or below the mean, assuming a standard Gaussian distribution can be calculated by
+    adding 1.5 x the interquartile range to the 75% limit and subtracting 1.5 x the interquartile range from the 25% limit.
+    resulting in a box and whiskers plot (SEE FIGURE BOX AND WISKERS PLOT). Therefore, any residual with a value greater than 
+    two standard deviations above the mean is considered to be erroneous and will be weighted out.
     
-    EQUATION 21
-    
-    resulting in a box and whiskers plot (see Figure 1.2). Therefore, any residual with a value greater than two standard deviations
-    above the mean is considered to be erroneous and will be weighted out.
+     <figure><title>Box Plot of Data Set Re-weighting Using Resdiuals</title>
+        <execute><cmd>img</cmd><args>TD-boxplot.gif</args></execute>
+    </figure>
+
     </para>
     
      
