@@ -22,14 +22,20 @@
        The prototype was originally intended to be a product comparable to TSVIEW, however with additional functionality,
        such as interpolation, windowing and frequency domain analysis.
        Once the the essential mathematical functionality in the prototype was complete, work began on a user interface.
-       Not long into the OO development, it was decided that it would not be of any benefit and that our attention should
+       Not long into the UI development, it was decided that it would not be of any benefit and that our attention should
        be focused on the main implementation of the application. The <command>m-files</command> from the Matlab prototype have been included
        on the CD accompanying this thesis.
     </para>
   </sect2> <!--Theory-->
 
   <sect2><title>Conclusion</title>
-    <para></para>
+    <para>
+      The prototype provided a useful method of testing design ideas and algorithms
+      before the implementation of the C++ code base. This allowed us to generate
+      an initial rough idea for the projects design. Matlab however was a lot more 
+      powerful than C++ when implementing the maths functions and some major design
+      issues were missed.
+    </para>
   </sect2> <!--Conclusion-->
 
 </sect1> <!--Proto-->
