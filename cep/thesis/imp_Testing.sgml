@@ -56,7 +56,7 @@
 
         /* REGISTER YOUR TEST HERE */
         suiteOfTests->addTest(
-          new CppUnit::TestCaller<Test>( "sampleTest", &Test::sampleTest ) );
+          new CppUnit::TestCaller&lt;Test&gt;( "sampleTest", &amp;Test::sampleTest ) );
         return suiteOfTests;
       }
 
