@@ -10,6 +10,7 @@
 
 #include <linux/videodev.h>
 
+#include <jpeglib.h>
 #include <tiffio.h>
 
 void getframe_display_capability(struct video_capability *cap)
@@ -68,7 +69,7 @@ void getframe_display_picture(struct video_picture *pict)
 
 int main(int argc, char *argv[])
 {
-  int fd, out, i, doraw = 0, dojpeg = 0;
+  int fd, out, i, doraw = 0, dojpeg = 0, dotiff = 0;
   ssize_t size;
   struct video_capability cap;
   struct video_channel chan;
@@ -76,7 +77,7 @@ int main(int argc, char *argv[])
   char img[640 * 480 * 3], *device = NULL, optchar;
   TIFF *output;
 
-  while ((optchar = getopt (argc, argv, "d:rj")) != -1)
+  while ((optchar = getopt (argc, argv, "d:rjt")) != -1)
     {
       switch (optchar)
         {
@@ -90,6 +91,10 @@ int main(int argc, char *argv[])
 
 	case 'j':
 	  dojpeg = 1;
+	  break;
+
+	case 't':
+	  dotiff = 1;
 	  break;
 
         default:
@@ -161,9 +166,48 @@ int main(int argc, char *argv[])
 
   if(dojpeg)
     {
-      
-    }
+      int tempfd;
+      char filename[] = "/tmp/jpeg-XXXXXX";
 
+      struct jpeg_decompress_struct cinfo;
+      struct jpeg_error_mgr jerr;
+      FILE * infile;
+      JSAMPARRAY buffer;
+      char *upto;
+      
+      if((tempfd = mkstemp(filename)) < 0){
+	perror("mkstemp failed");
+	exit(1);
+      }
+      
+      write(tempfd, img + 2, size - 2);
+      close(tempfd);
+
+      /* Open a JPEG file and grab the contents */
+      if ((infile = fopen(filename, "rb")) == NULL) {
+	fprintf(stderr, "Cannot open input image\n");
+	exit(1);
+      }
+      
+      cinfo.err = jpeg_std_error(&jerr);
+      jpeg_create_decompress(&cinfo);
+      jpeg_stdio_src(&cinfo, infile);
+      jpeg_read_header(&cinfo, TRUE);
+      jpeg_start_decompress(&cinfo);
+      
+      buffer = (*cinfo.mem->alloc_sarray)
+	((j_common_ptr) &cinfo, JPOOL_IMAGE, 
+	 cinfo.output_width * cinfo.output_components, 1);
+      
+      upto = img;
+      while (cinfo.output_scanline < cinfo.output_height)
+	{
+	  jpeg_read_scanlines(&cinfo, buffer, 1);
+	  memcpy(upto, *buffer, cinfo.output_width * cinfo.output_components);
+	  upto += cinfo.output_width * cinfo.output_components;
+	} 
+    }
+  
   /* The R and B bytes seem to be swapped from RGB */
   for(i = 0; i < 640 * 480; i++)
     {
@@ -172,7 +216,7 @@ int main(int argc, char *argv[])
       img[i * 3 + 2] = t;
     }
 
-  if(!doraw)
+  if(dotiff)
     {
       printf("Writing TIFF image\n");
 
@@ -199,7 +243,8 @@ int main(int argc, char *argv[])
       
       TIFFClose(output);
     }
-  else
+  
+  if(doraw)
     {
       printf("Write raw bytes\n");
       if((out = creat("frame.raw", S_IRWXU)) < 0)
