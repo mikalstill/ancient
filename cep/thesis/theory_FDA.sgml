@@ -110,7 +110,7 @@
 
 
   <figure><title>50Hz sin wave and corresponding PSD plot.</title>
-      <execute><cmd>img</cmd><args>sinTimeandFreq.eps</args></execute>
+      <execute><cmd>img</cmd><args>sinTimeandFreq.png</args></execute>
   </figure>
 
   In the above figure, we see a pure sin wave with a frequency of 50Hz. The PSD plot shows the energy
