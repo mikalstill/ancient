@@ -1,0 +1,23 @@
+TITLE: Agenda (Daniel)
+
+In this presentation we will discuss:
+
+<BR><BR>
+
+<li>Acquisition of data
+<li>Problems solved by GDMS
+<li>The GDMS:
+  <ul>
+  <li>Alternatives
+  <li>Prototype
+  <li>Operating environment
+  <li>Least squares implementation
+  <li>Interpolation implementation
+  <li>Data windowing implementation
+  <li>Fast Fourier Transforms implementation
+  <li>Testing infrastructure
+  <li>User interface
+  <li>Command line interface
+  <li>Batch processing interface
+  </ul>
+<li>Questions

@@ -1,0 +1,9 @@
+TITLE: Fast Fourier Transforms: Implementation in GDMS (Daniel)
+
+<li>3rd party Complex FFT Template Class
+
+<li>Well suited to the GDMS
+
+<li>FFT, IFFT
+
+<li>Needed additional functionality and support for our data structures

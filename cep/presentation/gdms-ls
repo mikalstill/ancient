@@ -1,0 +1,20 @@
+TITLE: Least squares (Kristy)
+
+<li>Process of fitting a linear least squares regression model
+
+<BR><BR>
+
+<li>Allows the user to see the general data trend
+<li>Enables the detection and removal of erroneous data
+points such as white nose and Random Walk.
+<li>Also allows analysis in the Residual 
+Domain
+
+<BR><BR>
+
+<li>Types
+  <ul>
+  <li>Variance Co-Variance (VCV) (picture)<br>
+  <li>VCV With Automated Re-weighting (picture)<br>
+  <li>Random Walk
+  </ul.

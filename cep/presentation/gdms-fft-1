@@ -1,0 +1,10 @@
+TITLE: Fast Fourier Transforms: Theory (Daniel)
+
+<li>Any signal can be constructed from sin and cosine waveforms
+<li>The converse is also true:
+  <ul>
+  <li>A waveform can be broken down into its individual frequency
+components.
+  </ul>
+
+<li>Time domain signal --> FFT --> Frequency domain signal.

@@ -1,0 +1,12 @@
+TITLE: Prototype (Nick)
+
+<li>Developed in Matlab
+<li>Meant to identify design issues
+<li>Basic functionality
+  <ul>
+  <li>Linear least squares
+  <li>Interpolation
+  <li>Windowing
+  <li>Fourier transforms
+  </ul>
+<li>No user interface

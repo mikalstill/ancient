@@ -1,0 +1,13 @@
+TITLE: Interpolation (Nick)
+
+<li>What is interpolation?
+  <ul>
+  <li>Guessing the values of missing points
+  <li>Picture
+  </ul>
+
+<li>Why interpolate?
+  <ul>
+  <li>Want to see effects of adding missing features
+  <li>Regular dataset required for Fourier transform
+  </ul>

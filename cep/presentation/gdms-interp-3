@@ -1,0 +1,10 @@
+TITLE: Interpolation (Nick)
+
+<li>Interpolation types
+  <ul>
+  <li>Nearest neighbour
+  <li>Linear interpolation
+  <li>Cubic splines
+  <li>Divided differences
+  <li>Linear least squares
+  </ul>

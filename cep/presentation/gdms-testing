@@ -1,0 +1,18 @@
+TITLE: Testing (Blake)
+
+<li>requirements
+  <ul>
+  <li>standardised
+  <li>automated
+  <li>easy to implement
+  </ul>
+<li>Why Unit testing
+  <ul>
+  <li>allows easy exercising of algorithms
+  <li>regression tests for future groups
+  </ul>
+<li>How
+  <ul>
+  <li>cppunit
+  <li>...
+  </ul>
