@@ -21,6 +21,7 @@
 
 cepMatrix::cepMatrix ()
 {
+  //initalize a default matrix
   numRows = 0;
   numCols = 0;
   matrix = new double[1];
@@ -35,6 +36,7 @@ cepMatrix::cepMatrix ()
 
 cepMatrix::cepMatrix (int rows, int cols)
 {
+  //initalize a matrix
   numRows = rows;
   numCols = cols;
 
@@ -54,6 +56,7 @@ cepMatrix::cepMatrix (const cepMatrix & copyMatrix)
   numRows = copyMatrix.numRows;
   numCols = copyMatrix.numCols;
 
+  
   matrix = new double[copyMatrix.numRows * copyMatrix.numCols];
 
   if (matrix == NULL)
@@ -97,6 +100,7 @@ const cepMatrix & cepMatrix::transpose ()
 
   int x = 0;
 
+  //calculates the matrix transpose
   for (int i = 0; i < numRows; i++)
   {
     for (int j = 0; j < numCols; j++)
@@ -122,6 +126,7 @@ const cepMatrix & cepMatrix::operator+= (const cepMatrix & B)
   }
   else
   {
+    //calucluates A+B for each element is A and B
     for (int i = 0; i < numRows; i++)
     {
       for (int j = 0; j < numCols; j++)
@@ -146,6 +151,7 @@ const cepMatrix & cepMatrix::operator-= (const cepMatrix & B)
   }
   else
   {
+    //calucluates A-B for each element is A and B
     for (int i = 0; i < numRows; i++)
     {
       for (int j = 0; j < numCols; j++)
@@ -184,6 +190,7 @@ const cepMatrix & cepMatrix::operator*= (const cepMatrix & B)
       matrix[i] = 0;
     }
 
+    //calculates A*B for each row col pair
     // this will be REALLY slow
     for (i = 0; i < numRows; i++)
     {
@@ -208,6 +215,7 @@ const cepMatrix & cepMatrix::operator*= (const cepMatrix & B)
 
 const cepMatrix & cepMatrix::operator*= (const double &scalar)
 {
+  //multiply each element of A with the scalar
   for (int i = 0; i < numRows; i++)
   {
     for (int j = 0; j < numCols; j++)
@@ -227,6 +235,7 @@ const cepMatrix & cepMatrix::operator= (const cepMatrix & B)
 
   matrix = new double[numRows * numCols];
 
+  //copy each element of B to A
   for (int i = 0; i < numRows; i++)
   {
     for (int j = 0; j < numCols; j++)
@@ -242,12 +251,14 @@ const cepMatrix & cepMatrix::operator= (const cepMatrix & B)
 
 bool cepMatrix::operator== (const cepMatrix & B)
 {
+  //check if rows and cols of A are equal to rows and cols of B
   if ((B.numRows != numRows) || (B.numCols != numCols))
   {
     return false;
   }
   else
   {
+    //check if each element of A and B are equal
     for (int i = 0; i < numRows; i++)
     {
       for (int j = 0; j < numCols; j++)
@@ -270,6 +281,7 @@ bool cepMatrix::isDiagonal ()
     return false;
   }
 
+  //check that each element of A[i,j] = 0 where i != j 
   for (int i = 0; i < numRows; i++)
   {
     for (int j = 0; j < numCols; j++)
