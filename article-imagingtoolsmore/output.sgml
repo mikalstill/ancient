@@ -110,7 +110,6 @@ as <command>xview</command> will show the transparency in black or some other co
 
 
 
-<graphic format="eps" fileref="gen-rounded-ne-xview.eps">
 
 
 <para>The actual corner image will become more clear when we superimpose it
@@ -120,7 +119,6 @@ rounded corners, the thumbnail looks like this:</para>
 
 
 
-<graphic format="eps" fileref="gen-lake.eps">
 
 
 <para>To superimpose one image onto another, you use the <programlisting>composite</programlisting>
@@ -138,7 +136,6 @@ command gives us the following image:</para>
 
 
 
-<graphic format="eps" fileref="gen-lake-1.eps">
 
 
 
@@ -157,7 +154,6 @@ composite -gravity SouthWest rounded-sw.png lake-3.png lake-4.png >
 
 
 
-<graphic format="eps" fileref="gen-lake-4.eps">
 
 
 <para>Which looks kinda cool in my humble opinion. You should also take note
@@ -193,7 +189,6 @@ are:</para>
 
 
 
-<graphic format="eps" fileref="gen-gravity2.eps">
 
 
 <para>For example, SouthWest will force the superimposed image to the bottom
@@ -232,7 +227,6 @@ convert -raise 5x5 tree.png tree-raised.png
 
 
 
-<graphic format="eps" fileref="gen-tree-raised.eps">
 
 
 <para>To create a lowered border, just use the <emphasis>+raise</emphasis> command-line
@@ -248,7 +242,6 @@ convert +raise 5x5 tree.png tree-lowered.png
 
 
 
-<graphic format="eps" fileref="gen-tree-lowered.eps">
 
 
 
@@ -268,7 +261,6 @@ convert -bordercolor red -border 5x5 flower.png flower-border.png
 
 
 
-<graphic format="eps" fileref="gen-flower-border.eps">
 
 
 <para>What border colors can we specify on the command line? Well, the list
@@ -319,7 +311,6 @@ the border command.</para>
 
 
 
-<graphic format="eps" fileref="gen-beach-frame.eps">
 
 
 <para>Now we can add some extra complexity by adding some gray shading
@@ -335,7 +326,6 @@ convert -mattecolor black -frame 5x5+2 beach.png beach-frame2.png
 
 
 
-<graphic format="eps" fileref="gen-beach-frame2.eps">
 
 
 <para>Finally, we can add some more decoration, to get the final effect I
@@ -351,7 +341,6 @@ convert -mattecolor black -frame 5x5+2+2 beach.png beach-frame3.png
 
 
 
-<graphic format="eps" fileref="gen-beach-frame3.eps">
 
 
 <para>If you're looking at ways to make nice frames for your images, then I
@@ -376,7 +365,6 @@ convert -mattecolor gray -frame 25x25+25+0 rock.png rock-frame2.png
 
 
 
-<graphic format="eps" fileref="gen-rock-frames.eps">
 
 
 
@@ -468,7 +456,6 @@ way):</para>
 
 
 
-<graphic format="eps" fileref="gen-foo-pdf-smaller.eps">
 
 
 <para>Let's imagine that the above PDF had been sent to you by a friend. You
