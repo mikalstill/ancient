@@ -77,8 +77,7 @@ I see the outline of the proposed book being along the lines of the following ch
 <tgroup cols='2' align='left' colsep='1' rowsep='1'>
 <thead>
 <row>
-  <entry>Chapter name</entry>
-  <entry>Description of content</entry>
+  <entry>Chapter name and description of content</entry>
   <entry>Current length</entry>
   <entry>Approximate final length</entry>
 </row>
@@ -86,15 +85,103 @@ I see the outline of the proposed book being along the lines of the following ch
 <tbody>
 
 <row>
-  <entry>Introduction</entry>
-  <entry>Explaination of the motivation for the book, descriptions of the topics covered by the book, definition of assumed knowledge, license for the book content and sample code.</entry>
+  <entry>Introduction. Explaination of the motivation for the book, descriptions of the topics covered by the book, definition of assumed knowledge, license for the book content and sample code.</entry>
   <entry>11</entry>
   <entry>13</entry>
 </row>
 
 <row>
+  <entry>Concepts. Introduction to fundamental imaging concepts which need to be explained before further discussion of imaging can occur. For example: anti-aliasing, encryption, grayscale conversion, pixels, rasters, palettes, samples per pixel, bits per sample, et cetera.</entry>
+  <entry>20</entry>
+  <entry>40</entry>
+</row>
+
+<row>
+  <entry>TIFF. A discussion of the TIFF file format, including dicussion of the pros and cons of the implementation descisions made by the TIFF standards committee, use of libtiff including examples. This chapter currently includes 70 pages of libtiff man pages, which I now believe should be removed from the manuscript. This chapter is the most complete in the sample book associated with this proposal, although it does still need work.</entry>
+  <entry>110</entry>
+  <entry>80</entry>
+</row>
+
+<row>
+  <entry>GIF. A discussion of the GIF file format, the history of why it was once popular, and is less popular now, and examples of how to use Eric Raymond's libgif and libungif.</entry>
+  <entry>6</entry>
+  <entry>40</entry>
+</row>
+
+<row>
+  <entry>PNG. Comparison the PNG file format with GIF, the advantages of PNG over GIF, and discussion of how PNG is technically superior to GIF. An extensive discussion of how to use the libpng API, which comparisions with the libtiff examples from the TIFF chapter where appropriate. This chapter currently includes libpng documentation, which will be removed and replaced by a better discussion of the API and more examples.</entry>
+  <entry>70</entry>
+  <entry>80</entry>
+</row>
+
+<row>
+  <entry>JPEG. There is currently no JPEG chapter in the sample book. This chapter will discuss the JPEG format, and show examples of how to use the libjpeg API. This will include comaparison of the API with the previously discussed libtiff TIFF API, and the libpng PNG API.</entry>
+  <entry>0</entry>
+  <entry>80</entry>
+</row>
+
+<row>
+  <entry>SVG. </entry>
+  <entry>0</entry>
+  <entry>80</entry>
+</row>
+
+<row>
+  <entry>PDF. </entry>
   <entry></entry>
   <entry></entry>
+</row>
+
+<row>
+  <entry>ImageMagick. </entry>
+  <entry>0</entry>
+  <entry>20</entry>
+</row>
+
+<row>
+  <entry>aalib. </entry>
+  <entry>0</entry>
+  <entry>10</entry>
+</row>
+
+<row>
+  <entry>imlib. </entry>
+  <entry></entry>
+  <entry></entry>
+</row>
+
+<row>
+  <entry>SVGAlib. </entry>
+  <entry></entry>
+  <entry></entry>
+</row>
+
+<row>
+  <entry>Freetype. </entry>
+  <entry></entry>
+  <entry></entry>
+</row>
+
+<row>
+  <entry>Compression. </entry>
+  <entry></entry>
+  <entry></entry>
+</row>
+
+<row>
+  <entry>Conclusion. </entry>
+  <entry></entry>
+  <entry></entry>
+</row>
+
+<row>
+  <entry>Appendix: Selecting an appropriate image format. </entry>
+  <entry></entry>
+  <entry></entry>
+</row>
+
+<row>
+  <entry><emphasis>Totals</emphasis></entry>
   <entry></entry>
   <entry></entry>
 </row>
@@ -103,11 +190,9 @@ I see the outline of the proposed book being along the lines of the following ch
 </tgroup>
 </table>
 
-
-introduction to basic terminology such as pixel, grayscale, and other similar terms. 
-
-
-
+<para>
+It should be noted that all the APIs discussed in the book are covered by open source licensing of some form.
+</para>
 
 
 Make your outline as detailed as possible. Until we can envision your book in exceedingly concrete terms, we cannot know whether to sign up for it. The outline should include:
