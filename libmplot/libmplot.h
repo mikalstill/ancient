@@ -98,7 +98,7 @@ void plot_setfillcolor (plot_state *, int, int, int);
 void plot_setlinecolor (plot_state *, int, int, int);
 
 // Font state functions
-void plot_setfont(plot_state * state, char *font, int charsize);
+int plot_setfont(plot_state * state, char *font, int charsize);
 void plot_setfontcolor (plot_state *, int, int, int);
 void plot_settextlocation (plot_state *, unsigned int, unsigned int);
 void plot_gettextlocation (plot_state *, unsigned int *, unsigned int *);

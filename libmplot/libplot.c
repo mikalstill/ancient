@@ -1057,7 +1057,7 @@ SYNOPSIS END
 
 DESCRIPTION Set the font and size to use to text drawing operations. The <command>fontpath</command> arguement is the path to a font which <command>FreeType</command> is capable of opening (for example PostScript fonts, and TrueType fonts -- refer to http://www.freetype.org for more details). The size is the point size of the text to be drawn.
 
-RETURNS Nothing
+RETURNS A negative number on failure, 0 if all is well
 
 EXAMPLE START
 #include&lt;libmplot.h&gt;
@@ -1074,7 +1074,7 @@ EXAMPLE END
 DOCBOOK END
 ******************************************************************************/
 
-void
+int
 plot_setfont (plot_state * state, char *font, int charsize)
 {
   int error;
@@ -1083,7 +1083,7 @@ plot_setfont (plot_state * state, char *font, int charsize)
   if (state->ft == NULL)
     {
       fprintf (stderr, "Initialization of Freetype failed\n");
-      return;
+      return -1;
     }
 
   // Load the face
@@ -1092,23 +1092,26 @@ plot_setfont (plot_state * state, char *font, int charsize)
     {
       fprintf (stderr,
 	       "The specified font file could be opened and read, but it appears that its font format is unsupported by Freetpye\n");
-      return;
+      return -2;
     }
   else if (error)
     {
       fprintf (stderr, "Could not load font\n");
-      return;
+      return -3;
     }
 
   // Set the text size
   if (FT_Set_Char_Size (state->face, 0, charsize * 64, 75, 75))
     {
       fprintf (stderr, "Could not set font size\n");
-      return;
+      return -4;
     }
 #else
   fprintf (stderr, "Freetype not found at compile time\n");
+  return -5;
 #endif
+
+  return 0;
 }
 
 /******************************************************************************
@@ -1627,8 +1630,10 @@ void plot_overlayraster(plot_state * state, char *raster,
 		 (pixels[y * rx + x].b != last.b)){
 		if(lastcount > 1)
 		  printf(" * %d ", lastcount);
-
-		printf(" [%d,%d,%d] ", pixels[y * rx + x].r, pixels[y * rx + x].g,
+		
+		printf(" [%d,%d,%d] ", 
+		       pixels[y * rx + x].r, 
+		       pixels[y * rx + x].g,
 		       pixels[y * rx + x].b);
 		last = pixels[y * rx + x];
 		lastcount = 0;
