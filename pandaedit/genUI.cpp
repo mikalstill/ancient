@@ -151,6 +151,7 @@ bool genApp::OnInit (void)
     NULL;
 
   // This is magic, the shortcut keys just work from the menu name...
+  file_menu->Append (wxID_NEW, "&New");
   file_menu->Append (wxID_OPEN, "&Open...\tCtrl-O");
   file_menu->AppendSeparator ();
   file_menu->Append (wxID_EXIT, "E&xit\tCtrl-Q");
@@ -234,6 +235,7 @@ genApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
   // File menu
   wxMenu *file_menu = new wxMenu;
 
+  file_menu->Append (wxID_NEW, "&New");
   file_menu->Append (wxID_OPEN, "&Open...");
   file_menu->Append (wxID_CLOSE, "&Close");
   file_menu->Append (wxID_SAVE, "&Save");
@@ -259,7 +261,7 @@ genApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
   configuration *config;
   config = (configuration *) & configuration::getInstance ();
 
-  // Navigation menu
+  // Document specific menus
   if(isCanvas){
     wxMenu *prefs_menu = new wxMenu;
     
@@ -278,8 +280,10 @@ genApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
     // todo_mikal: Use PAGEUP and PAGEDOWN as well...
     nav_menu->Append (GENMENU_PREVPAGE, "Prev page\tF11");
     nav_menu->Append (GENMENU_NEXTPAGE, "Next page\tF12");
+    nav_menu->AppendSeparator();
+    nav_menu->Append (GENMENU_LINETOOL, "Line");
 
-    menu_bar->Append (nav_menu, "Navigation");
+    menu_bar->Append (nav_menu, "Document");
   }
 
   // Help Menu

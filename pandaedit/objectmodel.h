@@ -11,6 +11,10 @@ using namespace std;
 #include <config.h>
 #endif
 
+#include <wx/gdicmn.h>
+#include "streamCommand.h"
+#include "cmdLines.h"
+
 #ifndef OBJECTMODEL_H
 #define OBJECTMODEL_H
 
@@ -164,11 +168,17 @@ public:
   objectlist getPages ();
   string getFilename();
 
-private:
-    string m_filename;
-  float m_specVer;
+  void appendLine(wxPoint end);
+  void appendLine(wxPoint start, wxPoint end);
+  void appendMove(wxPoint end);
 
-    vector < object > m_objects;
+private:
+  string m_filename;
+  float m_specVer;
+  wxPoint m_previousEnd;
+
+  vector < object > m_objects;
+  vector < streamCommand > m_commands;
 };
 
 #endif

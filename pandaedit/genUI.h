@@ -64,34 +64,37 @@ protected:
 DECLARE_APP (genApp)
      class genCanvas;
      class genFrame:public wxDocMDIParentFrame
-     {
-     DECLARE_CLASS (genFrame) public:
-       wxMenu * editMenu;
+{
+  DECLARE_CLASS (genFrame) public:
+    wxMenu * editMenu;
+  
+  genFrame (wxDocManager * manager, wxFrame * frame,
+	    const wxString & title, const wxPoint & pos,
+	    const wxSize & size, long type);
+  
+  void OnAbout (wxCommandEvent & event);
+  void OnToggleBinaryDebug (wxCommandEvent & event);
+  
+  void OnOpen (wxCommandEvent & event);
+  
+  genCanvas *CreateCanvas (wxView * view, wxFrame * parent);
+  void OnClose (wxCloseEvent & evt);
+  
+  DECLARE_EVENT_TABLE () protected:
+    genErrorHandler * errHandler;
+};
 
-       genFrame (wxDocManager * manager, wxFrame * frame,
-		 const wxString & title, const wxPoint & pos,
-		 const wxSize & size, long type);
+extern genFrame *GetMainFrame (void);
 
-       void OnAbout (wxCommandEvent & event);
-       void OnToggleBinaryDebug (wxCommandEvent & event);
+enum{
+  GENMENU_ABOUT = 1,
+    GENMENU_NEXTPAGE,
+    GENMENU_PREVPAGE,
+    GENMENU_BINARYDEBUG,
+    GENMENU_DOCINFO,
+    GENMENU_LINETOOL
+    };
 
-       void OnOpen (wxCommandEvent & event);
-
-       genCanvas *CreateCanvas (wxView * view, wxFrame * parent);
-       void OnClose (wxCloseEvent & evt);
-
-     DECLARE_EVENT_TABLE () protected:
-         genErrorHandler * errHandler;
-     };
-
-     extern genFrame *GetMainFrame (void);
-
-#define GENMENU_ABOUT 2
-#define GENMENU_NEXTPAGE 3
-#define GENMENU_PREVPAGE 4
-#define GENMENU_BINARYDEBUG 5
-#define GENMENU_DOCINFO 6
-
-     extern bool singleWindowMode;
+extern bool singleWindowMode;
 
 #endif

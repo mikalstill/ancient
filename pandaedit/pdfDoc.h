@@ -46,13 +46,16 @@
 
 class pdfDoc:public wxDocument
 {
-DECLARE_DYNAMIC_CLASS (pdfDoc) public:
+DECLARE_DYNAMIC_CLASS (pdfDoc)
+  
+ public:
   pdfDoc (void);
-   ~pdfDoc (void);
-
+  ~pdfDoc (void);
+ 
+  bool OnNewDocument ();
   bool OnOpenDocument (const wxString & filename);
   bool OnSaveDocument (const wxString & filename);
-
+ 
   void incrementProgress ();
   bool isReady();
   pdf *getPDF();

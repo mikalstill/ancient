@@ -59,12 +59,14 @@
 
 BEGIN_EVENT_TABLE (genCanvas, wxScrolledWindow)
 EVT_MOUSE_EVENTS (genCanvas::OnMouseEvent) END_EVENT_TABLE ()
+
 // Define a constructor for my canvas
-  genCanvas::genCanvas (wxView * v, wxFrame * frame, const wxPoint & pos,
-			const wxSize & size, long style):
-wxScrolledWindow (frame, -1, pos, size, style),
-m_view (v),
-m_frame (frame)
+genCanvas::genCanvas (wxView * v, wxFrame * frame, const wxPoint & pos,
+		      const wxSize & size, long style):
+  wxScrolledWindow (frame, -1, pos, size, style),
+  m_view (v),
+  m_frame (frame),
+  m_controlCounter (0)
 {
 }
 
@@ -80,13 +82,32 @@ genCanvas::OnDraw (wxDC & dc)
 void
 genCanvas::OnMouseEvent (wxMouseEvent & event)
 {
-  wxClientDC dc (this);
-  PrepareDC (dc);
+  if(event.LeftIsDown())
+    {
+      wxClientDC dc (this);
+      PrepareDC (dc);
+      
+      // This sets the device context so that our drawing causes an inversion, 
+      // lines are drawn with black, and polygons are filled with black.
+      dc.SetLogicalFunction (wxINVERT);
+      dc.SetPen (*wxBLACK_PEN);
+      dc.SetBrush (*wxBLACK_BRUSH);
+      wxPoint pt (event.GetLogicalPosition (dc));
+      
+      if(m_controlCounter == 0)
+	dc.DrawPoint(pt);
+      else{
+	dc.DrawLine(m_controlPoints[m_controlCounter - 1], pt);
+      }
 
-  // This sets the device context so that our drawing causes an inversion, lines are drawn with black,
-  // and polygons are filled with black.
-  dc.SetLogicalFunction (wxINVERT);
-  dc.SetPen (*wxBLACK_PEN);
-  dc.SetBrush (*wxBLACK_BRUSH);
-  wxPoint pt (event.GetLogicalPosition (dc));
+      m_controlPoints[m_controlCounter] = pt;
+      m_controlCounter++;
+
+      if((m_view->getCurrentTool() == pdfView::line) &&
+	 (m_controlCounter == 2))
+	{
+	  // We have a straight line, so we should do something with it
+	  
+	}
+    }
 }

@@ -74,6 +74,7 @@ IMPLEMENT_DYNAMIC_CLASS (pdfView, wxView)
   BEGIN_EVENT_TABLE (pdfView, wxView)
   EVT_MENU (GENMENU_NEXTPAGE, pdfView::OnNextPage)
   EVT_MENU (GENMENU_PREVPAGE, pdfView::OnPrevPage)
+  EVT_MENU (GENMENU_LINETOOL, pdfView::OnLineTool)
   EVT_MENU (GENMENU_DOCINFO, pdfView::OnAboutDocument)
   END_EVENT_TABLE ()
   
@@ -140,77 +141,89 @@ pdfView::OnDraw (wxDC * dc)
     frame->SetTitle(theDoc->getFilename().c_str());
   }
   
-  // Show the number of the page we are currenly on
+  // Show the number of the page we are currently on
   ((wxFrame *) wxGetApp ().GetTopWindow ())->
     SetStatusText (string(string("Displaying page ") +
 		   (toString (m_page + 1))).c_str (), 1);
 
+  // Show the currently selected tool
+  ((wxFrame *) wxGetApp ().GetTopWindow ())->
+    SetStatusText (m_currentToolDesc.c_str (), 2);
+
   string& filename = m_renders[m_page];
-  debug(dlTrace, string("Page render cache names \"") + filename + string("\""));
-  if(filename == ""){
-    try{
-      object foo(-1, -1);
-      pdf* thePDF = theDoc->getPDF();
+  debug(dlTrace, string("Page render cache names \"") + filename + 
+	string("\""));
+  if((filename == "") && (theDoc->getPDF() != NULL))
+    populatePageFromPDF(theDoc->getPDF(), filename);
 
-      // Find the catalog -- I could probably miss this step, but it seems like
-      // a good idea for now...
-      object& catalog = foo;
-      if(!thePDF->findObject(dictitem::diTypeName, "Type", "Catalog", catalog)){
-	debug(dlError, "Bad PDF: No catalog");
-	exit(1);
-      }
-
-      // Now find the pages object as refered to by the catalog
-      if(!catalog.hasDictItem(dictitem::diTypeObjectReference, "Pages")){
-	debug(dlError, "Bad PDF: No pages object refered to in catalog");
-	exit(1);
-      }
-
-      object& pages = foo;
-      if(!catalog.getDict().getValue("Pages", *thePDF, pages)){
-	debug(dlError, 
-	      "Bad PDF: Could not get pages object, but the catalog references it!");
-	exit(1); 
-      }
-
-      // Now find all the page objects referenced in the pages object
-      string kids;
-      if(!pages.getDict().getValue("Kids", kids)){
-	debug(dlError, "Bad PDF: No pages found in PDF");
-	exit(1);
-      }
-      
-      // Find the pages, and then display the first page
-      objectlist pagelist(kids, thePDF);
-      pdfRender renPage(*thePDF, pagelist[m_page], pages, m_page);
-      if(!renPage.render()){
-	debug(dlError, "Page render failed");
-	exit(1);
-      }
-      
-      // Now push that into the cache -- this should only be called once
-      filename = renPage.getPNGfile();
-    }
-    catch(...){
-      debug(dlError, "Exception caught");
-      exit(40);
-    }
-  }
-
-  // And now we can assume that there is a PNG somewhere out there we can paint...
+  // And now we can assume that there is a PNG somewhere out there we can 
+  // paint...
   // todo_mikal: shrinking options
   // todo_mikal: center if smaller than window
   debug(dlTrace, string("Painting PNG \"") + filename + string("\""));
-  try
-    {
-      wxImage theImage (filename.c_str(), wxBITMAP_TYPE_PNG);
-      wxBitmap theBitmap (theImage.ConvertToBitmap ());
-      dc->DrawBitmap (theBitmap, 0, 0);
+  if(filename != ""){
+    try
+      {
+	wxImage theImage (filename.c_str(), wxBITMAP_TYPE_PNG);
+	wxBitmap theBitmap (theImage.ConvertToBitmap ());
+	dc->DrawBitmap (theBitmap, 0, 0);
+      }
+    catch (...)
+      {
+	debug(dlError, "Exception caught in the graph draw routine");
+      }
+  }
+}
+
+void
+pdfView::populatePageFromPDF(pdf *thePDF, string& filename)
+{
+  try{
+    object foo(-1, -1);
+    
+    // Find the catalog -- I could probably miss this step, but it seems like
+    // a good idea for now...
+    object& catalog = foo;
+    if(!thePDF->findObject(dictitem::diTypeName, "Type", "Catalog", catalog)){
+      debug(dlError, "Bad PDF: No catalog");
+      exit(1);
     }
-  catch (...)
-    {
-      debug(dlError, "Exception caught in the graph draw routine");
+    
+    // Now find the pages object as refered to by the catalog
+    if(!catalog.hasDictItem(dictitem::diTypeObjectReference, "Pages")){
+      debug(dlError, "Bad PDF: No pages object refered to in catalog");
+      exit(1);
     }
+    
+    object& pages = foo;
+    if(!catalog.getDict().getValue("Pages", *thePDF, pages)){
+      debug(dlError, 
+	    "Bad PDF: Could not get pages object, but the catalog references it!");
+      exit(1); 
+      }
+    
+    // Now find all the page objects referenced in the pages object
+    string kids;
+    if(!pages.getDict().getValue("Kids", kids)){
+      debug(dlError, "Bad PDF: No pages found in PDF");
+      exit(1);
+    }
+    
+    // Find the pages, and then display the first page
+    objectlist pagelist(kids, thePDF);
+    pdfRender renPage(*thePDF, pagelist[m_page], pages, m_page);
+    if(!renPage.render()){
+      debug(dlError, "Page render failed");
+      exit(1);
+    }
+    
+    // Now push that into the cache -- this should only be called once
+    filename = renPage.getPNGfile();
+  }
+  catch(...){
+    debug(dlError, "Exception caught");
+    exit(40);
+  }
 }
 
 void
@@ -317,4 +330,11 @@ pdfView::OnPrevPage(wxCommandEvent&)
   else{
     debug(dlTrace, "Already at the start of the document");
   }
+}
+
+void
+pdfView::OnLineTool(wxCommandEvent&)
+{
+  m_currentToolDesc = "Line Tool";
+  m_currentTool = pdfView::line;
 }

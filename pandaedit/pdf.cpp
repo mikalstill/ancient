@@ -4,7 +4,8 @@
 #include "utility.h"
 
 pdf::pdf ():
-  m_filename("")
+  m_filename(""),
+  m_previousEnd(-1, -1)
 {
 }
 
@@ -132,4 +133,30 @@ string
 pdf::getFilename()
 {
   return m_filename;
+}
+
+void
+pdf::appendLine(wxPoint start, wxPoint end)
+{
+  if(m_previousEnd != start)
+    {
+      // This line does not start from the previous line
+      appendMove(start);
+    }
+  appendLine(end);
+  m_previousEnd = end;
+}
+
+void
+pdf::appendLine(wxPoint pt)
+{
+  
+
+}
+
+void
+pdf::appendMove(wxPoint pt)
+{
+  move cmd(pt.x, pt.y);
+  m_commands.push_back(cmd);
 }

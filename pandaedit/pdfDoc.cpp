@@ -82,6 +82,20 @@ pdfDoc::OnSaveDocument (const wxString & filename)
   return TRUE;
 }
 
+static int gNewDocumentCount = 1;
+
+bool
+pdfDoc::OnNewDocument ()
+{
+  debug(dlTrace, "New document");
+  m_filename = string("New PDF document ") + toString(gNewDocumentCount);
+  gNewDocumentCount++;
+  m_pdf = NULL;
+  m_ready = true;
+
+  return TRUE;
+}
+
 bool
 pdfDoc::OnOpenDocument (const wxString & filename)
 {
@@ -94,7 +108,8 @@ pdfDoc::OnOpenDocument (const wxString & filename)
 				     "Please wait while the PDF file is parsed");
 
   // todo_mikal: check return code
-  if ((m_pdf = pandaedit ((char *) filename.c_str (), ds_progressCallback)) != NULL)
+  if ((m_pdf = pandaedit ((char *) filename.c_str (), ds_progressCallback)) != 
+      NULL)
     {
       ((wxFrame *) wxGetApp ().GetTopWindow ())->
 	SetStatusText ("PDF document parsed", 0);
@@ -107,7 +122,8 @@ pdfDoc::OnOpenDocument (const wxString & filename)
 	{
 	  ((wxFrame *) wxGetApp ().GetTopWindow ())->
 	    SetStatusText (string
-			   (toString (m_pages.size ()) + " pages").c_str (), 0);
+			   (toString (m_pages.size ()) + " pages").c_str (), 
+			   0);
 	  m_ready = true;
 	}
       else

@@ -38,32 +38,6 @@
 #include "genWxErrorHandler.h"
 #include "genUI.h"
 
-/******************************************************************************
-DOCBOOK START
-
-FUNCTION genCanvas
-PURPOSE owns all drawing to user visible areas
-
-SYNOPSIS START
-#include&lt;genCanvas.h&gt;
-
-SYNOPSIS END
-
-DESCRIPTION Set the starting point for the sequence of curves and lines that it to be drawn on the current page. This call is compulsory for almost all of the line drawing functions. It is not required for the <command>panda_rectangle</command> call.
-
-EXAMPLE START
-#include&lt;libplot.h&gt;
-plot_state *graph;
-
-if((graph = plot_newplot(400, 300)) == NULL){
-  ... error ...
-}
-
-EXAMPLE END
-SEEALSO 
-DOCBOOK END
-******************************************************************************/
-
 class genCanvas:public wxScrolledWindow
 {
 public:
@@ -76,7 +50,10 @@ public:
   wxView *m_view;
 
 private:
-    DECLARE_EVENT_TABLE () wxFrame *m_frame;
+  DECLARE_EVENT_TABLE () wxFrame *m_frame;
+
+  int m_controlCounter;
+  wxPoint m_controlPoints[4];
 };
 
 #endif

@@ -42,11 +42,8 @@
 class pdfView:public wxView
 {
 public:
-  enum genLsDisplay
-  {
-    lsDisplayNone = 0,
-    lsDisplayVCV,
-    lsDisplayRW
+  enum tool{
+    line = 0
   };
 
   wxFrame *frame, *m_parentFrame;
@@ -64,12 +61,21 @@ public:
 
   void OnNextPage (wxCommandEvent & event);
   void OnPrevPage (wxCommandEvent & event);
+  void OnLineTool (wxCommandEvent & event);
 
   void OnAboutDocument (wxCommandEvent & event);
 
+  tool getCurrentTool();
+
+  
+
 private:
+  void populatePageFromPDF(pdf *thePDF, string& filename);
+
   pageCache m_renders;
   int m_page;
+  string m_currentToolDesc;
+  tool m_currentTool;
 
   DECLARE_DYNAMIC_CLASS (pdfView)
   DECLARE_EVENT_TABLE () genErrorHandler *errHandler;
