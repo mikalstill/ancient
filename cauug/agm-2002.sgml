@@ -3,7 +3,7 @@
 <subtitle>30 November 2002</subtitle>
 
 <para>
-<emphasis>This agenda is available on line at <ulink url="http://www.stillhq.com/cgi-bin/cvsweb/cauug"><citetitle>http://www.stillhq.com/cgi-bin/cvsweb/cauug</citetitle></ulink> and when complete will be published at <ulink url="http://www.canb.auug.org.au"><citetitle>http://www.canb.auug.org.au</citetitle></ulink>... The items on this agenda are in no particular order.</emphasis>
+<emphasis>These meeting minutes are available on line at <ulink url="http://www.stillhq.com/cgi-bin/cvsweb/cauug"><citetitle>http://www.stillhq.com/cgi-bin/cvsweb/cauug</citetitle></ulink> and when complete will be published at <ulink url="http://www.canb.auug.org.au"><citetitle>http://www.canb.auug.org.au</citetitle></ulink>...</emphasis>
 </para>
 
 <sect1><title>Attendees</title>
@@ -25,7 +25,7 @@ The following people were in attendance at this meeting:
 </itemizedlist>
 
 <para>
-The meeting started at 13:09, and was initially chaired by Bob Edwards.
+The meeting started at 13:09, and was initially chaired by Bob Edwards. These meeting minutes were recorded by Steven Jenkin, and have been editted by Michael Still.
 </para>
 </sect1>
 
@@ -43,11 +43,11 @@ The following office bearers were elected by the members present.
 
 <sect1><title>Report from National Executive Officer</title>
 <para>
-Stephen Rothwell notes there has been an on-going concern by the National Executive over the local chapters holding accounts, especially as chapter activity can be described as <quote>semi-existent</quote>.
+Stephen Rothwell noted there is on-going concern by the National Executive over the local chapters holding accounts, especially as chapter activity can be described as <quote>semi-existent</quote>.
 </para>
 
 <para>
-The National Executive would like to consolidate money for all chapters, only <emphasis>AUUG Incorporated</emphasis> has any legal standing for GST, ABN and quarterly BAS. There are also concerns about the local chapter accounts not being audited, whilst <quote>national</quote> has prudential responsibility.
+The National Executive would like to consolidate money for all chapters, since only <emphasis>AUUG Incorporated</emphasis> has any legal standing for GST, ABN and quarterly BAS. There are also concerns about the local chapter accounts not being audited, whilst <quote>national</quote> has prudential responsibility.
 </para>
 
 <para>
@@ -98,7 +98,7 @@ The main thrust of Bob's talk was a discussion of how to <quote>take back the cl
 
 <itemizedlist>
 <listitem><para>CAUUG could employ later year tertiary students to run classes on Open Source in schools, or just present talks. Topics would include <quote>an introduction to Open Source</quote> and <quote>how the Open Source paradigm works</quote>.</para></listitem>
-<listitem><para><emphasis>RedHat</emphasis> are obvious people to approach to see if they have any courses to offer or if they would be interested in getting involved.</para></listitem>
+<listitem><para><emphasis>Red Hat</emphasis> are obvious people to approach to see if they have any courses to offer or if they would be interested in getting involved.</para></listitem>
 <listitem><para>CAUUG should remain vendor neutral, and promote standard Open Source tools.</para></listitem>
 <listitem><para>Knoppix could be used as an introduction to Linux in schools because it boots of the CD ROM and doesn't alter the configuration of the machine. Teachers only have control over the machines within labs</para></listitem>
 <listitem><para>Windows is bundled with all ACT Education department personal computers. Schools have to pay for the Microsoft Office licenses and prices have increased. This could be an ideal point of leverage to introduce OpenOffice.org into schools.</para></listitem>
@@ -127,7 +127,7 @@ The National AUUG body has started lobbying NOIE and there is a CIO briefing sch
 
 <sect1><title>Miscellaneous</title>
 <para>
-UUnite has agree to join meetings with CAUUG &mdash; meeting nights have been changed to the second Thursday of the month, at the IBM building in Barton. A Christmas barbecue will be held at the final meeting for 2002. Venue and date are yet to be announced.
+UUnite has agreed to join meetings with CAUUG &mdash; meeting nights have been changed to the second Thursday of the month, at the IBM building in Barton. A Christmas barbecue will be held at the final meeting for 2002. Venue and date are yet to be announced.
 </para>
 </sect1>
 

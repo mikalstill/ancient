@@ -20,10 +20,9 @@
 
    30 November 2002
 
-   This agenda is available on line at
+   These meeting minutes are available on line at
    http://www.stillhq.com/cgi-bin/cvsweb/cauug and when complete will be
-   published at http://www.canb.auug.org.au... The items on this agenda are
-   in no particular order.
+   published at http://www.canb.auug.org.au...
 
      ----------------------------------------------------------------------
 
@@ -52,6 +51,8 @@ Attendees
      * Michael Still
 
    The meeting started at 13:09, and was initially chaired by Bob Edwards.
+   These meeting minutes were recorded by Steven Jenkin, and have been
+   editted by Michael Still.
 
      ----------------------------------------------------------------------
 
@@ -69,14 +70,14 @@ Election of Office bearers
 
 Report from National Executive Officer
 
-   Stephen Rothwell notes there has been an on-going concern by the National
-   Executive over the local chapters holding accounts, especially as chapter
-   activity can be described as "semi-existent".
+   Stephen Rothwell noted there is on-going concern by the National Executive
+   over the local chapters holding accounts, especially as chapter activity
+   can be described as "semi-existent".
 
    The National Executive would like to consolidate money for all chapters,
-   only AUUG Incorporated has any legal standing for GST, ABN and quarterly
-   BAS. There are also concerns about the local chapter accounts not being
-   audited, whilst "national" has prudential responsibility.
+   since only AUUG Incorporated has any legal standing for GST, ABN and
+   quarterly BAS. There are also concerns about the local chapter accounts
+   not being audited, whilst "national" has prudential responsibility.
 
    The proposal from the National Executive is for all chapters to transfer
    any monies to the main AUUG Incorporated account, then to maintain
@@ -141,7 +142,7 @@ Report of Activities
        Source in schools, or just present talks. Topics would include "an
        introduction to Open Source" and "how the Open Source paradigm works".
 
-     * RedHat are obvious people to approach to see if they have any courses
+     * Red Hat are obvious people to approach to see if they have any courses
        to offer or if they would be interested in getting involved.
 
      * CAUUG should remain vendor neutral, and promote standard Open Source
@@ -185,7 +186,7 @@ Report of Activities
 
 Miscellaneous
 
-   UUnite has agree to join meetings with CAUUG - meeting nights have been
+   UUnite has agreed to join meetings with CAUUG - meeting nights have been
    changed to the second Thursday of the month, at the IBM building in
    Barton. A Christmas barbecue will be held at the final meeting for 2002.
    Venue and date are yet to be announced.
