@@ -44,7 +44,7 @@ const cepError cepWindowChebyshev::setTransitionBandwidth(double tbw) {
     return cepError("normalised transition bandwidth must be less than 0.499", cepError::sevWarning);
   }
   df = tbw;
-  cout << "transistion bandwidth set to " << df << endl;
+//  cout << "transistion bandwidth set to " << df << endl;
   return cepError();
 }
 
