@@ -1,5 +1,4 @@
 
-
 /**********************************************************
 cepInterp.cpp
 
@@ -33,66 +32,67 @@ cepInterp::cepInterp()
 
 }
 
-cepMatrix<double> & cepInterp::doInterp(const cepMatrix<double> & input, double sampleRate,
+cepMatrix<double> & cepInterp::doInterp(cepMatrix<double> const & input, double sampleRate,
 												int interpType, int winSize = 1, double winOverlap = 0.0)
 {
 	/* get the size of the input set*/
 	int inputSize = input.getNumRows();
 
 	/* winLength is the length of a window minus overlap on start edge*/
-	double winLength = winSize * (1-winOverlap)
+	double winLength = winSize * (1-winOverlap);
 
 	/* calculate number of required samples after interpolation*/
 	int numSamples;
-	numSamples = (input.getValue(0,inputSize-1)- input.getValue(0,0))/inputSize;
-	numSamples = numSamples-(numSamples-winSize)/winLength;
+	numSamples = (int)(input.getValue(0,inputSize-1)- input.getValue(0,0))/inputSize;
+	numSamples = (int)(numSamples-(numSamples-winSize)/winLength);
 
 	/* build new timescale*/
-	cepMatrix<double> timeScale(2,numSamples)
+	cepMatrix<double> timeScale(2,numSamples);
 	timeScale.setValue(0,0,input.getValue(0,0));
 	for (int i = 1; i < numSamples; i++)
 		timeScale.setValue(i,0,timeScale.getValue(i-1,0));
 
 	/* do interpolation and return results */
-	return cepInterp(input,interpType,timeScale);
-
+	return doInterp(input,timeScale,interpType);
 }
 
 cepMatrix<double> & cepInterp::doInterp(const cepMatrix<double> & input,
-                                 int interpType, cepMatrix<double> & timeScale)
+                                 cepMatrix<double> & timeScale,int interpType)
 {
-
 	switch(interpType)
 	{
 		case NEAREST_INTERP:
-						return nearestInterp(input, timeScale, int interpType);
+						return nearestInterp(input, timeScale);
 						break;
 		case LINEAR_INTERP:
-						return linearInterp(input, timeScale, int interpType);
+						return linearInterp(input, timeScale);
 						break;
 		case NATURAL_SPLINE_INTERP:
-						return spineInterp(input, timeScale, int interpType);
+						return naturalSplineInterp(input, timeScale);
 						break;
 		case CUBIC_SPLINE_INTERP:
-						return spineInterp(input, timeScale, int interpType);
+						return cubicSplineInterp(input, timeScale);
 						break;
 		case DIVIDED_INTERP:
-						return dividedInterp(input, timeScale, int interpType);
+						return dividedInterp(input, timeScale);
 						break;
 	}
+	return timeScale;
 }
 
-	cepMatrix<double> & cepInterp::nearestInterp(const cepMatrix<double> & input,
-												cepMatrix<double> & timeScale, int interpType)
+	cepMatrix<double> & cepInterp::nearestInterp(cepMatrix<double> const & input,
+												cepMatrix<double> & timeScale)
 {
 	int newSize = timeScale.getNumRows();
+	int oldSize = input.getNumRows();
 
-	int distA, distB;
+	double distA, distB; // distance from adjacent points
 
-	position = 0;
-	for (i = 0; i < newSize; i++)
+	int position = 0; // position on old timeline
+	// fill each value on new timeline = nearst old value;
+	for (int i = 0; i < newSize; i++)
 	{
-		if (inBounds(input, timeScale, position, i))
+		if (inBounds(input, timeScale, position, i, newSize, oldSize))
 		{
 			distA = input.getValue(i,0) - input.getValue(position,0);
 			distB = input.getValue(i,0) - input.getValue(position+1,0);
@@ -110,20 +110,21 @@ cepMatrix<double> & cepInterp::doInterp(const cepMatrix<double> & input,
 }
 
 	cepMatrix<double> & cepInterp::linearInterp(const cepMatrix<double> & input,
-												cepMatrix<double> & timeScale, int interpType)
+												cepMatrix<double> & timeScale)
 {
 	int newSize = timeScale.getNumRows();
+	int oldSize = input.getNumRows();
 
-	int distDate, distValue;
+	double distDate, distValue;
 
-	position = 0;
-	for (i = 0; i < newSize; i++)
+	int position = 0;
+	for (int i = 0; i < newSize; i++)
 	{
 		if (inBounds(input, timeScale, position, i, newSize, oldSize))
 		{
 			distDate = input.getValue(position+1,0)-input.getValue(position,0);
 			distValue = input.getValue(position+1,1)-input.getValue(position,1);
-			timeScale.setValue(i,1,input.getValue(postion,1)+distValue/distDate*
+			timeScale.setValue(i,1,input.getValue(position,1)+distValue/distDate*
 												(timeScale.getValue(i,0)-input.getValue(position,0)));
 		}
 		else
@@ -136,7 +137,7 @@ cepMatrix<double> & cepInterp::doInterp(const cepMatrix<double> & input,
 }
 
 	cepMatrix<double> & cepInterp::naturalSplineInterp(const cepMatrix<double> & input,
-												cepMatrix<double> & timeScale, int interpType)
+												cepMatrix<double> & timeScale)
 {
 	int i;
 	int newSize = timeScale.getNumRows();
@@ -168,7 +169,7 @@ cepMatrix<double> & cepInterp::doInterp(const cepMatrix<double> & input,
 	{
 		// d is set to the height value at the start of each interval
 		d.setValue(i,0,input.getValue(i,1));
-		h.setValue(i,0,input.getValue(i+1,0)-getValue(i,0));
+		h.setValue(i,0,input.getValue(i+1,0)-input.getValue(i,0));
 	}
 
 	// because this is a natural spline the second derivatives
@@ -187,14 +188,14 @@ cepMatrix<double> & cepInterp::doInterp(const cepMatrix<double> & input,
 	// initialise middle rows
 	for (i = 2; i < n-1; i++)
 	{
-		t.setValue(i-1,0, h.getValue(i-1));
+		t.setValue(i-1,0, h.getValue(i-1,0));
 		t.setValue(i-1,1, 2.0*(h.getValue(i-1,0)+h.getValue(i,0)));
 		t.setValue(i-1,2, h.getValue(i,0));
 		s.setValue(i,0, 6.0*((input.getValue(i+1,1)-input.getValue(i,1))/h.getValue(i,0) -
 											 (input.getValue(i,1)-input.getValue(i-1,1))/h.getValue(i-1,0)));
 	}
 	// initialise last row
-		t.setValue(n-2,0, h.getValue(n-2));
+		t.setValue(n-2,0, h.getValue(n-2,0));
 		t.setValue(n-2,1, 2.0*(h.getValue(n-2,0)+h.getValue(n-1,0)));
 		s.setValue(n-1,0, 6.0*((input.getValue(n,1)-input.getValue(n-1,1))/h.getValue(n-1,0) -
 											 (input.getValue(n-1,1)-input.getValue(n-2,1))/h.getValue(n-2,0)));
@@ -213,9 +214,9 @@ cepMatrix<double> & cepInterp::doInterp(const cepMatrix<double> & input,
 		if (inBounds(input, timeScale, position, i, newSize, oldSize))
 		{
 			timeScale.setValue(i,1,
-								a.getValue(i,0)*pow((timescale.getValue(i,0)-input.getValue(i,0)),3.0)+
-								b.getValue(i,0)*pow((timescale.getValue(i,0)-input.getValue(i,0)),2.0)+
-								c.getValue(i,0)*(timescale.getValue(i,0)-input.getValue(i,0))+
+								a.getValue(i,0)*pow((timeScale.getValue(i,0)-input.getValue(i,0)),3.0)+
+								b.getValue(i,0)*pow((timeScale.getValue(i,0)-input.getValue(i,0)),2.0)+
+								c.getValue(i,0)*(timeScale.getValue(i,0)-input.getValue(i,0))+
 								d.getValue(i,0));
 		}
 		else
@@ -228,22 +229,21 @@ cepMatrix<double> & cepInterp::doInterp(const cepMatrix<double> & input,
 
 }
 
-cepMatrix<double> & cepInterp::cubicSplineInterp(const cepMatrix & input,
-												cepMatrix & timeScale, int interpType)
+cepMatrix<double> & cepInterp::cubicSplineInterp(const cepMatrix<double> & input,
+												cepMatrix<double> & timeScale)
 {
-
+	return timeScale;
 }
 
 
 cepMatrix<double> & cepInterp::dividedInterp(const cepMatrix<double> & input,
-												cepMatrix<double> & timeScale, int interpType)
+												cepMatrix<double> & timeScale)
 {
 	int i;
 	int j;
-	int order; // used for marking the point of exit from a loop
+	int order = 2; // used for marking the point of exit from a loop
 	int oldSize = input.getNumRows();
-	int newSize = timescale.getNumRows();
-	bool finished;
+	int newSize = timeScale.getNumRows();
 
 	// resizable datastructure to hold the divided differences table
 	vector<cepMatrix <double> * > diffs;
@@ -255,32 +255,33 @@ cepMatrix<double> & cepInterp::dividedInterp(const cepMatrix<double> & input,
 	double errorPos; // Position on the curve used for approximating the error
 
 	// calculate first colum of divided differences table
-	diffs.pushback(new cepMatrix<double> (oldSize-1,1);
+
+	diffs.push_back(new cepMatrix<double>(oldSize-1,1));
 	for (j = 0; j <= oldSize - 1; j++)
 	{
-		diffs[0].setValue(j,0, (input.getValue(j+1,1)-input.getValue(j,1))/
+		diffs[0]->setValue(j,0, (input.getValue(j+1,1)-input.getValue(j,1))/
 							(input.getValue(j+1,0) - input.getValue(j,0)));
 	}
 	// calculate error approximation for first value
-	errorPos = input.getValue(0,0)+input.getValue(1,0))*0.5;
+	errorPos = (input.getValue(0,0)+input.getValue(1,0))*0.5;
 	errorMod = errorPos-input.getValue(0,0);
-	errors.pushback(errorMod * diffs[0].getValue(0,0));
+	errors.push_back(errorMod * diffs[0]->getValue(0,0));
 
 
 
 	// calculate rest of divided differences table
 	for (i = 2; i < oldSize; i++)
 	{
-		order = i
-		diffs.pushback(new cepMatrix<double> (oldSize-i,1);
+		order = i;
+		diffs.push_back(new cepMatrix<double> (oldSize-i,1));
 		for (j = 0; j <= oldSize - i; j++)
 		{
-			diffs[i-1].setValue(j,0, (diffs[i-2].getValue(j+1,0)-diffs[i-2].getValue(j,0))/
+			diffs[i-1]->setValue(j,0, (diffs[i-2]->getValue(j+1,0)-diffs[i-2]->getValue(j,0))/
 								(input.getValue(j+1,0) - input.getValue(j,0)));
 		}
 		// calculate error for order i-2 divided difference table
-		errorMod = errorMod * (errorPos - input.getValue(i-1,0);
-		errors.pushback(errorMod * diffs[i-1].getValue(0,0));
+		errorMod = errorMod * (errorPos - input.getValue(i-1,0));
+		errors.push_back(errorMod * diffs[i-1]->getValue(0,0));
 
 		// check error limits for early exit
 		if (errors[i-1] > errors[i-2])
@@ -290,32 +291,38 @@ cepMatrix<double> & cepInterp::dividedInterp(const cepMatrix<double> & input,
 		}
 	}
 
-	if (i > oldSize) // if divided difference table loop exited early
-	{
-		order = order - 1; // decrease order of approx by 1
-	}
+	//if (i > oldSize) // if divided difference table loop exited early
+	//{
+	//	order = order - 1; // decrease order of approx by 1
+	//}
 
 	int position = 0; // position on old timeline (input)
 	// loop to create table of answer values (timeScale(i,1)
 	// see Gerald wheatley, Applied numerical analysis, pg 232 eq (3.6)
 	for (i = 0; i < newSize; i++)
 	{
-		int tempValue = 1;
-		timeScale.setvalue(i,1, input.getValue(position,0));
+		double tempValue;
+		tempValue = 1.0;
+		timeScale.setValue(i,1, input.getValue(position,0));
 		for (j = 1; j < order; j++)
 		{
 			if (inBounds(input, timeScale, position, i, newSize, oldSize))
 			{
-				tempValue = tempValue * (timeScale.getValue(i,0) - input.getValue(position);
-				timeScale.setValue(i,1, timeScale(i,1) + tempValue * diff[j].getValue(i,0));
+				tempValue = tempValue * (timeScale.getValue(i,0) - input.getValue(position,0));
+				timeScale.setValue(i,1, timeScale.getValue(i,1) + tempValue * diffs[j]->getValue(i,0));
 			}
 			else
 			{
+				for (int k = 0; k < order; k++)
+					delete diffs[k];
 			  // give error once I know how
 				return timeScale;
 			}
 		}
 	}
+	for (int k = 0; k < order; k++)
+		delete diffs[k];
+	return timeScale;
 }
 
 bool cepInterp::inBounds(const cepMatrix<double> & input, cepMatrix<double> & timeScale,
@@ -344,7 +351,7 @@ bool cepInterp::inBounds(const cepMatrix<double> & input, cepMatrix<double> & ti
 	return true;
 }
 
-void cepInterp::rowReduce(cepMatrix<double> & t, cepMatrix<double> & s, n)
+void cepInterp::rowReduce(cepMatrix<double> & t, cepMatrix<double> & s, int n)
 // Imports:
 // 			t: a tridiagonal matix represented by a n-1 by 3 matrix
 //			s: an n+1 long matrix vector
@@ -357,7 +364,7 @@ void cepInterp::rowReduce(cepMatrix<double> & t, cepMatrix<double> & s, n)
 {
 	int i;
 
-	for (i = i; i < n-1; i++)
+	for (i = 1; i < n-1; i++)
 	{
 		// row divided by first element
 		t.setValue(i-1,2, t.getValue(i-1,2)/t.getValue(i-1,1));
@@ -378,13 +385,13 @@ void cepInterp::rowReduce(cepMatrix<double> & t, cepMatrix<double> & s, n)
 	// Work back up the matrix zeroing right most values in t
 	for (i = n-1; i > 1; i--)
 	{
-		s.setValue(i-1,0, s.getValue(i-1,0) - s.getValue(i,0)*t.getValue(i-2,2);
+		s.setValue(i-1,0, s.getValue(i-1,0) - s.getValue(i,0)*t.getValue(i-2,2));
 		t.setValue(i-2,2, 0.0);
 	}
 }
 
 void cepInterp::calc_abc(cepMatrix<double> & a,cepMatrix<double> & b,cepMatrix<double> & c,
-							cepMatrix<double> & s,cepMatrix<double> & h,const cepMatrix<double> & input, int n);
+							cepMatrix<double> & s,cepMatrix<double> & h,const cepMatrix<double> & input, int n)
 {
 	int i;
 

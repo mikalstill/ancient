@@ -4,13 +4,15 @@
 # 1: If it is a new test subset, add it's name here (starting with test). Note
 # that you _do_not_ have to add targets here, especially if you only want them
 # as part of huge.
-noinst_PROGRAMS = testall testwindows testmatrix testconfig testls testdataset testnumeric testfft
+noinst_PROGRAMS = testall testwindows testmatrix testconfig testls testdataset testnumeric testfft testinterp
 EXTRA_PROGRAMS = testallhuge
 
 testwindows_SOURCES = alltests.cpp cep_testWindows.cpp
 testwindows_LDADD = ../cepDataWindower.o ../cepWindowAlg.o ../cepWindowRect.o ../cepwindowhamming.o ../cepwindowchebyshev.o ../cepwindowblackman.o
 
 testmatrix_SOURCES = alltests.cpp cep_testMatrix.cpp
+
+testinterp_SOURCES = alltests.cpp cep_testInterp.cpp
 
 testconfig_SOURCES = alltests.cpp cep_testConfig.cpp
 
@@ -31,7 +33,7 @@ testfft_SOURCES = alltests.cpp cep_testCfft.cpp
 # 3: Add the .cpp files here, and add a variable if you used objects from the
 # source directory. Sometimes, if it is heaps of tests which you only want to
 # run very occassionally, it might belong in (4) instead...
-testall_SOURCES = alltests.cpp cep_testWindows.cpp cep_testMatrix.cpp cep_testConfig.cpp cep_testLs.cpp cep_testDataset.cpp cep_testNumeric.cpp cep_testCfft.cpp
+testall_SOURCES = alltests.cpp cep_testWindows.cpp cep_testMatrix.cpp cep_testConfig.cpp cep_testLs.cpp cep_testDataset.cpp cep_testNumeric.cpp cep_testCfft.cpp cep_testInterp.cpp
 testall_LDADD = $(testwindows_LDADD) $(testls_LDADD) $(testdataset_LDADD)
 
 # 4: A special target for really long winded tests

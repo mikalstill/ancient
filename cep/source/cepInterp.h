@@ -29,6 +29,7 @@ interpolation.
 #include <iostream.h>
 #include <math.h>
 #include <stdlib.h>
+#include <vector.h>
 #include "cepMatrix.h"
 
 #ifndef __CEP_INTERP_H
@@ -40,6 +41,20 @@ const int NATURAL_SPLINE_INTERP = 3;
 const int CUBIC_SPLINE_INTERP = 4;
 const int DIVIDED_INTERP = 5;
 
+/****
+DOCBOOK START
+cep Interpolation class
+
+This class has been designed for the purpose of interpolating
+geodesy data matrices to new timescales.  The forseen use of
+this class is to simulate datasets with a standard sanpling rate.
+
+To this end the class has 2 use methods, both called do interp.  One
+where you provide a sample rate and a second where a custom
+timescale may be provided.
+
+DOCBOOK END
+****/
 class cepInterp
 {
 
@@ -74,8 +89,8 @@ DOCBOOK START
 	  return value: Interpolated cepMatrix.
 DOCBOOK END
 */
-  cepMatrix<double> & doInterp(const cepMatrix<double> & input, double sampleRate,
-									int interpType, int winSize = 1, double winOverlap = 0);
+  cepMatrix<double> & doInterp(cepMatrix<double> const & input, double sampleRate,
+									int interpType, int winSize = 1, double winOverlap = 0.0);
 
 /****
 DOCBOOK START
@@ -92,39 +107,78 @@ DOCBOOK START
 				and the second column is blank. Note: This value is changed
 				(can also be used as a return value)
 		interpType: Type of interpolation to be used:
-						NEAREST_INTERP: (1) Nearest neigbour interpolation
-						LINEAR_INTERP:  (2) Linear interpolation between points
-						NATURAL_SPLINE_INTERP:  (3) Natural spline interpolation
-						CUBIC_SPLINE_INTERP: (4) p spline interpolation
-						DIVIDED_INTERP: (5) newton divided differences
+				NEAREST_INTERP: (1) Nearest neigbour interpolation
+				LINEAR_INTERP:  (2) Linear interpolation between points
+				NATURAL_SPLINE_INTERP:  (3) Natural spline interpolation
+				CUBIC_SPLINE_INTERP: (4) p spline interpolation
+				DIVIDED_INTERP: (5) newton divided differences
 	 Exports:
 		return value: 2 column matrix where the first column is the timescale and
 				the second column is the interpolated data points to fit that timescale
 DOCBOOK END
 */
-	cepMatrix<double> & doInterp(const cepMatrix<double> & input, cepMatrix<double> & timeScale,
+	cepMatrix<double> & doInterp(cepMatrix<double> const & input, cepMatrix<double> & timeScale,
 												int interpType);
 
 
 private:
 
- // internal interpolation methods
-	cepMatrix<double> & nearestInterp(const cepMatrix<double> & input,
-												cepMatrix<double> & timeScale,	int interpType);
-	cepMatrix<double> & linearInterp(const cepMatrix<double> & input,
-												cepMatrix<double> & timeScale, int interpType);
-	cepMatrix<double> & naturalSplineInterp(const cepMatrix<double> & input,
-												cepMatrix<double> & timeScale, int interpType);
-	cepMatrix<double> & cubicSplineInterp(const cepMatrix<double> & input,
-												cepMatrix<double> & timeScale, int interpType);
-	cepMatrix<double> & dividedInterp(const cepMatrix<double> & input,
-												cepMatrix<double> & timeScale, int interpType);
+ // internal interpolation implementation methods
 
+/*
+Basic usage for ALL internal interpolation classes:
+
+Imports:
+		input: Is a single window matrix, with date as the first column and
+				location values as the second column.
+	  timescale: 2 column matrix where the first column defines a new timescale
+				and the second column is blank. Note: This value is changed
+				(can also be used as a return value)
+Exports:
+		return value: 2 column matrix where the first column is the timescale and
+				the second column is the interpolated data points to fit that timescale
+*/
+
+// Nearest neighbour interpolation
+// Estimates points to be equal to nearest point
+	cepMatrix<double> & nearestInterp(const cepMatrix<double> & input,
+												cepMatrix<double> & timeScale);
+// Linear interpolation
+// Estimates new points as a linear interp of the 2 nearest points
+	cepMatrix<double> & linearInterp(const cepMatrix<double> & input,
+												cepMatrix<double> & timeScale);
+// Natural spline interpolation
+// Estimates new points using a natural spline
+// (Natural spline: second derivatives of end points = 0)
+	cepMatrix<double> & naturalSplineInterp(const cepMatrix<double> & input,
+												cepMatrix<double> & timeScale);
+// Cubic spline interpolation
+// Estimates new points using a P spline
+// (P spline: second derivative of end points = second to end points)
+	cepMatrix<double> & cubicSplineInterp(const cepMatrix<double> & input,
+												cepMatrix<double> & timeScale);
+// Divided difference interpolation
+// Estimates new points using newton divided differences
+// (order of divided differences optimized for minimum error)
+	cepMatrix<double> & dividedInterp(const cepMatrix<double> & input,
+												cepMatrix<double> & timeScale);
+
+// Used for keeping fill command within bounds while interpolation
+// (also icrements counter)
 	bool inBounds(const cepMatrix<double> & input, cepMatrix<double> & timeScale,
 									 int & position, int & i, int newSize, int oldSize);
-	void rowReduce(cepMatrix<double> & t, cepMatrix<double> & s);
+
+// RowReduce: (used in spline interpolation)
+// Row reduces a tridiagonal matrix t augmented by the middle n-1 rows of s
+// to save memory t is stored as a 3 by n-1 matrix
+	void rowReduce(cepMatrix<double> & t, cepMatrix<double> & s, int n);
+
+// calc_abc: (used in spline interpolation)
+// Calculates the the a, b and c parameter of a spline model (see spline documentation)
+// Imports: s, h, import, n
+// Exports: a, b, c
 	void calc_abc(cepMatrix<double> & a,cepMatrix<double> & b,cepMatrix<double> & c,
-								cepMatrix<double> & s,cepMatrix<double> & h,cepMatrix<double> & input, int n);
+								cepMatrix<double> & s,cepMatrix<double> & h,const cepMatrix<double> & input, int n);
 
 };
 
