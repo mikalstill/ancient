@@ -39,11 +39,14 @@
  *     void tearDown( void ) { ... }
  *
  * @author <your name here>
- * @version $Revision: 1.2 $ $Date: 2002-08-28 11:52:36 $
+ * @version $Revision: 1.3 $ $Date: 2002-08-28 14:28:58 $
  *
  * Revision History
  *
  * $Log: not supported by cvs2svn $
+ * Revision 1.2  2002/08/28 11:52:36  u982087
+ * updated to use the singlton config class
+ *
  * Revision 1.1  2002/08/09 14:28:58  u982087
  * An initial test that verifies config
  * This wold be exteded but config has been verified via use.
@@ -60,19 +63,21 @@ class Test : public CppUnit::TestFixture {
 
 public:
   /* default constructor */
-  Test() : CppUnit::TestFixture() {}
+  Test() : CppUnit::TestFixture() {
+    cepConfiguration::initialise("testcfg");
+    cfg = &cepConfiguration::getInstance();
+  }
 
   /** setup - run prior to each test */
-  void setUp ()
-  { /* initialise any resources*/ }
+  void setUp () {
+  }
 
   /** teardown - run after each test */
-  void tearDown ()
-  { /* free any allocated resources */ }
+  void tearDown () {
+  }
 
   /**
    * constructs a test suite.
-   * Add your tests to the suite by copying and editing the addTest call
    */
   static CppUnit::Test *suite()
   {
@@ -87,24 +92,24 @@ public:
 
 protected:
   typedef cepConfiguration config;
-  /**
-   * DEFINE YOUR TESTS HERE:
-   * make your tests protected since you dont need to expose them
-   */
+  config *cfg;
 
-  /** simple test 1. uses a generic assert true macro */
+  /** tests the parsing of a single entry. sets an entry and reads the value back */
   void testParseEntry()
   {
     string key("name");
     string value("blake");
     string returned;
 
-    cepConfiguration::initialise("testcfg");
-    config cfg = cepConfiguration::getInstance();
-    pair< string, string > vals;
     
-    cfg.setValue( key, value);
-    cfg.getValue( key, "foo", returned);
+    pair< string, string > vals;
+
+    if( cfg != NULL ) {
+      cfg->setValue( key, value);
+      cfg->getValue( key, "foo", returned);
+    } else {
+      cout << "cfg is not initialised??" << endl;
+    }
     
     CPPUNIT_ASSERT( returned == value );
   }
@@ -115,6 +120,6 @@ protected:
   * Register the test immeditely after definition. This should probably
   * be done in the class header file for larger projects
   */
-CPPUNIT_TEST_SUITE_REGISTRATION( Test );
+// CPPUNIT_TEST_SUITE_REGISTRATION( Test );
 
 } // end namespace
