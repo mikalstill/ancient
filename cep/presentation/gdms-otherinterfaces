@@ -1,4 +1,4 @@
-TITLE: Other interfaces (Mikal)
+TITLE: Other interfaces
 
 <li>GDMS also supports two other user interfaces
 
@@ -6,3 +6,12 @@ TITLE: Other interfaces (Mikal)
 
 <li>Command line
 <li>Batch processing
+
+<pre>
+open /home/httpd/gdms-datasets/mb_AUCK_GPS
+window blackman 128 64 /tmp/newds
+open /tmp/newds
+fft /tmp/newds2
+open /tmp/newds2
+plot y /home/httpd/html/gdms-plots/mb_AUCK_GPS-y.png
+</pre>
