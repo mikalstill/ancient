@@ -64,7 +64,7 @@ For those of you using gcc on a unix (or unix-like) operating system, then the f
 <para>
 There are many people who need to be thanked when one attempts a project of this size. I would specifically like to thank my wife and son, who put up with me being geeky so very often.
 
-%todo: picture of Andrew and Catherine%
+<execute><cmd>todo</cmd><input>picture of Andrew and Catherine</input></execute>
 </para>
 </sect1>
 
@@ -81,13 +81,13 @@ This document is covered by two licenses -- the license for the text of this doc
 
 <sect2><title>License for text (OPL)</title>
 <para>
-%text2db.pl:OPL%
+<execute><cmd>text2db.pl</cmd><input>OPL</input></execute>
 </para>
 </sect2>
 
 <sect2><title>License for source code (GPL)</title>
 <para>
-%text2db.pl:GPL%
+<execute><cmd>text2db.pl</cmd><input>GPL</input></execute>
 </para>
 </sect2>
 
