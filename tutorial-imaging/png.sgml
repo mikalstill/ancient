@@ -293,7 +293,7 @@ This is the image header chunk. This chunk <emphasis>must be first</emphasis> in
 </table>
 
 <para>
-There are various values which are valid for the color type field. Each of these types has only certain bite depths allowed.
+There are various values which are valid for the color type field. Each of these types has only certain byte depths allowed.
 </para>
 
 <table frame='all'><title>PNG on disc: IHDR chunk color types</title>
