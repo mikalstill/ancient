@@ -7,15 +7,15 @@ void fileutil_insertstring(FILE *, char *);
 void fileutil_insertinteger(FILE *, int);
 void fileutil_insertshort(FILE *, int);
 
-void fileutil_displaystring(FILE *, char *);
-long fileutil_displaylong(FILE *, char *);
-int fileutil_displayinteger(FILE *, char *);
-int fileutil_displayshort(FILE *, char *);
-char *fileutil_displaybyteblock(FILE *, char *, int);
-int fileutil_displaybyte(FILE *, char *);
-int fileutil_displaybyte_actual(FILE *, char *);
-int fileutil_displaywindowslanguage(FILE *, char *);
-int fileutil_displayencinteger(FILE *, char *, int *);
+void fileutil_displaystring(char *, char *, long long *);
+long fileutil_displaylong(char *, char *, long long *);
+int fileutil_displayinteger(char *, char *, long long *);
+int fileutil_displayshort(char *, char *, long long *);
+char *fileutil_displaybyteblock(char *, char *, int, long long *);
+int fileutil_displaybyte(char *, char *, long long *);
+int fileutil_displaybyte_actual(char *, char *, long long *);
+int fileutil_displaywindowslanguage(char *, char *, long long *);
+int fileutil_displayencinteger(char *, char *, int *, long long *);
 
 typedef union memopad_internal_mint32{
   int i;

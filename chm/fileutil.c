@@ -36,115 +36,125 @@ void fileutil_insertshort(FILE *output, int value){
 }
 
 // Display a C++ serialized string
-void fileutil_displaystring(FILE *input, char *format){
-  int i;
+void fileutil_displaystring(char *input, char *format, long long *filep){
+  int i, read, readlocal;
+  long long count = *filep;
 
   // Determine the length of the file -- this matches C++ CString serialization
-  i = fgetc(input);
+  i = input[count++];
   if(i == 0xFF){
-    i = fileutil_displayshort(input, "  Length might be a short: ");
+    i = fileutil_displayshort(input, "  Length might be a short: ", &count);
     if(i == 0xFFFF){
-      i = fileutil_displayinteger(input, "  Length might be an integer: ");
+      i = fileutil_displayinteger(input, "  Length might be an integer: ", &count);
     }
   }
 
   printf(format, i);
   for(; i != 0; i--){
-    printf("%c", fgetc(input));
+    printf("%c", input[count++]);
   }
+
+  *filep = count;
 }
 
 // Display an 8 byte long
-long fileutil_displaylong(FILE *input, char *format){
+long fileutil_displaylong(char *input, char *format, long long *filep){
   mint64 mylong;
 
   mylong.i = 0;
   printf(format);
-  mylong.c[0] = fgetc(input);
-  mylong.c[1] = fgetc(input);
-  mylong.c[2] = fgetc(input);
-  mylong.c[3] = fgetc(input);
-  mylong.c[4] = fgetc(input);
-  mylong.c[5] = fgetc(input);
-  mylong.c[6] = fgetc(input);
-  mylong.c[7] = fgetc(input);
+  mylong.c[0] = input[*filep]; 
+  mylong.c[1] = input[*filep + 1]; 
+  mylong.c[2] = input[*filep + 2]; 
+  mylong.c[3] = input[*filep + 3]; 
+  mylong.c[4] = input[*filep + 4]; 
+  mylong.c[5] = input[*filep + 5]; 
+  mylong.c[6] = input[*filep + 6]; 
+  mylong.c[7] = input[*filep + 7]; 
 
   printf("(long long) %d [8 bytes]", mylong.i);
+  *filep += 8;
   return mylong.i;
 }
 
 // Display a 4 byte int
-int fileutil_displayinteger(FILE *input, char *format){
+int fileutil_displayinteger(char *input, char *format, long long *filep){
   mint32 myint;
 
   myint.i = 0;
   printf(format);
-  myint.c[0] = fgetc(input);
-  myint.c[1] = fgetc(input);
-  myint.c[2] = fgetc(input);
-  myint.c[3] = fgetc(input);
+
+  myint.c[0] = input[*filep]; 
+  myint.c[1] = input[*filep + 1];
+  myint.c[2] = input[*filep + 2]; 
+  myint.c[3] = input[*filep + 3]; 
+  *filep += 4;
 
   printf("(int) %d [4 bytes]", myint.i);
   return myint.i;
 }
 
 // Display a short (aka DWORD), 2 bytes
-int fileutil_displayshort(FILE *input, char *format){
+int fileutil_displayshort(char *input, char *format, long long *filep){
   mint32 myint;
 
   myint.i = 0;
   printf(format);
-  myint.c[0] = fgetc(input);
-  myint.c[1] = fgetc(input);
+  myint.c[0] = input[*filep]; 
+  myint.c[1] = input[*filep + 1]; 
+  *filep += 2;
 
   printf("(short) %d [2 bytes]", myint.i);
   return myint.i;
 }
 
-char *fileutil_displaybyteblock(FILE *input, char *format, int len){
+char *fileutil_displaybyteblock(char *input, char *format, int len, long long *filep){
   int count;
   unsigned char *result;
+  long long consumed = *filep;
 
   printf("%s (%d bytes) ", format, len);
-
   if((result = (unsigned char *) malloc(sizeof(char) * len)) == NULL){
     fprintf(stderr, "Memory allocation error\n");
     return NULL;
   }
 
   for(count = 0; count < len; count++){
-    result[count] = fileutil_displaybyte_actual(input, "");
+    result[count] = fileutil_displaybyte_actual(input, "", &consumed);
   }
 
+  *filep = consumed;
   return result;
 }
 
-int fileutil_displaybyte(FILE *input, char *format){
+int fileutil_displaybyte(char *input, char *format, long long *filep){
   printf(format);
-  return fileutil_displaybyte_actual(input, "(byte) ");
+  return fileutil_displaybyte_actual(input, "(byte) ", filep);
 }
 
 // Display a byte (aka WORD)
-int fileutil_displaybyte_actual(FILE *input, char *format){
+int fileutil_displaybyte_actual(char *input, char *format, long long *filep){
   unsigned char byte;
 
   printf(format);
-  byte = fgetc(input);
+  byte = input[*filep]; 
   printf("%d", byte);
+  *filep += 1;
   return byte;
 }
 
 // Display a language ID having made a half hearted attempt to decode it
-int fileutil_displaywindowslanguage(FILE *input, char *format){
+int fileutil_displaywindowslanguage(char *input, char *format, long long *filep){
   mint32 myint;
   int index;
 
   myint.i = 0;
   printf(format);
-  myint.c[0] = fgetc(input);
-  myint.c[1] = fgetc(input);
-  myint.c[2] = fgetc(input);
-  myint.c[3] = fgetc(input);
+  myint.c[0] = input[*filep]; 
+  myint.c[1] = input[*filep + 1]; 
+  myint.c[2] = input[*filep + 2]; 
+  myint.c[3] = input[*filep + 3]; 
+  *filep += 4;
   
   index = 0;
   while(languages[index].name != NULL){
@@ -165,25 +175,29 @@ int fileutil_displaywindowslanguage(FILE *input, char *format){
 }
 
 // Display a MS GUID
-char *fileutil_displayguid(FILE *input, char *format){
+char *fileutil_displayguid(char *input, char *format, long long *filep){
+  long long count = *filep;
+
   printf(format);
-  fileutil_displayinteger(input, "");
-  fileutil_displayshort(input, " ");
-  fileutil_displayshort(input, " ");
-  fileutil_displaybyteblock(input, " ", 8);
+  fileutil_displayinteger(input, "", &count);
+  fileutil_displayshort(input, " ", &count);
+  fileutil_displayshort(input, " ", &count);
+  fileutil_displaybyteblock(input, " ", 8, &count);
+  *filep = count;
 }
 
 // "Encoded integer", used by MS CHM
-int fileutil_displayencinteger(FILE *input, char *format, int *read){
+int fileutil_displayencinteger(char *input, char *format, int *read, long long *filep){
   int continued = 1, val, accval = 0, readcount = 0;
   unsigned char b;
-  printf(format);
+  long long count = *filep;
 
+  printf(format);
   printf("(encoded int) ");
   while(continued == 1){
     readcount++;
 
-    b = fgetc(input);
+    b = input[count++];
     continued = b >> 7;
     val = b << 1;
     val = val >> 1;
@@ -194,4 +208,5 @@ int fileutil_displayencinteger(FILE *input, char *format, int *read){
 
   printf("= %d", accval);
   *read = readcount;
+  *filep = count;
 }
