@@ -3,63 +3,73 @@
 #include "objectmodel.h"
 #include <stdio.h>
 
-dictitem::dictitem(diType type, string name):
-  m_type(type),
-  m_name(name)
+dictitem::dictitem (diType type, string name):
+m_type (type), m_name (name)
 {
-  printf("DEBUG: Created an item with name %s, type %d\n", name.c_str(), (int) type);
+  printf ("DEBUG: Created an item with name %s, type %d\n", name.c_str (),
+	  (int) type);
 }
 
-dictitem::dictitem()
-{}
+dictitem::dictitem ()
+{
+}
 
-void dictitem::setValue(string value)
+void
+dictitem::setValue (string value)
 {
   m_string = value;
 }
 
-void dictitem::setValue(int num, int gen)
+void
+dictitem::setValue (int num, int gen)
 {
   m_int = num;
   m_generation = gen;
 }
 
-void dictitem::setValue(int integer)
+void
+dictitem::setValue (int integer)
 {
   m_int = integer;
 }
 
-void dictitem::setValue(dictionary dict)
+void
+dictitem::setValue (dictionary dict)
 {
-  m_dictionary = dict.getItems();
+  m_dictionary = dict.getItems ();
 }
 
-dictitem::diType dictitem::getType()
+dictitem::diType dictitem::getType ()
 {
   return m_type;
 }
 
-string dictitem::getName()
+string
+dictitem::getName ()
 {
   return m_name;
 }
 
-int dictitem::getIntValue()
+int
+dictitem::getIntValue ()
 {
   return m_int;
 }
 
-int dictitem::getGeneration()
+int
+dictitem::getGeneration ()
 {
   return m_generation;
 }
 
-string dictitem::getStringValue()
+string
+dictitem::getStringValue ()
 {
   return m_string;
 }
 
-dictionary dictitem::getDictionaryValue()
+dictionary
+dictitem::getDictionaryValue ()
 {
-  return dictionary(m_dictionary);
+  return dictionary (m_dictionary);
 }

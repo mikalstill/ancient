@@ -15,27 +15,27 @@
 
 typedef void (*progressCallback) (void);
 
-bool pandaedit(char *filename, pdf *aPDF, const progressCallback progress);
+pdf *pandaedit (char *filename, const progressCallback progress);
 
 // Parsing interface
-void pandaedit_begindocument(int, va_list);
-void pandaedit_specversion(int, va_list);
-void pandaedit_objstart(int, va_list);
-void pandaedit_objend(int, va_list);
+void pandaedit_begindocument (int, va_list);
+void pandaedit_specversion (int, va_list);
+void pandaedit_objstart (int, va_list);
+void pandaedit_objend (int, va_list);
 
-void pandaedit_dictitem_string(int, va_list);
-void pandaedit_dictitem_name(int, va_list);
-void pandaedit_dictitem_arraystart(int, va_list);
-void pandaedit_dictitem_arrayitem(int, va_list);
-void pandaedit_dictitem_arrayend(int, va_list);
-void pandaedit_dictitem_object(int, va_list);
-void pandaedit_dictitem_dict(int, va_list);
-void pandaedit_dictitem_dictend(int, va_list);
-void pandaedit_dictitem_int(int, va_list);
+void pandaedit_dictitem_string (int, va_list);
+void pandaedit_dictitem_name (int, va_list);
+void pandaedit_dictitem_arraystart (int, va_list);
+void pandaedit_dictitem_arrayitem (int, va_list);
+void pandaedit_dictitem_arrayend (int, va_list);
+void pandaedit_dictitem_object (int, va_list);
+void pandaedit_dictitem_dict (int, va_list);
+void pandaedit_dictitem_dictend (int, va_list);
+void pandaedit_dictitem_int (int, va_list);
 
-void pandaedit_stream(int, va_list);
-void pandaedit_procstream(char *, int, char *, int);
+void pandaedit_stream (int, va_list);
+void pandaedit_procstream (char *, int, char *, int);
 
-int pandaedit_atoi(char *);
+int pandaedit_atoi (char *);
 
 #endif

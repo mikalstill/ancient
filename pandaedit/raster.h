@@ -5,12 +5,13 @@
 
 class object;
 
-class raster{
- public:
-  raster(object& obj);
-  void setData(char *data);
+class raster
+{
+public:
+  raster (object & obj);
+  void setData (char *data);
 
- private:
+private:
   char *m_data;
 
   // Parameters

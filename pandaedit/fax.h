@@ -3,12 +3,14 @@
 
 #include "decompressor.h"
 
-class fax: public decompressor{
- public:
-  void reinit();
-  char *decompress(char *output, unsigned long length, unsigned long& newlength);
+class fax:public decompressor
+{
+public:
+  void reinit ();
+  char *decompress (char *output, unsigned long length,
+		    unsigned long &newlength);
 
- private:
+private:
 };
 
 #endif

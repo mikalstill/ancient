@@ -16,7 +16,7 @@
   * You should have received a copy of the GNU General Public License along
   * with this program; if not, write to the Free Software Foundation, Inc., 675
   * Mass Ave, Cambridge, MA 02139, USA. 
-*/
+  */
 
 /******************************************************************************
 DOCBOOK START
@@ -84,16 +84,17 @@ DOCBOOK END
 
 #include "genErrorHandler.h"
 
-class genWxErrorHandler : public genErrorHandler  {
-public: 
-	genWxErrorHandler();
-	~genWxErrorHandler();
+class genWxErrorHandler:public genErrorHandler
+{
+public:
+  genWxErrorHandler ();
+  ~genWxErrorHandler ();
 
-   void displayError( class genError & error );
-   void logError( class genError & error );
+  void displayError (class genError & error);
+  void logError (class genError & error);
 
 private:
-  int getIcon( class genError err );
+  int getIcon (class genError err);
 };
 
-#endif  // ! __CEP_WXERRORHANDLER_H
+#endif // ! __CEP_WXERRORHANDLER_H

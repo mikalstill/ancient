@@ -32,7 +32,7 @@ public:
   string operator[] (size_t index);
 
 private:
-  vector < string > m_broken;
+    vector < string > m_broken;
   string m_unbroken;
 };
 

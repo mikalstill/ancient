@@ -46,21 +46,23 @@
 
 class pdfDoc:public wxDocument
 {
-  DECLARE_DYNAMIC_CLASS (pdfDoc) 
-
-public:
+DECLARE_DYNAMIC_CLASS (pdfDoc) public:
   pdfDoc (void);
-  ~pdfDoc (void);
-  
-  bool OnOpenDocument(const wxString& filename);
-  bool OnSaveDocument(const wxString& filename);
-  
+   ~pdfDoc (void);
+
+  bool OnOpenDocument (const wxString & filename);
+  bool OnSaveDocument (const wxString & filename);
+
   void incrementProgress ();
-  
- private:
-  wxProgressDialog *m_progress;
+  bool isReady();
+  pdf *getPDF();
+
+private:
+  wxProgressDialog * m_progress;
   long m_progressCount, m_progressMax;
   pdf *m_pdf;
+  objectlist m_pages;
+  bool m_ready;
 };
 #endif
 

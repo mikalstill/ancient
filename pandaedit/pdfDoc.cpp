@@ -54,6 +54,8 @@
 
 #include "pdfDoc.h"
 #include "pdfView.h"
+#include "objectmodel.h"
+#include "utility.h"
 #include <stdio.h>
 
 IMPLEMENT_DYNAMIC_CLASS (pdfDoc, wxDocument)
@@ -61,7 +63,8 @@ IMPLEMENT_DYNAMIC_CLASS (pdfDoc, wxDocument)
 // This is needed for the progess callback to get to us
 pdfDoc *gProgressDoc;
 
-pdfDoc::pdfDoc (void)
+pdfDoc::pdfDoc (void):
+  m_ready(false)
 {
   m_progress = NULL;
   gProgressDoc = this;
@@ -71,20 +74,52 @@ pdfDoc::~pdfDoc (void)
 {
 }
 
-bool pdfDoc::OnSaveDocument(const wxString& filename)
+bool
+pdfDoc::OnSaveDocument (const wxString & filename)
 {
   return TRUE;
 }
- 
-bool pdfDoc::OnOpenDocument(const wxString& filename)
+
+bool
+pdfDoc::OnOpenDocument (const wxString & filename)
 {
   m_progressCount = 0;
   m_progressMax = 10;
   m_progress = new wxProgressDialog ("Loading PDF file",
-                                     "Please wait while the PDF file is parsed");
+				     "Please wait while the PDF file is parsed");
 
   // todo_mikal: check return code
-  pandaedit((char *) filename.c_str(), m_pdf, ds_progressCallback);
+  if ((m_pdf = pandaedit ((char *) filename.c_str (), ds_progressCallback)) != NULL)
+    {
+      ((wxFrame *) wxGetApp ().GetTopWindow ())->
+	SetStatusText ("PDF document parsed", 0);
+
+      // Determine how many pages the PDF contains
+      objectlist pages = m_pdf->getPages ();
+      m_pages = pages;
+      if (m_pages.size () != 0)
+	{
+	  ((wxFrame *) wxGetApp ().GetTopWindow ())->
+	    SetStatusText (string
+			   ("PDF document contains " +
+			    toString (m_pages.size ()) + " pages").c_str (), 0);
+	  m_ready = true;
+	}
+      else
+	{
+	  delete m_progress;
+	  m_progress = NULL;
+	  printf("DEBUG: Document contains no pages\n");
+	  return FALSE;
+	}
+    }
+  else
+    {
+      delete m_progress;
+      m_progress = NULL;
+      printf("DEBUG: Parse failed\n");
+      return FALSE;
+    }
 
   // Cleanup
   delete m_progress;
@@ -96,10 +131,22 @@ void
 pdfDoc::incrementProgress ()
 {
   m_progressCount++;
-  if(m_progressCount > m_progressMax)
+  if (m_progressCount > m_progressMax)
     m_progressMax *= 2;
-  printf("DEBUG: Progress %d of %d\n", m_progressCount, m_progressMax);
+  printf ("DEBUG: Progress %d of %d\n", m_progressCount, m_progressMax);
   m_progress->Update (m_progressCount * 100 / m_progressMax);
+}
+
+bool
+pdfDoc::isReady()
+{
+  return m_ready;
+}
+
+pdf *
+pdfDoc::getPDF()
+{
+  return m_pdf;
 }
 
 // A scary global progress handler

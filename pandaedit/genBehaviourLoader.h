@@ -17,12 +17,13 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-class genBehaviourLoader{
- public:
-  genBehaviourLoader(string filename, void *progress);
+class genBehaviourLoader
+{
+public:
+  genBehaviourLoader (string filename, void *progress);
 
- private:
-  
-  
-  
+private:
+
+
+
 };

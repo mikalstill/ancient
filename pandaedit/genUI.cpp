@@ -39,6 +39,8 @@
 #include <unistd.h>
 
 fstream gLog;
+extern int gVerboseLevel;
+extern int gLogLevel;
 
 // For compilers that support precompilation, includes "wx/wx.h".
 #include "wx/wxprec.h"
@@ -71,23 +73,29 @@ IMPLEMENT_APP (genApp) genApp::genApp (void)
 {
   m_docManager = (wxDocManager *) NULL;
   errHandler = (genWxErrorHandler *) NULL;
-  gLog.open ("gen.log", ios::out);
+
+  // todo_mikal: this should only be created if needed
+  gLog.open ("pandaedit.log", ios::out);
 }
 
-bool
-genApp::OnInit (void)
+bool genApp::OnInit (void)
 {
   // Subscribe a wx windows based error handler
-  errHandler = new genWxErrorHandler();
-  genError::addErrorHandler( *errHandler );
+  errHandler = new genWxErrorHandler ();
+  genError::addErrorHandler (*errHandler);
+
+  gVerboseLevel = 100;
+  gLogLevel = 100;
 
   // Create a document manager
   m_docManager = new wxDocManager;
 
   // Let the user be able to open new application modules
-  (void)new
-    wxDocTemplate ((wxDocManager *) m_docManager, "Portable Document Format files", "*.pdf",
-                   "", "pdf", "PDF", "PDF View", CLASSINFO (pdfDoc), CLASSINFO (pdfView));
+  (void) new
+    wxDocTemplate ((wxDocManager *) m_docManager,
+		   "Portable Document Format files", "*.pdf", "", "pdf",
+		   "PDF", "PDF View", CLASSINFO (pdfDoc),
+		   CLASSINFO (pdfView));
 
   // Initialise bitmap handlers (we need these for the presentation layer)
 #if wxUSE_LIBPNG
@@ -113,14 +121,15 @@ genApp::OnInit (void)
 #if wxUSE_PNM
   wxImage::AddHandler (new wxPNMHandler);
 #endif
-    
+
   // Create the main frame window
-  int windowx, windowy;
+  int
+    windowx,
+    windowy;
   frame =
     new genFrame ((wxDocManager *) m_docManager, (wxFrame *) NULL,
-                  (const wxString)"genapp",
-                  wxPoint (0, 0), wxSize (500, 500),
-                  wxDEFAULT_FRAME_STYLE);
+		  (const wxString) "genapp",
+		  wxPoint (0, 0), wxSize (500, 500), wxDEFAULT_FRAME_STYLE);
 
   // Give it an icon (this is ignored in MDI mode: uses resources)
 #ifdef __WXMSW__
@@ -131,8 +140,13 @@ genApp::OnInit (void)
 #endif
 
   // Make a menubar
-  wxMenu *file_menu = new wxMenu;
-  wxMenu *edit_menu = (wxMenu *) NULL;
+  wxMenu *
+    file_menu =
+    new
+    wxMenu;
+  wxMenu *
+    edit_menu = (wxMenu *)
+    NULL;
 
   // This is magic, the shortcut keys just work from the menu name...
   file_menu->Append (wxID_OPEN, "&Open...\tCtrl-O");
@@ -142,11 +156,17 @@ genApp::OnInit (void)
   // A nice touch: a history of files visited. Use this menu.
   m_docManager->FileHistoryUseMenu (file_menu);
 
-  wxMenu *help_menu = new wxMenu;
+  wxMenu *
+    help_menu =
+    new
+    wxMenu;
 
   help_menu->Append (CEPMENU_ABOUT, "&About\tF1");
 
-  wxMenuBar *menu_bar = new wxMenuBar;
+  wxMenuBar *
+    menu_bar =
+    new
+    wxMenuBar;
 
   menu_bar->Append (file_menu, "&File");
   if (edit_menu)
@@ -157,7 +177,7 @@ genApp::OnInit (void)
   frame->SetMenuBar (menu_bar);
 
   // We also have a status bar (3 is the number of fields)
-  frame->CreateStatusBar(3);
+  frame->CreateStatusBar (3);
 
   // Center on the window and make it visible
   frame->Centre (wxBOTH);
@@ -190,8 +210,8 @@ genApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
   // Make a child frame
   wxDocMDIChildFrame *subframe =
     new wxDocMDIChildFrame (doc, view, GetMainFrame (), -1, "Child Frame",
-                            wxPoint (10, 10), wxSize (300, 300),
-                            wxDEFAULT_FRAME_STYLE);
+			    wxPoint (10, 10), wxSize (300, 300),
+			    wxDEFAULT_FRAME_STYLE);
 
 #ifdef __WXMSW__
   subframe->SetIcon (wxString (isCanvas ? "chart" : "notepad"));
@@ -209,12 +229,12 @@ genApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
   file_menu->Append (wxID_SAVEAS, "Save &As...");
 
   if (isCanvas)
-  {
-    file_menu->AppendSeparator ();
-    file_menu->Append (wxID_PRINT, "&Print...");
-    file_menu->Append (wxID_PRINT_SETUP, "Print &Setup...");
-    file_menu->Append (wxID_PREVIEW, "Print Pre&view");
-  }
+    {
+      file_menu->AppendSeparator ();
+      file_menu->Append (wxID_PRINT, "&Print...");
+      file_menu->Append (wxID_PRINT_SETUP, "Print &Setup...");
+      file_menu->Append (wxID_PREVIEW, "Print Pre&view");
+    }
 
   file_menu->AppendSeparator ();
   file_menu->Append (wxID_EXIT, "E&xit");
@@ -235,16 +255,7 @@ genApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
  * This is the top-level window of the application.
  */
 
-IMPLEMENT_CLASS (genFrame, wxDocMDIParentFrame)
-BEGIN_EVENT_TABLE (genFrame, wxDocMDIParentFrame)
-  EVT_MENU (CEPMENU_ABOUT, genFrame::OnAbout)
-  EVT_MENU (CEPMENU_TESTERRORS, genFrame::OnTestErrors)
-EVT_CLOSE (genFrame::OnClose)
-END_EVENT_TABLE ()
-
-genFrame::genFrame (wxDocManager * manager, wxFrame * frame, 
-		    const wxString & title, const wxPoint & pos, 
-		    const wxSize & size, long type):
+IMPLEMENT_CLASS (genFrame, wxDocMDIParentFrame) BEGIN_EVENT_TABLE (genFrame, wxDocMDIParentFrame) EVT_MENU (CEPMENU_ABOUT, genFrame::OnAbout) EVT_MENU (CEPMENU_TESTERRORS, genFrame::OnTestErrors) EVT_CLOSE (genFrame::OnClose) END_EVENT_TABLE ()genFrame::genFrame (wxDocManager * manager, wxFrame * frame, const wxString & title, const wxPoint & pos, const wxSize & size, long type):
 wxDocMDIParentFrame (manager, frame, -1, title, pos, size, type, "myFrame")
 {
   editMenu = (wxMenu *) NULL;
@@ -268,19 +279,23 @@ genFrame::OnAbout (wxCommandEvent & WXUNUSED (event))
   msg << "Released under the terms of the GNU GPL";
 
   wxMessageBox
-    ((const wxString &)msg.str ().c_str (),
+    ((const wxString &) msg.str ().c_str (),
      "About Geodetic Data Modelling System");
 }
 
 void
 genFrame::OnTestErrors (wxCommandEvent & WXUNUSED (event))
 {
-  if(wxMessageBox("Are you sure you want to do this? It should cause the user interface to exit, loosing all of your work...", "Are you sure?", wxYES_NO) == wxYES){
-    for(int i = 0; i < genError::sevMax; i++){
-      genError e("Testing 123", (genError::severity) i);
-      e.display();
+  if (wxMessageBox
+      ("Are you sure you want to do this? It should cause the user interface to exit, loosing all of your work...",
+       "Are you sure?", wxYES_NO) == wxYES)
+    {
+      for (int i = 0; i < genError::sevMax; i++)
+	{
+	  genError e ("Testing 123", (genError::severity) i);
+	  e.display ();
+	}
     }
-  }
 }
 
 // Creates a canvas. Called from view.cpp when a new drawing

@@ -8,25 +8,28 @@
 // which is where I am based...
 #warning "This program may breach the LZW patent held by Unisys. There is too much FUD to be able to tell."
 
-class lzwTable{
- public:
-  vector<unsigned char> getValue(int code);
-  bool exists(vector<unsigned char> seq);
-  bool pushValue(vector<unsigned char> seq);
-  void clear();
-  unsigned int size();
+class lzwTable
+{
+public:
+  vector < unsigned char >getValue (int code);
+  bool exists (vector < unsigned char >seq);
+  bool pushValue (vector < unsigned char >seq);
+  void clear ();
+  unsigned int size ();
 
- private:
-  vector < vector<unsigned char> > m_table;
+private:
+    vector < vector < unsigned char > >m_table;
 };
 
-class lzw: public decompressor{
- public:
-  void reinit();
-  char *decompress(char *input, unsigned long length, unsigned long& newlength);
+class lzw:public decompressor
+{
+public:
+  void reinit ();
+  char *decompress (char *input, unsigned long length,
+		    unsigned long &newlength);
 
- private:
-  lzwTable m_table;
+private:
+    lzwTable m_table;
 };
 
 #endif

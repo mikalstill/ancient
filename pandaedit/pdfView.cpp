@@ -56,6 +56,7 @@
 #include "genUI.h"
 #include "pdfDoc.h"
 #include "pdfView.h"
+#include "render.h"
 
 #include <stdlib.h>
 #include <unistd.h>
@@ -74,9 +75,11 @@ pdfView::pdfView ()
   canvas = (genCanvas *) NULL;
   frame = (wxFrame *) NULL;
   m_parentFrame = (wxFrame *) NULL;
+  m_page = 0;
 }
 
-void pdfView::setParentFrame(wxFrame *parentFrame)
+void
+pdfView::setParentFrame (wxFrame * parentFrame)
 {
   m_parentFrame = parentFrame;
 }
@@ -87,13 +90,14 @@ pdfView::~pdfView ()
 
 // What to do when a view is created. Creates actual
 // windows for displaying the view.
-bool pdfView::OnCreate (wxDocument * doc, long WXUNUSED (flags))
+bool
+pdfView::OnCreate (wxDocument * doc, long WXUNUSED (flags))
 {
   frame = wxGetApp ().CreateChildFrame (doc, this, TRUE);
   frame->SetTitle ("");
 
   //  m_parentFrame = wxGetApp().GetMainFrame();
-  canvas = GetMainFrame()->CreateCanvas (this, frame);
+  canvas = GetMainFrame ()->CreateCanvas (this, frame);
 
 #ifdef __X__
   // X seems to require a forced resize
@@ -112,6 +116,80 @@ pdfView::OnDraw (wxDC * dc)
 {
   dc->SetFont (*wxNORMAL_FONT);
   dc->SetPen (*wxBLACK_PEN);
+
+  pdfDoc *theDoc = (pdfDoc *) GetDocument ();
+  if(!theDoc->isReady()){
+    printf("DEBUG: Draw ignored because PDF document not ready\n");
+    return;
+  }
+
+  string& filename = m_renders[m_page];
+  printf("DEBUG: Page render cache names \"%s\"\n", filename.c_str());
+  if(filename == ""){
+    try{
+      object foo(-1, -1);
+      pdf* thePDF = theDoc->getPDF();
+
+      // Find the catalog -- I could probably miss this step, but it seems like
+      // a good idea for now...
+      object& catalog = foo;
+      if(!thePDF->findObject(dictitem::diTypeName, "Type", "Catalog", catalog)){
+	fprintf(stderr, "Bad PDF: No catalog\n");
+	exit(1);
+      }
+
+      // Now find the pages object as refered to by the catalog
+      if(!catalog.hasDictItem(dictitem::diTypeObjectReference, "Pages")){
+	fprintf(stderr, "Bad PDF: No pages object refered to in catalog\n");
+	exit(1);
+      }
+
+      object& pages = foo;
+      if(!catalog.getDict().getValue("Pages", *thePDF, pages)){
+	fprintf(stderr, "Bad PDF: Could not get pages object, but the catalog references it!\n");
+	exit(1); 
+      } 
+
+      // Now find all the page objects referenced in the pages object
+      string kids;
+      if(!pages.getDict().getValue("Kids", kids)){
+	fprintf(stderr, "Bad PDF: No pages found in PDF\n");
+	exit(1);
+      }
+      
+      // Find the pages, and then display the first page
+      objectlist pagelist(kids, thePDF);
+      pdfRender renPage(*thePDF, pagelist[m_page], m_page);
+      if(!renPage.render()){
+	fprintf(stderr, "Page render failed\n");
+	exit(1);
+      }
+      printf("DEBUG: PNG filename is %s\n",
+	     renPage.getPNGfile().c_str());
+
+      // Now push that into the cache
+      filename = renPage.getPNGfile();
+    }
+    catch(...){
+      fprintf(stderr, "Exception caught\n");
+      exit(40);
+    }
+  }
+
+  // And now we can assume that there is a PNG somewhere out there we can paint...
+  // todo_mikal: shrinking options
+  // todo_mikal: center if smaller than window
+  printf("DEBUG: Painting PNG \"%s\"\n", filename.c_str());
+  try
+    {
+      wxImage theImage (filename.c_str(), wxBITMAP_TYPE_PNG);
+      wxBitmap theBitmap (theImage.ConvertToBitmap ());
+      dc->DrawBitmap (theBitmap, 0, 0);
+    }
+  catch (...)
+    {
+      printf("DEBUG: Exception caught in the graph draw routine");
+    }
 }
 
 void
@@ -122,7 +200,8 @@ pdfView::OnUpdate (wxView * WXUNUSED (sender), wxObject * WXUNUSED (hint))
 }
 
 // Clean up windows used for displaying the view.
-bool pdfView::OnClose (bool deleteWindow)
+bool
+pdfView::OnClose (bool deleteWindow)
 {
   if (!GetDocument ()->Close ())
     return FALSE;
@@ -143,10 +222,10 @@ bool pdfView::OnClose (bool deleteWindow)
   Activate (FALSE);
 
   if (deleteWindow)
-  {
-    genDebugPrint ("Close the window");
-    delete frame;
-    return TRUE;
-  }
+    {
+      genDebugPrint ("Close the window");
+      delete frame;
+      return TRUE;
+    }
   return TRUE;
 }

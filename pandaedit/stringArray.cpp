@@ -40,12 +40,14 @@ m_broken (0, string ("")), m_unbroken (input)
   free (temp);
 }
 
-size_t stringArray::size ()
+size_t
+stringArray::size ()
 {
   return m_broken.size ();
 }
 
-string stringArray::operator[](size_t index)
+string
+stringArray::operator[] (size_t index)
 {
   if (m_unbroken.length () == 0)
     return "";

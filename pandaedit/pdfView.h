@@ -37,23 +37,25 @@
 #define __VIEWSAMPLEH__
 
 #include "genCanvas.h"
+#include "pagecache.h"
 
 class pdfView:public wxView
 {
 public:
-  enum genLsDisplay{
+  enum genLsDisplay
+  {
     lsDisplayNone = 0,
-      lsDisplayVCV,
-      lsDisplayRW
+    lsDisplayVCV,
+    lsDisplayRW
   };
 
-  wxFrame * frame, * m_parentFrame;
+  wxFrame *frame, *m_parentFrame;
   genCanvas *canvas;
 
-  pdfView();
-  ~pdfView();
+    pdfView ();
+   ~pdfView ();
 
-  void setParentFrame(wxFrame *parentFrame);
+  void setParentFrame (wxFrame * parentFrame);
 
   bool OnCreate (wxDocument * doc, long flags);
   void OnDraw (wxDC * dc);
@@ -61,10 +63,11 @@ public:
   bool OnClose (bool deleteWindow = TRUE);
 
 private:
-  DECLARE_DYNAMIC_CLASS (pdfView) 
-  DECLARE_EVENT_TABLE ()
+  pageCache m_renders;
+  int m_page;
 
-  genErrorHandler *errHandler;
+  DECLARE_DYNAMIC_CLASS (pdfView)
+  DECLARE_EVENT_TABLE () genErrorHandler *errHandler;
 };
 
 

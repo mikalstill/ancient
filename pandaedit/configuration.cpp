@@ -37,7 +37,7 @@ configuration *
 configuration::configuration (const string & filename)
 {
   m_path = filename;
-  if (!load(m_path))
+  if (!load (m_path))
     {
       load (getDefaultConfigPath ());
     }
@@ -66,29 +66,37 @@ configuration & configuration::getInstance ()
 }
 
 // Load the config from the specified file
-bool configuration::load (const string & filename)
+bool
+configuration::load (const string & filename)
 {
-  ifstream  cfgFile ((const char *) filename.c_str (), ios::in);
+  ifstream cfgFile ((const char *) filename.c_str (), ios::in);
 
-  if (!cfgFile) return false;
-  else return readConfig (cfgFile);
+  if (!cfgFile)
+    return false;
+  else
+    return readConfig (cfgFile);
 }
 
 // Save to where we read from
-bool configuration::save()
+bool
+configuration::save ()
 {
-  return save(m_path);
+  return save (m_path);
 }
 
 // Save config data to specified path
-bool configuration::save (const string & filename)
+bool
+configuration::save (const string & filename)
 {
-  ofstream  out ((const char *) filename.c_str (), ios::trunc);
-  if(!out) return false;
-  else return writeConfig (out);
+  ofstream out ((const char *) filename.c_str (), ios::trunc);
+  if (!out)
+    return false;
+  else
+    return writeConfig (out);
 }
 
-bool configuration::readConfig (ifstream & in)
+bool
+configuration::readConfig (ifstream & in)
 {
   pair < string, string > data;
   pair < map < string, string, less < string > >::iterator, bool > p;
@@ -97,25 +105,28 @@ bool configuration::readConfig (ifstream & in)
   in.getline (buf, 80);
   while (strlen (buf) > 0)
     {
-      stringArray tokens(buf, "= \t");
-      if(tokens.size() < 2)
-	printf("DEBUG: Skipped malformed config line\n");
-      else{
-	data.first = tokens[0];
-	data.second = tokens[1];
-	p = m_map.insert (data);
-	if (!p.second)
-	  printf("DEBUG: Repeated config entry\n");
-      }
+      stringArray tokens (buf, "= \t");
+      if (tokens.size () < 2)
+	printf ("DEBUG: Skipped malformed config line\n");
+      else
+	{
+	  data.first = tokens[0];
+	  data.second = tokens[1];
+	  p = m_map.insert (data);
+	  if (!p.second)
+	    printf ("DEBUG: Repeated config entry\n");
+	}
       in.getline (buf, 80);
     }
 
   return true;
 }
 
-bool configuration::writeConfig (ofstream & out)
+bool
+configuration::writeConfig (ofstream & out)
 {
-  for (map < string, string, less < string > >::const_iterator i = m_map.begin (); i != m_map.end (); ++i)
+  for (map < string, string, less < string > >::const_iterator i =
+       m_map.begin (); i != m_map.end (); ++i)
     {
       out << i->first << "=" << i->second << endl;
     }
@@ -124,29 +135,32 @@ bool configuration::writeConfig (ofstream & out)
 }
 
 void
-  configuration::getValue (const string & valkey,
-			      const string & defval, string & outval)
+configuration::getValue (const string & valkey,
+			 const string & defval, string & outval)
 {
-  map < string, string, less < string > >::const_iterator i = m_map.find (valkey);
+  map < string, string, less < string > >::const_iterator i =
+    m_map.find (valkey);
 
-  if (i == m_map.end ()){
-    outval = defval;
-    setValue(valkey, defval);
-  }
+  if (i == m_map.end ())
+    {
+      outval = defval;
+      setValue (valkey, defval);
+    }
   else
     outval = m_map[valkey];
 }
 
 void
-  configuration::getValue (const string & valkey, const bool & defval,
-			      bool & outval)
+configuration::getValue (const string & valkey, const bool & defval,
+			 bool & outval)
 {
-  map < string, string, less < string > >::const_iterator i = m_map.find (valkey);
+  map < string, string, less < string > >::const_iterator i =
+    m_map.find (valkey);
 
   if (i == m_map.end ())
     {
       outval = defval;
-      setValue(valkey, defval);
+      setValue (valkey, defval);
     }
   else
     {
@@ -155,15 +169,16 @@ void
 }
 
 void
-  configuration::getValue (const string & valkey, const int &defval,
-			      int &outval)
+configuration::getValue (const string & valkey, const int &defval,
+			 int &outval)
 {
-  map < string, string, less < string > >::const_iterator i = m_map.find (valkey);
+  map < string, string, less < string > >::const_iterator i =
+    m_map.find (valkey);
 
   if (i == m_map.end ())
     {
       outval = defval;
-      setValue(valkey, defval);
+      setValue (valkey, defval);
     }
   else
     {
@@ -172,15 +187,16 @@ void
 }
 
 void
-  configuration::getValue (const string & valkey, const double &defval,
-			      double &outval)
+configuration::getValue (const string & valkey, const double &defval,
+			 double &outval)
 {
-  map < string, string, less < string > >::const_iterator i = m_map.find (valkey);
+  map < string, string, less < string > >::const_iterator i =
+    m_map.find (valkey);
 
   if (i == m_map.end ())
     {
       outval = defval;
-      setValue(valkey, defval);
+      setValue (valkey, defval);
     }
   else
     {
@@ -188,44 +204,43 @@ void
     }
 }
 
-bool
-  configuration::setValue (const string & valkey, const string & value)
+bool configuration::setValue (const string & valkey, const string & value)
 {
   m_map[valkey] = value;
-  return save();
+  return save ();
 
 }
 
-bool configuration::setValue (const string & valkey, const int &value)
+bool
+configuration::setValue (const string & valkey, const int &value)
+{
+  ostringstream oss;
+
+  oss << value;
+  m_map[valkey] = oss.str ();
+  return save ();
+
+}
+
+bool configuration::setValue (const string & valkey, const double &value)
 {
   ostringstream
     oss;
 
   oss << value;
   m_map[valkey] = oss.str ();
-  return save();
+  return save ();
 
 }
 
-bool
-  configuration::setValue (const string & valkey, const double &value)
-{
-  ostringstream oss;
-
-  oss << value;
-  m_map[valkey] = oss.str ();
-  return save();
-
-}
-
-bool
-  configuration::setValue (const string & valkey, const bool & value)
+bool configuration::setValue (const string & valkey, const bool & value)
 {
   m_map[valkey] = (value ? string ("true") : string ("false"));
-  return save();
+  return save ();
 }
 
-const string
+const
+  string
 configuration::getDefaultConfigPath ()
 {
   char *homedir = getenv ("HOME");

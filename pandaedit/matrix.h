@@ -3,19 +3,19 @@
 
 class matrix
 {
- public:
-  matrix();
+public:
+  matrix ();
 
-  void setIdentity();
-  void setValues(float vals[6]);
+  void setIdentity ();
+  void setValues (float vals[6]);
 
-  float getHorizontal();
-  float getVertical();
-  float getAngle();
+  float getHorizontal ();
+  float getVertical ();
+  float getAngle ();
 
-  void dumpMatrix();
+  void dumpMatrix ();
 
- private:
+private:
   float m_matrix[3][3];
 };
 

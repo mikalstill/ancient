@@ -58,15 +58,13 @@
 #include "genCanvas.h"
 
 BEGIN_EVENT_TABLE (genCanvas, wxScrolledWindow)
-EVT_MOUSE_EVENTS (genCanvas::OnMouseEvent) 
-END_EVENT_TABLE ()
-
+EVT_MOUSE_EVENTS (genCanvas::OnMouseEvent) END_EVENT_TABLE ()
 // Define a constructor for my canvas
-genCanvas::genCanvas (wxView * v, wxFrame * frame, const wxPoint & pos, 
-		      const wxSize & size, long style):
-  wxScrolledWindow (frame, -1, pos, size, style),
-  m_view(v),
-  m_frame(frame)
+  genCanvas::genCanvas (wxView * v, wxFrame * frame, const wxPoint & pos,
+			const wxSize & size, long style):
+wxScrolledWindow (frame, -1, pos, size, style),
+m_view (v),
+m_frame (frame)
 {
 }
 
@@ -87,10 +85,8 @@ genCanvas::OnMouseEvent (wxMouseEvent & event)
 
   // This sets the device context so that our drawing causes an inversion, lines are drawn with black,
   // and polygons are filled with black.
-  dc.SetLogicalFunction(wxINVERT);
+  dc.SetLogicalFunction (wxINVERT);
   dc.SetPen (*wxBLACK_PEN);
-  dc.SetBrush(*wxBLACK_BRUSH);
+  dc.SetBrush (*wxBLACK_BRUSH);
   wxPoint pt (event.GetLogicalPosition (dc));
 }
-
-  

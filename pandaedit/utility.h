@@ -3,6 +3,15 @@
 
 #include <string>
 
+// String methods
+string toString (int number);
+string toString (long number);
+string toString (double number);
+string toString (float number, bool suppressTailingZeros = false);
+string toString (bool val);
+string toString (char val);
+string toString (size_t val);
+
 // Evaluation methods
 bool isBlankCharacter (char chr);
 bool isNumericCharacter (char chr, bool negAllowed = true);

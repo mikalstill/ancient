@@ -43,8 +43,12 @@ genError::genError (const string & msg, genError::severity level)
   m_actioned = false;
 }
 
-bool genError::m_handlerInstalled=false;
-genErrorHandler * genError::m_handler = NULL;
+bool
+  genError::m_handlerInstalled =
+  false;
+genErrorHandler *
+  genError::m_handler =
+  NULL;
 
 genError::~genError ()
 {
@@ -52,111 +56,124 @@ genError::~genError ()
     genDebugPrint ("genError was not actioned: " + m_message);
 }
 
-void genError::addErrorHandler( genErrorHandler& h )
+void
+genError::addErrorHandler (genErrorHandler & h)
 {
-  if( !m_handlerInstalled )
-  {
-    m_handler = &h;
-    m_handlerInstalled = true;
-  }
+  if (!m_handlerInstalled)
+    {
+      m_handler = &h;
+      m_handlerInstalled = true;
+    }
 }
 
-void genError::init()
+void
+genError::init ()
 {
-  if((m_message != "") && (m_actioned == false))
-  {
-    genDebugPrint ("genError was not actioned: " + m_message);
-  }
-    
+  if ((m_message != "") && (m_actioned == false))
+    {
+      genDebugPrint ("genError was not actioned: " + m_message);
+    }
+
   m_actioned = false;
   m_level = genError::sevOk;
   m_message = "";
 }
 
-void genError::setError(const string & msg, genError::severity level)
+void
+genError::setError (const string & msg, genError::severity level)
 {
   m_message = msg;
   m_level = level;
   m_actioned = false;
 }
 
-void genError::removeErrorHandler()
+void
+genError::removeErrorHandler ()
 {
-  if( m_handlerInstalled )
-  {
-    delete m_handler;
-    m_handlerInstalled = false;
-  }
+  if (m_handlerInstalled)
+    {
+      delete m_handler;
+      m_handlerInstalled = false;
+    }
 }
 
-bool genError::isReal ()
+bool
+genError::isReal ()
 {
   m_actioned = true;
   return m_message != "";
 }
 
-void genError::clear ()
+void
+genError::clear ()
 {
   m_actioned = true;
   m_message = "";
 }
 
-void genError::log ()
+void
+genError::log ()
 {
-  if(m_handler != NULL)
-    m_handler->logError( *this );
+  if (m_handler != NULL)
+    m_handler->logError (*this);
   m_actioned = true;
 }
 
-void genError::display ()
+void
+genError::display ()
 {
-  if( m_handler != NULL ) {
-    if( isReal() ) {
-      m_handler->displayError( *this );
-      }
+  if (m_handler != NULL)
+    {
+      if (isReal ())
+	{
+	  m_handler->displayError (*this);
+	}
     }
   m_actioned = true;
 }
 
-int genError::getSeverity()
+int
+genError::getSeverity ()
 {
   return m_level;
 }
 
-string & genError::getMessage()
+string & genError::getMessage ()
 {
   return m_message;
 }
 
-string genError::getTitle()
+string
+genError::getTitle ()
 {
-  switch (getSeverity())
-  {
-  case sevOk:
-    return "Ok";
+  switch (getSeverity ())
+    {
+    case sevOk:
+      return "Ok";
 
-  case sevDebug:
-    return "Debug";
+    case sevDebug:
+      return "Debug";
 
-  case sevInformational:
-    return "Informational";
+    case sevInformational:
+      return "Informational";
 
-  case sevWarning:
-    return "Warning";
+    case sevWarning:
+      return "Warning";
 
-  case sevErrorRecoverable:
-    return "Recoverable Error";
+    case sevErrorRecoverable:
+      return "Recoverable Error";
 
-  case sevErrorFatal:
-    return "Fatal error";
+    case sevErrorFatal:
+      return "Fatal error";
 
-  default:
-    return "UNKNOWN ERROR LEVEL";
-  }
+    default:
+      return "UNKNOWN ERROR LEVEL";
+    }
 }
 
-void genError::doTerminate()
+void
+genError::doTerminate ()
 {
-  if(m_level == sevErrorFatal)
-    exit(-1);
+  if (m_level == sevErrorFatal)
+    exit (-1);
 }

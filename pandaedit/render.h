@@ -8,51 +8,53 @@
 #ifndef RENDER_H
 #define RENDER_H
 
-class pdfRender{
- public:
-  pdfRender(pdf& thePDF, object page, int pageno);
-  bool render();
-  string getPNGfile();
+class pdfRender
+{
+public:
+  pdfRender (pdf & thePDF, object page, int pageno);
+  bool render ();
+  string getPNGfile ();
 
- private:
-  pdfRender(const pdfRender& other);
+private:
+    pdfRender (const pdfRender & other);
 
-  void processLine(string line);
-  void pushArguement(string arg);
+  void processLine (string line);
+  void pushArguement (string arg);
 
-  void command_b();
-  void command_bstar();
-  void command_B();
-  void command_Bstar();
-  void command_BT();
-  void command_c();
-  void command_cm();
-  void command_Do();
-  void command_ET();
-  void command_f();
-  void command_fstar();
-  void command_F();
-  void command_g();
-  void command_G();
-  void command_h();
-  void command_l();
-  void command_m();
-  void command_q();
-  void command_Q();
-  void command_re();
-  void command_rg();
-  void command_RG();
-  void command_S();
-  void command_Td();
-  void command_Tf();
-  void command_Tj();
-  void command_Tm();
-  void command_Tr();
-  void command_v();
-  void command_w();
-  void command_y();
+  void command_b ();
+  void command_bstar ();
+  void command_B ();
+  void command_Bstar ();
+  void command_BT ();
+  void command_c ();
+  void command_cm ();
+  void command_Do ();
+  void command_ET ();
+  void command_f ();
+  void command_fstar ();
+  void command_F ();
+  void command_g ();
+  void command_G ();
+  void command_h ();
+  void command_l ();
+  void command_m ();
+  void command_q ();
+  void command_Q ();
+  void command_re ();
+  void command_rg ();
+  void command_RG ();
+  void command_S ();
+  void command_Td ();
+  void command_Tf ();
+  void command_Tj ();
+  void command_Tm ();
+  void command_Tr ();
+  void command_v ();
+  void command_w ();
+  void command_y ();
 
-  enum rmMode{
+  enum rmMode
+  {
     rmUndefined = 0,
     rmText,
     rmGraphics
@@ -61,7 +63,7 @@ class pdfRender{
   object m_page, m_contents;
   rmMode m_mode;
   matrix m_textMatrix, m_graphicsMatrix;
-  stack<string> m_arguements;
+    stack < string > m_arguements;
   bool m_invalid;
   pdf m_pdf;
   bool m_hasLine;

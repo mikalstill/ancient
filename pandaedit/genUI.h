@@ -53,42 +53,38 @@ public:
   int OnExit (void);
 
   wxMDIChildFrame *CreateChildFrame (wxDocument * doc, wxView * view,
-                                     bool isCanvas);
+				     bool isCanvas);
 
-  wxDocManager * m_docManager;
+  wxDocManager *m_docManager;
 
 protected:
-  genErrorHandler *errHandler;
+    genErrorHandler * errHandler;
 };
 
 DECLARE_APP (genApp)
-class genCanvas;
-class genFrame:public wxDocMDIParentFrame
-{
-DECLARE_CLASS (genFrame) 
-public:
-  wxMenu * editMenu;
+     class genCanvas;
+     class genFrame:public wxDocMDIParentFrame
+     {
+     DECLARE_CLASS (genFrame) public:
+       wxMenu * editMenu;
 
-  genFrame (wxDocManager * manager, wxFrame * frame,
-            const wxString & title, const wxPoint & pos,
-            const wxSize & size, long type);
+       genFrame (wxDocManager * manager, wxFrame * frame,
+		 const wxString & title, const wxPoint & pos,
+		 const wxSize & size, long type);
 
-  void OnAbout (wxCommandEvent & event);
-  void OnTestErrors (wxCommandEvent & event);
+       void OnAbout (wxCommandEvent & event);
+       void OnTestErrors (wxCommandEvent & event);
 
-  void OnOpen (wxCommandEvent &event);
+       void OnOpen (wxCommandEvent & event);
 
-  genCanvas *CreateCanvas (wxView * view, wxFrame * parent);
-  void OnClose (wxCloseEvent & evt);
+       genCanvas *CreateCanvas (wxView * view, wxFrame * parent);
+       void OnClose (wxCloseEvent & evt);
 
-  DECLARE_EVENT_TABLE ()
+     DECLARE_EVENT_TABLE () protected:
+         genErrorHandler * errHandler;
+     };
 
-protected:
-  genErrorHandler *errHandler;
-};
-
-extern genFrame *
-GetMainFrame (void);
+     extern genFrame *GetMainFrame (void);
 
 #define CEPMENU_CUTSEGMENT     1
 #define CEPMENU_ABOUT   2
@@ -156,6 +152,6 @@ GetMainFrame (void);
 #define CEPBTN_FREQ_SUBMIT 62
 #define CEPBTN_FREQ_CANCEL 63
 
-extern bool singleWindowMode;     
+     extern bool singleWindowMode;
 
 #endif

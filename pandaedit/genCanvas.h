@@ -68,16 +68,15 @@ class genCanvas:public wxScrolledWindow
 {
 public:
   genCanvas (wxView * v, wxFrame * frame, const wxPoint & pos,
-             const wxSize & size, long style);
+	     const wxSize & size, long style);
 
   virtual void OnDraw (wxDC & dc);
   void OnMouseEvent (wxMouseEvent & event);
 
-  wxView * m_view;
+  wxView *m_view;
 
- private:
-  DECLARE_EVENT_TABLE ()
-  wxFrame *m_frame;
+private:
+    DECLARE_EVENT_TABLE () wxFrame *m_frame;
 };
 
 #endif

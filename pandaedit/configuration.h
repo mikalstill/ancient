@@ -39,12 +39,10 @@ public:
 
   // Get the value for a given configuration item, including default
   void getValue (const string & valkey, const string & defval,
-		     string & outval);
-  void getValue (const string & valkey, const bool & defval,
-		     bool & outval);
+		 string & outval);
+  void getValue (const string & valkey, const bool & defval, bool & outval);
   void getValue (const string & valkey, const int &defval, int &outval);
-  void getValue (const string & valkey, const double &defval,
-		     double &outval);
+  void getValue (const string & valkey, const double &defval, double &outval);
 
   bool setValue (const string & valkey, const string & value);
   bool setValue (const string & valkey, const bool & value);
@@ -52,16 +50,16 @@ public:
   bool setValue (const string & valkey, const double &value);
 
 protected:
-  configuration (const string & filename);
+    configuration (const string & filename);
 
 private:
   static configuration *config;
 
-  map < string, string, less < string > > m_map;
+    map < string, string, less < string > >m_map;
   string m_path;
 
   bool load (const string & filename);
-  bool save();
+  bool save ();
   bool save (const string & filename);
   bool readConfig (ifstream & in);
   bool writeConfig (ofstream & out);

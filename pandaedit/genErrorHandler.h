@@ -15,7 +15,7 @@
   * You should have received a copy of the GNU General Public License along
   * with this program; if not, write to the Free Software Foundation, Inc., 675
   * Mass Ave, Cambridge, MA 02139, USA. 
-*/
+  */
 
 /******************************************************************************
 DOCBOOK START
@@ -57,16 +57,17 @@ DOCBOOK END
 
 #include "genError.h"
 
-class genErrorHandler {
+class genErrorHandler
+{
 public:
-  virtual ~genErrorHandler();
-  virtual void displayError( class genError & error ) = 0;
-  virtual void logError( class genError & error ) = 0;
-   
+  virtual ~ genErrorHandler ();
+  virtual void displayError (class genError & error) = 0;
+  virtual void logError (class genError & error) = 0;
+
 protected:
-  genErrorHandler();
+    genErrorHandler ();
 private:
-   
+
 };
 
 #endif // ! __CEP_ERROR_HANDLER_H

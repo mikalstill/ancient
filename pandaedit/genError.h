@@ -194,28 +194,28 @@ public:
     sevMax
   };
 
-  genError ();
-  genError (const string & msg);
-  genError (const string & msg, severity level);
-  static void addErrorHandler( class genErrorHandler& h );
-  static void removeErrorHandler();
-  ~genError ();
+    genError ();
+    genError (const string & msg);
+    genError (const string & msg, severity level);
+  static void addErrorHandler (class genErrorHandler & h);
+  static void removeErrorHandler ();
+   ~genError ();
 
-  void init();
-  void setError(const string & msg, severity level);
+  void init ();
+  void setError (const string & msg, severity level);
   bool isReal ();
   void clear ();
   void log ();
   void display ();
-  void doTerminate();
+  void doTerminate ();
 
   // BS - remove these when we get the friend thing for genErrorHandler sorted
-  string & getMessage();
-  int getSeverity();
-  string getTitle();
-  
+    string & getMessage ();
+  int getSeverity ();
+  string getTitle ();
+
 private:
-  
+
   static bool m_handlerInstalled;
   static class genErrorHandler *m_handler;
 
