@@ -1,10 +1,15 @@
-<chapter><title>Reference</title>
+<chapter><title>Using GDMS</title>
 
 <sect1><title>Introduction</title>
 <para>
+<<<<<<< ref.sgml
+  This section aims to provide a reference for the functionality of the <command>GDMS</command>. 
+  The main functionality of this package is provided through the following menus.
+=======
   This section aims to provide a reference for the functionality of the <command>GDMS</command>.
   The main functionality of this package is provided through the menus. These are of a standard form
   and also include a tear-off feature for flexibility.
+>>>>>>> 1.4
 </para>
 </sect1>
 
@@ -17,7 +22,7 @@
       This can also be achieved by using the keyboard shortcut <command>CTRL-O</command>.
     </para>
 
-     <figure><title>The <command>GDMS</command> when first opened.</title>
+    <figure><title>The <command>GDMS</command> when first opened.</title>
       <execute><cmd>img</cmd><args>gdmsFirstOpen.png</args></execute>
     </figure>
 
@@ -65,35 +70,8 @@
 
   <sect2><title>Printing</title>
     <para>
-      The <command>GDMS</command> offers standardard printing capabilities, including preview.
-      To Print a data set, select <command>File</command> -
-       <command>Print</command>. The following window appears.
-    </para>
-
-    <figure><title>Print window.</title>
-      <execute><cmd>img</cmd><args>gdmsPrint.png</args></execute>
-    </figure>
-
-    <para>
-      If not printing to file, the printer might need to be setup first. This is discussed in the
-      next section.
-    </para>
-  </sect2>
-  <sect2><title>Print Setup</title>
-    <para>
-      The following figure shows the p[rinter setup window. To access printer setup, select,
-      <command>File</command> - <command>Printer Setup</command>.
-    </para>
-
-    <figure><title>Printer Setup window.</title>
-      <execute><cmd>img</cmd><args>gdmsPrintSetup.png</args></execute>
-    </figure>
-
-  </sect2>
-
-  <sect2><title>Print Preview</title>
-    <para>
-      To preview the print job, select <command>File</command> - <command>Print Preiview</command>.
+     This functionality has not been included in this release. Printing support was not required
+     as part of the core functionality.
     </para>
   </sect2>
 
@@ -108,7 +86,7 @@
 
 <sect1><title>Edit menu</title>
   <para>
-     Functionality here has not been included in this release. The Edit menu exists for future 
+     This functionality has not been included in this release. The Edit menu exists for future 
      enhancements such as Undo, Redo and Delete.
   </para>
 </sect1>
@@ -126,7 +104,7 @@
     the <command>Maths</command> menu. All mathematical operations on a data set result in at
     least one additional dataset to be loaded. This enables easy reference to both the original and
     processed data for comparison. Furthermore, any dataset that can be viewed within the application
-    can be saved and printed.  TODO!!!printed yes??
+    can be saved for future reference.
   </para>
 
      <figure><title>Maths menu</title>
@@ -135,24 +113,21 @@
 
 
   <sect2><title>Time Domain Analysis</title>
-    <para>
-      Ba Ba Black sheep have you any wool, yes sir yes sir 3 bags full..
-      But you can't have it because in case you haven't noticed, there's a drought on.
-    </para>
 
     <sect3><title>Least Squeares</title>
       <para>
-        The available options in the least squares menu are Variance Co-variance and Random Walk.
+        Thenonly time domain analisis option currently available is Least Squares regression. This can be accessed by selecting
+        from the <command>Maths</command> - <command>Least Squares</command>. The available options in the least squares menu are
+        <command>Variance Co-variance</command> and <command>Random Walk</command>.
       </para>
       <sect4><title>Variance Co-variance</title>
         <sect5><title>Automatic Re-weighting</title>
           <para>
-            When this option is presented, you must then decide whether or not to use the automatic re-weighting feature.
-	    If the answer is yes, two new data sets are loaded; the first shows the dataset with
-	    the least squares regression line. The data points that were weighted out by the automatic
-	    weighting procedure are shown in a different colour. The second dataset loaded, is that of
-	    the residuals. Once again, the weighted out data points are displayed in a different colour and
-	    can be seen on the zero line. TODO: Kristy check please.
+            When this option is presented, you are given the option of using the automatic re-weighting feature. Choosing
+            <command>Yes</command> results in two new data sets being loaded; the first shows the dataset with the least
+            squares regression line. The data points that were weighted out by the automatic weighting procedure are shown
+            in a different colour. The second dataset loaded is the residuals. Once again, the weighted out data points are
+            displayed in a different colour and can be seen on the zero line. TODO: Kristy check please.
           </para>
         </sect5>
 
@@ -171,9 +146,8 @@
 
       <sect4><title>Random Walk</title>
         <para>
-          Random walk functionality has not yet been plugged in to the <command>GDMS
-	        </command> engine. This will occur when agreement in the time series analysis 
-          community is reached on a file format.
+          Random walk functionality has not yet been activated in the <command>GDMS</command> engine. This is mostly implemented, however
+          no agreement has yet been reached with regard to the exact format that this function will take.
         </para>
       </sect4>
     </sect3> <!-- LS -->
@@ -181,31 +155,31 @@
 
   <sect2><title>Interpolation</title>
     <para>
-       The functionality to interpolate new points into dataset can be found in <command>
-       Maths</command>->Interpolate. The available options in the Interpolation menu are
-       Nearest neighbour, linear interpolation, natural spline, cubic spline and divided
-       differences. To carry out interpolation select the desired interpolation type
-       from the menu. When prompted enter the desired sample rate and click 
-       <command>OK</command>.
+       The available options in the Interpolation menu are <command>Nearest Neighbour</command>, <command>Linear Interpolation</command>,
+       <command>Natural Spline</command>, <command>Cubic Spline</command> and <command>Divided Differences</command>. To carry out
+       interpolation, select the <command>Maths</command> menu followed by the <command>Interpolation</command> menu and from here
+       select the desired method. Enter the required sample rate when prompted and click <command>OK</command> to proceed or
+       <command>CANCEL</command> to return to the main window.
     </para>
   </sect2> <!-- interp -->
 
   <sect2><title>Windowing data</title>
     <para>
-      The available options in the Windowing menu are Blackman, Chebychev, Hamming, Hanning 
-      and rectangular. To window data, go to the <command>Maths</command> menu followed by 
-      the <command>Windowing</command> menu and from there select the desired method. Each
-      method promts for window size and overlap. In addition, <command>Chevychev</command>
-      also prompts for the Normalised Transition Bandwidth. Enter the information and click
-      <command>OK</command> to proceed.
+      The available options in the Windowing menu are <command>Rectangular</command>, <command>Hanning</command>,
+      <command>Hamming</command>, <command>Blackman</command> and <command>Dolph-Chebyshev</command>. To window
+      data, go to the <command>Maths</command> menu followed by the <command>Windowing</command> menu and from here select
+      the desired method. Each method prompts for a window size and an overlap. The window size must be number satisfying
+      <programlisting>size=2<superscript>n</superscript></programlisting> and the standard overlap is 50% of the window size.
+      In addition, <command>Dolph-Chevyshev</command> prompts for the Normalised Transition Bandwidth, the values for which are
+      restricted to the range 0.0 - 0.5. In application these numbers must be restricted to the range 0.02 -0.499 to avoid division
+      by zero. Enter the information and click <command>OK</command> to proceed.
     </para>
 
     <sect3><title>Window selection</title>
       <para>
-        When windowing is carried out on a dataset, all windows are displayed on a single
-        timeline. For flexibility, the <command>GDMS</command> allows individual windows 
-        to be displayed seperately. To do this, open the <command>goto</command> menu and 
-        navigate through the windows as desired.
+        When windowing is carried out on a dataset, all windows are displayed. For flexibility, the <command>GDMS</command>
+        allows individual windows to be displayed. To do this, open the <command>goto</command> menu and navigate through
+        the windows as desired.
       </para>
     </sect3>
 
@@ -214,11 +188,9 @@
 
   <sect2><title>Frequency Domain Analysis</title>
     <para>
-      To do an FFT select Fast Fourier Transform from the maths menu. Note, before 
-      successfully carrying out operations in the frequency domain, the data must be have a
-      regulary sampling rate. An irregular dataset can be made regular by interpolating. 
-      Providing an irregular dataset will result in an error message from the 
-      <command>GDMS</command>. The error message gives the first three dates
+      Select the Maths menu, select Fast Fourier Transform which will gernerate a PSD plot. Note, before successfully carrying out
+      operations in the frequency domain, the data must be interpolated. The Failure to do so will
+      result in an error message from the <command>GDMS</command>. The error message gives the first three dates
       int the dataset that caused the failure.
     </para>
   </sect2> <!-- FDA -->
@@ -227,8 +199,7 @@
 
 <sect1><title>Help Menu</title>
   <para>
-    In this release the Help menu contains only an About box and is another error in which the <command>GDMS</command> can be expanded
-    in the future.
+    In this release the Help menu contains only an About box. This is an area for future  expansion.
   </para>
 </sect1>
 
