@@ -30,12 +30,11 @@
     int size;
     
     // Determine the maximum size to return
-    size = pandalex_min(maxlen, strlen(file) - gInset);
+    size = pandalex_min(maxlen, sb.st_size - gInset);
     
     if(size > 0){
       memcpy(buffer, file + gInset, size);
       gInset += size;
-      debuglex(buffer, size, "get text from file");
     }
     
     return size;
@@ -167,8 +166,8 @@ stream    : STREAM binary ENDSTREAM { pandalex_callback(pandalex_event_stream, $
           ;
 
 // completely implemented: callbacks are handled in the callers to this
-binary    : ANYTHING binary { $$.data = pandalex_strmcat($1.data, $1.len, $2.data, $2.len); $$.len = $1.len + $2.len; free($2.data); }
-          | STRING binary { $$.data = pandalex_strmcat($1.data, -1, $2.data, $2.len); $$.len = strlen($1.data) + $2.len; }
+binary    : ANYTHING binary { $$.data = pandalex_strmcat($1.data, $1.len, $2.data, $2.len); $$.len = $1.len + $2.len; free($1.data); free($2.data); }
+          | STRING binary { $$.data = pandalex_strmcat($1.data, -1, $2.data, $2.len); $$.len = strlen($1.data) + $2.len; free($1.data); free($2.data); }
           | { $$.data = pandalex_strmcpy("", -1); $$.len = 0; }
           ;
 

@@ -10,7 +10,7 @@
 
 class pdfRender{
  public:
-  pdfRender(pdf& thePDF, object page);
+  pdfRender(pdf& thePDF, object page, int pageno);
   bool render();
   string getPNGfile();
 
@@ -30,6 +30,8 @@ class pdfRender{
   void command_f();
   void command_fstar();
   void command_F();
+  void command_g();
+  void command_G();
   void command_h();
   void command_l();
   void command_m();
@@ -61,6 +63,7 @@ class pdfRender{
   bool m_invalid;
   pdf m_pdf;
   bool m_hasLine;
+  int m_pageno;
 
   plot_state *m_plot;
   unsigned int m_width, m_height;

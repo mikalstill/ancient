@@ -76,7 +76,7 @@ int main(int argc, char *argv[]){
   // Find the pages, and then display just the first page
   objectlist pagelist(kids, *thePDF);
   for(unsigned int i = 0; i < pagelist.size(); i++){
-    pdfRender renPage(*thePDF, pagelist[i]);
+    pdfRender renPage(*thePDF, pagelist[i], i);
     if(!renPage.render()){
       fprintf(stderr, "Page render failed\n");
       exit(1);

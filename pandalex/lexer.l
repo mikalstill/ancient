@@ -194,14 +194,15 @@ exit(42);
 
 
 <INITIAL,BINARY>([#a-zA-Z0-9\.:'+\-!_]+[a-zA-Z0-9\.:'+\-!_\\]*)+ { 
-                          debuglex(yytext, -1, "string");
                             yylval.sval.data = (char *) returnStr(yytext, yyleng);
                             yylval.sval.len = yyleng;
 
                             if(strcmp(yytext, "endstream") == 0){
+                            debuglex(yytext, -1, "string (at the end of a stream)");
                               BEGIN(INITIAL);
                               return ENDSTREAM;
                               }
+                            else debuglex(yytext, -1, "string");
 
                             return STRING; 
                                                                              }

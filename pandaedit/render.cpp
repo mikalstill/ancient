@@ -7,14 +7,15 @@
 #include "stringArray.h"
 #include "configuration.h"
 
-pdfRender::pdfRender(pdf& thePDF, object page):
+pdfRender::pdfRender(pdf& thePDF, object page, int pageno):
   m_page(page),
   m_contents(-1, -1),
   m_mode(rmGraphics),
   m_invalid(true),
   m_plot(NULL),
   m_pdf(thePDF),
-  m_hasLine(false)
+  m_hasLine(false),
+  m_pageno(pageno)
 {
   if(!m_page.hasDictItem(dictitem::diTypeObjectReference, "Contents")){
     fprintf(stderr, "Bad PDF: Page is blank\n");
@@ -31,7 +32,8 @@ pdfRender::pdfRender(const pdfRender& other):
   m_page(-1, -1),
   m_contents(-1, -1),
   m_pdf(""),
-  m_hasLine(false)
+  m_hasLine(false),
+  m_pageno(-1)
 {}
 
 bool pdfRender::render()
@@ -117,6 +119,8 @@ void pdfRender::processLine(string line)
       else if("f" == tokens[i]) command_f();
       else if("f*" == tokens[i]) command_fstar();
       else if("F" == tokens[i]) command_F();
+      else if("g" == tokens[i]) command_g();
+      else if("G" == tokens[i]) command_G();
       else if("h" == tokens[i]) command_h();
       else if("l" == tokens[i]) command_l();
       else if("m" == tokens[i]) command_m();
@@ -267,6 +271,40 @@ void pdfRender::command_F()
   command_fstar();
 }
 
+// Grayscale stroke
+void pdfRender::command_g()
+{
+  float g;
+  g = atof(m_arguements.top().c_str());
+
+  if(m_mode != rmGraphics){
+    printf("DEBUG: Not in graphics mode\n");
+    return;
+  }
+  
+  printf("DEBUG: Set grayscale stroke %d\n", g);
+  plot_setlinecolor(m_plot, (unsigned int) (255 * g), 
+		    (unsigned int) (255 * g), (unsigned int) (255 * g));
+  m_hasLine = true;
+}
+
+// Grayscale fill
+void pdfRender::command_G()
+{
+  float g;
+  g = atof(m_arguements.top().c_str());
+
+  if(m_mode != rmGraphics){
+    printf("DEBUG: Not in graphics mode\n");
+    return;
+  }
+  
+  printf("DEBUG: Set grayscale fill %D\n", g);
+  plot_setfillcolor(m_plot, (unsigned int) (255 * g), 
+		    (unsigned int) (255 * g), (unsigned int) (255 * g));
+  m_hasLine = true;
+}
+
 // Close line
 void pdfRender::command_h()
 {
@@ -280,6 +318,7 @@ void pdfRender::command_h()
   m_hasLine = true;
 }
 
+// Line to
 void pdfRender::command_l()
 {
   unsigned int x, y;
@@ -362,14 +401,14 @@ void pdfRender::command_re()
 // Set RGB fill color
 void pdfRender::command_rg()
 {
-  unsigned int r, g, b;
+  float r, g, b;
 
   // Pop our arguements (reverse order)
-  b = atoi(m_arguements.top().c_str());
+  b = atof(m_arguements.top().c_str());
   m_arguements.pop();
-  g = atoi(m_arguements.top().c_str());
+  g = atof(m_arguements.top().c_str());
   m_arguements.pop();
-  r = atoi(m_arguements.top().c_str());
+  r = atof(m_arguements.top().c_str());
   m_arguements.pop();
 
   if(m_mode != rmGraphics){
@@ -378,21 +417,22 @@ void pdfRender::command_rg()
   }
   
   printf("DEBUG: RGB fill color %d %d %d\n", r, g, b);
-  plot_setfillcolor(m_plot, r, g, b);
+  plot_setfillcolor(m_plot, (unsigned int) (255 * r), 
+		    (unsigned int) (255 * g), (unsigned int) (255 * b));
   m_hasLine = true;
 }
 
 // Set RGB fill color
 void pdfRender::command_RG()
 {
-  unsigned int r, g, b;
+  float r, g, b;
 
   // Pop our arguements (reverse order)
-  b = atoi(m_arguements.top().c_str());
+  b = atof(m_arguements.top().c_str());
   m_arguements.pop();
-  g = atoi(m_arguements.top().c_str());
+  g = atof(m_arguements.top().c_str());
   m_arguements.pop();
-  r = atoi(m_arguements.top().c_str());
+  r = atof(m_arguements.top().c_str());
   m_arguements.pop();
 
   if(m_mode != rmGraphics){
@@ -401,7 +441,8 @@ void pdfRender::command_RG()
   }
   
   printf("DEBUG: RGB line color %d %d %d\n", r, g, b);
-  plot_setlinecolor(m_plot, r, g, b);
+  plot_setlinecolor(m_plot, (unsigned int) (255 * r), 
+		    (unsigned int) (255 * g), (unsigned int) (255 * b));
   m_hasLine = true;
 }
 
@@ -575,7 +616,8 @@ string pdfRender::getPNGfile()
   raster = plot_getraster(m_plot);
 
   // Build a random filename
-  char *cfname = strdup("/tmp/pandaedit.XXXXXX");;
+  char cfname[100];
+  sprintf(cfname, "/tmp/pandaedit.p%03d.XXXXXX", m_pageno);
   int fd;
   fd = mkstemp(cfname);
   close(fd);
