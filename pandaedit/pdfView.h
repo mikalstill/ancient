@@ -61,6 +61,7 @@ public:
   bool OnClose (bool deleteWindow = TRUE);
 
   void OnSavePageStream (wxCommandEvent & event);
+  void OnForceRefresh (wxCommandEvent & event);
 
   void OnNewPage (wxCommandEvent & event);
   void OnZoom (wxCommandEvent & event);
@@ -76,8 +77,7 @@ public:
 
   tool getCurrentTool();
   void setHeight(int height);
-  void appendCommand(object::commandType type, vector<wxPoint> points,
-		     int lr, int lg, int lb, int fr, int fg, int fb);
+  void appendCommand(command cmd);
   void rewriteCommand(int index, object::commandType type, 
 		      vector<wxPoint> points);
   vector<wxPoint> getCommand(int index, object::commandType & type);

@@ -276,6 +276,9 @@ genApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
     debug_menu->Append (GENMENU_SAVEPAGESTREAM, "Save page stream...",
 			"Save a page's drawing stream to a file");
 
+    debug_menu->Append (GENMENU_FORCEREFRESH, "Force page refresh",
+			"Force the page to repaint");
+
     menu_bar->Append(debug_menu, "Debugging");
 
     ////////

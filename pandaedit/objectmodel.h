@@ -39,6 +39,7 @@ typedef struct
   vector<wxPoint> controlPoints;
   int liner, lineg, lineb;
   int fillr, fillg, fillb;
+  unsigned char *rast;
 
   // I don't seem to be able to use object::commandType here, as it gets all
   // circular in it's confusion
@@ -133,7 +134,8 @@ public:
    ~object ();
 
    enum commandType{
-     cLine = 0
+     cLine = 0,
+     cImage
    };
 
   object operator= (const object & other);
@@ -155,16 +157,16 @@ public:
   char *getStream (raster & image, unsigned long &length);
   unsigned long getStreamLength ();
 
-  void appendCommand(commandType type, vector<wxPoint> controlPoints,
-		     int lr, int lg, int lb, int fr, int fg, int fb);
+  void appendCommand(command cmd);
   void rewriteCommand(int index, commandType type, 
 		      vector<wxPoint> controlPoints);
 
   unsigned int getCommandCount();
   void getCommandLineColor(int index, int& r, int& g, int &b);
   void getCommandFillColor(int index, int& r, int& g, int &b);
-  vector<wxPoint> getCommand(int index, commandType & type);
+  vector<wxPoint> getCommandPoints(int index, commandType & type);
   int getCommandId(int index);
+  unsigned char *getCommandRaster(int index);
   bool getLastCommand(command& cmd);
 
   void executeCommand(int index, panda_page *pg);

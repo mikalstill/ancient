@@ -43,6 +43,7 @@ public:
   void getValue (const string & valkey, const bool & defval, bool & outval);
   void getValue (const string & valkey, const int &defval, int &outval);
   void getValue (const string & valkey, const double &defval, double &outval);
+  void getValue (const string & valkey, const float &defval, float &outval);
   void getValue (const string & valkey, const unsigned char &defval, 
 		 unsigned char &outval);
 
@@ -50,6 +51,7 @@ public:
   bool setValue (const string & valkey, const bool & value);
   bool setValue (const string & valkey, const int &value);
   bool setValue (const string & valkey, const double &value);
+  bool setValue (const string & valkey, const float &value);
   bool setValue (const string & valkey, const unsigned char &value);
 
 protected:

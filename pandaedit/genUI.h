@@ -105,7 +105,8 @@ enum{
     GENMENU_LINECOLOR,
     GENMENU_CONTROLCOLOR,
     GENMENU_GRIDSNAP,
-    GENMENU_ZOOM
+    GENMENU_ZOOM,
+    GENMENU_FORCEREFRESH
     };
 
 extern bool singleWindowMode;

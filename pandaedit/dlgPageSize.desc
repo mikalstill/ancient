@@ -1,4 +1,4 @@
-# This dialog is used for page zooming
+# This dialog is used for page sizing
 DIALOG
 
 # The width of the dialog -- you have to tweak this until it is right

@@ -97,6 +97,9 @@ genCanvas::OnDraw (wxDC & dc)
 void
 genCanvas::OnMouseEvent (wxMouseEvent & event)
 {
+  ((wxFrame *) wxGetApp ().GetTopWindow ())->
+    SetStatusText ("Mouse event", 0);
+
   wxClientDC dc (this);
   PrepareDC (dc);
   wxPoint pt (event.GetLogicalPosition (dc));
@@ -152,12 +155,14 @@ genCanvas::OnMouseEvent (wxMouseEvent & event)
 	((pdfView *) m_view)->setHoverTarget(-1);
     }
 
+  ((wxFrame *) wxGetApp ().GetTopWindow ())->
+    SetStatusText ("Mouse event 2", 0);
+
   // Tell the world what is happening
   string msg = toString(pt.x) + string(", ") + toString(pt.y) + 
     string(" of ") + toString(m_width) + string(", ") + toString(m_height) +
     over;
-  ((wxFrame *) wxGetApp ().GetTopWindow ())->
-	SetStatusText (msg.c_str(), 0);
+  ((wxFrame *) wxGetApp ().GetTopWindow ())->SetStatusText (msg.c_str(), 0);
  
   // End the current instance of a tool, but not the tool
   if(event.LeftIsDown() && event.ControlDown())
@@ -265,9 +270,18 @@ genCanvas::endTool()
 	{
 	  ((pdfView *) m_view)->setHeight(m_height);
 	  // TODO mikal: implement line color
-	  ((pdfView *) m_view)->appendCommand(object::cLine,
-					      m_controlPoints,
-					      0, 0, 0, 0, 0, 0);
+	  command cmd;
+	  cmd.type = object::cLine;
+	  cmd.controlPoints = m_controlPoints;
+	  cmd.liner = 0;
+	  cmd.lineg = 0;
+	  cmd.lineb = 0;
+	  cmd.fillr = 0;
+	  cmd.fillg = 0;
+	  cmd.fillb = 0;
+	  cmd.rast = NULL;
+
+	  ((pdfView *) m_view)->appendCommand(cmd);
 	}
       else
 	{

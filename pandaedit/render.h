@@ -106,6 +106,7 @@ private:
   color m_fillColor;
 
   vector<wxPoint> m_controlPoints;
+  unsigned char *m_raster;
   float m_xscale, m_yscale;
 
   // TODO mikal: these are obsolete and should be removed

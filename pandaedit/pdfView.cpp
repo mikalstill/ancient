@@ -77,6 +77,7 @@ extern object gNoSuchObject;
 IMPLEMENT_DYNAMIC_CLASS (pdfView, wxView)
   BEGIN_EVENT_TABLE (pdfView, wxView)
   EVT_MENU (GENMENU_SAVEPAGESTREAM, pdfView::OnSavePageStream)
+  EVT_MENU (GENMENU_FORCEREFRESH, pdfView::OnForceRefresh)
 
   EVT_MENU (GENMENU_NEWPAGE, pdfView::OnNewPage)
   EVT_MENU (GENMENU_ZOOM, pdfView::OnZoom)
@@ -151,10 +152,6 @@ pdfView::OnDraw (wxDC * dc)
     return;
   }
 
-  // Set the size of the canvas
-  canvas->setWidth(theDoc->getWidth());
-  canvas->setHeight(theDoc->getHeight());
-
   // Set the title of the tab if we haven't already
   if(frame->GetTitle() == ""){
     frame->SetTitle(theDoc->getFilename().c_str());
@@ -170,8 +167,6 @@ pdfView::OnDraw (wxDC * dc)
     SetStatusText (m_currentToolDesc.c_str (), 2);
 
   // Change the size of the window to match the size of the page
-  // TODO mikal: people on smaller monitors will find this annoying
-  // we should offer a scaling option here as well...
   debug(dlTrace, string("Setting the window size to that of page ") +
 	toString(m_page));
   unsigned int x, y;
@@ -179,16 +174,22 @@ pdfView::OnDraw (wxDC * dc)
   ((wxFrame *) wxGetApp ().GetTopWindow ())->GetSize(&cx, &cy);
   if(theDoc->getPageSize(m_page, x, y))
     {
-      x = (unsigned int) (x * m_xscale);
-      y = (unsigned int) (y * m_yscale);
+      canvas->setWidth(x);
+      canvas->setHeight(y);
 
-      if((max(x, max(600, cx)) != cx) || 
-	 (max(y, max(400, cy)) != cy))
+      configuration *config;
+      config = (configuration *) & configuration::getInstance ();
+      config->getValue("user-pagezoom-x", 100.0, m_xscale);
+      config->getValue("user-pagezoom-y", 100.0, m_yscale);
+      m_xscale /= 100.0;
+      m_yscale /= 100.0;
+      x = max((unsigned int) (x * m_xscale), 600);
+      y = max((unsigned int) (y * m_yscale), 200);
+
+      if((x != cx) || (y != cy))
 	{
 	  debug(dlTrace, "Resizing window");
-	  ((wxFrame *) wxGetApp ().GetTopWindow ())->
-	    SetSize(max(x, max(600, cx)), 
-		    max(y, max(400, cy)));
+	  ((wxFrame *) wxGetApp ().GetTopWindow ())->SetSize(x, y + 120);
 	}
     }
 
@@ -243,6 +244,13 @@ pdfView::populatePageFromPDF(pdfDoc* theDoc, string& filename)
       return false;
     }
 
+    // Create a render, including scaling it...
+    configuration *config;
+    config = (configuration *) & configuration::getInstance ();
+    config->getValue("user-pagezoom-x", 100.0, m_xscale);
+    config->getValue("user-pagezoom-y", 100.0, m_yscale);
+    m_xscale /= 100.0;
+    m_yscale /= 100.0;
     pdfRender renPage(theDoc, m_page, m_xscale, m_yscale);
     if(!renPage.render()){
       debug(dlError, "Page render failed");
@@ -317,18 +325,18 @@ pdfView::OnAboutDocument (wxCommandEvent & WXUNUSED (event))
 
   // todo_mikal: finish this
   msg << "Filename: " << theDoc->getFilename() << endl << endl;
-  msg << "Document Title: ";
-  msg << "Document Subject: ";
-  msg << "Document Author: ";
-  msg << "Document Keywords: ";
-  msg << "Binding: TODO" << endl;
-  msg << "Creator: ";
-  msg << "Producer: ";
-  msg << "Creation date: ";
-  msg << "Last modified: ";
-  msg << "Security: ";
-  msg << "PDF Specification version: ";
-  msg << "Linearized (fast web view): ";
+  msg << "Document Title: " << endl;
+  msg << "Document Subject: " << endl;
+  msg << "Document Author: " << endl;
+  msg << "Document Keywords: " << endl;
+  msg << "Binding: TODO" << endl << endl;
+  msg << "Creator: " << endl;
+  msg << "Producer: " << endl;
+  msg << "Creation date: " << endl;
+  msg << "Last modified: " << endl;
+  msg << "Security: " << endl;
+  msg << "PDF Specification version: " << endl;
+  msg << "Linearized (fast web view): " << endl;
   msg << "Tagged: ";
 
   wxMessageBox
@@ -438,8 +446,7 @@ pdfView::showColorDialog(string configTag)
 }
 
 void
-pdfView::appendCommand(object::commandType type, vector<wxPoint> points,
-		     int lr, int lg, int lb, int fr, int fg, int fb)
+pdfView::appendCommand(command cmd)
 {
   pdfDoc *theDoc = (pdfDoc *) GetDocument ();
   if(!theDoc->isReady()){
@@ -448,7 +455,7 @@ pdfView::appendCommand(object::commandType type, vector<wxPoint> points,
     return;
   }
 
-  theDoc->appendCommand(m_page, type, points, lr, lg, lb, fr, fg, fb);
+  theDoc->appendCommand(m_page, cmd);
 }
 
 void
@@ -619,4 +626,14 @@ void
 pdfView::OnZoom(wxCommandEvent&)
 {
   dlgPageZoom psize;
+  m_dirty = true;
+  canvas->Refresh();
+}
+
+// Force a repaint of the page
+void
+pdfView::OnForceRefresh (wxCommandEvent & event)
+{
+  m_dirty = true;
+  canvas->Refresh();
 }

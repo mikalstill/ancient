@@ -151,15 +151,115 @@ pdfRender::command_cs ()
     }
 }
 
+// tweaked
 void
 pdfRender::command_Do ()
 {
   string arg;
+  debug(dlTrace, "Do");
+
+  // The arguement is the name of a resource entry
   arg = m_arguements.top ();
   m_arguements.pop ();
 
-  //  appendCommand();
-  m_commandString = arg + string(" Do\n");
+  dictionary resdict;
+  if (!m_doc->getPage(m_pageno).getDict ().getValue ("Resources", resdict))
+    {
+      debug(dlError, "Resource dictionary not found");
+      return;
+    }
+
+  dictionary xobj;
+  if (!resdict.getValue ("XObject", xobj))
+    {
+      debug(dlError, "Resource dictionary not found");
+      return;
+    }
+
+  object image (objNumNoSuch, objNumNoSuch);
+  if (!xobj.getValue (arg.substr (1, arg.length () - 1), *(m_doc->getPDF()), 
+                      image))
+    {
+      debug(dlError, "Named resource does not exist");
+      return;
+    }
+
+  debug(dlTrace, "Process image command further");
+  unsigned long length;
+  raster rast (image);
+
+  // This stream is packed eight pixels to the byte if it is a black and white
+  // TIFF stream
+  unsigned char *stream = (unsigned char *) image.getStream (rast, 
+                                                             length);
+  debug(dlTrace, string("Stream returned from object is ") + 
+        toString((long) length) + string(" bytes"));
+  
+  // TODO mikal: unacceptable assumptions about the number of pixels per
+  // sample
+  // Expand the raster to the bit depth of the output raster (if needed)
+  if(rast.getBitsPerSample() != 8)
+    {
+      unsigned char *newstream;
+      // todo_mikal: eliminate mallocs and frees
+      if((newstream = (unsigned char *) malloc(length * 8)) == NULL){
+	debug(dlTrace, "Could not allocate memory for raster conversion");
+	return;
+      }
+      
+      memset(newstream, 0, length * 8);
+      unsigned int o = 0;
+      for(unsigned int i = 0; i < length; i++){
+	if(!(stream[i] & 128)) newstream[o] = 255;
+	o++;
+	if(!(stream[i] & 64)) newstream[o] = 255;
+	o++;
+	if(!(stream[i] & 32)) newstream[o] = 255;
+	o++;
+	if(!(stream[i] & 16)) newstream[o] = 255;
+	o++;
+	if(!(stream[i] & 8)) newstream[o] = 255;
+	o++;
+	if(!(stream[i] & 4)) newstream[o] = 255;
+	o++;
+	if(!(stream[i] & 2)) newstream[o] = 255;
+	o++;
+	if(!(stream[i] & 1)) newstream[o] = 255;
+	o++;
+      }
+      
+      debug(dlTrace, string("Image width and height at insertion time: ") +
+	    toString(rast.getWidth()) + string(" by ") +
+	    toString(rast.getHeight()));
+      m_raster = (unsigned char *) inflateraster((char *) newstream, 
+						   rast.getWidth(), 
+						   rast.getHeight(), 
+						   8, 8, 1, 3);
+      if((int) m_raster == -1){
+	delete[] stream;
+	debug(dlError, "Raster inflation failed");
+	return;
+      }
+
+      delete[] stream;
+    }
+  else
+    {
+      m_raster = stream;
+    }
+
+  // And now append the command to the command chain for this page
+  if(m_controlPoints.size() != 0)
+    {
+      debug(dlError, "Losing control points upon insertion of image");
+      m_controlPoints.clear();
+    }
+  
+  // TODO mikal: this will not place the image in the right spot
+  m_controlPoints.push_back(wxPoint(0, 0));
+  m_controlPoints.push_back(wxPoint(rast.getWidth(), rast.getHeight()));
+  appendCommand(object::cImage);
+  m_raster = NULL;
 }
 
 // Exit text mode

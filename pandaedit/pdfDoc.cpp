@@ -260,14 +260,12 @@ pdfDoc::getPages()
 }
 
 void
-pdfDoc::appendCommand(int pageNum, object::commandType type, 
-		      vector<wxPoint> points,
-		      int lr, int lg, int lb, int fr, int fg, int fb)
+pdfDoc::appendCommand(int pageNum, command cmd)
 {
   while(pageNum >= m_pages.size())
     appendPage();
 
-  m_pages[pageNum].appendCommand(type, points, lr, lg, lb, fr, fg, fb);
+  m_pages[pageNum].appendCommand(cmd);
 }
 
 void
@@ -292,7 +290,7 @@ pdfDoc::getCommand(int pageNum, int index, object::commandType & type)
       appendPage();
     }
 
-  return m_pages[pageNum].getCommand(index, type);
+  return m_pages[pageNum].getCommandPoints(index, type);
 }
 
 void
@@ -444,16 +442,4 @@ pdfDoc::getPagesObject()
   if(m_pdf == NULL)
     return gNoSuchObject;
   return m_pdf->getPagesObject();
-}
-
-int
-pdfDoc::getWidth()
-{
-  return m_width;
-}
-
-int
-pdfDoc::getHeight()
-{
-  return m_height;
 }

@@ -13,11 +13,15 @@ public:
   int getWidth();
   int getHeight();
   int getK();
+  int getSamplesPerPixel();
+  int getBitsPerSample();
 
 private:
   int m_k;
   int m_width;
   int m_height;
+  int m_spp;
+  int m_bps;
 };
 
 #endif

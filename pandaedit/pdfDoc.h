@@ -62,9 +62,7 @@ DECLARE_DYNAMIC_CLASS (pdfDoc)
   objectlist& getPages();
   unsigned int getPageCount();
   string getFilename();
-  void appendCommand(int pageNum, object::commandType type, 
-		     vector<wxPoint> points,
-		     int lr, int lg, int lb, int fr, int fg, int fb);
+  void appendCommand(int pageNum, command cmd);
   void rewriteCommand(int pageNum, int index, object::commandType type, 
 		      vector<wxPoint> points);
   vector<wxPoint> getCommand(int pageNum, int index, 
@@ -76,9 +74,6 @@ DECLARE_DYNAMIC_CLASS (pdfDoc)
   bool getPageSize(int pageno, string& mediaBox);
   bool getPageSize(int pageno, unsigned int& x, unsigned int& y);
   object& getPagesObject();
-
-  int getWidth();
-  int getHeight();
 
 private:
   wxProgressDialog * m_progress;

@@ -360,20 +360,8 @@ object::getStreamLength ()
 }
 
 void
-object::appendCommand(commandType cType, vector<wxPoint> controlPoints,
-		      int lr, int lg, int lb, int fr, int fg, int fb)
+object::appendCommand(command cmd)
 {
-  command cmd;
-  cmd.unique = gUniqueSelection++;
-  cmd.controlPoints = controlPoints;
-  cmd.type = cType;
-  cmd.liner = lr;
-  cmd.lineg = lg;
-  cmd.lineb = lb;
-  cmd.fillr = fr;
-  cmd.fillg = fg;
-  cmd.fillb = fb;
-
   m_commands.push_back(cmd);
   m_changed = true;
 }
@@ -459,7 +447,7 @@ object::executeCommand(int index, panda_page *pg)
 }
 
 vector<wxPoint>
-object::getCommand(int index, commandType & type)
+object::getCommandPoints(int index, commandType & type)
 {
   vector<wxPoint> none;
 
@@ -494,4 +482,13 @@ void
 object::setHeight(int height)
 {
   m_height = height;
+}
+
+unsigned char *
+object::getCommandRaster(int index)
+{
+  if(index >= m_commands.size())
+    return NULL;
+
+  return m_commands[index].rast;
 }

@@ -223,6 +223,24 @@ configuration::getValue (const string & valkey, const double &defval,
     }
 }
 
+void
+configuration::getValue (const string & valkey, const float &defval,
+			 float &outval)
+{
+  map < string, string, less < string > >::const_iterator i =
+    m_map.find (valkey);
+
+  if (i == m_map.end ())
+    {
+      outval = defval;
+      setValue (valkey, defval);
+    }
+  else
+    {
+      outval = atof (m_map[valkey].c_str ());
+    }
+}
+
 bool configuration::setValue (const string & valkey, const string & value)
 {
   m_map[valkey] = value;
@@ -240,6 +258,15 @@ configuration::setValue (const string & valkey, const int &value)
 }
 
 bool configuration::setValue (const string & valkey, const double &value)
+{
+  ostringstream oss;
+
+  oss << value;
+  m_map[valkey] = oss.str ();
+  return save ();
+}
+
+bool configuration::setValue (const string & valkey, const float &value)
 {
   ostringstream oss;
 

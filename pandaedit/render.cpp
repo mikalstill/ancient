@@ -13,6 +13,8 @@
 
 #define SELECTWIDTH 10
 
+extern int gUniqueSelection;
+
 pdfRender::pdfRender (pdfDoc *theDoc, int pageno, float xscale, float yscale):
 m_doc(theDoc),
 m_mode (rmGraphics),
@@ -21,7 +23,8 @@ m_select (NULL),
 m_hasLine (false),
 m_pageno (pageno),
 m_xscale (xscale),
-m_yscale (yscale)
+m_yscale (yscale),
+m_raster (NULL)
 {
 }
 
@@ -47,8 +50,9 @@ pdfRender::render ()
 	  return false;
 	}
 
-      if ((m_select = plot_newplot (m_width * m_xscale, 
-				    m_height * m_yscale)) == NULL)
+      if ((m_select = plot_newplot ((unsigned int) (m_width * m_xscale), 
+				    (unsigned int) (m_height * m_yscale))) 
+	  == NULL)
 	{
 	  debug(dlError, "Failed to initialize new page plot");
 	  return false;
@@ -102,7 +106,7 @@ pdfRender::render ()
       debug(dlTrace, "Paint object");
       object::commandType type;
       vector<wxPoint> controlPoints = m_doc->getPage(m_pageno).
-	getCommand(cmdcnt, type);
+	getCommandPoints(cmdcnt, type);
       if(controlPoints.size() > 0)
 	{
 	  switch(type)
@@ -147,6 +151,24 @@ pdfRender::render ()
 		  plot_endline(m_plot);
 		  plot_endline(m_select);
 		  debug(dlTrace, "Clean up");
+		}
+	      break;
+
+	    case object::cImage:
+	      if(controlPoints.size() != 2)
+		{
+		  debug(dlError, 
+			"Wrong number of control points for an image");
+		}
+	      else
+		{
+		  plot_overlayraster(m_plot, 
+				     (char *) m_doc->getPage(m_pageno).
+				     getCommandRaster(cmdcnt), 
+				     controlPoints[0].x, controlPoints[0].y,
+				     controlPoints[1].x, controlPoints[1].y,
+				     controlPoints[1].x, controlPoints[1].y,
+				     0);
 		}
 	      break;
 
@@ -477,8 +499,8 @@ pdfRender::getPNGfile ()
   // Get ready to specify important stuff about the image
   if ((info = png_create_info_struct (png)) == NULL)
     {
-      debug(dlError,
-	       "Could not create PNG info structure for writing (out of memory?)");
+      debug(dlError, "Could not create PNG info structure for writing "
+	    "(out of memory?)");
       return "";
     }
 
@@ -494,27 +516,33 @@ pdfRender::getPNGfile ()
   // Define important stuff about the image
   info->channels = 3;
   info->pixel_depth = 24;
-  png_set_IHDR (png, info, (unsigned int) (m_width * m_xscale), 
-		(unsigned int) (m_height * m_yscale), 
-		8, PNG_COLOR_TYPE_RGB,
+
+  unsigned int width = (unsigned int) (m_width * m_xscale);
+  unsigned int height = (unsigned int) (m_height * m_yscale);
+
+  debug(dlTrace, string("Page dimensions: ") + toString(m_width) +
+	string(" by ") + toString(m_height));
+  debug(dlTrace, string("Page scaling: ") + toString(m_xscale) +
+	string(" by ") + toString(m_yscale));
+  debug(dlTrace, string("Setting PNG IHDR to: ") + 
+	toString(width) + string(" by ") + toString(height));
+
+  png_set_IHDR (png, info, width, height, 8, PNG_COLOR_TYPE_RGB,
 		PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT,
 		PNG_FILTER_TYPE_DEFAULT);
   png_write_info (png, info);
 
   // Write the image out
   if ((row_pointers =
-       (png_byte **) malloc ((unsigned int) (m_height * m_yscale) * 
-			     sizeof (png_bytep))) == NULL)
+       (png_byte **) malloc (height * sizeof (png_bytep))) == NULL)
     {
       debug(dlError, "Could not allocate memory");
       exit (42);
     }
 
-  for (i = 0; i < m_height; i++)
+  for (i = 0; i < height; i++)
     {
-      row_pointers[i] = (png_byte *) (raster + 
-				      (unsigned int ) 
-				      (i * m_width * m_xscale * 3));
+      row_pointers[i] = (png_byte *) (raster + (width * i * 3));
     }
 
   png_write_image (png, row_pointers);
@@ -537,6 +565,10 @@ pdfRender::appendCommand(object::commandType type)
   command cmd;
   if(m_doc->getPage(m_pageno).getLastCommand(cmd))
     {
+      // Only supported for line commands
+      if(cmd.type == object::cLine)
+	goto newcommand;
+
       if(cmd.controlPoints.size() == 0)
 	goto newcommand;
       if(cmd.type != type)
@@ -579,10 +611,19 @@ pdfRender::appendCommand(object::commandType type)
 
  newcommand:
   debug(dlTrace, "Command not eligible for join");
-  m_doc->getPage(m_pageno).appendCommand(type, m_controlPoints,
-					 m_lineColor.r, m_lineColor.g,
-					 m_lineColor.b, m_fillColor.r,
-					 m_fillColor.g, m_fillColor.b);
+  command newcmd;
+  newcmd.unique = gUniqueSelection++;
+  newcmd.controlPoints = m_controlPoints;
+  newcmd.type = type;
+  newcmd.liner = m_lineColor.r;
+  newcmd.lineg = m_lineColor.g;
+  newcmd.lineb = m_lineColor.b;
+  newcmd.fillr = m_fillColor.r;
+  newcmd.fillg = m_fillColor.g;
+  newcmd.fillb = m_fillColor.b;
+  newcmd.rast = m_raster;
+
+  m_doc->getPage(m_pageno).appendCommand(newcmd);
   m_controlPoints.clear();
 }
 

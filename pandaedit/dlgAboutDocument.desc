@@ -1,0 +1,29 @@
+# This dialog is used for displaying information about the document
+DIALOG
+
+# The width of the dialog -- you have to tweak this until it is right
+WIDTH		330
+
+# Left margin
+XINSET		5
+
+# Top margin
+YINSET		5
+
+# Horiztonal spacing
+XSPACING	10
+
+# Vertical spacing
+YSPACING	10
+
+#################################
+# Now for the dialog itself
+BEGIN
+
+TITLE	About document
+
+TEXT	50	Width						RIGHT
+
+OK
+
+END
