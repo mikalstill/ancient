@@ -39,7 +39,7 @@ Most file format specifications define some basic rules for the representation o
 	
 <p>So how do you write an application which can read in all these different possible permutations of the TIFF format? Well, there are some basic guidelines to follow, which will make your life easier. The most important of these is: <i>never make an assumption</i>.</p>
 
-<p><heading refname="hard" type="major" toc="yes">Writing TIFF files</heading>
+<p><heading refname="write" type="major" toc="yes">Writing TIFF files</heading>
 The first thing I want to do is show you how to write a TIFF file out. We'll then get onto how to read a TIFF file back into your program.</p>
 	
 <p><heading refname="infrastructure-write" type="minor" toc="yes">Infrastructure for writing</heading>
@@ -134,13 +134,26 @@ If you need more information about any of the libtiff function calls mentioned i
 <img src="figure1.jpg" width="200" height="144" alt="Sydney Harbour Bridge, 200 x 144"/>
 </figure>
 
+<p><heading refname="read" type="major" toc="yes">Reading TIFF files</heading>
+Reading TIFF files reliably is much harder than writing them. Unfortunately, I don't have enough space in this article to discuss all of the important issues. Some of them will need to be left to later articles. There are also plenty of pages on the web which discuss the issues involved. Some of my favourites are included in the references section at the end of this article.</p>
 
+<p>The issue that complicates reading black and white TIFF images the most is the several different storage schemes which are possible within the TIFF file itself. libtiff doesn't hold your hand much with these schemes, so you have to be able to handle them yourself. The two schemes TIFF supports are single stripped images, stripped images, and tiled images.</p>
 
+<ul>
+<li>A single strip image is as the name suggests -- a special case of a stripped image. In this case, all of the bitmap is stored in one large block. I have experienced reliability issues with images which are single strip on Windows machines. The general recommendation is that no one strip should take more than 8 kilobytes uncompressed which with black and white images limits us to 65,536 pixels in a single strip.
+<li>A multiple strip image is where horizontal blocks of the image are stored together. More than one stip is joined vertically to make the entire bitmap. <a href="#figure2">Figure 2</a> shows this concept.
+<li>A tiled image is like your bathroom wall, it is composed of tiles. This representation is show in <a href="#figure3">Figure 3</a>, and is useful for extremely large images -- this is especially true when you might only want to manipulate a small portion of the image at any one time.
+</ul>
 
+<figure>
+<heading refname="stip-figure" type="figure" toc="no">Figure 2. The Sydney Harbour Bridge, in strips</heading>
+<img src="figure1.jpg" width="200" height="144" alt="Sydney Harbour Bridge in strips, 200 x 144"/>
+</figure>
 
-
-
-
+<figure>
+<heading refname="tile-figure" type="figure" toc="no">Figure 3. The Sydney Harbour Bridge, in tiles</heading>
+<img src="figure1.jpg" width="200" height="144" alt="Sydney Harbour Bridge in tiles, 200 x 144"/>
+</figure>
 
 
 
