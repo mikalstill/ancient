@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
 # groff2db 0.5. Copyright (c) Michael Still 2001 and 2002 (mikal@stillhq.com)
-# Released under the terms of the GNU GPL. Please submit all patches to mik al@stillhq.com
+# Released under the terms of the GNU GPL. Please submit all patches to mikal@stillhq.com
 # Initially developed for Greg Lehey's "The Complete FreeBSD"... Many thanks for his
 # sponsorship and support of this project.
 
@@ -9,13 +9,23 @@
 # docbook compliant XML. It also makes an attempt at being able to convert man pages to
 # docbook...
 
+# Command line arguements:
+# -t (list of if arguements to consider true)     NOT IMPLEMENTED YET
+# -f (list of if arguements to consider false)    NOT IMPLEMENTED YET
+# -s <no>                                         The starting section number in the document (for ease of embedding into others)
+
 use strict;
 my($INPUT, $PREPROC, $outputstyle);
 my($parastate, $liststate, $listitemstate, $footnotestate, $sectionstate, $tablestate, $stylestate, $displaystate, $waitstate, $quotestate, $pausedlist, $tablestate, $tablecolcount, $tablebracestate);
 my($length);
 my($temp);
-my($linecount, $condlinecount, $firstsect);
+my($linecount, $condlinecount, $firstsect, $topsectnum);
 my(@inline, @outline, $linemax, $count);
+
+$topsectnum = $ARGV[3];
+if($topsectnum eq ""){
+    $topsectnum = 0;
+}
 
 $linecount = 0;
 $tablestate = 0;
@@ -75,7 +85,7 @@ $liststate = 0;
 $listitemstate = 0;
 $parastate = 0;
 $footnotestate = 0;
-$sectionstate = 0;
+$sectionstate = $firstsectnum;
 $tablestate = 0;
 $displaystate = 0;
 $stylestate = "";
@@ -290,7 +300,7 @@ while(<INPUT>){
 	
 	# Docbook only goes up to sect5
 	if($1 > 5){
-	    print "Warning: docbook sect limit exceeded\n";
+	    print STDERR "Warning: docbook sect limit exceeded\n";
 	}
 	
 	while($sectionstate > ($1 - 2)){
@@ -338,7 +348,7 @@ while(<INPUT>){
 	endpara();
 	listend();
 	
-	while($sectionstate > 0){
+	while($sectionstate > $firstsectnum){
 	    print "</sect$sectionstate>\n";
 	    $sectionstate--;
 	}
