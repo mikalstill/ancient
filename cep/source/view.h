@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     04/01/98
-// RCS-ID:      $Id: view.h,v 1.2 2002-05-29 02:56:13 u964076 Exp $
+// RCS-ID:      $Id: view.h,v 1.3 2002-05-29 03:13:09 u964076 Exp $
 // Copyright:   (c) Julian Smart and Markus Holzem
 // Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////
@@ -40,18 +40,18 @@ public:
 		const wxSize & size, long style);
 };
 
-class DrawingView:public wxView
+class cepDatasetView:public wxView
 {
 public:
   wxFrame * frame;
   MyCanvas *canvas;
 
-    DrawingView ()
+    cepDatasetView ()
   {
     canvas = (MyCanvas *) NULL;
     frame = (wxFrame *) NULL;
   }
-   ~DrawingView ()
+   ~cepDatasetView ()
   {
   }
 
@@ -63,7 +63,7 @@ public:
   void OnCut (wxCommandEvent & event);
 
 private:
-DECLARE_DYNAMIC_CLASS (DrawingView) DECLARE_EVENT_TABLE ()};
+DECLARE_DYNAMIC_CLASS (cepDatasetView) DECLARE_EVENT_TABLE ()};
 
 class TextEditView:public wxView
 {

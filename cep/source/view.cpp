@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     04/01/98
-// RCS-ID:      $Id: view.cpp,v 1.2 2002-05-29 02:56:12 u964076 Exp $
+// RCS-ID:      $Id: view.cpp,v 1.3 2002-05-29 03:13:09 u964076 Exp $
 // Copyright:   (c) Julian Smart and Markus Holzem
 // Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////
@@ -32,20 +32,20 @@
 #include "doc.h"
 #include "view.h"
 
-IMPLEMENT_DYNAMIC_CLASS (DrawingView, wxView)
+IMPLEMENT_DYNAMIC_CLASS (cepDatasetView, wxView)
 // For drawing lines in a canvas
      float xpos = -1;
      float ypos = -1;
 
-BEGIN_EVENT_TABLE (DrawingView, wxView)
-EVT_MENU (DOODLE_CUT, DrawingView::OnCut) END_EVENT_TABLE ()
+BEGIN_EVENT_TABLE (cepDatasetView, wxView)
+EVT_MENU (DOODLE_CUT, cepDatasetView::OnCut) END_EVENT_TABLE ()
 // What to do when a view is created. Creates actual
 // windows for displaying the view.
      bool
-     DrawingView::OnCreate (wxDocument * doc, long WXUNUSED (flags))
+     cepDatasetView::OnCreate (wxDocument * doc, long WXUNUSED (flags))
 {
   frame = wxGetApp ().CreateChildFrame (doc, this, TRUE);
-  frame->SetTitle ("DrawingView");
+  frame->SetTitle ("cepDatasetView");
 
   canvas = GetMainFrame ()->CreateCanvas (this, frame);
 #ifdef __X__
@@ -63,13 +63,13 @@ EVT_MENU (DOODLE_CUT, DrawingView::OnCut) END_EVENT_TABLE ()
 // Sneakily gets used for default print/preview
 // as well as drawing on the screen.
 void
-DrawingView::OnDraw (wxDC * dc)
+cepDatasetView::OnDraw (wxDC * dc)
 {
   dc->SetFont (*wxNORMAL_FONT);
   dc->SetPen (*wxBLACK_PEN);
 
   wxNode *node =
-    ((DrawingDocument *) GetDocument ())->GetDoodleSegments ().First ();
+    ((cepDatasetDoc *) GetDocument ())->GetDoodleSegments ().First ();
   while (node)
     {
       DoodleSegment *seg = (DoodleSegment *) node->Data ();
@@ -79,7 +79,7 @@ DrawingView::OnDraw (wxDC * dc)
 }
 
 void
-DrawingView::OnUpdate (wxView * WXUNUSED (sender), wxObject * WXUNUSED (hint))
+cepDatasetView::OnUpdate (wxView * WXUNUSED (sender), wxObject * WXUNUSED (hint))
 {
   if (canvas)
     canvas->Refresh ();
@@ -101,7 +101,7 @@ DrawingView::OnUpdate (wxView * WXUNUSED (sender), wxObject * WXUNUSED (hint))
 
 // Clean up windows used for displaying the view.
 bool
-DrawingView::OnClose (bool deleteWindow)
+cepDatasetView::OnClose (bool deleteWindow)
 {
   if (!GetDocument ()->Close ())
     return FALSE;
@@ -129,9 +129,9 @@ DrawingView::OnClose (bool deleteWindow)
 }
 
 void
-DrawingView::OnCut (wxCommandEvent & WXUNUSED (event))
+cepDatasetView::OnCut (wxCommandEvent & WXUNUSED (event))
 {
-  DrawingDocument *doc = (DrawingDocument *) GetDocument ();
+  cepDatasetDoc *doc = (cepDatasetDoc *) GetDocument ();
   doc->GetCommandProcessor ()->
     Submit (new
 	    DrawingCommand ((const wxString) "Cut Last Segment", DOODLE_CUT,
@@ -239,7 +239,7 @@ MyCanvas::OnMouseEvent (wxMouseEvent & event)
       else
 	{
 	  // We've got a valid segment on mouse left up, so store it.
-	  DrawingDocument *doc = (DrawingDocument *) view->GetDocument ();
+	  cepDatasetDoc *doc = (cepDatasetDoc *) view->GetDocument ();
 
 	  doc->GetCommandProcessor ()->
 	    Submit (new

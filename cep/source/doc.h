@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     04/01/98
-// RCS-ID:      $Id: doc.h,v 1.2 2002-05-29 02:56:12 u964076 Exp $
+// RCS-ID:      $Id: doc.h,v 1.3 2002-05-29 03:13:09 u964076 Exp $
 // Copyright:   (c) Julian Smart and Markus Holzem
 // Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////
@@ -49,14 +49,14 @@ public:
 #endif
 };
 
-class DrawingDocument:public wxDocument
+class cepDatasetDoc:public wxDocument
 {
-DECLARE_DYNAMIC_CLASS (DrawingDocument) private:
+DECLARE_DYNAMIC_CLASS (cepDatasetDoc) private:
 public:
   wxList doodleSegments;
 
-  DrawingDocument (void);
-   ~DrawingDocument (void);
+  cepDatasetDoc (void);
+   ~cepDatasetDoc (void);
 
 #if wxUSE_STD_IOSTREAM
     ostream & SaveObject (ostream & text_stream);
@@ -79,10 +79,10 @@ class DrawingCommand:public wxCommand
 {
 protected:
   DoodleSegment * segment;
-  DrawingDocument *doc;
+  cepDatasetDoc *doc;
   int cmd;
 public:
-    DrawingCommand (const wxString & name, int cmd, DrawingDocument * ddoc,
+    DrawingCommand (const wxString & name, int cmd, cepDatasetDoc * ddoc,
 		    DoodleSegment * seg);
    ~DrawingCommand (void);
 

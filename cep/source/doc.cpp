@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     04/01/98
-// RCS-ID:      $Id: doc.cpp,v 1.2 2002-05-29 02:56:12 u964076 Exp $
+// RCS-ID:      $Id: doc.cpp,v 1.3 2002-05-29 03:13:09 u964076 Exp $
 // Copyright:   (c) Julian Smart and Markus Holzem
 // Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////
@@ -32,18 +32,18 @@
 #include "doc.h"
 #include "view.h"
 
-IMPLEMENT_DYNAMIC_CLASS (DrawingDocument, wxDocument)
-  DrawingDocument::DrawingDocument (void)
+IMPLEMENT_DYNAMIC_CLASS (cepDatasetDoc, wxDocument)
+  cepDatasetDoc::cepDatasetDoc (void)
 {
 }
 
-DrawingDocument::~DrawingDocument (void)
+cepDatasetDoc::~cepDatasetDoc (void)
 {
   doodleSegments.DeleteContents (TRUE);
 }
 
 #if wxUSE_STD_IOSTREAM
-ostream & DrawingDocument::SaveObject (ostream & stream)
+ostream & cepDatasetDoc::SaveObject (ostream & stream)
 {
   wxDocument::SaveObject (stream);
 
@@ -72,7 +72,7 @@ ostream & DrawingDocument::SaveObject (ostream & stream)
   return stream;
 }
 #else
-wxOutputStream & DrawingDocument::SaveObject (wxOutputStream & stream)
+wxOutputStream & cepDatasetDoc::SaveObject (wxOutputStream & stream)
 {
   wxDocument::SaveObject (stream);
 
@@ -106,7 +106,7 @@ wxOutputStream & DrawingDocument::SaveObject (wxOutputStream & stream)
 #endif
 
 #if wxUSE_STD_IOSTREAM
-istream & DrawingDocument::LoadObject (istream & stream)
+istream & cepDatasetDoc::LoadObject (istream & stream)
 {
   wxDocument::LoadObject (stream);
 
@@ -128,7 +128,7 @@ istream & DrawingDocument::LoadObject (istream & stream)
   return stream;
 }
 #else
-wxInputStream & DrawingDocument::LoadObject (wxInputStream & stream)
+wxInputStream & cepDatasetDoc::LoadObject (wxInputStream & stream)
 {
   wxDocument::LoadObject (stream);
 
@@ -298,7 +298,7 @@ DoodleSegment::Draw (wxDC * dc)
  */
 
 DrawingCommand::DrawingCommand (const wxString & name, int command,
-				DrawingDocument * ddoc, DoodleSegment * seg):
+				cepDatasetDoc * ddoc, DoodleSegment * seg):
 wxCommand (TRUE, name)
 {
   doc = ddoc;

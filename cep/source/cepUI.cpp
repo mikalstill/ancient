@@ -64,22 +64,15 @@ MyApp::OnInit (void)
   m_docManager = new wxDocManager;
 
   // Create a template relating drawing documents to their views
-  (void) new wxDocTemplate ((wxDocManager *) m_docManager, "Drawing", "*.drw",
-			    "", "drw", "Drawing Doc", "Drawing View",
-			    CLASSINFO (DrawingDocument),
-			    CLASSINFO (DrawingView));
-
-  // Create a template relating text documents to their views
-  (void) new wxDocTemplate (m_docManager, "Text", "*.txt", "", "txt",
-			    "Text Doc", "Text View",
-			    CLASSINFO (TextEditDocument),
-			    CLASSINFO (TextEditView));
+  (void) new wxDocTemplate ((wxDocManager *) m_docManager, "Dataset", "*.dat1",
+			    "", "dat", "Dataset", "Dataset View",
+			    CLASSINFO (cepDatasetDoc),
+			    CLASSINFO (cepDatasetView));
 
   // Create the main frame window
   frame =
     new MyFrame ((wxDocManager *) m_docManager, (wxFrame *) NULL,
-		 (const wxString) "DocView Demo", wxPoint (0, 0), wxSize (500,
-									  400),
+		 (const wxString) "CEPtor", wxPoint (0, 0), wxSize (500, 400),
 		 wxDEFAULT_FRAME_STYLE);
 
   // Give it an icon (this is ignored in MDI mode: uses resources)
@@ -90,7 +83,7 @@ MyApp::OnInit (void)
   frame->SetIcon (wxIcon ("doc.xbm"));
 #endif
 
-  //// Make a menubar
+  // Make a menubar
   wxMenu *file_menu = new wxMenu;
   wxMenu *edit_menu = (wxMenu *) NULL;
 
@@ -113,7 +106,7 @@ MyApp::OnInit (void)
     menu_bar->Append (edit_menu, "&Edit");
   menu_bar->Append (help_menu, "&Help");
 
-  //// Associate the menu bar with the frame
+  // Associate the menu bar with the frame
   frame->SetMenuBar (menu_bar);
 
   frame->Centre (wxBOTH);
@@ -138,7 +131,7 @@ MyApp::OnExit (void)
 wxMDIChildFrame *
 MyApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
 {
-  //// Make a child frame
+  // Make a child frame
   wxDocMDIChildFrame *subframe =
     new wxDocMDIChildFrame (doc, view, GetMainFrame (), -1, "Child Frame",
 			    wxPoint (10, 10), wxSize (300, 300),
@@ -151,7 +144,7 @@ MyApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
   subframe->SetIcon (wxIcon ("doc.xbm"));
 #endif
 
-  //// Make a menubar
+  // Make a menubar
   wxMenu *file_menu = new wxMenu;
 
   file_menu->Append (wxID_NEW, "&New...");
@@ -194,7 +187,7 @@ MyApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
     menu_bar->Append (edit_menu, "&Edit");
   menu_bar->Append (help_menu, "&Help");
 
-  //// Associate the menu bar with the frame
+  // Associate the menu bar with the frame
   subframe->SetMenuBar (menu_bar);
 
   return subframe;
