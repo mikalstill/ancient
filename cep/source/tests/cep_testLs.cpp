@@ -19,7 +19,6 @@
 
 #include <stdio.h>
 
-//#include "../cepMatrix.h"
 #include "../cepLs.h"
 
 /**
@@ -37,7 +36,7 @@
  *     void tearDown( void ) { ... }
  *
  * @author <your name here>
- * @version $Revision: 1.7 $ $Date: 2002-09-26 08:59:57 $
+ * @version $Revision: 1.8 $ $Date: 2002-10-01 06:19:33 $
  *
  * Revision History
  *
@@ -85,6 +84,9 @@ public:
       new CppUnit::TestCaller<Test>( "testLsVCV", &Test::testLsVCV ) );
     
     suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "testLsVCVReweight", &Test::testLsVCVReweight ) );
+    
+    suiteOfTests->addTest(
       new CppUnit::TestCaller<Test>( "testLsRW", &Test::testLsRW ) );
                   
     return suiteOfTests;
@@ -97,6 +99,8 @@ protected:
    */
 
   /** Tests Ls */
+  
+  //test VCV LS
   void testLsVCV()
   {
     cepMatrix<double> data(5,3), P(5,5), residual;
@@ -168,6 +172,46 @@ protected:
     CPPUNIT_ASSERT_DOUBLES_EQUAL( -0.00008229516, residual.getValue(4,0), 0.000000001 );
   }
   
+  //test the re-weighting of VCV
+  void testLsVCVReweight()
+  {
+    cepMatrix<double> data(5,3), residual;
+    cepLs ans;
+    
+    data.setValue(0,0,1.0);
+    data.setValue(1,0,2.0);
+    data.setValue(2,0,3.0);
+    data.setValue(3,0,4.0);
+    data.setValue(4,0,5.0);
+    
+    data.setValue(0,1,0.5);
+    data.setValue(1,1,2.0);
+    data.setValue(2,1,-2.0);  //this is an outlier!
+    data.setValue(3,1,5.0);
+    data.setValue(4,1,6.5);
+    
+    data.setValue(0,2,0.0012);
+    data.setValue(1,2,0.0014);
+    data.setValue(2,2,0.0015);
+    data.setValue(3,2,0.0015);
+    data.setValue(4,2,0.0015);
+    
+    ans.cepDoVCV(data);
+    residual = ans.getResidual();
+        
+    //tests for B1 and B2
+    CPPUNIT_ASSERT_DOUBLES_EQUAL( 1.5, ans.getB1(), 0.01 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL( 0.5, ans.getB2(), 0.01 );
+    
+    //test for residuals
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(  0.0, residual.getValue(0,0), 0.01 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(  0.0, residual.getValue(1,0), 0.01 ); 
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(  5.5, residual.getValue(2,0), 0.01 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(  0.0, residual.getValue(3,0), 0.01 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(  0.0, residual.getValue(4,0), 0.01 );  
+  }
+  
+  //test RW LS
   void testLsRW()
   {
     cepMatrix<double> data(5,3), P(5,5), residual;
@@ -226,7 +270,8 @@ protected:
     
     ans.cepDoVCV(data, P);
     residual = ans.getResidual();
-    
+   
+      
     //tests for B1 and B2
     CPPUNIT_ASSERT_DOUBLES_EQUAL( 0.05241276, ans.getB1(), 0.00000001 );
     CPPUNIT_ASSERT_DOUBLES_EQUAL( -1.624906007, ans.getB2(), 0.000000001 );
