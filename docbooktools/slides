@@ -57,7 +57,7 @@ while(<STDIN>){
 	}
 	elsif($newsect > $currsect){
 	    print STDERR "Appending a title element\n";
-	    $titleelem[scalar @titleelem] = $2;
+	    $titleelem[$newsect] = $2;
 	    openslide();
 	}
 	else{
