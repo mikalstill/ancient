@@ -26,6 +26,8 @@ rm foo.tdb
 
 echo "Creating db"
 verify "CREATE TABLE foo (cola, colb, colc);" create001
+verify "CREATE TABLE hyphen-hyphen (hyphen-col);" create002
+verify "CREATE TABLE mIxEdCaSe (cola);" create003
 
 if [ "%$1%" = "%create%" ]
 then
@@ -37,6 +39,10 @@ verify "INSERT INTO foo (cola, colb, colc) VALUES ('duck', 'chicken', 'frog');" 
 verify "INSERT INTO foo (cola, colb) VALUES ('duck', 'hamster');" insert002
 verify "INSERT INTO foo (cola, colc) VALUES ('banana', 'frog');" insert003
 verify "INSERT INTO banana (cola) VALUES ('chicken');" insert004
+verify "INSERT INTO foo (cola) VALUES ('this-has-hyphens');" insert005
+verify "INSERT INTO hyphen-hyphen (hyphen-col) VALUES ('567');" insert006
+verify "INSERT INTO mIxEdCaSe (cola) VALUES ('567');" insert007
+verify "INSERT INTO cepConfig (mainwindowsizex) VALUES ('224');" insert008
 
 if [ "%$1%" = "%insert%" ]
 then
@@ -46,15 +52,7 @@ fi
 echo ""
 echo "Select tests"
 verify "SELECT cola, colb, colc FROM foo;" sel001
-
-echo ""
 verify "SELECT * FROM foo;" sel002
-
-echo ""
 verify "SELECT cola, colc FROM foo;" sel003
-
-echo ""
 verify "SELECT cola, colb, colc FROM foo WHERE cola = 'duck';" sel004
-
-echo ""
 verify "SELECT * FROM nosuchtable;" sel005

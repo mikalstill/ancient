@@ -26,7 +26,7 @@ int trivsql_gettext(char *buffer, int maxlen){
   int size;
 
   // Determine the maximum size to return
-  size = trivsql_min(maxlen, strlen(gTrivData) - gTrivInset - 1);
+  size = trivsql_min(maxlen, strlen(gTrivData) - gTrivInset);
 
   if(size > 0){
     memcpy(buffer, gTrivData + gTrivInset, size);

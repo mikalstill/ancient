@@ -17,7 +17,7 @@
 [Ww][Hh][Ee][Rr][Ee]                       { return WHERE; }
 [Ll][Ii][Kk][Ee]                           { return LIKE; }
 
-[a-zA-Z0-9%]+                              { yylval = trivsql_xsnprintf("%s", yytext); return STRING; }
+[a-zA-Z0-9%\-]+                              { yylval = trivsql_xsnprintf("%s", yytext); return STRING; }
 [ \t\r\n]                                  { }
 .                                          { return yytext[0]; }
 
