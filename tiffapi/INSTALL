@@ -1,0 +1,12 @@
+Welcome to TIFFAPI 0.1
+
+To install, run the following commands:
+
+./configure
+make
+make install
+
+Cheers,
+Mikal
+
+29 January 2001

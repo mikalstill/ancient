@@ -1,0 +1,44 @@
+dnl Process this file with autoconf to produce a configure script.
+AC_INIT(tiffapi.c)
+AC_CONFIG_AUX_DIR(config)
+AC_REVISION
+AM_INIT_AUTOMAKE(tiffapi, 0.1)
+AM_MAINTAINER_MODE
+
+dnl Checks for programs.
+AC_PROG_CC
+AM_PROG_LEX
+AC_PROG_YACC
+AC_PROG_INSTALL
+AC_PROG_RANLIB
+
+dnl Checks for libraries.
+dnl The syntax is library name, function, action if found, action if not found
+dnl We just use the default if found action which adds -l<lib> to the LIBS var
+dnl and #defined HAVE_LIB<lib>
+
+
+dnl -ldmalloc:
+AC_CHECK_LIB(dmalloc, malloc)
+
+dnl -lm:
+AC_CHECK_LIB(m, atan)
+
+dnl -ltiff:
+AC_CHECK_LIB(tiff, TIFFOpen)
+
+dnl Checks for header files.
+dnl STDC checks for stdlib.h stdarg.h string.h and float.h
+AC_HEADER_STDC
+AC_CHECK_HEADERS(stdio.h)
+
+dnl Headers for libraries
+AC_CHECK_HEADERS(tiffio.h)
+
+dnl Checks for typedefs, structures, and compiler characteristics.
+
+AC_OUTPUT(tiffapi/Makefile Makefile)
+
+
+
+

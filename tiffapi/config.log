@@ -1,0 +1,43 @@
+This file contains any messages produced by compilers while
+running configure, to aid debugging if configure makes a mistake.
+
+configure:560: checking for a BSD compatible install
+configure:613: checking whether build environment is sane
+configure:670: checking whether make sets ${MAKE}
+configure:716: checking for working aclocal
+configure:729: checking for working autoconf
+configure:742: checking for working automake
+configure:755: checking for working autoheader
+configure:768: checking for working makeinfo
+configure:782: checking whether to enable maintainer-specific portions of Makefiles
+configure:808: checking for gcc
+configure:921: checking whether the C compiler (gcc  ) works
+configure:937: gcc -o conftest    conftest.c  1>&5
+configure:963: checking whether the C compiler (gcc  ) is a cross-compiler
+configure:968: checking whether we are using GNU C
+configure:996: checking whether gcc accepts -g
+configure:1028: checking how to run the C preprocessor
+configure:1113: checking for flex
+configure:1146: checking for flex
+configure:1180: checking for yywrap in -lfl
+configure:1222: checking lex output file root
+configure:1243: checking whether yytext is a pointer
+configure:1288: checking for bison
+configure:1330: checking for a BSD compatible install
+configure:1385: checking for ranlib
+configure:1416: checking for malloc in -ldmalloc
+configure:1464: checking for atan in -lm
+configure:1512: checking for png_libpng_ver in -lpng
+configure:1560: checking for TIFFOpen in -ltiff
+configure:1608: checking for jpeg_std_error in -ljpeg
+configure:1656: checking for ANSI C header files
+configure:1763: checking for stdio.h
+configure:1803: checking for unistd.h
+configure:1843: checking for sys/stat.h
+configure:1883: checking for pthread.h
+configure:1924: checking for jpeglib.h
+configure:1964: checking for tiffio.h
+configure:2002: checking if this is a windows box
+configure:2008: checking for windows.h
+configure:2049: checking for vprintf
+configure:2154: checking for working snprintf
