@@ -7,21 +7,72 @@
 
   <sect3><title>Research</title>
     <para>
-       - Hamming, blackman, chebychev, etc..
-       - Which algorithms?
-       - Assess alternative algorithms
+      - Rectangular, Blackman, Hamming, Dolph-Chebychev, etc..
+      - Which algorithms?
+        - Rectangular: inluded for preliminary testing)
+        - Blackman: used to compare and contrast with hamming
+        - Hamming: a useful and very good algorithm. this provides nice side lobe attenuation
+        - Dolph-Chebyshev: another very good algorithm. This possesses a frequency response similar
+          to a Hamming window, however provides better attenuation of high frequencies. the minumum
+          attenuation of frequencies greater than the sampling frequency for dolph-chebyshev is 63 dB
+          as compared to 50 dB for hamming
+
+      - Assess alternative algorithms
+        This has been designed to be easily extensible. A new algorithm can be added by specialising
+        the cepWindowAlg class and overriding the getValue method.
+        A new windowing algorithm can be added at the expense of less than 10 lines of code (with the
+        exception of those such as dolph-chebyshev who require alot more attention)
     </para>
   </sect3> <!--research-->
 
   <sect3><title>Implementation</title>
   <para>
        - How was it done?
+
+                           cepWindowAlg     <-------------------    cepDataWindower
+                                 ^
+                                 |
+              --------------------------------------
+              |            |           |           |
+          rectangular   blackman    hamming    chebyshev
+
+        - These coefficients can be generated for an arbitrary window size. The requirement that
+          the windowed data can be converted to the Fourier domain imposes afuther limitation in that
+          the fourier libraries we are using will only operate on a data set of size 2^n ( 0 < n < inf);
+          This restriction has been implmented at the UI level, maintaining the flexibility of the
+          windowing subsystem.
+
+
+        - Blackman - this was added at a simlar time
+            coeff(i) = 0.42 - 0.5*cos( 2*PI*val ) + 0.08*cos(4*PI* i/(size-1));
+        - Hamming. implemented using the time honoured formula
+            coeff(i) = 0.54 - 0.46*cos( 2*PI*i/(size-1) );
+        - Dolph-Chebychev
+
+            http://www.maths.tcd.ie/~plynch/Publications/Dolph.pdf
+            http://www.isip.msstate.edu/projects/speech/software/documentation/class/algo/Window/
+            http://www.octave.org/octave-lists/archive/octave-sources.2002/msg00019.html
+            dolph
+        - etc..
        - Speed/ Optimisations
-  </para>      
+          - calulation of window coefficients are performed only when the algorithm is changed, or paramters
+            are altered.
+          - for the simpler algoritms, speed is not an issue. Th emost expensive of these algorithms [blackman]
+            2 cosines and 6 muliplications. this is inexpensive when considering the frequency at which recalulation
+            will be required, and the relatively small size of the window required.
+          - Dolph-Chebyshev will be more expensive. The code that is implmented is based on a FORTRAN algorithm. This
+            has been implmented as faithfully as possible so as to maintain the integrity of the window coefficients.
+            The support the ability of the user to request a window of arbitrary size, this particular window algorithm
+            implements is own inverse fourier transform.
+            <!-- TODO - insert an example of the ifft here -->
+
+  </para>
   </sect3> <!--Implementation-->
-  
+
   <sect3><title>Future Enahncements</title>
   <para>
+  - possibility of adding more windowing algorthms
+  - possible optimisation of the dolph-chebyshev code
   </para>
   </sect3> <!--Future Enahncements-->
 
