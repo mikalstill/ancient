@@ -320,7 +320,7 @@ The most basic PDF example is the hello world application. Here is the Panda ite
 Which produces...
 </para>
 
-<execute><cmd>pdf2db</cmd><args>source/pdf/panda/hello/hello.pdf "Panda hello world"</args></execute>
+<execute><cmd>todo</cmd><args>source/pdf/panda/hello/hello.pdf "Panda hello world"</args></execute>
 </sect2>
 
 <sect2><title>Initialization</title>
@@ -506,13 +506,13 @@ A page template is created using <command>panda_newtemplate</command>. A templat
 This section presents a full Panda example showing what the library is capable of. This code comes from the Panda distribution:
 </para>
 
-<execute><cmd>code2db</cmd><input>~mikal/opensource/panda/examples/main.c</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource-unstable/panda/examples/main.c</input></execute>
 
 <para>
 It produces output like:
 </para>
 
-<execute><cmd>pdf2db</cmd><input>~mikal/opensource/panda/examples/output.pdf</input></execute>
+<execute><cmd>todo</cmd><input>~mikal/opensource-unstable/panda/examples/output.pdf</input></execute>
 </sect2>
 
 </sect1>
@@ -550,27 +550,23 @@ Part of my Panda work has been the development of a lexer for PDF documents know
 </para>
 
 <sect2><title>lexer.l</title>
-<execute><cmd>code2db</cmd><input>~mikal/opensource/pandalex/lexer.l</input></execute>
-</sect2>
-
-<sect2><title>lexinterface.h</title>
-<execute><cmd>code2db</cmd><input>~mikal/opensource/pandalex/lexinterface.h</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource-unstable/pandalex/lexer.l</input></execute>
 </sect2>
 
 <sect2><title>pandalex.h</title>
-<execute><cmd>code2db</cmd><input>~mikal/opensource/pandalex/pandalex.h</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource-unstable/pandalex/pandalex.h</input></execute>
 </sect2>
 
 <sect2><title>parser.y</title>
-<execute><cmd>code2db</cmd><input>~mikal/opensource/pandalex/parser.y</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource-unstable/pandalex/parser.y</input></execute>
 </sect2>
 
 <sect2><title>samples.c</title>
-<execute><cmd>code2db</cmd><input>~mikal/opensource/pandalex/samples.c</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource-unstable/pandalex/examples/samples.c</input></execute>
 </sect2>
 
 <sect2><title>samples.h</title>
-<execute><cmd>code2db</cmd><input>~mikal/opensource/pandalex/samples.h</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource-unstable/pandalex/examples/samples.h</input></execute>
 </sect2>
 
 </sect1>

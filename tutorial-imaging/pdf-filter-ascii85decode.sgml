@@ -7,9 +7,9 @@ The ASCII85 filter takes binary data, and turns it into base 85 representation. 
 The <emphasis>comp.text.pdf frequently asked questions</emphasis> refers to the code examples below by way of explaination:
 </para>
 
-<execute><cmd>code2db</cmd><input>~mikal/opensource/ascii85/encode85.c</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource-stable/ascii85/encode85.c</input></execute>
 
-<execute><cmd>code2db</cmd><input>~mikal/opensource/ascii85/decode85.c</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource-stable/ascii85/decode85.c</input></execute>
 
 <para>
 These two code snippets were written by Paul Haahr, http://www.webcom.com/~haahr/, and is stated to be in the public domain.

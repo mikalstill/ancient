@@ -1045,7 +1045,7 @@ Unlike the TIFF format, which allows the creator of the image files to specify m
 The first step to learning how to use libpng is probably to understand how to open a PNG file and get some data out of it. Below is a minimal example of how to open a PNG file, not including actually reading the image data...
 </para>
 
-<execute><cmd>code2db</cmd><input>~mikal/opensource/png-open/read-infrastructure.c</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource-stable/png-open/read-infrastructure.c</input></execute>
 
 <para>
 In this example, we do everything we need to open a PNG image, without actually reading the image data. The steps to getting to the image data are:
@@ -1080,7 +1080,7 @@ In this example, we do everything we need to open a PNG image, without actually 
 The <command>pnginfo</command> command implemented here is modeled on the <command>tiffinfo</command>, which was discussed in the TIFF chapter earlier in this tutorial. In fact, the output text is written to be as close to the <command>tiffinfo</command> command as possible.
 </para>
 
-<execute><cmd>code2db</cmd><input>~mikal/opensource/pngtools/pnginfo.c</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource-unstable/pngtools/pnginfo.c</input></execute>
 </sect1>
 
 
@@ -1090,7 +1090,7 @@ The <command>pnginfo</command> command implemented here is modeled on the <comma
 This example shows you how to read in the raster data that is embedded into the image file. libpng will also expand paletted raster information for you if you ask nicely...
 </para>
 
-<execute><cmd>code2db</cmd><input>~mikal/opensource/png-open/read.c</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource-stable/png-open/read.c</input></execute>
 </sect1>
 
 
@@ -1101,7 +1101,7 @@ This example shows you how to read in the raster data that is embedded into the 
 Writing a PNG file is <emphasis>very</emphasis> to reading the PNG file. The example below extends the code from above to open a PNG file, and then copy it to a new PNG file.
 </para>
 
-<execute><cmd>code2db</cmd><input>~mikal/opensource/png-write/write.c</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource-stable/png-write/write.c</input></execute>
 </sect1>
 
 <sect1><title>Storing PNG data in places other than files</title>
@@ -1109,7 +1109,7 @@ Writing a PNG file is <emphasis>very</emphasis> to reading the PNG file. The exa
 This example below, much like the TIFFClient examples in the TIFF chapter shows how to use the libpng call backs to get to image data in places other than files. Note that it wont compile, but it does give you an example of the structure you need...
 </para>
 
-<execute><cmd>code2db</cmd><input>~mikal/opensource/png-client/client.c</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource-stable/png-client/client.c</input></execute>
 </sect1>
 
 
@@ -1123,7 +1123,7 @@ To be honest, the libtiff man pages are much better than the documentation which
 </para>
 
 <sect2><title>libpng</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/png/man/libpng.3</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource-stable/groff2db/convert</cmd><input>source/png/man/libpng.3</input><args>-s 3</args></execute>
 </sect2>
 </sect1>
 

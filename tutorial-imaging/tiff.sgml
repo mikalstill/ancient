@@ -347,7 +347,7 @@ It is traditional for bitmaps to be represented inside your code with an array o
 </noslide>
 
 <slideinclude>
-<execute><cmd>code2db</cmd><input>~mikal/opensource/tiff-bw-write/write-infrastructure.c</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource-stable/tiff-bw-write/write-infrastructure.c</input></execute>
 </slideinclude>
 
 <slidetext>
@@ -370,7 +370,7 @@ Please note, that for clarity I have omitted the actual hex for the image, this 
 </para>
 
 <slideinclude>
-<execute><cmd>code2db</cmd><input>~mikal/opensource/tiff-bw-write/write-nohex.c</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource-stable/tiff-bw-write/write-nohex.c</input></execute>
 </slideinclude>
 
 <para>
@@ -547,7 +547,7 @@ The other big thing to bear in mind is fill order (whether the first bit in the 
 
 <slidebreak>
 <slideinclude>
-<execute><cmd>code2db</cmd><input>~mikal/opensource/tiff-bw-read/read.c</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource-stable/tiff-bw-read/read.c</input></execute>
 </slideinclude>
 
 <para>
@@ -691,7 +691,7 @@ It time to show you how to write a color image to disc. Remember that this is a 
 </slidetext>
 
 <slideinclude>
-<execute><cmd>code2db</cmd><input>~mikal/opensource/tiff-color-write/write.c</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource-stable/tiff-color-write/write.c</input></execute>
 </slideinclude>
 
 <slidebreak>
@@ -838,7 +838,7 @@ Now all we have to do is work out how to read other people's color and gray scal
 
 <slidebreak>
 <slideinclude>
-<execute><cmd>code2db</cmd><input>~mikal/opensource/tiff-color-read/read.c</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource-stable/tiff-color-read/read.c</input></execute>
 </slideinclude>
 </sect1>
 
@@ -888,7 +888,7 @@ The example which I am most familiar with is PDF documents. In PDF files, you ca
 <execute><cmd>nextedition</cmd><input>Make this example better</input></execute>
 
 <slideinclude>
-<execute><cmd>code2db</cmd><input>~mikal/opensource/tiff-client/client.c</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource-stable/tiff-client/client.c</input></execute>
 </slideinclude>
 </sect1>
 
@@ -930,7 +930,7 @@ Anyway, now that I've nagged you, putting multiple images into one TIFF file is 
 </slidetext>
 
 <slideinclude>
-<execute><cmd>code2db</cmd><input>~mikal/opensource/tiff-directories/create.c</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource-stable/tiff-directories/create.c</input></execute>
 </slideinclude>
 
 <slidebreak>
@@ -956,7 +956,7 @@ This example below demonstrates how to do this.
 <execute><cmd>nextedition</cmd><input>more!</input></execute>
 
 <slideinclude>
-<execute><cmd>code2db</cmd><input>~mikal/opensource/tiff-directories/read.c</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource-stable/tiff-directories/read.c</input></execute>
 </slideinclude>
 
 <execute><cmd>nextedition</cmd><input>This doesn't work at the moment</input></execute>
@@ -969,16 +969,16 @@ I have included the man pages to some of the more useful libtiff commands, so th
 </para>
 
 <sect2><title>tiff2bw</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiff2bw.1</input><args>-s 3</args>></execute>
+<execute><cmd>~mikal/opensource-stable/groff2db/convert</cmd><input>source/tiff/man/tiff2bw.1</input><args>-s 3</args>></execute>
 </sect2>
 
 <sect2><title>tiff2ps</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiff2ps.1</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource-stable/groff2db/convert</cmd><input>source/tiff/man/tiff2ps.1</input><args>-s 3</args></execute>
 </sect2>
 
 
 <sect2><title>tiffcmp</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffcmp.1</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource-stable/groff2db/convert</cmd><input>source/tiff/man/tiffcmp.1</input><args>-s 3</args></execute>
 
 <sect3><title>Sample output</title>
 <para>
@@ -996,14 +996,14 @@ ImageWidth: 256 520
 
 <sect2><title>tiffcp</title>
 <slideinclude>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffcp.1</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource-stable/groff2db/convert</cmd><input>source/tiff/man/tiffcp.1</input><args>-s 3</args></execute>
 </slideinclude>
 </sect2>
 
 
 <sect2><title>tiffdither</title>
 <slideinclude>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffdither.1</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource-stable/groff2db/convert</cmd><input>source/tiff/man/tiffdither.1</input><args>-s 3</args></execute>
 </slideinclude>
 
 <noslide>
@@ -1035,7 +1035,7 @@ This image, after being pushed through <command>tiffdither</command> looks somet
 
 <sect2><title>tiffdump</title>
 <slideinclude>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffdump.1</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource-stable/groff2db/convert</cmd><input>source/tiff/man/tiffdump.1</input><args>-s 3</args></execute>
 </slideinclude>
 
 <sect3><title>Sample output</title>
@@ -1068,13 +1068,13 @@ PlanarConfig (284) SHORT (3) 1&lt;1&gt;
 
 <noslide>
 <sect2><title>tiffgt</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffgt.1</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource-stable/groff2db/convert</cmd><input>source/tiff/man/tiffgt.1</input><args>-s 3</args></execute>
 </sect2>
 </noslide>
 
 <sect2><title>tiffinfo</title>
 <slideinclude>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffinfo.1</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource-stable/groff2db/convert</cmd><input>source/tiff/man/tiffinfo.1</input><args>-s 3</args></execute>
 </slideinclude>
 
 <sect3><title>Sample output</title>
@@ -1133,489 +1133,28 @@ Strip 0:
 
 <noslide>
 <sect2><title>tiffmedian</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffmedian.1</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource-stable/groff2db/convert</cmd><input>source/tiff/man/tiffmedian.1</input><args>-s 3</args></execute>
 </sect2>
 </noslide>
 
 <noslide>
 <sect2><title>tiffsplit</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffsplit.1</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource-stable/groff2db/convert</cmd><input>source/tiff/man/tiffsplit.1</input><args>-s 3</args></execute>
 </sect2>
 </noslide>
 
 <noslide>
 <sect2><title>tiffsv</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffsv.1</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource-stable/groff2db/convert</cmd><input>source/tiff/man/tiffsv.1</input><args>-s 3</args></execute>
 </sect2>
 </noslide>
 
 <noslide>
 <sect2><title>tifftopnm</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tifftopnm.1</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource-stable/groff2db/convert</cmd><input>source/tiff/man/tifftopnm.1</input><args>-s 3</args></execute>
 </sect2>
 </noslide>
 </sect1>
-
-
-
-
-
-
-<sect1><title>API Man Pages</title>
-<para>
-It is also useful to have the man pages for the libtiff API man pages to refer to...
-</para>
-
-<slidetext>
-<li>There are also extensive man pages for the API -- check yout manual
-</slidetext>
-
-<noslide>
-<sect2><title>TIFFbuffer</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFbuffer.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFCheckTile</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFCheckTile.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFClientOpen</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFClientOpen.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFClose</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFClose.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFcodec</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFcodec.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFComputeStrip</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFComputeStrip.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFComputeTile</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFComputeTile.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFCurrentDirectory</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFCurrentDirectory.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFCurrentRow</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFCurrentRow.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFCurrentStrip</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFCurrentStrip.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFCurrentTile</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFCurrentTile.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFDefaultStripSize</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFDefaultStripSize.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFDefaultTileSize</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFDefaultTileSize.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFError</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFError.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFFdOpen</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFFdOpen.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFFileName</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFFileName.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFFileno</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFFileno.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFFindCODEC</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFFindCODEC.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFFlush</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFFlush.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFFlushData</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFFlushData.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFfree</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFfree.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFGetField</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFGetField.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFGetMode</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFGetMode.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFIsByteSwapped</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFIsByteSwapped.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFIsMSB2LSB</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFIsMSB2LSB.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFIsTiled</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFIsTiled.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFIsUpSampled</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFIsUpSampled.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFLastDirectory</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFLastDirectory.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFmalloc</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFmalloc.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFmemcmp</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFmemcmp.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFmemcpy</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFmemcpy.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFmemory</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFmemory.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFmemset</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFmemset.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFNumberOfStrips</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFNumberOfStrips.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFNumberOfTiles</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFNumberOfTiles.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFOpen</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFOpen.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFPrintDirectory</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFPrintDirectory.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFquery</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFquery.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFReadBufferSetup</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFReadBufferSetup.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFReadDirectory</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFReadDirectory.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFReadEncodedStrip</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFReadEncodedStrip.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFReadEncodedTile</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFReadEncodedTile.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFReadRawStrip</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFReadRawStrip.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFReadRawTile</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFReadRawTile.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFReadRGBAImage</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFReadRGBAImage.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFReadRGBAStrip</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFReadRGBAStrip.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFReadRGBATile</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFReadRGBATile.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFReadScanline</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFReadScanline.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFReadTile</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFReadTile.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFrealloc</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFrealloc.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFRegisterCODEC</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFRegisterCODEC.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFReverseBits</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFReverseBits.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFRewriteDirectory</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFRewriteDirectory.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFRGBAImage</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFRGBAImage.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFRGBAImageBegin</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFRGBAImageBegin.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFRGBAImageEnd</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFRGBAImageEnd.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFRGBAImageGet</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFRGBAImageGet.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFRGBAImageOK</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFRGBAImageOK.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFScanlineSize</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFScanlineSize.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFSetDirectory</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFSetDirectory.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFSetErrorHandler</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFSetErrorHandler.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFSetField</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFSetField.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFSetSubDirectory</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFSetSubDirectory.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFSetWarningHandler</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFSetWarningHandler.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFsize</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFsize.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFstrip</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFstrip.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFStripSize</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFStripSize.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFswab</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFswab.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFSwabArrayOfLong</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFSwabArrayOfLong.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFSwabArrayOfShort</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFSwabArrayOfShort.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFSwabLong</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFSwabLong.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFSwabShort</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFSwabShort.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFtile</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFtile.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFTileRowSize</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFTileRowSize.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFTileSize</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFTileSize.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFUnRegisterCODEC</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFUnRegisterCODEC.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFVGetField</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFVGetField.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFVSetField</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFVSetField.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFVStripSize</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFVStripSize.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFVTileSize</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFVTileSize.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFWarning</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFWarning.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFWriteBufferSetup</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFWriteBufferSetup.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFWriteDirectory</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFWriteDirectory.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFWriteEncodedStrip</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFWriteEncodedStrip.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFWriteEncodedTile</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFWriteEncodedTile.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFWriteRawStrip</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFWriteRawStrip.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFWriteRawTile</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFWriteRawTile.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFWriteScanline</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFWriteScanline.3t</input><args>-s 3</args></execute>
-</sect2>
-
-
-<sect2><title>TIFFWriteTile</title>
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFWriteTile.3t</input><args>-s 3</args></execute>
-</sect2>
-</sect1>
-</noslide>
 
 
 
@@ -1636,7 +1175,7 @@ In the introduction to this tutorial I promised that I would include the code to
 </slidetext>
 
 <slideinclude>
-<execute><cmd>code2db</cmd><input>~mikal/opensource/tiff-pixels/pixel.c</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource-stable/tiff-pixels/pixel.c</input></execute>
 </slideinclude>
 </sect1>
 
@@ -1651,7 +1190,7 @@ In one of the previous chapters I also promised to provide the source code for t
 
 <sect2><title>A broken algorithm</title>
 <slideinclude>
-<execute><cmd>code2db</cmd><input>~mikal/opensource/tiff-grayscale/gray-wrong.c</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource-stable/tiff-grayscale/gray-wrong.c</input></execute>
 </slideinclude>
 
 <para>
@@ -1659,13 +1198,13 @@ Which produces:
 </para>
 
 <figure><title>An average of the color values for each pixel</title>
-<execute><cmd>img</cmd><args>grayscale-figure2.jpg</args></execute>
+<execute><cmd>img</cmd><args>grayscale-figure2.tif</args></execute>
 </figure>
 </sect2>
 
 <sect2><title>A sensible algorithm</title>
 <slideinclude>
-<execute><cmd>code2db</cmd><input>~mikal/opensource/tiff-grayscale/gray-good.c</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource-stable/tiff-grayscale/gray-good.c</input></execute>
 </slideinclude>
 
 <para>
@@ -1673,7 +1212,7 @@ Which gives us:
 </para>
 
 <figure><title>A correct conversion to gray scale</title>
-<execute><cmd>img</cmd><args>grayscale-figure3.jpg</args></execute>
+<execute><cmd>img</cmd><args>grayscale-figure3.tif</args></execute>
 </figure>
 
 <para>
@@ -1688,8 +1227,8 @@ Now, just to justify that the second algorithm is better, have a look at the sha
 Earlier in this chapter I promised that I would include the code for the repeated compression loss example, so here it is. The example is made up of a simple (and quite ugly) shell script, and a c program to actually compress the images...
 </para>
 
-<execute><cmd>code2db</cmd><input>~mikal/opensource/tiff-recompress/recompress.sh</input></execute>
-<execute><cmd>code2db</cmd><input>~mikal/opensource/tiff-recompress/recompress.c</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource-stable/tiff-recompress/recompress.sh</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource-stable/tiff-recompress/recompress.c</input></execute>
 </sect1>
 </noslide>
 
