@@ -686,9 +686,26 @@ The code for the repeated compression example is at the end of this chapter.
 It time to show you how to write a color image to disc. Remember that this is a simple example, which can be elaborated on greatly.
 </para>
 
+<slidetext>
+<li>It's time to show you a color example
+</slidetext>
+
+<slideinclude>
 <execute><cmd>code2db</cmd><input>~mikal/opensource/tiff-color-write/write.c</input></execute>
+</slideinclude>
+
+<slidebreak>
 
 <para>You can see from this code some of the things that we have discussed in theory. The image has three samples per pixel, each of eight bits. This means that the image is a 24 bit RGB image. If this was a black and white or gray scale image, then this value would be one. The tag PHOTOMETRIC_RGB says that the image data is stored within the strips themselves (as opposed to being paletted) -- more about this in a second.</para>
+
+<slidetext>
+<li>There are some things we should pay attention to in this code:
+  <ul>
+  <li>The image has three (red, green and blue) samples per pixel
+  <li>Each of these samples is 8 bits
+  <li>This is therefore a 24 bit color image
+  </ul>
+</slidetext>
 
 <sidebar><title>Other values for samples per pixel?</title>
 <para>

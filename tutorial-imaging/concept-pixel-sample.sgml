@@ -1,0 +1,14 @@
+<sect1><title>Pixel samples</title>
+<para>
+Each pixel needs to have a value associated with this. Most practitioners call this a sample. For a black and white image we would only have one sample per pixel, whilst for a RGB color image, we would have three samples per pixel -- the red, green and blue components.
+</para>
+
+<execute><cmd>nextedition</cmd><input>Alpha channels</input></execute>
+
+<slidetext>
+<li>The value associated with a given pixel
+<li>Black and white: one sample per pixel
+<li>Color: normally three samples per pixel (red, green, and blue)
+</slidetext>
+</sect1>
+
