@@ -17,10 +17,53 @@ This section will mainly discuss the research undertaken for implementing the X 
 </para>
 </sect3> <!--Introduction-->
 
-<sect3><title>X windows user interface</title>
+<sect3><title>Graphical user interface</title>
 <para>
-wx, qt, gtk, kde, gnome
+There are a plethora graphical user interface toolkits available today. As each has it's advantages, a small survey of the options considered, and then a discussion of why <emphasis>wxWindows</emphasis> was selected seems appropriate.
 </para>
+
+<sect4><title>CDE</title>
+<para>
+...
+</para>
+</sect4>
+
+<sect4><title>KDE</title>
+<para>
+...
+</para>
+</sect4>
+
+<sect4><title>Gnome</title>
+<para>
+...
+</para>
+</sect4>
+
+<sect4><title>GTK</title>
+<para>
+...
+</para>
+</sect4>
+
+<sect4><title>Microsoft Windows (MFC)</title>
+<para>
+...
+</para>
+</sect4>
+
+<sect4><title>QT</title>
+<para>
+...
+</para>
+</sect4>
+
+<sect4><title>wxWindows</title>
+<para>
+...
+</para>
+</sect4>
+
 </sect3>
 
 <sect3><title>Batch user interface</title>
