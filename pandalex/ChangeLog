@@ -6,6 +6,9 @@ Release 0.4 -> Release 0.5
 2002-03-10 Michael Still mikal@stillhq.com
 	'pdfinfo' as a command name is taken by a utility in the xpdf distribution... I have changed the name of the sample application to pdfdump.
 
+2002-03-14 Michael Still mikal@stillhq.com
+	Implemented more callbacks
+	
 Release 0.1 -> Release 0.4
 
 2002-03-07 Michael Still mikal@stillhq.com

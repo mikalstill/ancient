@@ -37,6 +37,7 @@
 %type <sval> binary
 %type <sval> header
 %type <sval> objref
+%type <sval> arrayvals
 
 %type <intVal> dictionary
 %type <intVal> subdictionary
@@ -64,6 +65,7 @@ linear    : xref trailer { }
 
 // Clibpdf sometimes puts some binary crap at the end of the file (pointer
 // problems?)
+// completely implemented
 endcrap   : binary { }
           |
           ;
@@ -92,7 +94,8 @@ subdictionary: DBLLT dict DBLGT { $$ = -1 };
 
 dict      : NAME STRING { pandalex_callback(pandalex_event_dictitem_string, $1.data, $2.data); } dict
           | NAME NAME { pandalex_callback(pandalex_event_dictitem_name, $1.data, $2.data); } dict
-          | NAME ARRAY arrayvals ENDARRAY { pandalex_callback(pandalex_event_dictitem_array, $1.data, $2.data); } dict
+          | NAME ARRAY { pandalex_callback(pandalex_event_dictitem_arraystart, $1.data); } 
+              arrayvals ENDARRAY { pandalex_callback(pandalex_event_dictitem_arrayend, $1.data); } dict
           | NAME objref { pandalex_callback(pandalex_event_dictitem_object, $1.data, $2.data); } dict
           | NAME { pandalex_callback(pandalex_event_dictitem_dict, $1.data); } 
               subdictionary { pandalex_callback(pandalex_event_dictitem_dictend, $1.data); } dict
@@ -101,15 +104,17 @@ dict      : NAME STRING { pandalex_callback(pandalex_event_dictitem_string, $1.d
           | 
           ;
 
-arrayvals : objref arrayvals {}
-          | INT arrayvals {}
-          | NAME arrayvals {}
-          | STRING arrayvals {}
-          | ARRAY arrayvals {}
-          | DBLLT dict DBLGT arrayvals {}
-          |
+arrayvals : objref { pandalex_callback(pandalex_event_dictitem_arrayitem, $1.data); } arrayvals 
+          | INT { /*todo*/ } arrayvals
+          | NAME { pandalex_callback(pandalex_event_dictitem_arrayitem, $1.data); } arrayvals
+          | STRING { pandalex_callback(pandalex_event_dictitem_arrayitem, $1.data); } arrayvals
+          | ARRAY { pandalex_callback(pandalex_event_dictitem_arrayitem, $1.data); } arrayvals
+          | DBLLT { pandalex_callback(pandalex_event_dictitem_dict, "array-dictitem"); } 
+              dict DBLGT { pandalex_callback(pandalex_event_dictitem_dictend, "array-dictitem"); } arrayvals
+          | {}
           ;
 
+// completely implemented
 objref    : INT INT OBJREF { if(($$.data = (char *) malloc((pandalex_intlen($1) + pandalex_intlen($2) + 5) * sizeof(char))) == NULL){
 			       fprintf(stderr, "Could not allocate enough space for objref\n");
 			       exit(42);
@@ -120,23 +125,32 @@ objref    : INT INT OBJREF { if(($$.data = (char *) malloc((pandalex_intlen($1) 
 			                       }
           ;
 
-stream    : STREAM binary ENDSTREAM { free($2); }
+// completely implemented
+stream    : STREAM binary ENDSTREAM { pandalex_callback(pandalex_event_stream, $2.data, $2.len); free($2); }
           |
           ;
 
+// completely implemented: callbacks are handled in the callers to this
 binary    : ANYTHING binary { $$.data = pandalex_strmcat($1.data, $1.len, $2.data, $2.len); $$.len = $1.len + $2.len; free($2); }
           | STRING binary { $$.data = pandalex_strmcpy($1.data, -1); $$.len = strlen($1.data); }
           | { $$.data = pandalex_strmcpy("", -1); $$.len = 0; }
           ;
 
-xref      : XREF INT INT xrefitems {}
+// completely implemented
+xref      : XREF INT INT { pandalex_callback(pandalex_event_xrefstart); }
+              xrefitems {}
           ;
 
-xrefitems : INT INT STRING xrefitems {}
-          |
+// completely implemented
+xrefitems : INT INT STRING { pandalex_callback(pandalex_event_xrefitem, $1, $2, $3); }
+              xrefitems
+          | { pandalex_callback(pandalex_event_xrefend); }
           ;
 
-trailer   : TRAILER DBLLT dict DBLGT STRING INT PDFEOF {}
+// completely implemented
+trailer   : TRAILER { pandalex_callback(pandalex_event_trailerstart); } 
+              DBLLT dict DBLGT STRING INT { pandalex_callback(pandalex_event_trailerend, $6, $7); } 
+              PDFEOF { pandalex_callback(pandalex_event_enddocument); }
           ;
 
 %%

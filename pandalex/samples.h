@@ -6,7 +6,9 @@ void pdfdump_objend(int, va_list);
 
 void pdfdump_dictitem_string(int, va_list);
 void pdfdump_dictitem_name(int, va_list);
-void pdfdump_dictitem_array(int, va_list);
+void pdfdump_dictitem_arraystart(int, va_list);
+void pdfdump_dictitem_arrayitem(int, va_list);
+void pdfdump_dictitem_arrayend(int, va_list);
 void pdfdump_dictitem_object(int, va_list);
 void pdfdump_dictitem_dict(int, va_list);
 void pdfdump_dictitem_dictend(int, va_list);

@@ -10,13 +10,21 @@ enum{
     pandalex_event_objend,
     pandalex_event_dictitem_string,
     pandalex_event_dictitem_name,
-    pandalex_event_dictitem_array,
+    pandalex_event_dictitem_arraystart,
+    pandalex_event_dictitem_arrayitem,
+    pandalex_event_dictitem_arrayend,
     pandalex_event_dictitem_object,
     pandalex_event_dictitem_dict,
     pandalex_event_dictitem_dictend,
     pandalex_event_dictitem_int,
     pandalex_event_stream,
     pandalex_event_dictint,
+    pandalex_event_xrefstart,
+    pandalex_event_xrefitem,
+    pandalex_event_xrefend,
+    pandalex_event_trailerstart,
+    pandalex_event_trailerend,
+    pandalex_event_enddocument,
     pandalex_event_max
     };
 

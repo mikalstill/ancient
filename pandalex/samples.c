@@ -35,7 +35,9 @@ int main(int argc, char *argv[]){
 
   pandalex_setupcallback(pandalex_event_dictitem_string, pdfdump_dictitem_string);
   pandalex_setupcallback(pandalex_event_dictitem_name, pdfdump_dictitem_name);
-  pandalex_setupcallback(pandalex_event_dictitem_array, pdfdump_dictitem_array);
+  pandalex_setupcallback(pandalex_event_dictitem_arraystart, pdfdump_dictitem_arraystart);
+  pandalex_setupcallback(pandalex_event_dictitem_arrayitem, pdfdump_dictitem_arrayitem);
+  pandalex_setupcallback(pandalex_event_dictitem_arrayend, pdfdump_dictitem_arrayend);
   pandalex_setupcallback(pandalex_event_dictitem_object, pdfdump_dictitem_object);
   pandalex_setupcallback(pandalex_event_dictitem_dict, pdfdump_dictitem_dict);
   pandalex_setupcallback(pandalex_event_dictitem_dictend, pdfdump_dictitem_dictend);
@@ -123,8 +125,25 @@ void pdfdump_dictitem_name(int event, va_list argptr){
   printf("  [Name] %s = %s\n", name, value);
 }
 
-void pdfdump_dictitem_array(int event, va_list argptr){
-  printf("Dictionary array\n");
+void pdfdump_dictitem_arraystart(int event, va_list argptr){
+  char *name;
+  
+  name = va_arg(argptr, char *);
+  printf("  Array %s starts\n", name);
+}
+
+void pdfdump_dictitem_arrayitem(int event, va_list argptr){
+  char *value;
+  
+  value = va_arg(argptr, char *);
+  printf("  [Array] %s\n", value);
+}
+
+void pdfdump_dictitem_arrayend(int event, va_list argptr){
+  char *name;
+  
+  name = va_arg(argptr, char *);
+  printf("  Array %s ends\n", name);
 }
 
 void pdfdump_dictitem_object(int event, va_list argptr){
@@ -168,72 +187,30 @@ void pdfdump_stream(int event, va_list argptr){
   pdfdump_dictint_list  *now;
   int found;
 
+  printf("  [Stream]\n");
+
   filter = va_arg(argptr, char *);
   length = (int) va_arg(argptr, char *);
   lengthObj = va_arg(argptr, char *);
   streamData = va_arg(argptr, char *);
   streamDataLen = va_arg(argptr, int);
 
-  printf("Do something with the stream object\n");
-
   // Determine if we know the length
   switch(length){
   case -2:
     // We don't - have we seen the obj already?
-    now = dictint_list;
-    found = 0;
-
-    while((now->next != NULL) && (found == 0)){
-      if(strcmp(lengthObj, now->value) == 0){
-	// Yes -- do something
-	pdfdump_procstream(filter, now->number, streamData, streamDataLen);
-	found = 1;
-      }
-
-      now = now->next;
-    }
-
-    // No -- save info and wait
-    if(found == 0){
-      // now is already the end of the list
-      if((now->next = (pdfdump_dictint_list *)
-	  malloc(sizeof(pdfdump_dictint_list))) == NULL){
-	fprintf(stderr, "Could not add to list of waiting streams\n");
-	exit(42);
-      }
-
-      printf("Do something about waiting for the info\n");
-
-      now->value = (char *) pandalex_strmcpy(lengthObj, -1);
-      now->filter = (char *) pandalex_strmcpy(filter, -1);
-
-      now->stream = (char *) pandalex_strmcpy(streamData + 2, streamDataLen - 2);
-      now->stream[strlen(now->stream)] = '\0';
-
-      now->streamlen = streamDataLen - 2;
-
-      now->waiting = 1;
-      now = now->next;
-      now->next = NULL;
-    }
+    printf("    Length is stored in object\n");
     break;
 
   case -1:
     // It was never defined
-    fprintf(stderr, "Stream with undefined length met\n");
-    exit(43);
+    printf("    Length field not defined\n");
     break;
 
   default:
-    if(length > 0){
-      // We do -- do something
-      pdfdump_procstream(filter, length, streamData, streamDataLen);
-    }
-    else{
-      fprintf(stderr, "Stream with length having undefined meaning %d\n",
-	      length);
-      exit(44);
-    }
+    printf("    Length is stated to be %d\n", length);
+    pdfdump_procstream(filter, length, streamData, streamDataLen);
+    break;
   }
 }
 
@@ -434,9 +411,12 @@ void pdfdump_procstream(char *filter, int length, char *data, int dataLen){
     printf("\n------------------------------------------------------------------------------\n");
   }
   else if(strcmp(filter, "LZWDecode") == 0){
-    printf("LZW compression is encumbered by Patents and therefore not supported\n");
+    printf("LZW compression is encumbered by Patents and therefore not supported\n"); 
   }
   else if(strcmp(filter, "CCITTFaxDecode") == 0){
     printf("Do something involving CCITTFax compression (TIFF)\n");
+  }
+  else{
+    printf("Unknown filter \"%s\"\n", filter);
   }
 }
