@@ -72,7 +72,7 @@ NM = /usr/bin/nm -B
 OBJDUMP = 
 PACKAGE = trivsql
 RANLIB = ranlib
-VERSION = 0.5
+VERSION = 0.4.1
 YACC = bison -y
 
 lib_LTLIBRARIES = libtrivsql.la
@@ -92,10 +92,10 @@ CONFIG_CLEAN_FILES =
 LTLIBRARIES =  $(lib_LTLIBRARIES)
 
 
-DEFS =  -DPACKAGE=\"trivsql\" -DVERSION=\"0.5\" -DYYTEXT_POINTER=1 -DHAVE_LIBM=1 -DHAVE_LIBZ=1 -DHAVE_LIBFL=1 -DSTDC_HEADERS=1  -I. -I$(srcdir) 
+DEFS =  -DPACKAGE=\"trivsql\" -DVERSION=\"0.4.1\" -DYYTEXT_POINTER=1 -DHAVE_LIBM=1 -DHAVE_LIBFL=1 -DSTDC_HEADERS=1  -I. -I$(srcdir) 
 CPPFLAGS = 
 LDFLAGS = 
-LIBS = -lfl -lz -lm 
+LIBS = -lfl -lm 
 libtrivsql_la_LDFLAGS = 
 libtrivsql_la_LIBADD = 
 libtrivsql_la_OBJECTS =  parser.lo lexer.lo tdb.lo spinlock.lo \
