@@ -27,7 +27,7 @@
  * Tests the framework which has been set up to window the incoming data
  *
  * @author Blake Swadling
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 
 namespace {
@@ -177,7 +177,7 @@ protected:
 
     ofstream f("chebyshev.txt", ios::app);
     f << endl << endl;
-    for( int i=0; i<result.getNumCols(); ++i ) {
+    for( int i=0; i<result.getNumRows(); ++i ) {
       f << result.getValue(i, 0, 0) << ' ' << result.getValue(i, 1, 0) << endl;
     }
     f.close();
@@ -220,7 +220,7 @@ public:
   {
     delete windower;
   }
-
+  
   /**
    * constructs a test suite.
    * Add your tests to the suite by copying and editing the addTest call
@@ -253,6 +253,7 @@ public:
   * Register the test immeditely after definition. This should probably
   * be done in the class header file for larger projects
   */
+  
 CPPUNIT_TEST_SUITE_REGISTRATION( Test );
 
 
