@@ -751,6 +751,10 @@ The other part of the code is the script which actually parses the input DNS UDP
 #############
 # shdns: take a query and build a response
 
+# Set this to the location of the lookup
+# file
+execpath="/home/mikal/opensource/shdns/"
+
 # The state of a given bit in the byte: 
 # (byte, poweroftwo)
 dumpbit(){
@@ -1011,7 +1015,7 @@ process(){
       name=`echo $name | sed 's/\.$//'`
     
       # Lookup the name in the db file
-      result=`grep "$name" /home/mikal/opensource/shdns/lookup | tr -s "\t" | cut -f 2`
+      result=`grep "$name" "$execpath" lookup | tr -s "\t" | cut -f 2`
       logger "shdns $$ Result: $result"
 
       ##############################################
@@ -1122,7 +1126,19 @@ The <command>shdns</command> implementation strategy is summarized by the follow
 </para>
 
 <graphic format="eps" fileref="gen-shdns-design.eps">
+</sect2>
 
+<sect2><title>Setting up shdns</title>
+<para>
+The only configuration required to run <command>shdns</command>, apart from configuring you <command>inetd</command> or <command>xinetd</command> daemon, is to put a file named lookup in the path pointed at by the variable <emphasis>execpath</emphasis> in the <command>shdns</command> source file.
+</para>
+
+<para>
+Here's a sample lookup file:
+</para>
+
+<programlisting>
+www.stillhq.com	127.0.0.1</programlisting>
 </sect2>
 </sect1>
 

@@ -199,6 +199,17 @@ The <b>shdns</b> implementation strategy is summarized by the following diagram.
 
 [Please insert the image shdns-design.png here]
 
+Setting up shdns
+----------------
+
+The only configuration required to run <b>shdns</b>, apart from configuring you <b>inetd</b> or <b>xinetd</b> daemon, is to put a file named lookup in the path pointed at by the variable <i>execpath</i> in the <b>shdns</b> source file. 
+
+Here's a sample lookup file: 
+
+[cw]
+[Please insert the file named lookup.txt here]
+[ecw]
+
 Further reading
 ===============
 

@@ -289,7 +289,7 @@ The same echo service configured with <command>xinetd</command> looks like this:
 </programlisting>
 
 <para>
-Again, the service is a dgram using the UDP protocol. <command>xinetd</command> will wait for previous requests to be processed before moving onto the next request. The echo service also runs as root, using cat. Note the difference in the way the server arguements are configured.
+Again, the service is a dgram using the UDP protocol. <command>xinetd</command> will wait for previous requests to be processed before moving onto the next request. The echo service also runs as root, using cat. Note the difference in the way the server arguments are configured.
 </para>
 
 <para>
@@ -334,7 +334,20 @@ The <command>shdns</command> implementation strategy is summarized by the follow
 </para>
 
 <execute><cmd>eqimg</cmd><args>shdns-design.png</args></execute>
+</sect2>
 
+<sect2><title>Setting up shdns</title>
+<para>
+The only configuration required to run <command>shdns</command>, apart from configuring you <command>inetd</command> or <command>xinetd</command> daemon, is to put a file named lookup in the path pointed at by the variable <emphasis>execpath</emphasis> in the <command>shdns</command> source file.
+</para>
+
+<para>
+Here's a sample lookup file:
+</para>
+
+<programlisting>
+<execute><cmd>cat</cmd><input>lookup.txt</input></execute>
+</programlisting>
 </sect2>
 </sect1>
 
@@ -347,7 +360,7 @@ The following is a list of reading I found useful whilst working on this article
 <listitem><para>A list of DNS related Internet RFCs -- http://www.faqs.org/rfcs/dns-rfcs.html</para></listitem>
 <listitem><para>An excellent introduction to DNS, as well as many other protocols -- TCP/IP Illustrated, Volume One: The protocols, by W Richard Stevens, published by Addison-Wesley</para></listitem>
 <listitem><para>The Freshmeat page for NetKit -- http://freshmeat.net/projects/netkit/?topic_id=150</para></listitem>
-<listitem><para>The xinetd homepage -- http://www.xinetd.org/</para></listitem>
+<listitem><para>The xinetd home page -- http://www.xinetd.org/</para></listitem>
 <listitem><para>The source code for shdns -- http://www.stillhq.com/extracted/shdns/</para></listitem>
 </itemizedlist>
 
