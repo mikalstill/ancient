@@ -4,9 +4,6 @@ short: output.sgml output.ps output.html output.pdf output.txt
 output.sgml: source.sgml
 	builddb eps < source.sgml > output.sgml
 
-source.sgml: review.sgml metadata
-	buildreview < review.sgml > source.sgml
-
 output.ps: output.sgml
 	db2ps output.sgml
 

@@ -8,7 +8,7 @@
 </para>
 
 <para>
-I should probably start this review by letting you know that <emphasis>Google Hacks</emphasis> is not a book aimed at developers. It lists 100 interesting things you can do with Google, in a quite accessible manner. That's not to say there is no code in <emphasis>Google Hacks</emphasis> &mdash; on the contrary, there are regular examples in Perl of how to parse saved Google output, and use the Google API &mdash; it is more that these examples are presented as utilities to use as is, and are not the topic of discussion in their own right. I would be comfortable with handing this book to a school child who needed to know how to use Google effectively. Especially if they had used the Internet before and know what a browser, and a URL are.
+I should probably start this review by letting you know that I don't believe that <emphasis>Google Hacks</emphasis> is not a book aimed at developers. It lists 100 interesting things you can do with Google, in a quite accessible manner. That's not to say there is no code in <emphasis>Google Hacks</emphasis> &mdash; on the contrary, there are regular examples in Perl of how to parse saved Google output, and use the Google API &mdash; it is more that these examples are presented as utilities to use as is, and are not the topic of discussion in their own right. I would be comfortable with handing this book to a school child who needed to know how to use Google effectively. Especially if they had used the Internet before and know what a browser, and a URL are.
 </para>
 
 <para>
