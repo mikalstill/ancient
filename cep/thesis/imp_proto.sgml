@@ -4,8 +4,8 @@
 
     <para>
       The MATLAB prototype was the minimum requirement of the project. It was developed not only to carry out all of the essential
-      mathematical functionality thus providing a working model, but to also act as a test bed for final
-      product functionality. Most of the features implemented in C++ were tested in this way to ensure correct and
+      mathematical functionality thus providing a working model, but to also act as a test bed for the final
+      product. Most of the features implemented in C++ were tested in this way to ensure correct and
       consistent results. Limited time was spent on the prototype user interface so that it could be completed early enough in the
       project for group to be able turn to the full implementation in C++.
     </para>
@@ -19,9 +19,9 @@
        data structure to handle various types that would be used in the mathematical functionality. This lead to the design of the Matrix
        class.
 
-       The prototype was originally intended to be a product comparable to TSVIEW, however with additional functionality,
+       The prototype was originally intended to be a product comparable to TSVIEW, with additional functionality,
        such as interpolation, windowing and frequency domain analysis.
-       Once the the essential mathematical functionality in the prototype was complete, work began on a user interface.
+       Once the the mathematical functionality of the prototype was complete, work began on a user interface (UI).
        Not long into the UI development, it was decided that it would not be of any benefit and that our attention should
        be focused on the main implementation of the application. The <command>m-files</command> from the Matlab prototype have been included
        on the CD accompanying this thesis.

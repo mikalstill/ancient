@@ -4,10 +4,10 @@
 
 <para>
   Fourier transforms enable us to view the frequency representation of data that exists in the time domain. This provides 
-  a means of detecting erroneous frequencies in the given data set and thus detect noise. Whilst in the frequency domain,
+  a means of detecting erroneous frequencies in the given data set such as noise. Whilst in the frequency domain,
   we can also produce Power Spectral Density (PSD) plots. Once erroneous data has been removed in the frequency domain,
-  an inverse transform can be applied to return the data to the time domain. Here we can ascertain the effects that removing such data
-  may have on the original system. 
+  an inverse transform can be applied to return the data to the time domain. Here we can ascertain the effects that removing such 
+  data may have on the original system. 
 </para>
 
 </sect2> <!--Introduction-->
@@ -27,9 +27,9 @@
   </equation>
 	
   for all odd harmonics. Where <command>f</command> is the fundamental frequency.
-  In addition, just as any signal can be modelled by a set of sine and cosine waves the converse is also true and any signal can be
-  decomposed into a set of sine and cosine waves. This is achieved by using the Fourier Transform, which preforms this signal 
-  decomposition and transforms it into the frequency domain. The Fourier Transform is calculated as
+  In addition, just as any signal can be modelled by a set of sine and cosine waves, the converse is also true and thus any signal 
+  can be decomposed into a set of sine and cosine waves. This is achieved by using the Fourier Transform, which preforms this 
+  signal decomposition and transforms it into the frequency domain. The Fourier Transform is calculated as
 
   <equation>
     <title>Fourier Transform (Rabiner and Schafer, 1978)</title>
@@ -49,8 +49,8 @@
   The above transforms are not, however, available for all sequences <command>x</command>(<command>n</command>). This is due to the
   fact that the basic Fourier transform is not reliable for signal sampled at discrete time 
   interval as it is designed for use with with continuous signals (Lepple 2000). In addition, this set of equations is not guaranteed
-  to converge for all  <command>x</command>(<command>n</command>). To remedy this, the Discrete Fourier transform (DFT), is often
-  used thus enabling the transformation of a discrete signal and guaranteeing convergence. This is achieved restricting the 
+  to converge for all  <command>x</command>(<command>n</command>). To remedy this, the Discrete Fourier transform (DFT) is often
+  used, thus enabling the transformation of a discrete signal and guaranteeing convergence. This is achieved restricting the 
   sequence <command>x</command>(<command>n</command>) to the following conditions:
 </para>
 
@@ -184,11 +184,11 @@
 
 <sect2><title>Conclusion</title>
   <para>
-    This sectioned has provided a brief discussion on frequency domain analysis, including the theory and and some applications. Frequency domain 
-    analysis is a very useful tool for time series analysis. We are able to see information invisible to us in the time domain. 
-    Frequency trends and noise can be identified in the data. This includes the detection of
-    Random Walk thorgh periodicity, and white noise through the presence of spikes. It is even possible to reduce noise by removing certain
-    frequencies that are believed to be noise.  
+    This sectioned has provided a brief discussion on frequency domain analysis, including the theory and and some applications. 
+    Frequency domain analysis is a very useful tool for time series analysis. It enables us, for instance to see information not 
+    easily detectable in the time domain. Frequency trends and noise can also be identified in the data. This includes the 
+    detection of Random Walk thorgh periodicity, and white noise that are represented as freqency spikes. It additon, we have seen 
+    that it is also possible to reduce noise by removing certain frequencies that are believed to be noise.  
   </para>
 </sect2> <!--Conclusion-->
 

@@ -46,12 +46,10 @@ the use of OO methodology.
   not been connected in the diagram in order to preserve clarity. With few exceptions, all of the 
   <command>GDMS</command> modules use the error handling sub-system. There are a number of reasons for this. The
   first is our desire to ensure that maximum possible stability of this system. This can only be achieved through
-  efficient and appropriate error handling. For example, error that are not fatal to the application will not cause
-  termination, instead provide feedback on the error, before returning to a stable state. Another reason, related 
-  to the first, is that in using a class such as the Matrix class used in this system, there are a large number of 
-  operations dependent on it. Most operations using the matrix class invoke dynamic memory allocation, the area 
-  where most problems are likely to occur. Therefore, there needs to be constant tracking to ensure an error
-  has not occurred.
+  efficient and appropriate error handling. For example, errors that are not fatal to the application will not cause
+  termination, instead provide feedback on the error, before returning to a stable state. In addition, most operations use the 
+  matrix class which often invokes dynamic memory allocation and it is vital to handel any errors that may arrise as a result for
+  stablity reasons. Therefore, there needs to be constant tracking to ensure an error has not occurred.
 </para>
 
  <figure><title>Deployment diagram for the <command>GDMS</command>.</title>
@@ -59,8 +57,8 @@ the use of OO methodology.
   </figure>
 
 <para>
-  The next deployment digram is that of the error handling sub-system described above. Errors are logged to file
-  in order to facilitate debugging if and when it is required.
+  The next deployment digram is that of the error handling sub-system described above. In addition, each error is logged to file
+  in order to facilitate debugging.
 </para>
 
  <figure><title>Deployment diagram for the Error Handling sub-system of the <command>GDMS</command>.</title>
@@ -74,17 +72,13 @@ the use of OO methodology.
   <!--may want to integrate this with conclusion?-->
   <para>
     The modular design of the <command>GDMS</command> increases the potential for future improvements to the
-    application, such as facilitating the addition of new mathematical functionality to the system. The OO design
+    application, such as facilitating the addition of new mathematical functionality. The OO design
     can be built on by employing techniques such as inheritance. This technique has already been incorporated
     into the windowing sub-system of the <command>GDMS</command> and could used again in similar situations, where
     broad definitions can be defined for functionality, then specific classes can be derived from these higher
     level modules.
   </para>
 </sect2> <!--Future Enahncements-->
-
-<sect2><title>Conclusion</title>
-  <para></para>
-</sect2> <!--Conclusion-->
 
 </sect1> <!--design-->
 
