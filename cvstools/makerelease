@@ -1,0 +1,20 @@
+#!/bin/bash
+
+make clean
+rm -f config.cache
+rm -f config.log
+./configure
+make
+
+if [ $? != 0 ]
+then
+  echo "Make failed"
+  exit
+fi
+
+make clean
+rm -f config.cache
+rm -f config.log
+
+dir=`pwd | sed 's/^.*\///'`
+echo "Remember to tag the release \"$dir-release-<somenumber>\""
