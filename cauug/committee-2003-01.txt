@@ -6,6 +6,8 @@
 
    Table of Contents
 
+   In attendance
+
    Previous meeting minutes
 
    CAUUG website
@@ -17,6 +19,8 @@
    Open Source advocacy
 
    Technical symposium
+
+   AUUGN
 
    Next meeting
 
@@ -31,11 +35,29 @@
 
      ----------------------------------------------------------------------
 
+In attendance
+
+     * Stephen Rothwell
+
+     * Martin Schwenke
+
+     * Bob Edwards
+
+     * Michael Still
+
+   The meeting ran from 16:45 to 17:51.
+
+     ----------------------------------------------------------------------
+
 Previous meeting minutes
 
      * Are the AGM minutes now finished?
 
-     * Are the November 2002 committee meeting minutes finished?
+   Accepted as accurate. These cannot be ratified until the next AGM.
+
+     * Are the December 2002 committee meeting minutes finished?
+
+   Ratified.
 
      ----------------------------------------------------------------------
 
@@ -51,11 +73,29 @@ CAUUG website
 
      * Does Martin now have access?
 
+   Tested and works.
+
      * Does Michael now have access?
+
+   Should work, untested.
 
      * Volunteers to bring it up to date and keep it maintained?
 
+   Big bang change suggested. Martin volunteers. Michael will help.
+
      * Should all meeting minutes et cetera be on the site?
+
+   All meeting minutes will be made available on the website except for those
+   whose commercial in confidence nature makes this impossible.
+
+     ----------------------------------------------------------------------
+
+  Action items
+
+     * Michael to test his website access (due February 2003)
+
+     * Martin and Michael to work on new website design (report February
+       2003)
 
      ----------------------------------------------------------------------
 
@@ -94,7 +134,23 @@ Co-opting other committee members
         Michael Still                                                             
         Secretary, CAUUG                                                          
 
+   Send this. Consider Steve cooped. There is a helpers mailing list as well
+   which should be advertised in the email.
+
      * Review of AUUG chapter procedures, do we want to assist David Purdue?
+
+   We should ask to be kept informed.
+
+     ----------------------------------------------------------------------
+
+  Action items
+
+     * Michael to send co opt email (send in January 2003)
+
+     * Michael to request that David Purdue keep CAUUG informed (January
+       2003)
+
+     * Michael to collate responses (report February 2003)
 
      ----------------------------------------------------------------------
 
@@ -102,11 +158,33 @@ Finances
 
      * How much does CAUUG have in the bank?
 
+   Unknown at this point. This is still being investigated.
+
      * How much did we earn from the 30 November 2002 seminar?
+
+   $290
 
      * Has this money been forwarded to AUUG national?
 
+   No.
+
      * Has Bob Edwards been reimbursed for expenditure on 30 November 2002?
+
+   Yes, and Stephen Rothwell should get some money for the monthly UUnite
+   meetings expenses (drinks and chips).
+
+     ----------------------------------------------------------------------
+
+  Action items
+
+     * Bob to bank symposium earnings (due February 2003)
+
+     * Bob to reimburse Stephen Rothwell (due February 2003)
+
+     * Bob to continuing investigating previous bank accounts (report
+       February 2003)
+
+     * Bob to setup GNU cash account for CAUUG (as soon as possible)
 
      ----------------------------------------------------------------------
 
@@ -114,9 +192,37 @@ Open Source advocacy
 
      * What is Martin's position as an employee of IBM?
 
+   Still being clarified.
+
      * Outcome of Steven Jenkin's meeting with the ACT Treasurer?
 
+   Currently on pause as Ted Quinlan's adviser is away. Should we appoint
+   Steve our official government liaison?
+
      * What is the next step?
+
+   Steve Jenkin was unable to attend this committee meeting. The committee
+   agreed to wait until he is available to make a report before taking
+   further action on this item.
+
+   Bob is pursuing open source advocacy within the ACT education system. The
+   next step there is to run a couple of half day workshops for teachers.
+   Install / config, and programming (scripting and stuff).
+
+   We should also get into contact with Tom Worthington...
+
+     ----------------------------------------------------------------------
+
+  Action items
+
+     * Martin to determine his position (report February 2003)
+
+     * Steve Jenkin to report at next meeting (report February 2003)
+
+     * Bob to sound out Tom Worthington (report February 2003)
+
+     * Bob to determine next step with ACT education system (as soon as
+       possible)
 
      ----------------------------------------------------------------------
 
@@ -124,17 +230,65 @@ Technical symposium
 
      * Target date: 1 March 2003
 
-     * Theme: TBD
+     * (Then 31 May 2003)
 
-     * Things we could improve?
+     * Theme: Unix and open source in government
 
-     * Things we did right?
+     ----------------------------------------------------------------------
+
+  Things we could improve?
+
+     * More help for Bob
+
+     * Develop some sort of time line for what needs to be done when
+
+     * Call for papers
+
+     * Need another student speaker
+
+     * Survey form for attendees
+
+     * Ask people why they didn't attend (after the next one?)
+
+     * Better advertising
+
+     * Access issues (now fixed?)
 
      * Make a survey form available to attendees next time
 
-   At the last meeting we said: "Need to have a specific meeting devoted to
-   this. Do a call for papers next time, which needs to go out really soon.
-   We'll look more at this after Christmas."
+     ----------------------------------------------------------------------
+
+  Things we did right?
+
+     * Talk quality
+
+     * Good munchies
+
+     ----------------------------------------------------------------------
+
+  Action items
+
+     * Bob and Martin to finalize call for papers (due January 2003)
+
+     * Bob to send out call for papers (due January 2003)
+
+     ----------------------------------------------------------------------
+
+AUUGN
+
+   There was some discussion of the current state of AUUGN, and the lack of
+   CAUUG contact details in the most recent issue.
+
+     ----------------------------------------------------------------------
+
+  Action items
+
+     * Michael to inform AUUGN editor of contact details (due February 2003)
+
+     * Michael and Martin to provide article detailing the technical
+       symposium (due February 2003)
+
+     * Bob to advertise technical symposium within AUUGN (due February 2003)
 
      ----------------------------------------------------------------------
 
@@ -142,6 +296,8 @@ Next meeting
 
      * When is the next meeting? The second Thursday in February 2003 is the
        13th
+
+   Agreed
 
      ----------------------------------------------------------------------
 
@@ -151,20 +307,14 @@ Contact details
 
      * Email: president@canb.auug.org.au
 
-     * Phone:
-
      ----------------------------------------------------------------------
 
   Bob Edwards (Treasurer)
 
      * Email: treasurer@canb.auug.org.au
 
-     * Phone:
-
      ----------------------------------------------------------------------
 
   Michael Still (Secretary)
 
      * Email: secretary@canb.auug.org.au
-
-     * Phone:
