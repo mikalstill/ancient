@@ -78,7 +78,6 @@ public:
   // Least squares
   void OnLeastSquaresVCV (wxCommandEvent& event);
   void OnLeastSquaresRW (wxCommandEvent& event);
-  void LeastSquaresRW (cepMatrix<double> *mat, string direction);
 
   // Windowing
   void OnWindowBlackman (wxCommandEvent& event);

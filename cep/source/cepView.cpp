@@ -427,7 +427,7 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
 		  // Otherwise, don't reweight
 		  else
 		    {
-		      const char *dirStrings[] = {"x (North)", "y (East)", "z (Up)"};
+		      const char *dirStrings[] = {"x (North)", "y (East)", "z (Up"};
 		      lsUi.showIsReadP (dirStrings[i]);
 		      if (lsUi.getIsReadP () == 1)
 			{
@@ -598,40 +598,51 @@ void cepView::populateMatP(cepMatrix<double> &matP, const double &toDate, const 
 // Perform a least squares regression on the dataset (in all directions)
 void cepView::OnLeastSquaresRW (wxCommandEvent &pevt)
 {
-//   m_dirty = true;
+  cepLsUi lsUi;
+  cepLs thisLs;
+  const char *dirStrings[] = {"x (North)", "y (East)", "z (Up)"};
+  const char dirNames[] = {'x', 'y', 'z'};
+  cepDoc *theDoc = (cepDoc *) GetDocument ();
+  cepDataset *theDataset = theDoc->getDataset ();
 
-//   LeastSquaresVCV(m_x, "x");
-//   LeastSquaresVCV(m_y, "y");
-//   LeastSquaresVCV(m_z, "z");
+  if (theDataset && theDataset->isReady() && theDataset->isWellFormed())
+  {
+    lsUi.showWhichDir();
 
-//   m_displayLs = lsDisplayVCV;
-//   cepError err;
-//   err = m_config->setValue("ui-mathmenu-displayls", (int) m_displayLs);
-//   if(err.isReal()){
-//     err.display();
-//   }
+    // For each direction
+    for(int i = 0; i < cepDataset::dirUnknown; i++)
+    {
+      cepDebugPrint("Reweighting in the " + cepToString(i) + " direction");
 
-//   canvas->Refresh();
-}
+      // If this direction is being processed
+      if (lsUi.getWhichDir (dirNames[i]) == true)
+      {
+        lsUi.showIsReadP (dirStrings[i]);
 
-void cepView::LeastSquaresRW(cepMatrix<double> *mat, string direction)
-{
-  // Do we have any data?
-  if(mat == NULL){
-    cepError err("Cannot perform least squares regression on the " + 
-		 direction + "matrix, because it is empty",
-		 cepError::sevErrorRecoverable);
-    err.display();
-    return;
+        if (lsUi.getIsReadP () == 1)
+        {
+          lsUi.showGetfNameP ();
+          if (lsUi.getfNameP () != "")
+          {
+            cepMatrix<double> matP;
+
+            matP = cepReadMatrix (lsUi.getfNameP ());
+            thisLs.cepDoRW (*theDataset->getMatrix ((cepDataset::direction) i), matP);
+            //getdata matrix and residual matrix here!!!!!
+            if(thisLs.getError().isReal() == true)
+            {
+              thisLs.getError().display();
+              return;
+            }
+          }
+        }
+        else
+        {
+          cout << "re-weigting thingie goes here" << endl;
+        }
+      }
+    }
   }
-
-  // Build a temporary matrix P matrix
-  // todo_mikal: Build a UI
-  cepMatrix<double> pmatrix(mat->getNumRows(), mat->getNumRows());
-
-  // Do the LS
-  cepLs myLs;
-  myLs.cepDoVCV(*mat, pmatrix);
 }
 
 void cepView::OnWindowBlackman (wxCommandEvent& event)
