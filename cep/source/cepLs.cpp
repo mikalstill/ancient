@@ -50,7 +50,7 @@ const cepMatrix cepLs::Amul(cepMatrix &matA, cepMatrix &matB)
     exit(1);
   }
   
-  for(i = 0; i < ans.getNumCols(); i ++ ){
+  for(int i = 0; i < ans.getNumCols(); i ++ ){
     for(int j = 0; j < matB.getNumCols(); j ++ ){
       ans.setValue(0, i, (ans.getValue(0, i) + matA.getValue(0,j) * matB.getValue(i,j)));           
       ans.setValue(1, i, (ans.getValue(1, i) + matB.getValue(i,j)));
@@ -75,7 +75,7 @@ const cepMatrix cepLs::mulA(cepMatrix &matA, cepMatrix &matB)
     exit(1);
   }
   
-  for(i = 0; i < ans.getNumCols(); i ++ ){
+  for(int i = 0; i < ans.getNumCols(); i ++ ){
     for(int j = 0; j < matB.getNumRows(); j ++ ){
       ans.setValue(i, 0, (ans.getValue(i, 0) + matA.getValue(i,j) * matB.getValue(j,0)));           
       ans.setValue(i, 1, (ans.getValue(i, 1) + matA.getValue(i,j)));

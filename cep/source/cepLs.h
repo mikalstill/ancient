@@ -24,3 +24,4 @@ private:
   const cepMatrix mulA(cepMatrix &, cepMatrix &);
 };
 
+
