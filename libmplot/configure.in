@@ -24,6 +24,9 @@ dnl and #defined HAVE_LIB<lib>
 dnl -lm:
 AC_CHECK_LIB(m, atan)
 
+dnl -lpng:
+AC_CHECK_LIB(png, png_init_io)
+
 dnl Checks for header files.
 dnl STDC checks for stdlib.h stdarg.h string.h and float.h
 AC_HEADER_STDC

@@ -1,0 +1,27 @@
+/******************************************************************************
+DOCBOOK START
+
+FUNCTION plot_setlinestart
+PURPOSE sets the starting point of a curve
+
+SYNOPSIS START
+#include&lt;libplot.h&gt;
+void panda_setlinestart (panda_page * target, int x, int y);
+SYNOPSIS END
+
+DESCRIPTION Set the starting point for the sequence of curves and lines that it to be drawn on the current page. This call is compulsory for almost all of the line drawing functions. It is not required for the <command>panda_rectangle</command> call.
+
+RETURNS Nothing
+
+EXAMPLE START
+#include&lt;libplot.h&gt;
+plot_state *graph;
+
+if((graph = plot_newplot(400, 300)) == NULL){
+  ... error ...
+}
+
+EXAMPLE END
+SEEALSO plot_newplot plot_getraster plot_setlinestart plot_addlinesegment plot_addcubiccurvesegment plot_addquadraticcurvesegmentone plot_addquadraticcurvesegmenttwo plot_closeline plot_endline plot_strokeline plot_fillline plot_setlinewidth plot_setlinecap plot_setlinejoin plot_setlinedash plot_setfillcolor plot_setlinecolor plot_rectangle plot_rectanglerot
+DOCBOOK END
+******************************************************************************/

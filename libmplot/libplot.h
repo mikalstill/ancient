@@ -1,6 +1,11 @@
 // Libplot, a simple C library to draw graphs into rasters. Many of the drawing
 // commands here are modelled on those available in PDF...
 
+typedef struct plot_internal_pixel
+{
+  unsigned char r, g, b;
+} plot_pixel;
+
 typedef struct plot_internal_lineseg
 {
   unsigned int x;
@@ -10,23 +15,24 @@ typedef struct plot_internal_lineseg
 
 typedef struct plot_internal_state
 {
-  void *raster;
+  plot_pixel *raster;
   unsigned int x;
   unsigned int y;
 
   // Line attributes
-  plot_lineseg line;
+  plot_lineseg *line;
   
   int linewidth;
   int linecap;
   int linejoin;
   int linedash;
-  int fillcolor;
-  int linecolor;
+  plot_pixel fillcolor;
+  plot_pixel linecolor;
 }
 plot_state;
 
 plot_state *plot_newplot (unsigned int, unsigned int);
+char *plot_getraster(plot_state *state);
 
 // Primitive operations
 void plot_setlinestart (plot_state *, int, int);
@@ -52,3 +58,8 @@ void plot_setlinecolor (plot_state *, int, int, int);
 
 // Operations based on primitive operations
 void plot_rectangle (plot_state *, int, int, int, int);
+
+
+// Simple stuff we need
+unsigned int plot_min(unsigned int one, unsigned int two);
+unsigned int plot_max(unsigned int one, unsigned int two);
