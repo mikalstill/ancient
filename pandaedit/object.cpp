@@ -389,47 +389,35 @@ object::getCommandCount()
   return m_commands.size();
 }
 
-string
-object::getCommandStream(int index)
+void
+object::executeCommand(int index, panda_page *pg)
 {
   if(index >= m_commands.size())
-    return "";
+    return;
 
-  // This might cause problems with parsed PDFs
-  if(m_height == -1)
-    {
-      debug(dlError, "Unknown page height");
-      return "";
-    }
-  
-  string cmd("");
-  int count;
   switch(m_commands[index].type)
     {
     case cLine:
       if(m_commands[index].controlPoints.size() > 0)
 	{
-	  for(count = 0; count < m_commands[index].controlPoints.size(); count++)
+	  panda_setlinestart(pg, m_commands[0].controlPoints[0].x,
+			     m_commands[0].controlPoints[0].y);
+	  for(unsigned int i = 1; i < m_commands[index].controlPoints.size();
+	      i++)
 	    {
-	      cmd += toString(m_commands[index].controlPoints[count].x) +
-		string(" ") +
-		toString(m_height - m_commands[index].controlPoints[count].y) +
-		string(" ");
-	      if(count == 0)
-		cmd += "m\n";
-	      else
-		cmd += "l\n";
+	      panda_addlinesegment(pg, m_commands[0].controlPoints[i].x,
+				   m_commands[0].controlPoints[i].y);
 	    }
-	  cmd += "S\n\n";
+	  panda_strokeline(pg);
+	  panda_endline(pg);
 	}
       break;
 
     default:
-      debug(dlError, "Unknown command type");
-      break;
+      debug(dlError, "Unknown command");
     }
 
-  return cmd;
+  return;
 }
 
 vector<wxPoint>

@@ -11,6 +11,11 @@ using namespace std;
 #include <config.h>
 #endif
 
+#if defined HAVE_LIBPANDA
+#include  <panda/functions.h>
+#include  <panda/constants.h>
+#endif
+
 #include <wx/gdicmn.h>
 
 #ifndef OBJECTMODEL_H
@@ -153,9 +158,9 @@ public:
 		      vector<wxPoint> controlPoints);
 
   unsigned int getCommandCount();
-  string getCommandStream(int index);
   vector<wxPoint> getCommand(int index, commandType & type);
   int getCommandId(int index);
+  void executeCommand(int index, panda_page *pg);
 
   void setHeight(int height);
 

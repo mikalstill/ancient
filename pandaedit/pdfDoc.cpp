@@ -52,11 +52,6 @@
 #error You must set wxUSE_DOC_VIEW_ARCHITECTURE to 1 in setup.h!
 #endif
 
-#if defined HAVE_LIBPANDA
-#include  <panda/functions.h>
-#include  <panda/constants.h>
-#endif
-
 #include "pdfDoc.h"
 #include "pdfView.h"
 #include "objectmodel.h"
@@ -134,12 +129,7 @@ pdfDoc::OnSaveDocument (const wxString & filename)
       // Push the drawing commands into the pages stream (skip the Panda
       // creator functions, but use Panda to keep track of bytes etc)
       for(int cmdcnt = 0; cmdcnt < m_pages[count].getCommandCount(); cmdcnt++)
-	{
-	  pg->contents->layoutstream = 
-	    panda_streamprintf(pg->contents->layoutstream,
-			       (char *) m_pages[count].
-			       getCommandStream(cmdcnt).c_str());
-	}
+	m_pages[count].executeCommand(cmdcnt, pg);
       debug(dlTrace, "Finished saving page");
     }
   debug(dlTrace, "All pages added");

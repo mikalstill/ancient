@@ -54,6 +54,9 @@ pdfRender::render_bstar ()
   plot_closeline (m_select);
   plot_strokeline (m_select);
   plot_fillline (m_select);
+
+  plot_endline(m_plot);
+  plot_endline(m_select);
 #else
   debug(dlError, "Libmplot not found at configure time. Graphics functionality"
 	" is therefore not available");
@@ -76,6 +79,9 @@ pdfRender::render_Bstar ()
 
   plot_strokeline (m_select);
   plot_fillline (m_select);
+
+  plot_endline(m_plot);
+  plot_endline(m_select);
 #else
   debug(dlError, "Libmplot not found at configure time. Graphics functionality"
 	" is therefore not available");
