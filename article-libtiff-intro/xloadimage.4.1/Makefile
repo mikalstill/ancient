@@ -9,7 +9,7 @@
 include Make.conf
 
 CFLAGS=$(OPT_FLAGS) $(CC_FLAGS) $(CC_CONFIG_FLAGS) $(X11_INC_DIR) \
-  -DSYSPATHFILE=\"$(SYSPATHFILE)\" -ggdb
+  -DSYSPATHFILE=\"$(SYSPATHFILE)\"
 LIBS=$(X11_LIB_DIR) $(X11_LIB_NAME) $(SYS_LIBS) -lm
 
 # stuff that should eventually make the configuration file

@@ -39,8 +39,6 @@ Image *loadImage(globalopts, options, name, verbose)
     return(NULL);
   }
 
-  printf("Mikal: Starting to call loadImage()\n");
-
   /* see if there's a "type" option and use it if there is
    */
   if (! (opt= getOption(globalopts, TYPE)))
@@ -64,13 +62,10 @@ Image *loadImage(globalopts, options, name, verbose)
 		  image = new_image;
 	      }
 	  }
-
-	  printf("Mikal: Returning image\n");
 	  return(image);
 	}
 	fprintf(stderr, "%s does not look like a \"%s\" image (skipping).\n",
 		fullname, opt->info.type); 
-	printf("Mikal: Returning NULL\n");
 	zreset(NULL);
 	return(NULL);
       }
@@ -80,8 +75,6 @@ Image *loadImage(globalopts, options, name, verbose)
      */
   }
 
-  printf("Mikal: Step two\n");
-
   /* try to pick out the image type
    */
   for (a= 0; ImageTypes[a].loader; a++) {
@@ -89,16 +82,10 @@ Image *loadImage(globalopts, options, name, verbose)
     if (image= ImageTypes[a].loader(fullname, name, verbose)) {
       zreset(NULL);
 
-      printf("Mikal: Step two complete RGBP(image) = %d, image->rgb.used = %d\n", RGBP(image), image->rgb.used);
-
       /* this does the 1-bit conversion as above.
        */
       if (RGBP(image) && (image->rgb.used <= 2)) {
-	//if(1 == 1){
-	Image *new_image;
-
-		printf("Mikal: One bit conversion\n");  
-
+	  Image *new_image;
 	  new_image = flatten(image);
 	  if (new_image != image) {
 	      freeImage(image);
@@ -108,9 +95,6 @@ Image *loadImage(globalopts, options, name, verbose)
       return(image);
     }
   }
-  
-  printf("Mikal: Step three\n");
-
   fprintf(stderr, "%s: unknown or unsupported image type\n", fullname);
   zreset(NULL);
   return(NULL);

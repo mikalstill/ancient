@@ -251,9 +251,6 @@ Image *tiffLoad(fullname, name, verbose)
   register int pixlen;
   register byte *dest;
   register int x, y;
-  unsigned long mikal_count;
-
-  printf("Mikal: tiffLoad called()\n");
 
   tiff = is_tiff(fullname, name, &info);
   if ((tiff == NULL) || (tiff == (TIFF *)-1))
@@ -271,8 +268,6 @@ Image *tiffLoad(fullname, name, verbose)
   case PHOTOMETRIC_MINISBLACK:
     /* monochrome image
      */
-    printf("Mikal: Monochrome image detected\n");
-
     if (info.bitspersample == 1) {
       dest_line_len = (info.width / 8) + (info.width % 8 ? 1 : 0);
       if (dest_line_len > info.bytesperrow) /* just in case */
@@ -290,7 +285,6 @@ Image *tiffLoad(fullname, name, verbose)
 
       /* read the image data and set the pixels
        */
-      printf("Mikal: Reading the image data in\n");
       dest = image->data;
       if (info.bitspersample == 1) {
 	for (y = 0; y < info.height; y++) {
@@ -304,16 +298,6 @@ Image *tiffLoad(fullname, name, verbose)
 	  bcopy(row, dest, dest_line_len);
 	  dest += dest_line_len;
 	}
-      }
-
-      printf("Mikal: Finished reading the image data in\n");
-      printf("Mikal: Dumping the image data out (width = %d):\n",
-	     info.width);
-
-      for(mikal_count = 0; mikal_count < (info.height * info.width) / 8; 
-	  mikal_count++){
-	printf("%02x ", image->data[mikal_count]);
-	if((mikal_count + 1) % (info.width / 8) == 0) printf("\n");
       }
       break;
     }

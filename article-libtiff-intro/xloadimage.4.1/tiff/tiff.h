@@ -1,4 +1,4 @@
-/* $Header: /usr/local/google/home/mikal/cvs/article-libtiff-intro/xloadimage.4.1/tiff/tiff.h,v 1.1 2002-01-28 09:17:18 mikal Exp $ */
+/* $Header: /usr/local/google/home/mikal/cvs/article-libtiff-intro/xloadimage.4.1/tiff/tiff.h,v 1.2 2002-02-07 01:04:31 mikal Exp $ */
 
 /*
  * Copyright (c) 1988, 1989, 1990, 1991, 1992 Sam Leffler
