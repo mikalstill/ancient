@@ -16,7 +16,7 @@ Rather conveniently, it appears that Linus has had a very easy to read life, alt
 </para>
 
 <para>
-<emphasis>Just for Fun</emphasis> starts and ends with Linus attempting to explain his theory of the meaning of life, which is something along the lines of that all things go through three evolutionary stages: survival; social order; and the entertainment. For example, people started fighting initially to ensure survival, then they fought for social status, and now wars are waged as a form of entertainment on CNN and gaming consoles everywhere. Linus aregues that a similar progression applies to software as well.
+<emphasis>Just for Fun</emphasis> starts and ends with Linus attempting to explain his theory of the meaning of life, which is something along the lines of that all things go through three evolutionary stages: survival; social order; and the entertainment. For example, people started fighting initially to ensure survival, then they fought for social status, and now wars are waged as a form of entertainment on CNN and gaming consoles everywhere. Linus argues that a similar progression applies to software as well.
 </para>
 
 <para>
@@ -24,7 +24,7 @@ The book discusses technical issues briefly, but is written in a way which is ac
 </para>
 
 <para>
-To me, as someone already comfortable with open source, the best bit of the book was starting to understand what motivated Linus to start writing Linux. I've been fielding lots of questions about that at work recently, and now I have some sort of answer that actually makes sense forming in the back of my brain. In summary, Linus was a geek who hid in his room a lot &mdash; not just because of the fantastic weather Finnish winter weather, his rather traumatic sounding childhood had something to do with it as well &mdash; who wanted to leanr how to use his new 386 better. He therefore wrote a terminal emulator. Next, he wanted to be able to save files to disc in his terminal emulator, which ran on the bare 386 hardware, so he added a disc driver. After this, it dawned on Linus that he had started an operating system.
+To me, as someone already comfortable with open source, the best bit of the book was starting to understand what motivated Linus to start writing Linux. I've been fielding lots of questions about that at work recently, and now I have some sort of answer that actually makes sense forming in the back of my brain. In summary, Linus was a geek who hid in his room a lot &mdash; not just because of the fantastic weather Finnish winter weather, his rather traumatic sounding childhood had something to do with it as well &mdash; who wanted to learn how to use his new 386 better. He therefore wrote a terminal emulator. Next, he wanted to be able to save files to disc in his terminal emulator, which ran on the bare 386 hardware, so he added a disc driver. After this, it dawned on Linus that he had started an operating system.
 </para>
 
 <para>

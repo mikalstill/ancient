@@ -39,8 +39,8 @@ Reviewed by Michael Still <mikal@stillhq.com>
    example, people started fighting initially to ensure survival,
    then they fought for social status, and now wars are waged as
    a form of entertainment on CNN and gaming consoles everywhere.
-   Linus aregues that a similar progression applies to software
-   as well.
+   Linus argues that a similar progression applies to software as
+   well.
 
    The book discusses technical issues briefly, but is written in
    a way which is accessible for non-technical people. Linus and
@@ -58,7 +58,7 @@ Reviewed by Michael Still <mikal@stillhq.com>
    of my brain. In summary, Linus was a geek who hid in his room
    a lot -- not just because of the fantastic weather Finnish
    winter weather, his rather traumatic sounding childhood had
-   something to do with it as well -- who wanted to leanr how to
+   something to do with it as well -- who wanted to learn how to
    use his new 386 better. He therefore wrote a terminal
    emulator. Next, he wanted to be able to save files to disc in
    his terminal emulator, which ran on the bare 386 hardware, so
