@@ -60,12 +60,14 @@ DOCBOOK END
 
 class Window {
 public:
-  Window( int id );
+  Window( int id, const char* name );
   bool operator== (const Window &w) const;
   const int id() const;
+  const char* toString() const;
   
 private:
   int myID;
+  const char *str;
 };
 
 class cepDataWindower {
