@@ -1,0 +1,18 @@
+#!/usr/bin/perl
+
+use strict;
+
+my($time, $date, $speedheading, $latlong);
+
+while(<STDIN>){
+  if(/^RMC (.*) (.*) UTC .* at (.*)$/){
+    $time = $1;
+    $date = $2;
+    $speedheading = $3;
+  }
+  elsif(/^GGA .* UTC (.*) with .*$/){
+    $latlong = $1;
+
+    print "$time $date UTC at $latlong travelling $speedheading\n";
+  }
+}
