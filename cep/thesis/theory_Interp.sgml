@@ -93,7 +93,7 @@
   <sect3><title>Natural Spline Interpolation</title>
   <para>
     Natural splines are a type of cubic spline.  The idea of cubic splines comes
-    from ancient times when builders would create a smooth curve by pegging a
+    from ancient times when draftsmen and builders would create a smooth curve by pegging a
     flexible piece of wood between a number of points.  Cubic splines are a method
     of recreating this wooden curve with mathematics.  With all cubic splines the
     interpolation is done by inserting a cubic between each two adjacent points.
@@ -107,8 +107,8 @@
     dervatives of the two end points of a dataset.  It is the values assigned to
     these end points that determine the type of spine.  In a natural spline the
     end points are set to 0.  This gives a result similar to the ancient wooden
-    splines used by builders.  Mathematically this is ment to protruce a result
-    where the end segments are a bit too straight.
+    splines used by builders.  Mathematically this produces a result where the
+    end segments are a bit too straight.
   </para>
   <para>
     To produce a spine for a dataset of n+1 points you have to produce n seperate
@@ -131,26 +131,117 @@
     we can get: (TODO: Spline eqations 3,4,5)
   </para>
   <para>
-    With natural splines solving for S is done by solving:
+    With natural splines solving for S is done by solving:(TODO: Spline equation 6)
   </para>
   <para>
-    A full mathematical derivation can be found in Gerald &amp; Wheatley 1999, page 238.
+    The two end values, S<subscript>0</subscript> and S<subscript>n</subscript>, are then
+    set to zero.
+  </para>
+  <para>
+    A full mathematical derivation can be found in Gerald &amp; Wheatley (1999), page 238.
+  </para>
+  <para>
+    Because of the smooth nature of the interpolation curve produced; splines can provide
+    extremely accurate results when the original sample rate is notable greater than
+    the frequency of flucuation in the data.  However if the sample rate is less than half the
+    frequency of change (including signal noise) in the data then the results can be
+    erratic.  Splines also have a problem when it comes to large gaps in the dataset.
+    Because the gap between two points is represented by a cubic, large gaps result
+    in peaks or troughs in the dataset.
   </para>
   </sect3>
-  <sect3><title>Foobar</title>
+  <sect3><title>Cubic Spline Interpolation</title>
   <para>
-  For example a cubic spline interpolation provides a smooth curve with no instantaneous slope
-  changes.  The advantage of cubic splines is that provided with a high sample rate system
-  it can create a highly accurate model.  However cubic splines tend to produce
-  unrealistic bulges in the data
+    This is a second implementation of cubic spline interpolation. It has been given the
+    generic name as no name was available for this particular implementation.  The only
+    difference between this interpolation type and a natural spline is the choice of
+    second derivatives used at the end points.  With this implementation the values of the
+    second derivative for the end points are set the same as the second derivitives of the
+    second to end points.  Documented commentary says that this type of spline curves a
+    little bit too much at the ends.
+  </para>
+  <para>
+    The maths used to generate these cubic spline is very similar to producing a natural
+    spline.    To produce a spine for a dataset of n+1 points you have to produce n seperate
+    cubics.  Each of these cubic should have each end match up exactly with the
+    points to either side.  And on the same point the two adjacent cubic should
+    have shared first and second derivitives.
+  </para>
+  <para>
+    Each of these cubics can be described by the equation: (TODO: Spline equation 1)
+  </para>
+  <para>
+    Because each of these cubics begins at a any existing point we can say: (TODO: Spline equation 2)
+  </para>
+  <para>
+    Let h<subscript>i</subscript>=(x<subscript>i+1</subscript> - x<subscript>i</subscript>),
+    be the width of the ith interval.
+  </para>
+  <para>
+    Also if we make s the set of second derivitives; then through algebraic simplification
+    we can get: (TODO: Spline eqations 3,4,5)
+  </para>
+  <para>
+    With natural splines solving for S is done by solving:(TODO: Spline equation 7)
+  </para>
+  <para>
+    The two end values, S<subscript>0</subscript> and S<subscript>n</subscript>, are then
+    set to equal S<subscript>1</subscript> and S<subscript>n<subscript> respectively.
+  </para>
+  <para>
+    A full mathematical derivation can be found in Gerald &amp; Wheatley (1999), page 238.
+  </para>
+  <para>
+    The advantages and disadvantages of this cubic spline interpolation are basically the
+    same as for natural splines. Splines can provide extremely accurate results when the
+    original sample rate is notable greater than the frequency of flucuation in the data.
+    However if the sample rate is less than half the frequency of change (including signal
+    noise) in the data then the results can be erratic.  Splines also have a problem
+    when it comes to large gaps in the dataset. Because the gap between two points is
+    represented by a cubic, large gaps result in peaks or troughs in the dataset.  The
+    final problem with spline is that the end sections are inaccurate due to arbitary
+    methods used to assign the derivative of the end points. It is because of this reason
+    that two cubic spline methods have been provided for this application.
   </para>
 
+  </sect3><title>Newton Divided Difference Interpolation</title>
+  <sect3>
   <para>
-    ideas:
-    -req'd for data to be FFT'd - FFT data must be regular
-    -provides models for periods where data is not available
-    -need several techniques as no single technq. suits all applications.
-   </para>
+    Mathematicians have long know that a nth order difference table can be used to accurately
+    recreate a polynomial of degree n.  Newton divided differences uses a similar method to
+    approximate new points within an aribitary dataset.
+  </para>
+  <para>
+    Newton divided differences is based on building a table of divided differences.  The
+    divided difference between two points in a dataset is defined as: (TODO: divided difference eq 1)
+  </para>
+  <para>
+    Likewise higher order divided differences can be defined as: (TODO: divided difference eq 2)
+  </para>
+  <para>
+    These divided differences are built into a table as follows: (TODO: divided difference eq 3)
+  </para>
+  <para>
+    This table can then be used to generate an equation: (TODO: divided difference eq 4)
+  </para>
+  <para>
+    A full mathematical derivation can be found in Gerald &amp; Wheatley (1999), page 238.
+  </para>
+  <para>
+    Because divided differences estimates a curve by using polynomial, using a polynomial
+    of too low or high a degree can result in errors. The accuracy available by using the
+    double precision floating point format also creates a limit.
+  </para>
+  <para>
+    To detect and limit the errors caused by these factors the program calculates error 
+    estimates. As the divided difference table grows it calculates the rough error for 
+    a table of size one less.  If the error estimate has shrunk then the program continues
+    building the table to a higher order.  If the error has grown then the program stops 
+    building the table.
+  </para>
+  <para>
+    The error for 
+  </para>
   </sect3>
 </sect2> <!--Theory-->
 
