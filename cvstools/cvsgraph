@@ -5,7 +5,7 @@ my($HISTORY, $filename, $date, %dateline, $day, $adate, @dates,
    $author, %cols, $newcolnum, @today, @html, $event, $file, $user, $i,
    $table, %authorcolor, @colors, $newauthnum, %heading, $color, $temp,
    $revision, $lines, $state, %authorcommits, $nowmonth, $prevmonth,
-   @monthnames, $headerhtml, $loghtml, $nowyear);
+   @monthnames, $headerhtml, $loghtml, $nowyear, $comment);
 
 open HISTORY, "< logout";
 
@@ -36,17 +36,20 @@ $monthnames[11] = "Nov";
 $monthnames[12] = "Dec";
 
 # Hoon through the CVS history
+print STDERR "Reading log\n";
 while(<HISTORY>){
     if(/^Working file: (.*)/){
 	$filename = $1;
+	print STDERR "File $filename seen\n";
 	chomp $filename;
     }
     elsif(/^date: ([0-9\/]+).*author: (.*);.*state: (.*);(.*)$/){
 	$date = $1;
 	$author = $2;
 	$state = $3;
-	$_ = $4;
+	$comment = "";
 
+	$_ = $4;
 	if(/.*lines: \+(.*) -(.*)/){
 	    $lines = int($1) + int($2);
 	    if($lines > 100){
@@ -60,33 +63,57 @@ while(<HISTORY>){
 	    $lines = "I";
 	    $revision = "";
 	    }
-	else{
-	    $lines = "<ALT = \"foo\">&nbsp;";
-	}
 
 	if($state eq "dead"){
 	    $lines = "D";
 	}
-
-	$date =~ s/\///g;
-	$dateline{$date} = $dateline{$date} . "$filename!$author!$lines;";
     }
     elsif(/^revision (.*)/){
 	$revision = $1;
     }
+    elsif((/^--------/) || (/^========/)){
+	if(($filename eq "") || ($author eq "") || ($lines eq "") ||
+	   ($date eq "") || ($comment eq "")){
+	}
+	else{
+	    $_ = $filename;
+	    if(/.*docbook.*/){
+	    }
+	    else{
+		$date =~ s/\///g;
+		$comment =~ s/\!//g;
+		$comment =~ s/://g;
+		
+		print STDERR "Adding revision: $date, $author\n";
+		$dateline{$date} = $dateline{$date} . 
+		    "$filename!$author!$lines!$comment;";
+		
+		$date = "";
+	    }
+	}
+
+	$comment = "";
+    }
+    else{
+	s/[\r\n]/ /;
+	$comment = "$comment$_";
+    }
 }
 
+##############################################################################
 # Draw the graph
 $newcolnum = 0;
 $newauthnum = 0;
 $table = "";
 $prevmonth = "";
 
+print "<html><head></head><body>\n";
+
 # For each date
 @dates = sort keys %dateline;
-foreach $adate (@dates) {
+foreach $adate (@dates){
     for($i = 0; $i < $newcolnum; $i++){
-	$html[$i] = "<ALT = \"bar\">&nbsp;";
+	$html[$i] = "";
     }
 
     # If this is a new month, then we need to reset ourselves and draw a 
@@ -97,7 +124,7 @@ foreach $adate (@dates) {
     $nowyear = $1;
     if($nowmonth ne $prevmonth){
 	if($prevmonth ne ""){
-	    $table = $table . "<tr><td>&nbsp;</td></tr><tr><td><b>$monthnames[$prevmonth] $1</b></td>";
+	    $table = $table . "<tr><td>&nbsp;</td></tr><tr><td><b>$monthnames[$prevmonth] $1</b></td>\n";
 	    
 	    # The funky header thingie
 	    $headerhtml = "";
@@ -105,10 +132,11 @@ foreach $adate (@dates) {
 		$temp = $heading{$i};
 		$temp =~ s/[\/\.]/_/g;
 		if(! -e "colheader-$temp.jpg"){
+		    print STDERR "Generating column header $temp\n";
 		    `convert -font helvetica -pointsize 10 -draw "text 1,10 $heading{$i}" -rotate -90 blank.jpg colheader-$temp.jpg`;
 		}
 		$headerhtml = $headerhtml . 
-		    "<td><img src=\"colheader-$temp.jpg\"></td>";
+		    "<td><img src=\"colheader-$temp.jpg\"></td>\n";
 	    }
 	    
 	    $table = $table . $headerhtml . $loghtml;
@@ -122,15 +150,29 @@ foreach $adate (@dates) {
     @today = split(/;/, $dateline{$adate});
     foreach $event (@today){
 	$_ = $event;
-	/(.*)!(.*)!(.*)/;
+	/(.*)!(.*)!(.*)!(.*)/;
 	$file = $1;
 	$user = $2;
 	$lines = $3;
+	$comment = $4;
 	
 	if($lines eq ""){
-	    $lines = "&nbsp;";
+	    $lines = "&nbsp;\n";
 	}
 
+	if($lines eq "I"){
+	    $lines = "<img src=\"/cep/icon-insert.gif\" alt=\"$comment\">\n";
+	}
+	elsif($lines eq "D"){
+	    $lines = "<img src=\"/cep/icon-delete.gif\" alt=\"$comment\">\n";
+	}
+	elsif($lines eq "."){
+	    $lines = "<img src=\"/cep/icon-minor.gif\" alt=\"$comment\">\n";
+	}
+	elsif($lines eq "*"){
+	    $lines = "<img src=\"/cep/icon-major.gif\" alt=\"$comment\">\n";
+	}
+	
 	# Do we need a new cell number?
 	if($cols{$file} eq ""){
 	    $cols{$file} = $newcolnum;
@@ -155,7 +197,7 @@ foreach $adate (@dates) {
 
 	if($html[$cols{$file}] eq ""){
 	    $html[$cols{$file}] = 
-		"<tr><td bgcolor=\"$authorcolor{$user}\">$lines</td></tr>";
+		"<tr><td bgcolor=\"$authorcolor{$user}\">$lines</td></tr>\n";
 	}
 	else{
 	    $html[$cols{$file}] = 
@@ -168,15 +210,15 @@ foreach $adate (@dates) {
     for($i = 0; $i < $newcolnum; $i++){
 	$html[$i] = 
 	    "<td valign=\"top\"><table width=\"100%\" cellspacing=0 cellpadding=0 bgcolor=\"000000\">" 
-		. $html[$i] . "</table></td>";
+		. $html[$i] . "</table></td>\n";
     }
 
-    $loghtml = $loghtml . "<tr><td valign=\"top\">$adate</td>@html</tr>\n";
+    $loghtml = $loghtml . "<tr><td valign=\"top\">$adate</td>@html</tr>\n\n";
 }
 
 # And the left over month
 if($prevmonth ne ""){
-    $table = $table . "<tr><td>&nbsp;</td></tr><tr><td><b>$monthnames[$prevmonth] $nowyear</b></td>";
+    $table = $table . "<tr><td>&nbsp;</td></tr><tr><td><b>$monthnames[$prevmonth] $nowyear</b></td>\n";
     
     # The funky header thingie
     $headerhtml = "";
@@ -184,33 +226,37 @@ if($prevmonth ne ""){
 	$temp = $heading{$i};
 	$temp =~ s/[\/\.]/_/g;
 	if(! -e "colheader-$temp.jpg"){
+	    print STDERR "Generating column header $temp\n";
 	    `convert -font helvetica -pointsize 10 -draw "text 1,10 $heading{$i}" -rotate -90 blank.jpg colheader-$temp.jpg`;
 	}
 	$headerhtml = $headerhtml . 
-	    "<td><img src=\"colheader-$temp.jpg\"></td>";
+	    "<td><img src=\"colheader-$temp.jpg\"></td>\n";
     }
     
     $table = $table . $headerhtml . $loghtml;
 }
 
-print "<table cellspacing=0 cellpadding=0>";
-print "$table</table>";
-print "<BR><HR><BR>Authors: ";
-print "<table><tr>";
+print "<table cellspacing=0 cellpadding=0>\n";
+print "$table</table>\n";
+print "<BR><HR><BR>Authors: \n";
+print "<table><tr>\n";
 
+print STDERR "Author summary\n";
 while(($user, $color) = each %authorcolor){
     print "<td bgcolor=\"$color\">$user: ";
+    print STDERR "User \"$user\"\n";
     print `grep $user authors | sed 's/^$user://'`;
     print " ($authorcommits{$user})";
     print "</td>";
 }
 
-print "</tr></table>";
-print "<BR>Key: ";
-print "<table><tr><td>I: Initial import of a file</td>";
-print "<td>D: File deleted from repository</td>";
-print "<td>.: Minor code change (less than 100 lines)</td>";
-print "<td>*: Major code change (more than 100 lines)</td>";
+print "</tr></table>\n";
+print "<BR>Key: \n";
+print "<table><tr><td><img src=\"/cep/icon-insert.gif\">: Initial import of a file</td>\n";
+print "<td><img src=\"/cep/icon-delete.gif\">: File deleted from repository</td>\n";
+print "<td><img src=\"/cep/icon-minor.gif\">: Minor code change (less than 100 lines)</td>\n";
+print "<td><img src=\"/cep/icon-major.gif\">: Major code change (more than 100 lines)</td>\n";
 print "</tr></table>";
 
-print "<BR><BR>END OF REPORT";
+print "<BR><BR>END OF REPORT\n";
+print "</body>\n";
