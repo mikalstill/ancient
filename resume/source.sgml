@@ -33,7 +33,13 @@ I possess a Higher School Certificate (year 12) from Canberra Grammar School, in
 </para>
 
 <para>
-I also hold a Bachelor of Computer Engineering (BEng) from University of Canberra, with first class honours. I started this degree in 1996, and completed it in 2003, having studied part time for the majority of the degree.
+I also hold a Bachelor of Computer Engineering (BEng) from University of Canberra, with first class honors. I started this degree in 1996, and completed it in 2003, having studied part time for the majority of the degree. I am currently undertaking a part-time PhD at the Australian National University, looking into Linux device driver development.
+</para>
+</sect1>
+
+<sect1><title>Industry certifications</title>
+<para>
+I currently hold the LPI LPIC-1 certification.
 </para>
 </sect1>
 
@@ -50,7 +56,7 @@ I have been trained in the following fields (this does not include on the job tr
 <listitem><para>Prince II project management methodology</para></listitem>
 <listitem><para>C++ development</para></listitem>
 <listitem><para>Server 2003 certification for ISV software products</para></listitem>
-<listitem><para>Microsoft .NET development</para></listitem>
+<listitem><para>Microsoft .NET development (essentials and industrial strength)</para></listitem>
 </itemizedlist>
 </para>
 </sect1>
@@ -64,18 +70,18 @@ I am committed to the concept of open source development, and am currently worki
 <listitem><para>a variety of articles and book reviews discussing open source software</para></listitem>
 <listitem><para>selections of sample code in various languages</para></listitem>
 <listitem><para>several <trademark>Palm</trademark> integration projects</para></listitem>
-<listitem><para>several DocBook packages, including a build engine, a formatted comment extraction system, a groff to DocBook converter, and partial responsibility for the kernel-doc infrasturcture used for the <trademark>Linux</trademark> kernel</para></listitem>
+<listitem><para>several DocBook packages, including a build engine, a formatted comment extraction system, a groff to DocBook converter, and partial responsibility for the kernel-doc infrastructure used for the <trademark>Linux</trademark> kernel</para></listitem>
 <listitem><para>a vcard parser</para></listitem>
-<listitem><para>a techtonic movement visualization package, developed for researchers at Univeristy of Canberra and MIT</para></listitem>
+<listitem><para>a techtonic movement visualization package, developed for researchers at University of Canberra and MIT</para></listitem>
 <listitem><para>a Microsoft CHM (compiled help) extractor</para></listitem>
-<listitem><para>a FAT filesystem decoder</para></listitem>
+<listitem><para>a FAT file system decoder</para></listitem>
 <listitem><para>a proof of concept API implementation for the GNU privacy guard PGP implementation</para></listitem>
 <listitem><para>a simple rasterization library</para></listitem>
 <listitem><para>various <trademark>Linux</trademark> kernel patches</para></listitem>
-<listitem><para>several PDF packages, including a generation API, a scirpting front end to the generation API, a PDF parser API, and a simple editor</para></listitem>
+<listitem><para>several PDF packages, including a generation API, a scripting front end to the generation API, a PDF parser API, and a simple editor</para></listitem>
 <listitem><para>several PNG image utilities</para></listitem>
-<listitem><para>a DNS server written in bourne again shell (bash)</para></listitem>
-<listitem><para>a SnoopyPro, USB protocol analyser log dumper</para></listitem>
+<listitem><para>a DNS server written in Bourne again shell (bash)</para></listitem>
+<listitem><para>a SnoopyPro, USB protocol analyzer log dumper</para></listitem>
 <listitem><para>...And many other smaller projects</para></listitem>
 </itemizedlist>
 
@@ -98,7 +104,8 @@ I have held the following positions within a variety of professional bodies:
 <itemizedlist>
 <listitem><para>1997 - 1998: Chairman, Young Engineers Canberra, Institute of Engineers Australia</para></listitem>
 <listitem><para>2002 - 2003: Secretary, Canberra Chapter, the Australian Unix Users Group</para></listitem>
-<listitem><para>2003 - 2004: Ordinary committee member, the Australian Unix Users Group</para></listitem>
+<listitem><para>2003 onwards: Ordinary committee member, the Australian Unix Users Group</para></listitem>
+<listitem><para>2004 onwards: Ordinary committee member, Linux Australia</para></listitem>
 </itemizedlist>
 </sect1>
 
@@ -245,6 +252,8 @@ I have given the following technical presentations:
 <listitem><para>April 2003: Canberra Linux User's Group, <emphasis>The PandaEdit PDF editor</emphasis></para></listitem>
 <listitem><para>May 2003: Australian Unix User's Group, Canberra Chapter Technical Symposium, <emphasis>Open Source inservice for ACT secondary school teachers</emphasis></para></listitem>
 <listitem><para>September 2003: Australian Unix User's Group Annual Conference, Session Chair, WWW track</para></listitem>
+
+<listitem><para>January 2004: linux.conf.au, Fixing what's wrong with Bind</para></listitem>
 </itemizedlist>
 </sect1>
 
@@ -273,6 +282,8 @@ I have had the following articles and papers published:
 <listitem><para>October 2003: Australian Unix User's Group Newsletter (AUUGN), <emphasis>Checking C Programs with Lint (book review)</emphasis></para></listitem>
 
 <listitem><para>October 2003: Australian Unix User's Group Newsletter (AUUGN), <emphasis>Essential CVS (book review)</emphasis></para></listitem>
+
+<listitem><para>Januage 2004: Linux.conf.au Conference Proceedings, <emphasis>Fixing what's wrong with Bind</emphasis></para></listitem>
 
 </itemizedlist>
 </sect1>
@@ -400,6 +411,16 @@ August 1995 to July 1998.
 <listitem><para>Explain varied exhibits to customers of widely varied educational, national and ethnic backgrounds</para></listitem>
 </itemizedlist>
 </sect2>
+</sect1>
+
+<sect1><title>Referees</title>
+<para>
+Douglas Jackson, of 33 Fred Lane Cres, Gordon ACT 2906 Australia has agreed to act as a referee. He may be contacted at doug.jackson@citadel.com.au.
+</para>
+
+<para>
+Further referees are available upon request.
+</para>
 </sect1>
 
 </article>
