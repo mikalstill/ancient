@@ -28,6 +28,7 @@ vcard    : startstuff BEGIN ':' VCARD { printf("\nvcard header\n"); }
 startstuff
          : STRING startstuff
          | ':' startstuff
+         | LINEFOLD startstuff
          | 
          ;
 

@@ -2,7 +2,7 @@
 #include "vcard.tab.h"
 extern int yylval;
 extern int parsemode;
-%}
+%} 
 
 %%
 
@@ -52,7 +52,7 @@ extern int parsemode;
 
 [Xx]-[Cc][Uu][Ss][Tt][Oo][Mm][0-9]         { printf("*%d, custome key* ", parsemode); return(parsemode == 1 ? CUSTOM : STRING); }
 
-[a-zA-Z0-9 ;\.=\-/\/@\(\)\"]+             { printf("*%d, string = %s* ", parsemode, yytext); return STRING; }
+[a-zA-Z0-9;\.=\-/\/@\(\)\"]+[^:\r\n]*             { printf("*%d, string = %s* ", parsemode, yytext); return STRING; }
 
 [ \t\r\n]                                  { printf("*%d, whitespace* ", parsemode); }
 .                                          { printf("*anything = %c* ", yytext[0]); return yytext[0]; }
