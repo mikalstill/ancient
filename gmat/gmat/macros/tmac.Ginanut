@@ -1,0 +1,1407 @@
+.\" ############ NUTSHELL BOOK SETUP
+.de book_setup
+.nr nH 0	\" no numbered paragraphs
+.hy 14	\" don't hyphenate last line of pg; don't split last 2 chars of a word
+.nr HY 14 \" need to reset this reg if you want to change hyphenation rules
+.hlm 2	\" don't hyphenate more than two lines in a row
+.nr FF 4	\" use symbols (asterisk, dagger, etc) for footnotes
+.		\" following lines establish footnote symbols
+.ds f1 \f(TR*\fP\"			XX first footnote on page is asterisk
+.ds f2 \(dg\"			XX second footnote on page is dagger
+.ds f3 \(dd\"			XX third footnote on page is double dagger
+.\" SPECIFY PATH TO FIGURE THAT GOES ON CHAPTER OPENER
+.if "\\*[nutshellfigure]"" .ds nutshellfigure /work/nutshell/nt.qref/figs/shorttoedeagle.eps
+.fp 8 TBI
+.ds P \&\fP\s0
+.ds R \&\fR\s0
+.ss 12 0 	\"set sentence space to null
+.nr fn@sep-dist 2P
+.ev fn
+.\" Round it vertically
+.vs \n[fn@sep-dist]u
+.nr fn@sep-dist \n[.v]
+.ev
+.ad b
+.nr AD \\n[.j]
+.\"
+.\" ############ DEFINITIONS FOR FOLLOWING
+.\"		"ext" measures are from edge of physical sheet on which troff prints
+.\"		"int" measures are from cutmarks
+.\"		"body" refers to main text body rectangle, exclusive of header/footer
+.\"
+.\" ############ PRIMARY PAGE PARAMETERS
+.nr pg_length_ext 11i	\" length of troff page, top to bottom
+.nr pg_width_ext 8.5i	\" width of troff page, left to right
+.nr top_off_ext 1i	\" from top edge of troff page to top cutmark
+.nr bot_off_ext .95i	\" from bottom edge of troff page to bottom cutmark
+.nr left_off_ext 1.25i	\" from left edge of troff page to left cutmark
+.nr right_off_ext 1.25i	\" from right edge of troff page to right cutmark
+.nr top_off_int .75i	\" from top cutmark to baseline of first body text
+.nr bot_off_int 0.8125i	\" from bottom cutmark to baseline of lowest body text
+.nr left_off_int 4.5P	\" even page:from left cutmark to left edge/body text
+.nr right_off_int 4.5P	\" odd page: from left cutmark to left edge/body text
+.nr body_width 27P		\" width of body text
+.nr hdr_vertoff_int 0.55i	\"from top cutmark to baseline of main header text
+.nr ftr_vertoff_int 0.5i	\"from bottom cutmark to baseline of main footer text
+.nr hdr_leftoff 0	\" offset relative to left body margin (positive to right)
+.nr hdr_rightoff 0	\" offset relative to right body margin (positive to right)
+.nr ftr_leftoff 0			\" ditto
+.nr ftr_rightoff 0			\" ditto
+.nr chap_img_off 7.5P		\" from top of page to chapter image (baselines)
+.nr chap_hdr_off 1.5P		\" from chapter image to chapter head (baselines)
+.nr chap_title_off 58p		\"from chapter head to chapter title (5P8)
+.nr chap_text_prespace 103p	\" from chap title to 1st text (6P10)
+.\"
+.\" ############ MISCELLANEOUS SPACING PARAMETERS
+.\" unless otherwise indicated, spaces are baseline-to-baseline
+.nr PD 17p				\" space between paragraphs
+.nr body_text_PD 17p 
+.nr varlist_PD 17p 
+.nr sidebar_PD 15p      \" space betw paras in sidebar texts
+.nr itemlist_PD 17p 
+.nr orlist_PD 17p
+.nr QS_PD 19p 
+.nr sidebar_prespace 18p  \"space before a sidebar
+.nr sidebar_floated_prespace 8p \"space over sidebar if floats to nxt pg
+.nr sidebar_postspace 16p \"space after a sidebar
+.nr sidebar_title_prespace 21p \"space before a sidebar title
+.nr sidebar_short_title_prespace 27p \"space before a sidebar title
+.nr sidebar_title_postspace 18p \"space after a sidebar
+.nr sidebar_VS 12p \"space betw lines in sidebars
+.nr FPD 15p		\" space betw paras in footnotes
+.nr VS 11p				\" text spacing, baseline to baseline
+.nr list_prespace 19p 
+.nr list_itemspace 17p 
+.nr list_postspace 19p 
+.nr list_paraspace 17p  \"space between paras within a list item
+.nr Ah_need 6				\" for .ne cmd preceding Ahead
+.nr Bh_need 5				\" for .ne cmd preceding Bhead
+.nr Ch_need 4				\" for .ne cmd preceding Chead
+.nr Dh_need 3				\" for .ne cmd predecing Dhead
+.nr Ah_prespace 0.45i		\" space preceding Ahead
+.nr Bh_prespace 0.4i		\" space preceding Bhead
+.nr Ch_prespace 0.35i		\" space preceding Chead
+.nr Dh_prespace 19.5p 
+.nr Ah_postspace 0.25i		\" space following Ahead
+.nr Bh_postspace 0.25i		\" space following Bhead
+.nr Ch_postspace 0.25i		\" space following Chead
+.nr Ah_linelength \\n[body_width]-.5i \"default line length of Ahead 
+.nr Bh_linelength \\n[body_width]-.5i \"default line length of Bhead
+.nr Ch_linelength \\n[body_width]-.5i \"default line length of Chead
+.nr Fs_prespace 17p			\" space preceding a figure
+.nr Fc_prespace 12p			\" space preceding a figure caption
+.nr Fe_postspace 24p			\" space following a figure
+.nr Ns_prespace 24p			\" space preceding a note
+.nr Nc_postspace 19p 
+.nr Ne_postspace 24p			\" space following a note
+.nr Ns_need 3				\" for .ne cmd preceding note
+.nr Xs_need 3
+.nr Ps_ps 7			\" font size for screen display text
+.nr Ps_vs 9p			\" space between baselines of screen display text
+.nr Ps_prespace 17p		\" space preceding a screen display
+.nr Pe_postspace 17p		\" space following a screen display
+.nr DDS_prespace 19p		\" space preceding a non-screen display
+.nr DDE_postspace 19p		\" space following a non-screen display
+.nr QS_prespace .25i		\" space preceding a blockquote 
+.nr QE_postspace .25i		\" space following a blockquote 
+.nr QS_indent .25i			\" indent of block quotes
+.nr Ts_prespace 17p		\" space preceding a table
+.nr Tc_postspace 17p		\" space following a table caption
+.nr Te_postspace 17p		\" space following a table
+.nr informal_table_prespace 17p \" space before sgml informal table
+.nr informal_table_postpace 17p \" space after sgml informal table
+.nr informal_table_vs 10p \" space betw lines of informal table
+.nr informal_table_ps 9 \" pointsize of font in informal table 
+.nr Xs_prespace 17p		\" space preceding an example
+.nr Xc_postspace 17p		\" space following an example caption
+.nr Xe_postspace 17p		\" space following an example
+.nr gloss_term_prespace .25i \"space before glossary item
+.nr gloss_def_indent .25i	\"indent of glossary definition
+.\" the standard spacings given immediately above may need to be modified for
+.\" particular combinations of format elements.  To define a spacing for a
+.\" particular element combination, just assign the desired spacing to a number
+.\" register whose name consists of <comma><1st element>-<comma><2nd element>
+.nr ,Pe-,P \\n[Pe_postspace]u
+.nr ,Fe-,P 26p				\" space between figure end and new paragraph
+.nr ,Li,-,Li \\n[list_itemspace]u
+.nr ,LSI-,Li \\n[list_prespace]u 
+.nr ,LSV-,LIV \\n[list_prespace]u 
+.nr ,LI-,P 17p 
+.nr ,Li-,P 17p
+.nr ,Le-,P \\n[list_postspace]u
+.nr ,SB2-,P 26p
+.nr ,Nc-,P 19p
+.nr ,/P-,LSV \\n[list_prespace]u
+.\"
+.\" ############ INDENTATION PARAMETERS
+.nr PI 0	\" indent for first line of paragraph; default indent for RS, IP
+.nr Nh_space 2n			\" indent from para number to paragraph heading
+.nr Ns_indent 15p			\" indent for note
+.nr list_indent_outer 0\"	XX indent from current left margin to bullet/num
+.nr number_list_indent_inner .25i	\" indent from bullet/number to list item text
+.nr bullet_list_indent_inner .25i	\" indent from bullet/number to list item text
+.nr varlist_indent_outer 0\"indent from current left margin to varlist item 
+.nr orlist_indent_outer 0\"indent from current left margin to varlist item 
+.nr orlist_indent_inner 18p\"indent from outer indent to text after # 
+.nr itemlist_indent_inner 18p\"indent from outer indent to text after # 
+.nr list_indent_outer 0\"	XX indent from current left margin to bullet/num
+.nr list_indent_inner 18p		\" indent from bullet/number to list item text
+.nr varlist_indent .25i		\" indent for hanging label list
+.nr align_on_dot 1			\" make nums in lists align on dot
+.nr Ps_indent 15p			\" indent for screen displays
+.nr widow_control_on 0		\"turns on widow control globally--SGML only 
+.nr inanut_on 1				\"means we're "in a nutshell" macros
+.\" (the number register wcon_off turns it off for rest of page)
+.\" (.ch WCD turns it off until next paragraph)
+.nr DDS_indent .25i			\" indent for non-screen displays
+.nr llt_indent .25i			\" indent for block displays (DDS/DDE or LLT)
+.nr Xs_indent 0u			\" indent for examples
+.nr Ts_indent 0u			\" indent for tables
+.\"
+.\" ############ FONT PARAMETERS
+.nr PS 9				\" font size for main text
+.nr hdr_ps 9			\" font size for page header
+.ds hdr_ft HI\"		XX font for page header
+.nr footer_ps 9		\" font size for page footer
+.ds footer_ft HI\"		XX font for page footer
+.ds chap_hdr_ft TR\"	XX font for chapter header on title page
+.nr chap_hdr_ps 14		\" font size for chapter on title page
+.ds chap_title_ft HBI\"	XX font for chapter header on title page
+.nr chap_title_ps 18		\" font size for chapter on title page
+.nr chap_title_vs 20p		\" leading for multi-line chapter headings
+.ds Ah_ft HBI\"		XX font for Aheads
+.nr Ah_ps 14			\" font size for Aheads
+.nr Ah_vs 16p			\" space between baselines of multiline Ahead
+.ds Bh_ft HBI\"		XX font for Bheads
+.nr Bh_ps 12			\" font size for Bheads
+.nr Bh_vs 14p			\" space between baselines of multiline Bhead
+.ds Ch_ft HBI\"		XX font for Cheads
+.nr Ch_ps 10			\" font size for Cheads
+.nr Ch_vs 12p			\" space between baselines of multiline Chead
+.nr Dh_ps 10			\" font size for Dheads
+.nr Dh_vs 12p	\" space between baselines of multiline Dhead
+.ds Dh_ft HBI\"		XX font for Dhead
+.ds Fe_ft I\"			XX font for figure captions (used also for examples)
+.nr Fe_ps 9			\" font size for figure captions       "
+.nr Fe_vs 11p		\" space between baselines for figure captions
+.ds QP_ft I\"			XX font for quoted paragraphs
+.nr QS_ps 9			\" font size for quoted sections
+.nr QS_vs 11p			\" space between baselines of quoted sections
+.ds QS_ft R\"			XX font for quoted sections
+.nr QI .25i				\"indent for QS/QE blockquotes
+.ds Ta_ft R\"			XX font for table captions and text
+.ds Ta_caption_ft I\"			XX font for table captions
+.nr Ta_caption_ps 9\"			XX font for table captions
+.nr Ta_ps 9			\" font size for table captions and text
+.nr Ta_vs 12p			\" space between baselines for tables
+.nr DDS_ps 9			\" font size for non-screen display text
+.nr DDS_vs 11p			\" space between baselines of display text
+.nr epigraph_ps 9       \" pointsize for epigraph
+.nr epigraph_vs 10p     \" space between lines for epigraph
+.nr epigraph_postspace 22p \" space after an epigraph
+.ie \\nz=99 .so \\*[MACRODIR]/sltmacs	\" define fonts for slt machine, syntax
+.el .ds FAM T\" 	XX font family for main text
+.ds cw_font_fam C\" constant width font family:  Constant Willison
+.ds special_font_fam ZD\" special font family:  Zapf-Dingbats
+.\"#############INLINE FONT SPECS
+.ds gloss_term_font \fB
+.ds /gloss_term_font \fP
+.ds citetitle_font \fI
+.ds emphasis_font \fI
+.ds command_option_font \fI
+.ds constant_font \f[TB]
+.ds interface_font \fI
+.ds product_name_font \fI
+.ds first_term_font \fI
+.ds line_annotation_font \f[TI]
+.ds computervariable_font \s\\n[Ps_ps]\f[CI]
+.ds program_name_font \fI
+.ds function_font \f[CR]
+.ds function_param_font \f[CI]
+.ds keysym_font \fI
+.ds filename_font0 \fI
+.ds filename_font1 \f[TB]
+.ds command_font0 \fI
+.ds command_font1 \f[TBI]
+.ds userinput_font0 \s-1\f[CB]
+.ds userinput_font1 \f[CB]
+.ds /userinput_font0 \fP\s+1
+.ds /userinput_font1 \fP
+.ds replaceable_font0 \s-1\f[CI]
+.ds replaceable_font1 \f[CI]
+.ds /replaceable_font0 \fP\s+1
+.ds /replaceable_font1 \fP
+.ds computeroutput_font0 \s-1\f[CR]
+.ds computerprompt_font1 \f[CR]
+.ds /computeroutput_font0 \fP\s+1
+.ds /computerprompt_font1 \fP
+.ds literal_ps 9 
+.ds literal_body_ps 9
+.ds literal_fnt_ps 7.5
+.ds literal_tbl_ps 8.5
+.ds literal_body_ps 9
+.ds literal_fonts0b0 \s-1\f[CR]
+.ds literal_fonts0b1 \s-1\f[CB]
+.ds literal_fonts1b1 \f[CB]
+.ds literal_fonts1b0 \f[CR]
+.ds /literal_fonts0b0 \fP\s0
+.ds /literal_fonts0b1 \fP\s0
+.ds /literal_fonts1b1 \fP
+.ds /literal_fonts1b0 \fP
+.ds tbl_head_ft \fB
+.ds /tbl_head_ft \fP
+.\"
+.\" ############ OTHER PARAMETERS
+.\" following string for use in complex numbers in figure captions, etc.
+.ds dot_or_hyphen \-
+.nr bT 1 \"Turn ON/OFF bleeding tabs; 1 is on
+.ds btab_font Helvetica-Condensed-BoldObl\"PostScript name of font in bleeding tab
+.nr btab_pointsize 10\"pointsize of font in bleeding tab
+.nr btab_number_of 9\"number of bl.tabs on page
+.nr btab_long_dimension .81i\"long dimension of bl.tab 
+.nr btab_short_dimension .8i\"short dimension of bl.tab on page (bleed built in) 
+.nr btab_first_tab_offset_from_header .25i\"meas.from headermargin
+.nr btab_intertab_space .1i\"space between the tabs
+.nr btab_center 1\"to center lines of text in tabs
+.nr btab_align 7.5i\"distance from left edge of page to right edge of tab
+.\"
+.\" ############ DERIVATIVE PARAMETERS
+.nr LL \\n[body_width]	\" line length for body text
+.nr LT \\n[LL]			\" length for .tl use (not necessarily used in hdrs)
+.nr HM \\n[top_off_ext]+\\n[top_off_int]		\" header margin
+.nr FM \\n[bot_off_ext]+\\n[bot_off_int]+1		\" footer margin
+.nr POe \\n[left_off_ext]+\\n[left_off_int]		\" even page offset
+.nr POo \\n[right_off_ext]+\\n[right_off_int]		\" odd page offset
+.ds NN \\\\n[PN]
+.ds RF \\\\*[NN]
+.nr hdr_vertoff \\n[top_off_ext]u+\\n[hdr_vertoff_int]u
+.\" ##############TOC PARAMETERS
+.nr toc_header_margin 1.8i
+.nr toc_title_margin 14.75P+\\n[top_off_ext]u
+.ds toc_font_fam T
+.ds toc_header_font HBI
+.ds toc_body_font TR 
+.nr toc_body_leading 13p 
+.ds toc_chapter_font TI 
+.nr toc_chapter_leading 14p
+.nr toc_header_fontsize 18
+.nr toc_chapter_fontsize 12
+.nr toc_chapter_leading 16p
+.nr toc_body_fontsize 10
+.nr toc_header_to_entry 7P
+.nr toc_chapter_prespace 27p 
+.nr toc_chapter_postspace 6p
+.nr toc_body_prespace 6p
+.nr toc_ahead_indent .25i 
+.nr toc_bhead_indent 8n
+.nr toc_chead_indent 6n
+.\" ###############BIBLIOGRAPHY VARIABLES
+.ds bibentry_title_ft \fI
+.ds /bibentry_title_ft \fP
+.nr bibentry_ps 10
+.nr bibentry_vs 12p
+.nr bibentry_prespace 16p
+.\" #############Constant Width Font squeezes
+.cs CR 19
+.cs CI 19
+.cs CB 19
+.\" ############MISCELLANEOUS VARIABLES
+.nr b2 \\n[btab_center]
+.nr b4 \\n[btab_number_of]
+.nr b5 \\n[btab_long_dimension]
+.nr b6 \\n[btab_short_dimension]
+.nr b7 \\n[btab_first_tab_offset_from_header]
+.nr b8 \\n[btab_intertab_space]
+.nr b9 \\n[btab_pointsize]
+.\" ############INDEX VARIABLES
+.nr inx_col_width 2.1i
+.nr inx_gutter_width .1i
+..
+.\"
+.\" ############ CHAPTERS
+.de Se\" section; $1 = section number; $2 = section name; 
+.\" $3 = 2nd part of two part title $4 = 3rd part of 3 part title
+.book_setup\" set major format parameters
+.set_fmt_params\" set secondary format parameters
+.par@finish
+.@error-recover	\" kill any diversions, keeps, nested environments (tmac.gs)
+.rs
+\&
+.if !\\n[nl]=\\n[HM] .bp
+.if !\\n[start_recto_or_verso] .if e .bp\" get to an odd-numbered page
+.nr start_recto_or_verso 0
+.rs
+.ft R
+.nr fG 0				\" initialize figure counter
+.nr xG 0				\" initialize example counter
+.nr tB 0				\" initialize table counter
+.rr sE
+.nr newchapflag 1		\" tell PT macro we're starting a new chapter.
+.ds chaptype Chapter
+.if !"\\$1"" .aton \\$1 sE
+.if !"\\$1"" .if !"\\g(sE"A" .nr sE \\$1
+.af PN 1
+.ds starting_page \\n[PN]
+.if "\\$2"Preface" .af PN i
+.if "\\$2"Foreword" .af PN i
+.ie r sE .ds chapternumber \\n[sE]
+.el .ds chapternumber 0
+.if "\\g(sE"A" .ds chaptype Appendix
+.ie "\\g(sE"A" .dT .tC A \\$1 "\\$2 \\$3 \\$4"
+.el .dT .tC C \\$1 "\\$2 \\$3 \\$4"
+.tC T Newchapter 
+.tC X Newchapter
+.tC F Newchapter
+.nr notchap 0
+.ds RH \\$2
+.if !"\\*[LH]"" .ds book_title \\*[LH]
+.if "\\*[RH]"Preface" .nr notchap 1
+.if "\\*[RH]"Index" .nr notchap 1
+.if "\\*[RH]"Glossary" .nr notchap 1
+.if "\\*[RH]"Foreword" .nr notchap 1
+.if "\\$2"Afterword:" .nr notchap 1
+.if "\\$2"Afterword" .nr notchap 1
+.if "\\$2"Bibliography" .nr notchap 1
+.if "\\$2"A Unix Bibliography" .nr notchap 1
+.if \\n[notchap] .ds chaptype
+.if !"\\$3"" .as RH \& \\$3
+.if !"\\$4"" .as RH \& \\$4
+.if \\n[nH] .NHx 0
+.nf
+.\".sy /usr/local/txtools/bin/getpicheight \\*[nutshellfigure] > /tmp/pht.\\n#
+.\"'so /tmp/pht.\\n#
+.\".sy rm -f /tmp/pht.\\n#
+.SP_ABS \\n[top_off_ext]u+\\n[chap_img_off]u-\\n[pictheight]u
+.\".Pf \\*[nutshellfigure]  "" "" center "" noscale
+.br
+.ft \\*[chap_hdr_ft]
+.ps \\n[chap_hdr_ps]
+.SP_ABS \\n[top_off_ext]u+\\n[chap_img_off]u+\\n[chap_hdr_off]u
+.ce 50
+.if "\\*[chaptype]"Chapter" \\*[CHAPTER] \\$1
+.if "\\*[chaptype]"Appendix" \\*[APPENDIX] \\$1
+.SP_ABS \\n[top_off_ext]u+\\n[chap_img_off]u+\\n[chap_hdr_off]u+\\n[chap_title_off]u
+.ft \\*[chap_title_ft]
+.ps \\n[chap_title_ps]
+.vs \\n[chap_title_vs]u
+.if !"\\$2"" \\$2
+.br
+.if !"\\$3"" \\$3
+.br
+.ce 0
+.SP_ABS \\n[top_off_ext]u+\\n[chap_img_off]u+\\n[chap_hdr_off]u+\\n[chap_title_off]u+\\n[chap_text_prespace]u
+.nr ,Se-,Ah .145i
+.nr ,Se-,P .145i
+.if \\n[sgml_on] \{\
+.ie \\n[long_toc_box] .nr ,Se-,Ah .1i
+.el .nr ,Se-,Ah .145i
+.nr ,Se-,P .17i
+.NU\}
+.nr long_toc_box 0
+.rs
+.ds lastelem Se
+.LP
+..
+.de EXERCISES
+.ne 5
+.sp 2P-.75v
+\s'7.5z'\l'\\n[body_width]u'\s0
+.sp 4p
+.ps 18 
+.vs 20p 
+.ft \\*[Ah_ft]
+Exercises
+.ft
+.ps
+.vs
+.sp \n(PDu
+.ns
+.dT .tC Bh "Exercises"
+..
+.de PT
+.ie e .nr PO \\n[POe]
+.el .nr PO \\n[POo]
+.po \\n[PO]u
+.nr pg*saved-po \\n[PO]u
+.ev pt
+.ie e .po \\n[POe]u+\\n[hdr_leftoff]u
+.el .po \\n[POo]u+\\n[hdr_rightoff]u
+.in 0
+.lt \\n[LT]u
+.SP_ABS \\n[top_off_ext]u+\\n[hdr_vertoff_int]u
+.fl
+.po
+.ev
+.reset_env_po TC cw dd fg ta xI
+.if \\n[cM] .CM pagetop
+..
+.\" Local version of b0 to place bleeding tab text according to spec
+.de b0
+.\" ==========================================================================
+.\" First, define PS subroutines for invocation below.  bT_position changes
+.\" the coordinate space and orientation so that (0,0) is the upper-left
+.\" corner of the tab (when the page is viewed in portrait orientation) and
+.\" the text runs down the page (in landscape fashion).
+.\"
+\\X'ps: exec /bT_position { \\n(pM u \\n(b6 u sub \\n(HM u \\n(b7 u add \
+    \\n(b1 1 sub \\n(b4 mod \\n(b5 u \\n(b8 u add mul add translate 90 \
+    rotate newpath 0 0 moveto } def'
+.\"
+.\" ==========================================================================
+.\" gfont is the font to use for the tab.  This has to be expressed using
+.\" grops 'SF' macro or the text will be backwards.
+.\"
+\\X'ps: exec /gfont { /F0 \\n(b9/\\*[btab_font] SF } def'
+.\"
+.\" ==========================================================================
+.\" width1 is the width of the first line
+.\" width2 is the width of the second line (defined below, if there are two
+.\" lines).
+.\" width is the width of the longest line (only used if not centering)
+.\"
+\\X'ps: exec gfont /width1 (\\*[pT]) stringwidth pop def'
+.\"
+.\" ==========================================================================
+.\" draw black box
+.\"
+.\"\\X'ps: exec /-save0- save def bT_position 0 \\n(b6 u 125 add neg rlineto \
+.\"    \\n(b5 u 0 rlineto 0 \\n(b6 u 125 add rlineto closepath 0 setgray fill \
+.\"    -save0- restore'
+\\X'ps: exec /-save0- save def bT_position 0 \\n(b6 u neg rlineto \
+    \\n(b5 u 0 rlineto 0 \\n(b6 u rlineto closepath 0 setgray fill \
+    -save0- restore'
+.\"
+.\" ==========================================================================
+.\" insert text (if there is only one line)
+.\"
+.if \\*[pU] \{\
+.\" in each line, increase number before "moveto" to move text toward 
+.\" the edge of the page (was 15; have changed it to 5 9/3/07 LM).
+.\"
+\\X'ps: exec /-save0- save def bT_position gfont 1 setgray \\n(b5 u width1 \
+    sub 2 div 5 neg moveto (\\*[pT]) show -save0- restore'
+.NU\}
+.\"
+.\" ==========================================================================
+.\" insert text (if there are two lines)
+.\"
+.if !\\*[pU] \{\
+.\"
+.\" define width2, set width, redefine width1 and width2 if centering
+.\"
+\\X'ps: exec gfont /width2 (\\*[pU]) stringwidth pop def width1 width2 gt \
+    {/width width1 def} {/width width2 def} ifelse'
+.if !\\n(b2 \\X'ps: exec /width2 width def /width1 width def'
+.\"
+.\" each moveto in ff line positions a line of tab text.  Increasing the last
+.\" number before each moveto shifts a text line toward outer edge of page
+.\" (first was 22, second 10 neg)
+\\X'ps: exec /-save0- save def gfont 1 setgray bT_position \
+    \\n(b5 u 2 div \
+    width1 2 div sub \
+    14 neg moveto \
+    (\\*[pT]) show \
+    \\n(b5 u 2 div \
+    width2 2 div sub \
+    3 neg moveto (\\*[pU]) show \
+    -save0- restore'
+.NU\}
+..
+.de BT	\" invoked from footer trap (see pg@top & pg*footer macros in tmac.gs)
+.ev pt
+.vpt 0
+.if \\n[bT] \{\
+.if o .b0	\" invoke bleeding tabs, if any
+.NU\}
+.in 0
+.ft \\*[footer_ft]
+.ps \\n[footer_ps]
+.lt \\n[LT]u
+.SP_ABS \\n[pg_length_ext]u-\\n[bot_off_ext]u-\\n[ftr_vertoff_int]u
+.if \\n[cmdft]=0 \{\
+.ft I 
+.ps \\n[PS]
+.\".vs \\n[VS]u 
+.vs 11 
+.ie !"\\*[CURRENT]"" .ds ARROW \v'-.25i'\(->\v'.25i'
+.el .rm ARROW
+.if \\n[partpageflag] .ig ++
+.ie o \{\
+.             if !"\\*(HI"" \{\
+.mk R&
+.             ad r
+.             ll \\n(LLu
+.sp -1.5v
+\(->\fP
+.             br
+.             ll
+.             ad b
+.sp |\\n[R&]u
+.             NU\}
+.ie \\n[newchapflag] \{\
+.ie "\\*[CURRENT]"" .tl \s'7.5z'\\*[OVert]\s0
+.el .tl \s'7.5z'\l'\\n(LTu'\\*[OVert]\s0
+.NU\}
+.el .tl \s'7.5z'\l'\\n(LTu'\\*[OVert]\s0
+.		if !"\\*[ARROW]"" \{\
+.		mk F&
+.		tl \\*[ARROW]
+.		sp |\\n[F&]u
+.		NU\}
+.ie \\n[newchapflag] \{\
+.	tl \f[TR]\\n(PN\fP
+.	nr newchapflag 0
+.NU\}
+.	el \{\
+.	if "\\*[ahead_tmp]"" .ds ahead_tmp Introduction
+.	ie !"\\*[chaptype]"" .tl \f[TI]\\*[ahead_tmp]\h'1m'\\*(NN\fP
+.	el .tl \f[TI]\\*(RH\h'1m'\\*(NN\fP
+.	NU\}
+.NU\}
+.el \{\
+.ie \\n[newchapflag] \{\
+.	sp
+.	tl \f[TR]\\n(PN\fP
+.	nr newchapflag 0
+.NU\}
+.	el \{\
+.		tl \s'7.5z'\l'\\n(LTu'\\*[OVert]\s0
+.		if !"\\*[ARROW]"" \{\
+.		mk F&
+.		tl \\*[ARROW]
+.		sp |\\n[F&]u
+.		NU\}
+.		ie !"\\*[chaptype]"" .tl \f[TI]\\*(NN\h'1m'\\*[chaptype] \\n[sE] \(en \\*(RH\fP
+.		el .tl \f[TI]\\*(NN\h'1m'\\*(RH\fP
+.		NU\}
+.	NU\}
+.NU\}
+.ft P
+.ps
+.vs
+.NU\}
+.++
+.if \\n[cmdft]=1 \{\ 
+.po
+.ft \\*[footer_ft]
+.ps \\n(PS	\" Needed for SQ, for some reason
+.vs 12
+.ie !"\\*[CURRENT]"" .ds ARROW \v'-.25i'\(->\v'.25i'
+.el .rm ARROW
+.ie o \{\
+.ie \\n[newchapflag] \{\
+.\".ie "\\*[CURRENT]"" .tl \s'7.5z'\\*[OVert]\s9
+.\".el .tl \s'7.5z'\l'\\n(LTu'\\*[OVert]\s9
+.tl \s'7.5z'\l'\\n(LTu'\\*[OVert]\s9
+.NU\}
+.el .tl \s'7.5z'\l'\\n(LTu'\\*[OVert]\s9
+.		if !"\\*[ARROW]"" \{\
+.		mk F&
+.		tl \\*[ARROW]
+.		sp |\\n[F&]u
+.		NU\}
+.	ie \\n[newchapflag] \{\
+.\".	sp
+.	tl \f[TR]\\n(PN\fP
+.	nr newchapflag 0
+.	NU\}
+.	el \{\
+.ps \\n[PS]
+.ig ++
+.	if "\\*[ahead_tmp]"" .ds ahead_tmp Introduction
+.	ie !"\\*[chaptype]"" .tl \f[TI]\\*[ahead_tmp]\h'1m'\\*(NN\fP
+.	el .tl \f[TI]\\*(RH\h'1m'\\*(NN\fP
+.++
+.	ie "\\*[ahead_tmp]"" .ds odd_footer Introduction 
+.	el .ds odd_footer \\*[ahead_tmp]
+.	ds odd_footer \\*[ahead_tmp]\h'1n'\(em\h'1n'\\*[rh_command]
+.	ie !"\\*[chaptype]"" .tl \f[TI]\\*[odd_footer]\h'1m'\\*(NN\fP
+.	el .tl \f[TI]\\*(RH\h'1m'\\*(NN\fP
+.		NU\}
+.	NU\}
+.el \{\
+.ps \\n[PS]
+.	tl \s'7.5z'\l'\\n(LTu'\\*[EVert]\s9
+.		ie !"\\*[chaptype]"" .tl \f[TI]\\*(NN\h'1m'\\*[chaptype] \\n[sE] \(en \\*(RH\fP
+.		el .tl \f[TI]\\*(NN\h'1m'\\*(RH\fP
+.	nr newchapflag 0
+.	NU\}
+.ft P
+.ps
+.vs
+.NU\}
+.if \\n[2colfmt]=1 \{\ 
+.sp -4v
+\h'2.225i'\v'-.125i'\L'|\\n[WM]u'
+.NU\}
+.if \\n[2colfmt]=2 \{\ 
+.vpt 0
+.SP_ABS \\n[WM]u-.5v
+\h'2.225i'\D'l 0 \\n[LW]u-\\n[fudge_factor]u'
+.vpt 1
+.nr 2colfmt 0
+.nr fudge_factor 0
+.NU\}
+.fl
+.po
+.ev
+.if \\n[cM] .CM pagebottom
+.vpt 1
+..
+.\" Sidebar box: singe-ruled, with header as $1
+.de SB1\"$1=title, $2=F for floating box $3=second part of title 
+.\" $4=S if sidebar is short
+.SP? \\n[sidebar_prespace]u+10p
+.nr float_me 0
+.nr boxtextindent 1P 
+.nr boxindent 0n
+.nr hastitle 0
+.if "\\$2"F" \{\
+.KF
+.LP
+.nr float_me 1
+.NU\}
+.br
+.di par*box-div
+.nr \\n[.ev]:li \\n[boxindent]u+\\n[boxtextindent]
+.nr \\n[.ev]:ri \\n[boxindent]u+\\n[boxtextindent]
+.ll \\n(LLu
+.if !"\\$1"" \{\
+.ce 10
+\&\s14\f[BI]\\$1\fR\s0
+.if !"\\$3"" \{\
+.sp 2p
+\s14\f[BI]\\$3\fR\s0
+.NU\}
+.ce
+.nr hastitle 1
+.if "\\$4"S" .nr hastitle 2
+.NU\}
+.ll
+.if "\\$1"" .SP! -1P
+.if !"\\$1"" .if "\\$4"" .SP! \\n[sidebar_title_postspace]u-15p SB1
+.ns
+.save_nr VS \\n[sidebar_VS] itemlist_PD \\n[sidebar_PD] orlist_PD \\n[sidebar_PD] varlist_PD \\n[sidebar_PD] QS_PD \\n[sidebar_PD]
+.par@reset
+..
+.de SB2 \"
+.ie '\\n(.z'par*box-div' \{\
+.	sp 1P
+.   br
+.	restore_nr VS itemlist_PD orlist_PD varlist_PD QS_PD
+.   di
+.   ds@need \\n[dn]
+.   par*box-mark-top
+.   ev nf
+.	rs
+.ie \\n[hastitle] \{\
+.	if "\\n[hastitle]"1" .SP? \\n[sidebar_title_prespace]u+1.5p
+.	if "\\n[hastitle]"4" .SP? \\n[sidebar_title_prespace]u+1.5p
+.	if "\\n[hastitle]"2" .SP? \\n[sidebar_short_title_prespace]u+1.5p
+.	if "\\n[hastitle]"3" .SP? \\n[sidebar_short_title_prespace]u+8.5p
+.NU\}
+.el .sp .5P
+.   par*box-div
+.   ev
+.   nr \\n[.ev]:ri -(\\n[boxindent]u+\\n[boxtextindent])
+.   nr \\n[.ev]:li -(\\n[boxindent]u+\\n[boxtextindent])
+.   par@finish
+.ps 7.5z
+.ie !"\\n[boxindent]"5000" .par*box-draw \\n[boxindent]u \\n[.l]u-\\n[boxindent]u
+.el .par*box-draw \\n[.i]u \\n[.l]u
+.ps
+.\}
+.el .@error B2 without B1
+.SP_reset
+.SP? \\n[sidebar_postspace]u+10p SB2
+.if \\n[float_me] .KE
+..
+.de reset_env_po
+.while \\n[.$] \{\
+.	ev \\$1
+.	po \\n[PO]u
+.	ev
+.	shift 1
+.NU\}
+..
+.de PartPage 
+.\" $1 is part number, $2 is name, $3 is continuation of name
+.book_setup
+.set_fmt_params
+.nr bT 0
+.par@finish
+.@error-recover	\" kill any diversions, keeps, nested environments (tmac.gs)
+.rs
+\&
+.if !\\n[nl]=\\n[HM] .bp
+.rs
+.if e .bp\" get to an odd-numbered page
+.nr ppnum \\$1
+.af ppnum I
+.ds starting_page \\n[PN]
+.ce 20
+.ps 18
+.ft TB
+.SP_ABS \\n[top_off_ext]u+\\n[hdr_vertoff_int]u+\\n[chap_img_off]u+.035i-2P
+\&PART \\n[ppnum]
+.br
+.ps 24 
+.vs 26
+.SP_ABS \\n[top_off_ext]u+\\n[hdr_vertoff_int]u+\\n[chap_img_off]u+.775i-7p
+.ft TBI
+.if !"\\$2"" \{\
+\\$2
+.br
+.NU\}
+.if !"\\$3"" \{\
+\\$3
+.br
+.NU\}
+.vs \\n(VSu
+.ft TR
+.ps \\n[PS]
+.ce 0
+.ad b
+.sp 38p
+.nr PS 10
+.nr VS 13
+.ie !"\\$3"" .dT .tC P \\$1 \\$2 \\$3 \\*[NN]
+.el .dT .tC P \\$1 \\$2 \\*[NN]
+.de BT	\" invoked from footer trap (see pg@top & pg*footer macros in tmac.gs)
+.ev pt
+.vpt 0
+.\".if \\n[bT] .if o .b0	\" invoke bleeding tabs, if any
+.MK_ABS &BT& 
+.ft R
+.ps 7.5z	\" so following \D line will be a hairline
+.SP_ABS \\n[top_off_ext]u+\\n[hdr_vertoff_int]u
+.\"\D'l \\n[LT]u 0'
+.ps
+.SP_ABS \\n[&BT&]u
+.vpt 1
+.fl
+.po
+.ev
+.if \\n[cM] .CM pagebottom
+\\..
+.de P
+.LP
+\\..
+..
+.de Ah	\" Ahead; $1 = head; $2 = second line of long Ahead
+.\" $3 Short version of long Ahead for running header only
+.Hd_start Ah \\n[Ah_need] \\n[Ah_prespace] \\n[Ah_ps] \\n[Ah_vs] \\*[Ah_ft] \\n[Ah_linelength]
+.if \\n[nH] .NHx 1
+.if r sE .if \\n[nH] .if \w'\\$1'>\\n[Ah_linelength] \{
+.	in \w'\\*[SNx]\0'u 
+.	ti -\w'\\*[SNx]\0'u
+.\}
+.if r sE .if \\n[nH] \\*[SNx]\0\c
+\&\\$1
+.br
+.if !\\$2 \{\
+.ie \\n[nH] \h\w'\\*[SNx]\0'u\&\\$2
+.el \&\\$2
+.NU\}
+.Hd_end Ah \\n[Ah_postspace]
+.if \\n[hD] \{\
+.	ds ahead_tmp
+.	if \\n[nH] .ds ahead_tmp \\*[SNx]\0\0
+.	as ahead_tmp \\$1
+.	if !\\$2 .as ahead_tmp \& \\$2
+.	dT .tC Ah "\\*[ahead_tmp]"
+.NU\} 
+.if !"\\$3"" .ds ahead_tmp \\$3
+..
+.de Dh  \" Dhead; $1 = head; $2 = second line of long Dhead
+.Hd_start Dh \\n[Dh_need] \\n[Dh_prespace] \\n[Dh_ps] \\n[Dh_vs] \\*[Dh_ft]
+.ie "\\$2"" \&\\$1\h'1m'\\c
+.el \&\\$1 \\$2\h'1m'\\c
+.ps \\n[PS]
+.ft R
+.ad b
+.de P
+.if \\n[sgml_on] .if \\n[widow_control_on] \{\
+.if \\\\n[pg@fn-flag] .nr wcon_off 1
+.nr pardef 0
+.nr in_par 1
+.if 2v+\\\\n[.V]u<\\\\n[.t] \{\
+.ie \\\\n[wcon_off] .ch WCD
+.el .if "\\\\n[.z]"" .wh -\\n[FM]u-2v-\\\\n[.V]u WCD
+.	NU\}
+.NU\}
+\\..
+.it 1 pardef_0
+..
+.de GL \"Glossary Term 
+.Nd 5
+.SP? \\n[gloss_term_prespace]u 
+.in 0
+.IP "\\*[gloss_term_font]\\$1\\*[/gloss_term_font]" \\n[gloss_def_indent]u
+..
+.de Au \"for attributions; takes three possible lines
+.sp 1P
+.ad r
+.ft I
+\\$1
+.if !"\\$2"" \{\
+.br
+\\$2
+.NU\}
+.if !"\\$3"" \{\
+.br
+\\$3
+.NU\}
+.ft
+.br
+.ad b
+..
+.\" To set the line size of footnotes correctly
+.\" It's important that fn@print-sep use up exactly fn@sep-dist vertical space.
+.de fn@print-sep
+.ev fn
+.in 0
+.vs \\n[fn@sep-dist]u
+.ps 7.5z
+\D'l 1i 0'
+.ps
+.br
+.ev
+..
+.\"
+.\" TABLE FOOTNOTES now little raised lc letters
+.ds j1 a 
+.ds j2 b 
+.ds j3 c 
+.ds j4 d 
+.ds w0 a.
+.ds w1 b.
+.ds w2 c.
+.ds w3 d.
+.ds = \\*[par@sup-start]\E*(j\\n+[stfct]\\*[par@sup-end]\"XX pick one of the footnote symbols
+.ds =a \*[par@sup-start]a\*[par@sup-end]\"XX pick one of the footnote symbols
+.ds =b \*[par@sup-start]b\*[par@sup-end]\"XX pick one of the footnote symbols
+.ds =c \*[par@sup-start]c\*[par@sup-end]\"XX pick one of the footnote symbols
+.ds =d \*[par@sup-start]d\*[par@sup-end]\"XX pick one of the footnote symbols
+.ds - \\*[par@sup-start]\E*(j\\n[stfct]\\*[par@sup-end]\"XX pick one of the footnote symbols
+.\" for toc boxes since 8/14/95: new space spec
+.de chaptoc_sp
+.sp 2p
+..
+.\" NOW THE REAL QUICKREF MACROS and THEIR DEPENDENTS; need NP and BT
+.\" and PF stuff as well, or their equivalents
+.nr PAD .125i	\" Padding between text on either side of vertical line
+.de poll	\" poll = reset po and ll as appropriate
+.ie \\n[cmdft]=1\{\
+.	ll \\n(LLu-(\\n[GUTW]u+\\n[PAD]u)
+.	ie e .po \\n(POu+\\n[GUTW]u+\\n[PAD]u
+.	el .po \\n(POu
+.\}
+.el\{\
+.	ll \\n(LLu
+.	po \\n(POu\}
+..
+.de CL		\" CL = Command line format.  
+.	\" $1=string means it will take string as longest string and
+.	\" set gutter width accordingly.  
+.	\" $1=0 turns off command mode.
+.	\" $2=gutter width if $1=""
+.SP? 1v CL
+.ie "\\$1"0" \{\
+.	nr cmdft 0
+.	poll
+.	ds EVert \h'|\\n[GUTW]u'\v'-.7n'\s'7.5z'\L'|(\\\\n[WM]u+3u)'\s0
+.	ds OVert \h'|(\\n[LL]u-\\n[GUTW]u)'\v'-.7n'\s'7.5z'\L'|(\\\\n[WM]u+3u)'\s0
+.	ie o .tl \&\s'7.5z'\l'\\n(LTu'\\*[OVert]\s0
+.	el .tl \&\s'7.5z'\l'\\n(LTu'\\*[EVert]\s0
+.	rm EVert OVert
+.	rm CURRENT
+.NU\}
+.el \{\
+.	MK_ABS WM\" WM = high Water Mark for drawing vertical line
+.	nr cmdft 1	\" cmdft is toggle, 1= in command mode, 0= reset
+.			\" GUTW is gutter width during command mode
+.	ie !"\\$1"" .nr GUTW \\w'\s[10]\f[TB]\\$1\fP\s0'u+\\n[PAD]u
+.	el \{\
+.		ie "\\$2""\{\
+.			tm CL has no arg (assuming 1i) 
+.			nr GUTW 1i+\\n[PAD]u\}
+.		el .nr GUTW \\$2+\\n[PAD]u
+.	\}
+.			\" EVert and OVert are Even and Odd Vertical lines,
+.			\" implemented as strings in a TL by footer and CL 0.
+.	ds EVert \h'|\\n[GUTW]u'\v'-.7n'\s'7.5z'\L'|\\\\n[WM]u-5u'\s0
+.	ds OVert \h'|(\\n[LL]u-\\n[GUTW]u)'\v'-.7n'\s'7.5z'\L'|\\\\n[WM]u-5u'\s0
+.\}
+.poll
+.nr FIRST 1
+..
+.de IL		\" Command line item.
+.ne 4
+.rm CURRENT
+.poll
+.in 0
+.ll \\n[LL]u
+.if "\\$1"" .ig ++
+.\".if "\\$1"NOREPEAT" .ds command_name \\$2
+.\".if !"\\$1"NOREPEAT" .ds command_name \\$1
+.++
+.ie o \{\
+.if \\n[syn_num] .ig ++
+.	ie \\n(.t<=522000 \s'7.5z'\l'\\n[LL]u'\s0
+.	el .if \\n[FIRST]=1 \s'7.5z'\l'\\n[LL]u'\s0
+.sp .5
+.++
+.	ll \\n(LLu
+.	ad r
+.\".ie "\\$1"NOREPEAT" \&\s[10]\f[TB]\&\\$2\f[TR]\s0
+.\".el \&\s[10]\f[TB]\&\\$1\f[TR]\s0
+.ie !\\n[syn_num] \&\s[10]\f[TB]\&\\*[command_name]\f[TR]\s0
+.\".el .sp 1v
+.el .sp .5v
+.	br
+.	ad b
+.NU\}
+.el \{\
+.if \\n[syn_num] .ig ++
+.	ie \\n(.tu<=522000u \h'|-(\\n[GUTW]u+\\n[PAD]u)'\s'7.5z'\l'\\n(LLu'\s0\" ditto
+.	el .if \\n[FIRST]=1 \h'|-(\\n[GUTW]u+\\n[PAD]u)'\s'7.5z'\l'\\n(LLu'\s0
+.	sp .5
+.++
+.	ad l
+.	br
+.\".ie "\\$1"NOREPEAT" \h'|-(\\n[GUTW]u+\\n[PAD]u)'\&\s[10]\f[TB]\&\\$2\f[TR]\s0
+.\".el \h'|-(\\n[GUTW]u+\\n[PAD]u)'\&\s[10]\f[TB]\&\\$1\f[TR]\s0
+.ie !\\n[syn_num] \h'|-(\\n[GUTW]u+\\n[PAD]u)'\&\s[10]\f[TB]\&\\*[command_name]\f[TR]\s0
+.\".el .sp 1v
+.el .sp .5v
+.	ad b
+.NU\}
+.nr FIRST 0
+.ds rh_command \\*[command_name]
+.br
+.poll
+.sp -1
+.if "\\$1"" .sp -.5v
+.if "\\$1"" .ig ++
+.ie "\\$1"NOREPEAT" \&\s[10]\\f2\\$3 \\$4 \\$5 \\$6 \\$7 \\$8 \\$9 \\$(10 \\$(11 \\$(12 \\$(13 \\$(14\f[TR]\s0
+.el \&\s[10]\f[TB]\\$1\f[TR] \\f2\\$2 \\$3 \\$4 \\$5 \\$6 \\$7 \\$8 \\$9 \\$(10 \\$(11 \\$(12 \\$(13 \\$(14\f[TR]\s0
+.sp .5
+.++
+.\".ie "\\$1"NOREPEAT" .ds CURRENT \\$2
+.\".el .ds CURRENT \\$1
+.ds CURRENT \\*[command_name]
+.nr syn_num +1
+..
+.als HL IL
+.de JL		\" Same as HL and IL, except args are not italic, but bold 
+.rm CURRENT
+.poll
+.in 0
+.ne 4
+.ll \\n[LL]u
+.ie o \{\
+.	ie \\n(.t<=522000 \s'7.5z'\l'\\n[LL]u'\s0
+.	el .if \\n[FIRST]=1 \s'7.5z'\l'\\n[LL]u'\s0
+.	sp .5
+.	ll \\n(LLu
+.	ad r
+.ie "\\$1"NOREPEAT" \&\s[10]\f[TB]\&\\$2\f[TR]\s0
+.el \&\s[10]\f[TB]\&\\$1\f[TR]\s0
+.	br
+.	ad b
+.NU\}
+.el \{\
+.	ie \\n(.tu<=522000u \h'|-(\\n[GUTW]u+\\n[PAD]u)'\s'7.5z'\l'\\n(LLu'\s0\" ditto
+.	el .if \\n[FIRST]=1 \h'|-(\\n[GUTW]u+\\n[PAD]u)'\s'7.5z'\l'\\n(LLu'\s0
+.	sp .5
+.	ad l
+.	br
+.ie "\\$1"NOREPEAT" \h'|-(\\n[GUTW]u+\\n[PAD]u)'\&\s[10]\f[TB]\&\\$2\f[TR]\s0
+.el \h'|-(\\n[GUTW]u+\\n[PAD]u)'\&\s[10]\f[TB]\&\\$1\f[TR]\s0
+.	ad b
+.NU\}
+.nr FIRST 0
+.br
+.poll
+.sp -1
+.\".ie "\\$1"NOREPEAT" \&\s[10]\\f2\\$3 \\$4 \\$5 \\$6 \\$7 \\$8 \\$9\\f[TR]\s0
+.\".el \&\s[10]\f[TB]\\$1 \\$2 \\$3 \\$4 \\$5 \\$6 \\$7 \\$8 \\$9\\f1\s0
+.ie "\\$1"NOREPEAT" \&\s[10]\\f2\\$3 \\$4 \\$5 \\$6 \\$7 \\$8 \\$9 \\$(10 \\$(11\f[TR]\s0
+.el \&\s[10]\f[TB]\\$*\\f1\s0
+.sp .5
+.ie "\\$1"NOREPEAT" .ds CURRENT \\$2
+.el .ds CURRENT \\$1
+..
+.de FAK
+.IL NOREPEAT \\$@
+..
+.de syn \"allows for additional synopsis line under IL
+.sp -.5
+\&\s[10]\\f2\\$1 \\$2 \\$3 \\$4 \\$5 \\$6 \\$7 \\$8 \\$9 \\$(10 \\$(11 \\$(12 \\$(13 \\$(14\f[TR]\s0
+.sp .5
+..
+.de Sl 		\"Does this stand for "syntax line"?
+.in 0
+.ne 3
+.SP? 17p 
+\&\s9\f[TBI]\\$1 \\$2 \\$3 \\$4\f[TR]\s0
+.\".sp .15v
+.SP? 17p Sl
+.\".in 3n
+.ns
+..
+.de Sm 		\"Does this stand for "syntax line"?
+.in 0
+.ne 3
+.SP? 17p 
+\&\s9\f[TB]\\$1 \\$2 \\$3 \\$4\f[TR]\s0
+.SP? 17p Sm
+.in 3n
+.ns
+..
+.de IF		\" Conditional macro as dreamed by Stevet.  
+.ie "\\$1"ATT" .nr TYPE 1
+.el .ie "\\$1"BSD" .nr TYPE 2
+.	el .nr TYPE \\$1
+.if \\n[TYPE]=1 .if \\nV=2 .ig FI
+.if \\n[TYPE]=2 .if \\nV=1 .ig FI
+..
+.nr OLin 10n
+.nr OLne 2
+.ig ++
+.\" seems to be producing old space bug for IP's
+.de OL      \" option line; new version hacked by Len/Christoph
+.\".sp 5p \"changed from above according to spec from Edie 2/27/97
+.SP? 15p OL
+.nr argdiff \\n[OLin]-\w'\f[TB]\\$1\f[TR]'
+.in \\n[OLin]u
+.ti -\\n[OLin]u
+.if \\n[OLne] .ne \\n[OLne]
+.ie \\n[argdiff]>1n \f[TB]\&\\$1\f[TR]\h'\\n[argdiff]u'\c
+.el \{\f[TB]\&\\$1\f[TR]
+.br \}
+..
+.++
+.de OL
+.SP? 15p OL
+.in .25i+\\n[OLin]u
+.if \\n[OLne] .ne \\n[OLne]
+.if !'\\$1'' \{\
+.	\" Divert the label so as to freeze any spaces.
+.	di par*label
+.	par*push-tag-env
+\&\f[TB]\\$1\f[TR]
+.	par*pop-tag-env
+.	di
+.	chop par*label
+.	ti -\\n[OLin]u
+.	ie \\n[dl]+1n<=\\n[OLin] \\*[par*label]\h'|\\n[OLin]u'\c
+.	el \{\
+\\*[par*label]
+.	br
+.	\}
+.	rm par*label
+.\}
+..
+.de IOL  	\" indented option line
+.lg 0
+.\".sp .15v
+.SP? 15p IOL 
+.in \\n[OLin]u 
+.if \\n[OLne] .ne \\n[OLne]
+.fam C
+.ft CR
+.ps 8
+.nr par_ind 3n 
+.nr arg_width \w'\\$1'
+\&\\$1\f[TR]
+.ps \\n[PS] 
+.fam T
+.ft TR
+.in \\n[OLin]u+3n
+.lg
+.if \\n[arg_width]u<=(\\n[par_ind]) .sp -1
+..
+.de pg*start-col
+.\" Handle footnote overflow before floating keeps, because the keep
+.\" might contain an embedded footnote.
+.if \\n[wcon_off] .nr wcon_off 0
+.ns
+.fn@top-hook
+.fig@top-hook
+.kp@top-hook
+.tbl@top-hook
+.exp@top-hook
+.cmd@top-hook
+.ns
+..
+.de cmd@top-hook \"quickref macros
+.ev pt
+.if "\\*[flag]"on" .ds HI\"no continued syntax after As/Ae block
+.if !"\\*(HI"" .if e \{\
+.rs
+.in 0
+\s9\f[TBI]\\*(HI\fP\s0
+.br
+\(<-
+.sp 1.5v-6p 
+.ad b
+.in
+.NU\}
+.if \\n[cmdft]=1 \{\
+.MK_ABS WM
+.tl \s'7.5z'\l'\\n(LLu'\s0
+.	poll
+.sp 3p
+.\}
+.if !"\\*[CURRENT]"" \{\
+.nr saved_po \\n[.o]
+.po
+'in 0
+.\"'	sp .3
+.	ie e \{.tl \s[10]\f[TB]\\*[CURRENT]\fP\s0
+.		tl \v'-4p'\(<-\v'4p'
+'		sp -2\}
+.	el \{.tl \s[10]\f[TB]\\*[CURRENT]\fP\s0
+'	sp -1\}
+.po \\n[saved_po]u
+.	\}
+.if \\n[2colfmt]=1 .MK_ABS WM
+.ev
+..
+.de Sy \" Syntax line
+.ne 2
+.\".sp .7
+.SP? 17p Sy
+.na
+.in +10n \" these two ensure successive-line auto indent
+.ti -10n
+.ps 9
+.vs 11
+.nr pF \\n(.f  \" Save current font
+.fam C
+.ft CR		\" Unconditional font change
+.nh		\" Function args shouldn't hyphenate
+.br
+..
+.de As \" Argument start [THIRD]
+.\".SP?  As
+.sp -.5v
+.ps 10
+.nr pF \\n(.f  \" Save current font
+.ft CR		\" Unconditional font change
+.rm flag \" Test for HI string on continued page
+.nf
+..
+.de Ae \" Argument end
+.ft \\n(pF
+.ds flag on\" Test for HI string on continued page
+.fi
+.ft R
+.ad b
+.\".sp .5
+.SP? .25i Ae
+.fam T
+..
+.de Nz\"Desperate attempt to shut off erroneous HI flags
+.ds HI
+.lg
+.fam T
+..
+.de Na \" $1 = Name ;  $2 = Category;  $3 = flag: Xlib or Xt
+.ds ahead_tmp \f2\\$1\fP
+.\" Unset previous command name (for continuation):
+.\".ds HI
+.in 0
+.ad b
+.hy 14
+.sp 1
+.Nd 5	\" Keep command in reasonable block
+.RT
+.na
+.lg 0
+.if \\n(nlu>250u \{\
+.\"if we're not close to the top, draw line
+\s'7.5z'\l'\\n(LLu'\s0
+.sp .5v
+.NU\}
+.\" Set current command name (for continuation):
+.ds HI \\$1
+.\" Set heading:  
+.ta \\n(LLuR
+\\f[TBI]\s12\\$1\t\s9\\$2\\fR
+.lg
+.ps \\n(PS
+.vs \\n(VS
+.\".sp 12p
+.SP? 12p Na
+.ad b
+.\" Define toc entry
+.tC "" "\\$1" Bh
+..
+.de BLANK \"outputs LAST BLANK PAGE ONLY, without headers/footers
+.if \\n[keepingfig] \{\
+.br
+\&\c
+'	bp
+.	pg@top
+.NU\}
+.de PT
+.if \\n[cM] .CM pagetop
+\\..
+.bp
+\&
+.de BT
+.if \\n[cM] .CM pagebottom
+\\..
+..
+.de par@reset
+.br
+.ce 0
+.rj 0
+.ul 0
+.fi
+.ie \\n[pg@ncols]>1 \{\
+.	ll (u;\\n[\\n[.ev]:MCLL]-\\n[\\n[.ev]:ri]-\\n[\\n[.ev]:pri])
+.	lt \\n[\\n[.ev]:MCLT]u
+.\}
+.el \{\
+.	ll (u;\\n[\\n[.ev]:LL]-\\n[\\n[.ev]:ri]-\\n[\\n[.ev]:pri])
+.	lt \\n[\\n[.ev]:LT]u
+.poll
+.\}
+.in (u;\\n[\\n[.ev]:li]+\\n[\\n[.ev]:pli])
+.ft 1
+.fam \\*[FAM]
+.ps \\n[\\n[.ev]:PS]
+.par*vs \\n[\\n[.ev]:VS]
+.ls 1
+.TA
+.hy \\n[HY]
+..
+.de @RS
+.br
+.nr \\n[.ev]:li!\\n[\\n[.ev]:il] \\n[\\n[.ev]:li]
+.nr \\n[.ev]:ri!\\n[\\n[.ev]:il] \\n[\\n[.ev]:ri]
+.nr \\n[.ev]:ai!\\n[\\n[.ev]:il] \\n[\\n[.ev]:ai]
+.nr \\n[.ev]:pli!\\n[\\n[.ev]:il] \\n[\\n[.ev]:pli]
+.nr \\n[.ev]:pri!\\n[\\n[.ev]:il] \\n[\\n[.ev]:pri]
+.nr \\n[.ev]:il +1
+.nr \\n[.ev]:li +\\n[\\n[.ev]:ai]
+.nr \\n[.ev]:ai \\n[\\n[.ev]:PI]
+.if \\n[cmdft]=0 .par@reset
+..
+.de @RE
+.br
+.ie \\n[\\n[.ev]:il] \{\
+.	nr \\n[.ev]:il -1
+.	nr \\n[.ev]:ai \\n[\\n[.ev]:ai!\\n[\\n[.ev]:il]]
+.	nr \\n[.ev]:li \\n[\\n[.ev]:li!\\n[\\n[.ev]:il]]
+.	nr \\n[.ev]:ri \\n[\\n[.ev]:ri!\\n[\\n[.ev]:il]]
+.	nr \\n[.ev]:pli \\n[\\n[.ev]:pli!\\n[\\n[.ev]:il]]
+.	nr \\n[.ev]:pri \\n[\\n[.ev]:pri!\\n[\\n[.ev]:il]]
+.\}
+.el .@error unbalanced \\$0
+.if \\n[cmdft]=0 .par@reset
+..
+.ds litquo \&"
+.de ev_cw_init	\" initialize constant-width environment (screen displays)
+.EV cw
+.ft R\"always reset font to Roman; don't keep stack across ev's
+.ie !"\\$2"" .ps \\$2z
+.el .ps \\n[Ps_ps]z				\" set point size
+.vs \\n[Ps_vs]u			\" set vertical line spacing
+.ie "\\$1"0u" .in 0
+.el .in +\\$1n 
+.ll \\n[LL]u				\" set line length
+'nf
+..
+.de Ps	\" start screen display; $1 = indent (other than default)
+.br
+.ie !"\\$1"" .nr tmp_Ps (n;\\$1)
+.el .nr tmp_Ps \\n[Ps_indent]+\\n[.i]
+.ev_cw_init \\n[tmp_Ps]u
+.ne 2
+.SP? \\n[Ps_prespace]u Ps
+.ns
+.lg 0
+..
+.de Pe  \" screen display end
+.lg
+.fl
+.in
+.EV
+.ie "\\$1"0" .NU
+.el  .SP? \\n[Pe_postspace]u Pe
+..
+.\" ############ FOOTNOTES
+.nr fn@sep-dist 17p 
+.ev fn
+.\" Round it vertically
+.vs \n[fn@sep-dist]u
+.nr fn@sep-dist \n[.v]
+.ev
+.de par*fp!4
+.@PP
+\&\\*[f\\$1]\h'1n'\c
+..
+.de par*fp!4-no
+.@PP
+\&\\$1\h'1n'\c
+..
+.am par@init \" because FL=LL in fn defaults to 5/6th of LL
+.nr FL \\n[body_width]u
+.nr FPS 7 
+.nr FVS \\n[FPS]+1.5
+.nr FI 0
+..
+.de ILNN		\" Command line item, no need.
+.rm CURRENT
+.poll
+.in 0
+.\".ne 4
+.ll \\n[LL]u
+.ie o \{\
+.	ie \\n(.t<=522000 \s'7.5z'\l'\\n[LL]u'\s0
+.	el .if \\n[FIRST]=1 \s'7.5z'\l'\\n[LL]u'\s0
+.	sp .5
+.	ll \\n(LLu
+.	ad r
+.ie "\\$1"NOREPEAT" \&\s[10]\f[TB]\&\\$2\f[TR]\s0
+.el \&\s[10]\f[TB]\&\\$1\f[TR]\s0
+.	br
+.	ad b
+.NU\}
+.el \{\
+.	ie \\n(.tu<=522000u \h'|-(\\n[GUTW]u+\\n[PAD]u)'\s'7.5z'\l'\\n(LLu'\s0\" ditto
+.	el .if \\n[FIRST]=1 \h'|-(\\n[GUTW]u+\\n[PAD]u)'\s'7.5z'\l'\\n(LLu'\s0
+.	sp .5
+.	ad l
+.	br
+.ie "\\$1"NOREPEAT" \h'|-(\\n[GUTW]u+\\n[PAD]u)'\&\s[10]\f[TB]\&\\$2\f[TR]\s0
+.el \h'|-(\\n[GUTW]u+\\n[PAD]u)'\&\s[10]\f[TB]\&\\$1\f[TR]\s0
+.	ad b
+.NU\}
+.nr FIRST 0
+.br
+.poll
+.sp -1
+.ie "\\$1"NOREPEAT" \&\s[10]\\f2\\$3 \\$4 \\$5 \\$6 \\$7 \\$8 \\$9 \\f[TR]\s0
+.el \&\s[10]\f[TB]\\$1\f[TR] \\f2\\$2 \\$3 \\$4 \\$5 \\$6 \\$7 \\$8 \\$9\\f1\s0
+.sp .5
+.ie "\\$1"NOREPEAT" .ds CURRENT \\$2
+.el .ds CURRENT \\$1
+..
+.de Rsl
+.if "\\$1"1" .nr list_indent_outer .25i 
+.if "\\$1"2" .nr list_indent_outer .5i 
+.if "\\$1"3" .nr list_indent_outer .75i 
+..
+.de Lsl
+.rr list_indent_outer
+..
+.char \[smile] \v'1p'\X'ps: import /work/dict/sgml/hifigs/ct.smiley.eps 0 0 11 11 10000'\v'-1p'\h'.15i'
+.char \[smallsmile] \v'1p'\X'ps: import /work/dict/sgml/hifigs/ct.smiley.eps 0 0 5 5 4000'\v'-1p'\h'.15i'
+.char \[tinysmile] \v'1p'\X'ps: import /work/dict/sgml/hifigs/ct.smiley.eps 0 0 2 2 1500'\v'-1p'\h'.15i'
+.lphyph

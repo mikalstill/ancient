@@ -1,0 +1,679 @@
+#!/usr/bin/perl5 -- # -*- Perl -*-
+#
+# Body of gmat SGML filter
+#
+# Note: this script uses its base name ($0) to select what kind of
+#       filtering is to be performed.  Filter-specific code is
+#       loaded on top of this "filter driver" file.
+#
+# $Id: dbtotexi,v 1.1.1.1 2002-07-15 21:33:31 root Exp $
+#
+#
+
+use vars qw($PROGNAME $VERSION);
+
+$BASEVERS   = "0.1";
+$RCS_ID     = '$Id: dbtotexi,v 1.1.1.1 2002-07-15 21:33:31 root Exp $'; # '
+
+($PATCHLEVEL= $RCS_ID) =~ s/^.Id: \S+ \d+\.(\d+) .*$/$1/;
+$VERSION    = "$BASEVERS patchlevel $PATCHLEVEL";
+$EXECDIR    = ".";
+$EXECDIR    = $1 if $0 =~ /^(.*)\/[^\/]+$/;
+
+$PROGNAME   = $0;
+$PROGNAME   = $1 if $PROGNAME =~ /^.*\/([^\/]+)$/;
+$PROGNAME   = $1 if $PROGNAME =~ /^(.*)\.[^\.]+$/;
+
+######################################################################
+
+$FILTERCFG  = "$PROGNAME filter";
+
+########################################################################
+
+$ORALIBDIR = $ENV{"ORALIBDIR"} || "/usr/local/share/gmat/lib";
+push (@INC, $ORALIBDIR);
+
+$ORATOOLSRC = $ENV{'ORATOOLSRC'} || "$ORALIBDIR/oratoolsrc";
+
+########################################################################
+
+$TAGID = { };			# Stores <tag> IDs
+%TAGCOUNT = ();			# How many times have we xref'd this tag?
+$TAGID_CHANGE = 0;		# Have the tags changed?
+$TAGIDSEP = "\034";
+
+$WARN_NORMAL = "\033[0m";
+$WARN_UNDER  = "\033[4m";
+$WARN_REVVID = "\033[7m";
+
+$SIG{'INT'}  = 'sig_handler';
+$SIG{'KILL'} = 'sig_handler';
+$SIG{'HUP'}  = 'sig_handler';
+
+require 'longopts5.pl';
+require 'parsecfg5.pl';
+require 'commonlock5.pl';
+
+$WHOAMI =  $ENV{"USER"} || $ENV{"LOGNAME"} || "user";
+
+$cfg = &parsecfg($ORATOOLSRC);
+$cfg = &parsecfg("$ENV{HOME}/.oratoolsrc", $cfg);
+$cfg = &parsecfg("./.oratoolsrc", $cfg);
+
+########################################################################
+
+$rc = &Longopts ('s:r:Fo:J:jtvx:X:',
+		 '--verbose',
+		 '--rulesfile:',
+		 '--sdeclfile:',
+		 '--sgmls:',
+		 '--sgmls-options:',
+		 '--outfile:',
+		 '--dotfile',
+		 '--job:',
+                 '--nocrop',
+		 '--nojob',
+		 '--use-tty',
+		 '--no-update-bookids',
+		 '--hires',
+
+		 '--keep-sgmls-output:',
+		 '--use-sgmls-output:',
+
+		 '*verbose=v',
+		 '*rulesfile=r',
+		 '*sdeclfile=s',
+		 '*sgmls=X',
+		 '*sgmls-options=x',
+		 '*outfile=o',
+		 '*dotfile=F',
+		 '*job=J',
+		 '*nojob=j',
+		 '*use-tty=t');
+
+die "$0: bad command line arguments.\n" if (!$rc);
+
+########################################################################
+
+$BOOKFILES = $opt_J || &cfg($cfg, $PROGNAME, "bookfiles");
+$LOCKFILE  = "$BOOKFILES.lock";
+
+$VERBOSE   = $opt_v || &cfg($cfg, $PROGNAME, "verbose");
+
+# Load the bookfiles file so that we can test for local options in it...
+print STDERR "Loading $BOOKFILES..." if $VERBOSE;
+&set_lock($LOCKFILE);
+$bookfiles = &parsecfg($BOOKFILES);
+print STDERR "done...\n" if $VERBOSE;
+&unset_delete_lock($LOCKFILE);
+
+$BOOKIDS     = (&cfg($bookfiles, "$PROGNAME filter", 'bookids')
+		|| &cfg($cfg, $PROGNAME, 'bookids')
+		|| "BOOKIDS");
+
+$RULES       = ($opt_r 
+		|| &cfg($bookfiles, "$PROGNAME filter", 'rules')
+		|| &cfg($cfg, $PROGNAME, 'rules'));
+
+$LOCAL_RULES = &cfg($bookfiles, "$PROGNAME filter", 'local-rules');
+
+$LOCAL_ENTITIES = &cfg($bookfiles, "$PROGNAME filter", 'local-entities');
+
+$SDECL_FILE  = ($opt_s 
+		|| &cfg($bookfiles, "$PROGNAME filter", 'sdecl')
+		|| &cfg($cfg, $PROGNAME, 'sdecl'));
+
+$SGMLS       = $opt_X || &cfg($cfg, $PROGNAME, "sgmls");
+
+$PARALLEL_FILTER = (&cfg($bookfiles, "$PROGNAME filter", 'parallel-filter')
+		    || &cfg($cfg, $PROGNAME, 'parallel-filter'));
+
+$ZCAT        = &cfg($cfg, $PROGNAME, "zcat") || "gzcat";
+$CRLF        = &cfg($cfg, $PROGNAME, "crlf") || "crlf";
+
+$SGMLS_OPTS  = $opt_x || &cfg($cfg, $PROGNAME, "sgmls_opts");
+$SGMLS_ERRS  = &cfg($cfg, $PROGNAME, "sgmls_errs") || "/tmp/gmatsgml.$$";
+
+$SGML_PATH   = $ENV{"SGML_PATH"} || &cfg($cfg, $PROGNAME, "sgml_path");
+$ENV{"SGML_PATH"} = $SGML_PATH;
+
+$SGML_CATALOG_FILES = ($ENV{"SGML_CATALOG_FILES"} 
+		       || &cfg($cfg, $PROGNAME, "sgml_catalog_files") 
+		       || "./CATALOG:/usr/local/share/gmat/sgml/CATALOG");
+$ENV{"SGML_CATALOG_FILES"} = $SGML_CATALOG_FILES;
+
+$SOURCE      = $ARGV[0];
+$OUTPUT      = $opt_o || "&STDOUT";
+$DOT_FILE    = !$opt_F;
+
+if ($SOURCE =~ /^(.*)\/([^\/]+)$/) {
+    $SOURCE_PATH = $1;
+    $SOURCE_FILE = $2;
+} else {
+    $SOURCE_PATH = ".";
+    $SOURCE_FILE = $SOURCE;
+}
+
+########################################################################
+
+&check_config();
+&update_path();
+
+########################################################################
+
+select(STDERR); $| = 1;
+select(STDOUT);
+
+print STDERR "$PROGNAME version $VERSION.\n" if $VERBOSE;
+
+require "$EXECDIR/$PROGNAME.sup";
+require "./$PROGNAME.sup" if -f "./$PROGNAME.sup";
+require "./$PROGNAME/$PROGNAME.sup" if -f "./$PROGNAME/$PROGNAME.sup";
+
+require "$EXECDIR/$PROGNAME.cls";
+require "./$PROGNAME.cls" if -f "./$PROGNAME.cls";
+require "./$PROGNAME/$PROGNAME.cls" if -f "./$PROGNAME/$PROGNAME.cls";
+
+########################################################################
+
+&load_rules ($RULES, $LOCAL_RULES);
+
+&load_ids (1, 0);
+
+&generate_tag_instances ();
+
+$parser = new SGML_PARSER;
+&run_sgmls($parser);
+
+open (FORMATTER, ">$OUTPUT");
+
+$markup = new MARKUP_OBJECT;
+$markup->output_filehandle ("main::FORMATTER");
+$ROOT->markup($markup);
+close (FORMATTER);
+
+&handle_sgmls_errors();
+
+&update_ids () if !$opt_no_update_bookids;
+
+&WARNING("Warning: Cross-referencing tags may have changed.\n")
+    if $TAGID_CHANGE;
+
+if (!$SGMLS_OK) {
+    exit 1;
+} else {
+    exit 0;
+}
+
+########################################################################
+
+sub load_tags {
+    my($tagfile) = @_;
+    my($count) = 0;
+    my($key, $ref);
+
+    open (TAGS, $tagfile) || die "Cannot open rules file: $tagfile\n";
+    while (<TAGS>) {
+	my($sgml, $troff);
+	chop;
+	next if /^\s*\#/;
+	next if /^\s*$/;
+
+	if (/^\s*(\S+)\s+\"(.*)\"\s*$/) {
+	    $count++;
+	    $sgml = $1;
+	    $troff = $2;
+	    $when = "";
+	} elsif (/^\s*(\S+)\s+(.*)\s*$/) {
+	    $count++;
+	    $sgml = $1;
+	    $troff = $2;
+	    $when = "";
+	} else {
+	    warn "Unexpected line: $_\n";
+	    next;
+	}
+
+	if ($troff =~ /^(.*) when (.*)$/i) {
+	    $when = $2;
+	    $troff = $1;
+	}
+
+	$troff = "" if $troff eq "(NOP)";
+	
+	if ($sgml =~ /^\&/) {
+	    $troff = $1 if $troff =~ /^\"(.*)\"$/;
+	    $ENTITIES{"$sgml"} = $troff;
+	} else {
+	    $sgml =~ tr/a-z/A-Z/;
+	    $TAGS{$sgml} = 1;
+
+	    if (!($ref = $WHENTREE{$sgml})) {
+		$ref = {};
+		$WHENTREE{$sgml} = $ref;
+	    }
+	    
+	    if ($when) {
+		my(@w, $w);
+
+		$when = $1 if ($when =~ /^[\s,]*(.*)[\s,]*$/);
+		$when =~ s/\s+//g;
+		@w = split(/,/, $when);
+
+		foreach $w (@w) {
+		    if (defined($ref->{$w})) {
+			$ref = $ref->{$w};
+		    } else {
+			$ref->{$w} = {};
+			$ref = $ref->{$w};
+		    }
+		}
+	    }
+
+	    $ref->{"*tag"} = $troff;
+	}
+    }
+    close (TAGS);
+
+    foreach $key (keys %WHENTREE) {
+	$ref = $WHENTREE{$key};
+	if (join("", keys %$ref) eq "*tag") {
+	    $WHENTREE{$key} = $ref->{'*tag'};
+	}
+    }
+
+    $count;
+}
+
+sub ispackage {
+    my($package) = @_;
+    my(@thekeys, $keycount);
+    local(*stab);
+
+    eval "\*stab = \*{\"${package}::\"}";
+    @thekeys = keys %stab;
+
+    # get around bug in perl5b3
+    $keycount = $#thekeys;
+
+    return $keycount+1;
+}    
+
+sub isa {
+    my($obj, $class) = @_;
+    my($ref) = ref $obj;
+    my(@isa, @pisa, %parents);
+    my($found) = 0;
+
+    while ($ref && !$found) {
+	$parents{$ref} = 1;
+	$found = 1 if $ref eq $class;
+
+	eval "\@isa = \@${ref}::ISA";
+	push (@pisa, @isa);
+	while ($ref && defined($parents{$ref})) {
+	    undef $ref;
+	    $ref = shift @pisa;
+	}
+    }
+
+    $found;
+}	
+
+sub in {
+    local($member, @array) = @_;
+    local($m);
+
+    foreach $m (@array) {
+	return 1 if $m eq $member;
+    }
+
+    0;
+}
+
+sub check_config {
+    local(@vars) = ("bindir", "workdir", "seddir", "bookfiles", 
+		    "sdecl", "sgmls", "sgmls_opts",
+		    "sgml_path", "bookids");
+    local($var, $err);
+
+    $err = 0;
+    foreach $var (@vars) {
+	if (!&cfg_defined($cfg, $PROGNAME, "$var")) {
+	    warn "$0: \"$PROGNAME $var\" not configured.\n";
+	    $err++;
+	}
+    }
+
+    exit 1 if $err;
+}
+
+sub update_path {
+    local($PATH, $path);
+
+    $PATH = &add_path_element($ENV{"PATH"}, &cfg($cfg, $PROGNAME, "bindir"));
+    $PATH = &add_path_element($PATH, &cfg($cfg, $PROGNAME, "workdir"));
+
+    $ENV{"PATH"} = $PATH;
+}
+
+sub add_path_element {
+    local($PATH, $path) = @_;
+
+    $PATH = "$path:$PATH"
+	if ($PATH !~ /:$path:/ 
+	    && $PATH !~ /^$path:/
+	    && $PATH !~ /:$path$/);
+
+    $PATH;
+}
+
+sub process_sgmls_errors {
+    my($file) = @_;
+    my($errcount, $warncount) = (0, 0);
+    my($missend) = 0;
+
+    open (SGMLS_ERRORS, "$file");
+    while (<SGMLS_ERRORS>) {
+	chop;
+
+	if (/^[^:]+:\d+:\d+:W: /) {
+	    $warncount++;
+	    next;
+	}
+
+	print "*" x 72, "\n" if $errcount == 0;
+
+	if (/^^(.*):(\d+):(\d+):E: general entity \`([^\']+)\' not defined/) {
+	    my($file, $line, $col, $ent) = ($1, $2, $3, $4);
+	    if ($file =~ /^drv-/) {
+		print "&$ent; undefined; ";
+	    } else {
+		print "&$ent; in $file (line $line) undefined; ";
+	    } 
+	    print "check $LOCAL_ENTITIES.\n";
+	    $missend = 0;
+	    $errcount++;
+	} elsif (/^(.*):(\d+):(\d+):E: end tag for \`([^\']+)\' omitted/) {
+	    my($file, $line, $col, $tag) = ($1, $2, $3, $4);
+	    if ($file =~ /^drv-/) {
+		print "Missing end tag: </$tag>\n";
+	    } else {
+		print "Missing end tag in $file (line $line): </$tag>\n";
+	    }
+	    $missend = 1;
+	    $errcount++;
+	} elsif (/^(.*):(\d+):(\d+):E: element \`([^\']+)\' not allowed here/) {
+	    my($file, $line, $col, $tag) = ($1, $2, $3, $4);
+	    if ($file =~ /^drv-/) {
+		print "Element <$tag> occurs where it isn't allowed.\n";
+	    } else {
+		print "Element <$tag> occurs where it isn't allowed in $file (line $line).\n";
+	    }
+	    print "     Have you tried validating this document in Emacs?\n";
+	    $missend = 0;
+	    $errcount++;
+	} elsif (/: start tag was here/ && $missend) {
+	    $missend = 0;
+	} else {
+	    print "$_\n";
+	    $missend = 0;
+	    $errcount++;
+	}
+    }
+
+    if ($errcount > 0 || ($warncount > 0 && $VERBOSE)) {
+	my($ws, $es) = ('', '');
+
+	$ws = 's' if $warncount > 1;
+	$es = 's' if $errcount > 1;
+
+	print STDERR "$warncount SGML warning$ws, " if $warncount;
+
+	if ($errcount) {
+	    print STDERR "$errcount SGML error$es, ";
+	    &WARNING("DOCUMENT WILL NOT PRINT CORRECTLY!\n");
+	    print "*" x 72, "\n";
+	} else {
+	    print STDERR "no SGML errors.\n";
+	}
+    }
+    
+    return $errcount;
+}
+
+sub WARNING {
+    local($_) = join(" ", @_);
+
+    print STDERR "$WARN_REVVID$_$WARN_NORMAL";
+}
+
+sub load_rules {
+    my($rulefiles) = join(" ", @_);
+    my(@rules) = split(/\s+/, $rulefiles);
+    my($rulefile);
+
+    %ENTITIES = ();
+    %TAGS = ();
+    if (@rules) {
+	foreach $rulefile (@rules) {
+	    if (-r $rulefile) {
+		$rule_count = &load_tags($rulefile);
+		print STDERR "Read $rule_count rules from $rulefile.\n" 
+		    if $VERBOSE;
+	    }
+	}
+    }
+}
+
+sub load_ids {
+    my($lock, $onlynew) = @_;
+    my($vers) = 0;
+    my($id, @fields, $field, $value, $tag);
+    local($_, *F);
+
+    if (!defined($lock)) {
+	warn "INTERNAL ERROR: Invalid call to load_ids()!\n";
+	$lock = 0;
+	$onlynew = 1;
+    }
+
+    print STDERR "Loading $BOOKIDS..." if $VERBOSE;
+    $id_errs = 0;
+    &set_lock("$BOOKIDS.lock") if $lock;
+    if (open (F, "$BOOKIDS")) {
+	chop($_ = scalar(<F>));
+	if (!/\# bookids (\d+\.?\d*)\s*$/) {
+	    warn "Invalid $BOOKIDS file, ignored\n";
+	    close (F);
+	    &unset_delete_lock("$BOOKIDS.lock") if $lock;
+	    return;
+	} else {
+	    $vers = $1;
+	}
+
+	if ($vers == 0.1) {
+	    while (<F>) {
+		chop;
+		if (/^\s*(\S+)\s+(.*)\s*$/) {
+		    $id = $1;
+		    $_ = $2;
+
+		    next if $onlynew && defined($TAGID->{$id});
+
+		    $TAGID->{$id} = { };
+
+		    @fields = split(/$TAGIDSEP/, $_);
+
+		    $tag = $fields[0];
+
+		    if ($tag eq 'INDEXTERM') { # These are just WRONG in 0.1
+			delete($TAGID->{$id});
+			next;
+		    } elsif ($tag eq 'BIBLIOENTRY') {
+			$TAGID->{$id}->{'TAG'} = $fields[0];
+			$TAGID->{$id}->{'ENTRY-NUM'} = $fields[1];
+			$TAGID->{$id}->{'TYPE'} = $fields[2];
+			$TAGID->{$id}->{'SHORT-REF'} = $fields[3];
+			$TAGID->{$id}->{'TITLE'} = $fields[4];
+		    } else {
+			$TAGID->{$id}->{'TAG'} = $fields[0];
+			$TAGID->{$id}->{'CHP-NUM'} = $fields[1];
+			$TAGID->{$id}->{'SECT-NUM'} = $fields[2];
+			$TAGID->{$id}->{'RSECT-NUM'} = $fields[3];
+			$TAGID->{$id}->{'ITEM-NUM'} = $fields[4];
+			$TAGID->{$id}->{'TITLE'} = $fields[5];
+		    }
+		} else {
+		    print STDERR "\n$0: Invalid TAG line in database: $_";
+		    $id_errs++;
+		}
+	    }
+	} elsif ($vers == 0.2) {
+	    while (<F>) {
+		chop;
+		if (!/^$TAGIDSEP(.*)\s*$/) {
+		    print STDERR "\n$0: Invalid ID TAG line in database: $_";
+		    $id_errs++;
+		    next;
+		}
+		    
+		$id = $1;
+		$TAGID->{$id} = { } if !defined($TAGID->{$id});
+		$TAGID->{$id}->{'*LOADED'} = 1;
+
+		while (<F>) {
+		    last if /^\s*$/;
+
+		    if (!/^(\S+)=(.*)\s*$/) {
+			print STDERR "\n$0: Invalid TAG line in database: $_";
+			$id_errs++;
+			next;
+		    }
+
+		    $field = $1;
+		    $value = $2;
+
+		    next if $onlynew && defined($TAGID->{$id}->{$field});
+
+		    $TAGID->{$id}->{'*TOUCHED'} = 0;
+
+		    $value =~ s/\r/\n/g;
+		    $TAGID->{$id}->{$field} = $value;
+		}
+	    }
+	} else {
+	    warn "Cannot handle $BOOKIDS version $vers, ignored\n";
+	    close (F);
+	    last;
+	}
+
+	close (F);
+    }
+    &unset_delete_lock("$BOOKIDS.lock") if $lock;
+    print STDERR "\n" if $VERBOSE && $id_errs;
+    print STDERR "done.\n" if $VERBOSE;
+}
+
+sub update_ids {
+    my(@ids, @fields, $key, $field, $value);
+    my($sourcefile, $touched);
+    my(%touched_files) = ();
+
+    &set_lock("$BOOKIDS.lock");
+    &load_ids(0, 1);
+
+    print STDERR "Updating $BOOKIDS..." if $VERBOSE;
+    
+    open (F, ">$BOOKIDS.new");
+    print F "# bookids 0.2\n";
+
+    @ids = keys %{$TAGID};
+
+    foreach $key (@ids) {
+	$sourcefile = $TAGID->{$key}->{'SOURCEFILE'};
+	$touched    = $TAGID->{$key}->{'*TOUCHED'};
+
+#	print STDERR "Debug: $key, $sourcefile, $touched\n";
+
+	next if !defined($sourcefile) || ($sourcefile eq "");
+	$touched_files{$sourcefile} = 1 if $touched;
+    }
+
+    foreach $key (sort @ids) {
+	next if $TAGID->{$key}->{'TAG'} eq 'INDEXTERM';
+	
+	if (!$TAGID->{$key}->{'SOURCEFILE'}) {
+	    # We can't tell if this ID was ever touched (it's an
+	    # old id that predates the modifications that check
+	    # for expired ids).  Assume it's bad.
+	    next;
+	}
+
+	if ($touched_files{$TAGID->{$key}->{'SOURCEFILE'}}
+	    && !$TAGID->{$key}->{'*TOUCHED'}) {
+	    print STDERR "Id has expired: $key\n" if $VERBOSE;
+	    # discard this id, we didn't update it...
+	    next;
+	} 
+
+	print F "$TAGIDSEP$key\n";
+	@fields = keys %{$TAGID->{$key}};
+	foreach $field (sort @fields) {
+	    next if $field =~ /^\*/;
+	    $value = $TAGID->{$key}->{$field};
+	    $value =~ s/\n/\r/g;
+	    print F "$field=$value\n" if $value !~ /^\s*$/;
+	}
+	print F "\n";
+    }
+    close (F);
+	
+    system ("mv -f $BOOKIDS.new $BOOKIDS");
+
+    &unset_delete_lock("$BOOKIDS.lock");
+    print STDERR "\n" if $VERBOSE && $id_errs;
+    print STDERR "done.\n" if $VERBOSE;
+}
+
+sub run_sgmls {
+    my($parser) = @_;
+
+    print STDERR "nsgmls $SGMLS_OPTS $SDECL_FILE $SOURCE\n";
+
+    $parser->sgmls_exec($SGMLS);
+    $parser->sgmls_opts($SGMLS_OPTS);
+    $parser->sgmls_decl($SDECL_FILE);
+    $parser->sgmls_errs($SGMLS_ERRS);
+
+    if ($opt_keep_sgmls_output) {
+	$parser->save($SOURCE, $opt_keep_sgmls_output);
+	$parser->load($opt_keep_sgmls_output);
+    } elsif ($opt_use_sgmls_output) {
+	$parser->load($opt_use_sgmls_output);
+    } else {
+	$parser->parse($SOURCE);
+    }
+
+    if ($PARALLEL_FILTER) {
+	$parser->next_element(); # Initialize the first element
+	print STDERR "Parallelizing filtering process...\n" if $VERBOSE;
+    } else {
+	while ($parser->next_element()) {
+	    #nop;
+	}
+	$parser->shutdown();
+    }
+}
+
+sub handle_sgmls_errors {
+    if (!&process_sgmls_errors($SGMLS_ERRS)) {
+	unlink($SGMLS_ERRS);
+    } else {
+	# Might want to save errors, but not now...
+	unlink($SGMLS_ERRS);
+    }
+}
+
+1;
+

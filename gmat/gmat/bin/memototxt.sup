@@ -1,0 +1,25 @@
+# -*- Perl -*-
+# Support routines for memototxt
+#
+# $Id: memototxt.sup,v 1.1.1.1 2002-07-15 21:33:31 root Exp $
+#
+#
+##############################################################################
+
+if ($VERBOSE) {
+    my($VERSION) = '$Id: memototxt.sup,v 1.1.1.1 2002-07-15 21:33:31 root Exp $'; # '
+    my($REQNAME) = (split(/\s+/, $VERSION))[1];
+    my($vers) = (split(/\s+/, $VERSION))[2];
+
+    print STDERR "$REQNAME version $vers.\n";
+}
+
+##############################################################################
+
+sub PI_source_file { }
+sub PI_formatter_file { }
+sub PI_chapter_number { }
+sub PI_page_number { }
+sub PI_numbered_sections { }
+
+1;

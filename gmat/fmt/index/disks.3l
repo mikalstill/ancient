@@ -1,0 +1,93 @@
+X	addinghard disk	1
+X	diskadding	1
+X	sysinstallcommand	1
+X	commandsysinstall	1
+X	installingdisk hardware	2
+X	disksinstalling hardware	2
+X	dmesgcommand	2
+X	commanddmesg	2
+X	SCSItarget	3
+X	targetSCSI	3
+X	SCSIlogical unit	3
+X	logicalunit	3
+X	LUN	3
+X	installingan external SCSI device	3
+X	SCSIinstalling an external device	3
+X	daisychaining	3
+X	SCSIterminator	3
+X	terminatorSCSI	3
+X	installingan internal SCSI device	3
+X	SCSIinstalling an internal device	3
+X	formattingdisks	5
+X	disksformatting	5
+X	low-levelformat	5
+X	formatlow-level	5
+X	sysinstallcommand	6
+X	commandsysinstall	6
+X	creatinga partition table	8
+X	partitiontable	8
+X	fdiskcommand	8
+X	commandfdisk	8
+X	fdiskcommand	9
+X	commandfdisk	9
+X	partitiontype	9
+X	activepartition	9
+X	partitionactive	9
+X	fdiskcommand	10
+X	commandfdisk	10
+X	labellingdisks	13
+X	diskslabelling	13
+X	diskslice	13
+X	slicedisk	13
+X	/dev/rda1c	13
+X	/dev/da1c	13
+X	disklabelcommand	14
+X	commanddisklabel	14
+X	/etc/disktabfile	14
+X	file/etc/disktab	14
+X	termcap	14
+X	disklabelcommand	14
+X	commanddisklabel	14
+X	newfscommand	15
+X	commandnewfs	15
+X	diskprototype file	16
+X	filedisk prototype	16
+X	disklabelcommand	17
+X	commanddisklabel	17
+X	creatingfile systems	20
+X	filesystems	20
+X	editingdisk labels	21
+X	diskediting labels	21
+X	mountingfile systems	21
+X	filesystems	21
+X	/etc/fstab	21
+X	mountcommand	21
+X	commandmount	21
+X	recoveringfrom disk data errors	22
+X	diskrecovering from data errors	22
+X	Vinum	23
+X	VolumeManager	23
+X	concatenationVinum	24
+X	Vinumconcatenation	24
+X	stripingVinum	24
+X	Vinumstriping	24
+X	mirroringVinum	25
+X	Vinummirroring	25
+X	RAIDlevel 1	25
+X	RAID-1	25
+X	RAID-5	25
+X	RAID	24
+X	RedundantArray of Inexpensive Disks	24
+X	volumeVinum	26
+X	Vinumvolume	26
+X	plexVinum	26
+X	Vinumplex	26
+X	driveVinum	26
+X	Vinumdrive	26
+X	subdiskVinum	26
+X	Vinumsubdisk	26
+X	configurationdatabase	28
+X	Vinumconfiguration database	28
+X	/dev/vinum	35
+X	/dev/vinum/control	35
+X	newfs	37

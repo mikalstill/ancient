@@ -1,0 +1,745 @@
+#!/usr/bin/perl5 -- # -*- Perl -*-
+#
+# Build SGML driver file, if necessary, and call formatter
+#
+# $Id: gmat.driver,v 1.1.1.1 2002-07-15 21:33:31 root Exp $
+#
+#
+
+use vars qw($PROGNAME $VERSION);
+
+$BASEVERS   = "0.1";
+$RCS_ID     = '$Id: gmat.driver,v 1.1.1.1 2002-07-15 21:33:31 root Exp $';  # '
+($PROGNAME  = $RCS_ID) =~ s/^.Id: (\S+) .*$/$1/;
+($PATCHLEVEL= $RCS_ID) =~ s/^.Id: \S+ \d+\.(\d+) .*$/$1/;
+$VERSION    = "$BASEVERS patchlevel $PATCHLEVEL";
+$EXECDIR    = ".";
+$EXECDIR    = $1 if $0 =~ /^(.*)\/[^\/]+$/;
+
+######################################################################
+
+if ((-f "dbto3l.Classes" && ! -f "xdbto3l.cls")
+    || (-f "dbto3l.Support" && ! -f "xdbto3l.sup")) {
+    print STDERR "This book isn't setup for the new tools.  Using gmat.old\n";
+    exec "gmat.old @ARGV";
+}
+
+$ORALIBDIR = $ENV{"ORALIBDIR"} || "/usr/local/share/gmat/lib";
+push(@INC, $ORALIBDIR);
+
+$ORATOOLSRC = $ENV{'ORATOOLSRC'} || "$ORALIBDIR/oratoolsrc";
+
+require 'longopts5.pl';
+require 'parsecfg5.pl';
+require 'commonlock5.pl';
+require 'gmat.pl';
+
+&initialize();
+
+splice(@USER_OPTIONS, 1, 0, 
+       ('--book',
+	'--formatter:',
+	'--sgml-filter:'));
+
+$OPT_DESC{'--book'} = 'Process the whole book';
+$OPT_DESC{'--formatter:'} = 'Specify the formatting script';
+$OPT_DESC{'--sgml-filter:'} = 'Specify the SGML filter script';
+
+$Longopts::PASSON_LONGOPTS = 1;
+&parse_cmdline();
+
+&init_globals();
+
+@ARGV = &cfg_sections ($bookfiles) if $opt_book;
+
+&show_usage(1) if !@ARGV;
+
+$SOURCE_FILES = "";
+@FILES = ();
+while (@ARGV) {
+    my($temp) = shift @ARGV;
+    $file = &get_file($temp);
+    die "Cannot process file: $temp\n" if $file eq '';
+    push (@FILES, $file);
+}
+
+############################################################################
+# Initialize more globals...
+#
+$QUIET       = $QUIET || $opt_quiet && !$opt_verbose;
+$VERBOSE     = $opt_verbose || ($VERBOSE && !$QUIET);
+
+print STDERR "$PROGNAME version $VERSION.\n" if $VERBOSE;
+
+$SGML_BASE   = &cfg($gmat, $PROGNAME, "sgml_base") || 'drv-$WHOAMI';
+eval "\$sgml_driver = \"$SGML_BASE.sgm\"";
+
+$SGMLFILTER  = ($opt_sgml_filter
+		|| &cfg($bookfiles, $FILES[0], "sgml-filter")
+		|| &cfg($gmat, $PROGNAME, "sgml-filter")
+		|| 'xdbto3l');
+
+$ENTITYFILES = &cfg($bookfiles, "$SGMLFILTER filter", "local-entities");
+
+$FORMAT_BASE = (&cfg($bookfiles, "$SGMLFILTER filter", 'format-base')
+		|| &cfg($gmat, $PROGNAME, 'format-base')  
+		|| 'drv-$WHOAMI');
+
+$FORMAT_EXT  = (&cfg($bookfiles, "$SGMLFILTER filter", 'format-extension') 
+		|| &cfg($gmat, $PROGNAME, 'format-extension')
+		|| "3l");
+
+$FORMATTER   = ($opt_formatter 
+		|| &cfg($bookfiles, "$SGMLFILTER filter", 'formatter') 
+		|| &cfg($bookfiles, $FILES[0], 'formatter') 
+		|| &cfg($gmat, $PROGNAME, 'formatter') 
+		|| 'gmat.troff');
+
+$FORMAT_FILE = $opt_K;
+
+$KEEP_FORMAT = (&cfg($gmat, $PROGNAME, 'keep-format')
+		|| $opt_k || $opt_K);
+
+############################################################################
+
+if ($ENV{'DEBUG_GMAT_BINARIES'}) {
+    my($dir) = $ENV{'DEBUG_GMAT_BINARIES'};
+    $FORMATTER = "$dir/$FORMATTER" 
+	if $FORMATTER !~ /\//;
+    $SGMLFILTER = "$dir/$SGMLFILTER" 
+	if $SGMLFILTER !~ /\//;
+    print STDERR "Adjusted FORMATTER and FILTER:\n";
+    print STDERR "\t$FORMATTER\n";
+    print STDERR "\t$SGMLFILTER\n";
+}
+
+############################################################################
+# Wait, these could be SGML files that need to be merged
+#
+$BUILT_SGML_DRIVER = 0;		# We haven't built a driver yet
+$DELETE_SGML_DRIVER = 0;	# We don't even know if we have a driver!
+
+if (!$opt_sgml_separate) {
+    my($sgml) = 1;
+    my($file, $moremacs, @moremacs, $mac);
+
+    foreach $file (@FILES) {
+	$file = $1 if $file =~ /^\.\/(.*)$/;
+
+	# Find additional macros for this file...
+	$moremacs = &cfg($bookfiles, $file, 'macros');
+	if ($moremacs) {
+	    @moremacs = split(/\s+/, $moremacs);
+	    foreach $mac (@moremacs) {
+		push(@MERGE_SGML_MACROS, $mac) 
+		    if !&in($mac, @MERGE_SGML_MACROS);
+	    }
+	}
+
+	$sgml = 0 if $file !~ /\.sgml?$/;
+	last if !$sgml;
+    }
+
+    if ($sgml) {
+	# Ok, the command line has the general form "-opt -opt2 file1 file2..."
+	# and each file is an sgml file.  Therefore, we can merge the whole
+	# lot of them together into a single SGML driver and process that.
+
+	print STDERR "Building SGML driver" if $VERBOSE;
+	$sgml_driver = &gmatx(@FILES);
+
+	$BUILT_SGML_DRIVER = 1;
+	$DELETE_SGML_DRIVER = !($opt_keep_sgml_driver 
+				|| ($sgml_driver eq $FILES[0]));
+
+	$SOURCE_FILES = join(" ", @FILES);
+	@FILES = ($sgml_driver);
+    } else {
+	print STDERR "Calculating page and chapter numbers" if $VERBOSE;
+	&gmaty();
+    }
+}
+
+############################################################################
+# Process each file...
+#
+
+while (@FILES) {
+    $gtroff_args = $opt_formatter;
+
+    $file = shift @FILES;
+
+    $basefile = $file;
+    if ($basefile =~ /^(.*)\/([^\/]+)$/) {
+	$basefile = $2;
+	$basefile = $1 if $basefile =~ /^([^\.]*)\./;
+    } else {
+	$basefile = $1 if $basefile =~ /^([^\.]*)\./;
+    }
+
+    print STDERR "Processing $file...\n" if $VERBOSE;
+
+    ########################################################################
+
+    # What if its really an SGML file?
+    if ($file =~ /^(.*)\.sgml?$/) {
+	my($tfile, $sgmlfilter_opts) = ($FORMAT_FILE, "");
+	$tfile = eval("\"$FORMAT_BASE.$FORMAT_EXT\"") if !$tfile;
+
+	if ((! -f "$tfile") || ((-M "$file" < -M "$tfile"))) {
+	    print "Filtering $file to $tfile...\n" 
+		if $VERBOSE;
+	    
+	    $sgmlfilter_opts = "--job $BOOKFILES --dotfile --outfile $tfile";
+	    $sgmlfilter_opts .= " --no-update-bookids" 
+		if $opt_no_update_bookids;
+
+	    $sgmlfilter_opts .= " --quiet" if $QUIET;
+	    $sgmlfilter_opts .= " --verbose" if $VERBOSE;
+	    $sgmlfilter_opts .= " --hires" if $opt_hires;
+	    $sgmlfilter_opts .= " --nocrop" if $opt_nocrop;
+
+	    $sgmlfilter_opts .= " --keep-sgmls-output $opt_keep_sgmls_output"
+		if $opt_keep_sgmls_output;
+
+	    $sgmlfilter_opts .= " --use-sgmls-output $opt_use_sgmls_output"
+		if $opt_use_sgmls_output;
+
+#	    $PIPEFILE = 1;
+#	    $PIPEERR = "./pipe-stderr";
+#	    $PIPECMD = "$SGMLFILTER $sgmlfilter_opts $file";
+	    print STDERR "$SGMLFILTER $sgmlfilter_opts $file\n";
+	    $rc = system ("$SGMLFILTER $sgmlfilter_opts $file");
+	    $rc /= 256; 
+
+	    &cleanup_files(), exit $rc if ($rc > 1);
+
+	    &temp_files($file) if $DELETE_SGML_DRIVER;
+	}
+	$file = $tfile;
+    }
+
+    foreach $_ (@COMMON_OPTIONS) {
+	my($val, $hasarg, $opt);
+	next if !/^--(.+)$/;
+	$opt = $1;
+
+	if ($opt =~ /^(.+)\:$/) {
+	    $opt = $1;
+	    $hasarg = 1;
+	} else {
+	    $hasarg = 0;
+	}
+
+	($_ = $opt) =~ s/-/_/g;
+
+	eval "\$val = \$opt_$_";
+	next if !defined($val);
+	
+	$opts .= " " if $opts ne "";
+	$opts .= "--$opt";
+	$opts .= " $val" if $hasarg;
+    }
+
+    $opts .= " --delete-driver-file" 
+	if $BUILT_SGML_DRIVER && !$KEEP_FORMAT;
+
+    $opts .= " --page $PAGE{$file}"
+	if !$BUILT_SGML_DRIVER && $PAGE{$file};
+
+    $opts .= " --source-files \"$SOURCE_FILES\""
+	if $SOURCE_FILES ne "";
+
+    $opts .= " $Longopts::INVALID_OPTIONS";
+
+    if ($PIPEFILE) {
+	$command = "$PIPECMD | $FORMATTER $opts --pipe $PIPEERR";
+    } else {
+	$command = "$FORMATTER $opts $file";
+    }
+
+    print "$command\n";
+
+    &cleanup_files();
+
+    &update_format_data("$file $SOURCE_FILES") if ! $opt_no_bookfiles_update;
+
+    exec ($command) if !@FILES;
+    system ($command);
+}
+
+exit 0;
+
+sub update_format_data {
+    my($files) = @_;
+    my(@files, $file, $checksum, $linecount, $date, $rc);
+    my($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst)
+	= localtime(time);
+
+    $date = sprintf("%d%02d%02d%02d%02d%02d",
+		    $year, $mon+1, $mday,
+		    $hour, $min, $sec);
+
+    # Set the lock...
+    &set_lock($LOCKFILE);
+
+    # Reload the most recent BOOKFILES...others have made changes...
+    $bookfiles = &parsecfg($BOOKFILES);
+
+    @files = split(/\s+/, $files);
+    foreach $file (@files) {
+	next if !&cfg_section_defined($bookfiles, $file);
+	$checksum = &file_checksum($file);
+	&cfg_set($bookfiles, $file, "format-checksum", $checksum);
+	&cfg_set($bookfiles, $file, "format-date", $date);
+    }
+
+    print STDERR "Updating $BOOKFILES...\n" if $VERBOSE;
+    
+    &backup_bookfiles();
+	$rc = &printcfg($bookfiles, "$BOOKFILES.new", 0);
+    chmod(0444, "$BOOKFILES.new");
+    system ("mv -f $BOOKFILES.new $BOOKFILES");
+    
+    # Remove the lock
+    &unset_delete_lock($LOCKFILE);
+}	
+
+sub file_checksum {
+    my($file) = @_;
+    my($checksum) = 0;
+    local(*F, $_);
+
+    open (F, $file) || return -1;
+    if (-s $file < 102400) {
+	read(F, $_, -s $file);
+	$checksum = unpack("%16C*", $_);
+    } else {
+	while (<F>) {
+	    $checksum += unpack("%16C*", $_);
+	};
+    }
+    close (F);
+    
+    return $checksum;
+}
+
+sub gmatx {
+    my(@files) = @_;
+    my(%thefiles);
+    my($part, $chapnum, $pagenum);
+    my(%CHAPENTITY) = ();
+    my($curchap) = 0;
+    my($curpage) = 1;
+    my($curpart) = 0;
+    my($topelement, $file, $section, $path);
+    my($DOCTYPE, $setpage, %SETPAGE, @FILES);
+    my($inline_source) = 0;
+    local($_, *BKF);
+
+    # First: if the first file begins with a <!doctype line, 
+    # then it's the driver...
+    if (open (F, $files[0])) {
+	while (<F>) {
+	    if (/^\s*<\s*!\s*doctype/i) {
+		print STDERR " ... $files[0] is the driver.\n" if $VERBOSE;
+		close (F);
+		return $files[0];
+	    }
+	    last if !/^\s*$/;
+	}
+	close (F);
+    }
+
+    $inline_source = &cfg($bookfiles, $files[0], 'inline-source');
+#		      || $#files == 0);
+#   inlined source is bad because it prevents gmat from producing meaningful
+#   error locations... 
+
+    $INSERT_TOP_ELEMENT = &cfg($bookfiles, $files[0], 'insert-top-element');
+    $INSERT_TOP_ELEMENT = 1 if $INSERT_TOP_ELEMENT eq "";
+
+    $DOCTYPE = (&cfg($bookfiles, $files[0], 'doctype') 
+		|| "book public \"-//ORA//DTD ORA Production 3.1//EN\"");
+
+    # we'll rearrange the files as we go through BOOKFILES so that they
+    # come out in the right order no matter what order the user specifies
+    foreach $file (@files) {
+	$thefiles{"$file"} = 1;
+    }
+    @files = ();
+
+    open (DRIVER, ">$sgml_driver");
+
+    print DRIVER "<!doctype $DOCTYPE [\n";
+
+# ********************************
+# ***** REMEMBER ABOUT GMATY *****
+# ********************************
+
+    @FILES = &cfg_sections($bookfiles);
+
+    foreach $file (@FILES) {
+	$section = $file;
+
+	print STDERR "." if $VERBOSE;
+
+	if (defined($thefiles{$file})) {
+	    push (@files, $file);
+	    $thefiles{$file} = 2;
+	}
+
+	$part = &cfg($bookfiles, "$file", "part");
+	$curpart = $part if $part;
+	$part = $curpart;
+		
+	if (! &cfg($bookfiles, "$file", "not_a_chapter")) {
+	    $chapnum = &cfg($bookfiles, "$file", "chapter");
+	    $chapnum = &cfg($bookfiles, "$file", "appendix")
+		if $chapnum eq "";
+		
+	    $chapnum = $curchap if $chapnum eq "";
+	    $curchap = $chapnum;
+	    $curchap++;
+	}
+
+	if (&cfg_defined($bookfiles, "$file", "page")) {
+	    $pagenum = &cfg($bookfiles, "$file", "page");
+	    $setpage = 1;
+	} else {
+	    $pagenum = $curpage+1;
+	    $pagenum++ if ($pagenum % 2 == 0
+			   && &cfg($bookfiles, "$file", "chap-start-odd") ne 0
+			   && &cfg($bookfiles, "$file", "chap_start_odd") ne 0);
+	    $setpage = 0;
+	}
+	$curpage = $pagenum 
+	    + &cfg($bookfiles, "$file", 'pagecount') - 1;
+
+	if ($file =~ /^(.*)\/([^\/]+)$/) {
+	    $path = "$1/";
+	    $file = $2;
+	} else {
+	    $path = "";
+	}
+
+	$PART{$file} = &cfg($bookfiles, "$file", "part${part}_title");
+	$PAGE{$file} = $pagenum;
+	$SETPAGE{$file} = $setpage;
+	
+	if (! &cfg($bookfiles, "$file", "not_a_chapter")) {
+	    $CHAP{"$file"} = $chapnum;
+	    $CHAPTER{"$chapnum"} = $section;
+	    $CHAPTER_PAGE{"$chapnum"} = $pagenum;
+	    $LAST_CHAPTER = $chapnum;
+	}
+
+	if (-f "$path$file") {
+	    my($entity) = &valid_entity("$file");
+	    $CHAPENTITY{$file} = $entity;
+	    printf DRIVER "<!ENTITY %-12s SYSTEM \"%s\" >\n", $entity, "$path$file"
+		if !$inline_source;
+	}
+    }
+
+    print STDERR "\n" if $VERBOSE;
+
+    foreach $file (keys %thefiles) {
+	if (($thefiles{$file} == 1) && -f $BOOKFILES && !$QUIET) {
+#	    warn "Ignored $file: not in $BOOKFILES. (NOT!)\n";
+	    push (@files, $file);
+	}
+    }
+
+    foreach $file (@files) {
+	my($entity);
+	my($path, $fname) = ("", "");
+
+	$file = &get_file($file);
+
+	if ($file =~ /^(.*)\/([^\/]+)$/) {
+	    $path = $1;
+	    $fname = $2;
+	} else {
+	    $fname = $file;
+	}
+
+	if (!defined($CHAPENTITY{$fname})) {
+	    $entity = &valid_entity($file);
+	    $CHAPENTITY{$fname} = $entity;
+	    printf DRIVER "<!ENTITY %-12s SYSTEM \"%s\" >\n", $entity, $file
+		if !$inline_source;
+	}
+    }
+
+    if ($ENTITYFILES) {
+	my(@entfiles) = split(/\s+/, $ENTITYFILES);
+	my($entfile);
+	
+	foreach $entfile (@entfiles) {
+	    if (-r $entfile) {
+		print STDERR "Loading additional entities from $entfile..." 
+		    if $VERBOSE;
+		open (ENT_FILE, "$entfile");
+		while (<ENT_FILE>) {
+		    print DRIVER "$_";
+		}
+		close (ENT_FILE);
+		print STDERR "\n" if $VERBOSE;
+	    }
+	}
+    }
+
+    print DRIVER "]>\n";
+
+    if ($DOCTYPE =~ /^\s*(\S+)\s+/) {
+	$topelement = $1;
+    } else {
+	$topelement = "BOOK";
+    }
+    print DRIVER "<$topelement>\n" if $INSERT_TOP_ELEMENT;
+
+    $lastfile = "";
+    foreach $file (@files) {
+	if ($file =~ /^(.*)\/([^\/]+)$/) {
+	    $path = "$1/";
+	    $file = $2;
+	} else {
+	    $path = "";
+	}
+
+	if ($file =~ /^(.*)\.([^\.]+)$/) {
+	    $base = $1;
+	} else {
+	    $base = $file;
+	}
+
+	print DRIVER "<?source-file $path$file>\n";
+	print DRIVER "<?formatter-file $base.$FORMAT_EXT>\n";
+	print DRIVER "<?part ", $PART{$file}, ">\n"
+	    if $PART{$file} ne "";
+	print DRIVER "<?chapter-number ", $CHAP{$file}, ">\n"
+	    if $CHAP{$file} ne "";
+
+	{
+	    local($_) = &cfg($bookfiles, $file, 'numbered_sections');
+	    if ($_ ne "") {
+		print DRIVER "<?numbered_sections $_>\n";
+	    }
+	}
+
+	print DRIVER "<?page-number ", $PAGE{$file}, ">\n" 
+	    if (($PAGE{$file} ne "")
+		&& ((&cfg_prev_section($bookfiles, $file) ne $lastfile)
+		    || $lastfile eq "")
+		&& (($lastfile eq "") 
+		    || ($CHAP{$file} - $CHAP{$lastfile} ne 1)
+		    || ($PAGE{$file} < $PAGE{$lastfile})
+		    || $SETPAGE{$file}));
+
+	foreach $_ (&cfg_variables($bookfiles, $file)) {
+	    print DRIVER "<?$1 ", &cfg($bookfiles, $file, $_), ">\n" 
+		if /^pi_(.*)/i;
+	}
+
+	if ($inline_source) {
+	    open (SOURCE_FILE, "$path$file") 
+		|| warn "Cannot open: $path$file.\n";
+	    while (<SOURCE_FILE>) {
+		next if /^\s*<$topelement>\s*$/i && $INSERT_TOP_ELEMENT;
+		next if /^\s*<\/$topelement>\s*$/i && $INSERT_TOP_ELEMENT;
+		print DRIVER $_;
+	    }
+	    close (SOURCE_FILE);
+	} else {
+	    print DRIVER "&", $CHAPENTITY{$file}, ";\n\n";
+	}
+
+	$lastfile = $file;
+    }
+
+    print DRIVER "</$topelement>\n" if $INSERT_TOP_ELEMENT;
+
+    close (DRIVER);
+
+    $sgml_driver;
+}
+
+sub gmaty {
+    my(@files) = @_;
+    my($path, $file);
+    my($part, $chapnum, $pagenum);
+    my(%CHAPENTITY) = ();
+    my($curchap) = 0;
+    my($curpage) = 1;
+    my($curpart) = 0;
+    local($_, *BKF);
+
+    open (BKF, $BOOKFILES);	# ***** REMEMBER ABOUT GMATX *****
+    while (<BKF>) {
+	chop;
+	if (/^\s*\[\s*(\S*)\s*\]\s*$/) {
+	    my($file) = $1;
+	    my($section) = $1;
+	    my($path);
+
+	    print STDERR "." if $VERBOSE;
+
+	    $part = &cfg($bookfiles, "$file", "part");
+	    $curpart = $part if $part;
+	    $part = $curpart;
+		
+	    if (! &cfg($bookfiles, "$file", "not_a_chapter")) {
+		$chapnum = &cfg($bookfiles, "$file", "chapter");
+		$chapnum = &cfg($bookfiles, "$file", "appendix")
+		    if $chapnum eq "";
+		
+		$chapnum = $curchap if $chapnum eq "";
+		$curchap = $chapnum;
+		$curchap++;
+	    }
+
+	    if (&cfg_defined($bookfiles, $file, 'page')) {
+		$pagenum = &cfg($bookfiles, $file, 'page');
+	    } elsif (&cfg_defined($bookfiles, $file, 'firstpage')) {
+		$pagenum = &cfg($bookfiles, $file, 'firstpage');
+	    } else {
+		$pagenum = $curpage+1;
+		$pagenum++ if ($pagenum % 2 == 0
+			       && &cfg($bookfiles, "$file", "chap-start-odd") ne 0
+			       && &cfg($bookfiles, "$file", "chap_start_odd") ne 0);
+	    }
+
+	    $curpage = $pagenum 
+		+ &cfg($bookfiles, "$file", 'pagecount') - 1;
+	    
+#	    if ($file =~ /^(.*)\/([^\/]+)$/) {
+#		$path = "$1/";
+#		$file = $2;
+#	    } else {
+#		$path = "";
+#	    }
+		
+	    $PART{"$file"} = &cfg($bookfiles, "$file", "part${part}_title");
+	    $PAGE{"$file"} = $pagenum;
+
+	    if (! &cfg($bookfiles, "$file", "not_a_chapter")) {
+		$CHAP{"$file"} = $chapnum;
+		$CHAPTER{"$chapnum"} = $section;
+		$CHAPTER_PAGE{"$chapnum"} = $pagenum;
+		$LAST_CHAPTER = $chapnum;
+	    }
+	}
+    }
+
+    close (BKF);
+    print STDERR "\n" if $VERBOSE;
+}
+
+sub check_gmat {
+    # nop, but meaningful in gmat.<formatter>
+}
+
+sub update_path {
+    # nop, but meaningful in gmat.<formatter>
+}
+
+sub valid_entity {
+    local($_) = @_;
+
+    $_ = "X$_" if !/^[A-Za-z]/;
+
+    s/[^A-Za-z0-9]/\./g;
+
+    $_;
+}
+
+sub get_file {
+    my($file) = @_;
+    my($rc, $path, $tempfile);
+    local($_);
+
+    $tempfile = "/tmp/gmatdrvr.$$";
+
+    if ($file =~ /^(.*)\/([^\/]+)$/) {
+	$path = "$1/";
+	$file = $2;
+    } else {
+	$path = "";
+    }
+
+    if (! -f "${path}$file") {
+	$file = "$file.sgm" if -f "${path}$file.sgm";
+
+	if (! -f "${path}$file") {
+	    $file = "$file.sgm" if -f "${path}RCS/$file.sgm";
+	}
+    }
+
+    # If the file is not under RCS control, warn the user
+    # If the file is under RCS:
+    #   If the checked out version is younger than the checked in:
+    #     If the file is writable, we can't check it out
+    #     Otherwise, check it out
+    #   Otherwise, say nothing
+    
+    if (-d "${path}RCS") {
+	if (! -e "${path}RCS/$file") {
+	    warn "${path}$file: not under RCS control.\n" 
+		if !$QUIET && !defined($RCSWARNED{"${path}$file"})
+		    && ($file ne $sgml_driver);
+	    $RCSWARNED{"${path}$file"} = 1;
+	} else {
+	    if (&mtime("${path}$file") < &mtime("${path}RCS/$file")) {
+
+		my ($mode) = (stat("${path}$file"))[2];
+		if (($mode & 0200) != 0) {
+		    warn "${path}$file: writable, can't check out newer version.\n";
+		} else {
+		    warn "${path}$file: checking out new version...\n";
+		    $rc = system ("co ${path}$file 2>$tempfile");
+		    if ($rc) {
+			warn "\tFailed! ($rc, $@)\n";
+			system("cat $tempfile");
+		    }
+		    unlink ($tempfile);
+		}
+	    }
+	}
+    }
+
+    warn "${path}$file: does not exist!\n" 
+	if ! -f "${path}$file" && !$QUIET;
+
+    warn "${path}$file: not readable!\n" 
+	if -f "${path}$file" && ! -r "${path}$file" && !$QUIET;
+
+    return "${path}$file"
+	if -r "${path}$file";
+
+    '';
+}
+
+sub mtime {
+    my($filename) = @_;
+    my($mtime) = (stat($filename))[9];
+    if (-f $filename) {
+	$mtime;
+    } else {
+	-1;
+    }
+}
+
+sub in {
+    my($member, @array) = @_;
+    my($m);
+
+    foreach $m (@array) {
+	return 1 if $m eq $member;
+    }
+
+    0;
+}
+
+
+

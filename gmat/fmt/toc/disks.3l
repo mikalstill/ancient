@@ -1,0 +1,33 @@
+C 1 Disks 1
+Ah Adding a hard disk 1
+Bh Disk hardware installation 2
+Bh Formatting the disk 5
+Ah Using sysinstall 6
+Ah Doing it the hard way 8
+Bh Creating a partition table 8
+Bh Labelling the disk 13
+Bh Disklabel 14
+Bh Things that can go wrong 19
+Bh Creating the file systems 20
+Bh Editing disk labels 21
+Bh Mounting the file systems 21
+Ah Recovering from disk data errors 22
+Ah Virtual disks: the Vinum Volume Manager 22
+Bh Disks are too small 23
+Bh Access bottlenecks 23
+Bh Data integrity 25
+Ah Vinum objects 26
+Bh Volume size considerations 27
+Bh Redundant data storage 27
+Bh Performance issues 27
+Bh Which plex organization? 27
+Ah Some examples 28
+Bh The configuration file 29
+Bh Increased resilience: mirroring 30
+Bh Optimizing performance 31
+Bh Resilience and performance 33
+Ah Object naming 35
+Bh Creating file systems 37
+Ah Configuring Vinum 37
+Ah Startup 38
+Bh Automatic startup 39

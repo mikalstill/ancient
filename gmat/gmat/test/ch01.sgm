@@ -1,0 +1,1045 @@
+<!-- Converted Fri May 24 12:13:15 EDT 1996 by force (5/96 Erik Ray) -->
+<chapter id="GTOOLS-CH-1">
+<title>Towards a Free<?lb>Software Development<?lb>Environment</title>
+
+<para>
+<acronym>UNIX</acronym> has long been known for its software development environment;
+the wealth of first-rate and innovative tools is one reason
+behind <acronym>UNIX</acronym>&rsquo;s commercial success.
+</para>
+
+<para>
+Lately, however, good tools have gotten somewhat out of reach. Not that <acronym>UNIX</acronym>
+vendors haven&rsquo;t been doing their job, but nearly all of them have
+&ldquo;unbundled&rdquo; their development tools from the operating system
+itself, so that if you want to do any programming, you need to pay
+another $600 to $1000. That&rsquo;s not much for a large corporation, but
+it&rsquo;s a lot for a student or a home user.
+</para>
+
+<para>
+This book introduces a set of software development tools that are
+parallel to the time-honored <acronym>UNIX</acronym> tools. They provide the same (or
+more) functionality and a high level of compatibility with the tools
+<acronym>UNIX</acronym> users have grown up with. These are the compilers 
+and related development tools, often
+called the <acronym>GNU</acronym> tools, from the Free Software Foundation (<acronym>FSF</acronym>).
+</para>
+
+<para>
+Unlike the <acronym>UNIX</acronym> tools&mdash;but displaying the same spirit as the early
+<acronym>UNIX</acronym> systems that were installed around college campuses&mdash;these tools
+are &ldquo;free&rdquo;: they are
+available from many places without charge, they include source code,
+and you&rsquo;re encouraged to give these tools away to your friends.
+Instead of paying your <acronym>UNIX</acronym> vendor for a &ldquo;development system,&rdquo; you can
+get the source code for the <acronym>GNU</acronym> tools 
+from an <acronym>FTP</acronym> or
+<acronym>UUCP</acronym> archive.<footnote><para>
+Unfortunately, the operating system sometimes requires features that
+GNU does not support. Currently, for instance, if you have the SGI Irix system,
+you need to buy SGI's development system in order to get some critical
+libraries.
+</para></footnote>
+That may tie up your phone for a few hours, but aside
+from the phone costs, it&rsquo;s completely free. For a few tens of
+dollars, you can buy this book/CD combination and get a complete,
+pre-compiled development environment; similar pre-compiled packages
+are available from other vendors.
+</para>
+
+<para>
+<INDEXTERM><PRIMARY>distribution of software</PRIMARY></INDEXTERM>
+<INDEXTERM><PRIMARY>redistribution of software</PRIMARY></INDEXTERM>
+<INDEXTERM><PRIMARY>CD distribution</PRIMARY></INDEXTERM>
+<INDEXTERM><PRIMARY>free software</PRIMARY><SECONDARY>CD distribution of</SECONDARY></INDEXTERM>
+There are a lot of advantages to the CD distribution&mdash;of which the
+most important is that the software has already been built and tested
+on several of the most commonly used computers and operating systems.
+If nothing else, that saves you a lot of time: although we&rsquo;d all like
+to think that we can grab a software package from the Net, edit a few
+configuration files, type <emphasis role=bold>make</emphasis>, and 
+forget about it, we know that real life is rarely this simple.
+</para>
+
+<para>
+The CD distribution also solves
+a nagging &ldquo;chicken and egg&rdquo; problem. If you get source code for free
+software, you need a compiler (and related utilities) to build
+executables. If you have your vendor&rsquo;s development system, then you
+can get started, but if you don&rsquo;t, there&rsquo;s no point in loading up
+your disk with a few megabytes of free source
+code. By providing pre-built
+software for several common architectures, the CD gets you out of this
+bind.
+</para>
+
+<para>
+This book is a fairly traditional user&rsquo;s guide to the <acronym>GNU</acronym> software
+development environment. We&rsquo;ll talk about what these tools are and
+how to use them: how they fit together. We won&rsquo;t go into esoterica;
+rather, we&rsquo;ll try to make you familiar and comfortable with the most
+common uses of these tools. So, while we&rsquo;ll spend some time
+discussing&thinsp; <literal>gcc -O</literal> (compile C code, with optimization), we&rsquo;ll barely
+mention&thinsp; <literal>gcc -mno-half-pic</literal>.
+</para>
+
+<para>
+But first, we&rsquo;ll discuss what free software is, why it exists, and
+what it means for software developers.
+</para>
+
+<sect1 id="GTOOLS-CH-1-SECT-1"><title>UNIX, the Programmer's Playground</title>
+
+<para>
+<INDEXTERM ID="ch01.unix" class="startofrange"><PRIMARY>UNIX</PRIMARY></INDEXTERM>
+When it comes to the sophistication and flexibility of its tools, <acronym>UNIX</acronym>
+can compete with any programming environment on the market. Many
+tools that now see widespread use throughout the computer field
+started on <acronym>UNIX</acronym>. Just look at the C language.
+</para>
+
+<para>
+But there&rsquo;s a hump to get over when you&rsquo;re beginning to use <acronym>UNIX</acronym>
+tools. One reason they&rsquo;re so fast and powerful is that you have to
+learn very brief commands, or even (in the case of Emacs) keystrokes.
+Many people try to avoid <acronym>UNIX</acronym> because few of its 
+tools support
+graphics or point-and-click interfaces. But after a short period of
+getting used to the system, you will find that commands and keystrokes
+are faster than pointing and clicking. Even more important, you can
+combine and automate commands. Furthermore, don&rsquo;t forget the cost
+advantages: you can use the tools on a cheap terminal connected to a
+serial line.
+</para>
+
+<para>
+<INDEXTERM><PRIMARY>graphical interfaces</PRIMARY></INDEXTERM>
+So if you know what you&rsquo;re doing, the tools in this book help 
+you get your job done a lot faster than a graphical user interface. As a programmer,
+what you need is a powerful interface to text&mdash;and the tools certainly
+offer that. Anyway, some movement in the direction of graphical interfaces can be
+seen. Emacs now supports menus and the mouse, for instance.
+</para>
+
+<para>
+<INDEXTERM><PRIMARY>integration</PRIMARY></INDEXTERM>
+Integration is another strength of the free <acronym>UNIX</acronym> tools in this book.
+For instance, in the Emacs editor, you can issue a compile command,
+while making changes to a program. This compile command runs the 
+<emphasis role=bold>make</emphasis>
+utility in order to build your program. If the source code is stored
+in the <acronym>RCS</acronym> source control system, 
+<emphasis role=bold>make</emphasis> can automatically retrieve it.
+Throughout the discussions of tools, you will see ways to make them
+collaborate for your convenience.
+</para>
+
+<sect2 id="GTOOLS-CH-1-SECT-1.1"><title>Where the Power Lies</title>
+
+<para>
+<INDEXTERM><PRIMARY>commands</PRIMARY></INDEXTERM>
+As we&rsquo;ve said, free software tools are command-driven. Some of the
+commands can get quite powerful, too. For instance, in the 
+<emphasis role=bold>gdb</emphasis>
+debugger, the <emphasis role=bold>print</emphasis> 
+command can display any kind of variable from an
+integer scalar to an array of strings to a complicated data structure
+with members of different data types.
+</para>
+
+<para>
+<INDEXTERM><PRIMARY>key bindings</PRIMARY></INDEXTERM>
+So the first stage of your learning is to find a set of commands that
+do most of the things you want. The next stage is to combine
+them. For instance, Emacs lets you combine a number of keystrokes
+into a package and execute it with a couple of keystrokes; this is
+called a macro. You can also put commands into a start-up file, and
+Emacs will execute them every time it 
+begins. <emphasis role=bold>gdb</emphasis> offers a similar
+initialization file for debugging sessions.
+</para>
+</sect2>
+
+<sect2 id="GTOOLS-CH-1-SECT-1.2"><title>What This Book Offers</title>
+
+<para>
+If you&rsquo;re a student learning to program who happens to be on a <acronym>UNIX</acronym>
+system, or a programmer from another environment who has a project to
+do on <acronym>UNIX</acronym>, this book will make you comfortable with <acronym>UNIX</acronym> and its
+tools. The book won&rsquo;t teach you C or C++, but it will show you how to
+build, run, and debug programs.
+</para>
+
+<para>
+If you&rsquo;re a more experienced <acronym>UNIX</acronym> user who wants a powerful set of
+tools, this book and CD combination will give you a one-stop
+programming kit. You might skip Chapter 2, 
+but even a <acronym>UNIX</acronym>-savvy programmer will find useful
+tips in the rest of the book.
+</para>
+
+<para>
+When you begin to use a new operating system, you often feel like you
+want to learn everything at once. This book gives you the alternative
+of a saner step-by-step study plan.
+</para>
+
+<para>
+First, after a whirlwind introduction to <acronym>UNIX</acronym>, you learn the text
+editor. Once you can write your programs, you learn about the
+compiler and some useful C and C++ library calls. Then come the
+more optional tools, such as the debugger and source control system.
+</para>
+
+<para>
+Of course, we can&rsquo;t say everything about every tool in one book. But
+you won&rsquo;t need to consult other documentation too often; this
+book should satisfy 95 percent of your needs. We&rsquo;ll list other available
+documentation for each tool as we come to it. You can install the
+documentation online from the CD, or order it in hard-copy form from
+the Free Software Foundation (to be discussed next).
+</para>
+</sect2>
+<INDEXTERM startref="ch01.unix" class="endofrange">
+</sect1>
+
+
+<sect1 id="GTOOLS-CH-1-SECT-2"><title>What Is Free Software?</title>
+
+<para>
+<INDEXTERM ID="ch01.free1" class="startofrange"><PRIMARY>free software</PRIMARY></INDEXTERM>
+<INDEXTERM ID="ch01.free2" class="startofrange"><PRIMARY>software</PRIMARY><SECONDARY>free</SECONDARY></INDEXTERM>
+Software developers have been trading their pet programs ever since
+computers were invented. Particularly in the university community,
+programmers have always felt free to share their tools with one
+another. And most computer vendors have, at one time or another,
+actively encouraged their users to share their software: for instance,
+<acronym>DEC</acronym>&rsquo;s user group (<acronym>DECUS</acronym>) 
+maintains a free library of
+member-contributed software.
+</para>
+
+<para>
+Of course, when networking became widespread (in the early 1980s for the
+university community and early 1990s for other users), it became much
+easier to share software: when you wrote something you thought useful,
+it was easy to send it to your friends through email or to post it
+in some <acronym>FTP</acronym> archive or (in the <acronym>DOS</acronym> 
+world) on an electronic bulletin
+board, where others could pick it up. You could get the software &ldquo;for
+free&rdquo;; you could modify it and add your own features; and you could
+give your new versions to your friends.
+</para>
+
+<para>
+So there has always been a lot of free software floating around. The
+sorts of programs that have been freely available haven&rsquo;t typically
+been large, substantial programs with significant commercial
+value&mdash;but that&rsquo;s not to say that the software hasn&rsquo;t been useful. We
+can&rsquo;t imagine someone selling a program like <emphasis role=bold>sps</emphasis> (which is a
+fancier version of the <acronym>UNIX</acronym> <emphasis role=bold>ps</emphasis> command), but you can&rsquo;t claim
+that <emphasis role=bold>sps</emphasis> isn&rsquo;t useful, either. In the early '80s, major pieces
+of free software with significant commercial value started appearing, a
+trend which has really blossomed in the late '80s and early '90s.
+Entire operating systems (like Linux, a <acronym>UNIX</acronym>-compatible operating
+system that is currently most popular on Intel X86 hardware), compilers 
+(like <emphasis role=bold>gcc</emphasis>
+and <emphasis role=bold>g++</emphasis>), interpreted programming 
+languages (like Perl and Tcl), editors (like Emacs), and other 
+major tools are now freely available.
+</para>
+
+<sect2 id="GTOOLS-CH-1-SECT-2.1"><title>Different Kinds of Free Software</title>
+
+<para>
+We can divide free software into three different classes. There are
+gray areas between each of these groups, but on the whole, most
+software falls into one category or the other.
+</para>
+
+<variablelist>
+<varlistentry><term><emphasis role=bold>Public domain software</emphasis></term>
+<listitem><para>
+<INDEXTERM><PRIMARY>public domain software</PRIMARY></INDEXTERM>
+Some software is truly and explicitly put into the public domain.
+This means that anyone can use the software for free and do anything
+they want to it. There are no restrictions of any kind.
+</para></listitem>
+</varlistentry>
+
+<varlistentry><term><emphasis role=bold>Freely distributable software</emphasis></term>
+<listitem><para>
+<INDEXTERM><PRIMARY>freely distributable software</PRIMARY></INDEXTERM>
+<INDEXTERM><PRIMARY>ownership</PRIMARY><SECONDARY>software</SECONDARY></INDEXTERM>
+<INDEXTERM><PRIMARY>software</PRIMARY><SECONDARY>ownership of</SECONDARY></INDEXTERM>
+<INDEXTERM><PRIMARY>distribution of software</PRIMARY></INDEXTERM>
+<INDEXTERM><PRIMARY>redistribution of software</PRIMARY></INDEXTERM>
+A lot of free software, particularly software coming from the
+university community, is &ldquo;owned&rdquo; by the person or organization that
+developed it. The portions of <acronym>BSD UNIX</acronym> that were developed at
+Berkeley fall into this category, as does the X Window System, along
+with many, many smaller programs. In this context, &ldquo;ownership&rdquo; means
+that people redistributing the software as part of another project must
+credit the original owner; it (probably) also means that, while
+you can modify the software to your heart&rsquo;s content, you can&rsquo;t
+redistribute your changes under the same name as the original without
+permission. That is, if you modify <acronym>BSD UNIX</acronym>, you can&rsquo;t tell your
+friends that you&rsquo;re giving them a copy of <acronym>BSD UNIX</acronym> without the owner&rsquo;s
+(University of California&rsquo;s) permission.
+</para></listitem>
+</varlistentry>
+
+<varlistentry><term><emphasis role=bold>General Public License (<acronym>GPL</acronym>) software</emphasis></term>
+<listitem><para>
+<INDEXTERM><PRIMARY>license</PRIMARY></INDEXTERM>
+<INDEXTERM><PRIMARY>GPL (General Public License)</PRIMARY></INDEXTERM>
+<INDEXTERM><PRIMARY>General Public License</PRIMARY><SEE>GPL</SEE></INDEXTERM>
+<INDEXTERM><PRIMARY>copyleft</PRIMARY><SEE>GPL</SEE></INDEXTERM>
+<INDEXTERM><PRIMARY>Free Software Foundation (FSF)</PRIMARY></INDEXTERM>
+This means software that&rsquo;s covered by some version of the Free
+Software Foundation&rsquo;s General Public License (also called a
+&ldquo;copyleft&rdquo;), which is reprinted in 
+Appendix D. The <acronym>GPL</acronym>
+is designed to keep free software free. That is, it is crafted to
+guarantee that anyone receiving the software, no matter how they got
+it and how it has been modified, can continue to redistribute it under
+the same terms. We&rsquo;ll go into this in more detail in a minute.
+</para>
+
+<para>
+By the way, some people think that <acronym>GPL</acronym> stands for &ldquo;<acronym>GNU</acronym> Public
+License.&rdquo; It certainly originated with the people who started <acronym>GNU</acronym>,
+but it&rsquo;s used on a lot of other software (such as <acronym>RCS</acronym> and the Linux
+operating system). So &ldquo;General&rdquo; is the correct term.
+</para></listitem>
+</varlistentry>
+</variablelist>
+
+<para>
+In this book, the term &ldquo;free software&rdquo; generally means &ldquo;software
+licensed under the <acronym>GPL</acronym>, or some relatively similar terms&rdquo;&mdash;though many
+people use the term to include all three categories.
+</para>
+
+<para>
+It&rsquo;s worth taking a few moments to understand why the <acronym>GPL</acronym> is
+necessary. The first two kinds of free software guarantee that the
+original program is, for the time being, free: i.e., you can get
+the code and modify it. However, they don&rsquo;t prevent one very common
+scenario. They don&rsquo;t prevent a commercial venture (say, Joe&rsquo;s
+Computers Inc.) from taking the free software from the Net, improving
+it significantly, and applying a restrictive license to
+it&mdash;perhaps preventing you from seeing the source code and requiring
+you to pay a large annual licensing fee for the right to use the
+software.
+</para>
+
+<para>
+<!-- have to check the net -->
+If you think that scenario sounds far-fetched, think about the
+networking code in most <acronym>UNIX</acronym> systems. Most <acronym>UNIX</acronym> network
+implementations are based on work done for <acronym>BSD UNIX</acronym>. That code is
+&ldquo;freely distributable software&rdquo;; you can get the original <acronym>BSD</acronym> network code over
+the net and do whatever you&rsquo;d like to it. But would your <acronym>UNIX</acronym> vendor
+give you the source code for their improved version
+of this same software? Probably not, unless you were willing to pay a
+lot of money to them&mdash;and possibly not under any circumstances. Over
+time, this mechanism has caused a lot of software to evaporate from
+the public arena. The original code is usually still available, but
+the good code&mdash;the code you&rsquo;d really like to have&mdash;is a commercial
+product, and it is not free at all.
+</para>
+
+<para>
+<INDEXTERM><PRIMARY>Free Software Foundation (FSF)</PRIMARY></INDEXTERM>
+The Free Software Foundation was created in the mid
+1980s to foster the development of software that would always be free.
+Their General Public License is designed to prevent free software from
+evaporating, as corporations cull the best contributions, improve
+them, and remove them from circulation. It specifically states that
+anyone using the software has the right to redistribute it, with the
+source code, and that modifications to the software must also be
+redistributable. In practice, this means that you cannot apply a
+restrictive license to your modified version of free code.<footnote><para>
+It certainly does not mean that you are forced to distribute your
+modifications, even if you don&rsquo;t want to. You&rsquo;re free to keep your
+modifications to yourself&mdash;which, in many cases, is probably a good
+idea. But if you <emphasis>do</emphasis> decide to distribute your improved version,
+you must distribute it under the same terms as the original software.
+</para></footnote>
+In particular, the <acronym>GPL</acronym> states that software must always be distributed
+either with the source code, or with a promise to provide the source
+code upon asking.
+</para>
+
+<para>
+<INDEXTERM><PRIMARY>LGPL (Limited GPL)</PRIMARY></INDEXTERM>
+The <acronym>GPL</acronym> (or a slightly limited version of it, called the 
+<acronym>LGPL</acronym>) is
+applied to all software created by the <acronym>FSF</acronym>. It 
+has also been applied to a lot of software that is not created or distributed 
+by the <acronym>FSF</acronym>.
+</para>
+
+<para>
+The software discussed in this book, and the software included on the
+<acronym>CD-ROM</acronym>, is all covered by the General Public License; most of it
+was developed by the Free Software Foundation, or in association with
+them.
+</para>
+
+<sect3 id="GTOOLS-CH-1-SECT-2.1.1"><title>Free but not cheap</title>
+
+<para>
+<INDEXTERM><PRIMARY>cost of free software</PRIMARY></INDEXTERM>
+It&rsquo;s a common misconception that &ldquo;free software&rdquo; means &ldquo;software that
+doesn&rsquo;t cost anything.&rdquo; That&rsquo;s really not the case. There is nothing
+to prevent someone from selling you a disk containing free software,
+or even charging you for <acronym>FTP</acronym>ing the software from their network archive.
+In fact, the General Public License explicitly
+states that selling the software is allowable&mdash;but that you cannot
+restrict others from reselling what you have sold to them.
+The <acronym>CD-ROM</acronym> that accompanies this book isn&rsquo;t free, for
+example; you also can buy copies of the software from the <acronym>FSF</acronym> itself,
+Cygnus Support, Cyclic Software, and other companies.
+</para>
+
+<para>
+The word &ldquo;free&rdquo; is used in a more political sense: it really means
+&ldquo;liberated from licensing restrictions.&rdquo; That&rsquo;s a crucial part of the
+Free Software Foundation&rsquo;s vision: its goal is to create a complete
+set of software (an operating system, plus all necessary utilities)
+that can be circulated without restriction.
+</para>
+</sect3>
+
+<sect3 id="GTOOLS-CH-1-SECT-2.1.2"><title>Free but not low-quality</title>
+
+<para>
+<INDEXTERM><PRIMARY>quality of free software</PRIMARY></INDEXTERM>
+<INDEXTERM><PRIMARY>bugs in free software</PRIMARY></INDEXTERM>
+Free software is one area in which the adage &ldquo;You get what you pay
+for&rdquo; doesn&rsquo;t apply. Sure, lots of public domain software and
+shareware is bug-laden and poorly maintained. However, the software
+distributed by the <acronym>FSF</acronym> is, on the whole, among the most
+well-maintained and up-to-date software available. As a rule, it is
+usually better than the best commercial equivalents. The <emphasis role=bold>gcc</emphasis>
+and <emphasis role=bold>g++</emphasis> compilers, which are discussed in Chapter 4, are
+widely acclaimed and generally produce better code than most vendors&rsquo;
+compilers. When bugs are discovered, as they are in any software,
+they are fixed very quickly; the <acronym>FSF</acronym>&rsquo;s response to bug reports should
+be the envy of any commercial software vendor.
+</para>
+
+<para>
+<INDEXTERM><PRIMARY>security</PRIMARY><SECONDARY>free software and</SECONDARY></INDEXTERM>
+<INDEXTERM><PRIMARY>viruses</PRIMARY></INDEXTERM>
+<INDEXTERM><PRIMARY>Trojan horses</PRIMARY></INDEXTERM>
+Another concern that&rsquo;s often voiced about free software is security.
+The impression exists that free software is full of Trojan horses,
+viruses, and other noxious creatures that will disable your system as
+soon as you start using it. This may be true of some public domain
+software, but such behavior is (in the <acronym>UNIX</acronym> world, at least) fairly
+rare, though not unknown.<footnote><para>
+Even in the <acronym>DOS</acronym> and Mac worlds, where viruses abound, it has been
+claimed that &ldquo;free software&rdquo; is actually safer than commercial
+software. We wouldn&rsquo;t stake our systems on that claim.
+</para></footnote>
+</para>
+
+<para>
+You owe it to yourself to be cautious about true public domain
+software and shareware. However, the software that&rsquo;s distributed by
+the Free Software Foundation is completely trustworthy. Like any
+software, it may have bugs and security holes&mdash;no vendor, no
+matter what they charge, can guarantee that their software is
+&ldquo;bug-free.&rdquo; But you can rest assured that there are <emphasis>no</emphasis>
+intentionally introduced hazards to plague you.
+<!-- You might reasonably ask why raise the question -1 we *did*  -->
+<!-- get a rather embittered complaint from someone who ran into a  -->
+<!-- well-known (and fixed) security hole in emacs. Basically, she  -->
+<!-- thought we had told her that Emacs was bug-free. Obviously, we  -->
+<!-- hadn't, but I thought I'd make it completely clear this time.  -->
+</para>
+
+<para>
+<INDEXTERM><PRIMARY>technical support</PRIMARY></INDEXTERM>
+<INDEXTERM><PRIMARY>support, technical</PRIMARY></INDEXTERM>
+Finally, some users are concerned that free software is &ldquo;not
+supported.&rdquo; As we&rsquo;ve said, if commercial software vendors were as
+responsive to trouble reports as the <acronym>FSF</acronym>, our world would be a better
+place. However, that doesn&rsquo;t eliminate the need for traditional
+customer support services, to provide everything from &ldquo;handholding&rdquo; to
+bug fixes. Such support services are available for a fee, from
+Cygnus Support and other companies. Cygnus provides a level of
+technical support that&rsquo;s the equal of that provided with 
+any commercial product. There
+are, we&rsquo;ll admit, a few people in the free software community who think
+that &ldquo;support isn&rsquo;t necessary: you have the source code, so you can
+fix it yourself.&rdquo; However, you don&rsquo;t have to listen to them if you
+don&rsquo;t want to.
+</para>
+</sect3>
+
+<sect3 id="GTOOLS-CH-1-SECT-2.1.3"><title>Free but usable in commercial applications</title>
+
+<para>
+<INDEXTERM><PRIMARY>distribution of software</PRIMARY></INDEXTERM>
+<INDEXTERM><PRIMARY>commercial software</PRIMARY></INDEXTERM>
+Several misunderstandings about the relationship between free
+and commercial software have discouraged their use together. The most
+common&mdash;though not particularly relevant to this book&mdash;is that software
+covered by the <acronym>GPL</acronym> can&rsquo;t be distributed with commercial
+products.
+<!-- Though I *did* recently hear of a commercial product that had a  -->
+<!-- bizarre license that seemed to be constructed intentionally to  -->
+<!-- prevent users from distributing the software with free software.  -->
+<!-- I can mention this, if there's any point; I rather doubt it.  -->
+This is just untrue. The General Public License requires that:
+</para>
+
+<itemizedlist>
+<listitem><para>
+The free software be distributed with source code or an offer to
+provide source code
+</para></listitem>
+
+<listitem><para>
+No additional restrictions be attached to the use or redistribution
+of the free software
+</para></listitem>
+</itemizedlist>
+
+<para>
+Neither of these provisions means that you can&rsquo;t put free software on
+a distribution tape alongside your commercial product.
+</para>
+
+<para>
+<INDEXTERM><PRIMARY>gcc (GNU C compiler)</PRIMARY></INDEXTERM>
+The next most common misunderstanding is that code that&rsquo;s &ldquo;touched&rdquo; by
+the <acronym>GNU</acronym> tools somehow becomes &ldquo;free software&rdquo; and can&rsquo;t be sold
+commercially--that is, that the General Public License requires output
+from the <emphasis role=bold>gcc</emphasis> compiler to be placed 
+under the same license. Again, this just isn&rsquo;t true. While the 
+Free Software Foundation hopes
+that <emphasis role=bold>gcc</emphasis> users will feel a sense of obligation to make their
+software freely available in one form or another, their license does
+not compel you to do so. Only if you incorporate source code from free
+software do you have to make your code freely available.
+</para>
+
+<para>
+There are a couple of border areas that have contributed to this
+misperception, though. Because you cannot apply a typical software
+license to code covered by the <acronym>GPL</acronym>, you also cannot incorporate &ldquo;free&rdquo;
+code within a commercially licensed product. This means that
+libraries present a special problem. Incorporating
+code from a &ldquo;free&rdquo; software library (like 
+<emphasis role=bold>libg++</emphasis> or the <acronym>GNU</acronym>
+version of <emphasis role=bold>libc</emphasis>) would create a program that had to be
+licensed under the <acronym>GPL</acronym>&mdash;since, by distributing this program, you would
+also be distributing the libraries.
+</para>
+
+<para>
+<INDEXTERM><PRIMARY>libraries</PRIMARY></INDEXTERM>
+There are several solutions to this problem. Most obviously, there&rsquo;s
+no requirement that you use <acronym>GNU</acronym> libraries when you compile; you can
+use commercial C or C++ libraries.
+If you want to use &ldquo;free&rdquo; libraries, however, the Free Software
+Foundation recognized that restrictions on the use of libraries was
+preventing people from
+using their software; free software that no one felt free to use was
+not helping their cause. To this end, the <acronym>FSF</acronym> created a special
+version of the <acronym>GPL</acronym> for libraries (the <acronym>LGPL</acronym>); 
+the <acronym>LGPL</acronym> allows you to
+distribute software that includes the <acronym>GNU</acronym> libraries without requiring
+you to make your software freely redistributable or requiring you to
+ship the source code for your libraries.
+</para>
+
+<para>
+This solution is not without its problems&mdash;and those problems lead to
+further solutions:
+</para>
+
+<itemizedlist>
+<listitem><para>
+<INDEXTERM><PRIMARY>LGPL (Limited GPL)</PRIMARY></INDEXTERM>
+<INDEXTERM><PRIMARY>bison utility</PRIMARY></INDEXTERM>
+<INDEXTERM><PRIMARY>byacc package</PRIMARY></INDEXTERM>
+Many programs require a parser to handle an input stream, a very
+difficult piece of software to write correctly. Programmers usually
+generate this part of their code through a "compiler-compiler" like
+<emphasis role=bold>yacc</emphasis>. Old versions of the <emphasis
+role=bold>bison</emphasis> parser generator would generate parsers
+that were under the <acronym>GPL</acronym>, thus preventing their use
+in non-<acronym>GPL</acronym>'d programs. This is not true of recent
+versions of <emphasis role=bold>bison</emphasis>, however. Nor has
+this ever been a problem with <emphasis role=bold>byacc</emphasis>,
+the parser generator included with this book.
+</para></listitem>
+
+<listitem><para>
+The <acronym>LGPL</acronym> still places too many requirements on the libraries that it
+covers. While you aren&rsquo;t required to apply the <acronym>GPL</acronym> to software that
+includes <acronym>LGPL</acronym> libraries, you <emphasis>are</emphasis> required to distribute your
+software in a way that allows the user to substitute updated libraries
+for the original ones. Depending on what you&rsquo;re doing, this can be a
+minor annoyance, or completely impractical: for example, if your
+software controls a microwave oven, you can bet that the users (a)
+have no way of relinking your program with a later library release,
+and (b) don&rsquo;t care.
+</para>
+
+<para>
+Cygnus Support provides their own version of the C libraries; these have a less
+restrictive license that only requires that you acknowledge use of
+their software. The CD supplied with this book includes these
+versions.
+</para></listitem>
+</itemizedlist>
+
+</sect3>
+</sect2>
+
+
+
+<sect2 id="GTOOLS-CH-1-SECT-2.2"><title>The GNU Project, the FSF, and Support Companies</title>
+
+<para>
+<INDEXTERM><PRIMARY>GNU project</PRIMARY></INDEXTERM>
+<INDEXTERM><PRIMARY>UNIX</PRIMARY><SECONDARY>GNU project</SECONDARY></INDEXTERM>
+Without a doubt, the <acronym>GNU</acronym> project is the world&rsquo;s premier free software
+factory. Its <emphasis role=bold>gcc</emphasis> and <emphasis role=bold>g++</emphasis> compilers set the standard for
+compilers on <acronym>UNIX</acronym>. They also made the development of Linux possible.
+Richard Stallman&rsquo;s Emacs editor not only boasts a fanatic following,
+but has been copied on other platforms.
+</para>
+
+<para>
+We&rsquo;re not going to delve deeply into the purpose of the <acronym>GNU</acronym> project
+here (for an introduction, go to any site storing <acronym>GNU</acronym> 
+software and get the file called 
+<emphasis><acronym>INTERVIEW</acronym></emphasis>&thinsp;), but 
+it goes beyond a set of tools;
+its goal is the creation of an entire <acronym>UNIX</acronym>-like operating 
+system. The project
+was started by Richard M. Stallman, the developer of Emacs and a
+famous proponent of free software, around 1985. The Free Software
+Foundation coordinates and directs the <acronym>GNU</acronym> project.
+</para>
+
+<para>
+<INDEXTERM><PRIMARY>Cygnus Support, Inc.</PRIMARY></INDEXTERM>
+Cygnus Support, Inc. and Cyclic Software put together the packages of free software on the
+<acronym>CD-ROM</acronym> included with this book. They were founded by free-software 
+developers to promote the use of free software by large
+organizations that perhaps wouldn&rsquo;t consider it under normal
+circumstances.
+</para>
+
+<para>
+The main role of Cygnus is to provide a level of support at least as
+reliable as that offered by software manufacturers for commercial
+software. In addition to solving customer problems, Cygnus creates
+some free software themselves (such as the <acronym>GNATS</acronym> bug-tracking system
+and the Deja<acronym>GNU</acronym> test platform), fixes bugs,
+and writes cross-compilers. They offer customer service for the most
+mission-critical <acronym>GNU</acronym> software, such as the compilers and related
+program-development tools.
+</para>
+
+<para>
+Cygnus maintains close contact with the <acronym>FSF</acronym>, although the two are not
+affiliated. While no longer the only commercial company focused on
+free software, Cygnus is the largest and best known. A formal
+description of the company appears in Appendix A. 
+</para>
+</sect2>
+<INDEXTERM startref="ch01.free1" class="endofrange"><INDEXTERM startref="ch01.free2" class="endofrange">
+</sect1>
+
+<sect1 id="GTOOLS-CH-1-SECT-3"><title>The Software in This Book</title>
+
+<para>
+This book discusses the Free Software development environment,
+specifically:
+</para>
+
+<itemizedlist>
+<listitem><para>Editor: the Emacs editor</para></listitem>
+
+<listitem><para>
+Compilers: <emphasis role=bold>gcc</emphasis> and 
+<emphasis role=bold>g++</emphasis> for C and C++, respectively
+</para></listitem>
+
+<listitem><para>
+Libraries: <emphasis role=bold>libc</emphasis> and 
+<emphasis role=bold>libg++</emphasis>. The libraries included on the
+CD are the Cygnus versions that are not subject to the <acronym>LGPL</acronym>.
+</para></listitem>
+
+<listitem><para>
+Assembler and linker: the <emphasis role=bold>gas</emphasis> assembler and 
+<emphasis role=bold>ld</emphasis> linker
+</para></listitem>
+
+<listitem><para>
+Binary utilities: <emphasis role=bold>size</emphasis>, <emphasis role=bold>nm</emphasis>, <emphasis role=bold>gprof</emphasis>, and other tools
+that work with object files and 
+executables. <emphasis role=bold>gprof</emphasis> does not 
+run on all architectures.
+</para></listitem>
+
+<listitem><para>
+Debugger: <emphasis role=bold>gdb</emphasis>, the state-of-the art debugging tool</para></listitem>
+
+<listitem><para>
+Software build program: <emphasis role=bold>make</emphasis>, for 
+automating the compilation process</para></listitem>
+
+<listitem><para>
+Source control program: the <acronym>RCS</acronym> package, for 
+source file revision control
+</para></listitem>
+</itemizedlist>
+
+<para>
+<INDEXTERM><PRIMARY>flex package</PRIMARY></INDEXTERM>
+<INDEXTERM><PRIMARY>byacc package</PRIMARY></INDEXTERM>
+The <acronym>CD-ROM</acronym> includes source code for all these packages. The CD also 
+includes <emphasis role=bold>flex</emphasis> and <emphasis role=bold>byacc</emphasis>, which aren&rsquo;t
+discussed in the book.<footnote><para>
+The best source of information on these packages is O'Reilly's
+Nutshell Handbook <emphasis>lex & yacc</emphasis>.
+</para></footnote>
+We&rsquo;ve included them because they&rsquo;re needed to recompile several of the
+other tools.
+</para>
+
+<para>
+The CD includes executables for
+SunOS 4.1.X (on <acronym>SPARC</acronym> processors only),
+Solaris 2.X (on <acronym>SPARC</acronym> processors only),
+<acronym>HP-UX</acronym> (on the HP 9000/700),
+<acronym>AIX</acronym> (on the <acronym>IBM</acronym> RS/6000),
+Irix (on the <acronym>SGI</acronym> Iris/Indigo),
+and Digital <acronym>UNIX</acronym> (on the Alpha).
+Linux executables are not on the disk, because Linux users already have
+binaries for most of the tools as part of their Linux distributions.
+</para>
+
+<para>
+Although the CD contains executables only for the platforms listed above,
+it contains the source code for <emphasis>all</emphasis> platforms and
+cross-compilation environments that the Free
+<?troff .ne 10>
+Software Foundation knows
+about.<footnote><para>
+Cygnus does <emphasis>not</emphasis> support all the tools or all the architectures;
+support is discussed in <xref linkend="GTOOLS-CH-1-SECT-6">.
+</para></footnote>
+Thanks to the thoroughness of the Free Software Foundation, plus the
+loyalty shown by thousands of users who have ported the software to
+innumerable systems, an automated configuration 
+procedure exists that can handle a
+huge variety of platforms. Check the configuration files provided
+with the software; you may be able to build the executables yourself.
+<xref linkend="GTOOLS-APP-B">, explains the basic procedure.
+A more extensive guide to building software on different platforms is
+available in the O&rsquo;Reilly book <emphasis>Porting UNIX
+Software</emphasis>, by Greg Lehey.
+</para>
+
+<para>
+Even if you have one of the platforms for which binaries are provided, you
+may find a reason to rebuild from sources. For instance, you may want
+to change the default pathnames stored in Emacs. Or you may hear of
+new versions of these tools (they are being upgraded all the time) and
+decide you want them. Since these platforms are so common,
+you should have no trouble rebuilding your software.
+</para>
+
+<para>
+<INDEXTERM><PRIMARY>Windows NT</PRIMARY></INDEXTERM>
+<INDEXTERM><PRIMARY>Microsoft Windows NT</PRIMARY></INDEXTERM>
+<INDEXTERM><PRIMARY>VAX/VMS</PRIMARY></INDEXTERM>
+It&rsquo;s worth noting that the <acronym>GNU</acronym> tools are not only used under <acronym>UNIX</acronym>.
+Congruent Corporation has ported the <acronym>GNU</acronym> tools to Microsoft&rsquo;s
+Windows NT operating system, and many of the tools run under <acronym>VAX/VMS</acronym>.
+For some systems, the <acronym>GNU</acronym> tools are the <emphasis>only</emphasis> development
+environment: for example, they&rsquo;re the only tools
+available for Linux, 386<acronym>BSD</acronym> (another freely available operating
+system), and <acronym>BSDI</acronym> (a commercial operating system 
+based on <acronym>BSD UNIX</acronym>).
+</para>
+</sect1>
+
+<sect1 id="GTOOLS-CH-1-SECT-4"><title>Installing Binaries</title>
+<para>
+<INDEXTERM><PRIMARY>binaries, installing</PRIMARY></INDEXTERM>
+<INDEXTERM><PRIMARY>installing binaries</PRIMARY></INDEXTERM>
+<INDEXTERM><PRIMARY>read.me file (on CD)</PRIMARY></INDEXTERM>
+Instructions for installing the binaries are on the <acronym>CD-ROM</acronym>,
+in a file named <emphasis>read.me</emphasis>.
+</para>
+
+<para>
+<INDEXTERM><PRIMARY>hard drive, copying to</PRIMARY></INDEXTERM>
+These tools are not meant to run from your CD. We have compressed
+them so that we could fit more onto the CD. But you would probably
+choose to move the executables to a directory on your hard disk
+anyway. After all, you bought your CD player to hold a variety of
+disks, not just this one. Your editor, compiler, and debugger are
+pretty constant companions, and you won&rsquo;t want to unmount them just so
+you can load up the latest hot graphics CD.
+</para>
+</sect1>
+
+<sect1 id="GTOOLS-CH-1-SECT-5"><title>Updating Your Tools</title>
+<para>
+<INDEXTERM><PRIMARY>updating</PRIMARY><SECONDARY>software tools</SECONDARY></INDEXTERM>
+<INDEXTERM><PRIMARY>software</PRIMARY><SECONDARY>updating</SECONDARY></INDEXTERM>
+<INDEXTERM><PRIMARY>support, technical</PRIMARY></INDEXTERM>
+<INDEXTERM><PRIMARY>technical support</PRIMARY></INDEXTERM>
+New features are being added to free software all the time; sometimes
+a radically different product results. For instance, Version 19 of
+Emacs (which is on the accompanying CD) introduced the pull-down menus
+that are so popular on graphics terminals. The most recent version of
+<emphasis role=bold>gdb</emphasis> supplies a graphical interface. So, while you can be happy
+<?troff .ne 10>
+with the software on the CD for a long time, you will eventually want
+to get a new version of some tool.
+</para>
+
+<para>
+<INDEXTERM><PRIMARY>Cyclic Software</PRIMARY></INDEXTERM>
+One option is to get support from Cygnus (to cover the compiler tools)
+or Cyclic (to cover RCS and CVS). Neither company provides Emacs. If
+they can supply the binaries for your system, this is the simplest
+action. (They support a lot of platforms that aren&rsquo;t on this book&rsquo;s
+CD.) Their addresses are:
+</para>
+
+<literallayout>
+Cygnus Support
+1937 Landings Drive
+Mountain View, CA 94043
+<acronym>USA</acronym>
+<acronym>WWW</acronym>: <systemitem role=sitename>http://www.cygnus.com</systemitem>
+Email: <systemitem role=emailaddr>info@cygnus.com</systemitem>
+Telephone:+1-800-<acronym>CYGNUS</acronym>-1 or +1-415-903-1400
+<acronym>FAX</acronym>: +1-415-903-0122
+
+Cyclic Software
+1701 16th St. NW #652
+Washington, DC 20009
+<acronym>USA</acronym>
+<acronym>WWW</acronym>: <systemitem role=sitename>http://www.cyclic.com/</systemitem>
+Email: <systemitem role=emailaddr>info@cyclic.com</systemitem>
+Telephone:+1-202-265-6119
+</literallayout>
+
+<para>
+You can also buy collections of products on tape from the Free
+Software Foundation. Only sources are provided. Their address is:
+</para>
+
+<literallayout>
+Free Software Foundation, Inc.
+59 Temple Place, Suite 330
+Boston, MA 02111-1307
+<acronym>USA</acronym>
+<acronym>WWW</acronym>: <systemitem role=sitename>http://www.gnu.ai.mit.edu</systemitem>
+Email: <systemitem role=emailaddr>gnu@prep.ai.mit.edu</systemitem>
+Telephone: +1-617-876-3296
+<acronym>FAX</acronym>: +1-617-492-9057
+<acronym>FAX</acronym> (in Japan): 0031-13-2473 (<acronym>KDD</acronym>)
+</literallayout>
+
+<para>
+When buying from Cygnus, Cyclic, or the <acronym>FSF</acronym>, you are helping to support
+free software.
+</para>
+
+<para>
+<INDEXTERM><PRIMARY>FTP, obtaining software via</PRIMARY></INDEXTERM>
+<INDEXTERM><PRIMARY>software</PRIMARY><SECONDARY>obtaining via FTP</SECONDARY></INDEXTERM>
+But one of the attractions of free software is that it is free of
+charge&mdash;if you can take the trouble to obtain it over a network. A
+number of Internet sites have the sources for all the software in this
+book on <acronym>FTP</acronym> sites. One of the most popular 
+is <systemitem role=sitename>ftp.uu.net</systemitem>. Go
+to the directory <filename>/systems/gnu</filename> on that site. The home site for
+the <acronym>FSF</acronym> is 
+<systemitem role=sitename>prep.ai.mit.edu</systemitem>, where the 
+software is under
+<filename>/pub/gnu</filename>, but that site is often overloaded
+and sometimes has to deny access to anonymous logins.
+If you
+want to <emphasis role=bold>ftp</emphasis> free software regularly, go to the
+<filename>/pub/gnu/GNUinfo</filename> directory and get the file 
+<emphasis><acronym>FTP</acronym></emphasis> for
+information on sites around the world that carry free software; you
+can then choose a site closer to you that is less well known.
+For people without Internet access, free software sources
+are also available on some <acronym>BBS</acronym> sites.
+</para>
+</sect1>
+
+<sect1 id="GTOOLS-CH-1-SECT-6"><title>The Free Software Culture</title>
+
+<para>
+<INDEXTERM id=ch01.cult1 class="startofrange"><PRIMARY>free software</PRIMARY><SECONDARY>culture of</SECONDARY></INDEXTERM>
+<INDEXTERM id=ch01.cult2 class="startofrange"><PRIMARY>culture of free software</PRIMARY></INDEXTERM>
+<INDEXTERM ID="ch01.cult3" class="startofrange"><PRIMARY>resources</PRIMARY>
+  <SECONDARY>GNU</SECONDARY></INDEXTERM>
+As you have probably guessed, free software is based largely
+on volunteer efforts: although many people have contributed to the
+wealth of software that&rsquo;s available, the number of people who make their
+living (all or in part) from free software is very small, indeed.
+</para>
+
+<para>
+<INDEXTERM><PRIMARY>Free Software Foundation (FSF)</PRIMARY></INDEXTERM>
+The most important organization devoted to the proliferation of free
+software is the Free Software Foundation. They have made lots of
+software available on their own, and they&rsquo;re a good source for
+information about other programs. One of the <acronym>FSF</acronym>&rsquo;s goals is to develop a
+complete <acronym>UNIX</acronym>-like operating system; they have already developed many
+of the utilities for this operating system, including versions of
+<emphasis role=bold>tar</emphasis>, <emphasis role=bold>more</emphasis>, 
+<emphasis role=bold>vi</emphasis>, and <emphasis role=bold>sed</emphasis> 
+(plus the software described in this book).
+</para>
+
+<para>
+The best way to find out what software is available from the Free
+Software Foundation is to <emphasis role=bold>ftp</emphasis> to
+<emphasis>prep.ai.mit.edu</emphasis> or one of the systems mirroring
+it, and look in the directory <filename>/pub/gnu</filename>.
+
+<INDEXTERM><PRIMARY>newsgroups, GNU information via</PRIMARY></INDEXTERM>
+<INDEXTERM><PRIMARY>USENET, GNU information via</PRIMARY></INDEXTERM>
+
+It&rsquo;s also a good idea to look in the <emphasis>gnu</emphasis> 
+Usenet newsgroups; this is
+where you&rsquo;ll find free software discussed most
+heavily. Particularly important newsgroups are:
+</para>
+
+<variablelist>
+<varlistentry><term><emphasis>gnu.announce</emphasis></term>
+<listitem><para>
+For announcements of newly available free software, new releases, etc.
+</para></listitem>
+</varlistentry>
+
+<varlistentry><term><emphasis>gnu.emacs.help</emphasis></term>
+<listitem><para>
+For questions about the Emacs editor
+</para></listitem>
+</varlistentry>
+
+<varlistentry><term><emphasis>gnu.g++.help</emphasis></term>
+<listitem><para>
+For questions about the <emphasis role=bold>g++</emphasis> compiler
+</para></listitem>
+</varlistentry>
+
+<varlistentry><term><emphasis>gnu.gcc.help</emphasis></term>
+<listitem><para>
+For questions about the <emphasis role=bold>gcc</emphasis> compiler
+</para></listitem>
+</varlistentry>
+
+<varlistentry><term><emphasis>gnu.misc.discuss</emphasis></term>
+<listitem><para>
+For general discussion and questions
+</para></listitem>
+</varlistentry>
+</variablelist>
+
+<para>
+The last group, <emphasis>gnu.misc.discuss</emphasis>, is where to find out about the
+&ldquo;feel&rdquo; of the free software community; there&rsquo;s a lot of philosophical
+and legal discussion, in addition to questions about what software is
+(or should be) available (and if it doesn&rsquo;t exist, why not). This
+group is very sensitive to any mention of a commercial product, so
+be forewarned.
+</para>
+
+<para>
+Another good source of information is the <emphasis>GNU&rsquo;s Bulletin</emphasis>,
+the Free Software Foundation&rsquo;s newsletter. This is published in
+January and June; you can get a copy by sending your name and address
+to:
+</para>
+
+<literallayout>
+Free Software Foundation, Inc.
+675 Massachusetts Avenue
+Cambridge, MA 02139
+<acronym>USA</acronym>
+</literallayout>
+
+<para>
+They ask you to send sufficient postage to return their reply, but
+this is not required. (The postage is $0.78 for someone in the U.S.,
+and enough International Reply Coupons for a package of 100 grams to
+reach overseas correspondents.)
+</para>
+
+<para>
+You can also send electronic mail to <systemitem role=emailaddr>gnu@prep.ai.mit.edu</systemitem>&hairsp;; that&rsquo;s
+a good way to ask questions.
+<!-- -1 this gatewayed onto gnu.misc.discuss?  -->
+</para>
+
+<para>
+The Free Software Foundation is always in need of
+money, talent, and equipment. If you use the software described in
+this book, you should realize that they&rsquo;re giving away a package with
+a commercial value of several thousand dollars. You are encouraged to
+make a tax-deductible donation to the Foundation so they&rsquo;ll be able
+to continue providing this service. The donation allows them to do
+all the things that a software development environment has to do&mdash;rent
+space, pay staff, buy equipment, and so on.
+</para>
+
+<para>
+<INDEXTERM><PRIMARY>League for Programming Freedom (LPF)</PRIMARY></INDEXTERM>
+<INDEXTERM><PRIMARY>LPF (League for Programming Freedom)</PRIMARY></INDEXTERM>
+We&rsquo;ll end the chapter by mentioning one other important organization.
+Although there is no formal connection between the Free Software
+Foundation and the League for Programming Freedom (<acronym>LPF</acronym>), most people
+who are interested in free software agree with the goals and aims of
+the <acronym>LPF</acronym>. The <acronym>LPF</acronym> is an advocacy group whose charter is to &ldquo;protect
+the freedom to write software ... which is threatened by &lsquo;look and
+feel&rsquo; interface copyright lawsuits and by software patents.&rdquo; Software
+patents, in particular, are increasingly being awarded to companies
+to cover common processes that many programmers use.
+</para>
+
+<para>
+Many commercial software organizations support the <acronym>LPF</acronym>. Its purpose
+is quite different from the <acronym>FSF</acronym>. The <acronym>LPF</acronym> simply wants to make sure
+that the developers of all kinds of software&mdash;free and commercial&mdash;can
+live without fear of being sued because their software is vaguely
+&ldquo;like&rdquo; somebody else's. If you are
+interested in the <acronym>LPF</acronym>, send mail to 
+<systemitem role=emailaddr>lpf@uunet.uu.net</systemitem>.
+<!-- Actually, I really don't think this mention is appropriate, but  -->
+<!-- when we wrote the Emacs book, RMS asked that we put an appendix  -->
+<!-- discussing the lpf, and I agreed. -1 as well do it again.  -->
+<!-- Actually, there's a lot less attention given to free software  -->
+<!-- issues in this book than there is in the Emacs book.  -->
+</para>
+<INDEXTERM startref="ch01.cult1" class="endofrange"><INDEXTERM startref="ch01.cult2" class="endofrange"><INDEXTERM startref="ch01.cult3" class="endofrange">
+</sect1>
+
+</chapter>

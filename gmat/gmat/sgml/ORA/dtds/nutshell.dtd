@@ -1,0 +1,63 @@
+<!-- ...................................................................... -->
+<!-- ORA Nutshell DTD, derived from ....................................... -->
+<!-- ORA Production DTD V2.4beta1 ......................................... -->
+<!-- File nutshell.dtd .................................................... -->
+
+<!-- ######################################################################
+     # Production Modifications:
+     # Added NutList list type
+     #   This is to support the production of Nutshell-format books
+     ######################################################################  
+-->
+
+<!-- Copyright 1995 O'Reilly & Associates, Inc.
+
+     Please direct all questions, bug reports, or suggestions for
+     changes to:
+
+     o Norm Walsh, O'Reilly & Associates, Inc.
+       90 Sherman St., Cambridge, MA 02140
+       <norm@ora.com>
+-->
+
+<!-- ###################################################################### -->
+
+
+<!-- Add another type of list: nutlist -->
+<!ENTITY % local.list.class "| NutList">
+
+<!-- Source in the Oraprod DTD -->
+<!--ENTITY % oraprod3.0 PUBLIC  "-//ORA//DTD ORA Production 3.0//EN">
+%oraprod3.0;-->
+<!ENTITY % oraprod3.1 PUBLIC  "-//ORA//DTD ORA Production 3.1//EN">
+%oraprod3.1;
+
+<!-- Define the Nutlist -->
+<!ELEMENT NutList - - ((Title, TitleAbbrev?)?, NutEntry+) >
+<!ATTLIST NutList
+		%common.attrib; 
+		LongestTerm	CDATA		#IMPLIED
+>
+
+<!ELEMENT NutEntry - - (Term+, NutSynopsis?, NutListTitle?, ListItem) >
+<!ATTLIST NutEntry
+		%common.attrib; 
+>
+
+<!ELEMENT NutSynopsis - - ((LineAnnotation | %tech.char.class; | 
+                            %word.char.mix; | Graphic)+) >
+<!ATTLIST NutSynopsis
+		%common.attrib;
+		Format  	NOTATION
+				(linespecific)	linespecific 
+		Label		CDATA		#IMPLIED
+>
+
+<!ELEMENT NutListTitle - - ((%word.char.mix)+) >
+<!ATTLIST NutListTitle
+		%common.attrib; 
+		Pagenum		CDATA		#IMPLIED 
+>
+
+
+<!-- EOF -->

@@ -1,0 +1,22 @@
+#!/usr/bin/perl5 -- # -*- Perl -*-
+#
+# Run the LaTeX filter
+#
+# $Id: gmat.latex,v 1.1.1.1 2002-07-15 21:33:31 root Exp $
+#
+#
+
+$BASEVERS   = "0.1";
+$RCS_ID     = '$Id: gmat.latex,v 1.1.1.1 2002-07-15 21:33:31 root Exp $'; # '
+($PROGNAME  = $RCS_ID) =~ s/^.Id: (\S+) .*$/$1/;
+($PATCHLEVEL= $RCS_ID) =~ s/^.Id: \S+ \d+\.(\d+) .*$/$1/;
+$VERSION    = "$BASEVERS patchlevel $PATCHLEVEL";
+$EXECDIR    = ".";
+$EXECDIR    = $1 if $0 =~ /^(.*)\/[^\/]+$/;
+
+######################################################################
+
+$source = pop (@ARGV);
+
+system ("texit $source");
+

@@ -1,0 +1,44 @@
+#
+# Map DocBook entities for Texinfo
+#
+# $Id: dbtotexi.ent,v 1.1.1.1 2002-07-15 21:33:31 root Exp $
+#
+#
+######################################################################
+
+&hellip		...
+&lowbar		_
+&frac18 	1/8
+&frac38 	3/8
+&frac58 	5/8
+&frac78 	7/8
+&frac13 	1/3
+&frac23 	2/3
+&frac15 	1/5
+&frac25 	2/5
+&frac35 	3/5
+&frac45 	4/5
+&frac16 	1/6
+&frac56 	5/6
+&frac112	1/12
+&frac116	1/16
+&lcub		{
+&rcub		}
+#
+#
+#
+&amp   		&
+&lt		<
+&gt		>
+&ldquo		``
+&rdquo		''
+&copy		@copyright{}
+#
+#
+#
+&AElig		AE
+&aelig 		ae
+&mdash		---
+&nbsp           " "
+&ndash		--
+&numsp		" "

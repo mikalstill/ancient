@@ -1,0 +1,184 @@
+# -*- Perl -*-
+# Markup object for HTML
+#
+# $Id: html.mkp,v 1.1.1.1 2002-07-15 21:33:31 root Exp $
+#
+#
+##############################################################################
+
+if ($VERBOSE) {
+    my($VERSION) = '$Id: html.mkp,v 1.1.1.1 2002-07-15 21:33:31 root Exp $'; # '
+    my($REQNAME) = (split(/\s+/, $VERSION))[1];
+    my($vers) = (split(/\s+/, $VERSION))[2];
+
+    print STDERR "$REQNAME version $vers.\n";
+}
+
+##############################################################################
+
+{
+    package MARKUP_OBJECT;
+
+    $comment = "*COMMENT*";
+
+    %BREAK_BEFORE = ('P' => 2, 
+		     'PRE' => 2, 
+		     '/PRE' => 1, 
+		     'H1' => 2, 
+		     'H2' => 2, 
+		     'TABLE' => 2, 
+		     'H3' => 2, 
+		     'TR' => 1, 
+		     'H4' => 2, 
+		     'H5' => 2,
+		     'BLOCKQUOTE' => 2,
+		     '/BLOCKQUOTE' => 1,
+		     'UL' => 2, 
+		     'OL' => 2, 
+		     'DL' => 2,
+		     'DT' => 2,
+		     'TABLE' => 2,
+		     '/TABLE' => 1,
+		     $comment => 1);
+
+    %BREAK_AFTER  = ('P' => 1, 
+		     'PRE' => 1, 
+		     'UL' => 1, 
+		     'OL' => 1, 
+		     'DL' => 1,
+		     'BR' => 1,
+		     '/UL' => 1, 
+		     'TABLE' => 1,
+		     '/TABLE' => 2, 
+		     '/OL' => 1, 
+		     'TR' => 1, 
+		     '/TR' => 1, 
+		     '/TD' => 1, 
+		     '/DL' => 1, 
+		     '/PRE' => 1,
+		     'BLOCKQUOTE' => 1,
+		     '/BLOCKQUOTE' => 1,
+		     'HTML' => 1,
+		     'HEAD' => 1,
+		     'TITLE' => 1,
+		     '/TITLE' => 1,
+		     '/HEAD' => 1,
+		     '/BODY' => 1,
+		     'BODY' => 1,
+		     'TABLE' => 1,
+		     'TR' => 1,
+		     $comment => 1);
+
+    sub new {
+	my($type)  = shift;
+	my($class) = ref($type) || $type;
+	my($ref)  = {};
+
+	bless $ref, $class;
+
+	$ref->{'MARKUP_COL'} = 0;
+	$ref->{'LEADING_DOT'} = 1;
+	$ref->{'OBEY_SPACES'} = 0;
+	$ref->{'OUTPUT'} = "";
+	$ref->{'OUTPUT_FILEHANDLE'} = "";
+	$ref->{'OLD_STYLE_CALLS'} = 0;
+
+	return $ref;
+    }
+
+    sub output_text {
+	my($self, $text) = @_;
+	my($place, @lines, $save_);
+	local($_) = $text;
+
+	return if $_ eq "";
+
+	s/\n\n/\n/g;
+
+	$self->{'OUTPUT'} .= $_;
+	$self->{'MARKUP_COL'} += length($_);
+	$self->{'MARKUP_COL'} = 0 if substr($_, length($_)-1, 1) eq "\n";
+
+	$self->flush();
+    }
+
+    sub output {
+	# this function formats text...it's called through output()
+	# but had to have a different name for backwards compatability
+	# reasons...
+	my($self, $text) = @_;
+	my($place, @lines, $save_);
+	local($_) = $text;
+
+	return if $_ eq "";
+
+	s/\n\n/\n/g;
+
+	$firsttag = $lasttag = "";
+	$firsttag = $1 if /^\s*<([^<>]+)>/;
+	$lasttag = $1 if /<([^<>]+)>\s*$/; 
+
+	$firsttag =~ tr/a-z/A-Z/;
+	$lasttag =~ tr/a-z/A-Z/;
+
+	$firsttag = $comment if $firsttag =~ /^!/;
+	$lasttag = $comment if $lasttag =~ /^!/;
+
+#	print STDERR "\"$_\"\n";
+#	print STDERR "FIRST=$firsttag ($BREAK_BEFORE{$firsttag}), ";
+#	print STDERR "LAST=$lasttag ($BREAK_AFTER{$lasttag})\n";
+
+	if ($BREAK_BEFORE{$firsttag} > 0 && $self->{'MARKUP_COL'} != 0) {
+	    $self->{'OUTPUT'} .= "\n" x $BREAK_BEFORE{$firsttag};
+	    $self->{'MARKUP_COL'} = 0;
+	}
+
+	$self->{'OUTPUT'} .= $_;
+	$self->{'MARKUP_COL'} += length($_);
+	$self->{'MARKUP_COL'} = 0 if substr($_, length($_)-1, 1) eq "\n";
+
+	if ($BREAK_AFTER{$lasttag} > 0 && $self->{'MARKUP_COL'} != 0) {
+	    $self->{'OUTPUT'} .= "\n" x $BREAK_AFTER{$lasttag};
+	    $self->{'MARKUP_COL'} = 0;
+	}
+
+	$self->flush();
+    }
+
+    sub formatted_markup {
+	my($self) = @_;
+	
+	return $self->{'OUTPUT'};
+    }
+
+    sub flush {
+	my($self) = @_;
+	my($pr);
+
+	if ($self->{'OUTPUT_FILEHANDLE'}) {
+	    $pr = $self->{'OUTPUT_FILEHANDLE'};
+	    eval "print $pr \$self->{'OUTPUT'}";
+	    $self->{'OUTPUT'} = "";
+	}
+    }
+
+    sub output_filehandle {
+	my($self, $file) = @_;
+
+	$self->{'OUTPUT_FILEHANDLE'} = $file;
+    }
+
+    sub change_output_files {
+	my($self, $newname) = @_;
+	my($pr);
+
+	if ($self->{'OUTPUT_FILEHANDLE'}) {
+	    $self->flush();
+	    $pr = $self->{'OUTPUT_FILEHANDLE'};
+	    eval "close ($pr)";
+	    print STDERR "Changing formatter output file to $newname\n"
+		if $main::VERBOSE;
+	    eval "open ($pr, \">$newname\")";
+	}
+    }
+}

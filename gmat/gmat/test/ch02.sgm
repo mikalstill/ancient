@@ -1,0 +1,880 @@
+<chapter id="UNUT-CH-3">
+<title>The Unix Shell: An Overview</title>
+<?troff .Pt "Shell" "Overview" 3 9> 
+
+<para>
+For novice users, this chapter presents basic concepts about the Unix
+shell.  For advanced users, this chapter also summarizes the major
+similarities and differences between the Bourne, Korn, and C shells.
+Details on the three shells are provided in
+Chapter 4 and Chapter 5. 
+<INDEXTERM><PRIMARY>Unix</PRIMARY><SECONDARY>shells</SECONDARY><SEE>shells</SEE></INDEXTERM>
+<INDEXTERM id="UNUT-CH-3-IX-shells-overview-of" class="startofrange"><PRIMARY>shells</PRIMARY>
+  <SECONDARY>overview of</SECONDARY></INDEXTERM>
+</para>
+
+<para>
+The following topics are presented:
+</para>
+
+<itemizedlist>
+<listitem><para>
+Introduction to the shell
+</para></listitem>
+
+<listitem><para>
+Purpose of the shell
+</para></listitem>
+
+<listitem><para>
+Shell flavors
+</para></listitem>
+
+<listitem><para>
+Common features
+</para></listitem>
+
+<listitem><para>
+Differing features
+</para></listitem>
+</itemizedlist>
+
+<sect1 id="UNUT-CH-3-SECT-1">
+<title>Introduction to the Shell</title>
+
+<!-- ADR: Really, really, need a better example than this.  Sigh. -->
+<para>
+Let&rsquo;s suppose that the Unix operating system is a car.  
+When you drive, you issue a variety of &ldquo;commands&rdquo;:
+you turn the steering wheel, press the accelerator, or press
+the brake.  But how does the car translate your commands
+into the action you want? The car&rsquo;s drive mechanism,
+which can be thought of as the car&rsquo;s user interface, is responsible.
+Cars can be equipped with front-wheel drive, rear-wheel drive,
+four-wheel drive, and sometimes combinations of these.
+</para>
+
+<para>
+The shell is the user interface to Unix,
+and by the same token, several shells are available in Unix.
+Most systems provide more than
+one for you to choose from.  Each shell has different features,
+but all of them affect how commands will be interpreted and
+provide tools to create your Unix environment.
+</para>
+
+<para>
+<INDEXTERM><PRIMARY>command interpreters</PRIMARY><SEE>shells</SEE></INDEXTERM>
+The shell is simply a program that allows the system to understand your
+commands.  (That&rsquo;s why the shell is often called a <emphasis>command interpreter</emphasis>.)
+For many users, the shell works invisibly&mdash;&ldquo;behind the scenes.&rdquo;
+Your only
+concern is that the system does what you tell it to do;
+you don&rsquo;t care about
+the inner workings.  In our car analogy, this is comparable to pressing
+the brake.
+Most of us don&rsquo;t care whether the user interface involves
+disk brakes or drum brakes, as long as the car stops.
+</para>
+</sect1>
+
+<sect1 id="UNUT-CH-3-SECT-2">
+<title>Purpose of the Shell</title>
+
+<para>
+There are three uses for the shell:
+</para>
+
+<itemizedlist>
+<listitem><para>
+Interactive use
+</para></listitem>
+
+<listitem><para>
+Customization of your Unix session
+</para></listitem>
+
+<listitem><para>
+Programming
+</para></listitem>
+</itemizedlist>
+
+<sect2 id="UNUT-CH-3-SECT-2.1">
+<title>Interactive Use</title>
+
+<para>
+<INDEXTERM><PRIMARY>interactive use of shells</PRIMARY></INDEXTERM>
+When the shell is used interactively,
+the system waits for you to type a command at the Unix prompt.  
+Your commands can include special symbols that let you 
+abbreviate filenames or redirect input and output.
+</para>
+</sect2>
+
+<sect2 id="UNUT-CH-3-SECT-2.2">
+<title>Customization of Your Unix Session</title>
+
+<para>
+<INDEXTERM><PRIMARY>sessions</PRIMARY><SEE>login sessions</SEE></INDEXTERM>
+<INDEXTERM><PRIMARY>login sessions</PRIMARY><SECONDARY>customizing</SECONDARY></INDEXTERM>
+<INDEXTERM><PRIMARY>customizing login session</PRIMARY></INDEXTERM>
+A Unix shell defines variables to control the behavior of your Unix session.  
+Setting these variables will
+tell the system, for example, which directory to use as your home directory,
+or the file in which to store your mail.
+Some variables are preset by the system; you can define others 
+in startup files that are read when you log in.  Startup files can also
+contain Unix commands or special shell commands.  These are executed
+every time you log in.
+</para>
+</sect2>
+
+
+<sect2 id="UNUT-CH-3-SECT-2.3">
+<title>Programming</title>
+
+<para>
+<INDEXTERM><PRIMARY>scripts, shell</PRIMARY><SEE>shell scripts</SEE></INDEXTERM>
+<INDEXTERM><PRIMARY>shell scripts</PRIMARY></INDEXTERM>
+Unix shells provide a set of special (or built-in) commands that let
+you create programs called <emphasis>shell scripts</emphasis>.
+In fact, many built-in commands
+can be used interactively like Unix commands, and Unix commands are
+frequently used in shell scripts.  Scripts are useful for executing a series
+of individual commands.  This is similar to BATCH files in MS-DOS.
+Scripts can also execute commands repeatedly (in a loop) or conditionally
+(<literal>if</literal>-<literal>else</literal>),
+as in many high-level programming languages.
+</para>
+</sect2>
+</sect1>
+
+<sect1 id="UNUT-CH-3-SECT-3">
+<title>Shell Flavors</title>
+
+<para>
+<INDEXTERM><PRIMARY>shells</PRIMARY><SECONDARY>types (flavors) of</SECONDARY></INDEXTERM>
+Many different Unix shells are available.
+This quick reference describes the three most popular shells:
+</para>
+
+<itemizedlist>
+<listitem><para>
+<INDEXTERM><PRIMARY>sh (Bourne shell)</PRIMARY></INDEXTERM>
+The Bourne (or standard) shell, the most compact shell and also
+the simplest.
+</para></listitem>
+
+<listitem><para>
+<INDEXTERM><PRIMARY>ksh (Korn shell)</PRIMARY></INDEXTERM>
+<INDEXTERM><PRIMARY>Korn shell (ksh)</PRIMARY></INDEXTERM>
+The Korn shell, a superset of the Bourne shell that lets you
+edit the command line.
+There are in fact two commonly available versions of the Korn shell,
+distinguished by the year they were released,
+and referred to in this book
+as <command>ksh88</command> and <command>ksh93</command> respectively.
+</para></listitem>
+
+<listitem><para>
+<INDEXTERM><PRIMARY>csh (C shell)</PRIMARY></INDEXTERM>
+The C shell, which uses C-like syntax and is more convenient for the interactive
+user than the Bourne shell.
+</para></listitem>
+</itemizedlist>
+
+<para>
+Most systems have more than one shell, and people will often
+use the Bourne shell for writing shell scripts and
+another shell for interactive use.
+</para>
+
+<para>
+<INDEXTERM><PRIMARY sortas="etc directory">/etc directory</PRIMARY>
+  <SECONDARY>/etc/passwd file</SECONDARY></INDEXTERM>
+The <filename>/etc/passwd</> file determines which shell takes effect
+during your interactive Unix session.
+When you log in, the system checks
+your entry in <filename>/etc/passwd</>.  The last field of each entry
+names a program to run as the default shell.<footnote>
+<para>
+On Solaris or other networked Unix systems, this information may
+come from NIS or NIS+.
+Usually, your system administrator will handle this for you; just
+don&rsquo;t be surprised if your login name doesn&rsquo;t
+appear in <filename>/etc/passwd</filename>.
+</para>
+</footnote>
+For example:
+</para>
+
+<informaltable>
+<tgroup cols=2>
+<colspec colnum=2 colwidth="3i">
+<thead>
+
+<row>
+<entry><emphasis>If the program name is:</></entry>
+<entry><emphasis>Your shell is the:</></entry>
+</row>
+</thead>
+<tbody>
+
+<row>
+<entry><literal>/bin/sh</></entry>
+<entry>Bourne shell</entry>
+</row>
+
+<row>
+<entry><literal>/bin/rsh</></entry>
+<entry>Restricted Bourne shell</entry>
+</row>
+
+<row>
+<entry><literal>/bin/jsh</></entry>
+<entry>Bourne shell, including job control</entry>
+</row>
+
+<row>
+<entry><literal>/bin/ksh</></entry>
+<entry>Korn shell</entry>
+</row>
+
+<row>
+<entry><literal>/usr/dt/bin/dtksh</></entry>
+<entry><para>
+The Desktop Korn shell, a version of <command>ksh93</command>
+(Solaris only)
+</para></entry>
+</row>
+
+<row>
+<entry><literal>/bin/rksh</></entry>
+<entry>Restricted Korn shell</entry>
+</row>
+
+<row>
+<entry><literal>/bin/csh</></entry>
+<entry>C shell</entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+
+<para>
+You can change to another shell by typing the program name at the command line.
+For example, to change from the Bourne shell to the Korn shell, type:
+</para>
+
+<para>
+<screen>
+$ <userinput>exec ksh</>
+</screen>
+</para>
+
+<para>
+<INDEXTERM><PRIMARY>rsh (remote shell)</PRIMARY></INDEXTERM>
+<INDEXTERM><PRIMARY>remote shell</PRIMARY><SEE>rsh</SEE></INDEXTERM>
+Note that on most systems, <command>rsh</command> is the &ldquo;remote shell&rdquo;
+for executing commands on a remote system across a network.
+On some systems, though, <command>rsh</command> is indeed the restricted
+shell, and <command>remsh</command> is the remote shell.
+Check your local documentation.
+</para>
+
+<sect2 id="UNUT-CH-3-SECT-3.1">
+<title>Which Shell Do I Want?</title>
+
+<para>
+If you are new to Unix, picking a shell may be a bewildering question.
+Before <command>ksh</> was commonly available, the general advice
+was to use <command>csh</> 
+for interactive use
+(because it supported job control and had other
+features that made it a better interactive shell than the Bourne shell),
+but to use the Bourne shell for scripting (because it is a more
+powerful programming language, and more universally available).
+</para>
+
+<para>
+Today, <command>ksh</> is widely available; it is upwardly compatible
+with the Bourne shell as a programming language,
+and it has all the interactive capabilities of <command>csh</>,
+and more.
+If it is available, it is probably your best choice.
+</para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="UNUT-CH-3-SECT-4">
+<title>Common Features</title>
+
+<para>
+<INDEXTERM id="ch03.shellfeature1" class="startofrange"><PRIMARY>sh (Bourne shell)</PRIMARY>
+  <SECONDARY>features of</SECONDARY></INDEXTERM>
+<INDEXTERM id="ch03.shellfeature2" class="startofrange"><PRIMARY>csh (C shell)</PRIMARY>
+  <SECONDARY>features of</SECONDARY></INDEXTERM>
+<INDEXTERM id="ch03.shellfeature3" class="startofrange"><PRIMARY>ksh (Korn shell)</PRIMARY>
+  <SECONDARY>features of</SECONDARY></INDEXTERM>
+The following table displays
+features that are common to the Bourne, Korn, and C shells.
+Note that the Korn shell is an enhanced version of the Bourne shell;
+therefore, the Korn shell includes all features of the Bourne shell,
+plus some others.  The commands <command>bg</>, <command>fg</>,
+<command>jobs</>,
+<command>stop</>,
+and <command>suspend</> are available only on systems that
+support job control. (Essentially all modern Unix systems do.)
+</para>
+
+<informaltable>
+<tgroup cols=2>
+<colspec colnum=2 colwidth="3i">
+<thead>
+
+<row>
+<entry><emphasis>Symbol/Command</></entry>
+<entry><emphasis>Meaning/Action</></entry>
+</row>
+
+</thead>
+<tbody>
+
+<row>
+<entry><literal>&gt;</literal></entry>
+<entry>Redirect output.</entry>
+</row>
+
+<row>
+<entry><literal>&gt;&gt;</literal></entry>
+<entry>Append to file.</entry>
+</row>
+
+<row>
+<entry><literal>&lt;</literal></entry>
+<entry>Redirect input.</entry>
+</row>
+
+<row>
+<entry><literal>&lt;&lt;</literal></entry>
+<entry>&ldquo;Here&rdquo; document (redirect input).</entry>
+</row>
+
+<row>
+<entry><literal>|</literal></entry>
+<entry>Pipe output.</entry>
+</row>
+
+<row>
+<entry><literal>|&</literal></entry>
+<entry>Start a coprocess. Korn shell only.</entry>
+</row>
+
+<row>
+<entry><literal>&</literal></entry>
+<entry>Run process in background.</entry>
+</row>
+
+<row>
+<entry><literal>;</literal></entry>
+<entry>Separate commands on same line.</entry>
+</row>
+
+<row>
+<entry><literal>*</literal></entry>
+<entry>Match any character(s) in filename.</entry>
+</row>
+
+<row>
+<entry><literal>?</literal></entry>
+<entry>Match single character in filename.</entry>
+</row>
+
+<row>
+<entry><literal>[ ]</literal></entry>
+<entry>Match any characters enclosed.</entry>
+</row>
+
+<row>
+<entry><literal>( )</literal></entry>
+<entry>Execute in subshell.</entry>
+</row>
+
+<row>
+<entry><literal>&lsquo; &lsquo;</literal></entry>
+<entry>Substitute output of enclosed command.</entry>
+</row>
+
+<row>
+<entry><literal>&quot; &quot;</literal></entry>
+<entry>Partial quote (allows variable and command expansion).</entry>
+</row>
+
+<row>
+<entry><literal>&rsquo; &rsquo;</literal></entry>
+<entry>Full quote (no expansion).</entry>
+</row>
+
+<row>
+<entry><literal>&bsol;</literal></entry>
+<entry>Quote following character.</entry>
+</row>
+
+<row>
+<entry><literal>$</literal><replaceable>var</></entry>
+<entry>Use value for variable.</entry>
+</row>
+
+<row>
+<entry><literal>$$</literal></entry>
+<entry>Process ID.</entry>
+</row>
+
+<row>
+<entry><literal>$0</literal></entry>
+<entry>Command name.</entry>
+</row>
+
+<row>
+<entry><literal>$</literal><replaceable>n</></entry>
+<entry><emphasis>n</>&thinsp;th argument (0 &le; <emphasis>n</> &le; 9).</entry>
+</row>
+
+<row>
+<entry><literal>$*</literal></entry>
+<entry>All arguments as simple words.</entry>
+</row>
+
+<row>
+<entry><literal>#</literal></entry>
+<entry>Begin comment.</entry>
+</row>
+
+<row>
+<entry><literal>bg</literal></entry>
+<entry>Background execution.</entry>
+</row>
+
+<row>
+<entry><literal>break</literal></entry>
+<entry>Break from loop statements.</entry>
+</row>
+
+<row>
+<entry><literal>cd</literal></entry>
+<entry>Change directory.</entry>
+</row>
+
+<row>
+<entry><literal>continue</literal></entry>
+<entry>Resume a program loop.</entry>
+</row>
+
+<row>
+<entry><literal>echo</literal></entry>
+<entry>Display output.</entry>
+</row>
+
+<row>
+<entry><literal>eval</literal></entry>
+<entry>Evaluate arguments.</entry>
+</row>
+
+<row>
+<entry><literal>exec</literal></entry>
+<entry>Execute a new shell.</entry>
+</row>
+
+<row>
+<entry><literal>fg</literal></entry>
+<entry>Foreground execution.</entry>
+</row>
+
+<row>
+<entry><literal>jobs</literal></entry>
+<entry>Show active jobs.</entry>
+</row>
+
+<row>
+<entry><literal>kill</literal></entry>
+<entry>Terminate running jobs.</entry>
+</row>
+
+<row>
+<entry><literal>shift</literal></entry>
+<entry>Shift positional parameters.</entry>
+</row>
+
+<row>
+<entry><literal>stop</literal></entry>
+<entry>Suspend a background job.</entry>
+</row>
+
+<row>
+<entry><literal>suspend</literal></entry>
+<entry>
+Suspend a foreground job (such as a shell created by <command>su</command>).
+</entry>
+</row>
+
+<row>
+<entry><literal>time</literal></entry>
+<entry>Time a command.</entry>
+</row>
+
+<row>
+<entry><literal>umask</literal></entry>
+<entry>Set default file permissions for new files.</entry>
+</row>
+
+<row>
+<entry><literal>unset</literal></entry>
+<entry>Erase variable or function definitions.</entry>
+</row>
+
+<row>
+<entry><literal>wait</literal></entry>
+<entry>Wait for a background job to finish.</entry>
+</row>
+
+</tbody>
+</tgroup>
+</informaltable>
+</sect1>
+
+
+<sect1 id="UNUT-CH-3-SECT-5">
+<title>Differing Features</title>
+
+<para>
+The following table displays features that are different among the three shells.
+</para>
+
+<!-- want rowsep & colsep on this one. -->
+<informaltable>
+<tgroup cols=4>
+<colspec colnum=3 colwidth=".5i">
+<thead>
+
+<row>
+<entry><emphasis>sh</emphasis></entry>
+<entry><emphasis>ksh</emphasis></entry>
+<entry><emphasis>csh</emphasis></entry>
+<entry><emphasis>Meaning/Action</emphasis></entry>
+</row>
+</thead>
+<tbody>
+
+<row>
+<entry><literal>$</literal></entry>
+<entry><literal>$</literal></entry>
+<entry><literal>%</literal></entry>
+<entry>Prompt.</entry>
+</row>
+
+<row>
+<entry></entry>
+<entry><literal>&gt;|</literal></entry>
+<entry><literal>&gt;!</literal></entry>
+<entry>Force redirection.</entry>
+</row>
+
+<row>
+<entry></entry>
+<entry></entry>
+<entry><literal>&gt;&gt;!</literal></entry>
+<entry>Force append.</entry>
+</row>
+
+<row>
+<entry><literal>&gt;</literal> <replaceable>file</> <literal>2&gt;&amp;1</literal></entry>
+<entry><literal>&gt;</literal> <replaceable>file</> <literal>2&gt;&amp;1</literal></entry>
+<entry><literal>&gt;&amp;</literal> <replaceable>file</replaceable></entry>
+<entry>Combine stdout and stderr.</entry>
+</row>
+
+<row>
+<entry></entry>
+<entry></entry>
+<entry><literal>{  }</literal></entry>
+<entry>Expand elements in list.</entry>
+</row>
+
+<row>
+<entry><literal>&lsquo; &lsquo;</literal></entry>
+<entry><literal>&lsquo; &lsquo;</literal></entry>
+<entry><literal>&lsquo; &lsquo;</literal></entry>
+<entry><para>
+Substitute output of enclosed command.
+</para></entry>
+</row>
+
+<row>
+<entry></entry>
+<entry><literal>$(  )</literal></entry>
+<entry></entry>
+<entry><para>
+Substitute output of enclosed command.
+(Preferred form.)
+</para></entry>
+</row>
+
+<row>
+<entry><literal>$HOME</literal></entry>
+<entry><literal>$HOME</literal></entry>
+<entry><literal>$home</literal></entry>
+<entry>Home directory.</entry>
+</row>
+
+<row>
+<entry></entry>
+<entry><literal>~</literal></entry>
+<entry><literal>~</literal></entry>
+<entry>Home directory symbol.</entry>
+</row>
+
+<row>
+<entry><replaceable>var</><literal>=</literal><replaceable>value</replaceable></entry>
+<entry><replaceable>var</><literal>=</literal><replaceable>value</replaceable></entry>
+<entry><literal>set</literal> <replaceable>var</>=<replaceable>value</replaceable></entry>
+<entry>Variable assignment.</entry>
+</row>
+
+<row>
+<entry><literal>export</literal> <replaceable>var</replaceable></entry>
+<entry><literal>export</literal> <replaceable>var</><literal>=</literal><replaceable>val</replaceable></entry>
+<entry><literal>setenv</literal> <replaceable>var val</replaceable></entry>
+<entry><para>Set environment variable.</para></entry>
+</row>
+
+<row>
+<entry></entry>
+<entry><literal>${</literal><replaceable>nn</><literal>}</literal></entry>
+<entry></entry>
+<entry><para>More than nine args can be referenced.</para></entry>
+</row>
+
+<row>
+<entry><literal>&quot;$@&quot;</literal></entry>
+<entry><literal>&quot;$@&quot;</literal></entry>
+<entry></entry>
+<entry><para>All args as separate words.</para></entry>
+</row>
+
+<row>
+<entry><literal>$#</literal></entry>
+<entry><literal>$#</literal></entry>
+<entry><literal>$#argv</literal></entry>
+<entry><para>Number of arguments.</para></entry>
+</row>
+
+<row>
+<entry><literal>$?</literal></entry>
+<entry><literal>$?</literal></entry>
+<entry><literal>$status</literal></entry>
+<entry><para>Exit status.</para></entry>
+</row>
+
+<row>
+<entry><literal>$!</literal></entry>
+<entry><literal>$!</literal></entry>
+<entry></entry>
+<entry><para>Background exit status.</para></entry>
+</row>
+
+<row>
+<entry><literal>$-</literal></entry>
+<entry><literal>$-</literal></entry>
+<entry></entry>
+<entry><para>Current options.</para></entry>
+</row>
+
+<row>
+<entry><literal>.&nbsp;&nbsp;</literal><replaceable>file</replaceable></entry>
+<entry><literal>.&nbsp;&nbsp;</literal><replaceable>file</replaceable></entry>
+<entry><literal>source</literal> <replaceable>file</replaceable></entry>
+<entry><para>Read commands in <emphasis>file</>.</para></entry>
+</row>
+
+<row>
+<entry></entry>
+<entry><literal>alias</literal> <replaceable>x</>=<replaceable>y</replaceable></entry>
+<entry><literal>alias</literal> <replaceable>x</> <replaceable>y</replaceable></entry>
+<entry><para>Name <emphasis>x</> stands for <emphasis>y</>.</para></entry>
+</row>
+
+<row>
+<entry><literal>case</literal></entry>
+<entry><literal>case</literal></entry>
+<entry><literal>switch/case</literal></entry>
+<entry><para>Choose alternatives.</para></entry>
+</row>
+
+<row>
+<entry></entry>
+<entry><literal>cd ~-</literal></entry>
+<entry><literal>popd/pushd</literal></entry>
+<entry><para>Switch directories.</para></entry>
+</row>
+
+<row>
+<entry><literal>done</literal></entry>
+<entry><literal>done</literal></entry>
+<entry><literal>end</literal></entry>
+<entry><para>End a loop statement.</para></entry>
+</row>
+
+<row>
+<entry><literal>esac</literal></entry>
+<entry><literal>esac</literal></entry>
+<entry><literal>endsw</literal></entry>
+<entry><para>End <literal>case</literal> or <literal>switch</literal>.</para></entry>
+</row>
+
+<row>
+<entry><literal>exit [</literal><replaceable>n</><literal>]</literal></entry>
+<entry><literal>exit [</literal><replaceable>n</><literal>]</literal></entry>
+<entry><literal>exit [(</literal><replaceable>expr</><literal>)]</literal></entry>
+<entry><para>Exit with a status.</para></entry>
+</row>
+
+<row>
+<entry><literal>for&hairsp;/&hairsp;do</literal></entry>
+<entry><literal>for&hairsp;/&hairsp;do</literal></entry>
+<entry><literal>foreach</literal></entry>
+<entry><para>Loop through variables.</para></entry>
+</row>
+
+<row>
+<entry></entry>
+<entry><literal>print -r</literal></entry>
+<entry><literal>glob</literal></entry>
+<entry><para>Ignore <literal>echo</literal> escapes.</para></entry>
+</row>
+
+<row>
+<entry><literal>hash</literal></entry>
+<entry><literal>alias -t</literal></entry>
+<entry><literal>hashstat</literal></entry>
+<entry><para>
+Display hashed commands (tracked aliases).
+</para></entry>
+</row>
+
+<row>
+<entry><literal>hash</literal> <replaceable>cmds</replaceable></entry>
+<entry><literal>alias -t</literal> <replaceable>cmds</replaceable></entry>
+<entry><literal>rehash</literal></entry>
+<entry><para>Remember command locations.</para></entry>
+</row>
+
+<row>
+<entry><literal>hash -r</literal></entry>
+<entry><literal>PATH=$PATH</literal></entry>
+<entry><literal>unhash</literal></entry>
+<entry><para>Forget command locations.</para></entry>
+</row>
+
+<row>
+<entry></entry>
+<entry><literal>history</literal></entry>
+<entry><literal>history</literal></entry>
+<entry><para>List previous commands.</para></entry>
+</row>
+
+<row>
+<entry></entry>
+<entry><literal>r</literal></entry>
+<entry><literal>!!</literal></entry>
+<entry><para>Redo previous command.</para></entry>
+</row>
+
+<row>
+<entry></entry>
+<entry><literal>r</literal> <replaceable>str</replaceable></entry>
+<entry><literal>!</literal><replaceable>str</replaceable></entry>
+<entry><para>
+Redo command that starts with <emphasis>str</>.
+</para></entry>
+</row>
+
+<row>
+<entry></entry>
+<entry><literal>r</literal> <replaceable>x</><literal>=</literal><replaceable>y</> <literal>[</literal><replaceable>cmd</><literal>]</literal></entry>
+<entry><literal>!</literal><replaceable>cmd</><literal>:s/</literal><replaceable>x</><literal>/</literal><replaceable>y</><literal>/</literal></entry>
+<entry><para>Edit command, then execute.</para></entry>
+</row>
+
+<row>
+<entry><literal>if [ $i -eq 5 ]</literal></entry>
+<entry><literal>if ((i==5))</literal></entry>
+<entry><literal>if ($i==5)</literal></entry>
+<entry><para>Sample <literal>if</literal> statement.</para></entry>
+</row>
+
+<row>
+<entry><literal>fi</literal></entry>
+<entry><literal>fi</literal></entry>
+<entry><literal>endif</literal></entry>
+<entry><para>End <literal>if</literal> statement.</para></entry>
+</row>
+
+<row>
+<entry><literal>ulimit</literal></entry>
+<entry><literal>ulimit</literal></entry>
+<entry><literal>limit</literal></entry>
+<entry><para>Set resource limits.</para></entry>
+</row>
+
+<row>
+<entry><literal>pwd</literal></entry>
+<entry><literal>pwd</literal></entry>
+<entry><literal>dirs</literal></entry>
+<entry><para>Print working directory.</para></entry>
+</row>
+
+<row>
+<entry><literal>read</literal></entry>
+<entry><literal>read</literal></entry>
+<entry><literal>$&lt;</literal></entry>
+<entry><para>Read from standard input.</para></entry>
+</row>
+
+<row>
+<entry><literal>trap 2</literal></entry>
+<entry><literal>trap 2</literal></entry>
+<entry><literal>onintr</literal></entry>
+<entry><para>Ignore interrupts.</para></entry>
+</row>
+
+<row>
+<entry></entry>
+<entry><literal>unalias</literal></entry>
+<entry><literal>unalias</literal></entry>
+<entry><para>Remove aliases.</para></entry>
+</row>
+
+<row>
+<entry><literal>until&hairsp;/do</literal></entry>
+<entry><literal>until&hairsp;/do</literal></entry>
+<entry></entry>
+<entry><para>Begin <literal>until</literal> loop.</para></entry>
+</row>
+
+<row>
+<entry><literal>while&hairsp;/do</literal></entry>
+<entry><literal>while&hairsp;/do</literal></entry>
+<entry><literal>while</literal></entry>
+<entry><para>Begin <literal>while</literal> loop.</para></entry>
+</row>
+
+</tbody>
+</tgroup>
+</informaltable>
+<INDEXTERM startref="ch03.shellfeature1" class="endofrange"><INDEXTERM startref="ch03.shellfeature2" class="endofrange">
+<INDEXTERM startref="ch03.shellfeature3" class="endofrange">
+<INDEXTERM startref="UNUT-CH-3-IX-shells-overview-of" class="endofrange">
+</sect1>
+</chapter>

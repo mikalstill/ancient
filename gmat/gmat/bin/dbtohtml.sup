@@ -1,0 +1,325 @@
+# -*- Perl -*-
+# Support routines for dbtohtml
+#
+# $Id: dbtohtml.sup,v 1.1.1.1 2002-07-15 21:33:31 root Exp $
+# 
+#
+##############################################################################
+
+use vars qw($PROGNAME $VERSION);
+
+if ($VERBOSE) {
+    my($VERSION) = '$Id: dbtohtml.sup,v 1.1.1.1 2002-07-15 21:33:31 root Exp $'; # '
+    my($REQNAME) = (split(/\s+/, $VERSION))[1];
+    my($vers) = (split(/\s+/, $VERSION))[2];
+
+    print STDERR "$REQNAME version $vers.\n";
+}
+
+##############################################################################
+
+require 'html.mkp';
+require 'sparser.pl';
+require 'sgmlesis.pl';
+
+$PI_FILE = "";
+$PI_CHAPTER = "";
+$PI_CHAPTER_NUMBER = "";
+$PI_CHAPTER_PAGE = "";
+$HTML_EXT = ".htm";
+%HTML_NAMES = ();
+
+sub END {
+    # Update the bookfiles file
+    my($bak) = "$BOOKFILES~";
+    my(@sections) = &cfg_sections($bookfiles);
+    my($section, $newbf);
+
+    foreach $section (@sections) {
+	my($html_names) = &cfg($bookfiles, $section, 'html_names-new');
+	&cfg_delete ($bookfiles, $section, 'html_names-new');
+	&cfg_set ($bookfiles, $section, 'html_names', $html_names);
+    }
+
+    print STDERR "Updating $BOOKFILES..." if $VERBOSE;
+    &set_lock($LOCKFILE);
+
+    if (-f $bak) {
+	chmod (0664, $bak);
+	unlink ($bak);
+    }
+
+    $rc = system ("cp $BOOKFILES $bak");
+    chmod (0444, $bak);
+
+    $newbf = &mergecfg ($BOOKFILES, $bookfiles);
+
+    $rc = &printcfg($newbf, "$BOOKFILES.new", 0);
+
+    chmod(0444, "$BOOKFILES.new");
+    system ("mv -f $BOOKFILES.new $BOOKFILES");
+
+    print STDERR "done...\n" if $VERBOSE;
+    &unset_delete_lock($LOCKFILE);
+}
+
+sub gen_empty_subclass {
+    my($superclass, $tag) = @_;
+    local($_) = '{
+       package __PACKAGE__;
+       @ISA = (\'__SUPERCLASS__\');
+   }';
+
+   s/__PACKAGE__/$tag/g;
+   s/__SUPERCLASS__/$superclass/g;
+
+   eval $_;
+}
+
+sub generate_tag_instances {
+    my(%supertypes) = (
+		       'APPENDIX'		=> 'GENERIC_CHAPTER',
+		       'ARTHEADER'		=> 'GENERIC_TITLED',
+		       'BOOKBIBLIO'		=> 'GENERIC_TITLED',
+		       'CALLOUTLIST'		=> 'GENERIC_LIST',
+		       'CAUTION'		=> 'GENERIC_TITLED',
+		       'CHAPTER'		=> 'GENERIC_CHAPTER',
+		       'COMPUTEROUTPUT'		=> 'GENERIC_OBEYSPACES',
+		       'DOCINFO'		=> 'GENERIC_TITLED',
+		       'EXAMPLE'		=> 'GENERIC_TITLED',
+		       'FIGURE'			=> 'GENERIC_TITLED',
+		       'FORMALPARA'		=> 'GENERIC_TITLED',
+		       'GLOSSARY'		=> 'GENERIC_CHAPTER',
+		       'GLOSSDEF'		=> 'LISTITEM',
+		       'GLOSSDIV'		=> 'GENERIC_TITLED',
+		       'GLOSSENTRY'		=> 'VARLISTENTRY',
+		       'GLOSSLIST'		=> 'GENERIC_LIST',
+		       'IMPORTANT'		=> 'GENERIC_TITLED',
+		       'INDEXTERM'              => 'GENERIC_NOP',
+		       'INFORMALTABLE'		=> 'GENERIC_TITLED',
+		       'ITEMIZEDLIST'		=> 'GENERIC_LIST',
+		       'LITERALLAYOUT'		=> 'GENERIC_OBEYSPACES',
+		       'LOT'			=> 'GENERIC_TITLED',
+		       'NOTE'			=> 'GENERIC_TITLED',
+		       'ORDEREDLIST'		=> 'GENERIC_LIST',
+		       'PART'			=> 'GENERIC_TITLED',
+		       'PREFACE'		=> 'GENERIC_CHAPTER',
+		       'PRIMARY'		=> 'GENERIC_INDEX_TERM',
+		       'PROGRAMLISTING' 	=> 'GENERIC_OBEYSPACES',
+		       'REFERENCE'		=> 'GENERIC_TITLED',
+		       'REFMETA'		=> 'GENERIC_NOP',
+		       'REFNAME'		=> 'GENERIC_ASARG',
+		       'REFPURPOSE'		=> 'GENERIC_ASARG',
+		       'REFSECT1'		=> 'GENERIC_TITLED',
+		       'REFSECT2'		=> 'GENERIC_TITLED',
+		       'REFSECT3'		=> 'GENERIC_TITLED',
+		       'SCREEN'			=> 'GENERIC_OBEYSPACES',
+		       'SECONDARY'		=> 'GENERIC_INDEX_TERM',
+		       'SECT1'			=> 'GENERIC_TITLED',
+		       'SECT2'			=> 'GENERIC_TITLED',
+		       'SECT3'			=> 'GENERIC_TITLED',
+		       'SECT4'			=> 'GENERIC_TITLED',
+		       'SECT5'			=> 'GENERIC_TITLED',
+		       'SEE'			=> 'GENERIC_INDEX_TERM',
+		       'SEEALSO'		=> 'GENERIC_INDEX_TERM',
+		       'SERIESINFO'		=> 'GENERIC_TITLED',
+		       'SIDEBAR'		=> 'GENERIC_TITLED',
+		       'SYNOPSIS'		=> 'GENERIC_OBEYSPACES',
+		       'TABLE'			=> 'GENERIC_TITLED',
+		       'TERTIARY'		=> 'GENERIC_INDEX_TERM',
+		       'TIP'			=> 'GENERIC_TITLED',
+		       'TOC'			=> 'GENERIC_TITLED',
+		       'VARIABLELIST'		=> 'GENERIC_LIST',
+		       'WARNING'		=> 'GENERIC_TITLED'
+		      );
+    my($tag);
+
+    foreach $tag (keys %supertypes) {
+	&gen_empty_subclass ($supertypes{$tag}, $tag)
+	    if !&ispackage ($tag);
+    }
+
+    foreach $tag (keys %TAGS) {
+	&gen_empty_subclass ('GENERIC_INLINE', $tag)
+	    if !&ispackage($tag);
+    }
+}
+
+sub sig_handler {
+    local($sig) = @_;
+
+    $SIG{'INT'} = 'IGNORE';
+    $SIG{'KILL'} = 'IGNORE';
+    $SIG{'HUP'} = 'IGNORE';
+
+    print STDERR "Terminated by SIG$sig...\n";
+    exit 101;
+}
+
+sub date {
+    my($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime();
+    my(@months) = ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+		   'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
+
+    $year += 2000 if $year < 80;
+    $year += 1900 if $year < 2000;
+
+    return sprintf ("%02d%s%d", $mday, $months[$mon], $year);
+}
+
+########################################################################
+
+sub PI_lb {
+    my($self, $markup, $args) = @_;
+
+    if (($self->{'PARENT'})->{'TAG'} ne 'TITLE') {
+	&WARNING("The <?lb> processing instruction is only meaningful in titles.");
+	return undef;
+    }
+
+    $markup->output("<\001lb>");
+
+    return "";
+}
+
+sub PI_html {
+    my($self, $markup, $args) = @_;
+
+    $markup->output("<" . $args . ">");
+    return "";
+}
+
+sub PI_troff {
+    my($self, $markup, $args) = @_;
+
+    return "";
+}
+
+sub PI_troff_vlindent {
+    my($self, $markup, $args) = @_;
+
+    return "";
+}
+
+sub PI_basename {
+    my($self, $markup, $args) = @_;
+
+    $PI_BASENAME = $args;
+    return "";
+}
+
+sub PI_tex {
+    my($self, $markup, $args) = @_;
+
+    return "";
+}
+
+sub PI_source_file {
+    my($self, $markup, $args) = @_;
+
+    $PI_SOURCE_FILE = $args;
+    delete $HTML_NAMES{$PI_SOURCE_FILE};
+
+    return "";
+}
+
+sub PI_formatter_file {
+    my($self, $markup, $args) = @_;
+
+    $PI_FILE = $args;
+    return "";
+}
+
+sub PI_chapter {
+    my($self, $markup, $args) = @_;
+
+    $PI_CHAPTER = $args;
+    return undef;
+}
+
+sub PI_chapter_number {
+    my($self, $markup, $args) = @_;
+
+    $PI_CHAPTER_NUMBER = $args;
+    return undef;
+}
+
+sub PI_chapter_page {
+    my($self, $markup, $args) = @_;
+
+    $PI_CHAPTER_PAGE = $args;
+    return undef;
+}
+
+sub PI_page_number {
+    my($self, $markup, $args) = @_;
+
+    return "";
+}
+
+sub PI_part {
+    my($self, $markup, $args) = @_;
+
+    return "";
+}
+
+sub PI_figure_height {
+    my($self, $markup, $args) = @_;
+
+    $PI_FIGURE_HEIGHT = $args;
+    return undef;
+}
+
+sub PI_graphic_args {
+    my($self, $markup, $args) = @_;
+
+    $PI_GRAPHIC_ARGS = $args;
+    return undef;
+}
+
+sub PI_numbered_sections {
+    my($self, $markup, $args) = @_;
+
+    $PI_NUMBERED_SECTIONS = $args;
+    return undef;
+}
+
+sub PI_table_above_rule_space {
+    my($self, $markup, $args) = @_;
+
+    $TABLE_ABOVE_RULE_SPACE = $args . "p";
+    return undef;
+}
+
+sub PI_table_below_rule_space {
+    my($self, $markup, $args) = @_;
+
+    $TABLE_BELOW_RULE_SPACE = $args . "p";
+    return undef;
+}
+
+sub PI_table_frame_rule {
+    my($self, $markup, $args) = @_;
+
+    $TABLE_FRAME_RULE = $TABLE_SINGLE_HORIZ_RULE if $args =~ /^single/i;
+    $TABLE_FRAME_RULE = $TABLE_DOUBLE_HORIZ_RULE if $args =~ /^double/i;
+    return undef;
+}
+
+sub PI_no_hyphen {
+    my($self, $markup, $args) = @_;
+
+    $markup->text($args);
+    return "";
+}
+
+sub PI_bye {
+    my($self, $markup, $args) = @_;
+
+    $sgmlsESIS::IGNORE_ALL_MARKUP = 1;
+
+    return "";
+}
+
+1;
+

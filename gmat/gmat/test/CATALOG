@@ -1,0 +1,199 @@
+-- Document Type Shortcuts --
+
+DOCTYPE	APPENDIX	/usr/local/share/gmat/sgml/ORA/dtds/oraprod.3.1.dtd
+DOCTYPE	ARTICLE		/usr/local/share/gmat/sgml/ISO_12083-1993/dtds/article.dtd
+DOCTYPE	BIBLIOGRAPHY	/usr/local/share/gmat/sgml/ORA/dtds/oraprod.3.1.dtd
+DOCTYPE	BOOKINFO	/usr/local/share/gmat/sgml/ORA/dtds/oraprod.3.1.dtd
+DOCTYPE	CHAPTER		/usr/local/share/gmat/sgml/ORA/dtds/oraprod.3.1.dtd
+DOCTYPE	GLOSSARY	/usr/local/share/gmat/sgml/ORA/dtds/oraprod.3.1.dtd
+DOCTYPE	HTML		/usr/local/share/gmat/sgml/ORA/dtds/orahtml.dtd
+DOCTYPE	MEMO		/usr/local/share/gmat/sgml/ORA/dtds/memo.dtd
+DOCTYPE	MKTEMPL		/usr/local/share/gmat/sgml/ORA/dtds/mktempl.dtd
+DOCTYPE	PACKAGE		/usr/local/share/gmat/sgml/ORA/dtds/toolbox.dtd
+DOCTYPE	PACKAGESET	/usr/local/share/gmat/sgml/ORA/dtds/toolbox.dtd
+DOCTYPE	PART		/usr/local/share/gmat/sgml/ORA/dtds/oraprod.3.1.dtd
+DOCTYPE	PREFACE		/usr/local/share/gmat/sgml/ORA/dtds/oraprod.3.1.dtd
+DOCTYPE	PTCHAPTER	/usr/local/share/gmat/sgml/ORA/dtds/pwrtools.dtd
+DOCTYPE	PTSECT1		/usr/local/share/gmat/sgml/ORA/dtds/pwrtools.dtd
+DOCTYPE	REFENTRY	/usr/local/share/gmat/sgml/ORA/dtds/oraprod.3.1.dtd
+DOCTYPE	SERIAL		/usr/local/share/gmat/sgml/ISO_12083-1993/dtds/serial.dtd
+DOCTYPE	WICCOLL		/work/nutshell/twi95/quark/wic.dtd
+DOCTYPE	WICENTRY	/work/nutshell/twi95/quark/wic.dtd
+
+
+-- DocBook --
+
+
+-- DocBook 2.4 --
+
+PUBLIC	"-//Davenport//DTD DocBook V2.4//EN"	/usr/local/share/gmat/sgml/Davenport/dtds/2.4/docbook.dtd
+PUBLIC	"-//Davenport//ELEMENTS CALS-Based DocBook Table Model V2.4//EN"	/usr/local/share/gmat/sgml/Davenport/elements/2.4/calstbl.mod
+PUBLIC	"-//Davenport//ELEMENTS DocBook Document Hierarchy V2.4//EN"	/usr/local/share/gmat/sgml/Davenport/elements/2.4/dbhier.mod
+PUBLIC	"-//Davenport//ELEMENTS DocBook Information Pool V2.4//EN"	/usr/local/share/gmat/sgml/Davenport/elements/2.4/dbpool.mod
+
+
+-- DocBook 2.4.1 --
+
+PUBLIC	"-//Davenport//DTD DocBook V2.4.1//EN"	/usr/local/share/gmat/sgml/Davenport/dtds/2.4.1/docbook.dtd
+PUBLIC	"-//Davenport//ELEMENTS CALS-Based DocBook Table Model V2.4.1//EN"	/usr/local/share/gmat/sgml/Davenport/elements/2.4.1/calstbl.mod
+PUBLIC	"-//Davenport//ELEMENTS DocBook Document Hierarchy V2.4.1//EN"	/usr/local/share/gmat/sgml/Davenport/elements/2.4.1/dbhier.mod
+PUBLIC	"-//Davenport//ELEMENTS DocBook Information Pool V2.4.1//EN"	/usr/local/share/gmat/sgml/Davenport/elements/2.4.1/dbpool.mod
+
+
+-- DocBook 3.0 --
+
+PUBLIC	"-//Davenport//DTD DocBook V3.0//EN"	/usr/local/share/gmat/sgml/Davenport/dtds/3.0/docbook.dtd
+PUBLIC	"-//Davenport//ELEMENTS DocBook Document Hierarchy V3.0//EN"	/usr/local/share/gmat/sgml/Davenport/elements/3.0/dbhier.mod
+PUBLIC	"-//Davenport//ELEMENTS DocBook Information Pool V3.0//EN"	/usr/local/share/gmat/sgml/Davenport/elements/3.0/dbpool.mod
+PUBLIC	"-//Davenport//ENTITIES DocBook Additional General Entities V3.0//EN"	/usr/local/share/gmat/sgml/Davenport/elements/3.0/dbgenent.mod
+
+
+-- DocBook 3.1 --
+
+PUBLIC	"-//OASIS//DTD DocBook V3.1//EN"	"/usr/local/share/sgml/docbook/3.1/docbook.dtd"
+PUBLIC	"-//OASIS//ELEMENTS DocBook Document Hierarchy V3.1//EN"	"/usr/local/share/sgml/docbook/3.1/dbhier.mod"
+PUBLIC	"-//OASIS//ELEMENTS DocBook Information Pool V3.1//EN"	"/usr/local/share/sgml/docbook/3.1/dbpool.mod"
+PUBLIC	"-//OASIS//ENTITIES DocBook Additional General Entities V3.1//EN"	"/usr/local/share/sgml/docbook/3.1/dbgenent.mod"
+PUBLIC	"-//OASIS//ENTITIES DocBook Character Entities V3.1//EN"	"/usr/local/share/sgml/docbook/3.1/dbcent.mod"
+PUBLIC	"-//OASIS//ENTITIES DocBook Notations V3.1//EN"	"/usr/local/share/sgml/docbook/3.1/dbnotn.mod"
+
+
+-- DocBook XML 3.0 --
+
+PUBLIC "-//Norman Walsh//ELEMENTS DocBk30 XML Information Pool V1.0//EN" "/usr/local/share/sgml/docbook-XML/dbpoolx.mod"
+PUBLIC "-//Norman Walsh//ELEMENTS DocBk30 XML Document Hierarchy V1.0//EN" "/usr/local/share/sgml/docbook-XML/dbhierx.mod"
+PUBLIC "-//Norman Walsh//ENTITIES DocBk30 XML Additional General Entities V1.0//EN" "/usr/local/share/sgml/docbook-XML/dbgenent.ent"
+PUBLIC "-//Norman Walsh//DTD CALS Table Model XML V1.0//EN" "/usr/local/share/sgml/docbook-XML/calstblx.dtd"
+
+
+-- DocBook Shared Entities --
+
+PUBLIC	"-//Davenport//ELEMENTS DocBook Additional General Entities//EN"	/usr/local/share/gmat/sgml/Davenport/elements/2.4.1/dbgenent.mod
+PUBLIC	"-//USA-DOD//DTD Table Model 951010//EN"	"/usr/local/share/sgml/docbook/3.1/cals-tbl.dtd"
+
+
+-- HTML --
+
+PUBLIC	"-//IETF//DTD HTML 3.0//EN//"	/usr/local/share/gmat/sgml/HTML/html-3.dtd  
+PUBLIC	"-//IETF//DTD HTML Strict//EN"	/usr/local/share/gmat/sgml/HTML/html-s.dtd
+PUBLIC	"-//IETF//DTD HTML Strict//EN//3.0"	/usr/local/share/gmat/sgml/HTML/html-3s.dtd
+PUBLIC	"-//IETF//DTD HTML//EN"	/usr/local/share/gmat/sgml/HTML/html.dtd
+PUBLIC	"-//IETF//ENTITIES Added Latin 1 for HTML//EN"	/usr/local/share/gmat/sgml/HTML/html-latin.sgml
+PUBLIC	"-//IETF//ENTITIES Math and Greek for HTML//EN"	/usr/local/share/gmat/sgml/HTML/html-math.sgml
+PUBLIC	"-//IETF//ENTITIES icons for HTML//EN"	/usr/local/share/gmat/sgml/HTML/html-icons.sgml
+PUBLIC	"-//Netscape Comm. Corp.//DTD HTML//EN"	/usr/local/share/gmat/sgml/HTML/html-mcom.dtd
+PUBLIC	"-//Sun Microsystems Corp.//DTD HotJava HTML//EN"	/usr/local/share/gmat/sgml/HTML/html-hj.dtd
+
+
+-- ISO 8879 and 9573 Entity Sets --
+
+PUBLIC	"ISO 8879:1986//ENTITIES Added Latin 1//EN"	/usr/local/share/gmat/sgml/ISO_8879-1986/entities/iso-lat1.gml
+PUBLIC	"ISO 8879:1986//ENTITIES Added Latin 2//EN"	/usr/local/share/gmat/sgml/ISO_8879-1986/entities/iso-lat2.gml
+PUBLIC	"ISO 8879:1986//ENTITIES Added Math Symbols: Arrow Relations//EN"	/usr/local/share/gmat/sgml/ISO_8879-1986/entities/iso-amsa.gml
+PUBLIC	"ISO 8879:1986//ENTITIES Added Math Symbols: Binary Operators//EN"	/usr/local/share/gmat/sgml/ISO_8879-1986/entities/iso-amsb.gml
+PUBLIC	"ISO 8879:1986//ENTITIES Added Math Symbols: Delimiters//EN"	/usr/local/share/gmat/sgml/ISO_8879-1986/entities/iso-amsc.gml
+PUBLIC	"ISO 8879:1986//ENTITIES Added Math Symbols: Negated Relations//EN"	/usr/local/share/gmat/sgml/ISO_8879-1986/entities/iso-amsn.gml
+PUBLIC	"ISO 8879:1986//ENTITIES Added Math Symbols: Ordinary//EN"	/usr/local/share/gmat/sgml/ISO_8879-1986/entities/iso-amso.gml
+PUBLIC	"ISO 8879:1986//ENTITIES Added Math Symbols: Relations//EN"	/usr/local/share/gmat/sgml/ISO_8879-1986/entities/iso-amsr.gml
+PUBLIC	"ISO 8879:1986//ENTITIES Alternative Greek Symbols//EN"	/usr/local/share/gmat/sgml/ISO_8879-1986/entities/iso-grk4.gml
+PUBLIC	"ISO 8879:1986//ENTITIES Box and Line Drawing//EN"	/usr/local/share/gmat/sgml/ISO_8879-1986/entities/iso-box.gml
+PUBLIC	"ISO 8879:1986//ENTITIES Diacritical Marks//EN"	/usr/local/share/gmat/sgml/ISO_8879-1986/entities/iso-dia.gml
+PUBLIC	"ISO 8879:1986//ENTITIES General Technical//EN"	/usr/local/share/gmat/sgml/ISO_8879-1986/entities/iso-tech.gml
+PUBLIC	"ISO 8879:1986//ENTITIES Greek Letters//EN"	/usr/local/share/gmat/sgml/ISO_8879-1986/entities/iso-grk1.gml
+PUBLIC	"ISO 8879:1986//ENTITIES Greek Symbols//EN"	/usr/local/share/gmat/sgml/ISO_8879-1986/entities/iso-grk3.gml
+PUBLIC	"ISO 8879:1986//ENTITIES Monotoniko Greek//EN"	/usr/local/share/gmat/sgml/ISO_8879-1986/entities/iso-grk2.gml
+PUBLIC	"ISO 8879:1986//ENTITIES Non-Russian Cyrillic//EN"	/usr/local/share/gmat/sgml/ISO_8879-1986/entities/iso-cyr2.gml
+PUBLIC	"ISO 8879:1986//ENTITIES Numeric and Special Graphic//EN"	/usr/local/share/gmat/sgml/ISO_8879-1986/entities/iso-num.gml
+PUBLIC	"ISO 8879:1986//ENTITIES Publishing//EN"	/usr/local/share/gmat/sgml/ISO_8879-1986/entities/iso-pub.gml
+PUBLIC	"ISO 8879:1986//ENTITIES Russian Cyrillic//EN"	/usr/local/share/gmat/sgml/ISO_8879-1986/entities/iso-cyr1.gml
+PUBLIC	"-//ISO 8879-1986//ENTITIES Added Latin 1//EN"	/usr/local/share/gmat/sgml/ISO_8879-1986/entities/Added_Latin_1
+PUBLIC	"-//ISO 8879-1986//ENTITIES Added Math Symbols: Arrow Relations//EN"	/usr/local/share/gmat/sgml/ISO_8879-1986/entities/Added_Math_Symbols_Arrow_Relations
+PUBLIC	"-//ISO 8879-1986//ENTITIES Added Math Symbols: Binary Operators//EN"	/usr/local/share/gmat/sgml/ISO_8879-1986/entities/Added_Math_Symbols_Binary_Operators
+PUBLIC	"-//ISO 8879-1986//ENTITIES Added Math Symbols: Delimiters//EN"	/usr/local/share/gmat/sgml/ISO_8879-1986/entities/Added_Math_Symbols_Delimiters
+PUBLIC	"-//ISO 8879-1986//ENTITIES Added Math Symbols: Negated Relations//EN"	/usr/local/share/gmat/sgml/ISO_8879-1986/entities/Added_Math_Symbols_Negated_Relations
+PUBLIC	"-//ISO 8879-1986//ENTITIES Added Math Symbols: Ordinary//EN"	/usr/local/share/gmat/sgml/ISO_8879-1986/entities/Added_Math_Symbols_Ordinary
+PUBLIC	"-//ISO 8879-1986//ENTITIES Added Math Symbols: Relations//EN"	/usr/local/share/gmat/sgml/ISO_8879-1986/entities/Added_Math_Symbols_Relations
+PUBLIC	"-//ISO 8879-1986//ENTITIES Alternative Greek Symbols//EN"	/usr/local/share/gmat/sgml/ISO_8879-1986/entities/Alternative_Greek_Symbols
+PUBLIC	"-//ISO 8879-1986//ENTITIES Box and Line Drawing//EN"	/usr/local/share/gmat/sgml/ISO_8879-1986/entities/Box_and_Line_Drawing
+PUBLIC	"-//ISO 8879-1986//ENTITIES Diacritical Marks//EN"	/usr/local/share/gmat/sgml/ISO_8879-1986/entities/Diacritical_Marks
+PUBLIC	"-//ISO 8879-1986//ENTITIES General Technical//EN"	/usr/local/share/gmat/sgml/ISO_8879-1986/entities/General_Technical
+PUBLIC	"-//ISO 8879-1986//ENTITIES Greek Letters//EN"	/usr/local/share/gmat/sgml/ISO_8879-1986/entities/Greek_Letters
+PUBLIC	"-//ISO 8879-1986//ENTITIES Greek Symbols//EN"	/usr/local/share/gmat/sgml/ISO_8879-1986/entities/Greek_Symbols
+PUBLIC	"-//ISO 8879-1986//ENTITIES Monotoniko Greek//EN"	/usr/local/share/gmat/sgml/ISO_8879-1986/entities/Monotoniko_Greek
+PUBLIC	"-//ISO 8879-1986//ENTITIES Non-Russian Cyrillic//EN"	/usr/local/share/gmat/sgml/ISO_8879-1986/entities/Non-Russian_Cyrillic
+PUBLIC	"-//ISO 8879-1986//ENTITIES Numeric and Special Graphic//EN"	/usr/local/share/gmat/sgml/ISO_8879-1986/entities/Numeric_and_Special_Graphic
+PUBLIC	"-//ISO 8879-1986//ENTITIES Publishing//EN"	/usr/local/share/gmat/sgml/ISO_8879-1986/entities/Publishing
+PUBLIC	"-//ISO 8879-1986//ENTITIES Russian Cyrillic//EN"	/usr/local/share/gmat/sgml/ISO_8879-1986/entities/Russian_Cyrillic
+PUBLIC	"-//ISO 9573-13:1991//ENTITIES Math Alphabets: Fraktur//EN"	/usr/local/share/gmat/sgml/ISO_9573-13-1991/entities/Math_Alphabets_Fraktur
+PUBLIC	"-//ISO 9573-13:1991//ENTITIES Math Alphabets: Open Face//EN"	/usr/local/share/gmat/sgml/ISO_9573-13-1991/entities/Math_Alphabets_Open_Face
+PUBLIC	"-//ISO 9573-13:1991//ENTITIES Math Alphabets: Script//EN"	/usr/local/share/gmat/sgml/ISO_9573-13-1991/entities/Math_Alphabets_Script
+
+
+-- ISO 8879 entity sets for XML --
+
+PUBLIC "ISO 8879:1986//ENTITIES Added Math Symbols: Arrow Relations//EN//XML" "/usr/local/share/sgml/docbook-XML/isoamsa.ent"
+PUBLIC "ISO 8879:1986//ENTITIES Added Math Symbols: Binary Operators//EN//XML" "/usr/local/share/sgml/docbook-XML/isoamsb.ent"
+PUBLIC "ISO 8879:1986//ENTITIES Added Math Symbols: Delimiters//EN//XML" "/usr/local/share/sgml/docbook-XML/isoamsc.ent"
+PUBLIC "ISO 8879:1986//ENTITIES Added Math Symbols: Negated Relations//EN//XML" "/usr/local/share/sgml/docbook-XML/isoamsn.ent"
+PUBLIC "ISO 8879:1986//ENTITIES Added Math Symbols: Ordinary//EN//XML" "/usr/local/share/sgml/docbook-XML/isoamso.ent"
+PUBLIC "ISO 8879:1986//ENTITIES Added Math Symbols: Relations//EN//XML" "/usr/local/share/sgml/docbook-XML/isoamsr.ent"
+PUBLIC "ISO 8879:1986//ENTITIES Box and Line Drawing//EN//XML" "/usr/local/share/sgml/docbook-XML/isobox.ent"
+PUBLIC "ISO 8879:1986//ENTITIES Russian Cyrillic//EN//XML" "/usr/local/share/sgml/docbook-XML/isocyr1.ent"
+PUBLIC "ISO 8879:1986//ENTITIES Non-Russian Cyrillic//EN//XML" "/usr/local/share/sgml/docbook-XML/isocyr2.ent"
+PUBLIC "ISO 8879:1986//ENTITIES Diacritical Marks//EN//XML" "/usr/local/share/sgml/docbook-XML/isodia.ent"
+PUBLIC "ISO 8879:1986//ENTITIES Greek Letters//EN//XML" "/usr/local/share/sgml/docbook-XML/isogrk1.ent"
+PUBLIC "ISO 8879:1986//ENTITIES Monotoniko Greek//EN//XML" "/usr/local/share/sgml/docbook-XML/isogrk2.ent"
+PUBLIC "ISO 8879:1986//ENTITIES Greek Symbols//EN//XML" "/usr/local/share/sgml/docbook-XML/isogrk3.ent"
+PUBLIC "ISO 8879:1986//ENTITIES Alternative Greek Symbols//EN//XML" "/usr/local/share/sgml/docbook-XML/isogrk4.ent"
+PUBLIC "ISO 8879:1986//ENTITIES Added Latin 1//EN//XML" "/usr/local/share/sgml/docbook-XML/isolat1.ent"
+PUBLIC "ISO 8879:1986//ENTITIES Added Latin 2//EN//XML" "/usr/local/share/sgml/docbook-XML/isolat2.ent"
+PUBLIC "ISO 8879:1986//ENTITIES Numeric and Special Graphic//EN//XML" "/usr/local/share/sgml/docbook-XML/isonum.ent"
+PUBLIC "ISO 8879:1986//ENTITIES Publishing//EN//XML" "/usr/local/share/sgml/docbook-XML/isopub.ent"
+PUBLIC "ISO 8879:1986//ENTITIES General Technical//EN//XML" "/usr/local/share/sgml/docbook-XML/isotech.ent"
+
+
+-- O'Reilly DTDs and Weirdo Entity Sets --
+
+PUBLIC	"-//ORA//DTD Linux Navigator//EN"	/usr/local/share/gmat/sgml/ORA/dtds/nag.dtd
+PUBLIC	"-//ORA//DTD ORA Book Database//EN"	/usr/local/share/gmat/sgml/ORA/dtds/mktempl.dtd
+PUBLIC	"-//ORA//DTD ORA Dictionary//EN"	/usr/local/share/gmat/sgml/ORA/dtds/dict.dtd
+PUBLIC	"-//ORA//DTD ORA HTML//EN"	/usr/local/share/gmat/sgml/ORA/dtds/orahtml.dtd
+PUBLIC	"-//ORA//DTD ORA NETSCAPE HTML//EN"	/usr/local/share/gmat/sgml/ORA/dtds/dorahtml.dtd
+PUBLIC	"-//ORA//DTD ORA Nutshell DTD V1.1//EN"	/usr/local/share/gmat/sgml/ORA/dtds/nutshell.1.1.dtd
+PUBLIC	"-//ORA//DTD ORA Nutshell DTD//EN"	/usr/local/share/gmat/sgml/ORA/dtds/nutshell.dtd
+PUBLIC	"-//ORA//DTD ORA Production 2.4//EN"	/usr/local/share/gmat/sgml/ORA/dtds/oraprod.2.4.dtd
+PUBLIC	"-//ORA//DTD ORA Production 3.0//EN"	/usr/local/share/gmat/sgml/ORA/dtds/oraprod.3.0.dtd
+PUBLIC	"-//ORA//DTD ORA Production 3.1//EN"	/usr/local/share/gmat/sgml/ORA/dtds/oraprod.3.1.dtd
+PUBLIC	"-//ORA//DTD ORA Production DTD//EN"	/usr/local/share/gmat/sgml/ORA/dtds/oraprod.2.2.1.dtd
+PUBLIC	"-//ORA//DTD ORA Production//EN"	/usr/local/share/gmat/sgml/ORA/dtds/oraprod.2.2.1.dtd
+PUBLIC	"-//ORA//DTD ORA Test Production 2.4//EN"	/usr/local/share/gmat/sgml/ORA/dtds/test.2.4.dtd
+PUBLIC	"-//ORA//DTD Power Tools//EN"	/usr/local/share/gmat/sgml/ORA/dtds/pwrtools.dtd
+PUBLIC	"-//ORA//DTD Running Linux//EN"	/usr/local/share/gmat/sgml/ORA/dtds/runlinux.dtd
+PUBLIC	"-//ORA//DTD SGMLBOOK MEMO//EN"	/usr/local/share/gmat/sgml/ORA/dtds/memo.dtd
+PUBLIC	"-//ORA//DTD Toolbox V0.1//EN"	/usr/local/share/gmat/sgml/ORA/dtds/toolbox.dtd
+PUBLIC	"-//ORA//DTD WIC TWI95//EN"	/work/nutshell/twi95/quark/wic.dtd
+PUBLIC	"-//ORA//DTD X Power Tools//EN"	/usr/local/share/gmat/sgml/ORA/dtds/xpt.dtd
+PUBLIC	"-//ORA//ENTITIES Common Entities//EN"	/usr/local/share/gmat/sgml/ORA/entities/Common_Entities
+PUBLIC	"-//ORA//ENTITIES DNS and Bind//EN"	/usr/local/share/gmat/sgml/ORA/entities/DNS_and_Bind
+PUBLIC	"-//ORA//ENTITIES Essential System Administration//EN"	/usr/local/share/gmat/sgml/ORA/entities/Essential_System_Administration
+PUBLIC	"-//ORA//ENTITIES Managing NFS and NIS//EN"	/usr/local/share/gmat/sgml/ORA/entities/Managing_NFS_and_NIS
+PUBLIC	"-//ORA//ENTITIES Nutshell Legal Notice//EN"	/usr/local/share/gmat/sgml/ORA/entities/Nutshell_Legal_Notice
+PUBLIC	"-//ORA//ENTITIES ORA Entities//EN"	/usr/local/share/gmat/sgml/ORA/entities/ORA_Entities
+PUBLIC	"-//ORA//ENTITIES ORA X Books//EN"	/usr/local/share/gmat/sgml/ORA/entities/ORA_X_Books
+PUBLIC	"-//ORA//ENTITIES System Entities//EN"	/usr/local/share/gmat/sgml/ORA/entities/System_Entities
+PUBLIC	"-//ORA//ENTITIES X Legal Notice 1//EN"	/usr/local/share/gmat/sgml/ORA/entities/X_Legal_Notice_1
+PUBLIC	"-//ORA//ENTITIES X Legal Notice 2//EN"	/usr/local/share/gmat/sgml/ORA/entities/X_Legal_Notice_2
+PUBLIC	"-//ORA//ENTITIES bulksales//EN"	/usr/local/share/gmat/sgml/ORA/entities/bulksales
+PUBLIC	"-//ORA//ENTITIES iso-lat1//EN"	/usr/local/share/gmat/sgml/ORA/entities/iso-lat1.gml
+PUBLIC	"-//ORA//ENTITIES iso-lat2//EN"	/usr/local/share/gmat/sgml/ORA/entities/iso-lat2
+PUBLIC	"-//ORA//ENTITIES orachars//EN"	/usr/local/share/gmat/sgml/ORA/entities/orachars
+PUBLIC	"-//ORA//ENTITIES oraxrelated//EN"	/usr/local/share/gmat/sgml/ORA/entities/oraxrelated
+PUBLIC	"-//ORA//ENTITIES xreqforcomments//EN"	/usr/local/share/gmat/sgml/ORA/entities/xreqforcomments
+
+
+-- ISO 12083 DTDs --
+
+PUBLIC	"ISO 12083:1993//DTD Article//EN"	/usr/local/share/gmat/sgml/ISO_12083-1993/dtds/article.dtd
+PUBLIC	"ISO 12083:1993//DTD Book//EN"	/usr/local/share/gmat/sgml/ISO_12083-1993/dtds/book.dtd
+PUBLIC	"ISO 12083:1993//DTD Mathematics//EN"	/usr/local/share/gmat/sgml/ISO_12083-1993/dtds/maths.dtd
+PUBLIC	"ISO 12083:1993//DTD Serial//EN"	/usr/local/share/gmat/sgml/ISO_12083-1993/dtds/serial.dtd

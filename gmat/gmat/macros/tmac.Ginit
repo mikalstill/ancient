@@ -1,0 +1,3 @@
+.\"Initializes a default page in the absence of local macros to do so
+.book_setup_0\" set major format parameters
+.set_fmt_params\" set secondary format parameters

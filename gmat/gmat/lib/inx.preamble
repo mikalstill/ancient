@@ -1,0 +1,5 @@
+.FILE index
+.so /usr/local/share/gmat/macros/mindmacs
+.Se "" Index
+.nr I 1
+.XC

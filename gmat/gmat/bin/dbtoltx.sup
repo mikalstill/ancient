@@ -1,0 +1,141 @@
+# -*- Perl -*-
+# Support routines for dbtoltx
+#
+# $Id: dbtoltx.sup,v 1.1.1.1 2002-07-15 21:33:31 root Exp $
+#
+#
+##############################################################################
+
+if ($VERBOSE) {
+    my($VERSION) = '$Id: dbtoltx.sup,v 1.1.1.1 2002-07-15 21:33:31 root Exp $'; # '
+    my($REQNAME) = (split(/\s+/, $VERSION))[1];
+    my($vers) = (split(/\s+/, $VERSION))[2];
+
+    print STDERR "$REQNAME version $vers.\n";
+}
+
+##############################################################################
+
+require 'sgmls3l.pl';
+
+$PI_FILE = "";
+$PI_CHAPTER = "";
+$PI_CHAPTER_NUMBER = "";
+$PI_CHAPTER_PAGE = "";
+
+sub generate_tag_instances {
+    local($_);
+
+    foreach $_ ('BOOKBIBLIO', 'DOCINFO',       'EXAMPLE',
+		'FIGURE',     'FORMALPARA',    'GLOSSARY',   
+		'GLOSSDIV',   'PART',	       'PREFACE',  
+                'REFERENCE',  'SERIESINFO',    'SIDEBAR',  
+                'TABLE',      'INFORMALTABLE', 'ARTHEADER',
+		'APPENDIX',   'CHAPTER',
+	    
+		'SECT1',      'SECT2',         'SECT3',      
+                'SECT4',      'SECT5',
+
+		'REFSECT1',   'REFSECT2',      'REFSECT3',
+
+		'LOT',        'TOC',
+
+		'NOTE',       'CAUTION',       'IMPORTANT',  
+                'TIP',        'WARNING') {
+	&gen_titled($_) if !&ispackage($_);
+    }
+
+    foreach $_ ('LITERALLAYOUT', 'COMPUTEROUTPUT', 'PROGRAMLISTING', 
+		'SYNOPSIS') {
+	&gen_obeyspaces($_) if !&ispackage($_);
+    }
+
+    foreach $_ (keys %TAGS) {
+	my($tag) = $WHENTREE{$_};
+
+	$tag = $tag->{'*tag'} if ref $tag eq 'HASH';
+
+	if ($TAGS{"$_"} =~ /^\\begin\{/
+	    || $TAGS{"$_"} =~ /^\\end\{/
+	    || $TAGS{"$_"} !~ /\{/) { # this is a dot macro
+	    &gen_wrapper ($_) if !&ispackage($_);
+	} else {		# this is an inline macro
+	    &gen_inline ($_) if !&ispackage($_);
+	}
+    }
+}
+
+sub sig_handler {
+    local($sig) = @_;
+
+    $SIG{'INT'} = 'IGNORE';
+    $SIG{'KILL'} = 'IGNORE';
+    $SIG{'HUP'} = 'IGNORE';
+
+    print STDERR "Terminated by SIG$sig...\n";
+    exit 101;
+}
+
+########################################################################
+
+sub PI_tex {
+    my($self, $markup, $args) = @_;
+
+    $markup->markup($args);
+    return "";
+}
+
+sub PI_lb {
+    my($self, $markup, $args) = @_;
+
+    if (($self->{'PARENT'})->{'TAG'} ne 'TITLE') {
+	&WARNING("The <?lb> processing instruction is only meaningful in titles.");
+	return undef;
+    }
+
+    $markup->markup("\\\\");
+    return "\\\\";
+}
+
+sub PI_chapter {
+    my($self, $markup, $args) = @_;
+
+    $PI_CHAPTER = $args;
+    return undef;
+}
+
+sub PI_source_file {
+    my($self, $markup, $args) = @_;
+
+    $markup->markup("\\sourcefile{$args}\n");
+    return "";
+}
+
+sub PI_formatter_file {
+    my($self, $markup, $args) = @_;
+
+    $markup->markup("\\formatterfile{$args}\n");
+    return "";
+}
+
+sub PI_chapter_number {
+    my($self, $markup, $args) = @_;
+
+    $PI_CHAPTER_NUMBER = $args;
+    return "";
+}
+
+sub PI_page_number {
+    my($self, $markup, $args) = @_;
+
+    $PI_PAGE_NUMBER = $args;
+    return "";
+}
+
+sub PI_numbered_sections {
+    my($self, $markup, $args) = @_;
+
+    return "";
+}
+
+1;

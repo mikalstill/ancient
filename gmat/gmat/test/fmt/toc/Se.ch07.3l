@@ -1,0 +1,11 @@
+.in 0
+.ie !'\*[tocbox_hdr_ft]'' .ft \*[tocbox_hdr_ft]
+.el .ft \fI
+In this chapter:
+.if !'\*[tocbox_hdr_ft]'' .sp 2p
+.ft \*[tocbox_ft]
+.in 1m
+.ta 1m
+.ti -1m
+\(bu	Alphabetical Summary of Commands
+.in 0

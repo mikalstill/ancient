@@ -1,0 +1,10 @@
+F 1\-1 Partition table on second FreeBSD disk 9
+F 1\-2 FreeBSD slice on second disk 14
+F 1\-3 Concatenated organization 24
+F 1\-4 Striped organization 25
+F 1\-5 RAID-5 organization 26
+F 1\-6 Vinum plex organizations 28
+F 1\-7 A simple Vinum volume 30
+F 1\-8 A mirrored Vinum volume 31
+F 1\-9 A striped Vinum volume 33
+F 1\-10 A mirrored, striped Vinum volume 34

@@ -1,0 +1,392 @@
+#!/usr/bin/perl5 -- # -*- Perl -*-
+#
+# Edits a BOOKFILES database
+#
+# $Id: bookfiles,v 1.1.1.1 2002-07-15 21:33:31 root Exp $
+#
+#
+
+use vars qw($PROGNAME $VERSION);
+
+$BASEVERS   = "0.1";
+$RCS_ID     = '$Id: bookfiles,v 1.1.1.1 2002-07-15 21:33:31 root Exp $'; # '
+($PROGNAME  = $RCS_ID) =~ s/^.Id: (\S+) .*$/$1/;
+($PATCHLEVEL= $RCS_ID) =~ s/^.Id: \S+ \d+\.(\d+) .*$/$1/;
+$VERSION    = "$BASEVERS patchlevel $PATCHLEVEL";
+$EXECDIR    = ".";
+$EXECDIR    = $1 if $0 =~ /^(.*)\/[^\/]+$/;
+
+######################################################################
+
+$ORALIBDIR = $ENV{"ORALIBDIR"} || "/usr/local/share/gmat/lib";
+push(@INC, $ORALIBDIR);
+
+$ORATOOLSRC = $ENV{'ORATOOLSRC'} || "$ORALIBDIR/oratoolsrc";
+
+require 'oragetopts.pl';
+require 'parsecfg5.pl';
+require 'commonlock5.pl';
+
+select(STDERR); $| = 1;
+select(STDOUT); $| = 1;
+
+$WHOAMI = $ENV{"USER"} || $ENV{"LOGNAME"} || "user";
+$PID    = $$;
+
+$bf = &parsecfg($ORATOOLSRC);
+$bf = &parsecfg("$ENV{HOME}/.oratoolsrc", $bf);
+$bf = &parsecfg("./.oratoolsrc", $bf);
+
+$rc = &Getopts ('3sJ:');
+die "$0: bad command line arguments.\n" if (!$rc);
+
+$BOOKFILES = $opt_J || &cfg($bf, "bookfiles", "bookfiles") || "BOOKFILES";
+$LOCKFILE  = "$BOOKFILES.lock";
+$VERBOSE   = &cfg($bf, 'bookfiles', 'verbose') || $opt_v;
+
+$SIG{'INT'} = 'sig_handler';
+$SIG{'KILL'} = 'sig_handler';
+$SIG{'HUP'} = 'sig_handler';
+
+##############################################################################
+
+# Are we creating a new BOOKFILES file?
+if ($ARGV[0] =~ /^create$/i && !defined($ARGV[1])) {
+    if (! -f $BOOKFILES) {
+	&create_bookfiles();
+	exit 0;
+    } else {
+	die "$0: $BOOKFILES already exists!\n";
+    }
+}
+
+# Is there a BOOKFILES file?
+die "$0 quitting: can't read $BOOKFILES file.\n" if ! -r "$BOOKFILES";
+
+# Is it the new or old style?
+open (F, "$BOOKFILES");
+$_ = scalar(<F>);
+chop;
+close (F);
+$NEWSTYLE = /^#\s*bookfiles\s*$/;
+
+# Print the contents if no arguments are given
+&print_bookfiles(), exit 0 if !@ARGV;
+
+# Abort if the BOOKFILES file is not the NEWSTYLE.  We can't edit the
+# old ones this way...
+
+die "$0: Cannot edit old $BOOKFILES files.\n" if !$NEWSTYLE;
+##############################################################################
+# Change the bookfiles file
+
+# Check the arguments
+$setone = 0;
+@SAVEARG = @ARGV;
+while (@ARGV) {
+    $a = shift(@ARGV);
+
+    if ($a =~ /^(.*)=(.*)$/ || $a =~ /^(.*):(.*)$/) {
+	&usage() if !$section;
+	$setone = 1;
+	next;
+    }
+    
+    if ($a =~ /^unset$/i) {
+	&usage() if !$section;
+	shift (@ARGV);
+	$setone = 1;
+	next;
+    }
+    if ($a =~ /^delete$/i) {
+	&usage() if !$section;
+	$setone = 1;
+	$section = "";
+	next;
+    }
+
+    warn "$0: No variables set for section \"$section\", continuing with section \"$a\".\n" if !$setone && $section;
+
+    $section = $a;
+    $setone = 0;
+}
+@ARGV = @SAVEARG;
+
+if ($ARGV[0] =~ /^edit$/i && !defined($ARGV[1])) {
+    local($editor) = $ENV{"BOOKFILES_EDITOR"} || $ENV{"EDITOR"} || $ENV{"VISUAL"} || "emacs";
+    local($temp) = "/tmp/$BOOKFILES.$PID.edit";
+    local($rc);
+
+    open (F, ">$temp") || die "$0: Cannot write to $temp $!";
+#   die "Unable to obtain lock on $BOOKFILES.\n"
+#	if &set_lock($LOCKFILE);
+	flock(F, 2) || die "Cannot get lock $!";
+
+    open (G, "$BOOKFILES");
+    $_ = scalar(<G>);
+    print F "$_";
+
+    $_ = scalar(<G>);
+    if (/^# This configuration file was/) {
+	print F "# This configuration file was edited\n"
+    } else {
+	print F $_;
+    }
+
+    $_ = scalar(<G>);
+    if (/^# on ... ... .\d \d\d:/) {
+	chop($date = `date`);
+	print F "# on $date by $WHOAMI.\n";
+    } else {
+	print F $_;
+    }
+    
+    while (<G>) {
+	print F $_;
+    }
+
+    close (G);
+    close (F);
+
+    print STDERR "Exit from your editor after updating $BOOKFILES!\n";
+    print STDERR "Running $editor $BOOKFILES...";
+    $rc = system("$editor $temp");
+    print STDERR "\n";
+
+    &backup_bookfiles();
+
+    # Can't use chmod(), I might not be the owner.  Blow it away and
+    # hope it comes back!
+    #chmod(0664, $BOOKFILES);
+    unlink($BOOKFILES);
+
+    $rc = system("cp $temp $BOOKFILES");
+    if ($rc) {
+	warn "$0: Failed to update $BOOKFILES!\n";
+    } else {
+	chmod(0444, $BOOKFILES);
+	unlink($temp);
+    }
+
+#    &unset_lock($LOCKFILE);
+    exit 0;
+}
+
+#die "Unable to obtain lock on $BOOKFILES.\n"
+#  if &set_lock($LOCKFILE);
+
+
+$bookfiles = &parsecfg($BOOKFILES);
+
+# Update the arguments
+while (@ARGV) {
+    $a = shift(@ARGV);
+
+    if ($a =~ /^(.*)=(.*)$/ || $a =~ /^(.*):(.*)$/) {
+	&cfg_set($bookfiles, "$section", "$1", "$2");
+	print STDERR "Setting $1=$2 in $section\n" if $VERBOSE;
+	next;
+    }
+    
+    if ($a =~ /^unset$/i) {
+	$a = shift (@ARGV);
+	&cfg_delete($bookfiles, "$section", "$a");
+	print STDERR "Removing $a from $section\n" if $VERBOSE;
+	next;
+    }
+
+    if ($a =~ /^delete$/i) {
+	&cfg_delete_section($bookfiles, "$section");
+	print STDERR "Deleting section $section\n" if $VERBOSE;
+	next;
+    }
+
+    $section = $a;
+}
+
+&backup_bookfiles();
+#chmod(0664, $BOOKFILES);
+unlink ($BOOKFILES);
+&printcfg($bookfiles, "$BOOKFILES");
+chmod(0444, $BOOKFILES);
+
+#&unset_lock($LOCKFILE);
+
+##############################################################################
+sub usage {
+    print <<EOF;
+
+Usage: $0 [ commands ]
+
+    If no commands are given, prints the files identified in $BOOKFILES.
+    Commands can be used to edit $BOOKFILES in the the new format.  The
+    possible commands are:
+
+  section variable=value [ variable=value ... ] 
+
+    Sets variable specified in the section "section".
+
+  section unset variable [ unset variable ... ]
+
+    Unsets the variable specified in the sectino "section".
+    This form and the preceding form can be mixed.  The special section
+    '*' sets global variables.
+
+  edit
+
+    If you use the single keyword edit, you can edit the $BOOKFILES
+    file with your editor (you are guaranteed no one else will update
+    it while you do).  This option must be the sole command or it 'edit'
+    will be interpreted as simply another section.
+
+EOF
+
+    exit 1;
+}
+
+sub backup_bookfiles {
+    local($b) = "$BOOKFILES~";
+    local($rc);
+
+    if (-f $b) {
+	unlink($b);
+    }
+
+    $rc = system ("cp $BOOKFILES $b");
+    chmod (0444, $b);
+}
+
+sub print_bookfiles {
+    local($_, $bf, @files);
+    open (F, "$BOOKFILES") || return;
+
+    if ($NEWSTYLE) {
+#	die "Unable to obtain lock on $BOOKFILES.\n"
+#	    if &set_lock($LOCKFILE);
+	$bf = &parsecfg($BOOKFILES);
+#	&unset_lock($LOCKFILE);
+	@files = &cfg_sections($bf);
+	foreach $_ (@files) {
+	    print "$_\n";
+	}
+    } else {
+	while (<F>) {
+	    print "$1\n" if /^(.*)\t/ && !/^#/;
+	}
+    }
+
+    close (F);
+}
+
+sub create_bookfiles {
+#    die "Unable to obtain lock on $BOOKFILES.\n"
+#	if &set_lock($LOCKFILE);
+    print STDERR "Creating $BOOKFILES...\n" if $VERBOSE;
+    open (F, ">$BOOKFILES") || die "$0: cannot create $BOOKFILES.\n";
+	flock(F, 2) || die "Cannot get lock $!";
+	
+    chop($date = `date`);
+    print F "# bookfiles\n";
+    print F "# This configuration file was created by $0\n";
+    print F "# on $date by $WHOAMI.\n";
+    print F "#\n\n";
+
+    print "Book title: ";
+    chop($title = scalar(<STDIN>));
+
+    print "Macros: ";
+    chop($macros = scalar(<STDIN>));
+
+    print "Toc top files [basicnuts]: ";
+    chop($tocfiles = scalar(<STDIN>));
+    use Cwd;
+    $cwd = cwd();
+    if (!$tocfiles) {
+	if (substr($cwd,0,10) eq "/work/java") { $tocfiles = "javanuts"; }
+	elsif (substr($cwd,0,11) eq "/work/linux") { $tocfiles = "linux"; }
+	else { $tocfiles = "basicnuts"; }
+    }
+    $path = `dirname $tocfiles`;
+    chop($path);
+    if ($path eq "\.") {
+	$tocfiles = "/work/toc/$tocfiles";
+    }
+
+    print "inx preamble file [/usr/local/share/gmat/lib/inx.preamble]: ";
+    chop($inxfile = scalar(<STDIN>));
+    if (!$inxfile) {
+	$inxfile = "/usr/local/share/gmat/lib/inx.preamble";
+    }
+
+    $path = `dirname $inxfile`;
+    chop($path);
+    if (($path eq "\.") && ($inxfile !~ /^\.\/.*$/)) {
+	$inxfile = "./$inxfile";
+    }
+
+    $chapcount = "";
+    while ($chapcount !~ /^\d+$/) {
+	print "How many chapters? ";
+	$chapcount = scalar(<STDIN>);
+	chop;
+    }
+
+    $appcount = "";
+    while ($appcount !~ /^\d+$/) {
+	print "How many appendixes? ";
+	$appcount = scalar(<STDIN>);
+	chop;
+    }
+
+    print "Are they in SMGL? ";
+    $sgml = scalar(<STDIN>);
+    if ($sgml =~ /^[yY]/) {
+	$sgml = ".sgm";
+    } else {
+	$sgml = "";
+    }
+
+    print F "book_title = $title\n";
+    print F "macros = $macros\n";
+    print F "doctype = book public \"-//ORA//DTD ORA Production DTD//EN\"\n" 
+	if $sgml;
+    print F "inxfile = $inxfile\n";
+    print F "tocfiles = $tocfiles\n";
+    print F "\n";
+
+    print F "[ toc ]\n";
+    print F "page = 5\n";
+    print F "\n";
+
+    for ($count = 0; $count <= $chapcount; $count++) {
+	printf F "[ ch%02d%s ]\n", $count, $sgml;
+	print F "chapter = 1\n" if ($count == 1);
+	print F "page = 1\n" if ($count == 1);
+	print F "\n";
+    }
+
+    $app = 'a';
+    for ($count = 0; $count < $appcount; $count++) {
+	printf F "[ app%s%s ]\n", $app, $sgml;
+	print F "appendix = A\n" if ($count == 0);
+	print F "\n";
+	$app++;
+    }
+
+    print F "[ index ]\n";
+
+    close (F);
+    chmod(0444, $BOOKFILES);
+#    &unset_lock($LOCKFILE);
+}
+
+sub sig_handler {  # 1st argument is signal name
+    local($sig) = @_;
+
+    $SIG{'INT'} = 'IGNORE';
+    $SIG{'KILL'} = 'IGNORE';
+    $SIG{'HUP'} = 'IGNORE';
+
+    &unset_all_locks();
+    exit 3;
+}

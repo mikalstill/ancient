@@ -1,0 +1,337 @@
+# -*- Perl -*-
+# Support routines for dbto3l
+#
+# $Id: xdbto3l.sup,v 1.1.1.1 2002-07-15 21:33:31 root Exp $
+#
+#
+##############################################################################
+
+use vars qw($VERSION);
+
+if ($VERBOSE) {
+    my($VERSION) = '$Id: xdbto3l.sup,v 1.1.1.1 2002-07-15 21:33:31 root Exp $'; # '
+    my($REQNAME) = (split(/\s+/, $VERSION))[1];
+    my($vers) = (split(/\s+/, $VERSION))[2];
+
+    print STDERR "$REQNAME version $vers.\n";
+}
+
+##############################################################################
+
+# these used to be in gmat.sgmls, moving them here improves flexibility
+require 'sgmls3l.pl';
+require 'psgmls.pl';
+require 'sgmlpars.pl';
+
+$SGML_FILTER_AHEAD = 0;
+
+$PI_FILE = "";
+$PI_SOURCE_FILE = "";
+$PI_CHAPTER = "";
+$PI_CHAPTER_NUMBER = "";
+$PI_CHAPTER_PAGE = "";
+$PI_SCREEN_INDENT = "";
+
+sub generate_tag_instances {
+    local($_);
+
+    foreach $_ ('BOOKBIBLIO', 'BIBLIODIV', 'DOCINFO',       'EXAMPLE',
+		'FIGURE',     'FORMALPARA', 'BIBLIOGRAPHY', 'GLOSSARY',
+		'GLOSSDIV',   'PART',	       
+                'REFERENCE',  'SERIESINFO',    'SIDEBAR',  
+                'TABLE',      'INFORMALTABLE', 'ARTHEADER',
+	    
+		'SECT1',      'SECT2',         'SECT3',      
+                'SECT4',      'SECT5',
+
+		'REFSECT1',   'REFSECT2',      'REFSECT3',
+
+		'LOT',        'TOC',
+
+		'NOTE',       'CAUTION',       'IMPORTANT',  
+                'TIP',        'WARNING') {
+	&gen_titled($_) if !&ispackage($_);
+    }
+
+    foreach $_ ('REFNAME', 'REFPURPOSE', 'PUBDATE', 'PUBLISHERNAME', 'EDITION') {
+	&gen_asarg($_) if !&ispackage($_);
+    }
+
+    foreach $_ ('APPENDIX', 'CHAPTER', 'PREFACE') {
+	&gen_chapter($_) if !&ispackage($_);
+    }
+
+    foreach $_ ('LITERALLAYOUT', 'COMPUTEROUTPUT', 'PROGRAMLISTING', 
+		'SYNOPSIS') {
+	&gen_obeyspaces($_) if !&ispackage($_);
+    }
+
+    foreach $_ ('PRIMARY', 'SECONDARY', 'TERTIARY', 'SEE', 'SEEALSO') {
+	&gen_index_term($_) if !&ispackage($_);
+    }
+
+    foreach $_ ('COMPLEXPROGRAMLISTING', 'AREASPEC', 'TEXTAREA', 'LABEL') {
+	&gen_nop($_) if !&ispackage($_);
+    }
+
+    foreach $_ (keys %TAGS) {
+	my($tag) = $WHENTREE{$_};
+
+	$tag = $tag->{'*tag'} if ref $tag eq 'HASH';
+
+	if ($tag =~ /^\./) {	# this is a dot macro
+	    &gen_dottag ($_) if !&ispackage($_);
+	} else {			# this is an inline macro
+	    &gen_inline ($_) if !&ispackage($_);
+	}
+    }
+}
+
+sub sig_handler {
+    local($sig) = @_;
+
+    $SIG{'INT'} = 'IGNORE';
+    $SIG{'KILL'} = 'IGNORE';
+    $SIG{'HUP'} = 'IGNORE';
+
+    print STDERR "Terminated by SIG$sig...\n";
+    exit 101;
+}
+
+########################################################################
+
+sub PI_lb {
+    my($self, $markup, $args) = @_;
+
+    if (($self->{'PARENT'})->{'TAG'} ne 'TITLE') {
+	&WARNING("The <?lb> processing instruction is only meaningful in titles.");
+	return undef;
+    }
+
+    $markup->markup("<\001lb>");
+    return "<\001lb>";
+}
+
+sub PI_ahead_for_chapter_toc {
+    my($self, $markup, $args) = @_;
+
+    $SECT1::AHEAD_FOR_CHAPTER_TOC = $args;
+
+    return "";
+}
+
+sub PI_gmat {
+    my($self, $markup, $args) = @_;
+
+    if ($args =~ /draft/i) {
+	$main::GMAT_DRAFT_MODE = 1;
+    } elsif ($args =~ /final/i) {
+	$main::GMAT_DRAFT_MODE = 0;
+    }
+
+    return "";
+}
+
+sub PI_troff {
+    my($self, $markup, $args) = @_;
+
+    $markup->markup($args);
+    return "";
+}
+
+sub PI_source_file {
+    my($self, $markup, $args) = @_;
+
+    $markup->markup(".SFILE \"$args\"");
+    $PI_SOURCE_FILE = $args;
+    return "";
+}
+
+sub PI_formatter_file {
+    my($self, $markup, $args) = @_;
+
+    $markup->markup(".FILE \"$args\"");
+    $PI_FILE = $args;
+    return "";
+}
+
+sub PI_chapter {
+    my($self, $markup, $args) = @_;
+
+    $PI_CHAPTER = $args;
+    return undef;
+}
+
+sub PI_chapter_number {
+    my($self, $markup, $args) = @_;
+
+    $PI_CHAPTER_NUMBER = $args;
+    return undef;
+}
+
+sub PI_chapter_page {
+    my($self, $markup, $args) = @_;
+
+    $PI_CHAPTER_PAGE = $args;
+    return undef;
+}
+
+sub PI_page_number {
+    my($self, $markup, $args) = @_;
+
+    $markup->markup(".pn $args");
+    return "";
+}
+
+sub PI_part {
+    my($self, $markup, $args) = @_;
+
+    $markup->markup(".PART $args");
+    return "";
+}
+
+sub PI_troff_vlindent {
+    my($self, $markup, $args) = @_;
+
+    $markup->markup(".nr varlist_localindent $args");
+    return "";
+}
+
+sub PI_troff_vlitem {
+    my($self, $markup, $args) = @_;
+
+    $markup->markup(".nr varlistitem_postspace $args");
+    return "";
+}
+
+sub PI_figure_height {
+    my($self, $markup, $args) = @_;
+
+# Mikal
+print "Figure: Self $self\n";
+print "Figure: Markup $markup\n";
+print "Figure: Args $args\n";
+
+    $PI_FIGURE_HEIGHT = $args;
+    return undef;
+}
+
+sub PI_graphic_args {
+    my($self, $markup, $args) = @_;
+
+# Mikal
+print "Figure: Self $self\n";
+print "Figure: Markup $markup\n";
+print "Figure: Args $args\n";
+
+    $PI_GRAPHIC_ARGS = $args;
+    return undef;
+}
+
+sub PI_numbered_sections {
+    my($self, $markup, $args) = @_;
+
+    $PI_NUMBERED_SECTIONS = $args;
+    return undef;
+}
+
+sub PI_table_gutter {
+    my($self, $markup, $args) = @_;
+
+    if ($args !~ /^(\d+) (\d+)/) {
+	&main::WARNING("Unrecognized gutter spec: $args\n");
+    } else {
+	$TGROUP::GUTTER{$1} = $2;
+    }
+
+    return undef;
+}
+
+sub PI_table_above_rule_space {
+    my($self, $markup, $args) = @_;
+
+    $TABLE_ABOVE_RULE_SPACE = $args . "p";
+    return undef;
+}
+
+sub PI_table_below_rule_space {
+    my($self, $markup, $args) = @_;
+
+    $TABLE_BELOW_RULE_SPACE = $args . "p";
+    return undef;
+}
+
+sub PI_table_frame_rule {
+    my($self, $markup, $args) = @_;
+
+    $TABLE_FRAME_RULE = $TABLE_SINGLE_HORIZ_RULE if $args =~ /^single/i;
+    $TABLE_FRAME_RULE = $TABLE_DOUBLE_HORIZ_RULE if $args =~ /^double/i;
+    return undef;
+}
+
+sub PI_table_between_para_space {
+    my($self, $markup, $args) = @_;
+
+    $args .= "p" if $args =~ /\d$/;
+
+    $TABLE_BETWEEN_PARA_SPACE = $args;
+    return undef;
+}
+
+sub PI_table_between_row_space {
+    my($self, $markup, $args) = @_;
+
+    $TABLE_BETWEEN_ROW_SPACE = $args . "p";
+
+    &main::WARNING("Change of table between-row-space ignored; "
+		   . "space is suppressed.\n")
+	if &main::cfg($main::bookfiles, 
+		      $main::FILTERCFG, "suppress_between_row_space");
+
+    return undef;
+}
+
+sub PI_no_hyphen {
+    my($self, $markup, $args) = @_;
+
+    $markup->text("\\%$args");
+    return "";
+}
+
+sub PI_troff_llindent {
+    my($self, $markup, $args) = @_;
+    
+    $markup->markup(".nr llindent $args");
+    return "";
+}
+
+sub PI_troff_ps_indent {
+    my($self, $markup, $args) = @_;
+    
+    $markup->markup(".nr Ps_indent $args");
+    return "";
+}
+
+sub PI_screen_indent {
+    my($self, $markup, $args) = @_;
+
+    $main::PI_SCREEN_INDENT = $args;
+}
+
+sub PI_troff_llprespace {
+    my($self, $markup, $args) = @_;
+    
+    $markup->markup(".nr llprespace $args");
+    return "";
+}
+
+sub PI_bye {
+    my($self, $markup, $args) = @_;
+
+    $sgmlsParse::IGNORE_ALL_MARKUP = 1;
+
+    return "";
+}
+
+1;
+

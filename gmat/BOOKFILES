@@ -1,0 +1,9 @@
+# bookfiles
+# This configuration file was created by ./gmat/bin/gmat.troff
+# on Tue Jul 16 06:40:04 CST 2002 by mikal.
+#
+book_title = The Complete FreeBSD
+doctype    = book public "-//ORA//DTD ORA Production DTD//EN"
+inxfile    = /usr/local/share/gmat/lib/inx.preamble
+macros     = tmac.Gdraft sgmlmacs tmac.paras
+tocfiles   = /work/toc/basicnuts

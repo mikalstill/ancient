@@ -1,0 +1,26 @@
+#!/usr/bin/perl5 -- # -*- Perl -*-
+#
+# "cat" the input file
+#
+# $Id: gmat.cat,v 1.1.1.1 2002-07-15 21:33:31 root Exp $
+#
+#
+
+$BASEVERS   = "0.1";
+$RCS_ID     = '$Id: gmat.cat,v 1.1.1.1 2002-07-15 21:33:31 root Exp $'; # '
+($PROGNAME  = $RCS_ID) =~ s/^.Id: (\S+) .*$/$1/;
+($PATCHLEVEL= $RCS_ID) =~ s/^.Id: \S+ \d+\.(\d+) .*$/$1/;
+$VERSION    = "$BASEVERS patchlevel $PATCHLEVEL";
+$EXECDIR    = ".";
+$EXECDIR    = $1 if $0 =~ /^(.*)\/[^\/]+$/;
+
+######################################################################
+
+$file = pop @ARGV;
+open (F, $file);
+while (<F>) {
+    print;
+}
+close (F);
+
+

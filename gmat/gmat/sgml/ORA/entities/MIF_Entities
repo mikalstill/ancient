@@ -1,0 +1,8 @@
+<!-- 
+     MIF entities.  These are the entities created by rbmaker when converting
+     Frame MIF books that don't appear in other entity sets.
+  -->
+
+<!ENTITY bul     SDATA "[bull    ]">
+<!ENTITY truehy  SDATA "[truehy  ]">
+

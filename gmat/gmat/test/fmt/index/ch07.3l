@@ -1,0 +1,602 @@
+X	/usr directory::usr directory/usr/ucb directory	1
+X	/bin directory::bin directory	1
+X	/usr directory::usr directory/usr/ccs/bin directory	1
+X	/usr directory::usr directory/usr/dt/bin directory	1
+X	/usr directory::usr directory/usr/java/bin directory	1
+X	/usr directory::usr directory/usr/openwin/bin directory	1
+S	Unix commands (list)	2
+S	commandsall Unix commands (list)	2
+X	appletviewer command	2
+X	applets, Java	2
+X	Java languageapplets, running	2
+X	apropos command	2
+X	helpmanpage keyword lookup	2
+X	manpageskeyword lookup	2
+X	ar command	2
+X	archives	2
+X	deletingfiles from archives	2
+X	movingfiles in archives	2
+X	printingfilesfrom archives::archives	2
+X	appending to files	2
+X	replacing files in archives	2
+X	listing filesin archives::archives	2
+X	as command	3
+X	object filesgenerating	3
+X	assembly language processingas command	3
+X	at command	4
+X	date/timebatch execution at specific	4
+X	batch executionat specified date/time::specified date/time	4
+X	mon.out file	6
+X	cd command	6
+X	changing directory	6
+X	directorieschanging (moving between)	6
+X	CDE (Common Desktop Environment)	6
+X	Common Desktop Environment (CDE)	6
+X	cflow command	7
+X	functionsflowcharting	7
+X	flowcharting function calls	7
+X	checkeq command	7
+X	eqn preprocessor (nroff/troff)	7
+X	nroff formatting languagechecking mismatched delimiters	7
+X	troff formatting languagechecking mismatched delimiters	7
+X	checknr command	8
+X	nroff formatting languagechecking mismatched delimiters	8
+X	troff formatting languagechecking mismatched delimiters	8
+X	chgrp command	8
+X	ownership, filechanging	8
+X	filesownership of	8
+X	groupsfile ownership for	8
+X	chkey command	8
+X	passwordschanging	8
+X	chkey command	8
+N	chkey command(see also keylogin command; key-logout command)	
+X	chmod command	9
+X	access modes, changing	9
+X	permissions, filechanging	9
+X	filespermissions	9
+X	chown command	10
+X	filesownership of	10
+X	ownership of files	10
+X	checksumcksum command	10
+X	cksum command	10
+X	CRCs (cyclic redundancy checks)	10
+X	cyclic redundancy checks (CRCs)	10
+X	data transmission, verifying	10
+X	filescalculating checksum for	10
+X	checksum, calculating	10
+X	clearing terminal display	11
+X	deletingclearing terminal display	11
+X	clear command	11
+X	terminalsclearing displays	11
+X	filescomparing	11
+X	comparingfiles	11
+X	cmp command	11
+X	col command	11
+X	reverse linefeeds, displaying	11
+X	escape sequences, displaying	11
+X	displayingreverse linefeeds	11
+X	displayingescape sequences	11
+X	comm command	12
+X	comparingfiles	12
+X	filescomparing	12
+X	compress command	12
+X	compression	12
+N	sizefile compression(see compression)	
+X	filescompression	12
+X	cp command	13
+X	filescopying	13
+X	copyingfiles	13
+X	cpio command	13
+N	filesarchives(see archives)	
+X	copyingarchives	13
+X	archivescopying	13
+X	tape files, copying/restoring	13
+X	diskscopying archive files	13
+X	crontab command	15
+X	date/timebatch execution at specific	15
+X	batch executionat specified date/time::specified date/time	15
+X	cross references	16
+X	cscope command	16
+X	symbol cross references	16
+X	csh (C shell)	17
+N	C shell(see csh)	
+X	csplit command	17
+X	splitting files	17
+X	filessplitting into multiple filesbased on context	17
+X	ctags command	18
+X	namesfunctions and macros, listing	18
+X	functionslisting names	18
+X	macro names, listing	18
+X	ctrace commands	18
+X	C and C++ languagesdebugging	18
+X	debuggingC programs	18
+X	extracting columns/fields from files	19
+X	filesextracting columns/fields	19
+X	cut command	19
+X	columnsselecting from files	19
+X	cut command	19
+N	cut command(see also join command; newform command; paste command)	
+X	cxref command	20
+X	cross references	20
+X	symbol cross references	20
+X	C and C++ languagessymbol cross references	20
+X	date/timecurrent	21
+X	current date/time	21
+X	date command	21
+X	dc command	23
+X	calculator commandsdc command	23
+X	dd command	23
+X	copyingfiles	23
+X	filescopying	23
+X	convertingcharacterscase	23
+X	caseconverting	23
+N	uppercase(see case)	
+N	lowercase(see case)	
+N	capitalization(see case)	
+X	sizebuffer block size	23
+X	block size (characters)	23
+X	characters	23
+N	characters(see also text)	
+X	charactersbuffer block size	23
+X	text	23
+N	text(see also characters)	
+X	troff formatting languageremoving all requests/macros	25
+X	nroff formatting languageremoving all requests/macros	25
+X	deletingnroff/troff request and macros	25
+X	deroff command	25
+X	filesstripping troff/nroff codes	25
+X	df command	26
+X	disk space, reporting on	26
+X	free disk space, reporting	26
+X	inodes, reporting on	26
+X	diff command	26
+X	filescomparing	26
+X	comparingfiles	26
+X	diff3 command	27
+X	filescomparing	27
+X	comparingfiles	27
+X	diffmk command	28
+X	comparingfilesdocument drafts	28
+X	documents, comparing	28
+X	filescomparingdocument drafts	28
+X	dircmp command	28
+X	comparingdirectory contents	28
+X	directoriescomparing contents	28
+X	dirname command	29
+N	namesfiles(see filenames)	
+N	namespaths(see pathnames)	
+X	filenamesstripping from pathnames	29
+X	pathnamesstripping filenames from	29
+X	namesdirectories, printing	29
+X	directoriesprinting names of	29
+X	dis command	29
+X	disassembling object files	29
+X	filesdisassembling	29
+X	archivesdisassembling	29
+X	dos2unix command	29
+X	convertingcharactersDOS to ISO	29
+X	charactersconverting DOS to ISO	29
+X	filesconvertingDOS to ISO	29
+X	download command	29
+X	loading fonts to PostScript files	29
+X	fontsloading to PostScript files	29
+X	PostScript filesadding fonts to	29
+N	PS files(see PostScript files)	
+N	filesPostScript(see PostScript files)	
+X	convertingfilestroff to PostScript	30
+X	dpost command	30
+X	PostScript filescreating from troff	30
+X	troff formatting languageconverting to PostScript	30
+X	du command	31
+X	usage information (disks)	31
+X	disksusage information	31
+N	standard input(see STDIN)	
+X	STDOUT, printing to	32
+X	standard output, printing to	32
+X	echo command	32
+X	printingto standard output::standard output	32
+X	writing to standard output	32
+X	text editorsed	32
+X	ed text editor	32
+X	line-oriented text editor	33
+X	text editorsedit	33
+X	edit text editor	33
+X	egrep command	33
+X	filessearching contents	33
+X	searchingfile contents	33
+X	regular expressionssearching file contents	33
+X	removable mediaejecting	34
+X	eject command	34
+X	CD-ROM, ejecting	34
+N	floppy disks(see disks)	
+X	disksejecting	34
+X	elfdump command	34
+X	filesdumping parts of	34
+X	archivesdumping parts of	34
+N	object files(see archives; files)	
+X	env command	35
+X	environment, displaying	35
+X	environment variablesmodifying values	35
+X	error command	35
+X	compiler error messages	35
+X	error messagescompiler	35
+X	filesinserting compiler error messages	35
+X	ex editor	35
+X	text editorsex	35
+N	filesediting(see text editors)	
+X	expand command	36
+X	tab charactersexpanding to spaces	36
+N	space(see whitespace)	
+X	textexpanding tabs into spaces	36
+X	convertingcharacterstabs to spaces	36
+X	whitespaceexpanding tabs into spaces	36
+X	expr command	37
+X	expressions, evaluating	37
+X	evaluating expressions	37
+X	exstr command	39
+X	C and C++ languagesextracting strings for localization	39
+X	stringslocalizing	39
+X	localization of strings	39
+X	internationalization	39
+X	factor command	40
+X	numbersprime factors	40
+X	prime factors	40
+X	false command	40
+X	fdformat command	40
+X	disksformatting	40
+X	formatting disks and memory cards	40
+X	PCMCIA memory cards, formatting	40
+X	fgrep command	41
+X	searchingfile contents	41
+X	filessearching contents	41
+N	textsearching for(see searching)	
+X	regular expressionssearching file contents	41
+X	file command	42
+X	filesclassifying by data type	42
+X	classifying files by data type	42
+X	data classification of files	42
+S	find command	43
+S	filessearching for	43
+S	searchingfor files::files	43
+S	pathnamessearching for files	43
+E	find command	46
+E	filessearching for	46
+E	searchingfor files::files	46
+E	pathnamessearching for files	46
+X	finger command	46
+X	usersdisplaying data about	46
+X	\&.project file::project file	46
+X	\&.plan file::plan file	46
+X	fmt command	46
+X	textline formatting	46
+X	lines (files), formatting	46
+X	filesformatting lines in	46
+X	ftp command	47
+X	remote file transfer	47
+X	remote systemscopying files between	47
+X	filescopyingremotely	47
+X	copyingfilesremotely	47
+X	FTP (File Transfer Protocol)	47
+X	gcore command	47
+X	processescore images of	47
+X	core images, creating	47
+X	gencat command	47
+X	messagesappending and merging	47
+X	genmsg command	48
+X	messagesextracting	48
+X	getconf command	49
+X	systemconfiguration variables, printing	49
+X	configuration variables, system	49
+X	filesystem-related parameters	49
+X	variablessystem configuration, printing	49
+X	printingsystem configuration variables	49
+X	gettext command	49
+X	stringslocalizing	49
+X	localization of strings	49
+X	internationalization	49
+N	translating strings(see localization of strings)	
+X	TEXTDOMAIN environment variable	49
+X	TEXTDOMAINDIR environment variable	49
+X	gettxt command	49
+X	messagesretrieving	49
+X	localization of strings	49
+X	LC_MESSAGES variable::LC MESSAGES	49
+X	gprof command	49
+X	C and C++ languagescall-graph profile data	49
+X	call-graph profile data	49
+X	profile data, displaying	49
+X	grep command	50
+X	regular expressionssearching files for	50
+X	filessearching contents	50
+X	searchingfile contents	50
+X	groups command	51
+X	usersdisplaying group membership	51
+X	groupsdisplaying user membership	51
+X	gunzip command	51
+X	compression	51
+X	filescompression	51
+X	gzcat command	51
+X	gzip command	51
+X	compression	51
+X	filescompression	51
+X	L\|Z\|7\|7 coding::LZ77 coding	51
+X	Lempel-Ziv (L\|Z\|7\|7) coding	51
+X	head command	53
+N	printingfile contents(see files, printing)	
+X	filesprintinginitial lines of	53
+X	hostid command	53
+X	host machine	53
+X	hostname command	53
+X	host machine	53
+X	hostname command	53
+N	hostname command(see also uuname command)	
+X	iconv command	53
+X	filesconvertingcharacter sets in	53
+X	convertingcharacter sets	53
+X	character sets, converting	53
+X	id command	54
+X	usersIDsdisplaying	54
+X	groupslisting IDs for	54
+X	ipcrm command	54
+X	semaphore sets, removing	54
+X	shared memory identifiers, removing	54
+X	ipcs command	54
+X	interprocess communication facilities	54
+X	jar command	55
+X	archivesJava archives	55
+X	java command	55
+X	compilingJava code	55
+X	Java languagecompiling code	55
+X	java_g command	57
+X	javac command	57
+X	documentation for Java language	58
+X	Java languagedocumentation	58
+X	javadoc command	58
+X	javah command	59
+X	headersJava code	59
+X	digital signatures, Java archives	60
+X	javakey command	60
+X	securitydigital signatures for Java files	60
+X	Java languagedigital signatures for Java files	60
+X	javald command	61
+X	CLASSPATH environment variable	61
+X	javap command	62
+X	disassmbling Java class files	62
+X	class files (Java), disassembling	62
+X	Java languagedisassembling class files	62
+X	jdb command	62
+X	debuggingJava code	62
+X	Java languagedebugging	62
+X	join command	63
+X	filesjoining similar lines of	63
+X	sorting filesjoining lines of sorted files	63
+X	jre command	64
+X	Java languageJava Runtime Environment	64
+X	jsh command	65
+N	processescontrolling(see job control)	
+X	shell scriptsjob control via	65
+X	job controlin shell scripts::shell scripts	65
+X	keylogin command	65
+X	keylogin command	65
+N	keylogin command(see also chkey command; key-logout command)	
+X	passwordsprompting for	65
+X	secret keysdecrypting	65
+X	secure network servicesdecrypting secret keys in	65
+X	keylogout command	65
+X	secret keysdeleting	65
+X	secure network servicesdeleting secret keys in	65
+X	keylogout command	65
+N	keylogout command(see also chkey command; key-login command)	
+X	kill command	65
+X	processesterminating IDs	65
+X	terminating process IDs	65
+S	ld command	66
+S	linkseditors	66
+S	filescombining into module	66
+E	linkseditors	69
+E	ld command	69
+E	filescombining into module	69
+X	ldd command	69
+X	fileslistingshared objects for	69
+X	executable files, shared objects for	69
+X	lex command	70
+X	programslexical analysisgenerating	70
+X	lexical analysis programs, generating	70
+X	lex command	70
+N	lex command(see also yacc command)	
+X	regular expressionslexical analysis program	70
+X	line command	70
+X	shell scriptsreading from terminal	70
+X	linesreading from standard input	70
+X	lint command	70
+X	C and C++ languagesdetecting bugs and errors	70
+X	debuggingC programs	70
+X	listing users	71
+X	listusers command	71
+X	userslisting	71
+X	ln command	72
+X	filespseudonyms (links) for	72
+X	linkscreating for files	72
+X	locale command	72
+X	localegetting information on	72
+X	localedef command	72
+X	localedefinitions, reaching	72
+X	logger command	73
+X	loggingmessages	73
+X	login command	74
+X	signing on to system	74
+X	logname command	74
+X	logging indisplaying name	74
+X	look command	74
+X	filessearching contentsby line beginnings::line beginnings	74
+X	searchingfile contentsby line beginnings::line beginnings	74
+S	lp command	75
+S	printingfiles	75
+S	filessending to printer	75
+E	lp command	76
+E	printingfiles	76
+E	filessending to printer	76
+X	lpq command	76
+X	printingqueuedisplaying	76
+X	lpr command	76
+X	printingsending files	76
+X	lprm command	76
+X	printingqueueremoving requests from	76
+X	lprof command	77
+X	programsdisplaying profile data for	77
+X	lprof command	77
+N	lprof command(see also gprof command; prof command)	
+X	profile data, displayingfor programs generally	77
+X	lpstat command	77
+X	printingqueuestatus of	77
+X	ls command	78
+X	fileslistingfor current directory	78
+X	listing filesfor current directory	78
+X	m4 processor	80
+X	mail command	80
+X	emailreading and sending	80
+X	mailx command	81
+X	email messagesreading and sending	81
+X	reading email messages	81
+X	sending email messages	81
+X	make command	82
+X	targets, updating	82
+X	makefilesoverriding	82
+X	man command	83
+X	displayingmanpages	83
+X	manpagesdisplaying	83
+X	MANPATH environment variable	83
+X	PAGER environment variable	83
+N	online manual(see manpages)	
+N	helponline manual(see manpages)	
+X	mcs command	84
+X	filescomments in, modifying	84
+X	commentsin files, modifying::files, modifying	84
+X	mesg command	84
+X	userspermissionschanging	84
+X	mkdir command	84
+X	directoriescreating	84
+X	creating directories	84
+X	mkmsgs command	85
+X	filesconvertingstring_files into msg_files	85
+X	convertingfilesstring_files into msg_files	85
+X	more command	85
+X	paging files	85
+X	filespaging	85
+X	displayingfiles, by page	85
+X	filesdisplayingby page::page	85
+X	msgfmt command	86
+X	portable object files	86
+X	\&.po files::po files	86
+X	mv command	86
+X	filesmoving	86
+X	filesrenaming	86
+X	directoriesmoving	86
+X	directoriesrenaming	86
+X	movingdirectories and files	86
+X	renamingdirectories and files	86
+X	native2ascii command	87
+X	Unicode character setconverting files to	87
+X	Latin-1 character setconverting files to	87
+X	convertingfilesto Unicode::unicode	87
+X	nawk programming language	87
+X	nice command	88
+X	commandslower priority, executing	88
+X	executing commandsof lower priority::lower priority	88
+X	nl command	88
+X	filesnumbering lines in	88
+X	linesnumbering in files	88
+X	numbering lines in files	88
+X	nm command	89
+X	filessymbol tables for, printing	89
+X	symbol tables, printing	89
+X	tablessymbol tables, printing	89
+X	nohup command	91
+X	executing commandsafter logout	91
+X	commandsexecutingafter logout	91
+X	od command	91
+X	octal dumps, producing	91
+X	dumps, octal	91
+X	page command	92
+N	page command(see also more command)	
+X	passwd command	92
+X	passwordschanging	92
+X	passwordscreating	92
+X	passwordsdisplaying information	92
+X	paste command	93
+X	filesmerging lines into columns	93
+X	columnsmerging file lines into	93
+X	patch command	94
+X	filespatching	94
+X	pathchk command	95
+X	pathnameschecking for acceptability	95
+X	pax command	95
+X	Portable Archive Exchange (PAX)	95
+X	archivespax (Portable Archive Exchange)	95
+X	perl command	98
+X	pr command	100
+X	filesformatting	100
+X	formatting files	100
+X	printenv command	101
+X	environment variablesprinting values of	101
+X	printingenvironment variable values	101
+X	printf command	101
+X	printingstrings	101
+X	stringsprinting	101
+X	prof command	102
+X	filesdisplayingprofile data for	102
+X	profile data, displayingfor files	102
+X	ps command	102
+X	reportson active processes::active processes	102
+X	active processes, reports on	102
+X	pwd command	103
+X	directoriesprinting names of	103
+X	rcp command	104
+X	remote systemscopying files between	104
+X	filescopyingremotely	104
+X	copyingfilesremotely	104
+X	regcmp command	104
+X	regular expressionscompiling	104
+X	compilingregular expressions	104
+X	reset command	104
+X	terminalsclearing settings	104
+X	aborted programs, clearing terminal settings	104
+X	reset command	104
+N	reset command(see also tset command)	
+X	rksh command	105
+X	ksh (Korn shell)setting restrictions on	105
+X	rlogin command	105
+X	remote host, connecting to	105
+X	rm command	105
+X	filesdeleting	105
+X	fileswrite-protected, deleting	105
+X	directoriesdeleting	105
+X	rmdir command	105
+X	directoriesdeleting	105
+X	rmdir command	105
+N	rmdir command(see also mkdir command)	
+X	deletingdirectories	105
+X	rmic command	106
+X	RMI (remote method invocation)compiler	106
+X	Java languageRMI compiler	106
+X	compilingJava codeRMI compiler	106
+X	rmiregistry command	106
+X	remote object registry	106
+X	restricted shells	107
+X	rsh (remote shell)	107
+X	rsh (remote shell)	107
+N	rsh (remote shell)(see also sh command)	
+X	sh (Bourne shell)setting restrictions on	107
+N	Bourne shell(see sh)	
+X	rsh (remote shell)	107
+N	remsh command(see rsh)	
+X	script command	107
+X	sessionsrecording	107
+X	recording session	107
+N	login sessions(see sessions)	
+X	sdiff command	107
+X	filescomparing	107
+X	sed editor	108
+X	editorsstream	108
+X	stream editors	108
+X	sh command	109

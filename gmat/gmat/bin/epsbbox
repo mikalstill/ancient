@@ -1,0 +1,63 @@
+#!/usr/bin/perl5 -- # -*- Perl -*-
+#
+# Prints the bounding box of an EPS figure
+#
+# $Id: epsbbox,v 1.1.1.1 2002-07-15 21:33:31 root Exp $
+#
+#
+
+use vars qw($PROGNAME $VERSION);
+
+$BASEVERS   = "0.1";
+$RCS_ID     = '$Id: epsbbox,v 1.1.1.1 2002-07-15 21:33:31 root Exp $';  # '
+($PROGNAME  = $RCS_ID) =~ s/^.Id: (\S+) .*$/$1/;
+($PATCHLEVEL= $RCS_ID) =~ s/^.Id: \S+ \d+\.(\d+) .*$/$1/;
+$VERSION    = "$BASEVERS patchlevel $PATCHLEVEL";
+$EXECDIR    = ".";
+$EXECDIR    = $1 if $0 =~ /^(.*)\/[^\/]+$/;
+
+######################################################################
+
+$ZCAT = "gzcat";
+$CRLF = "crlf";
+
+while ($fileref = shift @ARGV) {
+    if ($fileref =~ /\.Z$/ || $fileref =~ /\.gz$/) {
+	$imageok = open (IMAGEFILE, "$ZCAT $fileref |");
+    } else {
+	$imageok = open (IMAGEFILE, "$CRLF $fileref |");
+    }
+    
+    die "$0: Cannot read image file: $fileref\n" if !$imageok;
+
+    # This code gets the bounding box, if it occurs within 4096 bytes
+    # of the start of the file.  It works on both Mac and Unix style
+    # files [which is why it's a bit complicated]
+    read(IMAGEFILE, $_, 4096);
+    s/[\r\n]/\n/g;
+    $_ = (grep(/^%%?BoundingBox/, split(/\n/, $_)))[$[];
+    close (IMAGEFILE);
+    
+    if (/%%BoundingBox:\s+(\d+\.?\d*)\s+(\d+\.?\d*)\s+(\d+\.?\d*)\s+(\d+\.?\d*)/i) {
+	$ptwide = &format_num($3-$1);
+	$pthigh = &format_num($4-$2);
+	
+	$inwide = &format_num($ptwide / 72.0);
+	$inhigh = &format_num($pthigh / 72.0);
+	
+	print "$fileref is ${inwide}in (${ptwide}pt) wide and ${inhigh}in (${pthigh}pt) high.\n";
+    } else {
+	die "$0: No bounding box in $fileref!\n";
+    }
+}
+
+
+sub format_num {
+    local ($_) = @_;
+
+    $_ = sprintf("%03.3f", $_);
+    $_ = $1 if /^(.*[1-9])0+$/;
+    $_ = $1 if /^(.*)\.0+$/;
+
+    $_;
+}

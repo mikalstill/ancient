@@ -1,0 +1,148 @@
+<!ENTITY  ip-routing-CH  SDATA  "Appendix B, IP Packet Routing" >
+<!ENTITY  icmp-redir-CH  SDATA  "Appendix B, IP Packet Routing" >
+<!ENTITY  benchmarks-CH  SDATA  "Appendix D, NFS Benchmarks" >
+<!ENTITY  ip-frag-TI  SDATA  "Datagrams and Packets" >
+<!ENTITY  ip-frag-CH  SDATA  "Chapter 1, Networking Fundamentals" >
+<!ENTITY  ip-frag-CB  SDATA  "&ldquo;Datagrams and Packets,&rdquo; in Chapter 1, Networking Fundamentals" >
+<!ENTITY  ip-classes-TI  SDATA  "IP Address Classes" >
+<!ENTITY  ip-classes-CH  SDATA  "Chapter 1, Networking Fundamentals" >
+<!ENTITY  ip-classes-CB  SDATA  "&ldquo;IP Address Classes,&rdquo; in Chapter 1, Networking Fundamentals" >
+<!ENTITY  inetd-TI  SDATA  "Internet and RPC Server Configuration" >
+<!ENTITY  inetd-CH  SDATA  "Chapter 1, Networking Fundamentals" >
+<!ENTITY  inetd-CB  SDATA  "&ldquo;Internet and RPC Server Configuration,&rdquo; in Chapter 1, Networking Fundamentals" >
+<!ENTITY  nis-maps-TI  SDATA  "Files Managed Under NIS" >
+<!ENTITY  nis-maps-CH  SDATA  "Chapter 2, Network Information Service Operation" >
+<!ENTITY  nis-maps-CB  SDATA  "&ldquo;Files Managed Under NIS,&rdquo; in Chapter 2, Network Information Service Operation" >
+<!ENTITY  discussion-of-netgroups-TI  SDATA  "Netgroups" >
+<!ENTITY  discussion-of-netgroups-CH  SDATA  "Chapter 2, Network Information Service Operation" >
+<!ENTITY  discussion-of-netgroups-CB  SDATA  "&ldquo;Netgroups,&rdquo; in Chapter 2, Network Information Service Operation" >
+<!ENTITY  nis-makefile-TI  SDATA  "Map File Dependencies" >
+<!ENTITY  nis-makefile-CH  SDATA  "Chapter 3, System Management Using NIS" >
+<!ENTITY  nis-makefile-CB  SDATA  "&ldquo;Map File Dependencies,&rdquo; in Chapter 3, System Management Using NIS" >
+<!ENTITY  alternate-map-TI  SDATA  "Using Alternate Map Source Files" >
+<!ENTITY  alternate-map-CH  SDATA  "Chapter 3, System Management Using NIS" >
+<!ENTITY  alternate-map-CB  SDATA  "&ldquo;Using Alternate Map Source Files,&rdquo; in Chapter 3, System Management Using NIS" >
+<!ENTITY  dns-and-nis-TI  SDATA  "Domain Name Servers" >
+<!ENTITY  dns-and-nis-CH  SDATA  "Chapter 3, System Management Using NIS" >
+<!ENTITY  dns-and-nis-CB  SDATA  "&ldquo;Domain Name Servers,&rdquo; in Chapter 3, System Management Using NIS" >
+<!ENTITY  nis-alias-TI  SDATA  "Domain Aliases" >
+<!ENTITY  nis-alias-CH  SDATA  "Chapter 3, System Management Using NIS" >
+<!ENTITY  nis-alias-CB  SDATA  "&ldquo;Domain Aliases,&rdquo; in Chapter 3, System Management Using NIS" >
+<!ENTITY  ultrix-svcs-TI  SDATA  "Multiple Service Integration" >
+<!ENTITY  ultrix-svcs-CH  SDATA  "Chapter 3, System Management Using NIS" >
+<!ENTITY  ultrix-svcs-CB  SDATA  "&ldquo;Multiple Service Integration,&rdquo; in Chapter 3, System Management Using NIS" >
+<!ENTITY  mount-TI  SDATA  "Using mount" >
+<!ENTITY  mount-CH  SDATA  "Chapter 5, System Administration Using the Network Filesystem" >
+<!ENTITY  mount-CB  SDATA  "&ldquo;Using mount,&rdquo; in Chapter 5, System Administration Using the Network Filesystem" >
+<!ENTITY  biod-guts-TI  SDATA  "Server nfsd Daemons" >
+<!ENTITY  biod-guts-CH  SDATA  "Chapter 6, Network File System Design and Operation" >
+<!ENTITY  biod-guts-CB  SDATA  "&ldquo;Server nfsd Daemons,&rdquo; in Chapter 6, Network File System Design and Operation" >
+<!ENTITY  attr-cache-TI  SDATA  "File Attribute Caching" >
+<!ENTITY  attr-cache-CH  SDATA  "Chapter 6, Network File System Design and Operation" >
+<!ENTITY  attr-cache-CB  SDATA  "&ldquo;File Attribute Caching,&rdquo; in Chapter 6, Network File System Design and Operation" >
+<!ENTITY  rarp-TI  SDATA  "Reverse ARP Requests" >
+<!ENTITY  rarp-CH  SDATA  "Chapter 7, Diskless Clients" >
+<!ENTITY  rarp-CB  SDATA  "&ldquo;Reverse ARP Requests,&rdquo; in Chapter 7, Diskless Clients" >
+<!ENTITY  nis-secure-TI  SDATA  "Making NIS More Secure" >
+<!ENTITY  nis-secure-CH  SDATA  "Chapter 8, Network Security" >
+<!ENTITY  nis-secure-CB  SDATA  "&ldquo;Making NIS More Secure,&rdquo; in Chapter 8, Network Security" >
+<!ENTITY  root-map-TI  SDATA  "Superuser Mapping" >
+<!ENTITY  root-map-CH  SDATA  "Chapter 8, Network Security" >
+<!ENTITY  root-map-CB  SDATA  "&ldquo;Superuser Mapping,&rdquo; in Chapter 8, Network Security" >
+<!ENTITY  anon-map-TI  SDATA  "Unknown User Mapping" >
+<!ENTITY  anon-map-CH  SDATA  "Chapter 8, Network Security" >
+<!ENTITY  anon-map-CB  SDATA  "&ldquo;Unknown User Mapping,&rdquo; in Chapter 8, Network Security" >
+<!ENTITY  mail-spool-TI  SDATA  "Creating a Shared Mail Spool" >
+<!ENTITY  mail-spool-CH  SDATA  "Chapter 9, Centralizing Mail Services with NFS" >
+<!ENTITY  mail-spool-CB  SDATA  "&ldquo;Creating a Shared Mail Spool,&rdquo; in Chapter 9, Centralizing Mail Services with NFS" >
+<!ENTITY  local-aliases-TI  SDATA  "Merging NIS and Local Aliases" >
+<!ENTITY  local-aliases-CH  SDATA  "Chapter 9, Centralizing Mail Services with NFS" >
+<!ENTITY  local-aliases-CB  SDATA  "&ldquo;Merging NIS and Local Aliases,&rdquo; in Chapter 9, Centralizing Mail Services with NFS" >
+<!ENTITY  diag-tools-CH  SDATA  "Chapter 10, Diagnostic and Administrative Tools" >
+<!ENTITY  arp-confusion-TI  SDATA  "IP to MAC Address Mappings" >
+<!ENTITY  arp-confusion-CH  SDATA  "Chapter 10, Diagnostic and Administrative Tools" >
+<!ENTITY  arp-confusion-CB  SDATA  "&ldquo;IP to MAC Address Mappings,&rdquo; in Chapter 10, Diagnostic and Administrative Tools" >
+<!ENTITY  rpc-mech-TI  SDATA  "RPC Mechanics" >
+<!ENTITY  rpc-mech-CH  SDATA  "Chapter 10, Diagnostic and Administrative Tools" >
+<!ENTITY  rpc-mech-CB  SDATA  "&ldquo;RPC Mechanics,&rdquo; in Chapter 10, Diagnostic and Administrative Tools" >
+<!ENTITY  nis-tools-TI  SDATA  "NIS Tools" >
+<!ENTITY  nis-tools-CH  SDATA  "Chapter 10, Diagnostic and Administrative Tools" >
+<!ENTITY  nis-tools-CB  SDATA  "&ldquo;NIS Tools,&rdquo; in Chapter 10, Diagnostic and Administrative Tools" >
+<!ENTITY  nis-server-alloc-TI  SDATA  "Displaying and Analyzing Client Bindings" >
+<!ENTITY  nis-server-alloc-CH  SDATA  "Chapter 10, Diagnostic and Administrative Tools" >
+<!ENTITY  nis-server-alloc-CB  SDATA  "&ldquo;Displaying and Analyzing Client Bindings,&rdquo; in Chapter 10, Diagnostic and Administrative Tools" >
+<!ENTITY  etherfind-TI  SDATA  "Displaying and Analyzing Client Bindings" >
+<!ENTITY  etherfind-CH  SDATA  "Chapter 10, Diagnostic and Administrative Tools" >
+<!ENTITY  etherfind-CB  SDATA  "&ldquo;Displaying and Analyzing Client Bindings,&rdquo; in Chapter 10, Diagnostic and Administrative Tools" >
+<!ENTITY  ypset-TI  SDATA  "Modifying Client Bindings" >
+<!ENTITY  ypset-CH  SDATA  "Chapter 10, Diagnostic and Administrative Tools" >
+<!ENTITY  ypset-CB  SDATA  "&ldquo;Modifying Client Bindings,&rdquo; in Chapter 10, Diagnostic and Administrative Tools" >
+<!ENTITY  nfsstat-TI  SDATA  "NFS Statistics" >
+<!ENTITY  nfsstat-CH  SDATA  "Chapter 10, Diagnostic and Administrative Tools" >
+<!ENTITY  nfsstat-CB  SDATA  "&ldquo;NFS Statistics,&rdquo; in Chapter 10, Diagnostic and Administrative Tools" >
+<!ENTITY  time-sync-TI  SDATA  "Time Synchronization" >
+<!ENTITY  time-sync-CH  SDATA  "Chapter 10, Diagnostic and Administrative Tools" >
+<!ENTITY  time-sync-CB  SDATA  "&ldquo;Time Synchronization,&rdquo; in Chapter 10, Diagnostic and Administrative Tools" >
+<!ENTITY  debug-chap-CH  SDATA  "Chapter 11, Debugging Network Problems" >
+<!ENTITY  physical-problems-TI  SDATA  "Improper Network Termination" >
+<!ENTITY  physical-problems-CH  SDATA  "Chapter 11, Debugging Network Problems" >
+<!ENTITY  physical-problems-CB  SDATA  "&ldquo;Improper Network Termination,&rdquo; in Chapter 11, Debugging Network Problems" >
+<!ENTITY  bootparam-bug-TI  SDATA  "Boot Parameter Confusion" >
+<!ENTITY  bootparam-bug-CH  SDATA  "Chapter 11, Debugging Network Problems" >
+<!ENTITY  bootparam-bug-CB  SDATA  "&ldquo;Boot Parameter Confusion,&rdquo; in Chapter 11, Debugging Network Problems" >
+<!ENTITY  perf-chap-CH  SDATA  "Chapter 12, Performance Analysis and Tuning" >
+<!ENTITY  partition-hw-TI  SDATA  "Network Partitioning Hardware" >
+<!ENTITY  partition-hw-CH  SDATA  "Chapter 12, Performance Analysis and Tuning" >
+<!ENTITY  partition-hw-CB  SDATA  "&ldquo;Network Partitioning Hardware,&rdquo; in Chapter 12, Performance Analysis and Tuning" >
+<!ENTITY  nfsd-tuning-TI  SDATA  "NFS Server Daemons" >
+<!ENTITY  nfsd-tuning-CH  SDATA  "Chapter 12, Performance Analysis and Tuning" >
+<!ENTITY  nfsd-tuning-CB  SDATA  "&ldquo;NFS Server Daemons,&rdquo; in Chapter 12, Performance Analysis and Tuning" >
+<!ENTITY  kernel-config-TI  SDATA  "Kernel Configuration" >
+<!ENTITY  kernel-config-CH  SDATA  "Chapter 12, Performance Analysis and Tuning" >
+<!ENTITY  kernel-config-CB  SDATA  "&ldquo;Kernel Configuration,&rdquo; in Chapter 12, Performance Analysis and Tuning" >
+<!ENTITY  multi-home-nfs-TI  SDATA  "Multi-homed Servers" >
+<!ENTITY  multi-home-nfs-CH  SDATA  "Chapter 12, Performance Analysis and Tuning" >
+<!ENTITY  multi-home-nfs-CB  SDATA  "&ldquo;Multi-homed Servers,&rdquo; in Chapter 12, Performance Analysis and Tuning" >
+<!ENTITY  client-tuning-TI  SDATA  "Client Tuning" >
+<!ENTITY  client-tuning-CH  SDATA  "Chapter 12, Performance Analysis and Tuning" >
+<!ENTITY  client-tuning-CB  SDATA  "&ldquo;Client Tuning,&rdquo; in Chapter 12, Performance Analysis and Tuning" >
+<!ENTITY  slow-server-TI  SDATA  "Slow Server Compensation" >
+<!ENTITY  slow-server-CH  SDATA  "Chapter 12, Performance Analysis and Tuning" >
+<!ENTITY  slow-server-CB  SDATA  "&ldquo;Slow Server Compensation,&rdquo; in Chapter 12, Performance Analysis and Tuning" >
+<!ENTITY  retrans-eq-TI  SDATA  "Retransmission Rate Thresholds" >
+<!ENTITY  retrans-eq-CH  SDATA  "Chapter 12, Performance Analysis and Tuning" >
+<!ENTITY  retrans-eq-CB  SDATA  "&ldquo;Retransmission Rate Thresholds,&rdquo; in Chapter 12, Performance Analysis and Tuning" >
+<!ENTITY  soft-mnt-TI  SDATA  "Soft Mount Issues" >
+<!ENTITY  soft-mnt-CH  SDATA  "Chapter 12, Performance Analysis and Tuning" >
+<!ENTITY  soft-mnt-CB  SDATA  "&ldquo;Soft Mount Issues,&rdquo; in Chapter 12, Performance Analysis and Tuning" >
+<!ENTITY  timeouts-TI  SDATA  "Timeout Calculations" >
+<!ENTITY  timeouts-CH  SDATA  "Chapter 12, Performance Analysis and Tuning" >
+<!ENTITY  timeouts-CB  SDATA  "&ldquo;Timeout Calculations,&rdquo; in Chapter 12, Performance Analysis and Tuning" >
+<!ENTITY  nfs-on-wan-TI  SDATA  "NFS Over Wide-area Networks" >
+<!ENTITY  nfs-on-wan-CH  SDATA  "Chapter 12, Performance Analysis and Tuning" >
+<!ENTITY  nfs-on-wan-CB  SDATA  "&ldquo;NFS Over Wide-area Networks,&rdquo; in Chapter 12, Performance Analysis and Tuning" >
+<!ENTITY  attr-caching-TI  SDATA  "Attribute Caching" >
+<!ENTITY  attr-caching-CH  SDATA  "Chapter 12, Performance Analysis and Tuning" >
+<!ENTITY  attr-caching-CB  SDATA  "&ldquo;Attribute Caching,&rdquo; in Chapter 12, Performance Analysis and Tuning" >
+<!ENTITY  routed-TI  SDATA  "Routing Information" >
+<!ENTITY  routed-CH  SDATA  "Chapter 12, Performance Analysis and Tuning" >
+<!ENTITY  routed-CB  SDATA  "&ldquo;Routing Information,&rdquo; in Chapter 12, Performance Analysis and Tuning" >
+<!ENTITY  stale-fh-TI  SDATA  "Stale File Handles" >
+<!ENTITY  stale-fh-CH  SDATA  "Chapter 12, Performance Analysis and Tuning" >
+<!ENTITY  stale-fh-CB  SDATA  "&ldquo;Stale File Handles,&rdquo; in Chapter 12, Performance Analysis and Tuning" >
+<!ENTITY  automounter-CH  SDATA  "Chapter 13, The Automounter" >
+<!ENTITY  home-dir-naming-TI  SDATA  "Indirect Maps" >
+<!ENTITY  home-dir-naming-CH  SDATA  "Chapter 13, The Automounter" >
+<!ENTITY  home-dir-naming-CB  SDATA  "&ldquo;Indirect Maps,&rdquo; in Chapter 13, The Automounter" >
+<!ENTITY  master-map-TI  SDATA  "The Master Map" >
+<!ENTITY  master-map-CH  SDATA  "Chapter 13, The Automounter" >
+<!ENTITY  master-map-CB  SDATA  "&ldquo;The Master Map,&rdquo; in Chapter 13, The Automounter" >
+<!ENTITY  var-sub-TI  SDATA  "Variable Substitutions" >
+<!ENTITY  var-sub-CH  SDATA  "Chapter 13, The Automounter" >
+<!ENTITY  var-sub-CB  SDATA  "&ldquo;Variable Substitutions,&rdquo; in Chapter 13, The Automounter" >
+<!ENTITY  dir-map-replace-TI  SDATA  "Conversion of Direct Maps" >
+<!ENTITY  dir-map-replace-CH  SDATA  "Chapter 13, The Automounter" >
+<!ENTITY  dir-map-replace-CB  SDATA  "&ldquo;Conversion of Direct Maps,&rdquo; in Chapter 13, The Automounter" >
+<!ENTITY  pcnfs-creds-TI  SDATA  "Checking File Permissions" >
+<!ENTITY  pcnfs-creds-CH  SDATA  "Chapter 14, PC/NFS" >
+<!ENTITY  pcnfs-creds-CB  SDATA  "&ldquo;Checking File Permissions,&rdquo; in Chapter 14, PC/NFS" >

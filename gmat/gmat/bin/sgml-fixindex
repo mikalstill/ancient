@@ -1,0 +1,424 @@
+#!/usr/bin/perl5 -- # -*- Perl -*-
+#
+# Update an SGML book from the index.check file created by sgml-checkindex
+#
+# $Id: sgml-fixindex,v 1.1.1.1 2002-07-15 21:33:31 root Exp $
+#
+#
+
+use vars qw($PROGNAME $VERSION);
+
+$BASEVERS   = "0.1";
+$RCS_ID     = '$Id: sgml-fixindex,v 1.1.1.1 2002-07-15 21:33:31 root Exp $'; # '
+($PROGNAME  = $RCS_ID) =~ s/^.Id: (\S+) .*$/$1/;
+($PATCHLEVEL= $RCS_ID) =~ s/^.Id: \S+ \d+\.(\d+) .*$/$1/;
+$VERSION    = "$BASEVERS patchlevel $PATCHLEVEL";
+$EXECDIR    = ".";
+$EXECDIR    = $1 if $0 =~ /^(.*)\/[^\/]+$/;
+
+######################################################################
+
+select(STDERR); $| = 1;
+select(STDOUT);
+
+if ($ENV{"ORALIBDIR"}) {
+    push (@INC, $ENV{"ORALIBDIR"});
+} else {
+    push (@INC, "/usr/local/share/gmat/lib");
+}
+
+$WHOAMI =  $ENV{"USER"} || $ENV{"LOGNAME"} || "user";
+
+if (!($checkfile = shift @ARGV)) {
+    print STDERR <<USAGE;
+
+Usage: $0 checkfile [files]
+
+Where: checkfile is the file created by sgml-checkindex
+       files     list the files that should be modified.  Entries 
+                 are updated in all files listed in the checkfile
+		 that have (potentially) been modified.
+
+USAGE
+    exit 1;
+}
+
+%TERMS = ();
+%FILES = ();
+$linecount = 0;
+open (FIX, "$checkfile");
+while (<FIX>) {
+    $linecount++;
+    chop;
+    $org = $_;
+    chop($new = scalar(<FIX>));
+
+    if ($new =~ /^srt/) {
+	$srt = $new;
+	chop($new = scalar(<FIX>));
+    } else {
+	$srt = "srt" . substr($new,3);
+    }
+
+#    print STDERR "org: $org\n";
+#    print STDERR "srt: $srt\n";
+#    print STDERR "new: $new\n";
+
+    $org =~ /^(...)\.(\S+) (.*)$/;
+    $orgp = $1;
+    $orgf = $2;
+    $orgr = $3;
+
+    $srt =~ /^(...)\.(\S+) (.*)$/;
+    $srtp = $1;
+    $srtf = $2;
+    $srtr = $3;
+
+    $new =~ /^(...)\.(\S+) (.*)$/;
+    $newp = $1;
+    $newf = $2;
+    $newr = $3;
+
+    die "Invalid record at line $linecount. ($orgp,$srtp,$newp,$orgf,$srtf,$newf)\n" 
+	if $orgp ne "   " || $srtp ne "srt" 
+	    || (($newp ne "new") && $newp ne "del")
+	    || $orgf ne $srtf || $srtf ne $newf;
+
+    $linecount += 2;
+
+    @org = &getquoted($orgr);
+    @srt = &getquoted($srtr);
+    @new = &getquoted($newr);
+
+    $org = join("\001", @org);
+    $srt = join("\001", @srt);
+    $new = join("\001", @new);
+
+#   Can't do this: what if they *used* to be different!
+#    next if ($org eq $srt) && ($org eq $new) && ($newp ne "del");
+
+    $FILES{"$orgf"} = 1;
+
+    $TERMS{"$orgf $org"} = "$srt\002$new";
+    $TERMS{"$orgf $org"} = "**DELETE**" if $newp eq "del";
+}
+
+# By default, update all the files that might change...
+@ARGV = keys %FILES if !@ARGV;
+
+while (@ARGV) {
+    $sgmlfile = shift(@ARGV);
+    
+    $basefile = $sgmlfile;
+    $basefile = $1 if $basefile =~ /^(.*)\.sgml?$/;
+
+    $path = ".";
+    $path = $1 if /^(.*)\/[^\/]+$/;
+    $basename = $sgmlfile;
+    $basename = $1 if /^.*\/([^\/]+)$/;
+
+    if (! -f $sgmlfile && -f "$path/RCS/$basename") {
+	system "co $sgmlfile";
+    }
+
+    if (!open (SGML, "$sgmlfile")) {
+	print STDERR "Cannot open: $sgmlfile\n";
+	next;
+    }
+
+    $badfile = 0;
+
+    $idxdel = 0;
+    $idxin = 0;
+    print STDERR "Reading $sgmlfile...";
+
+    $idxout = 0;
+    open (OUTPUT, ">$basefile.idxfix");
+
+    $indexterm = "";
+    chop($_ = scalar(<SGML>));
+    $done = 0;
+    while (!$done && !$badfile) {
+	if (/(<indexterm.*)$/i) {
+	    print OUTPUT "$`";
+	    $indexterm = $1;
+
+	    $idxin++;
+#	    print "Hit: $_\n";
+	    if ($indexterm =~ /^<indexterm[^>]*spanend=[^>]*>/i) {
+		print OUTPUT "$&";
+		$idxout++;
+		$_ = $';
+#		print "XXX: $_\n";
+		next;
+	    }
+
+	    while ($indexterm !~ /<\/indexterm>/i) {
+		die "Unexpected eof!\n" if eof(SGML);
+		$_ = scalar(<SGML>);
+		chop;
+		$indexterm .= " $_";
+#		print ":::: $indexterm\n";
+	    }
+
+	    $indexterm =~ /<\/indexterm>/i;
+	    $_ = $';
+	    $indexterm = "$`$&";
+	    $badfile = $badfile || &checkterm($indexterm);
+	} else {
+	    print OUTPUT "$_\n";
+	    $done = 1 if eof(SGML);
+	    $_ = scalar(<SGML>);
+	    chop;
+	}
+    }
+    close (SGML);
+    close (OUTPUT);
+
+    if ($badfile) {
+	unlink ("$basefile.idxfix");
+	next;
+    }
+
+    # this is an horrendous hack!
+    $co      = 0;
+    $changed = system "diff $sgmlfile $basefile.idxfix >/dev/null 2>/dev/null";
+    if ($changed) {
+	if (! -w $sgmlfile) {
+	    print STDERR "\rCheckout $sgmlfile...\n";
+	    system "co -l $sgmlfile";
+	    $co = 1;
+	    if (! -w $sgmlfile) {
+		print STDERR "Warning: could not get write access to $sgmlfile.\n";
+		$changed = 0;
+		$co = 0;
+	    }
+	}
+
+	if ($changed) {		# still ok to proceed?
+	    local ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
+		   $atime,$mtime,$ctime,$blksize,$blocks);
+
+	    unlink ("$basefile.idxold");
+
+	    ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
+             $atime,$mtime,$ctime,$blksize,$blocks)
+		= stat($sgmlfile);
+
+	    rename ("$sgmlfile", "$basefile.idxold");
+	    rename ("$basefile.idxfix", "$sgmlfile");
+
+	    chmod ($mode, "$sgmlfile");
+
+	    if ($co) {
+		print STDERR "Checkin $sgmlfile...\n";
+		system "ci -u -m\"Fixed index entries\" $sgmlfile";
+	    }
+	} else {
+	    unlink ("$basefile.idxfix");
+	}
+    }
+
+    print STDERR "\rFinish $sgmlfile...";
+    print STDERR "$idxin index terms; $idxout written ($idxdel deleted)";
+    print STDERR " [no changes]" if !$changed;
+    print STDERR ".\n";
+}
+
+exit 1;
+
+##############################################################################
+
+sub getquoted {
+    local($_) = @_;
+    local(@t) = ();
+
+    while (/\s*\"([^\"]*)\"/) {
+	push(@t, $1);
+	$_ = $';
+    }
+
+    return @t;
+}
+    
+sub checkterm {
+    local($indexterm) = @_;
+    local($_, @p, @n, @s, $new, $srt);
+
+    $_ = $indexterm;
+
+    s/\n/ /g;
+    if (!/>\s*<\/indexterm/i || /<indexterm>.*<indexterm>/i) {
+	print STDERR "Invalid index term! ($_)\n";
+	return 1;
+    }
+
+    $_ = $indexterm;
+
+    $startidx = "<INDEXTERM>";
+    $startidx = $1 if /(<indexterm[^>]*>)/i;
+
+    $primary = $psortas = "";
+    $secondary = $ssortas = "";
+    $tertiary = $tsortas = "";
+    $see = $seeattrib = "";
+    $seealso = $seealsoattrib = "";
+
+    if (/<primary([^\>]*)>(.*)<\/primary>/i) {
+	$primary = $2;
+	$attrib  = $1;
+	$pattrib = $attrib;
+
+	$psortas = $primary;
+	$psortas = $1 if ($attrib =~ /sortas=(\S+)/i);
+	$psortas = $1 if ($attrib =~ /sortas="([^\"]+)"/i);
+
+#	print STDERR "primary: ($primary)\n";
+#	print STDERR "pattrib: ($pattrib)\n";
+#	print STDERR "psortas: ($psortas)\n";
+    }
+
+    if (/<secondary([^>]*)>(.*)<\/secondary>/i) {
+	$secondary = $2;
+	$attrib    = $1;
+	$sattrib   = $attrib;
+
+	$ssortas   = $secondary;
+	$ssortas   = $1 if ($attrib =~ /sortas=(\S+)/i);
+	$ssortas   = $1 if ($attrib =~ /sortas="([^\"]+)"/i);
+    }
+
+    if (/<tertiary([^>]*)>(.*)<\/tertiary>/i) {
+	$tertiary = $2;
+	$attrib   = $1;
+	$tattrib = $attrib;
+
+	$tsortas  = $tertiary;
+	$tsortas  = $1 if ($attrib =~ /sortas=(\S+)/i);
+	$tsortas  = $1 if ($attrib =~ /sortas="([^\"]+)"/i);
+    }
+
+    if (/<see([^\>]*)>(.*)<\/see>/i) {
+	$see = $2;
+	$attrib  = $1;
+	$seeattrib = $attrib;
+
+#	print STDERR "see: ($see)\n";
+#	print STDERR "sat: ($seeattrib)\n";
+    }
+
+    if (/<seealso([^\>]*)>(.*)<\/seealso>/i) {
+	$seealso = $2;
+	$attrib  = $1;
+	$seealsoattrib = $attrib;
+
+#	print STDERR "seealso: ($seealso)\n";
+#	print STDERR "seealat: ($seealsoattrib)\n";
+    }
+
+    $primary = $1 if $primary =~ /^\s*(.*)\s*$/;
+    $secondary = $1 if $secondary =~ /^\s*(.*)\s*$/;
+    $tertiary = $1 if $tertiary =~ /^\s*(.*)\s*$/;
+    $see = $1 if $see =~ /^\s*(.*)\s*$/;
+    $seealso = $1 if $seealso =~ /^\s*(.*)\s*$/;
+
+    $psortas = $1 if $psortas =~ /^\s*(.*)\s*$/;
+    $ssortas = $1 if $ssortas =~ /^\s*(.*)\s*$/;
+    $tsortas = $1 if $tsortas =~ /^\s*(.*)\s*$/;
+
+#	print STDERR "1primary: ($primary)\n";
+#	print STDERR "1pattrib: ($pattrib)\n";
+#	print STDERR "1psortas: ($psortas)\n";
+
+    @p = ($primary);
+    push (@p, $secondary) if $secondary;
+    push (@p, $tertiary) if $tertiary;
+
+    $pattrib = " $pattrib" if $pattrib;
+    $sattrib = " $sattrib" if $sattrib;
+    $tattrib = " $tattrib" if $tattrib;
+    $seeattrib = " $seeattrib" if $seeattrib;
+    $seealsoattrib = " $seealsoattrib" if $seealsoattrib;
+
+#	print STDERR "2primary: ($primary)\n";
+#	print STDERR "2pattrib: ($pattrib)\n";
+#	print STDERR "2psortas: ($psortas)\n";
+
+    $_ = join("\001", @p);
+    if (defined($TERMS{"$sgmlfile $_"})) {
+	if ($TERMS{"$sgmlfile $_"} eq "**DELETE**") {
+	    $idxdel++;
+	    return 0;
+	}
+	
+	($srt, $new) = split(/\002/, $TERMS{"$sgmlfile $_"});
+	@s = split(/\001/, $srt);
+	@n = split(/\001/, $new);
+
+	$new = shift(@n);
+	$srt = shift(@s);
+   
+#	print STDERR "4pattrib: ($pattrib)\n";
+
+	$pattrib = &remove($pattrib, "sortas");
+
+#	print STDERR "5pattrib: ($pattrib)\n";
+
+	$pattrib = "$pattrib SORTAS=\"$srt\"" if ($srt ne $new);
+
+#	print STDERR "3primary: ($primary)\n";
+#	print STDERR "3pattrib: ($pattrib)\n";
+#	print STDERR "3psortas: ($psortas)\n";
+#	print STDERR "$startidx<PRIMARY$pattrib>$new</PRIMARY>\n" if $new;
+
+	print OUTPUT "$startidx<PRIMARY$pattrib>$new</PRIMARY>" if $new;
+
+	$idxout++;
+
+	$new = shift(@n);
+	$srt = shift(@s);
+	$sattrib = &remove($sattrib, "sortas");
+	$sattrib = "$sattrib SORTAS=\"$srt\"" if ($srt ne $new);
+	print OUTPUT "<SECONDARY$sattrib>$new</SECONDARY>" if $new;
+
+	$new = shift(@n);
+	$srt = shift(@s);
+	$tattrib = &remove($tattrib, "sortas");
+	$tattrib = "$tattrib SORTAS=\"$srt\"" if ($srt ne $new);
+	print OUTPUT "<TERTIARY$tattrib>$new</TERTIARY>" if $new;
+
+	print OUTPUT "<SEE$seeattrib>$see</SEE>" if $see;
+	print OUTPUT "<SEEALSO$seealsoattrib>$seealso</SEEALSO>" if $seealso;
+
+	print OUTPUT "</INDEXTERM>";
+    } else {
+	print OUTPUT "$indexterm";
+	$idxout++;
+    }
+
+    return 0;
+}
+
+# remove an attribute from a list of attributes.  
+# this version removes multiple occurances of the same attribute.
+sub remove {
+    local($_, $attr) = @_;
+    local($found);
+
+    $found = 1;
+    while ($found) {
+	$found = 0;
+
+	if (/\s*$attr=\"[^\"]*\"\s*/i) {
+	    $_ = $`;
+	    $_ .= " $'" if $';
+	    $found = 1;
+	} elsif (/\s*$attr=\S+\s*/i) {
+	    $_ = $`;
+	    $_ .= " $'" if $';
+	    $found = 1;
+	}
+    }
+
+    return $_;
+}

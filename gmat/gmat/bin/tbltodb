@@ -1,0 +1,228 @@
+#!/usr/bin/perl5 -- # -*- Perl -*-
+#
+# Convert troff tables into CALS
+#
+# $Id: tbltodb,v 1.1.1.1 2002-07-15 21:33:31 root Exp $
+#
+#
+
+use vars qw($PROGNAME $VERSION);
+
+$BASEVERS   = "0.1";
+$RCS_ID     = '$Id: tbltodb,v 1.1.1.1 2002-07-15 21:33:31 root Exp $'; # '
+($PROGNAME  = $RCS_ID) =~ s/^.Id: (\S+) .*$/$1/;
+($PATCHLEVEL= $RCS_ID) =~ s/^.Id: \S+ \d+\.(\d+) .*$/$1/;
+$VERSION    = "$BASEVERS patchlevel $PATCHLEVEL";
+$EXECDIR    = ".";
+$EXECDIR    = $1 if $0 =~ /^(.*)\/[^\/]+$/;
+
+######################################################################
+
+$tblfile = shift @ARGV || die "Usage: $0 tblfile [screen]\n";
+$screen  = shift @ARGV;
+
+open (TBL, $tblfile) || die "$0: unable to open $tblfile\n";
+
+@sgml = ();
+$tab = "\t";
+
+#.TS 
+#tab(@);
+#lp-2w(2.65i)fCW lp-1i.
+
+$intable = 0;
+$inhead = 1;
+@table = ();
+@head = ();
+while (<TBL>) {
+    chop;
+
+    next if !$intable && !/^\.TS/;
+    $intable = 1, next if /^\.TS/;
+    last if /^\.TE/;
+    next if /^\.TH/;
+    next if /^\.sp/;
+
+    $inhead = 0 if /^_/;
+
+    next if /^_/;
+
+    # Remove font changes
+    s/\\f\(..//g;
+    s/\\f[A-Z]//g;
+
+    # Remove \&
+    s/\\\&//g;
+
+    if ($inhead) {
+	$tab = "\\$1" if /tab\s*\((.)\)/;
+	push (@head, $_);
+    } else {
+	push (@table, $_);
+    }
+}
+
+@head = &strip_preambles(1, @head);
+@table = &strip_preambles(0, @table);
+
+if (@head && !@table) {
+    @table = @head;
+    @head = ();
+}
+
+$cols = 0;
+foreach $_ (@table) {
+    @entries = split(/$tab/, $_);
+    $cols = $#entries+1 if $#entries+1 > $cols;
+}
+
+if ($annotated_screen || $screen) {
+    $mcol_warn = 0;
+    print "<screen>\n";
+    while (@table) {
+	$_ = shift @table;
+	@entries = split(/$tab/, $_);
+
+	if ($#entries > 1 && !$mcol_warn) {
+	    print STDERR "Warning: annotated screen with more than two columns!?: $tblfile\n";
+	    $mcol_warn = 1;
+	}
+
+	$_ = shift @entries;
+	print $_;
+
+	if (@entries) {
+	    $_ = shift @entries;
+	    print "<lineannotation>$_</lineannotation>\n";
+	} else { 
+	    print "\n";
+	}
+    }
+    print "</screen>\n";
+} else {
+    push (@sgml, "<tgroup cols=$cols>");
+    if (@head) {
+	push (@sgml, "<thead>");
+
+	foreach $_ (@head) {
+	    @entries = split(/$tab/, $_);
+	    $count = 0;
+
+	    push (@sgml, "<row>");
+	    foreach $_ (@entries) {
+		$_ = &fixup($_, 1);
+		push (@sgml, "  <entry>$_</entry>");
+		$count++;
+	    }
+
+	    while ($count < $cols) {
+		push (@sgml, "  <entry></entry>");
+		$count++;
+	    }
+
+	    push (@sgml, "</row>");
+	}
+	push (@sgml, "</thead>");
+    }
+    push (@sgml, "<tbody>");
+
+    while (@table) {
+	$_ = shift @table;
+	push (@sgml, "<row>");
+	@entries = split(/$tab/, $_);
+
+	while (1) {
+	    while (@entries) {
+		$_ = shift @entries;
+		last if $_ eq "T{";
+		$_ = &fixup($_, 0);
+		push (@sgml, "  <entry>$_</entry>");
+	    }
+
+	    if ($_ eq "T{") {
+		local(@temp);
+		
+		$_ = shift @table;
+		push (@sgml, "  <entry><para>");
+		while (!/^T\}/ && @table) {
+		    $_ = &fixup($_, 0);
+		    push (@sgml, "$_");
+		    $_ = shift @table;
+		}
+		push (@sgml, "</para></entry>");
+		
+		@temp = split(/$tab/, $_);
+		shift @temp;
+		unshift (@entries, @temp);
+		
+		next if @temp;
+		last;
+	    } else {
+		last;
+	    }
+	}
+
+	push (@sgml, "</row>");
+    }
+
+    push (@sgml, "</tbody>");
+    push (@sgml, "</tgroup>");
+}
+
+@new = ();
+foreach $_ (@sgml) {
+    s/\\s-1([^\\]+)\\s0/<acronym>$1<\/acronym>/g;
+    s/\\s-1([^\\]+)\\s\+1/<acronym>$1<\/acronym>/g;
+
+    if (/^\.Xa (\d+)\s*$/) {
+	$_ = "<xref linkend=\"X-019-8-ART-$1-X\">";
+    }
+
+    push (@new, $_);
+}
+
+@sgml = @new;
+
+foreach $_ (@sgml) {
+    print "$_\n";
+}
+
+sub strip_preambles {
+    local($inpre, @table) = @_;
+    local(@new);
+    local($_);
+
+    while (@table) {
+	$_ = shift @table;
+	$inpre = 1 if (/^\.T&/);
+
+	$annotated_screen = 1 if $inpre && /^lp\S+fCW /;
+
+	push (@new, $_) if !$inpre;
+	$inpre = 0 if $inpre && /\.\s*$/;
+    }
+
+    @new;
+}
+
+sub fixup {
+    local($_, $head) = @_;
+
+    s/&/&amp;/g;
+    s/\\f\(..([^\\]+)\\f./$1/g;
+    s/\\f[A-Za-z]([^\\]+)\\f./$1/g;
+    s/>/&gt;/g;
+    s/</&lt;/g;
+    s/\\\(lq/&ldquo;/g;
+    s/\\\(rq/&rdquo;/g;
+    s/\\\s//g;
+    s/\\\(mu/&times;/g;
+	 
+    $_ = "</para><para>" if /^\.LF/;
+
+#   $_ = "<emphasis role=tblhd>$_</emphasis>" if $head && ($_ ne "");
+
+    $_;
+}
+
+

@@ -1,0 +1,26 @@
+<PARA>This book is one of a series of books on the X Window System 
+available from O'Reilly and Associates, Inc.:
+</PARA>
+<literallayout>&VOL0; -- &VOL0title;
+&VOL1; -- &VOL1title;
+&VOL2; -- &VOL2title;
+&VOL3; -- &VOL3title;, Motif and Standard editions
+&VOL4; -- &VOL4title;, Motif and Standard editions
+&VOL5; -- &VOL5title;
+&VOL6A; -- &VOL6Atitle;
+&VOL6B; -- &VOL6Btitle;
+&VOL7A; -- &VOL7Atitle;
+&VOL7B; -- &VOL7Btitle;
+&VOL8; -- &VOL8title;
+Quick Reference -- <EMPHASIS>The X Window System in a Nutshell</EMPHASIS>
+<emphasis>PHIGS in X</emphasis>
+<EMPHASIS>PHIGS Programming Manual</EMPHASIS>
+<EMPHASIS>PHIGS Reference Manual</EMPHASIS>
+<EMPHASIS>PEXlib Programming Manual</EMPHASIS>
+<EMPHASIS>PEXlib Reference Manual</EMPHASIS>
+<EMPHASIS>The X Resource</EMPHASIS> is a journal dedicated to X programming.
+It contains the latest information about X including articles,
+papers, and documentation.
+</literallayout>
+
+

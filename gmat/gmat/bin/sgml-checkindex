@@ -1,0 +1,200 @@
+#!/usr/bin/perl5 -- # -*- Perl -*-
+#
+# Build the external index.check file for an SGML book
+#
+# $Id: sgml-checkindex,v 1.1.1.1 2002-07-15 21:33:31 root Exp $
+#
+#
+
+use vars qw($PROGNAME $VERSION);
+
+$BASEVERS   = "0.1";
+$RCS_ID     = '$Id: sgml-checkindex,v 1.1.1.1 2002-07-15 21:33:31 root Exp $'; # '
+($PROGNAME  = $RCS_ID) =~ s/^.Id: (\S+) .*$/$1/;
+($PATCHLEVEL= $RCS_ID) =~ s/^.Id: \S+ \d+\.(\d+) .*$/$1/;
+$VERSION    = "$BASEVERS patchlevel $PATCHLEVEL";
+$EXECDIR    = ".";
+$EXECDIR    = $1 if $0 =~ /^(.*)\/[^\/]+$/;
+
+######################################################################
+
+select(STDERR); $| = 1;
+select(STDOUT);
+
+if ($ENV{"ORALIBDIR"}) {
+    push (@INC, $ENV{"ORALIBDIR"});
+} else {
+    push (@INC, "/usr/local/share/gmat/lib");
+}
+
+$WHOAMI =  $ENV{"USER"} || $ENV{"LOGNAME"} || "user";
+
+@TERMS = ();
+while (@ARGV) {
+    $badfile = 0;
+    $sgmlfile = shift(@ARGV);
+    if (!open (SGML, "$sgmlfile")) {
+	print STDERR "Cannot open: $sgmlfile\n";
+	next;
+    }
+
+    $idxcount = 0;
+    print STDERR "Reading $sgmlfile...";
+
+    $indexterm = "";
+    $_ = "";
+    $done = 0;
+    while (!$done) {
+	if (/(<indexterm.*)$/i) {
+	    $indexterm = $1;
+
+	    $idxcount++;
+#	    print "Hit: $_\n";
+	    if ($indexterm =~ /^<indexterm[^>]*spanend=[^>]*>/i) {
+		$_ = $';
+#		print "XXX: $_\n";
+		next;
+	    }
+
+	    while ($indexterm !~ /<\/indexterm>/i) {
+		die "Unexpected eof!\n" if eof(SGML);
+		$_ = scalar(<SGML>);
+		chop;
+		$indexterm .= " $_";
+#		print ":::: $indexterm\n";
+	    }
+	    
+	    $indexterm =~ /<\/indexterm>/i;
+	    $_ = $';
+	    $indexterm = "$`$&";
+
+	    { 
+		local($_) = $indexterm;
+
+		s/\n/ /g;
+		if (!/>\s*<\/indexterm/i || /<indexterm>.*<indexterm>/i) {
+		    print STDERR "Bad: $_\n";
+		    $badfile = 1;
+		    $done = 1;
+		}
+	    }
+
+	    push (@TERMS, "$sgmlfile $indexterm");
+	} else {
+	    $done = 1 if eof(SGML);
+	    $_ = scalar(<SGML>);
+	    chop;
+	}
+    }
+    close (SGML);
+
+    if ($badfile) {
+	@TERMS = grep(!/^$sgmlfile /, @TERMS);
+	print STDERR "invalid entry: all index terms ignored.\n";
+    } else {
+	print STDERR "$idxcount index terms.\n";
+    }
+}
+
+%NEWTERMS = ();
+$MAXLEN = 0;
+foreach $_ (@TERMS) {
+    s/<indexterm>//ig;
+    s/<\/indexterm>//ig;
+
+    /^(\S+) (.*)$/;
+    $sgmlfile = $1;
+    $_ = $2;
+
+    $primary = $psortas = "";
+    $secondary = $ssortas = "";
+    $tertiary = $tsortas = "";
+
+    if (/<primary([^\>]*)>(.*)<\/primary>/i) {
+	$primary = $2;
+	$attrib  = $1;
+
+	$psortas = $primary;
+	$psortas = $1 if ($attrib =~ /sortas=(\S+)/i);
+	$psortas = $1 if ($attrib =~ /sortas="([^\"]+)"/i);
+    }
+
+    if (/<secondary([^>]*)>(.*)<\/secondary>/i) {
+	$secondary = $2;
+	$attrib    = $1;
+
+	$ssortas   = $secondary;
+	$ssortas   = $1 if ($attrib =~ /sortas=(\S+)/i);
+	$ssortas   = $1 if ($attrib =~ /sortas="([^\"]+)"/i);
+    }
+
+    if (/<tertiary([^>]*)>(.*)<\/tertiary>/i) {
+	$tertiary = $2;
+	$attrib   = $1;
+
+	$tsortas  = $tertiary;
+	$tsortas  = $1 if ($attrib =~ /sortas=(\S+)/i);
+	$tsortas  = $1 if ($attrib =~ /sortas="([^\"]+)"/i);
+    }
+
+    $primary = $1 if $primary =~ /^\s*(.*)\s*$/;
+    $secondary = $1 if $secondary =~ /^\s*(.*)\s*$/;
+    $tertiary = $1 if $tertiary =~ /^\s*(.*)\s*$/;
+    
+    $psortas = $1 if $psortas =~ /^\s*(.*)\s*$/;
+    $ssortas = $1 if $ssortas =~ /^\s*(.*)\s*$/;
+    $tsortas = $1 if $tsortas =~ /^\s*(.*)\s*$/;
+
+#
+#    $primary =~ s/\s\s/ /g;
+#    $secondary =~ s/\s\s/ /g;
+#    $tertiary =~ s/\s\s/ /g;
+#
+#    $psortas =~ s/\s\s/ /g;
+#    $ssortas =~ s/\s\s/ /g;
+#    $tsortas =~ s/\s\s/ /g;
+#
+#    print STDERR "p : $primary\n";
+#    print STDERR "s : $secondary\n";
+#    print STDERR "t : $tertiary\n";
+#
+#    print STDERR "ps: $psortas\n";
+#    print STDERR "ss: $ssortas\n";
+#    print STDERR "ts: $tsortas\n";
+#
+
+    $line = "\"$primary\"";
+    $line .= " \"$secondary\"" if $secondary;
+    $line .= " \"$tertiary\"" if $tertiary;
+
+    $sline = "\"$psortas\"";
+    $sline .= " \"$ssortas\"" if $ssortas;
+    $sline .= " \"$tsortas\"" if $tsortas;
+
+    $MAXLEN = length($sgmlfile) if length($sgmlfile) > $MAXLEN;
+    $NEWTERMS{"$sline\001$line\001$sgmlfile"} = 1;
+}
+
+foreach $key (sort sortnc keys %NEWTERMS) {
+    local($sline,$line,$sgmlfile) = split(/\001/, $key);
+
+    printf "   .%-${MAXLEN}s %s\n", $sgmlfile, $line;
+    printf "srt.%-${MAXLEN}s %s\n", $sgmlfile, $sline if $sline ne $line;
+
+    $sline = "";
+    while ($line ne $sline) {
+	$sline = $line;
+	$line =~ s/\s\s/ /g;
+    }
+
+    printf "new.%-${MAXLEN}s %s\n", $sgmlfile, $line;
+}
+
+sub sortnc {
+    local($A, $B) = ($a, $b);
+
+    $A =~ tr/A-Z/a-z/;
+    $B =~ tr/A-Z/a-z/;
+
+    $A cmp $B;
+}

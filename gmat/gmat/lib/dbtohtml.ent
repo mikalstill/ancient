@@ -1,0 +1,104 @@
+#
+# Map DocBook entities for HTML
+#
+# $Id: dbtohtml.ent,v 1.1.1.1 2002-07-15 21:33:31 root Exp $
+#
+#
+######################################################################
+
+&hellip		...
+&lowbar		_
+&frac18 	1/8
+&frac38 	3/8
+&frac58 	5/8
+&frac78 	7/8
+&frac13 	1/3
+&frac23 	2/3
+&frac15 	1/5
+&frac25 	2/5
+&frac35 	3/5
+&frac45 	4/5
+&frac16 	1/6
+&frac56 	5/6
+&frac112	1/12
+&frac116	1/16
+&lcub		{
+&rcub		}
+#
+#
+#
+&amp   		&amp;
+&lt		&lt;
+&gt		&gt;
+&ldquo		``
+&rdquo		''
+&copy		&copy;
+#
+#
+#
+&AElig		&AElig;
+&Aacute		&Aacute;
+&Acirc		&Acirc;
+&Agrave		&Agrave;
+&Aring		&Aring		;
+&Atilde		&Atilde;
+&Auml		&Auml;
+&Ccedil		&Ccedil;
+&ETH		&ETH;
+&Eacute		&Eacute	;
+&Ecirc		&Ecirc;
+&Egrave		&Egrave;
+&Euml		&Euml;
+&Iacute		&Iacute;
+&Icirc 		&Icirc;
+&Igrave		&Igrave;
+&Iuml  		&Iuml;
+&Ntilde		&Ntilde;
+&Oacute		&Oacute;
+&Ocirc 		&Ocirc;
+&Ograve		&Ograve;
+&Oslash		&Oslash;
+&Otilde		&Otilde;
+&Ouml  		&Ouml;
+&THORN 		&THORN;
+&Uacute		&Uacute;
+&Ucirc 		&Ucirc;
+&Ugrave		&Ugrave;
+&Uuml  		&Uuml;
+&Yacute		&Yacute;
+&aacute		&aacute;
+&acirc 		&acirc;
+&aelig 		&aelig;
+&agrave		&agrave;
+&aring 		&aring;
+&atilde		&atilde;
+&auml  		&auml;
+&ccedil		&ccedil;
+&eacute		&eacute;
+&ecirc 		&ecirc;
+&egrave		&egrave;
+&eth   		&eth;
+&euml  		&euml;
+&iacute		&iacute;
+&icirc 		&icirc;
+&igrave		&igrave;
+&iuml  		&iuml;
+&mdash		--
+&nbsp           " "
+&ndash		-
+&numsp		" "
+&ntilde		&ntilde;
+&oacute		&oacute;
+&ocirc 		&ocirc;
+&ograve		&ograve;
+&oslash		&oslash;
+&otilde		&otilde;
+&ouml  		&ouml;
+&szlig 		&szlig;
+&thorn 		&thorn;
+&uacute		&uacute;
+&ucirc 		&ucirc;
+&ugrave		&ugrave;
+&uuml  		&uuml;
+&yacute		&yacute;
+&yuml  		&yuml;

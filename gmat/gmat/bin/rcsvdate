@@ -1,0 +1,61 @@
+#!/usr/bin/perl5 -- # -*- Perl -*-
+#
+# Given a date, print the RCS revision number that was current on that date
+#
+# $Id: rcsvdate,v 1.1.1.1 2002-07-15 21:33:31 root Exp $
+#
+#
+
+use vars qw($PROGNAME $VERSION);
+
+$BASEVERS   = "0.1";
+$RCS_ID     = '$Id: rcsvdate,v 1.1.1.1 2002-07-15 21:33:31 root Exp $'; # '
+($PROGNAME  = $RCS_ID) =~ s/^.Id: (\S+) .*$/$1/;
+($PATCHLEVEL= $RCS_ID) =~ s/^.Id: \S+ \d+\.(\d+) .*$/$1/;
+$VERSION    = "$BASEVERS patchlevel $PATCHLEVEL";
+$EXECDIR    = ".";
+$EXECDIR    = $1 if $0 =~ /^(.*)\/[^\/]+$/;
+
+######################################################################
+
+$file = shift @ARGV;
+$date = shift @ARGV;
+
+if ($date =~ /^(\d+)\/(\d+)\/(\d+)$/) {
+    $year = $1;
+    $month = $2;
+    $day = $3;
+    $year += 1900 if $year < 1970;
+} else {
+    die "Usage: $0 file yy/mm/dd\n";
+}
+
+$done = 0;
+$lastrev = "";
+open (F, "rlog $file |");
+while (<F>) {
+    chop;
+    next if !/^revision (\d+\.\d+)$/;
+    $rev = $1;
+
+    last if $done;
+
+    $lastrev = $rev if $lastrev eq "";
+    $_ = scalar(<F>);
+
+    die "Parse error: $_\n" if !/^date: (\d+)\/(\d+)\/(\d+)/;
+    $ryear = $1;
+    $rmonth = $2;
+    $rday = $3;
+
+#    print "Test: $rev, $ryear?$year, $rmonth?$month, $rday?$day\n";
+
+    $done = 1 if ($ryear < $year || ($ryear == $year && $rmonth < $month)
+		  || ($ryear == $year && $rmonth == $month && $rday < $day));
+    $lastrev = $rev;
+}
+
+#print "$lastrev, $rday/$rmonth/$ryear\n";
+
+print "$lastrev\n";
+

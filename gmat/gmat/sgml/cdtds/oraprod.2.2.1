@@ -1,0 +1,788 @@
+;;; This file was created by psgml on Mon Oct 25 15:42:22 1999
+(sgml-saved-dtd-version 6)
+("/usr/local/share/gmat/sgml/ORA/entities/Managing_NFS_and_NIS" "/usr/local/share/gmat/sgml/ORA/entities/Essential_System_Administration" "/usr/local/share/gmat/sgml/ORA/entities/DNS_and_Bind" "/usr/local/share/gmat/sgml/ORA/entities/ORA_X_Books" "/usr/local/share/gmat/sgml/ISO_8879-1986/entities/General_Technical" "/usr/local/share/gmat/sgml/ISO_8879-1986/entities/Publishing" "/usr/local/share/gmat/sgml/ISO_8879-1986/entities/Numeric_and_Special_Graphic" "/usr/local/share/gmat/sgml/ISO_9573-13-1991/entities/Math_Alphabets_Script" "/usr/local/share/gmat/sgml/ISO_9573-13-1991/entities/Math_Alphabets_Open_Face" "/usr/local/share/gmat/sgml/ISO_9573-13-1991/entities/Math_Alphabets_Fraktur" "/usr/local/share/gmat/sgml/ORA/entities/iso-lat2" "/usr/local/share/gmat/sgml/ISO_8879-1986/entities/Added_Latin_1" "/usr/local/share/gmat/sgml/ISO_8879-1986/entities/Alternative_Greek_Symbols" "/usr/local/share/gmat/sgml/ISO_8879-1986/entities/Greek_Symbols" "/usr/local/share/gmat/sgml/ISO_8879-1986/entities/Monotoniko_Greek" "/usr/local/share/gmat/sgml/ISO_8879-1986/entities/Greek_Letters" "/usr/local/share/gmat/sgml/ISO_8879-1986/entities/Diacritical_Marks" "/usr/local/share/gmat/sgml/ISO_8879-1986/entities/Non-Russian_Cyrillic" "/usr/local/share/gmat/sgml/ISO_8879-1986/entities/Russian_Cyrillic" "/usr/local/share/gmat/sgml/ISO_8879-1986/entities/Box_and_Line_Drawing" "/usr/local/share/gmat/sgml/ISO_8879-1986/entities/Added_Math_Symbols_Relations" "/usr/local/share/gmat/sgml/ISO_8879-1986/entities/Added_Math_Symbols_Ordinary" "/usr/local/share/gmat/sgml/ISO_8879-1986/entities/Added_Math_Symbols_Negated_Relations" "/usr/local/share/gmat/sgml/ISO_8879-1986/entities/Added_Math_Symbols_Delimiters" "/usr/local/share/gmat/sgml/ISO_8879-1986/entities/Added_Math_Symbols_Binary_Operators" "/usr/local/share/gmat/sgml/ISO_8879-1986/entities/Added_Math_Symbols_Arrow_Relations" "/usr/local/share/gmat/sgml/ORA/entities/orachars" "/usr/local/share/gmat/sgml/ORA/entities/System_Entities" "/usr/local/share/gmat/sgml/ORA/entities/Common_Entities" "/usr/local/share/gmat/sgml/ORA/entities/ORA_Entities" "/usr/local/share/gmat/sgml/ORA/dtds/oraprod.2.2.1.dtd")
+(nil ("local.admonitions" text "") ("local.appendix" text "") ("local.book" text "") ("local.chapter" text "") ("local.cptrterms" text "") ("local.equations" text "") ("local.examples" text "") ("local.index" text "") ("local.links" text "") ("local.lists" text "") ("local.notations" text "") ("local.refclasses" text "") ("local.nav" text "") ("local.ndxterms" text "") ("local.synopsis" text "") ("local.tables" text "") ("local.terms" text "") ("notationtypes" text "CGM-CHAR | CGM-BINARY | CGM-CLEAR | DITROFF | DVI |
+		EPS | EQN | FAX | FAXTILE | GIF | IGES | PIC | PS | TBL | TEX
+		| TIFF | linespecific ") ("ISOchars" text ("-//ORA//ENTITIES System Entities//EN" nil . "/usr/local/share/gmat/sgml/ORA/dtds/")) ("oraents" text ("-//ORA//ENTITIES ORA Entities//EN" nil . "/usr/local/share/gmat/sgml/ORA/dtds/")) ("commonents" text ("-//ORA//ENTITIES Common Entities//EN" nil . "/usr/local/share/gmat/sgml/ORA/entities/")) ("oraxbooks" text ("-//ORA//ENTITIES ORA X Books//EN" nil . "/usr/local/share/gmat/sgml/ORA/entities/")) ("oradns" text ("-//ORA//ENTITIES DNS and Bind//EN" nil . "/usr/local/share/gmat/sgml/ORA/entities/")) ("orasysadmin" text ("-//ORA//ENTITIES Essential System Administration//EN" nil . "/usr/local/share/gmat/sgml/ORA/entities/")) ("oranfs" text ("-//ORA//ENTITIES Managing NFS and NIS//EN" nil . "/usr/local/share/gmat/sgml/ORA/entities/")) ("ISOamsa" text ("-//ISO 8879-1986//ENTITIES Added Math Symbols: Arrow Relations//EN" nil . "/usr/local/share/gmat/sgml/ORA/entities/")) ("ISOamsb" text ("-//ISO 8879-1986//ENTITIES Added Math Symbols: Binary Operators//EN" nil . "/usr/local/share/gmat/sgml/ORA/entities/")) ("ISOamsc" text ("-//ISO 8879-1986//ENTITIES Added Math Symbols: Delimiters//EN" nil . "/usr/local/share/gmat/sgml/ORA/entities/")) ("ISOamsn" text ("-//ISO 8879-1986//ENTITIES Added Math Symbols: Negated Relations//EN" nil . "/usr/local/share/gmat/sgml/ORA/entities/")) ("ISOamso" text ("-//ISO 8879-1986//ENTITIES Added Math Symbols: Ordinary//EN" nil . "/usr/local/share/gmat/sgml/ORA/entities/")) ("ISOamsr" text ("-//ISO 8879-1986//ENTITIES Added Math Symbols: Relations//EN" nil . "/usr/local/share/gmat/sgml/ORA/entities/")) ("ISObox" text ("-//ISO 8879-1986//ENTITIES Box and Line Drawing//EN" nil . "/usr/local/share/gmat/sgml/ORA/entities/")) ("ISOcyr1" text ("-//ISO 8879-1986//ENTITIES Russian Cyrillic//EN" nil . "/usr/local/share/gmat/sgml/ORA/entities/")) ("ISOcyr2" text ("-//ISO 8879-1986//ENTITIES Non-Russian Cyrillic//EN" nil . "/usr/local/share/gmat/sgml/ORA/entities/")) ("ISOdia" text ("-//ISO 8879-1986//ENTITIES Diacritical Marks//EN" nil . "/usr/local/share/gmat/sgml/ORA/entities/")) ("ISOgrk1" text ("-//ISO 8879-1986//ENTITIES Greek Letters//EN" nil . "/usr/local/share/gmat/sgml/ORA/entities/")) ("ISOgrk2" text ("-//ISO 8879-1986//ENTITIES Monotoniko Greek//EN" nil . "/usr/local/share/gmat/sgml/ORA/entities/")) ("ISOgrk3" text ("-//ISO 8879-1986//ENTITIES Greek Symbols//EN" nil . "/usr/local/share/gmat/sgml/ORA/entities/")) ("ISOgrk4" text ("-//ISO 8879-1986//ENTITIES Alternative Greek Symbols//EN" nil . "/usr/local/share/gmat/sgml/ORA/entities/")) ("ISOlat1" text ("-//ISO 8879-1986//ENTITIES Added Latin 1//EN" nil . "/usr/local/share/gmat/sgml/ORA/entities/")) ("ISOlat2" text ("-//ORA//ENTITIES iso-lat2//EN" nil . "/usr/local/share/gmat/sgml/ORA/entities/")) ("ISOmfrk" text ("-//ISO 9573-13:1991//ENTITIES Math Alphabets: Fraktur//EN" nil . "/usr/local/share/gmat/sgml/ORA/entities/")) ("ISOmopf" text ("-//ISO 9573-13:1991//ENTITIES Math Alphabets: Open Face//EN" nil . "/usr/local/share/gmat/sgml/ORA/entities/")) ("ISOmscr" text ("-//ISO 9573-13:1991//ENTITIES Math Alphabets: Script//EN" nil . "/usr/local/share/gmat/sgml/ORA/entities/")) ("ISOnum" text ("-//ISO 8879-1986//ENTITIES Numeric and Special Graphic//EN" nil . "/usr/local/share/gmat/sgml/ORA/entities/")) ("ISOpub" text ("-//ISO 8879-1986//ENTITIES Publishing//EN" nil . "/usr/local/share/gmat/sgml/ORA/entities/")) ("ISOtech" text ("-//ISO 8879-1986//ENTITIES General Technical//EN" nil . "/usr/local/share/gmat/sgml/ORA/entities/")) ("orachars" text ("-//ORA//ENTITIES orachars//EN" nil . "/usr/local/share/gmat/sgml/ORA/entities/")) ("commonatts" text "Id		ID		#IMPLIED
+		Lang		CDATA		#IMPLIED
+		Remap		CDATA		#IMPLIED
+		Role		CDATA		#IMPLIED
+		XRefLabel	CDATA		#IMPLIED") ("yesorno" text "NUMBER") ("yes" text "1") ("no" text "0") ("appendix.gp" text "Appendix ") ("book.gp" text "Book ") ("chapter.gp" text "Chapter ") ("index.gp" text "Index | SetIndex ") ("bookcontent.gp" text "Appendix  | Bibliography | Chapter  |
+		Glossary | Index | SetIndex  | LoT | Preface | RefEntry | Reference |
+		ToC ") ("ndxterm.gp" text "IndexTerm ") ("xref.gp" text "FootnoteRef | XRef") ("links.gp" text "Link | OLink | ULink ") ("basechar.gp" text "#PCDATA | Anchor") ("phrase.gp" text "#PCDATA | Anchor | Comment | Subscript | Superscript |
+		Link | OLink | ULink ") ("bookinfo.content.gp" text "Author | AuthorInitials | Title | Copyright |
+		CorpAuthor | CorpName | Date | Editor | Edition |
+		InvPartNumber | ISBN | LegalNotice | OrgName | OtherCredit |
+		PrintHistory | ProductName | ProductNumber | Publisher |
+		PubsNumber | ReleaseInfo | RevHistory | Subtitle |
+		VolumeNum") ("docinfo.content.gp" text "Author | AuthorInitials | CorpAuthor | ModeSpec
+		| OtherCredit | ProductName | ProductNumber | RevHistory") ("words.gp" text "Abbrev | Acronym | Citation | CiteTitle | CiteRefEntry |
+		Emphasis | FirstTerm | ForeignPhrase | GlossTerm | Footnote |
+		Markup | Quote | SGMLTag | Trademark | WordAsWord") ("computerterms.gp" text "Action | Application | Classname | Command |
+		ComputerOutput | Database | Email | ErrorName | ErrorType | Filename |
+		Function | Hardware | Interface | InterfaceDefinition | KeyCap
+		| KeyCode | KeySym | Literal | MediaLabel | MsgText | Option |
+		Optional | Parameter | Property | Replaceable | ReturnValue |
+		StructField | StructName | Symbol | SystemItem | Token | Type
+		| UserInput ") ("cptrphrase.gp" text "#PCDATA | Anchor | Comment | Subscript | Superscript |
+		Link | OLink | ULink  | Action | Application | Classname | Command |
+		ComputerOutput | Database | Email | ErrorName | ErrorType | Filename |
+		Function | Hardware | Interface | InterfaceDefinition | KeyCap
+		| KeyCode | KeySym | Literal | MediaLabel | MsgText | Option |
+		Optional | Parameter | Property | Replaceable | ReturnValue |
+		StructField | StructName | Symbol | SystemItem | Token | Type
+		| UserInput ") ("inlinechar.gp" text "#PCDATA | Anchor | Comment | Subscript | Superscript |
+		Link | OLink | ULink  | Action | Application | Classname | Command |
+		ComputerOutput | Database | Email | ErrorName | ErrorType | Filename |
+		Function | Hardware | Interface | InterfaceDefinition | KeyCap
+		| KeyCode | KeySym | Literal | MediaLabel | MsgText | Option |
+		Optional | Parameter | Property | Replaceable | ReturnValue |
+		StructField | StructName | Symbol | SystemItem | Token | Type
+		| UserInput  |
+		Author | AuthorInitials | CorpAuthor | ModeSpec
+		| OtherCredit | ProductName | ProductNumber | RevHistory | Abbrev | Acronym | Citation | CiteTitle | CiteRefEntry |
+		Emphasis | FirstTerm | ForeignPhrase | GlossTerm | Footnote |
+		Markup | Quote | SGMLTag | Trademark | WordAsWord | FootnoteRef | XRef ") ("eqncontent.gp" text "Graphic ") ("tblcontent.gp" text "Graphic+ | TGroup+ ") ("list.gp" text "GlossList | ItemizedList | OrderedList | SegmentedList |
+		SimpleList | VariableList  ") ("admonition.gp" text "Caution | Important | Note | Tip | Warning
+		") ("code.example.gp" text "LiteralLayout | ComplexProgramListing | ProgramListing | Screen |
+		ScreenShot ") ("synop.gp" text "Synopsis | CmdSynopsis | FuncSynopsis ") ("object.gp" text "BlockQuote | InformalEquation | InformalExample |
+		InformalTable | LiteralLayout | ComplexProgramListing | ProgramListing | Screen |
+		ScreenShot  | ComplexGraphic | Graphic | Synopsis | CmdSynopsis | FuncSynopsis ") ("para.gp" text "FormalPara | Para | SimPara") ("formalobject.gp" text "Equation | Example | Figure | Table") ("component.gp" text "Abstract | Anchor | AuthorBlurb | Caution | Important | Note | Tip | Warning
+		 |
+		BridgeHead | Callout | Comment | Epigraph | Equation | Example | Figure | Table |
+		Highlights | GlossList | ItemizedList | OrderedList | SegmentedList |
+		SimpleList | VariableList   | BlockQuote | InformalEquation | InformalExample |
+		InformalTable | LiteralLayout | ComplexProgramListing | ProgramListing | Screen |
+		ScreenShot  | ComplexGraphic | Graphic | Synopsis | CmdSynopsis | FuncSynopsis  |
+		FormalPara | Para | SimPara | MsgSet | Procedure | Sidebar") ("refclass.gp" text "#PCDATA | Application ") ("nav.gp" text "ToC | LoT | Index | Glossary | Bibliography ") ("inlineobj.gp" text "#PCDATA | Anchor | Comment | Subscript | Superscript |
+		Link | OLink | ULink  | Action | Application | Classname | Command |
+		ComputerOutput | Database | Email | ErrorName | ErrorType | Filename |
+		Function | Hardware | Interface | InterfaceDefinition | KeyCap
+		| KeyCode | KeySym | Literal | MediaLabel | MsgText | Option |
+		Optional | Parameter | Property | Replaceable | ReturnValue |
+		StructField | StructName | Symbol | SystemItem | Token | Type
+		| UserInput  |
+		Author | AuthorInitials | CorpAuthor | ModeSpec
+		| OtherCredit | ProductName | ProductNumber | RevHistory | Abbrev | Acronym | Citation | CiteTitle | CiteRefEntry |
+		Emphasis | FirstTerm | ForeignPhrase | GlossTerm | Footnote |
+		Markup | Quote | SGMLTag | Trademark | WordAsWord | FootnoteRef | XRef  | InlineGraphic | InlineEquation |
+		Synopsis | CmdSynopsis | FuncSynopsis ") ("sect1.gp" text "((Abstract | Anchor | AuthorBlurb | Caution | Important | Note | Tip | Warning
+		 |
+		BridgeHead | Callout | Comment | Epigraph | Equation | Example | Figure | Table |
+		Highlights | GlossList | ItemizedList | OrderedList | SegmentedList |
+		SimpleList | VariableList   | BlockQuote | InformalEquation | InformalExample |
+		InformalTable | LiteralLayout | ComplexProgramListing | ProgramListing | Screen |
+		ScreenShot  | ComplexGraphic | Graphic | Synopsis | CmdSynopsis | FuncSynopsis  |
+		FormalPara | Para | SimPara | MsgSet | Procedure | Sidebar)+, (Sect1* | RefEntry*)) | Sect1+ |
+		RefEntry+") ("ubiq.gp" text "IndexTerm  | BeginPage") ("primsee" text "PrimaryIE, (SeeIE | SeeAlsoIE)*") ("secsee" text "SecondaryIE, (SeeIE | SeeAlsoIE | TertiaryIE)*") ("argchcatt" text "Choice	( opt | req | plain )	'opt'") ("grpchcatt" text "Choice	( opt | req | plain | optmult | reqmult )
+							'opt'") ("repatt" text "Rep	( norepeat | repeat )	'norepeat'"))
+nil
+û#"caution"
+"funcdef"
+"refsynopsisdiv"
+"bibliomisc"
+"surname"
+"parameter"
+"complexprogramlisting"
+"citerefentry"
+"itemizedlist"
+"releaseinfo"
+"isbn"
+"date"
+"confsponsor"
+"arg"
+"ulink"
+"bookinfo"
+"msgtext"
+"issuenum"
+"refclass"
+"markup"
+"contractsponsor"
+"authorinitials"
+"otheraddr"
+"tocback"
+"tocchap"
+"option"
+"artheader"
+"orderedlist"
+"callout"
+"article"
+"paramdef"
+"computeroutput"
+"tertiaryie"
+"tocpart"
+"setinfo"
+"conftitle"
+"funcparams"
+"year"
+"screeninfo"
+"para"
+"lineannotation"
+"inlinegraphic"
+"sect5"
+"refmeta"
+"seealsoie"
+"revnumber"
+"affiliation"
+"sect4"
+"issn"
+"appendix"
+"publisher"
+"msgaud"
+"sect3"
+"pubdate"
+"tocfront"
+"firstname"
+"sect2"
+"informaltable"
+"figure"
+"refentry"
+"seealso"
+"substeps"
+"acronym"
+"type"
+"sect1"
+"procedure"
+"screenshot"
+"highlights"
+"thead"
+"textarea"
+"abbrev"
+"comment"
+"varargs"
+"primaryie"
+"row"
+"keycode"
+"tip"
+"book"
+"graphicarea"
+"footnoteref"
+"secondaryie"
+"footnote"
+"printhistory"
+"fax"
+"pob"
+"synopfragmentref"
+"address"
+"label"
+"partintro"
+"glosslist"
+"synopfragment"
+"token"
+"corpauthor"
+"copyright"
+"member"
+"preface"
+"email"
+"artpagenums"
+"trademark"
+"warning"
+"pagenums"
+"volumenum"
+"beginpage"
+"areaspec"
+"inlineequation"
+"msginfo"
+"medialabel"
+"errortype"
+"productname"
+"othercredit"
+"refname"
+"glossseealso"
+"foreignphrase"
+"abstract"
+"glosssee"
+"glossentry"
+"msgmain"
+"structfield"
+"authorblurb"
+"revhistory"
+"group"
+"term"
+"listitem"
+"msg"
+"wordasword"
+"example"
+"contrib"
+"msgsub"
+"docinfo"
+"bibliography"
+"lotentry"
+"varlistentry"
+"application"
+"literallayout"
+"sidebar"
+"corpname"
+"phone"
+"tocentry"
+"msgexplan"
+"glossary"
+"xref"
+"link"
+"informalexample"
+"important"
+"funcsynopsisinfo"
+"seeie"
+"entry"
+"spanspec"
+"sgmltag"
+"keycap"
+"formalpara"
+"authorgroup"
+"chapter"
+"set"
+"refmiscinfo"
+"glossdef"
+"quote"
+"systemitem"
+"modespec"
+"index"
+"tertiary"
+"emphasis"
+"function"
+"complexgraphic"
+"ackno"
+"manvolnum"
+"msgorig"
+"lot"
+"segtitle"
+"simpara"
+"confdates"
+"postcode"
+"entrytbl"
+"productnumber"
+"state"
+"citetitle"
+"superscript"
+"cmdsynopsis"
+"bookbiblio"
+"reference"
+"refnamediv"
+"blockquote"
+"indexentry"
+"synopsis"
+"note"
+"legalnotice"
+"invpartnumber"
+"editor"
+"screen"
+"anchor"
+"author"
+"programlisting"
+"confnum"
+"step"
+"edition"
+"msgentry"
+"filename"
+"epigraph"
+"country"
+"street"
+"seg"
+"interface"
+"confgroup"
+"publishername"
+"biblioentry"
+"olink"
+"contractnum"
+"collabname"
+"honorific"
+"see"
+"void"
+"indexdiv"
+"othername"
+"subtitle"
+"tfoot"
+"hardware"
+"table"
+"city"
+"refdescriptor"
+"tgroup"
+"seglistitem"
+"toc"
+"revision"
+"action"
+"seriesvolnums"
+"equation"
+"seriesinfo"
+"refentrytitle"
+"jobtitle"
+"property"
+"indexterm"
+"structname"
+"errorname"
+"bibliodiv"
+"variablelist"
+"refpurpose"
+"colspec"
+"classname"
+"pubsnumber"
+"setindex"
+"toclevel5"
+"lineage"
+"symbol"
+"literal"
+"bridgehead"
+"title"
+"glossdiv"
+"toclevel4"
+"holder"
+"primary"
+"refsect3"
+"toclevel3"
+"msglevel"
+"keysym"
+"part"
+"collab"
+"refsect2"
+"toclevel2"
+"glossterm"
+"replaceable"
+"segmentedlist"
+"refsect1"
+"toclevel1"
+"returnvalue"
+"informalequation"
+"orgname"
+"secondary"
+"msgrel"
+"tbody"
+"database"
+"msgset"
+"funcsynopsis"
+"shortaffil"
+"firstterm"
+"optional"
+"interfacedefinition"
+"titleabbrev"
+"revremark"
+"command"
+"subscript"
+"orgdiv"
+"userinput"
+"graphic"
+"simplelist"
+"citation"
+û#(attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €ö ¾õHâ~;ÙZ	ûû"ë¶û:†À½C¤û!¸²û—(ªB‡  ‡Bª(—û²¸û!¤C½À†:û¶ëû"û	ZÙ;~âHõ¾ ¾õHâ~;ÙZ	ûû"ë¶û:†À½C¤û!¸²û—(ªB‡  ¹Md(attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€£ û
+      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €ö¸²ûûû¸²ûûû¸²û û  ¸²ûûû   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("moreinfo" (name-token-group ("refentry" "none")) (nil "None")) ("class" (name-token-group ("command" "function" "option")) implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€)û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €hÀ À    (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € ä¦     (attlist (("mark" cdata implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € {{   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("rep" (name-token-group ("norepeat" "repeat")) (nil "norepeat")) ("choice" (name-token-group ("opt" "req" "plain")) (nil "opt")) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€û
+ V  y       (attlist (("type" cdata implied) ("url" cdata required) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€Gû ² ¸ i *  P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("contents" idrefs implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € ³Ÿº Ÿ  çg(attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € +‡Bûª(—û²¸û!¤C½À†:û¶ëû"û	ZDÙ;~âÆHõdM¹w¾r+r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€…      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("pagenum" cdata implied) ("label" cdata implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("label" cdata implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € ŠûŠ û   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€)û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €	 öÖû˜ ˜Ö˜³˜b bÏËr Ï ÏË   (attlist (("continuation" (name-token-group ("continues" "restarts")) (nil "Restarts")) ("inheritnum" (name-token-group ("inherit" "ignore")) (nil "Ignore")) ("numeration" (name-token-group ("arabic" "upperalpha" "loweralpha" "upperroman" "lowerroman")) implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € {{   (attlist (("arearef" idref required)))
+ €+‡ B û ª ( — û ² ¸ û! ¤ C ½ À  † :  û ¶ ë û" û  	 Z D Ù ; ~ â Æ H  õ d M ¹   w ¾ r  çg (attlist (("parentbook" idref implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €  -<A‡Bûª(—û²¸û!¤C½À†:û¶ëû"û	ZDÙ;~âÆHõdM¹w¾rŞ¨ Œ‚2¥< Ş¨ Œ‚2¥A 4Ş¨ Œ‚2¥A<r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡ ¥2‚Œ ¨Ş 	Ş¨ Œ‚2¥<A Ş¨ Œ‚2¥< çg (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€%  û
+      (attlist (("moreinfo" (name-token-group ("refentry" "none")) (nil "None")) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€)û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("linkends" idrefs implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € ŠŠ    (attlist (("contents" idrefs implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € fÖx
+ï3®mSnûº»Ã¼ˆ]^ö¿¿ö^]ˆ¼Ã»ºûnSm®3ï
+xÖf  çg(attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€)û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€    çg(attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€Xû ² ¸ û! ¤ C ½ À  † :  û ¶ ë û" û  	 Z i *  P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("srccredit" cdata implied) ("format" (notation ("cgm-char" "cgm-binary" "cgm-clear" "ditroff" "dvi" "eps" "eqn" "fax" "faxtile" "gif" "iges" "pic" "ps" "tbl" "tex" "tiff" "linespecific")) implied) ("fileref" cdata implied) ("entityref" entity implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+    (attlist (("renderas" (name-token-group ("sect1" "sect2" "sect3" "sect4")) implied) ("label" cdata implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € öŞ¨ Œ‚û,r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡<‚Œ ¨Ş,r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡<Ş¨ Œ‚,r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡<1Ş¨ Œ‚<r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡ Ş¨ Œ‚< ‚Œ ¨Ş Ş¨ Œ‚<   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € ä›¦ › ›  g(attlist (("linkends" idrefs implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €Wûûåû W Wû Wû Wûûå   (attlist (("renderas" (name-token-group ("sect1" "sect2" "sect3" "sect5")) implied) ("label" cdata implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €
+ öŞ¨ Œ‚û-r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡<+‚Œ ¨Ş-r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡<+Ş¨ Œ‚-r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡<+2Ş¨ Œ‚<+	r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡ Ş¨ Œ‚< Ş¨ Œ‚+ ‚Œ ¨Ş Ş¨ Œ‚+	< Ş¨ Œ‚+	   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("label" cdata implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €	ö öû-r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡A< -r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡A<-A<r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡ A < <A < çg (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € ÌW   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("renderas" (name-token-group ("sect1" "sect2" "sect4" "sect5")) implied) ("label" cdata implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €
+ öŞ¨ Œ‚û-r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡<0‚Œ ¨Ş-r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡<0Ş¨ Œ‚-r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡<02Ş¨ Œ‚<0	r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡ Ş¨ Œ‚< Ş¨ Œ‚0 ‚Œ ¨Ş Ş¨ Œ‚0	< Ş¨ Œ‚0	   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("pagenum" cdata implied) ("label" cdata implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("renderas" (name-token-group ("sect1" "sect3" "sect4" "sect5")) implied) ("label" cdata implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €
+ öŞ¨ Œ‚û-r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡<5‚Œ ¨Ş-r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡<5Ş¨ Œ‚-r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡<52Ş¨ Œ‚<5	r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡ Ş¨ Œ‚< Ş¨ Œ‚5 ‚Œ ¨Ş Ş¨ Œ‚5	< Ş¨ Œ‚5	   (attlist (("tabstyle" nmtoken implied) ("rowsep" number implied) ("pgwide" number implied) ("orient" (name-token-group ("port" "land")) implied) ("frame" (name-token-group ("top" "bottom" "topbot" "all" "sides" "none")) implied) ("colsep" number implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € Üû!Ü û!  Ù:(attlist (("label" cdata implied) ("float" number (nil "0")) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € öû¶û:†À½C¤û!¸²ûÎ ¶û:†À½C¤û!¸²ûÎ¶û:†À½C¤û!¸²ûÎ   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €HÎ,µÎHµHÎµHÎ,µû ûû çg (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("performance" (name-token-group ("optional" "required")) (nil "Required")) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € ÂÂ   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("renderas" (name-token-group ("sect2" "sect3" "sect4" "sect5")) implied) ("label" cdata implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €
+ öŞ¨ Œ‚û-r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡<9‚Œ ¨Ş-r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡<9Ş¨ Œ‚-r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡<92Ş¨ Œ‚<9	r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡ Ş¨ Œ‚< Ş¨ Œ‚9 ‚Œ ¨Ş Ş¨ Œ‚9	< Ş¨ Œ‚9	 çg (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €,r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡öÂ+‡Bûª(—û²¸û!¤C½À†:û¶ëû"û	ZDÙ;~âÆHõdM¹w¾rÂ,r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡ûÂÂ +r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡Â  (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €'û! û!    (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € dM¹ëû"û	Zª(——(ªZ	ûû"ë¹Md   (attlist (("valign" (name-token-group ("top" "middle" "bottom")) (nil "Bottom")) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€í KK  ­(attlist (("linenumber" number required) ("charofs" cdata implied) ("areanumber" number implied) ("id" id required)))
+ €X     (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾     çg(attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+  (attlist (("linkends" idrefs implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("valign" (name-token-group ("top" "middle" "bottom")) implied) ("rowsep" number implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€ ­““­   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €ö ¾õHâ~;ÙZ	ûû"ë¶û:†À½C¤û!¸²û—(ªB‡  ‡Bª(—û²¸û!¤C½À†:û¶ëû"û	ZÙ;~âHõ¾ ¾õHâ~;ÙZ	ûû"ë¶û:†À½C¤û!¸²û—(ªB‡  ¹Md(attlist (("label" cdata implied) ("fpi" cdata implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €ö`™´û2Œ‚ ğ¨Ş< `™´û2Œ‚ ğ¨Ş<û`™´û2Œ‚ ğ¨Ş<`™´û2Œ‚ ğ¨Ş< `™´û2Œ‚ ğ¨Ş<çg (attlist (("coords" cdata implied) ("areanumber" number implied) ("id" id required)))
+ €X     (attlist (("mark" cdata implied) ("linkend" idref required) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€    çg(attlist (("linkends" idrefs implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("label" cdata implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € û²¸û!¤C½À†:û¶ëû"û	Zª(——(ªZ	ûû"ë¶û:†À½C¤û!¸²û  R(attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € ª(——(ª   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("linkend" idref required) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €
+ a T ‰ Ç ¯ Ú ¬ U È    nil
+€BP}c•Rû	qû¢°û#?Gx®mnŸ]¿û @\óèvûû
+æûkôûL–ûÊØ£Åléaû ûî…àÎ±ûH¾       (attlist (("label" cdata implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €ö-r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡A<û-r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡A<-A<r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡ A <  -r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡A<<A < çg (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € tt   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id required)))
+ € yy   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € &ù& ù   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €	ö öû-r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡A< -r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡A<-A<r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡ A < <A < çg (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("class" (name-token-group ("service" "trade" "registered" "copyright")) (nil "Trade")) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€)û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €ö ¾õHâ~;ÙZ	ûû"ë¶û:†À½C¤û!¸²û—(ªB‡  ‡Bª(—û²¸û!¤C½À†:û¶ëû"û	ZÙ;~âHõ¾ ¾õHâ~;ÙZ	ûû"ë¶û:†À½C¤û!¸²û—(ªB‡  ¹Md(attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("pagenum" cdata implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+  nil
+ € FOF O   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € û!û!   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €4 § û    (attlist (("class" (name-token-group ("cartridge" "cdrom" "disk" "tape")) implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("class" (name-token-group ("service" "trade" "registered" "copyright")) (nil "Trade")) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € w/Õò8ÑÑ8òÕ/w   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€"û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à      (attlist (("otherterm" idref conref) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€Gû ² ¸ i *  P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €ö—(ª ª(——(ª   (attlist (("otherterm" idref conref) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€Gû ² ¸ i *  P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("sortas" cdata implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € û	G?sœ sœGsœ  œ   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €ö     (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €ö—(ª ª(——(ª   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €ß    (attlist (("rep" (name-token-group ("norepeat" "repeat")) (nil "norepeat")) ("choice" (name-token-group ("opt" "req" "plain" "optmult" "reqmult")) (nil "opt")) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € û
+VyyVû
+   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("override" cdata implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € +‡Bûª(—û²¸û!¤C½À†:û¶ëû"û	ZDÙ;~âÆHõdM¹w¾r+r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €öu u€û   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("label" cdata implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € öû—(ªZ	ûû"ë¶û:†À½C¤û!¸²û —(ªZ	ûû"ë¶û:†À½C¤û!¸²û—(ªZ	ûû"ë¶û:†À½C¤û!¸²û   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €ö     (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € öÖû˜ ˜Ö˜ºxr˜ º º ºxr  çg(attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €-r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡öêÍ+‡Bûª(—û²¸û!¤C½À†:û¶ëû"û	ZDÙ;~âÆHõdM¹w¾rêÍ,r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡ûêÍ,r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡öêÍê Í +r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡êÍ  (attlist (("srccredit" cdata implied) ("pagenum" cdata implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € zz{    (attlist (("moreinfo" (name-token-group ("refentry" "none")) (nil "None")) ("class" (name-token-group ("hardware" "software")) implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("width" number implied) ("format" (notation ("linespecific")) (nil "linespecific")) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€C P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾   )    (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €ö%—(ªZ	ûû"ë¶û:†À½C¤û!¸²û¹Mdâ~;ÙDõBH¾û%—(ªZ	ûû"ë¶û:†À½C¤û!¸²û¹Mdâ~;ÙDõBH¾%—(ªZ	ûû"ë¶û:†À½C¤û!¸²û¹Mdâ~;ÙDõBH¾  %—(ªZ	ûû"ë¶û:†À½C¤û!¸²û¹Mdâ~;ÙDõBH¾  (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("pagenum" cdata implied) ("linkend" idref implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €ö+r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡ +‡Bûª(—û²¸û!¤C½À†:û¶ëû"û	ZDÙ;~âÆHõdM¹w¾r+r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €-r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡ö÷t+‡Bûª(—û²¸û!¤C½À†:û¶ëû"û	ZDÙ;~âÆHõdM¹w¾r÷t,r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡û÷t,r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡ö÷t‚÷ ‚t +r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡÷t    (attlist (("linkend" idref required) ("endterm" idref implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+  (attlist (("type" cdata implied) ("linkend" idref required) ("endterm" idref implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€Gû ² ¸ i *  P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € û²¸û!¤C½À†:û¶ëû"û	Zª(——(ªZ	ûû"ë¶û:†À½C¤û!¸²û   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €ö ¾õHâ~;ÙZ	ûû"ë¶û:†À½C¤û!¸²û—(ªB‡  ‡Bª(—û²¸û!¤C½À†:û¶ëû"û	ZÙ;~âHõ¾ ¾õHâ~;ÙZ	ûû"ë¶û:†À½C¤û!¸²û—(ªB‡  ¹Md(attlist (("format" (notation ("linespecific")) (nil "linespecific")) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€*û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾   )    (attlist (("linkend" idref implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("valign" (name-token-group ("top" "middle" "bottom")) implied) ("spanname" nmtoken implied) ("rowsep" number implied) ("rotate" number (nil "0")) ("namest" nmtoken implied) ("nameend" nmtoken implied) ("morerows" number (nil "0")) ("colsep" number implied) ("colname" nmtoken implied) ("charoff" nutoken implied) ("char" cdata implied) ("align" (name-token-group ("left" "right" "center" "justify" "char")) implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€[ ¾Hû±Îà…îû ûaélÅ£ØÊû–Lûôkûæû
+ûvèó\@û ¿]Ÿnm®xG?û#°¢ûqû	R•c}P*i¸²ûû!ëû"û	ZC½À†dM¹ª(— Gû²¸i*P}c•Rû	qû¢°û#?Gx®mnŸ]¿û @\óèvûû
+æûkôûL–ûÊØ£Åléaû ûî…àÎ±ûH¾  —(ª¹Md†À½CZ	ûû"ëû!   (attlist (("spanname" nmtoken required) ("rowsep" number implied) ("namest" nmtoken required) ("nameend" nmtoken required) ("colsep" number implied) ("charoff" nutoken implied) ("char" cdata implied) ("align" (name-token-group ("left" "right" "center" "justify" "char")) (nil "Center")) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+  (attlist (("class" (name-token-group ("attribute" "element" "genentity" "paramentity")) implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("moreinfo" (name-token-group ("refentry" "none")) (nil "None")) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€)û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € ö (    (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € n]û¼¿¿¼û]n   (attlist (("label" cdata implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €
+ö öû-r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡A< -r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡A<0 Œ‚A<	r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡  Œ‚A  Œ‚< ‚Œ   Œ‚<	A  Œ‚<	 çg (attlist (("fpi" cdata implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €Ş#öN NŞNŞ#ûN NŞ#NğN   çg (attlist (("class" cdata implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("subject" cdata implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € û²¸û!¤C½À†:û¶ëû"û	Zª(—HpH—(ªZ	ûû"ë¶û:†À½C¤û!¸²û p   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("prefix" cdata implied) ("moreinfo" (name-token-group ("refentry" "none")) (nil "None")) ("class" (name-token-group ("constant" "environvar" "macro" "osname" "prompt" "resource" "systemname")) implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€)û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("application" (notation ("cgm-char" "cgm-binary" "cgm-clear" "ditroff" "dvi" "eps" "eqn" "fax" "faxtile" "gif" "iges" "pic" "ps" "tbl" "tex" "tiff" "linespecific")) implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€    çg(attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €-r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡öÔ·+‡Bûª(—û²¸û!¤C½À†:û¶ëû"û	ZDÙ;~âÆHõdM¹w¾rÔ·,r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡ûÔ·,r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡öÔ·Ô · +r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡Ô· ç(attlist (("sortas" cdata implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("moreinfo" (name-token-group ("refentry" "none")) (nil "None")) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€)û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €hû! û!    (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("label" cdata implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €öƒûƒöƒƒ  ƒ  (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€Gû ² ¸ i *  P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("tgroupstyle" nmtoken implied) ("spanname" nmtoken implied) ("rowsep" number implied) ("namest" nmtoken implied) ("nameend" nmtoken implied) ("colsep" number implied) ("cols" number required) ("colname" nmtoken implied) ("charoff" nutoken implied) ("char" cdata implied) ("align" (name-token-group ("left" "right" "center" "justify" "char")) implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €E”í û ûE”ûûí ”E  ­(attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("pubwork" (name-token-group ("article" "book" "chapter" "part" "refentry" "section")) implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€
+û
+ ¢  Î  ± û H ¾      (attlist (("sepchar" cdata (nil " ")) ("label" cdata implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €y  û[y [   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €ÃÖö˜ ˜Ã˜ÃÖû˜xSÏË	r
+ã^36
+ïm®»1˜ ÃÖ˜  x xSÏ xSÏË	 xSÏË	r
+ xSÏË	r xSÏË	r
+ã 	xSÏË	r
+ã^3 
+xSÏË	r
+ã^36 
+xSÏË	r
+ã^36 xSÏË	r
+ã^36
+ xSÏË	r
+ã^36
+ï xSÏË	r
+ã^36
+ïm xSÏË	r
+ã^36
+ïm® xSÏË	r
+ã^36
+ïm®»f xSÏË	r
+ã^36
+ïm®»ef xSÏË	r
+ã^36
+ïm®» xSÏË	r
+ã^36
+ïm®» xSÏË	r
+ã^36
+ïm®»e xSÏË	r
+ã^36
+ïm®»e  çg(attlist (("label" cdata implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €ö öYû< <Y<< çg (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €Ûo ooìHÎ ÎH   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €ö+r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡ +‡Bûª(—û²¸û!¤C½À†:û¶ëû"û	ZDÙ;~âÆHõdM¹w¾r+r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € JQ-’ Q!-’   (attlist (("label" cdata implied) ("format" (notation ("linespecific")) (nil "linespecific")) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€Dû!  P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾   )    (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €ö ¾õHâ~;ÙZ	ûû"ë¶û:†À½C¤û!¸²û—(ªB‡  ‡Bª(—û²¸û!¤C½À†:û¶ëû"û	ZÙ;~âHõ¾ ¾õHâ~;ÙZ	ûû"ë¶û:†À½C¤û!¸²û—(ªB‡  ¹Md(attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €ö¹Md¶†À½CZ	ûû"ë—(ª ª(—ëû"û	ZC½À†¶dM¹¹Md¶†À½CZ	ûû"ë—(ª   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € w/Õò8ÑÑ8òÕ/w   (attlist (("width" number implied) ("format" (notation ("linespecific")) (nil "linespecific")) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€C P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾   )    (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("pagenum" cdata implied) ("id" id required)))
+  (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € w/Õò8ÑÑ8òÕ/w   (attlist (("width" number implied) ("format" (notation ("linespecific")) (nil "linespecific")) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€C P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾   )    (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("performance" (name-token-group ("optional" "required")) (nil "Required")) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €ö,r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡> ,>‡Bûª(—û²¸û!¤C½À†:û¶ëû"û	ZDÙ;~âÆHõdM¹w¾r,>r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡ +‡Bûª(—û²¸û!¤C½À†:û¶ëû"û	ZDÙ;~âÆHõdM¹w¾r +‡Bûª(—û²¸û!¤C½À†:û¶ëû"û	ZDÙ;~âÆHõdM¹w¾r   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € |‹j| ‹ ‹   (attlist (("moreinfo" (name-token-group ("refentry" "none")) (nil "None")) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€)û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € ª(——(ª   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("moreinfo" (name-token-group ("refentry" "none")) (nil "None")) ("class" (name-token-group ("button" "icon" "menu" "menuitem")) implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€)û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € W Á $ «    (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €³ã ã³     (attlist (("type" cdata implied) ("localinfo" cdata implied) ("linkmode" idref implied) ("targetdocent" entity implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€Gû ² ¸ i *  P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+  (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €¾HÎ	ë¶û:†À½C¤û!¸²û—(ªöû·ª(—û²¸û!¤C½À†:û¶ë	ÎH¾·û¾HÎ	ë¶û:†À½C¤û!¸²û—(ªûû·  · ¾HÎ	ë¶û:†À½C¤û!¸²û—(ªû·  (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("valign" (name-token-group ("top" "middle" "bottom")) (nil "Top")) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€í KK  ­(attlist (("moreinfo" (name-token-group ("refentry" "none")) (nil "None")) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€)û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("tocentry" number (nil "1")) ("tabstyle" nmtoken implied) ("shortentry" number implied) ("rowsep" number implied) ("pgwide" number implied) ("orient" (name-token-group ("port" "land")) implied) ("label" cdata implied) ("frame" (name-token-group ("top" "bottom" "topbot" "all" "sides" "none")) implied) ("colsep" number implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € öûû!Ü û!Üû! Ü  Ù:(attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("tgroupstyle" nmtoken implied) ("rowsep" number implied) ("colsep" number implied) ("cols" number required) ("charoff" nutoken (nil "50")) ("char" cdata (nil "")) ("align" (name-token-group ("left" "right" "center" "justify" "char")) (nil "Left")) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€×E”í û û×û×E”û    (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € É ÉÉ   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €7ö"7"7û"7ö""  7"   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € . û     (attlist (("moreinfo" (name-token-group ("refentry" "none")) (nil "None")) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€)û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("label" cdata implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €öûû!ûûû!ûû!  ûû!  (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € öf˜Öûá ááfáf˜áf˜áf˜Öá^	3
+6   ^	3
+  çg(attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("moreinfo" (name-token-group ("refentry" "none")) (nil "None")) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€)û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("zone" idrefs implied) ("spanend" idref conref) ("spanbeg" (name-token-group ("y" "n")) (nil "N")) ("significance" (name-token-group ("preferred" "normal")) (nil "Normal")) ("scope" (name-token-group ("all" "global" "local")) implied) ("pagenum" cdata implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€
+ ú=Òû =   =Ò¡ =   =Ò	 =    çg(attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €,r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡öÍ+‡Bûª(—û²¸û!¤C½À†:û¶ëû"û	ZDÙ;~âÆHõdM¹w¾rÍ,r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡ûÍÍ +r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡Í  (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €ö„û„„  „  (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("rowsep" number implied) ("colwidth" cdata implied) ("colsep" number implied) ("colnum" number implied) ("colname" nmtoken implied) ("charoff" nutoken implied) ("char" cdata implied) ("align" (name-token-group ("left" "right" "center" "justify" "char")) implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+  (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €-r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡öÔ·+‡Bûª(—û²¸û!¤C½À†:û¶ëû"û	ZDÙ;~âÆHõdM¹w¾rÔ·,r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡ûÔ·,r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡öÔ·Ô · +r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡Ô· ç(attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € ŠŠ   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("moreinfo" (name-token-group ("refentry" "none")) (nil "None")) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€)û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("renderas" (name-token-group ("other" "sect1" "sect2" "sect3" "sect4" "sect5")) implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("pagenum" cdata implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € ö,r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡ût+‡Bûª(—û²¸û!¤C½À†:û¶ëû"û	ZDÙ;~âÆHõdM¹w¾rt+r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡tt   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € ŠñŠ ñ   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("sortas" cdata implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € öû+r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡ +r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡+r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € ŠøŠ ø   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("label" cdata implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €ö öYû2‚™Œ ğ¨`<´Ş 2‚™Œ ğ¨`<´ŞY2‚™Œ ğ¨`<´Ş2‚™Œ ğ¨`<´Ş çg (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € Ğ/   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € öû,r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡û ,r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡û,ûr¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡ û û   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € ŠûŠ û   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€Gû ² ¸ i *  P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("class" (name-token-group ("command" "function" "option" "parameter")) implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€ Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €©öİ©İ©ûİİ ©İ  (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € öû,r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡û ,r¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡û,ûr¾w¹MdõHÆâ~;ÙDZ	ûû"ë¶û:†À½C¤û!¸²û—(ªûB‡ û û   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € ŠûŠ û   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € û!û!   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("sortas" cdata implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €ö     (attlist (("valign" (name-token-group ("top" "middle" "bottom")) (nil "Top")) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€ KK   (attlist (("moreinfo" (name-token-group ("refentry" "none")) (nil "None")) ("class" (name-token-group ("name" "table" "field" "key1" "key2" "record")) implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€)û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € ÄÄ   (attlist (("label" cdata implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ €‘  IÓ    (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€)û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("moreinfo" (name-token-group ("refentry" "none")) (nil "None")) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€)û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("moreinfo" (name-token-group ("refentry" "none")) (nil "None")) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€)û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€
+û
+ ¢  Î  ± û H ¾      (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€     (attlist (("moreinfo" (name-token-group ("refentry" "none")) (nil "None")) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€)û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (attlist (("srccredit" cdata implied) ("format" (notation ("cgm-char" "cgm-binary" "cgm-clear" "ditroff" "dvi" "eps" "eqn" "fax" "faxtile" "gif" "iges" "pic" "ps" "tbl" "tex" "tiff" "linespecific")) implied) ("fileref" cdata implied) ("entityref" entity implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+    (attlist (("type" (name-token-group ("inline" "vert" "horiz")) (nil "Vert")) ("columns" number implied) ("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+ € __   (attlist (("xreflabel" cdata implied) ("role" cdata implied) ("remap" cdata implied) ("lang" cdata implied) ("id" id implied)))
+€B P } c •   R û	 q û ¢  ° û# ? G x ® m n Ÿ ]  ¿ û  @ \  ó è v û û
+ æ  û   k ô û L – û Ê Ø £ Å l é a û   û î … à  Î  ± û H ¾      (nil ("nutslegal" text ("-//ORA//ENTITIES Nutshell Legal Notice//EN" nil . "/usr/local/share/gmat/sgml/ORA/entities/")) ("xlegal1" text ("-//ORA//ENTITIES X Legal Notice 1//EN" nil . "/usr/local/share/gmat/sgml/ORA/entities/")) ("xlegal2" text ("-//ORA//ENTITIES X Legal Notice 2//EN" nil . "/usr/local/share/gmat/sgml/ORA/entities/")) ("oraxrelated" text ("-//ORA//ENTITIES oraxrelated//EN" nil . "/usr/local/share/gmat/sgml/ORA/entities/")) ("xreqforcomments" text ("-//ORA//ENTITIES xreqforcomments//EN" nil . "/usr/local/share/gmat/sgml/ORA/entities/")) ("bulksales" text ("-//ORA//ENTITIES bulksales//EN" nil . "/usr/local/share/gmat/sgml/ORA/entities/")) ("emdash" text "&mdash;") ("endash" text "&ndash;") ("LaTeX" sdata "[LaTeX ]") ("msp" text "&emsp;") ("nbhy" sdata "[nbhy  ]") ("nohy" sdata "[nohy  ]") ("nsp" text "&ensp;") ("squote" sdata "[squote]") ("TeX" sdata "[TeX   ]") ("cularr" sdata "[cularr]") ("curarr" sdata "[curarr]") ("dArr" sdata "[dArr  ]") ("darr2" sdata "[darr2 ]") ("dharl" sdata "[dharl ]") ("dharr" sdata "[dharr ]") ("lAarr" sdata "[lAarr ]") ("Larr" sdata "[Larr  ]") ("larr2" sdata "[larr2 ]") ("larrhk" sdata "[larrhk]") ("larrlp" sdata "[larrlp]") ("larrtl" sdata "[larrtl]") ("lhard" sdata "[lhard ]") ("lharu" sdata "[lharu ]") ("hArr" sdata "[hArr  ]") ("harr" sdata "[harr  ]") ("lrarr2" sdata "[lrarr2]") ("rlarr2" sdata "[rlarr2]") ("harrw" sdata "[harrw ]") ("rlhar2" sdata "[rlhar2]") ("lrhar2" sdata "[lrhar2]") ("lsh" sdata "[lsh   ]") ("map" sdata "[map   ]") ("mumap" sdata "[mumap ]") ("nearr" sdata "[nearr ]") ("nlArr" sdata "[nlArr ]") ("nlarr" sdata "[nlarr ]") ("nhArr" sdata "[nhArr ]") ("nharr" sdata "[nharr ]") ("nrarr" sdata "[nrarr ]") ("nrArr" sdata "[nrArr ]") ("nwarr" sdata "[nwarr ]") ("olarr" sdata "[olarr ]") ("orarr" sdata "[orarr ]") ("rAarr" sdata "[rAarr ]") ("Rarr" sdata "[Rarr  ]") ("rarr2" sdata "[rarr2 ]") ("rarrhk" sdata "[rarrhk]") ("rarrlp" sdata "[rarrlp]") ("rarrtl" sdata "[rarrtl]") ("rarrw" sdata "[rarrw ]") ("rhard" sdata "[rhard ]") ("rharu" sdata "[rharu ]") ("rsh" sdata "[rsh   ]") ("drarr" sdata "[drarr ]") ("dlarr" sdata "[dlarr ]") ("uArr" sdata "[uArr  ]") ("uarr2" sdata "[uarr2 ]") ("vArr" sdata "[vArr  ]") ("varr" sdata "[varr  ]") ("uharl" sdata "[uharl ]") ("uharr" sdata "[uharr ]") ("xlArr" sdata "[xlArr ]") ("xhArr" sdata "[xhArr ]") ("xharr" sdata "[xharr ]") ("xrArr" sdata "[xrArr ]") ("amalg" sdata "[amalg ]") ("Barwed" sdata "[Barwed]") ("barwed" sdata "[barwed]") ("Cap" sdata "[Cap   ]") ("Cup" sdata "[Cup   ]") ("cuvee" sdata "[cuvee ]") ("cuwed" sdata "[cuwed ]") ("diam" sdata "[diam  ]") ("divonx" sdata "[divonx]") ("intcal" sdata "[intcal]") ("lthree" sdata "[lthree]") ("ltimes" sdata "[ltimes]") ("minusb" sdata "[minusb]") ("oast" sdata "[oast  ]") ("ocir" sdata "[ocir  ]") ("odash" sdata "[odash ]") ("odot" sdata "[odot  ]") ("ominus" sdata "[ominus]") ("oplus" sdata "[oplus ]") ("osol" sdata "[osol  ]") ("otimes" sdata "[otimes]") ("plusb" sdata "[plusb ]") ("plusdo" sdata "[plusdo]") ("rthree" sdata "[rthree]") ("rtimes" sdata "[rtimes]") ("sdot" sdata "[sdot  ]") ("sdotb" sdata "[sdotb ]") ("setmn" sdata "[setmn ]") ("sqcap" sdata "[sqcap ]") ("sqcup" sdata "[sqcup ]") ("ssetmn" sdata "[ssetmn]") ("sstarf" sdata "[sstarf]") ("timesb" sdata "[timesb]") ("top" sdata "[top   ]") ("uplus" sdata "[uplus ]") ("wreath" sdata "[wreath]") ("xcirc" sdata "[xcirc ]") ("xdtri" sdata "[xdtri ]") ("xutri" sdata "[xutri ]") ("coprod" sdata "[coprod]") ("prod" sdata "[prod  ]") ("sum" sdata "[sum   ]") ("rceil" sdata "[rceil ]") ("rfloor" sdata "[rfloor]") ("rpargt" sdata "[rpargt]") ("urcorn" sdata "[urcorn]") ("drcorn" sdata "[drcorn]") ("lceil" sdata "[lceil ]") ("lfloor" sdata "[lfloor]") ("lpargt" sdata "[lpargt]") ("ulcorn" sdata "[ulcorn]") ("dlcorn" sdata "[dlcorn]") ("gnap" sdata "[gnap  ]") ("gne" sdata "[gne   ]") ("gnE" sdata "[gnE   ]") ("gnsim" sdata "[gnsim ]") ("gvnE" sdata "[gvnE  ]") ("lnap" sdata "[lnap  ]") ("lnE" sdata "[lnE   ]") ("lne" sdata "[lne   ]") ("lnsim" sdata "[lnsim ]") ("lvnE" sdata "[lvnE  ]") ("nap" sdata "[nap   ]") ("ncong" sdata "[ncong ]") ("nequiv" sdata "[nequiv]") ("ngE" sdata "[ngE   ]") ("nge" sdata "[nge   ]") ("nges" sdata "[nges  ]") ("ngt" sdata "[ngt   ]") ("nle" sdata "[nle   ]") ("nlE" sdata "[nlE   ]") ("nles" sdata "[nles  ]") ("nlt" sdata "[nlt   ]") ("nltri" sdata "[nltri ]") ("nltrie" sdata "[nltrie]") ("nmid" sdata "[nmid  ]") ("npar" sdata "[npar  ]") ("npr" sdata "[npr   ]") ("npre" sdata "[npre  ]") ("nrtri" sdata "[nrtri ]") ("nrtrie" sdata "[nrtrie]") ("nsc" sdata "[nsc   ]") ("nsce" sdata "[nsce  ]") ("nsim" sdata "[nsim  ]") ("nsime" sdata "[nsime ]") ("nsmid" sdata "[nsmid ]") ("nspar" sdata "[nspar ]") ("nsub" sdata "[nsub  ]") ("nsube" sdata "[nsube ]") ("nsubE" sdata "[nsubE ]") ("nsup" sdata "[nsup  ]") ("nsupE" sdata "[nsupE ]") ("nsupe" sdata "[nsupe ]") ("nvdash" sdata "[nvdash]") ("nvDash" sdata "[nvDash]") ("nVDash" sdata "[nVDash]") ("nVdash" sdata "[nVdash]") ("prnap" sdata "[prnap ]") ("prnE" sdata "[prnE  ]") ("prnsim" sdata "[prnsim]") ("scnap" sdata "[scnap ]") ("scnE" sdata "[scnE  ]") ("scnsim" sdata "[scnsim]") ("subne" sdata "[subne ]") ("subnE" sdata "[subnE ]") ("supne" sdata "[supne ]") ("supnE" sdata "[supnE ]") ("vsubnE" sdata "[vsubnE]") ("vsubne" sdata "[vsubne]") ("vsupne" sdata "[vsupne]") ("vsupnE" sdata "[vsupnE]") ("ang" sdata "[ang   ]") ("angmsd" sdata "[angmsd]") ("beth" sdata "[beth  ]") ("bprime" sdata "[bprime]") ("comp" sdata "[comp  ]") ("daleth" sdata "[daleth]") ("ell" sdata "[ell   ]") ("empty" sdata "[empty ]") ("gimel" sdata "[gimel ]") ("image" sdata "[image ]") ("inodot" sdata "[inodot]") ("jnodot" sdata "[jnodot]") ("nexist" sdata "[nexist]") ("oS" sdata "[oS    ]") ("planck" sdata "[planck]") ("real" sdata "[real  ]") ("sbsol" sdata "[sbsol ]") ("vprime" sdata "[vprime]") ("weierp" sdata "[weierp]") ("ape" sdata "[ape   ]") ("asymp" sdata "[asymp ]") ("bcong" sdata "[bcong ]") ("bepsi" sdata "[bepsi ]") ("bowtie" sdata "[bowtie]") ("bsim" sdata "[bsim  ]") ("bsime" sdata "[bsime ]") ("bump" sdata "[bump  ]") ("bumpe" sdata "[bumpe ]") ("cire" sdata "[cire  ]") ("colone" sdata "[colone]") ("cuepr" sdata "[cuepr ]") ("cuesc" sdata "[cuesc ]") ("cupre" sdata "[cupre ]") ("dashv" sdata "[dashv ]") ("ecir" sdata "[ecir  ]") ("ecolon" sdata "[ecolon]") ("eDot" sdata "[eDot  ]") ("esdot" sdata "[esdot ]") ("efDot" sdata "[efDot ]") ("egs" sdata "[egs   ]") ("els" sdata "[els   ]") ("erDot" sdata "[erDot ]") ("fork" sdata "[fork  ]") ("frown" sdata "[frown ]") ("gap" sdata "[gap   ]") ("gsdot" sdata "[gsdot ]") ("gE" sdata "[gE    ]") ("gel" sdata "[gel   ]") ("gEl" sdata "[gEl   ]") ("ges" sdata "[ges   ]") ("Gg" sdata "[Gg    ]") ("gl" sdata "[gl    ]") ("gsim" sdata "[gsim  ]") ("Gt" sdata "[Gt    ]") ("lap" sdata "[lap   ]") ("ldot" sdata "[ldot  ]") ("lE" sdata "[lE    ]") ("lEg" sdata "[lEg   ]") ("leg" sdata "[leg   ]") ("les" sdata "[les   ]") ("lg" sdata "[lg    ]") ("Ll" sdata "[Ll    ]") ("lsim" sdata "[lsim  ]") ("Lt" sdata "[Lt    ]") ("ltrie" sdata "[ltrie ]") ("mid" sdata "[mid   ]") ("models" sdata "[models]") ("pr" sdata "[pr    ]") ("prap" sdata "[prap  ]") ("pre" sdata "[pre   ]") ("prsim" sdata "[prsim ]") ("rtrie" sdata "[rtrie ]") ("samalg" sdata "[samalg]") ("sc" sdata "[sc    ]") ("scap" sdata "[scap  ]") ("sccue" sdata "[sccue ]") ("sce" sdata "[sce   ]") ("scsim" sdata "[scsim ]") ("sfrown" sdata "[sfrown]") ("smid" sdata "[smid  ]") ("smile" sdata "[smile ]") ("spar" sdata "[spar  ]") ("sqsub" sdata "[sqsub ]") ("sqsube" sdata "[sqsube]") ("sqsup" sdata "[sqsup ]") ("sqsupe" sdata "[sqsupe]") ("ssmile" sdata "[ssmile]") ("Sub" sdata "[Sub   ]") ("subE" sdata "[subE  ]") ("Sup" sdata "[Sup   ]") ("supE" sdata "[supE  ]") ("thkap" sdata "[thkap ]") ("thksim" sdata "[thksim]") ("trie" sdata "[trie  ]") ("twixt" sdata "[twixt ]") ("vdash" sdata "[vdash ]") ("Vdash" sdata "[Vdash ]") ("vDash" sdata "[vDash ]") ("veebar" sdata "[veebar]") ("vltri" sdata "[vltri ]") ("vprop" sdata "[vprop ]") ("vrtri" sdata "[vrtri ]") ("Vvdash" sdata "[Vvdash]") ("boxh" sdata "[boxh  ]") ("boxv" sdata "[boxv  ]") ("boxur" sdata "[boxur ]") ("boxul" sdata "[boxul ]") ("boxdl" sdata "[boxdl ]") ("boxdr" sdata "[boxdr ]") ("boxvr" sdata "[boxvr ]") ("boxhu" sdata "[boxhu ]") ("boxvl" sdata "[boxvl ]") ("boxhd" sdata "[boxhd ]") ("boxvh" sdata "[boxvh ]") ("boxvR" sdata "[boxvR ]") ("boxhU" sdata "[boxhU ]") ("boxvL" sdata "[boxvL ]") ("boxhD" sdata "[boxhD ]") ("boxvH" sdata "[boxvH ]") ("boxH" sdata "[boxH  ]") ("boxV" sdata "[boxV  ]") ("boxUR" sdata "[boxUR ]") ("boxUL" sdata "[boxUL ]") ("boxDL" sdata "[boxDL ]") ("boxDR" sdata "[boxDR ]") ("boxVR" sdata "[boxVR ]") ("boxHU" sdata "[boxHU ]") ("boxVL" sdata "[boxVL ]") ("boxHD" sdata "[boxHD ]") ("boxVH" sdata "[boxVH ]") ("boxVr" sdata "[boxVr ]") ("boxHu" sdata "[boxHu ]") ("boxVl" sdata "[boxVl ]") ("boxHd" sdata "[boxHd ]") ("boxVh" sdata "[boxVh ]") ("boxuR" sdata "[boxuR ]") ("boxUl" sdata "[boxUl ]") ("boxdL" sdata "[boxdL ]") ("boxDr" sdata "[boxDr ]") ("boxUr" sdata "[boxUr ]") ("boxuL" sdata "[boxuL ]") ("boxDl" sdata "[boxDl ]") ("boxdR" sdata "[boxdR ]") ("acy" sdata "[acy   ]") ("Acy" sdata "[Acy   ]") ("bcy" sdata "[bcy   ]") ("Bcy" sdata "[Bcy   ]") ("vcy" sdata "[vcy   ]") ("Vcy" sdata "[Vcy   ]") ("gcy" sdata "[gcy   ]") ("Gcy" sdata "[Gcy   ]") ("dcy" sdata "[dcy   ]") ("Dcy" sdata "[Dcy   ]") ("iecy" sdata "[iecy  ]") ("IEcy" sdata "[IEcy  ]") ("iocy" sdata "[iocy  ]") ("IOcy" sdata "[IOcy  ]") ("zhcy" sdata "[zhcy  ]") ("ZHcy" sdata "[ZHcy  ]") ("zcy" sdata "[zcy   ]") ("Zcy" sdata "[Zcy   ]") ("icy" sdata "[icy   ]") ("Icy" sdata "[Icy   ]") ("jcy" sdata "[jcy   ]") ("Jcy" sdata "[Jcy   ]") ("kcy" sdata "[kcy   ]") ("Kcy" sdata "[Kcy   ]") ("lcy" sdata "[lcy   ]") ("Lcy" sdata "[Lcy   ]") ("mcy" sdata "[mcy   ]") ("Mcy" sdata "[Mcy   ]") ("ncy" sdata "[ncy   ]") ("Ncy" sdata "[Ncy   ]") ("ocy" sdata "[ocy   ]") ("Ocy" sdata "[Ocy   ]") ("pcy" sdata "[pcy   ]") ("Pcy" sdata "[Pcy   ]") ("rcy" sdata "[rcy   ]") ("Rcy" sdata "[Rcy   ]") ("scy" sdata "[scy   ]") ("Scy" sdata "[Scy   ]") ("tcy" sdata "[tcy   ]") ("Tcy" sdata "[Tcy   ]") ("ucy" sdata "[ucy   ]") ("Ucy" sdata "[Ucy   ]") ("fcy" sdata "[fcy   ]") ("Fcy" sdata "[Fcy   ]") ("khcy" sdata "[khcy  ]") ("KHcy" sdata "[KHcy  ]") ("tscy" sdata "[tscy  ]") ("TScy" sdata "[TScy  ]") ("chcy" sdata "[chcy  ]") ("CHcy" sdata "[CHcy  ]") ("shcy" sdata "[shcy  ]") ("SHcy" sdata "[SHcy  ]") ("shchcy" sdata "[shchcy]") ("SHCHcy" sdata "[SHCHcy]") ("hardcy" sdata "[hardcy]") ("HARDcy" sdata "[HARDcy]") ("ycy" sdata "[ycy   ]") ("Ycy" sdata "[Ycy   ]") ("softcy" sdata "[softcy]") ("SOFTcy" sdata "[SOFTcy]") ("ecy" sdata "[ecy   ]") ("Ecy" sdata "[Ecy   ]") ("yucy" sdata "[yucy  ]") ("YUcy" sdata "[YUcy  ]") ("yacy" sdata "[yacy  ]") ("YAcy" sdata "[YAcy  ]") ("numero" sdata "[numero]") ("djcy" sdata "[djcy  ]") ("DJcy" sdata "[DJcy  ]") ("gjcy" sdata "[gjcy  ]") ("GJcy" sdata "[GJcy  ]") ("jukcy" sdata "[jukcy ]") ("Jukcy" sdata "[Jukcy ]") ("dscy" sdata "[dscy  ]") ("DScy" sdata "[DScy  ]") ("iukcy" sdata "[iukcy ]") ("Iukcy" sdata "[Iukcy ]") ("yicy" sdata "[yicy  ]") ("YIcy" sdata "[YIcy  ]") ("jsercy" sdata "[jsercy]") ("Jsercy" sdata "[Jsercy]") ("ljcy" sdata "[ljcy  ]") ("LJcy" sdata "[LJcy  ]") ("njcy" sdata "[njcy  ]") ("NJcy" sdata "[NJcy  ]") ("tshcy" sdata "[tshcy ]") ("TSHcy" sdata "[TSHcy ]") ("kjcy" sdata "[kjcy  ]") ("KJcy" sdata "[KJcy  ]") ("ubrcy" sdata "[ubrcy ]") ("Ubrcy" sdata "[Ubrcy ]") ("dzcy" sdata "[dzcy  ]") ("DZcy" sdata "[DZcy  ]") ("acute" sdata "[acute ]") ("breve" sdata "[breve ]") ("caron" sdata "[caron ]") ("cedil" sdata "[cedil ]") ("circ" sdata "[circ  ]") ("dblac" sdata "[dblac ]") ("die" sdata "[die   ]") ("dot" sdata "[dot   ]") ("grave" sdata "[grave ]") ("macr" sdata "[macr  ]") ("ogon" sdata "[ogon  ]") ("ring" sdata "[ring  ]") ("tilde" sdata "[tilde ]") ("uml" sdata "[uml   ]") ("agr" sdata "[agr   ]") ("Agr" sdata "[Agr   ]") ("bgr" sdata "[bgr   ]") ("Bgr" sdata "[Bgr   ]") ("ggr" sdata "[ggr   ]") ("Ggr" sdata "[Ggr   ]") ("dgr" sdata "[dgr   ]") ("Dgr" sdata "[Dgr   ]") ("egr" sdata "[egr   ]") ("Egr" sdata "[Egr   ]") ("zgr" sdata "[zgr   ]") ("Zgr" sdata "[Zgr   ]") ("eegr" sdata "[eegr  ]") ("EEgr" sdata "[EEgr  ]") ("thgr" sdata "[thgr  ]") ("THgr" sdata "[THgr  ]") ("igr" sdata "[igr   ]") ("Igr" sdata "[Igr   ]") ("kgr" sdata "[kgr   ]") ("Kgr" sdata "[Kgr   ]") ("lgr" sdata "[lgr   ]") ("Lgr" sdata "[Lgr   ]") ("mgr" sdata "[mgr   ]") ("Mgr" sdata "[Mgr   ]") ("ngr" sdata "[ngr   ]") ("Ngr" sdata "[Ngr   ]") ("xgr" sdata "[xgr   ]") ("Xgr" sdata "[Xgr   ]") ("ogr" sdata "[ogr   ]") ("Ogr" sdata "[Ogr   ]") ("pgr" sdata "[pgr   ]") ("Pgr" sdata "[Pgr   ]") ("rgr" sdata "[rgr   ]") ("Rgr" sdata "[Rgr   ]") ("sgr" sdata "[sgr   ]") ("Sgr" sdata "[Sgr   ]") ("sfgr" sdata "[sfgr  ]") ("tgr" sdata "[tgr   ]") ("Tgr" sdata "[Tgr   ]") ("ugr" sdata "[ugr   ]") ("Ugr" sdata "[Ugr   ]") ("phgr" sdata "[phgr  ]") ("PHgr" sdata "[PHgr  ]") ("khgr" sdata "[khgr  ]") ("KHgr" sdata "[KHgr  ]") ("psgr" sdata "[psgr  ]") ("PSgr" sdata "[PSgr  ]") ("ohgr" sdata "[ohgr  ]") ("OHgr" sdata "[OHgr  ]") ("aacgr" sdata "[aacgr ]") ("Aacgr" sdata "[Aacgr ]") ("eacgr" sdata "[eacgr ]") ("Eacgr" sdata "[Eacgr ]") ("eeacgr" sdata "[eeacgr]") ("EEacgr" sdata "[EEacgr]") ("idigr" sdata "[idigr ]") ("Idigr" sdata "[Idigr ]") ("iacgr" sdata "[iacgr ]") ("Iacgr" sdata "[Iacgr ]") ("idiagr" sdata "[idiagr]") ("oacgr" sdata "[oacgr ]") ("Oacgr" sdata "[Oacgr ]") ("udigr" sdata "[udigr ]") ("Udigr" sdata "[Udigr ]") ("uacgr" sdata "[uacgr ]") ("Uacgr" sdata "[Uacgr ]") ("udiagr" sdata "[udiagr]") ("ohacgr" sdata "[ohacgr]") ("OHacgr" sdata "[OHacgr]") ("alpha" sdata "[alpha ]") ("beta" sdata "[beta  ]") ("gamma" sdata "[gamma ]") ("Gamma" sdata "[Gamma ]") ("gammad" sdata "[gammad]") ("delta" sdata "[delta ]") ("Delta" sdata "[Delta ]") ("epsi" sdata "[epsi  ]") ("epsiv" sdata "[epsiv ]") ("epsis" sdata "[epsis ]") ("zeta" sdata "[zeta  ]") ("eta" sdata "[eta   ]") ("thetas" sdata "[thetas]") ("Theta" sdata "[Theta ]") ("thetav" sdata "[thetav]") ("iota" sdata "[iota  ]") ("kappa" sdata "[kappa ]") ("kappav" sdata "[kappav]") ("lambda" sdata "[lambda]") ("Lambda" sdata "[Lambda]") ("mu" sdata "[mu    ]") ("nu" sdata "[nu    ]") ("xi" sdata "[xi    ]") ("Xi" sdata "[Xi    ]") ("pi" sdata "[pi    ]") ("piv" sdata "[piv   ]") ("Pi" sdata "[Pi    ]") ("rho" sdata "[rho   ]") ("rhov" sdata "[rhov  ]") ("sigma" sdata "[sigma ]") ("Sigma" sdata "[Sigma ]") ("sigmav" sdata "[sigmav]") ("tau" sdata "[tau   ]") ("upsi" sdata "[upsi  ]") ("Upsi" sdata "[Upsi  ]") ("phis" sdata "[phis  ]") ("Phi" sdata "[Phi   ]") ("phiv" sdata "[phiv  ]") ("chi" sdata "[chi   ]") ("psi" sdata "[psi   ]") ("Psi" sdata "[Psi   ]") ("omega" sdata "[omega ]") ("Omega" sdata "[Omega ]") ("b.alpha" sdata "[b.alpha ]") ("b.beta" sdata "[b.beta  ]") ("b.gamma" sdata "[b.gamma ]") ("b.Gamma" sdata "[b.Gamma ]") ("b.gammad" sdata "[b.gammad]") ("b.delta" sdata "[b.delta ]") ("b.Delta" sdata "[b.Delta ]") ("b.epsi" sdata "[b.epsi  ]") ("b.epsiv" sdata "[b.epsiv ]") ("b.epsis" sdata "[b.epsis ]") ("b.zeta" sdata "[b.zeta  ]") ("b.eta" sdata "[b.eta   ]") ("b.thetas" sdata "[b.thetas]") ("b.Theta" sdata "[b.Theta ]") ("b.thetav" sdata "[b.thetav]") ("b.iota" sdata "[b.iota  ]") ("b.kappa" sdata "[b.kappa ]") ("b.kappav" sdata "[b.kappav]") ("b.lambda" sdata "[b.lambda]") ("b.Lambda" sdata "[b.Lambda]") ("b.mu" sdata "[b.mu    ]") ("b.nu" sdata "[b.nu    ]") ("b.xi" sdata "[b.xi    ]") ("b.Xi" sdata "[b.Xi    ]") ("b.pi" sdata "[b.pi    ]") ("b.Pi" sdata "[b.Pi    ]") ("b.piv" sdata "[b.piv   ]") ("b.rho" sdata "[b.rho   ]") ("b.rhov" sdata "[b.rhov  ]") ("b.sigma" sdata "[b.sigma ]") ("b.Sigma" sdata "[b.Sigma ]") ("b.sigmav" sdata "[b.sigmav]") ("b.tau" sdata "[b.tau   ]") ("b.upsi" sdata "[b.upsi  ]") ("b.Upsi" sdata "[b.Upsi  ]") ("b.phis" sdata "[b.phis  ]") ("b.Phi" sdata "[b.Phi   ]") ("b.phiv" sdata "[b.phiv  ]") ("b.chi" sdata "[b.chi   ]") ("b.psi" sdata "[b.psi   ]") ("b.Psi" sdata "[b.Psi   ]") ("b.omega" sdata "[b.omega ]") ("b.Omega" sdata "[b.Omega ]") ("aacute" sdata "[aacute]") ("Aacute" sdata "[Aacute]") ("acirc" sdata "[acirc ]") ("Acirc" sdata "[Acirc ]") ("agrave" sdata "[agrave]") ("Agrave" sdata "[Agrave]") ("aring" sdata "[aring ]") ("Aring" sdata "[Aring ]") ("atilde" sdata "[atilde]") ("Atilde" sdata "[Atilde]") ("auml" sdata "[auml  ]") ("Auml" sdata "[Auml  ]") ("aelig" sdata "[aelig ]") ("AElig" sdata "[AElig ]") ("ccedil" sdata "[ccedil]") ("Ccedil" sdata "[Ccedil]") ("eth" sdata "[eth   ]") ("ETH" sdata "[ETH   ]") ("eacute" sdata "[eacute]") ("Eacute" sdata "[Eacute]") ("ecirc" sdata "[ecirc ]") ("Ecirc" sdata "[Ecirc ]") ("egrave" sdata "[egrave]") ("Egrave" sdata "[Egrave]") ("euml" sdata "[euml  ]") ("Euml" sdata "[Euml  ]") ("iacute" sdata "[iacute]") ("Iacute" sdata "[Iacute]") ("icirc" sdata "[icirc ]") ("Icirc" sdata "[Icirc ]") ("igrave" sdata "[igrave]") ("Igrave" sdata "[Igrave]") ("iuml" sdata "[iuml  ]") ("Iuml" sdata "[Iuml  ]") ("ntilde" sdata "[ntilde]") ("Ntilde" sdata "[Ntilde]") ("oacute" sdata "[oacute]") ("Oacute" sdata "[Oacute]") ("ocirc" sdata "[ocirc ]") ("Ocirc" sdata "[Ocirc ]") ("ograve" sdata "[ograve]") ("Ograve" sdata "[Ograve]") ("oslash" sdata "[oslash]") ("Oslash" sdata "[Oslash]") ("otilde" sdata "[otilde]") ("Otilde" sdata "[Otilde]") ("ouml" sdata "[ouml  ]") ("Ouml" sdata "[Ouml  ]") ("szlig" sdata "[szlig ]") ("thorn" sdata "[thorn ]") ("THORN" sdata "[THORN ]") ("uacute" sdata "[uacute]") ("Uacute" sdata "[Uacute]") ("ucirc" sdata "[ucirc ]") ("Ucirc" sdata "[Ucirc ]") ("ugrave" sdata "[ugrave]") ("Ugrave" sdata "[Ugrave]") ("uuml" sdata "[uuml  ]") ("Uuml" sdata "[Uuml  ]") ("yacute" sdata "[yacute]") ("Yacute" sdata "[Yacute]") ("yuml" sdata "[yuml  ]") ("abreve" sdata "[abreve]") ("Abreve" sdata "[Abreve]") ("amacr" sdata "[amacr ]") ("Amacr" sdata "[Amacr ]") ("aogon" sdata "[aogon ]") ("Aogon" sdata "[Aogon ]") ("cacute" sdata "[cacute]") ("Cacute" sdata "[Cacute]") ("ccaron" sdata "[ccaron]") ("Ccaron" sdata "[Ccaron]") ("ccirc" sdata "[ccirc ]") ("Ccirc" sdata "[Ccirc ]") ("cdot" sdata "[cdot  ]") ("Cdot" sdata "[Cdot  ]") ("dcaron" sdata "[dcaron]") ("Dcaron" sdata "[Dcaron]") ("dstrok" sdata "[dstrok]") ("Dstrok" sdata "[Dstrok]") ("ecaron" sdata "[ecaron]") ("Ecaron" sdata "[Ecaron]") ("edot" sdata "[edot  ]") ("Edot" sdata "[Edot  ]") ("emacr" sdata "[emacr ]") ("Emacr" sdata "[Emacr ]") ("eogon" sdata "[eogon ]") ("Eogon" sdata "[Eogon ]") ("gacute" sdata "[gacute]") ("gbreve" sdata "[gbreve]") ("Gbreve" sdata "[Gbreve]") ("Gcedil" sdata "[Gcedil]") ("gcirc" sdata "[gcirc ]") ("Gcirc" sdata "[Gcirc ]") ("gdot" sdata "[gdot  ]") ("Gdot" sdata "[Gdot  ]") ("hcirc" sdata "[hcirc ]") ("Hcirc" sdata "[Hcirc ]") ("hstrok" sdata "[hstrok]") ("Hstrok" sdata "[Hstrok]") ("Idot" sdata "[Idot  ]") ("Imacr" sdata "[Imacr ]") ("imacr" sdata "[imacr ]") ("ijlig" sdata "[ijlig ]") ("IJlig" sdata "[IJlig ]") ("iogon" sdata "[iogon ]") ("Iogon" sdata "[Iogon ]") ("itilde" sdata "[itilde]") ("Itilde" sdata "[Itilde]") ("jcirc" sdata "[jcirc ]") ("Jcirc" sdata "[Jcirc ]") ("kcedil" sdata "[kcedil]") ("Kcedil" sdata "[Kcedil]") ("kgreen" sdata "[kgreen]") ("lacute" sdata "[lacute]") ("Lacute" sdata "[Lacute]") ("lcaron" sdata "[lcaron]") ("Lcaron" sdata "[Lcaron]") ("lcedil" sdata "[lcedil]") ("Lcedil" sdata "[Lcedil]") ("lmidot" sdata "[lmidot]") ("Lmidot" sdata "[Lmidot]") ("lstrok" sdata "[lstrok]") ("Lstrok" sdata "[Lstrok]") ("nacute" sdata "[nacute]") ("Nacute" sdata "[Nacute]") ("eng" sdata "[eng   ]") ("ENG" sdata "[ENG   ]") ("napos" sdata "[napos ]") ("ncaron" sdata "[ncaron]") ("Ncaron" sdata "[Ncaron]") ("ncedil" sdata "[ncedil]") ("Ncedil" sdata "[Ncedil]") ("odblac" sdata "[odblac]") ("Odblac" sdata "[Odblac]") ("Omacr" sdata "[Omacr ]") ("omacr" sdata "[omacr ]") ("oelig" sdata "[oelig ]") ("OElig" sdata "[OElig ]") ("racute" sdata "[racute]") ("Racute" sdata "[Racute]") ("rcaron" sdata "[rcaron]") ("Rcaron" sdata "[Rcaron]") ("rcedil" sdata "[rcedil]") ("Rcedil" sdata "[Rcedil]") ("sacute" sdata "[sacute]") ("Sacute" sdata "[Sacute]") ("scaron" sdata "[scaron]") ("Scaron" sdata "[Scaron]") ("scedil" sdata "[scedil]") ("Scedil" sdata "[Scedil]") ("scirc" sdata "[scirc ]") ("Scirc" sdata "[Scirc ]") ("tcaron" sdata "[tcaron]") ("Tcaron" sdata "[Tcaron]") ("tcedil" sdata "[tcedil]") ("Tcedil" sdata "[Tcedil]") ("tstrok" sdata "[tstrok]") ("Tstrok" sdata "[Tstrok]") ("ubreve" sdata "[ubreve]") ("Ubreve" sdata "[Ubreve]") ("udblac" sdata "[udblac]") ("Udblac" sdata "[Udblac]") ("umacr" sdata "[umacr ]") ("Umacr" sdata "[Umacr ]") ("uogon" sdata "[uogon ]") ("Uogon" sdata "[Uogon ]") ("uring" sdata "[uring ]") ("Uring" sdata "[Uring ]") ("utilde" sdata "[utilde]") ("Utilde" sdata "[Utilde]") ("wcirc" sdata "[wcirc ]") ("Wcirc" sdata "[Wcirc ]") ("ycirc" sdata "[ycirc ]") ("Ycirc" sdata "[Ycirc ]") ("Yuml" sdata "[Yuml  ]") ("zacute" sdata "[zacute]") ("Zacute" sdata "[Zacute]") ("zcaron" sdata "[zcaron]") ("Zcaron" sdata "[Zcaron]") ("zdot" sdata "[zdot  ]") ("Zdot" sdata "[Zdot  ]") ("afr" sdata "[afr     ]") ("Afr" sdata "[Afr     ]") ("bfr" sdata "[bfr     ]") ("Bfr" sdata "[Bfr     ]") ("cfr" sdata "[cfr     ]") ("Cfr" sdata "[Cfr     ]") ("dfr" sdata "[dfr     ]") ("Dfr" sdata "[Dfr     ]") ("efr" sdata "[efr     ]") ("Efr" sdata "[Efr     ]") ("ffr" sdata "[ffr     ]") ("Ffr" sdata "[Ffr     ]") ("gfr" sdata "[gfr     ]") ("Gfr" sdata "[Gfr     ]") ("hfr" sdata "[hfr     ]") ("Hfr" sdata "[Hfr     ]") ("ifr" sdata "[ifr     ]") ("Ifr" sdata "[Ifr     ]") ("jfr" sdata "[jfr     ]") ("Jfr" sdata "[Jfr     ]") ("kfr" sdata "[kfr     ]") ("Kfr" sdata "[Kfr     ]") ("lfr" sdata "[lfr     ]") ("Lfr" sdata "[Lfr     ]") ("mfr" sdata "[mfr     ]") ("Mfr" sdata "[Mfr     ]") ("nfr" sdata "[nfr     ]") ("Nfr" sdata "[Nfr     ]") ("ofr" sdata "[ofr     ]") ("Ofr" sdata "[Ofr     ]") ("pfr" sdata "[pfr     ]") ("Pfr" sdata "[Pfr     ]") ("qfr" sdata "[qfr     ]") ("Qfr" sdata "[Qfr     ]") ("rfr" sdata "[rfr     ]") ("Rfr" sdata "[Rfr     ]") ("sfr" sdata "[sfr     ]") ("Sfr" sdata "[Sfr     ]") ("tfr" sdata "[tfr     ]") ("Tfr" sdata "[Tfr     ]") ("ufr" sdata "[ufr     ]") ("Ufr" sdata "[Ufr     ]") ("vfr" sdata "[vfr     ]") ("Vfr" sdata "[Vfr     ]") ("wfr" sdata "[wfr     ]") ("Wfr" sdata "[Wfr     ]") ("xfr" sdata "[xfr     ]") ("Xfr" sdata "[Xfr     ]") ("yfr" sdata "[yfr     ]") ("Yfr" sdata "[Yfr     ]") ("zfr" sdata "[zfr     ]") ("Zfr" sdata "[Zfr     ]") ("Aopf" sdata "[Aopf    ]") ("Bopf" sdata "[Bopf    ]") ("Copf" sdata "[Copf    ]") ("Dopf" sdata "[Dopf    ]") ("Eopf" sdata "[Eopf    ]") ("Fopf" sdata "[Fopf    ]") ("Gopf" sdata "[Gopf    ]") ("Hopf" sdata "[Hopf    ]") ("Iopf" sdata "[Iopf    ]") ("Jopf" sdata "[Jopf    ]") ("Kopf" sdata "[Kopf    ]") ("Lopf" sdata "[Lopf    ]") ("Mopf" sdata "[Mopf    ]") ("Nopf" sdata "[Nopf    ]") ("Oopf" sdata "[Oopf    ]") ("Popf" sdata "[Popf    ]") ("Qopf" sdata "[Qopf    ]") ("Ropf" sdata "[Ropf    ]") ("Sopf" sdata "[Sopf    ]") ("Topf" sdata "[Topf    ]") ("Uopf" sdata "[Uopf    ]") ("Vopf" sdata "[Vopf    ]") ("Wopf" sdata "[Wopf    ]") ("Xopf" sdata "[Xopf    ]") ("Yopf" sdata "[Yopf    ]") ("Zopf" sdata "[Zopf    ]") ("ascr" sdata "[ascr    ]") ("Ascr" sdata "[Ascr    ]") ("bscr" sdata "[bscr    ]") ("Bscr" sdata "[Bscr    ]") ("cscr" sdata "[cscr    ]") ("Cscr" sdata "[Cscr    ]") ("dscr" sdata "[dscr    ]") ("Dscr" sdata "[Dscr    ]") ("escr" sdata "[escr    ]") ("Escr" sdata "[Escr    ]") ("fscr" sdata "[fscr    ]") ("Fscr" sdata "[Fscr    ]") ("gscr" sdata "[gscr    ]") ("Gscr" sdata "[Gscr    ]") ("hscr" sdata "[hscr    ]") ("Hscr" sdata "[Hscr    ]") ("iscr" sdata "[iscr    ]") ("Iscr" sdata "[Iscr    ]") ("jscr" sdata "[jscr    ]") ("Jscr" sdata "[Jscr    ]") ("kscr" sdata "[kscr    ]") ("Kscr" sdata "[Kscr    ]") ("lscr" sdata "[lscr    ]") ("Lscr" sdata "[Lscr    ]") ("mscr" sdata "[mscr    ]") ("Mscr" sdata "[Mscr    ]") ("nscr" sdata "[nscr    ]") ("Nscr" sdata "[Nscr    ]") ("oscr" sdata "[oscr    ]") ("Oscr" sdata "[Oscr    ]") ("pscr" sdata "[pscr    ]") ("Pscr" sdata "[Pscr    ]") ("qscr" sdata "[qscr    ]") ("Qscr" sdata "[Qscr    ]") ("rscr" sdata "[rscr    ]") ("Rscr" sdata "[Rscr    ]") ("sscr" sdata "[sscr    ]") ("Sscr" sdata "[Sscr    ]") ("tscr" sdata "[tscr    ]") ("Tscr" sdata "[Tscr    ]") ("uscr" sdata "[uscr    ]") ("Uscr" sdata "[Uscr    ]") ("vscr" sdata "[vscr    ]") ("Vscr" sdata "[Vscr    ]") ("wscr" sdata "[wscr    ]") ("Wscr" sdata "[Wscr    ]") ("xscr" sdata "[xscr    ]") ("Xscr" sdata "[Xscr    ]") ("yscr" sdata "[yscr    ]") ("Yscr" sdata "[Yscr    ]") ("zscr" sdata "[zscr    ]") ("Zscr" sdata "[Zscr    ]") ("half" sdata "[half  ]") ("frac12" sdata "[frac12]") ("frac14" sdata "[frac14]") ("frac34" sdata "[frac34]") ("frac18" sdata "[frac18]") ("frac38" sdata "[frac38]") ("frac58" sdata "[frac58]") ("frac78" sdata "[frac78]") ("sup1" sdata "[sup1  ]") ("sup2" sdata "[sup2  ]") ("sup3" sdata "[sup3  ]") ("plus" sdata "[plus  ]") ("plusmn" sdata "[plusmn]") ("lt" sdata "[lt    ]") ("equals" sdata "[equals]") ("gt" sdata "[gt    ]") ("divide" sdata "[divide]") ("times" sdata "[times ]") ("curren" sdata "[curren]") ("pound" sdata "[pound ]") ("dollar" sdata "[dollar]") ("cent" sdata "[cent  ]") ("yen" sdata "[yen   ]") ("num" sdata "[num   ]") ("percnt" sdata "[percnt]") ("amp" sdata "[amp   ]") ("ast" sdata "[ast   ]") ("commat" sdata "[commat]") ("lsqb" sdata "[lsqb  ]") ("bsol" sdata "[bsol  ]") ("rsqb" sdata "[rsqb  ]") ("lcub" sdata "[lcub  ]") ("horbar" sdata "[horbar]") ("verbar" sdata "[verbar]") ("rcub" sdata "[rcub  ]") ("micro" sdata "[micro ]") ("ohm" sdata "[ohm   ]") ("deg" sdata "[deg   ]") ("ordm" sdata "[ordm  ]") ("ordf" sdata "[ordf  ]") ("sect" sdata "[sect  ]") ("para" sdata "[para  ]") ("middot" sdata "[middot]") ("larr" sdata "[larr  ]") ("rarr" sdata "[rarr  ]") ("uarr" sdata "[uarr  ]") ("darr" sdata "[darr  ]") ("copy" sdata "[copy  ]") ("reg" sdata "[reg   ]") ("trade" sdata "[trade ]") ("brvbar" sdata "[brvbar]") ("not" sdata "[not   ]") ("sung" sdata "[sung  ]") ("excl" sdata "[excl  ]") ("iexcl" sdata "[iexcl ]") ("quot" sdata "[quot  ]") ("apos" sdata "[apos  ]") ("lpar" sdata "[lpar  ]") ("rpar" sdata "[rpar  ]") ("comma" sdata "[comma ]") ("lowbar" sdata "[lowbar]") ("hyphen" sdata "[hyphen]") ("period" sdata "[period]") ("sol" sdata "[sol   ]") ("colon" sdata "[colon ]") ("semi" sdata "[semi  ]") ("quest" sdata "[quest ]") ("iquest" sdata "[iquest]") ("laquo" sdata "[laquo ]") ("raquo" sdata "[raquo ]") ("lsquo" sdata "[lsquo ]") ("rsquo" sdata "[rsquo ]") ("ldquo" sdata "[ldquo ]") ("rdquo" sdata "[rdquo ]") ("nbsp" sdata "[nbsp  ]") ("shy" sdata "[shy   ]") ("emsp" sdata "[emsp  ]") ("ensp" sdata "[ensp  ]") ("emsp13" sdata "[emsp13]") ("emsp14" sdata "[emsp14]") ("numsp" sdata "[numsp ]") ("puncsp" sdata "[puncsp]") ("thinsp" sdata "[thinsp]") ("hairsp" sdata "[hairsp]") ("mdash" sdata "[mdash ]") ("ndash" sdata "[ndash ]") ("dash" sdata "[dash  ]") ("blank" sdata "[blank ]") ("hellip" sdata "[hellip]") ("nldr" sdata "[nldr  ]") ("frac13" sdata "[frac13]") ("frac23" sdata "[frac23]") ("frac15" sdata "[frac15]") ("frac25" sdata "[frac25]") ("frac35" sdata "[frac35]") ("frac45" sdata "[frac45]") ("frac16" sdata "[frac16]") ("frac56" sdata "[frac56]") ("incare" sdata "[incare]") ("block" sdata "[block ]") ("uhblk" sdata "[uhblk ]") ("lhblk" sdata "[lhblk ]") ("blk14" sdata "[blk14 ]") ("blk12" sdata "[blk12 ]") ("blk34" sdata "[blk34 ]") ("marker" sdata "[marker]") ("cir" sdata "[cir   ]") ("squ" sdata "[squ   ]") ("rect" sdata "[rect  ]") ("utri" sdata "[utri  ]") ("dtri" sdata "[dtri  ]") ("star" sdata "[star  ]") ("bull" sdata "[bull  ]") ("squf" sdata "[squf  ]") ("utrif" sdata "[utrif ]") ("dtrif" sdata "[dtrif ]") ("ltrif" sdata "[ltrif ]") ("rtrif" sdata "[rtrif ]") ("clubs" sdata "[clubs ]") ("diams" sdata "[diams ]") ("hearts" sdata "[hearts]") ("spades" sdata "[spades]") ("malt" sdata "[malt  ]") ("dagger" sdata "[dagger]") ("Dagger" sdata "[Dagger]") ("check" sdata "[check ]") ("cross" sdata "[ballot]") ("sharp" sdata "[sharp ]") ("flat" sdata "[flat  ]") ("male" sdata "[male  ]") ("female" sdata "[female]") ("phone" sdata "[phone ]") ("telrec" sdata "[telrec]") ("copysr" sdata "[copysr]") ("caret" sdata "[caret ]") ("lsquor" sdata "[lsquor]") ("ldquor" sdata "[ldquor]") ("fflig" sdata "[fflig ]") ("filig" sdata "[filig ]") ("fjlig" sdata "[fjlig ]") ("ffilig" sdata "[ffilig]") ("ffllig" sdata "[ffllig]") ("fllig" sdata "[fllig ]") ("mldr" sdata "[mldr  ]") ("rdquor" sdata "[rdquor]") ("rsquor" sdata "[rsquor]") ("vellip" sdata "[vellip]") ("hybull" sdata "[hybull]") ("loz" sdata "[loz   ]") ("lozf" sdata "[lozf  ]") ("ltri" sdata "[ltri  ]") ("rtri" sdata "[rtri  ]") ("starf" sdata "[starf ]") ("natur" sdata "[natur ]") ("rx" sdata "[rx    ]") ("sext" sdata "[sext  ]") ("target" sdata "[target]") ("dlcrop" sdata "[dlcrop]") ("drcrop" sdata "[drcrop]") ("ulcrop" sdata "[ulcrop]") ("urcrop" sdata "[urcrop]") ("aleph" sdata "[aleph ]") ("and" sdata "[and   ]") ("ang90" sdata "[ang90 ]") ("angsph" sdata "[angsph]") ("ap" sdata "[ap    ]") ("becaus" sdata "[becaus]") ("bottom" sdata "[bottom]") ("cap" sdata "[cap   ]") ("cong" sdata "[cong  ]") ("conint" sdata "[conint]") ("cup" sdata "[cup   ]") ("equiv" sdata "[equiv ]") ("exist" sdata "[exist ]") ("forall" sdata "[forall]") ("fnof" sdata "[fnof  ]") ("ge" sdata "[ge    ]") ("iff" sdata "[iff   ]") ("infin" sdata "[infin ]") ("int" sdata "[int   ]") ("isin" sdata "[isin  ]") ("lang" sdata "[lang  ]") ("lArr" sdata "[lArr  ]") ("le" sdata "[le    ]") ("minus" sdata "[minus ]") ("mnplus" sdata "[mnplus]") ("nabla" sdata "[nabla ]") ("ne" sdata "[ne    ]") ("ni" sdata "[ni    ]") ("or" sdata "[or    ]") ("par" sdata "[par   ]") ("part" sdata "[part  ]") ("permil" sdata "[permil]") ("perp" sdata "[perp  ]") ("prime" sdata "[prime ]") ("Prime" sdata "[Prime ]") ("prop" sdata "[prop  ]") ("radic" sdata "[radic ]") ("rang" sdata "[rang  ]") ("rArr" sdata "[rArr  ]") ("sim" sdata "[sim   ]") ("sime" sdata "[sime  ]") ("square" sdata "[square]") ("sub" sdata "[sub   ]") ("sube" sdata "[sube  ]") ("sup" sdata "[sup   ]") ("supe" sdata "[supe  ]") ("there4" sdata "[there4]") ("Verbar" sdata "[Verbar]") ("angst" sdata "[angst ]") ("bernou" sdata "[bernou]") ("compfn" sdata "[compfn]") ("Dot" sdata "[Dot   ]") ("DotDot" sdata "[DotDot]") ("hamilt" sdata "[hamilt]") ("lagran" sdata "[lagran]") ("lowast" sdata "[lowast]") ("notin" sdata "[notin ]") ("order" sdata "[order ]") ("phmmat" sdata "[phmmat]") ("tdot" sdata "[tdot  ]") ("tprime" sdata "[tprime]") ("wedgeq" sdata "[wedgeq]") ("VOL0title" text "<EMPHASIS>X Protocol Reference Manual</EMPHASIS>") ("VOL1title" text "<EMPHASIS>Xlib Programming Manual</EMPHASIS>") ("VOL2title" text "<EMPHASIS>Xlib Reference Manual</EMPHASIS>") ("VOL3title" text "<EMPHASIS>X Window System User's Guide</EMPHASIS>") ("VOL3Mtitle" text "<EMPHASIS>X Window System User's Guide</EMPHASIS>") ("VOL4title" text "<EMPHASIS>X Toolkit Intrinsics Programming Manual</EMPHASIS>") ("VOL5title" text "<EMPHASIS>X Toolkit Intrinsics Reference Manual</EMPHASIS>") ("VOL6title" text "<EMPHASIS>X Toolkit Widget Reference Manual</EMPHASIS>") ("VOL6Atitle" text "<EMPHASIS>Motif Programming Manual</EMPHASIS>") ("VOL6Btitle" text "<EMPHASIS>Motif Reference Manual</EMPHASIS>") ("VOL7Atitle" text "<EMPHASIS>XView Programming Manual</EMPHASIS>") ("VOL7Btitle" text "<EMPHASIS>XView Reference Manual</EMPHASIS>") ("VOL8title" text "<EMPHASIS>X Window System Adminstrator's Guide</EMPHASIS>") ("VOL0" sdata "Volume Zero") ("VOL1" sdata "Volume One") ("VOL2" sdata "Volume Two") ("VOL3" sdata "Volume Three") ("VOL3M" sdata "Volume Three, Motif Edition") ("VOL4" sdata "Volume Four") ("VOL4M" sdata "Volume Four, Motif Edition") ("VOL5" sdata "Volume Five") ("VOL6" sdata "Volume Six") ("VOL6A" sdata "Volume Six A") ("VOL8" sdata "Volume Eight") ("VOL6B" sdata "Volume Six B") ("VOL7A" sdata "Volume Seven A") ("VOL7B" sdata "Volume Seven B") ("s1" sdata "(1)") ("s2" sdata "(2)") ("s3" sdata "(3)") ("s4" sdata "(4)") ("s5" sdata "(5)") ("s6" sdata "(6)") ("s7" sdata "(7)") ("s8" sdata "(8)") ("lr" sdata "labelString") ("cC" sdata "XmPushButton") ("fC" sdata "XRowColumn") ("bc" sdata "XmRowColumn") ("pM" sdata "Primitive") ("m" sdata "Motif") ("ol" text "<acronym>OPEN LOOK</acronym>") ("cm" sdata "PushButton") ("fM" sdata "xform") ("sb" sdata "ScrollBar") ("x" sdata "Xm") ("bx" sdata "RowColumn") ("bn" sdata "rowColumn") ("rb" sdata "xrowcolumn") ("CICCCM0" sdata "Appendix L") ("CBASIC" sdata "Chapter 3") ("CBASICtitle" sdata "Basic Window Program") ("CEVENTS1" sdata "Chapter 8") ("SPROPA" sdata "8.3.2") ("SCOMPILE" sdata "2.6.2.2") ("SFAIRNESS" sdata "G.1.1.2") ("spec" text "from the <acronym>OPEN LOOK GUI</acronym> <emphasis>Specification Guide</emphasis>") ("SMACROS2" sdata "3.2.3") ("XANY2" sdata "E-1") ("TAPPFMSKTYS" sdata "E-0") ("editstartup" sdata "Editing the Startup Files") ("changeother" sdata "Changing Other SOA Values") ("Ax" sdata "AIX 3.1") ("Bx" sdata "BSD") ("Ix" sdata "Interactive UNIX") ("Px" sdata "Stardent UNIX") ("Sx" sdata "SunOS") ("Ux" sdata "UNIX") ("V3" sdata "V.3") ("V4" sdata "V.4") ("Vx" sdata "System V") ("Xx" sdata "XENIX") ("refapp" sdata "Bourne Shell Programming") ("appbiblio" sdata "Bibliography") ("pref" sdata "Preface") ("chap1" sdata "Introduction to System Administration") ("sendmailgroup" sdata "Sending Mail to a Group of Users") ("Story1" sdata "Essential Administrative Tools") ("chap2" sdata "The UNIX Way") ("FileProt" sdata "File Protection") ("sgidaccessondir" sdata "SGID Access on Directories (AIX 3.1 and SunOS)") ("filetypes" sdata "File Types") ("links" sdata "Links") ("processes" sdata "Processes") ("lifecycleprocess" sdata "The Life Cycle of a Process") ("devices" sdata "Devices") ("fixeddiskspecialfiles" sdata "Fixed Disk Special Files") ("chap3" sdata "Startup and Shutdown") ("bootprocess" sdata "The UNIX Boot Process") ("startboot" sdata "Starting a Boot") ("initialization" sdata "UNIX Initialization Scripts") ("sysvinitialization" sdata "System V Initialization Files") ("shutdownunixsys" sdata "Shutting Down a UNIX System") ("systemvshutdowncom" sdata "The System V shutdown Command") ("bsdshutdownfastreboot" sdata "BSD Shutdown and Fast Reboot") ("Story2" sdata "When the System Won't Boot") ("chap4" sdata "User Accounts") ("assignuser" sdata "Assigning User Passwords") ("guidelineschoosepasswords" sdata "Guidelines for Choosing Passwords") ("shadowpassword" sdata "Shadow Password Files") ("setpasswordrestrict" sdata "Setting Password Restrictions") ("initfiles" sdata "Initialization Files") ("termhandinit" sdata "Terminal Handling in Initialization Files") ("removinguseraccount" sdata "Removing a User Account") ("unixgroups" sdata "UNIX Groups") ("aix31groupsets" sdata "AIX 3.1 Group Sets") ("chap5" sdata "Security") ("suidsgidaccess" sdata "The SUID and SGID Access Modes") ("aixaccesscontrol" sdata "AIX 3.1 Access Control Lists") ("configbsderror" sdata "Configuring BSD-style Error Logging") ("chap6" sdata "Automating Routine Tasks") ("expasswordfilesec" sdata "Example:  Password File Security") ("exampmondiskusage" sdata "Example:  Monitoring Disk Usage") ("executionsched" sdata "Execution Scheduling") ("usecronautosysadmin" sdata "Using cron to Automate System Administration") ("chap7" sdata "Managing System Resources") ("controlexecute" sdata "Controlling Execution Priorities") ("managediskusage" sdata "Managing Disk Usage with Disk Quotas (BSD and V.4)") ("chap8" sdata "Filesystems and Disks") ("mountdismount" sdata "Mounting and Dismounting Filesystems") ("FSConfig" sdata "The Filesystem Configuration File") ("managediskspace" sdata "Managing Disk Space Usage") ("quotreportusage" sdata "quot:  Report Usage by User (BSD, XENIX, and V.4)") ("limitgrowthlogfiles" sdata "Limiting the Growth of Log Files") ("aixskulker" sdata "The AIX 3.1 skulker Script") ("diskpartitions" sdata "Disk Partitions") ("adddisks" sdata "Adding Disks") ("addadditional" sdata "Adding a Hard Disk (XENIX and Interactive UNIX)") ("makespecial" sdata "Making Special Files") ("makenewfile" sdata "Making a New Filesystem") ("remakexistfile" sdata "Remaking an Existing Filesystem") ("floppydiskspecial" sdata "Floppy Disk Special Files") ("AIXdisks" sdata "Disks and Filesystems Under AIX 3.1") ("devicegroups" sdata "Device Groups") ("chap9" sdata "Backup and Restore") ("backupfilesys" sdata "Backing Up the Filesystem") ("restorefilebackup" sdata "Restoring Files from Backup") ("tapespecial" sdata "Tape Special Files") ("chap10" sdata "Terminals and Modems") ("spectermchar" sdata "Specifying Terminal Characteristics") ("physcon" sdata "Making the Physical Connection") ("PC2" sdata "Pulling the Wool Over Their Eyes") ("BSDconfig" sdata "BSD Configuration Files") ("chap11" sdata "Printers and the Spooling Subsystem") ("startstopprint" sdata "Starting and Stopping the Print Service") ("priorperm" sdata "Priorities and Permissions") ("aixqueuesys" sdata "The &Ax; Queueing System") ("usequeue" sdata "Using the Queueing System as a Batch Service") ("chap12" sdata "TCP/IP Network Management") ("hostlevelequiv" sdata "Host Level Equivalence") ("mountremotedir" sdata "Mounting Remote Directories") ("chap13" sdata "Accounting") ("checking" sdata "Checking a Filesystem with fsck") ("guarantee" sdata "Guaranteeing Disk Accuracy") ("rebooting" sdata "Rebooting UNIX") ("automatesysad" sdata "Automate System Administration") ("expasswordfiles" sdata "Example: Password File Security") ("guidelinechoose" sdata "Guidelines for Choosing Passwords") ("limitgrowth" sdata "Limiting the Growth of Log Files") ("loggingsysmess" sdata "Logging System Messages Under BSD") ("usingcronauto" sdata "Using cron to Automate System Administration") ("introprosch" sdata "Introducing the System V.4 Process Scheduler") ("resfilfrbac" sdata "Restoring Files from Backup") ("disksaix" sdata "Disks and Filesystems Under AIX 3.1") ("exmondisk" sdata "Example: Monitoring Disk Usage") ("fixdiskspecia" sdata "Fixed Disk Special Files") ("floppyspecial" sdata "Floppy Disk Special Files") ("manqueuanddev" sdata "Managing Queues and Devices") ("tcpipnet" sdata "TCP/IP Networking and AIX 3.1") ("adminaccop" sdata "Administrative Accounting Options") ("ip-routing-CH" sdata "Appendix B, IP Packet Routing") ("icmp-redir-CH" sdata "Appendix B, IP Packet Routing") ("benchmarks-CH" sdata "Appendix D, NFS Benchmarks") ("ip-frag-TI" sdata "Datagrams and Packets") ("ip-frag-CH" sdata "Chapter 1, Networking Fundamentals") ("ip-frag-CB" sdata "&ldquo;Datagrams and Packets,&rdquo; in Chapter 1, Networking Fundamentals") ("ip-classes-TI" sdata "IP Address Classes") ("ip-classes-CH" sdata "Chapter 1, Networking Fundamentals") ("ip-classes-CB" sdata "&ldquo;IP Address Classes,&rdquo; in Chapter 1, Networking Fundamentals") ("inetd-TI" sdata "Internet and RPC Server Configuration") ("inetd-CH" sdata "Chapter 1, Networking Fundamentals") ("inetd-CB" sdata "&ldquo;Internet and RPC Server Configuration,&rdquo; in Chapter 1, Networking Fundamentals") ("nis-maps-TI" sdata "Files Managed Under NIS") ("nis-maps-CH" sdata "Chapter 2, Network Information Service Operation") ("nis-maps-CB" sdata "&ldquo;Files Managed Under NIS,&rdquo; in Chapter 2, Network Information Service Operation") ("discussion-of-netgroups-TI" sdata "Netgroups") ("discussion-of-netgroups-CH" sdata "Chapter 2, Network Information Service Operation") ("discussion-of-netgroups-CB" sdata "&ldquo;Netgroups,&rdquo; in Chapter 2, Network Information Service Operation") ("nis-makefile-TI" sdata "Map File Dependencies") ("nis-makefile-CH" sdata "Chapter 3, System Management Using NIS") ("nis-makefile-CB" sdata "&ldquo;Map File Dependencies,&rdquo; in Chapter 3, System Management Using NIS") ("alternate-map-TI" sdata "Using Alternate Map Source Files") ("alternate-map-CH" sdata "Chapter 3, System Management Using NIS") ("alternate-map-CB" sdata "&ldquo;Using Alternate Map Source Files,&rdquo; in Chapter 3, System Management Using NIS") ("dns-and-nis-TI" sdata "Domain Name Servers") ("dns-and-nis-CH" sdata "Chapter 3, System Management Using NIS") ("dns-and-nis-CB" sdata "&ldquo;Domain Name Servers,&rdquo; in Chapter 3, System Management Using NIS") ("nis-alias-TI" sdata "Domain Aliases") ("nis-alias-CH" sdata "Chapter 3, System Management Using NIS") ("nis-alias-CB" sdata "&ldquo;Domain Aliases,&rdquo; in Chapter 3, System Management Using NIS") ("ultrix-svcs-TI" sdata "Multiple Service Integration") ("ultrix-svcs-CH" sdata "Chapter 3, System Management Using NIS") ("ultrix-svcs-CB" sdata "&ldquo;Multiple Service Integration,&rdquo; in Chapter 3, System Management Using NIS") ("mount-TI" sdata "Using mount") ("mount-CH" sdata "Chapter 5, System Administration Using the Network Filesystem") ("mount-CB" sdata "&ldquo;Using mount,&rdquo; in Chapter 5, System Administration Using the Network Filesystem") ("biod-guts-TI" sdata "Server nfsd Daemons") ("biod-guts-CH" sdata "Chapter 6, Network File System Design and Operation") ("biod-guts-CB" sdata "&ldquo;Server nfsd Daemons,&rdquo; in Chapter 6, Network File System Design and Operation") ("attr-cache-TI" sdata "File Attribute Caching") ("attr-cache-CH" sdata "Chapter 6, Network File System Design and Operation") ("attr-cache-CB" sdata "&ldquo;File Attribute Caching,&rdquo; in Chapter 6, Network File System Design and Operation") ("rarp-TI" sdata "Reverse ARP Requests") ("rarp-CH" sdata "Chapter 7, Diskless Clients") ("rarp-CB" sdata "&ldquo;Reverse ARP Requests,&rdquo; in Chapter 7, Diskless Clients") ("nis-secure-TI" sdata "Making NIS More Secure") ("nis-secure-CH" sdata "Chapter 8, Network Security") ("nis-secure-CB" sdata "&ldquo;Making NIS More Secure,&rdquo; in Chapter 8, Network Security") ("root-map-TI" sdata "Superuser Mapping") ("root-map-CH" sdata "Chapter 8, Network Security") ("root-map-CB" sdata "&ldquo;Superuser Mapping,&rdquo; in Chapter 8, Network Security") ("anon-map-TI" sdata "Unknown User Mapping") ("anon-map-CH" sdata "Chapter 8, Network Security") ("anon-map-CB" sdata "&ldquo;Unknown User Mapping,&rdquo; in Chapter 8, Network Security") ("mail-spool-TI" sdata "Creating a Shared Mail Spool") ("mail-spool-CH" sdata "Chapter 9, Centralizing Mail Services with NFS") ("mail-spool-CB" sdata "&ldquo;Creating a Shared Mail Spool,&rdquo; in Chapter 9, Centralizing Mail Services with NFS") ("local-aliases-TI" sdata "Merging NIS and Local Aliases") ("local-aliases-CH" sdata "Chapter 9, Centralizing Mail Services with NFS") ("local-aliases-CB" sdata "&ldquo;Merging NIS and Local Aliases,&rdquo; in Chapter 9, Centralizing Mail Services with NFS") ("diag-tools-CH" sdata "Chapter 10, Diagnostic and Administrative Tools") ("arp-confusion-TI" sdata "IP to MAC Address Mappings") ("arp-confusion-CH" sdata "Chapter 10, Diagnostic and Administrative Tools") ("arp-confusion-CB" sdata "&ldquo;IP to MAC Address Mappings,&rdquo; in Chapter 10, Diagnostic and Administrative Tools") ("rpc-mech-TI" sdata "RPC Mechanics") ("rpc-mech-CH" sdata "Chapter 10, Diagnostic and Administrative Tools") ("rpc-mech-CB" sdata "&ldquo;RPC Mechanics,&rdquo; in Chapter 10, Diagnostic and Administrative Tools") ("nis-tools-TI" sdata "NIS Tools") ("nis-tools-CH" sdata "Chapter 10, Diagnostic and Administrative Tools") ("nis-tools-CB" sdata "&ldquo;NIS Tools,&rdquo; in Chapter 10, Diagnostic and Administrative Tools") ("nis-server-alloc-TI" sdata "Displaying and Analyzing Client Bindings") ("nis-server-alloc-CH" sdata "Chapter 10, Diagnostic and Administrative Tools") ("nis-server-alloc-CB" sdata "&ldquo;Displaying and Analyzing Client Bindings,&rdquo; in Chapter 10, Diagnostic and Administrative Tools") ("etherfind-TI" sdata "Displaying and Analyzing Client Bindings") ("etherfind-CH" sdata "Chapter 10, Diagnostic and Administrative Tools") ("etherfind-CB" sdata "&ldquo;Displaying and Analyzing Client Bindings,&rdquo; in Chapter 10, Diagnostic and Administrative Tools") ("ypset-TI" sdata "Modifying Client Bindings") ("ypset-CH" sdata "Chapter 10, Diagnostic and Administrative Tools") ("ypset-CB" sdata "&ldquo;Modifying Client Bindings,&rdquo; in Chapter 10, Diagnostic and Administrative Tools") ("nfsstat-TI" sdata "NFS Statistics") ("nfsstat-CH" sdata "Chapter 10, Diagnostic and Administrative Tools") ("nfsstat-CB" sdata "&ldquo;NFS Statistics,&rdquo; in Chapter 10, Diagnostic and Administrative Tools") ("time-sync-TI" sdata "Time Synchronization") ("time-sync-CH" sdata "Chapter 10, Diagnostic and Administrative Tools") ("time-sync-CB" sdata "&ldquo;Time Synchronization,&rdquo; in Chapter 10, Diagnostic and Administrative Tools") ("debug-chap-CH" sdata "Chapter 11, Debugging Network Problems") ("physical-problems-TI" sdata "Improper Network Termination") ("physical-problems-CH" sdata "Chapter 11, Debugging Network Problems") ("physical-problems-CB" sdata "&ldquo;Improper Network Termination,&rdquo; in Chapter 11, Debugging Network Problems") ("bootparam-bug-TI" sdata "Boot Parameter Confusion") ("bootparam-bug-CH" sdata "Chapter 11, Debugging Network Problems") ("bootparam-bug-CB" sdata "&ldquo;Boot Parameter Confusion,&rdquo; in Chapter 11, Debugging Network Problems") ("perf-chap-CH" sdata "Chapter 12, Performance Analysis and Tuning") ("partition-hw-TI" sdata "Network Partitioning Hardware") ("partition-hw-CH" sdata "Chapter 12, Performance Analysis and Tuning") ("partition-hw-CB" sdata "&ldquo;Network Partitioning Hardware,&rdquo; in Chapter 12, Performance Analysis and Tuning") ("nfsd-tuning-TI" sdata "NFS Server Daemons") ("nfsd-tuning-CH" sdata "Chapter 12, Performance Analysis and Tuning") ("nfsd-tuning-CB" sdata "&ldquo;NFS Server Daemons,&rdquo; in Chapter 12, Performance Analysis and Tuning") ("kernel-config-TI" sdata "Kernel Configuration") ("kernel-config-CH" sdata "Chapter 12, Performance Analysis and Tuning") ("kernel-config-CB" sdata "&ldquo;Kernel Configuration,&rdquo; in Chapter 12, Performance Analysis and Tuning") ("multi-home-nfs-TI" sdata "Multi-homed Servers") ("multi-home-nfs-CH" sdata "Chapter 12, Performance Analysis and Tuning") ("multi-home-nfs-CB" sdata "&ldquo;Multi-homed Servers,&rdquo; in Chapter 12, Performance Analysis and Tuning") ("client-tuning-TI" sdata "Client Tuning") ("client-tuning-CH" sdata "Chapter 12, Performance Analysis and Tuning") ("client-tuning-CB" sdata "&ldquo;Client Tuning,&rdquo; in Chapter 12, Performance Analysis and Tuning") ("slow-server-TI" sdata "Slow Server Compensation") ("slow-server-CH" sdata "Chapter 12, Performance Analysis and Tuning") ("slow-server-CB" sdata "&ldquo;Slow Server Compensation,&rdquo; in Chapter 12, Performance Analysis and Tuning") ("retrans-eq-TI" sdata "Retransmission Rate Thresholds") ("retrans-eq-CH" sdata "Chapter 12, Performance Analysis and Tuning") ("retrans-eq-CB" sdata "&ldquo;Retransmission Rate Thresholds,&rdquo; in Chapter 12, Performance Analysis and Tuning") ("soft-mnt-TI" sdata "Soft Mount Issues") ("soft-mnt-CH" sdata "Chapter 12, Performance Analysis and Tuning") ("soft-mnt-CB" sdata "&ldquo;Soft Mount Issues,&rdquo; in Chapter 12, Performance Analysis and Tuning") ("timeouts-TI" sdata "Timeout Calculations") ("timeouts-CH" sdata "Chapter 12, Performance Analysis and Tuning") ("timeouts-CB" sdata "&ldquo;Timeout Calculations,&rdquo; in Chapter 12, Performance Analysis and Tuning") ("nfs-on-wan-TI" sdata "NFS Over Wide-area Networks") ("nfs-on-wan-CH" sdata "Chapter 12, Performance Analysis and Tuning") ("nfs-on-wan-CB" sdata "&ldquo;NFS Over Wide-area Networks,&rdquo; in Chapter 12, Performance Analysis and Tuning") ("attr-caching-TI" sdata "Attribute Caching") ("attr-caching-CH" sdata "Chapter 12, Performance Analysis and Tuning") ("attr-caching-CB" sdata "&ldquo;Attribute Caching,&rdquo; in Chapter 12, Performance Analysis and Tuning") ("routed-TI" sdata "Routing Information") ("routed-CH" sdata "Chapter 12, Performance Analysis and Tuning") ("routed-CB" sdata "&ldquo;Routing Information,&rdquo; in Chapter 12, Performance Analysis and Tuning") ("stale-fh-TI" sdata "Stale File Handles") ("stale-fh-CH" sdata "Chapter 12, Performance Analysis and Tuning") ("stale-fh-CB" sdata "&ldquo;Stale File Handles,&rdquo; in Chapter 12, Performance Analysis and Tuning") ("automounter-CH" sdata "Chapter 13, The Automounter") ("home-dir-naming-TI" sdata "Indirect Maps") ("home-dir-naming-CH" sdata "Chapter 13, The Automounter") ("home-dir-naming-CB" sdata "&ldquo;Indirect Maps,&rdquo; in Chapter 13, The Automounter") ("master-map-TI" sdata "The Master Map") ("master-map-CH" sdata "Chapter 13, The Automounter") ("master-map-CB" sdata "&ldquo;The Master Map,&rdquo; in Chapter 13, The Automounter") ("var-sub-TI" sdata "Variable Substitutions") ("var-sub-CH" sdata "Chapter 13, The Automounter") ("var-sub-CB" sdata "&ldquo;Variable Substitutions,&rdquo; in Chapter 13, The Automounter") ("dir-map-replace-TI" sdata "Conversion of Direct Maps") ("dir-map-replace-CH" sdata "Chapter 13, The Automounter") ("dir-map-replace-CB" sdata "&ldquo;Conversion of Direct Maps,&rdquo; in Chapter 13, The Automounter") ("pcnfs-creds-TI" sdata "Checking File Permissions") ("pcnfs-creds-CH" sdata "Chapter 14, PC/NFS") ("pcnfs-creds-CB" sdata "&ldquo;Checking File Permissions,&rdquo; in Chapter 14, PC/NFS"))
+(nil)
+nil

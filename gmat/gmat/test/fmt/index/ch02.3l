@@ -1,0 +1,24 @@
+N	Unixshells(see shells)	
+S	shellsoverview of	15
+N	command interpreters(see shells)	
+X	interactive use of shells	16
+N	sessions(see login sessions)	
+X	login sessionscustomizing	16
+X	customizing login session	16
+N	scripts, shell(see shell scripts)	
+X	shell scripts	16
+X	shellstypes (flavors) of	16
+X	sh (Bourne shell)	17
+X	ksh (Korn shell)	17
+X	Korn shell (ksh)	17
+X	csh (C shell)	17
+X	/etc directory::etc directory/etc/passwd file	17
+X	rsh (remote shell)	17
+N	remote shell(see rsh)	
+S	sh (Bourne shell)features of	18
+S	csh (C shell)features of	18
+S	ksh (Korn shell)features of	18
+E	sh (Bourne shell)features of	20
+E	csh (C shell)features of	20
+E	ksh (Korn shell)features of	20
+E	shellsoverview of	20

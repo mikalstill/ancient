@@ -1,0 +1,58 @@
+#!/usr/bin/perl5 -- # -*- Perl -*-
+#
+# Wrap long lines of a file
+#
+# $Id: wraplines,v 1.1.1.1 2002-07-15 21:33:31 root Exp $
+#
+#
+
+use vars qw($PROGNAME $VERSION);
+
+$BASEVERS   = "0.1";
+$RCS_ID     = '$Id: wraplines,v 1.1.1.1 2002-07-15 21:33:31 root Exp $'; # '
+($PROGNAME  = $RCS_ID) =~ s/^.Id: (\S+) .*$/$1/;
+($PATCHLEVEL= $RCS_ID) =~ s/^.Id: \S+ \d+\.(\d+) .*$/$1/;
+$VERSION    = "$BASEVERS patchlevel $PATCHLEVEL";
+$EXECDIR    = ".";
+$EXECDIR    = $1 if $0 =~ /^(.*)\/[^\/]+$/;
+
+######################################################################
+
+$width = shift @ARGV || 78;
+
+while (<>) {
+    chop;
+    while (/^([^<]*)<([^>]+)>\s*(.*)$/) {
+	&wrap ($1);
+	print "<$2>\n";
+	$_ = $3;
+    }
+    &wrap($_);
+}
+
+sub wrap {
+    local($_) = @_;
+    local($place);
+
+    while (1) {
+	if (length($_) <= $width) {
+	    print "$_\n";
+	    return;
+	}
+
+	$place = $width;
+	$place-- while ($place > $[) && (substr($_, $place, 1) ne " ");
+	if ($place == $[) {
+	    print "$_\n";
+	    return;
+	}
+
+	print substr($_, $[, $place), "\n";
+	$_ = substr($_, $place+1);
+    }
+}
+
+
+    
+    
+	

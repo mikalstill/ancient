@@ -1,0 +1,853 @@
+#!/usr/bin/perl5 -- # -*- Perl -*-
+#
+# Process the troff index files and build a troff index
+#
+# $Id: inx,v 1.1.1.1 2002-07-15 21:33:31 root Exp $
+#
+#
+# Types of index entry we process:
+#
+#	X	regular
+#	B	bold
+#       B1/B2   start end bold page range
+#	S	beginning of page range
+#	E	end of page range
+#	N	see/see also (cross ref)
+#       N1      see also (cross ref with page number)
+# XXXX  CA      control entries (currently just for "index under also"s)
+#
+#  (I haven't been able to find any examples of CA, so it's not being
+#   handled by the code from this rewrite)
+#
+# Format of input:
+#
+#	type^Itextfield^Atextfield...^Ipage
+#
+# where type is a one- or two-letter string as shown above; textfield is one
+# of the fields of the actual index entry, and page is a numerical page number,
+# in arabic or roman numeral. 
+#
+# textfield may be "text::sort" in which case "text" will appear as if it
+# where spelled "sort" for the purposes of sorting.
+#
+# This has introduced a small bug: the inx output contains lines of the
+# form ".XF A letter" to indicate where the section "letter" begins.  However,
+# the code that outputs ".XF A letter" doesn't know anything about alternate
+# sort keys.  However, if the first letter of a term isn't in A-Z 
+# (e.g. ".XYZ"), the second letter is used.
+#
+# Internally, the index entries are stored in a hash-tree.  Each node 
+# in the tree represents a term; it's children are either sub-entries
+# or hold data about the entry.  Here's an example:
+# 
+#   magic words, 5, 10, 20-34
+#     plugh, 10
+#     xyzzy (see plugh)
+#     abracadabra 22
+#       (see also stage magic)
+#     (see also other thing; something else)
+# 
+# 
+#   {magic words} -> { PAGES } = "5, 10, 20-34"
+#                 -> { SEE ALSO } = "(see also something else)\t
+#                                    (see also other thing)"
+#                 -> { plugh } -> { PAGES } = 10
+#                 -> { xyzzy } -> { SEE } = "(see plugh)"
+#                 -> { abracadabra } -> { PAGES } = 22
+#                                    -> { SEE ALSO } = "(see also stage magic)"
+#     
+# This data structure can be nested arbitrarily deep
+# 
+
+use vars qw($PROGNAME $VERSION);
+
+$BASEVERS   = "0.1";
+$RCS_ID     = '$Id: inx,v 1.1.1.1 2002-07-15 21:33:31 root Exp $';  # '
+($PROGNAME  = $RCS_ID) =~ s/^.Id: (\S+) .*$/$1/;
+($PATCHLEVEL= $RCS_ID) =~ s/^.Id: \S+ \d+\.(\d+) .*$/$1/;
+$VERSION    = "$BASEVERS patchlevel $PATCHLEVEL";
+$EXECDIR    = ".";
+$EXECDIR    = $1 if $0 =~ /^(.*)\/[^\/]+$/;
+
+######################################################################
+
+$SEESTRING  = '** SEE **';
+$ALSOSTRING = '** SEEALSO **';
+$PGSSTRING  = '** PAGES **';
+$FILENAME   = '** FILE **';
+
+$TERMTREE   = { };
+
+$DEBUG = $ENV{'INXDEBUG'};
+print STDERR "$0 in debugging mode...\n" if $DEBUG;
+
+if ($DEBUG) { 
+    $TEMPDIR = "./tmp";
+    $TEMPXINX = "temp.xinx.0";
+    $SORTXINX = "sort.xinx.0";
+    $INXSORT = "/proj/users/norm/prod/bin/inxsort";
+} else {
+    $TEMPDIR = "/tmp";
+    $TEMPXINX = "temp.xinx.$$";
+    $SORTXINX = "sort.xinx.$$";
+    $INXSORT = "inxsort";
+}
+
+$ORALIBDIR = $ENV{"ORALIBDIR"} || "/usr/local/share/gmat/lib";
+push(@INC, $ORALIBDIR);
+
+$ORATOOLSRC = $ENV{'ORATOOLSRC'} || "$ORALIBDIR/oratoolsrc";
+
+$MACROPATH = $ENV{"ORAMACROPATH"};
+
+require 'longopts5.pl';
+require 'parsecfg5.pl';
+require 'commonlock5.pl';
+
+select(STDERR); $| = 1;
+select(STDOUT);
+
+$WHOAMI = $ENV{"USER"} || $ENV{"LOGNAME"} || "user";
+$PID    = $$;
+
+$inx = &parsecfg($ORATOOLSRC);
+$inx = &parsecfg("$ENV{HOME}/.oratoolsrc", $inx);
+$inx = &parsecfg("./.oratoolsrc", $inx);
+
+$BOOKFILES = &cfg($inx, $PROGNAME, "bookfiles") || "BOOKFILES";
+$LOCKFILE  = "$BOOKFILES.lock";
+
+$bookfiles = &parsecfg($BOOKFILES);
+
+$SIG{'INT'} = 'sig_handler';
+$SIG{'KILL'} = 'sig_handler';
+$SIG{'HUP'} = 'sig_handler';
+
+# set defaults
+$hier_limit = 3;
+$hyphen = "-";
+
+# following line is straight from Camel book, p. 256; it may be disgusting, 
+# but it does read in all variable=value command-line arguments
+eval "\$$1=\$2" while $ARGV[0] =~ /^(\w+)=(.*)/ && shift;
+if ($levels > 0 && $levels < 100) {
+	$hier_limit = $levels;
+}
+
+%USERFILES = ();
+foreach $_ (@ARGV) {
+    s/\.sgm$/\.3l/;
+    $USERFILES{$_} = 1;
+}
+
+&build_roman_numerals();	# We'll need these later...
+
+chop($pwd = `pwd`);
+if ($pwd =~ /fmt\/index$/ || ! -f $BOOKFILES) {
+    print STDERR "Go to the book directory and run 'inx' from there...\n";
+    exit 1;
+}
+
+$MERGE_BOOKFILES = &cfg($bookfiles, $PROGNAME, "merge-bookfiles");
+if ($MERGE_BOOKFILES) {
+    my($BFILE, $BPATH, $LFILE);
+
+    print STDERR "Merging BOOKFILES: $MERGE_BOOKFILES\n";
+    @BOOKFILES_LIST = split(/\s+/, $MERGE_BOOKFILES);
+
+    $sgmlfiles = 0;
+    $nonsgmlfiles = 0;
+    @FILES = ();
+
+    foreach $BFILE (@BOOKFILES_LIST) {
+	if ($BFILE =~ /^(.*)\/([^\/]+)$/) {
+	    $BPATH = $1;
+	    $BFILE = $2;
+	} else {
+	    $BPATH = ".";
+	}
+
+	$LFILE = "$BPATH/$BFILE.lock";
+
+	# Set the lock...
+	die "Unable to obtain lock on $BPATH/$BFILE.\n"
+	    if &set_lock("$LFILE");
+
+	open (BOOKFILES, "$BPATH/$BFILE") || die "Cannot open: $BPATH/$BFILE.\n";
+	while (<BOOKFILES>) {
+	    chop;
+	    if (/^\s*\[\s*(\S+)\s*\]\s*$/) {
+		$file = $1;
+		if ($file =~ /^(.*)\.sgml?$/) {
+		    $file = "$1.3l";
+		    $sgmlfiles = 1;
+		} else {
+		    $nonsgmlfiles = 1;
+		}
+		$file =~ s/^.*\/([^\/]+)$/$1/;
+		$file = "$BPATH/$file" if $BPATH ne ".";
+		
+		push (@FILES, $file);
+	    }
+	}
+    }
+} else {
+    # Set the lock...
+    die "Unable to obtain lock on $BOOKFILES.\n"
+	if &set_lock("$LOCKFILE");
+
+    $sgmlfiles = 0;
+    $nonsgmlfiles = 0;
+    @FILES = ();
+    open (BOOKFILES, $BOOKFILES);
+    while (<BOOKFILES>) {
+	chop;
+	if (/^\s*\[\s*(\S+)\s*\]\s*$/) {
+	    $file = $1;
+	    if ($file =~ /^(.*)\.sgml?$/) {
+		$file = "$1.3l";
+		$sgmlfiles = 1;
+	    } else {
+		$nonsgmlfiles = 1;
+	    }
+	    $file =~ s/^.*\/([^\/]+)$/$1/;
+	    push (@FILES, $file);
+	}
+    }
+}
+
+if ($sgmlfiles && $nonsgmlfiles) {
+    local(@F) = ();
+    local($_);
+
+    print STDERR "The bookfiles file contains both SGML and non-SGML files.\n";
+    print STDERR "The following non-SGML files will be ignored:\n"; 
+
+    foreach $_ (@FILES) {
+	if (/\.3l$/) {
+	    push (@F, $_);
+	} else {
+	    print STDERR "\t$_\n";
+	}
+    }
+
+    @FILES = @F;
+}
+
+# Remove the lock
+&unset_lock($LOCKFILE);
+
+%types = ();
+%starts = ();
+
+if (%USERFILES) {
+    my(@F) = ();
+    foreach $_ (@FILES) {
+	push (@F, $_) if $USERFILES{$_};
+    }
+
+    if (@F) {
+	@FILES = @F;
+    } else {
+	print STDERR "No user-specified files exist in book: ";
+	print STDERR "@FILES\n";
+	exit 1;
+    }
+}
+
+#  Find out what preamble file to use. If there is an inxfile entry
+#  in BOOKFILES, use that; else if there is an inx.preamble in the
+#  current directory, use that; else use the default (currently
+#  /usr/local/share/gmat/lib/inx.preamble).
+
+$bookfiles = &parsecfg('BOOKFILES');
+$inxfile = &cfg($bookfiles, 'inx', 'inxfile');
+if (!$inxfile) {
+    if (-s "inx.preamble") {
+	$inxfile = "./inx.preamble";
+    }
+    else {
+	$inxfile = "/usr/local/share/gmat/lib/inx.preamble";
+    }
+}
+
+#if (-r "inx.preamble") {
+#    open (F, "inx.preamble");
+if (-r $inxfile) {
+    open (F, $inxfile) || die "Can't open $inxfile\n";
+    while (<F>) {
+	print $_;
+    }
+    close (F);
+}
+
+while (@FILES) {
+    my($type, $entry, $pages);
+    my($oldpages);
+    my($file) = shift @FILES;
+    my($basename) = $file;
+    my($inxfile);
+
+    $basename = $1 if $basename =~ /^(.*)\.3l$/;
+
+    if ($file =~ /^(.+)\/([^\/]+)$/) {
+	$inxfile = "$1/fmt/index/$2";
+    } else {
+	$inxfile = "fmt/index/$file";
+    }
+
+    if (! -f $inxfile) {
+	print STDERR "$0: no index file: $file\n";
+	next;
+    }
+
+    $checksum = 0;
+    open (F, "$inxfile");
+    ($source_file = $file) =~ s/\.3l$/\.sgm/;
+    while (<F>) {
+	$checksum += unpack("%16C*", $_);
+
+	chop;
+
+	s/\\\&//g;		# Remove \& if it occurs...
+	s/\\/\\\\/g;		# Preserve backslashes in the input
+
+	($type, $entry, $pages) = split(/\t+/, $_);
+
+	if ($type eq 'X') {
+	    &index($entry, $pages, $basename);
+	} elsif ($type eq 'S' || $type eq 'B1') { # start range
+	    $pages = "B$pages" if $type eq 'B1';
+	    &start_range($entry, $pages, $basename);
+	} elsif ($type eq "E" || $type eq 'B2') { # end range
+	    &end_range($entry, $pages, $basename);
+	} elsif ($type eq "N1") {	# Xref with page number
+	    my(@entry) = split(/\001/, $entry);
+	    my($last, $xentry);
+
+	    # This is handled by making a normal index entry (X) for the
+	    # primary entry and an N entry for the see also
+	    $last = pop(@entry);
+	    $last = pop(@entry) while $last eq "";
+	    if ($last =~ /^(.+)\s+(\(see .*)$/) {
+		push (@entry, $1);
+		push (@entry, $2);
+	    } else {
+		push (@entry, $last);
+	    }
+	    
+	    $last = pop(@entry);
+	    $xentry = join("\001", @entry);
+	    $xentry .= "\001" x (2-$#entry) if $#entry < 2;
+
+	    &see_also($xentry, $last, $basename);
+	    &index($xentry, $pages, $basename);
+	} elsif ($type eq 'N') {	# Xref without page number
+	    my(@entry) = split(/\001/, $entry);
+	    my($last, $xentry);
+
+	    $last = pop(@entry);
+	    $last = pop(@entry) while $last eq "";
+
+	    if ($last =~ /^(.+)\s+(\(see .*)$/) {
+		push (@entry, $1);
+		push (@entry, $2);
+	    } else {
+		push (@entry, $last);
+	    }
+	    
+	    $last = pop(@entry);
+	    $xentry = join("\001", @entry);
+
+	    &see_also($xentry, $last, $basename);
+	} elsif ($type eq "B") {	# Bold page number, just like X
+	    &index($entry, "B$pages", $basename);
+	} elsif ($type eq "CA") {	# index under something else also
+	    die "Can't handle CA entries anymore.  Report to norm\@ora.com.\n";
+	} else {
+	    die "Unexpected type: $type\n";
+	}
+    }
+
+    $checksum %= 65536;
+    $CHECKSUM{$file} = $checksum;
+
+    close (F);
+}
+
+$last_letter = "";
+&print_terms(1, $TERMTREE);
+
+exit 0;
+
+sub print_terms {
+    my($indent, $ROOT) = @_;
+    my(@keys) = keys %{$ROOT};
+    my(@unsort, @sort, $term, $termnode, $termsort);
+    my($indentsp) = "";
+    my($seenode);
+    local($_);
+
+    $indentsp = " " x (2*($indent-1)) if $indent > 1;
+
+#    print $ROOT, "\n";
+    
+    @unsort = ();
+    foreach $_ (@keys) {
+	next if $_ eq $SEESTRING;
+	next if $_ eq $ALSOSTRING;
+	next if $_ eq $PGSSTRING;
+	next if $_ eq $FILENAME;
+	push (@unsort, $_);
+    }
+
+    @sort = sort tsort @unsort;
+
+    while (@sort) {
+	$term = $_ = shift @sort;
+	
+	if (/^(.*)::(.*)$/) {
+	    $term = $1;
+	    $termsort = $2;
+	} else {
+	    $termsort = $term;
+	}
+
+	$termnode = $ROOT->{$_};
+
+	if (defined($termnode->{$PGSSTRING}) 
+	    && defined($termnode->{$PGSSTRING}->{'S'})) {
+	    my($file) = $termnode->{$FILENAME};
+	    warn "inx: start of range without end: $term (in $file)\n";
+	}
+
+	if ($indent == 1) {
+	    $letter = uc(substr($termsort, 0, 1));
+	    if ($letter =~ /[^A-Z]/ && !$in_symbols) {
+		print ".XF A\n";
+		$last_letter = $letter;
+		$in_symbols = 1;
+
+	    } elsif ($letter =~ /[0-9]/ && !$in_numbers) {
+		print ".XF A  Numbers\n";
+		$last_letter = $letter;
+		$in_numbers = 1;
+
+	    } elsif ($letter =~ /[A-Z]/ && $letter ne $last_letter) {
+		print ".XF A  $letter\n";
+		$last_letter = $letter;
+	    }
+	}
+
+	if (defined($termnode->{$PGSSTRING})) {
+	    my($pages) = join(", ", keys %{$termnode->{$PGSSTRING}});
+	    $pages = &printable_pages($pages);
+	    printf ".XF %-2d%s \"%s\" \"%s\"\n", 
+	           $indent, $indentsp, $term, $pages;
+	} elsif (defined($termnode->{$SEESTRING})) {
+	    my($see) = $termnode->{$SEESTRING};
+	    my($seenode_string) = $see;
+
+	    $seenode_string =~ s/\,\s+/\001/g;
+
+	    $seenode = &existingtermnode($seenode_string);
+	    warn "inx: see `$see'?\n" if !defined($seenode);
+
+	    printf ".XF %-2d%s \"%s\" \"(see %s)\"\n", 
+	           $indent+10, $indentsp, $term, $see;
+	} else {
+	    printf ".XF %-2d%s \"%s\"\n", $indent, $indentsp, $term;
+	}
+
+	&print_terms($indent+1, $ROOT->{$_});
+    }
+
+    if (defined($ROOT->{$ALSOSTRING})) {
+	my(@seealso) = split(/\t/, $ROOT->{$ALSOSTRING});
+	my($count, $see, $seenode);
+	local($_);
+
+	for ($count = 0; $count <= $#seealso; $count++) {
+	    $seealso[$count] = $1 if $seealso[$count] =~ /\(see also (.*)\)/;
+	}
+
+	foreach $_ (@seealso) {
+	    my($seenode_string) = $_;
+	    $seenode_string =~ s/\,\s+/\001/g;
+	    $seenode = &existingtermnode($seenode_string);
+	    warn "inx: see also `$_'?\n" if !defined($seenode);
+	}
+	
+	$see = "(see also " . join("; ", sort @seealso) . ")";
+
+	printf ".XF %-2d%s \"%s\"\n", $indent, $indentsp, $see;
+    }
+}
+
+sub tsort {
+    my($aterm) = uc($a);
+    my($bterm) = uc($b);
+
+    $aterm = $1 if $aterm =~ /^.*::(.*)$/;
+    $bterm = $1 if $bterm =~ /^.*::(.*)$/;
+
+    $aterm =~ s/_/ /g;
+    $bterm =~ s/_/ /g;
+
+    $aterm =~ s/[^A-Z 0-9@]//;
+    $bterm =~ s/[^A-Z 0-9@]//;
+
+    $aterm cmp $bterm;
+}
+
+sub termnode {
+    my($entry) = @_;
+    my(@entry) = split(/\001/, $entry);
+    my($curterm);
+    local($_);
+
+    $curterm = $TERMTREE;
+    foreach $_ (@entry) {
+	if (!defined($curterm->{$_})) {
+	    $curterm->{$_} = { };
+	}
+
+	$curterm = $curterm->{$_};
+    }
+
+    $curterm;
+}
+
+sub existingtermnode {
+    my($entry) = @_;
+    my(@entry) = split(/\001/, $entry);
+    my($curterm);
+    local($_);
+
+    $curterm = $TERMTREE;
+    foreach $_ (@entry) {
+	if (!defined($curterm->{$_})) {
+	    return undef;
+	}
+
+	$curterm = $curterm->{$_};
+    }
+
+    $curterm;
+}
+
+sub start_range {
+    my($entry, $pages, $file) = @_;
+    my($term) = &termnode($entry);
+
+    $term->{$PGSSTRING} = { } if !defined($term->{$PGSSTRING});
+    if (defined($term->{$PGSSTRING}->{'S'})) {
+	my($file) = $term->{$FILENAME};
+	warn "inx: duplicate start of range: $entry (in $file)\n";
+	return;
+    }
+
+    $term->{$PGSSTRING}->{'S'} = "$pages";
+    $term->{$FILENAME} = $file;
+}
+
+sub end_range {
+    my($entry, $pages, $file) = @_;
+    my($term) = &termnode($entry);
+    my($startpages, $range);
+
+    $term->{$PGSSTRING} = { } if !defined($term->{$PGSSTRING});
+    $term->{$FILENAME} = $file;
+
+    if (defined($term->{$PGSSTRING}->{'S'})) {
+	$startpages = $term->{$PGSSTRING}->{'S'};
+	delete $term->{$PGSSTRING}->{'S'};
+	$term->{$PGSSTRING}->{"$startpages-$pages"} = 1;
+    } else {
+	my($file) = $term->{$FILENAME};
+	warn "inx: end of range without start: $entry (in $file)\n";
+    }
+}
+
+sub see {
+    my($entry, $see, $file) = @_;
+    my($term) = &termnode($entry);
+
+    $term->{$SEESTRING} .= "\t" if defined($term->{$SEESTRING});
+    $term->{$SEESTRING} .= $see;
+    $term->{$FILENAME} = $file;
+}
+
+sub see_also {
+    my($entry, $seealso, $file) = @_;
+    my($term) = &termnode($entry);
+    my($seeterm);
+
+    $seeterm = $seealso;
+    $seeterm = $1 if $seeterm =~ /^\(see also (.*)\)$/;
+    $seeterm = $1 if $seeterm =~ /^\(see (.*)\)$/;
+
+    if ($seealso !~ /see also/i) {
+	&see($entry, $seeterm, $file);
+    } else {
+	$term->{$ALSOSTRING} .= "\t" if defined($term->{$ALSOSTRING});
+	$term->{$ALSOSTRING} .= $seeterm;
+    }
+
+    $term->{$FILENAME} = $file;
+}
+
+sub index {
+    my($entry, $pages, $file) = @_;
+    my($term) = &termnode($entry);
+
+    $term->{$PGSSTRING} = { } if !defined($term->{$PGSSTRING});
+
+#    print "TERM: $term, $pages ($entry)\n";
+
+    $term->{$PGSSTRING}->{$pages} = 1;
+    $term->{$FILENAME} = $file;
+}
+
+sub printable_pages {
+    my($pages) = @_;
+    my(@pages, @alpha, @reg, @bold, %reg_a, %bold_a);
+    my($page);
+    local($_);
+
+    %reg_a = ();
+    %bold_a = ();
+
+#   print "pages : $pages\n";
+
+    @pages = split(/\s*,\s*/, $pages);
+    foreach $page (@pages) {
+	if ($page =~ /^B(.*)$/) {
+	    if ($page =~ /^(.*)\-(.*)$/) {
+		@range = &expand_range($1, $2);
+		foreach $_ (@range) {
+		    $bold_a{$_} = 1;
+		}
+	    } else {
+		$bold_a{"$1"} = 1;
+	    }
+	} else {
+	    if ($page =~ /^(.*)\-(.*)$/) {
+		@range = &expand_range($1, $2);
+		foreach $_ (@range) {
+		    $reg_a{$_} = 1;
+		}
+	    } else {
+		$reg_a{"$page"} = 1;
+	    }
+	}
+    }
+
+    foreach $page (keys %bold_a) {
+	delete $reg_a{"$page"} if defined($reg_a{"$page"});
+    }
+
+    @reg = &join_pages(keys %reg_a);
+    @bold = &join_pages(keys %bold_a);
+
+#   print "regular: @reg\n";
+#   print "bold   : @bold\n";
+
+    $pages = "";
+    while (@reg || @bold) {
+	if (@reg && @bold) {
+	    if (($reg[0] =~ /^\d/) && ($bold[0] =~ /^\d/)) {
+		if ($reg[0] < $bold[0]) {
+		    $pages .= "$reg[0], ";
+		    shift @reg;
+		} else {
+		    $pages .= "\\fB$bold[0]\\fP, ";
+		    shift @bold;
+		}
+	    } elsif (($reg[0] !~ /^\d/) && ($bold[0] !~ /^\d/)) {
+		if ($arabic{$reg[0]} < $arabic{$bold[0]}) {
+		    $pages .= "$reg[0], ";
+		    shift @reg;
+		} else {
+		    $pages .= "\\fB$bold[0]\\fP, ";
+		    shift @bold;
+		}
+	    } elsif ($reg[0] !~ /^\d/) {
+		$pages .= "$reg[0], ";
+		shift $reg;
+	    } else {
+		$pages .= "\\fB$bold[0]\\fP, ";
+		shift @bold;
+	    }
+	} elsif (@reg) {
+	    $pages .= "$reg[0], ";
+	    shift @reg;
+	} else {
+	    $pages .= "\\fB$bold[0]\\fP, ";
+	    shift @bold;
+	}
+    }
+
+    chop($pages);
+    chop($pages);
+
+    $pages;
+}	    
+
+sub merge_pages {
+    local($range1, $range2) = @_;
+    local(@p1, @p2, @pages, $pages);
+
+    @p1 = split(/\s*,\s*/, $range1);
+    @p2 = split(/\s*,\s*/, $range2);
+    @pages = (@p1, @p2);
+
+    $pages = join(", ", @pages);
+
+    $pages;
+}
+
+sub expand_range {
+    local($start, $stop) = @_;
+    local($count, @range);
+
+    @range = ();
+    for ($count = $start; $count <= $stop; $count++) {
+	push (@range, $count);
+    }
+
+    @range;
+}
+    
+sub join_pages {
+    local(@pages) = @_;
+    local($prev) = -1E6;
+    local($pages, @numericpages, @alphapages, @newpages);
+    local($page, $lastpage, $range);
+
+    @newpages = ();
+    @numericpages = ();
+    @alphapages = ();
+
+    while (@pages) {
+	if ($pages[0] =~ /^\d/) {
+	    push(@numericpages, $pages[0]);
+	} else {
+	    push(@alphapages, $pages[0]);
+	}
+	shift @pages;
+    }
+
+    @pages = sort(@alphapages);
+
+    $range = "";
+    $lastpage = shift(@pages);
+
+    foreach $page (@pages) {
+	next if $page eq $lastpage;
+
+	warn "Don't recognize roman page: \"$page\"\n" if !$arabic{$page};
+
+	if ($arabic{$page} == $arabic{$lastpage} + 1) {
+	    $range = $lastpage if !$range;
+	} else {
+	    if ($range) {
+		$range = "$range$hyphen$lastpage";
+		push(@newpages, $range);
+		$range = "";
+	    } else {
+		push(@newpages, $lastpage);
+	    }		
+	}
+	$lastpage = $page;
+    }
+
+    if ($lastpage) {
+	if ($range) {
+	    $range = "$range$hyphen$lastpage";
+	    push(@newpages, $range);
+	    $range = "";
+	} else {
+	    push(@newpages, $lastpage);
+	}		
+    }
+
+    @pages = sort( { $a <=> $b } @numericpages);
+
+    $range = "";
+    $lastpage = shift(@pages);
+
+    foreach $page (@pages) {
+	next if $page == $lastpage;
+	if ($page == $lastpage + 1) {
+	    $range = $lastpage if !$range;
+	} else {
+	    if ($range) {
+		$range = "$range$hyphen$lastpage";
+		push(@newpages, $range);
+		$range = "";
+	    } else {
+		push(@newpages, $lastpage);
+	    }		
+	}
+	$lastpage = $page;
+    }
+
+    if ($lastpage) {
+	if ($range) {
+	    $range = "$range$hyphen$lastpage";
+	    push(@newpages, $range);
+	    $range = "";
+	} else {
+	    push(@newpages, $lastpage);
+	}		
+    }
+
+    @newpages;
+}
+	
+sub build_roman_numerals {    
+    local(@roman, $tens, $ones, $sum);
+
+    $roman[0] = "";
+    $roman[1] = "i";
+    $roman[2] = "ii";
+    $roman[3] = "iii";
+    $roman[4] = "iv";
+    $roman[5] = "v";
+    $roman[6] = "vi";
+    $roman[7] = "vii";
+    $roman[8] = "viii";
+    $roman[9] = "ix";
+    $roman[10] = "x";
+    $roman[20] = "xx";
+    $roman[30] = "xxx";
+    $roman[40] = "xl";
+    $roman[50] = "l";
+    $roman[60] = "lx";
+    $roman[70] = "lxx";
+    $roman[80] = "lxxx";
+    $roman[90] = "xc";
+
+    %arabic = ();
+    $roman  = ();
+    for ($tens = 0; $tens < 100; $tens += 10) {
+	for ($ones = 0; $ones < 10; $ones++) {
+	    $sum = $tens+$ones;
+	    $arabic{"$roman[$tens]$roman[$ones]"} = $sum;
+	    $roman{$sum} = "$roman[$tens]$roman[$ones]";
+#	    print "$roman[$tens]$roman[$ones] = ", $tens+$ones, "\n";
+	}
+    }
+}
+
+sub sig_handler {  # 1st argument is signal name
+    local($sig) = @_;
+
+    $SIG{'INT'} = 'IGNORE';
+    $SIG{'KILL'} = 'IGNORE';
+    $SIG{'HUP'} = 'IGNORE';
+
+    &unset_all_locks();
+    exit 3;
+}

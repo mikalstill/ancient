@@ -1,0 +1,54 @@
+#!/usr/bin/perl5 -- # -*- Perl -*-
+#
+# Print the list of figures in an SGML book
+#
+# $Id: sgmlfiglist,v 1.1.1.1 2002-07-15 21:33:31 root Exp $
+#
+#
+
+use vars qw($PROGNAME $VERSION);
+
+$BASEVERS   = "0.1";
+$RCS_ID     = '$Id: sgmlfiglist,v 1.1.1.1 2002-07-15 21:33:31 root Exp $'; # '
+($PROGNAME  = $RCS_ID) =~ s/^.Id: (\S+) .*$/$1/;
+($PATCHLEVEL= $RCS_ID) =~ s/^.Id: \S+ \d+\.(\d+) .*$/$1/;
+$VERSION    = "$BASEVERS patchlevel $PATCHLEVEL";
+$EXECDIR    = ".";
+$EXECDIR    = $1 if $0 =~ /^(.*)\/[^\/]+$/;
+
+######################################################################
+
+#!/usr/bin/perl5 -- # -*-Perl-*-
+#
+
+@FILES = ();
+
+open (B, "BOOKFILES");
+while (<B>) {
+    push (@FILES, $1) if /\[\s*(\S+\.sgml?)\s*\]/;
+}
+close (B);
+
+while (@FILES) {
+    $file = shift @FILES;
+    system ("co $file") if ! -r $file;
+
+    if ($file =~ /^ch(\d+)\.sgml?/) {
+	$name = $1;
+    } elsif ($file =~ /^app([a-z])\.sgml?/) {
+	$name = uc($1);
+    } else {
+	($name = $file) =~ s/\.sgml?//;
+    }
+
+    $count = 0;
+    $size = -s $file;
+    open (F, $file);
+    read (F, $_, $size);
+    s/\n/ /g;
+    while (/<figure[^<>]*>[^<>]*<title[^<>]*>([^<>]*).*?<graphic[^<>]*fileref=\"?([^<>\"]*)\"?/i) {
+	$count++;
+	printf "%s.%02d. %s: %s\n", $name, $count, $2, $1;
+	$_ = $';
+    }
+}

@@ -1,0 +1,75 @@
+FILE /usr/local/share/gmat/sgml/ORA/dtds/nutshell.dtd
+     /usr/local/share/gmat/sgml/cdtds/nutshell
+
+FILE /usr/local/share/gmat/sgml/HTML/html-3.dtd  
+     /usr/local/share/gmat/sgml/cdtds/html-3
+
+FILE /usr/local/share/gmat/sgml/HTML/html-3s.dtd
+     /usr/local/share/gmat/sgml/cdtds/html-3s
+
+FILE /usr/local/share/gmat/sgml/HTML/html.dtd
+     /usr/local/share/gmat/sgml/cdtds/html
+
+FILE /usr/local/share/gmat/sgml/HTML/html-s.dtd
+     /usr/local/share/gmat/sgml/cdtds/html-s
+
+FILE /usr/local/share/gmat/sgml/HTML/html-mcom.dtd
+     /usr/local/share/gmat/sgml/cdtds/html-mcom
+
+FILE /usr/local/share/gmat/sgml/HTML/html-hj.dtd
+     /usr/local/share/gmat/sgml/cdtds/html-hj
+
+
+FILE /usr/local/share/gmat/sgml/ORA/dtds/dorahtml.dtd
+     /usr/local/share/gmat/sgml/cdtds/dorahtml
+
+FILE /usr/local/share/gmat/sgml/ORA/dtds/orahtml.dtd
+     /usr/local/share/gmat/sgml/cdtds/orahtml
+
+
+FILE /usr/local/share/gmat/sgml/ORA/dtds/oraprod.dtd
+     /usr/local/share/gmat/sgml/cdtds/oraprod
+
+FILE /usr/local/share/gmat/sgml/ORA/dtds/oraprod.2.2.1.dtd
+     /usr/local/share/gmat/sgml/cdtds/oraprod.2.2.1
+
+FILE /usr/local/share/gmat/sgml/ORA/dtds/oraprod.2.4.dtd
+     /usr/local/share/gmat/sgml/cdtds/oraprod.2.4
+
+FILE /usr/local/share/gmat/sgml/ORA/dtds/oraprod.3.0.dtd
+     /usr/local/share/gmat/sgml/cdtds/oraprod.3.0
+
+FILE /usr/local/share/gmat/sgml/ORA/dtds/xpt.dtd
+     /usr/local/share/gmat/sgml/cdtds/xpt
+
+FILE /usr/local/share/gmat/sgml/ORA/dtds/pwrtools.dtd
+     /usr/local/share/gmat/sgml/cdtds/pwrtools
+
+FILE /usr/local/share/gmat/sgml/ORA/dtds/upt.dtd
+     /usr/local/share/gmat/sgml/cdtds/upt
+
+FILE /usr/local/share/gmat/sgml/ORA/dtds/memo.dtd
+     /usr/local/share/gmat/sgml/cdtds/memo
+
+FILE /usr/local/share/gmat/sgml/ORA/dtds/mktempl.dtd
+     /usr/local/share/gmat/sgml/cdtds/mktempl
+
+FILE /usr/local/share/gmat/sgml/Davenport/dtds/docbook-2.4b1.dtd
+     /usr/local/share/gmat/sgml/cdtds/docbook-2.4b1
+
+FILE /usr/local/share/gmat/sgml/ISO_12083-1993/dtds/book.dtd
+     /usr/local/share/gmat/sgml/cdtds/book.12083.dtd
+
+FILE /usr/local/share/gmat/sgml/ISO_12083-1993/dtds/article.dtd
+     /usr/local/share/gmat/sgml/cdtds/article.12083.dtd
+
+FILE /usr/local/share/gmat/sgml/ISO_12083-1993/dtds/serial.dtd
+     /usr/local/share/gmat/sgml/cdtds/serial.12083.dtd
+
+
+FILE /work/nutshell/twi95/quark/wic.dtd
+     /work/nutshell/twi95/quark/wic.cdtd
+
+
+FILE /usr/local/share/gmat/sgml/ORA/dtds/toolbox.dtd
+     /usr/local/share/gmat/sgml/cdtds/toolbox.cdtd

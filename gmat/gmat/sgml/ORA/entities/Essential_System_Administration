@@ -1,0 +1,108 @@
+<!ENTITY  Ax SDATA "AIX 3.1" >
+<!ENTITY  Bx SDATA "BSD" >
+<!ENTITY  Ix SDATA "Interactive UNIX" >
+<!ENTITY  Px SDATA "Stardent UNIX" >
+<!ENTITY  Sx SDATA "SunOS" >
+<!ENTITY  Ux SDATA "UNIX" >
+<!ENTITY  V3 SDATA "V.3" >
+<!ENTITY  V4 SDATA "V.4" >
+<!ENTITY  Vx SDATA "System V" >
+<!ENTITY  Xx SDATA "XENIX" >
+<!ENTITY refapp  SDATA "Bourne Shell Programming"  >
+<!ENTITY appbiblio  SDATA "Bibliography" >
+<!ENTITY pref  SDATA "Preface" >
+<!ENTITY chap1  SDATA "Introduction to System Administration" >
+<!ENTITY sendmailgroup  SDATA "Sending Mail to a Group of Users" >
+<!ENTITY Story1  SDATA "Essential Administrative Tools" >
+<!ENTITY chap2  SDATA "The UNIX Way" >
+<!ENTITY FileProt  SDATA "File Protection" >
+<!ENTITY sgidaccessondir  SDATA "SGID Access on Directories (AIX 3.1 and SunOS)" >
+<!ENTITY filetypes  SDATA "File Types" >
+<!ENTITY links  SDATA "Links" >
+<!ENTITY processes  SDATA "Processes" >
+<!ENTITY lifecycleprocess  SDATA "The Life Cycle of a Process" >
+<!ENTITY devices  SDATA "Devices" >
+<!ENTITY fixeddiskspecialfiles  SDATA "Fixed Disk Special Files" >
+<!ENTITY chap3  SDATA "Startup and Shutdown" >
+<!ENTITY bootprocess  SDATA "The UNIX Boot Process" >
+<!ENTITY startboot  SDATA "Starting a Boot" >
+<!ENTITY initialization  SDATA "UNIX Initialization Scripts" >
+<!ENTITY sysvinitialization  SDATA "System V Initialization Files" >
+<!ENTITY shutdownunixsys  SDATA "Shutting Down a UNIX System" >
+<!ENTITY systemvshutdowncom  SDATA "The System V shutdown Command" >
+<!ENTITY bsdshutdownfastreboot  SDATA "BSD Shutdown and Fast Reboot" >
+<!ENTITY Story2  SDATA "When the System Won't Boot" >
+<!ENTITY chap4  SDATA "User Accounts" >
+<!ENTITY assignuser  SDATA "Assigning User Passwords" >
+<!ENTITY guidelineschoosepasswords  SDATA "Guidelines for Choosing Passwords" >
+<!ENTITY shadowpassword  SDATA "Shadow Password Files" >
+<!ENTITY setpasswordrestrict  SDATA "Setting Password Restrictions" >
+<!ENTITY initfiles  SDATA "Initialization Files" >
+<!ENTITY termhandinit  SDATA "Terminal Handling in Initialization Files" >
+<!ENTITY removinguseraccount  SDATA "Removing a User Account" >
+<!ENTITY unixgroups  SDATA "UNIX Groups" >
+<!ENTITY aix31groupsets  SDATA "AIX 3.1 Group Sets" >
+<!ENTITY chap5  SDATA "Security" >
+<!ENTITY suidsgidaccess  SDATA "The SUID and SGID Access Modes" >
+<!ENTITY aixaccesscontrol  SDATA "AIX 3.1 Access Control Lists" >
+<!ENTITY configbsderror  SDATA "Configuring BSD-style Error Logging" >
+<!ENTITY chap6  SDATA "Automating Routine Tasks" >
+<!ENTITY expasswordfilesec  SDATA "Example:  Password File Security" >
+<!ENTITY exampmondiskusage  SDATA "Example:  Monitoring Disk Usage" >
+<!ENTITY executionsched  SDATA "Execution Scheduling" >
+<!ENTITY usecronautosysadmin  SDATA "Using cron to Automate System Administration" >
+<!ENTITY chap7  SDATA "Managing System Resources" >
+<!ENTITY controlexecute  SDATA "Controlling Execution Priorities" >
+<!ENTITY managediskusage  SDATA "Managing Disk Usage with Disk Quotas (BSD and V.4)" >
+<!ENTITY chap8  SDATA "Filesystems and Disks" >
+<!ENTITY mountdismount  SDATA "Mounting and Dismounting Filesystems" >
+<!ENTITY FSConfig  SDATA "The Filesystem Configuration File" >
+<!ENTITY managediskspace  SDATA "Managing Disk Space Usage" >
+<!ENTITY quotreportusage  SDATA "quot:  Report Usage by User (BSD, XENIX, and V.4)" >
+<!ENTITY limitgrowthlogfiles  SDATA "Limiting the Growth of Log Files" >
+<!ENTITY aixskulker  SDATA "The AIX 3.1 skulker Script" >
+<!ENTITY diskpartitions  SDATA "Disk Partitions" >
+<!ENTITY adddisks  SDATA "Adding Disks" >
+<!ENTITY addadditional  SDATA "Adding a Hard Disk (XENIX and Interactive UNIX)" >
+<!ENTITY makespecial  SDATA "Making Special Files" >
+<!ENTITY makenewfile  SDATA "Making a New Filesystem" >
+<!ENTITY remakexistfile  SDATA "Remaking an Existing Filesystem" >
+<!ENTITY floppydiskspecial  SDATA "Floppy Disk Special Files" >
+<!ENTITY AIXdisks  SDATA "Disks and Filesystems Under AIX 3.1" >
+<!ENTITY devicegroups  SDATA "Device Groups" >
+<!ENTITY chap9  SDATA "Backup and Restore" >
+<!ENTITY backupfilesys  SDATA "Backing Up the Filesystem" >
+<!ENTITY restorefilebackup  SDATA "Restoring Files from Backup" >
+<!ENTITY tapespecial  SDATA "Tape Special Files" >
+<!ENTITY chap10  SDATA "Terminals and Modems" >
+<!ENTITY spectermchar  SDATA "Specifying Terminal Characteristics" >
+<!ENTITY physcon  SDATA "Making the Physical Connection" >
+<!ENTITY PC2  SDATA "Pulling the Wool Over Their Eyes" >
+<!ENTITY BSDconfig  SDATA "BSD Configuration Files" >
+<!ENTITY chap11  SDATA "Printers and the Spooling Subsystem" >
+<!ENTITY startstopprint  SDATA "Starting and Stopping the Print Service" >
+<!ENTITY priorperm  SDATA "Priorities and Permissions" >
+<!ENTITY aixqueuesys  SDATA "The &Ax; Queueing System" >
+<!ENTITY usequeue  SDATA "Using the Queueing System as a Batch Service" >
+<!ENTITY chap12  SDATA "TCP/IP Network Management" >
+<!ENTITY hostlevelequiv  SDATA "Host Level Equivalence" >
+<!ENTITY mountremotedir  SDATA "Mounting Remote Directories" >
+<!ENTITY chap13  SDATA "Accounting" >
+<!ENTITY checking SDATA "Checking a Filesystem with fsck">
+<!ENTITY guarantee SDATA "Guaranteeing Disk Accuracy">
+<!ENTITY rebooting SDATA "Rebooting UNIX">
+<!ENTITY automatesysad SDATA "Automate System Administration">
+<!ENTITY expasswordfiles SDATA "Example: Password File Security">
+<!ENTITY guidelinechoose SDATA "Guidelines for Choosing Passwords">
+<!ENTITY limitgrowth SDATA "Limiting the Growth of Log Files">
+<!ENTITY loggingsysmess SDATA "Logging System Messages Under BSD">
+<!ENTITY usingcronauto SDATA "Using cron to Automate System Administration">
+<!ENTITY introprosch SDATA "Introducing the System V.4 Process Scheduler">
+<!ENTITY resfilfrbac SDATA "Restoring Files from Backup">
+<!ENTITY disksaix SDATA "Disks and Filesystems Under AIX 3.1">
+<!ENTITY exmondisk SDATA "Example: Monitoring Disk Usage">
+<!ENTITY fixdiskspecia SDATA "Fixed Disk Special Files">
+<!ENTITY floppyspecial SDATA "Floppy Disk Special Files">
+<!ENTITY manqueuanddev SDATA "Managing Queues and Devices">
+<!ENTITY tcpipnet SDATA "TCP/IP Networking and AIX 3.1">
+<!ENTITY adminaccop SDATA "Administrative Accounting Options">

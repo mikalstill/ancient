@@ -1,0 +1,256 @@
+<!-- ...................................................................... -->
+<!-- ORA Production DTD 3.0, derived from ................................. -->
+<!-- DocBook DTD V3.0 ..................................................... -->
+<!-- File docbook.dtd ..................................................... -->
+
+<!-- ######################################################################
+     # Production Modifications:
+     # Added SPANBEG and SPANEND attributes to <INDEXTERM>
+     #   This is for backwards compatability with older DocBook DTDs and 
+     #   existing tools/procedures (both of which should be upgraded to
+     #   the new scheme).
+     # Made the <BOOK> content model exceptionally liberal
+     # Modified Linkend attribute on most elements.
+     # Added <TASK> element to %divcomponent.mix and defined its children
+     # Added "prefix" attribute to <SYSTEMITEM> element to create well-
+     #    formed URLs.
+     # Added <CURSOR> to %tech.char.class;.
+     # Made ID on <CO> non-required.
+     # Add <PROGRAMREFERENCE> element to %tech.char.class;.
+     # Add <ACRONYM> to <REPLACEABLE>.
+     # Allow <REFENTRY>s and <SECT2>s to co-exist in peace and harmony.
+     # Allow <VARLISTENTRY> to omit <LISTITEM>.
+     # Add <ACRONYM> to %smallcptr.char.mix.
+     # Let <EPIGRAPH> contain multiple <ATTRIBUTION>s.
+     # Allow <SIDEBAR> to contain <AUTHORGROUP>.
+     # Add KEY attribute to <BIBLIOENTRY>.
+     # Allow <REFNAMEDIV> to omit <REFPURPOSE>.
+     # Allow <REFENTRY> to omit <REFSECT1>.
+     ######################################################################  
+-->
+
+<!-- 
+     Please direct all questions, bug reports, or suggestions for
+     changes to:
+
+     o Tools, O'Reilly & Associates, Inc.
+       90 Sherman Street, Cambridge, MA 02140
+       <tools@ora.com>
+-->
+
+<!-- ###################################################################### -->
+
+<!-- Add definitions for the attributes to indexterm -->
+<!ENTITY % local.indexterm.attrib "
+	SpanBeg		(Y | N)		N
+	SpanEnd		IDREF		#CONREF
+">
+
+<!-- Make linkend a plural. -crism  -->
+<!ENTITY % linkendreq.attrib
+	"Linkend	IDREFS		#REQUIRED"
+>
+
+<!-- Add <TASK> to %divcomponent.mix;. -crism  -->
+<!ENTITY % local.divcomponent.mix "| Task">
+
+<!-- Turn off the <BOOK> element in the DocBook DTD. -crism  -->
+<!ENTITY % book.module "IGNORE">
+
+<!-- Add prefix attribute to <SYSTEMITEM>. -crism  -->
+<!ENTITY % local.systemitem.attrib
+	"prefix		CDATA		#IMPLIED">
+
+<!-- Add <CURSOR> and <PROGRAMREFERENCE> to %tech.char.class;. -crism
+  -->
+<!ENTITY % local.tech.char.class "| Cursor | ProgramReference">
+
+<!-- Ignore the original definition of CO. -crism -->
+<!ENTITY % co.module "IGNORE">
+
+<!-- Ignore the original definition of REPLACEABLE. -crism -->
+<!ENTITY % replaceable.module "IGNORE">
+
+<!-- Ignore the original definition of SECT1. -crism -->
+<!ENTITY % sect1.module "IGNORE">
+
+<!-- Ignore the original definition of VARLISTENTRY. -crism -->
+<!ENTITY % varlistentry.module "IGNORE">
+
+<!-- Add ACRONYM to things like GUILABELs. -crism -->
+<!ENTITY % local.smallcptr.char.mix "| Acronym">
+
+<!-- Ignore the original definition of EPIGRAPH. -crism -->
+<!ENTITY % epigraph.module "IGNORE">
+
+<!-- Allow <SIDEBAR> to contain <AUTHORGROUP>. -crism -->
+<!ENTITY % local.sidebar.mix "| AuthorGroup">
+
+<!-- Add KEY attribute to <BIBLIOENTRY>. -crism -->
+<!ENTITY % local.biblioentry.attrib "Key	CDATA	#IMPLIED">
+
+<!-- Ignore the original definition of REFNAMEDIV. -crism -->
+<!ENTITY % refnamediv.module "IGNORE">
+
+<!-- Ignore the original definition of REFENTRY. -crism -->
+<!ENTITY % refentry.module "IGNORE">
+
+<!-- Source in the DocBook DTD -->
+<!ENTITY % DocBookDTD PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
+%DocBookDTD;
+
+<!-- Add our own definition for the <BOOK> element -->
+<!ENTITY % local.book.attrib "">
+<!ENTITY % book.role.attrib "%role.attrib;">
+<!ELEMENT Book - O ((%div.title.content;)?, BookInfo?, Dedication?,
+		(Glossary|Bibliography|Preface|(%chapter.class;)|Reference
+		|Part|(%appendix.class;)|(%index.class;)|ToC|LoT)*)
+		+(%ubiq.mix;)>
+<!ATTLIST Book	
+		--FPI: Preferred formal public ID of book--
+		FPI		CDATA		#IMPLIED
+		%label.attrib;
+		%status.attrib;
+		%common.attrib;
+		%book.role.attrib;
+		%local.book.attrib;
+>
+
+<!-- Definition for <TASK> and children. -crism  -->
+<!ELEMENT Task - - ((%sect.title.content;)?, TaskInfo,
+		(%component.mix;)*)>
+<!ATTLIST Task
+		%common.attrib;
+>
+<!ELEMENT TaskInfo - - (%component.mix;)*>
+
+<!-- Definition for <CURSOR>. -crism  -->
+<!ELEMENT Cursor - - (%para.char.mix;)*>
+<!ATTLIST Cursor
+		%common.attrib;>
+
+<!-- New definition of <CO>. -->
+<!ENTITY % local.co.attrib "">
+<!-- CO is a callout area of the LineColumn unit type (a single character 
+     position); the position is directly indicated by the location of CO. -->
+<!ENTITY % co.role.attrib "%role.attrib;">
+<!ELEMENT CO - O EMPTY>
+<!ATTLIST CO
+		%label.attrib; --bug number/symbol override or initialization--
+		%linkends.attrib; --to any related information--
+		%common.attrib;
+		%co.role.attrib;
+		%local.co.attrib;
+>
+
+<!ENTITY % programreference.role.attrib "%role.attrib;">
+<!ENTITY % local.programreference.attrib "">
+<!-- Definition of <PROGRAMREFERENCE>. -crism -->
+<!ELEMENT ProgramReference - O EMPTY>
+<!ATTLIST ProgramReference
+		filename	CDATA	#REQUIRED
+		name		CDATA	#IMPLIED
+		%common.attrib;
+		%programreference.role.attrib;
+		%local.programreference.attrib;
+>
+
+<!-- Redefinition of <REPLACEABLE> to include <ACRONYM>. -crism -->
+<!ENTITY % local.replaceable.attrib "">
+<!ENTITY % replaceable.role.attrib "%role.attrib;">
+<!ELEMENT Replaceable - - ((#PCDATA 
+		| %link.char.class; 
+		| Optional
+		| %base.char.class; 
+		| %other.char.class; 
+		| InlineGraphic
+		| Acronym)+)>
+<!ATTLIST Replaceable
+		--
+		Class: Type of information the element represents; no
+		default
+		--
+		Class		(Command
+				|Function
+				|Option
+				|Parameter)	#IMPLIED
+		%common.attrib;
+		%replaceable.role.attrib;
+		%local.replaceable.attrib;
+>
+
+<!-- Modified to allow <REFENTRY> and <SECT2> to commingle. -crism -->
+<!ENTITY % local.sect1.attrib "">
+<!ENTITY % sect1.role.attrib "%role.attrib;">
+<!ELEMENT Sect1 - O (Sect1Info?, (%sect.title.content;), (%nav.class;)*,
+		(((%divcomponent.mix;)+, 
+		(((%refentry.class;) | Sect2)* | SimpleSect*))
+		| ((%refentry.class;) | Sect2)+ | SimpleSect+), (%nav.class;)*)
+		+(%ubiq.mix;)>
+<!ATTLIST Sect1
+		--
+		Renderas: Indicates the format in which the heading should
+		appear
+		--
+		Renderas	(Sect2
+				|Sect3
+				|Sect4
+				|Sect5)		#IMPLIED
+		%label.attrib;
+		%status.attrib;
+		%common.attrib;
+		%sect1.role.attrib;
+		%local.sect1.attrib;
+>
+
+<!-- Modified to allow optional <LISTITEM>. -crism -->
+<!ENTITY % local.varlistentry.attrib "">
+<!ENTITY % varlistentry.role.attrib "%role.attrib;">
+<!ELEMENT VarListEntry - O (Term+, ListItem?)>
+<!ATTLIST VarListEntry
+		%common.attrib;
+		%varlistentry.role.attrib;
+		%local.varlistentry.attrib;
+>
+
+<!-- Modified to allow multiple <ATTRIBUTION>s. -crism -->
+<!ENTITY % local.epigraph.attrib "">
+<!ENTITY % epigraph.role.attrib "%role.attrib;">
+<!ELEMENT Epigraph - - (Attribution*, (%para.class;)+)>
+<!ATTLIST Epigraph
+		%common.attrib;
+		%epigraph.role.attrib;
+		%local.epigraph.attrib;
+>
+
+<!-- Modified to allow omitted <REFPURPOSE>s. -crism -->
+<!ENTITY % local.refnamediv.attrib "">
+<!ENTITY % refnamediv.role.attrib "%role.attrib;">
+<!ELEMENT RefNameDiv - O (RefDescriptor?, RefName+, RefPurpose?, RefClass*,
+		(Comment|%link.char.class;)*)>
+<!ATTLIST RefNameDiv
+		%common.attrib;
+		%refnamediv.role.attrib;
+		%local.refnamediv.attrib;
+>
+
+<!-- Modified to allow omitted <REFSECT1>s. -crism -->
+<!ENTITY % local.refentry.attrib "">
+<!ENTITY % refentry.role.attrib "%role.attrib;">
+<!ELEMENT RefEntry - O (DocInfo?, RefMeta?, (Comment|%link.char.class;)*,
+		RefNameDiv, RefSynopsisDiv?, RefSect1*) +(%ubiq.mix;)>
+<!ATTLIST RefEntry
+		%status.attrib;
+		%common.attrib;
+		%refentry.role.attrib;
+		%local.refentry.attrib;
+>
+
+<!-- local entities -->
+<!ENTITY % oraents	PUBLIC "-//ORA//ENTITIES ORA Entities//EN">
+<!ENTITY % orachars     PUBLIC "-//ORA//ENTITIES orachars//EN">
+%orachars;
+%oraents;
+
+
+<!-- EOF -->

@@ -1,0 +1,77 @@
+<!-- oraxbooks.ent.  entities for ORA X Library Books  29 July 94 -->
+
+<!ENTITY VOL0title      "<EMPHASIS>X Protocol Reference Manual</EMPHASIS>" >
+<!ENTITY VOL1title      "<EMPHASIS>Xlib Programming Manual</EMPHASIS>" >
+<!ENTITY VOL2title      "<EMPHASIS>Xlib Reference Manual</EMPHASIS>" >
+<!ENTITY VOL3title      "<EMPHASIS>X Window System User's Guide</EMPHASIS>" >
+<!ENTITY VOL3Mtitle    "<EMPHASIS>X Window System User's Guide</EMPHASIS>" >
+<!ENTITY VOL4title    "<EMPHASIS>X Toolkit Intrinsics Programming Manual</EMPHASIS>" >
+<!ENTITY VOL5title      "<EMPHASIS>X Toolkit Intrinsics Reference Manual</EMPHASIS>" >
+<!ENTITY VOL6title      "<EMPHASIS>X Toolkit Widget Reference Manual</EMPHASIS>" >
+<!ENTITY VOL6Atitle      "<EMPHASIS>Motif Programming Manual</EMPHASIS>" >
+<!ENTITY VOL6Btitle      "<EMPHASIS>Motif Reference Manual</EMPHASIS>" >
+<!ENTITY VOL7Atitle      "<EMPHASIS>XView Programming Manual</EMPHASIS>" >
+<!ENTITY VOL7Btitle      "<EMPHASIS>XView Reference Manual</EMPHASIS>" >
+<!ENTITY VOL8title      "<EMPHASIS>X Window System Adminstrator's Guide</EMPHASIS>" >
+
+<!ENTITY VOL0      SDATA "Volume Zero" >
+<!ENTITY VOL1      SDATA "Volume One" >
+<!ENTITY VOL2      SDATA "Volume Two" >
+<!ENTITY VOL3      SDATA "Volume Three" >
+<!ENTITY VOL3M      SDATA "Volume Three, Motif Edition" >
+<!ENTITY VOL4      SDATA "Volume Four" >
+<!ENTITY VOL4M      SDATA "Volume Four, Motif Edition" >
+<!ENTITY VOL5      SDATA "Volume Five" >
+<!ENTITY VOL6      SDATA "Volume Six" >
+<!ENTITY VOL6A      SDATA "Volume Six A" >
+<!ENTITY VOL8      SDATA "Volume Eight" >
+<!ENTITY VOL6B      SDATA "Volume Six B" >
+<!ENTITY VOL7A      SDATA "Volume Seven A" >
+<!ENTITY VOL7B      SDATA "Volume Seven B" >
+
+<!-- entities for v5 motif -->
+<!ENTITY s1	 SDATA "(1)" >
+<!ENTITY s2	 SDATA "(2)" >
+<!ENTITY s3	 SDATA "(3)" >
+<!ENTITY s4	 SDATA "(4)" >
+<!ENTITY s5	 SDATA "(5)" >
+<!ENTITY s6	 SDATA "(6)" >
+<!ENTITY s7	 SDATA "(7)" >
+<!ENTITY s8	 SDATA "(8)" >
+
+<!-- entity set for volume 4 motif, r5 edition -->
+<!ENTITY lr  SDATA "labelString">
+<!ENTITY cC  SDATA "XmPushButton">
+<!ENTITY fC  SDATA "XRowColumn">
+<!ENTITY bc SDATA "XmRowColumn">
+<!ENTITY pM  SDATA "Primitive" >
+<!ENTITY m  SDATA "Motif" >
+<!ENTITY ol  "<acronym>OPEN LOOK</acronym>" >
+<!ENTITY cm  SDATA "PushButton" >
+<!ENTITY fM  SDATA "xform" >
+<!ENTITY sb  SDATA "ScrollBar" >
+<!ENTITY x  SDATA "Xm" >
+<!ENTITY bx  SDATA "RowColumn" >
+<!ENTITY bn  SDATA "rowColumn" >
+<!ENTITY rb  SDATA "xrowcolumn" >
+
+<!-- v 1 -->
+
+<!ENTITY CICCCM0  SDATA "Appendix L" >
+
+<!-- next set from v1, used in v2 -->
+<!ENTITY CBASIC  SDATA "Chapter 3" >
+<!ENTITY CBASICtitle  SDATA "Basic Window Program" >
+<!ENTITY CEVENTS1  SDATA "Chapter 8" >
+<!ENTITY SPROPA  SDATA "8.3.2" >
+<!ENTITY SCOMPILE  SDATA "2.6.2.2" >
+<!ENTITY SFAIRNESS  SDATA "G.1.1.2" >
+
+<!-- for seven A and B -->
+<!ENTITY spec  "from the <acronym>OPEN LOOK GUI</acronym> <emphasis>Specification Guide</emphasis>">
+
+<!-- for v 2  -->
+<!ENTITY SMACROS2  SDATA "3.2.3">
+<!ENTITY XANY2  SDATA "E-1">
+<!ENTITY TAPPFMSKTYS  SDATA "E-0">
+

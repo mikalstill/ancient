@@ -1,0 +1,107 @@
+# Gmat global configuration file
+#
+# $Id: oratoolsrc,v 1.1.1.1 2002-07-15 21:33:31 root Exp $
+#
+#
+######################################################################
+# Global options
+
+# directories
+#
+bindir    = /usr/local/share/gmat/bin
+workdir   = /usr/local/bin
+libdir    = /usr/local/share/gmat/lib
+seddir    = [SEDDIR|/usr/local/share/gmat/sed]
+
+debugdir  = ./debug
+scriptdir = ./scripts
+macrodir  = ./macros
+
+# programs
+#
+gsoelim   = /usr/bin/soelim
+sgmls     = /usr/local/bin/nsgmls
+crlf      = /usr/local/bin/crlf -q
+zcat      = /usr/local/bin/gzcat
+troff     = /usr/bin/troff
+
+# files
+#
+bookfiles = BOOKFILES
+printer   = [PRINTER|lp]
+bookids   = BOOKIDS
+
+temp_base = ,$WHOAMI.$basefile
+ps_base   = $basefile-$WHOAMI
+sgml_base = drv-$WHOAMI
+ext_base  = drv-$WHOAMI
+
+# SGML stuff
+#
+sgmls_opts = -dgru -wno-duplicate
+sdecl      = /usr/local/share/gmat/sgml/sdecl
+sgml_path  = ./%S:~/sgml/%S:/usr/local/share/gmat/sgml/%S:/usr/local/share/gmat/sgml/entities/%S
+sgml_catalog_files = ./CATALOG:/usr/local/share/gmat/sgml/CATALOG
+
+# Message flags:
+# Verbose  Quiet
+# -------  -----     ------------------------------
+# True     True   =  Meaningless (indeterminate)
+# True     False  =  All messages
+# False    True   =  No messages
+# False    False  =  Only warning messages
+# -------  -----     ------------------------------
+verbose   = false
+quiet     = false
+
+[ gmat.troff ]
+
+action    = view
+
+tbl       = tbl
+pic       = pic
+eqn       = eqn
+
+tbl_opts  = -
+pic_opts  = -
+eqn_opts  = -
+
+[ dbtohtml ]
+rules = [ORALIBDIR|/usr/local/share/gmat/lib]/dbtohtml.tag [ORALIBDIR|/usr/local/share/gmat/lib]/dbtohtml.ent
+
+[ dbtoltx ]
+rules = [ORALIBDIR|/usr/local/share/gmat/lib]/dbtoltx.tag [ORALIBDIR|/usr/local/share/gmat/lib]/dbtoltx.ent
+
+[ dbtortf ]
+rules = [ORALIBDIR|/usr/local/share/gmat/lib]/dbtortf.tag [ORALIBDIR|/usr/local/share/gmat/lib]/dbtortf.ent
+
+[ dbtotexi ]
+rules = [ORALIBDIR|/usr/local/share/gmat/lib]/dbtotexi.tag [ORALIBDIR|/usr/local/share/gmat/lib]/dbtotexi.ent 
+
+[ memototxt ]
+rules = [ORALIBDIR|/usr/local/share/gmat/lib]/memototxt.tag [ORALIBDIR|/usr/local/share/gmat/lib]/memototxt.ent
+
+[xdbto3l]
+rules = [ORALIBDIR|/usr/local/share/gmat/lib]/xdbto3l.tag [ORALIBDIR|/usr/local/share/gmat/lib]/xdbto3l.ent ./xdbto3l.tag
+
+[ dbto3l ]
+rules = /usr/local/share/gmat/lib/dbto3l.rules
+id_database = BOOKIDS
+
+[ gmat ]
+
+sgmlto3l  = xdbto3l
+comment   = This is really gmat.old
+action    = view
+
+tbl       = tbl
+pic       = pic
+eqn       = eqn
+
+tbl_opts  = -
+pic_opts  = -
+eqn_opts  = -
+
+
+
+

@@ -1,0 +1,192 @@
+#!/usr/bin/perl5 -- # -*- Perl -*-
+#
+# Find the YADC codes in troff books and print the appropriate string defs
+#
+# $Id: yadc-strings,v 1.1.1.1 2002-07-15 21:33:31 root Exp $
+#
+#
+
+use vars qw($PROGNAME $VERSION);
+
+$BASEVERS   = "0.1";
+$RCS_ID     = '$Id: yadc-strings,v 1.1.1.1 2002-07-15 21:33:31 root Exp $'; # '
+($PROGNAME  = $RCS_ID) =~ s/^.Id: (\S+) .*$/$1/;
+($PATCHLEVEL= $RCS_ID) =~ s/^.Id: \S+ \d+\.(\d+) .*$/$1/;
+$VERSION    = "$BASEVERS patchlevel $PATCHLEVEL";
+$EXECDIR    = ".";
+$EXECDIR    = $1 if $0 =~ /^(.*)\/[^\/]+$/;
+
+######################################################################
+
+%YADC = ();
+%USED = ();
+
+$bookfiles = 'BOOKFILES';
+
+@FILES = @ARGV;
+if (!@FILES) {
+    open (F, $bookfiles) || die;
+    while (<F>) {
+	push (@FILES, $1) if /^\s*\[\s*(\S+)\s*\]\s*$/;
+    }
+    close (F);
+}
+
+open (F, "bcross.cf") || die;
+
+%MACROS = ();
+%KEYLET = ('s');
+
+while (<F>) {
+    chop;
+    next if /^\s*\#/;
+    die "Unparseable line in bcross.cf: $_\n" if !/^(\S+)\s+(.)\s*$/;
+    $macro = $1;
+    $type  = $2;
+
+    die "Unexpected type: $type\n" if $type !~ /[SABCDTFXNRE]/;
+
+    $macro =~ s/\[/\\\[/g;
+
+    $MACROS{$macro} = $type;
+
+    $type =~ tr/A-Z/a-z/;
+    $type = 's' if $type =~ /[sabcd]/;
+    $KEYLET{$type} = 1;
+}
+
+$letters = join ("", keys %KEYLET);
+$letters =~ tr/A-Z/a-z/;
+
+$head = "";
+while (@FILES) {
+    $file = shift @FILES;
+    $chap = $file;
+    $chap = $1 if $file =~ /^([^\.]+)\./;
+    
+    $USED{$chap} = 1;
+
+    $lasthead = 0;
+    if (!open (F, $file)) {
+	warn "Cannot open $file: skipping\n";
+	next;
+    }
+
+    print STDERR "Processing $file...\n";
+
+    while (<F>) {
+	if ($lasthead && /^\.\\\" \\\#(.*)\s*$/) {
+	    my($string, $first, $rest);
+	    $string = $1;
+	    $first = substr($string, 0, 1);
+	    $rest = substr($string, 1);
+
+	    $first =~ tr/A-Z/a-z/;
+
+	    $string = "$first$rest";
+	    
+	    warn "Duplicate id: $1\n" if defined($YADC{$string});
+#	    print STDERR "YADC $string = $head\n";
+	    $YADC{$string} = $head;
+	}
+
+	$lasthead = 0;
+
+	if (/^\.(\S+)\s+/ && defined($MACROS{$1})) {
+	    $macro = $1;
+	    if ($MACROS{$macro} eq 'S') {
+		if (/^\.$macro\s+\S+\s+(.*)\s*$/) {
+		    @head = split(/\s+/, $1);
+		    $head = "";
+		    for ($count = 0; $count < 3; $count++) {
+			$hdr = shift @head;
+			$head .= " " if $head ne "";
+			$head .= $hdr;
+			if ($hdr =~ /^\"/) {
+			    while ($hdr && $hdr !~ /\"$/) {
+				$hdr = shift @head;
+				$head .= " $hdr";
+			    }
+			}
+		    }
+		    
+		    $title = $head;
+		    $title =~ s/\"//g;
+		    $title =~ s/\s+/ /g;
+		    $title =~ s/^\s+//g;
+		    $title =~ s/\s+$//g;
+		    warn "Duplicate id: $chap\n" if defined($YADC{$chap});
+		    $YADC{$chap} = "\\fI$title\\fP";
+		} else {
+		    warn "Unparseable .$macro...ignored\n";
+		}
+	    } else {
+		if (/^\.$macro\s+(.*)\s*$/) {
+		    @head = split(/\s+/, $1);
+		    $head = "";
+		    for ($count = 0; $count < 2; $count++) {
+			$hdr = shift @head;
+			$head .= " " if $head ne "";
+			$head .= $hdr;
+			if ($hdr =~ /^\"/) {
+			    while ($hdr && $hdr !~ /\"$/) {
+				$hdr = shift @head;
+				$head .= " $hdr";
+			    }
+			}
+		    }
+		    
+		    $head =~ s/\"//g;
+		    $head =~ s/\s+/ /g;
+		    $head =~ s/^\s+//g;
+		    $head =~ s/\s+$//g;
+		    $lasthead = 1;
+		} else {
+		    warn "Unparseable .$macro...ignored\n";
+		}
+	    }
+	}
+
+	while (/\\\*\[([$letters].+?)\]/) {
+#	    print STDERR "USED $1\n";
+	    $USED{"$1"} = 1;
+	    $_ = $';
+	}
+    }
+
+    close (F);
+}
+
+@BAD = ();
+
+foreach $_ (sort keysort keys %USED) {
+    if (!defined($YADC{$_})) {
+	push (@BAD, $_);
+    } else {
+	print ".ds $_ $YADC{$_}\n";
+    }
+}
+
+if (@BAD) {
+    print STDERR "The following strings look like YADC codes but they aren't\n";
+    print STDERR "defined by YADC cross references anywhere in the text:\n";
+    print STDERR join(", ", @BAD), "\n";
+}
+
+sub keysort {
+    my($A) = $a;
+    my($B) = $b;
+    my($Anum, $Bnum) = ("", "");
+
+    $Anum = $1 if $A =~ /^S.(\d+)/;
+    $Bnum = $1 if $B =~ /^S.(\d+)/;
+
+    if ($Anum ne "" && $Bnum ne "" && $Anum ne $Bnum) {
+	return $Anum cmp $Bnum;
+    } else {
+	return $a cmp $b;
+    }
+}
+
+
+    

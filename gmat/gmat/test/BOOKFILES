@@ -1,0 +1,40 @@
+# bookfiles
+# This configuration file was edited
+# on Wed Sep  6 12:52:08 EDT 2000 by len.
+#
+book_title = Testing
+doctype    = book public "-//ORA//DTD ORA Production 3.1//EN"
+inxfile    = /usr/local/prod/lib/inx.preamble
+macros     = tmac.Gdraft sgmlmacs tmac.paras
+tocfiles   = ./basicnuts
+
+[ toc ]
+format-checksum = 35791
+format-date     = 1000405120146
+page            = 5
+pagecount       = 1
+
+[ ch00.sgm ]
+format-checksum = 34674
+format-date     = 1000906114811
+pagecount       = 1
+
+[ ch01.sgm ]
+chapter         = 1
+format-checksum = 1018
+format-date     = 1000906125039
+page            = 1
+pagecount       = 15
+
+[ ch02.sgm ]
+format-checksum = 6111
+format-date     = 1000906123908
+pagecount       = 6
+
+[ ch03.sgm ]
+
+[ ch04.sgm ]
+
+[ ch05.sgm ]
+
+[ index ]

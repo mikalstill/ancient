@@ -1,0 +1,32 @@
+<!-- (C) O'Reilly & Associates, 1994.  This is a supplementary
+     character set to enrich the basic ISOlat1 (ISO 646 extended
+     ASCII) character set.  All needed characters that are not part of
+     ISOlat1 will go in this file.  The purpose is to avoid loading
+     unnecessary characters that are not used, so that the user will
+     more readily find and use the characters that are needed.  The
+     character definitions are taken from ISO character maps, hence
+     the following statement. -->
+
+<!-- Permission to copy in any form is granted for use with
+     conforming SGML systems and applications as defined in
+     ISO 8879, provided this notice is included in all copies. -->
+
+<!-- Character entity set. Typical invocation:
+     <!ENTITY % orachars PUBLIC 
+              "-//ORA//ENTITIES ORA Characters//EN//1.0">
+     %orachars;
+-->
+
+<!--ENTITY emdash SDATA "[mdash]"- -=em dash-->
+<!ENTITY emdash "&mdash;">
+<!--ENTITY endash SDATA "[ndash]"- -=en dash-->
+<!ENTITY endash "&ndash;">
+<!ENTITY LaTeX SDATA "[LaTeX ]"--LaTeX logo-->
+<!--ENTITY msp SDATA "[emsp]"- -=en space-->
+<!ENTITY msp "&emsp;">
+<!ENTITY nbhy SDATA "[nbhy  ]"-- non-breaking hyphen-->
+<!ENTITY nohy SDATA "[nohy  ]">
+<!--ENTITY nsp SDATA "[ensp]"- -=em space-->
+<!ENTITY nsp "&ensp;">
+<!ENTITY squote SDATA "[squote]"--straight quote-->
+<!ENTITY TeX SDATA "[TeX   ]"--TeX logo-->

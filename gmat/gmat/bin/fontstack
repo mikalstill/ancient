@@ -1,0 +1,195 @@
+#!/usr/bin/perl5 -- # -*- Perl -*-
+#
+# Maintains a font stack for gtroff documents converted from SGML.
+#
+# $Id: fontstack,v 1.1.1.1 2002-07-15 21:33:31 root Exp $
+#
+#
+
+use vars qw($PROGNAME $VERSION);
+
+$BASEVERS   = "0.1";
+$RCS_ID     = '$Id: fontstack,v 1.1.1.1 2002-07-15 21:33:31 root Exp $'; # '
+($PROGNAME  = $RCS_ID) =~ s/^.Id: (\S+) .*$/$1/;
+($PATCHLEVEL= $RCS_ID) =~ s/^.Id: \S+ \d+\.(\d+) .*$/$1/;
+$VERSION    = "$BASEVERS patchlevel $PATCHLEVEL";
+$EXECDIR    = ".";
+$EXECDIR    = $1 if $0 =~ /^(.*)\/[^\/]+$/;
+
+######################################################################
+
+select(STDERR); $| = 1;
+select(STDOUT); $| = 1;
+
+$ORALIBDIR = $ENV{"ORALIBDIR"} || "/usr/local/share/gmat/lib";
+push(@INC, $ORALIBDIR);
+
+$ORATOOLSRC = $ENV{'ORATOOLSRC'} || "$ORALIBDIR/oratoolsrc";
+
+require 'parsecfg5.pl';
+require 'commonlock5.pl';
+
+require "getopts.pl";
+$rc = &Getopts ('V');		# Get options from the user...
+&show_usage(1) if !$rc;		# Bail out if the get it wrong...
+
+$verbose = $opt_V;
+
+$cfg = &parsecfg($ORATOOLSRC);
+$cfg = &parsecfg("$ENV{HOME}/.oratoolsrc", $cfg);
+$cfg = &parsecfg("./.oratoolsrc", $cfg);
+
+# Bug: no -J option for this program...
+$BOOKFILES = &cfg($cfg, "bookfiles", "bookfiles") || "BOOKFILES";
+
+$bf = &parsecfg ($BOOKFILES);
+
+$macro_files = &cfg($bf, "fontstack", "macro-files")
+               || "/usr/local/share/gmat/macros/sgmlmacs";
+@MACRO_FILES = split(/\s+/, $macro_files);
+
+$sourcefile = shift @ARGV || "-";
+$targetfile = shift @ARGV || "-";
+
+%ds_start_tags = ();
+@font_tags = ();
+
+foreach $sgmlmacs (@MACRO_FILES) {
+    print STDERR "Fontstack: reading $sgmlmacs...";
+
+    open (SGMLMACS, "$sgmlmacs") || warn "Cannot open $sgmlmacs\n";
+    while (<SGMLMACS>) {
+	chop;
+
+	if (/^\s*\.ds\s+([A-Za-z]+)\s+(.*)\s*$/) {
+	    local($tag,$cmd);
+	    $tag = $1;
+	    $_ = $2;
+	    /^.*(\\[^\\\s]+)\s*$/;
+	    $cmd = $1;
+	    $ds_start_tags{$tag} = $cmd;
+	}
+
+	if (/^\s*\.ds\s+\/([A-Za-z]+)\s+\\fP\s*$/) {
+	    push (@font_tags, $1);
+	}
+    }
+
+    print STDERR "done.\n";
+}
+
+open (SOURCEFILE, "$sourcefile") || die "Can't open $sourcefile.\n";
+open (TARGETFILE, ">$targetfile") || die "Can't open $targetfile.\n";
+
+$match = "";
+foreach $cmd (@font_tags) {
+    $match .= "|$cmd";
+}
+$match = substr($match,1);
+
+@font_stack = ();
+$current_font = "\\fR";
+while (<SOURCEFILE>) {
+    chop;
+    $newline = "";
+
+    while ($_ ne '') {
+	$found = 0;
+
+	# Look for section headers, push their fonts onto the stack
+
+	if (/^\s*\.SH(\d)/) {
+	    ($lvl, $_) = ($1, $');
+	    $newline .= ".SH$lvl";
+	    $head = "A" if $lvl == 1;
+	    $head = "B" if $lvl == 2;
+	    $head = "C" if $lvl == 3;
+	    $head = "D" if $lvl == 4;
+	    push( @font_stack, $current_font );
+	    $prev_current_font = $current_font;
+	    $current_font = "\\f[\\*[" . $head . "h_ft]]";
+	    print STDERR "Tag  SH$lvl pushes   $prev_current_font  (active: $current_font)\n" if $verbose;
+	    $in_head = 1;
+	    next;
+	}
+
+	$match_start = 99999;
+	$match_end   = 99999;
+	$match_start = length($`) if /\\\*\[($match)\]/;
+	$match_end   = length($`) if /\\\*\[\/($match)\]/;
+
+	if ($match_start < $match_end && /\\\*\[($match)\]/) {
+#	    print STDERR " match: ~$`~$1~$'\n";
+	    $newline .= "$`\\*[$1]";
+	    $_ = $';
+	    push (@font_stack, $current_font);
+	    $prev_current_font = $current_font;
+	    $current_font = $ds_start_tags{$1};
+	    print STDERR "Tag  SH$lvl pushes   $prev_current_font  (active: $current_font)\n" if $verbose;
+	    $found = 1;
+	}
+
+	if ($match_end < $match_start && /\\\*\[\/($match)\]/) {
+#	    print STDERR "/match: ~$`~$1~$'\n";
+	    $prev_current_font = $current_font;
+	    die "Error: Invalid SGML file, font changes are unbalanced.\n"
+		if (!@font_stack);
+	    $current_font = pop @font_stack;
+	    print STDERR "Tag /$1 restores $current_font\n" if $verbose;
+	    $newline .= "$`\\*[/$1]" . $current_font;
+	    $_ = $';
+	    $found = 1;
+	}
+
+	if (! $found) {
+#	    print STDERR "NOT FOUND: $_\n";
+	    $newline .= $_;
+	    $_ = "";
+	}
+    }
+
+    # pop stack when end of head reached
+
+    if ($in_head) {
+	$in_head = 0;
+	$prev_current_font = $current_font;
+	die "Error: Invalid SGML file, font changes are unbalanced.\n"
+	    if (!@font_stack);
+	$current_font = pop @font_stack;
+	print STDERR "End of line restores $current_font\n" if $verbose;
+    }
+
+    print TARGETFILE "$newline\n";
+}
+
+if (@font_stack) {
+    print STDERR "Error: Invalid SGML file, fonts left on stack:\n";
+    while ($font = shift @font_stack) {
+	if (@font_stack) {
+	    print STDERR "\t$font\n";
+	} else {
+	    print STDERR " (top)\t$font\n";
+	}
+    }
+    die "\nConversion failed.\n";
+}
+    
+sub show_usage {
+    local ($rc) = @_;
+
+    print <<END_OF_USAGE ;
+
+Usage: fontstack <-V> inputfile <outputfile>
+
+Where:
+
+  -V         = verbose mode (trace font stack to stderr)
+  inputfile  = gtroff input file, tagged with SGML macros
+  outputfile = output file (stdout by default)
+
+END_OF_USAGE
+
+    exit ($rc);
+}
+
+    

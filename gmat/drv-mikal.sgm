@@ -1,0 +1,9 @@
+<!doctype book public "-//ORA//DTD ORA Production DTD//EN" [
+<!ENTITY temp.sgml    SYSTEM "temp.sgml" >
+]>
+<book>
+<?source-file temp.sgml>
+<?formatter-file temp.3l>
+&temp.sgml;
+
+</book>

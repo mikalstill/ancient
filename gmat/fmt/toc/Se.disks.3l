@@ -1,0 +1,38 @@
+.in 0
+.ie !'\*[tocbox_hdr_ft]'' .ft \*[tocbox_hdr_ft]
+.el .ft \fI
+In this chapter:
+.if !'\*[tocbox_hdr_ft]'' .sp 2p
+.ft \*[tocbox_ft]
+.in 1m
+.ta 1m
+.ti -1m
+\(bu	Adding a hard disk
+.chaptoc_sp
+.ti -1m
+\(bu	Using sysinstall
+.chaptoc_sp
+.ti -1m
+\(bu	Doing it the hard way
+.chaptoc_sp
+.ti -1m
+\(bu	Recovering from disk data errors
+.chaptoc_sp
+.ti -1m
+\(bu	Virtual disks: the Vinum Volume Manager
+.chaptoc_sp
+.ti -1m
+\(bu	Vinum objects
+.chaptoc_sp
+.ti -1m
+\(bu	Some examples
+.chaptoc_sp
+.ti -1m
+\(bu	Object naming
+.chaptoc_sp
+.ti -1m
+\(bu	Configuring Vinum
+.chaptoc_sp
+.ti -1m
+\(bu	Startup
+.in 0

@@ -1,0 +1,308 @@
+#!/usr/bin/perl5 -- # -*- Perl -*-
+#
+# Convert EPS file for gtroff; designed to be invoked from the .Pf macro
+#
+# $Id: gmacroff,v 1.1.1.1 2002-07-15 21:33:31 root Exp $
+#
+#
+# macroff -x width -y height [ -c colwidth ] [ -l xoff ] [ -h ]
+#         [ -t yoff ] [ --noscale ] file -p pid
+#
+#   where
+#	width and height are desired dimensions (in inches) of printed figure
+#	-c asks for centering within the current troff column width
+#	colwidth is the current troff column width in troff units
+#	xoff is the horizontal offset from current left margin of troff column
+#	yoff is the vertical offset from current position on troff page
+#	-noscale means scale=1
+#       -h means get the hi-res figure if possible
+#	file is the name of the file containing the EPS drawing
+#	pid is an identifying process ID number for use in tmp file names
+
+use vars qw($PROGNAME $VERSION);
+
+$BASEVERS   = "0.1";
+$RCS_ID     = '$Id: gmacroff,v 1.1.1.1 2002-07-15 21:33:31 root Exp $'; # '
+($PROGNAME  = $RCS_ID) =~ s/^.Id: (\S+) .*$/$1/;
+($PATCHLEVEL= $RCS_ID) =~ s/^.Id: \S+ \d+\.(\d+) .*$/$1/;
+$VERSION    = "$BASEVERS patchlevel $PATCHLEVEL";
+$EXECDIR    = ".";
+$EXECDIR    = $1 if $0 =~ /^(.*)\/[^\/]+$/;
+
+######################################################################
+
+$ORALIBDIR = $ENV{"ORALIBDIR"} || "/usr/local/share/gmat/lib";
+push (@INC, $ORALIBDIR);
+
+$ORATOOLSRC = $ENV{'ORATOOLSRC'} || "$ORALIBDIR/oratoolsrc";
+
+require 'longopts5.pl';
+require 'parsecfg5.pl';
+
+$cfg = &parsecfg($ORATOOLSRC);
+$cfg = &parsecfg("$ENV{HOME}/.oratoolsrc", $cfg);
+$cfg = &parsecfg("./.oratoolsrc", $cfg);
+
+$debug = &cfg($cfg, $PROGNAME, 'debug');
+
+# This script is sometimes run as "gmacroff file -x ...", so try to handle
+# that:
+
+print STDERR "DEBUG: $0: ", join(" ", @ARGV), "\n" if $debug;
+
+undef $file;
+if ($ARGV[0] !~ /^\-/) {
+    $file = shift @ARGV;
+}
+
+# This script is sometimes given the option "-noscale" instead of "--noscale",
+# so try to handle that, too:
+
+for ($count = 0; $count <= $#ARGV; $count++) {
+    $ARGV[$count] = '--noscale' if $ARGV[$count] eq '-noscale';
+}
+
+# Now parse the options...
+
+$rc = Longopts('dhx:y:c:l:t:p:',
+	       '--debug',
+	       '--hires',
+	       '--width:',
+	       '--height:',
+	       '--colwidth:',
+	       '--xofs:',
+	       '--yofs:',
+	       '--noscale',
+	       '--pid:',
+	       '*hires=h',
+	       '*width=x',
+	       '*height=y',
+	       '*colwidth=l',
+	       '*xofs=l',
+	       '*yofs=t',
+	       '*pid=p',
+	       '*debug=d');
+
+push (@ARGV, $file) if defined($file);
+
+if ($rc != 1) {
+    print STDERR "$0: Error ($rc): invalid options\n";
+    print STDERR "Usage: $0 -x width -y height \\\n";
+    print STDERR "         [ -c colwidth ] [ -l xoff ] [ -t yoff ] \\\n";
+    print STDERR "         [ -p pid ] [ --noscale ] [ -h ] file\n";
+    exit 1;
+}
+
+$DITRES=72000.0;
+$PSUNIT=72.0;
+
+$ZCAT = &cfg($cfg, $PROGNAME, 'zcat') || "gzcat";
+$CRLF = &cfg($cfg, $PROGNAME, 'crlf') || "crlf";
+
+$debug = $debug || $opt_debug;
+
+$colwidth = $opt_c;
+$xsize    = $opt_x || 0;
+$ysize    = $opt_y || 0;
+$pid      = $opt_p;
+$noscale  = $opt_noscale;
+
+$center   = defined($colwidth);
+
+$file     = shift @ARGV || die "$0: no file specified.\n";
+
+$figsize="/var/tmp/Pf.size.$pid";
+$zlessfile="/var/tmp/Pf.fig.$pid";
+
+$file = $1 if $file =~ /^(.*)\.gz$/;
+$file = $1 if $file =~ /^(.*)\.Z$/;
+
+@fig_ext = ('', '.gz', '.Z', '.eps', '.eps.gz', '.eps.Z');
+
+@fig_dir = ('.', 'figs');
+
+print STDERR "DEBUG: $PROGNAME: file=$file\n" if $debug;
+
+if ($file =~ /^(.*)\/([^\/]+)$/) {
+    $path = $1;
+    $file = $2;
+
+    $path = $1 if $path =~ /^\.\/(.*)$/; # Remove ./ from front
+
+    print STDERR "DEBUG: $PROGNAME: path=$path\n" if $debug;
+
+    # If the specified path isn't lowfigs or hifigs, then put it
+    # first on the directory list.  If it is low or hi, ignore it;
+    # we'll make that determination based upon $opt_hires.
+    unshift (@fig_dir, $path) 
+	if ($path ne "lowfigs" && $path ne "lofigs"
+	    && $path ne "highfigs" && $path ne "hifigs");
+}
+
+$hi_file = &find((@fig_dir, 'highfigs', 'hifigs', 'figs.hi', 'figs.high'));
+$lo_file = &find((@fig_dir, 'lowfigs', 'lofigs', 'figs.lo', 'figs.low'));
+
+$hi_bbox = &fig_bbox($hi_file) if $hi_file;
+$lo_bbox = &fig_bbox($lo_file) if $lo_file;
+
+print STDERR "DEBUG: $PROGNAME: HIF=$hi_file, LOF=$lo_file\n" if $debug;
+print STDERR "DEBUG: $PROGNAME: HIB=$hi_bbox, LOB=$lo_bbox\n" if $debug;
+
+die "$PROGNAME: Cannot find $file.\n" if !$hi_file && !$lo_file;
+
+if (($hi_file && $opt_hires) || !$lo_file) {
+    $file = $hi_file;
+    $bbox = $hi_bbox;
+} else {
+    $file = $lo_file;
+    $bbox = $lo_bbox;
+}
+
+if ($hi_file && $lo_file) {
+    if ($hi_bbox ne $lo_bbox) {
+	print STDERR "Rebuilding lowres: ";
+	system ("lowres $hi_file $lo_file");
+	$lo_bbox = &fig_bbox($lo_file) if $lo_file;
+    }
+
+    if ($hi_bbox ne $lo_bbox) {
+	my($msg) = "bounding boxes differ: $hi_file and $lo_file\n";
+
+	if ($file eq $lo_file) {
+	    die "$PROGNAME: ERROR: $msg";
+	} else {
+	    warn "$PROGNAME: WARNING: $msg";
+	}
+    }
+
+    warn "$PROGNAME: $hi_file is newer than $lo_file\n"
+	if ($file eq $lo_file) && (&mtime($hi_file) > &mtime($lo_file));
+}
+
+print STDERR "DEBUG: $PROGNAME: Best: $file\n" if $debug;
+
+die "$0: can't open $file." if ! -r $file;
+
+if ($file =~ /\.gz$/ || $file =~ /\.Z$/) {
+    $rc = system ("$ZCAT $file | $CRLF -uq - $zlessfile");
+} else {
+    $rc = system ("$CRLF -uq $file $zlessfile");
+}
+
+warn "$PROGNAME: possible error reading $file: $rc\n" if $rc;
+
+$scale = 0;
+$scale = 1 if ($xsize == 0) || ($ysize == 0) || $noscale;
+
+if ($bbox =~ /(\d+\.?\d*)\s+(\d+\.?\d*)\s+(\d+\.?\d*)\s+(\d+\.?\d*)/i) {
+    $llx = $1;
+    $lly = $2;
+    $urx = $3;
+    $ury = $4;
+} else {
+    die "$0: No bounding box in EPS file: $file.\n";
+}
+
+open (FIGSIZE, ">$figsize") || die "$0: cannot open $figsize.\n";
+print FIGSIZE ".nr llx $llx\n";
+print FIGSIZE ".nr llx $llx\n";
+print FIGSIZE ".nr lly $lly\n";
+print FIGSIZE ".nr urx $urx\n";
+print FIGSIZE ".nr ury $ury\n";
+
+$xorig = ($urx - $llx) / $PSUNIT;
+$yorig = ($ury - $lly) / $PSUNIT;
+
+die "$0: figure's bounding box is backwards in $file.\n" if ($xorig < 0);
+die "$0: figure's bounding box is upside-down in $file.\n" if ($yorig < 0);
+die "$0: figure dimension of 0 in $file.\n" if ($xorig == 0) || ($yorig == 0);
+
+if ($scale != 1) {
+    $scale = $ysize / $yorig;
+    $scale = $xsize / $xorig if ($xsize/$xorig < $scale);
+}
+
+$xfinal = sprintf("%0.2f", $xorig * $scale);
+$yfinal = sprintf("%0.2f", $yorig * $scale);
+
+#$xfinal = int ($xfinal + 0.5);
+#$yfinal = int ($yfinal + 0.5);
+
+print STDERR "DEBUG: $PROGNAME: ${xfinal}x$yfinal inches.\n" if $debug;
+    
+print FIGSIZE ".nr pf_height ${yfinal}i\n";
+print FIGSIZE ".nr pf_width ${xfinal}i\n";
+
+if ($center) {
+    $ofs = ($colwidth - ($xorig * $scale * $DITRES)) / 2.0;
+    print FIGSIZE ".nr pf_offset $ofs\n";
+}
+
+close (FIGSIZE);
+
+sub find {
+    my(@fig_dir) = @_;
+    my($found) = "";
+    my($dir, $ext);
+    local($_);
+
+    print STDERR "$PROGNAME: FIND: $file: @fig_dir\n" if $debug;
+
+    foreach $dir (@fig_dir) {
+	foreach $ext (@fig_ext) {
+	    $_ = "$dir/$file$ext";
+	    $found = $_ if -f $_ && -r $_;
+	    last if $found;
+	}
+	last if $found;
+    }
+
+    $found;
+}
+
+sub fig_bbox {
+    my($file) = @_;
+    my($bbox) = "";
+    local(*F);
+
+    if ($file =~ /\.gz$/ || $file =~ /\.Z$/) {
+	open (F, "$ZCAT $file | $CRLF -uq - - |");
+    } else {
+	open (F, "$CRLF -uq $file - |");
+    }
+
+    while (<F>) {
+	chop;
+	if (/%%?\s*boundingbox:?\s*(.*)$/i) {
+	    $bbox = $1;
+
+	    $bbox = "$1 $2 $3 $4"
+		if $bbox =~ /^\s*(\d+\.?\d*)\s+(\d+\.?\d*)\s+(\d+\.?\d*)\s+(\d+\.?\d*)\s*$/;
+
+	    last;
+	}
+    }
+
+    # Read the whole figure to avoid "broken pipe" messages under
+    # Solaris.
+    while (<F>) { 
+      #nop;
+    }   
+
+    close (F);
+
+    $bbox;
+}
+
+sub mtime {
+    my($filename) = @_;
+    my($mtime) = (stat($filename))[9];
+
+    if (-f $filename) {
+	$mtime;
+    } else {
+	-1;
+    }
+}
+
+    

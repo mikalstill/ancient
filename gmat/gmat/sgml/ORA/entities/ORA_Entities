@@ -1,0 +1,13 @@
+<!-- 
+     ORA entities.  These are the entities for particular books along with 
+     some common entities (legal notices that occur in many books, for
+     example).
+  -->
+
+<!ENTITY % commonents    PUBLIC "-//ORA//ENTITIES Common Entities//EN">
+%commonents;
+<!ENTITY % oraxbooks     PUBLIC "-//ORA//ENTITIES ORA X Books//EN">
+<!ENTITY % oradns        PUBLIC "-//ORA//ENTITIES DNS and Bind//EN">
+<!ENTITY % orasysadmin   PUBLIC "-//ORA//ENTITIES Essential System Administration//EN">
+<!ENTITY % oranfs        PUBLIC "-//ORA//ENTITIES Managing NFS and NIS//EN">
+

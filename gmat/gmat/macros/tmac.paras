@@ -1,0 +1,111 @@
+.de WCD \"widow control diversion macro
+.\".tm I'm WCD and I'm being hit on page \\n%
+.ie !\\n[wcon_off] \{\
+.ie \\n[in_par] \{\
+.di wcd
+.\".tm the trap is open on page \\n%
+.NU\}
+.el \{.ch WCD
+.SP_ABS \\n[pg_length_ext]u-\\n[FM]u
+.NU\}
+.NU\}
+.el \{.ch WCD
+.SP_ABS \\n[pg_length_ext]u-\\n[FM]u
+.nr wcon_off 0\}
+.NU\}
+..
+.de P
+.\".tm I hit a P
+.nr redefpar 0
+.nr in_par 1
+.ie \\n[wcon_off] \{.ch WCD
+.LP\}
+.el \{\
+.if 2v+\\n[.V]u>\\n[.t] \{\
+.\".tm hello, I'm in \\n[.z], the distance to the next trap is \\n[.t]
+.nr foodoo 0
+.LP
+.NU\}
+.if 2v+\\n[.V]u<\\n[.t] \{\
+.\".tm the current environment is \\n[.ev]
+.LP
+.if !'\\n[.z]'wcd' .wh -\\n[FM]u-2v-\\n[.V]u WCD
+.NU\}
+.NU\}
+..
+.de /P
+.nr in_par 0
+.if '\\n[.z]'wcd' \{\
+.\".tm I am in a diversion in a /P on page \\n%
+.br
+.di
+.\".tm the trap is closed on page \\n%
+.ch WCD
+.nr foodoo 3v
+.\".tm the height of the widow diversion is \\n[dn]
+.\".tm the value of 3v is \\n[foodoo]
+.nr foodoo 0
+.if "\\n[.ev]"VL" .nr in_list 1
+.if "\\n[.ev]"IL" .nr in_list 1
+.if "\\n[.ev]"OL" .nr in_list 1
+.if "\\n[pardef]"5" .nr in_list 1
+.ie \\n[dn]<3v \{\
+.if \\n[.u] .nr fill 1
+.if \\n[.u] 'nf
+.if \\n[in_list] \{\
+.\".tm div output on page \\n%
+.\".tm on page \\n% the indent is \\n[.i]
+'in 0
+.NU\}
+.wcd
+.if \\n[fill] \{'fi
+.nr fill 0\}
+.rm wcd
+.if \\n[in_list] \{\
+'in
+.	nr in_list 0
+.NU\}
+.\".tm on page \\n% I hit the first alternative in /P
+.NU\}
+.el \{.ne 3v
+.\".tm on page \\n% and I hit the second alternative in /P; fill is \\n[.u]
+.if \\n[.u] .nr fill 1
+.if \\n[.u] 'nf
+.if \\n[in_list] \{\
+.\".tm div output on page \\n%
+.\".tm on page \\n% the indent is \\n[.i]
+'in 0
+.NU\}
+.wcd
+.if \\n[fill] \{'fi
+.nr fill 0
+.NU\}
+.rm wcd
+.if \\n[in_list] \{\
+'in
+.	nr in_list 0
+.NU\}
+.NU\}
+.NU\}
+..
+.\".am Ps
+.\".tm I hit a Ps
+.\"..
+.\".am Pe
+.\".tm I hit a Pe
+.\"..
+.de endwcd \"only at end or beg of para
+.ie '\\n[.z]'wcd' \{\
+.br
+.di
+.ch WCD
+.if \\n[.u] .nr fill 1
+.if \\n[.u] 'nf
+.wcd
+.if \\n[fill] \{'fi
+.nr fill 0\}
+.rm wcd
+.NU\}
+.el \{.ch WCD
+.if \\n[.t]<=5v .nr wcon_off 1\}
+..

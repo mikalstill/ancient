@@ -1,0 +1,263 @@
+<!--    orahtml.dtd
+Author: Daniel W. Connolly (connolly@hal.com), as of 13 Dec 94
+ALTERED by Terry Allen 13 Dec 94 to remove marked sections and
+make it as Recommended, except for retaining A.content as including Hn 
+
+ALTERED again by TA 6 Jan 95 to include HTML 3.0 table fragment,
+per NCSA Mosaic 2.5
+
+-->
+
+<!ENTITY % HTML.Version "-//IETF//DTD HTML 2.0//EN">
+<!ENTITY % Content-Type "CDATA">
+<!ENTITY % HTTP-Method "GET | POST">
+<!ENTITY % URI "CDATA">
+<!ENTITY % heading "H1|H2|H3|H4|H5|H6">
+<!ENTITY % list " UL | OL | DIR | MENU " >
+
+<!ENTITY % ISOlat1 public "-//ORA//ENTITIES iso-lat1//EN">
+%ISOlat1;
+
+<!ENTITY amp CDATA "&#38;"     -- ampersand          -->
+<!ENTITY gt CDATA "&#62;"      -- greater than       -->
+<!ENTITY lt CDATA "&#60;"      -- less than          -->
+<!ENTITY quot CDATA "&#34;"    -- double quote       -->
+
+<!ENTITY % SDAFORM  "SDAFORM  CDATA  #FIXED"  -- one to one mapping        -->
+<!ENTITY % SDARULE  "SDARULE  CDATA  #FIXED"  -- context-sensitive mapping -->
+<!ENTITY % SDAPREF  "SDAPREF  CDATA  #FIXED"  -- generated text prefix     -->
+<!ENTITY % SDASUFF  "SDASUFF  CDATA  #FIXED"  -- generated text suffix     -->
+<!ENTITY % SDASUSP  "SDASUSP  NAME   #FIXED"  -- suspend transform process -->
+
+
+<!ENTITY % font " TT | B | I ">
+<!ENTITY % phrase "EM | STRONG | CODE | SAMP | KBD | VAR | CITE ">
+<!ENTITY % text "#PCDATA | A | IMG | BR | %phrase | %font">
+<!ENTITY % block.forms "BLOCKQUOTE | FORM | ISINDEX">
+<!ENTITY % preformatted "PRE">
+<!ENTITY % block "P | %list | DL | %preformatted | %block.forms
+	| table ">
+<!ENTITY % flow "(%text|%block)*">
+
+<!ELEMENT (%font;|%phrase) - - (%text)*>
+<!ATTLIST ( TT | CODE | SAMP | KBD | VAR ) %SDAFORM; "Lit" >
+<!ATTLIST ( B | STRONG ) %SDAFORM; "B" >
+<!ATTLIST ( I | EM | CITE ) %SDAFORM; "It" >
+
+<!ENTITY % pre.content "#PCDATA | A | HR | BR | %font | %phrase">
+
+<!ENTITY % linkName "CDATA">
+<!ENTITY % linkType "NAME">
+
+<!ENTITY % linkExtraAttributes "REL %linkType #IMPLIED
+        REV %linkType #IMPLIED URN CDATA #IMPLIED
+        TITLE CDATA #IMPLIED METHODS NAMES #IMPLIED ">
+
+<!ENTITY % A.content   "(%heading|%text)*">
+
+<!ENTITY % head.link "& LINK*">
+<!ENTITY % head.nextid "& NEXTID?">
+<!ENTITY % head.content "TITLE & ISINDEX? & BASE? & META*
+			 %head.nextid %head.link">
+<!ENTITY % html.content "HEAD, BODY">
+
+<!ELEMENT HTML O O  (%html.content)>
+<!ENTITY % version.attr "VERSION CDATA #FIXED '%HTML.Version;'">
+
+<!ATTLIST HTML %version.attr;
+        %SDAFORM; "Book" %SDAPREF; "<?SDATrans HTML: #AttList>" >
+
+<!ELEMENT BR    - O EMPTY>
+<!ATTLIST BR %SDAPREF; "&#RE;" >
+
+<!ELEMENT A     - - %A.content -(A)>
+<!ATTLIST A
+	HREF %URI #IMPLIED
+	NAME %linkName #IMPLIED
+        %linkExtraAttributes;
+        %SDAPREF; "<?SDATrans A: #AttList>"
+        >
+
+<!ELEMENT IMG    - O EMPTY>
+<!ATTLIST IMG SRC %URI;  #REQUIRED
+	ALT CDATA #IMPLIED
+	ALIGN (top|middle|bottom) #IMPLIED
+	ISMAP (ISMAP) #IMPLIED
+        %SDAPREF; "<Fig><?SDATrans Img: #AttList>#AttVal(Alt)</Fig>" >
+
+<!ELEMENT P     - O (%text)*>
+<!ATTLIST P %SDAFORM; "Para" >
+
+<!ELEMENT HR    - O EMPTY>
+<!ATTLIST HR %SDAPREF; "<Para><?SDATrans HR: #AttList></Para>" >
+
+<!ELEMENT ( %heading )  - -  (%text;)*>
+<!ATTLIST H1 %SDAFORM; "H1" >
+<!ATTLIST H2 %SDAFORM; "H2" >
+<!ATTLIST H3 %SDAFORM; "H3" >
+<!ATTLIST H4 %SDAFORM; "H4" >
+<!ATTLIST H5 %SDAFORM; "H5" >
+<!ATTLIST H6 %SDAFORM; "H6" >
+
+
+<!ELEMENT PRE - - (%pre.content)*>
+<!ATTLIST PRE WIDTH NUMBER #implied
+        %SDAFORM; "Lit"
+        %SDAPREF; "<?SDATrans Pre: #AttList>" >
+
+<!ELEMENT DL    - -  (DT | DD)+>
+<!ATTLIST DL
+	COMPACT (COMPACT) #IMPLIED
+        %SDAFORM; "List"
+        %SDAPREF; "<?SDATrans DL: #AttList>" >
+
+<!ELEMENT DT    - O (%text)*>
+<!ATTLIST DT %SDAFORM; "Term" >
+
+<!ELEMENT DD    - O %flow>
+<!ATTLIST DD %SDAFORM; "LItem" >
+
+<!ELEMENT (OL|UL) - -  (LI)+>
+<!ATTLIST OL COMPACT (COMPACT) #IMPLIED
+        %SDAFORM; "List"
+        %SDAPREF; "<?SDATrans OL: #AttList>" >
+<!ATTLIST UL COMPACT (COMPACT) #IMPLIED
+        %SDAFORM; "List"
+        %SDAPREF; "<?SDATrans UL: #AttList>" >
+
+<!ELEMENT (DIR|MENU) - -  (LI)+ -(%block)>
+<!ATTLIST DIR
+        COMPACT (COMPACT) #IMPLIED
+        %SDAFORM; "List"
+        %SDAPREF; "<?SDATrans Dir: #AttList><LHead>Directory</LHead>" >
+<!ATTLIST MENU COMPACT (COMPACT) #IMPLIED
+        %SDAFORM; "List"
+        %SDAPREF; "<?SDATrans Menu: #AttList><LHead>Menu</LHead>" >
+
+<!ELEMENT LI    - O %flow>
+<!ATTLIST LI %SDAFORM; "LItem" >
+
+<!ENTITY % body.content "(%heading|%block|HR|ADDRESS)*">
+
+<!ELEMENT BODY O O  %body.content>
+<!ATTLIST BODY %SDAPREF; "<?SDATrans Body: #AttList>" >
+
+<!ELEMENT BLOCKQUOTE - - %body.content>
+<!ATTLIST BLOCKQUOTE %SDAFORM; "BQ" >
+
+<!ELEMENT ADDRESS - - (%text|P)*>
+<!ATTLIST  ADDRESS %SDAFORM; "Lit" %SDAPREF; "Address:&#RE;" >
+
+<!ELEMENT FORM - - %body.content -(FORM) +(INPUT|SELECT|TEXTAREA)>
+<!ATTLIST FORM
+	ACTION %URI #IMPLIED
+	METHOD (%HTTP-Method) GET
+	ENCTYPE %Content-Type; "application/x-www-form-urlencoded"
+        %SDAPREF; "<Para><?SDATrans Form: #AttList>Form:</Para>"
+        %SDASUFF; "<Para><?SDATrans Form: #End>Form End.</Para>" >
+
+<!ENTITY % InputType "(TEXT | PASSWORD | CHECKBOX |
+			RADIO | SUBMIT | RESET |
+			IMAGE | HIDDEN )">
+<!ELEMENT INPUT - O EMPTY>
+<!ATTLIST INPUT TYPE %InputType TEXT
+	NAME CDATA #IMPLIED VALUE CDATA #IMPLIED
+	SRC %URI #IMPLIED CHECKED (CHECKED) #IMPLIED
+	SIZE CDATA #IMPLIED MAXLENGTH NUMBER #IMPLIED
+	ALIGN (top|middle|bottom) #IMPLIED
+        %SDAPREF; "<?SDATrans Input: #AttList>" >
+
+<!ELEMENT SELECT - - (OPTION+)>
+<!ATTLIST SELECT
+	NAME CDATA #REQUIRED
+	SIZE NUMBER #IMPLIED
+	MULTIPLE (MULTIPLE) #IMPLIED
+        %SDAFORM; "List"
+        %SDAPREF;
+        "<?SDATrans Select: #AttList><LHead>Select #AttVal(Multiple)</LHead>" >
+
+<!ELEMENT OPTION - O (#PCDATA)*>
+<!ATTLIST OPTION
+	SELECTED (SELECTED) #IMPLIED
+	VALUE CDATA #IMPLIED
+        %SDAFORM; "LItem"
+        %SDAPREF;
+        "<?SDATrans Option: #AttList>#AttVal(Value) #AttVal(Selected)" >
+
+<!ELEMENT TEXTAREA - - (#PCDATA)*>
+<!ATTLIST TEXTAREA
+	NAME CDATA #REQUIRED
+	ROWS NUMBER #REQUIRED
+	COLS NUMBER #REQUIRED
+        %SDAFORM; "Para"
+        %SDAPREF; "<?SDATrans TextArea: #AttList>#AttVal(Name): "
+	>
+
+<!ELEMENT HEAD O O  (%head.content)>
+<!ATTLIST HEAD
+        %SDAPREF; "<?SDATrans Head: #AttList>"
+      >
+
+<!-- <HEAD>	Document head	-->
+
+<!ELEMENT TITLE - -  (#PCDATA)*>
+<!ATTLIST TITLE %SDAFORM; "Ti" >
+
+<!ELEMENT LINK - O EMPTY>
+<!ATTLIST LINK HREF %URI #REQUIRED %linkExtraAttributes;
+        %SDAPREF; "<?SDATrans Link: #AttList>" >
+
+<!ELEMENT ISINDEX - O EMPTY>
+<!ATTLIST ISINDEX
+        %SDAPREF;
+   "<Para><?SDATrans IsIndex: #AttList>[Document indexed/searchable.]</Para>">
+
+<!ELEMENT BASE - O EMPTY>
+<!ATTLIST BASE
+        HREF %URI; #REQUIRED
+        %SDAPREF; "<?SDATrans Base: #AttList>" >
+
+<!ELEMENT NEXTID - O EMPTY>
+<!ATTLIST NEXTID N %linkName #REQUIRED
+        %SDAPREF; "<?SDATrans NextID: #AttList>" >
+
+<!ELEMENT META - O EMPTY>
+<!ATTLIST META HTTP-EQUIV  NAME    #IMPLIED
+        NAME        NAME    #IMPLIED
+        CONTENT     CDATA   #REQUIRED
+        %SDAPREF; "<?SDATrans Meta: #AttList>" >
+
+<!ENTITY % cell "TH | TD">
+<!ENTITY % block.align
+        "align  (bleedleft|left|center|right|bleedright|justify) center">
+
+<!element caption - - (#pcdata)>
+
+<!ELEMENT TABLE - - (CAPTION?, TR*) -- mixed headers and data -->
+<!ATTLIST TABLE
+        -- %attrs; --
+        border (border) #IMPLIED -- draw borders --
+        colspec CDATA   #IMPLIED -- column widths and alignment --
+        units  (em|pixels|relative) em -- units for column widths --
+        %block.align;  -- horizontal alignment --
+    --    %needs; -- >
+
+<!ELEMENT TR - O (%cell)* -- acts like row separator -->
+<!ATTLIST TR
+        -- %attrs; --
+        align  (left|center|right|justify) #IMPLIED
+        valign (top|middle|bottom) top -- vertical alignment -->
+
+<!ELEMENT (%cell) - O %body.content>
+<!ATTLIST (%cell) -- %attrs; --
+        colspan NUMBER    1      -- columns spanned --
+        rowspan NUMBER    1      -- rows spanned --
+        align  (left|center|right|justify) #IMPLIED
+        valign (top|middle|bottom) top -- vertical alignment --
+        nowrap (nowrap) #IMPLIED -- don't wrap words --
+        axis CDATA #IMPLIED -- axis name, defaults to element content --
+        axes CDATA #IMPLIED -- comma separated list of axis names -- >
+
+
+
+<!-- <HTML>			HyperText Markup Language Document	-->

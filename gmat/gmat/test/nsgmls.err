@@ -1,0 +1,3 @@
+/usr/bin/nsgmls:ch02.sgm:562:41:E: general entity "nwsp" not defined and no default entity
+/usr/bin/nsgmls:ch02.sgm:562:41: open elements: BOOK CHAPTER[1] SECT1[1] SECT2[1] PARA[1] (#PCDATA[1])
+/usr/bin/nsgmls:ch02.sgm:3246:9:X: reference to non-existent ID "GTOOLS-CH-3"

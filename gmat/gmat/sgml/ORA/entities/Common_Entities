@@ -1,0 +1,6 @@
+<!ENTITY nutslegal	PUBLIC "-//ORA//ENTITIES Nutshell Legal Notice//EN">
+<!ENTITY xlegal1	PUBLIC "-//ORA//ENTITIES X Legal Notice 1//EN">
+<!ENTITY xlegal2	PUBLIC "-//ORA//ENTITIES X Legal Notice 2//EN">
+<!ENTITY oraxrelated	PUBLIC "-//ORA//ENTITIES oraxrelated//EN">
+<!ENTITY xreqforcomments	PUBLIC "-//ORA//ENTITIES xreqforcomments//EN">
+<!ENTITY bulksales	PUBLIC "-//ORA//ENTITIES bulksales//EN">

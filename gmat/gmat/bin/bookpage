@@ -1,0 +1,96 @@
+#!/usr/bin/perl5 -- # -*- Perl -*-
+#
+# Reports a chapter name given a page number
+#
+# $Id: bookpage,v 1.1.1.1 2002-07-15 21:33:31 root Exp $
+#
+#
+
+use vars qw($PROGNAME $VERSION);
+
+$BASEVERS   = "0.1";
+$RCS_ID     = '$Id: bookpage,v 1.1.1.1 2002-07-15 21:33:31 root Exp $';  # '
+($PROGNAME  = $RCS_ID) =~ s/^.Id: (\S+) .*$/$1/;
+($PATCHLEVEL= $RCS_ID) =~ s/^.Id: \S+ \d+\.(\d+) .*$/$1/;
+$VERSION    = "$BASEVERS patchlevel $PATCHLEVEL";
+$EXECDIR    = ".";
+$EXECDIR    = $1 if $0 =~ /^(.*)\/[^\/]+$/;
+
+######################################################################
+
+if ($ENV{"ORALIBDIR"}) {
+    push (@INC, $ENV{"ORALIBDIR"});
+} else {
+    push (@INC, "/usr/local/share/gmat/lib");
+}
+
+require 'parsecfg5.pl';
+
+$BOOKFILES = "BOOKFILES";
+
+select(STDERR); $| = 1;
+select(STDOUT);
+
+# Now let's load the BOOKFILES database so we can update the SGMLTO3L parser
+open (BOOKFILES, "$BOOKFILES") || die "Cannot find BOOKFILES.\n";
+
+$_ = scalar(<BOOKFILES>);
+
+die "You cannot process this book with $0.\n" 
+    if !/^\s*\#\s*bookfiles/;
+
+close (BOOKFILES);
+
+$bookfiles = &parsecfg($BOOKFILES);
+
+open (BKF, "$BOOKFILES");
+while (<BKF>) {
+    chop;
+    if (/^\s*\[\s*(\S*)\s*\]\s*$/) {
+	local($file) = $1;
+	local($section) = $1;
+	local($path);
+
+	$part = &cfg($bookfiles, "$file", "part");
+	
+	$chapnum = &cfg($bookfiles, "$file", "chapter");
+	$chapnum = $curchap if $chapnum eq "";
+	$curchap = $chapnum + 1;
+	
+	if (&cfg_defined($bookfiles, "$file", "page")) {
+	    $pagenum = &cfg($bookfiles, "$file", "page");
+	} else {
+	    $pagenum = $curpage+1;
+	    $pagenum++ if $pagenum % 2 == 0;
+	}
+	$curpage = $pagenum + &cfg($bookfiles, "$file", 'pagecount');
+	
+	if ($file =~ /^(.*)\/([^\/]+)$/) {
+	    $path = "$1/";
+	    $file = $2;
+	} else {
+	    $path = "./";
+	}
+	
+	$PART{"$file"} = &cfg($bookfiles, "$file", "part${part}_title");
+	$CHAP{"$file"} = $chapnum;
+	$PAGE{"$file"} = $pagenum;
+	$CHAPTER{"$chapnum"} = $section;
+	$CHAPTER_PAGE{"$chapnum"} = $pagenum;
+	$LAST_CHAPTER = $chapnum;
+    }
+}
+close (BKF);
+
+$findpage = $ARGV[0];
+
+$findchap = 0;
+for ($count = 1; $count <= $LAST_CHAPTER; $count++) {
+    if ($CHAPTER_PAGE{"$count"} <= $findpage) {
+	$findchap++;
+    } else {
+	last;
+    }
+}
+
+print "Page $findpage occurs in Chapter $findchap, $CHAPTER{$findchap}\n";

@@ -1,0 +1,1955 @@
+.nr sgml_on 0 1
+.nr is_highlight_env 0 \"if the abstract at the beginning is to be printed
+.nr varlist_localindent 0 1
+.nr ll_indent 0
+.nr inside_varlist 0
+.nr varlist_count_terms 0 1
+.nr varlist_context 0 1
+.nr orlist_context 0 1
+.nr orlist_count_pars 0 1 
+.nr orlist_count_items 0 1
+.nr inside_ordered_list 0
+.nr itemlist_count_items 0 1
+.nr itemlist_context 0 1
+.nr itemlist_count_pars 0 1
+.nr programlist_indent 0
+.nr seepage 0
+.nr seenopage 0
+.ds xe3
+.ds numtmp
+.nr boldentry 0
+.de PRE
+.nr sgml_on 1
+.ie "\\$2"" .Se "" \\$1
+.el .Se "" \\$2
+.\".ds chapternumber 0
+.nr sgml_on 1
+.nr nH 0
+.ds LH Preface
+.if \\n[inanut_on] \{\
+.pardef_0
+.als RF2 Sl
+.als RF3 Sm
+.als SH1 S1
+.als NTS IL
+.NU\}
+..
+.de AFT
+.nr sgml_on 1
+.ie !"\\$2"" .Se "" "\\$1" "\\$2"
+.el .Se "" Afterword
+.nr sgml_on 1
+.ds LH Afterword
+..
+.de /PRE
+..
+.\" ##################LIST MACROS REDEFINED FOR SGML
+.\" macros for variable lists
+.de P_0\"body text
+.if \\n[pg@fn-flag] .nr wcon_off 1
+.nr pardef 0
+.ie !\\n[widow_control_on] \{\
+.LP
+.NU\}
+.el \{\
+.nr in_par 1
+.if 2v+\\n[.V]u>\\n[.t] \{\
+.LP
+.		NU\}
+.if 2v+\\n[.V]u<\\n[.t] \{\
+.LP
+.ie \\n[wcon_off] .ch WCD
+.el .if "\\n[.z]"" .wh -\\n[FM]u-2v-\\n[.V]u WCD
+.	NU\}
+.NU\}
+..
+.de P_VL \" variable list paragraph definition 
+.if \\n[pg@fn-flag] .nr wcon_off 1
+.nr pardef 22
+.nr varlist_count_pars +1
+.ie !\\n[widow_control_on] \{\
+.if \\n[varlist_count_pars]>1 \{\
+.	ie \\n[varlist_PD] .SP? \\n[varlist_PD]u PVP
+.	el .sp .5v
+.	ne 1v+\\n(.Vu
+.	NU\}
+.NU\}
+.el \{\
+.nr in_par 1
+.if 2v+\\n[.V]u>\\n[.t] \{\
+.if \\n[varlist_count_pars]>1 \{\
+.	ie \\n[varlist_PD] .SP? \\n[varlist_PD]u PVP
+.	el .sp .5v
+.	ne 1v+\\n(.Vu
+.	NU\}
+.NU\}
+.if 2v+\\n[.V]u<\\n[.t] \{\
+.if \\n[varlist_count_pars]>1 \{\
+.	ie \\n[varlist_PD] .SP? \\n[varlist_PD]u PVP
+.	el .sp .5v
+.	ne 1v+\\n(.Vu
+.	NU\}
+.ie \\n[wcon_off] .ch WCD
+.el \{\
+.if "\\n[.z]"" .wh -\\n[FM]u-2v-\\n[.V]u WCD
+.NU\}
+.NU\}
+.NU\}
+..
+.als P_22 P_VL
+.de P_OL\"ordered list (not variable) LI
+.if \\n[pg@fn-flag] .nr wcon_off 1
+.nr pardef 44 
+.nr orlist_count_pars +1
+.ie !\\n[widow_control_on] \{\
+.if \\n[orlist_count_pars]>1 \{\
+.	ie \\n[orlist_PD] .SP? \\n[orlist_PD]u POP
+.	el .sp .5v
+.	ne 1v+\\n(.Vu
+.	NU\}
+.NU\}
+.el \{\
+.nr in_par 1
+.if 2v+\\n[.V]u>\\n[.t] \{\
+.if \\n[orlist_count_pars]>1 \{\
+.	ie \\n[orlist_PD] .SP? \\n[orlist_PD]u POP
+.	el .sp .5v
+.	ne 1v+\\n(.Vu
+.	NU\}
+.NU\}
+.if 2v+\\n[.V]u<\\n[.t] \{\
+.if \\n[orlist_count_pars]>1 \{\
+.	ie \\n[orlist_PD] .SP? \\n[orlist_PD]u POP
+.	el .sp .5v
+.	ne 1v+\\n(.Vu
+.	NU\}
+.ie \\n[wcon_off] .ch WCD
+.el \{\
+.if "\\n[.z]"" .wh -\\n[FM]u-2v-\\n[.V]u WCD
+.NU\}
+.NU\}
+.NU\}
+..
+.als P_44 P_OL
+.de P_IL\"itemized list (not variable) LI
+.if \\n[pg@fn-flag] .nr wcon_off 1
+.nr pardef 88
+.nr itemlist_count_pars +1
+.ie !\\n[widow_control_on] \{\
+.if \\n[itemlist_count_pars]>1 \{\
+.	ie \\n[itemlist_PD] .SP? \\n[itemlist_PD]u PIP
+.	el .sp .5v
+.	ne 1v+\\n(.Vu
+.	NU\}
+.NU\}
+.el \{\
+.nr in_par 1
+.if 2v+\\n[.V]u>\\n[.t] \{\
+.if \\n[itemlist_count_pars]>1 \{\
+.	ie \\n[itemlist_PD] .SP? \\n[itemlist_PD]u PIP
+.	el .sp .5v
+.	ne 1v+\\n(.Vu
+.	NU\}
+.NU\}
+.if 2v+\\n[.V]u<\\n[.t] \{\
+.if \\n[itemlist_count_pars]>1 \{\
+.	ie \\n[itemlist_PD] .SP? \\n[itemlist_PD]u PIP
+.	el .sp .5v
+.	ne 1v+\\n(.Vu
+.	NU\}
+.ie \\n[wcon_off] .ch WCD
+.el \{\
+.if "\\n[.z]"" .wh -\\n[FM]u-2v-\\n[.V]u WCD
+.NU\}
+.NU\}
+.NU\}
+..
+.als P_88 P_IL
+.\" ####variable list init
+.de list_env_init \"$1=name of list environment
+.br
+.if \\n[\\n[.ev]:il] \{\
+.nr saved_il_value \\n[\\n[.ev]:il]
+.nr saved_li_value \\n[\\n[.ev]:li]
+.nr saved_ri_value \\n[\\n[.ev]:ri]
+.\".nr saved_ai_value \\n[\\n[.ev]:ai]
+.\".nr saved_pli_value \\n[\\n[.ev]:pli]
+.NU\}
+.ev \\$1
+.par*env-init
+.if \\n[saved_il_value] .nr \\n[.ev]:il \\n[saved_il_value]
+.if \\n[saved_li_value] .nr \\n[.ev]:li \\n[saved_li_value]
+.if \\n[saved_ri_value] .nr \\n[.ev]:ri \\n[saved_ri_value]
+.\".if \\n[saved_pli_value] .nr \\n[.ev]:pli \\n[saved_pli_value]
+.\".if \\n[saved_ai_value] .nr \\n[.ev]:ai \\n[saved_ai_value]
+.if \\n[\\n[.ev]list_indent_outer] .nr \\n[.ev]:li +\\n[\\n[.ev]list_indent_outer]
+.\".if \\n[\\n[.ev]list_PD] .nr \\n[.ev]:PD \\n[\\n[.ev]list_PD]
+.nr \\n[.ev]list_count_pars 0 1
+.par@reset
+.de P
+.P_\\\\n[.ev]
+\\..
+..
+.\" ####variable list init
+.\" Define Var List environment
+.de ev_VL_init
+.br
+.if \\n[\\n[.ev]:il] \{\
+.nr saved_il_value \\n[\\n[.ev]:il]
+.nr saved_li_value \\n[\\n[.ev]:li]
+.nr saved_ri_value \\n[\\n[.ev]:ri]
+.NU\}
+.ev VL
+.par*env-init
+.if \\n[saved_il_value] .nr \\n[.ev]:il \\n[saved_il_value]
+.if \\n[saved_li_value] .nr \\n[.ev]:li \\n[saved_li_value]
+.if \\n[saved_ri_value] .nr \\n[.ev]:ri \\n[saved_ri_value]
+.if \\n[varlist_indent_outer] .nr \\n[.ev]:li +\\n[varlist_indent_outer]
+.\".if \\n[varlist_PD] .nr \\n[.ev]:PD \\n[varlist_PD]
+.nr varlist_count_pars 0 1
+.de P
+.P_\\\\n[.ev]
+\\..
+..
+.de LSV
+.if !\\n[wcon_off] .endwcd
+.ie "\\n[.ev]"VL" .alt-RS
+.el .RS
+.Nd 3.1
+.SP? \\n[list_prespace]u LSV
+.ie "\\n[.ev]"VL" .ev VL
+.el .ev_VL_init
+.if \\n[varlist_items] .nr saved_varlist_items \\n[varlist_items] 
+.nr varlist_items 0   \"need these lines here after ie/el for evs
+.if \\n[varlist_localindent] .nr varlist_indent \\n[varlist_localindent]
+.nr \\n[.ev]:ai \\n[\\n[.ev]:pli]\"not sure about this one
+.SP_reset
+.ds lastelem LSV
+.RS
+..
+.de LSO	\" Start ordered list: $1=N(arabic numbers), R(UC Roman), 
+.if !\\n[wcon_off] .endwcd
+.ie "\\n[.ev]"OL" .alt-RS
+.el .RS
+.\" r(lc roman), A(UC Alphabetic), a(lc alphabetic)
+.if !"\\$1"Z" .if !"\\$1"N" .if !"\\$1"R" .if !"\\$1"r" .if !"\\$1"A" .if !"\\$1"a" .if "\\$1"" .tm "LSO: missing or invalid argument: \\$1; using N"
+.SP? \\n[list_prespace]u LSO
+.ie "\\n[.ev]"OL" .ev OL 
+.el .list_env_init OL
+.ie "\\$3"" .nr l\\n+[l0] 0 1
+.el .nr l\\n+[l0] \\n[save_nlist_num]
+.if "\\$1"A" .af l\\n[l0] A
+.if "\\$1"a" .af l\\n[l0] a
+.if "\\$1"R" .af l\\n[l0] I
+.if "\\$1"r" .af l\\n[l0] i
+.if "\\$1"Z" \{\
+.	nr \\n[l0]co_seq 1 
+.	nr \\n[l0]Zz 1
+.   ds l\\n[l0] \E[dnum\\\\n+[\\\\n[l0]co_seq]]
+.NU\}
+.ie !"\\$2"" .nr i\\n[l0] (n;\\$2)   \" list indent
+.el .nr i\\n[l0] \\n[orlist_indent_inner]
+.nr \\n[.ev]:ai \\n[\\n[.ev]:pli]\"still not sure about this one
+.ns
+.RS
+..
+.de LSI
+.if !\\n[wcon_off] .endwcd
+.ie "\\n[.ev]"IL" .alt-RS
+.el .RS
+.SP? \\n[list_prespace]u LSI
+.ie "\\n[.ev]"IL" \{.ev IL
+.nr dash_on 1\}
+.el .list_env_init IL
+.nr l\\n+[l0] 0 1
+.if "\\$1""\{\
+.	if "\\$3"" .ds l\\n[l0] \(bu
+.	if !"\\$3"" .ds l\\n[l0] \\$3
+.	nr l\\n[l0] 0-1
+.NU\}
+.if "\\$1"D" .nr dash_on 1
+.if \\n[dash_on] \{\
+.	ds l\\n(l0 \(en
+.	nr l\\n(l0 0-1
+.	nr dash_on 0
+.NU\}
+.ie !"\\$2"" .nr i\\n[l0] (n;\\$2)   \" list indent
+.el .nr i\\n[l0] \\n[itemlist_indent_inner]
+.nr \\n[.ev]:ai \\n[\\n[.ev]:pli]\"still not sure about this one
+.ns
+.RS
+..
+.de LIV
+.nr varlist_count_pars 0 1
+.\".if \\n[varlist_items] .SP? \\n[list_itemspace]u LIV
+.SP? \\n[list_itemspace]u LIV
+.if \\n[varlist_items] .ne 3
+.nr varlist_items 1
+..
+.de YP
+.if \\n[.$]>1 .nr \\n[.ev]:ai (n;\\$2)
+.par*start \\n[\\n[.ev]:ai] 0
+.if !'\\$1'' \{\
+.	\" Divert the label so as to freeze any spaces.
+.ad l \"to make labels rr; remove this and ad b below if you want adj 
+.	di par*label
+.	par*push-tag-env
+\&\fI\\$1\fP
+.	par*pop-tag-env
+.	di
+.	chop par*label
+.	nr label_length \w'\\$1'
+.	ie \\n[label_length]>\\n[body_width] .in -\\n[\\n[.ev]:ai]u
+.	el .ti -\\n[\\n[.ev]:ai]u
+.	ie \\n[dl]+1n<=\\n[\\n[.ev]:ai] \\*[par*label]\h'|\\n[\\n[.ev]:ai]u'\c
+.	el \{\
+.	ie \\n[label_length]>\\n[body_width] \\$1 
+.	el \{\
+\\*[par*label]
+.	NU\}
+.	br
+.	\}
+.	rm par*label
+.	if \\n[label_length]>\\n[body_width] \{\
+.	in \\n[varlist_indent]u
+.	nr \\n[.ev]:ai \\n[varlist_indent]u
+.	NU\}
+.ad b \"here's the ad b below to remove if you want adj of labels
+.\}
+..
+.de LIT
+.if !"\\n[.z]"" .SP_reset
+.ne 2.1v
+.ns
+.if "\\n[.$]"1" \{\
+.if \w'\\$1'>\\n[body_width] .sp -1v
+.YP "\\$1" \\n[varlist_indent]u
+.NU\}
+.if "\\n[.$]"2" \{\
+.if \w'\\$1'>\\n[body_width] .sp -1v
+.YP "\&\\$1"
+.sp -.5v
+.YP "\\$2" \\n[varlist_indent]u
+.NU\}
+.if \\n[.$]>=3 \{\
+.if \w'\\$1'>\\n[body_width] .sp -1v
+.while \\n[.$]>1 \{\
+.YP "\\$1" \\n[varlist_indent]u
+.sp -.5v
+.shift
+.NU\}
+.if \\n[.$]=1 .YP "\\$1" \\n[varlist_indent]u
+.NU\}
+..
+.de /LIT
+..
+.de LI
+.if "\\n[.ev]"VL" .NU
+.if "\\n[.ev]"OL" \{\
+.	nr orlist_count_pars 0 1
+.	if !"\\$1"" .if !"\\$1"0" .aB "LI: invalid argument: \\$1"
+.	br
+.	if !"\\$1"0" .SP? \\n[list_itemspace]u Li
+.	ne 2.1v
+.	ns
+.	ie !\\n[\\n[l0]Zz] \{\
+.	ie "\\n[l\\n[l0]]"-1" .IP "\\*[l\\n[l0]]" "\\n[i\\n[l0]]u"
+.	el \{\
+.		nr l\\n[l0] +1
+.\".		nip "\\n[l\\n[l0]]." "\\n[i\\n[l0]]u" 
+.		IP "\\n[l\\n[l0]]." "\\n[i\\n[l0]]u" 
+.		NU\}
+.			NU\}
+.	el \{\
+.	IP "\\*[l\\n[l0]]" "\\n[i\\n[l0]]u"
+.	nr \\n[l0]co_seq +1 
+.	NU\}
+.NU\}
+.if "\\n[.ev]"IL" \{\
+.	nr itemlist_count_pars 0 1
+.	if !"\\$1"" .if !"\\$1"0" .aB "LI: invalid argument: \\$1"
+.	br
+.	if !"\\$1"0" .SP? \\n[list_itemspace]u Li
+.	ne 2.1v
+.	ns
+.	ie !\\n[\\n[l0]Zz] \{\
+.	ie "\\n[l\\n[l0]]"-1" .IP "\\*[l\\n[l0]]" "\\n[i\\n[l0]]u"
+.	el \{\
+.		nr l\\n[l0] +1
+.		IP "\\n[l\\n[l0]]." "\\n[i\\n[l0]]u" 
+.	NU\}
+.			NU\}
+.	el \{\
+.	IP "\\*[l\\n[l0]]" "\\n[i\\n[l0]]u"
+.	nr \\n[l0]co_seq +1 
+.		NU\}
+.NU\}
+..
+.de /LI
+.if \\n[long_term] .in 
+.nr long_term 0
+..
+.de /LIV
+.nr varlist_count_pars 0
+..
+.de /LSV
+.\".ch WCD
+.if !\\n[wcon_off] .endwcd
+.RE
+.rr varlist_localindent
+.if \\n[\\n[.ev]:il] .nr saved_il_value \\n[\\n[.ev]:il]
+.EV
+.de P
+.P_\\\\n[.ev]
+\\..
+.RE
+.SP? \\n[list_postspace]u /LSV
+.nr \\n[.ev]:il \\n[saved_il_value]
+.if \\n[saved_varlist_items] .nr varlist_items \\n[saved_varlist_items]
+.nr saved_varlist_items 0
+..
+.de /LSO
+.if !\\n[wcon_off] .endwcd
+.RE
+.af l\\n[l0] 1
+.nr save_nlist_num \\n[l\\n[l0]]
+.rr l\\n[l0]
+.rr i\\n[l0]
+.rm l\\n[l0]
+.rr \\n[l0]Zz
+.rr \\n[l0]co_seq
+.nr l0 -1
+.if \\n[\\n[.ev]:il] .nr saved_il_value \\n[\\n[.ev]:il]
+.EV
+.RE
+.de P
+.P_\\\\n[.ev]
+\\..
+.SP? \\n[list_postspace]u /LSV
+.nr \\n[.ev]:il \\n[saved_il_value]
+..
+.de /LSI
+.if !\\n[wcon_off] .endwcd
+.RE
+.rr l\\n[l0]
+.rr i\\n[l0]
+.rm l\\n[l0]
+.nr l0 -1
+.if \\n[\\n[.ev]:il] .nr saved_il_value \\n[\\n[.ev]:il]
+.EV
+.RE
+.de P
+.P_\\\\n[.ev]
+\\..
+.if '\\n(.z'par*box-div' .if "\\n[.ev]"k" .pardef_0
+.SP? \\n[list_postspace]u /LSI
+.nr \\n[.ev]:il \\n[saved_il_value]
+..
+.\" BODY TEXT MACROS for SGML#############################
+.de INF \" <DOCINFO> a no-op; distinguishes nothing
+..
+.de /INF
+.. 
+.de BK  \" <BOOKTITLE>
+.ds LH \\$1
+.ds book_title \\$1
+.nr no_gnct 1
+..
+.de /BK
+.nr title_context 0
+..
+.de PRT
+.PartPage "\\*[partnumber]" "\\*[part_title1]" "\\*[part_title2]"
+..
+.de /PRT
+..
+.de PRI \"Part introduction: text after title
+.LP
+..
+.de /PRI
+..
+.de PART
+.ds partnumber \\$1
+.if "\\$3"" \{\
+.ds part_title \\$2
+.ds part_title1 \\$2
+.NU\}
+.if !"\\$3"" \{\
+.ds part_title \\$2 \\$3
+.ds part_title1 \\$2
+.ds part_title2 \\$3
+.NU\}
+.ds LH \\*[part_title]
+..
+.de /PART
+..
+.de CHP \" <CHAPTER> \"\\$1 is chapter number NOTE: don't change the trailing blanks!
+.ds chapternumber \\$1
+.nr sgml_on 1
+.if "\\$3"" \{\
+.ds chaptertitle ""\\$2"
+.ds runningfoot \\$2
+.NU\}
+.if !"\\$3"" \{\
+.ds chaptertitle ""\\$2" "\\$3"
+.ds runningfoot \\$2 \\$3
+.NU\}
+.if !"\\$4"" \{\
+.ds chaptertitle ""\\$2" "\\$3" "\\$4"
+.ds runningfoot \\$2 \\$3 \\$4
+.NU\}
+.if !"\\$5"" \{\
+.ds chaptertitle ""\\$2" "\\$3" "\\$4" "\\$5"
+.ds runningfoot \\$2 \\$3 \\$4 \\$5
+.NU\}
+.Se \\$1 \\*[chaptertitle]
+.if \\n[inanut_on] \{\
+.pardef_0
+.als SH1 S1
+.als RF2 Sl
+.als RF3 Sm
+.als NTS IL
+.NU\}
+..
+.de /CHP
+.\".ds RH
+.\".ds LH
+.nr last_chap_page 1
+..
+.de APX
+.ds chapternumber \\$1
+.nr sgml_on 1
+.if "\\$3"" \{\
+.ds chaptertitle ""\\$2"
+.ds runningfoot \\$2
+.NU\}
+.if !"\\$3"" \{\
+.ds chaptertitle ""\\$2" "\\$3"
+.ds runningfoot \\$2 \\$3
+.NU\}
+.if !"\\$4"" \{\
+.ds chaptertitle ""\\$2" "\\$3" "\\$4"
+.ds runningfoot \\$2 \\$3 \\$4
+.NU\}
+.if !"\\$5"" \{\
+.ds chaptertitle ""\\$2" "\\$3" "\\$4" "\\$5"
+.ds runningfoot \\$2 \\$3 \\$4 \\$5
+.NU\}
+.Se \\$1 \\*[chaptertitle]
+.if \\n[inanut_on] \{\
+.pardef_0
+.als SH1 S1
+.als RF2 Sl
+.als RF3 Sm
+.als NTS IL
+.NU\}
+..
+.de /APX
+..
+.de TLE \"depends on context <TITLE>
+.di title_div
+..
+.de /TLE
+.br
+.di
+.nr fill_mode \\n[.u]
+.if \\n[fill_mode] 'nf
+.if '\\n[title_context]'2' \fB\\*[title_div]\&\fP.
+.if \\n[title_context]>=4 .SP! -1.5v
+.if !\\n[fill_mode] 'fi
+..
+.de TLA \" <TITLEABBREV>
+.nr file_mode \\n[.u]
+.fi
+.di abbrevtitle_div
+..
+.de /TLA
+.br
+.di
+'nf
+.if "\\n[title_context]"1" .ds RH \\\\*[abbrevtitle_div]
+.NU\}
+..
+.de XET \" <INDEXTERM>
+.nr index_span 0
+.if "\\$2"S" .nr index_span 1
+.if "\\$2"E" .nr index_span 2
+.if "\\$1"B" .nr boldentry 1 
+.if "\\$1"N" .nr normalentry 1
+..
+.de XE1 \" <PRIMARY>
+.ie "\\$2"" .ds xe1 \\$1
+.el .ds xe1 \\$1::\\$2
+..
+.de /XE1
+..
+.de XE2 \" <SECONDARY>
+.ie "\\$2"" .ds xe2 \\$1
+.el .ds xe2 \\$1::\\$2
+..
+.de /XE2
+..
+.de XE3 \" <TERTIARY>
+.ie "\\$2"" .ds xe3 \\$1
+.el .ds xe3 \\$1::\\$2
+..
+.de /XE3
+..
+.de /XET \" </INDEXTERM>
+.if \\n[normalentry] \{\
+.ie \\n[index_span] \{\
+.if \\n[index_span]=1 .XS "\\*[xe1]" "\\*[xe2]" "\\*[xe3]"
+.if \\n[index_span]=2 .XE "\\*[xe1]" "\\*[xe2]" "\\*[xe3]" 
+.NU\}
+.el .XX "\\*[xe1]" "\\*[xe2]" "\\*[xe3]"
+.NU\}
+.if \\n[boldentry] \{\
+.ie \\n[index_span] \{\
+.if \\n[index_span]=1 .X1 "\\*[xe1]" "\\*[xe2]" "\\*[xe3]"
+.if \\n[index_span]=2 .X2 "\\*[xe1]" "\\*[xe2]" "\\*[xe3]" 
+.NU\}
+.el .XB "\\*[xe1]" "\\*[xe2]" "\\*[xe3]"
+.NU\}
+.if \\n[seepage] \{\
+.XN "\\*[xe1]" "\\*[xe2]" "\\*[xe3]" "(see also \\*[xsa])"
+.NU\}
+.if \\n[seenopage] \{\
+.XN "\\*[xe1]" "\\*[xe2]" "\\*[xe3]" "(see \\*[xse])"
+.NU\}
+.nr index_span 0
+.ds xe1
+.ds xe2
+.ds xe3
+.ds xsa
+.ds xse
+.nr boldentry 0
+.nr seepage 0
+.nr seenopage 0
+.nr normalentry 0
+..
+.de XSA
+.nr seepage 1
+.ds xsa \\$1
+..
+.de /XSA
+..
+.de XSE
+.nr seenopage 1
+.nr boldentry 0
+.nr normalentry 0
+.ds xse \\$1
+..
+.de /XSE
+..
+.de CHH \" <HIGHLIGHTS>
+.ie \\n[is_highlights_env] .ev hl
+.el .NU
+.ig /CHH 
+..
+.de /CHH
+.ie \\n[is_highlights_env] .ev
+.el .NU
+..
+.\" <PARA> tag
+.de P
+.LP
+.nr title_context 2
+..
+.de /P
+.nr title_context 0
+.ds lastelem /P
+..
+.als PP P
+.de FNT \" <FOOTNOTE>
+.reset_literal fnt
+.nr footnote_par_count 0 1
+.nr saved_pardef \\n[pardef]
+.\".if !\\n[wcon_off] .endwcd
+.ch WCD
+.nr wcon_off 1
+.pardef_3
+.de P
+.P_3
+\\..
+.ie !"\\$1"" .FS \\$1
+.el .FS
+..
+.de /FNT
+.FE
+.reset_literal body
+.de P
+.P_\\n[saved_pardef]
+\\..
+.pardef_\\n[saved_pardef]
+.nr footnote_par_count 0
+.ds lastelem /FNT
+..
+.de FIG \" <FIGURE>
+.if !"\\$1"" .ds fig_caption \\$*
+.nr title_context 3
+..
+.de /FIG
+.pardef_\\n[.ev]
+..
+.\".de GRA \" <GRAPHIC> optional \\$2=space required, otherwise float figure
+.\".if \\n[title_context]=8 'so \\$1
+.\".if !"\\n[title_context]"8" \{\
+.\".Fs \\$2
+.\".ie "\\$7"" .Pf \\$1 "\\$3" "\\$4" "\\$5" "\\$6" noscale
+.\".el .Pf \\$1 "\\$3" "\\$4" "\\$5" "\\$6"
+.\".NU\}
+.\"..
+.\".de /GRA
+.\".if !"\\n[title_context]"8" .Fe "\\*[fig_caption]"
+.\".ds fig_caption
+.\".nr title_context 0
+.\"..
+.\".de GRA \" <GRAPHIC> optional \\$2=space required, otherwise float figure
+.\".if \\n[title_context]=8 'so \\$1
+.\".if !"\\n[title_context]"8" \{\
+.\".Fs \\$2
+.\".ie "\\$7"" .Pf \\$1 "\\$3" "\\$4" "\\$5" "\\$6" noscale
+.\".el .Pf \\$1 "\\$3" "\\$4" "\\$5" "\\$6"
+.\".NU\}
+.\"..
+.\".de /GRA
+.\".if !"\\n[title_context]"8" .Fe "\\*[fig_caption]"
+.\".ds fig_caption
+.\".nr title_context 0
+.\"..
+.de GRA \" <GRAPHIC> optional \\$2=space required, otherwise float figure
+.if \\n[title_context]=3 .Fs \\$2
+.if \\n[title_context]=8 'so \\$1
+.if !"\\n[title_context]"3" .if !"\\n[title_context]"8" \{\
+.if \\n[nl]>\\n[HM] .if \\$2+\\n[VS]>\\n[.t] .nr float_informal_figure 1 
+.NU\}
+.ie \\n[float_informal_figure] \{\
+.	nr keepingfig 1
+.	de keptfig
+.	ie "\\$7"" .Pf \\$1 "\\$3" "\\$4" "\\$5" "\\$6" noscale
+.	el .Pf \\$1 "\\$3" "\\$4" "\\$5" "\\$6"
+\\..
+.nr float_informal_figure 0
+.tm ALERT! gmat is floating an informal figure on page \\n[PN]
+.tm You may need to change your text to accommodate the change
+.	NU\}
+.el \{\
+.		if !"\\n[title_context]"8" \{\
+.	ie "\\$7"" .Pf \\$1 "\\$3" "\\$4" "\\$5" "\\$6" noscale
+.	el .Pf \\$1 "\\$3" "\\$4" "\\$5" "\\$6"
+.		NU\}
+.	NU\}
+..
+.de /GRA
+.if \\n[title_context]=3 .Fe "\\*[fig_caption]"
+.ds fig_caption
+.nr title_context 0
+..
+.de GTB \" <TABLE>
+.nr tfct 0 1
+.if !\\n[wcon_off] .endwcd
+.nr title_context 8
+.reset_literal tbl
+.ie \\n[.i] .Ts "\\$1" "\\n[.i]u"
+.el .Ts "\\$*"
+..
+.de /GTB
+.Te
+.nr title_context 0
+.reset_literal body
+..
+.de SH1 \" <SECT1>
+.ds next_bridgehead Bh
+.nr in_header 1
+.if !\\n[wcon_off] .endwcd
+.Ah "\\$1" "\\$2" "\\$3"
+..
+.de /SH1
+.nr title_context 0
+.if !\\n[wcon_off] .endwcd
+..
+.de SH2 \" <SECT2>
+.ds next_bridgehead Ch
+.nr in_header 2
+.if !\\n[wcon_off] .endwcd
+.Bh "\\$1" "\\$2" 
+..
+.de /SH2
+.nr title_context 0
+.if !\\n[wcon_off] .endwcd
+..
+.de SH3 \" <SECT3>
+.ds next_bridgehead Dh
+.nr in_header 3
+.if !\\n[wcon_off] .endwcd
+.Ch "\\$1" "\\$2"
+..
+.de /SH3
+.nr title_context 0
+.if !\\n[wcon_off] .endwcd
+..
+.de SH4 \" <SECT4>
+.ds next_bridgehead Dh
+.Dh "\\$1" "\\$2"
+..
+.de /SH4
+.nr title_context 0
+..
+.de SIH \"bridgehead
+.nr nH 0
+.\\*[next_bridgehead] \\$@
+.nr nH  \\*[saved_number_head_value] \"from Nh macro
+..
+.de SCR
+.nr saved_Ps_indent \\n[Ps_indent]
+.if !\\n[wcon_off] .endwcd
+.nr in_screen 1
+.ie \\n[inside_list] \{\
+.ie \\n[.i]>\\n[Ps_indent] .Ps "\\n[.i]u+\\n[Ps_indent]u"
+.el .Ps \\$@
+.NU\}
+.el .Ps \\$@
+..
+.de /SCR
+.nr et_on 0
+.Pe
+.nr in_screen 0
+.nr wcon_off 0
+.nr Ps_indent \\n[saved_Ps_indent]
+..
+.de BSCR
+.KF
+.SP? \\n[scrbox_prespace]u BSCR
+.B1
+.nr in_screen 1
+.ie \\n[inside_list] \{\
+.ie \\n[.i]>\\n[Ps_indent] .Ps "\\n[.i]u+\\n[Ps_indent]u"
+.el .Ps \\$@
+.NU\}
+.el .Ps 1n 
+.sp 3p
+..
+.de /BSCR
+.Pe
+.nr in_screen 0
+.B2
+.SP? \\n[scrbox_postspace]u /BSCR
+.KE
+..
+.de EXP \" <EXAMPLE> \" ONLY A WRAPPER TO OUTPUT TITLE
+.ie \\n[Xs_need] .Nd \\n[Xs_need]
+.el .br
+.ie !"\\$2"" .nr tmp_Xs (n;\\$2)
+.el .nr tmp_Xs \\n[Xs_indent]
+.ev_fg_init \\n[tmp_Xs]u
+.SP? \\n[Xs_prespace]u Xs
+.nr xG +1
+.ds xG
+.\".if r sE .if !"\\g(sE"" .ds xG \\n[sE]\\*[dot_or_hyphen]
+.if !"\\n[sE]"0" .ds xG \\n[sE]\\*[dot_or_hyphen]
+.as xG \\n[xG]
+.ie ""\\*[Fe_num_ft]" Example \\*[xG]:\h'1n'\\$1
+.el \f[\\*[Fe_num_ft]]Example \\*[xG]:\h'1n'\fP\\$1
+.dT .tC X "\\*[xG]" "\\$1"
+.di ET 
+.ie ""\\*[Fe_num_ft]" Example \\*[xG]:  \\$1  (continued)
+.el \f[\\*[Fe_num_ft]]Example \\*[xG]:\h'1n'\fP\\$1  (continued)
+.nr et_on 1
+.dT .SP? \\n[Xc_postspace]u
+.di
+.fl
+.EV\"	XX pop environment we set in .ev_fg_init
+.rs
+.SP? \\n[Xc_postspace]u
+..
+.de /EXP
+.nr et_on 0
+.SP? \\n[Xe_postspace]u
+.nr title_context 0
+..
+.de LLP \"
+.if r Ps_indent .nr saved_Ps_indent \\n[Ps_indent]
+.if !\\n[wcon_off] .endwcd
+.nr in_screen 1
+.if !r Ps_indent .nr Ps_indent 3n
+.if \\n[et_on] .nr Ps_indent \\n[Xs_indent] \"indent for example if LLP in EXP
+.ie \\n[inside_list] \{\
+.ie \\n[.i]>\\n[Ps_indent] .Ps "\\n[.i]u+\\n[Ps_indent]u"
+.el .Ps \\$@
+.NU\}
+.el .Ps \\$@
+..
+.de /LLP
+.nr et_on 0
+.Pe
+.nr in_screen 0
+.nr wcon_off 0
+.nr Ps_indent \\n[saved_Ps_indent]
+..
+.de ATT \" <CAUTION>, <WARNING>, <IMPORTANT>, <NOTE>, <TIP>
+.nr count_attparas 0
+.reset_literal nt
+.if !"\\*[Ns_ft]"" .ft \\*[Ns_ft]
+.if "\\$1"C" .Ns C
+.if "\\$1"N" \{\
+.ie "\\$2"" .Ns N
+.el \{\
+.		Ns W
+.		ds tmp_Ns \\$2
+.NU\}
+.NU\}
+.if "\\$1"W" .Ns W
+.if "\\$1"T" \{\
+.	Ns W
+.	ds tmp_Ns TIP
+.			NU\}
+.if !"\\$1"N" .if !"\\$1"C" .if !"\\$1"W" .if !"\\$1"R" .if !"\\$1"T" .ds tmp_Ns \\$*
+.if !"\\*[Ns_ft]"" .ft R
+.pardef_4
+..
+.de /ATT
+.Ne
+.\".de P
+.\".P_\\n[pardef_saved:ATT]
+.\"\\..
+.de P
+.P_\\\\n[.ev]
+\\..
+.reset_literal body
+..
+.de REM \" <COMMENT>
+.Ns R
+..
+.de /REM
+.Ne
+..
+.de SID \" sidebar
+.MK_ABS Y&
+.save_current_pardef SID
+.endwcd
+.SB1 "\\$1" F "\\$2"
+.pardef_0\"initialize paragraph definition
+..
+.de /SID
+.SB2
+.restore_prev_pardef SID
+.nr wcon_off 0
+..
+.de QBL
+.nr count_qbpars 0
+.save_current_pardef QBL
+.nr save_indent_Ns \\n[.i]
+.SP? \\n[QS_prespace]u QS
+.nr saved_ll \\n[LL]
+.nr LL -\\n[QS_indent]u
+.if \\n[float_me] .nr LL -\\n[QS_indent]+\\n[boxtextindent]
+.ll \\n(LLu
+.save_nr PS \\n[QS_ps] VS \\n[QS_vs]
+.ps \\n[PS]
+.vs \\n[VS]u
+.sty 1 \\*[QS_ft]
+.\".if \\n[QS_PD] .nr PD \\n[QS_PD]u
+.pardef_5
+.de P
+.P_5
+\\..
+.in +\\n[QS_indent]u
+.nr 0:pli \\n[.i]
+.nr 0:li \\n[.i]
+..
+.de /QBL
+.restore_prev_pardef QBL
+.restore_nr PS VS
+.in
+.ps \\n[PS]
+.vs \\n[VS]u
+.nr LL \\n[saved_ll]u
+.ll \\n[LL]u
+.de P
+.P_\\n[pardef_saved:QBL]
+\\..
+.nr 0:pli 0 \"These lines restore indents, as from lists
+.nr 0:li 0
+..
+.als ABS QBL
+.als /ABS /QBL
+.de QBA \"for attributions; takes three possible lines
+.sp 1P
+.ad r
+.ft I
+\\$1
+.if !"\\$2"" \{\
+.br
+\\$2
+.NU\}
+.if !"\\$3"" \{\
+.br
+\\$3
+.NU\}
+.ft
+.br
+.ad b
+..
+.de /QBA
+..
+.de LLT \"<LiteralLayout>
+.if "\\n[.ev]"fn" .nr fn_on 1
+.ie r llprespace .SP! \\n[llprespace]u
+.el .DDS
+.if \\n[fn_on] \{\
+.	ps -1
+.	sp -.5v
+.NU\}
+..
+.de /LLT
+.if \\n[fn_on] .ps +1
+.DDE
+.if r llindent .rr llindent
+.if r llprespace .rr llprespace
+.if \\n[fn_on] \{.nr fn_on 0
+.sp -.5v
+.NU\}
+..
+.de EPI
+.de P
+\\..
+.ft I
+.ps \\n[epigraph_ps]
+.vs \\n[epigraph_vs]u
+.rj 50
+.nf
+..
+.de /EPI
+.rs
+.nf
+.aT
+.fi
+.ps \\n[PS]
+.vs \\n[VS]u
+.rj
+.SP? \\n[epigraph_postspace]u /EPI
+.ns
+.pardef_\\n[.ev]
+..
+.\" ##############MESSAGE MACROS################
+.de MSZ
+..
+.de /MSZ
+..
+.de MSG
+..
+.de /MSG
+..
+.de MSX
+..
+.de /MSX
+..
+.de MSM
+..
+.de /MSM
+..
+.de MST
+.am P
+.ft B
+\\..
+..
+.de /MST
+.pardef_0
+..
+.\" #################GLOSSARY MACROS######################
+.if \n[comp_dict] .ig ++
+.de GLS
+.Se "" "Glossary"
+.nr sgml_on 1
+..
+.de /GLS
+..
+.de GLE   \"Glossary Entry <GLOSSENTRY>
+.pardef_6
+..
+.de /GLE
+..
+.de GLT \"Glossary Term <GLOSSTERM>
+.Nd 4
+.SP? \\n[gloss_term_prespace]u 
+.in 0
+.IP "\\*[gloss_term_font]\\$1\\*[/gloss_term_font]" \\n[gloss_def_indent]u
+..
+.de /GLT
+.. 
+.de GLD \"Glossary Definition <GLOSSDEF>
+..
+.de /GLD
+'in 0
+..
+.++
+.\" ###############BIBLIOGRAPHY MACROS###################
+.de BIB
+.ie !"\\$1"" .Se "" "\\$1" 
+.el .Se "" Bibliography
+.nr sgml_on 1
+..
+.de BID
+.Ah \\$1 \\$2 \\$3
+..
+.de /BID
+..
+.de BIE
+.par@reset
+.ps \\n[bibentry_ps]
+.vs \\n[bibentry_vs]u
+.SP? \\n[bibentry_prespace]u BIE 
+.in .25i
+.ti -.25i
+..
+.de AP 
+.LP
+.ps 9
+.in .25i
+..
+.de /AP
+.in 0
+.ps \\n[PS]
+..
+.de BIS
+.Bh "\\$1" "\\$2"
+..
+.de /BIS
+..
+.de BKB
+.ds title \\$*
+..
+.de /BKB
+..
+.de AUG
+.nr authnum 0
+..
+.de /AUG
+..
+.de AUN
+.if !"\\$1"" \{\
+.nr authnum +1
+.ie "\\n[authnum]"1" \{\
+.if "\\$1"\\*[author1firstname]" .if "\\$2"\\*[author1surname]" \{\
+.		nr first_author_repeats 1
+.		ds savedfirstname \\*[author1firstname]
+.		ds savedsurname \\*[author1surname]
+.		ds author1firstname
+.		ds author1surname \(em\(em\(em
+.	NU\}
+.if !\\n[first_author_repeats] \{\
+.		ds author1firstname \\$1
+.		ds author1surname \\$2
+.	NU\}
+.NU\}
+.el \{\
+.ds author\\n[authnum]firstname \\$1
+.ds author\\n[authnum]surname \\$2
+.	NU\}
+.NU\}
+..
+.de PUD
+.ds pubdate \\$*
+..
+.de /PUB
+..
+.de PUB
+..
+.de PUN
+.ds publisher \\$*
+..
+.de AUA
+.if !"\\$1"" .if !"\\$2"" .ds placeofpub \\$1, \\$2
+.if !"\\$1"" .if "\\$2"" .ds placeofpub \\$1
+..
+.de EDN
+.ds edition \\$*
+..
+.de /EDN
+..
+.de /BIE \"output the entry
+.ie \\n[journalbiblio] .NU
+.el \{\
+.if "\\n[authnum]"1" \{\
+.ie \\n[first_author_repeats] \{\
+\\*[author1surname]. \\*[bibentry_title_ft]\\*[title]\\*[/bibentry_title_ft].
+.	NU\}
+.el \{\
+\\*[author1surname], \\*[author1firstname]. \\*[bibentry_title_ft]\\*[title]\\*[/bibentry_title_ft]. 
+.		NU\}
+.	NU\}
+.if "\\n[authnum]"2" \{\
+.ie \\n[first_author_repeats] \{\
+\\*[author1surname], and \\*[author2firstname] \\*[author2surname]. \\*[bibentry_title_ft]\\*[title]\\*[/bibentry_title_ft].
+.	NU\}
+.el \{\
+\\*[author1surname], \\*[author1firstname] and \\*[author2firstname] \\*[author2surname]. \\*[bibentry_title_ft]\\*[title]\\*[/bibentry_title_ft].
+.		NU\}
+.	NU\}
+.if "\\n[authnum]"3" \{\
+.ie \\n[first_author_repeats] \{\
+\\*[author1surname], \\*[author2firstname] \\*[author2surname], and \\*[author3firstname] \\*[author3surname]. \\*[bibentry_title_ft]\\*[title]\\*[/bibentry_title_ft].
+.	NU\}
+.el \{\
+\\*[author1surname], \\*[author1firstname], \\*[author2firstname] \\*[author2surname], and \\*[author3firstname] \\*[author3surname]. \\*[bibentry_title_ft]\\*[title]\\*[/bibentry_title_ft].
+.		NU\}
+.	NU\}
+.if "\\n[authnum]"4" \{\
+.ie \\n[first_author_repeats] \{\
+\\*[author1surname], \\*[author2firstname] \\*[author2surname], \\*[author3firstname] \\*[author3surname], and \\*[author4firstname] \\*[author4surname]. \\*[bibentry_title_ft]\\*[title]\\*[/bibentry_title_ft].
+.	NU\}
+.el \{\
+\\*[author1surname], \\*[author1firstname], \\*[author2firstname] \\*[author2surname], \\*[author3firstname] \\*[author3surname], and \\*[author4firstname] \\*[author4surname]. \\*[bibentry_title_ft]\\*[title]\\*[/bibentry_title_ft].
+.		NU\}
+.	NU\}
+.NU\}
+.if !\\n[authnum] \{\
+\\*[bibentry_title_ft]\\*[title]\\*[/bibentry_title_ft].
+.	NU\}
+.NU\}
+.if !"\\*[edition]"" \\*[edition].
+.if !"\\*[placeofpub]"" \\*[placeofpub]: 
+.if !"\\*[publisher]"" \\*[publisher], 
+.if !"\\*[pubdate]"" \\*[pubdate].
+.if \\n[is_abstract] \{\
+.br
+.ns
+.ev nf
+.in .25i
+.abs
+.in
+.ev
+.nr is_abstract 0
+.	NU\}
+.nr authnum 0
+.ds title
+.ds pubdate
+.ds publisher
+.ds placeofpub
+.ds edition
+.if \\n[first_author_repeats]  \{\
+.nr first_author_repeats 0
+.ds author1firstname \\*[savedfirstname]
+.ds author1surname \\*[savedsurname]
+.	NU\}
+.ds author2firstname
+.ds author2surname
+.ds author3firstname
+.ds author3surname
+.ds author4firstname
+.ds author4surname
+.nr journalbiblio 0
+..
+.de BIJ
+.nr journalbiblio 1
+.ds journaltitle \\$*
+..
+.de /BIJ
+\\*[bibentry_title_ft]\\*[journaltitle]\\*[/bibentry_title_ft]. \\*[placeofpub]: \\*[publisher].
+.ds journaltitle
+..
+.\"################IN-LINE ELEMENTS###################
+.nr bold_on 0 1
+.\" <XREF> a no-op
+.ds XRF
+.ds /XRF
+.\" <EM role=XREF> for X User Tools book
+.ds EM-XREF \\*[GX]
+.ds /EM-XREF \\*[UG]
+.\"<REPLACEABLE>
+.ds RPL \\*[replaceable_font\\n[in_screen]]
+.ds /RPL \\*[/replaceable_font\\n[in_screen]]
+.\"<LITERAL>"
+.ds LLS \&\\*[literal_fonts\\n[in_screen]b\\n[bold_on]]
+.ds /LLS \\*[/literal_fonts\\n[in_screen]b\\n[bold_on]]
+.\" <WORDASWORD>
+.ds LLL \fI
+.ds /LLL \fP
+.\" <CITEBOOK>
+.ds CTB \fI
+.ds /CTB \fP
+.\" <CITECHAP>
+.ds CTC " 
+.ds /CTC " 
+.\" <COMMAND>
+.ds CMD \\*[command_font\\n[bold_on]]
+.ds /CMD \fP
+.\" <EMPHASIS>
+.ds EM \\*[emphasis_font]
+.ds /EM \fP
+.\" <FUNCTION role=bold>
+.ds FUN-BOLD \\*[function_bold_ft]
+.ds /FUN-BOLD \\fP
+.\" <EMPHASIS role=bold>
+.\".ds EM-BOLD \\n+[bold_on]\f[B]
+.ds EM-BOLD \\*[boldfont\\n+[bold_on]]
+.ds boldfont1 \\fB
+.ds boldfont0 \\fR
+.ds /EM-BOLD \\*[boldfont\\n-[bold_on]]
+.\" <EMPHASIS role=roman>
+.ds EM-ROMAN \fR
+.ds /EM-ROMAN \fP
+.\" <INTERFACE>
+.ds UI \\*[interface_font]
+.ds /UI \\*[/interface_font]
+.\" <PRODUCTNAME>
+.ds PN \\*[product_name_font]
+.ds /PN \fP
+.\" <ACRONYM>
+.ds ACR \s-1
+.ds /ACR \s+1
+.\" <FILENAME>
+.ds FLN \\*[filename_font\\n[bold_on]]
+.ds /FLN \fP
+.\" <FIRSTTERM>
+.ds FIRST \\*[first_term_font]
+.ds /FIRST \fP
+.\" other implementation of <FIRSTTERM>
+.ds FST \\*[first_term_font]
+.ds /FST \fP
+.\" <OPTION>
+.ds CMF \\*[command_option_font]
+.ds /CMF \fP
+.\" <LINEANNOTATION>
+.ds LLA \\*[line_annotation_font]
+.ds /LLA \fP
+.\" <USERINPUT>
+.ds LLI \\*[userinput_font\\n[in_screen]]
+.ds /LLI \\*[/userinput_font\\n[in_screen]]
+.\" <COMPUTEROUTPUT>
+.ds LLO \\*[computeroutput_font\\n[in_screen]]
+.ds /LLO \\*[/computeroutput_font\\n[in_screen]]
+.\" <PROMPT>
+.ds CUE \\*[computerprompt_font]
+.ds /CUE \fP\s0
+.\" <VARPARAM>
+.ds VAR \\*[computervariable_font]
+.ds /VAR \fP\s0
+.\" <APPLICATION>
+.ds PGN \\*[program_name_font]
+.ds /PGN \fP
+.\" <AUTHOR>
+.ds AUT \fR
+.ds /AUT \fP
+.\" <FIRSTNAME>
+.ds AU1
+.ds /AU1
+.\" <FUNCTION>
+.ds FUN \\*[function_font]
+.ds /FUN \fP
+.\" <FUNCTIONPARAM>
+.ds FUP \\*[function_param_font]
+.ds /FUP \fP
+.ds PRM \\*[function_param_font]
+.ds /PRM \fP
+.\" <KEYSYM>
+.ds KSY \\*[keysym_font]
+.ds /KSY \fP
+.\" <OSNAME>
+.ds OSN \s-1
+.ds /OSN \s+1
+.\" <SURNAME>
+.ds AUS
+.ds /AUS
+.\" <INTERFACEDEFINITION>
+.ds UIS
+.ds /UIS
+.\" <CONSTANT>
+.ds CNS \\*[constant_font]
+.ds /CNS \fP
+.\" <TYPE>
+.ds TYP \f(CW
+.ds /TYP \fP
+.\"<CITETITLE>
+.ds CTT \\*[citetitle_font]
+.ds /CTT \fP
+.\"<REPLACEABLE>
+.ds REPLACEABLE \\*[replaceable_font]
+.ds /REPLACEABLE \fP
+.\" <quote>
+.ds QUO \(lq
+.ds /QUO \(rq
+.\" <sgmltag>
+.ds SGM \f(CW
+.ds /SGM \fP
+.\"<systemitem role=emailaddr>
+.ds EMA \fI
+.ds /EMA \fP
+.\"<systemitem role=emailaddr>
+.ds SIT-EMAILADDR \fI
+.ds /SIT-EMAILADDR \fP
+.\"<systemitem role=email>
+.ds SIT-EMAIL \fI
+.ds /SIT-EMAIL \fP
+.\"<systemitem role=keyword>
+.ds SIT-KEYWORD \f(CW
+.ds /SIT-KEYWORD \fP
+.\"<systemitem role=sitename>
+.ds SIT-SITENAME \fI
+.ds /SIT-SITENAME \fP
+.if !"\*[sit-sitename_ft]"" .ds SIT-SITENAME \*[sit-sitename_ft]
+.if !"\*[/sit-sitename_ft]"" .ds SIT-SITENAME \*[/sit-sitename_ft]
+.\"<systemitem role=url>
+.ds SIT-URL \fI
+.ds /SIT-URL \fP
+.if !"\*[sit-url_ft]"" .ds SIT-URL \*[sit-url_ft]
+.if !"\*[/sit-url_ft]"" .ds SIT-URL \*[/sit-url_ft]
+.\"<systemitem role=newsgroup>
+.ds SIT-NEWSGROUP \fI
+.ds /SIT-NEWSGROUP \fR
+.\"<systemitem role=userid>
+.ds SIT-USERID \fI
+.ds /SIT-USERID \fP
+.\" <systemitem class=environvar>
+.ds SIT-ENVIRONVAR \f(CW
+.ds /SIT-ENVIRONVAR \fP
+.\" <systemitem role=example>
+.ds SIT-EXAMPLE \fI
+.ds /SIT-EXAMPLE \fP
+.\" <glossary-term inline>
+.ds GLTI \\*[glossary_term_inline_font]
+.ds /GLTI \\*[/glossary_term_inline_font]
+.\" <emphasis role=tblhead.
+.ds EM-TBLHD \\*[tbl_head_ft]
+.ds /EM-TBLHD \\*[/tbl_head_ft]
+.\" <subscript>
+.ds SUB \s-2\v'0.4m'
+.ds /SUB \v'-0.4m'\s+2
+.\" <superscript>
+.ds SUP \s-2\v'-0.4m'
+.ds /SUP \v'0.4m'\s+2
+.\" BIBLIOMISC
+.ds BIM \fR
+.ds BIM \fP
+.\"==============END OF IN-LINE TAGS
+.de ITB \"informal table wrapper: sets counter for table notes
+.nr tfct 0 1
+.\".ch WCD\"disable widow control until next paragraph
+.if !\\n[wcon_off] .endwcd
+.nr stfct 0 1
+.nr title_context 8
+.if r informal_table_prespace .SP? \\n[informal_table_prespace]u ITB
+.if r informal_table_ps .ps \\n[informal_table_ps]
+.if r informal_table_vs .vs \\n[informal_table_vs]u
+.ne 5
+..
+.de /ITB
+.if r informal_table_ps .ps \\n[PS]
+.if r informal_table_vs .vs \\n[VS]u
+.rs
+.if r informal_table_postspace \{\
+.ie "\\n[TE_page]"\\n%" .SP? \\n[informal_table_postspace]u-\\n[DD]u /ITB 
+.el .SP? \\n[informal_table_postspace]u /ITB 
+.NU\}
+.nr title_context 0
+..
+.\" SGML EQUIVALENTS OF MAN MACROS/DOCBOOK 2.1
+.de RFE
+.ds ]W \\*[book_title]
+.ie "\\$3"" .RH "\\$1" "\\$2" 
+.el .RH "\\$1" "\\$3"
+..
+.de /RFE
+.if "\\g(PN"i" .ds numtmp numisrom
+.if "\\g(PN"i" .af PN 1
+.tm File \\*[source_filename], pages \\*[starting_page] to \\n%
+.if "\\*[numtmp]"numisrom" .af PN i
+.ds numtmp
+.if \\n[indexopen] .close index
+.sy \\*[gmat_mv] \\*[INDEXDIR]/\\*[filename].\\n# \\*[INDEXDIR]/\\*[filename]
+.nr indexopen 0
+..
+.de RFA
+.SH "Name"
+..
+.de /RFA
+.Nz
+..
+.de RFP
+.if !"\\$1"" \(em\ \\$*.
+..
+.de RFN
+.ds ]H \\$1
+.Na
+\\$1
+..
+.de /RFP
+..
+.de RFX
+.ie "\\$1"" .SH "Synopsis"
+.el .SH \\$@
+..
+.de /RFX
+..
+.de RSY
+.Sy
+..
+.de /RSY
+.fi
+..
+.de RF1
+.SH \\$@
+.if "\\$1"See Also" \{\
+.nf
+.na
+.nr see_also_flag 1
+.NU\}
+..
+.de /RF1
+.if \\n[see_also_flag] \{\
+.nr see_also_flag 0
+'fi
+.ad
+.NU\}
+..
+.de RF2
+.SS \\$@
+..
+.de /RF2
+..
+.de RF3
+.SSS \\$@
+..
+.de /RFE
+..
+.de SYN
+.nr in_screen 1
+.ie \\n[inside_list] \{\
+.RS
+.if "\\$1"" .Ps "\\n[Ps_indent]u+5n"
+.NU\}
+.el .Ps \\$@
+..
+.de /SYN
+.Pe
+.if \\n[inside_list] .RE
+.nr in_screen 0
+..
+.\" ################Paragraph redefs module
+.nr pardef_saved 0
+.nr pardef 0
+.de save_current_pardef \"$1 is name of macro
+.nr pardef_saved:\\$1 \\n[pardef]
+..
+.de restore_prev_pardef
+.pardef_\\n[pardef_saved:\\$1]
+..
+.de pardef_0
+.nr pardef 0
+.de P
+.if \\\\n[pg@fn-flag] .nr wcon_off 1
+.nr pardef 0 
+.ie !\\\\n[widow_control_on] \{\
+.LP
+.NU\}
+.el \{\
+.nr in_par 1
+.if 2v+\\\\n[.V]u>\\\\n[.t] \{\
+.LP
+.NU\}
+.if 2v+\\\\n[.V]u<\\\\n[.t] \{\
+.LP
+.ie \\\\n[wcon_off] .ch WCD
+.el \{\
+.if "\\\\n[.z]"" .wh -\\n[FM]u-2v-\\n[.V]u WCD
+.	NU\}
+.NU\}
+.NU\}
+\\..
+..
+.de pardef_3\"footnote or FNT
+.nr pardef 3
+.de P
+.if \\\\n[wcon_off] .ch WCD
+.ie \\\\n[footnote_par_count]=0 .nr footnote_par_count +1
+.el .SP? \\n[FPD]u
+\\..
+..
+.de P_3
+.if \\n[wcon_off] .ch WCD
+.ie \\n[footnote_par_count]=0 .nr footnote_par_count +1
+.el .SP? \\n[FPD]u
+..
+.de pardef_4\"warning or ATT
+.nr pardef 4
+.de P
+.nr count_attpars +1
+.ie !\\\\n[widow_control_on] \{\
+.if \\\\n[count_attpars]>1 \{\
+.	ie \\n[Ns_PD] .SP? \\n[Ns_PD]u PWP
+.	el .sp .5v
+.	NU\}
+.NU\}
+.el \{\
+.nr in_par 1
+.if 2v+\\\\n[.V]u>\\\\n[.t] \{\
+.if \\\\n[count_attpars]>1 \{\
+.	ie \\n[Ns_PD] .SP? \\n[Ns_PD]u PWP
+.	el .sp .5v
+.	NU\}
+.NU\}
+.if 2v+\\\\n[.V]u<\\\\n[.t] \{\
+.if \\\\n[count_attpars]>1 \{\
+.	ie \\n[Ns_PD] .SP? \\n[Ns_PD]u PWP
+.	el .sp .5v
+.	NU\}
+.ie \\\\n[wcon_off] .ch WCD
+.el \{\
+.if '\\\\n[.z]'' .wh -\\n[FM]u-2v-\\n[.V]u WCD
+.NU\}
+.NU\}
+.NU\}
+\\..
+..
+.de pardef_5\"blockquote QBL
+.nr pardef 5
+.de P
+.nr count_qbpars +1
+.ie !\\\\n[widow_control_on] \{\
+.if \\\\n[count_qbpars]>1 \{\
+.	ie \\n[QS_PD] .SP? \\n[QS_PD]u QBP
+.	el .sp .5v
+.	NU\}
+.NU\}
+.el \{\
+.nr in_par 1
+.if 2v+\\\\n[.V]u>\\\\n[.t] \{\
+.if \\\\n[count_qbpars]>1 \{\
+.	ie \\n[QS_PD] .SP? \\n[QS_PD]u QBP
+.	el .sp .5v
+.	NU\}
+.NU\}
+.if 2v+\\\\n[.V]u<\\\\n[.t] \{\
+.if \\\\n[count_qbpars]>1 \{\
+.	ie \\n[QS_PD] .SP? \\n[QS_PD]u QBP
+.	el .sp .5v
+.	NU\}
+.ie \\\\n[wcon_off] .ch WCD
+.el \{\
+.if '\\\\n[.z]'' .wh -\\n[FM]u-2v-\\n[.V]u WCD
+.NU\}
+.NU\}
+.NU\}
+\\..
+..
+.de P_5
+.nr count_qbpars +1
+.ie !\\n[widow_control_on] \{\
+.if \\n[count_qbpars]>1 \{\
+.	ie \\n[QS_PD] .SP? \\n[QS_PD]u QBP
+.	el .sp .5v
+.	NU\}
+.NU\}
+.el \{\
+.nr in_par 1
+.if 2v+\\n[.V]u>\\n[.t] \{\
+.if \\n[count_qbpars]>1 \{\
+.	ie \\n[QS_PD] .SP? \\n[QS_PD]u QBP
+.	el .sp .5v
+.	NU\}
+.NU\}
+.if 2v+\\n[.V]u<\\n[.t] \{\
+.if \\n[count_qbpars]>1 \{\
+.	ie \\n[QS_PD] .SP? \\n[QS_PD]u QBP
+.	el .sp .5v
+.	NU\}
+.ie \\n[wcon_off] .ch WCD
+.el \{\
+.if '\\n[.z]'' .wh -\\n[FM]u-2v-\\n[.V]u WCD
+.NU\}
+.NU\}
+.NU\}
+..
+.de pardef_6\"glossary GL
+.nr pardef 6
+.de P
+.in \\n[gloss_def_indent]u
+\\..
+.de /P
+.if !\\\\n[last_item] .sp .5v
+'in 0
+\\..
+..
+.de pardef_22
+.de P_VL \" variable list paragraph definition 
+.if \\\\n[pg@fn-flag] .nr wcon_off 1
+.nr pardef 22
+.nr varlist_count_pars +1
+.ie !\\\\n[widow_control_on] \{\
+.if \\\\n[varlist_count_pars]>1 \{\
+.	ie \\n[varlist_PD] .SP? \\n[varlist_PD]u PVP
+.	el .sp .5v
+.	ne 1v+\\\\n(.Vu
+.	NU\}
+.NU\}
+.el \{\
+.nr in_par 1
+.if 2v+\\\\n[.V]u>\\\\n[.t] \{\
+.if \\\\n[varlist_count_pars]>1 \{\
+.	ie \\n[varlist_PD] .SP? \\n[varlist_PD]u PVP
+.	el .sp .5v
+.	ne 1v+\\\\n(.Vu
+.	NU\}
+.NU\}
+.if 2v+\\\\n[.V]u<\\\\n[.t] \{\
+.if \\\\n[varlist_count_pars]>1 \{\
+.	ie \\n[varlist_PD] .SP? \\n[varlist_PD]u PVP
+.	el .sp .5v
+.	ne 1v+\\\\n(.Vu
+.	NU\}
+.ie \\\\n[wcon_off] .ch WCD
+.el \{\
+.if '\\\\n[.z]'' .wh -\\n[FM]u-2v-\\n[.V]u WCD
+.NU\}
+.NU\}
+.NU\}
+\\..
+..
+.als pardef_VL pardef_22
+.de pardef_44
+.de P_OL\"ordered list (not variable) LI
+.if \\\\n[pg@fn-flag] .nr wcon_off 1
+.nr pardef 44 
+.nr orlist_count_pars +1
+.ie !\\\\n[widow_control_on] \{\
+.if \\\\n[orlist_count_pars]>1 \{\
+.	ie \\n[orlist_PD] .SP? \\n[orlist_PD]u POP
+.	el .sp .5v
+.	ne 1v+\\\\n(.Vu
+.	NU\}
+.NU\}
+.el \{\
+.nr in_par 1
+.if 2v+\\\\n[.V]u>\\\\n[.t] \{\
+.if \\\\n[orlist_count_pars]>1 \{\
+.	ie \\n[orlist_PD] .SP? \\n[orlist_PD]u POP
+.	el .sp .5v
+.	ne 1v+\\\\n(.Vu
+.	NU\}
+.NU\}
+.if 2v+\\\\n[.V]u<\\\\n[.t] \{\
+.if \\\\n[orlist_count_pars]>1 \{\
+.	ie \\n[orlist_PD] .SP? \\n[orlist_PD]u POP
+.	el .sp .5v
+.	ne 1v+\\\\n(.Vu
+.	NU\}
+.ie \\\\n[wcon_off] .ch WCD
+.el \{\
+.if '\\\\n[.z]'' .wh -\\n[FM]u-2v-\\n[.V]u WCD
+.NU\}
+.NU\}
+.NU\}
+\\..
+.als pardef_OL pardef_44
+..
+.de pardef_88
+.de P_IL
+.if \\\\n[pg@fn-flag] .nr wcon_off 1
+.nr pardef 88
+.nr itemlist_count_pars +1
+.ie !\\\\n[widow_control_on] \{\
+.if \\\\n[itemlist_count_pars]>1 \{\
+.	ie \\n[itemlist_PD] .SP? \\n[itemlist_PD]u POP
+.	el .sp .5v
+.	ne 1v+\\\\n(.Vu
+.	NU\}
+.NU\}
+.el \{\
+.nr in_par 1
+.if 2v+\\\\n[.V]u>\\\\n[.t] \{\
+.if \\\\n[itemlist_count_pars]>1 \{\
+.	ie \\n[itemlist_PD] .SP? \\n[itemlist_PD]u POP
+.	el .sp .5v
+.	ne 1v+\\\\n(.Vu
+.	NU\}
+.NU\}
+.if 2v+\\\\n[.V]u<\\\\n[.t] \{\
+.if \\\\n[itemlist_count_pars]>1 \{\
+.	ie \\n[itemlist_PD] .SP? \\n[itemlist_PD]u POP
+.	el .sp .5v
+.	ne 1v+\\\\n(.Vu
+.	NU\}
+.ie \\\\n[wcon_off] .ch WCD
+.el \{\
+.if '\\\\n[.z]'' .wh -\\n[FM]u-2v-\\n[.V]u WCD
+.NU\}
+.NU\}
+.NU\}
+\\..
+..
+.als pardef_IL pardef_88
+.pardef_0\"initialize paragraph definition
+.\" ##########################################
+.de idpage \"prints terminal message associated with sgml IDS
+.tm IDPAGE: \\$1 \\$2 \\n%
+..
+.\" TABLE FOOTNOTES IN SGML BOOKS
+.ds 1 \\*[par@sup-start]a\\*[par@sup-end] 
+.ds 2 \\*[par@sup-start]b\\*[par@sup-end] 
+.ds 3 \\*[par@sup-start]c\\*[par@sup-end] 
+.ds 4 \\*[par@sup-start]d\\*[par@sup-end] 
+.ds 5 \\*[par@sup-start]e\\*[par@sup-end] 
+.ds 6 \\*[par@sup-start]f\\*[par@sup-end] 
+.ds 7 \\*[par@sup-start]g\\*[par@sup-end] 
+.ds 8 \\*[par@sup-start]h\\*[par@sup-end] 
+.ds 9 \\*[par@sup-start]i\\*[par@sup-end] 
+.ds 10 \\*[par@sup-start]j\\*[par@sup-end] 
+.ds 11 \\*[par@sup-start]k\\*[par@sup-end] 
+.ds 12 \\*[par@sup-start]l\\*[par@sup-end] 
+.ds 13 \\*[par@sup-start]m\\*[par@sup-end] 
+.ds 14 \\*[par@sup-start]n\\*[par@sup-end] 
+.ds 15 \\*[par@sup-start]o\\*[par@sup-end] 
+.ds 16 \\*[par@sup-start]p\\*[par@sup-end] 
+.ds 17 \\*[par@sup-start]q\\*[par@sup-end] 
+.ds 18 \\*[par@sup-start]s\\*[par@sup-end] 
+.ds 19 \\*[par@sup-start]t\\*[par@sup-end] 
+.ds 20 \\*[par@sup-start]u\\*[par@sup-end] 
+.ds 21 \\*[par@sup-start]v\\*[par@sup-end] 
+.ds 22 \\*[par@sup-start]w\\*[par@sup-end] 
+.ds w0 \\*[par@sup-start]a\\*[par@sup-end] 
+.ds w1 \\*[par@sup-start]b\\*[par@sup-end] 
+.ds w2 \\*[par@sup-start]c\\*[par@sup-end] 
+.ds w3 \\*[par@sup-start]d\\*[par@sup-end] 
+.ds w4 \\*[par@sup-start]e\\*[par@sup-end] 
+.ds w5 \\*[par@sup-start]f\\*[par@sup-end] 
+.ds w6 \\*[par@sup-start]g\\*[par@sup-end] 
+.ds w7 \\*[par@sup-start]h\\*[par@sup-end] 
+.ds w8 \\*[par@sup-start]i\\*[par@sup-end] 
+.ds w9 \\*[par@sup-start]j\\*[par@sup-end] 
+.ds w10 \\*[par@sup-start]k\\*[par@sup-end] 
+.ds w11 \\*[par@sup-start]l\\*[par@sup-end] 
+.ds w12 \\*[par@sup-start]m\\*[par@sup-end] 
+.ds w13 \\*[par@sup-start]n\\*[par@sup-end] 
+.ds w14 \\*[par@sup-start]o\\*[par@sup-end] 
+.ds w15 \\*[par@sup-start]p\\*[par@sup-end] 
+.ds w16 \\*[par@sup-start]q\\*[par@sup-end] 
+.ds w17 \\*[par@sup-start]r\\*[par@sup-end] 
+.ds w18 \\*[par@sup-start]s\\*[par@sup-end] 
+.ds w19 \\*[par@sup-start]t\\*[par@sup-end] 
+.ds w20 \\*[par@sup-start]u\\*[par@sup-end] 
+.ds w21 \\*[par@sup-start]v\\*[par@sup-end] 
+.ds w22 \\*[par@sup-start]w\\*[par@sup-end] 
+.de TFS
+.ie !"\\$1"" .Nd \\$1 
+.el .Nd 1.1
+.rs
+.ie \\n[tft_ps] .ps \\n[tft_ps]
+.el .ps 8
+.ie \\n[tft_vs] .vs \\n[tft_vs]u 
+.el .vs 10p
+.ie !\\n[tfct] \{\
+.if \\n[tft_prespace] .SP? \\n[tft_prespace]u TFS
+.if !\\n[tft_prespace] .sp -5p
+.NU\}
+.el \{\
+.if \\n[tft_interspace] .SP? \\n[tft_interspace]u TFS
+.if !\\n[tft_interspace] .sp -1P
+.NU\}
+.nr footnote_par_count 0 1
+.pardef_3
+.ft 1
+.ad b
+.fi
+\\*[w\\n[tfct]]
+..
+.de TFE
+.br
+.ps \\n(PS
+.vs \\n(VSu
+.nr tfct +1
+.ft 1 
+.ie \\n[tft_postspace] .SP? \\n[tft_postspace]u TFE
+.el .sp 1P
+.de P
+.P_\\\\n[.ev]
+\\..
+.nr footnote_par_count 0
+.ns
+..
+.de pardef_Q
+.nr pardef 0
+.de P
+.if \\n[pg@fn-flag] .nr wcon_off 1
+.nr pardef 0 
+.ie !\\n[widow_control_on] \{\
+.LP
+.NU\}
+.el \{\
+.nr in_par 1
+.if 2v+\\n[.V]u>\\n[.t] \{\
+.LP
+.NU\}
+.if 2v+\\n[.V]u<\\n[.t] \{\
+.LP
+.ie \\n[wcon_off] .ch WCD
+.el \{\
+.if "\\n[.z]"" .wh -\\n[FM]u-2v-\\n[.V]u WCD
+.	NU\}
+.NU\}
+.NU\}
+\\..
+..
+.de alt-RS \"to avoid double-indent in nested itemized lists
+.br
+.nr \\n[.ev]:li!\\n[\\n[.ev]:il] \\n[\\n[.ev]:li]
+.nr \\n[.ev]:ri!\\n[\\n[.ev]:il] \\n[\\n[.ev]:ri]
+.nr \\n[.ev]:ai!\\n[\\n[.ev]:il] \\n[\\n[.ev]:ai]
+.nr \\n[.ev]:pli!\\n[\\n[.ev]:il] \\n[\\n[.ev]:pli]
+.nr \\n[.ev]:pri!\\n[\\n[.ev]:il] \\n[\\n[.ev]:pri]
+.nr \\n[.ev]:il +1
+.\".nr \\n[.ev]:li +\\n[\\n[.ev]:ai]
+.nr \\n[.ev]:ai \\n[\\n[.ev]:PI]
+.par@reset
+..
+.de reset_literal
+.ie !"\\*[literal_\\$1_ps]"" .ds literal_ps \\*[literal_\\$1_ps]
+.el \{\
+.ds literal_fonts0b0 \s'\\*[literal_ps]z'\f(CW
+.ds literal_fonts0b1 \s'\\*[literal_ps]z'\f(CB
+.ds literal_fonts1b1 \s'\\*[literal_ps]z'\f(CB
+.ds literal_fonts1b0 \s'\\*[literal_ps]z'\f(CW
+.NU\}
+..
+.\" ADAPTATION of in a nutshell macros to sgml
+.de NTL
+.ds command_name \\$1
+.nr widow_control_on 0
+.nr sgml_on 1
+.Nd 5
+.if !"\\$1"" .CL \\$1
+..
+.de NTE
+.ds command_name \\$1
+..
+.de /NTE
+.ds command_name
+..
+.de /NTL
+.CL 0
+..
+.de TSI
+.Ks
+..
+.de /TSI
+.Ke
+..
+.de TSK
+..
+.de /TSK
+..
+.de LNK \"noop except in pwrtools
+..
+.de /LNK
+..
+.de ATR
+.br
+.fi
+.ft GR
+.di aT
+\(em\\c
+..
+.de /ATR
+.br
+.di
+.ft GI
+..

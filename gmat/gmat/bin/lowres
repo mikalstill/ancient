@@ -1,0 +1,173 @@
+#!/usr/bin/perl5 -- # -*- Perl -*-
+#
+# Make lowres EPS file from hires EPS file.
+#
+# $Id: lowres,v 1.1.1.1 2002-07-15 21:33:31 root Exp $
+#
+#
+
+use vars qw($PROGNAME $VERSION);
+
+$BASEVERS   = "0.1";
+$RCS_ID     = '$Id: lowres,v 1.1.1.1 2002-07-15 21:33:31 root Exp $';  # '
+($PROGNAME  = $RCS_ID) =~ s/^.Id: (\S+) .*$/$1/;
+($PATCHLEVEL= $RCS_ID) =~ s/^.Id: \S+ \d+\.(\d+) .*$/$1/;
+$VERSION    = "$BASEVERS patchlevel $PATCHLEVEL";
+
+######################################################################
+
+$ORALIBDIR = $ENV{"ORALIBDIR"} || "/usr/local/share/gmat/lib";
+push (@INC, $ORALIBDIR);
+
+$ORATOOLSRC = $ENV{'ORATOOLSRC'} || "$ORALIBDIR/oratoolsrc";
+
+require 'longopts5.pl';
+require 'parsecfg5.pl';
+
+$cfg = &parsecfg($ORATOOLSRC);
+$cfg = &parsecfg("$ENV{HOME}/.oratoolsrc", $cfg);
+$cfg = &parsecfg("./.oratoolsrc", $cfg);
+
+$GUNZIP  = &cfg($cfg, $PROGNAME, 'gunzip')  || "gunzip";
+$CRLF    = &cfg($cfg, $PROGNAME, 'crlf')    || "crlf";
+$PS2EPSI = &cfg($cfg, $PROGNAME, 'ps2epsi') || "ps2epsi";
+
+$epsi = shift @ARGV || die;
+$eps  = shift @ARGV || "-";
+
+select (STDERR); $| = 1;
+select (STDOUT);
+
+if (-d $epsi && -d $eps) {
+    print STDERR "Converting all figures in $epsi...\n";
+    opendir (DIR, $epsi);
+    while (defined($_ = readdir(DIR))) {
+	next if ! -f "$epsi/$_";
+	if (!/\.e?ps\.?\g?\z?$/i) {
+	    print STDERR "Skipping $_, probably not an EPS figure.\n";
+	    next;
+	}
+
+	&convert_image("$epsi/$_", "$eps/$_");
+    }
+} else {
+    &convert_image($epsi, $eps);
+}
+
+exit 0;
+
+########################################################################
+
+sub convert_image {
+    my($epsi, $eps) = @_;
+
+    $compress = 0;
+    if ($eps =~ /^(.*)\.gz$/) {
+	$eps = $1;
+	$compress = 1;
+    }
+
+    $gunzipfn = "";
+    if ($epsi =~ /\.gz$/) {
+	print STDERR "gunzip $epsi, ";
+	$gunzipfn = "/tmp/lowres.$$.eps";
+	system ("$GUNZIP -c $epsi > $gunzipfn");
+	$epsi = $gunzipfn;
+    }
+
+    $epsifn = "";
+    if ($epsi !~ /\.epsi$/) {
+	print STDERR "ps2epsi, ";
+	$epsifn = "/tmp/lowres.$$.epsi";
+	$rc = system ("$PS2EPSI $epsi $epsifn");
+	$epsi = $epsifn;
+    }
+
+    print STDERR "extract bitmap, ";
+
+    open (EPSI, "$CRLF -u -q $epsi |");
+
+    $BBox = "";
+    @BBOX = ();
+    @PREV = ();
+    @BITM = ();
+    
+    while (<EPSI>) {
+	chop;
+    
+	if (/^%%BoundingBox:\s*(\d+\.?\d*)\s+(\d+\.?\d*)\s+(\d+\.?\d*)\s+(\d+\.?\d*)\s*$/i) {
+	    @BBOX = ($1, $2, $3, $4);
+	    $BBox = $_;
+	}
+
+	if (/^%%BeginPreview:\s*(\d+\.?\d*)\s+(\d+\.?\d*)\s+(\d+\.?\d*)\s+(\d+\.?\d*)\s*$/i) {
+	    @PREV = ($1, $2, $3, $4);
+	    while (<EPSI>) {
+		chop;
+		last if /^\%\%/;
+		if (/^\% ([0-9a-f]+)/i) {
+		    $_ = $1;
+		    push (@BITM, $_);
+		}
+	    }
+
+	    # Look for the next bounding box, it's the hi-res one!
+	    while (<EPSI>) {
+		chop;
+		if (/^%%BoundingBox:\s*(\d+\.?\d*)\s+(\d+\.?\d*)\s+(\d+\.?\d*)\s+(\d+\.?\d*)\s*$/i) {
+		    @BBOX = ($1, $2, $3, $4);
+		    $BBox = $_;
+		    last;
+		}
+	    }
+
+	    last;
+	}
+    }
+
+    $ROWS = $#BITM+1;
+    $COLS = length($BITM[0]) * 4;
+
+    if ($ROWS <= 0 || $COLS <= 0) {
+	print STDERR "Failed to create bitmap; aborting.\n";
+	unlink($gunzipfn) if $gunzipfn;
+	unlink($epsifn) if $epsifn;
+	unlink($eps, "$eps.gz");
+	return;
+    }
+
+    open (EPS, ">$eps");
+    print EPS "%!PS-Adobe-2.0 EPSF-1.2\n";
+    print EPS "$BBox\n";
+    print EPS "%%EndComments\n";
+    print EPS "$BBOX[0] $BBOX[1] translate\n";
+    print EPS "$PREV[0] $PREV[1] scale\n";
+    print EPS "$COLS $ROWS 1 \[ $COLS 0 0 -$ROWS 0 $ROWS \]\n";
+    print EPS "\{ \<\n";
+    foreach $_ (@BITM) {
+	while (/^(..)(.*)$/) {
+	    $hexstr = $1;
+	    $hex = hex($hexstr) ^ 0xFF;
+	    $hexstr = sprintf("%02x", $hex);
+	    print EPS "$hexstr ";
+	    $_ = $2;
+	}
+	print EPS "$_\n";
+    }
+    print EPS "\> \} image\n";
+    
+    close (EPS);
+    close (EPSI);
+
+    if ($compress) {
+	print STDERR "gzip $eps\n";
+	system ("rm -f $eps.gz");
+	system ("gzip $eps\n");
+    } else {
+	print STDERR "done\n";
+    }
+
+    unlink($gunzipfn) if $gunzipfn;
+    unlink($epsifn) if $epsifn;
+}
+

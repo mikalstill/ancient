@@ -1,0 +1,51 @@
+#!/usr/bin/perl5 -- # -*- Perl -*-
+#
+# Print the list of "lockers" for an RCS file
+#
+# $Id: rcs-lock-list,v 1.1.1.1 2002-07-15 21:33:31 root Exp $
+#
+#
+
+use vars qw($PROGNAME $VERSION);
+
+$BASEVERS   = "0.1";
+$RCS_ID     = '$Id: rcs-lock-list,v 1.1.1.1 2002-07-15 21:33:31 root Exp $'; # '
+($PROGNAME  = $RCS_ID) =~ s/^.Id: (\S+) .*$/$1/;
+($PATCHLEVEL= $RCS_ID) =~ s/^.Id: \S+ \d+\.(\d+) .*$/$1/;
+$VERSION    = "$BASEVERS patchlevel $PATCHLEVEL";
+$EXECDIR    = ".";
+$EXECDIR    = $1 if $0 =~ /^(.*)\/[^\/]+$/;
+
+######################################################################
+
+$filename = shift @ARGV || die "Usage: $0 filename\n";
+
+open (RLOG, "rlog $filename 2>&1 |") || die "Can't execute rlog.\n";
+@rlog = ();
+while (<RLOG>) {
+    chop;
+    push (@rlog, $_);
+}
+close (RLOG);
+
+$_ = shift @rlog;
+die "Not under RCS control.\n" if /^rlog error/;
+
+unshift (@rlog, $_);
+
+if (! grep(/^locks:/, @rlog)) {
+    print "none\n";
+} else {
+    $_ = shift @rlog;
+    while (!/^locks:/) {
+	$_ = shift @rlog;
+	# nop
+    }
+    $list = "";
+    while (($_ = shift @rlog) =~ /^\s+(.*):/) {
+	$list .= "$1 ";
+    }
+    chop($list) if $list;
+    print "$list\n";
+}
+

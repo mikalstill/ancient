@@ -1,0 +1,653 @@
+#!/usr/bin/perl5 -- # -*- Perl -*-
+#
+# Run the gtroff filter
+#
+# $Id: gmat.troff,v 1.1.1.1 2002-07-15 21:33:31 root Exp $
+#
+#
+
+use vars qw($PROGNAME $VERSION);
+
+$BASEVERS   = "0.1";
+$RCS_ID     = '$Id: gmat.troff,v 1.1.1.1 2002-07-15 21:33:31 root Exp $';  # '
+($PROGNAME  = $RCS_ID) =~ s/^.Id: (\S+) .*$/$1/;
+($PATCHLEVEL= $RCS_ID) =~ s/^.Id: \S+ \d+\.(\d+) .*$/$1/;
+$VERSION    = "$BASEVERS patchlevel $PATCHLEVEL";
+$EXECDIR    = ".";
+$EXECDIR    = $1 if $0 =~ /^(.*)\/[^\/]+$/;
+
+######################################################################
+
+$ORALIBDIR = $ENV{"ORALIBDIR"} || "/usr/local/share/gmat/lib";
+push(@INC, $ORALIBDIR);
+
+$ORATOOLSRC = $ENV{'ORATOOLSRC'} || "$ORALIBDIR/oratoolsrc";
+
+require 'longopts5.pl';
+require 'parsecfg5.pl';
+require 'commonlock5.pl';
+require 'gmat.pl';
+
+&initialize();
+
+splice(@USER_OPTIONS, 1, 0, 
+       ('--page:', 
+	'--delete-driver-file', 
+	'--source-files:',
+        '--language:',
+	'--yadc',
+        '--insert-ps-fonts'));
+
+$OPT_DESC{'--page:'}              = 'Specify the starting page number';
+$OPT_DESC{'--delete-driver-file'} = 'Delete the driver file upon completion';
+$OPT_DESC{'--source-files:'}      = 'Identify the source input file names';
+$OPT_DESC{'--language:'}          = 'Specify the language';
+$OPT_DESC{'--yadc'}               = 'Process YADC codes';
+$OPT_DESC{'--insert-ps-fonts'}    = 'Insert fonts into postscript file';
+
+&parse_cmdline();
+
+&init_globals();
+
+@FILES = @ARGV;
+
+show_usage(1) if !@FILES;
+
+############################################################################
+# Initialize more globals...
+#
+$QUIET       = $QUIET || $opt_quiet && !$opt_verbose;
+$VERBOSE     = $opt_verbose || ($VERBOSE && !$QUIET);
+
+print STDERR "$PROGNAME version $VERSION.\n" if $VERBOSE;
+
+$SEDDIR    = &cfg($gmat, $PROGNAME, "seddir");
+
+$TBL       = &cfg($gmat, $PROGNAME, "tbl");   
+ $TBL_OPTS = &cfg($gmat, $PROGNAME, "tbl_opts");
+$PIC       = &cfg($gmat, $PROGNAME, "pic");   
+ $PIC_OPTS = &cfg($gmat, $PROGNAME, "pic_opts");
+$EQN       = &cfg($gmat, $PROGNAME, "eqn");   
+ $EQN_OPTS = &cfg($gmat, $PROGNAME, "eqn_opts");
+$GSOELIM   = (&cfg($gmat, $PROGNAME, "soelim") 
+	      || &cfg($gmat, $PROGNAME, "gsoelim")
+	      || 'gsoelim');
+$GTROFF    = (&cfg($gmat, $PROGNAME, "troff")
+	      || &cfg($gmat, $PROGNAME, "gtroff")
+	      || 'gtroff');
+
+$DEBUGDIR  = (&cfg($bookfiles, 'GMAT', 'debugdir')
+	      || &cfg($gmat, $PROGNAME, 'debugdir'));
+
+$SCRIPTDIR = &cfg($gmat, $PROGNAME, "scriptdir");
+$MACRODIR  = &cfg($gmat, $PROGNAME, "macrodir");
+
+$MACROPATH = ($ENV{"ORAMACROPATH"} 
+	      || &cfg($gmat, $PROGNAME, "macropath") 
+	      || "/usr/local/share/gmat/macros");
+
+$LANGUAGE  = $opt_language || &cfg($bookfiles, $PROGNAME, "language");
+
+$PS_FONT_FILE = ($ENV{"PSFONTFILE"} 
+	      || &cfg($gmat, $PROGNAME, "ps-font-file")
+	      || "/usr/local/lib/groff/font/devps/download");
+
+print STDERR "Picture commands: $PIC $PIC_OPTS\n" if $VERBOSE;
+
+############################################################################
+# Let's get to work, process each file with its options
+#
+$first = 1;
+%Global_opts = ();
+
+@SOURCE_FILES = split(/\s+/, $opt_source_files);
+
+@FMT_DIRS = ('fmt', 'fmt/toc', 'fmt/index', 'fmt/exlist', 'fmt/figlist',
+	     'fmt/tablist');
+foreach $_ (@FMT_DIRS) {
+    if (! -d $_) {
+	print STDERR "Creating formatting directory $_\n" if $VERBOSE;
+	mkdir ($_, 0775);
+    }
+}
+
+@FMT_FILES = @FILES;
+if (@SOURCE_FILES) {
+    @FMT_FILES = ();
+    foreach $_ (@SOURCE_FILES) {
+	my($f) = $_;                # Don't change $_ because it'll change
+	$f =~ s/\.sgm$/\.3l/;       # what's in @SOURCE_FILES!
+	push (@FMT_FILES, $f);
+    }
+}
+
+$bad_fmt_files = 0;
+foreach $_ (@FMT_FILES) {
+    foreach $fmtdir (@FMT_DIRS) {
+	if ((-f "$fmtdir/$_" && ! -w "$fmtdir/$_")
+	    || (-d "$fmtdir" && ! -w "$fmtdir")) {
+	    print STDERR "Warning: bad permissions on $fmtdir/$_...";
+	    system ("rm -f $fmtdir/$_");
+	    if (-f "$fmtdir/$_") {
+		$bad_fmt_files = 1;
+		print STDERR "abort!\n";
+	    } else {
+		print STDERR "cleared.\n";
+	    }
+	}
+    }
+}
+
+exit 1 if $bad_fmt_files;
+
+if ($opt_pipe) {
+    @FILES = ('-');
+}
+
+# insert ps fonts from $PS_FONT_FILE into ps file
+
+&ps_font_file_mod if $opt_insert_ps_fonts;
+&ps_font_file_mod_undo if !$opt_insert_ps_fonts && &ps_font_file_mod_check;
+
+while (@FILES) {
+    local($soelim_temp, $preproc_temp);
+    local($gtroff_temp, $gtroff_msgs);
+    local($grops_temp);
+    local($opt_key, $opt_val);
+
+    # Discard old options from the user...
+    &Freeopts();
+
+    # Restore the 'global' options
+    foreach $opt_key (keys %Global_opts) {
+	eval "\$$opt_key = \$Global_opts{$opt_key}";
+    }
+
+    # Get options from the user...
+    $rc = &Longopts (@USER_OPTIONS);
+    $gtroff_args = $opt_fopt;
+
+    if ($first) {
+	%Global_opts = &Currentopts();
+	foreach $opt_key (keys %Global_opts) {
+	    eval "\$$opt_key = \$Global_opts{$opt_key}";
+	}
+	$first = 0;
+    }
+
+    $gmat = $default_gmat;	# Restore the default options
+
+    # Override GMAT defaults with command line options...
+    &cfg_set($gmat, $PROGNAME, "debug", 1)         if $opt_d;
+    &cfg_set($gmat, $PROGNAME, "printer", $opt_P)  if $opt_P;
+    &cfg_set($gmat, $PROGNAME, "quiet", 1)         if $opt_q;
+    &cfg_set($gmat, $PROGNAME, "wait_on_error", 1) if $opt_W;
+    &cfg_set($gmat, $PROGNAME, "keep3l", 1)        if $opt_k || $opt_K;
+    $FILE3L = $opt_K;
+
+    $PRINTER = &cfg($gmat, $PROGNAME, "printer");
+    
+    $wait_on_error = &cfg($gmat, $PROGNAME, "wait_on_error");
+
+    # Dont even show warning messages
+    $QUIET   = &cfg($gmat, $PROGNAME, "quiet");	
+
+    # Show all messages
+    $VERBOSE = &cfg($gmat, $PROGNAME, "verbose") && !$QUIET;
+
+    $preview   = $opt_v;
+    $print     = $opt_p;
+    $checkonly = $opt_x;
+    $keepps    = $opt_f || $opt_F;
+
+    if ($opt_o) {
+	$pages = "-o$opt_o -rpagerange=1";
+    } else {
+	$pages = "";
+    }
+
+    $UPDATE_BOOKFILES = 0 if $opt_o;
+
+    if (!$preview && !$print && !$keepps && !$checkonly) {
+	$preview   = 1 if &cfg($gmat, $PROGNAME, "action") =~ /view/;
+	$print     = 1 if &cfg($gmat, $PROGNAME, "action") =~ /print/;
+	$checkonly = 1 if &cfg($gmat, $PROGNAME, "action") =~ /check/;
+	$keepps    = 1 if &cfg($gmat, $PROGNAME, "action") =~ /file/;
+    }
+
+    $preview = 1 if (!$preview && !$print &&!$checkonly && !$keepps);
+
+    if (($print && $preview) 
+	|| ($print && $checkonly) 
+	|| ($preview && $checkonly)) {
+	print "Previewing, printing, and checking are mutually exclusive.\n";
+	&show_usage(1);
+    }
+
+    if ($checkonly && $keepps) {
+	print "Checking and keeping the PS file are mutually exclusive.\n";
+	&show_usage(1);
+    }
+
+    if (!$opt_hires && ($print || $keepps)) {
+	if ($print) {
+	    print "Printing: ";
+	} else {
+	    print "Saving PostScript file: ";
+	}
+	print "hires figures will be used.\n";
+	$opt_hires = 1;
+    }
+
+    $file = shift @FILES;
+    $source_file = shift @SOURCE_FILES || $file;
+
+    $basefile = $file;
+    if ($basefile =~ /^(.*)\/([^\/]+)$/) {
+	$basefile = $2;
+	$basefile = $1 if $basefile =~ /^([^\.]*)\./;
+    } else {
+	$basefile = $1 if $basefile =~ /^([^\.]*)\./;
+    }
+
+    $PS_BASE   = &cfg($gmat, $PROGNAME, "ps_base")   || '$basefile.ps';
+    $TEMP_BASE = &cfg($gmat, $PROGNAME, "temp_base") || ',$WHOAMI.$file';
+    $EXT_BASE  = &cfg($gmat, $PROGNAME, "ext_base")  || 'drv-$WHOAMI';
+
+    print STDERR "Processing $file...\n" if $VERBOSE;
+
+    ########################################################################
+
+    $YADC = $opt_yadc || &cfg($bookfiles, $file, "yadc");
+
+    if ($YADC) {
+	my($tfile) = ".bcross.symtab";
+	my(@BOOK_FILES) = cfg_sections($bookfiles);
+	my($cmd);
+
+	if ((! -f "$tfile") || ((-M "$file" < -M "$tfile"))) {
+	    print STDERR "Running bcross1 for YADC...\n";
+	    $cmd = join(" ", @BOOK_FILES);
+	    system ("bcross1 $cmd");
+	} else {
+	    print STDERR "Skipping bcross1 for YADC...not necessary now...\n";
+	}
+    }
+
+    ########################################################################
+
+    &temp_files($file) if $opt_delete_driver_file;
+
+    $initmacs = "";
+
+    if (-d "$DEBUGDIR") {
+	$CMDFILE = "$DEBUGDIR/$TEMP_BASE.commands";
+	eval "\$CMDFILE = \"$CMDFILE\"";
+
+	print "Commands saved to $CMDFILE\n" if $VERBOSE;
+	&temp_files("$CMDFILE");
+    } else {
+	$CMDFILE = "/dev/null";
+    }
+    
+    if ($opt_page) {
+	$gtroff_args .= " " if $gtroff_args ne '';
+	$gtroff_args .= "-n$opt_page";
+    }
+
+    eval "\$soelim_temp   = \"$TEMP_BASE.gsoelim\"";
+    eval "\$preproc_temp  = \"$TEMP_BASE.preproc\"";
+    eval "\$gtroff_temp   = \"$TEMP_BASE.gtroff\"";
+    eval "\$gtroff_msgs   = \"$TEMP_BASE.msgs\"";
+    eval "\$grops_temp    = \"$PS_BASE.ps\"";
+
+    if (-d "$DEBUGDIR") {
+	$soelim_temp  = "$DEBUGDIR/$soelim_temp";
+	$preproc_temp = "$DEBUGDIR/$preproc_temp";
+	$gtroff_temp  = "$DEBUGDIR/$gtroff_temp";
+	$gtroff_msgs  = "$DEBUGDIR/$gtroff_msgs";
+	$grops_temp   = "$DEBUGDIR/$grops_temp";
+    } else {
+	$soelim_temp  = "/tmp/$soelim_temp";
+	$preproc_temp = "/tmp/$preproc_temp";
+	$gtroff_temp  = "/tmp/$gtroff_temp";
+	$gtroff_msgs  = "/tmp/$gtroff_msgs";
+    }
+
+    $grops_temp = $opt_F if $opt_F;
+
+    &temp_files($soelim_temp, $preproc_temp, 
+		$gtroff_temp, $gtroff_msgs); 
+    &temp_files ($grops_temp) if !$keepps;
+
+    open (COMMANDS, ">$CMDFILE"); 
+    select (COMMANDS); $| = 1;
+    select (STDOUT);
+
+    if ($VERBOSE) {
+	print "Preprocessing $file:\n";
+	print "\t$GSOELIM\n";
+    }
+    print COMMANDS "$GSOELIM $file > $soelim_temp\n";
+
+    $rc = system ("$GSOELIM $file > $soelim_temp");
+
+    &find_preprocessors($soelim_temp);
+
+    $command = "cat $soelim_temp | ";
+
+    if ($YADC) {
+	print STDERR "\tbcross2\n" if $VERBOSE;
+	$command .= "bcross2 $file | ";
+    }
+
+    $scripts = &cfg($bookfiles, $file, 'scripts');
+    if ($scripts) {
+	local(@scripts) = split(/,/, $scripts);
+	local($script);
+	
+	foreach $script (@scripts) {
+	    $script =~ s/^\s*(\S+)\s*$/$1/;
+	    $script = "$SCRIPTDIR/$script" 
+		if ! -f $script && -f "$SCRIPTDIR/$script";
+
+	    if (-f $script && -x $script) {
+		print "\t$script\n" if $VERBOSE;
+		$command .= "$script | ";
+	    } else {
+		warn "No (executable) script file: $script\n";
+	    }
+	}
+    }
+
+    $gcleanup = &cfg($bookfiles, $file, 'language') || $LANGUAGE;
+    if ($gcleanup) {
+	$gcleanup =~ tr/A-Z/a-z/;
+	$gcleanup = "$SEDDIR/gcleanup-$gcleanup.sed";
+	if (! -r $gcleanup) {
+	    print STDERR "Cannot find language-specific script: $gcleanup\n";
+	    $gcleanup = "$SEDDIR/gcleanup.sed";
+	}
+    } else {
+	$gcleanup = "$SEDDIR/gcleanup.sed";
+    }
+    $command .= "sed -f $gcleanup | fontstack | ";
+
+    if ($preprocess_tbl{$soelim_temp}) {
+	$command .= "$preprocess_tbl{$soelim_temp} | ";
+	print "\t$TBL\n" if $VERBOSE;
+    }
+
+    if ($preprocess_pic{$soelim_temp}) {
+	$command .= "$preprocess_pic{$soelim_temp} | ";
+	print "\t$PIC\n"if $VERBOSE;
+    }
+
+    if ($preprocess_eqn{$soelim_temp}) {
+	$command .= "$preprocess_eqn{$soelim_temp} | ";
+	print "\t$EQN\n"if $VERBOSE;
+    }
+
+    $command .= "cat > $preproc_temp";
+
+    print COMMANDS "$command\n";
+    system "$command";
+# HANDLE RETURN CODE!
+
+    # Find additional macros for this book
+    $addnlmacs = 0;
+    $moremacs = &cfg($bookfiles, $source_file, 'macros');
+
+    if ($moremacs) {
+	local(@macs) = split(/\s+/, $moremacs);
+	local($mac);
+	
+	$moremacs = "";
+	foreach $mac (@macs) {
+	    $mac =~ s/^\s*(\S+)\s*$/$1/;
+
+	    if (($mac =~ /^tmac\.(.+)$/) || ($mac eq "sgmlmacs")) {
+		$initmacs = "${initmacs}-m$1 ";
+		$addnlmacs = 1;
+	    } else {
+		$mac = "$MACRODIR/$mac" 
+		    if (-f "$MACRODIR/$mac") && ($mac !~ /\//);
+		if (-f $mac) {
+		    $moremacs .= "$mac ";
+		    $addnlmacs = 1;
+		} else {
+		    warn "No macro file: $mac\n";
+		}
+	    }
+	}
+    }
+
+    $initmacs = "-mGinit $initmacs" if !$addnlmacs;
+    $initmacs = "$initmacs -msgmlmacs" 
+	if @MERGE_SGML_MACROS 
+	    && ($initmacs !~ /sgmlmacs/) 
+		&& ($moremacs !~ /sgmlmacs/) 
+		    && $BUILT_SGML_DRIVER;
+
+    $cmd  = "$GTROFF -M$MACROPATH ";
+    $cmd .= "-mgs -mG " if $BOOKFILES_VERSION < 0.1;
+    $cmd .= "$initmacs -r#$PID $pages ";
+    $cmd .= "-rhiresfigs=1 " if $opt_hires;
+    $cmd .= "$gtroff_args $moremacs ";
+    $cmd .= "$preproc_temp 2> $gtroff_msgs"; 
+
+    print "Formatting $file.\n" if $VERBOSE;
+    print COMMANDS "$cmd\n";
+
+    open (GTROFF, "$cmd |");
+    open (GTROFF_OUTPUT, ">$gtroff_temp");
+    print STDERR "Page: " if !$QUIET;
+    $pcount = 0;
+    local( $firstpageseen ) = 0;
+    local( $firstpage, $lastpage, $pagecount ) = (0,0,0);
+    while (<GTROFF>) {
+	if (/^p([0-9]+)$/) {
+	    $page = $1;
+	    $firstpage = $page if !$firstpageseen;
+	    $firstpageseen = 1;
+	    print STDERR ", " if $pcount++ > 0 && !$QUIET;
+	    print STDERR "$page" if !$QUIET;
+	}
+	print GTROFF_OUTPUT "$_";
+    }
+    close (GTROFF);
+    close (GTROFF_OUTPUT);    
+    print STDERR ".\n" if !$QUIET;
+    $lastpage = $page if $page;
+    $pagecount = $lastpage - $firstpage + 1;
+    print STDERR 
+	"gmat.troff: last page ($lastpage) - first page ($firstpage) + 1 = page count ($pagecount)\n" 
+	    if !$QUIET;
+# HANDLE RETURN CODE!
+
+    if ($UPDATE_BOOKFILES) {
+	print STDERR "Updating $BOOKFILES...\n" if $VERBOSE;
+
+	# Set the lock...
+	&set_lock($LOCKFILE);
+
+	# Reload the most recent BOOKFILES...others have made changes...
+	$bookfiles = &parsecfg($BOOKFILES);
+
+	&cfg_set($bookfiles, "$source_file", 'pagecount', $pagecount)
+	    if $pagecount ne "0";
+
+	if (-s "$gtroff_msgs") {
+	    print "$GTROFF warnings:\n";
+	    open (F, "$gtroff_msgs");
+	    while (<F>) {
+#		if (/^File ([^,]+), pages? (.*) to (.*)$/) {
+#		    local($thischap, $firstpage, $lastpage) = ($1,$2,$3);
+#		    local($pagecount) = $lastpage - $firstpage + 1;
+#		    &cfg_set($bookfiles, "$thischap", 'pagecount', $pagecount2)
+#			if $pagecount ne "0";
+#		}
+
+		next if /^IDPAGE:/;
+
+		print $_;
+	    }
+	    close(F);
+	}
+
+	&backup_bookfiles();
+	$rc = &printcfg($bookfiles, "$BOOKFILES.new", $ADDNEW_BOOKFILES);
+	chmod(0444, "$BOOKFILES.new");
+	system ("mv -f $BOOKFILES.new $BOOKFILES");
+	
+	# Remove the lock
+	&unset_delete_lock($LOCKFILE);
+    }
+
+    if (!$checkonly) {
+	print STDERR "Translating to PostScript..." if $VERBOSE;
+
+	print COMMANDS "grops < $gtroff_temp > $grops_temp\n";
+	system "grops < $gtroff_temp > $grops_temp";
+# HANDLE RETURN CODE!
+
+	print STDERR "\n" if $VERBOSE;
+    }
+
+    if ($print) {
+	print STDERR "Printing $file.\n" if $VERBOSE;
+	print COMMANDS "lpr -P$PRINTER $grops_temp\n";
+	system ("lpr", "-P$PRINTER", "$grops_temp");
+# HANDLE RETURN CODE!
+    } elsif ($preview) {
+	print STDERR "Previewing $file.\n" if $VERBOSE;
+	print COMMANDS "ghostview $grops_temp\n";
+	close (COMMANDS);	# so that you can see what's in there
+				# when the preview window is up...
+	system "ghostview $grops_temp";
+# HANDLE RETURN CODE!
+    } elsif ($checkonly) {
+	print STDERR "Checking completed.\n" if $VERBOSE;
+    } else {
+	print STDERR "PostScript file $grops_temp created from $file.\n" if $VERBOSE;
+    }
+
+    &cleanup_files ();
+
+    close(COMMANDS);
+}
+
+&ps_font_file_mod_undo if $opt_insert_ps_fonts;
+
+if ($BUILT_SGML_DRIVER && !$SAVE_SGML_DRIVER) {
+    unlink $sgml_driver;
+}
+
+exit 0;
+
+sub find_preprocessors {
+    local ($file) = @_;
+
+    open (SOURCEFILE, "$file");
+    @match = grep (/^\.TS|^\.PS|^\.EQ/, <SOURCEFILE>);
+    close (SOURCEFILE);
+
+    $preprocess_tbl{$file} = "$TBL $TBL_OPTS"  if grep (/^\.TS/, @match);
+    $preprocess_pic{$file} = "$PIC  $PIC_OPTS" if grep (/^\.PS/, @match);
+    $preprocess_eqn{$file} = "$EQN  $EQN_OPTS" if grep (/^\.EQ/, @match);
+}
+
+sub check_gmat {
+    local(@vars) = ("bindir", "workdir", "seddir", "bookfiles", 
+		    "tbl", "pic", "eqn",
+		    "tbl_opts", "pic_opts", "eqn_opts",
+		    "gsoelim", "debugdir", "scriptdir", "macrodir",
+		    "printer",
+		    "temp_base", "ps_base", "sgml_base");
+    local($var, $err);
+
+    $err = 0;
+    foreach $var (@vars) {
+	if (!&cfg_defined($gmat, $PROGNAME, "$var")) {
+	    print "$0: \"$PROGNAME $var\" not configured.\n";
+	    $err++;
+	}
+    }
+
+    exit 1 if $err;
+}
+
+sub ps_font_file_mod {
+    my( $psfonts ) = "";
+    my( $in_header ) = 1;
+    
+    return if !($PS_FONT_FILE && -e $PS_FONT_FILE);
+    print STDERR "Enabling PS font insertion.\n";
+    
+    open( PSFONTS, $PS_FONT_FILE ) || die( "$0: Can\'t open PS font file \"$PS_FONT_FILE\" for input\n" );
+    while ($in_header) {
+	$_ = <PSFONTS>;
+	$in_header = 0 if /^\s*$/;
+	$psfonts .= $_;
+    }
+    while (<PSFONTS>) {
+	s/^\#/\#\n/;
+	$psfonts .= $_;
+    }
+    close PSFONTS;
+
+    open( PSFONTS, ">$PS_FONT_FILE" ) || die( "$0: Can\'t open PS font file \"$PS_FONT_FILE\" for output\n" );
+    print PSFONTS $psfonts;
+    close PSFONTS;
+
+#    open( PSFONTS, $PS_FONT_FILE ) || print "$0: WARNING! Can\'t open $PS_FONT_FILE for output\n";
+#    while (<PSFONTS>) {
+#	print STDERR $_;
+#    }
+#    close PSFONTS;
+}
+
+sub ps_font_file_mod_undo {
+    my( $psfonts ) = "";
+    my( $in_header ) = 1;
+    
+    return if !($PS_FONT_FILE && -e $PS_FONT_FILE);
+
+    open( PSFONTS, $PS_FONT_FILE );
+    while ($in_header) {
+	$_ = <PSFONTS>;
+	$in_header = 0 if /^\s*$/;
+	$psfonts .= $_;
+    }
+    while (<PSFONTS>) {
+	s/^\#\n/\#/;
+	$psfonts .= $_;
+    }
+    close PSFONTS;
+    
+    if (! open( PSFONTS, ">$PS_FONT_FILE" )) {
+	print STDERR "$0: Can\'t open PS font file \"$PS_FONT_FILE\" for output.\n";
+	print STDERR "The PS font file is in an unsafe state.  Please inform a tools person ASAP.\n";
+    }
+    print PSFONTS $psfonts;
+    close PSFONTS;
+}
+
+sub ps_font_file_mod_check {
+    my( $psfonts ) = "";
+    my( $in_header ) = 1;
+    
+    return if !($PS_FONT_FILE && -e $PS_FONT_FILE);
+
+    open( PSFONTS, $PS_FONT_FILE );
+    while ($in_header) {
+	$_ = <PSFONTS>;
+	$in_header = 0 if /^\s*$/;
+	$psfonts .= $_;
+    }
+    while (<PSFONTS>) {
+	return 1 if /^\#\n/;
+    }
+    return 0;
+}
+

@@ -1,0 +1,18 @@
+<!ELEMENT Memo - - (Headers, Body)>
+
+<!ELEMENT Headers o o (To, CC?, From?, Re, Date?, Salutation?, Closing?)>
+
+<!ELEMENT Body - - ((Para | List)+)>
+
+<!ELEMENT List - - (Item+)>
+
+<!ATTLIST List
+          Type  (Arabic | Roman | Alpha | Bullet)    #IMPLIED
+>
+
+<!ELEMENT (To | CC | From | Re | Date, Salutation, Closing) - - (#PCDATA)>
+
+<!ELEMENT (Para | Item) - - ((Emphasis | #PCDATA)+)>
+
+<!ELEMENT Emphasis - - (#PCDATA)>
+

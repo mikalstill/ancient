@@ -1,0 +1,26 @@
+.in 0
+.ie !'\*[tocbox_hdr_ft]'' .ft \*[tocbox_hdr_ft]
+.el .ft \fI
+In this chapter:
+.if !'\*[tocbox_hdr_ft]'' .sp 2p
+.ft \*[tocbox_ft]
+.in 1m
+.ta 1m
+.ti -1m
+\(bu	About the author
+.chaptoc_sp
+.ti -1m
+\(bu	Motivation for this tutorial
+.chaptoc_sp
+.ti -1m
+\(bu	Assumed knowledge
+.chaptoc_sp
+.ti -1m
+\(bu	Credits
+.chaptoc_sp
+.ti -1m
+\(bu	How this document was produced
+.chaptoc_sp
+.ti -1m
+\(bu	License
+.in 0
