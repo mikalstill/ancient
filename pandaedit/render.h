@@ -12,7 +12,7 @@
 class pdfRender
 {
 public:
-  pdfRender (pdfDoc *theDoc, int pageno);
+  pdfRender (pdfDoc *theDoc, int pageno, float xscale, float yscale);
   bool render ();
   bool parseStream ();
   
@@ -106,6 +106,7 @@ private:
   color m_fillColor;
 
   vector<wxPoint> m_controlPoints;
+  float m_xscale, m_yscale;
 
   // TODO mikal: these are obsolete and should be removed
   string m_commandString, m_controlString;

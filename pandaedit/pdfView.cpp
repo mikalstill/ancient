@@ -234,7 +234,7 @@ pdfView::populatePageFromPDF(pdfDoc* theDoc, string& filename)
       return false;
     }
 
-    pdfRender renPage(theDoc, m_page);
+    pdfRender renPage(theDoc, m_page, m_xscale, m_yscale);
     if(!renPage.render()){
       debug(dlError, "Page render failed");
       return false;

@@ -88,6 +88,7 @@ private:
 
   pageCache m_renders;
   int m_page;
+  float m_xscale, m_yscale;
   int m_hoverTarget;
   bool m_dirty;
   string m_currentToolDesc;

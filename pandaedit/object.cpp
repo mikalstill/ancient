@@ -430,6 +430,8 @@ object::executeCommand(int index, panda_page *pg)
     case cLine:
       if(m_commands[index].controlPoints.size() > 0)
 	{
+	  // TODO mikal: this will result in too many colour changes in the
+	  // output PDF...
 	  panda_setlinecolor(pg, m_commands[index].liner, 
 			     m_commands[index].lineg,
 			     m_commands[index].lineb);

@@ -13,13 +13,15 @@
 
 #define SELECTWIDTH 10
 
-pdfRender::pdfRender (pdfDoc *theDoc, int pageno):
+pdfRender::pdfRender (pdfDoc *theDoc, int pageno, float xscale, float yscale):
 m_doc(theDoc),
 m_mode (rmGraphics),
 m_plot (NULL),
 m_select (NULL),
 m_hasLine (false),
-m_pageno (pageno)
+m_pageno (pageno),
+m_xscale (xscale),
+m_yscale (yscale)
 {
 }
 
@@ -37,13 +39,16 @@ pdfRender::render ()
 	}
 
 #if defined HAVE_LIBMPLOT
-      if ((m_plot = plot_newplot (m_width, m_height)) == NULL)
+      if ((m_plot = plot_newplot ((unsigned int) (m_width * m_xscale), 
+				  (unsigned int) (m_height * m_yscale))) 
+	  == NULL)
 	{
 	  debug(dlError, "Failed to initialize new page plot");
 	  return false;
 	}
 
-      if ((m_select = plot_newplot (m_width, m_height)) == NULL)
+      if ((m_select = plot_newplot (m_width * m_xscale, 
+				    m_height * m_yscale)) == NULL)
 	{
 	  debug(dlError, "Failed to initialize new page plot");
 	  return false;
@@ -105,20 +110,32 @@ pdfRender::render ()
 	    case object::cLine:
 	      if(controlPoints.size() > 1)
 		{
-		  plot_setlinestart(m_plot, controlPoints[0].x,
-				    controlPoints[0].y);
-		  plot_setlinestart(m_select, controlPoints[0].x,
-				    controlPoints[0].y);
+		  plot_setlinestart(m_plot, 
+				    (unsigned int) (controlPoints[0].x * 
+						    m_xscale),
+				    (unsigned int) (controlPoints[0].y * 
+						    m_yscale));
+		  plot_setlinestart(m_select, 
+				    (unsigned int) (controlPoints[0].x * 
+						    m_xscale),
+				    (unsigned int) (controlPoints[0].y * 
+						    m_yscale));
 		  debug(dlTrace, string("Line start: ") + 
 			toString(controlPoints[0].x) + string(", ") +
 			toString(controlPoints[0].y));
 
 		  for(unsigned int i = 1; i < controlPoints.size(); i++)
 		    {
-		      plot_addlinesegment(m_plot, controlPoints[i].x,
-					  controlPoints[i].y);
-		      plot_addlinesegment(m_select, controlPoints[i].x,
-					  controlPoints[i].y);
+		      plot_addlinesegment(m_plot, 
+					  (unsigned int) (controlPoints[i].x *
+							  m_xscale),
+					  (unsigned int) (controlPoints[i].y *
+							  m_yscale));
+		      plot_addlinesegment(m_select, 
+					  (unsigned int) (controlPoints[i].x *
+							  m_xscale),
+					  (unsigned int) (controlPoints[i].y *
+							  m_yscale));
 		      debug(dlTrace, string("Line segment: ") + 
 			toString(controlPoints[0].x) + string(", ") +
 			toString(controlPoints[0].y));
@@ -477,14 +494,17 @@ pdfRender::getPNGfile ()
   // Define important stuff about the image
   info->channels = 3;
   info->pixel_depth = 24;
-  png_set_IHDR (png, info, m_width, m_height, 8, PNG_COLOR_TYPE_RGB,
+  png_set_IHDR (png, info, (unsigned int) (m_width * m_xscale), 
+		(unsigned int) (m_height * m_yscale), 
+		8, PNG_COLOR_TYPE_RGB,
 		PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT,
 		PNG_FILTER_TYPE_DEFAULT);
   png_write_info (png, info);
 
   // Write the image out
   if ((row_pointers =
-       (png_byte **) malloc (m_height * sizeof (png_bytep))) == NULL)
+       (png_byte **) malloc ((unsigned int) (m_height * m_yscale) * 
+			     sizeof (png_bytep))) == NULL)
     {
       debug(dlError, "Could not allocate memory");
       exit (42);
@@ -492,7 +512,9 @@ pdfRender::getPNGfile ()
 
   for (i = 0; i < m_height; i++)
     {
-      row_pointers[i] = (png_byte *) (raster + (i * m_width * 3));
+      row_pointers[i] = (png_byte *) (raster + 
+				      (unsigned int ) 
+				      (i * m_width * m_xscale * 3));
     }
 
   png_write_image (png, row_pointers);
