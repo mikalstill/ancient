@@ -2,6 +2,7 @@
 // are presented in reverse order...
 
 #include <stdarg.h>
+#include "samples.h"
 
 pandalex_sample_dictint_list *dictint_list;
 
@@ -53,7 +54,7 @@ void pandalex_sample_dictitem_int(int event, va_list argptr){
 }
 
 void pandalex_sample_stream(int event, va_list argptr){
-
+  
 }
 
 void pandalex_sample_dictint(int event, va_list argptr){
