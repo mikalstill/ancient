@@ -1,6 +1,7 @@
 dnl  Configuration options for the application
 dnl     Copyright (C) Michael Still 2002
 dnl     Copyright (C) Blake Swadling 2002
+dnl     Copyright (C) Daniel Fernandez 2002
 dnl     
 dnl  This program is free software; you can redistribute it and/or modify it
 dnl  under the terms of the GNU General Public License as published by the Free
@@ -37,9 +38,6 @@ dnl Checks for libraries.
 dnl The syntax is library name, function, action if found, action if not found
 dnl We just use the default if found action which adds -l<lib> to the LIBS var
 dnl and #defined HAVE_LIB<lib>
-
-dnl -lfftw:
-AC_CHECK_LIB(fftw, fftw_create_plan)
 
 dnl -lm:
 AC_CHECK_LIB(m, atan)
