@@ -383,7 +383,12 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
           if (lsUi.getIsReweight () == 1)
 		      {
 		        thisLs.cepDoVCV (*theDataset->getMatrix ((cepDataset::direction) i));
-		        residuals = thisLs.getResidual ();
+		        if(thisLs.getError().isReal() == true)
+            {
+              thisLs.getError().display();
+              goto END;
+            }  
+			residuals = thisLs.getResidual ();
 		        cepDebugPrint("Resolved LS regression");
 
 		        cout << "equation of the line is " << endl;
@@ -417,7 +422,13 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
 				          cout << endl;
 				        }
 			          thisLs.cepDoVCV (*theDataset->getMatrix (cepDataset::dirX), matP);
-			          residuals = thisLs.getResidual ();
+			          	          thisLs.cepDoVCV (*theDataset->getMatrix (cepDataset::dirX), matP);
+                if(thisLs.getError().isReal() == true)
+                {
+                  thisLs.getError().display();
+                  goto END;
+                }
+				  residuals = thisLs.getResidual ();
 			      
 			          cout << "equation of the line is " << endl;
 			          cout << "y=" << thisLs.getB1 () << "x+" << thisLs.getB2 () << endl;
@@ -447,6 +458,7 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
       // Actually force the graphs to redraw
       canvas->Refresh();
   }
+END: cout << ""; 
 }
 
 // Perform a least squares regression on the dataset (in all directions)
