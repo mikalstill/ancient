@@ -37,11 +37,14 @@
  *     void tearDown( void ) { ... }
  *
  * @author <your name here>
- * @version $Revision: 1.5 $ $Date: 2002-08-24 01:51:02 $
+ * @version $Revision: 1.6 $ $Date: 2002-09-08 05:50:27 $
  *
  * Revision History
  *
  * $Log: not supported by cvs2svn $
+ * Revision 1.5  2002/08/24 01:51:02  u983118
+ * new tests for cepMatrix template, cepLs core implementation
+ *
  * Revision 1.4  2002/08/18 03:12:47  u983118
  * reworked tests for cepMatrix and cepLs
  *
@@ -93,28 +96,28 @@ protected:
   /** Tests Ls */
   void testLsVCV()
   {
-    cepMatrix<double> data(3,5), P(5,5);
+    cepMatrix<double> data(5,3), P(5,5);
     cepLs ans;
     
     //define the data matrix
     //taken from the mb_PMAC_GPS.dat1
     data.setValue(0,0,2000.1589);
-    data.setValue(0,1,2000.1626);
-    data.setValue(0,2,2000.1653);
-    data.setValue(0,3,2000.1680);
-    data.setValue(0,4,2000.1708);
+    data.setValue(1,0,2000.1626);
+    data.setValue(2,0,2000.1653);
+    data.setValue(3,0,2000.1680);
+    data.setValue(4,0,2000.1708);
     
-    data.setValue(1,0,-1.6239);
+    data.setValue(0,1,-1.6239);
     data.setValue(1,1,-1.6259);
-    data.setValue(1,2,-1.6255);
-    data.setValue(1,3,-1.6234);
-    data.setValue(1,4,-1.6242);
+    data.setValue(2,1,-1.6255);
+    data.setValue(3,1,-1.6234);
+    data.setValue(4,1,-1.6242);
     
-    data.setValue(2,0,0.0012);
-    data.setValue(2,1,0.0014);
+    data.setValue(0,2,0.0012);
+    data.setValue(1,2,0.0014);
     data.setValue(2,2,0.0015);
-    data.setValue(2,3,0.0015);
-    data.setValue(2,4,0.0015);
+    data.setValue(3,2,0.0015);
+    data.setValue(4,2,0.0015);
     
     //define P matrix
     P.setValue(0,0,1);
@@ -163,28 +166,28 @@ protected:
   
   void testLsRW()
   {
-    cepMatrix<double> data(3,5), P(5,5);
+    cepMatrix<double> data(5,3), P(5,5);
     cepLs ans;
     
     //define the data matrix
     //taken from the mb_PMAC_GPS.dat1
     data.setValue(0,0,2000.1589);
-    data.setValue(0,1,2000.1626);
-    data.setValue(0,2,2000.1653);
-    data.setValue(0,3,2000.1680);
-    data.setValue(0,4,2000.1708);
+    data.setValue(1,0,2000.1626);
+    data.setValue(2,0,2000.1653);
+    data.setValue(3,0,2000.1680);
+    data.setValue(4,0,2000.1708);
     
-    data.setValue(1,0,-1.6239);
+    data.setValue(0,1,-1.6239);
     data.setValue(1,1,-1.6259);
-    data.setValue(1,2,-1.6255);
-    data.setValue(1,3,-1.6234);
-    data.setValue(1,4,-1.6242);
+    data.setValue(2,1,-1.6255);
+    data.setValue(3,1,-1.6234);
+    data.setValue(4,1,-1.6242);
     
-    data.setValue(2,0,0.0012);
-    data.setValue(2,1,0.0014);
+    data.setValue(0,2,0.0012);
+    data.setValue(1,2,0.0014);
     data.setValue(2,2,0.0015);
-    data.setValue(2,3,0.0015);
-    data.setValue(2,4,0.0015);
+    data.setValue(3,2,0.0015);
+    data.setValue(4,2,0.0015);
     
     //define P matrix
     P.setValue(0,0,1);
