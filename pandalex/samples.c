@@ -314,7 +314,7 @@ void pdfinfo_procstream(char *filter, int length, char *data, int dataLen){
 	
 	dstLen *= 2;
 	if(((uncompressed = (char *) realloc(uncompressed, dstLen)) == NULL) ||
-	   (dstLen > 100000)){
+	   (dstLen > 10000000)){
 	  // We could not grow the buffer, so we exit
 	  printf("!");
 	  fflush(stdout);
@@ -337,6 +337,14 @@ void pdfinfo_procstream(char *filter, int length, char *data, int dataLen){
 	
       case Z_DATA_ERROR:
 	fprintf(stderr, "corrupt input data\n");
+	break;
+
+      case Z_BUF_ERROR:
+	fprintf(stderr, "buffer error\n");
+	break;
+
+      default:
+	fprintf(stderr, "unknown error (%d)\n", result);
 	break;
       }
       
