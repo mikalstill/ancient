@@ -197,8 +197,8 @@ cepError cepDataset::read(const string & filename)
 
                     // if we have a row containing 3 consecutive delimiters then we add a new window
                     if (rowdate == delim || rowsample == delim || rowerror == delim) {
-                        cout << "("<<rowdate<<","<<rowsample<<","<<rowerror<<","<<rowcolor<<") "
-                             << "found delimiters on line " << numLines << endl;
+//                        cout << "("<<rowdate<<","<<rowsample<<","<<rowerror<<","<<rowcolor<<") "
+//                             << "found delimiters on line " << numLines << endl;
                         data.push_back(cepVector4D());
 
                         lastRowdate = rowdate;
@@ -319,7 +319,7 @@ cepError cepDataset::read(const string & filename)
                     return m_data[i]->getError();
             }
         } else {
-            m_data[i] = new cepMatrix < double >(data.size(), 4, data[0].size());
+            m_data[i] = new cepMatrix < double >(data[0].size(), 4, data.size());
             // for each window
             for( int wcount = 0; wcount<(int)data.size(); ++wcount ) {
                 // for each window element

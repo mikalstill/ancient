@@ -110,8 +110,11 @@ void cepError::log ()
 
 void cepError::display ()
 {
-  if( m_handler != NULL )
-    m_handler->displayError( *this );
+  if( m_handler != NULL ) {
+    if( isReal() ) {
+      m_handler->displayError( *this );
+      }
+    }
   m_actioned = true;
 }
 
