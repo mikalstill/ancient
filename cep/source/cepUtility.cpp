@@ -31,6 +31,11 @@ string cepItoa (int number)
 
 string cepLtoa (long number)
 {
+  /*
+   * BS - check the buffer size is sufficient to hold a long
+   * is it possible for all digits be displayed? I think sci
+   * notation might save us here
+   */
   char buffer[10];
 
   snprintf (buffer, 10, "%ld", number);
@@ -39,6 +44,11 @@ string cepLtoa (long number)
 
 string cepDtoa (double number)
 {
+  /*
+   * BS - check buffer again. I am pretty sure that doubles
+   * are 15 digit mantissa + 4 digit ordinate
+   * is it possible for all digits be displayed?
+   */
   char buffer[10];
 
   snprintf (buffer, 10, "%f", number);
