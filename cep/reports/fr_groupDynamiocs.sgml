@@ -1,30 +1,35 @@
-Group Dynamics
+<title>Group Dynamics</title>
 
-Working as part of a team will always attract various challenges. This team was no different. 
-In project situations such as this, invariably, different team members will have varying degrees of knowledge and commitment. 
-The level of commitment here may come from different areas of motivation, whether it be interest or grade related. 
-The GDMS team had several members pursuing Honors as part of the engineering degrees. 
-This means extensions to their work on the project, and assurance of high grades.
+<para>
+Working as part of a team will always attract various challenges. This team was no different. In project situations such as
+this, invariably, different team members will have varying degrees of knowledge and commitment. The level of commitment here
+may come from different areas of motivation, whether it be interest or grade related. The GDMS team had several members
+pursuing Honours as part of the engineering degrees. This means extensions to their work on the project, and desire for high grades.
+</para>
 
-When embarking on this project, it is safe to say that the full extent of the system was not entirely clear to
-everyone. In some cases this was attributable to the aforementioned knowledge issues. In most case, however,
-there exists the opportunity to divide the project up into components which suit every one. In fact, this
-is arguable on of the more important skills a team must develop, and develop early. Failing to do so will most
-certainly result in delays. Having said this, one must of course consider that the aim with a project such
-as this is still to learn and develop in a chosen field.
+<para>
+When embarking on this project, it is safe to say that the full extent of the system was not entirely clear to everyone. In some cases
+this was attributable to the aforementioned knowledge issues. In most case, however, there exists the opportunity to divide the project
+up into components which suit every individual skills. In fact, this is arguably one of the more important skills a team must develop,
+and develop early. Failing to do so will most certainly result in delays and unequal work distribution. Having said this, one must of
+course consider that the aim with a project such as this is still to learn and develop in a chosen field.
+</para>
 
-The GDMS team dealt with the work division issue early in the project. Some member had MATLAB experience, so they were
-able to lead the way in the development of the prototype. While this was taking place, research was being carried out to
-facilitate important decisions for the final implementation. This included researching current applications
-that claimed to do similar things, mathematical libraries such as Fast Fourier Transforms, user interface options etc.
-Carrying out this research allowed work on the final implementation to be run in parallel with the prototype.
+<para>
+The GDMS team dealt with the work division issue early in the project. Some member had MATLAB experience, so they were able to lead the
+way in the development of the prototype. While this was taking place, research was being carried out to facilitate important decisions
+for the final implementation. This included researching currently applications that claimed to do similar things, mathematical libraries
+such as Fast Fourier Transforms, user interface options etc. Carrying out this research allowed work on the final implementation to be
+run in parallel with the prototype.
+</para>
 
-For various reason, members of a team will and will not always get on all of the time. All of the GDMS members had
-other commitments both at University, at work, and with families. Each of these situations contributed
-pressure on individuals, in turn the group and ultimately the project. There is also of course the issue of personalities. 
-Different members of the team had different levels of experience, and more often than not, different opinions.
-
-The differences in opinions was often an issue, as there were on going design and implementation issues being considered.
-Whether is was related to the way the system to be built, the way in which objects and classes interacted, 
-coding style etc. People often feel passionately about the way they have been taught, or the way they've been doing things
-for a period of time. Combine this with external pressures, project pressures, and criky, she's gonna blow.
+<para>
+For various reason, members of a team will and will not always get on all of the time. All of the GDMS members had other commitments at
+University, at work, and with families. Each of these situations contributed pressure on individuals, in turn the group and ultimately
+the project. There is also of course the issue of personalities. Different members of the team had different levels of experience, and
+more often than not, different opinions. From time to time, these differences in opinions became a significant stumbling block. Whether
+it was related to the way the system to be built, the way in which objects and classes interacted, coding style etc. People often feel
+passionately about the way they have been taught, or the way they've been doing things for a period of time. Combine this with external
+pressures, project pressures, and criky, SHE's GONNA BLOW. The GDMS team however, realising that progress was stunted in these
+situations negotiated, compromised and moved on. To the best of my knowledge are all HAPPY LITTLE VEGIMITES.
+</para>

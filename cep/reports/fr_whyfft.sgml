@@ -1,15 +1,23 @@
-Why FFT template class?
+<title>Why FFT template class?</title>
 
-A considerable amount of time was spend researching the FFTW (Fastest Fourier Transform in the West) library written in C.
-The library is considered by many sources to be the most correct, efficient, and probably the most widely used.
-Tests were carried out with the library  to ensure it could be well integrated with GDMS.
+<para>
+A considerable amount of time was spend researching the FFTW (Fastest Fourier
+Transform in the West) library written in C. The library is considered by many sources to be the most
+correct, efficient, and probably the most widely used. Tests were carried out with the library  to
+ensure it could be well integrated with GDMS.
+</para>
 
-During this testing process, another FFT library was found. This was a simple template class written in C++.
-Testing was carried out with this class and it was decided that it would be more easily integrated with 
-GDMS, suiting the system's paradigm. During closer inspection and testing of the template class, it was discovered that 
-that is did have limitations and required some modifications. The necessary changes were made and it was integrated.
-Although it is quite likely that FFTW has greater levels of efficiency and flexibility, the template class
-offered a more consistent solution for GDMS.
+<para>
+During this testing process, another FFT library was found. This was a simple template class written
+in C++. Testing was carried out with this class and it was decided that it would be more easily
+integrated with GDMS, suiting the system's paradigm. During closer inspection and testing of the
+template class, it was discovered that that is did have limitations and required some modifications.
+The necessary changes were made and it was integrated. Although it is quite likely that FFTW has
+greater levels of efficiency and flexibility, the template class offered a more consistent solution
+for GDMS.
+</para>
 
-The group did intend to employ the use of FFTW is time allowed in order to surpass the restrictions of the template class, 
-however this was not to be the case.
+<para>
+The group did intend to employ the use of FFTW is time allowed in order to surpass the restrictions of
+the template class, however this was not to be the case.
+</para>
