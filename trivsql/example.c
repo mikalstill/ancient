@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "trivsql.h"
 
 int main(int argc, char *argv[]){
   trivsql_state *ourState;

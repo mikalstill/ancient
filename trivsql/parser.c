@@ -982,13 +982,6 @@ int yyerror(char *s){
   exit(42);
 }
 
-// The main routine for the engine
-int main(int argc, char *argv[]){
-  gState = trivsql_init("foo.tdb");
-  yyparse();
-
-  return 0;
-}
 trivsql_state *trivsql_init(char *filename){
   trivsql_state *state;
 
