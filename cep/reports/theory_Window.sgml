@@ -4,6 +4,11 @@
 </sect2> <!--Introduction-->
 
 <sect2><title>Theory</title>
+Ideas:
+- Helps reduce spectral leakage for when a signla is transformed into the freq. domain
+- Trade off - between amplitude accuracy, frequency accuracy, and noise reduction. 
+- Need several as no single windowing algorithm suits all appplications
+
 </sect2> <!--Theory-->
 
 <sect2><title>Conclusion</title>
