@@ -37,22 +37,20 @@
 // Having big numbers is more efficient, but wastes more RAM
 const long CHUNKALLOC = 10;
 
-// todo_mikal: -64000 means an invalid value. I think I need to think about
-// this a little bit harder at some point...
-const long INVALID = -64000;
+const long INVALID = -2000000000;
 
 cepPresentation::cepPresentation (long width, long height):
-  m_data (1, long (INVALID)),
   m_width(width + 1),
   m_height(height),
   m_xTitle("Undefined Axis Title"),
   m_yTitle("Undefined Axis Title"),
-  m_raster(NULL),
   m_xminval(2000000000),
   m_xmaxval(-2000000000),
   m_yminval(2000000000),
   m_ymaxval(-2000000000),
-  m_useAverage(false)
+  m_useAverage(false),
+  m_data (1, long (INVALID)),
+  m_raster(NULL)
 {
   m_averageColor.red = 0;
   m_averageColor.green = 0;
@@ -85,16 +83,17 @@ cepError cepPresentation::addDataPoint (long x, long y)
   cepDebugPrint ("Added (" + cepLtoa (x) + ", " + cepLtoa (y) + ")");
 
   // Values
-  if (x >= m_data.size ())
+  if ((unsigned int) x >= m_data.size ())
   {
     try
     {
-      int i = m_data.size();
+      unsigned int i = m_data.size();
       m_data.resize (x + CHUNKALLOC);
       for(; i < m_data.size(); i++)
 	m_data[i] = INVALID;
 
-      cepDebugPrint ("Resize presentation data to " + cepLtoa (x + CHUNKALLOC));
+      cepDebugPrint ("Resize presentation data to " + 
+		     cepLtoa (x + CHUNKALLOC));
     }
     catch (...)
     {
@@ -160,8 +159,8 @@ cepPresentation::createBitmap ()
     exit (1);
   }
 
-  unsigned int midpoint;
-  float yscale;
+  unsigned int midpoint = 0;
+  float yscale = 0.0;
   cepError err;
   bool linestarted (false);
 
@@ -188,19 +187,21 @@ cepPresentation::createBitmap ()
     // Draw data points
     plot_setlinecolor (graph, m_lineColor.red, m_lineColor.green, 
 		       m_lineColor.blue);
-    for (int i = 0; i < m_data.size (); i++)
+    for (unsigned int i = 0; i < m_data.size (); i++)
       {
 	if (m_data[i] != INVALID)
 	  {
 	    if (!linestarted)
 	      {
 		plot_setlinestart (graph, i + 10, 
-				   (unsigned int) (midpoint - (m_data[i] / yscale)));
+				   (unsigned int) (midpoint - 
+						   (m_data[i] / yscale)));
 		linestarted = true;
 	      }
 	    else
 	      plot_addlinesegment (graph, i + 10, 
-				   (unsigned int) (midpoint - (m_data[i] / yscale)));
+				   (unsigned int) (midpoint - 
+						   (m_data[i] / yscale)));
 	  }
       }
     break;
@@ -213,7 +214,7 @@ cepPresentation::createBitmap ()
     // Draw the data points
     plot_setlinecolor (graph, m_lineColor.red, m_lineColor.green, 
 		       m_lineColor.blue);
-    for (int i = 0; i < m_data.size (); i++)
+    for (unsigned int i = 0; i < m_data.size (); i++)
       {
 	if (m_data[i] != INVALID)
 	  {
@@ -252,8 +253,10 @@ cepPresentation::createBitmap ()
     cepDebugPrint("Drawing average line");
     plot_setlinecolor(graph, m_averageColor.red, m_averageColor.green,
 		      m_averageColor.blue);
-    plot_setlinestart(graph, 10, (unsigned int) midpoint - (m_average / yscale));
-    plot_addlinesegment(graph, m_width, (unsigned int) midpoint - (m_average / yscale));
+    plot_setlinestart(graph, 10, 
+		      (unsigned int) (midpoint - (m_average / yscale)));
+    plot_addlinesegment(graph, m_width, 
+			(unsigned int) (midpoint - (m_average / yscale)));
     plot_strokeline(graph);
     plot_endline(graph);
   }
@@ -276,7 +279,6 @@ cepPresentation::createPNG (const string & filename)
 
   // Write out the PNG file
   FILE *image;
-  unsigned int i;
   png_structp png;
   png_infop info;
   png_bytepp row_pointers = NULL;
@@ -332,7 +334,7 @@ cepPresentation::createPNG (const string & filename)
       ("Memory allocation error generating row pointers for PNG version of a graph");
   }
 
-  for (i = 0; i < m_height; i++)
+  for (long i = 0; i < m_height; i++)
   {
     row_pointers[i] = (png_byte *) (m_raster + (i * m_width * 3));
   }
@@ -362,9 +364,8 @@ void cepPresentation::useAverage(bool yesno)
 void cepPresentation::recalculateAverage()
 {
   long temp = 0;
-  int i;
 
-  for(i = 0; i < m_data.size(); i++){
+  for(unsigned int i = 0; i < m_data.size(); i++){
     temp += m_data[i];
   }
 

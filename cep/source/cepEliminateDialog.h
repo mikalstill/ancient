@@ -29,8 +29,9 @@ class cepEliminateDialog{
   void display();
 
  private:
-  wxPoint m_position, m_posok;
+  wxPoint m_position;
   wxSize m_size;
+  wxPoint m_posok;
   wxDialog m_dialog;
   wxButton m_ok;
 };

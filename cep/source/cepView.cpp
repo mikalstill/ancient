@@ -217,7 +217,7 @@ void cepView::drawPresentation(cepDataset *theDataset, cepDataset::direction dir
                    cepItoa (theDataset->getData (dir).size ()) +
                    " data points to add");
 
-    for (int i = 0; i < theDataset->getData (dir).size (); i++)
+    for (unsigned int i = 0; i < theDataset->getData (dir).size (); i++)
     {
       pres.addDataPoint (i,
                            (long)(theDataset->getData (dir)[i].

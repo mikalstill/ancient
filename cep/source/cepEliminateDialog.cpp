@@ -28,9 +28,9 @@
 cepEliminateDialog::cepEliminateDialog():
   m_position(0, 0),
   m_size(200, 200),
+  m_posok(10, 10),
   m_dialog(NULL, -1, "Eliinate outliers", m_position, m_size, 
-	   wxDIALOG_MODAL, "eliminateOutliers"),
-  m_posok(10, 10)//,
+	   wxDIALOG_MODAL, "eliminateOutliers")
   //  m_ok(m_dialog, wxID_OK, "Ok", m_posok)
 {
 }
