@@ -97,7 +97,7 @@ DOCBOOK END
 #ifndef __CEPLS_H
 #define __CEPLS_H
 
-#include <iostream.h>
+#include <iostream>
 #include <math.h>
 #include <stdlib.h>
 

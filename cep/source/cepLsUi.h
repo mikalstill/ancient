@@ -20,7 +20,7 @@
 #ifndef __CEPLSUI_H
 #define __CEPLSUI_H
 
-#include <iostream.h>
+#include <iostream>
 #include <string>
 
 #include <wx/dialog.h>

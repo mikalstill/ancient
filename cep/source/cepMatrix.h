@@ -213,7 +213,7 @@ DOCBOOK END
 #ifndef __CEPMATRIX_H
 #define __CEPMATRIX_H
 
-#include <iostream.h>
+#include <iostream>
 #include <math.h>
 #include <stdlib.h>
 
