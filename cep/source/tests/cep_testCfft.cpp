@@ -97,9 +97,11 @@ namespace
     //  double im[arraySize];
     //debugging output..
     */
+    //typedef complex < double >Complex;
+
     void test2dFwdFft ()
     {
-      int numTables = 0;
+      //int numTables = 0;
       int numRows = 512;
       int numCols = 2;
       int sinIndex = 0;
@@ -129,9 +131,8 @@ namespace
 	    }
 	}
 
-      //typedef complex < double >Complex;
-      //cfft < Complex > FFT (512);
-      //FFT.matrixFft (myMatrix, 1);
+      cfft < ComplexDble > FFT (512);
+      FFT.matrixFft (myMatrix, 1);
       
       CPPUNIT_ASSERT_EQUAL_MESSAGE( "Poo bear", 1, 1);
     }// 
