@@ -1,7 +1,8 @@
 // This is the implementation of the PDF object model
 
 #include "objectmodel.h"
-#include <stdio.h>
+#include "verbosity.h"
+#include "utility.h"
 
 dictionary::dictionary ()
 {
@@ -16,7 +17,7 @@ void
 dictionary::add (dictitem item)
 {
   m_items.push_back (item);
-  printf ("DEBUG: Added a dictionary item\n");
+  debug(dlTrace, "Added a dictionary item");
 }
 
 unsigned int
@@ -34,29 +35,29 @@ dictionary::operator[] (unsigned int index)
 bool
 dictionary::findItem (string dname, dictitem & item)
 {
-  printf ("DEBUG: Finding %s in a %d item dictionary\n",
-	  dname.c_str (), m_items.size ());
+  debug(dlTrace, string("Finding ") + dname + string(" in a ") +
+	toString(m_items.size()) + string(" item dictionary"));
   for (unsigned int i = 0; i < m_items.size (); i++)
     {
-      printf ("DEBUG: Checking against the name %s\n",
-	      m_items[i].getName ().c_str ());
+      debug(dlTrace, string("Checking against the name ") +
+	      m_items[i].getName ());
 
       if (m_items[i].getName () == dname)
 	{
 	  item = m_items[i];
-	  printf ("DEBUG: Found\n");
+	  debug(dlTrace, "Found");
 	  return true;
 	}
     }
 
-  printf ("DEBUG: Not found\n");
+  debug(dlTrace, "Not found");
   return false;
 }
 
 bool
 dictionary::getValue (string dname, pdf & thePDF, object & obj)
 {
-  printf ("DEBUG: Get object named %s from dictionary\n", dname.c_str ());
+  debug(dlTrace, string("Get object named ") + dname + string(" from dictionary "));
   for (unsigned int i = 0; i < m_items.size (); i++)
     if (m_items[i].getName () == dname)
       {
@@ -70,7 +71,7 @@ dictionary::getValue (string dname, pdf & thePDF, object & obj)
 bool
 dictionary::getValue (string dname, string & value)
 {
-  printf ("DEBUG: Get string named %s from dictionary\n", dname.c_str ());
+  debug(dlTrace, string("Get string named ") + dname + string(" from dictionary"));
   for (unsigned int i = 0; i < m_items.size (); i++)
     if (m_items[i].getName () == dname)
       {
@@ -84,7 +85,7 @@ dictionary::getValue (string dname, string & value)
 bool
 dictionary::getValue (string dname, int &value)
 {
-  printf ("DEBUG: Get int named %s from dictionary\n", dname.c_str ());
+  debug(dlTrace, string("Get int named ") + dname + string(" from dictionary"));
   for (unsigned int i = 0; i < m_items.size (); i++)
     if (m_items[i].getName () == dname)
       {
@@ -98,8 +99,7 @@ dictionary::getValue (string dname, int &value)
 bool
 dictionary::getValue (string dname, dictionary & value)
 {
-  printf ("DEBUG: Get subdictionary named %s from dictionary\n",
-	  dname.c_str ());
+  debug(dlTrace, string("Get subdictionary named ") + dname + string(" from dictionary"));
   for (unsigned int i = 0; i < m_items.size (); i++)
     if (m_items[i].getName () == dname)
       {

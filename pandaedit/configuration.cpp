@@ -25,10 +25,11 @@
 
 #include <stdlib.h>
 #include <sstream>
-#include <stdio.h>
 
 #include "configuration.h"
 #include "stringArray.h"
+#include "verbosity.h"
+#include "utility.h"
 
 configuration *
   configuration::config =
@@ -107,14 +108,14 @@ configuration::readConfig (ifstream & in)
     {
       stringArray tokens (buf, "= \t");
       if (tokens.size () < 2)
-	printf ("DEBUG: Skipped malformed config line\n");
+	debug(dlInformational, "Skipped malformed config line");
       else
 	{
 	  data.first = tokens[0];
 	  data.second = tokens[1];
 	  p = m_map.insert (data);
 	  if (!p.second)
-	    printf ("DEBUG: Repeated config entry\n");
+	    debug(dlInformational, "Repeated config entry");
 	}
       in.getline (buf, 80);
     }

@@ -1,5 +1,7 @@
+#include <string>
 #include "matrix.h"
-#include <stdio.h>
+#include "verbosity.h"
+#include "utility.h"
 
 matrix::matrix ()
 {
@@ -11,7 +13,7 @@ matrix::matrix ()
 void
 matrix::setIdentity ()
 {
-  printf ("DEBUG: Setting matrix to identity\n");
+  debug(dlTrace, "Setting matrix to identity\n");
   dumpMatrix ();
   for (int i = 0; i < 3; i++)
     for (int j = 0; j < 3; j++)
@@ -27,8 +29,14 @@ matrix::setIdentity ()
 void
 matrix::setValues (float vals[6])
 {
-  printf ("DEBUG: Setting matrix to %f %f | %f %f | %f %f\n",
-	  vals[0], vals[1], vals[2], vals[3], vals[4], vals[5], vals[6]);
+  debug(dlTrace, string("Setting matrix to ") + 
+	toString(vals[0]) + string(", ") +
+	toString(vals[1]) + string(", ") + 
+	toString(vals[2]) + string(", ") +
+	toString(vals[3]) + string(", ") + 
+	toString(vals[4]) + string(", ") +
+	toString(vals[5]) + string(", ") + 
+	toString(vals[6]));
 
   dumpMatrix ();
   int count = 0;
@@ -47,7 +55,7 @@ matrix::getHorizontal ()
   // _ _ _
   // _ _ _
   // * _ _
-  printf ("DEBUG: Matrix horizontal is %f\n", m_matrix[0][2]);
+  debug(dlTrace, string("Matrix horizontal is ") + toString(m_matrix[0][2]));
   return m_matrix[0][2];
 }
 
@@ -57,7 +65,7 @@ matrix::getVertical ()
   // _ _ _
   // _ _ _
   // _ * _
-  printf ("DEBUG: Matrix vertical is %f\n", m_matrix[1][2]);
+  debug(dlTrace, string("Matrix vertical is ") + toString(m_matrix[1][2]));
   return m_matrix[1][2];
 }
 
@@ -71,13 +79,12 @@ matrix::getAngle ()
 void
 matrix::dumpMatrix ()
 {
-  printf ("DEBUG: Matrix dump...\n");
+  debug(dlTrace, "DEBUG: Matrix dump...");
   for (int j = 0; j < 3; j++)
     {
       for (int i = 0; i < 3; i++)
 	{
-	  printf ("%f ", m_matrix[i][j]);
+	  debug(dlTrace, toString(m_matrix[i][j]));
 	}
-      printf ("\n");
     }
 }

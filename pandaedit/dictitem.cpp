@@ -1,13 +1,14 @@
 // This is the implementation of the PDF object model
 
 #include "objectmodel.h"
-#include <stdio.h>
+#include "verbosity.h"
+#include "utility.h"
 
 dictitem::dictitem (diType type, string name):
 m_type (type), m_name (name)
 {
-  printf ("DEBUG: Created an item with name %s, type %d\n", name.c_str (),
-	  (int) type);
+  debug(dlTrace, string("Created an item with name ") + name + 
+	string(", type ") + toString(type));
 }
 
 dictitem::dictitem ()
