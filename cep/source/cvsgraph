@@ -3,7 +3,7 @@
 use strict;
 my($HISTORY, $filename, $date, %dateline, $day, $adate, @dates,
    $author, %cols, $newcolnum, @today, @html, $event, $file, $user, $i,
-   $table, %authorcolor, @colors, $newauthnum, %heading, $color);
+   $table, %authorcolor, @colors, $newauthnum, %heading, $color, $temp);
 
 open HISTORY, "< logout";
 
@@ -91,19 +91,22 @@ foreach $adate (@dates) {
 # The funky header thingie
 print "<table cellspacing=0 cellpadding=0><tr><td></td>";
 for($i = 0; $i < $newcolnum; $i++){
-    `convert -font helvetica -pointsize 10 -draw "text 1,10 $heading{$i}" blank.jpg colheader-$i.jpg`;
-    `convert -rotate -90 colheader-$i.jpg colheader-$i-rot.jpg`;
-    print "<td><img src=\"colheader-$i-rot.jpg\"></td>";
+    $temp = $heading{$i};
+    $temp =~ s/\//_/g;
+    if(! -e "colheader-$temp.jpg"){
+	`convert -font helvetica -pointsize 10 -draw "text 1,10 $heading{$i}" -rotate -90 blank.jpg colheader-$temp.jpg`;
+    }
+    print "<td><img src=\"colheader-$temp.jpg\"></td>";
 }
 
 print "</tr>$table</table>";
 print "<BR><HR><BR>Authors: ";
-print "<table>";
+print "<table><tr>";
 
 while(($user, $color) = each %authorcolor){
-    print "<tr><td bgcolor=\"$color\">$user: ";
+    print "<td bgcolor=\"$color\">$user: ";
     print `grep $user authors | sed 's/^$user://'`;
-    print "</td></tr>";
+    print "</td>";
 }
 
-print "</table>";
+print "</tr></table>";
