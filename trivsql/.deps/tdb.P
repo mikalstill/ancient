@@ -18,7 +18,8 @@ tdb.lo tdb.o : tdb.c /usr/include/stdlib.h /usr/include/features.h \
   /usr/include/bits/errno.h /usr/include/linux/errno.h \
   /usr/include/asm/errno.h /usr/include/sys/mman.h \
   /usr/include/bits/mman.h /usr/include/sys/stat.h \
-  /usr/include/bits/stat.h tdb.h /usr/include/sys/time.h spinlock.h
+  /usr/include/bits/stat.h trivsql_tdb.h /usr/include/sys/time.h \
+  trivsql_spinlock.h
 tdb.c :
 /usr/include/stdlib.h :
 /usr/include/features.h :
@@ -64,6 +65,6 @@ tdb.c :
 /usr/include/bits/mman.h :
 /usr/include/sys/stat.h :
 /usr/include/bits/stat.h :
-tdb.h :
+trivsql_tdb.h :
 /usr/include/sys/time.h :
-spinlock.h :
+trivsql_spinlock.h :

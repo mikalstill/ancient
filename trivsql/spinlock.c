@@ -30,8 +30,8 @@
 #include <errno.h>
 #include <sys/stat.h>
 #include <time.h>
-#include "tdb.h"
-#include "spinlock.h"
+#include "trivsql_tdb.h"
+#include "trivsql_spinlock.h"
 
 #define DEBUG
 

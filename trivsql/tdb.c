@@ -34,8 +34,8 @@
 #include <errno.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
-#include "tdb.h"
-#include "spinlock.h"
+#include "trivsql_tdb.h"
+#include "trivsql_spinlock.h"
 
 #define TDB_MAGIC_FOOD "TDB file\n"
 #define TDB_VERSION (0x26011967 + 6)
