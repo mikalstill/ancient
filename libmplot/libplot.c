@@ -126,13 +126,14 @@ plot_newplot (unsigned int x, unsigned int y)
 
 void plot_safefree(void *ptr)
 {
-  if(ptr)
+  if(ptr != NULL)
     free(ptr);
 }
 
 void plot_closeplot(plot_state *state)
 {
-  plot_endline(state);
+  // It is assumed that plot_endline has been called by the user
+
   plot_safefree(state->raster);
   plot_safefree(state->linedash);
 
