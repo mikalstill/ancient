@@ -12,49 +12,49 @@
 
 <!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
 
-<refentry id="cepTmpClean">
+<refentry id="cepInterpShowRate">
 <refmeta>
-<refentrytitle>cepTmpClean</refentrytitle>
+<refentrytitle>cepInterpShowRate</refentrytitle>
 <manvolnum>3</manvolnum>
 </refmeta>
 
 <refnamediv>
-<refname>cepTmpClean</refname>
-<refpurpose>cleanup temporary files created by &lt;command&gt;GDMS&lt;/command&gt;</refpurpose>
+<refname>cepInterpShowRate</refname>
+<refpurpose>Displays the "Show Sample Rate" dialog box for the Interpolation user interface</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv>
 <synopsis>
- #include "cepTmpClean.h"
+ The follwing is an example of how to create this object.
  
- cepTmpClean::cepTmpClean(string path, string pattern);
- cepError cepTmpClean::execute(int&amp; deleted, bool doDelete);
+ cepInterpShowRate sr;
+ 
 
 </synopsis>
 </refsynopsisdiv>
 
 <refsect1>
 <title>DESCRIPTION</title>
-<para> &lt;command&gt;GDMS&lt;/command&gt; creates temporary files for the various graphs that it draws. Normally these temporary files are stored in /tmp. Over only a few graph executions, it is possible to have a fairly large number of temporary files, which might cause the filesystem which /tmp is stored on to run out of disc space.&lt;/para&gt;
- 
- &lt;para&gt;
- This class automates the removal of these old files, and is called whenever the interactive version of &lt;command&gt;GDMS&lt;/command&gt; starts up.
+<para> 
+ An implementation of the &lt;command&gt;cepInterpShowRate&lt;/command&gt; class
+ which displays a custom wxWindows dialog box.
  &lt;/para&gt;
  
  &lt;para&gt;
- This class is extremely easy to use. Please refer to the example below for more details.
-</para>
-</refsect1>
-
-<refsect1>
-<title>EXAMPLE</title>
-<programlisting>
- #include "cepTmpClean.h";
+ &lt;command&gt;double getSample()&lt;/command&gt;
+ Returns the specified sample rate
+ &lt;/para&gt;
  
- cepTmpClean cleaner("/tmp", "cep*");
- int deleted;
- cleaner.execute(deleted, true);
-</programlisting>
+ &lt;para&gt;units getUnits()&lt;/command&gt;
+ Returns the units selected as an enumated type. Units can be one of:-
+ &lt;para&gt;&lt;itemizedlist&gt;
+ &lt;listitem&gt;&lt;para&gt;Years&lt;/para&gt;&lt;/listitem&gt;
+ &lt;listitem&gt;&lt;para&gt;Days&lt;/para&gt;&lt;/listitem&gt;
+ &lt;listitem&gt;&lt;para&gt;Hours&lt;/para&gt;&lt;/listitem&gt;
+ &lt;listitem&gt;&lt;para&gt;Unknowen&lt;/para&gt;&lt;/listitem&gt;
+ &lt;/itemizedlist&gt;&lt;/para&gt;
+ 
+</para>
 </refsect1>
 
 

@@ -32,7 +32,7 @@
 
 <refsect1>
 <title>DESCRIPTION</title>
-<para> <command>cepDebugPrint</command> creates a cepError of debug severity and immediately displays it -- this will normally result in the debug message being logged. The macro also pack into the message the name of the source file which called <command>cepDebugPrint</command>, and the line number that the call occurred at, for ease of debugging.
+<para> &lt;command&gt;cepDebugPrint&lt;/command&gt; creates a cepError of debug severity and immediately displays it -- this will normally result in the debug message being logged. The macro also pack into the message the name of the source file which called &lt;command&gt;cepDebugPrint&lt;/command&gt;, and the line number that the call occurred at, for ease of debugging.
 </para>
 </refsect1>
 

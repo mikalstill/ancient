@@ -1,0 +1,109 @@
+<!-- 
+
+     This document is part of the Geodetic Data Manipulation System
+     distribution, and is covered by the GNU GPL, a copy of which is in the
+     file named COPYING inside the distribution.
+
+     This program and it's documentation are distributed in the hope that 
+     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
+     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+-->
+
+<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
+
+<refentry id="cepCfft">
+<refmeta>
+<refentrytitle>cepCfft</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>cepCfft</refname>
+<refpurpose>Computes forward and inverse fft on a 2 or 3D Matrix or an array.  </refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include &lt;math.h&gt;
+ #include &lt;cepCfft.h&gt;
+ typedef complex&lt;double&gt; Complex;
+ 
+ ...fill array...
+ 
+ cepCfft&lt;Complex&gt; FFT( FFTsize ); // build an operator object
+ // The constructor builds tables and places them
+ //in the object.
+ 
+ To perform FFT on an array:
+ 
+ Complex Array[FFTsize]; 
+ ...
+ FFT.fft( Array ); // forward transform
+ FFT.ifft( Array ); // reverse transform.
+ 
+ To perform FFT on a matrix:
+ 
+ Complex cepMatrix &lt;Complex&gt; myMatrix(rows,cols,tables);
+ //see cepMatrix for further information on Matrices.
+ 
+ ...fill myMatrix...
+ 
+ myMatrix = FFT.matrixFft (myMatrix, 1); //forward transform
+ myMatrix = FFT.matrixFft (myMatrix, 0); //inverse transform
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para> &lt;para&gt;This class can be used in 2 ways..The first is as originally intended. That is, computing an FFT on an array of data. The
+ second is spceific to GDMS. The FFT is computed on a matrix of data, with the results returned in a complex matrix. The FFT can be
+ in either direction as specified in the function call.
+ &lt;/para&gt;
+ 
+ &lt;para&gt; 
+ &lt;command&gt;FFTobject.matrixFft (myMatrix, direction);&lt;/command&gt;
+ Computes the FFT on the matrix in the direction specified.
+ &lt;command&gt;myMatrix&lt;/command&gt; The matrix containing the data to be FFT'd
+ &lt;command&gt;direction&lt;/command&gt;. int direction. 1 for forward 0 for inverse.
+ &lt;/para&gt;
+ 
+ &lt;para&gt;
+ &lt;command&gt;FFTobject.fft(complexArray);&lt;/command&gt;
+ Computes a forward FFT on the array passed. The results are written to the same array.
+ &lt;command&gt;complexArray&lt;/command&gt; 
+ The array of type complex containing the data to be FFT'd.
+ &lt;/para&gt;
+ 
+ &lt;para&gt;
+ &lt;command&gt;FFTobject.ifft(complexArray);&lt;/command&gt;
+ Computes an inverse FFT on the array passed. The results are written to the same array.
+ &lt;command&gt;complexArray&lt;/command&gt; The array of type complex containing the data to be FFT'd.
+ &lt;/para&gt;
+ 
+</para>
+</refsect1>
+
+
+<refsect1>
+    <title>VERSION</title>
+    <para>
+This documentation was generated for the <command>Geodetic Data Manipulation System</command> 0.1 by <command>autodocbook</command> (http://www.stillhq.com).
+    </para>
+</refsect1>
+
+<refsect1>
+    <title>AUTHOR</title>
+    <para>
+The <command>Geodetic Data Manipulation System</command> is under development by Michael Still (mikal@stillhq.com), Daniel Fernandez, Kristy Van Der Vlist, Blake Swadling, and Nick Wheatstone. All code is Copyright 2002 Michael Still, Daniel Fernandez, Kristy Van Der Vlist, Blake Swadling and Nick Wheatstone,  and is released under the GNU GPL. Code submissions are welcomed. Contact Michael at the address above if you have something you would like to contribute.
+</para>
+</refsect1>
+
+<refsect1>
+    <title>BUGS</title>
+    <para>
+There  are no known bugs in the <command>Geodetic Data Manipulation System</command>. If you find one, please contact mikal@stillhq.com and let me know.
+</para>
+</refsect1>
+</refentry>

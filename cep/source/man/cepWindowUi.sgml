@@ -12,49 +12,46 @@
 
 <!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
 
-<refentry id="cepTmpClean">
+<refentry id="cepWindowUi">
 <refmeta>
-<refentrytitle>cepTmpClean</refentrytitle>
+<refentrytitle>cepWindowUi</refentrytitle>
 <manvolnum>3</manvolnum>
 </refmeta>
 
 <refnamediv>
-<refname>cepTmpClean</refname>
-<refpurpose>cleanup temporary files created by &lt;command&gt;GDMS&lt;/command&gt;</refpurpose>
+<refname>cepWindowUi</refname>
+<refpurpose>Displays the Windowing user interface</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv>
 <synopsis>
- #include "cepTmpClean.h"
+ The follwing is an example of how to create this object.
  
- cepTmpClean::cepTmpClean(string path, string pattern);
- cepError cepTmpClean::execute(int&amp; deleted, bool doDelete);
+ cepWindowUi windowUi;
+ 
 
 </synopsis>
 </refsynopsisdiv>
 
 <refsect1>
 <title>DESCRIPTION</title>
-<para> &lt;command&gt;GDMS&lt;/command&gt; creates temporary files for the various graphs that it draws. Normally these temporary files are stored in /tmp. Over only a few graph executions, it is possible to have a fairly large number of temporary files, which might cause the filesystem which /tmp is stored on to run out of disc space.&lt;/para&gt;
+<para> 
+ An implementation of the &lt;command&gt;cepWindowUi&lt;/command&gt; which displays the
+ Windowing GUI.
+ &lt;/para&gt;
+ 
+ 
  
  &lt;para&gt;
- This class automates the removal of these old files, and is called whenever the interactive version of &lt;command&gt;GDMS&lt;/command&gt; starts up.
+ &lt;command&gt;void showAttenuation()&lt;/command&gt;
+ Show the "Specify attenuation" dialog box
  &lt;/para&gt;
  
  &lt;para&gt;
- This class is extremely easy to use. Please refer to the example below for more details.
-</para>
-</refsect1>
-
-<refsect1>
-<title>EXAMPLE</title>
-<programlisting>
- #include "cepTmpClean.h";
+ &lt;command&gt;void getAtteunation()&lt;/command&gt;
+ Returns the specified attenuation
  
- cepTmpClean cleaner("/tmp", "cep*");
- int deleted;
- cleaner.execute(deleted, true);
-</programlisting>
+</para>
 </refsect1>
 
 

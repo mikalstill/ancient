@@ -21,7 +21,7 @@
 # names of the elements which are waiting until the end of the file, and
 # subitems stores the elements which will be needed at that time.
 
-# This code is (c) Michael Still 2001 and is released under the terms of the
+# This code is (c) Michael Still 2001, 2002 and is released under the terms of the
 # GNU GPL
 
 use strict;
@@ -42,6 +42,12 @@ print "  ";
 # Run through every line the the file
 open CFILE, "< $filename";
 while(<CFILE>){
+  # Deal with special docbook characters
+  s/<!--.*-->//g;
+  s/&/&amp;/g;
+  s/</&lt;/g;
+  s/>/&gt;/g;
+
   # The docbook start and stop tags are treated as special cases
   if(/DOCBOOK START/){
     $docbook = 1;

@@ -1,0 +1,224 @@
+<!-- 
+
+     This document is part of the Geodetic Data Manipulation System
+     distribution, and is covered by the GNU GPL, a copy of which is in the
+     file named COPYING inside the distribution.
+
+     This program and it's documentation are distributed in the hope that 
+     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
+     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+-->
+
+<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
+
+<refentry id="cepMatrix">
+<refmeta>
+<refentrytitle>cepMatrix</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>cepMatrix</refname>
+<refpurpose>Provides a matrix class template data container for all mathematical operations.</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ The follwing example show how to create a cepMatrix.
+ 
+ Declaring a NULL matrix:-
+ cepMatrix&lt;T&gt; matrix()
+ 
+ Declaring a 2D matrix:-
+ cepMatrix&lt;T&gt; matrix(int rows, int cols)
+ 
+ &lt;para&gt;&lt;itemizedlist&gt;
+ &lt;listitem&gt;&lt;para&gt;rows:- the number of rows in the matrix&lt;/para&gt;&lt;/listitem&gt;
+ &lt;listitem&gt;&lt;para&gt;cols:- the number of colums in the matrix&lt;/para&gt;&lt;/listitem&gt;
+ &lt;/itemizedlist&gt;&lt;/para&gt;
+ 
+ 
+ Declaring a 3D matrix:-
+ cepMatrix&lt;T&gt; matrix(int rows, int cols, int tabs)
+ 
+ &lt;para&gt;&lt;itemizedlist&gt;
+ &lt;listitem&gt;&lt;para&gt;rows:- the number of rows in the matrix&lt;/para&gt;&lt;/listitem&gt;
+ &lt;listitem&gt;&lt;para&gt;cols:- the number of colums in the matrix&lt;/para&gt;&lt;/listitem&gt;
+ &lt;listitem&gt;&lt;para&gt;tabs:- the number of tables in the matrix&lt;/para&gt;&lt;/listitem&gt;
+ &lt;/itemizedlist&gt;&lt;/para&gt;
+ 
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para> An implementation of the &lt;command&gt;cepMatrix&lt;/command&gt; template class
+ data container.
+ &lt;/para&gt;
+ 
+ &lt;para&gt; 
+ &lt;command&gt;const cepMatrix&lt;T&gt; &amp; operator+= (const cepMatrix &amp;B)&lt;/command&gt;
+ Calculates A+B.
+ This function can not be used with 3D matricies.
+ &lt;para&gt;&lt;itemizedlist&gt;
+ &lt;listitem&gt;&lt;para&gt;B:- the matrix to be added to the current matrix object&lt;/para&gt;&lt;/listitem&gt;
+ &lt;/itemizedlist&gt;&lt;/para&gt;
+ 
+ &lt;/para&gt;
+ 
+ &lt;para&gt; 
+ &lt;command&gt;const cepMatrix&lt;T&gt; &amp; operator-= (const cepMatrix &amp;B)&lt;/command&gt;
+ Calculates A-B.
+ This function can not be used with 3D matricies.
+ &lt;para&gt;&lt;itemizedlist&gt;
+ &lt;listitem&gt;&lt;para&gt;B:- the matrix to be subtracted to the current matrix object&lt;/para&gt;&lt;/listitem&gt;
+ &lt;/itemizedlist&gt;&lt;/para&gt;
+ &lt;/para&gt;
+ 
+ &lt;para&gt; 
+ &lt;command&gt;const cepMatrix&lt;T&gt; &amp; operator*= (const cepMatrix &amp;B)&lt;/command&gt;
+ Calculates A*B.
+ &lt;para&gt;&lt;itemizedlist&gt;
+ &lt;listitem&gt;&lt;para&gt;B:- the matrix to be multiplied with the current matrix object&lt;/para&gt;&lt;/listitem&gt;
+ &lt;/itemizedlist&gt;&lt;/para&gt;
+ &lt;/para&gt;
+ 
+ &lt;para&gt; 
+ &lt;command&gt;const cepMatrix&lt;T&gt; &amp; operator*= (const T &amp;scalar)
+ Calculates c*A.
+ This function can not be used with 3D matricies.
+ &lt;para&gt;&lt;itemizedlist&gt;
+ &lt;listitem&gt;&lt;para&gt;c:- the scalar value that the current matrix object is to be multiplied by&lt;/para&gt;&lt;/listitem&gt;
+ &lt;/itemizedlist&gt;&lt;/para&gt;
+ &lt;/para&gt;
+ 
+ &lt;para&gt; 
+ &lt;command&gt;const cepMatrix&lt;T&gt; &amp; operator= (const cepMatrix &amp;B)&lt;/command&gt;
+ Sets A=B.
+ &lt;para&gt;&lt;itemizedlist&gt;
+ &lt;listitem&gt;&lt;para&gt;B:- the matrix that the current matrix object is to be set to&lt;/para&gt;&lt;/listitem&gt;
+ &lt;/itemizedlist&gt;&lt;/para&gt;
+ &lt;/para&gt;
+ 
+ &lt;para&gt; 
+ &lt;command&gt;bool operator== (const cepMatrix &amp;B)&lt;/command&gt;
+ Compares A to B and returns true if A is equal to B, otherwise false is returned.
+ This function can not be used with 3D matricies.
+ &lt;para&gt;&lt;itemizedlist&gt;
+ &lt;listitem&gt;&lt;para&gt;B:- the matrix to be compared to the current matrix object&lt;/para&gt;&lt;/listitem&gt;
+ &lt;/itemizedlist&gt;&lt;/para&gt;
+ &lt;/para&gt;
+ 
+ &lt;para&gt; 
+ &lt;command&gt;bool operator!= (const cepMatrix &amp;B)&lt;/command&gt;
+ Compares A to B and returns true if A is not equal B, otherwise false is returned.
+ This function can not be used with 3D matricies.
+ &lt;para&gt;&lt;itemizedlist&gt;
+ &lt;listitem&gt;&lt;para&gt;B:- the matrix to be compared to the current matrix object&lt;/para&gt;&lt;/listitem&gt;
+ &lt;/itemizedlist&gt;&lt;/para&gt;
+ 
+ &lt;/para&gt;
+ 
+ &lt;para&gt; 
+ &lt;command&gt;bool isDiagonal ()&lt;/command&gt;
+ Determies whether this matrix object is a strictly Diagonal matrix.
+ This fuction returns true if the matrix is diagonal, else false is returned.
+ This function can not be used with 3D matricies.
+ &lt;/para&gt;
+ 
+ &lt;para&gt; 
+ &lt;command&gt;const T&amp; getValue (int row, int col) const&lt;/command&gt;
+ Returns the value of the matrix the specified point.
+ This function can not be used with 3D matricies.
+ &lt;para&gt;&lt;itemizedlist&gt;
+ &lt;listitem&gt;&lt;para&gt;row:- the row number of the value&lt;/para&gt;&lt;/listitem&gt;
+ &lt;listitem&gt;&lt;para&gt;col:- the colum number of the value&lt;/para&gt;&lt;/listitem&gt;
+ &lt;/itemizedlist&gt;&lt;/para&gt;
+ &lt;/para&gt;
+ 
+ &lt;para&gt; 
+ &lt;command&gt;void setValue (const int row, const int col, const T &amp; value)&lt;/command&gt;
+ Sets the value of the matrix at the specified point
+ This function can not be used with 3D matricies.
+ &lt;para&gt;&lt;itemizedlist&gt;
+ &lt;listitem&gt;&lt;para&gt;row:- the row number where the value is to be inserted&lt;/para&gt;&lt;/listitem&gt;
+ &lt;listitem&gt;&lt;para&gt;col:- the colum number where the value is to be inserted&lt;/para&gt;&lt;/listitem&gt;
+ &lt;listitem&gt;&lt;para&gt;value:- the value of the given matrix point&lt;/para&gt;&lt;/listitem&gt;
+ &lt;/itemizedlist&gt;&lt;/para&gt;
+ 
+ &lt;/para&gt;
+ 
+ &lt;para&gt;
+ &lt;command&gt;const cepMatrix&lt;T&gt; &amp; resize(int newRows)&lt;/command&gt;
+ Returns the current matrix which is resized by newRows number of rows. This function
+ can only make the number of rows in the matrix larger.
+ &lt;para&gt;&lt;itemizedlist&gt;
+ &lt;listitem&gt;&lt;para&gt;newRow:- The new number of rows in the matrix&lt;/para&gt;&lt;/listitem&gt;
+ &lt;/itemizedlist&gt;&lt;/para&gt;
+ &lt;/para&gt;
+ 
+ &lt;para&gt; 
+ &lt;command&gt;const int getNumRows () const&lt;/command&gt;
+ Gets the number of rows in the matrix.
+ &lt;/para&gt;
+ 
+ &lt;para&gt; 
+ &lt;command&gt;const int getNumCols () const&lt;/command&gt;
+ Gets the number of colums in the matrix.
+ &lt;/para&gt;
+ 
+ &lt;para&gt; 
+ &lt;command&gt;const T&amp; getValue (int row, int col, int tab) const&lt;/command&gt;
+ Gets the value of a 3D matrix at a specfied point
+ This function can not be used with 2D matricies.
+ &lt;para&gt;&lt;itemizedlist&gt;
+ &lt;listitem&gt;&lt;para&gt;row:- the row number of the value&lt;/para&gt;&lt;/listitem&gt;
+ &lt;listitem&gt;&lt;para&gt;col:- the colum number of the value&lt;/para&gt;&lt;/listitem&gt;
+ &lt;listitem&gt;&lt;para&gt;tab:- the table number of the value&lt;/para&gt;&lt;/listitem&gt;
+ &lt;/itemizedlist&gt;&lt;/para&gt;
+ &lt;/para&gt;
+ 
+ &lt;para&gt; 
+ &lt;command&gt;void setValue (const int row, const int col, const int tab, const T &amp; value)&lt;/command&gt;
+ Sets the value of the 3D matrix at the specified point.
+ This function can not be used with 2D matricies.
+ &lt;para&gt;&lt;itemizedlist&gt;
+ &lt;listitem&gt;&lt;para&gt;row:- the row number where the value is to be inserted&lt;/para&gt;&lt;/listitem&gt;
+ &lt;listitem&gt;&lt;para&gt;col:- the colum number where the value is to be inserted&lt;/para&gt;&lt;/listitem&gt;
+ &lt;listitem&gt;&lt;para&gt;tab:- the table number where the value is to be inserted&lt;/para&gt;&lt;/listitem&gt;
+ &lt;listitem&gt;&lt;para&gt;value:- the value of the given matrix point&lt;/para&gt;&lt;/listitem&gt;
+ &lt;/itemizedlist&gt;&lt;/para&gt;
+ &lt;/para&gt;
+ 
+ &lt;para&gt; 
+ &lt;command&gt;const int getNumTables() const&lt;/command&gt;
+ Gets the number of tables in the matrix.
+ This function can not be used with 2D matricies.
+ 
+</para>
+</refsect1>
+
+
+<refsect1>
+    <title>VERSION</title>
+    <para>
+This documentation was generated for the <command>Geodetic Data Manipulation System</command> 0.1 by <command>autodocbook</command> (http://www.stillhq.com).
+    </para>
+</refsect1>
+
+<refsect1>
+    <title>AUTHOR</title>
+    <para>
+The <command>Geodetic Data Manipulation System</command> is under development by Michael Still (mikal@stillhq.com), Daniel Fernandez, Kristy Van Der Vlist, Blake Swadling, and Nick Wheatstone. All code is Copyright 2002 Michael Still, Daniel Fernandez, Kristy Van Der Vlist, Blake Swadling and Nick Wheatstone,  and is released under the GNU GPL. Code submissions are welcomed. Contact Michael at the address above if you have something you would like to contribute.
+</para>
+</refsect1>
+
+<refsect1>
+    <title>BUGS</title>
+    <para>
+There  are no known bugs in the <command>Geodetic Data Manipulation System</command>. If you find one, please contact mikal@stillhq.com and let me know.
+</para>
+</refsect1>
+</refentry>

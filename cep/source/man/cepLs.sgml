@@ -1,0 +1,111 @@
+<!-- 
+
+     This document is part of the Geodetic Data Manipulation System
+     distribution, and is covered by the GNU GPL, a copy of which is in the
+     file named COPYING inside the distribution.
+
+     This program and it's documentation are distributed in the hope that 
+     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
+     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+-->
+
+<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
+
+<refentry id="cepLs">
+<refmeta>
+<refentrytitle>cepLs</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>cepLs</refname>
+<refpurpose>Cacluates a Linear Least Squares transformation on a given dataset. It offers three</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ The follwing is an example of how to create a least squares object.
+ 
+ cepLs ls;
+ 
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para> An implementation of the &lt;command&gt;cepLs&lt;/command&gt; class
+ which calculates a Linear Least Squares transformation.
+ &lt;/para&gt;
+ 
+ &lt;para&gt;
+ &lt;command&gt;const cepLs &amp; cepDoVCV(cepMatrix&lt;double&gt; &amp;data, cepMatrix&lt;double&gt; &amp;matP)&lt;/command&gt;
+ Calculates one iteration of the VCV least squares algoritum.
+ &lt;para&gt;&lt;itemizedlist&gt;
+ &lt;listitem&gt;&lt;para&gt;data:- The data matrix&lt;/para&gt;&lt;/listitem&gt;
+ &lt;listitem&gt;&lt;para&gt;matP:- The given weighting matrix&lt;/para&gt;&lt;/listitem&gt;
+ &lt;/itemizedlist&gt;&lt;/para&gt;
+ &lt;/para&gt;
+ 
+ &lt;para&gt;
+ &lt;command&gt;const cepLs &amp; cepDoVCV(cepMatrix&lt;double&gt; &amp;data)&lt;/command&gt;
+ Caculates the VCV least squares algorithum, automatically re-weighting the
+ weighting matrix (P matrix) untill the residuals are stable.
+ &lt;para&gt;&lt;itemizedlist&gt;
+ &lt;listitem&gt;&lt;para&gt;data:- The data matrix&lt;/para&gt;&lt;/listitem&gt;
+ &lt;/itemizedlist&gt;&lt;/para&gt;
+ 
+ &lt;/para&gt;
+ 
+ &lt;para&gt;
+ &lt;command&gt;const cepLs &amp; cepDoRW(cepMatrix&lt;double&gt; &amp;matA, cepMatrix&lt;double&gt; &amp;matP)&lt;/command&gt;
+ Calculates one iteration of the Random Walk least squares algorithum
+ &lt;para&gt;&lt;itemizedlist&gt;
+ &lt;listitem&gt;&lt;para&gt;data:- The data matrix&lt;/para&gt;&lt;/listitem&gt;
+ &lt;listitem&gt;&lt;para&gt;matP:- The given weighting matrix&lt;/para&gt;&lt;/listitem&gt;
+ &lt;/itemizedlist&gt;&lt;/para&gt;
+ &lt;/para&gt;
+ 
+ &lt;para&gt;
+ &lt;command&gt;const cepMatrix&lt;double&gt; &amp;getResidual()&lt;/command&gt;
+ Returns a cepMatrix which is the residuals for this caluclation.
+ &lt;/para&gt;
+ 
+ &lt;para&gt;
+ &lt;command&gt;double getB1()&lt;/command&gt;
+ Returns the value B1 in the least squares solution y=B1*x +B2.
+ &lt;/para&gt;
+ 
+ &lt;para&gt;
+ &lt;command&gt;double getB2()&lt;/command&gt;
+ Returns the value B2 in the solution y=B1*x +B2
+ 
+ SEEALSOcepDataset
+ SEEALSOcepMatrix
+ 
+</para>
+</refsect1>
+
+
+<refsect1>
+    <title>VERSION</title>
+    <para>
+This documentation was generated for the <command>Geodetic Data Manipulation System</command> 0.1 by <command>autodocbook</command> (http://www.stillhq.com).
+    </para>
+</refsect1>
+
+<refsect1>
+    <title>AUTHOR</title>
+    <para>
+The <command>Geodetic Data Manipulation System</command> is under development by Michael Still (mikal@stillhq.com), Daniel Fernandez, Kristy Van Der Vlist, Blake Swadling, and Nick Wheatstone. All code is Copyright 2002 Michael Still, Daniel Fernandez, Kristy Van Der Vlist, Blake Swadling and Nick Wheatstone,  and is released under the GNU GPL. Code submissions are welcomed. Contact Michael at the address above if you have something you would like to contribute.
+</para>
+</refsect1>
+
+<refsect1>
+    <title>BUGS</title>
+    <para>
+There  are no known bugs in the <command>Geodetic Data Manipulation System</command>. If you find one, please contact mikal@stillhq.com and let me know.
+</para>
+</refsect1>
+</refentry>

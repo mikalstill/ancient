@@ -12,49 +12,80 @@
 
 <!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
 
-<refentry id="cepTmpClean">
+<refentry id="cepLsUi">
 <refmeta>
-<refentrytitle>cepTmpClean</refentrytitle>
+<refentrytitle>cepLsUi</refentrytitle>
 <manvolnum>3</manvolnum>
 </refmeta>
 
 <refnamediv>
-<refname>cepTmpClean</refname>
-<refpurpose>cleanup temporary files created by &lt;command&gt;GDMS&lt;/command&gt;</refpurpose>
+<refname>cepLsUi</refname>
+<refpurpose>Displays the Least Squares user interface</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv>
 <synopsis>
- #include "cepTmpClean.h"
+ The follwing is an example of how to create this object.
  
- cepTmpClean::cepTmpClean(string path, string pattern);
- cepError cepTmpClean::execute(int&amp; deleted, bool doDelete);
+ cepLsUi lsui;
+ 
 
 </synopsis>
 </refsynopsisdiv>
 
 <refsect1>
 <title>DESCRIPTION</title>
-<para> &lt;command&gt;GDMS&lt;/command&gt; creates temporary files for the various graphs that it draws. Normally these temporary files are stored in /tmp. Over only a few graph executions, it is possible to have a fairly large number of temporary files, which might cause the filesystem which /tmp is stored on to run out of disc space.&lt;/para&gt;
- 
- &lt;para&gt;
- This class automates the removal of these old files, and is called whenever the interactive version of &lt;command&gt;GDMS&lt;/command&gt; starts up.
+<para> 
+ An implementation of the &lt;command&gt;cepLsUi&lt;/command&gt; class
+ which displays all dialog boxes associated with the Least Squares GUI.
  &lt;/para&gt;
  
  &lt;para&gt;
- This class is extremely easy to use. Please refer to the example below for more details.
-</para>
-</refsect1>
-
-<refsect1>
-<title>EXAMPLE</title>
-<programlisting>
- #include "cepTmpClean.h";
+ &lt;command&gt;void showIsReweight()&lt;/command&gt;
+ Shows the re-weighting dialog box.
+ &lt;/para&gt;
  
- cepTmpClean cleaner("/tmp", "cep*");
- int deleted;
- cleaner.execute(deleted, true);
-</programlisting>
+ &lt;para&gt;
+ &lt;command&gt;void showWhichDir()&lt;/command&gt;
+ Shows the choose direction dialog box.
+ &lt;/para&gt;
+ 
+ &lt;para&gt;
+ &lt;command&gt;void showIsReadP(string dir)&lt;/command&gt;
+ Shows the read from file dialog box.
+ &lt;/para&gt;
+ 
+ &lt;para&gt;
+ &lt;command&gt;void showGetfNameP()&lt;/command&gt;
+ Shows the choose file dialog box.
+ &lt;/para&gt;
+ 
+ &lt;para&gt;
+ &lt;command&gt;int getIsReweight()&lt;/command&gt;
+ Get the value returned from the dialog box. Returns 1 for yes, 0 for no or -1
+ for cancel.
+ &lt;/para&gt;
+ 
+ &lt;para&gt;
+ &lt;command&gt;bool getWhichDir(char dir)&lt;/command&gt;
+ Returns true if the given direction is selected, otherwise false is returned.
+ &lt;para&gt;&lt;itemizedlist&gt;
+ &lt;listitem&gt;&lt;para&gt;dir:-The data direction. Must be one of x, y or z&lt;/para&gt;&lt;/listitem&gt;
+ &lt;/itemizedlist&gt;&lt;/para&gt;
+ &lt;/para&gt;
+ 
+ &lt;para&gt;
+ &lt;command&gt;int getIsReadP()&lt;/command&gt;
+ Get the value returned from the dialog box. Returns 1 for yes, 0 for no or -1
+ for cancel.
+ &lt;/para&gt;
+ 
+ &lt;para&gt;
+ &lt;command&gt;string getfNameP()&lt;/command&gt;
+ Returns the full path of the file selected for opening. If getFilename() returns
+ "" the user has canceled this operation.
+ 
+</para>
 </refsect1>
 
 
