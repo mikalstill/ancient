@@ -9,7 +9,7 @@
         break;
 
       case 0:
-        sleep(5);
+        sleep(2);
         system("killall -9 ui");
         exit(0);
         break;

@@ -453,7 +453,7 @@ void cpt_mb_MACK_GPS_a_no_e_yes_x_yes_y_no_z_no_c (){runUI("mb_MACK_GPS -a no -e
         break;
 
       case 0:
-        sleep(5);
+        sleep(2);
         system("killall -9 ui");
         exit(0);
         break;

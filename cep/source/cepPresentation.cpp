@@ -235,7 +235,8 @@ cepPresentation::createBitmap ()
   plot_endline(graph);
 
   // In the zoomed view, there might not be an x axis...
-  if((m_currentView == viewCentered) && (ymaxval > 0) && (yminval < 0)){
+  if((m_currentView == viewCentered) || 
+     ((m_currentView == viewZoomed) && (ymaxval > 0) && (yminval < 0))){
     plot_setlinestart(graph, 10, (unsigned int) 
 		      ((yrange - 0 + yminval) / yscale + 10));
     plot_addlinesegment(graph, m_width - 10, (unsigned int) 
@@ -243,6 +244,7 @@ cepPresentation::createBitmap ()
     plot_strokeline(graph);
     plot_endline(graph);
   }
+  else cepDebugPrint("Skipping x axis");
 
   // Now draw the actual graph
   plot_setlinecolor(graph, m_lineColor.red, m_lineColor.green,

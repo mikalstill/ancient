@@ -453,7 +453,7 @@ void cpt_mb_BUND_GPS_a_yes_e_no_x_yes_y_no_z_no_c (){runUI("mb_BUND_GPS -a yes -
         break;
 
       case 0:
-        sleep(5);
+        sleep(2);
         system("killall -9 ui");
         exit(0);
         break;
