@@ -76,7 +76,7 @@ sub processTemplate(){
 
 	    # todo: there must be a better way of doing this...
 	    $_ = $line;
-	    if(/(.*)%([^%]*)%(.*)/){
+	    if(/(.*)&{([^%]*)};(.*)/){
 		$pre = $1;
 		$cmd = $2;
 		$post = $3;

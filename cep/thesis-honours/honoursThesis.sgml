@@ -56,7 +56,42 @@ The GDMS Internet interface follows the recommendations of the most recent HTML 
 This appendix documents the various tags which are implemented by the GDMS Internet interface in addition to the standard HTML tags normally available. All of these tags are within the scripting namespace provided by HTML 4.01 (Raggett, Le Hors, &amp; Jacobs 1999).
 </para>
 
-<execute><cmd>insertall</cmd><args>builddb . cmd-*.sgml</args></execute>
+<sect2><title>commands</title>
+<para>
+This tag will display a menu of the commands available in the current context -- for example, when the Internet interface first starts, it will list the open command. Commands which are not available, but are normally available will appear in a disabled style. This results in a list of commands which is consistent, and therefore reduces the potential for user confusion.
+</para>
+
+<para>
+An example use is as follows:
+</para>
+
+<programlisting>
+&{commands};
+</programlisting>
+
+<para>
+The display of the command menu is altered by the following configuration file entries:
+</para>
+
+<itemizedlist>
+<listitem><para><emphasis>commandentry</emphasis>: this HTML snippet is used for enabled commands</para></listitem>
+<listitem><para><emphasis>discommandentry</emphasis>: this HTML snippet is used for disabled commands</para></listitem>
+</itemizedlist>
+
+<para>
+For example, these configuration entries ship by default with the GDMS Internet interface:
+</para>
+
+<programlisting>
+# This line is simple HTML used for format the command entries,
+# %s is the name of the command (including link HTML)
+$commandentry = "&lt;tr&gt;&lt;td bgcolor=\"AAAAAA\"&gt;%s&lt;/td&gt;&lt;tr&gt;";
+
+# This line is used for commands which aren't available...
+$discommandentry = "&lt;tr&gt;&lt;td bgcolor=\"EEEEEE\"&gt;
+  &lt;font color=\"777777\"&gt;%s&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;";
+</programlisting>
+</sect2>
 </sect1>
 </chapter>
 
