@@ -24,8 +24,11 @@ sub process(){
     my($filename, $hashref) = @_;
     local(*INPUT);
 
+    print STDERR "Processing $filename\n";
     open INPUT, "< $filename";
     while(<INPUT>){
+	chomp;
+
 	if(/^[ \t]*\#/){
 	    # ...comment...
 	}
@@ -212,19 +215,30 @@ sub depthIndent(){
 
 sub addstatement(){
     my($hash_ref, $string) = @_;
-    my(@cols, @conditions, $newstring);
-
-    print "Adding $string\n";
+    my(@cols, @conditions, $newstring, $re1, $re2, $re3);
 
     # Break the line into it's columns
     @cols = split(/\t/, $string);
     @conditions = split(/;/, @cols[1]);
 
     if($conditions[0] eq ""){
-	$hash_ref->{"END"} = "$string!".$hashref->{"END"};
-	print "TERMINAL: ".$hash_ref->{"END"}."\n\n\n\n";
+	$newstring = $hash_ref->{"END"};
+	$hash_ref->{"END"} = "$newstring!$string";
     }
     else{
+	print STDERR "Processing condition \"$conditions[0]\"\n";
+	if($conditions[0] =~ /([^!= \t]*)[ \t]*([!=]+)[ \t]*(.*)/){
+	    print STDERR "[$1][$2][$3]\n";
+	    $re1 = $1;
+	    $re2 = $2;
+	    $re3 = $3;
+
+	    if($re1 =~ /\$CONFIG_(.*)/){
+		print STDERR "Condition based on $1\n";
+	    }
+	}
+
+
 	splice(@conditions, 0, 1);
 	$newstring = "$cols[0]\t".join(/;/, @conditions)."\t$cols[2]\t$cols[3]\t$cols[4]";
 	$hash_ref->{$conditions[0]} = addstatement($hash_ref->{$conditions[0]}, $newstring);
@@ -239,16 +253,23 @@ sub dumphash()
     my($key, $count);
 
     foreach $key (keys %$hash_ref){
-        for($count = 0; $count < $indent; $count++){
-            print " ";
-        }
-
-	print "[$key]\n";
-        if($key ne "END"){
-            dumphash($hash_ref->{$key}, $indent + 1);
-        }
+	for($count = 0; $count < $indent; $count++){
+	}
+	
+	if($key ne "END"){
+	    # todo: These if's fix a bug in the tree which causes and empty key... I can't find it
+	    if($key ne ""){
+		print "<table border=1 width=\"100%\"><tr><td bgcolor=\"0000FF\">$key";
+		print "&nbsp;</td></tr><tr><td>";
+	    }
+	    dumphash($hash_ref->{$key}, $indent + 1);
+	    if($key ne ""){
+		print "</td></tr></table><BR><BR>";
+	    }
+	}
 	else{
-	    print $hash_ref->{$key}."\n";
+	    $hash_ref->{$key} =~ s/!/<BR>\n/g;
+	    print $hash_ref->{$key};
 	}
     }
 }

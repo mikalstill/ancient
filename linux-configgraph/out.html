@@ -1,0 +1,156 @@
+<table border=1 width="100%"><tr><td bgcolor="0000FF">$CONFIG_MCYRIXIII = y&nbsp;</td></tr><tr><td><BR>
+define_int		CONFIG_X86_L1_CACHE_SHIFT	5	<BR>
+define_bool		CONFIG_X86_TSC	y	<BR>
+define_bool		CONFIG_X86_ALIGNMENT_16	y	<BR>
+define_bool		CONFIG_X86_USE_3DNOW	y	<BR>
+define_bool		CONFIG_X86_USE_PPRO_CHECKSUM	y	</td></tr></table><BR><BR><BR>
+bool		CONFIG_MODVERSIONS	y,n	Set version information on all module symbols<BR>
+bool		CONFIG_KMOD	y,n	Kernel module loader<BR>
+bool		CONFIG_X86_MCE	y,n	Machine Check Exception<BR>
+tristate		CONFIG_TOSHIBA	y,n,m	Toshiba Laptop support<BR>
+tristate		CONFIG_I8K	y,n,m	Dell laptop support<BR>
+tristate		CONFIG_MICROCODE	y,n,m	/dev/cpu/microcode - Intel IA32 CPU microcode support<BR>
+tristate		CONFIG_X86_MSR	y,n,m	/dev/cpu/*/msr - Model-specific register support<BR>
+tristate		CONFIG_X86_CPUID	y,n,m	/dev/cpu/*/cpuid - CPU information support<BR>
+bool		CONFIG_MATH_EMULATION	y,n	Math emulation<BR>
+bool		CONFIG_MTRR	y,n	MTRR (Memory Type Range Register) support<BR>
+bool		CONFIG_SMP	y,n	Symmetric multi-processing support<BR>
+bool		CONFIG_NET	y,n	Networking support<BR>
+bool		CONFIG_EISA	y,n	EISA support<BR>
+bool		CONFIG_HOTPLUG	y,n	Support for hot-pluggable devices<BR>
+bool		CONFIG_SYSVIPC	y,n	System V IPC<BR>
+bool		CONFIG_BSD_PROCESS_ACCT	y,n	BSD Process Accounting<BR>
+bool		CONFIG_SYSCTL	y,n	Sysctl support<BR>
+tristate		CONFIG_BINFMT_AOUT	y,n,m	Kernel support for a.out binaries<BR>
+tristate		CONFIG_BINFMT_ELF	y,n,m	Kernel support for ELF binaries<BR>
+tristate		CONFIG_BINFMT_MISC	y,n,m	Kernel support for MISC binaries<BR>
+bool		CONFIG_PM	y,n	Power Management support<BR>
+tristate		CONFIG_IDE	y,n,m	ATA/IDE/MFM/RLL support<BR>
+tristate		CONFIG_SCSI	y,n,m	SCSI support<BR>
+bool		CONFIG_CD_NO_IDESCSI	y,n	Support non-SCSI/IDE/ATAPI CDROM drives<BR>
+tristate		CONFIG_SOUND	y,n,m	Sound card support<BR>
+bool		CONFIG_DEBUG_KERNEL	y,n	Kernel debugging<table border=1 width="100%"><tr><td bgcolor="0000FF">$CONFIG_VT = y&nbsp;</td></tr><tr><td><BR>
+bool		CONFIG_VGA_CONSOLE	y,n	VGA text console<BR>
+bool		CONFIG_VIDEO_SELECT	y,n	Video mode selection support<BR>
+tristate		CONFIG_MDA_CONSOLE	y,n,m	MDA text console (dual-headed) (EXPERIMENTAL)</td></tr></table><BR><BR><table border=1 width="100%"><tr><td bgcolor="0000FF">$CONFIG_VISWS != y&nbsp;</td></tr><tr><td><BR>
+bool		CONFIG_MCA	y,n	MCA support</td></tr></table><BR><BR><table border=1 width="100%"><tr><td bgcolor="0000FF">$CONFIG_MK7 = y&nbsp;</td></tr><tr><td><BR>
+define_int		CONFIG_X86_L1_CACHE_SHIFT	6	<BR>
+define_bool		CONFIG_X86_TSC	y	<BR>
+define_bool		CONFIG_X86_GOOD_APIC	y	<BR>
+define_bool		CONFIG_X86_USE_3DNOW	y	<BR>
+define_bool		CONFIG_X86_PGE	y	<BR>
+define_bool		CONFIG_X86_USE_PPRO_CHECKSUM	y	</td></tr></table><BR><BR><table border=1 width="100%"><tr><td bgcolor="0000FF">$CONFIG_MPENTIUM4 = y&nbsp;</td></tr><tr><td><BR>
+define_int		CONFIG_X86_L1_CACHE_SHIFT	7	<BR>
+define_bool		CONFIG_X86_TSC	y	<BR>
+define_bool		CONFIG_X86_GOOD_APIC	y	<BR>
+define_bool		CONFIG_X86_PGE	y	<BR>
+define_bool		CONFIG_X86_USE_PPRO_CHECKSUM	y	</td></tr></table><BR><BR><table border=1 width="100%"><tr><td bgcolor="0000FF">$CONFIG_SMP != y&nbsp;</td></tr><tr><td><BR>
+bool		CONFIG_X86_UP_APIC	y,n	Local APIC support on uniprocessors<BR>
+define_bool		CONFIG_X86_LOCAL_APIC	y	<BR>
+define_bool		CONFIG_X86_IO_APIC	y	</td></tr></table><BR><BR><table border=1 width="100%"><tr><td bgcolor="0000FF">$CONFIG_M586 = y&nbsp;</td></tr><tr><td><BR>
+define_int		CONFIG_X86_L1_CACHE_SHIFT	5	<BR>
+define_bool		CONFIG_X86_USE_STRING_486	y	<BR>
+define_bool		CONFIG_X86_ALIGNMENT_16	y	<BR>
+define_bool		CONFIG_X86_PPRO_FENCE	y	</td></tr></table><BR><BR><table border=1 width="100%"><tr><td bgcolor="0000FF">$CONFIG_MELAN = y&nbsp;</td></tr><tr><td><BR>
+define_int		CONFIG_X86_L1_CACHE_SHIFT	4	<BR>
+define_bool		CONFIG_X86_USE_STRING_486	y	<BR>
+define_bool		CONFIG_X86_ALIGNMENT_16	y	</td></tr></table><BR><BR><table border=1 width="100%"><tr><td bgcolor="0000FF">$CONFIG_VISWS = y&nbsp;</td></tr><tr><td><BR>
+define_bool		CONFIG_X86_VISWS_APIC	y	<BR>
+define_bool		CONFIG_X86_LOCAL_APIC	y	<BR>
+define_bool		CONFIG_PCI	y	</td></tr></table><BR><BR><table border=1 width="100%"><tr><td bgcolor="0000FF">$CONFIG_M586MMX = y&nbsp;</td></tr><tr><td><BR>
+define_int		CONFIG_X86_L1_CACHE_SHIFT	5	<BR>
+define_bool		CONFIG_X86_USE_STRING_486	y	<BR>
+define_bool		CONFIG_X86_ALIGNMENT_16	y	<BR>
+define_bool		CONFIG_X86_TSC	y	<BR>
+define_bool		CONFIG_X86_GOOD_APIC	y	<BR>
+define_bool		CONFIG_X86_PPRO_FENCE	y	</td></tr></table><BR><BR><table border=1 width="100%"><tr><td bgcolor="0000FF">$CONFIG_DEBUG_KERNEL != n&nbsp;</td></tr><tr><td><BR>
+bool		CONFIG_DEBUG_HIGHMEM	y,n	Debug high memory support<BR>
+bool		CONFIG_DEBUG_SLAB	y,n	Debug memory allocations<BR>
+bool		CONFIG_DEBUG_IOVIRT	y,n	Memory mapped I/O debugging<BR>
+bool		CONFIG_MAGIC_SYSRQ	y,n	Magic SysRq key<BR>
+bool		CONFIG_DEBUG_SPINLOCK	y,n	Spinlock debugging<BR>
+bool		CONFIG_FRAME_POINTER	y,n	Compile the kernel with frame pointers</td></tr></table><BR><BR><table border=1 width="100%"><tr><td bgcolor="0000FF">$CONFIG_APM != n&nbsp;</td></tr><tr><td><BR>
+bool		CONFIG_APM_IGNORE_USER_SUSPEND	y,n	Ignore USER SUSPEND<BR>
+bool		CONFIG_APM_DO_ENABLE	y,n	Enable PM at boot time<BR>
+bool		CONFIG_APM_CPU_IDLE	y,n	Make CPU Idle calls when idle<BR>
+bool		CONFIG_APM_DISPLAY_BLANK	y,n	Enable console blanking using APM<BR>
+bool		CONFIG_APM_RTC_IS_GMT	y,n	RTC stores time in GMT<BR>
+bool		CONFIG_APM_ALLOW_INTS	y,n	Allow interrupts during APM BIOS calls<BR>
+bool		CONFIG_APM_REAL_MODE_POWER_OFF	y,n	Use real mode APM BIOS call to power off</td></tr></table><BR><BR><table border=1 width="100%"><tr><td bgcolor="0000FF">$CONFIG_HIGHMEM64G = y&nbsp;</td></tr><tr><td><BR>
+define_bool		CONFIG_HIGHMEM	y	<BR>
+define_bool		CONFIG_X86_PAE	y	</td></tr></table><BR><BR><table border=1 width="100%"><tr><td bgcolor="0000FF">$CONFIG_M686 = y&nbsp;</td></tr><tr><td><BR>
+define_int		CONFIG_X86_L1_CACHE_SHIFT	5	<BR>
+define_bool		CONFIG_X86_TSC	y	<BR>
+define_bool		CONFIG_X86_GOOD_APIC	y	<BR>
+define_bool		CONFIG_X86_PGE	y	<BR>
+define_bool		CONFIG_X86_USE_PPRO_CHECKSUM	y	<BR>
+define_bool		CONFIG_X86_PPRO_FENCE	y	</td></tr></table><BR><BR><table border=1 width="100%"><tr><td bgcolor="0000FF">$CONFIG_SMP" = "y" -a "$CONFIG_X86_CMPXCHG = y&nbsp;</td></tr><tr><td><BR>
+define_bool		CONFIG_HAVE_DEC_LOCK	y	</td></tr></table><BR><BR><table border=1 width="100%"><tr><td bgcolor="0000FF">else&nbsp;</td></tr><tr><td><BR>
+define_bool		CONFIG_X86_WP_WORKS_OK	y	<BR>
+define_bool		CONFIG_X86_INVLPG	y	<BR>
+define_bool		CONFIG_X86_CMPXCHG	y	<BR>
+define_bool		CONFIG_X86_XADD	y	<BR>
+define_bool		CONFIG_X86_BSWAP	y	<BR>
+define_bool		CONFIG_X86_POPAD_OK	y	<BR>
+define_bool		CONFIG_RWSEM_GENERIC_SPINLOCK	n	<BR>
+define_bool		CONFIG_RWSEM_XCHGADD_ALGORITHM	y	<BR>
+bool		CONFIG_MULTIQUAD	y,n	Multiquad NUMA system<BR>
+define_bool		CONFIG_X86_IO_APIC	y	<BR>
+define_bool		CONFIG_X86_LOCAL_APIC	y	<BR>
+bool		CONFIG_PCI	y,n	PCI support<BR>
+define_bool		CONFIG_PCI_BIOS	y	<BR>
+define_bool		CONFIG_PCI_DIRECT	y	<BR>
+define_bool		CONFIG_MCA	n	<BR>
+define_bool		CONFIG_PCMCIA	n	<BR>
+define_bool		CONFIG_HOTPLUG_PCI	n	<BR>
+define_bool		CONFIG_BLK_DEV_IDE_MODES	n	<BR>
+define_bool		CONFIG_BLK_DEV_HD	n	</td></tr></table><BR><BR><table border=1 width="100%"><tr><td bgcolor="0000FF">$CONFIG_MCRUSOE = y&nbsp;</td></tr><tr><td><BR>
+define_int		CONFIG_X86_L1_CACHE_SHIFT	5	<BR>
+define_bool		CONFIG_X86_TSC	y	</td></tr></table><BR><BR><table border=1 width="100%"><tr><td bgcolor="0000FF">$CONFIG_NET != n&nbsp;</td></tr><tr><td><BR>
+tristate		CONFIG_ISDN	y,n,m	ISDN support</td></tr></table><BR><BR><BR>
+define_bool		CONFIG_X86	y<BR>
+define_bool		CONFIG_ISA	y<BR>
+define_bool		CONFIG_SBUS	n<BR>
+define_bool		CONFIG_UID16	y<BR>
+bool		CONFIG_EXPERIMENTAL	y,n	Prompt for development and/or incomplete code/drivers<BR>
+bool		CONFIG_MODULES	y,n	Enable loadable module support<table border=1 width="100%"><tr><td bgcolor="0000FF">$CONFIG_M586TSC = y&nbsp;</td></tr><tr><td><BR>
+define_int		CONFIG_X86_L1_CACHE_SHIFT	5	<BR>
+define_bool		CONFIG_X86_USE_STRING_486	y	<BR>
+define_bool		CONFIG_X86_ALIGNMENT_16	y	<BR>
+define_bool		CONFIG_X86_TSC	y	<BR>
+define_bool		CONFIG_X86_PPRO_FENCE	y	</td></tr></table><BR><BR><table border=1 width="100%"><tr><td bgcolor="0000FF">$CONFIG_NET = y&nbsp;</td></tr><tr><td><BR>
+bool		CONFIG_NETDEVICES	y,n	Network device support</td></tr></table><BR><BR><table border=1 width="100%"><tr><td bgcolor="0000FF">$CONFIG_MWINCHIP2 = y&nbsp;</td></tr><tr><td><BR>
+define_int		CONFIG_X86_L1_CACHE_SHIFT	5	<BR>
+define_bool		CONFIG_X86_ALIGNMENT_16	y	<BR>
+define_bool		CONFIG_X86_TSC	y	<BR>
+define_bool		CONFIG_X86_USE_PPRO_CHECKSUM	y	<BR>
+define_bool		CONFIG_X86_OOSTORE	y	</td></tr></table><BR><BR><table border=1 width="100%"><tr><td bgcolor="0000FF">$CONFIG_MWINCHIPC6 = y&nbsp;</td></tr><tr><td><BR>
+define_int		CONFIG_X86_L1_CACHE_SHIFT	5	<BR>
+define_bool		CONFIG_X86_ALIGNMENT_16	y	<BR>
+define_bool		CONFIG_X86_USE_PPRO_CHECKSUM	y	<BR>
+define_bool		CONFIG_X86_OOSTORE	y	</td></tr></table><BR><BR><table border=1 width="100%"><tr><td bgcolor="0000FF">$CONFIG_M386 = y&nbsp;</td></tr><tr><td><BR>
+define_bool		CONFIG_X86_CMPXCHG	n	<BR>
+define_bool		CONFIG_X86_XADD	n	<BR>
+define_int		CONFIG_X86_L1_CACHE_SHIFT	4	<BR>
+define_bool		CONFIG_RWSEM_GENERIC_SPINLOCK	y	<BR>
+define_bool		CONFIG_RWSEM_XCHGADD_ALGORITHM	n	<BR>
+define_bool		CONFIG_X86_PPRO_FENCE	y	</td></tr></table><BR><BR><table border=1 width="100%"><tr><td bgcolor="0000FF">$CONFIG_MPENTIUMIII = y&nbsp;</td></tr><tr><td><BR>
+define_int		CONFIG_X86_L1_CACHE_SHIFT	5	<BR>
+define_bool		CONFIG_X86_TSC	y	<BR>
+define_bool		CONFIG_X86_GOOD_APIC	y	<BR>
+define_bool		CONFIG_X86_PGE	y	<BR>
+define_bool		CONFIG_X86_USE_PPRO_CHECKSUM	y	</td></tr></table><BR><BR><table border=1 width="100%"><tr><td bgcolor="0000FF">$CONFIG_HIGHMEM4G = y&nbsp;</td></tr><tr><td><BR>
+define_bool		CONFIG_HIGHMEM	y	</td></tr></table><BR><BR><table border=1 width="100%"><tr><td bgcolor="0000FF">$CONFIG_MWINCHIP3D = y&nbsp;</td></tr><tr><td><BR>
+define_int		CONFIG_X86_L1_CACHE_SHIFT	5	<BR>
+define_bool		CONFIG_X86_ALIGNMENT_16	y	<BR>
+define_bool		CONFIG_X86_TSC	y	<BR>
+define_bool		CONFIG_X86_USE_PPRO_CHECKSUM	y	<BR>
+define_bool		CONFIG_X86_OOSTORE	y	</td></tr></table><BR><BR><table border=1 width="100%"><tr><td bgcolor="0000FF">$CONFIG_MK6 = y&nbsp;</td></tr><tr><td><BR>
+define_int		CONFIG_X86_L1_CACHE_SHIFT	5	<BR>
+define_bool		CONFIG_X86_ALIGNMENT_16	y	<BR>
+define_bool		CONFIG_X86_TSC	y	<BR>
+define_bool		CONFIG_X86_USE_PPRO_CHECKSUM	y	</td></tr></table><BR><BR><table border=1 width="100%"><tr><td bgcolor="0000FF">$CONFIG_M486 = y&nbsp;</td></tr><tr><td><BR>
+define_int		CONFIG_X86_L1_CACHE_SHIFT	4	<BR>
+define_bool		CONFIG_X86_USE_STRING_486	y	<BR>
+define_bool		CONFIG_X86_ALIGNMENT_16	y	<BR>
+define_bool		CONFIG_X86_PPRO_FENCE	y	</td></tr></table><BR><BR>
