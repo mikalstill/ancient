@@ -18,7 +18,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-#define LINEWIDTH 140
+#define LINEWIDTH 165
 
 int side_min (int, int);
 
