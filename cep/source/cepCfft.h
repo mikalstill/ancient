@@ -247,6 +247,8 @@ template < class CPLX > cepMatrix<ComplexDble>
   const int FIRSTCOLUMN = 0;
   //const int FIRSTROW = 0;
   const int NUMCHECKS = 3;
+  const double DAYSINYEAR = 365.25; 
+  const double HOURSINYEAR = 8766; //365.25*24 - days*hours
   const double SECSINYEAR = 31557600; //365.25*24*3600 - days*hours*minutes(in seconds)
   double checks[NUMCHECKS];
 
@@ -258,10 +260,12 @@ template < class CPLX > cepMatrix<ComplexDble>
     //   << "cepCfft: matrix has " << numRows << " rows; "
     //   << numCols << " cols; " << numTables
     //   << " tables." << endl;
-  //cout << "cepCfft: Calculating frequency scale.." << endl;
+  ;
   //char junk;
   if (dir == 1)
   {
+    cout << "cepCfft: Calculating frequency scale......" << endl;
+    cout << "cepCfft: Currently using SECSINYEAR......." << endl;
     for (table=0; table < numTables; table++)
     {
       //size of dataset = numRows
@@ -270,11 +274,12 @@ template < class CPLX > cepMatrix<ComplexDble>
                                -real(matrix.getValue(1,0,0))) )*SECSINYEAR;
       double freq = 1/sampleRate;
     
+
       //cout << "cepCfft: Setting fft matrix scale values ..." << endl;
       //cout << "cepCfft: todo Daniel - something wrong with scaling!!!???" << endl;
       for(row=0; row< halfSetSize; row++)
       {
-    	ffteedMatrix.setValue(row,FIRSTCOLUMN,table, (freq*row)/numRows);
+    	ffteedMatrix.setValue(row,FIRSTCOLUMN,table, (freq*(halfSetSize-row))/numRows);
 	//cout << ffteedMatrix.getValue(row,FIRSTCOLUMN, table) << endl;
       }
     }

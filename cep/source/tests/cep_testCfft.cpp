@@ -101,7 +101,7 @@ namespace
       cosIndex = 0;
 
       //populate myMatrix with cos values
-      cout << endl << "Test: Testing COS ************************" << endl;
+      cout << endl << "Test: Testing COS ........" << endl;
       for (int col = 1; col < numCols; col++)
 	{
 	  for (int row = 0; row < numRows; row++)
@@ -136,7 +136,7 @@ namespace
 	}
       //cout << "finished COS read **************************" << endl;
       infile.close ();
-      cout << "Forward FFT results for COS..." << endl;
+      //cout << "Forward FFT results for COS..." << endl;
       double realResult = 0;
       double imagResult = 0;
       for (int t = 0; t < numTables; t++)
