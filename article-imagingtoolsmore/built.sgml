@@ -59,7 +59,7 @@ Fill in or leave blank for production to fill in.-->
 <sect1><title>Curving corners</title>
 <para>If you have a look at MacOS X, and many websites, the pictures have quite nice curved corners. How do you achieve this effect with ImageMagick? Well, we're going to have to show some enginuity in producing this effect by using the <command>composite</command> command.</para>
 
-<para>Before we get there though, let's talk about the strategy we're going to emply. If you think about it, an image with curved corners can be made by taking some standard pre-made corners, and superimposing them over the original image. There's no real need for the corners to be curved even -- we could have angled corners, or something much more fancy.</para>
+<para>Before we get there though, let's talk about the strategy we're going to employ. If you think about it, an image with curved corners can be made by taking some standard pre-made corners, and superimposing them over the original image. There's no real need for the corners to be curved even -- we could have angled corners, or something much more fancy.</para>
 
 <para>So, the first step is to make some corners. Below is a corner I whipped up in the GIMP. I wont show you all four, as the others are just this one rotated by differing multiples of 90 degrees.</para>
 
@@ -91,7 +91,7 @@ Fill in or leave blank for production to fill in.-->
 composite -gravity NorthEast rounded-ne.png lake.png lake-1.png
 </programlisting>
 
-<para>Here, the gravity arguement defines where on the image to put the superimposed image -- in our case the rounded corner. This particular command gives us the following image:</para>
+<para>Here, the gravity argument defines where on the image to put the superimposed image -- in our case the rounded corner. This particular command gives us the following image:</para>
 
 
 <execute><cmd>img</cmd><args>lake-1.png</args></execute>
@@ -99,7 +99,7 @@ composite -gravity NorthEast rounded-ne.png lake.png lake-1.png
 
 <sidebar>
 <title>Gravity</title>
-<para>The gravity arguement specifies where on the background image the superimposed image is placed. The possible gravities, and their effects are:</para> 
+<para>The gravity argument specifies where on the background image the superimposed image is placed. The possible gravities, and their effects are:</para> 
 
 
 <execute><cmd>img</cmd><args>gravity2.png</args></execute>
@@ -136,9 +136,9 @@ composite -gravity SouthWest rounded-sw.png lake-3.png lake-4.png
 
 <sect2><title>A raised or lowered border</title>
 
-<para>The first type of frame I will show you is a raised or lowered border. This effect works by tweaking the colors at the edge of an image to give the impression that it is either raised above the surrounding surface, or pushed below it. For the effect, you need to specify a size, with the horizontal size first, and then the vertical size. These sizes must obey the rule that twice the size specified must be less than or equal to the dimention of the image in that direction. For example, you can't specify a frame size verically that is more than half the vertical size of the image.</para>
+<para>The first type of frame I will show you is a raised or lowered border. This effect works by tweaking the colors at the edge of an image to give the impression that it is either raised above the surrounding surface, or pushed below it. For the effect, you need to specify a size, with the horizontal size first, and then the vertical size. These sizes must obey the rule that twice the size specified must be less than or equal to the dimension of the image in that direction. For example, you can't specify a frame size vertically that is more than half the vertical size of the image.</para>
 
-<para>To create a raised border, use the <emphasis>-raise</emphasis> command line arguement. For example, to create a 5 pixel by 5 pixel border, we execute:</para>
+<para>To create a raised border, use the <emphasis>-raise</emphasis> command line argument. For example, to create a 5 pixel by 5 pixel border, we execute:</para>
 
 
 <programlisting>
@@ -151,7 +151,7 @@ convert -raise 5x5 tree.png tree-raised.png
 <execute><cmd>img</cmd><args>tree-raised.png</args></execute>
 
 
-<para>To create a lowered border, just use the <emphasis>+raise</emphasis> command line arguement instead. For example:</para>
+<para>To create a lowered border, just use the <emphasis>+raise</emphasis> command line argument instead. For example:</para>
 
 
 <programlisting>
@@ -210,7 +210,7 @@ convert -list color
 </sect2>
 <sect2><title>Building a more complicated frame</title>
 
-<para>Next let's build a slightly more complicated frame, using the <emphasis>-frame</emphasis> command line arguement. First we'll add a simple frame which is identical (except for the color) to the border we built in the previous example.</para>
+<para>Next let's build a slightly more complicated frame, using the <emphasis>-frame</emphasis> command line argument. First we'll add a simple frame which is identical (except for the color) to the border we built in the previous example.</para>
 
 
 <programlisting>
@@ -249,7 +249,7 @@ convert -mattecolor black -frame 5x5+2+2 beach.png beach-frame3.png
 <execute><cmd>img</cmd><args>beach-frame3.png</args></execute>
 
 
-<para>If you're looking at ways to make nice frames for your images, then I recommend that you spend a few moments playing with the arguements to the <emphasis>-frame</emphasis> command. For example, here's some interesting frames for a picture of a rock at King's Canyon, in Australia.</para>
+<para>If you're looking at ways to make nice frames for your images, then I recommend that you spend a few moments playing with the arguments to the <emphasis>-frame</emphasis> command. For example, here's some interesting frames for a picture of a rock at King's Canyon, in Australia.</para>
 
 
 <programlisting>
@@ -340,9 +340,9 @@ mogrify -format png -sample 25%x25% *.jpg
 </sect1>
 <sect1><title>PDF handling</title>
 
-<para>So far all of the examples we've discussed, both in this artile and the previous one, have discussed simple conversions where each image stands alone. ImageMagick can also do interesting conversions to more than one image at once which are worth mentioning.</para>
+<para>So far all of the examples we've discussed, both in this article and the previous one, have discussed simple conversions where each image stands alone. ImageMagick can also do interesting conversions to more than one image at once which are worth mentioning.</para>
 
-<para>The most common example is ImageMagick's PDF handling. Let's imagine a scenario where you are sent a PDF which is a series of images (one per page). ImageMagick will extract those images for you into separate files. FOr example, here's a screenshot of a PDF document containing some pictures of my recent trip to linux.conf.au, which rocked by the way:</para>
+<para>The most common example is ImageMagick's PDF handling. Let's imagine a scenario where you are sent a PDF which is a series of images (one per page). ImageMagick will extract those images for you into separate files. For example, here's a screen shot of a PDF document containing some pictures of my recent trip to linux.conf.au, which rocked by the way:</para>
 
 
 <execute><cmd>img</cmd><args>foo-pdf-smaller.png</args></execute>
@@ -367,7 +367,7 @@ pages.png.0  pages.png.1  pages.png.2  pages.png.3  pages.png.4
 mikal@deathstar:~/foo$ 
 </programlisting>
 
-<para>Because the command created more than one PNG file, a unique number has been appended to the filename to make them unique. This wont work so well if you then try to use code or scripts which make assumptions about the filetype based on the extension of the file.</para>
+<para>Because the command created more than one PNG file, a unique number has been appended to the filename to make them unique. This wont work so well if you then try to use code or scripts which make assumptions about the file type based on the extension of the file.</para>
 
 <para><command>convert</command> of course allows us to specify the filename a little better. The command above really should have looked like:</para>
 
@@ -423,6 +423,26 @@ convert dsc* foo.pdf
 <para>There are 45 other file formats which can store more than one image when used with ImageMagick, the others are: AVS, BMP, CAPTION, DCX, DIB, FAX, GIF, GRAY, HDF, ICB, JBG, JBIG, M2V, MAT, MATTE, MIFF, MNG, MPEG, MPG, MTV, P7, PBM, PDF, PGM, PNM, PPM, PS, PS2, PS3, RAS, RGB, RGBA, SGI, SUN, SVG, TEXT, TGA, TIF, TIFF, TXT, VDA, VID, VIFF, VST, and XV.</para>
 
 <para>All of these are handled in the same way that the PDF example described. Some of these are also really interesting. It's very convenient to be able to extract the pages of a postscript file as images (think about having thumbnails of your published papers on your website for instance), or being able to get to all of the pages of that multiple page fax you just received as a TIFF image.</para>
+
+<para>You can even extract frames from your MPEG movies, although that deserves more discussion than I have space for in this article.</para>
+
+
+
+
+
+
+
+
+
+</sect1>
+<sect1><title>Conclusion</title>
+
+<para>In this article we've expanded on some of the interesting techniques discussed in my previous article about ImageMagick, including how to round the corners of your images (especially the thumbnails we discussed last time), add a variety of nice frames to your images, process many images at once. We finished up with how to extract images from multi page formats, and how to build new multi page documents.</para>
+
+<para>If you're looking for more information, then I encourage you to checkout the ImageMagick website in the references section of this article. Also, if you have any questions feel free to email me. If I don't have the time to personally answer you're email, or if a question is common, then perhaps it will end up getting answered in a subsequent article.</para>
+
+<para>Many thanks to all those people who asked the sensible questions which became this article. I also thank you with your patience at how long I took to answer them.</para>
+
 
 
 
