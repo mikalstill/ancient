@@ -1,3 +1,13 @@
+
+Mikal:
+- remove dependancy on wxWindows for the command line version
+
+- check that the output formatting is still ok
+
+- the the automake package version in the code instead of hard coding everything...
+
+
+
 - introduce hexdump option (-x) to dump register values in addition to decoding.
 
 - Identify Transmeta CPUs.

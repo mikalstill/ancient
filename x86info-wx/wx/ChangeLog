@@ -2,7 +2,8 @@
 
 	* implemented automake. This involved renaming the various identify.c's and bluesmoke.c's to unique names.
 	* tweaked the way that data is displayed to make it easier for the GUI to hook in
-	* wxWindows based GUI
+	* wxWindows based GUI implemented
+	* Note that these changes might have broken some of the output formatting, and it is hard to check without my relevant hardware. My apologies for inconvenience caused.
 
 2002-11-11  Dave Jones <davej@codemonkey.org.uk>
 

@@ -8,6 +8,11 @@
 #define __u32 int
 #endif /* linux */
 
+#ifdef __cplusplus
+     extern "C"
+     {
+#endif
+
 typedef __u32 u32;
 
 #define VENDOR_AMD	1
@@ -66,6 +71,8 @@ struct cpudata {
 #define CONN_SOCKET_754	23
 #define CONN_SOCKET_478	24
 
+int x86info(int argc, char **argv);
+
 void cpuid (int, int, unsigned long *, unsigned long *, unsigned long *, unsigned long *);
 void cpuid_UP (int, unsigned long *, unsigned long *, unsigned long *, unsigned long *);
 
@@ -122,6 +129,10 @@ extern int user_is_root;
 
 #define X86_FEATURE_MTRR	1<<12
 
+// The type used as the message passing callback
+typedef void (*emitFunct) (int, char *);
+void setEmit(emitFunct e);
+
 // Message levels which can be passed on to callers
 enum
   {
@@ -133,75 +144,77 @@ enum
     msg_author,
     msg_usage,
 
-    msg_nocpuid,
-    msg_needroot,
-    msg_numcpu,
-    msg_mptable,
-    msg_badcpucount,
     msg_begincpu,
-    msg_smpup,
+    msg_busmult,
+    msg_busunit,
     msg_cpuconn,
+    msg_cpuinfo,
+    msg_cpuname,
+    msg_cpuspeed,
+    msg_datacache,
+    msg_dataprefetch,
+    msg_datatlb,
+    msg_dcparity,
+    msg_dumpregs,
+    msg_eccerror,
+    msg_eccparity,
+    msg_ecctlberror,
+    msg_ewbemode,
+    msg_extl2parity,
     msg_feature,
     msg_featureamd,
     msg_featurecentaur,
-    msg_featuretransmeta,
     msg_featurecyrix,
     msg_featureintel,
-    msg_cpuname,
-    msg_vendor,
-    msg_dumpregs,
-    msg_url,
-    msg_notsc,
-    msg_cpuspeed,
-    msg_standalone,
-    msg_msr,
-    msg_mtrr,
-    msg_reportingbanks,
-    msg_waenable,
-    msg_wambytes,
-    msg_ewbemode,
-    msg_syscallextn,
-    msg_dataprefetch,
-    msg_datacache,
-    msg_eccerror,
-    msg_dcparity,
-    msg_tlbparity,
+    msg_featuretransmeta,
     msg_icparity,
-    msg_precodeparity,
-    msg_targselparity,
-    msg_readerr,
-    msg_busunit,
-    msg_extl2parity,
-    msg_lsunit,
+    msg_instcache,
+    msg_instparity,
     msg_insttlb,
-    msg_datatlb,
+    msg_insttracecache,
+    msg_l1cache,
     msg_l1datacache,
     msg_l1instcache,
-    msg_instcache,
-    msg_eccparity,
-    msg_l1cache,
     msg_l2cache,
     msg_l2cacheerrata,
-    msg_cpuinfo,
-    msg_powernow,
-    msg_tlb,
+    msg_l2eccprobe,
+    msg_l2err,
+    msg_l2k7dealloc,
+    msg_l2tlberror,
+    msg_l3cache,
     msg_longhaul,
-    msg_busmult,
-    msg_reportingbanks,
+    msg_lsunit,
     msg_mcreg,
+    msg_mptable,
+    msg_msr,
+    msg_msrbank,
+    msg_mtrr,
+    msg_notsc,
+    msg_numcpu,
+    msg_powernow,
+    msg_precodeparity,
+    msg_readerr,
+    msg_reportingbanks,
+    msg_smpup,
+    msg_softvid,
+    msg_standalone,
+    msg_syscallextn,
+    msg_sysdatareaderr,
+    msg_targselparity,
+    msg_tlb,
     msg_tlbl1parity,
     msg_tlbl2parity,
-    msg_msrbank,
-    msg_l2err,
-    msg_ecctlberror,
-    msg_l2tlberror,
-    msg_l2k7dealloc,
-    msg_l2eccprobe,
-    msg_sysdatareaderr,
-    msg_l2cache,
-    msg_l3cache,
-    msg_insttracecache
+    msg_tlbparity,
+    msg_url,
+    msg_vendor,
+    msg_waenable,
+    msg_wambytes,
   };
 void output(int level, char *format, ...);
+
+#ifdef __cplusplus
+     }
+#endif
+
 
 #endif /* _X86INFO_H */

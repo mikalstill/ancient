@@ -1,5 +1,5 @@
 /*
- *  $Id: x86info.c,v 1.2 2003-04-13 21:11:55 root Exp $
+ *  $Id: x86info.c,v 1.3 2003-04-16 12:09:04 root Exp $
  *  This file is part of x86info.
  *  (C) 2001 Dave Jones.
  *
@@ -28,7 +28,6 @@
 
 #include "x86info.h"
 
-typedef void (*emitFunct) (int, char *);
 emitFunct emit = NULL;
 char *accumString = NULL;
 
@@ -162,8 +161,8 @@ int x86info (int argc, char **argv)
 	}
 
 	if ((HaveCPUID())==0) {
-		output (msg_nocpuid, "No CPUID instruction available.");
-		output (msg_nocpuid, "No further information available for this CPU.");
+		output (msg_warning, "No CPUID instruction available.");
+		output (msg_warning, "No further information available for this CPU.");
 		return(0);
 	}
 
@@ -171,7 +170,7 @@ int x86info (int argc, char **argv)
 		user_is_root=0;
 
 	if (need_root && !user_is_root)
-		output (msg_needroot, "Need to be root to use specified options.");
+		output (msg_warning, "Need to be root to use specified options.");
 
 #if defined __WIN32__
 	{
@@ -208,7 +207,8 @@ int x86info (int argc, char **argv)
 	 * 65535 (some arbitrary large number)
 	 */
 	if ((nrCPUs < 1) || (nrCPUs > 65535)) {
-		output (msg_badcpucount, "CPU count is bogus: defaulting to 1 CPU.");
+		output (msg_warning, 
+			"CPU count is bogus: defaulting to 1 CPU.");
 		nrCPUs = 1;
 	}
 
@@ -220,6 +220,8 @@ int x86info (int argc, char **argv)
 
 		if (!silent && nrCPUs!=1)
 			output (msg_begincpu, "CPU #%u", i+1);
+		else
+		  output (msg_begincpu, "");
 
 		identify (&cpu);
 		show_info (&cpu);
@@ -265,12 +267,13 @@ void output(int level, char *format, ...)
 	if(accumString != NULL)
 	  alen = strlen(accumString);
 
-	if((accumString = realloc(accumString, alen + strlen(ostr) + 1)) == NULL){
+	if((accumString = realloc(accumString, alen + strlen(ostr) + 1)) 
+	   == NULL){
 	  printf("Memory allocation error\n");
 	  exit(1);
 	}
 	
-	strcpy(accumString + strlen(accumString), ostr);
+	strcpy(accumString + alen, ostr);
 	return;
       }
 
@@ -278,14 +281,18 @@ void output(int level, char *format, ...)
     }
 
   // Now decide how to output the string
-  if(emit != NULL)
-    emit(level, out);
+  if(emit != NULL){
+    if(level != msg_format)
+      emit(level, out);
+  }
+  else if(strcmp(ostr, "") == 0)
+    return;
   else if(level == msg_error)
-    fprintf(stderr, "<ERR>%s</ERR>\n", out);
+    fprintf(stderr, "%sn", out);
   else if(level != msg_format)
-    printf("<%d>%s</%d>\n", level, out, level);
+    printf("%s\n", out);
   else
-    printf("<FMT>%s</FMT>", out);
+    printf("%s", out);
 
   if(strcmp(format, "") == 0){
     free(accumString);
@@ -294,7 +301,8 @@ void output(int level, char *format, ...)
 }
 
 /* Setup emit as required */
-void setEmit()
+void setEmit(emitFunct e)
 {
-  callback = 1; 
+  callback = 1;
+  emit = e;
 }

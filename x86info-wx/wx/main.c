@@ -1,5 +1,5 @@
 /*
- *  $Id: main.c,v 1.1 2003-04-13 21:11:55 root Exp $
+ *  $Id: main.c,v 1.2 2003-04-16 12:09:04 root Exp $
  *  This file is part of x86info.
  *  (C) 2001 Dave Jones.
  *
@@ -9,9 +9,9 @@
  *
  */
 
-#include <stdarg.h>
+#include "x86info.h"
 
-int main(int argc, char *argv)
+int main(int argc, char *argv[])
 {
   return x86info(argc, argv);
 }
