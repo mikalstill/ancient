@@ -191,7 +191,8 @@
     <para>
       Select the Maths menu, select Fast Fourier Transform or PSD plot. Note, before successfully carrying out
       operations in the frequency domain, the data must be interpolated. The Failure to do so will
-      result in an error message from the <command>GDMS</command>.
+      result in an error message from the <command>GDMS</command>. The error message gives the first three dates
+      int the dataset that caused the failure.
     </para>
   </sect2> <!-- FDA -->
 
