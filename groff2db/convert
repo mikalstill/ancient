@@ -13,7 +13,7 @@ my($chapters, $chapter, $chaptercount);
 
 $chapters = "introduction.mm concepts.mm evolution.mm quickinstall.mm shareinstall.mm install.mm xsetup.mm postinstall.mm ports.mm problems.mm xtheory.mm unixref.mm starting.mm filesys.mm disks.mm tapes.mm printers.mm desktop.mm building.mm current.mm emulate.mm netintro.mm netsetup.mm isp.mm modems.mm ppp.mm slip.mm dns.mm firewall.mm netdebug.mm nfs.mm netbasics.mm email.mm www.mm fax.mm micronet.mm mobile.mm";
 
-$chaptercount++;
+$chaptercount;
 
 open OUTPUT, "> output.sgml";
 
@@ -28,7 +28,6 @@ print OUTPUT "<book><title>Missing title</title>";
 foreach $chapter (split(/ /, $chapters)){
     $chaptercount++;
     print "Processing chapter $chapter ($chaptercount)\n";
-    print OUTPUT "<chapter><title>$chapter</title><para>\n";
     open INPUT, "< $chapter";
 
     $liststate = 0;
@@ -56,23 +55,29 @@ foreach $chapter (split(/ /, $chapters)){
 	if($italicstate == 1){
 	    s/\\fP[^ \t,.]*/<\/emphasis>/g;
 	}
-	
+
 	# Prompts
 	s/\\fC([^ \t,.]*)/<command>$1<\/command>/g;
 
 	# Ampersands
 	s/&/&amp;/g;
-	
-	print "$liststate$parastate$footnotestate$sectionstate -- ";
-	
+
+	##############################################################
 	# Comments
 	if(/^\.\\\"(.*)/i){
-	    print "Comment: $1 {No mapping to docbook?}\n";
+	}
+
+	# Aside start
+	elsif(/^\.Aside(.*)/i){
+	    print OUTPUT "<sidebar><para>\n";
+	}
+
+	elsif(/^\.End-aside(.*)/i){
+	    print OUTPUT "</para></sidebar>\n";
 	}
 	
 	# Display start
 	elsif(/^\.DS(.*)/i){
-	    print "Display start: [Arg $1] {CONVERTED}\n";
 	    endpara($parastate, $OUTPUT);
 	    print OUTPUT "<screen><para>\n";
 	    $displaystate = 1;
@@ -81,7 +86,6 @@ foreach $chapter (split(/ /, $chapters)){
 	
 	# Display end
 	elsif(/^\.DE(.*)/i){
-	    print "Display end: [Arg $1] {CONVERTED}\n";
 	    endpara($parastate, $OUTPUT);	    
 	    if($displaystate == 1){
 		print OUTPUT "</screen><para>\n";
@@ -92,7 +96,6 @@ foreach $chapter (split(/ /, $chapters)){
 	
 	# Footnote start
 	elsif(/^\.FS[ \t]*(.*)/i){
-	    print "Footnote start: [Arg $1] {CONVERTED}\n";
 	    print OUTPUT "<footnote><para>\n";
 	    $parastate = 1;
 	    $footnotestate = 1;
@@ -100,9 +103,8 @@ foreach $chapter (split(/ /, $chapters)){
 	
 	# Footnote end
 	elsif(/^\.FE[ \t]*(.*)/i){
-	    print "Footnote end: [Arg $1] {CONVERTED}\n";
 	    if($footnotestate == 0){
-		print stderr "Footnote end for a non-open footnote!\n";
+		print OUTPUT "LOG: Footnote end for a non-open footnote!\n";
 	    }
 	    
 	    endpara($parastate, $OUTPUT);
@@ -113,7 +115,6 @@ foreach $chapter (split(/ /, $chapters)){
 	
 	# Headings
 	elsif(/^\.H([0-7])[ \t]*(.*)/i){
-	    print "Heading: [Level $1, Args $2] {CONVERTED}\n";
 	    endpara($parastate, $OUTPUT);
 	    
 	    if($sectionstate == 1){
@@ -131,7 +132,6 @@ foreach $chapter (split(/ /, $chapters)){
 	
 	# Headings (Unsupported)
 	elsif(/^\.H([8-9])[ \t]*(.*)/i){
-	    print "Unsupported heading: [Level $1, Args $2] {CONVERTED}\n";
 	    endpara($parastate, $OUTPUT);
 	    $parastate = 0;
 	    print OUTPUT "<section><title>Title???</title>\n";
@@ -139,19 +139,17 @@ foreach $chapter (split(/ /, $chapters)){
 	}
 	
 	# List start
-	elsif(/^\.LS(.*)/i){
-	    print "List item: [Arg $1] {CONVERTED}\n";
+	elsif((/^\.LS(.*)/i) || (/^\.LB(.*)/i)){
 	    endpara($parastate, $OUTPUT);
 	    $parastate = 0;
 	    print OUTPUT "<itemizedlist>\n";
-	    $liststate = 1;
+	    $liststate++;
 	}
 	
 	# List item
 	elsif(/^\.LI(.*)/i){
-	    print "List item: [Arg $1] {CONVERTED}\n";
 	    if($liststate == 0){
-		print stderr "List item for a non-open list!\n";
+		print OUTPUT "LOG: List item for a non-open list!\n";
 	    }
 	    
 	    endpara($parastate, $OUTPUT);
@@ -167,9 +165,8 @@ foreach $chapter (split(/ /, $chapters)){
 	
 	# List end
 	elsif(/^\.LE(.*)/i){
-	    print "List item: [Arg $1] {CONVERTED}\n";
 	    if($liststate == 0){
-		print stderr "List end for a non-open list!\n";
+		print OUTPUT "LOG: List end for a non-open list!\n";
 	    }
 	    
 	    endpara($parastate, $OUTPUT);
@@ -179,9 +176,15 @@ foreach $chapter (split(/ /, $chapters)){
 		print OUTPUT "</listitem>\n";
 	    }
 	    
+	    $liststate--;
 	    print OUTPUT "</itemizedlist>\n";
-	    $liststate = 0;
+	    print OUTPUT "DEBUG LOG: listlevel = $liststate\n";
 	    $listitemstate = 0;
+	    $parastate = 1;
+
+	    if($liststate < 0){
+		print OUTPUT "LOG: Negative list state entered\n";
+	    }
 	}
 	
 	# Unknown tag!
@@ -191,7 +194,6 @@ foreach $chapter (split(/ /, $chapters)){
 	
 	# Paragraphs
 	elsif(/^\.P[ \t]*([0-9]*)(.*)/i){
-	    print "Paragraph: [Arg $1, Extra $2] {CONVERTED}\n";
 	    endpara($parastate, $OUTPUT);
 	    print OUTPUT "<para>\n";
 	    $parastate = 1;
@@ -204,22 +206,34 @@ foreach $chapter (split(/ /, $chapters)){
 	
 	# Table start
 	elsif(/^\.TS[ \t]*(.*)/i){
-	    print "Table start: [Arg $1]\n";
+	    print OUTPUT "Table start: [Arg $1]\n";
 	}
 	
 	# Table end
 	elsif(/^\.TE/i){
-	    print "Table end\n";
+	    print OUTPUT "Table end\n";
+	}
+
+	# 
+	elsif(/^\.Chapter[ \t]([^ \t]*)[ \t]\"(.*)\"/){
+	    print OUTPUT "<chapter><title>$2</title>\n";
+	    print OUTPUT "<section><title></title>\n";
+	    print OUTPUT "<para>\n";
+	    $parastate = 1;
+	    $sectionstate = 1;
+	    }
+
+	elsif(/^\.X[ \t]\"([^ \"]*)[\"]*/i){
+	    print OUTPUT "<indexentry><primaryie>$1</primaryie></indexentry>\n";
 	}
 	
 	# We don't know anything about this command at all
 	elsif(/^\.(.*)/i){
-	    print stderr "DEFAULT COMMAND FOUND: $1\n";
+	    print OUTPUT "LOG: DEFAULT COMMAND FOUND: $1\n";
 	}
 	
 	# A document line?
 	else{
-	    print "Content line\n";
 	    print OUTPUT "\t\t$_";
 	}
     }
@@ -228,15 +242,15 @@ foreach $chapter (split(/ /, $chapters)){
     $parastate = 0;
     
     if($liststate == 1){
-	print stderr "Not closed list at end of document!\n";
+	print OUTPUT "LOG: Not closed list at end of document!\n";
     }
     
     if($footnotestate == 1){
-	print stderr "Not closed footnote at end of document!\n";
+	print OUTPUT "LOG: Not closed footnote at end of document!\n";
     }
     
     if($sectionstate == 1){
-	print stderr "Not closed section at end of document (closed)!\n";
+	print OUTPUT "LOG: Not closed section at end of document (closed)!\n";
 	print OUTPUT "</section>";
     }
     
