@@ -1,1 +1,2 @@
-
+20020719	Michael Still (mikal@stillhq.com)
+		Removed the silly .sh and .pl extensions which required that you remember the language a script was written in...

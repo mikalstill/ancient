@@ -1,0 +1,32 @@
+#!/bin/bash
+
+#convert -sample 367x475 $1 /tmp/$$.eps
+convert -sample 428x554 $1 /tmp/$$.eps
+
+if [ -e /tmp/$$.eps ]
+then
+  mv /tmp/$$.eps $1.eps
+
+  echo "<figure>"
+  echo "<title>$2</title>"
+  echo "<graphic format=\"EPS\" fileref=\"$1.eps\">"
+  echo "</figure>"
+  echo ""
+  
+  exit
+fi
+
+for item in `ls /tmp/$$.eps.*`
+do
+  mv $item $1.`echo $item | sed 's/.*eps.//'`.eps
+  
+  pageno=`echo $item | sed 's/.*eps.//'`
+  pageno=$(( $pageno + 1 ))
+  newfile=$1.`echo $item | sed 's/.*eps.//'`.eps
+
+  echo "<figure>"
+  echo "<title>$2 page $pageno</title>"
+  echo "<graphic format=\"EPS\" fileref=\"$newfile\">"
+  echo "</figure>"
+  echo ""
+done

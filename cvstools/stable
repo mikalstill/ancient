@@ -1,0 +1,11 @@
+#!/bin/bash
+
+for item in `ls | grep -v COPYING`
+do
+  if [ -e $item/STABLE ]
+  then
+    echo "$item is stable"
+  else
+    echo "$item is unstable"
+  fi
+done
