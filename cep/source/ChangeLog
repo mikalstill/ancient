@@ -36,3 +36,6 @@
 
 20020609 Michael Still (mikal@stillhq.com)
 	Code to show that I can draw bitmaps onto the dataset frame
+
+20020614 Blake Swadling (blake@swadling.org)
+	Reworked the build procedure. removed spurious files from cvs
