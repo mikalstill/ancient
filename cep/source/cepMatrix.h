@@ -158,9 +158,14 @@ This function can not be used with 3D matricies.
 
 </para>
 
-************FIX**************
-  //resizes the matrix to be newRows number of rows
-  const cepMatrix<T> & resize(int newRows);
+<para>
+<command>const cepMatrix<T> & resize(int newRows)</command>
+Returns the current matrix which is resized by newRows number of rows. This function
+can only make the number of rows in the matrix larger.
+<para><itemizedlist>
+  <listitem><para>newRow:- The new number of rows in the matrix</para></listitem>
+</itemizedlist></para>
+</para>
 
 <para> 
 <command>const int getNumRows () const</command>
@@ -262,7 +267,8 @@ public:
   bool isDiagonal ();
 
   //****************Resize fuction **************************
-  //resizes the matrix to newRows number of rows
+  //Returns the current matrix which is resized by newRows number of rows. This
+  //function can only make the number of rows in the matrix larger.
   const cepMatrix<T> & resize(int newRows);
   
   // ***************get/set methods**************************
@@ -816,6 +822,7 @@ const cepMatrix<T>& cepMatrix<T>::resize(int newRows)
     cepError("Error! Can not make a matrix smaller", cepError::sevErrorRecoverable).display();
   
   }
+  delete [] tempMatrix;
   return *this;
 }
 

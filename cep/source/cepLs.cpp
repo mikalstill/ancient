@@ -55,13 +55,41 @@ const cepLs & cepLs::cepDoVCV(cepMatrix<double> &data)
    
   sanityCheck(matA, matP);
 
-  calcVCV(matA, matP, matL);
+  cout << "dimsions data " << data.getNumRows() << " " << data.getNumCols() << endl;
+  cout << "dimsions A " << matA.getNumRows() << " " << matA.getNumCols() << endl;
+  cout << "dimsions P " << matP.getNumRows() << " " << matP.getNumCols() << endl;
+  cout << "dimsions L " << matL.getNumRows() << " " << matL.getNumCols() << endl;
   
+  calcVCV(matA, matP, matL);
+
+  int i = 0;
   while(m_residual != lastResid)
   {
+    i++;
+
+    cout << endl << "iteration num " << i << endl;
+
+    cout << "mean: " << getB1() << "Y intercept: " << getB2() << endl;
+    cout << "residuals:" << endl;
+    for(int i = 0; i < m_residual.getNumRows(); i ++){
+      cout << m_residual.getValue(i,0) << " ";
+    }
+    cout << endl;
+    
     lastResid = m_residual;
     matP = reweightVCV();
+
+/*    cout << "reweight: " << endl;
+    for(int i = 0; i < matP.getNumRows(); i ++){
+      for(int j = 0; j < matP.getNumCols(); j ++){
+        cout << matP.getValue(i,j) << " ";
+      }
+      cout << endl;
+    }
+*/               
     calcVCV(matA, matP, matL);
+//    char blah;
+//    cin >> blah;
   }
   return *this;
 }
@@ -209,7 +237,7 @@ void cepLs::calcRW(cepMatrix<double> &matA, cepMatrix<double> &matP, cepMatrix<d
 
 const cepMatrix<double> cepLs::reweightVCV()
 {
-  cepMatrix<double> tempResidual (5,1), newP(m_residual.getNumRows(), m_residual.getNumRows());
+  cepMatrix<double> tempResidual, newP(m_residual.getNumRows(), m_residual.getNumRows());
   int numSwap = -1, median;
   double temp, per25, per75, upperQ, lowerQ;
   tempResidual = m_residual;
@@ -280,6 +308,7 @@ const cepMatrix<double> cepLs::reweightVCV()
       {
         if((m_residual.getValue(i,0) < per25) || (m_residual.getValue(i,0) > per75))
         {
+          cout << "found outlier at: " << i << endl;
           newP.setValue(i, j, 0);
         }
         else
