@@ -37,11 +37,14 @@
  *     void tearDown( void ) { ... }
  *
  * @author <your name here>
- * @version $Revision: 1.18 $ $Date: 2002-10-27 03:21:08 $
+ * @version $Revision: 1.19 $ $Date: 2002-11-03 02:52:05 $
  *
  * Revision History
  *
  * $Log: not supported by cvs2svn $
+ * Revision 1.18  2002/10/27 03:21:08  u983118
+ * added tests for get min and get max fuctions
+ *
  * Revision 1.17  2002/10/22 06:16:51  u983118
  * modified tests for new cepMatrix stuff
  *
@@ -277,7 +280,8 @@ public:
 
    suiteOfTests->addTest(
       new CppUnit::TestCaller<Test>( "testResizeSmaller", &Test::testResizeSmaller ) );
-   
+
+  
     return suiteOfTests;
   }
 
@@ -298,14 +302,17 @@ protected:
     for( int i=0; i<rows; i++ ) {
       for( int j=0; j<cols; j++ ) {
         actual.setValue( i, j, blah );
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, actual.getError().isReal());
       }
     }
     
     expected = actual;
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, expected.getError().isReal());
     
     for( int i=0; i<rows; i++ ) {
       for( int j=0; j<cols; j++ ) {
         CPPUNIT_ASSERT_EQUAL_MESSAGE( "value not equal", expected.getValue( i, j ), actual.getValue(i,j));
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, actual.getError().isReal());
       }
     }
   }
@@ -317,24 +324,28 @@ protected:
     double expected = 3.0;
     
     cepMatrix<double> A( rows, cols ), B( rows, cols );
-    
+   
     for( int i=0; i<rows; i++ ) {
       for( int j=0; j<cols; j++ ) {
         A.setValue( i, j, 1 );
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
       }
     }
     
     for( int i=0; i<rows; i++ ) {
       for( int j=0; j<cols; j++ ) {
         B.setValue( i, j, 2 );
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, B.getError().isReal());
       }
     }
     
     A += B;
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
     
     for( int i=0; i<rows; i++ ) {
       for( int j=0; j<cols; j++ ) {
         CPPUNIT_ASSERT_EQUAL_MESSAGE( "value not equal", expected, A.getValue( i, j ));
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
       }
     }
   }
@@ -350,20 +361,24 @@ protected:
     for( int i=0; i<rows; i++ ) {
       for( int j=0; j<cols; j++ ) {
         A.setValue( i, j, 10 );
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
       }
     }
     
     for( int i=0; i<rows; i++ ) {
       for( int j=0; j<cols; j++ ) {
         B.setValue( i, j, 7 );
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, B.getError().isReal());
       }
     }
     
     A -= B;
-    
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
+
     for( int i=0; i<rows; i++ ) {
       for( int j=0; j<cols; j++ ) {
         CPPUNIT_ASSERT_EQUAL_MESSAGE( "value not equal", expected, A.getValue( i, j ));
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
       }
     }
   }
@@ -380,23 +395,27 @@ protected:
     for( int i=0; i<aRows; i++ ) {
       for( int j=0; j<aCols; j++ ) {
         A.setValue( i, j, 1.4 );
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
       }
     }
     
     for( int i=0; i<bRows; i++ ) {
       for( int j=0; j<bCols; j++ ) {
         B.setValue( i, j, 20.1 );
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, B.getError().isReal());
       }
     }
     
     A *= B;
-    
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
+
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong row size", 3, A.getNumRows());
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong col size", 2, A.getNumCols());
     
     for( int i=0; i<A.getNumRows(); i++ ) {
       for( int j=0; j<A.getNumCols(); j++ ) {
         CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", expected, A.getValue( i, j ));
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
       }
     }    
   }
@@ -412,12 +431,14 @@ protected:
     for( int i=0; i<rows; i++ ) {
       for( int j=0; j<cols; j++ ) {
         A.setValue( i, j, 5.234 );
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
       }
     }
     
     
     A *= s;
-    
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
+
     for( int i=0; i<rows; i++ ) {
       for( int j=0; j<cols; j++ ) {
         CPPUNIT_ASSERT_EQUAL_MESSAGE( "value not equal", expected, A.getValue( i, j ));
@@ -435,18 +456,21 @@ protected:
     for( int i=0; i<rows; i++ ) {
       for( int j=0; j<cols; j++ ) {
         A.setValue( i, j, 1 );
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
       }
     }
     
     for( int i=0; i<rows; i++ ) {
       for( int j=0; j<cols; j++ ) {
         B.setValue( i, j, 1 );
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, B.getError().isReal());
       }
     }
     
     CPPUNIT_ASSERT_MESSAGE( "A should be equal to B",A==B );
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
     CPPUNIT_ASSERT_MESSAGE( "A should be equal to B",!(A!=B));
-    
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal()); 
   }
  
   /** Tests == operator  returns false*/ 
@@ -459,17 +483,21 @@ protected:
     for( int i=0; i<rows; i++ ) {
       for( int j=0; j<cols; j++ ) {
         A.setValue( i, j, 1 );
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
       }
     }
     
     for( int i=0; i<rows; i++ ) {
       for( int j=0; j<cols; j++ ) {
         B.setValue( i, j, 2 );
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, B.getError().isReal());
       }
     }
     
     CPPUNIT_ASSERT_MESSAGE( "A should not be equal to B", !(A==B));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
     CPPUNIT_ASSERT_MESSAGE( "A should not be equal to B", A!=B);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
 
   }
   
@@ -480,18 +508,28 @@ protected:
     cepMatrix<double> A( rows, cols );
     
     A.setValue(0,0,1);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
     A.setValue(0,1,0);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
     A.setValue(0,2,0);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
     
     A.setValue(1,0,0);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
     A.setValue(1,1,1);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
     A.setValue(1,2,0);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
     
     A.setValue(2,0,0);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
     A.setValue(2,1,0);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
     A.setValue(2,2,1);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
     
     CPPUNIT_ASSERT_MESSAGE( "A should be Diagonal", A.isDiagonal());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal()); 
 
   }
 
@@ -514,7 +552,7 @@ protected:
     A.setValue(2,2,1);
     
     CPPUNIT_ASSERT_MESSAGE( "A should not be diagonal", !(A.isDiagonal()));
-
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
   } 
   
   /** Tests transpose() function */
@@ -524,26 +562,39 @@ protected:
     cepMatrix<double> A( rows, cols );
     
     A.setValue(0,0,1);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
     A.setValue(0,1,2);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
     
     A.setValue(1,0,3);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
     A.setValue(1,1,4);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
     
     A.setValue(2,0,5);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
     A.setValue(2,1,6);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
     
     A.transpose();
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
     
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong row size", cols, A.getNumRows());
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong col size", rows, A.getNumCols());
     
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1.0, A.getValue(0,0));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 3.0, A.getValue(0,1));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 5.0, A.getValue(0,2));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
     
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 2.0, A.getValue(1,0));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 4.0, A.getValue(1,1));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 6.0, A.getValue(1,2));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
   } 
 
   void testMax()
@@ -553,26 +604,44 @@ protected:
     //define the data matrix
     //taken from the mb_PMAC_GPS.dat1
     data.setValue(0,0,2000.1589);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
     data.setValue(1,0,2000.1626);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
     data.setValue(2,0,2000.1653);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
     data.setValue(3,0,2000.1680);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
     data.setValue(4,0,2000.1708);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
     
     data.setValue(0,1,-1.6239);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
     data.setValue(1,1,-1.6259);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
     data.setValue(2,1,-1.6255);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
     data.setValue(3,1,-1.6234);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
     data.setValue(4,1,-1.6242);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
     
     data.setValue(0,2,0.0012);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
     data.setValue(1,2,0.0014);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
     data.setValue(2,2,0.0015);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
     data.setValue(3,2,0.0015);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
     data.setValue(4,2,0.0015);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
     
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 2000.1708, data.getMaxValue(0));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", -1.6234, data.getMaxValue(1));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0015, data.getMaxValue(2));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
   }
   
   void testMin()
@@ -582,26 +651,44 @@ protected:
     //define the data matrix
     //taken from the mb_PMAC_GPS.dat1
     data.setValue(0,0,2000.1589);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
     data.setValue(1,0,2000.1626);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
     data.setValue(2,0,2000.1653);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
     data.setValue(3,0,2000.1680);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
     data.setValue(4,0,2000.1708);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
     
     data.setValue(0,1,-1.6239);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
     data.setValue(1,1,-1.6259);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
     data.setValue(2,1,-1.6255);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
     data.setValue(3,1,-1.6234);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
     data.setValue(4,1,-1.6242);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
     
     data.setValue(0,2,0.0012);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
     data.setValue(1,2,0.0014);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
     data.setValue(2,2,0.0015);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
     data.setValue(3,2,0.0015);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
     data.setValue(4,2,0.0015);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
     
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 2000.1589, data.getMinValue(0));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", -1.6259, data.getMinValue(1));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 0.0012, data.getMinValue(2));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
   }                            
 
   void test3D()
@@ -616,6 +703,7 @@ protected:
       for(int j = 0; j < cols; j ++)
       {
         A.setValue(i,j,0,1.0);
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
       }
     }
     
@@ -624,6 +712,7 @@ protected:
       for(int j = 0; j < cols; j ++)
       {
         A.setValue(i,j,1,2.0);
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
       }
     }
     
@@ -632,6 +721,7 @@ protected:
       for(int j = 0; j < cols; j ++)
       {
         A.setValue(i,j,2,3.0);
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
       }
     }
     
@@ -640,6 +730,7 @@ protected:
       for(int j = 0; j < cols; j ++)
       {
         CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1.0, A.getValue(i,j,0));
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
       }
     }
     
@@ -648,6 +739,7 @@ protected:
       for(int j = 0; j < cols; j ++)
       {
         CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 2.0, A.getValue(i,j,1));
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
       }
     }
     
@@ -656,6 +748,7 @@ protected:
       for(int j = 0; j < cols; j ++)
       {
         CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 3.0, A.getValue(i,j,2));
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
       }
     }
   }
@@ -671,6 +764,7 @@ protected:
       for(int j = 0; j < cols; j ++)
       {
         A.setValue(i,j,0,1.0);
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
       }
     }
     
@@ -679,6 +773,7 @@ protected:
       for(int j = 0; j < cols; j ++)
       {
         A.setValue(i,j,1,2.0);
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
       }
     }
     
@@ -687,20 +782,26 @@ protected:
       for(int j = 0; j < cols; j ++)
       {
         A.setValue(i,j,2,3.0);
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A.getError().isReal());
       }
     }
     
     E = A;
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, E.getError().isReal());
 
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong rows", A.getNumRows(), E.getNumRows());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, E.getError().isReal());
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong cols", A.getNumCols(), E.getNumCols());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, E.getError().isReal());
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong tabs", A.getNumTables(), E.getNumTables());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, E.getError().isReal());
         
     for(int i = 0; i < rows; i ++)
     {
       for(int j = 0; j < cols; j ++)
       {
         CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1.0, E.getValue(i,j,0));
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, E.getError().isReal());
       }
     }
     
@@ -709,6 +810,7 @@ protected:
       for(int j = 0; j < cols; j ++)
       {
         CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 2.0, E.getValue(i,j,1));
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, E.getError().isReal());
       }
     }
     
@@ -717,6 +819,7 @@ protected:
       for(int j = 0; j < cols; j ++)
       {
         CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 3.0, E.getValue(i,j,2));
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, E.getError().isReal());
       }
     }
   }
@@ -731,16 +834,25 @@ protected:
     
     
     A->setValue(0,0,1);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A->getError().isReal());
     A->setValue(0,1,0);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A->getError().isReal());
     A->setValue(0,2,0);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A->getError().isReal());
     
     A->setValue(1,0,0);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A->getError().isReal());
     A->setValue(1,1,1);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A->getError().isReal());
     A->setValue(1,2,1);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A->getError().isReal());
     
     A->setValue(2,0,0);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A->getError().isReal());
     A->setValue(2,1,0);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A->getError().isReal());
     A->setValue(2,2,1);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, A->getError().isReal());
     
     for(int i = 0; i < rows; i ++)
     {
@@ -749,6 +861,7 @@ protected:
         for(int k = 0; k < frames; k ++)
         {
           C->setValue(i,j,k,1.0);
+          CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, C->getError().isReal());
         }
       }
     }
@@ -770,6 +883,7 @@ protected:
     for(int i = 0; i < matChar.getNumRows(); i ++){
       for(int j = 0; j < matChar.getNumCols(); j ++){
         CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 'a', matChar.getValue(i,j));
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, matChar.getError().isReal());
       }
     }
     
@@ -778,6 +892,7 @@ protected:
     for(int i = 0; i < matDouble.getNumRows(); i ++){
       for(int j = 0; j < matDouble.getNumCols(); j ++){
         CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1.0, matDouble.getValue(i,j));
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, matDouble.getError().isReal());
       }
     }
   }
@@ -793,18 +908,21 @@ protected:
     for(int i = 0; i < matChar.getNumRows(); i ++){
       for(int j = 0; j < matChar.getNumCols(); j ++){
         CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 'a', matChar.getValue(i,j,0));
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, matChar.getError().isReal());
       }
     }
     
     for(int i = 0; i < matChar.getNumRows(); i ++){
       for(int j = 0; j < matChar.getNumCols(); j ++){
         CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 'b', matChar.getValue(i,j,1));
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, matChar.getError().isReal());
       }
     }
     
     for(int i = 0; i < matChar.getNumRows(); i ++){
       for(int j = 0; j < matChar.getNumCols(); j ++){
         CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 'c', matChar.getValue(i,j,2));
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, matChar.getError().isReal());
       }
     }
     
@@ -813,18 +931,21 @@ protected:
     for(int i = 0; i < matDouble.getNumRows(); i ++){
       for(int j = 0; j < matDouble.getNumCols(); j ++){
         CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1.0, matDouble.getValue(i,j,0));
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, matDouble.getError().isReal());
       }
     }
     
     for(int i = 0; i < matDouble.getNumRows(); i ++){
       for(int j = 0; j < matDouble.getNumCols(); j ++){
         CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 2.0, matDouble.getValue(i,j,1));
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, matDouble.getError().isReal());
       }
     }
     
     for(int i = 0; i < matDouble.getNumRows(); i ++){
       for(int j = 0; j < matDouble.getNumCols(); j ++){
         CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 3.0, matDouble.getValue(i,j,2));
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, matDouble.getError().isReal());
       }
     }
   }
@@ -837,6 +958,7 @@ protected:
     for(int i = 0; i < actual.getNumRows(); i ++){
       for(int j = 0; j < actual.getNumCols(); j ++){
         actual.setValue(i,j,1.0);
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, actual.getError().isReal());
       }
     }
     
@@ -848,6 +970,7 @@ protected:
       for(int j = 0; j < actual.getNumCols(); j ++){
         if( i < rows){
           CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1.0, actual.getValue(i,j));
+          CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, actual.getError().isReal());
         }
       }
     }
@@ -855,12 +978,14 @@ protected:
     for(int i = 0; i < actual.getNumRows(); i ++){
       for(int j = 0; j < actual.getNumCols(); j ++){
         actual.setValue(i,j,2.0);
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, actual.getError().isReal());
       }
     }
     
     for(int i = 0; i < actual.getNumRows(); i ++){
       for(int j = 0; j < actual.getNumCols(); j ++){
         CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 2.0, actual.getValue(i,j));
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, actual.getError().isReal());
       }
     }
     
@@ -871,10 +996,13 @@ protected:
     int rows = 6, cols = 3, newRows = 4;
     cepMatrix<double> actual(rows,cols);
     
-    cout << endl << "this test is doing the right thing and bailing out" << endl;    
     actual.resize(newRows);
+    
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", true, actual.getError().isReal());    
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", string("Can not make a matrix smaller"), actual.getError().getMessage());    
   }
   
+
 }; // end Test
 
  /**

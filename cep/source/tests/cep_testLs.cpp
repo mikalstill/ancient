@@ -22,6 +22,7 @@
 
 #include "../cepLs.h"
 #include "../cepDataset.h"
+#include "../cepError.h"
 /**
  * A test template for use when creating a new test suite. I has been 
  * declared in the anonymous namespace so that the test does not need
@@ -37,11 +38,14 @@
  *     void tearDown( void ) { ... }
  *
  * @author <your name here>
- * @version $Revision: 1.9 $ $Date: 2002-10-24 07:58:06 $
+ * @version $Revision: 1.10 $ $Date: 2002-11-03 02:52:05 $
  *
  * Revision History
  *
  * $Log: not supported by cvs2svn $
+ * Revision 1.9  2002/10/24 07:58:06  u983118
+ * added test for the buggy dataset
+ *
  * Revision 1.8  2002/10/01 06:19:33  u983118
  * added some testing for auto re-weight VCV LS
  *
@@ -79,23 +83,23 @@ public:
    * constructs a test suite.
    * Add your tests to the suite by copying and editing the addTest call
    */
+  
   static CppUnit::Test *suite()
   {
     CppUnit::TestSuite *suiteOfTests = new CppUnit::TestSuite( "Test" );
     
     /* REGISTER YOUR TEST HERE */
-/*    suiteOfTests->addTest(
+    suiteOfTests->addTest(
       new CppUnit::TestCaller<Test>( "testLsVCV", &Test::testLsVCV ) );
     
     suiteOfTests->addTest(
       new CppUnit::TestCaller<Test>( "testLsVCVReweight", &Test::testLsVCVReweight ) );
-*/
-    suiteOfTests->addTest(
-      new CppUnit::TestCaller<Test>( "testLsVCVReweight2", &Test::testLsVCVReweight2 ) );
+//    suiteOfTests->addTest(
+//     new CppUnit::TestCaller<Test>( "testLsVCVReweight2", &Test::testLsVCVReweight2 ) );
     
-/*    suiteOfTests->addTest(
+    suiteOfTests->addTest(
       new CppUnit::TestCaller<Test>( "testLsRW", &Test::testLsRW ) );
-*/                  
+                  
     return suiteOfTests;
   }
 
@@ -171,7 +175,7 @@ protected:
     CPPUNIT_ASSERT_DOUBLES_EQUAL( 0.05241276, ans.getB1(), 0.00000001 );
     CPPUNIT_ASSERT_DOUBLES_EQUAL( -1.624906007, ans.getB2(), 0.000000001 );
     
-    //tests for residuals 
+   //tests for residuals 
     CPPUNIT_ASSERT_DOUBLES_EQUAL( -0.001006007, residual.getValue(0,0), 0.000000001 );
     CPPUNIT_ASSERT_DOUBLES_EQUAL(  0.00118792021,  residual.getValue(1,0), 0.000000001 ); 
     CPPUNIT_ASSERT_DOUBLES_EQUAL(  0.00092943466, residual.getValue(2,0), 0.000000001 );
@@ -182,30 +186,39 @@ protected:
   //test the re-weighting of VCV
   void testLsVCVReweight()
   {
-    cepMatrix<double> data(5,3), residual;
+    cepMatrix<double> data(8,3), residual;
     cepLs ans;
-    
+
     data.setValue(0,0,1.0);
     data.setValue(1,0,2.0);
     data.setValue(2,0,3.0);
     data.setValue(3,0,4.0);
     data.setValue(4,0,5.0);
-    
+    data.setValue(5,0,6.0);
+    data.setValue(6,0,7.0);
+    data.setValue(7,0,8.0);
+        
     data.setValue(0,1,0.5);
     data.setValue(1,1,2.0);
     data.setValue(2,1,-2.0);  //this is an outlier!
     data.setValue(3,1,5.0);
     data.setValue(4,1,6.5);
-    
+    data.setValue(5,1,8.0);
+    data.setValue(6,1,9.5);
+    data.setValue(7,1,11.0);
+       
     data.setValue(0,2,0.0012);
     data.setValue(1,2,0.0014);
     data.setValue(2,2,0.0015);
     data.setValue(3,2,0.0015);
     data.setValue(4,2,0.0015);
+    data.setValue(5,2,0.0015);
+    data.setValue(6,2,0.0015);
+    data.setValue(7,2,0.0015);
     
     ans.cepDoVCV(data);
     residual = ans.getResidual();
-        
+          
     //tests for B1 and B2
     CPPUNIT_ASSERT_DOUBLES_EQUAL( 1.5, ans.getB1(), 0.01 );
     CPPUNIT_ASSERT_DOUBLES_EQUAL( 0.5, ans.getB2(), 0.01 );
@@ -241,12 +254,12 @@ protected:
     residual = ans.getResidual();
         
   }
+  
   //test RW LS
   void testLsRW()
   {
     cepMatrix<double> data(5,3), P(5,5), residual;
     cepLs ans;
-    
     //define the data matrix
     //taken from the mb_PMAC_GPS.dat1
     data.setValue(0,0,2000.1589);
