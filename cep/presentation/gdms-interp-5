@@ -4,7 +4,7 @@ TITLE: Interpolation (Nick)
   <li>Cubic splines
   <ul>
     <li>Draws a cubic between between adjacent points
-    <li>Adjacent splines have matching first and second derivites
+    <li>Adjacent splines have matching first and second derivatives
     <li>Gives a smooth curve
   </ul>
   <img src="/notes/presentations/content/interp-spline.png">
