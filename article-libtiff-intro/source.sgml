@@ -6,7 +6,7 @@
 <sect1>
 <title>About the author</title>
 <para>
-Michael has been working in the image processing field for several years, including a couple of years managing and dveloping large image databases for an Australian government department. He currently works for TOWER Software, who manufacture a world leading EDMS and Records Management package named TRIM. Michael is also the developer of Panda, an open source PDF generation API, as well as being the maintainer of the comp.text.pdf USENET frequently asked questions document. You can contact Michael at mikal@stillhq.com.
+Michael has been working in the image processing field for several years, including a couple of years managing and developing large image databases for an Australian government department. He currently works for TOWER Software, who manufacture a world leading EDMS and Records Management package named TRIM. Michael is also the developer of Panda, an open source PDF generation API, as well as being the maintainer of the comp.text.pdf USENET frequently asked questions document. You can contact Michael at mikal@stillhq.com.
 </para>
 </sect1>
 
@@ -188,13 +188,13 @@ The issue that complicates reading black and white TIFF images the most is the s
 </orderedlist>
 
 <figure>
-<heading refname="stip-figure" type="figure" toc="no">Figure 2. The Sydney Harbour Bridge, in strips</heading>
-<img src="figure1.jpg" width="200" height="144" alt="Sydney Harbour Bridge in strips, 200 x 144"/>
+<title>Figure 2. The Sydney Harbour Bridge, in strips</title>
+<graphic format="JPEG" fileref="figure2.jpg">
 </figure>
 
 <figure>
-<heading refname="tile-figure" type="figure" toc="no">Figure 3. The Sydney Harbour Bridge, in tiles</heading>
-<img src="figure1.jpg" width="200" height="144" alt="Sydney Harbour Bridge in tiles, 200 x 144"/>
+<title>Figure 3. The Sydney Harbour Bridge, in tiles</title>
+<graphic format="JPEG" fileref="figure3.jpg">
 </figure>
 
 <para>
@@ -236,12 +236,12 @@ int main(int argc, char *argv[]){
   }
 
   // Check that it is of a type that we support
-  if((TIFFGetField(image, TIFFTAG_BITSPERSAMPLE, &bps) == 0) || (bps != 1)){
+  if((TIFFGetField(image, TIFFTAG_BITSPERSAMPLE, &amp;bps) == 0) || (bps != 1)){
     fprintf(stderr, "Either undefined or unsupported number of bits per sample\n");
     exit(42);
   }
 
-  if((TIFFGetField(image, TIFFTAG_SAMPLESPERPIXEL, &spp) == 0) || (spp != 1)){
+  if((TIFFGetField(image, TIFFTAG_SAMPLESPERPIXEL, &amp;spp) == 0) || (spp != 1)){
     fprintf(stderr, "Either undefined or unsupported number of samples per pixel\n");
     exit(42);
   }
@@ -269,7 +269,7 @@ int main(int argc, char *argv[]){
   }
 
   // Deal with photometric interpretations
-  if(TIFFGetField(image, TIFFTAG_PHOTOMETRIC, &photo) == 0){
+  if(TIFFGetField(image, TIFFTAG_PHOTOMETRIC, &amp;photo) == 0){
     fprintf(stderr, "Image has an undefined photometric interpretation\n");
     exit(42);
   }
@@ -283,7 +283,7 @@ int main(int argc, char *argv[]){
   }
 
   // Deal with fillorder
-  if(TIFFGetField(image, TIFFTAG_FILLORDER, &fillorder) == 0){
+  if(TIFFGetField(image, TIFFTAG_FILLORDER, &amp;fillorder) == 0){
     fprintf(stderr, "Image has an undefined fillorder\n");
     exit(42);
   }
@@ -307,7 +307,7 @@ int main(int argc, char *argv[]){
   }
      
   // Do whatever it is we do with the buffer -- we dump it in hex
-  if(TIFFGetField(image, TIFFTAG_IMAGEWIDTH, &width) == 0){
+  if(TIFFGetField(image, TIFFTAG_IMAGEWIDTH, &amp;width) == 0){
     fprintf(stderr, "Image does not define its width\n");
     exit(42);
   }
