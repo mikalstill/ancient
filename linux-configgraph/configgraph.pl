@@ -215,33 +215,45 @@ sub depthIndent(){
 
 sub addstatement(){
     my($hash_ref, $string) = @_;
-    my(@cols, @conditions, $newstring, $re1, $re2, $re3);
+    my(@cols, @conditions, $newstring, $re1, $re2, $re3, $condelem, $condval);
+
+    print STDERR "Add statement: $string\n";
 
     # Break the line into it's columns
     @cols = split(/\t/, $string);
     @conditions = split(/;/, @cols[1]);
 
     if($conditions[0] eq ""){
-	$newstring = $hash_ref->{"END"};
-	$hash_ref->{"END"} = "$newstring!$string";
+	@conditions = split(/\t/, $string);
+	$hash_ref->{$conditions[2]}->{"END"} = $conditions[3];
     }
     else{
+	# Determine what the value name is, and what we want it to be for this condition
 	print STDERR "Processing condition \"$conditions[0]\"\n";
 	if($conditions[0] =~ /([^!= \t]*)[ \t]*([!=]+)[ \t]*(.*)/){
-	    print STDERR "[$1][$2][$3]\n";
 	    $re1 = $1;
 	    $re2 = $2;
 	    $re3 = $3;
 
 	    if($re1 =~ /\$CONFIG_(.*)/){
-		print STDERR "Condition based on $1\n";
+		$condelem = $re1;
+		$condval = $re3;
+	    }
+	    elsif($re3 =~ /\$CONFIG_(.*)/){
+		$condelem = $re3;
+		$condval = $re1;
 	    }
 	}
 
-
-	splice(@conditions, 0, 1);
-	$newstring = "$cols[0]\t".join(/;/, @conditions)."\t$cols[2]\t$cols[3]\t$cols[4]";
-	$hash_ref->{$conditions[0]} = addstatement($hash_ref->{$conditions[0]}, $newstring);
+	if($condelem ne ""){
+	    splice(@conditions, 0, 1);
+	    $newstring = "$cols[0]\t".join(/;/, @conditions)."\t$cols[2]\t$cols[3]\t$cols[4]";
+	    $hash_ref->{$condelem}->{$condval} = 
+		addstatement($hash_ref->{$condelem}->{$condval}, $newstring);
+	}
+	else{
+	    print STDERR "EMPTY CONDITION ELEMENT\n";
+	}
     }
 
     return $hash_ref;
@@ -250,22 +262,41 @@ sub addstatement(){
 sub dumphash()
 {
     my($hash_ref, $indent) = @_;
-    my($key, $count);
+    my($key, $count, $color, $prelude, $postlude);
 
     foreach $key (keys %$hash_ref){
+	print STDERR ">>$key<<\n";
 	for($count = 0; $count < $indent; $count++){
 	}
 	
 	if($key ne "END"){
-	    # todo: These if's fix a bug in the tree which causes and empty key... I can't find it
+	    # Colour code the tables based on the required value
+	    $color = "0000FF";
+	    $prelude = "";
+	    $postlude = "";
+
+	    if($key eq "y"){
+		$color = "00FF00";
+		$prelude = "";
+		$postlude = "";
+	    }
+	    elsif($key eq "n"){
+		$color = "FF0000";
+		$prelude = "";
+		$postlude = "";
+	    }
+
+	    # todo: These if's fix a bug in the tree which causes an empty key... I can't find it
+	    print $prelude;
 	    if($key ne ""){
-		print "<table border=1 width=\"100%\"><tr><td bgcolor=\"0000FF\">$key";
-		print "&nbsp;</td></tr><tr><td>";
+		print "<table border=1 width=\"100%\"><tr><td bgcolor=\"$color\">$key";
+		print "</td></tr><tr><td>";
 	    }
 	    dumphash($hash_ref->{$key}, $indent + 1);
 	    if($key ne ""){
-		print "</td></tr></table><BR><BR>";
+		print "</td></tr></table>\n";
 	    }
+	    print "$postlude";
 	}
 	else{
 	    $hash_ref->{$key} =~ s/!/<BR>\n/g;
