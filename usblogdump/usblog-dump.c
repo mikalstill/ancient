@@ -668,6 +668,9 @@ functname (unsigned int function)
     case 0x22:
       return "CLEAR_FEATURE_TO_OTHER";
 
+    case 0x28:
+      return "GET_DESCRIPTOR_FROM_INTERFACE";
+
     default:
       return "UNKNOWN";
     }
