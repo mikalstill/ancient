@@ -299,23 +299,23 @@ The JPEG compression algorithm is lossy -- in other words, the act of compressin
 For example, JPEG compressing the following image results in the following output image:
 </para>
 
-<figure><title>A picture before JPEG compression</title>
+<figure><title>The UC logo before JPEG compression</title>
 <graphic format="eps" fileref="gen-tiff-figure4.eps">
 </figure>
 
-<figure><title>A picture after it has been JPEG compressed</title>
+<figure><title>The UC logo after it has been JPEG compressed</title>
 <graphic format="eps" fileref="gen-tiff-figure6.eps">
 </figure>
 
 <para>
-The effects are much worse with an image which contains text at small point sizes:
+This output is acceptible, because there is limited use of fine detail, and therefore limited loss of image clarity. The effects are much worse with an image which contains text at small point sizes:
 </para>
 
-<figure><title>The sample text before JPEG compression</title>
+<figure><title>A sample GDMS plot before JPEG compression</title>
 <graphic format="eps" fileref="gen-tiff-figure5.eps">
 </figure>
 
-<figure><title>The text after it has been JPEG compressed</title>
+<figure><title>A sample GDMS plot after it has been JPEG compressed</title>
 <graphic format="eps" fileref="gen-tiff-figure7.eps">
 </figure>
 
@@ -409,6 +409,9 @@ There is some scope for future improvement of the <command>GDMS Internet interfa
 <listitem><para>Better title display for the datasets. This is not currently implemented, because it either means repeating the dataset parsing code in the <command>GDMS Internet interface</command>, or invoking <command>GDMS</command> much more than would otherwise occur.</para></listitem>
 </itemizedlist>
 
+<para>
+Overall, the <command>GDMS Internet interface</command> is a stable and reliable light weight interface to the <command>GDMS</command> batch interface.
+</para>
 </chapter>
 
 

@@ -53,23 +53,23 @@ The JPEG compression algorithm is lossy -- in other words, the act of compressin
 For example, JPEG compressing the following image results in the following output image:
 </para>
 
-<figure><title>A picture before JPEG compression</title>
+<figure><title>The UC logo before JPEG compression</title>
 <execute><cmd>eqimg</cmd><args>tiff-figure4.jpg</args></execute>
 </figure>
 
-<figure><title>A picture after it has been JPEG compressed</title>
+<figure><title>The UC logo after it has been JPEG compressed</title>
 <execute><cmd>eqimg</cmd><args>tiff-figure6.jpg</args></execute>
 </figure>
 
 <para>
-The effects are much worse with an image which contains text at small point sizes:
+This output is acceptible, because there is limited use of fine detail, and therefore limited loss of image clarity. The effects are much worse with an image which contains text at small point sizes:
 </para>
 
-<figure><title>The sample text before JPEG compression</title>
-<execute><cmd>eqimg</cmd><args>tiff-figure5.jpg</args></execute>
+<figure><title>A sample GDMS plot before JPEG compression</title>
+<execute><cmd>eqimg</cmd><args>tiff-figure5.png</args></execute>
 </figure>
 
-<figure><title>The text after it has been JPEG compressed</title>
+<figure><title>A sample GDMS plot after it has been JPEG compressed</title>
 <execute><cmd>eqimg</cmd><args>tiff-figure7.jpg</args></execute>
 </figure>
 
