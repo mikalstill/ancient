@@ -28,7 +28,5 @@ make install
 If you have installed <command>libmplot</command> on an architecture / operating system combination which supports 
 dynamic libraries, then you will need to run the <command>ldconfig</command> command or equivalent.
 </para>
-
-<execute><cmd>todo</cmd><input>Evil ld.so.conf stuff somewhere?</input></execute>
 </sect3>
 </sect2>

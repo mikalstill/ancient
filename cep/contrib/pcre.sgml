@@ -12,11 +12,14 @@ Philip Hazel developed <command>PCRE</command>, it can be downloaded from http:/
 
 <sect3><title>Installation</title>
 <para>
+To install <command>PCRE</command>, type the following:
+</para>
+<programlisting>
 tar xvzf pcre-3.9.tar.gz
 cd pcre-3.9
 ./configure
 make
 make install
-</para>
+</programlisting>
 </sect3>
 </sect2>
