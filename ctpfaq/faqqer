@@ -259,6 +259,7 @@ elsif($mode eq "dump"){
 	    }
 	    print "</sect1></chapter>\n";
 	}
+	print "</book>\n";
     }
     else{
 	print "Error: the database select returned no rows! (";
@@ -270,11 +271,10 @@ else{
     print "Unknown CGI mode. How did you get here?\n";
 }
 
-
-
-
 # Finish off the page
-print $result->end_html;
+if($mode ne "dump"){
+    print $result->end_html;
+}
 
 exit;
 
