@@ -1,1 +1,1 @@
-This is a very simple directory traversal example written in C#
+This is a very simple directory traversal example written in C#, which reports the size of the filesystem structure traversed

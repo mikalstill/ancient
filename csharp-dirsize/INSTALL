@@ -1,29 +1,12 @@
 To compile this, you execute the mono C# compiler:
 
-mcs dirtrav.cs
+mcs dirsize.cs
 
 Which should give us a file named dirtrav.exe -- it's interesting to note that because this file is in IL, it can be run on Windows as well.
 
 Now you can just run the exe:
 
-csharp-dirtraverse# ./dirtrav.exe top
-top/dirone (d)
-  top/dirone/CVS (d)
-    top/dirone/CVS/Entries (f)
-    top/dirone/CVS/Repository (f)
-    top/dirone/CVS/Root (f)
-top/dirtwo (d)
-  top/dirtwo/dirtwofileone (f)
-  top/dirtwo/dirtwofilethree (f)
-  top/dirtwo/dirtwofiletwo (f)
-  top/dirtwo/CVS (d)
-    top/dirtwo/CVS/Entries (f)
-    top/dirtwo/CVS/Repository (f)
-    top/dirtwo/CVS/Root (f)
-top/fileone (f)
-top/filethree (f)
-top/filetwo (f)
-top/CVS (d)
-  top/CVS/Entries (f)
-  top/CVS/Repository (f)
-  top/CVS/Root (f)
+csharp-dirsize# ./dirsize.exe ..
+Total size: 1526282640 bytes
+File count: 25557
+Directory count: 1658
