@@ -34,20 +34,20 @@ This report is based on a day long tutorial on XML and SOAP which I attended on 
 <sect2><title>History</title>
 <para>
 Microsoft has toyed with remote procedure call methods for many years. The most common of these at the moment would have to be DCOM
-  <footnote><para>The distributed COM implementation, which unfortunately has problems dealing with low latency or low bandwith network connections -- for instance most Internet connections.</para></footnote>
+  <footnote><para>The distributed COM implementation, which unfortunately has problems dealing with low latency or low bandwidth network connections -- for instance most Internet connections.</para></footnote>
 . SOAP is an attempt to develop a RPC mechanism which will work well over the Internet. Interestingly, SOAP is also one of the few examples of a protocol championed by Microsoft which has been published as an open standard
   <footnote><para>It is currently a draft specification with the <emphasis>w3c</emphasis> http://www.w3.org/TR/SOAP/</para></footnote>
 , which means developers outside of Microsoft are empowered to develop their own implementations if they want to, without having to resort to reverse engineering techniques.
 </para>
 
 <para>
-One of the preceived problems with DCOM is that it doesn't work well over the Internet, especially because it requires its own network protocol be allowed transit through the intervening firewalls. SOAP attempts to address this by tunneling its RPC calls through HTTP, which makes it easy for many organisations to set it up within their existing firewall infrastucture. Incidentally, there is some discussion at the moment as to whether SOAP should be allowed it's own network protocol as well.
+One of the perceived problems with DCOM is that it doesn't work well over the Internet, especially because it requires its own network protocol be allowed transit through the intervening firewalls. SOAP attempts to address this by tunneling its RPC calls through HTTP, which makes it easy for many organizations to set it up within their existing firewall infrastucture. Incidentally, there is some discussion at the moment as to whether SOAP should be allowed it's own network protocol as well.
 </para>
 </sect2>
 
 <sect2><title>The example</title>
 <para>
-When discussing the use of SOAP, we will use the example of TRIM, which is a heavily RPC orientated client server package developed by TOWER Software in Canberra. It is a prime candidate for conversion to SOAP, as it currently uses DCOM, the previous Microsoft technology, for RPC calls over the Internet. There are currently convers at TOWER as to the suitability of DCOM to the application. The main concerns are as follows:
+When discussing the use of SOAP, we will use the example of TRIM, which is a heavily RPC orientated client server package developed by TOWER Software in Canberra. It is a prime candidate for conversion to SOAP, as it currently uses DCOM, the previous Microsoft technology, for RPC calls over the Internet. There are currently concerns at TOWER as to the suitability of DCOM to the application. The main concerns are as follows:
 
 <orderedlist>
 <listitem><para>Scalability</para></listitem>
@@ -64,7 +64,7 @@ This paper will attempt to address all of these issues.
 <para>
 SOAP is defined in terms of an XML DTD
   <footnote><para>Document Type Definition -- a way of defining a grammar that your XML will obey for a certain type of transaction.</para></footnote>
-, which is what has been submitted to the <emphasis>w3c</emphasis> as a proposed specification. A RPC call (when using the HTTP transport) takes the form of a request for a given page, which the RPC arguements packed into an XML document which is posted to the web service
+, which is what has been submitted to the <emphasis>w3c</emphasis> as a proposed specification. A RPC call (when using the HTTP transport) takes the form of a request for a given page, which the RPC arguments packed into an XML document which is posted to the web service
   <footnote><para>The name given to a piece of software which offers RPC facilities under SOAP.</para></footnote>
 using the same mechanism that POSTs use under CGI. The result of the RPC call is returned in the form of another XML document, which would be displayed in the browser if the client was a web browser.
 </para>
@@ -76,24 +76,40 @@ and data is returned. The data is then rendered for the user. Even on a fast Int
 </para>
 
 <para>
-One possible solution to at least part of this problem is to make client server protocols require less calls to perform common opertations. It should be noted however that competent client server programmers already attempt to minimise the amount of network traffic incurred by their product.
+One possible solution to at least part of this problem is to make client server protocols require less calls to perform common operations. It should be noted however that competent client server programmers already attempt to minimize the amount of network traffic incurred by their product.
 </para>
 </sect2>
 </sect1>
 
 <sect1><title>Resolving concerns about TRIM</title>
 <para>
-...
+As mentioned earlier in this document, TRIM is a prime candidate for conversion to SOAP. Does SOAP help resolve TRIM's problems (which are indicative of those experienced by DCOM users industry wide)? Comparing them point to point:
+
+<orderedlist>
+<listitem><para><emphasis>Scalability</emphasis>: how to make HTTP connections scale is a well understood area
+  <footnote><para>Although website scalability is often based on the implementation of server farms, which mandates that state not be stored between page accesses on the server, because the next page request might be answered by a different machine in the server farm.</para></footnote>
+, especially because of the experiences of large websites such as google.com. It is important to note that the nature of these sites is often not mission critical however. People often expect google to be unavailable for periods of time, or even merely slow. TRIM is an application which is used all day every day by many people within an organization. I am therefore not convinced that converting the application to SOAP would make TRIM more scalable.</para></listitem>
+
+<listitem><para><emphasis>Suitability to low bandwidth and highly latent networks</emphasis>: compared with many TRIM customers, the Internet is not a low bandwidth highly latent network. Examples of networks on which TRIM must operate include encrypted low speed internation network connections for national governments. SOAP packets are bigger than the equivalent DCOM packets, because of the large amount of bandwidth consumed by XML tags and other non-core data. This would increase the load on these already heavily loaded networks.</para></listitem>
+
+<listitem><para><emphasis>Interoperability with non Microsoft client and server applications</emphasis>: SOAP would resolve many of these problems.</para></listitem>
+
+<listitem><para><emphasis>Security</emphasis>: SOAP packets are not naturally encrypted or strongly authenticated unless a secure transport such as SSL is used. This is much the same as the current DCOM implementation.</para></listitem>
+</orderedlist>
+</para>
+
+<para>
+Overall, it is my understanding at this time that there is no compelling reason to convert TRIM from DCOM to SOAP.
 </para>
 </sect1>
 
 <sect1><title>Response to the talk</title>
 <para>
-The talk, as well as the speakers, were well presented. The conference procedings includes over 260 slides for this day long session, even though additional slides were used to further explain topics that the audience had difficulty grasping. The speakers understood how to keep the audience engaged and interested for the entire length of the session as well, and there were plenty of well explained examples during the session.
+The talk, as well as the speakers, were well presented. The conference proceedings includes over 260 slides for this day long session, even though additional slides were used to further explain topics that the audience had difficulty grasping. The speakers understood how to keep the audience engaged and interested for the entire length of the session as well, and there were plenty of well explained examples during the session.
 </para>
 
 <para>
-One criticism of the speakers were that they were very Microsoft focussed in their discussions, with most of the examples being in Visual Basic (the exceptions were in Microsoft's new language, C#). This is not entirely unexpected at a Microsoft development conference.
+One criticism of the speakers were that they were very Microsoft focused in their discussions, with most of the examples being in Visual Basic (the exceptions were in Microsoft's new language, C#). This is not entirely unexpected at a Microsoft development conference.
 </para>
 </sect1>
 
