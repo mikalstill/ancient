@@ -34,6 +34,8 @@
 #include <vector>
 #include <math.h>
 
+#include <wx/image.h>
+
 #include "cepTSB.h"
 #include "cepError.h"
 #include "cepUtility.h"

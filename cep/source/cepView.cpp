@@ -57,21 +57,24 @@
 IMPLEMENT_DYNAMIC_CLASS (cepView, wxView)
 BEGIN_EVENT_TABLE (cepView, wxView)
 END_EVENT_TABLE ()
+
 // What to do when a view is created. Creates actual
 // windows for displaying the view.
-     bool
-     cepView::OnCreate (wxDocument * doc, long WXUNUSED (flags))
+bool
+cepView::OnCreate (wxDocument * doc, long WXUNUSED (flags))
 {
   frame = wxGetApp ().CreateChildFrame (doc, this, TRUE);
   frame->SetTitle ("cepView");
-
+  
   canvas = GetMainFrame ()->CreateCanvas (this, frame);
+
 #ifdef __X__
   // X seems to require a forced resize
   int x, y;
   frame->GetSize (&x, &y);
   frame->SetSize (-1, -1, x, y);
 #endif
+
   frame->Show (TRUE);
   Activate (TRUE);
 
@@ -85,6 +88,12 @@ cepView::OnDraw (wxDC * dc)
 {
   dc->SetFont (*wxNORMAL_FONT);
   dc->SetPen (*wxBLACK_PEN);
+
+  cepDebugPrint("Drawing the image, png is type " + 
+		cepItoa(wxBITMAP_TYPE_PNG));
+  wxImage theImage("256x256.png", wxBITMAP_TYPE_PNG);
+  wxBitmap theBitmap(theImage.ConvertToBitmap());
+  dc->DrawBitmap(theBitmap, 30, 150);
 }
 
 void

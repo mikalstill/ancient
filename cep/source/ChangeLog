@@ -30,3 +30,9 @@
 
 20020606 Michael Still (mikal@stillhq.com)
 	Scary debug print macro (cepDebugPrint)
+
+20020609 Michael Still (mikal@stillhq.com)
+	Started implementing docbook documentation templates for the various classes.
+
+20020609 Michael Still (mikal@stillhq.com)
+	Code to show that I can draw bitmaps onto the dataset frame

@@ -113,6 +113,31 @@ cepApp::OnInit (void)
 			    CLASSINFO (cepDoc),
 			    CLASSINFO (cepView));
 
+  // Initialise bitmap handlers (we need these for the presentation layer)
+#if wxUSE_LIBPNG
+  wxImage::AddHandler( new wxPNGHandler );
+#endif
+
+#if wxUSE_LIBJPEG
+  wxImage::AddHandler( new wxJPEGHandler );
+#endif
+
+#if wxUSE_LIBTIFF
+  wxImage::AddHandler( new wxTIFFHandler );
+#endif
+
+#if wxUSE_GIF
+  wxImage::AddHandler( new wxGIFHandler );
+#endif
+
+#if wxUSE_PCX
+  wxImage::AddHandler( new wxPCXHandler );
+#endif
+
+#if wxUSE_PNM
+  wxImage::AddHandler( new wxPNMHandler );
+#endif
+
   // Create the main frame window
   int windowx, windowy;
   gConfiguration->getValue("mainwindowsizex", 1000, windowx);

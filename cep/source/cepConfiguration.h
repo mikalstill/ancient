@@ -29,8 +29,13 @@ FUNCTION cepConfiguration
 PURPOSE store user definable configuration information
 
 SYNOPSIS START
-cepConfiguration::cepConfiguration(string& persistFile);
-
+cepConfiguration (const string&amp; filename);
+cepError cepConfiguration::getValue(const string&amp; valkey, const string&amp; defval, string&amp; outval);
+cepError cepConfiguration::getValue(const string&amp; valkey, const bool&amp; defval, bool&amp; outval);  
+cepError cepConfiguration::getValue(const string&amp; valkey, const int&amp; defval, int&amp; outval);
+cepError cepConfiguration::setValue(const string&amp; valkey, const string&amp; value);
+cepError cepConfiguration::setValue(const string&amp; valkey, const int&amp; value);
+cepError cepConfiguration::setValue(const string&amp; valkey, const bool&amp; value);
 SYNOPSIS END
 
 DESCRIPTION START
