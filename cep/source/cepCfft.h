@@ -260,8 +260,6 @@ template < class CPLX > cepMatrix<ComplexDble>
     //   << "cepCfft: matrix has " << numRows << " rows; "
     //   << numCols << " cols; " << numTables
     //   << " tables." << endl;
-  ;
-  //char junk;
   if (dir == 1)
   {
     cout << "cepCfft: Calculating frequency scale......" << endl;

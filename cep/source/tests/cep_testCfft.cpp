@@ -288,11 +288,11 @@ namespace
 		  //cout << "  imagResult = " << imagResult << endl;
 		  if (r < numRows/2)
 		  {
-		    cout << "SIN test: Row index: " << r << " - Scale value: " 
+		    cout << "SIN test: Row: " << r << " - Scale: " 
 		         << real(myMatrix.getValue(r,0,t)) 
 		         << " - Value (" << r << "," << c << "," << t << "): "
 		         << myMatrix.getValue(r,c,t) 
-		         << endl; 
+		         << endl;
 		  }
 		  CPPUNIT_ASSERT (realResult < REALTOL); //test the real components
 		  CPPUNIT_ASSERT (imagResult < IMAGTOL); //test the imaginary components
