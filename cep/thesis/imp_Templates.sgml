@@ -7,15 +7,15 @@
   required, capable of fulfilling following requirements:-
   </para>
 <itemizedlist>
-    <listitem><para>Storage of a given data set and the results of any transformation preformed on it</para></listitem>
+    <listitem><para>Storage of a given data set and the results of any transformation preformed on it.</para></listitem>
     <listitem><para>Capability of preforming matrix operations including addition, subtraction,  with either another
-    matrix or by a scalar value, division and transposition. In addition, support for a whole host of other operations was required
-    in order to preform all the functionality of this system</para></listitem>
+    matrix or by a scalar value, division and transposition. In addition, support for many other operations was required
+    in order to preform all the functionality of this system.</para></listitem>
     <listitem><para>Support for both two and three dimensional matrices.</para></listitem>
   </itemizedlist>
   
   <para>
-  The matrix object itself had to be fast, flexible and reliable as it lies a the heart of the <command>GDMS</command>.
+  In addition, the matrix object itself had to be fast, flexible and reliable as it lies a the heart of the <command>GDMS</command>.
   In order to meet these requirements, therefore, the <command>cepMatrix</command> class template was created.
   </para>
   </sect3> <!--Introduction-->
@@ -41,7 +41,7 @@
   operator overloading. The method of operation overloading is another feature of C++ that allows the
   simplification of function calls, especially when relating to mathematical operations. For example, in order to add 
   matrices <command>A</command> and <command>B</command> together and save the results in <command>A</command> without operator
-  overloading may look something like this:- 
+  overloading may look like this:- 
   </para>
   
   
@@ -75,11 +75,11 @@
   
   
   <para>
-  The <command>cepMatrix</command> Class Template also supports other operations built to facilitate implementation inside the
+  The <command>cepMatrix</command> Class Template also supports other operations built to facilitate implemnetation inside the
   <command>GDMS</command> application. This includes an operation to query the matrix and determine if it is a strictly diagonal
-  matrix or not and operations to get the maximum and minimum values of a given column in a matrix. There is also an operation
-  to resize a matrix by adding a given number of rows to it. In addition, there are several get and set accessor methods provided 
-  for access individual elements of a given matrix.
+  and operations to determine the maximum and minimum values of a given column in a matrix. There is also an operation
+  to resize a matrix by adding a given number of rows to it. In addition, there are several get and set accesor methods provided 
+  for acess individual elements of a given matrix.
   </para>
  
   </sect3><!--cepMatrix operations-->
@@ -88,29 +88,30 @@
   
   <para>A third, key requirement of the <command>cepMatrix</command> Template Class was support for both two and three dimensional
   matrices. This is due to the fact that when data is windowed it requires a new matrix for each frame that is returned. It was
-  decided that the most optimal way to deal with this problem was to keep all the data inside one <command>cepMatrix</command>
-  object rather than having to use another container such as an array or vector, thus enabling the passing of data between
-  objects in a uniform way and simplifying function calls required to access the given data. 
+  decided that the prefered method of dealing with this problem was to keep all the data inside one <command>cepMatrix</command>
+  object rather than having to use another container such as an array or vector. This, in turn, enabled the passing of data between
+  objects in a uniform way and simplified the function calls required to access the given data. 
   </para>
   
   <para>
   Due to the fact that it was not strictly necessary to add any extra functionality and time constraints, three dimensional 
-  matrices are implemented purely as storage devices. As such, there is limited support for these matrices 
+  matrices are implemented purely as storage devices. As such, there is limited support for these matricies 
   inside this object, that is, they can be created, accessed and copied but they can not be used in any other matrix operations 
   such as multiplication, addition, subtraction and division.
   </para>
     
-  <para>Two dimensional and three dimensional matrices are stored as arrays and are treated as separate member variables within the 
-  <command>cepMatrix</command> Template Classes. This was done for several reasons, firstly due to the fact that
-  <command>cepMatrix</command> is a Template class all member variables had to be of a primitive type, that other templates or
-  objects can not be instantiated inside these classes. This restriction on Template Classes is actually a compiler dependent and 
-  is not a limitation of the language specification, per se. It does, however, arise when using <command>g++</command> and as 
-  this is the most widely use compiler on the operating systems in which the <command>GDMS</command> is required to be used. 
-  This limitation, was therefore applied to <command>cepMatrix</command> class and each matrix was stored, internally as an array.
-  In addition, the decision to treat two dimensional and three dimensional matrices as separate member variables was made for reasons speed
-  in preforming matrix operations. This is due to the fact that if all matrices were stored using the same member variable, that
-  is the three dimensional member variable it would mean that an extra memory reference would be incurred each time a matrix element
-  is accessed. Consequently, some matrix operations would take almost twice as long to complete.   
+  <para>Both two dimensional and three dimensional matrices are stored as arrays and are treated as separate member variables within 
+  the <command>cepMatrix</command> Template Classes. This approch was taken for several reasons, firstly due to the fact that
+  <command>cepMatrix</command> is a Template class all member variables had to be of a primitive type, that is, other templates or
+  objects can not be instantiated inside these classes. This restriction on Template Classes is actually a compiler dependant and 
+  is not a limitation of the language specification, per se. It does, however, arise when using <command>g++</command> which is 
+  the most widely use compiler on the operating systems in which the <command>GDMS</command> is required to be used. 
+  This limitation, was therefore, applied the to <command>cepMatrix</command> class and thus each matrix was stored, 
+  internally as an array. In addition, the decision to treat two dimensional and three dimensional matrices as separate member 
+  variables was made for reasons speed in preforming matrix operations. This is due to the fact that if all matrices were stored 
+  using the same member variable, that is, the three dimensional member variable it would mean that an extra memory reference 
+  would be incurred each time a matrix element is accessed. Consequently, some matrix operations would take almost twice as
+  long to complete.   
   </para>
   </sect3>
   
@@ -119,8 +120,8 @@
   <sect3><title>Future Enhancements</title>
   <para>Whilst the <command>cepMatrix</command> Template Class includes all the functionality required to of it to be a powerful
   tool inside the <command>GDMS</command> system there are a few enhancements that could be made. As mentioned, three dimensional 
-  matrices, unlike two dimensional matrices have very limited functionality inside this class. In future releases it would be
-  anticipated three dimensional matrices have all the functionality associated with two dimensional matrices. Other future
+  matrices, unlike two dimensional matrices have very limited functionality inside this class. In future releases, it would be
+  anticipated that three dimensional matrices have all the functionality associated with two dimensional matrices. Other future
   enhancements that could be made, would be to allow greater flexibility in re-sizing matrices, the implementation of
   iterators and the overloading of the [] operators to make the <command>cepMatrix</command> Template Class a full C++ Template
   container.</para>

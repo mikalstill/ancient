@@ -7,11 +7,10 @@
     VCV Least Squares Regression modelling with automated re-estimation and Random Walk Least Squares. VCV regression modelling
     allows a linear model to be fitted to the data in a fast and precise manner, enabling any general data trends to be seen. 
     It also allows the user to detect and remove any erroneous data, thus allowing the most optimal model to be
-    computed. In addition, an automated re-estimation model offers the capability of automatically detecting and removing erroneous
+    calculated. In addition, an automated re-estimation model offers the capability of automatically detecting and removing erroneous
     data points, thereby computing the line of best fit that most accurately models the data. The third method of Time Domain
-    Analysis is the Random Walk Least Squares, which allows a weighting matrix to be specified that emphasises this underlying
-    trend that may be occurring and affecting the accuracy of the data. For a more in depth discussion on this matter see
-    (THEORY TIME DOMAIN ANALYSIS).
+    Analysis is the Random Walk Least Squares model, which allows a weighting matrix to be specified that detects this underlying
+    trend that may be occurring and affecting the accuracy of the data. 
     </para>
   </sect3> <!--Introduction-->
 
@@ -19,33 +18,33 @@
     <para>Time Domain Analysis is implemented as a separate class inside the <command>GDMS</command> called <command>cepLs</command>
     and all calculations are encapsulated therein. A given solution is essentially reached by solving the Least Squares equation 
     (TD THEORY EQU 7) and a set of residuals are calculated by (TD THEORY EQU 14). Each calculation produces three 
-    matrices, <command>X</command> which is the solution to the Least Squares matrix equation and contains the co-efficients 
-    <command>m</command> and <command>c</command> of the line equation (TD THEORY EQU 1) The second matrix indicates whether 
-    or not the given data point was weighted out of the calculations. Finally, the matrix of residuals is also produced.
+    matrices, <command>X</command> which is the solution to the Least Squares matrix equation and contains the unknown co-efficients 
+    <command>m</command> and <command>c</command> of the line equation (TD THEORY EQU 1). The second matrix indicates whether 
+    or not the given data point was weighted out of the calculations and finally, the matrix of residuals is also produced.
     </para>
 
     <para>The first method of Time Domain Analysis offered by the <command>GDMS</command> is known as VCV Least Squares Regression
-    modelling. This method allows the user to specify a VCV weighting matrix to to be used in the calculations, thus giving the user
+    modelling. This method allows the user to specify a VCV weighting matrix to be used in the calculations, thus giving the user
     the maximum amount of flexibility in determining to what degree a given point in the data set will influence the line of best
-    fit. Another method of VCV analysis offered is that of automatic re-weighting. In this type of analysis the most optimal
-    regression model is calculated the by the process of automated re-weighing using the residual space which is discussed in
-    depth in the (SEE THEORY TD). The implementation of this process can also be seen in the following diagram
+    fit. Another method of VCV analysis offered is that of automatic re-weighting. In this type of analysis the most accurate
+    regression model is calculated by the process of automated re-weighing using the residual space which is discussed in
+    depth in the (SEE THEORY TD). The implementation of this process can also be seen in the follwing diagram
     
-    <figure><title>Flow Diagram of the Automated Re-Weighting Process of VCV Least Squares Analysis</title>
+    <figure><title>Flow Diagram of the Automated Re-Weighting Process of VCV Least Squares Anaysis</title>
         <execute><cmd>img</cmd><args>TD-ReweightFlow.gif</args></execute>
     </figure>
 
     </para>
 
-    <para>One important implementation problem that was discovered when using this method was that in some cases the solution
-    never converged, and thus the program was remained in an infinite loop because the exit condition was never met. Another
-    problem occurred because it appeared that the re-weighting process continued until every point in the data set had been weighted 
-    out. Both of these problems stemmed from the fact that in our implementation of this re-weighting algorithm, 
+    <para>One important implementation problem that was discovered when applying this method was that in some cases the solution
+    did not converge, and thus the program was remained in an infinite loop because the exit condition was never met. Another
+    problem occured where it appeared that the re-weighting process continued until every point in the data set had been weighted 
+    out. Both of these problems stemed from the fact that in our implementation of this re-weighting algorithm, 
     for over all design reasons, no point from data was ever entirely removed from the system but set it to 0 inside the 
-    weighting matrix which achieved the same effect in the data domain. In the residual domain, however, the weighted out points 
-    were still being included due to the fact that when calculating residuals the weighting matrix is not used (TD EQU 14). 
-    The solution to this was to pre-multiply the residuals with the weighting matrix and removing any residual equal to zero 
-    before calculating the thresholds for determining whether a data point was to be weighted out or not.
+    weighting matrix, which achieved the same effect in the data domain. In the residual domain, however, the weighted out points 
+    were still being included due to the fact that the caulation of residuals does not require the use of a weighting matrix 
+    (TD EQU 14).  The solution to this problem was to pre-multiply the residuals with the weighting matrix and removing 
+    any residual equal to zero before calculating the thresholds for determining whether a data point was to be weighted out or not.
     </para>
 
     <para>The third method of Time Domain Analysis offered by the <command>GDMS</command> is the calculation of Random Walk Least
@@ -58,28 +57,38 @@
   </sect3> <!--Implemetation-->
 
   <sect3><title>Optimisation</title>
-    <para>As one of the goals of <command>GDMS</command> speed of operations and as such great care has been taken to optimise 
-    solutions in the time domain in order to calculate the most precise answer in the shortest possible time. This includes 
-    employing the use of passing values by reference to and from functions where ever possible, thus saving the time that it 
-    takes to replicate the parameters being passed in memory. The main optimisation, however, takes place in the area of matrix 
-    multiplication. It can be seen from (TD EQUATION 7) that this is the most often used operation in calculating a Least Squares 
+    <para>As one of the goals of <command>GDMS</command> speed of operations, great care has been taken to optimise the caculation
+    speed of solutions in the Time Domain. This includes employing the use of passing values by reference to and from 
+    functions where ever possible, thus saving the time that it takes to replicate the parameters being passed in memory. 
+    The main optimisation, however, takes place in the area of matrix multiplication. It can be seen from (TD EQUATION 7 and 14) 
+    that this is the most often used operation in calculating a Least Squares 
     solution and is by far the slowest of all the matrix operations. This is due to the fact that in a normal matrix 
     multiplication if, for example, we were multiplying matrix A by matrix B where A is <command>m</command> x 
     <command>n</command> and B is <command>n</command> x <command>o</command> it would take <command>m</command> x 
     <command>n</command> x <command>o</command> additions plus <command>m</command> x <command>n</command> x <command>o</command> 
     multiplications to reach as solution. Conversely, if certain
     properties are known about the matrices that are being used, the number of computations can be greatly reduced. For instance,
-    in VCV Time Domain analysis we know that the weighting matrix P is always strictly diagonal, that is, for every
+    in VCV Time Domain analysis we know that the weighting matrix P is always strictly diagonal, that is, every
     value of <command>P<subscript>ij</subscript></command> = 0 where i &ne; j. This means that when we calculate
     <command>A<superscript>T</superscript>P</command>, for instance, where <command>A</command> is <command>n</command> x 2 and
     <command>P</command> is <command>n</command> x <command>n</command> we need only calculate
     <command>A<subscript>ij</subscript>P<subscript>ii</subscript></command> for each element in the resulting matrix. Thus the
     problem has been reduced from being 2 x <command>n<superscript>2</superscript></command> additions and
     2 x <command>n<superscript>2</superscript></command> multiplications to just 2 x <command>n</command> multiplications.
-    Similar calculation reduction can also be achieved by using the properties of the design, or <command>A</command> matrix.
+    </para>
+    
+    
+    <para>Similar calculation reduction can also be achieved by using the properties of the design, or <command>A</command> matrix.
     By using the property that the second row the the design matrix is always one, and the fact that anything multiplied by one is
     itself, we can further reduce the the number of calculations made in our previous example to just <command>n</command>
-    multiplications.
+    multiplications. To put this into perspective, if we were carry out this matrix multiplication on an 
+    <trademark class='registered'>Intel</trademark> <trademark class='registered'>Pentium 4</trademark> desktop processor
+    at 2.0 GHz where each double precision multiplication operation takes 8 instruction cycles and each double precision 
+    addition takes 6 instruction cycles(http://developer.intel.com/design/pentium4/manuals/248966.htm, 2002). 
+    If we assume that matrix  <command>A</command> is a 1000 x 2 matrix and <command>P</command> is 1000 x 1000, it would take 2 x
+    1000<superscript>2</superscript> multiplications 2 x 1000<superscript>2</superscript> additions and 14 ms to complete this
+    operation. Conversly, by using the optimised method the number of operations required to compute this matrix equation reduces to
+    1000 multiplications or 50 &mgr;s.     
     </para>
   </sect3><!--Optimization-->
 
