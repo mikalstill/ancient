@@ -1,139 +1,141 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
-<article><title>CAUUG Annual General Meeting</title>
-<subtitle>30 November 2002</subtitle>
+<article><title>CAUUG committee meeting</title>
+<subtitle>9 January 2002</subtitle>
 
 <para>
-<emphasis>These meeting minutes are available on line at <ulink url="http://www.stillhq.com/cgi-bin/cvsweb/cauug"><citetitle>http://www.stillhq.com/cgi-bin/cvsweb/cauug</citetitle></ulink> and when complete will be published at <ulink url="http://www.canb.auug.org.au"><citetitle>http://www.canb.auug.org.au</citetitle></ulink>...</emphasis>
+<emphasis>This agenda is available on line at <ulink url="http://www.stillhq.com/cgi-bin/cvsweb/cauug"><citetitle>http://www.stillhq.com/cgi-bin/cvsweb/cauug</citetitle></ulink> and when complete will be published at <ulink url="http://www.canb.auug.org.au"><citetitle>http://www.canb.auug.org.au</citetitle></ulink>... The items on this agenda are in no particular order.</emphasis>
 </para>
 
-<sect1><title>Attendees</title>
-<para>
-The following people were in attendance at this meeting:
-</para>
-
+<sect1><title>Previous meeting minutes</title>
 <itemizedlist>
-<listitem><para>John Bludhorn</para></listitem>
-<listitem><para>Anthony David</para></listitem>
-<listitem><para>Bob Edwards</para></listitem>
-<listitem><para>Brad Hards</para></listitem>
-<listitem><para>Steve Jenkin</para></listitem>
-<listitem><para>Peter Ortner</para></listitem>
-<listitem><para>Nathan Roberts</para></listitem>
-<listitem><para>Stephen Rothwell</para></listitem>
-<listitem><para>Martin Schwenke</para></listitem>
-<listitem><para>Michael Still</para></listitem>
-</itemizedlist>
-
-<para>
-The meeting started at 13:09, and was initially chaired by Bob Edwards. These meeting minutes were recorded by Steven Jenkin, and have been editted by Michael Still.
-</para>
-</sect1>
-
-<sect1><title>Election of Office bearers</title>
-<para>
-The following office bearers were elected by the members present.
-</para>
-
-<itemizedlist>
-<listitem><para><emphasis>President</emphasis>: Martin Schwenke (unopposed)</para></listitem>
-<listitem><para><emphasis>Treasurer</emphasis>: Bob Edwards (against Michael Still)</para></listitem>
-<listitem><para><emphasis>Secretary</emphasis>: Michael Still (unopposed)</para></listitem>
+<listitem><para>Are the AGM minutes now finished?</para></listitem>
+<listitem><para>Are the November 2002 committee meeting minutes finished?</para></listitem>
 </itemizedlist>
 </sect1>
 
-<sect1><title>Report from National Executive Officer</title>
+<sect1><title>CAUUG website</title>
+
 <para>
-Stephen Rothwell noted there is on-going concern by the National Executive over the local chapters holding accounts, especially as chapter activity can be described as <quote>semi-existent</quote>.
+The Canberra AUUG website is available at <ulink url="http://www.canb.auug.org.au"><citetitle>http://www.canb.auug.org.au</citetitle></ulink>.
 </para>
 
 <para>
-The National Executive would like to consolidate money for all chapters, since only <emphasis>AUUG Incorporated</emphasis> has any legal standing for GST, ABN and quarterly BAS. There are also concerns about the local chapter accounts not being audited, whilst <quote>national</quote> has prudential responsibility.
-</para>
-
-<para>
-The proposal from the National Executive is for all chapters to transfer any monies to the main <emphasis>AUUG Incorporated</emphasis> account, then to maintain internal account balances for locally raised money for each chapter in the <emphasis>AUUG Incorporated</emphasis> books (a standard accounting practice). Cheques and payments will be requested of Liz Carrol, AUUG secretary, who will organize payment. <emphasis>AUUG Incorporated</emphasis> has credit card facilities -- a real bonus for running local events.
-</para>
-
-<para>
-Income from local events, such as Rasmus Lerdorf's PHP tutorial and the <emphasis>Canberra AUUG Technical Symposiums</emphasis> will be credited to the CAUUG account in the <emphasis>AUUG Incorporated</emphasis> books.
-</para>
-
-<para>
-CAUUG currents has about $20,000 in a local bank account, and another $10,000 has already been loaned (transfered) to <emphasis>AUUG Incorporated</emphasis>. Both account signatories, the (ex)treasurer David Baldwin, and (ex)president Peter Wishart were not present at this meeting. They will need to be approached by the incoming treasurer to transfer the money to the <emphasis>AUUG Incorporated</emphasis> account and close the local chapter account.
-</para>
-
-<para>
-<command>The motion was put</command> <quote>Directing the incoming treasurer to arrange for the local chapter account to be closed and the money transfered to <emphasis>AUUG Incorporated</emphasis></quote>. <command>Motion carried without dissent.</command>
-</para>
-</sect1>
-
-<sect1><title>Report of Activities</title>
-
-<sect2><title>Bob Edwards</title>
-<para>
-Bob has been actively pursuing a number of initiatives to promote Open Source through CAUUG.
-</para>
-
-<para>
-Within the ACT Department of Education, many colleges already offer Cisco and Microsoft certification courses. CAUUG as an Open Source advocate should be promoting the teaching and use of Open Source in the school, classroom and staff common rooms. Cisco and Microsoft offer <quote>freebies</quote> and very well structured course content and materials for teachers, making it very easy for them to present the material. Open Source will have to eventually match that level of support to gain acceptance.
-</para>
-
-<para>
-Bob proposed to spend some of CAUUG's finances on finding novel ways of promoting Open Source and assisting teachers in using Open Source in schools. One way of facilitating this is the creation of an Open Source award for teachers. This will require and intimate knowledge of what teachers are doing, and will need <quote>inside help</quote>.
-</para>
-
-<para>
-There is also a need for certified training in Open Source methods and applications for teachers. ADFA teaches some Linux and other courses, these could be used as a base, for example:
+Steven Rothwell can arrange access. An email requesting access for Martin and Michael was sent, and Stephen responded that policy documentation needed to be signed by both Martin and Michael. This has now been completed, and access granted. An update to the website can now be undertaken.
 </para>
 
 <itemizedlist>
-<listitem><para>Half day in services for teachers</para></listitem>
-<listitem><para>A networking with Open Source course</para></listitem>
-<listitem><para>A programming with Open Source course</para></listitem>
+<listitem><para>Does Martin now have access?</para></listitem>
+<listitem><para>Does Michael now have access?</para></listitem>
+<listitem><para>Volunteers to bring it up to date and keep it maintained?</para></listitem>
+<listitem><para>Should all meeting minutes et cetera be on the site?</para></listitem>
+</itemizedlist>
+</sect1>
+
+<sect1><title>Co-opting other committee members</title>
+<itemizedlist>
+<listitem><para>Draft email developed. Is everyone happy with it?</para></listitem>
+</itemizedlist>
+
+<programlisting>
+Hello,
+
+At the CAUUG AGM on 30 November 2002, the members present elected Martin 
+Schwenke (president@canb.auug.org.au) President of CAUUG. Bob Edwards 
+was elected Treasurer (treasurer@canb.auug.org.au, and Michael Still was 
+elected Secretary (secretary@canb.auug.org.au. The term for these 
+elections are until the next AGM, which will be in approximately November
+2003.
+
+The committee believes that a reasonable goal for the coming year is to:
+ - host four technical symposiums (the first one having been held on 
+   30 November 2002)
+ - and promote the use of Open Source and Unix based solutions within 
+   local government
+
+The new committee feels that there are good reasons to co opt more people
+onto the committee for the 2002-2003 period, in order to ease the 
+workload associated with pursuing our goals for the year.
+
+We are also especially interested in people who feel that they have 
+specific skills or contacts which will assist in the pursuit of this 
+agenda.
+
+Therefore, the CAUUG committee invites expressions of interest in being 
+co opted onto the CAUUG committee for the period 2002-2003. The committee
+can be contacted by email at committee@canb.auug.org.au.
+
+Thanks for your time,
+Michael Still
+Secretary, CAUUG
+</programlisting>
+
+<itemizedlist>
+<listitem><para>Review of AUUG chapter procedures, do we want to assist David Purdue?</para></listitem>
+</itemizedlist>
+</sect1>
+
+<sect1><title>Finances</title>
+<itemizedlist>
+<listitem><para>How much does CAUUG have in the bank?</para></listitem>
+<listitem><para>How much did we earn from the 30 November 2002 seminar?</para></listitem>
+<listitem><para>Has this money been forwarded to AUUG national?</para></listitem>
+<listitem><para>Has Bob Edwards been reimbursed for expenditure on 30 November 2002?</para></listitem>
+</itemizedlist>
+</sect1>
+
+<sect1><title>Open Source advocacy</title>
+<itemizedlist>
+<listitem><para>What is Martin's position as an employee of IBM?</para></listitem>
+<listitem><para>Outcome of Steven Jenkin's meeting with the ACT Treasurer?</para></listitem>
+<listitem><para>What is the next step?</para></listitem>
+</itemizedlist>
+</sect1>
+
+<sect1><title>Technical symposium</title>
+<itemizedlist>
+<listitem><para>Target date: 1 March 2003</para></listitem>
+<listitem><para>Theme: <emphasis>TBD</emphasis></para></listitem>
+<listitem><para>Things we could improve?</para></listitem>
+<listitem><para>Things we did right?</para></listitem>
+<listitem><para>Make a survey form available to attendees next time</para></listitem>
 </itemizedlist>
 
 <para>
-The main thrust of Bob's talk was a discussion of how to <quote>take back the classroom</quote>. This resulted in the following proposals:
+At the last meeting we said: <quote><emphasis>Need to have a specific meeting devoted to this. Do a call for papers next time, which needs to go out really soon. We'll look more at this after Christmas.</emphasis></quote>
 </para>
+</sect1>
 
+<sect1><title>Next meeting</title>
 <itemizedlist>
-<listitem><para>CAUUG could employ later year tertiary students to run classes on Open Source in schools, or just present talks. Topics would include <quote>an introduction to Open Source</quote> and <quote>how the Open Source paradigm works</quote>.</para></listitem>
-<listitem><para><emphasis>Red Hat</emphasis> are obvious people to approach to see if they have any courses to offer or if they would be interested in getting involved.</para></listitem>
-<listitem><para>CAUUG should remain vendor neutral, and promote standard Open Source tools.</para></listitem>
-<listitem><para>Knoppix could be used as an introduction to Linux in schools because it boots of the CD ROM and doesn't alter the configuration of the machine. Teachers only have control over the machines within labs</para></listitem>
-<listitem><para>Windows is bundled with all ACT Education department personal computers. Schools have to pay for the Microsoft Office licenses and prices have increased. This could be an ideal point of leverage to introduce OpenOffice.org into schools.</para></listitem>
-<listitem><para>ABIword is also available as a faster, lighter weight, word processing package.</para></listitem>
+<listitem><para>When is the next meeting? <emphasis>The second Thursday in February 2003 is the 13th</emphasis></para></listitem>
+</itemizedlist>
+</sect1>
+
+
+
+<sect1><title>Contact details</title>
+
+<sect2><title>Martin Schwenke (President)</title>
+<itemizedlist>
+<listitem><para>Email: president@canb.auug.org.au</para></listitem>
+<listitem><para>Phone:</para></listitem>
 </itemizedlist>
 </sect2>
 
-<sect2><title>Anthony David</title>
-<para>
-Anthony declared his affiliation with the Australian Democrats, and the fact that he stood as a candidate for the ACT legislative assembly at the most recent ACT election. He recently had support for Open Source added to the Democrats platform.
-</para>
-
-<para>
-Worldwide, governments are mandating the use of, or looking at the benefits of free software and Open Source. Governments used to be leaders in the adoption of IT and have become very conservative over the last decade or so. Anthony has been lobbying the ACT government and parties directly.
-</para>
-
-<para>
-The IT provider for the ACT government is named inTACT, and strategies need to include them.
-</para>
-
-<para>
-The National AUUG body has started lobbying NOIE and there is a CIO briefing scheduled for February 2003. AUUG has also made a submission to the Federal government on the <quote>handling of information and security</quote>.
-</para>
+<sect2><title>Bob Edwards (Treasurer)</title>
+<itemizedlist>
+<listitem><para>Email: treasurer@canb.auug.org.au</para></listitem>
+<listitem><para>Phone:</para></listitem>
+</itemizedlist>
 </sect2>
-</sect1>
 
-<sect1><title>Miscellaneous</title>
-<para>
-UUnite has agreed to join meetings with CAUUG &mdash; meeting nights have been changed to the second Thursday of the month, at the IBM building in Barton. A Christmas barbecue will be held at the final meeting for 2002. Venue and date are yet to be announced.
-</para>
-</sect1>
+<sect2><title>Michael Still (Secretary)</title>
+<itemizedlist>
+<listitem><para>Email: secretary@canb.auug.org.au</para></listitem>
+<listitem><para>Phone:</para></listitem>
+</itemizedlist>
+</sect2>
 
-<sect1><title>End of meeting</title>
-<para>
-The meeting ended at 13:40.
-</para>
+
 </sect1>
 </article>
