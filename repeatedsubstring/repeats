@@ -1,22 +1,38 @@
 #!/usr/bin/perl
 
 use strict;
-my($inset, $testinset, $teststring, $length, $matchcount);
+my($inset, $testinset, $teststring, $length, $matchcount, $count);
 
-$length = 1;
-for($inset = 0; $inset < scalar(@ARGV) - $length + 1; $inset++){
-  $teststring = buildstring($inset, $length);
-  $matchcount = 0;
+for($length = int(scalar(@ARGV) / 2); $length != 0; $length--){
+  for($inset = 0; $inset < scalar(@ARGV) - $length + 1; $inset++){
+    $teststring = buildstring($inset, $length);
+    $matchcount = 1;
 
-  for($testinset = $inset; $testinset < scalar(@ARGV) - $length + 1; $testinset++){
-    if($teststring eq buildstring($testinset + 1, $length)){
-      $matchcount++;
+    if($teststring ne ""){
+      for($testinset = $inset + $length; $testinset < scalar(@ARGV) - $length + 1; $testinset++){
+	if($teststring eq buildstring($testinset, $length)){
+	  $matchcount++;
+	}
+      }
+
+      if($matchcount > 1){
+	$ARGV[$inset] = "";
+	for($count = 0; $count < $matchcount; $count++){
+	  $ARGV[$inset] = "$ARGV[$inset]$teststring ";
+	}
+	for($count = 0; $count < $matchcount * $length - 1; $count++){
+	  $ARGV[$inset + $count + 1] = "";
+	}
+      }
+      $inset += $matchcount - 1;
     }
   }
+}
 
-  $matchcount++;
-  print "$ARGV[$inset] * $matchcount\n";
-  $inset += $matchcount - 1;
+for($count = 0; $count < scalar(@ARGV) + 1; $count++){
+  if($ARGV[$count] ne ""){
+    print "$ARGV[$count]\n";
+  }
 }
 
 sub buildstring(){

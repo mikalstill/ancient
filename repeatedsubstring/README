@@ -1,0 +1,12 @@
+Simply run ./repeats like this:
+
+./repeats a b c a b c d e f g g g h
+
+Which will return
+
+abc abc
+d
+e
+f
+g g g
+h
