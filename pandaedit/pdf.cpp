@@ -157,6 +157,6 @@ pdf::appendLine(wxPoint pt)
 void
 pdf::appendMove(wxPoint pt)
 {
-  move cmd(pt.x, pt.y);
-  m_commands.push_back(cmd);
+  //  move cmd(pt.x, pt.y);
+  //  m_commands.push_back(cmd);
 }

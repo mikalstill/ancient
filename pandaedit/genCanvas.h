@@ -52,8 +52,7 @@ public:
 private:
   DECLARE_EVENT_TABLE () wxFrame *m_frame;
 
-  int m_controlCounter;
-  wxPoint m_controlPoints[4];
+  vector<wxPoint> m_controlPoints;
 };
 
 #endif

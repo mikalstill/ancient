@@ -1,12 +1,12 @@
-#include "streamCommands.h"
+#include "streamCommand.h"
 #include "cmdLines.h"
 
-move::move(wxPoint pt)
-{
+//move::move(wxPoint pt)
+//{
   // todo_mikal
-}
+//}
 
-void move::execute()
-{
+//void move::execute()
+//{
   // todo_mikal
-}
+//}

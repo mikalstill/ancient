@@ -56,6 +56,7 @@
 #include <wx/colordlg.h>
 
 #include "genCanvas.h"
+#include "verbosity.h"
 
 BEGIN_EVENT_TABLE (genCanvas, wxScrolledWindow)
 EVT_MOUSE_EVENTS (genCanvas::OnMouseEvent) END_EVENT_TABLE ()
@@ -65,8 +66,7 @@ genCanvas::genCanvas (wxView * v, wxFrame * frame, const wxPoint & pos,
 		      const wxSize & size, long style):
   wxScrolledWindow (frame, -1, pos, size, style),
   m_view (v),
-  m_frame (frame),
-  m_controlCounter (0)
+  m_frame (frame)
 {
 }
 
@@ -84,8 +84,10 @@ genCanvas::OnMouseEvent (wxMouseEvent & event)
 {
   if(event.LeftIsDown())
     {
+      debug(dlTrace, "Obtaining device context");
       wxClientDC dc (this);
       PrepareDC (dc);
+      debug(dlTrace, "Device context ready");
       
       // This sets the device context so that our drawing causes an inversion, 
       // lines are drawn with black, and polygons are filled with black.
@@ -94,20 +96,12 @@ genCanvas::OnMouseEvent (wxMouseEvent & event)
       dc.SetBrush (*wxBLACK_BRUSH);
       wxPoint pt (event.GetLogicalPosition (dc));
       
-      if(m_controlCounter == 0)
+      if(m_controlPoints.size() == 0)
 	dc.DrawPoint(pt);
       else{
-	dc.DrawLine(m_controlPoints[m_controlCounter - 1], pt);
+	dc.DrawLine(m_controlPoints[m_controlPoints.size() - 1], pt);
       }
 
-      m_controlPoints[m_controlCounter] = pt;
-      m_controlCounter++;
-
-      if((m_view->getCurrentTool() == pdfView::line) &&
-	 (m_controlCounter == 2))
-	{
-	  // We have a straight line, so we should do something with it
-	  
-	}
+      m_controlPoints.push_back(pt);
     }
 }

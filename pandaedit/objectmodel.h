@@ -178,7 +178,7 @@ private:
   wxPoint m_previousEnd;
 
   vector < object > m_objects;
-  vector < streamCommand > m_commands;
+  //  vector < streamCommand > m_commands;
 };
 
 #endif

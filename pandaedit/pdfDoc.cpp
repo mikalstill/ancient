@@ -79,6 +79,7 @@ pdfDoc::OnSaveDocument (const wxString & filename)
 {
   // todo_mikal: truncate filename?
   m_filename = filename;
+  debug(dlTrace, string("Saving file: ") + filename.c_str());
   return TRUE;
 }
 
