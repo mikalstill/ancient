@@ -13,17 +13,18 @@ Strings can be wrapped in curved brackets such as () to delimit the start and en
 <para>
 These are known as literal strings in the PDF specification.
 </para>
+</sect5>
 
-<sect6><title>Examples</title>
+<sect5><title>Examples</title>
 <programlisting>
 (hello)
 (hello world)
 (hello world \(the people I like\))
 (hello world (the people I like))
 </programlisting>
-</sect6>
+</sect5>
 
-<sect6><title>Escaped characters</title>
+<sect5><title>Escaped characters</title>
 <para>
 There are a series of standard characters which are used with the backslash escape. These are:
 </para>
@@ -76,8 +77,9 @@ More on strings in this notation can be found in the PDF specification, version 
 <para>
 Strings can also be written in hexadecimal form, and in this case are enclosed in angle brackets.
 </para>
+</sect5>
 
-<sect6><title>Examples</title>
+<sect5><title>Examples</title>
 <para>
 An example of a hexidecimal string is:
 </para>
@@ -101,7 +103,6 @@ Is the same as:
 <programlisting>
 &lt;901FA0&gt;
 </programlisting>
-</sect6>
 </sect5>
 
 </sect4>

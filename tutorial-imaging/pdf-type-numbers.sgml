@@ -11,8 +11,9 @@ Integer numbers can be either positive or negative (with a leading sign value if
 
 <execute><cmd>nextedition</cmd><input>sizeof(int)</input></execute>
 </para>
+</sect5>
 
-<sect6><title>Examples</title>
+<sect5><title>Examples</title>
 <programlisting>
 123
 43445
@@ -20,7 +21,6 @@ Integer numbers can be either positive or negative (with a leading sign value if
 -17
 0
 </programlisting>
-</sect6>
 </sect5>
 
 <sect5><title>Real numbers</title>
@@ -29,8 +29,9 @@ Real numbers can exist in the range ... to ..., and may or may not have leading 
 
 <execute><cmd>nextedition</cmd><input>sizeof(real)</input></execute>
 </para>
+</sect5>
 
-<sect6><title>Examples</title>
+<sect5><title>Examples</title>
 <programlisting>
 34.5
 -3.62
@@ -39,7 +40,6 @@ Real numbers can exist in the range ... to ..., and may or may not have leading 
 -.002
 0.0
 </programlisting>
-</sect6>
 </sect5>
 
 <sect5><title>Caveats</title>
@@ -49,4 +49,5 @@ The PDF specification makes the following point:
 <quote>PDF does not support the PostScript syntax for numbers with non-decimal radices (such as 16#FFFE) or in exponent format (such as 6.02E23).</quote>
   <footnote><para>PDF Specification 1.3, second edition, page 27</para></footnote>
 </para>
+</sect5>
 </sect4>

@@ -89,7 +89,7 @@ This object is the 0th version of object number 1. The text between the &lt;&lt;
 
 <sidebar><title>Order of objects in the file</title>
 <para>
-Note that objects can appear in the file in any order, because there is a lookup table called an XREF table at the end of the file that they can be looked up from.
+Note that objects can appear in the file in any order, because there is a look up table called an XREF table at the end of the file that they can be looked up from.
 </para>
 </sidebar>
 </sect2>
@@ -184,11 +184,11 @@ A description for the page layout descriptions is outside the scope of this docu
 
 <execute><cmd>nextedition</cmd><input>We should include information about the page description</input></execute> 
 
-The other type of information which can be stored in a stream is arbitary information such as the content of images (which would normally be raster information). 
+The other type of information which can be stored in a stream is arbitrary information such as the content of images (which would normally be raster information). 
 
 <execute><cmd>nextedition</cmd><input>In depth discussion</input></execute> 
 
-An indepth discussion of the formatting of the raster information is also outside the scope of this document.
+An in depth discussion of the formatting of the raster information is also outside the scope of this document.
 </para>
 
 <sect3><title>Filters on streams</title>
@@ -234,7 +234,7 @@ Each page object will have a content object.
 
 <sect3><title>Content objects</title>
 <para>
-Each content object will refer to the pages object, as well as refering to resources that that needed to draw this page. The resources can be used by other contents objects as well. Resources are things like fonts, and images.
+Each content object will refer to the pages object, as well as referring to resources that that needed to draw this page. The resources can be used by other contents objects as well. Resources are things like fonts, and images.
 </para>
 
 <para>
@@ -252,16 +252,17 @@ If the resource is an image or an embedded font, then the additional binary data
 </para>
 </sect3>
 
+<sect3><title>Typical object structure</title>
 <figure><title>A typical PDF object structure</title>
 <graphic format="EPS" fileref="pdf-figure1.eps">
 </figure>
-
+</sect3>
 </sect2>
 </sect1>
 
 <sect1><title>Support for presentations</title>
 <para>
-PDF documents can be used to create presentation slide shows. There are two main features which support this use of PDF -- page duration, and page transitions. The page duration is the amount of time that the page will appear on the screen before the PDF viewer automatically moves onto the next page. The transition is the effect applied to the PDF pages when they are being swapped between -- this is very similar to the Microsoft PowerPoint presentations.
+PDF documents can be used to create presentation slide shows. There are two main features which support this use of PDF -- page duration, and page transitions. The page duration is the amount of time that the page will appear on the screen before the PDF viewer automatically moves onto the next page. The transition is the effect applied to the PDF pages when they are being swapped between -- this is very similar to the Microsoft Power Point presentations.
 </para>
 
 <para>
@@ -320,15 +321,11 @@ Which produces...
 </para>
 
 <execute><cmd>pdf2db.sh</cmd><args>source/pdf/panda/hello/hello.pdf "Panda hello world"</args></execute>
-
-<para>
-todo
-</para>
 </sect2>
 
 <sect2><title>Initialization</title>
 <para>
-Initialisation of Panda is easy. Simply call <command>panda_init</command>(). You'll also need to create a PDF document, which is done with the <command>panda_open</command> function.
+Initialization of Panda is easy. Simply call <command>panda_init</command>(). You'll also need to create a PDF document, which is done with the <command>panda_open</command> function.
 </para>
 
 <execute><cmd>builddb.pl</cmd><input>panda_init.sgml</input></execute>
@@ -337,7 +334,7 @@ Initialisation of Panda is easy. Simply call <command>panda_init</command>(). Yo
 
 <sect2><title>Creating pages</title>
 <para>
-Pages are created in Panda using the <command>panda_newpage</command> function. You can magically be editting as many pages at a time as you like with Panda without any additional calls being needed.
+Pages are created in Panda using the <command>panda_newpage</command> function. You can magically be editing as many pages at a time as you like with Panda without any additional calls being needed.
 </para>
 
 <execute><cmd>builddb.pl</cmd><input>panda_newpage.sgml</input></execute>
@@ -351,7 +348,7 @@ Panda allows you to selectively apply properties to portions of your PDF documen
 <execute><cmd>builddb.pl</cmd><input>panda_setobjectproperty.sgml</input></execute>
 </sect2>
 
-<sect2><title>Finalization</title>
+<sect2><title>Finalizing</title>
 <para>
 Pages don't need to be closed in Panda. This is done when the <command>panda_close</command> function is called. This function writes the entire PDF document out to disc.
 </para>
@@ -361,7 +358,7 @@ Pages don't need to be closed in Panda. This is done when the <command>panda_clo
 
 <sect2><title>Inserting text</title>
 <para>
-One of the advantages which ClibPDF has over Panda is that it currently supported word wrap, whereas Panda doesn't. Panda does have a variety of text functionality however. The public text functions in Panda are: <command>panda_textboxrot</commmand>, which creates a text box at a jaunty angle, <command>panda_textbox</command>, which creates a horizontal textbox (a zero angle), and <command>panda_textdirection</command>, which sets the flow direction for text.
+One of the advantages which ClibPDF has over Panda is that it currently supported word wrap, whereas Panda doesn't. Panda does have a variety of text functionality however. The public text functions in Panda are: <command>panda_textboxrot</command>, which creates a text box at a jaunty angle, <command>panda_textbox</command>, which creates a horizontal textbox (a zero angle), and <command>panda_textdirection</command>, which sets the flow direction for text.
 </para>
 
 <execute><cmd>builddb.pl</cmd><input>panda_textbox.sgml</input></execute>
@@ -371,7 +368,7 @@ One of the advantages which ClibPDF has over Panda is that it currently supporte
 
 <sect2><title>Fonts</title>
 <para>
-Panda currently only supports the standard PDF fonts, and will not allow you to embed arbitary fonts into your PDF documents (unlike PDFlib). Some users might find this a little limiting for the time being. In Panda, you use fonts by first creating a pointer to the font using <command>panda_createfont</command>, and then start using that font with <command>panda_setfont</command>. This allows you use efficiently create the five fonts you are going to use in the document, and then swap backwards and forwards within that set of five with no performance penalty.
+Panda currently only supports the standard PDF fonts, and will not allow you to embed arbitrary fonts into your PDF documents (unlike PDFlib). Some users might find this a little limiting for the time being. In Panda, you use fonts by first creating a pointer to the font using <command>panda_createfont</command>, and then start using that font with <command>panda_setfont</command>. This allows you use efficiently create the five fonts you are going to use in the document, and then swap backwards and forwards within that set of five with no performance penalty.
 </para>
 
 <execute><cmd>builddb.pl</cmd><input>panda_createfont.sgml</input></execute>
@@ -464,9 +461,9 @@ Once you have drawn a line, then it can be filled. You can also configure the st
 </sect3>
 </sect2>
 
-<sect2><title>Document metadata</title>
+<sect2><title>Document meta data</title>
 <para>
-PDF supports embedding metadata about a document into the PDF itself, and Panda supports this through the following calls:
+PDF supports embedding meta data about a document into the PDF itself, and Panda supports this through the following calls:
 </para>
 
 <execute><cmd>builddb.pl</cmd><input>panda_setauthor.sgml</input></execute>
@@ -478,7 +475,7 @@ PDF supports embedding metadata about a document into the PDF itself, and Panda 
 
 <sect2><title>Presentation support</title>
 <para>
-PDF can be used for presentations, and therefore allows you to specify a number of interesting things which are normally associated more with Microsoft PowerPoint presentations...
+PDF can be used for presentations, and therefore allows you to specify a number of interesting things which are normally associated more with Microsoft Power Point presentations...
 </para>
 
 <execute><cmd>builddb.pl</cmd><input>panda_centerwindow.sgml</input></execute>
@@ -580,7 +577,7 @@ Part of my Panda work has been the development of a lexer for PDF documents know
 
 <sect1><title>Conclusion</title>
 <para>
-<execute><cmd>todo</cmd><input>Content</input></execute>
+In this chapter we have discussed the inner workings of the PDF format, which is quite different to the other formats we have discussed in this document. We have also examined Panda, and seen how to use it to generate our PDF documents.
 </para>
 </sect1>
 
@@ -591,10 +588,7 @@ The following resources might be of use if you need more information:
 
 <itemizedlist>
 <listitem><para>http://developer.adobe.com has many useful resources, including the PDF specification (at the time of writing the latest version is 1.4, although this chapter is based on 1.3, because this is what is supported by the two libraries discussed here).</para></listitem>
-<listitem><para></para></listitem>
-<listitem><para></para></listitem>
-<listitem><para></para></listitem>
-<listitem><para></para></listitem>
+<listitem><para>http://www.stillhq.com: has the comp.text.pdf frequently asked questions, as well as the Panda pages.</para></listitem>
 </itemizedlist>
 </sect1>
 

@@ -34,7 +34,7 @@ The PNG has gone from being a simple specification with limitations such as only
 </para>
 
 <para>
-Various versions of the PNG specificiation have been published as RFC-2083 and as a W3C Recommendation, which means that supporting the format is a lot easier because it is well defined.
+Various versions of the PNG specification have been published as RFC-2083 and as a W3C Recommendation, which means that supporting the format is a lot easier because it is well defined.
 </para>
 
 <para>
@@ -79,7 +79,7 @@ It is useful to introduce the PNG file format as one of the first parts of this 
 
 <sect2><title>Byte order</title>
 <para>
-If you recall the TIFF format, multi byte values can either be little endian or big endian. This means that the libtiff library must perform byte swapping everytime you read a value which takes more than one byte (which is most of the time). libpng doesn't have these problems, as all multi byte values are in network byte order (big endian).
+If you recall the TIFF format, multi byte values can either be little endian or big endian. This means that the libtiff library must perform byte swapping every time you read a value which takes more than one byte (which is most of the time). libpng doesn't have these problems, as all multi byte values are in network byte order (big endian).
 </para>
 </sect2>
 
@@ -224,7 +224,7 @@ The case used in chunk names has special significance. The table below describes
 
 </sect2>
 
-<sect2><title>CRC algorithmn</title>
+<sect2><title>CRC algorithm</title>
 <para>
 The exact workings of the CRC algorithm are outside the scope of this tutorial...
 </para>
@@ -308,7 +308,7 @@ There are various values which are valid for the color type field. Each of these
 
 <row>
   <entry>0: 1, 2, 4, 8, 16</entry>
-  <entry>Each pixel is a grayscale sample</entry>
+  <entry>Each pixel is a gray scale sample</entry>
 </row>
 
 <row>
@@ -328,7 +328,7 @@ There are various values which are valid for the color type field. Each of these
 
 <row>
   <entry>4: 8, 16</entry>
-  <entry>Each pixel is a grayscale sample, followed by an alpha channel</entry>
+  <entry>Each pixel is a gray scale sample, followed by an alpha channel</entry>
 </row>
 
 <row>
@@ -1058,7 +1058,7 @@ This example shows you how to read in the raster data that is embedded into the 
 
 <sect1><title>Writing a PNG image</title>
 <para>
-Wrinting a PNG file is <emphasis>very</emphasis> to reading the PNG file. The example below extends the code from above to open a PNG file, and then copy it to a new PNG file.
+Writing a PNG file is <emphasis>very</emphasis> to reading the PNG file. The example below extends the code from above to open a PNG file, and then copy it to a new PNG file.
 </para>
 
 <execute><cmd>code2db.pl</cmd><input>~mikal/opensource/png-write/write.c</input></execute>
@@ -1066,7 +1066,7 @@ Wrinting a PNG file is <emphasis>very</emphasis> to reading the PNG file. The ex
 
 <sect1><title>Storing PNG data in places other than files</title>
 <para>
-This example below, much like the TIFFClient examples in the TIFF chapter shows how to use the libpng callbacks to get to image data in places other than files. Note that it wont compile, but it does give you an example of the structure you need...
+This example below, much like the TIFFClient examples in the TIFF chapter shows how to use the libpng call backs to get to image data in places other than files. Note that it wont compile, but it does give you an example of the structure you need...
 </para>
 
 <execute><cmd>code2db.pl</cmd><input>~mikal/opensource/png-client/client.c</input></execute>
@@ -1090,7 +1090,7 @@ To be honest, the libtiff man pages are much better than the documentation which
 
 <sect1><title>Conclusion</title>
 <para>
-This chapter hasn't been as complete as the TIFF chapter, for which I apologise. I have shown you all the important things about the PNG format though -- the layout of the images on disc, how to open and read an image, how to write an image, how to use the client callbacks to save data in places other than files, and I have included the libpng documentation.
+This chapter hasn't been as complete as the TIFF chapter, for which I apologize. I have shown you all the important things about the PNG format though -- the layout of the images on disc, how to open and read an image, how to write an image, how to use the client call backs to save data in places other than files, and I have included the libpng documentation.
 </para>
 </sect1>
 
