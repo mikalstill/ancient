@@ -80,7 +80,7 @@ am__include = include
 am__quote = 
 install_sh = /home/nick/project/cvs001/source/config/install-sh
 
-noinst_PROGRAMS = testall testwindows testmatrix testconfig testls testdataset testnumeric testfft testdate
+noinst_PROGRAMS = testall testwindows testmatrix testconfig testls testdataset testnumeric testfft testdate testinterp
 EXTRA_PROGRAMS = testallhuge
 
 testwindows_SOURCES = alltests.cpp cep_testWindows.cpp
@@ -102,6 +102,10 @@ testfft_SOURCES = alltests.cpp cep_testCfft.cpp
 
 testdate_SOURCES = alltests.cpp cep_testDate.cpp
 testdate_LDADD = ../cepDate.o
+
+testinterp_SOURCES = alltests.cpp cep_testInterp.cpp
+testinterp_LDADD = ../cepInterp.o
+
 # 2: Above this line, you need to add a line test<name>_SOURCES, which lists
 # your .cpp files, and (if you need it), a line test<name>_LDADD, which lists
 # object files from the source directory which you need for the test
@@ -109,8 +113,9 @@ testdate_LDADD = ../cepDate.o
 # 3: Add the .cpp files here, and add a variable if you used objects from the
 # source directory. Sometimes, if it is heaps of tests which you only want to
 # run very occassionally, it might belong in (4) instead...
-testall_SOURCES = alltests.cpp cep_testWindows.cpp cep_testMatrix.cpp cep_testConfig.cpp cep_testLs.cpp cep_testDataset.cpp cep_testNumeric.cpp cep_testCfft.cpp cep_testDate.cpp
-testall_LDADD = $(testwindows_LDADD) $(testls_LDADD) $(testdataset_LDADD) $(testdate_LDADD)
+testall_SOURCES = alltests.cpp cep_testWindows.cpp cep_testMatrix.cpp cep_testConfig.cpp cep_testLs.cpp cep_testDataset.cpp cep_testNumeric.cpp cep_testCfft.cpp cep_testDate.cpp cep_testInterp.cpp
+
+testall_LDADD = $(testwindows_LDADD) $(testls_LDADD) $(testdataset_LDADD) $(testdate_LDADD) $(testinterp_LDADD)
 
 # 4: A special target for really long winded tests
 testallhuge_SOURCES = alltests.cpp cep_testPresentation000.cpp cep_testPresentation1000.cpp cep_testPresentation1200.cpp cep_testPresentation1400.cpp cep_testPresentation1600.cpp cep_testPresentation1800.cpp cep_testPresentation2000.cpp cep_testPresentation200.cpp cep_testPresentation2200.cpp cep_testPresentation2400.cpp cep_testPresentation2600.cpp cep_testPresentation2800.cpp cep_testPresentation3000.cpp cep_testPresentation3200.cpp cep_testPresentation3400.cpp cep_testPresentation3600.cpp cep_testPresentation3800.cpp cep_testPresentation4000.cpp cep_testPresentation400.cpp cep_testPresentation4200.cpp cep_testPresentation4400.cpp cep_testPresentation600.cpp cep_testPresentation800.cpp
@@ -124,19 +129,19 @@ EXTRA_PROGRAMS = testallhuge$(EXEEXT)
 noinst_PROGRAMS = testall$(EXEEXT) testwindows$(EXEEXT) \
 	testmatrix$(EXEEXT) testconfig$(EXEEXT) testls$(EXEEXT) \
 	testdataset$(EXEEXT) testnumeric$(EXEEXT) testfft$(EXEEXT) \
-	testdate$(EXEEXT)
+	testdate$(EXEEXT) testinterp$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
 
 am_testall_OBJECTS = alltests.$(OBJEXT) cep_testWindows.$(OBJEXT) \
 	cep_testMatrix.$(OBJEXT) cep_testConfig.$(OBJEXT) \
 	cep_testLs.$(OBJEXT) cep_testDataset.$(OBJEXT) \
 	cep_testNumeric.$(OBJEXT) cep_testCfft.$(OBJEXT) \
-	cep_testDate.$(OBJEXT)
+	cep_testDate.$(OBJEXT) cep_testInterp.$(OBJEXT)
 testall_OBJECTS = $(am_testall_OBJECTS)
 testall_DEPENDENCIES = ../cepDataWindower.o ../cepWindowAlg.o \
 	../cepWindowRect.o ../cepwindowhamming.o \
 	../cepwindowchebyshev.o ../cepwindowblackman.o ../cepLs.o \
-	../cepDataset.o ../cepStringArray.o ../cepDate.o
+	../cepDataset.o ../cepStringArray.o ../cepDate.o ../cepInterp.o
 testall_LDFLAGS =
 am_testallhuge_OBJECTS = alltests.$(OBJEXT) \
 	cep_testPresentation000.$(OBJEXT) \
@@ -184,6 +189,10 @@ testfft_OBJECTS = $(am_testfft_OBJECTS)
 testfft_LDADD = $(LDADD)
 testfft_DEPENDENCIES =
 testfft_LDFLAGS =
+am_testinterp_OBJECTS = alltests.$(OBJEXT) cep_testInterp.$(OBJEXT)
+testinterp_OBJECTS = $(am_testinterp_OBJECTS)
+testinterp_DEPENDENCIES = ../cepInterp.o
+testinterp_LDFLAGS =
 am_testls_OBJECTS = alltests.$(OBJEXT) cep_testLs.$(OBJEXT)
 testls_OBJECTS = $(am_testls_OBJECTS)
 testls_DEPENDENCIES = ../cepLs.o
@@ -213,7 +222,8 @@ depcomp = $(SHELL) $(top_srcdir)/config/depcomp
 DEP_FILES = $(DEPDIR)/alltests.Po $(DEPDIR)/cep_testCfft.Po \
 	$(DEPDIR)/cep_testConfig.Po \
 	$(DEPDIR)/cep_testDataset.Po \
-	$(DEPDIR)/cep_testDate.Po $(DEPDIR)/cep_testLs.Po \
+	$(DEPDIR)/cep_testDate.Po \
+	$(DEPDIR)/cep_testInterp.Po $(DEPDIR)/cep_testLs.Po \
 	$(DEPDIR)/cep_testMatrix.Po \
 	$(DEPDIR)/cep_testNumeric.Po \
 	$(DEPDIR)/cep_testPresentation000.Po \
@@ -248,11 +258,11 @@ CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
 CXXFLAGS = -g -O2
 DIST_SOURCES = $(testall_SOURCES) $(testallhuge_SOURCES) \
 	$(testconfig_SOURCES) $(testdataset_SOURCES) \
-	$(testdate_SOURCES) $(testfft_SOURCES) $(testls_SOURCES) \
-	$(testmatrix_SOURCES) $(testnumeric_SOURCES) \
+	$(testdate_SOURCES) $(testfft_SOURCES) $(testinterp_SOURCES) \
+	$(testls_SOURCES) $(testmatrix_SOURCES) $(testnumeric_SOURCES) \
 	$(testwindows_SOURCES)
 DIST_COMMON = Makefile.am Makefile.in
-SOURCES = $(testall_SOURCES) $(testallhuge_SOURCES) $(testconfig_SOURCES) $(testdataset_SOURCES) $(testdate_SOURCES) $(testfft_SOURCES) $(testls_SOURCES) $(testmatrix_SOURCES) $(testnumeric_SOURCES) $(testwindows_SOURCES)
+SOURCES = $(testall_SOURCES) $(testallhuge_SOURCES) $(testconfig_SOURCES) $(testdataset_SOURCES) $(testdate_SOURCES) $(testfft_SOURCES) $(testinterp_SOURCES) $(testls_SOURCES) $(testmatrix_SOURCES) $(testnumeric_SOURCES) $(testwindows_SOURCES)
 
 all: all-am
 
@@ -286,6 +296,9 @@ testdate$(EXEEXT): $(testdate_OBJECTS) $(testdate_DEPENDENCIES)
 testfft$(EXEEXT): $(testfft_OBJECTS) $(testfft_DEPENDENCIES) 
 	@rm -f testfft$(EXEEXT)
 	$(CXXLINK) $(testfft_LDFLAGS) $(testfft_OBJECTS) $(testfft_LDADD) $(LIBS)
+testinterp$(EXEEXT): $(testinterp_OBJECTS) $(testinterp_DEPENDENCIES) 
+	@rm -f testinterp$(EXEEXT)
+	$(CXXLINK) $(testinterp_LDFLAGS) $(testinterp_OBJECTS) $(testinterp_LDADD) $(LIBS)
 testls$(EXEEXT): $(testls_OBJECTS) $(testls_DEPENDENCIES) 
 	@rm -f testls$(EXEEXT)
 	$(CXXLINK) $(testls_LDFLAGS) $(testls_OBJECTS) $(testls_LDADD) $(LIBS)
@@ -310,6 +323,7 @@ include $(DEPDIR)/cep_testCfft.Po
 include $(DEPDIR)/cep_testConfig.Po
 include $(DEPDIR)/cep_testDataset.Po
 include $(DEPDIR)/cep_testDate.Po
+include $(DEPDIR)/cep_testInterp.Po
 include $(DEPDIR)/cep_testLs.Po
 include $(DEPDIR)/cep_testMatrix.Po
 include $(DEPDIR)/cep_testNumeric.Po
