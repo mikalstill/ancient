@@ -18,6 +18,7 @@
 */
 
 #include "cepLsUi.h"
+#include <bits/nan.h>
 
 BEGIN_EVENT_TABLE (cepLsShowDir, wxDialog)
   EVT_BUTTON(CEPBTN_DIR_SUBMIT, cepLsShowDir::dlgDirOnOK)
@@ -84,25 +85,47 @@ bool cepLsShowDir::getWhichDir(char dir)
 BEGIN_EVENT_TABLE (cepLsWeight, wxDialog)
   EVT_BUTTON(CEPBTN_WEIGHT_SUBMIT, cepLsWeight::dlgWeightOnOK)
   EVT_BUTTON(CEPBTN_WEIGHT_CANCEL, cepLsWeight::dlgWeightOnQuit)
+  EVT_BUTTON(CEPBTN_WEIGHT_GO, cepLsWeight::dlgWeightOnGo)
   EVT_CLOSE( cepLsWeight::dlgWeightOnQuit)
 END_EVENT_TABLE ()
 
 cepLsWeight::cepLsWeight(double &startDate, double &endDate, double val):
-  wxDialog((wxDialog *) NULL, -1, "Weight Data", wxPoint(120,120), wxSize(200, 200))
+  wxDialog((wxDialog *) NULL, -1, "Weight Data", wxPoint(120,120), wxSize(300, 200))
 {
-  m_panel = new wxPanel(this, -1, wxPoint(120,120), wxSize(200,200));
+  cepDate fromDate(startDate), toDate(endDate);
+  m_go = false;
+  
+  m_panel = new wxPanel(this, -1, wxPoint(120,200), wxSize(300,200));
 
-  m_statBox = new wxStaticBox(m_panel, -1, "", wxPoint(15, 35), wxSize(170, 100));
+  m_statBox = new wxStaticBox(m_panel, -1, "", wxPoint(15, 30), wxSize(270, 120));
 
-  m_statText1 = new wxStaticText(m_panel, -1, "Please enter the weighting value", wxPoint(5,5), wxSize(190, 20), wxALIGN_CENTRE);
-  m_statText2 = new wxStaticText(m_panel, -1, "for the dates", wxPoint(5,19), wxSize(190, 20), wxALIGN_CENTRE);
-  m_statText3 = new wxStaticText(m_panel, -1, "from: " + wxString(cepToString(startDate).c_str()), wxPoint(20,50), wxSize(190, 20), wxALIGN_LEFT);
-  m_statText4 = new wxStaticText(m_panel, -1, "to: " + wxString(cepToString(endDate).c_str()), wxPoint(20,65), wxSize(190, 20), wxALIGN_LEFT);
+  m_statText1 = new wxStaticText(m_panel, -1, "Please specify the data range and the value", wxPoint(5,5), wxSize(290, 20), wxALIGN_CENTRE);
+  m_statText2 = new wxStaticText(m_panel, -1, "for the weighting matrix:", wxPoint(5,19), wxSize(290, 20), wxALIGN_CENTRE);
 
-  m_statText5 = new wxStaticText(m_panel, -1, "Value: ", wxPoint(20, 90), wxSize(50, 20), wxALIGN_LEFT);
-  m_tbWeight = new wxTextCtrl(m_panel, -1, cepToString(val).c_str(), wxPoint(80, 90), wxSize(60, 20));
-  m_bSubmit = new wxButton(m_panel, CEPBTN_WEIGHT_SUBMIT, "Ok", wxPoint(10,160));
+  m_statText3 = new wxStaticText(m_panel, -1, "From:", wxPoint(25,50), wxSize(30, 20), wxALIGN_LEFT);
+  m_cbFromDay = new wxComboBox(m_panel, -1, "", wxPoint(65, 50), wxSize(43, 20), 31, LS_DAYS, wxCB_READONLY);
+  m_cbFromMonth = new wxComboBox(m_panel, -1, "", wxPoint(113, 50), wxSize(100, 20), 12, LS_MONTHS, wxCB_READONLY);
+  m_tbFromYear = new wxTextCtrl(m_panel, - 1, "2000", wxPoint(218, 50), wxSize(60, 20));
+  
+  m_cbFromDay->SetValue(fromDate.getDay().c_str());
+  m_cbFromMonth->SetValue(fromDate.getMonthName().c_str());
+  m_tbFromYear->SetValue(fromDate.getYear().c_str());
+
+  m_statText4 = new wxStaticText(m_panel, -1, "To:", wxPoint(25,80), wxSize(30, 20), wxALIGN_LEFT);
+  m_cbToDay = new wxComboBox(m_panel, -1, "", wxPoint(65, 80), wxSize(43, 20), 31, LS_DAYS, wxCB_READONLY);
+  m_cbToMonth = new wxComboBox(m_panel, -1, "", wxPoint(113, 80), wxSize(100, 20), 12, LS_MONTHS, wxCB_READONLY);
+  m_tbToYear = new wxTextCtrl(m_panel, - 1, "2000", wxPoint(218, 80), wxSize(60, 20));
+
+  m_cbToDay->SetValue(toDate.getDay().c_str());
+  m_cbToMonth->SetValue(toDate.getMonthName().c_str());
+  m_tbToYear->SetValue(toDate.getYear().c_str());
+
+  m_statText5 = new wxStaticText(m_panel, -1, "Value: ", wxPoint(25, 110), wxSize(35,20), wxALIGN_LEFT);
+  m_tbVal = new wxTextCtrl(m_panel, -1, cepToString(val).c_str(), wxPoint(65, 110), wxSize(50,20));
+
+  m_bSubmit = new wxButton(m_panel, CEPBTN_WEIGHT_SUBMIT, "Ok", wxPoint(15,160));
   m_bCancel = new wxButton(m_panel, CEPBTN_WEIGHT_CANCEL, "Cancel", wxPoint(110,160));
+  m_bGo = new wxButton(m_panel, CEPBTN_WEIGHT_GO, "Do VCV", wxPoint(205, 160));
 
   Center();
   ShowModal();
@@ -110,31 +133,60 @@ cepLsWeight::cepLsWeight(double &startDate, double &endDate, double val):
 
 void cepLsWeight::dlgWeightOnQuit(wxCommandEvent& WXUNUSED(event))
 {
-  m_val = "-1000";
+  m_val = "-2.0";
+  m_toDate = -2.0;
+  m_fromDate = -2.0;
   
   EndModal(1);
   Destroy();
 }
 
+void cepLsWeight::dlgWeightOnGo(wxCommandEvent& WXUNUSED(event))
+{
+  m_go = true;
+  
+  EndModal(2);
+  Destroy();
+}
 void cepLsWeight::dlgWeightOnOK(wxCommandEvent& WXUNUSED(event))
 {
-  m_val = m_tbWeight->GetValue();
+  m_val = m_tbVal->GetValue();
   
+  m_toDate = cepDate(atoi(m_cbToDay->GetValue().c_str()), m_cbToMonth->GetValue().c_str(), atoi(m_tbToYear->GetValue().c_str())).getDecimalDate();
+  m_fromDate = cepDate(atoi(m_cbFromDay->GetValue().c_str()), m_cbFromMonth->GetValue().c_str(), atoi(m_tbFromYear->GetValue().c_str())).getDecimalDate();
+
   EndModal(0);
   Destroy();
 }
 
-double cepLsWeight::getWeight(){
-
+double cepLsWeight::getWeight()
+{
   for(size_t i = 0; i < m_val.Length(); i ++)
   {
     if(cepIsNumeric(m_val.GetChar(i)) == false)
     {
-      return -1001.0;
+      return NAN;
     }
   }
-
   return (atof(m_val.c_str()));
+}
+
+double cepLsWeight::getFromDate()
+{
+
+  return m_fromDate;
+}
+
+double cepLsWeight::getToDate()
+{
+
+  return m_toDate;
+}
+
+bool cepLsWeight::getDoVCV()
+{
+
+  return m_go;
 }
 
 cepLsUi::cepLsUi() {}
@@ -161,9 +213,6 @@ void cepLsUi::showIsReweight()
       m_isReweight = -1;
       break;
   }  
-  //cepLsIsReweight sir;
-
-  //m_isReweight = sir.getIsReweight();
 }
 
 void cepLsUi::showWhichDir()
@@ -197,9 +246,6 @@ void cepLsUi::showIsReadP(string dir)
       m_isReadP = -1;
       break;
   }
-  //cepLsReadP rp(dir);
-
-  //m_isReadP = rp.getIsReadP();
 }
 
 void cepLsUi::showGetfNameP()
@@ -221,9 +267,6 @@ void cepLsUi::showGetfNameP()
       m_filename = "";
       break;
   }
-  //cepLsShowFile sf;
-
-  //m_filename = sf.getFilename();
 }
 
 void cepLsUi::showWeight(double startDate, double endDate, double val)
@@ -231,6 +274,10 @@ void cepLsUi::showWeight(double startDate, double endDate, double val)
   cepLsWeight weight(startDate, endDate, val);
 
   m_weight = weight.getWeight();
+  m_toDate = weight.getToDate();
+  m_fromDate = weight.getFromDate();
+  m_go = weight.getDoVCV();
+  
 }
 int cepLsUi::getIsReweight()
 {
@@ -252,7 +299,6 @@ bool cepLsUi::getWhichDir(char dir)
       //ERROR here!
       return false;
   }
-
 }
 int cepLsUi::getIsReadP()
 {
@@ -267,4 +313,19 @@ string cepLsUi::getfNameP()
 double cepLsUi::getWeight()
 {
   return m_weight;
+}
+
+double cepLsUi::getFromDate()
+{
+  return m_fromDate;
+}
+
+double cepLsUi::getToDate()
+{
+  return m_toDate;
+}
+
+bool cepLsUi::getDoVCV()
+{
+  return m_go;
 }
