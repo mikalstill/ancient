@@ -106,12 +106,18 @@ PURPOSE Displays the "Weight Data" dialog box for the user interface
 SYNOPSIS START
 The follwing is an example of how to create this object.
 
-cepLsWeight dr(fromDate, toDate, val);
+cepLsWeight dr(fromDay, fromMonth, fromYear,
+               toDay, toMonth, toYear,
+               val);
 
 <para><itemizedlist>
-  <listitem><para>fromDate:- is a cepDate that contains the the defaut start date</para></listitem>
-  <listitem><para>toDate:- is a cepDate that contains the the defaut finish date</para></listitem>
-  <listitem><para>val:- is a double that contains the the defaut weight for the given points</para></listitem>
+  <listitem><para>fromDay:- is a wxString that contains the start day</para></listitem>
+  <listitem><para>fromMonth:- is a wxString that contains the start month</para></listitem>
+  <listitem><para>fromYear:- is a wxString that contains the start year</para></listitem>
+  <listitem><para>toDay:- is a wxString that contains the finish day</para></listitem>
+  <listitem><para>toMonth:- is a wxString that contains the finish month</para></listitem>
+  <listitem><para>toYear:- is a wxString that contains the finish year</para></listitem>
+  <listitem><para>val:- is a wxString that contains the default weighting value</para></listitem>
 </itemizedlist></para>
 
 SYNOPSIS END
@@ -123,25 +129,42 @@ which displays a custom wxWindows dialog box.
 </para>
 
 <para>
-<command>double getFromDate()</command>
-Returns the defined start date as a decimal date. If a value of -1 is returned
-the specified date was invalid. If -2 is returned this action was canceled
+<command>const wxString & getFromDay()</command>
+Returns the start day selected. If -1 is returned this action was canceled.
 </para>
 
 <para>
-<command>double getToDate()</command>
-Returns the defined finished date as a decimal date. If a value of -1 is returned
-the specified date was invalid. If -2 is returned this action was canceled
+<command>const wxString & getFromMonth()</command>
+Returns the start month selected. If -1 is returned this action was canceled.
 </para>
 
 <para>
-<command>double getWeight()</command>
-Returns the defined weighting value. If a value of NAN is returned the entered
-weighting value was invalid. If -2 is returned this action was canceled
+<command>const wxString & getFromYear()</command>
+Returns the start year selected. If -1 is returned this action was canceled.
 </para>
 
 <para>
-<command>bool getDoVCV()</command>
+<command>const wxString & getToDay()</command>
+Returns the finish day selected. If -1 is returned this action was canceled.
+</para>
+
+<para>
+<command>const wxString & getToMonth()</command>
+Returns the finish month selected. If -1 is returned this action was canceled.
+</para>
+
+<para>
+<command>const wxString & getToYear()</command>
+Returns the weight selected. If -1 is returned this action was canceled.
+</para>
+
+<para>
+<command>const wxString & getWeight()</command>
+Returns the start day is selected. If -1 is returned this action was canceled.
+</para>
+
+<para>
+<command>const bool & getDoVCV()</command>
 Returns true if the VCV least squares transformation is to be prefomed now.
 
 DESCRIPTION END
@@ -167,18 +190,18 @@ public:
               wxString val);
               
   //gets values entered
-  wxString getToDay();
-  wxString getToMonth();
-  wxString getToYear();
+  const wxString & getToDay();
+  const wxString & getToMonth();
+  const wxString & getToYear();
   
-  wxString getFromDay();
-  wxString getFromMonth();
-  wxString getFromYear();
+  const wxString & getFromDay();
+  const wxString & getFromMonth();
+  const wxString & getFromYear();
 
-  wxString getWeight();
+  const wxString & getWeight();
 
   //have we finished weighting?
-  bool getDoVCV();
+  const bool & getDoVCV();
   
   //the on Quit event
   void dlgWeightOnQuit(wxCommandEvent& event);
@@ -197,6 +220,7 @@ private:
   wxTextCtrl *m_tbToYear, *m_tbFromYear, *m_tbVal;
   wxButton *m_bSubmit, *m_bCancel, *m_bGo;
 
+  //holds the selected values
   wxString m_fromDay,
            m_fromMonth,
            m_fromYear,
@@ -251,7 +275,7 @@ Shows the choose file dialog box.
 
 <para>
 <para>
-<command>int getIsReweight()</command>
+<command>const int & getIsReweight()</command>
 Get the value returned from the dialog box. Returns 1 for yes, 0 for no or -1
 for cancel.
 </para>
@@ -267,7 +291,7 @@ Shows the "Weight Data" dialog box.
 </itemizedlist></para>
 </para>
 
-<command>bool getWhichDir(char dir)</command>
+<command>const bool getWhichDir(char dir)</command>
 Returns true if the given direction is selected, otherwise false is returned.
 <para><itemizedlist>
   <listitem><para>dir:-The data direction. Must be one of x, y or z</para></listitem>
@@ -275,37 +299,37 @@ Returns true if the given direction is selected, otherwise false is returned.
 </para>
 
 <para>
-<command>int getIsReadP()</command>
+<command>const int & getIsReadP()</command>
 Get the value returned from the dialog box. Returns 1 for yes, 0 for no or -1
 for cancel.
 </para>
 
 <para>
-<command>string getfNameP()</command>
+<command>const string & getfNameP()</command>
 Returns the full path of the file selected for opening. If getFilename() returns
 "" the user has canceled this operation.
 </para>
 
 <para>
-<command>double getFromDate()</command>
+<command>const double getFromDate()</command>
 Returns the defined start date as a decimal date. If a value of -1 is returned
-the specified date was invalid. If -2 is returned this action was canceled
+the action was canceled.
 </para>
 
 <para>
-<command>double getToDate()</command>
-Returns the defined finished date as a decimal date. If a value of -1 is returned
-the specified date was invalid. If -2 is returned this action was canceled
+<command>const double getToDate()</command>
+Returns the defined finished date as a decimal date.  If a value of -1 is returned
+the action was canceled.
 </para>
 
 <para>
-<command>double getWeight()</command>
-Returns the defined weighting value. If a value of NAN is returned the entered
-weighting value was invalid. If -2 is returned this action was canceled
+<command>const double getWeight()</command>
+Returns the defined weighting value.  If a value of -1 is returned
+the action was canceled.
 </para>
 
 <para>
-<command>bool getDoVCV()</command>
+<command>const bool & getDoVCV()</command>
 Returns true if the VCV least squares transformation is to be prefomed now.
 
 DESCRIPTION END
@@ -331,27 +355,27 @@ public:
   void showWeight(double startDate, double endDate, double val);
 
   //get values from the re-weight dialog box
-  int getIsReweight();
+  const int & getIsReweight();
 
   //get the value for a given direction returned from
   //the choose diretion dialog box
-  bool getWhichDir(char dir);
+  const bool getWhichDir(char dir);
 
   //get the value from the read from file dialog box
-  int getIsReadP();
+  const int & getIsReadP();
 
   //get the name of the selected file
-  string getfNameP();
+  const string & getfNameP();
 
   //get the weight value selected
-  double getWeight();
+  const double getWeight();
 
   //get the weight date range for the selected values
-  double getFromDate();
-  double getToDate();
+  const double getFromDate();
+  const double getToDate();
 
   //have we finished re-weighting
-  bool getDoVCV();
+  const bool & getDoVCV();
 private:
   int m_isReweight;   //holds the value returned from the reweighting dialog box
   bool m_doDirX,      //was direction X selected?
@@ -360,6 +384,7 @@ private:
   int m_isReadP;      //holds the value returned from the read from file dialog box
   string m_filename;  //holds the file name selected in the read file dialog box
 
+  //holds the values returned from the "Select Weight" dialog box
   wxString m_fromDay,
            m_fromMonth,
            m_fromYear,

@@ -48,9 +48,12 @@ PURPOSE Displays the "Specify Sample Rate" dialog box for the Interpolation user
 SYNOPSIS START
 The follwing is an example of how to create this object.
 
-cepInterpShowRate sr(val);
+cepInterpShowRate sr(val, units);
 
-where val is the default sample rate.
+<para><itemizedlist>
+  <listitem><para>val:- the default sample rate</para></listitem>
+  <listitem><para>units:- the units, must be one of 1 (years), 12 (months) or 365.25 (days)</para></listitem>
+</itemizedlist></para>
 
 SYNOPSIS END
 
@@ -63,16 +66,15 @@ which displays a custom wxWindows dialog box.
 <para>
 <command>double getSample()</command>
 Returns the specified sample rate. If a value of -1 is returned this operation
-has been canceled. If -2 is returned the value entered was invalid.
+has been canceled.
 </para>
 
-<para>units getUnits()</command>
-Returns the units selected as an enumated type. Units can be one of:-
+<para>units getSampleUnits()</command>
+Returns the units selected. Units can be one of:-
 <para><itemizedlist>
-  <listitem><para>Years</para></listitem>
-  <listitem><para>Days</para></listitem>
-  <listitem><para>Hours</para></listitem>
-  <listitem><para>Unknowen</para></listitem>
+  <listitem><para>1 (years)</para></listitem>
+  <listitem><para>12 (months)</para></listitem>
+  <listitem><para>365.25 (days)</para></listitem>
 </itemizedlist></para>
 
 DESCRIPTION END
@@ -84,12 +86,12 @@ class cepInterpShowRate: public wxDialog
 public:
   
   //show the "Specify Sample Rate" dialog box
-  cepInterpShowRate(wxString val, double units);
+  cepInterpShowRate(const wxString & val, const double & units);
 
   //returns the sample rate specified
-  wxString getSample();
+  const wxString & getSample();
 
-  double getSampleUnits();
+  const double & getSampleUnits();
   
   //the on Quit event
   void dlgRateOnQuit(wxCommandEvent& event);
@@ -105,7 +107,7 @@ private:
   wxTextCtrl *m_tbSample;
   wxButton *m_bSubmit, *m_bCancel;
 
-  wxString m_sampleRate;
+  wxString m_sampleRate;    //sample 
   double m_sampleUnits;
   
   DECLARE_EVENT_TABLE ()
@@ -137,27 +139,16 @@ which displays the interpolation GUI.
 Shows the interpolation GUI.
 
 <para><itemizedlist>
-  <listitem><para>val:- the default value of the sample rate. This is usually 1/2 the distance
-      between first two points in the dataset</para></listitem>
+  <listitem><para>val:- the default value of the sample rate. This is usually one (1)</para></listitem>
 </itemizedlist></para>
 </para>
 
 <para>
-<command> double getSampleRate()</command>
+<command>double getSampleRate()</command>
 Gets the sample rate selected by the user. If a value of -1 is returned this operation
-has been canceled. If -2 is returned the value entered was invalid.
+has been canceled.
 </para>
 
-<para>
-<command> cepInterpShowRate::units getUnits()</command>
-Returns the units selected by the user. This fuction will return an enumerated type
-which is one of:-
-<para><itemizedlist>
-  <listitem><para>Years</para></listitem>
-  <listitem><para>Days</para></listitem>
-  <listitem><para>Hours</para></listitem>
-  <listitem><para>Unknowen</para></listitem>
-</itemizedlist></para>
 
 DESCRIPTION END
 
@@ -172,7 +163,7 @@ public:
   void showSampleRate(double val);
 
   //returns the specified sample rate
-  double getSampleRate();
+  const double getSampleRate();
  
 private:
   wxString m_sampleRate;                    //stores the specified sample rate

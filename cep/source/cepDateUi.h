@@ -45,7 +45,7 @@ PURPOSE Displays the "Select Date Range" dialog box for the user interface
 SYNOPSIS START
 The follwing is an example of how to create this object.
 
-cepDateRange dr(fromDate, toDate);
+cepDateRange dr(toDate, fromDate);
 
 <para><itemizedlist>
   <listitem><para>fromDate:- is a cepDate that contains the the defaut start date</para></listitem>
@@ -140,8 +140,14 @@ date range GUI.
 </para>
 
 <para>
-<command>void showDateRange()</command>
-Show the "Select Date Range" dialog box
+<command>void showDateRange(cepDate toDate, cepDate fromDate)</command>
+Show the "Select Date Range" dialog box.
+
+<para><itemizedlist>
+  <listitem><para>fromDate:- is a cepDate that contains the the defaut start date</para></listitem>
+  <listitem><para>toDate:- is a cepDate that contains the the defaut finish date</para></listitem>
+</itemizedlist></para>
+
 </para>
 
 <para>
@@ -171,14 +177,12 @@ public:
   void showDateRange(cepDate toDate, cepDate fromDate);
 
   //gets the date value as decimals
-  double getToDate();
-  double getFromDate();
+  double & getToDate();
+  double & getFromDate();
 
 private:
-
-  //The dates selected a decimals
-  double m_toDate,
-         m_fromDate;
+  double m_toDate,      //the finish date as a decimal
+         m_fromDate;    //the start date as a decimal
 };
 
 

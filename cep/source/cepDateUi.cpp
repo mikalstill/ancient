@@ -73,6 +73,7 @@ const double & cepDateRange::getFromDate()
 
 void cepDateRange::dlgDateOnQuit(wxCommandEvent& WXUNUSED(event))
 {
+  //set values to -2 if cancel is hit
   m_toDate = -2.0;
   m_fromDate = -2.0;
   
@@ -82,11 +83,9 @@ void cepDateRange::dlgDateOnQuit(wxCommandEvent& WXUNUSED(event))
 
 void cepDateRange::dlgDateOnOK(wxCommandEvent& WXUNUSED(event))
 {
+  //convert dates entered to a decimal date
   m_toDate = cepDate(atoi(m_cbToDay->GetValue().c_str()), m_cbToMonth->GetValue().c_str(), atoi(m_tbToYear->GetValue().c_str())).getDecimalDate();
   m_fromDate = cepDate(atoi(m_cbFromDay->GetValue().c_str()), m_cbFromMonth->GetValue().c_str(), atoi(m_tbFromYear->GetValue().c_str())).getDecimalDate();
-
-  cout << "########fromDate " << m_fromDate << endl;
-  cout << "########toDate " << m_toDate << endl;
 
   EndModal(0);
   Destroy();  
@@ -102,12 +101,12 @@ void cepDateUi::showDateRange(cepDate toDate, cepDate fromDate)
   m_toDate = dr.getToDate();
 }
 
-double cepDateUi::getToDate()
+double & cepDateUi::getToDate()
 {
   return m_toDate;
 }
 
-double cepDateUi::getFromDate()
+double & cepDateUi::getFromDate()
 {
   return m_fromDate;
 }

@@ -42,7 +42,7 @@ Declaring a NULL matrix:-
 cepMatrix<T> matrix()
 
 Declaring a 2D matrix:-
-cepMatrix<T> matrix(int rows, int cols)
+cepMatrix<T> matrix(const int & rows, const int & cols)
 
 <para><itemizedlist>
   <listitem><para>rows:- the number of rows in the matrix</para></listitem>
@@ -51,7 +51,7 @@ cepMatrix<T> matrix(int rows, int cols)
 
 
 Declaring a 3D matrix:-
-cepMatrix<T> matrix(int rows, int cols, int tabs)
+cepMatrix<T> matrix(const int & rows, const int & cols, const int & tabs)
 
 <para><itemizedlist>
   <listitem><para>rows:- the number of rows in the matrix</para></listitem>
@@ -135,7 +135,7 @@ This function can not be used with 3D matricies.
 </para>
 
 <para>
-<command>const T getMaxValue(int col)</command>
+<command>const T getMaxValue(const int & col)</command>
 Returns the largest value in a given  coloum.
 <para><itemizedlist>
   <listitem><para>col:- the coloum to be queried</para></listitem>
@@ -143,7 +143,7 @@ Returns the largest value in a given  coloum.
 </para>
 
 <para>
-<command>const T getMinValue(int col)</command>
+<command>const T getMinValue(const int & col)</command>
 Returns the smallest value in a given coloum
 <para><itemizedlist>
   <listitem><para>col:- the coloum to be queried</para></listitem>
@@ -151,7 +151,7 @@ Returns the smallest value in a given coloum
 </para>
 
 <para>
-<command>const cepMatrix<T> & resize(int newRows)</command>
+<command>const cepMatrix<T> & resize(const int & newRows)</command>
 Returns the current matrix which is resized by newRows number of rows. This
 function can only make the number of rows in the matrix larger and can not be
 used on 3D matricies
@@ -161,7 +161,7 @@ used on 3D matricies
 </para>
 
 <para> 
-<command>const T& getValue (int row, int col)</command>
+<command>const T & getValue (const int & row, const int & col)</command>
 Returns the value of the matrix the specified point.
 This function can not be used with 3D matricies.
 <para><itemizedlist>
@@ -171,7 +171,7 @@ This function can not be used with 3D matricies.
 </para>
 
 <para> 
-<command>void setValue (const int row, const int col, const T & value)</command>
+<command>void setValue (const int & row, const int & col, const T & value)</command>
 Sets the value of the matrix at the specified point
 This function can not be used with 3D matricies.
 <para><itemizedlist>
@@ -183,7 +183,7 @@ This function can not be used with 3D matricies.
 </para>
 
 <para>
-<command>const cepMatrix<T> & resize(int newRows)</command>
+<command>const cepMatrix<T> & resize(int & newRows)</command>
 Returns the current matrix which is resized by newRows number of rows. This function
 can only make the number of rows in the matrix larger.
 <para><itemizedlist>
@@ -192,17 +192,17 @@ can only make the number of rows in the matrix larger.
 </para>
 
 <para> 
-<command>const int getNumRows ()</command>
+<command>const int & getNumRows ()</command>
 Gets the number of rows in the matrix.
 </para>
 
 <para> 
-<command>const int getNumCols ()</command>
+<command>const int & getNumCols ()</command>
 Gets the number of colums in the matrix.
 </para>
 
 <para> 
-<command>const T& getValue (int row, int col, int tab)/command>
+<command>const T& getValue (const int & row, const int & col, const int & tab)/command>
 Gets the value of a 3D matrix at a specfied point
 This function can not be used with 2D matricies.
 <para><itemizedlist>
@@ -213,7 +213,7 @@ This function can not be used with 2D matricies.
 </para>
 
 <para> 
-<command>void setValue (const int row, const int col, const int tab, const T & value)</command>
+<command>void setValue (const int & row, const int & col, const int & tab, const T & value)</command>
 Sets the value of the 3D matrix at the specified point.
 This function can not be used with 2D matricies.
 <para><itemizedlist>
@@ -225,9 +225,14 @@ This function can not be used with 2D matricies.
 </para>
 
 <para> 
-<command>const int getNumTables()</command>
+<command>const int & getNumTables()</command>
 Gets the number of tables in the matrix.
 This function can not be used with 2D matricies.
+</para>
+
+<para>
+<command>const bool is3D()</command>
+Returns true if the matrix is a 3D matrix, else returns false.
 </para>
 
 <para>
@@ -259,8 +264,8 @@ class cepMatrix
 
 public:
   cepMatrix ();
-  cepMatrix (int rows, int cols);
-  cepMatrix (int rows, int cols, int tab);
+  cepMatrix (const int & rows, const int & cols);
+  cepMatrix (const int & rows, const int & cols, const int & tab);
   cepMatrix (const cepMatrix &B);   // copy constructor
 
   ~cepMatrix ();
@@ -270,71 +275,71 @@ public:
   
   // ***************assingement operators***********************
   //calculates A+B where A is the current matrix object and B is another matrix
-  const cepMatrix<T> & operator+= (const cepMatrix &B);
+  const cepMatrix<T> & operator+= (const cepMatrix & B);
 
   //calculates A-B where A is the current matrix object and B is another matrix  
-  const cepMatrix<T> & operator-= (const cepMatrix &B);
+  const cepMatrix<T> & operator-= (const cepMatrix & B);
 
-  //calculates A*B where A is the current matrix object and B is another matrix 
-  const cepMatrix<T> & operator*= (const cepMatrix &B);  
+  //calculates A*B where A is the current matrix object and B is another matrix
+  const cepMatrix<T> & operator*= (const cepMatrix & B);
 
-  //calculates c*A where A is the current matrix object and scalar is a scalar value  
-  const cepMatrix<T> & operator*= (const T &scalar);        // mat * scalar
+  //calculates c*A where A is the current matrix object and scalar is a scalar value
+  const cepMatrix<T> & operator*= (const T & scalar);        // mat * scalar
 
   // ***************copy operator*****************************
   //copies A to B where A is the current matrix object and B is another matrix
-  const cepMatrix<T> & operator= (const cepMatrix &B);
+  const cepMatrix<T> & operator= (const cepMatrix & B);
 
   // ***************query operators****************************
   //compares A to B where A is the current matrix object and B is another matrix
   //returns true if A and B are equal, else returns false  
-  bool operator== (const cepMatrix &B);
+  const bool operator== (const cepMatrix & B);
 
   //compares A to B where A is the current matrix object and B is another matrix
   //returns true if A and B are equal, else returns false
-  bool operator!= (const cepMatrix &B);
+  const bool operator!= (const cepMatrix & B);
 
   //determies whether the A, the current matrix object is strictly Diagonal.
   //returs true if A is diagonal, else returns false  
-  bool isDiagonal ();
+  const bool isDiagonal ();
 
   //returns the largest value in a given  coloum
-  const T getMaxValue(int col);
+  const T getMaxValue(const int & col);
 
   //returns the smallest value in a given coloum
-  const T getMinValue(int col);
+  const T getMinValue(const int & col);
   //****************Resize fuction **************************
   //Returns the current matrix which is resized by newRows number of rows. This
   //function can only make the number of rows in the matrix larger.
-  const cepMatrix<T> & resize(int newRows);
+  const cepMatrix<T> & resize(const int & newRows);
   
   // ***************get/set methods**************************
   //gets the value of the matrix at matrix[row,col]
-  const T getValue (int row, int col);
+  const T getValue (const int & row, const int & col);
   
   //sets the value of the matrix at matrix[row,col] = value
-  void setValue (const int row, const int col, const T & value);
+  void setValue (const int & row, const int & col, const T & value);
 
   //gets the number of rows in the matrix  
-  const int getNumRows ();
+  const int & getNumRows ();
 
   //gets the number of cols in the matrix
-  const int getNumCols ();
+  const int & getNumCols ();
 
   // ***************get/set methods**************************
   //gets the value of the matrix at matrix[row,col,inst]
-  const T getValue (int row, int col, int tab);
+  const T getValue (const int & row, const int & col, const int & tab);
 
   //sets the value of the matrix at matrix[row,col,inst] = value
-  void setValue (const int row, const int col, const int tab, const T & value);
+  void setValue (const int & row, const int & col, const int & tab, const T & value);
 
   //gets the number of tables in the matrix
-  const int getNumTables();
+  const int & getNumTables();
 
-  //DOCUMENT
-  bool is3D();
+  //returns true if matrix is 3D
+  const bool is3D();
   //*******************Error method**************************
-  //returns any error that may have occored
+  //returns any error that may have occoured
   cepError getError();
 
 private:
@@ -343,7 +348,7 @@ private:
   int m_numRows,        //holds the number of rows in the matrix
       m_numCols,        //holds the number of cols in the matrix
       m_numTables;      //holds the number if instances of matricies
-  char* m_error;     //holds any error returned from a fuction
+  char* m_error;        //holds any error returned from a fuction
  
 };
 
@@ -361,7 +366,7 @@ cepMatrix<T>::cepMatrix ()
 }
 
 template <class T>
-cepMatrix<T>::cepMatrix (int rows, int cols)
+cepMatrix<T>::cepMatrix (const int & rows, const int & cols)
 {
   //initalize a matrix
   m_numRows = rows;
@@ -380,7 +385,7 @@ cepMatrix<T>::cepMatrix (int rows, int cols)
 }
 
 template <class T>
-cepMatrix<T>::cepMatrix (int rows, int cols, int tab)
+cepMatrix<T>::cepMatrix (const int & rows, const int & cols, const int & tab)
 {
   //initalize a matrix
   m_numRows = rows;
@@ -775,7 +780,7 @@ const cepMatrix<T> & cepMatrix<T>::operator= (const cepMatrix & B)
 //***************query operators****************************
 
 template <class T>
-bool cepMatrix<T>::operator== (const cepMatrix & B)
+const bool cepMatrix<T>::operator== (const cepMatrix & B)
 {
   m_error = NULL;
 
@@ -809,14 +814,14 @@ bool cepMatrix<T>::operator== (const cepMatrix & B)
 }
 
 template <class T>
-bool cepMatrix<T>::operator!= (const cepMatrix & B)
+const bool cepMatrix<T>::operator!= (const cepMatrix & B)
 {
   m_error = NULL;
 
   return !(operator==(B));
 }
 template <class T>
-bool cepMatrix<T>::isDiagonal ()
+const bool  cepMatrix<T>::isDiagonal ()
 {
   m_error = NULL;
 
@@ -847,7 +852,7 @@ bool cepMatrix<T>::isDiagonal ()
 }
 
 template <class T>
-const T cepMatrix<T>::getMaxValue(int col)
+const T cepMatrix<T>::getMaxValue(const int & col)
 {
   T maxVal;
 
@@ -879,7 +884,7 @@ const T cepMatrix<T>::getMaxValue(int col)
 }
 
 template <class T>
-const T cepMatrix<T>::getMinValue(int col)
+const T cepMatrix<T>::getMinValue(const int & col)
 {
   T minVal;
 
@@ -912,7 +917,7 @@ const T cepMatrix<T>::getMinValue(int col)
 
 //****************Resize fuction *************************
 template <class T>
-const cepMatrix<T>& cepMatrix<T>::resize(int newRows)
+const cepMatrix<T>& cepMatrix<T>::resize(const int & newRows)
 {
   T *tempMatrix = NULL;
 
@@ -986,7 +991,7 @@ const cepMatrix<T>& cepMatrix<T>::resize(int newRows)
 //***************get/set methods**************************
 
 template <class T>
-const T cepMatrix<T>::getValue (int row, int col)
+const T cepMatrix<T>::getValue (const int & row, const int & col)
 {
   m_error = NULL;
   if (m_matrix == NULL)
@@ -1010,7 +1015,7 @@ const T cepMatrix<T>::getValue (int row, int col)
 }
 
 template <class T>
-void cepMatrix<T>::setValue (const int row, const int col, const T & value)
+void cepMatrix<T>::setValue (const int & row, const int & col, const T & value)
 {
   m_error = NULL;
 
@@ -1030,7 +1035,7 @@ void cepMatrix<T>::setValue (const int row, const int col, const T & value)
 }
 
 template <class T>
-const int cepMatrix<T>::getNumRows ()
+const int & cepMatrix<T>::getNumRows ()
 {
   m_error = NULL;
 
@@ -1038,7 +1043,7 @@ const int cepMatrix<T>::getNumRows ()
 }
 
 template <class T>
-const int cepMatrix<T>::getNumCols ()
+const int & cepMatrix<T>::getNumCols ()
 {
   m_error = NULL;
 
@@ -1048,7 +1053,7 @@ const int cepMatrix<T>::getNumCols ()
 //***************get/set methods 3D matrix**************************
 
 template <class T>
-const T cepMatrix<T>::getValue (int row, int col, int tab)
+const T cepMatrix<T>::getValue (const int & row, const int & col, const int & tab)
 {
   m_error = NULL;
 
@@ -1084,7 +1089,7 @@ const T cepMatrix<T>::getValue (int row, int col, int tab)
 }
 
 template <class T>
-void cepMatrix<T>::setValue (const int row, const int col, const int tab, const T & value)
+void cepMatrix<T>::setValue (const int & row, const int & col, const int & tab, const T & value)
 {
   m_error = NULL;
 
@@ -1116,7 +1121,7 @@ void cepMatrix<T>::setValue (const int row, const int col, const int tab, const 
 }
 
 template <class T>
-const int cepMatrix<T>::getNumTables ()
+const int & cepMatrix<T>::getNumTables ()
 {
   m_error = NULL;
 
@@ -1124,7 +1129,7 @@ const int cepMatrix<T>::getNumTables ()
 }
 
 template <class T>
-bool cepMatrix<T>::is3D()
+const bool cepMatrix<T>::is3D()
 {
   return (m_tables != NULL);
 }

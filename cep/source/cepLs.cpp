@@ -155,12 +155,12 @@ const cepMatrix<double> &cepLs::getDataset()
   return m_dataset;
 }
 
-double cepLs::getB1()
+const double cepLs::getB1()
 {
   return m_matX.getValue(0,0);
 }
 
-double cepLs::getB2()
+const double cepLs::getB2()
 {
   return m_matX.getValue(1,0);
 }
@@ -482,17 +482,11 @@ void cepLs::reweightVCV(cepMatrix<double> &matP)
 
   per25 = lowerQ - ((upperQ-lowerQ) * 1.5);
   per75 = upperQ + ((upperQ-lowerQ) * 1.5);
-
-  cout << endl << "######################" << endl;
-  cout << "per25 " << per25 << endl;
-  cout << "per75 " << per75 << endl;
-
-  //create new P matrix
+ //create new P matrix
   for(int i = 0; i < matP.getNumRows(); i ++)
   {
     if((m_residual.getValue(i,0) < per25) || (m_residual.getValue(i,0) > per75))
     {
-      cout << "found outlier at: " << i << " value is " << m_residual.getValue(i, 0) <<  endl;
       matP.setValue(i, i, 0);
       if(matP.getError().isReal() == true)
       {
@@ -700,9 +694,10 @@ void cepLs::calcResiduals(cepMatrix<double> &matA, cepMatrix<double> &matL)
 
 void cepLs::makeDatasets(cepMatrix<double> &data, cepMatrix<double> &matP)
 {
-  cepMatrix<double> newDataset(matP.getNumRows(), 4),
-                    newResiduals(matP.getNumRows(), 4);
+  cepMatrix<double> newDataset(matP.getNumRows(), 4),     //the dataset to return
+                    newResiduals(matP.getNumRows(), 4);   //the new residual data matrix
 
+  //make the new data matricies
   for(int i = 0; i < newDataset.getNumRows(); i++)
   {
     newDataset.setValue(i, 0, data.getValue(i, 0));

@@ -175,42 +175,42 @@ void cepLsWeight::dlgWeightOnOK(wxCommandEvent& WXUNUSED(event))
   Destroy();
 }
 
-wxString cepLsWeight::getWeight()
+const wxString & cepLsWeight::getWeight()
 {
   return m_val;
 }
 
-wxString cepLsWeight::getToDay()
+const wxString & cepLsWeight::getToDay()
 {
   return m_toDay;
 }
 
-wxString cepLsWeight::getToMonth()
+const wxString & cepLsWeight::getToMonth()
 {
   return m_toMonth;
 }
 
-wxString cepLsWeight::getToYear()
+const wxString & cepLsWeight::getToYear()
 {
   return m_toYear;
 }
 
-wxString cepLsWeight::getFromDay()
+const wxString & cepLsWeight::getFromDay()
 {
   return m_fromDay;
 }
 
-wxString cepLsWeight::getFromMonth()
+const wxString & cepLsWeight::getFromMonth()
 {
   return m_fromMonth;
 }
 
-wxString cepLsWeight::getFromYear()
+const wxString & cepLsWeight::getFromYear()
 {
   return m_fromYear;
 }
 
-bool cepLsWeight::getDoVCV()
+const bool & cepLsWeight::getDoVCV()
 {
 
   return m_go;
@@ -298,12 +298,11 @@ void cepLsUi::showGetfNameP()
 
 void cepLsUi::showWeight(double startDate, double endDate, double val)
 {
-  cepLsWeight *weight;
+  cepLsWeight *weight = NULL;
   bool isValid = false;
-  cepDate *fromDate,
-          *toDate;
+  cepDate *fromDate = NULL,
+          *toDate = NULL;
 
-  cout << "is valid init: " << isValid << endl;  
   fromDate = new cepDate(startDate);
   toDate = new cepDate(endDate);
           
@@ -311,19 +310,14 @@ void cepLsUi::showWeight(double startDate, double endDate, double val)
                            toDate->getDay().c_str(), toDate->getMonthName().c_str(), toDate->getYear().c_str(),
                            cepToString(val).c_str());
 
+  //while values entered is invalid
   while(isValid == false)
   {
     isValid = true;
 
-    cout << "to day is: " << weight->getToDay() << endl;
-    cout << "is valid: " << isValid << endl;
-    cout << "from date " << m_fromDay << " " << m_fromMonth << " " << m_fromYear << endl;
-    cout << "to date " << m_toDay << " " << m_toMonth << " " << m_toYear << endl;
-      
     if(weight->getToDay() == "-1")
     {
-      cout << endl << "hit cancel" << endl;
-      cout << "is valid: " << isValid << endl;
+      //if cancel was selected
       m_fromDay = "-1.0";
       m_toDay = "-1.0";
       m_val = "-1.0";
@@ -331,7 +325,6 @@ void cepLsUi::showWeight(double startDate, double endDate, double val)
     }                          
     else
     {
-      cout << "in else" << endl;
       m_fromDay = weight->getFromDay();
       m_fromMonth = weight->getFromMonth();
       m_fromYear = weight->getFromYear();
@@ -340,7 +333,7 @@ void cepLsUi::showWeight(double startDate, double endDate, double val)
       m_toYear = weight->getToYear();
       m_val = weight->getWeight();
       m_go = weight->getDoVCV();
-      
+
       fromDate = new cepDate(atoi(m_fromDay.c_str()), m_fromMonth.c_str(), atoi(m_fromYear.c_str()));
       toDate = new cepDate(atoi(m_toDay.c_str()), m_toMonth.c_str(), atoi(m_toYear.c_str()));
 
@@ -384,12 +377,13 @@ void cepLsUi::showWeight(double startDate, double endDate, double val)
 
   
 }
-int cepLsUi::getIsReweight()
+
+const int & cepLsUi::getIsReweight()
 {
   return m_isReweight;
 }
 
-bool cepLsUi::getWhichDir(char dir)
+const bool cepLsUi::getWhichDir(char dir)
 {
   //return selected directions
   switch (dir)
@@ -401,21 +395,21 @@ bool cepLsUi::getWhichDir(char dir)
     case 'z':
       return m_doDirZ;
     default:
-      //ERROR here!
       return false;
   }
 }
-int cepLsUi::getIsReadP()
+
+const int & cepLsUi::getIsReadP()
 {
   return m_isReadP;
 }
 
-string cepLsUi::getfNameP()
+const string & cepLsUi::getfNameP()
 {
   return m_filename;
 }
 
-double cepLsUi::getWeight()
+const double cepLsUi::getWeight()
 {
   if(m_val = "-1")
   {
@@ -425,7 +419,7 @@ double cepLsUi::getWeight()
   return atof(m_val.c_str());
 }
 
-double cepLsUi::getFromDate()
+const double cepLsUi::getFromDate()
 {
   if(m_fromDay = "-1")
   {
@@ -435,7 +429,7 @@ double cepLsUi::getFromDate()
   return cepDate(atoi(m_fromDay.c_str()), m_fromMonth.c_str(), atoi(m_fromYear.c_str())).getDecimalDate();
 }
 
-double cepLsUi::getToDate()
+const double cepLsUi::getToDate()
 {
   if(m_toDay = "-1")
   {
@@ -445,7 +439,7 @@ double cepLsUi::getToDate()
   return cepDate(atoi(m_toDay.c_str()), m_toMonth.c_str(), atoi(m_toYear.c_str())).getDecimalDate();
 }
 
-bool cepLsUi::getDoVCV()
+const bool & cepLsUi::getDoVCV()
 {
   return m_go;
 }

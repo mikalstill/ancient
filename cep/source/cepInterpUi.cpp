@@ -25,7 +25,7 @@ BEGIN_EVENT_TABLE (cepInterpShowRate, wxDialog)
   EVT_CLOSE( cepInterpShowRate::dlgRateOnQuit)
 END_EVENT_TABLE ()
                           
-cepInterpShowRate::cepInterpShowRate(wxString val, double units):
+cepInterpShowRate::cepInterpShowRate(const wxString & val, const double & units):
   wxDialog((wxDialog *) NULL, -1, "Specify Sample Rate", wxPoint(120,120), wxSize(200, 200))
 {  
   m_panel = new wxPanel(this, -1, wxPoint(120,120), wxSize(200,200));
@@ -67,12 +67,12 @@ cepInterpShowRate::cepInterpShowRate(wxString val, double units):
   ShowModal();
 }
 
-wxString cepInterpShowRate::getSample()
+const wxString & cepInterpShowRate::getSample()
 {
   return m_sampleRate;
 }
 
-double cepInterpShowRate::getSampleUnits()
+const double & cepInterpShowRate::getSampleUnits()
 {
   return m_sampleUnits;
 }
@@ -125,21 +125,25 @@ void cepInterpUi::showSampleRate(double val)
   m_sampleRate = rate->getSample();
   m_sampleUnits = rate->getSampleUnits();
 
+  //if cancel was selected
   if((m_sampleRate == "-1") && (m_sampleUnits == -1.0))
   {
     return;
   }
-    
+
+  //while sample rate was an invalid value  
   while(isValid == false)
   {
     isValid = true;
     for(size_t i = 0; i < m_sampleRate.Length(); i ++)
     {
+      //if cancel was selected
       if((m_sampleRate == "-1") && (m_sampleUnits == -1.0))
       {
         return;
       }
 
+      //if sample rate entered was not a number
       if((cepIsNumeric(m_sampleRate.GetChar(i)) == false) ||
           (atof(m_sampleRate.c_str()) <= 0))
       {
@@ -159,7 +163,7 @@ void cepInterpUi::showSampleRate(double val)
   }
 }
 
-double cepInterpUi::getSampleRate()
+const double cepInterpUi::getSampleRate()
 {
   if((m_sampleRate == "-1") && (m_sampleUnits == -1))
   {

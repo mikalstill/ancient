@@ -132,10 +132,10 @@ public:
   const cepMatrix<double> &getDataset();
   
   //get the value B1 in the least squares solution y=B1*x +B2  
-  double getB1();
+  const double getB1();
 
   //get the value B2 in the solution y=B1*x +B2  
-  double getB2();
+  const double getB2();
 
   //returns any error that may have occoured
   cepError getError();
