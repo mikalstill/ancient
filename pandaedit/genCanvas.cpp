@@ -60,7 +60,7 @@
 #include "configuration.h"
 #include "idmangle.h"
 
-#define CONTROLSIZE 2
+#define CONTROLSIZE 3
 #define GRIDSPACING 10
 
 BEGIN_EVENT_TABLE (genCanvas, wxScrolledWindow)
@@ -81,8 +81,16 @@ genCanvas::genCanvas (wxView * v, wxFrame * frame, const wxPoint & pos,
 void
 genCanvas::OnDraw (wxDC & dc)
 {
-  if (m_view)
+  if(m_view)
     m_view->OnDraw (&dc);
+  if(m_editting)
+    {
+      wxClientDC cdc (this);
+      PrepareDC (cdc);
+      showControlPoints(cdc, false);
+    }
+
+  // TODO mikal: Repaint the current tool instance here?
 }
 
 // Process mouse events, these can include mouse moves, and clicks
