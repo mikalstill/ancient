@@ -316,6 +316,12 @@ const cepMatrix<T> & cepMatrix<T>::operator= (const cepMatrix & B)
 
   matrix = new double[numRows * numCols];
 
+  if (matrix == NULL)
+  {
+    cout << "Error! could not allocate memory";
+    exit (1);
+  }
+
   //copy each element of B to A
   for (int i = 0; i < numRows; i++)
   {
@@ -384,22 +390,33 @@ bool cepMatrix<T>::isDiagonal ()
 template <class T>
 T& cepMatrix<T>::getValue (int row, int col)
 {
-  if ((row * numCols) + col > (numRows * numCols))
+  if (row >= numRows)
   {
-    cout << "Invalid refence\n";
-    exit (1);
+      cout << "Invalid row number";
+      exit(1);
   }
 
+  if (col >= numCols)
+  {
+      cout << "Invalid col number";
+      exit(1);
+  }
   return matrix[(row * numCols) + col];
 }
 
 template <class T>
 void cepMatrix<T>::setValue (int row, int col, T value)
 {
-  if ((row * numCols) + col > (numRows * numCols))
+  if (row >= numRows)
   {
-    cout << "Invalid refence\n";
-    exit (1);
+      cout << "Invalid row number";
+      exit(1);
+  }
+
+  if (col >= numCols)
+  {
+      cout << "Invalid col number";
+      exit(1);
   }
 
   matrix[(row * numCols) + col] = value;
@@ -416,3 +433,4 @@ int cepMatrix<T>::getNumCols ()
 {
   return numCols;
 }
+
