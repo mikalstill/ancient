@@ -36,7 +36,12 @@ while(<STDIN>){
 	$cmd =~ s/<\/cmd>.*//;
 
 	if($cmd ne "todo"){
-	    print `$cmd $arg $input < $input`;
+	    if($input ne ""){
+		print `$cmd $arg $input < $input`;
+	    }
+	    else{
+		print `$cmd`;
+	    }
 	}
 	else{
 	    print "<figure>\n";
