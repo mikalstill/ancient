@@ -134,7 +134,8 @@ There are some interesting things to note in this example. The most interesting 
 Xview is part of the xloadimage package written by Jim Frost, which comes with X windows.
 </para>
 
-<para>It's a good example of how hard it can be to handle TIFF images well. I am currently working on a patch to submit to Jim which will resolve this problem. If you have trouble viewing the output of the sample code, then try using some other program, like the gimp.</para>
+<para>
+It's a good example of how hard it can be to handle TIFF images well. I am currently working on a patch to submit to Jim which will resolve this problem. If you have trouble viewing the output of the sample code, then try using some other program, like the gimp.
 </para>
 </sidebar>
 
@@ -161,13 +162,9 @@ If you need more information about any of the libtiff function calls mentioned i
 </para>
 </sidebar>
 
-<para>
-In case you're curious, here is a copy of the picture (I've had to cheat and turn it into a JPEG, because most web browsers don't support TIFF)...
-</para>
-
 <figure>
-<heading refname="write-figure" type="figure" toc="no">Figure 1. The Sydney Harbour Bridge, by Michael Still</heading>
-<img src="figure1.jpg" width="200" height="144" alt="Sydney Harbour Bridge, 200 x 144"/>
+<title>Figure 1. The Sydney Harbour Bridge, by Michael Still</title>
+<graphic format="JPEG" fileref="figure1.jpg">
 </figure>
 </sect2>
 </sect1>

@@ -1,3 +1,0 @@
-	TIFF is an extremely common raster image format used by many developers around the world. libtiff is an open source implementation of the TIFF specification, which has become the reference implementation for much of the TIFF imaging happening today.
-
-TIFF (Tagged Image File Format) is a raster image format developed by Adobe. A raster image format is one in which the picture being stored is represented as a bitmap describing the state of the various pixels in the image 
