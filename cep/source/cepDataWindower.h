@@ -62,6 +62,7 @@ class Window {
 public:
   Window( int id, const char* name );
   bool operator== (const Window &w) const;
+  bool operator!=(const Window &w) const;
   const int id() const;
   const char* toString() const;
   

@@ -33,6 +33,10 @@ Window::Window( int id, const char* name ) {
 bool Window::operator== (const Window &w) const {
   return (w.id() == myID);
 }
+
+bool Window::operator!=(const Window &w) const {
+  return (w.id() != myID);
+}
 const int Window::id() const {
   return myID;
 }
