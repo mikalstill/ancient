@@ -39,7 +39,6 @@
 #include "cepError.h"
 #include "cepUtility.h"
 #include "cepDataset.h"
-#include "cepDate.h"
 #include "cepConfiguration.h"
 
 GLOBAL_THINGIE fstream gLog;

@@ -82,9 +82,14 @@ DESCRIPTION END
 
 DOCBOOK END
 ******************************************************************************/
+
 const string MONTH_NAMES[12] = { "January", "February", "March", "April", "May",
-  "June", "July", "August", "September", "October",
-  "November", "December"
+				 "June", "July", "August", "September", "October",
+				 "November", "December"
+};
+
+const string SHORTMONTH_NAMES[12] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", 
+				      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 };
 
 const double DAY_VAL = 0.0027;
@@ -96,24 +101,31 @@ class cepDate
 public:
   cepDate (double decimal);
 
-  //returns day of month 01...31
+  // Returns day of month 01...31
   const string getDay();
-  //returns month 01...12
+
+  // Returns month 01...12
   const string getMonth();
-  //returns month as a string January...December
+
+  // Returns month as a string January...December
   const string getMonthName();
-  //returns year in format YYYY
+
+  // Returns month as a string Jan...Dec
+  const string getShortMonthName();
+
+  // Returns year in format YYYY
   const string getYear();
 
-  //returns date in short date format DD/MM/YY
+  // Returns date in short date format DD/MM/YY
   const string getShortDate();
-  //returns date in long date format DD MMMMMM YY
+
+  // Returns date in long date format DD MMMMMM YY
   const string getLongDate();
+
 private:
   int m_month,  
-      m_day,
-      m_year;
-
+    m_day,
+    m_year;
 };
 
 #endif

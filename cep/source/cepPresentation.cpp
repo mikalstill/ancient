@@ -120,7 +120,9 @@ cepPresentation::createPDF (const string & filename)
 
 #if defined HAVE_LIBPANDA
   cepDebugPrint ("Generating PDF for: " + filename);
-  createBitmap ();
+  float dummyscale;
+  long dummyrange;
+  createBitmap (dummyscale, dummyrange);
 
   // panda_init();
   // panda_pdf doc = panda_open(filename.c_str(), "w");
@@ -134,7 +136,7 @@ cepPresentation::createPDF (const string & filename)
 }
 
 cepError
-cepPresentation::createBitmap ()
+cepPresentation::createBitmap (float& scale, long& minval)
 {
 #if defined HAVE_LIBMPLOT
   plot_state *graph;
@@ -166,7 +168,9 @@ cepPresentation::createBitmap ()
 
   float yscale = (float) yrange / (m_height - 20);
   float xscale = (float) xrange / (m_width - 20);
-
+  scale = xscale;
+  minval = m_xminval;
+  
   cepDebugPrint("Dimensions of graph bitmap: " + cepToString(m_width) + " x " +
 		cepToString(m_height));
   cepDebugPrint("Yscale is: " + cepToString(yscale));
@@ -181,10 +185,10 @@ cepPresentation::createBitmap ()
       long convdate = (long) (m_ds->getValue(i, cepDataset::colDate) * 10000);
       long convsample = (long) (m_ds->getValue(i, cepDataset::colSample) * 10000);
       long converror = (long) (m_ds->getValue(i, cepDataset::colError) * 10000);
-      unsigned int horiz = (unsigned int) ((xrange - convdate + m_xminval) / xscale + 10);
+      unsigned int horiz = (unsigned int) ((convdate - m_xminval) / xscale + 10);
 
       cepDebugPrint("Plotting " + cepToString(convdate) +  " " + cepToString(convsample) + " " +
-		    cepToString(converror));
+		    cepToString(converror) + " horiz = " + cepToString(horiz));
 
       // Vertical line
       plot_setlinestart(graph, horiz,
@@ -245,7 +249,7 @@ cepPresentation::createBitmap ()
   for(int i = 0; i < m_ds->getNumRows(); i++){
     long convdate = (long) (m_ds->getValue(i, cepDataset::colDate) * 10000);
     long convsample = (long) (m_ds->getValue(i, cepDataset::colSample) * 10000);
-    unsigned int xpoint = (unsigned int) ((xrange - convdate + m_xminval) / xscale + 10);
+    unsigned int xpoint = (unsigned int) ((convdate - m_xminval) / xscale + 10);
     unsigned int ypoint = (unsigned int) ((yrange - convsample + yminval) / yscale + 10);
     
     plot_setlinestart(graph, xpoint - 1, ypoint);
@@ -275,13 +279,13 @@ cepPresentation::createBitmap ()
 }
 
 cepError
-cepPresentation::createPNG (const string & filename)
+cepPresentation::createPNG (const string & filename, float& scale, long& range)
 {
 #if defined HAVE_LIBMPLOT
 #if defined HAVE_LIBPNG
   cepDebugPrint ("Generating PNG for: " + filename);
 
-  cepError e = createBitmap();
+  cepError e = createBitmap(scale, range);
   if(e.isReal())
     return e;
 

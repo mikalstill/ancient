@@ -18,4 +18,9 @@
 * resolve todos
 * rationalize debugging output
 
+* bug with the highlight drawing code
+
 * is it possible to use a vector inside a template?
+
+* you can select a sub dataset with no datapoints, and this results in a crash
+* selecting too close to an edge can cause a crash as well...

@@ -22,7 +22,8 @@
 #include "cepPresentation.h"
 #include "cepPlot.h"
 
-cepPlot::cepPlot(cepDataset *theDataset, cepDataset::direction dir, string cfname, long x, long y):
+cepPlot::cepPlot(cepDataset *theDataset, cepDataset::direction dir, string cfname, long x, long y,
+		 float& scale, long& minval):
   m_plotfailed(false)
 {
   cepConfiguration *config;
@@ -69,7 +70,7 @@ cepPlot::cepPlot(cepDataset *theDataset, cepDataset::direction dir, string cfnam
   pres.yAxisTitle("This is a foo");
 
   // Create the bitmap
-  err = pres.createPNG (cfname);
+  err = pres.createPNG (cfname, scale, minval);
   if (err.isReal ()){
     err.display ();
     m_plotfailed = true;

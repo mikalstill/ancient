@@ -55,9 +55,10 @@ public:
   wxMDIChildFrame *CreateChildFrame (wxDocument * doc, wxView * view,
                                      bool isCanvas);
 
+  wxDocManager * m_docManager;
+
 protected:
   cepConfiguration *m_config;
-  wxDocManager * m_docManager;
   cepErrorHandler *errHandler;
   cepError m_error;
 };

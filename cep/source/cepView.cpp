@@ -166,7 +166,7 @@ cepView::OnDraw (wxDC * dc)
       
       // Set the title of the tab if we haven't already
       if(frame->GetTitle() == "")
-	frame->SetTitle(theDataset->getRootFilename().c_str());
+	frame->SetTitle(theDataset->getName().c_str());
       
       // Graph the matrices
       cepError err;
@@ -216,11 +216,8 @@ bool cepView::OnClose (bool deleteWindow)
   canvas->m_view = (wxView *) NULL;
   canvas = (cepCanvas *) NULL;
 
-  wxString
-  s (wxTheApp->GetAppName ());
-
   if (frame)
-    frame->SetTitle (s);
+    frame->SetTitle (wxTheApp->GetAppName ());
 
   SetFrame ((wxFrame *) NULL);
   Activate (FALSE);
@@ -253,7 +250,8 @@ void cepView::drawPresentation(cepDataset *theDataset, cepDataset::direction dir
     int fd;
     fd = mkstemp(cfname);
     close(fd);
-    cepPlot plot(theDataset, dir, cfname, presWidth, presHeight);
+    cepPlot plot(theDataset, dir, cfname, presWidth, presHeight, canvas->m_scale[(int) dir],
+		 canvas->m_minval[(int) dir]);
     m_plotfailed = plot.getFailed();
     
     m_pngCache[(int) dir] = string(cfname);

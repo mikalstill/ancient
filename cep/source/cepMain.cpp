@@ -82,8 +82,10 @@ int main(int argc, char *argv[])
 	  cout << "Dataset " << sa[1] << " read" << endl;
 	}
 	else if(sa[0] == "plot"){
+	  float dummyscale;
+	  long dummyrange;
 	  cepDebugPrint("Started plotting");
-	  cepPlot plot(&ds, ds.getDirectionFromName(sa[1]), sa[2], 150, 300);
+	  cepPlot plot(&ds, ds.getDirectionFromName(sa[1]), sa[2], 150, 300, dummyscale, dummyrange);
 	  cepDebugPrint("Finished plotting");
 	  if(plot.getFailed()){
 	    cerr << "Plotting failed" << endl;

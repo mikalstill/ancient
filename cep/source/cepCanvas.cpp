@@ -52,6 +52,7 @@
 #include "cepPresentation.h"
 #include "cepPlot.h"
 #include "cepLsUi.h"
+#include "cepDate.h"
 
 #include "cepLs.h"
 
@@ -123,18 +124,27 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
       m_selDir = selDir;
       m_selDirString = dirName;
 
-      cepDebugPrint("Mouse down in " + cepToString((int) m_selDir) + " (" + m_selDirString + ")");
+      float startExtracted = ((m_selectXStart - 10) * m_scale[selDir] + m_minval[selDir]) / 10000;
+      cepDate start(startExtracted);
+      string startDate = start.getDay() + " " + start.getShortMonthName() + " " + start.getYear();
 
-      string sel = string(m_selDirString + " " + cepToString(m_selectXStart));
+      string sel = string(m_selDirString + " " +  startDate);
       ((cepFrame *) wxGetApp().GetTopWindow())->SetStatusText(sel.c_str(), 2);
 
       dc.DrawLine(m_selectXStart, top, m_selectXStart, bottom);
-      cepDebugPrint("Highlight: " + cepToString(m_selectXStart));
     }
     else{
       m_selectXEnd = pt.x;
-      string sel = string(m_selDirString + " " + cepToString(m_selectXStart) + 
-			  " to " + m_selDirString + " " + cepToString(m_selectXEnd));
+
+      float startExtracted = ((m_selectXStart - 10) * m_scale[selDir] + m_minval[selDir]) / 10000;
+      cepDate start(startExtracted);
+      string startDate = start.getDay() + " " + start.getShortMonthName() + " " + start.getYear();
+
+      float endExtracted = ((m_selectXEnd - 10) * m_scale[selDir] + m_minval[selDir]) / 10000;
+      cepDate end(endExtracted);
+      string endDate = end.getDay() + " " + end.getShortMonthName() + " " + end.getYear();
+
+      string sel = string(m_selDirString + " " + startDate + " to " + endDate);
       ((cepFrame *) wxGetApp().GetTopWindow())->SetStatusText(sel.c_str(), 2);
 
       // Draw the highlight
@@ -160,12 +170,16 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
   }
   else if(m_selectXStart != -1){
     // Process the selection, and then move on with our lives...
-    // todo_mikal: actually process the selection
     int selectXStart = m_selectXStart;
     m_selectXStart = -1;
+
+    float startExtracted = ((selectXStart - 10) * m_scale[selDir] + m_minval[selDir]) / 10000;
+    float endExtracted = ((m_selectXEnd - 10) * m_scale[selDir] + m_minval[selDir]) / 10000;
+
+    // todo_mikal: dialog to allow tweakage
     wxMessageBox(string("Process this mouse selection: " + m_selDirString + " " + 
-			cepToString(selectXStart) + " to " + m_selDirString + " " + 
-			cepToString(m_selectXEnd)).c_str());
+			cepToString(startExtracted) + " to " + m_selDirString + " " + 
+			cepToString(endExtracted)).c_str());
     ((cepFrame *) wxGetApp().GetTopWindow())->SetStatusText("", 2);
 
     // Extract the dataset
@@ -174,7 +188,17 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
     
     // We can only handle this event if we are ready
     if (theDataset && theDataset->isReady()){
-      // todo_mikal: more code here
+      cepDataset newds = theDataset->filter(startExtracted, endExtracted);
+
+      char *cfname = strdup(string(string("/tmp/cep.XXXXXX") + "~" + theDataset->getName() + 
+				   " Zoomed").c_str());
+      int fd;
+      fd = mkstemp(cfname);
+      close(fd);
+      newds.write(cfname);
+
+      wxGetApp().m_docManager->CreateDocument(string(string(cfname) + ".dat1").c_str(), wxDOC_SILENT);
+      free(cfname);
     }
     else{
       cepError notReady("The dataset is not ready for that action to be performed",

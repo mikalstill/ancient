@@ -30,17 +30,17 @@ cepDate::cepDate (double date)
   
   m_year = (int)date;
 
-  //check if leap year
+  // Check if leap year
   if(((m_year % 100 == 0) && (m_year % 400 == 0)) ||
     ((m_year % 100 != 0) && (m_year % 4 == 0)))
   {
     monthNums[1] ++;
   }
 
-  //get the day of Year number (0-365 or 366)
+  // Get the day of Year number (0-365 or 366)
   m_day = (int)((float)((date - m_year)/DAY_VAL));
 
-  //get the day of month
+  // Get the day of month
   while ((i < 11) && (m_day - monthNums[i] > 0))
   {
     m_day -= monthNums[i];
@@ -53,7 +53,7 @@ const string cepDate::getDay()
 {
   string day;
 
-  //zero pad if nessisary
+  // Zero pad if nessisary
   if( m_day < 10)
   {
     day = "0";
@@ -70,7 +70,7 @@ const string cepDate::getMonth()
 {
   string month;
 
-  //zero pad if nessisary
+  // Zero pad if nessisary
   if( m_month < 10)
   {
     month = "0";
@@ -89,6 +89,11 @@ const string cepDate::getMonthName()
   return MONTH_NAMES[m_month];
 }
 
+const string cepDate::getShortMonthName()
+{
+  return SHORTMONTH_NAMES[m_month];
+}
+
 const string cepDate::getYear()
 {
   return (cepToString(m_year));
@@ -98,7 +103,7 @@ const string cepDate::getShortDate()
 {
   string day, month;
 
-  //zero pad if nessisary
+  // Zero pad if nessisary
   if( m_day < 10)
   {
     day = "0";
@@ -121,11 +126,12 @@ const string cepDate::getShortDate()
 
   return (day + "/" + month + "/" + cepToString(m_year));
 }
+
 const string cepDate::getLongDate()
 {
   string day, month;
 
-  //zero pad if nessisary
+  // Zero pad if nessisary
   if( m_day < 10)
   {
     day = "0";

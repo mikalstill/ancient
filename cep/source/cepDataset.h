@@ -30,7 +30,6 @@
 #include "cepError.h"
 #include "cepUtility.h"
 
-
 class cepError;
 
 /******************************************************************************
@@ -75,6 +74,7 @@ public:
   // I append the .dat1, .dat2 and .dat3 myself...
   cepDataset ();
   cepDataset (const cepDatasetProgressCB callback);
+  cepDataset (cepMatrix<double> *data0, cepMatrix<double> *data1, cepMatrix<double> *data2, string offset);
 
   // Actually process the file
   cepError read(const string& filename);
@@ -85,15 +85,20 @@ public:
   // Accessor methods
   cepMatrix <double> * getMatrix(direction dir);
 
+  // Return a filtered dataset
+  cepDataset filter(float low, float high);
+
   // Reads a LS P weighting matrix from a file
   //  cepMatrix <double> getP(const string& filename);
   
   // Utility methods
   direction getDirectionFromName(string name);
   string getRootFilename();
+  string getName();
 
 private:
   string applyOffset(string value);
+  string reverseOffset(string value);
 
   string m_filename;
   string m_header[3];

@@ -43,8 +43,8 @@ public:
   void setErrorColor(char red, char green, char blue);
 
   cepError createPDF (const string & filename);
-  cepError createBitmap ();
-  cepError createPNG (const string & filename);
+  cepError createBitmap (float& scale, long& range);
+  cepError createPNG (const string & filename, float& scale, long& minval);
 
 private:
   typedef struct{

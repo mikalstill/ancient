@@ -41,6 +41,17 @@ cepDataset::cepDataset (cepDatasetProgressCB callback):
   m_progress = callback;
 }
 
+cepDataset::cepDataset (cepMatrix<double> *data0, cepMatrix<double> *data1, cepMatrix<double> *data2, 
+			string offset):
+  m_filename(""),
+  m_ready(true),
+  m_wellformed(true)
+{
+  m_data[0] = data0;
+  m_data[1] = data1;
+  m_data[2] = data2;
+  m_offset = offset;
+}
 
 cepError cepDataset::read (const string& filename)
 {
@@ -229,6 +240,56 @@ cepError cepDataset::read (const string& filename)
 
 cepError cepDataset::write (const string& filename)
 {
+    m_filename = filename;
+
+  // Step One: ensure that all of the files we need are actually there,
+  // it would be bad to read two of the three files, and _then_ report
+  // an error...
+  fstream files[3];
+  
+  files[0].open (string (m_filename + ".dat1").c_str (), ios::out);
+  files[1].open (string (m_filename + ".dat2").c_str (), ios::out);
+  files[2].open (string (m_filename + ".dat3").c_str (), ios::out);
+  cepDebugPrint("Opened the dataset files");
+
+  // Check they opened ok
+  string errString;
+
+  for (int i = 0; i < 3; i++)
+  {
+    // File is NULL if it couldn't be opened
+    if (!files[i].is_open())
+    {
+      if (errString != "")
+        errString += ";";
+      errString += " " + m_filename + ".dat" + cepToString (i + 1);
+    }
+  }
+
+  if (errString != "")
+  {
+    m_ready = true;
+    return cepError("File IO error for this dataset. Could not open the file(s):" + 
+		    errString + ".");
+  }
+  cepDebugPrint("All dataset files exist");
+
+  for(int i = 0; i < 3; i++)
+    {
+      files[i] << "GDMS Manipulated Dataset" << endl;
+      files[i] << "x x x x  x x  " << m_offset << " m" << endl << endl;
+
+      for(int vcount = 0; vcount < m_data[i]->getNumRows(); vcount++)
+	{
+	  files[i] << " " << cepToString(m_data[i]->getValue(vcount, colDate));
+	  files[i] << "     " << cepToString(m_data[i]->getValue(vcount, colSample));
+	  files[i] << "   " << cepToString(m_data[i]->getValue(vcount, colError));
+	  files[i] << endl;
+	}
+
+      files[i].close();
+    }
+
   return cepError();
 }
 
@@ -355,8 +416,59 @@ string cepDataset::applyOffset(string value)
   return retval;
 }
 
+string cepDataset::reverseOffset(string value)
+{
+  string newvalue;
+  if(value.substr(0, 1) == "-")
+    newvalue = "-";
+
+  newvalue += cepToString(atof(m_offset.c_str()) - atof(value.c_str()));
+  return newvalue;
+}
+
 // Return the root filename for the dataset
 string cepDataset::getRootFilename()
 {
   return m_filename;
+}
+
+// Return a filtered dataset
+cepDataset cepDataset::filter(float low, float high)
+{
+  vector<double> dates;
+  vector<double> samples;
+  vector<double> errors;
+  cepMatrix<double> *data[dirUnknown];
+
+  for(int dir = 0; dir < dirUnknown; dir++){
+    dates.clear();
+    samples.clear();
+    errors.clear();
+
+    for(int i = 0; i < m_data[dir]->getNumRows(); i++){
+      if((m_data[dir]->getValue(i, colDate) >= low) &&
+	 (m_data[dir]->getValue(i, colDate) <= high)){
+	dates.push_back(m_data[dir]->getValue(i, colDate));
+	samples.push_back(m_data[dir]->getValue(i, colSample));
+	errors.push_back(m_data[dir]->getValue(i, colError));
+      }
+    }
+
+    // Copy the vectors into the matrix
+    data[dir] = new cepMatrix<double>(dates.size(), 3);
+    for(unsigned int vcount = 0; vcount < dates.size(); vcount++){
+      data[dir]->setValue(vcount, colDate, dates[vcount]);
+      data[dir]->setValue(vcount, colSample, samples[vcount]);
+      data[dir]->setValue(vcount, colError, errors[vcount]);
+    }
+  }
+
+  return cepDataset(data[0], data[1], data[2], m_offset);
+}
+
+// The display name of the dataset
+string cepDataset::getName()
+{
+  cepStringArray name(m_filename, "/~");
+  return name[name.size() - 1];
 }

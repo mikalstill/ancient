@@ -55,6 +55,8 @@ public:
 
   wxView * m_view;
   bool m_showx, m_showy, m_showz;
+  float m_scale[cepDataset::dirUnknown];
+  long m_minval[cepDataset::dirUnknown];
 
  private:
   DECLARE_EVENT_TABLE ()
