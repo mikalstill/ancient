@@ -6,27 +6,45 @@
 
     <sect3><title>Introduction</title>
       <!-- TODO - reference this properly and fill in the blanks -->
-      <para>A number of alternatives were examined for application in this project</para>
+      <para>From the outset it was decided that a testing regime was require to support debugging of subsytems and validation of
+      mathematical routines. The basic requirements for the testing infrastructure were:
+      <itemizedlist>
+      <listitem><para>Standardised testing for all developers</para></listitem>
+      <listitem><para>Automation to allow test execution with no user input</para></listitem>
+      <listitem><para>Simple test implementetion so as to minimise load placed on developers</para></listitem>
+      <listitem><para>The code must be released under the <command>GPL</command></para></listitem>
+      </itemizedlist>
+      </para>
+
+    <sect3><title>Implementation</title>
+      <para>Unit testing, as adopted by the extreme programming community, was chosen as the ideal framework to support our system.
+      A number of different libraries were examined as possible canidates and <command>CPPUnit<command> was selected as the most
+      appropriate.
+      </para>
+      <para>
+      Testing has been used extensively to support the validation of the mathematical subsystem. There are currently 84 tests spread across
+      the 10 mathematical modules.
+      </para>
     </sect3> <!--Introduction-->
 
-    <sect3><title>Future Enhancements</title>
-    <!--Do we want/need this here?-->
-    <para></para>
-    </sect3> <!--Future Enahncements-->
-  </sect2> <!--UI Testing-->
-
-  <sect2><title>User Interface Testing</title>
-  
-    <sect3><title>Introduction</title>
-      <para></para>
+    <sect3><title>User Interface Testing</title>
+      <para>
+      The user interface is exhaustively tested across all datasets. The tests are generated automatically and seek to locate datasets with
+      peculiarities that might cause failure of the plotting library. There are currently 1131 tests dedicated to exercising this body of
+      code.
+      </para>
     </sect3> <!--Introduction-->
 
-    <sect3><title>Future Enhancements</title>
-    <!--Do we want/need this here?-->
-      <para></para>
-    </sect3> <!--Future Enahncements-->
 
   </sect2> <!--UI Testing-->
+  <sect2>
+    <sect3><title>Conclusion</title>
+    The testing framework proved invaluable in the process of bug isolation and resolution and resolution. An additional benefit has been
+    the early recognition of design problems, such as tight coupling between the subsystems and the user interface at an early stage in the
+    project. Insummary, without the support of a system such as CPPUnit, the <command>GDMS</command> would not have the level of robustness
+    that it does at this time and mathematical validation would have been quite difficult.
+    </sect3>
+  </sect2>
 
 </sect1> <!--Testing-->
 

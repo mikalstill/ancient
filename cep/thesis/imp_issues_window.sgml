@@ -62,71 +62,38 @@
      </itemizedlist>
    </para>
 
-   <sect4><title>Speed/ Optimisations</title>
+   <sect4><title>Speed/Optimisations</title>
    <para>
-     <itemizedlist>
-	<listitem><para>Calculation of window coefficients are performed only when the algorithm is changed, or parameters
-            are altered.</para></listitem>
-	<listitem><para>For the simpler algorithms, speed is not an issue. The most expensive of these algorithms [Blackman]
-            2 cosines and 6 multiplications. this is inexpensive when considering the frequency at which recalculation
-            will be required, and the relatively small size of the window required.</para></listitem>
-	<listitem><para>Dolph-Chebyshev will be more expensive. The code that is implemented is based on a FORTRAN algorithm. This
-            has been implemented as faithfully as possible so as to maintain the integrity of the window coefficients.
-            The support the ability of the user to request a window of arbitrary size, this particular window algorithm
-            implements is own inverse Fourier transform.</para></listitem>
-
-            <!-- TODO - insert an example of the ifft here -->
-     </itemizedlist>
+     Due to the simple nature of the majority of the algorithms in this module, speed is not generally an issue. With the exception
+     of chebyshev, the most expensive calculation involves 2 cosine claculations and 4 multiplies. Since the size of the windows used
+     tend to be small this is a relatively insignificant overhead. Dolph-Chebyshev is a little different. since this window is
+     calculated in the Fourier domain it is computationally more expensive. Additionally, do support the flexibility of the windowing
+     subsystem, this algorithm implementes its own IFFT. The Again, due to the small size of the window used, even
+     this cost is minimal. The return on this cost is flexibility and confidence in the integrity of the algorithm.
+   </para>
+   <para>
+     To support performance concerns and to speed the process as a whole, the number of calculations performed int his subsystem has
+     been carefully considered and recalculation of the coefficients is only performed when it is the unavoidable.
     </para>
-    </sect4>
-    <sect4><title>Assess alternative algorithms</title>
-       <para> 
-          This has been designed to be easily extensible. A new algorithm can be added by specialising
-          the cepWindowAlg class and overriding the getValue method. This can be accomplished at the expense
-          of less than 10 lines of code. A notable exception is an algorithm such as Dolph-Chebyshev which require
-          a significant amount of attention.
-       </para>
-     </sect4>
+   </sect4>
      
   </sect3> <!--Implementation-->
 
   <sect3><title>Future Enhancements</title>
   <para>
-    <itemizedlist>
-        <listitem>
-        <para> 
-           This subsystem has been designed to be easily extensible. A new algorithm can be added by specialising
-           the cepWindowAlg class and overriding the getValue method. This can be accomplished at the expense
-           of less than 10 lines of code (with the exception of those such as Dolph-Chebyshev who require a lot more attention)
-        </para>
-        <para>
-		   There are a couple of windowing algorithms that have been omitted from the current release. A possible extension
-           of the current system is to add more algorithms. Kaiser would be one such addition which i believe is applicable to this
-           specific application           
-        </para></listitem>
-	    <listitem>
-		<para>
-           The Dolph-Chebyshev algorithm was implemented with a view to maintaining data integrity above all other things. For windows
-		   of significant size, the inverse Fourier transform implemented would be slow. A further enhancement would be to optimise
-           this.
-        </para></listitem>
-    </itemizedlist>
+    The set of algorithms supplied in this release is by no means exhaustive. There are some notable absences, such as the Kaiser
+    window, which would be a valuable addition to the repertoir of <command>GDMS</command>. Due to the flexible design of this
+    subsystem, addition of another algorithm can be achieved at minimal expense and is encourged.
   </para>
-
-  </sect3> <!--Future Enahncements-->
-
-  <sect3><title>References</title>
   <para>
-  <!--
-    http://www.maths.tcd.ie/~plynch/Publications/Dolph.pdf
-    http://www.isip.msstate.edu/projects/speech/software/documentation/class/algo/Window/
-    http://www.octave.org/octave-lists/archive/octave-sources.2002/msg00019.html
-    "Programs for Digital Signal Processing", IEEE Acoustics, Speech, and Signal Processing Society, 1977
-    dolph
-  -->
+    Another avenue which might be explored with regard to enhancements would be the simplification and optimisation of the
+    Dolph-Chebyshev algorithm. This wasa a port of a FORTRAN function and was implemented faithfully with maintenance of
+    data integrity a primary concern. This algorithm uses an inverse fourier transform internally and for windows of significant
+    size this could prove to be expensive. Optimisation of this might prove to be benficial if window sizes are becoming large.
   </para>
   </sect3>
 
+  </sect3> <!--Future Enahncements-->
 
 </sect2> <!--Windowing-->
 
