@@ -188,14 +188,9 @@ void pandalex_sample_dictint(int event, va_list argptr){
 }
 
 void pandalex_sample_procstream(char *filter, int length, char *data, int dataLen){
-  char *uncompressed;
-  uLong srcLen, dstLen;
+  char *uncompressed, *dataPtr;
+  uLong srcLen, dstLen = 4096;
   int result, i;
-
-  printf("Do something with the stream filter = %s, length = %d\n", filter, length);
-  printf("-----------------------------------------------------------------------\n");
-  debuglex(data, dataLen, "raw stream contents", 0);
-  printf("-----------------------------------------------------------------------\n");
 
   // Check length
   if(length < 1){
@@ -209,30 +204,44 @@ void pandalex_sample_procstream(char *filter, int length, char *data, int dataLe
     return;
   }
 
+  // If the stream starts with a \r or a \n or a \r\n, then these should be stripped off
+  dataPtr = data;
+  while((dataPtr[0] == '\r') || (dataPtr[0] == '\n')) dataPtr++;
+
   // Do something with the stream
   if(strcmp(filter, "FlateDecode") == 0){
     printf("Do something involving Flate\n");
     
-    length *= 100;
+    //    printf("--------------------------------------------------");
+    //    for(i = 0; i < dataLen; i++)
+    //      printf("%c", data[i]);
+    //    printf("--------------------------------------------------");
 
-    if((uncompressed = (char *) malloc(sizeof(char) * (length) + 1)) == NULL){
+    if((uncompressed = (char *) malloc(sizeof(char) * dstLen)) == NULL){
       fprintf(stderr, "Could not make enough space to decompress Flate stream\n");
       exit(42);
     }
 
     srcLen = dataLen - 1;
-    dstLen = length;
 
-    if((result = uncompress(uncompressed, &dstLen, data, srcLen)) != Z_OK){
+    // We grow the output buffer until we no longer get buffer size errors
+    while((result = uncompress(uncompressed, &dstLen, dataPtr, srcLen)) == Z_BUF_ERROR){
+      printf("Expand the output buffer from %d to %d\n", dstLen, dstLen * 2);
+      
+      dstLen *= 2;
+      if((uncompressed = (char *) realloc(uncompressed, dstLen)) == NULL){
+	// We could not grow the buffer, so we exit
+	fprintf(stderr, "Could not allocate enough space for decompression\n");
+	exit(42);
+      }
+    }
+
+    if(result != Z_OK){
       fprintf(stderr, "Flate decompression failed because of ");
 
       switch(result){
       case Z_MEM_ERROR:
 	fprintf(stderr, "not enough memory\n");
-	break;
-
-      case Z_BUF_ERROR:
-	fprintf(stderr, "not enough space in destination buffer\n");
 	break;
 
       case Z_DATA_ERROR:
@@ -241,32 +250,15 @@ void pandalex_sample_procstream(char *filter, int length, char *data, int dataLe
       }
 
       debuglex(data, srcLen, "Flate compression failure", 0);
-      fprintf(stderr, "\n\nsrcLen is %d\n", srcLen);
-
       exit(46);
     }
-
-    printf("----------- UNCOMPRESSED STREAM IS -------------------------------------------\n");
-    printf("[");
     
-    for(i = 0; i < dstLen; i++){
-      printf("%c", ((uncompressed[i] & 128) == 128) ? '1' : '0');
-      printf("%c", ((uncompressed[i] & 64) == 64) ? '1' : '0');
-      printf("%c", ((uncompressed[i] & 32) == 32) ? '1' : '0');
-      printf("%c", ((uncompressed[i] & 16) == 16) ? '1' : '0');
-      printf("%c", ((uncompressed[i] & 8) == 8) ? '1' : '0');
-      printf("%c", ((uncompressed[i] & 4) == 4) ? '1' : '0');
-      printf("%c", ((uncompressed[i] & 2) == 2) ? '1' : '0');
-      printf("%c ", ((uncompressed[i] & 1) == 1) ? '1' : '0');
-    }
-      
-
-    printf("] [%d]\n", dstLen);
+    printf("----------- UNCOMPRESSED STREAM IS -------------------------------------------\n");
+    printf("%s\n", uncompressed);
     printf("------------------------------------------------------------------------------\n");
-    exit(4242);
   }
   else if(strcmp(filter, "LZWDecode") == 0){
-    fprintf(stderr, "LZW compression is encumbered by Patents and therefore not supported\n");
+    printf("LZW compression is encumbered by Patents and therefore not supported\n");
   }
   else if(strcmp(filter, "CCITTFaxDecode") == 0){
     printf("Do something involving CCITTFax compression (TIFF)\n");

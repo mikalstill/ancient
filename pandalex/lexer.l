@@ -31,7 +31,8 @@ char *returnStr(char *, int);
                               (char *) returnStr(yytext, -1);
                             yylval.sval.len = yyleng;
                             return ANYTHING;
-                          }                                                  }
+                          }
+                                                                          }
 
 xref                    { debuglex(yytext, -1, "xref", binaryMode);
 
@@ -63,7 +64,7 @@ trailer                 { debuglex(yytext, -1, "trailer", binaryMode);
                             }
                                                                              }
 
-\/[a-zA-Z\-_0-9\.]+     { debuglex(yytext, -1, "name", binaryMode);
+\/[#a-zA-Z\-_0-9\.\+]+     { debuglex(yytext, -1, "name", binaryMode);
 
                           if(binaryMode == 0){
                             yylval.textVal = 
@@ -187,7 +188,7 @@ endstream               { debuglex(yytext, -1, "endstream", 0);
                             }
                                                                              }
 
-([a-zA-Z0-9\.:'+\-!_]+[a-zA-Z0-9\.:'+\-!_\\\/]*)+ { 
+([#a-zA-Z0-9\.:'+\-!_]+[a-zA-Z0-9\.:'+\-!_\\\/]*)+ { 
                           debuglex(yytext, -1, "string", binaryMode);
 
                           if(binaryMode == 0){
@@ -203,8 +204,24 @@ endstream               { debuglex(yytext, -1, "endstream", 0);
                             }
                                                                              }
 
-[\[\(][<>a-zA-Z0-9\.\ :'+\-_\\\(\)]+[\)\]] {
+[\[\(][#<>a-zA-Z0-9\.\ :'+\-_\\\(\)]+[\)\]] {
                           debuglex(yytext, -1, "bracketted string", binaryMode);
+
+                          if(binaryMode == 0){
+                            yylval.textVal = 
+                              (char *) returnStr(yytext, yyleng); 
+                            return STRING; 
+                            }
+                          else{
+                            yylval.sval.data = 
+                              (char *) returnStr(yytext, yyleng);
+                            yylval.sval.len = yyleng;
+                            return ANYTHING;
+                            }
+                                                                             }
+
+\(.*\) {
+                          debuglex(yytext, -1, "bracketted string 2", binaryMode);
 
                           if(binaryMode == 0){
                             yylval.textVal = 

@@ -5,6 +5,8 @@
 
   #include <stdarg.h>
 
+  #define YYMAXDEPTH 50000
+
   int    binaryMode;
 
   // The callbacks
@@ -85,7 +87,9 @@ object    : INT INT OBJ {
 
 dictionary: DBLLT dict DBLGT { $$ = -1; }
           | INT { $$ = $1; }
-          | ARRAY dict ENDARRAY { $$ = -1; }
+          | ARRAY arrayvals ENDARRAY { $$ = -1; }
+          | objref { $$ = -1; }
+          | NAME { $$ = -1; }
           | { $$ = -1; }
           ;
 
@@ -126,11 +130,18 @@ dict      : NAME STRING dict {
 		      streamLength = $2;
                     }
                                                }
-          |
+          | NAME FP dict {
+	            // Need to add some stuff here
+	                                       }
+          | 
           ;
 
 arrayvals : objref arrayvals {}
           | INT arrayvals {}
+          | NAME arrayvals {}
+          | STRING arrayvals {}
+          | ARRAY arrayvals {}
+          | DBLLT dict DBLGT arrayvals {}
           |
           ;
 
@@ -148,6 +159,7 @@ stream    : STREAM { binaryMode = 1; } binary ENDSTREAM { printf("filter = %s, l
           ;
 
 binary    : ANYTHING binary { $$.data = strmcat($1.data, $1.len, $2.data, $2.len); $$.len = $1.len + $2.len; free($2); }
+          | STRING binary { $$.data = strmcpy($1, -1); $$.len = strlen($1); }   /* New, may cause problems */
           | { $$.data = strmcpy("", -1); $$.len=0; }
           ;
 
@@ -215,9 +227,11 @@ char *strmcat(char *dest, int destLen, char *append, int appendLen){
   char *new;
   int count, len;
 
+#if defined DEBUG
   printf("strmcat was passed %d, %d:\n", destLen, appendLen);
   debuglex(dest, destLen, "first arg", 0);
   debuglex(append, appendLen, "second arg", 0);
+#endif
 
   // What length do we need?
   if((new = (char *) malloc(sizeof(char) * 
