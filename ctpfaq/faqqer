@@ -23,9 +23,9 @@ $question = $result->param('question');
 $database = DBI->connect("DBI:mysql:database=$area:host=localhost", "root", "vodka4me", { PrintError => 0 });
 
 if(!defined($database)){
-  print "Database connection failed" . DBI->errstr;
-  exit;
-  }
+    print "Database connection failed" . DBI->errstr;
+    exit;
+}
 
 if($mode eq ""){
     $mode = "menu";
@@ -51,57 +51,57 @@ elsif($mode eq "add"){
     # Build the list of sections that are available
     $select = $database->prepare("SELECT sno, sname FROM sections ORDER BY sno");
     if(!defined($select)){
-      print "Could not arrange select";
-      $database->disconnect();
-      exit;
-      }
-
+	print "Could not arrange select";
+	$database->disconnect();
+	exit;
+    }
+    
     # Results?
     $select->execute() or die "Could not execute select" . $select->errstr;
     if($select->rows > 0){
-      while(@data = $select->fetchrow_array()){
-        print "<a href=\"/cgi-bin/faqqer?area=$area&mode=add-sect&section=$data[0]\">$data[1]</a><BR>";
+	while(@data = $select->fetchrow_array()){
+	    print "<a href=\"/cgi-bin/faqqer?area=$area&mode=add-sect&section=$data[0]\">$data[1]</a><BR>";
         }
-      }
+    }
     else{
-      print "Error: the database select returned no rows! (";
-      print $select->rows;
-      print ")";
-      }
-
+	print "Error: the database select returned no rows! (";
+	print $select->rows;
+	print ")";
+    }
+    
     # We also present some simple statistics about the database at the moment
     print "<BR><BR><HR><BR>";
     print "Questions: ";
     $select = $database->prepare("SELECT count(qno) FROM questions");
     if(!defined($select)){
-      print "Could not arrange select";
-      $database->disconnect();
-      exit;
-      }
-
+	print "Could not arrange select";
+	$database->disconnect();
+	exit;
+    }
+    
     # Results?
     $select->execute() or die "Could not execute select" . $select->errstr;
     if($select->rows > 0){
-      while(@data = $select->fetchrow_array()){
-        print "$data[0]<BR>";
+	while(@data = $select->fetchrow_array()){
+	    print "$data[0]<BR>";
         }
-      }
-
+    }
+    
     print "Answers: ";
     $select = $database->prepare("SELECT count(ano) FROM answers");
     if(!defined($select)){
-      print "Could not arrange select";
-      $database->disconnect();
-      exit;
-      }
-
+	print "Could not arrange select";
+	$database->disconnect();
+	exit;
+    }
+    
     # Results?
     $select->execute() or die "Could not execute select" . $select->errstr;
     if($select->rows > 0){
-      while(@data = $select->fetchrow_array()){
-        print "$data[0]<BR>";
+	while(@data = $select->fetchrow_array()){
+	    print "$data[0]<BR>";
         }
-      }
+    }
 }
 ###############################################################################
 elsif($mode eq "add-sect"){
@@ -112,31 +112,31 @@ elsif($mode eq "add-sect"){
     # Build the list of currently available questions
     $select = $database->prepare("SELECT qno, qname FROM questions WHERE sno = $section ORDER BY qno");
     if(!defined($select)){
-      print "Could not arrange select";
-      $database->disconnect();
-      exit;
-      }
-
+	print "Could not arrange select";
+	$database->disconnect();
+	exit;
+    }
+    
     # Results?
     $select->execute() or die "Could not execute select" . $select->errstr;
     if($select->rows > 0){
-      while(@data = $select->fetchrow_array()){
-        print "<a href=\"/cgi-bin/faqqer?area=$area&mode=add-quest&section=$section&question=$data[0]\">$data[1]</a><BR>";
+	while(@data = $select->fetchrow_array()){
+	    print "<a href=\"/cgi-bin/faqqer?area=$area&mode=add-quest&section=$section&question=$data[0]\">$data[1]</a><BR>";
         }
-      }
+    }
     else{
-      print "Error: the database select returned no rows! (";
-      print $select->rows;
-      print ")";
-      }
-
+	print "Error: the database select returned no rows! (";
+	print $select->rows;
+	print ")";
+    }
+    
     print "<BR><a href=\"/cgi-bin/faqqer?area=$area&mode=add-quest&section=$section&question=new\">Add new</a><BR>";
 }
 ###############################################################################
 elsif($mode eq "add-quest"){
     # We have selected a section and a question (the question might be new)
     print "[<a href=\"/cgi-bin/faqqer?area=$area&mode=add\">Back to section menu</a>]<BR><HR><BR><BR>";
-
+    
     print $result->start_form(-action=>"/cgi-bin/auth/faq-addquestion");
     print $result->input(
 			 {-type=>'hidden', -name=>'area', -value=>$area});
@@ -144,42 +144,42 @@ elsif($mode eq "add-quest"){
 			 {-type=>'hidden', -name=>'section', -value=>$section});
     print $result->input(
 			 {-type=>'hidden', -name=>'question', -value=>$question});
-
+    
     if($question eq "new"){
 	# New question
 	print "We need some details for the new question...<BR><BR>\n";
 	print "Name:<BR>\n";
 	print $result->textarea(
-                              {-rows=>10, -cols=>100, 
-			       -wrap=>'physical', -name=>"name"});
+				{-rows=>10, -cols=>100, 
+				 -wrap=>'physical', -name=>"name"});
 	print "<BR><BR>Text of question:<BR>\n";
 	print $result->textarea(
-                              {-rows=>10, -cols=>100, 
-			       -wrap=>'physical', -name=>"qtext"});
-      }
+				{-rows=>10, -cols=>100, 
+				 -wrap=>'physical', -name=>"qtext"});
+    }
     else{
 	# We output the information we already know about the question
         $select = $database->prepare("SELECT qname, question FROM questions WHERE qno = $question");
-      if(!defined($select)){
-        print "Could not arrange select";
-        $database->disconnect();
-        exit;
+	if(!defined($select)){
+	    print "Could not arrange select";
+	    $database->disconnect();
+	    exit;
         }
- 
-      # Results?
-      $select->execute() or die "Could not execute select" . $select->errstr;
-      if($select->rows > 0){
+	
+	# Results?
+	$select->execute() or die "Could not execute select" . $select->errstr;
+	if($select->rows > 0){
         while(@data = $select->fetchrow_array()){
-          print "Title: $data[0]<BR><BR>Question: $data[1]\n";
-          }
+	    print "Title: $data[0]<BR><BR>Question: $data[1]\n";
+	}
+    }
+	else{
+	    print "Error: the database select returned no rows! (";
+	    print $select->rows;
+	    print ")";
         }
-      else{
-        print "Error: the database select returned no rows! (";
-        print $select->rows;
-        print ")";
-        }
-      }
-
+    }
+    
     print "<BR><BR>Text of answer:<BR>\n";
     print $result->textarea(
 			    {-rows=>10, -cols=>100, 
@@ -198,150 +198,87 @@ elsif($mode eq "add-quest"){
     
     print "<BR><BR>\n";
     print $result->submit(-value=>" Are you sure? ", -name=>"commit");
-
+    
     print "<HR><BR><BR>\n";
     print "Existing answers:<I><PRE>";
-
+    
     dumpanswers($path, $area, $section, $question, 1);
     print "</PRE></I>";
 }
 ###############################################################################
 elsif($mode eq "dump"){
     # We have been asked to dump a copy of the current FAQ
-    print "<PRE>\n";
-
-    # We also need to dump the standard prelude
-    print `cat $path/$area/db/prelude`;
-
-    printline("*");
-
-    # For each section
-    # TODO: I suspect that this can be improved with a join
-    $select = $database->prepare("SELECT sno, sname FROM sections ORDER BY sno");
-    if(!defined($select)){
-      print "Could not arrange select";
-      $database->disconnect();
-      exit;
-      }
-
-    # Results?
-    $select->execute() or die "Could not execute select" . $select->errstr;
-    if($select->rows > 0){
-      while(@data = $select->fetchrow_array()){
-        print "\n\n$data[1]:\n";
-
-        $select2 = $database->prepare("SELECT qno, qname, question FROM questions WHERE sno = $data[0] ORDER BY qno");
-        if(!defined($select2)){
-          print "Could not arrange select";
-          $database->disconnect();
-          exit;
-          }
-
-        # Results?
-        $select2->execute() or die "Could not execute select" . $select->errstr;
-        if($select2->rows > 0){
-	  $count = 1;
-          while(@data2 = $select2->fetchrow_array()){
-            print "  $data[0].$count: $data2[1]\n";
-	    $count++;
-            }
-          }
-        else{
-          print "Error: the database select returned no rows! (";
-          print $select2->rows;
-          print ")";
-          }
-        }
-      }
-    else{
-      print "Error: the database select returned no rows! (";
-      print $select->rows;
-      print ")";
-      }
+#    print "<PRE>\n";
     
-    print "\n";
-
+    # We also need to dump the standard prelude
+    print `cat $path/$area/db/prelude` or die "Cannot open prelude";
+    
     # For each section
     $select = $database->prepare("SELECT sno, sname FROM sections ORDER BY sno");
     if(!defined($select)){
-      print "Could not arrange select";
-      $database->disconnect();
-      exit;
-      }
-
+	print "Could not arrange select";
+	$database->disconnect();
+	exit;
+    }
+    
     # Results?
     $select->execute() or die "Could not execute select" . $select->errstr;
     if($select->rows > 0){
-      while(@data = $select->fetchrow_array()){
-        printbanner($data[1], "=");
-
-        $select2 = $database->prepare("SELECT qno, qname, question FROM questions WHERE sno = $data[0] ORDER BY qno");
-        if(!defined($select2)){
-          print "Could not arrange select";
-          $database->disconnect();
-          exit;
-          }
-
-        # Print out the questions
-        $select2->execute() or die "Could not execute select" . $select->errstr;
-        if($select2->rows > 0){
-          $first = 1;
-	  $count = 1;
-          while(@data2 = $select2->fetchrow_array()){
-            if($first eq 1){
-              $first = 0;
-              }
-            else{
-              printline("-");
-              print "\n\n";
-              }
-
-	    $linelen = 0;
-            printtext("$data[0].$count: $data2[1]", 0);
-	    $count++;
-	    print "\n\n";
-
-            $linelen = 0;
-            printtext("$data2[2] [Q$data2[0]]", 0);
-            print "\n\n";
-	    dumpanswers($path, $area, $data[0], $data2[0], 0);
-            }
-          }
-        else{
-          print "Error: the database select returned no rows! (";
-          print $select2->rows;
-          print ")";
-          }
-        }
-      }
+	while(@data = $select->fetchrow_array()){
+	    print "<chapter><title>???</title>\n";
+	    
+	    $select2 = $database->prepare("SELECT qno, qname, question FROM questions WHERE sno = $data[0] ORDER BY qno");
+	    if(!defined($select2)){
+		print "Could not arrange select";
+		$database->disconnect();
+		exit;
+	    }
+	    
+	    # Print out the questions
+	    $select2->execute() or die "Could not execute select" . $select->errstr;
+	    if($select2->rows > 0){
+		$count = 1;
+		while(@data2 = $select2->fetchrow_array()){
+		    print "<sect1><title>$data2[1]</title>\n";
+		    printtext("$data2[2] [Q$data2[0]]", 0);
+		    dumpanswers($path, $area, $data[0], $data2[0], 0);
+		}
+	    }
+	    else{
+		print "Error: the database select returned no rows! (";
+		print $select2->rows;
+		print ")";
+	    }
+	}
+    }
     else{
-      print "Error: the database select returned no rows! (";
-      print $select->rows;
-      print ")";
-      }
-
-
+	print "Error: the database select returned no rows! (";
+	print $select->rows;
+	print ")";
+    }
+    
+    
     # Top ten respondants
     print "\n";
     printline("*");
     print "\nTOP TEN CONTRIBUTORS\n";
     printline("*");
- 
+    
 #    foreach ($key, $value) (%posters){
 #	winners[
-   
+    
 #    @winners = sort {$posters{$b} <=> $posters{$b}} keys %posters;
 #    
 #    foreach $key (@winners){
 #	print "$key\n";
 #    }
-
-    # The end of file stuff
-    print "\n";
-    printline("*");
-    print "\nEND OF FILE\n";
-    printline("*");
-    print "</PRE>\n";
+    
+#    # The end of file stuff
+#    print "\n";
+#    printline("*");
+#    print "\nEND OF FILE\n";
+#    printline("*");
+#    print "</PRE>\n";
 }
 else{
     print "Unknown CGI mode. How did you get here?\n";
@@ -360,8 +297,6 @@ sub dumpanswers{
     my($path, $area, $section, $qnum, $mode) = @_;
     my($anscount, $ANSLIST, $counter, $filemode, $line, $word, $myselect, @mydata);
     
-    $anscount = 0;
-    
     # We also need to dump each of the answers that we have in the db
     # Build the list of sections that are available
     $myselect = $database->prepare("SELECT answer, poster, email, ano FROM answers WHERE qno = $qnum ORDER BY ano");
@@ -375,30 +310,10 @@ sub dumpanswers{
     $myselect->execute() or die "Could not execute select" . $myselect->errstr;
     if($myselect->rows > 0){
 	while(@mydata = $myselect->fetchrow_array()){
-	    # We now put a break between answers to provide some visual
-	    # deliniation
-	    if($anscount > 0){
-		printcentered("**********");
-		print "\n\n";
-	    }
-	    $anscount++;
-	    
-	    $linelen = 2;
-	    if($mode == 1){
-		print "$mydata[3]:\n";
-	    }
-	    print "  ";
-	    
+	    print "<sect2><para>\n";
 	    printtext($mydata[0], 2);
-	    
-	    print "\n    ";
-	    if($mode == 1){
-		print "<a href>";
-	    }
-	    print "$mydata[1] ($mydata[2]) [A$mydata[3]]\n\n";
-	    if($mode == 1){
-		print "</a>";
-	    }
+	    print "</para><para><emphasis>$mydata[1] ($mydata[2]) [A$mydata[3]]</emphasis></para>\n";
+	    print "</para></sect2>\n";
 	}
     }
 }
@@ -426,47 +341,11 @@ sub printtext(){
 
     # With the new database version, this is never matched (I think)
     if(length($line) == 0){
-	print "\n\n";
-	printrepeat(" ", $indent);
-	$linelen = $indent;
+	print "</para>\n\n<para>";
     }
-    
-    $_ = $line;
-    s/[ \t]+<BR>/***!*** /g;
-    s/\r//g;
-    s/ +/ /g;
-    $line = $_;
 
-    foreach $word (split(/ /, $line)){
-	chomp $word;
-
-	$_ = $word;
-	s/\*\*\*!\*\*\*//g;
-	$tempword = $_;
-	
-	if(($linelen + length($tempword) + 1) > $maxlinelen){
-	    $linelen = length($tempword) + $indent;
-	    print "\n";
-	    printrepeat(" ", $indent);
-	    print "$tempword";
-	}
-	else{
-	    print "$tempword";
-	    $linelen += length($tempword);
-	}
-
-	$_ = $word;
-	if(/\*\*\*!\*\*\* *$/){
-	    $linelen = $indent;
-	    print "\n";
-	    printrepeat(" ", $indent);
-	    $linelen = $indent;
-	}
-	else{
-	    $linelen++;
-	    print " ";
-	}
-    }
+    s/<BR>/<\/para><para>/g;
+    print "$line";
 }
 
 ###############################################################################
