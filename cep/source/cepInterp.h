@@ -46,47 +46,62 @@ class cepInterp
 public:
 
 	cepInterp();
+/*******
+DOCBOOK START
+	 doInterp method 1: Interpolates data to a set sample rate
 
-	// doInterp method 1: Interpolates data to a set sample rate
-	//
-	// Imports:
-	// 	input: Is a single window matrix, with date as the first row and
-	//					location values as the second row.
-	//	sampleRate: The sample rate that the data is going to be interpolated
-	//					to in decimal years.
-	//	interpType: Type of interpolation to be used:
-	//					NEAREST_INTERP: (1) Nearest neigbour interpolation
-	//					LINEAR_INTERP:  (2) Linear interpolation between points
-	//					SPLINE_INTERP:  (3) B spline interpolation
-	//					DIVIDED_INTERP: (4) newton divided differences
-	//  winSize(optional): Used for getting datasets that divide into complete
-	//					windows.  Data value is the length of the window in number
-	// 					of samples.
-	//	winOverlap(optional): Used for getting complete windows.  Data value is
-	//					the proportion of overlap between windows.  This is to be given
-	//					as a number: 0.0 <= winOverlap < 1.0.
-	// Export:
-	//  return value: Interpolated cepMatrix.
   cepMatrix<double> & doInterp(const cepMatrix<double> & input, double sampleRate,
 									int interpType, int winSize = 1, double winOverlap = 0);
 
+	 Imports:
+	 	input: Is a single window matrix, with date as the first row and
+						location values as the second row.
+		sampleRate: The sample rate that the data is going to be interpolated
+						to in decimal years.
+		interpType: Type of interpolation to be used:
+						NEAREST_INTERP: (1) Nearest neigbour interpolation
+						LINEAR_INTERP:  (2) Linear interpolation between points
+						NATURAL_SPLINE_INTERP:  (3) Natural spline interpolation
+						CUBIC_SPLINE_INTERP: (4) p spline interpolation
+						DIVIDED_INTERP: (5) newton divided differences
+	  winSize(optional): Used for getting datasets that divide into complete
+						windows.  Data value is the length of the window in number
+	 					of samples.
+		winOverlap(optional): Used for getting complete windows.  Data value is
+						the proportion of overlap between windows.  This is to be given
+						as a number: 0.0 <= winOverlap < 1.0.
+	 Export:
+	  return value: Interpolated cepMatrix.
+DOCBOOK END
+*/
+  cepMatrix<double> & doInterp(const cepMatrix<double> & input, double sampleRate,
+									int interpType, int winSize = 1, double winOverlap = 0);
 
-	// doInterp method 2: Interpolates data to a new timescale
-	//
-	// Imports:
-	//	input: Is a single window matrix, with date as the first column and
-	//			location values as the second column.
-	//  timescale: 2 column matrix where the first column defines a new timescale
-	//			and the second column is blank. Note: This value is changed
-	//			(can also be used as a return value)
-	//	interpType: Type of interpolation to be used:
-	//					NEAREST_INTERP: (1) Nearest neigbour interpolation
-	//					LINEAR_INTERP:  (2) Linear interpolation between points
-	//					SPLINE_INTERP:  (3) B spline interpolation
-	//					DIVIDED_INTERP: (4) newton divided differences
-	// Exports:
-	//	return value: 2 column matrix where the first column is the timescale and
-	//			the second column is the interpolated data points to fit that timescale
+/****
+DOCBOOK START
+
+	 doInterp method 2: Interpolates data to a new timescale
+
+	cepMatrix<double> & doInterp(const cepMatrix<double> & input, cepMatrix<double> & timeScale,
+												int interpType);
+
+	 Imports:
+		input: Is a single window matrix, with date as the first column and
+				location values as the second column.
+	  timescale: 2 column matrix where the first column defines a new timescale
+				and the second column is blank. Note: This value is changed
+				(can also be used as a return value)
+		interpType: Type of interpolation to be used:
+						NEAREST_INTERP: (1) Nearest neigbour interpolation
+						LINEAR_INTERP:  (2) Linear interpolation between points
+						NATURAL_SPLINE_INTERP:  (3) Natural spline interpolation
+						CUBIC_SPLINE_INTERP: (4) p spline interpolation
+						DIVIDED_INTERP: (5) newton divided differences
+	 Exports:
+		return value: 2 column matrix where the first column is the timescale and
+				the second column is the interpolated data points to fit that timescale
+DOCBOOK END
+*/
 	cepMatrix<double> & doInterp(const cepMatrix<double> & input, cepMatrix<double> & timeScale,
 												int interpType);
 

@@ -240,9 +240,10 @@ cepMatrix<double> & cepInterp::dividedInterp(const cepMatrix<double> & input,
 {
 	int i;
 	int j;
-	int count; // used for marking the point of exit from a loop
+	int order; // used for marking the point of exit from a loop
 	int oldSize = input.getNumRows();
 	int newSize = timescale.getNumRows();
+	bool finished;
 
 	// resizable datastructure to hold the divided differences table
 	vector<cepMatrix <double> * > diffs;
@@ -270,7 +271,7 @@ cepMatrix<double> & cepInterp::dividedInterp(const cepMatrix<double> & input,
 	// calculate rest of divided differences table
 	for (i = 2; i < oldSize; i++)
 	{
-		count = i
+		order = i
 		diffs.pushback(new cepMatrix<double> (oldSize-i,1);
 		for (j = 0; j <= oldSize - i; j++)
 		{
@@ -289,12 +290,32 @@ cepMatrix<double> & cepInterp::dividedInterp(const cepMatrix<double> & input,
 		}
 	}
 
-	if (i != oldSize) // if divided difference table loop exited early
+	if (i > oldSize) // if divided difference table loop exited early
 	{
-		count = count - 1; // decrease order of approx by 1
+		order = order - 1; // decrease order of approx by 1
 	}
 
-
+	int position = 0; // position on old timeline (input)
+	// loop to create table of answer values (timeScale(i,1)
+	// see Gerald wheatley, Applied numerical analysis, pg 232 eq (3.6)
+	for (i = 0; i < newSize; i++)
+	{
+		int tempValue = 1;
+		timeScale.setvalue(i,1, input.getValue(position,0));
+		for (j = 1; j < order; j++)
+		{
+			if (inBounds(input, timeScale, position, i, newSize, oldSize))
+			{
+				tempValue = tempValue * (timeScale.getValue(i,0) - input.getValue(position);
+				timeScale.setValue(i,1, timeScale(i,1) + tempValue * diff[j].getValue(i,0));
+			}
+			else
+			{
+			  // give error once I know how
+				return timeScale;
+			}
+		}
+	}
 }
 
 bool cepInterp::inBounds(const cepMatrix<double> & input, cepMatrix<double> & timeScale,
