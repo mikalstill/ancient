@@ -44,5 +44,6 @@
 
 GLOBAL_THINGIE cepConfiguration *gConfiguration;
 GLOBAL_THINGIE fstream gLog;
+GLOBAL_THINGIE cepTSB gDisplayParams[cepError::sevMax];
 
 #endif

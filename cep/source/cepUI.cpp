@@ -339,6 +339,8 @@ void cepFrame::OnClose(wxCloseEvent& evt)
     }
   }
 
+  cepDebugPrint("Finished with the UI");
+  
   // Close the window
   wxFrame::OnCloseWindow(evt);
 }
