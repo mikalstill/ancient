@@ -28,6 +28,7 @@ cepPlot::cepPlot(cepDataset *theDataset, cepDataset::direction dir, string cfnam
 {
   cepConfiguration *config;
   config = (cepConfiguration *) &cepConfiguration::getInstance();
+  cepDebugPrint("New presentation: " + cepToString(x) + " x " + cepToString(y));
   cepPresentation pres (x, y, theDataset->getMatrix(dir));
   
   cepError err;

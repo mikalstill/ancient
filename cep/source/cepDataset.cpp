@@ -54,7 +54,8 @@ cepDataset::cepDataset (cepDatasetProgressCB callback):
 }
 
 cepDataset::cepDataset (cepMatrix<double> *data0, cepMatrix<double> *data1, cepMatrix<double> *data2, 
-			string offsets[3], string procHistory, string headers[3]):
+			string offset0, string offset1, string offset2, string procHistory, 
+			string header0, string header1, string header2):
   m_filename(""),
   m_procHistory(procHistory),
   m_ready(true),
@@ -64,16 +65,16 @@ cepDataset::cepDataset (cepMatrix<double> *data0, cepMatrix<double> *data1, cepM
   m_data[1] = data1;
   m_data[2] = data2;
   
-  m_offset[0] = offsets[0];
-  m_offsetFloat[0] = atof(offsets[0].c_str());
-  m_offset[1] = offsets[1];
-  m_offsetFloat[1] = atof(offsets[1].c_str());
-  m_offset[2] = offsets[2];
-  m_offsetFloat[2] = atof(offsets[2].c_str());
+  m_offset[0] = offset0;
+  m_offsetFloat[0] = atof(offset0.c_str());
+  m_offset[1] = offset1;
+  m_offsetFloat[1] = atof(offset1.c_str());
+  m_offset[2] = offset2;
+  m_offsetFloat[2] = atof(offset2.c_str());
 
-  m_header[0] = headers[0];
-  m_header[1] = headers[1];
-  m_header[2] = headers[2];
+  m_header[0] = header0;
+  m_header[1] = header1;
+  m_header[2] = header2;
 }
 
 cepError cepDataset::read (const string& filename)
@@ -507,8 +508,9 @@ cepDataset cepDataset::filter(float low, float high)
     }
   }
 
-  return cepDataset(data[0], data[1], data[2], m_offset, m_procHistory + ": Zoomed",
-		    m_header);
+  return cepDataset(data[0], data[1], data[2], m_offset[0], m_offset[1], m_offset[2], 
+		    m_procHistory + ": Zoomed",
+		    m_header[0], m_header[1], m_header[2]);
 }
 
 // The display name of the dataset
@@ -529,4 +531,10 @@ string cepDataset::getProcHistory()
 string cepDataset::getOffset(direction i)
 {
   return m_offset[i];
+}
+
+// Return the header line for a given direction
+string cepDataset::getHeader(direction i)
+{
+  return m_header[i];
 }

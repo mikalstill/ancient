@@ -131,6 +131,7 @@ cepPresentation::createBitmap (float& scale, long& minval)
 
   ////////////////////////////////////////////////////////////////////////////////
   // Draw a box around the graph
+  cepDebugPrint("Boxing plot: " + cepToString(m_width) + " x " + cepToString(m_height));
   plot_setlinestart(graph, 0, 0);
   plot_addlinesegment(graph, 0, m_height - 1);
   plot_addlinesegment(graph, m_width - 2, m_height - 1);
@@ -141,6 +142,7 @@ cepPresentation::createBitmap (float& scale, long& minval)
 
   ////////////////////////////////////////////////////////////////////////////////
   // How big are the maxima and minima?
+  cepDebugPrint("Determine scaling");
   long ymaxval = m_useErrors ? m_ymaxval + m_emaxval : m_ymaxval;
   long yminval = m_useErrors ? m_yminval - m_emaxval : m_yminval;
 

@@ -187,6 +187,7 @@ cepView::OnDraw (wxDC * dc)
       if((x != m_x) || (y != m_y)){
 	cepDebugPrint("Detected window resize event");
 	frame->GetSize(&m_x, &m_y);
+	cepDebugPrint("Resized to: " + cepToString(m_x) + " x " + cepToString(m_y));
 	m_dirty = true;
       }
 
@@ -204,8 +205,15 @@ cepView::OnDraw (wxDC * dc)
 	  err.display();
 	  return;
 	}
-	drawPresentation(theDataset, (cepDataset::direction) dir, top, dc, 
-			 width, bottom - top);
+
+	cepDebugPrint("Graph placement is: " + cepToString(top) + ", " + cepToString(bottom) +
+		      ", " + cepToString(width));
+
+	// A width of -1 means invisible
+	if(width != -1){
+	  drawPresentation(theDataset, (cepDataset::direction) dir, top, dc, 
+			   width, bottom - top);
+	}
       }
       m_dirty = false;
     }
@@ -273,6 +281,8 @@ void cepView::drawPresentation(cepDataset *theDataset, cepDataset::direction dir
     int fd;
     fd = mkstemp(cfname);
     close(fd);
+
+    cepDebugPrint("Requesting plot: " + cepToString(presWidth) + " x " + cepToString(presHeight));
     cepPlot plot(theDataset, dir, cfname, presWidth, presHeight, canvas->m_scale[(int) dir],
 		 canvas->m_minval[(int) dir]);
     m_plotfailed = plot.getFailed();
@@ -371,31 +381,33 @@ void cepView::OnToggleZ (wxCommandEvent &pevt)
 // Perform a least squares regression on the dataset (in all directions)
 void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
 {
-  cepMatrix <double> residuals, data;
+  cepMatrix <double> residuals[cepDataset::dirUnknown], data[cepDataset::dirUnknown];
+  double b1s[cepDataset::dirUnknown], b2s[cepDataset::dirUnknown];
 
   cepDoc *theDoc = (cepDoc *) GetDocument ();
   cepDataset *theDataset = theDoc->getDataset ();
   if (theDataset && theDataset->isReady() && theDataset->isWellFormed())
     {
-      // Force a redraw of the graphs later
-      m_dirty = true;
-      
+      // Prompt for processing options
       cepLsUi lsUi;
       lsUi.showIsReweight();
       if(lsUi.getIsReweight() != -1)
 	{
 	  lsUi.showWhichDir();
 	  
+	  // For each direction
 	  for(int i = 0; i < cepDataset::dirUnknown; i++)
 	    {
 	      cepDebugPrint("Reweighting in the " + cepToString(i) + " direction");
 	      
+	      // If this direction is being processed
 	      const char dirNames[] = {'x', 'y', 'z'};
 	      if (lsUi.getWhichDir (dirNames[i]) == true)
 		{
 		  cepDebugPrint("User selected to reweight in this direction");
 		  cepLs thisLs;
 		  
+		  // Reweight if required
 		  if (lsUi.getIsReweight () == 1)
 		    {
 		      thisLs.cepDoVCV (*theDataset->getMatrix ((cepDataset::direction) i));
@@ -405,31 +417,35 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
 			  return;
 			}  
 
-		      residuals = thisLs.getResidual ();
-		      data = thisLs.getDataset();
+		      residuals[i] = thisLs.getResidual ();
+		      data[i] = thisLs.getDataset();
+		      b1s[i] = thisLs.getB1();
+		      b2s[i] = thisLs.getB2();
 		      
-		      cout << "equation of the line is " << endl;
-		      cout << "y=" << thisLs.getB1 () << "x+" << thisLs.getB2 () << endl;
-		      cout << "residuals are: " << endl;
-		      for (int j = 0; j < residuals.getNumRows (); j++)
-		        {
-			  for(int k = 0; k < residuals.getNumCols(); k++)
-			    {
-			      cout << residuals.getValue (j, k) << " ";
-			    }
-			  cout << endl;
-			}
+// 		      cout << "equation of the line is " << endl;
+// 		      cout << "y=" << thisLs.getB1 () << "x+" << thisLs.getB2 () << endl;
+// 		      cout << "residuals are: " << endl;
+// 		      for (int j = 0; j < residuals.getNumRows (); j++)
+// 		        {
+// 			  for(int k = 0; k < residuals.getNumCols(); k++)
+// 			    {
+// 			      cout << residuals.getValue (j, k) << " ";
+// 			    }
+// 			  cout << endl;
+// 			}
 		      
-		      cout << "data is: " << endl;
-		      for (int j = 0; j < data.getNumRows (); j++)
-		        {
-			  for(int k = 0; k < data.getNumCols(); k++)
-			    {
-			      cout << data.getValue (j, k) << " ";
-		          }
-			  cout << endl;
-			}
+// 		      cout << "data is: " << endl;
+// 		      for (int j = 0; j < data.getNumRows (); j++)
+// 		        {
+// 			  for(int k = 0; k < data.getNumCols(); k++)
+// 			    {
+// 			      cout << data.getValue (j, k) << " ";
+// 		          }
+// 			  cout << endl;
+// 			}
 		    }
+
+		  // Otherwise, don't reweight
 		  else
 		    {
 		      const char *dirStrings[] = {"x (North)", "y (East)", "z (Up"};
@@ -460,31 +476,33 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
 				  thisLs.getError().display();
 				  return;
 				}
-			      residuals = thisLs.getResidual ();
-			      data = thisLs.getDataset();
+ 			      residuals[i] = thisLs.getResidual ();
+ 			      data[i] = thisLs.getDataset();
+			      b1s[i] = thisLs.getB1();
+			      b2s[i] = thisLs.getB2();
 			      
-			      cout << "equation of the line is " << endl;
-			      cout << "y=" << thisLs.getB1 () << "x+" << thisLs.getB2 () << endl;
-			      cout << "residuals are: " << endl;
-			      /*for (int j = 0; j < residuals.getNumRows (); j++)
-				{
-				for(int k = 0; k < residuals.getNumCols(); k++)
-				{
-				cout << residuals.getValue (j, k) << " ";
-				}
-				cout << endl;
-				}
+// 			      cout << "equation of the line is " << endl;
+// 			      cout << "y=" << thisLs.getB1 () << "x+" << thisLs.getB2 () << endl;
+// 			      cout << "residuals are: " << endl;
+// 			      /*for (int j = 0; j < residuals.getNumRows (); j++)
+// 				{
+// 				for(int k = 0; k < residuals.getNumCols(); k++)
+// 				{
+// 				cout << residuals.getValue (j, k) << " ";
+// 				}
+// 				cout << endl;
+// 				}
 				
-				cout << "data is: " << endl;
-				for (int j = 0; j < data.getNumRows (); j++)
-				{
-				for(int k = 0; k < data.getNumCols(); k++)
-				{
-				cout << data.getValue (j, k) << " ";
-				}
-				cout << endl;
-				}
-			      */
+// 				cout << "data is: " << endl;
+// 				for (int j = 0; j < data.getNumRows (); j++)
+// 				{
+// 				for(int k = 0; k < data.getNumCols(); k++)
+// 				{
+// 				cout << data.getValue (j, k) << " ";
+// 				}
+// 				cout << endl;
+// 				}
+// 			      */
 			    }
 			  
 			}
@@ -500,7 +518,8 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
 			      cout << "mat P dimesions " << matP.getNumRows() << " " << matP.getNumCols() << 
 				endl;
 			      cepLs thisLs;
-			      //init P matrix to 1 on diagonal
+
+			      // Init P matrix to 1 on diagonal
 			      for(int j = 0; j < matP.getNumRows(); j ++)
 				{
 				  for(int k = 0; k < matP.getNumCols(); k ++)
@@ -560,12 +579,14 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
 					    {
 					      cepError("Weighting value must be a number", 
 						       cepError::sevWarning).display();
+					      return;
 					    }
 					}
 				      else
 					{
 					  cepError("Start date is after finish date", 
 						   cepError::sevWarning).display();
+					  return;
 					}
 				    }
 				  cout << "here " << endl;
@@ -596,31 +617,33 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
 			      if(isDoVCV == true)
 				{
 				  thisLs.cepDoVCV(*theDataset->getMatrix((cepDataset::direction) i), matP);
-				  residuals = thisLs.getResidual ();
-  			          data = thisLs.getDataset();
+				  residuals[i] = thisLs.getResidual ();
+  			          data[i] = thisLs.getDataset();
+				  b1s[i] = thisLs.getB1();
+				  b2s[i] = thisLs.getB2();
 				  
-  			          cout << "equation of the line is " << endl;
-  			          cout << "y=" << thisLs.getB1 () << "x+" << thisLs.getB2 () << endl;
-  			          cout << "residuals are: " << endl;
+//   			          cout << "equation of the line is " << endl;
+//   			          cout << "y=" << thisLs.getB1 () << "x+" << thisLs.getB2 () << endl;
+//   			          cout << "residuals are: " << endl;
 				  
-				  for (int j = 0; j < residuals.getNumRows (); j++)
-				    {
-				      for(int k = 0; k < residuals.getNumCols(); k++)
-					{
-					  cout << residuals.getValue (j, k) << " ";
-					}
-				      cout << endl;
-				    }
+// 				  for (int j = 0; j < residuals.getNumRows (); j++)
+// 				    {
+// 				      for(int k = 0; k < residuals.getNumCols(); k++)
+// 					{
+// 					  cout << residuals.getValue (j, k) << " ";
+// 					}
+// 				      cout << endl;
+// 				    }
 				  
-				  cout << "data is: " << endl;
-  			          for (int j = 0; j < data.getNumRows (); j++)
-				    {
-				      for(int k = 0; k < data.getNumCols(); k++)
-					{
-					  cout << data.getValue (j, k) << " ";
-					}
-				      cout << endl;
-				    }
+// 				  cout << "data is: " << endl;
+//   			          for (int j = 0; j < data.getNumRows (); j++)
+// 				    {
+// 				      for(int k = 0; k < data.getNumCols(); k++)
+// 					{
+// 					  cout << data.getValue (j, k) << " ";
+// 					}
+// 				      cout << endl;
+// 				    }
 				  
 				}
 			    }
@@ -634,7 +657,31 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
 	    }  
 	}
 
+      // Now we can process the results of the LS regression (this includes popping up a new tab)
+      cepDataset newds(&residuals[0], &residuals[1], &residuals[2], 
+		       theDataset->getOffset((cepDataset::direction) 0), 
+		       theDataset->getOffset((cepDataset::direction) 1), 
+		       theDataset->getOffset((cepDataset::direction) 2),
+		       theDataset->getProcHistory() + " : Residuals", 
+		       theDataset->getHeader((cepDataset::direction) 0), 
+		       theDataset->getHeader((cepDataset::direction) 1), 
+		       theDataset->getHeader((cepDataset::direction) 2));
+
+
+		       char *cfname = strdup("/tmp/cep.XXXXXX");
+		       int fd;
+		       fd = mkstemp(cfname);
+        close(fd);
+        
+        string newcfname(string(cfname) + "~" + theDataset->getName());
+        newds.write(newcfname.c_str());
+        
+        wxGetApp().m_docManager->CreateDocument(string(newcfname + ".dat1").c_str(), wxDOC_SILENT);
+        free(cfname);
+
+
       // Actually force the graphs to redraw
+      m_dirty = true;
       canvas->Refresh();
     }
 }
