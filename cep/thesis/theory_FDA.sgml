@@ -41,7 +41,7 @@
 <para>
   The resulting function from a Fourier transform is function of frequency. This can be expressed in terms of frequency f, or angular
   frequency. The Fourier transform of a signal x(n) is:
-  
+
   X(&ohgr;) = &Sgr;x(n)e<superscript>j&ohgr;</superscript>
 
   <equation>
@@ -55,7 +55,6 @@
 
   <equation>
     <title>Inverse Fourier Transform (Rabiner and Schafer, 1978)</title>
-    <alt>x(n) = 1/2pi * int( X( e^(jw) ) * e^(jwn) )dw - where w = 2pif</alt>
     <execute><cmd>img</cmd><args>fInverse_fourier.gif</args></execute>
   </equation>
 </para>
@@ -77,7 +76,6 @@
 
   <equation>
     <title>Forward Discrete Fourier Transform (Rabiner and Schafer, 1978)</title>
-    <alt>X(k) = X(e^(j2pik/N)) = sum from n=0 ..N-1 ( x(n)*e^(-j2pikn/N) )</alt>
     <execute><cmd>img</cmd><args>fForward_discrete_fourier.gif</args></execute>
   </equation>
 
@@ -85,7 +83,6 @@
 
   <equation>
     <title>Inverse Discrete Fourier Transform (Rabiner and Schafer, 1978)</title>
-    <alt>x(n) = 1/N * sum from n-0..N-1(X(k)e^(j2pikn/N))</alt>
     <execute><cmd>img</cmd><args>fInverse_discrete_fourier.gif</args></execute>
   </equation>
 
@@ -110,16 +107,14 @@
   illustration of this concept is that of a sine wave with its corresponding PSD plot.
 
   <figure><title>50 kHz sin wave</title>
-  <!-- <graphic fileref="figures/pythag"></graphic>-->
       <execute><cmd>img</cmd><args>50HzSin.bmp</args></execute>
   </figure>
 
   <figure><title>PSD plot of a 50 kHz sin wave</title>
-  <!-- <graphic fileref="figures/pythag"></graphic>-->
       <execute><cmd>img</cmd><args>fft50HzSin.bmp</args></execute>
   </figure>
 
-  In the above figures, we see the purse sin wave with a frequency of 50Hz. This is confirmed in the PSD plot, where we see 
+  In the above figures, we see the purse sin wave with a frequency of 50Hz. This is confirmed in the PSD plot, where we see
   that sin wave has energy only at 50Hz.
 
 </para>

@@ -2,14 +2,9 @@
 <book><bookinfo>
 <title>Geodetic Date Modelling System: Thesis</title>
 <execute><cmd>builddb</cmd><input>authorgroup.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>abstract.sgml</input></execute>
 </bookinfo>
 
-<chapter><title>Acknowledgments</title>
- <execute><cmd>builddb</cmd><input>acknowledgments.sgml</input></execute>
-</chapter> 
-<chapter><title>Abstract</title> 
- <execute><cmd>builddb</cmd><input>abstract.sgml</input></execute>
-</chapter> 
 
 <chapter><title> Theory </title>
   <execute><cmd>builddb</cmd><input>theory_intro.sgml</input></execute>

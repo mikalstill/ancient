@@ -25,6 +25,12 @@
  	    Satellite Laser Ranging
         </para></glossdef>
     </glossentry>
+    
+    <glossentry><glossterm>SQL</glossterm>
+      <glossdef><para>
+ 	    Structured Query Language
+        </para></glossdef>
+    </glossentry>
 
     <glossentry><glossterm>VCV</glossterm>
       <glossdef><para>
