@@ -8,3 +8,15 @@ void pandalex_sample_dictitem_array(int, va_list);
 void pandalex_sample_dictitem_object(int, va_list);
 void pandalex_sample_dictitem_dict(int, va_list);
 void pandalex_sample_dictitem_int(int, va_list);
+
+void pandalex_sample_stream(int, va_list);
+void pandalex_sample_dictint(int, va_list);
+
+// This data type is needed for pandalex_sample_stream and 
+// pandalex_sample_dictint
+typedef struct ipandalex_sample_dictint_list{
+  int value;
+  int waiting;
+  char *stream;
+  struct ipandalex_sample_dictint_list  *next; 
+} pandalex_sample_dictint_list;

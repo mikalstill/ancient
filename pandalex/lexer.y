@@ -133,7 +133,7 @@ objref    : INT INT OBJREF { if(($$ = (char *) malloc((intlen($1) + intlen($2) +
 			                       }
           ;
 
-stream    : STREAM { binaryMode = 1; } binary ENDSTREAM { printf("Stream: filter = %s, length = %d / %s, strlen = %d\n", streamFilter, streamLength, streamLengthObjRef, strlen($3)); }
+stream    : STREAM { binaryMode = 1; } binary ENDSTREAM { pandalex_callback(gpandalex_callback_stream, streamFilter, streamLength, streamLengthObjRef, $3); free($3); }
           |
           ;
 
@@ -203,16 +203,15 @@ int yyerror(char *s){
 // Buffer overrun safe strcat
 char *strmcat(char *dest, char *append){
   char *new;
-  printf("a\n");
+  
   // What length do we need?
   if((new = (char *) malloc(sizeof(char) * 
     (strlen(dest) + strlen(append) + 2))) == NULL){
     fprintf(stderr, "Could not malloc enough space\n");
     exit(42);
   }
-  printf("b\n");
+ 
   sprintf(new, "%s%s", dest, append);
-  printf("c\n");
   return new;
 }
 
@@ -266,6 +265,11 @@ int main(int argc, char *argv[]){
 			 pandalex_sample_dictitem_dict);
   pandalex_setupcallback(gpandalex_callback_dictitem_int,
 			 pandalex_sample_dictitem_int);
+
+  pandalex_setupcallback(gpandalex_callback_stream,
+			 pandalex_sample_stream);
+  pandalex_setupcallback(gpandalex_callback_dictint,
+			 pandalex_sample_dictint);
 
   pandalex_parse();
 

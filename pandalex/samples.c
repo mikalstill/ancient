@@ -49,3 +49,15 @@ void pandalex_sample_dictitem_dict(int event, va_list argptr){
 void pandalex_sample_dictitem_int(int event, va_list argptr){
   printf("Dictionary int\n");
 }
+
+void pandalex_sample_stream(int event, va_list argptr){
+
+}
+
+void pandalex_sample_dictint(int event, va_list argptr){
+
+}
+
+
+
+
