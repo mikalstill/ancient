@@ -20,7 +20,7 @@
 /******************************************************************************
 DOCBOOK START
 
-FUNCTION cepError
+FUNCTION genError
 PURPOSE abstract class which is to be extended by any error handler. Used to
 decouple the error mechanism from the user interface
 
@@ -33,38 +33,38 @@ This class is used to display errors in a flexible manner. extending classes nee
 to implement <command>displayError</command> and <command>logError</command>. To
 use the error mechanism
 </para>
-  virtual void displayError( class cepError & error ) = 0;
-  virtual void logError( class cepError & error ) = 0;
+  virtual void displayError( class genError & error ) = 0;
+  virtual void logError( class genError & error ) = 0;
 <para>
 
 <para>
-<command>virtual void displayError( class cepError & error ) = 0;</command>
+<command>virtual void displayError( class genError & error ) = 0;</command>
 the contract for this method is that it should take some action to display
 the error in a meaningful way to the user.
 </para>
 <para>
-<command>virtual void logError( class cepError & error ) = 0;</command>
+<command>virtual void logError( class genError & error ) = 0;</command>
 the contract for this method is that it should take some action to make a
 persistant record of the errorthe error for the user.
 </para>
 
-SEEALSO cepError cepWxErrorHandler cepTextErrorhandler cepConsoleErrorHandler
+SEEALSO genError genWxErrorHandler genTextErrorhandler genConsoleErrorHandler
 DOCBOOK END
 ******************************************************************************/
 
 #ifndef __CEP_ERROR_HANDLER_H
 #define __CEP_ERROR_HANDLER_H
 
-#include "cepError.h"
+#include "genError.h"
 
-class cepErrorHandler {
+class genErrorHandler {
 public:
-  virtual ~cepErrorHandler();
-  virtual void displayError( class cepError & error ) = 0;
-  virtual void logError( class cepError & error ) = 0;
+  virtual ~genErrorHandler();
+  virtual void displayError( class genError & error ) = 0;
+  virtual void logError( class genError & error ) = 0;
    
 protected:
-  cepErrorHandler();
+  genErrorHandler();
 private:
    
 };

@@ -17,8 +17,8 @@
   * Mass Ave, Cambridge, MA 02139, USA. 
 */
 
-#include "cepErrorHandler.h"
+#include "genErrorHandler.h"
 
-cepErrorHandler::cepErrorHandler() { }
+genErrorHandler::genErrorHandler() { }
 
-cepErrorHandler::~cepErrorHandler() { }
+genErrorHandler::~genErrorHandler() { }

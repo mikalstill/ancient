@@ -26,41 +26,41 @@
 /******************************************************************************
 DOCBOOK START
 
-FUNCTION cepDebugPrint
-PURPOSE print out debugging information via cepError
+FUNCTION genDebugPrint
+PURPOSE print out debugging information via genError
 
 SYNOPSIS START
-cepDebugPrint(string debugMessage);
+genDebugPrint(string debugMessage);
 SYNOPSIS END
 
 DESCRIPTION START
-<command>cepDebugPrint</command> creates a cepError of debug severity and immediately displays it -- this will normally result in the debug message being logged. The macro also pack into the message the name of the source file which called <command>cepDebugPrint</command>, and the line number that the call occurred at, for ease of debugging.
+<command>genDebugPrint</command> creates a genError of debug severity and immediately displays it -- this will normally result in the debug message being logged. The macro also pack into the message the name of the source file which called <command>genDebugPrint</command>, and the line number that the call occurred at, for ease of debugging.
 DESCRIPTION END
 
-SEEALSO cepDebug
+SEEALSO genDebug
 DOCBOOK END
 ******************************************************************************/
 
 // This prints out some debugging information which is useful, use it instead
 // of:
-// cepError cepDebugPrint("Some text", cepError::sevDebug);
-// cepDebugPrint.display();
+// genError genDebugPrint("Some text", genError::sevDebug);
+// genDebugPrint.display();
 
 ///////////////////////////////////////////////////////////////////////////////
 // THIS CANNOT DO A DISPLAY, AS THE CONFIG DB CODE USES THIS TO LOG DB PROBLEMS
-// AND cepError::display() USES THE CONFIG DB...
+// AND genError::display() USES THE CONFIG DB...
 ///////////////////////////////////////////////////////////////////////////////
-#define cepDebugPrint(errmsg) \
+#define genDebugPrint(errmsg) \
   { \
-    cepError newname_cepDebugPrint(string("") + string(errmsg) + string(" at ") + string(__FILE__) + \
-			string(":") + cepToString(__LINE__), cepError::sevDebug); \
-    newname_cepDebugPrint.log(); \
+    genError newname_genDebugPrint(string("") + string(errmsg) + string(" at ") + string(__FILE__) + \
+			string(":") + genToString(__LINE__), genError::sevDebug); \
+    newname_genDebugPrint.log(); \
   }
 
 /******************************************************************************
 DOCBOOK START
 
-FUNCTION cepError
+FUNCTION genError
 PURPOSE store user definable configuration information
 
 SYNOPSIS START
@@ -75,10 +75,10 @@ enum severity
   sevMax
 };
 
-cepError ();
-cepError (const string& msg);
-cepError (const string& msg, severity level);
-~cepError ();
+genError ();
+genError (const string& msg);
+genError (const string& msg, severity level);
+~genError ();
 
 bool isReal ();
 void clear();
@@ -93,7 +93,7 @@ This class is used to display and log messages from the user interface to the us
 </para>
 
 <para>
-The enumeration <command>severity</command> defines the possible error levels available to <command>cepError</command>. These levels have differing default resposes within the <command>cepError</command> class, depending on their perceived importance:
+The enumeration <command>severity</command> defines the possible error levels available to <command>genError</command>. These levels have differing default resposes within the <command>genError</command> class, depending on their perceived importance:
 
 //todo_mikal: implement error level actions as defined here
 <orderedlist>
@@ -107,58 +107,58 @@ The enumeration <command>severity</command> defines the possible error levels av
 </para>
 
 <para>
-<command>cepError ();</command>
-Default constructor. This will create a <command>cepError</command> with a default severity of <command>sevOk</command>.
+<command>genError ();</command>
+Default constructor. This will create a <command>genError</command> with a default severity of <command>sevOk</command>.
 </para>
 
 <para>
-<command>cepError (const string&amp; msg);</command>
-Contruct a <command>cepError</command> with a severity of <command>sevErrorFatal</command>.
+<command>genError (const string&amp; msg);</command>
+Contruct a <command>genError</command> with a severity of <command>sevErrorFatal</command>.
 </para>
 
 <para>
-<command>cepError (const string& msg, severity level);</command>
-Construct a <command>cepError</command> with the specified severity.
+<command>genError (const string& msg, severity level);</command>
+Construct a <command>genError</command> with the specified severity.
 </para>
 
 <para>
-<command>~cepError ();</command>
+<command>~genError ();</command>
 //todo_mikal: make sure this is true
-If the <command>cepError</command> has not been actioned (checked if real, copied, displayed or logged) by the time the destructor is called, then it will be actioned at this point.
+If the <command>genError</command> has not been actioned (checked if real, copied, displayed or logged) by the time the destructor is called, then it will be actioned at this point.
 </para>
 
 <para>
 <command>bool isReal ();</command>
-If the <command>cepError</command> has a message string, then return true.
+If the <command>genError</command> has a message string, then return true.
 </para>
 
 <para>
 <command>void clear();</command>
-Zero the <command>cepError</command>.
+Zero the <command>genError</command>.
 </para>
 
 <para>
 <command>void log();</command>
-Write the <command>cepError</command> to the log file.
+Write the <command>genError</command> to the log file.
 </para>
 
 <para>
 <command>void display ();</command>
-Display the <command>cepError</command> if the display configuration allows it.
+Display the <command>genError</command> if the display configuration allows it.
 </para>
 
 <para>
 <command>string getTitle();</command>
-Return the title which should be used in the display of this <command>cepError</command>.
+Return the title which should be used in the display of this <command>genError</command>.
 </para>
 
 <para>
 <command>int getIcon();</command>
-Return the icon identifier which should be used with the <command>cepError</command>.
+Return the icon identifier which should be used with the <command>genError</command>.
 </para>
 
 <para>
-<command>static void addErrorHandler( cepErrorHandler );</command>
+<command>static void addErrorHandler( genErrorHandler );</command>
 add a specific error handler. this will be used to display and log errors as necesary.
 if an error handler is already subscribed, then this will fail and the previous handler
 will be undisturbed. Use removeErrorhander before assigning a new one.
@@ -170,17 +170,17 @@ If No error handler is added then display and log will do nothing.
 Removes the current error handler.
 DESCRIPTION END
 
-SEEALSO cepErrorHandler cepWxErrorHandler cepTextErrorhandler cepConsoleErrorHandler
+SEEALSO genErrorHandler genWxErrorHandler genTextErrorhandler genConsoleErrorHandler
 DOCBOOK END
 ******************************************************************************/
 
 #include <string>
-#include "cepErrorHandler.h"
-#include "cepUtility.h"
+#include "genErrorHandler.h"
+#include "genUtility.h"
 
 using namespace std;
 
-class cepError
+class genError
 {
 public:
   enum severity
@@ -194,12 +194,12 @@ public:
     sevMax
   };
 
-  cepError ();
-  cepError (const string & msg);
-  cepError (const string & msg, severity level);
-  static void addErrorHandler( class cepErrorHandler& h );
+  genError ();
+  genError (const string & msg);
+  genError (const string & msg, severity level);
+  static void addErrorHandler( class genErrorHandler& h );
   static void removeErrorHandler();
-  ~cepError ();
+  ~genError ();
 
   void init();
   void setError(const string & msg, severity level);
@@ -209,7 +209,7 @@ public:
   void display ();
   void doTerminate();
 
-  // BS - remove these when we get the friend thing for cepErrorHandler sorted
+  // BS - remove these when we get the friend thing for genErrorHandler sorted
   string & getMessage();
   int getSeverity();
   string getTitle();
@@ -217,7 +217,7 @@ public:
 private:
   
   static bool m_handlerInstalled;
-  static class cepErrorHandler *m_handler;
+  static class genErrorHandler *m_handler;
 
   string m_message;
   severity m_level;

@@ -22,7 +22,7 @@
 DOCBOOK START
 
 FUNCTION <!-- class name -->
-cepWxErrorHandler
+genWxErrorHandler
 
 
 PURPOSE <!-- use cases -->
@@ -32,30 +32,30 @@ SYNOPSIS START
 <!-- how to instantiate one? -->
 To make use of this class, the user must get an instance of one,
 and then subscribe it as the current error handler. Subscription is
-via a static method on cepError as folows
+via a static method on genError as folows
 
-cepErrorHandler handler = new cepWxErrorHandler();
-cepError::setErrorHandler( handler );
+genErrorHandler handler = new genWxErrorHandler();
+genError::setErrorHandler( handler );
 SYNOPSIS END
 
 DESCRIPTION START
 <!-- description goes here -->
-<para>An implementation of the <command>cepErrorHandler</command> class
-which displays <command>cepErrors</command> using wxWindows. The errors
+<para>An implementation of the <command>genErrorHandler</command> class
+which displays <command>genErrors</command> using wxWindows. The errors
 are displayed as custom message boxes.
 </para>
 
 <para> <!-- per function descriptions -->
-<command>void displayError( class cepError & error )</command>
+<command>void displayError( class genError & error )</command>
 Displays a specific error using the wx windows toolkit
 </para>
 <para> <!-- per function descriptions -->
-<command>void logError( class cepError & error )</command>
+<command>void logError( class genError & error )</command>
 Logs a specific error using an global log file
 </para>
 DESCRIPTION END
 
-SEEALSO cepError cepErrorHandler cepTextErrorhandler cepConsoleErrorHandler
+SEEALSO genError genErrorHandler genTextErrorhandler genConsoleErrorHandler
 DOCBOOK END
 ******************************************************************************/
 
@@ -82,26 +82,18 @@ DOCBOOK END
 #endif
 
 
-#include "cepErrorHandler.h"
-#include "cepConfiguration.h"
+#include "genErrorHandler.h"
 
-/** An error handler that makes use of the wxWindows UI toolkit
-  *@author Blake Swadling
-  */
-
-class cepWxErrorHandler : public cepErrorHandler  {
+class genWxErrorHandler : public genErrorHandler  {
 public: 
-	cepWxErrorHandler();
-	~cepWxErrorHandler();
+	genWxErrorHandler();
+	~genWxErrorHandler();
 
-   void displayError( class cepError & error );
-   void logError( class cepError & error );
+   void displayError( class genError & error );
+   void logError( class genError & error );
 
 private:
-  cepConfiguration *config;
-  void initConfig();
-  int getIcon( class cepError err );
-
+  int getIcon( class genError err );
 };
 
 #endif  // ! __CEP_WXERRORHANDLER_H

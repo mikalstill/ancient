@@ -20,39 +20,39 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#include "cepError.h"
+#include "genError.h"
 
-cepError::cepError ()
+genError::genError ()
 {
   m_message = "";
-  m_level = cepError::sevOk;
+  m_level = genError::sevOk;
   m_actioned = true;
 }
 
-cepError::cepError (const string & msg)
+genError::genError (const string & msg)
 {
   m_message = msg;
-  m_level = cepError::sevWarning;
+  m_level = genError::sevWarning;
   m_actioned = false;
 }
 
-cepError::cepError (const string & msg, cepError::severity level)
+genError::genError (const string & msg, genError::severity level)
 {
   m_message = msg;
   m_level = level;
   m_actioned = false;
 }
 
-bool cepError::m_handlerInstalled=false;
-cepErrorHandler * cepError::m_handler = NULL;
+bool genError::m_handlerInstalled=false;
+genErrorHandler * genError::m_handler = NULL;
 
-cepError::~cepError ()
+genError::~genError ()
 {
   if (!m_actioned)
-    cepDebugPrint ("cepError was not actioned: " + m_message);
+    genDebugPrint ("genError was not actioned: " + m_message);
 }
 
-void cepError::addErrorHandler( cepErrorHandler& h )
+void genError::addErrorHandler( genErrorHandler& h )
 {
   if( !m_handlerInstalled )
   {
@@ -61,26 +61,26 @@ void cepError::addErrorHandler( cepErrorHandler& h )
   }
 }
 
-void cepError::init()
+void genError::init()
 {
   if((m_message != "") && (m_actioned == false))
   {
-    cepDebugPrint ("cepError was not actioned: " + m_message);
+    genDebugPrint ("genError was not actioned: " + m_message);
   }
     
   m_actioned = false;
-  m_level = cepError::sevOk;
+  m_level = genError::sevOk;
   m_message = "";
 }
 
-void cepError::setError(const string & msg, cepError::severity level)
+void genError::setError(const string & msg, genError::severity level)
 {
   m_message = msg;
   m_level = level;
   m_actioned = false;
 }
 
-void cepError::removeErrorHandler()
+void genError::removeErrorHandler()
 {
   if( m_handlerInstalled )
   {
@@ -89,26 +89,26 @@ void cepError::removeErrorHandler()
   }
 }
 
-bool cepError::isReal ()
+bool genError::isReal ()
 {
   m_actioned = true;
   return m_message != "";
 }
 
-void cepError::clear ()
+void genError::clear ()
 {
   m_actioned = true;
   m_message = "";
 }
 
-void cepError::log ()
+void genError::log ()
 {
   if(m_handler != NULL)
     m_handler->logError( *this );
   m_actioned = true;
 }
 
-void cepError::display ()
+void genError::display ()
 {
   if( m_handler != NULL ) {
     if( isReal() ) {
@@ -118,17 +118,17 @@ void cepError::display ()
   m_actioned = true;
 }
 
-int cepError::getSeverity()
+int genError::getSeverity()
 {
   return m_level;
 }
 
-string & cepError::getMessage()
+string & genError::getMessage()
 {
   return m_message;
 }
 
-string cepError::getTitle()
+string genError::getTitle()
 {
   switch (getSeverity())
   {
@@ -155,7 +155,7 @@ string cepError::getTitle()
   }
 }
 
-void cepError::doTerminate()
+void genError::doTerminate()
 {
   if(m_level == sevErrorFatal)
     exit(-1);

@@ -18,21 +18,14 @@ dnl  with this program; if not, write to the Free Software Foundation, Inc., 675
 dnl  Mass Ave, Cambridge, MA 02139, USA.
 
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT(cepError.cpp)
+AC_INIT(genError.cpp)
 AC_CONFIG_AUX_DIR(config)
-AM_INIT_AUTOMAKE(cep, 0.1)
+AM_INIT_AUTOMAKE(genapp, 0.1)
 AM_MAINTAINER_MODE
 
-dnl Libtool
-dnl AC_LIBTOOL_WIN32_DLL
-dnl AC_LIBTOOL_DLOPEN
-
 dnl Checks for programs.
-AC_PROG_CC
 AC_PROG_CXX
 AC_PROG_INSTALL
-AC_PROG_RANLIB
-dnl AC_PROG_LIBTOOL
 
 dnl Checks for libraries.
 dnl The syntax is library name, function, action if found, action if not found
@@ -62,53 +55,12 @@ AC_CHECK_LIB(wx_gtk-2.2, wxTheApp, [], [
   echo "    *****************************************"
   echo "    *                                       *"
   echo "    *   libwx_gtk-2.2 not found, aborting   *"
-  echo "    *    (this is suplied in contrib dir)   *"
   echo "    *                                       *"
   echo "    *****************************************"
   echo
   exit 1
   ])
 
-dnl -lmplot
-AC_CHECK_LIB(mplot, plot_newplot ,[], [
-  echo
-  echo "    *****************************************"
-  echo "    *                                       *"
-  echo "    *     libmplot not found, aborting      *"
-  echo "    *   (this is suplied in contrib dir)    *"
-  echo "    *                                       *"
-  echo "    *****************************************"
-  echo
-  exit 1
-  ])
-
-dnl -lpng
-AC_CHECK_LIB(png, png_create_write_struct, [], [
-  echo
-  echo "    *****************************************"
-  echo "    *                                       *"
-  echo "    *      libpng not found, aborting       *"
-  echo "    *   (this is suplied in contrib dir)    *"
-  echo "    *                                       *"
-  echo "    *****************************************"
-  echo
-  exit 1
-  ])
-
-
-dnl -lpcre
-AC_CHECK_LIB(pcre, pcre_exec, [], [
-  echo
-  echo "    *****************************************"
-  echo "    *                                       *"
-  echo "    *     libpcre not found, aborting       *"
-  echo "    *   (this is suplied in contrib dir)    *"
-  echo "    *                                       *"
-  echo "    *****************************************"
-  echo
-  exit 1
-  ])
-      
 dnl Checks for header files.
 dnl STDC checks for stdlib.h stdarg.h string.h and float.h
 AC_HEADER_STDC
@@ -118,41 +70,6 @@ dnl Checks for typedefs, structures, and compiler characteristics.
 dnl Tell wx that it is using GTK, and not to load the UI automatically
 AC_DEFINE(__WXGTK__)
 
-dnl Ensure developers don't ignore warnings
-AC_CANONICAL_HOST
 AC_DEFINE(_GNU_SOURCE)
 
-dnl todo: Shouldn't this be the build system $build?
-case "$host" in
-  *-*-openbsd*)
-    CFLAGS="$CFLAGS -pthread"
-    CPPFLAGS="$CPPFLAGS -D_REENTRANT"
-    CXXFLAGS="$CXXFLAGS -pthread"
-    echo "Setting OpenBSD compilation options";;
-  *-*-freebsd*)
-    CFLAGS="$CFLAGS -pthread"
-    CPPFLAGS="$CPPFLAGS -D_THREAD_SAFE"
-    CXXFLAGS="$CXXFLAGS -pthread"
-    echo "Setting FreeBSD compilation options";;
-  *-*-solaris*)
-    CPPFLAGS="$CPPFLAGS -D_REENTRANT -D_POSIX_PTHREAD_SEMANTICS -DUSE_SOLARIS -DPIC -fPIC"
-    LDFLAGS="$LDFLAGS -mimpure-text"
-    echo "Setting Solaris compilation options";;
-  *-*-linux*)
-    dnl Assume that this sucker will be multi threaded. Are we going to be generating shared libs
-    dnl be nice, don't file on warnings but inform the developers concerned
-    dnl CPPFLAGS="$CPPFLAGS -fPIC -DPIC -D_REENTRANT -Wall -Werror"
-    CPPFLAGS="$CPPFLAGS -D_REENTRANT -Wall"
-    echo "Setting Linux compilation options";;
-  *-*-aix*)
-    CPPFLAGS="$CPPFLAGS -D_THREAD_SAFE"
-    LIBS="$LIBS -lc_r"
-    echo "Setting AIX compilation options";;
-  *-*-irix*)
-    LDFLAGS="$LDFLAGS -L/usr/lib32"
-    echo "Setting Irix compilation options";;
-  *)
-  echo "This project may not compile on this system. Good luck :-)";;
-esac
-
-AC_OUTPUT(tests/Makefile Makefile)
+AC_OUTPUT(Makefile)

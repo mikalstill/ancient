@@ -18,24 +18,22 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#include "cepCore.h"
-#include "cepWxErrorHandler.h"
+#include <iostream>
+#include <fstream>
 
-cepWxErrorHandler::cepWxErrorHandler()
+#include "genWxErrorHandler.h"
+
+extern fstream gLog;
+
+genWxErrorHandler::genWxErrorHandler()
 {
-  initConfig();
 }
 
-cepWxErrorHandler::~cepWxErrorHandler()
+genWxErrorHandler::~genWxErrorHandler()
 {
 }
 
-void cepWxErrorHandler::initConfig()
-{
-  config = (cepConfiguration *)&cepConfiguration::getInstance();
-}
-
-void cepWxErrorHandler::displayError( class cepError & err )
+void genWxErrorHandler::displayError( class genError & err )
 {
 
   // Log everything for now
@@ -43,18 +41,18 @@ void cepWxErrorHandler::displayError( class cepError & err )
   logError( err );
 
   /*
-  if (gDisplayParams[(int)level].get () == cepTSB::stUndefined)
+  if (gDisplayParams[(int)level].get () == genTSB::stUndefined)
   {
-    // Deliberately dropping cepError return value here
+    // Deliberately dropping genError return value here
     bool dodisp = false;
 
     config->getValue (string ("error-display-") +
-                 cepToString ((int)level), true, dodisp);
+                 genToString ((int)level), true, dodisp);
 
     gDisplayParams[(int)level].set (dodisp);
   }
 
-  if (gDisplayParams[(int)level].get () == cepTSB::stFalse)
+  if (gDisplayParams[(int)level].get () == genTSB::stFalse)
     return;
   */
 
@@ -67,31 +65,31 @@ void cepWxErrorHandler::displayError( class cepError & err )
   }
 }
 
-void cepWxErrorHandler::logError( class cepError & err )
+void genWxErrorHandler::logError( class genError & err )
 {
   gLog << err.getMessage() << " (" << err.getTitle () << ")" << endl;
 }
 
-int cepWxErrorHandler::getIcon ( class cepError err )
+int genWxErrorHandler::getIcon ( class genError err )
 {
   switch (err.getSeverity())
   {
-  case cepError::sevOk:
+  case genError::sevOk:
     return 0;
 
-  case cepError::sevDebug:
+  case genError::sevDebug:
     return wxICON_QUESTION;
 
-  case cepError::sevInformational:
+  case genError::sevInformational:
     return wxICON_INFORMATION;
 
-  case cepError::sevWarning:
+  case genError::sevWarning:
     return wxICON_EXCLAMATION;
 
-  case cepError::sevErrorRecoverable:
+  case genError::sevErrorRecoverable:
     return wxICON_ERROR;
 
-  case cepError::sevErrorFatal:
+  case genError::sevErrorFatal:
     return wxICON_ERROR;
 
   default:

@@ -35,19 +35,17 @@
 #define __CEPCANVASH__
 
 #include "wx/docview.h"
-#include "cepWxErrorHandler.h"
-#include "cepTextErrorHandler.h"
-#include "cepDataset.h"
-#include "cepUI.h"
+#include "genWxErrorHandler.h"
+#include "genUI.h"
 
 /******************************************************************************
 DOCBOOK START
 
-FUNCTION cepCanvas
+FUNCTION genCanvas
 PURPOSE owns all drawing to user visible areas
 
 SYNOPSIS START
-#include&lt;cepCanvas.h&gt;
+#include&lt;genCanvas.h&gt;
 
 SYNOPSIS END
 
@@ -66,44 +64,19 @@ SEEALSO
 DOCBOOK END
 ******************************************************************************/
 
-class cepCanvas:public wxScrolledWindow
+class genCanvas:public wxScrolledWindow
 {
 public:
-  cepCanvas (wxView * v, wxFrame * frame, const wxPoint & pos,
+  genCanvas (wxView * v, wxFrame * frame, const wxPoint & pos,
              const wxSize & size, long style);
 
   virtual void OnDraw (wxDC & dc);
   void OnMouseEvent (wxMouseEvent & event);
 
-  cepError graphStatus(bool& x, bool& y, bool& z, int& count);
-  cepDataset::direction determineGraph(int y, string& name);
-  cepError graphPlacement(cepDataset::direction dir, int& top, int& bottom, int& width);
-
   wxView * m_view;
-  bool m_showx, m_showy, m_showz;
-  float m_vertScale[cepDataset::dirUnknown];
-  float m_horizScale[cepDataset::dirUnknown];
-  long m_xminval[cepDataset::dirUnknown];
-  long m_yminval[cepDataset::dirUnknown];
-  long m_yrange[cepDataset::dirUnknown];
-  bool m_isFreq[cepDataset::dirUnknown];
 
  private:
   DECLARE_EVENT_TABLE ()
-    
-    enum selType{
-      selLeft = 0,
-      selRight,
-      selNone
-    };
-  
-  wxButton m_button;
-  cepConfiguration *m_config;
-  int m_selectXStart, m_selectXPrevious, m_selectXEnd;
-  selType m_select;
-
-  cepDataset::direction m_selDir;
-  string m_selDirString;
   wxFrame *m_frame;
 };
 

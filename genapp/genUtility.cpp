@@ -18,11 +18,11 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#include "cepCore.h"
 #include <stdio.h>
+#include "genUtility.h"
 
 string
-cepToString (int number)
+genToString (int number)
 {
   char buffer[10];
 
@@ -31,7 +31,7 @@ cepToString (int number)
 }
 
 string
-cepToString (long number)
+genToString (long number)
 {
   char buffer[20];
 
@@ -40,7 +40,7 @@ cepToString (long number)
 }
 
 string
-cepToString (double number)
+genToString (double number)
 {
   char buffer[20];
 
@@ -49,7 +49,7 @@ cepToString (double number)
 }
 
 string
-cepToString (float number, bool suppressTrailingZeros)
+genToString (float number, bool suppressTrailingZeros)
 {
   char buffer[10];
 
@@ -73,14 +73,14 @@ cepToString (float number, bool suppressTrailingZeros)
 }
 
 string
-cepToString (bool val)
+genToString (bool val)
 {
   if(val) return "true";
   return "false";
 }
 
 string
-cepToString (char val)
+genToString (char val)
 {
   char buffer[2];
 
@@ -89,7 +89,7 @@ cepToString (char val)
 }
 
 string
-cepToString (size_t val)
+genToString (size_t val)
 {
   char buffer[10];
 
@@ -98,7 +98,7 @@ cepToString (size_t val)
 }
 
 bool
-cepIsBlank (char c)
+genIsBlank (char c)
 {
   if (c == ' ')
     return true;
@@ -112,11 +112,11 @@ cepIsBlank (char c)
   return false;
 }
 
-bool cepIsNumeric(char c)
+bool genIsNumeric(char c)
 {
   // This line of code:
   //
-  // if(((c < 48) || (c > 57)) && (cepIsBlank(c) == false) && (c != '.') 
+  // if(((c < 48) || (c > 57)) && (genIsBlank(c) == false) && (c != '.') 
   //    && (c != '-'))
   //
   // Became:
@@ -138,7 +138,7 @@ bool cepIsNumeric(char c)
 }
 
 int
-cepMax (int a, int b)
+genMax (int a, int b)
 {
   if (a > b)
     return a;
@@ -146,7 +146,7 @@ cepMax (int a, int b)
 }
 
 int
-cepMin (int a, int b)
+genMin (int a, int b)
 {
   if (a < b)
     return a;
@@ -154,14 +154,14 @@ cepMin (int a, int b)
 }
 
 int
-cepAbs (int a)
+genAbs (int a)
 {
   if (a < 0)
     return -a;
   return a;
 }
 
-string cepToLower(string in)
+string genToLower(string in)
 {
   string out;
 
@@ -171,7 +171,7 @@ string cepToLower(string in)
   return out;
 }
 
-string cepToUpper(string in)
+string genToUpper(string in)
 {
   string out;
 

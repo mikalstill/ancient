@@ -1,12 +1,13 @@
-
 /* 
  *   UI for the CEP program
  *   Copyright (C) Michael Still                    2002
+ *   Copyright (C) Kristy Van Der Vlist             2002
+ *   Copyright (C) Blake Swadling                   2002
  *
  *   Based on a demo which originally had this notice:
  *
  *   /////////////////////////////////////////////////////////////////////////
- *   // Name:        doc.h
+ *   // Name:        view.h
  *   // Purpose:     Implements document functionality
  *   // Author:      Julian Smart
  *   // Created:     04/01/98
@@ -32,36 +33,39 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifdef __GNUG__
-// #pragma interface
-#endif
+#ifndef __VIEWSAMPLEH__
+#define __VIEWSAMPLEH__
 
-#ifndef __DOCSAMPLEH__
-#define __DOCSAMPLEH__
+#include "genCanvas.h"
 
-#include "wx/docview.h"
-#include "cepCore.h"
-#include <wx/progdlg.h>
-
-class cepDoc:public wxDocument
+class genView:public wxView
 {
-  DECLARE_DYNAMIC_CLASS (cepDoc) 
-
 public:
-  cepDoc (void);
-  ~cepDoc (void);
-  
-  bool OnOpenDocument(const wxString& filename);
-  bool OnSaveDocument(const wxString& filename);
-  
-  void incrementProgress ();
-  cepDataset *getDataset ();
-  
- private:
-  cepDataset * m_dataset;
-  wxProgressDialog *m_progress;
-  int m_progressCount;
-};
-#endif
+  enum genLsDisplay{
+    lsDisplayNone = 0,
+      lsDisplayVCV,
+      lsDisplayRW
+  };
 
-void ds_progressCallback (int plane, long line);
+  wxFrame * frame, * m_parentFrame;
+  genCanvas *canvas;
+
+  genView();
+  ~genView();
+
+  void setParentFrame(wxFrame *parentFrame);
+
+  bool OnCreate (wxDocument * doc, long flags);
+  void OnDraw (wxDC * dc);
+  void OnUpdate (wxView * sender, wxObject * hint = (wxObject *) NULL);
+  bool OnClose (bool deleteWindow = TRUE);
+
+private:
+  DECLARE_DYNAMIC_CLASS (genView) 
+  DECLARE_EVENT_TABLE ()
+
+  genErrorHandler *errHandler;
+};
+
+
+#endif

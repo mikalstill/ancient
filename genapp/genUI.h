@@ -39,17 +39,16 @@
 
 #include "wx/docmdi.h"
 #include <wx/image.h>
-#include "cepCore.h"
-#include "cepWxErrorHandler.h"
-#include "cepTextErrorHandler.h"
+#include "genErrorHandler.h"
+#include "genWxErrorHandler.h"
 
 class wxDocManager;
 
 // Define a new application
-class cepApp:public wxApp
+class genApp:public wxApp
 {
 public:
-  cepApp (void);
+  genApp (void);
   bool OnInit (void);
   int OnExit (void);
 
@@ -59,20 +58,18 @@ public:
   wxDocManager * m_docManager;
 
 protected:
-  cepConfiguration *m_config;
-  cepErrorHandler *errHandler;
-  cepError m_error;
+  genErrorHandler *errHandler;
 };
 
-DECLARE_APP (cepApp)
-class cepCanvas;
-class cepFrame:public wxDocMDIParentFrame
+DECLARE_APP (genApp)
+class genCanvas;
+class genFrame:public wxDocMDIParentFrame
 {
-DECLARE_CLASS (cepFrame) 
+DECLARE_CLASS (genFrame) 
 public:
   wxMenu * editMenu;
 
-  cepFrame (wxDocManager * manager, wxFrame * frame,
+  genFrame (wxDocManager * manager, wxFrame * frame,
             const wxString & title, const wxPoint & pos,
             const wxSize & size, long type);
 
@@ -81,17 +78,16 @@ public:
 
   void OnOpen (wxCommandEvent &event);
 
-  cepCanvas *CreateCanvas (wxView * view, wxFrame * parent);
+  genCanvas *CreateCanvas (wxView * view, wxFrame * parent);
   void OnClose (wxCloseEvent & evt);
 
   DECLARE_EVENT_TABLE ()
 
 protected:
-  cepConfiguration *m_config;
-  cepErrorHandler *errHandler;
+  genErrorHandler *errHandler;
 };
 
-extern cepFrame *
+extern genFrame *
 GetMainFrame (void);
 
 #define CEPMENU_CUTSEGMENT     1

@@ -24,24 +24,24 @@
 using namespace std;
 
 // String methods
-string cepToString (int number);
-string cepToString (long number);
-string cepToString (double number);
-string cepToString (float number, bool suppressTailingZeros = false);
-string cepToString (bool val);
-string cepToString (char val);
-string cepToString (size_t val);
+string genToString (int number);
+string genToString (long number);
+string genToString (double number);
+string genToString (float number, bool suppressTailingZeros = false);
+string genToString (bool val);
+string genToString (char val);
+string genToString (size_t val);
 
-string cepToLower (string in);
-string cepToUpper (string in);
+string genToLower (string in);
+string genToUpper (string in);
 
 // Evaluation methods
-bool cepIsBlank (char chr);
-bool cepIsNumeric(char chr);
+bool genIsBlank (char chr);
+bool genIsNumeric(char chr);
 
 // Mathematical methods
-int cepMax (int a, int b);
-int cepMin (int a, int b);
-int cepAbs (int a);
+int genMax (int a, int b);
+int genMin (int a, int b);
+int genAbs (int a);
 
 #endif

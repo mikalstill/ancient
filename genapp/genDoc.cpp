@@ -52,57 +52,37 @@
 #error You must set wxUSE_DOC_VIEW_ARCHITECTURE to 1 in setup.h!
 #endif
 
-#include "cepCore.h"
-#include "cepDoc.h"
-#include "cepView.h"
+#include "genDoc.h"
+#include "genView.h"
 
-IMPLEMENT_DYNAMIC_CLASS (cepDoc, wxDocument)
+IMPLEMENT_DYNAMIC_CLASS (genDoc, wxDocument)
+
 // This is needed for the progess callback to get to us
-cepDoc *gProgressDoc;
+genDoc *gProgressDoc;
 
-cepDoc::cepDoc (void)
+genDoc::genDoc (void)
 {
   m_progress = NULL;
-  m_dataset = NULL;
   gProgressDoc = this;
 }
 
-cepDoc::~cepDoc (void)
+genDoc::~genDoc (void)
 {
-  delete m_dataset;
 }
 
-bool cepDoc::OnSaveDocument(const wxString& filename)
+bool genDoc::OnSaveDocument(const wxString& filename)
 {
-  string newfilename;
-
-  cepDebugPrint("Filename extension: " + filename.substr(filename.length() - 5, filename.length()));
-  if(filename.substr(filename.length() - 5, filename.length()) == ".dat1"){
-    newfilename = filename.substr(0, filename.length() - 5);
-  }
-  else{
-    newfilename = filename;
-  }
-  m_dataset->write(newfilename);
   return TRUE;
 }
  
-bool cepDoc::OnOpenDocument(const wxString& filename)
+bool genDoc::OnOpenDocument(const wxString& filename)
 {
   // Actually create the dataset
   m_progressCount = 0;
-  m_progress = new wxProgressDialog ("Loading dataset",
-                                     "Please wait while the dataset is loaded");
-  string parentFilename = filename.substr (0, filename.length () - 5).c_str ();
+  m_progress = new wxProgressDialog ("Loading module",
+                                     "Please wait while the application behaviour module is loaded");
 
-  m_dataset = new cepDataset (ds_progressCallback);
-  cepDebugPrint ("Starting to load the dataset now");
-  cepError loadErr = m_dataset->read (parentFilename);
-
-  // A load error here will magically cause the view to be abandoned the first
-  // time OnDraw() is called. Fear not that it isn't closed here...
-  if (loadErr.isReal ())
-    loadErr.display ();
+  genBehaviourLoader myLoad(filename, m_progress);
 
   // Cleanup
   delete m_progress;
@@ -111,7 +91,7 @@ bool cepDoc::OnOpenDocument(const wxString& filename)
 }
 
 void
-cepDoc::incrementProgress ()
+genDoc::incrementProgress ()
 {
   m_progressCount++;
   if (m_progressCount > 5000)
@@ -119,12 +99,6 @@ cepDoc::incrementProgress ()
 
   if(m_progressCount % 50 == 0)
     m_progress->Update (m_progressCount / 50);
-}
-
-cepDataset *
-cepDoc::getDataset ()
-{
-  return m_dataset;
 }
 
 // A scary global progress handler
