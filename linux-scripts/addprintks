@@ -67,6 +67,12 @@ while(<INPUT>){
     if($line =~ /kmalloc/){$match[10] = 1;}
     else{$match[10] = 0;}
 
+    if($line =~ /for[ \t]*\(/){$match[11] = 1;}
+    else{$match[11] = 0;}
+
+    if($line =~ /^[ \t]*[^ \t]+[ \t]*=/){$match[12] = 1;}
+    else{$match[12] = 0;}
+
     ####################
 
     $summary = 0;
@@ -76,6 +82,8 @@ while(<INPUT>){
     elsif($match[8]){$summary = 3;}
     elsif($match[9]){$summary = 4;}
     elsif($match[10]){$summary = 5;}
+    elsif($match[11]){$summary = 6;}
+    elsif($match[12]){$summary = 7;}
 
     if($summary > 0){
       $infunc = 3;

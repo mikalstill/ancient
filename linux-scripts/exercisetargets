@@ -1,0 +1,66 @@
+#!/bin/bash
+
+attempt(){
+    logger exercisetargets `pwd`: attempting $1
+
+    if [ "%$DISTCC_HOSTS%" == "%%" ]
+    then
+      jarg=""
+    else
+      jarg="-j 7 CC=distcc"
+    fi
+
+    if [ "%$1%" == "%config%" ]
+    then
+      logger exercisetargets filling input with blank lines
+      yes "" | make $jarg $1
+    elsif [ "%$1%" == "%oldconfig%" ]
+      logger exercisetargets filling input with blank lines
+      yes "" | make $jarg $1
+    else
+      make $jarg $1
+    fi
+    die $?
+}
+
+die(){
+    if [ $1 -gt 0 ]
+    then
+	logger exercisetargets `pwd`: died with exit code $1
+	exit $1
+    fi
+}
+
+attempt clean
+attempt mrproper
+
+attempt config
+attempt oldconfig
+attempt menuconfig
+#attempt xconfig
+#attempt gconfig
+attempt allmodconfig
+attempt allyesconfig
+attempt allnoconfig
+
+attempt clean
+attempt mrproper
+
+attempt allnoconfig
+attempt vmlinux
+attempt bzImage
+attempt clean
+attempt mrproper
+attempt allmodconfig
+attempt modules
+
+attempt tags
+attempt TAGS
+
+attempt clean
+attempt mrproper
+attempt sgmldocs
+attempt psdocs
+attempt pdfdocs
+attempt htmldocs
+attempt mandocs

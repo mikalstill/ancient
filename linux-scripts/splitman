@@ -1,0 +1,7 @@
+#!/bin/bash
+
+rm Documentation/DocBook/allcomments.sgml 2> /dev/null
+for item in `find . -type f -name "*.[ch]"`
+do
+  scripts/kernel-doc -docbook -silentfail $item >> Documentation/DocBook/allcomments.sgml
+done
