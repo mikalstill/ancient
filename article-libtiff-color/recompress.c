@@ -35,6 +35,10 @@ int main(int argc, char *argv[]){
     exit(42);
   }
 
+  for(c = 0; c < imagesize * 4; c++){
+    printf("%02x\n", raster[c]);
+  }
+
   // Recompress it straight away -- set the tags we require
   TIFFSetField(output, TIFFTAG_IMAGEWIDTH, width);
   TIFFSetField(output, TIFFTAG_IMAGELENGTH, height);
@@ -45,7 +49,7 @@ int main(int argc, char *argv[]){
   TIFFSetField(output, TIFFTAG_SAMPLESPERPIXEL, 3);
 
   // Actually write the image
-  if(TIFFWriteEncodedStrip(output, 0, raster, imagesize * 3) == 0){
+  if(TIFFWriteEncodedStrip(output, 0, raster, imagesize * 4) == 0){
     fprintf(stderr, "Could not read image\n");
     exit(42);
   }
