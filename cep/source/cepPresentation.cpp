@@ -312,8 +312,8 @@ cepPresentation::createBitmap (float& scale, long& minval)
 
   ////////////////////////////////////////////////////////////////////////////////
   // The least squares line (if any) is on top of _everything_ else
-  cepDebugPrint("Plotting LS line of best fit");
   if(m_haveLs){
+    cepDebugPrint("Plotting LS line of best fit: " + cepToString(m_b2));
     plot_setlinestart(graph, graphInset, (unsigned int) m_b2 * 10000);
     plot_addlinesegment(graph, m_width, (unsigned int) m_b2 * 10000);
     plot_strokeline(graph);

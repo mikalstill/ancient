@@ -427,7 +427,7 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
 		  // Otherwise, don't reweight
 		  else
 		    {
-		      const char *dirStrings[] = {"x (North)", "y (East)", "z (Up"};
+		      const char *dirStrings[] = {"x (North)", "y (East)", "z (Up)"};
 		      lsUi.showIsReadP (dirStrings[i]);
 		      if (lsUi.getIsReadP () == 1)
 			{
