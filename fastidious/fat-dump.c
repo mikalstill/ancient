@@ -8,6 +8,8 @@
 #include <fcntl.h>
 #include "fileutil.h"
 
+void travdir(int, char *, long long, int, int);
+
 int main(int argc, char *argv[]){
   int fd, count, bytespersec, secperclu, resseccnt, numfats, rootentcnt, totsec16, 
     fatsz16, rootdirsec, fatsz, totsec, totsec32, datasec, fattype, hidseccnt,
@@ -141,38 +143,83 @@ int main(int argc, char *argv[]){
     printf("%02x ", (unsigned char) file[filep++]);
   printf("\n\n");
 
-  for(fatcount = 32000; fatcount < numfats; fatcount++){
-    printf("FAT %d starts at byte: %d\n", fatcount, 
-	   (resseccnt + fatcount) * bytespersec);
-    filep = (resseccnt + fatcount) * bytespersec;
-    printf("System information: ");
-    for(count = 0; count < 4; count++)
-      printf("%02x ", (unsigned char) file[filep++]);
-    printf("\n\n");
-    
-    // Follow a chain
-    thisclu = 2;
-    lowclucnt = 2;
-    
-    while(lowclucnt < fatsz16 * 2){
-      thisclu = lowclucnt++;
-      printf("0x%04x ", thisclu);
-      thisclu = (unsigned short) file[(resseccnt * bytespersec) + (thisclu * 2)];
-      chainsize = 1;
-
-      while((thisclu != 0) && (thisclu < 0xFFF7)){
-	printf("0x%04x ", 
-	       (unsigned short) file[(resseccnt * bytespersec) + (thisclu * 2)]);
-	thisclu = (unsigned short) file[(resseccnt * bytespersec) + (thisclu * 2)];
-	chainsize++;
-      }
-      
-      printf("END (%d bytes)\n\n", chainsize * bytespersec);
-    }
-  }
+  // Skip the FATs for now...
+  filep = (resseccnt + numfats * fatsz16) * bytespersec;
+  
+  printf("Root directory starts at: %d\n", filep);
+  travdir(0, file, filep, bytespersec, resseccnt);
   
   // It's polite to cleanup
   munmap(file, sb.st_size);
   close(fd);
   return 0;
+}
+
+void travdir(int indent, char *file, long long filep, int bytespersec, int resseccnt){
+  int count, icount, isdir, newfilepl, newfileph;
+
+  for(icount = 0; icount < indent; icount++) printf("  ");
+  printf("[ Directory entries from %d ]\n\n", filep);
+
+  while(1){
+    if(file[filep] == 0)
+      break;
+
+    for(icount = 0; icount < indent; icount++) printf("  ");
+    printf("Name: \"");
+    for(count = 0; count < 11; count++)
+      printf("%c", file[filep++]);
+    printf("\"\n");
+    
+    isdir = 0;
+    {
+      char attrs;
+      
+      for(icount = 0; icount < indent; icount++) printf("  ");
+      attrs = fileutil_displaybyte(file, "Attributes: ", &filep); printf("\n");
+
+      for(icount = 0; icount < indent; icount++) printf("  ");
+      printf("Decoded: ");
+      if(attrs & 0x01) printf("ro ");
+      if(attrs & 0x02) printf("hidden ");
+      if(attrs & 0x04) printf("system ");
+      if(attrs & 0x08) printf("volumeid ");
+      if(attrs & 0x10){
+	printf("dir ");
+	isdir = 1;
+      }
+      if(attrs & 0x20) printf("archive ");
+      if((attrs & 0x01) && (attrs & 0x02) && (attrs & 0x04) && (attrs & 0x08))
+	printf("longfilename");
+    }
+    printf("\n");
+    
+    for(icount = 0; icount < indent; icount++) printf("  ");
+    fileutil_displaybyte(file, "NT resource: ", &filep); printf("\n");
+    for(icount = 0; icount < indent; icount++) printf("  ");
+    fileutil_displaybyte(file, "File creation time (tenths of second portion): ", &filep); printf("\n");
+    for(icount = 0; icount < indent; icount++) printf("  ");
+    fileutil_displayshort(file, "File creation time (seconds): ", &filep); printf("\n");
+    for(icount = 0; icount < indent; icount++) printf("  ");
+    fileutil_displayshort(file, "File creation time (date): ", &filep); printf("\n");
+    for(icount = 0; icount < indent; icount++) printf("  ");
+    fileutil_displayshort(file, "Last access date: ", &filep); printf("\n");
+    for(icount = 0; icount < indent; icount++) printf("  ");
+    newfileph = fileutil_displayshort(file, "Starting cluster high word: ", &filep); printf("\n");
+    for(icount = 0; icount < indent; icount++) printf("  ");
+    fileutil_displayshort(file, "Time of last access: ", &filep); printf("\n");
+    for(icount = 0; icount < indent; icount++) printf("  ");
+    fileutil_displayshort(file, "Date of last access: ", &filep); printf("\n");
+    for(icount = 0; icount < indent; icount++) printf("  ");
+    newfilepl = fileutil_displayshort(file, "Starting cluster low word: ", &filep); printf("\n");
+    for(icount = 0; icount < indent; icount++) printf("  ");
+    fileutil_displayinteger(file, "File size (bytes): ", &filep); printf("\n");
+    printf("\n");
+
+    if(isdir){
+      travdir(indent + 1, file, 
+	      ((newfileph << 16) + newfilepl + resseccnt) * bytespersec, 
+	      bytespersec, resseccnt);
+    }
+  }
 }
