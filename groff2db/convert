@@ -1,56 +1,64 @@
 #!/usr/bin/perl
 
-# groff2db. Copyright (c) Michael Still 2001
+# groff2db. Copyright (c) Michael Still 2001 (mikal@stillhq.com)
 # Released under the terms of the GNU GPL. Please submit all patches to mikal@stillhq.com
-# Initially developed for Greg Lehey's "The Complete FreeBSD"...
+# Initially developed for Greg Lehey's "The Complete FreeBSD"... Many thanks for his
+# sponsorship and support of this project.
 
 # The basic concept of this script to to convert troff marked up input into
-# docbook compliant XML.
+# docbook compliant XML. This script is somewhat Greg specific at the moment, but I would
+# love to make it more generalised over time...
 
 # Heading state handling needs some love
 # Index entries also need work
 # Check for <para></para><para></para>
 # Screen is not entirely appropriate for display mapping
-# Lists within lists
 # Email address are note properly identified
 # Bold is also an emphasis at the moment
-# And R'ing of text
 # Table formatting
 # Strip styles out when we are in display state
 
 use strict;
-my($INPUT, $OUTPUT);
-my($parastate, $liststate, $listitemstate, $footnotestate, $sectionstate, $tablestate, $stylestate, $displaystate, $waitstate, $quotestate);
+my($INPUT, $OUTPUT, $outputstyle);
+my($parastate, $liststate, $listitemstate, $footnotestate, $sectionstate, $tablestate, $stylestate, $displaystate, $waitstate, $quotestate, $pausedlist);
 my($length);
 my($chapters, $chapter, $chaptercount, $temp, $inputused);
-my(@spinner, $linecount, $condlinecount);
+my($linecount, $condlinecount);
 
-$chapters = "introduction.mm concepts.mm evolution.mm quickinstall.mm shareinstall.mm install.mm xsetup.mm postinstall.mm ports.mm problems.mm xtheory.mm unixref.mm starting.mm filesys.mm disks.mm tapes.mm printers.mm desktop.mm building.mm current.mm emulate.mm netintro.mm netsetup.mm isp.mm modems.mm ppp.mm slip.mm dns.mm firewall.mm netdebug.mm nfs.mm netbasics.mm email.mm www.mm fax.mm micronet.mm mobile.mm";
-#$chapters = "filesys.mm";
-#$chapters = "xtheory.mm";
+# We need to check the command line arguements...
+if($1 eq "jade"){
+    print "Jade output style selected (one big file).\n";
+    print "The output will go to output.sgml\n";
+    $outputstyle = "jade";
+}
+else{
+    print "Output style is gmat (many docbook files).\n";
+    print "The files will have .sgml extensions...\n";
+    $outputstyle = "gmat";
+}
 
-$spinner[0] = "-";
-$spinner[1] = "\\";
-$spinner[2] = "|";
-$spinner[3] = "/";
+$chapters = "introduction concepts evolution quickinstall shareinstall install xsetup postinstall ports problems xtheory unixref starting filesys disks tapes printers desktop building current emulate netintro netsetup isp modems ppp slip dns firewall netdebug nfs netbasics email www fax micronet mobile";
 
 $chaptercount = 0;
 $linecount = 0;
 
-open OUTPUT, "> output.sgml";
+if($outputstyle eq "jade"){
+    open OUTPUT, "> output.sgml";
+}
 
 # Print out the prelude
-#print OUTPUT "<?xml version='1.0'?>\n";
-#print OUTPUT "<!DOCTYPE book PUBLIC \"-//Norman Walsh//DTD DocBk XML V3.1.4//EN\"\n";
-#print OUTPUT "                         \"http://nwalsh.com/docbook/xml/3.1.4/db3xml.dtd\">\n";
 print OUTPUT "<!DOCTYPE book PUBLIC \"-//OASIS//DTD DocBook V3.1//EN\">\n";
 print OUTPUT "<book><bookinfo><title>The Complete FreeBSD</title><author><firstname>Greg</firstname><surname>Lehey</surname></author><copyright><year>2001</year><holder>Greg Lehey</holder></copyright></bookinfo>\n";
 
 # For each chapter we specified
 foreach $chapter (split(/ /, $chapters)){
+    if($outputstyle ne "jade"){
+	open OUTPUT, "> $chapter.sgml";
+    }
+
     $chaptercount++;
-    print "Processing chapter $chapter ($chaptercount)\n ";
-    open INPUT, "< $chapter";
+    print "\bProcessing chapter $chapter ($chaptercount)\n ";
+    open INPUT, "< $chapter.mm";
 
     $liststate = 0;
     $listitemstate = 0;
@@ -62,12 +70,12 @@ foreach $chapter (split(/ /, $chapters)){
     $stylestate = "";
     $quotestate = 0;
     $inputused = 0;
+    $pausedlist = 0;
     
     # For each line in the file...
     while(<INPUT>){
 	$linecount++;
         $inputused = 1;
-	print "\b$spinner[$linecount % 4]";
 
 	# There are some conditional elements used, for instance in xtheory.mm (which is also an
 	# article)
@@ -87,6 +95,9 @@ foreach $chapter (split(/ /, $chapters)){
 	    }
 	    print "\b  [Conditional was $condlinecount lines]\n ";
 	}
+
+	# Horizontal spacing (no mapping to docbook)
+	s/|\\/g;
 
 	# Ampersands
 	s/&/&amp;/g;
@@ -126,6 +137,10 @@ foreach $chapter (split(/ /, $chapters)){
 	    print OUTPUT "</sidebar>\n";
             startpara();
 	}
+
+#	elsif(/^\.br/i){
+# No mapping?
+#	}
 	
 	# Display start -- is case sensitive
 	elsif((/^\.DS(.*)/) || (/^\.Dx(.*)/i)){
@@ -197,6 +212,11 @@ foreach $chapter (split(/ /, $chapters)){
 		dblog("{DBLOG: List item for a non-open list!}");
                 liststart();
 	    }
+
+	    if($pausedlist == 1){
+		print OUTPUT "<itemizedlist>\n";
+		$pausedlist = 0;
+	    }
 	    
 	    endpara();
 	    if($listitemstate == 1){
@@ -226,7 +246,7 @@ foreach $chapter (split(/ /, $chapters)){
 	    }
 	    else{
 		print OUTPUT "</orderedlist>\n";
-		print OUTPUT "<itemizedlist>\n";
+		$pausedlist = 1;
 	    }
 	    $liststate--;
 	    dblog("{DEBUG DBLOG: listlevel = $liststate}");
@@ -262,6 +282,10 @@ foreach $chapter (split(/ /, $chapters)){
 #	print "UNKNOWN COMMAND: Sref [Arg $1]\n";
 #    }
 	
+	# Spacing commands don't map to db
+	elsif(/^\.sp(.*)/i){
+	}
+
 	# Table start
 	elsif(/^\.TS[ \t]*(.*)/i){
 	    print OUTPUT "Table start: [Arg $1]\n";
@@ -286,7 +310,7 @@ foreach $chapter (split(/ /, $chapters)){
 	
 	# We don't know anything about this command at all
 	elsif(/^\.(.*)/i){
-	    dblog("{DBLOG: DEFAULT COMMAND FOUND: $1}");
+	    print "\bDEFAULT COMMAND FOUND: $1\n ";
 	}
 	
 	# A document line?
@@ -319,6 +343,10 @@ foreach $chapter (split(/ /, $chapters)){
     }
 
     close INPUT;
+
+    if($outputstyle ne "jade"){
+	close OUTPUT;
+    }
 }
 
 print "\bProcessed $chaptercount chapters\n";
