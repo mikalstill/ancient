@@ -19,7 +19,9 @@ object& object::operator=(object& other)
   m_number = other.m_number;
   m_generation = other.m_generation;
   m_dictionary = other.m_dictionary;
-  memcpy(m_stream, other.m_stream, other.m_streamLength);
+  printf("DEBUG: Stream to be copied is: %s %d\n", other.m_stream,
+	 other.m_streamLength);
+  //memcpy(m_stream, other.m_stream, strlen(other.m_stream));
   m_streamLength = other.m_streamLength;
   printf("DEBUG: Copied\n");
   return *this;
