@@ -4,143 +4,143 @@ It is also probably useful to have the man pages for the libtiff API calls...
 </para>
 
 <sect2><title>TIFFbuffer</title>
-<execute><cmd>~mikal/opensource-stable/docbooktools/html2db</cmd><input>source/tiff/man/TIFFbuffer.3t.html</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/docbooktools/html2db</cmd><input>source/tiff/man/TIFFbuffer.3t.html</input><args>-s 3</args></execute>
 </sect2>
 
 <sect2><title>TIFFClose</title>
-<execute><cmd>~mikal/opensource-stable/docbooktools/html2db</cmd><input>source/tiff/man/TIFFClose.3t.html</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/docbooktools/html2db</cmd><input>source/tiff/man/TIFFClose.3t.html</input><args>-s 3</args></execute>
 </sect2>
 
 <sect2><title>TIFFcodec</title>
-<execute><cmd>~mikal/opensource-stable/docbooktools/html2db</cmd><input>source/tiff/man/TIFFcodec.3t.html</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/docbooktools/html2db</cmd><input>source/tiff/man/TIFFcodec.3t.html</input><args>-s 3</args></execute>
 </sect2>
 
 <sect2><title>TIFFError</title>
-<execute><cmd>~mikal/opensource-stable/docbooktools/html2db</cmd><input>source/tiff/man/TIFFError.3t.html</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/docbooktools/html2db</cmd><input>source/tiff/man/TIFFError.3t.html</input><args>-s 3</args></execute>
 </sect2>
 
 <sect2><title>TIFFFlush</title>
-<execute><cmd>~mikal/opensource-stable/docbooktools/html2db</cmd><input>source/tiff/man/TIFFFlush.3t.html</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/docbooktools/html2db</cmd><input>source/tiff/man/TIFFFlush.3t.html</input><args>-s 3</args></execute>
 </sect2>
 
 <sect2><title>TIFFGetField</title>
-<execute><cmd>~mikal/opensource-stable/docbooktools/html2db</cmd><input>source/tiff/man/TIFFGetField.3t.html</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/docbooktools/html2db</cmd><input>source/tiff/man/TIFFGetField.3t.html</input><args>-s 3</args></execute>
 </sect2>
 
 <sect2><title>TIFFmemory</title>
-<execute><cmd>~mikal/opensource-stable/docbooktools/html2db</cmd><input>source/tiff/man/TIFFmemory.3t.html</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/docbooktools/html2db</cmd><input>source/tiff/man/TIFFmemory.3t.html</input><args>-s 3</args></execute>
 </sect2>
 
 <sect2><title>TIFFOpen</title>
-<execute><cmd>~mikal/opensource-stable/docbooktools/html2db</cmd><input>source/tiff/man/TIFFOpen.3t.html</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/docbooktools/html2db</cmd><input>source/tiff/man/TIFFOpen.3t.html</input><args>-s 3</args></execute>
 </sect2>
 
 <sect2><title>TIFFPrintDirectory</title>
-<execute><cmd>~mikal/opensource-stable/docbooktools/html2db</cmd><input>source/tiff/man/TIFFPrintDirectory.3t.html</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/docbooktools/html2db</cmd><input>source/tiff/man/TIFFPrintDirectory.3t.html</input><args>-s 3</args></execute>
 </sect2>
 
 <sect2><title>TIFFquery</title>
-<execute><cmd>~mikal/opensource-stable/docbooktools/html2db</cmd><input>source/tiff/man/TIFFquery.3t.html</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/docbooktools/html2db</cmd><input>source/tiff/man/TIFFquery.3t.html</input><args>-s 3</args></execute>
 </sect2>
 
 <sect2><title>TIFFReadDirectory</title>
-<execute><cmd>~mikal/opensource-stable/docbooktools/html2db</cmd><input>source/tiff/man/TIFFReadDirectory.3t.html</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/docbooktools/html2db</cmd><input>source/tiff/man/TIFFReadDirectory.3t.html</input><args>-s 3</args></execute>
 </sect2>
 
 <sect2><title>TIFFReadEncodedStrip</title>
-<execute><cmd>~mikal/opensource-stable/docbooktools/html2db</cmd><input>source/tiff/man/TIFFReadEncodedStrip.3t.html</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/docbooktools/html2db</cmd><input>source/tiff/man/TIFFReadEncodedStrip.3t.html</input><args>-s 3</args></execute>
 </sect2>
 
 <sect2><title>TIFFReadEncodedTile</title>
-<execute><cmd>~mikal/opensource-stable/docbooktools/html2db</cmd><input>source/tiff/man/TIFFReadEncodedTile.3t.html</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/docbooktools/html2db</cmd><input>source/tiff/man/TIFFReadEncodedTile.3t.html</input><args>-s 3</args></execute>
 </sect2>
 
 <sect2><title>TIFFReadRawStrip</title>
-<execute><cmd>~mikal/opensource-stable/docbooktools/html2db</cmd><input>source/tiff/man/TIFFReadRawStrip.3t.html</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/docbooktools/html2db</cmd><input>source/tiff/man/TIFFReadRawStrip.3t.html</input><args>-s 3</args></execute>
 </sect2>
 
 <sect2><title>TIFFReadRawTile</title>
-<execute><cmd>~mikal/opensource-stable/docbooktools/html2db</cmd><input>source/tiff/man/TIFFReadRawTile.3t.html</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/docbooktools/html2db</cmd><input>source/tiff/man/TIFFReadRawTile.3t.html</input><args>-s 3</args></execute>
 </sect2>
 
 <sect2><title>TIFFReadRGBAImage</title>
-<execute><cmd>~mikal/opensource-stable/docbooktools/html2db</cmd><input>source/tiff/man/TIFFReadRGBAImage.3t.html</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/docbooktools/html2db</cmd><input>source/tiff/man/TIFFReadRGBAImage.3t.html</input><args>-s 3</args></execute>
 </sect2>
 
 <sect2><title>TIFFReadRGBAStrip</title>
-<execute><cmd>~mikal/opensource-stable/docbooktools/html2db</cmd><input>source/tiff/man/TIFFReadRGBAStrip.3t.html</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/docbooktools/html2db</cmd><input>source/tiff/man/TIFFReadRGBAStrip.3t.html</input><args>-s 3</args></execute>
 </sect2>
 
 <sect2><title>TIFFReadRGBATile</title>
-<execute><cmd>~mikal/opensource-stable/docbooktools/html2db</cmd><input>source/tiff/man/TIFFReadRGBATile.3t.html</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/docbooktools/html2db</cmd><input>source/tiff/man/TIFFReadRGBATile.3t.html</input><args>-s 3</args></execute>
 </sect2>
 
 <sect2><title>TIFFReadScanline</title>
-<execute><cmd>~mikal/opensource-stable/docbooktools/html2db</cmd><input>source/tiff/man/TIFFReadScanline.3t.html</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/docbooktools/html2db</cmd><input>source/tiff/man/TIFFReadScanline.3t.html</input><args>-s 3</args></execute>
 </sect2>
 
 <sect2><title>TIFFReadTile</title>
-<execute><cmd>~mikal/opensource-stable/docbooktools/html2db</cmd><input>source/tiff/man/TIFFReadTile.3t.html</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/docbooktools/html2db</cmd><input>source/tiff/man/TIFFReadTile.3t.html</input><args>-s 3</args></execute>
 </sect2>
 
 <sect2><title>TIFFRGBAImage</title>
-<execute><cmd>~mikal/opensource-stable/docbooktools/html2db</cmd><input>source/tiff/man/TIFFRGBAImage.3t.html</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/docbooktools/html2db</cmd><input>source/tiff/man/TIFFRGBAImage.3t.html</input><args>-s 3</args></execute>
 </sect2>
 
 <sect2><title>TIFFSetDirectory</title>
-<execute><cmd>~mikal/opensource-stable/docbooktools/html2db</cmd><input>source/tiff/man/TIFFSetDirectory.3t.html</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/docbooktools/html2db</cmd><input>source/tiff/man/TIFFSetDirectory.3t.html</input><args>-s 3</args></execute>
 </sect2>
 
 <sect2><title>TIFFSetField</title>
-<execute><cmd>~mikal/opensource-stable/docbooktools/html2db</cmd><input>source/tiff/man/TIFFSetField.3t.html</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/docbooktools/html2db</cmd><input>source/tiff/man/TIFFSetField.3t.html</input><args>-s 3</args></execute>
 </sect2>
 
 <sect2><title>TIFFsize</title>
-<execute><cmd>~mikal/opensource-stable/docbooktools/html2db</cmd><input>source/tiff/man/TIFFsize.3t.html</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/docbooktools/html2db</cmd><input>source/tiff/man/TIFFsize.3t.html</input><args>-s 3</args></execute>
 </sect2>
 
 <sect2><title>TIFFstrip</title>
-<execute><cmd>~mikal/opensource-stable/docbooktools/html2db</cmd><input>source/tiff/man/TIFFstrip.3t.html</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/docbooktools/html2db</cmd><input>source/tiff/man/TIFFstrip.3t.html</input><args>-s 3</args></execute>
 </sect2>
 
 <sect2><title>TIFFswab</title>
-<execute><cmd>~mikal/opensource-stable/docbooktools/html2db</cmd><input>source/tiff/man/TIFFswab.3t.html</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/docbooktools/html2db</cmd><input>source/tiff/man/TIFFswab.3t.html</input><args>-s 3</args></execute>
 </sect2>
 
 <sect2><title>TIFFtile</title>
-<execute><cmd>~mikal/opensource-stable/docbooktools/html2db</cmd><input>source/tiff/man/TIFFtile.3t.html</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/docbooktools/html2db</cmd><input>source/tiff/man/TIFFtile.3t.html</input><args>-s 3</args></execute>
 </sect2>
 
 <sect2><title>TIFFWarning</title>
-<execute><cmd>~mikal/opensource-stable/docbooktools/html2db</cmd><input>source/tiff/man/TIFFWarning.3t.html</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/docbooktools/html2db</cmd><input>source/tiff/man/TIFFWarning.3t.html</input><args>-s 3</args></execute>
 </sect2>
 
 <sect2><title>TIFFWriteDirectory</title>
-<execute><cmd>~mikal/opensource-stable/docbooktools/html2db</cmd><input>source/tiff/man/TIFFWriteDirectory.3t.html</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/docbooktools/html2db</cmd><input>source/tiff/man/TIFFWriteDirectory.3t.html</input><args>-s 3</args></execute>
 </sect2>
 
 <sect2><title>TIFFWriteEncodedStrip</title>
-<execute><cmd>~mikal/opensource-stable/docbooktools/html2db</cmd><input>source/tiff/man/TIFFWriteEncodedStrip.3t.html</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/docbooktools/html2db</cmd><input>source/tiff/man/TIFFWriteEncodedStrip.3t.html</input><args>-s 3</args></execute>
 </sect2>
 
 <sect2><title>TIFFWriteEncodedTile</title>
-<execute><cmd>~mikal/opensource-stable/docbooktools/html2db</cmd><input>source/tiff/man/TIFFWriteEncodedTile.3t.html</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/docbooktools/html2db</cmd><input>source/tiff/man/TIFFWriteEncodedTile.3t.html</input><args>-s 3</args></execute>
 </sect2>
 
 <sect2><title>TIFFWriteRawStrip</title>
-<execute><cmd>~mikal/opensource-stable/docbooktools/html2db</cmd><input>source/tiff/man/TIFFWriteRawStrip.3t.html</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/docbooktools/html2db</cmd><input>source/tiff/man/TIFFWriteRawStrip.3t.html</input><args>-s 3</args></execute>
 </sect2>
 
 <sect2><title>TIFFWriteRawTile</title>
-<execute><cmd>~mikal/opensource-stable/docbooktools/html2db</cmd><input>source/tiff/man/TIFFWriteRawTile.3t.html</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/docbooktools/html2db</cmd><input>source/tiff/man/TIFFWriteRawTile.3t.html</input><args>-s 3</args></execute>
 </sect2>
 
 <sect2><title>TIFFWriteScanline</title>
-<execute><cmd>~mikal/opensource-stable/docbooktools/html2db</cmd><input>source/tiff/man/TIFFWriteScanline.3t.html</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/docbooktools/html2db</cmd><input>source/tiff/man/TIFFWriteScanline.3t.html</input><args>-s 3</args></execute>
 </sect2>
 
 <sect2><title>TIFFWriteTile</title>
-<execute><cmd>~mikal/opensource-stable/docbooktools/html2db</cmd><input>source/tiff/man/TIFFWriteTile.3t.html</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/docbooktools/html2db</cmd><input>source/tiff/man/TIFFWriteTile.3t.html</input><args>-s 3</args></execute>
 </sect2>
 
 

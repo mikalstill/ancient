@@ -2203,7 +2203,7 @@ I have included the man pages to some of the more useful libtiff commands, so th
 </para>
 
 <sect2><title>tiff2bw</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.62 2003-01-21 10:26:30 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.63 2003-07-26 04:04:14 root Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2326,7 +2326,7 @@ Specify the percentage of the blue channel to use (default 11).
 </sect2>
 
 <sect2><title>tiff2ps</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.62 2003-01-21 10:26:30 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.63 2003-07-26 04:04:14 root Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2587,7 +2587,7 @@ Matters are even worse for 4-, 2-, and 1-bit palette images.
 
 
 <sect2><title>tiffcmp</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.62 2003-01-21 10:26:30 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.63 2003-07-26 04:04:14 root Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2712,7 +2712,7 @@ ImageWidth: 256 520
 </sect2>
 
 <sect2><title>tiffcp</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.62 2003-01-21 10:26:30 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.63 2003-07-26 04:04:14 root Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3033,7 +3033,7 @@ tiffcp -c none -,=% -b CCD,X.tif CCD,X%1%.tif result.tif
 
 
 <sect2><title>tiffdither</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.62 2003-01-21 10:26:30 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.63 2003-07-26 04:04:14 root Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1990-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3205,7 +3205,7 @@ This image, after being pushed through <command>tiffdither</command> looks somet
 </sect2>
 
 <sect2><title>tiffdump</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.62 2003-01-21 10:26:30 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.63 2003-07-26 04:04:14 root Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3332,7 +3332,7 @@ PlanarConfig (284) SHORT (3) 1&lt;1&gt;
 </sect2>
 
 <sect2><title>tiffgt</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.62 2003-01-21 10:26:30 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.63 2003-07-26 04:04:14 root Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3674,7 +3674,7 @@ crashing old versions of the window manager.
 </sect2>
 
 <sect2><title>tiffinfo</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.62 2003-01-21 10:26:30 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.63 2003-07-26 04:04:14 root Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3851,7 +3851,7 @@ Strip 0:
 </sect2>
 
 <sect2><title>tiffmedian</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.62 2003-01-21 10:26:30 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.63 2003-07-26 04:04:14 root Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1990-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3996,7 +3996,7 @@ Heckbert, SIGGRAPH proceedings, 1982, pp. 297-307.
 </sect2>
 
 <sect2><title>tiffsplit</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.62 2003-01-21 10:26:30 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.63 2003-07-26 04:04:14 root Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1992-1997 Sam Leffler -->
 <!--  Copyright (c) 1992-1997 Silicon Graphics, Inc. -->
@@ -4081,7 +4081,7 @@ is used.
 </sect2>
 
 <sect2><title>tiffsv</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.62 2003-01-21 10:26:30 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.63 2003-07-26 04:04:14 root Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6732,414 +6732,6 @@ In this example, we do everything we need to open a PNG image, without actually 
 The <command>pnginfo</command> command implemented here is modeled on the <command>tiffinfo</command>, which was discussed in the TIFF chapter earlier in this tutorial. In fact, the output text is written to be as close to the <command>tiffinfo</command> command as possible.
 </para>
 
-<programlisting>
-
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-#include &lt;string.h&gt;
-#include &lt;png.h&gt;
-#include &lt;unistd.h&gt;
-
-void pnginfo_displayfile (char *, int, int, int);
-void pnginfo_error (char *);
-void *pnginfo_xmalloc (size_t);
-void usage (void);
-
-#define pnginfo_true 1
-#define pnginfo_false 0
-
-int
-main (int argc, char *argv[])
-{
-  int i, optchar, extractBitmap = pnginfo_false, displayBitmap =
-    pnginfo_false, tiffnames = pnginfo_false;
-
-  // Initialise the argument that filenames start at
-  i = 1;
-
-  // Use getopt to determine what we have been asked to do
-  while ((optchar = getopt (argc, argv, "tDd")) != -1)
-    {
-      switch (optchar)
-    {
-    case 't':
-      tiffnames = pnginfo_true;
-      i++;
-      break;
-
-    case 'd':
-      displayBitmap = pnginfo_true;
-      extractBitmap = pnginfo_true;
-      i++;
-      break;
-
-    case 'D':
-      extractBitmap = pnginfo_true;
-      i++;
-      break;
-
-    case '?':
-    default:
-      usage ();
-      break;
-    }
-    }
-
-  // Determine if we were given a filename on the command line
-  if (argc &lt; 2)
-    usage ();
-
-  // For each filename that we have:
-  for (; i &lt; argc; i++)
-    pnginfo_displayfile (argv[i], extractBitmap, displayBitmap, tiffnames);
-}
-
-void
-pnginfo_displayfile (char *filename, int extractBitmap, int displayBitmap, int tiffnames)
-{
-  FILE *image;
-  unsigned long imageBufSize, width, height, runlen;
-  unsigned char signature;
-  int bitdepth, colourtype;
-  png_uint_32 i, j, rowbytes;
-  png_structp png;
-  png_infop info;
-  unsigned char sig[8];
-  png_bytepp row_pointers = NULL;
-  char *bitmap;
-
-  printf ("%s%s...\n", filename, \
-      tiffnames == pnginfo_true? " (tiffinfo compatible labels)" : "");
-
-  // Open the file
-  if ((image = fopen (filename, "rb")) == NULL)
-    pnginfo_error ("Could not open the specified PNG file.");
-
-  // Check that it really is a PNG file
-  fread (sig, 1, 8, image);
-  if (!png_check_sig (sig, 8))
-    {
-      printf ("  This file is not a valid PNG file\n");
-      fclose (image);
-      return;
-    }
-
-  // Start decompressing
-  if ((png = png_create_read_struct (PNG_LIBPNG_VER_STRING, NULL,
-                     NULL, NULL)) == NULL)
-    pnginfo_error ("Could not create a PNG read structure (out of memory?)");
-
-  if ((info = png_create_info_struct (png)) == NULL)
-    pnginfo_error ("Could not create PNG info structure (out of memory?)");
-
-  // If pnginfo_error did not exit, we would have to call 
-  // png_destroy_read_struct
-
-  if (setjmp (png_jmpbuf (png)))
-    pnginfo_error ("Could not set PNG jump value");
-
-  // Get ready for IO and tell the API we have already read the image signature
-  png_init_io (png, image);
-  png_set_sig_bytes (png, 8);
-  png_read_info (png, info);
-  png_get_IHDR (png, info, &amp;width, &amp;height, &amp;bitdepth, &amp;colourtype, NULL,
-        NULL, NULL);
-
-  ///////////////////////////////////////////////////////////////////////////
-  // Start displaying information
-  ///////////////////////////////////////////////////////////////////////////
-
-  printf ("  Image Width: %d Image Length: %d\n", width, height);
-  if(tiffnames == pnginfo_true){
-    printf ("  Bits/Sample: %d\n", bitdepth);
-    printf ("  Samples/Pixel: %d\n", info-&gt;channels);
-    printf ("  Pixel Depth: %d\n", info-&gt;pixel_depth);    // Does this add value?
-  }
-  else{
-    printf ("  Bitdepth (Bits/Sample): %d\n", bitdepth);
-    printf ("  Channels (Samples/Pixel): %d\n", info-&gt;channels);
-    printf ("  Pixel depth (Pixel Depth): %d\n", info-&gt;pixel_depth);    // Does this add value?
-  }
-
-  // Photometric interp packs a lot of information
-  printf ("  Colour Type (Photometric Interpretation): ");
-
-  switch (colourtype)
-    {
-    case PNG_COLOR_TYPE_GRAY:
-      printf ("GRAYSCALE ");
-      break;
-
-    case PNG_COLOR_TYPE_PALETTE:
-      printf ("PALETTED COLOUR ");
-      if (info-&gt;num_trans &gt; 0)
-    printf ("with alpha ");
-      printf ("(%d colours, %d transparent) ",
-          info-&gt;num_palette, info-&gt;num_trans);
-      break;
-
-    case PNG_COLOR_TYPE_RGB:
-      printf ("RGB ");
-      break;
-
-    case PNG_COLOR_TYPE_RGB_ALPHA:
-      printf ("RGB with alpha channel ");
-      break;
-
-    case PNG_COLOR_TYPE_GRAY_ALPHA:
-      printf ("GRAYSCALE with alpha channel ");
-      break;
-
-    default:
-      printf ("Unknown photometric interpretation!");
-      break;
-    }
-  printf ("\n");
-
-  printf ("  Image filter: ");
-  switch (info-&gt;filter_type)
-    {
-    case PNG_FILTER_TYPE_BASE:
-      printf ("Single row per byte filter ");
-      break;
-
-    case PNG_INTRAPIXEL_DIFFERENCING:
-      printf ("Intrapixel differencing (MNG only) ");
-      break;
-
-    default:
-      printf ("Unknown filter! ");
-      break;
-    }
-  printf ("\n");
-
-  printf ("  Interlacing: ");
-  switch (info-&gt;interlace_type)
-    {
-    case PNG_INTERLACE_NONE:
-      printf ("No interlacing ");
-      break;
-
-    case PNG_INTERLACE_ADAM7:
-      printf ("Adam7 interlacing ");
-      break;
-
-    default:
-      printf ("Unknown interlacing ");
-      break;
-    }
-  printf ("\n");
-
-  printf ("  Compression Scheme: ");
-  switch (info-&gt;compression_type)
-    {
-    case PNG_COMPRESSION_TYPE_BASE:
-      printf ("Deflate method 8, 32k window");
-      break;
-
-    default:
-      printf ("Unknown compression scheme!");
-      break;
-    }
-  printf ("\n");
-
-  printf ("  Resolution: %d, %d ",
-      info-&gt;x_pixels_per_unit, info-&gt;y_pixels_per_unit);
-  switch (info-&gt;phys_unit_type)
-    {
-    case PNG_RESOLUTION_UNKNOWN:
-      printf ("(unit unknown)");
-      break;
-
-    case PNG_RESOLUTION_METER:
-      printf ("(pixels per meter)");
-      break;
-
-    default:
-      printf ("(Unknown value for unit stored)");
-      break;
-    }
-  printf ("\n");
-
-  // FillOrder is always msb-to-lsb, big endian
-  printf ("  FillOrder: msb-to-lsb\n  Byte Order: Network (Big Endian)\n");
-
-  // Text comments
-  printf ("  Number of text strings: %d of %d\n",
-      info-&gt;num_text, info-&gt;max_text);
-
-  for (i = 0; i &lt; info-&gt;num_text; i++)
-    {
-      printf ("    %s ", info-&gt;text[i].key);
-
-      switch (info-&gt;text[1].compression)
-    {
-    case -1:
-      printf ("(tEXt uncompressed)");
-      break;
-
-    case 0:
-      printf ("(xTXt deflate compressed)");
-      break;
-
-    case 1:
-      printf ("(iTXt uncompressed)");
-      break;
-
-    case 2:
-      printf ("(iTXt deflate compressed)");
-      break;
-
-    default:
-      printf ("(unknown compression)");
-      break;
-    }
-
-      printf (": ");
-      j = 0;
-      while (info-&gt;text[i].text[j] != '\0')
-    {
-      if (info-&gt;text[i].text[j] == '\n')
-        printf ("\\n");
-      else
-        fputc (info-&gt;text[i].text[j], stdout);
-
-      j++;
-    }
-
-      printf ("\n");
-    }
-
-  // Print a blank line
-  printf ("\n");
-
-  // Do we want to extract the image data? We are meant to tell the user if
-  // there are errors, but we don't currently trap any errors here -- I need
-  // to look into this
-  if (extractBitmap == pnginfo_true)
-    {
-      // This will force the samples to be packed to the byte boundary
-      if(bitdepth &lt; 8)
-    png_set_packing(png);
-
-      if (colourtype == PNG_COLOR_TYPE_PALETTE)
-    png_set_expand (png);
-
-      // png_set_strip_alpha (png);
-      png_read_update_info (png, info);
-
-      rowbytes = png_get_rowbytes (png, info);
-      bitmap = (unsigned char *) pnginfo_xmalloc ((rowbytes * height) + 1);
-      row_pointers = pnginfo_xmalloc (height * sizeof (png_bytep));
-
-      // Get the image bitmap
-      for (i = 0; i &lt; height; ++i)
-    row_pointers[i] = bitmap + (i * rowbytes);
-      png_read_image (png, row_pointers);
-      free (row_pointers);
-      png_read_end (png, NULL);
-
-      // Do we want to display this bitmap?
-      if (displayBitmap == pnginfo_true)
-    {
-      int bytespersample;
-
-      bytespersample = bitdepth / 8;
-      if(bitdepth % 8 != 0)
-        bytespersample++;
-
-      printf ("Dumping the bitmap for this image:\n");
-      printf ("(Expanded samples result in %d bytes per pixel, %d channels with %d bytes per channel)\n\n", 
-          info-&gt;channels * bytespersample, info-&gt;channels, bytespersample);
-
-      // runlen is used to stop us displaying repeated byte patterns over and over --
-      // I display them once, and then tell you how many times it occured in the file.
-      // This currently only applies to runs on zeros -- I should one day add an
-      // option to extend this to runs of other values as well
-      runlen = 0;
-      for (i = 0; i &lt; rowbytes * height / info-&gt;channels; i += info-&gt;channels * bytespersample)
-        {
-          int scount, bcount, pixel;
-
-          if ((runlen != 0) &amp;&amp; (bitmap[i] == 0) &amp;&amp; (bitmap[i] == 0)
-          &amp;&amp; (bitmap[i] == 0))
-        runlen++;
-          else if (runlen != 0)
-        {
-          if (runlen &gt; 1)
-            printf ("* %d ", runlen);
-          runlen = 0;
-        }
-
-          // Determine if this is a pixel whose entire value is zero
-          pixel = 0;
-          for(scount = 0; scount &lt; info-&gt;channels; scount++)
-        for(bcount = 0; bcount &lt; bytespersample; bcount++)
-          pixel += bitmap[i + scount * bytespersample + bcount];
-
-          if ((runlen == 0) &amp;&amp; !pixel)
-        {
-          printf ("[");
-          for(scount = 0; scount &lt; info-&gt;channels; scount++){
-            for(bcount = 0; bcount &lt; bytespersample; bcount++) printf("00");
-            if(scount != info-&gt;channels - 1) printf(" ");
-          }
-          printf ("] ");
-          runlen++;
-        }
-
-          if (runlen == 0){
-        printf ("[");
-        for(scount = 0; scount &lt; info-&gt;channels; scount++){
-          for(bcount = 0; bcount &lt; bytespersample; bcount++)
-            printf("%02x", (unsigned char) bitmap[i + scount * bytespersample + bcount]);
-          if(scount != info-&gt;channels - 1) printf(" ");
-        }
-        printf("] ");
-          }
-          
-          // Perhaps one day a new row should imply a line break here?
-        }
-      
-      printf("\n");
-    }
-    }
-
-  // This cleans things up for us in the PNG library
-  fclose (image);
-  png_destroy_read_struct (&amp;png, &amp;info, NULL);
-}
-
-// You can bang or head or you can drown in a hole
-//                                                    -- Vanessa Amarosi, Shine
-void
-pnginfo_error (char *message)
-{
-  fprintf (stderr, "%s\n", message);
-  exit (42);
-}
-
-// Allocate some memory
-void *
-pnginfo_xmalloc (size_t size)
-{
-  void *buffer;
-
-  if ((buffer = malloc (size)) == NULL)
-    {
-      pnginfo_error ("pnginfo_xmalloc failed to allocate memory");
-    }
-
-  return buffer;
-}
-
-void
-usage ()
-{
-  pnginfo_error ("Usage: pnginfo [-d] [-D] &lt;filenames&gt;");
-}
-</programlisting>
-<para><emphasis>Code: pnginfo.c</emphasis></para>
 </sect1>
 
 
@@ -13741,6 +13333,22 @@ These two code snippets were written by Paul Haahr, http://www.webcom.com/~haahr
 </para>
 
 </sect4>
+<sect4><title>ASCII85Decode</title>
+<para>
+The ASCII85 filter takes binary data, and turns it into base 85 representation. This is needed by some email clients (among other things), because they can't handle embedding binary data into their protocols.
+</para>
+
+<para>
+The <emphasis>comp.text.pdf frequently asked questions</emphasis> refers to the code examples below by way of explaination:
+</para>
+
+
+
+<para>
+These two code snippets were written by Paul Haahr, http://www.webcom.com/~haahr/, and is stated to be in the public domain.
+</para>
+
+</sect4>
 <sect4><title>ASCIIHexDecode</title>
 <para>
 For similar reasons to ASCII85, you can also represent your binary data as hexidecimal. This filter implements this.
@@ -13936,7 +13544,7 @@ Which produces...
 Initialization of Panda is easy. Simply call <command>panda_init</command>(). You'll also need to create a PDF document, which is done with the <command>panda_open</command> function.
 </para>
 
-<refentry id="panda_init">
+<refentry>
 <refmeta>
 <refentrytitle>panda_init</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -13976,7 +13584,7 @@ Initialization of Panda is easy. Simply call <command>panda_init</command>(). Yo
 </refsect1>
 
 </refentry>
-<refentry id="panda_open">
+<refentry>
 <refmeta>
 <refentrytitle>panda_open</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -14032,7 +13640,7 @@ Initialization of Panda is easy. Simply call <command>panda_init</command>(). Yo
 Pages are created in Panda using the <command>panda_newpage</command> function. You can magically be editing as many pages at a time as you like with Panda without any additional calls being needed.
 </para>
 
-<refentry id="panda_newpage">
+<refentry>
 <refmeta>
 <refentrytitle>panda_newpage</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -14090,7 +13698,7 @@ Pages are created in Panda using the <command>panda_newpage</command> function. 
 Panda allows you to selectively apply properties to portions of your PDF document. The most common example is choosing which portions of your PDF document to compress.
 </para>
 
-<refentry id="panda_setobjectproperty">
+<refentry>
 <refmeta>
 <refentrytitle>panda_setobjectproperty</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -14150,7 +13758,7 @@ Panda allows you to selectively apply properties to portions of your PDF documen
 Pages don't need to be closed in Panda. This is done when the <command>panda_close</command> function is called. This function writes the entire PDF document out to disc.
 </para>
 
-<refentry id="panda_close">
+<refentry>
 <refmeta>
 <refentrytitle>panda_close</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -14209,7 +13817,7 @@ Pages don't need to be closed in Panda. This is done when the <command>panda_clo
 One of the advantages which ClibPDF has over Panda is that it currently supported word wrap, whereas Panda doesn't. Panda does have a variety of text functionality however. The public text functions in Panda are: <command>panda_textboxrot</command>, which creates a text box at a jaunty angle, <command>panda_textbox</command>, which creates a horizontal textbox (a zero angle), and <command>panda_textdirection</command>, which sets the flow direction for text.
 </para>
 
-<refentry id="panda_textbox">
+<refentry>
 <refmeta>
 <refentrytitle>panda_textbox</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -14261,7 +13869,7 @@ One of the advantages which ClibPDF has over Panda is that it currently supporte
 </refsect1>
 
 </refentry>
-<refentry id="panda_textboxrot">
+<refentry>
 <refmeta>
 <refentrytitle>panda_textboxrot</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -14313,7 +13921,7 @@ One of the advantages which ClibPDF has over Panda is that it currently supporte
 </refsect1>
 
 </refentry>
-<refentry id="panda_textdirection">
+<refentry>
 <refmeta>
 <refentrytitle>panda_textdirection</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -14365,7 +13973,7 @@ One of the advantages which ClibPDF has over Panda is that it currently supporte
 Panda currently only supports the standard PDF fonts, and will not allow you to embed arbitrary fonts into your PDF documents (unlike PDFlib). Some users might find this a little limiting for the time being. In Panda, you use fonts by first creating a pointer to the font using <command>panda_createfont</command>, and then start using that font with <command>panda_setfont</command>. This allows you use efficiently create the five fonts you are going to use in the document, and then swap backwards and forwards within that set of five with no performance penalty.
 </para>
 
-<refentry id="panda_createfont">
+<refentry>
 <refmeta>
 <refentrytitle>panda_createfont</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -14415,7 +14023,7 @@ Panda currently only supports the standard PDF fonts, and will not allow you to 
 </refsect1>
 
 </refentry>
-<refentry id="panda_setfont">
+<refentry>
 <refmeta>
 <refentrytitle>panda_setfont</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -14473,7 +14081,7 @@ Panda currently only supports the standard PDF fonts, and will not allow you to 
 Panda also allows you to set a variety of font attributes...
 </para>
 
-<refentry id="panda_setcharacterspacing">
+<refentry>
 <refmeta>
 <refentrytitle>panda_setcharacterspacing</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -14522,7 +14130,7 @@ Panda also allows you to set a variety of font attributes...
 </refsect1>
 
 </refentry>
-<refentry id="panda_setfillcolor">
+<refentry>
 <refmeta>
 <refentrytitle>panda_setfillcolor</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -14580,7 +14188,7 @@ Panda also allows you to set a variety of font attributes...
 </refsect1>
 
 </refentry>
-<refentry id="panda_setfontmode">
+<refentry>
 <refmeta>
 <refentrytitle>panda_setfontmode</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -14629,7 +14237,7 @@ Panda also allows you to set a variety of font attributes...
 </refsect1>
 
 </refentry>
-<refentry id="panda_setfontsize">
+<refentry>
 <refmeta>
 <refentrytitle>panda_setfontsize</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -14678,7 +14286,7 @@ Panda also allows you to set a variety of font attributes...
 </refsect1>
 
 </refentry>
-<refentry id="panda_sethorizontalscaling">
+<refentry>
 <refmeta>
 <refentrytitle>panda_sethorizontalscaling</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -14727,7 +14335,7 @@ Panda also allows you to set a variety of font attributes...
 </refsect1>
 
 </refentry>
-<refentry id="panda_setleading">
+<refentry>
 <refmeta>
 <refentrytitle>panda_setleading</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -14776,7 +14384,7 @@ Panda also allows you to set a variety of font attributes...
 </refsect1>
 
 </refentry>
-<refentry id="panda_setwordspacing">
+<refentry>
 <refmeta>
 <refentrytitle>panda_setwordspacing</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -14856,7 +14464,7 @@ Panda supports PNG fully.
 In Panda you use the <command>panda_imagebox</command>, and the <command>panda_imageboxrot</command> functions to insert images.
 </para>
 
-<refentry id="panda_imagebox">
+<refentry>
 <refmeta>
 <refentrytitle>panda_imagebox</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -14912,7 +14520,7 @@ In Panda you use the <command>panda_imagebox</command>, and the <command>panda_i
 </refsect1>
 
 </refentry>
-<refentry id="panda_imageboxrot">
+<refentry>
 <refmeta>
 <refentrytitle>panda_imageboxrot</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -14981,7 +14589,7 @@ Panda, supports the full range of PDF vector graphics commands. See the sections
 With Panda, the way you draw a line is to first create a line with <command>panda_setlinestart</command>, you then draw line segments with <command>panda_addlinesegment</command>. When you're finished, you close the line with <command>panda_closeline</command>. <command>panda_strokeline</command> is used to force the line to be drawn. You can also add curved segments to a line using <command>panda_addcubiccurvesegment</command>, <command>panda_addquadraticcurvesegmentone</command>, and <command>panda_addquadraticcurvesegmenttwo</command>. Finally, if all you want is a rectangle, then use <command>panda_rectangle</command> to do it for you.
 </para>
 
-<refentry id="panda_setlinestart">
+<refentry>
 <refmeta>
 <refentrytitle>panda_setlinestart</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -15034,7 +14642,7 @@ With Panda, the way you draw a line is to first create a line with <command>pand
 </refsect1>
 
 </refentry>
-<refentry id="panda_addlinesegment">
+<refentry>
 <refmeta>
 <refentrytitle>panda_addlinesegment</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -15088,7 +14696,7 @@ With Panda, the way you draw a line is to first create a line with <command>pand
 </refsect1>
 
 </refentry>
-<refentry id="panda_closeline">
+<refentry>
 <refmeta>
 <refentrytitle>panda_closeline</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -15144,7 +14752,7 @@ With Panda, the way you draw a line is to first create a line with <command>pand
 </refsect1>
 
 </refentry>
-<refentry id="panda_endline">
+<refentry>
 <refmeta>
 <refentrytitle>panda_endline</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -15199,7 +14807,7 @@ With Panda, the way you draw a line is to first create a line with <command>pand
 </refsect1>
 
 </refentry>
-<refentry id="panda_strokeline">
+<refentry>
 <refmeta>
 <refentrytitle>panda_strokeline</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -15256,7 +14864,7 @@ With Panda, the way you draw a line is to first create a line with <command>pand
 
 </refentry>
 
-<refentry id="panda_addcubiccurvesegment">
+<refentry>
 <refmeta>
 <refentrytitle>panda_addcubiccurvesegment</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -15310,7 +14918,7 @@ With Panda, the way you draw a line is to first create a line with <command>pand
 </refsect1>
 
 </refentry>
-<refentry id="panda_addquadraticcurvesegmentone">
+<refentry>
 <refmeta>
 <refentrytitle>panda_addquadraticcurvesegmentone</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -15364,7 +14972,7 @@ With Panda, the way you draw a line is to first create a line with <command>pand
 </refsect1>
 
 </refentry>
-<refentry id="panda_addquadraticcurvesegmenttwo">
+<refentry>
 <refmeta>
 <refentrytitle>panda_addquadraticcurvesegmenttwo</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -15419,7 +15027,7 @@ With Panda, the way you draw a line is to first create a line with <command>pand
 
 </refentry>
 
-<refentry id="panda_rectangle">
+<refentry>
 <refmeta>
 <refentrytitle>panda_rectangle</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -15479,7 +15087,7 @@ With Panda, the way you draw a line is to first create a line with <command>pand
 Once you have drawn a line, then it can be filled. You can also configure the state of the pen <emphasis>before</emphasis> you draw the line to change the way it appears...
 </para>
 
-<refentry id="panda_fillline">
+<refentry>
 <refmeta>
 <refentrytitle>panda_fillline</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -15536,7 +15144,7 @@ Once you have drawn a line, then it can be filled. You can also configure the st
 </refsect1>
 
 </refentry>
-<refentry id="panda_setlinecap">
+<refentry>
 <refmeta>
 <refentrytitle>panda_setlinecap</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -15591,7 +15199,7 @@ Once you have drawn a line, then it can be filled. You can also configure the st
 </refsect1>
 
 </refentry>
-<refentry id="panda_setlinecolor">
+<refentry>
 <refmeta>
 <refentrytitle>panda_setlinecolor</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -15646,7 +15254,7 @@ Once you have drawn a line, then it can be filled. You can also configure the st
 </refsect1>
 
 </refentry>
-<refentry id="panda_setlinejoin">
+<refentry>
 <refmeta>
 <refentrytitle>panda_setlinejoin</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -15701,7 +15309,7 @@ Once you have drawn a line, then it can be filled. You can also configure the st
 </refsect1>
 
 </refentry>
-<refentry id="panda_setlinewidth">
+<refentry>
 <refmeta>
 <refentrytitle>panda_setlinewidth</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -15756,7 +15364,7 @@ Once you have drawn a line, then it can be filled. You can also configure the st
 </refsect1>
 
 </refentry>
-<refentry id="panda_setlinedashing">
+<refentry>
 <refmeta>
 <refentrytitle>panda_setlinedashing</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -15820,7 +15428,7 @@ Once you have drawn a line, then it can be filled. You can also configure the st
 PDF supports embedding meta data about a document into the PDF itself, and Panda supports this through the following calls:
 </para>
 
-<refentry id="panda_setauthor">
+<refentry>
 <refmeta>
 <refentrytitle>panda_setauthor</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -15870,7 +15478,7 @@ PDF supports embedding meta data about a document into the PDF itself, and Panda
 </refsect1>
 
 </refentry>
-<refentry id="panda_setkeywords">
+<refentry>
 <refmeta>
 <refentrytitle>panda_setkeywords</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -15920,7 +15528,7 @@ PDF supports embedding meta data about a document into the PDF itself, and Panda
 </refsect1>
 
 </refentry>
-<refentry id="panda_setsubject">
+<refentry>
 <refmeta>
 <refentrytitle>panda_setsubject</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -15970,7 +15578,7 @@ PDF supports embedding meta data about a document into the PDF itself, and Panda
 </refsect1>
 
 </refentry>
-<refentry id="panda_settitle">
+<refentry>
 <refmeta>
 <refentrytitle>panda_settitle</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -16028,7 +15636,7 @@ PDF supports embedding meta data about a document into the PDF itself, and Panda
 PDF can be used for presentations, and therefore allows you to specify a number of interesting things which are normally associated more with Microsoft Power Point presentations...
 </para>
 
-<refentry id="panda_centerwindow">
+<refentry>
 <refmeta>
 <refentrytitle>panda_centerwindow</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -16073,7 +15681,7 @@ PDF can be used for presentations, and therefore allows you to specify a number 
 </refsect1>
 
 </refentry>
-<refentry id="panda_fitwindow">
+<refentry>
 <refmeta>
 <refentrytitle>panda_fitwindow</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -16118,7 +15726,7 @@ PDF can be used for presentations, and therefore allows you to specify a number 
 </refsect1>
 
 </refentry>
-<refentry id="panda_fullscreen">
+<refentry>
 <refmeta>
 <refentrytitle>panda_fullscreen</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -16163,7 +15771,7 @@ PDF can be used for presentations, and therefore allows you to specify a number 
 </refsect1>
 
 </refentry>
-<refentry id="panda_hidemenubar">
+<refentry>
 <refmeta>
 <refentrytitle>panda_hidemenubar</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -16208,7 +15816,7 @@ PDF can be used for presentations, and therefore allows you to specify a number 
 </refsect1>
 
 </refentry>
-<refentry id="panda_hidetoolbar">
+<refentry>
 <refmeta>
 <refentrytitle>panda_hidetoolbar</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -16253,7 +15861,7 @@ PDF can be used for presentations, and therefore allows you to specify a number 
 </refsect1>
 
 </refentry>
-<refentry id="panda_hidewindowui">
+<refentry>
 <refmeta>
 <refentrytitle>panda_hidewindowui</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -16298,7 +15906,7 @@ PDF can be used for presentations, and therefore allows you to specify a number 
 </refsect1>
 
 </refentry>
-<refentry id="panda_nfspagemodde">
+<refentry>
 <refmeta>
 <refentrytitle>panda_nfspagemodde</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -16348,7 +15956,7 @@ PDF can be used for presentations, and therefore allows you to specify a number 
 </refsect1>
 
 </refentry>
-<refentry id="panda_pageduration">
+<refentry>
 <refmeta>
 <refentrytitle>panda_pageduration</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -16396,7 +16004,7 @@ PDF can be used for presentations, and therefore allows you to specify a number 
 </refsect1>
 
 </refentry>
-<refentry id="panda_transduration">
+<refentry>
 <refmeta>
 <refentrytitle>panda_transduration</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -16444,7 +16052,7 @@ PDF can be used for presentations, and therefore allows you to specify a number 
 </refsect1>
 
 </refentry>
-<refentry id="panda_transstyle">
+<refentry>
 <refmeta>
 <refentrytitle>panda_transstyle</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -16524,7 +16132,7 @@ PDF can be used for presentations, and therefore allows you to specify a number 
 A page template is created using <command>panda_newtemplate</command>. A template is just like any other page, and uses all the normal drawing functions. The cool bit is that you can then apply a template to another page using <command>panda_applytemplate</command>. This allows for the standard parts of the page to only be defined once -- which is very useful for things like letterhead.
 </para>
 
-<refentry id="panda_newtemplate">
+<refentry>
 <refmeta>
 <refentrytitle>panda_newtemplate</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -16575,7 +16183,7 @@ A page template is created using <command>panda_newtemplate</command>. A templat
 </refsect1>
 
 </refentry>
-<refentry id="panda_applytemplate">
+<refentry>
 <refmeta>
 <refentrytitle>panda_applytemplate</refentrytitle>
 <manvolnum>3</manvolnum>
@@ -16653,7 +16261,7 @@ main (int argc, char *argv[])
   int lineDepth, trans;
   char tempString[1024], *tempPtr;
 
-  printf ("Welcome to the Panda 0.4 sample application...\n");
+  printf ("Welcome to the Panda 0.5 sample application...\n");
 
   // Initialise the library
   panda_init ();
@@ -16730,7 +16338,8 @@ main (int argc, char *argv[])
   panda_setfont (demo, tempPtr = panda_createfont (demo, "Times-Roman", 1,
                            "MacRomanEncoding"));
   panda_textbox (demo, currPage, 600, 10, 700, 300,
-         "The background image on this page is Copyright 2000 Andrew Cagney");
+         "The background image on this page is Copyright 2000 "
+         "Andrew Cagney");
   panda_textbox (demo, currPage, 620, 10, 720, 300,
          "and is distributed under the terms of the GPL...");
   panda_textbox (demo, currPage, 310, 320, 330, 800,
@@ -16741,7 +16350,7 @@ main (int argc, char *argv[])
          panda_createfont (demo, "Helvetica-Bold", 1,
                    "MacRomanEncoding"));
   panda_textboxrot (demo, currPage, 200, 30, 230,
-         30, 45.0, "With new improved angled text!");
+         80, 45.0, "With new improved angled text!");
   free (tempPtr);
 
   ///////////////////////////////////////////////////////////////////////////
@@ -16753,19 +16362,22 @@ main (int argc, char *argv[])
   // I am not drawing a multiline string here because I am not sure how to 
   // represent this in the PDF at the moment
   sprintf (tempString,
-       "Hello %c5World! %cMy name %c5is Panda!\nAnd I am a PDF generator\nI handle multiple line text ok .once you have set a leading.",
+       "Hello %c5World! %cMy name %c5is Panda!\nAnd I am a PDF "
+       "generator\nI handle multiple line text ok. Once you have set a "
+       "leading.",
        4, 6, 5);
-  panda_textbox (demo, currPage, 10, 10, 100, 30, tempString);
+  panda_setleading(demo, 15.0);
+  panda_textbox (demo, currPage, 10, 10, 100, 500, tempString);
 
   panda_setfont (demo, tempPtr = panda_createfont (demo, "Symbol", 1,
                            "MacRomanEncoding"));
-  panda_textbox (demo, currPage, 50, 10, 100, 30, "Symbol");
+  panda_textbox (demo, currPage, 50, 10, 100, 200, "Symbol");
   free (tempPtr);
 
   panda_setfont (demo, tempPtr =
          panda_createfont (demo, "Helvetica-Bold", 1,
                    "MacRomanEncoding"));
-  panda_textbox (demo, currPage, 70, 30, 100, 30, "A line in Helvetica-Bold");
+  panda_textbox (demo, currPage, 70, 30, 100, 80, "A line in Helvetica-Bold");
   free (tempPtr);
 
   panda_imagebox (demo, currPage, 100, 100, 150, 150, "images/gnu-head.jpg",
@@ -17084,7 +16696,7 @@ It produces output like:
 </para>
 
 <figure>
-<title>~mikal/opensource-unstable/panda/examples/output.pdf</title>
+<title>~mikal/opensource/panda/examples/output.pdf</title>
 <graphic format="eps" fileref="gen-todo.eps">
 </figure>
 </sect2>
@@ -17205,116 +16817,116 @@ exit(42);
 %x BINARY
 %%
 
-&lt;INITIAL&gt;\%PDF-[0-9]+\.[0-9]+    { debuglex(yytext, -1, "version");
-                            yylval.sval.data = (char *) returnStr(yytext, -1);
+&lt;INITIAL&gt;\%PDF-[0-9]+\.[0-9]+    { debuglex(yytext, yyleng, "version");
+                            yylval.sval.data = (char *) returnStr(yytext, yyleng);
                             yylval.sval.len = yyleng;
                             return PDFVER;
                                                                              }
 
-&lt;INITIAL&gt;[ \t\r\n]+              { debuglex(yytext, -1, "whitespace");
+&lt;INITIAL&gt;[ \t\r\n]+              { debuglex(yytext, yyleng, "whitespace");
                                                                           }
 
-&lt;INITIAL&gt;xref                    { debuglex(yytext, -1, "xref");
-                            yylval.sval.data = (char *) returnStr(yytext + 1, -1);
+&lt;INITIAL&gt;xref                    { debuglex(yytext, yyleng, "xref");
+                            yylval.sval.data = (char *) returnStr(yytext + 1, yyleng);
                             yylval.sval.len = yyleng - 1;
                             return XREF;
                                                                              }
 
-&lt;INITIAL&gt;trailer                 { debuglex(yytext, -1, "trailer");
-                            yylval.sval.data = (char *) returnStr(yytext + 1, -1);
+&lt;INITIAL&gt;trailer                 { debuglex(yytext, yyleng, "trailer");
+                            yylval.sval.data = (char *) returnStr(yytext + 1, yyleng);
                             yylval.sval.len = yyleng - 1;
                             return TRAILER;
                                                                              }
 
-&lt;INITIAL&gt;\/[#a-zA-Z\-_0-9\.\+,]+ { debuglex(yytext, -1, "name");
-                            yylval.sval.data = (char *) returnStr(yytext + 1, -1);
+&lt;INITIAL&gt;\/[^\&lt;\&gt;\[\] \t\n\r\/\(\)]+ { debuglex(yytext, yyleng, "name");
+                            yylval.sval.data = (char *) returnStr(yytext + 1, yyleng);
                             yylval.sval.len = yyleng - 1;
                             return NAME;
                                                                              }
 
-&lt;INITIAL&gt;\&lt;\&lt;\/[#a-zA-Z\-_0-9\.\+]+ { debuglex(yytext, -1, "dbllt-name");
+&lt;INITIAL&gt;\&lt;\&lt;\/[^\&lt;\&gt;\[\] \t\n\r\/\(\)]+ { debuglex(yytext, yyleng, "dbllt-name");
                             yyless(2);
                             return DBLLT;
                                                                              }
 
-&lt;INITIAL&gt;\/[#a-zA-Z\-_0-9\.\+]+\&gt;\&gt;     { debuglex(yytext, -1, "name-dblgt");
+&lt;INITIAL&gt;\/[\&lt;\&gt;\[\] \t\n\r\/\(\)]+\&gt;\&gt;     { debuglex(yytext, yyleng, "name-dblgt");
                             yyless(yyleng - 2);
-                            yylval.sval.data = (char *) returnStr(yytext + 1, -1);
+                            yylval.sval.data = (char *) returnStr(yytext + 1, yyleng);
                             yylval.sval.len = yyleng - 1;
                             return NAME;
 }
 
                         /* --- stuff required for objects ---               */
-&lt;INITIAL&gt;R                       { debuglex(yytext, -1, "object reference");
-                            yylval.sval.data = (char *) returnStr(yytext, -1);
+&lt;INITIAL&gt;R                       { debuglex(yytext, yyleng, "object reference");
+                            yylval.sval.data = (char *) returnStr(yytext, yyleng);
                             yylval.sval.len = yyleng;
                             return OBJREF; 
                                                                              }
 
-&lt;INITIAL&gt;R\&gt;\&gt;                       { debuglex(yytext, -1, "object-reference-dblgt");
+&lt;INITIAL&gt;R\&gt;\&gt;                       { debuglex(yytext, yyleng, "object-reference-dblgt");
                             yyless(yyleng - 2);
-                            yylval.sval.data = (char *) returnStr(yytext, -1);
+                            yylval.sval.data = (char *) returnStr(yytext, yyleng);
                             yylval.sval.len = yyleng;
                             return OBJREF; 
                                                                              }
 
-&lt;INITIAL&gt;R\/                       { debuglex(yytext, -1, "object-reference-namestart");
+&lt;INITIAL&gt;R\/                       { debuglex(yytext, yyleng, "object-reference-namestart");
                             yyless(yyleng - 1);
-                            yylval.sval.data = (char *) returnStr(yytext, -1);
+                            yylval.sval.data = (char *) returnStr(yytext, yyleng);
                             yylval.sval.len = yyleng;
                             return OBJREF; 
                                                                              }
 
-&lt;INITIAL&gt;obj                     { debuglex(yytext, -1, "obj");
-                            yylval.sval.data = (char *) returnStr(yytext, -1);
+&lt;INITIAL&gt;obj                     { debuglex(yytext, yyleng, "obj");
+                            yylval.sval.data = (char *) returnStr(yytext, yyleng);
                             yylval.sval.len = yyleng;
                             return OBJ; 
                                                                              }
 
-&lt;INITIAL&gt;endobj                  { debuglex(yytext, -1, "endobj");
-                            yylval.sval.data = (char *) returnStr(yytext, -1);
+&lt;INITIAL&gt;endobj                  { debuglex(yytext, yyleng, "endobj");
+                            yylval.sval.data = (char *) returnStr(yytext, yyleng);
                             yylval.sval.len = yyleng;
                             return ENDOBJ; 
                                                                              }
 
-&lt;INITIAL&gt;stream                  { debuglex(yytext, -1, "stream");
+&lt;INITIAL&gt;stream                  { debuglex(yytext, yyleng, "stream");
                           BEGIN(BINARY);
                           return STREAM;                                     }
 
-&lt;INITIAL&gt;[+-]?[0-9]+             { debuglex(yytext, -1, "integer");
+&lt;INITIAL&gt;[+-]?[0-9]+             { debuglex(yytext, yyleng, "integer");
                             yylval.intVal = atoi(yytext);
                             return INT; 
                                                                              }
 
-&lt;INITIAL&gt;[+-]?[0-9]+\&gt;\&gt;             { debuglex(yytext, -1, "integer-dblgt");
+&lt;INITIAL&gt;[+-]?[0-9]+\&gt;\&gt;             { debuglex(yytext, yyleng, "integer-dblgt");
                             yyless(yyleng - 2);
                             yylval.intVal = atoi(yytext);
                             return INT; 
                                                                              }
 
 
-&lt;INITIAL&gt;[+-]?[0-9]+\.[0-9]+     { debuglex(yytext, -1, "floating point");
+&lt;INITIAL&gt;[+-]?[0-9]+\.[0-9]+     { debuglex(yytext, yyleng, "floating point");
                             yylval.sval.data = (char *) returnStr(yytext, yyleng);
                             yylval.sval.len = yyleng; 
                             return FP; 
                                                                              }
 
-&lt;INITIAL&gt;[+-]?[0-9]+\.[0-9]+\&gt;\&gt;     { debuglex(yytext, -1, "floating point");
+&lt;INITIAL&gt;[+-]?[0-9]+\.[0-9]+\&gt;\&gt;     { debuglex(yytext, yyleng, "floating point");
                             yyless(yyleng - 2);
                             yylval.sval.data = (char *) returnStr(yytext, yyleng);
                             yylval.sval.len = yyleng;
                             return FP; 
                                                                              }
 
-&lt;INITIAL&gt;\&lt;\&lt;                    { debuglex(yytext, -1, "&lt;&lt;");
+&lt;INITIAL&gt;\&lt;\&lt;                    { debuglex(yytext, yyleng, "&lt;&lt;");
                             return DBLLT; 
                                                                              }
 
-&lt;INITIAL&gt;\&gt;\&gt;                    { debuglex(yytext, -1, "&gt;&gt;");
+&lt;INITIAL&gt;\&gt;\&gt;                    { debuglex(yytext, yyleng, "&gt;&gt;");
                             return DBLGT; 
                                                                              }
 
-&lt;INITIAL&gt;\&gt;\&gt;\&gt;\&gt;                    { debuglex(yytext, -1, "&gt;&gt;&gt;&gt;");
+&lt;INITIAL&gt;\&gt;\&gt;\&gt;\&gt;                    { debuglex(yytext, yyleng, "&gt;&gt;&gt;&gt;");
                             yyless(yyleng - 2);
                             return DBLGT; 
                                                                              }
@@ -17324,39 +16936,47 @@ exit(42);
                             yylval.sval.data = (char *) returnStr(yytext, yyleng);
                             yylval.sval.len = yyleng;
 
-                            if(strcmp(yytext, "endstream") == 0){
-                            debuglex(yytext, -1, "string (at the end of a stream)");
-                              BEGIN(INITIAL);
-                              return ENDSTREAM;
+                            {
+                              int i;
+                              for(i = 0; i &lt; yyleng - 8; i++){
+                                if(strcmp(yytext + i, "endstream") == 0){
+                                  debuglex(yytext, yyleng, "string (at stream end)");
+                                  BEGIN(INITIAL);
+                                  return ENDSTREAM;
+                                  }
+                                }
                               }
-                            else debuglex(yytext, -1, "string");
+                            debuglex(yytext, yyleng, "string");
 
                             return STRING; 
                                                                              }
 
-&lt;INITIAL,BINARY&gt;\[(([^\[\]])|(\\\[)|(\\\]))*\] {
-                          debuglex(yytext, -1, "bracketted string v1");
-                            yylval.sval.data = (char *) returnStr(yytext, yyleng); 
+&lt;INITIAL,BINARY&gt;\[(([^\[\]])|(\\\[)|([^\\]\\\]))*\] {
+                          debuglex(yytext, yyleng, "bracketted string v1");
+                            yylval.sval.data = (char *) returnStr(yytext, 
+                                  yyleng); 
                             yylval.sval.len = yyleng;
                             return STRING; 
                                                                              }
 
-&lt;INITIAL,BINARY&gt;\((([^\(\)])|(\\\()|(\\\)))*\) {
-                          debuglex(yytext, -1, "bracketted string v2");
-                            yylval.sval.data = (char *) returnStr(yytext, yyleng);
+&lt;INITIAL,BINARY&gt;\((([^\(\)])|(\\\()|([^\\]\\\)))*\) {
+                          debuglex(yytext, yyleng, "bracketted string v2");
+                            yylval.sval.data = (char *) returnStr(yytext, 
+                                  yyleng);
                             yylval.sval.len = yyleng; 
                             return STRING; 
                                                                              }
 
-&lt;INITIAL,BINARY&gt;\&lt;(([^\&lt;\&gt;])|(\\\&lt;)|(\\\&gt;))*\&gt; {
-                          debuglex(yytext, -1, "bracketted string v3");
-                            yylval.sval.data = (char *) returnStr(yytext, yyleng);
+&lt;INITIAL,BINARY&gt;\&lt;(([^\&lt;\&gt;])|(\\\&lt;)|([^\\]\\\&gt;))*\&gt; {
+                          debuglex(yytext, yyleng, "bracketted string v3");
+                            yylval.sval.data = (char *) returnStr(yytext, 
+                                  yyleng);
                             yylval.sval.len = yyleng; 
                             return STRING; 
                                                                              }
 
-&lt;INITIAL,BINARY&gt;([#a-zA-Z0-9\.:'+\-!_]+[a-zA-Z0-9\.:'+\-!_\\\/]*)+\&gt;\&gt; { 
-                          debuglex(yytext, -1, "string-dblgt");
+&lt;INITIAL,BINARY&gt;([#a-zA-Z0-9\.:'+\-!_]+[a-zA-Z0-9\.:'+\-!_\\]*)+\&gt;\&gt; { 
+                          debuglex(yytext, yyleng, "string-dblgt");
                             yyless(yyleng - 2);
                             yylval.sval.data = (char *) returnStr(yytext, yyleng);
                             yylval.sval.len = yyleng; 
@@ -17364,7 +16984,7 @@ exit(42);
                                                                              }
 
 &lt;INITIAL,BINARY&gt;[\[\(][#&lt;&gt;a-zA-Z0-9\.\ :'+\-_\\\(\)]+[\)\]]\&gt;\&gt; {
-                          debuglex(yytext, -1, "bracketted-string-dblgt");
+                          debuglex(yytext, yyleng, "bracketted-string-dblgt");
                             yyless(yyleng - 2);
                             yylval.sval.data = (char *) returnStr(yytext, yyleng);
                             yylval.sval.len = yyleng; 
@@ -17373,19 +16993,19 @@ exit(42);
 
                         /* --- Array handling ---                           */
 
-&lt;INITIAL&gt;\[                      { debuglex(yytext, -1, "[");
+&lt;INITIAL&gt;\[                      { debuglex(yytext, yyleng, "[");
                             yylval.sval.data = (char *) returnStr(yytext, yyleng);
                             yylval.sval.len = yyleng; 
                             return ARRAY; 
                                                                              }
 
-&lt;INITIAL&gt;\]                      { debuglex(yytext, -1, "]");
+&lt;INITIAL&gt;\]                      { debuglex(yytext, yyleng, "]");
                             yylval.sval.data = (char *) returnStr(yytext, yyleng);
                             yylval.sval.len = yyleng; 
                             return ENDARRAY; 
                                                                              }
 
-&lt;INITIAL&gt;\]\&gt;\&gt;                      { debuglex(yytext, -1, "]");
+&lt;INITIAL&gt;\]\&gt;\&gt;                      { debuglex(yytext, yyleng, "]");
                             yyless(yyleng - 2);
                             yylval.sval.data = (char *) returnStr(yytext, yyleng);
                             yylval.sval.len = yyleng; 
@@ -17394,7 +17014,7 @@ exit(42);
 
                         /* --- Stuff needed for the xref and trailer ---    */
 
-&lt;INITIAL&gt;\%\%EOF                 { debuglex(yytext, -1, "end of file");
+&lt;INITIAL&gt;\%\%EOF                 { debuglex(yytext, yyleng, "end of file");
                             return PDFEOF; 
                                                                              }
 
@@ -17410,7 +17030,7 @@ exit(42);
                           return ANYTHING;
                                                                              }
 
-.                       { debuglex("!", -1, "the catch all");
+.                       { debuglex("!", yyleng, "the catch all");
                             yylval.sval.data = (char *) returnStr(yytext, yyleng);
                             yylval.sval.len = yyleng;
                             return ANYTHING; 
@@ -17418,11 +17038,13 @@ exit(42);
 
 %%
 
+// TODO mikal: This -1 syntax can go away now
 void debuglex(char *text, int len, char *desc){
 #if defined DEBUG
   int i;
 
-  printf("Lexer rule is \"%s\", match is \"", desc);  
+  printf("Lexer rule is \"%s\", state is %s, match is \"", desc, 
+     YYSTATE == 0 ? "INITIAL" : "BINARY");  
 
   for(i = 0; i &lt; ((len == -1) ? strlen(text) : len); i++){
     if(text[i] == '\n') printf(" \\n " );
@@ -17437,6 +17059,7 @@ void debuglex(char *text, int len, char *desc){
 #endif
 }
 
+// TODO mikal: This -1 syntax can go away now
 char *returnStr(char *yytext, int len){
   char *lval;
 
@@ -17446,6 +17069,18 @@ char *returnStr(char *yytext, int len){
   memcpy(lval, yytext, ((len == -1) ? strlen(yytext) : len) + 1);
 
   return lval;
+}
+
+void beginBinary(){
+  printf("Current state is %s\n", YYSTATE == 0 ? "INITIAL" : "BINARY");
+  BEGIN(BINARY);
+  printf("Current state is %s\n", YYSTATE == 0 ? "INITIAL" : "BINARY");
+}
+
+void endBinary(){
+  printf("Current state is %s\n", YYSTATE == 0 ? "INITIAL" : "BINARY");
+  BEGIN(INITIAL);
+  printf("Current state is %s\n", YYSTATE == 0 ? "INITIAL" : "BINARY");
 }
 </programlisting>
 <para><emphasis>Code: lexer.l</emphasis></para>
@@ -17617,7 +17252,13 @@ extern "C"
 
 // completely implemented
 pdf       : header { pandalex_callback(pandalex_event_entireheader, $1.data); } 
-            object linear objects xref trailer endcrap
+            object linear endpart endcrap
+          ;
+
+// Acrobat Distiller 4.0 for Windows needs this
+// completely implemented
+endpart   : objects xref trailer endpart
+          |
           ;
 
 // completely implemented
@@ -17632,8 +17273,7 @@ linear    : xref trailer { }
 // Clibpdf sometimes puts some binary crap at the end of the file (pointer
 // problems?)
 // completely implemented
-endcrap   : binary { }
-          |
+endcrap   : { beginBinary(); } binary { endBinary(); }
           ;
 
 // completely implemented
@@ -17647,12 +17287,14 @@ object    : INT INT OBJ { pandalex_callback(pandalex_event_objstart, $1, $2); }
             stream ENDOBJ { pandalex_callback(pandalex_event_objend, $1, $2); }
           ;
 
+// todo_mikal: I don't think these array things work, as they are matched by bracketted string rules
 dictionary: DBLLT dict DBLGT { $$ = -1; }
           | INT { $$ = $1; }
-          | ARRAY arrayvals ENDARRAY { $$ = -1; }
+          | ARRAY { pandalex_callback(pandalex_event_dictitem_arraystart, "STREAM"); } arrayvals ENDARRAY 
+               { pandalex_callback(pandalex_event_dictitem_arrayend, "STREAM"); $$ = -1; }
           | objref { $$ = -1; }
           | NAME { $$ = -1; }
-          | STRING { $$ = -1; }
+          | STRING { pandalex_callback(pandalex_event_dictitem_string, "STREAM", $1.data); $$ = -1; }
           | { $$ = -1; }
           ;
 
@@ -17693,13 +17335,22 @@ objref    : INT INT OBJREF { if(($$.data = (char *) malloc((pandalex_intlen($1) 
           ;
 
 // completely implemented
-stream    : STREAM binary ENDSTREAM { pandalex_callback(pandalex_event_stream, $2.data + 2, $2.len - 3); free($2.data); }
+stream    : STREAM binary ENDSTREAM {   int inset = 0;
+                                        while(($2.data[inset] == '\n') || 
+                                              ($2.data[inset] == '\r'))
+                                          inset ++;
+
+                                        pandalex_callback(pandalex_event_stream, 
+                              $2.data + inset, 
+                              $2.len - 1 - inset); 
+                                        free($2.data);
+                                    }
           |
           ;
 
 // completely implemented: callbacks are handled in the callers to this
 binary    : ANYTHING binary { $$.data = pandalex_strmcat($1.data, $1.len, $2.data, $2.len); $$.len = $1.len + $2.len; free($1.data); free($2.data); }
-          | STRING binary { $$.data = pandalex_strmcat($1.data, -1, $2.data, $2.len); $$.len = strlen($1.data) + $2.len; free($1.data); free($2.data); }
+          | STRING binary { $$.data = pandalex_strmcat($1.data, $1.len, $2.data, $2.len); $$.len = $1.len + $2.len; free($1.data); free($2.data); }
           | { $$.data = pandalex_strmcpy("", -1); $$.len = 0; }
           ;
 
@@ -17708,9 +17359,11 @@ xref      : XREF INT INT { pandalex_callback(pandalex_event_xrefstart); }
               xrefitems {}
           ;
 
+// Made recursive for the benefit of 000357
 // completely implemented
 xrefitems : INT INT STRING { pandalex_callback(pandalex_event_xrefitem, $1, $2, $3); }
               xrefitems
+      | INT INT xrefitems {}
           | { pandalex_callback(pandalex_event_xrefend); }
           ;
 
@@ -17807,17 +17460,31 @@ int yyerror(char *s){
   fprintf(stderr, "  be fixed for the next release...\n\n");
   fprintf(stderr, "version = %s\n", VERSION);
 
-  //  fprintf(stderr, "last token = \"%s\" (%d) or %d\n", yylval.sval.data, yylval.sval.len, yylval.intVal);
-  fprintf(stderr, "Last token matched was:\n  ");
-  for(i = 0; i &lt; ((yylval.sval.len == -1) ? strlen(yylval.sval.data) : yylval.sval.len); i++){
-    if(yylval.sval.data[i] == '\n') fprintf(stderr, " \\n " );
-    else if(yylval.sval.data[i] == '\t') fprintf(stderr, " \\t ");
-    else if(yylval.sval.data[i] == '\r') fprintf(stderr, " \\r ");
-    else if(yylval.sval.data[i] == ' ') fprintf(stderr, " sp ");
-    else if(isprint(yylval.sval.data[i])) fprintf(stderr, "%c", yylval.sval.data[i]);
-    else fprintf(stderr, " \\%d ", (unsigned char) yylval.sval.data[i]);
+  // This only works if the matched token was a SVAL, which is all of the except for
+  // INT. If the last token was an INT, then a segmentation fault occured before I made
+  // this pretty...
+  fprintf(stderr, "yychar = %d (INT is %d)\n", yychar, INT);
+
+  fprintf(stderr, "Last token matched was: ");
+  if(yychar == INT){
+    printf("%d\n", yylval.intVal);
+  }
+  else if(yychar &lt; 0){
+    printf("N/A\n");
+  }
+  else{
+    printf("  \"");
+    for(i = 0; i &lt; ((yylval.sval.len == -1) ? strlen(yylval.sval.data) : yylval.sval.len); 
+    i++){
+      if(yylval.sval.data[i] == '\n') fprintf(stderr, " \\n " );
+      else if(yylval.sval.data[i] == '\t') fprintf(stderr, " \\t ");
+      else if(yylval.sval.data[i] == '\r') fprintf(stderr, " \\r ");
+      else if(yylval.sval.data[i] == ' ') fprintf(stderr, " sp ");
+      else if(isprint(yylval.sval.data[i])) fprintf(stderr, "%c", yylval.sval.data[i]);
+      else fprintf(stderr, " \\%d ", (unsigned char) yylval.sval.data[i]);
     }
-  fprintf(stderr, "\"\n");
+    fprintf(stderr, "\"\n");
+  }
 
   fprintf(stderr, "\n---------------------------------------------------------------\n");
 
@@ -17903,11 +17570,23 @@ pdfdump_dictint_list *dictint_list;
 
 char *filter = NULL;
 
+void binarySafePrint(char *input){
+  int i;
+
+  for(i = 0; i &lt; strlen(input); i++){
+    if(isprint(input[i]))
+      printf("%c", input[i]);
+    else
+      printf(" \\%d ", (unsigned char) input[i]);
+  }
+}
+
 // Some demo code for how to use PandaLex
 int main(int argc, char *argv[]){
   pandalex_init();
 
-  // Parse the command line to find out what we are doing today -- this needs more thought
+  // Parse the command line to find out what we are doing today -- this needs 
+  // more thought
   if(strcmp(argv[0], "pdfmeta") == 0){
     pdfdump_application = pdfdump_meta;
   }
@@ -17922,14 +17601,20 @@ int main(int argc, char *argv[]){
   pandalex_setupcallback(pandalex_event_objstart, pdfdump_objstart);
   pandalex_setupcallback(pandalex_event_objend, pdfdump_objend);
 
-  pandalex_setupcallback(pandalex_event_dictitem_string, pdfdump_dictitem_string);
+  pandalex_setupcallback(pandalex_event_dictitem_string, 
+             pdfdump_dictitem_string);
   pandalex_setupcallback(pandalex_event_dictitem_name, pdfdump_dictitem_name);
-  pandalex_setupcallback(pandalex_event_dictitem_arraystart, pdfdump_dictitem_arraystart);
-  pandalex_setupcallback(pandalex_event_dictitem_arrayitem, pdfdump_dictitem_arrayitem);
-  pandalex_setupcallback(pandalex_event_dictitem_arrayend, pdfdump_dictitem_arrayend);
-  pandalex_setupcallback(pandalex_event_dictitem_object, pdfdump_dictitem_object);
+  pandalex_setupcallback(pandalex_event_dictitem_arraystart, 
+             pdfdump_dictitem_arraystart);
+  pandalex_setupcallback(pandalex_event_dictitem_arrayitem, 
+             pdfdump_dictitem_arrayitem);
+  pandalex_setupcallback(pandalex_event_dictitem_arrayend, 
+             pdfdump_dictitem_arrayend);
+  pandalex_setupcallback(pandalex_event_dictitem_object, 
+             pdfdump_dictitem_object);
   pandalex_setupcallback(pandalex_event_dictitem_dict, pdfdump_dictitem_dict);
-  pandalex_setupcallback(pandalex_event_dictitem_dictend, pdfdump_dictitem_dictend);
+  pandalex_setupcallback(pandalex_event_dictitem_dictend, 
+             pdfdump_dictitem_dictend);
   pandalex_setupcallback(pandalex_event_dictitem_int, pdfdump_dictitem_int);
 
   pandalex_setupcallback(pandalex_event_stream, pdfdump_stream);
@@ -18007,7 +17692,9 @@ void pdfdump_dictitem_string(int event, va_list argptr){
   
   name = va_arg(argptr, char *);
   value = va_arg(argptr, char *);
-  printf("  [String] %s = \"%s\"\n", name, value);
+  printf("  [String] %s = \"", name);
+  binarySafePrint(value);
+  printf("\"\n");
 
   if(strcmp(name, "Filter") == 0){
     filter = value;
@@ -18086,8 +17773,6 @@ void pdfdump_stream(int event, va_list argptr){
   streamDataLen = va_arg(argptr, int);
 
   printf("  Length = %d\n", streamDataLen);
-  printf("\n\n--------------------------------\n%s\n--------------------------------\n\n", 
-     streamData);
 }
 
 void pdfdump_dictint(int event, va_list argptr){
@@ -18359,4 +18044,4 @@ The following resources might be of use if you need more information:
 </sect1>
 
 </chapter>
-                                        </book>
+                                    </book>

@@ -347,7 +347,7 @@ It is traditional for bitmaps to be represented inside your code with an array o
 </noslide>
 
 <slideinclude>
-<execute><cmd>code2db</cmd><input>~mikal/opensource-stable/tiff-bw-write/write-infrastructure.c</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource/tiff-bw-write/write-infrastructure.c</input></execute>
 </slideinclude>
 
 <slidetext>
@@ -370,7 +370,7 @@ Please note, that for clarity I have omitted the actual hex for the image, this 
 </para>
 
 <slideinclude>
-<execute><cmd>code2db</cmd><input>~mikal/opensource-stable/tiff-bw-write/write-nohex.c</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource/tiff-bw-write/write-nohex.c</input></execute>
 </slideinclude>
 
 <para>
@@ -547,7 +547,7 @@ The other big thing to bear in mind is fill order (whether the first bit in the 
 
 <slidebreak>
 <slideinclude>
-<execute><cmd>code2db</cmd><input>~mikal/opensource-stable/tiff-bw-read/read.c</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource/tiff-bw-read/read.c</input></execute>
 </slideinclude>
 
 <para>
@@ -691,7 +691,7 @@ It time to show you how to write a color image to disc. Remember that this is a 
 </slidetext>
 
 <slideinclude>
-<execute><cmd>code2db</cmd><input>~mikal/opensource-stable/tiff-color-write/write.c</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource/tiff-color-write/write.c</input></execute>
 </slideinclude>
 
 <slidebreak>
@@ -838,7 +838,7 @@ Now all we have to do is work out how to read other people's color and gray scal
 
 <slidebreak>
 <slideinclude>
-<execute><cmd>code2db</cmd><input>~mikal/opensource-stable/tiff-color-read/read.c</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource/tiff-color-read/read.c</input></execute>
 </slideinclude>
 </sect1>
 
@@ -888,7 +888,7 @@ The example which I am most familiar with is PDF documents. In PDF files, you ca
 <execute><cmd>nextedition</cmd><input>Make this example better</input></execute>
 
 <slideinclude>
-<execute><cmd>code2db</cmd><input>~mikal/opensource-stable/tiff-client/client.c</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource/tiff-client/client.c</input></execute>
 </slideinclude>
 </sect1>
 
@@ -930,7 +930,7 @@ Anyway, now that I've nagged you, putting multiple images into one TIFF file is 
 </slidetext>
 
 <slideinclude>
-<execute><cmd>code2db</cmd><input>~mikal/opensource-stable/tiff-directories/create.c</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource/tiff-directories/create.c</input></execute>
 </slideinclude>
 
 <slidebreak>
@@ -956,7 +956,7 @@ This example below demonstrates how to do this.
 <execute><cmd>nextedition</cmd><input>more!</input></execute>
 
 <slideinclude>
-<execute><cmd>code2db</cmd><input>~mikal/opensource-stable/tiff-directories/read.c</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource/tiff-directories/read.c</input></execute>
 </slideinclude>
 
 <execute><cmd>nextedition</cmd><input>This doesn't work at the moment</input></execute>
@@ -969,16 +969,16 @@ I have included the man pages to some of the more useful libtiff commands, so th
 </para>
 
 <sect2><title>tiff2bw</title>
-<execute><cmd>~mikal/opensource-stable/groff2db/convert</cmd><input>source/tiff/man/tiff2bw.1</input><args>-s 3</args>></execute>
+<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiff2bw.1</input><args>-s 3</args>></execute>
 </sect2>
 
 <sect2><title>tiff2ps</title>
-<execute><cmd>~mikal/opensource-stable/groff2db/convert</cmd><input>source/tiff/man/tiff2ps.1</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiff2ps.1</input><args>-s 3</args></execute>
 </sect2>
 
 
 <sect2><title>tiffcmp</title>
-<execute><cmd>~mikal/opensource-stable/groff2db/convert</cmd><input>source/tiff/man/tiffcmp.1</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffcmp.1</input><args>-s 3</args></execute>
 
 <sect3><title>Sample output</title>
 <para>
@@ -996,14 +996,14 @@ ImageWidth: 256 520
 
 <sect2><title>tiffcp</title>
 <slideinclude>
-<execute><cmd>~mikal/opensource-stable/groff2db/convert</cmd><input>source/tiff/man/tiffcp.1</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffcp.1</input><args>-s 3</args></execute>
 </slideinclude>
 </sect2>
 
 
 <sect2><title>tiffdither</title>
 <slideinclude>
-<execute><cmd>~mikal/opensource-stable/groff2db/convert</cmd><input>source/tiff/man/tiffdither.1</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffdither.1</input><args>-s 3</args></execute>
 </slideinclude>
 
 <noslide>
@@ -1035,7 +1035,7 @@ This image, after being pushed through <command>tiffdither</command> looks somet
 
 <sect2><title>tiffdump</title>
 <slideinclude>
-<execute><cmd>~mikal/opensource-stable/groff2db/convert</cmd><input>source/tiff/man/tiffdump.1</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffdump.1</input><args>-s 3</args></execute>
 </slideinclude>
 
 <sect3><title>Sample output</title>
@@ -1068,13 +1068,13 @@ PlanarConfig (284) SHORT (3) 1&lt;1&gt;
 
 <noslide>
 <sect2><title>tiffgt</title>
-<execute><cmd>~mikal/opensource-stable/groff2db/convert</cmd><input>source/tiff/man/tiffgt.1</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffgt.1</input><args>-s 3</args></execute>
 </sect2>
 </noslide>
 
 <sect2><title>tiffinfo</title>
 <slideinclude>
-<execute><cmd>~mikal/opensource-stable/groff2db/convert</cmd><input>source/tiff/man/tiffinfo.1</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffinfo.1</input><args>-s 3</args></execute>
 </slideinclude>
 
 <sect3><title>Sample output</title>
@@ -1133,25 +1133,25 @@ Strip 0:
 
 <noslide>
 <sect2><title>tiffmedian</title>
-<execute><cmd>~mikal/opensource-stable/groff2db/convert</cmd><input>source/tiff/man/tiffmedian.1</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffmedian.1</input><args>-s 3</args></execute>
 </sect2>
 </noslide>
 
 <noslide>
 <sect2><title>tiffsplit</title>
-<execute><cmd>~mikal/opensource-stable/groff2db/convert</cmd><input>source/tiff/man/tiffsplit.1</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffsplit.1</input><args>-s 3</args></execute>
 </sect2>
 </noslide>
 
 <noslide>
 <sect2><title>tiffsv</title>
-<execute><cmd>~mikal/opensource-stable/groff2db/convert</cmd><input>source/tiff/man/tiffsv.1</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffsv.1</input><args>-s 3</args></execute>
 </sect2>
 </noslide>
 
 <noslide>
 <sect2><title>tifftopnm</title>
-<execute><cmd>~mikal/opensource-stable/groff2db/convert</cmd><input>source/tiff/man/tifftopnm.1</input><args>-s 3</args></execute>
+<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tifftopnm.1</input><args>-s 3</args></execute>
 </sect2>
 </noslide>
 </sect1>
@@ -1175,7 +1175,7 @@ In the introduction to this tutorial I promised that I would include the code to
 </slidetext>
 
 <slideinclude>
-<execute><cmd>code2db</cmd><input>~mikal/opensource-stable/tiff-pixels/pixel.c</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource/tiff-pixels/pixel.c</input></execute>
 </slideinclude>
 </sect1>
 
@@ -1190,7 +1190,7 @@ In one of the previous chapters I also promised to provide the source code for t
 
 <sect2><title>A broken algorithm</title>
 <slideinclude>
-<execute><cmd>code2db</cmd><input>~mikal/opensource-stable/tiff-grayscale/gray-wrong.c</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource/tiff-grayscale/gray-wrong.c</input></execute>
 </slideinclude>
 
 <para>
@@ -1204,7 +1204,7 @@ Which produces:
 
 <sect2><title>A sensible algorithm</title>
 <slideinclude>
-<execute><cmd>code2db</cmd><input>~mikal/opensource-stable/tiff-grayscale/gray-good.c</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource/tiff-grayscale/gray-good.c</input></execute>
 </slideinclude>
 
 <para>
@@ -1227,8 +1227,8 @@ Now, just to justify that the second algorithm is better, have a look at the sha
 Earlier in this chapter I promised that I would include the code for the repeated compression loss example, so here it is. The example is made up of a simple (and quite ugly) shell script, and a c program to actually compress the images...
 </para>
 
-<execute><cmd>code2db</cmd><input>~mikal/opensource-stable/tiff-recompress/recompress.sh</input></execute>
-<execute><cmd>code2db</cmd><input>~mikal/opensource-stable/tiff-recompress/recompress.c</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource/tiff-recompress/recompress.sh</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource/tiff-recompress/recompress.c</input></execute>
 </sect1>
 </noslide>
 
