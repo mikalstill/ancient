@@ -22,6 +22,7 @@
 #include "cepWindowRect.h"
 #include "cepwindowhamming.h"
 #include "cepwindowblackman.h"
+#include "cepwindowchebyshev.h"
 
 
 
@@ -59,12 +60,15 @@ const cepError cepDataWindower::setWindowType( const windowType type, const int 
     case WINDOW_BLACKMAN:
       windowAlg = new cepWindowBlackman( size );
       break;
+
+    case WINDOW_CHEBYSHEV:
+      windowAlg = new cepWindowChebyshev( size );
+      break;
       
     case WINDOW_TRIANGULAR:    
     case WINDOW_HANNING:
     case WINDOW_KEISER:
     case WINDOW_TAYLOR:
-    case WINDOW_CHEBYSHEV:
       return cepError("This type is not yet implemented. Set type failed", cepError::sevWarning);
       
     default:
