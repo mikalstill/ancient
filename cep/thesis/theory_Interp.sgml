@@ -90,8 +90,8 @@
   </sect3>
   <sect3><title>Natural Spline Interpolation</title>
   <para>
-    Natural splines are a type of cubic spline.  The idea of cubic splines comes 
-    from medieval times when builders would create a smooth curve by pegging a 
+    Natural splines are a type of cubic spline.  The idea of cubic splines comes
+    from ancient times when builders would create a smooth curve by pegging a
     flexible piece of wood between a number of points.  Cubic splines are a method
     of recreating this wooden curve with mathematics.  With all cubic splines the
     interpolation is done by inserting a cubic between each two adjacent points.
@@ -104,9 +104,15 @@
     In the mathematical process of building splines it is impossible to infer the
     dervatives of the two end points of a dataset.  It is the values assigned to
     these end points that determine the type of spine.  In a natural spline the
-    end points are set to 0.  This gives the same result
+    end points are set to 0.  This gives a result similar to the ancient wooden
+    splines used by builders.  Mathematically this is ment to protruce a result
+    where the end segments are a bit too straight.
+  </para>
+  <para>
+
   </para>
   </sect3>
+  <sect3>
   <para>
   For example a cubic spline interpolation provides a smooth curve with no instantaneous slope
   changes.  The advantage of cubic splines is that provided with a high sample rate system
@@ -120,8 +126,7 @@
     -provides models for periods where data is not available
     -need several techniques as no single technq. suits all applications.
    </para>
-     </sect3>
-
+  </sect3>
 </sect2> <!--Theory-->
 
 <sect2><title>Conclusion</title>
