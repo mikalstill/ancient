@@ -41,6 +41,12 @@ AC_CHECK_LIB(pthread, pthread_mutex_unlock)
 dnl -lmplot
 AC_CHECK_LIB(mplot, plot_newplot)
 
+dnl -ltiff
+AC_CHECK_LIB(tiff, TIFFClientOpen)
+
+dnl -lz
+AC_CHECK_LIB(z, uncompress)
+
 dnl -lpandalex
 AC_CHECK_LIB(pandalex, pandalex_init)
 

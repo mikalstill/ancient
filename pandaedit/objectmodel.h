@@ -102,6 +102,12 @@ public:
   unsigned long getStreamLength ();
 
 private:
+  char *applyFilter(string filter, char *instream, unsigned long inlength, 
+		    unsigned long& length);
+  char *applyFilter(raster& rast, string filter, 
+		    char *instream, unsigned long inlength,
+		    unsigned long& length);
+
   int m_number;
   int m_generation;
 

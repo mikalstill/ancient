@@ -7,6 +7,9 @@
 #include "decompressor.h"
 #include "lzw.h"
 #include "fax.h"
+#include "flate.h"
+
+#include "stringArray.h"
 
 object::object (int number, int generation):
 m_number (number),
@@ -19,7 +22,8 @@ m_stream (NULL)
 
 object::object (const object & other)
 {
-  debug(dlTrace, string("Copy constructing object ") + toString(other.m_number) +
+  debug(dlTrace, string("Copy constructing object ") + 
+	toString(other.m_number) +
 	string(" ") + toString(other.m_generation));
   m_number = other.m_number;
   m_generation = other.m_generation;
@@ -27,15 +31,18 @@ object::object (const object & other)
 
   if (other.m_stream != NULL)
     {
-      debug(dlTrace, string("Before new (asking for ") + toString((long) other.m_streamLength) +
+      debug(dlTrace, string("Before new (asking for ") + 
+	    toString((long) other.m_streamLength) +
 	    string(")"));
+      // todo_mikal: fix this!
       m_stream = new char[other.m_streamLength * 2];
 
       if (m_stream != NULL)
 	{
 	  memcpy (m_stream, other.m_stream, other.m_streamLength);
-	  m_stream[other.m_streamLength] = '\0';
 	  m_streamLength = other.m_streamLength;
+	  debug(dlTrace, string("Stream is: ") + 
+		binaryToString(m_stream, m_streamLength));
 	}
       else
 	{
@@ -77,10 +84,12 @@ object::operator= (const object & other)
 
   if (other.m_stream != NULL)
     {
+      // todo_mikal: fix this!
       m_stream = new char[other.m_streamLength * 2];
       memcpy (m_stream, other.m_stream, other.m_streamLength);
-      m_stream[other.m_streamLength] = '\0';
       m_streamLength = other.m_streamLength;
+      debug(dlTrace, string("Stream is: ") + 
+	    binaryToString(m_stream, m_streamLength));
     }
   else
     {
@@ -96,11 +105,12 @@ object::addStream (char *streamData, unsigned int streamLength)
 {
   debug(dlTrace, "Added a stream to object " + toString(m_number) + string(" ") +
 	toString(m_generation));
+  debug(dlTrace, string("Stream is: ") + binaryToString(streamData, streamLength));
+  // todo_mikal: fix this!
   m_stream = new char[streamLength * 2];
   if (m_stream != NULL)
     {
       memcpy (m_stream, streamData, streamLength);
-      m_stream[streamLength] = '\0';
       m_streamLength = streamLength;
     }
   else
@@ -197,42 +207,52 @@ object::getStream (bool & needsStreamClean, unsigned long &length)
   // Sometimes the stream is compressed, if it is, then we
   // decompress it here
   string filter;
-  char *stream;
+
+  debug(dlTrace, string("Object stream starts with: ") +
+	binaryToString(m_stream, min(10, m_streamLength)) + 
+	string(" (first 10 bytes)"));
 
   // todo_mikal: filters can appear as arrays of filters in the order they
   // were applied
-  if (getDict ().getValue ("Filter", filter))
+  if ((getDict ().getValue ("Filter", filter)) && (filter != ""))
     {
-      debug(dlTrace, string("The stream is filtered with filter ") +
-	    filter);
-      decompressor *mydec = NULL;
+      needsStreamClean = true;
+	
+      // Is this an array of filters?
+      if(filter.substr(0, 1) == "["){
+	stringArray filters(filter.substr(1, filter.length() - 2), " ");
+	debug(dlTrace, string("Filter array is: ") + 
+	      filter.substr(1, filter.length() - 2));
+	debug(dlTrace, string("Array contains ") + toString((int) filters.size()) +
+	      string(" elements"));
 
-      if (filter == "LZWDecode")
-	{
-	  mydec = new lzw ();
-	}
-      else if (filter == "CCITTFaxDecode")
-	{
-	  debug(dlError, "Fax decode not supported for non raster streams");
-	}
-      else
-	{
-	  debug(dlTrace, "Unknown stream filter");
+	// Setup the decompression loop
+	char *out;
+	unsigned long outlength = m_streamLength;
+        out = new char[outlength + 1];
+	out[0] = 'x';
+	memcpy(out + 1, m_stream, outlength);
+	outlength++;
+
+	for(unsigned int i = 0; i < filters.size(); i++){
+	  char *in;
+	  unsigned long inlength = outlength;
+	  in = new char[inlength];
+	  memcpy(in, out, inlength);
+	  
+	  // Apply the filter
+	  out = applyFilter(filters[i], in, inlength, outlength);
+
+	  // Cleanup
+	  delete[] in;
 	}
 
-      if (mydec != NULL)
-	{
-	  stream = mydec->decompress (m_stream, m_streamLength, length);
-	  delete mydec;
-	  needsStreamClean = true;
-	}
-      else
-	{
-	  debug(dlTrace, string("Unknown compression scheme ") + filter);
-	  stream = NULL;
-	}
-
-      return stream;
+	length = outlength;
+	return out;
+      }
+      else{
+	return applyFilter(filter, m_stream, m_streamLength, length);
+      }
     }
   else
     {
@@ -249,43 +269,14 @@ object::getStream (raster & rast, bool & needsStreamClean,
   // Sometimes the stream is compressed, if it is, then we
   // decompress it here
   string filter;
-  char *stream;
   debug(dlTrace, "Raster decompression started");
 
   // todo_mikal: filters can appear as arrays of filters in the order they
   // were applied
   if (getDict ().getValue ("Filter", filter))
     {
-      debug(dlTrace, string("The stream is filtered with filter ") +
-	filter);
-      decompressor *mydec = NULL;
-
-      if (filter == "LZWDecode")
-	{
-	  mydec = new lzw ();
-	}
-      else if (filter == "CCITTFaxDecode")
-	{
-	  mydec = new fax ();
-	  ((fax *) mydec)->setWidth(rast.getWidth());
-	  ((fax *) mydec)->setLength(rast.getHeight());
-	  ((fax *) mydec)->setK(rast.getK());
-	}
-
-
-      if (mydec != NULL)
-	{
-	  stream = mydec->decompress (m_stream, m_streamLength, length);
-	  delete mydec;
-	  needsStreamClean = true;
-	}
-      else
-	{
-	  debug(dlTrace, string("Unknown compression scheme ") + filter);
-	  stream = NULL;
-	}
-
-      return stream;
+      needsStreamClean = true;
+      return applyFilter(rast, filter, m_stream, m_streamLength, length);
     }
   else
     {
@@ -293,6 +284,103 @@ object::getStream (raster & rast, bool & needsStreamClean,
       length = m_streamLength;
       return m_stream;
     }
+}
+
+char *
+object::applyFilter(string filter, char *instream, unsigned long inlength,
+		    unsigned long& length)
+{
+  string realfilter;
+  debug(dlTrace, string("The stream is filtered with filter ") +
+	filter);
+  if(filter.substr(0, 1) == "/")
+    realfilter = filter.substr(1, filter.length() - 1);
+  else
+    realfilter = filter;
+  debug(dlTrace, string("The stream is really filtered with filter ") +
+	 realfilter);
+
+  decompressor *mydec = NULL;
+  char *stream = NULL;
+  length = 0;
+
+  if (realfilter == "LZWDecode")
+    {
+      mydec = new lzw ();
+    }
+  else if (realfilter == "CCITTFaxDecode")
+    {
+      debug(dlError, "Fax decode not supported for non raster streams");
+    }
+  else if (realfilter == "FlateDecode")
+    {
+      mydec = new flate();
+    }
+  else
+    {
+      debug(dlTrace, "Unknown stream filter");
+    }
+  
+  if (mydec != NULL)
+    {
+      stream = mydec->decompress (instream, inlength, length);
+      delete mydec;
+    }
+  else
+    {
+      debug(dlTrace, string("Unknown compression scheme ") + realfilter);
+      stream = NULL;
+    }
+  
+  return stream;
+}
+
+char *
+object::applyFilter(raster& rast, string filter, 
+		    char *instream, unsigned long inlength, 
+		    unsigned long& length){
+  string realfilter;
+  debug(dlTrace, string("The stream is filtered with filter ") +
+	filter);
+  if(filter.substr(0, 1) == "/")
+    realfilter = filter.substr(1, filter.length() - 1);
+  else
+    realfilter = filter;
+  debug(dlTrace, string("The stream is really filtered with filter ") +
+	realfilter);
+  
+  decompressor *mydec = NULL;
+  char *stream = NULL;
+  length = 0;
+  
+  if (realfilter == "LZWDecode")
+    {
+      mydec = new lzw ();
+    }
+  else if (realfilter == "CCITTFaxDecode")
+    {
+      mydec = new fax ();
+      ((fax *) mydec)->setWidth(rast.getWidth());
+      ((fax *) mydec)->setLength(rast.getHeight());
+      ((fax *) mydec)->setK(rast.getK());
+    }
+  else if (realfilter == "FlateDecode")
+    {
+      mydec = new flate();
+    }
+  
+  if (mydec != NULL)
+    {
+      stream = mydec->decompress (instream, inlength, length);
+      delete mydec;
+    }
+  else
+    {
+      debug(dlTrace, string("Unknown compression scheme ") + realfilter);
+      stream = NULL;
+    }
+  
+  return stream;
 }
 
 unsigned long

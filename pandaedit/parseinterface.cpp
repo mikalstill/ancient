@@ -236,6 +236,8 @@ pandaedit_stream (int event, va_list argptr)
 
   streamData = va_arg (argptr, char *);
   streamDataLen = va_arg (argptr, int);
-  debug(dlTrace, string("Parser found a stream of length ") + toString((long) streamDataLen));
+  debug(dlTrace, string("Parser found a stream of length ") + 
+	toString((long) streamDataLen));
+  debug(dlTrace, string("Stream is: ") + binaryToString(streamData, streamDataLen));
   currentObject->addStream (streamData, streamDataLen);
 }

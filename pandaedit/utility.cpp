@@ -79,7 +79,7 @@ toString (size_t val)
 {
   char buffer[10];
 
-  snprintf (buffer, 10, "%d", val);
+  snprintf (buffer, 10, "%d", (unsigned int) val);
   return string (buffer);
 }
 
@@ -93,7 +93,7 @@ binaryToString(void *buf, unsigned int length)
     if((cbuf[i] > 31) && (cbuf[i] < 127))
       retval += cbuf[i];
     else
-      retval += "\\" + toString((unsigned int) cbuf[i]) + " ";
+      retval += " \\" + toString((unsigned int) cbuf[i]) + " ";
   }
 
   return retval;
