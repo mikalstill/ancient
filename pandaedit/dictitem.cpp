@@ -58,3 +58,8 @@ string dictitem::getStringValue()
 {
   return m_string;
 }
+
+dictionary dictitem::getDictionaryValue()
+{
+  return dictionary(m_dictionary);
+}

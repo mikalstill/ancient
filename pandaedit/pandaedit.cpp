@@ -75,13 +75,15 @@ int main(int argc, char *argv[]){
 
   // Find the pages, and then display just the first page
   objectlist pagelist(kids, *thePDF);
-  pdfRender renPage(*thePDF, pagelist[0]);
-  if(!renPage.render()){
-    fprintf(stderr, "Page render failed\n");
-    exit(1);
+  for(unsigned int i = 0; i < pagelist.size(); i++){
+    pdfRender renPage(*thePDF, pagelist[i]);
+    if(!renPage.render()){
+      fprintf(stderr, "Page render failed\n");
+      exit(1);
+    }
+    printf("DEBUG: PNG filename is %s\n",
+	   renPage.getPNGfile().c_str());
   }
-  printf("DEBUG: PNG filename is %s\n",
-	 renPage.getPNGfile().c_str());
 
   return 0;
 }

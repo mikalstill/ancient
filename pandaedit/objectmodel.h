@@ -39,6 +39,7 @@ class dictitem{
   int getIntValue();
   int getGeneration();
   string getStringValue();
+  dictionary getDictionaryValue();
 
  private:
   diType m_type;
@@ -53,6 +54,9 @@ class dictitem{
 
 class dictionary{
  public:
+  dictionary();
+  dictionary(vector<dictitem> subdict);
+
   void add(dictitem item);
   unsigned int size();
   dictitem operator[](unsigned int index);
@@ -60,6 +64,7 @@ class dictionary{
   bool findItem(string dname, dictitem& item);
   bool getValue(string dname, pdf& thePDF, object& obj);
   bool getValue(string dname, string& value);
+  bool getValue(string dname, dictionary& subdict);
 
   vector<dictitem> getItems();
 

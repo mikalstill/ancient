@@ -20,13 +20,18 @@ class pdfRender{
   void processLine(string line);
   void pushArguement(string arg);
 
-  void commandBT();
-  void commandET();
-  void commandTd();
-  void commandTf();
-  void commandTj();
-  void commandTm();
-  void commandTr();
+  void command_BT();
+  void command_ET();
+  void command_l();
+  void command_m();
+  void command_q();
+  void command_Q();
+  void command_S();
+  void command_Td();
+  void command_Tf();
+  void command_Tj();
+  void command_Tm();
+  void command_Tr();
 
   enum rmMode{
     rmUndefined = 0,
@@ -39,6 +44,8 @@ class pdfRender{
   matrix m_textMatrix;
   stack<string> m_arguements;
   bool m_invalid;
+  pdf m_pdf;
+  bool m_hasLine;
 
   plot_state *m_plot;
   unsigned int m_width, m_height;

@@ -19,11 +19,19 @@ object::object(const object& other)
   m_dictionary = other.m_dictionary;
 
   if(other.m_stream != NULL){
-    m_stream = new char [other.m_streamLength];
-    memcpy(m_stream, other.m_stream, other.m_streamLength);
-    m_stream[other.m_streamLength] = '\0';
-    m_streamLength = other.m_streamLength;
+    printf("DEBUG: Before new (asking for %d)\n", other.m_streamLength);
+    m_stream = new char [other.m_streamLength * 2];
+    printf("DEBUG: After new m_stream is 0x%08x\n", m_stream);
+    
+    if(m_stream != NULL){
+      memcpy(m_stream, other.m_stream, other.m_streamLength);
+      m_stream[other.m_streamLength] = '\0';
+      m_streamLength = other.m_streamLength;
     }
+    else{
+      printf("DEBUG: Memory allocation failed\n");
+    }
+  }
   else{
     m_stream = NULL;
     m_streamLength = 0;
@@ -54,7 +62,7 @@ object object::operator=(const object& other)
     delete[] m_stream;
 
   if(other.m_stream != NULL){
-    m_stream = new char [other.m_streamLength];
+    m_stream = new char [other.m_streamLength * 2];
     memcpy(m_stream, other.m_stream, other.m_streamLength);
     m_stream[other.m_streamLength] = '\0';
     m_streamLength = other.m_streamLength;
@@ -70,10 +78,16 @@ object object::operator=(const object& other)
 void object::addStream(char *streamData, unsigned int streamLength)
 {
   printf("DEBUG: Added a stream to object %d %d\n", m_number, m_generation);
-  m_stream = new char [streamLength];
-  memcpy(m_stream, streamData, streamLength);
-  m_stream[streamLength] = '\0';
-  m_streamLength = streamLength;
+  m_stream = new char [streamLength * 2];
+  if(m_stream != NULL){
+    memcpy(m_stream, streamData, streamLength);
+    m_stream[streamLength] = '\0';
+    m_streamLength = streamLength;
+  }
+  else{
+    printf("DEBUG: Failed to allocate enough memory for the stream\n");
+  }
+  printf("DEBUG: Added\n");
 }
 
 void object::addDictionary(dictionary dict)

@@ -1,20 +1,25 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 #include "render.h"
 #include "utility.h"
 #include "stringArray.h"
+#include "configuration.h"
 
 pdfRender::pdfRender(pdf& thePDF, object page):
   m_page(page),
   m_contents(-1, -1),
-  m_mode(rmUndefined),
+  m_mode(rmGraphics),
   m_invalid(true),
-  m_plot(NULL)
+  m_plot(NULL),
+  m_pdf(thePDF),
+  m_hasLine(false)
 {
   if(!m_page.hasDictItem(dictitem::diTypeObjectReference, "Contents")){
     fprintf(stderr, "Bad PDF: Page is blank\n");
   }
-  if(!m_page.getDict().getValue("Contents", thePDF, m_contents)){
+  if(!m_page.getDict().getValue("Contents", m_pdf, m_contents)){
     fprintf(stderr, "Bad PDF: Could not get contents object, but the page references it!\n");
   }
 
@@ -24,7 +29,9 @@ pdfRender::pdfRender(pdf& thePDF, object page):
 // Not yet implemented (private)
 pdfRender::pdfRender(const pdfRender& other):
   m_page(-1, -1),
-  m_contents(-1, -1)
+  m_contents(-1, -1),
+  m_pdf(""),
+  m_hasLine(false)
 {}
 
 bool pdfRender::render()
@@ -84,7 +91,8 @@ void pdfRender::processLine(string line)
   bool sargMode(false);
   for(unsigned int i = 0; i < tokens.size(); i++)
     {
-      if(tokens[i][0] == '('){
+      if(tokens[i] == ""){}
+      else if(tokens[i][0] == '('){
 	sarg = tokens[i].substr(1, tokens[i].length() - 1);
 	sargMode = true;
 	printf("DEBUG: String argument started\n");
@@ -99,13 +107,18 @@ void pdfRender::processLine(string line)
 
       else if(isNumber(tokens[i])) pushArguement(tokens[i]);
       else if(isName(tokens[i])) pushArguement(tokens[i]);
-      else if("BT" == tokens[i]) commandBT();
-      else if("ET" == tokens[i]) commandET();
-      else if("Td" == tokens[i]) commandTd();
-      else if("Tf" == tokens[i]) commandTf();
-      else if("Tj" == tokens[i]) commandTj();
-      else if("Tm" == tokens[i]) commandTm();
-      else if("Tr" == tokens[i]) commandTr();
+      else if("BT" == tokens[i]) command_BT();
+      else if("ET" == tokens[i]) command_ET();
+      else if("l" == tokens[i]) command_l();
+      else if("m" == tokens[i]) command_m();
+      else if("q" == tokens[i]) command_q();
+      else if("Q" == tokens[i]) command_Q();
+      else if("S" == tokens[i]) command_S();
+      else if("Td" == tokens[i]) command_Td();
+      else if("Tf" == tokens[i]) command_Tf();
+      else if("Tj" == tokens[i]) command_Tj();
+      else if("Tm" == tokens[i]) command_Tm();
+      else if("Tr" == tokens[i]) command_Tr();
       else
 	printf("DEBUG: Dropped token %s\n", tokens[i].c_str());
     }
@@ -123,7 +136,7 @@ void pdfRender::pushArguement(string arg)
 
 /////////////////////////////////////////////////////////////////////
 // Enter text mode
-void pdfRender::commandBT()
+void pdfRender::command_BT()
 {
   printf("DEBUG: BT\n");
   if(m_mode == rmText){
@@ -136,32 +149,127 @@ void pdfRender::commandBT()
 }
 
 // Exit text mode
-void pdfRender::commandET()
+void pdfRender::command_ET()
 {
-  printf("DEBUG: ET [not implmented]\n");
+  printf("DEBUG: ET\n");
+  if(m_mode != rmText){
+    printf("DEBUG: Error -- exitting non existant text mode\n");
+  }
+  m_mode = rmGraphics;
 }
 
+void pdfRender::command_l()
+{
+  unsigned int x, y;
+
+  // Pop our arguements (reverse order)
+  y = m_height - atoi(m_arguements.top().c_str());
+  m_arguements.pop();
+  x = atoi(m_arguements.top().c_str());
+  m_arguements.pop();
+
+  if(m_mode != rmGraphics){
+    printf("DEBUG: Not in graphics mode\n");
+    return;
+  }
+  
+  printf("DEBUG: Add line segment %d, %d\n", x, y);
+  plot_addlinesegment(m_plot, x, y);
+  m_hasLine = true;
+}
+
+// Move graphics cursor to a given location
+void pdfRender::command_m()
+{
+  unsigned int x, y;
+
+  // Pop our arguements (reverse order)
+  y = m_height - atoi(m_arguements.top().c_str());
+  m_arguements.pop();
+  x = atoi(m_arguements.top().c_str());
+  m_arguements.pop();
+
+  if(m_mode != rmGraphics){
+    printf("DEBUG: Not in graphics mode\n");
+    return;
+  }
+  
+  if(m_hasLine)
+    plot_endline(m_plot);
+  printf("DEBUG: Move to %d, %d\n", x, y);
+  plot_setlinestart(m_plot, x, y);
+  m_hasLine = true;
+}
+
+void pdfRender::command_q()
+{
+  printf("DEBUG: Save graphics state [not implemented]\n");
+}
+
+void pdfRender::command_Q()
+{
+  printf("DEBUG: Restore graphics state [not implemented]\n");
+}
+
+void pdfRender::command_S()
+{
+  plot_strokeline(m_plot);
+}
+
+
 // Move text position
-void pdfRender::commandTd()
+void pdfRender::command_Td()
 {
   printf("DEBUG: Td [not implemented]\n");
 }
 
-void pdfRender::commandTf()
+void pdfRender::command_Tf()
 {
-  string fontname, fontsize;
+  string fontName, fontSize;
 
-  fontsize = m_arguements.top();
+  // Pop our arguements (reverse order)
+  fontSize = m_arguements.top();
   m_arguements.pop();
-  fontname = m_arguements.top();
+  fontName = m_arguements.top();
   m_arguements.pop();
 
-  printf("DEBUG: Tf font = %s size = %s\n", fontname.c_str(), fontsize.c_str());
-  plot_setfont(m_plot, "px10.ttf", atoi(fontsize.c_str()));
+  printf("DEBUG: Tf font = %s size = %s\n", fontName.c_str(), fontSize.c_str());
+
+  // Find the named font
+  dictionary resources;
+  dictionary fonts;
+  object font(-1, -1);
+  string fontResource, fontFile("px10.ttf");
+  bool fontFound(false);
+
+  if(!m_page.getDict().getValue("Resources", resources)){
+    printf("DEBUG: Font not found (no resources)\n");
+  }
+  else if(!resources.getValue("Font", fonts)){
+    printf("DEBUG: Font not found (no font entry in resources)\n");
+  }
+  else if(!fonts.getValue(fontName.substr(1, fontName.length()), m_pdf, font)){
+    printf("DEBUG: Font not found (named font not listed in resources)\n");
+  }
+  else if(font.getDict().getValue("BaseFont", fontResource)){
+    fontFound = true;
+  }
+
+  // Now map this name to a TrueType file somewhere on the system
+  if(fontFound){
+    printf("DEBUG: Lookup font %s\n", fontResource.c_str());
+    configuration *config;
+    config = (configuration *) & configuration::getInstance();
+    config->getValue(string("basefont-") + fontResource + "-map", "px10.ttf",
+		     fontFile);
+  }
+  
+  printf("DEBUG: Using font filename %s\n", fontFile.c_str());
+  plot_setfont(m_plot, (char *) fontFile.c_str(), atoi(fontSize.c_str()));
 }
 
 // Show the text
-void pdfRender::commandTj()
+void pdfRender::command_Tj()
 {
   printf("DEBUG: Tj %s\n", m_arguements.top().c_str());
   plot_settextlocation(m_plot, (unsigned int) m_textMatrix.getHorizontal(),
@@ -171,7 +279,7 @@ void pdfRender::commandTj()
 }
 
 // Set the text matrix
-void pdfRender::commandTm()
+void pdfRender::command_Tm()
 {
   float vals[6];
 
@@ -184,7 +292,7 @@ void pdfRender::commandTm()
   m_textMatrix.setValues(vals);
 }
 
-void pdfRender::commandTr()
+void pdfRender::command_Tr()
 {
   printf("DEBUG: Tr [not implemented]\n");
 }
@@ -206,7 +314,15 @@ string pdfRender::getPNGfile()
 
   raster = plot_getraster(m_plot);
 
-  if((image = fopen("output.png", "wb")) == NULL){
+  // Build a random filename
+  char *cfname = strdup("/tmp/pandaedit.XXXXXX");;
+  int fd;
+  fd = mkstemp(cfname);
+  close(fd);
+  string tempName(cfname);
+  free(cfname);
+
+  if((image = fopen(tempName.c_str(), "wb")) == NULL){
     fprintf(stderr, "Could not open the output image\n");
     return "";
   }
@@ -259,5 +375,6 @@ string pdfRender::getPNGfile()
   png_destroy_write_struct (&png, &info);
   fclose(image); 
 
-  return "output.png";
+  return tempName;
 }
+

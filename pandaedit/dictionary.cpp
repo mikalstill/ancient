@@ -3,6 +3,14 @@
 #include "objectmodel.h"
 #include <stdio.h>
 
+dictionary::dictionary()
+{}
+
+dictionary::dictionary(vector<dictitem> subdict)
+{
+  m_items = subdict;
+}
+
 void dictionary::add(dictitem item)
 {
   m_items.push_back(item);
@@ -40,6 +48,7 @@ bool dictionary::findItem(string dname, dictitem& item)
 
 bool dictionary::getValue(string dname, pdf& thePDF, object& obj)
 {
+  printf("DEBUG: Get object named %s from dictionary\n", dname.c_str());
   for(unsigned int i = 0; i < m_items.size(); i++)
     if(m_items[i].getName() == dname){
       return thePDF.findObject(m_items[i].getIntValue(), m_items[i].getGeneration(), obj);
@@ -50,9 +59,22 @@ bool dictionary::getValue(string dname, pdf& thePDF, object& obj)
 
 bool dictionary::getValue(string dname, string& value)
 {
+  printf("DEBUG: Get string named %s from dictionary\n", dname.c_str());
   for(unsigned int i = 0; i < m_items.size(); i++)
     if(m_items[i].getName() == dname){
       value = m_items[i].getStringValue();
+      return true;
+    }
+
+  return false;
+}
+
+bool dictionary::getValue(string dname, dictionary& value)
+{
+  printf("DEBUG: Get subdictionary named %s from dictionary\n", dname.c_str());
+  for(unsigned int i = 0; i < m_items.size(); i++)
+    if(m_items[i].getName() == dname){
+      value = m_items[i].getDictionaryValue();
       return true;
     }
 
