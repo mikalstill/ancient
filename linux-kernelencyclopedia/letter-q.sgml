@@ -1,0 +1,7 @@
+<chapter><title>q</title>
+<para>
+...
+</para>
+
+<execute><cmd>insertall</cmd><args>builddb . "entry-q-(.*).sgml"</args></execute>
+</chapter>

@@ -1,0 +1,7 @@
+<chapter><title>t</title>
+<para>
+...
+</para>
+
+<execute><cmd>insertall</cmd><args>builddb . "entry-t-(.*).sgml"</args></execute>
+</chapter>

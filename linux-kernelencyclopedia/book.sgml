@@ -1,0 +1,15 @@
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
+<book><bookinfo>
+<title>The Linux Kernel Hacker's Encyclopedia</title>
+<authorgroup>
+
+<author>
+  <firstname>Michael</firstname>
+  <surname>Still</surname>
+</author>
+</authorgroup>
+</bookinfo>
+
+<execute><cmd>insertall</cmd><args>builddb . "letter-(.*).sgml"</args></execute>
+
+</book>
