@@ -104,7 +104,7 @@ const cepLs & cepLs::cepDoVCV(cepMatrix<double> &data)
       return *this;
     }
     
-    matP = reweightVCV(matP);
+    reweightVCV(matP);
 
     calcVCV(matA, matP, matL);
     if(m_error.isReal() == true)
@@ -413,24 +413,26 @@ void cepLs::calcRW(cepMatrix<double> &matA, cepMatrix<double> &matP, cepMatrix<d
   calcResiduals(matA, matL);
 }
 
-const cepMatrix<double> cepLs::reweightVCV(cepMatrix<double> &matP)
+void cepLs::reweightVCV(cepMatrix<double> &matP)
 {
-  cepMatrix<double> tempResidual, newP(m_residual.getNumRows(), m_residual.getNumRows());
+  cepMatrix<double> tempResidual;
   int numSwap = -1, median;
   double temp, per25, per75, upperQ, lowerQ;
-  tempResidual = m_residual;
 
   m_error.init();
 
   //calculate tempResidual^T * matP
   //this removes any previously detected outliers from the calculations
-  for(int i = 0; i < tempResidual.getNumRows(); i++)
+  for(int i = 0; i < m_residual.getNumRows(); i++)
   {
     if(matP.getValue(i,i) == 0)
     {
-      tempResidual.setValue(i,0,0);
+      cout << "setting " << i << " to zero " << endl;
+      m_residual.setValue(i,0,0);
     }
   }
+
+  tempResidual = m_residual;
 
   //sort residuals in ascending order
   for(int i = 0; i < tempResidual.getNumRows(); i ++){
@@ -447,21 +449,21 @@ const cepMatrix<double> cepLs::reweightVCV(cepMatrix<double> &matP)
         if(tempResidual.getError().isReal() == true)
         {
           m_error.setError(tempResidual.getError().getMessage(), cepError::sevErrorRecoverable);
-          return newP;
+          return;
         }
 
         tempResidual.setValue(j,0,tempResidual.getValue(j+1,0));
         if(tempResidual.getError().isReal() == true)
         {
           m_error.setError(tempResidual.getError().getMessage(), cepError::sevErrorRecoverable);
-          return newP;
+          return;
         }
 
         tempResidual.setValue(j+1, 0, temp);
         if(tempResidual.getError().isReal() == true)
         {
           m_error.setError(tempResidual.getError().getMessage(), cepError::sevErrorRecoverable);
-          return newP;
+          return;
         }
         numSwap++;
       }
@@ -479,13 +481,13 @@ const cepMatrix<double> cepLs::reweightVCV(cepMatrix<double> &matP)
       if(tempResidual.getError().isReal() == true)
       {
         m_error.setError(tempResidual.getError().getMessage(), cepError::sevErrorRecoverable);
-        return newP;
+        return;
       }
       upperQ = (tempResidual.getValue(median/2 + median - 1,0) + tempResidual.getValue((median/2) + median,0))/2;
       if(tempResidual.getError().isReal() == true)
       {
         m_error.setError(tempResidual.getError().getMessage(), cepError::sevErrorRecoverable);
-        return newP;
+        return;
       }
     }
     else
@@ -494,13 +496,13 @@ const cepMatrix<double> cepLs::reweightVCV(cepMatrix<double> &matP)
       if(tempResidual.getError().isReal() == true)
       {
         m_error.setError(tempResidual.getError().getMessage(), cepError::sevErrorRecoverable);
-        return newP;
+        return;
       }
       upperQ = tempResidual.getValue(median/2 + median,0);
       if(tempResidual.getError().isReal() == true)
       {
         m_error.setError(tempResidual.getError().getMessage(), cepError::sevErrorRecoverable);
-        return newP;
+        return;
       }
     }
   }
@@ -514,13 +516,13 @@ const cepMatrix<double> cepLs::reweightVCV(cepMatrix<double> &matP)
       if(tempResidual.getError().isReal() == true)
       {
         m_error.setError(tempResidual.getError().getMessage(), cepError::sevErrorRecoverable);
-        return newP;
+        return;
       }
       upperQ = tempResidual.getValue((median/2) + median,0);
       if(tempResidual.getError().isReal() == true)
       {
         m_error.setError(tempResidual.getError().getMessage(), cepError::sevErrorRecoverable);
-        return newP;
+        return;
       }
     }
     else
@@ -529,13 +531,13 @@ const cepMatrix<double> cepLs::reweightVCV(cepMatrix<double> &matP)
       if(tempResidual.getError().isReal() == true)
       {
         m_error.setError(tempResidual.getError().getMessage(), cepError::sevErrorRecoverable);
-        return newP;
+        return;
       }
       upperQ = (tempResidual.getValue(median/2 + median,0) + tempResidual.getValue(median/2 + 1 + median,0))/2;
       if(tempResidual.getError().isReal() == true)
       {
         m_error.setError(tempResidual.getError().getMessage(), cepError::sevErrorRecoverable);
-        return newP;
+        return;
       }
     }
   }  
@@ -545,45 +547,36 @@ const cepMatrix<double> cepLs::reweightVCV(cepMatrix<double> &matP)
 
   cout << endl << "######################" << endl;
   cout << "per25 " << per25 << endl;
-  cout << "per75" << per75 << endl;
+  cout << "per75 " << per75 << endl;
   //create new P matrix
-  for(int i = 0; i < newP.getNumRows(); i ++)
+  for(int i = 0; i < matP.getNumRows(); i ++)
   {
-    for(int j = 0; j < newP.getNumCols(); j ++)
+    for(int j = 0; j < matP.getNumCols(); j ++)
     {
       if(i != j)
       {
-        newP.setValue(i,j,0);
-        if(newP.getError().isReal() == true)
+        matP.setValue(i,j,0);
+        if(matP.getError().isReal() == true)
         {
-          m_error.setError(newP.getError().getMessage(), cepError::sevErrorRecoverable);
-          return newP;
+          m_error.setError(matP.getError().getMessage(), cepError::sevErrorRecoverable);
+          return;
         }
       }
       else
       {
         if((m_residual.getValue(i,0) < per25) || (m_residual.getValue(i,0) > per75))
         {
-          newP.setValue(i, j, 0);
-          if(newP.getError().isReal() == true)
+          cout << "found outlier at: " << i << " value is " << m_residual.getValue(i, 0) <<  endl;
+          matP.setValue(i, j, 0);
+          if(matP.getError().isReal() == true)
           {
-            m_error.setError(newP.getError().getMessage(), cepError::sevErrorRecoverable);
-            return newP;
-          }
-        }
-        else
-        {
-          newP.setValue(i,j, 1);
-          if(newP.getError().isReal() == true)
-          {
-            m_error.setError(newP.getError().getMessage(), cepError::sevErrorRecoverable);
-            return newP;
+            m_error.setError(matP.getError().getMessage(), cepError::sevErrorRecoverable);
+            return;
           }
         }
       }
     }
   }    
-  return newP; 
 }
 const cepMatrix<double> cepLs::Amul(cepMatrix<double> &matA, cepMatrix<double> &matB)
 {

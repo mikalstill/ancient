@@ -172,7 +172,7 @@ private:
   void calcRW(cepMatrix<double> &matA, cepMatrix<double> &matP, cepMatrix<double> &matL);
 
   //re-caluclates the P weighting matrix
-  const cepMatrix<double> reweightVCV(cepMatrix <double> &matP);
+  void reweightVCV(cepMatrix <double> &matP);
   
   //calculate the matrix inverse
   const cepMatrix<double> inverse(cepMatrix<double> &mat);
