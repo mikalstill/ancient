@@ -27,7 +27,6 @@ using namespace std;
 
 cepWindowChebyshev::cepWindowChebyshev( int size ) : cepWindowAlg( size ) {
   // set a default attenuation of 60dB
-  setTransitionBandwidth( 0.05 );
   initCoeffs();
 }
 
