@@ -16,16 +16,16 @@
     <para>
        The first library found in our research was the Fastest Fourier Transform in the West (FFTW) library from MIT. This 
        library is widely referenced and documented, and is reputed to be the most efficient FFT library in existence. The FFTW 
-       library, however, was written in C, and was therefore discarded an attempt to maintain C++ consistency through the
+       library, however, was written in C, and was therefore discarded an attempt to maintain language consistency through the
        project. In addition, is the FFTW is quite large, and with the number of dependent libraries for <command>GDMS</command> 
        increasing, it was preferable to find a smaller library.
      </para>
 
      <para>
-      Another candidate that was discovered after testing had already commenced with the FFTW library. This was a complex 
+      Another candidate was discovered after testing had already commenced with the FFTW library. This was a complex 
       template class to compute a FFT written in C++ (Arndt, 2002), and was considered a suitable choice as it was less complex 
       than FFTW, and also suited our loose Object Oriented design. A further benefit of using this implementation of an 
-      FFT was due to the fact that it was a Template Class object was not restricted by type. This gave us greater flexibility in
+      FFT was due to the fact that it was a Template Class object was, therefore, not restricted by type. This gave us greater flexibility in
       the type of data that could be FFT and what format the data would be returned in. For example, we might desire simple 
       <command>double</command>  values for PSD plotting, or perhaps <command>complex</command> values for further processing 
       after the FFT had been preformed. The FFT class also provides the ability to perform inverse FFTs on a given set of data. 
@@ -53,10 +53,10 @@
       to pass data from class to class and thus it needed to be modified to accept this data type. Another change that was required
       was that the FFT library needed to modified to calculate a frequency scale in order to enable PSD plots to be graphed. 
       To calculate this scale, the FFT class first determine the sampling rate of the data. This is achieved by examining the distances
-      between the sample dates where the sampling rate is simply the distance between two dates multiplied by the number of days in a year.
-      This is of course assuming that the data is regular and in fact, functionality in the FFT class has been implemented to prevent the
-      transformation of irregular data. The period used for the sample rate calculation is one day. The frequency is then calculated by
-      taking the inverse of the sample rate. The frequency is a measurement of cycles/day.
+      between conseutive sample dates, sampling rate is simply being the distance between two dates multiplied by the number of days in a year.
+      This implementation, however, assumes that the data is regular and in fact, functionality in the FFT class has been 
+      implemented to prevent the transformation of irregular data. The period used for the sample rate calculation is one day. 
+      The frequency is then calculated by taking the inverse of the sample rate and is measured in cycles/day.
     </para>
   </sect3> <!--Implementation-->
 
@@ -68,8 +68,9 @@
      Its omission from the final specifications was solely due to time constraints. This functionality is already supported within
      the FFT framework, so adding this in future releases should be trivial. A further enhancement to the frequency domain 
      analysis of the <command>GDMS</command>, would be to allow the removal of erroneous data in the frequency domain, and then
-     allowing the user to transform the data back into the time domain via an Inverse FFT. This would be an extremely useful function,
-     as the detection of erroneous data, such as signal noise is not easily detected or removed in the time domain but is reasonably
+     allowing the user to transform the data back into the time domain via an Inverse FFT. This would be an extremely useful 
+     function,
+     as the detection and removal of erroneous data, such as signal noise is not easily acheived in the time domain but is reasonably
      trivial in the frequency domain. By allowing the transform of the remaining data back into the time domain, the effects of
      removing the erroneous signals can be determined.  
    </para>
