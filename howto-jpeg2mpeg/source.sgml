@@ -1,28 +1,53 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
-<article>
-<title>JPEG to MPEG conversion howto</title>
+<article><title>JPEG to MPEG conversion howto</title>
+
+<articleinfo>
+<authorgroup>
+<author>
+<firstname>Michael</firstname>
+<surname>Still</surname>
+<affiliation>
+<address>
+<email>mikal@stillhq.com</email>
+</address>
+</affiliation>
+</author>
+</authorgroup>
+</articleinfo>
 
 <sect1>
 <title>Abstract</title>
 <para>
-Recently, I went to a conference and was keen enough to setup a webcam. Now I have 27,000 JPEG images, which I want to turn into a simple MPEG movie. This document details the process I went through to make this happen...
+Recently, I went to a conference and was keen enough to setup a webcam to take a picture every couple of seconds. Now I have 27,000 JPEG images, which I want to turn into a simple MPEG movie. This document details the process I went through to make this happen.
+</para>
+
+<sidebar><title>This is an update of an older article</title>
+<para>
+Since the original version of this article, I have updated my machine from a pretty vanilla Redhat 7.1 box to a Debian unstable machine, for those who care about such things. Where things have changed from my experience about a year ago, I'll let you know.
+</para>
+</sidebar>
+</sect1>
+
+<sect1><title>About the author</title>
+<para>
+Michael has been working in the image processing field for several years, including a couple of years managing and developing large image databases for an Australian government department. He currently works for TOWER Software, who manufacture a world leading EDMS and Records Management package named TRIM. Michael is also the developer of Panda, an open source PDF generation API, as well as a bunch of other Open Source code.
 </para>
 
 <para>
-This was all done on a pretty vanilla Redhat 7.1 box, for those who care about such things.
+Michael has a website at http://www.stillhq.com, and may be emailled at mikal@stillhq.com
 </para>
 </sect1>
 
 <sect1><title>MPEG tools</title>
 <para>
-The project I found which did the conversion is called MJPEG tools. The URL for this project is http://mjpeg.sourceforge.net. There were lots of dependancies, which we should talk about first...
+The project I found which did the conversion is called MJPEG tools. The URL for this project is http://mjpeg.sourceforge.net. There were lots of dependancies, which we should talk about first. The updated version of this article was written with version 1.6.1 beta.
 </para>
 </sect1>
 
 <sect1><title>Dependancies</title>
 <sect2><title>libavifile</title>
 <para>
-This library can be found at http://avifile.sourceforge.net. It is needed by MJPEG tools to be able to handle AVI files. The version I used was 0.7-0.7.15. It follows the standard autotools install process:
+This library can be found at http://avifile.sourceforge.net. It is needed by MJPEG tools to be able to handle AVI files. The version I used was 0.7.37. It follows the standard autotools install process:
 </para>
 
 <programlisting>
@@ -30,6 +55,10 @@ This library can be found at http://avifile.sourceforge.net. It is needed by MJP
 make
 make install
 </programlisting>
+
+<para>
+For Debian, just use <command>apt-get install libavifile0.7-dev</command>.
+</para>
 </sect2>
 
 <sect2><title>libsdl</title>
@@ -41,7 +70,7 @@ Simple DirectMedia Layer is a cross-platform multimedia library designed to prov
 </para>
 
 <para>
-libsdl can be found at http://www.libsdl.org, and is needed for some of the MJPEG playback routines. I used version 1.2.4. Again, installing is done by simply:
+libsdl can be found at http://www.libsdl.org, and is needed for some of the MJPEG playback routines. I used version 1.2.5. Again, installing is done by simply:
 </para>
 
 <programlisting>
@@ -49,25 +78,21 @@ libsdl can be found at http://www.libsdl.org, and is needed for some of the MJPE
 make
 make install
 </programlisting>
+
+<para>
+For Debian, just do a <command>apt-get install libsdl-dev</command>.
+</para>
 </sect2>
+
+
+
+
+
+
 
 <sect2><title>nasm</title>
 <para>
-NASM is an assembler, and the authors are none to modest. The web page is http://sourceforge.net/projects/nasm and to quote from that page:
-</para>
-
-<para>
-<quote>
-This is NASM - the famous Netwide Assembler. Back at SourceForge and in intensive development!
-</quote>
-</para>
-
-<para>
-It can't be that famous, I've never heard of it before.
-</para>
-
-<para>
-An explaination of where NASM came from can be found in the documentation:
+The NASM webpage can be found at http://nasm.sourceforge.net/. An explaination of where NASM came from can be found in the documentation:
 </para>
 
 <blockquote><attribution>http://home.attbi.com/~fbkotler/nasmdoc1.html#section-1.1</attribution>
@@ -103,7 +128,11 @@ So here, for your coding pleasure, is NASM. At present it's still in prototype s
 </blockquote>
 
 <para>
-Install it by doing the autotools thing once more. Note that the make install step is broken, and that I had to do this to get it to install:
+I downloaded 0.98.36 when I wrote the updated version of this article.
+</para>
+
+<para>
+Install it by doing the autotools thing once more. Note that the make install step is still broken (it didn't work for the first version of the article a year ago either), and that I had to do this to get it to install:
 </para>
 
 <programlisting>
@@ -114,15 +143,28 @@ make install
 cp bin/nasm /usr/local/bin/
 cp man/man1/n* /usr/local/man/man1/
 </programlisting>
+
+<para>
+This seems to be because it is trying to install everything in the the current working directory, instead of the system wide install location. You should also note that <command>apt-get install nasm</command> on a Debian machine does exactly what is expected of it, and packages exactly the version which was available from the NASM website.
+</para>
 </sect2>
+
+
+
+
+
+
+
+
+
 
 <sect2><title>jpeg-mmx</title>
 <para>
-We'll also need the MJPEG people's MMX JPEG library. I am not sure how this differs from the standard JPEG library, which also seems to be an option here... I downloaded version 0.1.4, and did the autotools thing.
+We'll also need the MJPEG people's MMX JPEG library, which was at version 0.1.4 at the time of writing this article. I believe the difference between the standard JPEG library and the MMX JPEG library is that the MMX version is optimised for MMX processors, and wont run on processors without MMX. The standard libjpeg also seems to be an option here. I downloaded version 0.1.4, and did the autotools thing.
 </para>
 
 <para>
-For some reason they have disabled make install. I did:
+For some reason they have disabled the install make target, possibly because they're worried about clobbering the standard libjpeg install. This reason doesn't really work though, as the library files have different names from those used in libjpeg. I did:
 </para>
 
 <programlisting>
@@ -146,47 +188,36 @@ And annoyingly, I also had to manually copy a file:
 <programlisting>
 cp jpegint.h /usr/local/include/
 </programlisting>
+
+<para>
+TODO: debian package?
+</para>
 </sect2>
 
 <sect2><title>movtar</title>
 <para>
-movtar is actaully written by the MJPEG people. You can download it from http://download.sourceforge.net/mjpeg/. I used the 1.3.0 release. The install was auttooled once more. I am sure by now I don't have to explain how to do that...
+movtar is actaully written by the MJPEG people. You can download it from http://download.sourceforge.net/mjpeg/. I used the 1.3.0 release, which hasn't changed since I wrote this article a year ago. The install was autotooled once more. I am sure by now I don't have to explain how to do that...
+</para>
+
+<para>
+TODO: debian package
+</para>
+</sect2>
+
+<sect2><title>fontconfig</title>
+<para>
+Since I first wrote this article, MJPEG tools appears to have added a dependany on the fontconfig library from www.fontconfig.org. I installed version 2.2.1. Annoyingly, the autotools configuration for MJPEG tools didn't detect that fontconfig was missing, it just failed to compile.
+</para>
+
+<para>
+TODO: debian package
 </para>
 </sect2>
 
 <sect2><title>Compiling MJPEG tools itself</title>
 <para>
-I downloaded version 1.6.0 from the sourceforge website. Yet again, the install process was:
+I downloaded version 1.6.1 from the sourceforge website. Yet again, the install process was based off the autotools.
 </para>
-
-<para>
-This wouldn't make out of the box:
-</para>
-
-<programlisting>
-g++ -g -O2 -o .libs/divxdec divxdec.o lav_common.o -Wl,-rpath -Wl,/usr/local/lib  -L/root/mjpegtools-1.6.0/utils -lmjpegutils -L/usr/local/lib /usr/local/lib/libaviplay.so -lz -L/usr/X11R6/lib -lSM -lICE -lXxf86dga -lXxf86vm -lXi -lXft -lXv -lXext -lX11 -lpthread -lnsl -ldl -lm ./.libs/liblavfile.so -L/usr/lib /usr/lib/libglib.so -lmovtar -L/root/mjpegtools-1.6.0/../jpeg-mmx-0.1.4 ./.libs/liblavplay.so ./.libs/liblavjpeg.so -ljpeg-mmx -Wl,--rpath -Wl,/usr/local/lib
-./.libs/liblavplay.so: undefined reference to `SDL_Quit'
-./.libs/liblavplay.so: undefined reference to `SDL_WM_SetCaption'
-./.libs/liblavplay.so: undefined reference to `SDL_CreateYUVOverlay'
-./.libs/liblavplay.so: undefined reference to `SDL_LockYUVOverlay'
-./.libs/liblavplay.so: undefined reference to `SDL_EventState'
-./.libs/liblavplay.so: undefined reference to `SDL_UnlockSurface'
-./.libs/liblavplay.so: undefined reference to `SDL_LockSurface'
-./.libs/liblavplay.so: undefined reference to `SDL_DisplayYUVOverlay'
-./.libs/liblavplay.so: undefined reference to `SDL_UpdateRect'
-./.libs/liblavplay.so: undefined reference to `SDL_Init'
-./.libs/liblavplay.so: undefined reference to `SDL_GetError'
-./.libs/liblavplay.so: undefined reference to `SDL_UnlockYUVOverlay'
-./.libs/liblavplay.so: undefined reference to `SDL_FreeYUVOverlay'
-./.libs/liblavplay.so: undefined reference to `SDL_SetVideoMode'
-collect2: ld returned 1 exit status
-</programlisting>
-
-<para>
-Until I had applied the following patch:
-</para>
-
-<execute><cmd>code2db</cmd><input>patch</input></execute>
 
 <para>
 Then we can go ahead and make the project:
@@ -203,15 +234,16 @@ For those who are interested, my build configuration at the end of the configure
 </para>
 
 <programlisting>
- MJPEG tools 1.6.0 build configuration :
+ MJPEG tools 1.6.1 build configuration :
 
     - X86 Optimizations:
       - MMX/3DNow!/SSE enabled      : true
       - cmov support enabled        : true
-   ***********************************************************************
-   * NOTE:                                                               *
-   *   The resultant binaries will ***NOT*** run on a K6 or Pentium CPU  *
-   ***********************************************************************
+
+****************************************************************************
+* NOTE:                                                                    *
+*   The resultant binaries will ***NOT*** run on a K6 or Pentium CPU       *
+****************************************************************************
     - video4linux recording/playback: true
     - software MJPEG playback       : true
     - movtar playback/recording     : true
@@ -222,48 +254,33 @@ For those who are interested, my build configuration at the end of the configure
     - Gtk+ support for glav         : true
     - glibc support for >2GB files  : true
 </programlisting>
+
+<para>
+This time around, because I am using a newer version of GCC, I had to apply the following patch:
+</para>
+
+<execute><cmd>code2db</cmd><input>mjpegtools.patch</input></execute>
+
+<para>
+TODO: debian package
+</para>
 </sect2>
 </sect1>
 
 <sect1><title>Encoding the JPEGS into the MPEG</title>
 <para>
-Finally, we can use MJPEG tools to convert the JPEGs into a MPEG stream.
+Finally, we can use MJPEG tools to convert the JPEGs into a MPEG stream. The documentation for this says:
 </para>
 
 <para>
-<quote>
-You can use jpeg2yuv to create a yuv stream from separate JPEG images. This stream is sent to stdout, so that it can either be saved into a file, encoded directly to a mpeg video using mpeg2enc or used for anything else.
-</quote>
-</para>
-
-<para>
-<quote>
-Saving an yuv stream can be done like this:
-<command>jpeg2yuv -f 25 -j image%05d.jpg > result.yuv</command>
-</quote>
-</para>
-
-<para>
-<quote>
-Creates the file result.yuv containing the yuv video data with 25 FPS. The -f option is used to set the frame rate. Note that image%05d.jpg means that the jpeg files are named image00000.jpg, image00001.jpg and so on. (05 means five digits, 04 means four digits, etc.)
-</quote>
-</para>
-
-<para>
-<quote>
-If you want to encode a mpeg video directly from jpeg images without saving a separate video file type:
-<command>jpeg2yuv -f 25 -j image%05d.jpg | mpeg2enc -o mpegfile.m1v</command>
-</quote> -- https://sourceforge.net/docman/display_doc.php?docid=3456&amp;group_id=5776#Images
-</para>
-
-<para>
-Note that this documentation is wrong, and you also need to include an interlacing option...
+When I originally wrote this article, I recommended that people use the following command line, which is what I had found recommended on the web, and what worked for me:
 </para>
 
 <programlisting>
 jpeg2yuv -f 25 -j frame-%05d.jpg -I p | mpeg2enc -o mpegfile.m1v
 </programlisting>
 
+<sidebar><title>Counting frames</title>
 <para>
 The frames also have to count from 00000 in this example. I used the following little script to convert to the required naming format:
 </para>
@@ -274,6 +291,26 @@ for item in `find . -type f`
 do 
   mv $item frame-`printf "%05d" $count`.jpg
   count=$(( $count + 1 ))
+done
+</programlisting>
+</sidebar>
+
+<para>
+It turns out that the recommended command line is much more like:
+</para>
+
+<programlisting>
+ls *.ppm | xargs -n1 cat | ppmtoy4m | mpeg2enc -o mpegfile.m1v
+</programlisting>
+
+<para>
+It should be noted that this command line requires that the input images be ppm files instead of jpeg files however. We can get around this by using convert to change the format of the images:
+</para>
+
+<programlisting>
+for item in `ls *.jpg`
+do
+  convert $item $item.ppm
 done
 </programlisting>
 
