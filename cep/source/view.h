@@ -4,9 +4,9 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     04/01/98
-// RCS-ID:      $Id: view.h,v 1.1 2002-05-29 02:27:59 u964076 Exp $
+// RCS-ID:      $Id: view.h,v 1.2 2002-05-29 02:56:13 u964076 Exp $
 // Copyright:   (c) Julian Smart and Markus Holzem
-// Licence:   	wxWindows license
+// Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////
 
 #ifdef __GNUG__
@@ -18,64 +18,74 @@
 
 #include "wx/docview.h"
 
-class MyCanvas: public wxScrolledWindow
+class MyCanvas:public wxScrolledWindow
 {
 public:
-    wxView *view;
-    
-    MyCanvas(wxView *v, wxFrame *frame, const wxPoint& pos, const wxSize& size, long style);
-    virtual void OnDraw(wxDC& dc);
-    void OnMouseEvent(wxMouseEvent& event);
+  wxView * view;
+
+  MyCanvas (wxView * v, wxFrame * frame, const wxPoint & pos,
+	    const wxSize & size, long style);
+  virtual void OnDraw (wxDC & dc);
+  void OnMouseEvent (wxMouseEvent & event);
 
 private:
-    DECLARE_EVENT_TABLE()
-};
+  DECLARE_EVENT_TABLE ()};
 
-class MyTextWindow: public wxTextCtrl
+class MyTextWindow:public wxTextCtrl
 {
 public:
-    wxView *view;
-    
-    MyTextWindow(wxView *v, wxFrame *frame, const wxPoint& pos, const wxSize& size, long style);
+  wxView * view;
+
+  MyTextWindow (wxView * v, wxFrame * frame, const wxPoint & pos,
+		const wxSize & size, long style);
 };
 
-class DrawingView: public wxView
+class DrawingView:public wxView
 {
 public:
-    wxFrame *frame;
-    MyCanvas *canvas;
-  
-    DrawingView() { canvas = (MyCanvas *) NULL; frame = (wxFrame *) NULL; }
-    ~DrawingView() {}
+  wxFrame * frame;
+  MyCanvas *canvas;
 
-    bool OnCreate(wxDocument *doc, long flags);
-    void OnDraw(wxDC *dc);
-    void OnUpdate(wxView *sender, wxObject *hint = (wxObject *) NULL);
-    bool OnClose(bool deleteWindow = TRUE);
+    DrawingView ()
+  {
+    canvas = (MyCanvas *) NULL;
+    frame = (wxFrame *) NULL;
+  }
+   ~DrawingView ()
+  {
+  }
 
-    void OnCut(wxCommandEvent& event);
+  bool OnCreate (wxDocument * doc, long flags);
+  void OnDraw (wxDC * dc);
+  void OnUpdate (wxView * sender, wxObject * hint = (wxObject *) NULL);
+  bool OnClose (bool deleteWindow = TRUE);
+
+  void OnCut (wxCommandEvent & event);
 
 private:
-    DECLARE_DYNAMIC_CLASS(DrawingView)
-    DECLARE_EVENT_TABLE()
-};
+DECLARE_DYNAMIC_CLASS (DrawingView) DECLARE_EVENT_TABLE ()};
 
-class TextEditView: public wxView
+class TextEditView:public wxView
 {
 public:
-    wxFrame *frame;
-    MyTextWindow *textsw;
-  
-    TextEditView(): wxView() { frame = (wxFrame *) NULL; textsw = (MyTextWindow *) NULL; }
-    ~TextEditView() {}
+  wxFrame * frame;
+  MyTextWindow *textsw;
 
-    bool OnCreate(wxDocument *doc, long flags);
-    void OnDraw(wxDC *dc);
-    void OnUpdate(wxView *sender, wxObject *hint = (wxObject *) NULL);
-    bool OnClose(bool deleteWindow = TRUE);
-    
+    TextEditView ():wxView ()
+  {
+    frame = (wxFrame *) NULL;
+    textsw = (MyTextWindow *) NULL;
+  }
+   ~TextEditView ()
+  {
+  }
+
+  bool OnCreate (wxDocument * doc, long flags);
+  void OnDraw (wxDC * dc);
+  void OnUpdate (wxView * sender, wxObject * hint = (wxObject *) NULL);
+  bool OnClose (bool deleteWindow = TRUE);
+
 private:
-  DECLARE_DYNAMIC_CLASS(TextEditView)
-};
+DECLARE_DYNAMIC_CLASS (TextEditView)};
 
 #endif
