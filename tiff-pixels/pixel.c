@@ -157,7 +157,6 @@ main (int argc, char *argv[])
 	      for (xrep = 0; xrep < 10; xrep++)
 		{
 		  memcpy (enlarged + offset2, raster + offset, 3);
-		  memset (raster + offset, 0, 3);
 		  offset2 += 3;
 		}
 
@@ -229,11 +228,20 @@ main (int argc, char *argv[])
   //    this bit is based on the premis that y = mx + b
   //    and m = (y2 - y1) / (x2 - x1) and that geometry hasn't significantly
   //    changed since my high school days
+  //
+  //    if we assume that the first point is the origin, then the maths is
+  //    even easier
   // 
   //    which I think is probably a fairly safe set of assumptions at this
   //    stage...
-  m = (ye - ys) / (xe - xs);
-  
+  // todo
+  //  printf("ye = %d, xe = %d\n", ye, xe);
+  //  m = (ye - ys) / (xe - xs);
+  //  for(x = 0; x < (xe - xs); x++){
+  //    y = m * x;
+  //    
+  //    printf("%d, %d (%f = %f)\n", x, y, m, ye / xe);
+  //  }
 
   /////////////////////////////////////////////////////////////////////////////
   // Copy the enlarged portion across
