@@ -442,10 +442,10 @@ foreach $chapter (split(/ /, $chapters)){
 	    # No mapping to docbook?
 	}
 	
-	# Unknown tag!
-#    elsif(/^\.Pn[ \t]+(.*)/i){
-#	print "UNKNOWN COMMAND: Pn [Arg $1]\n";
-#    }
+	# Page link target -- some of Greg's anchors start with numbers, which is why we insert some text
+	elsif(/^\.Pn[ \t]+(.*)/i){
+	    print OUTPUT "<anchor id=\"anchor-$1\"/>\n";
+	}
 
 	# Paragraphs
 	elsif(/^\.P[ \t]*([0-9]*)(.*)/i){
@@ -468,9 +468,9 @@ foreach $chapter (split(/ /, $chapters)){
 	    print OUTPUT "</quote>\n";
 	}
 
-	elsif(/^.Sref[ \t]*\\\*\[(.*)\]/i){
-	    print OUTPUT "...Section reference $1 (edit manually)...\n";
-	}
+#	elsif(/^.Sref[ \t]*\\\*\[(.*)\]/i){
+#	    print OUTPUT "...Section reference $1 (edit manually)...\n";
+#	}
 
 	# Insets are treated as quotes as well
 	elsif(/^\in[ \t]\+(.*)/i){
@@ -481,12 +481,7 @@ foreach $chapter (split(/ /, $chapters)){
 	elsif((/^\.in/i) && ($quotestate == 1)){
 	    print OUTPUT "</quote>\n";
 	}
-	
-	# Unknown command
-#    elsif(/^\.Sref[ \t]*(.*)/i){
-#	print "UNKNOWN COMMAND: Sref [Arg $1]\n";
-#    }
-	
+
 	# Spacing commands don't map to db
 	elsif(/^\.sp(.*)/i){
 	}
@@ -524,9 +519,9 @@ foreach $chapter (split(/ /, $chapters)){
 	}
 
 	# Chapters
-	elsif(/^\.Chapter[ \t]([^ \t]*)[ \t]\"(.*)\"/){
-	    print OUTPUT "<chapter>";
-	    if($2 new ""){
+	elsif(/^\.Chapter[ \t]\\\*\[([^ \t]*)\][ \t]\"(.*)\"/){
+	    print OUTPUT "<chapter id=\"anchor-$1\">";
+	    if($2 ne ""){
 		print OUTPUT "<title>$2</title>\n";
 	    }
 	    print OUTPUT "<sect1>\n";
@@ -549,6 +544,9 @@ foreach $chapter (split(/ /, $chapters)){
 	
 	# A document line?
 	else{
+	    # References to chapters and stuff like that
+	    s/\\\*\[([^\]]*)\]/<xref linkend=\"anchor-$1\"\/>/g;
+
 	    if($tablestate > 1){
 		s/\#/<\/entry><entry>/g;
 	    }
