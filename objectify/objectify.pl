@@ -2,12 +2,16 @@
 
 use strict;
 my($incomment, $origline, $code, $possfunction, $arg, %pointers, $key, $class,
-   $temp, %creates);
+   %creates, %family, %suppress, $temp);
 
 $incomment = 0;
 $code = "";
 
 while(<STDIN>){
+    if(/[ \t]*SUPPRESS\((.*)\)/){
+	$suppress{$1} = "yes";
+    }
+    
     # Remove comments from the line
     s/\/\/.*$//;
     s/\/\*.*\*\///;
@@ -45,9 +49,10 @@ $code =~ s/[ \t]+/ /g;
 # We now go through each line in the code, looking for functions...
 foreach $possfunction (split(/;/, $code)){
     $_ = $possfunction;
-    if(/([a-zA-Z0-9_\*]+) ([a-zA-Z0-9_\*]+) \(([^\(\)]+)\)/){
-	$temp = "$1;$2;$3;";
-	$_ = $3;
+    if(!(/INTERNAL/) && 
+       (/([a-zA-Z0-9_\*]+) ([a-zA-Z0-9_\*]+) \(([^\(\)]+)\)/)){
+	my($rval, $fval, $aval) = ($1, $2, $3);
+	$_ = $aval;
 	s/ //g;
 	foreach $arg (split(/,/)){
 	    # If the last character is a * then this is a pointer
@@ -55,19 +60,42 @@ foreach $possfunction (split(/;/, $code)){
 	    $_ = $arg;
 	    if(($arg ne "char*") && ($arg ne "int*") && ($arg ne "void*") && 
 	       (/\*$/)){
-		$pointers{$arg} = $pointers{$arg}.$temp;
+		$pointers{$arg} = $pointers{$arg}."$rval;$fval;$aval;";
 	    }
 	}
 
 	# If there is a * in the combination of the return value and the 
 	# function name, then this is a creation function
-	$_ = "$temp";
-	s/;[^;]*$//;
-	s/;[^;]*$//;
-	s/;//;
-	if(/.*\*.*/){
-	    print "$_ CREATES\n";
+	$_ = "$rval$fval";
+	if(($rval ne "char") && ($rval ne "void") && ($rval ne "int") &&
+	   (/.*\*.*/)){
+	    $creates{$fval} = $creates{$fval}."$rval;";
+	}
+    }
+}
+
+# Determine the parent relationships between clases
+foreach $key (keys %pointers){
+    $class = $key;
+    $class =~ s/\*$//;
+
+    if($suppress{$class} eq ""){
+	# We need to output all the functions which use one of these pointers
+	my($rval, $fval, $aval, @argsarray);
+	@argsarray = split(/;/, $pointers{$key});
+	
+	while($argsarray[0] ne ""){
+	    $rval = shift(@argsarray);
+	    $fval = shift(@argsarray);
+	    $aval = shift(@argsarray);
 	    
+	    $aval =~ s/$class[ \t\*]+[, ]*//;
+	    
+	    # We only support one parent at the moment
+	    if(($creates{$fval} ne "") && ($family{$rval} eq "") &&
+	       ($suppress{$rval} eq "")){
+		$family{$rval} = $family{$rval}."$class";
+	    }
 	}
     }
 }
@@ -77,30 +105,54 @@ foreach $key (keys %pointers){
     $class = $key;
     $class =~ s/\*$//;
 
-    print "class C$class\n{\n";
-    print "public:\n";
-    print "  C$class();  // todo\n";
-    print "  ~C$class(); // todo\n";
-    print "\n";
-    
-    # We need to output all the functions which use one of these pointers
-    print "  // Functions which take a $class as an arguement\n";
+    if($suppress{$class} eq ""){
+	print "class C$class\n{\n";
+	print "public:\n";
+	print "  C$class();  // todo\n";
+	print "  ~C$class(); // todo\n";
+	print "\n";
+	
+	# We need to output all the functions which use one of these pointers
+	my($rval, $fval, $aval, @argsarray);
+	@argsarray = split(/;/, $pointers{$key});
+	
+	while($argsarray[0] ne ""){
+	    $rval = shift(@argsarray);
+	    $fval = shift(@argsarray);
+	    $aval = shift(@argsarray);
+	    
+	    # Do we have a child relationship because of this function?
+	    $aval =~ s/$class[ \t\*]+[, ]*//;
+	    if($family{$class} ne ""){
+		$temp = $family{$class};
+		
+		$aval =~ s/$temp[ \t\*]+[, ]*//;
+	    }
 
-    my($rval, $fval, $aval, @argsarray);
-    @argsarray = split(/;/, $pointers{$key});
-    
-    while($argsarray[0] ne ""){
-	$rval = shift(@argsarray);
-	$fval = shift(@argsarray);
-	$aval = shift(@argsarray);
+	    # Do we have a parent relationship because of this function?
+	    my($skip);
+	    $skip = 0;
+	    foreach $temp (split(/[ ,]/, $aval)){
+		if($family{$temp} eq "$class"){
+		    $skip = 1;
+		}
+	    }
 
-	$aval =~ s/$class[ \t\*]+[, ]*//;
-
-	print "  $rval $fval ($aval);\n";
+	    if($skip == 0){
+		$_ = $fval;
+		s/.*_//;
+		print "  $rval $_ ($aval);\n";
+	    }
+	}
+	
+	print "\n";
+	print "private:\n";
+	print "  $key m_ptr;\n";
+	
+	if($family{$class} ne ""){
+	    print "  $family{$class}& m_$family{$class}\n";
+	}
+	
+	print "};\n\n";
     }
-
-    print "\n";
-    print "private:\n";
-    print "  $key m_ptr;\n";
-    print "};\n\n";
 }

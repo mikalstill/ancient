@@ -9,6 +9,11 @@
 
 ******************************************************************************/
 
+#define SUPPRESS(x)
+#define INTERNAL
+
+SUPPRESS(panda_object)
+
 #if defined _WINDOWS
 #if defined _DEMO
 #include "../panda/objects.h"
@@ -112,9 +117,9 @@ extern "C"
 			     double, char *, int);
   void panda_imageboxinternal (panda_pdf *, panda_page *, int, int, int, int,
 			       double, char *, int, int, char *, int);
-  void panda_insertTIFF (panda_pdf *, panda_page *, panda_object *, char *);
-  void panda_insertJPEG (panda_pdf *, panda_page *, panda_object *, char *);
-  void panda_insertPNG (panda_pdf *, panda_page *, panda_object *, char *);
+  INTERNAL void panda_insertTIFF (panda_pdf *, panda_page *, panda_object *, char *);
+  INTERNAL void panda_insertJPEG (panda_pdf *, panda_page *, panda_object *, char *);
+  INTERNAL void panda_insertPNG (panda_pdf *, panda_page *, panda_object *, char *);
   void panda_imagesize (int *, int *, char *, int);
   void panda_imagesizeTIFF (int *, int *, char *);
   void panda_imagesizeJPEG (int *, int *, char *);
