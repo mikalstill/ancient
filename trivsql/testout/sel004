@@ -1,4 +1,3 @@
-Select returned 2 rows of 3 columns
 
 ==============================================
 | cola         | colb         | colc         |
@@ -8,4 +7,6 @@ Select returned 2 rows of 3 columns
 | duck         | hamster      | (null)       |
 ----------------------------------------------
 
+
+Select returned 2 rows of 3 columns
 

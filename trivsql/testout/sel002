@@ -1,7 +1,6 @@
-Select returned 3 rows of 3 columns
 
 ==============================================
-| cola         | colb         | colc         |
+| *            |
 ==============================================
 | duck         | chicken      | frog         |
 ----------------------------------------------
@@ -10,4 +9,6 @@ Select returned 3 rows of 3 columns
 | banana       | (null)       | frog         |
 ----------------------------------------------
 
+
+Select returned 3 rows of 3 columns
 
