@@ -112,12 +112,16 @@ cepView::OnUpdate (wxView * WXUNUSED (sender), wxObject * WXUNUSED (hint))
 bool
 cepView::OnClose (bool deleteWindow)
 {
+  cepDebugPrint("Close called for a cepView");
   if (!GetDocument ()->Close ())
     return FALSE;
 
   // Clear the canvas in  case we're in single-window mode,
   // and the canvas stays.
-  canvas->Clear ();
+  cepDebugPrint("Clean up the canvas");
+  
+  // The following line was causing a segv
+  //  canvas->Clear ();
   canvas->view = (wxView *) NULL;
   canvas = (cepCanvas *) NULL;
 
@@ -129,6 +133,7 @@ cepView::OnClose (bool deleteWindow)
 
   Activate (FALSE);
 
+  cepDebugPrint("Close the window");
   if (deleteWindow)
     {
       delete frame;
