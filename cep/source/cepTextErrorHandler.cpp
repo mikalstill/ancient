@@ -42,7 +42,7 @@ void cepTextErrorHandler::displayError( class cepError & err )
 
   if ( err.getMessage() != "")
   {
-    cerr << err.getTitle() << err.getMessage();
+    cerr << err.getTitle() <<": " << err.getMessage() << endl;
     err.doTerminate();
   }
 }

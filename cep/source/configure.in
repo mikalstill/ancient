@@ -53,7 +53,7 @@ AC_CHECK_LIB(Xi, XAllowDeviceEvents)
 dnl -lXext
 AC_CHECK_LIB(Xext, XGetVisualInfo)
 
-dnl -lX11
+nl -lX11
 AC_CHECK_LIB(X11, XFreeFontInfo)
 
 dnl -lwx  --> THIS IS BAD AND MIGHT BREAK
@@ -71,7 +71,7 @@ AC_HEADER_STDC
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 
-dnl Tell wx that it is using GTK
+dnl Tell wx that it is using GTK, and not to load the UI automatically
 AC_DEFINE(__WXGTK__)
 
 dnl Ensure developers don't ignore warnings

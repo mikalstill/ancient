@@ -100,7 +100,7 @@ testnumeric_SOURCES = alltests.cpp cep_testNumeric.cpp
 # source directory. Sometimes, if it is heaps of tests which you only want to
 # run very occassionally, it might belong in (4) instead...
 testall_SOURCES = alltests.cpp cep_testWindows.cpp cep_testMatrix.cpp cep_testConfig.cpp cep_testLs.cpp cep_testDataset.cpp cep_testNumeric.cpp
-testall_LDADD = $(testwindows_LDADD) $(testls_LDADD) $(testdataset_LDADD) $(testnumeric_LDADD)
+testall_LDADD = $(testwindows_LDADD) $(testls_LDADD) $(testdataset_LDADD)
 
 # 4: A special target for really long winded tests (the other tests are not
 # included in this target). Add a new variable, and then add that variable to

@@ -80,158 +80,12 @@ cepApp::OnInit (void)
   // Get a reference to the configuration
   m_config = (cepConfiguration *)&cepConfiguration::getInstance();
 
-  // We can process command line options here if we want
-  // todo_mikal: make this sexier
-  cepDebugPrint("Starting to parse command line options");
-  int optchar;
-  string filename, batchfile;
-  cepError err;
-  bool batchMode(false);
-
-  while ((optchar = getopt (argc, argv, "d:a:e:x:y:z:b:cm")) != -1)
-    {
-      cepDebugPrint("CLI Options character: " + cepToString((char) optchar));
-      switch (optchar)
-        {
-	case 'd':
-	  // Open this dataset
-	  cepDebugPrint("CLI Dataset: " + string(optarg));
-	  filename = optarg;
-	  break;
-
-	case 'a':
-	  // Show averages?
-	  cepDebugPrint("CLI Show averages: " + string(optarg));
-	  m_config->setValue("ui-viewmenu-showaverages",
-			     string(optarg) == "yes");
-	  break;
-
-	case 'e':
-	  // Show errors?
-	  cepDebugPrint("CLI Show errors: " + string(optarg));
-	  m_config->setValue("ui-viewmenu-showerrors",
-			     string(optarg) == "yes");
-	  break;
-
-	case 'x':
-	  // Show the x plot?
-	  cepDebugPrint("CLI Show X: " + string(optarg));
-	  m_config->setValue("ui-viewmenu-showx",
-			     string(optarg) == "yes");
-	  break;
-
-	case 'y':
-	  // Show the y plot?
-	  cepDebugPrint("CLI Show Y: " + string(optarg));
-	  m_config->setValue("ui-viewmenu-showy",
-			     string(optarg) == "yes");
-	  break;
-
-	case 'z':
-	  // Show the z plot?
-	  cepDebugPrint("CLI Show Z: " + string(optarg));
-	  m_config->setValue("ui-viewmenu-showz",
-			     string(optarg) == "yes");
-	  break;
-
-	case 'c':
-	  // Show centered view?
-	  cepDebugPrint("CLI Centered view");
-	  m_config->setValue("ui-viewmenu-currentview",
-			     cepPresentation::viewCentered);
-	  break;
-
-	case 'm':
-	  // Show zoomed view?
-	  cepDebugPrint("CLI Zoomed view");
-	  m_config->setValue("ui-viewmenu-currentview",
-			     cepPresentation::viewZoomed);
-	  break;
-
-	case 'b':
-	  // Non interactive match mode
-	  cepDebugPrint("CLI Batch mode");
-	  batchfile = optarg;
-	  batchMode = true;
-	  break;
-
-	default:
-        case '?':
-	  err = cepError("Unknown command line arguement", 
-			 cepError::sevErrorRecoverable);
-	  err.display();
-	  // todo_mikal: A usage message
-          break;
-        }
-      }
-
-  // This might also be a batch execution (no UI displays)
-  if(batchMode){
-    if(batchfile != ""){
-      // We need to turn off the wxWindows error mode and do text errors 
-      // instead      
-      errHandler = new cepTextErrorHandler();
-      cepError::addErrorHandler( *errHandler );
-      
-      fstream commands;
-      commands.open(batchfile.c_str(), ios::in);
-      if(!commands){
-	cepError err("Could not open the batch command file: " +
-		     batchfile, cepError::sevErrorFatal);
-	err.display();
-      }
-      
-      string line;
-      cepDataset ds;
-
-      while(!commands.eof()){
-	char c;
-	commands.read(&c, 1);
-
-	if(c == '\n'){
-	  cepStringArray sa(line, " "); 
-	  
-	  if(sa[0] == "open"){
-	    ds.read(sa[1]);
-	    cout << "Dataset " << sa[1] << " read" << endl;
-	  }
-	  else if(sa[0] == "plot"){
-	    cepDebugPrint("Started plotting");
-	    cepPlot plot(&ds, cepDataset::dirX, sa[2], 300);
-	    cepDebugPrint("Finished plotting");
-	    if(plot.getFailed()){
-	      cerr << "Plotting failed" << endl;
-	    }
-	  }
-	  else{
-	    cerr << "Command not found: " << sa[0] << endl;
-	  }
-
-	  // Clear the line, so we can start again...
-	  line = "";
-	}
-	else{
-	  line += c;
-	}
-      }
-
-      cepDebugPrint("Finished processing batch command file");
-      return FALSE;
-    }
-    else{
-      cepError err("Could must specify a batch filename\n");
-      err.display();
-    }
-  }
+  // Subscribe a wx windows based error handler
+  errHandler = new cepWxErrorHandler();
+  cepError::addErrorHandler( *errHandler );
 
   // Create a document manager
   m_docManager = new wxDocManager;
-
-  // Subscribe a wx windows based error handler
-      // todo_mikal: I need support for removal here...
-      //cepError::removeErrorHandler  
-  errHandler = new cepWxErrorHandler();
-  cepError::addErrorHandler( *errHandler );
 
   // Create a template relating drawing documents to their views
   (void)new
@@ -317,6 +171,83 @@ cepApp::OnInit (void)
 
   SetTopWindow (frame);
 
+  // We can process command line options here if we want
+  // todo_mikal: make this sexier
+  cepDebugPrint("Starting to parse command line options");
+  int optchar;
+  string filename;
+  cepError err;
+
+  while ((optchar = getopt (argc, argv, "d:a:e:x:y:z:cm")) != -1)
+    {
+      cepDebugPrint("CLI Options character: " + cepToString((char) optchar));
+      switch (optchar)
+        {
+	case 'd':
+	  // Open this dataset
+	  cepDebugPrint("CLI Dataset: " + string(optarg));
+	  filename = optarg;
+	  break;
+
+	case 'a':
+	  // Show averages?
+	  cepDebugPrint("CLI Show averages: " + string(optarg));
+	  m_config->setValue("ui-viewmenu-showaverages",
+			     string(optarg) == "yes");
+	  break;
+
+	case 'e':
+	  // Show errors?
+	  cepDebugPrint("CLI Show errors: " + string(optarg));
+	  m_config->setValue("ui-viewmenu-showerrors",
+			     string(optarg) == "yes");
+	  break;
+
+	case 'x':
+	  // Show the x plot?
+	  cepDebugPrint("CLI Show X: " + string(optarg));
+	  m_config->setValue("ui-viewmenu-showx",
+			     string(optarg) == "yes");
+	  break;
+
+	case 'y':
+	  // Show the y plot?
+	  cepDebugPrint("CLI Show Y: " + string(optarg));
+	  m_config->setValue("ui-viewmenu-showy",
+			     string(optarg) == "yes");
+	  break;
+
+	case 'z':
+	  // Show the z plot?
+	  cepDebugPrint("CLI Show Z: " + string(optarg));
+	  m_config->setValue("ui-viewmenu-showz",
+			     string(optarg) == "yes");
+	  break;
+
+	case 'c':
+	  // Show centered view?
+	  cepDebugPrint("CLI Centered view");
+	  m_config->setValue("ui-viewmenu-currentview",
+			     cepPresentation::viewCentered);
+	  break;
+
+	case 'm':
+	  // Show zoomed view?
+	  cepDebugPrint("CLI Zoomed view");
+	  m_config->setValue("ui-viewmenu-currentview",
+			     cepPresentation::viewZoomed);
+	  break;
+
+	default:
+        case '?':
+	  err = cepError("Unknown command line arguement", 
+			 cepError::sevErrorRecoverable);
+	  err.display();
+	  // todo_mikal: A usage message
+          break;
+        }
+    }
+  
   // Are there old errors?
   if (m_error.isReal ())
   {
