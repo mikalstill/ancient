@@ -24,16 +24,16 @@
   <para>
     Command line arguemnts which are accepted are:
     <itemizedlist>
-    <listitem><programlisting>-b &lt;filename&gt;</programlisting>:
-        the batch file name. This is only availble on the batch file interface</listitem>
-    <listitem><programlisting>-d &lt;filename&gt;</programlisting>:
-        opens a specified dataset</listitem>
-    <listitem><programlisting>-e &lt;yes|no&gt;<programlisting>:
-        sets the visibility of error messages</listitem>
-    <listitem><programlisting>-x &lt;yes|no&gt;</programlisting>:
-        sets the visibility of the North plot</listitem>
-    <listitem><programlisting>-y &lt;yes|no&gt;</programlisting>: sets the visibility of the East plot</listitem>
-    <listitem><programlisting>-z &lt;yes|no&gt;</programlisting>: sets the visibility of the Vertical plot</listitem>
+    <listitem><para><programlisting>-b &lt;filename&gt;</programlisting>:
+        the batch file name. This is only availble on the batch file interface</para></listitem>
+    <listitem><para><programlisting>-d &lt;filename&gt;</programlisting>:
+        opens a specified dataset</para></listitem>
+    <listitem><para><programlisting>-e &lt;yes|no&gt;</programlisting>:
+        sets the visibility of error messages</para></listitem>
+    <listitem><para><programlisting>-x &lt;yes|no&gt;</programlisting>:
+        sets the visibility of the North plot</para></listitem>
+    <listitem><para><programlisting>-y &lt;yes|no&gt;</programlisting>: sets the visibility of the East plot</para></listitem>
+    <listitem><para><programlisting>-z &lt;yes|no&gt;</programlisting>: sets the visibility of the Vertical plot</para></listitem>
     </itemizedlist>
   </para>
 </sect1>
