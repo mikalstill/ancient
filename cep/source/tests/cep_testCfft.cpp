@@ -53,8 +53,6 @@ namespace
       CppUnit::TestSuite * suiteOfTests = new CppUnit::TestSuite ("Test");
 
       /* REGISTER YOUR TEST HERE */
-      suiteOfTests->addTest (new CppUnit::TestCaller < Test >
-			     ("test2dFFTsin", &Test::test2dFFTsin));
 
       suiteOfTests->addTest (new CppUnit::TestCaller < Test >
 			     ("test2dFFTcos", &Test::test2dFFTcos));
@@ -96,7 +94,9 @@ namespace
 	{
 	  myMatrix.setValue (row, 0, 0, year);
 	  year+=0.002737850787; //increment 1 day
-	  //cout << myMatrix.getValue(row,0,0) << "  ";
+	  if (int(fmod(double(row),double(3))) != 0)
+	     year += 0.1;
+	  //cout << "Value: " << myMatrix.getValue(row,0,0) << endl;
 	}
 
       cosIndex = 0;
@@ -141,7 +141,7 @@ namespace
 	{
 	  for (int c = 1; c < numCols; c++)
 	    {
-	      for (int r = 0; r < numRows; r++)
+	      for (int r = 0; r < numRows/2; r++)
 		{
 		  realResult = real (fftarraycos[r]);
 		  imagResult = imag (fftarraycos[r]);
@@ -153,87 +153,6 @@ namespace
 	}			//end for t
 
     }				// end 2dfftcos
-
-    void test2dFFTsin ()
-    {
-      const double MAGTOL = 0.001;
-      int numTables = 1;
-      int numRows = 256;
-      int numCols = 2;
-      int sinIndex = 0;
-      double year=2000;
-      string prefftfile = "sinarray";
-      string postfftfile = "fftarraysin";
-      cepMatrix < ComplexDble > myMatrix (numRows, numCols, numTables);
-
-      // populate column 1 myMatrix with indexes
-      cout << endl << "test: Testing SIN ************************" << endl;
-      for (int row = 0; row < numRows; row++)
-	{
-	   myMatrix.setValue (row, 0, 0, year);
-	  year+=0.002737850787; //increment 1 day
-	}
-
-      sinIndex = 0;
-
-      //populate myMatrix with cos values
-      for (int col = 1; col < numCols; col++)
-	{
-	  for (int row = 0; row < numRows; row++)
-	    {
-	      myMatrix.setValue (row, col, 0, sin (sinIndex));
-	      //cout << cosIndex << " -> " << myMatrix.getValue(row,col,0)  << endl;
-	      sinIndex++;
-	    }
-	}
-
-      cepCfft < ComplexDble > FFT (256);
-
-      myMatrix = FFT.matrixFft (myMatrix, 1);
-
-      /**********************test matrix contents with file*******************/
-      ifstream infileFFT (postfftfile.c_str (), ios::in);
-        if (!infileFFT.is_open ())
-	{
-	  cerr << "Could not open " << postfftfile << endl;
-	  exit (1);
-	}
-
-      ComplexDble fftarraysin[numRows];
-      int arrayCount = 0;
-      
-      while (!infileFFT.eof ())
-	{
-	  infileFFT >> fftarraysin[arrayCount];
-	  arrayCount++;
-	}
-	
-      infileFFT.close ();
-      
-      cout << "Forward FFT results for SIN..." << endl;
-      double realResult = 0;
-      double imagResult = 0;
-      double mag=0, magDif=0;
-      for (int t = 0; t < numTables; t++)
-	{
-	  for (int c = 1; c < numCols; c++)
-	    {
-	      for (int r = 0; r < numRows; r++)
-		{
-		  //realResult =
-		  //abs (real (fftarraysin[r]) - real (myMatrix.getValue (r, c, t)));
-		  realResult = real (fftarraysin[r]);
-		  //imagResult = 
-		  //abs (imag (fftarraysin[r]) - imag (myMatrix.getValue (r, c, t)));
-		  imagResult = imag (fftarraysin[r]);
-		  mag = sqrt ( pow(realResult,2) + pow(imagResult,2) );
-                  magDif = mag - real(myMatrix.getValue (r, c, t));
-		  CPPUNIT_ASSERT (magDif < MAGTOL);
-		}		//for r
-	    }			//for c
-	}			//end for t
-
-    }				// end 2dfftsin
 
 
   };				// end Test

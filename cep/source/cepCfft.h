@@ -308,6 +308,7 @@ template < class T > cepMatrix < ComplexDble > cepCfft <
   const double DAYSINYEAR = 365.25;
   //const double HOURSINYEAR = 8766; //365.25*24 - days*hours
   //const double SECSINYEAR = 31557600; //365.25*24*3600 - days*hours*minutes(in seconds)
+  const double EQUIDISTOL = 0.01;
 
   double checks[NUMCHECKS];
 
@@ -352,52 +353,100 @@ template < class T > cepMatrix < ComplexDble > cepCfft <
       //for (col = 1; col < numCols; col++)
       //{//while there are still columns
       col = 1;
-      for (row = 0; row < numRows; row++)
+      int checkIndex=0;
+      for (row = 0; row < numRows-3; row++)
+      //row =0;
+      
 	{
-	  for (count = 0; count < NUMCHECKS; count++)
-	    {
-	      checks[count] = real (matrix.getValue (count, col - 1, table));
-	    }
-	  //only want to check continuous index on forward transform
-	  if (dir == 1)
-	    {
-	      if ((checks[0] - checks[1]) != (checks[1] - checks[2]))
-		cepError
-		  ("Error, samples are not equidistant: Cannot proceed with FFT",
-		   cepError::sevErrorRecoverable);
-	    }
+	  checkIndex = row;
+	  //for (count = 0; count < NUMCHECKS; count++)
+	  //while (checkIndex < numRows - 3)
+	  //  {
+	   //   for (count = 0; count < NUMCHECKS; count++)
+ 	   //   {
+	   count =0;     
+	   checks[0] = real (matrix.getValue (row, col - 1, table));
+	   checks[1] = real (matrix.getValue (row+1, col - 1, table));
+	   checks[2] = real (matrix.getValue (row+2, col - 1, table));
+	   
+	   checkMatrixError(matrix); //ADDED 21/11
+	   //checkIndex++;
+		
+	      //}
+	      
+	      //only want to check continuous index on forward transform
+	      if (dir == 1)
+	      {
+	        if ((checks[2] - checks[1]) - (checks[1] - checks[0]) >= EQUIDISTOL)
+	        {
+	  	  m_error = cepError("Error, samples are not equidistant: Cannot proceed with FFT. Line: ",
+		  cepError::sevErrorRecoverable);
+		  m_error.log();
+		  //cout << "Oops..Samples not equidistant!" << endl;
+	        }//if
+	      }//if dir ==1
+	    //}//while
 
 	  //populate the arry to be fft'd            
-	  arrayToFft[row] = matrix.getValue (row, col, table);
-	    checkMatrixError(matrix);
+	  //arrayToFft[row] = matrix.getValue (row, col, table);
+	  //  checkMatrixError(matrix);
 
 	}			//end for row
+	for (row=0; row<numRows; row++){
+	    arrayToFft[row] = matrix.getValue (row, col, table);
+	   checkMatrixError(matrix);
+	}
+	
       //}//end for col 
 
     /*********************************compute the fft.************************************/
 
       //cout << endl;
 
-      if (dir == 1)
-	fft (arrayToFft);
-      else			//(dir == 0)
-	ifft (arrayToFft);
-
-      //place the processed values into the matrix.
-      ComplexDble tempValue = 0.0;
-      //double tempValue = 0.0;
-      for (col = 1; col < numCols; col++)
+      if (dir == 1) //FFT
+      {
+         fft (arrayToFft);
+        //place the processed values into the matrix.
+        ComplexDble tempValue = 0.0;
+        for (col = 1; col < numCols; col++)
 	{
 	  for (row = 0; row < numRows / 2; row++)
-	    {
-	      //populate ffteedMatrix with magnitude
+	  {
+	      //populate ffteedMatrix with values
 	      if (col == 1)	//if we are looking at a data value
 	      {
-		//calculate the magnitude
-		tempValue = sqrt( pow (real (arrayToFft[row]),2) + pow (imag (arrayToFft[row]), 2) );
+                  //calculate magnitude.
+		  tempValue = sqrt( pow (real (arrayToFft[row]),2) + pow (imag (arrayToFft[row]), 2) );
               }
 	      else		//we are looking at the error or the last coloumn
 	      {
+	        //just copy the old value into the new matrix.
+		tempValue = matrix.getValue (row, col, table);
+		checkMatrixError(matrix);
+	      }
+	      ffteedMatrix.setValue (row, col, table, tempValue);
+	      checkMatrixError(ffteedMatrix);
+	  }			//for row
+	}			//for col
+      } //if FFT
+      else //IFFT
+      {
+	ifft (arrayToFft);
+        //place the processed values into the matrix.
+        ComplexDble tempValue = 0.0;
+        for (col = 1; col < numCols; col++)
+	{
+	  for (row = 0; row < numRows / 2; row++)
+	    {
+	      //populate ffteedMatrix with values
+	      if (col == 1)	//if we are looking at a data value
+	      {
+		  tempValue = arrayToFft[row];
+              }
+	      else //we are looking at the error or the first coloumn
+	      {
+	        //For IFFT to work correctly here, we should reverse the scale
+		//i.e Turen the frequency scale back into a date.
 	        //just copy the old value into the new matrix.
 		tempValue = matrix.getValue (row, col, table);
 		checkMatrixError(matrix);
@@ -407,6 +456,10 @@ template < class T > cepMatrix < ComplexDble > cepCfft <
 	      checkMatrixError(ffteedMatrix);
 	    }			//for row
 	}			//for col
+	
+	
+      }
+
 
     }				//end for table
 
