@@ -637,9 +637,94 @@ cepDataset cepDataset::filter(float low, float high)
 
     return cepDataset(data[0], data[1], data[2], m_offset[0], m_offset[1],
                       m_offset[2], m_procHistory + ": Zoomed", m_header[0],
-                      m_header[1], m_header[2], m_b1[0], m_b1[1], m_b1[2],
-                      m_b2[0], m_b2[1], m_b2[2], m_haveLs[0], m_haveLs[1],
-                      m_haveLs[2]);
+                      m_header[1], m_header[2]);
+}
+
+// Return a dataset with some values replaced
+cepDataset cepDataset::replace(float low, float high, float sample)
+{
+    vector < double >dates;
+    vector < double >samples;
+    vector < double >errors;
+    cepMatrix < double >*data[dirUnknown];
+
+    for (int dir = 0; dir < dirUnknown; dir++) {
+        dates.clear();
+        samples.clear();
+        errors.clear();
+
+        for (int i = 0; i < m_data[dir]->getNumRows(); i++) {
+            if ((m_data[dir]->getValue(i, colDate) >= low) &&
+                (m_data[dir]->getValue(i, colDate) <= high)) {
+                dates.push_back(m_data[dir]->getValue(i, colDate));
+                if (m_data[dir]->getError().isReal()) {
+                    m_data[dir]->getError().display();
+                    return cepDataset();
+                }
+
+                samples.push_back(sample);
+                if (m_data[dir]->getError().isReal()) {
+                    m_data[dir]->getError().display();
+                    return cepDataset();
+                }
+
+                errors.push_back(m_data[dir]->getValue(i, colError));
+                if (m_data[dir]->getError().isReal()) {
+                    m_data[dir]->getError().display();
+                    return cepDataset();
+                }
+            }
+	    else{
+	      dates.push_back(m_data[dir]->getValue(i, colDate));
+	      if (m_data[dir]->getError().isReal()) {
+		m_data[dir]->getError().display();
+		return cepDataset();
+	      }
+	      
+	      samples.push_back(m_data[dir]->getValue(i, colSample));
+	      if (m_data[dir]->getError().isReal()) {
+		m_data[dir]->getError().display();
+		return cepDataset();
+	      }
+	      
+	      errors.push_back(m_data[dir]->getValue(i, colError));
+	      if (m_data[dir]->getError().isReal()) {
+		m_data[dir]->getError().display();
+		return cepDataset();
+	      }
+	    }
+        }
+	
+        if (dates.size() > 0) {
+            // Copy the vectors into the matrix
+            data[dir] = new cepMatrix < double >(dates.size(), 3);
+            for (unsigned int vcount = 0; vcount < dates.size(); vcount++) {
+                data[dir]->setValue(vcount, colDate, dates[vcount]);
+                if (m_data[dir]->getError().isReal()) {
+                    m_data[dir]->getError().display();
+                    return cepDataset();
+                }
+
+                data[dir]->setValue(vcount, colSample, samples[vcount]);
+                if (m_data[dir]->getError().isReal()) {
+                    m_data[dir]->getError().display();
+                    return cepDataset();
+                }
+
+                data[dir]->setValue(vcount, colError, errors[vcount]);
+                if (m_data[dir]->getError().isReal()) {
+                    m_data[dir]->getError().display();
+                    return cepDataset();
+                }
+            }
+        } else {
+            return cepDataset();
+        }
+    }
+
+    return cepDataset(data[0], data[1], data[2], m_offset[0], m_offset[1],
+                      m_offset[2], m_procHistory + ": Editted", m_header[0],
+                      m_header[1], m_header[2]);
 }
 
 // The display name of the dataset

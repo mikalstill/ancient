@@ -235,9 +235,14 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
 	
       case selRight:
 	cepDebugPrint("Replace on selected region");
-	wxMessageBox("Replace UI goes here", "One day...", wxOK);
-	Refresh();
-	return;
+	newds = theDataset->replace(dateUI.getFromDate(), dateUI.getToDate(), 0.0);
+	if(newds.getMatrix((cepDataset::direction) 0) == NULL){
+	  cepError err("The selected region did not contain any datapoints",
+		       cepError::sevErrorRecoverable);
+	  err.display();
+	  Refresh();
+	  return;
+	}
 	break;
 
       case selNone:

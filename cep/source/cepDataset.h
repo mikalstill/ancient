@@ -98,6 +98,9 @@ class cepDataset {
     // Return a filtered dataset
     cepDataset filter(float low, float high);
 
+    // Return a dataset with some values replaced
+    cepDataset replace(float low, float high, float sample);
+
     // Utility methods
     direction getDirectionFromName(string name);
     string getRootFilename();
