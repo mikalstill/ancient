@@ -1,0 +1,151 @@
+<chapter id="chap-gif"><title>GIF</title>
+<para>
+<quote>
+Between 1987 and 1994, GIF (Graphics Interchange Format) peacefully became the most popular file format for archiving and exchanging computer images. At the end of December 1994, CompuServe Inc. and Unisys Corporation announced to the public that developers would have to pay a license fee in order to continue to use technology patented by Unisys in certain categories of software supporting the GIF format. These first statements caused immediate reactions and some confusion. As a longer term consequence, it appears likely that GIF will be replaced and extended by new file formats, but not so before the expiration of the patent which caused so much debate.
+</quote> -- http://www.cloanto.com/users/mcb/19950127giflzw.html (The GIF Controversy: A Software Developer's Perspective)
+</para>
+
+<para>
+GIF was once the image format of choice for the Internet, in web browsers at least. This is not nearly as much the case today. The main reason for this is because Unisys has only relatively recently started enforcing the Patent they hold on LZW compression.
+</para>
+
+<para>
+The disappearance of GIF from the scene is not a major loss, especially as the format was not particularly extensible.
+</para>
+
+
+
+
+
+
+
+
+<sect1><title>The GIF on disc format</title>
+<para>
+The GIF file format is mcuh simpler than that used for TIFF files. Pay attention to this description though, because it will help explain PNG images when we get to them in a later chapter.
+<para>
+
+<sidebar><title>Data streams?</title>
+<para>
+It should be noted that the GIF specification doesn't speak of file as such. Instead it uses the term <quote>Data Stream</quote>, which is a concept which embraces files, as well as in memory buffers, and other interesting forms of data storage. It doesn't really make any difference to the discussion of the format here though.
+</para>
+</sidebar>
+
+<sect2><title>The data stream</title>
+<para>
+The outer body of a GIF image is called a data stream, for reasons described in the last few paragraphs. This data stream can be though of as a file for the purposes of this discussion. The data stream is composed of header, a section called the logical screen, the image data, and a trailer. These elements are described individually below.
+</para>
+</sect2>
+
+<sect2><title>The header</title>
+<table frame='all'><title>GIF on disc: the data stream header</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<thead>
+<row>
+  <entry>Bytes</entry>
+  <entry>Description</entry>
+</row>
+</thead>
+<tbody>
+
+<row>
+<entry>0 - 2</entry>
+<entry>A magic number identifying that this is a GIF image. This should be the ASCII characters "GIF".</entry>
+</row>
+
+<row>
+<entry>3 - 5</entry>
+<entry>The version number of the GIF specification this image uses. See below for a list of possible version numbers.</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+
+<para>
+There are two main version numbers which are in common use for GIF images. These are:
+</para>
+
+<itemizedlist>
+<listitem><para>87a (released in May 1987)</para></listitem>
+<listitem><para>89a (released in July 1989)</para></listitem>
+</itemizedlist>
+
+<sect3><title>Version numbers</title>
+<para>
+The GIF specification makes it quite clear that the image generator should use the lowest version number which matches the functionality required to correctly decode the image. This makes the generation of images a little more complex, as the generator needs to know the specification version number of each feature, but it ensures the maximum possible level of backwards compatability, without sacraficing accuracy of decoding of the image. The quote the GIF specification:
+</para>
+
+<para>
+<quote>The version number in the Header of a Data Stream is intended to identify the minimum set of capabilities required of a decoder in order to fully process the Data Stream. An encoder should use the earliest possible version number that includes all the blocks used in the Data Stream. Within each block section in this document, there is an entry labeled Required Version which specifies the earliest version number that includes the corresponding block. The encoder should make every attempt to use the earliest version number covering all the blocks in the Data Stream; the unnecessary use of later version numbers will hinder processing by some decoders.</quote>
+</para>
+</sect3>
+</sect2>
+
+ <GIF Data Stream>  ::=  Header <Logical Screen> <Data>* Trailer  <Logical Screen>  ::=  Logical Screen Descriptor [Global Color Table]  <Data>  ::=  <Graphic Block> | <Special-Purpose Block>  <Graphic Block>  ::=  [Graphic Control Extension] <Graphic-Rendering Block>  <Graphic-Rendering Block>  ::=  <Table-Based Image> | PlainText Extension  <Table-Based Image>  ::=  Image Descriptor [Local Color Table] Image Data  <Special-Purpose Block>  ::=  Application Extension | Comment Extension
+
+
+
+<execute><cmd>nextedition</cmd><input>It would be cool to present grammars for all the image formats to help people understand them</input></execute>
+</sect1>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<sect1><title>libgif</title>
+<para>
+This library was originally written by Gershon Elbor and Eric Raymond
+</para>
+</sect1>
+
+<sect1><title>libungif</title>
+<para>
+
+</para>
+</sect1>
+
+
+<sect1><title>Rescuing your GIF data</title>
+<para>
+
+</para>
+</sect1>
+
+<sect1><title>Further reading</title>
+<para>
+The following websites might be of use if you want to research the GIF format further.
+</para>
+
+<itemizedlist>
+<listitem><para>http://prtr-13.ucsc.edu/~badger/software/libungif/giflib.shtml: The giflib (sometimes called libgif) website.</para></listitem>
+<listitem><para>http://prtr-13.ucsc.edu/~badger/software/libungif/index.shtml: The libungif website. This library is enough of the libgif library to rescue your data out of the GIF format and into a less patent bound format.</para></listitem>
+<listitem><para>http://www.cloanto.com/users/mcb/19950127giflzw.html: Entitled <quote>
+The GIF Controversy: A Software Developer's Perspective</quote>, this site discusses the history of the GIF format, and Unisys' recent licensing requirements.</para></listitem>
+<listitem><para>http://www.dcs.ed.ac.uk/home/mxr/gfx/2d/GIF89a.txt: the GIF specification</para></listitem>
+<listitem><para>http://www.geocities.co.jp/SiliconValley/3453/gif_info/spec/GIF89M.htm: a HTML version of the GIF 89a specification</para></listitem>
+<listitem><para></para></listitem>
+<listitem><para></para></listitem>
+<listitem><para></para></listitem>
+<listitem><para></para></listitem>
+<listitem><para></para></listitem>
+<listitem><para></para></listitem>
+</itemizedlist>
+
+</sect1>
+
+</chapter>

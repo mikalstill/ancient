@@ -1,0 +1,10 @@
+<sect4><title>Names</title>
+<para>
+A name is a sequence of characters not including whitespace which follow a forward slash. Names are used in object dictionaries for the names of keys, and for some values of keys.
+</para>
+
+<sect5><title>Examples</title>
+<programlisting>
+</programlisting>
+</sect5>
+</sect4>

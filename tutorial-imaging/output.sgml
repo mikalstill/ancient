@@ -1454,7 +1454,7 @@ usage (char *cmd, int exitamt)
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.30 2002-07-08 22:54:01 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.31 2002-07-10 06:15:00 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -1581,7 +1581,7 @@ Specify the percentage of the blue channel to use (default 11).
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.30 2002-07-08 22:54:01 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.31 2002-07-10 06:15:00 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -1820,7 +1820,7 @@ Matters are even worse for 4-, 2-, and 1-bit palette images.
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.30 2002-07-08 22:54:01 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.31 2002-07-10 06:15:00 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -1940,7 +1940,7 @@ ImageWidth: 256 520
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.30 2002-07-08 22:54:01 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.31 2002-07-10 06:15:00 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2217,7 +2217,7 @@ the source file.)
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.30 2002-07-08 22:54:01 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.31 2002-07-10 06:15:00 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1990-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2396,7 +2396,7 @@ This image, after being pushed through <command>tiffdither</command> looks somet
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.30 2002-07-08 22:54:01 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.31 2002-07-10 06:15:00 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2527,7 +2527,7 @@ PlanarConfig (284) SHORT (3) 1&lt;1&gt;
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.30 2002-07-08 22:54:01 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.31 2002-07-10 06:15:00 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2871,7 +2871,7 @@ crashing old versions of the window manager.
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.30 2002-07-08 22:54:01 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.31 2002-07-10 06:15:00 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3053,7 +3053,7 @@ Strip 0:
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.30 2002-07-08 22:54:01 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.31 2002-07-10 06:15:00 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1990-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3209,7 +3209,7 @@ Heckbert, SIGGRAPH proceedings, 1982, pp. 297-307.
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.30 2002-07-08 22:54:01 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.31 2002-07-10 06:15:00 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1992-1997 Sam Leffler -->
 <!--  Copyright (c) 1992-1997 Silicon Graphics, Inc. -->
@@ -3305,7 +3305,7 @@ is used.
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.30 2002-07-08 22:54:01 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.31 2002-07-10 06:15:00 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -4353,6 +4353,156 @@ The basis of this chapter was two articles, first published by IBM DeveloperWork
 </para>
 </sect1>
 </chapter>
+<chapter id="chap-gif"><title>GIF</title>
+<para>
+<quote>
+Between 1987 and 1994, GIF (Graphics Interchange Format) peacefully became the most popular file format for archiving and exchanging computer images. At the end of December 1994, CompuServe Inc. and Unisys Corporation announced to the public that developers would have to pay a license fee in order to continue to use technology patented by Unisys in certain categories of software supporting the GIF format. These first statements caused immediate reactions and some confusion. As a longer term consequence, it appears likely that GIF will be replaced and extended by new file formats, but not so before the expiration of the patent which caused so much debate.
+</quote> -- http://www.cloanto.com/users/mcb/19950127giflzw.html (The GIF Controversy: A Software Developer's Perspective)
+</para>
+
+<para>
+GIF was once the image format of choice for the Internet, in web browsers at least. This is not nearly as much the case today. The main reason for this is because Unisys has only relatively recently started enforcing the Patent they hold on LZW compression.
+</para>
+
+<para>
+The disappearance of GIF from the scene is not a major loss, especially as the format was not particularly extensible.
+</para>
+
+
+
+
+
+
+
+
+<sect1><title>The GIF on disc format</title>
+<para>
+The GIF file format is mcuh simpler than that used for TIFF files. Pay attention to this description though, because it will help explain PNG images when we get to them in a later chapter.
+<para>
+
+<sidebar><title>Data streams?</title>
+<para>
+It should be noted that the GIF specification doesn't speak of file as such. Instead it uses the term <quote>Data Stream</quote>, which is a concept which embraces files, as well as in memory buffers, and other interesting forms of data storage. It doesn't really make any difference to the discussion of the format here though.
+</para>
+</sidebar>
+
+<sect2><title>The data stream</title>
+<para>
+The outer body of a GIF image is called a data stream, for reasons described in the last few paragraphs. This data stream can be though of as a file for the purposes of this discussion. The data stream is composed of header, a section called the logical screen, the image data, and a trailer. These elements are described individually below.
+</para>
+</sect2>
+
+<sect2><title>The header</title>
+<table frame='all'><title>GIF on disc: the data stream header</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<thead>
+<row>
+  <entry>Bytes</entry>
+  <entry>Description</entry>
+</row>
+</thead>
+<tbody>
+
+<row>
+<entry>0 - 2</entry>
+<entry>A magic number identifying that this is a GIF image. This should be the ASCII characters "GIF".</entry>
+</row>
+
+<row>
+<entry>3 - 5</entry>
+<entry>The version number of the GIF specification this image uses. See below for a list of possible version numbers.</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+
+<para>
+There are two main version numbers which are in common use for GIF images. These are:
+</para>
+
+<itemizedlist>
+<listitem><para>87a (released in May 1987)</para></listitem>
+<listitem><para>89a (released in July 1989)</para></listitem>
+</itemizedlist>
+
+<sect3><title>Version numbers</title>
+<para>
+The GIF specification makes it quite clear that the image generator should use the lowest version number which matches the functionality required to correctly decode the image. This makes the generation of images a little more complex, as the generator needs to know the specification version number of each feature, but it ensures the maximum possible level of backwards compatability, without sacraficing accuracy of decoding of the image. The quote the GIF specification:
+</para>
+
+<para>
+<quote>The version number in the Header of a Data Stream is intended to identify the minimum set of capabilities required of a decoder in order to fully process the Data Stream. An encoder should use the earliest possible version number that includes all the blocks used in the Data Stream. Within each block section in this document, there is an entry labeled Required Version which specifies the earliest version number that includes the corresponding block. The encoder should make every attempt to use the earliest version number covering all the blocks in the Data Stream; the unnecessary use of later version numbers will hinder processing by some decoders.</quote>
+</para>
+</sect3>
+</sect2>
+
+ <GIF Data Stream>  ::=  Header <Logical Screen> <Data>* Trailer  <Logical Screen>  ::=  Logical Screen Descriptor [Global Color Table]  <Data>  ::=  <Graphic Block> | <Special-Purpose Block>  <Graphic Block>  ::=  [Graphic Control Extension] <Graphic-Rendering Block>  <Graphic-Rendering Block>  ::=  <Table-Based Image> | PlainText Extension  <Table-Based Image>  ::=  Image Descriptor [Local Color Table] Image Data  <Special-Purpose Block>  ::=  Application Extension | Comment Extension
+
+
+
+</sect1>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<sect1><title>libgif</title>
+<para>
+This library was originally written by Gershon Elbor and Eric Raymond
+</para>
+</sect1>
+
+<sect1><title>libungif</title>
+<para>
+
+</para>
+</sect1>
+
+
+<sect1><title>Rescuing your GIF data</title>
+<para>
+
+</para>
+</sect1>
+
+<sect1><title>Further reading</title>
+<para>
+The following websites might be of use if you want to research the GIF format further.
+</para>
+
+<itemizedlist>
+<listitem><para>http://prtr-13.ucsc.edu/~badger/software/libungif/giflib.shtml: The giflib (sometimes called libgif) website.</para></listitem>
+<listitem><para>http://prtr-13.ucsc.edu/~badger/software/libungif/index.shtml: The libungif website. This library is enough of the libgif library to rescue your data out of the GIF format and into a less patent bound format.</para></listitem>
+<listitem><para>http://www.cloanto.com/users/mcb/19950127giflzw.html: Entitled <quote>
+The GIF Controversy: A Software Developer's Perspective</quote>, this site discusses the history of the GIF format, and Unisys' recent licensing requirements.</para></listitem>
+<listitem><para>http://www.dcs.ed.ac.uk/home/mxr/gfx/2d/GIF89a.txt: the GIF specification</para></listitem>
+<listitem><para>http://www.geocities.co.jp/SiliconValley/3453/gif_info/spec/GIF89M.htm: a HTML version of the GIF 89a specification</para></listitem>
+<listitem><para></para></listitem>
+<listitem><para></para></listitem>
+<listitem><para></para></listitem>
+<listitem><para></para></listitem>
+<listitem><para></para></listitem>
+<listitem><para></para></listitem>
+</itemizedlist>
+
+</sect1>
+
+</chapter>
 <chapter id="chap-png"><title>PNG</title>
 <para><quote>
 A Turbo-Studly Image Format with Lossless Compression
@@ -4924,20 +5074,6 @@ To be honest, the libtiff man pages are much better than the documentation which
 </sect1>
 
 </chapter>
-
-<chapter id="chap-gif"><title>GIF</title>
-<para>
-...
-</para>
-
-<sect1><title>Further reading</title>
-<para>
-...
-</para>
-</sect1>
-
-</chapter>
-
 <chapter id="chap-svg"><title>SVG</title>
 <para>
 SVG
@@ -5254,6 +5390,16 @@ So what are the possible filters? Well, as of PDF 1.3
 </sect2>
 </sect1>
 
+<sect1><title>Support for presentations</title>
+<para>
+PDF documents can be used to create presentation slide shows. There are two main features which support this use of PDF -- page duration, and page transitions. The page duration is the amount of time that the page will appear on the screen before the PDF viewer automatically moves onto the next page. The transition is the effect applied to the PDF pages when they are being swapped between -- this is very similar to the Microsoft PowerPoint presentations.
+</para>
+
+<para>
+It is important to note that not all PDF viewers support this functionality.
+</para>
+</sect1>
+
 <sect1><title>On with the libraries</title>
 <para>
 Now that we've discussed the format of the PDF file format, we can talk about the different options for building PDF files. The three main options are ClibPDF, PDFlib, and Panda. Adobe also sells a PDf library, but it has a reputation for being extremely expensive.
@@ -5441,6 +5587,271 @@ This produces a PDF which looks like (somewhat reduced from it's real size)...
 The first block initializes ClibPDF, then we create a page, put some text on it, and then close the document.
 </para>
 </sect2>
+
+<sect2><title>Initialization</title>
+<programlisting>
+CPDFdoc *cpdf_open(int pspdf, CPDFdocLimits *docLimits);
+void cpdf_init(CPDFdoc *pdf);
+
+char  *cpdf_getOutputFilename(CPDFdoc *pdf);
+void cpdf_setOutputFilename(CPDFdoc *pdf, const char *file);
+</programlisting>
+
+<para>
+ClibPDF requires multiple initialization calls. As seen in the hello world example above, we needed to call <command>cpdf_open</command> and <command>cpdf_init</command> at the start of our application. <command>cpdf_open</command> initializes ClibPDF itself, and returns a pointer to a <command>CPDFdoc</command>, which will represent our document. This pointer must then be initialized with a call to <command>cpdf_init</command>. The <command>*OutputFilename</command> functions are used to get and set the filename that the PDF document will be written to when finalized.
+</para>
+
+<figure>
+<title>Can you be creating multiple PDF files at once?</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
+</sect2>
+
+<sect2><title>Creating pages</title>
+<programlisting>
+int cpdf_pageInit(CPDFdoc *pdf, int pagenum, int rot, const char *mediaboxstr, const char *cropboxstr);
+int cpdf_setCurrentPage(CPDFdoc *pdf, int page);
+</programlisting>
+
+<para>
+Creating pages in ClibPDF is done with the <command>cpdf_pageInit</command> function. This function takes some arguements:
+</para>
+
+<itemizedlist>
+<listitem><para><emphasis>CPDFdoc *pdf</emphasis>: the PDF document to add the page to</para></listitem>
+<listitem><para><emphasis>int pagenum</emphasis>: the page number for the new page (the first page of a PDF is page 1)</para></listitem>
+<listitem><para><emphasis>int rot</emphasis>: whether the page is PORTRAIT or LANDSCAPE (defined in the cpdflib header)</para></listitem>
+<listitem><para><emphasis>const char *mediaboxstr</emphasis>: the page size string, see below</para></listitem>
+<listitem><para><emphasis>const char *cropboxstr</emphasis>: the crop box for the page</para></listitem>
+</itemizedlist>
+
+<figure>
+<title>Define crop box in the PDF intro</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
+
+<para>
+There are some default page size strings provided by ClibPDF, although it is possible to use your own as well. The sizes provided by ClibPDF are:
+</para>
+
+<itemizedlist>
+<listitem><para>LETTER</para></listitem>
+<listitem><para>LEGAL</para></listitem>
+<listitem><para>A4</para></listitem>
+<listitem><para>B5</para></listitem>
+<listitem><para>C5</para></listitem>
+</itemizedlist>
+
+<para>
+There are also the following other page sizes, which for some reason aren't documented in the manual...
+</para>
+
+<itemizedlist>
+<listitem><para>DL</para></listitem>
+<listitem><para>EXECUTIVE</para></listitem>
+<listitem><para>COMM10</para></listitem>
+<listitem><para>MONARCH</para></listitem>
+<listitem><para>FILM35MM</para></listitem>
+</itemizedlist>
+
+<para>
+Page size strings are as embedded into the PDF document (which matches how Panda uses these strings as well). The format of the string is left, top, right, bottom. For example:
+</para>
+
+<programlisting>
+0 0 612 792
+</programlisting>
+
+<para>
+You can also be working on multiple pages at once. Use the <command>cpdf_setCurrentPage</command> function to switch between pages (compare this with how PDFlib and Panda implement this).
+</para>
+</sect2>
+
+<sect2><title>Finalization</title>
+<programlisting>
+void cpdf_finalizePage(CPDFdoc *pdf, int page);
+void cpdf_finalizeAll(CPDFdoc *pdf);
+int cpdf_savePDFmemoryStreamToFile(CPDFdoc *pdf, const char *file);
+char *cpdf_getBufferForPDF(CPDFdoc *pdf, int *length);
+</programlisting>
+
+<para>
+These functions are used to finalize the PDF document. Use the <command>cpdf_finalizePage</command> function to force a page to be generated immediately. This may decrease resource usage for the PDF document. This function call is optional. <command>cpdf_finalizeAll</command> is called to write the PDF document out to the memory stream or the file on disc. If this function is not called, then the PDF file will be empty. You cannot add items to the PDF file once it has been finalized. <command>cpdf_close</command> closes the PDF file and deallocates resources which were consumed by the file.
+</para>
+
+
+</sect2>
+
+<sect2><title>Inserting text</title>
+<para>
+rotation, word wrap support
+</para>
+</sect2>
+
+<sect2><title>Fonts</title>
+<para>
+embedded / other
+</para>
+</sect2>
+
+<sect2><title>Inserting raster images</title>
+<para>
+
+</para>
+
+<sect3><title>TIFF support</title>
+<para>
+
+</para>
+</sect3>
+
+<sect3><title>JPEG support</title>
+<para>
+
+</para>
+</sect3>
+
+<sect3><title>PNG support</title>
+<para>
+
+</para>
+</sect3>
+
+<sect3><title>Other raster formats</title>
+<para>
+
+</para>
+</sect3>
+</sect2>
+
+<sect2><title>Vector graphics</title>
+<para>
+
+</para>
+
+<sect3><title>Lines</title>
+<para>
+
+</para>
+</sect3>
+
+<sect3><title>Fills</title>
+<para>
+
+</para>
+</sect3>
+
+<sect3><title>Dashing</title>
+<para>
+
+</para>
+</sect3>
+</sect2>
+
+<sect2><title>Document metadata</title>
+<para>
+
+</para>
+</sect2>
+
+<sect2><title>Presentation support</title>
+<programlisting>
+void cpdf_setPageDuration(CPDFdoc *pdf, float seconds);
+int cpdf_setPageTransition(CPDFdoc *pdf, int type, float duration, float direction, int HV, int IO);
+</programlisting>
+
+<para>
+<command>cpdf_setPageDuration</command> is self explainatory. The arguements to the <command>cpdf_setPageTransition</command> are not as obvious. They are:
+</para>
+
+<itemizedlist>
+<listitem><para><empahsis>CPDFdoc *pdf</emphasis>: </para></listitem>
+<listitem><para><empahsis>int type</emphasis>: </para></listitem>
+<listitem><para><empahsis>float duration</emphasis>: </para></listitem>
+<listitem><para><empahsis>float direction</emphasis>: </para></listitem>
+<listitem><para><empahsis>int HV</emphasis>: </para></listitem>
+<listitem><para><empahsis>int IO</emphasis>: </para></listitem>
+</itemizedlist>
+
+</sect2>
+
+<sect2><title>Cool features</title>
+<para>
+ClibPDF has some cool features which aren't available in the other PDF generation libraries discussed in this tutorial. In brief, these are:
+</para>
+
+<itemizedlist>
+<listitem><para>ClibPDF allows you to write the PDF to a memory stream, or a file, which would work well if you were byte serving the PDF on the web, or if you wanted to embed it into something like a database.</para></listitem>
+<listitem><para></para></listitem>
+<listitem><para></para></listitem>
+<listitem><para></para></listitem>
+<listitem><para></para></listitem>
+</itemizedlist>
+
+<programlisting>
+CPDFerrorHandler cpdf_setErrorHandler(CPDFdoc *pdf, CPDFerrorHandler handler);
+void cpdf_Error(CPDFdoc *pdf, int level, const char* module, const char* fmt, ...);
+CPDFglobalErrorHandler cpdf_setGlobalErrorHandler(CPDFglobalErrorHandler handler);
+void cpdf_GlobalError(int level, const char* module, const char* fmt, ...);
+</programlisting>
+
+<para>
+Error handling
+</para>
+
+<programlisting>
+void cpdf_enableCompression(CPDFdoc *pdf, int cmpON);
+</programlisting>
+
+<para>
+This function will enable compression of page descriptions, which can quite significantly reduce the size of the PDF document. This function simply enables a Flate filter on these page description streams.
+</para>
+
+<programlisting>
+void cpdf_setDefaultDomainUnit(CPDFdoc *pdf, float defunit);
+... and a variety of other domain function calls ...
+</programlisting>
+
+<para>
+Explain domains
+</para>
+
+<programlisting>
+void cpdf_useContentMemStream(CPDFdoc *pdf, int flag);
+</programlisting>
+
+<para>
+This function call can be called if you want to use temporary files instead of memory buffers. This can be useful for machines which don't have much memory, but it is quite slow. You might find that you are better off simply increasing the amount of swap space allocated on the system. The ClibPDF documentation also implies that this function call is not thread safe.
+</para>
+</sect2>
+
+<sect2><title>Room for improvement</title>
+<programlisting>
+void cpdf_setGlobalDocumentLimits(int maxPages, int maxFonts, int maxImages, int maxAnnots, int maxObjects);
+</programlisting>
+
+<para>
+ClibPDF has internal limitations for the sizes of various data structures. These must be explicitly changed before the library is used if they don't fit your needs. The defaults are:
+</para>
+
+<itemizedlist>
+<listitem><para><emphasis>Maximum number of pages</emphasis>: default value is 100</para></listitem>
+<listitem><para><emphasis>Maximum number of fonts</emphasis>: default value is 180</para></listitem>
+<listitem><para><emphasis>Maximum number of images (rasters)</emphasis>: default value is 100</para></listitem>
+<listitem><para><emphasis>Maximum number of annotations</emphasis>: default value is 100</para></listitem>
+<listitem><para><emphasis>Maximum number of objects</emphasis>: default value is 5,000 (it is strange that this value is exposed to the user)</para></listitem>
+</itemizedlist>
+
+<para>
+These values can be changed using the <command>CPDFdocLimits</command> structure, which is passed to many of the ClibPDF function calls. It is interesting to note that this gives us a perspective on the internal coding style of ClibPDF. Many of the internal structures are based on fixed size arrays, which is why the size must be known from the start. These arrays will allow for ClibPDF to be marginally faster than implementations that use linked lists, but it also decreases the utility of the library.
+</para>
+</sect2>
+
+
+
+
+
+
 </sect1>
 
 
@@ -5486,7 +5897,144 @@ The first block initializes ClibPDF, then we create a page, put some text on it,
 </para>
 </sect3>
 </sect2>
+
+<sect2><title>Initialization</title>
+<para>
+
+</para>
+</sect2>
+
+<sect2><title>Creating pages</title>
+<para>
+paper sizes
+</para>
+</sect2>
+
+<sect2><title>Finalization</title>
+<para>
+
+</para>
+</sect2>
+
+<sect2><title>Inserting text</title>
+<para>
+rotation, word wrap support
+</para>
+</sect2>
+
+<sect2><title>Fonts</title>
+<para>
+embedded / other
+</para>
+</sect2>
+
+<sect2><title>Inserting raster images</title>
+<para>
+
+</para>
+
+<sect3><title>TIFF support</title>
+<para>
+
+</para>
+</sect3>
+
+<sect3><title>JPEG support</title>
+<para>
+
+</para>
+</sect3>
+
+<sect3><title>PNG support</title>
+<para>
+
+</para>
+</sect3>
+
+<sect3><title>Other raster formats</title>
+<para>
+
+</para>
+</sect3>
+</sect2>
+
+<sect2><title>Vector graphics</title>
+<para>
+
+</para>
+
+<sect3><title>Lines</title>
+<para>
+
+</para>
+</sect3>
+
+<sect3><title>Fills</title>
+<para>
+
+</para>
+</sect3>
+
+<sect3><title>Dashing</title>
+<para>
+
+</para>
+</sect3>
+</sect2>
+
+<sect2><title>Document metadata</title>
+<para>
+
+</para>
+</sect2>
+
+
+
+<sect2><title>Presentation support</title>
+<para>
+
+</para>
+</sect2>
+
+
+<sect2><title>Cool features</title>
+<para>
+
+</para>
+</sect2>
+
+<sect2><title>Room for improvement</title>
+<para>
+
+</para>
+</sect2>
+
+
+
+
+
+
 </sect1>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <sect1><title>Panda</title>
 <para>
@@ -5557,7 +6105,7 @@ main (int argc, char *argv[])
 
   // Write some text to the page
   panda_setfont (demo, panda_createfont (demo, "Times-Roman", 1,
-					 "MacRomanEncoding"));
+  					 "MacRomanEncoding"));
   panda_textbox (demo, currPage, 600, 10, 700, 300, "Hello world");
 
   // Finished all the demoing, close the PDF document
@@ -5581,6 +6129,121 @@ Which produces...
 The calling order here is very similar to ClibPDF and PDFlib, so I wont go into incredibly verbose explainations here.
 </para>
 </sect2>
+
+<sect2><title>Initialization</title>
+<para>
+
+</para>
+</sect2>
+
+<sect2><title>Creating pages</title>
+<para>
+paper sizes
+</para>
+</sect2>
+
+<sect2><title>Finalization</title>
+<para>
+
+</para>
+</sect2>
+
+<sect2><title>Inserting text</title>
+<para>
+rotation, word wrap support
+</para>
+</sect2>
+
+<sect2><title>Fonts</title>
+<para>
+embedded / other
+</para>
+</sect2>
+
+<sect2><title>Inserting raster images</title>
+<para>
+
+</para>
+
+<sect3><title>TIFF support</title>
+<para>
+
+</para>
+</sect3>
+
+<sect3><title>JPEG support</title>
+<para>
+
+</para>
+</sect3>
+
+<sect3><title>PNG support</title>
+<para>
+
+</para>
+</sect3>
+
+<sect3><title>Other raster formats</title>
+<para>
+
+</para>
+</sect3>
+</sect2>
+
+<sect2><title>Vector graphics</title>
+<para>
+
+</para>
+
+<sect3><title>Lines</title>
+<para>
+
+</para>
+</sect3>
+
+<sect3><title>Fills</title>
+<para>
+
+</para>
+</sect3>
+
+<sect3><title>Dashing</title>
+<para>
+
+</para>
+</sect3>
+</sect2>
+
+<sect2><title>Document metadata</title>
+<para>
+
+</para>
+</sect2>
+
+<sect2><title>Presentation support</title>
+<para>
+
+</para>
+</sect2>
+
+
+<sect2><title>Cool features</title>
+<para>
+
+</para>
+</sect2>
+
+<sect2><title>Room for improvement</title>
+<para>
+
+</para>
+</sect2>
+
+
+
+
+
+
 
 </sect1>
 
@@ -6822,19 +7485,6 @@ The following resources might be of use if you need more information:
 
 </chapter>
 
-
-<chapter id="chap-opengl"><title>OpenGL</title>
-<para>
-...
-</para>
-<sect1><title>Further reading</title>
-
-<para>
-...
-</para>
-</sect1>
-
-</chapter>
 
 <chapter id="chap-random"><title>Random important topics</title>
 <para>

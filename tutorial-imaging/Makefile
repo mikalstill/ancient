@@ -1,7 +1,7 @@
 tutorial: output.sgml output.ps
 	striptext.pl -c < output.sgml | wc -w
 
-output.sgml: tutorial.sgml tiff.sgml introduction.sgml concepts.sgml theory.sgml png.sgml pdf.sgml
+output.sgml: tutorial.sgml tiff.sgml introduction.sgml concepts.sgml theory.sgml png.sgml pdf.sgml gif.sgml jpeg.sgml
 	builddb.pl < tutorial.sgml > output.sgml
 
 output.ps: output.sgml

@@ -1,0 +1,12 @@
+<sect4><title>Boolean</title>
+<para>
+Boolean values are represented with the words <command>true</command> and <command>false</command>.
+</para>
+
+<sect5><title>Examples</title>
+<programlisting>
+/ExplodeOnOpening true
+/Rotate false
+</programlisting>
+</sect5>
+</sect4>

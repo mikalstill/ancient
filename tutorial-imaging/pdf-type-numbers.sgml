@@ -1,0 +1,52 @@
+<sect4><title>Numbers</title>
+<para>
+Known as numeric types in the PDF specification (for somewhat obvious reasons), this includes all forms of numbers. These can either be integer or real
+  <footnote><para>Non integer</para></footnote>
+numbers.
+</para>
+
+<sect5><title>Integers</title>
+<para>
+Integer numbers can be either positive or negative (with a leading sign value if needed) and have a maximum value of ... and a minimum value of ... .
+
+<execute><cmd>todo</cmd><input>sizeof(int)</input></execute>
+</para>
+
+<sect6><title>Examples</title>
+<programlisting>
+123
+43445
++176
+-17
+0
+</programlisting>
+</sect6>
+</sect5>
+
+<sect5><title>Real numbers</title>
+<para>
+Real numbers can exist in the range ... to ..., and may or may not have leading zeros.
+
+<execute><cmd>todo</cmd><input>sizeof(real)</input></execute>
+</para>
+
+<sect6><title>Examples</title>
+<programlisting>
+34.5
+-3.62
++123.5
+4.
+-.002
+0.0
+</programlisting>
+</sect6>
+</sect5>
+
+<sect5><title>Caveats</title>
+<para>
+The PDF specification makes the following point:
+
+<quote>PDF does not support the PostScript syntax for numbers with non-decimal radices (such as 16#FFFE) or in exponent format (such as 6.02E23).</quote>
+  <footnote><para>PDF Specification 1.3, second edition, page 27</para></footnote>
+</para>
+</sect4>
