@@ -1,8 +1,52 @@
 <sect1><title>Conclusion</title>
+
+<sect2><title>What did we do? - heading left for proofing only</title>
 <para>
-<itemizedlist>
-  <listitem><para>What did we do?</para></listitem>
-  <listitem><para>Did we succeed?</para></listitem>
+  The GDMS packages offers a suite of time series analysis tools intended for the processing of data from various sources.
+  The package was designed and implemented to be as flexible and as platform independent as possible given the time constraints
+  under which the group working. We aimed to provide a package which would enhance on other currently availabl analysis
+  tools. This involved providing time domain anlysis, frequency domain analysis and of course along with those, windowing and interpolation functionality.
+  The loose object oriented design provides GDMS with a good deal  in the way of extensibiility. The extensive documentation
+  will provide both users and developers in the future with an understanind of exactly how the system was constructed facilitating
+  changes that may be desired.
+</para>
+</sect2>
+
+<sect2><title>Did we succeed? - heading left for proofing only</title>
+<para>
+  The measure of the success of a project is contributed to by a number of factors. Perhaps the first and foremost concern
+  in a software application is whether or not it actually works. This is of courase the most obvious measure of success to a user using the applicaiton.
+  Having made this point, another one of significance is whether or not the application achieves was it was intended to achieve.
+  In the case of GDMS, we started with a broad reuirements description. Based on these requirements, a project proposal was written. TODO: attach?
+  This proposal outlined our intentions for the GDMS package.
+</para>
+
+<para>
+  Throughout the course of the project some requirements were deemed unnecessary, however, overall, the
+  requirements of the system grew compared to what we expected, in terms of fundamental requirements of the system.
+  In many case, this were functionality deemed essential inorder to provide a system that was considered <emphaisis>useful</emphasis>.
+  In some case, these features were the finer detail of the broader requirements which we did not conconsider.
+  As the dealine drew near, we needed to assess in orderof priority, which fucntionality was essentail and which wasn't.
+  This was largely a role that Associciate Professor Peter Morgan played, he being the key stakeholder in GDMS.
+</para>
+
+<para>
+  Having finally implemented a working system, with functionality such that the system was considered <emphaisis>useful</emphasis>,
+  we succeeded. A critical point here, is that this system from the very begining, was alsways to be an evolving
+  one. Future project teams are expected to further enhance the functionality we have provided. Therefore, in terms of
+  enahncing features of already available packages, we believe again, that we have succeeded. We have set up a
+  platform upon which others can build, whilst providing something now. This is not to say that
+  this is the definitive application for time series analysis, as that is clearly not the case. In fact, we do not
+  consider this in itself, to be achievable in the time with which we had to complete this application. Time series analyis
+  is a growing field of its own, and it would not be wise to expect to fill this area in a short finite session.
+  We have hopwever, succeeded in providing a package which enhances on some functionality of other applications, and
+  can be further enhanced in the future.
+</para>
+</sect2>
+
+<sect2><title>Did we succeed? - heading left for proofing only</title>
+
+
   <listitem><para>Good or bad result?</para></listitem>
   <listitem><para>What did we learn?</para></listitem>
   <listitem><para>Summarise lessons</para></listitem>
