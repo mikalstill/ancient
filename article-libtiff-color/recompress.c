@@ -6,7 +6,7 @@ int main(int argc, char *argv[]){
   uint16 photo, bps, spp, fillorder;
   uint32 width, height, *raster;
   tsize_t stripSize;
-  unsigned long imagesize, c, d;
+  unsigned long imagesize, c, d, e;
   char *raster2;
 
   // Open the TIFF image
@@ -43,10 +43,12 @@ int main(int argc, char *argv[]){
   }
 
   d = 0;
-  for(c = 0; c < imagesize; c++){
-    raster2[d++] = TIFFGetR(raster[c]);
-    raster2[d++] = TIFFGetG(raster[c]);
-    raster2[d++] = TIFFGetB(raster[c]);
+  for(e = height - 1; e != -1; e--){
+    for(c = 0; c < width; c++){
+      raster2[d++] = TIFFGetR(raster[e * width + c]);
+      raster2[d++] = TIFFGetG(raster[e * width + c]);
+      raster2[d++] = TIFFGetB(raster[e * width + c]);
+    }
   }
 
   // Recompress it straight away -- set the tags we require
