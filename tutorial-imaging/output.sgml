@@ -770,7 +770,7 @@ If we zoom in enough on a portion of this image, we can see that it is made up o
 The code to produce this zoomed image is presented in the TIFF chapter of this tutorial.
 </para>
 </sect1>
-<sect1><title>Theory of color and grayscale storage</title>
+<sect1><title>Theory of color and gray scale storage</title>
 <para>
 There are several ways that the value of a pixel can be stored within a raster image. This is a pretty fundamental concept, so it is best to get it out of the way early on before we get caught up in the actual format of images.
 </para>
@@ -809,13 +809,13 @@ Whilst this is a very simple example, make sure you understand how the diagram w
 </para>
 </sect2>
 
-<sect2><title>Direct grayscale storage</title>
-<figure><title>A grayscale zoom in</title>
+<sect2><title>Direct gray scale storage</title>
+<figure><title>A gray scale zoom in</title>
 <graphic format="EPS" fileref="theory-figure5.eps">
 </figure>
 
 <para>
-In this example, we are storing the grayscale values of the pixels within the image data.
+In this example, we are storing the gray scale values of the pixels within the image data.
 </para>
 </sect2>
 
@@ -835,11 +835,11 @@ Here we are storing the red green and blue values for each pixel within the imag
 </figure>
 
 <para>
-The other option is to instead store within the image data itself a number which uniquely identifies the colour at that pixel. We can then have a table elsewhere in the image file which defines the colour that is that unique value. This table is a palette, and this is a very common way of storing RGB data (it is in fact the only option with some formats such as GIF).
+The other option is to instead store within the image data itself a number which uniquely identifies the color at that pixel. We can then have a table elsewhere in the image file which defines the color that is that unique value. This table is a palette, and this is a very common way of storing RGB data (it is in fact the only option with some formats such as GIF).
 </para>
 
 <para>
-You can also use palettes for grayscale images, I just haven't provided an example of that here.
+You can also use palettes for gray scale images, I just haven't provided an example of that here.
 </para>
 
 <sect3><title>The advantage of paletting</title>
@@ -857,14 +857,9 @@ This means that the total saving on an uncompressed image is 11,413,936 bytes. T
 <para>
      <indexterm><primary>Vector</primary></indexterm>
      <indexterm><primary>Image format</primary><secondary>vector</secondary></indexterm>
-Some images aren't raster images. These images are normally composed of primative drawing commands, such as draw a line, draw a circle, et cetera. The advantage of vector formats is that it is an exact representation of the image, they also scale much better. Examples of vector formats include Scalar Vector Graphics (SVG), Adobe Illustrator files, Windows Meta Files, and to a certain extent PDF documents. A plotter is a vector output device.
+Some images aren't raster images. These images are normally composed of primitive drawing commands, such as draw a line, draw a circle, et cetera. The advantage of vector formats is that it is an exact representation of the image, they also scale much better. Examples of vector formats include Scalar Vector Graphics (SVG), Adobe Illustrator files, Windows Meta Files, and to a certain extent PDF documents. A plotter is a vector output device.
 </para>
 </sect1>
-
-<sect1><title>Further reading</title>
-<para>
-...
-</para>
 </sect1>
 </chapter>
 <chapter id="chap-tiff"><title>TIFF</title>
@@ -911,18 +906,26 @@ Not too hard at all...
 
 <sect2><title>win32</title>
 <para>
-<figure>
-<title>windows_install_details</title>
-<graphic format="EPS" fileref="todo.eps">
-</figure>
+The instructions for how to compile the library are as follows:
+</para>
+
+<itemizedlist>
+<listitem><para>Uncompress the libtiff distibution</para></listitem>
+<listitem><para>Change directory into the libtiff directory inside the distribution</para></listitem>
+<listitem><para>Copy ..\contrib\winnt\fax3sm.c to fax3sm_winnt.c</para></listitem>
+<listitem><para>Copy ..\contrib\winnt\libtiff.def to libtiff.def</para></listitem>
+<listitem><para>Remove the line for TIFFModeCCITTFax3 from the libtiff.def file</para></listitem>
+<listitem><para>Change the line for TIFFFlushdata1 in the libtiff.def file to TIFFFlushData1</para></listitem>
+<listitem><para>nmake /f makefile.vc all</para></listitem>
+<listitem><para>Done!</para></listitem>
+</itemizedlist>
+
+<para>
+To compile the tools once you have the library, just change into the tools directory and do a nmake /f makefile.vc 
 </para>
 
 <para>
-For the Visual Studio challenged, there is a precompiled version of libtiff for win32 available from http://www.stillhq.com. 
-<figure>
-<title>make it so</title>
-<graphic format="EPS" fileref="todo.eps">
-</figure>
+For the Visual Studio challenged, there is a precompiled version of libtiff for win32 available from http://www.stillhq.com. Have a look at the Panda documentation page...
 </para>
 </sect2>
 </sect1>
@@ -1189,8 +1192,7 @@ int main(int argc, char *argv[]){
 There are some interesting things to note in this example. The most interesting of these is that the output image will not display using the xview command on my Linux machine. In fact, I couldn't find an example of a group 4 fax compressed black and white image which would display using that program. See the sidebar for more detail.
 </para>
 
-<sidebar>
-<title>Problems with xview</title>
+<sidebar><title>Problems with xview</title>
 <para>
 Xview is part of the xloadimage package written by Jim Frost, which comes with X windows.
 </para>
@@ -1216,15 +1218,13 @@ The sample code shows the basics of using the libtiff API. The following interes
 <listitem><para>Finally, we close the file with TIFFClose.</para></listitem>
 </orderedlist>
 
-<sidebar>
-<title>More information about the libtiff function calls</title>
+<sidebar><title>More information about the libtiff function calls</title>
 <para>
 If you need more information about any of the libtiff function calls mentioned in this chapter, then checkout the extensive man pages which come with the library. Remember that case is important with man pages, so you need to get the case in the function names right -- it's TIFFOpen, not tiffopen.
 </para>
 </sidebar>
 
-<figure>
-<title>The Sydney Harbor Bridge, by Michael Still</title>
+<figure><title>The Sydney Harbor Bridge, by Michael Still</title>
 <graphic format="EPS" fileref="tiff-figure1.eps">
 </figure>
 </sect2>
@@ -1243,13 +1243,11 @@ Reading TIFF files reliably is much harder than writing them. The issue that com
 <listitem><para>A tiled image is like your bathroom wall, it is composed of tiles. This representation is show in Figure 3, and is useful for extremely large images -- this is especially true when you might only want to manipulate a small portion of the image at any one time.</para></listitem>
 </orderedlist>
 
-<figure>
-<title>The Sydney Harbor Bridge, in strips</title>
+<figure><title>The Sydney Harbor Bridge, in strips</title>
 <graphic format="EPS" fileref="tiff-figure2.eps">
 </figure>
 
-<figure>
-<title>The Sydney Harbor Bridge, in tiles</title>
+<figure><title>The Sydney Harbor Bridge, in tiles</title>
 <graphic format="EPS" fileref="tiff-figure3.eps">
 </figure>
 
@@ -1435,26 +1433,22 @@ There are several compression algorithms available within libtiff. How do you se
 
 <para>Whether this is a problem depends on the type of your data. To test how much of a problem this is, I wrote a simple libtiff program which repeatedly uncompresses and recompresses an image. What I found was that with pictures, the data is much more resilient to repeated compression.</para>
 
-<figure>
-<title>The picture before we compressed it</title>
+<figure><title>The picture before we compressed it</title>
 <graphic format="EPS" fileref="tiff-figure4.eps">
 </figure>
 
-<figure>
-<title>The sample text before we compressed it</title>
+<figure><title>The sample text before we compressed it</title>
 <graphic format="EPS" fileref="tiff-figure5.eps">
 </figure>
 
 <para>
 The code I used had a 'quality' rating of 25% on the JPEG compression, which is a way of tweaking the loss of the compression algorithm. The lower the quality, the higher the compression ratio. The default is 75%.</para>
 
-<figure>
-<title>The picture after it has been recompressed 200 times</title>
+<figure><title>The picture after it has been recompressed 200 times</title>
 <graphic format="EPS" fileref="tiff-figure6.eps">
 </figure>
 
-<figure>
-<title>The text after it has been recompressed 200 times</title>
+<figure><title>The text after it has been recompressed 200 times</title>
 <graphic format="EPS" fileref="tiff-figure7.eps">
 </figure>
 
@@ -1665,10 +1659,6 @@ The example which I am most familiar with is PDF documents. In PDF files, you ca
 
 <para>libtiff allows you to replace the file input and output functions in the library with your own. This is done with the TIFFClientOpen() method. Here's an example (please note this code wont compile, and is just to describe the main concepts:</para>
 
-<figure>
-<title>make_this_example_better</title>
-<graphic format="EPS" fileref="todo.eps">
-</figure>
 <programlisting>
 // Please note that this code wont compile, and is intended to only show you 
 // the sturcture of TIFFClient* calls
@@ -1932,13 +1922,8 @@ usage (char *cmd, int exitamt)
 </programlisting>
 <para><emphasis>Code: /home/mikal/opensource/tiff-directories/create.c</emphasis></para>
 
-<figure>
-<title>Four pictures of my son Andrew</title>
+<figure><title>Four pictures of my son Andrew</title>
 <graphic format="EPS" fileref="tiff-figure8.eps">
-</figure>
-<figure>
-<title>quality_of_picture</title>
-<graphic format="EPS" fileref="todo.eps">
 </figure>
 </sect1>
 
@@ -1948,16 +1933,9 @@ We should also probably know how to get to these images once we have more than o
 </para>
 
 <para>
+This example below demonstrates how to do this.
 </para>
 
-<figure>
-<title>convert_will_create_multiple_files</title>
-<graphic format="EPS" fileref="todo.eps">
-</figure>
-<figure>
-<title>more!</title>
-<graphic format="EPS" fileref="todo.eps">
-</figure>
 
 <programlisting>
 #include &lt;stdio.h&gt;
@@ -2102,24 +2080,26 @@ usage (char *cmd, int exitamt)
 }
 </programlisting>
 <para><emphasis>Code: /home/mikal/opensource/tiff-directories/read.c</emphasis></para>
-<figure>
-<title>This doesn't work at the moment</title>
-<graphic format="EPS" fileref="todo.eps">
-</figure>
 </sect1>
 
 
 <sect1><title>Man pages</title>
 <para>
-...
+<figure>
+<title>TODO stuff</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
 </para>
 
 <sect2><title>tiff2bw</title>
 <para>
-...
+<figure>
+<title>TODO stuff</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.46 2002-07-13 05:27:20 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.47 2002-07-13 06:58:39 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2243,10 +2223,13 @@ Specify the percentage of the blue channel to use (default 11).
 
 <sect2><title>tiff2ps</title>
 <para>
-...
+<figure>
+<title>TODO stuff</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.46 2002-07-13 05:27:20 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.47 2002-07-13 06:58:39 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2482,10 +2465,13 @@ Matters are even worse for 4-, 2-, and 1-bit palette images.
 
 <sect2><title>tiffcmp</title>
 <para>
-...
+<figure>
+<title>TODO stuff</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.46 2002-07-13 05:27:20 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.47 2002-07-13 06:58:39 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2602,10 +2588,13 @@ ImageWidth: 256 520
 
 <sect2><title>tiffcp</title>
 <para>
-...
+<figure>
+<title>TODO stuff</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.46 2002-07-13 05:27:20 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.47 2002-07-13 06:58:39 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2879,10 +2868,13 @@ the source file.)
 
 <sect2><title>tiffdither</title>
 <para>
-...
+<figure>
+<title>TODO stuff</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.46 2002-07-13 05:27:20 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.47 2002-07-13 06:58:39 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1990-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3039,8 +3031,7 @@ program (written by Paul Heckbert).
 <command>tiffdither</command> takes gray scale images and dithers them into black and white images. For instance, the gray scale example from earlier in this tutorial produced the following image:
 </para>
 
-<figure>
-<title>The gray scale input image</title>
+<figure><title>The gray scale input image</title>
 <graphic format="EPS" fileref="tiff-figure9.eps">
 </figure>
 
@@ -3048,8 +3039,7 @@ program (written by Paul Heckbert).
 This image, after being pushed through <command>tiffdither</command> looks something like:
 </para>
 
-<figure>
-<title>The dithered output image</title>
+<figure><title>The dithered output image</title>
 <graphic format="EPS" fileref="tiff-figure10.eps">
 </figure>
 </sect3>
@@ -3058,10 +3048,13 @@ This image, after being pushed through <command>tiffdither</command> looks somet
 
 <sect2><title>tiffdump</title>
 <para>
-...
+<figure>
+<title>TODO stuff</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.46 2002-07-13 05:27:20 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.47 2002-07-13 06:58:39 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3189,10 +3182,13 @@ PlanarConfig (284) SHORT (3) 1&lt;1&gt;
 
 <sect2><title>tiffgt</title>
 <para>
-...
+<figure>
+<title>TODO stuff</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.46 2002-07-13 05:27:20 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.47 2002-07-13 06:58:39 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3533,10 +3529,13 @@ crashing old versions of the window manager.
 
 <sect2><title>tiffinfo</title>
 <para>
-...
+<figure>
+<title>TODO stuff</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.46 2002-07-13 05:27:20 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.47 2002-07-13 06:58:39 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3715,10 +3714,13 @@ Strip 0:
 
 <sect2><title>tiffmedian</title>
 <para>
-...
+<figure>
+<title>TODO stuff</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.46 2002-07-13 05:27:20 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.47 2002-07-13 06:58:39 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1990-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3871,10 +3873,13 @@ Heckbert, SIGGRAPH proceedings, 1982, pp. 297-307.
 
 <sect2><title>tiffsplit</title>
 <para>
-...
+<figure>
+<title>TODO stuff</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.46 2002-07-13 05:27:20 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.47 2002-07-13 06:58:39 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1992-1997 Sam Leffler -->
 <!--  Copyright (c) 1992-1997 Silicon Graphics, Inc. -->
@@ -3967,10 +3972,13 @@ is used.
 
 <sect2><title>tiffsv</title>
 <para>
-...
+<figure>
+<title>TODO stuff</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.46 2002-07-13 05:27:20 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.47 2002-07-13 06:58:39 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -4153,7 +4161,10 @@ library.
 
 <sect2><title>tifftopnm</title>
 <para>
-...
+<figure>
+<title>TODO stuff</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
 </para>
 
 <sect3><title>NAME</title>
@@ -4735,8 +4746,7 @@ usage (char *cmd, int exitamt)
 Which produces:
 </para>
 
-<figure>
-<title>An average of the color values for each pixel</title>
+<figure><title>An average of the color values for each pixel</title>
 <graphic format="EPS" fileref="grayscale-figure2.eps">
 </figure>
 </sect2>
@@ -4878,8 +4888,7 @@ usage (char *cmd, int exitamt)
 Which gives us:
 </para>
 
-<figure>
-<title>A correct conversion to gray scale</title>
+<figure><title>A correct conversion to gray scale</title>
 <graphic format="EPS" fileref="grayscale-figure3.eps">
 </figure>
 
@@ -5044,7 +5053,7 @@ The disappearance of GIF from the scene is not a major loss, especially as the f
 <sect1><title>The GIF on disc format</title>
 <para>
 The GIF file format is much simpler than that used for TIFF files. Pay attention to this description though, because it will help explain PNG images when we get to them in a later chapter.
-<para>
+</para>
 
 <sidebar><title>Data streams?</title>
 <para>

@@ -42,12 +42,26 @@ Not too hard at all...
 
 <sect2><title>win32</title>
 <para>
-<execute><cmd>todo</cmd><input>windows_install_details</input></execute>
+The instructions for how to compile the library are as follows:
+</para>
+
+<itemizedlist>
+<listitem><para>Uncompress the libtiff distibution</para></listitem>
+<listitem><para>Change directory into the libtiff directory inside the distribution</para></listitem>
+<listitem><para>Copy ..\contrib\winnt\fax3sm.c to fax3sm_winnt.c</para></listitem>
+<listitem><para>Copy ..\contrib\winnt\libtiff.def to libtiff.def</para></listitem>
+<listitem><para>Remove the line for TIFFModeCCITTFax3 from the libtiff.def file</para></listitem>
+<listitem><para>Change the line for TIFFFlushdata1 in the libtiff.def file to TIFFFlushData1</para></listitem>
+<listitem><para>nmake /f makefile.vc all</para></listitem>
+<listitem><para>Done!</para></listitem>
+</itemizedlist>
+
+<para>
+To compile the tools once you have the library, just change into the tools directory and do a nmake /f makefile.vc 
 </para>
 
 <para>
-For the Visual Studio challenged, there is a precompiled version of libtiff for win32 available from http://www.stillhq.com. 
-<execute><cmd>todo</cmd><input>make it so</input></execute>
+For the Visual Studio challenged, there is a precompiled version of libtiff for win32 available from http://www.stillhq.com. Have a look at the Panda documentation page...
 </para>
 </sect2>
 </sect1>
@@ -265,8 +279,7 @@ Please note, that for clarity I have omitted the actual hex for the image, this 
 There are some interesting things to note in this example. The most interesting of these is that the output image will not display using the xview command on my Linux machine. In fact, I couldn't find an example of a group 4 fax compressed black and white image which would display using that program. See the sidebar for more detail.
 </para>
 
-<sidebar>
-<title>Problems with xview</title>
+<sidebar><title>Problems with xview</title>
 <para>
 Xview is part of the xloadimage package written by Jim Frost, which comes with X windows.
 </para>
@@ -292,15 +305,13 @@ The sample code shows the basics of using the libtiff API. The following interes
 <listitem><para>Finally, we close the file with TIFFClose.</para></listitem>
 </orderedlist>
 
-<sidebar>
-<title>More information about the libtiff function calls</title>
+<sidebar><title>More information about the libtiff function calls</title>
 <para>
 If you need more information about any of the libtiff function calls mentioned in this chapter, then checkout the extensive man pages which come with the library. Remember that case is important with man pages, so you need to get the case in the function names right -- it's TIFFOpen, not tiffopen.
 </para>
 </sidebar>
 
-<figure>
-<title>The Sydney Harbor Bridge, by Michael Still</title>
+<figure><title>The Sydney Harbor Bridge, by Michael Still</title>
 <graphic format="EPS" fileref="tiff-figure1.eps">
 </figure>
 </sect2>
@@ -319,13 +330,11 @@ Reading TIFF files reliably is much harder than writing them. The issue that com
 <listitem><para>A tiled image is like your bathroom wall, it is composed of tiles. This representation is show in Figure 3, and is useful for extremely large images -- this is especially true when you might only want to manipulate a small portion of the image at any one time.</para></listitem>
 </orderedlist>
 
-<figure>
-<title>The Sydney Harbor Bridge, in strips</title>
+<figure><title>The Sydney Harbor Bridge, in strips</title>
 <graphic format="EPS" fileref="tiff-figure2.eps">
 </figure>
 
-<figure>
-<title>The Sydney Harbor Bridge, in tiles</title>
+<figure><title>The Sydney Harbor Bridge, in tiles</title>
 <graphic format="EPS" fileref="tiff-figure3.eps">
 </figure>
 
@@ -405,26 +414,22 @@ There are several compression algorithms available within libtiff. How do you se
 
 <para>Whether this is a problem depends on the type of your data. To test how much of a problem this is, I wrote a simple libtiff program which repeatedly uncompresses and recompresses an image. What I found was that with pictures, the data is much more resilient to repeated compression.</para>
 
-<figure>
-<title>The picture before we compressed it</title>
+<figure><title>The picture before we compressed it</title>
 <graphic format="EPS" fileref="tiff-figure4.eps">
 </figure>
 
-<figure>
-<title>The sample text before we compressed it</title>
+<figure><title>The sample text before we compressed it</title>
 <graphic format="EPS" fileref="tiff-figure5.eps">
 </figure>
 
 <para>
 The code I used had a 'quality' rating of 25% on the JPEG compression, which is a way of tweaking the loss of the compression algorithm. The lower the quality, the higher the compression ratio. The default is 75%.</para>
 
-<figure>
-<title>The picture after it has been recompressed 200 times</title>
+<figure><title>The picture after it has been recompressed 200 times</title>
 <graphic format="EPS" fileref="tiff-figure6.eps">
 </figure>
 
-<figure>
-<title>The text after it has been recompressed 200 times</title>
+<figure><title>The text after it has been recompressed 200 times</title>
 <graphic format="EPS" fileref="tiff-figure7.eps">
 </figure>
 
@@ -545,7 +550,7 @@ The example which I am most familiar with is PDF documents. In PDF files, you ca
 
 <para>libtiff allows you to replace the file input and output functions in the library with your own. This is done with the TIFFClientOpen() method. Here's an example (please note this code wont compile, and is just to describe the main concepts:</para>
 
-<execute><cmd>todo</cmd><input>make_this_example_better</input></execute>
+<execute><cmd>nextedition</cmd><input>Make this example better</input></execute>
 <execute><cmd>code2db.pl</cmd><input>~mikal/opensource/tiff-client/client.c</input></execute>
 </sect1>
 
@@ -569,11 +574,10 @@ Anyway, now that I've nagged you, putting multiple images into one TIFF file is 
 
 <execute><cmd>code2db.pl</cmd><input>~mikal/opensource/tiff-directories/create.c</input></execute>
 
-<figure>
-<title>Four pictures of my son Andrew</title>
+<figure><title>Four pictures of my son Andrew</title>
 <graphic format="EPS" fileref="tiff-figure8.eps">
 </figure>
-<execute><cmd>todo</cmd><input>quality_of_picture</input></execute>
+<execute><cmd>nextedition</cmd><input>quality_of_picture</input></execute>
 </sect1>
 
 <sect1><title>Reading more than one image inside a TIFF</title>
@@ -582,24 +586,25 @@ We should also probably know how to get to these images once we have more than o
 </para>
 
 <para>
+This example below demonstrates how to do this.
 </para>
 
-<execute><cmd>todo</cmd><input>convert_will_create_multiple_files</input></execute>
-<execute><cmd>todo</cmd><input>more!</input></execute>
+<execute><cmd>nextedition</cmd><input>convert_will_create_multiple_files</input></execute>
+<execute><cmd>nextedition</cmd><input>more!</input></execute>
 
 <execute><cmd>code2db.pl</cmd><input>~mikal/opensource/tiff-directories/read.c</input></execute>
-<execute><cmd>todo</cmd><input>This doesn't work at the moment</input></execute>
+<execute><cmd>nextedition</cmd><input>This doesn't work at the moment</input></execute>
 </sect1>
 
 
 <sect1><title>Man pages</title>
 <para>
-...
+<execute><cmd>todo</cmd><input>TODO stuff</input></execute>
 </para>
 
 <sect2><title>tiff2bw</title>
 <para>
-...
+<execute><cmd>todo</cmd><input>TODO stuff</input></execute>
 </para>
 
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiff2bw.1</input><args>-s 3</args>></execute>
@@ -607,7 +612,7 @@ We should also probably know how to get to these images once we have more than o
 
 <sect2><title>tiff2ps</title>
 <para>
-...
+<execute><cmd>todo</cmd><input>TODO stuff</input></execute>
 </para>
 
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiff2ps.1</input><args>-s 3</args></execute>
@@ -616,7 +621,7 @@ We should also probably know how to get to these images once we have more than o
 
 <sect2><title>tiffcmp</title>
 <para>
-...
+<execute><cmd>todo</cmd><input>TODO stuff</input></execute>
 </para>
 
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffcmp.1</input><args>-s 3</args></execute>
@@ -637,7 +642,7 @@ ImageWidth: 256 520
 
 <sect2><title>tiffcp</title>
 <para>
-...
+<execute><cmd>todo</cmd><input>TODO stuff</input></execute>
 </para>
 
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffcp.1</input><args>-s 3</args></execute>
@@ -646,7 +651,7 @@ ImageWidth: 256 520
 
 <sect2><title>tiffdither</title>
 <para>
-...
+<execute><cmd>todo</cmd><input>TODO stuff</input></execute>
 </para>
 
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffdither.1</input><args>-s 3</args></execute>
@@ -656,8 +661,7 @@ ImageWidth: 256 520
 <command>tiffdither</command> takes gray scale images and dithers them into black and white images. For instance, the gray scale example from earlier in this tutorial produced the following image:
 </para>
 
-<figure>
-<title>The gray scale input image</title>
+<figure><title>The gray scale input image</title>
 <graphic format="EPS" fileref="tiff-figure9.eps">
 </figure>
 
@@ -665,8 +669,7 @@ ImageWidth: 256 520
 This image, after being pushed through <command>tiffdither</command> looks something like:
 </para>
 
-<figure>
-<title>The dithered output image</title>
+<figure><title>The dithered output image</title>
 <graphic format="EPS" fileref="tiff-figure10.eps">
 </figure>
 </sect3>
@@ -675,7 +678,7 @@ This image, after being pushed through <command>tiffdither</command> looks somet
 
 <sect2><title>tiffdump</title>
 <para>
-...
+<execute><cmd>todo</cmd><input>TODO stuff</input></execute>
 </para>
 
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffdump.1</input><args>-s 3</args></execute>
@@ -709,7 +712,7 @@ PlanarConfig (284) SHORT (3) 1&lt;1&gt;
 
 <sect2><title>tiffgt</title>
 <para>
-...
+<execute><cmd>todo</cmd><input>TODO stuff</input></execute>
 </para>
 
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffgt.1</input><args>-s 3</args></execute>
@@ -718,7 +721,7 @@ PlanarConfig (284) SHORT (3) 1&lt;1&gt;
 
 <sect2><title>tiffinfo</title>
 <para>
-...
+<execute><cmd>todo</cmd><input>TODO stuff</input></execute>
 </para>
 
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffinfo.1</input><args>-s 3</args></execute>
@@ -775,7 +778,7 @@ Strip 0:
 
 <sect2><title>tiffmedian</title>
 <para>
-...
+<execute><cmd>todo</cmd><input>TODO stuff</input></execute>
 </para>
 
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffmedian.1</input><args>-s 3</args></execute>
@@ -788,7 +791,7 @@ Strip 0:
 
 <sect2><title>tiffsplit</title>
 <para>
-...
+<execute><cmd>todo</cmd><input>TODO stuff</input></execute>
 </para>
 
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffsplit.1</input><args>-s 3</args></execute>
@@ -800,7 +803,7 @@ Strip 0:
 
 <sect2><title>tiffsv</title>
 <para>
-...
+<execute><cmd>todo</cmd><input>TODO stuff</input></execute>
 </para>
 
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffsv.1</input><args>-s 3</args></execute>
@@ -811,7 +814,7 @@ Strip 0:
 
 <sect2><title>tifftopnm</title>
 <para>
-...
+<execute><cmd>todo</cmd><input>TODO stuff</input></execute>
 </para>
 
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tifftopnm.1</input><args>-s 3</args></execute>
@@ -842,8 +845,7 @@ In one of the previous chapters I also promised to provide the source code for t
 Which produces:
 </para>
 
-<figure>
-<title>An average of the color values for each pixel</title>
+<figure><title>An average of the color values for each pixel</title>
 <graphic format="EPS" fileref="grayscale-figure2.eps">
 </figure>
 </sect2>
@@ -855,8 +857,7 @@ Which produces:
 Which gives us:
 </para>
 
-<figure>
-<title>A correct conversion to gray scale</title>
+<figure><title>A correct conversion to gray scale</title>
 <graphic format="EPS" fileref="grayscale-figure3.eps">
 </figure>
 
