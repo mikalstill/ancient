@@ -304,7 +304,8 @@ void debuglex(char *text, int len, char *desc){
 #if defined DEBUG
   int i;
 
-  printf("Lexer rule is \"%s\", match is \"", desc);  
+  printf("Lexer rule is \"%s\", state is %s, match is \"", desc, 
+	 YYSTATE == 0 ? "INITIAL" : "BINARY");  
 
   for(i = 0; i < ((len == -1) ? strlen(text) : len); i++){
     if(text[i] == '\n') printf(" \\n " );
@@ -332,9 +333,13 @@ char *returnStr(char *yytext, int len){
 }
 
 void beginBinary(){
+  printf("Current state is %s\n", YYSTATE == 0 ? "INITIAL" : "BINARY");
   BEGIN(BINARY);
+  printf("Current state is %s\n", YYSTATE == 0 ? "INITIAL" : "BINARY");
 }
 
 void endBinary(){
+  printf("Current state is %s\n", YYSTATE == 0 ? "INITIAL" : "BINARY");
   BEGIN(INITIAL);
+  printf("Current state is %s\n", YYSTATE == 0 ? "INITIAL" : "BINARY");
 }

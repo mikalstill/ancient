@@ -1,6 +1,36 @@
 #!/bin/bash
 
-set -x
+# $1: Original code
+# $2: New code
+# $3: Kernel version
+# $4: Name of the patch file
+
+usage(){
+    cat<<EOF
+Usage: $0 <orig> <new> <kernel version> <name of patch>
+EOF
+exit
+}
+
+if [ "%$1%" = "%%" ]
+then
+    usage
+fi
+
+if [ "%$2%" = "%%" ]
+then
+    usage
+fi
+
+if [ "%$3%" = "%%" ]
+then
+    usage
+fi
+
+if [ "%$4%" = "%%" ]
+then
+    usage
+fi
 
 cd $1 > /dev/null
 make clean > /dev/null
@@ -16,4 +46,14 @@ cd /usr/src > /dev/null
 find $2 -type f -name "*~" -exec rm {} \; > /dev/null
 find $2 -type f -name "#*#" -exec rm {} \; > /dev/null
 
-diff -Nur $1 $2
+mkdir -p /home/httpd/html/linux/patches/$3
+diff -Nur $1 $2 > /home/httpd/html/linux/patches/$3/$4
+less /home/httpd/html/linux/patches/$3/$4
+
+echo -n "Is this patch ready? (y/n): "
+read ready
+if [ "%$ready%" == "%y%" ]
+then
+  echo "Ready" > /home/httpd/html/linux/patches/$3/$4-state
+  echo "Marked ready"
+fi

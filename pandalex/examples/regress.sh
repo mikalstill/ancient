@@ -72,3 +72,5 @@ do
   count=$(( $count + 1 ))
   pcount=`printf "%06d" $count`
 done
+
+mono ~mikal/opensource/pdfcollection/Class1.exe "/home/httpd/html/pdfdb"
