@@ -1,27 +1,83 @@
-<sect1><title>Theory of color and grayscale storage</title>
+<sect1><title>Theory of color and gray scale storage</title>
 <para>
-The first thing that we need to understand to be able to support color and grayscale images is the format of the image data within memory. There are two main representations for color and grayscale images. I'll explain these by describing grayscale, and then extend it to color.
+There are several ways that the value of a pixel can be stored within a raster image. This is a pretty fundamental concept, so it is best to get it out of the way early on before we get caught up in the actual format of images.
 </para>
 
-<sect2><title>Direct storage of pixel data</title>
+<figure><title>The worst picture of a house you have ever seen</title>
+<graphic format="EPS" fileref="theory-figure1.eps">
+</figure>
+
 <para>
-The format for black and white images is to store the value of each pixel in the image itself.
+I will use the simple image above to demonstrate the ways that the pixel values can be stored...
+</para>
+
+<figure><title>A zoom in on the house</title>
+<graphic format="EPS" fileref="theory-figure2.eps">
+</figure>
+
+<para>
+We'll in fact only use a zoomed in portion of the image so that what is happening is clearer.
+</para>
+
+<sect2><title>Direct storage of black and white</title>
+<figure><title>A black and white zoom in</title>
+<graphic format="EPS" fileref="theory-figure3.eps">
+</figure>
+
+<para>
+Black and white images only really have one pixel value storage option. This is to store the value of the pixel directly at the pixel location in the image data itself. This is a good option for black and white data, because it only takes on bit per pixel anyway.
+</para>
+
+<figure><title>Black and white data</title>
+<graphic format="EPS" fileref="theory-figure4.eps">
+</figure>
+
+<para>
+Whilst this is a very simple example, make sure you understand how the diagram works, because it gets more complex from here. Each square represents the storage space in the image data, and in this example the values representing the pixel values is stored inside the image data.
+</para>
+</sect2>
+
+<sect2><title>Direct gray scale storage</title>
+<figure><title>A gray scale zoom in</title>
+<graphic format="EPS" fileref="theory-figure5.eps">
+</figure>
+
+<para>
+In this example, we are storing the gray scale values of the pixels within the image data.
+</para>
+</sect2>
+
+<sect2><title>Direct RGB storage</title>
+<figure><title>A RGB zoom in</title>
+<graphic format="EPS" fileref="theory-figure6.eps">
+</figure>
+
+<para>
+Here we are storing the red green and blue values for each pixel within the image data.
+</para>
+</sect2>
+
+<sect2><title>Paletted RGB storage</title>
+<figure><title>A paletted RGB zoom in</title>
+<graphic format="EPS" fileref="theory-figure7.eps">
+</figure>
+
+<para>
+The other option is to instead store within the image data itself a number which uniquely identifies the color at that pixel. We can then have a table elsewhere in the image file which defines the color that is that unique value. This table is a palette, and this is a very common way of storing RGB data (it is in fact the only option with some formats such as GIF).
 </para>
 
 <para>
-If you think back to the way pixel information was stored in the black and white images from the previous article, the information was just in the strips. You can also do this with grayscale and color images. This representation of image data is quite inefficient, because for the scenario when the image has a solid background (for example), there are many pixels with the same value. If the pixel data is stored in the strips, then this value will waste a large amount of space.
+You can also use palettes for gray scale images, I just haven't provided an example of that here.
+</para>
+
+<sect3><title>The advantage of paletting</title>
+<para>
+The big advantage of paletting an image is that the final file is going to be much smaller. For example, an A4 page is 1754 by 2479 pixels. That's 4,348,166 pixels. Now, let's assume for this example that the image is 24 bit color (that is 8 bits per color per pixel), and that there are seven colors in the image. That means that unpaletted, we have 13,044,498 bytes of image data (uncompressed). If we palette the image data, then we only need three bits of data in the image data -- 1,630,562 bytes (uncompressed). We'll also need to store the palette itself, which will need another 21 bytes (uncompressed). We don't need to store the color indices, as they are just an offset into an array.
 </para>
 
 <para>
-Thankfully, there is a more efficient way to store image data. Imagine a simple four color 24 bit per pixel image. If we build a lookup table of the four color values (the 24 bit values which represent those colors), then we just need to store the relevant entry number of the color in the image strip itself. This can be done in only two bits, instead of the full 24. The maths looks something like this:
+This means that the total saving on an uncompressed image is 11,413,936 bytes. The disadvantage of course is that using the image is almost certainly going to be slightly slower...
 </para>
-
-<para>
-A 24 bit color image which is 1,000 by 1,000 pixels will take 24 million bits to store. The same image, if it was a four color image, would take 4,000,000 bits for the strip data, and 98 bits for the color table. Neither of these numbers includes header and footer information for the file format, and the numbers are for uncompressed bitmaps. The advantages of the lookup table should be obvious. There is a name for this style of lookup table, it is called a <emphasis>palette</emphasis> -- probably because of those things painters carry around.
-</para>
-
-<para>
-This concept works for grayscale images as well. The only difference is that the colors in the palette are not just shades of gray.
-</para>
+</sect3>
 </sect2>
 </sect1>
