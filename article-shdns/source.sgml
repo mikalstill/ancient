@@ -14,7 +14,12 @@ Michael has a website at http://www.stillhq.com.
 
 <sect1><title>Introduction</title>
 <para>
-...Assumed C knowledge...
+This article is about two things. The main focus of the article is to discuss how to write useful UDP servers in a common scripting language such as bash. The other, more minor, focus of the article is to give a brief tutorial on the differences between disconnected and connected sockets.
+</para>
+
+<para>
+
+...Assumed C, bash knowledge...
 
 TODO
 </para>
@@ -63,7 +68,7 @@ So why would you ever use UDP? Well, all this reliability in TCP comes at a pric
 <execute><cmd>eqimg</cmd><args>tcp-handshake.png</args></execute>
 
 <para>
-So before the two machines can even communicate, they've spent one and a half round trips just setting up the connection.
+So before the two machines can even communicate, they've spent a round trip just setting up the connection (the ACK can be sent at the same time as the first packet, as we don't have to wait for an ACK ACK to come back).
 </para>
 
 <para>
@@ -90,67 +95,175 @@ TODO
 
 <sect2><title>Disconnected sockets</title>
 <para>
-By default when a UDP socket is created, it is disconnected.
+By default when a UDP socket is created, it is disconnected. What's a disconnected socket? The short answer is that it isn't associated with a given remote machine. This means that each time we fetch data from the socket we have to use the <emphasis>recvfrom</emphasis>(2) function call:
+</para>
+
+<programlisting>
+int recvfrom(int s, void *buf, size_t len, int flags, 
+             struct sockaddr *from, socklen_t *fromlen);
+</programlisting>
+
+<para>
+The <emphasis>struct sockaddr</emphasis> arguement in this function call is populated with enough information for the program to be able to determine where to send the reply packet. The reponse needs to be sent with the <emphasis>sendto</emphasis>(2) call:
+</para>
+
+<programlisting>
+int sendto(int s, const void *msg, size_t len, int flags, 
+           const struct sockaddr *to, socklen_t tolen);
+</programlisting>
+
+<para>
+The <emphasis>sendto</emphasis> function call takes another <emphasis>struct sockaddr</emphasis> arguement which specifies where the packet should be sent.
+</para>
+
+<para>
+The code listing below is an example of how to use the <emphasis>recvfrom</emphasis> and <emphasis>sendto</emphasis> functions. This example is a simple UDP echo server. The program waits on a given port, and whenever it receives data, sends it straight back.
 </para>
 
 <execute><cmd>code2db</cmd><input>~mikal/opensource-unstable/shdns/sockets/disconnected.c</input></execute>
-</sect2>
 
-<sect2><title>Connected sockets</title>
 <para>
-TODO
+Let's have a look at this program running. As we can see from the source code, the program listens on UDP port 1234 (very imaginative). We can use <command>netcat</command> to test the program. First, we need to start the server in a different terminal, this is as simple as running it.
 </para>
 
-<execute><cmd>code2db</cmd><input>~mikal/opensource-unstable/shdns/sockets/connected.c</input></execute>
-</sect2>
-</sect1>
-
-
-
-
-
-
-
-
-
-
-
-<sect1><title>inetd</title>
+<sidebar><title>netcat rocks</title>
 <para>
-I guess I should also briefly explain what inetd and xinetd do for you.
+<command>netcat</command> rocks. It's a little application which lets you push data to arbitary port numbers using both UDP and TCP. It can also be used to create very simple servers, because <command>netcat</command> can do all the listening for you. For more information, and download details, checkout http://www.atstake.com/research/tools/network_utilities/.
+</para>
+</sidebar>
 
-TODO
+<para>
+A client interaction with the server looks like this:
 </para>
 
-<sect2><title>Role</title>
+<programlisting>
+[mikal@localhost article]# nc -u localhost 1234
+hello
+hello
+out
+out
+there
+there
+ punt!
+[mikal@localhost article]# 
+</programlisting>
+
 <para>
-TODO
+Note that the <quote>punt!</quote> is me hitting control c on <command>netcat</command>. The server output for this session is:
+</para>
+
+<programlisting>
+[root@localhost sockets]# ./disconnected 
+Reading...
+Read: hello
+
+Reading...
+Read: out
+
+Reading...
+Read: there
+
+Reading...
+</programlisting>
+
+<para>
+There are a couple of things worth noting here. Firstly, the UDP server can handle multiple clients at once in the single process. This is because each packet comes in, and is then responded to &mdash; there is no assumption made that packets come from the same machine. This model works well for the single packet communication paradigm. Secondly, because the server simply waits for a packet, responds, and then starts waiting again, the server survives disconnects from the client, it simply waits until a new packet comes along.
 </para>
 </sect2>
 
-<sect2><title>Working with UDP</title>
+<sect2><title>Disconnected sockets and scripting</title>
 <para>
-TODO
+This article is really about writing useful UDP servers using scripting languages &mdash; specifically <emphasis>bash</emphasis>. In this instance, the disconnected nature of these default UDP sockets causes great pain. This is because there is no trivial way in bash to call <emphasis>recvfrom</emphasis> and <emphasis>sendto</emphasis>. Shell scripts really want to be able to use the standard <emphasis>read</emphasis> and <emphasis>write</emphasis> calls, because they are really intended for file and pipe input output, as opposed to socket traffic.
 </para>
-</sect2>
 
-<sect2><title>Getting connected sockets</title>
 <para>
-TODO
+We can demonstrate this by writing a very simple, and probably quite impractical <command>inetd</command> server.
+</para>
+
+<sidebar><title>What is inetd?</title>
+<para>
+<command>inetd</command>, and it's fairly common <command>xinetd</command> alternative are super daemons. Their role in the networking food chain is as a way of running programs to process network traffic as demand requires. For example, for many <command>rsync</command> servers operate from <command>inetd</command>. What this means is that <command>inetd</command> runs in the background as a daemon waiting for connections from clients to the <command>rsync</command> port. It then starts a new copy of <command>rsync</command> for each of these connections, and <command>rsync</command> processes the traffic (and perhaps responds).
+</para>
+
+<para>
+Many developers write network servers which are intended to be run by <command>inetd</command> because it simplifies development of the application. <command>inetd</command> handles most of the plumbing for the application.
+</para>
+
+<para>
+Please bear in mind that <command>inetd</command> and <command>xinetd</command> are very configurable, and this is only a general description. You should refer to the relevant documentation for more information.
+</para>
+</sidebar>
+
+<para>
+This is a particularly useful example, because our shell scripts are eventually going to run from <command>inetd</command>, so having an understanding of how it works is very useful...
 </para>
 
 <execute><cmd>code2db</cmd><input>~mikal/opensource-unstable/shdns/sockets/disconnexec.c</input></execute>
 
 <para>
-TODO
+All this program does is wait on port 1234 until a connection comes in, forks, and the new child process starts executing the server program (in this case <command>cat</command>). This technique relies on the fact that the child process will share the environment of the parent process, including it's filehandles. These are duplicated to stdin and stdout before the server program starts executing, so that network input goes into stdin, and server output is sent back over the network.
+</para>
+
+<para>
+This of course doesn't work because the socket is disconnected, so <command>cat</command>'s <emphasis>read</emphasis> call will work, but it's <emphasis>write</emphasis> call fails because the socket layer doesn't know where to send the response to.
+</para>
+</sect2>
+
+
+
+
+
+
+
+
+
+<sect2><title>Connected sockets</title>
+<para>
+The answer to our need to use <emphasis>read</emphasis> and <emphasis>write</emphasis> for our shell scripts which use <command>inetd</command> is a connected socket. A connected socket is simply a socket which has had the <emphasis>connect</emphasis>(2) function called upon it.
+</para>
+
+<para>
+When the <emphasis>connect</emphasis> function is called, it simply records which machine the network packet came from, so that the socket layer knows where to send the reply packet when it is output with the <emphasis>write</emphasis> function call.
+</para>
+
+<para>
+Here's a simple example of a connected socket version of the disconnected echo server above. Note that we now use <emphasis>read</emphasis> and <emphasis>write</emphasis> function calls for all the network input output.
+</para>
+
+<execute><cmd>code2db</cmd><input>~mikal/opensource-unstable/shdns/sockets/connected.c</input></execute>
+
+<para>
+We do cheat a little in this example, there is one <emphasis>recvfrom</emphasis> call. This is used to <quote>peek</quote> at the data which is waiting on the socket to determine the address to connect to. The <emphasis>MSG_PEEK</emphasis> means that the data is not actually removed from the queue of data to be processed by this call.
+</para>
+
+<para>
+I wont include an example of what this program looks like when it runs, because it looks exactly the same as the disconnected echo server above.
+</para>
+</sect2>
+
+<sect2><title>Back to our simple inetd server</title>
+<para>
+You'll recall that a couple of examples ago I showed you the code for a simple <command>inetd</command> server. This example below expands that so that now it uses a connected socket. This example will behave just like the hard coded echo server in the first and third examples in this article (except that the server debugging output doesn't happen any more).
 </para>
 
 <execute><cmd>code2db</cmd><input>~mikal/opensource-unstable/shdns/sockets/connexec.c</input></execute>
 </sect2>
 
-<sect2><title>Patches</title>
+<sect2><title>inetd and xinetd patches</title>
 <para>
-TODO
+The two standard inetd implementations that most people use are called <command>inetd</command> and <command>xinetd</command>. Neither of these implements a connected socket for the server before starting it, which means that it is effectively impossible to write a standard shell script which processes UDP network traffic.
+</para>
+
+<para>
+It therefore seems logical to me to include some patches to make <command>inetd</command> and <command>xinetd</command> behave in the manner that I would like them to. Afterall, surely if your goal is as noble as implementing a DNS server in shell script, then surely the operating system should be modified to accomodate that?
+</para>
+
+<para>
+INETD PATCH TODO
+</para>
+
+<para>
+XINETD PATCH TODO
 </para>
 </sect2>
 </sect1>
