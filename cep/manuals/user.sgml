@@ -10,4 +10,7 @@
 <execute><cmd>builddb</cmd><input>uiconfig.sgml</input></execute>
 <execute><cmd>builddb</cmd><input>maths.sgml</input></execute>
 <execute><cmd>builddb</cmd><input>quickref.sgml</input></execute>
+
+<execute><cmd>builddb</cmd><input>temporaryfiles.sgml</input></execute>
+
 </book>

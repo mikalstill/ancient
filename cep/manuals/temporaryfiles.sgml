@@ -1,0 +1,58 @@
+<chapter><title>Temporary files</title>
+<sect1><title>Introduction</title>
+<para>
+<command>GDMS</command> needs to be able to store information in temporary files to operate correctly. The only form of information currently stored in temporary files is the PNG graphs, which are used in the user interface. This is done so that the graphs do not have to be regenerated every time they are drawn, and to avoid having to cache the images in memory, which could result in a large amount of memory being used to infrequently used data.
+</para>
+
+<para>
+<command>GDMS</command> will determine when the files in the temporary graph cache are out of date automatically, and when this is the case will regenerate the graph as required.
+</para>
+</sect1>
+
+<sect1><title>Location of temporary files</title>
+<para>
+Temporary files are stored by default in <emphasis>/tmp</emphasis>.
+</para>
+
+<execute><cmd>todo</cmd><input>Make this configurable</input></execute>
+
+<para>
+The files have randomly generated names which match the regular expression <emphasis>cep.*$</emphasis>. Examples of valid temporary filenames are:
+</para>
+
+<programlisting>
+cep.5tgSBw
+cep.7v2DRn
+cep.AxSGaC
+cep.d4j1at
+cep.dinwwj
+cep.eu4OqI
+cep.HDxyXc
+cep.I6U6DO
+cep.k2Wweg
+cep.pDpvqC
+cep.qcRKds
+cep.sBiOhb
+cep.VqHGbW
+cep.YoTRdk
+cep.zbOzJ3
+</programlisting>
+
+<para>
+These files can take a fair bit of disc space. The example files above took a total of 808 kilobytes.
+</para>
+</sect1>
+
+<sect1><title>Cleanup of temporary files</title>
+<para>
+<command>GDMS</command> will automatically cleanup temporary files as required. In reality, this means that temporary files from previous runs are deleted when <command>GDMS</command> starts up. Note that only the GUI implementation cleans the <emphasis>/tmp</emphasis> directory, <command>GDMS web</command> does not perform this operation
+  <footnote><para>This is because <command>GDMS web</command> does not create it's temporary files in this manner. Refer to the <command>GDMS web</command> documentation for further detail on this.</para></footnote>.
+</para>
+
+<execute><cmd>todo</cmd><input>Multiple copies at once?</input></execute>
+
+<para>
+One side effect of this cleanup methodology is that you cannot have multiple copies of <command>GDMS</command> running at once, as the newest version will clean up the previous version's caches. Then again, the other instances will regenerate their caches as required...
+</para>
+</sect1>
+</chapter>
