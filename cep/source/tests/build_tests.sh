@@ -45,3 +45,4 @@ else
 	echo success!
 	echo test executable is called \"$BINARY\".
 fi
+\n
