@@ -92,12 +92,10 @@ You can see that whilst the image has certainly changed, the contents of the ima
 </para>
 
 <para>
-For those who have an excessive interest in code, I encrypted the TIFF image which is the TOWER logo with the code below</cmd><input>
+For those who have an excessive interest in code, I encrypted the TIFF image which is the TOWER logo with the code below...
 </para>
 
-<programlisting>
-...
-</programlisting>
+<execute><cmd>todo</cmd><input>crypto code</input></execute>
 
 <para>
 What about encrypting an image of text? 

@@ -61,11 +61,11 @@ This header had the following parts:
   <footnote><para>Whilst the vast majority of PDF structure is represented with ASCII text, this doesn't stop you from embedding binary into the file</para></footnote>
 .</para></listitem>
 </itemizedlist>
-</para>
 
 <sect3><title>Specification versions</title>
 <para>
 There have been five versions of the PDF specification released at the time of writing this document. They are:
+</para>
 
 <itemizedlist>
 <listitem><para><emphasis>1.0</emphasis>: maps functionality available in Adobe Acrobat 1.0</para></listitem>
@@ -104,7 +104,6 @@ This object is the 0th version of object number 1. The text between the &lt;&lt;
 Note that objects can appear in the file in any order, because there is a lookup table called an XREF table at the end of the file that they can be looked up from.
 </para>
 </sidebar>
-</sect3>
 </sect2>
 
 <sect2><title>Dictionaries</title>
@@ -130,8 +129,8 @@ This dictionary specifies that the key <quote>Type</quote> has the value <quote>
 What data types are valid in dictionaries? Well, version 1.3 of the PDF specification names the following data types:
 </para>
 
-<execute><cmd>insertall.sh</cmd><args>pdf-type-*.sgml</args></execute>
 <execute><cmd>todo</cmd><input>Do these</input></execute>
+<execute><cmd>insertall.sh</cmd><args>pdf-type-*.sgml</args></execute>
 
 </sect3>
 
@@ -189,7 +188,16 @@ endobj
 </programlisting>
 
 <para>
-A description for the page layout descriptions is outside the scope of this document. <execute><cmd>nextedition</cmd><input>We should include information about the page description</input></execute> The other type of information which can be stored in a stream is arbitary information such as the content of images (which would normally be raster information). <execute><cmd>nextedition</cmd><input>In depth discussion</input><execute> An indepth discussion of the formatting of the raster information is also outside the scope of this document.
+A description for the page layout descriptions is outside the scope of this document. 
+
+<execute><cmd>nextedition</cmd><input>We should include information about the page description</input></execute> 
+
+The other type of information which can be stored in a stream is arbitary information such as the content of images (which would normally be raster information). 
+
+<execute><cmd>nextedition</cmd><input>In depth discussion</input></execute> 
+
+An indepth discussion of the formatting of the raster information is also outside the scope of this document.
+</para>
 
 <sect3><title>Filters on streams</title>
 <para>
@@ -223,7 +231,7 @@ Now that we've discussed the format of the PDF file format, we can talk about th
 <para>
 In our discussion of the three libraries, we will work through the same set of programs, to give you an opportunity to compare the three libraries. After all, they all have their own strengths, and weaknesses.
 </para>
-<sect1>
+</sect1>
 
 <sect1><title>ClibPDF</title>
 <para>
@@ -234,52 +242,7 @@ ClibPDF was my first introduction to PDF generation APIs. It is available from h
 Note that ClibPDF is not free software. The license is included below for your reference:
 </para>
 
-<execute><cmd>todo</cmd><input>These images don't seem to work</input></execute>
-
-<figure>
-<title>ClibPDF license, page 1</title>
-<graphic format="EPS" fileref="clibpdf-license.0.eps">
-</figure>
-
-<figure>
-<title>ClibPDF license, page 2</title>
-<graphic format="EPS" fileref="clibpdf-license.1.eps">
-</figure>
-
-<figure>
-<title>ClibPDF license, page 3</title>
-<graphic format="EPS" fileref="clibpdf-license.2.eps">
-</figure>
-
-<figure>
-<title>ClibPDF license, page 4</title>
-<graphic format="EPS" fileref="clibpdf-license.3.eps">
-</figure>
-
-<figure>
-<title>ClibPDF license, page 5</title>
-<graphic format="EPS" fileref="clibpdf-license.4.eps">
-</figure>
-
-<figure>
-<title>ClibPDF license, page 6</title>
-<graphic format="EPS" fileref="clibpdf-license.5.eps">
-</figure>
-
-<figure>
-<title>ClibPDF license, page 7</title>
-<graphic format="EPS" fileref="clibpdf-license.6.eps">
-</figure>
-
-<figure>
-<title>ClibPDF license, page 8</title>
-<graphic format="EPS" fileref="clibpdf-license.7.eps">
-</figure>
-
-<figure>
-<title>ClibPDF license, page 9</title>
-<graphic format="EPS" fileref="clibpdf-license.8.eps">
-</figure>
+<execute><cmd>pdf2db.sh</cmd><args>clibpdf-license.pdf "ClibPDF license"</args></execute>
 
 <para>
 To summarise the license, this quote from the ClibPDF README page sums it up:
@@ -295,7 +258,6 @@ ClibPDF and Premium ClibPDF are not public-domain or free software.
 <para>
 This almost certainly limits what you can do with the library, and means that using the library will cost you money.
 </para>
-</sect2>
 
 <sect2><title>Installation</title>
 <para>
@@ -349,7 +311,34 @@ ClibPDF doesn't support win32 directly. It is however written in ANSI C, so a po
 </para>
 </sect3>
 </sect2>
+
+<sect2><title>Hello world example</title>
+<para>
+The most basic PDF example is the hello world application. Here is the ClibPDF iteration:
+</para>
+
+<execute><cmd>code2db.pl</cmd><input>source/pdf/clibpdf/hello/hello.c</input></execute>
+
+<para>
+This produces a PDF which looks like (somewhat reduced from it's real size)...
+</para>
+
+<execute><cmd>pdf2db.sh</cmd><args>source/pdf/clibpdf/hello/hello.pdf "ClibPDF hello world"</args></execute>
+
+<para>
+The first block initializes ClibPDF, then we create a page, put some text on it, and then close the document.
+</para>
+</sect2>
 </sect1>
+
+
+
+
+
+
+
+
+
 
 <sect1><title>PDFlib</title>
 <para>
@@ -377,27 +366,89 @@ ClibPDF doesn't support win32 directly. It is however written in ANSI C, so a po
 
 <sect1><title>Panda</title>
 <para>
-<execute><cmd>todo</cmd><input>Content</input></execute>
+Panda is my own PDF generation library. I wrote it because I was not happy with the license and some of the limitations with ClibPDF, and the license for PDFlib wasn't acceptable. To be honest, the best way to learn about something is also to build an implementation of it, which was an additional motivation.
+</para>
+
+<para>
+You can get Panda from http://www.stillhq.com, and is licensed under the GNU GPL, which can be found at the start of this tutorial.
 </para>
 
 <sect2><title>Installation</title>
 <para>
-<execute><cmd>todo</cmd><input>Content</input></execute>
+First, download Panda from http://www.stillhq.com, and then follow these simple steps:
 </para>
 
 <sect3><title>Unix</title>
 <para>
-<execute><cmd>todo</cmd><input>Content</input></execute>
+Follow these simple steps to install Panda on your unix system:
+</para>
+
+<itemizedlist>
+<listitem><para>Extract the tarball</para></listitem>
+<listitem><para>Change into the Panda directory</para></listitem>
+<listitem><para>./configure</para></listitem>
+<listitem><para>make</para></listitem>
+<listitem><para>make install</para></listitem>
+</itemizedlist>
+
+<para>
+This will also build the examples in the examples directory.
 </para>
 </sect3>
 
 <sect3><title>win32</title>
 <para>
-<execute><cmd>todo</cmd><input>Content</input></execute>
+Panda currently compiles quite happily on Windows, and if you download the right version of the tarball even includes a Microsoft Visual Studio project file. Note that the current version of Panda (0.5.1), doesn't include a COM wrapper for Panda, so you either need to be programing in C or C++, or a language which can import DLL symbols (for instance Microsoft Visual Basic).
 </para>
 </sect3>
 </sect2>
+
+<sect2><title>Hello world example</title>
+<para>
+The most basic PDF example is the hello world application. Here is the Panda iteration:
+</para>
+
+<execute><cmd>code2db.pl</cmd><input>source/pdf/panda/hello/hello.c</input></execute>
+
+<para>
+Which produces...
+</para>
+
+<execute><cmd>pdf2db.sh</cmd><args>source/pdf/panda/hello/hello.pdf "Panda hello world"</args></execute>
+
+<para>
+The calling order here is very similar to ClibPDF and PDFlib, so I wont go into incredibly verbose explainations here.
+</para>
+</sect2>
+
 </sect1>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <sect1><title>Adobe products</title>
 <para>
@@ -428,7 +479,7 @@ It seems useful to provide a summary of the differences we have learnt about the
 <entry>License</entry>
 <entry>FastIO license. Not opensource / free software / public domain</entry>
 <entry></entry>
-<entry></entry>
+<entry>GNU GPL Version 2</entry>
 <entry></entry>
 </row>
 
@@ -436,7 +487,7 @@ It seems useful to provide a summary of the differences we have learnt about the
 <entry>Cost</entry>
 <entry>$1,000 USD+</entry>
 <entry></entry>
-<entry></entry>
+<entry>$0</entry>
 <entry></entry>
 </row>
 
@@ -445,7 +496,7 @@ It seems useful to provide a summary of the differences we have learnt about the
 <entry>Free for non commercial use?</entry>
 <entry>Yes, with conditions</entry>
 <entry></entry>
-<entry></entry>
+<entry>Always free</entry>
 <entry></entry>
 </row>
 
@@ -461,8 +512,9 @@ It seems useful to provide a summary of the differences we have learnt about the
 
 
 </tbody>
+</tgroup>
 </table>
-
+</sect1>
 
 <sect1><title>Conclusion</title>
 <para>

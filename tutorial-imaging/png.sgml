@@ -90,6 +90,7 @@ The <command>pnginfo</command> command implemented here is modeled on the <comma
 </para>
 
 <execute><cmd>code2db.pl</cmd><input>~mikal/opensource/pngtools/pnginfo.c</input></execute>
+</sect2>
 </sect1>
 
 <sect1><title>Man pages</title>
@@ -107,10 +108,10 @@ To be honest, the libtiff man pages are much better than the documentation which
 
 <sect2><title>libpng.txt</title>
 <para>
-<execute><cmd>todo</cmd><input>More content here</input></execute>
+<execute><cmd>todo</cmd><input>More content here and make text2db work</input></execute>
 </para>
 
-<execute><cmd>text2db.pl</cmd><input>source/png/man/libpng.txt</input></execute>
+<execute><cmd>text2db.pl.none</cmd><input>source/png/man/libpng.txt</input></execute>
 </sect2>
 </sect1>
 

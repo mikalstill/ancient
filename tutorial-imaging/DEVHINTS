@@ -1,4 +1,5 @@
-convert -sample 320x240 grayscale-figure1.jpg grayscale-figure1.eps
+For figures:
+  convert -sample 320x240 grayscale-figure1.jpg grayscale-figure1.eps
 
 I had problems with: </para></sect3><sidebar>... The answer was:
 

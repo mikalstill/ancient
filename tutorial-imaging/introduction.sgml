@@ -131,5 +131,11 @@ LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
 OF THIS SOFTWARE.
 </para>
 </sect2>
+
+<sect2><title>License for some ClibPDF examples</title>
+<para>
+Some ClibPDF examples are subject to the ClibPDF license, which is included in the PDF chapter of this tutorial.
+</para>
+</sect2>
 </sect1>
 </chapter>
