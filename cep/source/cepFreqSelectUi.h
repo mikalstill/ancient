@@ -34,51 +34,50 @@
 #include "cepUI.h"
 #include "cepUtility.h"
 
-class cepDateRange: public wxDialog
+class cepFreqRange: public wxDialog
 {
 public:
 
   //Displays the "Select Date Range" dialog box
-  cepDateRange(cepDate toDate, cepDate fromDate);
+  cepFreqRange(double startFreq, double endFreq);
 
   //gets the date values entered
-  const double & getToDate();
-  const double & getFromDate();
+  const double & getStartFreq();
+  const double & getEndFreq();
   
   //the on Quit event
-  void dlgDateOnQuit(wxCommandEvent& event);
+  void dlgOnQuit(wxCommandEvent& event);
   //the on Ok event
-  void dlgDateOnOK(wxCommandEvent& event);
+  void dlgOnOK(wxCommandEvent& event);
 
 private:
   //declerations for the elements of the dialog box
   wxPanel *m_panel;
   wxStaticBox *m_statBox;
   wxStaticText *m_statText1, *m_statText2, *m_statText3, *m_statText4;
-  wxComboBox *m_cbToDay, *m_cbToMonth, *m_cbFromDay, *m_cbFromMonth;
-  wxTextCtrl *m_tbToYear, *m_tbFromYear;
+  wxTextCtrl *m_tbStartFreq, *m_tbEndFreq;
   wxButton *m_bSubmit, *m_bCancel;
 
   //the selected dates as decimals
-  double m_toDate, m_fromDate;
+  double m_startFreq, m_endFreq;
   DECLARE_EVENT_TABLE ()
 };
 
-class cepDateUi
+class cepFreqUi
 {
 public:
-  cepDateUi();
+  cepFreqUi();
 
   //shows the "Select Date Range" dialog box
-  void showDateRange(cepDate toDate, cepDate fromDate);
+  void showFreqRange(double startFreq, double endFreq);
 
   //gets the date value as decimals
-  double & getToDate();
-  double & getFromDate();
+  double & getStartFreq();
+  double & getEndFreq();
 
 private:
-  double m_toDate,      //the finish date as a decimal
-         m_fromDate;    //the start date as a decimal
+  double m_startFreq,      //the finish date as a decimal
+         m_endFreq;    //the start date as a decimal
 };
 
 
