@@ -35,22 +35,29 @@ cepInterp::cepInterp()
 cepMatrix<double> & cepInterp::doInterp(cepMatrix<double> const & input, double sampleRate,
 												int interpType, int winSize = 1, double winOverlap = 0.0)
 {
-	/* get the size of the input set*/
-	int inputSize = input.getNumRows();
-
 	/* winLength is the length of a window minus overlap on start edge*/
-	double winLength = winSize * (1-winOverlap);
+	int winLength = (int)(winSize * (1-winOverlap));
 
 	/* calculate number of required samples after interpolation*/
 	int numSamples;
-	numSamples = (int)(input.getValue(0,inputSize-1)- input.getValue(0,0))/inputSize;
-	numSamples = (int)(numSamples-(numSamples-winSize)/winLength);
+
+	numSamples = (int)((input.getValue(input.getNumRows()-1,0)- input.getValue(0,0))/sampleRate)+1;
+	numSamples = (int)(numSamples-(numSamples-winSize)%winLength);
+
 
 	/* build new timescale*/
-	cepMatrix<double> timeScale(2,numSamples);
+	cepMatrix<double> timeScale(numSamples,3);
 	timeScale.setValue(0,0,input.getValue(0,0));
 	for (int i = 1; i < numSamples; i++)
-		timeScale.setValue(i,0,timeScale.getValue(i-1,0));
+		timeScale.setValue(i,0,timeScale.getValue(i-1,0)+sampleRate);
+
+	for (int i=0; i < timeScale.getNumRows(); i++)
+	{
+		for (int j=0; j < timeScale.getNumCols(); j++)
+			cout << timeScale.getValue(i,j);
+		cout << '\n';
+	}
+
 
 	/* do interpolation and return results */
 	return doInterp(input,timeScale,interpType);
@@ -118,6 +125,7 @@ cepMatrix<double> & cepInterp::doInterp(const cepMatrix<double> & input,
 	double distDate, distValue;
 
 	int position = 0;
+
 	for (int i = 0; i < newSize; i++)
 	{
 		if (inBounds(input, timeScale, position, i, newSize, oldSize))
@@ -329,9 +337,9 @@ bool cepInterp::inBounds(const cepMatrix<double> & input, cepMatrix<double> & ti
 								 int & position, int & i, int newSize, int oldSize)
 {
 
-	if (input.getValue(position,0) < timeScale.getValue(0,i))
+	if (input.getValue(position+1,0) < timeScale.getValue(i,0))
 	{
-		if (position+1 >= oldSize)
+		if (position+2 >= oldSize)
 		{
 			while (i < newSize)
 			{

@@ -37,7 +37,7 @@
  *     void tearDown( void ) { ... }
  *
  * @author <your name here>
- * @version $Revision: 1.1 $ $Date: 2002-10-22 05:20:00 $
+ * @version $Revision: 1.2 $ $Date: 2002-10-22 06:06:37 $
  *
  * Revision History
  *
@@ -92,7 +92,7 @@ protected:
   {
     int rows = 3, cols = 3;
     cepMatrix<double> start( rows, cols );
-    cepMatrix<double> finish1( 2 * rows -1, 2* cols );
+    cepMatrix<double> finish1( 2 * rows -1, cols );
     cepMatrix<double> finish2( 2 * rows -1, cols );
 		cepInterp interpolate;
 
