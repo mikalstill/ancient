@@ -96,51 +96,52 @@ DOCBOOK END
 
 #if !defined( _cepCfft_H_INC__ )
 #define _cepCfft_H_INC__ 1
-#include <math.h>               // for sin and cos
+#include <math.h>		// for sin and cos
 #include <stdio.h>
 #include <complex.h>
 #include "cepMatrix.h"
 
-typedef complex <double> ComplexDble;
+typedef complex < double >ComplexDble;
 
 template < class T > class cepCfft
 {
-  int N, log2N;                 // these define size of FFT buffer
-  T *w;                      // array [N/2] of cos/sin values
-  int *bitrev;                  // bit-reversing table, in 0..N
-  double fscales[2];            // f-transform scalings
-  double iscales[2];            // i-transform scales
+  int N, log2N;			// these define size of FFT buffer
+  T *w;				// array [N/2] of cos/sin values
+  int *bitrev;			// bit-reversing table, in 0..N
+  double fscales[2];		// f-transform scalings
+  double iscales[2];		// i-transform scales
   void fft_func (T * buf, int iflag);
 
 public:
-  cepCfft (int size,               // size is power of 2
-        double scalef1 = 0.5, double scalef2 = 1.0,     // fwd transform
-                                                        // scalings
-        double scalei1 = 1.0, double scalei2 = 1.0      // rev xform
+  cepCfft (int size,		// size is power of 2
+	   double scalef1 = 0.5, double scalef2 = 1.0,	// fwd transform
+	   // scalings
+	   double scalei1 = 1.0, double scalei2 = 1.0	// rev xform
     );
 
   ~cepCfft ();
-  inline void fft (T * buf)  // perform forward fft on buffer
+  inline void fft (T * buf)	// perform forward fft on buffer
   {
-    fft_func (buf, 1); //note: changed from 0 to 1 to effectively change fft sign - Daniel Fernandez
+    fft_func (buf, 1);		//note: changed from 0 to 1 to effectively change fft sign - Daniel Fernandez
   }
-  inline void ifft (T * buf) // perform reverse fft on buffer
+  inline void ifft (T * buf)	// perform reverse fft on buffer
   {
-    fft_func (buf, 0); //note: changed from 1 to 0 to effectively change fft sign - Daniel Fernandez
+    fft_func (buf, 0);		//note: changed from 1 to 0 to effectively change fft sign - Daniel Fernandez
   }
   inline int length () const
   {
     return N;
   }
 
-  cepMatrix<ComplexDble> matrixFft(cepMatrix<ComplexDble> & matrix, int dir);
+  cepMatrix < ComplexDble > matrixFft (cepMatrix < ComplexDble > &matrix,
+				       int dir);
 
   // used to fill in last half of complex spectrum of real signal
   // when the first half is already there.
   // 
   void hermitian (T * buf);
 
-};                              // class cepCfft
+};				// class cepCfft
 
 //////////////////////////////  cepCfft methods //////////////////////////////
 
@@ -152,7 +153,7 @@ public:
  */
 template < class T >
   cepCfft < T >::cepCfft (int size, double scalef1, double scalef2,
-                       double scalei1, double scalei2)
+			  double scalei1, double scalei2)
 {
   int i, j, k;
   double t;
@@ -163,13 +164,14 @@ template < class T >
   iscales[1] = scalei2;
 
   for (k = 0;; ++k)
-  {
-    if ((1 << k) == size)
-      break;
-    if (k == 14 || (1 << k) > size)
-      cepError("Error, FFT size must be a power of 2",cepError::sevErrorRecoverable);
-    //throw "cepCfft: size not power of 2";
-  }
+    {
+      if ((1 << k) == size)
+	break;
+      if (k == 14 || (1 << k) > size)
+	cepError ("Error, FFT size must be a power of 2",
+		  cepError::sevErrorRecoverable);
+      //throw "cepCfft: size not power of 2";
+    }
   N = 1 << k;
   log2N = k;
 
@@ -180,39 +182,39 @@ template < class T >
   else
     w = NULL;
   if (bitrev == NULL || ((k > 0) && w == NULL))
-    cepError("Error, FFT out of memory", cepError::sevErrorRecoverable);
-    //throw "cepCfft: out of memory";
+    cepError ("Error, FFT out of memory", cepError::sevErrorRecoverable);
+  //throw "cepCfft: out of memory";
   // 
   // do bit-rev table
   // 
   bitrev[0] = 0;
 
   for (j = 1; j < N; j <<= 1)
-  {
-    for (i = 0; i < j; ++i)
     {
-      bitrev[i] <<= 1;
-      bitrev[i + j] = bitrev[i] + 1;
+      for (i = 0; i < j; ++i)
+	{
+	  bitrev[i] <<= 1;
+	  bitrev[i + j] = bitrev[i] + 1;
+	}
     }
-  }
   // 
   // prepare the cos/sin table. This is bit-reversed, and goes
   // like this: 0, 90, 45, 135, 22.5 ...  for N/2 entries.
   // 
   if (k > 0)
-  {
-    T ww;
-
-    k = (1 << (k - 1));
-    for (i = 0; i < k; ++i)
     {
-      t = double (bitrev[i << 1]) * M_PI / double (k);
+      T ww;
 
-      ww = T (cos (t), sin (t));
-      w[i] = conj (ww);         // force limiting of imag part if applic.
-      // cout << w[i] << "\n";
+      k = (1 << (k - 1));
+      for (i = 0; i < k; ++i)
+	{
+	  t = double (bitrev[i << 1]) * M_PI / double (k);
+
+	  ww = T (cos (t), sin (t));
+	  w[i] = conj (ww);	// force limiting of imag part if applic.
+	  // cout << w[i] << "\n";
+	}
     }
-  }
 }
 
 /*
@@ -235,15 +237,15 @@ template < class T > void cepCfft < T >::hermitian (T * buf)
   int i, j;
 
   if (N <= 2)
-    return;                     // nothing to do
-  i = (N >> 1) - 1;             // input
-  j = i + 2;                    // output
+    return;			// nothing to do
+  i = (N >> 1) - 1;		// input
+  j = i + 2;			// output
   while (i > 0)
-  {
-    buf[j] = conj (buf[i]);
-    --i;
-    ++j;
-  }
+    {
+      buf[j] = conj (buf[i]);
+      --i;
+      ++j;
+    }
 }
 
 /*
@@ -259,96 +261,113 @@ template < class T > void cepCfft < T >::hermitian (T * buf)
  *        : direction of the transform - 1 = forward, 0 = inverse.
    returns the fft'd data in the matrix whic was originally passed.
  */
-template < class T > cepMatrix<ComplexDble>
-                        cepCfft < T >::matrixFft(cepMatrix<ComplexDble> & matrix, int dir, )
+template < class T > cepMatrix < ComplexDble > cepCfft <
+  T >::matrixFft (cepMatrix < ComplexDble > &matrix, int dir)
 {
-  int numRows = matrix.getNumRows();
-  int numCols = matrix.getNumCols();
-  int numTables = matrix.getNumTables();
+  int numRows = matrix.getNumRows ();
+  int numCols = matrix.getNumCols ();
+  int numTables = matrix.getNumTables ();
   int arraySize = numRows;
-  int col, row, table,count;
-  
+  int col, row, table, count;
+
   const int FIRSTCOLUMN = 0;
   const int NUMCHECKS = 3;
-  const double DAYSINYEAR = 365.25; 
+  const double DAYSINYEAR = 365.25;
   //const double HOURSINYEAR = 8766; //365.25*24 - days*hours
   //const double SECSINYEAR = 31557600; //365.25*24*3600 - days*hours*minutes(in seconds)
 
   double checks[NUMCHECKS];
 
   ComplexDble arrayToFft[arraySize];
-  cepMatrix<ComplexDble> ffteedMatrix( numRows, numCols, numTables); //matrix contain to store processed values
+  cepMatrix < ComplexDble > ffteedMatrix (numRows, numCols, numTables);	//matrix contain to store processed values
 
-  if (dir == 1) //forward calculate scale
-  {
-    for (table=0; table < numTables; table++)
+  if (dir == 1)			//Forward,  calculate scale
     {
-      //size of dataset = numRows
-      int halfSetSize = (int)(numRows*0.5);
-      double sampleRate = abs( (real(matrix.getValue(0,0,0))  
-                               -real(matrix.getValue(1,0,0))) )*DAYSINYEAR;
-      double freq = 1/sampleRate;
-    
-      //the first half of the scale
-      for(row=0; row< halfSetSize; row++)
-    	ffteedMatrix.setValue(row,FIRSTCOLUMN,table, (freq*(row))/numRows);
-           
-      //the second half of the scale
-      for (row = halfSetSize; row < numRows; row++)
-        ffteedMatrix.setValue(row,FIRSTCOLUMN, table, (freq*(numRows-row))/numRows);  
-    }
-  }//end if
+      for (table = 0; table < numTables; table++)
+	{
+	  //size of dataset = numRows
+	  int halfSetSize = (int) (numRows * 0.5);
+	  double sampleRate = abs ((real (matrix.getValue (0, 0, 0))
+				    -
+				    real (matrix.getValue (1, 0, 0)))) *
+	    DAYSINYEAR;
+	  double freq = 1 / sampleRate;
+
+	  //the first half of the scale
+	  for (row = 0; row < halfSetSize; row++)
+	    ffteedMatrix.setValue (row, FIRSTCOLUMN, table,
+				   (freq * (row)) / numRows);
+
+	  //the second half of the scale
+	  for (row = halfSetSize; row < numRows; row++)
+	    ffteedMatrix.setValue (row, FIRSTCOLUMN, table,
+				   (freq * (numRows - row)) / numRows);
+	}			//for table
+    }				//end if
 
   //populate the array to send to fft module.
   //start at 1st column as we do not want to fft this.
   for (table = 0; table < numTables; table++)
-  {
+    {
 
-    for (col = 1; col < numCols; col++)
-    {//while there are still columns
-        for (row = 0; row < numRows; row++)
-        {
-	    for (count = 0; count < NUMCHECKS; count++)
-    	    {
-	        checks[count] = real( matrix.getValue(count,col-1,table) );
-	    }
-	    //only want to check continuous index on forward transform
-	    if (dir ==1)
+      //for (col = 1; col < numCols; col++)
+      //{//while there are still columns
+      col = 1;
+      for (row = 0; row < numRows; row++)
+	{
+	  for (count = 0; count < NUMCHECKS; count++)
 	    {
-	      if ( (checks[0] - checks[1]) != (checks[1] - checks[2]) )
-                 cepError("Error, samples are not equidistant: Cannot proceed with FFT", 
-			  cepError::sevErrorRecoverable);
-            }
-	    
-	    //populate the arry to be fft'd            
-            arrayToFft[row]= matrix.getValue(row,col,table);
-	    
-        }//end for row
-    }//end for col 
- 
+	      checks[count] = real (matrix.getValue (count, col - 1, table));
+	    }
+	  //only want to check continuous index on forward transform
+	  if (dir == 1)
+	    {
+	      if ((checks[0] - checks[1]) != (checks[1] - checks[2]))
+		cepError
+		  ("Error, samples are not equidistant: Cannot proceed with FFT",
+		   cepError::sevErrorRecoverable);
+	    }
+
+	  //populate the arry to be fft'd            
+	  arrayToFft[row] = matrix.getValue (row, col, table);
+
+	}			//end for row
+      //}//end for col 
+
     /*********************************compute the fft.************************************/
 
-    //cout << endl;
+      //cout << endl;
 
-    if (dir == 1)
-       fft(arrayToFft);
-    else //(dir == 0)
-       ifft(arrayToFft);
-    
-    //place the processed values into the marix.
-    for (col =1; col < numCols; col ++)
-    {
-       for (row = 0; row < numRows; row++)
-          //populate ffteedMatrix with magnitude
-	  ffteedMatrix.setValue( row, col, table, pow(real(arrayToFft[row]),2) + pow(imag(arrayToFft[row]),2) );//
-    } //for col
-   
-  }//end for table
-  
-  
+      if (dir == 1)
+	fft (arrayToFft);
+      else			//(dir == 0)
+	ifft (arrayToFft);
+
+      //place the processed values into the marix.
+      ComplexDble tempValue = 0.0;
+      //double tempValue = 0.0;
+      for (col = 1; col < numCols; col++)
+	{
+	  for (row = 0; row < numRows; row++)
+	    {
+	      //populate ffteedMatrix with magnitude
+	      if (col == 1)	//if we are looking at a data value
+		//calculate the magnitude
+		tempValue =
+		  pow (real (arrayToFft[row]),
+		       2) + pow (imag (arrayToFft[row]), 2);
+	      else		//we are looking at the error or the last coloumn
+		//just copy the old value into the new matrix.
+		tempValue = matrix.getValue (row, col, table);
+
+	      ffteedMatrix.setValue (row, col, table, tempValue);
+	    }			//for row
+	}			//for col
+
+    }				//end for table
 
   return ffteedMatrix;
-}//end method
+}				//end method
 
 
 /****************************************************************************************
@@ -365,14 +384,14 @@ template < class T > void cepCfft < T >::fft_func (T * buf, int iflag)
   double *sp, s;
 
   sp = iflag ? iscales : fscales;
-  s = sp[0];                    // per-pass scale
+  s = sp[0];			// per-pass scale
 
   if (log2N == 0)
-  {                             // only 1 element !
-    s = sp[1];
-    buf[0] = buf[0] * s;        // final scale only
-    return;
-  }
+    {				// only 1 element !
+      s = sp[1];
+      buf[0] = buf[0] * s;	// final scale only
+      return;
+    }
   // 
   // first pass:
   // 1st element = sum of 1st & middle, middle element = diff.
@@ -381,59 +400,59 @@ template < class T > void cepCfft < T >::fft_func (T * buf, int iflag)
   k = N >> 1;
 
   if (log2N == 1)
-    s *= sp[1];                 // final scale
+    s *= sp[1];			// final scale
 
   buf2 = buf + k;
   for (i = 0; i < k; ++i)
-  {                             // first pass is faster
-    z1 = buf[i] + buf2[i];
-    z2 = buf[i] - buf2[i];
-    buf[i] = z1 * s;
-    buf2[i] = z2 * s;
-  }
+    {				// first pass is faster
+      z1 = buf[i] + buf2[i];
+      z2 = buf[i] - buf2[i];
+      buf[i] = z1 * s;
+      buf2[i] = z2 * s;
+    }
   if (log2N == 1)
-    return;                     // only 2!
+    return;			// only 2!
 
-  k >>= 1;                      // k is N/4 now
-  bufe = buf + N;               // past end
+  k >>= 1;			// k is N/4 now
+  bufe = buf + N;		// past end
   for (; k; k >>= 1)
-  {
-    if (k == 1)
-    {                           // last pass - include final scale 
-      s *= sp[1];               // final scale
-    }
-    buf0 = buf;
-    for (j = 0; buf0 < bufe; ++j)
     {
-      if (iflag)
-      {
-        zw = (w[j]); //daniel: removed conj to reverse results
-      }
-      else
-      {
-        zw = conj(w[j]); //daniel: addded conj to reverse results     /* get w-factor */
-      }
-      buf2 = buf0 + k;
-      for (i = 0; i < k; ++i)
-      {                         // a butterfly
-        z1 = zw * buf2[i];
-        z2 = buf0[i] + z1;
-        buf2[i] = (buf0[i] - z1) * s;
-        buf0[i] = z2 * s;
-      }
-      buf0 += (k << 1);
+      if (k == 1)
+	{			// last pass - include final scale 
+	  s *= sp[1];		// final scale
+	}
+      buf0 = buf;
+      for (j = 0; buf0 < bufe; ++j)
+	{
+	  if (iflag)
+	    {
+	      zw = (w[j]);	//daniel: removed conj to reverse results
+	    }
+	  else
+	    {
+	      zw = conj (w[j]);	//daniel: addded conj to reverse results     /* get w-factor */
+	    }
+	  buf2 = buf0 + k;
+	  for (i = 0; i < k; ++i)
+	    {			// a butterfly
+	      z1 = zw * buf2[i];
+	      z2 = buf0[i] + z1;
+	      buf2[i] = (buf0[i] - z1) * s;
+	      buf0[i] = z2 * s;
+	    }
+	  buf0 += (k << 1);
+	}
     }
-  }
   // bitrev the sucker 
   for (i = 0; i < N; ++i)
-  {
-    j = bitrev[i];
-    if (i <= j)
-      continue;                 // don't do these
-    z1 = buf[i];
-    buf[i] = buf[j];
-    buf[j] = z1;
-  }
+    {
+      j = bitrev[i];
+      if (i <= j)
+	continue;		// don't do these
+      z1 = buf[i];
+      buf[i] = buf[j];
+      buf[j] = z1;
+    }
 }
 
 ////////////////////////////// end cepCfft //////////////////////////////
