@@ -71,6 +71,10 @@ The application will produce the following output (indented lines imply a contin
 <programlisting>
 <execute><cmd>linebreak</cmd><args>60 5</args><input>d001.hmm</input></execute>
 </programlisting>
+
+<para>
+This output is the A matrix (5 lines of 5 entries), the B matrix (5 by the number of observations), and the Pi vector (the last five lines).
+</para>
 </sect3>
 </sect2>
 
@@ -261,6 +265,14 @@ The observation file is a list of the Vector Quantized vectors which matched tha
 </para>
 
 <execute><cmd>code2db</cmd><input>s031d00x.cod</input></execute>
+
+<para>
+The Hidden Markov Model file is the A matrix (5 lines of 5 entries), the B matrix (5 by the number of observations), and the Pi vector (the last five lines). For example:
+</para>
+
+<programlisting>
+<execute><cmd>linebreak</cmd><args>60 5</args><input>d001.hmm</input></execute>
+</programlisting>
 
 <para>
 The application will produce the following output:
