@@ -318,7 +318,7 @@ char *returnStr(char *yytext, int len){
 
   if((lval = malloc(sizeof(char) * 
     ((len == -1) ? strlen(yytext) : len) + 1)) == NULL)
-    error("Could not make space for lexer return.");
+    pandalex_error("Could not make space for lexer return.");
   memcpy(lval, yytext, ((len == -1) ? strlen(yytext) : len) + 1);
 
   return lval;
