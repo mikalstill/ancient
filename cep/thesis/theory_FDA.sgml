@@ -67,7 +67,7 @@
 
 <para>
 <itemizedlist>
-<listitem><para> The N values x(0) ... x(N-1).</para></listitem>
+<listitem><para> The N values x(0)..x(N-1).</para></listitem>
 <listitem><para> Equidistant values around the unit circle.</para></listitem>
 </itemizedlist>
 </para>
@@ -108,6 +108,19 @@
   information on how much energy exists in a band of frequencies. This technique is particularly useful for measuring the noise content
   in a signal. A PSD plot is created by plotting the magnitude of the real and imaginary components of the FFT results. A good
   illustration of this concept is that of a sine wave with its corresponding PSD plot. From it we can see some stuff wohoo TODO>
+  
+  <figure><title>50 kHz sin wave</title>
+  <!-- <graphic fileref="figures/pythag"></graphic>-->
+      <execute><cmd>img</cmd><args>50HzSin.bmp</args></execute>
+  </figure>
+
+  <figure><title>PSD plot of a 50 kHz sin wave</title>
+  <!-- <graphic fileref="figures/pythag"></graphic>-->
+      <execute><cmd>img</cmd><args>fft50HzSin.bmp</args></execute>
+  </figure>
+  
+  So we see in the PSD plot above, that the sin wave has energy at 50Hz
+
 </para>
 
 <para>
