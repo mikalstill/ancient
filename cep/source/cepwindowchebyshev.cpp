@@ -22,6 +22,11 @@
 #include "cepConfiguration.h"
 #include <math.h>
 #include <vector>
+#include <iomanip>
+
+
+// #define EXIT cout << "exiting at " << __LINE__ << "," << __FILE__ << endl << flush; exit(-1);
+#define EXIT
 
 using namespace std;
 
@@ -71,12 +76,12 @@ const double cepWindowChebyshev::getTransitionBandwidth() {
 
 double cepWindowChebyshev::getValue( int offset )
 {
-  cout << "error: cepWindowChebyshev::getValue() should never be called?" << endl;
+//  cout << "error: cepWindowChebyshev::getValue() should never be called?" << endl;
   return 0.0;
 }
 
 double cepWindowChebyshev::calcValue( int n ) {
-  cout << "error: cepWindowChebyshev::calcValue() should never be called?" << endl;
+//  cout << "error: cepWindowChebyshev::calcValue() should never be called?" << endl;
   return 0.0;
 }
 
@@ -94,8 +99,8 @@ typedef struct c {
  */
 cepMatrix<double> *cepWindowChebyshev::generateCoeffs( int size ) {
 
-#define PIE PI
-#define TWOPI 2.0*PI
+#define PIE 4*atan(1.0)
+#define TWOPI 2.0*PIE
 #define NF size
 #define DF df
   bool even = (size%2==0);
@@ -124,10 +129,23 @@ cepMatrix<double> *cepWindowChebyshev::generateCoeffs( int size ) {
     double F = (double)XI/FNF;
     double X = ALPHA*cos(TWOPI*F)+BETA;
     double P = 0.0;
-    if( fabs(X) <= 1.0 ) {
+    bool usedCosh = false;
+
+    if( -1.0 <= X && X <= 1.0 ) {
       P = DP*cos(C2*acos(X));
+//      cout << "  X=" << X << endl;
+      // a hack to see if this will fix it
+      if( isnan( P )) {
+          P = DP*cosh(C2*acosh(X));
+      }
     } else {
       P = DP*cosh(C2*acosh(X));
+      usedCosh = true;
+//      cout << "* X=" << X << endl;
+      // a hack to see if this will fix it
+      if( isnan( P )) {
+          P = DP*cos(C2*acos(X));
+      }
     }
     complex c;
     c.real = P;
@@ -141,6 +159,24 @@ cepMatrix<double> *cepWindowChebyshev::generateCoeffs( int size ) {
       }
     }
     vals[i-1]=c;
+//    if( isnan(c.real) ) {
+//        cout << setprecision( 30 )
+//             << "F is " << F << endl
+//             << "X is " << X << endl
+//             << "usedCosh is " << usedCosh << endl
+//             << "P is " << P << endl
+//             << "c.real is NAN" << endl
+//             << "** delta : " << (X<0? (-1-X) : (1-X)) << " **" << endl;
+//             EXIT;
+//    } else if ( isnan( c.imag ) ) {
+//        cout << setprecision( 30 )
+//             << "F is " << F << endl
+//             << "X is " << X << endl
+//             << "usedCosh is " << usedCosh << endl
+//             << "P is " << P << endl
+//             << "c.imag is NAN" << endl;
+//             EXIT;
+//    }
   }
 
   double TWN = TWOPI/FNF;
@@ -151,16 +187,44 @@ cepMatrix<double> *cepWindowChebyshev::generateCoeffs( int size ) {
     for( int j=1; j<=NF; ++j ) {
       double XJ=j-1.0;
       SUM = SUM + vals[j-1].real*cos(TWN*XJ*XI) + vals[j-1].imag*sin(TWN*XJ*XI);
+//      if( isnan( SUM ) ) {
+//          cout << "SUM is NAN" << endl
+//               << "TWN*XJ*XI is " << (TWN*XJ*XI) << endl
+//               << "real part: " << vals[j-1].real << endl
+//               << "imag part: " << vals[j-1].imag << endl;
+//          EXIT;
+//          break;
+//      }
     }
     if( SUM < 0 ) SUM = 0;
     result[i-1]=SUM;
+//    if( isnan( SUM ) ) {
+//        break;
+//    }
   }
 
   //cout << "iFFT output"<<endl;
   C1 = result[0];
+  
+//  if( isnan( C1 ) ) {
+//      cout << "C1 is NAN" << endl;
+//             EXIT;
+//  } else if( isinf( C1 ) ) {
+//      cout << "C1 is INF" << endl;
+//             EXIT;
+//  } else if( 0 == C1 ) {
+//      cout << "C1 is 0" << endl;
+//             EXIT;
+//  }
+
   for( int i=0; i<N; ++i ) {
     result[i] = result[i]/C1;
-    //cout << i << " " << result[i] << endl;
+//    if( 0 == C1 ) {
+//      cout << "C1 is 0" << endl;
+//             EXIT;
+//      break;
+//    }
+//    cout << i << " " << result[i] << endl;
   }
 
   cepMatrix<double> *foo = new cepMatrix<double>(size,1);
@@ -183,3 +247,4 @@ cepMatrix<double> *cepWindowChebyshev::generateCoeffs( int size ) {
 }
 
 const string cepWindowChebyshev::CONFIG_NAME_CHEB("chebyshev-bandwidth");
+
