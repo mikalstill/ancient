@@ -706,7 +706,7 @@ case 6:
     break;}
 case 7:
 #line 30 "parser.y"
-{ trivsql_recordset *rs; trivsql_displayrs(rs = trivsql_doselect(yyvsp[-1], yyvsp[-3])); trivsql_xfree(rs); ;
+{ trivsql_recordset *rs; trivsql_displayrs(rs = trivsql_doselect(yyvsp[-1], yyvsp[-3]), yyvsp[-1], yyvsp[-3]); /*trivsql_xfree(rs);*/ ;
     break;}
 case 8:
 #line 34 "parser.y"
@@ -1062,7 +1062,9 @@ trivsql_recordset *trivsql_doselect(char *tname, char *cols){
 
   rrs = trivsql_xmalloc(sizeof(trivsql_recordset));
   rrs->numCols = sizeof(colNumbers) / sizeof(int);
-  rrs->rows = NULL;
+  rrs->rows = trivsql_xmalloc(sizeof(trivsql_row));
+  rrs->rows->next = NULL;
+  rrs->rows->cols = NULL;
   rrs->numRows = 0;
 
   printf("%d cols\n", rrs->numCols);
@@ -1070,6 +1072,8 @@ trivsql_recordset *trivsql_doselect(char *tname, char *cols){
   for(row = 0; row < rowCount; row++){
     trivsql_addrow(rrs, tname, row, colNumbers);
   }
+
+  return rrs;
 }
 
 void *
@@ -1195,18 +1199,21 @@ trivsql_xrealloc (void *memory, size_t size)
 int *trivsql_parsecols(char *tname, char *cols){
   int i, col, c, numCols;
   int *colNumbers = NULL;
-  char *t, *u;
+  char *t, *u, *coltmp;
 
   // How many columns do we have?
   for(i = 0, numCols = 0; i < strlen(cols); i++)
     if(cols[i] == ';')
       numCols++;
+
+  // Copy the cols string
+  coltmp = trivsql_xsnprintf("%s", cols);
   
   colNumbers = trivsql_xmalloc(sizeof(int) * numCols);
   
   // Determine that the named columns exist
   col = 0;
-  c = strtok(cols, ";");
+  c = strtok(coltmp, ";");
   while(c != NULL){
     i = 0;
     while(1){
@@ -1237,8 +1244,73 @@ int *trivsql_parsecols(char *tname, char *cols){
   return colNumbers;
 }
 
-void trivsql_displayrs(trivsql_recordset *rs){
-  printf("Should have displayed~!\n");
+void trivsql_displayrs(trivsql_recordset *rs, char *tname, char *cols){
+  int i, col, c;
+  char *t, *u;
+  trivsql_row *theRow;
+  trivsql_col *theCol;
+
+  // Print the header line
+  printf("Select returned %d rows\n\n", rs->numRows);
+  for(i = 0; i < rs->numCols; i++){
+    printf("===============");
+  }
+  printf("\n|");
+
+  // Determine that the named columns exist
+  col = 0;
+  c = strtok(cols, ";");
+  while(c != NULL){
+    i = 0;
+    while(1){
+      t = trivsql_xsnprintf("trivsql_%s_col%d", tname, i);
+      u = trivsql_dbread(gState, t);
+
+      if(u == NULL){
+	trivsql_xfree(t);
+	fprintf(stderr, "%s is an unknown column\n", c);
+	return;
+      }
+      else if(strcmp(u, c) == 0){
+	trivsql_xfree(t);
+	trivsql_xfree(u);
+	break;
+      }
+
+      trivsql_xfree(t);
+      trivsql_xfree(u);
+      i++;
+    }
+
+    printf(" %-11s |", c);
+    c = strtok(NULL, ";");
+  }
+  
+  printf("\n");
+  for(i = 0; i < rs->numCols; i++){
+    printf("===============");
+  }
+  printf("\n");
+
+  // Print out the values we have found
+  theRow = rs->rows;
+  while(theRow->next != NULL){
+    printf("|");
+    theCol = theRow->cols;
+    while(theCol->next != NULL){
+      printf(" %-11s |", theCol->val);
+      theCol = theCol->next;
+    }
+
+    printf("\n");
+    for(i = 0; i < rs->numCols; i++){
+      printf("---------------");
+    }
+    printf("\n");
+    theRow = theRow->next;
+  }
+
+  printf("\n\n");
 }
 
 int trivsql_getrowcount(char *tname){
@@ -1265,18 +1337,32 @@ void trivsql_addrow(trivsql_recordset *rs, char *tname, int row, int *cols){
   char *t;
   int colCount;
   trivsql_row *theRow;
-
-  printf("Malloc for %d cols\n", rs->numCols);
+  trivsql_col *theCol;
 
   // Make space for the new row
+  rs->numRows++;
+  theRow = rs->rows;
+  while(theRow->next != NULL)
+    theRow = theRow->next;
 
+  theRow->next = trivsql_xmalloc(sizeof(trivsql_row));
+  theRow->next->next = NULL;
+
+  theRow->cols = trivsql_xmalloc(sizeof(trivsql_col));
+  theRow->cols->next = NULL;
+  theCol = theRow->cols;
 
   // Get the row
   for(colCount = 0; colCount < rs->numCols; colCount++){
     printf("Grab col (of %d)\n", rs->numCols);
 
     t = trivsql_xsnprintf("trivsql_%s_col%drow%d", tname, cols[colCount], row);
-    printf("%s\n", trivsql_dbread(gState, t));
+
+    theCol->val = trivsql_dbread(gState, t);
+    theCol->next = trivsql_xmalloc(sizeof(trivsql_col));
+    theCol->next->next = NULL;
+    theCol = theCol->next;
+
     trivsql_xfree(t);
   }
 }
