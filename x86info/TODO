@@ -1,0 +1,38 @@
+- introduce hexdump option (-x) to dump register values in addition to decoding.
+
+- Identify Transmeta CPUs.
+
+- Decode mtrr registers as well as dumping them
+
+- Dump cyrix ARR registers when we pass --mtrr
+
+- --apic
+  Dump APIC registers
+
+- --bugs to print known CPU errata
+  "Stepping D0 Duron detected with Cache size bug."
+
+- --gcc option to output best optimisation parameters
+  for that CPU.
+
+- Some CPUs allow the name string to be changed.
+  If this has happened we die horribly. We need to store the current
+  name string, perform the cpuid reset sequence, and restore the
+  name string on exit.
+
+- cpuid macro might cut down huge switch statements in a few places
+
+- After identifying CPU we can associate more info with the CPU.
+  - CPU codename
+  - Introduction date
+  - number of transistors
+  - voltages (I/O, Core, Maximum)
+
+- review code for extended natsemi support.
+
+- report L3 (chipset) caches (requires PCI poking)
+
+- might be time to start thinking about XML for CPU descriptions?
+
+- libx86info for other apps
+
