@@ -320,7 +320,7 @@ cepDataset
   return cepDataset (windowData, numWindows);
 }                               // end doWindow
 
-// Blake 04/08/2002 : added NULL return value for default case
+// Blake 04/08/2002 : added default return value
 vector < cep_datarow > &cepDataset::getDataPtr (direction dir)
 {
   switch (dir)
@@ -339,4 +339,5 @@ vector < cep_datarow > &cepDataset::getDataPtr (direction dir)
                   cepError::sevErrorFatal);
     oor.display ();
   }
+  return m_datax;
 }
