@@ -7,8 +7,7 @@
 In this chapter we will discuss the Tagged Image File Format, which is one of the most common raster image formats for professional imaging -- especially scanned images and faxes. Unfortunately, it is not supported by web browsers, so isn't used as much as it might otherwise be.
 </para>
 
-<sect1>
-<title>Introduction</title>
+<sect1><title>Introduction</title>
 <para>
 TIFF (Tagged Image File Format) is a raster image format which was originally produced by Aldus and Microsoft. Aldus was later acquired by Adobe, who manage the TIFF specification to this day. At the time of writing of this chapter, the current version of the TIFF specification is TIFF version 6.0. The TIFF specification can be downloaded from http://partners.adobe.com/asn/developer/pdfs/tn/TIFF6.pdf. The TIFF technical notes at http://partners.adobe.com/asn/developer/technotes/main.html
 </para>
@@ -17,14 +16,12 @@ TIFF (Tagged Image File Format) is a raster image format which was originally pr
 </para>
 </sect1>
 
-<sect1>
-<title>Installation</title>
+<sect1><title>Installation</title>
 <para>
 The source for libtiff can be downloaded from http://www.libtiff.org/ -- the current version of the library being version 3.5.7 at the time of writing. This version can be downloaded from ftp://ftp.remotesensing.org/pub/libtiff, look for the files named either tiff-v3.5.7.tar.gz or tiff-v3.5.7.zip.
 </para>
 
-<sect2>
-<title>Unix</title>
+<sect2><title>Unix</title>
 <para>
 Once you have downloaded the tarball for the library as described above, then you need to follow the steps below to install libtiff
   <footnote><para>Please note that there are binary packages for libtiff for most operating systems, so you might be best off installing one of those.</para></footnote>.
@@ -43,8 +40,7 @@ Not too hard at all...
 </para>
 </sect2>
 
-<sect2>
-<title>win32</title>
+<sect2><title>win32</title>
 <para>
 <execute><cmd>todo</cmd><input>windows_install_details</input></execute>
 </para>
@@ -215,8 +211,7 @@ Interestingly, the image data itself is just stored as another tag value... The 
 </sect1>
 
 
-<sect1>
-<title>Coding for TIFF can be hard</title>
+<sect1><title>Coding for TIFF can be hard</title>
 <para>	
 Most file format specifications define some basic rules for the representation of the file. For instance, PNG (a compeditor to TIFF) documents are always big endian. TIFF doesn't mandate things like this though, here is a list of some of the seemingly basic things that it doesn't define:
 
@@ -237,14 +232,12 @@ So how do you write an application which can read in all these different possibl
 </para>
 </sect1>
 
-<sect1>
-<title>Writing Black and White TIFF files</title>
+<sect1><title>Writing Black and White TIFF files</title>
 <para>
 The first thing I want to do is show you how to write a TIFF file out. We'll then get onto how to read a TIFF file back into your program.
 </para>
 	
-<sect2>
-<title>Infrastructure for writing</title>
+<sect2><title>Infrastructure for writing</title>
 <para>
 It is traditional for bitmaps to be represented inside your code with an array of chars. This is because on most operating systems, a char maps well to one byte. In the block of code below, we will setup libtiff, and create a simple buffer which contains an image which we can then write out to disc.
 </para>
@@ -256,8 +249,7 @@ The code above is pretty simple. All you need to use libtiff is to include the t
 </para>
 </sect2>
 
-<sect2>
-<title>Writing the image</title>
+<sect2><title>Writing the image</title>
 <para>
 To make up for how boring that example was, I am now pleased to present you with possibly the worst picture of the Sydney Harbour Bridge ever drawn. In the example below, the image is already in the image buffer, and all we have to do is save it to the file on disc. The example first opens a TIFF image in write mode, and then places the image into that file.
 </para>
@@ -313,8 +305,7 @@ If you need more information about any of the libtiff function calls mentioned i
 </sect2>
 </sect1>
 
-<sect1>
-<title>Reading Black and White TIFF files</title>
+<sect1><title>Reading Black and White TIFF files</title>
 <para>
 Reading TIFF files reliably is much harder than writing them. The issue that complicates reading black and white TIFF images the most is the several different storage schemes which are possible within the TIFF file itself. libtiff doesn't hold your hand much with these schemes, so you have to be able to handle them yourself. The three schemes TIFF supports are single stripped images, stripped images, and tiled images.
 </para>
@@ -341,8 +332,7 @@ Reading TIFF files reliably is much harder than writing them. The issue that com
 Tiled images are comparatively uncommon, so I will focus on stripped images in this chapter. Remember as we go along, that the single stripped case is merely a subset of a multiple strip images.
 </para>
 
-<sect2>
-<title>Infrastructure for reading</title>
+<sect2><title>Infrastructure for reading</title>
 <para>
 The most important thing to remember when reading in TIFF images is to be flexible. The example below has the same basic concepts as the writing example above, with the major difference being that it needs to deal with many possible input images. Apart from stripping and tiling, the most important thing to remember to be flexible about is photometric interpretation. Luckily, with black and white images there are only two photometric interpretations to worry about (with colour and to a certain extent grayscale images there are many more).
 </para>
@@ -610,60 +600,15 @@ We should also probably know how to get to these images once we have more than o
 ...
 </para>
 
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiff2bw.1</input></execute>
-<sect2>
-
-<sect2><title>tiff2rgba</title>
-<para>
-...
-</para>
-
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiff2rgba.1</input></execute>
+<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiff2bw.1</input><args>-s 3</args>></execute>
 </sect2>
-
-
-<sect2><title>tiffcp</title>
-<para>
-...
-</para>
-
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffcp.1</input></execute>
-</sect2>
-
-
-<sect2><title>tiffdump</title>
-<para>
-...
-</para>
-
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffdump.1</input></execute>
-</sect2>
-
-
-<sect2><title>tiffmedian</title>
-<para>
-...
-</para>
-
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffmedian.1</input></execute>
-</sect2>
-
-
-<sect2><title>tifftopnm</title>
-<para>
-...
-</para>
-
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tifftopnm.1</input></execute>
-</sect2>
-
 
 <sect2><title>tiff2ps</title>
 <para>
 ...
 </para>
 
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiff2ps.1</input></execute>
+<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiff2ps.1</input><args>-s 3</args></execute>
 </sect2>
 
 
@@ -672,7 +617,28 @@ We should also probably know how to get to these images once we have more than o
 ...
 </para>
 
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffcmp.1</input></execute>
+<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffcmp.1</input><args>-s 3</args></execute>
+
+<sidebar><title>Sample output</title>
+<para>
+<command>tiffcmp</command> shows the differences in tags between images, for example, when I compare the input and output images from the pixel example in this chapter:
+</para>
+
+<programlisting>
+[mikal@localhost tiff-pixels]$ tiffcmp input.tif output.tif 
+ImageWidth: 256 520
+[mikal@localhost tiff-pixels]$ 
+</programlisting>
+</sidebar>
+</sect2>
+
+
+<sect2><title>tiffcp</title>
+<para>
+...
+</para>
+
+<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffcp.1</input><args>-s 3</args></execute>
 </sect2>
 
 
@@ -681,7 +647,70 @@ We should also probably know how to get to these images once we have more than o
 ...
 </para>
 
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffdither.1</input></execute>
+<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffdither.1</input><args>-s 3</args></execute>
+
+<sidebar><title>Sample output</title>
+<para>
+<command>tiffdither</command> takes grayscale images and dithers them into black and white images. For instance, the grayscale example from earlier in this tutorial produced the following image:
+</para>
+
+<figure>
+<title>The grayscale input image</title>
+<graphic format="EPS" fileref="tiff-figure9.eps"></graphic>
+</figure>
+
+<para>
+This image, after being pushed through <command>tiffdither</command> looks something like:
+<para>
+
+<figure>
+<title>The dithered output image</title>
+<graphic format="EPS" fileref="tiff-figure10.eps"></graphic>
+</figure>
+</sidebar>
+</sect2>
+
+
+<sect2><title>tiffdump</title>
+<para>
+...
+</para>
+
+<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffdump.1</input><args>-s 3</args></execute>
+
+<sidebar><title>Sample output</title>
+<para>
+<command>tiffdump</command> shows you heaps of useful things about a TIFF image, basically anything stored in a tag. Some sample output is:
+</para>
+
+<programlisting>
+[mikal@localhost tutorial-imaging]$ tiffdump tiff-figure10.tif 
+tiff-figure10.tif:
+Magic: 0x4949 <little-endian> Version: 0x2a
+Directory 0: offset 38228 (0x9554) next 0 (0)
+ImageWidth (256) SHORT (3) 1<640>
+ImageLength (257) SHORT (3) 1<479>
+BitsPerSample (258) SHORT (3) 1<1>
+Compression (259) SHORT (3) 1<32773>
+Photometric (262) SHORT (3) 1<1>
+ImageDescription (270) ASCII (2) 41<Dithered B&W version of  ...>
+StripOffsets (273) LONG (4) 5<8 8141 16315 24528 32662>
+SamplesPerPixel (277) SHORT (3) 1<1>
+RowsPerStrip (278) SHORT (3) 1<102>
+StripByteCounts (279) LONG (4) 5<8133 8174 8213 8134 5566>
+PlanarConfig (284) SHORT (3) 1<1>
+[mikal@localhost tutorial-imaging]$ 
+</programlisting>
+</sidebar>
+</sect2>
+
+
+<sect2><title>tiffgt</title>
+<para>
+...
+</para>
+
+<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffgt.1</input><args>-s 3</args></execute>
 </sect2>
 
 
@@ -690,7 +719,65 @@ We should also probably know how to get to these images once we have more than o
 ...
 </para>
 
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffinfo.1</input></execute>
+<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffinfo.1</input><args>-s 3</args></execute>
+
+<sidebar><title>Sample output</title>
+<para>
+<command>tiffinfo</command> is probably the most useful command which comes with libtiff... In normal operation, it shows you nicely formatted information about the TIFF image, like so:
+</para>
+
+<programlisting>
+[mikal@localhost tutorial-imaging]$ tiffinfo tiff-figure9.tif 
+TIFF Directory at offset 0x40f7c
+  Image Width: 640 Image Length: 480
+  Bits/Sample: 8
+  Compression Scheme: Deflate
+  Photometric Interpretation: min-is-black
+  Samples/Pixel: 1
+  Rows/Strip: 100000
+  Planar Configuration: single image plane
+[mikal@localhost tutorial-imaging]$ 
+</programlisting>
+
+<para>
+When you ask nicely (with a -d), then you're shown random tiff data, which can be very handly:
+</para>
+
+<programlisting>
+[mikal@localhost tutorial-imaging]$ tiffinfo -d tiff-figure9.tif
+TIFF Directory at offset 0x40f7c
+  Image Width: 640 Image Length: 480
+  Bits/Sample: 8
+  Compression Scheme: Deflate
+  Photometric Interpretation: min-is-black
+  Samples/Pixel: 1
+  Rows/Strip: 100000
+  Planar Configuration: single image plane
+Strip 0:
+ 59 5d 5c 55 4f 51 58 5d 5a 5a 57 51 4d 4d 4e 4d 58 54 55 5f 6c 76 7a 7c
+ 86 83 89 89 7f 7c 79 6e 61 57 70 7a 64 6f 7d 62 60 61 68 75 82 85 7e 76
+ 78 79 80 7a 66 5f 62 61 53 5b 62 6d 77 75 7a 8e a0 91 7a 66 5d 5d 61 62
+ 6f 69 65 64 63 61 63 68 76 79 74 76 86 8b 86 85 83 83 66 6a a0 b8 a7 a1
+ 94 a7 9d 72 5b 69 7b 7c 88 84 7f 7a 73 72 7e 8c 94 96 8a 75 6f 77 75 6a
+ 73 7d 85 85 84 89 90 94 8b 7d 74 7a 84 8a 8e 91 9c 99 87 7e 8d 93 85 79
+ 73 7e 88 87 80 7e 88 92 96 93 95 9d a1 9c 94 91 9c 8f 90 9e 9e 8a 7b 7b
+ 89 7a 68 5d 58 5b 66 71 81 82 7c 71 6c 6f 70 6e 5f 62 60 60 65 66 6f 84
+ 85 93 a4 a8 98 86 81 86 88 7e 83 7a 73 74 6f 7e 78 72 73 74 71 75 73 67
+ 72 73 77 85 90 8a 8f a7 ba cc cc c0 c1 c8 cf d7 dd e6 ec e5 e2 ef ed d4
+ e4 e6 ea ee f1 f2 f1 ef f3 f3 f3 f2 f2 f2 f1 f1 f2 f1 f0 ef ee ed ec eb
+ ... and so on
+</programlisting>
+</sidebar>
+</sect2>
+
+
+<sect2><title>tiffmedian</title>
+<para>
+...
+</para>
+
+<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffmedian.1</input><args>-s 3</args></execute>
+<execute><cmd>todo</cmd><input>Sample output</input></execute>
 </sect2>
 
 
@@ -699,7 +786,27 @@ We should also probably know how to get to these images once we have more than o
 ...
 </para>
 
-<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffsplit.1</input></execute>
+<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffsplit.1</input><args>-s 3</args></execute>
+<execute><cmd>todo</cmd><input>Sample output</input></execute>
+</sect2>
+
+
+<sect2><title>tiffsv</title>
+<para>
+...
+</para>
+
+<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffsv.1</input><args>-s 3</args></execute>
+<execute><cmd>todo</cmd><input>Sample output</input></execute>
+</sect2>
+
+<sect2><title>tifftopnm</title>
+<para>
+...
+</para>
+
+<execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tifftopnm.1</input><args>-s 3</args></execute>
+<execute><cmd>todo</cmd><input>Sample output</input></execute>
 </sect2>
 </sect1>
 

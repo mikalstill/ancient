@@ -1,0 +1,55 @@
+<chapter id="chap-png"><title>PNG</title>
+<para>
+PNG is my favourite image format after TIFF. It is well conceived, well implemented, and very powerful. It also has some interesting features, mainly aimed at Internet use, which TIFF lacks. It is also usable in modern web browsers
+  <footnote><para>For instance Netscape 4 and Internet Explorer 4 and later.</para></footnote>
+, unlike TIFF. PNG is also much simpler in many respects than TIFF.
+</para>
+
+<para>
+This chapter will focus on the libpng library.
+</para>
+
+<sect1><title>Introduction</title>
+<para>
+...
+</para>
+</sect1>
+
+<sect1><title>Installation</title>
+<para>
+...
+</para>
+
+<sect2><title>Unix</title>
+<para>
+...
+</para>
+</sect2>
+
+<sect2><title>win32</title>
+<para>
+...
+</para>
+</sect2>
+</sect1>
+
+<sect1><title>The PNG on disc format</title>
+<para>
+...
+</para>
+</sect1>
+
+<sect1><title>Conclusion</title>
+<para>
+...
+</para>
+</sect1>
+
+<sect1><title>Further reading</title>
+<para>
+...
+</para>
+</sect1>
+
+</chapter>
+

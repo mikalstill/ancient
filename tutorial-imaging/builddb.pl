@@ -10,23 +10,33 @@ $ENV{PATH} = $ENV{PATH} . ":.";
 
 while(<STDIN>){
     if(/(.*)<execute>(.*)<\/execute>(.*)/){
-	print STDERR "Executing $2...\n";
 	print $1;
 	$cmd = $2;
-	$input = $2;
-	$arg = $2;
+
+	$_ = $cmd;
+	if(/<input>/){
+	    $input = $cmd;
+	    $input =~ s/.*<input>//;
+	    $input =~ s/<\/input>.*//;
+	}
+	else{
+	    $input = "";
+	}
+
+	if(/<args>/){
+	    $arg = $cmd;
+	    $arg =~ s/.*<args>//;
+	    $arg =~ s/<\/args>.*//;
+	}
+	else{
+	    $arg = "";
+	}
 
 	$cmd =~ s/.*<cmd>//;
 	$cmd =~ s/<\/cmd>.*//;
-	$input =~ s/.*<input>//;
-	$input =~ s/<\/input>.*//;
-	$arg =~ s/.*<args>//;
-	$arg =~ s/<\/args>.*//;
-
-	print STDERR "  Cmd: $cmd, Input: $input, Args: $arg\n";
 
 	if($cmd ne "todo"){
-#	    print `$cmd $input < $input`;
+	    print `$cmd $arg $input < $input`;
 	}
 	else{
 	    print "<figure>\n";

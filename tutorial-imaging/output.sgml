@@ -6,6 +6,4974 @@
 </authorgroup>
 </bookinfo>
 
+<chapter id="chap-introduction"><title>Introduction</title>
+<para>
+This document is the manual associated with my tutorial on imaging programming presented at the <emphasis>Australian Unix User's Group</emphasis> 2002 Winter Conference in Melbourne Australia. It is intended to serve as the basis for discussions during this day long tutorial, as well as being a reference for the attendees once they return to their every day lives.
+</para>
+
+<para>
+Please note that all the information in this tutorial is copyright, as described elsewhere in this document.
+</para>
+
+<sect1>
+<title>About the author</title>
+<para>
+Michael has been working in the image processing field for several years, including a couple of years managing and developing large image databases for an Australian government department. He currently works for TOWER Software, who manufacture a world leading EDMS and Records Management package named TRIM. Michael is also the developer of Panda, an open source PDF generation API, as well as being the maintainer of the comp.text.pdf USENET frequently asked questions document. You can contact Michael at mikal@stillhq.com.
+</para>
+
+<para>
+Michael also has a whole bunch of code (most of which relates to imaging) at his website: http://www.stillhq.com
+</para>
+</sect1>
+
+<sect1><title>Motivation for this tutorial</title>
+<para>
+This tutorial started life as a series of articles about the TIFF image format, which were published by IBM DeveloperWorks (http://www.ibm.com/developerworks) in April and June 2002. This logically grew into the tutorial you see before you today. This tutorial is based on my several years experience as an imaging developer, and the common mistakes that people seem to make over and over. Perhaps this tutorial will go some way to correcting some common misconceptions.
+</para>
+</sect1>
+
+<sect1><title>Assumed knowledge</title>
+<para>
+There are some things which I assume you know, and which are outside the scope of this tutorial.
+</para>
+
+<sect2><title>C</title>
+<para>
+This tutorial discusses code. Almost all of the code discussed is written in C. It is therefore safe to assume that if you don't have a good working knowledge of C, then you're likely to get a lot less out of this tutorial as those who do know some C. On the other hand, don't worry about the more esoteric syntax, I'll explain this as we need it.
+</para>
+
+<para>
+It should also be noted that the code samples in this tutorial are not optimal. They have been written to be as readable as possible, and not nessesarily the most efficient possible. Please bear this in mind before blindly copying them.
+</para>
+</sect2>
+
+<sect2><title>How to compile and link on your chosen operating system</title>
+<para>
+It is outside the scope of this document to teach you how to compile and link source code into an executable form on your chosen architecture and operating system. You will need to understand this before you will be able to use any of the code in this document.
+</para>
+
+<para>
+For those of you using gcc on a unix (or unix-like) operating system, then the following points might be all you need to know. If you need more information, then a http://www.google.com search will serve you well.
+
+<orderedlist>
+<listitem><para>Libraries are added to the link command using the -l command line option. For instance, to compile and link the source file foo, with the tiff library, you would use a command line along the lines of <command>gcc foo.c -o foo -ltiff -lm</command>.</para></listitem>
+
+<listitem><para>You need to include -lm almost always. When you compile a c program using gcc without specifying any libraries, you get a -lm for free. As soon as you start specifying any libraries (for instance in this case -ltiff), then you also need to explicitly specify the math library as well.</para></listitem>
+
+<listitem><para>You will almost certainly also need to add the library and include paths for the installed version of the relevant library to the compile command line as well. Directories are added to the library search path using the -L command line option. Include directories are added with the -I option.</para></listitem>
+
+<listitem><para>The makefiles included with the samples in this tutorial a probably a bad place to look for introductory compile examples, as they use automake and autoconf to try to detect where the various required libraries are installed...</para></listitem>
+</orderedlist>
+</para>
+</sect2>
+</sect1>
+
+<sect1><title>Credits</title>
+<para>
+There are many people who need to be thanked when one attempts a project of this size. I would specifically like to thank my wife and son, who put up with me being geeky so very often.
+
+<figure>
+<title>picture of Andrew and Catherine</title>
+<graphic format="EPS" fileref="todo.eps"></graphic>
+</figure>
+</para>
+</sect1>
+
+<sect1><title>How this document was produced</title>
+<para>
+This tutorial was written in Docbook SGML using xemacs. This was then converted into PDF using the jade SGML tools. Diagrams were developed in a combination of the gimp, killustrator, and custom developed code.
+</para>
+</sect1>
+
+<sect1><title>License</title>
+<para>
+This document is covered by two licenses -- the license for the text of this document, and the license for the included source code. The license terms are set out below.
+</para>
+
+<sect2><title>License for text (OPL)</title>
+<para>
+OPEN PUBLICATION LICENSE  Draft v0.4, 8 June 1999
+</para><para>
+I. REQUIREMENTS ON BOTH UNMODIFIED AND MODIFIED VERSIONS
+</para><para>
+The Open Publication works may be reproduced and distributed in whole or
+in part, in any medium physical or electronic, provided that the terms
+of this license are adhered to, and that this license or an
+incorporation of it by reference (with any options elected by the
+author(s) and/or publisher) is displayed in the reproduction.
+</para><para>
+Proper form for an incorporation by reference is as follows:
+</para><para>
+Copyright (c) &lt;year&gt; by &lt;author's name or designee&gt;.  This material may
+be distributed only subject to the terms and conditions set forth in the
+Open Publication License, vX.Y or later (the latest version is presently
+available at &lt;URL:http:// TBD&gt;).
+</para><para>
+The reference must be immediately followed with any options elected by
+the author(s) and/or publisher of the document (see section VI).
+</para><para>
+Commercial redistribution of Open Publication-licensed material is
+permitted.
+</para><para>
+Any publication in standard (paper) book form shall require the citation
+of the original publisher and author. The publisher and author's names
+shall appear on all outer surfaces of the book.  On all outer surfaces
+of the book the original publisher's name shall be as large as the title
+of the work and cited as possessive with respect to the title.
+</para><para>
+</para><para>
+II. COPYRIGHT
+</para><para>
+The copyright to each Open Publication is owned by its author(s) or
+designee.
+</para><para>
+III. SCOPE OF LICENSE
+</para><para>
+The following license terms apply to all Open Publication works, unless
+otherwise explicitly stated in the document.
+</para><para>
+Mere aggregation of Open Publication works or a portion of an Open
+Publication work with other works or programs on the same media shall
+not cause this license to apply to those other works. The aggregate work
+shall contain a notice specifying the inclusion of the Open Publication
+material and appropriate copyright notice.
+</para><para>
+SEVERABILITY. If any part of this license is found to be unenforceable
+in any jurisdiction, the remaining portions of the license remain in
+force.
+</para><para>
+NO WARRANTY. Open Publication works are licensed and provided "as is"
+without warranty of any kind, express or implied, including, but not
+limited to, the implied warranties of merchantability and fitness for a
+particular purpose or a warranty of non-infringement.
+</para><para>
+IV. REQUIREMENTS ON MODIFIED WORKS
+</para><para>
+All modified versions of documents covered by this license, including
+translations, anthologies, compilations and partial documents, must meet
+the following requirements:
+</para><para>
+1) The modified version must be labeled as such.
+2) The person making the modifications must be identified and the
+</para><para>modifications dated.
+3) Acknowledgement of the original author and publisher if applicable
+</para><para>must be retained according to normal academic citation practices.
+4) The location of the original unmodified document must be identified.
+5) The original author's (or authors') name(s) may not be used to assert
+</para><para>or imply endorsement of the resulting document without the original
+</para><para>author's (or authors') permission.
+</para><para>
+</para><para>
+V. GOOD-PRACTICE RECOMMENDATIONS
+</para><para>
+In addition to the requirements of this license, it is requested from
+and strongly recommended of redistributors that:
+</para><para>
+1) If you are distributing Open Publication works on hardcopy or CD-ROM,
+</para><para>you provide email notification to the authors of your intent to
+</para><para>redistribute at least thirty days before your manuscript or media
+</para><para>freeze, to give the authors time to provide updated documents. This
+</para><para>notification should describe modifications, if any, made to the
+</para><para>document.
+</para><para>
+2) All substantive modifications (including deletions) be either clearly
+</para><para>marked up in the document or else described in an attachment to the
+</para><para>document. 
+</para><para>
+Finally, while it is not mandatory under this license, it is considered
+good form to offer a free copy of any hardcopy and CD-ROM expression of
+an Open Publication-licensed work to its author(s).
+</para><para>
+VI. LICENSE OPTIONS
+</para><para>
+The author(s) and/or publisher of an Open Publication-licensed document
+may elect certain options by appending language to the reference to or
+copy of the license. These options are considered part of the license
+instance and must be included with the license (or its incorporation by
+reference) in derived works.
+</para><para>
+A. To prohibit distribution of substantively modified versions without
+</para><para>the explicit permission of the author(s). "Substantive modification"
+</para><para>is defined as a change to the semantic content of the document, and
+</para><para>excludes mere changes in format or typographical corrections. 
+</para><para>
+</para><para>To accomplish this, add the phrase `Distribution of substantively
+</para><para>modified versions of this document is prohibited without the explicit
+</para><para>permission of the copyright holder.' to the license reference or
+</para><para>copy. 
+</para><para>
+B. To prohibit any publication of this work or derivative works in whole
+</para><para>or in part in standard (paper) book form for commercial purposes is
+</para><para>prohibited unless prior permission is obtained from the copyright
+</para><para>holder.
+</para><para>
+</para><para>To accomplish this, add the phrase `Distribution of the work or
+</para><para>derivative of the work in any standard (paper) book form is
+</para><para>prohibited unless prior permission is obtained from the copyright
+</para><para>holder.' to the license reference or copy. 
+</para><para>
+OPEN PUBLICATION POLICY APPENDIX:
+</para><para>
+(This is not considered part of the license.)
+</para><para>
+Open Publication works are available in source format via the Open
+Publication home page at &lt;URL:tbd&gt;.
+</para><para>
+Open Publication authors who want to include their own license on Open
+Publication works may do so, as long as their terms are not more
+restrictive than the Open Publication license.
+</para><para>
+If you have questions about the Open Publication License, please contact
+TBD, and/or the Open Publication Authors' List at &lt;TBD&gt;, via email.
+</para>
+</sect2>
+
+<sect2><title>License for source code (GPL)</title>
+<para>
+</para><para>GNU GENERAL PUBLIC LICENSE
+</para><para>Version 2, June 1991
+
+</para><para>Copyright (C) 1989, 1991 Free Software Foundation, Inc.
+</para><para>59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+</para><para>Everyone is permitted to copy and distribute verbatim copies
+</para><para>of this license document, but changing it is not allowed.
+
+</para><para>Preamble
+
+</para><para>The licenses for most software are designed to take away your
+freedom to share and change it.  By contrast, the GNU General Public
+License is intended to guarantee your freedom to share and change free
+software--to make sure the software is free for all its users.  This
+General Public License applies to most of the Free Software
+Foundation's software and to any other program whose authors commit to
+using it.  (Some other Free Software Foundation software is covered by
+the GNU Library General Public License instead.)  You can apply it to
+your programs, too.
+
+</para><para>When we speak of free software, we are referring to freedom, not
+price.  Our General Public Licenses are designed to make sure that you
+have the freedom to distribute copies of free software (and charge for
+this service if you wish), that you receive source code or can get it
+if you want it, that you can change the software or use pieces of it
+in new free programs; and that you know you can do these things.
+
+</para><para>To protect your rights, we need to make restrictions that forbid
+anyone to deny you these rights or to ask you to surrender the rights.
+These restrictions translate to certain responsibilities for you if you
+distribute copies of the software, or if you modify it.
+
+</para><para>For example, if you distribute copies of such a program, whether
+gratis or for a fee, you must give the recipients all the rights that
+you have.  You must make sure that they, too, receive or can get the
+source code.  And you must show them these terms so they know their
+rights.
+
+</para><para>We protect your rights with two steps: (1) copyright the software, and
+(2) offer you this license which gives you legal permission to copy,
+distribute and/or modify the software.
+
+</para><para>Also, for each author's protection and ours, we want to make certain
+that everyone understands that there is no warranty for this free
+software.  If the software is modified by someone else and passed on, we
+want its recipients to know that what they have is not the original, so
+that any problems introduced by others will not reflect on the original
+authors' reputations.
+
+</para><para>Finally, any free program is threatened constantly by software
+patents.  We wish to avoid the danger that redistributors of a free
+program will individually obtain patent licenses, in effect making the
+program proprietary.  To prevent this, we have made it clear that any
+patent must be licensed for everyone's free use or not licensed at all.
+
+</para><para>The precise terms and conditions for copying, distribution and
+modification follow.
+</para><para>
+</para><para>GNU GENERAL PUBLIC LICENSE
+</para><para>TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+
+<orderedlist>
+</para><para><listitem><para> This License applies to any program or other work which contains
+a notice placed by the copyright holder saying it may be distributed
+under the terms of this General Public License.  The "Program", below,
+refers to any such program or work, and a "work based on the Program"
+means either the Program or any derivative work under copyright law:
+that is to say, a work containing the Program or a portion of it,
+either verbatim or with modifications and/or translated into another
+language.  (Hereinafter, translation is included without limitation in
+the term "modification".)  Each licensee is addressed as "you".
+
+Activities other than copying, distribution and modification are not
+covered by this License; they are outside its scope.  The act of
+running the Program is not restricted, and the output from the Program
+is covered only if its contents constitute a work based on the
+Program (independent of having been made by running the Program).
+Whether that is true depends on what the Program does.
+
+</para></listitem></para><para><listitem><para> You may copy and distribute verbatim copies of the Program's
+source code as you receive it, in any medium, provided that you
+conspicuously and appropriately publish on each copy an appropriate
+copyright notice and disclaimer of warranty; keep intact all the
+notices that refer to this License and to the absence of any warranty;
+and give any other recipients of the Program a copy of this License
+along with the Program.
+
+You may charge a fee for the physical act of transferring a copy, and
+you may at your option offer warranty protection in exchange for a fee.
+
+</para></listitem></para><para><listitem><para> You may modify your copy or copies of the Program or any portion
+of it, thus forming a work based on the Program, and copy and
+distribute such modifications or work under the terms of Section 1
+above, provided that you also meet all of these conditions:
+
+</para></listitem></para><para><listitem><para> You must cause the modified files to carry prominent notices
+</para><para>stating that you changed the files and the date of any change.
+
+</para></listitem></para><para><listitem><para> You must cause any work that you distribute or publish, that in
+</para><para>whole or in part contains or is derived from the Program or any
+</para><para>part thereof, to be licensed as a whole at no charge to all third
+</para><para>parties under the terms of this License.
+
+</para></listitem></para><para><listitem><para> If the modified program normally reads commands interactively
+</para><para>when run, you must cause it, when started running for such
+</para><para>interactive use in the most ordinary way, to print or display an
+</para><para>announcement including an appropriate copyright notice and a
+</para><para>notice that there is no warranty (or else, saying that you provide
+</para><para>a warranty) and that users may redistribute the program under
+</para><para>these conditions, and telling the user how to view a copy of this
+</para><para>License.  (Exception: if the Program itself is interactive but
+</para><para>does not normally print such an announcement, your work based on
+</para><para>the Program is not required to print an announcement.)
+</para><para>
+These requirements apply to the modified work as a whole.  If
+identifiable sections of that work are not derived from the Program,
+and can be reasonably considered independent and separate works in
+themselves, then this License, and its terms, do not apply to those
+sections when you distribute them as separate works.  But when you
+distribute the same sections as part of a whole which is a work based
+on the Program, the distribution of the whole must be on the terms of
+this License, whose permissions for other licensees extend to the
+entire whole, and thus to each and every part regardless of who wrote it.
+
+Thus, it is not the intent of this section to claim rights or contest
+your rights to work written entirely by you; rather, the intent is to
+exercise the right to control the distribution of derivative or
+collective works based on the Program.
+
+In addition, mere aggregation of another work not based on the Program
+with the Program (or with a work based on the Program) on a volume of
+a storage or distribution medium does not bring the other work under
+the scope of this License.
+
+</para></listitem></para><para><listitem><para> You may copy and distribute the Program (or a work based on it,
+under Section 2) in object code or executable form under the terms of
+Sections 1 and 2 above provided that you also do one of the following:
+
+</para></listitem></para><para><listitem><para> Accompany it with the complete corresponding machine-readable
+</para><para>source code, which must be distributed under the terms of Sections
+</para><para>1 and 2 above on a medium customarily used for software interchange; or,
+
+</para></listitem></para><para><listitem><para> Accompany it with a written offer, valid for at least three
+</para><para>years, to give any third party, for a charge no more than your
+</para><para>cost of physically performing source distribution, a complete
+</para><para>machine-readable copy of the corresponding source code, to be
+</para><para>distributed under the terms of Sections 1 and 2 above on a medium
+</para><para>customarily used for software interchange; or,
+
+</para></listitem></para><para><listitem><para> Accompany it with the information you received as to the offer
+</para><para>to distribute corresponding source code.  (This alternative is
+</para><para>allowed only for noncommercial distribution and only if you
+</para><para>received the program in object code or executable form with such
+</para><para>an offer, in accord with Subsection b above.)
+
+The source code for a work means the preferred form of the work for
+making modifications to it.  For an executable work, complete source
+code means all the source code for all modules it contains, plus any
+associated interface definition files, plus the scripts used to
+control compilation and installation of the executable.  However, as a
+special exception, the source code distributed need not include
+anything that is normally distributed (in either source or binary
+form) with the major components (compiler, kernel, and so on) of the
+operating system on which the executable runs, unless that component
+itself accompanies the executable.
+
+If distribution of executable or object code is made by offering
+access to copy from a designated place, then offering equivalent
+access to copy the source code from the same place counts as
+distribution of the source code, even though third parties are not
+compelled to copy the source along with the object code.
+</para><para>
+</para></listitem></para><para><listitem><para> You may not copy, modify, sublicense, or distribute the Program
+except as expressly provided under this License.  Any attempt
+otherwise to copy, modify, sublicense or distribute the Program is
+void, and will automatically terminate your rights under this License.
+However, parties who have received copies, or rights, from you under
+this License will not have their licenses terminated so long as such
+parties remain in full compliance.
+
+</para></listitem></para><para><listitem><para> You are not required to accept this License, since you have not
+signed it.  However, nothing else grants you permission to modify or
+distribute the Program or its derivative works.  These actions are
+prohibited by law if you do not accept this License.  Therefore, by
+modifying or distributing the Program (or any work based on the
+Program), you indicate your acceptance of this License to do so, and
+all its terms and conditions for copying, distributing or modifying
+the Program or works based on it.
+
+</para></listitem></para><para><listitem><para> Each time you redistribute the Program (or any work based on the
+Program), the recipient automatically receives a license from the
+original licensor to copy, distribute or modify the Program subject to
+these terms and conditions.  You may not impose any further
+restrictions on the recipients' exercise of the rights granted herein.
+You are not responsible for enforcing compliance by third parties to
+this License.
+
+</para></listitem></para><para><listitem><para> If, as a consequence of a court judgment or allegation of patent
+infringement or for any other reason (not limited to patent issues),
+conditions are imposed on you (whether by court order, agreement or
+otherwise) that contradict the conditions of this License, they do not
+excuse you from the conditions of this License.  If you cannot
+distribute so as to satisfy simultaneously your obligations under this
+License and any other pertinent obligations, then as a consequence you
+may not distribute the Program at all.  For example, if a patent
+license would not permit royalty-free redistribution of the Program by
+all those who receive copies directly or indirectly through you, then
+the only way you could satisfy both it and this License would be to
+refrain entirely from distribution of the Program.
+
+If any portion of this section is held invalid or unenforceable under
+any particular circumstance, the balance of the section is intended to
+apply and the section as a whole is intended to apply in other
+circumstances.
+
+It is not the purpose of this section to induce you to infringe any
+patents or other property right claims or to contest validity of any
+such claims; this section has the sole purpose of protecting the
+integrity of the free software distribution system, which is
+implemented by public license practices.  Many people have made
+generous contributions to the wide range of software distributed
+through that system in reliance on consistent application of that
+system; it is up to the author/donor to decide if he or she is willing
+to distribute software through any other system and a licensee cannot
+impose that choice.
+
+This section is intended to make thoroughly clear what is believed to
+be a consequence of the rest of this License.
+</para><para>
+</para></listitem></para><para><listitem><para> If the distribution and/or use of the Program is restricted in
+certain countries either by patents or by copyrighted interfaces, the
+original copyright holder who places the Program under this License
+may add an explicit geographical distribution limitation excluding
+those countries, so that distribution is permitted only in or among
+countries not thus excluded.  In such case, this License incorporates
+the limitation as if written in the body of this License.
+
+</para></listitem></para><para><listitem><para> The Free Software Foundation may publish revised and/or new versions
+of the General Public License from time to time.  Such new versions will
+be similar in spirit to the present version, but may differ in detail to
+address new problems or concerns.
+
+Each version is given a distinguishing version number.  If the Program
+specifies a version number of this License which applies to it and "any
+later version", you have the option of following the terms and conditions
+either of that version or of any later version published by the Free
+Software Foundation.  If the Program does not specify a version number of
+this License, you may choose any version ever published by the Free Software
+Foundation.
+
+</para><para>10. If you wish to incorporate parts of the Program into other free
+programs whose distribution conditions are different, write to the author
+to ask for permission.  For software which is copyrighted by the Free
+Software Foundation, write to the Free Software Foundation; we sometimes
+make exceptions for this.  Our decision will be guided by the two goals
+of preserving the free status of all derivatives of our free software and
+of promoting the sharing and reuse of software generally.
+
+</para><para>NO WARRANTY
+
+</para><para>11. BECAUSE THE PROGRAM IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY
+FOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE LAW.  EXCEPT WHEN
+OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES
+PROVIDE THE PROGRAM "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED
+OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  THE ENTIRE RISK AS
+TO THE QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU.  SHOULD THE
+PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY SERVICING,
+REPAIR OR CORRECTION.
+
+</para><para>12. IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING
+WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR
+REDISTRIBUTE THE PROGRAM AS PERMITTED ABOVE, BE LIABLE TO YOU FOR DAMAGES,
+INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING
+OUT OF THE USE OR INABILITY TO USE THE PROGRAM (INCLUDING BUT NOT LIMITED
+TO LOSS OF DATA OR DATA BEING RENDERED INACCURATE OR LOSSES SUSTAINED BY
+YOU OR THIRD PARTIES OR A FAILURE OF THE PROGRAM TO OPERATE WITH ANY OTHER
+PROGRAMS), EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGES.
+
+</para><para>END OF TERMS AND CONDITIONS
+</para><para>
+</para><para>How to Apply These Terms to Your New Programs
+
+</para><para>If you develop a new program, and you want it to be of the greatest
+possible use to the public, the best way to achieve this is to make it
+free software which everyone can redistribute and change under these terms.
+
+</para><para>To do so, attach the following notices to the program.  It is safest
+to attach them to the start of each source file to most effectively
+convey the exclusion of warranty; and each file should have at least
+the "copyright" line and a pointer to where the full notice is found.
+
+</para><para>&lt;one line to give the program's name and a brief idea of what it does.&gt;
+</para><para>Copyright (C) 19yy  &lt;name of author&gt;
+
+</para><para>This program is free software; you can redistribute it and/or modify
+</para><para>it under the terms of the GNU General Public License as published by
+</para><para>the Free Software Foundation; either version 2 of the License, or
+</para><para>(at your option) any later version.
+
+</para><para>This program is distributed in the hope that it will be useful,
+</para><para>but WITHOUT ANY WARRANTY; without even the implied warranty of
+</para><para>MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+</para><para>GNU General Public License for more details.
+
+</para><para>You should have received a copy of the GNU General Public License
+</para><para>along with this program; if not, write to the Free Software
+</para><para>Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+
+Also add information on how to contact you by electronic and paper mail.
+
+If the program is interactive, make it output a short notice like this
+when it starts in an interactive mode:
+
+</para><para>Gnomovision version 69, Copyright (C) 19yy name of author
+</para><para>Gnomovision comes with ABSOLUTELY NO WARRANTY; for details type `show w'.
+</para><para>This is free software, and you are welcome to redistribute it
+</para><para>under certain conditions; type `show c' for details.
+
+The hypothetical commands `show w' and `show c' should show the appropriate
+parts of the General Public License.  Of course, the commands you use may
+be called something other than `show w' and `show c'; they could even be
+mouse-clicks or menu items--whatever suits your program.
+
+You should also get your employer (if you work as a programmer) or your
+school, if any, to sign a "copyright disclaimer" for the program, if
+necessary.  Here is a sample; alter the names:
+
+</para><para>Yoyodyne, Inc., hereby disclaims all copyright interest in the program
+</para><para>`Gnomovision' (which makes passes at compilers) written by James Hacker.
+
+</para><para>&lt;signature of Ty Coon&gt;, 1 April 1989
+</para><para>Ty Coon, President of Vice
+
+This General Public License does not permit incorporating your program into
+proprietary programs.  If your program is a subroutine library, you may
+consider it more useful to permit linking proprietary applications with the
+library.  If this is what you want to do, use the GNU Library General
+Public License instead of this License.
+</para>
+</sect2>
+
+<sect2><title>License for the libtiff man pages</title>
+<para>
+Copyright (c) 1988-1997 Sam Leffler
+Copyright (c) 1991-1997 Silicon Graphics, Inc.
+</para>
+
+<para>
+Permission to use, copy, modify, distribute, and sell this software and 
+its documentation for any purpose is hereby granted without fee, provided
+that (i) the above copyright notices and this permission notice appear in
+all copies of the software and related documentation, and (ii) the names of
+Sam Leffler and Silicon Graphics may not be used in any advertising or
+publicity relating to the software without the specific, prior written
+permission of Sam Leffler and Silicon Graphics.
+</para>
+
+<para>
+THE SOFTWARE IS PROVIDED "AS-IS" AND WITHOUT WARRANTY OF ANY KIND, 
+EXPRESS, IMPLIED OR OTHERWISE, INCLUDING WITHOUT LIMITATION, ANY 
+WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.  
+</para>
+
+<para>
+IN NO EVENT SHALL SAM LEFFLER OR SILICON GRAPHICS BE LIABLE FOR
+ANY SPECIAL, INCIDENTAL, INDIRECT OR CONSEQUENTIAL DAMAGES OF ANY KIND,
+OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
+WHETHER OR NOT ADVISED OF THE POSSIBILITY OF DAMAGE, AND ON ANY THEORY OF 
+LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE 
+OF THIS SOFTWARE.
+</para>
+</sect1>
+</chapter>
+<chapter id="chap-concepts"><title>Imaging concepts</title>
+<para>
+There are some core terms which are used throughout this tutorial. This section defines these terms -- it's probably therefore worth bookmarking this section for reference throughout the rest of the day.
+</para>
+
+<sect1><title>Rasters</title>
+<para>
+     <indexterm><primary>Raster</primary></indexterm>
+     <indexterm><primary>Image format</primary><secondary>raster</secondary></indexterm>
+The most common image format (and the focus of the majority of this tutorial) is raster image formats. Raster image formats are those which store the picture as a bitmap
+     <footnote><para>You can think of a bitmap as being simply an array of pixels. We'll talk more about this later</para></footnote>
+describing the state of pixels, as opposed to recording the length and locations of primatives such as lines and curves. Common examples include the output of photoshop, the gimp, scanners and digital cameras. Effectively, your monitor and printer are raster output devices.
+</para>
+
+<figure>
+<title>A sample raster image</title>
+<graphic format="EPS" fileref="raster-figure1.eps"></graphic>
+</figure>
+
+<para>
+Raster image formats include TIFF, GIF, PNG, and most of the other formats in this tutorial. If in doubt, assume that it's a raster format unless I tell you otherwise.
+</para>
+
+<para>
+If we zoom in enough on a portion of this image, we can see that it is made up of descrete elements -- the pixels. 
+<figure>
+<title>falls off page</title>
+<graphic format="EPS" fileref="todo.eps"></graphic>
+</figure>
+</para>
+
+<figure>
+<title>Zooming in on a portion of the raster image</title>
+<graphic format="EPS" fileref="raster-figure2.eps"></graphic>
+</figure>
+
+<figure>
+<title>fix_the_falling_off_the_page_problem</title>
+<graphic format="EPS" fileref="todo.eps"></graphic>
+</figure>
+
+<para>
+The code to produce this zoomed image is presented in the TIFF chapter of this tutorial.
+</para>
+
+</sect1>
+
+<sect1><title>Vector</title>
+<para>
+     <indexterm><primary>Vector</primary></indexterm>
+     <indexterm><primary>Image format</primary><secondary>vector</secondary></indexterm>
+Some images aren't raster images. These images are normally composed of primative drawing commands, such as draw a line, draw a circle, et cetera. The advantage of vector formats is that it is an exact representation of the image, they also scale much better. Examples of vector formats include Scalar Vector Graphics (SVG), Adobe Illustrator files, Windows Meta Files, and to a certain extent PDF documents. A plotter is a vector output device.
+</para>
+</sect1>
+
+<sect1><title>Pixel</title>
+<para>
+     <indexterm><primary>Pixel</primary></indexterm>
+A pixel is the lowest unit of raster image description -- in other words, a raster image is defined in terms of pixels. Example pixels can be seen in the discussion of rasters, elsewhere in this chapter.
+</para>
+</sect1>
+
+<sect1><title>Converting color to grayscale</title>
+<para>
+How do you convert color images to grayscale? Well, my instant answer when I first had to do this was to just average the red, green and blue values. That answer is wrong. The reality is that the human eye is much better at seeing some colors than others. To get an accurate grayscale representation, you need to apply different coefficients to the color samples. Appropraite coefficients are 0.299 for red, 0.587 for green and 0.114 for blue.</para>
+
+<para>
+Below I have included several pictures that illustrate this concept. The first figure is a color image
+  <footnote><para>Which may or may not give you joy, depending on if you are viewing this document in color or not</para></footnote>
+, the second is the color image converted to grayscale without the coefficients applied, and the third image is a correct grayscale rendition.
+</para>
+
+<figure>
+<title>The original image</title>
+<graphic format="EPS" fileref="grayscale-figure1.eps"></graphic>
+</figure>
+
+<figure>
+<title>An average of the color values for each pixel</title>
+<graphic format="EPS" fileref="grayscale-figure2.eps"></graphic>
+</figure>
+
+<figure>
+<title>A correct conversion to grayscale</title>
+<graphic format="EPS" fileref="grayscale-figure3.eps"></graphic>
+</figure>
+
+<para>
+You can see that the sensible algorithm is better, have a look at the shadows on the hill and the trees in the background. The contrast and darkness of the second picture is might better than the averaging algorithm...
+</para>
+
+<para>
+The source code to generate these example images may be found in the TIFF chapter.
+</para>
+</sect1>
+
+<sect1><title>Anti-aliasing</title>
+<figure>
+<title>decribe</title>
+<graphic format="EPS" fileref="todo.eps"></graphic>
+</figure>
+
+<sect1>
+<title>Terminology</title>
+<para>	
+We need to get some terminology out of the way before we can discuss much. Images are made up of pixels. In black and white imaging, the pixel has one of two values -- 0 or 1. This can be represented in a single bit. For grayscale and color images however, the pixel needs to be able to store a much greater range of values -- if a pixel was to have 255 levels of gray, then we would need 8 bits to store that pixel. Each of these values is called a sample. TIFF expresses the size of the value in a tag called TIFFTAG_BITSPERSAMPLE. This will be 1 for black and white, and some larger number for grayscale.
+</para>
+
+<para>
+For color images, we need to store even more information. For each pixel we will need to store a red, green, and blue value. Each of these values are stored in a separate 'sample'. Therefore, we will need to define TIFFTAG_SAMPLESPERPIXEL -- this will be 1 for black and white or grayscale, but will normally be 3 for color images. We also need to define the size of each sample, so you'll still need to set a value for TIFFTAG_BITSPERSAMPLE.
+</para>
+</sect1>
+
+
+
+
+<sect1><title>Further reading</title>
+<para>
+...
+</para>
+</sect1>
+</chapter>
+<chapter id="chap-imagetheory"><title>Imaging theory</title>
+<sect1><title>Theory of color and grayscale storage</title>
+<para>
+The first thing that we need to understand to be able to support color and grayscale images is the format of the image data within memory. There are two main representations for color and grayscale images. I'll explain these by describing grayscale, and then extend it to color.
+</para>
+
+<sect2><title>Direct storage of pixel data</title>
+<para>
+If you think back to the way pixel information was stored in the black and white images from the previous article, the information was just in the strips. You can also do this with grayscale and color images. This representation of image data is quite inefficient, because for the scenario when the image has a solid background (for example), there are many pixels with the same value. If the pixel data is stored in the strips, then this value will waste a large amount of space.
+</para>
+
+<para>
+Thankfully, there is a more efficient way to store image data. Imagine a simple four color 24 bit per pixel image. If we build a lookup table of the four color values (the 24 bit values which represent those colors), then we just need to store the relevant entry number of the color in the image strip itself. This can be done in only two bits, instead of the full 24. The maths looks something like this:
+</para>
+
+<para>
+A 24 bit color image which is 1,000 by 1,000 pixels will take 24 million bits to store. The same image, if it was a four color image, would take 4,000,000 bits for the strip data, and 98 bits for the color table. Neither of these numbers includes header and footer information for the file format, and the numbers are for uncompressed bitmaps. The advantages of the lookup table should be obvious. There is a name for this style of lookup table, it is called a <emphasis>palette</emphasis> -- probably because of those things painters carry around.
+</para>
+
+<para>
+This concept works for grayscale images as well. The only difference is that the colors in the palette are not just shades of gray.
+</para>
+</sect2>
+</chapter>
+<chapter id="chap-tiff"><title>TIFF</title>
+<para>
+<qoute>With great power comes great responsibility</quote> -- Spiderman
+</para>
+
+<para>
+In this chapter we will discuss the Tagged Image File Format, which is one of the most common raster image formats for professional imaging -- especially scanned images and faxes. Unfortunately, it is not supported by web browsers, so isn't used as much as it might otherwise be.
+</para>
+
+<sect1>
+<title>Introduction</title>
+<para>
+TIFF (Tagged Image File Format) is a raster image format which was originally produced by Aldus and Microsoft. Aldus was later acquired by Adobe, who manage the TIFF specification to this day. At the time of writing of this chapter, the current version of the TIFF specification is TIFF version 6.0. The TIFF specification can be downloaded from http://partners.adobe.com/asn/developer/pdfs/tn/TIFF6.pdf. The TIFF technical notes at http://partners.adobe.com/asn/developer/technotes/main.html
+</para>
+
+<para>Libtiff is a standard implementation of the TIFF specification, which is free and works on many operating systems. All of the examples in this chapter refer to libtiff.
+</para>
+</sect1>
+
+<sect1>
+<title>Installation</title>
+<para>
+The source for libtiff can be downloaded from http://www.libtiff.org/ -- the current version of the library being version 3.5.7 at the time of writing. This version can be downloaded from ftp://ftp.remotesensing.org/pub/libtiff, look for the files named either tiff-v3.5.7.tar.gz or tiff-v3.5.7.zip.
+</para>
+
+<sect2>
+<title>Unix</title>
+<para>
+Once you have downloaded the tarball for the library as described above, then you need to follow the steps below to install libtiff
+  <footnote><para>Please note that there are binary packages for libtiff for most operating systems, so you might be best off installing one of those.</para></footnote>.
+
+<orderedlist>
+<listitem><para>tar xvzf tiff-v3.5.7.tar.gz</para></listitem>
+<listitem><para>cd tiff-v3.5.7</para></listitem>
+<listitem><para>./configure</para></listitem>
+<listitem><para>make</para></listitem>
+<listitem><para>make install</para></listitem>
+</orderedlist>
+</para>
+
+<para>
+Not too hard at all...
+</para>
+</sect2>
+
+<sect2>
+<title>win32</title>
+<para>
+<figure>
+<title>windows_install_details</title>
+<graphic format="EPS" fileref="todo.eps"></graphic>
+</figure>
+</para>
+
+<para>
+For the Visual Studio challenged, there is a precompiled version of libtiff for win32 available from http://www.stillhq.com. 
+<figure>
+<title>make it so</title>
+<graphic format="EPS" fileref="todo.eps"></graphic>
+</figure>
+</para>
+</sect2>
+</sect1>
+
+
+<sect1><title>The TIFF on disc format</title>
+<para>
+It is useful for use to know something about how TIFF images are laid out on disc. For a fuller discussion of this, have a look at the TIFF specification version 6, which is referenced in the further reading section of this chapter
+  <footnote><para>From page 13 onwards...</para></footnote>
+.
+</para>
+
+<sect2><title>File header</title>
+<table frame='all'><title>TIFF on disc: the file header</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<thead>
+<row>
+  <entry>Bytes</entry>
+  <entry>Description</entry>
+</row>
+</thead>
+<tbody>
+
+<row>
+<entry>0 - 1</entry>
+<entry>Byte order for this file: ll (ASCII) for little endian, or MM (ASCII) for big endian</entry>
+</row>
+
+<row>
+<entry>2 - 3</entry>
+<entry>Magic number = 42, in the byte order specified above</entry>
+</row>
+
+<row>
+<entry>4 - 7</entry>
+<entry>Offset in bytes to the first IFD
+  <footnote><para>IFD: Image File Directory</para></footnote>
+</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+</sect2>
+
+
+
+
+<sect2><title>Image File Directory</title>
+<table frame='all'><title>TIFF on disc: the image file directory</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<thead>
+<row>
+  <entry>Bytes</entry>
+  <entry>Description</entry>
+</row>
+</thead>
+<tbody>
+
+<row>
+<entry>0 - 1</entry>
+<entry>Number of entries in the IFD</entry>
+</row>
+
+<row>
+<entry>???</entry>
+<entry>The entries in the IFD (all are 12 bytes long)</entry>
+</row>
+
+<row>
+<entry>4 bytes at end</entry>
+<entry>Offset in bytes to the next IFD (four zero bytes if this is the last IFD)</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+</sect2>
+
+
+
+
+<sect2><title>Image File Directory Entries</title>
+<table frame='all'><title>TIFF on disc: an image file directory</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<thead>
+<row>
+  <entry>Bytes</entry>
+  <entry>Description</entry>
+</row>
+</thead>
+<tbody>
+
+<row>
+<entry>0 - 1</entry>
+<entry>Tag that identifies the entry. Have a look at tiff.h</entry>
+</row>
+
+<row>
+<entry>2 - 3</entry>
+<entry>Field type</entry>
+</row>
+
+<row>
+<entry>4 - 7</entry>
+<entry>Count of the number of type size fields used. For instance, if the type is an ASCII string, then this field will store the length of the string, including the NULL terminating byte that C strings have. The count does not include padding (if any).</entry>
+</row>
+
+<row>
+<entry>8 - 11</entry>
+<entry>The number of bytes inside the file that the value is stored at. Because the value must be stored on a word boundary, it will always be an even number. This file offset may point anywhere in the file, even after the image data.</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+
+<para>
+These entries have a type associated with them, possible types are:
+</para>
+
+<itemizedlist>
+<listitem><para>1: BYTE 8 bit unsigned integer</para></listitem>
+<listitem><para>2: ASCII 8 bit byte that contains a 7 bit ASCII code</para></listitem>
+<listitem><para>3: SHORT 16 bit (2 byte) unsigned integer</para></listitem>
+<listitem><para>4: LONG 32 bit (4 byte) unsigned integer</para></listitem>
+<listitem><para>5: RATIONAL Two LONGs: the first represents the numerator of a fraction; the second, the denominator</para></listitem>
+</itemizedlist>
+
+<para>
+TIFF version 6 added the following fields:
+</para>
+
+<itemizedlist>
+<listitem><para>6: SBYTE An 8 bit signed integer</para></listitem>
+<listitem><para>7: UNDEFINED An 8 bit byte that may contain anything</para></listitem>
+<listitem><para>8: SSHORT A 16 bit (2 byte) signed integer</para></listitem>
+<listitem><para>9: SLONG A 32 bit (4 byte) signed integer</para></listitem>
+<listitem><para>10: SRATIONAL Two SLONGs: the first represents the numberator of a fraction; the second, the denominator</para></listitem>
+<listitem><para>11: FLOAT Singled precision (4 byte) IEEE format</para></listitem>
+<listitem><para>12: DOUBLE Double precision (8 byte) IEEE format</para></listitem>
+</itemizedlist>
+
+<para>
+Sign is implemented using two's complement notation. New field types may be added later, although it seems unlikely at this stage, given the TIFF specification hasn't changed in quite a long time. Image readers should ignore types they don't understand
+  <footnote><para>You need not worry about this, because libtiff worries about all of this for you.</para></footnote>
+.
+</para>
+</sect2>
+
+<sect2><title>Possible field entries</title>
+<para>
+Discussing the many different possible field entries is out of the scope of this document. Refer to tiff.h and the TIFF specification for more information.
+</para>
+
+<sect2><title>So where's the image data?</title>
+<para>
+Interestingly, the image data itself is just stored as another tag value... The tag value StripOffsets stores where in the file the image data strips start. The tag value StripByteCounts stores the size of each strip.
+</para>
+</sect2>
+</sect1>
+
+
+<sect1>
+<title>Coding for TIFF can be hard</title>
+<para>	
+Most file format specifications define some basic rules for the representation of the file. For instance, PNG (a compeditor to TIFF) documents are always big endian. TIFF doesn't mandate things like this though, here is a list of some of the seemingly basic things that it doesn't define:
+
+<orderedlist>
+  <listitem><para>The byte order -- big endian, or little endian</para></listitem>
+  <listitem><para>The fill order of the bit within the image bytes -- most significant bit first, or least significant</para></listitem>
+  <listitem><para>The meaning of a given pixel value for black and white -- is 0 black, or white?</para></listitem>
+  <listitem><para>...and so on</para></listitem>
+</orderedlist>
+</para>
+
+<para>
+This means that creating a TIFF can be very easy, because it is rare to have to do any conversion of the data that you already have. It does mean, on the other hand, that being able to read in random TIFFs created by other applications can be very hard -- you have to code for all these possible combinations in order to be reasonably certain of having a reliable product.
+</para>
+	
+<para>
+So how do you write an application which can read in all these different possible permutations of the TIFF format? The most important thing to remember is to <emphasis>never make assumptions about the format of the image data you are reading in</emphasis>.
+</para>
+</sect1>
+
+<sect1>
+<title>Writing Black and White TIFF files</title>
+<para>
+The first thing I want to do is show you how to write a TIFF file out. We'll then get onto how to read a TIFF file back into your program.
+</para>
+	
+<sect2>
+<title>Infrastructure for writing</title>
+<para>
+It is traditional for bitmaps to be represented inside your code with an array of chars. This is because on most operating systems, a char maps well to one byte. In the block of code below, we will setup libtiff, and create a simple buffer which contains an image which we can then write out to disc.
+</para>
+
+<programlisting>
+#include &lt;stdio.h&gt;
+#include &lt;tiffio.h&gt;
+
+int
+main (int argc, char *argv[])
+{
+  char buffer[32 * 9];
+}
+</programlisting>
+<para><emphasis>Code: /home/mikal/opensource/tiff-bw-write/write-infrastructure.c</emphasis></para>
+
+<para>
+The code above is pretty simple. All you need to use libtiff is to include the tiffio.h header file. The char buffer that we have defined here is going to be our black and white image, so we should define one of those next...
+</para>
+</sect2>
+
+<sect2>
+<title>Writing the image</title>
+<para>
+To make up for how boring that example was, I am now pleased to present you with possibly the worst picture of the Sydney Harbour Bridge ever drawn. In the example below, the image is already in the image buffer, and all we have to do is save it to the file on disc. The example first opens a TIFF image in write mode, and then places the image into that file.
+</para>
+
+<para>
+Please note, that for clarity I have omitted the actual hex for the image, this is available in the download version of this code for those who are interested.
+</para>
+
+<programlisting>
+#include &lt;stdio.h&gt;
+#include &lt;tiffio.h&gt;
+
+int main(int argc, char *argv[]){
+  // Define an image -- this is 32 pixels by 9 pixels
+  char buffer[25 * 144] = { ...boring hex omitted... };
+
+  TIFF *image;
+
+  // Open the TIFF file
+  if((image = TIFFOpen("output.tif", "w")) == NULL){
+    printf("Could not open output.tif for writing\n");
+    exit(42);
+  }
+
+  // We need to set some values for basic tags before we can add any data
+  TIFFSetField(image, TIFFTAG_IMAGEWIDTH, 25 * 8);
+  TIFFSetField(image, TIFFTAG_IMAGELENGTH, 144);
+  TIFFSetField(image, TIFFTAG_BITSPERSAMPLE, 1);
+  TIFFSetField(image, TIFFTAG_SAMPLESPERPIXEL, 1);
+  TIFFSetField(image, TIFFTAG_ROWSPERSTRIP, 144);
+
+  TIFFSetField(image, TIFFTAG_COMPRESSION, COMPRESSION_CCITTFAX4);
+  TIFFSetField(image, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_MINISWHITE);
+  TIFFSetField(image, TIFFTAG_FILLORDER, FILLORDER_MSB2LSB);
+  TIFFSetField(image, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+
+  TIFFSetField(image, TIFFTAG_XRESOLUTION, 150.0);
+  TIFFSetField(image, TIFFTAG_YRESOLUTION, 150.0);
+  TIFFSetField(image, TIFFTAG_RESOLUTIONUNIT, RESUNIT_INCH);
+  
+  // Write the information to the file
+  TIFFWriteEncodedStrip(image, 0, buffer, 25 * 144);
+
+  // Close the file
+  TIFFClose(image);
+}
+</programlisting>
+<para><emphasis>Code: /home/mikal/opensource/tiff-bw-write/write-nohex.c</emphasis></para>
+
+<para>
+There are some interesting things to note in this example. The most interesting of these is that the output image will not display using the xview command on my linux machine. In fact, I couldn't find an example of a group 4 fax compressed black and white image which would display using that program. See the sidebar for more detail.
+</para>
+
+<sidebar>
+<title>Problems with xview</title>
+<para>
+Xview is part of the xloadimage package written by Jim Frost, which comes with X windows.
+</para>
+
+<para>
+It's a good example of how hard it can be to handle TIFF images well. If you have trouble viewing the output of the sample code, then try using some other program, like the gimp.
+</para>
+</sidebar>
+
+<para>
+The sample code shows the basics of using the libtiff API. The following interesting points should be noted...
+</para>
+
+<orderedlist>
+<listitem><para>The buffers presented to and returned from libtiff each contain 8 pixels in a single byte. This means that you have to be able to extract the pixels you are interested in. The use of masks, and the right and left shift operators come in handy here.</para></listitem>
+
+<listitem><para>The TIFFOpen function is very similar to the fopen function we are all familiar with.</para></listitem>
+
+<listitem><para>We need to set the value for quite a few fields before we can start writing the image out. These fields give libtiff information about the size and shape of the image, as well as the way that data will be compresed within the image. These fields need to be set before you can start handing image data to libtiff. There are many more fields for which a value could be set, I have used close to the bar minimum in this example.</para></listitem>
+
+<listitem><para>TIFFWriteEncodedStrip is the function call which actually inserts the image into the file. This call inserts uncompressed image data into the file. This means that libtiff will compress the image data for you before writing it to the file. If you have already compressed data, then have a look at the TIFFWriteRawStrip instead.</para></listitem>
+
+<listitem><para>Finally, we close the file with TIFFClose.</para></listitem>
+</orderedlist>
+
+<sidebar>
+<title>More information about the libtiff function calls</title>
+<para>
+If you need more information about any of the libtiff function calls mentioned in this chapter, then checkout the extensive man pages which come with the library. Remember that case is important with man pages, so you need to get the case in the function names right -- it's TIFFOpen, not tiffopen.
+</para>
+</sidebar>
+
+<figure>
+<title>The Sydney Harbour Bridge, by Michael Still</title>
+<graphic format="EPS" fileref="tiff-figure1.eps"></graphic>
+</figure>
+</sect2>
+</sect1>
+
+<sect1>
+<title>Reading Black and White TIFF files</title>
+<para>
+Reading TIFF files reliably is much harder than writing them. The issue that complicates reading black and white TIFF images the most is the several different storage schemes which are possible within the TIFF file itself. libtiff doesn't hold your hand much with these schemes, so you have to be able to handle them yourself. The three schemes TIFF supports are single stripped images, stripped images, and tiled images.
+</para>
+
+<orderedlist>
+<listitem><para>A single strip image is as the name suggests -- a special case of a stripped image. In this case, all of the bitmap is stored in one large block. I have experienced reliability issues with images which are single strip on Windows machines. The general recommendation is that no one strip should take more than 8 kilobytes uncompressed which with black and white images limits us to 65,536 pixels in a single strip.</para></listitem>
+
+<listitem><para>A multiple strip image is where horizontal blocks of the image are stored together. More than one stip is joined vertically to make the entire bitmap. Figure 2 shows this concept.</para></listitem>
+
+<listitem><para>A tiled image is like your bathroom wall, it is composed of tiles. This representation is show in Figure 3, and is useful for extremely large images -- this is especially true when you might only want to manipulate a small portion of the image at any one time.</para></listitem>
+</orderedlist>
+
+<figure>
+<title>The Sydney Harbour Bridge, in strips</title>
+<graphic format="EPS" fileref="tiff-figure2.eps"></graphic>
+</figure>
+
+<figure>
+<title>The Sydney Harbour Bridge, in tiles</title>
+<graphic format="EPS" fileref="tiff-figure3.eps"></graphic>
+</figure>
+
+<para>
+Tiled images are comparatively uncommon, so I will focus on stripped images in this chapter. Remember as we go along, that the single stripped case is merely a subset of a multiple strip images.
+</para>
+
+<sect2>
+<title>Infrastructure for reading</title>
+<para>
+The most important thing to remember when reading in TIFF images is to be flexible. The example below has the same basic concepts as the writing example above, with the major difference being that it needs to deal with many possible input images. Apart from stripping and tiling, the most important thing to remember to be flexible about is photometric interpretation. Luckily, with black and white images there are only two photometric interpretations to worry about (with colour and to a certain extent grayscale images there are many more).
+</para>
+
+<para>
+What is photometric interpretation? Well, the representation of the image in the buffer is really a very arbitary thing. I might code my bitmaps so that 0 means black (TIFFTAG_MINISBLACK), whilst you might find black being 1 (TIFFTAG_MINISWHITE) more convenient. TIFF allows both, so our code has to be able to handle both cases. In the example below, I have assumed that the internal buffers need to be in MINISWHITE, so we will convert images which are in MINISBLACK.
+</para>
+
+<para>
+The other big thing to bear in mind is fillorder (whether the first bit in the byte is the highest value, or the lowest). The example below also handles both of these correctly. I have assumed that we want the buffer to have the most significant bit first. TIFF images can be either big endian or little endian, but libtiff handles this for us. Thankfully, libtiff also supports the various compression algorithms without you having to worry about those. These are by far the scariest area of TIFF, so it is still worth your time to use libtiff.
+</para>
+
+<programlisting>
+#include &lt;stdio.h&gt;
+#include &lt;tiffio.h&gt;
+
+int main(int argc, char *argv[]){
+  TIFF *image;
+  uint16 photo, bps, spp, fillorder;
+  uint32 width;
+  tsize_t stripSize;
+  unsigned long imageOffset, result;
+  int stripMax, stripCount;
+  char *buffer, tempbyte;
+  unsigned long bufferSize, count;
+
+  // Open the TIFF image
+  if((image = TIFFOpen(argv[1], "r")) == NULL){
+    fprintf(stderr, "Could not open incoming image\n");
+    exit(42);
+  }
+
+  // Check that it is of a type that we support
+  if((TIFFGetField(image, TIFFTAG_BITSPERSAMPLE, &amp;bps) == 0) || (bps != 1)){
+    fprintf(stderr, "Either undefined or unsupported number of bits per sample\n");
+    exit(42);
+  }
+
+  if((TIFFGetField(image, TIFFTAG_SAMPLESPERPIXEL, &amp;spp) == 0) || (spp != 1)){
+    fprintf(stderr, "Either undefined or unsupported number of samples per pixel\n");
+    exit(42);
+  }
+
+  // Read in the possibly multile strips
+  stripSize = TIFFStripSize (image);
+  stripMax = TIFFNumberOfStrips (image);
+  imageOffset = 0;
+  
+  bufferSize = TIFFNumberOfStrips (image) * stripSize;
+  if((buffer = (char *) malloc(bufferSize)) == NULL){
+    fprintf(stderr, "Could not allocate enough memory for the uncompressed image\n");
+    exit(42);
+  }
+  
+  for (stripCount = 0; stripCount &lt; stripMax; stripCount++){
+    if((result = TIFFReadEncodedStrip (image, stripCount,
+				      buffer + imageOffset,
+				      stripSize)) == -1){
+      fprintf(stderr, "Read error on input strip number %d\n", stripCount);
+      exit(42);
+    }
+
+    imageOffset += result;
+  }
+
+  // Deal with photometric interpretations
+  if(TIFFGetField(image, TIFFTAG_PHOTOMETRIC, &amp;photo) == 0){
+    fprintf(stderr, "Image has an undefined photometric interpretation\n");
+    exit(42);
+  }
+  
+  if(photo != PHOTOMETRIC_MINISWHITE){
+    // Flip bits
+    printf("Fixing the photometric interpretation\n");
+
+    for(count = 0; count &lt; bufferSize; count++)
+      buffer[count] = ~buffer[count];
+  }
+
+  // Deal with fillorder
+  if(TIFFGetField(image, TIFFTAG_FILLORDER, &amp;fillorder) == 0){
+    fprintf(stderr, "Image has an undefined fillorder\n");
+    exit(42);
+  }
+  
+  if(fillorder != FILLORDER_MSB2LSB){
+    // We need to swap bits -- ABCDEFGH becomes HGFEDCBA
+    printf("Fixing the fillorder\n");
+
+    for(count = 0; count &lt; bufferSize; count++){
+      tempbyte = 0;
+      if(buffer[count] &amp; 128) tempbyte += 1;
+      if(buffer[count] &amp; 64) tempbyte += 2;
+      if(buffer[count] &amp; 32) tempbyte += 4;
+      if(buffer[count] &amp; 16) tempbyte += 8;
+      if(buffer[count] &amp; 8) tempbyte += 16;
+      if(buffer[count] &amp; 4) tempbyte += 32;
+      if(buffer[count] &amp; 2) tempbyte += 64;
+      if(buffer[count] &amp; 1) tempbyte += 128;
+      buffer[count] = tempbyte;
+    }
+  }
+     
+  // Do whatever it is we do with the buffer -- we dump it in hex
+  if(TIFFGetField(image, TIFFTAG_IMAGEWIDTH, &amp;width) == 0){
+    fprintf(stderr, "Image does not define its width\n");
+    exit(42);
+  }
+  
+  for(count = 0; count &lt; bufferSize; count++){
+    printf("%02x", (unsigned char) buffer[count]);
+    if((count + 1) % (width / 8) == 0) printf("\n");
+    else printf(" ");
+  }
+
+  TIFFClose(image);
+}
+</programlisting>
+<para><emphasis>Code: /home/mikal/opensource/tiff-bw-read/read.c</emphasis></para>
+
+<para>
+This code works by first opening the image and checking that it is one that we can handle. It then reads in all the strip for the image, and appends them together in one large memory block. If required, it also flips bits until the photometric interpretation the one we handle, and deals with having to swap bits if the fillorder is wrong. Finally, our sample outputs the image as a series of lines composed of hex values. Remember that each of the values represents 8 pixels in the actual image.
+</para>
+</sect2>
+</sect1>
+
+<sect2><title>Compression algorithms in libtiff</title>	
+<para>
+There are several compression algorithms available within libtiff. How do you select which one is right for your imaging needs?
+</para>
+
+<para>
+<emphasis>Please note that all the tags in this table should be prepended by COMPRESSION, for example COMPRESSION_CCITTFAXG4...</emphasis>
+</para>
+
+<table frame='all'><title>Libtiff compression algorithms</title>
+<tgroup cols='3' align='left' colsep='1' rowsep='1'>
+<thead>
+<row>
+  <entry>Compression algorithm</entry>
+  <entry>Well suited for</entry>
+  <entry>TIFFTAG</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry>CCITT Group 4 Fax and Group 3 Fax</entry>
+<entry>If your coding for black and white images, then you're probably using the CCITT fax compression methods. These compression algorithms don't support color.</entry>
+<entry>_CCITTFAX3, _CCITTFAX4</entry>
+</row>
+
+<row>
+<entry>JPEG</entry>
+<entry>JPEG compression is great for large images such as photos. However, the compression is normally lossy (in that image data is thrown away as part of the compression process). This makes JPEG very poor for compressing text which needs to remain readable. The other thing to bear in mind is that the loss is accumulative -- see the loss section below for more information about this.</entry>
+<entry>_JPEG</entry>
+</row>
+
+<row>
+<entry>LZW</entry>
+<entry><emphasis>This is the compression algorithm used in GIF images. Because of the licensing requirements from Unisys, support for this compression codec has been removed from libtiff. There are patches available if you would like to add it back, but the majority of programs your code will integrate with no linger support LZW.</emphasis></entry>
+<entry>_LZW</entry>
+</row>
+
+<row>
+<entry>Deflate</entry>
+<entry>This is the gzip compression algorithm, which is also used for PNG. It is the compression algorithm I would recommend for color images.</entry>
+<entry>_DEFLATE</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</sect2>
+
+<sect2><title>Accumulating loss?</title>
+<para>Why does the loss in lossy compression algorithms such as JPEG accumulate? Imagine that you compress an image using JPEG. You then need to add say a barcode to the image, so you uncompress the image, add the barcode, and recompress it. When the recompression occurs, then a new set of loss is introduced. You can imagine that if you do this enough, then you'll end up with an image which is a big blob.</para>
+
+<para>Whether this is a problem depends on the type of your data. To test how much of a problem this is, I wrote a simple libtiff program which repeatedly uncompresses and recompresses an image. What I found was that with pictures, the data is much more resilient to repeated compression.</para>
+
+<figure>
+<title>The picture before we compressed it</title>
+<graphic format="EPS" fileref="tiff-figure4.eps"></graphic>
+</figure>
+
+<figure>
+<title>The sample text before we compressed it</title>
+<graphic format="EPS" fileref="tiff-figure5.eps"></graphic>
+</figure>
+
+<para>
+The code I used had a 'quality' rating of 25% on the JPEG compression, which is a way of tweaking the loss of the compression algorithm. The lower the quality, the higher the compression ratio. The default is 75%.</para>
+
+<figure>
+<title>The picture after it has been recompressed 200 times</title>
+<graphic format="EPS" fileref="tiff-figure6.eps"></graphic>
+</figure>
+
+<figure>
+<title>The text after it has been recompressed 200 times</title>
+<graphic format="EPS" fileref="tiff-figure7.eps"></graphic>
+</figure>
+
+<para>
+The code for the repeated compression example is at the end of this chapter.
+</para>
+</sect2>
+</sect1>
+
+
+
+
+<sect1><title>Writing a color image</title>
+<para>
+It time to show you how to write a color image to disc. Remember that this is a simple example, which can be elaborated on greatly.
+</para>
+
+<programlisting>
+#include &lt;tiffio.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(int argc, char *argv[]){
+  TIFF *output;
+  uint32 width, height;
+  char *raster;
+
+  // Open the output image
+  if((output = TIFFOpen("output.tif", "w")) == NULL){
+    fprintf(stderr, "Could not open outgoing image\n");
+    exit(42);
+  }
+
+  // We need to know the width and the height before we can malloc
+  width = 42;
+  height = 42;
+
+  if((raster = (char *) malloc(sizeof(char) * width * height * 3)) == NULL){
+    fprintf(stderr, "Could not allocate enough memory\n");
+    exit(42);
+  }
+
+  // Magical stuff for creating the image
+  // ...
+
+  // Write the tiff tags to the file
+  TIFFSetField(output, TIFFTAG_IMAGEWIDTH, width);
+  TIFFSetField(output, TIFFTAG_IMAGELENGTH, height);
+  TIFFSetField(output, TIFFTAG_COMPRESSION, COMPRESSION_DEFLATE);
+  TIFFSetField(output, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+  TIFFSetField(output, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_RGB);
+  TIFFSetField(output, TIFFTAG_BITSPERSAMPLE, 8);
+  TIFFSetField(output, TIFFTAG_SAMPLESPERPIXEL, 3);
+
+  // Actually write the image
+  if(TIFFWriteEncodedStrip(output, 0, raster, width * height * 3) == 0){
+    fprintf(stderr, "Could not write image\n");
+    exit(42);
+  }
+
+  TIFFClose(output);
+}
+</programlisting>
+<para><emphasis>Code: /home/mikal/opensource/tiff-color-write/write.c</emphasis></para>
+
+<para>You can see from this code some of the things that we have discussed in theory. The image has three samples per pixel, each of eight bits. This means that the image is a 24 bit RGB image. If this was a black and white or grayscale image, then this value would be one. The tag PHOTOMETRIC_RGB says that the image data is stored within the strips themselves (as opposed to being paletted) -- more about this in a second.</para>
+
+<sidebar><title>Other values for samples per pixel?</title>
+<para>
+In this example, we have three samples per pixel. If this was a black and white image, or a grayscale image, then we would have one sample per pixel. There are other valid values for here as well -- for instance, sometimes people will store a transparency value for a given pixel, which is called an alpha channel. This would result in having four samples per pixel. It is possible to have an arbitary number of samples per pixel, which is good if you need to pack in extra information about a pixel. <emphasis>Note that doing this can break image viewers which make silly assumptions -- I once had to write code for a former employer to strip out alpha channels and the like so that their PDF generator wouldn't crash.</emphasis>
+</para>
+</sidebar>
+
+<para>The other interesting thing to discuss here is the planar configuration of the image. Here we have specifed PLANARCONFIG_CONTIG, which means that the red green and blue information for a given pixel is grouped together in the strips of image data. The other option is PLANARCONFIG_SEPARATE, where the red samples for the image are stored together, then the blue samples, and finally the green samples.</para>
+</sect1>
+
+<sect1><title>Writing a paletted color image</title>
+<para>
+So how do we write a paletted version of this image? Well, libtiff makes this really easy -- all we need to do is change the value of TIFFTAG_PHOTOMETRIC to PHOTOMETRIC_PALETTE. It's not really worth including an example in this chapter, given it's a one word change.</para>
+</sect1>
+
+
+
+
+
+<sect1><title>Reading a color image</title>
+<para>
+Now all we have to do is work out how to read other people's color and grayscale images reliably, and we're home free. Initially I was very tempted to not tell you about the TIFFReadRGBAStrip() and TIFFReadRGBBSTile() calls, which hide some of the potential ugliness from the caller. These functions have some limitations I'm not astoundingly happy with. To quote the TIFFReadRGBAStrip() man page:</para>
+
+<para><emphasis>
+   TIFFReadRGBAStrip reads a single strip of a strip-based image into memory,
+   storing  the  result  in  the  user supplied RGBA raster. The raster is assumed to be an array of
+   width   times   rowsperstrip   32-bit   entries,   where   width   is  the  width  of  the  image
+   (TIFFTAG_IMAGEWIDTH) and rowsperstrip is the maximum lines in a strip (TIFFTAG_ROWSPERSTRIP).
+</emphasis></para>
+
+<para><emphasis>
+   The  strip  value  should  be  the  strip  number  (strip  zero  is the first) as returned by the
+   TIFFComputeStrip function, but always for sample 0.
+</emphasis></para>
+
+<para><emphasis>
+   Note  that  the  raster  is  assume  to  be  organized  such  that the pixel at location (x,y) is
+   raster[y*width+x];  with  the  raster  origin in the lower-left hand corner of the strip. That is
+   bottom  to  top  organization. When reading a partial last strip in the file the last line of the
+   image will begin at the beginning of the buffer.
+</emphasis></para>
+
+<para><emphasis>
+   Raster  pixels  are  8-bit packed red, green, blue, alpha samples. The macros TIFFGetR, TIFFGetG,
+   TIFFGetB,  and  TIFFGetA  should  be used to access individual samples. Images without Associated
+   Alpha matting information have a constant Alpha of 1.0 (255).
+</emphasis></para>
+
+<para><emphasis>
+   See  the TIFFRGBAImage(3T) page for more details on how various image types are converted to RGBA
+   values.
+</emphasis></para>
+
+<para><emphasis>
+<command>NOTES</command>
+</emphasis></para>
+
+<para><emphasis>
+   Samples must be either 1, 2, 4, 8, or 16 bits. Colorimetric samples/pixel must be either 1, 3, or
+   4 (i.e. SamplesPerPixel minus ExtraSamples).
+</emphasis></para>
+
+<para><emphasis>
+   Palette  image  colormaps that appear to be incorrectly written as 8-bit values are automatically
+   scaled to 16-bits.
+</emphasis></para>
+
+<para><emphasis>
+   TIFFReadRGBAStrip  is  just  a wrapper around the more general TIFFRGBAImage(3T) facilities. It's
+   main  advantage  over  the similar TIFFReadRGBAImage() function is that for large images a single
+   buffer  capable  of  holding  the  whole  image doesn't need to be allocated, only enough for one
+   strip. The TIFFReadRGBATile() function does a similar operation for tiled images.
+</emphasis></para>
+
+<para>There are a couple of odd things about this function -- it defines (0, 0) to be in a different location from all the other code that we have been writing. In all the previous code we have written, the (0, 0) point has been in the top left of the image. This call defines (0, 0) to be in the bottom left. The other limitation to be aware of is that not all valid values for bits per sample are supported. If you find these quirks unacceptable, then remember that you can still use TIFFReadEncodedStrip() in the same manner that we did for the black and white images in the previous chapter...</para>
+
+<programlisting>
+#include &lt;stdio.h&gt;
+#include &lt;tiffio.h&gt;
+
+int main(int argc, char *argv[]){
+  TIFF *image;
+  uint32 width, height, *raster;
+  tsize_t stripSize;
+  unsigned long imagesize, c, d, e;
+
+  // Open the TIFF image
+  if((image = TIFFOpen(argv[1], "r")) == NULL){
+    fprintf(stderr, "Could not open incoming image\n");
+    exit(42);
+  }
+
+  // Find the width and height of the image
+  TIFFGetField(image, TIFFTAG_IMAGEWIDTH, &amp;width);
+  TIFFGetField(image, TIFFTAG_IMAGELENGTH, &amp;height);
+  imagesize = height * width + 1;
+  
+  if((raster = (uint32 *) malloc(sizeof(uint32) * imagesize)) == NULL){
+    fprintf(stderr, "Could not allocate enough memory\n");
+    exit(42);
+  }
+
+  // Read the image into the memory buffer
+  if(TIFFReadRGBAStrip(image, 0, raster) == 0){
+    fprintf(stderr, "Could not read image\n");
+    exit(42);
+  }
+
+  // Here I fix the reversal of the image (vertically) and show you how to get the color values from each pixel
+  d = 0;
+  for(e = height - 1; e != -1; e--){
+    for(c = 0; c &lt; width; c++){
+      // Red = TIFFGetR(raster[e * width + c]);
+      // Green = TIFFGetG(raster[e * width + c]);
+      // Blue = TIFFGetB(raster[e * width + c]);
+    }
+  }
+
+  TIFFClose(image);
+}
+</programlisting>
+<para><emphasis>Code: /home/mikal/opensource/tiff-color-read/read.c</emphasis></para>
+</sect1>
+
+
+
+
+<sect1><title>Storing TIFF data in places other than files</title>
+<para>
+All of these examples that I have included to this point have read and written with files. There are many scenarios when you wouldn't want to store your image data in a file, but would still want to use libtiff and TIFF. For example, you might have customer pictures for id cards, and these would be stored in a database.
+</para>
+
+<para>
+The example which I am most familiar with is PDF documents. In PDF files, you can embed images into the document. These images can be in a subset of TIFF if desired, and TIFF is quite clearly the choice for black and white images.
+</para>
+
+<sidebar><title>An expanded example</title>
+<para>If you need more information about hooking the file input and output functions within libtiff than this chapter allows, then have a look at the images.c file in Panda, my PDF library. The web pages for Panda can be found at http://www.stillhq.com
+  <footnote><para>http://www.stillhq.com/cgi-bin/getpage?area=panda&lt;page=index.htm to be exact.</para></footnote>
+.
+</sidebar>
+
+<para>libtiff allows you to replace the file input and output functions in the library with your own. This is done with the TIFFClientOpen() method. Here's an example (please note this code wont compile, and is just to describe the main concepts:</para>
+
+<figure>
+<title>make_this_example_better</title>
+<graphic format="EPS" fileref="todo.eps"></graphic>
+</figure>
+<programlisting>
+// Please note that this code wont compile, and is intended to only show you 
+// the sturcture of TIFFClient* calls
+
+#include &lt;tiffio.h&gt;
+#include &lt;pthread.h&gt;
+
+// Function prototypes
+static tsize_t libtiffDummyReadProc (thandle_t fd, tdata_t buf, tsize_t size);
+static tsize_t libtiffDummyWriteProc (thandle_t fd, tdata_t buf, tsize_t size);
+static toff_t libtiffDummySeekProc (thandle_t fd, toff_t off, int i);
+static int libtiffDummyCloseProc (thandle_t fd);
+
+// We need globals because of the callbacks (they don't allow us to pass state)
+char *globalImageBuffer;
+unsigned long globalImageBufferOffset;
+
+// This mutex keeps the globals safe by ensuring only one user at a time
+pthread_mutex_t convMutex = PTHREAD_MUTEX_INITIALIZER;
+
+TIFF *conv;
+
+// Lock the mutex
+pthread_mutex_lock (&amp;convMutex);
+
+globalImageBuffer = NULL;
+globalImageBufferOffset = 0;
+
+// Open the dummy document (which actually only exists in memory)
+conv = TIFFClientOpen ("dummy", "w", (thandle_t) - 1, libtiffDummyReadProc,
+            libtiffDummyWriteProc, libtiffDummySeekProc,
+            libtiffDummyCloseProc, NULL, NULL, NULL);
+
+// Setup the image as if it was any other tiff image here, including setting tags
+
+
+// Actually do the client open
+TIFFWriteEncodedStrip (conv, 0, stripBuffer, imageOffset);
+
+// Unlock the mutex
+pthread_mutex_unlock (&amp;convMutex);
+
+//...
+
+/////////////////// Callbacks to libtiff
+
+static tsize_t
+libtiffDummyReadProc (thandle_t fd, tdata_t buf, tsize_t size)
+{
+  // Return the amount of data read, which we will always set as 0 because
+  // we only need to be able to write to these in-memory tiffs
+  return 0;
+}
+
+static tsize_t
+libtiffDummyWriteProc (thandle_t fd, tdata_t buf, tsize_t size)
+{
+  // libtiff will try to write an 8 byte header into the tiff file. We need
+  // to ignore this because PDF does not use it...
+  if ((size == 8) &amp;&amp; (((char *) buf)[0] == 'I') &amp;&amp; (((char *) buf)[1] == 'I')
+     &amp;&amp; (((char *) buf)[2] == 42))
+    {
+    // Skip the header -- little endian
+    }
+  else if ((size == 8) &amp;&amp; (((char *) buf)[0] == 'M') &amp;&amp;
+       (((char *) buf)[1] == 'M') &amp;&amp;y (((char *) buf)[2] == 42))
+    {
+    // Skip the header -- big endian
+    }
+  else
+    {
+    // Have we done anything yet?
+    if (globalImageBuffer == NULL)
+    if((globalImageBuffer = (char *) malloc (size * sizeof (char))) == NULL)
+        {
+          fprintf(stderr, "Memory allocation error\n");
+          exit(42);
+        }
+
+    // Otherwise, we need to grow the memory buffer
+    else
+    {
+      if ((globalImageBuffer = (char *) realloc (globalImageBuffer,
+                             (size * sizeof (char)) +
+                             globalImageBufferOffset)) == NULL)
+        fprintf(stderr, "Could not grow the tiff conversion memory buffer\n");
+            exit(42);
+    }
+
+    // Now move the image data into the buffer
+    memcpy (globalImageBuffer + globalImageBufferOffset, buf, size);
+    globalImageBufferOffset += size;
+    }
+
+  return (size);
+}
+
+static toff_t
+libtiffDummySeekProc (thandle_t fd, toff_t off, int i)
+{
+  // This appears to return the location that it went to
+  return off;
+}
+
+static int
+libtiffDummyCloseProc (thandle_t fd)
+{
+  // Return a zero meaning all is well
+  return 0;
+}
+</programlisting>
+<para><emphasis>Code: /home/mikal/opensource/tiff-client/client.c</emphasis></para>
+</sect1>
+
+
+
+
+<sect1><title>Storing more than one image inside a TIFF</title>
+<para>
+A common request is to be able to store more than one image inside a sigle TIFF file. This is done with multiple directories, which is one of the reasons they're described at the start of this chapter.
+</para>
+
+<para>
+<emphasis>Before embarking on a multiple image per TIFF solution, it is important to remember that the TIFF specification doesn't require TIFF image viewers to implement support for multiple images per TIFF, and many viewers in fact do not
+  <footnote><para>Refer to page 16 of the TIFF specification, version 6.</para></footnote>
+.</emphasis>
+</para>
+
+<para>
+Anyway, now that I've nagged you, putting mutliple images into one TIFF file is really easy, just call the <command>TIFFWriteDirectory</command>(), which writes out the current image so you can move onto the next one. The following sample program is an example of this...
+</para>
+
+<programlisting>
+#include &lt;stdio.h&gt;
+#include &lt;tiffio.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;string.h&gt;
+
+void usage (char *, int);
+
+int
+main (int argc, char *argv[])
+{
+  TIFF *input, *output;
+  uint32 width, height;
+  tsize_t stripSize, stripNumber;
+  unsigned long x, y;
+  char *inputFilename = NULL, *outputFilename = NULL, *raster, *roff, optchar;
+  int count = 4, i;
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Parse the command line options
+  while ((optchar = getopt (argc, argv, "i:o:c:")) != -1)
+    {
+      switch (optchar)
+	{
+	case 'i':
+	  inputFilename = (char *) strdup (optarg);
+	  break;
+
+	case 'o':
+	  outputFilename = (char *) strdup (optarg);
+	  break;
+
+	case 'c':
+	  count = atoi(optarg);
+	  break;
+
+	default:
+	  usage(argv[0], 0);
+	  break;
+	}
+    }
+
+  // Open the input TIFF image
+  if ((inputFilename == NULL) ||
+      (input = TIFFOpen (inputFilename, "r")) == NULL)
+    {
+      fprintf (stderr, "Could not open incoming input %s\n", inputFilename);
+      usage (argv[0], 42);
+    }
+
+  // Open the output TIFF
+  if ((outputFilename == NULL) ||
+      (output = TIFFOpen (outputFilename, "w")) == NULL)
+    {
+      fprintf (stderr, "Could not open outgoing input %s\n", outputFilename);
+      usage (argv[0], 42);
+    }
+
+  // Find the width and height of the input
+  TIFFGetField (input, TIFFTAG_IMAGEWIDTH, &amp;width);
+  TIFFGetField (input, TIFFTAG_IMAGELENGTH, &amp;height);
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Grab some memory
+  if ((raster = (char *) malloc (sizeof (char) * width * height * 3)) == NULL)
+    {
+      fprintf (stderr, "Could not allocate enough memory for input raster\n");
+      exit (42);
+    }
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Read the input into the memory buffer
+  // todo: I couldn't use TIFFReadRGBAStrip here, because it gets confused
+  stripSize = TIFFStripSize (input);
+  roff = raster;
+  for (stripNumber = 0; stripNumber &lt; TIFFNumberOfStrips (input);
+       stripNumber++)
+    {
+      roff += TIFFReadEncodedStrip (input, stripNumber, roff, stripSize);
+    }
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Write the image buffer to the file, we do this c times
+  for(i = 0; i &lt; count; i++){
+    printf(".");
+    fflush(stdout);
+
+    // todo: We need to copy tags from the input image to the output image
+    TIFFSetField (output, TIFFTAG_IMAGEWIDTH, width);
+    TIFFSetField (output, TIFFTAG_IMAGELENGTH, height);
+    TIFFSetField (output, TIFFTAG_COMPRESSION, COMPRESSION_DEFLATE);
+    TIFFSetField (output, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+    TIFFSetField (output, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_RGB);
+    TIFFSetField (output, TIFFTAG_BITSPERSAMPLE, 8);
+    TIFFSetField (output, TIFFTAG_SAMPLESPERPIXEL, 3);
+    // todo: balance this off with having 8 kb per strip...
+    TIFFSetField (output, TIFFTAG_ROWSPERSTRIP, 100000);
+    
+
+    if (TIFFWriteEncodedStrip (output, 0, raster,
+			       width * height * 3 * sizeof (char)) == 0)
+      {
+	fprintf (stderr, "Could not write the output image\n");
+	exit (42);
+      }
+
+    // Flush this subfile and move onto the next one
+    if(TIFFWriteDirectory(output) == 0){
+      fprintf(stderr, "Error writing subfile %d\n", i);
+      exit(44);
+    }
+  }
+  printf("\n");
+    
+  // Cleanup
+  TIFFClose (input);
+  TIFFClose (output);
+  free (raster);
+}
+
+void
+usage (char *cmd, int exitamt)
+{
+  fprintf (stderr, "Bad command line arguements...\n\n");
+  fprintf (stderr, "Usage: %s -i &lt;inputfile&gt; -o &lt;outputfile&gt; -c &lt;count&gt;\n", 
+	   cmd);
+  exit (exitamt);
+}
+</programlisting>
+<para><emphasis>Code: /home/mikal/opensource/tiff-directories/create.c</emphasis></para>
+
+<figure>
+<title>Four pictures of my son Andrew</title>
+<graphic format="EPS" fileref="tiff-figure8.eps"></graphic>
+</figure>
+<figure>
+<title>quality_of_picture</title>
+<graphic format="EPS" fileref="todo.eps"></graphic>
+</figure>
+</sect1>
+
+<sect1><title>Reading more than one image inside a TIFF</title>
+<para>
+We should also probably know how to get to these images once we have more than one image inside a single TIFF file...
+</para>
+
+<para>
+</para>
+
+<figure>
+<title>convert_will_create_multiple_files</title>
+<graphic format="EPS" fileref="todo.eps"></graphic>
+</figure>
+<figure>
+<title>more!</title>
+<graphic format="EPS" fileref="todo.eps"></graphic>
+</figure>
+
+<programlisting>
+#include &lt;stdio.h&gt;
+#include &lt;tiffio.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;string.h&gt;
+
+void usage (char *, int);
+
+int
+main (int argc, char *argv[])
+{
+  TIFF *input, *output;
+  uint32 width, height;
+  tsize_t stripSize, stripNumber;
+  unsigned long x, y;
+  char *inputFilename = NULL, *outputFilename = NULL, 
+    outputFilenameActual[200], *raster, *roff, optchar;
+  int count;
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Parse the command line options
+  while ((optchar = getopt (argc, argv, "i:o:")) != -1)
+    {
+      switch (optchar)
+	{
+	case 'i':
+	  inputFilename = (char *) strdup (optarg);
+	  break;
+
+	case 'o':
+	  outputFilename = (char *) strdup (optarg);
+	  break;
+
+	default:
+	  usage(argv[0], 0);
+	  break;
+	}
+    }
+
+  // Check the output parent name
+  if(outputFilename == NULL){
+    fprintf(stderr, \
+	    "You need to specify a name for the series of output files\n");
+    usage(argv[0], 42);
+  }
+
+  // Open the input TIFF image
+  if ((inputFilename == NULL) ||
+      (input = TIFFOpen (inputFilename, "r")) == NULL)
+    {
+      fprintf (stderr, "Could not open incoming input %s\n", inputFilename);
+      usage (argv[0], 42);
+    }
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Grab a sub file from the input image and move it to a separate file. We do
+  // this forever (until we break down below)...
+  for(count = 0;; count++){
+    // Find the width and height of the input
+    TIFFGetField (input, TIFFTAG_IMAGEWIDTH, &amp;width);
+    TIFFGetField (input, TIFFTAG_IMAGELENGTH, &amp;height);
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Grab some memory
+    if ((raster = (char *) malloc (sizeof (char) * width * height * 3)) == 
+	NULL)
+      {
+	fprintf (stderr, 
+		 "Could not allocate enough memory for input raster\n");
+	exit (42);
+      }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Read the input into the memory buffer
+    // todo: I couldn't use TIFFReadRGBAStrip here, because it gets confused
+    stripSize = TIFFStripSize (input);
+    roff = raster;
+    for (stripNumber = 0; stripNumber &lt; TIFFNumberOfStrips (input);
+	 stripNumber++)
+      {
+	roff += TIFFReadEncodedStrip (input, stripNumber, roff, stripSize);
+      }
+    
+    ///////////////////////////////////////////////////////////////////////////
+    // Open the output TIFF
+    snprintf(outputFilenameActual, 200, "%s-%d.tif", outputFilename, count);
+    if ((output = TIFFOpen (outputFilenameActual, "w")) == NULL)
+      {
+	fprintf (stderr, "Could not open outgoing input %s\n", outputFilename);
+	usage (argv[0], 42);
+      }
+
+    printf(".");
+    fflush(stdout);
+
+    // todo: We need to copy tags from the input image to the output image
+    TIFFSetField (output, TIFFTAG_IMAGEWIDTH, width);
+    TIFFSetField (output, TIFFTAG_IMAGELENGTH, height);
+    TIFFSetField (output, TIFFTAG_COMPRESSION, COMPRESSION_DEFLATE);
+    TIFFSetField (output, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+    TIFFSetField (output, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_RGB);
+    TIFFSetField (output, TIFFTAG_BITSPERSAMPLE, 8);
+    TIFFSetField (output, TIFFTAG_SAMPLESPERPIXEL, 3);
+    // todo: balance this off with having 8 kb per strip...
+    TIFFSetField (output, TIFFTAG_ROWSPERSTRIP, 100000);
+    
+    // Copy the subfile to a output location
+    if (TIFFWriteEncodedStrip (output, 0, raster,
+			       width * height * 3 * sizeof (char)) == 0)
+      {
+	fprintf (stderr, "Could not write the output image\n");
+	exit (42);
+      }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Flush this subfile and move onto the next one
+    if(TIFFReadDirectory(input) == 0){
+      printf(" No more subfiles");
+      break;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Doing correct cleanup with a loop like this is important...
+    free(raster);
+  }
+  printf("\n");
+    
+  // Cleanup
+  TIFFClose (input);
+  TIFFClose (output);
+  free (raster);
+}
+
+void
+usage (char *cmd, int exitamt)
+{
+  fprintf (stderr, "Bad command line arguements...\n\n");
+  fprintf (stderr, "Usage: %s -i &lt;inputfile&gt; -o &lt;outputfile&gt; -c &lt;count&gt;\n", 
+	   cmd);
+  exit (exitamt);
+}
+</programlisting>
+<para><emphasis>Code: /home/mikal/opensource/tiff-directories/read.c</emphasis></para>
+</sect1>
+
+
+<sect1><title>Man pages</title>
+<para>
+...
+</para>
+
+<sect2><title>tiff2bw</title>
+<para>
+...
+</para>
+
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.13 2002-06-29 09:04:38 mikal Exp $ -->
+<!--  -->
+<!--  Copyright (c) 1988-1997 Sam Leffler -->
+<!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
+<!--  -->
+<!--  Permission to use, copy, modify, distribute, and sell this software and  -->
+<!--  its documentation for any purpose is hereby granted without fee, provided -->
+<!--  that (i) the above copyright notices and this permission notice appear in -->
+<!--  all copies of the software and related documentation, and (ii) the names of -->
+<!--  Sam Leffler and Silicon Graphics may not be used in any advertising or -->
+<!--  publicity relating to the software without the specific, prior written -->
+<!--  permission of Sam Leffler and Silicon Graphics. -->
+<!--   -->
+<!--  THE SOFTWARE IS PROVIDED "AS-IS" AND WITHOUT WARRANTY OF ANY KIND,  -->
+<!--  EXPRESS, IMPLIED OR OTHERWISE, INCLUDING WITHOUT LIMITATION, ANY  -->
+<!--  WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.   -->
+<!--   -->
+<!--  IN NO EVENT SHALL SAM LEFFLER OR SILICON GRAPHICS BE LIABLE FOR -->
+<!--  ANY SPECIAL, INCIDENTAL, INDIRECT OR CONSEQUENTIAL DAMAGES OF ANY KIND, -->
+<!--  OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, -->
+<!--  WHETHER OR NOT ADVISED OF THE POSSIBILITY OF DAMAGE, AND ON ANY THEORY OF  -->
+<!--  LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE  -->
+<!--  OF THIS SOFTWARE. -->
+<!--  -->
+<sect3>
+<title>NAME</title>
+
+<para>tiff2bw - convert a color
+<emphasis>TIFF</emphasis>
+image to greyscale
+</para>
+</sect3>
+<sect3>
+<title>SYNOPSIS</title>
+
+<para><command>tiff2bw</command>
+[
+options
+]
+<emphasis>input.tif</emphasis>
+<emphasis>output.tif</emphasis>
+</para>
+</sect3>
+<sect3>
+<title>DESCRIPTION</title>
+
+<para><emphasis>Tiff2bw</emphasis>
+converts an
+<emphasis>RGB</emphasis>
+or Palette color
+<emphasis>TIFF</emphasis>
+image to a greyscale image by
+combining percentages of the red, green, and blue channels.
+By default, output samples are created by taking
+28% of the red channel, 59% of the green channel, and 11% of
+the blue channel.
+To alter these percentages, the
+and
+options may be used.
+</para>
+</sect3>
+<sect3>
+<title>OPTIONS</title>
+
+<para></para>
+<itemizedlist>
+<listitem>
+
+<para><command>-c</command>
+Specify a compression scheme to use when writing image data:
+<command>"-c none"</command>
+for no compression,
+<command>"-c packbits"</command>
+for the PackBits compression algorithm,
+<command>"-c zip</command>
+for the Deflate compression algorithm,
+<command>"-c g3</command>
+for the CCITT Group 3 compression algorithm,
+<command>"-c g4</command>
+for the CCITT Group 4 compression algorithm,
+and
+<command>"-c lzw"</command>
+for Lempel-Ziv &amp; Welch (the default).
+</para>
+</listitem>
+<listitem>
+
+<para><command>-r</command>
+Write data with a specified number of rows per strip;
+by default the number of rows/strip is selected so that each strip
+is approximately 8 kilobytes.
+</para>
+</listitem>
+<listitem>
+
+<para><command>-R</command>
+Specify the percentage of the red channel to use (default 28).
+</para>
+</listitem>
+<listitem>
+
+<para><command>-G</command>
+Specify the percentage of the green channel to use (default 59).
+</para>
+</listitem>
+<listitem>
+
+<para><command>-B</command>
+Specify the percentage of the blue channel to use (default 11).
+</para>
+</listitem>
+</itemizedlist>
+
+<para></sect3>
+<sect3>
+<title>SEE ALSO</title>
+
+<para><emphasis>pal2rgb (1),</emphasis>
+<emphasis>tiffinfo (1),</emphasis>
+<emphasis>tiffcp (1),</emphasis>
+<emphasis>tiffmedian (1),</emphasis>
+<emphasis>libtiff (3)</emphasis>
+</para>
+</sect3>
+</sect2>
+
+<sect2><title>tiff2ps</title>
+<para>
+...
+</para>
+
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.13 2002-06-29 09:04:38 mikal Exp $ -->
+<!--  -->
+<!--  Copyright (c) 1988-1997 Sam Leffler -->
+<!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
+<!--  -->
+<!--  Permission to use, copy, modify, distribute, and sell this software and  -->
+<!--  its documentation for any purpose is hereby granted without fee, provided -->
+<!--  that (i) the above copyright notices and this permission notice appear in -->
+<!--  all copies of the software and related documentation, and (ii) the names of -->
+<!--  Sam Leffler and Silicon Graphics may not be used in any advertising or -->
+<!--  publicity relating to the software without the specific, prior written -->
+<!--  permission of Sam Leffler and Silicon Graphics. -->
+<!--   -->
+<!--  THE SOFTWARE IS PROVIDED "AS-IS" AND WITHOUT WARRANTY OF ANY KIND,  -->
+<!--  EXPRESS, IMPLIED OR OTHERWISE, INCLUDING WITHOUT LIMITATION, ANY  -->
+<!--  WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.   -->
+<!--   -->
+<!--  IN NO EVENT SHALL SAM LEFFLER OR SILICON GRAPHICS BE LIABLE FOR -->
+<!--  ANY SPECIAL, INCIDENTAL, INDIRECT OR CONSEQUENTIAL DAMAGES OF ANY KIND, -->
+<!--  OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, -->
+<!--  WHETHER OR NOT ADVISED OF THE POSSIBILITY OF DAMAGE, AND ON ANY THEORY OF  -->
+<!--  LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE  -->
+<!--  OF THIS SOFTWARE. -->
+<!--  -->
+<sect3>
+<title>NAME</title>
+
+<para>tiff2ps - convert a
+<emphasis>TIFF</emphasis>
+image to \*(Ps\(tm
+</para>
+</sect3>
+<sect3>
+<title>SYNOPSIS</title>
+
+<para><command>tiff2ps</command>
+[
+<emphasis>options</emphasis>
+]
+<emphasis>"input.tif ..."</emphasis>
+</para>
+</sect3>
+<sect3>
+<title>DESCRIPTION</title>
+
+<para><emphasis>tiff2ps</emphasis>
+reads
+<emphasis>TIFF</emphasis>
+images and writes \*(Ps or Encapsulated \*(Ps (EPS)
+on the standard output.
+By default,
+<emphasis>tiff2ps</emphasis>
+writes Encapsulated \*(Ps for the first image in the specified
+<emphasis>TIFF</emphasis>
+image file.
+</para>
+
+<para>By default,
+<emphasis>tiff2ps</emphasis>
+will generate \*(Ps that fills a printed area specified
+by the
+<emphasis>TIFF</emphasis>
+tags in the input file.
+If the file does not contain
+<emphasis>XResolution</emphasis>
+or
+<emphasis>YResolution</emphasis>
+tags, then the printed area is set according to the image dimensions.
+The
+<command>-w</command>
+and
+<command>-h</command>
+options (see below)
+can be used to set the dimensions of the printed area in inches;
+overriding any relevant
+<emphasis>TIFF</emphasis>
+tags.
+</para>
+
+<para>The \*(Ps generated for
+<emphasis>RGB,</emphasis>
+palette, and
+<emphasis>CMYK</emphasis>
+images uses the
+<emphasis>colorimage</emphasis>
+operator.
+The \*(Ps generated for
+greyscale and bilevel images
+uses the
+<emphasis>image</emphasis>
+operator.
+When the
+<emphasis>colorimage</emphasis>
+operator is used, \*(Ps code to emulate this operator
+on older \*(Ps printers is also generated.
+Note that this emulation code can be very slow.
+</para>
+
+<para>Color images with associated alpha data are composited over
+a white background.
+</para>
+</sect3>
+<sect3>
+<title>OPTIONS</title>
+
+<para></para>
+<itemizedlist>
+<listitem>
+
+<para><command>-1</command>
+Generate \*(Ps Level I (the default).
+</para>
+</listitem>
+<listitem>
+
+<para><command>-2</command>
+Generate \*(Ps Level II.
+</para>
+</listitem>
+<listitem>
+
+<para><command>-a</command>
+Generate output for all IFDs (pages) in the input file.
+</para>
+</listitem>
+<listitem>
+
+<para><command>-d</command>
+Set the initial
+<emphasis>TIFF</emphasis>
+directory to the specified directory number.
+(NB: directories are numbered starting at zero.)
+This option is useful for selecting individual pages in a
+multi-page (e.g. facsimile) file.
+</para>
+</listitem>
+<listitem>
+
+<para><command>-e</command>
+Force the generation of Encapsulated \*(Ps.
+</para>
+</listitem>
+<listitem>
+
+<para><command>-h</command>
+Specify the vertical size of the printed area (in inches).
+</para>
+</listitem>
+<listitem>
+
+<para><command>-o</command>
+Set the initial
+<emphasis>TIFF</emphasis>
+directory to the
+<emphasis>IFD</emphasis>
+at the specified file offset.
+This option is useful for selecting thumbnail images and the
+like which are hidden using the SubIFD tag.
+</para>
+</listitem>
+<listitem>
+
+<para><command>-p</command>
+Force the generation of (non-Encapsulated) \*(Ps.
+</para>
+</listitem>
+<listitem>
+
+<para><command>-s</command>
+Generate output for a single IFD (page) in the input file.
+</para>
+</listitem>
+<listitem>
+
+<para><command>-w</command>
+Specify the horizontal size of the printed area (in inches).
+</para>
+</listitem>
+<listitem>
+
+<para><command>-z</command>
+When generating \*(Ps Level II, data is scaled so that it does not
+image into the
+<emphasis>deadzone</emphasis>
+on a page (the outer margin that the printing device is unable to mark).
+This option suppresses this behaviour.
+When \*(Ps Level I is generated, data is imaged to the entire printed
+page and this option has no affect.
+</para>
+</listitem>
+</itemizedlist>
+
+<para></sect3>
+<sect3>
+<title>EXAMPLES</title>
+
+<para>The following generates \*(Ps Level II for all pages of a facsimile:
+DEFAULT COMMAND FOUND: RS
+tiff2ps -a2 fax.tif | lpr
+DEFAULT COMMAND FOUND: RE
+Note also that if you have version 2.6.1 or newer of Ghostscript then you
+can efficiently preview facsimile generated with the above command.
+</para>
+
+<para>To generate Encapsulated \*(Ps for a the image at directory 2
+of an image use:
+DEFAULT COMMAND FOUND: RS
+tiff2ps -d 1 foo.tif
+DEFAULT COMMAND FOUND: RE
+(notice that directories are numbered starting at zero.)
+</para>
+</sect3>
+<sect3>
+<title>BUGS</title>
+
+<para>Because \*(Ps does not support the notion of a colormap,
+8-bit palette images produce 24-bit \*(Ps images.
+This conversion results in output that is six times
+bigger than the original image and which takes a long time
+to send to a printer over a serial line.
+Matters are even worse for 4-, 2-, and 1-bit palette images.
+</para>
+</sect3>
+<sect3>
+<title>BUGS</title>
+
+<para>Does not handle tiled images when generating PS Level I output.
+</para>
+</sect3>
+<sect3>
+<title>SEE ALSO</title>
+
+<para><emphasis>pal2rgb (1),</emphasis>
+<emphasis>tiffinfo (1),</emphasis>
+<emphasis>tiffcp (1),</emphasis>
+<emphasis>tiffgt (1),</emphasis>
+<emphasis>tiffmedian (1),</emphasis>
+<emphasis>tiff2bw (1),</emphasis>
+<emphasis>tiffsv (1),</emphasis>
+<emphasis>libtiff (3)</emphasis>
+</para>
+</sect3>
+</sect2>
+
+
+<sect2><title>tiffcmp</title>
+<para>
+...
+</para>
+
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.13 2002-06-29 09:04:38 mikal Exp $ -->
+<!--  -->
+<!--  Copyright (c) 1988-1997 Sam Leffler -->
+<!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
+<!--  -->
+<!--  Permission to use, copy, modify, distribute, and sell this software and  -->
+<!--  its documentation for any purpose is hereby granted without fee, provided -->
+<!--  that (i) the above copyright notices and this permission notice appear in -->
+<!--  all copies of the software and related documentation, and (ii) the names of -->
+<!--  Sam Leffler and Silicon Graphics may not be used in any advertising or -->
+<!--  publicity relating to the software without the specific, prior written -->
+<!--  permission of Sam Leffler and Silicon Graphics. -->
+<!--   -->
+<!--  THE SOFTWARE IS PROVIDED "AS-IS" AND WITHOUT WARRANTY OF ANY KIND,  -->
+<!--  EXPRESS, IMPLIED OR OTHERWISE, INCLUDING WITHOUT LIMITATION, ANY  -->
+<!--  WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.   -->
+<!--   -->
+<!--  IN NO EVENT SHALL SAM LEFFLER OR SILICON GRAPHICS BE LIABLE FOR -->
+<!--  ANY SPECIAL, INCIDENTAL, INDIRECT OR CONSEQUENTIAL DAMAGES OF ANY KIND, -->
+<!--  OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, -->
+<!--  WHETHER OR NOT ADVISED OF THE POSSIBILITY OF DAMAGE, AND ON ANY THEORY OF  -->
+<!--  LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE  -->
+<!--  OF THIS SOFTWARE. -->
+<!--  -->
+<sect3>
+<title>NAME</title>
+
+<para>tiffcmp - compare two
+<emphasis>TIFF</emphasis>
+files
+</para>
+</sect3>
+<sect3>
+<title>SYNOPSIS</title>
+
+<para><command>tiffcmp</command>
+[
+<emphasis>options</emphasis>
+]
+<emphasis>"file1.tif file2.tif"</emphasis>
+</para>
+</sect3>
+<sect3>
+<title>DESCRIPTION</title>
+
+<para><emphasis>Tiffcmp</emphasis>
+compares the tags and data in two files created according
+to the Tagged Image File Format, Revision 6.0.
+The schemes used for compressing data in each file
+are immaterial when data are compared-data are compared on
+a scanline-by-scanline basis after decompression.
+Most directory tags are checked; notable exceptions are:
+<emphasis>GrayResponseCurve ,</emphasis>
+<emphasis>ColorResponseCurve ,</emphasis>
+and
+<emphasis>ColorMap</emphasis>
+tags.
+Data will not be compared if any of the
+<emphasis>BitsPerSample ,</emphasis>
+<emphasis>SamplesPerPixel ,</emphasis>
+or
+<emphasis>ImageWidth</emphasis>
+values are not equal.
+By default,
+<emphasis>tiffcmp</emphasis>
+will terminate if it encounters any difference.
+</para>
+</sect3>
+<sect3>
+<title>OPTIONS</title>
+
+<para></para>
+<itemizedlist>
+<listitem>
+
+<para><command>-l</command>
+List each byte of image data that differs between the files.
+</para>
+</listitem>
+<listitem>
+
+<para><command>-t</command>
+Ignore any differences in directory tags.
+</para>
+</listitem>
+</itemizedlist>
+
+<para></sect3>
+<sect3>
+<title>BUGS</title>
+
+<para>Tags that are not recognized by the library are not
+compared; they may also generate spurious diagnostics.
+</para>
+</sect3>
+<sect3>
+<title>SEE ALSO</title>
+
+<para><emphasis>pal2rgb (1),</emphasis>
+<emphasis>tiffinfo (1),</emphasis>
+<emphasis>tiffcp (1),</emphasis>
+<emphasis>tiffmedian (1),</emphasis>
+<emphasis>libtiff (3)</emphasis>
+</para>
+</sect3>
+
+<sidebar><title>Sample output</title>
+<para>
+<command>tiffcmp</command> shows the differences in tags between images, for example, when I compare the input and output images from the pixel example in this chapter:
+</para>
+
+<programlisting>
+[mikal@localhost tiff-pixels]$ tiffcmp input.tif output.tif 
+ImageWidth: 256 520
+[mikal@localhost tiff-pixels]$ 
+</programlisting>
+</sidebar>
+</sect2>
+
+
+<sect2><title>tiffcp</title>
+<para>
+...
+</para>
+
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.13 2002-06-29 09:04:38 mikal Exp $ -->
+<!--  -->
+<!--  Copyright (c) 1988-1997 Sam Leffler -->
+<!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
+<!--  -->
+<!--  Permission to use, copy, modify, distribute, and sell this software and  -->
+<!--  its documentation for any purpose is hereby granted without fee, provided -->
+<!--  that (i) the above copyright notices and this permission notice appear in -->
+<!--  all copies of the software and related documentation, and (ii) the names of -->
+<!--  Sam Leffler and Silicon Graphics may not be used in any advertising or -->
+<!--  publicity relating to the software without the specific, prior written -->
+<!--  permission of Sam Leffler and Silicon Graphics. -->
+<!--   -->
+<!--  THE SOFTWARE IS PROVIDED "AS-IS" AND WITHOUT WARRANTY OF ANY KIND,  -->
+<!--  EXPRESS, IMPLIED OR OTHERWISE, INCLUDING WITHOUT LIMITATION, ANY  -->
+<!--  WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.   -->
+<!--   -->
+<!--  IN NO EVENT SHALL SAM LEFFLER OR SILICON GRAPHICS BE LIABLE FOR -->
+<!--  ANY SPECIAL, INCIDENTAL, INDIRECT OR CONSEQUENTIAL DAMAGES OF ANY KIND, -->
+<!--  OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, -->
+<!--  WHETHER OR NOT ADVISED OF THE POSSIBILITY OF DAMAGE, AND ON ANY THEORY OF  -->
+<!--  LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE  -->
+<!--  OF THIS SOFTWARE. -->
+<!--  -->
+<sect3>
+<title>NAME</title>
+
+<para>tiffcp - copy (and possibly convert) a
+<emphasis>TIFF</emphasis>
+file
+</para>
+</sect3>
+<sect3>
+<title>SYNOPSIS</title>
+
+<para><command>tiffcp</command>
+[
+<emphasis>options</emphasis>
+]
+<emphasis>"src1.tif ... srcN.tif dst.tif"</emphasis>
+</para>
+</sect3>
+<sect3>
+<title>DESCRIPTION</title>
+
+<para><emphasis>tiffcp</emphasis>
+combines one or more files created according
+to the Tag Image File Format, Revision 6.0
+into a single
+<emphasis>TIFF</emphasis>
+file.
+Because the output file may be compressed using a different
+algorithm than the input files,
+<emphasis>tiffcp</emphasis>
+is most often used to convert between different compression
+schemes.
+</para>
+
+<para>By default,
+<emphasis>tiffcp</emphasis>
+will copy all the understood tags in a
+<emphasis>TIFF</emphasis>
+directory of an input
+file to the associated directory in the output file.
+</para>
+
+<para><emphasis>tiffcp</emphasis>
+can be used to reorganize the storage characteristics of data
+in a file, but it is explicitly intended to not alter or convert
+the image data content in any way.
+</para>
+</sect3>
+<sect3>
+<title>OPTIONS</title>
+
+<para></para>
+<itemizedlist>
+<listitem>
+
+<para><command>-B</command>
+Force output to be written with Big-Endian byte order.
+This option only has an effect when the output file is created or
+overwritten and not when it is appended to.
+</para>
+</listitem>
+<listitem>
+
+<para><command>-C</command>
+Suppress the use of ``strip chopping'' when reading images
+that have a single strip/tile of uncompressed data.
+</para>
+</listitem>
+<listitem>
+
+<para><command>-c</command>
+Specify the compression to use for data written to the output file:
+<command>none </command>
+for no compression,
+<command>packbits</command>
+for PackBits compression,
+<command>lzw</command>
+for Lempel-Ziv &amp; Welch compression,
+<command>jpeg</command>
+for baseline JPEG compression,
+<command>zip</command>
+for Deflate compression,
+<command>g3</command>
+for CCITT Group 3 (T.4) compression,
+and
+<command>g4</command>
+for CCITT Group 4 (T.6) compression.
+By default
+<emphasis>tiffcp</emphasis>
+will compress data according to the value of the
+<emphasis>Compression</emphasis>
+tag found in the source file.
+DEFAULT COMMAND FOUND: IP
+The
+<emphasis>CCITT</emphasis>
+Group 3 and Group 4 compression algorithms can only
+be used with bilevel data.
+DEFAULT COMMAND FOUND: IP
+Group 3 compression can be specified together with several
+T.4-specific options:
+<command>1d</command>
+for 1-dimensional encoding,
+<command>2d</command>
+for 2-dimensional encoding,
+and
+<command>fill</command>
+to force each encoded scanline to be zero-filled so that the
+terminating EOL code lies on a byte boundary.
+Group 3-specific options are specified by appending a ``:''-separated
+list to the ``g3'' option; e.g.
+<command>"-c g3:2d:fill"</command>
+to get 2D-encoded data with byte-aligned EOL codes.
+DEFAULT COMMAND FOUND: IP
+<emphasis>LZW</emphasis>
+compression can be specified together with a
+<emphasis>predictor</emphasis>
+value.
+A predictor value of 2 causes
+each scanline of the output image to undergo horizontal
+differencing before it is encoded; a value
+of 1 forces each scanline to be encoded without differencing.
+LZW-specific options are specified by appending a ``:''-separated
+list to the ``lzw'' option; e.g.
+<command>"-c lzw:2"</command>
+for
+<emphasis>LZW</emphasis>
+compression with horizontal differencing.
+</para>
+</listitem>
+<listitem>
+
+<para><command>-f</command>
+Specify the bit fill order to use in writing output data.
+By default,
+<emphasis>tiffcp</emphasis>
+will create a new file with the same fill order as the original.
+Specifying
+<command>"-f lsb2msb"</command>
+will force data to be written with the FillOrder tag set to
+<emphasis>LSB2MSB,</emphasis>
+while
+<command>"-f msb2lsb"</command>
+will force data to be written with the FillOrder tag set to
+<emphasis>MSB2LSB.</emphasis>
+</para>
+</listitem>
+<listitem>
+
+<para><command>-l</command>
+Specify the length of a tile (in pixels).
+<emphasis>tiffcp</emphasis>
+attempts to set the tile dimensions so
+that no more than 8 kilobytes of data appear in a tile.
+</para>
+</listitem>
+<listitem>
+
+<para><command>-L</command>
+Force output to be written with Little-Endian byte order.
+This option only has an effect when the output file is created or
+overwritten and not when it is appended to.
+</para>
+</listitem>
+<listitem>
+
+<para><command>-M</command>
+Suppress the use of memory-mapped files when reading images.
+</para>
+</listitem>
+<listitem>
+
+<para><command>-p</command>
+Specify the planar configuration to use in writing image data
+that has one 8-bit sample per pixel.
+By default,
+<emphasis>tiffcp</emphasis>
+will create a new file with the same planar configuration as
+the original.
+Specifying
+<command>"-p contig"</command>
+will force data to be written with multi-sample data packed
+together, while
+<command>"-p separate"</command>
+will force samples to be written in separate planes.
+</para>
+</listitem>
+<listitem>
+
+<para><command>-r</command>
+Specify the number of rows (scanlines) in each strip of data
+written to the output file.
+By default,
+<emphasis>tiffcp</emphasis>
+attempts to set the rows/strip
+that no more than 8 kilobytes of data appear in a strip.
+</para>
+</listitem>
+<listitem>
+
+<para><command>-s</command>
+Force the output file to be written with data organized in strips
+(rather than tiles).
+</para>
+</listitem>
+<listitem>
+
+<para><command>-t</command>
+Force the output file to be written wtih data organized in tiles
+(rather than strips).
+options can be used to force the resultant image to be written
+as strips or tiles of data, respectively.
+</para>
+</listitem>
+<listitem>
+
+<para><command>-w</command>
+Specify the width of a tile (in pixels).
+<emphasis>tiffcp</emphasis>
+attempts to set the tile dimensions so
+that no more than 8 kilobytes of data appear in a tile.
+</para>
+</listitem>
+</itemizedlist>
+
+<para></sect3>
+<sect3>
+<title>EXAMPLES</title>
+
+<para>The following concatenates two files and writes the result using
+<emphasis>LZW</emphasis>
+encoding:
+DEFAULT COMMAND FOUND: RS
+tiffcp -c lzw a.tif b.tif result.tif
+DEFAULT COMMAND FOUND: RE
+</para>
+
+<para>To convert a G3 1d-encoded
+<emphasis>TIFF</emphasis>
+to a single strip of G4-encoded data the following might be used:
+DEFAULT COMMAND FOUND: RS
+tiffcp -c g4 -r 10000 g3.tif g4.tif
+DEFAULT COMMAND FOUND: RE
+(1000 is just a number that is larger than the number of rows in
+the source file.)
+</para>
+</sect3>
+<sect3>
+<title>SEE ALSO</title>
+
+<para><emphasis>pal2rgb (1),</emphasis>
+<emphasis>tiffinfo (1),</emphasis>
+<emphasis>tiffcmp (1),</emphasis>
+<emphasis>tiffmedian (1),</emphasis>
+<emphasis>tiffsplit (1),</emphasis>
+<emphasis>libtiff (3)</emphasis>
+</para>
+</sect3>
+</sect2>
+
+
+<sect2><title>tiffdither</title>
+<para>
+...
+</para>
+
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.13 2002-06-29 09:04:38 mikal Exp $ -->
+<!--  -->
+<!--  Copyright (c) 1990-1997 Sam Leffler -->
+<!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
+<!--  -->
+<!--  Permission to use, copy, modify, distribute, and sell this software and  -->
+<!--  its documentation for any purpose is hereby granted without fee, provided -->
+<!--  that (i) the above copyright notices and this permission notice appear in -->
+<!--  all copies of the software and related documentation, and (ii) the names of -->
+<!--  Sam Leffler and Silicon Graphics may not be used in any advertising or -->
+<!--  publicity relating to the software without the specific, prior written -->
+<!--  permission of Sam Leffler and Silicon Graphics. -->
+<!--   -->
+<!--  THE SOFTWARE IS PROVIDED "AS-IS" AND WITHOUT WARRANTY OF ANY KIND,  -->
+<!--  EXPRESS, IMPLIED OR OTHERWISE, INCLUDING WITHOUT LIMITATION, ANY  -->
+<!--  WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.   -->
+<!--   -->
+<!--  IN NO EVENT SHALL SAM LEFFLER OR SILICON GRAPHICS BE LIABLE FOR -->
+<!--  ANY SPECIAL, INCIDENTAL, INDIRECT OR CONSEQUENTIAL DAMAGES OF ANY KIND, -->
+<!--  OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, -->
+<!--  WHETHER OR NOT ADVISED OF THE POSSIBILITY OF DAMAGE, AND ON ANY THEORY OF  -->
+<!--  LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE  -->
+<!--  OF THIS SOFTWARE. -->
+<!--  -->
+<sect3>
+<title>NAME</title>
+
+<para>tiffdither - convert a greyscale image to bilevel using dithering
+</para>
+</sect3>
+<sect3>
+<title>SYNOPSIS</title>
+
+<para><command>tiffdither</command>
+[
+<emphasis>options</emphasis>
+]
+<emphasis>input.tif</emphasis>
+<emphasis>output.tif</emphasis>
+</para>
+</sect3>
+<sect3>
+<title>DESCRIPTION</title>
+
+<para><emphasis>tiffdither</emphasis>
+converts a single channel 8-bit greyscale image to a bilevel image
+using Floyd-Steinberg error propagation with threholding.
+</para>
+</sect3>
+<sect3>
+<title>OPTIONS</title>
+
+<para></para>
+<itemizedlist>
+<listitem>
+
+<para><command>-c</command>
+Specify the compression to use for data written to the output file:
+<command>none </command>
+for no compression,
+<command>packbits</command>
+for PackBits compression,
+<command>lzw</command>
+for Lempel-Ziv &amp; Welch compression,
+<command>zip</command>
+for Deflate compression,
+<command>g3</command>
+for CCITT Group 3 (T.4) compression,
+and
+<command>g4</command>
+for CCITT Group 4 (T.6) compression.
+By default
+<emphasis>tiffdither</emphasis>
+will compress data according to the value of the
+<emphasis>Compression</emphasis>
+tag found in the source file.
+DEFAULT COMMAND FOUND: IP
+The
+<emphasis>CCITT</emphasis>
+Group 3 and Group 4 compression algorithms can only
+be used with bilevel data.
+DEFAULT COMMAND FOUND: IP
+Group 3 compression can be specified together with several
+T.4-specific options:
+<command>1d</command>
+for 1-dimensional encoding,
+<command>2d</command>
+for 2-dimensional encoding,
+and
+<command>fill</command>
+to force each encoded scanline to be zero-filled so that the
+terminating EOL code lies on a byte boundary.
+Group 3-specific options are specified by appending a ``:''-separated
+list to the ``g3'' option; e.g.
+<command>"-c g3:2d:fill"</command>
+to get 2D-encoded data with byte-aligned EOL codes.
+DEFAULT COMMAND FOUND: IP
+<emphasis>LZW</emphasis>
+compression can be specified together with a
+<emphasis>predictor</emphasis>
+value.
+A predictor value of 2 causes
+each scanline of the output image to undergo horizontal
+differencing before it is encoded; a value
+of 1 forces each scanline to be encoded without differencing.
+LZW-specific options are specified by appending a ``:''-separated
+list to the ``lzw'' option; e.g.
+<command>"-c lzw:2"</command>
+for
+<emphasis>LZW</emphasis>
+compression with horizontal differencing.
+</para>
+</listitem>
+<listitem>
+
+<para><command>-f</command>
+Specify the bit fill order to use in writing output data.
+By default,
+<emphasis>tiffdither</emphasis>
+will create a new file with the same fill order as the original.
+Specifying
+<command>"-f lsb2msb"</command>
+will force data to be written with the FillOrder tag set to
+<emphasis>LSB2MSB ,</emphasis>
+while
+<command>"-f msb2lsb"</command>
+will force data to be written with the FillOrder tag set to
+<emphasis>MSB2LSB .</emphasis>
+</para>
+</listitem>
+<listitem>
+
+<para><command>-t</command>
+Set the threshold value for dithering.
+By default the threshold value is 128.
+</para>
+</listitem>
+</itemizedlist>
+
+<para></sect3>
+<sect3>
+<title>NOTES</title>
+
+<para>The dither algorithm is taken from the
+<emphasis>tiffmedian (1)</emphasis>
+program (written by Paul Heckbert).
+</para>
+</sect3>
+<sect3>
+<title>SEE ALSO</title>
+
+<para><emphasis>pal2rgb (1),</emphasis>
+<emphasis>fax2tiff (1),</emphasis>
+<emphasis>tiffinfo (1),</emphasis>
+<emphasis>tiffcp (1),</emphasis>
+<emphasis>tiff2bw (1),</emphasis>
+<emphasis>libtiff (3)</emphasis>
+</para>
+</sect3>
+
+<sidebar><title>Sample output</title>
+<para>
+<command>tiffdither</command> takes grayscale images and dithers them into black and white images. For instance, the grayscale example from earlier in this tutorial produced the following image:
+</para>
+
+<figure>
+<title>The grayscale input image</title>
+<graphic format="EPS" fileref="tiff-figure9.eps"></graphic>
+</figure>
+
+<para>
+This image, after being pushed through <command>tiffdither</command> looks something like:
+<para>
+
+<figure>
+<title>The dithered output image</title>
+<graphic format="EPS" fileref="tiff-figure10.eps"></graphic>
+</figure>
+</sidebar>
+</sect2>
+
+
+<sect2><title>tiffdump</title>
+<para>
+...
+</para>
+
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.13 2002-06-29 09:04:38 mikal Exp $ -->
+<!--  -->
+<!--  Copyright (c) 1988-1997 Sam Leffler -->
+<!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
+<!--  -->
+<!--  Permission to use, copy, modify, distribute, and sell this software and  -->
+<!--  its documentation for any purpose is hereby granted without fee, provided -->
+<!--  that (i) the above copyright notices and this permission notice appear in -->
+<!--  all copies of the software and related documentation, and (ii) the names of -->
+<!--  Sam Leffler and Silicon Graphics may not be used in any advertising or -->
+<!--  publicity relating to the software without the specific, prior written -->
+<!--  permission of Sam Leffler and Silicon Graphics. -->
+<!--   -->
+<!--  THE SOFTWARE IS PROVIDED "AS-IS" AND WITHOUT WARRANTY OF ANY KIND,  -->
+<!--  EXPRESS, IMPLIED OR OTHERWISE, INCLUDING WITHOUT LIMITATION, ANY  -->
+<!--  WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.   -->
+<!--   -->
+<!--  IN NO EVENT SHALL SAM LEFFLER OR SILICON GRAPHICS BE LIABLE FOR -->
+<!--  ANY SPECIAL, INCIDENTAL, INDIRECT OR CONSEQUENTIAL DAMAGES OF ANY KIND, -->
+<!--  OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, -->
+<!--  WHETHER OR NOT ADVISED OF THE POSSIBILITY OF DAMAGE, AND ON ANY THEORY OF  -->
+<!--  LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE  -->
+<!--  OF THIS SOFTWARE. -->
+<!--  -->
+<sect3>
+<title>NAME</title>
+
+<para>tiffdump - print verbatim information about
+<emphasis>TIFF</emphasis>
+files
+</para>
+</sect3>
+<sect3>
+<title>SYNOPSIS</title>
+
+<para><command>tiffdump</command>
+[
+<emphasis>options</emphasis>
+]
+<emphasis>"name ..."</emphasis>
+</para>
+</sect3>
+<sect3>
+<title>DESCRIPTION</title>
+
+<para><emphasis>tiffdump</emphasis>
+displays directory information from files created according
+to the Tag Image File Format, Revision 6.0.
+The header of each
+<emphasis>TIFF</emphasis>
+file (magic number, version, and first directory offset)
+is displayed, followed by the tag contents of each directory in the file.
+For each tag, the name, datatype, count, and value(s) is displayed.
+When the symbolic name for a tag or datatype is known, the symbolic
+name is displayed followed by it's numeric (decimal) value.
+Tag values are displayed enclosed in ``&lt;&gt;'' characters immediately
+preceded by the value of the count field.
+For example, an
+<emphasis>ImageWidth</emphasis>
+tag might be displayed as ``ImageWidth (256) SHORT (3) 1&lt;800&gt;''.
+</para>
+
+<para><emphasis>tiffdump</emphasis>
+is particularly useful for investigating the contents of
+<emphasis>TIFF</emphasis>
+files that
+<emphasis>libtiff</emphasis>
+does not understand.
+</para>
+</sect3>
+<sect3>
+<title>OPTIONS</title>
+
+<para></para>
+<itemizedlist>
+<listitem>
+
+<para><command>-h</command>
+Force numeric data to be printed in hexadecimal rather than the
+default decimal.
+</para>
+</listitem>
+<listitem>
+
+<para><command>-o</command>
+Dump the contents of the
+<emphasis>IFD</emphasis>
+at the a particular file offset.
+The file offset may be specified using the usual C-style syntax;
+i.e. a leading ``0x'' for hexadecimal and a leading ``0'' for octal.
+</para>
+</listitem>
+</itemizedlist>
+
+<para></sect3>
+<sect3>
+<title>SEE ALSO</title>
+
+<para><emphasis>tiffinfo (1),</emphasis>
+<emphasis>libtiff (3)</emphasis>
+</para>
+</sect3>
+
+<sidebar><title>Sample output</title>
+<para>
+<command>tiffdump</command> shows you heaps of useful things about a TIFF image, basically anything stored in a tag. Some sample output is:
+</para>
+
+<programlisting>
+[mikal@localhost tutorial-imaging]$ tiffdump tiff-figure10.tif 
+tiff-figure10.tif:
+Magic: 0x4949 <little-endian> Version: 0x2a
+Directory 0: offset 38228 (0x9554) next 0 (0)
+ImageWidth (256) SHORT (3) 1<640>
+ImageLength (257) SHORT (3) 1<479>
+BitsPerSample (258) SHORT (3) 1<1>
+Compression (259) SHORT (3) 1<32773>
+Photometric (262) SHORT (3) 1<1>
+ImageDescription (270) ASCII (2) 41<Dithered B&W version of  ...>
+StripOffsets (273) LONG (4) 5<8 8141 16315 24528 32662>
+SamplesPerPixel (277) SHORT (3) 1<1>
+RowsPerStrip (278) SHORT (3) 1<102>
+StripByteCounts (279) LONG (4) 5<8133 8174 8213 8134 5566>
+PlanarConfig (284) SHORT (3) 1<1>
+[mikal@localhost tutorial-imaging]$ 
+</programlisting>
+</sidebar>
+</sect2>
+
+
+<sect2><title>tiffgt</title>
+<para>
+...
+</para>
+
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.13 2002-06-29 09:04:38 mikal Exp $ -->
+<!--  -->
+<!--  Copyright (c) 1988-1997 Sam Leffler -->
+<!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
+<!--  -->
+<!--  Permission to use, copy, modify, distribute, and sell this software and  -->
+<!--  its documentation for any purpose is hereby granted without fee, provided -->
+<!--  that (i) the above copyright notices and this permission notice appear in -->
+<!--  all copies of the software and related documentation, and (ii) the names of -->
+<!--  Sam Leffler and Silicon Graphics may not be used in any advertising or -->
+<!--  publicity relating to the software without the specific, prior written -->
+<!--  permission of Sam Leffler and Silicon Graphics. -->
+<!--   -->
+<!--  THE SOFTWARE IS PROVIDED "AS-IS" AND WITHOUT WARRANTY OF ANY KIND,  -->
+<!--  EXPRESS, IMPLIED OR OTHERWISE, INCLUDING WITHOUT LIMITATION, ANY  -->
+<!--  WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.   -->
+<!--   -->
+<!--  IN NO EVENT SHALL SAM LEFFLER OR SILICON GRAPHICS BE LIABLE FOR -->
+<!--  ANY SPECIAL, INCIDENTAL, INDIRECT OR CONSEQUENTIAL DAMAGES OF ANY KIND, -->
+<!--  OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, -->
+<!--  WHETHER OR NOT ADVISED OF THE POSSIBILITY OF DAMAGE, AND ON ANY THEORY OF  -->
+<!--  LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE  -->
+<!--  OF THIS SOFTWARE. -->
+<!--  -->
+<sect3>
+<title>NAME</title>
+
+<para>tiffgt - display an image stored in a
+<emphasis>TIFF</emphasis>
+file (Silicon Graphics version)
+</para>
+</sect3>
+<sect3>
+<title>SYNOPSIS</title>
+
+<para><command>tiffgt</command>
+[
+<emphasis>options</emphasis>
+]
+<emphasis>"input.tif ..."</emphasis>
+</para>
+</sect3>
+<sect3>
+<title>DESCRIPTION</title>
+
+<para><emphasis>tiffgt</emphasis>
+displays one or more images stored using the
+Tag Image File Format, Revision 6.0.
+Each image is placed in a fixed size window that the
+user must position on the display (unless configured
+otherwise through X defaults).
+If the display has fewer than 24 bitplanes, or if the
+image does not warrant full color, then
+<emphasis>RGB</emphasis>
+color values are mapped to the closest values that exist in
+the colormap (this is done using the
+<emphasis>rgbi</emphasis>
+routine found in the graphics utility library
+</para>
+
+<para><emphasis>tiffgt</emphasis>
+correctly handles files with any of the following characteristics:
+DEFAULT COMMAND FOUND: ta \w'<emphasis>PhotometricInterpretation</emphasis>  'u
+BitsPerSample	1, 2, 4, 8, 16
+SamplesPerPixel	1, 3, 4 (the 4th sample is ignored)
+PhotometricInterpretation	0 (min-is-white), 1 (min-is-black), 2 (RGB), 3 (palette), 6 (YCbCr)
+PlanarConfiguration	1 (contiguous), 2 (separate)
+Orientation	1 (top-left), 4 (bottom-left)
+Data may be organized as strips or tiles and may be
+compressed with any of the compression algorithms supported
+by the
+<emphasis>libtiff (3)</emphasis>
+library.
+</para>
+
+<para>For palette images (\c
+<emphasis>PhotomatricInterpretation =3),</emphasis>
+<emphasis>tiffgt</emphasis>
+inspects the colormap values and assumes either 16-bit
+or 8-bit values according to the maximum value.
+That is, if no colormap entry greater than 255 is found,
+<emphasis>tiffgt</emphasis>
+assumes the colormap has only 8-bit values; otherwise
+it assumes 16-bit values.
+This inspection is done to handle old images written by
+previous (incorrect) versions of
+<emphasis>libtiff .</emphasis>
+</para>
+
+<para><emphasis>tiffgt</emphasis>
+can be used to display multiple images one-at-a-time.
+The left mouse button switches the display to the first image in the
+<emphasis>next</emphasis>
+file in the list of files specified on the command line.
+The right mouse button switches to the first image in the
+<emphasis>previous</emphasis>
+file in the list.
+The middle mouse button causes the first image in the first file
+specified on the command line to be displayed.
+In addition the following keyboard commands are recognized:
+</para>
+<itemizedlist>
+<listitem>
+
+<para><command>b</command>
+Use a
+<emphasis>PhotometricIntepretation</emphasis>
+of MinIsBlack in displaying the current image.
+</para>
+</listitem>
+<listitem>
+
+<para><command>l</command>
+Use a
+<emphasis>FillOrder</emphasis>
+of lsb-to-msb in decoding the current image.
+</para>
+</listitem>
+<listitem>
+
+<para><command>m</command>
+Use a
+<emphasis>FillOrder</emphasis>
+of msb-tolmsb in decoding the current image.
+</para>
+</listitem>
+<listitem>
+
+<para><command>c</command>
+Use a colormap visual to display the current image.
+</para>
+</listitem>
+<listitem>
+
+<para><command>r</command>
+Use a true color (24-bit RGB) visual to display the current image.
+</para>
+</listitem>
+<listitem>
+
+<para><command>w</command>
+Use a
+<emphasis>PhotometricIntepretation</emphasis>
+of MinIsWhite in displaying the current image.
+</para>
+</listitem>
+<listitem>
+
+<para><command>W</command>
+Toggle (enable/disable) display of warning messages from the
+<emphasis>TIFF</emphasis>
+library when decoding images.
+</para>
+</listitem>
+<listitem>
+
+<para><command>E</command>
+Toggle (enable/disable) display of error messages from the
+<emphasis>TIFF</emphasis>
+library when decoding images.
+</para>
+</listitem>
+<listitem>
+
+<para><command>z</command>
+Reset all parameters to their default settings (\c
+<emphasis>FillOrder ,</emphasis>
+<emphasis>PhotometricInterpretation ,</emphasis>
+handling of warnings and errors).
+</para>
+</listitem>
+<listitem>
+
+<para><command>PageUp</command>
+Display the previous image in the current file or the last
+image in the previous file.
+</para>
+</listitem>
+<listitem>
+
+<para><command>PageDown</command>
+Display the next image in the current file or the first image
+in the next file.
+</para>
+</listitem>
+<listitem>
+
+<para><command>Home</command>
+Display the first image in the current file.
+</para>
+</listitem>
+<listitem>
+
+<para><command>End</command>
+Display the last image in the current file (unimplemented).
+</para>
+</listitem>
+</itemizedlist>
+
+<para></sect3>
+<sect3>
+<title>OPTIONS</title>
+
+<para></para>
+<itemizedlist>
+</para>
+<listitem>
+
+<para><command>-c</command>
+Force image display in a colormap window.
+</para>
+</listitem>
+<listitem>
+
+<para><command>-d</command>
+Specify an image to display by directory number.
+By default the first image in the file is displayed.
+Directories are numbered starting at zero.
+</para>
+</listitem>
+<listitem>
+
+<para><command>-e</command>
+Enable reporting of error messages from the
+<emphasis>TIFF</emphasis>
+library.
+By default
+<emphasis>tiffgt</emphasis>
+silently ignores images that cannot be read.
+</para>
+</listitem>
+<listitem>
+
+<para><command>-f</command>
+Force
+<emphasis>tiffgt</emphasis>
+to run as a foreground process.
+By default
+<emphasis>tiffgt</emphasis>
+will place itself in the background once it has opened the
+requested image file.
+</para>
+</listitem>
+<listitem>
+
+<para><command>-l</command>
+Force the presumed bit ordering to be
+<emphasis>LSB</emphasis>
+to
+<emphasis>MSB.</emphasis>
+</para>
+</listitem>
+<listitem>
+
+<para><command>-m</command>
+Force the presumed bit ordering to be
+<emphasis>MSB</emphasis>
+to
+<emphasis>LSB.</emphasis>
+</para>
+</listitem>
+<listitem>
+
+<para><command>-o</command>
+Specify an image to display by directory offset.
+By default the first image in the file is displayed.
+Directories offsets may be specified using C-style syntax;
+i.e. a leading ``0x'' for hexadecimal and a leading ``0'' for octal.
+</para>
+</listitem>
+<listitem>
+
+<para><command>-p</command>
+Override the value of the
+<emphasis>PhotometricInterpretation</emphasis>
+tag; the parameter may be one of:
+<emphasis>miniswhite ,</emphasis>
+<emphasis>minisblack ,</emphasis>
+<emphasis>rgb ,</emphasis>
+<emphasis>palette ,</emphasis>
+<emphasis>mask ,</emphasis>
+<emphasis>separated ,</emphasis>
+<emphasis>ycbcr ,</emphasis>
+and
+<emphasis>cielab .</emphasis>
+</para>
+</listitem>
+<listitem>
+
+<para><command>-r</command>
+Force image display in a full color window.
+</para>
+</listitem>
+<listitem>
+
+<para><command>-s</command>
+Stop on the first read error.
+By default all errors in the input data are ignored and
+<emphasis>tiffgt</emphasis>
+does it's best to display as much of an image as possible.
+</para>
+</listitem>
+<listitem>
+
+<para><command>-w</command>
+Enable reporting of warning messages from the
+<emphasis>TIFF</emphasis>
+library.
+By default
+<emphasis>tiffgt</emphasis>
+ignores warning messages generated when reading an image.
+</para>
+</listitem>
+<listitem>
+
+<para><command>-v</command>
+Place information in the title bar describing
+what type of window (full color or colormap) is being
+used, the name of the input file, and the directory
+index of the image (if non-zero).
+By default, the window type is not shown in the title bar.
+</para>
+</listitem>
+</itemizedlist>
+
+<para></sect3>
+<sect3>
+<title>BUGS</title>
+
+<para>Images wider and taller than the display are silently truncated to avoid
+crashing old versions of the window manager.
+</para>
+</sect3>
+<sect3>
+<title>SEE ALSO</title>
+
+<para><emphasis>tiffdump (1),</emphasis>
+<emphasis>tiffinfo (1),</emphasis>
+<emphasis>tiffcp (1),</emphasis>
+<emphasis>libtiff (3)</emphasis>
+</para>
+</sect3>
+</sect2>
+
+
+<sect2><title>tiffinfo</title>
+<para>
+...
+</para>
+
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.13 2002-06-29 09:04:38 mikal Exp $ -->
+<!--  -->
+<!--  Copyright (c) 1988-1997 Sam Leffler -->
+<!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
+<!--  -->
+<!--  Permission to use, copy, modify, distribute, and sell this software and  -->
+<!--  its documentation for any purpose is hereby granted without fee, provided -->
+<!--  that (i) the above copyright notices and this permission notice appear in -->
+<!--  all copies of the software and related documentation, and (ii) the names of -->
+<!--  Sam Leffler and Silicon Graphics may not be used in any advertising or -->
+<!--  publicity relating to the software without the specific, prior written -->
+<!--  permission of Sam Leffler and Silicon Graphics. -->
+<!--   -->
+<!--  THE SOFTWARE IS PROVIDED "AS-IS" AND WITHOUT WARRANTY OF ANY KIND,  -->
+<!--  EXPRESS, IMPLIED OR OTHERWISE, INCLUDING WITHOUT LIMITATION, ANY  -->
+<!--  WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.   -->
+<!--   -->
+<!--  IN NO EVENT SHALL SAM LEFFLER OR SILICON GRAPHICS BE LIABLE FOR -->
+<!--  ANY SPECIAL, INCIDENTAL, INDIRECT OR CONSEQUENTIAL DAMAGES OF ANY KIND, -->
+<!--  OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, -->
+<!--  WHETHER OR NOT ADVISED OF THE POSSIBILITY OF DAMAGE, AND ON ANY THEORY OF  -->
+<!--  LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE  -->
+<!--  OF THIS SOFTWARE. -->
+<!--  -->
+<sect3>
+<title>NAME</title>
+
+<para>tiffinfo - print information about
+<emphasis>TIFF</emphasis>
+files
+</para>
+</sect3>
+<sect3>
+<title>SYNOPSIS</title>
+
+<para><command>tiffinfo</command>
+[
+<emphasis>options</emphasis>
+]
+<emphasis>"input.tif ..."</emphasis>
+</para>
+</sect3>
+<sect3>
+<title>DESCRIPTION</title>
+
+<para><emphasis>Tiffinfo</emphasis>
+displays information about files created according
+to the Tag Image File Format, Revision 6.0.
+By default, the contents of each
+<emphasis>TIFF</emphasis>
+directory in each file
+is displayed, with the value of each tag shown symbolically
+(where sensible).
+</para>
+</sect3>
+<sect3>
+<title>OPTIONS</title>
+
+<para></para>
+<itemizedlist>
+<listitem>
+
+<para><command>-c</command>
+Display the colormap and color/gray response curves, if present.
+</para>
+</listitem>
+<listitem>
+
+<para><command>-D</command>
+In addition to displaying the directory tags,
+read and decompress all the data in each image (but not display it).
+</para>
+</listitem>
+<listitem>
+
+<para><command>-d</command>
+In addition to displaying the directory tags,
+print each byte of decompressed data in hexadecimal.
+</para>
+</listitem>
+<listitem>
+
+<para><command>-j</command>
+Display any \s-2JPEG\s0-related tags that are present.
+</para>
+</listitem>
+<listitem>
+
+<para><command>-o</command>
+Set the initial
+<emphasis>TIFF</emphasis>
+directory according to the specified file offset.
+The file offset may be specified using the usual C-style syntax;
+i.e. a leading ``0x'' for hexadecimal and a leading ``0'' for octal.
+</para>
+</listitem>
+<listitem>
+
+<para><command>-s</command>
+Display the offsets and byte counts for each data strip in a directory.
+</para>
+</listitem>
+<listitem>
+
+<para><command>-z</command>
+Enable strip chopping when reading image data.
+</para>
+</listitem>
+<listitem>
+
+<para><command>-#</command>
+Set the initial
+<emphasis>TIFF</emphasis>
+directory to
+<emphasis># .</emphasis>
+</para>
+</listitem>
+</itemizedlist>
+
+<para></sect3>
+<sect3>
+<title>SEE ALSO</title>
+
+<para><emphasis>pal2rgb (1),</emphasis>
+<emphasis>tiffcp (1),</emphasis>
+<emphasis>tiffcmp (1),</emphasis>
+<emphasis>tiffmedian (1),</emphasis>
+<emphasis>libtiff (3)</emphasis>
+</para>
+</sect3>
+
+<sidebar><title>Sample output</title>
+<para>
+<command>tiffinfo</command> is probably the most useful command which comes with libtiff... In normal operation, it shows you nicely formatted information about the TIFF image, like so:
+</para>
+
+<programlisting>
+[mikal@localhost tutorial-imaging]$ tiffinfo tiff-figure9.tif 
+TIFF Directory at offset 0x40f7c
+  Image Width: 640 Image Length: 480
+  Bits/Sample: 8
+  Compression Scheme: Deflate
+  Photometric Interpretation: min-is-black
+  Samples/Pixel: 1
+  Rows/Strip: 100000
+  Planar Configuration: single image plane
+[mikal@localhost tutorial-imaging]$ 
+</programlisting>
+
+<para>
+When you ask nicely (with a -d), then you're shown random tiff data, which can be very handly:
+</para>
+
+<programlisting>
+[mikal@localhost tutorial-imaging]$ tiffinfo -d tiff-figure9.tif
+TIFF Directory at offset 0x40f7c
+  Image Width: 640 Image Length: 480
+  Bits/Sample: 8
+  Compression Scheme: Deflate
+  Photometric Interpretation: min-is-black
+  Samples/Pixel: 1
+  Rows/Strip: 100000
+  Planar Configuration: single image plane
+Strip 0:
+ 59 5d 5c 55 4f 51 58 5d 5a 5a 57 51 4d 4d 4e 4d 58 54 55 5f 6c 76 7a 7c
+ 86 83 89 89 7f 7c 79 6e 61 57 70 7a 64 6f 7d 62 60 61 68 75 82 85 7e 76
+ 78 79 80 7a 66 5f 62 61 53 5b 62 6d 77 75 7a 8e a0 91 7a 66 5d 5d 61 62
+ 6f 69 65 64 63 61 63 68 76 79 74 76 86 8b 86 85 83 83 66 6a a0 b8 a7 a1
+ 94 a7 9d 72 5b 69 7b 7c 88 84 7f 7a 73 72 7e 8c 94 96 8a 75 6f 77 75 6a
+ 73 7d 85 85 84 89 90 94 8b 7d 74 7a 84 8a 8e 91 9c 99 87 7e 8d 93 85 79
+ 73 7e 88 87 80 7e 88 92 96 93 95 9d a1 9c 94 91 9c 8f 90 9e 9e 8a 7b 7b
+ 89 7a 68 5d 58 5b 66 71 81 82 7c 71 6c 6f 70 6e 5f 62 60 60 65 66 6f 84
+ 85 93 a4 a8 98 86 81 86 88 7e 83 7a 73 74 6f 7e 78 72 73 74 71 75 73 67
+ 72 73 77 85 90 8a 8f a7 ba cc cc c0 c1 c8 cf d7 dd e6 ec e5 e2 ef ed d4
+ e4 e6 ea ee f1 f2 f1 ef f3 f3 f3 f2 f2 f2 f1 f1 f2 f1 f0 ef ee ed ec eb
+ ... and so on
+</programlisting>
+</sidebar>
+</sect2>
+
+
+<sect2><title>tiffmedian</title>
+<para>
+...
+</para>
+
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.13 2002-06-29 09:04:38 mikal Exp $ -->
+<!--  -->
+<!--  Copyright (c) 1990-1997 Sam Leffler -->
+<!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
+<!--  -->
+<!--  Permission to use, copy, modify, distribute, and sell this software and  -->
+<!--  its documentation for any purpose is hereby granted without fee, provided -->
+<!--  that (i) the above copyright notices and this permission notice appear in -->
+<!--  all copies of the software and related documentation, and (ii) the names of -->
+<!--  Sam Leffler and Silicon Graphics may not be used in any advertising or -->
+<!--  publicity relating to the software without the specific, prior written -->
+<!--  permission of Sam Leffler and Silicon Graphics. -->
+<!--   -->
+<!--  THE SOFTWARE IS PROVIDED "AS-IS" AND WITHOUT WARRANTY OF ANY KIND,  -->
+<!--  EXPRESS, IMPLIED OR OTHERWISE, INCLUDING WITHOUT LIMITATION, ANY  -->
+<!--  WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.   -->
+<!--   -->
+<!--  IN NO EVENT SHALL SAM LEFFLER OR SILICON GRAPHICS BE LIABLE FOR -->
+<!--  ANY SPECIAL, INCIDENTAL, INDIRECT OR CONSEQUENTIAL DAMAGES OF ANY KIND, -->
+<!--  OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, -->
+<!--  WHETHER OR NOT ADVISED OF THE POSSIBILITY OF DAMAGE, AND ON ANY THEORY OF  -->
+<!--  LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE  -->
+<!--  OF THIS SOFTWARE. -->
+<!--  -->
+<sect3>
+<title>NAME</title>
+
+<para>tiffmedian - apply the median cut algorithm to data in a
+<emphasis>TIFF</emphasis>
+file
+</para>
+</sect3>
+<sect3>
+<title>SYNOPSIS</title>
+
+<para><command>tiffmedian</command>
+[
+<emphasis>options</emphasis>
+]
+<emphasis>input.tif</emphasis>
+<emphasis>output.tif</emphasis>
+</para>
+</sect3>
+<sect3>
+<title>DESCRIPTION</title>
+
+<para><emphasis>tiffmedian</emphasis>
+applys the median cut algorithm to an
+<emphasis>RGB</emphasis>
+image in
+<emphasis>input.tif</emphasis>
+to generate a palette image that is written to
+<emphasis>output.tif .</emphasis>
+The generated colormap has, by default, 256 entries.
+The image data is quantized by mapping each
+pixel to the closest color values in the colormap.
+</para>
+</sect3>
+<sect3>
+<title>OPTIONS</title>
+
+<para></para>
+<itemizedlist>
+<listitem>
+
+<para><command>-c</command>
+Specify the compression to use for data written to the output file:
+<command>none </command>
+for no compression,
+<command>packbits</command>
+for PackBits compression,
+<command>lzw</command>
+for Lempel-Ziv &amp; Welch compression,
+and
+<command>zip</command>
+for Deflate compression.
+By default
+<emphasis>tiffmedian</emphasis>
+will compress data according to the value of the
+<emphasis>Compression</emphasis>
+tag found in the source file.
+DEFAULT COMMAND FOUND: IP
+<emphasis>LZW</emphasis>
+compression can be specified together with a
+<emphasis>predictor</emphasis>
+value.
+A predictor value of 2 causes
+each scanline of the output image to undergo horizontal
+differencing before it is encoded; a value
+of 1 forces each scanline to be encoded without differencing.
+LZW-specific options are specified by appending a ``:''-separated
+list to the ``lzw'' option; e.g.
+<command>"-c lzw:2"</command>
+for
+<emphasis>LZW</emphasis>
+compression with horizontal differencing.
+</para>
+</listitem>
+<listitem>
+
+<para><command>-C</command>
+Specify the number of entries to use in the generated colormap.
+By default all 256 entries/colors are used.
+</para>
+</listitem>
+<listitem>
+
+<para><command>-f</command>
+Apply Floyd-Steinberg dithering before selecting a colormap entry.
+</para>
+</listitem>
+<listitem>
+
+<para><command>-r</command>
+Specify the number of rows (scanlines) in each strip of data
+written to the output file.
+By default,
+<emphasis>tiffmedian</emphasis>
+attempts to set the rows/strip
+that no more than 8 kilobytes of data appear in a strip.
+</para>
+</listitem>
+</itemizedlist>
+
+<para></sect3>
+<sect3>
+<title>NOTES</title>
+
+<para>This program is derived from Paul Heckbert's
+<emphasis>median</emphasis>
+program.
+</para>
+</sect3>
+<sect3>
+<title>SEE ALSO</title>
+
+<para><emphasis>pal2rgb (1),</emphasis>
+<emphasis>tiffinfo (1),</emphasis>
+<emphasis>tiffcp (1),</emphasis>
+<emphasis>tiffcmp (1),</emphasis>
+<emphasis>libtiff (3)</emphasis>
+</para>
+
+<para>"Color Image Quantization for Frame Buffer Display", Paul
+Heckbert, SIGGRAPH proceedings, 1982, pp. 297-307.
+</para>
+</sect3>
+<figure>
+<title>Sample output</title>
+<graphic format="EPS" fileref="todo.eps"></graphic>
+</figure>
+</sect2>
+
+
+<sect2><title>tiffsplit</title>
+<para>
+...
+</para>
+
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.13 2002-06-29 09:04:38 mikal Exp $ -->
+<!--  -->
+<!--  Copyright (c) 1992-1997 Sam Leffler -->
+<!--  Copyright (c) 1992-1997 Silicon Graphics, Inc. -->
+<!--  -->
+<!--  Permission to use, copy, modify, distribute, and sell this software and  -->
+<!--  its documentation for any purpose is hereby granted without fee, provided -->
+<!--  that (i) the above copyright notices and this permission notice appear in -->
+<!--  all copies of the software and related documentation, and (ii) the names of -->
+<!--  Sam Leffler and Silicon Graphics may not be used in any advertising or -->
+<!--  publicity relating to the software without the specific, prior written -->
+<!--  permission of Sam Leffler and Silicon Graphics. -->
+<!--   -->
+<!--  THE SOFTWARE IS PROVIDED "AS-IS" AND WITHOUT WARRANTY OF ANY KIND,  -->
+<!--  EXPRESS, IMPLIED OR OTHERWISE, INCLUDING WITHOUT LIMITATION, ANY  -->
+<!--  WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.   -->
+<!--   -->
+<!--  IN NO EVENT SHALL SAM LEFFLER OR SILICON GRAPHICS BE LIABLE FOR -->
+<!--  ANY SPECIAL, INCIDENTAL, INDIRECT OR CONSEQUENTIAL DAMAGES OF ANY KIND, -->
+<!--  OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, -->
+<!--  WHETHER OR NOT ADVISED OF THE POSSIBILITY OF DAMAGE, AND ON ANY THEORY OF  -->
+<!--  LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE  -->
+<!--  OF THIS SOFTWARE. -->
+<!--  -->
+<sect3>
+<title>NAME</title>
+
+<para>tiffsplit - split a multi-image
+<emphasis>TIFF</emphasis>
+into single-image
+<emphasis>TIFF</emphasis>
+files
+</para>
+</sect3>
+<sect3>
+<title>SYNOPSIS</title>
+
+<para><command>tiffsplit</command>
+<emphasis>src.tif</emphasis>
+[
+<emphasis>prefix</emphasis>
+]
+</para>
+</sect3>
+<sect3>
+<title>DESCRIPTION</title>
+
+<para><emphasis>tiffsplit</emphasis>
+takes a multi-directory (page)
+<emphasis>TIFF</emphasis>
+file and creates one or more single-directory (page)
+<emphasis>TIFF</emphasis>
+files from it.
+The output files are given names created by concatenating
+a prefix, a lexically ordered
+suffix in the range [<emphasis>aa</emphasis>-<emphasis>zz</emphasis>], the suffix
+<emphasis>.tif </emphasis>
+(e.g.
+<emphasis>xaa.tif ,</emphasis>
+<emphasis>xab.tif ,</emphasis>
+\...
+<emphasis>xzz.tif ).</emphasis>
+If a prefix is not specified on the command line,
+the default prefix of
+<emphasis>x</emphasis>
+is used.
+</para>
+</sect3>
+<sect3>
+<title>OPTIONS</title>
+
+<para>None.
+</para>
+</sect3>
+<sect3>
+<title>BUGS</title>
+
+<para>Only a select set of ``known tags'' is copied when spliting.
+</para>
+</sect3>
+<sect3>
+<title>SEE ALSO</title>
+
+<para><emphasis>tiffcp (1),</emphasis>
+<emphasis>tiffinfo (1),</emphasis>
+<emphasis>libtiff (3)</emphasis>
+</para>
+</sect3>
+<figure>
+<title>Sample output</title>
+<graphic format="EPS" fileref="todo.eps"></graphic>
+</figure>
+</sect2>
+
+
+<sect2><title>tiffsv</title>
+<para>
+...
+</para>
+
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.13 2002-06-29 09:04:38 mikal Exp $ -->
+<!--  -->
+<!--  Copyright (c) 1988-1997 Sam Leffler -->
+<!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
+<!--  -->
+<!--  Permission to use, copy, modify, distribute, and sell this software and  -->
+<!--  its documentation for any purpose is hereby granted without fee, provided -->
+<!--  that (i) the above copyright notices and this permission notice appear in -->
+<!--  all copies of the software and related documentation, and (ii) the names of -->
+<!--  Sam Leffler and Silicon Graphics may not be used in any advertising or -->
+<!--  publicity relating to the software without the specific, prior written -->
+<!--  permission of Sam Leffler and Silicon Graphics. -->
+<!--   -->
+<!--  THE SOFTWARE IS PROVIDED "AS-IS" AND WITHOUT WARRANTY OF ANY KIND,  -->
+<!--  EXPRESS, IMPLIED OR OTHERWISE, INCLUDING WITHOUT LIMITATION, ANY  -->
+<!--  WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.   -->
+<!--   -->
+<!--  IN NO EVENT SHALL SAM LEFFLER OR SILICON GRAPHICS BE LIABLE FOR -->
+<!--  ANY SPECIAL, INCIDENTAL, INDIRECT OR CONSEQUENTIAL DAMAGES OF ANY KIND, -->
+<!--  OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, -->
+<!--  WHETHER OR NOT ADVISED OF THE POSSIBILITY OF DAMAGE, AND ON ANY THEORY OF  -->
+<!--  LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE  -->
+<!--  OF THIS SOFTWARE. -->
+<!--  -->
+<sect3>
+<title>NAME</title>
+
+<para>tiffsv - save an image from the framebuffer in a
+<emphasis>TIFF</emphasis>
+file (Silicon Graphics version)
+</para>
+</sect3>
+<sect3>
+<title>SYNOPSIS</title>
+
+<para><command>tiffsv</command>
+[
+<emphasis>options</emphasis>
+]
+<emphasis>output.tif</emphasis>
+[
+<emphasis>"x1 x2 y1 y2"</emphasis>
+]
+</para>
+</sect3>
+<sect3>
+<title>DESCRIPTION</title>
+
+<para><emphasis>tiffsv</emphasis>
+saves all or part of the framebuffer in a file using the
+Tag Image File Format, Revision 6.0.
+By default, the image is saved with data samples packed (\c
+<emphasis>PlanarConfiguration =1),</emphasis>
+compressed with the Lempel-Ziv &amp; Welch algorithm (\c
+<emphasis>Compression =5),</emphasis>
+and with each strip no more than 8 kilobytes.
+These characteristics can be overriden, or explicitly specified
+with the options described below.
+</para>
+</sect3>
+<sect3>
+<title>OPTIONS</title>
+
+<para></para>
+<itemizedlist>
+<listitem>
+
+<para><command>-b</command>
+Save the image as a greyscale image
+as if it were processed by
+<emphasis>tiff2bw (1).</emphasis>
+This option is included for compatibility with the standard
+<emphasis>scrsave (6D)</emphasis>
+program.
+</para>
+</listitem>
+<listitem>
+
+<para><command>-c</command>
+Specify the compression to use for data written to the output file:
+<command>none </command>
+for no compression,
+<command>packbits</command>
+for PackBits compression,
+<command>jpeg</command>
+for baseline JPEG compression,
+<command>zip</command>
+for Deflate compression,
+and
+<command>lzw</command>
+for Lempel-Ziv &amp; Welch compression (default).
+DEFAULT COMMAND FOUND: IP
+<emphasis>LZW</emphasis>
+compression can be specified together with a
+<emphasis>predictor</emphasis>
+value.
+A predictor value of 2 causes
+each scanline of the output image to undergo horizontal
+differencing before it is encoded; a value
+of 1 forces each scanline to be encoded without differencing.
+LZW-specific options are specified by appending a ``:''-separated
+list to the ``lzw'' option; e.g.
+<command>"-c lzw:2"</command>
+for
+<emphasis>LZW</emphasis>
+compression with horizontal differencing.
+</para>
+</listitem>
+<listitem>
+
+<para><command>-p</command>
+Specify the planar configuration to use in writing image data.
+By default,
+<emphasis>tiffsv</emphasis>
+will create a new file with the data samples packed contiguously.
+Specifying
+<command>"-p contig"</command>
+will force data to be written with multi-sample data packed
+together, while
+<command>"-p separate"</command>
+will force samples to be written in separate planes.
+</para>
+</listitem>
+<listitem>
+
+<para><command>-r</command>
+Specify the number of rows (scanlines) in each strip of data
+written to the output file.
+By default,
+<emphasis>tiffsv</emphasis>
+attempts to set the rows/strip
+that no more than 8 kilobytes of data appear in a strip.
+</para>
+</listitem>
+</itemizedlist>
+
+<para></sect3>
+<sect3>
+<title>NOTE</title>
+
+<para>Except for the use of
+<emphasis>TIFF,</emphasis>
+this program is equivalent to the standard
+<emphasis>scrsave</emphasis>
+program.
+This means, for example, that you can use it in conjunction with
+the standard
+<emphasis>icut</emphasis>
+program simply by creating a link called
+<emphasis>scrsave ,</emphasis>
+or by creating a shell script called
+<emphasis>scrsave</emphasis>
+that invokes
+<emphasis>tiffgt</emphasis>
+with the appropriate options.
+</para>
+</sect3>
+<sect3>
+<title>BUGS</title>
+
+<para>If data are saved compressed and in separate planes, then the
+rows in each strip is silently set to one to avoid limitations
+in the
+<emphasis>libtiff (3)</emphasis>
+library.
+</para>
+</sect3>
+<sect3>
+<title>SEE ALSO</title>
+
+<para><emphasis>scrsave (6D)</emphasis>
+<emphasis>pal2rgb (1),</emphasis>
+<emphasis>tiffdump (1),</emphasis>
+<emphasis>tiffgt (1),</emphasis>
+<emphasis>tiffinfo (1),</emphasis>
+<emphasis>tiffcp (1),</emphasis>
+<emphasis>tiffmedian (1),</emphasis>
+<emphasis>libtiff (3)</emphasis>
+</para>
+</sect3>
+<figure>
+<title>Sample output</title>
+<graphic format="EPS" fileref="todo.eps"></graphic>
+</figure>
+</sect2>
+
+<sect2><title>tifftopnm</title>
+<para>
+...
+</para>
+
+<sect3>
+<title>NAME</title>
+
+<para>tifftopnm - convert a TIFF file into a portable anymap
+</para>
+</sect3>
+<sect3>
+<title>SYNOPSIS</title>
+
+<para><command>tifftopnm</command>
+[<keycap>--alphaout={<emphasis>alpha-filename</keycap>,<keycap>-</emphasis></keycap>}]
+DEFAULT COMMAND FOUND: RB [ --headerdump ]
+<emphasis>tiff-filename</emphasis>
+
+</para>
+</sect3>
+<sect3>
+<title>DESCRIPTION</title>
+
+<para>Reads a TIFF file as input.
+DEFAULT COMMAND FOUND: IX TIFF
+Produces a portable anymap as output.
+The type of the output file depends on the input file - if it's
+black &amp; white, generates a
+<emphasis>pbm</emphasis>
+file;
+if it's grayscale, generates a
+<emphasis>pgm</emphasis>
+file; otherwise, a
+<emphasis>ppm</emphasis>
+file.  The program tells you which type it is writing.
+</para>
+
+<para>This program cannot read every possible TIFF file -- there are myriad
+variations of the TIFF format.  However, it does understand monochrome
+and gray scale, RGB, RGBA (red/green/blue with alpha channel), CMYK
+(Cyan-Magenta-Yellow-Black ink color separation), and color palette
+TIFF files.  An RGB file can have either single plane (interleaved)
+color or multiple plane format.  The program reads 1-8 and 16
+bit-per-sample input, the latter in either bigendian or littlendian
+encoding.  Tiff directory information may also be either bigendian or
+littendian.
+</para>
+
+<para>One reason this program isn't as general as TIFF programs often are is
+that it does not use the TIFFRGBAImageGet() function of the TIFF
+library to read TIFF files.  Rather, it uses the more primitive
+TIFFReadScanLine() function and decodes it itself.
+</para>
+
+<para>There is no fundamental reason that this program could not read other
+kinds of TIFF files; the existing limitations are mainly because no one
+has asked for more.
+
+The PNM output has the same maxval as the Tiff input, except that if
+the Tiff input is colormapped (which implies a maxval of 65535) the
+PNM output has a maxval of 255.  Though this may result in lost
+information, such input images hardly ever actually have more color
+resolution than a maxval of 255 provides and people often cannot deal
+with PNM files that have maxval &gt; 255.  By contrast, a non-colormapped
+Tiff image that doesn't need a maxval &gt; 255 doesn't
+<emphasis>have</emphasis>
+a maxval &gt; 255, so when we see a non-colormapped maxval &gt; 255, we take
+it seriously and produce a matching output maxval.
+
+The
+<emphasis>tiff-filename</emphasis>
+argument names the regular file that contains the Tiff image.  You
+cannot use Standard Input or any other special file because the Tiff
+library must be able to perform seeks on it.
+
+</para>
+</sect3>
+<sect3>
+<title>OPTIONS</title>
+
+<para></para>
+<itemizedlist>
+<listitem>
+
+<para>DEFAULT COMMAND FOUND: BI --alphaout= alpha-filename
+<command>tifftopnm </command>
+creates a PGM (portable graymap) file containing the alpha channel
+values in the input image.  If the input image doesn't contain an
+alpha channel, the
+<emphasis>alpha-filename</emphasis>
+file contains all zero (transparent) alpha values.  If you don't specify
+<command>tifftopnm</command>
+does not generate an alpha file, and if the input image has an alpha channel,
+<command>tifftopnm</command>
+simply discards it.
+
+If you specify
+<command>-</command>
+as the filename,
+<command>tifftopnm</command>
+writes the alpha output to Standard Output and discards the image.
+
+See
+for one way to use the alpha output file.
+</para>
+</listitem>
+<listitem>
+
+<para><command>--headerdump</command>
+Dump TIFF file information to stderr.  This information may be useful
+in debugging TIFF file conversion problems.
+</para>
+
+<para>All options can be abbreviated to their shortest unique prefix.
+</para>
+</listitem>
+</itemizedlist>
+
+<para></sect3>
+<sect3>
+<title>SEE ALSO</title>
+
+<para></para>
+</sect3>
+<sect3>
+<title>AUTHOR</title>
+
+<para>Derived by Jef Poskanzer from tif2ras.c, which is
+Copyright (c) 1990 by Sun Microsystems, Inc.
+Author: Patrick J. Naughton (naughton@wind.sun.com).
+<!--  Permission to use, copy, modify, and distribute this software and its -->
+<!--  documentation for any purpose and without fee is hereby granted, -->
+<!--  provided that the above copyright notice appear in all copies and that -->
+<!--  both that copyright notice and this permission notice appear in -->
+<!--  supporting documentation. -->
+<!--   -->
+<!--  This file is provided AS IS with no warranties of any kind.  The author -->
+<!--  shall have no liability with respect to the infringement of copyrights, -->
+<!--  trade secrets or any patents by this file or any part thereof.  In no -->
+<!--  event will the author be liable for any lost revenue or profits or -->
+<!--  other special, indirect and consequential damages. -->
+</para>
+</sect3>
+<figure>
+<title>Sample output</title>
+<graphic format="EPS" fileref="todo.eps"></graphic>
+</figure>
+</sect2>
+</sect1>
+
+<sect1><title>Example: Pixel enlargement</title>
+<para>
+In the introduction to this tutorial I promised that I would include the code to draw the demonstration that raster images are made up of pixels. Well, this example is that code.
+</para>
+
+<programlisting>
+#include &lt;stdio.h&gt;
+#include &lt;tiffio.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;string.h&gt;
+
+void usage (char *, int);
+
+int
+main (int argc, char *argv[])
+{
+  TIFF *input, *output;
+  uint32 width, height, offset, offset2, xs = 0, ys = 0, xe = -1, ye = -1;
+  tsize_t stripSize, stripNumber;
+  unsigned long x, y;
+  char *inputFilename = NULL, *outputFilename = NULL, *raster, *roff,
+    *enlarged, *rout, optchar;
+  int xrep, yrep;
+  float m;
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Parse the command line options
+  while ((optchar = getopt (argc, argv, "i:o:x:y:w:l:")) != -1)
+    {
+      switch (optchar)
+	{
+	case 'i':
+	  inputFilename = (char *) strdup (optarg);
+	  break;
+
+	case 'o':
+	  outputFilename = (char *) strdup (optarg);
+	  break;
+
+	case 'x':
+	  xs = atoi (optarg);
+	  break;
+
+	case 'y':
+	  ys = atoi (optarg);
+	  break;
+
+	case 'w':
+	  xe = xs + atoi (optarg);
+	  break;
+
+	case 'l':
+	  ye = ys + atoi (optarg);
+	  break;
+
+	default:
+	  usage (argv[0], 0);
+	  break;
+	}
+    }
+
+  // Make sure we have reasonable defaults
+  if (xe == -1)
+    xe = xs + 10;
+
+  if (ye == -1)
+    ye = ys + 10;
+
+  // Open the input TIFF image
+  if ((inputFilename == NULL) ||
+      (input = TIFFOpen (inputFilename, "r")) == NULL)
+    {
+      fprintf (stderr, "Could not open incoming input %s\n", inputFilename);
+      usage (argv[0], 42);
+    }
+
+  // Open the output TIFF
+  if ((outputFilename == NULL) ||
+      (output = TIFFOpen (outputFilename, "w")) == NULL)
+    {
+      fprintf (stderr, "Could not open outgoing input %s\n", outputFilename);
+      usage (argv[0], 42);
+    }
+
+  // Find the width and height of the input
+  TIFFGetField (input, TIFFTAG_IMAGEWIDTH, &amp;width);
+  TIFFGetField (input, TIFFTAG_IMAGELENGTH, &amp;height);
+
+  // Sanity check some of our arguements
+  if (xe &gt; width)
+    {
+      fprintf (stderr,
+	       "You choice of starting x position, or width, results in the enlargement falling off the edge of the input image\n");
+      usage (argv[0], 43);
+    }
+
+  if (ye &gt; height)
+    {
+      fprintf (stderr,
+	       "You choice of starting y position, or length, results in the enlargement falling off the end of the input image\n");
+      usage (argv[0], 43);
+    }
+
+  printf ("Enlarging a %d by %d portion of the image\n", xe - xs, ye - ys);
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Grab some memory
+  if ((raster = (char *) malloc (sizeof (char) * width * height * 3)) == NULL)
+    {
+      fprintf (stderr, "Could not allocate enough memory for input raster\n");
+      exit (42);
+    }
+
+  // todo: crap assumption about the data being 8 bps, 3 spp
+  if ((enlarged = (char *) malloc (sizeof (char) * (xe - xs) * (ye - ys) * 3 *
+				   121)) == NULL)
+    {
+      fprintf (stderr,
+	       "Could not allocate enough memory for enlarged raster\n");
+      exit (42);
+    }
+
+  if ((rout = (char *) malloc (sizeof (char) * (width + 200) * height * 3))
+      == NULL)
+    {
+      fprintf (stderr,
+	       "Could not allocate enough memory for output raster\n");
+      exit (42);
+    }
+
+  // todo: We need to copy tags from the input image to the output image
+  TIFFSetField (output, TIFFTAG_IMAGEWIDTH, width + 200);
+  TIFFSetField (output, TIFFTAG_IMAGELENGTH, height);
+  TIFFSetField (output, TIFFTAG_COMPRESSION, COMPRESSION_DEFLATE);
+  TIFFSetField (output, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+  TIFFSetField (output, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_RGB);
+  TIFFSetField (output, TIFFTAG_BITSPERSAMPLE, 8);
+  TIFFSetField (output, TIFFTAG_SAMPLESPERPIXEL, 3);
+  // todo: balance this off with having 8 kb per strip...
+  TIFFSetField (output, TIFFTAG_ROWSPERSTRIP, 100000);
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Read the input into the memory buffer
+  // todo: I couldn't use TIFFReadRGBAStrip here, because it gets confused
+  stripSize = TIFFStripSize (input);
+  roff = raster;
+  for (stripNumber = 0; stripNumber &lt; TIFFNumberOfStrips (input);
+       stripNumber++)
+    {
+      roff += TIFFReadEncodedStrip (input, stripNumber, roff, stripSize);
+    }
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Actually do the enlargement of the portion of the image specified
+  offset = offset2 = 0;
+  for (y = ys; y &lt; ye; y++)
+    {
+      for (yrep = 0; yrep &lt; 10; yrep++)
+	{
+	  for (x = xs; x &lt; xe; x++)
+	    {
+	      offset = (x + (y * width)) * 3;
+	      for (xrep = 0; xrep &lt; 10; xrep++)
+		{
+		  memcpy (enlarged + offset2, raster + offset, 3);
+		  offset2 += 3;
+		}
+
+	      // The white border to the left of the pixel
+	      memset (enlarged + offset2, 255, 3);
+	      offset2 += 3;
+	    }
+	}
+
+      // The white line at the bottom of these pixels
+      memset (enlarged + offset2, 255, (ye - ys) * 3 * 11);
+      offset2 += (ye - ys) * 3 * 11;
+    }
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Now we assemble the two parts of the image together into a big output
+  // raster
+  memset (rout, 255, sizeof (char) * (width + 200) * height * 3);
+
+  // The original image
+  offset = 0;
+  offset2 = 0;
+  for (y = 0; y &lt; height; y++)
+    {
+      memcpy (rout + offset2, raster + offset, width * 3);
+      offset += width * 3;
+      offset2 += (width + 200) * 3;
+    }
+
+  // Box the bit that was enlarged in the original image, can't use memset here
+  // Top line
+  offset = (((width + 200) * (ys - 1)) + xs - 1) * 3;
+  for (x = 0; x &lt; xe - xs + 2; x++)
+    {
+      rout[offset++] = 255;
+      rout[offset++] = 0;
+      rout[offset++] = 0;
+    }
+
+  // Bottom line
+  offset = (((width + 200) * ye) + xs - 1) * 3;
+  for (x = 0; x &lt; xe - xs + 2; x++)
+    {
+      rout[offset++] = 255;
+      rout[offset++] = 0;
+      rout[offset++] = 0;
+    }
+
+  // Vertical lines
+  offset = (((width + 200) * ys) + xs - 1) * 3;
+  for (y = 0; y &lt; ye - ys + 1; y++)
+    {
+      rout[offset] = 255;
+      rout[offset + 1] = 0;
+      rout[offset + 2] = 0;
+
+      rout[offset + ((ye - ys + 1) * 3)] = 255;
+      rout[offset + ((ye - ys + 1) * 3) + 1] = 0;
+      rout[offset + ((ye - ys + 1) * 3) + 2] = 0;
+
+      offset += (width + 200) * 3;
+    }
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Box the enlarged portion of the image
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Draw the two diagonal lines between the original and the enlarged
+  //    this bit is based on the premis that y = mx + b
+  //    and m = (y2 - y1) / (x2 - x1) and that geometry hasn't significantly
+  //    changed since my high school days
+  //
+  //    if we assume that the first point is the origin, then the maths is
+  //    even easier
+  // 
+  //    which I think is probably a fairly safe set of assumptions at this
+  //    stage...
+  // todo
+  //  printf("ye = %d, xe = %d\n", ye, xe);
+  //  m = (ye - ys) / (xe - xs);
+  //  for(x = 0; x &lt; (xe - xs); x++){
+  //    y = m * x;
+  //    
+  //    printf("%d, %d (%f = %f)\n", x, y, m, ye / xe);
+  //  }
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Copy the enlarged portion across
+
+  offset = 0;
+  // todo: I'm too tired to understand the placement of this in maths land
+  offset2 = (((((height / 2) - ((ye - ys) * 11 / 2)) *
+	       (width + 200)) + width + 50) * 3);
+  for (y = 0; y &lt; (ye - ys) * 11; y++)
+    {
+      memcpy (rout + offset2, enlarged + offset, (ye - ys) * 11 * 3);
+      offset += (ye - ys) * 11 * 3;
+      offset2 += (width + 200) * 3;
+    }
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Write the image buffer to the file
+  if (TIFFWriteEncodedStrip (output, 0, rout,
+			     (width + 200) * height * 3 * sizeof (char)) == 0)
+    {
+      fprintf (stderr, "Could not write the output image\n");
+      exit (42);
+    }
+
+  // Cleanup
+  TIFFClose (input);
+  TIFFClose (output);
+  free (raster);
+  free (enlarged);
+}
+
+void
+usage (char *cmd, int exitamt)
+{
+  fprintf (stderr, "Bad command line arguements...\n\n");
+  fprintf (stderr, "Usage: %s -i &lt;inputfile&gt; -o &lt;outputfile&gt; -x &lt;start x&gt; -y &lt;start y&gt; -w &lt;width&gt; -l &lt;length&gt;\n", cmd);
+  exit (exitamt);
+}
+</programlisting>
+<para><emphasis>Code: /home/mikal/opensource/tiff-pixels/pixel.c</emphasis></para>
+</sect1>
+
+<sect1><title>Example: Converting a color image to grayscale</title>
+<para>
+In one of the previous chapters I also promised to provide the source code for the grayscale conversion examples. Here it is, there are two versions -- a broken algorithm (averaging colour values), and a non-broken algorithm (using the NSTC recommended color coefficients).
+</para>
+
+<sect2><title>A broken algorithm</title>
+<programlisting>
+#include &lt;stdio.h&gt;
+#include &lt;tiffio.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;string.h&gt;
+
+void usage (char *, int);
+
+int
+main (int argc, char *argv[])
+{
+  TIFF *input, *output;
+  uint32 width, height, offset, offset2;
+  tsize_t stripSize, stripNumber;
+  unsigned long x, y;
+  char *inputFilename = NULL, *outputFilename = NULL, *raster, *roff,
+    optchar;
+  unsigned char *rout;
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Parse the command line options
+  while ((optchar = getopt (argc, argv, "i:o:x:y:w:l:")) != -1)
+    {
+      switch (optchar)
+	{
+	case 'i':
+	  inputFilename = (char *) strdup (optarg);
+	  break;
+
+	case 'o':
+	  outputFilename = (char *) strdup (optarg);
+	  break;
+
+	default:
+	  usage (argv[0], 0);
+	  break;
+	}
+    }
+
+  // Open the input TIFF image
+  if ((inputFilename == NULL) ||
+      (input = TIFFOpen (inputFilename, "r")) == NULL)
+    {
+      fprintf (stderr, "Could not open incoming input %s\n", inputFilename);
+      usage (argv[0], 42);
+    }
+
+  // Open the output TIFF
+  if ((outputFilename == NULL) ||
+      (output = TIFFOpen (outputFilename, "w")) == NULL)
+    {
+      fprintf (stderr, "Could not open outgoing input %s\n", outputFilename);
+      usage (argv[0], 42);
+    }
+
+  // Find the width and height of the input
+  TIFFGetField (input, TIFFTAG_IMAGEWIDTH, &amp;width);
+  TIFFGetField (input, TIFFTAG_IMAGELENGTH, &amp;height);
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Grab some memory
+  if ((raster = (char *) malloc (sizeof (char) * width * height * 3)) == NULL)
+    {
+      fprintf (stderr, "Could not allocate enough memory for input raster\n");
+      exit (42);
+    }
+
+  if ((rout = (unsigned char *) malloc (sizeof (char) * width * height)) 
+      == NULL)
+    {
+      fprintf (stderr,
+	       "Could not allocate enough memory for enlarged raster\n");
+      exit (42);
+    }
+
+  // todo: We need to copy tags from the input image to the output image
+  TIFFSetField (output, TIFFTAG_IMAGEWIDTH, width);
+  TIFFSetField (output, TIFFTAG_IMAGELENGTH, height);
+  TIFFSetField (output, TIFFTAG_COMPRESSION, COMPRESSION_DEFLATE);
+  TIFFSetField (output, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+  TIFFSetField (output, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_MINISBLACK);
+  TIFFSetField (output, TIFFTAG_BITSPERSAMPLE, 8);
+  TIFFSetField (output, TIFFTAG_SAMPLESPERPIXEL, 1);
+  // todo: balance this off with having 8 kb per strip...
+  TIFFSetField (output, TIFFTAG_ROWSPERSTRIP, 100000);
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Read the input into the memory buffer
+  // todo: I couldn't use TIFFReadRGBAStrip here, because it gets confused
+  stripSize = TIFFStripSize (input);
+  roff = raster;
+  for (stripNumber = 0; stripNumber &lt; TIFFNumberOfStrips (input);
+       stripNumber++)
+    {
+      roff += TIFFReadEncodedStrip (input, stripNumber, roff, stripSize);
+    }
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Convert to grayscale
+  offset2 = 0;
+  for(offset = 0; offset &lt; width * height * 3; offset += 3){
+    rout[offset2++] = ((unsigned char) (raster[offset]) * 0.333 + 
+		       (unsigned char) (raster[offset + 1]) * 0.333 + 
+		       (unsigned char) (raster[offset + 2]) * 0.333);
+  }
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Write the image buffer to the file
+  if (TIFFWriteEncodedStrip (output, 0, rout,
+			     width * height * sizeof (char)) == 0)
+    {
+      fprintf (stderr, "Could not write the output image\n");
+      exit (42);
+    }
+
+  // Cleanup
+  TIFFClose (input);
+  TIFFClose (output);
+  free (raster);
+  free (rout);
+}
+
+void
+usage (char *cmd, int exitamt)
+{
+  fprintf (stderr, "Bad command line arguements...\n\n");
+  fprintf (stderr, "Usage: %s -i &lt;inputfile&gt; -o &lt;outputfile&gt;\n", cmd);
+  exit (exitamt);
+}
+</programlisting>
+<para><emphasis>Code: /home/mikal/opensource/tiff-grayscale/gray-wrong.c</emphasis></para>
+</sect2>
+
+<para>
+Which produces:
+</para>
+
+<figure>
+<title>An average of the color values for each pixel</title>
+<graphic format="EPS" fileref="grayscale-figure2.eps"></graphic>
+</figure>
+
+<sect2><title>A sensible algorithm</title>
+<programlisting>
+#include &lt;stdio.h&gt;
+#include &lt;tiffio.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;string.h&gt;
+
+void usage (char *, int);
+
+int
+main (int argc, char *argv[])
+{
+  TIFF *input, *output;
+  uint32 width, height, offset, offset2;
+  tsize_t stripSize, stripNumber;
+  unsigned long x, y;
+  char *inputFilename = NULL, *outputFilename = NULL, *raster, *roff,
+    optchar;
+  unsigned char *rout;
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Parse the command line options
+  while ((optchar = getopt (argc, argv, "i:o:x:y:w:l:")) != -1)
+    {
+      switch (optchar)
+	{
+	case 'i':
+	  inputFilename = (char *) strdup (optarg);
+	  break;
+
+	case 'o':
+	  outputFilename = (char *) strdup (optarg);
+	  break;
+
+	default:
+	  usage (argv[0], 0);
+	  break;
+	}
+    }
+
+  // Open the input TIFF image
+  if ((inputFilename == NULL) ||
+      (input = TIFFOpen (inputFilename, "r")) == NULL)
+    {
+      fprintf (stderr, "Could not open incoming input %s\n", inputFilename);
+      usage (argv[0], 42);
+    }
+
+  // Open the output TIFF
+  if ((outputFilename == NULL) ||
+      (output = TIFFOpen (outputFilename, "w")) == NULL)
+    {
+      fprintf (stderr, "Could not open outgoing input %s\n", outputFilename);
+      usage (argv[0], 42);
+    }
+
+  // Find the width and height of the input
+  TIFFGetField (input, TIFFTAG_IMAGEWIDTH, &amp;width);
+  TIFFGetField (input, TIFFTAG_IMAGELENGTH, &amp;height);
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Grab some memory
+  if ((raster = (char *) malloc (sizeof (char) * width * height * 3)) == NULL)
+    {
+      fprintf (stderr, "Could not allocate enough memory for input raster\n");
+      exit (42);
+    }
+
+  if ((rout = (unsigned char *) malloc (sizeof (char) * width * height)) 
+      == NULL)
+    {
+      fprintf (stderr,
+	       "Could not allocate enough memory for enlarged raster\n");
+      exit (42);
+    }
+
+  // todo: We need to copy tags from the input image to the output image
+  TIFFSetField (output, TIFFTAG_IMAGEWIDTH, width);
+  TIFFSetField (output, TIFFTAG_IMAGELENGTH, height);
+  TIFFSetField (output, TIFFTAG_COMPRESSION, COMPRESSION_DEFLATE);
+  TIFFSetField (output, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+  TIFFSetField (output, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_MINISBLACK);
+  TIFFSetField (output, TIFFTAG_BITSPERSAMPLE, 8);
+  TIFFSetField (output, TIFFTAG_SAMPLESPERPIXEL, 1);
+  // todo: balance this off with having 8 kb per strip...
+  TIFFSetField (output, TIFFTAG_ROWSPERSTRIP, 100000);
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Read the input into the memory buffer
+  // todo: I couldn't use TIFFReadRGBAStrip here, because it gets confused
+  stripSize = TIFFStripSize (input);
+  roff = raster;
+  for (stripNumber = 0; stripNumber &lt; TIFFNumberOfStrips (input);
+       stripNumber++)
+    {
+      roff += TIFFReadEncodedStrip (input, stripNumber, roff, stripSize);
+    }
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Convert to grayscale
+  offset2 = 0;
+  for(offset = 0; offset &lt; width * height * 3; offset += 3){
+    rout[offset2++] = ((unsigned char) (raster[offset]) * 0.299 + 
+		       (unsigned char) (raster[offset + 1]) * 0.587 + 
+		       (unsigned char) (raster[offset + 2]) * 0.114);
+  }
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Write the image buffer to the file
+  if (TIFFWriteEncodedStrip (output, 0, rout,
+			     width * height * sizeof (char)) == 0)
+    {
+      fprintf (stderr, "Could not write the output image\n");
+      exit (42);
+    }
+
+  // Cleanup
+  TIFFClose (input);
+  TIFFClose (output);
+  free (raster);
+  free (rout);
+}
+
+void
+usage (char *cmd, int exitamt)
+{
+  fprintf (stderr, "Bad command line arguements...\n\n");
+  fprintf (stderr, "Usage: %s -i &lt;inputfile&gt; -o &lt;outputfile&gt;\n", cmd);
+  exit (exitamt);
+}
+</programlisting>
+<para><emphasis>Code: /home/mikal/opensource/tiff-grayscale/gray-good.c</emphasis></para>
+</sect2>
+
+<para>
+Which gives us:
+</para>
+
+<figure>
+<title>A correct conversion to grayscale</title>
+<graphic format="EPS" fileref="grayscale-figure3.eps"></graphic>
+</figure>
+
+<para>
+Now, just to justify that the second algorithm is better, have a look at the shadows on the hill and the trees in the background. The contrast and darkness of the second picture is might better than the averaging algorithm...
+</sect1>
+
+<sect1><title>Example: Repeated compression</title>
+<para>
+Earlier in this chapter I promised that I would include the code for the repeated compression loss example, so here it is. The example is made up of a simple (and quite ugly) shell script, and a c program to actually compress the images...
+</para>
+
+<programlisting>
+#!/bin/bash
+
+count=1
+cp $1 $1-0.tif
+
+while [ $count -lt 200 ]
+do
+  ./read $1-$(( $count -1 )).tif $1-$count.tif
+  count=$(( $count + 1 ))
+done
+</programlisting>
+<para><emphasis>Code: /home/mikal/opensource/tiff-recompress/recompress.sh</emphasis></para>
+<programlisting>
+#include &lt;stdio.h&gt;
+#include &lt;tiffio.h&gt;
+
+int main(int argc, char *argv[]){
+  TIFF *image, *output;
+  uint16 photo, bps, spp, fillorder;
+  uint32 width, height, *raster;
+  tsize_t stripSize;
+  unsigned long imagesize, c, d, e;
+  char *raster2;
+
+  // Open the TIFF image
+  if((image = TIFFOpen(argv[1], "r")) == NULL){
+    fprintf(stderr, "Could not open incoming image\n");
+    exit(42);
+  }
+
+  // Open the output image
+  if((output = TIFFOpen(argv[2], "w")) == NULL){
+    fprintf(stderr, "Could not open outgoing image\n");
+    exit(42);
+  }
+
+  // Find the width and height of the image
+  TIFFGetField(image, TIFFTAG_IMAGEWIDTH, &amp;width);
+  TIFFGetField(image, TIFFTAG_IMAGELENGTH, &amp;height);
+  imagesize = height * width + 1;
+  
+  if((raster = (uint32 *) malloc(sizeof(uint32) * imagesize)) == NULL){
+    fprintf(stderr, "Could not allocate enough memory\n");
+    exit(42);
+  }
+
+  if((raster2 = (char *) malloc(sizeof(char) * imagesize * 3)) == NULL){
+    fprintf(stderr, "Could not allocate enough memory\n");
+    exit(42);
+  }
+
+  // Read the image into the memory buffer
+  if(TIFFReadRGBAStrip(image, 0, raster) == 0){
+    fprintf(stderr, "Could not read image\n");
+    exit(42);
+  }
+
+  d = 0;
+  for(e = height - 1; e != -1; e--){
+    for(c = 0; c &lt; width; c++){
+      raster2[d++] = TIFFGetR(raster[e * width + c]);
+      raster2[d++] = TIFFGetG(raster[e * width + c]);
+      raster2[d++] = TIFFGetB(raster[e * width + c]);
+    }
+  }
+
+  // Recompress it straight away -- set the tags we require
+  TIFFSetField(output, TIFFTAG_IMAGEWIDTH, width);
+  TIFFSetField(output, TIFFTAG_IMAGELENGTH, height);
+  TIFFSetField(output, TIFFTAG_COMPRESSION, COMPRESSION_JPEG);
+  TIFFSetField(output, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+  TIFFSetField(output, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_RGB);
+  TIFFSetField(output, TIFFTAG_BITSPERSAMPLE, 8);
+  TIFFSetField(output, TIFFTAG_SAMPLESPERPIXEL, 3);
+  TIFFSetField(output, TIFFTAG_JPEGQUALITY, 25);
+
+  // Actually write the image
+  if(TIFFWriteEncodedStrip(output, 0, raster2, imagesize * 3) == 0){
+    fprintf(stderr, "Could not read image\n");
+    exit(42);
+  }
+
+  TIFFClose(output);
+  TIFFClose(image);
+}
+</programlisting>
+<para><emphasis>Code: /home/mikal/opensource/tiff-recompress/recompress.c</emphasis></para>
+</sect1>
+
+<sect1><title>Conclusion</title>
+<para>
+In this chapter we've discussed how to program with libtiff for black and white, grayscale and color images. We haven't been through an exhaustive discussion of the possible settings, or all the calls available in libtiff, but you should be ready to start exploring further.
+</sect1>
+
+
+<sect1><title>Further reading</title>
+<para>
+<itemizedlist>
+<listitem><para>http://www.libtiff.org: The libtiff website is a good place to download the libtiff source. It is also quite likely there is a binary package for your choosen operating system.</para></listitem>
+
+<listitem><para>http://partners.adobe.com/asn/developer/pdfs/tn/TIFF6.pdf: If all else fails, then the Adobe TIFF Specification can be useful.</para></listitem>
+
+<listitem><para>http://gopher.std.com/homepages/jimf/xloadimage.html: The xloadimage web page might be of interest.</para></listitem>
+
+<listitem><para>http://www.ee.cooper.edu/courses/course_pages/past_courses/EE458/TIFF/index.html: The Cooper Union for the Advancement of Science and Art has some notes from a previous course dealing with libtiff online.</para></listitem>
+
+<listitem><para>http://partners.adobe.com/asn/developer/graphics/graphics.html: The Adobe Grahics technical notes page is quite useful.</para></listitem>
+
+<listitem><para>http://partners.adobe.com/asn/developer/pdfs/tn/TIFF6.pdf: The current version of the TIFF specification can be found here.</para></listitem>
+
+<listitem><para>http://home.earthlink.net/~ritter/tiff/: The unofficial TIFF site contains some useful resources.</para></listitem>
+
+<listitem><para>http://www.inforamp.net/~poynton/notes/colour_and_gamma/ColorFAQ.html: a FAQ document discussion of converting to grayscale</para></listitem>
+</itemizedlist>
+</para>
+</sect1>
+
+<sect1><title>Portions first published by IBM DeveloperWorks</title>
+<para>
+The basis of this chapter was two articles, first published by IBM developerWorks at http://www.ibm.com/developerworks/ in April and May 2002. This material has been expanded in these chapters from the original 5,000 words.
+</para>
+</sect1>
+</chapter>
 
 <chapter id="chap-png"><title>PNG</title>
 <para>
@@ -20,6 +4988,10 @@
 
 </chapter>
 
+<chapter id="chap-jpeg"><title>JPEG</title>
+<para>
+...
+</para>
 
 <sect1><title>Further reading</title>
 <para>
@@ -225,6 +5197,167 @@ Now it's time to provide an example of how the ImageMagick commands can be used 
 </para>
 
 <programlisting>
+<programlisting>
+? source/.deps
+? source/sample
+? source/.xvpics
+? source/ui
+
+RCS file: /cvs/cvs001/source/Makefile,v
+Working file: source/Makefile
+head: 1.4
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 4;	selected revisions: 4
+description:
+----------------------------
+revision 1.4
+date: 2002/05/29 02:27:58;  author: u964076;  state: Exp;  lines: +16 -6
+Mikal: Imported shamelessly stolen sample code from wx windows... This will hopefully become the basis for our user interface. Also modified the autotools stuff so that it all compiles cleanly. Some users might need to install wx windows before ui will build for them...
+----------------------------
+revision 1.3
+date: 2002/05/04 03:20:26;  author: u964076;  state: Exp;  lines: +3 -4
+Mikal: Code changes for the dataset storage
+----------------------------
+revision 1.2
+date: 2002/04/30 23:58:09;  author: u964076;  state: Exp;  lines: +27 -50
+Mikal: Added cepWindows to build process
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:04;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/Makefile.am,v
+Working file: source/Makefile.am
+head: 1.4
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 4;	selected revisions: 4
+description:
+----------------------------
+revision 1.4
+date: 2002/05/29 02:27:58;  author: u964076;  state: Exp;  lines: +2 -1
+Mikal: Imported shamelessly stolen sample code from wx windows... This will hopefully become the basis for our user interface. Also modified the autotools stuff so that it all compiles cleanly. Some users might need to install wx windows before ui will build for them...
+----------------------------
+revision 1.3
+date: 2002/05/04 03:20:26;  author: u964076;  state: Exp;  lines: +1 -1
+Mikal: Code changes for the dataset storage
+----------------------------
+revision 1.2
+date: 2002/04/30 23:58:09;  author: u964076;  state: Exp;  lines: +1 -1
+Mikal: Added cepWindows to build process
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:04;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/Makefile.in,v
+Working file: source/Makefile.in
+head: 1.4
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 4;	selected revisions: 4
+description:
+----------------------------
+revision 1.4
+date: 2002/05/29 02:27:58;  author: u964076;  state: Exp;  lines: +14 -4
+Mikal: Imported shamelessly stolen sample code from wx windows... This will hopefully become the basis for our user interface. Also modified the autotools stuff so that it all compiles cleanly. Some users might need to install wx windows before ui will build for them...
+----------------------------
+revision 1.3
+date: 2002/05/04 03:20:26;  author: u964076;  state: Exp;  lines: +3 -4
+Mikal: Code changes for the dataset storage
+----------------------------
+revision 1.2
+date: 2002/04/30 23:58:09;  author: u964076;  state: Exp;  lines: +24 -47
+Mikal: Added cepWindows to build process
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:05;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/NEWS,v
+Working file: source/NEWS
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:05;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/README,v
+Working file: source/README
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:05;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/TODO,v
+Working file: source/TODO
+head: 1.2
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+----------------------------
+revision 1.2
+date: 2002/04/30 23:54:42;  author: u964076;  state: Exp;  lines: +1 -0
+Mikal: Updated changelog
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:05;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+RCS file: /cvs/cvs001/source/aclocal.m4,v
+Working file: source/aclocal.m4
+head: 1.1
+branch:
+locks: strict
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 1;	selected revisions: 1
+description:
+----------------------------
+revision 1.1
+date: 2002/04/20 14:44:05;  author: u964076;  state: Exp;
+Mikal: Imported initial source tree
+=============================================================================
+
+...and so on...
+</programlisting>
+<para><emphasis>Code: source/imagemagick/cvsreport/sample.log</emphasis></para>
 </programlisting>
 
 <para>
@@ -232,6 +5365,225 @@ The following perl script parses this log file to produce a HTML description of 
 </para>
 
 <programlisting>
+<programlisting>
+#!/usr/local/bin/perl
+
+use strict;
+my($HISTORY, $filename, $date, %dateline, $day, $adate, @dates,
+   $author, %cols, $newcolnum, @today, @html, $event, $file, $user, $i,
+   $table, %authorcolor, @colors, $newauthnum, %heading, $color, $temp,
+   $revision, $lines, $state, %authorcommits, $nowmonth, $prevmonth,
+   @monthnames, $headerhtml, $loghtml, $nowyear);
+
+open HISTORY, "&lt; logout";
+
+# We need some colors for authors -- I only bother to define 10 here
+$colors[0] = "CC3399";
+$colors[1] = "9900FF";
+$colors[2] = "666699";
+$colors[3] = "6699FF";
+$colors[4] = "00FFCC";
+$colors[5] = "66FF99";
+$colors[6] = "33CC33";
+$colors[7] = "99CC33";
+$colors[8] = "663300";
+$colors[9] = "FF6666";
+
+# Some names for the months of the year
+$monthnames[1] = "Jan";
+$monthnames[2] = "Feb";
+$monthnames[3] = "Mar";
+$monthnames[4] = "Apr";
+$monthnames[5] = "May";
+$monthnames[6] = "Jun";
+$monthnames[7] = "Jul";
+$monthnames[8] = "Aug";
+$monthnames[9] = "Sep";
+$monthnames[10] = "Oct";
+$monthnames[11] = "Nov";
+$monthnames[12] = "Dec";
+
+# Hoon through the CVS history
+while(&lt;HISTORY&gt;){
+    if(/^Working file: (.*)/){
+	$filename = $1;
+	chomp $filename;
+    }
+    elsif(/^date: ([0-9\/]+).*author: (.*);.*state: (.*);(.*)$/){
+	$date = $1;
+	$author = $2;
+	$state = $3;
+	$_ = $4;
+
+	if(/.*lines: \+(.*) -(.*)/){
+	    $lines = int($1) + int($2);
+	    if($lines &gt; 100){
+		$lines = "*";
+	    }
+	    else{
+		$lines = ".";
+	    }
+	}
+	elsif($revision eq "1.1"){
+	    $lines = "I";
+	    $revision = "";
+	    }
+	else{
+	    $lines = "&amp;nbsp;";
+	}
+
+	if($state eq "dead"){
+	    $lines = "D";
+	}
+
+	$date =~ s/\///g;
+	$dateline{$date} = $dateline{$date} . "$filename!$author!$lines;";
+    }
+    elsif(/^revision (.*)/){
+	$revision = $1;
+    }
+}
+
+# Draw the graph
+$newcolnum = 0;
+$newauthnum = 0;
+$table = "";
+$prevmonth = "";
+
+# For each date
+@dates = sort keys %dateline;
+foreach $adate (@dates) {
+    for($i = 0; $i &lt; $newcolnum; $i++){
+	$html[$i] = "&amp;nbsp;";
+    }
+
+    # If this is a new month, then we need to reset ourselves and draw a 
+    # new header line
+    $_ = $adate;
+    /([0-9][0-9][0-9][0-9])([0-9][0-9])/;
+    $nowmonth = $2;
+    $nowyear = $1;
+    if($nowmonth ne $prevmonth){
+	if($prevmonth ne ""){
+	    $table = $table . "&lt;tr&gt;&lt;td&gt;&amp;nbsp;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;$monthnames[$prevmonth] $1&lt;/b&gt;&lt;/td&gt;";
+	    
+	    # The funky header thingie
+	    $headerhtml = "";
+	    for($i = 0; $i &lt; $newcolnum; $i++){
+		$temp = $heading{$i};
+		$temp =~ s/[\/\.]/_/g;
+		if(! -e "colheader-$temp.jpg"){
+		    `convert -font helvetica -pointsize 10 -draw "text 1,10 $heading{$i}" -rotate -90 blank.jpg colheader-$temp.jpg`;
+		}
+		$headerhtml = $headerhtml . 
+		    "&lt;td&gt;&lt;img src=\"colheader-$temp.jpg\"&gt;&lt;/td&gt;";
+	    }
+	    
+	    $table = $table . $headerhtml . $loghtml;
+	}
+	$loghtml = "";
+	$prevmonth = $nowmonth;
+	$newcolnum = 0;
+	%cols = ();
+    }
+
+    @today = split(/;/, $dateline{$adate});
+    foreach $event (@today){
+	$_ = $event;
+	/(.*)!(.*)!(.*)/;
+	$file = $1;
+	$user = $2;
+	$lines = $3;
+	
+	if($lines eq ""){
+	    $lines = "&amp;nbsp;";
+	}
+
+	# Do we need a new cell number?
+	if($cols{$file} eq ""){
+	    $cols{$file} = $newcolnum;
+	    $heading{$newcolnum} = $file;
+	    $newcolnum++;
+	}
+
+	# Do we need a new author color?
+	if($authorcolor{$user} eq ""){
+	    $authorcolor{$user} = $colors[$newauthnum];
+	    $authorcommits{$user} = 0;
+	    $newauthnum++;
+	}
+
+	# Increment the count of commits for this author
+	$authorcommits{$user}++;
+
+	# This could be cleaned up... Build the cell
+	if($html[$cols{$file}] eq "&amp;nbsp;"){
+	    $html[$cols{$file}] = "";
+	}
+
+	if($html[$cols{$file}] eq ""){
+	    $html[$cols{$file}] = 
+		"&lt;tr&gt;&lt;td bgcolor=\"$authorcolor{$user}\"&gt;$lines&lt;/td&gt;&lt;/tr&gt;";
+	}
+	else{
+	    $html[$cols{$file}] = 
+		"&lt;tr&gt;&lt;td bgcolor=\"$authorcolor{$user}\"&gt;$lines&lt;/td&gt;&lt;/tr&gt;" .
+		    $html[$cols{$file}];
+	}
+    }
+
+    # This should be improved
+    for($i = 0; $i &lt; $newcolnum; $i++){
+	$html[$i] = 
+	    "&lt;td valign=\"top\"&gt;&lt;table width=\"100%\" cellspacing=0 cellpadding=0 bgcolor=\"000000\"&gt;" 
+		. $html[$i] . "&lt;/table&gt;&lt;/td&gt;";
+    }
+
+    $loghtml = $loghtml . "&lt;tr&gt;&lt;td valign=\"top\"&gt;$adate&lt;/td&gt;@html&lt;/tr&gt;\n";
+}
+
+# And the left over month
+if($prevmonth ne ""){
+    $table = $table . "&lt;tr&gt;&lt;td&gt;&amp;nbsp;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;$monthnames[$prevmonth] $nowyear&lt;/b&gt;&lt;/td&gt;";
+    
+    # The funky header thingie
+    $headerhtml = "";
+    for($i = 0; $i &lt; $newcolnum; $i++){
+	$temp = $heading{$i};
+	$temp =~ s/[\/\.]/_/g;
+	if(! -e "colheader-$temp.jpg"){
+	    `convert -font helvetica -pointsize 10 -draw "text 1,10 $heading{$i}" -rotate -90 blank.jpg colheader-$temp.jpg`;
+	}
+	$headerhtml = $headerhtml . 
+	    "&lt;td&gt;&lt;img src=\"colheader-$temp.jpg\"&gt;&lt;/td&gt;";
+    }
+    
+    $table = $table . $headerhtml . $loghtml;
+}
+
+print "&lt;table cellspacing=0 cellpadding=0&gt;";
+print "$table&lt;/table&gt;";
+print "&lt;BR&gt;&lt;HR&gt;&lt;BR&gt;Authors: ";
+print "&lt;table&gt;&lt;tr&gt;";
+
+while(($user, $color) = each %authorcolor){
+    print "&lt;td bgcolor=\"$color\"&gt;$user: ";
+    print `grep $user authors | sed 's/^$user://'`;
+    print " ($authorcommits{$user})";
+    print "&lt;/td&gt;";
+}
+
+print "&lt;/tr&gt;&lt;/table&gt;";
+print "&lt;BR&gt;Key: ";
+print "&lt;table&gt;&lt;tr&gt;&lt;td&gt;I: Initial import of a file&lt;/td&gt;";
+print "&lt;td&gt;D: File deleted from repository&lt;/td&gt;";
+print "&lt;td&gt;.: Minor code change (less than 100 lines)&lt;/td&gt;";
+print "&lt;td&gt;*: Major code change (more than 100 lines)&lt;/td&gt;";
+print "&lt;/tr&gt;&lt;/table&gt;";
+
+print "&lt;BR&gt;&lt;BR&gt;END OF REPORT";
+</programlisting>
+<para><emphasis>Code: source/imagemagick/cvsreport/cvsreport.pl</emphasis></para>
 </programlisting>
 
 <para>
