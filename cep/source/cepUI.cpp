@@ -253,7 +253,7 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
 
     ///////////////////////////////////////////////////////////////////////////
     // The view menu
-    view_menu = new wxMenu;
+    view_menu = new wxMenu(wxMENU_TEAROFF);
     view_menu->Append (CEPMENU_AVERAGE, "Show averages",
 		       "Toggle whether the average value is shown on graphs",
 		       TRUE);
@@ -262,6 +262,19 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
     view_menu->Append (CEPMENU_ELIMINATEOUTLIERS, "Eliminate outlying samples",
 		       "Removes samples which are outside a given tolerance",
 		       FALSE);
+    view_menu->Enable(CEPMENU_ELIMINATEOUTLIERS, false);
+
+    view_menu->AppendSeparator();
+
+    view_menu->Append (CEPMENU_VIEWCENTERED, "View centered graphs",
+		       "Center the graphs around the horizontal axes",
+		       TRUE);
+    view_menu->Check(CEPMENU_VIEWCENTERED, true);
+    
+    view_menu->Append (CEPMENU_VIEWZOOMED, "View zoomed graphs",
+		       "Zoom in on the interesting elements in the graph",
+		       TRUE);
+    view_menu->Check(CEPMENU_VIEWZOOMED, false);    
 
     view_menu->AppendSeparator();
 

@@ -21,6 +21,8 @@
 #include "cepCore.h"
 #include "cepEliminateDialog.h"
 
+// todo_mikal: this is not completely implemented
+
 // We define simple things like the size of the dialog here, the dialog
 // is actually displayed using display() below...
 cepEliminateDialog::cepEliminateDialog():
@@ -28,8 +30,8 @@ cepEliminateDialog::cepEliminateDialog():
   m_size(200, 200),
   m_dialog(NULL, -1, "Eliinate outliers", m_position, m_size, 
 	   wxDIALOG_MODAL, "eliminateOutliers"),
-  m_posok(10, 10),
-  m_ok(m_dialog, wxID_OK, "Ok", m_posok)
+  m_posok(10, 10)//,
+  //  m_ok(m_dialog, wxID_OK, "Ok", m_posok)
 {
 }
 

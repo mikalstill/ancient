@@ -60,7 +60,6 @@ private:
   cepConfiguration *config;
   void initConfig();
   int getIcon( class cepError err );
-  string getTitle ( class cepError err );
 
 };
 

@@ -137,7 +137,7 @@ cepDataset::munch ()
       {
         lines[i]++;
 
-        if (lines[i] > 3)
+        if (lines[i] > 4)
         {
           // We process this line
           cepDebugPrint ("Dataset line from " + m_filename + "[" +

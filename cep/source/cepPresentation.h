@@ -30,6 +30,11 @@ class cepError;
 class cepPresentation
 {
 public:
+  enum view{
+    viewCentered = 0,
+      viewZoomed
+      };
+
   cepPresentation (long width, long height);
 
   void xAxisTitle (const string & title);
@@ -46,6 +51,7 @@ public:
   void setAxesColor(char red, char green, char blue);
   void setLineColor(char red, char green, char blue);
   void setAverageColor(char red, char green, char blue);
+  void setView(view v);
 
   cepError createPDF (const string & filename);
   cepError createBitmap ();
@@ -79,8 +85,9 @@ private:
   long m_average;
   color m_averageColor;
 
-    vector < long >m_data;
+  view m_currentView;
 
+  vector < long > m_data;
   char *m_raster;
 };
 

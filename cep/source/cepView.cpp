@@ -69,9 +69,12 @@ BEGIN_EVENT_TABLE (cepView, wxView)
   EVT_MENU (CEPMENU_COLORLINE, cepView::OnColorLine)
   EVT_MENU (CEPMENU_COLORAVERAGE, cepView::OnColorAverage)
   EVT_MENU (CEPMENU_ELIMINATEOUTLIERS, cepView::OnEliminateOutliers)
+  EVT_MENU (CEPMENU_VIEWCENTERED, cepView::OnViewCentered)
+  EVT_MENU (CEPMENU_VIEWZOOMED, cepView::OnViewZoomed)
 END_EVENT_TABLE ()
-
-cepView::cepView ()
+  
+cepView::cepView ():
+  m_currentView(cepPresentation::viewCentered)
 {
   canvas = (cepCanvas *) NULL;
   frame = (wxFrame *) NULL;
@@ -254,6 +257,7 @@ void cepView::drawPresentation(cepDataset *theDataset, cepDataset::direction dir
     if(err.isReal()) err.display();
     pres.setAverageColor(red, green, blue);
 
+    pres.setView(m_currentView);
     err = pres.createPNG (cfname);
     if (err.isReal ()) err.display ();
 
@@ -333,8 +337,39 @@ cepView::OnColorAverage (wxCommandEvent & WXUNUSED (event))
 
 void cepView::OnEliminateOutliers(wxCommandEvent& event)
 {
-  //  cepEliminateDialog elim;
-  //  elim.display();
+  // todo_mikal: not implemented at this time (and disabled in the menu)
+  cepEliminateDialog elim;
+  elim.display();
+}
+
+void cepView::OnViewCentered(wxCommandEvent& event)
+{
+  wxMenuBar *bar = frame->GetMenuBar();
+  if(bar){
+    wxMenu* view_menu = bar->GetMenu(bar->FindMenu("View"));
+    if(view_menu){
+      view_menu->Check(CEPMENU_VIEWCENTERED, true);
+      view_menu->Check(CEPMENU_VIEWZOOMED, false);
+
+      m_currentView = cepPresentation::viewCentered;
+      m_dirty = true;
+    }
+  }
+}
+
+void cepView::OnViewZoomed(wxCommandEvent& event)
+{
+  wxMenuBar *bar = frame->GetMenuBar();
+  if(bar){
+    wxMenu* view_menu = bar->GetMenu(bar->FindMenu("View"));
+    if(view_menu){
+      view_menu->Check(CEPMENU_VIEWCENTERED, false);
+      view_menu->Check(CEPMENU_VIEWZOOMED, true);
+
+      m_currentView = cepPresentation::viewZoomed;
+      m_dirty = true;
+    }
+  }
 }
 
 /*

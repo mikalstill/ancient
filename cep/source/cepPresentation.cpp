@@ -161,44 +161,88 @@ cepPresentation::createBitmap ()
     exit (1);
   }
 
-  // Draw some axes
-  unsigned int midpoint = m_height / 2;
-  float yscale = cepMax (m_ymaxval, cepAbs (m_yminval)) / (midpoint - 10);
-
-  cepDebugPrint ("Midpoint is " + cepItoa (midpoint));
-  cepDebugPrint ("Yscale is " + cepFtoa (yscale));
-
-  plot_setlinecolor (graph, m_axesColor.red, m_axesColor.green, 
-		     m_axesColor.blue);
-  plot_setlinestart (graph, 10, 10);
-  plot_addlinesegment (graph, 10, m_height - 10);
-  plot_strokeline (graph);
-  plot_endline (graph);
-
-  plot_setlinestart (graph, 10, midpoint);
-  plot_addlinesegment (graph, m_width - 10, midpoint);
-  plot_strokeline (graph);
-  plot_endline (graph);
-
-  // Draw data points
+  unsigned int midpoint;
+  float yscale;
+  cepError err;
   bool linestarted (false);
 
-  plot_setlinecolor (graph, m_lineColor.red, m_lineColor.green, 
-		     m_lineColor.blue);
-  for (int i = 0; i < m_data.size (); i++)
-  {
-    if (m_data[i] != INVALID)
-    {
-      if (!linestarted)
-      {
-        plot_setlinestart (graph, i + 10, midpoint - (m_data[i] / yscale));
-        linestarted = true;
-      }
-      else
-        plot_addlinesegment (graph, i + 10, midpoint - (m_data[i] / yscale));
-    }
-  }
+  switch(m_currentView){
+  case viewCentered:
+    midpoint = m_height / 2;
+    yscale = cepMax (m_ymaxval, cepAbs (m_yminval)) / (midpoint - 10);
 
+    // Draw some axes for this view
+    cepDebugPrint("This view type needs axes");
+    plot_setlinecolor (graph, m_axesColor.red, m_axesColor.green, 
+		       m_axesColor.blue);
+    plot_setlinestart (graph, 10, 10);
+    plot_addlinesegment (graph, 10, m_height - 10);
+    plot_strokeline (graph);
+    plot_endline (graph);
+    
+    plot_setlinestart (graph, 10, midpoint);
+    plot_addlinesegment (graph, m_width - 10, midpoint);
+    plot_strokeline (graph);
+    plot_endline (graph);
+    
+    // Draw data points
+    plot_setlinecolor (graph, m_lineColor.red, m_lineColor.green, 
+		       m_lineColor.blue);
+    for (int i = 0; i < m_data.size (); i++)
+      {
+	if (m_data[i] != INVALID)
+	  {
+	    if (!linestarted)
+	      {
+		plot_setlinestart (graph, i + 10, 
+				   midpoint - (m_data[i] / yscale));
+		linestarted = true;
+	      }
+	    else
+	      plot_addlinesegment (graph, i + 10, 
+				   midpoint - (m_data[i] / yscale));
+	  }
+      }
+    break;
+
+  case viewZoomed:
+    midpoint = 0;
+    yscale = (m_ymaxval - m_yminval) / m_height;
+
+    // Draw the data points
+    plot_setlinecolor (graph, m_lineColor.red, m_lineColor.green, 
+		       m_lineColor.blue);
+    for (int i = 0; i < m_data.size (); i++)
+      {
+	if (m_data[i] != INVALID)
+	  {
+	    if (!linestarted)
+	      {
+		cepDebugPrint("GP: " + cepItoa(m_height - 
+					       ((m_data[i] - m_yminval) / yscale)));
+		plot_setlinestart (graph, i + 10, 
+				   m_height - 
+				   ((m_data[i] - m_yminval) / yscale));
+		linestarted = true;
+	      }
+	    else
+	      cepDebugPrint("GP: " + cepItoa(m_height - 
+					     ((m_data[i] - m_yminval) / yscale)));
+	      plot_addlinesegment (graph, i + 10, 
+				   m_height - 
+				   ((m_data[i] - m_yminval) / yscale));
+	  }
+      }    
+    break;
+
+  default:
+    err = cepError("No such view", cepError::sevErrorFatal);
+    err.display();
+  }
+    
+  cepDebugPrint ("Midpoint is " + cepItoa (midpoint));
+  cepDebugPrint ("Yscale is " + cepFtoa (yscale));
+  
   if (!linestarted)
     return cepError ("No datapoints defined", cepError::sevErrorRecoverable);
 
@@ -354,4 +398,9 @@ void cepPresentation::setLineColor(char red, char green, char blue)
   m_lineColor.red = red;
   m_lineColor.green = green;
   m_lineColor.blue = blue;
+}
+
+void cepPresentation::setView(view v)
+{
+  m_currentView = v;
 }

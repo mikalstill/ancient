@@ -93,3 +93,30 @@ string & cepError::getMessage()
 {
   return m_message;
 }
+
+string cepError::getTitle()
+{
+  switch (getSeverity())
+  {
+  case sevOk:
+    return "Ok";
+
+  case sevDebug:
+    return "Debug";
+
+  case sevInformational:
+    return "Informational";
+
+  case sevWarning:
+    return "Warning";
+
+  case sevErrorRecoverable:
+    return "Recoverable Error";
+
+  case sevErrorFatal:
+    return "Fatal error";
+
+  default:
+    return "UNKNOWN ERROR LEVEL";
+  }
+}

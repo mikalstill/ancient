@@ -78,16 +78,22 @@ public:
   void OnColorLine  (wxCommandEvent& event);
   void OnColorAverage  (wxCommandEvent& event);
   void OnEliminateOutliers (wxCommandEvent& event);
+  void OnViewCentered (wxCommandEvent& event);
+  void OnViewZoomed (wxCommandEvent& event);
 
 private:
-DECLARE_DYNAMIC_CLASS (cepView) DECLARE_EVENT_TABLE ()
+  DECLARE_DYNAMIC_CLASS (cepView) 
+  DECLARE_EVENT_TABLE ()
+
   void drawPresentation(cepDataset *ds, cepDataset::direction dir, int top,
 			wxDC *dc);
- string m_pngCache[3]; 
- bool m_showAverages;
- bool m_dirty;
- cepConfiguration *m_config;
- cepWxErrorHandler *errHandler;
+
+  string m_pngCache[3]; 
+  bool m_showAverages;
+  bool m_dirty;
+  cepConfiguration *m_config;
+  cepWxErrorHandler *errHandler;
+  cepPresentation::view m_currentView;
 };
 
 

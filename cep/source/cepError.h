@@ -194,7 +194,8 @@ public:
   // BS - remove these when we get the friend thing for cepErrorHandler sorted
   string & getMessage();
   int getSeverity();
-
+  string getTitle();
+  
 private:
   
   static bool m_handlerInstalled;
