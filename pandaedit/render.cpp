@@ -107,18 +107,30 @@ void pdfRender::processLine(string line)
 
       else if(isNumber(tokens[i])) pushArguement(tokens[i]);
       else if(isName(tokens[i])) pushArguement(tokens[i]);
+      else if("b" == tokens[i]) command_b();
+      else if("b*" == tokens[i]) command_bstar();
+      else if("B" == tokens[i]) command_B();
+      else if("B*" == tokens[i]) command_Bstar();
       else if("BT" == tokens[i]) command_BT();
+      else if("c" == tokens[i]) command_c();
       else if("ET" == tokens[i]) command_ET();
+      else if("h" == tokens[i]) command_h();
       else if("l" == tokens[i]) command_l();
       else if("m" == tokens[i]) command_m();
       else if("q" == tokens[i]) command_q();
       else if("Q" == tokens[i]) command_Q();
+      else if("re" == tokens[i]) command_re();
+      else if("rg" == tokens[i]) command_rg();
+      else if("rg" == tokens[i]) command_RG();
       else if("S" == tokens[i]) command_S();
       else if("Td" == tokens[i]) command_Td();
       else if("Tf" == tokens[i]) command_Tf();
       else if("Tj" == tokens[i]) command_Tj();
       else if("Tm" == tokens[i]) command_Tm();
       else if("Tr" == tokens[i]) command_Tr();
+      else if("v" == tokens[i]) command_v();
+      else if("w" == tokens[i]) command_w();
+      else if("y" == tokens[i]) command_y();
       else
 	printf("DEBUG: Dropped token %s\n", tokens[i].c_str());
     }
@@ -135,6 +147,44 @@ void pdfRender::pushArguement(string arg)
 }
 
 /////////////////////////////////////////////////////////////////////
+// Fill and stroke with non-zero winding rule
+void pdfRender::command_b()
+{
+  printf("DEBUG: b -- non zero winding fill not implemented, using even odd\n");
+  command_bstar();
+}
+
+void pdfRender::command_B()
+{
+  printf("DEBUG: B -- non zero winding fill not implemented, using even odd\n");
+  command_Bstar();
+}
+
+void pdfRender::command_bstar()
+{
+  if(m_mode != rmGraphics){
+    printf("DEBUG: Not in graphics mode\n");
+    return;
+  }
+  
+  plot_closeline(m_plot);
+  plot_strokeline(m_plot);
+  plot_fillline(m_plot);
+  m_hasLine = true;
+}
+
+void pdfRender::command_Bstar()
+{
+  if(m_mode != rmGraphics){
+    printf("DEBUG: Not in graphics mode\n");
+    return;
+  }
+  
+  plot_strokeline(m_plot);
+  plot_fillline(m_plot);
+  m_hasLine = true;
+}
+
 // Enter text mode
 void pdfRender::command_BT()
 {
@@ -148,6 +198,35 @@ void pdfRender::command_BT()
   m_textMatrix.setIdentity();
 }
 
+void pdfRender::command_c()
+{
+  unsigned int x1, y1, x2, y2, x3, y3;
+
+  // Pop our arguements (reverse order)
+  y3 = m_height - atoi(m_arguements.top().c_str());
+  m_arguements.pop();
+  x3 = atoi(m_arguements.top().c_str());
+  m_arguements.pop();
+  y2 = m_height - atoi(m_arguements.top().c_str());
+  m_arguements.pop();
+  x2 = atoi(m_arguements.top().c_str());
+  m_arguements.pop();
+  y1 = m_height - atoi(m_arguements.top().c_str());
+  m_arguements.pop();
+  x1 = atoi(m_arguements.top().c_str());
+  m_arguements.pop();
+
+  if(m_mode != rmGraphics){
+    printf("DEBUG: Not in graphics mode\n");
+    return;
+  }
+  
+  printf("DEBUG: Add cubic curve segment %d, %d & %d, %d & %d, %d\n", 
+	 x1, y1, x2, y2, x3, y3);
+  plot_addcubiccurvesegment(m_plot, x1, y1, x2, y2, x3, y3);
+  m_hasLine = true;
+}
+
 // Exit text mode
 void pdfRender::command_ET()
 {
@@ -156,6 +235,19 @@ void pdfRender::command_ET()
     printf("DEBUG: Error -- exitting non existant text mode\n");
   }
   m_mode = rmGraphics;
+}
+
+// Close line
+void pdfRender::command_h()
+{
+  if(m_mode != rmGraphics){
+    printf("DEBUG: Not in graphics mode\n");
+    return;
+  }
+  
+  printf("DEBUG: Close line\n");
+  plot_closeline(m_plot);
+  m_hasLine = true;
 }
 
 void pdfRender::command_l()
@@ -209,6 +301,78 @@ void pdfRender::command_q()
 void pdfRender::command_Q()
 {
   printf("DEBUG: Restore graphics state [not implemented]\n");
+}
+
+// A rectangle
+void pdfRender::command_re()
+{
+  unsigned int left, top, right, bottom;
+
+  // Pop our arguements (reverse order)
+  bottom = m_height - atoi(m_arguements.top().c_str());
+  m_arguements.pop();
+  right = atoi(m_arguements.top().c_str());
+  m_arguements.pop();
+  top = m_height - atoi(m_arguements.top().c_str());
+  m_arguements.pop();
+  left = atoi(m_arguements.top().c_str());
+  m_arguements.pop();
+
+  if(m_mode != rmGraphics){
+    printf("DEBUG: Not in graphics mode\n");
+    return;
+  }
+  
+  printf("DEBUG: Rectangle %d, %d & %d, %d\n", 
+	 left, top, right, bottom);
+  plot_rectangle(m_plot, left, top, right, bottom);
+  m_hasLine = true;
+}
+
+// Set RGB fill color
+void pdfRender::command_rg()
+{
+  unsigned int r, g, b;
+
+  // Pop our arguements (reverse order)
+  b = atoi(m_arguements.top().c_str());
+  m_arguements.pop();
+  g = atoi(m_arguements.top().c_str());
+  m_arguements.pop();
+  r = atoi(m_arguements.top().c_str());
+  m_arguements.pop();
+
+  if(m_mode != rmGraphics){
+    printf("DEBUG: Not in graphics mode\n");
+    return;
+  }
+  
+  printf("DEBUG: RGB fill color %d %d %d\n", r, g, b);
+  plot_setfillcolor(m_plot, r, g, b);
+  m_hasLine = true;
+}
+
+// Set RGB fill color
+void pdfRender::command_RG()
+{
+  unsigned int r, g, b;
+
+  // Pop our arguements (reverse order)
+  b = atoi(m_arguements.top().c_str());
+  m_arguements.pop();
+  g = atoi(m_arguements.top().c_str());
+  m_arguements.pop();
+  r = atoi(m_arguements.top().c_str());
+  m_arguements.pop();
+
+  if(m_mode != rmGraphics){
+    printf("DEBUG: Not in graphics mode\n");
+    return;
+  }
+  
+  printf("DEBUG: RGB line color %d %d %d\n", r, g, b);
+  plot_setlinecolor(m_plot, r, g, b);
+  m_hasLine = true;
 }
 
 void pdfRender::command_S()
@@ -295,6 +459,72 @@ void pdfRender::command_Tm()
 void pdfRender::command_Tr()
 {
   printf("DEBUG: Tr [not implemented]\n");
+}
+
+void pdfRender::command_v()
+{
+  unsigned int x1, y1, x2, y2;
+
+  // Pop our arguements (reverse order)
+  y2 = m_height - atoi(m_arguements.top().c_str());
+  m_arguements.pop();
+  x2 = atoi(m_arguements.top().c_str());
+  m_arguements.pop();
+  y1 = m_height - atoi(m_arguements.top().c_str());
+  m_arguements.pop();
+  x1 = atoi(m_arguements.top().c_str());
+  m_arguements.pop();
+
+  if(m_mode != rmGraphics){
+    printf("DEBUG: Not in graphics mode\n");
+    return;
+  }
+  
+  printf("DEBUG: Add cubic curve segment %d, %d & %d, %d\n", 
+	 x1, y1, x2, y2);
+  plot_addquadraticcurvesegmentone(m_plot, x1, y1, x2, y2);
+  m_hasLine = true;
+}
+
+void pdfRender::command_w()
+{
+  int w;
+
+  // Pop arguement
+  w = atoi(m_arguements.top().c_str());
+  m_arguements.pop();
+  
+  if(m_mode != rmGraphics){
+    printf("DEBUG: Not in graphics mode\n");
+    return;
+  }
+
+  plot_setlinewidth(m_plot, w, w);
+}
+
+void pdfRender::command_y()
+{
+  unsigned int x1, y1, x2, y2;
+
+  // Pop our arguements (reverse order)
+  y2 = m_height - atoi(m_arguements.top().c_str());
+  m_arguements.pop();
+  x2 = atoi(m_arguements.top().c_str());
+  m_arguements.pop();
+  y1 = m_height - atoi(m_arguements.top().c_str());
+  m_arguements.pop();
+  x1 = atoi(m_arguements.top().c_str());
+  m_arguements.pop();
+
+  if(m_mode != rmGraphics){
+    printf("DEBUG: Not in graphics mode\n");
+    return;
+  }
+  
+  printf("DEBUG: Add cubic curve segment %d, %d & %d, %d\n", 
+	 x1, y1, x2, y2);
+  plot_addquadraticcurvesegmenttwo(m_plot, x1, y1, x2, y2);
+  m_hasLine = true;
 }
 
 string pdfRender::getPNGfile()

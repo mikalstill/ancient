@@ -20,18 +20,30 @@ class pdfRender{
   void processLine(string line);
   void pushArguement(string arg);
 
+  void command_b();
+  void command_bstar();
+  void command_B();
+  void command_Bstar();
   void command_BT();
+  void command_c();
   void command_ET();
+  void command_h();
   void command_l();
   void command_m();
   void command_q();
   void command_Q();
+  void command_re();
+  void command_rg();
+  void command_RG();
   void command_S();
   void command_Td();
   void command_Tf();
   void command_Tj();
   void command_Tm();
   void command_Tr();
+  void command_v();
+  void command_w();
+  void command_y();
 
   enum rmMode{
     rmUndefined = 0,
