@@ -10,6 +10,11 @@
 # even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.
 
+# How do I add a test to this file?
+# Follow the numbered comments...
+
+# 1: If it is a new test subset, add it's name here (starting with test)
+
 
 SHELL = @SHELL@
 
@@ -67,9 +72,32 @@ PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
 VERSION = @VERSION@
 
-noinst_PROGRAMS = testall
-testall_SOURCES = alltests.cpp cep_testConfig.cpp cep_testDataset.cpp cep_testLs.cpp cep_testMatrix.cpp cep_testSample.cpp cep_testWindows.cpp
-testall_LDADD = ../cepError.o ../cepUtility.o ../cepLs.o ../cepDataWindower.o ../cepWindowAlg.o ../cepWindowRect.o ../cepwindowhamming.o ../cepwindowchebyshev.o ../cepwindowblackman.o ../cepDataset.o -lcppunit -lm
+noinst_PROGRAMS = testall testwindows testmatrix testconfig testls testdataset
+
+testwindows_SOURCES = alltests.cpp cep_testWindows.cpp
+testwindows_LDADD = ../cepDataWindower.o ../cepWindowAlg.o ../cepWindowRect.o ../cepwindowhamming.o ../cepwindowchebyshev.o ../cepwindowblackman.o
+
+testmatrix_SOURCES = alltests.cpp cep_testMatrix.cpp
+
+testconfig_SOURCES = alltests.cpp cep_testConfig.cpp
+
+testls_SOURCES = alltests.cpp cep_testLs.cpp
+testls_LDADD = ../cepLs.o
+
+testdataset_SOURCES = alltests.cpp cep_testDataset.cpp
+testdataset_LDADD = ../cepDataset.o
+
+# 2: Above this line, you need to add a line test<name>_SOURCES, which lists
+# your .cpp files, and (if you need it), a line test<name>_LDADD, which lists
+# object files from the source directory which you need for the test
+
+# 3: Add the .cpp files here, and add a variable if you used objects from the
+# source directory
+testall_SOURCES = alltests.cpp cep_testWindows.cpp cep_testMatrix.cpp cep_testConfig.cpp cep_testLs.cpp cep_testDataset.cpp
+testall_LDADD = $(testwindows_LDADD) $(testls_LDADD) $(testdataset_LDADD)
+
+# These get built into everything
+LDFLAGS = ../cepError.o ../cepUtility.o -lcppunit -lm
 mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
 CONFIG_CLEAN_FILES = 
 PROGRAMS =  $(noinst_PROGRAMS)
@@ -77,15 +105,32 @@ PROGRAMS =  $(noinst_PROGRAMS)
 
 DEFS = @DEFS@ -I. -I$(srcdir) 
 CPPFLAGS = @CPPFLAGS@
-LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
-testall_OBJECTS =  alltests.o cep_testConfig.o cep_testDataset.o \
-cep_testLs.o cep_testMatrix.o cep_testSample.o cep_testWindows.o
-testall_DEPENDENCIES =  ../cepError.o ../cepUtility.o ../cepLs.o \
-../cepDataWindower.o ../cepWindowAlg.o ../cepWindowRect.o \
-../cepwindowhamming.o ../cepwindowchebyshev.o ../cepwindowblackman.o \
-../cepDataset.o
+testall_OBJECTS =  alltests.o cep_testWindows.o cep_testMatrix.o \
+cep_testConfig.o cep_testLs.o cep_testDataset.o
+testall_DEPENDENCIES =  ../cepDataWindower.o ../cepWindowAlg.o \
+../cepWindowRect.o ../cepwindowhamming.o ../cepwindowchebyshev.o \
+../cepwindowblackman.o ../cepLs.o ../cepDataset.o
 testall_LDFLAGS = 
+testwindows_OBJECTS =  alltests.o cep_testWindows.o
+testwindows_DEPENDENCIES =  ../cepDataWindower.o ../cepWindowAlg.o \
+../cepWindowRect.o ../cepwindowhamming.o ../cepwindowchebyshev.o \
+../cepwindowblackman.o
+testwindows_LDFLAGS = 
+testmatrix_OBJECTS =  alltests.o cep_testMatrix.o
+testmatrix_LDADD = $(LDADD)
+testmatrix_DEPENDENCIES = 
+testmatrix_LDFLAGS = 
+testconfig_OBJECTS =  alltests.o cep_testConfig.o
+testconfig_LDADD = $(LDADD)
+testconfig_DEPENDENCIES = 
+testconfig_LDFLAGS = 
+testls_OBJECTS =  alltests.o cep_testLs.o
+testls_DEPENDENCIES =  ../cepLs.o
+testls_LDFLAGS = 
+testdataset_OBJECTS =  alltests.o cep_testDataset.o
+testdataset_DEPENDENCIES =  ../cepDataset.o
+testdataset_LDFLAGS = 
 CXXFLAGS = @CXXFLAGS@
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 CXXLD = $(CXX)
@@ -99,9 +144,9 @@ TAR = gtar
 GZIP_ENV = --best
 DEP_FILES =  .deps/alltests.P .deps/cep_testConfig.P \
 .deps/cep_testDataset.P .deps/cep_testLs.P .deps/cep_testMatrix.P \
-.deps/cep_testSample.P .deps/cep_testWindows.P
-SOURCES = $(testall_SOURCES)
-OBJECTS = $(testall_OBJECTS)
+.deps/cep_testWindows.P
+SOURCES = $(testall_SOURCES) $(testwindows_SOURCES) $(testmatrix_SOURCES) $(testconfig_SOURCES) $(testls_SOURCES) $(testdataset_SOURCES)
+OBJECTS = $(testall_OBJECTS) $(testwindows_OBJECTS) $(testmatrix_OBJECTS) $(testconfig_OBJECTS) $(testls_OBJECTS) $(testdataset_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
@@ -142,6 +187,26 @@ maintainer-clean-compile:
 testall: $(testall_OBJECTS) $(testall_DEPENDENCIES)
 	@rm -f testall
 	$(CXXLINK) $(testall_LDFLAGS) $(testall_OBJECTS) $(testall_LDADD) $(LIBS)
+
+testwindows: $(testwindows_OBJECTS) $(testwindows_DEPENDENCIES)
+	@rm -f testwindows
+	$(CXXLINK) $(testwindows_LDFLAGS) $(testwindows_OBJECTS) $(testwindows_LDADD) $(LIBS)
+
+testmatrix: $(testmatrix_OBJECTS) $(testmatrix_DEPENDENCIES)
+	@rm -f testmatrix
+	$(CXXLINK) $(testmatrix_LDFLAGS) $(testmatrix_OBJECTS) $(testmatrix_LDADD) $(LIBS)
+
+testconfig: $(testconfig_OBJECTS) $(testconfig_DEPENDENCIES)
+	@rm -f testconfig
+	$(CXXLINK) $(testconfig_LDFLAGS) $(testconfig_OBJECTS) $(testconfig_LDADD) $(LIBS)
+
+testls: $(testls_OBJECTS) $(testls_DEPENDENCIES)
+	@rm -f testls
+	$(CXXLINK) $(testls_LDFLAGS) $(testls_OBJECTS) $(testls_LDADD) $(LIBS)
+
+testdataset: $(testdataset_OBJECTS) $(testdataset_DEPENDENCIES)
+	@rm -f testdataset
+	$(CXXLINK) $(testdataset_LDFLAGS) $(testdataset_OBJECTS) $(testdataset_LDADD) $(LIBS)
 .cpp.o:
 	$(CXXCOMPILE) -c $<
 
@@ -316,6 +381,8 @@ uninstall-am uninstall all-redirect all-am all installdirs \
 mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
+
+# 4: cd ..; automake; autoconf; ./configure; cd tests; make
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
