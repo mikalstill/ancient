@@ -24,12 +24,16 @@ TODO: was this just the man page?
 </para>
 
 <para>
-I have never had the pleasure of using Slackware, so the chapter on Slackware 8.0 was all new to me. Again, this chapter follows the model laid out by the Red Hat 7.3 chapter, covering all the basics of operation, once the operating system itself as been installed.
+The book also covers similar details for Slackware 8.0, and Debian 3.0 Beta (the latest version which was available at the time of poublication). Again, if your a power user, then these sections are of limited use, but might serve as a good reference. If your a newer user however, they serve as a very useful introduction to your chosen distribution. Overall, %AUTHOR% devotes 140 pages to discussions of these three distributions.
 </para>
 
+<para>
+<emphasis>%TITLE%</emphasis> then goes on to discuss how to install other software on your Linux system. It discusses the pros and cons of installing source downloaded from the Internet versus installing a package from your distribution vendor. It also discusses how to build source packages of various forms, as well as how to use autoconf and Makefiles. It even goes as far as describing briefly how to roll your own packages for your chosen distribution using downloaded source.
+</para>
 
-
-
+<para>
+The next hundred or so pages of the book cover how to install several software packages: OpenSSH, Pluggable Authentication Modules, the Dante SOCKS library, Apache, CVS, and Sun's Java Development Kit.
+</para>
 
 <para>
 In summary, this is the wrong book to go out and buy if you're expecting to be told how to install a Linux system from scratch. It is also the wrong book to buy if you're a power user looking for high end configuration and optimization tips. On the other hand, 

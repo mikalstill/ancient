@@ -8,11 +8,11 @@ I wasn't expecting much when I received my copy of <emphasis>Tuning and Customiz
 </para>
 
 <para>
-It is also worth noting that this is the first book of it's type I have seen where the author has taken the time to devote the first 25 pages of the book to attempting to explain the history of Linux, and the GNU philosphy. It's a reasonable attempt as well.
+It is also worth noting that this is the first book of it's type I have seen where the author has taken the time to devote the first 25 pages of the book to attempting to explain the history of Linux, and the GNU philosophy. It's a reasonable attempt as well.
 </para>
 
 <para>
-The book then goes on to talk about three distributions in detail: Red Hat Linux 7.3; Slackware Linux 8.0; and Debian GNU/Linux 3.0. The book discusses issues which apply to all Linux users, such as the kernel numbering conventions, the Filesystem Hierarchy Standard (see http://www.pathname.com/fhs/ for more details), and the Linux Standards Base (http://www.linuxbase.org/).
+The book then goes on to talk about three distributions in detail: Red Hat Linux 7.3; Slackware Linux 8.0; and Debian GNU/Linux 3.0. The book discusses issues which apply to all Linux users, such as the kernel numbering conventions, the File system Hierarchy Standard (see http://www.pathname.com/fhs/ for more details), and the Linux Standards Base (http://www.linuxbase.org/).
 </para>
 
 <para>
@@ -24,12 +24,16 @@ TODO: was this just the man page?
 </para>
 
 <para>
-I have never had the pleaseure of using Slackware, so the chapter on Slackware 8.0 was all new to me. Again, this chapter follows the model laid out by the Redhat 7.3 chapter, covering all the basics of operation, once the operating system itself as been installed.
+The book also covers similar details for Slackware 8.0, and Debian 3.0 Beta (the latest version which was available at the time of poublication). Again, if your a power user, then these sections are of limited use, but might serve as a good reference. If your a newer user however, they serve as a very useful introduction to your chosen distribution. Overall, Daniel L. Morril devotes 140 pages to discussions of these three distributions.
 </para>
 
+<para>
+<emphasis>Tuning and Customizing a Linux System</emphasis> then goes on to discuss how to install other software on your Linux system. It discusses the pros and cons of installing source downloaded from the Internet versus installing a package from your distribution vendor. It also discusses how to build source packages of various forms, as well as how to use autoconf and Makefiles. It even goes as far as describing briefly how to roll your own packages for your chosen distribution using downloaded source.
+</para>
 
-
-
+<para>
+The next hundred or so pages of the book cover how to install several software packages: OpenSSH, Pluggable Authentication Modules, the Dante SOCKS library, Apache, CVS, and Sun's Java Development Kit.
+</para>
 
 <para>
 In summary, this is the wrong book to go out and buy if you're expecting to be told how to install a Linux system from scratch. It is also the wrong book to buy if you're a power user looking for high end configuration and optimization tips. On the other hand, 
