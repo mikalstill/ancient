@@ -1,12 +1,12 @@
 TITLE: The code for that filesystem
 
 <ul><pre>
-#include <fuse.h>
-#include <stdio.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <errno.h>
+#include &lt;fuse.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;errno.h&gt;
 
 static int mcachefs_getattr(const char *path, struct stat *stbuf)
 {
@@ -33,7 +33,7 @@ static int mcachefs_read(const char *path, char *buf, size_t size, off_t offset)
   char *tok, *p;
 
   printf("read: %s\n", path);
-  for(idx = strlen(path) - 1; idx > 0; idx--);
+  for(idx = strlen(path) - 1; idx &gt; 0; idx--);
   p = (char *) strdup(path + idx + 1);
   a = atoi(strtok(p, "+"));
   b = atoi(strtok(NULL, "+"));

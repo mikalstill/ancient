@@ -3,7 +3,8 @@ TITLE: A quick introductary demo
 %% Demonstrate what a fuse filesystem looks like
 %% Steps are something like this:
 %% modprobe fuse
-%% 
+%% ./addfs /mnt
+%% cat /mnt/34+6
 
 
 %% One of challenges with implementing a filesystem like
