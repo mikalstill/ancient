@@ -1,29 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- REMOVE ALL TEMPLATE COMMENTS FROM THE FILE BEFORE PUBLISHING; SAMPLE TEXT IS IN BRACKETS-->
-
-<!-- CHANGE ATTRIBUTES BELOW TO "NO" TO REMOVE RATINGS AREA OR TABLE OF CONTENTS-->
 <article ratings="auto" toc="auto">
 
-<!-- IF THIS IS PART OF A SERIES, ENTER SERIES TITLE BELOW.   OTHERWISE, REMOVE THIS TAG.  DO NOT END TEXT WITH A COLON;  THE STYLESHEET HANDLES THIS-->
    <seriestitle>[Optional series title]</seriestitle>
-   <papertitle>[Enter required paper title here]</papertitle>
-   <subtitle>[Enter required paper subtitle here]</subtitle>
-<!-- AT A MINIMUM, PROVIDE AUTHOR NAME AND JOB TITLE.  IF AVAILABLE, CODE COMPANY AND EMAIL ATTRIBUTES.  IF AUTHOR PIC EXISTS, FILL IN SRC= ATTRIBUTE ON IMG TAG; DELETE IMG TAG IF NO AUTHOR PIC EXISTS.  CREATE AN AUTHOR TAG FOR EACH AUTHOR-->
-   <author company="" email="" jobtitle="[Job title (initial cap only)]" name="[Author name]"><img border="0" src="http://www-106.ibm.com/developerworks/i/[author.jpg]" height="80" width="64"/>[Biographical text about author goes here; remove the text between the author tags if no biographical information exists.  Paragraph tags are needed only if there is a second paragraph.]  You can contact [author] at <a href="mailto:userid@us.ibm.com">userid@us.ibm.com</a>.</author>
-<!-- PUT CORRECT MONTH/YEAR HERE -->
-   <date month="July" year="2001"></date>
-<!-- ENTER CORRECT ZONE HERE.  REPEAT TAG FOR MORE THAN ONE ZONE-->
+   <papertitle>Graphics programming with libtiff</papertitle>
+   <subtitle>Color</subtitle>
+   <author company="TOWER Software Engineering" email="mikal@stillhq.com" jobtitle="Senior Software Engineer" name="Michael Still">Michael has been working in the image processing field for several years, including a couple of years managing and dveloping large image databases for an Australian government department. He currently works for TOWER Software, who manufacture a world leading EDMS and Records Management package named TRIM. Michael is also the developer of Panda, an open source PDF generation API, as well as being the maintainer of the comp.text.pdf USENET frequently asked questions document. You can contact Michael at <a href="mailto:mikal@stillhq.com">mikal@stillhq.com</a>.</author>
+
+   <date month="February" year="2002"></date>
    <zone name="linux"></zone>
-<!-- ENTER URL AND SIZE ATTRIBUTES BELOW IF PDF EXISTS; OTHERWISE, REMOVE TAG-->
    <pdf url="ftp://www6.software.ibm.com/software/developer/library/[xxx.pdf]" size="xxKB"></pdf>
-<!-- ENTER URL ATTRIBUTE BELOW IF ZIP FILE EXISTS; OTHERWISE, REMOVE TAG-->
    <zip url="ftp://www6.software.ibm.com/software/developer/library/xxx.zip"></zip>
-<!-- ENTER URL ATTRIBUTE BELOW IF THERE IS A DISCUSSION FORUM FOR THIS ARTICLE; OTHERWISE, REMOVE TAG.  FILL IN THE ZONE NAME, xxx_df.nsf, AND THE FORUM NUMBER:  THE LAST xx IN THE PATH.  SPECIAL CHARACTERS (%nn) ARE USED IN THE PATH BELOW SO THE XML WILL VALIDATE.-->	
-   <forumurl url="http://www-105.ibm.com/developerworks/[xxx_df.nsf/AllViewTemplate%3FOpenForm%26RestrictToCategory%3Dxx]"></forumurl>
-<!-- ENTER THE UNIQUE KEYWORDS FOR THIS ARTICLE BELOW.  THE STYLESHEET WILL GENERATE THE APPROPRIATE META ABSTRACT AND DESCRIPTION TAGS FOR THIS ARTICLE.-->
-   <meta name="KEYWORDS" content="[unique keywords]" />	
-<!-- ENTER DATE CREATED AND INITIALS OF FORMATTER BELOW -->	
-   <meta name="LASTUPDATE" content="[2001MMDD initials]"/>
+
+   <meta name="KEYWORDS" content="tiff libtiff image imaging raster bitmap color colour" />	
+   <meta name="LASTUPDATE" content="20020211 MBS"/>
 
         
 <!-- ENTER ONE OR MORE "RELATED CONTENT" ITEMS BELOW.   REMOVE THIS SECTION IF THERE ARE NO RELATED CONTENT ITEMS-->	
