@@ -34,7 +34,7 @@ using namespace std;
 /**A drop in replacement for the original cepConfiguration.
   *This implements a whiteboard pattern.
   *@author Blake Swadling
-  *@version $Revision: 1.12 $
+  *@version $Revision: 1.13 $
   */
 
 class cepConfiguration
@@ -71,7 +71,7 @@ private:
   cepError parseConfigEntry (const string & entry, pair < string,
                              string > &data);
   cepError writeConfig (ofstream & out);
-  static const string & getDefaultConfigPath();
+  static const string getDefaultConfigPath();
 };
 
 #endif // ! CEP_CONFIGURATION_H

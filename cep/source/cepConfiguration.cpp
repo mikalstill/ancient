@@ -119,8 +119,8 @@ cepError cepConfiguration::readConfig (ifstream & in)
       p = map.insert (data);
       if (!p.second)
       {
-        cout << "duplicate entry " << (*(p.first)).
-          first << "->" << (*(p.first)).second << endl;
+        cepDebugPrint("Configuration database duplicate entry " + 
+		      (*(p.first)).first + "->" + (*(p.first)).second);
       }
     }
     in.getline (buf, 80);
@@ -193,16 +193,11 @@ cepError cepConfiguration::getValue (const string & valkey,
   bool defaulted = false;
   map_t::const_iterator i = map.find (valkey);
 
-  if (i == map.end ())
-  {
-    outval = defval;
-  }
-  else
- {
-    outval = map[valkey];
-  }
-  cout << "<get<string> : requested " << valkey
-    << " and returned " << outval << (defaulted ? " (default)" : "") << endl;
+  if (i == map.end ()) outval = defval;
+  else outval = map[valkey];
+
+  cepDebugPrint("Configuration database get <string> : requested " + valkey
+    + " and returned " + outval + (defaulted ? " (default)" : ""));
   return cepError ();
 }
 
@@ -221,9 +216,9 @@ cepError cepConfiguration::getValue (const string & valkey, const bool & defval,
   {
     outval = (map[valkey] == "true");
   }
-  cout << "<get(bool)> : requested " << valkey
-    << " and returned " << (outval ? "true" : "false")
-    << (defaulted ? " (default)" : "") << endl;
+  cepDebugPrint("Configuration database get bool requested " + valkey
+    + " and returned " + (outval ? "true" : "false")
+    + (defaulted ? " (default)" : ""));
   return cepError ();
 }
 
@@ -242,8 +237,8 @@ cepError cepConfiguration::getValue (const string & valkey, const int &defval,
   {
     outval = atoi (map[valkey].c_str ());
   }
-  cout << "<get(int)> : requested " << valkey
-    << " and returned " << outval << (defaulted ? " (default)" : "") << endl;
+  cepDebugPrint("Configuration database get int requested " + valkey
+    + " and returned " + cepItoa(outval) + (defaulted ? " (default)" : ""));
   return cepError ();
 }
 
@@ -251,7 +246,7 @@ cepError cepConfiguration::setValue (const string & valkey,
                                      const string & value)
 {
   map[valkey] = value;
-  cout << "<set(string)> : setting " << valkey << " to " << map[valkey] << endl;
+  cepDebugPrint("Configuration database set string setting " + valkey + " to " + map[valkey]);
   return save (path);
 
 }
@@ -262,7 +257,7 @@ cepError cepConfiguration::setValue (const string & valkey, const int &value)
 
   oss << value;
   map[valkey] = oss.str ();
-  cout << "<set(int)> : setting " << valkey << " to " << map[valkey] << endl;
+  cepDebugPrint("Configuration database set int setting " + valkey + " to " + map[valkey]);
   return save (path);
 
 }
@@ -270,27 +265,16 @@ cepError cepConfiguration::setValue (const string & valkey, const int &value)
 cepError cepConfiguration::setValue (const string & valkey, const bool & value)
 {
   map[valkey] = (value ? string ("true") : string ("false"));
-  cout << "<set(bool)> : setting " << valkey << " to " << map[valkey] << endl;
+  cepDebugPrint("Configuration database set bool setting " + valkey + " to " + map[valkey]);
   return save (path);
 }
 
-const string & cepConfiguration::getDefaultConfigPath()
+const string cepConfiguration::getDefaultConfigPath()
 {
-
-  ostringstream result;
-  // Open our configuration
   char *homedir = getenv ("HOME");
 
-  /*
-   * if $HOME is not defined we need to locate this somewhere.
-   * cwd is as good as any place
-   */
+  // Default to home dir or CWD
   if (homedir != NULL)
-  {
-    result << homedir << "/";
-  }
-
-  result << ".cep";
-  
-  return result.str();
+    return string(string(homedir) + "/.cep");
+  else return string(".cep");
 }
