@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-# groff2db 0.2. Copyright (c) Michael Still 2001 (mikal@stillhq.com)
+# groff2db pre 0.2 1. Copyright (c) Michael Still 2001 (mikal@stillhq.com)
 # Released under the terms of the GNU GPL. Please submit all patches to mikal@stillhq.com
 # Initially developed for Greg Lehey's "The Complete FreeBSD"... Many thanks for his
 # sponsorship and support of this project.
