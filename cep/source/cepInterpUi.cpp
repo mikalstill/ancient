@@ -25,53 +25,63 @@ BEGIN_EVENT_TABLE (cepInterpShowRate, wxDialog)
   EVT_CLOSE( cepInterpShowRate::dlgRateOnQuit)
 END_EVENT_TABLE ()
                           
-cepInterpShowRate::cepInterpShowRate():
+cepInterpShowRate::cepInterpShowRate(wxString val, wxString dir, double units):
   wxDialog((wxDialog *) NULL, -1, "Specify Sample Rate", wxPoint(120,120), wxSize(200, 200))
-{
+{  
   m_panel = new wxPanel(this, -1, wxPoint(120,120), wxSize(200,200));
 
   m_statBox = new wxStaticBox(m_panel, -1, "", wxPoint(15, 30), wxSize(170, 120));
 
-  m_statText1 = new wxStaticText(m_panel, -1, "Please specify the sample rate", wxPoint(5,5), wxSize(190, 20), wxALIGN_CENTRE);
-  m_statText2 = new wxStaticText(m_panel, -1, "for the interpolated data:", wxPoint(5,19), wxSize(190, 20), wxALIGN_CENTRE);
+  m_statText1 = new wxStaticText(m_panel, -1, "Please specify the sample rate for the", wxPoint(5,5), wxSize(190, 20), wxALIGN_CENTRE);
+  m_statText2 = new wxStaticText(m_panel, -1, wxString("interpolated data in dir ") + dir + wxString(":"), wxPoint(5,19), wxSize(190, 20), wxALIGN_CENTRE);
 
   m_statText3 = new wxStaticText(m_panel, -1, "Sample Rate:", wxPoint(25,40), wxSize(100, 20), wxALIGN_LEFT);
 
-  m_tbSample = new wxTextCtrl(m_panel, -1, "0.0", wxPoint(110, 40), wxSize(60, 20));
+  m_tbSample = new wxTextCtrl(m_panel, -1, val, wxPoint(110, 40), wxSize(60, 20));
 
   m_rbYear = new wxRadioButton(m_panel, -1, "Years", wxPoint(25, 65), wxSize(120, 20), wxRB_GROUP);
   m_rbDays = new wxRadioButton(m_panel, -1, "Month", wxPoint(25, 90));
   m_rbHours = new wxRadioButton(m_panel, -1, "Days", wxPoint(25, 115));
 
+  if(units == 1.0)
+  {
+      m_rbYear->SetValue(true);
+  }
+  else
+  {
+    if(units == 365.25)
+    {
+      m_rbDays->SetValue(true);
+    }
+    else
+    {
+      m_rbHours->SetValue(true);
+    }
+  }
+    
   m_bSubmit = new wxButton(m_panel, CEPBTN_RATE_SUBMIT, "Ok", wxPoint(10,160));
+  m_bSubmit->SetDefault();
   m_bCancel = new wxButton(m_panel, CEPBTN_RATE_CANCEL, "Cancel", wxPoint(110,160));
 
   Center();
   ShowModal();
 }
 
-double cepInterpShowRate::getSample()
+wxString cepInterpShowRate::getSample()
 {
-  for(size_t i = 0; i < m_sampleRate.Length(); i ++)
-  {
-    if(cepIsNumeric(m_sampleRate.GetChar(i)) == false)
-    {
-      return -2.0;
-    }
-  }
-
-  return (atof(m_sampleRate.c_str()));
+  return m_sampleRate;
 }
 
-cepInterpShowRate::units cepInterpShowRate::getUnits()
+double cepInterpShowRate::getSampleUnits()
 {
   return m_sampleUnits;
 }
-        
+      
 void cepInterpShowRate::dlgRateOnQuit(wxCommandEvent& WXUNUSED(event))
 {
   //if cancel or quit button pressed 
   m_sampleRate = "-1";
+  m_sampleUnits = -1.0;
   
   EndModal(1);
   Destroy();
@@ -81,23 +91,19 @@ void cepInterpShowRate::dlgRateOnOK(wxCommandEvent& WXUNUSED(event))
 {
   if(m_rbYear->GetValue() == true)
   {
-    m_sampleUnits = years;
+    m_sampleUnits = 1.0;
   }
   else
   {
     if(m_rbDays->GetValue() == true)
     {
-      m_sampleUnits = days;
+      m_sampleUnits = 365.25;
     }
     else
     {
       if(m_rbHours->GetValue() == true)
       {
-        m_sampleUnits = hours;
-      }
-      else
-      {
-        m_sampleUnits = unknowen;
+        m_sampleUnits = 8766.0;
       }
     }
   }
@@ -110,20 +116,50 @@ void cepInterpShowRate::dlgRateOnOK(wxCommandEvent& WXUNUSED(event))
 
 cepInterpUi::cepInterpUi() {}
 
-void cepInterpUi::showSampleRate()
+void cepInterpUi::showSampleRate(double val, string dir)
 {
-  cepInterpShowRate sr;
+  bool isValid = false;
+  cepInterpShowRate *rate;
+  rate = new cepInterpShowRate(cepToString(val).c_str(), dir.c_str(), 1.0);
 
-  m_sampleUnits = sr.getUnits();
-  m_sampleRate = sr.getSample();
+  m_sampleRate = rate->getSample();
+  m_sampleUnits = rate->getSampleUnits();
+
+  if((m_sampleRate == "-1") && (m_sampleUnits == -1.0))
+  {
+    return;
+  }
+    
+  while(isValid == false)
+  {
+    isValid = true;
+    for(size_t i = 0; i < m_sampleRate.Length(); i ++)
+    {
+      if((cepIsNumeric(m_sampleRate.GetChar(i)) == false) ||
+          (atof(m_sampleRate.c_str()) <= 0))
+      {
+        cepError("Error. Sample rate must be a number greater than 0", cepError::sevWarning).display();
+        rate = new cepInterpShowRate(m_sampleRate, dir.c_str(), m_sampleUnits);
+        m_sampleRate = rate->getSample();
+        m_sampleUnits = rate->getSampleUnits();
+        isValid = false;
+        break;
+      }
+    }
+  }
+
+  if(rate != NULL)
+  {
+    delete rate;
+  }
 }
 
 double cepInterpUi::getSampleRate()
 {
-  return m_sampleRate;
-}
-
-cepInterpShowRate::units cepInterpUi::getUnits()
-{
-  return m_sampleUnits;
+  if((m_sampleRate == "-1") && (m_sampleUnits == -1))
+  {
+    return -1;
+  }
+  
+  return (atof(m_sampleRate.c_str())/m_sampleUnits);
 }

@@ -30,8 +30,12 @@
 #include <wx/textctrl.h>
 #include <wx/string.h>
 
+
 #include "cepUI.h"
 #include "cepUtility.h"
+
+#include <string>
+#include <bits/nan.h>
 
 /******************************************************************************
 DOCBOOK START
@@ -39,12 +43,14 @@ DOCBOOK START
 FUNCTION cepInterpShowRate
 
 
-PURPOSE Displays the "Show Sample Rate" dialog box for the Interpolation user interface
+PURPOSE Displays the "Specify Sample Rate" dialog box for the Interpolation user interface
 
 SYNOPSIS START
 The follwing is an example of how to create this object.
 
-cepInterpShowRate sr;
+cepInterpShowRate sr(val);
+
+where val is the default sample rate.
 
 SYNOPSIS END
 
@@ -56,7 +62,8 @@ which displays a custom wxWindows dialog box.
 
 <para>
 <command>double getSample()</command>
-Returns the specified sample rate
+Returns the specified sample rate. If a value of -1 is returned this operation
+has been canceled. If -2 is returned the value entered was invalid.
 </para>
 
 <para>units getUnits()</command>
@@ -75,23 +82,14 @@ DOCBOOK END
 class cepInterpShowRate: public wxDialog
 {
 public:
-
-  //the type of units for sample rate
-  enum units
-  {
-    years = 1,
-    days,
-    hours,
-    unknowen
-  };
   
-  //show the "select sample rate" dialog box
-  cepInterpShowRate();
+  //show the "Specify Sample Rate" dialog box
+  cepInterpShowRate(wxString val, wxString dir, double units);
 
   //returns the sample rate specified
-  double getSample();
-  //returns the units specified
-  units getUnits();
+  wxString getSample();
+
+  double getSampleUnits();
   
   //the on Quit event
   void dlgRateOnQuit(wxCommandEvent& event);
@@ -108,7 +106,7 @@ private:
   wxButton *m_bSubmit, *m_bCancel;
 
   wxString m_sampleRate;
-  units m_sampleUnits;
+  double m_sampleUnits;
   
   DECLARE_EVENT_TABLE ()
 };
@@ -135,13 +133,19 @@ which displays the interpolation GUI.
 </para>
 
 <para>
-<command>void showSampleRate()</command>
+<command>void showSampleRate(double val)</command>
 Shows the interpolation GUI.
+
+<para><itemizedlist>
+  <listitem><para>val:- the default value of the sample rate. This is usually 1/2 the distance
+      between first two points in the dataset</para></listitem>
+</itemizedlist></para>
 </para>
 
 <para>
 <command> double getSampleRate()</command>
-Gets the sample rate selected by the user.
+Gets the sample rate selected by the user. If a value of -1 is returned this operation
+has been canceled. If -2 is returned the value entered was invalid.
 </para>
 
 <para>
@@ -165,16 +169,14 @@ public:
   cepInterpUi();
 
   //shows the "get sample rate" dialog box
-  void showSampleRate();
+  void showSampleRate(double val, string dir);
 
   //returns the specified sample rate
   double getSampleRate();
-  //returns the selected units
-  cepInterpShowRate::units getUnits();
-
+ 
 private:
-  double m_sampleRate;                    //stores the specified sample rate
-  cepInterpShowRate::units m_sampleUnits; //stores the selected units 
+  wxString m_sampleRate;                    //stores the specified sample rate
+  double m_sampleUnits;
 };
 
   
