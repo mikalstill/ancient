@@ -72,6 +72,10 @@
 	added final version of cepMatrix to source. Also added updated version
 	of cepLs - the residual calcs are to come.
 
-2002-08-16 Daniel Fernandez daniel.fernandez@ise.canberra.edu.au
+2002-08-19 Daniel Fernandez daniel.fernandez@ise.canberra.edu.au
 	added fft template class and test code
+
+2002-08-20 Daniel Fernandez daniel.fernandez@ise.canberra.edu.au
+        committed fixed fft template class and test code to compute fft and
+	ifft correctly - i.e fft does forward and ifft does inverse.
 
