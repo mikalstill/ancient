@@ -106,7 +106,29 @@
       <para>
         The available options in the least squares menu are Variance Co-variance and Random Walk.
       </para>
-    </sect3> 
+      <sect4><title>Variance Co-variance</title>
+      <sect5><title>Automatic Re-weighting</title>
+      <para>
+        When this option is presented, you must then decide whether or not to use the automatic re-weighting feature.
+	If the answer is yes, a new data set is loaded and displayed.
+      </para>
+      </sect5>
+      <sect5><title>Manual Re-weighting</title>
+      <para>
+        If <command>NO</command> is selected when prompted for automatic re-weighting, the option is given to load a
+	weighting matrix from file for each direction. If <command>NO</command> is selected here, a data range must be specified
+	before continueing with the VCV analysis. Selecting <command>YES</command> to load a matrix for a file will result
+	in a prompt requestion the file's location on disk.
+      </para>
+      </sect5>
+      </sect4>
+      <sect4><title>Random Walk</title>
+      <para>
+        Random walk functionality exists only in terms of GUI support for future addtions to the <command>GDMS
+	</command>. The functionality itself has not been implemented.
+      </para>
+      </sect4>
+    </sect3>
   </sect2>
 
   <sect2><title>Interpolation</title>
