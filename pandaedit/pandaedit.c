@@ -3,8 +3,10 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <zlib.h>
-#include "samples.h"
-#include "lexinterface.h"
+
+#include <pandalexinterface.h>
+
+#include "pandaedit.h"
 
 enum{
   pdfdump_dump = 0,
