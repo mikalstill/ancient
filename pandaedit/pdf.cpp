@@ -92,7 +92,7 @@ pdf::getCatalogObject(object& catalog)
 bool
 pdf::getPagesObject(object& pages)
 {
-  object& catalog = gNoSuchObject
+  object& catalog = gNoSuchObject;
   if(!getCatalogObject(catalog))
     {
       debug(dlError, "Couldn't find catalog object");
@@ -114,7 +114,7 @@ pdf::getPages ()
 {
   try
   {
-    object& pages = gNoSuchObject
+    object& pages = gNoSuchObject;
     if(!getPagesObject(pages))
       return objectlist();
     
