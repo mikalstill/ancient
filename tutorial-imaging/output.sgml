@@ -632,31 +632,58 @@ Some ClibPDF examples are subject to the ClibPDF license, which is included in t
 There are some core terms which are used throughout this tutorial. This section defines these terms -- it's probably therefore worth bookmarking this section for reference throughout the rest of the day. This section presents these things in alphabetical order, for ease of reference.
 </para>
 
-<sect1><title>Terminology</title>
-<para>	
-We need to get some terminology out of the way before we can discuss much. Images are made up of pixels. In black and white imaging, the pixel has one of two values -- 0 or 1. This can be represented in a single bit. For grayscale and color images however, the pixel needs to be able to store a much greater range of values -- if a pixel was to have 255 levels of gray, then we would need 8 bits to store that pixel. Each of these values is called a sample. TIFF expresses the size of the value in a tag called TIFFTAG_BITSPERSAMPLE. This will be 1 for black and white, and some larger number for grayscale.
-</para>
-
 <para>
-For color images, we need to store even more information. For each pixel we will need to store a red, green, and blue value. Each of these values are stored in a separate 'sample'. Therefore, we will need to define TIFFTAG_SAMPLESPERPIXEL -- this will be 1 for black and white or grayscale, but will normally be 3 for color images. We also need to define the size of each sample, so you'll still need to set a value for TIFFTAG_BITSPERSAMPLE.
+These terms are presented in alphabetical order. Some of them might seem a bit odd, but they're here because the are interesting...
 </para>
-</sect1>
 
 <sect1><title>Anti-aliasing</title>
-<figure>
-<title>decribe</title>
-<graphic format="EPS" fileref="todo.eps">
+<para>
+Imagine that you are drawing a triangle across an image (or on the screen for that matter). The triangle is sometimes going to cross pixels in a way which makes them not totally turned on. Have a look at the figure below to see what I mean...
+</para>
+
+<figure><title>Drawing a triangle</title>
+<graphic format="EPS" fileref="antialias-figure1.eps">
 </figure>
-</sect1>
-<sect1><title>CTM</title>
-<figure>
-<title>decribe</title>
-<graphic format="EPS" fileref="todo.eps">
+
+<para>
+If we only have a black and white image, then we'll end up with an image like the one in the figure below. I am sure you'll agree that this isn't a very good representation of the side of the triangle.
+</para>
+
+<figure><title>A triangle with only black pixels</title>
+<graphic format="EPS" fileref="antialias-figure2.eps">
 </figure>
+
+<para>
+Anti-aliasing is when we try to correct for this problem by inserting some gray pixels. In the figure below, we have given some of the pixels a gray value which is based on how much of the pixel is <quote>filled</quote> with the triangle.
+</para>
+
+<figure><title>A triangle with gray scale pixels</title>
+<graphic format="EPS" fileref="antialias-figure3.eps">
+</figure>
+
+<para>
+The triangle might be a little clearer without the grid lines.
+</para>
+
+<figure><title>Anti-aliased triangle without grid lines</title>
+<graphic format="EPS" fileref="antialias-figure4.eps">
+</figure>
+
+<para>
+For comparison, there is the triangle we started with...
+</para>
+
+<figure><title>The original triangle</title>
+<graphic format="EPS" fileref="antialias-figure5.eps">
+</figure>
+
+<para>
+So, in summary, anti-aliasing is the process of turning on some extra gray scale pixels to improve the look of shapes we are drawing...
+</para>
 </sect1>
 <sect1><title>Encrypting images</title>
 <para>
-DES in Electronic Code Book (ECB) mode is a particularly poor choice of cryptography for image files. This is because ECB mode implements a lookup table between the unencrypted value and the encrypted value. This results in a known input value turning into the same output value over and over. This can have some interesting bluring effects, but wont obscure the image contents. An example will help this make more sense -- the first figure is the logo for the company I am currently working for. I took this image, and ran it through some DES ECB code and produced the second figure.
+DES in Electronic Code Book (ECB) mode is a particularly poor choice of cryptography for image files. This is because ECB mode implements a look up table between the unencrypted value and the encrypted value. This results in a known input value turning into the same output value over and over. This can have some interesting blurring effects, but wont obscure the image contents. An example will help this make more sense -- the first figure is the logo for the company I am currently working for. I took this image, and ran it through some DES ECB code and produced the second figure.
 </para>
 
 <figure><title>The TOWER corporate logo</title>
@@ -669,45 +696,22 @@ DES in Electronic Code Book (ECB) mode is a particularly poor choice of cryptogr
 
 <para>
 You can see that whilst the image has certainly changed, the contents of the image has not really been obscured. 
-<figure>
-<title> more</title>
-<graphic format="EPS" fileref="todo.eps">
-</figure>
 </para>
 
-<para>
-For those who have an excessive interest in code, I encrypted the TIFF image which is the TOWER logo with the code below...
-</para>
 
-<figure>
-<title>crypto code</title>
-<graphic format="EPS" fileref="todo.eps">
-</figure>
-
-<para>
-What about encrypting an image of text? 
-<figure>
-<title> more</title>
-<graphic format="EPS" fileref="todo.eps">
-</figure>
-</para>
 
 <para>
 We should note that ECB mode is not commonly used anyway. If you use something like PGP or blowfish, then you should be much happier... 
-<figure>
-<title> check this</title>
-<graphic format="EPS" fileref="todo.eps">
-</figure>
 </para>
 </sect1>
-<sect1><title>Grayscale conversion</title>
+<sect1><title>Gray scale conversion</title>
 <para>
-How do you convert color images to grayscale? Well, my instant answer when I first had to do this was to just average the red, green and blue values. That answer is wrong. The reality is that the human eye is much better at seeing some colors than others. To get an accurate grayscale representation, you need to apply different coefficients to the color samples. Appropraite coefficients are 0.299 for red, 0.587 for green and 0.114 for blue.</para>
+How do you convert color images to gray scale? Well, my instant answer when I first had to do this was to just average the red, green and blue values. That answer is wrong. The reality is that the human eye is much better at seeing some colors than others. To get an accurate gray scale representation, you need to apply different coefficients to the color samples. Appropriate coefficients are 0.299 for red, 0.587 for green and 0.114 for blue.</para>
 
 <para>
 Below I have included several pictures that illustrate this concept. The first figure is a color image
   <footnote><para>Which may or may not give you joy, depending on if you are viewing this document in color or not</para></footnote>
-, the second is the color image converted to grayscale without the coefficients applied, and the third image is a correct grayscale rendition.
+, the second is the color image converted to gray scale without the coefficients applied, and the third image is a correct gray scale rendition.
 </para>
 
 <figure><title>The original image</title>
@@ -718,7 +722,7 @@ Below I have included several pictures that illustrate this concept. The first f
 <graphic format="EPS" fileref="grayscale-figure2.eps">
 </figure>
 
-<figure><title>A correct conversion to grayscale</title>
+<figure><title>A correct conversion to gray scale</title>
 <graphic format="EPS" fileref="grayscale-figure3.eps">
 </figure>
 
@@ -733,7 +737,7 @@ The source code to generate these example images may be found in the TIFF chapte
 <sect1><title>Pixel</title>
 <para>
      <indexterm><primary>Pixel</primary></indexterm>
-A pixel is the lowest unit of raster image description -- in other words, a raster image is defined in terms of pixels. Example pixels can be seen in the discussion of rasters, elsewhere in this chapter.
+A pixel is the lowest unit of raster image description -- in other words, a raster image is defined in terms of pixels. Example pixels can be seen in the discussion of rasters, later in this chapter.
 </para>
 </sect1>
 
@@ -2064,7 +2068,7 @@ usage (char *cmd, int exitamt)
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.43 2002-07-13 00:29:48 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.44 2002-07-13 04:00:40 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2191,7 +2195,7 @@ Specify the percentage of the blue channel to use (default 11).
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.43 2002-07-13 00:29:48 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.44 2002-07-13 04:00:40 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2430,7 +2434,7 @@ Matters are even worse for 4-, 2-, and 1-bit palette images.
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.43 2002-07-13 00:29:48 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.44 2002-07-13 04:00:40 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2550,7 +2554,7 @@ ImageWidth: 256 520
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.43 2002-07-13 00:29:48 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.44 2002-07-13 04:00:40 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2827,7 +2831,7 @@ the source file.)
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.43 2002-07-13 00:29:48 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.44 2002-07-13 04:00:40 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1990-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3006,7 +3010,7 @@ This image, after being pushed through <command>tiffdither</command> looks somet
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.43 2002-07-13 00:29:48 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.44 2002-07-13 04:00:40 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3137,7 +3141,7 @@ PlanarConfig (284) SHORT (3) 1&lt;1&gt;
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.43 2002-07-13 00:29:48 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.44 2002-07-13 04:00:40 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3481,7 +3485,7 @@ crashing old versions of the window manager.
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.43 2002-07-13 00:29:48 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.44 2002-07-13 04:00:40 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3663,7 +3667,7 @@ Strip 0:
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.43 2002-07-13 00:29:48 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.44 2002-07-13 04:00:40 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1990-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3819,7 +3823,7 @@ Heckbert, SIGGRAPH proceedings, 1982, pp. 297-307.
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.43 2002-07-13 00:29:48 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.44 2002-07-13 04:00:40 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1992-1997 Sam Leffler -->
 <!--  Copyright (c) 1992-1997 Silicon Graphics, Inc. -->
@@ -3915,7 +3919,7 @@ is used.
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.43 2002-07-13 00:29:48 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.44 2002-07-13 04:00:40 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -4258,6 +4262,8 @@ In the introduction to this tutorial I promised that I would include the code to
 
 void usage (char *, int);
 
+#define EOFFSET 150
+
 int
 main (int argc, char *argv[])
 {
@@ -4367,7 +4373,7 @@ main (int argc, char *argv[])
       exit (42);
     }
 
-  if ((rout = (char *) malloc (sizeof (char) * (width + 200) * height * 3))
+  if ((rout = (char *) malloc (sizeof (char) * (width + EOFFSET) * height * 3))
       == NULL)
     {
       fprintf (stderr,
@@ -4376,7 +4382,7 @@ main (int argc, char *argv[])
     }
 
   // todo: We need to copy tags from the input image to the output image
-  TIFFSetField (output, TIFFTAG_IMAGEWIDTH, width + 200);
+  TIFFSetField (output, TIFFTAG_IMAGEWIDTH, width + EOFFSET);
   TIFFSetField (output, TIFFTAG_IMAGELENGTH, height);
   TIFFSetField (output, TIFFTAG_COMPRESSION, COMPRESSION_DEFLATE);
   TIFFSetField (output, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
@@ -4427,7 +4433,7 @@ main (int argc, char *argv[])
   /////////////////////////////////////////////////////////////////////////////
   // Now we assemble the two parts of the image together into a big output
   // raster
-  memset (rout, 255, sizeof (char) * (width + 200) * height * 3);
+  memset (rout, 255, sizeof (char) * (width + EOFFSET) * height * 3);
 
   // The original image
   offset = 0;
@@ -4436,12 +4442,12 @@ main (int argc, char *argv[])
     {
       memcpy (rout + offset2, raster + offset, width * 3);
       offset += width * 3;
-      offset2 += (width + 200) * 3;
+      offset2 += (width + EOFFSET) * 3;
     }
 
   // Box the bit that was enlarged in the original image, can't use memset here
   // Top line
-  offset = (((width + 200) * (ys - 1)) + xs - 1) * 3;
+  offset = (((width + EOFFSET) * (ys - 1)) + xs - 1) * 3;
   for (x = 0; x &lt; xe - xs + 2; x++)
     {
       rout[offset++] = 255;
@@ -4450,7 +4456,7 @@ main (int argc, char *argv[])
     }
 
   // Bottom line
-  offset = (((width + 200) * ye) + xs - 1) * 3;
+  offset = (((width + EOFFSET) * ye) + xs - 1) * 3;
   for (x = 0; x &lt; xe - xs + 2; x++)
     {
       rout[offset++] = 255;
@@ -4459,7 +4465,7 @@ main (int argc, char *argv[])
     }
 
   // Vertical lines
-  offset = (((width + 200) * ys) + xs - 1) * 3;
+  offset = (((width + EOFFSET) * ys) + xs - 1) * 3;
   for (y = 0; y &lt; ye - ys + 1; y++)
     {
       rout[offset] = 255;
@@ -4470,7 +4476,7 @@ main (int argc, char *argv[])
       rout[offset + ((ye - ys + 1) * 3) + 1] = 0;
       rout[offset + ((ye - ys + 1) * 3) + 2] = 0;
 
-      offset += (width + 200) * 3;
+      offset += (width + EOFFSET) * 3;
     }
 
   /////////////////////////////////////////////////////////////////////////////
@@ -4500,20 +4506,19 @@ main (int argc, char *argv[])
   // Copy the enlarged portion across
 
   offset = 0;
-  // todo: I'm too tired to understand the placement of this in maths land
   offset2 = (((((height / 2) - ((ye - ys) * 11 / 2)) *
-	       (width + 200)) + width + 50) * 3);
+	       (width + EOFFSET)) + width + 20) * 3);
   for (y = 0; y &lt; (ye - ys) * 11; y++)
     {
       memcpy (rout + offset2, enlarged + offset, (ye - ys) * 11 * 3);
       offset += (ye - ys) * 11 * 3;
-      offset2 += (width + 200) * 3;
+      offset2 += (width + EOFFSET) * 3;
     }
 
   /////////////////////////////////////////////////////////////////////////////
   // Write the image buffer to the file
   if (TIFFWriteEncodedStrip (output, 0, rout,
-			     (width + 200) * height * 3 * sizeof (char)) == 0)
+			     (width + EOFFSET) * height * 3 * sizeof (char)) == 0)
     {
       fprintf (stderr, "Could not write the output image\n");
       exit (42);
