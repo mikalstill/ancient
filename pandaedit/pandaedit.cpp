@@ -7,31 +7,32 @@
 #include <zlib.h>
 #include <ctype.h>
 
-#include <pandalex.h>
-#include <libmplot.h>
+#include <stack>
 
-#include <vector>
-#include <string>
+#include <pandalex.h>
 
 #include "pandaedit.h"
 #include "stringArray.h"
+#include "objectmodel.h"
 
 string filter;
 string objtype;
-int objnum = 0;
-int objgen = 0;
 
+pdf *thePDF;
+object *currentObject = NULL;
+stack<dictionary> currentDictionary;
+stack<string> currentDictionaryName;
 
-
-// Some demo code for how to use PandaLex
 int main(int argc, char *argv[]){
   pandalex_init();
+
+  ////////////////////////////////////////////////////////////////////////
+  // Parse the file named on the command line
 
   // Setup the callbacks
   pandalex_setupcallback(pandalex_event_begindocument, pandaedit_begindocument);
 
   pandalex_setupcallback(pandalex_event_specver, pandaedit_specversion);
-  pandalex_setupcallback(pandalex_event_entireheader, pandaedit_entireheader);
   pandalex_setupcallback(pandalex_event_objstart, pandaedit_objstart);
   pandalex_setupcallback(pandalex_event_objend, pandaedit_objend);
 
@@ -46,61 +47,56 @@ int main(int argc, char *argv[]){
   pandalex_setupcallback(pandalex_event_dictitem_int, pandaedit_dictitem_int);
 
   pandalex_setupcallback(pandalex_event_stream, pandaedit_stream);
-  pandalex_setupcallback(pandalex_event_dictint, pandaedit_dictint);
   
   // Start parsing
   pandalex_parse(argv[1]);
+  printf("Finished parsing\n");
+
+  ////////////////////////////////////////////////////////////////////////
+  // Now we can attempt to render the first page of the document
+  object foo;
+  object& catalog = foo;
+  if(!thePDF->findObject("Type", "Catalog", catalog)){
+    fprintf(stderr, "Bad PDF: No catalog\n");
+    exit(1);
+  }
 
   return 0;
 }
 
-char *pandalex_xsnprintf(char *, ...);
-
-// Arguement is the name of the file as a char *
 void pandaedit_begindocument(int event, va_list argptr){
-  char *filename;
-
-  filename = va_arg(argptr, char *);
-  printf("Information for document: \"%s\"\n\n", filename);
+  thePDF = new pdf(va_arg(argptr, char *));
 }
 
 void pandaedit_specversion(int event, va_list argptr){
-  //  printf("Specification version is: %s\n", (char *) va_arg(argptr, char *));
+  string version = (char *) va_arg(argptr, char *);
+  thePDF->setSpecVer(atof(version.c_str()));
 }
 
-void pandaedit_entireheader(int event, va_list argptr){
-  int    i;
-  char   *textMatch = (char *) va_arg(argptr, char *);
-
-//   printf("Entire document header is: ");
-
-//   for(i = 0; i < strlen(textMatch); i++){
-//     if(isprint(textMatch[i])) printf("%c ", textMatch[i]);
-//     else printf("\\%d ", textMatch[i]);
-//   }
-
-//   printf("\n");y
-}
-
+// Setup an object
 void pandaedit_objstart(int event, va_list argptr){
+  int objnum, objgen;
   objnum = va_arg(argptr, int);
   objgen = va_arg(argptr, int);
 
-  printf("Object %d started (generation %d)\n",
-	 objnum, objgen);
+  // Setup a global for the current object
+  if(currentObject) delete currentObject;
+  currentObject = new object(objnum, objgen);
+
+  // Setup a stack of dictionaries for this object
+  while(currentDictionary.size() > 0)
+    currentDictionary.pop();
+  while(currentDictionaryName.size() > 0)
+    currentDictionaryName.pop();
+
+  dictionary temp;
+  currentDictionary.push(temp);
+  currentDictionaryName.push("TOP");
 }
 
+// Now that we have finished the object, push it into the PDF
 void pandaedit_objend(int event, va_list argptr){
-  int generation, number;
-
-  number = va_arg(argptr, int);
-  generation = va_arg(argptr, int);
-
-  printf("Object %d ended (generation %d)\n",
-	 number, generation);
-
-  // Reset to there being no filter, for the next object
-  filter = "";
+  thePDF->addObject(*currentObject);
 }
 
 void pandaedit_dictitem_string(int event, va_list argptr){
@@ -108,7 +104,15 @@ void pandaedit_dictitem_string(int event, va_list argptr){
   
   name = va_arg(argptr, char *);
   value = va_arg(argptr, char *);
-  printf("  [String] %s = \"%s\"\n", name, value);
+
+  if(currentDictionary.empty()){
+    fprintf(stderr, "Adding item to empty dictionary\n");
+    return;
+  }
+
+  dictitem temp(dictitem::diTypeString, name);
+  temp.setValue(string(value));
+  currentDictionary.top().add(temp);
 }
 
 void pandaedit_dictitem_name(int event, va_list argptr){
@@ -116,15 +120,15 @@ void pandaedit_dictitem_name(int event, va_list argptr){
   
   name = va_arg(argptr, char *);
   value = va_arg(argptr, char *);
-  
-  // Remember the current object type
-  if(strcmp("Type", name) == 0){
-    objtype = value;\
+ 
+  if(currentDictionary.empty()){
+    fprintf(stderr, "Adding item to empty dictionary\n");
     return;
   }
 
-  // Unhandled names
-  printf("  [Name] %s = %s\n", name, value);
+  dictitem temp(dictitem::diTypeName, name);
+  temp.setValue(string(value));
+  currentDictionary.top().add(temp);
 }
 
 void pandaedit_dictitem_arraystart(int event, va_list argptr){
@@ -153,7 +157,16 @@ void pandaedit_dictitem_object(int event, va_list argptr){
   
   name = va_arg(argptr, char *);
   value = va_arg(argptr, char *);
-  printf("  [Object reference] %s = %s\n", name, value);
+
+  if(currentDictionary.empty()){
+    fprintf(stderr, "Adding item to empty dictionary\n");
+    return;
+  }
+
+  dictitem temp(dictitem::diTypeObjectReference, name);
+  stringArray token(value, " ");
+  temp.setValue(atoi(token[0].c_str()), atoi(token[1].c_str()));
+  currentDictionary.top().add(temp);
 }
 
 void pandaedit_dictitem_dict(int event, va_list argptr){
@@ -167,7 +180,27 @@ void pandaedit_dictitem_dictend(int event, va_list argptr){
   char *name;
 
   name = va_arg(argptr, char *);
-  printf("Subdictionary \"%s\" ends\n", name);
+
+  if(currentDictionary.empty()){
+    fprintf(stderr, "A non-existant dictionary ended\n");
+    return;
+  }    
+
+   if(name == NULL){
+     if(currentObject != NULL){
+       printf("Adding dictionary\n");
+       currentObject->addDictionary(currentDictionary.top());
+     }
+     else{
+       fprintf(stderr, "Attempt to add a dictionary to a null object\n");
+     }
+     currentDictionary.pop();
+   }
+   else{
+    fprintf(stderr, "Handle sub dictionaries (%s)\n", name);
+    if(!currentDictionaryName.empty())
+      currentDictionaryName.pop();    
+  }
 }
 
 void pandaedit_dictitem_int(int event, va_list argptr){
@@ -177,15 +210,14 @@ void pandaedit_dictitem_int(int event, va_list argptr){
   name = va_arg(argptr, char *);
   value = va_arg(argptr, int);
 
-  // We don't use this page count
-  if((objtype == "Pages") &&
-     (strcmp("Count", name) == 0))
+  if(currentDictionary.empty()){
+    fprintf(stderr, "Adding item to empty dictionary\n");
     return;
+  }
 
-  // We also don't trust the length packed into the object
-  if(strcmp("Length", name) == 0) return;
-
-  printf("  [Integer] %s = %d\n", name, value);
+  dictitem temp(dictitem::diTypeInt, name);
+  temp.setValue(value);
+  currentDictionary.top().add(temp);
 }
 
 void pandaedit_stream(int event, va_list argptr){
@@ -194,32 +226,7 @@ void pandaedit_stream(int event, va_list argptr){
 
   streamData = va_arg(argptr, char *);
   streamDataLen = va_arg(argptr, int);
-  
-  // If this is a content stream and we have a bitmap, then we can
-  // attempt to render the stream
-  
-}
-
-void pandaedit_dictint(int event, va_list argptr){
-  int found;
-  int objnum, objgen, value;
-  char *objref;
-
-  // Get the passed information
-  objnum = va_arg(argptr, int);
-  objgen = va_arg(argptr, int);
-  value = va_arg(argptr, int);
-
-  printf("Do something with the dictint %d %d R = %d\n", objnum, objgen, value);
-
-  // Information is handed to this event in a slightly different manner to
-  // the stream event handler. Fix this.
-  if((objref = (char *) malloc((pandalex_intlen(objnum) + pandalex_intlen(objgen) + 5) * sizeof(char))) == NULL){
-    fprintf(stderr, "Could not allocate enough space for objref\n");
-    exit(42);
-  }
-  
-  sprintf(objref, "%d %d R", objnum, objgen);
+  currentObject->addStream(streamData, streamDataLen);  
 }
 
 int pandaedit_atoi(char *str){

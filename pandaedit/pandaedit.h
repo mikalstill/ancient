@@ -1,6 +1,5 @@
 void pandaedit_begindocument(int, va_list);
 void pandaedit_specversion(int, va_list);
-void pandaedit_entireheader(int, va_list);
 void pandaedit_objstart(int, va_list);
 void pandaedit_objend(int, va_list);
 
@@ -15,7 +14,6 @@ void pandaedit_dictitem_dictend(int, va_list);
 void pandaedit_dictitem_int(int, va_list);
 
 void pandaedit_stream(int, va_list);
-void pandaedit_dictint(int, va_list);
 void pandaedit_procstream(char *, int, char *, int);
 
 // This data type is needed for pandaedit_stream and 
