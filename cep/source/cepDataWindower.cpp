@@ -103,6 +103,10 @@ const cepError cepDataWindower::setWindowType( const cepWindow &type, const int 
       delete windowAlg;
       windowAlg = new cepWindowHamming( size );
 
+  } else if( type == WINDOW_HANNING ) {
+      delete windowAlg;
+      windowAlg = new cepWindowHamming( size );
+
   } else if( type == WINDOW_BLACKMAN ) {
       delete windowAlg;
       windowAlg = new cepWindowBlackman( size );
@@ -211,8 +215,10 @@ const cepWindow cepDataWindower::lookupWindow( int id ) {
     case 1:
       return cepDataWindower::WINDOW_HAMMING;
     case 2:
-      return cepDataWindower::WINDOW_BLACKMAN;
+      return cepDataWindower::WINDOW_HANNING;
     case 3:
+      return cepDataWindower::WINDOW_BLACKMAN;
+    case 4:
       return cepDataWindower::WINDOW_CHEBYSHEV;
     default:
       return cepDataWindower::WINDOW_UNDEFINED;
@@ -221,9 +227,10 @@ const cepWindow cepDataWindower::lookupWindow( int id ) {
 
 const cepWindow cepDataWindower::WINDOW_RECTANGULAR(0, "Rectangular");
 const cepWindow cepDataWindower::WINDOW_HAMMING(1, "Hamming");
-const cepWindow cepDataWindower::WINDOW_BLACKMAN(2, "Blackman");
-const cepWindow cepDataWindower::WINDOW_CHEBYSHEV(3, "Chebyshev");
-const cepWindow cepDataWindower::WINDOW_UNDEFINED(4, "Undefined");
+const cepWindow cepDataWindower::WINDOW_HANNING(2, "Hanning");
+const cepWindow cepDataWindower::WINDOW_BLACKMAN(3, "Blackman");
+const cepWindow cepDataWindower::WINDOW_CHEBYSHEV(4, "Chebyshev");
+const cepWindow cepDataWindower::WINDOW_UNDEFINED(5, "Undefined");
 
 int cepDataWindower::size = 0;
 int cepDataWindower::overlap = 0;

@@ -90,6 +90,7 @@ public:
 
   static const cepWindow WINDOW_RECTANGULAR;
   static const cepWindow WINDOW_HAMMING;
+  static const cepWindow WINDOW_HANNING;
   static const cepWindow WINDOW_BLACKMAN;
   static const cepWindow WINDOW_CHEBYSHEV;
   static const cepWindow WINDOW_UNDEFINED;

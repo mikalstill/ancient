@@ -88,6 +88,7 @@ public:
   void OnWindowBlackman (wxCommandEvent& event);
   void OnWindowChebyshev (wxCommandEvent& event);
   void OnWindowHamming (wxCommandEvent& event);
+  void OnWindowHanning (wxCommandEvent& event);
   void OnWindowRect (wxCommandEvent& event);
 
   // Interpolation

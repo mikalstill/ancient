@@ -445,6 +445,9 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
       
       window_submenu->Append (CEPMENU_WINDOW_HAMMING, "Hamming",
 			      "Hamming windowing", FALSE);
+            
+      window_submenu->Append (CEPMENU_WINDOW_HANNING, "Hanning",
+			      "Hamming windowing", FALSE);
 
       window_submenu->Append (CEPMENU_WINDOW_RECT, "Rectangular",
 			      "Rectangular windowing", FALSE);

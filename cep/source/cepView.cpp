@@ -96,6 +96,7 @@ BEGIN_EVENT_TABLE (cepView, wxView)
   EVT_MENU (CEPMENU_WINDOW_BLACKMAN, cepView::OnWindowBlackman)
   EVT_MENU (CEPMENU_WINDOW_CHEBYSHEV, cepView::OnWindowChebyshev)
   EVT_MENU (CEPMENU_WINDOW_HAMMING, cepView::OnWindowHamming)
+  EVT_MENU (CEPMENU_WINDOW_HANNING, cepView::OnWindowHanning)
   EVT_MENU (CEPMENU_WINDOW_RECT, cepView::OnWindowRect)
   EVT_MENU (CEPMENU_INTERP_NEAREST, cepView::OnInterpNearest)
   EVT_MENU (CEPMENU_INTERP_LINEAR, cepView::OnInterpLinear)
@@ -710,6 +711,12 @@ void cepView::OnWindowChebyshev (wxCommandEvent& event)
 void cepView::OnWindowHamming (wxCommandEvent& event)
 {
   processWindow(cepDataWindower::WINDOW_HAMMING, "Hamming Window");
+
+}
+
+void cepView::OnWindowHanning (wxCommandEvent& event)
+{
+  processWindow(cepDataWindower::WINDOW_HANNING, "Hanning Window");
 
 }
 
