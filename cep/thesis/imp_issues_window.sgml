@@ -8,18 +8,15 @@
 
   <sect3><title>Research</title>
     <para>
-      Locating algorithms for the implementation of the initial windowing algorithms was trivial.
-      these are all well documented and are easily implemented. Dolph-Chebyshev window algorithm
-      was a little more elusive. Initial attempts to implement this algorithm were unsuccessful.
-      Two different tacks were taken: Initially an attempt was made to implement this purely in the
-      time domain, based on an algorithm sourced from the speech recognition research at
-      the Institute for Signal and Information Processing, ISIP, located at Mississippi State University.
-      After many hours spent trying to validate the algorithm, it was decided that this could not be used.
-      A second attempt was made using a window generated int the frequency domain, using code based on the
-      original 1947 paper by Dolph. This algorithm only supported odd window sizes, and its use of the IFFT
-      required that its size be 2<superscript>n</superscript>. This was unsatisfactory. The final algorithm 
-      that was implemented is based on FORTRAN code published in 1977 by IEEE Acoustics, Speech, and Signal Processing Society,
-      <!--TODO put this in the references section-->
+      Locating algorithms for the implementation of the initial windowing algorithms was trivial. The majority of these are well
+      documented and are easily implemented. Dolph-Chebyshev window algorithm was a little more elusive. Initial attempts to implement
+      this algorithm were unsuccessful. Two different tacks were taken: Initially an attempt was made to implement this purely in the
+      time domain, based on an algorithm sourced from the speech recognition research at the Institute for Signal and Information Processing,
+      ISIP, located at Mississippi State University. After many hours spent trying to validate the algorithm, it was decided that this could
+      not be used. A second attempt was made using a window generated int the frequency domain, using code based on the original 1947 paper
+      by Dolph. This algorithm only supported odd window sizes, and its use of the IFFT required that its size be 2<superscript>n</superscript>.
+      This was unsatisfactory. The final algorithm that was implemented is based on FORTRAN code published in 1977 by
+      IEEE Acoustics, Speech, and Signal Processing Society,
     </para>
   </sect3> <!--research-->
 
@@ -27,19 +24,24 @@
   <para>
     The windowing subsystem is designed to be extensible. Using OO techniques, a general algorithm for generating the window is
     combined with a specialised class which generates the individual coefficient. This means that to add another algorithm costs
-    as little 10 lines of code, including user interface integration.    
+    as little 10 lines of code, including user interface integration.   
+    <equation>
+      <title>Windowing Class Structure</title>
+      <alt>Class Structure for Windowing Subsystem</alt>
+      <execute><cmd>img</cmd><args>windowing.gif</args></execute>
+    </equation>    
   </para>
   <para>
-    For all windows, coefficients can be generated for an arbitrary window size. The requirement that the windowed data can be
-    converted to the Fourier domain imposes further limitation in that the Fourier libraries we are using will only operate on a
-    data set of size 2<superscript>n</superscript>, 0 &amp; n &amp; inf. This restriction has been implemented at the UI level,
+    For all windows, coefficients can be generated for an arbitrary window size. The requirement that the windowed data be
+    transformed to the Fourier domain imposes further limitation in that the Fourier libraries we are using will only operate on a
+    data set of size 2<superscript>n</superscript>, 0 &lt; n &lt; inf. This restriction has been implemented at the UI level,
     maintaining the flexibility of the windowing subsystem.
   </para>
   <para>
        The actual algorithms implemented are as follows
     <itemizedlist>
         <listitem>
-          <para><command>Hanning</command>: w(i) = &agr; - (1-&agr;).cos( 2.&pgr;.i/(size-1) ), for &agr;=0.5</para>
+           <para><command>Hanning</command>: w(i) = &agr; - (1-&agr;).cos( 2.&pgr;.i/(size-1) ), for &agr;=0.5</para>
         </listitem>
         <listitem>
           <para><command>Hamming</command>:  w(i) = &agr; - (1-&agr;).cos( 2.&pgr;.i/(size-1) ), for &agr;=0.54</para>

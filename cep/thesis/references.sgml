@@ -16,14 +16,14 @@ TODO: WHEN WAS THE WEBSITE COPYRIGHTED OR LAST UPDATED. WHEN WAS IT ACCESSED?
 </para>
 
 <para>
-Bellanger, M., 1984, <emphasis>Digital Processing of Signals</emphasis>, John Wiley and Sons
-TODO: WHERE WAS THIS THIS BOOK PUBLISHED??
+Bellanger, M., 1984, <emphasis>Digital Processing of Signals</emphasis>, John Wiley and Sons, 
+New York.
 </para>
 
 <para>
 Carezia, A., 18 June 2002 [last update],
 <emphasis>Dolph-Chebyshev Window</emphasis>,
-[online], Octave Sources, Available: http://www.octave.org/octave-lists/archive/octave-sources.2002/msg00019.html,
+[Online], Octave Sources, Available: http://www.octave.org/octave-lists/archive/octave-sources.2002/msg00019.html,
 Jul-2002.
 </para>
 
@@ -39,7 +39,7 @@ Connolly, T., Begg, C. 1998, <emphasis>Database Systems: A practical approace to
 <para>
 Cppunit Project, 11 April 2002 [last update],
 <emphasis>CPP Unit, Unit Testing Library</emphasis>,
-[online], Sourceforge.net, Available: http://cppunit.sourceforge.net,
+[Online], Sourceforge.net, Available: http://cppunit.sourceforge.net,
 May-2002.
 </para>
 
@@ -61,6 +61,20 @@ Addison-Wesley, New York.
 Gamma, E., Helm, R., Johnson, R., Vlissides, J., 1994,
 <emphasis>Design Patterns: Elements of Reusable Object-Oriented Software</emphasis>,
 Addison-Wesley, New York.
+</para>
+
+<para>
+Geoscience Australia, unknown [last update],
+<emphasis>National Mapping - Geodesy, Very Long Baseline Interferometry</emphasis>,
+[Online], Geoscience Australia, Available: http://www.auslig.gov.au/geodesy/sgc/vlbi/vlbitech.htm,
+15 November 2002.
+</para>
+
+<para>
+Geoscience Australia, unknown [last update],
+<emphasis>Satellite Laser Ranging</emphasis>,
+[Online], Geoscience Australia, Available: http://www.auslig.gov.au/geodesy/slr/whatis.htm,
+17 November 2002.
 </para>
 
 <para>
@@ -131,7 +145,7 @@ Levine, J.R., Mason, T., Brown, D., 1990, <emphasis>lex &amp; yacc</emphasis>, O
 <para>
 Lynch, P., 27 June 1996,
 <emphasis>The Dolph-Chebyshev Window: A Simple Optimal Filter</emphasis>,
-[PDF File] Availale: http://www.maths.tcd.ie/~plynch/Publications/Dolph.pdf,
+[Online] Availale: http://www.maths.tcd.ie/~plynch/Publications/Dolph.pdf,
 Jul-2002.
 
 </para>
@@ -153,6 +167,13 @@ TODO: WHERE WAS THIS BOOK PUBLISHED??
 <para>
 Royster, D., 15 Feburary 2000 [last updated], <emphasis>Box Plots and Box & Whiskers Plots</emphasis> [Online], University of
 North Carolina at Charlotte, Avalible: http://www.math.uncc.edu/~droyster/courses/spring00/maed3103/Box_Plots.htm, July 2002.
+</para>
+
+<para>
+Scott, B., Taylor, R., 29 July 1999 [last update],
+<emphasis>What is Radio Astronomy</emphasis>,
+[Online], University of Calgary, Available: http://www.ras.ucalgary.ca/Spacevlbi1.html,
+17 November 2002.
 </para>
 
 <para>
@@ -178,8 +199,15 @@ TODO: WHEN WAS THE WEBSITE COPYRIGHTED OR LAST UPDATED. WHEN WAS IT ACCESSED?
 <para>
 Unit++ Project, 4 May 2002 [last update],
 <emphasis>The Unit++ Testing Framework</emphasis>,
-[online], Sourceforge.net, Available: http://unitpp.sourceforge.net,
-May-2002.
+[Online], Sourceforge.net, Available: http://unitpp.sourceforge.net,
+May 2002.
+</para>
+
+<para>
+Unknown, 5 November 2002 [last update],
+<emphasis>Goddard Geodetic VLBI Group</emphasis>,
+[Online], Space Geodesy Program, NASA, Available: http://lupus.gsfc.nasa.gov/vlbi.html,
+17 November 2002.
 </para>
 
 <para>
