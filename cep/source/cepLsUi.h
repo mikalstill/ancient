@@ -33,15 +33,23 @@
 
 #include "cepUI.h"
 
-
-class cepShowDir: public wxDialog
+class cepLsIsReweight: public wxMessageDialog
 {
 public:
-  cepShowDir();
-  cepShowDir(const wxString &title, int x, int y, int w, int h);
-  ~cepShowDir();   
 
-  bool getDoDir(char dir);
+  cepLsIsReweight();
+  int getIsReweight();
+
+private:
+  int isReweight;
+};
+
+class cepLsShowDir: public wxDialog
+{
+public:
+  cepLsShowDir();
+          
+  bool getWhichDir(char dir);
   
   void dlgDirOnQuit(wxCommandEvent& event);
   void dlgDirOnOK(wxCommandEvent& event);
@@ -53,23 +61,61 @@ private:
   wxCheckBox *cbDirX, *cbDirY, *cbDirZ;
   wxButton *bSubmit, *bCancel;
 
-  bool gotValue;
   DECLARE_EVENT_TABLE ()
+};
+
+class cepLsReadP: public wxDialog
+{
+public:
+  cepLsReadP(string dir);
+
+  int getIsReadP();
+
+  void dlgReadOnQuit(wxCommandEvent& event);
+  void dlgReadOnOK(wxCommandEvent& event);
+
+private:
+  wxPanel *panel;
+  wxStaticBox *statBox;
+  wxStaticText *statText1, *statText2, *statText3;
+  wxRadioButton *rYes, *rNo;
+  wxButton *bSubmit, *bCancel;
+
+  DECLARE_EVENT_TABLE ()
+};
+
+class cepLsShowFile: public wxFileDialog
+{
+public:
+  cepLsShowFile();
+  string getFilename();
+
+private:
+  string filename;
 };
 
 class cepLsUi
 {
 public:
-
   cepLsUi();
-  ~cepLsUi();
-  int showIsReweight();
+
+  void showIsReweight();
   void showWhichDir();
+  void showIsReadP(string dir);
+  void showGetfNameP();
+
+  int getIsReweight();
   bool getWhichDir(char dir);
+  int getIsReadP();
+  bool getfNameP();
 
 private:
-  cepShowDir *dirDlg;
-
+  int isReweight;
+  bool doDirX, doDirY, doDirZ;
+  int isReadP;
+  string filename;
 };
 
+  
+  
 #endif //end __CEPLSUI_H
