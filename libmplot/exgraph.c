@@ -75,13 +75,13 @@ main (int argc, char *argv[])
 
   // Write out some text
   plot_setfontcolor(graph, 26, 22, 249);
-  plot_setfont(graph, "/usr/share/fonts/default/Type1/n021004l.pfb", 5);
-  plot_settextlocation(graph, 20, 30);
+  plot_setfont(graph, "/usr/share/fonts/default/Type1/n021004l.pfb", 12);
+  plot_settextlocation(graph, 20, 70);
   for(count = 0; count < 26; count++){
     plot_paintglyph(graph, 'a' + count);
     plot_gettextlocation(graph, &textx, &texty);
-    if(textx > 180){
-      plot_settextlocation(graph, 20, texty + 40);
+    if(textx > 380){
+      plot_settextlocation(graph, 20, texty + 70);
     }
   }
 

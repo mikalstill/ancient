@@ -654,7 +654,8 @@ void plot_setfont(plot_state * state, char *font, int charsize)
     }
 
   // Set the text size
-  if(FT_Set_Char_Size(state->face, 0, charsize * 64, 600, 600)){
+  printf("Charsize = %d\n", charsize);
+  if(FT_Set_Char_Size(state->face, 0, charsize * 64, 75, 75)){
     fprintf(stderr, "Could not set font size\n");
     return;
   }
@@ -705,12 +706,12 @@ plot_loadglyph(plot_state *state, char character)
   }
 
   if(state->face == NULL){
-    fprintf(stderr, "No face laoded\n");
+    fprintf(stderr, "No face loaded\n");
     return -1;
   }
 
   // Find the index of the glyph
-  index = FT_Get_Char_Index(state->face, character );
+  index = FT_Get_Char_Index(state->face, character);
 
   // Load that glyph into the face's slot
   if(FT_Load_Glyph(state->face, index, FT_LOAD_RENDER)){
@@ -746,8 +747,9 @@ plot_paintglyph(plot_state *state, char character)
   // Setup the character
   if(plot_loadglyph(state, character) != -1){
     p = state->texty * state->y + state->textx;
+    printf("%d x %d\n", state->face->glyph->bitmap_left, state->face->glyph->bitmap_top);
     p += state->face->glyph->bitmap_left;
-    p -= state->face->glyph->bitmap_top * state->y;
+    p -= state->face->glyph->bitmap_top * state->x;
 
     for(bmy = 0; bmy < sfgb.rows; bmy++){
       for(bmx = 0; bmx < sfgb.width; bmx++){
@@ -760,10 +762,10 @@ plot_paintglyph(plot_state *state, char character)
 	    ~sfgb.buffer[bmy * sfgb.width + bmx];
 	}
       }
-      p += state->y;
+      p += state->x;
     }
 
-    // Increment pen position 
+    // Increment pen position
     state->textx += state->face->glyph->advance.x >> 6;
     state->texty += state->face->glyph->advance.y >> 6;
 
