@@ -1,0 +1,71 @@
+#!/usr/bin/perl
+
+# This script is used to gunzip the page that the user requested
+# The following things are of interest:
+#   area = the name of the 'directory' e.g. panda or gpg or gcc
+#   page = the name of the page        e.g. index.htm or timetrials
+
+# The data is currently stored in the following hashing structure
+#   /common = shared page elements     e.g. the table layout for news blocks
+#   /<area> = data elements for a given area
+#   /<area>/<page> = the layout description for that page
+
+# Please don't laugh at my perl, this was all developed as a perl learning
+# exercise.
+
+use strict;
+use CGI;
+
+# Setup the result of the CGI
+my($result, $file, $content, $path);
+$result = new CGI();
+
+# The path is where to find the information to build the pages
+#$path = "/var/www/html/stillhq/";
+$path = "/home/httpd/html/";
+
+$file = $result->param('file');
+print $result->header;
+
+# If there are no arguements, then output an error message
+if($file eq ""){
+  error("$path", "You did not specify a file to show!");
+  exit;
+  }
+
+# We just gunzip the file specified and output it to the user
+$content=`cat $path/$file | gunzip`;
+print $content;
+
+exit;
+
+
+# Dump the named file to stdout
+sub dumpfile{
+  my($file) = @_;
+  my($FILEBIT);
+
+  print "\n<! $file >\n";
+  open FILEBIT, $file;
+
+  while(<FILEBIT>){
+    print "$_";
+    }
+
+  print "\n";
+  close(FILEBIT);
+  }
+
+# Display an error message to the user
+sub error{
+  my($path, $message) = @_;
+
+  dumpfile("$path/common/stdnews-start");
+  print "Error!";
+  dumpfile("$path/common/stdnews-divider");
+  print "$message\n";
+  print "</b><BR><BR>\n";
+  print "Please contact <a href=\"mailto:mikal\@stillhq.com\">mikal\@stillhq.com</a> and let him know the URL you were trying to access (normally at the top of the page), and what link you clicked on to get here (if there was one).\n";
+  dumpfile("$path/common/stdnews-end");
+  print $result->end_html;
+}

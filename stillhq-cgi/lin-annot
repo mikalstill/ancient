@@ -1,0 +1,253 @@
+#!/usr/bin/perl
+
+# This program takes the kernel source for 2.4.18 and webifies it
+use strict;
+use CGI;
+use DBI;
+
+my($result, $mode, $page, $line, $annot, $word);
+my($database, $select, @data);
+my($CFILES, $HTMLFILE);
+my($inputfullfile, $inputfile, $directory, $outfile);
+my($bodyfound, $line, $count, $srcdir, $dir, $icon);
+my($filehash);
+
+$result = new CGI();
+$mode = $result->param('mode');
+$page = $result->param('page');
+$line = $result->param('line');
+$annot = $result->param('annot');
+$word = $result->param('word');
+$dir = $result->param('dir');
+
+print $result->header;
+print $result->start_html(-title=>"lin-annot");
+
+$database = DBI->connect("DBI:mysql:database=linux:host=localhost", "root", "vodka4me", { PrintError => 0 });
+$srcdir = "/usr/src/linux-2.4.18";
+
+if(!defined($database)){
+    print "Database connection failed" . DBI->errstr;
+    exit;
+}
+
+if($dir ne ""){
+    $srcdir = $dir;
+}
+
+if($mode eq ""){
+    print "<H1>Source code from $srcdir</H1><BR>\n";
+
+    print "<table bgcolor=\"BBBBBB\" width=\"100%\"><tr>\n";
+    $count = 0;
+
+    open CFILES, "ls -F $srcdir |";
+    while(<CFILES>){
+	chomp;
+	
+	# todo_mikal: there must be a better way
+	$inputfullfile = $_;
+	s/\/[^\/]*$//;
+	$directory = $_;
+	$_ = $inputfullfile;
+	s/^.*\///;
+	$inputfile = $_;
+	$outfile = "$inputfile.html";
+	
+	if($count % 5 == 0){
+	    print "</tr><tr>\n";
+	}
+
+       	if(substr($inputfullfile, length($inputfullfile) - 1, length($inputfullfile)) eq "/"){
+	    # Directory
+	    $inputfullfile =~ s/\/$//;
+	    print "<td width=\"20%\"><BR><a href=\"/cgi-bin/lin-annot?dir=$srcdir/$inputfullfile\">";
+	    print "<center><img src=\"/mikalicons/folder.jpg\"><BR><BR><B>$inputfullfile</b></center></a><BR></td>\n";
+	}
+	else{
+	    # We highlight based on file extension
+	    $icon="unknown.jpg";
+	    if(substr($inputfullfile, length($inputfullfile) - 2, length($inputfullfile)) eq ".c"){
+		$icon="source_c.jpg";
+	    }
+	    elsif(substr($inputfullfile, length($inputfullfile) - 2, length($inputfullfile)) eq ".h"){
+		$icon="source_h.jpg";
+	    }
+	    elsif(substr($inputfullfile, length($inputfullfile) - 2, length($inputfullfile)) eq ".o"){
+		$icon="source_o.jpg";
+	    }
+
+	    $inputfullfile =~ s/[\*\/]$//;
+	    print "<td width=\"20%\"><BR><a href=\"/cgi-bin/lin-annot?mode=display&page=";
+	    $_ = $srcdir;
+	    s/\/usr\/src\/linux-2.4.18//;
+	    print "$_/$inputfullfile\"><center><img src=\"/mikalicons/$icon\"><BR><BR><b>$inputfullfile</b></center></a><BR></td>\n";
+	}
+
+	$count++;
+    }
+
+    print "</tr></table>\n";
+}
+elsif($mode eq "display"){
+    dostuff($srcdir, $page);
+}
+elsif($mode eq "addannot"){
+    print "Adding an annotation for $page: $line\n<BR><BR>\n";
+
+    print $result->start_form(-action=>"/cgi-bin/lin-annot#line-" . ($line - 5) );
+    print $result->input({-type=>'hidden', -name=>'mode', -value=>"insert"});
+    print $result->input({-type=>'hidden', -name=>'page', -value=>$page});
+    print $result->input({-type=>'hidden', -name=>'line', -value=>$line});
+    print $result->input({-type=>'hidden', -name=>'dir', -value=>$srcdir});
+
+    $select = $database->prepare("SELECT annot FROM annotations WHERE file = '$page' AND line = $line ORDER BY ano DESC");
+    if(!defined($select)){
+	print "Could not arrange select";
+	$database->disconnect();
+	exit;
+    }
+    
+    # Results?
+    $select->execute() or die "Could not execute select" . $select->errstr;
+    if($select->rows > 0){
+	@data = $select->fetchrow_array();
+	}
+
+    print $result->textarea({-rows=>20, -cols=>100, -wrap=>'physical', -name=>"annot", -default=>$data[0]});
+    print "<BR><BR>\n";
+    print "Define this anchor word: ";
+    print $result->textfield({-name=>"word"});
+    print "<BR><BR>\n";
+    print $result->submit(-value=>" Are you sure? ", -name=>"commit");
+}
+elsif($mode eq "insert"){
+    $_ = $annot;
+    s/\'/\'\'/g;
+    $annot = $_;
+
+    $filehash = `/usr/bin/md5sum /usr/src/linux-2.4.18/$page | cut -f 1 -d " "`;
+    $select = $database->prepare("INSERT INTO annotations (file, line, annot, md5) VALUES ('$page', $line, '$annot', '$filehash')");
+    if(!defined($select)){
+	print "Could not arrange select";
+	$database->disconnect();
+	exit;
+    }
+    
+    $select->execute() or die "Could not execute select" . $select->errstr;
+    print "<I>File hash (md5sum /usr/src/linux-2.4.18/$page): $filehash<BR>Defined the annotation</i><br>\n";
+
+    if($word ne ""){
+	$select = $database->prepare("INSERT INTO words (word, file, line) VALUES ('$word', '$page', $line)");
+	if(!defined($select)){
+	    print "Could not arrange select";
+	    $database->disconnect();
+	    exit;
+	}
+	
+	$select->execute() or die "Could not execute select" . $select->errstr;
+	print "<I>Defined the word</i><br>\n";
+    }
+
+    dostuff($srcdir, $page);
+}
+
+print $result->end_html;
+exit;
+
+######################################################################################################################################
+
+sub dostuff(){
+    my($srcdir, $filename) = @_;
+    my($word, $textline, %hotwords, $rawword, $file);
+
+    $file = "$filename";
+    $file =~ s/\/\//\//g;
+ 
+    # Build a list of all hot words
+    $select = $database->prepare("SELECT word, file, line FROM words");
+    if(!defined($select)){
+	print "Could not arrange select";
+	$database->disconnect();
+	exit;
+    }
+	       
+    # Results?
+    $select->execute() or die "Could not execute select" . $select->errstr;
+    if($select->rows > 0){
+	while(@data = $select->fetchrow_array()){
+	    $hotwords{$data[0]} = "/cgi-bin/lin-annot?mode=display&dir=$srcdir&page=$data[1]#line-$data[2]";
+	}
+    }
+
+    open HTMLFILE, "/usr/local/bin/code2html \"$srcdir/$file\" |" or die "Couldn't open";
+
+    # Now we go through and post process this to add the links for comments
+    $bodyfound = 0;
+    $line = 1;
+    while(<HTMLFILE>){
+	chomp;
+
+	if($bodyfound == 1){
+	    print "<a name=\"line-$line\"><a href=\"/cgi-bin/lin-annot?mode=addannot&dir=$srcdir&page=$file&line=$line\"><img src=\"/linux/linplus.gif\"></a>&nbsp;";
+
+	    # todo_mikal: linux space convention
+	    s/\t/    /g;
+	    foreach $word (split(/ /)){
+		if($hotwords{$word} ne ""){
+		    print "<a href=\"$hotwords{$word}\">$word</a> ";
+		}
+		else{
+		    print "$word ";
+		}
+	    }
+
+	    # todo_mikal: hack alert
+	    $filehash = `/usr/bin/md5sum /usr/src/linux-2.4.18/$page | cut -f 1 -d " "`;
+	    $select = $database->prepare("SELECT annot, md5 FROM annotations WHERE file = '$file' AND line = $line ORDER BY ano DESC");
+	    if(!defined($select)){
+		print "Could not arrange select";
+		$database->disconnect();
+		exit;
+	    }
+	    
+	    # Results?
+	    $select->execute() or die "Could not execute select" . $select->errstr;
+	    if($select->rows > 0){
+		while(@data = $select->fetchrow_array()){
+		    print "<div align=right>";
+		    if($data[1] ne $filehash){
+			print "<table bgcolor=\"BB4444\" width=\"60%\"><tr><td width=\"20%\">Keep here<br>Other</td><td><i><b>This annotation comes from a different version of this source file. There are several operations you can perform on this annotation...</b></i><BR><BR>";
+			}
+		    else{
+			print "<table bgcolor=\"FFBB19\" width=\"60%\"><tr><td>";
+		    }
+
+		    print "$data[0]</td></tr></table></div>";
+		}
+	    }
+
+	    print "\n";
+	}
+	else{
+	    print "$_";
+	}
+
+	if(/<body/){
+	    $bodyfound = 1;
+	}
+	if(/<hr>/){
+	    $bodyfound = 0;
+	}
+
+	if(/<\/body>/){
+	    print "\nAnnotated by lin-annot <a href=\"http://www.stillhq.com/cgi-bin/getpage?area=linux&page=annot\">http://www.stillhq.com/cgi-bin/getpage?area=linux&page=annot</a>\n";
+	}
+
+	$line++;
+    }
+
+    if($line < 2){
+	print "Markup of this file failed";
+    }
+}

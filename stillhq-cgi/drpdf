@@ -1,0 +1,21 @@
+#!/usr/bin/perl
+
+use strict;
+use CGI;
+use getpage;
+
+###############################################################################
+# Setup the result of the CGI
+my($result, $path, $ftppath);
+
+$result = new CGI();
+
+# The path is where to find the information to build the pages
+#$path = "/var/www/html/stillhq/";
+$path = "/home/httpd/html/";
+$ftppath = "/var/ftp/";
+
+# Output the standard HTML prelude, which includes stuff like the page title
+print $result->header;
+
+print "Hello";

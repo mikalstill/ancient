@@ -1,0 +1,157 @@
+#!/usr/bin/perl
+
+# This script is used to add questions to a given FAQ entry
+
+use strict;
+use CGI;
+use DBI;
+
+# Setup the result of the CGI
+my($result, $path, $area, $section);
+my($database, $select, @data);
+$result = new CGI();
+
+# Output the standard HTML prelude, which includes stuff like the page title
+print $result->header;
+
+# Check that we have defined an area and section to write to
+$area = $result->param('area');
+$section = $result->param('section');
+
+if($area eq ""){
+  error("No area name specified for modification.");
+  exit;
+}
+
+if($area eq ""){
+  error("No section number specified for modification.");
+  exit;
+}
+
+$database = DBI->connect("DBI:mysql:database=$area:host=localhost", "root", "vodka4me", { PrintError => 0 });
+
+if(!defined($database)){
+  print "Database connection failed" . DBI->errstr;
+  exit;
+  }
+
+print "[<a href=\"/cgi-bin/faqqer?area=$area&mode=add\">Back to section menu</a>]<BR><HR><BR><BR>";
+
+
+print "Area is $area and section is $section<BR>\n";
+commitnewsitem($area, $section);
+
+print $result->end_html;
+
+exit;
+
+
+
+
+
+
+
+
+sub commitnewsitem{
+  my($area, $section) = @_;
+  my($qname, $question, $answer, $qnum, $poster, $email, $sql);
+
+  print "Adding a question in $area, section $section<BR><BR>\n";
+
+  $_ = $result->param('name');
+#  s/\n//g;
+  s/\r//g;
+  s/\'/\'\'/g;
+  $qname = $_;
+
+  $_ = $result->param('qtext');
+  s/\r//g;
+#  s/\n\n/~~~~~/g;
+#  s/\n/ /g;
+#  s/~~~~~/\n\n/g;
+  s/\'/\'\'/g;
+  $question = $_;
+
+  $_ = $result->param('answer');
+  s/\r//g;
+#  s/\n\n/~~~~~/g;
+#  s/\n/ /g;
+#  s/~~~~~/\n\n/g;
+  s/\'/\'\'/g;
+  $answer = $_;
+
+  # Prepare to do the actual committal
+  if($result->param('question') eq "new"){
+      print "New question<BR>";
+
+      # Determine the question number we are using
+      $sql = "INSERT INTO questions (qname, question, sno) VALUES ('$qname', '$question', $section)";
+      $select = $database->prepare($sql);
+
+      if(!defined($select)){
+	  print "Could not arrange insert";
+	  $database->disconnect();
+	  exit;
+      }
+      
+      print "Inserting the question<BR>\n";
+      print "<I>$sql</I><BR>\n";
+      $select->execute() or die "Could not execute insert" . $select->errstr;
+      
+      # Find out the number we just created
+      $sql = "SELECT qno FROM questions WHERE qname = '$qname'";
+      $select = $database->prepare($sql);
+
+      if(!defined($select)){
+	  print "Could not arrange select";
+	  $database->disconnect();
+	  exit;
+      }
+
+      # Results?
+      print "Determining the question number<BR>\n";
+      print "<I>$sql</I><BR>\n";
+      $select->execute() or die "Could not execute select" . $select->errstr;
+      if($select->rows > 0){
+	  @data = $select->fetchrow_array();
+	  $qnum = $data[0];
+	  print "Read the question number from the sql result<BR>\n";
+	  print "<I>$data[0] $data[1] $data[2]</I><BR>\n";
+      }
+      else{
+	  print "Question generation error<BR>\n";
+      }
+  }
+  else{
+      $qnum = $result->param('question');
+  }
+
+  print "Question number is $qnum<BR><BR>";
+
+  $poster = $result->param('poster');
+  $email = $result->param('postemail');
+
+  $sql = "INSERT INTO answers (qno, poster, email, answer, inputdate, modifydate) VALUES ($qnum, '$poster', '$email', '$answer', now(), now())";
+  $select = $database->prepare($sql);
+  
+  if(!defined($select)){
+      print "Could not arrange insert";
+      $database->disconnect();
+      exit;
+  }
+  
+  print "Insert the answer<BR>\n";
+  print "<I>$sql</I><BR>\n";
+  $select->execute() or die "Could not execute insert" . $select->errstr;
+  
+  print "<BR><BR>Finished writing";
+}
+
+# Display an error message to the user
+sub error{
+  my($message) = @_;
+
+  print "Please contact <a href=\"mailto:mikal\@stillhq.com\">mikal\@stillhq.com </a> and let him know the URL you were trying to access (normally at the top of the page), and what link you clicked on to get here (if there was one).\n";
+
+  print $result->end_html;
+}

@@ -1,0 +1,144 @@
+#!/usr/bin/perl
+
+use strict;
+use CGI;
+use DBI;
+use Date::Calc qw(:all);
+
+my($result, $database, $select, $nowyear, $nowmonth, $nowday, @daynames, $temp, $temp2, @data, $tempday, $tempweek);
+
+$result = new CGI();
+$database = DBI->connect("DBI:mysql:database=calendar:host=localhost", "root", "vodka4me", { PrintError => 0 });
+
+# Output the standard HTML prelude, which includes stuff like the page title
+print $result->header;
+
+if(!defined($database)){
+  print "Database connection failed" . DBI->errstr;
+  exit;
+  }
+
+$daynames[1] = "Monday";
+$daynames[2] = "Tuesday";
+$daynames[3] = "Wednesday";
+$daynames[4] = "Thursday";
+$daynames[5] = "Friday";
+$daynames[6] = "Saturday";
+$daynames[7] = "Sunday";
+
+($nowyear, $nowmonth, $nowday) = Today();
+if($result->param('year') ne ""){
+  $nowyear=$result->param('year');
+  $nowday=0;
+  }
+if($result->param('month') ne ""){
+  $nowmonth=$result->param('month');
+  $nowday=0;
+  }
+
+$temp = Month_to_Text($nowmonth);
+print "<h1><center>Calendar for $temp $nowyear</center></h1><BR>\n";
+
+# Start of the calendar, and the heading row
+print "<table width=\"100%\" border=1 cellspacing=0><tr>";
+print "<td width=\"14.29%\" bgcolor=33CCCC><b>Previous</b></td>";
+print "<td width=\"14.29%\" bgcolor=33CCCC>&nbsp;</td>";
+print "<td width=\"14.29%\" bgcolor=33CCCC>&nbsp;</td>";
+print "<td width=\"14.29%\" bgcolor=33CCCC>&nbsp;</td>";
+print "<td width=\"14.29%\" bgcolor=33CCCC>&nbsp;</td>";
+print "<td width=\"14.29%\" bgcolor=33CCCC>&nbsp;</td>";
+print "<td width=\"14.29%\" bgcolor=33CCCC><b>Next</b></td></tr><tr>";
+
+for($temp = 1; $temp < 8; $temp++){
+  print "<td width=\"14.29%\" bgcolor=000000> <font color=FFFFFF><b>$daynames[$temp]</b><font> </td>";
+  }
+print "</tr>";
+
+# We need to know how many empty days there are at the start of the month
+print "<tr>";
+for($tempday = 1; $tempday < Day_of_Week($nowyear, $nowmonth, 1); $tempday++){
+  print "<td width=\"14.29%\" bgcolor=777777><BR><BR><BR><BR></td>";
+  }
+
+# We now print out all of the days
+$tempweek = 1;
+for($tempday = 1; $tempday < Days_in_Month($nowyear, $nowmonth) + 1; $tempday++){
+  # Sometimes we colourise the day (weekends, and the current day)
+  print "<td width=\"14.29%\" ";
+  if($tempday == $nowday){
+    print "bgcolor=FF6600>";
+    }
+  elsif(Day_of_Week($nowyear, $nowmonth, $tempday) > 5){
+    print "bgcolor=FFFFCC>";
+    }
+  else{
+    print "bgcolor=FFFFFF>";
+    }
+  print "<b><a href=\"/cgi-bin/calendar?mode=makeappointment&day=$tempday&month=$nowmonth&year=$nowyear\">$tempday</a>:</b><BR>";
+
+  # Check to see if there is anything for this date
+  $select = $database->prepare("SELECT description, displayname FROM appointments WHERE day = $tempday AND month = $nowmonth AND year = $nowyear");
+
+  if(!defined($select)){
+    print "Could not arrange select";
+    $database->disconnect();
+    exit;
+    }
+
+  $select->execute() or die "Could not execute select" . $select->errstr;
+
+  # Results?
+  $temp2 = 0;
+  if($select->rows > 0){
+    while(@data = $select->fetchrow_array()){
+      print "$data[1]<BR>";
+      $temp2++;
+      }
+    }
+
+  # Check to see if there is anything for this date
+  $temp = Day_of_Week($nowyear, $nowmonth, $tempday);
+  $select = $database->prepare("SELECT description, displayname FROM monthly WHERE weekday = $temp AND weeknumber = $tempweek");
+
+  if(!defined($select)){
+    print "Could not arrange select";
+    $database->disconnect();
+    exit;
+    }
+
+  $select->execute() or die "Could not execute select" . $select->errstr;
+
+  # Results?
+  if($select->rows > 0){
+    while(@data = $select->fetchrow_array()){
+      print "$data[1]";
+      $temp2++;
+      }
+    }
+
+  # Pad cell if needed
+  for(; $temp2 < 4; $temp2++){
+    print "<BR>";
+    }
+
+  # Finish off cell
+  print "</td>";
+
+  if(($tempday + Day_of_Week($nowyear, $nowmonth, 1) - 1) % 7 == 0){
+    print "</tr><tr>";
+    $tempweek++;
+    }
+  }
+
+# We fill out the used days at the end of the month
+for(; ($tempday + Day_of_Week($nowyear, $nowmonth, 1) - 2) % 7 != 0; $tempday++){
+  print "<td width=\"14.29%\" bgcolor=777777><BR><BR><BR><BR></td>";
+  }
+
+
+
+
+print "</table>";
+$result->end_html;
+$database->disconnect();
+exit;

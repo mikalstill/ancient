@@ -1,0 +1,380 @@
+#!/usr/bin/perl
+
+use strict;
+use CGI;
+use DBI;
+
+my($path, $result, $area, $mode, $section, $question, $FILEIO, $count, $number, $temp, $filemode, $counter, $LIST, $DUMP, $qnum, $anum, $outputtext, $linelen, $ANSLIST, $ans, $ansemail, %posters, %orderedposters, $maxposts, $key, $value, @winners, $anscount, $maxlinelen);
+my($database, $select, @data, $select2, @data2, $first);
+
+$result = new CGI();
+
+# The path is where to find the information to build the pages
+#$path = "/var/www/html/stillhq/";
+$path = "/home/httpd/html/";
+$maxlinelen = 70;
+
+# Determine the name of the faq that we are editting, and our mode
+$area = $result->param('area');
+$mode = $result->param('mode');
+$section = $result->param('section');
+$question = $result->param('question');
+
+$database = DBI->connect("DBI:mysql:database=$area:host=localhost", "root", "vodka4me", { PrintError => 0 });
+
+if(!defined($database)){
+    print "Database connection failed" . DBI->errstr;
+    exit;
+}
+
+if($mode eq ""){
+    $mode = "menu";
+}
+
+# Output the standard HTML prelude, which includes stuff like the page title
+print $result->header;
+
+###############################################################################
+# Based on our mode, we display different things
+if($mode eq "menu"){
+    # Display the initial menu
+    print "Welcome to the $area FAQ. Please select a command:<BR><BR>\n";
+    
+    print "<a href=\"/cgi-bin/faqqer?area=$area&mode=add\">Add or edit data</a><BR>\n";
+    print "<a href=\"/cgi-bin/faqqer?area=$area&mode=dump\">Dump a copy of the current FAQ</a><BR>\n";
+}
+###############################################################################
+elsif($mode eq "add"){
+    # The user selects a section
+    print "Select a section from the current FAQ, or select <I>Add new</I><BR><BR>\n";
+    
+    # Build the list of sections that are available
+    $select = $database->prepare("SELECT sno, sname FROM sections ORDER BY sname");
+    if(!defined($select)){
+	print "Could not arrange select";
+	$database->disconnect();
+	exit;
+    }
+    
+    # Results?
+    $select->execute() or die "Could not execute select" . $select->errstr;
+    if($select->rows > 0){
+	while(@data = $select->fetchrow_array()){
+	    print "<a href=\"/cgi-bin/faqqer?area=$area&mode=add-sect&section=$data[0]\">$data[1]</a><BR>";
+        }
+    }
+    else{
+	print "Error: the database select returned no rows! (";
+	print $select->rows;
+	print ")";
+    }
+    
+    # We also present some simple statistics about the database at the moment
+    print "<BR><BR><HR><BR>";
+    print "Questions: ";
+    $select = $database->prepare("SELECT count(qno) FROM questions");
+    if(!defined($select)){
+	print "Could not arrange select";
+	$database->disconnect();
+	exit;
+    }
+    
+    # Results?
+    $select->execute() or die "Could not execute select" . $select->errstr;
+    if($select->rows > 0){
+	while(@data = $select->fetchrow_array()){
+	    print "$data[0]<BR>";
+        }
+    }
+    
+    print "Answers: ";
+    $select = $database->prepare("SELECT count(ano) FROM answers");
+    if(!defined($select)){
+	print "Could not arrange select";
+	$database->disconnect();
+	exit;
+    }
+    
+    # Results?
+    $select->execute() or die "Could not execute select" . $select->errstr;
+    if($select->rows > 0){
+	while(@data = $select->fetchrow_array()){
+	    print "$data[0]<BR>";
+        }
+    }
+}
+###############################################################################
+elsif($mode eq "add-sect"){
+    # The user has selected a section and now selects a question
+    print "[<a href=\"/cgi-bin/faqqer?area=$area&mode=add\">Back to section menu</a>]<BR><HR><BR><BR>";
+    print "Select a question from the current FAQ, or select <I>Add new</I><BR><BR>\n";
+    
+    # Build the list of currently available questions
+    $select = $database->prepare("SELECT qno, qname FROM questions WHERE sno = $section ORDER BY qno");
+    if(!defined($select)){
+	print "Could not arrange select";
+	$database->disconnect();
+	exit;
+    }
+    
+    # Results?
+    $select->execute() or die "Could not execute select" . $select->errstr;
+    if($select->rows > 0){
+	while(@data = $select->fetchrow_array()){
+	    print "<a href=\"/cgi-bin/faqqer?area=$area&mode=add-quest&section=$section&question=$data[0]\">$data[1]</a><BR>";
+        }
+    }
+    else{
+	print "Error: the database select returned no rows! (";
+	print $select->rows;
+	print ")";
+    }
+    
+    print "<BR><a href=\"/cgi-bin/faqqer?area=$area&mode=add-quest&section=$section&question=new\">Add new</a><BR>";
+}
+###############################################################################
+elsif($mode eq "add-quest"){
+    # We have selected a section and a question (the question might be new)
+    print "[<a href=\"/cgi-bin/faqqer?area=$area&mode=add\">Back to section menu</a>]<BR><HR><BR><BR>";
+    
+    print $result->start_form(-action=>"/cgi-bin/auth/faq-addquestion");
+    print $result->input(
+			 {-type=>'hidden', -name=>'area', -value=>$area});
+    print $result->input(
+			 {-type=>'hidden', -name=>'section', -value=>$section});
+    print $result->input(
+			 {-type=>'hidden', -name=>'question', -value=>$question});
+    
+    if($question eq "new"){
+	# New question
+	print "We need some details for the new question...<BR><BR>\n";
+	print "Name:<BR>\n";
+	print $result->textarea(
+				{-rows=>10, -cols=>100, 
+				 -wrap=>'physical', -name=>"name"});
+	print "<BR><BR>Text of question:<BR>\n";
+	print $result->textarea(
+				{-rows=>10, -cols=>100, 
+				 -wrap=>'physical', -name=>"qtext"});
+    }
+    else{
+	# We output the information we already know about the question
+        $select = $database->prepare("SELECT qname, question FROM questions WHERE qno = $question");
+	if(!defined($select)){
+	    print "Could not arrange select";
+	    $database->disconnect();
+	    exit;
+        }
+	
+	# Results?
+	$select->execute() or die "Could not execute select" . $select->errstr;
+	if($select->rows > 0){
+        while(@data = $select->fetchrow_array()){
+	    print "Title: $data[0]<BR><BR>Question: $data[1]\n";
+	}
+    }
+	else{
+	    print "Error: the database select returned no rows! (";
+	    print $select->rows;
+	    print ")";
+        }
+    }
+    
+    print "<BR><BR>Text of answer:<BR>\n";
+    print $result->textarea(
+			    {-rows=>10, -cols=>100, 
+			     -wrap=>'physical', -name=>"answer"});
+    
+    print "<BR><BR>Input date:\n";
+    print $result->input(
+			 {-type=>'text', -size=>20, -name=>"postdate",
+			  -value=>`date "+%d %B %Y"`});
+    print "<BR><BR>Answerer:\n";
+    print $result->input(
+			 {-type=>'text', -size=>40, -name=>"poster"});
+    print "<BR><BR>Answerer email:\n";
+    print $result->input(
+			 {-type=>'text', -size=>40, -name=>"postemail"});
+    
+    print "<BR><BR>\n";
+    print $result->submit(-value=>" Are you sure? ", -name=>"commit");
+    
+    print "<HR><BR><BR>\n";
+    print "Existing answers:<I><PRE>";
+    
+    dumpanswers($path, $area, $section, $question, 1);
+    print "</PRE></I>";
+}
+###############################################################################
+elsif($mode eq "dump"){
+    # We have been asked to dump a copy of the current FAQ
+    # We also need to dump the standard prelude
+    print `cat $path/$area/db/prelude` or die "Cannot open prelude";
+    
+    print "<chapter><title>Credits</title>\n";
+    print "<para>This FAQ is maintained by Michael Still, who can be contacted at mikal\@stillhq.com</para>\n";
+    print "<para>Many thanks to Catherine and Andrew for being supportive of Michael whilst he works on this document</para>\n";
+
+    # Now for the question answers
+    print "<para>The following people have provided answers which have been used in this FAQ:\n</para><itemizedlist>\n";
+
+    $select = $database->prepare("SELECT poster FROM answers");
+    if(!defined($select)){
+	print "Could not determine posters";
+	$database->disconnect();
+	exit;
+    }
+
+    $select->execute() or die "Could not execute select" . $select->errstr;
+    if($select->rows > 0){
+	while(@data = $select->fetchrow_array()){
+	    $posters{$data[0]}++;
+	}
+    }
+
+    $maxposts = 0;
+    while(($key, $value) = each %posters){
+	if($value > $maxposts){
+	    $maxposts = $value;
+	}
+
+	if($orderedposters{$value} ne ""){
+	    $orderedposters{$value} = $orderedposters{$value} . ", ";
+	}
+	$orderedposters{$value} = $orderedposters{$value} . "$key";
+    }
+
+    while($maxposts > 0){
+	if($orderedposters{$maxposts} ne ""){
+	    print "<listitem><para>$maxposts: $orderedposters{$maxposts}</para></listitem>\n";
+	}
+
+	$maxposts--;
+    }
+    print "</itemizedlist>\n\n";
+    print "</chapter>\n";
+
+    #####################################################
+    # For each section
+    $select = $database->prepare("SELECT sno, sname FROM sections ORDER BY sname");
+    if(!defined($select)){
+	print "Could not arrange select";
+	$database->disconnect();
+	exit;
+    }
+    
+    # Results?
+    $select->execute() or die "Could not execute select" . $select->errstr;
+    if($select->rows > 0){
+	while(@data = $select->fetchrow_array()){
+	    print "<chapter><title>$data[1]</title>\n";
+	    print "<qandaset defaultlabel=\"qanda\">\n";
+
+	    $select2 = $database->prepare("SELECT qno, qname, question FROM questions WHERE sno = $data[0] ORDER BY qno");
+	    if(!defined($select2)){
+		print "Could not arrange select";
+		$database->disconnect();
+		exit;
+	    }
+	    
+	    # Print out the questions
+	    $select2->execute() or die "Could not execute select" . $select->errstr;
+	    if($select2->rows > 0){
+		$count = 1;
+		$first = 0;
+		while(@data2 = $select2->fetchrow_array()){
+		    if($first == 0)
+		    {
+			$first++;
+		    }
+		    else{
+			print "</qandaentry></qandadiv>\n";
+		    }
+
+		    print "<qandadiv><title>$data2[1]</title>\n<qandaentry><question><para>";
+		    printtext("$data2[2] [Q$data2[0]]", 0);
+		    print "</para></question>\n";
+		    dumpanswers($path, $area, $data[0], $data2[0], 0);
+		}
+	    }
+	    else{
+		print "Error: the database select returned no rows! (";
+		print $select2->rows;
+		print ")";
+	    }
+	    print "</qandaentry></qandadiv></qandaset>\n";
+	    print "</chapter>\n";
+	}
+	print "</book>\n";
+    }
+    else{
+	print "Error: the database select returned no rows! (";
+	print $select->rows;
+	print ")";
+    }
+}
+else{
+    print "Unknown CGI mode. How did you get here?\n";
+}
+
+# Finish off the page
+if($mode ne "dump"){
+    print $result->end_html;
+}
+
+exit;
+
+###############################################################################
+sub dumpanswers{
+    my($path, $area, $section, $qnum, $mode) = @_;
+    my($anscount, $ANSLIST, $counter, $filemode, $line, $word, $myselect, @mydata);
+    
+    # We also need to dump each of the answers that we have in the db
+    # Build the list of sections that are available
+    $myselect = $database->prepare("SELECT answer, poster, email, ano FROM answers WHERE qno = $qnum ORDER BY ano");
+    if(!defined($myselect)){
+	print "Could not arrange select";
+	$database->disconnect();
+	exit;
+    }
+    
+    # Results?
+    $myselect->execute() or die "Could not execute select" . $myselect->errstr;
+    if($myselect->rows > 0){
+	while(@mydata = $myselect->fetchrow_array()){
+	    print "\n<answer><para>"; # todo_mikal: This is very bad docbook...
+	    printtext($mydata[0], 2);
+	    print "</para><para><emphasis>$mydata[1] ($mydata[2]) [A$mydata[3]]</emphasis></para></answer>\n";
+	    print "\n";
+	}
+    }
+}
+
+###############################################################################
+sub printtext(){
+    my($line, $indent) = @_;
+    my($word, $tempword);
+
+    # With the new database version, this is never matched (I think)
+    if(length($line) == 0){
+	print "</para>\n\n<para>";
+    }
+
+    $_ = $line;
+    s/&/&amp;/g;
+    s/</&lt;/g;
+    s/>/&gt;/g;
+    s/&lt;BR&gt;/<\/para><para>/gi;
+    s/&lt;programlisting&gt;/ <programlisting> /gi;
+    s/&lt;\/programlisting&gt;/ <\/programlisting> /gi;
+    s/&lt;orderedlist&gt;/ <orderedlist> /gi;
+    s/&lt;\/orderedlist&gt;/ <\/orderedlist> /gi;
+    s/&lt;listitem&gt;/ <listitem><para> /gi;
+    s/&lt;\/listitem&gt;/ <\/para><\/listitem> /gi;
+    s/\'+/\'/g;
+ 
+# Causes problems with some program listings   
+#    s/http:\/\/([^ \t\(\)]*)/<ulink url=\"http:\/\/$1\"><citetitle>$1<\/citetitle><\/ulink>/g;
+#    s/ftp:\/\/([^ \t\(\)]*)/<ulink url=\"ftp:\/\/$1\"><citetitle>$1<\/citetitle><\/ulink>/g;
+    print "$_";
+}

@@ -1,0 +1,8 @@
+AuthUserFile /home/httpd/cgi-bin/auth/.htpasswd
+AuthGroupFile /dev/null
+AuthName "stillhq.com site updates"
+AuthType Basic
+
+<Limit GET POST>
+require valid-user
+</LIMIT>

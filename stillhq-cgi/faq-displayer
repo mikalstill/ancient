@@ -1,0 +1,124 @@
+#!/usr/bin/perl
+
+use strict;
+use CGI;
+
+my($path, $result, $area, $counter, $FILEIO, $skipsubject, $tempsubject, $current, $temp);
+
+$result = new CGI();
+
+# The path is where to find the information to build the pages
+#$path = "/var/www/html/stillhq/";
+$path = "/home/httpd/html/";
+
+# Determine the name of the faq that we are editting, and our mode
+$area = $result->param('area');
+$counter = $result->param('counter');
+$skipsubject = $result->param('skipsubject');
+
+# Output the standard HTML prelude, which includes stuff like the page title
+print $result->header;
+
+if($counter eq ""){
+    print "[Old counter used]<BR>" ;
+    $counter = `cat $path/$area/db/upto` or die "Could not find upto file";
+}
+else{
+    print "[Counter updated]<BR>";
+    `echo $counter > $path/$area/db/upto`;
+}
+
+print "[<a href=\"/cgi-bin/faq-displayer?area=$area&counter=";
+print $counter - 100;
+print "\">&lt;&lt; 100</a>]";
+
+print "[<a href=\"/cgi-bin/faq-displayer?area=$area&counter=";
+print $counter - 50;
+print "\">&lt;&lt 50</a>]";
+
+print "[<a href=\"/cgi-bin/faq-displayer?area=$area&counter=";
+print $counter - 25;
+print "\">&lt;&lt; 25</a>]";
+
+print "[<a href=\"/cgi-bin/faq-displayer?area=$area&counter=";
+print $counter - 10;
+print "\">&lt;&lt; 10</a>]";
+
+print "[<a href=\"/cgi-bin/faq-displayer?area=$area&counter=";
+print $counter - 1;
+print "\">Previous</a>]";
+
+print " &nbsp;:&nbsp;$counter&nbsp; / &nbsp;";
+$temp=`ls $path/$area/db/input/ | wc -l | tr -d " "`;
+print "$temp (";
+print $temp - $counter;
+print "&nbsp;remaining)";
+print ":&nbsp;";
+
+print "[<a href=\"/cgi-bin/faq-displayer?area=$area&counter=";
+print $counter + 1;
+print "\">Next</a>]";
+
+print "[<a href=\"/cgi-bin/faq-displayer?area=$area&counter=";
+print $counter + 10;
+print "\">&gt;&gt; 10</a>]";
+
+print "[<a href=\"/cgi-bin/faq-displayer?area=$area&counter=";
+print $counter + 25;
+print "\">&gt;&gt; 25</a>]";
+
+print "[<a href=\"/cgi-bin/faq-displayer?area=$area&counter=";
+print $counter + 50;
+print "\">&gt;&gt; 50</a>]";
+
+print "[<a href=\"/cgi-bin/faq-displayer?area=$area&counter=";
+print $counter + 100;
+print "\">&gt;&gt; 100</a>]";
+
+if($skipsubject ne ""){
+    print "<BR>Skipping similar to $skipsubject";
+}
+
+print "<BR><HR><BR>";
+
+print "<PRE>";
+
+$current = $counter;
+open FILEIO, "cat $path/$area/db/input/$counter | egrep -v \"^Path:\" | egrep -v \"^X-\" | egrep -v \"^NNTP\" | egrep -v \"^Organization:\" | egrep -v \"^Lines\" | egrep -v \"^Message-ID:\" | egrep -v \"^Xref:\" | egrep -v \"^MIME-Version\" | egrep -v \"^Content-T\" |";
+while(<FILEIO>){
+    if(/^From:/){
+	s/</(/;
+        s/>/)/;
+    }
+
+    print $_;
+
+    if(/Subject:/){
+#	$tempsubject = `egrep "^Subject:" $path/$area/db/input/$skipsubject`;
+	$tempsubject = $_;
+#	if($tempsubject eq $_){
+	    while($tempsubject eq $_){
+		$counter++;
+		$tempsubject = `egrep "^Subject:" $path/$area/db/input/$counter`;
+	    }
+	
+	if($counter ne ($current + 1)){
+	    print "&nbsp;&nbsp;&nbsp;[<a href=\"/cgi-bin/faq-displayer?area=$area&counter=";
+	    print "$counter";
+	    print "\">Next non-matching is $counter</a>]\n";
+	}
+#	}
+#	else{
+#	    print $counter + 1;
+#	    print "&skipsubject=$counter\">Skip this subject block</a>]\n";
+#	}
+    }
+}
+close FILEIO;
+
+# Finish off the page
+print "</PRE>";
+print $result->end_html;
+
+exit;
+
