@@ -20,7 +20,7 @@
 */
 
 #include "cepDate.h"
-#include <iomanip.h>
+#include <iomanip>
 
 cepDate::cepDate (const double &date)
 {

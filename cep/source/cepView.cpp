@@ -75,7 +75,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <math.h>
-#include <iomanip.h>
+#include <iomanip>
 
 #include <wx/colour.h>
 #include <wx/colordlg.h>
