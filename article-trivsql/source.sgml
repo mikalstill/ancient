@@ -150,8 +150,14 @@ The following SQL commands are currently supported:
 
 <sect2><title>Available conditional statements</title>
 <para>
-
+The following selectors are currently available:
 </para>
+
+<itemizedlist>
+<listitem><para><command>Equality</command>: for instance 'foo' = 7</para></listitem>
+<listitem><para><command>Like</command>: although the % syntax is not implemented</para></listitem>
+<listitem><para><command>And / or</command>: so that you can have more than one criteria (including using brackets to apply precidence)</para></listitem>
+</itemizedlist>
 </sect2>
 
 <sect2><title>Execution strategy for conditional statements</title>

@@ -147,6 +147,24 @@ The following SQL commands are currently supported:
 <listitem><para><command>UPDATE</command>: allows commands of the form <emphasis>UPDATE newtable SET two = 'g' WHERE two = 'f';</emphasis>. This is useful for changing existing values in a row without having to remove the entire row and then readd it.</para></listitem>
 </itemizedlist>
 </sect2>
+
+<sect2><title>Available conditional statements</title>
+<para>
+The following selectors are currently available:
+</para>
+
+<itemizedlist>
+<listitem><para><command>Equality</command>: for instance 'foo' = 7</para></listitem>
+<listitem><para><command>Like</command>: although the % syntax is not implemented</para></listitem>
+<listitem><para><command>And / or</command>: so that you can have more than one criteria (including using brackets to apply precidence)</para></listitem>
+</itemizedlist>
+</sect2>
+
+<sect2><title>Execution strategy for conditional statements</title>
+<para>
+
+</para>
+</sect2>
 </sect1>
 
 <sect1><title>The current state of play</title>
