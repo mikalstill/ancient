@@ -7,19 +7,27 @@
 # todo: doesn't deal with tabs, or broken line indent, or forced newlines...
 
 use strict;
-my($word, $indent);
+my($word, $indent, $intab, $count);
+
+for($count = 0; $count < $ARGV[1]; $count++){
+    $intab = "$intab ";
+}
 
 $indent = 0;
 while(<STDIN>){
-    chomp;
-    
     foreach $word (split(/ /, $_)){
 	if(($indent + length($word)) > $ARGV[0]){
-	    print "\r\n";
-	    $indent = 0;
+	    print "\r\n$intab";
+	    $indent = length($intab);
 	}
-	
-	$indent += length($word);
-	print "$word ";
+
+	if($word =~ /(.*)[\r]*\n(.*)/){
+	    $indent = length($2);
+	    print "$1\r\n$2";
+	}
+	else{
+	    $indent += length($word);
+	    print "$word ";
+	}
     }
 }
