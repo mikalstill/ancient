@@ -15,7 +15,7 @@ If known, specify the (skill) level, 1 to 5 -->
 
 
 
-<title>More graphics from the command line</title>
+<title>Implementing UDP services with shell scripts</title>
 <subtitle></subtitle>
 <!--  End TITLE -->
 
@@ -94,7 +94,9 @@ UDP is unreliable, which means it does none of this for you. It is the programme
 So why would you ever use UDP? This reliability in TCP comes at a price. That price is performance. Before a TCP connection is established, the following protocol sequence occurs:
 </para>
 
+
 <graphic format="eps" fileref="gen-tcp-handshake.eps">
+
 
 <para>
 So before the two machines can even communicate, they've spent a round trip, and processing time, just setting up the connection (the ACK can be sent at the same time as the first packet, as we don't have to wait for an ACK ACK to come back).
@@ -154,6 +156,7 @@ The <emphasis>sendto</emphasis> function call takes another <emphasis>struct soc
 The code listing below is an example of how to use the <emphasis>recvfrom</emphasis> and <emphasis>sendto</emphasis> functions. This example is a simple UDP echo server. The program waits on a given port, and whenever it receives data, sends it straight back.
 </para>
 
+
 <programlisting>
 // Disconnected UDP socket example: this example 
 // simply reads from clients (there can be more 
@@ -180,7 +183,7 @@ main (int argc, char *argv[])
   socklen_t clen;
 
   // We will listen with this file descriptor
-  if ((lfd = socket (AF_INET, SOCK_DGRAM, 0)) &lt; 0)
+  if ((lfd = socket (AF_INET, SOCK_DGRAM, 0)) < 0)
     {
       fprintf (stderr, "Error whilst starting to listen\n");
       exit (42);
@@ -193,7 +196,7 @@ main (int argc, char *argv[])
   servaddr.sin_port = htons (1234);
 
   // Bind to the address
-  if (bind (lfd, (struct sockaddr *) &amp;servaddr, sizeof (servaddr)) &lt; 0)
+  if (bind (lfd, (struct sockaddr *) &amp;servaddr, sizeof (servaddr)) < 0)
     {
       perror ("Couldn't bind");
       exit (42);
@@ -206,7 +209,7 @@ main (int argc, char *argv[])
       printf ("Reading...\n");
       clen = sizeof (clientaddr);
       if ((len = recvfrom (lfd, buf, len, 0,
-                           (struct sockaddr *) &amp;clientaddr, &amp;clen)) &lt; 0)
+                           (struct sockaddr *) &amp;clientaddr, &amp;clen)) < 0)
         {
           perror ("Socket read error");
           exit (42);
@@ -219,7 +222,7 @@ main (int argc, char *argv[])
       printf ("Read: %s\n", buf);
 
       // And send it straight back
-      if (sendto (lfd, buf, len, 0, &amp;clientaddr, clen) &lt; 0)
+      if (sendto (lfd, buf, len, 0, &amp;clientaddr, clen) < 0)
         {
           perror ("Socket write error");
           exit (42);
@@ -227,7 +230,6 @@ main (int argc, char *argv[])
     }
 }
 </programlisting>
-<para><emphasis>Code: disconnected.c</emphasis></para>
 
 <para>
 Let's have a look at this program running. As we can see from the source code, the program listens on UDP port 1234 (very imaginative). We can use <command>netcat</command> to test the program. First, we need to start the server in a different terminal, this is as simple as running it.
@@ -254,7 +256,8 @@ out
 there
 there
  punt!
-[mikal@localhost article]#</programlisting>
+[mikal@localhost article]#
+</programlisting>
 
 <para>
 Note that the <quote>punt!</quote> is me hitting control c on <command>netcat</command>. The server output for this session is:
@@ -272,7 +275,8 @@ Read: out
 Reading...
 Read: there
 
-Reading...</programlisting>
+Reading...
+</programlisting>
 
 <para>
 There are a couple of things worth noting here. Firstly, the UDP server can handle multiple clients at once in the single process. This is because each packet comes in, and is then responded to &mdash; there is no assumption made that packets come from the same machine. This model works well for the single packet communication paradigm. Secondly, since the server simply waits for a packet, responds, and then starts waiting again, the server survives disconnects from the client, it simply waits until a new packet comes along.
@@ -308,6 +312,7 @@ Please bear in mind that <command>inetd</command> and <command>xinetd</command> 
 This is a particularly useful example, because our shell scripts are eventually going to run from <command>inetd</command>, so having an understanding of how it works is opportune.
 </para>
 
+
 <programlisting>
 // Disconnected UDP socket example: this example 
 // simply waits for traffic, and the starts a 
@@ -336,7 +341,7 @@ main (int argc, char *argv[])
   struct pollfd pfd;
 
   // We will listen with this file descriptor
-  if ((lfd = socket (AF_INET, SOCK_DGRAM, 0)) &lt; 0)
+  if ((lfd = socket (AF_INET, SOCK_DGRAM, 0)) < 0)
     {
       fprintf (stderr, "Error whilst starting to listen\n");
       exit (42);
@@ -349,7 +354,7 @@ main (int argc, char *argv[])
   servaddr.sin_port = htons (1234);
 
   // Bind to the address
-  if (bind (lfd, (struct sockaddr *) &amp;servaddr, sizeof (servaddr)) &lt; 0)
+  if (bind (lfd, (struct sockaddr *) &amp;servaddr, sizeof (servaddr)) < 0)
     {
       perror ("Couldn't bind");
       exit (42);
@@ -363,7 +368,7 @@ main (int argc, char *argv[])
   // Do stuff
   while (1)
     {
-      if (poll (&amp;pfd, 1, -1) &lt; 0)
+      if (poll (&amp;pfd, 1, -1) < 0)
         {
           perror ("Waiting for new data failed");
           exit (42);
@@ -397,7 +402,6 @@ main (int argc, char *argv[])
     }
 }
 </programlisting>
-<para><emphasis>Code: disconnexec.c</emphasis></para>
 
 <para>
 All this program does is wait on port 1234 until a connection comes in, forks, and the new child process starts executing the server program (in this case <command>cat</command>). This technique relies on the fact that the child process will share the environment of the parent process, including its file handles. These are duplicated to stdin and stdout before the server program starts executing, so that network input goes into stdin, and server output is sent back over the network.
@@ -430,6 +434,7 @@ When the <emphasis>connect</emphasis> function is called, it simply records whic
 Here's a simple example of a connected socket version of the disconnected echo server above. Note that we now use <emphasis>read</emphasis> and <emphasis>write</emphasis> function calls for all the network input output.
 </para>
 
+
 <programlisting>
 // Connected UDP socket example: this example 
 // simply reads from clients (there can be more 
@@ -455,7 +460,7 @@ main (int argc, char *argv[])
   socklen_t clen;
 
   // We will listen with this file descriptor
-  if ((lfd = socket (AF_INET, SOCK_DGRAM, 0)) &lt; 0)
+  if ((lfd = socket (AF_INET, SOCK_DGRAM, 0)) < 0)
     {
       fprintf (stderr, "Error whilst starting to listen\n");
       exit (42);
@@ -468,7 +473,7 @@ main (int argc, char *argv[])
   servaddr.sin_port = htons (1234);
 
   // Bind to the address
-  if (bind (lfd, (struct sockaddr *) &amp;servaddr, sizeof (servaddr)) &lt; 0)
+  if (bind (lfd, (struct sockaddr *) &amp;servaddr, sizeof (servaddr)) < 0)
     {
       perror ("Couldn't bind");
       exit (42);
@@ -483,7 +488,7 @@ main (int argc, char *argv[])
       printf ("Reading...\n");
       clen = sizeof (clientaddr);
       if ((len = recvfrom (lfd, buf, len, MSG_PEEK,
-                           (struct sockaddr *) &amp;clientaddr, &amp;clen)) &lt; 0)
+                           (struct sockaddr *) &amp;clientaddr, &amp;clen)) < 0)
         {
           perror ("Socket peek error");
           exit (42);
@@ -492,7 +497,7 @@ main (int argc, char *argv[])
         break;
 
       // Connect
-      if (connect (lfd, &amp;clientaddr, clen) &lt; 0)
+      if (connect (lfd, &amp;clientaddr, clen) < 0)
         {
           perror ("Could not connect");
           exit (42);
@@ -501,12 +506,12 @@ main (int argc, char *argv[])
       // And now we can just use the normal read 
       // and write
       len = 1024;
-      if ((len = read (lfd, buf, len)) &lt; 0)
+      if ((len = read (lfd, buf, len)) < 0)
         {
           perror ("Socket read error");
           exit (42);
         }
-      if (write (lfd, buf, len) &lt; 0)
+      if (write (lfd, buf, len) < 0)
         {
           perror ("Socket write error");
           exit (42);
@@ -514,7 +519,6 @@ main (int argc, char *argv[])
     }
 }
 </programlisting>
-<para><emphasis>Code: connected.c</emphasis></para>
 
 <para>
 We do cheat a little in this example, there is one <emphasis>recvfrom</emphasis> call. This is used to <quote>peek</quote> at the data which is waiting on the socket to determine the address to which we will connect. The <emphasis>MSG_PEEK</emphasis> means that the data is not actually removed from the queue of data to be processed by this call.
@@ -530,6 +534,7 @@ I won't include an example of what this program looks like when it runs, because
 <para>
 You'll recall that a couple of examples ago I showed you the code for a simple <command>inetd</command> server. This example below expands on that so it uses a connected socket. This example will behave just like the hard coded echo server in the first and third examples in this article (except that the server debugging output doesn't happen any more).
 </para>
+
 
 <programlisting>
 // Connected UDP socket example: this example this 
@@ -557,7 +562,7 @@ main (int argc, char *argv[])
   socklen_t clen;
 
   // We will listen with this file descriptor
-  if ((lfd = socket (AF_INET, SOCK_DGRAM, 0)) &lt; 0)
+  if ((lfd = socket (AF_INET, SOCK_DGRAM, 0)) < 0)
     {
       fprintf (stderr, "Error whilst starting to listen\n");
       exit (42);
@@ -570,7 +575,7 @@ main (int argc, char *argv[])
   servaddr.sin_port = htons (1234);
 
   // Bind to the address
-  if (bind (lfd, (struct sockaddr *) &amp;servaddr, sizeof (servaddr)) &lt; 0)
+  if (bind (lfd, (struct sockaddr *) &amp;servaddr, sizeof (servaddr)) < 0)
     {
       perror ("Couldn't bind");
       exit (42);
@@ -585,7 +590,7 @@ main (int argc, char *argv[])
       printf ("Reading...\n");
       clen = sizeof (clientaddr);
       if ((len = recvfrom (lfd, buf, len, MSG_PEEK,
-                           (struct sockaddr *) &amp;clientaddr, &amp;clen)) &lt; 0)
+                           (struct sockaddr *) &amp;clientaddr, &amp;clen)) < 0)
         {
           perror ("Socket peek error");
           exit (42);
@@ -594,7 +599,7 @@ main (int argc, char *argv[])
         break;
 
       // Connect
-      if (connect (lfd, &amp;clientaddr, clen) &lt; 0)
+      if (connect (lfd, &amp;clientaddr, clen) < 0)
         {
           perror ("Could not connect");
           exit (42);
@@ -628,8 +633,6 @@ main (int argc, char *argv[])
     }
 }
 </programlisting>
-<para><emphasis>Code: connexec.c</emphasis></para>
-
 
 </sect2>
 <sect2><title>inetd and xinetd configuration</title>
@@ -646,43 +649,43 @@ It seems logical to me to include a patch to make <command>inetd</command> behav
 The package which contains <command>inetd</command> as run on Debian is called <emphasis>netkit</emphasis>. The following is a patch to use connected sockets for UDP and TCP servers.
 </para>
 
+
 <programlisting>
 diff -ur netkit-base-0.16/inetd/inetd.c netkit-base-0.16-hacked/inetd/inetd.c
---- netkit-base-0.16/inetd/inetd.c    Wed Nov 24 06:31:53 1999
-+++ netkit-base-0.16-hacked/inetd/inetd.c    Thu Jan 23 13:42:59 2003
+--- netkit-base-0.16/inetd/inetd.c	Wed Nov 24 06:31:53 1999
++++ netkit-base-0.16-hacked/inetd/inetd.c	Thu Jan 23 13:42:59 2003
 @@ -470,7 +470,30 @@
-             return;
-         }
-         if (pid==0) {
-+                char buf[2];
-+            size_t len = 1;
-+            struct sockaddr clientaddr;
-+            socklen_t clen;
-+            
-             /* child */
-+            len = sizeof(clientaddr);
-+            if ((len = recvfrom(ctrl, buf, len, MSG_PEEK, 
-+                       (struct sockaddr *) &amp;clientaddr, 
-+                       &amp;clen)) &lt; 0) {
-+                    syslog(LOG_WARNING, "failed to peek for (for %s): %m",
-+                       sep-&gt;se_service);
-+            }
-+            if (len==0) {
-+                    syslog(LOG_WARNING, "no data (for %s): %m",
-+                       sep-&gt;se_service);
-+            }
+ 			return;
+ 		}
+ 		if (pid==0) {
++		        char buf[2];
++			size_t len = 1;
++			struct sockaddr clientaddr;
++			socklen_t clen;
++			
+ 			/* child */
++			len = sizeof(clientaddr);
++			if ((len = recvfrom(ctrl, buf, len, MSG_PEEK, 
++					   (struct sockaddr *) &amp;clientaddr, 
++					   &amp;clen)) < 0) {
++			        syslog(LOG_WARNING, "failed to peek for (for %s): %m",
++				       sep->se_service);
++			}
++			if (len==0) {
++			        syslog(LOG_WARNING, "no data (for %s): %m",
++				       sep->se_service);
++			}
 +
-+            // Connect
-+            if (connect(ctrl, &amp;clientaddr, clen) &lt; 0) {
-+                    syslog(LOG_WARNING, "connect failed (for %s): %m",
-+                       sep-&gt;se_service);
-+            }
++			// Connect
++			if (connect(ctrl, &amp;clientaddr, clen) < 0) {
++			        syslog(LOG_WARNING, "connect failed (for %s): %m",
++				       sep->se_service);
++			}
 +
-             dup2(ctrl, 0);
-             close(ctrl);
-             dup2(0, 1);
+ 			dup2(ctrl, 0);
+ 			close(ctrl);
+ 			dup2(0, 1);
 </programlisting>
-<para><emphasis>Code: netkit.patch</emphasis></para>
 </sect3>
 
 <sect3><title>Configuring inetd</title>
@@ -693,7 +696,8 @@ A simple example of how to configure <command>inetd</command> to handle our UDP 
 
 <programlisting>
 # An example UDP echo server
-myecho    dgram   udp     nowait    root    /bin/cat cat -</programlisting>
+myecho    dgram   udp     nowait    root    /bin/cat cat -
+</programlisting>
 
 <para>
 This service has the following characteristics:
@@ -703,7 +707,8 @@ This service has the following characteristics:
 <listitem><para>The service name is <emphasis>myecho</emphasis>. The listing in /etc/services is:</para>
 
 <programlisting>
-myecho		1234/udp			# Simple echo example for LCA 2004 paper</programlisting>
+myecho		1234/udp			# Simple echo example for LCA 2004 paper
+</programlisting>
 
 <sidebar>
 <title>Why not echo?</title>
@@ -780,21 +785,22 @@ This article wouldn't be complete without an example of a UDP shell script to ru
 The code for <command>shdns</command> is broken into two components. The first is a simple script which redirects the input packet to a file, so that <command>shdns</command> can move backwards and forwards within the input packet to grab the bits it needs as required.
 </para>
 
+
 <programlisting>
 #!/bin/bash
 
 logger "shdns $$ Started listening"
-/home/mikal/opensource/shdns/shdns /tmp/shdns-$$ &amp;
-cat - &gt; /tmp/shdns-$$
+/home/mikal/opensource/shdns/shdns /tmp/shdns-$$ &
+cat - > /tmp/shdns-$$
 logger "shdns $$ Waiting for processor to end"
 wait
 logger "shdns $$ Stopped listening"
 </programlisting>
-<para><emphasis>Code: shdns-server</emphasis></para>
 
 <para>
 The other part of the code is the script which actually parses the input DNS UDP packet and responds. Note that this is merely a proof of concept at the moment, it doesn't attempt to implement the entire DNS protocol &mdash; there is only enough here to perform a name lookup.
 </para>
+
 
 <programlisting>
 #!/bin/bash
@@ -1075,64 +1081,64 @@ process(){
 
       # The id number we were handed gets handed 
       # straight back
-      tobyte $idtopbyte &gt; /tmp/shdns-response-$$
-      tobyte $idbotbyte &gt;&gt; /tmp/shdns-response-$$
+      tobyte $idtopbyte > /tmp/shdns-response-$$
+      tobyte $idbotbyte >> /tmp/shdns-response-$$
 
       # Flag this packet as being a reply 
       # (we currently never claim to be authoritive)
-      tobyte 128 &gt;&gt; /tmp/shdns-response-$$
-      tobyte 0 &gt;&gt; /tmp/shdns-response-$$
+      tobyte 128 >> /tmp/shdns-response-$$
+      tobyte 0 >> /tmp/shdns-response-$$
 
       # Number of questions (we have to return the 
       # question we are answering)
-      tobyte 0 &gt;&gt; /tmp/shdns-response-$$
-      tobyte 1 &gt;&gt; /tmp/shdns-response-$$
+      tobyte 0 >> /tmp/shdns-response-$$
+      tobyte 1 >> /tmp/shdns-response-$$
  
       # Number of answers
-      tobyte 0 &gt;&gt; /tmp/shdns-response-$$
-      tobyte 1 &gt;&gt; /tmp/shdns-response-$$
+      tobyte 0 >> /tmp/shdns-response-$$
+      tobyte 1 >> /tmp/shdns-response-$$
 
       # Number of authorities
-      tobyte 0 &gt;&gt; /tmp/shdns-response-$$
-      tobyte 0 &gt;&gt; /tmp/shdns-response-$$
+      tobyte 0 >> /tmp/shdns-response-$$
+      tobyte 0 >> /tmp/shdns-response-$$
 
       # Number of additionals
-      tobyte 0 &gt;&gt; /tmp/shdns-response-$$
-      tobyte 0 &gt;&gt; /tmp/shdns-response-$$
+      tobyte 0 >> /tmp/shdns-response-$$
+      tobyte 0 >> /tmp/shdns-response-$$
 
       # It's easy to return the question, we just 
       # copy it...
-      echo -n `readstring $1 $questionstart $namelength` &gt;&gt; /tmp/shdns-response-$$
-      tobyte 0 &gt;&gt; /tmp/shdns-response-$$
-      tobyte 0 &gt;&gt; /tmp/shdns-response-$$
-      tobyte $type &gt;&gt; /tmp/shdns-response-$$
-      tobyte 0 &gt;&gt; /tmp/shdns-response-$$
-      tobyte $class &gt;&gt; /tmp/shdns-response-$$
+      echo -n `readstring $1 $questionstart $namelength` >> /tmp/shdns-response-$$
+      tobyte 0 >> /tmp/shdns-response-$$
+      tobyte 0 >> /tmp/shdns-response-$$
+      tobyte $type >> /tmp/shdns-response-$$
+      tobyte 0 >> /tmp/shdns-response-$$
+      tobyte $class >> /tmp/shdns-response-$$
 
       # The domain name we are answering for in 
       # this answer
-      echo -n `readstring $1 $questionstart $namelength` &gt;&gt; /tmp/shdns-response-$$
-      tobyte 0 &gt;&gt; /tmp/shdns-response-$$
+      echo -n `readstring $1 $questionstart $namelength` >> /tmp/shdns-response-$$
+      tobyte 0 >> /tmp/shdns-response-$$
 
       # The type is the same as in the question
-      tobyte 0 &gt;&gt; /tmp/shdns-response-$$
-      tobyte $type &gt;&gt; /tmp/shdns-response-$$
+      tobyte 0 >> /tmp/shdns-response-$$
+      tobyte $type >> /tmp/shdns-response-$$
 
       # The class is the same as well
-      tobyte 0 &gt;&gt; /tmp/shdns-response-$$
-      tobyte $class &gt;&gt; /tmp/shdns-response-$$
+      tobyte 0 >> /tmp/shdns-response-$$
+      tobyte $class >> /tmp/shdns-response-$$
 
       # The time to live is always low, because we 
       # are dodgy
-      tobyte 0 &gt;&gt; /tmp/shdns-response-$$
-      tobyte 0 &gt;&gt; /tmp/shdns-response-$$
-      tobyte 0 &gt;&gt; /tmp/shdns-response-$$
-      tobyte 4 &gt;&gt; /tmp/shdns-response-$$
+      tobyte 0 >> /tmp/shdns-response-$$
+      tobyte 0 >> /tmp/shdns-response-$$
+      tobyte 0 >> /tmp/shdns-response-$$
+      tobyte 4 >> /tmp/shdns-response-$$
 
       # The length of the returned data is always 
       # an IP (32 bits)
-      tobyte 0 &gt;&gt; /tmp/shdns-response-$$
-      tobyte 4 &gt;&gt; /tmp/shdns-response-$$
+      tobyte 0 >> /tmp/shdns-response-$$
+      tobyte 4 >> /tmp/shdns-response-$$
 
       # And now the answer as a number
       # For the result in the answer, we are going 
@@ -1141,7 +1147,7 @@ process(){
       do
         temp=`echo $result | cut -f 1 -d "."`
         result=`echo $result | sed 's/^[0-9]*\.*//'`
-        tobyte $temp &gt;&gt; /tmp/shdns-response-$$
+        tobyte $temp >> /tmp/shdns-response-$$
         logger "shdns $$ Processing result segment: $temp ($result)"
       done
 
@@ -1171,13 +1177,14 @@ logger "shdns $$ Ended at $offset"
 killall -9 cat
 exit
 </programlisting>
-<para><emphasis>Code: shdns</emphasis></para>
 
 <para>
 The <command>shdns</command> implementation strategy is summarized by the following diagram.
 </para>
 
+
 <graphic format="eps" fileref="gen-shdns-design.eps">
+
 
 <para>
 You'll note that the reply to the DNS request is constructed in a temporary file and then sent back to the client. This is because <command>inetd</command> will send the output of each <emphasis>write</emphasis> as its own packet. <command>shdns</command> therefore needs to force all of the reply packet to be written at one time.
@@ -1196,7 +1203,8 @@ Here's a sample lookup file:
 
 
 <programlisting>
-www.stillhq.com	127.0.0.1</programlisting>
+www.stillhq.com	127.0.0.1
+</programlisting>
 
 <para>
 You also need a <command>usleep</command> on your path. I couldn't find a Debian package containing this, so I wrote my own. If you need to install a <command>usleep</command>, then just compile usleep.c with a <emphasis>gcc -o usleep usleep.c</emphasis>, and copy it somewhere on your path.

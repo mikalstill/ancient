@@ -15,7 +15,7 @@ If known, specify the (skill) level, 1 to 5 -->
 <zone name="linux"/>
 
 <seriestitle></seriestitle>
-<title>More graphics from the command line</title>
+<title>Implementing UDP services with shell scripts</title>
 <subtitle></subtitle>
 <!--  End TITLE -->
 
@@ -86,7 +86,9 @@ UDP is unreliable, which means it does none of this for you. It is the programme
 So why would you ever use UDP? This reliability in TCP comes at a price. That price is performance. Before a TCP connection is established, the following protocol sequence occurs:
 </p>
 
-<execute><cmd>eqimg</cmd><args>tcp-handshake.png</args></execute>
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure xx. TODO</heading>
+<img src="tcp-handshake.png" width="TODO" height="TODO" alt="TODO"/>
+</figure>
 
 <p>
 So before the two machines can even communicate, they've spent a round trip, and processing time, just setting up the connection (the ACK can be sent at the same time as the first packet, as we don't have to wait for an ACK ACK to come back).
@@ -103,7 +105,7 @@ A good example of a common network protocol that uses UDP is the Domain Name Sys
 <sidebar>
 <heading refname="" type="sidebar" toc="no" name="" alttoc="">DNS and UDP</heading>
 <p>
-It should be noted that RFC 1034 <quote>Domain names &mdash; Concepts and Facilities</quote> does specify that TCP can also be used for DNS. In fact, because UDP packets are limited to 512 bytes, TCP has to be used for zone transfers. However, RFC 1035 <quote>Domain Names &mdash; Implementation and Specification</quote>does recommend that normal queries occur via UDP.
+It should be noted that RFC 1034 "Domain names &mdash; Concepts and Facilities" does specify that TCP can also be used for DNS. In fact, because UDP packets are limited to 512 bytes, TCP has to be used for zone transfers. However, RFC 1035 "Domain Names &mdash; Implementation and Specification"does recommend that normal queries occur via UDP.
 </p>
 </sidebar>
 
@@ -146,7 +148,80 @@ The <i>sendto</i> function call takes another <i>struct sockaddr</i> argument wh
 The code listing below is an example of how to use the <i>recvfrom</i> and <i>sendto</i> functions. This example is a simple UDP echo server. The program waits on a given port, and whenever it receives data, sends it straight back.
 </p>
 
-<execute><cmd>code2db</cmd><input>/home/opensource/shdns/sockets/disconnected.c</input></execute>
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing xx. TODO</heading>
+<code type="section">
+// Disconnected UDP socket example: this example 
+// simply reads from clients (there can be more 
+// than one), and returns what they said straight 
+// back to them. You'll note that we can't use read 
+// and write to get to the traffic, as this is not 
+// available for disconnected UDP sockets.
+
+#include &lt;stdio.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/socket.h&gt;
+#include &lt;netinet/in.h&gt;
+
+int
+main (int argc, char *argv[])
+{
+  int lfd;
+  struct sockaddr_in servaddr;
+  struct sockaddr clientaddr;
+  char buf[1024];
+  size_t len;
+  socklen_t clen;
+
+  // We will listen with this file descriptor
+  if ((lfd = socket (AF_INET, SOCK_DGRAM, 0)) < 0)
+    {
+      fprintf (stderr, "Error whilst starting to listen\n");
+      exit (42);
+    }
+
+  // Define what we are listening for
+  bzero (&amp;servaddr, sizeof (servaddr));
+  servaddr.sin_family = AF_INET;
+  servaddr.sin_addr.s_addr = htonl (INADDR_ANY);
+  servaddr.sin_port = htons (1234);
+
+  // Bind to the address
+  if (bind (lfd, (struct sockaddr *) &amp;servaddr, sizeof (servaddr)) < 0)
+    {
+      perror ("Couldn't bind");
+      exit (42);
+    }
+
+  // Do stuff
+  while (1)
+    {
+      len = 1024;
+      printf ("Reading...\n");
+      clen = sizeof (clientaddr);
+      if ((len = recvfrom (lfd, buf, len, 0,
+                           (struct sockaddr *) &amp;clientaddr, &amp;clen)) < 0)
+        {
+          perror ("Socket read error");
+          exit (42);
+        }
+      if (len == 0)
+        break;
+
+      // The buffer is not null terminated
+      buf[len] = '\0';
+      printf ("Read: %s\n", buf);
+
+      // And send it straight back
+      if (sendto (lfd, buf, len, 0, &amp;clientaddr, clen) < 0)
+        {
+          perror ("Socket write error");
+          exit (42);
+        }
+    }
+}
+</code>
 
 <p>
 Let's have a look at this program running. As we can see from the source code, the program listens on UDP port 1234 (very imaginative). We can use <b>netcat</b> to test the program. First, we need to start the server in a different terminal, this is as simple as running it.
@@ -165,16 +240,34 @@ A client interaction with the server looks like this:
 
 <heading refname="" type="code" toc="no" name="" alttoc="">Listing xx. TODO</heading>
 <code type="section">
-<execute><cmd>cat</cmd><input>netcat-client.txt</input></execute>
+[mikal@localhost article]# nc -u localhost 1234
+hello
+hello
+out
+out
+there
+there
+ punt!
+[mikal@localhost article]#
 </code>
 
 <p>
-Note that the <quote>punt!</quote> is me hitting control c on <b>netcat</b>. The server output for this session is:
+Note that the "punt!" is me hitting control c on <b>netcat</b>. The server output for this session is:
 </p>
 
 <heading refname="" type="code" toc="no" name="" alttoc="">Listing xx. TODO</heading>
 <code type="section">
-<execute><cmd>cat</cmd><input>server.txt</input></execute>
+[root@localhost sockets]# ./disconnected 
+Reading...
+Read: hello
+
+Reading...
+Read: out
+
+Reading...
+Read: there
+
+Reading...
 </code>
 
 <p>
@@ -184,7 +277,7 @@ There are a couple of things worth noting here. Firstly, the UDP server can hand
 
 <heading refname="" type="minor" toc="yes" name="" alttoc="">Disconnected sockets and scripting</heading>
 <p>
-This article is really about writing useful UDP servers using scripting languages &mdash; specifically <i>bash</i>. In this instance, the disconnected nature of these default UDP sockets causes great pain. This is because there is no trivial way in bash to call <i>recvfrom</i> and <i>sendto</i>. Shell scripts want to be able to use the standard <i>read</i> and <i>write</i> calls, because these languages are intended for file and pipe input output, as opposed to socket traffic.
+This article is really about writing useful UDP servers using scripting languages &mdash; specifically <b>bash</b>. In this instance, the disconnected nature of these default UDP sockets causes great pain. This is because there is no trivial way in bash to call <i>recvfrom</i> and <i>sendto</i>. Shell scripts want to be able to use the standard <i>read</i> and <i>write</i> calls, because these languages are intended for file and pipe input output, as opposed to socket traffic.
 </p>
 
 <p>
@@ -210,7 +303,96 @@ Please bear in mind that <b>inetd</b> and <b>xinetd</b> are very configurable, a
 This is a particularly useful example, because our shell scripts are eventually going to run from <b>inetd</b>, so having an understanding of how it works is opportune.
 </p>
 
-<execute><cmd>code2db</cmd><input>/home/opensource/shdns/sockets/disconnexec.c</input></execute>
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing xx. TODO</heading>
+<code type="section">
+// Disconnected UDP socket example: this example 
+// simply waits for traffic, and the starts a 
+// process to deal with the results. One process 
+// per packet, one packet per process. This version 
+// wont work, because the socket is not connected. 
+// In fact, cat is smart enough to warn us about 
+// this:
+//
+//      cat: write error: Transport endpoint is not 
+//      connected
+
+#include &lt;stdio.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/socket.h&gt;
+#include &lt;sys/poll.h&gt;
+#include &lt;netinet/in.h&gt;
+
+int
+main (int argc, char *argv[])
+{
+  int lfd;
+  struct sockaddr_in servaddr;
+  struct pollfd pfd;
+
+  // We will listen with this file descriptor
+  if ((lfd = socket (AF_INET, SOCK_DGRAM, 0)) < 0)
+    {
+      fprintf (stderr, "Error whilst starting to listen\n");
+      exit (42);
+    }
+
+  // Define what we are listening for
+  bzero (&amp;servaddr, sizeof (servaddr));
+  servaddr.sin_family = AF_INET;
+  servaddr.sin_addr.s_addr = htonl (INADDR_ANY);
+  servaddr.sin_port = htons (1234);
+
+  // Bind to the address
+  if (bind (lfd, (struct sockaddr *) &amp;servaddr, sizeof (servaddr)) < 0)
+    {
+      perror ("Couldn't bind");
+      exit (42);
+    }
+
+  // Setup the list of file descriptors we want to 
+  // wait for events on
+  pfd.fd = lfd;
+  pfd.events = POLLIN | POLLPRI;
+
+  // Do stuff
+  while (1)
+    {
+      if (poll (&amp;pfd, 1, -1) < 0)
+        {
+          perror ("Waiting for new data failed");
+          exit (42);
+        }
+
+      printf ("Data arrived\n");
+
+      // Spawn a child to handle this packet
+      switch (fork ())
+        {
+        case -1:
+          perror ("Couldn't spawn child to handle connection");
+          exit (42);
+
+        case 0:
+          // Child process -- setup the file 
+          // descriptors, and the run the helper 
+          // application
+          dup2 (lfd, 0);
+          dup2 (lfd, 1);
+
+          execl ("/bin/cat", "cat", NULL);
+          perror ("Exec failed");
+          exit (42);
+          break;
+
+        default:
+          // Parent process
+          break;
+        }
+    }
+}
+</code>
 
 <p>
 All this program does is wait on port 1234 until a connection comes in, forks, and the new child process starts executing the server program (in this case <b>cat</b>). This technique relies on the fact that the child process will share the environment of the parent process, including its file handles. These are duplicated to stdin and stdout before the server program starts executing, so that network input goes into stdin, and server output is sent back over the network.
@@ -242,10 +424,94 @@ When the <i>connect</i> function is called, it simply records which machine the 
 Here's a simple example of a connected socket version of the disconnected echo server above. Note that we now use <i>read</i> and <i>write</i> function calls for all the network input output.
 </p>
 
-<execute><cmd>code2db</cmd><input>/home/opensource/shdns/sockets/connected.c</input></execute>
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing xx. TODO</heading>
+<code type="section">
+// Connected UDP socket example: this example 
+// simply reads from clients (there can be more 
+// than one), and returns what they said straight 
+// back to them. You'll note that we can now use 
+// read and write to get to the traffic...
+
+#include &lt;stdio.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/socket.h&gt;
+#include &lt;netinet/in.h&gt;
+
+int
+main (int argc, char *argv[])
+{
+  int lfd;
+  struct sockaddr_in servaddr;
+  struct sockaddr clientaddr;
+  char buf[1024];
+  size_t len;
+  socklen_t clen;
+
+  // We will listen with this file descriptor
+  if ((lfd = socket (AF_INET, SOCK_DGRAM, 0)) < 0)
+    {
+      fprintf (stderr, "Error whilst starting to listen\n");
+      exit (42);
+    }
+
+  // Define what we are listening for
+  bzero (&amp;servaddr, sizeof (servaddr));
+  servaddr.sin_family = AF_INET;
+  servaddr.sin_addr.s_addr = htonl (INADDR_ANY);
+  servaddr.sin_port = htons (1234);
+
+  // Bind to the address
+  if (bind (lfd, (struct sockaddr *) &amp;servaddr, sizeof (servaddr)) < 0)
+    {
+      perror ("Couldn't bind");
+      exit (42);
+    }
+
+  // Do stuff
+  while (1)
+    {
+      // We need to peek at the first part of the 
+      // packet to determine who to connect to
+      len = 1;
+      printf ("Reading...\n");
+      clen = sizeof (clientaddr);
+      if ((len = recvfrom (lfd, buf, len, MSG_PEEK,
+                           (struct sockaddr *) &amp;clientaddr, &amp;clen)) < 0)
+        {
+          perror ("Socket peek error");
+          exit (42);
+        }
+      if (len == 0)
+        break;
+
+      // Connect
+      if (connect (lfd, &amp;clientaddr, clen) < 0)
+        {
+          perror ("Could not connect");
+          exit (42);
+        }
+
+      // And now we can just use the normal read 
+      // and write
+      len = 1024;
+      if ((len = read (lfd, buf, len)) < 0)
+        {
+          perror ("Socket read error");
+          exit (42);
+        }
+      if (write (lfd, buf, len) < 0)
+        {
+          perror ("Socket write error");
+          exit (42);
+        }
+    }
+}
+</code>
 
 <p>
-We do cheat a little in this example, there is one <i>recvfrom</i> call. This is used to <quote>peek</quote> at the data which is waiting on the socket to determine the address to which we will connect. The <i>MSG_PEEK</i> means that the data is not actually removed from the queue of data to be processed by this call.
+We do cheat a little in this example, there is one <i>recvfrom</i> call. This is used to "peek" at the data which is waiting on the socket to determine the address to which we will connect. The <i>MSG_PEEK</i> means that the data is not actually removed from the queue of data to be processed by this call.
 </p>
 
 <p>
@@ -258,8 +524,104 @@ I won't include an example of what this program looks like when it runs, because
 You'll recall that a couple of examples ago I showed you the code for a simple <b>inetd</b> server. This example below expands on that so it uses a connected socket. This example will behave just like the hard coded echo server in the first and third examples in this article (except that the server debugging output doesn't happen any more).
 </p>
 
-<execute><cmd>code2db</cmd><input>/home/opensource/shdns/sockets/connexec.c</input></execute>
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing xx. TODO</heading>
+<code type="section">
+// Connected UDP socket example: this example this 
+// example simply waits for traffic, and the starts 
+// a process to deal with the results. One process 
+// per packet, one packet per process. You'll note 
+// that we can now use read and write to get to the 
+// traffic, and that this all works...
 
+#include &lt;stdio.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/socket.h&gt;
+#include &lt;netinet/in.h&gt;
+
+int
+main (int argc, char *argv[])
+{
+  int lfd;
+  struct sockaddr_in servaddr;
+  struct sockaddr clientaddr;
+  char buf[1024];
+  size_t len;
+  socklen_t clen;
+
+  // We will listen with this file descriptor
+  if ((lfd = socket (AF_INET, SOCK_DGRAM, 0)) < 0)
+    {
+      fprintf (stderr, "Error whilst starting to listen\n");
+      exit (42);
+    }
+
+  // Define what we are listening for
+  bzero (&amp;servaddr, sizeof (servaddr));
+  servaddr.sin_family = AF_INET;
+  servaddr.sin_addr.s_addr = htonl (INADDR_ANY);
+  servaddr.sin_port = htons (1234);
+
+  // Bind to the address
+  if (bind (lfd, (struct sockaddr *) &amp;servaddr, sizeof (servaddr)) < 0)
+    {
+      perror ("Couldn't bind");
+      exit (42);
+    }
+
+  // Do stuff
+  while (1)
+    {
+      // We need to peek at the first part of the 
+      // packet to determine who to connect to
+      len = 1;
+      printf ("Reading...\n");
+      clen = sizeof (clientaddr);
+      if ((len = recvfrom (lfd, buf, len, MSG_PEEK,
+                           (struct sockaddr *) &amp;clientaddr, &amp;clen)) < 0)
+        {
+          perror ("Socket peek error");
+          exit (42);
+        }
+      if (len == 0)
+        break;
+
+      // Connect
+      if (connect (lfd, &amp;clientaddr, clen) < 0)
+        {
+          perror ("Could not connect");
+          exit (42);
+        }
+
+      printf ("Data arrived\n");
+
+      // Spawn a child to handle this packet
+      switch (fork ())
+        {
+        case -1:
+          perror ("Couldn't spawn child to handle connection");
+          exit (42);
+
+        case 0:
+          // Child process -- setup the file 
+          // descriptors, and the run the helper 
+          // application
+          dup2 (lfd, 0);
+          dup2 (lfd, 1);
+
+          execl ("/bin/cat", "cat", NULL);
+          perror ("Exec failed");
+          exit (42);
+          break;
+
+        default:
+          // Parent process
+          break;
+        }
+    }
+}
+</code>
 
 <heading refname="" type="minor" toc="yes" name="" alttoc="">inetd and xinetd configuration</heading>
 <p>
@@ -270,34 +632,84 @@ The two standard inetd implementations that most people use are called <b>inetd<
 It seems logical to me to include a patch to make <b>inetd</b> behave in the manner that I would like it to. After all, if our goal is as noble as implementing a server in shell script, then surely the operating system should be modified to accommodate us?
 </p>
 
-<sect3><title>inetd patch</heading>
+<heading refname="" type="minor" toc="yes" name="" alttoc="">inetd patch</heading>
 <p>
 The package which contains <b>inetd</b> as run on Debian is called <i>netkit</i>. The following is a patch to use connected sockets for UDP and TCP servers.
 </p>
 
-<execute><cmd>code2db</cmd><input>/home/opensource/shdns/netkit.patch</input></execute>
-</sect3>
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing xx. TODO</heading>
+<code type="section">
+diff -ur netkit-base-0.16/inetd/inetd.c netkit-base-0.16-hacked/inetd/inetd.c
+--- netkit-base-0.16/inetd/inetd.c	Wed Nov 24 06:31:53 1999
++++ netkit-base-0.16-hacked/inetd/inetd.c	Thu Jan 23 13:42:59 2003
+@@ -470,7 +470,30 @@
+ 			return;
+ 		}
+ 		if (pid==0) {
++		        char buf[2];
++			size_t len = 1;
++			struct sockaddr clientaddr;
++			socklen_t clen;
++			
+ 			/* child */
++			len = sizeof(clientaddr);
++			if ((len = recvfrom(ctrl, buf, len, MSG_PEEK, 
++					   (struct sockaddr *) &amp;clientaddr, 
++					   &amp;clen)) < 0) {
++			        syslog(LOG_WARNING, "failed to peek for (for %s): %m",
++				       sep->se_service);
++			}
++			if (len==0) {
++			        syslog(LOG_WARNING, "no data (for %s): %m",
++				       sep->se_service);
++			}
++
++			// Connect
++			if (connect(ctrl, &amp;clientaddr, clen) < 0) {
++			        syslog(LOG_WARNING, "connect failed (for %s): %m",
++				       sep->se_service);
++			}
++
+ 			dup2(ctrl, 0);
+ 			close(ctrl);
+ 			dup2(0, 1);
+</code>
 
-<sect3><title>Configuring inetd</heading>
+
+<heading refname="" type="minor" toc="yes" name="" alttoc="">Configuring inetd</heading>
 <p>
 A simple example of how to configure <b>inetd</b> to handle our UDP echo server is shown below &mdash; the configuration file this line is added to is /etc/inetd.conf. It should be noted that <i>myecho</i> is the name of a service I had to add to /etc/services because <b>inetd</b> insists on all services being listed there...
 </p>
 
 <heading refname="" type="code" toc="no" name="" alttoc="">Listing xx. TODO</heading>
 <code type="section">
-<execute><cmd>cat</cmd><input>inetd.txt</input></execute>
+# An example UDP echo server
+myecho    dgram   udp     nowait    root    /bin/cat cat -
 </code>
 
 <p>
 This service has the following characteristics:
 </p>
 
-<itemizedlist>
-<listitem><p>The service name is <i>myecho</i>. The listing in /etc/services is:</p>
+<ul>The service name is <i>myecho</i>. The listing in /etc/services is:
+
 <heading refname="" type="code" toc="no" name="" alttoc="">Listing xx. TODO</heading>
 <code type="section">
-<execute><cmd>cat</cmd><input>services.txt</input></execute>
+myecho		1234/udp			# Simple echo example for LCA 2004 paper
 </code>
+
+<li>The socket type is <i>dgram</i>, which is short for datagram, the type of packet that the UDP protocol uses.
+
+<li>The protocol is UDP.
+
+<li><i>nowait</i> is used to indicate that one server should be started per packet, instead of waiting for the previous server to exit. This argument should always be nowait for TCP servers.
+
+<li>The server runs as root.
+
+<li>The server is located at /bin/cat
+
+<li>The server should be started with these arguments. Note that the name of the executable is always the first argument. Checkout <i>execve</i>(2) for more details.
+</ul>
 
 <sidebar>
 <heading refname="" type="sidebar" toc="no" name="" alttoc="">Why not echo?</heading>
@@ -305,30 +717,23 @@ This service has the following characteristics:
 Note that we can't use the name <i>echo</i> for our service for a couple of reasons: it is already defined in /etc/services; it is an internal service which <b>inetd</b> already offers using the normal port number; and we wanted to define a different port number for the service, without breaking things which might use the old /etc/services entry.
 </p>
 </sidebar>
-</listitem>
 
-<listitem><p>The socket type is <i>dgram</i>, which is short for datagram, the type of packet that the UDP protocol uses.</p></listitem>
-
-<listitem><p>The protocol is UDP.</p></listitem>
-
-<listitem><p><i>nowait</i> is used to indicate that one server should be started per packet, instead of waiting for the previous server to exit. This argument should always be nowait for TCP servers.</p></listitem>
-
-<listitem><p>The server runs as root.</p></listitem>
-
-<listitem><p>The server is located at /bin/cat</p></listitem>
-
-<listitem><p>The server should be started with these arguments. Note that the name of the executable is always the first argument. Checkout <i>execve</i>(2) for more details.</p></listitem>
-</itemizedlist>
-</sect3>
-
-<sect3><title>Configuring xinetd</heading>
+<heading refname="" type="minor" toc="yes" name="" alttoc="">Configuring xinetd</heading>
 <p>
 The same echo service configured with <b>xinetd</b> looks like this:
 </p>
 
 <heading refname="" type="code" toc="no" name="" alttoc="">Listing xx. TODO</heading>
 <code type="section">
-<execute><cmd>cat</cmd><input>xinetd-config.txt</input></execute>
+service myecho
+{
+        socket_type     = dgram
+        protocol        = udp
+        wait            = yes
+        user            = root
+        server          = /bin/cat
+        server_args     = -
+}
 </code>
 
 <p>
@@ -338,7 +743,7 @@ Again, the service is a dgram using the UDP protocol. <b>xinetd</b> will wait fo
 <p>
 You should also note that on Red Hat systems, services are often configured within their own configuration files, located in /etc/xinetd.d &mdash; this is done to make it easier to add new services during package installation.
 </p>
-</sect3>
+
 
 
 
@@ -364,19 +769,406 @@ This article wouldn't be complete without an example of a UDP shell script to ru
 The code for <b>shdns</b> is broken into two components. The first is a simple script which redirects the input packet to a file, so that <b>shdns</b> can move backwards and forwards within the input packet to grab the bits it needs as required.
 </p>
 
-<execute><cmd>code2db</cmd><input>/home/opensource/shdns/shdns-server</input></execute>
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing xx. TODO</heading>
+<code type="section">
+#!/bin/bash
+
+logger "shdns $$ Started listening"
+/home/mikal/opensource/shdns/shdns /tmp/shdns-$$ &
+cat - > /tmp/shdns-$$
+logger "shdns $$ Waiting for processor to end"
+wait
+logger "shdns $$ Stopped listening"
+</code>
 
 <p>
 The other part of the code is the script which actually parses the input DNS UDP packet and responds. Note that this is merely a proof of concept at the moment, it doesn't attempt to implement the entire DNS protocol &mdash; there is only enough here to perform a name lookup.
 </p>
 
-<execute><cmd>code2db</cmd><input>/home/opensource/shdns/shdns</input></execute>
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing xx. TODO</heading>
+<code type="section">
+#!/bin/bash
+
+#############
+# shdns: take a query and build a response
+
+# Set this to the location of the lookup
+# file
+execpath="/home/mikal/opensource/shdns/"
+
+# The state of a given bit in the byte: 
+# (byte, poweroftwo)
+dumpbit(){
+  local temp
+  temp=$1
+
+  if [ $1 -gt $(( $2 - 1 )) ]
+  then
+    echo -n "1"
+    temp=$(( $1 - $2 ))
+  else
+    echo -n "0"
+  fi
+
+  return $temp
+}
+
+# Is a given bit on? (byte, poweroftwo)
+testbit(){
+  return `dumpbit $1 $2`
+}
+
+# Turn on a given bit in the byte: (initial byte 
+# state, poweroftwo, desiredstate)
+# Returns a decimal version of the byte
+twiddlebit(){
+  local temp
+  temp=$1
+
+  testbit $1 $2
+  if [ $? = 1 ]
+  then
+    if [ $3 = 0 ]
+    then
+      temp=$(( $temp - $2 ))
+    fi
+  else 
+    if [ $3 = 1 ]
+    then
+      temp=$(( $temp + $2 ))
+    fi
+  fi
+
+  return $temp
+}
+
+# Spin until a byte exists: (filename, bytenumber, wait)
+spinfor(){
+  local len
+
+  len=`cat $1 | wc -c | tr -d " "`
+  while [ $len -lt $2 ]
+  do
+    logger "shdns $$ Spin on byte $2"
+    usleep $3
+    len=`cat $1 | wc -c | tr -d " "`
+  done
+}
+
+# Read a single byte from a file: 
+# (filename, bytenumber)
+readbyte(){
+  spinfor $1 $2 10 
+  cat $1 | cut -b $2
+}
+
+# Read a range of bytes from a file: 
+# (filename, startbyte, length)
+readstring(){
+  spinfor $1 $(( $2 + $3 - 1 )) 10
+  logger "shdns $$ Getting byte range $1:$2-"$(( $2 + $3 - 1 ))":$3"
+  cat $1 | cut -b $2-$(( $2 + $3 - 1 ))
+}
+
+# Read a single binary byte as decimal from a file: 
+# (filename, bytenumber)
+readbytebinary(){
+  local temp
+
+  spinfor $1 $2 1000
+  return `cat $1 | cut -b $2 | od -Ad -t u1 | head -1 | tr -s " " | cut -f 2 -d " "`
+}
+
+# Output the bit for this value: 
+# (inputvalue, byteoffset)
+writebinarybit(){
+  if [ $1 -gt $(( $2 - 1 )) ]
+  then
+    echo -n "1"
+    return $(( $1 - $2 ))
+  else
+    echo -n "0"
+    return $1
+  fi
+}
+
+# Turn a number into a binary byte: (inputvalue)
+writebinarybyte(){
+  writebinarybit $1 128
+  writebinarybit $? 64
+  writebinarybit $? 32
+  writebinarybit $? 16
+  writebinarybit $? 8
+  writebinarybit $? 4
+  writebinarybit $? 2
+  writebinarybit $? 1
+}
+
+# Output the byte which is represented by a decimal 
+# number
+tobyte(){
+  local octal
+  local quotient
+  local remainder
+
+  # Echo only takes octal numbers, so we convert
+  quotient=$1
+  if [ $quotient -eq 0 ]
+  then
+    octal="0"
+  fi
+
+  while [ $quotient -ne 0 ]
+  do
+    remainder=$(( $quotient % 8 ))
+    octal="$remainder$octal"
+    quotient=$(( $quotient / 8 ))
+  done
+
+  echo -n -e \\$octal
+}
+
+####################################################
+
+process(){
+  logger "shdns $$ Started parsing $1 at $2"
+  inset=$2
+
+  # Identification: 2 bytes
+  readbytebinary "$1" $inset; idtopbyte=$?
+    inset=$(( $inset + 1 ))
+  readbytebinary "$1" $inset; idbotbyte=$? 
+    inset=$(( $inset + 1 ))
+  logger "shdns $$ Packet id portions: $idtopbyte $idbotbyte"
+  id=$(( ($idtopbyte * 128) + $idbotbyte ))
+  logger "shdns $$ Packet id: $id"
+
+  # Flags: 2 bytes
+  temp=`cat $1 | cut -b $inset |  od -Ad -c | head -1 | cut -f 2 -d " "`
+    inset=$(( $inset + 1 ))
+  testbit $temp 128; qr=$?
+  testbit $temp 8; op=$?
+  testbit $temp 4; aa=$?
+  testbit $temp 2; trun=$?
+  testbit $temp 1; rd=$?
+
+  logger "shdns $$ Query / response: $qr"
+  logger "shdns $$ Opcode: $op"
+  logger "shdns $$ Authoritative answer: $aa"
+  logger "shdns $$ Packet truncated: $trun"
+  logger "shdns $$ Recursion desired: $rd"
+
+  readbytebinary "$1" $inset; temp=$?
+    inset=$(( $inset + 1 ))
+  testbit $temp 128; ra=$?
+  
+  logger "shdns $$ Recursion available: $ra"
+  
+  # The number of questions is the next two bytes
+  readbytebinary "$1" $inset; topbyte=$?
+    inset=$(( $inset + 1 ))
+  readbytebinary "$1" $inset; botbyte=$?
+    inset=$(( $inset + 1 ))
+  qcount=$(( ($topbyte * 128) + $botbyte ))
+  logger "shdns $$ Number of questions: $qcount"
+  
+  # The number of answers is the next two bytes
+  readbytebinary "$1" $inset; topbyte=$?
+    inset=$(( $inset + 1 ))
+  readbytebinary "$1" $inset; botbyte=$?
+    inset=$(( $inset + 1 ))
+  acount=$(( ($topbyte * 128) + $botbyte ))
+  logger "shdns $$ Number of answers: $acount"
+  
+  # The number of authority RRs is the next two 
+  # bytes
+  readbytebinary "$1" $inset; topbyte=$?
+    inset=$(( $inset + 1 ))
+  readbytebinary "$1" $inset; botbyte=$?
+    inset=$(( $inset + 1 ))
+  authcount=$(( ($topbyte * 128) + $botbyte ))
+  logger "shdns $$ Number of authorities: $authcount"
+  
+  # The number of additional RRs is the next two 
+  # bytes
+  readbytebinary "$1" $inset; topbyte=$?
+    inset=$(( $inset + 1 ))
+  readbytebinary "$1" $inset; botbyte=$?
+    inset=$(( $inset + 1 ))
+  addcount=$(( ($topbyte * 128) + $botbyte ))
+  logger "shdns $$ Number of additionals: $addcount"
+  
+  ######################
+  # For each question
+  ######################
+  
+  len=42
+  questioncount=0
+  
+  while [ $questioncount -lt $qcount ]
+  do
+    questionstart=$inset
+    logger "shdns $$ Question"
+    name=""
+  
+    namelength=0
+    readbytebinary "$1" $inset; len=$?
+    while [ $len -gt 0 ]
+    do
+      inset=$(( $inset + 1 ))
+      name="$name"`readstring "$1" $inset $len`"."
+      inset=$(( $inset + $len ))
+      
+      namelength=$(( $namelength + $len + 1 ))
+      readbytebinary "$1" $inset; len=$?
+    done
+    inset=$(( $inset + 1 ))
+    logger "shdns $$ Lookup: $name"
+  
+    # Type of question -- assume we only want the 
+    # last byte for now...
+    inset=$(( $inset + 1 ))
+    readbytebinary "$1" $inset; type=$?
+    error="none"
+    temp="shdns $$ Determine the query type"
+    case $type in
+    1 ) temp="$temp A";;
+    2 ) temp="$temp NS";;
+    5 ) temp="$temp CNAME";;
+    12 ) temp="$temp PTR";;
+    13 ) temp="$temp HINFO";;
+    15 ) temp="$temp MX";;
+    * ) temp="Error: Unknown query type"; error="yes";;
+    esac
+  
+    logger "$temp (error = $error)"
+    inset=$(( $inset + 1 ))  
+
+    # The class should always be 1 -- assume it's 
+    # all in the last byte as well
+    inset=$(( $inset + 1 ))
+    readbytebinary "$1" $inset; class=$?
+      inset=$(( $inset + 1 ))
+    logger "shdns $$ Query class: $class"
+  
+    if [ "%$error%" = "%none%" ]
+    then
+      # Dodgy bug fix
+      name=`echo $name | sed 's/\.$//'`
+    
+      # Lookup the name in the db file
+      result=`grep "$name" "$execpath" lookup | tr -s "\t" | cut -f 2`
+      logger "shdns $$ Result: $result"
+
+      ##############################################
+      # Now we need to build a response to the query
+
+      # The id number we were handed gets handed 
+      # straight back
+      tobyte $idtopbyte > /tmp/shdns-response-$$
+      tobyte $idbotbyte >> /tmp/shdns-response-$$
+
+      # Flag this packet as being a reply 
+      # (we currently never claim to be authoritive)
+      tobyte 128 >> /tmp/shdns-response-$$
+      tobyte 0 >> /tmp/shdns-response-$$
+
+      # Number of questions (we have to return the 
+      # question we are answering)
+      tobyte 0 >> /tmp/shdns-response-$$
+      tobyte 1 >> /tmp/shdns-response-$$
+ 
+      # Number of answers
+      tobyte 0 >> /tmp/shdns-response-$$
+      tobyte 1 >> /tmp/shdns-response-$$
+
+      # Number of authorities
+      tobyte 0 >> /tmp/shdns-response-$$
+      tobyte 0 >> /tmp/shdns-response-$$
+
+      # Number of additionals
+      tobyte 0 >> /tmp/shdns-response-$$
+      tobyte 0 >> /tmp/shdns-response-$$
+
+      # It's easy to return the question, we just 
+      # copy it...
+      echo -n `readstring $1 $questionstart $namelength` >> /tmp/shdns-response-$$
+      tobyte 0 >> /tmp/shdns-response-$$
+      tobyte 0 >> /tmp/shdns-response-$$
+      tobyte $type >> /tmp/shdns-response-$$
+      tobyte 0 >> /tmp/shdns-response-$$
+      tobyte $class >> /tmp/shdns-response-$$
+
+      # The domain name we are answering for in 
+      # this answer
+      echo -n `readstring $1 $questionstart $namelength` >> /tmp/shdns-response-$$
+      tobyte 0 >> /tmp/shdns-response-$$
+
+      # The type is the same as in the question
+      tobyte 0 >> /tmp/shdns-response-$$
+      tobyte $type >> /tmp/shdns-response-$$
+
+      # The class is the same as well
+      tobyte 0 >> /tmp/shdns-response-$$
+      tobyte $class >> /tmp/shdns-response-$$
+
+      # The time to live is always low, because we 
+      # are dodgy
+      tobyte 0 >> /tmp/shdns-response-$$
+      tobyte 0 >> /tmp/shdns-response-$$
+      tobyte 0 >> /tmp/shdns-response-$$
+      tobyte 4 >> /tmp/shdns-response-$$
+
+      # The length of the returned data is always 
+      # an IP (32 bits)
+      tobyte 0 >> /tmp/shdns-response-$$
+      tobyte 4 >> /tmp/shdns-response-$$
+
+      # And now the answer as a number
+      # For the result in the answer, we are going 
+      # to need this in a binary form of decimal
+      while [ "%$result%" != "%%" ]
+      do
+        temp=`echo $result | cut -f 1 -d "."`
+        result=`echo $result | sed 's/^[0-9]*\.*//'`
+        tobyte $temp >> /tmp/shdns-response-$$
+        logger "shdns $$ Processing result segment: $temp ($result)"
+      done
+
+      # And now we can send the result (done this 
+      # way to make sure it is all in one packet)
+      cat /tmp/shdns-response-$$
+      logger "shdns $$ Finished extracting result"
+    else
+      # Work out the erroneous type
+      logger "shdns $$ Erroneous type was $type ("`dumpbyte $type`")"
+    fi
+
+    logger "shdns $$ Finished processing question"
+    questioncount=$(( $questioncount + 1 ))
+  done
+
+  return $inset`twiddlebit 0 128 1`
+}
+
+####################################################
+# The entry point for the script
+offset=1
+spinfor $1 $offset
+process $1 $offset
+offset=$?
+logger "shdns $$ Ended at $offset"
+killall -9 cat
+exit
+</code>
 
 <p>
 The <b>shdns</b> implementation strategy is summarized by the following diagram.
 </p>
 
-<execute><cmd>eqimg</cmd><args>shdns-design.png</args></execute>
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure xx. TODO</heading>
+<img src="shdns-design.png" width="TODO" height="TODO" alt="TODO"/>
+</figure>
 
 <p>
 You'll note that the reply to the DNS request is constructed in a temporary file and then sent back to the client. This is because <b>inetd</b> will send the output of each <i>write</i> as its own packet. <b>shdns</b> therefore needs to force all of the reply packet to be written at one time.
@@ -394,7 +1186,7 @@ Here's a sample lookup file:
 
 <heading refname="" type="code" toc="no" name="" alttoc="">Listing xx. TODO</heading>
 <code type="section">
-<execute><cmd>cat</cmd><input>lookup.txt</input></execute>
+www.stillhq.com	127.0.0.1
 </code>
 
 <p>
