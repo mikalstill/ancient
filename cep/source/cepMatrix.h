@@ -79,7 +79,7 @@ public:
   const T& getValue (int row, int col) const;
   
   //sets the value of the matrix at matrix[row,col] = value
-  void setValue (int row, int col, T value);
+  void setValue (const int row, const int col, const T & value);
 
   //gets the number of rows in the matrix  
   const int getNumRows () const;
@@ -92,7 +92,7 @@ public:
   const T& getValue (int row, int col, int tab) const;
 
   //sets the value of the matrix at matrix[row,col,inst] = value
-  void setValue (int row, int col, int tab, T value);
+  void setValue (const int row, const int col, const int tab, const T & value);
 
   //gets the number of rows in the matrix
   const int getNumTables() const;
@@ -573,7 +573,7 @@ const T& cepMatrix<T>::getValue (int row, int col) const
 }
 
 template <class T>
-void cepMatrix<T>::setValue (int row, int col, T value)
+void cepMatrix<T>::setValue (const int row, const int col, const T & value)
 {
   if (matrix == NULL)
   {
@@ -633,7 +633,7 @@ const T& cepMatrix<T>::getValue (int row, int col, int tab) const
 }
 
 template <class T>
-void cepMatrix<T>::setValue (int row, int col, int tab, T value)
+void cepMatrix<T>::setValue (const int row, const int col, const int tab, const T & value)
 {
   if (row >= numRows)
   {
