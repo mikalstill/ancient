@@ -6,3 +6,5 @@ TITLE: What is FUSE?
 <li>Available from http://sf.net/projects/avf/
 <li>Particularly useful for custom filesystems
 </ul>
+
+%% Should tell them what FUSE stands for
