@@ -17,41 +17,21 @@ This document outlines my proposal to develop a book covering an introduction to
 
 <sect1><title>What Will the Book Be Good For?</title>
 <para>
-When people buy your book, it will be with some purpose in mind. Your book must, above all, be useful. Books simply describing a particular technology tend to be superseded by other, more practical books. O'Reilly & Associates excels in the "how to" market, and sells well to it. If you can really tell people things that save them time and trouble, then the book itself is cheap.
-
-One of our editors recalls the time when he was writing the RS-232 chapter in Managing UUCP. He bought an expensive hardback that was supposed to be the authoritative guide to RS-232--and it was. It was chock-full of detailed technical information about signal degradation, voltages on various signals, and so on. But he found it surprisingly free of practical, useful information for anyone but RS-232 interface designers.
-
-There is, of course, room for books offering nothing more than technical reference, and people certainly do buy books just to be up on the latest technology. But we always look for the "something more." Here's an editor's comment on the first draft of a proposal for an FDDI book:
-I'd like to see a clearer discussion of what the reader will get out of this book. It may be that the book is directed to someone having to replace Ethernet with FDDI, but in that case, it should spend time on installation issues. It may be that the book is directed to managers who want to understand the benefits of this new technology and plan for it. In this case, it needs to provide concepts more than details. It may be that the book is directed to software engineers who want to know about the implications that faster networks will have on their applications. In this case, it needs to discuss performance issues...
-
-It may be that the book can do all of these things. But its structure needs to flow from an understanding of why each piece of information is important, and to whom it is addressed.
-
-The failure of many technical manuals is that they simply describe the subject. Many fail even in that. But even if they succeed, that's only half the job. What we try to do in our books is to do some of the thinking for the reader, just as you would if you were talking one-on-one with someone, trying to explain what she really needs to know about the subject in order to get her job done.
-Know precisely what you want to achieve, and why your readers will be interested in it. Your proposal to us should summarize the audience and purpose of the book clearly.
-
-Here's an introduction to the FDDI proposal after these comments:
-AUDIENCE AND PURPOSE. At the first level, the book will satisfy those managers, professionals, and engineers who need a conceptual and very general practical answer to the questions, What is FDDI? How does it work? Where does it fit in the networking world? Why do we need it or not need it? All this is mostly overview. It includes explanation of the fog of acronyms and special terminology that seems especially dense in the vicinity of FDDI. It also includes information about some of the many applications and devices produced for FDDI networks--answering the manager's question, What are these things for, and do we need them?
-
-At the second level, the book will provide how-to help for engineers and managers--not those who write FDDI standards or design hot, new FDDI products, but rather those who have to cope with FDDI networks in their workaday environment. They need to be able to recognize the particular hardware components of an FDDI network and understand whether the knee connects to the skull or thighbone. They must comprehend the intricate rules governing the ways networks can be wired together (topologies), and the practical, simplifying ways to impose conceptual order upon these tangled topologies. And they need to know the basics of troubleshooting--as when someone plugs a system into the net incorrectly.
-The discussion of audience is informal and direct. We're not looking for detailed analysis of audience with supporting statistics--just a sense of just who it is you think you're writing for. Note also that the proposal doesn't just talk about the audience in the abstract, but about how the subject matter of the book will address their needs. Ideally, the purpose statement from the proposal could be used in the preface of the finished book, to help the reader figure out if the book is for him or her.
+This book is aimed at developers who are already competent in c programming, but now need to include imaging capabilities into their applications. The book will describe enough of the technical aspects of each format covered to provide a good grounding in the fundamentals, before moving on to discuss the intricacies of using the various APIs associated with the imaging formats. This is the book that I wished I had be able to buy when I first started image programming.
 </para>
 </sect1>
 
 <sect1><title>The Market for the Book</title>
 <para>
-In one sense, the market for the book is implicit in its purpose and audience. If there's a real need for the book, and you do a good job of addressing that need, the book will sell. However, there are often ancillary factors, such as competing works, industry trends, or size of user base, that may have bearing on just how successful the book will be.
+There are a large number of programmers who develop code which manipulates images. Many of these developers do not understand adequately the intricacies of the formats they are using, and this results in programs which don't work well. I my experience, many of the developers I have worked with could have made good use of a book such as the one I propose.
+</para>
 
-Needless to say, we have our own understanding of the market potential in various areas. If you think you have a good idea, but don't feel you have the resources to demonstrate its marketability, feel free to contact us and discuss the matter. Perhaps we can help you through this stage.
+<para>
+For example, the PDF format is quite fashionable at the moment. One of my previous employers, the Australian Patent Office (IPAustralia) has over 10 developers writing imaging software of some form. My new employer, TOWER Software, an independent software vendor, has several developers which write code that handles images of various formats. The comp.text.pdf USENET news group had around 1,000 posts in August 2002.
+</para>
 
-Of course, if you do have statistics for the size of the market for the book, they'd be more than welcome. Similarly, if you know that several companies are planning to adopt or promote a given technology, this might be an important point to make about your audience.
-
-If there are competitive books now on the market or foreseen, briefly describe them and explain their relation to your book. View yourself as "selling" us on the likely success of the undertaking.
-
-You should be aware that if there's a really good book on a topic from another publisher, we typically will not want to publish a competing book. However, there are often other books that overlap somewhat in subject matter or in style but do not compete directly. A discussion of these books may help us to evaluate the market for your book, or may help to clarify the approach you plan to take.
-
-For example, you might point out that there are three books currently available on UNIX system administration, but that each has certain drawbacks that you hope to remedy in your own effort. Or you might point out that a particular book has been extremely successful, and that you plan to do a similar book for another subject.
-
-As noted in the previous chapter, we like best to do books on subjects that are poorly documented elsewhere. In that case, the statement of the competition (or lack thereof) is likely to be implicit in the description of the purpose and audience for the book.
+<para>
+There is no competing title at this time.
 </para>
 </sect1>
 
@@ -71,33 +51,37 @@ Michael Still, the author of this proposal, currently owns all rights to the sam
 
 <sect1><title>The Outline</title>
 <para>
-I see the outline of the proposed book being along the lines of the following chapters (with indicative contents and length):
+I see the outline of the proposed book being along the lines of the following chapters (with indicative contents and length)
+<footnote><para>
+  Chapter lengths are given in A4 pages.
+</para></footnote>
+:
 
 <table frame='all'><title>Proposed book chapters</title>
-<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<tgroup cols='3' align='left' colsep='1' rowsep='1'>
 <thead>
 <row>
   <entry>Chapter name and description of content</entry>
   <entry>Current length</entry>
-  <entry>Approximate final length</entry>
+  <entry>Target</entry>
 </row>
 </thead>
 <tbody>
 
 <row>
-  <entry>Introduction. Explaination of the motivation for the book, descriptions of the topics covered by the book, definition of assumed knowledge, license for the book content and sample code.</entry>
+  <entry>Introduction. Explanation of the motivation for the book, descriptions of the topics covered by the book, definition of assumed knowledge, license for the book content and sample code.</entry>
   <entry>11</entry>
   <entry>13</entry>
 </row>
 
 <row>
-  <entry>Concepts. Introduction to fundamental imaging concepts which need to be explained before further discussion of imaging can occur. For example: anti-aliasing, encryption, grayscale conversion, pixels, rasters, palettes, samples per pixel, bits per sample, et cetera.</entry>
+  <entry>Concepts. Introduction to fundamental imaging concepts which need to be explained before further discussion of imaging can occur. For example: anti-aliasing, encryption, gray scale conversion, pixels, rasters, palettes, samples per pixel, bits per sample, et cetera.</entry>
   <entry>20</entry>
   <entry>40</entry>
 </row>
 
 <row>
-  <entry>TIFF. A discussion of the TIFF file format, including dicussion of the pros and cons of the implementation descisions made by the TIFF standards committee, use of libtiff including examples. This chapter currently includes 70 pages of libtiff man pages, which I now believe should be removed from the manuscript. This chapter is the most complete in the sample book associated with this proposal, although it does still need work.</entry>
+  <entry>TIFF. A discussion of the TIFF file format, including discussion of the pros and cons of the implementation decisions made by the TIFF standards committee, use of libtiff including examples. This chapter currently includes 70 pages of libtiff man pages, which I now believe should be removed from the manuscript. This chapter is the most complete in the sample book associated with this proposal, although it does still need work.</entry>
   <entry>110</entry>
   <entry>80</entry>
 </row>
@@ -109,81 +93,81 @@ I see the outline of the proposed book being along the lines of the following ch
 </row>
 
 <row>
-  <entry>PNG. Comparison the PNG file format with GIF, the advantages of PNG over GIF, and discussion of how PNG is technically superior to GIF. An extensive discussion of how to use the libpng API, which comparisions with the libtiff examples from the TIFF chapter where appropriate. This chapter currently includes libpng documentation, which will be removed and replaced by a better discussion of the API and more examples.</entry>
+  <entry>PNG. Comparison the PNG file format with GIF, the advantages of PNG over GIF, and discussion of how PNG is technically superior to GIF. An extensive discussion of how to use the libpng API, which comparisons with the libtiff examples from the TIFF chapter where appropriate. This chapter currently includes libpng documentation, which will be removed and replaced by a better discussion of the API and more examples.</entry>
   <entry>70</entry>
   <entry>80</entry>
 </row>
 
 <row>
-  <entry>JPEG. There is currently no JPEG chapter in the sample book. This chapter will discuss the JPEG format, and show examples of how to use the libjpeg API. This will include comaparison of the API with the previously discussed libtiff TIFF API, and the libpng PNG API.</entry>
+  <entry>JPEG. There is currently no JPEG chapter in the sample book. This chapter will discuss the JPEG format, and show examples of how to use the libjpeg API. This will include comparison of the API with the previously discussed libtiff TIFF API, and the libpng PNG API.</entry>
   <entry>0</entry>
   <entry>80</entry>
 </row>
 
 <row>
-  <entry>SVG. </entry>
+  <entry>SVG. Introduction of non raster image formats, and a discussion of how SVG is an increasingly common vector graphics format. Discussion of the SVG specification and comparison with the various raster formats previously discussed. Samples of SVG files.</entry>
   <entry>0</entry>
   <entry>80</entry>
 </row>
 
 <row>
-  <entry>PDF. </entry>
-  <entry></entry>
-  <entry></entry>
+  <entry>PDF. Discussion of the PDF file format and the various versions of the specification (with attention to the different levels of functionality offered by each of these). Discussion of the fact that PDF is a hybrid raster / vector format. Examples of how to use Panda, my open source PDF generation API, and limited comparison with other PDF generation APIs. This chapter will also discuss the lexical parsing requirements of PDF. This chapter currently includes documentation for many of the Panda  function calls, and these will be rationalized and reorganized.</entry>
+  <entry>90</entry>
+  <entry>150</entry>
 </row>
 
 <row>
-  <entry>ImageMagick. </entry>
+  <entry>ImageMagick. A relatively short chapter describing the ImageMagick suite of image conversion and manipulation utilities. This chapter will include example uses of the tools.</entry>
   <entry>0</entry>
   <entry>20</entry>
 </row>
 
 <row>
-  <entry>aalib. </entry>
+  <entry>aalib. A short chapter describing aalib, a library which renders raster graphics into ASCII art, including examples.</entry>
   <entry>0</entry>
   <entry>10</entry>
 </row>
 
 <row>
-  <entry>imlib. </entry>
-  <entry></entry>
-  <entry></entry>
+  <entry>SVGAlib. A short chapter discussing the most important functionality offered by SVGAlib, a library for drawing graphics without using X Windows.</entry>
+  <entry>0</entry>
+  <entry>40</entry>
 </row>
 
 <row>
-  <entry>SVGAlib. </entry>
-  <entry></entry>
-  <entry></entry>
+  <entry>Freetype. This chapter will discuss the Freetype TrueType rasterization API. It will include a limited discussion of theory, and include examples of how to use Freetype and integrate it with the raster imaging APIs discussed in the book.</entry>
+  <entry>0</entry>
+  <entry>40</entry>
 </row>
 
 <row>
-  <entry>Freetype. </entry>
-  <entry></entry>
-  <entry></entry>
+  <entry>Compression. This chapter will discuss the various compression options offered by the raster formats in the book. This will enabled readers to make informed choices about what image format is appropriate for their needs. This will not be a mathematically comprehensive discussion however.</entry>
+  <entry>0</entry>
+  <entry>20</entry>
 </row>
 
 <row>
-  <entry>Compression. </entry>
-  <entry></entry>
-  <entry></entry>
+  <entry>Conclusion. A summary of the information presented in the book.</entry>
+  <entry>1</entry>
+  <entry>5</entry>
 </row>
 
 <row>
-  <entry>Conclusion. </entry>
-  <entry></entry>
-  <entry></entry>
+  <entry>Appendix: Selecting an appropriate image format. In conjunction with the compression chapter, this appendix will enable readers to be able to select the most appropriate imaging format for their needs. This appendix will be in the form of a checklist, or flowchart.</entry>
+  <entry>0</entry>
+  <entry>10</entry>
 </row>
 
 <row>
-  <entry>Appendix: Selecting an appropriate image format. </entry>
-  <entry></entry>
-  <entry></entry>
+  <entry>Index</entry>
+  <entry>0</entry>
+  <entry>Unknown</entry>
 </row>
 
 <row>
   <entry><emphasis>Totals</emphasis></entry>
-  <entry></entry>
-  <entry></entry>
+  <entry>323</entry>
+  <entry>Approx 708</entry>
 </row>
 
 </tbody>
@@ -191,64 +175,145 @@ I see the outline of the proposed book being along the lines of the following ch
 </table>
 
 <para>
-It should be noted that all the APIs discussed in the book are covered by open source licensing of some form.
+It should be noted that all the APIs discussed in the book are covered by open source licensing of some form, and that all of these APIs are usable on win32 platforms as well as various unices including Linux.
 </para>
 
-
-Make your outline as detailed as possible. Until we can envision your book in exceedingly concrete terms, we cannot know whether to sign up for it. The outline should include:
-
-    * A statement of purpose for each chapter.
-
-    * A fine-grained breakdown of the contents of each chapter (but see below).
-
-    * An explanation of the rationale for the overall organization of the book.
-
-    * An indication of what use you will make of illustrations.
-
-    * Any special considerations that apply--unusual format, use of color, hard-to-get illustrations, or anything else calling for unusual resources.
-
-    * An estimated page count for the book.
-
-The outline need not consist of bulleted lists. In fact, we prefer a "talking" outline. This is a chapter-by-chapter summary, in paragraph form, explaining what each chapter will cover, and why. Such a paragraph may be followed by lists to show the structure of the chapter, but the talking part is most important.
-
-Here's an example of one chapter's outline in the original proposal for our sendmail book.
-Chapter 1 Introduction
-
-A history of: the sendmail program; the Simple Mail Transfer Protocol, SMTP; the Network Information Center, NIC, and Domain Naming Services, DNS; other contributions like dig, and nslookup. Also a discussion of the strengths, weaknesses and alternatives to each.
-
-Next, a discussion of what the RFCs are and how they define and influence these programs. Instructions for how to get those RFCs will also be provided.
-
-Finally an explanation of:
-
-    * Why all the information will be based on sendmail version 5.65 and bind.8.4 [Or more current versions if they appear during the writing].
-
-    * Where to get that software if you don't already have it. How to compile it on your system.
-
-    * The importance of having the source handy if you are to easily understand their inner workings.
-
-    * What the IDA and Rutgers enhancements are and how they will also be covered.
-
-    * The importance of trying the examples in the book. It is far easier to learn by doing.
-
-In this case, the author didn't even use full paragraphs, but a telegraphic style relying on sentence fragments. Nonetheless, one gets the feeling of a running commentary on the content and flow of the chapter.
-
-Be sure to provide us with an estimate of the size of the book. We aren't wedded to any number you provide, but it will help us to evaluate whether your treatment will be appropriately detailed, and whether your schedule is realistic. It will also help us to estimate the price of the book (and thus calculate the size of the advance we're willing to offer).
+<sect2><title>Rationale for the organization of the book</title>
+<para>
+The book starts by introducing concepts which will need to be understood for the remainder of the book to make sense. It then moves on to discuss various image formats, starting with possibly the most common commercial image format, TIFF, and then comparing that format with it's various competitors. It then wraps up by providing assistance in selecting a format for your application.
 </para>
+</sect2>
+
+<sect2><title>Use of illustrations</title>
+<para>
+Illustrations will be frequently used.
+</para>
+</sect2>
+
+<sect2><title>Use of color in illustrations</title>
+<para>
+A facility for a series color plates grouped somewhere within the book would be preferred, but this is not absolutely essential.
+</para>
+</sect2>
 </sect1>
 
 <sect1><title>Schedule</title>
 <para>
-Some authors like to start at the beginning of their outline and work steadily, chapter by chapter, to the end. Others jump around, developing several chapters simultaneously, perhaps moving material back and forth between them, and iteratively improving them until they are ready to submit. We are flexible when it comes to different approaches to writing. However, we are going to want some evidence that you have thought through the actual process of putting your words down on paper.
+I intend to develop one chapter of the book at a time. This is the way the sample book was developed, and I have found that this has worked well.
+</para>
 
-Be realistic in your planning. In particular, you shouldn't plan to submit a complete draft, but rather, to send the book, chapter by chapter (or block by block, if you work in larger or smaller units than chapters) to your editor. This will allow the editor to make helpful comments as you go, and will save everyone a lot of work later on. (We'll return to this subject in Chapter 4.)
+<para>
+In the process of determining the schedule for the development of the book, I have determined the rate at which I write in the following way:
 
-Ideally, your proposal should include a chapter-by-chapter schedule for the submission of first drafts. In arriving at dates for later chapters, you should reckon with the need to assimilate editorial comments on earlier chapters. Allow time for specifying and creating at least rough sketches of your illustrations--these will need to be there for both the editorial and technical reviewers. And do not forget the time-consuming task of preparing a useful and comprehensive index.
+<orderedlist>
+<listitem><para>I determined the average number of words per page for the sample book: 59,900 / 323 = 185 words per page (not including source code)
+  <footnote><para>This relatively low word count is partially caused by the large number of illustrations and example source code in the sample book. This figure will also therefore cover time generating illustrations and example source code.</para></footnote>
+</para></listitem>
+<listitem><para>The TIFF articles for IBM DeveloperWorks were 5,790 words, and took two weeks to develop. Therefore I was writing at the rate of 412 words a day</para></listitem>
+</orderedlist>
+</para>
 
-Be sure to factor in the effects of such things as vacation time and competing demands of other work. Very often the success of a book depends, in substantial part, upon the timing of its publication. If your schedule is not accurate, we lose control of this crucial element. Plan on giving us prompt notification of changes in your schedule as you work on the book.
+<para>
+My proposed schedule is therefore as follows
+  <footnote><para>I have inserted times here as days, as opposed to calendar dates, as I am not aware of when the proposal will be approved.</para></footnote>:
+</para>
 
-The schedule culminates in a completed first draft. If you've submitted chapters religiously to your editor, and incorporated his or her comments, your book should by now be substantially complete. Nonetheless, there is a wild card: it is at this point that we will submit your book for technical review by a collection of your peers (as well as by other editors on the ORA staff). If you've done a good job, technical review comments might be incorporated in only a few weeks. But it is equally likely that reviewers might point out major topics that have been left out, or errors in approach that might require more major rewriting.
+<table frame='all'><title>Proposed schedule</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<thead>
+<row>
+  <entry>Chapter (in proposed development order)</entry>
+  <entry>Days</entry>
+</row>
+</thead>
+<tbody>
 
-For purposes of establishing the delivery date in the contract (see Chapter 3), you should allow a month from the time you submit the completed first draft for technical review, and another month to six weeks to incorporate the review comments. The final date in your schedule is the turnover of your manuscript for production. Typically, we allow one month for final production (copyediting, setting page breaks, making sure that conventions are followed consistently, and producing camera-ready copy) and one month for printing.
+<row>
+  <entry>TIFF. 40 new pages</entry>
+  <entry>40 * 185 / 412 = 17 days</entry>
+</row>
+
+<row>
+  <entry>GIF. 34 new pages</entry>
+  <entry>34 * 185 / 412 = 15 days</entry>
+</row>
+
+<row>
+  <entry>PNG. 56 new pages</entry>
+  <entry>56 * 185 / 412 = 25 days</entry>
+</row>
+
+<row>
+  <entry>JPEG. 80 new pages</entry>
+  <entry>80 * 185 / 412 = 35 days</entry>
+</row>
+
+<row>
+  <entry>SVG. 80 new pages</entry>
+  <entry>80 * 185 / 412 = 35 days</entry>
+</row>
+
+<row>
+  <entry>PDF. 60 new pages</entry>
+  <entry>60 * 185 / 412 = 26 days</entry>
+</row>
+
+<row>
+  <entry>ImageMagick. 20 new pages</entry>
+  <entry>20 * 185 / 412 = 8 days</entry>
+</row>
+
+<row>
+  <entry>aalib. 10 new pages</entry>
+  <entry>10 * 185 / 412 = 4 days</entry>
+</row>
+
+<row>
+  <entry>SVGAlib. 40 new pages</entry>
+  <entry>40 * 185 / 412 = 17 days</entry>
+</row>
+
+<row>
+  <entry>Freetype. 40 new pages</entry>
+  <entry>40 * 185 / 412 = 17 days</entry>
+</row>
+
+<row>
+  <entry>Compression. 20 new pages</entry>
+  <entry>20 * 185 / 412 = 8 days</entry>
+</row>
+
+<row>
+  <entry>Introduction. 2 new pages</entry>
+  <entry>2 * 185 / 412 = 1 day</entry>
+</row>
+
+<row>
+  <entry>Concepts. 20 new pages</entry>
+  <entry>20 * 185 / 412 = 8 days</entry>
+</row>
+
+<row>
+  <entry>Conclusion. 4 new pages</entry>
+  <entry>4 * 185 / 412 = 2 days</entry>
+</row>
+
+<row>
+  <entry>Appendix. 10 new pages</entry>
+  <entry>10 * 185 / 412 = 4 days</entry>
+</row>
+
+<row>
+  <entry><emphasis>Total</emphasis></entry>
+  <entry>222 days</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+
+<para>
+Note that this estimate does not include time for reworking the manuscript following editorial comments.
 </para>
 </sect1>
 
@@ -260,13 +325,13 @@ A large portion of this book (approximately 30 percent) has already been develop
 
 <sect1><title>The format of the manuscript</title>
 <para>
-The current draft of the book has been developed using the DocBook SGML DTD (version 4.1). It is my intention that this use of DocBook would continue through the lifecycle of the book. It should be noted that portions of the DocBook representation of the book is generated by a series of scripts written by myself. These scripts are publically available from my website at http://www.stillhq.com.
+The current draft of the book has been developed using the DocBook SGML DTD (version 4.1). It is my intention that this use of DocBook would continue through the life cycle of the book. It should be noted that portions of the DocBook representation of the book is generated by a series of scripts written by myself. These scripts are publically available from my website at http://www.stillhq.com.
 </para>
 </sect1>
 
 <sect1><title>Who Am I?</title>
 <para>
-I have been an application developer for about four years now. Prior to that I administered networks of Unix and Windows machines in a variety of academic and government environments. For the majority of that time I have been working on developing image processing systems, some of which have had hundres of users. I am also the author of a variety of open source applications and libraries, including a PDF generation API. I have also supplied patches to a variety of other open source applications. I am also the maintainer of the comp.text.pdf USENET FAQ.
+I have been an application developer for about four years now. Prior to that I administered networks of Unix and Windows machines in a variety of academic and government environments. For the majority of that time I have been working on developing image processing systems, some of which have had hundreds of users. I am also the author of a variety of open source applications and libraries, including a PDF generation API. I have also supplied patches to a variety of other open source applications. I am also the maintainer of the comp.text.pdf USENET FAQ.
 </para>
 
 <para>
