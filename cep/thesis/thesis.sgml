@@ -9,8 +9,11 @@
 <execute><cmd>builddb</cmd><input>acknowledgments.sgml</input></execute>
 </preface>
 
-<chapter id="ch01"><title> Theory </title>
+<chapter id="ch01"><title> Introduction </title>
   <execute><cmd>builddb</cmd><input>theory_intro.sgml</input></execute>
+</chapter>
+
+<chapter id="ch02"><title> Theory </title>
   <execute><cmd>builddb</cmd><input>theory_TDA.sgml</input></execute>
   <execute><cmd>builddb</cmd><input>theory_Interp.sgml</input></execute>
   <execute><cmd>builddb</cmd><input>theory_Window.sgml</input></execute>
@@ -18,7 +21,7 @@
   <execute><cmd>builddb</cmd><input>theory_UI.sgml</input></execute>
 </chapter>
 
-<chapter id="ch02"><title>Implementation</title>
+<chapter id="ch03"><title>Implementation</title>
 
   <execute><cmd>builddb</cmd><input>imp_design.sgml</input></execute>
   <execute><cmd>builddb</cmd><input>imp_proto.sgml</input></execute>
@@ -34,16 +37,16 @@
 
 </chapter>
 
-<chapter id="ch03"><title>Testing</title>
+<chapter id="ch04"><title>Testing</title>
   <execute><cmd>builddb</cmd><input>imp_Testing.sgml</input></execute>
 </chapter>
 
-<chapter id="ch04"><title>Documentation</title>
+<chapter id="ch05"><title>Documentation</title>
 <execute><cmd>builddb</cmd><input>docco.sgml</input></execute>
 </chapter>
 
 
-<chapter id="ch05"><title>Conclusion</title>
+<chapter id="ch06"><title>Conclusion</title>
   <execute><cmd>builddb</cmd><input>conclusion.sgml</input></execute>
 </chapter>
 

@@ -5,7 +5,7 @@ Time series analysis of discrete signals is not a new concept. Texts on this top
 not, however, until  the digital computer appeared that the momentum of this field increased dramatically. The FORTRAN programming
 language enabled complex mathematics to be written on a computer. Many routines and texts appeared around
 this time, with the focus applications being in the areas of oil and space exploration. Further significant texts emerged from
-Australia in the sixties and seventies on Fourier analysis of time series and its applications.
+Australia in the nineteen sixties and seventies on Fourier analysis of time series and its applications.
 </para>
 
 <para>
@@ -69,23 +69,23 @@ does not correctly fit a particular model and is therefore weighted out of the s
 
 <para>
   Consequently, the final year project developed by Daniel Fernandez, Michael Still, Blake Swadling, Kristy Van Der Vlist and Nick
-  Wheatstone know as The Geodetic Data Modelling System (<command>GDMS</command>) was created for the specific purpose of remedying
+  Wheatstone known as The Geodetic Data Modelling System (<command>GDMS</command>) was created for the specific purpose of remedying
   the short falls of the existing geodetic data analysis applications. This system aims to provide and expand upon the features
-  included in both TSVIEW and CVIEW. The GDMS  provides time domain analysis in the form of Linear Least Squares Regression
+  included in both TSVIEW and CVIEW. The <command>GDMS</command>  provides time domain analysis in the form of Linear Least Squares Regression
   modelling. In addition, several interpolation and Gaussian filter (windowing) algorithms have been
   implemented, thereby allowing the data to be transformed into the frequency domain for analysis with such tools as Fast Fourier
-  Transforms (FFT) and Power Spectral Density Plots (PSD). By allowing analysis in both the time and frequency domains the GDMS
-  give the user greater flexibility in determine the general data trend as well as detect and remove any erroneous data points that 
-  may appear in the given data set. It also provides an intuitive user interface capable of, amongst other things graphing, 
-  spanning and multiple display windows.
+  Transforms (FFT) and Power Spectral Density Plots (PSD). By allowing analysis in both the time and frequency domains the <command>GDMS</command>
+  gives the user greater flexibility in determining the general data trend as well as detect and remove any erroneous data points that
+  may appear in the given data set. It also provides an intuitive user interface capable of, among other things graphing,
+  spanning and display multiple windows.
 </para>
 
 <para>
   This thesis aims to provide a comprehensive insight in the theory behind the processing techniques
   that have been employed in the <command>GDMS</command>. Where appropriate alternative theories and algorithms are presented and 
-  compared. The design methodology used in the implementation is discussed, along with the the prototype, and 
+  compared. The design methodology used in the implementation is discussed, along with the the prototype and
   each specific algorithms with reasons for why they were chosen. Issues that arose throughout this process are also highlighted,
-  range from design changes during the project, to difficulties with the implementation of various algorithms. 
+  ranging from design changes during the project, to difficulties with the implementation of various algorithms.
   In each section, we examine the potential improvements and enhancements that could be made to the
   various modules. A background on the testing approach is provided. As projects increase in size, standardised testing 
   procedures becomes paramount. Here we detail the approach used for the testing of the various modules of the project. The thesis 
