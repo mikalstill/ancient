@@ -55,21 +55,21 @@ Enter a brief summary of the article. Do not include any line breaks in the cont
 
 <!-- INTRODUCTORY PARAGRAPHS
 Every paragraph needs a <p> and </p>. -->
-<p>In previous articles, we've discussed imaging coding using libtiff. This article has a different focus, it discusses how to perform image manipulation using command line tools. This is something I do personally quite often, especially since I have picked up a couple of digital cameras, and now have to manage a library of several thousand happy snaps.</p>
+<p>In previous articles, we've discussed imaging coding using libtiff. This article has a different focus, it discusses how to perform image manipulation using command line tools. This is something I do personally quite often, especially since I have picked up a couple of digital cameras, and now have to manage a library of several thousand happy snaps. It's an especially attractive option when you only want to perform a manipulation once or twice, and don't mind if it takes a little longer than it absolutely has to.</p>
 
 <p>This article takes the form of discussing specific problems as examples, but the concepts should be applicable to other problem spaces as well.</p>
 
 <p>It should be noted that there are many ways to do the things discussed in this article. I will only discuss the methods I use, and know work for me. That doesn't mean the other tools out there are broken, it just means that I'm happy with what I am using now.</p>
 
 <todo>
-<p>Most of the command line tools discussed in this article are part of the excellent imagemagick suite, which is available from xxx.</p>
+<p>Most of the command line tools discussed in this article are part of the excellent imagemagick suite, which is available from www.imagemagick.org for free.</p>
 
 <heading refname="" type="major" toc="yes" name="" alttoc="">Generating thumbnails</heading>
-<p>The first thing I needed to do with my picture collection was to generate thumbnails. I also wanted to reduce the size of the images for the website version, as many people don't really want to see a 1024 by 768 picture of my sons.</p>
+<p>The first thing I needed to do with my picture collection was to generate thumbnails. I also wanted to reduce the size of the images for the website version, as many people don't really want to see a 1920 by 1440 picture of my sons.</p>
 
-<p>The tool I use to do this is called <i>convert</i>, which is part of the imagemagick suite. <i>Convert</i> is really cool. It doesn't just do image resizing. It also antialiases, average a set of images, blur, converts between image formats, crop, despeckel, dither, draw borders, flip, join, resample, resize, and much more. Checkout the man page for more information on it's various command line options.</p>
+<p>The tool I use to do this is called <i>convert</i>, which is part of the imagemagick suite. <i>Convert</i> is really cool. It doesn't just do image resizing. It also antialiases, averages a set of images, blurs, converts between image formats, crops, despeckles, dithers, draw borderss, flips, joins, resamples, resizes, and much more. Checkout the man page for more information on it's various command line options. Many of the more visually interesting effects offered by <i>convert</i> are also discussed later in this article.</p>
 
-<p>For example, let's assume I want to make a thumbnail of this rather nice image of a rose:</p>
+<p>Let's assume I want to make a thumbnail of this rather nice image of a rose:</p>
 
 <figure>	
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 1. A picture of a rose</heading>
@@ -104,6 +104,20 @@ convert -sample 25%x25% input.jpg output.jpg
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure 3. A second attempt at a thumbnail</heading>
 <img src="convert-sample-25pct.jpg" width="160" height="120" alt="A thumbnail of a rose"/>
 </figure>
+
+<p>This can be used on the command line to generate thumbnails for images within a directory. Whilst this article isn't about shell scripting, I'll quickly show you an example of how to generate a thumbnail of each JPEG in the current directory.</p>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing xxx. Thumbnailing all the JPEGs in the current directory</heading>
+<code type="section">
+for img in `ls *.jpg`
+do
+  convert -sample 25%x25% $img thumb-$img
+done
+</code>
+
+<p>This will produce a series of thumbnails 25% the size of the real image, with a filename which is the name of the JPEG file with a <i>thumb-</i> prepended.</p>
+
+
 
 
 
@@ -210,7 +224,7 @@ deathstar:/home/mikal# identify -format "%wx%h" sample.png
 
 <heading refname="" type="major" toc="yes" name="" alttoc="">Rotating images</heading>
 
-<p>A commonly needed image manipulation is the rotation of images. For example, many of the photos I take with my digital cameras are rotated ninety degrees, as they are taken as portrait pictures. My camera doesn't rotate these for me, so I have a script which does it for me once I have downloaded the images from the camera.<p>
+<p>Another commonly needed image manipulation is the rotation of images. For example, many of the photos I take with my digital cameras are rotated ninety degrees, as they are taken as portrait pictures. My camera doesn't rotate these for me, so I have a script which does it for me once I have downloaded the images from the camera.<p>
 
 <p>For example, this is a photo taken on a trip I made to Port Arthur in Tasmania recently:</p>
 
@@ -244,6 +258,19 @@ convert -rotate 90 input.jpg output.jpg
 
 <p>The <i>convert</i> imagemagick command is also capable of converting the formation of the image files. This includes converting between image formats, such as converting a JPEG image to PNG, but it also includes converting from color to grayscale, dithering, and similar operations.</p>
 
+<p><i>convert</i> knows what image format the input and output are based on the file extensions given on the command line. Therefore, to convert a JPEG to a PNG, use a command line like the following:</p>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing xxx. Changing the format of an image</heading>
+<code type="section">
+convert input.jpg output.png
+</code>
+
+<p>Imagemagick supports 89 image formats at the time of writing this article. Checkout the imagemagick website for more information.</p>
+
+
+
+
+
 
 
 
@@ -251,8 +278,47 @@ convert -rotate 90 input.jpg output.jpg
 
 <heading refname="" type="major" toc="yes" name="" alttoc="">Adding textual annotations to an image</heading>
 
-<todo>
-<p>Say something</p>
+<p>Sometimes you need to add textual annotations to an image. For example, imagine that your company had a standard business card image, and needed to put each employee's details onto the card before sending it to the printer. Another example generating presentation certificates for users of your website, for instance when they pass an online course.</p>
+
+<figure>	
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure xxx. A picture from Floriade 2003</heading>
+<img src="floriade.jpg" width="640" height="480" alt="Floriade 2002"/>
+</figure>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing xxx. Annotating the image</heading>
+<code type="section">
+convert -font helvetica -fill white -pointsize 36 \
+-draw 'text 10,50 "Floriade 2002, Canberra, Australia"' \
+floriade.jpg comment.jpg
+</code>
+
+<figure>	
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure xxx. An annotated picture from Floriade 2002</heading>
+<img src="comment.jpg" width="640" height="480" alt="Floriade 2002 after annotation"/>
+</figure>
+
+<p>This is by far the most complex <i>convert</i> commmand line we have seen so far in the article, so I will take some time to explain it bit by bit.</p>
+
+<p><i>-font helvetica</i>: sets the font for the annotation to helvetica. It is possible here to specify a path to a font file as well. For example, this example badges the image so it can't be reused by other websites without permission, but does so using a font which is in a non-standard location...</p>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing xxx. Annotating the image</heading>
+<code type="section">
+convert -font fonts/1900805.ttf -fill white -pointsize 36 \
+-draw 'text 10,475 "stillhq.com"' \
+floriade.jpg stillhq.jpg
+</code>
+
+<figure>	
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure xxx. An image which has been badged to stop unauthorized use</heading>
+<img src="stillhq.jpg" width="640" height="480" alt="Floriade after badging"/>
+</figure>
+
+
+
+
+
+
+
 
 
 
@@ -301,7 +367,7 @@ convert -charcoal 10 input.jpg output.jpg
 
 <todo>
 <p>Charcoal intense.</p>
-
+<p>200</p>
 
 
 
@@ -376,6 +442,12 @@ convert -spread 5 input.jpg output.jpg
 <heading refname="" type="figure" toc="no" name="" alttoc="">Figure xxx. Uluru at sunset after spreading</heading>
 <img src="spread.jpg" width="640" height="480" alt="Uluru after a spreading effect"/>
 </figure>
+
+
+
+
+
+
 
 
 
