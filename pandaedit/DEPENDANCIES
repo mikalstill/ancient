@@ -2,3 +2,5 @@ PandaLex: For parsing input PDF documents
 mplot: For rendering pages
 png: For converting those renders into bitmaps
 truetype: for font support
+wxWindows: for the ui
+libtiffL for TIFF decompression

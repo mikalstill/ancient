@@ -8,9 +8,14 @@
 #include <stack>
 
 #include <pandalex.h>
+#include "objectmodel.h"
 
 #ifndef PANDAEDIT_H
 #define PANDAEDIT_H
+
+typedef void (*progressCallback) (void);
+
+bool pandaedit(char *filename, pdf *aPDF, const progressCallback progress);
 
 // Parsing interface
 void pandaedit_begindocument(int, va_list);

@@ -6,6 +6,7 @@ extern pdf *thePDF;
 extern object *currentObject;
 extern stack<dictionary> currentDictionary;
 extern stack<string> currentDictionaryName;
+extern progressCallback gProgress;
 
 void pandaedit_begindocument(int event, va_list argptr){
   thePDF = new pdf(va_arg(argptr, char *));
@@ -35,6 +36,9 @@ void pandaedit_objstart(int event, va_list argptr){
   dictionary temp;
   currentDictionary.push(temp);
   currentDictionaryName.push("TOP");
+
+  if(gProgress != NULL)
+    gProgress();
 }
 
 // Now that we have finished the object, push it into the PDF

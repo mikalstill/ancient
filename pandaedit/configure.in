@@ -1,9 +1,26 @@
+dnl  Configuration options for the application
+dnl     Copyright (C) Michael Still 2002
+dnl     Copyright (C) Blake Swadling 2002
+dnl     Copyright (C) Daniel Fernandez 2002
+dnl     
+dnl  This program is free software; you can redistribute it and/or modify it
+dnl  under the terms of the GNU General Public License as published by the Free
+dnl  Software Foundation; either version 2 of the License, or (at your option)
+dnl  any later version.
+dnl   
+dnl  This program is distributed in the hope that it will be useful, but WITHOUT 
+dnl  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+dnl  FITNESS FOR A PARTICULAR PURPOSE.dnl    See the GNU General Public License for
+dnl  more details.
+dnl   
+dnl  You should have received a copy of the GNU General Public License along
+dnl  with this program; if not, write to the Free Software Foundation, Inc., 675 
+dnl  Mass Ave, Cambridge, MA 02139, USA.
+
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT(pandaedit.cpp)
+AC_INIT(genError.cpp)
 AC_CONFIG_AUX_DIR(config)
-AM_CONFIG_HEADER(config.h)
-AC_REVISION
-AM_INIT_AUTOMAKE(pandaedit, 0.1)
+AM_INIT_AUTOMAKE(genapp, 0.1)
 AM_MAINTAINER_MODE
 
 dnl Checks for programs.
@@ -15,38 +32,50 @@ dnl The syntax is library name, function, action if found, action if not found
 dnl We just use the default if found action which adds -l<lib> to the LIBS var
 dnl and #defined HAVE_LIB<lib>
 
-
 dnl -lm:
 AC_CHECK_LIB(m, atan)
 
-dnl -lpandalex:
-AC_CHECK_LIB(pandalex, pandalex_parse)
-
-dnl -lfl:
-AC_CHECK_LIB(fl, yywrap)
+dnl -lpthread
+AC_CHECK_LIB(pthread, pthread_mutex_unlock)
 
 dnl -lmplot
 AC_CHECK_LIB(mplot, plot_newplot)
 
-dnl -ltiff:
-AC_CHECK_LIB(tiff, TIFFOpen, CFLAGS="$CFLAGS -DHAVE_LIBTIFF"  LDFLAGS="$LDFLAGS -ltiff")
+dnl -lpandalex
+AC_CHECK_LIB(pandalex, pandalex_init)
+
+dnl -lXi
+AC_CHECK_LIB(Xi, XAllowDeviceEvents)
+
+dnl -lXext
+AC_CHECK_LIB(Xext, XGetVisualInfo)
+
+dnl -lX11
+AC_CHECK_LIB(X11, XFreeFontInfo)
+
+dnl -lwx 
+dnl This must seek a global. mangled names will no do at all
+dnl AC_CHECK_LIB(wx_gtk-2.2, OnIdle__12wxHtmlWindowR11wxIdleEvent, [], [
+AC_CHECK_LIB(wx_gtk-2.2, wxTheApp, [], [
+  echo
+  echo "    *****************************************"
+  echo "    *                                       *"
+  echo "    *   libwx_gtk-2.2 not found, aborting   *"
+  echo "    *                                       *"
+  echo "    *****************************************"
+  echo
+  exit 1
+  ])
 
 dnl Checks for header files.
 dnl STDC checks for stdlib.h stdarg.h string.h and float.h
 AC_HEADER_STDC
-AC_CHECK_HEADERS(stdio.h)
-AC_CHECK_HEADERS(tiffio.h)
-
-dnl Headers for libraries
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 
-dnl Checks for library functions.
-AC_FUNC_VPRINTF
+dnl Tell wx that it is using GTK, and not to load the UI automatically
+AC_DEFINE(__WXGTK__)
 
+AC_DEFINE(_GNU_SOURCE)
 
 AC_OUTPUT(Makefile)
-
-
-
-
