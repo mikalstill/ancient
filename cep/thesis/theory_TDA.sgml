@@ -136,13 +136,22 @@
       <execute><cmd>img</cmd><args>fTD-equskew.bmp</args></execute>
     </equation>
     
-    and/or affected by kurtosis where the forth moment is
+    <figure><title>Box Plot of a Skewed Data Set</title>
+        <execute><cmd>img</cmd><args>TD-boxskew.gif</args></execute>
+    </figure>
+
+    where <command>s</command> &ne; 0 and/or affected by kurtosis where the forth moment is
     
     <equation>
       <title>Kurtosis</title>
       <execute><cmd>img</cmd><args>fTD-equkur.bmp</args></execute>
     </equation>
     
+    <figure><title>Box Plot of a Data Set affected by Kurtosis</title>
+        <execute><cmd>img</cmd><args>TD-boxkur.gif</args></execute>
+    </figure>
+
+    for <command>k</command> &ne; 3,
     By applying this model, these anomalies will only be accentuated in the resulting linear regression model and either too many
     data points will be weighted less than zero (in the case of skewed data) or too few points will be weighted out (in the case of 
     data affected  by kurtosis). A far safer method of assigning a weighting matrix is to simply weight any data point greater 
