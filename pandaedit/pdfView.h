@@ -68,7 +68,7 @@ public:
   void OnAboutDocument (wxCommandEvent & event);
 
   tool getCurrentTool();
-  void appendCommand(string command);
+  void appendCommand(string command, string control, string select);
   
 
 private:

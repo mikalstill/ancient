@@ -97,7 +97,8 @@ private:
   void render_w ();
   void render_y ();
 
-  void appendCommand(string commandString);
+  void appendCommand(string commandString, string controlString,
+		     string selectString);
 
   enum rmMode
   {
@@ -117,7 +118,7 @@ private:
   plot_state *m_plot;
   unsigned int m_width, m_height;
 
-  string m_commandString;
+  string m_commandString, m_controlString, m_selectString;
 };
 
 #endif

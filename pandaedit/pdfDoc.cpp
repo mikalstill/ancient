@@ -232,16 +232,13 @@ pdfDoc::getPages()
 }
 
 void
-pdfDoc::appendCommand(int pageNum, string commandString)
+pdfDoc::appendCommand(int pageNum, string commandString, string controlString,
+		      string selectString)
 {
-  debug(dlTrace, "Appending the following command to a page of the PDF");
-  debug(dlTrace, "Start command");
-  debug(dlTrace, commandString);
-  debug(dlTrace, "End command");
   while(pageNum >= m_pages.size())
     appendPage();
 
-  m_pages[pageNum].appendCommand(commandString);
+  m_pages[pageNum].appendCommand(commandString, controlString, selectString);
 }
 
 void

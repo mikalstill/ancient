@@ -88,22 +88,35 @@ genCanvas::OnMouseEvent (wxMouseEvent & event)
       debug(dlTrace, "Tool instance ended, tool still selected");
       
       // TODO mikal: the 841 is a hard coded assumption that the page is a4
-      string commandString;
-      if(m_controlPoints.size() > 0)
-	commandString += "q\n";
+      string commandString(""), controlString(""), selectString("");
+
+      if(m_controlPoints.size() > 0){
+	// Start the line we are drawing
+	// TODO mikal: fixed line colour
+	commandString += "q\n0 255 0 RG\n";
 	commandString += toString(m_controlPoints[0].x) + string(" ") +
 	  toString(841 - m_controlPoints[0].y) + string(" m\n");
+
+	// Create a control point blob
+	controlString += controlBlob(m_controlPoints[0].x,
+				     m_controlPoints[0].y);
+      }
+
       for(unsigned int i = 1; i < m_controlPoints.size(); i++)
 	{
 	  commandString += toString(m_controlPoints[i].x) + string(" ") +
 	    toString(841 - m_controlPoints[i].y) + string(" l\n");
+
+	  controlString += controlBlob(m_controlPoints[i].x,
+				       m_controlPoints[i].y);
 	}
       if(m_controlPoints.size() > 0)
 	commandString += string("S\nQ\n\n");
 
       if(m_view)
 	{
-	  ((pdfView *) m_view)->appendCommand(commandString);
+	  ((pdfView *) m_view)->appendCommand(commandString, controlString,
+					      selectString);
 	  ((pdfView *) m_view)->setDirty();
 	  Refresh();
 	}
@@ -131,4 +144,20 @@ genCanvas::OnMouseEvent (wxMouseEvent & event)
 
       m_controlPoints.push_back(pt);
     }
+}
+
+#define CONTROLSIZE 2
+
+string
+genCanvas::controlBlob(unsigned int x, unsigned int y)
+{
+  // TODO mikal: fixed blob colour
+  string rc("q\n255 0 0 RG\n");
+  for(unsigned int yc = y - CONTROLSIZE; yc < y + CONTROLSIZE + 1; yc++)
+    rc += toString(x - CONTROLSIZE) + string(" ") + toString(841 - yc) + 
+      string(" m\n") +
+      toString(x + CONTROLSIZE) + string(" ") + toString(841 - yc) + 
+      string(" l\nS\n");
+  rc += "Q\n";
+  return rc;
 }

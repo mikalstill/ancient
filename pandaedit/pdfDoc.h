@@ -62,7 +62,7 @@ DECLARE_DYNAMIC_CLASS (pdfDoc)
   objectlist& getPages();
   unsigned int getPageCount();
   string getFilename();
-  void appendCommand(int page, string command);
+  void appendCommand(int page, string command, string control, string select);
   void appendPage();
 
   object& getPage(int pageno);

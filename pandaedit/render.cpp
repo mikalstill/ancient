@@ -111,7 +111,11 @@ pdfRender::processCommandString(char *commandString, unsigned int length,
   // todo_mikal: this might be too slow because of the accessor
   string line;
   unsigned int inset = 0;
+
   m_commandString = "";
+  m_controlString = "";
+  m_selectString = "";
+
   while (inset < length)
     {
       if ((commandString[inset] != '\n') && (commandString[inset] != '\r'))
@@ -145,8 +149,10 @@ pdfRender::processCommandString(char *commandString, unsigned int length,
   if(m_commandString != "")
     {
       debug(dlTrace, "Appending command fragment");
-      appendCommand(m_commandString);
+      appendCommand(m_commandString, m_controlString, m_selectString);
       m_commandString = "";
+      m_controlString = "";
+      m_selectString = "";
     }
 }
 
@@ -404,8 +410,12 @@ pdfRender::getPNGfile ()
   return tempName;
 }
 
+// TODO mikal: Do we really need these arguments here? There are all passed
+// member variables
 void
-pdfRender::appendCommand(string commandString)
+pdfRender::appendCommand(string commandString, string controlString,
+			 string selectString)
 {
-  m_doc->getPage(m_pageno).appendCommand(commandString);
+  m_doc->getPage(m_pageno).appendCommand(commandString, controlString,
+					 selectString);
 }

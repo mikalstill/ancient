@@ -30,6 +30,14 @@ typedef struct
 }
 objectreference;
 
+typedef struct
+{
+  string visible;
+  string control;
+  string select;
+}
+command;
+
 // Forward references
 class dictionary;
 class object;
@@ -134,7 +142,7 @@ public:
   char *getStream (raster & image, unsigned long &length);
   unsigned long getStreamLength ();
 
-  void appendCommand(string commandString);
+  void appendCommand(string visible, string control, string select);
   unsigned int getCommandCount();
   string getCommandStream();
   
@@ -150,7 +158,7 @@ private:
 
   char *m_stream;
   unsigned long m_streamLength;
-  vector<string> m_commands;
+  vector<command> m_commands;
   bool m_changed;
 
   dictionary m_dictionary;

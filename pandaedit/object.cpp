@@ -355,12 +355,14 @@ object::getStreamLength ()
 }
 
 void
-object::appendCommand(string commandString)
+object::appendCommand(string visible, string control, string select)
 {
-  debug(dlTrace, "Appending the following command to an object:");
-  debug(dlTrace, commandString);
-  debug(dlTrace, "End command");
-  m_commands.push_back(commandString);
+  command cmd;
+  cmd.visible = visible;
+  cmd.control = control;
+  cmd.select = select;
+
+  m_commands.push_back(cmd);
   m_changed = true;
 }
 
@@ -381,7 +383,8 @@ object::getCommandStream()
 	string(" command chain"));
   for(unsigned int i = 0; i < m_commands.size(); i++)
     {
-      rval += m_commands[i];
+      rval += m_commands[i].control;
+      rval += m_commands[i].visible;
     }
 
   debug(dlTrace, "Dumping finished");

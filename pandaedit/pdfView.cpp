@@ -366,7 +366,8 @@ pdfView::OnLineTool(wxCommandEvent&)
 }
 
 void
-pdfView::appendCommand(string commandString)
+pdfView::appendCommand(string commandString, string controlString,
+		       string selectString)
 {
   pdfDoc *theDoc = (pdfDoc *) GetDocument ();
   if(!theDoc->isReady()){
@@ -375,7 +376,7 @@ pdfView::appendCommand(string commandString)
     return;
   }
 
-  theDoc->appendCommand(m_page, commandString);
+  theDoc->appendCommand(m_page, commandString, controlString, selectString);
 }
 
 
