@@ -10,7 +10,7 @@ Description:- The cepMatrix object contains the matrix data,
  /* 
   * Imp for the matrix class
   * Copyright (C) Kristy Van Der Vlist             2002
-  * Copyright (C) Daniel Fernandez - minor changes to some type references
+  * 
   * This program is free software; you can redistribute it and/or modify it
   * under the terms of the GNU General Public License as published by the Free
   * Software Foundation; either version 2 of the License, or (at your option)
@@ -29,112 +29,172 @@ Description:- The cepMatrix object contains the matrix data,
 /******************************************************************************
 DOCBOOK START
 
-FUNCTION <!-- class name -->
-cepMatrix
+FUNCTION cepMatrix
 
 
-PURPOSE <!-- use cases -->
-Provides a matrix class template data container for all mathematical operations.
+PURPOSE Provides a matrix class template data container for all mathematical operations.
 The matrix object can either be 2D or 3D
 
 SYNOPSIS START
-<!-- how to instantiate one? -->
 The follwing example show how to create a cepMatrix.
 
 Declaring a NULL matrix:-
 cepMatrix<T> matrix()
 
 Declaring a 2D matrix:-
-cepMatrix<T> matrix(int numRows, int numCols)
+cepMatrix<T> matrix(int rows, int cols)
+
+<para><itemizedlist>
+  <listitem><para>rows:- the number of rows in the matrix</para></listitem>
+  <listitem><para>cols:- the number of colums in the matrix</para></listitem>
+</itemizedlist></para>
+
 
 Declaring a 3D matrix:-
-cepMatrix<T> matrix(int numRows, int numCols, int numTables)
+cepMatrix<T> matrix(int rows, int cols, int tabs)
+
+<para><itemizedlist>
+  <listitem><para>rows:- the number of rows in the matrix</para></listitem>
+  <listitem><para>cols:- the number of colums in the matrix</para></listitem>
+  <listitem><para>tabs:- the number of tables in the matrix</para></listitem>
+</itemizedlist></para>
 
 SYNOPSIS END
 
 DESCRIPTION START
-<!-- description goes here -->
-<para>An implementation of the <command>cepMatrix</command> template class
+An implementation of the <command>cepMatrix</command> template class
 data container.
 </para>
 
-<para> <!-- per function descriptions -->
+<para> 
 <command>const cepMatrix & operator+= (const cepMatrix &B)</command>
-calculates A+B where A is the current matrix object and B is another matrix
+Calculates A+B.
+This function can not be used with 3D matricies.
+<para><itemizedlist>
+  <listitem><para>B:- the matrix to be added to the current matrix object</para></listitem>
+</itemizedlist></para>
+
 </para>
 
-<para> <!-- per function descriptions -->
+<para> 
 <command>const cepMatrix & operator-= (const cepMatrix &B)</command>
-calculates A-B where A is the current matrix object and B is another matrix
+Calculates A-B.
+This function can not be used with 3D matricies.
+<para><itemizedlist>
+  <listitem><para>B:- the matrix to be subtracted to the current matrix object</para></listitem>
+</itemizedlist></para>
 </para>
 
-<para> <!-- per function descriptions -->
+<para> 
 <command>const cepMatrix & operator*= (const cepMatrix &B)</command>
-calculates A*B where A is the current matrix object and B is another matrix
+Calculates A*B.
+<para><itemizedlist>
+  <listitem><para>B:- the matrix to be multiplied with the current matrix object</para></listitem>
+</itemizedlist></para>
 </para>
 
-<para> <!-- per function descriptions -->
+<para> 
 <command>const cepMatrix & operator*= (const T &scalar)
-calculates c*A where A is the current matrix object and scalar is a scalar value
+Calculates c*A.
+This function can not be used with 3D matricies.
+<para><itemizedlist>
+  <listitem><para>c:- the scalar value that the current matrix object is to be multiplied by</para></listitem>
+</itemizedlist></para>
 </para>
 
-<para> <!-- per function descriptions -->
+<para> 
 <command>const cepMatrix & operator= (const cepMatrix &B)</command>
-copies A to B where A is the current matrix object and B is another matrix
+Sets A=B.
+<para><itemizedlist>
+  <listitem><para>B:- the matrix that the current matrix object is to be set to</para></listitem>
+</itemizedlist></para>
 </para>
 
-<para> <!-- per function descriptions -->
+<para> 
 <command>bool operator== (const cepMatrix &B)</command>
-compares A to B where A is the current matrix object and B is another matrix
-returns true if A and B are equal, else returns false
+Compares A to B and returns true if A is equal to B, otherwise false is returned.
+This function can not be used with 3D matricies.
+<para><itemizedlist>
+  <listitem><para>B:- the matrix to be compared to the current matrix object</para></listitem>
+</itemizedlist></para>
 </para>
 
-<para> <!-- per function descriptions -->
+<para> 
 <command>bool operator!= (const cepMatrix &B)</command>
-compares A to B where A is the current matrix object and B is another matrix
-returns true if A and B are equal, else returns false
+Compares A to B and returns true if A is not equal B, otherwise false is returned.
+This function can not be used with 3D matricies.
+<para><itemizedlist>
+  <listitem><para>B:- the matrix to be compared to the current matrix object</para></listitem>
+</itemizedlist></para>
+
 </para>
 
-<para> <!-- per function descriptions -->
+<para> 
 <command>bool isDiagonal ()</command>
-determies whether the A, the current matrix object is strictly Diagonal.
-returs true if A is diagonal, else returns false
+Determies whether this matrix object is a strictly Diagonal matrix.
+This fuction returns true if the matrix is diagonal, else false is returned.
+This function can not be used with 3D matricies.
 </para>
 
-<para> <!-- per function descriptions -->
+<para> 
 <command>const T& getValue (int row, int col) const</command>
-gets the value of the matrix at matrix[row,col]
+Returns the value of the matrix the specified point.
+This function can not be used with 3D matricies.
+<para><itemizedlist>
+  <listitem><para>row:- the row number of the value</para></listitem>
+  <listitem><para>col:- the colum number of the value</para></listitem>
+</itemizedlist></para>
 </para>
 
-<para> <!-- per function descriptions -->
+<para> 
 <command>void setValue (const int row, const int col, const T & value)</command>
-sets the value of the matrix at matrix[row,col] = value
+Sets the value of the matrix at the specified point
+This function can not be used with 3D matricies.
+<para><itemizedlist>
+  <listitem><para>row:- the row number where the value is to be inserted</para></listitem>
+  <listitem><para>col:- the colum number where the value is to be inserted</para></listitem>
+  <listitem><para>value:- the value of the given matrix point</para></listitem>
+</itemizedlist></para>
+
 </para>
 
-<para> <!-- per function descriptions -->
+<para> 
 <command>const int getNumRows () const</command>
-gets the number of rows in the matrix
+Gets the number of rows in the matrix.
 </para>
 
-<para> <!-- per function descriptions -->
+<para> 
 <command>const int getNumCols () const</command>
-gets the number of cols in the matrix
+Gets the number of colums in the matrix.
 </para>
 
-<para> <!-- per function descriptions -->
+<para> 
 <command>const T& getValue (int row, int col, int tab) const</command>
-gets the value of the matrix at matrix[row,col,inst]
+Gets the value of a 3D matrix at a specfied point
+This function can not be used with 2D matricies.
+<para><itemizedlist>
+  <listitem><para>row:- the row number of the value</para></listitem>
+  <listitem><para>col:- the colum number of the value</para></listitem>
+  <listitem><para>tab:- the table number of the value</para></listitem>
+</itemizedlist></para>
 </para>
 
-<para> <!-- per function descriptions -->
+<para> 
 <command>void setValue (const int row, const int col, const int tab, const T & value)</command>
-sets the value of the matrix at matrix[row,col,inst] = value
+Sets the value of the 3D matrix at the specified point.
+This function can not be used with 2D matricies.
+<para><itemizedlist>
+  <listitem><para>row:- the row number where the value is to be inserted</para></listitem>
+  <listitem><para>col:- the colum number where the value is to be inserted</para></listitem>
+  <listitem><para>tab:- the table number where the value is to be inserted</para></listitem>
+  <listitem><para>value:- the value of the given matrix point</para></listitem>
+</itemizedlist></para>
 </para>
 
-<para> <!-- per function descriptions -->
+<para> 
 <command>const int getNumTables() const</command>
-gets the number of tables in the matrix
-</para>
+Gets the number of tables in the matrix.
+This function can not be used with 2D matricies.
     
 DESCRIPTION END
 
@@ -160,7 +220,7 @@ public:
   cepMatrix ();
   cepMatrix (int rows, int cols);
   cepMatrix (int rows, int cols, int tab);
-  cepMatrix (const cepMatrix & copyMatrix);   // copy constructor
+  cepMatrix (const cepMatrix &B);   // copy constructor
 
    ~cepMatrix ();
 
@@ -221,24 +281,24 @@ public:
   const int getNumTables() const;
   
 private:
-  T *matrix;          //holds the matrix values 
-  T **tables;         //holds the values of a 3D matrix
-  int numRows,        //holds the number of rows in the matrix
-      numCols,        //holds the number of cols in the matrix
-      numTables;      //holds the number if instances of matricies
+  T *m_matrix;          //holds the matrix values 
+  T **m_tables;         //holds the values of a 3D matrix
+  int m_numRows,        //holds the number of rows in the matrix
+      m_numCols,        //holds the number of cols in the matrix
+      m_numTables;      //holds the number if instances of matricies
 };
 
 template <class T>
 cepMatrix<T>::cepMatrix ()
 {
   //initalize a default matrix
-  numRows = 0;
-  numCols = 0;
-  numTables = 0;
+  m_numRows = 0;
+  m_numCols = 0;
+  m_numTables = 0;
 
   //make both pointers NULL by default
-  matrix = NULL;
-  tables = NULL;
+  m_matrix = NULL;
+  m_tables = NULL;
 
 }
 
@@ -246,14 +306,14 @@ template <class T>
 cepMatrix<T>::cepMatrix (int rows, int cols)
 {
   //initalize a matrix
-  numRows = rows;
-  numCols = cols;
-  numTables = 1;
+  m_numRows = rows;
+  m_numCols = cols;
+  m_numTables = 1;
 
-  tables = NULL;     //set 3D matrix pointer NULL, using 2D matrix
-  matrix = new T[rows * cols];
+  m_tables = NULL;     //set 3D matrix pointer NULL, using 2D matrix
+  m_matrix = new T[rows * cols];
 
-  if (matrix == NULL)
+  if (m_matrix == NULL)
   {
     #ifdef debug
       cout << "Error! Could not allocate memory for Matrix" << endl;
@@ -269,13 +329,13 @@ template <class T>
 cepMatrix<T>::cepMatrix (int rows, int cols, int tab)
 {
   //initalize a matrix
-  numRows = rows;
-  numCols = cols;
-  numTables = tab;
+  m_numRows = rows;
+  m_numCols = cols;
+  m_numTables = tab;
 
-  matrix = NULL; //setting matrix NULL, using 3D matrix
-  tables = new T*[numTables];
-  if (tables == NULL)
+  m_matrix = NULL; //setting matrix NULL, using 3D matrix
+  m_tables = new T*[m_numTables];
+  if (m_tables == NULL)
   {
     #ifdef debug
       cout << "Error! Could not allocate memory for Matrix" << endl;
@@ -285,11 +345,11 @@ cepMatrix<T>::cepMatrix (int rows, int cols, int tab)
     cepError("Error! Could not allocate memory for Matrix", cepError::sevErrorRecoverable);
   }
   
-  for(int i = 0; i < numTables; i++)
+  for(int i = 0; i < m_numTables; i++)
   {
-    tables[i] = new T[numRows * numCols];
+    m_tables[i] = new T[m_numRows * m_numCols];
   
-    if (tables[i] == NULL)
+    if (m_tables[i] == NULL)
     {
       #ifdef debug
         cout << "Error! Could not allocate memory for Matrix" << endl;
@@ -302,105 +362,123 @@ cepMatrix<T>::cepMatrix (int rows, int cols, int tab)
 }
 
 template <class T>
-cepMatrix<T>::cepMatrix (const cepMatrix & copyMatrix)
+cepMatrix<T>::cepMatrix (const cepMatrix & B)
 {
+  m_numRows = B.m_numRows;
+  m_numCols = B.m_numCols;
+  m_numTables = B.m_numTables;
 
-  numRows = copyMatrix.numRows;
-  numCols = copyMatrix.numCols;
-  numTables = copyMatrix.numTables;
-
-  if (copyMatrix.matrix == NULL)
+  if( B.m_tables != NULL)
   {
-    tables = new T*[numTables];
+    m_tables = new T*[m_numTables];
 
-    if (tables == NULL)
+    if (m_tables == NULL)
     {
       #ifdef debug
-        cout << "Error! Could not allocate memory for Matrix" << endl;
+        cout << "Error! Could not allocate memory for matrix" << endl;
         exit(1);
       #endif
-    
+
       cepError("Error! Could not allocate memory for Matrix", cepError::sevErrorRecoverable);
     }
 
-    for(int i = 0; i < numTables; i++)
+    for(int i = 0; i < m_numTables; i++)
     {
-      tables[i] = new T[numRows * numCols];
+      m_tables[i] = new T[m_numRows * m_numCols];
 
-      if (tables[i] == NULL)
+      if (m_tables[i] == NULL)
       {
         #ifdef debug
-          cout << "Error! Could not allocate memory for Matrix" << endl;
+          cout << "Error! Could not allocate memory for matrix" << endl;
           exit(1);
         #endif
-    
+
         cepError("Error! Could not allocate memory for Matrix", cepError::sevErrorRecoverable);
       }
     }
 
-    for (int i = 0; i < numTables; i++)
+    for (int i = 0; i < m_numTables; i++)
     {
-      for (int j = 0; j < numRows; j++)
+      for (int j = 0; j < m_numRows; j++)
       {
-        for(int k = 0; k < numCols; k ++)
+        for(int k = 0; k < m_numCols; k ++)
         {
-          tables[i][(j * numCols) + k] = copyMatrix.tables[i][(j * numCols) + k];
+          m_tables[i][(j * m_numCols) + k] = B.m_tables[i][(j * m_numCols) + k];
         }
       }
-    } 
+    }
+    m_matrix = NULL;
+
+  for (int i = 0; i < m_numTables; i++)
+  {
+    for (int j = 0; j < m_numRows; j++)
+    {
+      for(int k = 0; k < m_numCols; k ++)
+      {
+        m_tables[i][(j * m_numCols) + k] = B.m_tables[i][(j * m_numCols) + k];
+        cout << m_tables[i][(j * m_numCols) + k] << " ";
+      }
+      cout << endl;
+    }
+    cout << endl;
+  }
+
   }
   else
   {
-    matrix = new T[copyMatrix.numRows * copyMatrix.numCols];
+    m_matrix = new T[m_numRows * m_numCols];
 
-    if (matrix == NULL)
+    if (m_matrix == NULL)
     {
       #ifdef debug
-        cout << "Error! Could not allocate memory for Matrix" << endl;
+        cout << "Error! Could not allocate memory for matrix" << endl;
         exit(1);
       #endif
-    
+
       cepError("Error! Could not allocate memory for Matrix", cepError::sevErrorRecoverable);
     }
 
-    for (int i = 0; i < numRows; i++)
+    //copy each element of B to A for 2D m_matrix
+    for (int i = 0; i < m_numRows; i++)
     {
-      for (int j = 0; j < numCols; j++)
+      for (int j = 0; j < m_numCols; j++)
       {
-        matrix[(i * numCols) + j] = copyMatrix.matrix[(i * numCols) + j];
+        m_matrix[(i * m_numCols) + j] = B.m_matrix[(i * m_numCols) + j];
       }
-    }  
+    }
+    m_tables = NULL;    
   }
 }
 
 template <class T>
 cepMatrix<T>::~cepMatrix ()
 {
-  if(matrix == NULL)
+   if(m_tables != NULL)
   {
-    for(int i =0; i < numTables; i ++ )
+    for(int i =0; i < m_numTables; i ++ )
     {
-      delete[]tables[i];
+      delete[]m_tables[i];
     }
-    delete[]tables;
+    delete[]m_tables;
   }
-  else
+
+  if(m_matrix != NULL)
   {
-    delete[]matrix;
+    delete[]m_matrix;
   }  
 }
 
 template <class T>
 const cepMatrix<T> & cepMatrix<T>::transpose ()
 {
-  double *tempMatrix = matrix;
+  T *tempMatrix = m_matrix;
   int temp;
 
-  temp = numRows;
-  numRows = numCols;
-  numCols = temp;
+  temp = m_numRows;
+  m_numRows = m_numCols;
+  m_numCols = temp;
 
-  if (matrix == NULL)
+  if (m_matrix == NULL)
   {
     #ifdef debug
       cout << "Error! Can not transpose as 3D matrix" << endl;
@@ -410,9 +488,9 @@ const cepMatrix<T> & cepMatrix<T>::transpose ()
     cepError("Error! Can Not Transpose a 3D matrix", cepError::sevErrorRecoverable);
   }
   
-  matrix = new double[numRows * numCols];
+  m_matrix = new T[m_numRows * m_numCols];
 
-  if (matrix == NULL)
+  if (m_matrix == NULL)
   {
     #ifdef debug
       cout << "Error! Could not allocate memory for Matrix" << endl;
@@ -425,11 +503,11 @@ const cepMatrix<T> & cepMatrix<T>::transpose ()
   int x = 0;
 
   //calculates the matrix transpose
-  for (int i = 0; i < numRows; i++)
+  for (int i = 0; i < m_numRows; i++)
   {
-    for (int j = 0; j < numCols; j++)
+    for (int j = 0; j < m_numCols; j++)
     {
-      matrix[x++] = tempMatrix[j * numRows + i];
+      m_matrix[x++] = tempMatrix[j * m_numRows + i];
     }
   }
 
@@ -438,29 +516,29 @@ const cepMatrix<T> & cepMatrix<T>::transpose ()
   return *this;
 }
 
-// ****************Assignment operators*******************
+//****************Assignment operators*******************
 template <class T>
 const cepMatrix<T> & cepMatrix<T>::operator+= (const cepMatrix & B)
 {
-  double *tempMatrix = matrix;
+  T *tempMatrix = m_matrix;
 
-  if (matrix == NULL)
+  if (m_matrix == NULL)
   {
     cepError("Error! Could not allocate memory for Matrix", cepError::sevErrorRecoverable);
   }
   
-  if ((B.numRows != numRows) || (B.numCols != numCols))
+  if ((B.m_numRows != m_numRows) || (B.m_numCols != m_numCols))
   {
     cepError("Error! Matrix sizes are wrong", cepError::sevErrorRecoverable);
   }
   else
   {
     //calucluates A+B for each element is A and B
-    for (int i = 0; i < numRows; i++)
+    for (int i = 0; i < m_numRows; i++)
     {
-      for (int j = 0; j < numCols; j++)
+      for (int j = 0; j < m_numCols; j++)
       {
-        matrix[(i * numCols) + j] = tempMatrix[(i * numCols) + j] + B.matrix[(i * numCols) + j];
+        m_matrix[(i * m_numCols) + j] = tempMatrix[(i * m_numCols) + j] + B.m_matrix[(i * m_numCols) + j];
       }
     }
   }
@@ -471,9 +549,9 @@ const cepMatrix<T> & cepMatrix<T>::operator+= (const cepMatrix & B)
 template <class T>
 const cepMatrix<T> & cepMatrix<T>::operator-= (const cepMatrix & B)
 {
-  double *tempMatrix = matrix;
+  T *tempMatrix = m_matrix;
 
-  if (matrix == NULL)
+  if (m_matrix == NULL)
   {
     #ifdef debug
       cout << "Error! Can not use the -  operator on a 3D Matrix" << endl;
@@ -483,7 +561,7 @@ const cepMatrix<T> & cepMatrix<T>::operator-= (const cepMatrix & B)
     cepError("Error! Can not use the - operator on a 3D Matrix", cepError::sevErrorRecoverable);
   }
   
-  if ((B.numRows != numRows) || (B.numCols != numCols))
+  if ((B.m_numRows != m_numRows) || (B.m_numCols != m_numCols))
   {
     #ifdef debug
       cout << "Error! Matrix sizes are wrong" << endl;
@@ -495,11 +573,11 @@ const cepMatrix<T> & cepMatrix<T>::operator-= (const cepMatrix & B)
   else
   {
     //calucluates A-B for each element is A and B
-    for (int i = 0; i < numRows; i++)
+    for (int i = 0; i < m_numRows; i++)
     {
-      for (int j = 0; j < numCols; j++)
+      for (int j = 0; j < m_numCols; j++)
       {
-        matrix[(i * numCols) + j] = tempMatrix[(i * numCols) + j] - B.matrix[(i * numCols) + j];
+        m_matrix[(i * m_numCols) + j] = tempMatrix[(i * m_numCols) + j] - B.m_matrix[(i * m_numCols) + j];
       }
     }
   }
@@ -510,10 +588,10 @@ const cepMatrix<T> & cepMatrix<T>::operator-= (const cepMatrix & B)
 template <class T>
 const cepMatrix<T> & cepMatrix<T>::operator*= (const cepMatrix & B)
 {
-  double *tempMatrix = matrix;
+  T *tempMatrix = m_matrix;
   int i;
 
-  if (matrix == NULL)
+  if (m_matrix == NULL)
   {
     #ifdef debug
       cout << "Error! Can not use the - operator on a 3D Matrix" << endl;
@@ -523,7 +601,7 @@ const cepMatrix<T> & cepMatrix<T>::operator*= (const cepMatrix & B)
     cepError("Error! Can not use the - operator on a 3D Matrix", cepError::sevErrorRecoverable);
   }
   
-  if (numCols != B.numRows)
+  if (m_numCols != B.m_numRows)
   {
 
     #ifdef debug
@@ -535,9 +613,9 @@ const cepMatrix<T> & cepMatrix<T>::operator*= (const cepMatrix & B)
   }
   else
   {
-    matrix = new double[numRows * B.numCols];
+    m_matrix = new T[m_numRows * B.m_numCols];
 
-    if (matrix == NULL)
+    if (m_matrix == NULL)
     {
 
       #ifdef debug
@@ -548,20 +626,20 @@ const cepMatrix<T> & cepMatrix<T>::operator*= (const cepMatrix & B)
       cepError("Error! Could not allocate memory for Matrix", cepError::sevErrorRecoverable);
     }
 
-    for (i = 0; i < numRows * B.numCols; i++)
+    for (i = 0; i < m_numRows * B.m_numCols; i++)
     {
-      matrix[i] = 0;
+      m_matrix[i] = 0;
     }
 
     //calculates A*B for each row col pair
     // this will be REALLY slow
-    for (i = 0; i < numRows; i++)
+    for (i = 0; i < m_numRows; i++)
     {
-      for (int j = 0; j < B.numCols; j++)
+      for (int j = 0; j < B.m_numCols; j++)
       {
-        for (int k = 0; k < B.numRows; k++)
+        for (int k = 0; k < B.m_numRows; k++)
         {
-          matrix[(i * B.numCols) + j] += tempMatrix[k + (i * numCols)] * B.matrix[j + (k * B.numCols)];
+          m_matrix[(i * B.m_numCols) + j] += tempMatrix[k + (i * m_numCols)] * B.m_matrix[j + (k * B.m_numCols)];
 
         }
 
@@ -569,7 +647,7 @@ const cepMatrix<T> & cepMatrix<T>::operator*= (const cepMatrix & B)
     }
   }
 
-  numCols = B.numCols;
+  m_numCols = B.m_numCols;
 
   delete[]tempMatrix;
   return *this;
@@ -578,7 +656,7 @@ const cepMatrix<T> & cepMatrix<T>::operator*= (const cepMatrix & B)
 template <class T>
 const cepMatrix<T> & cepMatrix<T>::operator*= (const T &scalar)
 {
-  if (matrix == NULL)
+  if (m_matrix == NULL)
   {
     #ifdef debug
       cout << "Error! Can not use the * operator on a 3D Matrix" << endl;
@@ -589,11 +667,11 @@ const cepMatrix<T> & cepMatrix<T>::operator*= (const T &scalar)
   }
   
   //multiply each element of A with the scalar
-  for (int i = 0; i < numRows; i++)
+  for (int i = 0; i < m_numRows; i++)
   {
-    for (int j = 0; j < numCols; j++)
+    for (int j = 0; j < m_numCols; j++)
     {
-      matrix[(i * numCols) + j] *= scalar;
+      m_matrix[(i * m_numCols) + j] *= scalar;
     }
   }
 
@@ -601,18 +679,18 @@ const cepMatrix<T> & cepMatrix<T>::operator*= (const T &scalar)
 }
 
 template <class T>
-// *****************copy operator***************************
+//*****************copy operator***************************
 const cepMatrix<T> & cepMatrix<T>::operator= (const cepMatrix & B)
 {
-  numRows = B.numRows;
-  numCols = B.numCols;
-  numTables = B.numTables;
+  m_numRows = B.m_numRows;
+  m_numCols = B.m_numCols;
+  m_numTables = B.m_numTables;
 
-  if( B.matrix == NULL)
+  if( B.m_matrix == NULL)
   {
-    tables = new T*[numTables];
+    m_tables = new T*[m_numTables];
 
-    if (tables == NULL)
+    if (m_tables == NULL)
     {
       #ifdef debug
         cout << "Error! Could not allocate memory for matrix" << endl;
@@ -622,11 +700,11 @@ const cepMatrix<T> & cepMatrix<T>::operator= (const cepMatrix & B)
       cepError("Error! Could not allocate memory for Matrix", cepError::sevErrorRecoverable);
     }
 
-    for(int i = 0; i < numTables; i++)
+    for(int i = 0; i < m_numTables; i++)
     {
-      tables[i] = new T[numRows * numCols];
+      m_tables[i] = new T[m_numRows * m_numCols];
 
-      if (tables[i] == NULL)
+      if (m_tables[i] == NULL)
       {
         #ifdef debug
           cout << "Error! Could not allocate memory for matrix" << endl;
@@ -637,22 +715,22 @@ const cepMatrix<T> & cepMatrix<T>::operator= (const cepMatrix & B)
       }
     }
     
-    for (int i = 0; i < numTables; i++)
+    for (int i = 0; i < m_numTables; i++)
     {
-      for (int j = 0; j < numRows; j++)
+      for (int j = 0; j < m_numRows; j++)
       {
-        for(int k = 0; k < numCols; k ++)
+        for(int k = 0; k < m_numCols; k ++)
         {
-          tables[i][(j * numCols) + k] = B.tables[i][(j * numCols) + k]; 
+          m_tables[i][(j * m_numCols) + k] = B.m_tables[i][(j * m_numCols) + k]; 
         }
       }  
     }
   }
   else
   {
-    matrix = new T[numRows * numCols]; //just in case this line breaks - daniel changed this from double to T.
+    m_matrix = new T[m_numRows * m_numCols];
 
-    if (matrix == NULL)
+    if (m_matrix == NULL)
     {
       #ifdef debug
         cout << "Error! Could not allocate memory for matrix" << endl;
@@ -663,11 +741,11 @@ const cepMatrix<T> & cepMatrix<T>::operator= (const cepMatrix & B)
     }
 
     //copy each element of B to A for 2D matrix
-    for (int i = 0; i < numRows; i++)
+    for (int i = 0; i < m_numRows; i++)
     {
-      for (int j = 0; j < numCols; j++)
+      for (int j = 0; j < m_numCols; j++)
       {
-        matrix[(i * numCols) + j] = B.matrix[(i * numCols) + j];
+        m_matrix[(i * m_numCols) + j] = B.m_matrix[(i * m_numCols) + j];
       }
     }
   }
@@ -675,12 +753,12 @@ const cepMatrix<T> & cepMatrix<T>::operator= (const cepMatrix & B)
   return *this;
 }
 
-// ***************query operators****************************
+//***************query operators****************************
 
 template <class T>
 bool cepMatrix<T>::operator== (const cepMatrix & B)
 {
-  if (matrix == NULL)
+  if (m_matrix == NULL)
   {
     #ifdef debug
       cout << "Error! Could not use the == operate on a 3D matrix" << endl;
@@ -691,18 +769,18 @@ bool cepMatrix<T>::operator== (const cepMatrix & B)
   }
   
   //check if rows and cols of A are equal to rows and cols of B
-  if ((B.numRows != numRows) || (B.numCols != numCols))
+  if ((B.m_numRows != m_numRows) || (B.m_numCols != m_numCols))
   {
     return false;
   }
   else
   {
     //check if each element of A and B are equal
-    for (int i = 0; i < numRows; i++)
+    for (int i = 0; i < m_numRows; i++)
     {
-      for (int j = 0; j < numCols; j++)
+      for (int j = 0; j < m_numCols; j++)
       {
-        if (matrix[(i * numCols) + j] != B.matrix[(i * numCols) + j])
+        if (m_matrix[(i * m_numCols) + j] != B.m_matrix[(i * m_numCols) + j])
         {
           return false;
         }
@@ -721,7 +799,7 @@ bool cepMatrix<T>::operator!= (const cepMatrix & B)
 template <class T>
 bool cepMatrix<T>::isDiagonal ()
 {
-  if (matrix == NULL)
+  if (m_matrix == NULL)
   {
     #ifdef debug
       cout << "Error! Can not use the isDiagonal operator on a 3D matrix" << endl;
@@ -731,17 +809,17 @@ bool cepMatrix<T>::isDiagonal ()
     cepError("Error! Can not use the isDiagonal operator on a 3D Matrix", cepError::sevErrorRecoverable);
   }
   
-  if (numCols != numRows)
+  if (m_numCols != m_numRows)
   {
     return false;
   }
 
   //check that each element of A[i,j] = 0 where i != j
-  for (int i = 0; i < numRows; i++)
+  for (int i = 0; i < m_numRows; i++)
   {
-    for (int j = 0; j < numCols; j++)
+    for (int j = 0; j < m_numCols; j++)
     {
-      if ((i != j) && (matrix[(i * numCols) + j] != 0))
+      if ((i != j) && (m_matrix[(i * m_numCols) + j] != 0))
       {
         return false;
       }
@@ -751,12 +829,12 @@ bool cepMatrix<T>::isDiagonal ()
   return true;
 }
 
-// ***************get/set methods**************************
+//***************get/set methods**************************
 
 template <class T>
 const T& cepMatrix<T>::getValue (int row, int col) const
 {
-  if (matrix == NULL)
+  if (m_matrix == NULL)
   {
     #ifdef debug
       cout << "Error! The matrix contains no values" << endl;
@@ -766,7 +844,7 @@ const T& cepMatrix<T>::getValue (int row, int col) const
     cepError("Error! The matrix contains no values", cepError::sevErrorRecoverable);
   }
   
-  if (row >= numRows)
+  if (row >= m_numRows)
   {
     #ifdef debug
       cout << "Error! Invalid row number" << endl;
@@ -776,7 +854,7 @@ const T& cepMatrix<T>::getValue (int row, int col) const
     cepError("Error Invalid Row Number", cepError::sevErrorRecoverable);
   }
 
-  if (col >= numCols)
+  if (col >= m_numCols)
   {
     #ifdef debug
       cout << "Error! Invalid col number" << endl;
@@ -786,13 +864,13 @@ const T& cepMatrix<T>::getValue (int row, int col) const
     cepError("Error Invalid Col Number", cepError::sevErrorRecoverable);
   }
 
-  return matrix[(row * numCols) + col];
+  return m_matrix[(row * m_numCols) + col];
 }
 
 template <class T>
 void cepMatrix<T>::setValue (const int row, const int col, const T & value)
 { 
-  if (row >= numRows)
+  if (row >= m_numRows)
   {
     #ifdef debug
       cout << "Error! Invalid row number" << endl;
@@ -802,7 +880,7 @@ void cepMatrix<T>::setValue (const int row, const int col, const T & value)
     cepError("Error Invalid Row Number", cepError::sevErrorRecoverable);
   }
 
-  if (col >= numCols)
+  if (col >= m_numCols)
   {
     #ifdef debug
       cout << "Error! Invalid col number" << endl;
@@ -812,27 +890,27 @@ void cepMatrix<T>::setValue (const int row, const int col, const T & value)
     cepError("Error Invalid Col Number", cepError::sevErrorRecoverable);
   }
 
-  matrix[(row * numCols) + col] = value;
+  m_matrix[(row * m_numCols) + col] = value;
 }
 
 template <class T>
 const int cepMatrix<T>::getNumRows () const
 {
-  return numRows;
+  return m_numRows;
 }
 
 template <class T>
 const int cepMatrix<T>::getNumCols () const
 {
-  return numCols;
+  return m_numCols;
 }
 
-// ***************get/set methods 3D matrix**************************
+//***************get/set methods 3D matrix**************************
 
 template <class T>
 const T& cepMatrix<T>::getValue (int row, int col, int tab) const
 {
-  if (tables == NULL)
+  if (m_tables == NULL)
   {
     #ifdef debug
       cout << "Error! The matrix contains no values" << endl;
@@ -842,7 +920,7 @@ const T& cepMatrix<T>::getValue (int row, int col, int tab) const
     cepError("Error! The matrix contains no values", cepError::sevErrorRecoverable);
   }
   
-  if (row >= numRows)
+  if (row >= m_numRows)
   {
     #ifdef debug
       cout << "Error! Invalid row number" << endl;
@@ -852,7 +930,7 @@ const T& cepMatrix<T>::getValue (int row, int col, int tab) const
     cepError("Error Invalid Row Number", cepError::sevErrorRecoverable);
   }
 
-  if (col >= numCols)
+  if (col >= m_numCols)
   {
     #ifdef debug
       cout << "Error! Invalid col number" << endl;
@@ -861,7 +939,7 @@ const T& cepMatrix<T>::getValue (int row, int col, int tab) const
 
     cepError("Error Invalid Col Number", cepError::sevErrorRecoverable);
   }
-  if (tab >= numTables)
+  if (tab >= m_numTables)
   {
     #ifdef debug
       cout << "Error! Invalid table number" << endl;
@@ -871,13 +949,13 @@ const T& cepMatrix<T>::getValue (int row, int col, int tab) const
     cepError("Error Invalid Table Number", cepError::sevErrorRecoverable);
   }
 
-  return tables[tab][(row * numCols) + col];
+  return m_tables[tab][(row * m_numCols) + col];
 }
 
 template <class T>
 void cepMatrix<T>::setValue (const int row, const int col, const int tab, const T & value)
 {
-  if (row >= numRows)
+  if (row >= m_numRows)
   {
     #ifdef debug
       cout << "Error! Invalid row number" << endl;
@@ -887,7 +965,7 @@ void cepMatrix<T>::setValue (const int row, const int col, const int tab, const 
     cepError("Error Invalid Row Number", cepError::sevErrorRecoverable);
   }
 
-  if (col >= numCols)
+  if (col >= m_numCols)
   {
     #ifdef debug
       cout << "Error! Invalid col number" << endl;
@@ -896,7 +974,7 @@ void cepMatrix<T>::setValue (const int row, const int col, const int tab, const 
 
     cepError("Error Invalid Col Number", cepError::sevErrorRecoverable);
   }
-  if (tab >= numTables)
+  if (tab >= m_numTables)
   {
     #ifdef debug
       cout << "Error! Invalid table number" << endl;
@@ -906,14 +984,14 @@ void cepMatrix<T>::setValue (const int row, const int col, const int tab, const 
     cepError("Error Invalid Table Number", cepError::sevErrorRecoverable);
   }
 
-  tables[tab][(row * numCols) + col] = value;
+  m_tables[tab][(row * m_numCols) + col] = value;
  
 }
 
 template <class T>
 const int cepMatrix<T>::getNumTables () const
 {
-  return numTables;
+  return m_numTables;
 }
 
 #endif //end __cepMatrix_H
