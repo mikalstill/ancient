@@ -1,1 +1,2 @@
-Owner: Mikal
+Owner: Kristy
+Previous owners: Mikal
