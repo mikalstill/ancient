@@ -18,7 +18,7 @@ static int addfs_getattr(const char *path, struct stat *stbuf)
   {
     stbuf->st_mode = S_IFREG | 0444;
     stbuf->st_nlink = 1;
-    stbuf->st_size = 8;
+    stbuf->st_size = 9;
   }
     
   return 0;
@@ -39,7 +39,7 @@ static int addfs_read(const char *path, char *buf, size_t size, off_t offset)
   p = (char *) strdup(path + idx + 1);
   a = atoi(strtok(p, "+"));
   b = atoi(strtok(NULL, "+"));
-  snprintf(buf, size, "%08d", a + b);
+  snprintf(buf, size, "%08d\n", a + b);
   return strlen(buf);
 }
 
