@@ -64,6 +64,7 @@ void usb_setup_packet (char *file, long long *filep);
 // Output
 void dump_data(char *file, long long *filep, int psize, char *type);
 char *to_binary(unsigned char number);
+char *to_bcd(int twobcdbytes);
 int decodein, decodeout;
 
 // URB output
@@ -419,6 +420,7 @@ main (int argc, char *argv[])
 		  if(do_informationaldumps == 1)
 		    {
 		      long long priorfilep = filep;
+		      char *tempbcd;
 
 		      // Skip the size byte (it's the same as the header)
 		      filep++;
@@ -426,7 +428,34 @@ main (int argc, char *argv[])
 		      temp = file[filep++];
 		      switch(temp)
 			{
+			case 1:
+			  // DEVICE DESCRIPTOR
+			  urb_printf("\tDevice descriptor:\n");
+
+			  tempbcd = to_bcd(fileutil_getshort(file, &filep));
+			  urb_printf ("\t\tUSB specification version: %s\n", tempbcd);
+			  free(tempbcd);
+
+			  urb_printf("\t\tClass code: %d\n", file[filep++]);
+			  urb_printf("\t\tSubclass code: %d\n", file[filep++]);
+			  urb_printf("\t\tProtocol code: %d\n", file[filep++]);
+			  urb_printf("\t\tMaximum packet size for endpoint: %d\n", 
+				     file[filep++]);
+			  urb_printf("\t\tVendor id: %04x\n",
+				     fileutil_getshort(file, &filep));
+			  urb_printf("\t\tProduct id: %04x\n",
+				     fileutil_getshort(file, &filep));
 			  
+			  tempbcd = to_bcd(fileutil_getshort(file, &filep));
+			  urb_printf ("\t\tDevice release number: %s\n", tempbcd);
+			  free(tempbcd);
+
+			  urb_printf("\t\tManufacturer string index: %d\n", file[filep++]);
+			  urb_printf("\t\tProduct string index: %d\n", file[filep++]);
+			  urb_printf("\t\tSerial number string index: %d\n", file[filep++]);
+			  urb_printf("\t\tNumber of configurations: %d\n", file[filep++]);
+			  break;
+
 			default:
 			  urb_printf("\tUnknown control transfer (%d).\n\n", temp);
 			  filep = priorfilep;
@@ -435,7 +464,7 @@ main (int argc, char *argv[])
 			}
 		    }
 		  else
-		    {
+	    {
 		      dump_data(file, &filep, psize, "CTRL");
 		    }
                 }
@@ -1348,5 +1377,24 @@ char *to_binary(unsigned char number)
   if(number & 0x02) retval[6] = '1';
   if(number & 0x01) retval[7] = '1';
  
+  return retval;
+}
+
+char *to_bcd(int twobcdbytes)
+{
+  char *retval;
+
+  if((retval = malloc(sizeof(char) * 5)) == NULL)
+    {
+      perror("Could not allocate memory");
+      exit(42);
+    }
+
+  memset(retval, '0', 4);
+  retval[4] = 0;
+
+  sprintf(retval, "%02x%02x", 
+	  (twobcdbytes << 24) >> 24,
+	  (twobcdbytes << 16) >> 24);
   return retval;
 }
