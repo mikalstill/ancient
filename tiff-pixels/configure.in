@@ -21,6 +21,8 @@ dnl The syntax is library name, function, action if found, action if not found
 dnl We just use the default if found action which adds -l<lib> to the LIBS var
 dnl and #defined HAVE_LIB<lib>
 
+dnl -lm
+AC_CHECK_LIB(m, pow)
 
 dnl -ltiff
 AC_CHECK_LIB(tiff, TIFFOpen)
@@ -28,6 +30,7 @@ AC_CHECK_LIB(tiff, TIFFOpen)
 dnl Checks for header files.
 dnl STDC checks for stdlib.h stdarg.h string.h and float.h
 AC_HEADER_STDC
+AC_CHECK_HEADERS(tiffio.h)
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 

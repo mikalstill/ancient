@@ -1,79 +1,58 @@
 #include <tiffio.h>
+#include <unistd.h>
+#include <stdio.h>
 
 int
 main (int argc, char *argv[])
 {
   uint32 count;
   TIFF *image;
+  int optchar;
+  uint32 width, height;
+  uint32 *raster;
+  char *inputName == NULL;
 
-  // The command line packs information about the data file to use and the x and y coordinates
-  while ((optchar = getopt (argc, argv, "d:x:y:g:vm:")) != -1)
+  while ((optchar = getopt (argc, argv, "i:")) != -1)
     {
       switch (optchar)
 	{
 	case '?':
 	  printf ("Unknown command line option...\n");
-	  printf ("Try: %s -d <datafile> -x <width> -y <height>\n\n",
-		  argv[0]);
+	  printf ("Try: %s -i <inputimage> -o <outputimage>\n\n", argv[0]);
 	  exit (0);
 	  break;
 
-	case 'd':
-	  dataFile = optarg;
-	  break;
-
-	case 'm':
-	  dataFile2 = optarg;
-	  break;
-
-	case 'x':
-	  boardx = atoi (optarg);
-	  break;
-
-	case 'y':
-	  boardy = atoi (optarg);
-	  break;
-
-	case 'g':
-	  gradFile = optarg;
-	  break;
-
-	case 'v':
-	  verbose = 1;
+	case 'i':
+	  inputName = (char *) strdup(optarg);
 	  break;
 	}
     }
 
   // This is a gradient image
-  if ((image = TIFFOpen (gradFile, "r")) == NULL)
+  if ((image = TIFFOpen (inputName, "r")) == NULL)
     {
       fprintf (stderr, "Could not open gradient file\n");
       exit (0);
     }
 
   // Find the width and height of the image
-  TIFFGetField (image, TIFFTAG_IMAGEWIDTH, &gWidth);
-  TIFFGetField (image, TIFFTAG_IMAGELENGTH, &gHeight);
-  printf ("Gradient file is %d by %d\n", gWidth, gHeight);
+  TIFFGetField (image, TIFFTAG_IMAGEWIDTH, &width);
+  TIFFGetField (image, TIFFTAG_IMAGELENGTH, &height);
+  printf ("Gradient file is %d by %d\n", width, height);
 
-  if ((gradRaster = (uint32 *) malloc (sizeof (uint32) * gWidth * gHeight)) == NULL)
+  if ((raster = (uint32 *) malloc (sizeof (uint32) * width * height)) == NULL)
     {
       fprintf (stderr, "Could not allocate enough memory\n");
       exit (42);
     }
 
   // Read the image into the memory buffer
-  if (TIFFReadRGBAStrip (image, 0, gradRaster) == 0)
+  if (TIFFReadRGBAStrip (image, 0, raster) == 0)
     {
       fprintf (stderr, "Could not read image\n");
       exit (42);
     }
 
-  // Populate the gradient thingie
-  for (count = 0; count < gHeight; count++)
-    {
-      gradient[256 - count] = gradRaster[gWidth * count];
-    }
-  TIFFClose (image);
 
+  TIFFClose (image);
 }
