@@ -400,8 +400,14 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
       view_menu->Append (CEPMENU_COLORAXES, "Axes color",
 			 "The color of the axes on the graph", FALSE);
       
-      view_menu->Append (CEPMENU_COLORLINE, "Graph color",
-			 "The color of the data line on the graph", FALSE);
+      view_menu->Append (CEPMENU_COLORLINE1, "Graph color 1",
+			 "The main color of the data line on the graph", FALSE);
+      
+      view_menu->Append (CEPMENU_COLORLINE2, "Graph color 2",
+			 "The color of the data line on the graph (window 1)", FALSE);
+      
+      view_menu->Append (CEPMENU_COLORLINE3, "Graph color 3",
+			 "The color of the data line on the graph (window 2)", FALSE);
       
       view_menu->Append (CEPMENU_COLORERROR, "Error color",
 			 "The color of the error bars on the graph", FALSE);

@@ -65,7 +65,9 @@ public:
   void OnCut (wxCommandEvent & event);
 
   void OnColorAxes  (wxCommandEvent& event);
-  void OnColorLine  (wxCommandEvent& event);
+  void OnColorLine1  (wxCommandEvent& event);
+  void OnColorLine2  (wxCommandEvent& event);
+  void OnColorLine3  (wxCommandEvent& event);
   void OnColorRemove  (wxCommandEvent& event);
   void OnColorAverage  (wxCommandEvent& event);
   void OnColorError  (wxCommandEvent& event);

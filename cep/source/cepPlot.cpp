@@ -59,14 +59,32 @@ cepPlot::cepPlot(cepDataset *theDataset, cepDataset::direction dir, string cfnam
   if(err.isReal()) err.display();
   pres.setAxesColor(red, green, blue);
   
-  // Plot color
-  err = config->getValue("ui-graph-color-line-r", 0, red);
+  // Plot color 1
+  err = config->getValue("ui-graph-color-line1-r", 0, red);
   if(err.isReal()) err.display();
-  err = config->getValue("ui-graph-color-line-g", 255, green);
+  err = config->getValue("ui-graph-color-line1-g", 255, green);
   if(err.isReal()) err.display();
-  err = config->getValue("ui-graph-color-line-b", 0, blue);
+  err = config->getValue("ui-graph-color-line1-b", 0, blue);
   if(err.isReal()) err.display();
-  pres.setLineColor(red, green, blue);
+  pres.setLineColor(0, red, green, blue);
+
+  // Plot color 2
+  err = config->getValue("ui-graph-color-line2-r", 0, red);
+  if(err.isReal()) err.display();
+  err = config->getValue("ui-graph-color-line2-g", 255, green);
+  if(err.isReal()) err.display();
+  err = config->getValue("ui-graph-color-line2-b", 0, blue);
+  if(err.isReal()) err.display();
+  pres.setLineColor(1, red, green, blue);
+
+  // Plot color 3
+  err = config->getValue("ui-graph-color-line3-r", 0, red);
+  if(err.isReal()) err.display();
+  err = config->getValue("ui-graph-color-line3-g", 255, green);
+  if(err.isReal()) err.display();
+  err = config->getValue("ui-graph-color-line3-b", 0, blue);
+  if(err.isReal()) err.display();
+  pres.setLineColor(2, red, green, blue);
 
   // Plot color for removed points
   err = config->getValue("ui-graph-color-remove-r", 0, red);

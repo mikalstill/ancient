@@ -65,9 +65,17 @@ cepPresentation::cepPresentation (long width, long height, cepMatrix<double> *ds
   m_axesColor.green = 0;
   m_axesColor.blue = 0;
 
-  m_lineColor.red = 0;
-  m_lineColor.green = 0;
-  m_lineColor.blue = 0;
+  m_lineColor[0].red = 0;
+  m_lineColor[0].green = 0;
+  m_lineColor[0].blue = 0;
+
+  m_lineColor[1].red = 0;
+  m_lineColor[1].green = 0;
+  m_lineColor[1].blue = 0;
+
+  m_lineColor[2].red = 0;
+  m_lineColor[2].green = 0;
+  m_lineColor[2].blue = 0;
 
   m_errorColor.red = 0;
   m_errorColor.green = 0;
@@ -452,9 +460,9 @@ cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminva
       cepDebugPrint("Colour hint is " + cepToString(colourHint));
 
       if(colourHint < 0.5){
-	cepDebugPrint("Normal point");
-	plot_setlinecolor(graph, m_lineColor.red, m_lineColor.green,
-			  m_lineColor.blue);
+	cepDebugPrint("Using line color: " + cepToString(tno % 3));
+	plot_setlinecolor(graph, m_lineColor[tno % 3].red, m_lineColor[tno % 3].green,
+			  m_lineColor[tno % 3].blue);
       }
       else{
 	plot_setlinecolor(graph, m_removeColor.red, m_removeColor.green,
@@ -667,11 +675,13 @@ void cepPresentation::setAxesColor(char red, char green, char blue)
   m_axesColor.blue = blue;
 }
 
-void cepPresentation::setLineColor(char red, char green, char blue)
+void cepPresentation::setLineColor(int index, char red, char green, char blue)
 {
-  m_lineColor.red = red;
-  m_lineColor.green = green;
-  m_lineColor.blue = blue;
+  if(index > 3) return;
+
+  m_lineColor[index].red = red;
+  m_lineColor[index].green = green;
+  m_lineColor[index].blue = blue;
 }
 
 void cepPresentation::setRemoveColor(char red, char green, char blue)

@@ -98,7 +98,7 @@ GetMainFrame (void);
 #define CEPMENU_ABOUT   2
 //#define CEPMENU_AVERAGE 3
 #define CEPMENU_COLORAXES 4
-#define CEPMENU_COLORLINE 5
+//#define CEPMENU_COLORLINE 5
 //#define CEPMENU_COLORAVERAGE 6
 //#define CEPMENU_ELIMINATEOUTLIERS 7
 //#define CEPMENU_VIEWCENTERED 8
@@ -144,6 +144,9 @@ GetMainFrame (void);
 #define CEPMENU_COLORGRID 45
 #define CEPMENU_COLORLS 46
 #define CEPMENU_COLORREMOVE 47
+#define CEPMENU_COLORLINE1 48
+#define CEPMENU_COLORLINE2 49
+#define CEPMENU_COLORLINE3 50
 
 extern bool singleWindowMode;     
 

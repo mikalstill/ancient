@@ -84,7 +84,9 @@ BEGIN_EVENT_TABLE (cepView, wxView)
   EVT_MENU (CEPMENU_ERRORS, cepView::OnToggleErrors)
   EVT_MENU (CEPMENU_GRID, cepView::OnToggleGrid)
   EVT_MENU (CEPMENU_COLORAXES, cepView::OnColorAxes)
-  EVT_MENU (CEPMENU_COLORLINE, cepView::OnColorLine)
+  EVT_MENU (CEPMENU_COLORLINE1, cepView::OnColorLine1)
+  EVT_MENU (CEPMENU_COLORLINE2, cepView::OnColorLine2)
+  EVT_MENU (CEPMENU_COLORLINE3, cepView::OnColorLine3)
   EVT_MENU (CEPMENU_COLORREMOVE, cepView::OnColorRemove)
   EVT_MENU (CEPMENU_COLORERROR, cepView::OnColorError)
   EVT_MENU (CEPMENU_COLORLS, cepView::OnColorLs)
@@ -346,15 +348,47 @@ cepView::OnColorAxes (wxCommandEvent & WXUNUSED (event))
 }
 
 void
-cepView::OnColorLine (wxCommandEvent & WXUNUSED (event))
+cepView::OnColorLine1 (wxCommandEvent & WXUNUSED (event))
 {
   wxColourDialog picker(NULL);
   if(picker.ShowModal() == wxID_OK){
     wxColourData data = picker.GetColourData();
     wxColour color = data.GetColour();
-    m_config->setValue("ui-graph-color-line-r", color.Red());
-    m_config->setValue("ui-graph-color-line-g", color.Green());
-    m_config->setValue("ui-graph-color-line-b", color.Blue());
+    m_config->setValue("ui-graph-color-line1-r", color.Red());
+    m_config->setValue("ui-graph-color-line1-g", color.Green());
+    m_config->setValue("ui-graph-color-line1-b", color.Blue());
+
+    m_dirty = true;
+    canvas->Refresh();
+  }
+}
+
+void
+cepView::OnColorLine2 (wxCommandEvent & WXUNUSED (event))
+{
+  wxColourDialog picker(NULL);
+  if(picker.ShowModal() == wxID_OK){
+    wxColourData data = picker.GetColourData();
+    wxColour color = data.GetColour();
+    m_config->setValue("ui-graph-color-line2-r", color.Red());
+    m_config->setValue("ui-graph-color-line2-g", color.Green());
+    m_config->setValue("ui-graph-color-line2-b", color.Blue());
+
+    m_dirty = true;
+    canvas->Refresh();
+  }
+}
+
+void
+cepView::OnColorLine3 (wxCommandEvent & WXUNUSED (event))
+{
+  wxColourDialog picker(NULL);
+  if(picker.ShowModal() == wxID_OK){
+    wxColourData data = picker.GetColourData();
+    wxColour color = data.GetColour();
+    m_config->setValue("ui-graph-color-line3-r", color.Red());
+    m_config->setValue("ui-graph-color-line3-g", color.Green());
+    m_config->setValue("ui-graph-color-line3-b", color.Blue());
 
     m_dirty = true;
     canvas->Refresh();

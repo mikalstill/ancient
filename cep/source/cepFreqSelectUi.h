@@ -1,6 +1,7 @@
 /*
-  * Imp for the Date wxWindows UI implementation
+  * Imp for the frequency range wxWindows UI implementation
   * Copyright (C) Kristy Van Der Vlist             2002
+  * Copyright (C) Michael Still                    2002
   *
   * This program is free software; you can redistribute it and/or modify it
   * under the terms of the GNU General Public License as published by the Free
@@ -17,8 +18,8 @@
   * Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifndef __CEPDATEUI_H
-#define __CEPDATEUI_H
+#ifndef __CEPFREQUI_H
+#define __CEPFREQUI_H
 
 #include <iostream>
 
@@ -32,61 +33,6 @@
 
 #include "cepUI.h"
 #include "cepUtility.h"
-#include "cepDate.h"
-
-/******************************************************************************
-DOCBOOK START
-
-FUNCTION cepDateRange
-
-
-PURPOSE Displays the "Select Date Range" dialog box for the user interface
-
-SYNOPSIS START
-The follwing is an example of how to create this object.
-
-cepDateRange dr(toDate, fromDate);
-
-<para><itemizedlist>
-  <listitem><para>fromDate:- is a cepDate that contains the the defaut start date</para></listitem>
-  <listitem><para>toDate:- is a cepDate that contains the the defaut finish date</para></listitem>
-</itemizedlist></para>
-
-
-SYNOPSIS END
-
-DESCRIPTION START
-
-An implementation of the <command>cepDataRange</command> class
-which displays a custom wxWindows dialog box.
-</para>
-
-<para>
-<command>double getFromDate()</command>
-Returns the defined start date as a decimal date. If a value of -1 is returned
-the specified date was invalid. If -2 is returned this action was canceled
-</para>
-
-<para>
-<command>double getToDate()</command>
-Returns the defined finished date as a decimal date. If a value of -1 is returned
-the specified date was invalid. If -2 is returned this action was canceled
-
-DESCRIPTION END
-
-DOCBOOK END
-******************************************************************************/
-
-const wxString DATE_DAYS[31] = { "01", "02", "03", "04", "05", "06", "07", "08", "09",
-          "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21",
-          "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"
-};
-
-const wxString DATE_MONTHS[12] = { "January", "February", "March", "April", "May",
-          "June", "July", "August", "September", "October",
-          "November", "December"
-};
-
 
 class cepDateRange: public wxDialog
 {
@@ -118,56 +64,6 @@ private:
   DECLARE_EVENT_TABLE ()
 };
 
-/******************************************************************************
-DOCBOOK START
-
-FUNCTION cepDateUi
-
-
-PURPOSE Displays the Date user interface
-
-SYNOPSIS START
-The follwing is an example of how to create this object.
-
-cepDateUi dateUi;
-
-SYNOPSIS END
-
-DESCRIPTION START
-
-An implementation of the <command>cepDateUi</command> which displays the
-date range GUI.
-</para>
-
-<para>
-<command>void showDateRange(cepDate toDate, cepDate fromDate)</command>
-Show the "Select Date Range" dialog box.
-
-<para><itemizedlist>
-  <listitem><para>fromDate:- is a cepDate that contains the the defaut start date</para></listitem>
-  <listitem><para>toDate:- is a cepDate that contains the the defaut finish date</para></listitem>
-</itemizedlist></para>
-
-</para>
-
-<para>
-<command>double getFromDate()</command>
-Returns the defined start date as a decimal date. If a value of -1 is returned
-the specified date was invalid. If -2 is returned this action was canceled
-</para>
-
-<para>
-<command>double getToDate()</command>
-Returns the defined finished date as a decimal date. If a value of -1 is returned
-the specified date was invalid. If -2 is returned this action was canceled
-
-
-DESCRIPTION END
-
-SEEALSO cepDate
-
-DOCBOOK END
-******************************************************************************/
 class cepDateUi
 {
 public:
@@ -187,4 +83,4 @@ private:
 
 
   
-#endif //end __CEPWINDOWUI_H
+#endif

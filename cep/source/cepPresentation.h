@@ -41,7 +41,7 @@ public:
   void useGrid(bool yesno);
 
   void setAxesColor(char red, char green, char blue);
-  void setLineColor(char red, char green, char blue);
+  void setLineColor(int index, char red, char green, char blue);
   void setRemoveColor(char red, char green, char blue);
   void setErrorColor(char red, char green, char blue);
   void setLsColor(char red, char green, char blue);
@@ -78,7 +78,7 @@ private:
   long m_emaxval;
 
   color m_axesColor;
-  color m_lineColor;
+  color m_lineColor[3];
   color m_removeColor;
   color m_errorColor;
   color m_lsColor;
