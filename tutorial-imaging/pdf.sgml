@@ -1,11 +1,11 @@
-<sect1><title>ClibPDF</title>
-<sect1><title>PDFlib</title>
-<sect1><title>Panda</title>
-<sect1><title>Adobe products</title>
-
 <chapter id="chap-pdf"><title>PDF</title>
 <para>
 Portable Document Format (PDF) isn't strictly an image format. However, people are increasingly asking for PDF functionality in applications -- especially those on the Internet.
+</para>
+
+<sect1><title>Introduction</title>
+<para>
+<execute><cmd>todo</cmd><input>Content</input></execute>
 </para>
 
 <para>
@@ -19,46 +19,105 @@ This chapter is broken into five major sections. These are:
 <listitem><para>Discussion of the Adobe PDF tools</para></listitem>
 </itemizedlist>
 </para>
+</sect1>
 
-<sect1><title>Introduction</title>
+<sect1><title>All about the PDF format</title>
 <para>
-...
+<execute><cmd>todo</cmd><input>Content</input></execute>
 </para>
 </sect1>
 
-<sect1><title>Installation</title>
+<sect1><title>ClibPDF</title>
 <para>
-...
+<execute><cmd>todo</cmd><input>Content</input></execute>
 </para>
 
-<sect2><title>Unix</title>
+<sect2><title>Installation</title>
 <para>
-...
+<execute><cmd>todo</cmd><input>Content</input></execute>
 </para>
+
+<sect3><title>Unix</title>
+<para>
+<execute><cmd>todo</cmd><input>Content</input></execute>
+</para>
+</sect3>
+
+<sect3><title>win32</title>
+<para>
+<execute><cmd>todo</cmd><input>Content</input></execute>
+</para>
+</sect3>
 </sect2>
+</sect1>
 
-<sect2><title>win32</title>
+<sect1><title>PDFlib</title>
 <para>
-...
+<execute><cmd>todo</cmd><input>Content</input></execute>
 </para>
+
+<sect2><title>Installation</title>
+<para>
+<execute><cmd>todo</cmd><input>Content</input></execute>
+</para>
+
+<sect3><title>Unix</title>
+<para>
+<execute><cmd>todo</cmd><input>Content</input></execute>
+</para>
+</sect3>
+
+<sect3><title>win32</title>
+<para>
+<execute><cmd>todo</cmd><input>Content</input></execute>
+</para>
+</sect3>
 </sect2>
 </sect1>
 
-<sect1><title>The PNG on disc format</title>
+<sect1><title>Panda</title>
 <para>
-...
+<execute><cmd>todo</cmd><input>Content</input></execute>
+</para>
+
+<sect2><title>Installation</title>
+<para>
+<execute><cmd>todo</cmd><input>Content</input></execute>
+</para>
+
+<sect3><title>Unix</title>
+<para>
+<execute><cmd>todo</cmd><input>Content</input></execute>
+</para>
+</sect3>
+
+<sect3><title>win32</title>
+<para>
+<execute><cmd>todo</cmd><input>Content</input></execute>
+</para>
+</sect3>
+</sect2>
+</sect1>
+
+<sect1><title>Adobe products</title>
+<para>
+<execute><cmd>todo</cmd><input>Content</input></execute>
 </para>
 </sect1>
+
+
+
+
 
 <sect1><title>Conclusion</title>
 <para>
-...
+<execute><cmd>todo</cmd><input>Content</input></execute>
 </para>
 </sect1>
 
 <sect1><title>Further reading</title>
 <para>
-...
+<execute><cmd>todo</cmd><input>Content</input></execute>
 </para>
 </sect1>
 

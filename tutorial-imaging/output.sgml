@@ -1541,7 +1541,7 @@ usage (char *cmd, int exitamt)
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.19 2002-07-03 21:44:46 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.20 2002-07-03 21:49:23 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -1668,7 +1668,7 @@ Specify the percentage of the blue channel to use (default 11).
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.19 2002-07-03 21:44:46 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.20 2002-07-03 21:49:23 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -1911,7 +1911,7 @@ Matters are even worse for 4-, 2-, and 1-bit palette images.
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.19 2002-07-03 21:44:46 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.20 2002-07-03 21:49:23 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2031,7 +2031,7 @@ ImageWidth: 256 520
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.19 2002-07-03 21:44:46 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.20 2002-07-03 21:49:23 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2315,7 +2315,7 @@ the source file.)
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.19 2002-07-03 21:44:46 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.20 2002-07-03 21:49:23 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1990-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2497,7 +2497,7 @@ This image, after being pushed through <command>tiffdither</command> looks somet
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.19 2002-07-03 21:44:46 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.20 2002-07-03 21:49:23 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2628,7 +2628,7 @@ PlanarConfig (284) SHORT (3) 1&lt;1&gt;
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.19 2002-07-03 21:44:46 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.20 2002-07-03 21:49:23 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2973,7 +2973,7 @@ crashing old versions of the window manager.
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.19 2002-07-03 21:44:46 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.20 2002-07-03 21:49:23 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3155,7 +3155,7 @@ Strip 0:
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.19 2002-07-03 21:44:46 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.20 2002-07-03 21:49:23 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1990-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3312,7 +3312,7 @@ Heckbert, SIGGRAPH proceedings, 1982, pp. 297-307.
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.19 2002-07-03 21:44:46 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.20 2002-07-03 21:49:23 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1992-1997 Sam Leffler -->
 <!--  Copyright (c) 1992-1997 Silicon Graphics, Inc. -->
@@ -3408,7 +3408,7 @@ is used.
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.19 2002-07-03 21:44:46 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.20 2002-07-03 21:49:23 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -7850,14 +7850,17 @@ This chapter will focus on the libpng library.
 </chapter>
 
 
-<sect1><title>ClibPDF</title>
-<sect1><title>PDFlib</title>
-<sect1><title>Panda</title>
-<sect1><title>Adobe products</title>
-
 <chapter id="chap-pdf"><title>PDF</title>
 <para>
 Portable Document Format (PDF) isn't strictly an image format. However, people are increasingly asking for PDF functionality in applications -- especially those on the Internet.
+</para>
+
+<sect1><title>Introduction</title>
+<para>
+<figure>
+<title>Content</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
 </para>
 
 <para>
@@ -7871,46 +7874,153 @@ This chapter is broken into five major sections. These are:
 <listitem><para>Discussion of the Adobe PDF tools</para></listitem>
 </itemizedlist>
 </para>
+</sect1>
 
-<sect1><title>Introduction</title>
+<sect1><title>All about the PDF format</title>
 <para>
-...
+<figure>
+<title>Content</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
 </para>
 </sect1>
 
-<sect1><title>Installation</title>
+<sect1><title>ClibPDF</title>
 <para>
-...
+<figure>
+<title>Content</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
 </para>
 
-<sect2><title>Unix</title>
+<sect2><title>Installation</title>
 <para>
-...
+<figure>
+<title>Content</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
 </para>
+
+<sect3><title>Unix</title>
+<para>
+<figure>
+<title>Content</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
+</para>
+</sect3>
+
+<sect3><title>win32</title>
+<para>
+<figure>
+<title>Content</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
+</para>
+</sect3>
 </sect2>
+</sect1>
 
-<sect2><title>win32</title>
+<sect1><title>PDFlib</title>
 <para>
-...
+<figure>
+<title>Content</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
 </para>
+
+<sect2><title>Installation</title>
+<para>
+<figure>
+<title>Content</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
+</para>
+
+<sect3><title>Unix</title>
+<para>
+<figure>
+<title>Content</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
+</para>
+</sect3>
+
+<sect3><title>win32</title>
+<para>
+<figure>
+<title>Content</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
+</para>
+</sect3>
 </sect2>
 </sect1>
 
-<sect1><title>The PNG on disc format</title>
+<sect1><title>Panda</title>
 <para>
-...
+<figure>
+<title>Content</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
+</para>
+
+<sect2><title>Installation</title>
+<para>
+<figure>
+<title>Content</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
+</para>
+
+<sect3><title>Unix</title>
+<para>
+<figure>
+<title>Content</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
+</para>
+</sect3>
+
+<sect3><title>win32</title>
+<para>
+<figure>
+<title>Content</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
+</para>
+</sect3>
+</sect2>
+</sect1>
+
+<sect1><title>Adobe products</title>
+<para>
+<figure>
+<title>Content</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
 </para>
 </sect1>
+
+
+
+
 
 <sect1><title>Conclusion</title>
 <para>
-...
+<figure>
+<title>Content</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
 </para>
 </sect1>
 
 <sect1><title>Further reading</title>
 <para>
-...
+<figure>
+<title>Content</title>
+<graphic format="EPS" fileref="todo.eps">
+</figure>
 </para>
 </sect1>
 
