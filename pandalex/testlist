@@ -1,0 +1,12 @@
+#!/bin/bash
+
+for item in `cat doclist`
+do
+  ./lexer < $item > /dev/null 2> /tmp/$$
+  if [ `cat /tmp/$$ | wc -l | tr -d " "` -gt 0 ]
+  then
+    echo $item fails
+  fi
+
+  rm /tmp/$$
+done
