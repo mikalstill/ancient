@@ -14,22 +14,23 @@
 <sect1><title>Docbook</title>
 
 <para>
- Docbook is system for writing documents using SGML or XML. It facilitates structure and is well suited for writing books or \
- papers of this kind. Unlike formal wordprocessors, docbook effectively takes the effort out standard formatting chores, such as;
- ensuring title fonts are consistent in type and size, indexing tables and equations and inserting table of contents. These features
- are provided free of effort by docbook. Furthermore, document layout, justification and other such features are dealt with 
- automatically by docbook. The syntax used for our document is SGML, being very similar to HTML, with which most of us 
- are already familiar reducing the learning curve which might otherwise render the process counter productive.
+ Docbook is system for writing documents using SGML or XML. It facilitates structure and is well suited for writing books or 
+ papers of this kind. Unlike formal word processors, docbook greatly reduces the time spend on standardising the format of a document by
+ ensuring title fonts are consistent in type and size, tables, equations and figures are listed, along with the insertion of a table of 
+ contents. In addition, document layout, justification and other such features are dealt with 
+ automatically by docbook. The syntax used for docbook is SGML, which is very similar to HTML. As most of the group members were already
+ familiar with this type of syntax, it greatly reduced the learning curve to use docbook, which might have otherwise rendered the process 
+ counter productive.
 </para>
 
 <sect2><title>Docbook Tools</title>
 <para>
-  Docbook has another benefit which was the selling point for its encorperation into the documentation process. This
-  benefit is that it lends itself very well to automation. This achieved by using Docbook tools, a suite of programs
-  used to generate the docbook output. The process is essentially the same as that compiling a source, in that a makefile is used
-  to target the desired files. The files can then be structured in a hierarchical manner to ensure consistent and easy
-  organisation. A typical document might contain a top level file, say thesis.sgml which links the other files, for example,
-  timedomain.sgml and theory.sgml. This file also contains the top level information such as whether the document is a
+  Docbook is also easy to automate, whihc was another determining factor in using this tool. Automation was achieved by using Docbook tools, 
+  a suite of programs used to generate the docbook output. The process is similar to compiling source code, utilising a makefile to target 
+  the desired files and build them.  These files can then be structured in a hierarchical manner to ensure consistent and easy
+  organisation. A typical document might contain a top level file, for example, thesis.sgml, which links the other files, such as 
+  timedomain.sgml 
+  and theory.sgml. This file also contains the top level information such as whether the document is a
   book or an article, in which case various pages are generated automatically by docbook accordingly. Thesis.sgml might
   also conatin a preface and glossary and other such general information sections.
 </para>
@@ -79,10 +80,10 @@
   further trouble. It seemed still that the different distributions were not consistent when it came to building the
   documentation. An example of this, is that on some of the machines, although the docbook scripts would build the
   document, it was incomplete. This was due to the fact that SGML syntax errors were not being caught by the scripts
-  and as a result, later in the build process when the build finally broke, it was extremely difficult to pin point
-  exactly where the problem was. The same docbook version used on a different distribution caught the SGML errors allowing
+  and as a result, later in the build process when the build finally broke, it was extremely difficult to determine
+  exactly where the problems originated. The same docbook version used on a different distribution caught the SGML errors allowing
   us to debug and fix any problems. Furthermore, the templates on the different distributions varied such that page numbering
-  was not always consistent. This was infact the case even on different versions of the same distribution. To overcome
+  was not always consistent. This was the case even on different versions of the same distribution. To overcome
   these issues, we simply generated the final submission of the documentation on the most suitable template.
 </para>
 
@@ -91,11 +92,11 @@
 <sect2><title>Autodocbook</title>
 <para>
  Autodocbook is tool employed for the documentation of source code. It is a simple perl script designed to parse
-  C or C++ source files extracting comment blocks within specifi tag and turning them into docbook sgml files.
+  C or C++ source files extracting comment blocks within specific tags and turning them into docbook sgml files.
   These can then in turn be used to create  man pages, info pages and HTML documentation. This again serves to
-  minimise the need to changes things in various places. Firstly for example, if comments need to be changed for a specific
-  class or file, it is done and the Autodocbook script is run again requiring no further action. The second obvious
-  situtation is in the creation of the other possible outputs; man pages, info pages and HTML files. The appropriate
+  minimise the need to make changes in several places, for example, if comments need to be changed for a specific
+  class or file, it is done in the class file and the Autodocbook script is run again requiring no further action. The second obvious
+  situtation is in the creation of the other possible documents, such as man pages, info pages and HTML files. The appropriate
   conversion script is run on the target files and the task is complete.
 </para>
 
