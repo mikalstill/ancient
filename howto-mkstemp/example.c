@@ -8,7 +8,10 @@ int main(int argc, char *argv[]){
   int fd;
 
   printf("Before: %s\n", filename);
-  fd = mkstemp(filename);
+  if((fd = mkstemp(filename)) < 0){
+    perror("mkstemp failed");
+    exit(1);
+  }
   printf("After: %s (fd = %d)\n", filename, fd);
   close(fd);
 }
