@@ -100,8 +100,7 @@ linear    : xref trailer { }
 // Clibpdf sometimes puts some binary crap at the end of the file (pointer
 // problems?)
 // completely implemented
-endcrap   : binary { }
-          |
+endcrap   : { beginBinary(); } binary { endBinary(); }
           ;
 
 // completely implemented

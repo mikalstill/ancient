@@ -320,3 +320,11 @@ char *returnStr(char *yytext, int len){
 
   return lval;
 }
+
+void beginBinary(){
+  BEGIN(BINARY);
+}
+
+void endBinary(){
+  BEGIN(INITIAL);
+}
