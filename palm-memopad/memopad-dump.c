@@ -1,9 +1,5 @@
 #include <stdio.h>
-#include "memopad.h"
-
-void memopad_displaystring(FILE *, char *);
-int memopad_displayinteger(FILE *, char *);
-int memopad_displayshort(FILE *, char *);
+#include "fileutil.h"
 
 int main(int argc, char *argv[]){
   FILE *input;
@@ -70,49 +66,4 @@ int main(int argc, char *argv[]){
     memopad_displayinteger(input, "  Category field type: ");
     memopad_displayinteger(input, "  Category: ");
   }
-}
-
-void memopad_displaystring(FILE *input, char *format){
-  int i;
-
-  // Determine the length of the file -- this matches C++ CString serialization
-  i = fgetc(input);
-  if(i == 0xFF){
-    i = memopad_displayshort(input, "  Length might be a short: ");
-    if(i == 0xFFFF){
-      i = memopad_displayinteger(input, "  Length might be an integer: ");
-    }
-  }
-
-  printf(format, i);
-  for(; i != 0; i--){
-    printf("%c", fgetc(input));
-  }
-  printf("\n");
-}
-
-int memopad_displayinteger(FILE *input, char *format){
-  mint32 myint;
-
-  myint.i = 0;
-  printf(format);
-  myint.c[0] = fgetc(input);
-  myint.c[1] = fgetc(input);
-  myint.c[2] = fgetc(input);
-  myint.c[3] = fgetc(input);
-
-  printf("(int) %d\n", myint.i);
-  return myint.i;
-}
-
-int memopad_displayshort(FILE *input, char *format){
-  mint32 myint;
-
-  myint.i = 0;
-  printf(format);
-  myint.c[0] = fgetc(input);
-  myint.c[1] = fgetc(input);
-
-  printf("(short) %d\n", myint.i);
-  return myint.i;
 }

@@ -7,13 +7,9 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-#include "memopad.h"
+#include "fileutil.h"
 
 #define CHUNKSIZE 3000
-
-void memopad_insertstring(FILE *, char *);
-void memopad_insertinteger(FILE *, int);
-void memopad_insertshort(FILE *, int);
 
 char *memopad_xsnprintf(char *, ...);
 void memopad_xfree(void *);
@@ -173,41 +169,7 @@ int main(int argc, char *argv[]){
   }
 }
 
-void memopad_insertstring(FILE *output, char *string){
-  int len = strlen(string);
-
-  if(len < 0xFF){
-    fprintf(output, "%c", len);
-  }
-  else if(len < 0xFFFE){
-    fprintf(output, "%c", 0xFF);
-    memopad_insertshort(output, len);
-  }
-  else{
-    fprintf(output, "%c", 0xFF);
-    fprintf(output, "%c", 0xFF);
-    fprintf(output, "%c", 0xFF);
-    memopad_insertinteger(output, len);
-  }
-
-  fprintf(output, "%s", string);
-}
-
-void memopad_insertinteger(FILE *output, int value){
-  mint32 myInt;
-  myInt.i = value;
-
-  fprintf(output, "%c%c%c%c", myInt.c[0], myInt.c[1], myInt.c[2], myInt.c[3]);
-}
-
-void memopad_insertshort(FILE *output, int value){
-  mint32 myInt;
-  myInt.i = value;
-
-  fprintf(output, "%c%c", myInt.c[0], myInt.c[1]);
-}
-char *
-memopad_xsnprintf (char *format, ...)
+char *memopad_xsnprintf (char *format, ...)
 {
   char *output = NULL;
   int size, result;
