@@ -18,15 +18,15 @@ sql      : create sql | insert sql | sel sql
          ;
 
 create   : CREATE TABLE STRING '(' colvalspec ')' ';' 
-{ trivsql_docreate((char *) $3, (char *) $5); } 
+{ gState->rs = trivsql_makers((char *) $3); trivsql_docreate((char *) $3, (char *) $5); } 
          ;
 
 insert   : INSERT INTO STRING '(' colvalspec ')' VALUES '(' colvalspec ')' ';'
-{ gState->rs = trivsql_makers((char *) $3); gState->rs->errno = trivsql_checktable((char *) $3); if(gState->rs->errno == TRIVSQL_TRUE){trivsql_doinsert((char *) $3, (char *) $5, (char *) $9);}}
+{ gState->rs = trivsql_makers((char *) $3); gState->rs->errno = trivsql_checktable((char *) $3); if(gState->rs->errno == TRIVSQL_FALSE){trivsql_doinsert((char *) $3, (char *) $5, (char *) $9);}}
          ;
 
 sel      : SELECT cvsaster FROM STRING selector ';'
-{ gState->rs = trivsql_makers((char *) $4); gState->rs->errno = trivsql_checktable((char *) $4); if(gState->rs->errno == TRIVSQL_TRUE){trivsql_doselect((char *) $4, (char *) $2);}}
+{ gState->rs = trivsql_makers((char *) $4); gState->rs->errno = trivsql_checktable((char *) $4); if(gState->rs->errno == TRIVSQL_FALSE){trivsql_doselect((char *) $4, (char *) $2);}}
          ;
 
 cvsaster : colvalspec { $$ = trivsql_xsnprintf("%s", (char *) $1); }

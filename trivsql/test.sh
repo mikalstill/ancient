@@ -28,6 +28,7 @@ echo "Creating db"
 verify "CREATE TABLE foo (cola, colb, colc);" create001
 verify "CREATE TABLE hyphen-hyphen (hyphen-col);" create002
 verify "CREATE TABLE mIxEdCaSe (cola);" create003
+verify "CREATE TABLE singlecol ('foo');" create004
 
 if [ "%$1%" = "%create%" ]
 then

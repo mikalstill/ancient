@@ -1,1 +1,16 @@
-This statement produced no results.
+
+===============================
+| cola         | colc         |
+===============================
+| duck         | frog         |
+-------------------------------
+| duck         | (null)       |
+-------------------------------
+| banana       | frog         |
+-------------------------------
+| this-has-hyphens | (null)       |
+-------------------------------
+
+
+Select returned 4 rows of 2 columns
+

@@ -11,6 +11,7 @@ int main(int argc, char *argv[]){
   while(fgets(cmd, 1000, stdin) != NULL){
     rs = trivsql_execute(ourState, cmd);
     if(rs != NULL) trivsql_displayrs(rs);
+    else printf("NULL recordset\n");
     trivsql_xfree(rs);
   }
 }
