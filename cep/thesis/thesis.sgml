@@ -5,8 +5,11 @@
 <execute><cmd>builddb</cmd><input>abstract.sgml</input></execute>
 </bookinfo>
 
+<preface><title>Acknowledgments</title>
+<execute><cmd>builddb</cmd><input>acknowledgments.sgml</input></execute>
+</preface>
 
-<chapter><title> Theory </title>
+<chapter id="ch01"><title> Theory </title>
   <execute><cmd>builddb</cmd><input>theory_intro.sgml</input></execute>
   <execute><cmd>builddb</cmd><input>theory_TDA.sgml</input></execute>
   <execute><cmd>builddb</cmd><input>theory_Interp.sgml</input></execute>
@@ -15,7 +18,7 @@
   <execute><cmd>builddb</cmd><input>theory_UI.sgml</input></execute>
 </chapter>
 
-<chapter><title>Implementation</title>
+<chapter id="ch02"><title>Implementation</title>
 
   <execute><cmd>builddb</cmd><input>imp_design.sgml</input></execute>
   <execute><cmd>builddb</cmd><input>imp_proto.sgml</input></execute>
@@ -31,15 +34,15 @@
 
 </chapter>
 
-<chapter><title>Testing</title>
+<chapter id="ch03"><title>Testing</title>
   <execute><cmd>builddb</cmd><input>imp_Testing.sgml</input></execute>
 </chapter>
 
-<chapter><title>Conclusion</title>
+<chapter id="ch04"><title>Conclusion</title>
   <execute><cmd>builddb</cmd><input>conclusion.sgml</input></execute>
 </chapter>
 
- <execute><cmd>builddb</cmd><input>glossary.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>glossary.sgml</input></execute>
 
 <chapter><title>References</title>
   <execute><cmd>builddb</cmd><input>references.sgml</input></execute>
