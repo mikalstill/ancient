@@ -1,4 +1,4 @@
-A simple ls.
+A simple ls. For the syscall version to work, you'll either need to provide your own no-op printk, or apply the sys_printk patch included...
 
 To compile, try:
 

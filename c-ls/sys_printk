@@ -1,0 +1,62 @@
+diff -Nur linux-2.6.0/arch/i386/kernel/entry.S linux-2.6.0-sys_printk/arch/i386/kernel/entry.S
+--- linux-2.6.0/arch/i386/kernel/entry.S	2003-12-18 13:58:30.000000000 +1100
++++ linux-2.6.0-sys_printk/arch/i386/kernel/entry.S	2004-01-19 17:12:58.000000000 +1100
+@@ -625,7 +625,7 @@
+ 	.long sys_mknod
+ 	.long sys_chmod		/* 15 */
+ 	.long sys_lchown16
+-	.long sys_ni_syscall	/* old break syscall holder */
++	.long sys_printk
+ 	.long sys_stat
+ 	.long sys_lseek
+ 	.long sys_getpid	/* 20 */
+diff -Nur linux-2.6.0/include/asm-i386/unistd.h linux-2.6.0-sys_printk/include/asm-i386/unistd.h
+--- linux-2.6.0/include/asm-i386/unistd.h	2003-12-18 13:59:05.000000000 +1100
++++ linux-2.6.0-sys_printk/include/asm-i386/unistd.h	2004-01-19 17:13:49.000000000 +1100
+@@ -22,7 +22,7 @@
+ #define __NR_mknod		 14
+ #define __NR_chmod		 15
+ #define __NR_lchown		 16
+-#define __NR_break		 17
++#define __NR_printk		 17
+ #define __NR_oldstat		 18
+ #define __NR_lseek		 19
+ #define __NR_getpid		 20
+diff -Nur linux-2.6.0/kernel/printk.c linux-2.6.0-sys_printk/kernel/printk.c
+--- linux-2.6.0/kernel/printk.c	2003-12-18 13:59:58.000000000 +1100
++++ linux-2.6.0-sys_printk/kernel/printk.c	2004-01-19 19:45:42.000000000 +1100
+@@ -512,6 +512,34 @@
+ }
+ EXPORT_SYMBOL(printk);
+ 
++asmlinkage long sys_printk(const char __user *msg_user)
++{
++	char *msg;
++	long rc = 0;
++
++	msg = kmalloc(PAGE_SIZE, GFP_KERNEL);
++	if (NULL == msg)
++	{
++		printk(KERN_ERR "Userspace message injection failed: "
++		       "memory allocation failed\n");
++		return -ENOMEM;
++	}
++
++	if ((rc = strncpy_from_user(msg, msg_user, PAGE_SIZE - 1)) < 0)
++	{
++		printk(KERN_ERR "Userspace message injection failed: "
++		       "extraction failed\n");
++		goto out;
++	}
++
++	rc = 0;
++	printk(msg);
++
++ out:
++	kfree(msg);
++	return rc;
++}
++
+ /**
+  * acquire_console_sem - lock the console system for exclusive use.
+  *
