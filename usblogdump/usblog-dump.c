@@ -33,6 +33,7 @@ usage (char *name)
   printf ("\t\t-B:        Dump data as binary instead of hex\n");
   printf ("\t\t-d <prog>: Binary transfer decoder helper application\n");
   printf ("\t\t-e:        Excessive dumping mode. Show binary, hex and decimal\n");
+  printf ("\t\t-I:        Do informational dumping (decode common blocks)\n");
   printf ("\n");
   printf ("\t-i <name>: The name of the input usblog file\n");
   printf ("\t-l:        Output Linux kernel equivalent descriptions\n");
@@ -101,7 +102,8 @@ usb_allurbs;
 // Used for correlation
 int hashcmp (usb_allurbs * head, int inset, int testinset, int length);
 
-int do_linux = 0, do_showhash = 0, do_binarydumps = 0, do_excessivedumps = 0, 
+int do_linux = 0, do_showhash = 0, 
+  do_binarydumps = 0, do_excessivedumps = 0, do_informationaldumps = 0,
   do_decoder = 0, do_now = 0;
 
 int
@@ -117,7 +119,7 @@ main (int argc, char *argv[])
   int transfer_direction;
   int max_bulk = 0;
 
-  while ((optchar = getopt (argc, argv, "i:lmrRvb:Bd:ne")) != -1)
+  while ((optchar = getopt (argc, argv, "i:lmrRvb:Bd:neI")) != -1)
     {
       switch (optchar)
 	{
@@ -142,6 +144,10 @@ main (int argc, char *argv[])
 
 	case 'i':
 	  input_filename = (char *) strdup (optarg);
+	  break;
+
+	case 'I':
+	  do_informationaldumps = 1;
 	  break;
 
 	case 'l':
@@ -410,7 +416,28 @@ main (int argc, char *argv[])
               if(fileutil_getnumber (file, &filep) != 0)
                 {
                   urb_printf ("Control Data: \n");
-		  dump_data(file, &filep, psize, "CTRL");
+		  if(do_informationaldumps == 1)
+		    {
+		      long long priorfilep = filep;
+
+		      // Skip the size byte (it's the same as the header)
+		      filep++;
+
+		      temp = file[filep++];
+		      switch(temp)
+			{
+			  
+			default:
+			  urb_printf("\tUnknown control transfer (%d).\n\n", temp);
+			  filep = priorfilep;
+			  dump_data(file, &filep, psize, "CTRL");
+			  break;
+			}
+		    }
+		  else
+		    {
+		      dump_data(file, &filep, psize, "CTRL");
+		    }
                 }
               urb_printf ("\n");
             }
@@ -1216,6 +1243,11 @@ void dump_data(char *file, long long *filep, int psize, char *type)
 	}
       else if (do_binarydumps == 1)
 	{
+	  if(do_excessivedumps == 1)
+	    {
+	      urb_printf("%3d: ", i);
+	    }
+
 	  temp = (unsigned char) file[count];
 	  char *conv = to_binary(temp);
 	  urb_printf("%s ", conv);
@@ -1223,7 +1255,7 @@ void dump_data(char *file, long long *filep, int psize, char *type)
 
 	  if(do_excessivedumps == 1)
 	    {
-	      urb_printf("decimal(%d) hex(%02x)\n\t", temp, temp);
+	      urb_printf("decimal(%3d) hex(%02x)\n\t", temp, temp);
 	    }
 	}
       else if (isgraph (file[count]))
@@ -1239,13 +1271,17 @@ void dump_data(char *file, long long *filep, int psize, char *type)
 	  urb_printf ("%02x ", (unsigned char) file[count]);
 	}
       count++;
-      if (!((i + 1) % 16))
+
+      if(do_excessivedumps == 0)
 	{
-	  urb_printf (" ");
-	}
-      if (!((i + 1) % 32))
-	{
-	  urb_printf ("\n\t");
+	  if (!((i + 1) % 16))
+	    {
+	      urb_printf (" ");
+	    }
+	  if (!((i + 1) % 32))
+	    {
+	      urb_printf ("\n\t");
+	    }
 	}
     }
 
