@@ -9,10 +9,15 @@ extern "C"
 {
 #endif
 
-#define TRIVSQL_TRUE 1
 #define TRIVSQL_FALSE 0
+#define TRIVSQL_TRUE 1
+
+#define TRIVSQL_TABLEOK 2
+#define TRIVSQL_NOSUCHTABLE 3
+
 #define SELTRUE 1
 #define SELFALSE 0
+
 typedef int (*trivsql_selectorfunc) (char *arg1, char *arg2);
 
 typedef struct trivsql_internal_col
@@ -36,6 +41,8 @@ typedef struct trivsql_internal_rs
 
   char *tname;
   char *cols;
+
+  int errno;
 } trivsql_recordset;
 
 typedef struct trivsql_internal_state
@@ -51,12 +58,14 @@ typedef struct trivsql_internal_state
 trivsql_state *trivsql_init(char *);
 void trivsql_docreate(char *, char *);
 void trivsql_doinsert(char *, char *, char *);
-trivsql_recordset *trivsql_doselect(char *, char *);
+void trivsql_doselect(char *, char *);
 
 int *trivsql_parsecols(char *, char *, int *);
 int trivsql_findcol(char *, char *, char *);
 void trivsql_addrow(trivsql_recordset *, char *, int, int *);
 char *trivsql_getallcolumns(char *);
+trivsql_recordset *trivsql_makers();
+int trivsql_checktable(char *);
 
 void *trivsql_xmalloc(size_t);
 void trivsql_dbwrite(trivsql_state *, char *, char *);

@@ -87,11 +87,10 @@ void trivsql_doinsert(char *tname, char *cols, char *vals){
   trivsql_xfree(u);
 }
 
-trivsql_recordset *trivsql_doselect(char *tname, char *cols){
+void trivsql_doselect(char *tname, char *cols){
   int *colNumbers;
   int row, rowCount, numCols, addMe, sac1, sac2;
   char *t, *u, *sa1, *sa2, *localCols;
-  trivsql_recordset *rrs;
 
   // If the columns list is '*', substitute a list of all the columns
   if(strcmp(cols, "*") == 0)
@@ -103,6 +102,10 @@ trivsql_recordset *trivsql_doselect(char *tname, char *cols){
   if((colNumbers = trivsql_parsecols(tname, localCols, &numCols)) == NULL){
     return;
   }
+
+  // Populate recordset
+  gState->rs->numCols = numCols;
+  gState->rs->cols = trivsql_xsnprintf("%s", localCols);
 
   // Decide what rows on the table match the select condition
   if((rowCount = trivsql_getrowcount(tname)) == -1){
@@ -116,17 +119,6 @@ trivsql_recordset *trivsql_doselect(char *tname, char *cols){
     sac1 = trivsql_findcol(tname, localCols, sa1);
     sac2 = trivsql_findcol(tname, localCols, sa2);
   }
-
-  // Build the recordset
-  rrs = trivsql_xmalloc(sizeof(trivsql_recordset));
-  rrs->numCols = numCols;
-  rrs->rows = trivsql_xmalloc(sizeof(trivsql_row));
-  rrs->rows->next = NULL;
-  rrs->rows->cols = NULL;
-  rrs->numRows = 0;
-  rrs->tname = trivsql_xsnprintf("%s", tname);
-  rrs->cols = trivsql_xsnprintf("%s", localCols);
-  rrs->currentRow = rrs->rows;
 
   for(row = 0; row < rowCount; row++){
     addMe = SELTRUE;
@@ -150,9 +142,8 @@ trivsql_recordset *trivsql_doselect(char *tname, char *cols){
     }
 
     if(addMe == SELTRUE)
-      trivsql_addrow(rrs, tname, row, colNumbers);
+      trivsql_addrow(gState->rs, tname, row, colNumbers);
   }
-  return rrs;
 }
 
 void *
@@ -426,4 +417,34 @@ char *trivsql_getallcolumns(char *tname)
 int trivsql_min(int a, int b){
   if(a > b) return b;
   return a;
+}
+
+int trivsql_checktable(char *tname){
+  char *t, *u;
+  
+  t = trivsql_xsnprintf("trivsql_%s_numrows", tname);
+  u = trivsql_dbread(gState, t);
+  trivsql_xfree(t);
+ 
+  if(u == NULL)
+    return TRIVSQL_NOSUCHTABLE;
+  return TRIVSQL_TABLEOK;
+}
+
+trivsql_recordset* trivsql_makers(char *tname){
+  trivsql_recordset *rrs;
+
+  // Build the recordset
+  rrs = trivsql_xmalloc(sizeof(trivsql_recordset));
+  rrs->rows = trivsql_xmalloc(sizeof(trivsql_row));
+  rrs->rows->next = NULL;
+  rrs->rows->cols = NULL;
+  rrs->numCols = 0;
+  rrs->numRows = 0;
+  rrs->tname = trivsql_xsnprintf("%s", tname);
+  rrs->currentRow = rrs->rows;
+  rrs->errno = TRIVSQL_TRUE;
+  rrs->cols = NULL;
+
+  return rrs;
 }

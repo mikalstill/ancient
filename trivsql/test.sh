@@ -6,6 +6,7 @@ function verify (){
     echo "$1" | ./sample > testout/$2.new
     if [ `diff testout/$2 testout/$2.new | wc -l | tr -d " "` -gt 0 ]
       then
+      echo " -- $1:"
       echo "    - Results have changed!"
       echo "    - Old:"
       cat testout/$2
@@ -24,7 +25,6 @@ echo "Removing old db"
 rm foo.tdb
 
 echo "Creating db"
-echo " -- Create table"
 verify "CREATE TABLE foo (cola, colb, colc);" create001
 
 if [ "%$1%" = "%create%" ]
@@ -44,17 +44,16 @@ fi
 
 echo ""
 echo "Select tests"
-echo " -- This should return all three rows with all three columns"
 verify "SELECT cola, colb, colc FROM foo;" sel001
 
 echo ""
-echo " -- This should return all three rows with all three columns"
 verify "SELECT * FROM foo;" sel002
 
 echo ""
-echo " -- This should return three rows with only two columns"
 verify "SELECT cola, colc FROM foo;" sel003
 
 echo ""
-echo " -- This should return two rows, both with cola = duck"
 verify "SELECT cola, colb, colc FROM foo WHERE cola = 'duck';" sel004
+
+echo ""
+verify "SELECT * FROM nosuchtable;" sel005
