@@ -107,7 +107,7 @@ public:
     return N;
   }
 
-  cepMatrix<ComplexDble> matrixFft(cepMatrix<double> & matrix, int dir);
+  cepMatrix<ComplexDble> matrixFft(cepMatrix<ComplexDble> & matrix, int dir);
 
   // used to fill in last half of complex spectrum of real signal
   // when the first half is already there.
@@ -233,7 +233,7 @@ template < class CPLX > void cfft < CPLX >::hermitian (CPLX * buf)
    returns the fft'd data in the matrix whic was originally passed.
  */
 template < class CPLX > cepMatrix<ComplexDble>
-                        cfft < CPLX >::matrixFft(cepMatrix<double> & matrix, int dir)
+                        cfft < CPLX >::matrixFft(cepMatrix<ComplexDble> & matrix, int dir)
 {
   int numRows = matrix.getNumRows();
   int numCols = matrix.getNumCols();
@@ -255,12 +255,13 @@ template < class CPLX > cepMatrix<ComplexDble>
 //calculate the frequency scale and place it in the return matrix
 
   cout << "Calculating frequency scale.." << endl;
-  char junk;
+  //char junk;
   for (table=0; table < numTables; table++)
   {
     //size of dataset = numRows
     int halfSetSize = (int)(numRows*0.5);
-    double sampleRate = ( matrix.getValue(0,0,0)  - matrix.getValue(0,1,0) )*SECSINYEAR;
+    double sampleRate = ( real( matrix.getValue(0,0,0) )  
+                        - real (matrix.getValue(0,1,0) ) )*SECSINYEAR;
     double freq = 1/sampleRate;
     
     cout << "Setting fft matrix scale values ..." << endl;
@@ -270,8 +271,8 @@ template < class CPLX > cepMatrix<ComplexDble>
 	cout << ffteedMatrix.getValue(row,FIRSTCOLUMN, table) << endl;
     }
   }
-
-  cin >> junk;
+  //cout << "key and enter to continue.." <<endl;
+  //cin >> junk;
   cout << endl;
   cout << "Populating array to be fft'd .." << endl;
   //populate the array to send to fft module.
@@ -285,18 +286,19 @@ template < class CPLX > cepMatrix<ComplexDble>
         {
 	    for (count = 0; count < NUMCHECKS; count++)
     	    {
-	        checks[count] = matrix.getValue(count,col-1,table);
+	        checks[count] = real( matrix.getValue(count,col-1,table) );
 	    }
 	    if ( (checks[0] - checks[1]) != (checks[1] - checks[2]) )
 	        ;//todo daniel: throw an error values not equidistant.
             else
 	    {
 	        arrayToFft[row]= matrix.getValue(row,col,table);;  //populate the arry to be fft'd            
-		cout << row << " - " << arrayToFft[row] << endl;
+		//cout << row << " - " << arrayToFft[row] << endl;
 	    }
         }//end for row
     }//end for col 
-    cin >> junk;
+    //cout << "key and enter to continue.." <<endl;
+    //cin >> junk;
 
     /*********************************compute the fft.************************************/
 
@@ -315,15 +317,15 @@ template < class CPLX > cepMatrix<ComplexDble>
     }
    
     //place the processed values into the marix.
-    cout << "Outputting the results ... " << endl;
+    //cout << "Outputting the results ... " << endl;
     for (col =1; col < numCols; col ++)
     {
         for (row = 0; row < numRows; row++)
 	{
              ffteedMatrix.setValue(row,col,table,arrayToFft[row]);
-             cout << "Value for (r,c,t) - (" << row << "," << col << "," << table
-	     << " .. " << ffteedMatrix.getValue(row,col,table)
-	     << endl;
+             //cout << "Value for (r,c,t) - (" << row << "," << col << "," << table
+	     //<< " .. " << ffteedMatrix.getValue(row,col,table)
+	     //<< endl;
          }//
 	 cout << endl;
     } //for col

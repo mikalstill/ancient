@@ -10,7 +10,7 @@ Description:- The cepMatrix object contains the matrix data,
  /* 
   * Imp for the matrix class
   * Copyright (C) Kristy Van Der Vlist             2002
-  * 
+  * Copyright (C) Daniel Fernandez - minor changes to some type references
   * This program is free software; you can redistribute it and/or modify it
   * under the terms of the GNU General Public License as published by the Free
   * Software Foundation; either version 2 of the License, or (at your option)
@@ -650,7 +650,7 @@ const cepMatrix<T> & cepMatrix<T>::operator= (const cepMatrix & B)
   }
   else
   {
-    matrix = new double[numRows * numCols];
+    matrix = new T[numRows * numCols]; //just in case this line breaks - daniel changed this from double to T.
 
     if (matrix == NULL)
     {

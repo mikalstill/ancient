@@ -105,8 +105,8 @@ namespace
       int numRows = 256;
       int numCols = 2;
       int sinIndex = 0;
-
-      cepMatrix < double >myMatrix (numRows, numCols, numTables);
+      //char junk;
+      cepMatrix < ComplexDble >myMatrix (numRows, numCols, numTables);
 
       // populate column 1 myMatrix with indexes
       cout << "Populating myMatrix ..." << endl;
@@ -141,13 +141,28 @@ namespace
       cfft < ComplexDble > FFT (256);
       
       //ComplexDble Array[256];
-      cepMatrix < ComplexDble > myComplexMatrix(numRows,numCols,numTables);
+      //cepMatrix < ComplexDble > myComplexMatrix(numRows,numCols,numTables);
 
       //....
       //FFT.fft (Array);
       //FFT.ifft (Array);
-      FFT.matrixFft (myMatrix, 1);
-
+      myMatrix = FFT.matrixFft (myMatrix, 1);
+      cout << "MAtrix returned ok ..outputing results..." << endl;
+      
+      for (int t = 0; t < numTables; t++)
+      {
+        for (int c =1; c < numCols; c ++)
+        {
+          for (int r = 0; r < numRows; r++)
+	  {
+             cout << "Value for (r,c,t) - (" << r << "," << c << "," << t
+	     << " .. " << myMatrix.getValue(r,c,t)
+	     << endl;
+          }//for r
+	 
+	 cout << endl;
+        } //for c
+      }//end for t
       
       CPPUNIT_ASSERT_EQUAL_MESSAGE( "Poo bear", 1, 1);
     }// 
