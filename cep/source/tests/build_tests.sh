@@ -10,8 +10,8 @@ TEST_PREFIX=cep_test
 DEFINES="-D_GNU_SOURCE -D__WXGTK__ -D__CEP_UNIT_TEST__"
 CCFLAGS="-g -Wall"
 
-FILES="../cepMatrix.cpp ../cepError.cpp ../cepConfiguration.cpp"
-OBJS="../cepMatrix.o ../cepError.o ../cepConfiguration.o $TEST_PREFIX*.o ../cepUtility.o"
+FILES="../cepLs.cpp"
+OBJS="../cepLs.o $TEST_PREFIX*.o"
 LIBS="-lcppunit -lm -lfl"
 
 # look for alltests
@@ -45,4 +45,4 @@ else
 	echo success!
 	echo test executable is called \"$BINARY\".
 fi
-\n
+

@@ -37,11 +37,14 @@
  *     void tearDown( void ) { ... }
  *
  * @author <your name here>
- * @version $Revision: 1.5 $ $Date: 2002-08-12 10:08:44 $
+ * @version $Revision: 1.6 $ $Date: 2002-08-18 03:12:46 $
  *
  * Revision History
  *
  * $Log: not supported by cvs2svn $
+ * Revision 1.5  2002/08/12 10:08:44  u983118
+ * fixed probs with previous revision
+ *
  * Revision 1.3  2002/08/11 07:07:43  u983118
  * updated tests for cepMatrix
  *
@@ -122,12 +125,12 @@ protected:
   void testAssign ()
   {
      int rows = 3, cols = 3;
-    cepMatrix expected( rows, cols );
-    cepMatrix actual( rows, cols );
+    cepMatrix<double> expected( rows, cols );
+    cepMatrix<double> actual( rows, cols );
     
     for( int i=0; i<rows; i++ ) {
       for( int j=0; j<cols; j++ ) {
-        expected.setValue( i, j, 1 );
+        actual.setValue( i, j, 12.8 );
       }
     }
     
@@ -135,7 +138,7 @@ protected:
     
     for( int i=0; i<rows; i++ ) {
       for( int j=0; j<cols; j++ ) {
-        CPPUNIT_ASSERT_EQUAL_MESSAGE( "value not equal", expected.getValue( i, j ), actual.getValue( i, j ));
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "value not equal", expected.getValue( i, j ), actual.getValue(i,j));
       }
     }
   }
@@ -146,7 +149,7 @@ protected:
     int rows = 3, cols = 3;
     double expected = 3.0;
     
-    cepMatrix A( rows, cols ), B( rows, cols );
+    cepMatrix<double> A( rows, cols ), B( rows, cols );
     
     for( int i=0; i<rows; i++ ) {
       for( int j=0; j<cols; j++ ) {
@@ -175,7 +178,7 @@ protected:
     int rows = 3, cols = 3;
     double expected = 3.0;
     
-    cepMatrix A( rows, cols ), B( rows, cols );
+    cepMatrix<double> A( rows, cols ), B( rows, cols );
     
     for( int i=0; i<rows; i++ ) {
       for( int j=0; j<cols; j++ ) {
@@ -205,7 +208,7 @@ protected:
     int bRows = 3, bCols = 2;
     double expected = 84.42;
     
-    cepMatrix A( aRows, aCols ), B( bRows, bCols );
+    cepMatrix<double> A( aRows, aCols ), B( bRows, bCols );
     
     for( int i=0; i<aRows; i++ ) {
       for( int j=0; j<aCols; j++ ) {
@@ -237,7 +240,7 @@ protected:
     int rows = 3, cols = 3;
     double s = 1.23, expected = 6.43782;    
     
-    cepMatrix A( rows, cols ), B( rows, cols );
+    cepMatrix<double> A( rows, cols ), B( rows, cols );
     
     for( int i=0; i<rows; i++ ) {
       for( int j=0; j<cols; j++ ) {
@@ -259,8 +262,8 @@ protected:
   void testEqu1 ()
   {
     int rows = 3, cols = 3;
-    cepMatrix A( rows, cols );
-    cepMatrix B( rows, cols );
+    cepMatrix<double> A( rows, cols );
+    cepMatrix<double> B( rows, cols );
     
     for( int i=0; i<rows; i++ ) {
       for( int j=0; j<cols; j++ ) {
@@ -282,8 +285,8 @@ protected:
   void testEqu2 ()
   {
     int rows = 3, cols = 3;
-    cepMatrix A( rows, cols );
-    cepMatrix B( rows, cols );
+    cepMatrix<double> A( rows, cols );
+    cepMatrix<double> B( rows, cols );
     
     for( int i=0; i<rows; i++ ) {
       for( int j=0; j<cols; j++ ) {
@@ -305,7 +308,7 @@ protected:
   void testDiag1 ()
   {
     int rows = 3, cols = 3;
-    cepMatrix A( rows, cols );
+    cepMatrix<double> A( rows, cols );
     
     A.setValue(0,0,1);
     A.setValue(0,1,0);
@@ -327,7 +330,7 @@ protected:
   void testDiag2 ()
   {
     int rows = 3, cols = 3;
-    cepMatrix A( rows, cols );
+    cepMatrix<double> A( rows, cols );
     
     A.setValue(0,0,1);
     A.setValue(0,1,0);
@@ -349,7 +352,7 @@ protected:
   void testTranspose ()
   {
     int rows = 3, cols = 2;
-    cepMatrix A( rows, cols );
+    cepMatrix<double> A( rows, cols );
     
     A.setValue(0,0,1);
     A.setValue(0,1,2);
@@ -382,4 +385,3 @@ protected:
 CPPUNIT_TEST_SUITE_REGISTRATION( Test );
 
 } // end namespace
-\n

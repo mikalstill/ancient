@@ -37,11 +37,14 @@
  *     void tearDown( void ) { ... }
  *
  * @author <your name here>
- * @version $Revision: 1.3 $ $Date: 2002-08-12 10:04:39 $
+ * @version $Revision: 1.4 $ $Date: 2002-08-18 03:12:47 $
  *
  * Revision History
  *
  * $Log: not supported by cvs2svn $
+ * Revision 1.3  2002/08/12 10:04:39  u983118
+ * *** empty log message ***
+ *
  *
  */
 
@@ -84,7 +87,7 @@ protected:
   /** Tests Ls */
   void testLs()
   {
-    cepMatrix A(4,2), P(4,4), L(4,1);
+    cepMatrix<double> A(4,2), P(4,4), L(4,1);
     cepLs ans;
     
     //define the A matrix
@@ -126,7 +129,7 @@ protected:
     L.setValue(2,0,1.2);
     L.setValue(3,0,3.1);
     
-    ans.cepDoLeastSquares(A, P, L);
+    ans.cepDoVCV(A, P, L);
     
     //tests for B1 and B2
     CPPUNIT_ASSERT_DOUBLES_EQUAL( -0.582142857, ans.getB1(), 0.0000001 );
