@@ -37,11 +37,15 @@
  *     void tearDown( void ) { ... }
  *
  * @author <your name here>
- * @version $Revision: 1.4 $ $Date: 2002-11-11 04:55:47 $
+ * @version $Revision: 1.5 $ $Date: 2002-11-12 22:30:08 $
  *
  * Revision History
  *
  * $Log: not supported by cvs2svn $
+ * Revision 1.4  2002/11/11 04:55:47  u983131
+ * cepInterp - now has fully working and validated natural splines
+ * also changed makefile to reinclude it in the build
+ *
  * Revision 1.3  2002/11/10 04:49:46  u983131
  * *** empty log message ***
  *
@@ -509,18 +513,80 @@ protected:
   }
 
 
-	/** Tests that the interp engine can build its own timescale */
+	/** Tests that divided differences can interpolate a line of slope 1 */
   void testDivDiff1()
   {
-    int rows = 3, cols = 3;
+    int rows = 10, cols = 3;
     cepMatrix<double> start( rows, cols );
     cepMatrix<double> finish1( 2 * rows -1, cols );
     cepMatrix<double> finish2( 2 * rows -1 , cols );
 		cepInterp interpolate;
 
+    cout << "Input values\n";
     for( int i=0; i<rows; i++ )
+    {
       for( int j=0; j<cols; j++ )
+      {
         start.setValue( i, j, (double)i * 2 );
+        cout << start.getValue(i,j) << " ";
+      }
+      cout << '\n';
+    }
+    cout << '\n';
+
+
+		// populate matrix with expected values
+		for (int i=0; i<2*rows-1; i++)
+		{
+			for (int j=0; j<cols-1; j++)
+				finish2.setValue(i,j, (double)i);
+		}
+
+		// generate linear interp
+		finish1 = interpolate.doInterp(start, 1, DIVIDED_INTERP);
+
+		for (int i=0; i<finish1.getNumRows(); i++)
+		{
+			for (int j=0; j<finish1.getNumCols(); j++)
+				cout << finish1.getValue(i,j) << " ";
+			cout << '\n';
+		}
+
+/*    for( int i=0; i<2*rows-1; i++ )
+      for( int j=0; j<cols-1; j++ )
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "values not equal",
+				               finish2.getValue(i,j), finish1.getValue(i,j));
+*/
+
+  }
+
+
+  void testDivDiff2()
+  {
+    int rows = 9, cols = 3;
+    cepMatrix<double> start( rows, cols );
+    cepMatrix<double> finish1( 2 * rows -1, cols );
+    cepMatrix<double> finish2( 2 * rows -1 , cols );
+		cepInterp interpolate;
+
+    start.setValue( 0, 0, 0.0 );
+    start.setValue( 0, 1, 4.0 );
+    start.setValue( 2, 0, 0.0 );
+    start.setValue( 2, 1, 0.0 );
+    start.setValue( 5, 0, 0.0 );
+    start.setValue( 5, 1, 4.0 );
+    start.setValue( 7, 0, 0.0 );
+    start.setValue( 7, 1, 4.0 );
+    start.setValue( 9, 0, 0.0 );
+    start.setValue( 9, 1, 0.0 );
+    start.setValue( 11, 0, 0.0 );
+    start.setValue( 11, 1, 4.0 );
+    start.setValue( 13, 0, 0.0 );
+    start.setValue( 13, 1, 4.0 );
+    start.setValue( 15, 0, 0.0 );
+    start.setValue( 15, 1, 0.0 );
+    start.setValue( 17, 0, 0.0 );
+    start.setValue( 17, 1, 4.0 );
 
 
 		// populate matrix with expected values
