@@ -58,7 +58,7 @@ foreach $chapter (split(/ /, $chapters)){
     }
 
     $chaptercount++;
-    print "\bProcessing chapter $chapter ($chaptercount)\n ";
+    print "Processing chapter $chapter ($chaptercount)\n ";
     open INPUT, "< $chapter.mm";
 
     $liststate = 0;
@@ -99,7 +99,7 @@ foreach $chapter (split(/ /, $chapters)){
 		    $waitstate = 0;
 		}
 	    }
-	    print "\b  [Conditional was $condlinecount lines]\n ";
+	    print "  [Conditional was $condlinecount lines]\n ";
 	}
 
 	# Ampersands
@@ -114,8 +114,17 @@ foreach $chapter (split(/ /, $chapters)){
 	# Mu (micro) doesn't work with db2ps (jade)
 	s/µ/&mu;/g;
 
+	# Sometimes there are some other special characters that we deal with
+	s/\\\(ae/&ccdeil;g/;
+
 	# Footnote thingie we don't use
 	s/\\\*F//g;
+
+	# Bold italic for a single word
+	s/\\f\(BI([^ \t\"\\]*)/<command><emphasis>$1<\/emphasis><\/command>/ig;
+
+	# Italic for a single word
+	s/\\\(em([^ \t\"\\]*)/<emphasis> $1<\/emphasis>/ig;
 
 	# We run some little conversion rules to deal with things like italics et al
 	if($displaystate == 0){
@@ -140,6 +149,10 @@ foreach $chapter (split(/ /, $chapters)){
 	if(/^\.\\\"(.*)/i){
 	}
 
+	# No mapping
+	elsif(/^\.\./){
+	}
+
 	# Aside start
 	elsif(/^\.Aside(.*)/i){
 	    endpara();
@@ -153,8 +166,16 @@ foreach $chapter (split(/ /, $chapters)){
             startpara();
 	}
 
+	# No mapping?
+	elsif(/^\.ad/i){
+	}
+	
+	# No mapping?
 	elsif(/^\.br/i){
-# No mapping?
+	}
+
+	# No mapping
+	elsif(/^\.ce/i){
 	}
 
 	# Defining display strings
@@ -177,6 +198,11 @@ foreach $chapter (split(/ /, $chapters)){
 	    }
 	}
 	
+	# The content of floating displays is handled in with the images themselves
+	# This also squelches the display output command
+	elsif(/^\.DF/i){
+	}
+	
 	# Ifs
 	elsif(/^\.\.if/i){
 	}
@@ -192,6 +218,11 @@ foreach $chapter (split(/ /, $chapters)){
 	# Setting the font family
 	elsif(/^\.fam/i){
 	    # No mapping?
+	}
+
+	# Set the font
+	elsif(/^\.ft/i){
+	    # No mapping
 	}
 
 	# Footnote start
@@ -265,6 +296,23 @@ foreach $chapter (split(/ /, $chapters)){
 	    print OUTPUT "</sidebar>\n";
             startpara();
 	}
+
+        # Indents (not used very often in Greg's source)
+	elsif(/^\.Indent(.*)/i){
+	    endpara();
+	    print OUTPUT "<sidebar>\n";
+            startpara();
+	}
+
+	elsif(/^\.End-indent(.*)/i){
+            endpara();
+	    print OUTPUT "</sidebar>\n";
+            startpara();
+	}	
+
+	# Another form of indenting (has no mapping)
+	elsif(/^\.in/i){
+	}
 	
 	# List start
 	elsif((/^\.LS(.*)/i) || (/^\.LB(.*)/i)){
@@ -272,7 +320,7 @@ foreach $chapter (split(/ /, $chapters)){
 	}
 	
 	# List item
-	elsif(/^\.LI(.*)/i){
+	elsif(/^\.LI[ \t]*(.*)/i){
 	    if($liststate == 0){
 		dblog("{DBLOG: List item for a non-open list!}");
                 liststart();
@@ -322,7 +370,22 @@ foreach $chapter (split(/ /, $chapters)){
 	    }
 	}
 	
+	# No mapping
+	elsif(/^\.na/i){
+	}
+
+	# Space on page
 	elsif(/^\.ne/i){
+	    # No mapping to docbook?
+	}
+
+	# No fill
+	elsif(/^\.nf/i){
+	    # No mapping to docbook?
+	}
+
+	# Set the fill (after a ne?)
+	elsif(/^\.fi/i){
 	    # No mapping to docbook?
 	}
 	
@@ -375,6 +438,10 @@ foreach $chapter (split(/ /, $chapters)){
 	elsif(/^\.sp(.*)/i){
 	}
 
+	# I believe that so is the inclusion of a shared object
+	elsif(/^\.so/i){
+	}
+
 	# Table title
 	elsif(/^\.TB[ \t]*[\"]*([^\"]*)[\"]*/i){
 #	    print OUTPUT "<table frame='all'><title>$1</title>\n";
@@ -415,7 +482,7 @@ foreach $chapter (split(/ /, $chapters)){
 	
 	# We don't know anything about this command at all
 	elsif(/^\.(.*)/i){
-	    print "\bDEFAULT COMMAND FOUND: $1\n ";
+	    print "DEFAULT COMMAND FOUND: $1\n ";
 	}
 	
 	# A document line?
@@ -464,7 +531,7 @@ foreach $chapter (split(/ /, $chapters)){
     }
 }
 
-print "\bProcessed $chaptercount chapters\n";
+print "Processed $chaptercount chapters\n";
 print OUTPUT "</book>\n";
 exit;
 
