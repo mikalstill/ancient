@@ -31,7 +31,7 @@ my($INPUT, $OUTPUT, $PREPROC, $outputstyle);
 my($parastate, $liststate, $listitemstate, $footnotestate, $sectionstate, $tablestate, $stylestate, $displaystate, $waitstate, $quotestate, $pausedlist, $tablestate, $tablecolcount, $tablebracestate);
 my($length);
 my($chapters, $chapter, $chaptercount, $temp, $inputused);
-my($linecount, $condlinecount);
+my($linecount, $condlinecount, $firstsect);
 
 # We need to check the command line arguements...
 if($ARGV[0] eq "jade" ){
@@ -88,7 +88,6 @@ foreach $chapter (split(/ /, $chapters)){
 
 	# If we are in table state, then we need to rewrite lines for the table cells
 	if($tablestate == 1){
-	    ##s/T\}\#T\{/\#/g;
 	    s/T\{\n//;
 	    s/T\}//g;
 
@@ -100,6 +99,7 @@ foreach $chapter (split(/ /, $chapters)){
 	    else{
 		chomp;
 	    }
+
 	    $temp="$temp $_";
 	}
 	else{
@@ -124,6 +124,7 @@ foreach $chapter (split(/ /, $chapters)){
     $tablestate = 0;
     $inputused = 0;
     $pausedlist = 0;
+    $firstsect = 1;
     
     # For each line in the file...
     while(<INPUT>){
@@ -195,13 +196,13 @@ foreach $chapter (split(/ /, $chapters)){
 	# Aside start
 	elsif(/^\.Aside(.*)/i){
 	    endpara();
-	    print OUTPUT "<sidebar>\n";
+	    print OUTPUT "<note>\n";
             startpara();
 	}
 
 	elsif(/^\.End-aside(.*)/i){
             endpara();
-	    print OUTPUT "</sidebar>\n";
+	    print OUTPUT "</note>\n";
             startpara();
 	}
 
@@ -309,17 +310,27 @@ foreach $chapter (split(/ /, $chapters)){
 	    }
 
 	    while($sectionstate > ($1 - 2)){
-		print OUTPUT "</sect$sectionstate>\n";
+		if($firstsect == 1){
+		    $firstsect = 0;
+		}
+		else{
+		    print OUTPUT "</sect$sectionstate>\n";
+		}
 		$sectionstate--;
 	    }
 	    
 	    while($sectionstate < ($1 - 2)){
 		$sectionstate++;
+		if($firstsect == 0){
+		    print OUTPUT "<sect$sectionstate>\n";
+		}
+	    }
+
+	    $sectionstate++;
+	    if($firstsect == 0){
 		print OUTPUT "<sect$sectionstate>\n";
 	    }
-	    $sectionstate++;
-	    print OUTPUT "<sect$sectionstate>\n";
-	    
+
 	    $_ = $2;
 	    s/\"//g;
 
@@ -340,26 +351,26 @@ foreach $chapter (split(/ /, $chapters)){
 	# Highlights
 	elsif(/^\.Highlight(.*)/i){
 	    endpara();
-	    print OUTPUT "<sidebar>\n";
+	    print OUTPUT "<note>\n";
             startpara();
 	}
 
 	elsif(/^\.End-highlight(.*)/i){
             endpara();
-	    print OUTPUT "</sidebar>\n";
+	    print OUTPUT "</note>\n";
             startpara();
 	}
 
         # Indents (not used very often in Greg's source)
 	elsif(/^\.Indent(.*)/i){
 	    endpara();
-	    print OUTPUT "<sidebar>\n";
+	    print OUTPUT "<note>\n";
             startpara();
 	}
 
 	elsif(/^\.End-indent(.*)/i){
             endpara();
-	    print OUTPUT "</sidebar>\n";
+	    print OUTPUT "</note>\n";
             startpara();
 	}	
 
@@ -524,7 +535,8 @@ foreach $chapter (split(/ /, $chapters)){
 	    if($2 ne ""){
 		print OUTPUT "<title>$2</title>\n";
 	    }
-	    print OUTPUT "<sect1>\n";
+
+	    # The introductory text doesn't need to have a sect1
             startpara();
 	    $sectionstate = 1;
 	    }
