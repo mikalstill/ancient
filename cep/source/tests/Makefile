@@ -54,7 +54,8 @@ RUNNER = alltests.o
 MATRIX = cep_testMatrix.o
 CONFIG = cep_testConfig.o
 WINDOWER = cep_testWindows.o
-
+PRESENTATION = cep_testPresentation.o
+LS = cep_testLs.o
 
 ###########################################################
 # additional objects required for linking
@@ -63,11 +64,13 @@ WINDOWER = cep_testWindows.o
 OBJS = ../cepError.o ../cepUtility.o
 OBJS_MATRIX  =
 OBJS_CONFIG  =
+OBJS_LS = ../cepLs.o
 OBJS_WINDOWER = ../cepDataWindower.o ../cepWindowAlg.o\
 ../cepWindowRect.o ../cepwindowhamming.o ../cepwindowchebyshev.o\
 ../cepwindowblackman.o
-OBJS_ALL = $(OBJS) $(OBJS_MATRIX) $(OBJS_CONFIG) $(OBJS_WINDOWER)
+OBJS_PRESENTATION =
 
+OBJS_ALL = $(OBJS) $(OBJS_MATRIX) $(OBJS_CONFIG) $(OBJS_WINDOWER) $(OBJS_PRESENTATION) $(OBJS_LS)
 
 ###########################################################
 # rule for all cpp files
@@ -77,8 +80,8 @@ OBJS_ALL = $(OBJS) $(OBJS_MATRIX) $(OBJS_CONFIG) $(OBJS_WINDOWER)
   
 ###########################################################
 # makes all tests an links to a binary called "testall"
-all: runner $(MATRIX) $(CONFIG) $(WINDOWER)
-	$(LXX) $(LXXFLAGS) -o test$@ $(MATRIX) $(CONFIG) $(WINDOWER) $(RUNNER) $(OBJS_ALL) $(LXXLIBS)
+all: runner $(MATRIX) $(CONFIG) $(WINDOWER) $(PRESENTATION) $(LS)
+	$(LXX) $(LXXFLAGS) -o test$@ $(MATRIX) $(CONFIG) $(WINDOWER) $(PRESENTATION) $(LS) $(RUNNER) $(OBJS_ALL) $(LXXLIBS)
 
 
 ###########################################################
@@ -119,3 +122,12 @@ config: runner $(CONFIG)
 windower: runner $(WINDOWER)
 	$(LXX) $(LXXFLAGS) -o test$@ $(WINDOWER) $(RUNNER) $(OBJS) $(OBJS_WINDOWER) $(LXXLIBS)
 
+###########################################################
+# Builds the presentation specific tests
+presentation: runner $(PRESENTATION)
+	$(LXX) $(LXXFLAGS) -o test$@ $(PRESENTATION) $(RUNNER) $(OBJS) $(OBJS_PRESENTATION) $(LXXLIBS)
+
+###########################################################
+# Builds the lest squares specific tests
+ls: runner $(LS)
+	$(LXX) $(LXXFLAGS) -o test$@ $(LS) $(RUNNER) $(OBJS) $(OBJS_LS) $(LXXLIBS)
