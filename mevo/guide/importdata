@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# ./getdata
+./guidekit/readguide output.Canb.FTA.slice | ./insertdata $1
+./guidekit/readguide output.PayTV.Aust.slice | ./insertdata $1

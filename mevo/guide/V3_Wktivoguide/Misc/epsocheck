@@ -1,0 +1,53 @@
+#!/usr/bin/perl
+
+foreach $f (@ARGV) { &CrossCheck($f); }
+exit(0);
+
+sub CrossCheck($)
+{
+  open(IN, $_[0]) || die("Can't open $_[0]: $!\n");
+  while (<IN>) {
+    chop;
+    if (/^Series\/1\/(\d+)/) {
+      $series=$1;
+#print("Found original series $series\n");
+
+      while (<IN>) {
+        if (/^}/) { last; }
+        if (/\tTitle: (.*)/) {
+          $title=$1;
+          if (defined($Title{$series}) && ($Title{$series} ne $title)) {
+	    print("Series title mismatch: $title vs $Title{$series}\n");
+	    next;
+          }
+          $Title{$series}=$1; next;
+        }
+      }
+    }
+
+    if (/^Program\/1\/(\d+)/) {
+      $program=$1; undef($series);
+#print("Found original program $program\n");
+
+      while (<IN>) {
+        if (/^}/) { last; }
+        if (/Series\/1\/(\d+)/) {
+	  $series=$1;
+#print("Found series $series for program $program\n");
+	  if (!defined($Title{$series})) {
+	    print("Program $program using orphan series $series\n");
+	  }
+	  next;
+        }
+        if (/\tTitle: (.*)/) {
+          $title=$1;
+          if (defined($Title{$series}) && ($Title{$series} ne $title)) {
+	    print("Program title mismatch: $title vs $Title{$series} on $series\n");
+	    next;
+          }
+        }
+      }
+    }
+  }
+  close(IN);
+}

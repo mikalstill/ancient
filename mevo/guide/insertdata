@@ -1,0 +1,213 @@
+#!/usr/bin/perl
+
+use strict;
+my($mode, $eventcount, $temp, $verbose);
+
+my($series, $genre, $title, $episodic, %seri);
+my($program, $actor, $description, $movieyear, $episodeno, $isepisode, $director, $stars, $advisory, %progi);
+my($station, $duration, $date, $rating, $time);
+
+# Modes:
+#   0: waiting for a block
+#   1: inside a series block
+#   2: inside a programme block
+#   3: inside a stationday block (these are ignored, subrecords are not)
+#   4: inside a subrecord of a stationday
+
+$mode = 0;
+$eventcount = 0;
+$verbose = 0;
+
+while(<STDIN>){
+  if($verbose == 1){
+    print "$_";
+  }
+
+  if(/^[ \t]*$/){
+  }
+  elsif(/^[ \t]*}/){
+    # Commit
+    if($mode == 0){
+      print "Warning: Commit in null mode\n";
+    }
+    elsif($mode == 1){
+      if($verbose == 1){
+	print "Info: Adding series $series\n";
+      }
+      if($seri{$series} ne ""){
+	print "Warning: Overwriting previous definition of series\n";
+      }
+      if($title eq ""){
+	print "Warning: Series has no title\n";
+      }
+      $seri{$series} = "$title~$genre~$episodic";
+    }
+    elsif($mode == 2){
+      if($verbose == 1){
+	print "Info: Adding program $program\n";
+      }
+      if($progi{$program} ne ""){
+	print "Warning: Overwriting previous definition of series\n";
+      }
+      if($title eq ""){
+	print "Warning: Program has no title\n";
+      }
+      $progi{$program} = "$title~$actor~$genre~$description~".
+	"$movieyear~$episodeno~$isepisode~$director~$stars~$advisory";
+    }
+    elsif($mode == 3){
+    }
+    elsif($mode == 4){
+#      print "Info: $program;$station;$duration;$date;$rating;$time\n";
+      $eventcount++;
+    }
+    else{
+      print "Warning: Unknown mode!\n";
+    }
+
+    if($mode == 4){
+      $mode = 3;
+    }
+    else{
+      $mode = 0;
+    }
+  }
+  elsif(/^[ \t]*Guide type=3/){
+  }
+
+  elsif(/^Series\/([0-9]*\/[0-9]*)\/([0-9]*)/){
+    $series="$1";
+    $mode = 1;
+    $genre = "";
+    $title = "";
+    $episodic = "";
+  }
+  elsif(($mode == 1) && (/^[ \t]*Genre: ([0-9]*)/)){
+    $genre = "$genre,$1";
+  }
+  elsif(($mode == 1) && (/^[ \t]*Title: {(.*)}/)){
+    $title = $1;
+  }
+  elsif(($mode == 1) && (/^[ \t]*Episodic: ([0-9]*)/)){
+    $episodic = $1;
+  }
+
+  elsif(/^Program\/([0-9]*\/[0-9]*)\/([0-9]*)/){
+    $program="$1";
+    $mode = 2;
+    $actor = "";
+    $movieyear = 0;
+    $director = "";
+    $stars = -1;
+    $genre = "";
+    $title = "";
+  }
+  elsif(($mode == 2) && (/^[ \t]*Series: Series\/([0-9]*\/[0-9]*)/)){
+    if($seri{$1} eq ""){
+      print "Warning: Undefined series\n";
+    }
+  }
+  elsif(($mode == 2) && (/^[ \t]*Actor: {(.*)}/)){
+    $actor = "$actor,$1";
+  }
+  elsif(($mode == 2) && (/^[ \t]*Genre: ([0-9]*)/)){
+    $genre = "$genre,$1";
+  }
+  elsif(($mode == 2) && (/^[ \t]*Title: {(.*)}/)){
+    $title = "$1";
+  }
+  elsif(($mode == 2) && (/^[ \t]*EpisodeTitle: {(.*)}/)){
+    if($1 ne ""){
+      $title = "$title: $1";
+    }
+  }
+  elsif(($mode == 2) && (/^[ \t]*Description: {(.*)}/)){
+    $description = "$1";
+  }
+  elsif(($mode == 2) && (/^[ \t]*MovieYear: ([0-9]*)/)){
+    $movieyear = "$1";
+  }
+  elsif(($mode == 2) && (/^[ \t]*EpisodeNum: ([0-9]*)/)){
+    $episodeno = "$1";
+  }
+  elsif(($mode == 2) && (/^[ \t]*IsEpisode: ([0-9]*)/)){
+    $isepisode = "$1";
+  }
+  elsif(($mode == 2) && (/^[ \t]*Director: {(.*)}/)){
+    $director = "$director,$1";
+  }
+  elsif(($mode == 2) && (/^[ \t]*StarRating: ([0-9]*)/)){
+    $stars = "$1";
+  }
+  elsif(($mode == 2) && (/^[ \t]*Advisory: ([0-9]*)/)){
+    $advisory = "$1";
+  }
+
+  elsif(/^StationDay/){
+    $mode = 3;
+  }
+  elsif(/^[ \t]*Subrecord Showing/){
+    $mode = 4;
+  }
+  elsif(($mode == 3) && (/^[ \t]*Station: /)){
+  }
+  elsif(($mode == 3) && (/^[ \t]*Day: /)){
+  }
+  elsif(($mode == 3) && (/^[ \t]*Showing: /)){
+  }
+  elsif(($mode == 4) && (/^[ \t]*Program: Program\/([0-9]*\/[0-9]*)/)){
+    $program = $1;
+    if($progi{$1} eq ""){
+      print "Warning: Adding a reference to a program which doesn't exist\n";
+    }
+  }
+  elsif(($mode == 4) && (/^[ \t]*Station: Station\/([0-9]*\/[0-9]*)/)){
+    $station = $1;
+  }
+  elsif(($mode == 4) && (/^[ \t]*Bits: /)){
+  }
+  elsif(($mode == 4) && (/^[ \t]*Duration: ([0-9]*)/)){
+    $duration = $1;
+  }
+  elsif(($mode == 4) && (/^[ \t]*Date: ([0-9]*)/)){
+    $date = $1;
+  }
+  elsif(($mode == 4) && (/^[ \t]*TvRating: ([0-9]*)/)){
+    $rating = $1;
+  }
+  elsif(($mode == 4) && (/^[ \t]*Time: ([0-9]*)/)){
+    $time = $1;
+  }
+
+  # Unhandled lines
+  else{
+    print "Warning (mode $mode) $_";
+  }
+}
+
+if($ARGV[0] eq "progtitles"){
+  for $program (keys(%progi)){
+    $temp = $progi{$program};
+    $temp =~ s/~.*//;
+    if($temp ne ""){
+      print "$temp\n";
+    }
+  }
+}
+elsif($ARGV[0] eq "seriestitles"){
+  for $program (keys(%seri)){
+    $temp = $seri{$program};
+    $temp =~ s/~.*//;
+    if($temp ne ""){
+      print "$temp\n";
+    }
+  }
+}
+else{
+print "Statistics:\n";
+  print "  Number of series: ".length(%seri)."\n";
+  print "  Number of programs: ".length(%progi)."\n";
+  print "  Number of events: $eventcount\n";
+  print "\n";
+  print "Usage: insertdata [progtitles]\n\n";
+}

@@ -1,0 +1,82 @@
+# Words to trim from the titles of programs. An second column
+# gives the genre, in case there isn't a specific match in the
+# programs file. An optional third column indicates if this
+# program is never an episode of a series.
+#
+# NOTE: Both the genre and the Never here can be overridden in
+# the programs file. For example, if we have
+#
+#	Drama:	Drama,DramaGroup	Never		in this file
+#	Blue Heelers	SoapOpera			in the programs file
+#	Blue Heelers | 100034056 | 53			in the episodes file
+#
+# and this raw title appear:  DRAMA: BLUE HEELERS
+#
+# then the program will trim off the DRAMA: part and set the program to
+# be Drama,DramaGroup but never an episode. But then the BLUE HEELERS part
+# will match the line in the programs file, and this will cause the program
+# to be part of the 100034056 series, and be the SoapOpera genre.
+#
+#
+#
+20th Century Fox:	Specials			Never
+A Special Presentation:	Specials			Never
+Animated Series:	Animated
+Animation Series:	Animated
+Animation:		Animated			Never
+Arts Special:		Specials			Never
+Australian Documentary	Documentary,DocumentaryGroup
+Australian Premiere:	Specials			Never
+Autralian Premiere:	Specials			Never
+Christmas Special:	Drama,Religion			Never
+Cinema Classic - Comedy:	Comedy,ComedyGroup,Movies	Never
+Cinema Classic - Drama:	Movie,Drama,Movies	Never
+Cinema Classic:		Movie,Drama,Movies		Never
+Cinema Classics - Drama:	Movie,Drama,Movies	Never
+Cinema Classics - Thriller:	Movie,Drama,Movies	Never
+Comedy Series		Comedy,ComedyGroup
+Comedy Series:		Comedy,ComedyGroup
+Comedy/Drama Series:	Comedy,Drama,ComedyGroup
+Cult Movie - Satire:	Movie,Movies			Never
+David Stratton's Movie Of The Week	Movie,Movies	Never
+Disney Adventures:	Children,ChildrensGroup
+Documentaries Series:	Documentary,DocumentaryGroup
+Documentaries:		Documentary,DocumentaryGroup	Never
+Documentary -		Documentary,DocumentaryGroup	Never
+Documentary Series:	Documentary,DocumentaryGroup
+Documentary/Drama:	Docudrama,DocumentaryGroup	Never
+Documentary:		Documentary,DocumentaryGroup	Never
+Drama Series -		Drama,DramaGroup
+Drama Series:		Drama,DramaGroup
+Drama:			Drama,DramaGroup		Never
+Feature -		 Specials			Never
+Friday Night Drama:	Drama,DramaGroup
+Golf:			Golf,SportsGroup
+Mini Series:		Drama,DramaGroup
+Mini-Series:		Drama,DramaGroup
+Motor Racing	MotorSports,SportsGroup
+Motor Racing:	MotorSports,SportsGroup
+Movie -			Movie,Movies			Never
+Movie Matinee -		Movie,Movies			Never
+Movie:			Movie,Movies			Never
+Music Documentary Series:	Music,Musical,ArtsMusicLiving
+Music Documentary:	Music,Musical,ArtsMusicLiving	Never
+Music Series:		Music,Musical,ArtsMusicLiving
+Music Special:		Music,Musical,ArtsMusicLiving	Never
+Premiere:		Specials			Never
+Saturday Afternoon Movie:	Movie,Movies		Never
+Saturday Family Movie:	Movie,Movies			Never
+Saturday Matinee:	Movie,Movies	Never
+Saturday Night At The Movies:	Movie,Movies		Never
+Saturday Night Movie:	Movie,Movies			Never
+Soccer:			Soccer,SportsGroup
+Special -		Specials			Never
+Special Presentation	Specials			Never
+Special Presentation:	Specials			Never
+Special:		Specials			Never
+Sport Special:		Sports,SportsGroup		Never
+Sport:			Sports,SportsGroup
+Sunday Matinee:		Movie,Movies			Never
+Sunday Night At The Movies:	Movie,Movies		Never
+The Afternoon Movie:	Movie,Movies			Never
+The Late Movie:		Movie,Movies			Never

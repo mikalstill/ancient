@@ -1,0 +1,360 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+           "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<meta name="GENERATOR" content="TtH 2.78">
+                                                                                               
+ 
+<title> \textbf{Wktivoguide - Changes from Version 2 to Version 3}</title><body bgcolor="#ffffff">
+ 
+<h1 align="center"><b>Wktivoguide - Changes from Version 2 to Version 3</b> </h1>
+
+<p>
+
+<center>Version 3.1, January 2004. (c) Warren Toomey, BSD license.<br />
+</center>
+
+<p>
+
+<h2>New Operation</h2>
+
+<p>
+There are now four phases:
+
+<p>
+
+<ol type="1"><p>
+<li> <em>./fetch_data All 0 6</em> fetches web data</li>
+<p>
+<li> <em>./genre_search All 0 6</em> find genres for unknown programs</li>
+<p>
+<li> <em>./add_data All 0 6</em> adds extra information to data files</li>
+<p>
+<li> <em>./make_slice All 0 6</em> builds a slice</li>
+</ol>
+For all 4 phases, the two numbers are the start and end day relative
+to today, i.e. 0 is today, 6 is 6 days away. Negative numbers are
+allowed.
+
+<p>
+For the first 3 phases, the `All' word means all the channels in the
+<em>websources</em> file, or you can name a specific channel in the
+<em>websources</em> file. The <em>websources</em> file can hold more station
+names than you use to create a slice. This is to cater for people
+who make dozens of different slices, some of which contain common
+stations.
+
+<p>
+Only the <em>./fetch_data</em> and <em>./make_slice</em> phases are
+mandatory. The <em>./genre_search</em> and <em>./add_data</em> phases
+are optional.
+
+<p>
+
+<h2>Configuration Files</h2>
+
+<p>
+The <em>.guiderc</em> file now allows you to specify the name of every
+run-time file, so can you do this:
+
+<p>
+
+<blockquote>Configdir = ./Files
+
+<p>
+Numbers = ./Files/numbers 
+
+<p>
+Stations = ./Files/stations 
+
+<p>
+Episodes = ./Files/episodes 
+
+<p>
+Websources = ./Files/websources
+</blockquote>
+
+<p>
+
+<h3>Fetching</h3>
+
+<p>
+The Ebroadcast and Foxtel fetchers have been rewritten. They are now
+much more robust and can also extract episode titles.
+
+<p>
+If you have multiple web sources of data, you can fetch from one source
+and then fetch from another source if the first one fails. You would
+make two <em>websources</em> files, e.g <em>websources</em> and <em>websources-backup</em>.
+You would make two config files, e.g <em>.guiderc</em> and <em>.guiderc-backup</em>,
+and they would be identical except that the first would say:
+
+<p>
+
+<blockquote>Websources = ./Files/websources
+</blockquote>
+and the second one would say
+
+<p>
+
+<blockquote>Websources = ./Files/websources-backup
+</blockquote>
+Now, you could write a shell script loop that does this:
+
+<p>
+
+<pre>
+./fetch_data ABC 0 6
+if [ "$?" = "1" ]
+then echo Error fetching ABC, trying backup web source 
+     ./fetch_data -c .guiderc-backup ABC 0 6 
+fi
+
+</pre>
+
+<p>
+Or, you could just fetch all the web data and try all the backups
+
+<p>
+
+<pre>
+./fetch_data All 0 6
+if [ "$?" = "1" ]
+then echo Error fetching some web data, trying our backups 
+     ./fetch_data -c .guiderc-backup All 0 6 
+fi
+
+</pre>
+
+<p>
+The first <em>fetch_data</em> won't make intermediate files unless
+there was some web data. The second <em>fetch_data</em> will only fetch
+if there is no web data for a channel, and it won't rebuild the intermediate
+files unless they don't exist.
+
+<p>
+
+<h2>The Programs Database</h2>
+
+<p>
+The <em>programs</em> database can now be kept either in a file (<em>Files/programs</em>)
+or in a MySQL database. If you want to keep it as a file, make this
+symbolic link in the TiVo/ directory:
+
+<p>
+
+<blockquote>% cd TiVo; ln -s ProgramDbFile.pm ProgramDb.pm
+</blockquote>
+If you want to keep the database in MySQL, make this symbolic link:
+
+<p>
+
+<blockquote>% cd TiVo; ln -s ProgramDbSQL.pm ProgramDb.pm
+</blockquote>
+The SQL database schema is documented in <em>ProgramDbSQL.pm</em>.
+
+<p>
+
+<h3>Add Data</h3>
+
+<p>
+If many slices are being made which contain common data, it is pointless
+to rescan the <em>programs</em> database and the movie ratings database
+several times for the same program. There is now the optional phase
+called <em>add_data</em>, which takes the intermediate files in the
+<em>Data</em> directory, adds in the extra information and stores the
+new intermediate files in a new directory defined in the configuration
+file:
+
+<p>
+
+<blockquote>Extradir = ./Data2
+</blockquote>
+This phase loads the programs database, the trimtitles file, the Movie
+ratings file and now the Movie directors file.
+
+<p>
+The file format for the Movie ratings file and the Movie directors
+file is now different from the IMDB file format, because the IMDB
+format slows down the parsing. In <em>Misc/</em> there are two converters
+that convert the IMDB format into the new format. Once the conversion
+is done, you need to gzip the converted files and store them in Files/:
+
+<p>
+
+<blockquote>Files/directors.tivo.gz and Files/ratings.tivo.gz
+</blockquote>
+
+<p>
+
+<h2>Make Slices</h2>
+
+<p>
+<em>make_slice</em> builds a slice for All the stations in the <em>stations</em>
+file, or just one station, for the list of days given. This is the
+only phase which will update the <em>episodes</em> file and the <em>numbers</em>
+file, and so this is the only phase which has the -n option.
+
+<p>
+The output file name can be specified with two %ds in the configuration
+file like this:
+
+<p>
+
+<blockquote>Slicefile = ./AC02601_%d-%d.slice 
+
+<p>
+Textfile = ./AC02601_%d-%d.txt
+</blockquote>
+The first %d becomes the TiVo daynumber for the start day. The second
+%d becomes the TiVo daynumber for the end day. If you don't use %ds
+in your config file, then your output filename will be the same for
+all slices.
+
+<p>
+<em>make_slice</em> will first try to get intermediate data from the
+<em>Data2/</em> directory (i.e from the output of add_data). But if
+that fails, it will get it from the <em>Data/</em> directory, and it
+will do the adding of genres, stars, directors etc. on the fly.
+
+<p>
+
+<h2>Timezone Handling</h2>
+
+<p>
+The <em>stations</em> and <em>websources</em> files have been changed
+to properly handle timezone shifting between transmitter and receiver.
+
+<p>
+A typical websources entry now looks like this:
+
+<p>
+
+<pre>
+Channel Fetcher Timezone          URL information
+========================================================
+ARNA    Foxtel  Australia/Sydney  ARN # Arena
+
+</pre>
+
+<p>
+The timezone is specified as it appears in most Linux or Unix boxes
+in <em>/usr/share/zoneinfo</em>. This is the timezone of the transmitting
+station.
+
+<p>
+Typical <em>stations</em> entries now look like this:
+
+<p>
+
+<pre>
+Channel Station-id       Timezone
+================================================================
+ARNA  Station/1/7000100  Australia/Melbourne  # Arena
+ARNA  Station/1/7000100  DoNotShift           # Arena
+
+</pre>
+
+<p>
+The timezone is the same format as the <em>websources</em> file. Here
+it specifies where the receiving TiVo is. In this case it is in Melbourne,
+so there will be an appropriate timezone shift from Sydney to Melbourne;
+usually 0 hours except that they change to/from daylight saving at
+different times so it could be +1 and it could be -1 on some days.
+
+<p>
+Sometimes the provider of a channel does its own time delay, so that
+a program appears at the same local time in all timezones. If this
+is the case, set the timezone to the magic word ``DoNotShift''.
+This will preserve the original times for all programs on that channel,
+i.e. no timezone shifting will be done. You would use the second entry
+as shown above.
+
+<p>
+
+<h3>Setup For Multiple Slices</h3>
+
+<p>
+You need a config file for each slice which names the output slice
+name and the stations file for that slice. You need a stations file
+for each slice. It is a good idea to have a common <em>trimtitles</em>,
+<em>programs</em> file, <em>episodes</em> file and <em>websources</em> file.
+For my setup here in Australia, I keep everything in the <em>Files/</em>
+directory:
+
+<p>
+
+<pre> 
+directors.tivo.gz       rc-TA07001              stations-NT00806
+episodes                rc-TA07004              stations-QL04001
+genretypes              rc-TA07005              stations-QL04002
+numbers                 rc-TA07006              stations-QL04003
+ratings.tivo.gz         rc-VI03001              stations-QL04004
+rc-AC02601              rc-VI03002              stations-QL04005
+rc-AC02602              rc-VI03003              stations-QL04006
+rc-AC02603              rc-VI03004              stations-SA05001
+rc-NS02001              rc-VI03005              stations-SA05003
+rc-NS02002              rc-VI03006              stations-SA05004
+rc-NS02003              rc-VI03007              stations-SA05005
+rc-NS02004              rc-WA06001              stations-SA05006
+rc-NS02005              rc-WA06003              stations-TA07001
+rc-NS02006              rc-WA06004              stations-TA07004
+rc-NS02007              rc-WA06005              stations-TA07005
+rc-NT00801              rc-WA06006              stations-TA07006
+rc-NT00803              rrc-backup              stations-VI03001
+rc-NT00804              stations-AC02601        stations-VI03002
+rc-NT00805              stations-AC02602        stations-VI03003
+rc-NT00806              stations-AC02603        stations-VI03004
+rc-QL04001              stations-NS02001        stations-VI03005
+rc-QL04002              stations-NS02002        stations-VI03006
+rc-QL04003              stations-NS02003        stations-VI03007
+rc-QL04004              stations-NS02004        stations-WA06001
+rc-QL04005              stations-NS02005        stations-WA06003
+rc-QL04006              stations-NS02006        stations-WA06004
+rc-SA05001              stations-NS02007        stations-WA06005
+rc-SA05003              stations-NT00801        stations-WA06006
+rc-SA05004              stations-NT00803        trimtitles
+rc-SA05005              stations-NT00804        websources
+rc-SA05006              stations-NT00805        websources-backup
+
+</pre>
+
+<p>
+Note that the <em>websources</em> file specifies all the channels I
+fetch, but <em>websources-backup</em> only has some of the channels,
+and lists the backup web sources.
+
+<p>
+For the <em>fetch_data</em> I use <em>-c Files/rc-AC02601 All 0 6</em>
+to fetch from the primary <em>websources</em> and <em>-c Files/rrc-backup</em>
+to fetch from the backup <em>websources</em>.
+
+<p>
+Then I <em>./genre_search -c Files/rc-AC02601 All 0 6</em>, but it
+doesn't matter which config file I use here as long as it points to
+all the channels, i.e to <em>websources</em>.
+
+<p>
+I run <em>./add_data -c Files/rc-AC02601 All 0 6</em> to build the
+<em>Data2/</em> files. Finally I do:
+
+<p>
+
+<pre>
+for i in Files/rc-* 
+do ./make_slice -c $i All 0 6
+done
+
+</pre>
+
+<p>
+to build the slices. 
+
+<p>
+Warren Toomey, January 2004.
+
+<br /><br /><hr /><small>File translated from
+T<sub><font size="-1">E</font></sub>X
+by <a href="http://hutchinson.belmont.ma.us/tth/">
+T<sub><font size="-1">T</font></sub>H</a>,
+version 2.78.<br />On 15 Jan 2004, 07:48.</small>
+</body></html>

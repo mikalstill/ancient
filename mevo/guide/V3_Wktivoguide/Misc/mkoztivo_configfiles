@@ -1,0 +1,183 @@
+#!/usr/bin/perl
+
+my(%tzlookup) = ( "AC" => "Australia/Sydney",
+                  "NS" => "Australia/Sydney",
+                  "NT" => "Australia/Darwin",
+                  "QL" => "Australia/Brisbane",
+                  "SA" => "Australia/Adelaide",
+                  "TA" => "Australia/Hobart",
+                  "VI" => "Australia/Melbourne",
+                  "WA" => "Australia/Perth",
+                  "XX" => "DoNotShift");
+
+if ($#ARGV!=0) { print("Usage: $0 directory_name\n"); exit(1); }
+$dir= $ARGV[0];
+$date=`date`; chop($date);
+&Process_Channels;
+&Process_Configs;
+&Process_Stations;
+exit(0);
+
+### Subroutines ###
+
+sub Process_Channels
+{
+  open(IN, "$dir/config-channels.ini") ||
+  			die("Can't open config-channels.ini: $!\n");
+
+  open(WEBOUT, ">websources") ||
+  			die("Can't write websources: $!\n");
+  open(BAKOUT, ">websources-backup") ||
+  			die("Can't write websources-backup: $!\n");
+
+  print(WEBOUT "# Primary websources made by $0 on $date\n#\n");
+  print(BAKOUT "# Secondary websources made by $0 on $date\n#\n");
+
+  $cabledelay=0;
+  undef($source); undef($name);
+  undef($urlparams_foxtel);
+  undef($urlparams_ebroadcast);
+  undef($urlparams); undef($serverid);
+  undef($parser); undef($state);
+  while (<IN>) {
+    chop;
+    if (/\[(.*)\]/) { $source= $1; next; }
+    if (/^name=(.*)/) { $name= $1; next; }
+    if (/^state=(.*)/) { $state= $1; next; }
+    if (/^serverid=(.*)/) { $serverid=$1; next; }
+    if (/^cabledelay=(.*)/) { $cabledelay= $1; next; }
+    if (/^parser=(.*)/) { $parser= $1; next; }
+    if (/^urlparams_foxtel=(.*)/) { $urlparams_foxtel=$1; next; }
+    if (/^urlparams_ebroadcast=(.*)/) { $urlparams_ebroadcast=$1; next; }
+
+    if (/^$/) {
+      if (!defined($source)) { print("No source!\n"); next; }
+      $Name{$source}=$name if (defined($name));
+      $Serverid{$source}=$serverid if (defined($serverid));
+      $Cabledelay{$source}=$cabledelay;
+      # print("$source: Set cabledelay $cabledelay\n");
+
+      if (!defined($state)) { print("No state for $source\n"); next; }
+      if (!defined($parser)) {
+        print("No parser for $source, it will be left out of websources\n");
+        next;
+      }
+
+      # print("$source: serverid is $serverid\n");
+
+      # Time to print out the websource line. We need to know the
+      # prim and sec web sources
+      ($prim_parser,$sec_parser)= split(/\|/, $parser);
+
+      if ($prim_parser eq "Foxtel") { $urlparams= $urlparams_foxtel; }
+      if ($prim_parser eq "Ebroadcast") { $urlparams= $urlparams_ebroadcast; }
+      if (!defined($urlparams)) {
+	print("No urlparams for the parser defined for $source\n"); next;
+      }
+
+      $timezone= $tzlookup{$state};
+      if (!defined($timezone)) {
+	print("Invalid state $state for $source\n"); next;
+      }
+      print(WEBOUT "$source\t$prim_parser\t$timezone\t$urlparams");
+      print(WEBOUT "\t# $name") if (defined($name));
+      print(WEBOUT "\n");
+
+
+      # Now do the secondary parser
+      if (defined($sec_parser)) {
+        if ($sec_parser eq "Foxtel") { $urlparams= $urlparams_foxtel; }
+        if ($sec_parser eq "Ebroadcast") { $urlparams= $urlparams_ebroadcast; }
+        if (!defined($urlparams)) {
+	  print("No matching urlparams for $source\n"); next;
+        }
+
+        $timezone= $tzlookup{$state};
+        if (!defined($timezone)) {
+	  print("Invalid state $state for $source\n"); next;
+        }
+        print(BAKOUT "$source\t$sec_parser\t$timezone\t$urlparams");
+        print(BAKOUT "\t# $name") if (defined($name));
+        print(BAKOUT "\n");
+      }
+
+      # Clear all the variables
+      $cabledelay=0;
+      undef($source); undef($name);
+      undef($urlparams_foxtel);
+      undef($urlparams_ebroadcast);
+      undef($urlparams); undef($serverid);
+      undef($parser); undef($state);
+      next;
+    }
+  }
+  close(IN);
+  close(WEBOUT);
+  close(BAKOUT);
+}
+
+sub Process_Configs
+{
+  open(IN, "cat $dir/config-slice*.ini |") ||
+  			die("Can't open config-slice*.ini: $!\n");
+  while (<IN>) {
+    chop;
+    if (/\[(.*)\]/) { $source= $1; next; }
+    if (/^state=(.*)/) { $state=$1; next; }
+    if (/^lineuptype=(.*)/) {
+      $Lineuptype{$source}= $1; $State{$source}=$state;
+      # print("$source: Set lineuptype $1 state $state\n");
+      next;
+    }
+  }
+  close(IN);
+}
+
+sub Process_Stations
+{
+  $list= `echo $dir/*.conf`;
+  chop($list);
+  $list=~ s/\Q$dir\E\///g;
+
+  foreach $file (split(/ /,$list)) {
+    $stations= $file;
+    $stations=~ s/\.conf//;
+
+    if (!defined($State{$stations})) {
+      print("No state $stations, it is missing from the config-slice*.inis\n");
+      next;
+    }
+
+    open(IN, "$dir/$file") || die("Can't open $file: $!\n");
+    open(OUT, ">stations-$stations") || die("Can't open stations-$stations: $!\n");
+    print(OUT "# Stations file for $stations made by $0\n# on $date\n#\n");
+
+    while (<IN>) {
+      chop;
+      if ((/^channel.* ([^\s]+)$/) || (/^extrachannel.* ([^\s]+)$/)) {
+	$channel=$1;
+	# print("Found $channel in $_\n");
+    	if (!defined($Serverid{$channel})) {
+      	  print("No serverid for $channel\n"); next;
+    	}
+
+        # In Australia, if lineuptype=1 and cabledelay=1, set
+        # the timezone to indicate that we don't shift the time
+        # of programs
+        $state= $State{$stations};
+        # print("$stations $channel: line $Lineuptype{$stations} " .
+ 	#	"delay $Cabledelay{$channel}\n");
+        if (($Lineuptype{$stations}==1) && ($Cabledelay{$channel}==1)) {
+          $state= "XX";
+        }
+        $timezone= $tzlookup{$state};
+	# print("$stations $channel: state $state $timezone\n");
+
+	print(OUT "$channel\tStation/1/$Serverid{$channel}\t$timezone");
+	print(OUT "\t# $Name{$channel}") if (defined($Name{$channel}));
+	print(OUT "\n");
+      }
+    }
+    close(IN); close(OUT);
+  }
+}

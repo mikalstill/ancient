@@ -1,0 +1,6 @@
+#!/bin/bash
+
+rm output.Canb.FTA.slice
+wget http://minnie.tuhs.org/TiVo/files/slices/output.Canb.FTA.slice
+rm output.PayTV.Aust.slice
+wget http://minnie.tuhs.org/TiVo/files/slices/output.PayTV.Aust.slice

@@ -1,0 +1,19 @@
+#!/usr/bin/perl
+use strict;
+my ($dir, $daysold, $file);
+
+if ($#ARGV!=1) {
+  print("Usage: $0 dir daysold\n"); exit(1);
+}
+
+$dir= $ARGV[0]; $daysold=int($ARGV[1]);
+
+# Clean out files in the dir which are older than daysold days
+opendir(DIR, $dir) || die("Can't readdir on $dir: $!\n");
+foreach $file (readdir(DIR)) {
+  if ((-f "$dir/$file") && (-M "$dir/$file" > $daysold)) {
+    #print("unlink $dir/$file\n");
+    unlink("$dir/$file");
+  }
+}
+exit(0);

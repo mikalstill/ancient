@@ -1,0 +1,76 @@
+# Configuration file for Wktivoguide. This controls the basic behaviour of
+# the program, and also defines where the other configuration files are
+# and where to store the incoming data. Lines beginning with a hash are
+# ignored; so are blank lines. Configuration lines look like variable = value
+
+# The Configdir holds the main config files:
+#	genrelist, which describes the genres that the TiVo knows
+#	numbers, holding sequence numbers for slice files etc
+#	stations, which names each station and its internal TiVo id
+#	websources, which describes where to get data for each station
+#	programs, which holds the title and genre of all known programs
+#	episodes, describing episode numbers ofprograms having season passes
+#	trimtitles, which allows you to trim parts of program titles
+#
+Configdir = ./Files
+
+# If you have a need to keep these files in separate areas, then you can
+# use the following config variables to name the location of specific files.
+# However, I recommend that you stick with just the Configdir named above.
+#
+# Genretypes = some/file/name
+# Programs = some/file/name
+# Numbers = some/file/name
+# Stations = some/file/name
+# Episodes = some/file/name
+# Trimtitles = some/file/name
+# Websources = some/file/name
+
+
+# The Datadir is where the guide data extracted from the Web sources
+# is stored before the slice is created. The Extradir is where add_data
+# stores the intermediate files which have had extra information added.
+# This program will clean up old files in here periodically.
+Datadir = ./Data
+Extradir = ./Data2
+
+# The Webdir is the directory where incoming web files are stored.
+# This program will clean up old files in here periodically.
+#
+Webdir = ./Webfiles
+
+# If you need to use a proxy, then define the hostname and port here
+#Webproxy = iris.bond.edu.au:8080
+#Webproxy = firewall.local.net:80
+
+# If WebDelay is defined, then fetch_data and genre_search will wait
+# this many seconds between web connections. It can help to minimise
+# our overall load on a web server.
+WebDelay = 3
+
+# Attempt this many times to fetch from the web source before giving up.
+# Optional, but if you define it, don't set it below 1!
+#RepeatWebConnect = 4
+
+# Set the NoNag variable to be the name of the channel whose data
+# you want to use to give the NoNag channel data in the future.
+# Choose any of your real channel names.
+NoNag = TVQ46
+
+# Do you want Wktivoguide to output data in slice format, ready for
+# downloading into the TiVo, or do you want it to output data in text
+# format, which can then be processed by tools like writeguide into
+# slice format? The only values are slice or text. Default is slice.
+#
+Outputformat = slice
+#Outputformat = text
+
+# Depending on what output format you have chosen, the output from
+# Wktivoguide will be stored in one of these files.
+Slicefile = ./output.slice
+Textfile = ./output.txt
+
+# The following line defines a debugging file where debug output will
+# appear. This is optional and off by default. It is only useful for
+# the developers of this program
+#Debugfile = ./debug.out

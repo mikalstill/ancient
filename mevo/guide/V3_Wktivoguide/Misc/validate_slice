@@ -1,0 +1,68 @@
+#!/usr/bin/perl
+
+$err=0;
+open(IN, "/usr/local/bin/readguide $ARGV[0] |") || die("Can't open readguide\n");
+while (<IN>) {
+  chop;
+
+  if (/BAD ATTRIBUTE/) { print("BAD ATTRIBUTE in $ARGV[0]\n"); $err=1; next; }
+  if (/Unknown#/) { print("Unknown Attribute in $ARGV[0]\n"); $err=1; next; }
+
+  if (/Bits: ([-\d]+)/) {
+    if ($1 < 0) { print("Negative Bits value $1 in $ARGV[0]\n"); $err=1; }
+    next;
+  }
+
+  if (/Duration: ([-\d]+)/) {
+    if ($1 > 86400) { print("Huge Duration $1 in $ARGV[0]\n"); $err=1; }
+    if ($1 < 0) { print("Negative Duration $1 in $ARGV[0]\n"); $err=1; }
+    next;
+  }
+
+  if (/Time: (\d+)/) {
+    if ($1 > 86400) { print("Huge Time $1 in $ARGV[0]\n"); $err=1; }
+    if ($1 < 0) { print("Negative Time $1 in $ARGV[0]\n"); $err=1; }
+    next;
+  }
+
+  if (/Date: (\d+)/) { $FoundDate{$1}=1; next; }
+  if (/Day: (\d+)/) { $FoundDay{$1}=1; next; }
+  if (/Program: Program\/1\/(\d+)/) { $FoundProg{$1}=1; next; }
+  if (/^Program\/1\/(\d+)/) { $FoundProg2{$1}=1; next; }
+  if (/Series: Series\/1\/(\d+)/) { $FoundSeries{$1}=1; next; }
+  if (/^Series\/1\/(\d+)/) { $FoundSeries2{$1}=1; next; }
+}
+close(IN);
+
+foreach $i (keys %FoundProg) {
+  if (!defined($FoundProg2{$i})) {
+    print("Orphan program record Program/1/$i\n"); $err=1;
+  }
+}
+foreach $i (keys %FoundProg2) {
+  if (!defined($FoundProg{$i})) {
+    print("Orphan program record Program/1/$i\n"); $err=1;
+  }
+}
+foreach $i (keys %FoundSeries) {
+  if (!defined($FoundSeries2{$i})) {
+    print("Orphan program record Series/1/$i\n"); $err=1;
+  }
+}
+foreach $i (keys %FoundSeries2) {
+  if (!defined($FoundSeries{$i})) {
+    print("Orphan program record Series/1/$i\n"); $err=1;
+  }
+}
+foreach $i (keys %FoundDay) {
+  if (!defined($FoundDate{$i})) {
+    print("Orphan date record $i\n"); $err=1;
+  }
+}
+foreach $i (keys %FoundDate) {
+  if (!defined($FoundDay{$i})) {
+    print("Orphan date record $i\n"); $err=1;
+  }
+}
+if ($err==0) { print("No slice errors in $ARGV[0] as far as I can tell\n"); }
+exit($err);

@@ -1,0 +1,18 @@
+# List of web sources for each station defined in the stations file.
+# Columns are: station name, web source, timezone, and any
+# specific URL information that we need to use to get the data.
+#
+#
+TVQ46	Ebroadcast	Australia/Brisbane	10&state=Brisbane&fta=1&fox=0&opt=0
+ABC-QLD	Ebroadcast	Australia/Brisbane	2&state=Brisbane&fta=1&fox=0&opt=0
+BTQ52	Ebroadcast	Australia/Brisbane	7&state=Brisbane&fta=1&fox=0&opt=0
+QTQ58	Ebroadcast	Australia/Brisbane	9&state=Brisbane&fta=1&fox=0&opt=0
+SBS-QLD	Ebroadcast	Australia/Brisbane	SBS&state=Brisbane&fta=1&fox=0&opt=0
+#TenGC	Ebroadcast	Australia/Brisbane	10&state=Brisbane&fta=1&fox=0&opt=0
+#Prime	Ebroadcast	Australia/Brisbane	7&state=Brisbane&fta=1&fox=0&opt=0
+#NBN	Ebroadcast	Australia/Brisbane	9&state=Brisbane&fta=1&fox=0&opt=0
+#AV	Ebroadcast	Australia/Brisbane	2&state=Brisbane&fta=1&fox=0&opt=0
+#WMOV	Foxtel	Australia/Sydney	WLD     # World Movies
+#MOVG	Foxtel	Australia/Sydney	MVG     # Movie Greats
+#MOV1	Foxtel	Australia/Sydney	MV1     # Movie One
+#MOVX	Foxtel	Australia/Sydney	MVX     # Movie Extra

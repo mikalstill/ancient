@@ -1,0 +1,71 @@
+#!/usr/bin/perl
+my (@Trating)= (1,1,1,2,2,3,4,5,6,7,7,7);
+
+if ($#ARGV!=0) { print(STDERR "Usage: cvt_ratings ratings.list.gz\n"); exit(1); }
+
+&Read_Ratings($ARGV[0]);
+exit(0);
+
+
+
+
+# Read_Ratings: read the ratings from the ratings.list.gz file.
+sub Read_Ratings($)
+{
+  my ($file)= @_;
+  my ($new,$how,$votes,$rating,$junk,$title,$year,$tivorating);
+
+  # Don't do anything if there is no ratings file
+  open(RIN, "zcat $file |") ||
+        die("Cannot open $file: $!\n");
+
+  # Walk the file obtaining per-movie ratings
+  while (<RIN>) {
+    chop;
+    ($new,$how,$votes,$rating,$junk,$title)= unpack("a6a10a8a6a2a*",$_);
+
+    # Ignore lines which don't have proper ratings on them
+    if (($rating < 1) || ($rating>10)) { next; }
+
+    # Mangle the title into something useful
+    $title=~ s/"//g;
+    undef($year);
+    if ($title=~ /\((\d\d\d\d)\)/) { $year=$1; }
+    $title=~ s/\(.*//;
+    $title=~ s/\s*$//;
+    ($title)= LowercaseString($title);
+
+    # Put ", The" back on the front
+    if ($title=~ /(.*),\s*(.*)/) { $title="$2 $1"; }
+    # Debug("$title $year $rating\n");
+
+    # Map the 1-10 rating to TiVo's 1-7 rating
+    $tivorating= $Trating[ int($rating) ];
+
+    print("$title\t$tivorating");
+    if (defined($year)) { print("\t$year"); }
+    print("\n");
+  }
+  close(RIN);
+}
+
+
+# Convert all letters to lowercase except the start of each word.
+# Do this for each line in the input array.
+sub LowercaseString(@) {
+  my($input, $w, $result);
+  my(@ResultAry, @word);
+
+  foreach $input (@_) {
+    @word= split(/\s+/, $input);
+    $result="";
+
+    foreach $w (@word) {
+      $w= lc($w); $w= ucfirst($w);
+      if ($result eq "") { $result=$w; }
+      else { $result= $result . " " . $w; }
+    }
+    push(@ResultAry, $result);
+  }
+  return(@ResultAry);
+}

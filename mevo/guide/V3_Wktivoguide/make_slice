@@ -1,0 +1,143 @@
+#!/usr/bin/perl
+#
+# make-slice: Use the intermediate textual form of the guide data to
+# construct a TiVo slice file.
+#
+# Copyright (c) Warren Toomey, wkt@tuhs.org, 2002/2003/2004
+#
+#    $Revision: 1.1.1.1 $
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 0. This software must only be used in those parts of the world which
+#    cannot obtain a program subscription service from TiVo, Inc.
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+# 3. All advertising materials mentioning features or use of this software
+#    must display the following acknowledgement:
+#      This product includes software developed by Warren Toomey.
+# 4. Warren Toomey's name may not be used to endorse or promote products
+#    derived from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY WARREN TOOMEY ``AS IS'' AND ANY EXPRESS OR
+# IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+# OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+# IN NO EVENT SHALL WARREN TOOMEY BE LIABLE FOR ANY DIRECT, INDIRECT,
+# INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+# NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+use strict;
+
+# Functions used from other files
+#
+use TiVo::ConfigFiles;
+use TiVo::MiscUtil;
+use TiVo::ProgramDb;
+use TiVo::SliceBuilder;
+
+# GLOBAL VARIABLES
+my ($top_level_confile, $write_numbers);
+my ($chan, $snum, $enum);
+my ($sday, $eday);
+my ($cnt, $i, $slice_file);
+my ($extradir);
+
+#
+# MAIN PROGRAM
+#
+# Run-time flags: allow user to choose a top-level config file, and
+# prevent the program from updating the writable config files
+# i.e. numbers, episodes, programs.
+#
+$top_level_confile= ".guiderc";
+$write_numbers=1;
+
+while (($#ARGV>2) && ($ARGV[0]=~ /^-/)) {
+  if ($ARGV[0] eq "-c") {
+    $top_level_confile=$ARGV[1]; shift; shift; next;
+  }
+  if ($ARGV[0] eq "-n") {
+    $write_numbers=0; shift; next;
+  }
+  print("Unknown argument $ARGV[0]\n");
+  print("Usage: $0 [-n] [-c config_file] channel startday endday\n");
+  exit(1);
+}
+
+#
+# Check we have 3 arguments: channel, start day and end day.
+#
+if ($#ARGV!=2) {
+  print("Usage: $0 [-n] [-c config_file] channel startday endday\n");
+  exit(1);
+}
+
+# Convert the start/end numbers to real daynums
+$chan= $ARGV[0];
+$snum= int($ARGV[1]);
+$enum= int($ARGV[2]);
+$sday= Get_Dayname($snum);
+$eday= Get_Dayname($enum);
+
+# Get the configuration details to find the run-time files and other things
+Read_Guiderc($top_level_confile);
+$extradir= $ConfigVar{Extradir};
+
+# Read other data sources in
+Read_Websources;
+Read_Genrelist;
+Read_Trimtitles;
+
+# If Extradir is defined, we don't have to load the Programs
+if (!defined($extradir)) {
+  Read_Programs;
+}
+
+Read_Episodes;
+Read_Numbers;
+Read_Stations;
+
+# Determine the name of the output file and initialise it.
+$slice_file= Find_Outfilename($snum, $enum);
+Initialise_Slice_Output($slice_file);
+
+# Either loop doing all the channels..
+if ($chan eq "All") {
+  $cnt=0; $i=1;
+  foreach $chan (keys(%StationId)) { $cnt++; }
+  foreach $chan (keys(%StationId)) {
+    print("Building slice for $chan from $sday to $eday ($i/$cnt)\n");
+    Build_Slice_For($chan, $snum, $enum);
+    $i++;
+  }
+}
+# Or do a single channel..
+else {
+  if (!defined($StationId{$chan})) {
+    print(STDERR "Channel $chan does not exist. Choose from this list:\n");
+    foreach $chan (sort keys(%StationId)) {
+      print(STDERR "$chan ");
+    }
+    print(STDERR "\n"); exit(1);
+  }
+  print("Building slice for $chan from $sday to $eday\n");
+  Build_Slice_For($chan, $snum, $enum);
+}
+
+Finalise_Slice_Output;
+
+if ($write_numbers==1) {
+  Write_Episodes;
+  Write_Numbers;
+}
+
+Cleanup_Old_Files;
+exit(0);

@@ -1,0 +1,82 @@
+#!/usr/bin/perl
+
+if ($#ARGV!=0) {
+  print(STDERR "Usage: cvt_directors directors.list.gz\n"); exit(1);
+}
+
+&Read_Directors($ARGV[0]);
+exit(0);
+
+
+
+
+# Read_Directors: read the directors from the directors.list.gz file.
+sub Read_Directors($)
+{
+  my ($file)= @_;
+  my ($title,$year,$director,$leftover);
+
+  # Don't do anything if there is no ratings file
+  open(RIN, "zcat $file |") ||
+        die("Cannot open $file: $!\n");
+
+  # Walk the file obtaining per-movie directors
+  while (<RIN>) {
+    if (/^Name/) { <RIN>; last; }
+  }
+
+  while (<RIN>) {
+    chop; undef($year);
+    last if (/^--------/);
+    next if (/^$/);
+
+    if (/^([^\s][^\t]+)\t+(.*)/) {
+      $director=$1; $title=$2;
+      if ($director=~ /([^\(]*)\(/) {
+        $director=$1;
+        $director=~ s/\s*$//;
+      }
+      if ($director=~ /(.*),\s*(.*)/) {
+	$director= "$2 $1";
+      }
+      #print("Got director $director and title $title\n");
+    } else {
+      $title= $_; $title=~ s/^\s+//;
+      #print("Got title $title\n");
+    }
+    if ($title=~ /([^\(]*)\((.*)/) {
+      $title=$1; $leftover=$2;
+      $title=~ s/\s*$//;
+      if ($leftover=~ /(\d\d\d\d)/) { $year= $1; }
+    }
+    $title=~ s/"//g;
+    if ($title=~ /(.*),\s+(.*)/) {
+      $title= "$2 $1";
+    }
+    print("$title\t$director");
+    if (defined($year)) { print("\t$year"); }
+    print("\n");
+  }
+  close(RIN);
+}
+
+
+# Convert all letters to lowercase except the start of each word.
+# Do this for each line in the input array.
+sub LowercaseString(@) {
+  my($input, $w, $result);
+  my(@ResultAry, @word);
+
+  foreach $input (@_) {
+    @word= split(/\s+/, $input);
+    $result="";
+
+    foreach $w (@word) {
+      $w= lc($w); $w= ucfirst($w);
+      if ($result eq "") { $result=$w; }
+      else { $result= $result . " " . $w; }
+    }
+    push(@ResultAry, $result);
+  }
+  return(@ResultAry);
+}

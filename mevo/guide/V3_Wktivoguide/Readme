@@ -1,0 +1,13 @@
+
+   Wktivoguide - Warren Toomey's Homegrown TiVo Slice Generator 
+
+   Version 3.1, January 2004. (c) Warren Toomey, BSD license.
+
+This program fetches TV program data from web sources, and converts
+this data into a slice file which can be loaded into a TiVo. At
+present, it can only obtain Australian TV program data, but it can
+be modified to fetch and parse data from other sources.
+
+See the full documentation in Docs/README.html and Docs/CHANGES.html.
+
+

@@ -1,0 +1,41 @@
+#!/usr/bin/perl
+foreach $f (@ARGV) {
+  open(IN, $f) || die("Can't open $f: $!\n");
+
+  print("$f\n.-----------------------------\n");
+
+  # Determine what type of file
+  while (<IN>) {
+    if (/FOXTEL/) { &Foxtel_File; last; }
+    if (/Sofcom/) { &Ebroadcast_File; last; }
+  }
+  print("\n\n");
+  close(IN);
+}
+
+sub Foxtel_File
+{
+  while (<IN>) {
+    last if (/guideHead/);
+  }
+  while (<IN>) {
+    next if (/</);
+    next if (/aboutmenu/);
+    next if (/document\.cookie/);
+    last if (/FOXTEL/);
+    print;
+  }
+}
+
+
+sub Ebroadcast_File
+{
+  while (<IN>) {
+    last if (/^CHANNEL/);
+  }
+  while (<IN>) {
+    next if (/</);
+    last if (/^What's On\?/);
+    print;
+  }
+}

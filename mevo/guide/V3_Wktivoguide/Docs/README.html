@@ -1,0 +1,847 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+           "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<meta name="GENERATOR" content="TtH 2.78">
+                                                                                               
+ 
+<title> \textbf{Wktivoguide - Warren Toomey's Homegrown TiVo Slice Generator}</title><body bgcolor="#ffffff">
+ 
+<h1 align="center"><b>Wktivoguide - Warren Toomey's Homegrown TiVo Slice Generator</b> </h1>
+
+<p>
+
+<center>Version 3.1, January 2004. (c) Warren Toomey, BSD license.<br />
+</center>
+
+<p>
+This program fetches TV program data from web sources, and converts
+this data into a slice file which can be loaded into a TiVo. At present,
+it can only obtain Australian TV program data, but it can be modified
+to fetch and parse data from other sources.
+
+<p>
+The program can output program data in the binary slice format which
+the TiVo requires. Alternatively, it can output the data in a textual
+form which can then be converted into a slice file using tridge's
+writeguide program.
+
+<p>
+It's a good idea to read this README file from start to end, especially
+the bits about the files that get regenerated during each run. Things
+may not work if you don't set them up correctly.
+
+<p>
+
+<h2>RECENT CHANGES</h2>
+
+<p>
+<b>3.1:</b> First release of new version.
+
+<p>
+
+<h2>CHANGES FROM VERSION 2</h2>
+
+<p>
+These are now documented in a <a href="CHANGES.html">separate file</a>.
+
+<p>
+
+<h2>OVERVIEW OF OPERATION</h2>
+
+<p>
+Wktivoguide is a set of four programs, a bunch of configuration files
+and directories that hold intermediate files. Each program represents
+one of the four phases of operation.
+
+<p>
+
+<center><img src="phases.gif" alt="phases.gif" /></center>
+
+<p>
+
+<h3>Phase One - Fetching Web Data</h3>
+
+<p>
+The first phase is to fetch and parse the web data for the slice(s)
+that you want to build. At present there are web fetchers for Ebroadcast
+and Foxtel in Australia. Other fetchers would be reasonably easy to
+write, and the existing fetchers could be used as a template. The
+fetch phase reads a list of TV channels from a configuration file
+called <em>websources</em>, and writes a set of intermediate data files
+into the <em>Data</em> directory. These files contain only the information
+that is required to build the slices. The fetch phase also stores
+the raw web pages fetched into the <em>Webfiles</em> directory; if you
+re-run the fetch phase and there are web pages in the <em>Webfiles</em>
+directory, no web connections will occur and the files in the <em>Data</em>
+directory will be recreated from the information in the <em>Webfiles</em>
+directory.
+
+<p>
+
+<h3>Phase Two - Searching for Unknown Genres</h3>
+
+<p>
+One problem with the data found by the web search is that it often
+does not give us an idea of the genre of the programs found (Movie,
+Comedy, Drama etc.). To overcome this, <em>Wktivoguide</em> keeps a
+database of programs and their genres, which is called the <em>programs</em>
+file or the <em>programs</em> database. The second, optional, phase
+is to read through the files in the <em>Data</em> directory, compare
+the programs there with those stored in the <em>programs</em> file,
+and determine which programs don't have a known genre.
+
+<p>
+For every unknown program, this phase sends a query out to an Australian
+Yahoo website to see if the program's genre can be determined. The
+result (known or not found) is stored back into the <em>programs</em>
+file. The <em>trimtitles</em> file is also consulted: this is used to
+trim common things from the front of a program's title (e.g. Special:,
+Movie of the Week:, Drama: etc.)
+
+<p>
+
+<h3>Phase Three - Adding Genre and Other Data</h3>
+
+<p>
+With the basic program data in the <em>Data</em> directory, this optional
+phase can add extra data to these files. It will add in the genre
+of the program, the star rating and director if the program is a movie,
+and it will use heuristics to determine an episode name. The results
+are stored into a second directory called <em>Data2</em>.
+
+<p>
+
+<h3>Phase Four - Making the Slice(s)</h3>
+
+<p>
+In the last phase, the program data that we have gathered and augmented
+will be converted into slice format. If the <em>Data2</em> directory
+exists, this phase will use the data files from this directory. If
+only the <em>Data</em> directory exists, then this phase will load the
+data from there, and perform Phase Three on the fly. The result is
+the final slice file which can be loaded into the TiVo.
+
+<p>
+
+<h2>INSTALLATION</h2>
+
+<p>
+The <em>Wktivoguide</em> program comes as a front-end Bourne shell script
+called <em>doit</em>. This calls the four Perl scripts: <em>fetch_data</em>,
+<em>genre_search</em>, <em>add_data</em> and <em>make_slice</em>. These
+make use of a number of back-end Perl modules in the TiVo/ directory.
+You will need a Unix machine with Perl 5 installed and you will also
+need to install the <b>HTTP::Lite</b> and <b>CGI::Enurl</b> Perl
+modules.
+
+<p>
+The software is designed to be unpacked and run in the directory where
+you unpacked it. Later on, I'll describe what to do if you want to
+generate multiple slices in the same directory.
+
+<p>
+
+<h2>GETTING HTTP::Lite</h2>
+
+<p>
+Get HTTP::Lite from any CPAN mirror. I found it at: <a href="ftp://mirror.aarnet.edu.au/pub/perl/CPAN/modules/by-category/15_World_Wide_Web_HTML_HTTP_CGI/HTTP"><tt>ftp://mirror.aarnet.edu.au/pub/perl/CPAN/modules/by-category/15_World_Wide_Web_HTML_HTTP_CGI/HTTP</tt></a>.
+At the time of writing, the latest version is HTTP-Lite-2.1.4.tar.gz.
+Download the latest tarball somewhere. Then do:
+
+<p>
+
+<blockquote>% tar vxzf HTTP-Lite-2.1.4.tar.gz 
+
+<p>
+% cd HTTP-Lite-2.1.4 
+
+<p>
+% perl Makefile.PL 
+
+<p>
+% make 
+
+<p>
+% su root 
+
+<p>
+# make install
+</blockquote>
+I hope that works. I normally use the Perl CPAN auto-fetching support
+to install new Perl modules.
+
+<p>
+
+<h2>GETTING CGI::Enurl</h2>
+
+<p>
+If you plan to use the <em>genre_search</em> phase, or if you plan
+to run the command <em>./doit search</em>, then you will also need to
+install the CGI::Enurl Perl module. It is installed in the same way
+as HTTP::Lite. I found it at <a href="ftp://mirror.aarnet.edu.au/pub/perl/CPAN/modules/by-category/15_World_Wide_Web_HTML_HTTP_CGI/CGI"><tt>ftp://mirror.aarnet.edu.au/pub/perl/CPAN/modules/by-category/15_World_Wide_Web_HTML_HTTP_CGI/CGI</tt></a>.
+
+<p>
+
+<h2>TOP-LEVEL CONFIGURATION FILE</h2>
+
+<p>
+<em>Wktivoguide</em> has a top-level configuration file, and a number
+of other files which store a database of information between runs
+of the program. The top-level configuration file is called .<em>guiderc</em>
+and should be placed in the directory where you unpacked <em>Wktivoguide</em>.
+There is an example <em>.guiderc</em> configuration file in the distribution.
+
+<p>
+<b>Note:</b> The scripts <em>doit</em>, <em>fetch_data, genre_search</em>,
+<em>add_data</em> and <em>make_slice</em> all have a <em>-c</em> option
+that allows you to specify configuration files other than <em>.guiderc</em>.
+This is useful if you want to generate multiple different slice files
+using the software.
+
+<p>
+The .<em>guiderc</em> configuration file controls the basic behaviour
+of the program, and also defines where the run-time files are and
+where to store the intermediate guide data. Lines beginning with a
+hash are ignored; so are blank lines. Configuration lines look like
+variable = value. Here is a brief description of all variables; for
+more information see the .<em>guiderc</em> file that came with the distribution.
+
+<p>
+
+<center>
+<table border="1">
+<tr><td align="center"><b>Variable</b></td><td align="center"><b>Used For</b></td><td align="center"><b>Default Value</b></td></tr><tr><td>
+<tr><td align="center">Configdir</td><td align="center">Where the other config files live</td><td align="center">./Files</td></tr>
+<tr><td align="center">Datadir</td><td align="center">Where intermediate guide data is stored by fetch_data</td><td align="center">./Data</td></tr>
+<tr><td align="center">Extradir</td><td align="center">Where intermediate guide data is stored by add_data</td><td align="center">./Data2</td></tr>
+<tr><td align="center">Webdir</td><td align="center">Where raw web data is stored</td><td align="center">No default</td></tr>
+<tr><td align="center">Webproxy</td><td align="center">Web proxy for downloads</td><td align="center">Not used</td></tr>
+<tr><td align="center">WebDelay</td><td align="center">Delay in seconds between web fetches</td><td align="center">0</td></tr>
+<tr><td align="center">RepeatWebConnect</td><td align="center">Try to get web data this many times</td><td align="center">Not used</td></tr>
+<tr><td align="center">NoNag</td><td align="center">The channel to clone to stop TiVo nagging</td><td align="center">Ten</td></tr>
+<tr><td align="center">Outputformat</td><td align="center">The format of the output file</td><td align="center">slice</td></tr>
+<tr><td align="center">Slicefile</td><td align="center">Name of the slice output file</td><td align="center">./output.slice</td></tr>
+<tr><td align="center">Textfile</td><td align="center">Name of the text output file</td><td align="center">./output.txt</td></tr>
+<tr><td align="center">Debugfile</td><td align="center">File that holds debugging output</td><td align="center">No default</td></tr></table>
+</center>
+
+<p>
+The <em>Configdir</em> variable gives the directory name where the run-time
+files are stored. You <b>will need</b> to create this directory
+before you can run the program, and also populate it with the run-time
+files. Example run-time files are given in the Files/ directory. We
+will look at these files later.
+
+<p>
+Phase one of <em>Wktivoguide</em> (i.e. <em>fetch_data)</em> downloads
+web data and distills it into an intermediate guide format. The data
+in the intermediate format is stored in the directory named by the
+<em>Datadir</em> variable. You <b>will need</b> to create this directory
+before you can run the program. You should also make the directory
+named by the <em>Webdir</em> variable.
+
+<p>
+If you choose to run phase three of <em>Wktivoguide</em> (i.e. <em>add_data</em>),
+<em></em>then you <b>will need</b> to create the directory named by
+the <em>Extradir</em> variable.
+
+<p>
+<em>Wktivoguide</em> will automatically clean out all of these three
+directories by removing files older than 14 days.
+
+<p>
+Details for all the other configuration parameters can be found in
+the .<em>guiderc</em> file that came with the distribution.
+
+<p>
+
+<h2>RUN-TIME FILES</h2>
+
+<p>
+<em>Wktivoguide</em> uses the following run-time files which are kept
+in the <em>Configdir</em> directory. Some example files are provided
+in the Files/ directory. Warning: You <b><em>will</em></b> need to
+change most of these files.
+
+<p>
+
+<h3>genretypes</h3>
+
+<p>
+This file lists the program categories (also known as genres) which
+the TiVo knows. Do not edit this file; treat it as read-only.
+
+<p>
+
+<h3>stations</h3>
+
+<p>
+This file holds the names of the stations known to <em>Wktivoguide</em>,
+the TiVo internal station-id for the station, and the timezone where
+this station will be received. The 3 columns are tab-separated. Lines
+starting with hashes are ignored. I am using:
+
+<p>
+
+<pre>
+# List of stations and the internal TiVo id
+TVQ46           Station/1/7111010       Australia/Brisbane
+ABC-QLD         Station/1/7111002       Australia/Brisbane
+BTQ52           Station/1/7111007       Australia/Brisbane
+QTQ58           Station/1/7111009       Australia/Brisbane
+SBS-QLD         Station/1/7111028       Australia/Brisbane
+#TenGC          Station/1/7111055       Australia/Brisbane
+#Prime          Station/1/7111064       Australia/Brisbane
+#NBN            Station/1/7111067       DoNotShift
+#AV             Station/1/7111099       Australia/Brisbane
+NoNag           Station/1/7111099       Australia/Brisbane
+
+</pre>
+
+<p>
+The TiVo internal station-ids can be found using the method described
+on <a href="http://minnie.tuhs.org/twiki/bin/view/Hintsortips/HowToFindSourceID">this web page</a>.
+
+<p>
+The timezone is specified as it appears in most Linux or Unix boxes
+in <em>/usr/share/zoneinfo</em>.
+
+<p>
+<b>Note:</b> Sometimes the provider of a channel does its own time
+delay, so that a program appears at the same local time in all timezones,
+e.g. a cable channel. If this is the case, set the timezone to the
+magic word ``DoNotShift''. This will preserve the original times
+for all programs on that channel, i.e. no timezone shifting will be
+done. You would use the entry for NBN as shown above.
+
+<p>
+
+<h3>websources</h3>
+
+<p>
+This file holds the list of stations again, what mechanism to use
+to get them, the timezone where the transmitter operates, and some
+portion of a URL which is used to fetch the data. At present, the
+only mechanisms for downloading data are the `Ebroadcast' mechanism
+and the `Foxtel' mechanism. As before, the columns are tab-separated
+and lines beginning with hashes are ignored.
+
+<p>
+To find out the Ebroadcast URL portion for your channels, go to <a href="http://www.ebroadcast.com.au/tv"><tt>http://www.ebroadcast.com.au/tv</tt></a>,
+select a location for today, and click on `View TV Schedule'. You
+should see a table with a list of station names down the left-hand
+side. Click on the ones you want, and grab the appropriate right-hand
+portion of the new URL from the Location field at the top of your
+browser.
+
+<p>
+Here is the file I use. Note that the NoNag channel must not be defined
+in this file. Note also that there can be many more stations defined
+in this file than in the <em>stations</em> file.
+
+<p>
+
+<pre>
+# List of web sources for each station defined in the stations file.
+# Columns are: station name, web source, timezone, and any
+# specific URL information that we need to use to get the data.
+#
+HALL    Foxtel  Australia/Sydney        HAL     # Hallmark Channel
+MOV1    Foxtel  Australia/Sydney        MV1     # Movie One
+ABC-QLD Ebroadcast      Australia/Brisbane      2&amp;state=Brisbane&amp;fta=1
+SBS-QLD Ebroadcast      Australia/Brisbane      SBS&amp;state=Brisbane&amp;fta=1
+BTQ52   Ebroadcast      Australia/Brisbane      7&amp;state=Brisbane&amp;fta=1
+QTQ58   Ebroadcast      Australia/Brisbane      9&amp;state=Brisbane&amp;fta=1
+TVQ46   Ebroadcast      Australia/Brisbane      10&amp;state=Brisbane&amp;fta=1
+
+</pre>
+
+<p>
+
+<h3>numbers</h3>
+
+<p>
+This file holds numbers which have to be unique for certain records
+in the final TiVo slice. This file is only used by the <em>make_slice</em>
+phase. I'm using:
+
+<p>
+
+<pre>
+# List of incremental numbers
+Series:  100053808
+Program: 140171812
+StationDay: 300005812
+Slice: 394
+
+</pre>
+
+<p>
+You could probably reset them to 100000000, 200000000, 300000000 and
+a small number like 50. Note that once you use a number, you can't
+reuse it. I had to pick numbers I knew were not used by tridge's SOFCOM.slices,
+but if you have a factory fresh TiVo, then I guess you could use any
+numbers.
+
+<p>
+
+<h3>programs</h3>
+
+<p>
+This file holds the known program names and a list of genre identifiers
+separated by commas. The two columns are tab-separated. You should
+use at least one broad category name, but you can use any of the names
+given in the <em>genretypes</em> file. We now have a communal programs
+file available at <a href="ftp://minnie.tuhs.org/tivo/guidefiles/programs">ftp://minnie.tuhs.org/tivo/guidefiles/programs</a>.
+E-mail me if you want to help us to maintain this file and fix the
+Unknown genre problem!
+
+<p>
+Note on matching program names. For most titles, an exact match is
+done between the web title and the title in the programs file. If
+no matches are found, the web program is considered to be Unknown.
+However, if the two letters <b>|P</b> are at the end of a title
+in the programs file, then partial matches are permitted. For example,
+assume that the <em>programs</em> file holds these lines:
+
+<p>
+
+<blockquote>About Us|P&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Documentary,DocumentaryGroup
+
+<p>
+Absolutely Fabulous&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Comedy,ComedyGroup
+</blockquote>
+and these raw titles arrive from the web data:
+
+<p>
+
+<blockquote>About Us: The Life of John Cleese
+
+<p>
+Absolutely Fabulous
+
+<p>
+Absolutely Fabulous on Stage
+</blockquote>
+The first program will be matched, and ``The Life of John Cleese''
+will be used as the episode title. The second title will be matched,
+but the third title will be treated as an Unknown program.
+
+<p>
+
+<h3>trimtitles</h3>
+
+<p>
+This file holds patterns which occur in program titles that are superfluous,
+and can be trimmed from the titles. For example, channel Ten often
+prepends the pattern `Movie: ' to its movie titles. By putting this
+pattern in here, <em>Wktivoguide</em> will remove it from the title
+when doing the conversion. Each line contains a genrelist which <em>Wktivoguide</em>
+will use in case the remaining title is not found in the <em>programs</em>
+file, and an optional word `Never' to indicate that the program is
+never an episode of a series. You should not have to edit this file,
+unless you see program titles that clearly could be trimmed.
+
+<p>
+
+<h3>episodes</h3>
+
+<p>
+This file holds the program names which are known to be episodic;
+if a program name appears in here, then it must also appear in the
+programs file. For programs which are named in this file, you can
+ask the TiVo to record a `Season Pass'. <b>Warning:</b> Do not edit
+this file, as <em>Wktivoguide</em> builds this file for you automatically.
+
+<p>
+Hint: It's a good idea to periodically backup all of these configuration
+files; if they ever get lost you might be able to go back to a known
+point in time.
+
+<p>
+
+<h3>SETTING THESE FILES UP FOR THE FIRST TIME</h3>
+
+<p>
+These are the files you should edit only once: <em>numbers</em>, <em>stations</em>,
+<em>websources</em>. You should then download a new copy of the <em>programs</em>
+file from <a href="ftp://minnie.tuhs.org/tivo/guidefiles/programs">ftp://minnie.tuhs.org/tivo/guidefiles/programs</a>.
+Then you should <b>delete</b> the <em>episodes</em> file, as this
+will be created for you. You can leave the other files (<em>genretypes</em>
+and <em>trimtitles</em>) as they are.
+
+<p>
+Each phase will rewrite different files:
+
+<p>
+
+<ol type="1"><p>
+<li> <em>fetch_data</em>: No files will be modified.</li>
+<p>
+<li> <em>genre_search</em>: The <em>programs</em> file is updated.</li>
+<p>
+<li> <em>add_data:</em> No files will be modified.</li>
+<p>
+<li> <em>make_slice:</em> The <em>numbers</em> and <em>episodes</em> files will
+be updated.</li>
+</ol>
+
+<p>
+
+<h2>RUNNING THE PROGRAM THE EASY WAY</h2>
+
+<p>
+Once you have configured your <em>.guiderc</em> and the <em>numbers</em>,
+<em>stations</em> and <em>websources</em> files, you are ready to try
+running the program. Ebroadcast updates their web site on Thursday
+morning, so it is best to do the following on Thursday night, Fridays
+or Saturdays, but you can run the program at any time.
+
+<p>
+Make sure the <em>Webdir, Datadir</em> and <em>Extradir</em> directories
+that you have chosen exist. Then run the <em>doit</em> shell script
+to fetch some guide data:
+
+<p>
+
+<blockquote>% ./doit fetch
+</blockquote>
+This should give some lines indicating that data is being retrieved,
+and the result will be a collection of files in the <em>Datadir</em>
+which holds the guide data in intermediate format. The <em>Webdir</em>
+should also have the raw web files.
+
+<p>
+Once the fetch phase is successful, you can search Yahoo for new genres:
+
+<p>
+
+<blockquote>% ./doit search
+</blockquote>
+With that complete, you can augment your intermediate data:
+
+<p>
+
+<blockquote>% ./doit add
+</blockquote>
+Finally, you can create your slice:
+
+<p>
+
+<blockquote>% ./doit make
+</blockquote>
+The result is a new <em>output.slice</em> file which holds a week's
+worth of data. You can also do <em>./doit both</em> to both fetch the
+guide data from the web and produce the <em>output.slice</em> file (i.e.
+phases one and four). You can also do <em>./doit both</em> to run all
+four phases.
+
+<p>
+
+<h2>RUNNING THE PROGRAM THE HARD WAY</h2>
+
+<p>
+The <em>doit</em> script works out the list of days to fetch, and then
+calls <em>fetch_data, genre_search, add_data</em> or <em>make_slice.</em>
+You can call these Perl scripts by hand. To run <em>fetch_data</em>,
+do:
+
+<p>
+
+<blockquote>% fetch_data [-c configfile] station start_day end_day
+</blockquote>
+Options are:
+
+<p>
+
+<blockquote><b>-c configfile</b>&nbsp;&nbsp;Use the named configuration file instead
+of <em>.guiderc</em>
+</blockquote>
+The station is the name of the station from column 1 of the websources
+file. Alternatively, you can use the word `All', and the program will
+operate on all the stations named in the websources file.
+
+<p>
+The start day and end day are day numbers relative to today, e.g 0
+is today, 1 is tomorrow. You can specify negative as well as positive
+day numbers.
+
+<p>
+You run <em>genre_search</em> and <em>add_data</em> in exactly the same
+way as for <em>fetch_data.</em>
+
+<p>
+To run <em>make_slice</em>, you can do:
+
+<p>
+
+<blockquote>% make_slice [-n] [-c configfile] station start_day end_day
+</blockquote>
+Options are:
+
+<p>
+
+<blockquote><b>-c configfile</b>&nbsp;&nbsp;Use the named configuration file instead
+of <em>.guiderc</em>
+
+<p>
+<b>-n&nbsp;&nbsp;</b>Don't rewrite the <em>numbers</em> file.
+</blockquote>
+The station option this time refers to a station from the <em>stations</em>
+file, or the word `All' to mean all stations in the <em>stations</em>
+file.
+
+<p>
+Typically you would run <em>fetch_data</em> to get the web data; then
+you would do a <em>genre_search</em>; then you would edit the <em>programs</em>
+file to hand-edit any Unknown entries; then you would do an <em>add_data</em>;
+finally you would run <em>make_slice</em> to generate the slice file.
+e.g.
+
+<p>
+
+<blockquote>% ./fetch_data All 0 6 
+
+<p>
+% ./genre_search All 0 6
+
+<p>
+% vi Files/programs
+
+<p>
+% ./add_data All 0 6
+
+<p>
+% ./make_slice All 0 6
+</blockquote>
+which is basically what the <em>doit</em> script does.
+
+<p>
+
+<h2>UPDATING THE PROGRAMS FILE</h2>
+
+<p>
+Although you can update this file by hand, it is probably best to
+download the latest communal programs file, which is available at
+<a href="ftp://minnie.tuhs.org/tivo/guidefiles/programs">ftp://minnie.tuhs.org/tivo/guidefiles/programs</a>.
+
+<p>
+However, if you have done a <em>fetch_data</em> and hopefully a <em>genre_search</em>,
+you may still find some programs with no known genre in the <em>programs</em>
+file. Use the genre categories in the <em>genretypes</em> file to replace
+or improve the entries in this file. And if you see a program with
+obvious episode names like these:
+
+<p>
+
+<blockquote>2002 FIFA WORLD CUP - FRANCE vs URUGUAY&nbsp;&nbsp;&nbsp;Unknown
+
+<p>
+2002 FIFA WORLD CUP - GERMANY vs REPUBLIC OF IRELAND&nbsp;&nbsp;&nbsp; Unknown
+
+<p>
+2002 FIFA WORLD CUP - JAPAN vs BELGIUM&nbsp; Unknown
+
+<p>
+2002 FIFA WORLD CUP - KNOCKOUT ROUND - GROUP E vs GROUP B&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Unknown
+
+<p>
+2002 FIFA WORLD CUP - MEXICO vs ITALY&nbsp;&nbsp; Unknown
+
+<p>
+2002 FIFA WORLD CUP - PEOPLE'S REPUBLIC OF CHINA vs COSTA RICA&nbsp; Unknown
+
+<p>
+2002 FIFA WORLD CUP - POLAND vs USA&nbsp;&nbsp;&nbsp;&nbsp; Unknown
+
+<p>
+2002 FIFA WORLD CUP - PORTUGAL vs REPUBLIC OF KOREA&nbsp;&nbsp;&nbsp;&nbsp; Unknown
+
+<p>
+2002 FIFA WORLD CUP - REPUBLIC OF KOREA vs POLAND&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Unknown
+
+<p>
+2002 FIFA WORLD CUP - RUSSIA vs TUNISIA&nbsp;&nbsp;Unknown
+
+<p>
+A COUNTRY PRACTICE: ALL FIRED UP - PART 1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Unknown
+
+<p>
+A COUNTRY PRACTICE: ALL FIRED UP - PART 2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Unknown
+
+<p>
+A COUNTRY PRACTICE: NEVER COUNT YER CHOOKS - PART 1&nbsp;&nbsp;&nbsp;&nbsp; Unknown
+
+<p>
+A COUNTRY PRACTICE: NEVER COUNT YER CHOOKS - PART 2&nbsp;&nbsp;&nbsp;&nbsp; Unknown
+
+<p>
+A COUNTRY PRACTICE: RAKING OVER THE ASHES - PART 1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Unknown
+
+<p>
+CHICAGO HOPE: A COUPLA' STIFFS&nbsp; Unknown
+
+<p>
+CHICAGO HOPE: EVERY DAY A LITTLE DEATH&nbsp; Unknown
+
+<p>
+CHICAGO HOPE: FROM SOUP TO NUTS&nbsp;&nbsp;Unknown
+
+<p>
+CHICAGO HOPE: FULL MOON Unknown
+
+<p>
+CHICAGO HOPE: HELLO GOODBYE&nbsp;&nbsp;&nbsp;&nbsp; Unknown
+
+<p>
+CHICAGO HOPE: LEAVE OF ABSENCE&nbsp; Unknown
+
+<p>
+CHICAGO HOPE: RISE FROM THE DEAD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Unknown
+
+<p>
+HIGHER GROUND What Remains&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Unknown
+</blockquote>
+then remove the episode name and replace the multiple lines with one
+line ending in <b>|P</b>, for example:
+
+<p>
+
+<blockquote>2002 FIFA WORLD CUP|P&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SportsGroup
+
+<p>
+A COUNTRY PRACTICE|P&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DramaGroup
+
+<p>
+CHICAGO HOPE|P&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DramaGroup
+
+<p>
+HIGHER GROUND|P&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Unknown
+</blockquote>
+<b>Note:</b> If you do edit your own programs file, then please
+help us out by uploading your changes to the communal programs file.
+E-mail me below, or join the <a href="http://minnie.tuhs.org/TiVo">OzTiVo Twiki</a>
+if you want to help us to maintain this file and fix the Unknown genre
+problem.
+
+<p>
+
+<h2>STOPPING THE TIVO FROM NAGGING</h2>
+
+<p>
+Each week, the TiVo nags you about being nearly out of program data.
+<em>Wktivoguide</em> can overcome the nag problem. It does so by generating
+data for an unused channel for 7 days ahead of now. Thus, the TiVo
+thinks it has 7 more days of guide data, and it won't nag you.
+
+<p>
+To make use of this feature, you need to create a channel on the TiVo
+that you will <b>never use</b>. Just choose a channel number which
+you can't receive, and create a TiVo station using that frequency.
+Then in the TiVo setup, make it a channel that you don't receive.
+
+<p>
+Next, put an extra line in the <em>Files/stations</em> file which has
+a station named `NoNag'. Put in the station-id which identifies this
+channel in the TiVo. For an example, see the <em>stations</em> file
+above.
+
+<p>
+Finally, choose an existing real channel whose data we will use to
+fool the TiVo, and use it as the `NoNag' channel in your <em>.guiderc.</em>
+Any real channel will do; I happen to use channel Ten.
+
+<p>
+Each week, <em>Wktivoguide</em> will re-use the Channel Ten data, but
+set the date for 14 days in the future and create slice data for the
+NoNag channel. Thus, the TiVo will be fooled into thinking that it
+always has program guide data.
+
+<p>
+
+<h2>LOADING SLICE FILES</h2>
+
+<p>
+Once you have generated your weekly <em>output.slice,</em> you now need
+to move the resulting slice file over to your TiVo. Consult your local
+TiVo community to find out how to do this for your type of TiVo and
+the version of its system.
+
+<p>
+
+<h2>MOVIE STAR RATINGS AND DIRECTORS</h2>
+
+<p>
+If you want to see slice entries with star ratings for movies, then
+go to the <a href="http://www.imdb.com/interfaces">Alternate Interfaces</a>
+section of the Internet Movie Database, scroll down to the Plain Text
+Data Files section, and download the file called <em>ratings.list.gz</em>.
+While you are there, also download the file <em>directors.list.gz</em>.
+
+<p>
+The format for these files is very awkward to parse, so <em>Wktivoguide</em>
+keeps the data in these files in its own format. To convert from IMDB
+format to <em>Wktivoguide</em> format, do the following:
+
+<p>
+
+<pre>
+% Misc/cvt_ratings ratings.list.gz &#62; ratings.tivo
+% Misc/cvt_directors directors.list.gz &#62; directors.tivo
+% gzip -9 ratings.tivo directors.tivo
+% mv ratings.tivo.gz directors.tivo.gz Files/
+
+</pre>
+
+<p>
+The new files <em>ratings.tivo.gz</em> and <em>directors.tivo.gz</em>
+should be moved into the <em>Configdir</em> directory (i.e. where <em>programs</em>
+and <em>trimtitles</em> are kept). When you now make a slice, <em>Wktivoguide</em>
+will read both files, and add movie star ratings and director information
+to your slices where possible.
+
+<p>
+<b>Note:</b> The TiVo only has up to 4 stars instead of the usual
+5, so <em>Wktivoguide</em> code does a remapping from 5 stars to 4 stars.
+As a simple guide, here is what you should see:
+
+<p>
+
+<ul><p>
+<li> 1 star means poor</li>
+<p>
+<li> 2 stars means fair</li>
+<p>
+<li> 3 stars means good</li>
+<p>
+<li> 4 stars means excellent</li>
+</ul>
+The TiVo has half-star increments, so a 3 1/2 star movie is very good
+but not excellent.
+
+<p>
+
+<h2>BUGS AND OMISSIONS</h2>
+
+<p>
+Probably plenty. Let me know if you find any.
+
+<p>
+I do some conversion of Ebroadcast program ratings to what the TiVo
+expects, but it could be further refined. I try to separate the list
+of actors in a program from the program's description, but it is only
+heuristic.
+
+<p>
+If you have any questions or comments, please e-mail me at <a href="mailto:wkt@tuhs.org">wkt@tuhs.org</a>.
+
+<p>
+Warren Toomey, January 2004.
+
+<br /><br /><hr /><small>File translated from
+T<sub><font size="-1">E</font></sub>X
+by <a href="http://hutchinson.belmont.ma.us/tth/">
+T<sub><font size="-1">T</font></sub>H</a>,
+version 2.78.<br />On 15 Jan 2004, 07:48.</small>
+</body></html>

@@ -1,0 +1,63 @@
+#!/bin/sh
+# Run this weekly on Thurdays, Fridays or Saturdays to
+# get a week's worth of data.
+#
+# Set the confile file below. This allows you to have different doit
+# scripts with completely different configs.
+#
+config=".guiderc"
+stopflag=""
+
+if [ "$#" -lt "1" ]
+then echo 'Usage: doit [-n] [-c configfile] fetch|search|add|make|both|all';
+     echo '            fetch gets the web pages'
+     echo '            search searches yahoo for unknown genres'
+     echo '            add augments the intermediate data'
+     echo '            make makes the slice file'
+     echo '            both does the fetch and make phases'
+     echo '            all does all four phases'
+     echo '            -n stops writing of numbers in the make phase'
+     exit 1
+fi
+
+cmd=$1
+if [ "$cmd" = "-n" ]
+then stopflag="-n"; shift; cmd=$1
+fi
+if [ "$cmd" = "-c" ]
+then config=$2; shift; shift; cmd=$1
+fi
+
+set `date`
+today=$1
+oday="$3$2$6"
+
+case $today in
+  Thu) daylist='All 3 9' ;;
+  Fri) daylist='All 2 8' ;;
+  Sat) daylist='All 1 7' ;;
+  Sun) daylist='All 0 6' ;;
+  Mon) daylist='All 0 5' ;;
+  Tue) daylist='All 0 4' ;;
+  Wed) daylist='All 0 3' ;;
+esac
+
+if [ "$cmd" = "fetch" -o "$cmd" = "both" -o "$cmd" = "all" ]
+then echo 'About to fetch and save 1 week of data from the Web'
+     ./fetch_data -c $config $daylist
+fi
+
+if [ "$cmd" = "search" -o "$cmd" = "all" ]
+then echo 'Now searching yahoo for new and unknown programs'
+     ./genre_search -c $config $daylist
+fi
+
+if [ "$cmd" = "add" -o "$cmd" = "all" ]
+then echo 'Now augmenting the intermediate data'
+     ./add_data -c $config $daylist
+fi
+
+if [ "$cmd" = "make" -o "$cmd" = "both" -o "$cmd" = "all" ]
+then echo 'Now generating the new slice file'
+     ./make_slice $stopflag -c $config $daylist
+fi

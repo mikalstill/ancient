@@ -1,0 +1,3448 @@
+#
+# List of programs that are a series
+#
+# First column gives title (or portion of title).
+# This must match the name in the genrelist.
+# Second column is the TiVo series number.
+# Third column holds the next episode number to use.
+#
+#
+'WAIFS' PROFILE | 100049040 | 1
+007: The James Bond Story | 100053706 | 1
+100 Centre Street | 100055779 | 10
+100 Centre Street: A Shot In The Dark | 100055634 | 1
+100 Centre Street: Lady Paris | 100055481 | 1
+100 Centre Street: Things Change | 100055348 | 1
+100 Years Of The Tour De France | 100053192 | 2
+10th FINA World Swimming Championships | 100053597 | 16
+14th Annual Coca-Cola Wild Winter Weekend | 100037577 | 1
+1730 GOLD COAST WEEKEND (GOLD COAST ONLY) | 100050353 | 1
+1730 GOLD COAST WEEKEND (GOLD COAST) | 100048526 | 14
+1730 Gold Coast Weekend | 100052937 | 25
+20/20 | 100041642 | 13
+2001 SYDNEY TO HOBART YACHT RACE REVIEW SHOW | 100043922 | 1
+2002 AUSTRALIAN SAFARI | 100039328 | 1
+2002 FIFA WORLD CUP | 100034036 | 1
+2002 PAN PACIFIC CHAMPIONSHIP | 100037874 | 5
+2002 PAN PACIFIC CHAMPIONSHIPS | 100037871 | 0
+2002 PORSCHE SUPERCUP REVIEW | 100043921 | 1
+2002 ROLEX SYDNEY HOBART YACHT RACE | 100043939 | 1
+2002 ROLEX SYDNEY TO HOBART YACHT RACE | 100044935 | 1
+2002 SPRING RACING CARNIVAL | 100040818 | 0
+2002 SYDNEY TO HOBART HIGHLIGHTS | 100043946 | 1
+2003 AUSTRALIAN RALLY CHAMPIONSHIP SEASON PREVIEW | 100047806 | 1
+2003 Australian Grand Prix | 100047181 | 3
+2003 Bmc Software Australian Cyclist Of The Year Awards | 100056114 | 1
+2003 Brownlow Medal | 100054518 | 1
+2003 City To Surf Highlights | 100054064 | 1
+2003 Credit Union Christmas Pageant | 100056303 | 1
+2003 Crocodile Trophy | 100055955 | 1
+2003 FIA Asia Pacific Rally Championship | 100053727 | 2
+2003 FIA Formula One World Championship | 100048130 | 34
+2003 Flora Sydney Marathon Festival | 100054687 | 1
+2003 Foster's Australian Grand Prix | 100047486 | 2
+2003 Kellogg's Nutri-grain Ironman Series | 100044674 | 5
+2003 NATIONAL SOCCER LEAGUE GRAND FINAL: PERTH GLORY V OLYMPIC SHARKS | 100052330 | 1
+2003 Nobel Literature Prize Documentary | 100056517 | 2
+2003 Nobel Peace Prize Ceremony | 100056638 | 1
+2003 Nobel Peace Prize Concert | 100056706 | 2
+2003 Rugby World Cup Playoff For Third | 100055548 | 1
+2003 Rugby World Cup: Argentina V Ireland | 100055122 | 1
+2003 Rugby World Cup: Argentina V Ireland (cont.) | 100055123 | 1
+2003 Rugby World Cup: Argentina V Romania | 100055007 | 1
+2003 Rugby World Cup: Australia V Ireland | 100055150 | 2
+2003 Rugby World Cup: Australia V Ireland (cont.) | 100055257 | 1
+2003 Rugby World Cup: Australia V Namibia | 100055020 | 2
+2003 Rugby World Cup: Australia V Namibia (cont.) | 100055120 | 1
+2003 Rugby World Cup: Australia V Romania | 100054883 | 2
+2003 Rugby World Cup: Australia V Romania (cont.) | 100054996 | 1
+2003 Rugby World Cup: Canada V Tonga Highlights | 100055134 | 1
+2003 Rugby World Cup: Closing Ceremony And Grand Final | 100055556 | 1
+2003 Rugby World Cup: Closing Ceremony And Grand Final (cont.) | 100055557 | 1
+2003 Rugby World Cup: England V Georgia | 100054862 | 1
+2003 Rugby World Cup: England V Samoa | 100055124 | 1
+2003 Rugby World Cup: England V Uruguay | 100055258 | 1
+2003 Rugby World Cup: England V Uruguay (cont.) | 100055259 | 1
+2003 Rugby World Cup: Fiji V Japan Highlights | 100055009 | 1
+2003 Rugby World Cup: Final Replay: Australia V England | 100055688 | 1
+2003 Rugby World Cup: France V Fiji | 100054746 | 1
+2003 Rugby World Cup: France V Japan | 100054884 | 1
+2003 Rugby World Cup: France V Scotland | 100055022 | 1
+2003 Rugby World Cup: France V Usa | 100055141 | 1
+2003 Rugby World Cup: Georgia V Uruguay Highlights | 100055130 | 1
+2003 Rugby World Cup: Ireland V Namibia | 100054997 | 1
+2003 Rugby World Cup: Italy V Tonga Highlights | 100054870 | 1
+2003 Rugby World Cup: Italy V Wales | 100055021 | 1
+2003 Rugby World Cup: Japan V Usa Highlights | 100055127 | 1
+2003 Rugby World Cup: Namibia V Romania Highlights | 100055139 | 1
+2003 Rugby World Cup: New Zealand V Canada | 100054876 | 1
+2003 Rugby World Cup: New Zealand V Italy | 100054745 | 1
+2003 Rugby World Cup: New Zealand V Wales | 100055260 | 1
+2003 Rugby World Cup: Opening Ceremony - Australia V Argentina | 100054740 | 2
+2003 Rugby World Cup: Opening Ceremony - Australia V Argentina (cont.) | 100054744 | 1
+2003 Rugby World Cup: Playoff For Third Highlights | 100055551 | 1
+2003 Rugby World Cup: Quarter-final 1 | 100055280 | 1
+2003 Rugby World Cup: Quarter-final 1 And 2 Highlights | 100055393 | 1
+2003 Rugby World Cup: Quarter-final 1 And 2 Highlights (cont.) | 100055394 | 1
+2003 Rugby World Cup: Quarter-final 2 | 100055281 | 1
+2003 Rugby World Cup: Quarter-final 3 And 4 Highlights | 100055399 | 1
+2003 Rugby World Cup: Quarter-final 3: France V Ireland | 100055395 | 1
+2003 Rugby World Cup: Quarter-final 3: France V Ireland (cont.) | 100055396 | 1
+2003 Rugby World Cup: Quarter-final 4: England V Wales | 100055397 | 1
+2003 Rugby World Cup: Rugby Clubhouse | 100055002 | 7
+2003 Rugby World Cup: Rugby Clubhouse - Includes Argentina V Namibia Highlights | 100054867 | 1
+2003 Rugby World Cup: Rugby Clubhouse - Includes Fiji V Usa Highlights | 100054869 | 1
+2003 Rugby World Cup: Rugby Clubhouse - Includes Italy V Canada Highlights | 100055005 | 1
+2003 Rugby World Cup: Rugby World Cup Special | 100054885 | 1
+2003 Rugby World Cup: Samoa V Uruguay Highlights | 100054872 | 1
+2003 Rugby World Cup: Scotland V Fiji | 100055147 | 1
+2003 Rugby World Cup: Scotland V Japan | 100054861 | 1
+2003 Rugby World Cup: Scotland V Usa Highlights | 100055003 | 1
+2003 Rugby World Cup: Semi-final 1 | 100055411 | 1
+2003 Rugby World Cup: Semi-final 1 Highlights - Australia V New Zealand | 100055531 | 1
+2003 Rugby World Cup: Semi-final 2 Highlights: England V France | 100055536 | 1
+2003 Rugby World Cup: Semi-final 2: England V France | 100055532 | 1
+2003 Rugby World Cup: South Africa V England | 100054886 | 1
+2003 Rugby World Cup: South Africa V Georgia | 100055013 | 1
+2003 Rugby World Cup: South Africa V Samoa | 100055148 | 1
+2003 Rugby World Cup: South Africa V Samoa (cont.) | 100055149 | 1
+2003 Rugby World Cup: South Africa V Uruguay | 100054747 | 1
+2003 Rugby World Cup: The Cream With Roy And H.g. | 100054741 | 6
+2003 Skyy Vodka Australian Motorcycle Gp | 100055078 | 2
+2003 Skyy Vodka Australian Motorcycle Gp (cont.) | 100055079 | 2
+2003 Skyy Vodka Australian Motorcycle Grand Prix | 100054951 | 1
+2003 Spring Racing Carnival: Caulfield Cup | 100054881 | 1
+2003 Spring Racing Carnival: Caulfield Cup (cont.) | 100054882 | 1
+2003 Spring Racing Carnival: Cox Plate | 100055018 | 1
+2003 Spring Racing Carnival: Cox Plate (cont.) | 100055019 | 1
+2003 Sydney To Hobart Yacht Race | 100056415 | 1
+2003 Telstra Australian Swimming Championships | 100047577 | 8
+2003 Walkley Awards | 100055674 | 1
+2004 Dakar Rally | 100056461 | 42
+2030CE | 100041870 | 13
+24 | 100036916 | 73
+3 Australian Fashion Design Awards | 100054900 | 1
+3-day Cricket Tour Match | 100056317 | 2
+3-day Tour Cricket Match | 100056182 | 4
+30 Seconds To Fame | 100054107 | 4
+31st Annual American Music Awards Red Carpet Special | 100055539 | 1
+3rd Rock From The Sun | 100054493 | 20
+4 Little Girls | 100041131 | 1
+48 Hours | 100037873 | 4
+60 Minutes | 100009822 | 97
+7 Days | 100037142 | 32
+7 REECE MEWS | 100052267 | 1
+7th Heaven | 100034123 | 31
+8 Simple Rules for Dating My Teenage Daughter | 100042580 | 30
+9/11 - THE FIREFIGHTERS' STORY | 100038414 | 1
+A BIG COUNTRY REVISITED | 100045561 | 1
+A BRUSH WITH NATURE | 100038097 | 1
+A Big Country Revisited | 100055755 | 1
+A Big Country Revisited: A Place Like Strathmore | 100055327 | 1
+A Big Country Revisited: Cwa: Grey Hair Doesn't Mean You're A Fuddy Duddy | 100055186 | 1
+A Big Country Revisited: I'll Never Change Sides | 100054930 | 1
+A Big Country Revisited: Islander | 100055606 | 1
+A Big Country Revisited: Keepers Of The Light | 100055057 | 1
+A Big Country Revisited: Project Survival | 100055453 | 1
+A Big Country Revisited: Success Is A Hard Fall | 100054796 | 1
+A COFFEE WITH OZZY | 100039031 | 1
+A Country Practice | 100014873 | 160
+A Current Affair | 100014874 | 562
+A Difficult Woman | 100054435 | 4
+A Force More Powerful | 100056203 | 1
+A Force More Powerful: Denmark: Living With The | 100056362 | 1
+A Force More Powerful: India Defying The Crown | 100056054 | 1
+A Fork In Africa | 100053370 | 9
+A Fork In The Road | 100014875 | 14
+A GARDEN'S PAST | 100036271 | 2
+A GONDOLA ON THE MURRAY | 100042818 | 6
+A JOEY CALLED JACK | 100047496 | 1
+A LITTLE OF DON QUIXOTE | 100038381 | 1
+A Little Of Don Quixote | 100054321 | 1
+A MANY SPLINTERED THING | 100042194 | 6
+A MONKEY'S TALE | 100043901 | 1
+A NERO WOLFE MYSTERY | 100041180 | 15
+A NIGHT AT SEA WITH LOUIS TILLETT | 100045556 | 1
+A Nero Wolfe Mystery | 100055778 | 10
+A Nero Wolfe Mystery: Motherhunt Part 1 | 100055633 | 1
+A Nero Wolfe Mystery: Murder Is Corny | 100055480 | 1
+A PLACE OF PEACE | 100035684 | 1
+A Passion For Verdi: Jose Cura At The Barbican | 100055048 | 1
+A Place Down Under | 100055900 | 31
+A SPECIAL PRESENTATION: 2003 MISS USA | 100048187 | 1
+A STREETCAR NAMED DESIRE | 100033381 | 3
+A Shared Table | 100056741 | 10
+A Shared Table: Western Australia | 100056686 | 1
+A TOUCH OF FROST | 100026581 | 8
+A Taste Of Freedom | 100053953 | 1
+A VERY PERCULIAR PARROT | 100050558 | 1
+A WALK THROUGH JERUSALEM AT JESUS' SIDE | 100048837 | 1
+A World In Arms | 100053242 | 2
+A YEAR TO THE DAY | 100038710 | 3
+A YEN FOR A DOLLAR | 100034082 | 5
+ABBA's Biggest Secret | 100053341 | 2
+ABC Kids In Spaaace | 100052850 | 1
+ABC News | 100014877 | 882
+AEROS | 100044251 | 1
+AFL | 100035718 | 111
+AFL PREMIERSHIP SEASON 2002 | 100034124 | 55
+AIR AND OTHER INVISIBLE FORCES | 100050262 | 1
+AL JAZEERA: THE CNN OF ARABIA | 100047529 | 1
+ALAN SMITHEE | 100040736 | 1
+ALIAS | 100034051 | 10
+ANDREW OLLE MEDIA LECTURE: LACHLAN MURDOCH | 100040459 | 1
+ANDY PANDY | 100041529 | 52
+ANIMAL HOSPITAL | 100009791 | 94
+ANIMAL RITES | 100041047 | 0
+ANIMAL WEAPONS | 100047232 | 3
+ANIMALS BEHAVING BADLY | 100045216 | 1
+ANIMATED TALES OF THE WORLD | 100044960 | 13
+ANIMATION SERIES: REX THE RUNT | 100035731 | 7
+ANIMATION: BEOWULF | 100043553 | 1
+ANIMATION: GOKU MIDNIGHT EYE | 100036870 | 1
+ANIMATION: HOMIEZ | 100040815 | 1
+ANIMATION: KATYA AND THE NUTCRACKER | 100043567 | 1
+ANIMATION: POND LIFE | 100043551 | 13
+ANTHONY QUINN: REFLECTIONS IN THE EYE | 100040001 | 1
+ANZAC DAY MARCH 2003 | 100049379 | 2
+ANZAC DAY SPECIAL | 100049137 | 2
+ARCHIBALD THE KOALA | 100040012 | 15
+ASIA PACIFIC RALLY CHAMPIONSHIP - SUBARU RALLY OF CANBERRA | 100050861 | 1
+ATHLETICS: | 100048457 | 2
+AUSTIN POWERS | 100038728 | 1
+AUSTRALIA BETWEEN THE SHEETS - THE NATIONAL SEX SURVEY | 100046232 | 1
+AUSTRALIA BY NUMBERS - GERALDTON 6350 VIA NEW YORK: YAMAJI MAN | 100052025 | 1
+AUSTRALIA BY NUMBERS - JABIRU 0886: TRESPASS | 100050595 | 6
+AUSTRALIA BY NUMBERS: BREWARRINA 2839 | 100052604 | 1
+Aaagh! It's The Mr Hell Show! | 100053281 | 2
+About Us | 100014878 | 102
+Absolutely Fabulous | 100024294 | 5
+Absolutely Fabulous Special | 100056558 | 2
+Absolutely Fabulous, The Collection | 100054450 | 1
+Abused And Catholic | 100056082 | 1
+Accenture Triathlon Series | 100045903 | 8
+Access All Areas | 100053837 | 7
+Access All Areas - Christina Aguilera | 100053735 | 1
+Access All Areas - Coldplay | 100053472 | 2
+Access All Areas- Coldplay | 100053641 | 1
+According to Jim | 100042911 | 23
+Ace Lightning | 100040749 | 27
+Ace Ventura: Pet Detective | 100038179 | 1
+Action! Animals | 100044902 | 1
+Adventure Central | 100043248 | 9
+Adventures In Rainbow Country | 100014879 | 77
+Adventures Of Robin Hood | 100040820 | 1
+Adventures Of Spot | 100054791 | 20
+Adventures from the Book of Virtues | 100045321 | 0
+Aerobics Oz Style | 100009793 | 573
+Afc Outdoors | 100056688 | 6
+Africa's Child | 100033063 | 31
+Afrika: Cape Town To Cairo | 100044583 | 8
+After Midnight | 100044281 | 20
+After The Game | 100048761 | 26
+Agony Aunts | 100034099 | 8
+Ainsley's Gourmet Express Wagon Wheels | 100033366 | 2
+Air Guitar | 100043544 | 1
+Airline | 100018842 | 7
+Airport | 100009790 | 25
+Ajanta: Some Kind Of Miracle | 100054125 | 1
+Akhenaten And Nefertiti: The Royal Gods Of Egypt | 100055593 | 1
+Albert The 5th Musketeer | 100046209 | 48
+Albie | 100033042 | 91
+Alchemy | 100014881 | 13
+Alias | 100053676 | 20
+Alias (2-episode Final) | 100055538 | 1
+Alicia Markova: The People's Ballerina | 100053912 | 2
+Alien Underworld | 100056747 | 2
+Aliens Among Us | 100052276 | 125
+All About Us | 100047877 | 2
+All Aussie Adventures | 100009794 | 13
+All Dogs Go to Heaven | 100040520 | 13
+All New Simpsons | 100035712 | 13
+All Queensland Awards | 100033128 | 2
+All Saints | 100014883 | 116
+All Stars | 100053208 | 5
+All The King's Men | 100055891 | 1
+All The World's A Stage | 100055046 | 1
+All Time Greatest Aussie Bloopers | 100050337 | 12
+Ally Mcbeal | 100037551 | 21
+Always Greener | 100014884 | 55
+Amato: A Love Affair With Opera | 100053315 | 1
+American Embassy | 100045309 | 8
+Amis On Amis | 100048723 | 2
+An Archbishop Like This | 100056043 | 1
+An Ordinary Marriage | 100054226 | 1
+Anatomy Of Disaster | 100039101 | 4
+Ancient Apocalypse | 100054169 | 4
+Andre Rieu At The Royal Albert Hall | 100043494 | 2
+Andrew Olle Media Lecture: Harold Mitchell | 100055176 | 1
+Andy Pandy | 100053613 | 25
+Angel | 100034055 | 185
+Angela Anaconda | 100014890 | 308
+Angelina Ballerina | 100033031 | 114
+Animal Capers | 100054670 | 1
+Animal Hospital | 100055863 | 27
+Animal Stories | 100026976 | 35
+Animal Wrestling | 100053618 | 28
+Animated Behaviour | 100055342 | 1
+Animated Tales Of The World | 100056254 | 15
+Animorphs | 100014891 | 8
+Anna Karenina | 100039302 | 8
+Anne Of Green Gables | 100040782 | 10
+Anne Of Green Gables: The Animated Series | 100055359 | 8
+Anne: The Animated Series | 100040042 | 5
+Ape Man | 100045878 | 19
+Arabic News | 100054698 | 102
+Archie's Weird Mysteries | 100042587 | 49
+Arli$$ | 100034041 | 22
+Armadillo | 100040316 | 5
+Around Midnight | 100056697 | 3
+Arrive Alive Cup | 100053233 | 10
+Arrive Alive Cup Grand Final | 100054620 | 1
+Art In The National Gallery | 100037155 | 5
+Arthur | 100014892 | 213
+Arthur King Of The Britons | 100053428 | 2
+Arthur's Perfect Christmas | 100056367 | 2
+Arts On A Saturday | 100040465 | 3
+Arts On Saturday | 100014885 | 482
+Arts Special: Leonard Bernstein's Chichester Psalms | 100054576 | 1
+As If | 100045901 | 11
+As It Happened | 100014886 | 136
+As Time Goes By | 100046559 | 56
+Asia Pacific Focus | 100037143 | 33
+Asia Rally | 100040033 | 2
+At Home With The Braithwaites | 100042840 | 12
+Athletics - Iaaf World Youth Championships | 100053648 | 1
+Athletics Telstra A Series | 100047193 | 1
+Atlanta Blues | 100055613 | 1
+Atoms Alive | 100037158 | 17
+Atoms Of Fire | 100014894 | 45
+Attachments | 100043166 | 20
+Auction Squad | 100038477 | 45
+Auf Wiedersehen, Pet | 100048725 | 5
+Aussie Girl In Ethiopia | 100049394 | 3
+Aussie Jokers | 100053665 | 9
+Australia By Numbers | 100052895 | 15
+Australia Eye Of The Storm | 100044590 | 4
+Australia's Best Backyard | 100053583 | 1
+Australia's Best Backyards | 100053679 | 5
+Australia's Funniest Home Video Show | 100009792 | 145
+Australia's Funniest Home Video Show - Summer Series | 100055880 | 1
+Australia's Funniest Home Video Show 14th Birthday Special | 100056523 | 2
+Australia's Funniest Home Video Show Summer Series | 100056186 | 4
+Australia's Worst Driver | 100050025 | 8
+Australian Biography | 100035143 | 78
+Australian Dancesport Championships 2003 | 100056306 | 1
+Australian Documentary | 100039651 | 5
+Australian Idol | 100053729 | 31
+Australian Idol - Encore | 100055489 | 1
+Australian Idol - Finale | 100055643 | 1
+Australian Idol - The Live Verdict | 100053950 | 13
+Australian Idol - The Top 40 | 100053836 | 1
+Australian Idol - Up Close And Personal | 100054948 | 1
+Australian Idol - Wildcard | 100054454 | 2
+Australian Idol: The Sixties | 100055350 | 2
+Australian Ladies Masters | 100046873 | 1
+Australian Longcourse Championships | 100049073 | 1
+Australian Rally Championship | 100040035 | 15
+Australian Rally Championship: Mid Season Review | 100053728 | 2
+Australian Rally Championships | 100034126 | 6
+Australian Safari | 100054557 | 2
+Australian Story | 100014898 | 204
+Australian Survivor | 100024649 | 17
+Australians | 100014899 | 57
+Aventuras Vascas | 100014900 | 21
+Avon Descent | 100037500 | 1
+Avon Descent 2003 | 100053956 | 1
+Axn | 100054679 | 2
+B.A.R Honda Special 2003 | 100056231 | 2
+B.A.R. F1 | 100043524 | 1
+BAAMBA ALBERT | 100038089 | 1
+BALINESE SURFER 2: WAVE OF CHANGE | 100048124 | 1
+BAROQUE DUET | 100041516 | 1
+BASE CLIMB 2: DEFYING GRAVITY | 100049069 | 1
+BASIC EQUIPMENT | 100037791 | 1
+BIG BROTHER EVICTION | 100033404 | 11
+BIG BROTHER UNCUT | 100033426 | 17
+BLACK HOLES | 100039630 | 1
+BLOOD ON THE GROUND | 100037152 | 1
+BOB JANE T MART BATHURST 1000 HIGHLIGHTS | 100043522 | 1
+BOB RANDALL | 100035676 | 1
+BOOK BOX: WHAT'S SO GOOD ABOUT JK ROWLING | 100038405 | 1
+BOWLS: | 100049355 | 17
+BRAVO PROFILE: | 100037776 | 1
+BRAZIL 2000 | 100014928 | 25
+BRIAN NAYLOR'S AUSTRALIA ISLAND SENTINELS | 100045005 | 1
+BRITISH OPEN 2001 OFFICIAL FILM | 100039093 | 1
+BRITNEY SPEARS: THERE'S NO PLACE LIKE HOME | 100043942 | 1
+BUNDO BUNTA | 100036849 | 1
+BUNJE | 100043908 | 1
+BUSH TO BEACH | 100045920 | 1
+Babar | 100056048 | 10
+Baby Blues | 100037882 | 15
+Baby Bob | 100042936 | 5
+Back In Black - The Making Of Men In Black II | 100035419 | 2
+Back To Back Action | 100014910 | 8
+Back To The Floor: Behind Bars | 100055193 | 1
+Back To The Floor: Binman | 100055323 | 1
+Back To The Floor: Changing Homes | 100055621 | 1
+Back To The Floor: Into The Lion's Den | 100055767 | 1
+Back To The Floor: Working Girl | 100055469 | 1
+Backberner | 100009799 | 64
+Backchat | 100014911 | 12
+Backyard Blitz | 100009795 | 89
+Backyard Blitz - Bali Anniversary Special | 100054890 | 1
+Backyard Blitz Greenacre | 100055159 | 1
+Bad Behaviour | 100014912 | 3
+Bad Cop Bad Cop | 100042179 | 8
+Bad Girls | 100055997 | 6
+Badjelly The Witch | 100035692 | 2
+Ballet Boyz | 100041521 | 6
+Ballykissangel | 100040764 | 1
+Bambaloo | 100045971 | 135
+Bananas In Pyjamas | 100014913 | 981
+Bananas In Pyjamas Special | 100056226 | 1
+Bananas In Pyjamas Special: Bumping And A Jumping | 100056047 | 1
+Band of Brothers | 100038489 | 8
+Banzai | 100044365 | 8
+Bark-off | 100054419 | 10
+Barney | 100056345 | 6
+Barney And Friends | 100056030 | 2
+Basil Brush | 100054531 | 14
+Basketball | 100039015 | 3
+Basketball: Women's National League 2003/04 | 100054672 | 7
+Basketball: Women's National League 2003/04: Adelaide Vs Canberra | 100056093 | 1
+Basketball: Women's National League 2003/04: Canberra Vs Ais | 100055630 | 1
+Basketball: Women's National League 2003/04: Canberra Vs Dandenong | 100055212 | 1
+Basketball: Women's National League 2003/04: Perth Vs Adelaide | 100055775 | 1
+Basketball: Women's National League 2003/04: Perth Vs Townsville | 100055478 | 1
+Basketball: Women's National League 2003/04: Sydney Vs Adelaide | 100055929 | 1
+Basketball: Women's National League 2003/04: Sydney Vs Perth | 100055346 | 1
+Batfink | 100054433 | 83
+Bathurst 1000 | 100040043 | 4
+Bathurst 24-hour Live Report | 100055685 | 1
+Bear In The Big Blue House | 100033334 | 223
+Bears Of The Sun And The Moon | 100056569 | 2
+Beast | 100056088 | 7
+Beauty & The Beast | 100033104 | 165
+Becker | 100014916 | 133
+Beech Is Back | 100033367 | 19
+Before The Game | 100054571 | 1
+Before They Were Stars | 100054066 | 2
+Behind The Ball | 100035977 | 2
+Behind The News | 100014917 | 201
+Behind The News Specials | 100053162 | 20
+Behind The Scenes At The Rsc | 100041874 | 6
+Being April | 100038104 | 14
+Being Mick | 100056214 | 1
+Believe Nothing | 100055766 | 2
+Believe Nothing: Double First | 100055619 | 1
+Believe Nothing: Get Rich Quick | 100055198 | 1
+Believe Nothing: Might As Well Face It, You're Addicted To Fudge | 100055466 | 1
+Believe Nothing: Prepare To Meteor Maker | 100055337 | 1
+Ben Dark's Carpentaria To Cooper Creek | 100046319 | 1
+Ben Stiller | 100056305 | 1
+Benny Hinn | 100014918 | 78
+Berkeley Square | 100052649 | 10
+Best Of Both Worlds | 100047168 | 4
+Better Homes & Gardens | 100037866 | 1
+Better Homes And Gardens | 100009796 | 139
+Better Homes And Gardens - Dad Of The Year Special | 100054191 | 1
+Better Homes And Gardens First Ever Wedding | 100055129 | 1
+Bewitched | 100009797 | 24
+Beyond With James Van Praagh | 100045343 | 54
+Big Bite | 100050037 | 19
+Big Brother | 100028128 | 339
+Big Brother - The Insider | 100053470 | 2
+Big Brother Eviction | 100053461 | 3
+Big Brother Uncut | 100053469 | 2
+Big Brother Up Late | 100053465 | 8
+Big Cheez | 100042856 | 5
+Big Kids | 100049356 | 14
+Big Sky | 100014919 | 1
+Big Train | 100042178 | 8
+Bill And Ben The Flowerpot Men | 100014920 | 64
+Billy Connolly's Head Of The Class | 100033274 | 26
+Billy Connolly's World Tour | 100036288 | 11
+Billy Connolly's World Tour Of Australia | 100050328 | 9
+Billy Joel | 100056674 | 1
+Billy The Cat | 100053437 | 26
+Binka The Cat | 100035402 | 69
+Biomimicry; Learning From Nature | 100055814 | 1
+Bird Man Of Paradise | 100014921 | 8
+Birds Of A Feather | 100046555 | 52
+Birds Of Prey | 100055035 | 5
+Black Cab | 100046554 | 18
+Blackadder II | 100009823 | 3
+Blackadder The Third | 100011897 | 1
+Blazing Dragons | 100055068 | 26
+Blinky Bill | 100037153 | 20
+Blossom | 100034042 | 25
+Blue Heelers | 100034056 | 75
+Blue's Clues | 100014903 | 143
+Boarding Pass | 100036300 | 7
+Bob Jane T-marts Bathurst 1000 (cont.) | 100054945 | 4
+Bob The Builder | 100033335 | 250
+Body+Soul | 100036939 | 7
+Bombshells: Diva | 100055590 | 1
+Bombshells: Mum | 100055308 | 1
+Bombshells: Widow | 100055437 | 1
+Bondi | 100044905 | 6
+Bondi Banquet | 100053200 | 12
+Boo! | 100055069 | 27
+Book Box | 100041161 | 17
+Book Bug | 100041548 | 11
+Boomtown | 100045978 | 24
+Boost Mobile V8 International | 100041576 | 2
+Bootleg | 100054132 | 3
+Boots 'n' All | 100033251 | 34
+Boots 'n' All - Grand Final Edition | 100054749 | 1
+Boots 'n' All By Request | 100054619 | 1
+Bootylicious | 100055566 | 1
+Border Patrol | 100040547 | 3
+Bordertown | 100042180 | 10
+Born And Bred | 100035988 | 12
+Born To Be Wild: The Leading Men Of American Ballet Theatre | 100054028 | 1
+Boston Public | 100014904 | 28
+Bounty Hamster | 100041530 | 50
+Bowie: Ziggy Stardust And The Spiders From Mars | 100047776 | 1
+Bowls | 100033096 | 112
+Boy Meets World | 100037542 | 22
+Boy Meets World: | 100056147 | 1
+Brain Story | 100055452 | 6
+Brambly Hedge | 100034096 | 52
+Bread | 100054240 | 45
+Breaking The Ice | 100045225 | 6
+Brian Naylor's Australia | 100046641 | 2
+Brides Of Christ | 100053320 | 6
+Bright Ideas | 100014929 | 112
+Britain's Worst Driver | 100055828 | 9
+British Empire In Colour | 100046640 | 3
+British Open Golf | 100035771 | 18
+British Open Golf 2003 | 100053420 | 6
+Britney Spears | 100039650 | 2
+Britney Spears: In The Zone | 100056107 | 1
+Brooklyn North Homicide | 100049375 | 4
+Brum | 100033315 | 37
+Bubblegum Crisis | 100014905 | 8
+Buffy | 100034053 | 58
+Buffy, The Vampire Slayer | 100053770 | 2
+Bugs Bunny | 100044709 | 8
+Bugs Bunny's Looney Toons Christmas Tales | 100056333 | 1
+Bugs Vs Daffy | 100044710 | 1
+Bull | 100042941 | 34
+Bullet Catchers | 100055744 | 1
+Burgo's Catch Phrase | 100014906 | 397
+Burke's Backyard | 100009824 | 193
+Burke's Backyard - Japan Special | 100055575 | 1
+Burke's Backyard - Summer Special | 100055727 | 1
+Burke's Backyard Live | 100055036 | 1
+Burke's Backyard New Zealand Special | 100054905 | 1
+Burke's Backyard Summer Edition | 100055875 | 6
+Burke's Backyard Summer Edition Great Ideas | 100056537 | 2
+Burke's Backyard: The Lazy Gardener | 100054771 | 1
+Burnside - Back With A Vengeance | 100054542 | 1
+Burnside: | 100054798 | 4
+Burnside: Back With A Vengeance | 100054657 | 1
+Bush Beat | 100034140 | 67
+Bush Tales | 100054279 | 21
+Bush Tales: Series Debut | 100054186 | 1
+Bush Telegraph | 100014907 | 17
+Bush Tucker Man | 100025791 | 9
+Business Behind Bars | 100046908 | 2
+Business Breakfast | 100033027 | 232
+Business Report | 100014908 | 757
+Business Report - From Pbs Bureaux In Miami And New York. | 100054833 | 1
+Business Sunday | 100014909 | 99
+Busy Buses | 100033041 | 29
+Buzz And Poppy | 100036260 | 67
+Buzz Lightyear Of Star Command | 100053399 | 31
+Byo Kitchen | 100040503 | 7
+CAROLS FROM KINGS: A CELEBRATION OF CHRISTMAS | 100043889 | 2
+CELESTIAL LAUNDRY ON THE OMNIBUS OF DREAMS | 100046524 | 1
+CHANGING THE FUTURE BY CONFRONTING THE PAST | 100049080 | 1
+CHIKA DIXON | 100048735 | 1
+CHILD OF OUR TIME: BIRTH DAYS | 100052568 | 1
+CHILD OF OUR TIME: THE JOURNEY BEGINS | 100052279 | 1
+CHINA: | 100046542 | 2
+CHINA: FUN AND FIRECRACKERS | 100033361 | 31
+CHOOSING EXILE: IN THE FOOTPRINTS OF THE STRANGER | 100045226 | 1
+CHRISTMAS SHOW | 100035693 | 1
+CHRISTMAS WITH THE AUSTRALIAN WOMEN'S WEEKLY | 100042940 | 1
+CHUCK JONES: EXTREMES AND IN-BETWEENS, A LIFE IN ANIMATION | 100045213 | 1
+CNNNN | 100039631 | 6
+CNNNN - Chaser Nonstop News Network | 100054147 | 1
+CNNNN Live - Chaser Nonstop News Network | 100054341 | 7
+COMING SOON: | 100045551 | 3
+CON-CUSSION: MUSIC FOR MARIMBA | 100038691 | 1
+CONSUMER DIMENSIONS | 100033076 | 11
+CONTEMPORARY ECSTASY: SHAKER LOOPS | 100049361 | 2
+CRUCIBLE OF EMPIRE: | 100048720 | 1
+CSI | 100032986 | 54
+CSI: Crime Scene Investigation | 100053414 | 26
+CSI: Miami | 100053600 | 18
+CYCLING: | 100050282 | 1
+Cactus Garden | 100056687 | 6
+Caillou | 100037479 | 75
+California Dreams | 100046628 | 13
+Cambridge Spies | 100053243 | 2
+Camelot | 100043520 | 1
+Can You Live Without | 100056680 | 3
+Canberra Symphony Orchestra Concerts | 100053431 | 4
+Cantonese News | 100014930 | 805
+Captured On Film | 100039610 | 1
+Carmen | 100054022 | 1
+Carol Burnett Show Stoppers | 100039393 | 2
+Carols By Candlelight | 100043682 | 2
+Carols From Kings | 100056361 | 3
+Cart World Series | 100014931 | 47
+Casper | 100053262 | 27
+Cat Crazy | 100042576 | 3
+Cat Wars | 100050850 | 6
+Catalyst | 100009801 | 160
+Catching The Killers | 100053889 | 6
+Catching Up With The Osbournes | 100045911 | 1
+Catdog | 100014945 | 96
+Catherine Cookson's 'Dinner Of Herbs' | 100053683 | 2
+Catherine Cookson's Dinner Of Herbs - Part 3 | 100053772 | 1
+Catherine Cookson's Dinner Of Herbs - Part 4 | 100053775 | 1
+Catherine Cookson's Dinner Of Herbs - Part 5 | 100053778 | 1
+Catherine Cookson's Dinner Of Herbs - Part 6 | 100053780 | 1
+Catherine Cookson's The Girl | 100053581 | 3
+Catherine Cookson's The Secret: Part 1 | 100053876 | 1
+Catherine Cookson's The Secret: Part 2 | 100053881 | 1
+Catherine Cookson's The Secret: Part 3 | 100053885 | 1
+Catherine Cookson's Tide Of Life | 100053588 | 3
+Catherine the Great | 100037464 | 1
+Cats | 100036828 | 1
+Cecilia And Bryn At Glyndebourne | 100048098 | 3
+Celeb | 100053543 | 4
+Celeb: | 100053456 | 1
+Celeb: The Guest | 100053336 | 1
+Celeb: The Party | 100053256 | 1
+Celebrate: Christmas In The Capital | 100043924 | 3
+Celebrity | 100033242 | 35
+Chains Of Love | 100014933 | 17
+Challenger | 100014934 | 89
+Champ Car World Series | 100048131 | 19
+Changi | 100014947 | 47
+Changi: Curley | 100056052 | 1
+Changi: Gordon's Will | 100055751 | 1
+Changi: Private Bill | 100055902 | 1
+Changi: Seeing Is Believing | 100055602 | 1
+Changing China | 100053626 | 8
+Changing Cities | 100055051 | 7
+Changing Rooms | 100009800 | 32
+Changing Stages: 1956 | 100055306 | 1
+Changing Stages: America | 100055172 | 1
+Changing Stages: Between Brecht And Beckett | 100055435 | 1
+Changing Stages: Ireland | 100055045 | 1
+Changing Stages: Shakespeare | 100054915 | 1
+Changing Stages: The Law Of Gravity | 100055588 | 1
+Chappelle's Show | 100055801 | 9
+Charmed | 100014948 | 56
+Chaser Nonstop News Network | 100039022 | 2
+Cheez TV | 100014949 | 544
+Chicago Hope | 100034048 | 151
+Chiefs | 100053351 | 7
+Chilli Factor | 100014950 | 108
+China: Fun And Firecrackers | 100054943 | 8
+Christian City TV | 100033122 | 30
+Christina Aguilera: My Reflection | 100043928 | 1
+Christmas - A Time To Forgive | 100043684 | 1
+Christmas Eve Candlelight Service From The Crystal Cathedral | 100056404 | 1
+Christmas In Rockefeller Centre | 100056298 | 1
+Chuck Finn | 100034047 | 69
+Cinema Classic | 100056594 | 1
+Cinema Classic - Comedy: Bread, Love And Jealousy (pane, Amore E Gelosia) | 100054962 | 1
+Cinema Classic - Comedy: Bread, Love And Jealousy (pane, Amore E Gelosia) (cont.) | 100054965 | 1
+Cinema Classic - Comedy: Divorce Italian Style | 100055501 | 1
+Cinema Classic - Drama: Muriel (muriel Ou Le Temps Du'nretour) | 100055231 | 1
+Cinema Classic - Drama: The Serpent's Egg | 100055365 | 1
+Cinema Classics | 100040470 | 45
+Cinema Classics - Comedy: Bread Love And Dreams (pane, Amore, E Fantasia) | 100054826 | 1
+Cinema Classics - Comedy: Scandal In Sorrento | 100055098 | 1
+Cinemas Of The World | 100055515 | 8
+Cirque Du Soleil | 100045023 | 1
+Cirque Du Soleil: Run Before You Fly | 100055173 | 1
+City Cabs | 100053359 | 16
+City Guys | 100043621 | 90
+City To Surf | 100037487 | 2
+City of Angels | 100035480 | 5
+Clash Of The Carnivores | 100049969 | 2
+Classic Adelaide 2003 | 100056232 | 2
+Classic Adelaide Rally | 100044268 | 1
+Classic Albums | 100053360 | 6
+Classic Short Prose | 100048120 | 3
+Classical Inspirations | 100055116 | 1
+Click On Ten | 100014952 | 28
+Clifford | 100032971 | 111
+Clocking Off | 100042841 | 23
+Close | 100032891 | 642
+Close And True | 100055001 | 6
+Clowning Around | 100056359 | 23
+Cnnnn - Chaser Nonstop News Network | 100054047 | 2
+Coast To Coast | 100014955 | 29
+Codename: Eternity | 100035473 | 20
+Coffee Crazy | 100056591 | 1
+Cold Chisel Ringside | 100056237 | 2
+Cold Feet | 100032955 | 20
+Cold Squad | 100054630 | 16
+Colour Of War III | 100044358 | 4
+Comedy | 100036030 | 33
+Comedy Inc | 100056024 | 1
+Comedy Inc. | 100056179 | 1
+Comedy Series | 100032920 | 32
+Comedy: Goodness Gracious Me Special | 100056265 | 1
+Comedy: The Weekly Daily Show | 100054846 | 1
+Compass | 100014957 | 130
+Complete Cosmos | 100055805 | 2
+Concentration | 100014938 | 10
+Connie The Cow | 100042812 | 76
+Conquistadors: Empire Of The Sun | 100053316 | 1
+Conspiracy Theory - Did We Land On The Moon? | 100048138 | 1
+Construction Site | 100044925 | 95
+Consumer Power | 100033062 | 6
+Consuming Passions | 100009802 | 63
+Control Freaks | 100052623 | 13
+Cooking Series | 100035146 | 18
+Cooking Series: A Question Of Taste | 100056439 | 2
+Copenhagen | 100055737 | 1
+Cops | 100014958 | 130
+Corneil And Bernie | 100052562 | 50
+Corridors of Power | 100014959 | 6
+Cosby | 100041295 | 15
+Count Us In | 100014960 | 73
+Countdown To The Emmy Awards 2003 | 100054564 | 1
+Coupling | 100042193 | 16
+Courage the Cowardly Dog | 100014939 | 10
+Cousins | 100052264 | 1
+Cover Me | 100037181 | 5
+Crank Yankers | 100053353 | 11
+Crash Burn | 100054682 | 3
+Crash Files | 100054302 | 1
+Crash Files: Inside The Ntsb | 100054012 | 2
+Crash Files: Inside The Ntsb - Usair Flight 427 | 100053900 | 1
+Crashburn | 100054056 | 10
+Creature Features | 100038102 | 34
+Creek To Coast | 100014940 | 149
+Creflo A. Dollar, Jr | 100014942 | 604
+Creflo A. Dollar,Jr | 100044042 | 91
+Cricket | 100041314 | 105
+Crime & Punishment | 100042849 | 3
+Crimes of Honour | 100014961 | 1
+Critical Mass | 100045877 | 76
+Croc Country | 100056762 | 2
+Crossing Jordan | 100034057 | 42
+Crossing Over With John Edwards | 100055221 | 1
+Crossing Over with John Edward | 100041239 | 15
+Crucible Of Empire | 100053250 | 2
+Cry Wolf | 100036846 | 6
+Csi Miami | 100054906 | 1
+Curb Your Enthusiasm | 100039097 | 21
+Cushion Kids | 100014944 | 144
+Custer's Last Stand Up | 100053324 | 20
+Custodian Wealth Builders Untold Wealth | 100056160 | 1
+Cutting Edge | 100036598 | 4
+Cyberchase | 100035970 | 75
+Cybergirl | 100014962 | 49
+Cyberman | 100046922 | 1
+Cycling | 100055229 | 1
+Cycling - Australian Mountain Bike Championships | 100055498 | 1
+Cycling - La Vuelta 2003 | 100054958 | 1
+Cycling - Tour De Suisse | 100053554 | 1
+Cycling - Tour Du Faso 2003 | 100055795 | 1
+Cycling Central | 100056248 | 6
+Cycling: Paris - Tours | 100055094 | 1
+DAVID HOCKNEY: SECRET KNOWLEDGE | 100050252 | 1
+DAYLIGHT SAVINGS BEGINS | 100040842 | 1
+DAYS OF HEALING | 100045565 | 1
+DESERT RAP | 100045888 | 1
+DICKENS: BLAZING AWAY | 100052269 | 1
+DICKENS: SECRETS | 100050842 | 1
+DICKENS: TERROR TO THE END | 100052556 | 1
+DIMENSIONS IN TIME | 100033047 | 4
+DIY Law | 100042822 | 4
+DIY Rescue | 100053794 | 16
+DO OVER (PILOT) | 100046235 | 1
+DOC | 100048753 | 28
+DOPELAND | 100037462 | 1
+DREAMLIVES: TRENT PARKE AND NARELLE AUTIO | 100036829 | 1
+DRIVETIME TV | 100040778 | 1
+DUEL IN THE POOL - AUSTRALIA V USA | 100048525 | 1
+Da Ali G Show | 100037793 | 6
+Dag | 100053292 | 16
+Dalziel And Pascoe | 100035394 | 27
+Damon | 100036035 | 3
+Dan Cruickshank And The Lost Treasure Of Kabul | 100054671 | 1
+Dance: Watermark | 100056452 | 2
+Dangerfield | 100035386 | 39
+Dangerman | 100014963 | 35
+Daniel Deronda | 100050843 | 4
+Danoz | 100014964 | 577
+Danoz Direct | 100052917 | 212
+Danoz Home Shopping | 100014973 | 89
+Daria | 100014974 | 78
+Dark Realm | 100042286 | 16
+Das Journal | 100014965 | 907
+Dateline | 100014966 | 208
+Dateline NBC | 100052929 | 57
+David Suzuki's Nature Of Things | 100054474 | 1
+David Suzuki's The Nature Of Things | 100039048 | 16
+Dawson's Creek | 100037185 | 45
+Dawsons Creek | 100036308 | 4
+Daylight Robbery II | 100053221 | 2
+Days Of Our Lives | 100014967 | 588
+Dead Easy Gardening | 100023406 | 22
+Dead Last | 100043287 | 20
+Dead Ringers | 100047796 | 15
+Deadline | 100043187 | 12
+Deal Or No Deal | 100053379 | 15
+Dean Martin: That's Amore | 100053526 | 1
+Death: The Trip Of A Lifetime: Going For Glory | 100055921 | 1
+Death: The Trip Of A Lifetime: Letting Go | 100055768 | 1
+Death: The Trip Of A Lifetime: The Chasm | 100055470 | 1
+Death: The Trip Of A Lifetime: The Good Death | 100055622 | 1
+Deceit | 100040763 | 1
+Degenerate Art | 100039299 | 1
+Degrassi | 100037162 | 22
+Degrassi: The Next Generation | 100053447 | 21
+Delia's How To Cook | 100014975 | 12
+Delta Goodrem: Not Me, Not I | 100054062 | 1
+Design And Technology | 100053622 | 1
+Design Challenge | 100046552 | 10
+Designers | 100053717 | 14
+Destination Space | 100020450 | 15
+Detention | 100038806 | 8
+Dexter's Lab | 100056705 | 2
+Dharma & Greg | 100034046 | 21
+Diagnosis Murder | 100055868 | 8
+Diana: The Night She Died | 100054922 | 1
+Die Another Day | 100043193 | 1
+Dimensions On The Move | 100014978 | 7
+Dinnerladies | 100038101 | 11
+Dirty Tricks | 100040458 | 2
+Dirty Work | 100044915 | 5
+Discovering Science | 100033085 | 42
+Disney Adventures | 100014970 | 314
+Disney's The Weekenders | 100055017 | 11
+Dixie Chicks On The Fly | 100052650 | 1
+Diy Rescue: Sylvania | 100054307 | 1
+Do Over | 100046569 | 19
+Doc | 100054563 | 19
+Doc Martin | 100054648 | 1
+Doc Martin And The Legend Of The Cloutie | 100054785 | 1
+Dockers | 100056667 | 1
+Doctor Who | 100054434 | 75
+Dog Eat Dog | 100042584 | 8
+Dog's Head Bay | 100056209 | 5
+Dog's Head Bay: Big Bikkies | 100056065 | 1
+Dog's Head Bay: The Shock Of The New | 100055909 | 1
+Don't Blame Me | 100040373 | 23
+Don't Eat The Neighbours | 100054333 | 26
+Don't Look Back | 100048425 | 2
+Dossa And Joe | 100050559 | 11
+Dot And Spot's Magical Christmas Adventure | 100056293 | 1
+Down From the Mountain | 100045875 | 3
+Down To Earth | 100053832 | 20
+Down To Earth: A Time To Live | 100053725 | 1
+Down To Earth: Great Expectations | 100053458 | 2
+Down To Earth: Wild Life | 100053633 | 1
+Download | 100032974 | 152
+Dr Bell And Mr Doyle | 100044930 | 1
+Dr Karl Kruszelnicki's Great Moments In Science | 100054036 | 1
+Dr Phil | 100040374 | 70
+Dr Willoughby | 100041165 | 6
+Dr. Phil | 100050637 | 124
+Dr. Phil Followups | 100054309 | 1
+Dr. Phil Secrets & Lies | 100054899 | 1
+Drag Racing | 100036039 | 12
+Dragnet | 100054575 | 9
+Drame Series: Inspector Rex | 100053979 | 1
+Dreamtime To Dance | 100056193 | 4
+Dreamtime To Dance: Proving Your Worth | 100056037 | 1
+Drivetime TV | 100053732 | 1
+Drug Wars | 100044908 | 4
+Dumb & Dumber | 100043613 | 1
+Dumb Bunnies | 100043237 | 7
+Dunlop Targa New Zealand | 100044269 | 1
+Dynasties | 100042176 | 13
+Dynasties: The Boyd Family | 100055750 | 1
+Dynasties: The Kidman Family | 100056050 | 1
+Dynasties: The Marika Family | 100055901 | 1
+Dynasties: The Rose Family | 100055600 | 1
+Dynasties: The Wentworth Family | 100055446 | 1
+E Street | 100033121 | 158
+E-Biz | 100014980 | 3
+E.R. | 100034074 | 40
+EARLY DAYS YET: A PROFILE OF THE POET ALLEN CURNOW | 100049951 | 1
+EASTER SPECIAL: 2003 EASTER CELEBRATION OF WORD AND SONG | 100048815 | 1
+EASTER SPECIAL: A DARK HISTORY | 100048816 | 1
+EASTER SPECIAL: EASTER SONG | 100048821 | 0
+EASTER SPECIAL: EASTER STORY | 100048822 | 1
+EAT LIKE A KING: HENRY VIII | 100047778 | 1
+ECSTASY AND AGONY | 100047474 | 1
+EDINBURGH MILITARY TATTOO 2000 GOLDEN JUBILEE | 100043142 | 1
+EDINBURGH MILITARY TATTOO 2002 | 100044258 | 1
+ELLA FITZGERALD: SOMETHING TO LIVE FOR | 100046194 | 1
+ELVIS | 100036307 | 2
+ELVIS: THE GREAT PERFORMANCES HOSTED BY PRISCILLA | 100044899 | 1
+ENJOY THE JOURNEY | 100050274 | 1
+ETHELBERT | 100014990 | 131
+Early Edition | 100014981 | 3
+Earthly Treasures | 100034087 | 5
+East Timor: Birth Of A Nation | 100043504 | 2
+Easter Dream | 100048838 | 1
+Eat Carpet | 100014982 | 211
+Eckhart | 100039618 | 67
+Ed | 100033112 | 28
+Eddy And The Bear | 100051996 | 21
+Edges | 100042257 | 14
+Edges With Mal Fletcher | 100054617 | 8
+Edinburgh Military Tattoo 2003 | 100056562 | 2
+Edvard Grieg | 100034093 | 10
+Edward And Mary: The Unknown Tudors | 100053705 | 2
+Egypt Eternal: Quest For The Lost Tombs | 100055743 | 1
+Eight Days A Week | 100042838 | 9
+El Nombre | 100038095 | 16
+Elephants Of The Sand River | 100053257 | 1
+Elephants: Spy In The Herd | 100056197 | 1
+Ella Fitzgerald: Something To Live For | 100056545 | 2
+Elmo's World | 100048101 | 63
+Elvis Lives! | 100054748 | 1
+Elvis: From The Waist Up | 100056089 | 1
+Elvis: The Great Performances | 100056735 | 2
+Empire Of The Nude | 100050550 | 1
+Empires | 100053181 | 2
+Empires Of Stone | 100054251 | 3
+Empty Nest | 100043624 | 14
+Endgame In Ireland | 100055519 | 2
+Engie Benjy | 100039006 | 63
+English Premier League | 100042522 | 127
+English Premier League Highlights | 100054074 | 1
+English Premier League Magazine | 100053963 | 1
+English Premier League Match Of The Week | 100054071 | 1
+English Premier League Match Of The Week (cont.) | 100054068 | 1
+English Premier League Match Of The Week. | 100053959 | 1
+English Premier League Match Of The Week: Arsenal V Everton | 100053867 | 1
+English Premier League Preview | 100053865 | 3
+Enough Rope Special: Alan Bond | 100055321 | 1
+Enough Rope With Andrew Denton | 100047783 | 36
+Enterprise | 100025410 | 68
+Entertainment Tonight | 100014984 | 855
+Erotic Tales | 100054075 | 3
+Escape Of The Artful Dodger | 100014985 | 46
+Escape With E.T. | 100054405 | 2
+Escape With ET | 100053421 | 25
+Escape With Et | 100014986 | 113
+Escape With Et 05/04 | 100055299 | 1
+Esta Semana | 100014987 | 116
+Ethelbert The Tiger | 100043147 | 108
+Eugene Onegin | 100014991 | 2
+Eugenie Sandler PI | 100037784 | 10
+Eugenio | 100056371 | 1
+Euro Champs League | 100014988 | 4
+European Champions League | 100046246 | 41
+European Champions League Soccer | 100055669 | 3
+Eurovision Junior | 100055683 | 1
+Everbody Loves Raymond | 100056236 | 2
+Every Little Drop | 100036261 | 2
+Everybody Loves Raymond | 100014992 | 340
+Everybody Loves Raymond Special | 100055080 | 2
+Everyday Brave | 100041930 | 3
+Exploring The World Of Music | 100014993 | 83
+Extinct | 100017216 | 8
+Extinct: Great Auk | 100055345 | 1
+Extinct: The Irish Elk | 100055211 | 1
+Extinct: The Mammoth | 100055477 | 1
+Extinct: The Sabre Tooth | 100055075 | 1
+Extinct: The Tasmanian Tiger | 100055629 | 1
+Extra | 100014989 | 644
+Extra French | 100053632 | 14
+Extra German | 100053163 | 6
+Extreme Makeover | 100055865 | 9
+Eye Of The Storm | 100056388 | 1
+Eye To Eye With Betty Churcher | 100014994 | 8
+F. SCOTT FITZGERALD: WINTER DREAMS | 100048410 | 1
+FA CUP FINAL 2003 | 100050313 | 2
+FACING THE DEMONS | 100044595 | 1
+FASCINATIN' RHYTHM: THE STORY OF TAP | 100050256 | 2
+FIA WORLD RALLY CHAMPIONSHIPS | 100034125 | 8
+FIA World Rally Championship | 100036301 | 3
+FIFA World Cup Classics | 100053180 | 12
+FIRE POWER | 100046866 | 1
+FISH: | 100043513 | 4
+FMTV | 100046945 | 1
+FMVTV | 100014996 | 110
+FOOTBALLERS WIVES | 100040038 | 3
+FOR YOUR LOVE - THE WHAT HAVE I DONE SHOW | 100050348 | 1
+FRANCE 2000 | 100036277 | 8
+FRANCIS AND CLARE OF ASSISI | 100049060 | 1
+FREEDOM OR MADNESS | 100036827 | 1
+FUTURE WAR: SILVER BULLETS | 100052859 | 1
+Fabulous Women | 100038107 | 11
+Face to Face | 100048450 | 35
+Fairy Tale Police | 100040521 | 24
+Faking It | 100043291 | 8
+Fallen Angels | 100048731 | 18
+Family Affair | 100056720 | 2
+Family Foibles | 100044248 | 4
+Family Law | 100015000 | 16
+Family Stories - Montage | 100056599 | 1
+Family Stories: Montage | 100056596 | 1
+Family Ties | 100041304 | 61
+Family Ties Nothing But A Man | 100033019 | 2
+Famous Faces | 100034089 | 25
+Famous Families | 100046637 | 6
+Famous Families: Cassidys - C'mon Get Happy | 100054725 | 1
+Famous Families: Clooneys - A Standing Ovation | 100055712 | 1
+Famous Families: Kennedys - An American Dynasty | 100053887 | 1
+Famous Families: Lees - Action Speakes Louder | 100053999 | 1
+Famous Families: Lennons - A Family Album | 100054491 | 1
+Famous Families: Windsors - Britain's Royal Dynasty | 100055121 | 1
+Faq: How To Live Forever | 100055449 | 1
+Faq: Jock Sweat And Tears | 100055194 | 1
+Faq: Modern Life Is Rubbish | 100054925 | 1
+Faq: My Brain Hurts | 100055333 | 1
+Faq: Sex On A Stick | 100054936 | 1
+Faq: Some Like It Hot | 100055324 | 1
+Faq: Welcome To The End Of The World | 100055183 | 1
+Faq: Y 2 Bother? | 100055064 | 1
+Faq: Yule Be Shocked | 100055055 | 1
+Farscape | 100043693 | 20
+Fascinatin' Rhythm | 100038082 | 1
+Fashionista | 100054855 | 13
+Fastbreak | 100015002 | 30
+Fat Club | 100047268 | 18
+Fat Cow Motel | 100053451 | 13
+Father Christmas And The Missing Reindeer | 100056309 | 1
+Fear Factor | 100053232 | 12
+Fearless Stories From Asian Women | 100054270 | 4
+Feedback | 100033039 | 233
+Fei World Horse Pairs Driving Championships | 100054692 | 1
+Felicity | 100032948 | 131
+Feral TV | 100015003 | 71
+Fergus Mcphail | 100056589 | 5
+Fetching Shorts | 100037540 | 8
+Fifth Test | 100044045 | 10
+Filipino News | 100054971 | 67
+Filler: Australian Advances | 100055665 | 1
+Filler: Rewind | 100055508 | 4
+Filler: The View | 100055659 | 1
+Final Episode: Little Robots | 100055898 | 1
+Final Episode: Martin Morning | 100055925 | 1
+Final Offer | 100015004 | 1
+Finding Yourself | 100036262 | 2
+Finding Yourself In Findhorn | 100056658 | 1
+Finest Hour | 100052268 | 4
+Fire On The Rim | 100049051 | 2
+Fireman Sam | 100015005 | 51
+First Cricket Test: Australia V India - Day 1 | 100055870 | 1
+First Cricket Test: Australia V India - Day 2 | 100055874 | 1
+First Cricket Test: Australia V India - Day 3 | 100055879 | 1
+First Cricket Test: Australia V India - Day 4 | 100056008 | 1
+First Cricket Test: Australia V India - Day 5 | 100056017 | 1
+First Monday | 100053696 | 12
+First Monday (pilot) | 100053602 | 1
+First Test - Australia V Bangladesh | 100053598 | 4
+First Test - Australia V Zimbabwe - Day 4 | 100054888 | 2
+First Test - Australia V Zimbabwe - Day 4 (cont.) | 100054889 | 1
+First Test - Australia V Zimbabwe - Day 5 | 100054896 | 1
+First Test - Australia V Zimbabwe - Day 5 (cont.) | 100054897 | 1
+First Test - Australia V Zimbabwe Day 5 | 100054898 | 1
+First Test: Australia V Zimbabwe - Day 1 | 100054764 | 2
+First Test: Australia V Zimbabwe - Day 1 (cont.) | 100054765 | 1
+First Test: Australia V Zimbabwe - Day 2 | 100054769 | 2
+First Test: Australia V Zimbabwe - Day 2 (cont.) | 100054770 | 1
+First Test: Australia V Zimbabwe - Day 3 | 100054776 | 2
+First Test: Australia V Zimbabwe - Day 3 (cont.) | 100054777 | 1
+Fish | 100056742 | 2
+Fishing Wild Australia | 100033017 | 32
+Flamenco | 100043877 | 4
+Flat World | 100046558 | 3
+Fleetwood Mac | 100044937 | 2
+Flipper | 100036908 | 23
+Flipper And Lopaka | 100054492 | 27
+Fly Hardcore Candy | 100048122 | 4
+Fly Mix | 100040025 | 4
+Fly Popsui | 100048121 | 4
+Fly Tales | 100015006 | 113
+Fly Toons | 100038720 | 9
+Flying Fox Fairytale | 100055948 | 1
+Flymix | 100038719 | 5
+Foo Fighters Live At The Chapel | 100043535 | 2
+Food For Thought | 100053631 | 15
+Food Lover's Guide | 100037221 | 1
+Food Lovers Guide To Australia | 100056434 | 9
+Football Asia | 100047839 | 23
+Footballer's Wives | 100039644 | 1
+For Love Or Money | 100054100 | 6
+For The Juniors | 100015007 | 139
+For The Juniors: Human Body | 100054928 | 8
+For The Love Of Raymond | 100053736 | 1
+For Your Love | 100050639 | 28
+Foreign Correspondent | 100009803 | 117
+Foreign Objects | 100053210 | 5
+Forever Summer With Nigella | 100045230 | 8
+Fork In The Road | 100056784 | 2
+Fortress Australia: The Secret Bid For The Atomic Bomb | 100053609 | 1
+Four Corners | 100015008 | 163
+Four Fathers | 100038103 | 4
+Fourth Cricket Test | 100056639 | 6
+Fourth Cricket Test - Australia V India - Day 1 | 100056536 | 4
+Fourth Cricket Test - Australia V India - Day 2 | 100056540 | 2
+Fourth Test | 100043692 | 10
+Foyle's War | 100041552 | 4
+France 2000 | 100054446 | 10
+Frank Hodgkinson | 100052845 | 1
+Franklin | 100015009 | 77
+Frasier | 100034066 | 403
+Freaks and Geeks | 100045994 | 27
+Freaky Stories | 100015010 | 173
+Freakylinks | 100038799 | 13
+Freedom | 100050638 | 15
+Freedom (pilot) | 100053797 | 1
+Freedom Mind Game | 100054415 | 1
+Freedom Or Madness: Australian Hermits | 100055071 | 1
+Freesport | 100048203 | 36
+French And Saunders | 100044252 | 3
+Fresh | 100032972 | 429
+Fresh Prince Of Bel Air | 100054411 | 1
+Friday Football | 100049156 | 2
+Friday Night Drama: Cold Turkey | 100055677 | 1
+Friday Night Drama: Floodhouse | 100055111 | 1
+Friday Night Drama: Martha's New Coat | 100054849 | 1
+Friday Night Drama: Preservation | 100055523 | 1
+Friday Night Drama: Queen Of Hearts | 100055247 | 1
+Friday Night Drama: Roy HÖllsdotter Live | 100054987 | 1
+Friday Night Drama: So Close To Home | 100055384 | 1
+Friday Night Football | 100033014 | 140
+Friday Night Movie | 100053173 | 1
+Friends | 100014998 | 217
+From The Earth To The Moon | 100028129 | 31
+Front Up | 100014999 | 27
+Frontier | 100039297 | 6
+Frontier House | 100048724 | 5
+Funny Little Bugs | 100042811 | 35
+Futbol Mundial | 100053845 | 1
+Futurama | 100042582 | 36
+Future War | 100053251 | 1
+G.P. | 100015011 | 164
+GARY RHODES' COOKERY YEAR: APRIL | 100052565 | 1
+GARY RHODES' COOKERY YEAR: MARCH | 100052277 | 1
+GARY RHODES' COOKERY YEAR: MAY | 100052855 | 1
+GENE KELLY: ANATOMY OF A DANCER | 100045553 | 1
+GEOFF AND JAMIE'S SRI LANKA | 100041311 | 1
+GIJA | 100040737 | 1
+GMA Summer Series | 100043527 | 58
+GOING APE | 100045555 | 1
+GOLF LINKS | 100049067 | 1
+GOLF: 2003 US OPEN | 100052869 | 2
+GOOD KURDS, BAD KURDS | 100048765 | 1
+GORILLA | 100049975 | 1
+GREECE UNCOVERED | 100052866 | 1
+GRIZZLY | 100050271 | 1
+GUNPOWDER TREASON AND PLOT | 100037149 | 1
+GUTHY RENKER AUSTRALIA | 100044679 | 1
+GUTHY-RENKER AUST | 100045964 | 1
+GUTHY-RENKER AUSTRALIA | 100044994 | 184
+Games Of The World | 100056144 | 25
+Garbutt | 100055888 | 3
+Garbutt's Way: Embassies | 100055439 | 1
+Garbutt's Way: National Museum Of Australia | 100055310 | 1
+Garbutt's Way: Po Mo | 100055592 | 1
+Garbutt: Architecture Postcards | 100053240 | 6
+Garbutt: Architecure Postcards: Acid Baroque | 100054783 | 1
+Gardening Australia | 100009807 | 180
+Gary Rhodes' Cookery Year | 100053154 | 3
+Geisha | 100037475 | 2
+Generation 7 | 100032966 | 39
+Gentlemen Of The Flashing Blade | 100055894 | 1
+Geographical Eye | 100015023 | 31
+Geographical Eye Over Europe | 100054340 | 1
+George And Martha | 100033043 | 33
+George Negus Tonight | 100054220 | 52
+George Negus: New Dimension | 100054051 | 1
+George Negus: New Dimensions | 100053614 | 47
+George Shrinks | 100038389 | 50
+Germany's War | 100053182 | 7
+Get Real | 100033223 | 13
+Get Smart | 100015013 | 77
+Getaway | 100009804 | 113
+Getaway - Ultimate Getaways | 100054115 | 1
+Getaway Moments | 100054505 | 4
+Getaway: Getaway's European Affair | 100053796 | 1
+Getting Hurt | 100035974 | 2
+Ghost Hunter | 100056202 | 19
+Giant Otters: Wolves Of The River | 100055774 | 1
+Gideon's Crossing | 100047559 | 24
+Gideon's Way | 100042929 | 9
+Gillette World Sport | 100015014 | 89
+Gillette World Sport Special | 100053906 | 5
+Gilligan's Island | 100015015 | 4
+Gilmore Girls | 100034077 | 56
+Gimme, Gimme, Gimme | 100045236 | 6
+Gimme, Gimme, Gimme: Glad To Be Gay | 100056560 | 2
+Gimme, Gimme, Gimme: Prison Visitor | 100056559 | 2
+Girl Stuff, Boy Stuff | 100052563 | 24
+Girlfriends | 100048205 | 3
+Girls Of Summer | 100056590 | 1
+Glasgow Kiss | 100056087 | 7
+Glenn Ridge's Outback | 100056009 | 4
+Global Village | 100015016 | 749
+Gloria's House | 100043256 | 13
+God, The Devil & Bob | 100047870 | 13
+Gods Ands Monsters | 100050552 | 1
+Gogs | 100034164 | 0
+Going Public | 100015025 | 2
+Going Straight | 100046198 | 2
+Going To California | 100054675 | 15
+Gold Coast News | 100015018 | 596
+Gold Coast Weekend | 100033024 | 22
+Gold Lotto | 100015019 | 122
+Golden Casket Lord Mayor's Christmas Carols | 100056294 | 1
+Golf | 100053167 | 0
+Golf Links | 100055893 | 1
+Gone Troppo | 100055786 | 3
+Good Guys | 100053569 | 1
+Good Guys, Bad Guys | 100015020 | 1
+Good Medicine | 100009805 | 6
+Good Morning America | 100055291 | 55
+Good Morning Australia | 100015026 | 482
+Goodbye Mr Chips | 100053430 | 2
+Goodsports | 100052068 | 22
+Goya: Crazy Like A Genius | 100053919 | 1
+Grass Roots | 100045222 | 23
+Great Mysteries And Myths Of The 20th Century | 100019174 | 24
+Great Railway Journeys | 100015027 | 10
+Great South East | 100033188 | 83
+Great South East Special | 100054727 | 1
+Great South East: Gone To The Dogs | 100053870 | 1
+Greatest Heroes In History | 100044581 | 7
+Greek News | 100054968 | 90
+Greeks On The Roof | 100049730 | 17
+Greenstone | 100048509 | 9
+Greetings From Tucson | 100055940 | 1
+Greetings From Tucson (pilot) | 100055939 | 1
+Greetings From Tuscon | 100056104 | 6
+Greg Grainger Adventures | 100042917 | 4
+Grizzly Tales For Gruesome Kids | 100041531 | 52
+Ground Force | 100009806 | 113
+Grown Ups | 100015030 | 12
+Guinevere Jones | 100034134 | 80
+Guthy Renker | 100047896 | 14
+Guthy-Renker | 100048209 | 371
+Guthy-Renker Australia | 100053374 | 244
+Gym Jam Club | 100054314 | 13
+HELL ON HIGH WATER | 100043917 | 1
+HI-5 | 100015034 | 352
+HILLSONG AUSTRALIA | 100015047 | 36
+HILLSONG TELEVISION | 100033399 | 23
+HOLLY VALANCE - NAUGHTY GIRL | 100044619 | 1
+Hack | 100056105 | 9
+Hack (pilot) | 100055941 | 1
+Hair By Mr Bean Of London | 100052566 | 1
+Hairy Maclary | 100046202 | 25
+Hallo Aus Berlin | 100033072 | 26
+Halloween Spooktacular Including | 100055203 | 1
+Hamilton Mattress | 100034102 | 11
+Handel's Messiah | 100043893 | 2
+Handmade | 100015040 | 68
+Hands On | 100054161 | 6
+Hang Time | 100034054 | 104
+Happiness | 100056737 | 2
+Happy Birthday Shakespeare | 100045246 | 3
+Happy Days | 100040851 | 64
+Hardcastle And Mccormick | 100015031 | 13
+Hardcore Candy | 100045581 | 8
+Harry & The Hendersons | 100034122 | 24
+Harry And The Wrinklies | 100049048 | 10
+Harry's Practice | 100009808 | 130
+Harry's War | 100055752 | 1
+Hawkins | 100055070 | 1
+Hazards, Disasters And Survival | 100015041 | 23
+Head Of The Class | 100047267 | 1
+Head Start | 100015042 | 16
+Head Start: Business Or Pleasure | 100056091 | 1
+Head Start: Changing Views | 100055475 | 1
+Head Start: Dischord | 100055343 | 1
+Head Start: He Ain't Heavy | 100055927 | 1
+Head Start: Make Or Break | 100055209 | 1
+Head Start: Making Music | 100055773 | 1
+Head Start: Winner Takes All | 100055627 | 1
+Heart Of Country | 100054139 | 2
+Heart Of Country: From Nowhere To Somewhere: Sara Storer | 100053930 | 1
+Heart Of Country: Hillbilly Heaven | 100054224 | 1
+Heart Of Country: Music In His Blood: Lee Kernaghan | 100053816 | 1
+Heart Of Country: Stories To Tell: Graeme Connors | 100054037 | 1
+Heartbeat | 100033230 | 24
+Heartbreak High | 100015044 | 33
+Heartland | 100038390 | 8
+Hearts Of Gold | 100054918 | 2
+Henning's Haus | 100053716 | 10
+Henry's World | 100040748 | 21
+Herald Sun Tour | 100056096 | 2
+Here's Humphrey | 100015033 | 428
+Here's Humphrey Dot Talks | 100054013 | 1
+Here's Humphrey Pieces | 100054015 | 1
+Here's The Beat | 100015045 | 26
+Hero To Zero | 100056751 | 6
+Hey Arnold! | 100015046 | 17
+Hey Rain | 100050251 | 1
+High Court Centenary | 100054792 | 1
+High Speed Pursuit | 100050354 | 1
+Higher Ground | 100035767 | 17
+Hill Street Blues | 100035456 | 80
+Hillsong | 100047805 | 75
+Hilltop Hospital | 100054021 | 24
+History Of The Rugby World Cup | 100054384 | 3
+Hitler's | 100055380 | 1
+Hitler's Children | 100053199 | 4
+Hitler's Holocaust | 100054983 | 3
+Hitler's Warriors | 100054713 | 2
+Hockey | 100042804 | 3
+Hockey: Women's Champions Trophy 2003: Australia Vs Argentina + Highlights | 100055920 | 1
+Hockey: Women's Champions Trophy 2003: Australia Vs China + Highlights | 100055908 | 1
+Hockey: Women's Champions Trophy 2003: Australia Vs England | 100055776 | 1
+Hockey: Women's Champions Trophy 2003: Australia Vs Korea | 100055930 | 1
+Hockey: Women's Champions Trophy 2003: Australia Vs Netherlands | 100055886 | 1
+Hockey: Women's Champions Trophy 2003: Final | 100056038 | 1
+Holiday Airline | 100048213 | 5
+Hollywood Backstories | 100053769 | 13
+Hollywood Real To Reel | 100037563 | 4
+Hollywood's Real Bad Boys | 100054460 | 1
+Hollywood: A Celebration | 100056196 | 1
+Hollywood: A Celebration Of The American Silent | 100056350 | 5
+Hollywood: A Celebration Of The American Silent Film | 100055309 | 1
+Hollywood: A Celebration Of The American Silent Film: Gloria Swanson And Rudolph Valentino | 100056039 | 1
+Hollywood: A Celebration Of The American Silent Film: Hazard Of The Game | 100055887 | 1
+Hollywood: A Celebration Of The American Silent Film: Hollywood Goes To War | 100055741 | 1
+Hollywood: A Celebration Of The American Silent Film: In The Beginning | 100055438 | 1
+Hollywood: A Celebration Of The American Silent Film: Single Beds And Double Standards | 100055591 | 1
+Holy Cow: The Art Of John Kelly | 100053239 | 1
+Home And Away | 100015036 | 622
+Home And Away 2003 Series Final Encore | 100056630 | 1
+Home And Away Special Episode | 100054736 | 2
+Home Improvement | 100034049 | 201
+Home Shopping | 100015048 | 752
+Homemade History | 100053858 | 13
+Honda Indy 300 | 100040783 | 2
+Hooked On Water | 100034162 | 8
+Hoota And Snoz | 100033065 | 27
+Horace & Tina | 100033437 | 3
+Horace And Tina | 100033124 | 63
+Hornblower | 100044572 | 11
+Hornblower: The Even Chance | 100056563 | 2
+Horrible Histories | 100033337 | 50
+Hot Auctions | 100032945 | 55
+Hot Property | 100009809 | 90
+Hot Source | 100053902 | 5
+Hot Wax | 100056161 | 1
+Hotline | 100015038 | 229
+Hour Of Power | 100033398 | 29
+House Calls To The Rescue | 100045985 | 23
+House Calls To The Rescue Special | 100053684 | 1
+Houses Of The Finnish Gods | 100055738 | 1
+How Do You Want Me? | 100015050 | 1
+Howard Goodall's Great Dates | 100040317 | 2
+Huckleberry Finn | 100042573 | 25
+Huey's Cooking Adventures | 100033103 | 306
+Huey's Greatest Hits | 100046230 | 30
+Huey's TV Dinner | 100015051 | 15
+Hueys Cooking Adventures | 100015052 | 50
+Human Contraptions | 100056208 | 7
+Human Contraptions: Law | 100055907 | 1
+Human Contraptions: Medicine | 100056062 | 1
+Human Instinct | 100046314 | 4
+Hungarian News | 100015039 | 131
+Hymns Of The Forefathers | 100039298 | 8
+Hype | 100035472 | 19
+I Dream Of Jeannie | 100039095 | 63
+I Saw You | 100055400 | 4
+I Spy | 100053438 | 26
+IAAF Golden Athletics 2003 | 100053263 | 1
+IAAF Golden League Athletics 2003 | 100053349 | 3
+IAAF World Athletics Championships | 100054163 | 5
+ICAM | 100015053 | 36
+IDOL - THE PHENOMENON | 100052285 | 1
+IN THE PITS | 100038398 | 1
+IN-LAWS (PILOT) | 100046227 | 1
+INDY 500 | 100052287 | 1
+INSIDE THIS ROOM | 100037775 | 1
+INVASION: EARTH | 100039399 | 15
+INXS: Never Tear Us Apart | 100043927 | 1
+Iaaf Golden League Athletics | 100053864 | 2
+Iaaf World Athletics Championships | 100054072 | 8
+Iaaf World Athletics Championships (cont.) | 100054078 | 5
+Iaaf World Athletics Championships: Highlights | 100054069 | 13
+Iaaf World Championships 2003 | 100053983 | 1
+Iaaf World Half Marathon Championships | 100054824 | 1
+If Awards | 100055375 | 1
+If Only | 100054841 | 10
+In A Land Of Plenty | 100056063 | 8
+In Laws | 100047174 | 9
+In Our Family | 100033183 | 22
+In The Box | 100015056 | 553
+In The Footsteps Of Elizabeth David | 100039017 | 2
+In The Gloaming | 100053332 | 2
+In The Wild - White Elephants With Meg Ryan | 100055949 | 1
+In The Winter Dark | 100048117 | 3
+In-entertainment | 100046874 | 61
+In-entertainment Summer Series | 100056235 | 12
+In-laws | 100046563 | 2
+Indian Journeys: City Of Djinns | 100054026 | 1
+Indian Journeys: Doubting Thomas | 100053806 | 1
+Indian Journeys: Ganges | 100053916 | 1
+Indiana Jones: The Inside Story | 100055484 | 2
+Indonesian News | 100054699 | 102
+Indoor Cricket | 100015057 | 1
+Ing Cup Cricket | 100040530 | 25
+Ing Cup Cricket Nsw V Vic | 100055157 | 1
+Ing Cup Cricket: Nsw V Vic | 100055155 | 1
+Ing Cup Cricket: Nsw V Vic (cont.) | 100055156 | 1
+Ing Cup Cricket: Nsw V Wa | 100055284 | 2
+Ing Cup Cricket: Nsw V Wa (cont.) | 100055285 | 1
+Ing Cup Cricket: Qld V Tas | 100055040 | 2
+Ing Cup Cricket: Qld V Tas (cont.) | 100055041 | 1
+Ing Cup Cricket: Sa V Nsw | 100055717 | 2
+Ing Cup Cricket: Sa V Nsw (cont.) | 100055718 | 1
+Ing Cup Cricket: Sa V Wa | 100055417 | 2
+Ing Cup Cricket: Sa V Wa (cont.) | 100055418 | 1
+Ing Cup Cricket: Tas V Nsw | 100055730 | 2
+Ing Cup Cricket: Tas V Nsw (cont.) | 100055731 | 1
+Ing Cup Cricket: Tas V Sa | 100055166 | 2
+Ing Cup Cricket: Tas V Sa (cont.) | 100055167 | 1
+Ing Cup Cricket: Vic V Qld | 100055563 | 2
+Ing Cup Cricket: Vic V Qld (cont.) | 100055564 | 1
+Inside Australia | 100054825 | 9
+Inside Australia - Me! Me! Me! And A.d.h.d. | 100054959 | 1
+Inside Australia: Bush Doctor | 100055654 | 2
+Inside Australia: Disturbing Dust | 100055095 | 1
+Inside Australia: Matthew's Fight For Life | 100055499 | 1
+Inside Australia: Still Breathing | 100055956 | 1
+Inside Australia: The Drover's Dilemma | 100055230 | 1
+Inside Basketball | 100015058 | 30
+Inside Business | 100037141 | 36
+Inside Idol | 100054568 | 7
+Inside Out | 100015059 | 64
+Inside Sport | 100015060 | 55
+Inside The Australian Ballet | 100038083 | 2
+Inside The Wannabes | 100054559 | 2
+Insiders | 100015061 | 77
+Insiders Special: The Bali Anniversary | 100054914 | 1
+Insight | 100015054 | 208
+Inspector Rex | 100053201 | 38
+Inspired Lives | 100054550 | 1
+International Comedy Festival Great Debate | 100036865 | 1
+International Football - Australia V. Ireland | 100055037 | 2
+International Friendly: England V Denmark | 100055503 | 1
+Into The Lion's Den | 100043179 | 1
+Invasion | 100052949 | 1
+Investing In People | 100038387 | 2
+Is There Anybody There? | 100033372 | 2
+Isaac Stern Life's Virtuoso | 100049042 | 2
+Island Harvest With Nick Nairn | 100044265 | 6
+Island Life | 100023005 | 6
+Island Life: Barrow Island | 100055074 | 1
+Island Life: Christmas Island | 100054810 | 1
+Island Life: Kangaroo Island | 100055210 | 1
+Island Life: Lizard Island | 100055344 | 1
+Island Life: Torres Strait Islands | 100055476 | 1
+Islandares | 100053691 | 8
+Islands Of The Vampire Birds | 100049066 | 1
+It's A Wonderful Tiny Toons Christmas Special | 100056334 | 1
+It's Like, You Know | 100053795 | 12
+It's Like, You Know (pilot) | 100053698 | 1
+It's Not Just Cricket: The Johnny Mullagh Trophy | 100053254 | 1
+Italia News | 100015055 | 115
+Italian News | 100054953 | 105
+Italy Inside Out | 100050561 | 10
+J-Lo - Maid In Manhattan | 100046226 | 1
+JESSE DUPLANTIS MINISTRIES | 100015064 | 89
+JOE CHINDAMO: PROFILE OF THE JAZZ PIANIST | 100046843 | 1
+JOE LOUIS: THE BOXER WHO BEAT HITLER | 100036857 | 1
+JOHN HUSTON: WAR STORIES | 100049381 | 2
+Jack And The Beanstalk | 100046551 | 11
+Jack Nicklaus: The Man Behind The Legend | 100053907 | 1
+Jack Of Hearts | 100047791 | 20
+Jackass | 100045912 | 3
+Jacobs Creek Open | 100046881 | 2
+Jag | 100034058 | 34
+James Cameron's Dark Angel | 100015062 | 43
+James Can Cook | 100034106 | 25
+James Hewitt: Confessions Of A Cad | 100055052 | 1
+Jamie Oliver Crashes Oprah (aka What Ya Cookin'?) | 100054689 | 1
+Jamie Oliver Happy Days Live | 100056556 | 3
+Jamie Oliver Happy Days Live!: Cook In The Bag | 100056070 | 1
+Jamie Oliver Happy Days Live!: Pizza | 100055912 | 1
+Jamie's Kitchen | 100053639 | 5
+Janus | 100044261 | 25
+Japanese News | 100015063 | 210
+Jasper The Little Penguin | 100054131 | 26
+Jayco Geelong Bay Cycling Classic | 100045585 | 1
+Jazz | 100024293 | 25
+Jazz: Gumbo | 100053915 | 1
+Jazz: Our Language | 100054124 | 1
+Jazz: The Gift | 100054025 | 1
+Jean Sibelius | 100034104 | 9
+Jeff Lang: Blues Guitar | 100041066 | 1
+Jeopardy | 100033087 | 29
+Jerry Springer | 100015068 | 387
+Jesse Deplantis Ministries | 100056636 | 3
+Jesse Duplantis | 100046318 | 4
+Jesse Duplantis Ministries | 100053408 | 19
+Jet Set | 100044021 | 26
+Jim Henson's Animal Show | 100039384 | 2
+Jimeoin's Tea Towel Tours | 100042209 | 1
+Jimi Hendrix | 100036289 | 2
+Jimmy Carter | 100055601 | 3
+Jimmy Stewart: His Wonderful Life | 100054781 | 1
+Jirimpimbira: An African Folk Tale | 100054775 | 1
+Joe Millionaire | 100045656 | 8
+Joe Rock | 100033382 | 3
+John Doe | 100056029 | 3
+John Doe (pilot) | 100055876 | 1
+John Le Carre | 100049039 | 1
+John Mayer - Any Given Thursday | 100049391 | 2
+John Travolta | 100055913 | 1
+Johnny Bravo | 100015065 | 31
+Johnny English - Classified Information | 100048760 | 1
+Jonathan Creek | 100041511 | 17
+Journeys To The Ends Of The Earth | 100023408 | 15
+Journeys To The Ends Of The Earth: Keepers Of The Lost Ark | 100056040 | 1
+Journeys To The Ends Of The Earth: The Land Of Fear | 100055742 | 1
+Journeys To The Ends Of The Earth: The People Of The Flame | 100055889 | 1
+Judaism: A Quest For Meaning | 100054645 | 5
+Judge Judy | 100015071 | 547
+Judging Amy | 100034070 | 34
+Julie Taymor: Play With Fire | 100054916 | 1
+Junior | 100015066 | 146
+Junior With K-Zone TV | 100053785 | 4
+Junior With K-zone TV | 100054201 | 11
+Just Deal | 100036047 | 15
+Just For Laughs | 100038729 | 3
+Just For Laughs Gags | 100055219 | 10
+Just Shoot Me! | 100034131 | 16
+Just The Ten Of Us | 100052355 | 23
+Just Write | 100053709 | 10
+KARITA AND DMITRI AT CARDIFF | 100048414 | 1
+KOORI KNOCKOUT 1999 | 100033345 | 2
+KRISTIN | 100042514 | 1
+KYLIE: FEVER | 100050053 | 1
+Kakadu: Australia's Ancient Wilderness | 100042495 | 1
+Kalejdoskop | 100015072 | 238
+Kangaroo Creek Gang | 100035176 | 56
+Kangaroo Rugby League Tour: Australia V. Great Britain | 100055414 | 4
+Kangaroo Rugby League Tour: Australia V.great Britain | 100055561 | 2
+Karita And Dmitri At Cardiff | 100053808 | 1
+Kasey Chambers - Behind The Barricades | 100043538 | 1
+Kate Brasher | 100055269 | 6
+Kath & Kim | 100054233 | 9
+Kath & Kim: Old | 100054046 | 1
+Kath & Kimgay | 100053721 | 1
+Kath And Kim | 100034112 | 16
+Keeping Up Appearances | 100024650 | 39
+Kellogg's Nutri-grain Cup | 100036622 | 12
+Kelly Osbourne | 100036863 | 1
+Kenneth Copeland | 100015073 | 518
+Ketchup And The Toothbrush Family | 100034059 | 29
+Key Of David | 100015074 | 66
+Keynotes | 100039802 | 29
+Kid In The Corner | 100039321 | 5
+Killer Ants | 100056736 | 2
+Killing Hitler | 100056249 | 1
+Killing Hitler (part 1) | 100056115 | 1
+Kim Gyngell For Backberner | 100053827 | 2
+King | 100054229 | 15
+King Of Queens | 100045353 | 1
+King Of The Hill | 100046938 | 29
+King Rattler | 100041948 | 1
+Kingpin | 100055840 | 4
+Kipper | 100044588 | 26
+Kiss And The Melbourne Symphony Orchestra | 100053426 | 2
+Kiss Me Kate | 100042839 | 29
+Kitu And Woofl | 100015076 | 13
+Knight Rider | 100047478 | 1
+Koala Brothers | 100054790 | 13
+Koki | 100015077 | 2
+Kore TV | 100038410 | 2
+Kumbha Mela | 100054426 | 1
+Kylie Kwong: Heart And Soul: Bamboo | 100054802 | 1
+Kylie Kwong: Heart And Soul: Egg | 100055611 | 1
+Kylie Kwong: Heart And Soul: Marinade | 100055760 | 1
+Kylie Kwong: Heart And Soul: Mushroom | 100055458 | 1
+Kylie Kwong: Heart And Soul: Noodles | 100055332 | 1
+Kylie Kwong: Heart And Soul: Rice | 100055062 | 1
+Kylie Kwong: Heart And Soul: Shellfish | 100055192 | 1
+Kylie Kwong: Heart And Soul: Spice | 100054935 | 1
+L-Ahbarijiet | 100015078 | 111
+LARRY MCMURTRY'S: DEAD MAN'S WALK | 100039396 | 1
+LATE SHOW WITH DAVID | 100041309 | 3
+LEE EVANS: FEAR OF FLYING | 100046862 | 1
+LEYLANDS AUSTRALIA | 100038113 | 1
+LILLIAN'S JUNGLE | 100037480 | 1
+LION BATTLEFIELD | 100044571 | 1
+LOBSTER TALES | 100041544 | 1
+LONG WAY TO THE TOP: LIVE IN CONCERT | 100042806 | 1
+LOOKING FOR ANSWERS | 100046907 | 1
+Ladies Man | 100036056 | 30
+Land Of The Little Kings | 100015079 | 1
+Landline | 100015088 | 204
+Landline: Gympie Muster | 100054318 | 1
+Largo | 100045648 | 31
+Last Night Of The Proms 2001 | 100056194 | 1
+Late Night Poker | 100046576 | 5
+Late Show With David Letterman | 100015081 | 638
+Lateline | 100015089 | 450
+Latin American News | 100054954 | 15
+Laureus World Sports Awards | 100053636 | 2
+Lavender Castle | 100053443 | 32
+Law & Order | 100015090 | 164
+Law & Order - Criminal Intent | 100053838 | 1
+Law & Order - Criminal Intent: Cuba Libre | 100054059 | 1
+Law & Order S.V.U. | 100054245 | 12
+Law & Order S.v.u.: Repression | 100054060 | 1
+Law & Order: Criminal Intent | 100053951 | 19
+Law & Order: SVU | 100053467 | 5
+Law And Order | 100054684 | 1
+Law And Order: SVU | 100054158 | 1
+Le Journal | 100015082 | 899
+League Of Gentlemen | 100053940 | 1
+Leap Years | 100054607 | 19
+Lee Evans: So What Now? | 100056204 | 5
+Lee Evans: So What Now? - Sofa So Good | 100056055 | 1
+Lee Evans: So What Now?: Moving Out | 100055904 | 1
+Leonard Bernstein: Reaching For The Note | 100037145 | 2
+Leopard Hunters | 100035681 | 1
+Less Than Perfect | 100055837 | 18
+Let's Do It | 100055360 | 13
+Lexmark Indy 300 | 100055090 | 3
+Lexmark Indy 300 (cont.) | 100055091 | 3
+Leyland's Australia | 100033438 | 14
+Li'l Elvis | 100015093 | 26
+Li'l Elvis Jones And The Truckstoppers | 100055617 | 26
+Li'l Horrors | 100015083 | 57
+Liberace: Too Much Of A Good Thing | 100056227 | 1
+Life | 100045965 | 84
+Life After Baywatch | 100055644 | 1
+Life Beyond Earth | 100038789 | 1
+Life Force | 100036295 | 16
+Life In The Word | 100015094 | 514
+Life Is Too Serious: George Dreyfus | 100054532 | 1
+Life Support | 100053186 | 12
+Life Today With James Robison | 100015095 | 491
+Life as We Know It | 100036296 | 8
+Life with Louie | 100043612 | 14
+Lifecycle | 100056701 | 1
+Lifelong Learning | 100015096 | 467
+Lights, Camera, Action, Wiggles! | 100039616 | 53
+Like It Is | 100053825 | 16
+Lin Onus | 100015084 | 1
+Linda Green | 100049970 | 19
+Lionhearts | 100044998 | 15
+Lions: Spy In The Den | 100049383 | 2
+Lisa | 100015097 | 180
+Little Ghosts | 100040744 | 5
+Little Ghosts: Trick Or Treat | 100055204 | 1
+Little Lulu | 100043148 | 84
+Little Monsters | 100015098 | 59
+Little Robots | 100048417 | 66
+Little Shepherd | 100056332 | 1
+Little Wolf's Book Of Badness | 100056372 | 1
+Live At The Basement | 100046537 | 33
+Living Australia | 100038406 | 5
+Living Black | 100047535 | 32
+Living Britain | 100033073 | 5
+Living Dangerously | 100037163 | 2
+Living Famously | 100056229 | 7
+Living Famously: Clark Gable | 100055479 | 1
+Living Famously: Grace Kelly | 100055631 | 1
+Living Famously: Humphrey Bogart | 100055347 | 1
+Living Famously: Marlene Dietrich | 100055931 | 1
+Living Famously: Peter Sellers | 100055777 | 1
+Living Famously: Vivien Leigh | 100056094 | 1
+Lizards Of Oz | 100053818 | 1
+Lizzie McGuire | 100047794 | 60
+Location Location | 100033253 | 59
+Location, Location | 100009810 | 2
+Lock, Stock | 100054148 | 4
+Lock, Stock: Lock, Stock And 200 Kalashnikovs | 100053937 | 1
+Lock, Stock: Lock, Stock And A Fist Full Of Jack And Jills | 100054048 | 1
+Lock, Stock: Lock, Stock And Four Stolen Hooves | 100053828 | 1
+Lone Gunmen | 100015085 | 8
+Long Way To The Top | 100035991 | 8
+Looney Tunes Classics | 100009826 | 42
+Looney Tunes Saturday: Bugs Bunny In King Arthur's Court | 100055579 | 1
+Looney Tunes Saturday: Bugs Bunny's Creature Feature | 100055580 | 1
+Looney Tunes Saturday: Bugs Bunny/looney Tunes All-star 50th Anniversary | 100055581 | 1
+Looney Tunes Saturday: Bugs Vs Daffy: Battle Of The Video Stars | 100055578 | 1
+Losing Layla | 100046215 | 1
+Lost Ark Of The Covenant | 100035389 | 1
+Lost Worlds | 100056116 | 7
+Lost Worlds: Meet The Ancestors - Top Ten Treasures | 100055500 | 1
+Lost Worlds: Mysterious Dinosaurs Of Morocco | 100055796 | 1
+Lost Worlds: The Mystery Mummies Of Rome | 100055655 | 1
+Lost Worlds: When The Romans Ruled Africa | 100055957 | 1
+Lotto | 100040536 | 3
+Love Cruise | 100046311 | 8
+Love In A Cold Climate | 100056743 | 2
+Love Is In The Air | 100054917 | 1
+Love Is In The Air: I Should Be So Lucky - The Business Of Star Making | 100055311 | 1
+Love Is In The Air: She's Leaving Home | 100055047 | 1
+Love Is In The Air: Strange Fruit | 100055174 | 1
+Love Is In The Air: The National Anthems | 100055440 | 1
+Love Letters From A War | 100050254 | 1
+Love Rules | 100053635 | 4
+Loves Me, Loves Me Not | 100056018 | 5
+Loving Greta Garbo | 100054646 | 1
+Lulu - We've Got Tonight | 100043526 | 1
+M*A*S*H | 100040509 | 10
+MACUMBA | 100037469 | 1
+MADONNA: AMERICAN - LIFE WITH RICHARD WILKINS | 100048518 | 1
+MAMA SERPENTINE | 100046861 | 1
+MARIE CLAIRE - WHAT WOMEN WANT 2002 | 100038413 | 1
+MARLON BRANDO | 100039611 | 1
+MASSIVE LANDMARKS OF THE TWENTIET CENTURY | 100048738 | 1
+MASTERS APPRENTICES | 100036850 | 1
+MDA | 100036278 | 47
+ME AND MRS JONES | 100040004 | 1
+MELBOURNE FLOWER & GARDEN SHOW 2002 | 100045664 | 1
+MEN BEHAVING BADLY: | 100044266 | 3
+MIDNIGHT MASS FROM ST PETER'S BASILICA, ROME 2002 | 100043897 | 1
+MIMI AT ULURU | 100037783 | 1
+MISS OLLEY | 100045884 | 1
+MISS TEEN USA 2002 | 100038808 | 1
+MISSING IN ALICE | 100043503 | 1
+MIXY | 100035401 | 3
+MOBY DICK: THE TRUE STORY | 100041073 | 1
+MOTORPLEX | 100041228 | 1
+MOTORPLEX TV | 100040780 | 1
+MTV 2002 MOVIE AWARDS | 100035417 | 2
+MTV Europe Music Awards 2002 | 100049078 | 1
+MTV Presents | 100043181 | 2
+MUDDY WATERS LIVE AT THE CHICAGO BLUES FESTIVAL | 100047150 | 1
+MY FAIR LADY: WOULDN'T IT BE LOVERLY | 100037460 | 1
+Mad TV | 100053308 | 26
+Madame Bovary | 100040740 | 1
+Made By Design | 100039021 | 2
+Made In Manhattan | 100052555 | 1
+Madeline | 100015107 | 98
+Magic Mountain | 100043152 | 30
+Magic's Biggest Secrets Finally Revealed 2 | 100054462 | 1
+Magic's Biggest Secrets Finally Revealed 5 | 100056518 | 2
+Maisy | 100015108 | 251
+Make My Day | 100042616 | 2
+Making Love Actually | 100056410 | 1
+Making The Cradle Of Life: Tomb Raider 2 | 100054567 | 1
+Making The Misfits | 100054782 | 1
+Malcolm In The Middle | 100015101 | 112
+Malibu | 100054723 | 5
+Maltese News | 100054955 | 15
+Mama Flora's Family - Part 1 | 100056713 | 2
+Mama Flora's Family Part 1 | 100056714 | 2
+Mama Flora's Family Part 2 | 100056716 | 4
+Mamemo | 100049062 | 21
+Man And Boy | 100050255 | 1
+Manchild | 100047795 | 8
+Mandarin News | 100015102 | 898
+Mandela: The Living Legend | 100056051 | 2
+Maneaters | 100047578 | 1
+Maneaters: Crocodiles | 100055168 | 1
+Maneaters: Sharks | 100055565 | 1
+Maneaters: Tigers | 100055732 | 1
+Maneaters: Wolves And Dingos | 100055719 | 1
+Manhattan, AZ | 100046877 | 6
+Many Nations, One People | 100015109 | 22
+Marilyn Hickey | 100015110 | 42
+Marion And Geoff | 100052573 | 10
+Mark Twain | 100048097 | 4
+Mark of Cain | 100046915 | 1
+Marking Time: Torch Girl/something | 100055441 | 1
+Marking Time: Who's To Judge/what Is Our Future | 100055447 | 1
+Married With Children | 100015111 | 3
+Marshall Law | 100037238 | 20
+Martin Morning | 100052561 | 48
+Marty & Jess | 100036862 | 1
+Mash | 100035157 | 422
+Mash: | 100055274 | 1
+Mass For You At Home | 100015112 | 123
+Massenet: His Life And Music | 100049953 | 1
+Massive Landmarks Of The Twentieth Century | 100035987 | 14
+Masterpiece | 100015103 | 126
+Masters Of Style | 100045231 | 4
+Masterworks In Glass By Chihuly | 100054424 | 1
+Matchbox 20 Live In Atlanta | 100056402 | 1
+Maths 4 Real 2 | 100046527 | 21
+Mats Ek's Sleeping Beauty | 100054128 | 1
+Maybe It's Me | 100056325 | 9
+Maybe It's Me (pilot) | 100056322 | 1
+Mayday | 100055138 | 3
+McLeod's Daughters | 100015104 | 78
+Mccready And Daughter | 100055133 | 6
+Mcfeast: Men, Love And Marriage | 100055065 | 1
+Mds | 100055838 | 1
+Me And Mrs Jones | 100056384 | 1
+Me And My Shadows: Richard Bradshaw, Puppet Master | 100055436 | 1
+Media Dimensions | 100015113 | 7
+Media Watch | 100028894 | 128
+Meet My Folks | 100046302 | 18
+Meet The Ancestors | 100054961 | 4
+Meet The Press | 100015114 | 89
+Meeting Mandela: A Staying Alive Special | 100053952 | 1
+Megamaths: Space And Shape | 100046535 | 10
+Men, Women & Dogs | 100042596 | 13
+Mercury | 100034098 | 22
+Merlin The Magical Puppy | 100033030 | 25
+Merrick & Rosso Unplanned | 100054208 | 13
+Merry Christmas, Mr. Bean | 100056383 | 1
+Message Stick | 100015115 | 164
+Mi$$ing Millions | 100055793 | 1
+Micallef Tonight | 100050346 | 18
+Mickey's Once Upon A Christmas | 100056304 | 1
+Midday News And Business | 100054432 | 60
+Midnight Mass | 100056406 | 1
+Midnight Mass From St. Peter's Basilica, Rome 2003 | 100056378 | 1
+Midnight Mass From St. Peter's Basilica, Rome 2003 (cont.) | 100056379 | 1
+Miffy And Friends | 100048418 | 99
+Mike Leigh Season Of Short Films | 100055473 | 5
+Mike, Lu & Og | 100015105 | 13
+Mile High | 100053680 | 11
+Mind Control | 100054761 | 5
+Minty | 100042191 | 13
+Miracles | 100054095 | 9
+Misery Guts | 100015106 | 31
+Mitsubishi International Horse Trials | 100042293 | 1
+Mixy Including | 100015118 | 242
+Moments In Time | 100033326 | 20
+Monarch Of The Glen | 100033098 | 27
+Monica in Black and White | 100033378 | 2
+Monk | 100054690 | 19
+Monk (pilot) | 100054574 | 1
+Moon Water | 100054121 | 1
+More Than Words | 100033033 | 20
+Mornings With Kerri-Anne | 100040850 | 286
+Mornings With Kerri-anne - Summer Series | 100056016 | 6
+Mornings With Kerrie-Anne | 100047897 | 1
+Mortimer's Law | 100033370 | 19
+Mothertime | 100043518 | 1
+Moto GP | 100036303 | 16
+MotoGP | 100038727 | 14
+Motogp - Valencia | 100055351 | 2
+Motorway Patrol | 100034060 | 15
+Movie Of The Week - Kikujiro | 100055376 | 1
+Movies | 100054079 | 4
+Movies - Heist | 100056258 | 1
+Mr Bean | 100042823 | 5
+Mr Bean With Rowan Atkinson | 100054143 | 47
+Mr. Bean | 100016652 | 2
+Mr. Bean: Mind The Baby Mr. Bean | 100056561 | 2
+Muhammad Ali | 100048522 | 4
+Muhammad Ali: Through The Eyes Of The World | 100056007 | 1
+Mulan | 100043919 | 1
+Mum's the Word | 100054269 | 7
+Mums The Word | 100054377 | 1
+Murder Call | 100023006 | 16
+Murder Call Black Friday | 100056725 | 2
+Murder Investigation Team | 100055756 | 10
+Murder Rooms II | 100024651 | 3
+Music | 100038750 | 67
+Music - Mixmasters | 100054485 | 3
+Music Behind The Scenes | 100040311 | 2
+Music Documentary | 100053205 | 2
+Music Knows No Bounds | 100054708 | 1
+Music Moves | 100036273 | 28
+Music Special: A Meeting In The Middle | 100055093 | 1
+Music Special: Don Hazelwood - Master Of Music | 100055496 | 1
+Music Special: Duncan Gifford - The Russian Experience | 100055653 | 1
+Music Special: Up In Smoke | 100053669 | 1
+Music: | 100056143 | 1
+Music: A Hat Trick Of Hayden | 100055497 | 1
+Music: Autumn Tones - A Musical Journey From Estonia To Finland | 100054823 | 1
+Music: Don Hazelwood - The Concert Master | 100055363 | 1
+Music: Dream Of Hope | 100055228 | 1
+Music: HÁry Janos - Musical Fairytale | 100054691 | 1
+Music: Mixmasters | 100054854 | 7
+Music: Subsonics | 100055981 | 3
+Mutant X | 100036917 | 8
+My Best Friend Is An Alien | 100034101 | 72
+My Big Fat Greek Life | 100049977 | 6
+My Fair Lady: Wouldn't It Be Loverly | 100053920 | 1
+My Family | 100034116 | 41
+My Hero | 100017908 | 19
+My Hero: Sporting Chance | 100055618 | 1
+My Hero: The Living Dead | 100055465 | 1
+My Journey, My Islam | 100043512 | 1
+My Own Private Oz | 100042832 | 2
+My Voyage To Italy | 100055509 | 5
+My Wife & Kids | 100055834 | 10
+My Wife And Kids | 100056153 | 34
+Mysterious Ways | 100015120 | 20
+N.Y.P.D Blue | 100015121 | 3
+N.Y.P.D. Blue | 100043534 | 47
+N.y.p.d.blue | 100055950 | 1
+NATIONAL NINE | 100015123 | 2022
+NATURE'S GAMBLERS | 100047793 | 1
+NBC Meet The Press | 100015124 | 130
+NBC Today | 100047874 | 284
+NCS Manhunt | 100042200 | 8
+NEURODANCER | 100040752 | 1
+NEW DIMENSIONS WITH GEROGE NEGUS | 100039629 | 1
+NINE PRESENTS JUSTIN TIMBERLAKE | 100052352 | 1
+NORMAL ORMAL | 100040760 | 1
+NORMAN ROCKWELL PAINTING AMERICA | 100037780 | 1
+NRL Grand Final Day | 100039798 | 12
+NTIONAL NINE NEWS | 100044043 | 3
+Naked Chef | 100055788 | 1
+Napoleon | 100055096 | 6
+Napoleon - Part 1 | 100054960 | 1
+Nash Bridges | 100039785 | 59
+National Afl Draft | 100055648 | 1
+National Catholic Television | 100042277 | 18
+National Country Music Muster '03 | 100055419 | 1
+National Enquirer | 100037552 | 33
+National Nine Early News | 100052943 | 113
+National Nine Morning News | 100052944 | 136
+National Nine News | 100052938 | 233
+National Press Club Address | 100034105 | 55
+National Press Club Address: Clive James, Author And Tv Presenter | 100056555 | 2
+National Press Club Address: Fiona Stanley, Australian Of The Year 2003 | 100053821 | 1
+National Press Club Address: Graeme Samuel - Chairman, Accc | 100055457 | 1
+National Press Club Address: Peter Carey, Author | 100054042 | 1
+National Press Club Address: Professor Hilary Charlesworth | 100055191 | 1
+Natural Inventions | 100015131 | 10
+Naturally Australia | 100033084 | 22
+Nature Boy | 100033092 | 1
+Nature's Gamblers | 100054924 | 1
+Neighbours | 100015132 | 902
+Nerds 201: A Brief History Of The Internet | 100056210 | 2
+Netball | 100015133 | 132
+Never Never | 100041553 | 4
+Never Too Latte | 100038085 | 1
+Neverending Story | 100044579 | 52
+New Dimensions With George Negus | 100034097 | 282
+New Eden | 100015134 | 1
+New Scooby Doo Mysteries | 100043630 | 1
+New Year's Eve 2003 Family Fireworks | 100056524 | 2
+News Break | 100044691 | 18
+News Update | 100054352 | 1
+News/sports Update | 100054570 | 1
+Newsbreak | 100034061 | 34
+Newshour With Jim Lehrer | 100015125 | 96
+Nfl Touchdown | 100054274 | 2
+Nice Guy Eddie | 100042177 | 7
+Nick Mount's Fascination With Glass | 100054425 | 1
+Nigella Bites | 100015135 | 27
+Nigella Bites Christmas Special | 100056348 | 1
+Night And Day | 100033054 | 119
+Night Of The Bogongs | 100038697 | 1
+Night Visions | 100042283 | 13
+Nightline | 100015126 | 704
+Nightline: Bali 1st Anniversary Special | 100054891 | 1
+Nightman | 100015127 | 45
+Nikki | 100038493 | 42
+Nine Lives | 100015129 | 311
+Nine Presents | 100055716 | 8
+Nine Presents Annie Lennox | 100053234 | 1
+Nine Presents Avril Lavigne | 100050352 | 5
+Nine Presents Celine Dion | 100054758 | 2
+Nine Presents Elvis | 100055295 | 1
+Nine Presents Foo Fighters | 100053407 | 10
+Nine Presents Justin Timberlake | 100054402 | 3
+Nine Presents Mercury 4 | 100054506 | 2
+Nine Presents Santana | 100052347 | 4
+Nine Presents Tony Bennett & Kd Lang | 100054894 | 1
+Nine Presents You Am I | 100054907 | 2
+Nine's Sunday Football | 100048513 | 2
+Nip/tuck | 100055864 | 14
+Nobel Peace Prize 2003 | 100056316 | 1
+Nobel Peace Prize Series | 100043664 | 3
+Noddy | 100046214 | 22
+Noise On Screen | 100054669 | 8
+Noise TV | 100015377 | 2
+Noosa Multi Sports Festival | 100056233 | 2
+Noosa Triathlon | 100042204 | 1
+Normal, Ohio | 100045644 | 12
+Not For Ourselves Alone | 100037790 | 2
+Note: Daylight Saving Commences | 100055171 | 1
+Now | 100038108 | 3
+Now TV | 100054354 | 1
+Now Tv 4 | 100055084 | 1
+Now You See It | 100015130 | 8
+Nrl Grand Final Day: Grand Final Presentation | 100054755 | 1
+Nrl Grand Final Day: Grand Final Preview | 100054753 | 1
+Nrl Grand Final Day: Jim Beam Grand Final: Wentworthville V The Entrance | 100054751 | 1
+Nrl Grand Final Day: Premiere League Grand Final: Cougars V Raiders | 100054752 | 1
+Nrl Grand Final Day: Telstra Premiership Grand Final: Sydney Roosters V Penrith Panthers | 100054754 | 1
+Number Crew | 100015136 | 90
+Number Crew: Calculations 2 | 100054137 | 8
+Number Crew: Numbers And The Number System 2 | 100053815 | 6
+Number Crew: Solving Problems 2 | 100054929 | 8
+Numbers Count | 100039004 | 8
+Nurses | 100023912 | 2
+O Fortuna! | 100034114 | 9
+OLD COUNTRY, NEW COUNTRY | 100040755 | 1
+OLIVER TWIST | 100033320 | 9
+OPERA: | 100047851 | 8
+OPRAH'S BIG FAT GREEK WEDDING | 100041897 | 1
+ORPHANAGE GIRL | 100036835 | 1
+OUTLAW WEEK: | 100047872 | 3
+OZ Lotto | 100015141 | 117
+Ocean Girl | 100015142 | 52
+Ocean Star | 100046231 | 13
+Oceans Alive | 100040747 | 2
+Oceans Alive! | 100036272 | 8
+Octopus: Revenge Of The Mafia | 100055524 | 1
+Octopus: Revenge Of The Mafia Part 2 | 100055678 | 1
+Of Slugs And Snails | 100049058 | 4
+Off Centre | 100055725 | 7
+Off Limits | 100037182 | 7
+Old Tom | 100033074 | 169
+Olga Korbut | 100036297 | 2
+Oliver Sacks | 100041065 | 1
+Oliver's Twist | 100040756 | 61
+Olliver's Adventures | 100039008 | 52
+Olympic Dreaming | 100036839 | 1
+On Cukor | 100040000 | 1
+On The Ball | 100015139 | 39
+On The Job | 100015143 | 5
+On The Set: Freddy Vs Jason | 100055029 | 1
+Once a Thief | 100033232 | 20
+Once and Again | 100015140 | 81
+One | 100046618 | 62
+One Day Cricket | 100056649 | 18
+One Day Cricket Match | 100056645 | 2
+One Day International Cricket | 100053699 | 6
+One Day Tour Cricket Match - Australia A V Zimbabwe | 100056531 | 6
+One Foot In The Grave | 100055202 | 6
+One Last Chance | 100053464 | 2
+One Silent Night | 100056302 | 1
+One on One | 100053310 | 19
+Operation Good Guys | 100053756 | 4
+Oprah | 100015144 | 13
+Oprah Winfrey | 100015145 | 361
+Orang-utan Alert | 100055361 | 1
+Order In The House | 100040741 | 14
+Ordinary People | 100045567 | 1
+Oscar And Friends | 100015147 | 151
+Oscar Charlie | 100033045 | 0
+Oswald | 100038709 | 48
+Other People's Children | 100056675 | 3
+Our Animals | 100015148 | 88
+Our Earth | 100054041 | 14
+Our Generation | 100055847 | 7
+Our Generation (pilot) | 100055846 | 1
+Our Hero | 100056685 | 11
+Our History | 100036293 | 32
+Our House | 100009811 | 21
+Our Mutual Friend | 100043880 | 7
+Our Street | 100015149 | 3
+Out There | 100046203 | 14
+Outback Stripper | 100055487 | 1
+Outback Up Top | 100055083 | 1
+Outback Upfront | 100056192 | 7
+Outback Upfront: Volunteers | 100056036 | 1
+Outriders | 100037575 | 28
+P.S. I Love You | 100045893 | 1
+PETER CAREY AND THE KELLY GANG | 100048411 | 1
+PETERS ICE CREAM BEACH VOLLEY BALL TOUR | 100044607 | 4
+PETERS ICE CREAM BEACH VOLLEYBALL TOUR | 100043923 | 1
+PGA Grand Slam Of Golf 2003 | 100056175 | 2
+PHILOSOPHY: A GUIDE TO HAPPINESS: EPICURUS ON HAPPINESS | 100052553 | 1
+PHILOSOPHY: A GUIDE TO HAPPINESS: SENECA ON ANGER | 100052844 | 1
+PHILOSOPHY: A GUIDE TO HAPPINESS: SOCRATES ON SELF-CONFIDENCE | 100052265 | 1
+PHOENIX: | 100046533 | 32
+PICASSO: | 100046197 | 2
+PINS | 100045575 | 1
+PLASTIC SURGERY RUINED MY LIFE | 100052067 | 1
+PREMIERE | 100033403 | 25
+PRINCE OF THE NILE: THE STORY OF MOSES | 100044933 | 1
+Pablo The Little Red Fox | 100039617 | 18
+Pacific Drive | 100015150 | 285
+Pangunahing Balita | 100036871 | 62
+Paradise Beach | 100015151 | 149
+Paradise Heights | 100055341 | 6
+Paradise Imperfect | 100034081 | 5
+Parkinson | 100024652 | 67
+Parkinson By Request | 100017217 | 10
+Parliament Question Time | 100033040 | 171
+Parliament Question Time: The House Of Representatives | 100053927 | 34
+Parliament Question Time: The Senate | 100053925 | 44
+Parsifal | 100042181 | 2
+Parts Plus $50,000 Sprintcar International | 100045584 | 1
+Party Of Five | 100015161 | 1
+Pasadena | 100055220 | 9
+Passions | 100015152 | 617
+Pathways To Australian Science | 100034109 | 27
+Paul Zenon's Trick Or Treat | 100055164 | 1
+Paulo Coelho: Alchemist Of Words | 100049358 | 2
+Paws 'n All | 100038792 | 2
+Peanut, Butter And Jelly Otter | 100053401 | 16
+Pelicans: Taking The Plunge | 100055928 | 1
+Pensacola: Wings Of Gold | 100015153 | 10
+Pepsi Live | 100015163 | 109
+Percy The Park Keeper | 100042189 | 55
+Perfect Match | 100037564 | 18
+Perfect World | 100039096 | 13
+Perth International Arts Festival | 100046195 | 1
+Perth Zoo - A Rare Breed | 100037495 | 1
+Petals | 100056356 | 29
+Peter Benchley's Amazon | 100035469 | 27
+Peter's Icecream Beach Volleyball | 100056234 | 6
+Peters Ice Cream Beach Volleyball | 100056766 | 4
+Pets Behaving Badly | 100050864 | 14
+Philly | 100037184 | 6
+Philosophy: A Guide To Happiness | 100053144 | 3
+Phobias | 100050563 | 7
+Phoenix | 100015165 | 29
+Photonics: The Revolution In Communications | 100054138 | 1
+Picasso: Magic, Sex And Death | 100034084 | 5
+Pick Your Face | 100015154 | 137
+Pie In The Sky | 100033038 | 33
+Pig Tusks And Paper Money | 100040770 | 1
+Pig's Breakfast | 100039409 | 62
+Pile Up | 100039411 | 2
+Pilot Guides | 100034088 | 31
+Pingu | 100015166 | 118
+Pirate Island | 100052868 | 1
+Pirate Islands | 100052288 | 31
+Pizza | 100053555 | 10
+Place And People | 100015167 | 13
+Place And People: Asia Pacific | 100054445 | 10
+Placido Domingo: The King Of Opera | 100048726 | 1
+Planet With Lucky Oceans | 100015168 | 1
+Planet X | 100047233 | 18
+Planet X Lifestyle Series | 100054385 | 13
+Planet X TV - Summer Series | 100052912 | 2
+Plasmo | 100015169 | 13
+Plastic Man | 100036856 | 4
+Play School | 100015170 | 1093
+Playhouse Disney | 100050321 | 75
+Playing The Field | 100054284 | 6
+Playing the Game | 100042184 | 3
+Plonsters | 100015171 | 55
+Police Camera Action | 100047255 | 29
+Police Camera Action: Captured | 100054006 | 1
+Police Rescue | 100040456 | 5
+Polish News | 100054956 | 30
+Political Assassinations | 100055963 | 2
+Pongwiffy | 100039007 | 60
+Pongwiffy: Having A Ball | 100055205 | 1
+Popcorn | 100056462 | 5
+Popcorn - Coming Up For Air | 100056275 | 1
+Popsui | 100038721 | 9
+Popular | 100056152 | 21
+Porsche Supercup 2003 - Review | 100056690 | 2
+Portrait Painter To The Birds | 100055468 | 1
+Postcards | 100036061 | 39
+Postcards: Fiji Part 1 | 100055562 | 1
+Postie Bike Challenge | 100056185 | 1
+Postman Pat | 100043153 | 50
+Power Rangers | 100015155 | 84
+Power Tour | 100036304 | 3
+Powerball | 100015156 | 120
+Powerpuff Girls | 100015157 | 55
+Preston Pig | 100015172 | 177
+Preview To The Emmys | 100039331 | 1
+Prime Suspect 6: The Last Witness - Part 1 | 100055542 | 1
+Prime Suspect 6: The Last Witness - Part 2 | 100055545 | 1
+Prime Time | 100047260 | 1
+Primetime | 100038791 | 14
+Private Lives Of The Pharaohs | 100050253 | 2
+Procar Champ Series | 100048200 | 37
+Profiler | 100015158 | 9
+Proud Possessors | 100046196 | 14
+Providence | 100015159 | 37
+Pungunathing Balita | 100033133 | 12
+Punk'd | 100054818 | 4
+Punky Brewster | 100038465 | 97
+Puzzle Maths | 100036854 | 14
+QUEENSLAND MASTER BUILDERS 2002 HOMES | 100040502 | 2
+Qantas Swimming Skins 2003 | 100055724 | 1
+Qld International Cycling Classic | 100056570 | 2
+Quads | 100053866 | 1
+Quads! | 100053209 | 10
+Queen Kat, Carmel And St. Jude: Carmel | 100054923 | 1
+Queen Kat, Carmel And St. Jude: Jude | 100055053 | 1
+Queen Kat, Carmel And St. Jude: Kat | 100055182 | 1
+Queen Kat, Carmel And St. Jude: Manella | 100055322 | 1
+Queen Of Sheba: Behind The Myth | 100050841 | 1
+Queen Victoria's Empire | 100055819 | 3
+Queen's Christmas Message | 100043690 | 2
+Queen's Christmas Message 2003 | 100056382 | 1
+Queen's Concert: Party At The Palace | 100039613 | 1
+Queen's Concerts: Proms At The Palace | 100043899 | 1
+Queen's Victoria's Empire | 100056274 | 1
+Queen: Is This The Real Life? | 100042195 | 2
+Queensland Escapes | 100040846 | 14
+Queensland International Cycling Classic | 100044271 | 1
+Queensland Rules | 100054065 | 4
+Queensland Weekender | 100055850 | 8
+Queensland's Best Homes & Gardens | 100056169 | 1
+Queer As Folk | 100053354 | 32
+Queer Eye For The Straight Guy | 100054681 | 10
+Quentin Crashes Australian Idol | 100055488 | 1
+Quiz Master | 100036038 | 8
+R.P.M | 100041885 | 6
+RED BULL DEEP 2 | 100042843 | 1
+RIVERDANCE - LIVE IN GENEVA | 100039392 | 1
+ROBERT ULMANN: A BRUSH WITH NATURE | 100047470 | 1
+RODEO ROAD | 100042499 | 1
+RPA | 100009812 | 36
+RPM | 100015178 | 79
+RUSSELL WATSON: THE VOICE IN HIS AMERICAN CONCERT DEBUT | 100043878 | 1
+Race Around The World | 100040007 | 3
+Radio Pictures | 100015180 | 15
+Rage | 100015181 | 437
+Rage (cont.) | 100053424 | 11
+Raising Dad | 100056022 | 14
+Raising Dad (pilot) | 100056020 | 1
+Rally Australia Highlights | 100042205 | 1
+Rally XS | 100054241 | 2
+Randall & Hopkirk (deceased) | 100055403 | 6
+Randy Morrison | 100015182 | 91
+Rat Pack: A Conference Of Cool | 100053337 | 1
+Ravi Shankar: Between Two Worlds | 100047465 | 1
+Raw Comedy | 100055757 | 1
+Raymond On Raymond | 100053645 | 1
+Real Life Design | 100015183 | 10
+Reality Bites | 100034103 | 59
+Reba | 100055699 | 31
+Reba (pilot) | 100055695 | 1
+Rebels And Redcoats | 100054216 | 4
+Rebus | 100045243 | 2
+Recording The Producers | 100036263 | 2
+Recording The Producers: A Musical Romp With Mel Brooks | 100056557 | 2
+Red Bull - Channel Crossing | 100056393 | 2
+Red Bull Air Raid | 100053460 | 3
+Red Bull Billycart GP | 100048128 | 1
+Red Bull Deep | 100037488 | 1
+Red Bull In Motion | 100050275 | 2
+Red Bull Pororoca | 100055483 | 2
+Red Bull Ride 2003 | 100048444 | 1
+Red Bull X Alps | 100056568 | 2
+Red Bull X-fighters | 100054676 | 2
+Red Cap | 100054449 | 7
+Red Hot Chilli Peppers Live At Slain Castle | 100056240 | 1
+Relic Hunter | 100036305 | 9
+Reno Rumble | 100055572 | 2
+Renovation Rescue 3 | 100042285 | 1
+Rescue Me | 100055919 | 8
+Rest Of Country Schedule Eat Carpet | 100056804 | 2
+Retail Therapy | 100049752 | 1
+Return To Eden | 100056554 | 2
+Return To Jamie's Kitchen | 100054817 | 1
+Reverend Sun Myung Moon: Emperor Of The Universe | 100055612 | 1
+Rewind: Horse Power | 100055806 | 1
+Rex Hunt | 100015175 | 109
+Rex Hunt Fishing Adventures | 100052913 | 20
+Rex The Runt | 100054070 | 7
+Rhythms Of Life | 100045874 | 3
+Richard Morecroft Goes Wild | 100034079 | 77
+Rick Stein's Seafood Lover's Guide | 100056049 | 8
+Ricki Lake | 100015176 | 680
+Rip Curl | 100040531 | 3
+Ripley's Believe It Or Not | 100034128 | 44
+Ripleys Believe It Or Not | 100039330 | 5
+Risk: Yelling In The Face Of Life | 100044926 | 2
+River Red | 100046201 | 1
+Rivers And Tides | 100053238 | 1
+Rivers Of Fire | 100038712 | 1
+Rivers Of The World | 100048116 | 15
+Robbie The Reindeer | 100043902 | 3
+Robbie Williams Live From Knebworth, England | 100054621 | 1
+Robinson Crusoe | 100056421 | 5
+Robot Wars | 100034121 | 38
+Rock Eisteddfod - National Final | 100056112 | 1
+Rock Eisteddfod - State Finals | 100042858 | 1
+Rock Eisteddfod State Finals - Qld | 100055947 | 1
+Rockefellers | 100034086 | 5
+Rocko's Modern Life | 100035385 | 47
+Rocky And The Dodos | 100038703 | 57
+Roger Ramjet | 100055899 | 31
+Rolf Harris' Animal Hospital | 100033340 | 125
+Rolf Harris'animal Hospital | 100034115 | 9
+Rolf Harris's Animal Hospital | 100033046 | 1
+Room For Improvement | 100032968 | 96
+Roswell | 100015177 | 27
+Rotten Ralph | 100055319 | 60
+Rough Treatment | 100053452 | 2
+Round the Twist | 100033044 | 85
+Rove Live | 100015184 | 88
+Rove Live By Request | 100054058 | 1
+Rove Presents Silverchair: Inside The Diorama | 100042851 | 2
+Royal Opera House: Angela Gheorghiu In Concert | 100055313 | 1
+Royle Family Christmas Special | 100056215 | 1
+Rubbadubbers | 100053923 | 25
+Ruby Wax With... | 100054901 | 4
+Ruby Wax With... Ben Stiller | 100055574 | 1
+Ruby Wax With... John Mcenroe | 100055573 | 1
+Ruby's American Pie | 100043156 | 14
+Rudolf Nureyev: Dancing Through Darkness | 100054214 | 1
+Rudy Coby - Ridiculously Dangerous | 100055650 | 1
+Rudy Coby - The Coolest Magician On Earth | 100055494 | 1
+Rugby | 100041939 | 22
+Rugby League | 100033095 | 44
+Rugby League 2003 | 100053457 | 9
+Rugby League 2003 Preliminary Final | 100054344 | 1
+Rugby League 2003: Grand Final | 100054452 | 1
+Rugby League 2nd Preliminary Final: Panthers V Warriors | 100054622 | 1
+Rugby League 2nd Semi-final: Storm V Bulldogs | 100054508 | 1
+Rugby League 4th Qualifying Final: Panthers V Broncos | 100054406 | 1
+Rugby League Finals | 100054311 | 5
+Rugby League: Semi-final | 100054153 | 1
+Rugby Union | 100035406 | 33
+Rugby Zone | 100053378 | 12
+Rugby: New Zealand V South Africa | 100053788 | 1
+Rugrats | 100035384 | 52
+Russian News | 100053850 | 94
+Ruth Rendell Mysteries | 100053291 | 4
+Ruth Rendell's Inspector Wexford | 100053389 | 8
+SALTWATER ROCK | 100041863 | 1
+SANTA'S ON HIS WAY | 100043932 | 1
+SATURDAY AFTERNOON: HARUM SCARUM | 100050336 | 1
+SATURDAY NIGHT MOVIE | 100052871 | 4
+SAVED BY THE BELL - THE NEW CLASS | 100052629 | 3
+SCHOOLS SPECTACULAR 2002 | 100043496 | 2
+SCU - Serious Crash Unit | 100053403 | 3
+SCU. Serious Crash Unit | 100053787 | 1
+SCU: Serious Crash Unit | 100053302 | 1
+SEARCHING FOR THE BROWN BOYS | 100038388 | 1
+SENDING A MESSAGE | 100035677 | 1
+SENDING A MESSAGE: NAIDOC CONCERT | 100045552 | 1
+SEVENTH SPRING | 100042482 | 1
+SHAKESPEARE OUT LOUD | 100037147 | 1
+SHAMBHALA: A CENTRAL ASIAN JOURNEY | 100043909 | 1
+SHARK TRACKER | 100042614 | 1
+SHIPWRECKED III | 100015236 | 8
+SHOOL PROGRAMS INCLUDING | 100033373 | 2
+SHORT: KUPROQUO | 100043590 | 1
+SHOT IN NEW YORK | 100039612 | 1
+SILVEREYES: IN PARADISE? | 100049057 | 1
+SISTER WENDY'S AMERICAN COLLECTION: KIMBELL ART MUSEUM - FORT WORTH TEXAS | 100050839 | 1
+SISTER WENDY'S AMERICAN COLLECTION: MUSEUM OF FINE ARTS-BOSTON | 100050549 | 1
+SISTER WENDY'S AMERICAN COLLECTION: THE METROPOLITAN MUSEUM OF ART | 100052266 | 1
+SOUPE OPERA | 100049063 | 1
+SPANISH INQUISITION | 100037164 | 1
+SPORT SPECIAL: | 100048494 | 3
+SPORT: | 100048458 | 36
+SPORT: THE WORLD GAME | 100052008 | 3
+STAYING OUT | 100042187 | 1
+STELLALUNA | 100049059 | 1
+STOMPEM GROUND '98 | 100049049 | 1
+STORIES AND SONGS OF THE PEOPLE | 100039316 | 1
+STUDIO PORTRAITS: | 100047884 | 3
+SUBURBAN STRIPPERS | 100041871 | 1
+SURVIVOR III | 100015219 | 23
+SURVIVOR V | 100040375 | 28
+SYDNEY MORNING HERALD HALF-MARATHON | 100052577 | 1
+Sabrina | 100053592 | 27
+Sabrina The Teenage Witch | 100056489 | 15
+Sabrina, The Teenage Witch | 100015187 | 29
+Sabrina: The Animated Series | 100053400 | 2
+Sahara | 100041520 | 6
+Sale Of The Century | 100015188 | 39
+Sali Mali | 100015222 | 95
+Salt | 100033401 | 11
+Sam's Game | 100056019 | 5
+Sandown 500 Review | 100054813 | 2
+Sandra Sully Presents | 100009814 | 31
+Santa's On His Way | 100056407 | 1
+Sarah Brightman | 100056195 | 1
+Saturday Disney | 100015189 | 159
+Saturday Extra | 100015190 | 123
+Saturday Fly | 100035695 | 2
+Saturday Football | 100053606 | 3
+Saturday Football: Brisbane Broncos V Wests Tigers | 100053909 | 1
+Saturday Kitchen | 100053786 | 8
+Saturday Matinee: Charlotte's Web | 100056511 | 1
+Saturday Morning Fly | 100035395 | 5
+Saturday Night Movie - Sade | 100055117 | 1
+Saved By The Bell | 100052922 | 9
+Saved By The Bell - The New Class | 100053385 | 14
+Scare Tactics | 100055728 | 6
+Scary Godmother Halloween Spooktakular | 100055206 | 1
+School Of Rock: The Diary Of Jack Black | 100055780 | 2
+School Programs Including | 100034095 | 45
+School Programs: Including | 100034100 | 9
+School Torque | 100015191 | 129
+Schools Spectacular 2003 | 100056041 | 1
+Science Bank | 100033053 | 18
+Science Bank II | 100033348 | 13
+Scientific Eye | 100015226 | 62
+Scooby Doo Where Are You? | 100032964 | 46
+Scribbling | 100049357 | 3
+Scrubs | 100042581 | 41
+Seachange | 100015227 | 30
+Sean Connery: Close Up | 100056071 | 1
+Search For A Supermodel | 100015228 | 24
+Search For Treasure Island | 100033184 | 22
+Seaside Hotel | 100054880 | 15
+Seaway | 100043669 | 17
+Second Cricket Test | 100056168 | 9
+Second Cricket Test: Australia V India - Day 1 | 100056026 | 2
+Second Cricket Test: Australia V India - Day 1 (cont.) | 100056027 | 1
+Second Cricket Test: Australia V India - Day 2 | 100056031 | 2
+Second Cricket Test: Australia V India - Day 2 (cont.) | 100056032 | 1
+Second Sight | 100023007 | 4
+Second Test | 100041973 | 10
+Second Test - Australia V Bangladesh | 100053604 | 8
+Second Test - Australia V Zimbabwe - Day 1 | 100054903 | 2
+Second Test - Australia V Zimbabwe - Day 1 (cont.) | 100054904 | 1
+Second Test - Australia V Zimbabwe - Day 2 | 100054910 | 2
+Second Test - Australia V Zimbabwe - Day 2 (cont.) | 100054911 | 1
+Second Test - Australia V Zimbabwe - Day 3 | 100055026 | 2
+Second Test - Australia V Zimbabwe - Day 4 | 100055031 | 2
+Second Test - Australia V Zimbabwe - Day 4 (cont.) | 100055032 | 1
+Second Test - Australia V Zimbabwe - Day 5 | 100055033 | 2
+Second Test - Australia V Zimbabwe - Day 5 (cont.) | 100055034 | 1
+Secret Bridesmaids' Business | 100033328 | 2
+Secret Men's Business | 100050269 | 2
+Secrets Of The Incas | 100053432 | 3
+Seeing Salvation | 100054534 | 3
+Seeing Salvation: The Face | 100054427 | 1
+Seinfeld | 100015231 | 157
+Series: The Iron Chef | 100054720 | 12
+Series: The Iron Chef -bonito | 100055253 | 1
+Sesame Street | 100015232 | 492
+Seven Days | 100037458 | 2
+Seven Deadly Sins: Dance: Sloth: The Meryl Tankard Company | 100055739 | 1
+Seven Late News | 100015194 | 515
+Seven Morning News | 100015195 | 656
+Seven News | 100015196 | 1153
+Seven News At 4.30 | 100053386 | 136
+Seven News Special: Australia Remembers - 88 Seconds Of Silence | 100054860 | 1
+Seven Rugby | 100015197 | 74
+Seven's Golf | 100042562 | 27
+Seven's Golf: 2003 Australian Masters Golf | 100055842 | 4
+Seven's Golf: 2003 Australian Masters Golf (cont.) | 100055843 | 4
+Seven's Golf: 2003 Men's Australian Open Golf | 100056158 | 7
+Seven's Golf: 2003 Men's Australian Open Golf (cont.) | 100056283 | 1
+Seven's Golf: PGA Championship Golf | 100056148 | 2
+Seven's Golf: Pga Championship Golf | 100056001 | 1
+Seven's Golf: Pga Championship Golf (cont.) | 100056002 | 1
+Seven's Soccer | 100054280 | 1
+Seven's Soccer: Republic Of Ireland V Australia | 100053994 | 1
+Seven's Tennis | 100041945 | 146
+Sevodnia | 100015201 | 701
+Sex And Chocolate | 100035380 | 2
+Sex And The City | 100034067 | 59
+Sex And The Swastika | 100039615 | 1
+Sex On Wheels | 100043294 | 2
+Shackleton | 100034091 | 5
+Shades | 100054921 | 6
+Shakespeare Shorts | 100033036 | 14
+Shanghai Vice | 100036268 | 8
+Shape, Shape, Shape | 100015234 | 77
+Shark Gordon | 100055119 | 9
+Shark Gordon: The Ultimate Predator | 100054724 | 1
+Shark Tracker | 100055158 | 1
+Sharks - The Truth | 100054110 | 1
+She'll Be Right Boss | 100056791 | 2
+Sheeep | 100015235 | 76
+Sheena | 100037496 | 12
+Sheep | 100040746 | 1
+Sheep in the Big City | 100038807 | 14
+Shell Advance Australian Superbike Championships | 100048845 | 11
+Ship To Shore | 100056358 | 29
+Shipwreck Detectives | 100056666 | 3
+Shit Of A Job | 100046577 | 1
+Shnookums And Meat Funny Cartoon Show | 100053492 | 1
+Shock Jock | 100056228 | 7
+Shock Jock: Exposure | 100055772 | 1
+Shock Jock: It's Not What You Know | 100055626 | 1
+Shock Jock: Mein Diary | 100056090 | 1
+Shock Jock: The Price Of Gold | 100055474 | 1
+Shock Jock: Where The Wild Things Are | 100055926 | 1
+Shooting The Past | 100056547 | 5
+Short Cuts | 100032965 | 74
+Short Fuse | 100015237 | 1
+Showcase: Dreaming In Motion | 100056117 | 1
+Siaran Berita | 100015203 | 796
+Sidney Poitier | 100053325 | 2
+Siegfried & Roy | 100054507 | 4
+Silent Flood | 100042833 | 12
+Silent Witness | 100045897 | 14
+Silhouettes of the Desert | 100042190 | 1
+Silverchair Live At The Faraway Stables | 100056102 | 1
+Silvereyes | 100056663 | 1
+Simon In The Land Of Chalk Drawings | 100038702 | 118
+Simone De Beauvoir's Babies | 100054329 | 1
+Simone De Beauvoirs Babies | 100054032 | 3
+Simsala Grimm | 100015239 | 41
+Singing In The Shadow: The Children Of Rock Royalty | 100055181 | 1
+Sins Of The Flesh: Preaching To The Perverted | 100054937 | 1
+Sins Of The Flesh: The Agony And The Ecstasy | 100054661 | 1
+Sins Of The Flesh: The Flesh And The Devil | 100054803 | 1
+Sir Gadabout | 100033338 | 17
+Sister Wendy's American Collection | 100052554 | 3
+Sit Down, Shut Up | 100053942 | 13
+Sitting Ducks | 100041527 | 96
+Six Feet Under | 100035468 | 25
+Six Feet Under The Trap | 100054628 | 1
+Skippy | 100034063 | 14
+Skippy - The Bush Kangaroo | 100053605 | 12
+Skithouse | 100046228 | 28
+Skithouse: Best Of Special | 100055355 | 1
+Sky Vodka Australian Motorcycle GP | 100040772 | 2
+Slim Pig | 100041528 | 25
+Slim With Him | 100054919 | 1
+Smack The Pony | 100039326 | 9
+Small Business Show | 100033249 | 14
+Small Potatoes | 100039632 | 5
+Small Stories | 100035375 | 30
+Smallville | 100035170 | 36
+Smart Guy | 100044354 | 9
+Snailsbury Tales | 100035383 | 60
+Snobs | 100054626 | 26
+Snow Show | 100053798 | 7
+Snowy | 100032978 | 16
+So Fresh | 100054210 | 18
+Soap Opera | 100035715 | 60
+Soap Opera: Queer As Folk | 100053846 | 1
+Soccer | 100015204 | 481
+Soccer: English Premier League Match Of The Week | 100054486 | 5
+Soccer: English Premier League Match Of The Week: Arsenal V Chelsea | 100054856 | 1
+Soccer: English Premier League Match Of The Week: Fulham V Chelsea | 100056246 | 1
+Soccer: Live Broadcast Of The English Premier League Match Of The Week | 100054993 | 2
+Soccer: Live Broadcast Of The English Premier League Match Of The Week (cont.) | 100055092 | 1
+Soccer: The English Premier League Match Of The Week | 100054381 | 5
+Sodom and Gomorrah | 100037476 | 1
+Something In The Air | 100015241 | 214
+Something Stupid | 100046307 | 6
+Songs Of Praise | 100015242 | 100
+Sons and Lovers | 100047467 | 2
+South Africa 2000 | 100015243 | 12
+South Park | 100036058 | 27
+South Park Hour | 100054275 | 3
+Space | 100036283 | 5
+Spaced | 100034080 | 39
+Spain Inside Out | 100048428 | 4
+Spanish News | 100054967 | 90
+Sparkey And The Bugs | 100036844 | 2
+Special | 100054726 | 1
+Special Charity Event: Reno Rumble | 100055569 | 1
+Special Presentation I Love Lucy - 50th Anniversary Special | 100056525 | 2
+Special Presentation New Year's Eve Fireworks 2003 2004 Welcome | 100056526 | 2
+Special Unit II | 100052945 | 7
+Speed Machine | 100056006 | 9
+Speed Machine Drag Racing | 100056707 | 2
+Speedweek | 100015207 | 147
+Speekweek | 100034038 | 4
+Spin | 100037497 | 13
+Spin City | 100036055 | 71
+Spirit Of Christmas | 100056381 | 1
+Spirits Of The Forest | 100055049 | 1
+Spooks | 100052283 | 16
+Sport | 100052875 | 3
+Sports Collisions And Crack-ups 2 | 100055293 | 1
+Sports Night | 100048493 | 4
+Sports Special: Wild Winter Weekend 2003 | 100054017 | 1
+Sports Tonight | 100015244 | 1004
+Sports Woman | 100015209 | 14
+Sportswatch | 100033176 | 105
+Sportsworld | 100033185 | 47
+Spy TV | 100056187 | 7
+Spy Tv | 100055881 | 3
+Spyforce | 100035474 | 30
+Squiggle Vision | 100041285 | 7
+St. Petersburg 300th Anniversary Gala Concert | 100056349 | 1
+Stanley | 100056510 | 4
+Star Trek | 100015211 | 61
+Star Trek: Deep Space Nin | 100055423 | 1
+Star Trek: Deep Space Nine | 100053415 | 19
+Stargate SG-1 | 100009813 | 86
+Starting Out | 100043174 | 20
+Startup.com | 100056550 | 2
+State Coroner | 100050574 | 50
+State Of Origin | 100034072 | 11
+Stateline | 100015246 | 195
+Static Shock | 100049748 | 15
+Stawell Gift | 100049387 | 2
+Staying Alive | 100055982 | 1
+Steps For The Future | 100041275 | 19
+Steve Harvey Show | 100034130 | 12
+Stickin' Around | 100015248 | 46
+Still Standing | 100055851 | 16
+Still Standing (pilot) | 100055829 | 1
+Stingers | 100015213 | 167
+Storytellers Of The Pacific | 100056217 | 2
+Storytellers Of The Pacific: Identity | 100056075 | 1
+Straight Up | 100039303 | 4
+Stranger Than Fiction | 100015249 | 11
+Strawberry Shortcake Special | 100055945 | 5
+Stripsearch | 100049753 | 14
+Strong Medicine | 100045910 | 42
+Studio 22 | 100037794 | 9
+Studio 22: Beccy Cole And Sexual Chocolate | 100054540 | 1
+Studio 22: Celibate Rifles | 100054797 | 1
+Studio 22: Gelbison | 100054931 | 1
+Studio 22: Kevin Borich | 100055328 | 1
+Studio 22: Machine Gun Fellatio | 100055454 | 1
+Studio 22: Michael Franti And Spearhead | 100054438 | 1
+Studio 22: Ross Wilson And The Urban Legends | 100055058 | 1
+Studio 22: Skulker | 100055187 | 1
+Studio 22: The Idea Of North | 100055607 | 1
+Studio Portraits | 100054189 | 2
+Studio Portraits: Adam West - Behind The Cowl | 100055687 | 1
+Studio Portraits: Carole Lombard - Hollywood's Profane Angel | 100055555 | 1
+Studio Portraits: Carolyn Jones - Morticia And More | 100054489 | 1
+Studio Portraits: Dennis Franz - Out Of The Blue | 100055410 | 1
+Studio Portraits: Diahann Carroll - No Strings | 100055255 | 1
+Studio Portraits: Eddie Albert - Thinking Green | 100055711 | 1
+Studio Portraits: James Garner - Hollywood Maverick | 100055535 | 1
+Studio Portraits: Jennifer Jones - A Portrait Of A Lady | 100056000 | 1
+Studio Portraits: Julie Newmar - The Cat's Meow | 100055849 | 1
+Studio Portraits: Lee Marvin - Hollywood's Straight Shooter | 100055686 | 1
+Studio Portraits: Matthew Broderick - Center Stage | 100054728 | 1
+Studio Portraits: Ricardo Montalban - Pride And Passion | 100055985 | 1
+Stuff | 100015250 | 86
+Stupid Behaviour - Caught On Tape | 100053402 | 5
+Stupid Behaviour: Caught On Tape | 100053301 | 1
+Subsonics | 100053202 | 9
+Summer Catalyst | 100056221 | 4
+Summer Catalyst: Trauma - Life And Death In The E.r.: Cheating Death | 100056080 | 1
+Summer Catalyst: Trauma - Life And Death In The E.r.: The Paramedics | 100055918 | 1
+Sunday | 100015214 | 257
+Sunday Afternoon | 100038379 | 14
+Sunday Afternoon Including | 100053425 | 14
+Sunday Afternoon Including: | 100054319 | 1
+Sunday Football | 100052940 | 33
+Sunday Spectrum | 100033318 | 15
+Sunday Spectrum: Aboriginal Spirituality | 100055746 | 1
+Sunday Spectrum: Art Of The Matter | 100056044 | 1
+Sunday Spectrum: Business And Values | 100055595 | 1
+Sunday Spectrum: Logic And The Lord | 100055895 | 1
+Sunday Spectrum: Marriage In The New Millenium | 100055443 | 1
+Sunday Spectrum: Spiritual But Not Religious | 100055315 | 1
+Sunday Sunrise | 100015215 | 100
+Sunday Sunrise - Bali Memorial Service | 100054859 | 1
+Sunrise | 100032922 | 518
+Supercross Masters | 100036860 | 8
+Superhuman | 100056758 | 2
+Surfing The Menu | 100056752 | 2
+Surprise Chef | 100015216 | 33
+Surprise Surprise | 100015217 | 8
+Surviving The Times | 100015218 | 1
+Survivor - Pearl Islands | 100056174 | 1
+Survivor VII | 100054627 | 12
+Survivor: Pearl Islands | 100056170 | 2
+Susanne | 100033035 | 12
+Swearing In Of Governor-general | 100053924 | 1
+Sweet Valley High | 100043639 | 1
+Swingers | 100038692 | 1
+Swingin' With Duke | 100046523 | 4
+Switching Lives | 100053642 | 7
+Sword Of Honour | 100053627 | 4
+Sydney International Piano Competition | 100050844 | 7
+Sydney Symphony Orchestra With Lorin Maazel | 100053314 | 1
+Sydney To Hobart | 100056765 | 4
+Sydney Weekender | 100040525 | 1
+T.B.A. | 100040028 | 2
+TAKE O TECHNOLOGY | 100040754 | 1
+TALKING WITH ALIENS | 100036845 | 1
+TARGET AMERICA | 100047188 | 1
+TENERIFE UNCOVERED | 100046233 | 1
+THE 2002 BROWNLOW MEDAL | 100039333 | 2
+THE 2002 MELBOURNE CUP CARNIVAL | 100041282 | 7
+THE AUSTRALIA DAY MESSAGE 2003 | 100045554 | 1
+THE BEST OF BERT NEWTON (ENCORE PRESENTATION) | 100046331 | 1
+THE BEST: | 100048110 | 12
+THE CLUB | 100033231 | 25
+THE COAST OF ISLANDS | 100045597 | 1
+THE COEN BROTHERS | 100045217 | 1
+THE COMPOSER AT WORK | 100037777 | 1
+THE DAHLIA MAN | 100044919 | 1
+THE DALTON SISTERS | 100045562 | 1
+THE GARY AND MIKE SHOW | 100046872 | 1
+THE ITALIANS | 100037461 | 1
+THE LEGACY OF THE SILVER SHADOW | 100042516 | 1
+THE LOVED ONES | 100040759 | 1
+THE MAKING OF | 100037509 | 6
+THE MERMAID AND THE CHOCOLATE MAKER | 100044594 | 1
+THE MYSTERY OF THE TALKING TAIL | 100042504 | 1
+THE OPRAH WINFEY SHOW | 100048135 | 1
+THE ROBBIE THE REINDEER: LEGEND OF THE LOST TRIBE | 100043903 | 1
+THE SANTA CLAUS PARADE 2002 | 100043933 | 1
+THE SECRETS OF THE SECRET LIFE OF US | 100033411 | 2
+THE STATE OF THE PLANET: A WONDERFUL LIFE: IS THERE A CRISIS? | 100052574 | 1
+THE STATE OF THE PLANET: A WONDERFUL LIFE: WHY IS THERE A CRISIS? | 100052863 | 1
+THERESE: AN AUSTRALIAN JOURNEY | 100046193 | 1
+THIS IS YOUR DAY WITH BENN HINN | 100044279 | 0
+THOMSON OF ARNHEM LAND | 100036826 | 1
+TIVOLI | 100045876 | 1
+TLC | 100053253 | 6
+TO GET RICH IS GLORIOUS | 100043169 | 1
+TOUR DE LANGKAWI 2003 | 100046886 | 1
+TR: The Story Of Theodore Roosevelt | 100056657 | 3
+TREASURESOF THE WORLD | 100048147 | 1
+TREAURES OF THE WORLD | 100048174 | 1
+TRIBAL FRONTIER | 100045887 | 1
+TRIP TO THE TIP | 100046870 | 1
+TROUBLE AT THE MOSQUE | 100047476 | 1
+TUDAWALIS | 100043168 | 1
+TV All Star Bloopers | 100054573 | 1
+TV ED | 100015298 | 560
+TV ED: Nihongo Daisuki | 100056131 | 2
+TV ED: Shuo Shuo Xiao Xiao | 100056121 | 2
+TV ED: Sporting Revolution | 100056127 | 1
+TV Ed: Nihongo Daisuki | 100055673 | 6
+TV Ed: Redaktion | 100055670 | 1
+TV Ed: Shuo Shuo Xiao Xiao | 100055660 | 6
+TV Looks At Christmas | 100056299 | 1
+TWO SNAKES | 100041879 | 1
+Ta Nea Ton Ennea | 100015252 | 806
+Tabaluga | 100040522 | 38
+Taggart | 100034117 | 11
+Take 5 With Betty Churcher | 100043505 | 5
+Take A Girl Like You | 100056053 | 3
+Take Me | 100046541 | 6
+Take On Technology | 100038397 | 9
+Take the High Road | 100033037 | 341
+Taking Care Of Business | 100015299 | 22
+Tales From A Suitcase | 100015253 | 113
+Tales From A Suitcase - Gerard Havekes | 100054583 | 1
+Tales Of The South Seas | 100053261 | 21
+Talking Footy | 100033214 | 62
+Talking Point | 100015300 | 63
+Targa New Zealand | 100056689 | 2
+Targa Tasmania | 100037489 | 2
+Tarkine: The Forgotten Wilderness | 100049065 | 1
+Tasmania - The Mountain State With Mal Leyland | 100056418 | 2
+Tate Modern | 100046553 | 23
+Tba | 100033391 | 48
+Teachers | 100015301 | 15
+Ted and Alice | 100040029 | 4
+Telediario | 100015255 | 809
+Teledyaryo | 100054702 | 11
+Teledyaryo - Filipino News | 100056783 | 12
+Telegiornale | 100015256 | 818
+Telemall Shopping | 100015257 | 165
+Teletubbies | 100015302 | 325
+Teletubbies Everywhere | 100042815 | 74
+Telling Tales | 100015303 | 6
+Telstra A-series Athletics 2003 | 100046923 | 1
+Telstra Rally Australia | 100054558 | 4
+Telstra World Cup Swimming | 100042609 | 9
+Temporary Close | 100050598 | 7
+Temptation Island | 100015258 | 49
+Temptation Island In The Caribbean | 100054285 | 6
+Ten Late Night News | 100015304 | 747
+Ten Late Night News / Sports Tonight | 100054248 | 16
+Ten Late Night News/sports Tonight | 100055951 | 1
+Ten News | 100015305 | 1344
+Ten News / Sports Tonight | 100054346 | 5
+Ten News Special: Cry Bali | 100054822 | 1
+Tennis | 100041938 | 7
+Tennis: Hopman Cup XVI | 100056659 | 7
+Terra Australis | 100015306 | 30
+Terra Australis: An Ancient Land | 100056092 | 1
+That '70s Show | 100053393 | 37
+That '80s Show | 100054494 | 13
+That's Life | 100050051 | 52
+The 17th Annual Aria Music Awards | 100055086 | 2
+The 1940's House | 100028895 | 1
+The 2003 Holden New Zealand Open | 100044943 | 2
+The 2003 Melbourne Cup Carnival: Derby Day | 100055145 | 1
+The 2003 Melbourne Cup Carnival: Derby Day (cont.) | 100055146 | 1
+The 2003 Melbourne Cup Carnival: Emirates Stakes Day | 100055278 | 1
+The 2003 Melbourne Cup Carnival: Emirates Stakes Day (cont.) | 100055279 | 1
+The 2003 Melbourne Cup Carnival: Melbourne Cup Day | 100055266 | 1
+The 2003 Melbourne Cup Carnival: Melbourne Cup Day (cont.) | 100055267 | 1
+The 2003 Melbourne Cup Carnival: Melbourne Cup Preview | 100055256 | 1
+The 2003 Melbourne Cup Carnival: Oaks Day | 100055272 | 1
+The 2003 Melbourne Cup Carnival: Oaks Day (cont.) | 100055273 | 1
+The 37th Annual Country Music Awards | 100055428 | 1
+The 54th Annual Emmy Awards | 100039332 | 1
+The 7.30 Report | 100015307 | 336
+The 7.30 Report Presented By Kerry O'brien | 100055464 | 1
+The 7.30 Report With Kerry O'Brien | 100053439 | 109
+The 7.30 Report With Kerry O'brein | 100056061 | 1
+The 7.30 Report With Kerry O'brien | 100053152 | 12
+The ABBA Story: The Winner Takes It All | 100045214 | 3
+The Abyss | 100056660 | 1
+The Adults Only Simpsons | 100035995 | 2
+The Adventures Of Lano And Woodley | 100042834 | 9
+The Adventures Of Tintin | 100054664 | 16
+The Agency | 100054414 | 10
+The All New First Time Brand New Never Before Seen Premiere Simpsons | 100055354 | 2
+The All New Simpsons | 100041213 | 14
+The Amazing Adrenalini Brothers | 100033349 | 29
+The Amazing Race | 100015259 | 67
+The Ananda Lewis Show | 100034160 | 75
+The Animal Shelf | 100044589 | 28
+The Ape That Took Over The World | 100056681 | 1
+The Apostles | 100043141 | 9
+The Art Of Re-invention | 100053914 | 1
+The Arts Show | 100015309 | 14
+The Asia Sport Show | 100015261 | 59
+The Australian Experience | 100015310 | 7
+The Australian Film Institute Awards 2003 | 100055625 | 1
+The Avengers | 100035477 | 24
+The Baby Makers | 100036274 | 6
+The Bachelor | 100042601 | 16
+The Bachelor III | 100054207 | 3
+The Bachelor IV | 100056176 | 7
+The Bachelor Iii | 100053903 | 3
+The Bachelor Iv | 100055867 | 2
+The Bachelorette | 100054767 | 9
+The Baron | 100034062 | 46
+The Baskervilles | 100053702 | 27
+The Bernie Mac Show | 100043286 | 4
+The Best Commercials You've Never Seen - V | 100053908 | 1
+The Best Of Cold: Live At The Chapel | 100044945 | 2
+The Best Of Landline | 100056734 | 2
+The Beverly Hillbillies | 100039370 | 35
+The Big Arvo | 100015262 | 642
+The Big Cheez | 100015312 | 119
+The Big Fish | 100035471 | 10
+The Big Knights | 100033336 | 32
+The Big Picture | 100026977 | 73
+The Big Questions | 100046546 | 15
+The Bill | 100015313 | 317
+The Bishop, The Chef And The Fisherman | 100015263 | 37
+The Block | 100052348 | 13
+The Blue Planet | 100015314 | 9
+The Boat Show | 100056651 | 3
+The Bob Marley Story | 100044900 | 1
+The Bold & The Beautiful | 100015315 | 516
+The Book Group | 100035686 | 9
+The Book Of Pooh | 100045966 | 26
+The Book Place | 100015264 | 532
+The Book Place Christmas Special | 100056300 | 1
+The Bowls Show | 100015265 | 12
+The Brady Bunch | 100034159 | 2
+The Brokers Man | 100015266 | 8
+The Burma Railway | 100055762 | 1
+The Business Show | 100015267 | 95
+The Busy World Of Richard Scarry | 100043154 | 22
+The Busy World Of Richard Scary | 100043161 | 1
+The Camera Trap | 100015268 | 16
+The Car Man | 100054029 | 1
+The Car Show | 100053235 | 21
+The Carnival With Roy And H.G. | 100055151 | 1
+The Carnival With Roy And H.g. | 100041292 | 5
+The Charlie Brown And Snoopy Show | 100049960 | 60
+The Charlie Brown Specials | 100050855 | 25
+The Chat Room | 100047551 | 3
+The Chimps | 100033407 | 2
+The Christmas Truce | 100056360 | 1
+The Chronicle | 100045979 | 20
+The Chronicle - News From The Edge | 100053883 | 3
+The Coen Brothers | 100055761 | 1
+The Coming Disasters | 100043668 | 1
+The Complete Beckett | 100044951 | 20
+The Complete Cosmos | 100056120 | 1
+The Complete Cosmos - Jupiter | 100055800 | 1
+The Conquest Of Everest | 100050641 | 6
+The Cops | 100048427 | 31
+The Coral Sea: Emerald Isles In A Rainbow Sea | 100055297 | 1
+The Crash Zone | 100044349 | 26
+The Cream At The Carnival | 100055263 | 4
+The Cricket Show | 100041974 | 50
+The Crocodile Hunter | 100015316 | 43
+The Crystal Ocean | 100055628 | 1
+The Cubeez | 100042814 | 58
+The Cut | 100056163 | 6
+The Cutting Edge | 100015271 | 122
+The Davis Cup | 100039073 | 2
+The Davis Cup Final: Australia V Spain | 100055706 | 3
+The Davis Cup Final: Australia V Spain (cont.) | 100055707 | 2
+The Davis Cup: Australia V Switzerland | 100054395 | 5
+The Dead Zone | 100044363 | 8
+The District | 100038494 | 44
+The Dreaming | 100047777 | 1
+The Drew Carey Show | 100043680 | 4
+The Duetto: Concert At The Roman Colosseum | 100054786 | 3
+The Dumb Bunnies | 100049130 | 23
+The Education Of Max Bickford | 100053412 | 18
+The Election Chaser | 100015317 | 6
+The Ellen Show | 100053954 | 4
+The Empire State Story | 100053703 | 1
+The Extraordinary Voyage Of Jules Verne | 100050551 | 1
+The Fa Community Shield: Manchester United V Arsenal | 100053843 | 1
+The Face | 100056366 | 2
+The Fairytaler | 100052849 | 22
+The Fall Of Singapore | 100055915 | 1
+The Farm | 100043497 | 6
+The Farnham Years | 100045347 | 1
+The Fat | 100009828 | 96
+The Ferals | 100056357 | 29
+The Fimbles | 100047157 | 222
+The Flora Sydney Marathon | 100039642 | 1
+The Footy Show | 100033006 | 123
+The Footy Show (grand Final) | 100054633 | 1
+The Footy Show Awards | 100054515 | 1
+The Footy Show Comedians | 100054516 | 1
+The Footy Show Late | 100053603 | 10
+The Forsyte Saga | 100037779 | 10
+The Fresh Prince Of Bel Air | 100034064 | 141
+The Friendly Monsters 3 | 100056287 | 1
+The Friendly Monsters Christmas | 100056291 | 1
+The Fugitive | 100036934 | 11
+The Future Eaters | 100044568 | 3
+The Gary & Mike Show | 100039647 | 2
+The Geena Davis Show | 100055833 | 15
+The Gift | 100036935 | 11
+The Glass | 100053991 | 6
+The Glass House | 100015318 | 88
+The Great Egyptians | 100054099 | 5
+The Great Egyptians: King Of The Pyramids | 100053997 | 1
+The Great Fire | 100036831 | 1
+The Great Outdoors | 100009815 | 126
+The Great Outdoors: Australia On Sale | 100054865 | 1
+The Great Outdoors: Shopping Special | 100053579 | 1
+The Great Plague | 100036267 | 2
+The Great South East | 100015274 | 53
+The Greatest Wildlife Show On Earth | 100042819 | 1
+The Guardian | 100034132 | 24
+The Guitar Show | 100033379 | 24
+The Guitar Show: Angus Young, Tony Joe White, Steve Morse And Bob Brozman | 100056064 | 1
+The Hippos Of The Zambezi | 100054157 | 1
+The History Of Football | 100034078 | 13
+The Hoobs | 100033029 | 221
+The Hound of the Baskervilles | 100047152 | 1
+The Hughleys | 100037247 | 24
+The Human Journey | 100043491 | 3
+The Inspector Lynley Mysteries | 100037867 | 4
+The Invisible Man | 100056575 | 25
+The Jamie Foxx Show | 100053416 | 8
+The Jamie Kennedy Experiment | 100038797 | 21
+The Jazzman from the Gulag | 100047149 | 1
+The Jesus Effect | 100056380 | 1
+The Journal | 100015275 | 898
+The Jury | 100048503 | 6
+The King Of Queens | 100015276 | 88
+The Kumars At No. 42 | 100034111 | 15
+The Last Of The Gatekeepers | 100053805 | 2
+The Last Word | 100041138 | 2
+The Late Show With David Letterman | 100047899 | 83
+The Law | 100055632 | 1
+The League Of Gentlemen | 100045898 | 13
+The League Of Gentlemen: The Lesbian And The Monkey | 100054052 | 1
+The Life Of Birds | 100034110 | 22
+The Little Mermaid | 100044605 | 1
+The Living Edens | 100037259 | 2
+The Lone Gunmen | 100053880 | 12
+The Looney Toons-a-thon | 100044708 | 1
+The Looney Tunes Show | 100030431 | 164
+The Lost Gods Of Easter Island | 100053704 | 1
+The Lost Honour Of Sirhan | 100055188 | 1
+The Lost Prince | 100053610 | 2
+The Lost World | 100042854 | 36
+The Magic Mountain: The Birth Of An Orchestra | 100053427 | 3
+The Magic School Bus | 100055771 | 46
+The Making Of Eight Legged Freaks | 100039334 | 1
+The Making Of Peter Pan | 100056409 | 1
+The Marriage Of Figaro | 100047779 | 2
+The Mary G Show | 100055514 | 6
+The Mayor Of Casterbridge | 100056198 | 2
+The Midday Movie | 100055703 | 1
+The Mole | 100026579 | 6
+The Mole In Paradise | 100053672 | 12
+The Mole-a-thon | 100054091 | 1
+The Monday Dump With Roy | 100015277 | 18
+The Money Or The Gun | 100054215 | 1
+The Monkees | 100043673 | 13
+The Monkees (pilot) | 100055869 | 1
+The Monologues | 100043495 | 1
+The Movie Show | 100009816 | 254
+The Mr Hell Show | 100033174 | 10
+The Murdochs | 100035979 | 2
+The Music Of Brazil | 100053317 | 4
+The Music Of Brazil: Music And Magic | 100053241 | 1
+The Music of Andrew Lloyd Webber | 100036264 | 2
+The Mystery Of Black Rose Castle | 100015320 | 24
+The Naked Chef | 100044906 | 28
+The Nanny | 100043528 | 55
+The Navigators | 100040314 | 2
+The New Adventures Of Ocean Girl | 100015321 | 48
+The New Americans | 100056600 | 3
+The Newshour With Jim Lehrer | 100015279 | 639
+The Nightmare Room | 100055162 | 5
+The Number Crew | 100048115 | 9
+The O.C. | 100056178 | 1
+The O.c. | 100055872 | 2
+The O.c. (pilot) | 100055871 | 1
+The Oblongs | 100044366 | 10
+The Office | 100046536 | 13
+The Old Elephant Route | 100054323 | 1
+The Oprah Winfrey Show | 100041210 | 355
+The Oprah Winfrey Show! | 100054247 | 1
+The Osbournes | 100035413 | 20
+The Other Boleyn Girl | 100053807 | 1
+The Others | 100053697 | 11
+The Others (pilot) | 100053418 | 2
+The Others 1112 | 100054016 | 1
+The Outer Limits | 100039378 | 59
+The PJ's | 100052050 | 8
+The Panel | 100009819 | 84
+The Panel's Christmas Wrap | 100056411 | 1
+The Parkers | 100032979 | 62
+The Parkers Baby Girl | 100055861 | 1
+The Passionate Pursuit: Nida | 100055307 | 2
+The People's Anthem | 100049380 | 2
+The Pj's | 100053689 | 16
+The Playboy Movie: Cover Me | 100054194 | 1
+The Practice | 100034052 | 57
+The Pretender | 100015281 | 35
+The Price Is Right | 100053309 | 137
+The Price Is Right 016 | 100053419 | 2
+The Private Lives Of Pompeii | 100055175 | 1
+The Pulse | 100040021 | 2
+The Pursuit of Happiness | 100039013 | 1
+The Queen Symphony | 100054533 | 1
+The Queen's 2003 Christmas Message | 100056335 | 1
+The Ray Martin Show | 100015282 | 9
+The Reading Writing Roadshow | 100033061 | 19
+The Real Captain Bligh | 100055312 | 1
+The Real Jane Austen | 100052847 | 1
+The Real Jason And The Argonauts | 100055890 | 1
+The Real Sex In The City | 100055996 | 6
+The Real Yoko Ono | 100042500 | 1
+The Restaurant | 100055222 | 1
+The River | 100015322 | 9
+The Saddle Club | 100015323 | 76
+The Santa Claus Brothers | 100043892 | 3
+The Santa Claus Parade 2003 | 100056408 | 1
+The Savages | 100056216 | 3
+The Savages: Books | 100056074 | 1
+The Savages: The Au Pair | 100055914 | 1
+The Save-ums | 100054431 | 30
+The Scarlet Pimpernel | 100054673 | 6
+The Science Of Secrecy | 100053433 | 5
+The Secret | 100041169 | 24
+The Secret Life Of Twins | 100037470 | 3
+The Secret Life Of Us | 100015324 | 71
+The Secret World Of Michael Fry | 100053246 | 2
+The Shapies | 100036060 | 60
+The Shark Net | 100053918 | 3
+The Shield | 100053468 | 12
+The Shiralee | 100043904 | 7
+The Show | 100040738 | 1
+The Show Must Go On | 100056297 | 1
+The Silver Brumby | 100015325 | 23
+The Simpsons | 100009820 | 965
+The Simpsons Hour | 100053172 | 56
+The Singing Christmas Tree | 100056301 | 1
+The Sins | 100056661 | 3
+The Sketch Show | 100035713 | 11
+The Sleepover Club | 100055424 | 26
+The Small Business Show | 100015283 | 8
+The Snowy | 100015284 | 4
+The Sopranos | 100042597 | 31
+The State Of The Planet | 100056191 | 1
+The State Of The Planet: A Wonderful Life | 100053143 | 2
+The State Of The Planet: A Wonderful Life: Is There A Crisis? | 100056035 | 1
+The Steve Harvey Show | 100043536 | 22
+The Storm Rages Twice | 100054829 | 4
+The Storm Rages Twice (al Assifa Taheb) | 100053967 | 17
+The Sun Herald City To Surf | 100053943 | 2
+The Sunday Footy Show | 100033250 | 51
+The Sunday Footy Show - Grand Final Edition | 100054750 | 1
+The Sunshine Club: Days Of Old Darwin | 100054123 | 1
+The Tales Of The Little Grey Rabbit | 100015326 | 57
+The Television Show With John Henson | 100050635 | 7
+The Text Files | 100015327 | 41
+The Three Ballerinas | 100054320 | 1
+The Topp Twins | 100050569 | 18
+The Track | 100033369 | 19
+The Tramp And The Dictator | 100054647 | 1
+The Trap Door | 100015328 | 133
+The Trout | 100033344 | 2
+The True Meaning Of Crumbfest | 100056377 | 1
+The Truth Out There | 100041941 | 12
+The Twelve Days Of Christmas | 100056387 | 1
+The Twilight Zone | 100048840 | 1
+The Vicar Of Dibley | 100038718 | 9
+The View | 100056790 | 2
+The View From Here | 100052846 | 1
+The Villa | 100038479 | 13
+The Voice | 100054126 | 1
+The Voice: Getting Intimate: The Male Voice | 100054027 | 1
+The Voice: Show Some Emotion: The Female Voice | 100053917 | 1
+The War Next Door | 100050572 | 13
+The War Room | 100047480 | 1
+The Way We Live Now | 100036266 | 5
+The Way We Were | 100040002 | 1
+The Wayne Manifesto | 100037140 | 12
+The Weakest Link | 100009817 | 42
+The Weber Show | 100015329 | 1
+The Weekly Daily Show | 100053211 | 22
+The West Wing | 100032987 | 37
+The Whistle-blower | 100050853 | 14
+The Wire | 100055570 | 9
+The Wizard Home Loans Cup | 100046957 | 5
+The Wonder Years | 100040034 | 4
+The Wonderful World Of Disney | 100049128 | 28
+The Word Machine | 100033034 | 79
+The World Around Us | 100034045 | 38
+The World Cup Show | 100033172 | 67
+The World Game | 100053179 | 32
+The World Of Peter Rabbit And Friends | 100056059 | 9
+The World Remembers | 100038492 | 3
+The World's Greatest Band | 100054024 | 1
+The Worst Witch | 100043162 | 57
+The Worst Witch: A Mean Hallowe'en | 100055207 | 1
+The Worst Witch: Double, Double Toil And Trouble | 100055208 | 1
+The Wyvern Mystery | 100041855 | 2
+The X-files | 100039337 | 7
+The Young And The Restless | 100015288 | 457
+The Zack Files | 100033066 | 29
+The Zeta Project | 100049160 | 3
+The Zoos Of Victoria: A Natural Trilogy | 100055286 | 1
+Therese | 100056733 | 2
+Third Cricket Test | 100056343 | 18
+Third Test | 100042589 | 10
+Third Watch | 100035174 | 15
+This Could Be the Last Time | 100036279 | 2
+This Is Your Day With Benny Hinn | 100041202 | 217
+This Is Your Life | 100009818 | 53
+This Is Your Life: The Australian Women's Weekly 70th Birthday Party | 100054766 | 1
+Thoi Su | 100054697 | 12
+Thomas The Tank Engine | 100015331 | 332
+Thomas The Tank Engine And Friends | 100054652 | 58
+Three By Duato | 100054122 | 1
+Three By Duato: Duende | 100054023 | 1
+Three By Duato: Por Vos Muero | 100053913 | 1
+Three Little Pigs | 100044267 | 2
+Three Sisters | 100055537 | 20
+Thunderbirds | 100015289 | 132
+Thunderstone | 100015332 | 60
+Thursday Late Night: Batteries Not Included | 100054246 | 1
+Thursday Night AFL | 100048836 | 1
+Time And Tide | 100055903 | 1
+Time Masters | 100015290 | 9
+Timelife | 100044678 | 5
+Timothy Leary: The Man Who Turned On America | 100055459 | 1
+Tina: One Last Time | 100044570 | 1
+Tiny Planets | 100033339 | 137
+Tipping The Velvet | 100052856 | 3
+Titans | 100015291 | 17
+Titch | 100015333 | 50
+Titus | 100044022 | 0
+To Be Advised | 100033402 | 2
+To Save The Kakapo | 100042916 | 1
+Today | 100015292 | 1446
+Today Tonight | 100015293 | 740
+Tom & Jerry | 100044014 | 1
+Tom And Jerry | 100015294 | 114
+Tom Jones | 100034118 | 17
+Tomorrow's Sun | 100041574 | 2
+Tony Liddle | 100033358 | 2
+Toothpaste | 100037146 | 1
+Top Bats | 100056546 | 2
+Top Of The Pops | 100015334 | 25
+Topp Twins | 100047800 | 8
+Tosca | 100047468 | 3
+Totally Australia | 100056244 | 4
+Totally Australia - Predators & Prey | 100054356 | 1
+Totally Australia: All That Glitters | 100055493 | 1
+Totally Australia: Future Farming | 100055492 | 1
+Totally Australia: Gentle Giants | 100054688 | 3
+Totally Australia: Resourceful Rainforests | 100054239 | 1
+Totally Australia: Riding The Shark | 100054562 | 1
+Totally Australia: The Weighting Game | 100056111 | 1
+Totally Footy | 100033408 | 54
+Totally Wild | 100015335 | 854
+Totally Wild Christmas Lights | 100056110 | 1
+Totally Wild Rescue | 100054355 | 1
+Totally Wild Weekend | 100053944 | 4
+Touched by an Angel | 100015295 | 111
+Toulouse Lautrec | 100050840 | 1
+Tour De France | 100035415 | 88
+Tour De France 2003 | 100053350 | 48
+Tour Of Duty | 100055125 | 2
+Tour Of Qld | 100056394 | 2
+Toyota World Sport | 100048142 | 455
+Toyota World Sports | 100015296 | 845
+Tr: The Story Of Theodore Roosevelt: The Long Campaign | 100056544 | 2
+Tracey McBean | 100037154 | 26
+Tracker | 100055223 | 12
+Trackside | 100034127 | 27
+Trauma - Life In The E.r.: West Side Stories: New York | 100054545 | 2
+Trauma: Life And Death In The E.r.: The Residents: Tampa | 100055765 | 1
+Trauma: Life In The E.R | 100048740 | 56
+Trauma: Life In The E.R. | 100054337 | 16
+Treasure Hunt | 100039300 | 26
+Treasures Of The World | 100046250 | 47
+Triathlon World Cup | 100056395 | 2
+Trident True - The Maserati Story | 100055637 | 2
+Trigger Happy TV | 100042615 | 4
+Trouble In Tahiti | 100037459 | 1
+Trouble With Normal | 100047573 | 22
+True Stories | 100034113 | 60
+Truman | 100041872 | 6
+Tucker | 100037879 | 13
+Tuesdays With Morrie | 100054665 | 1
+Turn 'round Australia | 100015297 | 135
+Tv Ed: Construction Art | 100055810 | 1
+Tv Ed: Impacting On Animals | 100055967 | 1
+Tv Ed: Medical Marvels | 100054840 | 1
+Tv Ed: Nihongo Daisuki | 100054845 | 12
+Tv Ed: Redaktion | 100055104 | 2
+Tv Ed: Redaktion - D (part 12) | 100055513 | 1
+Tv Ed: Redaktion - D (part 9) | 100055241 | 1
+Tv Ed: Redaktion - D Part 8 | 100054978 | 1
+Tv Ed: Shuo Shuo Xiao Xiao | 100054834 | 11
+Tv's All Star Bloopers | 100054952 | 4
+Twas The Night Before Xmas | 100043678 | 2
+Tweenies | 100015337 | 273
+Twenty Four | 100037550 | 13
+Twenty-four | 100039079 | 1
+Twice in a Lifetime | 100044610 | 22
+Twilight Zone | 100049157 | 14
+Twisted Tales | 100042945 | 1
+Two Fat Ladies | 100043500 | 13
+Two Guys And A Gir | 100056775 | 2
+Two Guys And A Girl | 100053297 | 29
+Two Guys And A Girl (pilot) | 100055932 | 2
+Two Minutes Silence | 100041860 | 2
+Two Thousand Acres Of Sky | 100055694 | 8
+Two Years In Galapagos | 100041875 | 1
+U.S. Masters Golf 2003 | 100048521 | 4
+U2's Beautiful Day | 100043934 | 1
+UC: Undercover | 100044368 | 8
+UCI Track Cycling | 100053178 | 1
+UEFA Champions League Magazine | 100054463 | 13
+UEFA Cup Final | 100050599 | 12
+UNDECLARED PROTOTYPE | 100050349 | 1
+US MOB | 100041859 | 1
+US OPEN TENNIS 2002 | 100037878 | 12
+US Open Tennis | 100054305 | 1
+US Open Tennis 2003 | 100054114 | 22
+US PGA GOLF 2002 | 100037257 | 4
+US PGA Grand Slam | 100042289 | 2
+US Women's Open | 100035421 | 6
+USA High | 100015339 | 120
+Uci Bmx World Championship | 100055636 | 2
+Uefa Champions League | 100054370 | 5
+Uefa Champions League Magazine | 100054359 | 1
+Uefa Champions League: Juventus V Real Sociedad | 100054977 | 1
+Uefa Champions League: Lazio V Chelsea | 100055240 | 1
+Uefa Champions League: Rangers V Manchester Utd | 100054984 | 1
+Uefa Champions League: Rangers V Manchester Utd (cont.) | 100054985 | 1
+Uefa Champions League: Real Sociedad V Juventus | 100055245 | 1
+Uefa Super Cup | 100054089 | 1
+Ukrainian News | 100054957 | 15
+Uncensored With Jana Wendt | 100043175 | 10
+Unchained Memories | 100049360 | 2
+Undeclared | 100050640 | 23
+Under One Roof | 100054973 | 3
+Undercover Angels | 100033189 | 11
+Unfinished Business | 100056677 | 1
+Universe | 100038383 | 5
+Unplugged Lauryn Hill | 100035414 | 2
+Unreal Ads | 100047184 | 12
+Unreported World | 100056136 | 4
+Unreported World - Journeys From Heaven And Hell | 100055974 | 1
+Untalkative Bunny | 100055320 | 56
+Up in Town | 100034108 | 9
+Upfront 5 | 100055195 | 1
+Upfront 6 | 100055334 | 1
+Upfront 7 | 100055461 | 1
+Us And Them | 100015338 | 28
+Us Open Tennis 2003 (cont.) | 100054116 | 1
+Us Pga Golf Championship 2003 | 100053904 | 4
+Us Pga Golf Championship 2003 (cont.) | 100053905 | 4
+V. I. P | 100056700 | 3
+V. I. P. | 100055944 | 2
+V.I.P. | 100056109 | 2
+V8 Supercar Championship Series | 100047817 | 14
+V8 Supercar Championship Series Gala Awards Dinner | 100055936 | 1
+V8 Supercars | 100033126 | 14
+V8 Superstars | 100037177 | 10
+V8 Ultimate Sandown | 100042519 | 1
+V8 X | 100038725 | 18
+VIDEO HIS | 100050277 | 1
+VIP | 100055792 | 1
+Vampires, Pirates And Aliens | 100042175 | 35
+Vanish | 100043913 | 4
+Vet's School | 100041862 | 15
+Vets In Practice | 100042486 | 218
+Vets In The Country | 100050568 | 50
+Vets In The Wild | 100048737 | 16
+Vets To The Rescue | 100046853 | 30
+Vets' School | 100054328 | 1
+Vicious Circle | 100054807 | 1
+Victor Paul | 100015343 | 696
+Video Hits | 100015348 | 755
+Video Power | 100038459 | 0
+Vietnam: Soldiers Story | 100038181 | 1
+Vietnamese News | 100054966 | 48
+Vingt Minutes | 100015349 | 15
+Vip | 100055647 | 1
+Viper | 100015345 | 37
+Visions Of Democracy | 100041162 | 12
+Visitors From The Unknown | 100015346 | 3
+Visnyk Ukrainy | 100015347 | 116
+Vital Systems | 100015350 | 12
+Viva Vivaldi | 100043493 | 1
+Voices | 100050553 | 1
+WAKAKIRRI | 100042857 | 1
+WAMSLEY'S WAR | 100041151 | 1
+WAVERIDERS | 100037576 | 1
+WELCOME TO INTIMACY | 100045235 | 1
+WHAT A CARTOON! | 100034044 | 5
+WHEN SHE DIED | 100038384 | 1
+WHERE CHRISTMAS BEGAN | 100043898 | 1
+WILL AND GRACE SPECIAL (4 EPS) | 100049135 | 2
+WIN LOSE OR DRAW: IT'S ALL ABOUT PRIDE | 100046869 | 1
+WOMEN IN VOICE | 100045215 | 1
+WOODSTOCK FOR CAPITALISTS | 100044578 | 1
+WORLD SO (CC)ER | 100036031 | 2
+Wakikirri | 100055946 | 1
+Waking The Dead | 100053413 | 8
+Walk On The Wild Side | 100015370 | 1
+Walker | 100015351 | 118
+Walker: Behind The Scenes With Tv's Toughest Hero | 100055560 | 1
+Walking With Dinosaurs | 100044262 | 6
+Wallace And Gromit | 100046857 | 3
+Wallace And Gromit: A Close Shave | 100056079 | 1
+Wallace And Gromit: A Grand Day Out | 100056069 | 1
+Wallace And Gromit: The Wrong Trousers | 100056060 | 1
+Walter Melon | 100047183 | 20
+War In Europe | 100042828 | 3
+Warhorse | 100053568 | 2
+Warriors Of The Monkey God | 100056351 | 1
+Wasteland | 100015352 | 27
+Wasteland (pilot) | 100054196 | 1
+Water Rats | 100034158 | 156
+Waterworks | 100015371 | 12
+Wave Chasers - Ride The Wild Surf | 100049749 | 1
+Waveriderz | 100033018 | 29
+We Are History | 100054237 | 10
+We Are History: King Arthur - Myth Or Legend? | 100054152 | 1
+Weatherwatch | 100015353 | 1761
+Weatherwatch & Music | 100052873 | 329
+Weirdsister College | 100046210 | 13
+Welcher And Welcher | 100045894 | 8
+Welcome To Armageddon | 100040008 | 2
+Welcome To Australia | 100035985 | 2
+Welcome to New York | 100048210 | 14
+Wellington: The Iron Duke | 100053429 | 3
+West Australian Academy Of Performing Arts: Legacy | 100054322 | 1
+Western Union World Football | 100033135 | 151
+What A Cartoon | 100040829 | 1
+What About Joan | 100047804 | 9
+What Not To Wear | 100055845 | 9
+What's New Scooby-doo? | 100055025 | 12
+Wheel Of Fortune | 100015354 | 765
+Wheel Of Fortune: 22nd Anniversary State Challenge | 100054094 | 5
+Wheel Of Fortune: 22nd Anniversary State Challenge - New South Wales Heat 1 | 100053874 | 1
+Wheel Of Fortune: 22nd Anniversary State Challenge - New South Wales Heat 2 | 100053988 | 1
+Wheel Of Fortune: 22nd Anniversary State Challenge - New South Wales Heat 3 | 100053995 | 1
+Wheel Of Fortune: 22nd Anniversary State Challenge - Queensland Heat 1 | 100053877 | 1
+Wheel Of Fortune: 22nd Anniversary State Challenge - Queensland Heat 2 | 100053992 | 1
+Wheel Of Fortune: 22nd Anniversary State Challenge - South Australia Heat 1 | 100053890 | 1
+Wheel Of Fortune: 22nd Anniversary State Challenge - Tasmania Heat | 100054001 | 1
+Wheel Of Fortune: 22nd Anniversary State Challenge - Victoria Heat 1 | 100053886 | 1
+Wheel Of Fortune: 22nd Anniversary State Challenge - Victoria Heat 2 | 100053998 | 1
+Wheel Of Fortune: 22nd Anniversary State Challenge - Western Australia Heat 1 | 100053882 | 1
+Wheel Of Fortune: Celebrity Wheel Of Fortune - Stars And Cars | 100053578 | 5
+When God's Heart Breaks With Love! | 100056331 | 1
+When I Was Twelve | 100056551 | 2
+When We Were Kings | 100055467 | 1
+Where My Home Is... | 100055589 | 1
+Where the Heart Is | 100015355 | 39
+White Collar Blue | 100037803 | 28
+White People's Business | 100046200 | 1
+White Teeth | 100042171 | 2
+Whiteys Like Us | 100015356 | 1
+Who Dares Wins | 100015357 | 37
+Who Killed Julius Caesar? | 100054784 | 1
+Who Wants To Be A Millionaire | 100009821 | 102
+Whoo Hoo Wiggly Gremlins | 100049366 | 2
+Whose Line Is It Anyway? | 100055154 | 14
+Wicked | 100053377 | 14
+Wide World Of Sports | 100015359 | 199
+Wife Swap | 100056323 | 6
+Wiggle Bay | 100049365 | 2
+Wild Africa | 100045879 | 6
+Wild Kat | 100045917 | 14
+Wild Relations | 100042821 | 4
+Wild Relations: Bobby And The Banded Stilts | 100055745 | 1
+Wild Relations: Mother's Little Helpers | 100055442 | 1
+Wild Relations: Natural Born Cheats | 100055314 | 1
+Wild Relations: With Wings On Their Fingers | 100055594 | 1
+Wild South America | 100054553 | 1
+Wild South America: Amazon Jungle | 100054451 | 1
+Wild Swans | 100056042 | 1
+Wild Swans: Behind The Scenes | 100055892 | 1
+Wild West | 100052569 | 6
+Wildfish | 100015360 | 6
+Wildlife | 100015372 | 167
+Wildness | 100054127 | 1
+Wildscreen | 100035392 | 1
+Will & Grace | 100015361 | 96
+William Shakespeare | 100047153 | 1
+William Wordsworth | 100042498 | 3
+William's Wish Wellingtons | 100036836 | 13
+Wimbledon | 100034068 | 189
+Wine Lovers Guide To Australia | 100053191 | 15
+Wings | 100033008 | 49
+Wipeout | 100015363 | 262
+Wire in the Blood | 100039320 | 5
+Witchblade | 100054310 | 12
+Without A Trace | 100053601 | 24
+Without Lying Down | 100040312 | 1
+Wives and Daughters | 100042481 | 4
+Womadelaide | 100037167 | 2
+Women's World Cup Cycling | 100047512 | 1
+Wonders Of Australia's Great National Parks: Ancient Lands | 100055854 | 1
+Wonders Of Australia's Great National Parks: Deserts & Wetlands | 100055582 | 1
+Wonders Of Australia's Great National Parks: Marvels Of The Mountains | 100055429 | 1
+Wonders Of Australia's Great National Parks: Treasures Of The Coast | 100055298 | 1
+Woody Allen | 100056753 | 2
+Words With James Griffin | 100033322 | 54
+World 2000 | 100033071 | 20
+World Around Us | 100009829 | 36
+World At Noon | 100015373 | 412
+World Cup Cricket Final | 100047894 | 2
+World Cup Rowing | 100055364 | 1
+World Environment Changes | 100039005 | 7
+World Environment Changes: Landmarks | 100053826 | 1
+World Football | 100015364 | 50
+World Football Show | 100053744 | 1
+World Gone Wild | 100045643 | 18
+World Idol | 100056416 | 1
+World Idol - Results Show | 100056588 | 4
+World Magic Awards | 100046239 | 1
+World News | 100015365 | 1028
+World News Tonight | 100015366 | 732
+World Rally Championship | 100045902 | 20
+World Rally Championships | 100037176 | 1
+World Soccer | 100015367 | 53
+World Superbike Championship | 100033406 | 20
+World View | 100015368 | 70
+World's Greatest Bloopers | 100042566 | 18
+World's Greatest Commercials Adults Only | 100047243 | 1
+World's Strongest Man | 100042920 | 5
+Worldwatch | 100015369 | 127
+Worldwatch - Japanese News | 100053352 | 74
+Worst Best Friends | 100042518 | 1
+Worst Case Scenario | 100049081 | 18
+Writers On Writing | 100044920 | 8
+X Duck X | 100043886 | 32
+X-Men: Evolution | 100047270 | 4
+XVII Commonwealth Games | 100036053 | 104
+Xena: Warrior Princess | 100034133 | 17
+Xtreme Tri-state | 100039327 | 3
+Y? | 100039808 | 141
+YAMAHA FORMULA XTREME TT SERIES | 100048443 | 6
+YES TV | 100045340 | 1
+YOUNG PERFORMERS AWARDS 2002 | 100041852 | 1
+Yakkity Yak | 100054556 | 25
+Yamaha Formula X-treme Tt Series | 100056097 | 2
+Yamaha Formula Xtreme | 100036291 | 8
+Yamaha Xtreme Tristate Buell Naked Bike Series | 100044270 | 4
+Yes, Dear | 100046944 | 27
+Yoga TV | 100033102 | 171
+Yoko! Jakamoko! Toto! | 100046848 | 55
+Young And The Restless | 100040535 | 124
+Young Lions | 100035769 | 25
+Young Performers Awards 2003 | 100055740 | 1
+Young Person's Guide To The Orchestra | 100046885 | 1
+ZETA PROJECT | 100046649 | 1
+Zoe, Duncan, Jack & Jane | 100047240 | 37
+Zoo's Company | 100043492 | 8
+[hot] Source | 100054014 | 30

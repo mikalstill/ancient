@@ -1,0 +1,53 @@
+In the intermediate file format, each program record consists of these lines.
+Each line starts with a keyword then a colon then exactly one space character
+and then the actual value. Some lines are optional and are shown with asterisks
+below. For the comma-separated lists, there is no whitespace on either side
+of the commas.
+
+A single file should only contain data for a specific daynum. The two
+fetchers in version 3 of Wktivoguide will only put out data for a specific
+daynum. If there is data for another day, then it will be ignored.
+
+The data in a single file ____MUST____ be in ascending time order!!!
+
+The intermediate file format can now contain Latin-x characters, as these
+will be remapped and/or stripped by SliceBuilder.pm.
+
+Title:  	Textual title of the program
+Daynum:		Date of the program as the number of days since 1970.
+Time:		Time when the program starts, seconds since 00:00 on the date
+			Both the Time and Daynum fields are local time in
+			the timezone from where the data came from.
+Duration:	Duration in seconds
+*Episode:	Textual episode name, arbirarily long, single line
+*Description:	Textual description of the program, arbirarily long, single line
+*Year:		Year of the movie, four digits
+*Genres:	Comma separated list of textual genre or genre groups. See
+		genretypes for the list.
+*Episodic:	1 or 0, indicating if program is episodic or is not episodic.
+*Advisory:	Comma separated list of numbers between 1 to 10, representing:
+			Language, GraphicLanguage, Nudity, BriefNudity,
+			GraphicViolence, Violence, MildViolence, StrongSexual,
+			Rape, AdultSituations.
+*Actor:		Comma separated list of actor names
+*Director:	Director's name
+*Bits:		Decimal integer representing these bits:
+			CloseCaption: 0x1
+			Stereo: 0x2
+			Subtitle: 0x4
+			JoinedInProgress: 0x8
+			CableInTheClassroom: 0x10
+			Sap: 0x20
+			Blackout: 0x40
+			Intercast: 0x80
+			ThreeD: 0x100
+			Repeat: 0x200
+			Letterbox: 0x400
+			SexRating: 0x10000
+			ViolenceRating: 0x20000
+			LanguageRating: 0x40000
+			DialogRating: 0x80000
+			FvRating: 0x100000
+*TvRating:	Number between 1 to 6, representing: Y7, Y, G, PG, 14, M
+
+Each program record ends with a blank line.

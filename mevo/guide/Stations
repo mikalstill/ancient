@@ -1,0 +1,1829 @@
+## This is the list of station ids in each slice.
+## To convert from the new Emulator names to the old loadguide names,
+## use the following table:
+##
+##	SA05001.slice    output.Adl.FTA.slice
+##	QL04001.slice    output.Bris.FTA.slice
+##	AC02601.slice    output.Canb.FTA.slice
+##	NT00801.slice    output.Darw.FTA.slice
+##	TA07001.slice    output.Hobart.FTA.slice
+##	VI03001.slice    output.Melb.FTA.slice
+##	NS02001.slice    output.NSW.Reg.FTA.slice
+##	QL04005.slice    output.PayTV.QLD.Aust.slice
+##	WA06005.slice    output.PayTV.WA.Aust.slice
+##	WA06001.slice    output.Perth.FTA.slice
+##	NS02001.slice    output.Syd.FTA.slice
+##
+## The digital channels for Hobart and Melbourne are now
+## included in the Hobart.FTA.slice and Melb.FTA.slice files.
+
+
+# Stations file for AC02601 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+10CAP	Station/1/7260007	Australia/Sydney	# Ten Capital Canberra
+ABC9	Station/1/7260009	Australia/Sydney	# ABC Canberra
+SBS-Can	Station/1/7260028	Australia/Sydney	# SBS Canberra
+WIN-Can	Station/1/7260031	Australia/Sydney	# WIN Canberra
+Prime-Can	Station/1/7260034	Australia/Sydney	# Prime Canberra
+NoNag	Station/1/7999999	Australia/Sydney	# No Nag Channel
+
+# Stations file for AC02602 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+DISN	Station/1/7000410	DoNotShift	# Disney Channel
+BBC	Station/1/7000510	DoNotShift	# BBC World
+CNBC	Station/1/7000590	DoNotShift	# CNBC Australia
+DWTV	Station/1/7000800	DoNotShift	# Deutsche Welle
+TV5	Station/1/7000810	DoNotShift	# TV5
+10CAP	Station/1/7260007	Australia/Sydney	# Ten Capital Canberra
+ABC9	Station/1/7260009	Australia/Sydney	# ABC Canberra
+SBS-Can	Station/1/7260028	Australia/Sydney	# SBS Canberra
+WIN-Can	Station/1/7260031	Australia/Sydney	# WIN Canberra
+Prime-Can	Station/1/7260034	Australia/Sydney	# Prime Canberra
+NoNag	Station/1/7999999	Australia/Sydney	# No Nag Channel
+
+# Stations file for AC02603 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+ARNA	Station/1/7000100	DoNotShift	# Arena
+CMDY	Station/1/7000120	DoNotShift	# Comedy Channel
+DISC	Station/1/7000130	DoNotShift	# Discovery Channel
+ENCR	Station/1/7000140	DoNotShift	# Encore
+FOX8	Station/1/7000150	DoNotShift	# Fox8
+CLAS	Station/1/7000160	DoNotShift	# Fox Classics
+FFX-NSW	Station/1/7000170	Australia/Sydney	# Fox Footy Extra NSW/ACT
+FFX-QLD	Station/1/7000180	Australia/Sydney	# Fox Footy Extra QLD
+FFX-SA	Station/1/7000190	Australia/Sydney	# Fox Footy Extra SA
+FFX-VIC	Station/1/7000200	Australia/Sydney	# Fox Footy Extra VIC
+FFX-WA	Station/1/7000210	Australia/Sydney	# Fox Footy Extra WA
+FS1	Station/1/7000220	Australia/Sydney	# Fox Sports One
+HIST	Station/1/7000230	DoNotShift	# The History Channel
+mMAX	Station/1/7000240	DoNotShift	# musicMAX
+FS2	Station/1/7000250	Australia/Sydney	# Fox Sports Two
+W	Station/1/7000260	DoNotShift	# W
+HALL	Station/1/7000270	DoNotShift	# Hallmark Channel
+KIDS	Station/1/7000280	DoNotShift	# Fox Kids
+LIFE	Station/1/7000290	DoNotShift	# The LifeStyle Channel
+NGEO	Station/1/7000300	Australia/Sydney	# National Geographic Channel
+NICK	Station/1/7000310	DoNotShift	# Nickelodeon
+V	Station/1/7000320	DoNotShift
+SHOW	Station/1/7000330	DoNotShift	# Showtime
+TV1	Station/1/7000350	DoNotShift	# TV1
+UKTV	Station/1/7000360	DoNotShift	# UKTV
+WMOV	Station/1/7000370	DoNotShift	# World Movies
+AP	Station/1/7000400	DoNotShift	# Animal Planet
+DISN	Station/1/7000410	DoNotShift	# Disney Channel
+MOVG	Station/1/7000420	DoNotShift	# Movie Greats
+MOV1	Station/1/7000430	DoNotShift	# Movie One
+MOVX	Station/1/7000440	DoNotShift	# Movie Extra
+MTV	Station/1/7000450	DoNotShift	# MTV
+OVAT	Station/1/7000480	Australia/Sydney	# Ovation
+SKYN	Station/1/7000490	DoNotShift	# Sky News Australia
+TCM	Station/1/7000500	Australia/Sydney	# Turner Classic Movies
+BBC	Station/1/7000510	DoNotShift	# BBC World
+CART	Station/1/7000520	Australia/Sydney	# Cartoon Network
+CNNI	Station/1/7000530	DoNotShift	# CNN International
+ESPN	Station/1/7000540	Australia/Sydney	# ESPN
+SKYR	Station/1/7000550	Australia/Sydney	# Sky Racing
+CNBC	Station/1/7000590	DoNotShift	# CNBC Australia
+FOXN	Station/1/7000620	DoNotShift	# Fox News Channel
+ADULT	Station/1/7000640	DoNotShift	# Adults Only
+ANT	Station/1/7000660	DoNotShift	# Antenna
+BLM	Station/1/7000680	DoNotShift	# Bloomberg Television
+FASH	Station/1/7000710	DoNotShift	# Fashion TV
+FFC	Station/1/7000730	DoNotShift	# Fox Footy Channel
+MAIN	Station/1/7000750	DoNotShift	# Main Event
+RAI	Station/1/7000760	DoNotShift	# RAI International
+SHW2	Station/1/7000770	DoNotShift	# Showtime 2
+TVSN	Station/1/7000780	DoNotShift	# Television Shopping Network
+TWC	Station/1/7000790	DoNotShift	# The Weather Channel
+NoNag	Station/1/7999999	Australia/Sydney	# No Nag Channel
+
+# Stations file for NS02001 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+ABN2	Station/1/7200002	Australia/Sydney	# ABC Sydney
+ATN7	Station/1/7200007	Australia/Sydney	# Seven Sydney
+TCN9	Station/1/7200009	Australia/Sydney	# Nine Sydney
+TEN10	Station/1/7200010	Australia/Sydney	# Ten Sydney
+SBS-Syd	Station/1/7200028	Australia/Sydney	# SBS Sydney
+31-Syd	Station/1/7200031	Australia/Sydney	# Ch31 Sydney
+ABC-NSW	Station/1/7210001	Australia/Sydney	# ABC NSW Regional
+Ten-NSW	Station/1/7210002	Australia/Sydney	# Ten NSW
+10N	Station/1/7210003	Australia/Sydney	# Ten North NSW
+NBN	Station/1/7210004	Australia/Sydney	# NBN NSW
+PrimeN	Station/1/7210005	Australia/Sydney	# Prime North
+PrimeS	Station/1/7210006	Australia/Sydney	# Prime South
+SBS-NSW	Station/1/7210007	Australia/Sydney	# SBS NSW
+WIN-NSW	Station/1/7210008	Australia/Sydney	# WIN NSW
+NoNag	Station/1/7999999	Australia/Sydney	# No Nag Channel
+
+# Stations file for NS02002 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+ARNA	Station/1/7000100	DoNotShift	# Arena
+CMDY	Station/1/7000120	DoNotShift	# Comedy Channel
+DISC	Station/1/7000130	DoNotShift	# Discovery Channel
+ENCR	Station/1/7000140	DoNotShift	# Encore
+FOX8	Station/1/7000150	DoNotShift	# Fox8
+CLAS	Station/1/7000160	DoNotShift	# Fox Classics
+FFX-NSW	Station/1/7000170	Australia/Sydney	# Fox Footy Extra NSW/ACT
+FFX-QLD	Station/1/7000180	Australia/Sydney	# Fox Footy Extra QLD
+FFX-SA	Station/1/7000190	Australia/Sydney	# Fox Footy Extra SA
+FFX-VIC	Station/1/7000200	Australia/Sydney	# Fox Footy Extra VIC
+FFX-WA	Station/1/7000210	Australia/Sydney	# Fox Footy Extra WA
+FS1	Station/1/7000220	Australia/Sydney	# Fox Sports One
+HIST	Station/1/7000230	DoNotShift	# The History Channel
+mMAX	Station/1/7000240	DoNotShift	# musicMAX
+FS2	Station/1/7000250	Australia/Sydney	# Fox Sports Two
+W	Station/1/7000260	DoNotShift	# W
+KIDS	Station/1/7000280	DoNotShift	# Fox Kids
+LIFE	Station/1/7000290	DoNotShift	# The LifeStyle Channel
+NGEO	Station/1/7000300	Australia/Sydney	# National Geographic Channel
+NICK	Station/1/7000310	DoNotShift	# Nickelodeon
+V	Station/1/7000320	DoNotShift
+SHOW	Station/1/7000330	DoNotShift	# Showtime
+TV1	Station/1/7000350	DoNotShift	# TV1
+UKTV	Station/1/7000360	DoNotShift	# UKTV
+WMOV	Station/1/7000370	DoNotShift	# World Movies
+ACC	Station/1/7000380	DoNotShift	# Australian Christian Channel
+ADV1	Station/1/7000390	DoNotShift	# Adventure One
+AP	Station/1/7000400	DoNotShift	# Animal Planet
+DISN	Station/1/7000410	DoNotShift	# Disney Channel
+MOVG	Station/1/7000420	DoNotShift	# Movie Greats
+MOV1	Station/1/7000430	DoNotShift	# Movie One
+MOVX	Station/1/7000440	DoNotShift	# Movie Extra
+MTV	Station/1/7000450	DoNotShift	# MTV
+ODY	Station/1/7000460	DoNotShift	# Odyssey
+OVAT	Station/1/7000480	Australia/Sydney	# Ovation
+SKYN	Station/1/7000490	DoNotShift	# Sky News Australia
+TCM	Station/1/7000500	Australia/Sydney	# Turner Classic Movies
+BBC	Station/1/7000510	DoNotShift	# BBC World
+CART	Station/1/7000520	Australia/Sydney	# Cartoon Network
+CNNI	Station/1/7000530	DoNotShift	# CNN International
+ESPN	Station/1/7000540	Australia/Sydney	# ESPN
+SKYR	Station/1/7000550	Australia/Sydney	# Sky Racing
+CNBC	Station/1/7000590	DoNotShift	# CNBC Australia
+FOXN	Station/1/7000620	DoNotShift	# Fox News Channel
+ADULT	Station/1/7000640	DoNotShift	# Adults Only
+ALJA	Station/1/7000650	DoNotShift	# Al Jazeera
+ANT	Station/1/7000660	DoNotShift	# Antenna
+ART	Station/1/7000670	DoNotShift	# ART
+CNNfn	Station/1/7000690	DoNotShift	# CNN Financial Network
+EXPO	Station/1/7000700	DoNotShift	# Expo Channel
+FASH	Station/1/7000710	DoNotShift	# Fashion TV
+FFC	Station/1/7000730	DoNotShift	# Fox Footy Channel
+LBC	Station/1/7000740	DoNotShift	# Lebanese Broadcasting
+MAIN	Station/1/7000750	DoNotShift	# Main Event
+RAI	Station/1/7000760	DoNotShift	# RAI International
+SHW2	Station/1/7000770	DoNotShift	# Showtime 2
+TVSN	Station/1/7000780	DoNotShift	# Television Shopping Network
+TWC	Station/1/7000790	DoNotShift	# The Weather Channel
+ABN2	Station/1/7200002	Australia/Sydney	# ABC Sydney
+ATN7	Station/1/7200007	Australia/Sydney	# Seven Sydney
+TCN9	Station/1/7200009	Australia/Sydney	# Nine Sydney
+TEN10	Station/1/7200010	Australia/Sydney	# Ten Sydney
+SBS-Syd	Station/1/7200028	Australia/Sydney	# SBS Sydney
+NoNag	Station/1/7999999	Australia/Sydney	# No Nag Channel
+
+# Stations file for NS02003 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+ARNA	Station/1/7000100	DoNotShift	# Arena
+CMDY	Station/1/7000120	DoNotShift	# Comedy Channel
+DISC	Station/1/7000130	DoNotShift	# Discovery Channel
+ENCR	Station/1/7000140	DoNotShift	# Encore
+FOX8	Station/1/7000150	DoNotShift	# Fox8
+CLAS	Station/1/7000160	DoNotShift	# Fox Classics
+FFX-NSW	Station/1/7000170	Australia/Sydney	# Fox Footy Extra NSW/ACT
+FFX-QLD	Station/1/7000180	Australia/Sydney	# Fox Footy Extra QLD
+FFX-SA	Station/1/7000190	Australia/Sydney	# Fox Footy Extra SA
+FFX-VIC	Station/1/7000200	Australia/Sydney	# Fox Footy Extra VIC
+FFX-WA	Station/1/7000210	Australia/Sydney	# Fox Footy Extra WA
+FS1	Station/1/7000220	Australia/Sydney	# Fox Sports One
+HIST	Station/1/7000230	DoNotShift	# The History Channel
+mMAX	Station/1/7000240	DoNotShift	# musicMAX
+FS2	Station/1/7000250	Australia/Sydney	# Fox Sports Two
+W	Station/1/7000260	DoNotShift	# W
+HALL	Station/1/7000270	DoNotShift	# Hallmark Channel
+KIDS	Station/1/7000280	DoNotShift	# Fox Kids
+LIFE	Station/1/7000290	DoNotShift	# The LifeStyle Channel
+NGEO	Station/1/7000300	Australia/Sydney	# National Geographic Channel
+NICK	Station/1/7000310	DoNotShift	# Nickelodeon
+V	Station/1/7000320	DoNotShift
+SHOW	Station/1/7000330	DoNotShift	# Showtime
+TV1	Station/1/7000350	DoNotShift	# TV1
+UKTV	Station/1/7000360	DoNotShift	# UKTV
+WMOV	Station/1/7000370	DoNotShift	# World Movies
+AP	Station/1/7000400	DoNotShift	# Animal Planet
+DISN	Station/1/7000410	DoNotShift	# Disney Channel
+MOVG	Station/1/7000420	DoNotShift	# Movie Greats
+MOV1	Station/1/7000430	DoNotShift	# Movie One
+MOVX	Station/1/7000440	DoNotShift	# Movie Extra
+MTV	Station/1/7000450	DoNotShift	# MTV
+OVAT	Station/1/7000480	Australia/Sydney	# Ovation
+SKYN	Station/1/7000490	DoNotShift	# Sky News Australia
+TCM	Station/1/7000500	Australia/Sydney	# Turner Classic Movies
+BBC	Station/1/7000510	DoNotShift	# BBC World
+CART	Station/1/7000520	Australia/Sydney	# Cartoon Network
+CNNI	Station/1/7000530	DoNotShift	# CNN International
+ESPN	Station/1/7000540	Australia/Sydney	# ESPN
+SKYR	Station/1/7000550	Australia/Sydney	# Sky Racing
+CNBC	Station/1/7000590	DoNotShift	# CNBC Australia
+FOXN	Station/1/7000620	DoNotShift	# Fox News Channel
+ADULT	Station/1/7000640	DoNotShift	# Adults Only
+ANT	Station/1/7000660	DoNotShift	# Antenna
+BLM	Station/1/7000680	DoNotShift	# Bloomberg Television
+FASH	Station/1/7000710	DoNotShift	# Fashion TV
+FFC	Station/1/7000730	DoNotShift	# Fox Footy Channel
+MAIN	Station/1/7000750	DoNotShift	# Main Event
+RAI	Station/1/7000760	DoNotShift	# RAI International
+SHW2	Station/1/7000770	DoNotShift	# Showtime 2
+TVSN	Station/1/7000780	DoNotShift	# Television Shopping Network
+TWC	Station/1/7000790	DoNotShift	# The Weather Channel
+ABN2	Station/1/7200002	Australia/Sydney	# ABC Sydney
+ATN7	Station/1/7200007	Australia/Sydney	# Seven Sydney
+TCN9	Station/1/7200009	Australia/Sydney	# Nine Sydney
+TEN10	Station/1/7200010	Australia/Sydney	# Ten Sydney
+SBS-Syd	Station/1/7200028	Australia/Sydney	# SBS Sydney
+NoNag	Station/1/7999999	Australia/Sydney	# No Nag Channel
+
+# Stations file for NS02004 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+ABD6	Station/1/7080002	Australia/Sydney	# ABC Darwin
+IMP	Station/1/7081001	Australia/Sydney	# Imparja
+ABN2	Station/1/7200002	Australia/Sydney	# ABC Sydney
+SBS-Syd	Station/1/7200028	Australia/Sydney	# SBS Sydney
+ABQ2	Station/1/7400002	Australia/Sydney	# ABC Brisbane
+SBS-Bris	Station/1/7400028	Australia/Sydney	# SBS Brisbane
+7CEN	Station/1/7410007	Australia/Sydney	# Seven Central QLD
+ABS2	Station/1/7500002	Australia/Sydney	# ABC Adelaide
+SBS-Adl	Station/1/7500028	Australia/Sydney	# SBS Adelaide
+ABW2	Station/1/7600002	Australia/Sydney	# ABC Perth
+SBS-Per	Station/1/7600028	Australia/Sydney	# SBS Perth
+GWN	Station/1/7610007	Australia/Sydney	# Golden West Network
+WIN-WA	Station/1/7610009	Australia/Sydney	# WIN WA
+NoNag	Station/1/7999999	Australia/Sydney	# No Nag Channel
+
+# Stations file for NS02005 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+ARNA	Station/1/7000100	Australia/Sydney	# Arena
+CMDY	Station/1/7000120	Australia/Sydney	# Comedy Channel
+DISC	Station/1/7000130	Australia/Sydney	# Discovery Channel
+ENCR	Station/1/7000140	Australia/Sydney	# Encore
+FOX8	Station/1/7000150	Australia/Sydney	# Fox8
+CLAS	Station/1/7000160	Australia/Sydney	# Fox Classics
+FFX-NSW	Station/1/7000170	Australia/Sydney	# Fox Footy Extra NSW/ACT
+FFX-QLD	Station/1/7000180	Australia/Sydney	# Fox Footy Extra QLD
+FFX-SA	Station/1/7000190	Australia/Sydney	# Fox Footy Extra SA
+FFX-VIC	Station/1/7000200	Australia/Sydney	# Fox Footy Extra VIC
+FFX-WA	Station/1/7000210	Australia/Sydney	# Fox Footy Extra WA
+FS1	Station/1/7000220	Australia/Sydney	# Fox Sports One
+HIST	Station/1/7000230	Australia/Sydney	# The History Channel
+mMAX	Station/1/7000240	Australia/Sydney	# musicMAX
+FS2	Station/1/7000250	Australia/Sydney	# Fox Sports Two
+W	Station/1/7000260	Australia/Sydney	# W
+HALL	Station/1/7000270	Australia/Sydney	# Hallmark Channel
+KIDS	Station/1/7000280	Australia/Sydney	# Fox Kids
+LIFE	Station/1/7000290	Australia/Sydney	# The LifeStyle Channel
+NGEO	Station/1/7000300	Australia/Sydney	# National Geographic Channel
+NICK	Station/1/7000310	Australia/Sydney	# Nickelodeon
+V	Station/1/7000320	Australia/Sydney
+SHOW	Station/1/7000330	Australia/Sydney	# Showtime
+TV1	Station/1/7000350	Australia/Sydney	# TV1
+UKTV	Station/1/7000360	Australia/Sydney	# UKTV
+WMOV	Station/1/7000370	Australia/Sydney	# World Movies
+AP	Station/1/7000400	Australia/Sydney	# Animal Planet
+DISN	Station/1/7000410	Australia/Sydney	# Disney Channel
+MOVG	Station/1/7000420	Australia/Sydney	# Movie Greats
+MOV1	Station/1/7000430	Australia/Sydney	# Movie One
+MOVX	Station/1/7000440	Australia/Sydney	# Movie Extra
+MTV	Station/1/7000450	Australia/Sydney	# MTV
+OVAT	Station/1/7000480	Australia/Sydney	# Ovation
+SKYN	Station/1/7000490	Australia/Sydney	# Sky News Australia
+TCM	Station/1/7000500	Australia/Sydney	# Turner Classic Movies
+BBC	Station/1/7000510	Australia/Sydney	# BBC World
+CART	Station/1/7000520	Australia/Sydney	# Cartoon Network
+CNNI	Station/1/7000530	Australia/Sydney	# CNN International
+ESPN	Station/1/7000540	Australia/Sydney	# ESPN
+SKYR	Station/1/7000550	Australia/Sydney	# Sky Racing
+CNBC	Station/1/7000590	Australia/Sydney	# CNBC Australia
+FOXN	Station/1/7000620	Australia/Sydney	# Fox News Channel
+ADULT	Station/1/7000640	Australia/Sydney	# Adults Only
+ANT	Station/1/7000660	Australia/Sydney	# Antenna
+BLM	Station/1/7000680	Australia/Sydney	# Bloomberg Television
+FASH	Station/1/7000710	Australia/Sydney	# Fashion TV
+FFC	Station/1/7000730	Australia/Sydney	# Fox Footy Channel
+MAIN	Station/1/7000750	Australia/Sydney	# Main Event
+RAI	Station/1/7000760	Australia/Sydney	# RAI International
+SHW2	Station/1/7000770	Australia/Sydney	# Showtime 2
+TVSN	Station/1/7000780	Australia/Sydney	# Television Shopping Network
+TWC	Station/1/7000790	Australia/Sydney	# The Weather Channel
+NoNag	Station/1/7999999	Australia/Sydney	# No Nag Channel
+
+# Stations file for NS02006 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+ARNA	Station/1/7000100	Australia/Sydney	# Arena
+CMDY	Station/1/7000120	Australia/Sydney	# Comedy Channel
+DISC	Station/1/7000130	Australia/Sydney	# Discovery Channel
+ENCR	Station/1/7000140	Australia/Sydney	# Encore
+FOX8	Station/1/7000150	Australia/Sydney	# Fox8
+FFX-NSW	Station/1/7000170	Australia/Sydney	# Fox Footy Extra NSW/ACT
+FFX-QLD	Station/1/7000180	Australia/Sydney	# Fox Footy Extra QLD
+FFX-SA	Station/1/7000190	Australia/Sydney	# Fox Footy Extra SA
+FFX-VIC	Station/1/7000200	Australia/Sydney	# Fox Footy Extra VIC
+FFX-WA	Station/1/7000210	Australia/Sydney	# Fox Footy Extra WA
+FS1	Station/1/7000220	Australia/Sydney	# Fox Sports One
+HIST	Station/1/7000230	Australia/Sydney	# The History Channel
+mMAX	Station/1/7000240	Australia/Sydney	# musicMAX
+FS2	Station/1/7000250	Australia/Sydney	# Fox Sports Two
+W	Station/1/7000260	Australia/Sydney	# W
+HALL	Station/1/7000270	Australia/Sydney	# Hallmark Channel
+LIFE	Station/1/7000290	Australia/Sydney	# The LifeStyle Channel
+NGEO	Station/1/7000300	Australia/Sydney	# National Geographic Channel
+NICK	Station/1/7000310	Australia/Sydney	# Nickelodeon
+V	Station/1/7000320	Australia/Sydney
+SHOW	Station/1/7000330	Australia/Sydney	# Showtime
+TV1	Station/1/7000350	Australia/Sydney	# TV1
+UKTV	Station/1/7000360	Australia/Sydney	# UKTV
+WMOV	Station/1/7000370	Australia/Sydney	# World Movies
+DISN	Station/1/7000410	Australia/Sydney	# Disney Channel
+MOVG	Station/1/7000420	Australia/Sydney	# Movie Greats
+MOV1	Station/1/7000430	Australia/Sydney	# Movie One
+MOVX	Station/1/7000440	Australia/Sydney	# Movie Extra
+SKYN	Station/1/7000490	Australia/Sydney	# Sky News Australia
+TCM	Station/1/7000500	Australia/Sydney	# Turner Classic Movies
+CART	Station/1/7000520	Australia/Sydney	# Cartoon Network
+CNNI	Station/1/7000530	Australia/Sydney	# CNN International
+ESPN	Station/1/7000540	Australia/Sydney	# ESPN
+CNBC	Station/1/7000590	Australia/Sydney	# CNBC Australia
+TVSN	Station/1/7000780	Australia/Sydney	# Television Shopping Network
+NoNag	Station/1/7999999	Australia/Sydney	# No Nag Channel
+ABN2	Station/1/7200002	Australia/Sydney	# ABC Sydney
+SBS-Syd	Station/1/7200028	Australia/Sydney	# SBS Sydney
+EXPO	Station/1/7000700	Australia/Sydney	# Expo Channel
+SKYR	Station/1/7000550	Australia/Sydney	# Sky Racing
+
+# Stations file for NS02007 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+ARNA	Station/1/7000100	Australia/Sydney	# Arena
+CMDY	Station/1/7000120	Australia/Sydney	# Comedy Channel
+DISC	Station/1/7000130	Australia/Sydney	# Discovery Channel
+ENCR	Station/1/7000140	Australia/Sydney	# Encore
+FOX8	Station/1/7000150	Australia/Sydney	# Fox8
+CLAS	Station/1/7000160	Australia/Sydney	# Fox Classics
+FFX-NSW	Station/1/7000170	Australia/Sydney	# Fox Footy Extra NSW/ACT
+FFX-QLD	Station/1/7000180	Australia/Sydney	# Fox Footy Extra QLD
+FFX-SA	Station/1/7000190	Australia/Sydney	# Fox Footy Extra SA
+FFX-VIC	Station/1/7000200	Australia/Sydney	# Fox Footy Extra VIC
+FFX-WA	Station/1/7000210	Australia/Sydney	# Fox Footy Extra WA
+FS1	Station/1/7000220	Australia/Sydney	# Fox Sports One
+HIST	Station/1/7000230	Australia/Sydney	# The History Channel
+mMAX	Station/1/7000240	Australia/Sydney	# musicMAX
+FS2	Station/1/7000250	Australia/Sydney	# Fox Sports Two
+W	Station/1/7000260	Australia/Sydney	# W
+HALL	Station/1/7000270	Australia/Sydney	# Hallmark Channel
+KIDS	Station/1/7000280	Australia/Sydney	# Fox Kids
+LIFE	Station/1/7000290	Australia/Sydney	# The LifeStyle Channel
+NGEO	Station/1/7000300	Australia/Sydney	# National Geographic Channel
+NICK	Station/1/7000310	Australia/Sydney	# Nickelodeon
+V	Station/1/7000320	Australia/Sydney
+SHOW	Station/1/7000330	Australia/Sydney	# Showtime
+TV1	Station/1/7000350	Australia/Sydney	# TV1
+UKTV	Station/1/7000360	Australia/Sydney	# UKTV
+WMOV	Station/1/7000370	Australia/Sydney	# World Movies
+AP	Station/1/7000400	Australia/Sydney	# Animal Planet
+DISN	Station/1/7000410	Australia/Sydney	# Disney Channel
+MOVG	Station/1/7000420	Australia/Sydney	# Movie Greats
+MOV1	Station/1/7000430	Australia/Sydney	# Movie One
+MOVX	Station/1/7000440	Australia/Sydney	# Movie Extra
+MTV	Station/1/7000450	Australia/Sydney	# MTV
+OVAT	Station/1/7000480	Australia/Sydney	# Ovation
+SKYN	Station/1/7000490	Australia/Sydney	# Sky News Australia
+TCM	Station/1/7000500	Australia/Sydney	# Turner Classic Movies
+BBC	Station/1/7000510	Australia/Sydney	# BBC World
+CART	Station/1/7000520	Australia/Sydney	# Cartoon Network
+CNNI	Station/1/7000530	Australia/Sydney	# CNN International
+ESPN	Station/1/7000540	Australia/Sydney	# ESPN
+SKYR	Station/1/7000550	Australia/Sydney	# Sky Racing
+CNBC	Station/1/7000590	Australia/Sydney	# CNBC Australia
+FOXN	Station/1/7000620	Australia/Sydney	# Fox News Channel
+ADULT	Station/1/7000640	Australia/Sydney	# Adults Only
+ANT	Station/1/7000660	Australia/Sydney	# Antenna
+BLM	Station/1/7000680	Australia/Sydney	# Bloomberg Television
+FASH	Station/1/7000710	Australia/Sydney	# Fashion TV
+FFC	Station/1/7000730	Australia/Sydney	# Fox Footy Channel
+MAIN	Station/1/7000750	Australia/Sydney	# Main Event
+RAI	Station/1/7000760	Australia/Sydney	# RAI International
+SHW2	Station/1/7000770	Australia/Sydney	# Showtime 2
+TVSN	Station/1/7000780	Australia/Sydney	# Television Shopping Network
+TWC	Station/1/7000790	Australia/Sydney	# The Weather Channel
+ABD6	Station/1/7080002	Australia/Sydney	# ABC Darwin
+IMP	Station/1/7081001	Australia/Sydney	# Imparja
+ABN2	Station/1/7200002	Australia/Sydney	# ABC Sydney
+SBS-Syd	Station/1/7200028	Australia/Sydney	# SBS Sydney
+ABQ2	Station/1/7400002	Australia/Sydney	# ABC Brisbane
+SBS-Bris	Station/1/7400028	Australia/Sydney	# SBS Brisbane
+7CEN	Station/1/7410007	Australia/Sydney	# Seven Central QLD
+ABQ49	Station/1/7111002	Australia/Sydney	# ABC Mt Tamborine
+SBS-GC	Station/1/7111028	Australia/Sydney	# SBS Gold Coast
+ABS2	Station/1/7500002	Australia/Sydney	# ABC Adelaide
+SBS-Adl	Station/1/7500028	Australia/Sydney	# SBS Adelaide
+ABW2	Station/1/7600002	Australia/Sydney	# ABC Perth
+SBS-Per	Station/1/7600028	Australia/Sydney	# SBS Perth
+GWN	Station/1/7610007	Australia/Sydney	# Golden West Network
+WIN-WA	Station/1/7610009	Australia/Sydney	# WIN WA
+NoNag	Station/1/7999999	Australia/Sydney	# No Nag Channel
+
+# Stations file for NT00801 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+ABD6	Station/1/7080002	DoNotShift	# ABC Darwin
+7-NT	Station/1/7080007	Australia/Darwin	# Seven Darwin
+NTD8	Station/1/7080009	Australia/Darwin	# Nine Darwin
+SBS-NT	Station/1/7080028	Australia/Darwin	# SBS Darwin
+IMP	Station/1/7081001	Australia/Darwin	# Imparja
+NoNag	Station/1/7999999	Australia/Darwin	# No Nag Channel
+
+# Stations file for NT00803 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+ARNA	Station/1/7000100	DoNotShift	# Arena
+CMDY	Station/1/7000120	DoNotShift	# Comedy Channel
+DISC	Station/1/7000130	DoNotShift	# Discovery Channel
+ENCR	Station/1/7000140	DoNotShift	# Encore
+FOX8	Station/1/7000150	DoNotShift	# Fox8
+FFX-NSW	Station/1/7000170	Australia/Darwin	# Fox Footy Extra NSW/ACT
+FFX-QLD	Station/1/7000180	Australia/Darwin	# Fox Footy Extra QLD
+FFX-SA	Station/1/7000190	Australia/Darwin	# Fox Footy Extra SA
+FFX-VIC	Station/1/7000200	Australia/Darwin	# Fox Footy Extra VIC
+FFX-WA	Station/1/7000210	Australia/Darwin	# Fox Footy Extra WA
+FS1	Station/1/7000220	Australia/Darwin	# Fox Sports One
+HIST	Station/1/7000230	DoNotShift	# The History Channel
+mMAX	Station/1/7000240	DoNotShift	# musicMAX
+FS2	Station/1/7000250	Australia/Darwin	# Fox Sports Two
+W	Station/1/7000260	DoNotShift	# W
+HALL	Station/1/7000270	DoNotShift	# Hallmark Channel
+LIFE	Station/1/7000290	DoNotShift	# The LifeStyle Channel
+NGEO	Station/1/7000300	Australia/Darwin	# National Geographic Channel
+NICK	Station/1/7000310	DoNotShift	# Nickelodeon
+V	Station/1/7000320	DoNotShift
+SHOW	Station/1/7000330	DoNotShift	# Showtime
+TV1	Station/1/7000350	DoNotShift	# TV1
+UKTV	Station/1/7000360	DoNotShift	# UKTV
+WMOV	Station/1/7000370	DoNotShift	# World Movies
+DISN	Station/1/7000410	DoNotShift	# Disney Channel
+MOVG	Station/1/7000420	DoNotShift	# Movie Greats
+MOV1	Station/1/7000430	DoNotShift	# Movie One
+MOVX	Station/1/7000440	DoNotShift	# Movie Extra
+SKYN	Station/1/7000490	DoNotShift	# Sky News Australia
+TCM	Station/1/7000500	Australia/Darwin	# Turner Classic Movies
+CART	Station/1/7000520	Australia/Darwin	# Cartoon Network
+CNNI	Station/1/7000530	DoNotShift	# CNN International
+ESPN	Station/1/7000540	Australia/Darwin	# ESPN
+CNBC	Station/1/7000590	DoNotShift	# CNBC Australia
+TVSN	Station/1/7000780	DoNotShift	# Television Shopping Network
+ABD6	Station/1/7080002	DoNotShift	# ABC Darwin
+7-NT	Station/1/7080007	Australia/Darwin	# Seven Darwin
+NTD8	Station/1/7080009	Australia/Darwin	# Nine Darwin
+SBS-NT	Station/1/7080028	Australia/Darwin	# SBS Darwin
+NoNag	Station/1/7999999	Australia/Darwin	# No Nag Channel
+
+# Stations file for NT00804 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+ABD6	Station/1/7080002	Australia/Darwin	# ABC Darwin
+IMP	Station/1/7081001	Australia/Darwin	# Imparja
+ABN2	Station/1/7200002	Australia/Darwin	# ABC Sydney
+SBS-Syd	Station/1/7200028	Australia/Darwin	# SBS Sydney
+ABQ2	Station/1/7400002	Australia/Darwin	# ABC Brisbane
+SBS-Bris	Station/1/7400028	Australia/Darwin	# SBS Brisbane
+7CEN	Station/1/7410007	Australia/Darwin	# Seven Central QLD
+ABS2	Station/1/7500002	Australia/Darwin	# ABC Adelaide
+SBS-Adl	Station/1/7500028	Australia/Darwin	# SBS Adelaide
+ABW2	Station/1/7600002	Australia/Darwin	# ABC Perth
+SBS-Per	Station/1/7600028	Australia/Darwin	# SBS Perth
+GWN	Station/1/7610007	Australia/Darwin	# Golden West Network
+WIN-WA	Station/1/7610009	Australia/Darwin	# WIN WA
+NoNag	Station/1/7999999	Australia/Darwin	# No Nag Channel
+
+# Stations file for NT00805 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+ARNA	Station/1/7000100	Australia/Darwin	# Arena
+CMDY	Station/1/7000120	Australia/Darwin	# Comedy Channel
+DISC	Station/1/7000130	Australia/Darwin	# Discovery Channel
+ENCR	Station/1/7000140	Australia/Darwin	# Encore
+FOX8	Station/1/7000150	Australia/Darwin	# Fox8
+CLAS	Station/1/7000160	Australia/Darwin	# Fox Classics
+FFX-NSW	Station/1/7000170	Australia/Darwin	# Fox Footy Extra NSW/ACT
+FFX-QLD	Station/1/7000180	Australia/Darwin	# Fox Footy Extra QLD
+FFX-SA	Station/1/7000190	Australia/Darwin	# Fox Footy Extra SA
+FFX-VIC	Station/1/7000200	Australia/Darwin	# Fox Footy Extra VIC
+FFX-WA	Station/1/7000210	Australia/Darwin	# Fox Footy Extra WA
+FS1	Station/1/7000220	Australia/Darwin	# Fox Sports One
+HIST	Station/1/7000230	Australia/Darwin	# The History Channel
+mMAX	Station/1/7000240	Australia/Darwin	# musicMAX
+FS2	Station/1/7000250	Australia/Darwin	# Fox Sports Two
+W	Station/1/7000260	Australia/Darwin	# W
+HALL	Station/1/7000270	Australia/Darwin	# Hallmark Channel
+KIDS	Station/1/7000280	Australia/Darwin	# Fox Kids
+LIFE	Station/1/7000290	Australia/Darwin	# The LifeStyle Channel
+NGEO	Station/1/7000300	Australia/Darwin	# National Geographic Channel
+NICK	Station/1/7000310	Australia/Darwin	# Nickelodeon
+V	Station/1/7000320	Australia/Darwin
+SHOW	Station/1/7000330	Australia/Darwin	# Showtime
+TV1	Station/1/7000350	Australia/Darwin	# TV1
+UKTV	Station/1/7000360	Australia/Darwin	# UKTV
+WMOV	Station/1/7000370	Australia/Darwin	# World Movies
+AP	Station/1/7000400	Australia/Darwin	# Animal Planet
+DISN	Station/1/7000410	Australia/Darwin	# Disney Channel
+MOVG	Station/1/7000420	Australia/Darwin	# Movie Greats
+MOV1	Station/1/7000430	Australia/Darwin	# Movie One
+MOVX	Station/1/7000440	Australia/Darwin	# Movie Extra
+MTV	Station/1/7000450	Australia/Darwin	# MTV
+OVAT	Station/1/7000480	Australia/Darwin	# Ovation
+SKYN	Station/1/7000490	Australia/Darwin	# Sky News Australia
+TCM	Station/1/7000500	Australia/Darwin	# Turner Classic Movies
+BBC	Station/1/7000510	Australia/Darwin	# BBC World
+CART	Station/1/7000520	Australia/Darwin	# Cartoon Network
+CNNI	Station/1/7000530	Australia/Darwin	# CNN International
+ESPN	Station/1/7000540	Australia/Darwin	# ESPN
+SKYR	Station/1/7000550	Australia/Darwin	# Sky Racing
+CNBC	Station/1/7000590	Australia/Darwin	# CNBC Australia
+FOXN	Station/1/7000620	Australia/Darwin	# Fox News Channel
+ADULT	Station/1/7000640	Australia/Darwin	# Adults Only
+ANT	Station/1/7000660	Australia/Darwin	# Antenna
+BLM	Station/1/7000680	Australia/Darwin	# Bloomberg Television
+FASH	Station/1/7000710	Australia/Darwin	# Fashion TV
+FFC	Station/1/7000730	Australia/Darwin	# Fox Footy Channel
+MAIN	Station/1/7000750	Australia/Darwin	# Main Event
+RAI	Station/1/7000760	Australia/Darwin	# RAI International
+SHW2	Station/1/7000770	Australia/Darwin	# Showtime 2
+TVSN	Station/1/7000780	Australia/Darwin	# Television Shopping Network
+TWC	Station/1/7000790	Australia/Darwin	# The Weather Channel
+NoNag	Station/1/7999999	Australia/Darwin	# No Nag Channel
+
+# Stations file for NT00806 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+ARNA	Station/1/7000100	Australia/Darwin	# Arena
+CMDY	Station/1/7000120	Australia/Darwin	# Comedy Channel
+DISC	Station/1/7000130	Australia/Darwin	# Discovery Channel
+ENCR	Station/1/7000140	Australia/Darwin	# Encore
+FOX8	Station/1/7000150	Australia/Darwin	# Fox8
+FFX-NSW	Station/1/7000170	Australia/Darwin	# Fox Footy Extra NSW/ACT
+FFX-QLD	Station/1/7000180	Australia/Darwin	# Fox Footy Extra QLD
+FFX-SA	Station/1/7000190	Australia/Darwin	# Fox Footy Extra SA
+FFX-VIC	Station/1/7000200	Australia/Darwin	# Fox Footy Extra VIC
+FFX-WA	Station/1/7000210	Australia/Darwin	# Fox Footy Extra WA
+FS1	Station/1/7000220	Australia/Darwin	# Fox Sports One
+HIST	Station/1/7000230	Australia/Darwin	# The History Channel
+mMAX	Station/1/7000240	Australia/Darwin	# musicMAX
+FS2	Station/1/7000250	Australia/Darwin	# Fox Sports Two
+W	Station/1/7000260	Australia/Darwin	# W
+HALL	Station/1/7000270	Australia/Darwin	# Hallmark Channel
+LIFE	Station/1/7000290	Australia/Darwin	# The LifeStyle Channel
+NGEO	Station/1/7000300	Australia/Darwin	# National Geographic Channel
+NICK	Station/1/7000310	Australia/Darwin	# Nickelodeon
+V	Station/1/7000320	Australia/Darwin
+SHOW	Station/1/7000330	Australia/Darwin	# Showtime
+TV1	Station/1/7000350	Australia/Darwin	# TV1
+UKTV	Station/1/7000360	Australia/Darwin	# UKTV
+WMOV	Station/1/7000370	Australia/Darwin	# World Movies
+DISN	Station/1/7000410	Australia/Darwin	# Disney Channel
+MOVG	Station/1/7000420	Australia/Darwin	# Movie Greats
+MOV1	Station/1/7000430	Australia/Darwin	# Movie One
+MOVX	Station/1/7000440	Australia/Darwin	# Movie Extra
+SKYN	Station/1/7000490	Australia/Darwin	# Sky News Australia
+TCM	Station/1/7000500	Australia/Darwin	# Turner Classic Movies
+CART	Station/1/7000520	Australia/Darwin	# Cartoon Network
+CNNI	Station/1/7000530	Australia/Darwin	# CNN International
+ESPN	Station/1/7000540	Australia/Darwin	# ESPN
+CNBC	Station/1/7000590	Australia/Darwin	# CNBC Australia
+TVSN	Station/1/7000780	Australia/Darwin	# Television Shopping Network
+NoNag	Station/1/7999999	Australia/Darwin	# No Nag Channel
+ABN2	Station/1/7200002	Australia/Darwin	# ABC Sydney
+SBS-Syd	Station/1/7200028	Australia/Darwin	# SBS Sydney
+EXPO	Station/1/7000700	Australia/Darwin	# Expo Channel
+SKYR	Station/1/7000550	Australia/Darwin	# Sky Racing
+
+# Stations file for QL04001 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+IMP	Station/1/7081001	Australia/Brisbane	# Imparja
+ABQ2	Station/1/7400002	Australia/Brisbane	# ABC Brisbane
+BTQ7	Station/1/7400007	Australia/Brisbane	# Seven Brisbane
+QTQ9	Station/1/7400009	Australia/Brisbane	# Nine Brisbane
+TVQ10	Station/1/7400010	Australia/Brisbane	# Ten Brisbane
+SBS-Bris	Station/1/7400028	Australia/Brisbane	# SBS Brisbane
+31-Bris	Station/1/7400031	Australia/Brisbane	# Ch31 Brisbane
+ABC-QLD	Station/1/7410002	Australia/Brisbane	# ABC QLD Regional
+SBS-QLD	Station/1/7410003	Australia/Brisbane	# SBS QLD Regional
+7CEN	Station/1/7410007	Australia/Brisbane	# Seven Central QLD
+WIN-QLD	Station/1/7410009	Australia/Brisbane	# WIN QLD
+Ten-QLD	Station/1/7410010	Australia/Brisbane	# Ten QLD Regional
+ABQ49	Station/1/7111002	Australia/Brisbane	# ABC Mt Tamborine
+BTQ52	Station/1/7111007	Australia/Brisbane	# Seven Mt Tamborine
+QTQ58	Station/1/7111009	Australia/Brisbane	# Nine Mt Tamborine
+TVQ46	Station/1/7111010	Australia/Brisbane	# Ten Mt Tamborine
+SBS-GC	Station/1/7111028	Australia/Brisbane	# SBS Gold Coast
+NoNag	Station/1/7999999	Australia/Brisbane	# No Nag Channel
+
+# Stations file for QL04002 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+ARNA	Station/1/7000100	DoNotShift	# Arena
+CMDY	Station/1/7000120	DoNotShift	# Comedy Channel
+DISC	Station/1/7000130	DoNotShift	# Discovery Channel
+ENCR	Station/1/7000140	DoNotShift	# Encore
+FOX8	Station/1/7000150	DoNotShift	# Fox8
+CLAS	Station/1/7000160	DoNotShift	# Fox Classics
+FFX-NSW	Station/1/7000170	Australia/Brisbane	# Fox Footy Extra NSW/ACT
+FFX-QLD	Station/1/7000180	Australia/Brisbane	# Fox Footy Extra QLD
+FFX-SA	Station/1/7000190	Australia/Brisbane	# Fox Footy Extra SA
+FFX-VIC	Station/1/7000200	Australia/Brisbane	# Fox Footy Extra VIC
+FFX-WA	Station/1/7000210	Australia/Brisbane	# Fox Footy Extra WA
+FS1	Station/1/7000220	Australia/Brisbane	# Fox Sports One
+HIST	Station/1/7000230	DoNotShift	# The History Channel
+mMAX	Station/1/7000240	DoNotShift	# musicMAX
+FS2	Station/1/7000250	Australia/Brisbane	# Fox Sports Two
+W	Station/1/7000260	DoNotShift	# W
+KIDS	Station/1/7000280	DoNotShift	# Fox Kids
+LIFE	Station/1/7000290	DoNotShift	# The LifeStyle Channel
+NGEO	Station/1/7000300	Australia/Brisbane	# National Geographic Channel
+NICK	Station/1/7000310	DoNotShift	# Nickelodeon
+V	Station/1/7000320	DoNotShift
+SHOW	Station/1/7000330	DoNotShift	# Showtime
+TV1	Station/1/7000350	DoNotShift	# TV1
+UKTV	Station/1/7000360	DoNotShift	# UKTV
+WMOV	Station/1/7000370	DoNotShift	# World Movies
+ACC	Station/1/7000380	DoNotShift	# Australian Christian Channel
+ADV1	Station/1/7000390	DoNotShift	# Adventure One
+AP	Station/1/7000400	DoNotShift	# Animal Planet
+DISN	Station/1/7000410	DoNotShift	# Disney Channel
+MOVG	Station/1/7000420	DoNotShift	# Movie Greats
+MOV1	Station/1/7000430	DoNotShift	# Movie One
+MOVX	Station/1/7000440	DoNotShift	# Movie Extra
+MTV	Station/1/7000450	DoNotShift	# MTV
+ODY	Station/1/7000460	DoNotShift	# Odyssey
+OVAT	Station/1/7000480	Australia/Brisbane	# Ovation
+SKYN	Station/1/7000490	DoNotShift	# Sky News Australia
+TCM	Station/1/7000500	Australia/Brisbane	# Turner Classic Movies
+BBC	Station/1/7000510	DoNotShift	# BBC World
+CART	Station/1/7000520	Australia/Brisbane	# Cartoon Network
+CNNI	Station/1/7000530	DoNotShift	# CNN International
+ESPN	Station/1/7000540	Australia/Brisbane	# ESPN
+SKYR	Station/1/7000550	Australia/Brisbane	# Sky Racing
+CNBC	Station/1/7000590	DoNotShift	# CNBC Australia
+FOXN	Station/1/7000620	DoNotShift	# Fox News Channel
+ADULT	Station/1/7000640	DoNotShift	# Adults Only
+ALJA	Station/1/7000650	DoNotShift	# Al Jazeera
+ANT	Station/1/7000660	DoNotShift	# Antenna
+ART	Station/1/7000670	DoNotShift	# ART
+CNNfn	Station/1/7000690	DoNotShift	# CNN Financial Network
+EXPO	Station/1/7000700	DoNotShift	# Expo Channel
+FASH	Station/1/7000710	DoNotShift	# Fashion TV
+FFC	Station/1/7000730	DoNotShift	# Fox Footy Channel
+LBC	Station/1/7000740	DoNotShift	# Lebanese Broadcasting
+MAIN	Station/1/7000750	DoNotShift	# Main Event
+RAI	Station/1/7000760	DoNotShift	# RAI International
+SHW2	Station/1/7000770	DoNotShift	# Showtime 2
+TVSN	Station/1/7000780	DoNotShift	# Television Shopping Network
+TWC	Station/1/7000790	DoNotShift	# The Weather Channel
+ABQ2	Station/1/7400002	Australia/Brisbane	# ABC Brisbane
+BTQ7	Station/1/7400007	Australia/Brisbane	# Seven Brisbane
+QTQ9	Station/1/7400009	Australia/Brisbane	# Nine Brisbane
+TVQ10	Station/1/7400010	Australia/Brisbane	# Ten Brisbane
+SBS-Bris	Station/1/7400028	Australia/Brisbane	# SBS Brisbane
+ABQ49	Station/1/7111002	Australia/Brisbane	# ABC Mt Tamborine
+BTQ52	Station/1/7111007	Australia/Brisbane	# Seven Mt Tamborine
+QTQ58	Station/1/7111009	Australia/Brisbane	# Nine Mt Tamborine
+TVQ46	Station/1/7111010	Australia/Brisbane	# Ten Mt Tamborine
+SBS-GC	Station/1/7111028	Australia/Brisbane	# SBS Gold Coast
+NoNag	Station/1/7999999	Australia/Brisbane	# No Nag Channel
+
+# Stations file for QL04003 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+ARNA	Station/1/7000100	DoNotShift	# Arena
+CMDY	Station/1/7000120	DoNotShift	# Comedy Channel
+DISC	Station/1/7000130	DoNotShift	# Discovery Channel
+ENCR	Station/1/7000140	DoNotShift	# Encore
+FOX8	Station/1/7000150	DoNotShift	# Fox8
+CLAS	Station/1/7000160	DoNotShift	# Fox Classics
+FFX-NSW	Station/1/7000170	Australia/Brisbane	# Fox Footy Extra NSW/ACT
+FFX-QLD	Station/1/7000180	Australia/Brisbane	# Fox Footy Extra QLD
+FFX-SA	Station/1/7000190	Australia/Brisbane	# Fox Footy Extra SA
+FFX-VIC	Station/1/7000200	Australia/Brisbane	# Fox Footy Extra VIC
+FFX-WA	Station/1/7000210	Australia/Brisbane	# Fox Footy Extra WA
+FS1	Station/1/7000220	Australia/Brisbane	# Fox Sports One
+HIST	Station/1/7000230	DoNotShift	# The History Channel
+mMAX	Station/1/7000240	DoNotShift	# musicMAX
+FS2	Station/1/7000250	Australia/Brisbane	# Fox Sports Two
+W	Station/1/7000260	DoNotShift	# W
+HALL	Station/1/7000270	DoNotShift	# Hallmark Channel
+KIDS	Station/1/7000280	DoNotShift	# Fox Kids
+LIFE	Station/1/7000290	DoNotShift	# The LifeStyle Channel
+NGEO	Station/1/7000300	Australia/Brisbane	# National Geographic Channel
+NICK	Station/1/7000310	DoNotShift	# Nickelodeon
+V	Station/1/7000320	DoNotShift
+SHOW	Station/1/7000330	DoNotShift	# Showtime
+TV1	Station/1/7000350	DoNotShift	# TV1
+UKTV	Station/1/7000360	DoNotShift	# UKTV
+WMOV	Station/1/7000370	DoNotShift	# World Movies
+AP	Station/1/7000400	DoNotShift	# Animal Planet
+DISN	Station/1/7000410	DoNotShift	# Disney Channel
+MOVG	Station/1/7000420	DoNotShift	# Movie Greats
+MOV1	Station/1/7000430	DoNotShift	# Movie One
+MOVX	Station/1/7000440	DoNotShift	# Movie Extra
+MTV	Station/1/7000450	DoNotShift	# MTV
+OVAT	Station/1/7000480	Australia/Brisbane	# Ovation
+SKYN	Station/1/7000490	DoNotShift	# Sky News Australia
+TCM	Station/1/7000500	Australia/Brisbane	# Turner Classic Movies
+BBC	Station/1/7000510	DoNotShift	# BBC World
+CART	Station/1/7000520	Australia/Brisbane	# Cartoon Network
+CNNI	Station/1/7000530	DoNotShift	# CNN International
+ESPN	Station/1/7000540	Australia/Brisbane	# ESPN
+SKYR	Station/1/7000550	Australia/Brisbane	# Sky Racing
+CNBC	Station/1/7000590	DoNotShift	# CNBC Australia
+FOXN	Station/1/7000620	DoNotShift	# Fox News Channel
+ADULT	Station/1/7000640	DoNotShift	# Adults Only
+ANT	Station/1/7000660	DoNotShift	# Antenna
+BLM	Station/1/7000680	DoNotShift	# Bloomberg Television
+FASH	Station/1/7000710	DoNotShift	# Fashion TV
+FFC	Station/1/7000730	DoNotShift	# Fox Footy Channel
+MAIN	Station/1/7000750	DoNotShift	# Main Event
+RAI	Station/1/7000760	DoNotShift	# RAI International
+SHW2	Station/1/7000770	DoNotShift	# Showtime 2
+TVSN	Station/1/7000780	DoNotShift	# Television Shopping Network
+TWC	Station/1/7000790	DoNotShift	# The Weather Channel
+ABQ2	Station/1/7400002	Australia/Brisbane	# ABC Brisbane
+BTQ7	Station/1/7400007	Australia/Brisbane	# Seven Brisbane
+QTQ9	Station/1/7400009	Australia/Brisbane	# Nine Brisbane
+TVQ10	Station/1/7400010	Australia/Brisbane	# Ten Brisbane
+SBS-Bris	Station/1/7400028	Australia/Brisbane	# SBS Brisbane
+ABQ49	Station/1/7111002	Australia/Brisbane	# ABC Mt Tamborine
+BTQ52	Station/1/7111007	Australia/Brisbane	# Seven Mt Tamborine
+QTQ58	Station/1/7111009	Australia/Brisbane	# Nine Mt Tamborine
+TVQ46	Station/1/7111010	Australia/Brisbane	# Ten Mt Tamborine
+SBS-GC	Station/1/7111028	Australia/Brisbane	# SBS Gold Coast
+NoNag	Station/1/7999999	Australia/Brisbane	# No Nag Channel
+
+# Stations file for QL04004 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+ABD6	Station/1/7080002	Australia/Brisbane	# ABC Darwin
+IMP	Station/1/7081001	Australia/Brisbane	# Imparja
+ABN2	Station/1/7200002	Australia/Brisbane	# ABC Sydney
+SBS-Syd	Station/1/7200028	Australia/Brisbane	# SBS Sydney
+ABQ2	Station/1/7400002	Australia/Brisbane	# ABC Brisbane
+SBS-Bris	Station/1/7400028	Australia/Brisbane	# SBS Brisbane
+7CEN	Station/1/7410007	Australia/Brisbane	# Seven Central QLD
+ABS2	Station/1/7500002	Australia/Brisbane	# ABC Adelaide
+SBS-Adl	Station/1/7500028	Australia/Brisbane	# SBS Adelaide
+ABW2	Station/1/7600002	Australia/Brisbane	# ABC Perth
+SBS-Per	Station/1/7600028	Australia/Brisbane	# SBS Perth
+GWN	Station/1/7610007	Australia/Brisbane	# Golden West Network
+WIN-WA	Station/1/7610009	Australia/Brisbane	# WIN WA
+NoNag	Station/1/7999999	Australia/Brisbane	# No Nag Channel
+
+# Stations file for QL04005 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+ARNA	Station/1/7000100	Australia/Brisbane	# Arena
+CMDY	Station/1/7000120	Australia/Brisbane	# Comedy Channel
+DISC	Station/1/7000130	Australia/Brisbane	# Discovery Channel
+ENCR	Station/1/7000140	Australia/Brisbane	# Encore
+FOX8	Station/1/7000150	Australia/Brisbane	# Fox8
+CLAS	Station/1/7000160	Australia/Brisbane	# Fox Classics
+FFX-NSW	Station/1/7000170	Australia/Brisbane	# Fox Footy Extra NSW/ACT
+FFX-QLD	Station/1/7000180	Australia/Brisbane	# Fox Footy Extra QLD
+FFX-SA	Station/1/7000190	Australia/Brisbane	# Fox Footy Extra SA
+FFX-VIC	Station/1/7000200	Australia/Brisbane	# Fox Footy Extra VIC
+FFX-WA	Station/1/7000210	Australia/Brisbane	# Fox Footy Extra WA
+FS1	Station/1/7000220	Australia/Brisbane	# Fox Sports One
+HIST	Station/1/7000230	Australia/Brisbane	# The History Channel
+mMAX	Station/1/7000240	Australia/Brisbane	# musicMAX
+FS2	Station/1/7000250	Australia/Brisbane	# Fox Sports Two
+W	Station/1/7000260	Australia/Brisbane	# W
+HALL	Station/1/7000270	Australia/Brisbane	# Hallmark Channel
+KIDS	Station/1/7000280	Australia/Brisbane	# Fox Kids
+LIFE	Station/1/7000290	Australia/Brisbane	# The LifeStyle Channel
+NGEO	Station/1/7000300	Australia/Brisbane	# National Geographic Channel
+NICK	Station/1/7000310	Australia/Brisbane	# Nickelodeon
+V	Station/1/7000320	Australia/Brisbane
+SHOW	Station/1/7000330	Australia/Brisbane	# Showtime
+TV1	Station/1/7000350	Australia/Brisbane	# TV1
+UKTV	Station/1/7000360	Australia/Brisbane	# UKTV
+WMOV	Station/1/7000370	Australia/Brisbane	# World Movies
+AP	Station/1/7000400	Australia/Brisbane	# Animal Planet
+DISN	Station/1/7000410	Australia/Brisbane	# Disney Channel
+MOVG	Station/1/7000420	Australia/Brisbane	# Movie Greats
+MOV1	Station/1/7000430	Australia/Brisbane	# Movie One
+MOVX	Station/1/7000440	Australia/Brisbane	# Movie Extra
+MTV	Station/1/7000450	Australia/Brisbane	# MTV
+OVAT	Station/1/7000480	Australia/Brisbane	# Ovation
+SKYN	Station/1/7000490	Australia/Brisbane	# Sky News Australia
+TCM	Station/1/7000500	Australia/Brisbane	# Turner Classic Movies
+BBC	Station/1/7000510	Australia/Brisbane	# BBC World
+CART	Station/1/7000520	Australia/Brisbane	# Cartoon Network
+CNNI	Station/1/7000530	Australia/Brisbane	# CNN International
+ESPN	Station/1/7000540	Australia/Brisbane	# ESPN
+SKYR	Station/1/7000550	Australia/Brisbane	# Sky Racing
+CNBC	Station/1/7000590	Australia/Brisbane	# CNBC Australia
+FOXN	Station/1/7000620	Australia/Brisbane	# Fox News Channel
+ADULT	Station/1/7000640	Australia/Brisbane	# Adults Only
+ANT	Station/1/7000660	Australia/Brisbane	# Antenna
+BLM	Station/1/7000680	Australia/Brisbane	# Bloomberg Television
+FASH	Station/1/7000710	Australia/Brisbane	# Fashion TV
+FFC	Station/1/7000730	Australia/Brisbane	# Fox Footy Channel
+MAIN	Station/1/7000750	Australia/Brisbane	# Main Event
+RAI	Station/1/7000760	Australia/Brisbane	# RAI International
+SHW2	Station/1/7000770	Australia/Brisbane	# Showtime 2
+TVSN	Station/1/7000780	Australia/Brisbane	# Television Shopping Network
+TWC	Station/1/7000790	Australia/Brisbane	# The Weather Channel
+NoNag	Station/1/7999999	Australia/Brisbane	# No Nag Channel
+
+# Stations file for QL04006 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+ARNA	Station/1/7000100	Australia/Brisbane	# Arena
+CMDY	Station/1/7000120	Australia/Brisbane	# Comedy Channel
+DISC	Station/1/7000130	Australia/Brisbane	# Discovery Channel
+ENCR	Station/1/7000140	Australia/Brisbane	# Encore
+FOX8	Station/1/7000150	Australia/Brisbane	# Fox8
+FFX-NSW	Station/1/7000170	Australia/Brisbane	# Fox Footy Extra NSW/ACT
+FFX-QLD	Station/1/7000180	Australia/Brisbane	# Fox Footy Extra QLD
+FFX-SA	Station/1/7000190	Australia/Brisbane	# Fox Footy Extra SA
+FFX-VIC	Station/1/7000200	Australia/Brisbane	# Fox Footy Extra VIC
+FFX-WA	Station/1/7000210	Australia/Brisbane	# Fox Footy Extra WA
+FS1	Station/1/7000220	Australia/Brisbane	# Fox Sports One
+HIST	Station/1/7000230	Australia/Brisbane	# The History Channel
+mMAX	Station/1/7000240	Australia/Brisbane	# musicMAX
+FS2	Station/1/7000250	Australia/Brisbane	# Fox Sports Two
+W	Station/1/7000260	Australia/Brisbane	# W
+HALL	Station/1/7000270	Australia/Brisbane	# Hallmark Channel
+LIFE	Station/1/7000290	Australia/Brisbane	# The LifeStyle Channel
+NGEO	Station/1/7000300	Australia/Brisbane	# National Geographic Channel
+NICK	Station/1/7000310	Australia/Brisbane	# Nickelodeon
+V	Station/1/7000320	Australia/Brisbane
+SHOW	Station/1/7000330	Australia/Brisbane	# Showtime
+TV1	Station/1/7000350	Australia/Brisbane	# TV1
+UKTV	Station/1/7000360	Australia/Brisbane	# UKTV
+WMOV	Station/1/7000370	Australia/Brisbane	# World Movies
+DISN	Station/1/7000410	Australia/Brisbane	# Disney Channel
+MOVG	Station/1/7000420	Australia/Brisbane	# Movie Greats
+MOV1	Station/1/7000430	Australia/Brisbane	# Movie One
+MOVX	Station/1/7000440	Australia/Brisbane	# Movie Extra
+SKYN	Station/1/7000490	Australia/Brisbane	# Sky News Australia
+TCM	Station/1/7000500	Australia/Brisbane	# Turner Classic Movies
+CART	Station/1/7000520	Australia/Brisbane	# Cartoon Network
+CNNI	Station/1/7000530	Australia/Brisbane	# CNN International
+ESPN	Station/1/7000540	Australia/Brisbane	# ESPN
+CNBC	Station/1/7000590	Australia/Brisbane	# CNBC Australia
+TVSN	Station/1/7000780	Australia/Brisbane	# Television Shopping Network
+NoNag	Station/1/7999999	Australia/Brisbane	# No Nag Channel
+ABN2	Station/1/7200002	Australia/Brisbane	# ABC Sydney
+SBS-Syd	Station/1/7200028	Australia/Brisbane	# SBS Sydney
+EXPO	Station/1/7000700	Australia/Brisbane	# Expo Channel
+SKYR	Station/1/7000550	Australia/Brisbane	# Sky Racing
+
+# Stations file for SA05001 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+IMP	Station/1/7081001	Australia/Adelaide	# Imparja
+ABS2	Station/1/7500002	Australia/Adelaide	# ABC Adelaide
+SAS7	Station/1/7500007	Australia/Adelaide	# Seven Adelaide
+NWS9	Station/1/7500009	Australia/Adelaide	# Nine Adelaide
+ADS10	Station/1/7500010	Australia/Adelaide	# Ten Adelaide
+SBS-Adl	Station/1/7500028	Australia/Adelaide	# SBS Adelaide
+31-Adl	Station/1/7500031	Australia/Adelaide	# Ch31 Adelaide
+ABC-SA	Station/1/7510002	Australia/Adelaide	# ABC SA Regional
+SBS-SA	Station/1/7510003	Australia/Adelaide	# SBS SA Regional
+WIN-SA	Station/1/7510009	Australia/Adelaide	# WIN SA
+NoNag	Station/1/7999999	Australia/Adelaide	# No Nag Channel
+
+# Stations file for SA05003 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+ARNA	Station/1/7000100	DoNotShift	# Arena
+CMDY	Station/1/7000120	DoNotShift	# Comedy Channel
+DISC	Station/1/7000130	DoNotShift	# Discovery Channel
+ENCR	Station/1/7000140	DoNotShift	# Encore
+FOX8	Station/1/7000150	DoNotShift	# Fox8
+CLAS	Station/1/7000160	DoNotShift	# Fox Classics
+FFX-NSW	Station/1/7000170	Australia/Adelaide	# Fox Footy Extra NSW/ACT
+FFX-QLD	Station/1/7000180	Australia/Adelaide	# Fox Footy Extra QLD
+FFX-SA	Station/1/7000190	Australia/Adelaide	# Fox Footy Extra SA
+FFX-VIC	Station/1/7000200	Australia/Adelaide	# Fox Footy Extra VIC
+FFX-WA	Station/1/7000210	Australia/Adelaide	# Fox Footy Extra WA
+FS1	Station/1/7000220	Australia/Adelaide	# Fox Sports One
+HIST	Station/1/7000230	DoNotShift	# The History Channel
+mMAX	Station/1/7000240	DoNotShift	# musicMAX
+FS2	Station/1/7000250	Australia/Adelaide	# Fox Sports Two
+W	Station/1/7000260	DoNotShift	# W
+HALL	Station/1/7000270	DoNotShift	# Hallmark Channel
+KIDS	Station/1/7000280	DoNotShift	# Fox Kids
+LIFE	Station/1/7000290	DoNotShift	# The LifeStyle Channel
+NGEO	Station/1/7000300	Australia/Adelaide	# National Geographic Channel
+NICK	Station/1/7000310	DoNotShift	# Nickelodeon
+V	Station/1/7000320	DoNotShift
+SHOW	Station/1/7000330	DoNotShift	# Showtime
+TV1	Station/1/7000350	DoNotShift	# TV1
+UKTV	Station/1/7000360	DoNotShift	# UKTV
+WMOV	Station/1/7000370	DoNotShift	# World Movies
+AP	Station/1/7000400	DoNotShift	# Animal Planet
+DISN	Station/1/7000410	DoNotShift	# Disney Channel
+MOVG	Station/1/7000420	DoNotShift	# Movie Greats
+MOV1	Station/1/7000430	DoNotShift	# Movie One
+MOVX	Station/1/7000440	DoNotShift	# Movie Extra
+MTV	Station/1/7000450	DoNotShift	# MTV
+OVAT	Station/1/7000480	Australia/Adelaide	# Ovation
+SKYN	Station/1/7000490	DoNotShift	# Sky News Australia
+TCM	Station/1/7000500	Australia/Adelaide	# Turner Classic Movies
+BBC	Station/1/7000510	DoNotShift	# BBC World
+CART	Station/1/7000520	Australia/Adelaide	# Cartoon Network
+CNNI	Station/1/7000530	DoNotShift	# CNN International
+ESPN	Station/1/7000540	Australia/Adelaide	# ESPN
+SKYR	Station/1/7000550	Australia/Adelaide	# Sky Racing
+CNBC	Station/1/7000590	DoNotShift	# CNBC Australia
+FOXN	Station/1/7000620	DoNotShift	# Fox News Channel
+ADULT	Station/1/7000640	DoNotShift	# Adults Only
+ANT	Station/1/7000660	DoNotShift	# Antenna
+BLM	Station/1/7000680	DoNotShift	# Bloomberg Television
+FASH	Station/1/7000710	DoNotShift	# Fashion TV
+FFC	Station/1/7000730	DoNotShift	# Fox Footy Channel
+MAIN	Station/1/7000750	DoNotShift	# Main Event
+RAI	Station/1/7000760	DoNotShift	# RAI International
+SHW2	Station/1/7000770	DoNotShift	# Showtime 2
+TVSN	Station/1/7000780	DoNotShift	# Television Shopping Network
+TWC	Station/1/7000790	DoNotShift	# The Weather Channel
+WIN-Vic	Station/1/7310009	Australia/Adelaide	# WIN Victoria
+ABS2	Station/1/7500002	Australia/Adelaide	# ABC Adelaide
+SAS7	Station/1/7500007	Australia/Adelaide	# Seven Adelaide
+NWS9	Station/1/7500009	Australia/Adelaide	# Nine Adelaide
+ADS10	Station/1/7500010	Australia/Adelaide	# Ten Adelaide
+SBS-Adl	Station/1/7500028	Australia/Adelaide	# SBS Adelaide
+NoNag	Station/1/7999999	Australia/Adelaide	# No Nag Channel
+
+# Stations file for SA05004 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+ABD6	Station/1/7080002	Australia/Adelaide	# ABC Darwin
+IMP	Station/1/7081001	Australia/Adelaide	# Imparja
+ABN2	Station/1/7200002	Australia/Adelaide	# ABC Sydney
+SBS-Syd	Station/1/7200028	Australia/Adelaide	# SBS Sydney
+ABQ2	Station/1/7400002	Australia/Adelaide	# ABC Brisbane
+SBS-Bris	Station/1/7400028	Australia/Adelaide	# SBS Brisbane
+7CEN	Station/1/7410007	Australia/Adelaide	# Seven Central QLD
+ABS2	Station/1/7500002	Australia/Adelaide	# ABC Adelaide
+SBS-Adl	Station/1/7500028	Australia/Adelaide	# SBS Adelaide
+ABW2	Station/1/7600002	Australia/Adelaide	# ABC Perth
+SBS-Per	Station/1/7600028	Australia/Adelaide	# SBS Perth
+GWN	Station/1/7610007	Australia/Adelaide	# Golden West Network
+WIN-WA	Station/1/7610009	Australia/Adelaide	# WIN WA
+NoNag	Station/1/7999999	Australia/Adelaide	# No Nag Channel
+
+# Stations file for SA05005 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+ARNA	Station/1/7000100	Australia/Adelaide	# Arena
+CMDY	Station/1/7000120	Australia/Adelaide	# Comedy Channel
+DISC	Station/1/7000130	Australia/Adelaide	# Discovery Channel
+ENCR	Station/1/7000140	Australia/Adelaide	# Encore
+FOX8	Station/1/7000150	Australia/Adelaide	# Fox8
+CLAS	Station/1/7000160	Australia/Adelaide	# Fox Classics
+FFX-NSW	Station/1/7000170	Australia/Adelaide	# Fox Footy Extra NSW/ACT
+FFX-QLD	Station/1/7000180	Australia/Adelaide	# Fox Footy Extra QLD
+FFX-SA	Station/1/7000190	Australia/Adelaide	# Fox Footy Extra SA
+FFX-VIC	Station/1/7000200	Australia/Adelaide	# Fox Footy Extra VIC
+FFX-WA	Station/1/7000210	Australia/Adelaide	# Fox Footy Extra WA
+FS1	Station/1/7000220	Australia/Adelaide	# Fox Sports One
+HIST	Station/1/7000230	Australia/Adelaide	# The History Channel
+mMAX	Station/1/7000240	Australia/Adelaide	# musicMAX
+FS2	Station/1/7000250	Australia/Adelaide	# Fox Sports Two
+W	Station/1/7000260	Australia/Adelaide	# W
+HALL	Station/1/7000270	Australia/Adelaide	# Hallmark Channel
+KIDS	Station/1/7000280	Australia/Adelaide	# Fox Kids
+LIFE	Station/1/7000290	Australia/Adelaide	# The LifeStyle Channel
+NGEO	Station/1/7000300	Australia/Adelaide	# National Geographic Channel
+NICK	Station/1/7000310	Australia/Adelaide	# Nickelodeon
+V	Station/1/7000320	Australia/Adelaide
+SHOW	Station/1/7000330	Australia/Adelaide	# Showtime
+TV1	Station/1/7000350	Australia/Adelaide	# TV1
+UKTV	Station/1/7000360	Australia/Adelaide	# UKTV
+WMOV	Station/1/7000370	Australia/Adelaide	# World Movies
+AP	Station/1/7000400	Australia/Adelaide	# Animal Planet
+DISN	Station/1/7000410	Australia/Adelaide	# Disney Channel
+MOVG	Station/1/7000420	Australia/Adelaide	# Movie Greats
+MOV1	Station/1/7000430	Australia/Adelaide	# Movie One
+MOVX	Station/1/7000440	Australia/Adelaide	# Movie Extra
+MTV	Station/1/7000450	Australia/Adelaide	# MTV
+OVAT	Station/1/7000480	Australia/Adelaide	# Ovation
+SKYN	Station/1/7000490	Australia/Adelaide	# Sky News Australia
+TCM	Station/1/7000500	Australia/Adelaide	# Turner Classic Movies
+BBC	Station/1/7000510	Australia/Adelaide	# BBC World
+CART	Station/1/7000520	Australia/Adelaide	# Cartoon Network
+CNNI	Station/1/7000530	Australia/Adelaide	# CNN International
+ESPN	Station/1/7000540	Australia/Adelaide	# ESPN
+SKYR	Station/1/7000550	Australia/Adelaide	# Sky Racing
+CNBC	Station/1/7000590	Australia/Adelaide	# CNBC Australia
+FOXN	Station/1/7000620	Australia/Adelaide	# Fox News Channel
+ADULT	Station/1/7000640	Australia/Adelaide	# Adults Only
+ANT	Station/1/7000660	Australia/Adelaide	# Antenna
+BLM	Station/1/7000680	Australia/Adelaide	# Bloomberg Television
+FASH	Station/1/7000710	Australia/Adelaide	# Fashion TV
+FFC	Station/1/7000730	Australia/Adelaide	# Fox Footy Channel
+MAIN	Station/1/7000750	Australia/Adelaide	# Main Event
+RAI	Station/1/7000760	Australia/Adelaide	# RAI International
+SHW2	Station/1/7000770	Australia/Adelaide	# Showtime 2
+TVSN	Station/1/7000780	Australia/Adelaide	# Television Shopping Network
+TWC	Station/1/7000790	Australia/Adelaide	# The Weather Channel
+NoNag	Station/1/7999999	Australia/Adelaide	# No Nag Channel
+
+# Stations file for SA05006 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+ARNA	Station/1/7000100	Australia/Adelaide	# Arena
+CMDY	Station/1/7000120	Australia/Adelaide	# Comedy Channel
+DISC	Station/1/7000130	Australia/Adelaide	# Discovery Channel
+ENCR	Station/1/7000140	Australia/Adelaide	# Encore
+FOX8	Station/1/7000150	Australia/Adelaide	# Fox8
+FFX-NSW	Station/1/7000170	Australia/Adelaide	# Fox Footy Extra NSW/ACT
+FFX-QLD	Station/1/7000180	Australia/Adelaide	# Fox Footy Extra QLD
+FFX-SA	Station/1/7000190	Australia/Adelaide	# Fox Footy Extra SA
+FFX-VIC	Station/1/7000200	Australia/Adelaide	# Fox Footy Extra VIC
+FFX-WA	Station/1/7000210	Australia/Adelaide	# Fox Footy Extra WA
+FS1	Station/1/7000220	Australia/Adelaide	# Fox Sports One
+HIST	Station/1/7000230	Australia/Adelaide	# The History Channel
+mMAX	Station/1/7000240	Australia/Adelaide	# musicMAX
+FS2	Station/1/7000250	Australia/Adelaide	# Fox Sports Two
+W	Station/1/7000260	Australia/Adelaide	# W
+HALL	Station/1/7000270	Australia/Adelaide	# Hallmark Channel
+LIFE	Station/1/7000290	Australia/Adelaide	# The LifeStyle Channel
+NGEO	Station/1/7000300	Australia/Adelaide	# National Geographic Channel
+NICK	Station/1/7000310	Australia/Adelaide	# Nickelodeon
+V	Station/1/7000320	Australia/Adelaide
+SHOW	Station/1/7000330	Australia/Adelaide	# Showtime
+TV1	Station/1/7000350	Australia/Adelaide	# TV1
+UKTV	Station/1/7000360	Australia/Adelaide	# UKTV
+WMOV	Station/1/7000370	Australia/Adelaide	# World Movies
+DISN	Station/1/7000410	Australia/Adelaide	# Disney Channel
+MOVG	Station/1/7000420	Australia/Adelaide	# Movie Greats
+MOV1	Station/1/7000430	Australia/Adelaide	# Movie One
+MOVX	Station/1/7000440	Australia/Adelaide	# Movie Extra
+SKYN	Station/1/7000490	Australia/Adelaide	# Sky News Australia
+TCM	Station/1/7000500	Australia/Adelaide	# Turner Classic Movies
+CART	Station/1/7000520	Australia/Adelaide	# Cartoon Network
+CNNI	Station/1/7000530	Australia/Adelaide	# CNN International
+ESPN	Station/1/7000540	Australia/Adelaide	# ESPN
+CNBC	Station/1/7000590	Australia/Adelaide	# CNBC Australia
+TVSN	Station/1/7000780	Australia/Adelaide	# Television Shopping Network
+NoNag	Station/1/7999999	Australia/Adelaide	# No Nag Channel
+ABN2	Station/1/7200002	Australia/Adelaide	# ABC Sydney
+SBS-Syd	Station/1/7200028	Australia/Adelaide	# SBS Sydney
+EXPO	Station/1/7000700	Australia/Adelaide	# Expo Channel
+SKYR	Station/1/7000550	Australia/Adelaide	# Sky Racing
+
+# Stations file for TA07001 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+ABT2	Station/1/7700002	Australia/Hobart	# ABC Hobart
+SBS-Hob	Station/1/7700007	Australia/Hobart	# SBS Hobart
+TDT	Station/1/7700011	Australia/Hobart	# Tasmanian Digital Television
+SC	Station/1/7700009	Australia/Hobart	# Southern Cross Hobart
+WIN-Hob	Station/1/7700028	Australia/Hobart	# WIN Hobart
+NoNag	Station/1/7999999	Australia/Hobart	# No Nag Channel
+ABT2D	Station/1/7710002	Australia/Hobart	# ABC Hobart
+SBS-HobD	Station/1/7710007	Australia/Hobart	# SBS Hobart
+SCD	Station/1/7710009	Australia/Hobart	# Southern Cross Hobart
+WIN-HobD	Station/1/7710028	Australia/Hobart	# WIN Hobart
+
+# Stations file for TA07004 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+ABD6	Station/1/7080002	Australia/Hobart	# ABC Darwin
+IMP	Station/1/7081001	Australia/Hobart	# Imparja
+ABN2	Station/1/7200002	Australia/Hobart	# ABC Sydney
+SBS-Syd	Station/1/7200028	Australia/Hobart	# SBS Sydney
+ABQ2	Station/1/7400002	Australia/Hobart	# ABC Brisbane
+SBS-Bris	Station/1/7400028	Australia/Hobart	# SBS Brisbane
+7CEN	Station/1/7410007	Australia/Hobart	# Seven Central QLD
+ABS2	Station/1/7500002	Australia/Hobart	# ABC Adelaide
+SBS-Adl	Station/1/7500028	Australia/Hobart	# SBS Adelaide
+ABW2	Station/1/7600002	Australia/Hobart	# ABC Perth
+SBS-Per	Station/1/7600028	Australia/Hobart	# SBS Perth
+GWN	Station/1/7610007	Australia/Hobart	# Golden West Network
+WIN-WA	Station/1/7610009	Australia/Hobart	# WIN WA
+NoNag	Station/1/7999999	Australia/Hobart	# No Nag Channel
+
+# Stations file for TA07005 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+ARNA	Station/1/7000100	Australia/Hobart	# Arena
+CMDY	Station/1/7000120	Australia/Hobart	# Comedy Channel
+DISC	Station/1/7000130	Australia/Hobart	# Discovery Channel
+ENCR	Station/1/7000140	Australia/Hobart	# Encore
+FOX8	Station/1/7000150	Australia/Hobart	# Fox8
+CLAS	Station/1/7000160	Australia/Hobart	# Fox Classics
+FFX-NSW	Station/1/7000170	Australia/Hobart	# Fox Footy Extra NSW/ACT
+FFX-QLD	Station/1/7000180	Australia/Hobart	# Fox Footy Extra QLD
+FFX-SA	Station/1/7000190	Australia/Hobart	# Fox Footy Extra SA
+FFX-VIC	Station/1/7000200	Australia/Hobart	# Fox Footy Extra VIC
+FFX-WA	Station/1/7000210	Australia/Hobart	# Fox Footy Extra WA
+FS1	Station/1/7000220	Australia/Hobart	# Fox Sports One
+HIST	Station/1/7000230	Australia/Hobart	# The History Channel
+mMAX	Station/1/7000240	Australia/Hobart	# musicMAX
+FS2	Station/1/7000250	Australia/Hobart	# Fox Sports Two
+W	Station/1/7000260	Australia/Hobart	# W
+HALL	Station/1/7000270	Australia/Hobart	# Hallmark Channel
+KIDS	Station/1/7000280	Australia/Hobart	# Fox Kids
+LIFE	Station/1/7000290	Australia/Hobart	# The LifeStyle Channel
+NGEO	Station/1/7000300	Australia/Hobart	# National Geographic Channel
+NICK	Station/1/7000310	Australia/Hobart	# Nickelodeon
+V	Station/1/7000320	Australia/Hobart
+SHOW	Station/1/7000330	Australia/Hobart	# Showtime
+TV1	Station/1/7000350	Australia/Hobart	# TV1
+UKTV	Station/1/7000360	Australia/Hobart	# UKTV
+WMOV	Station/1/7000370	Australia/Hobart	# World Movies
+AP	Station/1/7000400	Australia/Hobart	# Animal Planet
+DISN	Station/1/7000410	Australia/Hobart	# Disney Channel
+MOVG	Station/1/7000420	Australia/Hobart	# Movie Greats
+MOV1	Station/1/7000430	Australia/Hobart	# Movie One
+MOVX	Station/1/7000440	Australia/Hobart	# Movie Extra
+MTV	Station/1/7000450	Australia/Hobart	# MTV
+OVAT	Station/1/7000480	Australia/Hobart	# Ovation
+SKYN	Station/1/7000490	Australia/Hobart	# Sky News Australia
+TCM	Station/1/7000500	Australia/Hobart	# Turner Classic Movies
+BBC	Station/1/7000510	Australia/Hobart	# BBC World
+CART	Station/1/7000520	Australia/Hobart	# Cartoon Network
+CNNI	Station/1/7000530	Australia/Hobart	# CNN International
+ESPN	Station/1/7000540	Australia/Hobart	# ESPN
+SKYR	Station/1/7000550	Australia/Hobart	# Sky Racing
+CNBC	Station/1/7000590	Australia/Hobart	# CNBC Australia
+FOXN	Station/1/7000620	Australia/Hobart	# Fox News Channel
+ADULT	Station/1/7000640	Australia/Hobart	# Adults Only
+ANT	Station/1/7000660	Australia/Hobart	# Antenna
+BLM	Station/1/7000680	Australia/Hobart	# Bloomberg Television
+FASH	Station/1/7000710	Australia/Hobart	# Fashion TV
+FFC	Station/1/7000730	Australia/Hobart	# Fox Footy Channel
+MAIN	Station/1/7000750	Australia/Hobart	# Main Event
+RAI	Station/1/7000760	Australia/Hobart	# RAI International
+SHW2	Station/1/7000770	Australia/Hobart	# Showtime 2
+TVSN	Station/1/7000780	Australia/Hobart	# Television Shopping Network
+TWC	Station/1/7000790	Australia/Hobart	# The Weather Channel
+NoNag	Station/1/7999999	Australia/Hobart	# No Nag Channel
+
+# Stations file for TA07006 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+ARNA	Station/1/7000100	Australia/Hobart	# Arena
+CMDY	Station/1/7000120	Australia/Hobart	# Comedy Channel
+DISC	Station/1/7000130	Australia/Hobart	# Discovery Channel
+ENCR	Station/1/7000140	Australia/Hobart	# Encore
+FOX8	Station/1/7000150	Australia/Hobart	# Fox8
+FFX-NSW	Station/1/7000170	Australia/Hobart	# Fox Footy Extra NSW/ACT
+FFX-QLD	Station/1/7000180	Australia/Hobart	# Fox Footy Extra QLD
+FFX-SA	Station/1/7000190	Australia/Hobart	# Fox Footy Extra SA
+FFX-VIC	Station/1/7000200	Australia/Hobart	# Fox Footy Extra VIC
+FFX-WA	Station/1/7000210	Australia/Hobart	# Fox Footy Extra WA
+FS1	Station/1/7000220	Australia/Hobart	# Fox Sports One
+HIST	Station/1/7000230	Australia/Hobart	# The History Channel
+mMAX	Station/1/7000240	Australia/Hobart	# musicMAX
+FS2	Station/1/7000250	Australia/Hobart	# Fox Sports Two
+W	Station/1/7000260	Australia/Hobart	# W
+HALL	Station/1/7000270	Australia/Hobart	# Hallmark Channel
+LIFE	Station/1/7000290	Australia/Hobart	# The LifeStyle Channel
+NGEO	Station/1/7000300	Australia/Hobart	# National Geographic Channel
+NICK	Station/1/7000310	Australia/Hobart	# Nickelodeon
+V	Station/1/7000320	Australia/Hobart
+SHOW	Station/1/7000330	Australia/Hobart	# Showtime
+TV1	Station/1/7000350	Australia/Hobart	# TV1
+UKTV	Station/1/7000360	Australia/Hobart	# UKTV
+WMOV	Station/1/7000370	Australia/Hobart	# World Movies
+DISN	Station/1/7000410	Australia/Hobart	# Disney Channel
+MOVG	Station/1/7000420	Australia/Hobart	# Movie Greats
+MOV1	Station/1/7000430	Australia/Hobart	# Movie One
+MOVX	Station/1/7000440	Australia/Hobart	# Movie Extra
+SKYN	Station/1/7000490	Australia/Hobart	# Sky News Australia
+TCM	Station/1/7000500	Australia/Hobart	# Turner Classic Movies
+CART	Station/1/7000520	Australia/Hobart	# Cartoon Network
+CNNI	Station/1/7000530	Australia/Hobart	# CNN International
+ESPN	Station/1/7000540	Australia/Hobart	# ESPN
+CNBC	Station/1/7000590	Australia/Hobart	# CNBC Australia
+TVSN	Station/1/7000780	Australia/Hobart	# Television Shopping Network
+NoNag	Station/1/7999999	Australia/Hobart	# No Nag Channel
+ABN2	Station/1/7200002	Australia/Hobart	# ABC Sydney
+SBS-Syd	Station/1/7200028	Australia/Hobart	# SBS Sydney
+EXPO	Station/1/7000700	Australia/Hobart	# Expo Channel
+SKYR	Station/1/7000550	Australia/Hobart	# Sky Racing
+
+# Stations file for VI03001 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+ABV2	Station/1/7300002	Australia/Melbourne	# ABC Melbourne
+HSV7	Station/1/7300007	Australia/Melbourne	# Seven Melbourne
+GTV9	Station/1/7300009	Australia/Melbourne	# Nine Melbourne
+ATV10	Station/1/7300010	Australia/Melbourne	# Ten Melbourne
+SBS-Mel	Station/1/7300028	Australia/Melbourne	# SBS Melbourne
+31-Mel	Station/1/7300031	Australia/Melbourne	# Ch31 Melbourne
+ABC-Vic	Station/1/7310002	Australia/Melbourne	# ABC Victoria Regional
+SBS-Vic	Station/1/7310003	Australia/Melbourne	# SBS Victoria Regional
+Prime-Vic	Station/1/7310007	Australia/Melbourne	# Prime Victoria
+WIN-Vic	Station/1/7310009	Australia/Melbourne	# WIN Victoria
+Ten-Vic	Station/1/7310010	Australia/Melbourne	# Ten Victoria Regional
+WIN-SA	Station/1/7510009	Australia/Melbourne	# WIN SA
+NoNag	Station/1/7999999	Australia/Melbourne	# No Nag Channel
+ABV2D	Station/1/8300002	Australia/Melbourne	# ABC Melbourne
+HSV7D	Station/1/8300007	Australia/Melbourne	# Seven Melbourne
+GTV9D	Station/1/8300009	Australia/Melbourne	# Nine Melbourne
+ATV10D	Station/1/8300001	Australia/Melbourne	# Ten Melbourne
+SBS-MelD	Station/1/8300003	Australia/Melbourne	# SBS Melbourne
+
+# Stations file for VI03002 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+ARNA	Station/1/7000100	DoNotShift	# Arena
+CMDY	Station/1/7000120	DoNotShift	# Comedy Channel
+DISC	Station/1/7000130	DoNotShift	# Discovery Channel
+ENCR	Station/1/7000140	DoNotShift	# Encore
+FOX8	Station/1/7000150	DoNotShift	# Fox8
+CLAS	Station/1/7000160	DoNotShift	# Fox Classics
+FFX-NSW	Station/1/7000170	Australia/Melbourne	# Fox Footy Extra NSW/ACT
+FFX-QLD	Station/1/7000180	Australia/Melbourne	# Fox Footy Extra QLD
+FFX-SA	Station/1/7000190	Australia/Melbourne	# Fox Footy Extra SA
+FFX-VIC	Station/1/7000200	Australia/Melbourne	# Fox Footy Extra VIC
+FFX-WA	Station/1/7000210	Australia/Melbourne	# Fox Footy Extra WA
+FS1	Station/1/7000220	Australia/Melbourne	# Fox Sports One
+HIST	Station/1/7000230	DoNotShift	# The History Channel
+mMAX	Station/1/7000240	DoNotShift	# musicMAX
+FS2	Station/1/7000250	Australia/Melbourne	# Fox Sports Two
+W	Station/1/7000260	DoNotShift	# W
+KIDS	Station/1/7000280	DoNotShift	# Fox Kids
+LIFE	Station/1/7000290	DoNotShift	# The LifeStyle Channel
+NGEO	Station/1/7000300	Australia/Melbourne	# National Geographic Channel
+NICK	Station/1/7000310	DoNotShift	# Nickelodeon
+V	Station/1/7000320	DoNotShift
+SHOW	Station/1/7000330	DoNotShift	# Showtime
+TV1	Station/1/7000350	DoNotShift	# TV1
+UKTV	Station/1/7000360	DoNotShift	# UKTV
+WMOV	Station/1/7000370	DoNotShift	# World Movies
+ACC	Station/1/7000380	DoNotShift	# Australian Christian Channel
+ADV1	Station/1/7000390	DoNotShift	# Adventure One
+AP	Station/1/7000400	DoNotShift	# Animal Planet
+DISN	Station/1/7000410	DoNotShift	# Disney Channel
+MOVG	Station/1/7000420	DoNotShift	# Movie Greats
+MOV1	Station/1/7000430	DoNotShift	# Movie One
+MOVX	Station/1/7000440	DoNotShift	# Movie Extra
+MTV	Station/1/7000450	DoNotShift	# MTV
+ODY	Station/1/7000460	DoNotShift	# Odyssey
+OVAT	Station/1/7000480	Australia/Melbourne	# Ovation
+SKYN	Station/1/7000490	DoNotShift	# Sky News Australia
+TCM	Station/1/7000500	Australia/Melbourne	# Turner Classic Movies
+BBC	Station/1/7000510	DoNotShift	# BBC World
+CART	Station/1/7000520	Australia/Melbourne	# Cartoon Network
+CNNI	Station/1/7000530	DoNotShift	# CNN International
+ESPN	Station/1/7000540	Australia/Melbourne	# ESPN
+SKYR	Station/1/7000550	Australia/Melbourne	# Sky Racing
+CNBC	Station/1/7000590	DoNotShift	# CNBC Australia
+FOXN	Station/1/7000620	DoNotShift	# Fox News Channel
+ADULT	Station/1/7000640	DoNotShift	# Adults Only
+ALJA	Station/1/7000650	DoNotShift	# Al Jazeera
+ANT	Station/1/7000660	DoNotShift	# Antenna
+ART	Station/1/7000670	DoNotShift	# ART
+CNNfn	Station/1/7000690	DoNotShift	# CNN Financial Network
+EXPO	Station/1/7000700	DoNotShift	# Expo Channel
+FASH	Station/1/7000710	DoNotShift	# Fashion TV
+FFC	Station/1/7000730	DoNotShift	# Fox Footy Channel
+LBC	Station/1/7000740	DoNotShift	# Lebanese Broadcasting
+MAIN	Station/1/7000750	DoNotShift	# Main Event
+RAI	Station/1/7000760	DoNotShift	# RAI International
+SHW2	Station/1/7000770	DoNotShift	# Showtime 2
+TVSN	Station/1/7000780	DoNotShift	# Television Shopping Network
+TWC	Station/1/7000790	DoNotShift	# The Weather Channel
+ABV2	Station/1/7300002	Australia/Melbourne	# ABC Melbourne
+HSV7	Station/1/7300007	Australia/Melbourne	# Seven Melbourne
+GTV9	Station/1/7300009	Australia/Melbourne	# Nine Melbourne
+ATV10	Station/1/7300010	Australia/Melbourne	# Ten Melbourne
+SBS-Mel	Station/1/7300028	Australia/Melbourne	# SBS Melbourne
+NoNag	Station/1/7999999	Australia/Melbourne	# No Nag Channel
+
+# Stations file for VI03003 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+ARNA	Station/1/7000100	DoNotShift	# Arena
+CMDY	Station/1/7000120	DoNotShift	# Comedy Channel
+DISC	Station/1/7000130	DoNotShift	# Discovery Channel
+ENCR	Station/1/7000140	DoNotShift	# Encore
+FOX8	Station/1/7000150	DoNotShift	# Fox8
+CLAS	Station/1/7000160	DoNotShift	# Fox Classics
+FFX-NSW	Station/1/7000170	Australia/Melbourne	# Fox Footy Extra NSW/ACT
+FFX-QLD	Station/1/7000180	Australia/Melbourne	# Fox Footy Extra QLD
+FFX-SA	Station/1/7000190	Australia/Melbourne	# Fox Footy Extra SA
+FFX-VIC	Station/1/7000200	Australia/Melbourne	# Fox Footy Extra VIC
+FFX-WA	Station/1/7000210	Australia/Melbourne	# Fox Footy Extra WA
+FS1	Station/1/7000220	Australia/Melbourne	# Fox Sports One
+HIST	Station/1/7000230	DoNotShift	# The History Channel
+mMAX	Station/1/7000240	DoNotShift	# musicMAX
+FS2	Station/1/7000250	Australia/Melbourne	# Fox Sports Two
+W	Station/1/7000260	DoNotShift	# W
+HALL	Station/1/7000270	DoNotShift	# Hallmark Channel
+KIDS	Station/1/7000280	DoNotShift	# Fox Kids
+LIFE	Station/1/7000290	DoNotShift	# The LifeStyle Channel
+NGEO	Station/1/7000300	Australia/Melbourne	# National Geographic Channel
+NICK	Station/1/7000310	DoNotShift	# Nickelodeon
+V	Station/1/7000320	DoNotShift
+SHOW	Station/1/7000330	DoNotShift	# Showtime
+TV1	Station/1/7000350	DoNotShift	# TV1
+UKTV	Station/1/7000360	DoNotShift	# UKTV
+WMOV	Station/1/7000370	DoNotShift	# World Movies
+AP	Station/1/7000400	DoNotShift	# Animal Planet
+DISN	Station/1/7000410	DoNotShift	# Disney Channel
+MOVG	Station/1/7000420	DoNotShift	# Movie Greats
+MOV1	Station/1/7000430	DoNotShift	# Movie One
+MOVX	Station/1/7000440	DoNotShift	# Movie Extra
+MTV	Station/1/7000450	DoNotShift	# MTV
+OVAT	Station/1/7000480	Australia/Melbourne	# Ovation
+SKYN	Station/1/7000490	DoNotShift	# Sky News Australia
+TCM	Station/1/7000500	Australia/Melbourne	# Turner Classic Movies
+BBC	Station/1/7000510	DoNotShift	# BBC World
+CART	Station/1/7000520	Australia/Melbourne	# Cartoon Network
+CNNI	Station/1/7000530	DoNotShift	# CNN International
+ESPN	Station/1/7000540	Australia/Melbourne	# ESPN
+SKYR	Station/1/7000550	Australia/Melbourne	# Sky Racing
+CNBC	Station/1/7000590	DoNotShift	# CNBC Australia
+FOXN	Station/1/7000620	DoNotShift	# Fox News Channel
+ADULT	Station/1/7000640	DoNotShift	# Adults Only
+ANT	Station/1/7000660	DoNotShift	# Antenna
+BLM	Station/1/7000680	DoNotShift	# Bloomberg Television
+FASH	Station/1/7000710	DoNotShift	# Fashion TV
+FFC	Station/1/7000730	DoNotShift	# Fox Footy Channel
+MAIN	Station/1/7000750	DoNotShift	# Main Event
+RAI	Station/1/7000760	DoNotShift	# RAI International
+SHW2	Station/1/7000770	DoNotShift	# Showtime 2
+TVSN	Station/1/7000780	DoNotShift	# Television Shopping Network
+TWC	Station/1/7000790	DoNotShift	# The Weather Channel
+ABV2	Station/1/7300002	Australia/Melbourne	# ABC Melbourne
+HSV7	Station/1/7300007	Australia/Melbourne	# Seven Melbourne
+GTV9	Station/1/7300009	Australia/Melbourne	# Nine Melbourne
+ATV10	Station/1/7300010	Australia/Melbourne	# Ten Melbourne
+SBS-Mel	Station/1/7300028	Australia/Melbourne	# SBS Melbourne
+NoNag	Station/1/7999999	Australia/Melbourne	# No Nag Channel
+
+# Stations file for VI03004 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+ABD6	Station/1/7080002	Australia/Melbourne	# ABC Darwin
+IMP	Station/1/7081001	Australia/Melbourne	# Imparja
+ABN2	Station/1/7200002	Australia/Melbourne	# ABC Sydney
+SBS-Syd	Station/1/7200028	Australia/Melbourne	# SBS Sydney
+ABQ2	Station/1/7400002	Australia/Melbourne	# ABC Brisbane
+SBS-Bris	Station/1/7400028	Australia/Melbourne	# SBS Brisbane
+7CEN	Station/1/7410007	Australia/Melbourne	# Seven Central QLD
+ABS2	Station/1/7500002	Australia/Melbourne	# ABC Adelaide
+SBS-Adl	Station/1/7500028	Australia/Melbourne	# SBS Adelaide
+ABW2	Station/1/7600002	Australia/Melbourne	# ABC Perth
+SBS-Per	Station/1/7600028	Australia/Melbourne	# SBS Perth
+GWN	Station/1/7610007	Australia/Melbourne	# Golden West Network
+WIN-WA	Station/1/7610009	Australia/Melbourne	# WIN WA
+NoNag	Station/1/7999999	Australia/Melbourne	# No Nag Channel
+
+# Stations file for VI03005 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+ARNA	Station/1/7000100	Australia/Melbourne	# Arena
+CMDY	Station/1/7000120	Australia/Melbourne	# Comedy Channel
+DISC	Station/1/7000130	Australia/Melbourne	# Discovery Channel
+ENCR	Station/1/7000140	Australia/Melbourne	# Encore
+FOX8	Station/1/7000150	Australia/Melbourne	# Fox8
+CLAS	Station/1/7000160	Australia/Melbourne	# Fox Classics
+FFX-NSW	Station/1/7000170	Australia/Melbourne	# Fox Footy Extra NSW/ACT
+FFX-QLD	Station/1/7000180	Australia/Melbourne	# Fox Footy Extra QLD
+FFX-SA	Station/1/7000190	Australia/Melbourne	# Fox Footy Extra SA
+FFX-VIC	Station/1/7000200	Australia/Melbourne	# Fox Footy Extra VIC
+FFX-WA	Station/1/7000210	Australia/Melbourne	# Fox Footy Extra WA
+FS1	Station/1/7000220	Australia/Melbourne	# Fox Sports One
+HIST	Station/1/7000230	Australia/Melbourne	# The History Channel
+mMAX	Station/1/7000240	Australia/Melbourne	# musicMAX
+FS2	Station/1/7000250	Australia/Melbourne	# Fox Sports Two
+W	Station/1/7000260	Australia/Melbourne	# W
+HALL	Station/1/7000270	Australia/Melbourne	# Hallmark Channel
+KIDS	Station/1/7000280	Australia/Melbourne	# Fox Kids
+LIFE	Station/1/7000290	Australia/Melbourne	# The LifeStyle Channel
+NGEO	Station/1/7000300	Australia/Melbourne	# National Geographic Channel
+NICK	Station/1/7000310	Australia/Melbourne	# Nickelodeon
+V	Station/1/7000320	Australia/Melbourne
+SHOW	Station/1/7000330	Australia/Melbourne	# Showtime
+TV1	Station/1/7000350	Australia/Melbourne	# TV1
+UKTV	Station/1/7000360	Australia/Melbourne	# UKTV
+WMOV	Station/1/7000370	Australia/Melbourne	# World Movies
+AP	Station/1/7000400	Australia/Melbourne	# Animal Planet
+DISN	Station/1/7000410	Australia/Melbourne	# Disney Channel
+MOVG	Station/1/7000420	Australia/Melbourne	# Movie Greats
+MOV1	Station/1/7000430	Australia/Melbourne	# Movie One
+MOVX	Station/1/7000440	Australia/Melbourne	# Movie Extra
+MTV	Station/1/7000450	Australia/Melbourne	# MTV
+OVAT	Station/1/7000480	Australia/Melbourne	# Ovation
+SKYN	Station/1/7000490	Australia/Melbourne	# Sky News Australia
+TCM	Station/1/7000500	Australia/Melbourne	# Turner Classic Movies
+BBC	Station/1/7000510	Australia/Melbourne	# BBC World
+CART	Station/1/7000520	Australia/Melbourne	# Cartoon Network
+CNNI	Station/1/7000530	Australia/Melbourne	# CNN International
+ESPN	Station/1/7000540	Australia/Melbourne	# ESPN
+SKYR	Station/1/7000550	Australia/Melbourne	# Sky Racing
+CNBC	Station/1/7000590	Australia/Melbourne	# CNBC Australia
+FOXN	Station/1/7000620	Australia/Melbourne	# Fox News Channel
+ADULT	Station/1/7000640	Australia/Melbourne	# Adults Only
+ANT	Station/1/7000660	Australia/Melbourne	# Antenna
+BLM	Station/1/7000680	Australia/Melbourne	# Bloomberg Television
+FASH	Station/1/7000710	Australia/Melbourne	# Fashion TV
+FFC	Station/1/7000730	Australia/Melbourne	# Fox Footy Channel
+MAIN	Station/1/7000750	Australia/Melbourne	# Main Event
+RAI	Station/1/7000760	Australia/Melbourne	# RAI International
+SHW2	Station/1/7000770	Australia/Melbourne	# Showtime 2
+TVSN	Station/1/7000780	Australia/Melbourne	# Television Shopping Network
+TWC	Station/1/7000790	Australia/Melbourne	# The Weather Channel
+NoNag	Station/1/7999999	Australia/Melbourne	# No Nag Channel
+
+# Stations file for VI03006 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+ARNA	Station/1/7000100	Australia/Melbourne	# Arena
+CMDY	Station/1/7000120	Australia/Melbourne	# Comedy Channel
+DISC	Station/1/7000130	Australia/Melbourne	# Discovery Channel
+ENCR	Station/1/7000140	Australia/Melbourne	# Encore
+FOX8	Station/1/7000150	Australia/Melbourne	# Fox8
+FFX-NSW	Station/1/7000170	Australia/Melbourne	# Fox Footy Extra NSW/ACT
+FFX-QLD	Station/1/7000180	Australia/Melbourne	# Fox Footy Extra QLD
+FFX-SA	Station/1/7000190	Australia/Melbourne	# Fox Footy Extra SA
+FFX-VIC	Station/1/7000200	Australia/Melbourne	# Fox Footy Extra VIC
+FFX-WA	Station/1/7000210	Australia/Melbourne	# Fox Footy Extra WA
+FS1	Station/1/7000220	Australia/Melbourne	# Fox Sports One
+HIST	Station/1/7000230	Australia/Melbourne	# The History Channel
+mMAX	Station/1/7000240	Australia/Melbourne	# musicMAX
+FS2	Station/1/7000250	Australia/Melbourne	# Fox Sports Two
+W	Station/1/7000260	Australia/Melbourne	# W
+HALL	Station/1/7000270	Australia/Melbourne	# Hallmark Channel
+LIFE	Station/1/7000290	Australia/Melbourne	# The LifeStyle Channel
+NGEO	Station/1/7000300	Australia/Melbourne	# National Geographic Channel
+NICK	Station/1/7000310	Australia/Melbourne	# Nickelodeon
+V	Station/1/7000320	Australia/Melbourne
+SHOW	Station/1/7000330	Australia/Melbourne	# Showtime
+TV1	Station/1/7000350	Australia/Melbourne	# TV1
+UKTV	Station/1/7000360	Australia/Melbourne	# UKTV
+WMOV	Station/1/7000370	Australia/Melbourne	# World Movies
+DISN	Station/1/7000410	Australia/Melbourne	# Disney Channel
+MOVG	Station/1/7000420	Australia/Melbourne	# Movie Greats
+MOV1	Station/1/7000430	Australia/Melbourne	# Movie One
+MOVX	Station/1/7000440	Australia/Melbourne	# Movie Extra
+SKYN	Station/1/7000490	Australia/Melbourne	# Sky News Australia
+TCM	Station/1/7000500	Australia/Melbourne	# Turner Classic Movies
+CART	Station/1/7000520	Australia/Melbourne	# Cartoon Network
+CNNI	Station/1/7000530	Australia/Melbourne	# CNN International
+ESPN	Station/1/7000540	Australia/Melbourne	# ESPN
+CNBC	Station/1/7000590	Australia/Melbourne	# CNBC Australia
+TVSN	Station/1/7000780	Australia/Melbourne	# Television Shopping Network
+NoNag	Station/1/7999999	Australia/Melbourne	# No Nag Channel
+ABN2	Station/1/7200002	Australia/Melbourne	# ABC Sydney
+SBS-Syd	Station/1/7200028	Australia/Melbourne	# SBS Sydney
+EXPO	Station/1/7000700	Australia/Melbourne	# Expo Channel
+SKYR	Station/1/7000550	Australia/Melbourne	# Sky Racing
+
+# Stations file for VI03007 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+ARNA	Station/1/7000100	Australia/Melbourne	# Arena
+CMDY	Station/1/7000120	Australia/Melbourne	# Comedy Channel
+DISC	Station/1/7000130	Australia/Melbourne	# Discovery Channel
+ENCR	Station/1/7000140	Australia/Melbourne	# Encore
+FOX8	Station/1/7000150	Australia/Melbourne	# Fox8
+CLAS	Station/1/7000160	Australia/Melbourne	# Fox Classics
+FFX-NSW	Station/1/7000170	Australia/Melbourne	# Fox Footy Extra NSW/ACT
+FFX-QLD	Station/1/7000180	Australia/Melbourne	# Fox Footy Extra QLD
+FFX-SA	Station/1/7000190	Australia/Melbourne	# Fox Footy Extra SA
+FFX-VIC	Station/1/7000200	Australia/Melbourne	# Fox Footy Extra VIC
+FFX-WA	Station/1/7000210	Australia/Melbourne	# Fox Footy Extra WA
+FS1	Station/1/7000220	Australia/Melbourne	# Fox Sports One
+HIST	Station/1/7000230	Australia/Melbourne	# The History Channel
+mMAX	Station/1/7000240	Australia/Melbourne	# musicMAX
+FS2	Station/1/7000250	Australia/Melbourne	# Fox Sports Two
+W	Station/1/7000260	Australia/Melbourne	# W
+HALL	Station/1/7000270	Australia/Melbourne	# Hallmark Channel
+KIDS	Station/1/7000280	Australia/Melbourne	# Fox Kids
+LIFE	Station/1/7000290	Australia/Melbourne	# The LifeStyle Channel
+NGEO	Station/1/7000300	Australia/Melbourne	# National Geographic Channel
+NICK	Station/1/7000310	Australia/Melbourne	# Nickelodeon
+V	Station/1/7000320	Australia/Melbourne
+SHOW	Station/1/7000330	Australia/Melbourne	# Showtime
+TV1	Station/1/7000350	Australia/Melbourne	# TV1
+UKTV	Station/1/7000360	Australia/Melbourne	# UKTV
+WMOV	Station/1/7000370	Australia/Melbourne	# World Movies
+AP	Station/1/7000400	Australia/Melbourne	# Animal Planet
+DISN	Station/1/7000410	Australia/Melbourne	# Disney Channel
+MOVG	Station/1/7000420	Australia/Melbourne	# Movie Greats
+MOV1	Station/1/7000430	Australia/Melbourne	# Movie One
+MOVX	Station/1/7000440	Australia/Melbourne	# Movie Extra
+MTV	Station/1/7000450	Australia/Melbourne	# MTV
+OVAT	Station/1/7000480	Australia/Melbourne	# Ovation
+SKYN	Station/1/7000490	Australia/Melbourne	# Sky News Australia
+TCM	Station/1/7000500	Australia/Melbourne	# Turner Classic Movies
+BBC	Station/1/7000510	Australia/Melbourne	# BBC World
+CART	Station/1/7000520	Australia/Melbourne	# Cartoon Network
+CNNI	Station/1/7000530	Australia/Melbourne	# CNN International
+ESPN	Station/1/7000540	Australia/Melbourne	# ESPN
+SKYR	Station/1/7000550	Australia/Melbourne	# Sky Racing
+CNBC	Station/1/7000590	Australia/Melbourne	# CNBC Australia
+FOXN	Station/1/7000620	Australia/Melbourne	# Fox News Channel
+ADULT	Station/1/7000640	Australia/Melbourne	# Adults Only
+ANT	Station/1/7000660	Australia/Melbourne	# Antenna
+BLM	Station/1/7000680	Australia/Melbourne	# Bloomberg Television
+FASH	Station/1/7000710	Australia/Melbourne	# Fashion TV
+FFC	Station/1/7000730	Australia/Melbourne	# Fox Footy Channel
+MAIN	Station/1/7000750	Australia/Melbourne	# Main Event
+RAI	Station/1/7000760	Australia/Melbourne	# RAI International
+SHW2	Station/1/7000770	Australia/Melbourne	# Showtime 2
+TVSN	Station/1/7000780	Australia/Melbourne	# Television Shopping Network
+TWC	Station/1/7000790	Australia/Melbourne	# The Weather Channel
+ABD6	Station/1/7080002	Australia/Melbourne	# ABC Darwin
+IMP	Station/1/7081001	Australia/Melbourne	# Imparja
+ABN2	Station/1/7200002	Australia/Melbourne	# ABC Sydney
+SBS-Syd	Station/1/7200028	Australia/Melbourne	# SBS Sydney
+ABQ2	Station/1/7400002	Australia/Melbourne	# ABC Brisbane
+SBS-Bris	Station/1/7400028	Australia/Melbourne	# SBS Brisbane
+7CEN	Station/1/7410007	Australia/Melbourne	# Seven Central QLD
+ABQ49	Station/1/7111002	Australia/Melbourne	# ABC Mt Tamborine
+SBS-GC	Station/1/7111028	Australia/Melbourne	# SBS Gold Coast
+ABS2	Station/1/7500002	Australia/Melbourne	# ABC Adelaide
+SBS-Adl	Station/1/7500028	Australia/Melbourne	# SBS Adelaide
+ABW2	Station/1/7600002	Australia/Melbourne	# ABC Perth
+SBS-Per	Station/1/7600028	Australia/Melbourne	# SBS Perth
+GWN	Station/1/7610007	Australia/Melbourne	# Golden West Network
+WIN-WA	Station/1/7610009	Australia/Melbourne	# WIN WA
+NoNag	Station/1/7999999	Australia/Melbourne	# No Nag Channel
+
+# Stations file for WA06001 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+ABW2	Station/1/7600002	Australia/Perth	# ABC Perth
+TVW7	Station/1/7600007	Australia/Perth	# Seven Perth
+STW9	Station/1/7600009	Australia/Perth	# Nine Perth
+NEW10	Station/1/7600010	Australia/Perth	# Ten Perth
+SBS-Per	Station/1/7600028	Australia/Perth	# SBS Perth
+31-Per	Station/1/7600031	Australia/Perth	# Ch31 Perth
+ABC-WA	Station/1/7610002	Australia/Perth	# ABC WA Regional
+SBS-WA	Station/1/7610003	Australia/Perth	# SBS WA Regional
+GWN	Station/1/7610007	Australia/Perth	# Golden West Network
+WIN-WA	Station/1/7610009	Australia/Perth	# WIN WA
+NoNag	Station/1/7999999	Australia/Perth	# No Nag Channel
+
+# Stations file for WA06003 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+ARNA	Station/1/7000100	DoNotShift	# Arena
+CMDY	Station/1/7000120	DoNotShift	# Comedy Channel
+DISC	Station/1/7000130	DoNotShift	# Discovery Channel
+ENCR	Station/1/7000140	DoNotShift	# Encore
+FOX8	Station/1/7000150	DoNotShift	# Fox8
+CLAS	Station/1/7000160	DoNotShift	# Fox Classics
+FFX-NSW	Station/1/7000170	Australia/Perth	# Fox Footy Extra NSW/ACT
+FFX-QLD	Station/1/7000180	Australia/Perth	# Fox Footy Extra QLD
+FFX-SA	Station/1/7000190	Australia/Perth	# Fox Footy Extra SA
+FFX-VIC	Station/1/7000200	Australia/Perth	# Fox Footy Extra VIC
+FFX-WA	Station/1/7000210	Australia/Perth	# Fox Footy Extra WA
+FS1	Station/1/7000220	Australia/Perth	# Fox Sports One
+HIST	Station/1/7000230	DoNotShift	# The History Channel
+mMAX	Station/1/7000240	DoNotShift	# musicMAX
+FS2	Station/1/7000250	Australia/Perth	# Fox Sports Two
+W	Station/1/7000260	DoNotShift	# W
+HALL	Station/1/7000270	DoNotShift	# Hallmark Channel
+KIDS	Station/1/7000280	DoNotShift	# Fox Kids
+LIFE	Station/1/7000290	DoNotShift	# The LifeStyle Channel
+NGEO	Station/1/7000300	Australia/Perth	# National Geographic Channel
+NICK	Station/1/7000310	DoNotShift	# Nickelodeon
+V	Station/1/7000320	DoNotShift
+SHOW	Station/1/7000330	DoNotShift	# Showtime
+TV1	Station/1/7000350	DoNotShift	# TV1
+UKTV	Station/1/7000360	DoNotShift	# UKTV
+WMOV	Station/1/7000370	DoNotShift	# World Movies
+AP	Station/1/7000400	DoNotShift	# Animal Planet
+DISN	Station/1/7000410	DoNotShift	# Disney Channel
+MOVG	Station/1/7000420	DoNotShift	# Movie Greats
+MOV1	Station/1/7000430	DoNotShift	# Movie One
+MOVX	Station/1/7000440	DoNotShift	# Movie Extra
+MTV	Station/1/7000450	DoNotShift	# MTV
+OVAT	Station/1/7000480	Australia/Perth	# Ovation
+SKYN	Station/1/7000490	DoNotShift	# Sky News Australia
+TCM	Station/1/7000500	Australia/Perth	# Turner Classic Movies
+BBC	Station/1/7000510	DoNotShift	# BBC World
+CART	Station/1/7000520	Australia/Perth	# Cartoon Network
+CNNI	Station/1/7000530	DoNotShift	# CNN International
+ESPN	Station/1/7000540	Australia/Perth	# ESPN
+SKYR	Station/1/7000550	Australia/Perth	# Sky Racing
+CNBC	Station/1/7000590	DoNotShift	# CNBC Australia
+FOXN	Station/1/7000620	DoNotShift	# Fox News Channel
+ADULT	Station/1/7000640	DoNotShift	# Adults Only
+ANT	Station/1/7000660	DoNotShift	# Antenna
+BLM	Station/1/7000680	DoNotShift	# Bloomberg Television
+FASH	Station/1/7000710	DoNotShift	# Fashion TV
+FFC	Station/1/7000730	DoNotShift	# Fox Footy Channel
+MAIN	Station/1/7000750	DoNotShift	# Main Event
+RAI	Station/1/7000760	DoNotShift	# RAI International
+SHW2	Station/1/7000770	DoNotShift	# Showtime 2
+TVSN	Station/1/7000780	DoNotShift	# Television Shopping Network
+TWC	Station/1/7000790	DoNotShift	# The Weather Channel
+ABW2	Station/1/7600002	Australia/Perth	# ABC Perth
+TVW7	Station/1/7600007	Australia/Perth	# Seven Perth
+STW9	Station/1/7600009	Australia/Perth	# Nine Perth
+NEW10	Station/1/7600010	Australia/Perth	# Ten Perth
+SBS-Per	Station/1/7600028	Australia/Perth	# SBS Perth
+NoNag	Station/1/7999999	Australia/Perth	# No Nag Channel
+
+# Stations file for WA06004 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+ABD6	Station/1/7080002	Australia/Perth	# ABC Darwin
+IMP	Station/1/7081001	Australia/Perth	# Imparja
+ABN2	Station/1/7200002	Australia/Perth	# ABC Sydney
+SBS-Syd	Station/1/7200028	Australia/Perth	# SBS Sydney
+ABQ2	Station/1/7400002	Australia/Perth	# ABC Brisbane
+SBS-Bris	Station/1/7400028	Australia/Perth	# SBS Brisbane
+7CEN	Station/1/7410007	Australia/Perth	# Seven Central QLD
+ABS2	Station/1/7500002	Australia/Perth	# ABC Adelaide
+SBS-Adl	Station/1/7500028	Australia/Perth	# SBS Adelaide
+ABW2	Station/1/7600002	Australia/Perth	# ABC Perth
+SBS-Per	Station/1/7600028	Australia/Perth	# SBS Perth
+GWN	Station/1/7610007	Australia/Perth	# Golden West Network
+WIN-WA	Station/1/7610009	Australia/Perth	# WIN WA
+NoNag	Station/1/7999999	Australia/Perth	# No Nag Channel
+
+# Stations file for WA06005 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+ARNA	Station/1/7000100	Australia/Perth	# Arena
+CMDY	Station/1/7000120	Australia/Perth	# Comedy Channel
+DISC	Station/1/7000130	Australia/Perth	# Discovery Channel
+ENCR	Station/1/7000140	Australia/Perth	# Encore
+FOX8	Station/1/7000150	Australia/Perth	# Fox8
+CLAS	Station/1/7000160	Australia/Perth	# Fox Classics
+FFX-NSW	Station/1/7000170	Australia/Perth	# Fox Footy Extra NSW/ACT
+FFX-QLD	Station/1/7000180	Australia/Perth	# Fox Footy Extra QLD
+FFX-SA	Station/1/7000190	Australia/Perth	# Fox Footy Extra SA
+FFX-VIC	Station/1/7000200	Australia/Perth	# Fox Footy Extra VIC
+FFX-WA	Station/1/7000210	Australia/Perth	# Fox Footy Extra WA
+FS1	Station/1/7000220	Australia/Perth	# Fox Sports One
+HIST	Station/1/7000230	Australia/Perth	# The History Channel
+mMAX	Station/1/7000240	Australia/Perth	# musicMAX
+FS2	Station/1/7000250	Australia/Perth	# Fox Sports Two
+W	Station/1/7000260	Australia/Perth	# W
+HALL	Station/1/7000270	Australia/Perth	# Hallmark Channel
+KIDS	Station/1/7000280	Australia/Perth	# Fox Kids
+LIFE	Station/1/7000290	Australia/Perth	# The LifeStyle Channel
+NGEO	Station/1/7000300	Australia/Perth	# National Geographic Channel
+NICK	Station/1/7000310	Australia/Perth	# Nickelodeon
+V	Station/1/7000320	Australia/Perth
+SHOW	Station/1/7000330	Australia/Perth	# Showtime
+TV1	Station/1/7000350	Australia/Perth	# TV1
+UKTV	Station/1/7000360	Australia/Perth	# UKTV
+WMOV	Station/1/7000370	Australia/Perth	# World Movies
+AP	Station/1/7000400	Australia/Perth	# Animal Planet
+DISN	Station/1/7000410	Australia/Perth	# Disney Channel
+MOVG	Station/1/7000420	Australia/Perth	# Movie Greats
+MOV1	Station/1/7000430	Australia/Perth	# Movie One
+MOVX	Station/1/7000440	Australia/Perth	# Movie Extra
+MTV	Station/1/7000450	Australia/Perth	# MTV
+OVAT	Station/1/7000480	Australia/Perth	# Ovation
+SKYN	Station/1/7000490	Australia/Perth	# Sky News Australia
+TCM	Station/1/7000500	Australia/Perth	# Turner Classic Movies
+BBC	Station/1/7000510	Australia/Perth	# BBC World
+CART	Station/1/7000520	Australia/Perth	# Cartoon Network
+CNNI	Station/1/7000530	Australia/Perth	# CNN International
+ESPN	Station/1/7000540	Australia/Perth	# ESPN
+SKYR	Station/1/7000550	Australia/Perth	# Sky Racing
+CNBC	Station/1/7000590	Australia/Perth	# CNBC Australia
+FOXN	Station/1/7000620	Australia/Perth	# Fox News Channel
+ADULT	Station/1/7000640	Australia/Perth	# Adults Only
+ANT	Station/1/7000660	Australia/Perth	# Antenna
+BLM	Station/1/7000680	Australia/Perth	# Bloomberg Television
+FASH	Station/1/7000710	Australia/Perth	# Fashion TV
+FFC	Station/1/7000730	Australia/Perth	# Fox Footy Channel
+MAIN	Station/1/7000750	Australia/Perth	# Main Event
+RAI	Station/1/7000760	Australia/Perth	# RAI International
+SHW2	Station/1/7000770	Australia/Perth	# Showtime 2
+TVSN	Station/1/7000780	Australia/Perth	# Television Shopping Network
+TWC	Station/1/7000790	Australia/Perth	# The Weather Channel
+NoNag	Station/1/7999999	Australia/Perth	# No Nag Channel
+
+# Stations file for WA06006 made by ./mkoztivo_configfiles
+# on Sat Jan 10 13:25:04 EST 2004
+#
+ARNA	Station/1/7000100	Australia/Perth	# Arena
+CMDY	Station/1/7000120	Australia/Perth	# Comedy Channel
+DISC	Station/1/7000130	Australia/Perth	# Discovery Channel
+ENCR	Station/1/7000140	Australia/Perth	# Encore
+FOX8	Station/1/7000150	Australia/Perth	# Fox8
+FFX-NSW	Station/1/7000170	Australia/Perth	# Fox Footy Extra NSW/ACT
+FFX-QLD	Station/1/7000180	Australia/Perth	# Fox Footy Extra QLD
+FFX-SA	Station/1/7000190	Australia/Perth	# Fox Footy Extra SA
+FFX-VIC	Station/1/7000200	Australia/Perth	# Fox Footy Extra VIC
+FFX-WA	Station/1/7000210	Australia/Perth	# Fox Footy Extra WA
+FS1	Station/1/7000220	Australia/Perth	# Fox Sports One
+HIST	Station/1/7000230	Australia/Perth	# The History Channel
+mMAX	Station/1/7000240	Australia/Perth	# musicMAX
+FS2	Station/1/7000250	Australia/Perth	# Fox Sports Two
+W	Station/1/7000260	Australia/Perth	# W
+HALL	Station/1/7000270	Australia/Perth	# Hallmark Channel
+LIFE	Station/1/7000290	Australia/Perth	# The LifeStyle Channel
+NGEO	Station/1/7000300	Australia/Perth	# National Geographic Channel
+NICK	Station/1/7000310	Australia/Perth	# Nickelodeon
+V	Station/1/7000320	Australia/Perth
+SHOW	Station/1/7000330	Australia/Perth	# Showtime
+TV1	Station/1/7000350	Australia/Perth	# TV1
+UKTV	Station/1/7000360	Australia/Perth	# UKTV
+WMOV	Station/1/7000370	Australia/Perth	# World Movies
+DISN	Station/1/7000410	Australia/Perth	# Disney Channel
+MOVG	Station/1/7000420	Australia/Perth	# Movie Greats
+MOV1	Station/1/7000430	Australia/Perth	# Movie One
+MOVX	Station/1/7000440	Australia/Perth	# Movie Extra
+SKYN	Station/1/7000490	Australia/Perth	# Sky News Australia
+TCM	Station/1/7000500	Australia/Perth	# Turner Classic Movies
+CART	Station/1/7000520	Australia/Perth	# Cartoon Network
+CNNI	Station/1/7000530	Australia/Perth	# CNN International
+ESPN	Station/1/7000540	Australia/Perth	# ESPN
+CNBC	Station/1/7000590	Australia/Perth	# CNBC Australia
+TVSN	Station/1/7000780	Australia/Perth	# Television Shopping Network
+NoNag	Station/1/7999999	Australia/Perth	# No Nag Channel
+ABN2	Station/1/7200002	Australia/Perth	# ABC Sydney
+SBS-Syd	Station/1/7200028	Australia/Perth	# SBS Sydney
+EXPO	Station/1/7000700	Australia/Perth	# Expo Channel
+SKYR	Station/1/7000550	Australia/Perth	# Sky Racing
+
+
+# Stations file for Australia PayTV cable: NS02002 and NS02003
+# [this is for output.Aust.PayTV.slice]
+ACC	Station/1/7000380	DoNotShift	# Australian Christian Channel
+ADULT	Station/1/7000640	DoNotShift	# Adults Only
+ADV1	Station/1/7000390	DoNotShift	# Adventure One
+ALJA	Station/1/7000650	DoNotShift	# Al Jazeera
+ANT	Station/1/7000660	DoNotShift	# Antenna
+AP	Station/1/7000400	DoNotShift	# Animal Planet
+ARNA	Station/1/7000100	DoNotShift	# Arena
+ART	Station/1/7000670	DoNotShift	# ART
+BBC	Station/1/7000510	DoNotShift	# BBC World
+BLM	Station/1/7000680	DoNotShift	# Bloomberg Television
+CART	Station/1/7000520	DoNotShift	# Cartoon Network
+CLAS	Station/1/7000160	DoNotShift	# Fox Classics
+CMDY	Station/1/7000120	DoNotShift	# Comedy Channel
+CNBC	Station/1/7000590	DoNotShift	# CNBC Australia
+CNNI	Station/1/7000530	DoNotShift	# CNN International
+CNNfn	Station/1/7000690	DoNotShift	# CNN Financial Network
+DISC	Station/1/7000130	DoNotShift	# Discovery Channel
+DISN	Station/1/7000410	DoNotShift	# Disney Channel
+ENCR	Station/1/7000140	DoNotShift	# Encore
+ESPN	Station/1/7000540	DoNotShift	# ESPN
+EXPO	Station/1/7000700	DoNotShift	# Expo Channel
+FASH	Station/1/7000710	DoNotShift	# Fashion TV
+FFC	Station/1/7000730	DoNotShift	# Fox Footy Channel
+FFX-NSW	Station/1/7000170	DoNotShift	# Fox Footy Extra NSW/ACT
+FFX-QLD	Station/1/7000180	DoNotShift	# Fox Footy Extra QLD
+FFX-SA	Station/1/7000190	DoNotShift	# Fox Footy Extra SA
+FFX-VIC	Station/1/7000200	DoNotShift	# Fox Footy Extra VIC
+FFX-WA	Station/1/7000210	DoNotShift	# Fox Footy Extra WA
+FOX8	Station/1/7000150	DoNotShift	# Fox8
+FOXN	Station/1/7000620	DoNotShift	# Fox News Channel
+FS1	Station/1/7000220	DoNotShift	# Fox Sports One
+FS2	Station/1/7000250	DoNotShift	# Fox Sports Two
+HALL	Station/1/7000270	DoNotShift	# Hallmark Channel
+HIST	Station/1/7000230	DoNotShift	# The History Channel
+KIDS	Station/1/7000280	DoNotShift	# Fox Kids
+LBC	Station/1/7000740	DoNotShift	# Lebanese Broadcasting
+LIFE	Station/1/7000290	DoNotShift	# The LifeStyle Channel
+MAIN	Station/1/7000750	DoNotShift	# Main Event
+MOV1	Station/1/7000430	DoNotShift	# Movie One
+MOVG	Station/1/7000420	DoNotShift	# Movie Greats
+MOVX	Station/1/7000440	DoNotShift	# Movie Extra
+MTV	Station/1/7000450	DoNotShift	# MTV
+NGEO	Station/1/7000300	DoNotShift	# National Geographic Channel
+NICK	Station/1/7000310	DoNotShift	# Nickelodeon
+NoNag	Station/1/7999999	DoNotShift	# No Nag Channel
+ODY	Station/1/7000460	DoNotShift	# Odyssey
+OVAT	Station/1/7000480	DoNotShift	# Ovation
+RAI	Station/1/7000760	DoNotShift	# RAI International
+SHOW	Station/1/7000330	DoNotShift	# Showtime
+SHW2	Station/1/7000770	DoNotShift	# Showtime 2
+SKYN	Station/1/7000490	DoNotShift	# Sky News Australia
+SKYR	Station/1/7000550	DoNotShift	# Sky Racing
+TCM	Station/1/7000500	DoNotShift	# Turner Classic Movies
+TV1	Station/1/7000350	DoNotShift	# TV1
+TVSN	Station/1/7000780	DoNotShift	# Television Shopping Network
+TWC	Station/1/7000790	DoNotShift	# The Weather Channel
+UKTV	Station/1/7000360	DoNotShift	# UKTV
+V	Station/1/7000320	DoNotShift
+W	Station/1/7000260	DoNotShift	# W
+WMOV	Station/1/7000370	DoNotShift	# World Movies
+mMAX	Station/1/7000240	DoNotShift	# musicMAX
