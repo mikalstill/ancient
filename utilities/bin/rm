@@ -19,26 +19,30 @@ do
 done
 
 mkdir -p /usr/local/rm/$now
-for item in "$*"
+for item in $*
 do
-  dest=$item
+  itemfile=`echo $item | sed 's/^.*\///'`
+  dest=$itemfile
   count=1
 
-  if [ -e $item ]
+  if [ -w "$item" ]
   then
-    if [ -e /usr/local/rm/$now/$item ]
+    if [ -e "/usr/local/rm/$now/$item" ]
     then
-	dest="$item".`printf "%03d" $count`
+	dest="$itemfile".`printf "%03d" $count`
 	count=$(( $count + 1 ))
     fi
     
-    while [ -e /usr/local/rm/$now/$dest ]
+    while [ -e "/usr/local/rm/$now/$dest" ]
     do
-	dest="$item".`printf "%03d" $count`
+	dest="$itemfile".`printf "%03d" $count`
 	count=$(( $count + 1 ))
     done
 
-    # This isn't going to work for absolute paths
+    echo "$item: $dest"
     mv -- $item /usr/local/rm/$now/$dest 2> /dev/null
+  else
+    echo "$item doesn't exist or we don't have permissions (user "`whoami`")"
+    ls -l $item
   fi
 done
