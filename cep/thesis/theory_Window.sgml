@@ -1,17 +1,40 @@
 <sect1><title>Windowing</title>
 
 <sect2><title>Introduction</title>
-  <para></para>
+  <para>Windowing</para>
 </sect2> <!--Introduction-->
 
 <sect2><title>Theory</title>
-  <para>
-   Ideas:
-   - Helps reduce spectral leakage for when a signla is transformed into the freq. domain
-   - Trade off - between amplitude accuracy, frequency accuracy, and noise reduction.
-   - Need several as no single windowing algorithm suits all appplications
-  </para>
+<para>
+  Windowing can improve some incorrect results produced by pure DFT. Truncation of the signal in
+  the time domain leads to unwanted ripples beung produced in the frequency domain. The basic idea
+  behind windowing the data prior to performing conversion to the fourier is that we can apply a
+  weighting function to the truncated signal in order to reduce the introduction of ripples in the
+  fequency domain.
+  The reduction in aliasing is a tradeoff, and the cost is an increase in the width of the spectral
+  peak.Each separate windowing algorithm has different characteristics. According to Dakarta.com
+  <!-- TODO remove this and put it in the refernces -->
+  (http://www.daqarta.com/ww00wndo.htm) the characteristics are as follows
 
+  Hanning:
+    Good resolution of spectral peaks and good rejection of sidelobe leakage "skirts" at low levels
+    for input signals that don't have an integer number of cycles in the N-points data set. A good
+    choice for most uses. Hanning window is a simple cosine signal, offset so that the negaittive
+    peaks are set to zero
+
+  Hamming:
+    Finer resolution of spectral peaks than Hanning, but poorer rejection of sidelobe skirts at low levels.
+    w(i) = alpha - alpha*cos( 2*PI*i/(size-1) );   alpha=0.54
+
+  Blackman:
+    Peak resolution is not as fine as Hanning, but the response shape flares out less at lower levels
+    and rejection of sidelobes is better
+    w(i) = 0.42 - 0.5*cos( 2*PI*val ) + 0.08*cos(4*PI* i/(size-1));
+
+  Dolph-Chebyshev:
+    Very similar to hamming, with better high frequency attenuation. Where hamming results in a 50dB attenuation
+    for frequencies above the sampling frequency, Dolph-Chebyshev provides 63dB attenuation for the same frequencies.
+</para>
 </sect2> <!--Theory-->
 
 <sect2><title>Conclusion</title>
@@ -19,4 +42,3 @@
 </sect2> <!--Conclusion-->
 
 </sect1> <!--Windowing-->
-
