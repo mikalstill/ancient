@@ -98,7 +98,7 @@ DOCBOOK END
 #define _cepCfft_H_INC__ 1
 #include <math.h>		// for sin and cos
 #include <stdio.h>
-#include <complex.h>
+#include <complex>
 #include "cepMatrix.h"
 
 
