@@ -31,6 +31,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <math.h>
 
 #include "cepError.h"
 #include "cepUtility.h"

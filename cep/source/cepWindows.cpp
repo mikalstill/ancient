@@ -53,11 +53,16 @@ cepDataset::doWindow (double winSize, double overlap) //todo_daniel: once vector
 	double firstDate; //the first dat in the the data
 	double lastDate; //the last date in the data
 	double overlapWinSize; //
+	cep_datarow windowRow;
+	vector<cep_datarow> windowData; //this is windowArray
+
 	
   // get timescale of data set 
-  numSamples = m_data.size() //length(data(1,:));//todo_daniel: correct notation for vector size...vector not defined yet
-  firstdate = m_data[0][0]; //data(1,1);//todo_daniel: vector not defined yet..correct notation needed
-  lastdate = m_data[numSample][0];//todo_daniel: vector not defined yet..correct notation needed
+  numSamples = m_data.size() 
+  firstdate = m_data.pop_first(); //data(1,1);//todo_daniel: vector not defined yet..correct notation needed
+  lastdate = m_data.pop_back() //[numSamples][0];
+	//todo_daniel: these pops could cause a problems since they're REMOVING the elements.
+	
 
   // For optimizing speed slightly 
   overlapWinSize = winSize * (1-overlap);
@@ -82,7 +87,10 @@ cepDataset::doWindow (double winSize, double overlap) //todo_daniel: once vector
     // populate first half of window
     while (m_data[vecCtr][0] < (startWindow+overlapWinSize)){
         for (int k=0; k<3; k++){
-            windowArray(k,i,vecCtr-(currentFirstRecord)) = m_data[vecCtr][k];
+
+						//windowArray(k,i,vecCtr-(currentFirstRecord)) = m_data[vecCtr][k];
+						//totdo:daniel - an iterator here? to point to appropriate vector location?
+						//todo:daniel -these indeces k, i etc have to be change to proper format
         }
         vecCtr += 1; // increment vector counter
 		} //end while
@@ -93,11 +101,14 @@ cepDataset::doWindow (double winSize, double overlap) //todo_daniel: once vector
     // populate second half of window
     while m_data[vecCtr][0] < (startWindow+winSize)){
         for (k=0; k<3; k++){
-            windowArray(k,i,vecCtr-(currentFirstRecord)) = m_data[vecCtr][k];
+            //windowArray(k,i,vecCtr-(currentFirstRecord)) = m_data[vecCtr][k];
+						//totdo:daniel - an iterator here? to point to appropriate vector location?
+						//todo:daniel -these indeces k, i etc have to be change to proper format					
         }
         vecCtr += 1; // increment vector counter
 		} //end while
   } // end for
+
 
   // populate final window with remaining data
   vecCtr = nextFirstRecord; 
@@ -105,7 +116,8 @@ cepDataset::doWindow (double winSize, double overlap) //todo_daniel: once vector
   startWindow = startWindow + winSize;
   while (vecCtr < numSamples){
     for (k=0; k<3; k++){
-      windowArray(k,numWindows,vecCtr-(currentFirstRecord)) = m_data[vecCtr][k];
+      //windowArray(k,numWindows,vecCtr-(currentFirstRecord)) = m_data[vecCtr][k];
+			//totdo:daniel - an iterator here? to point to appropriate vector location?
     }
     vecCtr += 1;
   } //end while
