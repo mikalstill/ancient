@@ -7,13 +7,7 @@ int main(int argc, char *argv[]){
 
   ourState = trivsql_opendb("foo.tdb");
 
-  printf(">> ");
-  fflush(stdout);
-
   while(fgets(cmd, 1000, stdin) != NULL){
     trivsql_execute(ourState, cmd);
-
-    printf(">> ");
-    fflush(stdout);
   }
 }

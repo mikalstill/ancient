@@ -1,5 +1,8 @@
 %{
 #include "parser.h"
+
+#undef YY_INPUT
+#define YY_INPUT(b, r, ms) (r = trivsql_gettext(b, ms))
 %} 
 
 %%
