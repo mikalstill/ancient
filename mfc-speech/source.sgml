@@ -1,0 +1,90 @@
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
+<article>
+<title>Computer Engineering Four Assignment One</title>
+   <subtitle>Speech Recognition</subtitle>
+
+<articleinfo>
+<author>
+  <firstname>Michael</firstname>
+  <surname>Still</surname>
+  <affiliation>
+    <jobtitle>964076</jobtitle>
+  </affiliation>
+</author>
+</articleinfo>
+
+<sect1>
+<title>Part A</title>
+
+<sect2><title>Perform time-domain analysis with a frame size of 512</title>
+<sect3><title>Input the file, play it back and state what the spoken phrase is</title>
+<para>
+The spoken phrase is "Human Computer Communication".
+</para>
+</sect3>
+
+<sect3><title>Compute the energy contour in dB</title>
+<para>
+The following Matlab script was used to generate the energy contour in dB, including using the first frame as a reference of 0 dB.
+</para>
+
+<execute><cmd>code2db</cmd><input>econtour.m</input></execute>
+</sect3>
+
+<sect3><title>Compute the normalised autocorrelation contour</title>
+<para>
+The following Matlab script was used to calculate the autocorrelation contour:
+</para>
+
+<execute><cmd>code2db</cmd><input>autocorr.m</input></execute>
+</sect3>
+
+<sect3><title>Set a suitable autocorrelation value for the voiced/unvoiced threshold and compute the fundamental frequency contour</title>
+<para>
+The fundamental frequency is calculated by the autocorrelation function in the code in the previous section.
+</para>
+</sect3>
+
+<sect3><title>Plot all three of the above contours with a common time axis and on that plot mark the phoneme boundaries and label the phonemes</title>
+<para>
+Please refer the to next page for this graph, with annotation.
+</para>
+</sect3>
+
+<sect3><title>Documentation</title>
+<para>
+The two scripts presented earlier in this section to calculate the values required are tied together by the following Matlab script:
+</para>
+
+<execute><cmd>code2db</cmd><input>questionOne.m</input></execute>
+</sect3>
+</sect2>
+
+<sect2><title>Perform frequency-domain analysis on a frame in the centre of the first vowel /u/ and on a frame in the centre of the consonant /sh/</title>
+<para>
+The following scripts were used to perform these calculations:
+</para>
+
+<execute><cmd>code2db</cmd><input>questionTwo.m</input></execute>
+<execute><cmd>code2db</cmd><input>ph_u.m</input></execute>
+<execute><cmd>code2db</cmd><input>ph_sh.m</input></execute>
+<execute><cmd>code2db</cmd><input>fd_analyse.m</input></execute>
+
+<sect3><title>/u/ plot</title>
+<para>
+Please refer to the next page for this plot.
+</para>
+</sect3>
+
+<sect3><title>/sh/ plot</title>
+<para>
+Please refer to the page following that for the /sh/ plots.
+</para>
+</sect3>
+</sect2>
+
+
+
+
+</sect1>
+</article>
