@@ -25,7 +25,7 @@
   <equation>
     <title>Square Wave</title>
     <alt>x(n) = sin(f) + 1/3*sin(3f) + 1/5*(sin5f)</alt>
-    <execute><cmd>eqimg</cmd><args>fSquareWave.gif</args></execute>
+    <execute><cmd>eqimg</cmd><args>freq-squarewave.eps</args></execute>
   </equation>
 	
   for all odd harmonics. Where <command>f</command> is the fundamental frequency.
@@ -35,7 +35,7 @@
 
   <equation>
     <title>Fourier Transform (Rabiner and Schafer, 1978)</title>
-    <execute><cmd>eqimg</cmd><args>fForward_fourier.gif</args></execute>
+    <execute><cmd>eqimg</cmd><args>freq-fft.eps</args></execute>
   </equation>
   
   where <command>&egr;<superscript>j&ohgr;</superscript></command> is equal to <command>&ohgr;</command> or the angular frequency.
@@ -43,7 +43,7 @@
 
   <equation>
     <title>Inverse Fourier Transform (Rabiner and Schafer, 1978)</title>
-    <execute><cmd>eqimg</cmd><args>fInverse_fourier.gif</args></execute>
+    <execute><cmd>eqimg</cmd><args>freq-ifft.eps</args></execute>
   </equation>
 </para>
 
@@ -66,14 +66,14 @@
 
   <equation>
     <title>Forward Discrete Fourier Transform (Rabiner and Schafer, 1978)</title>
-    <execute><cmd>eqimg</cmd><args>fForward_discrete_fourier.gif</args></execute>
+    <execute><cmd>eqimg</cmd><args>freq-dfft.eps</args></execute>
   </equation>
 
   and the inverse DFT is given by
 </para>
   <equation>
     <title>Inverse Discrete Fourier Transform (Rabiner and Schafer, 1978)</title>
-    <execute><cmd>eqimg</cmd><args>fInverse_discrete_fourier.gif</args></execute>
+    <execute><cmd>eqimg</cmd><args>freq-idfft.eps</args></execute>
   </equation>
 <para>
   The discrete frequency <command>k</command> above is given by 
@@ -105,11 +105,11 @@
   sine wave with its corresponding PSD plot.
 
   <figure><title>50 kHz sin wave</title>
-      <execute><cmd>img</cmd><args>50HzSin.bmp</args></execute>
+      <execute><cmd>img</cmd><args>50HzSin.gif</args></execute>
   </figure>
 
   <figure><title>PSD plot of a 50 kHz sin wave</title>
-      <execute><cmd>img</cmd><args>fft50HzSin.bmp</args></execute>
+      <execute><cmd>img</cmd><args>fft50HzSin.gif</args></execute>
   </figure>
 
   In the above figures, we see a pure sin wave with a frequency of 50Hz. This is confirmed in the PSD plot, where we see
