@@ -707,6 +707,32 @@ void cepView::OnWindowRect (wxCommandEvent& event)
 
 void cepView::OnInterpNearest (wxCommandEvent& event)
 {
+  processInterp(NEAREST_INTERP, "NN Interp");
+}
+
+void cepView::OnInterpLinear (wxCommandEvent& event)
+{
+  processInterp(LINEAR_INTERP, "Lin Interp");
+}
+
+void cepView::OnInterpNaturalSpline (wxCommandEvent& event)
+{
+  processInterp(NATURAL_SPLINE_INTERP, "NS Interp");
+}
+
+void cepView::OnInterpCubicSpline (wxCommandEvent& event)
+{
+  processInterp(CUBIC_SPLINE_INTERP, "CS Interp");
+}
+
+void cepView::OnInterpDivided (wxCommandEvent& event)
+{
+  processInterp(DIVIDED_INTERP, "Div Interp");
+}
+
+void
+cepView::processInterp(const int iType, string desc)
+{
   cepInterpUi interpUi;
   cepMatrix<double> interped[cepDataset::dirUnknown];
 
@@ -725,57 +751,34 @@ void cepView::OnInterpNearest (wxCommandEvent& event)
 	cepInterp myInterp;
 	interped[i] = myInterp.doInterp(*theDoc->getDataset ()->getMatrix((cepDataset::direction) i), 
 					interpUi.getSampleRate(), 
-					NEAREST_INTERP);
+					iType);
       }
     
-    processInterp(&interped[cepDataset::dirUnknown], theDataset, "NN Interp");
-  }
-}
-
-void cepView::OnInterpLinear (wxCommandEvent& event)
-{
-}
-
-void cepView::OnInterpNaturalSpline (wxCommandEvent& event)
-{
-}
-
-void cepView::OnInterpCubicSpline (wxCommandEvent& event)
-{
-}
-
-void cepView::OnInterpDivided (wxCommandEvent& event)
-{
-}
-
-void
-cepView::processInterp(cepMatrix<double> interped[cepDataset::dirUnknown], cepDataset *theDataset, 
-		       string desc)
-{
-  // Now we can process the results
-  cepDataset newds(&interped[0], &interped[1], &interped[2], 
+    // Now we can process the results
+    cepDataset newds(&interped[0], &interped[1], &interped[2], 
 		   theDataset->getOffset((cepDataset::direction) 0), 
-		   theDataset->getOffset((cepDataset::direction) 1), 
-		   theDataset->getOffset((cepDataset::direction) 2),
-		   theDataset->getProcHistory() + " : " + desc, 
-		   theDataset->getHeader((cepDataset::direction) 0), 
-		   theDataset->getHeader((cepDataset::direction) 1), 
-		   theDataset->getHeader((cepDataset::direction) 2));
-  
-  char *cfname = strdup("/tmp/cep.XXXXXX");
-  int fd;
-  fd = mkstemp(cfname);
-  close(fd);
-  
-  string newcfname(string(cfname) + "~" + theDataset->getName());
-  newds.write(newcfname.c_str());
-  
-  wxGetApp().m_docManager->CreateDocument(string(newcfname + ".dat1").c_str(), wxDOC_SILENT);
-  free(cfname);
-  
-  // Actually force the graphs to redraw
-  m_dirty = true;
-  canvas->Refresh();
+		     theDataset->getOffset((cepDataset::direction) 1), 
+		     theDataset->getOffset((cepDataset::direction) 2),
+		     theDataset->getProcHistory() + " : " + desc, 
+		     theDataset->getHeader((cepDataset::direction) 0), 
+		     theDataset->getHeader((cepDataset::direction) 1), 
+		     theDataset->getHeader((cepDataset::direction) 2));
+    
+    char *cfname = strdup("/tmp/cep.XXXXXX");
+    int fd;
+    fd = mkstemp(cfname);
+    close(fd);
+    
+    string newcfname(string(cfname) + "~" + theDataset->getName());
+    newds.write(newcfname.c_str());
+    
+    wxGetApp().m_docManager->CreateDocument(string(newcfname + ".dat1").c_str(), wxDOC_SILENT);
+    free(cfname);
+    
+    // Actually force the graphs to redraw
+    m_dirty = true;
+    canvas->Refresh();
+  }
 }
 
 void cepView::OnSelectFont (wxCommandEvent& event)
