@@ -1,6 +1,6 @@
 <chapter id="chap-png"><title>PNG</title>
 <para>
-PNG is my favourite image format after TIFF. It is well conceived, well implemented, and very powerful. It also has some interesting features, mainly aimed at Internet use, which TIFF lacks. It is also usable in modern web browsers
+PNG is my favorite image format after TIFF. It is well conceived, well implemented, and very powerful. It also has some interesting features, mainly aimed at Internet use, which TIFF lacks. It is also usable in modern web browsers
   <footnote><para>For instance Netscape 4 and Internet Explorer 4 and later.</para></footnote>
 , unlike TIFF. PNG is also much simpler in many respects than TIFF.
 </para>
@@ -60,7 +60,7 @@ In this example, we do everything we need to open a PNG image, without actually 
 
 <itemizedlist>
 <listitem><para>Open the file ready for reading. For this we just use the c standard library's <command>FILE *</command>, unlike the libtiff examples, in which we used a <command>TIFF *</command>
-  <footnote><para>In reality, the libtiff could just use the <command>FILE *</command> method internally, although they don't always, as shown by the tiffclient examples in the TIFF chapter.</para></footnote>
+  <footnote><para>In reality, the libtiff could just use the <command>FILE *</command> method internally, although they don't always, as shown by the TIFFClientOpen examples in the TIFF chapter.</para></footnote>
 . I'm not aware of whether we can fake out a <command>FILE *</command> if we wanted to pull a PNG out of something other than a file, one day when I have infinite free time I really should look more into this.</para></listitem>
 
 <listitem><para>Another thing we need to do which libtiff does for us and libpng doesn't is check that the file really is a PNG file. We do this with the <command>png_check_sig</command>() call. This expects the first 8 bytes of the file to be handed to it, which is what the <command>fread</command>() function call gets for us.</para></listitem>
@@ -76,7 +76,7 @@ In this example, we do everything we need to open a PNG image, without actually 
 
 <sect2><title>pnginfo</title>
 <para>
-The <command>pnginfo</command> command implemented here is modelled on the <command>tiffinfo</command>, which was discussed in the TIFF chapter earlier in this tutorial. In fact, the output text is written to be as close to the <command>tiffinfo</command> command as possible.
+The <command>pnginfo</command> command implemented here is modeled on the <command>tiffinfo</command>, which was discussed in the TIFF chapter earlier in this tutorial. In fact, the output text is written to be as close to the <command>tiffinfo</command> command as possible.
 </para>
 
 <execute><cmd>code2db.pl</cmd><input>~mikal/opensource/pngtools/pnginfo.c</input></execute>
