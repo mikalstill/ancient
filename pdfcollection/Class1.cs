@@ -98,6 +98,13 @@ namespace pdfdb
 			output.WriteLine("Please send email to <a href=\"mailto:mikal@stillhq.com\">mikal@stillhq.com</a> ");
 			output.WriteLine("if you would like to donate sample PDFs");
 			output.WriteLine("</td></tr></table></div><br><br>");
+			output.WriteLine("Navigation: <a href=\"#producer\">Producer</a> ");
+			output.WriteLine("<a href=\"#tagging\">Tagging</a> ");
+			output.WriteLine("<a href=\"#encryption\">Encryption</a> ");
+			output.WriteLine("<a href=\"#linearization\">Linearization</a> ");
+			output.WriteLine("<a href=\"#version\">Version</a> ");
+			output.WriteLine("<a href=\"#all\">All</a> ");
+			output.WriteLine("<BR><BR>");
 
 			int ht;
 			for(ht = 0; ht < 5; ht++)
@@ -110,43 +117,56 @@ namespace pdfdb
 					case 0:
 						target = producer;
 						catname = "Producer";
-						output.WriteLine("<table><tr><td bgcolor=\"#CCCCCC\"><b>By producer</b></td></tr></table>");
+						output.WriteLine("<table><tr><td bgcolor=\"#CCCCCC\"><b><a name=producer>By producer</b></td></tr></table>");
 						break;
 
 					case 1:
 						target = tagged;
 						catname = "Tagged";
-						output.WriteLine("<table><tr><td bgcolor=\"#CCCCCC\"><b>By tagging</b></td></tr></table>");
+						output.WriteLine("<table><tr><td bgcolor=\"#CCCCCC\"><b><a name=tagging>By tagging</b></td></tr></table>");
 						break;
 
 					case 2:
 						target = encrypted;
 						catname = "Encrypted";
-						output.WriteLine("<table><tr><td bgcolor=\"#CCCCCC\"><b>By encryption</b></td></tr></table>");
+						output.WriteLine("<table><tr><td bgcolor=\"#CCCCCC\"><b><a name=encryption>By encryption</b></td></tr></table>");
 						break;
 
 					case 3:
 						target = linearized;
 						catname = "Linearized";
-						output.WriteLine("<table><tr><td bgcolor=\"#CCCCCC\"><b>By linearization</b></td></tr></table>");
+						output.WriteLine("<table><tr><td bgcolor=\"#CCCCCC\"><b><a name=linearization>By linearization</b></td></tr></table>");
 						break;
 
 					case 4:
 						target = version;
 						catname = "Specification verion";
-						output.WriteLine("<table><tr><td bgcolor=\"#CCCCCC\"><b>By PDF specification version</b></td></tr></table>");
+						output.WriteLine("<table><tr><td bgcolor=\"#CCCCCC\"><b><a name=version>By PDF specification version</b></td></tr></table>");
 						break;
 				}
 
 				output.WriteLine("<ul>");
 				foreach(object key in target.Keys)
 				{
-					output.Write("<p><b>{0}:</b> ", key.ToString());
+					if( key.ToString() == "" )
+					{
+						output.Write("<p><b>None specified:</b> ");
+					}
+					else
+					{
+						output.Write("<p><b>{0}:</b> ", key.ToString());
+					}
+
 					string[] docids = Regex.Split(target[key].ToString(), ";");
 					for(i = 0; i < docids.Length; i++)
 					{
 						if( docids[i].Length > 0 )
 						{
+							if( catname == "" )
+							{
+								catname = "None specified";
+							}
+
 							pdfpage[docids[i]] += "<b>" + catname + ":</b> " + key.ToString();
 							pdfpage[docids[i]] += " [";
 							if( (i > 0) && (docids[i - 1].Length > 0) )
@@ -168,6 +188,32 @@ namespace pdfdb
 				output.WriteLine("</ul>");
 			}
 
+			// And finally list all documents
+			output.WriteLine("<table><tr><td bgcolor=\"#CCCCCC\"><b><a name=all>All documents</b></td></tr></table>");
+output.WriteLine("<ul>");
+			string[] alldocids = Regex.Split(all, ";");
+			for(i = 0; i < alldocids.Length; i++)
+			{
+				if( alldocids[i].Length > 0 )
+				{
+					pdfpage[alldocids[i]] += "<b>All documents:</b>";
+					pdfpage[alldocids[i]] += " [";
+					if( (i > 0) && (alldocids[i - 1].Length > 0) )
+						pdfpage[alldocids[i]] += "<a href=\"../" + alldocids[i - 1] + "/info.html\">Previous</a>";
+					else
+						pdfpage[alldocids[i]] += "No previous document";
+					pdfpage[alldocids[i]] += "] [";
+					if( (i < alldocids.Length - 1) && (alldocids[i + 1].Length > 0) )
+						pdfpage[alldocids[i]] += "<a href=\"../" + alldocids[i + 1] + "/info.html\">Next</a>";
+					else
+						pdfpage[alldocids[i]] += "No next document";
+					pdfpage[alldocids[i]] += "]<br>";
+					output.Write("<a href=\"{0}/info.html\">{0}</a> ", alldocids[i]);
+				}
+			}
+			output.WriteLine("</p>");				
+			output.WriteLine("</ul>");
+		
 			output.WriteLine("<BR><BR><HR><BR><BR>PDF database administered by ");
 			output.WriteLine("<a href=\"mailto:mikal@stillhq.com\">mikal@stillhq.com</a><br>");
 			output.WriteLine("Database Copyright (c) Michael Still 2003. PDFs Copyright their various authors.");
@@ -192,6 +238,26 @@ namespace pdfdb
 				output.WriteLine("</ul><table><tr><td bgcolor=\"#CCCCCC\"><b>Metadata</b></td></tr></table><ul>");
 				output.WriteLine(pdfmeta[key]);
 
+				// Did we see ghostscript errors?
+				string gserrs = "";
+				try
+				{
+					StreamReader gse = new StreamReader(args[0] + "/" + key.ToString() + "/gs.errors");
+					while( gse.Peek() != -1 )
+						gserrs += gse.ReadLine() + "\n";
+				}
+				catch(Exception e)
+				{
+					gserrs = "";
+				}
+				if( gserrs != "" )
+				{
+					output.WriteLine("</ul><table><tr><td bgcolor=\"#CCCCCC\"><b>Ghostscript errors</b></td></tr></table><ul>");
+					output.WriteLine("<pre>");
+					output.WriteLine(gserrs);
+					output.WriteLine("</pre>");
+				}
+
 				// The user can download the pdf
 				output.WriteLine("</ul><table><tr><td bgcolor=\"#CCCCCC\"><b>Download</b></td></tr></table><ul>");
 				output.WriteLine("Click <a href=\"data.pdf\">here</a> to download this PDF");
@@ -201,19 +267,24 @@ namespace pdfdb
 				output.WriteLine("<table border=\"1\"><tr>");
 				string[] file = Directory.GetFiles(args[0] + "/" + key.ToString());
 				int j;
+				int tcount = 0;
 				for(j = 0; j < file.Length; j++)
 				{
 					Match n = Regex.Match(file[j], "cgspage-(.*).png");
 					if( n.Success )
 					{
 						output.WriteLine("<td><img src=\"{0}\"></td>", n.ToString());
-						Console.WriteLine(n);
+						tcount++;
 					}
 
-					if( (j + 1) % 5 == 0 )
+					if( (tcount + 1) % 5 == 0 )
 					{
 						output.WriteLine("</tr><tr>");
 					}
+				}
+				if( tcount == 0 )
+				{
+					output.WriteLine("<td>Ghostscript failed to extract thumbnail images</td>");
 				}
 
 				output.WriteLine("</tr></table></ul>");
@@ -223,6 +294,7 @@ namespace pdfdb
 				output.Close();
 				output.Close();
 			}
+			Console.WriteLine("");
 			Console.WriteLine("Exceptions caught: {0}", exceptions);
 		}
 	}
